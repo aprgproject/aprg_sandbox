@@ -23,7 +23,10 @@ set(SOURCES
 #    tst/PeerReviewCollator_unit.cpp
 )
 
+SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+SET(BUILD_SHARED_LIBRARIES OFF)
+SET(CMAKE_EXE_LINKER_FLAGS "-static")
+
 add_executable(${OUTFILE} ${SOURCES})
 include_directories(src ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON )
-#add_test(${OUTFILE} ${OUTFILE})
+target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON )#add_test(${OUTFILE} ${OUTFILE})
