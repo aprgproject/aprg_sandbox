@@ -1,0 +1,235 @@
+#include <iostream>
+#include <string>
+#include <TermTranslator.hpp>
+#include <algorithm>
+#include "../../../AprgCommon/AprgCommon/src/AlbaFileReader.hpp"
+#include "../../../AprgCommon/AprgCommon/src/AlbaStringHelper.hpp"
+#include "../../../AprgCommon/AprgCommon/src/PathHandlers/AlbaWindowsPathHandler.hpp"
+
+using namespace alba;
+using namespace alba::stringHelper;
+using namespace std;
+
+namespace codeReview
+{
+
+TermTranslator::TermTranslator(string const& fileName, ListOfTerms& listOfTerms)
+    : m_fileStream(fileName.c_str())
+    , m_albaFileReader(m_fileStream)
+    , m_isFileValid(false)
+    , m_terms(listOfTerms)
+    , m_listOfOperators{"typeid", "const_cast", "dynamic_cast", "reinterpret_cast", "static_cast", "sizeof", "new", "delete", "throw", "->*", "<<=", ">>=",
+                        "::", "++", "--", "->", ".*", "<<", ">>", "<=", ">=", "==", "!=", "&&", "||", "+=", "-=", "*=", "/=", "%=", "&=", "^=", "|=",
+                        "(", ")", "[", "]", ".", "+", "-", "!", "~", "*", "&", "/", "%", "<", ">", "^", "|", "?", ":", "=", ","}
+{
+    AlbaWindowsPathHandler pathHandler;
+    pathHandler.inputPath(fileName);
+    cout<<"TermTranslator::constructor| ReadFile: "<<pathHandler.getFullPath()<<endl;
+    if(pathHandler.isFoundInLocalSystem() && pathHandler.isFile())
+    {
+        if(m_fileStream.is_open())
+        {
+            m_isFileValid = true;
+        }
+        else
+        {
+            cout<<"TermTranslator::constructor| Cannot read cmake file: ["<<pathHandler.getFullPath()<<"]."<<endl;
+            cout<<"TermTranslator::constructor| Problem in FileI/O!"<<endl;
+        }
+    }
+    else
+    {
+        cout<<"TermTranslator::constructor| Cannot read cmake file: ["<<pathHandler.getFullPath()<<"]."<<endl;
+        cout<<"TermTranslator::constructor| File does not exist!"<<endl;
+    }
+}
+
+bool TermTranslator::isFileValid()
+{
+    return m_isFileValid;
+}
+
+void TermTranslator::printTerms()
+{
+    //output iterator?
+    for (auto& term : m_terms)
+    {
+        cout<<term<<endl;
+    }
+}
+
+void TermTranslator::readFile()
+{
+    if(m_isFileValid)
+    {
+        while(m_fileStream.good())
+        {
+            string lineString(getLine());
+            cout<<"TermTranslator::readFile| LineString: ["<<lineString<<"]"<<endl;
+            int index = lineString.find_first_not_of(WHITESPACE_STRING);
+            if(isNotNpos(index))
+            {
+                while(getCPlusPlusTerm(lineString, index))
+                {
+                    cout<<"infiniteloop:"<<"| LineString: ["<<lineString<<"] "<<index<<"["<<lineString[index]<<"]"<<endl;
+                }
+                m_terms.emplace_back(TermType::NewLine);
+            }
+            else
+            {
+                m_terms.emplace_back(TermType::NewLine);
+            }
+
+        }
+    }
+}
+
+bool TermTranslator::getCPlusPlusTerm(string& lineString, int & index)
+{
+    //optimize this think of findfirst and findfirst again
+    string operatorString = fetchOperator(lineString, index);
+    int length = lineString.length();
+    if(index >= length)
+    {
+        return false;
+    }
+    else if(isEqualToFirstTwoCharacters(lineString, index, "//"))
+    {
+        m_terms.emplace_back(TermType::Comment, lineString.substr(index));
+        index = length;
+        return true;
+    }
+    else if(isEqualToFirstTwoCharacters(lineString, index, "/*"))
+    {
+        m_terms.emplace_back(TermType::Comment, readAndAccumulateUntilStringIfFound(lineString, index, "*/"));
+        return true;
+    }
+    else if(isQuotation(lineString[index]))
+    {
+        string stringLiteral("\"");
+        int slashCharacterIndex;
+        index++;
+        do
+        {
+            stringLiteral += readAndAccumulateUntilStringIfFound(lineString, index, "\"");
+            slashCharacterIndex = stringLiteral.length()-2;
+            cout<<"StringLiteral:["<<stringLiteral<<"]"<<endl;
+        }
+        while(slashCharacterIndex>0 && '\\'==stringLiteral[slashCharacterIndex]);
+        m_terms.emplace_back(TermType::Constant, stringLiteral);
+        return true;
+    }
+    else if(isApostrophe(lineString[index]))
+    {
+        string stringLiteral("\'");
+        int slashCharacterIndex;
+        index++;
+        do
+        {
+            stringLiteral += readAndAccumulateUntilStringIfFound(lineString, index, "\'");
+            slashCharacterIndex = stringLiteral.length()-2;
+        }
+        while(slashCharacterIndex>0 && '\\'==stringLiteral[slashCharacterIndex]);
+        m_terms.emplace_back(TermType::Constant, stringLiteral);
+        return true;
+    }
+    else if(isSharp(lineString[index]))
+    {
+        int start = index++;
+        for (; index < length; index++)
+        {
+            if(!isLetter(lineString[index])) break;
+        }
+        m_terms.emplace_back(TermType::Macro, lineString.substr(start, index-start));
+        return true;
+    }
+    else if(!operatorString.empty())
+    {
+        index = index + operatorString.length();
+        m_terms.emplace_back(TermType::Operator, operatorString);
+        return true;
+    }
+    else if(isLetterOrNumberOrUnderscore(lineString[index]))
+    {
+        TermType termType = (isNumber(lineString[index])) ? TermType::Constant : TermType::Identifier;
+        int start = index;
+        for (; index < length; index++)
+        {
+            if(!isLetterOrNumberOrUnderscore(lineString[index])) break;
+        }
+        m_terms.emplace_back(termType, lineString.substr(start, index-start));
+        return true;
+    }
+    else if(isWhiteSpace(lineString[index]))
+    {
+        int start = index;
+        index = lineString.find_first_not_of(WHITESPACE_STRING, index);
+        if(isNpos(index))
+        {
+            index = length;
+        }
+        m_terms.emplace_back(TermType::WhiteSpace, lineString.substr(start, index-start));
+        return true;
+    }
+    m_terms.emplace_back(TermType::Unknown, lineString.substr(index));
+    index = length;
+    return false;
+}
+
+string TermTranslator::getLine()
+{
+    return m_albaFileReader.simpleGetLine();
+}
+
+bool TermTranslator::isEqualToFirstTwoCharacters(string const& lineString, int& index, string const& stringToCheck)
+{
+    if(!isLessThanStringLength(lineString, index+1)) return false;
+    return stringToCheck == lineString.substr(index, 2);
+}
+
+string TermTranslator::fetchOperator(string const& lineString, int& index)
+{
+    //switch or stl algorithm
+    int lineLength = lineString.length();
+    auto it = find_if(m_listOfOperators.begin(), m_listOfOperators.end(), [&](string& operatorString)
+    {
+        int operatorlength = operatorString.length();
+        if(index+operatorlength-1 <lineLength)
+        {
+            return (operatorString == lineString.substr(index, operatorlength));
+        }
+        return false;
+    });
+    if(it == m_listOfOperators.end())
+    {
+        return "";
+    }
+    return *it;
+}
+
+string TermTranslator::readAndAccumulateUntilStringIfFound(string & lineString, int & index, string const& stringToFind)
+{
+    //switch or stl algorithm
+    string result;
+    lineString = lineString.substr(index);
+    while(m_fileStream.good())
+    {
+        cout<<"TermTranslator::accumulateUntilStringIfFound| LineString: ["<<lineString<<"]"<<endl;
+        index = lineString.find(stringToFind);
+        if(isNotNpos(index))
+        {
+            int end =  index+stringToFind.length();
+            result += lineString.substr(0, end);
+            lineString.erase(0, end);
+            index=0;
+            return result;
+        }
+        result += lineString;
+        result += "\n";
+        lineString = getLine();
+        index = 0;
+    }
+    return result;
+}
+
+}// namespace codeReview

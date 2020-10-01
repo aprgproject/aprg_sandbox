@@ -1,0 +1,14 @@
+SET(SUB_DIRECTORY_NAME sub_directory)
+SET(DIRECTORIES \${SUB_DIRECTORY_NAME}\DIR1\)
+SET(DIRECTORIES ${SUB_DIRECTORY_NAME}\DIR2\)
+SET(DIRECTORIES ${SUB_DIRECTORY_NAME}\DIR3)
+SET(FILES \${SUB_DIRECTORY_NAME}\DIR1\File1.log)
+SET(FILES ${SUB_DIRECTORY_NAME}\DIR2\File2.txt)
+SET(FILES ${SUB_DIRECTORY_NAME}\DIR3\File3.bin)
+ADD_EXECUTABLE(firstArgument C:\APRG\ACodeReview\ACodeReview\tst\sub_directory\File4.out)
+   add_executable         ((       firstArgument        ${DIRECTORIES}  ))      
+   aDd_exeCUTable 
+   (    (    (     
+   firstArgument     
+\///\${FILES}   
+    )    )     )       

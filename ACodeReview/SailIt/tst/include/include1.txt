@@ -1,0 +1,2 @@
+SET(FILENAME FileTest1)
+SET(EXTENSION .txt)
