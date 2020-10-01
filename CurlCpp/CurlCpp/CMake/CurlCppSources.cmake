@@ -1,0 +1,30 @@
+set(CURL_CPP_SOURCES
+    ${CURL_CPP_DIR}/src/curl_config.h
+    ${CURL_CPP_DIR}/src/curl_easy.cpp
+    ${CURL_CPP_DIR}/src/curl_easy.h
+    ${CURL_CPP_DIR}/src/curl_exception.cpp
+    ${CURL_CPP_DIR}/src/curl_exception.h
+    ${CURL_CPP_DIR}/src/curl_form.cpp
+    ${CURL_CPP_DIR}/src/curl_form.h
+    ${CURL_CPP_DIR}/src/curl_header.cpp
+    ${CURL_CPP_DIR}/src/curl_header.h
+    ${CURL_CPP_DIR}/src/curl_info.cpp
+    ${CURL_CPP_DIR}/src/curl_info.h
+    ${CURL_CPP_DIR}/src/curl_interface.h
+    ${CURL_CPP_DIR}/src/curl_multi.cpp
+    ${CURL_CPP_DIR}/src/curl_multi.h
+    ${CURL_CPP_DIR}/src/curl_option.h
+    ${CURL_CPP_DIR}/src/curl_pair.h
+    ${CURL_CPP_DIR}/src/curl_receiver.h
+    ${CURL_CPP_DIR}/src/curl_sender.h
+    ${CURL_CPP_DIR}/src/curl_share.cpp
+    ${CURL_CPP_DIR}/src/curl_share.h
+    ${CURL_CPP_DIR}/src/curl_utility.h
+    ${CURL_CPP_DIR}/src/curl_writer.cpp
+    ${CURL_CPP_DIR}/src/curl_writer.h
+    ${CURL_CPP_DIR}/src/CurlInterface.cpp
+    ${CURL_CPP_DIR}/src/CurlInterface.hpp
+    ${CURL_CPP_DIR}/src/CurlInterfaceConfigType.hpp
+    ${CURL_CPP_DIR}/src/CurlInterfaceHelpers.cpp
+    ${CURL_CPP_DIR}/src/CurlInterfaceHelpers.hpp
+)
