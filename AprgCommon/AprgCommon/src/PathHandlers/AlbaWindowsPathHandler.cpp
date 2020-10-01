@@ -1,17 +1,15 @@
 #include "AlbaWindowsPathHandler.hpp"
 
+#include <AlbaStringHelper.hpp>
 #include <functional>
 #include <string>
 #include <windows.h>
-#include "../AlbaStringHelper.hpp"
 
 namespace alba
 {
-
 AlbaWindowsPathHandler::AlbaWindowsPathHandler()
     :AlbaPathHandler(R"(\)")
 {}
-
 void AlbaWindowsPathHandler::inputPath(string const& path)
 {
     clear();

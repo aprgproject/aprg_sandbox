@@ -1,13 +1,11 @@
-#include "AlbaFileReader.hpp"
+#include <AlbaFileReader.hpp>
 
-#include "AlbaStringHelper.hpp"
+#include <AlbaStringHelper.hpp>
 #include <fstream>
 #include <string>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 AlbaFileReader::AlbaFileReader(ifstream& stream) : m_stream(stream){}
 

@@ -1,18 +1,16 @@
 #pragma once
 
-#include "AlbaLargeSorterConfiguration.hpp"
-#include "AlbaLargeSorterCache.hpp"
-#include "AlbaLargeSorterTypes.hpp"
-#include "DataBlocks.hpp"
 #include <functional>
+#include <LargeSorter/AlbaLargeSorterConfiguration.hpp>
+#include <LargeSorter/AlbaLargeSorterCache.hpp>
+#include <LargeSorter/AlbaLargeSorterTypes.hpp>
+#include <LargeSorter/DataBlocks.hpp>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
 
-namespace alba
-{
+namespace alba{
 
 template <typename ObjectToSort>
-class AlbaLargeSorter
-{
+class AlbaLargeSorter{
     typedef AlbaLargeSorterBlockType<ObjectToSort> BlockType;
     typedef AlbaLargeSorterBlockIterator<ObjectToSort> BlockIterator;
     typedef AlbaLargeSorterCache<BlockIterator> BlockCache;

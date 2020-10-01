@@ -1,16 +1,14 @@
 #pragma once
 
-#include <string>
+#include <AlbaPathHandler.hpp>
 #include <functional>
-#include "AlbaPathHandler.hpp"
+#include <string>
 
 using std::string;
 using std::function;
-
 namespace alba{
 
-class AlbaWebPathHandler: public AlbaPathHandler
-{
+class AlbaWebPathHandler: public AlbaPathHandler{
 public:
     AlbaWebPathHandler();
     void inputPath(string const& path) override;
