@@ -44,19 +44,18 @@ bool CurlInterface::downloadBinaryFileUntilSuccessful(AlbaWebPathHandler const& 
 }
 
 template<CurlInterface::ConfigType configType>
-bool CurlInterface::downloadBinaryFileWithFiniteNumberOfTries(AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath)
+bool CurlInterface::downloadBinaryFileWithFiniteNumberOfTries(AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath, int const totalNumberOfTries)
 {
-    return downloadAsBinaryWithAdditionalConfigWithFiniteNumberOfTries(webPath.getFullPath(), windowsPath.getFullPath(), [](curl_easy& easy)
+    return downloadAsBinaryWithAdditionalConfigWithFiniteNumberOfTries(webPath.getFullPath(), windowsPath.getFullPath(), totalNumberOfTries, [](curl_easy& easy)
     {
         addToCurlEasy<configType>(easy);
-    });
-}
+    });}
 
 template bool CurlInterface::download<ConfigType::LowSpeedLimitAndMozillaFireFox> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
 template bool CurlInterface::downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
 template bool CurlInterface::downloadBinaryFile<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
 template bool CurlInterface::downloadBinaryFileUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
-template bool CurlInterface::downloadBinaryFileWithFiniteNumberOfTries<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
+template bool CurlInterface::downloadBinaryFileWithFiniteNumberOfTries<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath, int const totalNumberOfTries);
 
 
 }

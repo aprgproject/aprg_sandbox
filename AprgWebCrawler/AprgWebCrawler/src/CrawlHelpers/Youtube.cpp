@@ -21,15 +21,12 @@ namespace alba
 
 void AprgWebCrawler::crawlForYoutube()
 {
-
     AlbaWindowsPathHandler convertedYoutubeLinksPathHandler;
     convertedYoutubeLinksPathHandler.inputPath(m_workingPathHandler.getDirectory() + R"(\ConvertedYoutubeLinks.txt)");
-    convertedYoutubeLinksPathHandler.createDirectoriesIfItDoesNotExist();
-    ofstream convertedYoutubeLinkStream(convertedYoutubeLinksPathHandler.getFullPath());
+    convertedYoutubeLinksPathHandler.createDirectoriesIfItDoesNotExist();    ofstream convertedYoutubeLinkStream(convertedYoutubeLinksPathHandler.getFullPath());
 
     for(string & webLink : m_webLinks)
-    {
-        crawlForYoutube(webLink, convertedYoutubeLinkStream);
+    {        crawlForYoutube(webLink, convertedYoutubeLinkStream);
     }
 }
 
@@ -58,15 +55,13 @@ void AprgWebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutub
         AlbaWindowsPathHandler downloadPathHandler;
         downloadPathHandler.inputPath(links.localPathForCurrentVideo);
         downloadPathHandler.createDirectoriesIfItDoesNotExist();
-        if(!downloadBinaryFile<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(videoWebPathHandler, downloadPathHandler))
+        if(!downloadBinaryFileWithFiniteNumberOfTries<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(videoWebPathHandler, downloadPathHandler, 10))
         {
             cout << "Download of video file failed, retrying from the start" << endl;
-            continue;
-        }
+            continue;        }
         convertedYoutubeLinkStream << links.linkForVideo << endl << flush;
         webLink.clear();
-        saveMemoryCard();
-        break;
+        saveMemoryCard();        break;
     }
 }
 

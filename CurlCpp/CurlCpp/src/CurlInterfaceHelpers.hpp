@@ -29,10 +29,13 @@ bool downloadWithAdditionalConfig(string const& url, string const& fileLocation,
 bool downloadWithAdditionalConfigUntilSuccessful(string const& url, string const& fileLocation, function<void(curl_easy&)> additionalConfig);
 bool downloadAsBinaryWithAdditionalConfig(string const& url, string const& fileLocation, function<void(curl_easy&)> additionalConfig);
 bool downloadAsBinaryWithAdditionalConfigUntilSuccessful(string const& url, string const& fileLocation, function<void(curl_easy&)> additionalConfig);
-bool downloadAsBinaryWithAdditionalConfigWithFiniteNumberOfTries(string const& url, string const& fileLocation, function<void(curl_easy&)> additionalConfig);
+bool downloadAsBinaryWithAdditionalConfigWithFiniteNumberOfTries(
+        string const& url,
+        string const& fileLocation,
+        int const totalNumberOfTries,
+        function<void(curl_easy&)> additionalConfig);
 inline void printDownloadErrorMessage(string const& errorMessage);
 
 }
-
 
 }
