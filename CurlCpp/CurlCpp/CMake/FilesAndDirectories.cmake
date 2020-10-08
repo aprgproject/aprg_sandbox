@@ -7,7 +7,8 @@ set(CURL_CPP_INCLUDE_DIRECTORIES
 
 set(CURL_CPP_SOURCES
     ${CURL_CPP_DIR}/src/curl_config.h
-    ${CURL_CPP_DIR}/src/curl_easy.cpp    ${CURL_CPP_DIR}/src/curl_easy.h
+    ${CURL_CPP_DIR}/src/curl_easy.cpp
+    ${CURL_CPP_DIR}/src/curl_easy.h
     ${CURL_CPP_DIR}/src/curl_exception.cpp
     ${CURL_CPP_DIR}/src/curl_exception.h
     ${CURL_CPP_DIR}/src/curl_form.cpp

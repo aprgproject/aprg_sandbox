@@ -5,7 +5,7 @@
 #include <fstream>
 #include <iostream>
 
-#define WEBVIEWERPATH R"(C:\APRG\WebViewerForDownload\WebViewerForDownload\WebViewerForDownload.exe)"
+#define FIREFOX_EXECUTABLE_PATH R"(C:\Program Files (x86)\Mozilla Firefox\firefox.exe)"
 
 using namespace std;
 
@@ -207,22 +207,32 @@ bool AprgWebCrawler::isWebLinksValid() const
     });
 }
 
-AlbaWebPathHandler AprgWebCrawler::getPathHandlerFromWebLinksInFront() const
+string AprgWebCrawler::saveWebPageManuallyUsingMozillaFirefoxAndGetLocalPath(AlbaWebPathHandler const& webPathHandler) const
 {
-    AlbaWebPathHandler webPathHandler;
-    if(!isWebLinksEmpty())
-    {
-        webPathHandler.inputPath(m_webLinks.front());
-    }
-    return webPathHandler;
-}
+    constexpr int bufferSize = 1000;
+    char buffer[bufferSize];
 
-void AprgWebCrawler::saveAllLinksUsingWebViewerForDownload(AlbaWebPathHandler const& webPathHandler, AlbaWindowsPathHandler localHtmlPathHandler) const
-{
-    localHtmlPathHandler.deleteFile();
-    string webViewerCommand(string(WEBVIEWERPATH)+R"( ")"+webPathHandler.getFullPath()+R"(" ")"+localHtmlPathHandler.getFullPath()+R"(")");
-    cout << webViewerCommand << endl;
-    system(webViewerCommand.c_str());
+    string firefoxCommand(string(FIREFOX_EXECUTABLE_PATH)+R"( ")"+webPathHandler.getFullPath()+R"(")");
+    cout << firefoxCommand << endl;
+    system(firefoxCommand.c_str());
+
+    AlbaWindowsPathHandler webPagePathHandler;
+    bool isWebPageInvalid(true);
+    string webPagePath;
+    while(isWebPageInvalid)
+    {
+        cout << "Please save the webpage and enter local path of saved webpage:" << endl;
+        cin.getline(buffer, bufferSize);
+        webPagePath = buffer;
+        webPagePathHandler.inputPath(webPagePath);
+        isWebPageInvalid = !webPagePathHandler.isFoundInLocalSystem();
+        if(isWebPageInvalid)
+        {
+            cout << "Webpage invalid. The file is not found." << endl;
+        }
+    }
+    return webPagePath;
+
 }
 
 }

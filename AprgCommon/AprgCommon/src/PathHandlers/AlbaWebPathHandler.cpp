@@ -3,9 +3,11 @@
 #include <AlbaStringHelper.hpp>
 #include <functional>
 #include <string>
+
 namespace alba{
 
-AlbaWebPathHandler::AlbaWebPathHandler()    : AlbaPathHandler("/")
+AlbaWebPathHandler::AlbaWebPathHandler()
+    : AlbaPathHandler("/")
     , m_hasProtocol(false)
 {}
 

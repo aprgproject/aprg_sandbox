@@ -8,10 +8,12 @@
 #include <LargeSorter/DataBlock.hpp>
 #include <sstream>
 
-namespace alba{
+namespace alba
+{
 
 template <typename ObjectToSort>
-class DataBlocks{
+class DataBlocks
+{
     typedef AlbaLargeSorterBlockType<ObjectToSort> BlockType;
     typedef AlbaLargeSorterBlockContainer<ObjectToSort> BlockContainer;
     typedef AlbaLargeSorterBlockIterator<ObjectToSort> BlockIterator;

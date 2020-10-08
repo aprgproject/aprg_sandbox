@@ -42,8 +42,7 @@ private:
     string getCrawlerModeString() const;
     bool isWebLinksEmpty() const;
     bool isWebLinksValid() const;
-    AlbaWebPathHandler getPathHandlerFromWebLinksInFront() const;
-    void saveAllLinksUsingWebViewerForDownload(AlbaWebPathHandler const& webPathHandler, AlbaWindowsPathHandler localHtmlPathHandler) const;
+    string saveWebPageManuallyUsingMozillaFirefoxAndGetLocalPath(AlbaWebPathHandler const& webPathHandler) const;
 
     void crawlOneHtmlAndOneFileToDownload();
     void crawlOneHtmlAndOneFileToDownload(string& webLink);

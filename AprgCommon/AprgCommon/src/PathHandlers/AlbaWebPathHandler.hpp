@@ -6,9 +6,11 @@
 
 using std::string;
 using std::function;
+
 namespace alba{
 
-class AlbaWebPathHandler: public AlbaPathHandler{
+class AlbaWebPathHandler: public AlbaPathHandler
+{
 public:
     AlbaWebPathHandler();
     void inputPath(string const& path) override;

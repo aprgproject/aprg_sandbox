@@ -7,9 +7,11 @@
 
 using std::set;
 using std::string;
+
 namespace alba{
 
-class AlbaWindowsPathHandler: public AlbaPathHandler{
+class AlbaWindowsPathHandler: public AlbaPathHandler
+{
 public:
     AlbaWindowsPathHandler();
     void inputPath(string const& path) override;

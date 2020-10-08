@@ -8,7 +8,8 @@ set(APRG_COMMON_INCLUDE_DIRECTORIES
 
 set(APRG_COMMON_SOURCES
     ${APRG_COMMON_DIR}/src/AlbaFileReader.cpp
-    ${APRG_COMMON_DIR}/src/AlbaFileReader.hpp    ${APRG_COMMON_DIR}/src/AlbaMacroArgumentCounter.hpp
+    ${APRG_COMMON_DIR}/src/AlbaFileReader.hpp
+    ${APRG_COMMON_DIR}/src/AlbaMacroArgumentCounter.hpp
     ${APRG_COMMON_DIR}/src/AlbaOptional.cpp
     ${APRG_COMMON_DIR}/src/AlbaOptional.hpp
     ${APRG_COMMON_DIR}/src/AlbaRaiiafPointer.cpp

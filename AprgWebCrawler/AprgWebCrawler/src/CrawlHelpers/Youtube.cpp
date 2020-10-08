@@ -74,16 +74,15 @@ LinksForYoutube AprgWebCrawler::getLinksForYoutube(AlbaWebPathHandler const& web
 {
     LinksForYoutube links;
     AlbaWindowsPathHandler downloadPathHandler;
-    downloadPathHandler.inputPath(m_workingPathHandler.getDirectory() + R"(\youtubeLinksFound.txt)");
     string ssYoutubeLink(webLinkPathHandler.getFullPath());
     stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "youtube", "ssyoutube");
     AlbaWebPathHandler ssYoutubeLinkPathHandler;
     ssYoutubeLinkPathHandler.inputPath(ssYoutubeLink);
-    saveAllLinksUsingWebViewerForDownload(ssYoutubeLinkPathHandler, downloadPathHandler);
+    downloadPathHandler.inputPath(saveWebPageManuallyUsingMozillaFirefoxAndGetLocalPath(ssYoutubeLinkPathHandler));
     ifstream youtubeLinksStream(downloadPathHandler.getFullPath());
     if(!youtubeLinksStream.is_open())
     {
-        cout << "Cannot open youtube links file." << endl;
+        cout << "Cannot open ssyoutube webpage file." << endl;
         cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
         return links;
     }

@@ -7,9 +7,11 @@
 
 namespace alba
 {
+
 AlbaWindowsPathHandler::AlbaWindowsPathHandler()
     :AlbaPathHandler(R"(\)")
 {}
+
 void AlbaWindowsPathHandler::inputPath(string const& path)
 {
     clear();
