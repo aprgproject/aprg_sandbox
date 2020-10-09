@@ -17,6 +17,12 @@ public:
 
 private:
     Ui::TcomTools *ui;
+
+private slots:
+    void on_actionOpenFile_triggered();
+    void on_actionOpenFolder_triggered();
+    void on_actionAboutAprg_triggered();
+    void on_actionQuit_triggered();
 };
 
 #endif // TCOMTOOLS_H

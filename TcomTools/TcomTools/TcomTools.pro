@@ -15,6 +15,9 @@ TEMPLATE = app
 SOURCES += main.cpp\
         tcomtools.cpp
 
-HEADERS  += tcomtools.h
+HEADERS  += tcomtools.h\
+        tcomtoolsConfiguration.hpp
 
 FORMS    += tcomtools.ui
+
+CONFIG += c++11
