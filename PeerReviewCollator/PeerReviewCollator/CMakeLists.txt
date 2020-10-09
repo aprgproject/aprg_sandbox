@@ -3,6 +3,9 @@ project(PeerReviewCollator C CXX)
 
 set(OUTFILE ${PROJECT_NAME})
 
+#Comment out TEST_MODE to build static executable
+set(TEST_MODE "ON")
+
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 
@@ -19,15 +22,30 @@ include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 set(SOURCES
     src/PeerReviewCollator.cpp
     src/PeerReviewCollator.hpp
-    src/main.cpp
-    #tst/PeerReviewCollator_unit.cpp
 )
 
-SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
-SET(BUILD_SHARED_LIBRARIES OFF)
-SET(CMAKE_EXE_LINKER_FLAGS "-static")
+set(MAIN_SOURCES
+    src/main.cpp
+)
 
-add_executable(${OUTFILE} ${SOURCES})
-include_directories(src ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON )
-#add_test(${OUTFILE} ${OUTFILE})
+set(TESTS
+    tst/PeerReviewCollator_unit.cpp
+)
+
+set(INCLUDE_DIRECTORIES
+    src/
+)
+
+if (TEST_MODE)
+    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
+    include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+    target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
+    add_test(${OUTFILE} ${OUTFILE})
+else()
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    set(BUILD_SHARED_LIBRARIES OFF)
+    set(CMAKE_EXE_LINKER_FLAGS "-static")
+    add_executable(${OUTFILE} ${SOURCES} ${MAIN_SOURCES})
+    include_directories(${INCLUDE_DIRECTORIES})
+    target_link_libraries(${OUTFILE} APRG_COMMON)
+endif()

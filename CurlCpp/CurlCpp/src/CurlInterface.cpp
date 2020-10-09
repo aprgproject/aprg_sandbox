@@ -49,7 +49,8 @@ bool CurlInterface::downloadBinaryFileWithFiniteNumberOfTries(AlbaWebPathHandler
     return downloadAsBinaryWithAdditionalConfigWithFiniteNumberOfTries(webPath.getFullPath(), windowsPath.getFullPath(), totalNumberOfTries, [](curl_easy& easy)
     {
         addToCurlEasy<configType>(easy);
-    });}
+    });
+}
 
 template bool CurlInterface::download<ConfigType::LowSpeedLimitAndMozillaFireFox> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
 template bool CurlInterface::downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);

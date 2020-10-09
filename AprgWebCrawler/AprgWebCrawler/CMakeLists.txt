@@ -15,9 +15,11 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
 #Include curlCpp, this needs APRG Directory
 include(${APRG_DIR}/CurlCpp/AprgCmakeInclude/CurlCpp.cmake)
+
 set(SOURCES
     src/AprgWebCrawler.cpp
-    src/AprgWebCrawler.hpp    src/CrawlHelpers/ChiaAnime.cpp
+    src/AprgWebCrawler.hpp
+    src/CrawlHelpers/ChiaAnime.cpp
     src/CrawlHelpers/Gehen.cpp
     src/CrawlHelpers/GoogleImages.cpp
     src/CrawlHelpers/GuroManga.cpp

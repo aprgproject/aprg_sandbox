@@ -24,4 +24,5 @@ template <ConfigType configType> bool downloadBinaryFileWithFiniteNumberOfTries(
 
 }
 
+
 }

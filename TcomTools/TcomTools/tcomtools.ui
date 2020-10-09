@@ -10,10 +10,12 @@
     <height>537</height>
    </rect>
   </property>
-  <property name="windowTitle">   <string>TcomTools</string>
+  <property name="windowTitle">
+   <string>TcomTools</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="verticalLayoutWidget">    <property name="geometry">
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
      <rect>
       <x>20</x>
       <y>10</y>
@@ -21,10 +23,12 @@
       <height>481</height>
      </rect>
     </property>
-    <layout class="QFormLayout" name="formLayout_3">     <property name="fieldGrowthPolicy">
+    <layout class="QFormLayout" name="formLayout_3">
+     <property name="fieldGrowthPolicy">
       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
      </property>
-     <item row="0" column="0" colspan="2">      <widget class="QGroupBox" name="groupBox_3">
+     <item row="0" column="0" colspan="2">
+      <widget class="QGroupBox" name="groupBox_3">
        <property name="title">
         <string>Input file or folder</string>
        </property>
@@ -40,10 +44,12 @@
          </widget>
         </item>
         <item row="0" column="0">
-         <widget class="QLabel" name="label">          <property name="text">
+         <widget class="QLabel" name="label">
+          <property name="text">
            <string>Input:</string>
           </property>
-         </widget>        </item>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
@@ -51,10 +57,12 @@
       <widget class="QCheckBox" name="extract">
        <property name="font">
         <font>
-         <family>Century Gothic</family>         <pointsize>10</pointsize>
+         <family>Century Gothic</family>
+         <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
-        </font>       </property>
+        </font>
+       </property>
        <property name="text">
         <string>Step 1: Extract Recursively</string>
        </property>
@@ -64,7 +72,8 @@
       <widget class="QCheckBox" name="combineAndSort">
        <property name="font">
         <font>
-         <family>Century Gothic</family>         <pointsize>10</pointsize>
+         <family>Century Gothic</family>
+         <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -77,14 +86,16 @@
      <item row="3" column="0" colspan="2">
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
-        <string>Combine</string>       </property>
+        <string>Combine</string>
+       </property>
        <layout class="QFormLayout" name="formLayout_5">
         <item row="0" column="1">
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
-             <widget class="QLabel" name="label_3">              <property name="text">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
                <string>Accepted files: </string>
               </property>
              </widget>
@@ -93,7 +104,8 @@
              <widget class="QLineEdit" name="acceptedFiles"/>
             </item>
            </layout>
-          </item>         </layout>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -102,7 +114,8 @@
       <widget class="QCheckBox" name="grep">
        <property name="font">
         <font>
-         <family>Century Gothic</family>         <pointsize>10</pointsize>
+         <family>Century Gothic</family>
+         <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -115,10 +128,12 @@
      <item row="5" column="0" colspan="2">
       <widget class="QGroupBox" name="groupBox_4">
        <property name="title">
-        <string>Grep</string>       </property>
+        <string>Grep</string>
+       </property>
        <layout class="QFormLayout" name="formLayout_2">
         <property name="fieldGrowthPolicy">
-         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>        </property>
+         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+        </property>
         <item row="0" column="1">
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
@@ -127,94 +142,110 @@
              <widget class="QCheckBox" name="err">
               <property name="text">
                <string>ERR/</string>
-              </property>             </widget>
+              </property>
+             </widget>
             </item>
             <item row="2" column="0">
              <widget class="QCheckBox" name="errWrnTcom">
               <property name="text">
                <string>ERR/TCOM, WRN/TCOM</string>
-              </property>             </widget>
+              </property>
+             </widget>
             </item>
             <item row="0" column="0">
              <widget class="QCheckBox" name="tcom">
               <property name="text">
                <string>/TCOM/</string>
-              </property>             </widget>
+              </property>
+             </widget>
             </item>
             <item row="1" column="1">
              <widget class="QCheckBox" name="allocation">
               <property name="text">
                <string>Allocation prints (DspCapa, etc)</string>
-              </property>             </widget>
+              </property>
+             </widget>
             </item>
             <item row="0" column="1">
              <widget class="QCheckBox" name="recovery">
               <property name="text">
                <string>Recovery prints (Links, HW_CONF)</string>
-              </property>             </widget>
+              </property>
+             </widget>
             </item>
             <item row="3" column="0">
              <widget class="QCheckBox" name="btsStatus">
               <property name="text">
                <string>BTS Status</string>
-              </property>             </widget>
+              </property>
+             </widget>
             </item>
             <item row="0" column="3">
              <widget class="QCheckBox" name="cchhAndBchsender">
               <property name="text">
                <string>CCHH/BCHSENDER prints</string>
-              </property>             </widget>
+              </property>
+             </widget>
             </item>
             <item row="2" column="2">
              <widget class="QCheckBox" name="tupc">
               <property name="text">
                <string>TUPC prints</string>
-              </property>             </widget>
+              </property>
+             </widget>
             </item>
             <item row="3" column="2">
              <widget class="QCheckBox" name="rlh">
               <property name="text">
                <string>RLH prints</string>
-              </property>             </widget>
+              </property>
+             </widget>
             </item>
             <item row="2" column="1">
              <widget class="QCheckBox" name="fault">
               <property name="text">
                <string>OAM/Fault, EfaultId_</string>
-              </property>             </widget>
+              </property>
+             </widget>
             </item>
             <item row="3" column="1">
              <widget class="QCheckBox" name="lrm">
               <property name="text">
                <string>LRM prints</string>
-              </property>             </widget>
+              </property>
+             </widget>
             </item>
             <item row="2" column="3">
              <widget class="QCheckBox" name="dmgr">
               <property name="text">
                <string>DMGR prints</string>
-              </property>             </widget>
+              </property>
+             </widget>
             </item>
             <item row="0" column="2">
              <widget class="QCheckBox" name="grm">
               <property name="text">
                <string>GRM prints</string>
-              </property>             </widget>
+              </property>
+             </widget>
             </item>
             <item row="1" column="3">
              <widget class="QCheckBox" name="hsch">
               <property name="text">
                <string>HSCH prints</string>
-              </property>             </widget>
+              </property>
+             </widget>
             </item>
             <item row="1" column="2">
              <widget class="QCheckBox" name="toam">
               <property name="text">
                <string>TOAM prints</string>
-              </property>             </widget>
+              </property>
+             </widget>
             </item>
            </layout>
-          </item>          <item>
+          </item>
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
              <widget class="QCheckBox" name="checkBox_25">
@@ -251,7 +282,8 @@
      <item row="7" column="0" colspan="2">
       <widget class="QGroupBox" name="groupBox_5">
        <property name="title">
-        <string>Split</string>       </property>
+        <string>Split</string>
+       </property>
        <layout class="QFormLayout" name="formLayout_4">
         <item row="0" column="0">
          <widget class="QLabel" name="label_2">
@@ -305,10 +337,12 @@
      </item>
     </layout>
    </widget>
-  </widget>  <widget class="QMenuBar" name="menuBar">
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
-     <x>0</x>     <y>0</y>
+     <x>0</x>
+     <y>0</y>
      <width>700</width>
      <height>21</height>
     </rect>
@@ -327,7 +361,8 @@
     <addaction name="menuOpen"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
-   </widget>   <widget class="QMenu" name="menuAbout">
+   </widget>
+   <widget class="QMenu" name="menuAbout">
     <property name="title">
      <string>About</string>
     </property>
@@ -359,5 +394,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/> <connections/>
+ <resources/>
+ <connections/>
 </ui>

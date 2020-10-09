@@ -8,8 +8,10 @@
 #define FIREFOX_EXECUTABLE_PATH R"(C:\"Program Files"\"Mozilla Firefox"\firefox.exe)"
 
 using namespace std;
+
 namespace alba
 {
+
 AprgWebCrawler::AprgWebCrawler(string const& workingDirectory)
     : m_isModeRecognized(false)
 {

@@ -11,7 +11,7 @@ using namespace alba;
 TEST(AprgFileExtractorTest, ActualTest)
 {
     AprgFileExtractor fileExtractor(R"([LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles])");
-    fileExtractor.extractAllRelevantFilesInThisDirectory(R"(D:\W\ZZZ_Useless_Logs\PR103380\New folder\)");
+    fileExtractor.extractAllRelevantFiles(R"(D:\W\ZZZ_Useless_Logs\PR103380\New folder\)");
 }
 
 TEST(AprgFileExtractorTest, ListOfFilesFromZipFileAreCorrectlyRetrieved)
@@ -109,7 +109,7 @@ TEST(AprgFileExtractorTest, FilesAreExtractedSuccessfullyWhenSatisyingTheConditi
     filePathHandler.reInputPath();
     ASSERT_FALSE(filePathHandler.isFoundInLocalSystem());
 
-    fileExtractor.extractAllRelevantFilesInThisCompressedFile(PATH_OF_SAMPLE_ZIP_1);
+    fileExtractor.extractAllRelevantFiles(PATH_OF_SAMPLE_ZIP_1);
 
     filePathHandler.inputPath(R"(C:\APRG\AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\DirectoryTest\DIR1\File1.log)");
     EXPECT_TRUE(filePathHandler.isFoundInLocalSystem());
@@ -126,7 +126,7 @@ TEST(AprgFileExtractorTest, FilesAreExtractedRecursivelyWhenSatisyingTheConditio
     filePathHandler.reInputPath();
     ASSERT_FALSE(filePathHandler.isFoundInLocalSystem());
 
-    fileExtractor.extractAllRelevantFilesInThisCompressedFile(PATH_OF_SAMPLE_ZIP_2);
+    fileExtractor.extractAllRelevantFiles(PATH_OF_SAMPLE_ZIP_2);
 
     filePathHandler.inputPath(R"(C:\APRG\AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest2\DirectoryTest2\DirectoryTest2\DirectoryTest2.txt)");
     EXPECT_TRUE(filePathHandler.isFoundInLocalSystem());
