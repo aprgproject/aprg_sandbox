@@ -13,16 +13,11 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11")
 #Include aprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
-#Include gTest, this needs APRG Directory
-include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
-
 #Include curlCpp, this needs APRG Directory
 include(${APRG_DIR}/CurlCpp/AprgCmakeInclude/CurlCpp.cmake)
-
 set(SOURCES
     src/AprgWebCrawler.cpp
-    src/AprgWebCrawler.hpp
-    src/CrawlHelpers/ChiaAnime.cpp
+    src/AprgWebCrawler.hpp    src/CrawlHelpers/ChiaAnime.cpp
     src/CrawlHelpers/Gehen.cpp
     src/CrawlHelpers/GoogleImages.cpp
     src/CrawlHelpers/GuroManga.cpp
@@ -38,5 +33,4 @@ set(SOURCES
 
 add_executable(${OUTFILE} ${SOURCES})
 include_directories(src ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON CURL_CPP )
-add_test(${OUTFILE} ${OUTFILE})
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON CURL_CPP )
