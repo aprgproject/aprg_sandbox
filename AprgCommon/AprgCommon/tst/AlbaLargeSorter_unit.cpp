@@ -1,14 +1,13 @@
+#include <AlbaLargeSorter.hpp>
+
 #include <algorithm>
 #include "gtest/gtest.h"
 #include <iostream>
-#include <LargeSorter/AlbaLargeSorter.hpp>
 #include <set>
 #include <string>
 #include <vector>
-
 using namespace alba;
 using namespace std;
-
 #define ALBA_LARGE_SORTER_TEST_FILE R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\LargeSorterTest\Test1.txt)"
 #define ALBA_LARGE_SORTER_BLOCK_DIR R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\LargeSorterTest\blocks)"
 

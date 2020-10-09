@@ -1,15 +1,13 @@
 #pragma once
 
 #include <functional>
-#include <GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.hpp>
+#include <AlbaGrepStringEvaluatorTerm.hpp>
 #include <string>
 #include <stack>
 #include <vector>
-
 using std::function;
 using std::string;
-using std::stack;
-using std::vector;
+using std::stack;using std::vector;
 
 namespace alba
 {

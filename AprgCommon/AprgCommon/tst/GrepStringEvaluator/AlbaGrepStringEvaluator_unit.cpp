@@ -1,12 +1,10 @@
-#include "../src/GrepStringEvaluator/AlbaGrepStringEvaluator.hpp"
+#include <AlbaGrepStringEvaluator.hpp>
 
 #include "gtest/gtest.h"
 #include <string>
-
 using namespace alba;
 
-TEST(AlbaGrepStringEvaluatorTest, FalseIsReturnedWhenconditionIsEmpty)
-{
+TEST(AlbaGrepStringEvaluatorTest, FalseIsReturnedWhenconditionIsEmpty){
     AlbaGrepStringEvaluator AlbaGrepStringEvaluator("");
     EXPECT_TRUE(AlbaGrepStringEvaluator.isInvalid());
     EXPECT_FALSE(AlbaGrepStringEvaluator.evaluate("TestString"));

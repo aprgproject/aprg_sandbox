@@ -1,15 +1,14 @@
+#include <AlbaRaiiafPointer.hpp>
+
 #include "gtest/gtest.h"
 #include <iostream>
 #include <string>
-#include "../src/AlbaRaiiafPointer.hpp"
 
 using namespace alba;
 using namespace std;
-
 TEST(AlbaRaiiafPointerTest, IntegerTest)
 {
-    AlbaRaiiafPointer integerPointer;
-    integerPointer.setAndAllocateNewContent<int>(0xA1BA);
+    AlbaRaiiafPointer integerPointer;    integerPointer.setAndAllocateNewContent<int>(0xA1BA);
     EXPECT_EQ(integerPointer.get<int>(), 0xA1BA);
     EXPECT_EQ(integerPointer.getReference<int>(), 0xA1BA);
     integerPointer.deAllocate<int>();

@@ -1,14 +1,13 @@
+#include <AlbaStringHelper.hpp>
+
 #include "gtest/gtest.h"
 #include <string>
-#include "../src/AlbaStringHelper.hpp"
 
 using std::string;
 using namespace alba::stringHelper;
-
 TEST(GetDataFromStringTest, ConvertToCapitalLetters_AllEnglishLetters)
 {
-    string testString("AbCDEFghIjKlMnopQRstUvWxYz");
-    string capitalLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    string testString("AbCDEFghIjKlMnopQRstUvWxYz");    string capitalLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
     EXPECT_EQ(getStringWithCapitalLetters(testString), capitalLetters);
 }

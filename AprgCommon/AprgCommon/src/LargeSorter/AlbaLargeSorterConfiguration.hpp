@@ -1,14 +1,12 @@
 #pragma once
 
-#include <LargeSorter/DataBlock.hpp>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <AlbaWindowsPathHandler.hpp>
+#include <DataBlock.hpp>
 #include <string>
 
 using std::string;
-
 namespace alba
 {
-
 struct AlbaLargeSorterConfiguration
 {
     AlbaLargeSorterConfiguration()

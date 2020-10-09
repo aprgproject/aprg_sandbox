@@ -1,16 +1,14 @@
 #pragma once
 
+#include <AlbaLargeSorterTypes.hpp>
 #include <algorithm>
-#include <LargeSorter/AlbaLargeSorterTypes.hpp>
-#include <LargeSorter/DataBlock.hpp>
+#include <DataBlock.hpp>
 #include <deque>
 
-namespace alba
-{
+namespace alba{
 
 template <typename BlockInformation>
-class AlbaLargeSorterCache
-{
+class AlbaLargeSorterCache{
 public:
     struct BlockInformationPair
     {
