@@ -3,10 +3,8 @@
 #include <QMessageBox>
 #include "ui_tcomtools.h"
 #include "tcomtools.h"
-#include <tcomtoolsConfiguration.hpp>
 
 using namespace std;
-
 TcomTools::TcomTools(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::TcomTools)
@@ -39,4 +37,29 @@ void TcomTools::on_actionAboutAprg_triggered()
 void TcomTools::on_actionQuit_triggered()
 {
     exit(0); //think of something else, I don't like "exit".
+}
+
+void TcomTools::on_extractStep_toggled(bool checked)
+{
+    m_configuration.isExtractStepOn = checked;
+}
+
+void TcomTools::on_combineAndSortStep_toggled(bool checked)
+{
+    m_configuration.isCombineAndSortStepOn = checked;
+}
+
+void TcomTools::on_grepStep_toggled(bool checked)
+{
+    m_configuration.isGrepStepOn = checked;
+}
+
+void TcomTools::on_cropStep_toggled(bool checked)
+{
+    m_configuration.isCropStepOn = checked;
+}
+
+void TcomTools::on_start_clicked()
+{
+    cout << "on_start_clicked" << m_configuration.acceptedFilesGrepCondition << endl;
 }

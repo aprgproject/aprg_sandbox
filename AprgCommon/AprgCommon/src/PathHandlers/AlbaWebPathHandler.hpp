@@ -21,13 +21,12 @@ public:
     void gotoLink(string const& newPath);
 
 private:
-    void splitPathInProtocol(string const& path, string & pathWithProtocol, string & pathAfterProtocol);
+    void splitPathInProtocol(string const& path, string & protocolWithSymbols, string & pathAfterProtocol);
     string getCorrectPathWithoutUrlParameters(string const& correctPath) const;
-    void setProtocolAndCorrectProtocolInDirectory(string const& pathWithProtocol);
+    void setProtocolAndCorrectProtocolInDirectory(string const& protocolWithSymbols);
     void setUrlParameters(string const& correctPath);
     string m_protocol;
-    string m_urlParameters;
-    bool m_hasProtocol;
+    string m_urlParameters;    bool m_hasProtocol;
 };
 
 }//namespace alba

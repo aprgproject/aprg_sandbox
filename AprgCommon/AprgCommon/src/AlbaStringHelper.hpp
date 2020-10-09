@@ -29,14 +29,13 @@ string getStringWithoutQuotations(string const& string1);
 string getStringWithoutCharAtTheEnd(string const& string1, char const char1);
 string getStringWithRemovedCharsStartingFromThisChar(string const& string1, string const& characterString);
 string getStringWithoutOpeningClosingOperators(string const& string1, char const openingOperator, char const closingOperator);
+void copyBeforeStringAndAfterString(string const& mainString, string const& stringToSearch, string & beforeString, string & afterString, int const indexToStartTheSearch = 0);
 string getStringAfterThisString(string const& mainString, string const& stringToSearch, int const indexToStart=0);
 string getStringInBetweenTwoStrings(string const& mainString, string const& firstString, string const& secondString, int const indexToStart=0);
 string getStringAndReplaceNonAlphanumericCharactersToUnderScore(string const& path);
-
 string getCorrectPathWithReplacedSlashCharacters(string const& path, string const& slashCharacterString);
 string getCorrectPathWithoutDoublePeriod(string const& string1, string const& slashCharacterString);
-string getStringBeforeDoublePeriod(string const& string1, string const& slashCharacterString);
-string getImmediateDirectoryName(string const& string1, string const& slashCharacterString);
+string getStringBeforeDoublePeriod(string const& string1, string const& slashCharacterString);string getImmediateDirectoryName(string const& string1, string const& slashCharacterString);
 template<char slashCharacterString> string getCorrectPathWithReplacedSlashCharacters(string const& path);
 template<char slashCharacterString> string getCorrectPathWithoutDoublePeriod(string const& path);
 template<char slashCharacterString> string getStringBeforeDoublePeriod(string const& path);

@@ -54,26 +54,24 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QCheckBox" name="extract">
+      <widget class="QCheckBox" name="extractStep">
        <property name="font">
         <font>
-         <family>Century Gothic</family>
-         <pointsize>10</pointsize>
+         <family>Century Gothic</family>         <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
        <property name="text">
-        <string>Step 1: Extract Recursively</string>
+        <string>Step 1: Extract recursively</string>
        </property>
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QCheckBox" name="combineAndSort">
+      <widget class="QCheckBox" name="combineAndSortStep">
        <property name="font">
         <font>
-         <family>Century Gothic</family>
-         <pointsize>10</pointsize>
+         <family>Century Gothic</family>         <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -111,11 +109,10 @@
       </widget>
      </item>
      <item row="4" column="0">
-      <widget class="QCheckBox" name="grep">
+      <widget class="QCheckBox" name="grepStep">
        <property name="font">
         <font>
-         <family>Century Gothic</family>
-         <pointsize>10</pointsize>
+         <family>Century Gothic</family>         <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -265,28 +262,26 @@
       </widget>
      </item>
      <item row="6" column="0">
-      <widget class="QCheckBox" name="crop">
+      <widget class="QCheckBox" name="cropStep">
        <property name="font">
         <font>
-         <family>Century Gothic</family>
-         <pointsize>10</pointsize>
+         <family>Century Gothic</family>         <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
        <property name="text">
-        <string>Step 3: Crop logs</string>
+        <string>Step 3: Crop logs to 100 MB</string>
        </property>
       </widget>
      </item>
      <item row="7" column="0" colspan="2">
       <widget class="QGroupBox" name="groupBox_5">
        <property name="title">
-        <string>Split</string>
+        <string>Crop</string>
        </property>
        <layout class="QFormLayout" name="formLayout_4">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
+        <item row="0" column="0">         <widget class="QLabel" name="label_2">
           <property name="text">
            <string>Prioritized log print: </string>
           </property>

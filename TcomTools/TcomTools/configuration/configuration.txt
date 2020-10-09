@@ -1,0 +1,22 @@
+isExtractStepOn: 0
+isCombineAndSortStepOn: 0 
+isGrepStepOn: 0
+isCropStepOn: 0
+isGrepTcomEnabled: 0
+isGrepErrEnabled: 0
+isGrepErrWrnTcomEnabled: 0
+isGrepBtsStatusEnabled: 0
+isGrepRecoveryEnabled: 0
+isGrepAllocationEnabled: 0
+isGrepFaultEnabled: 0
+isGrepLrmEnabled: 0
+isGrepGrmEnabled: 0
+isGrepToamEnabled: 0
+isGrepTupcEnabled: 0
+isGrepRlhEnabled: 0
+isGrepCchhBchsenderEnabled 0
+isGrepHschEnabled: 0
+isGrepDmgrEnabled: 0
+acceptedFilesGrepCondition: [LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles]
+otherGrepCondition: 
+prioritizedLogPrint: 

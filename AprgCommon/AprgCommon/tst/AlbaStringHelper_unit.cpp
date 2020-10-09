@@ -87,14 +87,30 @@ TEST(GetDataFromStringTest, GetStringInBetweenTwoStrings_AllEnglishLettersWithSp
     EXPECT_TRUE(getStringInBetweenTwoStrings(testString, firstString, firstString).empty());
 }
 
-TEST(GetDataFromStringTest, GetStringAfterThisString_AllEnglishLettersWithSpecialCharacters)
+TEST(GetDataFromStringTest, CopyBeforeStringAndAfterString_AllEnglishLettersWithSpecialCharacters)
 {
     string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
-    string stringInBetweenAtTheStart(R"(567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
+    string expectedBeforeString(R"("1234567890!@#$%^&*( ))");
+    string expectedAfterString(R"(EFghIjKlMnopQRstUvWxYz")");
+    string actualBeforeString;
+    string actualAfterString;
+
+    copyBeforeStringAndAfterString(testString, "AbCD", actualBeforeString, actualAfterString);
+    EXPECT_EQ(expectedBeforeString, actualBeforeString);
+    EXPECT_EQ(expectedAfterString, actualAfterString);
+
+    copyBeforeStringAndAfterString(testString, "777", actualBeforeString, actualAfterString);
+    EXPECT_TRUE(actualBeforeString.empty());
+    EXPECT_TRUE(actualBeforeString.empty());
+}
+
+
+TEST(GetDataFromStringTest, GetStringAfterThisString_AllEnglishLettersWithSpecialCharacters)
+{
+    string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");    string stringInBetweenAtTheStart(R"(567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
     string stringInBetweenInTheMiddle(R"(^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
 
-    EXPECT_EQ(getStringAfterThisString(testString, R"("1234)"), stringInBetweenAtTheStart);
-    EXPECT_EQ(getStringAfterThisString(testString, "@#$%"), stringInBetweenInTheMiddle);
+    EXPECT_EQ(getStringAfterThisString(testString, R"("1234)"), stringInBetweenAtTheStart);    EXPECT_EQ(getStringAfterThisString(testString, "@#$%"), stringInBetweenInTheMiddle);
     EXPECT_TRUE(getStringAfterThisString(testString, "777").empty());
 }
 
