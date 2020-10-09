@@ -101,27 +101,23 @@ string stringHelper::getStringWithLowerCaseLetters(string const& string1)
 string stringHelper::getStringWithUrlDecodedString(string const& string1)
 {
     string result;
-    int index = 0, lastIndex = string1.length() - 2;
-    while(index < lastIndex)
+    int index = 0, length = string1.length();
+    while(index < length)
     {
-        if(string1[index] == '%' && isHexDigit(string1[index + 1]) && isHexDigit(string1[index + 2]))
+        if(string1[index] == '%' && (index < length-2) && isHexDigit(string1[index + 1]) && isHexDigit(string1[index + 2]))
         {
             result += hexStringToNumber<char>(string1.substr(index + 1, 2));
-            index += 3;
-        }
+            index += 3;        }
         else
         {
             result += string1[index++];
         }
     }
-    result += string1.substr(lastIndex);
     return result;
 }
-
 string stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(string const& string1)
 {
-    string result(string1);
-    int firstIndexOfNotWhiteSpace(result.find_first_not_of(WHITESPACE_STRING));
+    string result(string1);    int firstIndexOfNotWhiteSpace(result.find_first_not_of(WHITESPACE_STRING));
     if(isNotNpos(firstIndexOfNotWhiteSpace))
     {
         result.erase(0, firstIndexOfNotWhiteSpace);

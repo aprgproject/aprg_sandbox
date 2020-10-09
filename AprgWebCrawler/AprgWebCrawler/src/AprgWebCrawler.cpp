@@ -207,32 +207,30 @@ bool AprgWebCrawler::isWebLinksValid() const
     });
 }
 
-string AprgWebCrawler::saveWebPageManuallyUsingMozillaFirefoxAndGetLocalPath(AlbaWebPathHandler const& webPathHandler) const
+string AprgWebCrawler::getLinkManuallyUsingMozillaFirefox(AlbaWebPathHandler const& webPathHandler) const
 {
     constexpr int bufferSize = 1000;
     char buffer[bufferSize];
-
     string firefoxCommand(string(FIREFOX_EXECUTABLE_PATH)+R"( ")"+webPathHandler.getFullPath()+R"(")");
     cout << firefoxCommand << endl;
     system(firefoxCommand.c_str());
 
-    AlbaWindowsPathHandler webPagePathHandler;
-    bool isWebPageInvalid(true);
-    string webPagePath;
-    while(isWebPageInvalid)
+    AlbaWebPathHandler webPathHandlerFromMozillaFirefox;
+    bool isWebPathInvalid(true);
+    string webPath;
+    while(isWebPathInvalid)
     {
-        cout << "Please save the webpage and enter local path of saved webpage:" << endl;
+        cout << "Enter link needed:" << endl;
         cin.getline(buffer, bufferSize);
-        webPagePath = buffer;
-        webPagePathHandler.inputPath(webPagePath);
-        isWebPageInvalid = !webPagePathHandler.isFoundInLocalSystem();
-        if(isWebPageInvalid)
+        webPath = buffer;
+        webPathHandlerFromMozillaFirefox.inputPath(webPath);
+        isWebPathInvalid = !webPathHandlerFromMozillaFirefox.hasProtocol();
+        if(isWebPathInvalid)
         {
-            cout << "Webpage invalid. The file is not found." << endl;
+            cout << "Web link invalid. There is no protocol found." << endl;
         }
     }
-    return webPagePath;
-
+    return webPath;
 }
 
 }

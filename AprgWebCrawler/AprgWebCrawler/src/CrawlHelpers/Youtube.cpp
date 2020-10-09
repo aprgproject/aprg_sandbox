@@ -45,15 +45,13 @@ void AprgWebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutub
         }
         AlbaWebPathHandler webPathHandler;
         webPathHandler.inputPath(webLink);
-        LinksForYoutube links(getLinksForYoutube(webPathHandler));
+        LinksForYoutube links(getLinkForYoutube(webPathHandler));
         if(links.isInvalid())
         {
-            cout << "Links are invalid." << endl;
-            links.printLinks();
+            cout << "Links are invalid." << endl;            links.printLinks();
             continue;
         }
-        AlbaWebPathHandler videoWebPathHandler;
-        videoWebPathHandler.inputPath(links.linkForVideo);
+        AlbaWebPathHandler videoWebPathHandler;        videoWebPathHandler.inputPath(links.linkForVideo);
         AlbaWindowsPathHandler downloadPathHandler;
         downloadPathHandler.inputPath(links.localPathForCurrentVideo);
         downloadPathHandler.createDirectoriesIfItDoesNotExist();
@@ -69,39 +67,31 @@ void AprgWebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutub
     }
 }
 
-LinksForYoutube AprgWebCrawler::getLinksForYoutube(AlbaWebPathHandler const& webLinkPathHandler) const
+LinksForYoutube AprgWebCrawler::getLinkForYoutube(AlbaWebPathHandler const& webLinkPathHandler) const
 {
     LinksForYoutube links;
-    AlbaWindowsPathHandler downloadPathHandler;
+    AlbaWebPathHandler ssYoutubeLinkPathHandler;
     string ssYoutubeLink(webLinkPathHandler.getFullPath());
     stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "youtube", "ssyoutube");
-    AlbaWebPathHandler ssYoutubeLinkPathHandler;
     ssYoutubeLinkPathHandler.inputPath(ssYoutubeLink);
-    downloadPathHandler.inputPath(saveWebPageManuallyUsingMozillaFirefoxAndGetLocalPath(ssYoutubeLinkPathHandler));
-    ifstream youtubeLinksStream(downloadPathHandler.getFullPath());
-    if(!youtubeLinksStream.is_open())
+    string linkForVideo(getLinkManuallyUsingMozillaFirefox(ssYoutubeLinkPathHandler));
+
+    string fileNameForVideo1(getStringInBetweenTwoStrings(linkForVideo, "&title=", "&"));
+    string fileNameForVideo2(getStringAfterThisString(linkForVideo, "&title="));
+    string fileNameForVideo("NoName");
+    if((!fileNameForVideo1.empty()))
     {
-        cout << "Cannot open ssyoutube webpage file." << endl;
-        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
-        return links;
+        fileNameForVideo = fileNameForVideo1;
     }
-    AlbaFileReader youtubeLinksFileReader(youtubeLinksStream);
-    while (youtubeLinksFileReader.isNotFinished())
+    else if((!fileNameForVideo2.empty()))
     {
-        string lineInHtmlFile(youtubeLinksFileReader.simpleGetLine());
-        if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, "googlevideo.com"))
-        {
-            string linkForVideo(lineInHtmlFile);
-            string fileNameForVideo(
-                        getStringAndReplaceNonAlphanumericCharactersToUnderScore(
-                            getStringWithUrlDecodedString(
-                                getStringAfterThisString(lineInHtmlFile, "&title="))));
-            links.linkForVideo = linkForVideo;
-            links.localPathForCurrentVideo = m_workingPathHandler.getDirectory() + R"(\Video\)" + fileNameForVideo + ".mp4";
-            break;
-        }
+        fileNameForVideo = fileNameForVideo2;
     }
+
+    fileNameForVideo = getStringAndReplaceNonAlphanumericCharactersToUnderScore(
+                getStringWithUrlDecodedString(fileNameForVideo));
+    links.linkForVideo = linkForVideo;
+    links.localPathForCurrentVideo = m_workingPathHandler.getDirectory() + R"(\Video\)" + fileNameForVideo + ".mp4";
     return links;
 }
-
 }

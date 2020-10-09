@@ -33,6 +33,9 @@ set(SOURCES
     src/main.cpp
 )
 
+set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+set(BUILD_SHARED_LIBRARIES OFF)
+set(CMAKE_EXE_LINKER_FLAGS "-static")
 add_executable(${OUTFILE} ${SOURCES})
 include_directories(src ${GTEST_INCLUDE_DIRS})
 target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON CURL_CPP )

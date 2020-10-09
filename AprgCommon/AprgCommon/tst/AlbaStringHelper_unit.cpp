@@ -36,14 +36,20 @@ TEST(GetDataFromStringTest, DecodeUrlString)
     EXPECT_EQ(getStringWithUrlDecodedString(testString), decodedUrl);
 }
 
-TEST(GetDataFromStringTest, GetWithoutStartingAndTrailingWhiteSpace_WhiteSpaceOnly)
+TEST(GetDataFromStringTest, DecodeUrlString2)
 {
-    string testString("     \n\n    \t\t\t   ");
-    EXPECT_TRUE(getStringWithoutStartingAndTrailingWhiteSpace(testString).empty());
+    string testString("Last+Week+Tonight+with+John+Oliver-+The+IRS+%28HBO%29");
+    string decodedUrl("Last+Week+Tonight+with+John+Oliver-+The+IRS+(HBO)");
+
+    EXPECT_EQ(getStringWithUrlDecodedString(testString), decodedUrl);
 }
 
-TEST(GetDataFromStringTest, GetWithoutStartingAndTrailingWhiteSpace_AllEnglishLettersWithSpecialCharacters)
+TEST(GetDataFromStringTest, GetWithoutStartingAndTrailingWhiteSpace_WhiteSpaceOnly)
 {
+    string testString("     \n\n    \t\t\t   ");    EXPECT_TRUE(getStringWithoutStartingAndTrailingWhiteSpace(testString).empty());
+}
+
+TEST(GetDataFromStringTest, GetWithoutStartingAndTrailingWhiteSpace_AllEnglishLettersWithSpecialCharacters){
     string testString("     \n\n1 2 3 4 5 6   7 8 9 0!@#$%^&*( )a   b   c d e f g   h i j k l m  n o   p q r\n\n\ns t u v w x y z    ");
     string withoutStartingAndTrailingWhiteSpace("1 2 3 4 5 6   7 8 9 0!@#$%^&*( )a   b   c d e f g   h i j k l m  n o   p q r\n\n\ns t u v w x y z");
 
