@@ -211,6 +211,7 @@ string AprgWebCrawler::getLinkManuallyUsingMozillaFirefox(AlbaWebPathHandler con
 {
     constexpr int bufferSize = 1000;
     char buffer[bufferSize];
+
     string firefoxCommand(string(FIREFOX_EXECUTABLE_PATH)+R"( ")"+webPathHandler.getFullPath()+R"(")");
     cout << firefoxCommand << endl;
     system(firefoxCommand.c_str());

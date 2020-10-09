@@ -1,8 +1,8 @@
 #pragma once
 
-#include <AlbaWebPathHandler.hpp>
-#include <AlbaWindowsPathHandler.hpp>
 #include <CurlInterfaceConfigType.hpp>
+#include <PathHandlers/AlbaWebPathHandler.hpp>
+#include <PathHandlers/AlbaWindowsPathHandler.hpp>
 #include <string>
 
 using alba::AlbaWebPathHandler;

@@ -1,12 +1,14 @@
 #include <AlbaOptional.hpp>
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 using namespace alba;
 using namespace std;
+
 TEST(AlbaOptionalTest, IntegerTest)
 {
-    AlbaOptional<int> integerOptional1(1111);    EXPECT_TRUE((bool)integerOptional1);
+    AlbaOptional<int> integerOptional1(1111);
+    EXPECT_TRUE((bool)integerOptional1);
     EXPECT_EQ((int)integerOptional1, 1111);
     EXPECT_EQ(integerOptional1.get(), 1111);
 

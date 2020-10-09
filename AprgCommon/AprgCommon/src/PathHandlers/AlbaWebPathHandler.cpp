@@ -1,4 +1,4 @@
-#include <AlbaWebPathHandler.hpp>
+#include "AlbaWebPathHandler.hpp"
 
 #include <AlbaStringHelper.hpp>
 #include <functional>
@@ -27,9 +27,11 @@ void AlbaWebPathHandler::inputPath(string const& path)
     setProtocolAndCorrectProtocolInDirectory(protocolWithSymbols);
     setUrlParameters(correctPathAfterProtocol);
 }
+
 void AlbaWebPathHandler::clear()
 {
-    AlbaPathHandler::clear();    m_protocol.clear();
+    AlbaPathHandler::clear();
+    m_protocol.clear();
     m_urlParameters.clear();
     m_hasProtocol = false;
 }
@@ -78,9 +80,11 @@ void AlbaWebPathHandler::splitPathInProtocol(string const& path, string & protoc
         pathAfterProtocol = path;
     }
 }
+
 string AlbaWebPathHandler::getCorrectPathWithoutUrlParameters(string const& correctPath) const
 {
-    string correctPathWithoutUrlParameters(correctPath);    int indexOfQuestionMark = correctPath.find_first_of("?");
+    string correctPathWithoutUrlParameters(correctPath);
+    int indexOfQuestionMark = correctPath.find_first_of("?");
     if(stringHelper::isNotNpos(indexOfQuestionMark))
     {
             correctPathWithoutUrlParameters = correctPath.substr(0, indexOfQuestionMark);
@@ -93,9 +97,11 @@ void AlbaWebPathHandler::setProtocolAndCorrectProtocolInDirectory(string const& 
     int index = protocolWithSymbols.find_first_of(R"(:/\)");
     if (stringHelper::isNotNpos(index) && m_directory[index]==':')
     {
-        m_protocol = stringHelper::getStringWithLowerCaseLetters(m_directory.substr(0,index));        m_hasProtocol = true;
+        m_protocol = stringHelper::getStringWithLowerCaseLetters(m_directory.substr(0,index));
+        m_hasProtocol = true;
     }
 }
+
 void AlbaWebPathHandler::setUrlParameters(string const& correctPath)
 {
     int indexOfQuestionMark = correctPath.find_first_of("?");

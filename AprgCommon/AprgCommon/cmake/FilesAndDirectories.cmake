@@ -1,9 +1,5 @@
 set(APRG_COMMON_INCLUDE_DIRECTORIES
-    ${APRG_COMMON_DIR}
     ${APRG_COMMON_DIR}/src
-    ${APRG_COMMON_DIR}/src/GrepStringEvaluator
-    ${APRG_COMMON_DIR}/src/LargeSorter
-    ${APRG_COMMON_DIR}/src/PathHandlers
 )
 
 set(APRG_COMMON_SOURCES

@@ -5,7 +5,8 @@
 #include <tcomtoolsConfiguration.hpp>
 
 namespace Ui {
-class TcomTools;}
+class TcomTools;
+}
 
 class TcomTools : public QMainWindow
 {

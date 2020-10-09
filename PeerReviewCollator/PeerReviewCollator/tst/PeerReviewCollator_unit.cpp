@@ -1,6 +1,6 @@
-#include <AlbaWindowsPathHandler.hpp>
-#include "gtest/gtest.h"
-#include "../src/PeerReviewCollator.hpp"
+#include <gtest/gtest.h>
+#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PeerReviewCollator.hpp>
 
 #define PATH_OF_SAMPLE_FILE R"(C:\APRG\PeerReviewCollator\PeerReviewCollator\tst\FilesForTests\Yee, Iangelo.csv)"
 #define PATH_OF_SAMPLE_DIRECTORY R"(C:\APRG\PeerReviewCollator\PeerReviewCollator\tst\FilesForTests\DirectoryTest)"

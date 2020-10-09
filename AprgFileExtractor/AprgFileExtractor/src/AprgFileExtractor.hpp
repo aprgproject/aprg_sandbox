@@ -1,10 +1,12 @@
 #pragma once
 
-#include <AlbaGrepStringEvaluator.hpp>
+#include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
 #include <set>
 #include <string>
+
 #define PATH_OF_7Z_EXECUTABLE R"(7z.exe)"
 #define PATH_OF_7Z_TEMP_FILE R"(TempFile.txt)"
+
 //#define PATH_OF_7Z_EXECUTABLE R"(C:\APRG\AprgFileExtractor\7z64\7z.exe)"
 //#define PATH_OF_7Z_TEMP_FILE R"(C:\APRG\AprgFileExtractor\7z64\TempFile.txt)"
 

@@ -1,12 +1,14 @@
 #include <AlbaWindowsTimer.hpp>
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 using namespace alba;
 using namespace std;
+
 TEST(AlbaWindowsTimer, DISABLED_TimerCanBeInitialized)
 {
-    AlbaWindowsTimer timer;    Sleep(2000);
+    AlbaWindowsTimer timer;
+    Sleep(2000);
     unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();
     EXPECT_EQ(secondsElapsed, 2);
 }

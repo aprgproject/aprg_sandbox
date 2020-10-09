@@ -1,5 +1,5 @@
-#include "gtest/gtest.h"
-#include "../src/BtsLogTime.hpp"
+#include <BtsLogTime.hpp>
+#include <gtest/gtest.h>
 
 using namespace tcomToolsBackend;
 

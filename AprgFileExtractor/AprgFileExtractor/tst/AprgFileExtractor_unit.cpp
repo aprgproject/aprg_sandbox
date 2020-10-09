@@ -1,6 +1,7 @@
-#include <AlbaWindowsPathHandler.hpp>
-#include "gtest/gtest.h"
-#include "../src/AprgFileExtractor.hpp"
+#include <AprgFileExtractor.hpp>
+
+#include <gtest/gtest.h>
+#include <PathHandlers/AlbaWindowsPathHandler.hpp>
 
 #define PATH_OF_SAMPLE_ZIP_1 R"(C:\APRG\AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest.zip)"
 #define PATH_OF_SAMPLE_ZIP_2 R"(C:\APRG\AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest2.zip)"

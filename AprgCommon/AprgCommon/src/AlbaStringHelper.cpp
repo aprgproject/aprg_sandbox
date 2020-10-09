@@ -107,7 +107,8 @@ string stringHelper::getStringWithUrlDecodedString(string const& string1)
         if(string1[index] == '%' && (index < length-2) && isHexDigit(string1[index + 1]) && isHexDigit(string1[index + 2]))
         {
             result += hexStringToNumber<char>(string1.substr(index + 1, 2));
-            index += 3;        }
+            index += 3;
+        }
         else
         {
             result += string1[index++];
@@ -115,9 +116,11 @@ string stringHelper::getStringWithUrlDecodedString(string const& string1)
     }
     return result;
 }
+
 string stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(string const& string1)
 {
-    string result(string1);    int firstIndexOfNotWhiteSpace(result.find_first_not_of(WHITESPACE_STRING));
+    string result(string1);
+    int firstIndexOfNotWhiteSpace(result.find_first_not_of(WHITESPACE_STRING));
     if(isNotNpos(firstIndexOfNotWhiteSpace))
     {
         result.erase(0, firstIndexOfNotWhiteSpace);
@@ -206,10 +209,12 @@ void stringHelper::copyBeforeStringAndAfterString(
 
 string stringHelper::getStringAfterThisString(string const& mainString, string const& stringToSearch, int const indexToStart)
 {
-    string result;    int firstIndexOfFirstString = mainString.find(stringToSearch, indexToStart);
+    string result;
+    int firstIndexOfFirstString = mainString.find(stringToSearch, indexToStart);
     if(isNotNpos(firstIndexOfFirstString))
     {
-        int lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();        result = mainString.substr(lastIndexOfFirstString);
+        int lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
+        result = mainString.substr(lastIndexOfFirstString);
     }
     return result;
 }
@@ -386,6 +391,7 @@ NumberType stringHelper::stringToNumber(string string1)
 }
 
 template int stringHelper::stringToNumber<int>(string string1);
+template unsigned int stringHelper::stringToNumber<unsigned int>(string string1);
 template float stringHelper::stringToNumber<float>(string string1);
 template double stringHelper::stringToNumber<double>(string string1);
 

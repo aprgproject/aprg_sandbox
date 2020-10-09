@@ -5,6 +5,7 @@
 #include "tcomtools.h"
 
 using namespace std;
+
 TcomTools::TcomTools(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::TcomTools)

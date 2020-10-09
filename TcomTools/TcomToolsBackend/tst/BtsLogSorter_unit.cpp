@@ -1,6 +1,6 @@
 #include <AlbaFileReader.hpp>
-#include "gtest/gtest.h"
-#include "../src/BtsLogSorter.hpp"
+#include <BtsLogSorter.hpp>
+#include <gtest/gtest.h>
 
 using namespace alba;
 using namespace tcomToolsBackend;

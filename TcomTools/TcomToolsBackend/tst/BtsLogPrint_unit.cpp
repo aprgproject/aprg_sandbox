@@ -1,6 +1,6 @@
 #include <algorithm>
-#include "gtest/gtest.h"
-#include "../src/BtsLogPrint.hpp"
+#include <BtsLogPrint.hpp>
+#include <gtest/gtest.h>
 #include <vector>
 
 using namespace tcomToolsBackend;

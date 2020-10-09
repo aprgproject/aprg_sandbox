@@ -1,8 +1,8 @@
-#include <AlbaWebPathHandler.hpp>
-#include <AlbaWindowsPathHandler.hpp>
 #include "curl_easy.h"
 #include "curl_option.h"
 #include "CurlInterface.hpp"
+#include <PathHandlers/AlbaWebPathHandler.hpp>
+#include <PathHandlers/AlbaWindowsPathHandler.hpp>
 
 using curl::CurlInterface::downloadBinaryFile;
 using curl::curl_easy;

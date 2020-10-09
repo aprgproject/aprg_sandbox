@@ -23,7 +23,7 @@ src/tcomtools.cpp\
 ../../AprgCommon/AprgCommon/src/PathHandlers/AlbaWindowsPathHandler.cpp
 
 HEADERS += src/tcomtools.h\
-src/TcomtoolsConfiguration.hpp\
+src/TcomToolsConfiguration.hpp\
 ../../AprgFileExtractor/AprgFileExtractor/src/AprgFileExtractor.hpp\
 ../../AprgCommon/AprgCommon/src/AlbaFileReader.hpp\
 ../../AprgCommon/AprgCommon/src/AlbaStringHelper.hpp\
@@ -35,9 +35,7 @@ src/TcomtoolsConfiguration.hpp\
 FORMS += src/tcomtools.ui
 
 QMAKE_INCDIR += src\
-../../AprgCommon/AprgCommon/src\
-../../AprgCommon/AprgCommon/src/GrepStringEvaluator\
-../../AprgCommon/AprgCommon/src/PathHandlers
+../../AprgCommon/AprgCommon/src
 
 DEFINES -= UNICODE
 

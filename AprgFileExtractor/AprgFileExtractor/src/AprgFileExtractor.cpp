@@ -2,9 +2,9 @@
 
 #include <AlbaFileReader.hpp>
 #include <AlbaStringHelper.hpp>
-#include <AlbaWindowsPathHandler.hpp>
 #include <fstream>
 #include <iostream>
+#include <PathHandlers/AlbaWindowsPathHandler.hpp>
 #include <windows.h>
 
 using namespace std;

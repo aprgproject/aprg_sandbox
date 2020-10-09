@@ -1,7 +1,7 @@
 #pragma once
 
-#include <AlbaPathHandler.hpp>
 #include <functional>
+#include <PathHandlers/AlbaPathHandler.hpp>
 #include <string>
 
 using std::string;
@@ -26,7 +26,8 @@ private:
     void setProtocolAndCorrectProtocolInDirectory(string const& protocolWithSymbols);
     void setUrlParameters(string const& correctPath);
     string m_protocol;
-    string m_urlParameters;    bool m_hasProtocol;
+    string m_urlParameters;
+    bool m_hasProtocol;
 };
 
 }//namespace alba
