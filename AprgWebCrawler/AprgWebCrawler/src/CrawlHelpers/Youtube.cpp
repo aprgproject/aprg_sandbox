@@ -45,9 +45,15 @@ void AprgWebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutub
         }
         AlbaWebPathHandler ssYoutubeLinkPathHandler;
         string ssYoutubeLink(webLink);
+        stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "ssyoutube", "youtube");
         stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "youtube", "ssyoutube");
         ssYoutubeLinkPathHandler.inputPath(ssYoutubeLink);
-        gotoLinkManuallyUsingMozillaFirefox(ssYoutubeLinkPathHandler);
+        cout<<"Enter user input(done, retry):"<<endl;
+        string userInput(getUserInputAfterManuallyUsingMozillaFirefox(ssYoutubeLinkPathHandler));
+        if(!stringHelper::isEqualNotCaseSensitive(userInput, "done"))
+        {
+            continue;
+        }
         convertedYoutubeLinkStream << ssYoutubeLinkPathHandler.getFullPath() << endl << flush;
         webLink.clear();
         saveMemoryCard();
@@ -61,16 +67,19 @@ void AprgWebCrawler::crawlForYoutube_Old(string & webLink, ofstream& convertedYo
 
     while(1)
     {
-        if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "youtube"))        {
+        if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "youtube"))
+        {
             cout << "Not a youtube link : " << webLink << endl;
             return;
         }
         AlbaWebPathHandler webPathHandler;
         webPathHandler.inputPath(webLink);
-        LinksForYoutube links(getLinkForYoutube(webPathHandler));        if(links.isInvalid())
+        LinksForYoutube links(getLinkForYoutube(webPathHandler));
+        if(links.isInvalid())
         {
             cout << "Links are invalid." << endl;
-            links.printLinks();            continue;
+            links.printLinks();
+            continue;
         }
         AlbaWebPathHandler videoWebPathHandler;
         videoWebPathHandler.inputPath(links.linkForVideo);
@@ -96,7 +105,7 @@ LinksForYoutube AprgWebCrawler::getLinkForYoutube(AlbaWebPathHandler const& webL
     string ssYoutubeLink(webLinkPathHandler.getFullPath());
     stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "youtube", "ssyoutube");
     ssYoutubeLinkPathHandler.inputPath(ssYoutubeLink);
-    string linkForVideo(getLinkManuallyUsingMozillaFirefox(ssYoutubeLinkPathHandler));
+    string linkForVideo(getUserInputAfterManuallyUsingMozillaFirefox(ssYoutubeLinkPathHandler));
 
     string fileNameForVideo1(getStringInBetweenTwoStrings(linkForVideo, "&title=", "&"));
     string fileNameForVideo2(getStringAfterThisString(linkForVideo, "&title="));

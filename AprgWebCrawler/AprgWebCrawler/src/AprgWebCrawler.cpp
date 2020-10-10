@@ -207,27 +207,14 @@ bool AprgWebCrawler::isWebLinksValid() const
     });
 }
 
-string AprgWebCrawler::getLinkManuallyUsingMozillaFirefox(AlbaWebPathHandler const& webPathHandler) const
+string AprgWebCrawler::getUserInputAfterManuallyUsingMozillaFirefox(AlbaWebPathHandler const& webPathHandler) const
 {
     constexpr int bufferSize = 1000;
     char buffer[bufferSize];
-
     gotoLinkManuallyUsingMozillaFirefox(webPathHandler);
-
-    AlbaWebPathHandler webPathHandlerFromMozillaFirefox;
-    bool isWebPathInvalid(true);    string webPath;
-    while(isWebPathInvalid)
-    {
-        cout << "Enter link needed:" << endl;        cin.getline(buffer, bufferSize);
-        webPath = buffer;
-        webPathHandlerFromMozillaFirefox.inputPath(webPath);
-        isWebPathInvalid = !webPathHandlerFromMozillaFirefox.hasProtocol();
-        if(isWebPathInvalid)
-        {
-            cout << "Web link invalid. There is no protocol found." << endl;
-        }
-    }
-    return webPath;
+    cout<<"Enter user input:"<<endl;
+    cin.getline(buffer, bufferSize);
+    return string(buffer);
 }
 
 void AprgWebCrawler::gotoLinkManuallyUsingMozillaFirefox(AlbaWebPathHandler const& webPathHandler) const
