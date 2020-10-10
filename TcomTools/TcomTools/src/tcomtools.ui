@@ -7,28 +7,24 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>537</height>
+    <height>592</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>TcomTools</string>
+  <property name="windowTitle">   <string>TcomTools</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
+   <widget class="QWidget" name="verticalLayoutWidget">    <property name="geometry">
      <rect>
       <x>20</x>
       <y>10</y>
       <width>661</width>
-      <height>481</height>
+      <height>532</height>
      </rect>
     </property>
-    <layout class="QFormLayout" name="formLayout_3">
-     <property name="fieldGrowthPolicy">
+    <layout class="QFormLayout" name="formLayout_3">     <property name="fieldGrowthPolicy">
       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
      </property>
-     <item row="0" column="0" colspan="2">
-      <widget class="QGroupBox" name="groupBox_3">
+     <item row="0" column="0" colspan="2">      <widget class="QGroupBox" name="groupBox_3">
        <property name="title">
         <string>Input file or folder</string>
        </property>
@@ -68,72 +64,63 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QCheckBox" name="combineAndSortStep">
        <property name="font">
-        <font>
-         <family>Century Gothic</family>
+        <font>         <family>Century Gothic</family>
          <pointsize>10</pointsize>
          <weight>75</weight>
-         <bold>true</bold>
-        </font>
+         <bold>true</bold>        </font>
        </property>
        <property name="text">
         <string>Step 2: Combine and sort all logs</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="0" colspan="2">
+     <item row="4" column="0" colspan="2">
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
-        <string>Combine</string>
-       </property>
+        <string>Combine</string>       </property>
        <layout class="QFormLayout" name="formLayout_5">
         <item row="0" column="1">
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
+         <layout class="QVBoxLayout" name="verticalLayout">          <item>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
              <widget class="QLabel" name="label_3">
               <property name="text">
-               <string>Accepted files: </string>
+               <string>Accepted files condition: </string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="acceptedFiles"/>
+             <widget class="QLineEdit" name="acceptedFilesCondition"/>
             </item>
            </layout>
-          </item>
-         </layout>
+          </item>         </layout>
         </item>
        </layout>
       </widget>
      </item>
-     <item row="4" column="0">
+     <item row="5" column="0">
       <widget class="QCheckBox" name="grepStep">
        <property name="font">
-        <font>
-         <family>Century Gothic</family>
+        <font>         <family>Century Gothic</family>
          <pointsize>10</pointsize>
          <weight>75</weight>
-         <bold>true</bold>
-        </font>
+         <bold>true</bold>        </font>
        </property>
        <property name="text">
         <string>Step 3: Grep by relevance</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="0" colspan="2">
+     <item row="6" column="0" colspan="2">
       <widget class="QGroupBox" name="groupBox_4">
        <property name="title">
-        <string>Grep</string>
-       </property>
+        <string>Grep</string>       </property>
        <layout class="QFormLayout" name="formLayout_2">
         <property name="fieldGrowthPolicy">
-         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-        </property>
+         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>        </property>
         <item row="0" column="1">
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
@@ -255,39 +242,34 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_3"/>
+             <widget class="QLineEdit" name="other"/>
             </item>
            </layout>
-          </item>
-         </layout>
+          </item>         </layout>
         </item>
        </layout>
       </widget>
      </item>
-     <item row="6" column="0">
+     <item row="7" column="0">
       <widget class="QCheckBox" name="cropStep">
        <property name="font">
-        <font>
-         <family>Century Gothic</family>
+        <font>         <family>Century Gothic</family>
          <pointsize>10</pointsize>
          <weight>75</weight>
-         <bold>true</bold>
-        </font>
+         <bold>true</bold>        </font>
        </property>
        <property name="text">
         <string>Step 3: Crop logs to 100 MB</string>
        </property>
       </widget>
      </item>
-     <item row="7" column="0" colspan="2">
+     <item row="8" column="0" colspan="2">
       <widget class="QGroupBox" name="groupBox_5">
        <property name="title">
-        <string>Crop</string>
-       </property>
+        <string>Crop</string>       </property>
        <layout class="QFormLayout" name="formLayout_4">
         <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
+         <widget class="QLabel" name="label_2">          <property name="text">
            <string>Prioritized log print: </string>
           </property>
          </widget>
@@ -298,15 +280,13 @@
        </layout>
       </widget>
      </item>
-     <item row="8" column="0" colspan="2">
+     <item row="9" column="0" colspan="2">
       <layout class="QHBoxLayout" name="horizontalLayout_6">
        <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
+        <spacer name="horizontalSpacer">         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
+         <property name="sizeHint" stdset="0">          <size>
            <width>40</width>
            <height>20</height>
           </size>
@@ -335,14 +315,39 @@
        </item>
       </layout>
      </item>
+     <item row="2" column="0" colspan="2">
+      <widget class="QGroupBox" name="groupBox_6">
+       <property name="title">
+        <string>Extract</string>
+       </property>
+       <layout class="QFormLayout" name="formLayout_10">
+        <item row="0" column="1">
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QLabel" name="label_8">
+              <property name="text">
+               <string>Extract condition: </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="extractCondition"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
     </layout>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menuBar">
+  </widget>  <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
+     <x>0</x>     <y>0</y>
      <width>700</width>
      <height>21</height>
     </rect>

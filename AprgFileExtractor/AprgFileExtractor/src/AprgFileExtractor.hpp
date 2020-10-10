@@ -4,20 +4,15 @@
 #include <set>
 #include <string>
 
-#define PATH_OF_7Z_EXECUTABLE R"(7z.exe)"
-#define PATH_OF_7Z_TEMP_FILE R"(TempFile.txt)"
-
-//#define PATH_OF_7Z_EXECUTABLE R"(C:\APRG\AprgFileExtractor\7z64\7z.exe)"
-//#define PATH_OF_7Z_TEMP_FILE R"(C:\APRG\AprgFileExtractor\7z64\TempFile.txt)"
+#define PATH_OF_7Z_EXECUTABLE R"(C:\APRG\AprgFileExtractor\7z32\7z.exe)"
+#define PATH_OF_7Z_TEMP_FILE R"(C:\APRG\AprgFileExtractor\7z32\TempFile.txt)"
 
 using std::set;
 
-namespace alba
-{
+namespace alba{
 
 class AprgFileExtractor
-{
-public:
+{public:
     AprgFileExtractor();
     AprgFileExtractor(string const& condition);
     void extractAllRelevantFiles(string const& pathOfFileOrDirectory) const;
