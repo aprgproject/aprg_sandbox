@@ -9,22 +9,20 @@ using namespace std;
 namespace alba
 {
 
-void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload()
+void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(int const minimumSizeOfDownload)
 {
     for(string & webLink : m_webLinks)
     {
-        crawlOneHtmlAndOneFileToDownload(webLink);
+        crawlOneHtmlAndOneFileToDownload(webLink, minimumSizeOfDownload);
     }
 }
 
-void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
+void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink, int const minimumSizeOfDownload)
 {
     cout << "AprgWebCrawler::crawlPerHtmlAndDownloadImage" << endl;
-
     while(1)
     {
-        AlbaWebPathHandler currentWebLinkPathHandler;
-        currentWebLinkPathHandler.inputPath(webLink);
+        AlbaWebPathHandler currentWebLinkPathHandler;        currentWebLinkPathHandler.inputPath(webLink);
         AlbaWindowsPathHandler downloadPathHandler;
         downloadPathHandler.inputPath(m_workingPathHandler.getDirectory() + R"(\temp.html)");
         downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox>(currentWebLinkPathHandler, downloadPathHandler);
@@ -46,14 +44,17 @@ void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
         downloadPathHandler.inputPath(links.localPathForCurrentFileToDownload);
         downloadPathHandler.createDirectoriesIfItDoesNotExist();
         downloadBinaryFileWithFiniteNumberOfTries<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler, 20);
+        if(downloadPathHandler.getFileSizeEstimate() < minimumSizeOfDownload)
+        {
+            cout << "Download file size is less than minimum. Retrying from the start." << endl;
+            continue;
+        }
         if(links.linkForNextHtml.empty())
         {
-            cout << "Terminating the because next web link is empty." << endl;
-            return;
+            cout << "Terminating the because next web link is empty." << endl;            return;
         }
         AlbaWebPathHandler nextWebPathHandler(currentWebLinkPathHandler);
-        nextWebPathHandler.gotoLink(links.linkForNextHtml);
-        if(currentWebLinkPathHandler.getFullPath() == nextWebPathHandler.getFullPath())
+        nextWebPathHandler.gotoLink(links.linkForNextHtml);        if(currentWebLinkPathHandler.getFullPath() == nextWebPathHandler.getFullPath())
         {
             cout << "Crawler stop because the next web link is the same as previous link." << endl;
             return;

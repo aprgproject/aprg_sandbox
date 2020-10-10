@@ -52,17 +52,19 @@ LinksForHtmlAndFileToDownload AprgWebCrawler::getNextLinkAndImageLinkForMangaFox
     while (htmlFileReader.isNotFinished())
     {
         string lineInHtmlFile(htmlFileReader.simpleGetLine());
-        if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"***(onclick="return enlarge()"><img src=")***"))
+        if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"***(onclick="return enlarge()">)***"))
         {
-            links.linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"(img src=")", R"(")");
+            string nextLineInHtmlFile(htmlFileReader.simpleGetLine());
+            if(isStringFoundInsideTheOtherStringCaseSensitive(nextLineInHtmlFile, R"(<img src=")"))
+            {
+                links.linkForCurrentFileToDownload = getStringInBetweenTwoStrings(nextLineInHtmlFile, R"(img src=")", R"(")");
+            }
         }
         else if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(class="btn next_page"><span></span>next page</a>)"))
-        {
-            nextPageLink = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<a href=")", R"(")");
+        {            nextPageLink = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<a href=")", R"(")");
             onClickNextPage = getStringInBetweenTwoStrings(lineInHtmlFile, R"(onclick=")", R"(")");
         }
-        else if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<p><span>Next Chapter:</span> <a href=")"))
-        {
+        else if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<p><span>Next Chapter:</span> <a href=")"))        {
             nextChapterLink = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<a href=")", R"(")");
         }
     }
