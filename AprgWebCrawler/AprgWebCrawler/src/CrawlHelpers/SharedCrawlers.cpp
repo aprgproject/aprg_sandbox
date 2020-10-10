@@ -20,9 +20,11 @@ void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(int const minimumSizeOfDow
 void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink, int const minimumSizeOfDownload)
 {
     cout << "AprgWebCrawler::crawlPerHtmlAndDownloadImage" << endl;
+
     while(1)
     {
-        AlbaWebPathHandler currentWebLinkPathHandler;        currentWebLinkPathHandler.inputPath(webLink);
+        AlbaWebPathHandler currentWebLinkPathHandler;
+        currentWebLinkPathHandler.inputPath(webLink);
         AlbaWindowsPathHandler downloadPathHandler;
         downloadPathHandler.inputPath(m_workingPathHandler.getDirectory() + R"(\temp.html)");
         downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox>(currentWebLinkPathHandler, downloadPathHandler);
@@ -51,10 +53,12 @@ void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink, int const
         }
         if(links.linkForNextHtml.empty())
         {
-            cout << "Terminating the because next web link is empty." << endl;            return;
+            cout << "Terminating the because next web link is empty." << endl;
+            return;
         }
         AlbaWebPathHandler nextWebPathHandler(currentWebLinkPathHandler);
-        nextWebPathHandler.gotoLink(links.linkForNextHtml);        if(currentWebLinkPathHandler.getFullPath() == nextWebPathHandler.getFullPath())
+        nextWebPathHandler.gotoLink(links.linkForNextHtml);
+        if(currentWebLinkPathHandler.getFullPath() == nextWebPathHandler.getFullPath())
         {
             cout << "Crawler stop because the next web link is the same as previous link." << endl;
             return;

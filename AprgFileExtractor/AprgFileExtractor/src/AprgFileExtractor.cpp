@@ -98,6 +98,14 @@ string AprgFileExtractor::extractOneFile(string const& filePathOfCompressedFile,
     return outputPathHandler.getFullPath();
 }
 
+bool AprgFileExtractor::isRecognizedCompressedFile(string const& extension) const
+{
+    return stringHelper::isEqualNotCaseSensitive("zip", extension) ||
+            stringHelper::isEqualNotCaseSensitive("tar", extension) ||
+            stringHelper::isEqualNotCaseSensitive("7z", extension) ||
+            stringHelper::isEqualNotCaseSensitive("xz", extension);
+}
+
 void AprgFileExtractor::extractAllRelevantFilesInThisDirectory(string const& directoryPath) const
 {
     AlbaWindowsPathHandler directoryPathHandler;
@@ -109,7 +117,7 @@ void AprgFileExtractor::extractAllRelevantFilesInThisDirectory(string const& dir
     {
         AlbaWindowsPathHandler extractedPathHandler;
         extractedPathHandler.inputPath(filePath);
-        if(isCompressedFile(extractedPathHandler.getExtension()))
+        if(isRecognizedCompressedFile(extractedPathHandler.getExtension()))
         {
             extractAllRelevantFilesInThisCompressedFile(extractedPathHandler.getFullPath());
         }
@@ -134,7 +142,7 @@ void AprgFileExtractor::extractAllFilesRecursively(string const& filePathOfCompr
 {
     AlbaWindowsPathHandler extractedPathHandler;
     extractedPathHandler.inputPath(extractAll(filePathOfCompressedFile));
-    if(isCompressedFile(extractedPathHandler.getExtension()))
+    if(isRecognizedCompressedFile(extractedPathHandler.getExtension()))
     {
         extractAllRelevantFilesInThisDirectory(extractedPathHandler.getFullPath());
         extractedPathHandler.deleteFile();
@@ -153,21 +161,13 @@ void AprgFileExtractor::extractAllRelevantFilesRecursively(string const& filePat
         {
             AlbaWindowsPathHandler extractedPathHandler;
             extractedPathHandler.inputPath(extractOneFile(filePathOfCompressedFile, filePath));
-            if(isCompressedFile(extractedPathHandler.getExtension()))
+            if(isRecognizedCompressedFile(extractedPathHandler.getExtension()))
             {
                 extractAllRelevantFilesInThisCompressedFile(extractedPathHandler.getFullPath());
                 extractedPathHandler.deleteFile();
             }
         }
     }
-}
-
-bool AprgFileExtractor::isCompressedFile(string const& extension) const
-{
-    return stringHelper::isEqualNotCaseSensitive("zip", extension) ||
-            stringHelper::isEqualNotCaseSensitive("tar", extension) ||
-            stringHelper::isEqualNotCaseSensitive("7z", extension) ||
-            stringHelper::isEqualNotCaseSensitive("xz", extension);
 }
 
 bool AprgFileExtractor::isTheExtensionXz(string const& extension) const

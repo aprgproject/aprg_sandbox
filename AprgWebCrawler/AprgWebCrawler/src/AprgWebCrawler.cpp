@@ -127,9 +127,11 @@ void AprgWebCrawler::crawl()
         crawlOneHtmlAndOneFileToDownload(100);
         break;
     case CrawlerMode::Youtube:
-        crawlForYoutube();        break;
+        crawlForYoutube();
+        break;
     }
 }
+
 void AprgWebCrawler::setCrawlerMode(string const& modeString)
 {
     if("chiaanime" == modeString || "CrawlerMode::ChiaAnime" == modeString)

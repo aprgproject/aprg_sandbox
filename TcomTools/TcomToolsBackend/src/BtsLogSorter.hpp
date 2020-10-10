@@ -37,10 +37,12 @@ public:
             alba::AlbaLargeSorterConfiguration const& configurationWithPcTime,
             alba::AlbaLargeSorterConfiguration const& configurationWithoutPcTime,
             string const& pathOfLogsWithoutPcTime);
-    void processDirectory(string const& directoryPath);    void processFile(string const& filePath);
+    void processDirectory(string const& directoryPath);
+    void processFile(string const& filePath);
     void saveAllToOutputFile(string const& outputPath);
 
-private:    void saveSortedLogsWithoutPcTime(ofstream & outputLogFileStream);
+private:
+    void saveSortedLogsWithoutPcTime(ofstream & outputLogFileStream);
     void saveSortedLogsWithoutPcTimeIntoDifferentFiles();
     void mergePrintsAndSaveToOutputFile(string const& outputPath);
     void addPrintsFromFileReaderToSorterWithoutPcTime(BtsLogFileReaderWithRollback & fileReader);

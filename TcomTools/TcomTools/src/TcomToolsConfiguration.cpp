@@ -4,6 +4,7 @@
 #include <AlbaStringHelper.hpp>
 #include <fstream>
 
+using namespace alba;
 using namespace std;
 
 namespace tcomToolsGui
@@ -26,9 +27,26 @@ TcomToolsConfiguration::TcomToolsConfiguration()
     , isGrepToamEnabled(false)
     , isGrepTupcEnabled(false)
     , isGrepRlhEnabled(false)
-    , isGrepCchhBchsenderEnabled(false)
+    , isGrepCchhEnabled(false)
+    , isGrepChEnabled(false)
     , isGrepHschEnabled(false)
     , isGrepDmgrEnabled(false)
+    , grepConditionForTcom()
+    , grepConditionForErr()
+    , grepConditionForErrWrnTcom()
+    , grepConditionForBtsStatus()
+    , grepConditionForRecovery()
+    , grepConditionForAllocation()
+    , grepConditionForFault()
+    , grepConditionForLrm()
+    , grepConditionForGrm()
+    , grepConditionForToam()
+    , grepConditionForTupc()
+    , grepConditionForRlh()
+    , grepConditionForCchh()
+    , grepConditionForCh()
+    , grepConditionForHsch()
+    , grepConditionForDmgr()
     , inputFileOrDirectory()
     , extractGrepCondition()
     , acceptedFilesGrepCondition()
@@ -41,89 +59,157 @@ TcomToolsConfiguration::TcomToolsConfiguration()
 void TcomToolsConfiguration::loadConfigurationFromFile()
 {
     std::ifstream inputFileStream(CONFIGURATION_FILE);
-    alba::AlbaFileReader fileReader(inputFileStream);
+    AlbaFileReader fileReader(inputFileStream);
     while(fileReader.isNotFinished())
     {
         string lineInConfiguration(fileReader.getLineAndIgnoreWhiteSpaces());
         string beforeColon;
         string afterColon;
-        alba::stringHelper::copyBeforeStringAndAfterString(lineInConfiguration, ":", beforeColon, afterColon);
+        stringHelper::copyBeforeStringAndAfterString(lineInConfiguration, ":", beforeColon, afterColon);
 
         if("isExtractStepOn" == beforeColon)
         {
-            isExtractStepOn = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isExtractStepOn = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isCombineAndSortStepOn" == beforeColon)
         {
-            isCombineAndSortStepOn = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isCombineAndSortStepOn = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isGrepStepOn" == beforeColon)
         {
-            isGrepStepOn = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepStepOn = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isCropStepOn" == beforeColon)
         {
-            isCropStepOn = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isCropStepOn = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isGrepTcomEnabled" == beforeColon)
         {
-            isGrepTcomEnabled = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepTcomEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isGrepErrEnabled" == beforeColon)
         {
-            isGrepErrEnabled = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepErrEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isGrepErrWrnTcomEnabled" == beforeColon)
         {
-            isGrepErrWrnTcomEnabled = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepErrWrnTcomEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isGrepBtsStatusEnabled" == beforeColon)
         {
-            isGrepBtsStatusEnabled = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepBtsStatusEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isGrepRecoveryEnabled" == beforeColon)
         {
-            isGrepRecoveryEnabled = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepRecoveryEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isGrepAllocationEnabled" == beforeColon)
         {
-            isGrepAllocationEnabled = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepAllocationEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isGrepFaultEnabled" == beforeColon)
         {
-            isGrepFaultEnabled = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepFaultEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isGrepLrmEnabled" == beforeColon)
         {
-            isGrepLrmEnabled = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepLrmEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isGrepGrmEnabled" == beforeColon)
         {
-            isGrepGrmEnabled = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepGrmEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isGrepToamEnabled" == beforeColon)
         {
-            isGrepToamEnabled = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepToamEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isGrepTupcEnabled" == beforeColon)
         {
-            isGrepTupcEnabled = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepTupcEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isGrepRlhEnabled" == beforeColon)
         {
-            isGrepRlhEnabled = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepRlhEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
-        else if("isGrepCchhBchsenderEnabled" == beforeColon)
+        else if("isGrepCchhEnabled" == beforeColon)
         {
-            isGrepCchhBchsenderEnabled = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepCchhEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
+        }
+        else if("isGrepChEnabled" == beforeColon)
+        {
+            isGrepChEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isGrepHschEnabled" == beforeColon)
         {
-            isGrepHschEnabled = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepHschEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
         }
         else if("isGrepDmgrEnabled" == beforeColon)
         {
-            isGrepDmgrEnabled = !(0==alba::stringHelper::stringToNumber<int>(afterColon));
+            isGrepDmgrEnabled = !(0==stringHelper::stringToNumber<int>(afterColon));
+        }
+        else if("grepConditionForTcom" == beforeColon)
+        {
+            grepConditionForTcom = afterColon;
+        }
+        else if("grepConditionForErr" == beforeColon)
+        {
+            grepConditionForErr = afterColon;
+        }
+        else if("grepConditionForErrWrnTcom" == beforeColon)
+        {
+            grepConditionForErrWrnTcom = afterColon;
+        }
+        else if("grepConditionForBtsStatus" == beforeColon)
+        {
+            grepConditionForBtsStatus = afterColon;
+        }
+        else if("grepConditionForRecovery" == beforeColon)
+        {
+            grepConditionForRecovery = afterColon;
+        }
+        else if("grepConditionForAllocation" == beforeColon)
+        {
+            grepConditionForAllocation = afterColon;
+        }
+        else if("grepConditionForFault" == beforeColon)
+        {
+            grepConditionForFault = afterColon;
+        }
+        else if("grepConditionForLrm" == beforeColon)
+        {
+            grepConditionForLrm = afterColon;
+        }
+        else if("grepConditionForGrm" == beforeColon)
+        {
+            grepConditionForGrm = afterColon;
+        }
+        else if("grepConditionForToam" == beforeColon)
+        {
+            grepConditionForToam = afterColon;
+        }
+        else if("grepConditionForTupc" == beforeColon)
+        {
+            grepConditionForTupc = afterColon;
+        }
+        else if("grepConditionForRlh" == beforeColon)
+        {
+            grepConditionForRlh = afterColon;
+        }
+        else if("grepConditionForCchh" == beforeColon)
+        {
+            grepConditionForCchh = afterColon;
+        }
+        else if("grepConditionForCh" == beforeColon)
+        {
+            grepConditionForCh = afterColon;
+        }
+        else if("grepConditionForHsch" == beforeColon)
+        {
+            grepConditionForHsch = afterColon;
+        }
+        else if("grepConditionForDmgr" == beforeColon)
+        {
+            grepConditionForDmgr = afterColon;
         }
         else if("inputFileOrDirectory" == beforeColon)
         {
@@ -155,23 +241,23 @@ void TcomToolsConfiguration::loadConfigurationFromFile()
         }
         else if("sorterConfigurationWithPcTime.m_minimumNumberOfObjectsPerBlock" == beforeColon)
         {
-            sorterConfigurationWithPcTime.m_minimumNumberOfObjectsPerBlock = alba::stringHelper::stringToNumber<int>(afterColon);
+            sorterConfigurationWithPcTime.m_minimumNumberOfObjectsPerBlock = stringHelper::stringToNumber<int>(afterColon);
         }
         else if("sorterConfigurationWithPcTime.m_maximumNumberOfObjectsPerBlock" == beforeColon)
         {
-            sorterConfigurationWithPcTime.m_maximumNumberOfObjectsPerBlock = alba::stringHelper::stringToNumber<int>(afterColon);
+            sorterConfigurationWithPcTime.m_maximumNumberOfObjectsPerBlock = stringHelper::stringToNumber<int>(afterColon);
         }
         else if("sorterConfigurationWithPcTime.m_maximumNumberOfObjectsInMemory" == beforeColon)
         {
-            sorterConfigurationWithPcTime.m_maximumNumberOfObjectsInMemory = alba::stringHelper::stringToNumber<int>(afterColon);
+            sorterConfigurationWithPcTime.m_maximumNumberOfObjectsInMemory = stringHelper::stringToNumber<int>(afterColon);
         }
         else if("sorterConfigurationWithPcTime.m_maximumFileStreams" == beforeColon)
         {
-            sorterConfigurationWithPcTime.m_maximumFileStreams = alba::stringHelper::stringToNumber<int>(afterColon);
+            sorterConfigurationWithPcTime.m_maximumFileStreams = stringHelper::stringToNumber<int>(afterColon);
         }
         else if("sorterConfigurationWithPcTime.m_maximumFileStreams" == beforeColon)
         {
-            sorterConfigurationWithPcTime.m_maximumFileStreams = alba::stringHelper::stringToNumber<int>(afterColon);
+            sorterConfigurationWithPcTime.m_maximumFileStreams = stringHelper::stringToNumber<int>(afterColon);
         }
         else if("sorterConfigurationWithoutPcTime.m_directoryForBlocks" == beforeColon)
         {
@@ -179,23 +265,23 @@ void TcomToolsConfiguration::loadConfigurationFromFile()
         }
         else if("sorterConfigurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock" == beforeColon)
         {
-            sorterConfigurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock = alba::stringHelper::stringToNumber<int>(afterColon);
+            sorterConfigurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock = stringHelper::stringToNumber<int>(afterColon);
         }
         else if("sorterConfigurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock" == beforeColon)
         {
-            sorterConfigurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock = alba::stringHelper::stringToNumber<int>(afterColon);
+            sorterConfigurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock = stringHelper::stringToNumber<int>(afterColon);
         }
         else if("sorterConfigurationWithoutPcTime.m_maximumNumberOfObjectsInMemory" == beforeColon)
         {
-            sorterConfigurationWithoutPcTime.m_maximumNumberOfObjectsInMemory = alba::stringHelper::stringToNumber<int>(afterColon);
+            sorterConfigurationWithoutPcTime.m_maximumNumberOfObjectsInMemory = stringHelper::stringToNumber<int>(afterColon);
         }
         else if("sorterConfigurationWithoutPcTime.m_maximumFileStreams" == beforeColon)
         {
-            sorterConfigurationWithoutPcTime.m_maximumFileStreams = alba::stringHelper::stringToNumber<int>(afterColon);
+            sorterConfigurationWithoutPcTime.m_maximumFileStreams = stringHelper::stringToNumber<int>(afterColon);
         }
         else if("sorterConfigurationWithoutPcTime.m_maximumFileStreams" == beforeColon)
         {
-            sorterConfigurationWithoutPcTime.m_maximumFileStreams = alba::stringHelper::stringToNumber<int>(afterColon);
+            sorterConfigurationWithoutPcTime.m_maximumFileStreams = stringHelper::stringToNumber<int>(afterColon);
         }
     }
 }
@@ -219,9 +305,26 @@ void TcomToolsConfiguration::saveConfigurationToFile() const
     outputFileStream << "isGrepToamEnabled:" << static_cast<int>(isGrepToamEnabled) << endl;
     outputFileStream << "isGrepTupcEnabled:" << static_cast<int>(isGrepTupcEnabled) << endl;
     outputFileStream << "isGrepRlhEnabled:" << static_cast<int>(isGrepRlhEnabled) << endl;
-    outputFileStream << "isGrepCchhBchsenderEnabled:" << static_cast<int>(isGrepCchhBchsenderEnabled) << endl;
+    outputFileStream << "isGrepCchhEnabled:" << static_cast<int>(isGrepCchhEnabled) << endl;
+    outputFileStream << "isGrepChEnabled:" << static_cast<int>(isGrepChEnabled) << endl;
     outputFileStream << "isGrepHschEnabled:" << static_cast<int>(isGrepHschEnabled) << endl;
     outputFileStream << "isGrepDmgrEnabled:" << static_cast<int>(isGrepDmgrEnabled) << endl;
+    outputFileStream << "grepConditionForTcom:" << grepConditionForTcom << endl;
+    outputFileStream << "grepConditionForErr:" << grepConditionForErr << endl;
+    outputFileStream << "grepConditionForErrWrnTcom:" << grepConditionForErrWrnTcom << endl;
+    outputFileStream << "grepConditionForBtsStatus:" << grepConditionForBtsStatus << endl;
+    outputFileStream << "grepConditionForRecovery:" << grepConditionForRecovery << endl;
+    outputFileStream << "grepConditionForAllocation:" << grepConditionForAllocation << endl;
+    outputFileStream << "grepConditionForFault:" << grepConditionForFault << endl;
+    outputFileStream << "grepConditionForLrm:" << grepConditionForLrm << endl;
+    outputFileStream << "grepConditionForGrm:" << grepConditionForGrm << endl;
+    outputFileStream << "grepConditionForToam:" << grepConditionForToam << endl;
+    outputFileStream << "grepConditionForTupc:" << grepConditionForTupc << endl;
+    outputFileStream << "grepConditionForRlh:" << grepConditionForRlh << endl;
+    outputFileStream << "grepConditionForCchh:" << grepConditionForCchh << endl;
+    outputFileStream << "grepConditionForCh:" << grepConditionForCh << endl;
+    outputFileStream << "grepConditionForHsch:" << grepConditionForHsch << endl;
+    outputFileStream << "grepConditionForDmgr:" << grepConditionForDmgr << endl;
     outputFileStream << "inputFileOrDirectory:" << inputFileOrDirectory<< endl;
     outputFileStream << "extractGrepCondition:" << extractGrepCondition<< endl;
     outputFileStream << "acceptedFilesGrepCondition:" << acceptedFilesGrepCondition<< endl;
@@ -237,6 +340,154 @@ void TcomToolsConfiguration::saveConfigurationToFile() const
     outputFileStream << "sorterConfigurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock:" << sorterConfigurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock << endl;
     outputFileStream << "sorterConfigurationWithoutPcTime.m_maximumNumberOfObjectsInMemory:" << sorterConfigurationWithoutPcTime.m_maximumNumberOfObjectsInMemory << endl;
     outputFileStream << "sorterConfigurationWithoutPcTime.m_maximumFileStreams:" << sorterConfigurationWithoutPcTime.m_maximumFileStreams << endl;
+}
+
+string TcomToolsConfiguration::getGrepCondition() const
+{
+    string condition;
+    if(isGrepTcomEnabled)
+    {
+        condition += grepConditionForTcom + " || ";
+    }
+    if(isGrepErrEnabled)
+    {
+        condition += grepConditionForErr + " || ";
+    }
+    if(isGrepErrWrnTcomEnabled)
+    {
+        condition += grepConditionForErrWrnTcom + " || ";
+    }
+    if(isGrepBtsStatusEnabled)
+    {
+        condition += grepConditionForBtsStatus + " || ";
+    }
+    if(isGrepRecoveryEnabled)
+    {
+        condition += grepConditionForRecovery + " || ";
+    }
+    if(isGrepAllocationEnabled)
+    {
+        condition += grepConditionForAllocation + " || ";
+    }
+    if(isGrepFaultEnabled)
+    {
+        condition += grepConditionForFault + " || ";
+    }
+    if(isGrepLrmEnabled)
+    {
+        condition += grepConditionForLrm + " || ";
+    }
+    if(isGrepGrmEnabled)
+    {
+        condition += grepConditionForGrm + " || ";
+    }
+    if(isGrepToamEnabled)
+    {
+        condition += grepConditionForToam + " || ";
+    }
+    if(isGrepTupcEnabled)
+    {
+        condition += grepConditionForTupc + " || ";
+    }
+    if(isGrepRlhEnabled)
+    {
+        condition += grepConditionForRlh + " || ";
+    }
+    if(isGrepCchhEnabled)
+    {
+        condition += grepConditionForCchh + " || ";
+    }
+    if(isGrepChEnabled)
+    {
+        condition += grepConditionForCh + " || ";
+    }
+    if(isGrepDmgrEnabled)
+    {
+        condition += grepConditionForDmgr + " || ";
+    }
+    if(isGrepHschEnabled)
+    {
+        condition += grepConditionForHsch + " || ";
+    }
+    condition += otherGrepCondition;
+    int lastBracketIndex(condition.find_last_of("]"));
+    if(stringHelper::isNotNpos(lastBracketIndex))
+    {
+        condition = condition.substr(0, lastBracketIndex+1);
+    }
+    return condition;
+}
+
+string TcomToolsConfiguration::getGrepFileName() const
+{
+    string fileName;
+    if(isGrepTcomEnabled)
+    {
+        fileName += "Tcom";
+    }
+    if(isGrepErrEnabled)
+    {
+        fileName += "Err";
+    }
+    if(isGrepErrWrnTcomEnabled)
+    {
+        fileName += "ErrWrn";
+    }
+    if(isGrepBtsStatusEnabled)
+    {
+        fileName += "BtsStatus";
+    }
+    if(isGrepRecoveryEnabled)
+    {
+        fileName += "Recovery";
+    }
+    if(isGrepAllocationEnabled)
+    {
+        fileName += "Allocation";
+    }
+    if(isGrepFaultEnabled)
+    {
+        fileName += "Fault";
+    }
+    if(isGrepLrmEnabled)
+    {
+        fileName += "Lrm";
+    }
+    if(isGrepGrmEnabled)
+    {
+        fileName += "Grm";
+    }
+    if(isGrepToamEnabled)
+    {
+        fileName += "Toam";
+    }
+    if(isGrepTupcEnabled)
+    {
+        fileName += "Tupc";
+    }
+    if(isGrepRlhEnabled)
+    {
+        fileName += "Rlh";
+    }
+    if(isGrepCchhEnabled)
+    {
+        fileName += "Cchh";
+    }
+    if(isGrepChEnabled)
+    {
+        fileName += "Ch";
+    }
+    if(isGrepDmgrEnabled)
+    {
+        fileName += "Dmgr";
+    }
+    if(isGrepHschEnabled)
+    {
+        fileName += "Hsch";
+    }
+    fileName += stringHelper::getStringWithoutCharAtTheEnd(stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(otherGrepCondition), '_';
+    fileName += ".log";
+    return fileName;
 }
 
 }

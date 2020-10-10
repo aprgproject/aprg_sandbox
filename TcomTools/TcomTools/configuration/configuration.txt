@@ -1,12 +1,12 @@
 isExtractStepOn:1
 isCombineAndSortStepOn:1
-isGrepStepOn:0
+isGrepStepOn:1
 isCropStepOn:0
 isGrepTcomEnabled:0
 isGrepErrEnabled:0
 isGrepErrWrnTcomEnabled:0
 isGrepBtsStatusEnabled:0
-isGrepRecoveryEnabled:0
+isGrepRecoveryEnabled:1
 isGrepAllocationEnabled:0
 isGrepFaultEnabled:0
 isGrepLrmEnabled:0
@@ -14,10 +14,27 @@ isGrepGrmEnabled:0
 isGrepToamEnabled:0
 isGrepTupcEnabled:0
 isGrepRlhEnabled:0
-isGrepCchhBchsenderEnabled:0
+isGrepCchhEnabled:0
+isGrepChEnabled:0
 isGrepHschEnabled:0
 isGrepDmgrEnabled:0
-inputFileOrDirectory:E:/PR075191/sample/sample.zip
+grepConditionForTcom:[/TCOM/]
+grepConditionForErr:[ERR/]
+grepConditionForErrWrnTcom:[ERR/] || [WRN/]
+grepConditionForBtsStatus:[BTS is] || [CELL_AVAILABILITY] || [CellAvailability] || [HW_CONF] || [printHwConf]
+grepConditionForRecovery:[HW_CONF] || [printHwConf] || [ReconfCell] || [link_states] || [link_status]
+grepConditionForAllocation:[DspDeviceStatus] || [ModeChange] || [MODE_CHANGE]
+grepConditionForFault:[EfaultId_] || [faultId:]
+grepConditionForLrm:[TCOM/LRM]
+grepConditionForGrm:[TCOM/G]
+grepConditionForToam:[TCOM/TOAM]
+grepConditionForTupc:[/TUP/] || [CONMAN_]
+grepConditionForRlh:[TCOM/R]
+grepConditionForCchh:[TCOM/CCHH]
+grepConditionForCh:[TCOM/CH]
+grepConditionForHsch:[TCOM/HSCH]
+grepConditionForDmgr:[TCOM/DMGR]
+inputFileOrDirectory:E:\PR075191\sample\sample.zip
 extractGrepCondition:  [LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles]
 acceptedFilesGrepCondition: ([syslog]&&[.log]) || [ccns.log] || [tcom.log] || (([startup]||[runtime]||[system])&&[.log]) || ([UDP]&&([.log]||[.txt]))
 otherGrepCondition:

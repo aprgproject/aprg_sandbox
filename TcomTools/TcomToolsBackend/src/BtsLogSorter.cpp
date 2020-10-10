@@ -59,9 +59,11 @@ BtsLogSorter::BtsLogSorter(
     , m_sorterWithPcTime(configurationWithPcTime)
     , m_sorterWithoutPcTime(configurationWithoutPcTime)
 {
-    AlbaWindowsPathHandler pathHandlerOfLogsWithoutPcTime;    pathHandlerOfLogsWithoutPcTime.inputPath(pathOfLogsWithoutPcTime);
+    AlbaWindowsPathHandler pathHandlerOfLogsWithoutPcTime;
+    pathHandlerOfLogsWithoutPcTime.inputPath(pathOfLogsWithoutPcTime);
     m_directoryOfLogsWithoutPcTime = pathHandlerOfLogsWithoutPcTime.getDirectory();
 }
+
 void BtsLogSorter::processDirectory(string const& directoryPath)
 {
     AlbaWindowsPathHandler directoryPathHandler;

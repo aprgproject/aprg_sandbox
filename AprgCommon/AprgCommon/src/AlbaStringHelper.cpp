@@ -170,17 +170,6 @@ string stringHelper::getStringWithoutCharAtTheEnd(string const& string1, char co
     return string1.substr(0, end);
 }
 
-string stringHelper::getStringWithRemovedCharsStartingFromThisChar(string const& string1, string const& characterString)
-{
-    string result(string1);
-    int indexOfChar = result.find_first_of(characterString);
-    if(isNotNpos(indexOfChar))
-    {
-        result = result.substr(0, indexOfChar);
-    }
-    return result;
-}
-
 string stringHelper::getStringWithoutOpeningClosingOperators(string const& string1, char const openingOperator, char const closingOperator)
 {
     int length = string1.length();
@@ -205,6 +194,17 @@ void stringHelper::copyBeforeStringAndAfterString(
         beforeString = mainString.substr(0, firstIndexOfFirstString);
         afterString = mainString.substr(lastIndexOfFirstString);
     }
+}
+
+string stringHelper::getStringBeforeThisString(string const& mainString, string const& stringToSearch, int const indexToStart)
+{
+    string result;
+    int firstIndexOfFirstString = mainString.find(stringToSearch, indexToStart);
+    if(isNotNpos(firstIndexOfFirstString))
+    {
+        result = mainString.substr(0, firstIndexOfFirstString);
+    }
+    return result;
 }
 
 string stringHelper::getStringAfterThisString(string const& mainString, string const& stringToSearch, int const indexToStart)

@@ -76,13 +76,24 @@ TEST(GetDataFromStringTest, GetStringWithoutQuotations_AllEnglishLettersWithSpec
     EXPECT_EQ(getStringWithoutQuotations(testString), withoutQuotations);
 }
 
-TEST(GetDataFromStringTest, GetStringWithRemovedCharsStartingFromThisChar_WithCharactersAfterQuestionMarkRemoved)
+TEST(GetDataFromStringTest, GetStringBeforeThisString_WithCharactersAfterQuestionMarkRemoved)
 {
     string testString("http://a.mhcdn.net/store/manga/12114/001.0/compressed/r049.jpg?v=1354256522");
     string withCharactersAfterQuestionMarkRemoved("http://a.mhcdn.net/store/manga/12114/001.0/compressed/r049.jpg");
-    string characterString("?");
+    string questionMarkString("?");
 
-    EXPECT_EQ(getStringWithRemovedCharsStartingFromThisChar(testString, characterString), withCharactersAfterQuestionMarkRemoved);
+    EXPECT_EQ(getStringBeforeThisString(testString, questionMarkString), withCharactersAfterQuestionMarkRemoved);
+}
+
+TEST(GetDataFromStringTest, GetStringAfterThisString_AllEnglishLettersWithSpecialCharacters)
+{
+    string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
+    string stringInBetweenAtTheStart(R"(567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
+    string stringInBetweenInTheMiddle(R"(^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
+
+    EXPECT_EQ(getStringAfterThisString(testString, R"("1234)"), stringInBetweenAtTheStart);
+    EXPECT_EQ(getStringAfterThisString(testString, "@#$%"), stringInBetweenInTheMiddle);
+    EXPECT_TRUE(getStringAfterThisString(testString, "777").empty());
 }
 
 TEST(GetDataFromStringTest, GetStringInBetweenTwoStrings_AllEnglishLettersWithSpecialCharacters)
@@ -112,18 +123,6 @@ TEST(GetDataFromStringTest, CopyBeforeStringAndAfterString_AllEnglishLettersWith
     copyBeforeStringAndAfterString(testString, "777", actualBeforeString, actualAfterString);
     EXPECT_TRUE(actualBeforeString.empty());
     EXPECT_TRUE(actualBeforeString.empty());
-}
-
-
-TEST(GetDataFromStringTest, GetStringAfterThisString_AllEnglishLettersWithSpecialCharacters)
-{
-    string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
-    string stringInBetweenAtTheStart(R"(567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
-    string stringInBetweenInTheMiddle(R"(^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
-
-    EXPECT_EQ(getStringAfterThisString(testString, R"("1234)"), stringInBetweenAtTheStart);
-    EXPECT_EQ(getStringAfterThisString(testString, "@#$%"), stringInBetweenInTheMiddle);
-    EXPECT_TRUE(getStringAfterThisString(testString, "777").empty());
 }
 
 TEST(GetDataFromStringTest, GetStringReplacingSpecialCharactersWithUnderscore)

@@ -18,7 +18,8 @@ struct BtsLogSorterTest : public testing::Test
         m_configurationWithPcTime.m_maximumFileStreams = 70;
         m_configurationWithoutPcTime.m_directoryForBlocks = R"(C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\WithoutPcTimeBlocks)";
         m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock = 10000;
-        m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock = 100000;        m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory = 200000;
+        m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock = 100000;
+        m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory = 200000;
         m_configurationWithoutPcTime.m_maximumFileStreams = 70;
         m_pathOfLogsWithoutPcTime = R"(C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\LogsWithoutPcTime)";
     }
@@ -27,6 +28,7 @@ struct BtsLogSorterTest : public testing::Test
     AlbaLargeSorterConfiguration m_configurationWithoutPcTime;
     string m_pathOfLogsWithoutPcTime;
 };
+
 TEST_F(BtsLogSorterTest, PerformanceTest)
 {
     BtsLogSorter btsLogSorter(
@@ -38,16 +40,19 @@ TEST_F(BtsLogSorterTest, PerformanceTest)
     btsLogSorter.saveAllToOutputFile(R"(E:\PR075191\sortednew.log)");
 }
 
-TEST_F(BtsLogSorterTest, DISABLED_SyslogsAndSnapshotTest){
+TEST_F(BtsLogSorterTest, DISABLED_SyslogsAndSnapshotTest)
+{
     BtsLogSorter btsLogSorter(
                 m_condition,
                 m_configurationWithPcTime,
                 m_configurationWithoutPcTime,
                 m_pathOfLogsWithoutPcTime);
-    btsLogSorter.processFile(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshot.log)");    btsLogSorter.saveAllToOutputFile(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotOutput.log)");
+    btsLogSorter.processFile(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshot.log)");
+    btsLogSorter.saveAllToOutputFile(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotOutput.log)");
 
     int lines=0;
-    ifstream inputLogFileStream(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotOutput.log)");    AlbaFileReader fileReader(inputLogFileStream);
+    ifstream inputLogFileStream(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotOutput.log)");
+    AlbaFileReader fileReader(inputLogFileStream);
     while(fileReader.isNotFinished())
     {
         fileReader.getLineAndIgnoreWhiteSpaces();

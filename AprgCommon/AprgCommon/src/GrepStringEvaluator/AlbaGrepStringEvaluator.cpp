@@ -15,6 +15,10 @@ AlbaGrepStringEvaluator::AlbaGrepStringEvaluator(string const& condition)
 {
     extractTerms(condition);
     convertToPostFix();
+    if(!isEvaluationPossible())
+    {
+        setErrorMessage("Evaluation is not possible (Logic error).");
+    }
 }
 
 bool AlbaGrepStringEvaluator::evaluate(string const& stringToEvaluate) const
@@ -56,6 +60,11 @@ bool AlbaGrepStringEvaluator::evaluate(string const& stringToEvaluate) const
 bool AlbaGrepStringEvaluator::isInvalid() const
 {
     return m_isEvaluatorInvalid;
+}
+
+string AlbaGrepStringEvaluator::getErrorMessage() const
+{
+    return m_errorMessage;
 }
 
 void AlbaGrepStringEvaluator::extractTerms(string const& condition)
@@ -132,7 +141,7 @@ void AlbaGrepStringEvaluator::convertToPostFix()
     {
         if (term.isOperator())
         {
-            transferStackContentsToVector(termsInPostFixOrder, operatorStack, [term](StackOfTerms& stackOfTerms)
+            transferStackContentsToVector(operatorStack, termsInPostFixOrder, [term](StackOfTerms& stackOfTerms)
             {
                 return term.getPriorityScore() <= stackOfTerms.top().getPriorityScore();
             });
@@ -144,8 +153,7 @@ void AlbaGrepStringEvaluator::convertToPostFix()
         }
         else if (term.isClosingParenthesis())
         {
-
-            transferStackContentsToVector(termsInPostFixOrder, operatorStack, [term](StackOfTerms& stackOfTerms)
+            transferStackContentsToVector(operatorStack, termsInPostFixOrder, [term](StackOfTerms& stackOfTerms)
             {
                 return !stackOfTerms.top().isOpeningParenthesis();
             });
@@ -156,15 +164,47 @@ void AlbaGrepStringEvaluator::convertToPostFix()
             termsInPostFixOrder.push_back(term);
         }
     }
-    transferStackContentsToVector(termsInPostFixOrder, operatorStack, [](StackOfTerms&){return true;});
+    transferStackContentsToVector(operatorStack, termsInPostFixOrder, [](StackOfTerms&){return true;});
 
     m_terms.resize(termsInPostFixOrder.size());
     copy(termsInPostFixOrder.begin(), termsInPostFixOrder.end(), m_terms.begin());
 }
 
+bool AlbaGrepStringEvaluator::isEvaluationPossible() const
+{
+    int resultStackSize(0);
+    for (AlbaGrepStringEvaluatorTerm const& term : m_terms)
+    {
+        if(term.isString())
+        {
+            resultStackSize++;
+        }
+        else if(term.isPrefixOperation())
+        {
+            if(resultStackSize<=0)
+            {
+                return false;
+            }
+        }
+        else if(term.isBiDirectionalOperation())
+        {
+            resultStackSize--;
+            if(resultStackSize<=0)
+            {
+                return false;
+            }
+        }
+    }
+    if(resultStackSize!=1)
+    {
+        return false;
+    }
+    return true;
+}
+
 void AlbaGrepStringEvaluator::transferStackContentsToVector(
-        VectorOfTerms& vectorOfTerms,
         StackOfTerms& stackOfTerms,
+        VectorOfTerms& vectorOfTerms,
         function<bool(StackOfTerms&)> loopCondition)
 {
     while (!stackOfTerms.empty() && loopCondition(stackOfTerms))

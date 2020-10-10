@@ -22,14 +22,16 @@ public:
     AlbaGrepStringEvaluator(string const& condition);
     bool evaluate(string const& stringToEvaluate) const;
     bool isInvalid() const;
+    string getErrorMessage() const;
 private:
     void extractTerms(string const& condition);
     void extractTermsWhileOnString(bool& isOnString, string& stringToBuild, char const& currentCharacter);
     void extractTermsWhileNotOnString(bool& isOnString, char const& currentCharacter, int& parenthesisCount);
     void convertToPostFix();
+    bool isEvaluationPossible() const;
     void transferStackContentsToVector(
-            VectorOfTerms& vectorOfTerms,
             StackOfTerms& stackOfTerms,
+            VectorOfTerms& vectorOfTerms,
             function<bool(StackOfTerms&)> loopCondition);
     void addOperator(char const currentCharacter);
     void addParenthesis(char const currentCharacter, int& parenthesisCount);
