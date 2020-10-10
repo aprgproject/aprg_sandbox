@@ -43,14 +43,34 @@ void AprgWebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutub
             cout << "Not a youtube link : " << webLink << endl;
             return;
         }
+        AlbaWebPathHandler ssYoutubeLinkPathHandler;
+        string ssYoutubeLink(webLink);
+        stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "youtube", "ssyoutube");
+        ssYoutubeLinkPathHandler.inputPath(ssYoutubeLink);
+        gotoLinkManuallyUsingMozillaFirefox(ssYoutubeLinkPathHandler);
+        convertedYoutubeLinkStream << ssYoutubeLinkPathHandler.getFullPath() << endl << flush;
+        webLink.clear();
+        saveMemoryCard();
+        break;
+    }
+}
+
+void AprgWebCrawler::crawlForYoutube_Old(string & webLink, ofstream& convertedYoutubeLinkStream)
+{
+    cout << "AprgWebCrawler::crawlForYoutube" << endl;
+
+    while(1)
+    {
+        if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "youtube"))        {
+            cout << "Not a youtube link : " << webLink << endl;
+            return;
+        }
         AlbaWebPathHandler webPathHandler;
         webPathHandler.inputPath(webLink);
-        LinksForYoutube links(getLinkForYoutube(webPathHandler));
-        if(links.isInvalid())
+        LinksForYoutube links(getLinkForYoutube(webPathHandler));        if(links.isInvalid())
         {
             cout << "Links are invalid." << endl;
-            links.printLinks();
-            continue;
+            links.printLinks();            continue;
         }
         AlbaWebPathHandler videoWebPathHandler;
         videoWebPathHandler.inputPath(links.linkForVideo);

@@ -212,17 +212,13 @@ string AprgWebCrawler::getLinkManuallyUsingMozillaFirefox(AlbaWebPathHandler con
     constexpr int bufferSize = 1000;
     char buffer[bufferSize];
 
-    string firefoxCommand(string(FIREFOX_EXECUTABLE_PATH)+R"( ")"+webPathHandler.getFullPath()+R"(")");
-    cout << firefoxCommand << endl;
-    system(firefoxCommand.c_str());
+    gotoLinkManuallyUsingMozillaFirefox(webPathHandler);
 
     AlbaWebPathHandler webPathHandlerFromMozillaFirefox;
-    bool isWebPathInvalid(true);
-    string webPath;
+    bool isWebPathInvalid(true);    string webPath;
     while(isWebPathInvalid)
     {
-        cout << "Enter link needed:" << endl;
-        cin.getline(buffer, bufferSize);
+        cout << "Enter link needed:" << endl;        cin.getline(buffer, bufferSize);
         webPath = buffer;
         webPathHandlerFromMozillaFirefox.inputPath(webPath);
         isWebPathInvalid = !webPathHandlerFromMozillaFirefox.hasProtocol();
@@ -232,6 +228,13 @@ string AprgWebCrawler::getLinkManuallyUsingMozillaFirefox(AlbaWebPathHandler con
         }
     }
     return webPath;
+}
+
+void AprgWebCrawler::gotoLinkManuallyUsingMozillaFirefox(AlbaWebPathHandler const& webPathHandler) const
+{
+    string firefoxCommand(string(FIREFOX_EXECUTABLE_PATH)+R"( ")"+webPathHandler.getFullPath()+R"(")");
+    cout << firefoxCommand << endl;
+    system(firefoxCommand.c_str());
 }
 
 }
