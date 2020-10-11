@@ -1,19 +1,18 @@
-#include <AlbaWindowsPathHandler.hpp>
 #include <AprgFileExtractor.hpp>
 #include <iostream>
 #include <string>
-
 using namespace alba;
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    if(argc!=2)
+    if(argc!=3)
     {
-        cout<<"There is must be only 1 argument."<<endl;
+        cout<<"There are must be only 2 arguments."<<endl;
         return 1;
     }
-    string inputPath(argv[1]);
-    AprgFileExtractor fileExtractor(R"([LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles])");
+    string condition(argv[1]);
+    string inputPath(argv[2]);
+    AprgFileExtractor fileExtractor(condition);
     fileExtractor.extractAllRelevantFiles(inputPath);
 }

@@ -4,15 +4,13 @@ project(AprgFileExtractor C CXX)
 set(OUTFILE ${PROJECT_NAME})
 
 #Comment out TEST_MODE to build static executable
-set(TEST_MODE "ON")
+#set(TEST_MODE "ON")
 
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
-
 #Assign Flags
 set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99")
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11")
-
 #Include gTest, this needs APRG Directory
 include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 

@@ -52,17 +52,16 @@ void AprgFileExtractor::copyRelativeFilePathsFromCompressedFile(string const& fi
     AlbaFileReader fileReader(tempFile);
     while(fileReader.isNotFinished())
     {
-        string lineInFile(fileReader.getLineAndIgnoreWhiteSpaces());
+        string lineInFile(fileReader.simpleGetLine());
         if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "Path = "))
         {
+            cout<<stringHelper::getStringAfterThisString(lineInFile, "Path = ")<<endl;
             path = stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(stringHelper::getStringAfterThisString(lineInFile, "Path = "));
         }
-        else if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "Attributes = "))
-        {
+        else if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "Attributes = "))        {
             if(!stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(
                         stringHelper::getStringAfterThisString(lineInFile, "Attributes = "),
-                        "D"))
-            {
+                        "D"))            {
                 files.emplace(path);
             }
         }

@@ -10,14 +10,18 @@
     <height>754</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>TcomTools</string>
-  </property>
-  <widget class="QWidget" name="centralWidget">
+  </property>  <widget class="QWidget" name="centralWidget">
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
-     <rect>
-      <x>20</x>
+     <rect>      <x>20</x>
       <y>10</y>
       <width>661</width>
       <height>691</height>

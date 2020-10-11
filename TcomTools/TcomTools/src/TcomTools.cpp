@@ -2,26 +2,25 @@
 #include <QMessageBox>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
 #include "ui_tcomtools.h"
-#include "tcomtools.h"
+#include "TcomTools.h"
 
 using namespace std;
-
 TcomTools::TcomTools(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::TcomTools)
     , m_configuration()
-    , m_stepHandler(m_configuration)
 {
     ui->setupUi(this);
     updateGuiUsingConfiguration();
+    connect(&m_stepHandlerThread, SIGNAL(finished()), this, SLOT(onExecutionIsFinished()));
+    m_stepHandlerThread.start();
+    //setFixedSize(sizeHint());
 }
 
-TcomTools::~TcomTools()
-{
+TcomTools::~TcomTools(){
     m_configuration.saveConfigurationToFile();
     delete ui;
 }
-
 void TcomTools::updateGuiUsingConfiguration()
 {
     ui->extractStep->setChecked(m_configuration.isExtractStepOn);
@@ -51,17 +50,21 @@ void TcomTools::updateGuiUsingConfiguration()
     ui->prioritizedLogPrint->setText(QString::fromStdString(m_configuration.prioritizedLogPrint));
 }
 
-void TcomTools::on_execute_clicked()
+void TcomTools::onExecutionIsFinished()
 {
-    m_stepHandler.executeSteps();
+    ui->execute->setEnabled(true);
 }
 
-void TcomTools::on_actionOpenFile_triggered()
+void TcomTools::on_execute_clicked()
 {
+    ui->execute->setEnabled(false);
+    m_stepHandlerThread.execute(m_configuration);
+}
+
+void TcomTools::on_actionOpenFile_triggered(){
     alba::AlbaWindowsPathHandler pathHandler;
     pathHandler.inputPath(m_configuration.inputFileOrDirectory);
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), QString::fromStdString(pathHandler.getFullPath()), tr("All Files (*)"));
-    pathHandler.inputPath(fileName.toStdString());
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), QString::fromStdString(pathHandler.getFullPath()), tr("All Files (*)"));    pathHandler.inputPath(fileName.toStdString());
     if(!pathHandler.isEmpty())
     {
         m_configuration.inputFileOrDirectory = pathHandler.getFullPath();
@@ -192,15 +195,18 @@ void TcomTools::on_tupc_toggled(bool checked)
     m_configuration.isGrepTupcEnabled = checked;
 }
 
+void TcomTools::on_inputFileAndFolder_editingFinished()
+{
+    m_configuration.inputFileOrDirectory = ui->inputFileAndFolder->text().toStdString();
+}
+
 void TcomTools::on_extractCondition_editingFinished()
 {
-    m_configuration.extractGrepCondition = ui->extractCondition->text().toStdString();
-}
+    m_configuration.extractGrepCondition = ui->extractCondition->text().toStdString();}
 
 void TcomTools::on_acceptedFilesCondition_editingFinished()
 {
-    m_configuration.acceptedFilesGrepCondition = ui->acceptedFilesCondition->text().toStdString();
-}
+    m_configuration.acceptedFilesGrepCondition = ui->acceptedFilesCondition->text().toStdString();}
 
 void TcomTools::on_other_editingFinished()
 {

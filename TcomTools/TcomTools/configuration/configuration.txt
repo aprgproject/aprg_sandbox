@@ -34,15 +34,13 @@ grepConditionForCchh:[TCOM/CCHH]
 grepConditionForCh:[TCOM/CH]
 grepConditionForHsch:[TCOM/HSCH]
 grepConditionForDmgr:[TCOM/DMGR]
-inputFileOrDirectory:D:\W\ZZZ_Useless_Logs\[WBTS17]cells configured in ESM can not be on air\20151124.zip
+inputFileOrDirectory:D:\W\ZZZ_Useless_Logs\M5006C41\ALL\Snapshot_BTS68_20151030-1501.zip
 extractGrepCondition:  [LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles]
 acceptedFilesGrepCondition: ([syslog]&&[.log]) || [ccns.log] || [tcom.log] || (([startup]||[runtime]||[system])&&[.log]) || ([UDP]&&([.log]||[.txt]))
-otherGrepCondition:[cellId]
-pathOfLogsWithoutPcTime:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\LogsWithoutPcTime
+otherGrepCondition:[cellId]pathOfLogsWithoutPcTime:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\LogsWithoutPcTime
 sorterConfigurationWithPcTime.m_directoryForBlocks:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\WithPcTimeBlocks
 sorterConfigurationWithPcTime.m_minimumNumberOfObjectsPerBlock:10000
-sorterConfigurationWithPcTime.m_maximumNumberOfObjectsPerBlock:100000
-sorterConfigurationWithPcTime.m_maximumNumberOfObjectsInMemory:200000
+sorterConfigurationWithPcTime.m_maximumNumberOfObjectsPerBlock:100000sorterConfigurationWithPcTime.m_maximumNumberOfObjectsInMemory:200000
 sorterConfigurationWithPcTime.m_maximumFileStreams:70
 sorterConfigurationWithoutPcTime.m_directoryForBlocks:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\WithoutPcTimeBlocks
 sorterConfigurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock:10000

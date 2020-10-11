@@ -206,14 +206,20 @@ TEST(BooleanStringTest, isStringFoundInsideTheOtherStringCaseSensitive_WithLette
     EXPECT_TRUE(isStringFoundInsideTheOtherStringCaseSensitive(longString, "no#1"));
 }
 
+TEST(BooleanStringTest, isStringFoundInsideTheOtherStringCaseSensitive_WithSameLength)
+{
+    string longString("Attribute = ");
+
+    EXPECT_FALSE(isStringFoundInsideTheOtherStringCaseSensitive(longString, "aTTRIBUTE = "));
+    EXPECT_TRUE(isStringFoundInsideTheOtherStringCaseSensitive(longString, "Attribute = "));
+}
+
 TEST(BooleanStringTest, isStringFoundInsideTheOtherStringNotCaseSensitive_WithLettersOnly)
 {
     string longString("Mark is the no#1 guy in the world");
-
     EXPECT_TRUE(isStringFoundInsideTheOtherStringNotCaseSensitive(longString, "mark"));
     EXPECT_TRUE(isStringFoundInsideTheOtherStringNotCaseSensitive(longString, "Mark"));
 }
-
 TEST(BooleanStringTest, isStringFoundInsideTheOtherStringNotCaseSensitive_WithLettersAndNumbersAndSpecialCharacters)
 {
     string longString("Mark is the no#1 guy in the world");
