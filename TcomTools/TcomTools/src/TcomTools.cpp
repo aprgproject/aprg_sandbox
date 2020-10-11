@@ -6,24 +6,18 @@
 
 using namespace std;
 
-void TcomTools::printOutput()
-{
-   //ui->display
-}
-
 TcomTools::TcomTools(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::TcomTools)
     , m_configuration()
     , m_stepHandler(m_configuration)
-    , m_process(this)
 {
     ui->setupUi(this);
     updateGuiUsingConfiguration();
-    connect(&m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(printOutput()));
 }
 
-TcomTools::~TcomTools(){
+TcomTools::~TcomTools()
+{
     m_configuration.saveConfigurationToFile();
     delete ui;
 }

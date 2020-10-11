@@ -10,7 +10,8 @@
     <height>754</height>
    </rect>
   </property>
-  <property name="windowTitle">   <string>TcomTools</string>
+  <property name="windowTitle">
+   <string>TcomTools</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QWidget" name="verticalLayoutWidget">
@@ -22,7 +23,8 @@
       <height>691</height>
      </rect>
     </property>
-    <layout class="QFormLayout" name="formLayout_3">     <property name="fieldGrowthPolicy">
+    <layout class="QFormLayout" name="formLayout_3">
+     <property name="fieldGrowthPolicy">
       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
      </property>
      <item row="0" column="0" colspan="2">
@@ -95,7 +97,8 @@
      </item>
      <item row="3" column="0">
       <widget class="QCheckBox" name="combineAndSortStep">
-       <property name="font">        <font>
+       <property name="font">
+        <font>
          <family>Century Gothic</family>
          <pointsize>10</pointsize>
          <weight>75</weight>
@@ -313,7 +316,8 @@
      <item row="9" column="0" colspan="2">
       <widget class="QGroupBox" name="groupBox_5">
        <property name="title">
-        <string>Crop</string>       </property>
+        <string>Crop</string>
+       </property>
        <layout class="QFormLayout" name="formLayout_4">
         <item row="0" column="0">
          <widget class="QLabel" name="label_2">
@@ -331,7 +335,8 @@
      <item row="10" column="0" colspan="2">
       <layout class="QHBoxLayout" name="horizontalLayout_6">
        <item>
-        <spacer name="horizontalSpacer">         <property name="orientation">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
@@ -365,13 +370,14 @@
       </layout>
      </item>
      <item row="11" column="0" colspan="2">
-      <widget class="QTextEdit" name="textEdit">
+      <widget class="QTextEdit" name="lineEditStreamOutput">
        <property name="enabled">
         <bool>true</bool>
        </property>
       </widget>
      </item>
-    </layout>   </widget>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

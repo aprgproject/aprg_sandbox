@@ -36,9 +36,11 @@ TEST(BtsLogPrintTest, PrintFromBtsLogSorterIsUsed)
 
 TEST(BtsLogPrintTest, PrintFromSnapshotIsUsed)
 {
-    BtsLogPrint logPrint("a7 FSP-140D-0-TCOMexe <22.10 11:38:33.309447> 83 INF/TCOM/Logger, RLH_TUP_HsdpaDeleteReq: nbccId: 1740, activationMethod: 2, cfn: 56, rcv: 0x14820363");    BtsLogTime expectedBtsTime(BtsLogTimeType::BtsTimeStamp, "22.10 11:38:33.309447");
+    BtsLogPrint logPrint("a7 FSP-140D-0-TCOMexe <22.10 11:38:33.309447> 83 INF/TCOM/Logger, RLH_TUP_HsdpaDeleteReq: nbccId: 1740, activationMethod: 2, cfn: 56, rcv: 0x14820363");
+    BtsLogTime expectedBtsTime(BtsLogTimeType::BtsTimeStamp, "22.10 11:38:33.309447");
     string expectedHardwareType("FSP-140D");
     string expectedPrint("FSP-140D-0-TCOMexe <22.10 11:38:33.309447> 83 INF/TCOM/Logger, RLH_TUP_HsdpaDeleteReq: nbccId: 1740, activationMethod: 2, cfn: 56, rcv: 0x14820363");
+
     EXPECT_EQ(expectedBtsTime, logPrint.getBtsTime());
     EXPECT_TRUE(logPrint.getPcTime().isEmpty());
     EXPECT_EQ(expectedHardwareType, logPrint.getHardwareAddress());

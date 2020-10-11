@@ -34,7 +34,7 @@ grepConditionForCchh:[TCOM/CCHH]
 grepConditionForCh:[TCOM/CH]
 grepConditionForHsch:[TCOM/HSCH]
 grepConditionForDmgr:[TCOM/DMGR]
-inputFileOrDirectory:E:\PR075191\sample\sample.zip
+inputFileOrDirectory:D:\W\ZZZ_Useless_Logs\[WBTS17]cells configured in ESM can not be on air\20151124.zip
 extractGrepCondition:  [LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles]
 acceptedFilesGrepCondition: ([syslog]&&[.log]) || [ccns.log] || [tcom.log] || (([startup]||[runtime]||[system])&&[.log]) || ([UDP]&&([.log]||[.txt]))
 otherGrepCondition:[cellId]
