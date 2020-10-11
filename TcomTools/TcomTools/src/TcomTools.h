@@ -1,9 +1,8 @@
 #pragma once
-
 #include <QMainWindow>
+#include <QProcess>
 #include <StepHandler.hpp>
 #include <TcomToolsConfiguration.hpp>
-
 namespace Ui {
 class TcomTools;
 }
@@ -21,10 +20,13 @@ private:
     Ui::TcomTools *ui;
     tcomToolsGui::TcomToolsConfiguration m_configuration;
     tcomToolsGui::StepHandler m_stepHandler;
+    QProcess m_process;
+
+public slots:
+    void printOutput();
 
 private slots:
-    void on_execute_clicked();
-    void on_actionOpenFile_triggered();
+    void on_execute_clicked();    void on_actionOpenFile_triggered();
     void on_actionOpenFolder_triggered();
     void on_actionAboutAprg_triggered();
     void on_actionQuit_triggered();

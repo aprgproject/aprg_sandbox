@@ -485,9 +485,8 @@ string TcomToolsConfiguration::getGrepFileName() const
     {
         fileName += "Hsch";
     }
-    fileName += stringHelper::getStringWithoutCharAtTheEnd(stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(otherGrepCondition), '_';
+    fileName += stringHelper::getStringWithoutCharAtTheEnd(stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(otherGrepCondition), '_');
     fileName += ".log";
     return fileName;
 }
-
 }

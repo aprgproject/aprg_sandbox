@@ -20,13 +20,25 @@ TEST(BtsLogPrintTest, PrintFromBtsSyslogsIsUsed)
     EXPECT_EQ(expectedPrint, logPrint.getPrint());
 }
 
+TEST(BtsLogPrintTest, PrintFromBtsLogSorterIsUsed)
+{
+    BtsLogPrint logPrint("SYSLOG_73.LOG            |26.11 07:39:15.009000 FSP-120C-0-TCOMexe <2015-11-26T05:39:14.187399Z> 74 INF/TCOM/G, Received BB_SAMPLE_REPORT_IND_MSG Provider: MasterHsupa, SampleStartSfn: 0, SampledDataVolume: 0, CFs: 0, NumberOfUsers: 0, NumberOfCells: 0");
+    BtsLogTime expectedBtsTime(BtsLogTimeType::BtsTimeStamp, "2015-11-26T05:39:14.187399Z");
+    BtsLogTime expectedPcTime(BtsLogTimeType::PcTimeStamp, "26.11 07:39:15.009000");
+    string expectedHardwareType("FSP-120C");
+    string expectedPrint("FSP-120C-0-TCOMexe <2015-11-26T05:39:14.187399Z> 74 INF/TCOM/G, Received BB_SAMPLE_REPORT_IND_MSG Provider: MasterHsupa, SampleStartSfn: 0, SampledDataVolume: 0, CFs: 0, NumberOfUsers: 0, NumberOfCells: 0");
+
+    EXPECT_EQ(expectedBtsTime, logPrint.getBtsTime());
+    EXPECT_EQ(expectedPcTime, logPrint.getPcTime());
+    EXPECT_EQ(expectedHardwareType, logPrint.getHardwareAddress());
+    EXPECT_EQ(expectedPrint, logPrint.getPrint());
+}
+
 TEST(BtsLogPrintTest, PrintFromSnapshotIsUsed)
 {
-    BtsLogPrint logPrint("a7 FSP-140D-0-TCOMexe <22.10 11:38:33.309447> 83 INF/TCOM/Logger, RLH_TUP_HsdpaDeleteReq: nbccId: 1740, activationMethod: 2, cfn: 56, rcv: 0x14820363");
-    BtsLogTime expectedBtsTime(BtsLogTimeType::BtsTimeStamp, "22.10 11:38:33.309447");
+    BtsLogPrint logPrint("a7 FSP-140D-0-TCOMexe <22.10 11:38:33.309447> 83 INF/TCOM/Logger, RLH_TUP_HsdpaDeleteReq: nbccId: 1740, activationMethod: 2, cfn: 56, rcv: 0x14820363");    BtsLogTime expectedBtsTime(BtsLogTimeType::BtsTimeStamp, "22.10 11:38:33.309447");
     string expectedHardwareType("FSP-140D");
     string expectedPrint("FSP-140D-0-TCOMexe <22.10 11:38:33.309447> 83 INF/TCOM/Logger, RLH_TUP_HsdpaDeleteReq: nbccId: 1740, activationMethod: 2, cfn: 56, rcv: 0x14820363");
-
     EXPECT_EQ(expectedBtsTime, logPrint.getBtsTime());
     EXPECT_TRUE(logPrint.getPcTime().isEmpty());
     EXPECT_EQ(expectedHardwareType, logPrint.getHardwareAddress());
