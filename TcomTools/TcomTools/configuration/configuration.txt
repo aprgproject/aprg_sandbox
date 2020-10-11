@@ -1,4 +1,4 @@
-isExtractStepOn:1
+isExtractStepOn:0
 isCombineAndSortStepOn:1
 isGrepStepOn:1
 isCropStepOn:0
@@ -34,13 +34,15 @@ grepConditionForCchh:[TCOM/CCHH]
 grepConditionForCh:[TCOM/CH]
 grepConditionForHsch:[TCOM/HSCH]
 grepConditionForDmgr:[TCOM/DMGR]
-inputFileOrDirectory:D:\W\ZZZ_Useless_Logs\M5006C41\ALL\Snapshot_BTS68_20151030-1501.zip
+inputFileOrDirectory:D:\W\ZZZ_Useless_Logs\PR097771\ALL\Snapshot_CONF74_WN16_FL16_GF16_SBTS00_ENB_A53_9999_001715_000000_20151105_0857
 extractGrepCondition:  [LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles]
 acceptedFilesGrepCondition: ([syslog]&&[.log]) || [ccns.log] || [tcom.log] || (([startup]||[runtime]||[system])&&[.log]) || ([UDP]&&([.log]||[.txt]))
-otherGrepCondition:[cellId]pathOfLogsWithoutPcTime:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\LogsWithoutPcTime
+otherGrepCondition:
+pathOfLogsWithoutPcTime:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\LogsWithoutPcTime
 sorterConfigurationWithPcTime.m_directoryForBlocks:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\WithPcTimeBlocks
 sorterConfigurationWithPcTime.m_minimumNumberOfObjectsPerBlock:10000
-sorterConfigurationWithPcTime.m_maximumNumberOfObjectsPerBlock:100000sorterConfigurationWithPcTime.m_maximumNumberOfObjectsInMemory:200000
+sorterConfigurationWithPcTime.m_maximumNumberOfObjectsPerBlock:100000
+sorterConfigurationWithPcTime.m_maximumNumberOfObjectsInMemory:200000
 sorterConfigurationWithPcTime.m_maximumFileStreams:70
 sorterConfigurationWithoutPcTime.m_directoryForBlocks:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\WithoutPcTimeBlocks
 sorterConfigurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock:10000

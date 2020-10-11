@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>754</height>
+    <height>590</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,13 +18,15 @@
   </property>
   <property name="windowTitle">
    <string>TcomTools</string>
-  </property>  <widget class="QWidget" name="centralWidget">
+  </property>
+  <widget class="QWidget" name="centralWidget">
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
-     <rect>      <x>20</x>
+     <rect>
+      <x>20</x>
       <y>10</y>
       <width>661</width>
-      <height>691</height>
+      <height>541</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout_3">
@@ -372,13 +374,6 @@
         </spacer>
        </item>
       </layout>
-     </item>
-     <item row="11" column="0" colspan="2">
-      <widget class="QTextEdit" name="lineEditStreamOutput">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-      </widget>
      </item>
     </layout>
    </widget>

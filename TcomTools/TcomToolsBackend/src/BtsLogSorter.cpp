@@ -86,7 +86,7 @@ void BtsLogSorter::processFile(string const& filePath)
 {
     AlbaWindowsPathHandler filePathHandler;
     filePathHandler.inputPath(filePath);
-    cout<<"Processing File: "<<filePathHandler.getFile()<<endl;
+    cout<<"processFile: "<<filePathHandler.getFile()<<endl;
 
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
@@ -107,7 +107,7 @@ void BtsLogSorter::processFile(string const& filePath)
 
 void BtsLogSorter::saveAllToOutputFile(string const& outputPath)
 {
-    cout<<"Saving output file: "<<outputPath<<endl;
+    cout<<"Save output file: "<<outputPath<<endl;
     if(m_sorterWithPcTime.isEmpty())
     {
         ofstream outputLogFileStream(outputPath);
@@ -123,7 +123,7 @@ void BtsLogSorter::saveAllToOutputFile(string const& outputPath)
 
 void BtsLogSorter::saveSortedLogsWithoutPcTime(ofstream & outputLogFileStream)
 {
-    cout << "saveSortedLogsWithoutPcTime" << endl;
+    cout << "Save sorted logs without PC time." << endl;
     m_sorterWithoutPcTime.sortThenDoFunctionThenReleaseAllObjects([&](BtsLogPrint const& logPrint)
     {
         bufferAndWritePrint(logPrint, outputLogFileStream);
@@ -133,7 +133,7 @@ void BtsLogSorter::saveSortedLogsWithoutPcTime(ofstream & outputLogFileStream)
 
 void BtsLogSorter::saveSortedLogsWithoutPcTimeIntoDifferentFiles()
 {
-    cout << "saveSortedLogsWithoutPcTimeIntoDifferentFiles" << endl;
+    cout << "Save sorted logs without PC time into different addresses." << endl;
     map<string, ofstream> filesWithoutPcTime;
 
     for(string hardwareAddress: m_foundHardwareAddresses)
@@ -149,7 +149,7 @@ void BtsLogSorter::saveSortedLogsWithoutPcTimeIntoDifferentFiles()
 
 void BtsLogSorter::mergePrintsAndSaveToOutputFile(string const& outputPath)
 {
-    cout << "mergeWithPcTimeAndSaveToOutputFile" << endl;
+    cout << "Merge logs with and without PC time and save to output file." << endl;
     map<string, BtsLogFileReaderWithRollback> filesWithoutPcTime;
     ofstream outputLogFileStream(outputPath);
 

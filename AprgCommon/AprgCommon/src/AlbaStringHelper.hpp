@@ -26,6 +26,8 @@ string getStringWithUrlDecodedString(string const& string1);
 string getStringWithoutStartingAndTrailingWhiteSpace(string const& string1);
 string getStringWithoutRedundantWhiteSpace(string const& string1);
 string getStringWithoutQuotations(string const& string1);
+string getStringWithoutCharAtTheStartAndEnd(string const& string1, char const char1);
+string getStringWithoutCharAtTheStart(string const& string1, char const char1);
 string getStringWithoutCharAtTheEnd(string const& string1, char const char1);
 string getStringWithoutOpeningClosingOperators(string const& string1, char const openingOperator, char const closingOperator);
 void copyBeforeStringAndAfterString(string const& mainString, string const& stringToSearch, string & beforeString, string & afterString, int const indexToStartTheSearch = 0);

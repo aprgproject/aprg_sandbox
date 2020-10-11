@@ -20,34 +20,40 @@ StepHandler::StepHandler(TcomToolsConfiguration & configuration)
 void StepHandler::execute() const
 {
     AlbaWindowsPathHandler currentPathHandler;
-    currentPathHandler.inputPath(m_configuration.inputFileOrDirectory);    for(int step=1; step<4; step++)
+    currentPathHandler.inputPath(m_configuration.inputFileOrDirectory);
+    for(int step=1; step<4; step++)
     {
         currentPathHandler.reInputPath();
-        if(!currentPathHandler.isFoundInLocalSystem())        {
+        if(!currentPathHandler.isFoundInLocalSystem())
+        {
             cout << currentPathHandler.getFullPath() << " is not found in local system" << endl;
             return;
         }
-        cout<<"Step "<<step<<" start | CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
         if(1 == step && m_configuration.isExtractStepOn)
         {
+            cout<<"Step "<<step<<" (Extract) start | CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
             executeExtractStep(currentPathHandler);
+            cout<<"Step "<<step<<" (Extract) done | CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
         }
         else if(2 == step && m_configuration.isCombineAndSortStepOn)
         {
+            cout<<"Step "<<step<<" (CombineAndSort) start | CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
             executeCombineAndSortStep(currentPathHandler);
+            cout<<"Step "<<step<<" (CombineAndSort) done | CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
         }
         else if(3 == step)
         {
             if(m_configuration.isGrepStepOn)
             {
+                cout<<"Step "<<step<<" (Grep) start | CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
                 executeGrep(currentPathHandler);
+                cout<<"Step "<<step<<" (Grep) done | CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
             }
             if(m_configuration.isCropStepOn)
             {
 
             }
         }
-        cout<<"Step "<<step<<" done | CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
     }
 }
 
@@ -56,10 +62,12 @@ void StepHandler::executeExtractStep(AlbaWindowsPathHandler & currentPathHandler
     cout<<"executeExtractStep "<<currentPathHandler.getFullPath()<<endl;
     AprgFileExtractor fileExtractor(m_configuration.extractGrepCondition);
     if(currentPathHandler.isDirectory())
-    {        fileExtractor.extractAllRelevantFiles(currentPathHandler.getFullPath());
+    {
+        fileExtractor.extractAllRelevantFiles(currentPathHandler.getFullPath());
     }
     else if(fileExtractor.isRecognizedCompressedFile(currentPathHandler.getExtension()))
-    {        fileExtractor.extractAllRelevantFiles(currentPathHandler.getFullPath());
+    {
+        fileExtractor.extractAllRelevantFiles(currentPathHandler.getFullPath());
         currentPathHandler.inputPath(currentPathHandler.getDirectory() + R"(\)" + currentPathHandler.getFilenameOnly());
     }
     else
@@ -97,6 +105,7 @@ void StepHandler::executeGrep(AlbaWindowsPathHandler & currentPathHandler) const
     }
     else if(currentPathHandler.isFile())
     {
+        cout << "Grep this file: " << currentPathHandler.getFullPath() << endl;
         ifstream inputFileStream(currentPathHandler.getFullPath());
         currentPathHandler.inputPath(currentPathHandler.getDirectory() + R"(\)" + m_configuration.getGrepFileName());
         ofstream outputFileStream(currentPathHandler.getFullPath());

@@ -163,6 +163,18 @@ string stringHelper::getStringWithoutQuotations(string const& string1)
     return string1;
 }
 
+string stringHelper::getStringWithoutCharAtTheStartAndEnd(string const& string1, char const char1)
+{
+    return getStringWithoutCharAtTheStart(getStringWithoutCharAtTheEnd(string1, char1), char1);
+}
+
+string stringHelper::getStringWithoutCharAtTheStart(string const& string1, char const char1)
+{
+    int length = string1.length();
+    int start = (string1[0] == char1) ? 1 : 0;
+    return string1.substr(start, length-start);
+}
+
 string stringHelper::getStringWithoutCharAtTheEnd(string const& string1, char const char1)
 {
     int length = string1.length();

@@ -21,10 +21,12 @@ LineEditStream::~LineEditStream()
 /*
 std::basic_streambuf<char>::int_type LineEditStream::overflow(int_type v)
 {
-    if (v == '\n')    {
+    if (v == '\n')
+    {
         log_window->append(m_string.c_str());
         m_string.erase(m_string.begin(), m_string.end());
-    }    else
+    }
+    else
     {
         m_string += v;
     }

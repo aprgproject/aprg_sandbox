@@ -76,6 +76,30 @@ TEST(GetDataFromStringTest, GetStringWithoutQuotations_AllEnglishLettersWithSpec
     EXPECT_EQ(getStringWithoutQuotations(testString), withoutQuotations);
 }
 
+TEST(GetDataFromStringTest, GetStringWithoutCharacterAtTheStart_AllEnglishLetters)
+{
+    string testString("_AbCDEFghIjKlMnopQRstUvWxYz");
+    string withoutUnderscore("AbCDEFghIjKlMnopQRstUvWxYz");
+
+    EXPECT_EQ(getStringWithoutCharAtTheStart(testString, '_'), withoutUnderscore);
+}
+
+TEST(GetDataFromStringTest, GetStringWithoutCharacterAtTheEnd_AllEnglishLetters)
+{
+    string testString("AbCDEFghIjKlMnopQRstUvWxYz_");
+    string withoutUnderscore("AbCDEFghIjKlMnopQRstUvWxYz");
+
+    EXPECT_EQ(getStringWithoutCharAtTheEnd(testString, '_'), withoutUnderscore);
+}
+
+TEST(GetDataFromStringTest, GetStringWithoutCharacterAtTheStartAndEnd_AllEnglishLetters)
+{
+    string testString("_AbCDEFghIjKlMnopQRstUvWxYz_");
+    string withoutUnderscore("AbCDEFghIjKlMnopQRstUvWxYz");
+
+    EXPECT_EQ(getStringWithoutCharAtTheStartAndEnd(testString, '_'), withoutUnderscore);
+}
+
 TEST(GetDataFromStringTest, GetStringBeforeThisString_WithCharactersAfterQuestionMarkRemoved)
 {
     string testString("http://a.mhcdn.net/store/manga/12114/001.0/compressed/r049.jpg?v=1354256522");
@@ -217,9 +241,11 @@ TEST(BooleanStringTest, isStringFoundInsideTheOtherStringCaseSensitive_WithSameL
 TEST(BooleanStringTest, isStringFoundInsideTheOtherStringNotCaseSensitive_WithLettersOnly)
 {
     string longString("Mark is the no#1 guy in the world");
+
     EXPECT_TRUE(isStringFoundInsideTheOtherStringNotCaseSensitive(longString, "mark"));
     EXPECT_TRUE(isStringFoundInsideTheOtherStringNotCaseSensitive(longString, "Mark"));
 }
+
 TEST(BooleanStringTest, isStringFoundInsideTheOtherStringNotCaseSensitive_WithLettersAndNumbersAndSpecialCharacters)
 {
     string longString("Mark is the no#1 guy in the world");

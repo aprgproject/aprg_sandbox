@@ -5,6 +5,7 @@
 #include "TcomTools.h"
 
 using namespace std;
+
 TcomTools::TcomTools(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::TcomTools)
@@ -17,10 +18,18 @@ TcomTools::TcomTools(QWidget *parent)
     //setFixedSize(sizeHint());
 }
 
-TcomTools::~TcomTools(){
+TcomTools::~TcomTools()
+{
     m_configuration.saveConfigurationToFile();
     delete ui;
 }
+
+void TcomTools::setInputFileOrDirectory(string const& inputFileOrDirectory)
+{
+    m_configuration.inputFileOrDirectory = inputFileOrDirectory;
+    ui->inputFileAndFolder->setText(QString::fromStdString(inputFileOrDirectory));
+}
+
 void TcomTools::updateGuiUsingConfiguration()
 {
     ui->extractStep->setChecked(m_configuration.isExtractStepOn);
@@ -61,10 +70,12 @@ void TcomTools::on_execute_clicked()
     m_stepHandlerThread.execute(m_configuration);
 }
 
-void TcomTools::on_actionOpenFile_triggered(){
+void TcomTools::on_actionOpenFile_triggered()
+{
     alba::AlbaWindowsPathHandler pathHandler;
     pathHandler.inputPath(m_configuration.inputFileOrDirectory);
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), QString::fromStdString(pathHandler.getFullPath()), tr("All Files (*)"));    pathHandler.inputPath(fileName.toStdString());
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), QString::fromStdString(pathHandler.getFullPath()), tr("All Files (*)"));
+    pathHandler.inputPath(fileName.toStdString());
     if(!pathHandler.isEmpty())
     {
         m_configuration.inputFileOrDirectory = pathHandler.getFullPath();
@@ -202,11 +213,13 @@ void TcomTools::on_inputFileAndFolder_editingFinished()
 
 void TcomTools::on_extractCondition_editingFinished()
 {
-    m_configuration.extractGrepCondition = ui->extractCondition->text().toStdString();}
+    m_configuration.extractGrepCondition = ui->extractCondition->text().toStdString();
+}
 
 void TcomTools::on_acceptedFilesCondition_editingFinished()
 {
-    m_configuration.acceptedFilesGrepCondition = ui->acceptedFilesCondition->text().toStdString();}
+    m_configuration.acceptedFilesGrepCondition = ui->acceptedFilesCondition->text().toStdString();
+}
 
 void TcomTools::on_other_editingFinished()
 {
