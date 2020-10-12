@@ -23,21 +23,21 @@ public:
     void processFile(string const& filePath);
     void saveLogsToOutputFile(string const& outputPath);
 
+    double getTotalSizeToBeRead();
+    double getTotalSizeToBeRead(set<string> listOfFiles);
 private:
     string getPathOfLogWithoutPcTime(string const& directory, string const& name) const;
     void openStartupLogsIfNeeded();
     void addStartupLogsOnSorterWithPcTime();
-    void saveLogsFromSorterToOutputFile(ofstream & outputLogFileStream);
+    void writeLogsWithoutPcTimeToOutputFile(ofstream & outputLogFileStream);
     void separateLogsWithoutPcTimeIntoDifferentFiles();
-    void mergeAndSaveAllLogs(string const& outputPath);
+    void writeLogsWithPcTimeToOutputFile(ofstream & outputLogFileStream);
     void addPrintsFromFileReaderToSorterWithoutPcTime(BtsPrintReaderWithRollback & fileReader);
     void writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRollback & fileReader, BtsLogPrint const& logPrint, ofstream & outputLogFileStream);
-    void bufferPrintAndWrite(BtsLogPrint const& logPrint, ofstream & outputLogFileStream);
-    void writeLastPrintIfNeeded(ofstream & outputLogFileStream);
+    void bufferPrintAndWrite(BtsLogPrint const& logPrint, ofstream & outputLogFileStream);    void writeLastPrintIfNeeded(ofstream & outputLogFileStream);
     void deleteFilesInDirectory(string const& directoryOfLogs) const;
     alba::AlbaGrepStringEvaluator m_evaluator;
-    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithPcTime;
-    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithoutPcTime;
+    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithPcTime;    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithoutPcTime;
     string m_directoryOfLogsWithoutPcTime;
     string m_pathOfStartupLog;
     alba::AlbaOptional<ofstream> m_startupLogStreamOptional;

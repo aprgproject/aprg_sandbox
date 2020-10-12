@@ -13,14 +13,14 @@ TEMPLATE = app
 
 SOURCES += \
 src/main.cpp\
+src/ProgressCounters.cpp\
+src/ProgressBarThread.cpp\
 src/StepHandler.cpp\
 src/StepHandlerThread.cpp\
-src/TcomTools.cpp\
-src/TcomToolsConfiguration.cpp\
+src/TcomTools.cpp\src/TcomToolsConfiguration.cpp\
 ../TcomToolsBackend/src/BtsLogPrint.cpp\
 ../TcomToolsBackend/src/BtsLogSorter.cpp\
-../TcomToolsBackend/src/BtsLogTime.cpp\
-../TcomToolsBackend/src/BtsPrintReaderWithRollback.cpp\
+../TcomToolsBackend/src/BtsLogTime.cpp\../TcomToolsBackend/src/BtsPrintReaderWithRollback.cpp\
 ../../AprgCommon/AprgCommon/src/AlbaFileReader.cpp\
 ../../AprgCommon/AprgCommon/src/AlbaStringHelper.cpp\
 ../../AprgCommon/AprgCommon/src/AlbaOptional.cpp\
@@ -31,14 +31,14 @@ src/TcomToolsConfiguration.cpp\
 ../../AprgFileExtractor/AprgFileExtractor/src/AprgFileExtractor.cpp
 
 HEADERS += \
+src/ProgressCounters.hpp\
+src/ProgressBarThread.hpp\
 src/StepHandler.hpp\
 src/StepHandlerThread.hpp\
-src/TcomTools.h\
-src/TcomToolsConfiguration.hpp\
+src/TcomTools.h\src/TcomToolsConfiguration.hpp\
 ../TcomToolsBackend/src/BtsLogPrint.hpp\
 ../TcomToolsBackend/src/BtsLogSorter.hpp\
-../TcomToolsBackend/src/BtsLogSorterConfiguration.hpp\
-../TcomToolsBackend/src/BtsLogTime.hpp\
+../TcomToolsBackend/src/BtsLogSorterConfiguration.hpp\../TcomToolsBackend/src/BtsLogTime.hpp\
 ../TcomToolsBackend/src/BtsPrintReaderWithRollback.hpp\
 ../../AprgCommon/AprgCommon/src/AlbaFileReader.hpp\
 ../../AprgCommon/AprgCommon/src/AlbaStringHelper.hpp\

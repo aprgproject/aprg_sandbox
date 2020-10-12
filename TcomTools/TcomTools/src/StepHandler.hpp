@@ -23,7 +23,7 @@ private:
     string executeCropStep(TcomToolsConfiguration const& configuration, string const& inputPath) const;
     string cropFile(TcomToolsConfiguration const& configuration, string const& inputPath, double foundLocation) const;
     LocationsInFile getLocationsInFile(TcomToolsConfiguration const& configuration, double foundLocation) const;
-    double getLocationOfPriotizedPrint(TcomToolsConfiguration const& configuration, string const& inputPath) const;
+    double getLocationOfPriotizedPrint(TcomToolsConfiguration const& configuration, string const& inputPath) const;\
 };
 
 }

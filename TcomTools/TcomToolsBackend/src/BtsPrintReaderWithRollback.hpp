@@ -15,11 +15,10 @@ public:
     BtsLogPrint getPrint();
     void rollBackGetPrint();
     void openIfNeeded(string const& filePath);
+    double getCurrentLocation();
 private:
     bool m_isGood;
-    bool m_isPreviousPrintValid;
-    BtsLogPrint m_previousPrint;
+    bool m_isPreviousPrintValid;    BtsLogPrint m_previousPrint;
     ifstream m_inputStream;
 };
-
 }

@@ -9,13 +9,17 @@
 
 using namespace std;
 
+namespace ProgressCounters
+{
+extern int numberOfFilesToBeAnalyzedForExtraction;
+extern int numberOfFilesAnalyzedForExtraction;
+}
+
 namespace alba
 {
-
 AprgFileExtractor::AprgFileExtractor()
     : m_grepEvaluator("")
 {}
-
 AprgFileExtractor::AprgFileExtractor(string const& condition)
     : m_grepEvaluator(condition)
 {}
@@ -104,20 +108,19 @@ void AprgFileExtractor::extractAllRelevantFilesInThisDirectory(string const& dir
     set<string> listOfFiles;
     set<string> listOfDirectories;
     directoryPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
+    ProgressCounters::numberOfFilesToBeAnalyzedForExtraction += listOfFiles.size();
     for(string const& filePath: listOfFiles)
     {
-        AlbaWindowsPathHandler extractedPathHandler(filePath);
-        if(isRecognizedCompressedFile(extractedPathHandler.getExtension()))
+        AlbaWindowsPathHandler extractedPathHandler(filePath);        if(isRecognizedCompressedFile(extractedPathHandler.getExtension()))
         {
             extractAllRelevantFilesInThisCompressedFile(extractedPathHandler.getFullPath());
         }
+        ProgressCounters::numberOfFilesAnalyzedForExtraction++;
     }
 }
-
 void AprgFileExtractor::extractAllRelevantFilesInThisCompressedFile(string const& filePathOfCompressedFile) const
 {
-    AlbaWindowsPathHandler compressedFilePathHandler(filePathOfCompressedFile);
-    if(isTheExtensionXz(compressedFilePathHandler.getExtension()))
+    AlbaWindowsPathHandler compressedFilePathHandler(filePathOfCompressedFile);    if(isTheExtensionXz(compressedFilePathHandler.getExtension()))
     {
         extractAllFilesRecursively(filePathOfCompressedFile);
     }
@@ -141,24 +144,22 @@ void AprgFileExtractor::extractAllRelevantFilesRecursively(string const& filePat
 {
     set<string> filePaths;
     copyRelativeFilePathsFromCompressedFile(filePathOfCompressedFile, filePaths);
+    ProgressCounters::numberOfFilesToBeAnalyzedForExtraction += filePaths.size();
     for(string const filePath : filePaths)
     {
-        AlbaWindowsPathHandler filePathHandler(filePath);
-        if(m_grepEvaluator.evaluate(filePathHandler.getFile()))
+        AlbaWindowsPathHandler filePathHandler(filePath);        if(m_grepEvaluator.evaluate(filePathHandler.getFile()))
         {
             AlbaWindowsPathHandler extractedPathHandler(extractOneFile(filePathOfCompressedFile, filePath));
-            if(isRecognizedCompressedFile(extractedPathHandler.getExtension()))
-            {
+            if(isRecognizedCompressedFile(extractedPathHandler.getExtension()))            {
                 extractAllRelevantFilesInThisCompressedFile(extractedPathHandler.getFullPath());
                 extractedPathHandler.deleteFile();
             }
         }
+        ProgressCounters::numberOfFilesAnalyzedForExtraction++;
     }
 }
-
 bool AprgFileExtractor::isTheExtensionXz(string const& extension) const
 {
-    return stringHelper::isEqualNotCaseSensitive("xz", extension);
-}
+    return stringHelper::isEqualNotCaseSensitive("xz", extension);}
 
 }

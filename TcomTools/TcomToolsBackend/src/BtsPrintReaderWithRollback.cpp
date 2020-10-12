@@ -47,4 +47,9 @@ void BtsPrintReaderWithRollback::openIfNeeded(string const& filePath)
     }
 }
 
+double BtsPrintReaderWithRollback::getCurrentLocation()
+{
+    return m_inputStream.tellg();
+}
+
 }

@@ -11,23 +11,30 @@
 using namespace alba;
 using namespace std;
 
+namespace ProgressCounters
+{
+extern int grepProcessProgress;
+extern int cropProcessProgress;
+extern int numberOfStepsEnabled;
+extern void resetProgressCounters();
+}
+
 namespace tcomToolsGui
 {
-
 StepHandler::StepHandler()
 {}
 
 void StepHandler::execute(TcomToolsConfiguration const& configuration) const
 {
     AlbaWindowsPathHandler currentPathHandler(configuration.inputFileOrDirectory);
+    ProgressCounters::resetProgressCounters();
+    ProgressCounters::numberOfStepsEnabled = configuration.isExtractStepOn + configuration.isCombineAndSortStepOn + configuration.isGrepStepOn + configuration.isCropStepOn;
     for(int step=1; step<5; step++)
     {
-        currentPathHandler.reInput();
-        if(!currentPathHandler.isFoundInLocalSystem())
+        currentPathHandler.reInput();        if(!currentPathHandler.isFoundInLocalSystem())
         {
             cout << currentPathHandler.getFullPath() << " is not found in local system" << endl;
-            return;
-        }
+            return;        }
         if(1 == step && configuration.isExtractStepOn)
         {
             currentPathHandler.input(executeExtractStep(configuration, currentPathHandler.getFullPath()));
@@ -125,21 +132,21 @@ string StepHandler::grepFile(TcomToolsConfiguration const& configuration, string
     pathHandler.input(pathHandler.getDirectory() + R"(\)" + configuration.getGrepFileName());
     ofstream outputFileStream(pathHandler.getFullPath());
     AlbaFileReader fileReader(inputFileStream);
+    double sizeOfFile = fileReader.getFileSize();
     while(fileReader.isNotFinished())
     {
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
-        if(evaluator.evaluate(lineInLogs))
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());        if(evaluator.evaluate(lineInLogs))
         {
             outputFileStream << lineInLogs << endl;
         }
+        ProgressCounters::grepProcessProgress = fileReader.getCurrentLocation()*100/sizeOfFile;
     }
+    ProgressCounters::grepProcessProgress = 100;
     return pathHandler.getFullPath();
 }
-
 string StepHandler::executeCropStep(TcomToolsConfiguration const& configuration, string const& inputPath) const
 {
-    cout<<" (Crop) start | Input path: "<<inputPath<<endl;
-    AlbaWindowsPathHandler pathHandler(inputPath);
+    cout<<" (Crop) start | Input path: "<<inputPath<<endl;    AlbaWindowsPathHandler pathHandler(inputPath);
     string outputPath(inputPath);
     if(pathHandler.isFile())
     {
@@ -167,50 +174,49 @@ string StepHandler::cropFile(TcomToolsConfiguration const& configuration, string
     AlbaWindowsPathHandler pathHandler(inputPath);
     ifstream inputFileStream(pathHandler.getFullPath());
     pathHandler.input(pathHandler.getDirectory() + R"(\)" + pathHandler.getFilenameOnly() + "Cropped.log");
-
     ofstream outputFileStream(pathHandler.getFullPath());
     AlbaFileReader fileReader(inputFileStream);
     fileReader.moveLocation(locations.startLocation);
     fileReader.getLineAndIgnoreWhiteSpaces();
+    double locationDifference = locations.endLocation-locations.startLocation;
     while(fileReader.isNotFinished())
     {
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
-        double currentLocation = fileReader.getCurrentLocation();
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());        double currentLocation = fileReader.getCurrentLocation();
         if(currentLocation < locations.endLocation)
         {
-            outputFileStream << lineInLogs << endl;
-        }
+            outputFileStream << lineInLogs << endl;        }
         else
         {
             break;
         }
+        ProgressCounters::cropProcessProgress = 50 + (currentLocation-locations.startLocation)*50/locationDifference;
     }
+    ProgressCounters::cropProcessProgress = 100;
     return pathHandler.getFullPath();
 }
-
 double StepHandler::getLocationOfPriotizedPrint(TcomToolsConfiguration const& configuration, string const& inputPath) const
 {
     double foundLocation(-1);
     AlbaWindowsPathHandler pathHandler(inputPath);
     ifstream inputFileStream(pathHandler.getFullPath());
     AlbaFileReader fileReader(inputFileStream);
+    double sizeOfFile = fileReader.getFileSize();
     while(fileReader.isNotFinished())
     {
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
-        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, configuration.prioritizedLogPrint))
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, configuration.prioritizedLogPrint))
         {
             cout<<"Found prioritized log print in input file. Log print: "<<lineInLogs<<endl;
             foundLocation = fileReader.getCurrentLocation();
             break;
         }
+        ProgressCounters::cropProcessProgress = fileReader.getCurrentLocation()*50/sizeOfFile;
     }
+    ProgressCounters::cropProcessProgress = 50;
     return foundLocation;
 }
-
 StepHandler::LocationsInFile StepHandler::getLocationsInFile(TcomToolsConfiguration const& configuration, double foundLocation) const
 {
-    LocationsInFile locations;
-    double outputSize = 1000000 * configuration.cropSize;
+    LocationsInFile locations;    double outputSize = 1000000 * configuration.cropSize;
     double startingLocation = foundLocation - (outputSize/2);
     locations.startLocation = (startingLocation<0) ? 0 : startingLocation;
     locations.endLocation = startingLocation + outputSize;

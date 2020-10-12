@@ -11,26 +11,28 @@ namespace tcomToolsGui
 
 class QImage;
 
-class StepHandlerThread : public QThread
+class ProgressBarThread : public QThread
 {
     Q_OBJECT
     enum class ThreadState
     {
         Killed,
-        Active,
-        Inactive
+        Started,
+        Stopped
     };
 public:
-    StepHandlerThread(QObject *parent = 0);
-    ~StepHandlerThread();
-    void execute(TcomToolsConfiguration const& configuration);
+    ProgressBarThread(QObject *parent = 0);
+    ~ProgressBarThread();
+    void startUpdatingProgressBar();
+    void stopUpdatingProgressBar();
 signals:
-    void executionDone();
+    void triggerUpdateProgressBar();
 protected:
     void run() Q_DECL_OVERRIDE;
-private:    QMutex m_mutex;
+private:
+    QMutex m_mutex;
     QWaitCondition m_condition;
-    TcomToolsConfiguration m_configuration;
-    ThreadState m_state;};
+    ThreadState m_state;
+};
 
 }

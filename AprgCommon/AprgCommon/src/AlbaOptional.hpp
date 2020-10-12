@@ -34,15 +34,13 @@ public:
         }
     }
 
-    void operator=(AlbaOptional<ContentType> albaOptional)
+    void operator=(AlbaOptional<ContentType> const& albaOptional)
     {
         m_hasContent = albaOptional.m_hasContent;
-        if(m_hasContent)
-        {
+        if(m_hasContent)        {
             m_contentPointer.reset(new ContentType(albaOptional.get()));
         }
     }
-
     operator bool() const
     {
         return m_hasContent;
@@ -119,15 +117,13 @@ public:
         , m_contentPointer(albaOptional.m_contentPointer)
     {}
 
-    void operator=(AlbaOptional<ContentType &> albaOptional)
+    void operator=(AlbaOptional<ContentType &> const& albaOptional)
     {
         m_hasContent = albaOptional.m_hasContent;
-        m_contentPointer = albaOptional.m_contentPointer;
-    }
+        m_contentPointer = albaOptional.m_contentPointer;    }
 
     void setValue(ContentType content)
-    {
-        if(m_hasContent)
+    {        if(m_hasContent)
         {
             *m_contentPointer = content;
         }
