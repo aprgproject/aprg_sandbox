@@ -179,9 +179,9 @@
              </widget>
             </item>
             <item row="2" column="0">
-             <widget class="QCheckBox" name="errWrnTcom">
+             <widget class="QCheckBox" name="errWrnNoSpam">
               <property name="text">
-               <string>ERR/TCOM, WRN/TCOM</string>
+               <string>ERR/, WRN/ (no spam)</string>
               </property>
              </widget>
             </item>
@@ -277,9 +277,9 @@
              </widget>
             </item>
             <item row="1" column="3">
-             <widget class="QCheckBox" name="ch">
+             <widget class="QCheckBox" name="cchhSdl">
               <property name="text">
-               <string>TCOM/CH</string>
+               <string>CCHH SDL</string>
               </property>
              </widget>
             </item>

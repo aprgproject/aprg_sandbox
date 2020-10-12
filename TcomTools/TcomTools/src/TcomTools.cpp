@@ -38,7 +38,7 @@ void TcomTools::updateGuiUsingConfiguration()
     ui->cropStep->setChecked(m_configuration.isCropStepOn);
     ui->tcom->setChecked(m_configuration.isGrepTcomEnabled);
     ui->err->setChecked(m_configuration.isGrepErrEnabled);
-    ui->errWrnTcom->setChecked(m_configuration.isGrepErrWrnTcomEnabled);
+    ui->errWrnNoSpam->setChecked(m_configuration.isGrepErrWrnNoSpamEnabled);
     ui->btsStatus->setChecked(m_configuration.isGrepBtsStatusEnabled);
     ui->recovery->setChecked(m_configuration.isGrepRecoveryEnabled);
     ui->allocation->setChecked(m_configuration.isGrepAllocationEnabled);
@@ -49,7 +49,7 @@ void TcomTools::updateGuiUsingConfiguration()
     ui->tupc->setChecked(m_configuration.isGrepTupcEnabled);
     ui->rlh->setChecked(m_configuration.isGrepRlhEnabled);
     ui->cchh->setChecked(m_configuration.isGrepCchhEnabled);
-    ui->ch->setChecked(m_configuration.isGrepChEnabled);
+    ui->cchhSdl->setChecked(m_configuration.isGrepCchhSdlEnabled);
     ui->hsch->setChecked(m_configuration.isGrepHschEnabled);
     ui->dmgr->setChecked(m_configuration.isGrepDmgrEnabled);
     ui->inputFileAndFolder->setText(QString::fromStdString(m_configuration.inputFileOrDirectory));
@@ -141,9 +141,9 @@ void TcomTools::on_cchh_toggled(bool checked)
     m_configuration.isGrepCchhEnabled = checked;
 }
 
-void TcomTools::on_ch_toggled(bool checked)
+void TcomTools::on_cchhSdl_toggled(bool checked)
 {
-    m_configuration.isGrepChEnabled = checked;
+    m_configuration.isGrepCchhSdlEnabled = checked;
 }
 
 void TcomTools::on_dmgr_toggled(bool checked)
@@ -156,9 +156,9 @@ void TcomTools::on_err_toggled(bool checked)
     m_configuration.isGrepErrEnabled = checked;
 }
 
-void TcomTools::on_errWrnTcom_toggled(bool checked)
+void TcomTools::on_errWrnNoSpam_toggled(bool checked)
 {
-    m_configuration.isGrepErrWrnTcomEnabled = checked;
+    m_configuration.isGrepErrWrnNoSpamEnabled = checked;
 }
 
 void TcomTools::on_fault_toggled(bool checked)

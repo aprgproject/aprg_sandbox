@@ -1,12 +1,9 @@
 #include "BtsLogSorter.hpp"
 
 #include <AlbaFileReader.hpp>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
-#include <fstream>
 #include <iostream>
 #include <map>
-#include <set>
-#include <string>
+#include <PathHandlers/AlbaWindowsPathHandler.hpp>
 
 using namespace alba;
 using namespace std;
@@ -14,61 +11,13 @@ using namespace std;
 namespace tcomToolsBackend
 {
 
-bool BtsPrintReaderWithRollback::isGood() const
-{
-    return m_inputStream.good();
-}
-
-BtsLogPrint BtsPrintReaderWithRollback::getPrint()
-{
-    if(isGood())
-    {
-        if(m_isPreviousPrintValid)
-        {
-            m_isPreviousPrintValid = false;
-            return m_previousPrint;
-        }
-        else
-        {
-            m_inputStream >> m_previousPrint;
-            /*if(!isGood())
-            {
-                currentPrint = BtsLogPrint{};//clear
-            }*/
-            return m_previousPrint;
-        }
-    }
-    return BtsLogPrint{};
-}
-
-void BtsPrintReaderWithRollback::rollBackGetPrint()
-{
-    if(m_isPreviousPrintValid)
-    {
-        cout<<"Double rollback of prints detected, possible print drop, please implement line put back in stream to avoid this."<<endl;
-    }
-    m_isPreviousPrintValid = true;
-}
-
-void BtsPrintReaderWithRollback::openIfNeeded(string const& filePath)
-{
-    if(!m_inputStream.is_open())
-    {        m_inputStream.open(filePath);
-    }
-}
-BtsLogSorter::BtsLogSorter(
-        string const& condition,
-        alba::AlbaLargeSorterConfiguration const& configurationWithPcTime,
-        alba::AlbaLargeSorterConfiguration const& configurationWithoutPcTime,
-        string const& pathOfLogsWithoutPcTime)
-    : m_evaluator(condition)
-    , m_sorterWithPcTime(configurationWithPcTime)
-    , m_sorterWithoutPcTime(configurationWithoutPcTime)
-{
-    AlbaWindowsPathHandler pathHandlerOfLogsWithoutPcTime;
-    pathHandlerOfLogsWithoutPcTime.inputPath(pathOfLogsWithoutPcTime);
-    m_directoryOfLogsWithoutPcTime = pathHandlerOfLogsWithoutPcTime.getDirectory();
-}
+BtsLogSorter::BtsLogSorter(BtsLogSorterConfiguration const& configuration)
+    : m_evaluator(configuration.m_condition)
+    , m_sorterWithPcTime(configuration.m_configurationWithPcTime)
+    , m_sorterWithoutPcTime(configuration.m_configurationWithoutPcTime)
+    , m_directoryOfLogsWithoutPcTime(configuration.m_pathOfLogsWithoutPcTime)
+    , m_pathOfStartupLog(configuration.m_pathOfStartupLog)
+{}
 
 void BtsLogSorter::processDirectory(string const& directoryPath)
 {
@@ -90,6 +39,7 @@ void BtsLogSorter::processDirectory(string const& directoryPath)
 
 void BtsLogSorter::processFile(string const& filePath)
 {
+    openStartupLogsIfNeeded();
     AlbaWindowsPathHandler filePathHandler;
     filePathHandler.inputPath(filePath);
     cout<<"processFile: "<<filePathHandler.getFile()<<endl;
@@ -104,6 +54,10 @@ void BtsLogSorter::processFile(string const& filePath)
         {
             m_sorterWithoutPcTime.add(logPrint);
         }
+        else if(logPrint.getBtsTime().isStartup())
+        {
+            m_startupLogStreamOptional.getReference() << logPrint <<endl;
+        }
         else
         {
             m_sorterWithPcTime.add(logPrint);
@@ -113,6 +67,7 @@ void BtsLogSorter::processFile(string const& filePath)
 
 void BtsLogSorter::saveLogsToOutputFile(string const& outputPath)
 {
+    addStartupLogsOnSorterWithPcTime();
     if(m_sorterWithPcTime.isEmpty())
     {
         ofstream outputLogFileStream(outputPath);
@@ -122,15 +77,48 @@ void BtsLogSorter::saveLogsToOutputFile(string const& outputPath)
     {
         separateLogsWithoutPcTimeIntoDifferentFiles();
         mergeAndSaveAllLogs(outputPath);
-        deleteFilesInDirectoryOfLogsWithoutPcTime();
+        deleteFilesInDirectory(m_directoryOfLogsWithoutPcTime);
+    }
+    AlbaWindowsPathHandler directoryPathHandler;
+    directoryPathHandler.inputPath(m_pathOfStartupLog);
+    deleteFilesInDirectory(directoryPathHandler.getDirectory());
+}
+
+string BtsLogSorter::getPathOfLogWithoutPcTime(string const& directory, string const& name) const
+{
+    string filename = name.empty() ? "NoHardwareAddress" : name;
+    AlbaWindowsPathHandler newFilePath;
+    newFilePath.inputPath(directory + R"(\)" + filename + R"(.log)");
+    return newFilePath.getFullPath();
+}
+
+void BtsLogSorter::openStartupLogsIfNeeded()
+{
+    if(!m_startupLogStreamOptional)
+    {
+        m_startupLogStreamOptional.createObjectUsingDefaultConstructor();
+        m_startupLogStreamOptional.getReference().open(m_pathOfStartupLog, std::ios::ate|std::ios::app);
+    }
+}
+
+void BtsLogSorter::addStartupLogsOnSorterWithPcTime()
+{
+    cout << "Add startup logs on sorter with PC time." << endl;
+    m_startupLogStreamOptional.clear();
+    BtsPrintReaderWithRollback printReader;
+    printReader.openIfNeeded(m_pathOfStartupLog);
+    while(printReader.isGood())
+    {
+        m_sorterWithPcTime.add(printReader.getPrint());
     }
 }
 
 void BtsLogSorter::saveLogsFromSorterToOutputFile(ofstream & outputLogFileStream)
 {
     cout << "Save sorted logs without PC time." << endl;
-    m_sorterWithoutPcTime.sortThenDoFunctionThenReleaseAllObjects([&](BtsLogPrint const& logPrint)    {
-        bufferAndWritePrint(logPrint, outputLogFileStream);
+    m_sorterWithoutPcTime.sortThenDoFunctionThenReleaseAllObjects([&](BtsLogPrint const& logPrint)
+    {
+        bufferPrintAndWrite(logPrint, outputLogFileStream);
     });
     writeLastPrintIfNeeded(outputLogFileStream);
 }
@@ -139,9 +127,10 @@ void BtsLogSorter::separateLogsWithoutPcTimeIntoDifferentFiles()
 {
     cout << "Save sorted logs without PC time into different addresses." << endl;
     map<string, ofstream> filesWithoutPcTime;
+
     for(string hardwareAddress: m_foundHardwareAddresses)
     {
-        filesWithoutPcTime[hardwareAddress].open(                    getPathOfLogWithoutPcTime(m_directoryOfLogsWithoutPcTime, hardwareAddress));
+        filesWithoutPcTime[hardwareAddress].open(getPathOfLogWithoutPcTime(m_directoryOfLogsWithoutPcTime, hardwareAddress));
     }
     m_sorterWithoutPcTime.sortThenDoFunctionThenReleaseAllObjects([&](BtsLogPrint const& logPrint)
     {
@@ -155,13 +144,14 @@ void BtsLogSorter::mergeAndSaveAllLogs(string const& outputPath)
     map<string, BtsPrintReaderWithRollback> filesWithoutPcTime;
     ofstream outputLogFileStream(outputPath);
 
-    for(string hardwareAddress: m_foundHardwareAddresses)    {
-        filesWithoutPcTime[hardwareAddress].openIfNeeded(
-                    getPathOfLogWithoutPcTime(m_directoryOfLogsWithoutPcTime, hardwareAddress));
-    }    m_sorterWithPcTime.sortThenDoFunctionThenReleaseAllObjects([&](BtsLogPrint const& logPrint)
+    for(string hardwareAddress: m_foundHardwareAddresses)
+    {
+        filesWithoutPcTime[hardwareAddress].openIfNeeded(getPathOfLogWithoutPcTime(m_directoryOfLogsWithoutPcTime, hardwareAddress));
+    }
+    m_sorterWithPcTime.sortThenDoFunctionThenReleaseAllObjects([&](BtsLogPrint const& logPrint)
     {
         writePrintsFromFileReaderBeforeThisPrint(filesWithoutPcTime[logPrint.getHardwareAddress()], logPrint, outputLogFileStream);
-        bufferAndWritePrint(logPrint, outputLogFileStream);
+        bufferPrintAndWrite(logPrint, outputLogFileStream);
     });
     for(auto & mapFilesPair: filesWithoutPcTime)
     {
@@ -178,7 +168,8 @@ void BtsLogSorter::addPrintsFromFileReaderToSorterWithoutPcTime(BtsPrintReaderWi
         if(printReader.isGood())
         {
             m_sorterWithoutPcTime.add(logPrintWithoutPcTime);
-        }    }
+        }
+    }
 }
 
 void BtsLogSorter::writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRollback & printReader, BtsLogPrint const& logPrint, ofstream & outputLogFileStream)
@@ -186,40 +177,22 @@ void BtsLogSorter::writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRo
     while(printReader.isGood())
     {
         BtsLogPrint logPrintWithoutPcTime(printReader.getPrint());
-        if(logPrintWithoutPcTime.getBtsTime().getMicroSeconds() == 979764)
-        {
-            cout<<"found without:"<<logPrintWithoutPcTime.getPrint()<<endl;
-            cout<<"found with:"<<logPrint.getPrint()<<endl;
-        }
-
         if(logPrintWithoutPcTime.getBtsTime() < logPrint.getBtsTime() || logPrintWithoutPcTime.getBtsTime() == logPrint.getBtsTime())
         {
-            if(logPrintWithoutPcTime.getBtsTime().getMicroSeconds() == 979764)
-            {
-                cout<<"found1";
-            }
             if(printReader.isGood())
             {
-                if(logPrintWithoutPcTime.getBtsTime().getMicroSeconds() == 979764)
-                {
-                    cout<<"found2";
-                }
-                bufferAndWritePrint(logPrintWithoutPcTime, outputLogFileStream);
+                bufferPrintAndWrite(logPrintWithoutPcTime, outputLogFileStream);
             }
         }
         else
         {
-            if(logPrintWithoutPcTime.getBtsTime().getMicroSeconds() == 979764)
-            {
-                cout<<"found3";
-            }
             printReader.rollBackGetPrint();
             break;
         }
     }
 }
 
-void BtsLogSorter::bufferAndWritePrint(BtsLogPrint const& logPrint, ofstream & outputLogFileStream)
+void BtsLogSorter::bufferPrintAndWrite(BtsLogPrint const& logPrint, ofstream & outputLogFileStream)
 {
     if(m_notYetPrinted == logPrint)
     {
@@ -241,24 +214,19 @@ void BtsLogSorter::writeLastPrintIfNeeded(ofstream & outputLogFileStream)
     m_notYetPrinted = BtsLogPrint{};
 }
 
-string BtsLogSorter::getPathOfLogWithoutPcTime(string const& directory, string const& name) const{
-    string filename = name.empty() ? "NoHardwareAddress" : name;
-    AlbaWindowsPathHandler newFilePath;
-    newFilePath.inputPath(directory + R"(\)" + filename + R"(.log)");    return newFilePath.getFullPath();
-}
-
-void BtsLogSorter::deleteFilesInDirectoryOfLogsWithoutPcTime() const
+void BtsLogSorter::deleteFilesInDirectory(string const& directoryOfLogs) const
 {
-    AlbaWindowsPathHandler directoryOfLogsWithoutPcTime;
-    directoryOfLogsWithoutPcTime.inputPath(m_directoryOfLogsWithoutPcTime);
+    AlbaWindowsPathHandler directoryOfLogsPathHandler;
+    directoryOfLogsPathHandler.inputPath(directoryOfLogs);
     set<string> listOfFiles;
     set<string> listOfDirectories;
-    directoryOfLogsWithoutPcTime.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
+    directoryOfLogsPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& file: listOfFiles)
     {
-        AlbaWindowsPathHandler logWithoutPcTime;
-        logWithoutPcTime.inputPath(file);
-        //logWithoutPcTime.deleteFile();
+        AlbaWindowsPathHandler logFile;
+        logFile.inputPath(file);
+        logFile.deleteFile();
     }
 }
+
 }

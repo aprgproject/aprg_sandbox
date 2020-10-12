@@ -82,17 +82,20 @@ LinksForHtmlAndFileToDownload AprgWebCrawler::getLinksBasedOnMode(AlbaWebPathHan
         return getLinksForHentai2Read(webLinkPathHandler, pathOfHtmlFile);
     case CrawlerMode::Mangafox:
         return getLinksForMangaFox(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlerMode::MangafoxWithVolume:        return getLinksForMangaFoxSaveInVolumeAndChapter(webLinkPathHandler, pathOfHtmlFile);
+    case CrawlerMode::MangafoxWithVolume:
+        return getLinksForMangaFoxSaveInVolumeAndChapter(webLinkPathHandler, pathOfHtmlFile);
     case CrawlerMode::Mangahere:
         return getLinksForMangaHere(webLinkPathHandler, pathOfHtmlFile);
     case CrawlerMode::MangaPark:
         return getLinksForMangaPark(webLinkPathHandler, pathOfHtmlFile);
     case CrawlerMode::Y8:
         return getLinksForY8(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlerMode::ChiaAnime:    case CrawlerMode::Youtube:
+    case CrawlerMode::ChiaAnime:
+    case CrawlerMode::Youtube:
         cout << "AprgWebCrawler::getLinks | Mode is not recognized" << endl;
         break;
-    }    return LinksForHtmlAndFileToDownload();
+    }
+    return LinksForHtmlAndFileToDownload();
 }
 
 }

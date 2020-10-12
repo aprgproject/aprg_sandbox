@@ -1,5 +1,6 @@
 #pragma once
 
+#include <BtsLogSorterConfiguration.hpp>
 #include <LargeSorter/AlbaLargeSorterConfiguration.hpp>
 #include <string>
 
@@ -23,7 +24,7 @@ struct TcomToolsConfiguration
     bool isCropStepOn;
     bool isGrepTcomEnabled;
     bool isGrepErrEnabled;
-    bool isGrepErrWrnTcomEnabled;
+    bool isGrepErrWrnNoSpamEnabled;
     bool isGrepBtsStatusEnabled;
     bool isGrepRecoveryEnabled;
     bool isGrepAllocationEnabled;
@@ -34,12 +35,12 @@ struct TcomToolsConfiguration
     bool isGrepTupcEnabled;
     bool isGrepRlhEnabled;
     bool isGrepCchhEnabled;
-    bool isGrepChEnabled;
+    bool isGrepCchhSdlEnabled;
     bool isGrepHschEnabled;
     bool isGrepDmgrEnabled;
     string grepConditionForTcom;
     string grepConditionForErr;
-    string grepConditionForErrWrnTcom;
+    string grepConditionForErrWrn;
     string grepConditionForBtsStatus;
     string grepConditionForRecovery;
     string grepConditionForAllocation;
@@ -50,7 +51,7 @@ struct TcomToolsConfiguration
     string grepConditionForTupc;
     string grepConditionForRlh;
     string grepConditionForCchh;
-    string grepConditionForCh;
+    string grepConditionForCchhSdl;
     string grepConditionForHsch;
     string grepConditionForDmgr;
     string inputFileOrDirectory;
@@ -58,9 +59,7 @@ struct TcomToolsConfiguration
     string acceptedFilesGrepCondition;
     string otherGrepCondition;
     string prioritizedLogPrint;
-    string pathOfLogsWithoutPcTime;
-    alba::AlbaLargeSorterConfiguration sorterConfigurationWithPcTime;
-    alba::AlbaLargeSorterConfiguration sorterConfigurationWithoutPcTime;
+    tcomToolsBackend::BtsLogSorterConfiguration btsLogSorterConfiguration;
 };
 
 }

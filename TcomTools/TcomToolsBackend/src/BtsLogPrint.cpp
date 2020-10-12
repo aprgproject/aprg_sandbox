@@ -150,16 +150,25 @@ void BtsLogPrint::analyzeLineInLogs(string const& lineInLogs)
             handlePcTimeState6(state, transactionData, index, character);
             break;
         case State::hardwareAddressState1_Letters:
-            handleHardWareAddressState1(state, transactionData, character);
+            handleHardWareAddressState1_Letters(state, transactionData, character);
             break;
         case State::hardwareAddressState2_Dash:
-            handleHardWareAddressState2(state, transactionData, character);
+            handleHardWareAddressState2_Dash(state, transactionData, character);
+            break;
+        case State::hardwareAddressState2_Underscore:
+            handleHardWareAddressState2_Underscore(state, transactionData, character);
             break;
         case State::hardwareAddressState3_HexNumbers:
-            handleHardWareAddressState3(state, transactionData, index, character);
+            handleHardWareAddressState3_HexNumbers(state, transactionData, index, character);
+            break;
+        case State::hardwareAddressState3_Letters:
+            handleHardWareAddressState3_Letters(state, transactionData, index, character);
             break;
         case State::BtsTimeState:
             handleBtsTimeState(state, transactionData, index, character);
+            break;
+        case State::StopCheckingState:
+            index = length;
             break;
         default:
             break;
@@ -260,11 +269,15 @@ void BtsLogPrint::handlePcTimeState6(State & state, TransactionData & transactio
     }
 }
 
-void BtsLogPrint::handleHardWareAddressState1(State & state, TransactionData & transactionData,  char const character)
+void BtsLogPrint::handleHardWareAddressState1_Letters(State & state, TransactionData & transactionData,  char const character)
 {
     if('-' == character && transactionData.count == NUMBER_OF_LETTERS_IN_HARDWARE_TYPE)
     {
         state = State::hardwareAddressState2_Dash;
+    }
+    else if('_' == character && transactionData.count == NUMBER_OF_LETTERS_IN_HARDWARE_TYPE)
+    {
+        state = State::hardwareAddressState2_Underscore;
     }
     else if(stringHelper::isLetter(character) && transactionData.count < NUMBER_OF_LETTERS_IN_HARDWARE_TYPE)
     {
@@ -276,9 +289,9 @@ void BtsLogPrint::handleHardWareAddressState1(State & state, TransactionData & t
     }
 }
 
-void BtsLogPrint::handleHardWareAddressState2(State & state, TransactionData & transactionData,  char const character)
+void BtsLogPrint::handleHardWareAddressState2_Dash(State & state, TransactionData & transactionData,  char const character)
 {
-    if(stringHelper::isNumber(character))
+    if(stringHelper::isHexDigit(character))
     {
         state = State::hardwareAddressState3_HexNumbers;
         transactionData.count=1;
@@ -289,9 +302,46 @@ void BtsLogPrint::handleHardWareAddressState2(State & state, TransactionData & t
     }
 }
 
-void BtsLogPrint::handleHardWareAddressState3(State & state, TransactionData & transactionData, int const index, char const character)
+void BtsLogPrint::handleHardWareAddressState2_Underscore(State & state, TransactionData & transactionData,  char const character)
+{
+    if(stringHelper::isLetter(character) || stringHelper::isNumber(character))
+    {
+        state = State::hardwareAddressState3_Letters;
+        transactionData.count=1;
+    }
+    else
+    {
+        state = State::UnknownState;
+    }
+}
+
+void BtsLogPrint::handleHardWareAddressState3_HexNumbers(State & state, TransactionData & transactionData, int const index, char const character)
 {
     if(stringHelper::isHexDigit(character))
+    {
+        if(transactionData.count < NUMBER_OF_NUMBERS_IN_HARDWARE_TYPE)
+        {
+            transactionData.count++;
+        }
+        else
+        {
+            state = State::UnknownState;
+        }
+    }
+    else
+    {
+        state = State::UnknownState;
+        if(transactionData.count == NUMBER_OF_NUMBERS_IN_HARDWARE_TYPE)
+        {
+            transactionData.hardwareAddressEndIndex = index;
+            transactionData.isHardwareAddressSaved = true;
+        }
+    }
+}
+
+void BtsLogPrint::handleHardWareAddressState3_Letters(State & state, TransactionData & transactionData, int const index, char const character)
+{
+    if(stringHelper::isLetter(character) || stringHelper::isNumber(character))
     {
         if(transactionData.count < NUMBER_OF_NUMBERS_IN_HARDWARE_TYPE)
         {
@@ -317,7 +367,7 @@ void BtsLogPrint::handleBtsTimeState(State & state, TransactionData & transactio
 {
     if('>' == character)
     {
-        state = State::UnknownState;
+        state = State::StopCheckingState;
         transactionData.btsTimeEndIndex = index;
         transactionData.isBtsTimeSaved = true;
     }

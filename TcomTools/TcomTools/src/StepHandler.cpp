@@ -80,20 +80,19 @@ void StepHandler::executeCombineAndSortStep(AlbaWindowsPathHandler & currentPath
 {
     if(currentPathHandler.isDirectory())
     {
-        tcomToolsBackend::BtsLogSorter btsLogSorter(
-                    m_configuration.acceptedFilesGrepCondition,
-                    m_configuration.sorterConfigurationWithPcTime,
-                    m_configuration.sorterConfigurationWithoutPcTime,
-                    m_configuration.pathOfLogsWithoutPcTime);
+        m_configuration.btsLogSorterConfiguration.m_condition = m_configuration.acceptedFilesGrepCondition;
+        tcomToolsBackend::BtsLogSorter btsLogSorter(m_configuration.btsLogSorterConfiguration);
         btsLogSorter.processDirectory(currentPathHandler.getDirectory());
         currentPathHandler.goUp();
         currentPathHandler.inputPath(currentPathHandler.getDirectory() + R"(\sorted.log)");
         btsLogSorter.saveLogsToOutputFile(currentPathHandler.getFullPath());
     }
     else
-    {        cout<<"Combine and sort step did not proceed. CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
+    {
+        cout<<"Combine and sort step did not proceed. CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
     }
 }
+
 void StepHandler::executeGrep(AlbaWindowsPathHandler & currentPathHandler) const
 {
     AlbaGrepStringEvaluator evaluator(m_configuration.getGrepCondition());

@@ -282,10 +282,12 @@ void BtsDelayInformation::printWithNbccId(ostream& outputStream) const
     //outputStream<<"Delay: ["<<m_delay.getEquivalentString()<<"] DelayCount:["<<m_delayCount<<"] "<<"nbccId: "<<setw(6)<<m_nbccId<<" transactionId: "<<setw(10)<<m_transactionId<<" ["<<m_firstComponentString<<"] ["<<m_secondComponentString<<"] ["<<m_firstMessage<<"] ["<<m_secondMessage<<"]"<<endl;
 }
 
-BtsLogPrint::BtsLogPrint(){}
+BtsLogPrint::BtsLogPrint()
+{}
 
 BtsLogPrint::BtsLogPrint(string const& lineInLogs)
-    : m_isMessagePrint(false){
+    : m_isMessagePrint(false)
+{
     m_print = lineInLogs;
 
     if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, " INF/"))
@@ -410,7 +412,9 @@ int BtsLogUser::getNumberPrints() const
 BtsLogAnalyzer::BtsLogAnalyzer(BtsDelayInformationContainer & container, ostream& delayListStream)
     : m_btsDelayInformationContainer(container)
     , m_delayListStream(delayListStream)
-{}
+{
+    m_delayListStream<<"nbccId,transactionId,seconds"<<endl;
+}
 
 void BtsLogAnalyzer::saveAllMessagePrintsForAllUsers(AlbaWindowsPathHandler const& logPath)
 {

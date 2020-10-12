@@ -85,6 +85,20 @@ TEST(BtsLogPrintTest, HardwareTypeIsEmptyWhenInvalidHardwareTypesAreDetected_Not
     EXPECT_EQ(expectedPrint, logPrint.getPrint());
 }
 
+TEST(BtsLogPrintTest, RfHardwareTypesAreRecognized)
+{
+    BtsLogPrint logPrint("027966 17.12 14:10:43.903  [192.168.254.129]  d0 FRM_REL2 <2004-01-01T00:33:46.806457Z> 20088 INF/LTX/RX_VD, RX1: RX_SET_INPUT_ATTENUATOR_REQ attenuator 0 (StatusOk)");
+    BtsLogTime expectedBtsTime(BtsLogTimeType::BtsTimeStamp, "2004-01-01T00:33:46.806457Z");
+    BtsLogTime expectedPcTime(BtsLogTimeType::PcTimeStamp, "17.12 14:10:43.903");
+    string expectedHardwareType("FRM_REL2");
+    string expectedPrint("FRM_REL2 <2004-01-01T00:33:46.806457Z> 20088 INF/LTX/RX_VD, RX1: RX_SET_INPUT_ATTENUATOR_REQ attenuator 0 (StatusOk)");
+
+    EXPECT_EQ(expectedBtsTime, logPrint.getBtsTime());
+    EXPECT_EQ(expectedPcTime, logPrint.getPcTime());
+    EXPECT_EQ(expectedHardwareType, logPrint.getHardwareAddress());
+    EXPECT_EQ(expectedPrint, logPrint.getPrint());
+}
+
 TEST(BtsLogPrintTest, OperatorLessThanWorksWhenHigherBtsTimeIsCompared)
 {
     BtsLogPrint printWithNoPcTimeDuringLowerBtsStartupTime("FCT-1011-3-BTSOMex <1990-01-01T01:01:01.111111Z> 2F9 INF/SUBSYSTEM/SUBCOMPONENT, This is a print");

@@ -19,10 +19,12 @@ int main()
     //downloadBinaryFile<ConfigType::PrintDownloadProgress>(webPathHandler, windowPathHandler);
 }
 
-int main_curl_easy(){
+int main_curl_easy()
+{
     curl_easy easy;
 
-    easy.add<CURLOPT_URL>("http://mangafox.me/manga/kateikyoushi_hitman_reborn/v02/c014/4.html");    easy.add<CURLOPT_FOLLOWLOCATION>(1L);
+    easy.add<CURLOPT_URL>("http://mangafox.me/manga/kateikyoushi_hitman_reborn/v02/c014/4.html");
+    easy.add<CURLOPT_FOLLOWLOCATION>(1L);
 
     try {
         easy.perform();

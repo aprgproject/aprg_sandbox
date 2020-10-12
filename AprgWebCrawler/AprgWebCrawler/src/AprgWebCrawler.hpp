@@ -28,8 +28,10 @@ enum class CrawlerMode
     Y8,
     Youtube
 };
+
 class AprgWebCrawler
 {
+
 public:
     AprgWebCrawler(string const& workingDirectory);
     bool isValid() const;
@@ -59,8 +61,10 @@ private:
     LinksForHtmlAndFileToDownload getLinksForMangaPark(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const;
     LinksForHtmlAndFileToDownload getLinksForGehen(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const;
     LinksForHtmlAndFileToDownload getLinksForY8(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const;
+
     void saveImageListFromGoogleImages();
     void downloadGoogleImages() const;
+
     void crawlForChiaAnime();
     void crawlForChiaAnime(string& webLink);
     LinksForChiaAnime getLinksForChiaAnime(AlbaWebPathHandler const& webLinkPathHandler) const;

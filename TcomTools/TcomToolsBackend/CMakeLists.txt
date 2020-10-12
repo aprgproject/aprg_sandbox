@@ -21,8 +21,11 @@ set(SOURCES
     src/BtsLogPrint.hpp
     src/BtsLogSorter.cpp
     src/BtsLogSorter.hpp
+    src/BtsLogSorterConfiguration.hpp
     src/BtsLogTime.cpp
     src/BtsLogTime.hpp
+    src/BtsPrintReaderWithRollback.cpp
+    src/BtsPrintReaderWithRollback.hpp
     tst/BtsLogPrint_unit.cpp
     tst/BtsLogSorter_unit.cpp
     tst/BtsLogTime_unit.cpp

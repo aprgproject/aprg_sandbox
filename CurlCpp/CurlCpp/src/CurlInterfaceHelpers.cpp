@@ -74,10 +74,12 @@ void CurlInterface::addToCurlEasy<ConfigType::MozillaFireFoxAndPrintDownloadProg
 template <>
 void CurlInterface::addToCurlEasy<ConfigType::LowSpeedLimitAndMozillaFireFox>(curl_easy& easy)
 {
-    addToCurlEasy<ConfigType::LowSpeedLimit>(easy);    addToCurlEasy<ConfigType::MozillaFireFox>(easy);
+    addToCurlEasy<ConfigType::LowSpeedLimit>(easy);
+    addToCurlEasy<ConfigType::MozillaFireFox>(easy);
 }
 
-template <>void CurlInterface::addToCurlEasy<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(curl_easy& easy)
+template <>
+void CurlInterface::addToCurlEasy<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(curl_easy& easy)
 {
     addToCurlEasy<ConfigType::LowSpeedLimit>(easy);
     addToCurlEasy<ConfigType::MozillaFireFox>(easy);

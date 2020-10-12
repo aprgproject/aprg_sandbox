@@ -15,6 +15,7 @@ enum class ConfigType
     MozillaFireFoxAndPrintDownloadProgress,
     LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress
 };
+
 }
 
 }

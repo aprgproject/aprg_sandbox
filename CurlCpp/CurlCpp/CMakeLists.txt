@@ -28,7 +28,8 @@ include(${APRG_DIR}/curl-7.38.0/AprgCmakeInclude/curl.cmake)
 include(${CURL_CPP_DIR}/cmake/FilesAndDirectories.cmake)
 
 set(CURL_CPP_TESTS
-    tst/easy.cpp)
+    tst/easy.cpp
+)
 
 add_executable(${OUTFILE} ${CURL_CPP_SOURCES} ${CURL_CPP_TESTS})
 include_directories(${CURL_CPP_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})

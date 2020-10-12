@@ -25,8 +25,11 @@ enum class State
     PcTimeState6_Period,
     hardwareAddressState1_Letters,
     hardwareAddressState2_Dash,
+    hardwareAddressState2_Underscore,
     hardwareAddressState3_HexNumbers,
-    BtsTimeState
+    hardwareAddressState3_Letters,
+    BtsTimeState,
+    StopCheckingState
 };
 
 struct TransactionData
@@ -84,9 +87,11 @@ private:
     inline void handlePcTimeState4(BtsLogPrintStateMachine::State & state, char const character);
     inline void handlePcTimeState5(BtsLogPrintStateMachine::State & state, char const character);
     inline void handlePcTimeState6(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData, int const index, char const character);
-    inline void handleHardWareAddressState1(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData,  char const character);
-    inline void handleHardWareAddressState2(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData,  char const character);
-    inline void handleHardWareAddressState3(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData, int const index, char const character);
+    inline void handleHardWareAddressState1_Letters(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData,  char const character);
+    inline void handleHardWareAddressState2_Dash(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData,  char const character);
+    inline void handleHardWareAddressState2_Underscore(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData,  char const character);
+    inline void handleHardWareAddressState3_HexNumbers(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData, int const index, char const character);
+    inline void handleHardWareAddressState3_Letters(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData, int const index, char const character);
     inline void handleBtsTimeState(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData, int const index, char const character);
 
     BtsLogTime m_btsTime;

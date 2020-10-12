@@ -31,10 +31,10 @@ private slots:
     void on_allocation_toggled(bool checked);
     void on_btsStatus_toggled(bool checked);
     void on_cchh_toggled(bool checked);
-    void on_ch_toggled(bool checked);
+    void on_cchhSdl_toggled(bool checked);
     void on_dmgr_toggled(bool checked);
     void on_err_toggled(bool checked);
-    void on_errWrnTcom_toggled(bool checked);
+    void on_errWrnNoSpam_toggled(bool checked);
     void on_fault_toggled(bool checked);
     void on_grm_toggled(bool checked);
     void on_hsch_toggled(bool checked);
