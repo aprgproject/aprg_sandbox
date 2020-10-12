@@ -36,28 +36,48 @@ TEST_F(BtsLogSorterTest, PerformanceTest)
                 m_configurationWithPcTime,
                 m_configurationWithoutPcTime,
                 m_pathOfLogsWithoutPcTime);
-    btsLogSorter.processDirectory(R"(E:\PR075191\sample\)");
-    btsLogSorter.saveAllToOutputFile(R"(E:\PR075191\sortednew.log)");
+    btsLogSorter.processDirectory(R"(D:\W\ZZZ_Useless_Logs\Not enough DSP to setup a cell\ALL\)");
+    btsLogSorter.saveLogsToOutputFile(R"(D:\W\ZZZ_Useless_Logs\Not enough DSP to setup a cell\sortednew.log)");
 }
 
-TEST_F(BtsLogSorterTest, DISABLED_SyslogsAndSnapshotTest)
+TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreMerged)
+{
+    BtsLogSorter btsLogSorter(
+                m_condition,                m_configurationWithPcTime,
+                m_configurationWithoutPcTime,
+                m_pathOfLogsWithoutPcTime);
+    btsLogSorter.processFile(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged\input.log)");
+    btsLogSorter.saveLogsToOutputFile(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged\output.log)");
+
+    int lines=0;
+    ifstream inputLogFileStream(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged\output.log)");
+    AlbaFileReader fileReader(inputLogFileStream);
+    while(fileReader.isNotFinished())
+    {        fileReader.getLineAndIgnoreWhiteSpaces();
+        lines++;
+    }
+
+    EXPECT_EQ(3, lines);
+}
+
+
+TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime)
 {
     BtsLogSorter btsLogSorter(
                 m_condition,
                 m_configurationWithPcTime,
                 m_configurationWithoutPcTime,
                 m_pathOfLogsWithoutPcTime);
-    btsLogSorter.processFile(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshot.log)");
-    btsLogSorter.saveAllToOutputFile(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotOutput.log)");
+    btsLogSorter.processFile(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime\input.log)");
+    btsLogSorter.saveLogsToOutputFile(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime\output.log)");
 
     int lines=0;
-    ifstream inputLogFileStream(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotOutput.log)");
+    ifstream inputLogFileStream(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime\output.log)");
     AlbaFileReader fileReader(inputLogFileStream);
     while(fileReader.isNotFinished())
-    {
-        fileReader.getLineAndIgnoreWhiteSpaces();
+    {        fileReader.getLineAndIgnoreWhiteSpaces();
         lines++;
     }
 
-    EXPECT_EQ(3, lines);
+    EXPECT_EQ(5, lines);
 }

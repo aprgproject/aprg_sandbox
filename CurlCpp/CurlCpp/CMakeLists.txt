@@ -21,20 +21,16 @@ endif()
 #Include aprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
-#Include gTest, this needs APRG Directory
-include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
-
 #Include curl library, this needs APRG Directory
 include(${APRG_DIR}/curl-7.38.0/AprgCmakeInclude/curl.cmake)
 
 #Include CURL_CPP_SOURCES
-include(${CURL_CPP_DIR}/cmake/CurlCppSources.cmake)
+include(${CURL_CPP_DIR}/cmake/FilesAndDirectories.cmake)
 
 set(CURL_CPP_TESTS
-    tst/easy.cpp
-)
+    tst/easy.cpp)
 
 add_executable(${OUTFILE} ${CURL_CPP_SOURCES} ${CURL_CPP_TESTS})
-include_directories(src ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON CURL_LIB wsock32 ws2_32)
+include_directories(${CURL_CPP_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+target_link_libraries(${OUTFILE} APRG_COMMON CURL_LIB wsock32 ws2_32)
 add_test(${OUTFILE} ${OUTFILE})

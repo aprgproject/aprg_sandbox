@@ -14,42 +14,48 @@ using namespace std;
 namespace tcomToolsBackend
 {
 
-bool BtsLogFileReaderWithRollback::isGood() const
+bool BtsPrintReaderWithRollback::isGood() const
 {
     return m_inputStream.good();
 }
 
-BtsLogPrint BtsLogFileReaderWithRollback::getPrint()
+BtsLogPrint BtsPrintReaderWithRollback::getPrint()
 {
-    m_isPreviousPrintValid = false;
     if(isGood())
     {
-        m_inputStream >> m_previousPrint;
-        if(!isGood())
+        if(m_isPreviousPrintValid)
         {
-            return BtsLogPrint{};
+            m_isPreviousPrintValid = false;
+            return m_previousPrint;
         }
-        return m_previousPrint;
+        else
+        {
+            m_inputStream >> m_previousPrint;
+            /*if(!isGood())
+            {
+                currentPrint = BtsLogPrint{};//clear
+            }*/
+            return m_previousPrint;
+        }
     }
     return BtsLogPrint{};
 }
 
-void BtsLogFileReaderWithRollback::rollBackGetPrint()
+void BtsPrintReaderWithRollback::rollBackGetPrint()
 {
-    if(isGood())
+    if(m_isPreviousPrintValid)
     {
-        m_isPreviousPrintValid = true;
+        cout<<"Double rollback of prints detected, possible print drop, please implement line put back in stream to avoid this."<<endl;
     }
+    m_isPreviousPrintValid = true;
 }
 
-void BtsLogFileReaderWithRollback::openIfNeeded(string const& filePath)
+void BtsPrintReaderWithRollback::openIfNeeded(string const& filePath)
 {
     if(!m_inputStream.is_open())
-    {
-        m_inputStream.open(filePath);
+    {        m_inputStream.open(filePath);
     }
 }
-
 BtsLogSorter::BtsLogSorter(
         string const& condition,
         alba::AlbaLargeSorterConfiguration const& configurationWithPcTime,
@@ -105,41 +111,37 @@ void BtsLogSorter::processFile(string const& filePath)
     }
 }
 
-void BtsLogSorter::saveAllToOutputFile(string const& outputPath)
+void BtsLogSorter::saveLogsToOutputFile(string const& outputPath)
 {
-    cout<<"Save output file: "<<outputPath<<endl;
     if(m_sorterWithPcTime.isEmpty())
     {
         ofstream outputLogFileStream(outputPath);
-        saveSortedLogsWithoutPcTime(outputLogFileStream);
+        saveLogsFromSorterToOutputFile(outputLogFileStream);
     }
     else
     {
-        saveSortedLogsWithoutPcTimeIntoDifferentFiles();
-        mergePrintsAndSaveToOutputFile(outputPath);
+        separateLogsWithoutPcTimeIntoDifferentFiles();
+        mergeAndSaveAllLogs(outputPath);
         deleteFilesInDirectoryOfLogsWithoutPcTime();
     }
 }
 
-void BtsLogSorter::saveSortedLogsWithoutPcTime(ofstream & outputLogFileStream)
+void BtsLogSorter::saveLogsFromSorterToOutputFile(ofstream & outputLogFileStream)
 {
     cout << "Save sorted logs without PC time." << endl;
-    m_sorterWithoutPcTime.sortThenDoFunctionThenReleaseAllObjects([&](BtsLogPrint const& logPrint)
-    {
+    m_sorterWithoutPcTime.sortThenDoFunctionThenReleaseAllObjects([&](BtsLogPrint const& logPrint)    {
         bufferAndWritePrint(logPrint, outputLogFileStream);
     });
     writeLastPrintIfNeeded(outputLogFileStream);
 }
 
-void BtsLogSorter::saveSortedLogsWithoutPcTimeIntoDifferentFiles()
+void BtsLogSorter::separateLogsWithoutPcTimeIntoDifferentFiles()
 {
     cout << "Save sorted logs without PC time into different addresses." << endl;
     map<string, ofstream> filesWithoutPcTime;
-
     for(string hardwareAddress: m_foundHardwareAddresses)
     {
-        filesWithoutPcTime[hardwareAddress].open(
-                    getPathOfLogWithoutPcTime(m_directoryOfLogsWithoutPcTime, hardwareAddress));
+        filesWithoutPcTime[hardwareAddress].open(                    getPathOfLogWithoutPcTime(m_directoryOfLogsWithoutPcTime, hardwareAddress));
     }
     m_sorterWithoutPcTime.sortThenDoFunctionThenReleaseAllObjects([&](BtsLogPrint const& logPrint)
     {
@@ -147,18 +149,16 @@ void BtsLogSorter::saveSortedLogsWithoutPcTimeIntoDifferentFiles()
     });
 }
 
-void BtsLogSorter::mergePrintsAndSaveToOutputFile(string const& outputPath)
+void BtsLogSorter::mergeAndSaveAllLogs(string const& outputPath)
 {
     cout << "Merge logs with and without PC time and save to output file." << endl;
-    map<string, BtsLogFileReaderWithRollback> filesWithoutPcTime;
+    map<string, BtsPrintReaderWithRollback> filesWithoutPcTime;
     ofstream outputLogFileStream(outputPath);
 
-    for(string hardwareAddress: m_foundHardwareAddresses)
-    {
+    for(string hardwareAddress: m_foundHardwareAddresses)    {
         filesWithoutPcTime[hardwareAddress].openIfNeeded(
                     getPathOfLogWithoutPcTime(m_directoryOfLogsWithoutPcTime, hardwareAddress));
-    }
-    m_sorterWithPcTime.sortThenDoFunctionThenReleaseAllObjects([&](BtsLogPrint const& logPrint)
+    }    m_sorterWithPcTime.sortThenDoFunctionThenReleaseAllObjects([&](BtsLogPrint const& logPrint)
     {
         writePrintsFromFileReaderBeforeThisPrint(filesWithoutPcTime[logPrint.getHardwareAddress()], logPrint, outputLogFileStream);
         bufferAndWritePrint(logPrint, outputLogFileStream);
@@ -167,68 +167,84 @@ void BtsLogSorter::mergePrintsAndSaveToOutputFile(string const& outputPath)
     {
         addPrintsFromFileReaderToSorterWithoutPcTime(mapFilesPair.second);
     }
-    saveSortedLogsWithoutPcTime(outputLogFileStream);
+    saveLogsFromSorterToOutputFile(outputLogFileStream);
 }
 
-void BtsLogSorter::addPrintsFromFileReaderToSorterWithoutPcTime(BtsLogFileReaderWithRollback & fileReader)
+void BtsLogSorter::addPrintsFromFileReaderToSorterWithoutPcTime(BtsPrintReaderWithRollback & printReader)
 {
-    while(fileReader.isGood())
+    while(printReader.isGood())
     {
-        BtsLogPrint logPrintWithoutPcTime(fileReader.getPrint());
-        if(fileReader.isGood())
+        BtsLogPrint logPrintWithoutPcTime(printReader.getPrint());
+        if(printReader.isGood())
         {
             m_sorterWithoutPcTime.add(logPrintWithoutPcTime);
-        }
-    }
+        }    }
 }
 
-void BtsLogSorter::writePrintsFromFileReaderBeforeThisPrint(BtsLogFileReaderWithRollback & fileReader, BtsLogPrint const& logPrint, ofstream & outputLogFileStream)
+void BtsLogSorter::writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRollback & printReader, BtsLogPrint const& logPrint, ofstream & outputLogFileStream)
 {
-    while(fileReader.isGood())
+    while(printReader.isGood())
     {
-        BtsLogPrint logPrintWithoutPcTime(fileReader.getPrint());
+        BtsLogPrint logPrintWithoutPcTime(printReader.getPrint());
+        if(logPrintWithoutPcTime.getBtsTime().getMicroSeconds() == 979764)
+        {
+            cout<<"found without:"<<logPrintWithoutPcTime.getPrint()<<endl;
+            cout<<"found with:"<<logPrint.getPrint()<<endl;
+        }
+
         if(logPrintWithoutPcTime.getBtsTime() < logPrint.getBtsTime() || logPrintWithoutPcTime.getBtsTime() == logPrint.getBtsTime())
         {
-            if(fileReader.isGood())
+            if(logPrintWithoutPcTime.getBtsTime().getMicroSeconds() == 979764)
             {
+                cout<<"found1";
+            }
+            if(printReader.isGood())
+            {
+                if(logPrintWithoutPcTime.getBtsTime().getMicroSeconds() == 979764)
+                {
+                    cout<<"found2";
+                }
                 bufferAndWritePrint(logPrintWithoutPcTime, outputLogFileStream);
             }
         }
         else
         {
-            fileReader.rollBackGetPrint();
+            if(logPrintWithoutPcTime.getBtsTime().getMicroSeconds() == 979764)
+            {
+                cout<<"found3";
+            }
+            printReader.rollBackGetPrint();
             break;
         }
     }
 }
+
 void BtsLogSorter::bufferAndWritePrint(BtsLogPrint const& logPrint, ofstream & outputLogFileStream)
 {
-    if(m_notYetPrintedPrint == logPrint)
+    if(m_notYetPrinted == logPrint)
     {
-        m_notYetPrintedPrint.updatePcTimeAndFileNameDetails(logPrint);
+        m_notYetPrinted.updatePcTimeAndFileNameDetails(logPrint);
     }
     else
     {
-        if(!m_notYetPrintedPrint.getPrint().empty())
+        if(!m_notYetPrinted.getPrint().empty())
         {
-            outputLogFileStream << m_notYetPrintedPrint.getPrintWithAllDetails() << endl;
+            outputLogFileStream << m_notYetPrinted.getPrintWithAllDetails() << endl;
         }
-        m_notYetPrintedPrint = logPrint;
+        m_notYetPrinted = logPrint;
     }
 }
 
 void BtsLogSorter::writeLastPrintIfNeeded(ofstream & outputLogFileStream)
 {
-    outputLogFileStream << m_notYetPrintedPrint.getPrintWithAllDetails() << endl;
-    m_notYetPrintedPrint = BtsLogPrint{};
+    outputLogFileStream << m_notYetPrinted.getPrintWithAllDetails() << endl;
+    m_notYetPrinted = BtsLogPrint{};
 }
 
-string BtsLogSorter::getPathOfLogWithoutPcTime(string const& directory, string const& name) const
-{
+string BtsLogSorter::getPathOfLogWithoutPcTime(string const& directory, string const& name) const{
     string filename = name.empty() ? "NoHardwareAddress" : name;
     AlbaWindowsPathHandler newFilePath;
-    newFilePath.inputPath(directory + R"(\)" + filename + R"(.log)");
-    return newFilePath.getFullPath();
+    newFilePath.inputPath(directory + R"(\)" + filename + R"(.log)");    return newFilePath.getFullPath();
 }
 
 void BtsLogSorter::deleteFilesInDirectoryOfLogsWithoutPcTime() const
@@ -242,8 +258,7 @@ void BtsLogSorter::deleteFilesInDirectoryOfLogsWithoutPcTime() const
     {
         AlbaWindowsPathHandler logWithoutPcTime;
         logWithoutPcTime.inputPath(file);
-        logWithoutPcTime.deleteFile();
+        //logWithoutPcTime.deleteFile();
     }
 }
-
 }

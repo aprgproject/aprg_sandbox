@@ -4,38 +4,25 @@
 #include <PathHandlers/AlbaWebPathHandler.hpp>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
 
-using curl::CurlInterface::downloadBinaryFile;
 using curl::curl_easy;
 using curl::make_option;
 
-#include <set>
-using namespace std;
+using namespace curl::CurlInterface;
 
 int main()
 {
-    /*AlbaWebPathHandler webPathHandler();
-    AlbaWindowsPathHandler windowPathHandler("hello.mp4");
-    downloadBinaryFile<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(windowPathHandler);*/
-
-    AlbaWindowsPathHandler libArchive;
-    libArchive.inputPath(R"(C:\APRG\libarchive-3.1.2\libarchive-3.1.2)");
-    set<string> listOfFiles;
-    set<string> listOfDirectories;
-    libArchive.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
-
-    for(string const& file:listOfFiles)
-    {
-        cout<<file<<endl;
-    }
-    return 0;
+    AlbaWebPathHandler webPathHandler;
+    webPathHandler.inputPath(R"(http://pronto.inside.nsn.com/pronto/home.html)");
+    AlbaWindowsPathHandler windowPathHandler;
+    windowPathHandler.inputPath(R"(C:\APRG\CurlCpp\CurlCpp\tst\home.html)");
+    download<ConfigType::MozillaFireFoxAndPrintDownloadProgress>(webPathHandler, windowPathHandler);
+    //downloadBinaryFile<ConfigType::PrintDownloadProgress>(webPathHandler, windowPathHandler);
 }
 
-int main_curl_easy()
-{
+int main_curl_easy(){
     curl_easy easy;
 
-    easy.add<CURLOPT_URL>("http://mangafox.me/manga/kateikyoushi_hitman_reborn/v02/c014/4.html");
-    easy.add<CURLOPT_FOLLOWLOCATION>(1L);
+    easy.add<CURLOPT_URL>("http://mangafox.me/manga/kateikyoushi_hitman_reborn/v02/c014/4.html");    easy.add<CURLOPT_FOLLOWLOCATION>(1L);
 
     try {
         easy.perform();

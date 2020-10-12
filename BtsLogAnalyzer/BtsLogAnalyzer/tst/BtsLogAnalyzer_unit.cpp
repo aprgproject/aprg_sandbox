@@ -164,23 +164,21 @@ TEST (getStringNumberAfterThisStringTest, getStringNumberAfterThisStringTest)
 TEST (BtsLogAnalyzerTest, Test1)
 {
     AlbaWindowsPathHandler pathHandler;
-    pathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR090651_RRC\0800\combined800.log)");
+    pathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR075191\NEWESTLOGS\WBTS16\sorted.log)");
 
     AlbaWindowsPathHandler messageListPathHandler;
-    messageListPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR090651_RRC\0800\messageList.log)");
+    messageListPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR075191\NEWESTLOGS\WBTS16\messageList.log)");
 
     AlbaWindowsPathHandler delayListPathHandler;
-    delayListPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR090651_RRC\0800\delayList.log)");
+    delayListPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR075191\NEWESTLOGS\WBTS16\delayList.log)");
 
     AlbaWindowsPathHandler delayListStatisticPathHandler;
-    delayListStatisticPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR090651_RRC\0800\delayListStatistic.log)");
+    delayListStatisticPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR075191\NEWESTLOGS\WBTS16\delayListStatistic.log)");
 
     ofstream messageListStream(messageListPathHandler.getFullPath());
-    ofstream delayListStream(delayListPathHandler.getFullPath());
-    ofstream delayListStatistic(delayListStatisticPathHandler.getFullPath());
+    ofstream delayListStream(delayListPathHandler.getFullPath());    ofstream delayListStatistic(delayListStatisticPathHandler.getFullPath());
 
     BtsDelayInformationContainer btsDelayInformationContainer;
-
     BtsLogAnalyzer btsLogAnalyzer(btsDelayInformationContainer, delayListStream);
     btsLogAnalyzer.saveAllMessagePrintsForAllUsers(pathHandler);
     btsLogAnalyzer.analyzeForAllUsers();
@@ -195,23 +193,21 @@ TEST (BtsLogAnalyzerTest, Test1)
 TEST (BtsLogAnalyzerTest, Test2)
 {
     AlbaWindowsPathHandler pathHandler;
-    pathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR090651_RRC\2100\combined2100.log)");
+    pathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR075191\NEWESTLOGS\WBTS17\sorted.log)");
 
     AlbaWindowsPathHandler messageListPathHandler;
-    messageListPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR090651_RRC\2100\messageList.log)");
+    messageListPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR075191\NEWESTLOGS\WBTS17\messageList.log)");
 
     AlbaWindowsPathHandler delayListPathHandler;
-    delayListPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR090651_RRC\2100\delayList.log)");
+    delayListPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR075191\NEWESTLOGS\WBTS17\delayList.log)");
 
     AlbaWindowsPathHandler delayListStatisticPathHandler;
-    delayListStatisticPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR090651_RRC\2100\delayListStatistic.log)");
+    delayListStatisticPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\PR075191\NEWESTLOGS\WBTS17\delayListStatistic.log)");
 
     ofstream messageListStream(messageListPathHandler.getFullPath());
-    ofstream delayListStream(delayListPathHandler.getFullPath());
-    ofstream delayListStatistic(delayListStatisticPathHandler.getFullPath());
+    ofstream delayListStream(delayListPathHandler.getFullPath());    ofstream delayListStatistic(delayListStatisticPathHandler.getFullPath());
 
     BtsDelayInformationContainer btsDelayInformationContainer;
-
     BtsLogAnalyzer btsLogAnalyzer(btsDelayInformationContainer, delayListStream);
     btsLogAnalyzer.saveAllMessagePrintsForAllUsers(pathHandler);
     btsLogAnalyzer.analyzeForAllUsers();

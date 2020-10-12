@@ -88,14 +88,12 @@ void StepHandler::executeCombineAndSortStep(AlbaWindowsPathHandler & currentPath
         btsLogSorter.processDirectory(currentPathHandler.getDirectory());
         currentPathHandler.goUp();
         currentPathHandler.inputPath(currentPathHandler.getDirectory() + R"(\sorted.log)");
-        btsLogSorter.saveAllToOutputFile(currentPathHandler.getFullPath());
+        btsLogSorter.saveLogsToOutputFile(currentPathHandler.getFullPath());
     }
     else
-    {
-        cout<<"Combine and sort step did not proceed. CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
+    {        cout<<"Combine and sort step did not proceed. CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
     }
 }
-
 void StepHandler::executeGrep(AlbaWindowsPathHandler & currentPathHandler) const
 {
     AlbaGrepStringEvaluator evaluator(m_configuration.getGrepCondition());

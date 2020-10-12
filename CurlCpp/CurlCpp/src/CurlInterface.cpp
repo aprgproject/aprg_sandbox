@@ -53,10 +53,10 @@ bool CurlInterface::downloadBinaryFileWithFiniteNumberOfTries(AlbaWebPathHandler
 }
 
 template bool CurlInterface::download<ConfigType::LowSpeedLimitAndMozillaFireFox> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
+template bool CurlInterface::download<ConfigType::MozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
 template bool CurlInterface::downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
 template bool CurlInterface::downloadBinaryFile<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
-template bool CurlInterface::downloadBinaryFileUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
-template bool CurlInterface::downloadBinaryFileWithFiniteNumberOfTries<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath, int const totalNumberOfTries);
+template bool CurlInterface::downloadBinaryFileUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);template bool CurlInterface::downloadBinaryFileWithFiniteNumberOfTries<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath, int const totalNumberOfTries);
 
 
 }

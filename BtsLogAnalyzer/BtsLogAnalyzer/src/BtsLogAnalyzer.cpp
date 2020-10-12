@@ -278,15 +278,14 @@ void BtsDelayInformation::printWithAverage(ostream& outputStream) const
 
 void BtsDelayInformation::printWithNbccId(ostream& outputStream) const
 {
-    outputStream<<"Delay: ["<<m_delay.getEquivalentString()<<"] DelayCount:["<<m_delayCount<<"] "<<"nbccId: "<<setw(6)<<m_nbccId<<" transactionId: "<<setw(10)<<m_transactionId<<" ["<<m_firstComponentString<<"] ["<<m_secondComponentString<<"] ["<<m_firstMessage<<"] ["<<m_secondMessage<<"]"<<endl;
+    outputStream<<m_nbccId<<","<<m_transactionId<<", Seconds:"<<m_delay.getTotalSeconds()<<","<<m_delay.getMicroSeconds()<<endl;
+    //outputStream<<"Delay: ["<<m_delay.getEquivalentString()<<"] DelayCount:["<<m_delayCount<<"] "<<"nbccId: "<<setw(6)<<m_nbccId<<" transactionId: "<<setw(10)<<m_transactionId<<" ["<<m_firstComponentString<<"] ["<<m_secondComponentString<<"] ["<<m_firstMessage<<"] ["<<m_secondMessage<<"]"<<endl;
 }
 
-BtsLogPrint::BtsLogPrint()
-{}
+BtsLogPrint::BtsLogPrint(){}
 
 BtsLogPrint::BtsLogPrint(string const& lineInLogs)
-    : m_isMessagePrint(false)
-{
+    : m_isMessagePrint(false){
     m_print = lineInLogs;
 
     if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, " INF/"))

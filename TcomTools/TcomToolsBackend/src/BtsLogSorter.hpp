@@ -15,15 +15,13 @@ using std::string;
 namespace tcomToolsBackend
 {
 
-class BtsLogFileReaderWithRollback
+class BtsPrintReaderWithRollback
 {
 public:
-    bool isGood() const;
-    BtsLogPrint getPrint();
+    bool isGood() const;    BtsLogPrint getPrint();
     void rollBackGetPrint();
     void openIfNeeded(string const& filePath);
-private:
-    bool m_isGood;
+private:    bool m_isGood;
     bool m_isPreviousPrintValid;
     BtsLogPrint m_previousPrint;
     ifstream m_inputStream;
@@ -39,24 +37,22 @@ public:
             string const& pathOfLogsWithoutPcTime);
     void processDirectory(string const& directoryPath);
     void processFile(string const& filePath);
-    void saveAllToOutputFile(string const& outputPath);
+    void saveLogsToOutputFile(string const& outputPath);
 
 private:
-    void saveSortedLogsWithoutPcTime(ofstream & outputLogFileStream);
-    void saveSortedLogsWithoutPcTimeIntoDifferentFiles();
-    void mergePrintsAndSaveToOutputFile(string const& outputPath);
-    void addPrintsFromFileReaderToSorterWithoutPcTime(BtsLogFileReaderWithRollback & fileReader);
-    void writePrintsFromFileReaderBeforeThisPrint(BtsLogFileReaderWithRollback & fileReader, BtsLogPrint const& logPrint, ofstream & outputLogFileStream);
+    void saveLogsFromSorterToOutputFile(ofstream & outputLogFileStream);
+    void separateLogsWithoutPcTimeIntoDifferentFiles();
+    void mergeAndSaveAllLogs(string const& outputPath);
+    void addPrintsFromFileReaderToSorterWithoutPcTime(BtsPrintReaderWithRollback & fileReader);
+    void writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRollback & fileReader, BtsLogPrint const& logPrint, ofstream & outputLogFileStream);
     void bufferAndWritePrint(BtsLogPrint const& logPrint, ofstream & outputLogFileStream);
     void writeLastPrintIfNeeded(ofstream & outputLogFileStream);
-    string getPathOfLogWithoutPcTime(string const& directory, string const& name) const;
-    void deleteFilesInDirectoryOfLogsWithoutPcTime() const;
+    string getPathOfLogWithoutPcTime(string const& directory, string const& name) const;    void deleteFilesInDirectoryOfLogsWithoutPcTime() const;
     alba::AlbaGrepStringEvaluator m_evaluator;
     alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithPcTime;
     alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithoutPcTime;
-    BtsLogPrint m_notYetPrintedPrint;
+    BtsLogPrint m_notYetPrinted;
     string m_directoryOfLogsWithoutPcTime;
     set<string> m_foundHardwareAddresses;
 };
-
 }
