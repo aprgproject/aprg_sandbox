@@ -7,14 +7,23 @@ namespace tcomToolsGui
 
 class StepHandler
 {
+    struct LocationsInFile
+    {
+        double startLocation;
+        double endLocation;
+    };
 public:
-    StepHandler(TcomToolsConfiguration & configuration);
-    void execute() const;
+    StepHandler();
+    void execute(TcomToolsConfiguration const& configuration) const;
 private:
-    void executeExtractStep(alba::AlbaWindowsPathHandler & currentPathHandler) const;
-    void executeCombineAndSortStep(alba::AlbaWindowsPathHandler & currentPathHandler) const;
-    void executeGrep(alba::AlbaWindowsPathHandler & currentPathHandler) const;
-    TcomToolsConfiguration & m_configuration;
+    string executeExtractStep(TcomToolsConfiguration const& configuration, string const& inputPath) const;
+    string executeCombineAndSortStep(TcomToolsConfiguration const& configuration, string const& inputPath) const;
+    string executeGrepStep(TcomToolsConfiguration const& configuration, string const& inputPath) const;
+    string grepFile(TcomToolsConfiguration const& configuration, string const& inputPath) const;
+    string executeCropStep(TcomToolsConfiguration const& configuration, string const& inputPath) const;
+    string cropFile(TcomToolsConfiguration const& configuration, string const& inputPath, double foundLocation) const;
+    LocationsInFile getLocationsInFile(TcomToolsConfiguration const& configuration, double foundLocation) const;
+    double getLocationOfPriotizedPrint(TcomToolsConfiguration const& configuration, string const& inputPath) const;
 };
 
 }

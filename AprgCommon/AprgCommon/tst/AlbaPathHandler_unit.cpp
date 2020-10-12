@@ -1,3 +1,4 @@
+#include <fstream>
 #include <gtest/gtest.h>
 #include <PathHandlers/AlbaWebPathHandler.hpp>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
@@ -18,6 +19,7 @@ TEST(PathTest, FullPathWithDirectoryAndFileGiven)
     EXPECT_EQ(pathHandler.getPathType(), PathType::File);
     EXPECT_EQ(pathHandler.getImmediateDirectoryName(), "tst");
 }
+
 TEST(PathTest, FileOnly)
 {
     AlbaPathHandler pathHandler("src", R"(\)");
@@ -28,6 +30,19 @@ TEST(PathTest, FileOnly)
     EXPECT_EQ(pathHandler.getPathType(), PathType::File);
     EXPECT_TRUE(pathHandler.getImmediateDirectoryName().empty());
 }
+
+TEST(PathTest, ReInputFile)
+{
+    AlbaPathHandler pathHandler("src", R"(\)");
+    pathHandler.reInput();
+    EXPECT_TRUE(pathHandler.getDirectory().empty());
+    EXPECT_EQ(pathHandler.getFile(), "src");
+    EXPECT_EQ(pathHandler.getFilenameOnly(), "src");
+    EXPECT_TRUE(pathHandler.getExtension().empty());
+    EXPECT_EQ(pathHandler.getPathType(), PathType::File);
+    EXPECT_TRUE(pathHandler.getImmediateDirectoryName().empty());
+}
+
 TEST(PathTest, GoUpUntilLastFolder)
 {
     AlbaPathHandler pathHandler(R"(C:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", R"(\)");
@@ -37,6 +52,7 @@ TEST(PathTest, GoUpUntilLastFolder)
     pathHandler.goUp();
     EXPECT_EQ(pathHandler.getFullPath(), R"(C:\APRG12345\Aprg!@#$%Common\Aprg1111Common\)");
     EXPECT_EQ(pathHandler.getPathType(), PathType::Directory);
+
     pathHandler.goUp();
     EXPECT_EQ(pathHandler.getFullPath(), R"(C:\APRG12345\Aprg!@#$%Common\)");
     EXPECT_EQ(pathHandler.getPathType(), PathType::Directory);
@@ -64,6 +80,7 @@ TEST(WindowsPathTest, FullPathWithOnlyDirectoryGiven_WindowsStyleInput)
     EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(pathHandler.getPathType(), PathType::Directory);
 }
+
 TEST(WindowsPathTest, FullPathWithOnlyDirectoryGiven_JumbledSlashes)
 {
     AlbaWindowsPathHandler pathHandler(R"(C:\APRG////AprgCommon\\\\/AprgCommon/tst\FilesForTests\)");
@@ -74,6 +91,7 @@ TEST(WindowsPathTest, FullPathWithOnlyDirectoryGiven_JumbledSlashes)
     EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(pathHandler.getPathType(), PathType::Directory);
 }
+
 TEST(WindowsPathTest, FullPathWithOnlyDirectoryGiven_WithNumbersAndSpecialCharacters)
 {
     AlbaWindowsPathHandler pathHandler(R"(C:\APRG12345\Aprg!@#$%Common\AprgCommon\tst\)");
@@ -84,6 +102,7 @@ TEST(WindowsPathTest, FullPathWithOnlyDirectoryGiven_WithNumbersAndSpecialCharac
     EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(pathHandler.getPathType(), PathType::Directory);
 }
+
 TEST(WebPathTest, DirectoryWithColonAndFileGivenAndNoProtocol)
 {
     AlbaWebPathHandler pathHandler(R"(\\::://directory!@#$%12345\\\\/\\\\/file.txt)");
@@ -93,7 +112,8 @@ TEST(WebPathTest, DirectoryWithColonAndFileGivenAndNoProtocol)
     EXPECT_EQ(pathHandler.getFile(), "file.txt");
     EXPECT_EQ(pathHandler.getFilenameOnly(), "file");
     EXPECT_EQ(pathHandler.getExtension(), "txt");
-    EXPECT_EQ(pathHandler.getPathType(), PathType::File);}
+    EXPECT_EQ(pathHandler.getPathType(), PathType::File);
+}
 
 TEST(WebPathTest, FullPathWithOnlyDirectoryGiven_HttpStyleInput)
 {
@@ -104,7 +124,8 @@ TEST(WebPathTest, FullPathWithOnlyDirectoryGiven_HttpStyleInput)
     EXPECT_TRUE(pathHandler.getFile().empty());
     EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
     EXPECT_TRUE(pathHandler.getExtension().empty());
-    EXPECT_EQ(pathHandler.getPathType(), PathType::Directory);}
+    EXPECT_EQ(pathHandler.getPathType(), PathType::Directory);
+}
 
 TEST(WebPathTest, FullPathWithQuestionMark)
 {
@@ -115,7 +136,8 @@ TEST(WebPathTest, FullPathWithQuestionMark)
     EXPECT_EQ(pathHandler.getFile(), "r049.jpg");
     EXPECT_EQ(pathHandler.getFilenameOnly(), "r049");
     EXPECT_EQ(pathHandler.getExtension(), "jpg");
-    EXPECT_EQ(pathHandler.getPathType(), PathType::File);}
+    EXPECT_EQ(pathHandler.getPathType(), PathType::File);
+}
 
 TEST(WebPathTest, GotoLinkWhenNoProtocolIsGiven)
 {
@@ -126,7 +148,8 @@ TEST(WebPathTest, GotoLinkWhenNoProtocolIsGiven)
     EXPECT_EQ(pathHandler.getProtocol(), "http");
     EXPECT_EQ(pathHandler.getDirectory(), "hTTp://www.google.com/!@#$%12345/NewDirectory1/");
     EXPECT_EQ(pathHandler.getFile(), "NewFile2.ext");
-    EXPECT_EQ(pathHandler.getFilenameOnly(), "NewFile2");    EXPECT_EQ(pathHandler.getExtension(), "ext");
+    EXPECT_EQ(pathHandler.getFilenameOnly(), "NewFile2");
+    EXPECT_EQ(pathHandler.getExtension(), "ext");
     EXPECT_EQ(pathHandler.getPathType(), PathType::File);
 }
 
@@ -139,7 +162,8 @@ TEST(WebPathTest, GotoLinkWhenWithProtocolIsGiven)
     EXPECT_EQ(pathHandler.getProtocol(), "ftp");
     EXPECT_EQ(pathHandler.getDirectory(), "ftP://www.yahoo.com/NewDirectory1/");
     EXPECT_EQ(pathHandler.getFile(), "NewFile2.ext");
-    EXPECT_EQ(pathHandler.getFilenameOnly(), "NewFile2");    EXPECT_EQ(pathHandler.getExtension(), "ext");
+    EXPECT_EQ(pathHandler.getFilenameOnly(), "NewFile2");
+    EXPECT_EQ(pathHandler.getExtension(), "ext");
     EXPECT_EQ(pathHandler.getPathType(), PathType::File);
 }
 
@@ -153,6 +177,7 @@ TEST(WindowsPathTest, FullPathWithDirectoryAndFileGiven_WithNumbersAndSpecialCha
     EXPECT_EQ(pathHandler.getExtension(), "txt");
     EXPECT_EQ(pathHandler.getPathType(), PathType::File);
 }
+
 TEST(WindowsPathTest, FullPathWithDirectoryAndFileNoFileExtensionGiven_WithNumbersAndSpecialCharacters)
 {
     AlbaWindowsPathHandler pathHandler(R"(C:\APRG12345\Aprg!@#$%Common\AprgCommon\tst\zxcvbnm12345.)");
@@ -163,6 +188,7 @@ TEST(WindowsPathTest, FullPathWithDirectoryAndFileNoFileExtensionGiven_WithNumbe
     EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(pathHandler.getPathType(), PathType::File);
 }
+
 TEST(WindowsPathTest, FullPathWithDirectoryAndFileExtensionOnlyGiven_WithNumbersAndSpecialCharacters)
 {
     AlbaWindowsPathHandler pathHandler(R"(C:\APRG12345\Aprg!@#$%Common\AprgCommon\tst\.zxcvbnm12345)");
@@ -173,6 +199,7 @@ TEST(WindowsPathTest, FullPathWithDirectoryAndFileExtensionOnlyGiven_WithNumbers
     EXPECT_EQ(pathHandler.getExtension(), "zxcvbnm12345");
     EXPECT_EQ(pathHandler.getPathType(), PathType::File);
 }
+
 TEST(WindowsPathTest, FullPathWithDirectoryAndFileNoFileExtensionGiven_WithNumbersAndSpecialCharactersTwoTimes)
 {
     AlbaWindowsPathHandler pathHandler(R"(C:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)");
@@ -182,6 +209,7 @@ TEST(WindowsPathTest, FullPathWithDirectoryAndFileNoFileExtensionGiven_WithNumbe
     EXPECT_EQ(pathHandler.getFilenameOnly(), "76543");
     EXPECT_EQ(pathHandler.getExtension(), "txt");
     EXPECT_EQ(pathHandler.getPathType(), PathType::File);
+
     pathHandler.input(R"(e:\APRG12345\Aprg!@#$%Common\AprgCommon\tst\.zxcvbnm12345)");
     EXPECT_EQ(pathHandler.getDrive(), "E");
     EXPECT_EQ(pathHandler.getDirectory(), R"(e:\APRG12345\Aprg!@#$%Common\AprgCommon\tst\)");
@@ -191,7 +219,8 @@ TEST(WindowsPathTest, FullPathWithDirectoryAndFileNoFileExtensionGiven_WithNumbe
     EXPECT_EQ(pathHandler.getPathType(), PathType::File);
 }
 
-TEST(WindowsPathTest, FullPathWithDirectoryAndFile_DoublePeriodInPath){
+TEST(WindowsPathTest, FullPathWithDirectoryAndFile_DoublePeriodInPath)
+{
     AlbaWindowsPathHandler pathHandler(R"(C:\APRG\..\dir\file.txt)");
     EXPECT_EQ(pathHandler.getDrive(), "C");
     EXPECT_EQ(pathHandler.getDirectory(), R"(C:\dir\)");
@@ -216,6 +245,7 @@ TEST(WindowsPathTest, FullPathWithDirectoryAndFile_DoublePeriodInPath){
     EXPECT_EQ(pathHandler.getExtension(), "txt");
     EXPECT_EQ(pathHandler.getPathType(), PathType::File);
 }
+
 TEST(WindowsPathTest, FullPathWithDirectoryAndFile_ActualLocalDirectory)
 {
     AlbaWindowsPathHandler pathHandler(R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File1.log)");
@@ -226,6 +256,7 @@ TEST(WindowsPathTest, FullPathWithDirectoryAndFile_ActualLocalDirectory)
     EXPECT_EQ(pathHandler.getExtension(), "log");
     EXPECT_EQ(pathHandler.getPathType(), PathType::File);
     EXPECT_EQ(pathHandler.isFoundInLocalSystem(), true);
+
     pathHandler.input(R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\thisFileDoesNotExist.txt)");
     EXPECT_EQ(pathHandler.getDrive(), "C");
     EXPECT_EQ(pathHandler.getDirectory(), R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\)");
@@ -234,6 +265,7 @@ TEST(WindowsPathTest, FullPathWithDirectoryAndFile_ActualLocalDirectory)
     EXPECT_EQ(pathHandler.getExtension(), "txt");
     EXPECT_EQ(pathHandler.getPathType(), PathType::File);
     EXPECT_EQ(pathHandler.isFoundInLocalSystem(), false);
+
     pathHandler.input(R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests)");
     EXPECT_EQ(pathHandler.getDrive(), "C");
     EXPECT_EQ(pathHandler.getDirectory(), R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\)");
@@ -242,6 +274,7 @@ TEST(WindowsPathTest, FullPathWithDirectoryAndFile_ActualLocalDirectory)
     EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(pathHandler.getPathType(), PathType::Directory);
     EXPECT_EQ(pathHandler.isFoundInLocalSystem(),true);
+
     pathHandler.input(R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\)");
     EXPECT_EQ(pathHandler.getDrive(), "C");
     EXPECT_EQ(pathHandler.getDirectory(), R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\)");
@@ -249,7 +282,35 @@ TEST(WindowsPathTest, FullPathWithDirectoryAndFile_ActualLocalDirectory)
     EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
     EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(pathHandler.getPathType(), PathType::Directory);
-    EXPECT_EQ(pathHandler.isFoundInLocalSystem(),true);}
+    EXPECT_EQ(pathHandler.isFoundInLocalSystem(),true);
+}
+
+TEST(WindowsPathTest, ReInputFileThatIsToBeDeleted_ActualLocalDirectory)
+{
+    string const pathOfFileToBeDeleted(R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\FileToBeDeleted.log)");
+    std::ofstream fileToBeDeleted(pathOfFileToBeDeleted);
+    fileToBeDeleted.close();
+
+    AlbaWindowsPathHandler pathHandler(pathOfFileToBeDeleted);
+    EXPECT_EQ(pathHandler.getDrive(), "C");
+    EXPECT_EQ(pathHandler.getDirectory(), R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\)");
+    EXPECT_EQ(pathHandler.getFile(), "FileToBeDeleted.log");
+    EXPECT_EQ(pathHandler.getFilenameOnly(), "FileToBeDeleted");
+    EXPECT_EQ(pathHandler.getExtension(), "log");
+    EXPECT_EQ(pathHandler.getPathType(), PathType::File);
+    EXPECT_EQ(pathHandler.isFoundInLocalSystem(), true);
+
+    pathHandler.deleteFile();
+    pathHandler.reInput();
+
+    EXPECT_EQ(pathHandler.getDrive(), "C");
+    EXPECT_EQ(pathHandler.getDirectory(), R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\)");
+    EXPECT_EQ(pathHandler.getFile(), "FileToBeDeleted.log");
+    EXPECT_EQ(pathHandler.getFilenameOnly(), "FileToBeDeleted");
+    EXPECT_EQ(pathHandler.getExtension(), "log");
+    EXPECT_EQ(pathHandler.getPathType(), PathType::File);
+    EXPECT_EQ(pathHandler.isFoundInLocalSystem(), false);
+}
 
 TEST(WindowsPathTest, FullPathWithDirectory_FindFileAndDirectoryOneDepth)
 {
@@ -259,7 +320,8 @@ TEST(WindowsPathTest, FullPathWithDirectory_FindFileAndDirectoryOneDepth)
 
     set<string> listOfFiles;
     set<string> listOfDirectory;
-    pathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectory);    ASSERT_EQ(listOfFiles.size(), 5);
+    pathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectory);
+    ASSERT_EQ(listOfFiles.size(), 5);
     auto itFiles = listOfFiles.begin();
     EXPECT_EQ(*(itFiles++), R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File1.log)");
     EXPECT_EQ(*(itFiles++), R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File2.txt)");
@@ -284,7 +346,8 @@ TEST(WindowsPathTest, FullPathWithDirectory_FindFileAndDirectoryMultipleDepthTwo
 
     set<string> listOfFiles;
     set<string> listOfDirectory;
-    pathHandler.findFilesAndDirectoriesMultipleDepth("*.*", listOfFiles, listOfDirectory, 2);    ASSERT_EQ(listOfFiles.size(), 10);
+    pathHandler.findFilesAndDirectoriesMultipleDepth("*.*", listOfFiles, listOfDirectory, 2);
+    ASSERT_EQ(listOfFiles.size(), 10);
     auto itFiles = listOfFiles.begin();
     EXPECT_EQ(*(itFiles++), R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1\File1.log)");
     EXPECT_EQ(*(itFiles++), R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR2\File2.txt)");
@@ -315,7 +378,8 @@ TEST(WindowsPathTest, FullPathWithDirectory_FindFileAndDirectoryUnlimitedDepth)
 
     set<string> listOfFiles;
     set<string> listOfDirectory;
-    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectory);    ASSERT_EQ(listOfFiles.size(), 11);
+    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectory);
+    ASSERT_EQ(listOfFiles.size(), 11);
     auto itFiles = listOfFiles.begin();
     EXPECT_EQ(*(itFiles++), R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1\File1.log)");
     EXPECT_EQ(*(itFiles++), R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR2\File2.txt)");
@@ -347,7 +411,8 @@ TEST(WindowsPathTest, FullPathWithDirectory_FindFileAndDirectoryUnlimitedDepthWi
 
     set<string> listOfFiles;
     set<string> listOfDirectory;
-    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.log", listOfFiles, listOfDirectory);    ASSERT_EQ(listOfFiles.size(), 1);
+    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.log", listOfFiles, listOfDirectory);
+    ASSERT_EQ(listOfFiles.size(), 1);
     auto itFiles = listOfFiles.begin();
     EXPECT_EQ(*(itFiles++), R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File1.log)");
     ASSERT_EQ(listOfDirectory.size(), 0);
@@ -360,16 +425,4 @@ TEST(WindowsPathTest, FileSizeTest)
     ASSERT_EQ(pathHandler.getPathType(), PathType::File);
     ASSERT_EQ(pathHandler.isFoundInLocalSystem(), true);
     EXPECT_DOUBLE_EQ(pathHandler.getFileSizeEstimate(), 5000);
-}
-
-TEST(WindowsPathTest, DISABLED_ActualTest){
-    AlbaWindowsPathHandler pathHandler(R"(C:\APRG\tcom_flexi3-trunk-cchh\I_Interface\Application_Env\Definitions\)");
-    ASSERT_EQ(pathHandler.getPathType(), PathType::Directory);
-    ASSERT_EQ(pathHandler.isFoundInLocalSystem(), true);
-
-    set<string> listOfFiles;
-    set<string> listOfDirectory;
-    pathHandler.findFilesAndDirectoriesOneDepth("TCellId.h", listOfFiles, listOfDirectory);    ASSERT_EQ(listOfFiles.size(), 1);
-    auto itFiles = listOfFiles.begin();
-    EXPECT_EQ(*(itFiles++), R"(C:\APRG\tcom_flexi3-trunk-cchh\I_Interface\Application_Env\Definitions\TCellId.h)");
 }

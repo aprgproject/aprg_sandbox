@@ -27,7 +27,8 @@ void AprgWebCrawler::crawlForYoutube()
 
     for(string & webLink : m_webLinks)
     {
-        crawlForYoutube(webLink, convertedYoutubeLinkStream);    }
+        crawlForYoutube(webLink, convertedYoutubeLinkStream);
+    }
 }
 
 void AprgWebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutubeLinkStream)
@@ -51,7 +52,8 @@ void AprgWebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutub
         {
             continue;
         }
-        convertedYoutubeLinkStream << ssYoutubeLinkPathHandler.getFullPath() << endl << flush;        webLink.clear();
+        convertedYoutubeLinkStream << ssYoutubeLinkPathHandler.getFullPath() << endl << flush;
+        webLink.clear();
         saveMemoryCard();
         break;
     }
@@ -75,7 +77,8 @@ void AprgWebCrawler::crawlForYoutube_Old(string & webLink, ofstream& convertedYo
             cout << "Links are invalid." << endl;
             links.printLinks();
             continue;
-        }        AlbaWebPathHandler videoWebPathHandler(links.linkForVideo);
+        }
+        AlbaWebPathHandler videoWebPathHandler(links.linkForVideo);
         AlbaWindowsPathHandler downloadPathHandler(links.localPathForCurrentVideo);
         downloadPathHandler.createDirectoriesIfItDoesNotExist();
         if(!downloadBinaryFileWithFiniteNumberOfTries<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(videoWebPathHandler, downloadPathHandler, 10))
@@ -83,7 +86,8 @@ void AprgWebCrawler::crawlForYoutube_Old(string & webLink, ofstream& convertedYo
             cout << "Download of video file failed, retrying from the start" << endl;
             continue;
         }
-        convertedYoutubeLinkStream << links.linkForVideo << endl << flush;        webLink.clear();
+        convertedYoutubeLinkStream << links.linkForVideo << endl << flush;
+        webLink.clear();
         saveMemoryCard();
         break;
     }
@@ -101,7 +105,8 @@ LinksForYoutube AprgWebCrawler::getLinkForYoutube(AlbaWebPathHandler const& webL
     string fileNameForVideo2(getStringAfterThisString(linkForVideo, "&title="));
     string fileNameForVideo("NoName");
     if((!fileNameForVideo1.empty()))
-    {        fileNameForVideo = fileNameForVideo1;
+    {
+        fileNameForVideo = fileNameForVideo1;
     }
     else if((!fileNameForVideo2.empty()))
     {

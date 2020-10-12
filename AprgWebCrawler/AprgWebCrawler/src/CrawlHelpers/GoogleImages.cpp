@@ -27,7 +27,8 @@ void AprgWebCrawler::saveImageListFromGoogleImages()
     {
         cout << "Cannot open html file." << endl;
         cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
-        return;    }
+        return;
+    }
     ofstream listFileStream(listPathHandler.getFullPath());
     if(!listFileStream.is_open())
     {
@@ -67,7 +68,8 @@ void AprgWebCrawler::downloadGoogleImages() const
         cout << "Cannot open html file." << endl;
         cout << "File to read:" << listPathHandler.getFullPath() << endl;
         return;
-    }    AlbaFileReader listFileReader(listFileStream);
+    }
+    AlbaFileReader listFileReader(listFileStream);
     deque<string> listOfImages;
     while (listFileReader.isNotFinished())
     {
@@ -92,7 +94,8 @@ void AprgWebCrawler::downloadGoogleImages() const
         {
             cout << "Cannot open list file." << endl;
             cout << "File to write:" << listPathHandler.getFullPath() << endl;
-            return;        }
+            return;
+        }
         for(string const imageLink:listOfImages)
         {
             outListFileStream<<imageLink<<endl;

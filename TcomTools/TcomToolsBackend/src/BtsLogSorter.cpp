@@ -33,6 +33,7 @@ void BtsLogSorter::processDirectory(string const& directoryPath)
         }
     }
 }
+
 void BtsLogSorter::processFile(string const& filePath)
 {
     openStartupLogsIfNeeded();
@@ -43,7 +44,8 @@ void BtsLogSorter::processFile(string const& filePath)
     AlbaFileReader fileReader(inputLogFileStream);
     while(fileReader.isNotFinished())
     {
-        BtsLogPrint logPrint(filePathHandler.getFile(), fileReader.getLineAndIgnoreWhiteSpaces());        m_foundHardwareAddresses.emplace(logPrint.getHardwareAddress());
+        BtsLogPrint logPrint(filePathHandler.getFile(), fileReader.getLineAndIgnoreWhiteSpaces());
+        m_foundHardwareAddresses.emplace(logPrint.getHardwareAddress());
         if(logPrint.getPcTime().isEmpty())
         {
             m_sorterWithoutPcTime.add(logPrint);
@@ -87,7 +89,8 @@ void BtsLogSorter::openStartupLogsIfNeeded()
 {
     if(!m_startupLogStreamOptional)
     {
-        m_startupLogStreamOptional.createObjectUsingDefaultConstructor();        m_startupLogStreamOptional.getReference().open(m_pathOfStartupLog, std::ios::ate|std::ios::app);
+        m_startupLogStreamOptional.createObjectUsingDefaultConstructor();
+        m_startupLogStreamOptional.getReference().open(m_pathOfStartupLog, std::ios::ate|std::ios::app);
     }
 }
 

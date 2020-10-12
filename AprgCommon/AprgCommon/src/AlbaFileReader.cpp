@@ -47,13 +47,22 @@ double AlbaFileReader::getCurrentLocation() const
     return location;
 }
 
-
 double AlbaFileReader::getFileSize() const
 {
     m_stream.seekg(0, m_stream.end);
     double fileSize = m_stream.tellg();
-    m_stream.seekg(0, m_stream.beg);
+    moveToTheBeginning();
     return fileSize;
+}
+
+void AlbaFileReader::moveToTheBeginning() const
+{
+    m_stream.seekg(0, m_stream.beg);
+}
+
+void AlbaFileReader::moveLocation(unsigned long long location) const
+{
+    m_stream.seekg(location, m_stream.beg);
 }
 
 void AlbaFileReader::setMaxBufferSize(int bufferSize)

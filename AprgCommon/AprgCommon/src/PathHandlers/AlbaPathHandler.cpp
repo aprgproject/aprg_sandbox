@@ -19,7 +19,8 @@ void AlbaPathHandler::clear()
 {
     m_pathType = PathType::Empty;
     m_directory.clear();
-    m_file.clear();    m_extension.clear();
+    m_file.clear();
+    m_extension.clear();
 }
 
 string AlbaPathHandler::getFullPath() const
@@ -35,8 +36,9 @@ void AlbaPathHandler::input(string const& path)
 
 void AlbaPathHandler::reInput()
 {
+    string const previousFullPath(getFullPath());
     clear();
-    save(getFullPath());
+    save(previousFullPath);
 }
 
 void AlbaPathHandler::goUp()
@@ -55,7 +57,8 @@ string AlbaPathHandler::getImmediateDirectoryName() const
 }
 
 string AlbaPathHandler::getDirectory() const
-{    return m_directory;
+{
+    return m_directory;
 }
 
 string AlbaPathHandler::getFile() const
@@ -112,7 +115,8 @@ void AlbaPathHandler::setExtensionFromPath(string const& path)
     if (stringHelper::isNotNpos(indexOfSlashOrPeriod) && path[indexOfSlashOrPeriod]=='.')
     {
         m_extension = path.substr(indexOfSlashOrPeriod+1);
-    }}
+    }
+}
 
 void AlbaPathHandler::setDirectoryAndFileFromPath(string const& path)
 {

@@ -13,6 +13,7 @@ using namespace tcomToolsBackend;
 
 namespace alba
 {
+
 WireSharkLogReader::WireSharkLogReader()
     : m_totalDelay(0)
     , m_count(0)
@@ -33,7 +34,8 @@ WireSharkLogReader::WireSharkLogReader(string const pathOfOutputFile)
 void WireSharkLogReader::processDirectoryForWireSharkDelay(string const& directoryPath)
 {
     set<string> listOfFiles;
-    set<string> listOfDirectories;    AlbaWindowsPathHandler(directoryPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
+    set<string> listOfDirectories;
+    AlbaWindowsPathHandler(directoryPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& filePath : listOfFiles)
     {
         processFile(AlbaWindowsPathHandler(filePath).getFullPath());
@@ -56,7 +58,8 @@ void WireSharkLogReader::processFileForWireSharkDelay(string const& filePath)
     }
     while(fileReader.isNotFinished())
     {
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(id-radioLinkSetup , RadioLinkSetupRequestFDD)"))
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(id-radioLinkSetup , RadioLinkSetupRequestFDD)"))
         {
             startTimeFetchedOptional.setValue(getWireSharkTime(lineInLogs));
         }
@@ -73,7 +76,8 @@ void WireSharkLogReader::processFileForWireSharkDelay(string const& filePath)
                 delayForCrnccId.startTimeOptional.setValue(startTimeFetchedOptional.getReference());
             }
             if(endTimeFetchedOptional)
-            {                delayForCrnccId.endTimeOptional.setValue(endTimeFetchedOptional.getReference());
+            {
+                delayForCrnccId.endTimeOptional.setValue(endTimeFetchedOptional.getReference());
             }
             startTimeFetchedOptional.clear();
             endTimeFetchedOptional.clear();
@@ -88,7 +92,8 @@ void WireSharkLogReader::processFileForWireSharkDelay(string const& filePath)
                 m_wireSharkDelays.erase(crnccId);
             }
         }
-        else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(No.     Time)"))        {
+        else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(No.     Time)"))
+        {
             startTimeFetchedOptional.clear();
             endTimeFetchedOptional.clear();
         }
@@ -360,7 +365,8 @@ void WireSharkLogReader::processFileForBtsDelayForGrm(string const& filePath)
 
 double WireSharkLogReader::getWireSharkTime(string const& lineInLogs) const
 {
-    int length(lineInLogs.length());    int startIndexOfTime=0, endIndexOfTime=0;
+    int length(lineInLogs.length());
+    int startIndexOfTime=0, endIndexOfTime=0;
     int i=0;
     for(; i<length && stringHelper::isWhiteSpace(lineInLogs[i]); i++) {}
     for(; i<length && stringHelper::isNumber(lineInLogs[i]); i++) {}
@@ -375,7 +381,8 @@ string WireSharkLogReader::getNumberAfterThisString(string const& mainString, st
 {
     string result;
     int firstIndexOfFirstString = mainString.find(stringToSearch);
-    if(stringHelper::isNotNpos(firstIndexOfFirstString))    {
+    if(stringHelper::isNotNpos(firstIndexOfFirstString))
+    {
         int lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
         int lastIndexOfNumber;
         for(lastIndexOfNumber = lastIndexOfFirstString; stringHelper::isNumber(mainString[lastIndexOfNumber]); ++lastIndexOfNumber);
@@ -389,4 +396,5 @@ double WireSharkLogReader::getComputedAverageDelay() const
     cout<<"totalDelay: "<<m_totalDelay<<" count: "<<m_count<<endl;
     return (double)m_totalDelay/m_count;
 }
+
 }//namespace alba

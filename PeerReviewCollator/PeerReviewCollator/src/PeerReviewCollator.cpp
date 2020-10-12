@@ -23,7 +23,8 @@ void PeerReviewCollator::processDirectory(string const& directoryPath)
     }
     if(listOfFiles.empty())
     {
-        cout<<"processDirectory -> No csv files found"<<endl;    }
+        cout<<"processDirectory -> No csv files found"<<endl;
+    }
 }
 
 void PeerReviewCollator::processFile(string const& filePath)
@@ -35,7 +36,8 @@ void PeerReviewCollator::processFile(string const& filePath)
     while(fileReader.isNotFinished())
     {
         string lineInFile(fileReader.getLineAndIgnoreWhiteSpaces());
-        processLineForPerson(pathHandler.getFilenameOnly(), lineInFile);    }
+        processLineForPerson(pathHandler.getFilenameOnly(), lineInFile);
+    }
 }
 
 void PeerReviewCollator::processLineForPerson(string const& person, string const& lineInFile)
@@ -70,7 +72,8 @@ void PeerReviewCollator::processLineForPerson(string const& person, string const
             {
                 answerForPerson = getStringAfterThisString(cellString, " about ");
             }
-        }    }
+        }
+    }
     if(isQuestionLine)
     {
         m_questions[m_currentQuestionNumber] = questionString;
@@ -149,7 +152,8 @@ void PeerReviewCollator::generateOutput(string const& outputDirectoryPath) const
             if(questionNumber != mapPerQuestion.first)
             {
                 questionNumber = mapPerQuestion.first;
-                outputFile << "Q" << questionNumber << R"(,")" << m_questions.at(questionNumber) << R"(")" << endl;            }
+                outputFile << "Q" << questionNumber << R"(,")" << m_questions.at(questionNumber) << R"(")" << endl;
+            }
             outputFile << R"("From )" << mapPerQuestion.second.first << R"(",")" <<mapPerQuestion.second.second << R"(")" << endl;
         }
     }

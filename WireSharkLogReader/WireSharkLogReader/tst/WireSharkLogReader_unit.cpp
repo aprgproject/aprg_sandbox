@@ -10,6 +10,7 @@ TEST(WireSharkLogReaderTest, DISABLED_WireSharkTimeCanBeExtracted)
 {
     WireSharkLogReader reader;
     double timeStamp = reader.getWireSharkTime("94 0.004714000    10.34.246.5           10.34.46.6            NBAP     238    id-radioLinkSetup , RadioLinkSetupRequestFDD ");
+
     EXPECT_DOUBLE_EQ(0.004714, timeStamp);
 }
 
@@ -17,6 +18,7 @@ TEST(WireSharkLogReaderTest, DISABLED_WireSharkTimeCanBeExtracted2)
 {
     WireSharkLogReader reader;
     double timeStamp = reader.getWireSharkTime("  96414 4.137924000    10.34.46.6            10.34.246.5           NBAP     138    id-radioLinkSetup , RadioLinkSetupResponseFDD ");
+
     EXPECT_DOUBLE_EQ(4.137924, timeStamp);
 }
 
@@ -135,4 +137,5 @@ TEST (WireSharkLogReaderTest, DISABLED_SizeOfTest)
     TraceReportHeader traceReportHeader;
     cout<<"Size of:"<<sizeof(traceReportHeader)<<endl;
 }
+
 

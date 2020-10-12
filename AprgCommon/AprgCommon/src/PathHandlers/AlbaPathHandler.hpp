@@ -26,7 +26,8 @@ public:
     string getFilenameOnly() const;
     string getExtension() const;
     PathType getPathType() const;
-    bool isDirectory() const;    bool isFile() const;
+    bool isDirectory() const;
+    bool isFile() const;
     bool isEmpty() const;
 
 protected:
@@ -37,7 +38,8 @@ protected:
     PathType m_pathType;
     string m_slashCharacterString;
     string m_directory;
-    string m_file;    string m_extension;
+    string m_file;
+    string m_extension;
 };
 
 }//namespace alba

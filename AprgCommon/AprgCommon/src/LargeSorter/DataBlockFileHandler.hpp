@@ -23,7 +23,8 @@ public:
         return m_fileOptional.getReference();
     }
     bool isFileStreamOpened()
-    {        if(m_fileOptional)
+    {
+        if(m_fileOptional)
         {
             return m_fileOptional.getReference().is_open();
         }
@@ -40,7 +41,8 @@ public:
         }
     }
     void add(ObjectToSort const& objectToSort)
-    {        m_fileOptional.getReference()<<objectToSort<<std::endl;
+    {
+        m_fileOptional.getReference()<<objectToSort<<std::endl;
     }
     void releaseFileStream()
     {

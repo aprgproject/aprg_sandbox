@@ -23,7 +23,8 @@ AprgWebCrawler::AprgWebCrawler(string const& workingDirectory)
     }
 }
 
-bool AprgWebCrawler::isValid() const{
+bool AprgWebCrawler::isValid() const
+{
     return m_workingPathHandler.isFoundInLocalSystem() &&
             m_workingPathHandler.isDirectory() &&
             m_memoryCardPathHandler.isFoundInLocalSystem() &&
@@ -67,7 +68,8 @@ void AprgWebCrawler::printStatus() const
     else if(m_isModeRecognized)
     {
         cout << "Mode: ["<< getCrawlerModeString() << "] is not a recognized mode" << endl;
-    }    else
+    }
+    else
     {
         cout << "Status is okay" << endl;
     }
@@ -106,6 +108,7 @@ void AprgWebCrawler::loadMemoryCard()
         }
     }
 }
+
 void AprgWebCrawler::crawl()
 {
     switch(m_mode)
@@ -221,7 +224,8 @@ bool AprgWebCrawler::isWebLinksValid() const
 
 string AprgWebCrawler::getUserInputAfterManuallyUsingMozillaFirefox(AlbaWebPathHandler const& webPathHandler) const
 {
-    constexpr int bufferSize = 1000;    char buffer[bufferSize];
+    constexpr int bufferSize = 1000;
+    char buffer[bufferSize];
     gotoLinkManuallyUsingMozillaFirefox(webPathHandler);
     cout<<"Enter user input:"<<endl;
     cin.getline(buffer, bufferSize);

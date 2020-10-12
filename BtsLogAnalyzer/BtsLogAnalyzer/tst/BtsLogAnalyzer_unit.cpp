@@ -165,7 +165,8 @@ TEST (BtsLogAnalyzerTest, Test1)
 
     BtsDelayInformationContainer btsDelayInformationContainer;
 
-    BtsLogAnalyzer btsLogAnalyzer(btsDelayInformationContainer, delayListStream);    btsLogAnalyzer.saveAllMessagePrintsForAllUsers(pathHandler);
+    BtsLogAnalyzer btsLogAnalyzer(btsDelayInformationContainer, delayListStream);
+    btsLogAnalyzer.saveAllMessagePrintsForAllUsers(pathHandler);
     btsLogAnalyzer.analyzeForAllUsers();
     btsLogAnalyzer.printAllUsers(messageListStream);
 
@@ -188,7 +189,8 @@ TEST (BtsLogAnalyzerTest, Test2)
 
     BtsDelayInformationContainer btsDelayInformationContainer;
 
-    BtsLogAnalyzer btsLogAnalyzer(btsDelayInformationContainer, delayListStream);    btsLogAnalyzer.saveAllMessagePrintsForAllUsers(pathHandler);
+    BtsLogAnalyzer btsLogAnalyzer(btsDelayInformationContainer, delayListStream);
+    btsLogAnalyzer.saveAllMessagePrintsForAllUsers(pathHandler);
     btsLogAnalyzer.analyzeForAllUsers();
     btsLogAnalyzer.printAllUsers(messageListStream);
 

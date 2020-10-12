@@ -52,6 +52,7 @@ TcomToolsConfiguration::TcomToolsConfiguration()
     , acceptedFilesGrepCondition()
     , otherGrepCondition()
     , prioritizedLogPrint()
+    , cropSize(0)
 {
     loadConfigurationFromFile();
 }
@@ -69,90 +70,91 @@ void TcomToolsConfiguration::loadConfigurationFromFile()
 
         if("isExtractStepOn" == beforeColon)
         {
-            isExtractStepOn = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isExtractStepOn = stringHelper::convertStringToBool(afterColon);
         }
         else if("isCombineAndSortStepOn" == beforeColon)
         {
-            isCombineAndSortStepOn = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isCombineAndSortStepOn = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepStepOn" == beforeColon)
         {
-            isGrepStepOn = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepStepOn = stringHelper::convertStringToBool(afterColon);
         }
         else if("isCropStepOn" == beforeColon)
         {
-            isCropStepOn = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isCropStepOn = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepTcomEnabled" == beforeColon)
         {
-            isGrepTcomEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepTcomEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepErrEnabled" == beforeColon)
         {
-            isGrepErrEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepErrEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepErrWrnTcomEnabled" == beforeColon)
         {
-            isGrepErrWrnNoSpamEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepErrWrnNoSpamEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepBtsStatusEnabled" == beforeColon)
         {
-            isGrepBtsStatusEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepBtsStatusEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepRecoveryEnabled" == beforeColon)
         {
-            isGrepRecoveryEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepRecoveryEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepAllocationEnabled" == beforeColon)
         {
-            isGrepAllocationEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepAllocationEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepFaultEnabled" == beforeColon)
         {
-            isGrepFaultEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepFaultEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepLrmEnabled" == beforeColon)
         {
-            isGrepLrmEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepLrmEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepGrmEnabled" == beforeColon)
         {
-            isGrepGrmEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepGrmEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepToamEnabled" == beforeColon)
         {
-            isGrepToamEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepToamEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepTupcEnabled" == beforeColon)
         {
-            isGrepTupcEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepTupcEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepRlhEnabled" == beforeColon)
         {
-            isGrepRlhEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepRlhEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepCchhEnabled" == beforeColon)
         {
-            isGrepCchhEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepCchhEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepCchhSdlEnabled" == beforeColon)
         {
-            isGrepCchhSdlEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepCchhSdlEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepHschEnabled" == beforeColon)
         {
-            isGrepHschEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepHschEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("isGrepDmgrEnabled" == beforeColon)
         {
-            isGrepDmgrEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
+            isGrepDmgrEnabled = stringHelper::convertStringToBool(afterColon);
         }
         else if("grepConditionForTcom" == beforeColon)
         {
             grepConditionForTcom = afterColon;
         }
         else if("grepConditionForErr" == beforeColon)
-        {            grepConditionForErr = afterColon;
+        {
+            grepConditionForErr = afterColon;
         }
         else if("grepConditionForErrWrn" == beforeColon)
         {
@@ -230,6 +232,10 @@ void TcomToolsConfiguration::loadConfigurationFromFile()
         {
             prioritizedLogPrint = afterColon;
         }
+        else if("cropSize" == beforeColon)
+        {
+            cropSize = stringHelper::convertStringToNumber<double>(afterColon);;
+        }
         else if("btsLogSorterConfiguration.m_pathOfLogsWithoutPcTime" == beforeColon)
         {
             btsLogSorterConfiguration.m_pathOfLogsWithoutPcTime = afterColon;
@@ -267,7 +273,8 @@ void TcomToolsConfiguration::loadConfigurationFromFile()
             btsLogSorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks = afterColon;
         }
         else if("btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock" == beforeColon)
-        {            btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock = stringHelper::convertStringToNumber<int>(afterColon);
+        {
+            btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock = stringHelper::convertStringToNumber<int>(afterColon);
         }
         else if("btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock" == beforeColon)
         {
@@ -290,7 +297,8 @@ void TcomToolsConfiguration::loadConfigurationFromFile()
 
 void TcomToolsConfiguration::saveConfigurationToFile() const
 {
-    std::ofstream outputFileStream(CONFIGURATION_FILE);    outputFileStream << "isExtractStepOn:" << static_cast<int>(isExtractStepOn) << endl;
+    std::ofstream outputFileStream(CONFIGURATION_FILE);
+    outputFileStream << "isExtractStepOn:" << static_cast<int>(isExtractStepOn) << endl;
     outputFileStream << "isCombineAndSortStepOn:" << static_cast<int>(isCombineAndSortStepOn) << endl;
     outputFileStream << "isGrepStepOn:" << static_cast<int>(isGrepStepOn) << endl;
     outputFileStream << "isCropStepOn:" << static_cast<int>(isCropStepOn) << endl;

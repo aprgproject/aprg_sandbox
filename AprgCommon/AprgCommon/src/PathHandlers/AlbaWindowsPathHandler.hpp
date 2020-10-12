@@ -22,7 +22,8 @@ public:
     void deleteFile();
     void renameFile(string const& newFileName);
     bool isRelativePath() const;
-    void findFilesAndDirectoriesOneDepth(            string const& wildCardSearch,
+    void findFilesAndDirectoriesOneDepth(
+            string const& wildCardSearch,
             set<string>& listOfFiles,
             set<string>& listOfDirectories) const;
     void findFilesAndDirectoriesMultipleDepth(
@@ -42,7 +43,8 @@ private:
             string const& wildCardSearch,
             set<string>& listOfFiles,
             set<string>& listOfDirectories,
-            int depth) const;    string m_drive;
+            int depth) const;
+    string m_drive;
     bool m_foundInLocalSystem;
     bool m_relativePath;
 };

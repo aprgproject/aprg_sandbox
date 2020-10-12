@@ -38,6 +38,8 @@ inputFileOrDirectory:D:\W\ZZZ_Useless_Logs\FZPDeployment\2016-01-10\sorted.log
 extractGrepCondition:[LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles]
 acceptedFilesGrepCondition: [ccns.log] || [tcom.log] || [system.log] || [UDP] || (([SYSLOG_] || [startup] || [runtime]|| [_pm_] || [CPU]) && [.log])
 otherGrepCondition:
+prioritizedLogPrint:
+cropSize:100
 btsLogSorterConfiguration.m_pathOfLogsWithoutPcTime:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\LogsWithoutPcTime
 btsLogSorterConfiguration.m_pathOfStartupLog:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\StartupLog\Startup.log
 btsLogSorterConfiguration.m_configurationWithPcTime.m_directoryForBlocks:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\WithPcTimeBlocks

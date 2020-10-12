@@ -146,4 +146,5 @@ private:
     BlockCache m_fileStreamOpenedCache;
     DataBlocks<ObjectToSort> m_blocks;
 };
+
 }//namespace alba

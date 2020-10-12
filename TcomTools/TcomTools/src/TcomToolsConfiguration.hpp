@@ -59,6 +59,7 @@ struct TcomToolsConfiguration
     string acceptedFilesGrepCondition;
     string otherGrepCondition;
     string prioritizedLogPrint;
+    double cropSize;
     tcomToolsBackend::BtsLogSorterConfiguration btsLogSorterConfiguration;
 };
 

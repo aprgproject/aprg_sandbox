@@ -8,7 +8,8 @@ set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(WireSharkLogReader_DIR ${APRG_DIR}/WireSharkLogReader/WireSharkLogReader/)
 
 #Assign Flags
-set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99 -mwindows")set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11 -mwindows")
+set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99 -mwindows")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11 -mwindows")
 
 #Include aprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)

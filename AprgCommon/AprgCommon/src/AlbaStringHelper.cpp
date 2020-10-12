@@ -113,7 +113,8 @@ string stringHelper::getStringWithUrlDecodedString(string const& string1)
         {
             result += string1[index++];
         }
-    }    return result;
+    }
+    return result;
 }
 
 string stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(string const& string1)
@@ -307,7 +308,8 @@ string stringHelper::getCorrectPathWithReplacedSlashCharacters(string const& pat
     string correctPath = std::accumulate(path.cbegin(), path.cend(), string(""),
                                          [&isSlashDetected, slashCharacterString]
                                          (string partialResult, char const currentCharacter)
-    {        if(isSlashCharacter(currentCharacter))
+    {
+        if(isSlashCharacter(currentCharacter))
         {
             if(!isSlashDetected){partialResult += slashCharacterString;}
         }
@@ -401,6 +403,25 @@ string stringHelper::getImmediateDirectoryName(string const& path)
 template string stringHelper::getImmediateDirectoryName<'\\'>(string const& path);
 template string stringHelper::getImmediateDirectoryName<'/'>(string const& path);
 
+bool stringHelper::convertStringToBool(string const& stringToConvert)
+{
+    string allCapital(getStringWithCapitalLetters(stringToConvert));
+    bool result(false);
+    if("TRUE" == allCapital)
+    {
+        result = true;
+    }
+    else if("FALSE" == allCapital)
+    {
+        result = false;
+    }
+    else
+    {
+        result = (0 != convertStringToNumber<int>(stringToConvert));
+    }
+    return result;
+}
+
 template <typename NumberType>
 NumberType stringHelper::convertStringToNumber(string const& stringToConvert)
 {
@@ -471,5 +492,19 @@ NumberType stringHelper::convertHexStringToNumber(string const& stringToConvert)
 template char stringHelper::convertHexStringToNumber<char>(string const& stringToConvert);
 template int stringHelper::convertHexStringToNumber<int>(string const& stringToConvert);
 template unsigned int stringHelper::convertHexStringToNumber<unsigned int>(string const& stringToConvert);
+
+template <typename NumberType>
+string stringHelper::convertNumberToString(NumberType number)
+{
+    stringstream ss;
+    ss.precision(10);
+    ss << number;
+    return ss.str();
+}
+
+template string stringHelper::convertNumberToString<int>(int number);
+template string stringHelper::convertNumberToString<unsigned int>(unsigned int number);
+template string stringHelper::convertNumberToString<float>(float number);
+template string stringHelper::convertNumberToString<double>(double number);
 
 }//namespace alba

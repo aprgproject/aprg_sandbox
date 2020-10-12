@@ -45,17 +45,21 @@ string getStringBeforeDoublePeriod(string const& string1, string const& slashCha
 string getImmediateDirectoryName(string const& string1, string const& slashCharacterString);
 template<char slashCharacterString> string getCorrectPathWithReplacedSlashCharacters(string const& path);
 template<char slashCharacterString> string getCorrectPathWithoutDoublePeriod(string const& path);
-template<char slashCharacterString> string getStringBeforeDoublePeriod(string const& path);template<char slashCharacterString> string getImmediateDirectoryName(string const& path);
+template<char slashCharacterString> string getStringBeforeDoublePeriod(string const& path);
+template<char slashCharacterString> string getImmediateDirectoryName(string const& path);
 
+bool convertStringToBool(string const& stringToConvert);
 template <typename NumberType> NumberType convertStringToNumber(string const& stringToConvert);
 template <typename NumberType> NumberType convertHexStringToNumber(string const& stringToConvert);
+template <typename NumberType> string convertNumberToString(NumberType number);
 
 inline bool isWhiteSpace(char const c)
 {
     return (' '==c || '\t'==c || '\n'==c || '\r'==c);
 }
 
-inline bool isNotNpos(int const index){
+inline bool isNotNpos(int const index)
+{
     return (int)string::npos != index;
 }
 

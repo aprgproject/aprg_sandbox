@@ -29,7 +29,8 @@ void AprgFileExtractor::extractAllRelevantFiles(string const& pathOfFileOrDirect
     }
     if(fileOrDirectoryPathHandler.isDirectory())
     {
-        extractAllRelevantFilesInThisDirectory(fileOrDirectoryPathHandler.getFullPath());    }
+        extractAllRelevantFilesInThisDirectory(fileOrDirectoryPathHandler.getFullPath());
+    }
     else
     {
         extractAllRelevantFilesInThisCompressedFile(fileOrDirectoryPathHandler.getFullPath());
@@ -45,7 +46,8 @@ void AprgFileExtractor::copyRelativeFilePathsFromCompressedFile(string const& fi
     system(command.c_str());
 
     ifstream tempFile(PATH_OF_7Z_TEMP_FILE);
-    string path;    AlbaFileReader fileReader(tempFile);
+    string path;
+    AlbaFileReader fileReader(tempFile);
     while(fileReader.isNotFinished())
     {
         string lineInFile(fileReader.simpleGetLine());
@@ -62,6 +64,7 @@ void AprgFileExtractor::copyRelativeFilePathsFromCompressedFile(string const& fi
         }
     }
 }
+
 string AprgFileExtractor::extractAll(string const& filePathOfCompressedFile) const
 {
     AlbaWindowsPathHandler compressedFilePathHandler(filePathOfCompressedFile);
@@ -73,6 +76,7 @@ string AprgFileExtractor::extractAll(string const& filePathOfCompressedFile) con
     cout<<"extractAll: "<<outputPathHandler.getImmediateDirectoryName()<<R"(\)"<<endl;
     return outputPathHandler.getFullPath();
 }
+
 string AprgFileExtractor::extractOneFile(string const& filePathOfCompressedFile, string const& relativePathOfFile) const
 {
     AlbaWindowsPathHandler compressedFilePathHandler(filePathOfCompressedFile);
@@ -83,7 +87,8 @@ string AprgFileExtractor::extractOneFile(string const& filePathOfCompressedFile,
             + relativePathOfFile + R"(" > nul)";
     system(command.c_str());
     cout<<"extractOneFile: "<<outputPathHandler.getFile()<<endl;
-    return outputPathHandler.getFullPath();}
+    return outputPathHandler.getFullPath();
+}
 
 bool AprgFileExtractor::isRecognizedCompressedFile(string const& extension) const
 {
@@ -108,6 +113,7 @@ void AprgFileExtractor::extractAllRelevantFilesInThisDirectory(string const& dir
         }
     }
 }
+
 void AprgFileExtractor::extractAllRelevantFilesInThisCompressedFile(string const& filePathOfCompressedFile) const
 {
     AlbaWindowsPathHandler compressedFilePathHandler(filePathOfCompressedFile);
@@ -117,7 +123,8 @@ void AprgFileExtractor::extractAllRelevantFilesInThisCompressedFile(string const
     }
     else
     {
-        extractAllRelevantFilesRecursively(filePathOfCompressedFile);    }
+        extractAllRelevantFilesRecursively(filePathOfCompressedFile);
+    }
 }
 
 void AprgFileExtractor::extractAllFilesRecursively(string const& filePathOfCompressedFile) const
@@ -129,6 +136,7 @@ void AprgFileExtractor::extractAllFilesRecursively(string const& filePathOfCompr
         extractedPathHandler.deleteFile();
     }
 }
+
 void AprgFileExtractor::extractAllRelevantFilesRecursively(string const& filePathOfCompressedFile) const
 {
     set<string> filePaths;
@@ -145,7 +153,8 @@ void AprgFileExtractor::extractAllRelevantFilesRecursively(string const& filePat
                 extractedPathHandler.deleteFile();
             }
         }
-    }}
+    }
+}
 
 bool AprgFileExtractor::isTheExtensionXz(string const& extension) const
 {

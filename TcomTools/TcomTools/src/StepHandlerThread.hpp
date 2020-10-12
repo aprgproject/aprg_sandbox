@@ -12,7 +12,7 @@ namespace tcomToolsGui
 enum class ThreadState
 {
     ToBeDestroyed,
-    ToBeExecutionToBeStarted,
+    ToBeStarted,
     ToBeIgnored
 };
 
@@ -25,7 +25,7 @@ class StepHandlerThread : public QThread
 public:
     StepHandlerThread(QObject *parent = 0);
     ~StepHandlerThread();
-    void execute(TcomToolsConfiguration & configuration);
+    void execute(TcomToolsConfiguration const& configuration);
 signals:
     void finished();
 protected:

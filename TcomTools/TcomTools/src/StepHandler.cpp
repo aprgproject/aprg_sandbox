@@ -1,5 +1,6 @@
 #include <AlbaFileReader.hpp>
 #include <AprgFileExtractor.hpp>
+#include <AlbaStringHelper.hpp>
 #include <BtsLogSorter.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
 #include <fstream>
@@ -13,14 +14,13 @@ using namespace std;
 namespace tcomToolsGui
 {
 
-StepHandler::StepHandler(TcomToolsConfiguration & configuration)
-    : m_configuration(configuration)
+StepHandler::StepHandler()
 {}
 
-void StepHandler::execute() const
+void StepHandler::execute(TcomToolsConfiguration const& configuration) const
 {
-    AlbaWindowsPathHandler currentPathHandler(m_configuration.inputFileOrDirectory);
-    for(int step=1; step<4; step++)
+    AlbaWindowsPathHandler currentPathHandler(configuration.inputFileOrDirectory);
+    for(int step=1; step<5; step++)
     {
         currentPathHandler.reInput();
         if(!currentPathHandler.isFoundInLocalSystem())
@@ -28,93 +28,193 @@ void StepHandler::execute() const
             cout << currentPathHandler.getFullPath() << " is not found in local system" << endl;
             return;
         }
-        if(1 == step && m_configuration.isExtractStepOn)
-        {            cout<<"Step "<<step<<" (Extract) start | CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
-            executeExtractStep(currentPathHandler);
-            cout<<"Step "<<step<<" (Extract) done | CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
-        }
-        else if(2 == step && m_configuration.isCombineAndSortStepOn)
+        if(1 == step && configuration.isExtractStepOn)
         {
-            cout<<"Step "<<step<<" (CombineAndSort) start | CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
-            executeCombineAndSortStep(currentPathHandler);
-            cout<<"Step "<<step<<" (CombineAndSort) done | CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
+            currentPathHandler.input(executeExtractStep(configuration, currentPathHandler.getFullPath()));
         }
-        else if(3 == step)
+        else if(2 == step && configuration.isCombineAndSortStepOn)
         {
-            if(m_configuration.isGrepStepOn)
-            {
-                cout<<"Step "<<step<<" (Grep) start | CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
-                executeGrep(currentPathHandler);
-                cout<<"Step "<<step<<" (Grep) done | CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
-            }
-            if(m_configuration.isCropStepOn)
-            {
-
-            }
+            currentPathHandler.input(executeCombineAndSortStep(configuration, currentPathHandler.getFullPath()));
+        }
+        else if(3 == step && configuration.isGrepStepOn)
+        {
+            currentPathHandler.input(executeGrepStep(configuration, currentPathHandler.getFullPath()));
+        }
+        else if(4 == step && configuration.isCropStepOn)
+        {
+            currentPathHandler.input(executeCropStep(configuration, currentPathHandler.getFullPath()));
         }
     }
 }
 
-void StepHandler::executeExtractStep(AlbaWindowsPathHandler & currentPathHandler) const
+string StepHandler::executeExtractStep(TcomToolsConfiguration const& configuration, string const& inputPath) const
 {
-    cout<<"executeExtractStep "<<currentPathHandler.getFullPath()<<endl;
-    AprgFileExtractor fileExtractor(m_configuration.extractGrepCondition);
-    if(currentPathHandler.isDirectory())
+    cout<<" (Extract) start | Input path: "<<inputPath<<endl;
+    AprgFileExtractor fileExtractor(configuration.extractGrepCondition);
+    AlbaWindowsPathHandler pathHandler(inputPath);
+    string outputPath(inputPath);
+    if(pathHandler.isDirectory())
     {
-        fileExtractor.extractAllRelevantFiles(currentPathHandler.getFullPath());
+        fileExtractor.extractAllRelevantFiles(pathHandler.getFullPath());
     }
-    else if(fileExtractor.isRecognizedCompressedFile(currentPathHandler.getExtension()))
+    else if(fileExtractor.isRecognizedCompressedFile(pathHandler.getExtension()))
     {
-        fileExtractor.extractAllRelevantFiles(currentPathHandler.getFullPath());
-        currentPathHandler.input(currentPathHandler.getDirectory() + R"(\)" + currentPathHandler.getFilenameOnly());
+        fileExtractor.extractAllRelevantFiles(pathHandler.getFullPath());
+        pathHandler.input(pathHandler.getDirectory() + R"(\)" + pathHandler.getFilenameOnly());
+        outputPath = pathHandler.getFullPath();
     }
     else
     {
-        cout<<"Extraction step did not proceed. CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
+        cout<<"Extraction step did not proceed. Current path: "<<pathHandler.getFullPath()<<endl;
     }
+    cout<<" (Extract) done | Output path: "<<outputPath<<endl;
+    return outputPath;
 }
-void StepHandler::executeCombineAndSortStep(AlbaWindowsPathHandler & currentPathHandler) const
+
+string StepHandler::executeCombineAndSortStep(TcomToolsConfiguration const& configuration, string const& inputPath) const
 {
-    if(currentPathHandler.isDirectory())
+    cout<<" (CombineAndSort) start | Input path: "<<inputPath<<endl;
+    AlbaWindowsPathHandler pathHandler(inputPath);
+    string outputPath(inputPath);
+    if(pathHandler.isDirectory())
     {
-        m_configuration.btsLogSorterConfiguration.m_condition = m_configuration.acceptedFilesGrepCondition;
-        tcomToolsBackend::BtsLogSorter btsLogSorter(m_configuration.btsLogSorterConfiguration);
-        btsLogSorter.processDirectory(currentPathHandler.getDirectory());
-        currentPathHandler.goUp();
-        currentPathHandler.input(currentPathHandler.getDirectory() + R"(\sorted.log)");
-        btsLogSorter.saveLogsToOutputFile(currentPathHandler.getFullPath());
+        tcomToolsBackend::BtsLogSorterConfiguration sorterConfiguration(configuration.btsLogSorterConfiguration);
+        sorterConfiguration.m_condition = configuration.acceptedFilesGrepCondition;
+        tcomToolsBackend::BtsLogSorter btsLogSorter(sorterConfiguration);
+        btsLogSorter.processDirectory(pathHandler.getDirectory());
+        pathHandler.goUp();
+        pathHandler.input(pathHandler.getDirectory() + R"(\sorted.log)");
+        outputPath = pathHandler.getFullPath();
+        btsLogSorter.saveLogsToOutputFile(outputPath);
     }
     else
     {
-        cout<<"Combine and sort step did not proceed. CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
+        cout<<"Combine and sort step did not proceed. Current path: "<<pathHandler.getFullPath()<<endl;
     }
+    cout<<" (CombineAndSort) done | Output path: "<<inputPath<<endl;
+    return outputPath;
 }
-void StepHandler::executeGrep(AlbaWindowsPathHandler & currentPathHandler) const
+
+string StepHandler::executeGrepStep(TcomToolsConfiguration const& configuration, string const& inputPath) const
 {
-    AlbaGrepStringEvaluator evaluator(m_configuration.getGrepCondition());
+    cout<<" (Grep) start | Input path: "<<inputPath<<endl;
+    AlbaWindowsPathHandler pathHandler(inputPath);
+    string outputPath(inputPath);
+    AlbaGrepStringEvaluator evaluator(configuration.getGrepCondition());
     if(evaluator.isInvalid())
     {
-        cout << "Grep condition is invalid. Grep condition: " << m_configuration.getGrepCondition() << " Error message: " << evaluator.getErrorMessage() << endl;
+        cout << "Grep condition is invalid. Grep condition: " << configuration.getGrepCondition() << " Error message: " << evaluator.getErrorMessage() << endl;
     }
-    else if(currentPathHandler.isFile())
+    else if(pathHandler.isFile())
     {
-        cout << "Grep this file: " << currentPathHandler.getFullPath() << endl;
-        ifstream inputFileStream(currentPathHandler.getFullPath());
-        currentPathHandler.input(currentPathHandler.getDirectory() + R"(\)" + m_configuration.getGrepFileName());
-        ofstream outputFileStream(currentPathHandler.getFullPath());
-        AlbaFileReader fileReader(inputFileStream);
-        while(fileReader.isNotFinished())
+        outputPath = grepFile(configuration, pathHandler.getFullPath());
+    }
+    else
+    {
+        cout<<"Grep step did not proceed. Current path: "<<pathHandler.getFullPath()<<endl;
+    }
+    cout<<" (Grep) done | Output path: "<<outputPath<<endl;
+    return outputPath;
+}
+
+string StepHandler::grepFile(TcomToolsConfiguration const& configuration, string const& inputPath) const
+{
+    AlbaGrepStringEvaluator evaluator(configuration.getGrepCondition());
+    AlbaWindowsPathHandler pathHandler(inputPath);
+    ifstream inputFileStream(pathHandler.getFullPath());
+    pathHandler.input(pathHandler.getDirectory() + R"(\)" + configuration.getGrepFileName());
+    ofstream outputFileStream(pathHandler.getFullPath());
+    AlbaFileReader fileReader(inputFileStream);
+    while(fileReader.isNotFinished())
+    {
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        if(evaluator.evaluate(lineInLogs))
         {
-            string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
-            if(evaluator.evaluate(lineInLogs))
-            {                outputFileStream << lineInLogs << endl;
-            }
+            outputFileStream << lineInLogs << endl;
+        }
+    }
+    return pathHandler.getFullPath();
+}
+
+string StepHandler::executeCropStep(TcomToolsConfiguration const& configuration, string const& inputPath) const
+{
+    cout<<" (Crop) start | Input path: "<<inputPath<<endl;
+    AlbaWindowsPathHandler pathHandler(inputPath);
+    string outputPath(inputPath);
+    if(pathHandler.isFile())
+    {
+        double foundLocation(getLocationOfPriotizedPrint(configuration, inputPath));
+        if(-1 != foundLocation)
+        {
+            outputPath = cropFile(configuration, pathHandler.getFullPath(), foundLocation);
+        }
+        else
+        {
+            cout<<"Crop step did not proceed. Prioritized log print not found: "<<configuration.prioritizedLogPrint<<endl;
         }
     }
     else
     {
-        cout<<"Grep step did not proceed. CurrentPath: "<<currentPathHandler.getFullPath()<<endl;
+        cout<<"Crop step did not proceed. Current path: "<<pathHandler.getFullPath()<<endl;
     }
+    cout<<" (Crop) done | Output path: "<<outputPath<<endl;
+    return outputPath;
+}
+
+string StepHandler::cropFile(TcomToolsConfiguration const& configuration, string const& inputPath, double foundLocation) const
+{
+    LocationsInFile locations(getLocationsInFile(configuration, foundLocation));
+    AlbaWindowsPathHandler pathHandler(inputPath);
+    ifstream inputFileStream(pathHandler.getFullPath());
+    pathHandler.input(pathHandler.getDirectory() + R"(\)" + pathHandler.getFilenameOnly() + "Cropped.log");
+
+    ofstream outputFileStream(pathHandler.getFullPath());
+    AlbaFileReader fileReader(inputFileStream);
+    fileReader.moveLocation(locations.startLocation);
+    fileReader.getLineAndIgnoreWhiteSpaces();
+    while(fileReader.isNotFinished())
+    {
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        double currentLocation = fileReader.getCurrentLocation();
+        if(currentLocation < locations.endLocation)
+        {
+            outputFileStream << lineInLogs << endl;
+        }
+        else
+        {
+            break;
+        }
+    }
+    return pathHandler.getFullPath();
+}
+
+double StepHandler::getLocationOfPriotizedPrint(TcomToolsConfiguration const& configuration, string const& inputPath) const
+{
+    double foundLocation(-1);
+    AlbaWindowsPathHandler pathHandler(inputPath);
+    ifstream inputFileStream(pathHandler.getFullPath());
+    AlbaFileReader fileReader(inputFileStream);
+    while(fileReader.isNotFinished())
+    {
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, configuration.prioritizedLogPrint))
+        {
+            cout<<"Found prioritized log print in input file. Log print: "<<lineInLogs<<endl;
+            foundLocation = fileReader.getCurrentLocation();
+            break;
+        }
+    }
+    return foundLocation;
+}
+
+StepHandler::LocationsInFile StepHandler::getLocationsInFile(TcomToolsConfiguration const& configuration, double foundLocation) const
+{
+    LocationsInFile locations;
+    double outputSize = 1000000 * configuration.cropSize;
+    double startingLocation = foundLocation - (outputSize/2);
+    locations.startLocation = (startingLocation<0) ? 0 : startingLocation;
+    locations.endLocation = startingLocation + outputSize;
+    return locations;
 }
 
 }

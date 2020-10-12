@@ -180,6 +180,7 @@ TEST(GetDataFromStringTest, GetStringWithoutRedundantSlashes_AllEnglishLettersWi
 
     EXPECT_EQ(getCorrectPathWithReplacedSlashCharacters(testString, R"(\)"), withoutRedundantSlashes);
 }
+
 TEST(GetDataFromStringTest, GetStringWithoutRedundantPeriodInPath_AllEnglishLettersWithSpecialCharacters)
 {
     string testString(R"(\DIR1\DIR2\..\DIR3\DIR4\..\..\DIR5\)");
@@ -268,6 +269,20 @@ TEST(BooleanStringTest, StringCompareNotCaseSensitive)
     EXPECT_TRUE(isEqualNotCaseSensitive(testString, capitalLetters));
 }
 
+TEST(GetDataFromStringTest, ConvertStringToBool)
+{
+    EXPECT_EQ(convertStringToBool("true"), true);
+    EXPECT_EQ(convertStringToBool("false"), false);
+    EXPECT_EQ(convertStringToBool("TruE"), true);
+    EXPECT_EQ(convertStringToBool("fAlse"), false);
+    EXPECT_EQ(convertStringToBool("0"), false);
+    EXPECT_EQ(convertStringToBool("00000"), false);
+    EXPECT_EQ(convertStringToBool("1"), true);
+    EXPECT_EQ(convertStringToBool("-892347589"), true);
+    EXPECT_EQ(convertStringToBool("this is a random string"), false);
+    EXPECT_EQ(convertStringToNumber<int>("this is a random string"), 0);
+}
+
 TEST(GetDataFromStringTest, ConvertStringToInteger_WithNumbersOnly)
 {
     EXPECT_EQ(convertStringToNumber<int>("12345"), 12345);
@@ -313,11 +328,19 @@ TEST(GetDataFromStringTest, HexConvertStringToInteger_WithNumbersOnly)
     EXPECT_EQ(convertHexStringToNumber<int>("xxxA#$%1@#$#@B^&*&^2%^&%^C*(&"), 0xA1B2C);
 }
 
+TEST(GetDataFromStringTest, ConvertNumberToString)
+{
+    EXPECT_EQ(convertNumberToString(12345), "12345");
+    EXPECT_EQ(convertNumberToString(12345.6789), "12345.6789");
+    EXPECT_EQ(convertNumberToString(-67890.1111), "-67890.1111");
+}
+
 TEST(GetDataFromStringTest, RemoveWhitespacesFromString)
 {
     string correctOutput("Mark is the no#1 guy in the world");
     EXPECT_EQ(getStringWithoutRedundantWhiteSpace("Mark is the no#1 guy in the world"), correctOutput);
-    EXPECT_EQ(getStringWithoutRedundantWhiteSpace("    Mark    is the no#1 guy  in the     world    "), correctOutput);    EXPECT_EQ(getStringWithoutRedundantWhiteSpace("Mark is\n\tthe\tno#1    \n\n\nguy\tin\r\rthe\nworld"), correctOutput);
+    EXPECT_EQ(getStringWithoutRedundantWhiteSpace("    Mark    is the no#1 guy  in the     world    "), correctOutput);
+    EXPECT_EQ(getStringWithoutRedundantWhiteSpace("Mark is\n\tthe\tno#1    \n\n\nguy\tin\r\rthe\nworld"), correctOutput);
 }
 
 TEST(TransformStringTest, FindAndReplaceStrings)

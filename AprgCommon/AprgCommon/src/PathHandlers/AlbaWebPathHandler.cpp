@@ -17,7 +17,8 @@ void AlbaWebPathHandler::clear()
 {
     AlbaPathHandler::clear();
     m_protocol.clear();
-    m_urlParameters.clear();    m_hasProtocol = false;
+    m_urlParameters.clear();
+    m_hasProtocol = false;
 }
 
 string AlbaWebPathHandler::getFullPath() const
@@ -70,7 +71,8 @@ void AlbaWebPathHandler::setProtocolAndSplitPath(string const& path, string & pr
     {
         protocolWithSymbols = path.substr(0,indexBeforeProtocol+3);
         pathAfterProtocol = path.substr(indexBeforeProtocol+3);
-    }    else
+    }
+    else
     {
         protocolWithSymbols.clear();
         pathAfterProtocol = path;

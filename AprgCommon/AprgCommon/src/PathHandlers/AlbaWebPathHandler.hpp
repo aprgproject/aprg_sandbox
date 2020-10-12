@@ -19,7 +19,8 @@ public:
     string getProtocol() const;
     void gotoLink(string const& newPath);
 
-private:    void save(string const& path) override;
+private:
+    void save(string const& path) override;
     void setProtocolAndSplitPath(string const& path, string & protocolWithSymbols, string & pathAfterProtocol);
     void setProtocol(string const& protocol);
     void setUrlParameters(string const& urlParameters);

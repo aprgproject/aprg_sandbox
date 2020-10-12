@@ -14,8 +14,7 @@ StepHandlerThread::StepHandlerThread(QObject *parent)
     , m_condition()
     , m_configuration()
     , m_state(ThreadState::ToBeIgnored)
-{
-}
+{}
 
 StepHandlerThread::~StepHandlerThread()
 {
@@ -26,10 +25,10 @@ StepHandlerThread::~StepHandlerThread()
     wait();
 }
 
-void StepHandlerThread::execute(TcomToolsConfiguration & configuration)
+void StepHandlerThread::execute(TcomToolsConfiguration const& configuration)
 {
     m_mutex.lock();
-    m_state = ThreadState::ToBeExecutionToBeStarted;
+    m_state = ThreadState::ToBeStarted;
     m_configuration = configuration;
     m_mutex.unlock();
     m_condition.wakeOne();
@@ -47,10 +46,10 @@ void StepHandlerThread::run()
         {
             return;
         }
-        else if(m_state == ThreadState::ToBeExecutionToBeStarted)
+        else if(m_state == ThreadState::ToBeStarted)
         {
-            StepHandler stepHandler(m_configuration);
-            stepHandler.execute();
+            StepHandler stepHandler;
+            stepHandler.execute(m_configuration);
             emit finished();
         }
     }

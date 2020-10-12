@@ -49,9 +49,11 @@ private slots:
     void on_acceptedFilesCondition_editingFinished();
     void on_other_editingFinished();
     void on_prioritizedLogPrint_editingFinished();
+    void on_cropSize_editingFinished();
 
 private:
     void updateGuiUsingConfiguration();
+    void updateProgressBar(int percentage);
     Ui::TcomTools *ui;
     tcomToolsGui::TcomToolsConfiguration m_configuration;
     tcomToolsGui::StepHandlerThread m_stepHandlerThread;

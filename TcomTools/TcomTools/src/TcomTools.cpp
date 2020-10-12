@@ -1,3 +1,4 @@
+#include <AlbaStringHelper.hpp>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
@@ -11,17 +12,19 @@ TcomTools::TcomTools(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::TcomTools)
     , m_configuration()
-{    ui->setupUi(this);
+{
+    ui->setupUi(this);
     updateGuiUsingConfiguration();
+    updateProgressBar(0);
     connect(&m_stepHandlerThread, SIGNAL(finished()), this, SLOT(onExecutionIsFinished()));
     m_stepHandlerThread.start();
-    //setFixedSize(sizeHint());
 }
 
 TcomTools::~TcomTools()
 {
     delete ui;
 }
+
 void TcomTools::setInputFileOrDirectory(string const& inputFileOrDirectory)
 {
     m_configuration.inputFileOrDirectory = inputFileOrDirectory;
@@ -55,6 +58,12 @@ void TcomTools::updateGuiUsingConfiguration()
     ui->acceptedFilesCondition->setText(QString::fromStdString(m_configuration.acceptedFilesGrepCondition));
     ui->other->setText(QString::fromStdString(m_configuration.otherGrepCondition));
     ui->prioritizedLogPrint->setText(QString::fromStdString(m_configuration.prioritizedLogPrint));
+    ui->cropSize->setText(QString::fromStdString(stringHelper::convertNumberToString(m_configuration.cropSize)));
+}
+
+void TcomTools::updateProgressBar(int percentage)
+{
+    ui->progressBar->setValue(percentage);
 }
 
 void TcomTools::onExecutionIsFinished()
@@ -78,6 +87,7 @@ void TcomTools::on_actionOpenFile_triggered()
         ui->inputFileAndFolder->setText(QString::fromStdString(pathHandler.getFullPath()));
     }
 }
+
 void TcomTools::on_actionOpenFolder_triggered()
 {
     QString directory = QFileDialog::getExistingDirectory(this, tr("Open folder"), QString::fromStdString(AlbaWindowsPathHandler(m_configuration.inputFileOrDirectory).getDirectory()), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
@@ -88,6 +98,7 @@ void TcomTools::on_actionOpenFolder_triggered()
         ui->inputFileAndFolder->setText(QString::fromStdString(pathHandler.getFullPath()));
     }
 }
+
 void TcomTools::on_actionAboutAprg_triggered()
 {
     QMessageBox::about(this, tr("About Menu"), tr("Insert sample text here"));
@@ -221,4 +232,9 @@ void TcomTools::on_other_editingFinished()
 void TcomTools::on_prioritizedLogPrint_editingFinished()
 {
     m_configuration.prioritizedLogPrint = ui->prioritizedLogPrint->text().toStdString();
+}
+
+void TcomTools::on_cropSize_editingFinished()
+{
+    m_configuration.cropSize = stringHelper::convertStringToNumber<double>(ui->cropSize->text().toStdString());
 }

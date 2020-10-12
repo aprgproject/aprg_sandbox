@@ -45,7 +45,8 @@ struct UniqueId
 
 struct WireSharkDelay
 {
-    AlbaOptional<double> startTimeOptional;    AlbaOptional<double> endTimeOptional;
+    AlbaOptional<double> startTimeOptional;
+    AlbaOptional<double> endTimeOptional;
 };
 
 class WireSharkLogReader
@@ -60,7 +61,8 @@ public:
     void processFileForBtsDelayForGrm(string const& filePath);
     double getWireSharkTime(string const& lineInLogs) const;
     string getNumberAfterThisString(string const& mainString, string const& stringToSearch) const;
-    double getComputedAverageDelay() const;private:
+    double getComputedAverageDelay() const;
+private:
     std::ofstream m_outputStream;
     double m_totalDelay;
     int m_count;

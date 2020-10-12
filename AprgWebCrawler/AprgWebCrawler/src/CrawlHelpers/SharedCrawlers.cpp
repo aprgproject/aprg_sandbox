@@ -31,7 +31,8 @@ void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink, int const
         {
             cout << "Links are invalid." << endl;
             links.printLinks();
-            return;        }
+            return;
+        }
         AlbaWebPathHandler fileToDownloadWebPathHandler(currentWebLinkPathHandler);
         fileToDownloadWebPathHandler.gotoLink(links.linkForCurrentFileToDownload);
         if(!fileToDownloadWebPathHandler.isFile())
@@ -47,7 +48,8 @@ void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink, int const
         {
             cout << "Download file size is less than minimum. Retrying from the start." << endl;
             continue;
-        }        if(links.linkForNextHtml.empty())
+        }
+        if(links.linkForNextHtml.empty())
         {
             cout << "Terminating the because next web link is empty." << endl;
             return;
