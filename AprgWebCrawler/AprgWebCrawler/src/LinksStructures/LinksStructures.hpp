@@ -13,6 +13,7 @@ struct LinksForHtmlAndFileToDownload
     bool isInvalid() const;
     void printLinks() const;
 };
+
 struct LinksForChiaAnime
 {
     std::string linkForNextHtml;
@@ -22,6 +23,7 @@ struct LinksForChiaAnime
     bool isInvalid() const;
     void printLinks() const;
 };
+
 struct LinksForYoutube
 {
     std::string linkForVideo;
@@ -29,4 +31,5 @@ struct LinksForYoutube
     bool isInvalid() const;
     void printLinks() const;
 };
+
 }

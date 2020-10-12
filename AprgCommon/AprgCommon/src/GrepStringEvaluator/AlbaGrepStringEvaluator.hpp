@@ -23,13 +23,15 @@ private:
     void extractTermsWhileOnString(bool& isOnString, std::string & stringToBuild, char const& currentCharacter);
     void extractTermsWhileNotOnString(bool& isOnString, char const& currentCharacter, int& parenthesisCount);
     void convertToPostFix();
-    bool isEvaluationPossible() const;    void transferStackContentsToVector(
+    bool isEvaluationPossible() const;
+    void transferStackContentsToVector(
             StackOfTerms& stackOfTerms,
             VectorOfTerms& vectorOfTerms,
             std::function<bool(StackOfTerms&)> loopCondition);
     void addOperator(char const currentCharacter);
     void addParenthesis(char const currentCharacter, int& parenthesisCount);
-    bool isOperator(char const character) const;    bool isParenthesis(char const character) const;
+    bool isOperator(char const character) const;
+    bool isParenthesis(char const character) const;
     bool performBiDirectionalOperation(AlbaGrepStringEvaluatorTermType const termType, bool const inputValue1, bool const inputValue2) const;
     bool performPrefixOperation(AlbaGrepStringEvaluatorTermType const termType, bool const inputValue) const;
     void setErrorMessage(std::string const& errorMessage);
@@ -37,4 +39,5 @@ private:
     std::string m_errorMessage;
     VectorOfTerms m_terms;
 };
+
 }

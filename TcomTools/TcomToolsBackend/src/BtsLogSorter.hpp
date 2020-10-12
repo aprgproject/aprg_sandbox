@@ -11,6 +11,7 @@
 
 namespace tcomToolsBackend
 {
+
 class BtsLogSorter
 {
 public:
@@ -40,6 +41,7 @@ private:
     std::string m_pathOfStartupLog;
     alba::AlbaOptional<ofstream> m_startupLogStreamOptional;
     BtsLogPrint m_notYetPrinted;
-    set<string> m_foundHardwareAddresses;};
+    set<string> m_foundHardwareAddresses;
+};
 
 }

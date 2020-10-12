@@ -14,7 +14,8 @@ namespace CurlInterface
 typedef std::function<void(curl_easy&)> ConfigurationFunction;
 void addLowSpeedLimitToCurlEasy(curl_easy& easy, LONG const lowSpeedLimit, LONG const duration);
 template<ConfigType configType> void addToCurlEasy(curl_easy&);
-template <> void addToCurlEasy<ConfigType::LowSpeedLimit>(curl_easy& easy);template <> void addToCurlEasy<ConfigType::MozillaFireFox>(curl_easy& easy);
+template <> void addToCurlEasy<ConfigType::LowSpeedLimit>(curl_easy& easy);
+template <> void addToCurlEasy<ConfigType::MozillaFireFox>(curl_easy& easy);
 template <> void addToCurlEasy<ConfigType::PrintDownloadProgress>(curl_easy& easy);
 template <> void addToCurlEasy<ConfigType::LowSpeedLimitAndMozillaFireFox>(curl_easy& easy);
 template <> void addToCurlEasy<ConfigType::MozillaFireFoxAndPrintDownloadProgress>(curl_easy& easy);
@@ -33,5 +34,6 @@ bool downloadAsBinaryWithAdditionalConfigWithFiniteNumberOfTries(
 inline void printDownloadErrorMessage(std::string const& errorMessage);
 
 }
+
 
 }

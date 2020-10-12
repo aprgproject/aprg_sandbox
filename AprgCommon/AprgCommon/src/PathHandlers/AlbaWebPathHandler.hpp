@@ -24,4 +24,5 @@ private:
     std::string m_urlParameters;
     bool m_hasProtocol;
 };
+
 }//namespace alba

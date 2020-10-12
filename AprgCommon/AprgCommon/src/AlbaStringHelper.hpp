@@ -52,7 +52,8 @@ template <typename NumberType> NumberType convertHexStringToNumber(std::string c
 template <typename NumberType> std::string convertNumberToString(NumberType number);
 
 inline bool isWhiteSpace(char const c)
-{    return (' '==c || '\t'==c || '\n'==c || '\r'==c);
+{
+    return (' '==c || '\t'==c || '\n'==c || '\r'==c);
 }
 
 inline bool isNotNpos(int const index)
@@ -65,9 +66,11 @@ inline bool isNpos(int const index)
     return (int)std::string::npos == index;
 }
 
-inline bool isValidIndex(int const index, int const stringLength){
+inline bool isValidIndex(int const index, int const stringLength)
+{
     return  isNotNpos(index) && 0 <= index  && stringLength >= index;
 }
+
 inline bool isCapitalLetter(char const c)
 {
     return ('A'<=c && 'Z'>=c) ;
@@ -117,6 +120,7 @@ inline bool isLessThanStringLength(std::string const& string1, int const index)
 {
     return (index < (int)string1.length());
 }
+
 } //namespace stringHelper
 
 }//namespace alba

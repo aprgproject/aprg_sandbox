@@ -5,6 +5,7 @@
 
 namespace tcomToolsBackend
 {
+
 class BtsPrintReaderWithRollback
 {
 public:

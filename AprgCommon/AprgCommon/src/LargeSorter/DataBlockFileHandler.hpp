@@ -7,9 +7,11 @@
 
 namespace alba
 {
+
 template <typename ObjectToSort>
 class DataBlockFileHandler
-{public:
+{
+public:
     ~DataBlockFileHandler()
     {
         AlbaWindowsPathHandler(m_path).deleteFile();
@@ -29,10 +31,12 @@ class DataBlockFileHandler
     void openFileIfNeeded(std::string const& path)
     {
         if(!m_fileOptional)
-        {            m_path = AlbaWindowsPathHandler(path).getFullPath();
+        {
+            m_path = AlbaWindowsPathHandler(path).getFullPath();
             m_fileOptional.createObjectUsingDefaultConstructor();
             std::ofstream & fileStream (m_fileOptional.getReference());
-            fileStream.open(m_path, std::ios::ate|std::ios::app);        }
+            fileStream.open(m_path, std::ios::ate|std::ios::app);
+        }
     }
     void add(ObjectToSort const& objectToSort)
     {
@@ -47,4 +51,5 @@ private:
     std::string m_path;
     AlbaOptional<std::ofstream> m_fileOptional;
 };
+
 }//namespace alba

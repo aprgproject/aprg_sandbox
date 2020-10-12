@@ -46,4 +46,5 @@ private:
     bool m_foundInLocalSystem;
     bool m_relativePath;
 };
+
 }//namespace alba

@@ -21,10 +21,12 @@ int numberOfFilesAnalyzedForExtraction;
 }
 TEST(AprgFileExtractorTest, ActualTest)
 {
-    AprgFileExtractor fileExtractor(R"([LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles])");    fileExtractor.extractAllRelevantFiles(R"(D:\W\ZZZ_Useless_Logs\PR103380\New folder\)");
+    AprgFileExtractor fileExtractor(R"([LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles])");
+    fileExtractor.extractAllRelevantFiles(R"(D:\W\ZZZ_Useless_Logs\PR103380\New folder\)");
 }
 
-TEST(AprgFileExtractorTest, ListOfFilesFromZipFileAreCorrectlyRetrieved){
+TEST(AprgFileExtractorTest, ListOfFilesFromZipFileAreCorrectlyRetrieved)
+{
     AprgFileExtractor fileExtractor;
     set<string> files;
     fileExtractor.copyRelativeFilePathsFromCompressedFile(PATH_OF_SAMPLE_ZIP_1, files);
@@ -58,6 +60,7 @@ TEST(AprgFileExtractorTest, OneFileIsExtractedSuccessfully)
     filePathHandler.reInput();
     EXPECT_TRUE(filePathHandler.isFoundInLocalSystem());
 }
+
 TEST(AprgFileExtractorTest, AllFilesAreExtractedSuccessfully)
 {
     AprgFileExtractor fileExtractor;
@@ -72,6 +75,7 @@ TEST(AprgFileExtractorTest, AllFilesAreExtractedSuccessfully)
         filePathHandler.reInput();
         ASSERT_FALSE(filePathHandler.isFoundInLocalSystem());
     }
+
     string outputDirectoryPath = fileExtractor.extractAll(PATH_OF_SAMPLE_ZIP_1);
 
     EXPECT_EQ(R"(C:\APRG\AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\)", outputDirectoryPath);
@@ -98,6 +102,7 @@ TEST(AprgFileExtractorTest, AllFilesAreExtractedSuccessfully)
     outputFilePathHandler.input(R"(C:\APRG\AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\File5.avi)");
     EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
 }
+
 TEST(AprgFileExtractorTest, FilesAreExtractedSuccessfullyWhenSatisyingTheCondition)
 {
     AprgFileExtractor fileExtractor("[.log]");
@@ -117,6 +122,7 @@ TEST(AprgFileExtractorTest, FilesAreExtractedSuccessfullyWhenSatisyingTheConditi
     filePathHandler.input(R"(C:\APRG\AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\DirectoryTest\File1.log)");
     EXPECT_TRUE(filePathHandler.isFoundInLocalSystem());
 }
+
 TEST(AprgFileExtractorTest, FilesAreExtractedRecursivelyWhenSatisyingTheCondition)
 {
     AprgFileExtractor fileExtractor("[DirectoryTest]");

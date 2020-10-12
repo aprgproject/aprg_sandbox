@@ -9,9 +9,11 @@
 
 namespace alba
 {
+
 enum class CrawlerMode
 {
-    ChiaAnime,    Gehen,
+    ChiaAnime,
+    Gehen,
     GuroManga,
     HBrowse,
     Hentai2Read,
@@ -30,7 +32,8 @@ public:
     AprgWebCrawler(std::string const& workingDirectory);
     bool isValid() const;
     void printStatus() const;
-    void saveMemoryCard() const;    void loadMemoryCard();
+    void saveMemoryCard() const;
+    void loadMemoryCard();
     void crawl();
 
 private:
@@ -42,7 +45,7 @@ private:
     void gotoLinkManuallyUsingMozillaFirefox(AlbaWebPathHandler const& webPathHandler) const;
 
     void crawlOneHtmlAndOneFileToDownload(int const minimumSizeOfDownload);
-    void crawlOneHtmlAndOneFileToDownload(string& webLink, int const minimumSizeOfDownload);
+    void crawlOneHtmlAndOneFileToDownload(std::string & webLink, int const minimumSizeOfDownload);
     LinksForHtmlAndFileToDownload getLinksBasedOnMode(AlbaWebPathHandler const& webLinkPathHandler, std::string const& pathOfHtmlFile) const;
     LinksForHtmlAndFileToDownload getLinksForGuroManga(AlbaWebPathHandler const& webLinkPathHandler, std::string const& pathOfHtmlFile) const;
     LinksForHtmlAndFileToDownload getLinksForHBrowse(AlbaWebPathHandler const& webLinkPathHandler, std::string const& pathOfHtmlFile) const;
@@ -57,17 +60,19 @@ private:
 
     void saveImageListFromGoogleImages();
     void downloadGoogleImages() const;
+
     void crawlForChiaAnime();
-    void crawlForChiaAnime(string& webLink);
+    void crawlForChiaAnime(std::string & webLink);
     LinksForChiaAnime getLinksForChiaAnime(AlbaWebPathHandler const& webLinkPathHandler) const;
     std::string getVideoLinkForChiaAnime(AlbaWebPathHandler const& webLinkPathHandler, std::string const& linkToDownloadPage) const;
 
     void crawlForYoutube();
-    void crawlForYoutube(string& webLink, std::ofstream & convertedYoutubeLinkStream);
-    void crawlForYoutube_Old(string& webLink, std::ofstream & convertedYoutubeLinkStream);
+    void crawlForYoutube(std::string & webLink, std::ofstream & convertedYoutubeLinkStream);
+    void crawlForYoutube_Old(std::string & webLink, std::ofstream & convertedYoutubeLinkStream);
     LinksForYoutube getLinkForYoutube(AlbaWebPathHandler const& webLinkPathHandler) const;
 
-    AlbaWindowsPathHandler m_workingPathHandler;    AlbaWindowsPathHandler m_memoryCardPathHandler;
+    AlbaWindowsPathHandler m_workingPathHandler;
+    AlbaWindowsPathHandler m_memoryCardPathHandler;
     bool m_isModeRecognized;
     CrawlerMode m_mode;
     WebLinks m_webLinks;

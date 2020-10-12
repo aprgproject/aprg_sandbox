@@ -5,9 +5,11 @@
 
 namespace codeReview
 {
+
 class FindingsBuffer
 {
-public:    FindingsBuffer();
+public:
+    FindingsBuffer();
     void createNewTemporaryFindingsBuffer();
     void deleteCurrentBuffer();
     void saveCurrentFindings();
@@ -20,4 +22,5 @@ private:
     std::vector<Findings> m_findingsBuffer;
     int m_currentIndex;
 };
+
 }

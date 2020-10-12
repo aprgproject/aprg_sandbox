@@ -4,9 +4,11 @@
 
 namespace codeReview
 {
+
 class TemporaryFindings
 {
-public:    TemporaryFindings(FindingsBuffer& findingsBuffer);
+public:
+    TemporaryFindings(FindingsBuffer& findingsBuffer);
     ~TemporaryFindings();
     void copyCurrentFindings(Findings& findings);
     void saveCurrentFindings();

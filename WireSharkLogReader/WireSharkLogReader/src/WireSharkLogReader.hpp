@@ -9,10 +9,12 @@
 using alba::AlbaOptional;
 using tcomToolsBackend::BtsLogTime;
 
-namespace alba{
+namespace alba
+{
 
 struct BtsLogDelay
-{    AlbaOptional<BtsLogTime> startTimeOptional;
+{
+    AlbaOptional<BtsLogTime> startTimeOptional;
     AlbaOptional<BtsLogTime> endTimeOptional;
 };
 
@@ -60,10 +62,12 @@ public:
     std::string getNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch) const;
     double getComputedAverageDelay() const;
 private:
-    std::ofstream m_outputStream;    double m_totalDelay;
+    std::ofstream m_outputStream;
+    double m_totalDelay;
     int m_count;
     std::map<int, WireSharkDelay> m_wireSharkDelays;
-    std::map<UniqueId, BtsLogDelay> m_btsLogDelays;    std::map<int, BtsLogDelay> m_btsLogDelaysGrm;
+    std::map<UniqueId, BtsLogDelay> m_btsLogDelays;
+    std::map<int, BtsLogDelay> m_btsLogDelaysGrm;
 };
 
 }//namespace alba

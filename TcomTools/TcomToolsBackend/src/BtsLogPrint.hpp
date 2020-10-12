@@ -6,8 +6,10 @@
 
 namespace tcomToolsBackend
 {
+
 namespace BtsLogPrintStateMachine
 {
+
 enum class State
 {
     UnknownState,
@@ -76,10 +78,12 @@ private:
     void analyzeLineInLogs(std::string const& lineInLogs);
     inline void handleUnknownState(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData, int const index, char const character);
     inline void handlePcTimeState1(BtsLogPrintStateMachine::State & state, char const character);
-    inline void handlePcTimeState2(BtsLogPrintStateMachine::State & state, char const character);    inline void handlePcTimeState3(BtsLogPrintStateMachine::State & state, char const character);
+    inline void handlePcTimeState2(BtsLogPrintStateMachine::State & state, char const character);
+    inline void handlePcTimeState3(BtsLogPrintStateMachine::State & state, char const character);
     inline void handlePcTimeState4(BtsLogPrintStateMachine::State & state, char const character);
     inline void handlePcTimeState5(BtsLogPrintStateMachine::State & state, char const character);
-    inline void handlePcTimeState6(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData, int const index, char const character);    inline void handleHardWareAddressState1_Letters(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData,  char const character);
+    inline void handlePcTimeState6(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData, int const index, char const character);
+    inline void handleHardWareAddressState1_Letters(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData,  char const character);
     inline void handleHardWareAddressState2_Dash(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData,  char const character);
     inline void handleHardWareAddressState2_Underscore(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData,  char const character);
     inline void handleHardWareAddressState3_HexNumbers(BtsLogPrintStateMachine::State & state, BtsLogPrintStateMachine::TransactionData & transactionData, int const index, char const character);

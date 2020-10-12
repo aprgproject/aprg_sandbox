@@ -6,9 +6,11 @@
 using namespace std;
 using namespace alba::stringHelper;
 
-TEST(GetDataFromStringTest, ConvertToCapitalLetters_AllEnglishLetters){
+TEST(GetDataFromStringTest, ConvertToCapitalLetters_AllEnglishLetters)
+{
     string testString("AbCDEFghIjKlMnopQRstUvWxYz");
     string capitalLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
     EXPECT_EQ(getStringWithCapitalLetters(testString), capitalLetters);
 }
 

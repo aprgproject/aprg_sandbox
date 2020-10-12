@@ -7,6 +7,7 @@
 
 namespace curl
 {
+
 namespace CurlInterface
 {
 
@@ -17,5 +18,6 @@ template <ConfigType configType> bool downloadBinaryFileUntilSuccessful(alba::Al
 template <ConfigType configType> bool downloadBinaryFileWithFiniteNumberOfTries(alba::AlbaWebPathHandler const& webPath, alba::AlbaWindowsPathHandler const& windowsPath, int const totalNumberOfTries);
 
 }
+
 
 }

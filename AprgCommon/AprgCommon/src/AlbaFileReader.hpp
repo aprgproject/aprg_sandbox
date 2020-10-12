@@ -14,7 +14,8 @@ public:
     std::string simpleGetLine();
     double getCurrentLocation() const;
     double getFileSize() const;
-    void moveToTheBeginning() const;    void moveLocation(unsigned long long location) const;
+    void moveToTheBeginning() const;
+    void moveLocation(unsigned long long location) const;
     void setMaxBufferSize(int bufferSize);
 private:
     static const int MAX_BUFFER_SIZE = 10001;

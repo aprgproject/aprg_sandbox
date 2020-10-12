@@ -7,6 +7,7 @@
 
 namespace alba
 {
+
 struct Answer
 {
     std::string m_person;
@@ -31,7 +32,9 @@ public:
     void generateOutput(std::string const& outputDirectoryPath) const;
 
 private:
-    int m_currentQuestionNumber;    Questions m_questions;
+    int m_currentQuestionNumber;
+    Questions m_questions;
     Answers m_answers;
 };
+
 }

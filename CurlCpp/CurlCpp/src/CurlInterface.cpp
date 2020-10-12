@@ -16,14 +16,16 @@ bool download(AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& w
 {
     return downloadWithAdditionalConfig(webPath.getFullPath(), windowsPath.getFullPath(), [](curl_easy& easy)
     {
-        addToCurlEasy<configType>(easy);    });
+        addToCurlEasy<configType>(easy);
+    });
 }
 
 template<ConfigType configType>
 bool downloadUntilSuccessful(AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath)
 {
     return downloadWithAdditionalConfigUntilSuccessful(webPath.getFullPath(), windowsPath.getFullPath(), [](curl_easy& easy)
-    {        addToCurlEasy<configType>(easy);
+    {
+        addToCurlEasy<configType>(easy);
     });
 }
 
@@ -31,7 +33,8 @@ template<ConfigType configType>
 bool downloadBinaryFile(AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath)
 {
     return downloadAsBinaryWithAdditionalConfig(webPath.getFullPath(), windowsPath.getFullPath(), [](curl_easy& easy)
-    {        addToCurlEasy<configType>(easy);
+    {
+        addToCurlEasy<configType>(easy);
     });
 }
 
@@ -39,7 +42,8 @@ template<ConfigType configType>
 bool downloadBinaryFileUntilSuccessful(AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath)
 {
     return downloadAsBinaryWithAdditionalConfigUntilSuccessful(webPath.getFullPath(), windowsPath.getFullPath(), [](curl_easy& easy)
-    {        addToCurlEasy<configType>(easy);
+    {
+        addToCurlEasy<configType>(easy);
     });
 }
 
@@ -47,7 +51,8 @@ template<ConfigType configType>
 bool downloadBinaryFileWithFiniteNumberOfTries(AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath, int const totalNumberOfTries)
 {
     return downloadAsBinaryWithAdditionalConfigWithFiniteNumberOfTries(webPath.getFullPath(), windowsPath.getFullPath(), totalNumberOfTries, [](curl_easy& easy)
-    {        addToCurlEasy<configType>(easy);
+    {
+        addToCurlEasy<configType>(easy);
     });
 }
 

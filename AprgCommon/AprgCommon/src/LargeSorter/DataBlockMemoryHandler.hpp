@@ -5,9 +5,11 @@
 namespace alba
 {
 template <typename ObjectToSort> using DataBlockMemoryContainer = std::deque<ObjectToSort>;
+
 template <typename ObjectToSort>
 class DataBlockMemoryHandler
-{    typedef DataBlockMemoryContainer<ObjectToSort> MemoryContainer;
+{
+    typedef DataBlockMemoryContainer<ObjectToSort> MemoryContainer;
 
 public:
     void add(ObjectToSort const& objectToSort)

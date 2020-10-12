@@ -124,7 +124,8 @@ string AprgWebCrawler::getVideoLinkForChiaAnime(AlbaWebPathHandler const& webLin
     while (htmlFileReader.isNotFinished())
     {
         string lineInHtmlFile(htmlFileReader.simpleGetLine());
-        if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<a target="_blank" download=")"))
+        if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"( target="_blank" )") &&
+                isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"( download=")"))
         {
             string url1(getStringInBetweenTwoStrings(lineInHtmlFile, R"(href=")", R"(")"));
             string url2(getStringAfterThisString(lineInHtmlFile, R"(href=")"));

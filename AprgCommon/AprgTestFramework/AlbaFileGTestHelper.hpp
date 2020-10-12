@@ -5,10 +5,12 @@
 
 // To use a test fixture, derive a class from testing::Test.
 class AlbaFileGTestHelper : public testing::Test {
-public:protected:  // You should make the members protected s.t. they can be
+public:
+protected:  // You should make the members protected s.t. they can be
     // accessed from sub-classes.
 
-    // virtual void SetUp() will be called before each test is run.  You    // should define it if you need to initialize the varaibles.
+    // virtual void SetUp() will be called before each test is run.  You
+    // should define it if you need to initialize the varaibles.
     // Otherwise, this can be skipped.
     virtual void SetUp();
 

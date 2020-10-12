@@ -29,4 +29,5 @@ private:
     bool isTheExtensionXz(std::string const& extension) const;
     AlbaGrepStringEvaluator m_grepEvaluator;
 };
+
 }

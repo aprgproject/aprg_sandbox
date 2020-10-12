@@ -5,6 +5,7 @@
 namespace alba{
 
 enum class PathType{Empty, Directory, File};
+
 class AlbaPathHandler
 {
 public:
@@ -22,7 +23,8 @@ public:
     std::string getExtension() const;
     PathType getPathType() const;
     bool isDirectory() const;
-    bool isFile() const;    bool isEmpty() const;
+    bool isFile() const;
+    bool isEmpty() const;
 
 protected:
     virtual void save(std::string const& path);
