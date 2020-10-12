@@ -6,24 +6,19 @@
 
 #define CONFIGURATION_FILE R"(C:\APRG\TcomTools\TcomTools\configuration\configuration.txt)"
 
-using std::string;
-
 namespace tcomToolsGui
 {
-
 struct TcomToolsConfiguration
 {
     TcomToolsConfiguration();
-    string getGrepCondition() const;
-    string getGrepFileName() const;
+    std::string getGrepCondition() const;
+    std::string getGrepFileName() const;
     void loadConfigurationFromFile();
     void saveConfigurationToFile() const;
-    bool isExtractStepOn;
-    bool isCombineAndSortStepOn;
+    bool isExtractStepOn;    bool isCombineAndSortStepOn;
     bool isGrepStepOn;
     bool isCropStepOn;
-    bool isGrepTcomEnabled;
-    bool isGrepErrEnabled;
+    bool isGrepTcomEnabled;    bool isGrepErrEnabled;
     bool isGrepErrWrnNoSpamEnabled;
     bool isGrepBtsStatusEnabled;
     bool isGrepRecoveryEnabled;
@@ -38,29 +33,28 @@ struct TcomToolsConfiguration
     bool isGrepCchhSdlEnabled;
     bool isGrepHschEnabled;
     bool isGrepDmgrEnabled;
-    string grepConditionForTcom;
-    string grepConditionForErr;
-    string grepConditionForErrWrn;
-    string grepConditionForBtsStatus;
-    string grepConditionForRecovery;
-    string grepConditionForAllocation;
-    string grepConditionForFault;
-    string grepConditionForLrm;
-    string grepConditionForGrm;
-    string grepConditionForToam;
-    string grepConditionForTupc;
-    string grepConditionForRlh;
-    string grepConditionForCchh;
-    string grepConditionForCchhSdl;
-    string grepConditionForHsch;
-    string grepConditionForDmgr;
-    string inputFileOrDirectory;
-    string extractGrepCondition;
-    string acceptedFilesGrepCondition;
-    string otherGrepCondition;
-    string prioritizedLogPrint;
+    std::string grepConditionForTcom;
+    std::string grepConditionForErr;
+    std::string grepConditionForErrWrn;
+    std::string grepConditionForBtsStatus;
+    std::string grepConditionForRecovery;
+    std::string grepConditionForAllocation;
+    std::string grepConditionForFault;
+    std::string grepConditionForLrm;
+    std::string grepConditionForGrm;
+    std::string grepConditionForToam;
+    std::string grepConditionForTupc;
+    std::string grepConditionForRlh;
+    std::string grepConditionForCchh;
+    std::string grepConditionForCchhSdl;
+    std::string grepConditionForHsch;
+    std::string grepConditionForDmgr;
+    std::string inputFileOrDirectory;
+    std::string extractGrepCondition;
+    std::string acceptedFilesGrepCondition;
+    std::string otherGrepCondition;
+    std::string prioritizedLogPrint;
     double cropSize;
     tcomToolsBackend::BtsLogSorterConfiguration btsLogSorterConfiguration;
 };
-
 }

@@ -4,40 +4,34 @@
 #include <string>
 #include <vector>
 
-using std::map;
-using std::string;
-using std::vector;
 
 namespace alba
 {
-
 struct Answer
 {
-    string m_person;
+    std::string m_person;
     int m_questionNumber;
-    string m_answer;
-    string m_answerForPerson;
+    std::string m_answer;
+    std::string m_answerForPerson;
 };
 
 class PeerReviewCollator
 {
 public:
-    typedef map<int, string> Questions;
-    typedef vector<Answer> Answers;
+    typedef std::map<int, std::string> Questions;
+    typedef std::vector<Answer> Answers;
 
-    void processDirectory(string const& directoryPath);
-    void processFile(string const& filePath);
-    void processLineForPerson(string const& person, string const& lineInFile);
+    void processDirectory(std::string const& directoryPath);
+    void processFile(std::string const& filePath);
+    void processLineForPerson(std::string const& person, std::string const& lineInFile);
     Questions& getQuestionsReference();
     Answers& getAnswersReference();
-    void copyStringsInEachCell(string const& lineInCsvFile, vector<string>& stringsInEachCell) const;
+    void copyStringsInEachCell(std::string const& lineInCsvFile, std::vector<std::string> & stringsInEachCell) const;
 
-    void generateOutput(string const& outputDirectoryPath) const;
+    void generateOutput(std::string const& outputDirectoryPath) const;
 
 private:
-    int m_currentQuestionNumber;
-    Questions m_questions;
+    int m_currentQuestionNumber;    Questions m_questions;
     Answers m_answers;
 };
-
 }

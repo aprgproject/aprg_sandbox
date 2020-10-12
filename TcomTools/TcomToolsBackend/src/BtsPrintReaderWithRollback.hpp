@@ -3,24 +3,21 @@
 #include <BtsLogPrint.hpp>
 #include <fstream>
 
-using std::ifstream;
-
 namespace tcomToolsBackend
 {
-
 class BtsPrintReaderWithRollback
 {
 public:
     bool isGood() const;
     BtsLogPrint getPrint();
     void rollBackGetPrint();
-    void openIfNeeded(string const& filePath);
+    void openIfNeeded(std::string const& filePath);
     double getCurrentLocation();
 private:
     bool m_isGood;
     bool m_isPreviousPrintValid;
     BtsLogPrint m_previousPrint;
-    ifstream m_inputStream;
+    std::ifstream m_inputStream;
 };
 
 }

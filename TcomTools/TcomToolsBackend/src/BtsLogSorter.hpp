@@ -9,42 +9,37 @@
 #include <set>
 #include <string>
 
-using std::ofstream;
-using std::string;
-
 namespace tcomToolsBackend
 {
-
 class BtsLogSorter
 {
 public:
     BtsLogSorter(BtsLogSorterConfiguration const& configuration);
-    void processDirectory(string const& directoryPath);
-    void processFile(string const& filePath);
-    void saveLogsToOutputFile(string const& outputPath);
+    void processDirectory(std::string const& directoryPath);
+    void processFile(std::string const& filePath);
+    void saveLogsToOutputFile(std::string const& outputPath);
 
     double getTotalSizeToBeRead();
     double getTotalSizeToBeRead(set<string> listOfFiles);
 private:
-    string getPathOfLogWithoutPcTime(string const& directory, string const& name) const;
+    std::string getPathOfLogWithoutPcTime(std::string const& directory, std::string const& name) const;
     void openStartupLogsIfNeeded();
     void addStartupLogsOnSorterWithPcTime();
-    void writeLogsWithoutPcTimeToOutputFile(ofstream & outputLogFileStream);
+    void writeLogsWithoutPcTimeToOutputFile(std::ofstream & outputLogFileStream);
     void separateLogsWithoutPcTimeIntoDifferentFiles();
-    void writeLogsWithPcTimeToOutputFile(ofstream & outputLogFileStream);
+    void writeLogsWithPcTimeToOutputFile(std::ofstream & outputLogFileStream);
     void addPrintsFromFileReaderToSorterWithoutPcTime(BtsPrintReaderWithRollback & fileReader);
-    void writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRollback & fileReader, BtsLogPrint const& logPrint, ofstream & outputLogFileStream);
-    void bufferPrintAndWrite(BtsLogPrint const& logPrint, ofstream & outputLogFileStream);
-    void writeLastPrintIfNeeded(ofstream & outputLogFileStream);
-    void deleteFilesInDirectory(string const& directoryOfLogs) const;
+    void writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRollback & fileReader, BtsLogPrint const& logPrint, std::ofstream & outputLogFileStream);
+    void bufferPrintAndWrite(BtsLogPrint const& logPrint, std::ofstream & outputLogFileStream);
+    void writeLastPrintIfNeeded(std::ofstream & outputLogFileStream);
+    void deleteFilesInDirectory(std::string const& directoryOfLogs) const;
     alba::AlbaGrepStringEvaluator m_evaluator;
     alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithPcTime;
     alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithoutPcTime;
-    string m_directoryOfLogsWithoutPcTime;
-    string m_pathOfStartupLog;
+    std::string m_directoryOfLogsWithoutPcTime;
+    std::string m_pathOfStartupLog;
     alba::AlbaOptional<ofstream> m_startupLogStreamOptional;
     BtsLogPrint m_notYetPrinted;
-    set<string> m_foundHardwareAddresses;
-};
+    set<string> m_foundHardwareAddresses;};
 
 }

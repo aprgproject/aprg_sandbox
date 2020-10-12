@@ -7,15 +7,12 @@
 #include <string>
 
 using alba::AlbaOptional;
-using std::string;
 using tcomToolsBackend::BtsLogTime;
 
-namespace alba
-{
+namespace alba{
 
 struct BtsLogDelay
-{
-    AlbaOptional<BtsLogTime> startTimeOptional;
+{    AlbaOptional<BtsLogTime> startTimeOptional;
     AlbaOptional<BtsLogTime> endTimeOptional;
 };
 
@@ -53,22 +50,20 @@ class WireSharkLogReader
 {
 public:
     WireSharkLogReader();
-    WireSharkLogReader(string const pathOfOutputFile);
-    void processDirectoryForWireSharkDelay(string const& directoryPath);
-    void processFileForWireSharkDelay(string const& filePath);
-    void processFileForBtsDelayForRlh(string const& filePath);
-    void processFileForBtsDelayForMikhailKnife(string const& filePath);
-    void processFileForBtsDelayForGrm(string const& filePath);
-    double getWireSharkTime(string const& lineInLogs) const;
-    string getNumberAfterThisString(string const& mainString, string const& stringToSearch) const;
+    WireSharkLogReader(std::string const pathOfOutputFile);
+    void processDirectoryForWireSharkDelay(std::string const& directoryPath);
+    void processFileForWireSharkDelay(std::string const& filePath);
+    void processFileForBtsDelayForRlh(std::string const& filePath);
+    void processFileForBtsDelayForMikhailKnife(std::string const& filePath);
+    void processFileForBtsDelayForGrm(std::string const& filePath);
+    double getWireSharkTime(std::string const& lineInLogs) const;
+    std::string getNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch) const;
     double getComputedAverageDelay() const;
 private:
-    std::ofstream m_outputStream;
-    double m_totalDelay;
+    std::ofstream m_outputStream;    double m_totalDelay;
     int m_count;
     std::map<int, WireSharkDelay> m_wireSharkDelays;
-    std::map<UniqueId, BtsLogDelay> m_btsLogDelays;
-    std::map<int, BtsLogDelay> m_btsLogDelaysGrm;
+    std::map<UniqueId, BtsLogDelay> m_btsLogDelays;    std::map<int, BtsLogDelay> m_btsLogDelaysGrm;
 };
 
 }//namespace alba
