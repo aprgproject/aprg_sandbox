@@ -3,16 +3,12 @@
 #include <assert.h>
 #include <memory>
 
-using std::unique_ptr;
-
 namespace alba{
 
-template <typename ContentType> class AlbaOptional
-{
+template <typename ContentType> class AlbaOptional{
 public:
     AlbaOptional()
-        : m_hasContent(false)
-    {}
+        : m_hasContent(false)    {}
 
     AlbaOptional(ContentType content)
         : m_hasContent(true)
@@ -97,15 +93,13 @@ public:
 
 private:
     bool m_hasContent;
-    unique_ptr<ContentType> m_contentPointer;
+    std::unique_ptr<ContentType> m_contentPointer;
 };
 
-template <typename ContentType> class AlbaOptional<ContentType &>
-{
+template <typename ContentType> class AlbaOptional<ContentType &>{
 public:
 
-    AlbaOptional()
-        : m_hasContent(false)
+    AlbaOptional()        : m_hasContent(false)
         , m_contentPointer(nullptr)
     {}
 

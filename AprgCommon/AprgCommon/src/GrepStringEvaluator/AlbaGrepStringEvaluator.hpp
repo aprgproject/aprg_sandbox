@@ -6,43 +6,35 @@
 #include <stack>
 #include <vector>
 
-using std::function;
-using std::string;
-using std::stack;
-using std::vector;
-
 namespace alba
 {
 
 class AlbaGrepStringEvaluator
 {
-    typedef stack <AlbaGrepStringEvaluatorTerm> StackOfTerms;
-    typedef vector <AlbaGrepStringEvaluatorTerm> VectorOfTerms;
+    typedef std::stack <AlbaGrepStringEvaluatorTerm> StackOfTerms;
+    typedef std::vector <AlbaGrepStringEvaluatorTerm> VectorOfTerms;
 public:
-    AlbaGrepStringEvaluator(string const& condition);
-    bool evaluate(string const& stringToEvaluate) const;
+    AlbaGrepStringEvaluator(std::string const& condition);
+    bool evaluate(std::string const& stringToEvaluate) const;
     bool isInvalid() const;
-    string getErrorMessage() const;
+    std::string getErrorMessage() const;
 private:
-    void extractTerms(string const& condition);
-    void extractTermsWhileOnString(bool& isOnString, string& stringToBuild, char const& currentCharacter);
+    void extractTerms(std::string const& condition);
+    void extractTermsWhileOnString(bool& isOnString, std::string & stringToBuild, char const& currentCharacter);
     void extractTermsWhileNotOnString(bool& isOnString, char const& currentCharacter, int& parenthesisCount);
     void convertToPostFix();
-    bool isEvaluationPossible() const;
-    void transferStackContentsToVector(
+    bool isEvaluationPossible() const;    void transferStackContentsToVector(
             StackOfTerms& stackOfTerms,
             VectorOfTerms& vectorOfTerms,
-            function<bool(StackOfTerms&)> loopCondition);
+            std::function<bool(StackOfTerms&)> loopCondition);
     void addOperator(char const currentCharacter);
     void addParenthesis(char const currentCharacter, int& parenthesisCount);
-    bool isOperator(char const character) const;
-    bool isParenthesis(char const character) const;
+    bool isOperator(char const character) const;    bool isParenthesis(char const character) const;
     bool performBiDirectionalOperation(AlbaGrepStringEvaluatorTermType const termType, bool const inputValue1, bool const inputValue2) const;
     bool performPrefixOperation(AlbaGrepStringEvaluatorTermType const termType, bool const inputValue) const;
-    void setErrorMessage(string const& errorMessage);
+    void setErrorMessage(std::string const& errorMessage);
     bool m_isEvaluatorInvalid;
-    string m_errorMessage;
+    std::string m_errorMessage;
     VectorOfTerms m_terms;
 };
-
 }

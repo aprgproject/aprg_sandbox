@@ -5,48 +5,45 @@
 #include <set>
 #include <string>
 
-using std::set;
-using std::string;
-
 namespace alba{
 
 class AlbaWindowsPathHandler: public AlbaPathHandler
 {
 public:
-    AlbaWindowsPathHandler(string const& path);
+    typedef std::set<std::string> ListOfPaths;
+    AlbaWindowsPathHandler(std::string const& path);
     void clear() override;
-    string getDrive() const;
+    std::string getDrive() const;
     double getFileSizeEstimate();
     bool isFoundInLocalSystem() const;
     void createDirectoriesIfItDoesNotExist() const;
     void deleteFile();
-    void renameFile(string const& newFileName);
+    void renameFile(std::string const& newFileName);
     bool isRelativePath() const;
     void findFilesAndDirectoriesOneDepth(
-            string const& wildCardSearch,
-            set<string>& listOfFiles,
-            set<string>& listOfDirectories) const;
+            std::string const& wildCardSearch,
+            ListOfPaths& listOfFiles,
+            ListOfPaths& listOfDirectories) const;
     void findFilesAndDirectoriesMultipleDepth(
-            string const& wildCardSearch,
-            set<string>& listOfFiles,
-            set<string>& listOfDirectories,
+            std::string const& wildCardSearch,
+            ListOfPaths& listOfFiles,
+            ListOfPaths& listOfDirectories,
             int depth) const;
     void findFilesAndDirectoriesUnlimitedDepth(
-            string const& wildCardSearch,
-            set<string>& listOfFiles,
-            set<string>& listOfDirectories) const;
+            std::string const& wildCardSearch,
+            ListOfPaths& listOfFiles,
+            ListOfPaths& listOfDirectories) const;
 private:
-    void save(string const& path) override;
+    void save(std::string const& path) override;
     void setDrive();
     void findFilesAndDirectoriesWithDepth(
-            string const& currentDirectory,
-            string const& wildCardSearch,
-            set<string>& listOfFiles,
-            set<string>& listOfDirectories,
+            std::string const& currentDirectory,
+            std::string const& wildCardSearch,
+            ListOfPaths& listOfFiles,
+            ListOfPaths& listOfDirectories,
             int depth) const;
-    string m_drive;
+    std::string m_drive;
     bool m_foundInLocalSystem;
     bool m_relativePath;
 };
-
 }//namespace alba

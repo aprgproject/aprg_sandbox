@@ -1,45 +1,39 @@
 #pragma once
 
-#include <functional>
 #include <string>
-
-using std::string;
-using std::function;
 
 namespace alba{
 
 enum class PathType{Empty, Directory, File};
-
 class AlbaPathHandler
 {
 public:
-    explicit AlbaPathHandler(string const& slashCharacterString);
-    explicit AlbaPathHandler(string const& path, string const& slashCharacterString);
+    explicit AlbaPathHandler(std::string const& slashCharacterString);
+    explicit AlbaPathHandler(std::string const& path, std::string const& slashCharacterString);
     virtual void clear();
-    virtual string getFullPath() const;
-    void input(string const& path);
+    virtual std::string getFullPath() const;
+    void input(std::string const& path);
     void reInput();
     void goUp();
-    string getImmediateDirectoryName() const;
-    string getDirectory() const;
-    string getFile() const;
-    string getFilenameOnly() const;
-    string getExtension() const;
+    std::string getImmediateDirectoryName() const;
+    std::string getDirectory() const;
+    std::string getFile() const;
+    std::string getFilenameOnly() const;
+    std::string getExtension() const;
     PathType getPathType() const;
     bool isDirectory() const;
-    bool isFile() const;
-    bool isEmpty() const;
+    bool isFile() const;    bool isEmpty() const;
 
 protected:
-    virtual void save(string const& path);
-    void setExtensionFromPath(string const& path);
-    void setDirectoryAndFileFromPath(string const& path);
+    virtual void save(std::string const& path);
+    void setExtensionFromPath(std::string const& path);
+    void setDirectoryAndFileFromPath(std::string const& path);
     void setFileType();
     PathType m_pathType;
-    string m_slashCharacterString;
-    string m_directory;
-    string m_file;
-    string m_extension;
+    std::string m_slashCharacterString;
+    std::string m_directory;
+    std::string m_file;
+    std::string m_extension;
 };
 
 }//namespace alba

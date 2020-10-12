@@ -4,15 +4,13 @@
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
 #include <string>
 
-using std::string;
+using namespace std;
 using namespace alba;
 
 #define SIZE_TEST_FILE R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\FileReaderTest\Test2_SizeTest.txt)"
-
 TEST(PathTest, FullPathWithDirectoryAndFileGiven)
 {
-    AlbaPathHandler pathHandler(R"(C:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", R"(\)");
-    EXPECT_EQ(pathHandler.getDirectory(), R"(C:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\)");
+    AlbaPathHandler pathHandler(R"(C:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", R"(\)");    EXPECT_EQ(pathHandler.getDirectory(), R"(C:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\)");
     EXPECT_EQ(pathHandler.getFile(), "76543.txt");
     EXPECT_EQ(pathHandler.getFilenameOnly(), "76543");
     EXPECT_EQ(pathHandler.getExtension(), "txt");

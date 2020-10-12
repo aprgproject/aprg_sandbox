@@ -102,15 +102,13 @@ void AlbaGrepStringEvaluator::extractTerms(string const& condition)
     }
 }
 
-void AlbaGrepStringEvaluator::extractTermsWhileOnString(bool& isOnString, string& stringToBuild, char const& currentCharacter)
+void AlbaGrepStringEvaluator::extractTermsWhileOnString(bool& isOnString, string & stringToBuild, char const& currentCharacter)
 {
     if(']' == currentCharacter)
-    {
-        m_terms.emplace_back(AlbaGrepStringEvaluatorTermType::String, stringToBuild);
+    {        m_terms.emplace_back(AlbaGrepStringEvaluatorTermType::String, stringToBuild);
         stringToBuild.clear();
         isOnString = false;
-    }
-    else
+    }    else
     {
         stringToBuild += ::toupper(currentCharacter);
     }

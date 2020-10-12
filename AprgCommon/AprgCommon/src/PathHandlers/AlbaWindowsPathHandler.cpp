@@ -5,13 +5,13 @@
 #include <string>
 #include <windows.h>
 
+using namespace std;
+
 namespace alba
 {
-
 AlbaWindowsPathHandler::AlbaWindowsPathHandler(string const& path)
     : AlbaPathHandler(R"(\)")
-{
-    save(path);
+{    save(path);
 }
 
 void AlbaWindowsPathHandler::clear()

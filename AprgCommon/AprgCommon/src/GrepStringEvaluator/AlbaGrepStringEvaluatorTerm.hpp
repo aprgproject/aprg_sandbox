@@ -2,15 +2,11 @@
 
 #include <string>
 
-using std::string;
-
 namespace alba
 {
-
 enum class AlbaGrepStringEvaluatorTermType
 {
-    AndOperator,
-    ClosingParenthesis,
+    AndOperator,    ClosingParenthesis,
     Dummy,
     IgnoreOperator,
     NotOperator,
@@ -26,23 +22,22 @@ class AlbaGrepStringEvaluatorTerm
 public:
     AlbaGrepStringEvaluatorTerm();
     AlbaGrepStringEvaluatorTerm(AlbaGrepStringEvaluatorTermType type);
-    AlbaGrepStringEvaluatorTerm(AlbaGrepStringEvaluatorTermType type, string stringToFind);
+    AlbaGrepStringEvaluatorTerm(AlbaGrepStringEvaluatorTermType type, std::string stringToFind);
     bool isToBeIgnored() const;
     bool isOperator() const;
-    bool isClosingParenthesis() const;
-    bool isOpeningParenthesis() const;
+    bool isClosingParenthesis() const;    bool isOpeningParenthesis() const;
     bool isString() const;
     bool isBiDirectionalOperation() const;
     bool isPrefixOperation() const;
     AlbaGrepStringEvaluatorTermType getTermType() const;
-    string getTermTypeString() const;
-    string getString() const;
+    std::string getTermTypeString() const;
+    std::string getString() const;
     int getPriorityScore() const;
     void appendToString(char const character);
     void setType(AlbaGrepStringEvaluatorTermType const type);
 private:
     AlbaGrepStringEvaluatorTermType m_type;
-    string m_stringToFind;
+    std::string m_stringToFind;
 };
 
 }
