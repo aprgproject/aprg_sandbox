@@ -42,7 +42,8 @@ struct AlbaLargeSorterConfiguration
         AlbaWindowsPathHandler directoryPath(m_directoryForBlocks);
         if(!directoryPath.isFoundInLocalSystem()) { return false; }
         if(!directoryPath.isDirectory()) { return false; }
-        return true;    }
+        return true;
+    }
 };
 
 }

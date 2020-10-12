@@ -6,48 +6,133 @@
 using namespace alba;
 using namespace std;
 
-TEST(WireSharkLogReaderTest, WireSharkTimeCanBeExtracted)
+TEST(WireSharkLogReaderTest, DISABLED_WireSharkTimeCanBeExtracted)
 {
     WireSharkLogReader reader;
     double timeStamp = reader.getWireSharkTime("94 0.004714000    10.34.246.5           10.34.46.6            NBAP     238    id-radioLinkSetup , RadioLinkSetupRequestFDD ");
-
     EXPECT_DOUBLE_EQ(0.004714, timeStamp);
 }
 
-TEST(WireSharkLogReaderTest, WireSharkTimeCanBeExtracted2)
+TEST(WireSharkLogReaderTest, DISABLED_WireSharkTimeCanBeExtracted2)
 {
     WireSharkLogReader reader;
     double timeStamp = reader.getWireSharkTime("  96414 4.137924000    10.34.46.6            10.34.246.5           NBAP     138    id-radioLinkSetup , RadioLinkSetupResponseFDD ");
-
     EXPECT_DOUBLE_EQ(4.137924, timeStamp);
 }
 
-TEST(WireSharkLogReaderTest, GetNumberAfterThisStringWorksAsIntended)
+TEST(WireSharkLogReaderTest, DISABLED_GetNumberAfterThisStringWorksAsIntended)
 {
     WireSharkLogReader reader;
     string crnccIdString = reader.getNumberAfterThisString("criticality: ignore (1) value CRNC-CommunicationContextID: 13388 Item 1: id-NodeB-CommunicationContextID ProtocolIE-Field", "CRNC-CommunicationContextID: ");
     int crnccId = stringHelper::convertStringToNumber<int>(crnccIdString);
     EXPECT_EQ(13388, crnccId);
 }
-TEST(WireSharkLogReaderTest, DISABLED_ProcessOneFile)
-{
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\results.csv)");
-    reader.processFile(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\wbts16_wireshark\WBTS16\00032)");
-    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
-}
 
 TEST (WireSharkLogReaderTest, DISABLED_ProcessDirectory1)
 {
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\wbts16_wireshark\results.csv)");
-    reader.processDirectory(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\wbts16_wireshark\WBTS16\)");
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\wbts16_wireshark\WireSharkResults.csv)");
+    reader.processDirectoryForWireSharkDelay(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\wbts16_wireshark\WBTS16\)");
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
-TEST (WireSharkLogReaderTest, ProcessDirectory)
+TEST (WireSharkLogReaderTest, DISABLED_ProcessDirectory)
 {
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\results.csv)");
-    reader.processDirectory(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\wireshark_txt\)");
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\WireSharkResults.csv)");
+    reader.processDirectoryForWireSharkDelay(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\wireshark_txt\)");
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
+TEST (WireSharkLogReaderTest, DISABLED_ProcessFileForBtsDelay_WBTS17)
+{
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\BtsLogTimeResults.csv)");
+    reader.processFileForBtsDelayForRlh(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\sorted.log)");
+    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+}
+
+TEST (WireSharkLogReaderTest, DISABLED_ProcessFileForBtsDelay_WBTS16)
+{
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\PR075191\01_11_2016\RlhBtsLogTimeResults.csv)");
+    reader.processFileForBtsDelayForRlh(R"(D:\W\ZZZ_Useless_Logs\PR075191\wbts17knife_117\wbts17knife_117\sorted.log)");
+    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+}
+
+TEST (WireSharkLogReaderTest, DISABLED_ProcessFileForBtsDelay_GRM_WBTS16)
+{
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\wbts16_wireshark\GrmBtsLogTimeResults.csv)");
+    reader.processFileForBtsDelayForGrm(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\wbts16_wireshark\sorted.log)");
+    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+}
+
+TEST (WireSharkLogReaderTest, DISABLED_ProcessFileForBtsDelay_GRM_WBTS17)
+{
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\GrmBtsLogTimeResults.csv)");
+    reader.processFileForBtsDelayForGrm(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\sorted.log)");
+}
+
+TEST (WireSharkLogReaderTest, DISABLED_ProcessFileForBtsDelay_RLH_WBTS17Knife)
+{
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17Knife\bts_logs\RlhBtsLogTimeResults.csv)");
+    reader.processFileForBtsDelayForMikhailKnife(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17Knife\bts_logs\sorted.log)");
+}
+
+TEST (WireSharkLogReaderTest, DISABLED_ProcessDirectoryWireshark)
+{
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17Knife\anna_bts\WireSharkResults.csv)");
+    reader.processDirectoryForWireSharkDelay(R"(D:\W\ZZZ_Useless_Logs\PR075191\01_11_2016\anna_bts\wireshark\)");
+    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+}
+
+TEST (WireSharkLogReaderTest, DISABLED_ProcessFileWireshark)
+{
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\PR075191\wbts17knife_117\wbts17knife_117\WireSharkResults.csv)");
+    reader.processFileForWireSharkDelay(R"(D:\W\ZZZ_Useless_Logs\PR075191\wbts17knife_117\wbts17knife_117\WBTS17_knife_Torstai_00051_20160114121257\0001)");
+    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+}
+
+TEST (WireSharkLogReaderTest, DISABLED_ProcessFileForBtsDelay1_WBTS16_1)
+{
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\PR121171\SYSLOG_WBTS16_1_MixedLoad\RlhBtsLogTimeResults.csv)");
+    reader.processFileForBtsDelayForRlh(R"(D:\W\ZZZ_Useless_Logs\PR121171\SYSLOG_WBTS16_1_MixedLoad\sorted.log)");
+    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+}
+
+TEST (WireSharkLogReaderTest, DISABLED_ProcessFileForBtsDelay2_WBTS16)
+{
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\PR121171\SYSLOG_WBTS16_mixedLoad\RlhBtsLogTimeResults.csv)");
+    reader.processFileForBtsDelayForRlh(R"(D:\W\ZZZ_Useless_Logs\PR121171\SYSLOG_WBTS16_mixedLoad\sorted.log)");
+    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+}
+
+TEST (WireSharkLogReaderTest, ProcessFileWireshark1)
+{
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\PR121171\Wireshark_WBTS16_1_MixedLoad\WireSharkResults.csv)");
+    reader.processFileForWireSharkDelay(R"(D:\W\ZZZ_Useless_Logs\PR121171\Wireshark_WBTS16_1_MixedLoad\1.txt)");
+    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+}
+
+TEST (WireSharkLogReaderTest, ProcessFileWireshark2)
+{
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\PR121171\Wirwshark_WBTS16_mixedLoad\WireSharkResults.csv)");
+    reader.processFileForWireSharkDelay(R"(D:\W\ZZZ_Useless_Logs\PR121171\Wirwshark_WBTS16_mixedLoad\1.txt)");
+    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+}
+
+TEST (WireSharkLogReaderTest, DISABLED_SizeOfTest)
+{
+    struct TraceSessionId
+    {
+        unsigned char rncId[2]; //2
+        unsigned char computer[2]; //2
+        unsigned char family[2]; //2
+    };
+
+    struct TraceReportHeader
+    {
+        TraceSessionId traceSessionId;
+        unsigned char seqNum[4]; //4 dapat
+        //short extra; //2
+    };
+    TraceReportHeader traceReportHeader;
+    cout<<"Size of:"<<sizeof(traceReportHeader)<<endl;
+}
 

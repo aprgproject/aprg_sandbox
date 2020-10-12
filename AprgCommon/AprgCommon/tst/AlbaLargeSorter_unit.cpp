@@ -5,9 +5,9 @@
 #include <set>
 #include <string>
 #include <vector>
+
 using namespace alba;
 using namespace std;
-
 #define ALBA_LARGE_SORTER_TEST_FILE R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\LargeSorterTest\Test1.txt)"
 #define ALBA_LARGE_SORTER_BLOCK_DIR R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\LargeSorterTest\blocks)"
 
@@ -249,11 +249,11 @@ TEST(AlbaLargeSorterTest, FileHandlerTest_FileAreWrittenAtTheEndAgainAfterReleas
     AlbaWindowsPathHandler(ALBA_LARGE_SORTER_TEST_FILE).deleteFile();
 
     DataBlockFileHandler<int> fileHandler;
-    fileHandler.openFileIfNeeded(ALBA_LARGE_SORTER_TEST_FILE);    ASSERT_TRUE(fileHandler.isFileStreamOpened());
+    fileHandler.openFileIfNeeded(ALBA_LARGE_SORTER_TEST_FILE);
+    ASSERT_TRUE(fileHandler.isFileStreamOpened());
     fileHandler.getFileDumpStreamReference()<<1<<endl;
     fileHandler.getFileDumpStreamReference()<<2<<endl;
-    fileHandler.releaseFileStream();
-    fileHandler.openFileIfNeeded(ALBA_LARGE_SORTER_TEST_FILE);
+    fileHandler.releaseFileStream();    fileHandler.openFileIfNeeded(ALBA_LARGE_SORTER_TEST_FILE);
     ASSERT_TRUE(fileHandler.isFileStreamOpened());
     fileHandler.getFileDumpStreamReference()<<3<<endl;
     fileHandler.getFileDumpStreamReference()<<4<<endl;
@@ -378,11 +378,11 @@ TEST(AlbaLargeSorterTest, FilesForBlocksAreDeletedAfterFileForBlocksAreCreated)
         AlbaWindowsPathHandler(filePath).deleteFile();
     }
     listOfFiles.clear();
-    listOfDirectories.clear();    AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 100));
+    listOfDirectories.clear();
+    AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 100));
     for(int inputValue=0; inputValue<100; inputValue++)
     {
-        largeSorter.add(inputValue);
-    }
+        largeSorter.add(inputValue);    }
 
     int expectedValue=0;
     largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)

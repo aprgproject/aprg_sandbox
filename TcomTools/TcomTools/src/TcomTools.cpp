@@ -7,11 +7,11 @@
 using namespace alba;
 using namespace std;
 
-TcomTools::TcomTools(QWidget *parent)    : QMainWindow(parent)
+TcomTools::TcomTools(QWidget *parent)
+    : QMainWindow(parent)
     , ui(new Ui::TcomTools)
     , m_configuration()
-{
-    ui->setupUi(this);
+{    ui->setupUi(this);
     updateGuiUsingConfiguration();
     connect(&m_stepHandlerThread, SIGNAL(finished()), this, SLOT(onExecutionIsFinished()));
     m_stepHandlerThread.start();
@@ -20,10 +20,8 @@ TcomTools::TcomTools(QWidget *parent)    : QMainWindow(parent)
 
 TcomTools::~TcomTools()
 {
-    m_configuration.saveConfigurationToFile();
     delete ui;
 }
-
 void TcomTools::setInputFileOrDirectory(string const& inputFileOrDirectory)
 {
     m_configuration.inputFileOrDirectory = inputFileOrDirectory;
@@ -76,20 +74,20 @@ void TcomTools::on_actionOpenFile_triggered()
     AlbaWindowsPathHandler pathHandler(fileName.toStdString());
     if(!pathHandler.isEmpty())
     {
-        m_configuration.inputFileOrDirectory = pathHandler.getFullPath();        ui->inputFileAndFolder->setText(QString::fromStdString(pathHandler.getFullPath()));
+        m_configuration.inputFileOrDirectory = pathHandler.getFullPath();
+        ui->inputFileAndFolder->setText(QString::fromStdString(pathHandler.getFullPath()));
     }
 }
-
 void TcomTools::on_actionOpenFolder_triggered()
 {
     QString directory = QFileDialog::getExistingDirectory(this, tr("Open folder"), QString::fromStdString(AlbaWindowsPathHandler(m_configuration.inputFileOrDirectory).getDirectory()), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     AlbaWindowsPathHandler pathHandler(directory.toStdString());
     if(!pathHandler.isEmpty())
     {
-        m_configuration.inputFileOrDirectory = pathHandler.getFullPath();        ui->inputFileAndFolder->setText(QString::fromStdString(pathHandler.getFullPath()));
+        m_configuration.inputFileOrDirectory = pathHandler.getFullPath();
+        ui->inputFileAndFolder->setText(QString::fromStdString(pathHandler.getFullPath()));
     }
 }
-
 void TcomTools::on_actionAboutAprg_triggered()
 {
     QMessageBox::about(this, tr("About Menu"), tr("Insert sample text here"));

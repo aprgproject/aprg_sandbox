@@ -51,11 +51,11 @@ void BtsLogTime::setTimeByTimeStamp(BtsLogTimeType logTimeType, string const& ti
         timeValues.push_back(stringHelper::convertStringToNumber<int>(timeValueString));
     }
 
-    if(BtsLogTimeType::PcTimeStamp == logTimeType)    {
+    if(BtsLogTimeType::PcTimeStamp == logTimeType)
+    {
         if(6 == timeValues.size())
         {
-            m_months = timeValues[1];
-            m_days = timeValues[0];
+            m_months = timeValues[1];            m_days = timeValues[0];
             m_seconds = timeValues[2]*3600 + timeValues[3]*60 + timeValues[4];
             m_microseconds = timeValues[5]*1000;
         }

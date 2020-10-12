@@ -148,11 +148,11 @@ void TcomToolsConfiguration::loadConfigurationFromFile()
             isGrepDmgrEnabled = !(0==stringHelper::convertStringToNumber<int>(afterColon));
         }
         else if("grepConditionForTcom" == beforeColon)
-        {            grepConditionForTcom = afterColon;
+        {
+            grepConditionForTcom = afterColon;
         }
         else if("grepConditionForErr" == beforeColon)
-        {
-            grepConditionForErr = afterColon;
+        {            grepConditionForErr = afterColon;
         }
         else if("grepConditionForErrWrn" == beforeColon)
         {
@@ -263,11 +263,11 @@ void TcomToolsConfiguration::loadConfigurationFromFile()
             btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams = stringHelper::convertStringToNumber<int>(afterColon);
         }
         else if("btsLogSorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks" == beforeColon)
-        {            btsLogSorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks = afterColon;
+        {
+            btsLogSorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks = afterColon;
         }
         else if("btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock" == beforeColon)
-        {
-            btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock = stringHelper::convertStringToNumber<int>(afterColon);
+        {            btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock = stringHelper::convertStringToNumber<int>(afterColon);
         }
         else if("btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock" == beforeColon)
         {
@@ -287,10 +287,10 @@ void TcomToolsConfiguration::loadConfigurationFromFile()
         }
     }
 }
+
 void TcomToolsConfiguration::saveConfigurationToFile() const
 {
-    std::ofstream outputFileStream(CONFIGURATION_FILE);
-    outputFileStream << "isExtractStepOn:" << static_cast<int>(isExtractStepOn) << endl;
+    std::ofstream outputFileStream(CONFIGURATION_FILE);    outputFileStream << "isExtractStepOn:" << static_cast<int>(isExtractStepOn) << endl;
     outputFileStream << "isCombineAndSortStepOn:" << static_cast<int>(isCombineAndSortStepOn) << endl;
     outputFileStream << "isGrepStepOn:" << static_cast<int>(isGrepStepOn) << endl;
     outputFileStream << "isCropStepOn:" << static_cast<int>(isCropStepOn) << endl;

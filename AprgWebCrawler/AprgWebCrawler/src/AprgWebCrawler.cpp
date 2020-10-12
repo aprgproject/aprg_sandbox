@@ -19,11 +19,11 @@ AprgWebCrawler::AprgWebCrawler(string const& workingDirectory)
 {
     if (m_memoryCardPathHandler.isFoundInLocalSystem() && m_memoryCardPathHandler.isFile())
     {
-        loadMemoryCard();    }
+        loadMemoryCard();
+    }
 }
 
-bool AprgWebCrawler::isValid() const
-{
+bool AprgWebCrawler::isValid() const{
     return m_workingPathHandler.isFoundInLocalSystem() &&
             m_workingPathHandler.isDirectory() &&
             m_memoryCardPathHandler.isFoundInLocalSystem() &&
@@ -63,11 +63,11 @@ void AprgWebCrawler::printStatus() const
             AlbaWebPathHandler webPathHandler(webLink);
             cout << "Url: ["<< webPathHandler.getFullPath() << "] isEmpty: " << webPathHandler.isEmpty() << " hasProtocol: " << webPathHandler.hasProtocol() << endl;
         }
-    }    else if(m_isModeRecognized)
+    }
+    else if(m_isModeRecognized)
     {
         cout << "Mode: ["<< getCrawlerModeString() << "] is not a recognized mode" << endl;
-    }
-    else
+    }    else
     {
         cout << "Status is okay" << endl;
     }
@@ -101,11 +101,11 @@ void AprgWebCrawler::loadMemoryCard()
             AlbaWebPathHandler webPathHandler(memoryCardReader.getLineAndIgnoreWhiteSpaces());
             if(!webPathHandler.isEmpty())
             {
-                m_webLinks.push_back(webPathHandler.getFullPath());            }
+                m_webLinks.push_back(webPathHandler.getFullPath());
+            }
         }
     }
 }
-
 void AprgWebCrawler::crawl()
 {
     switch(m_mode)
@@ -218,10 +218,10 @@ bool AprgWebCrawler::isWebLinksValid() const
         return !webPathHandler.isEmpty() && webPathHandler.hasProtocol();
     });
 }
+
 string AprgWebCrawler::getUserInputAfterManuallyUsingMozillaFirefox(AlbaWebPathHandler const& webPathHandler) const
 {
-    constexpr int bufferSize = 1000;
-    char buffer[bufferSize];
+    constexpr int bufferSize = 1000;    char buffer[bufferSize];
     gotoLinkManuallyUsingMozillaFirefox(webPathHandler);
     cout<<"Enter user input:"<<endl;
     cin.getline(buffer, bufferSize);

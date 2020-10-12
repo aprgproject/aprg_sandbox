@@ -15,11 +15,11 @@ AlbaPathHandler::AlbaPathHandler(string const& path, string const& slashCharacte
     save(path);
 }
 
-void AlbaPathHandler::clear(){
+void AlbaPathHandler::clear()
+{
     m_pathType = PathType::Empty;
     m_directory.clear();
-    m_file.clear();
-    m_extension.clear();
+    m_file.clear();    m_extension.clear();
 }
 
 string AlbaPathHandler::getFullPath() const
@@ -51,11 +51,11 @@ void AlbaPathHandler::goUp()
 
 string AlbaPathHandler::getImmediateDirectoryName() const
 {
-    return stringHelper::getImmediateDirectoryName(m_directory, m_slashCharacterString);}
+    return stringHelper::getImmediateDirectoryName(m_directory, m_slashCharacterString);
+}
 
 string AlbaPathHandler::getDirectory() const
-{
-    return m_directory;
+{    return m_directory;
 }
 
 string AlbaPathHandler::getFile() const
@@ -108,11 +108,11 @@ void AlbaPathHandler::save(string const& path)
 
 void AlbaPathHandler::setExtensionFromPath(string const& path)
 {
-    int indexOfSlashOrPeriod = path.find_last_of (m_slashCharacterString + ".");    if (stringHelper::isNotNpos(indexOfSlashOrPeriod) && path[indexOfSlashOrPeriod]=='.')
+    int indexOfSlashOrPeriod = path.find_last_of (m_slashCharacterString + ".");
+    if (stringHelper::isNotNpos(indexOfSlashOrPeriod) && path[indexOfSlashOrPeriod]=='.')
     {
         m_extension = path.substr(indexOfSlashOrPeriod+1);
-    }
-}
+    }}
 
 void AlbaPathHandler::setDirectoryAndFileFromPath(string const& path)
 {

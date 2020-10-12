@@ -162,10 +162,10 @@ TEST (BtsLogAnalyzerTest, Test1)
     ofstream messageListStream(messageListPathHandler.getFullPath());
     ofstream delayListStream(delayListPathHandler.getFullPath());
     ofstream delayListStatistic(delayListStatisticPathHandler.getFullPath());
+
     BtsDelayInformationContainer btsDelayInformationContainer;
 
-    BtsLogAnalyzer btsLogAnalyzer(btsDelayInformationContainer, delayListStream);
-    btsLogAnalyzer.saveAllMessagePrintsForAllUsers(pathHandler);
+    BtsLogAnalyzer btsLogAnalyzer(btsDelayInformationContainer, delayListStream);    btsLogAnalyzer.saveAllMessagePrintsForAllUsers(pathHandler);
     btsLogAnalyzer.analyzeForAllUsers();
     btsLogAnalyzer.printAllUsers(messageListStream);
 
@@ -185,10 +185,10 @@ TEST (BtsLogAnalyzerTest, Test2)
     ofstream messageListStream(messageListPathHandler.getFullPath());
     ofstream delayListStream(delayListPathHandler.getFullPath());
     ofstream delayListStatistic(delayListStatisticPathHandler.getFullPath());
+
     BtsDelayInformationContainer btsDelayInformationContainer;
 
-    BtsLogAnalyzer btsLogAnalyzer(btsDelayInformationContainer, delayListStream);
-    btsLogAnalyzer.saveAllMessagePrintsForAllUsers(pathHandler);
+    BtsLogAnalyzer btsLogAnalyzer(btsDelayInformationContainer, delayListStream);    btsLogAnalyzer.saveAllMessagePrintsForAllUsers(pathHandler);
     btsLogAnalyzer.analyzeForAllUsers();
     btsLogAnalyzer.printAllUsers(messageListStream);
 

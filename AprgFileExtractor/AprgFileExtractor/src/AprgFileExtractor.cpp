@@ -25,11 +25,11 @@ void AprgFileExtractor::extractAllRelevantFiles(string const& pathOfFileOrDirect
     AlbaWindowsPathHandler fileOrDirectoryPathHandler(pathOfFileOrDirectory);
     if(!fileOrDirectoryPathHandler.isFoundInLocalSystem())
     {
-        cout << "extractAllRelevantFiles: File or directory not found in local system." << endl;    }
+        cout << "extractAllRelevantFiles: File or directory not found in local system." << endl;
+    }
     if(fileOrDirectoryPathHandler.isDirectory())
     {
-        extractAllRelevantFilesInThisDirectory(fileOrDirectoryPathHandler.getFullPath());
-    }
+        extractAllRelevantFilesInThisDirectory(fileOrDirectoryPathHandler.getFullPath());    }
     else
     {
         extractAllRelevantFilesInThisCompressedFile(fileOrDirectoryPathHandler.getFullPath());
@@ -41,11 +41,11 @@ void AprgFileExtractor::copyRelativeFilePathsFromCompressedFile(string const& fi
     AlbaWindowsPathHandler filePathHandler(filePathOfCompressedFile);
     string command = string("") + PATH_OF_7Z_EXECUTABLE + R"( l -slt ")"
             + filePathHandler.getFullPath() + R"(" > ")"
-            + PATH_OF_7Z_TEMP_FILE + R"(")";    system(command.c_str());
+            + PATH_OF_7Z_TEMP_FILE + R"(")";
+    system(command.c_str());
 
     ifstream tempFile(PATH_OF_7Z_TEMP_FILE);
-    string path;
-    AlbaFileReader fileReader(tempFile);
+    string path;    AlbaFileReader fileReader(tempFile);
     while(fileReader.isNotFinished())
     {
         string lineInFile(fileReader.simpleGetLine());
@@ -58,32 +58,32 @@ void AprgFileExtractor::copyRelativeFilePathsFromCompressedFile(string const& fi
             if(!stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(stringHelper::getStringAfterThisString(lineInFile, "Attributes = "), "D"))
             {
                 files.emplace(path);
-            }        }
+            }
+        }
     }
 }
-
 string AprgFileExtractor::extractAll(string const& filePathOfCompressedFile) const
 {
     AlbaWindowsPathHandler compressedFilePathHandler(filePathOfCompressedFile);
     AlbaWindowsPathHandler outputPathHandler(compressedFilePathHandler.getDirectory() + R"(\)" + compressedFilePathHandler.getFilenameOnly() + R"(\)");
     string command = string("") + PATH_OF_7Z_EXECUTABLE + R"( e -y -o")"
             + outputPathHandler.getDirectory() + R"(" ")"
-            + compressedFilePathHandler.getFullPath() + R"(" > nul)";    system(command.c_str());
+            + compressedFilePathHandler.getFullPath() + R"(" > nul)";
+    system(command.c_str());
     cout<<"extractAll: "<<outputPathHandler.getImmediateDirectoryName()<<R"(\)"<<endl;
     return outputPathHandler.getFullPath();
 }
-
 string AprgFileExtractor::extractOneFile(string const& filePathOfCompressedFile, string const& relativePathOfFile) const
 {
     AlbaWindowsPathHandler compressedFilePathHandler(filePathOfCompressedFile);
     AlbaWindowsPathHandler outputPathHandler(compressedFilePathHandler.getDirectory() + R"(\)" + compressedFilePathHandler.getFilenameOnly() + R"(\)" + relativePathOfFile);
     string command = string("") + PATH_OF_7Z_EXECUTABLE + R"( e -y -o")"
             + outputPathHandler.getDirectory() + R"(" ")"
-            + compressedFilePathHandler.getFullPath() + R"(" ")"            + relativePathOfFile + R"(" > nul)";
+            + compressedFilePathHandler.getFullPath() + R"(" ")"
+            + relativePathOfFile + R"(" > nul)";
     system(command.c_str());
     cout<<"extractOneFile: "<<outputPathHandler.getFile()<<endl;
-    return outputPathHandler.getFullPath();
-}
+    return outputPathHandler.getFullPath();}
 
 bool AprgFileExtractor::isRecognizedCompressedFile(string const& extension) const
 {
@@ -104,20 +104,20 @@ void AprgFileExtractor::extractAllRelevantFilesInThisDirectory(string const& dir
         AlbaWindowsPathHandler extractedPathHandler(filePath);
         if(isRecognizedCompressedFile(extractedPathHandler.getExtension()))
         {
-            extractAllRelevantFilesInThisCompressedFile(extractedPathHandler.getFullPath());        }
+            extractAllRelevantFilesInThisCompressedFile(extractedPathHandler.getFullPath());
+        }
     }
 }
-
 void AprgFileExtractor::extractAllRelevantFilesInThisCompressedFile(string const& filePathOfCompressedFile) const
 {
     AlbaWindowsPathHandler compressedFilePathHandler(filePathOfCompressedFile);
     if(isTheExtensionXz(compressedFilePathHandler.getExtension()))
     {
-        extractAllFilesRecursively(filePathOfCompressedFile);    }
+        extractAllFilesRecursively(filePathOfCompressedFile);
+    }
     else
     {
-        extractAllRelevantFilesRecursively(filePathOfCompressedFile);
-    }
+        extractAllRelevantFilesRecursively(filePathOfCompressedFile);    }
 }
 
 void AprgFileExtractor::extractAllFilesRecursively(string const& filePathOfCompressedFile) const
@@ -125,10 +125,10 @@ void AprgFileExtractor::extractAllFilesRecursively(string const& filePathOfCompr
     AlbaWindowsPathHandler extractedPathHandler(extractAll(filePathOfCompressedFile));
     if(isRecognizedCompressedFile(extractedPathHandler.getExtension()))
     {
-        extractAllRelevantFilesInThisDirectory(extractedPathHandler.getFullPath());        extractedPathHandler.deleteFile();
+        extractAllRelevantFilesInThisDirectory(extractedPathHandler.getFullPath());
+        extractedPathHandler.deleteFile();
     }
 }
-
 void AprgFileExtractor::extractAllRelevantFilesRecursively(string const& filePathOfCompressedFile) const
 {
     set<string> filePaths;
@@ -141,11 +141,11 @@ void AprgFileExtractor::extractAllRelevantFilesRecursively(string const& filePat
             AlbaWindowsPathHandler extractedPathHandler(extractOneFile(filePathOfCompressedFile, filePath));
             if(isRecognizedCompressedFile(extractedPathHandler.getExtension()))
             {
-                extractAllRelevantFilesInThisCompressedFile(extractedPathHandler.getFullPath());                extractedPathHandler.deleteFile();
+                extractAllRelevantFilesInThisCompressedFile(extractedPathHandler.getFullPath());
+                extractedPathHandler.deleteFile();
             }
         }
-    }
-}
+    }}
 
 bool AprgFileExtractor::isTheExtensionXz(string const& extension) const
 {

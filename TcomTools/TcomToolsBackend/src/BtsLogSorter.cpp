@@ -29,21 +29,21 @@ void BtsLogSorter::processDirectory(string const& directoryPath)
         AlbaWindowsPathHandler filePathHandler(filePath);
         if(m_evaluator.evaluate(filePathHandler.getFile()))
         {
-            processFile(filePathHandler.getFullPath());        }
+            processFile(filePathHandler.getFullPath());
+        }
     }
 }
-
 void BtsLogSorter::processFile(string const& filePath)
 {
     openStartupLogsIfNeeded();
     AlbaWindowsPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFile()<<endl;
 
-    ifstream inputLogFileStream(filePath);    AlbaFileReader fileReader(inputLogFileStream);
+    ifstream inputLogFileStream(filePath);
+    AlbaFileReader fileReader(inputLogFileStream);
     while(fileReader.isNotFinished())
     {
-        BtsLogPrint logPrint(filePathHandler.getFile(), fileReader.getLineAndIgnoreWhiteSpaces());
-        m_foundHardwareAddresses.emplace(logPrint.getHardwareAddress());
+        BtsLogPrint logPrint(filePathHandler.getFile(), fileReader.getLineAndIgnoreWhiteSpaces());        m_foundHardwareAddresses.emplace(logPrint.getHardwareAddress());
         if(logPrint.getPcTime().isEmpty())
         {
             m_sorterWithoutPcTime.add(logPrint);
@@ -76,17 +76,18 @@ void BtsLogSorter::saveLogsToOutputFile(string const& outputPath)
     AlbaWindowsPathHandler directoryPathHandler(m_pathOfStartupLog);
     deleteFilesInDirectory(directoryPathHandler.getDirectory());
 }
+
 string BtsLogSorter::getPathOfLogWithoutPcTime(string const& directory, string const& name) const
 {
     string filename = name.empty() ? "NoHardwareAddress" : name;
     return AlbaWindowsPathHandler(directory + R"(\)" + filename + R"(.log)").getFullPath();
 }
 
-void BtsLogSorter::openStartupLogsIfNeeded(){
+void BtsLogSorter::openStartupLogsIfNeeded()
+{
     if(!m_startupLogStreamOptional)
     {
-        m_startupLogStreamOptional.createObjectUsingDefaultConstructor();
-        m_startupLogStreamOptional.getReference().open(m_pathOfStartupLog, std::ios::ate|std::ios::app);
+        m_startupLogStreamOptional.createObjectUsingDefaultConstructor();        m_startupLogStreamOptional.getReference().open(m_pathOfStartupLog, std::ios::ate|std::ios::app);
     }
 }
 
@@ -213,4 +214,5 @@ void BtsLogSorter::deleteFilesInDirectory(string const& directoryOfLogs) const
         AlbaWindowsPathHandler(file).deleteFile();
     }
 }
+
 }

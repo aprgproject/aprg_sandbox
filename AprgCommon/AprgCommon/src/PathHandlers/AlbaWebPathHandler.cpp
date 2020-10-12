@@ -13,11 +13,11 @@ AlbaWebPathHandler::AlbaWebPathHandler(string const& path)
     save(path);
 }
 
-void AlbaWebPathHandler::clear(){
+void AlbaWebPathHandler::clear()
+{
     AlbaPathHandler::clear();
     m_protocol.clear();
-    m_urlParameters.clear();
-    m_hasProtocol = false;
+    m_urlParameters.clear();    m_hasProtocol = false;
 }
 
 string AlbaWebPathHandler::getFullPath() const
@@ -66,11 +66,11 @@ void AlbaWebPathHandler::setProtocolAndSplitPath(string const& path, string & pr
 {
     int indexBeforeProtocol = path.find("://");
     int indexBeforeSlash = path.find_first_of(m_slashCharacterString);
-    if(stringHelper::isNotNpos(indexBeforeProtocol) && stringHelper::isNotNpos(indexBeforeSlash) && indexBeforeProtocol < indexBeforeSlash)    {
+    if(stringHelper::isNotNpos(indexBeforeProtocol) && stringHelper::isNotNpos(indexBeforeSlash) && indexBeforeProtocol < indexBeforeSlash)
+    {
         protocolWithSymbols = path.substr(0,indexBeforeProtocol+3);
         pathAfterProtocol = path.substr(indexBeforeProtocol+3);
-    }
-    else
+    }    else
     {
         protocolWithSymbols.clear();
         pathAfterProtocol = path;
@@ -91,5 +91,6 @@ void AlbaWebPathHandler::setUrlParameters(string const& urlParameters)
 {
     m_urlParameters = urlParameters;
 }
+
 
 }

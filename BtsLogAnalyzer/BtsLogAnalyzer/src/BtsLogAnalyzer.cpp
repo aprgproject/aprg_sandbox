@@ -15,11 +15,11 @@ namespace alba
 
 void addBtsDelayInformationToContainer(BtsDelayInformationContainer & container, BtsDelayInformation const& delayInformationToAdd)
 {
-    bool isAdded(false);    for(BtsDelayInformation & delayInformation : container)
+    bool isAdded(false);
+    for(BtsDelayInformation & delayInformation : container)
     {
         if(delayInformationToAdd.m_firstComponentString == delayInformation.m_firstComponentString &&
-                delayInformationToAdd.m_secondComponentString == delayInformation.m_secondComponentString &&
-                delayInformationToAdd.m_firstMessage == delayInformation.m_firstMessage &&
+                delayInformationToAdd.m_secondComponentString == delayInformation.m_secondComponentString &&                delayInformationToAdd.m_firstMessage == delayInformation.m_firstMessage &&
                 delayInformationToAdd.m_secondMessage == delayInformation.m_secondMessage)
         {
             delayInformation.m_delay = delayInformation.m_delay + delayInformationToAdd.m_delay;
@@ -62,20 +62,20 @@ void BtsLogTime::saveTimeFromLineInLogs(string const& lineInLogs)
             timeValues.push_back(stringHelper::convertStringToNumber<int>(timeValueString));
             timeValueString.clear();
             if('T' == character)
-            {                hasTCharacter = true;
+            {
+                hasTCharacter = true;
             }
         }
-    }
-    if(!timeValueString.empty())
+    }    if(!timeValueString.empty())
     {
         timeValues.push_back(stringHelper::convertStringToNumber<int>(timeValueString));
     }
 
-    if(7 <= timeValues.size() && hasTCharacter)    {
+    if(7 <= timeValues.size() && hasTCharacter)
+    {
         m_years = timeValues[0];
         m_months = timeValues[1];
-        m_days = timeValues[2];
-        m_seconds = timeValues[3]*3600 + timeValues[4]*60 + timeValues[5];
+        m_days = timeValues[2];        m_seconds = timeValues[3]*3600 + timeValues[4]*60 + timeValues[5];
         m_microseconds = timeValues[6];
     }
 }
@@ -375,11 +375,11 @@ void BtsLogUser::analyzeDelay()
                 unsigned int transactionId2 = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(it2->second.getPrint(), "transactionId: "));
                 if(transactionId1 == transactionId2)
                 {
-                    BtsDelayInformation delayInformationToAdd(m_nbccId, transactionId1, it->second.getComponentString(), it2->second.getComponentString(), it->second.getMessageString(),  it2->second.getMessageString(), it->first, it2->first);                    delayInformationToAdd.printWithNbccId(*m_delayListStreamPointer);
+                    BtsDelayInformation delayInformationToAdd(m_nbccId, transactionId1, it->second.getComponentString(), it2->second.getComponentString(), it->second.getMessageString(),  it2->second.getMessageString(), it->first, it2->first);
+                    delayInformationToAdd.printWithNbccId(*m_delayListStreamPointer);
                     addBtsDelayInformationToContainer(*m_btsDelayInformationContainerPointer, delayInformationToAdd);
 
-                    m_prints.erase(it, it2);
-                    it=m_prints.begin();
+                    m_prints.erase(it, it2);                    it=m_prints.begin();
                 }
             }
         }
@@ -414,11 +414,11 @@ void BtsLogAnalyzer::saveAllMessagePrintsForAllUsers(AlbaWindowsPathHandler cons
                 unsigned int nbccId = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(lineInLogs, " nbccId: "));
 
                 if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "CTRL_RLH_RlSetupReq3G")
-                        || stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "RLH_CTRL_RlSetupResp3G"))                {
+                        || stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "RLH_CTRL_RlSetupResp3G"))
+                {
                     m_users[nbccId].m_nbccId = nbccId;
                     m_users[nbccId].m_btsDelayInformationContainerPointer = &m_btsDelayInformationContainer;
-                    m_users[nbccId].m_delayListStreamPointer = &m_delayListStream;
-                    m_users[nbccId].addMessagePrint(lineInLogs);
+                    m_users[nbccId].m_delayListStreamPointer = &m_delayListStream;                    m_users[nbccId].addMessagePrint(lineInLogs);
                     if(m_users[nbccId].getNumberPrints()>20)
                     {
                         m_users[nbccId].analyzeDelay();

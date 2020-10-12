@@ -20,4 +20,5 @@ int main(int argc, char** argv)
     AlbaWindowsPathHandler windowsPathHandler(R"(E:\CrawlerDownload\sample.txt)");
     curl::CurlInterface::downloadBinaryFileUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(webPathHandler, windowsPathHandler);
     */
-    return 0;}
+    return 0;
+}

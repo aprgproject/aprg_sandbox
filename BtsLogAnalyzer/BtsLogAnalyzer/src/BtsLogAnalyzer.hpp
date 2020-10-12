@@ -12,10 +12,10 @@ namespace alba
 class BtsDelayInformation;
 
 typedef std::vector<BtsDelayInformation> BtsDelayInformationContainer;
+
 class BtsLogTime
 {
-public:
-    BtsLogTime(string const& lineInLogs);
+public:    BtsLogTime(string const& lineInLogs);
     int getYears() const;
     int getMonths() const;
     int getDays() const;

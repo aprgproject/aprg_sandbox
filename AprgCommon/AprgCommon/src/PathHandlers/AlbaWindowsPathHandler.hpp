@@ -18,11 +18,11 @@ public:
     string getDrive() const;
     double getFileSizeEstimate();
     bool isFoundInLocalSystem() const;
-    void createDirectoriesIfItDoesNotExist() const;    void deleteFile();
+    void createDirectoriesIfItDoesNotExist() const;
+    void deleteFile();
     void renameFile(string const& newFileName);
     bool isRelativePath() const;
-    void findFilesAndDirectoriesOneDepth(
-            string const& wildCardSearch,
+    void findFilesAndDirectoriesOneDepth(            string const& wildCardSearch,
             set<string>& listOfFiles,
             set<string>& listOfDirectories) const;
     void findFilesAndDirectoriesMultipleDepth(
@@ -38,11 +38,11 @@ private:
     void save(string const& path) override;
     void setDrive();
     void findFilesAndDirectoriesWithDepth(
-            string const& currentDirectory,            string const& wildCardSearch,
+            string const& currentDirectory,
+            string const& wildCardSearch,
             set<string>& listOfFiles,
             set<string>& listOfDirectories,
-            int depth) const;
-    string m_drive;
+            int depth) const;    string m_drive;
     bool m_foundInLocalSystem;
     bool m_relativePath;
 };

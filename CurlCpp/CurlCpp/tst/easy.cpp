@@ -16,10 +16,10 @@ int main()
     download<ConfigType::MozillaFireFoxAndPrintDownloadProgress>(webPathHandler, windowPathHandler);
     //downloadBinaryFile<ConfigType::PrintDownloadProgress>(webPathHandler, windowPathHandler);
 }
+
 int main_curl_easy()
 {
     curl_easy easy;
-
     easy.add<CURLOPT_URL>("http://mangafox.me/manga/kateikyoushi_hitman_reborn/v02/c014/4.html");
     easy.add<CURLOPT_FOLLOWLOCATION>(1L);
 
@@ -31,7 +31,8 @@ int main_curl_easy()
         //auto errors = error.what();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it    }
+        // Note that the printing the stack will erase it
+    }
 
     return 0;
 }
