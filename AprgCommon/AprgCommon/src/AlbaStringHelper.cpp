@@ -106,11 +106,10 @@ string stringHelper::getStringWithUrlDecodedString(string const& string1)
     {
         if(string1[index] == '%' && (index < length-2) && isHexDigit(string1[index + 1]) && isHexDigit(string1[index + 2]))
         {
-            result += hexStringToNumber<char>(string1.substr(index + 1, 2));
+            result += convertHexStringToNumber<char>(string1.substr(index + 1, 2));
             index += 3;
         }
-        else
-        {
+        else        {
             result += string1[index++];
         }
     }
@@ -266,10 +265,45 @@ string stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(st
     return correctPath;
 }
 
+string stringHelper::getNumberAfterThisString(string const& mainString, string const& stringToSearch)
+{
+    string result;
+    int firstIndexOfFirstString = mainString.find(stringToSearch);
+    if(stringHelper::isNotNpos(firstIndexOfFirstString))
+    {
+        int lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
+        int lastIndexOfNumber;
+        for(lastIndexOfNumber = lastIndexOfFirstString; stringHelper::isNumber(mainString[lastIndexOfNumber]); ++lastIndexOfNumber);
+        result = mainString.substr(lastIndexOfFirstString, lastIndexOfNumber-lastIndexOfFirstString);
+    }
+    return result;
+}
+
+string stringHelper::getCorrectPathWithoutUrlParameters(string const& path)
+{
+    string correctPathWithoutUrlParameters(path);
+    int indexOfQuestionMark = path.find_first_of("?");
+    if(stringHelper::isNotNpos(indexOfQuestionMark))
+    {
+            correctPathWithoutUrlParameters = path.substr(0, indexOfQuestionMark);
+    }
+    return correctPathWithoutUrlParameters;
+}
+
+string stringHelper::getUrlParameters(string const& path)
+{
+    string urlParameters;
+    int indexOfQuestionMark = path.find_first_of("?");
+    if(stringHelper::isNotNpos(indexOfQuestionMark))
+    {
+            urlParameters = path.substr(indexOfQuestionMark);
+    }
+    return urlParameters;
+}
+
 string stringHelper::getCorrectPathWithReplacedSlashCharacters(string const& path, string const& slashCharacterString)
 {
-    bool isSlashDetected = false;
-    string correctPath = std::accumulate(path.cbegin(), path.cend(), string(""),
+    bool isSlashDetected = false;    string correctPath = std::accumulate(path.cbegin(), path.cend(), string(""),
                                          [&isSlashDetected, slashCharacterString]
                                          (string partialResult, char const currentCharacter)
     {
@@ -368,74 +402,73 @@ template string stringHelper::getImmediateDirectoryName<'\\'>(string const& path
 template string stringHelper::getImmediateDirectoryName<'/'>(string const& path);
 
 template <typename NumberType>
-NumberType stringHelper::stringToNumber(string string1)
+NumberType stringHelper::convertStringToNumber(string const& stringToConvert)
 {
-    NumberType value = 0;
-    int negative = 1, len = string1.length();
-    int decimalPlacesInPowersOfTen = 1;
-    bool searchForNegativeSign = true;
     bool isInteger = (typeid(NumberType) == typeid(int));
-    for (int x=0; x < len; x++)
+    bool isNumberNotYetEncountered(true);
+    bool isPeriodNotYetEncountered(true);
+    int negative(1);
+    int decimalPlacesInPowersOfTen(10);
+    NumberType value(0);
+    for (char const currentCharacter : stringToConvert)
     {
-        if(isNumber(string1[x]))
+        if(isNumber(currentCharacter))
         {
-            if(isInteger || decimalPlacesInPowersOfTen == 1)
+            if(isInteger || isPeriodNotYetEncountered)
             {
-                value = (value * 10) + string1[x] - '0';
-                searchForNegativeSign=false;
+                value = (value * 10) + currentCharacter - '0';
+                isNumberNotYetEncountered=false;
             }
             else
             {
-                value = value + (((NumberType)string1[x] - '0') / decimalPlacesInPowersOfTen);
+                value = value + (((NumberType)currentCharacter - '0') / decimalPlacesInPowersOfTen);
                 decimalPlacesInPowersOfTen*=10;
             }
         }
-        else if(string1[x]=='-' && searchForNegativeSign)
+        else if(currentCharacter == '-' && isNumberNotYetEncountered)
         {
             negative *= -1;
         }
-        else if(string1[x]=='.' && decimalPlacesInPowersOfTen == 1)
+        else if(currentCharacter == '.')
         {
-            decimalPlacesInPowersOfTen=10;
+            isPeriodNotYetEncountered = false;
         }
     }
     return value*negative;
 }
 
-template int stringHelper::stringToNumber<int>(string string1);
-template unsigned int stringHelper::stringToNumber<unsigned int>(string string1);
-template float stringHelper::stringToNumber<float>(string string1);
-template double stringHelper::stringToNumber<double>(string string1);
+template int stringHelper::convertStringToNumber<int>(string const& stringToConvert);
+template unsigned int stringHelper::convertStringToNumber<unsigned int>(string const& stringToConvert);
+template float stringHelper::convertStringToNumber<float>(string const& stringToConvert);
+template double stringHelper::convertStringToNumber<double>(string const& stringToConvert);
 
 template <typename NumberType>
-NumberType stringHelper::hexStringToNumber(string string1)
+NumberType stringHelper::convertHexStringToNumber(string const& stringToConvert)
 {
     NumberType value = 0;
-    int len = string1.length();
-    for (int x=0; x < len; x++)
+    for (char const currentCharacter : stringToConvert)
     {
-        if(isHexDigit(string1[x]))
+        if(isHexDigit(currentCharacter))
         {
             value *= 16;
-            if(isNumber(string1[x]))
+            if(isNumber(currentCharacter))
             {
-                value += string1[x] - '0';
+                value += currentCharacter - '0';
             }
-            else if(isCapitalLetter(string1[x]))
+            else if(isCapitalLetter(currentCharacter))
             {
-                value += string1[x] - 'A' + 10;
+                value += currentCharacter - 'A' + 10;
             }
             else
             {
-                value += string1[x] - 'a' + 10;
+                value += currentCharacter - 'a' + 10;
             }
         }
-    }
-    return value;
+    }    return value;
 }
 
-template char stringHelper::hexStringToNumber<char>(string string1);
-template int stringHelper::hexStringToNumber<int>(string string1);
-template unsigned int stringHelper::hexStringToNumber<unsigned int>(string string1);
+template char stringHelper::convertHexStringToNumber<char>(string const& stringToConvert);
+template int stringHelper::convertHexStringToNumber<int>(string const& stringToConvert);
+template unsigned int stringHelper::convertHexStringToNumber<unsigned int>(string const& stringToConvert);
 
 }//namespace alba

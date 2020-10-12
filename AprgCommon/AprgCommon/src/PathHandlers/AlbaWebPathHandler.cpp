@@ -6,30 +6,14 @@
 
 namespace alba{
 
-AlbaWebPathHandler::AlbaWebPathHandler()
+AlbaWebPathHandler::AlbaWebPathHandler(string const& path)
     : AlbaPathHandler("/")
     , m_hasProtocol(false)
-{}
-
-void AlbaWebPathHandler::inputPath(string const& path)
 {
-    clear();
-
-    string protocolWithSymbols;
-    string pathAfterProtocol;
-    splitPathInProtocol(path, protocolWithSymbols, pathAfterProtocol);
-    string correctPathAfterProtocol(stringHelper::getCorrectPathWithReplacedSlashCharacters(pathAfterProtocol, m_slashCharacterString));
-    string correctPathAfterProtocolWithoutUrlParameters(getCorrectPathWithoutUrlParameters(correctPathAfterProtocol));
-
-    setExtensionFromPath(correctPathAfterProtocolWithoutUrlParameters);
-    setDirectoryAndFileFromPath(protocolWithSymbols+correctPathAfterProtocolWithoutUrlParameters);
-    setFileType();
-    setProtocolAndCorrectProtocolInDirectory(protocolWithSymbols);
-    setUrlParameters(correctPathAfterProtocol);
+    save(path);
 }
 
-void AlbaWebPathHandler::clear()
-{
+void AlbaWebPathHandler::clear(){
     AlbaPathHandler::clear();
     m_protocol.clear();
     m_urlParameters.clear();
@@ -53,24 +37,36 @@ string AlbaWebPathHandler::getProtocol() const
 
 void AlbaWebPathHandler::gotoLink(string const& newPath)
 {
-    AlbaWebPathHandler newPathHandler;
-    newPathHandler.inputPath(newPath);
+    AlbaWebPathHandler newPathHandler(newPath);
     if(newPathHandler.hasProtocol())
     {
-        inputPath(newPath);
+        input(newPath);
     }
     else
     {
-        inputPath(getDirectory()+newPath);
+        input(getDirectory()+newPath);
     }
 }
 
-void AlbaWebPathHandler::splitPathInProtocol(string const& path, string & protocolWithSymbols, string & pathAfterProtocol)
+void AlbaWebPathHandler::save(string const& path)
+{
+    string protocolWithSymbols;
+    string pathAfterProtocol;
+    setProtocolAndSplitPath(path, protocolWithSymbols, pathAfterProtocol);
+    string correctPathAfterProtocol(stringHelper::getCorrectPathWithReplacedSlashCharacters(pathAfterProtocol, m_slashCharacterString));
+    string correctPathAfterProtocolWithoutUrlParameters(stringHelper::getCorrectPathWithoutUrlParameters(correctPathAfterProtocol));
+    setProtocol(stringHelper::getStringWithLowerCaseLetters(protocolWithSymbols));
+    setExtensionFromPath(correctPathAfterProtocolWithoutUrlParameters);
+    setDirectoryAndFileFromPath(protocolWithSymbols+correctPathAfterProtocolWithoutUrlParameters);
+    setFileType();
+    setUrlParameters(stringHelper::getUrlParameters(correctPathAfterProtocol));
+}
+
+void AlbaWebPathHandler::setProtocolAndSplitPath(string const& path, string & protocolWithSymbols, string & pathAfterProtocol)
 {
     int indexBeforeProtocol = path.find("://");
     int indexBeforeSlash = path.find_first_of(m_slashCharacterString);
-    if(stringHelper::isNotNpos(indexBeforeProtocol) && stringHelper::isNotNpos(indexBeforeSlash) && indexBeforeProtocol < indexBeforeSlash)
-    {
+    if(stringHelper::isNotNpos(indexBeforeProtocol) && stringHelper::isNotNpos(indexBeforeSlash) && indexBeforeProtocol < indexBeforeSlash)    {
         protocolWithSymbols = path.substr(0,indexBeforeProtocol+3);
         pathAfterProtocol = path.substr(indexBeforeProtocol+3);
     }
@@ -81,35 +77,19 @@ void AlbaWebPathHandler::splitPathInProtocol(string const& path, string & protoc
     }
 }
 
-string AlbaWebPathHandler::getCorrectPathWithoutUrlParameters(string const& correctPath) const
-{
-    string correctPathWithoutUrlParameters(correctPath);
-    int indexOfQuestionMark = correctPath.find_first_of("?");
-    if(stringHelper::isNotNpos(indexOfQuestionMark))
-    {
-            correctPathWithoutUrlParameters = correctPath.substr(0, indexOfQuestionMark);
-    }
-    return correctPathWithoutUrlParameters;
-}
-
-void AlbaWebPathHandler::setProtocolAndCorrectProtocolInDirectory(string const& protocolWithSymbols)
+void AlbaWebPathHandler::setProtocol(string const& protocolWithSymbols)
 {
     int index = protocolWithSymbols.find_first_of(R"(:/\)");
-    if (stringHelper::isNotNpos(index) && m_directory[index]==':')
+    if (stringHelper::isNotNpos(index) && protocolWithSymbols[index]==':')
     {
-        m_protocol = stringHelper::getStringWithLowerCaseLetters(m_directory.substr(0,index));
+        m_protocol = stringHelper::getStringWithLowerCaseLetters(protocolWithSymbols.substr(0,index));
         m_hasProtocol = true;
     }
 }
 
-void AlbaWebPathHandler::setUrlParameters(string const& correctPath)
+void AlbaWebPathHandler::setUrlParameters(string const& urlParameters)
 {
-    int indexOfQuestionMark = correctPath.find_first_of("?");
-    if(stringHelper::isNotNpos(indexOfQuestionMark))
-    {
-            m_urlParameters = correctPath.substr(indexOfQuestionMark);
-    }
+    m_urlParameters = urlParameters;
 }
-
 
 }

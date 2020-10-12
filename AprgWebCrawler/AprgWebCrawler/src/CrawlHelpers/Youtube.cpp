@@ -21,11 +21,9 @@ namespace alba
 
 void AprgWebCrawler::crawlForYoutube()
 {
-    AlbaWindowsPathHandler convertedYoutubeLinksPathHandler;
-    convertedYoutubeLinksPathHandler.inputPath(m_workingPathHandler.getDirectory() + R"(\ConvertedYoutubeLinks.txt)");
+    AlbaWindowsPathHandler convertedYoutubeLinksPathHandler(m_workingPathHandler.getDirectory() + R"(\ConvertedYoutubeLinks.txt)");
     convertedYoutubeLinksPathHandler.createDirectoriesIfItDoesNotExist();
     ofstream convertedYoutubeLinkStream(convertedYoutubeLinksPathHandler.getFullPath());
-
     for(string & webLink : m_webLinks)
     {
         crawlForYoutube(webLink, convertedYoutubeLinkStream);
@@ -43,15 +41,13 @@ void AprgWebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutub
             cout << "Not a youtube link : " << webLink << endl;
             return;
         }
-        AlbaWebPathHandler ssYoutubeLinkPathHandler;
         string ssYoutubeLink(webLink);
         stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "ssyoutube", "youtube");
         stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "youtube", "ssyoutube");
-        ssYoutubeLinkPathHandler.inputPath(ssYoutubeLink);
+        AlbaWebPathHandler ssYoutubeLinkPathHandler(ssYoutubeLink);
         cout<<"Enter user input(done, retry):"<<endl;
         string userInput(getUserInputAfterManuallyUsingMozillaFirefox(ssYoutubeLinkPathHandler));
-        if(!stringHelper::isEqualNotCaseSensitive(userInput, "done"))
-        {
+        if(!stringHelper::isEqualNotCaseSensitive(userInput, "done"))        {
             continue;
         }
         convertedYoutubeLinkStream << ssYoutubeLinkPathHandler.getFullPath() << endl << flush;
@@ -72,23 +68,18 @@ void AprgWebCrawler::crawlForYoutube_Old(string & webLink, ofstream& convertedYo
             cout << "Not a youtube link : " << webLink << endl;
             return;
         }
-        AlbaWebPathHandler webPathHandler;
-        webPathHandler.inputPath(webLink);
+        AlbaWebPathHandler webPathHandler(webLink);
         LinksForYoutube links(getLinkForYoutube(webPathHandler));
         if(links.isInvalid())
-        {
-            cout << "Links are invalid." << endl;
+        {            cout << "Links are invalid." << endl;
             links.printLinks();
             continue;
         }
-        AlbaWebPathHandler videoWebPathHandler;
-        videoWebPathHandler.inputPath(links.linkForVideo);
-        AlbaWindowsPathHandler downloadPathHandler;
-        downloadPathHandler.inputPath(links.localPathForCurrentVideo);
+        AlbaWebPathHandler videoWebPathHandler(links.linkForVideo);
+        AlbaWindowsPathHandler downloadPathHandler(links.localPathForCurrentVideo);
         downloadPathHandler.createDirectoriesIfItDoesNotExist();
         if(!downloadBinaryFileWithFiniteNumberOfTries<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(videoWebPathHandler, downloadPathHandler, 10))
-        {
-            cout << "Download of video file failed, retrying from the start" << endl;
+        {            cout << "Download of video file failed, retrying from the start" << endl;
             continue;
         }
         convertedYoutubeLinkStream << links.linkForVideo << endl << flush;
@@ -101,14 +92,12 @@ void AprgWebCrawler::crawlForYoutube_Old(string & webLink, ofstream& convertedYo
 LinksForYoutube AprgWebCrawler::getLinkForYoutube(AlbaWebPathHandler const& webLinkPathHandler) const
 {
     LinksForYoutube links;
-    AlbaWebPathHandler ssYoutubeLinkPathHandler;
     string ssYoutubeLink(webLinkPathHandler.getFullPath());
     stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "youtube", "ssyoutube");
-    ssYoutubeLinkPathHandler.inputPath(ssYoutubeLink);
+    AlbaWebPathHandler ssYoutubeLinkPathHandler(ssYoutubeLink);
     string linkForVideo(getUserInputAfterManuallyUsingMozillaFirefox(ssYoutubeLinkPathHandler));
 
-    string fileNameForVideo1(getStringInBetweenTwoStrings(linkForVideo, "&title=", "&"));
-    string fileNameForVideo2(getStringAfterThisString(linkForVideo, "&title="));
+    string fileNameForVideo1(getStringInBetweenTwoStrings(linkForVideo, "&title=", "&"));    string fileNameForVideo2(getStringAfterThisString(linkForVideo, "&title="));
     string fileNameForVideo("NoName");
     if((!fileNameForVideo1.empty()))
     {

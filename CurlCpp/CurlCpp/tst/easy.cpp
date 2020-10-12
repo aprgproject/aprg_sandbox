@@ -11,14 +11,11 @@ using namespace curl::CurlInterface;
 
 int main()
 {
-    AlbaWebPathHandler webPathHandler;
-    webPathHandler.inputPath(R"(http://pronto.inside.nsn.com/pronto/home.html)");
-    AlbaWindowsPathHandler windowPathHandler;
-    windowPathHandler.inputPath(R"(C:\APRG\CurlCpp\CurlCpp\tst\home.html)");
+    AlbaWebPathHandler webPathHandler(R"(http://pronto.inside.nsn.com/pronto/home.html)");
+    AlbaWindowsPathHandler windowPathHandler(R"(C:\APRG\CurlCpp\CurlCpp\tst\home.html)");
     download<ConfigType::MozillaFireFoxAndPrintDownloadProgress>(webPathHandler, windowPathHandler);
     //downloadBinaryFile<ConfigType::PrintDownloadProgress>(webPathHandler, windowPathHandler);
 }
-
 int main_curl_easy()
 {
     curl_easy easy;
@@ -31,11 +28,10 @@ int main_curl_easy()
     }
     catch (curl_easy_exception error) {
         // If you want to get the entire error stack we can do:
-        auto errors = error.what();
+        //auto errors = error.what();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it
-    }
+        // Note that the printing the stack will erase it    }
 
     return 0;
 }

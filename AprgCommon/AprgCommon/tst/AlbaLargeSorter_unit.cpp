@@ -1,11 +1,10 @@
 #include <algorithm>
 #include <gtest/gtest.h>
-#include <LargeSorter/AlbaLargeSorter.hpp>
 #include <iostream>
+#include <LargeSorter/AlbaLargeSorter.hpp>
 #include <set>
 #include <string>
 #include <vector>
-
 using namespace alba;
 using namespace std;
 
@@ -247,13 +246,10 @@ TEST(AlbaLargeSorterTest, CacheTest_ContainerReferenceCanFetched)
 
 TEST(AlbaLargeSorterTest, FileHandlerTest_FileAreWrittenAtTheEndAgainAfterRelease)
 {
-    AlbaWindowsPathHandler deleteFilePathHandler;
-    deleteFilePathHandler.inputPath(ALBA_LARGE_SORTER_TEST_FILE);
-    deleteFilePathHandler.deleteFile();
+    AlbaWindowsPathHandler(ALBA_LARGE_SORTER_TEST_FILE).deleteFile();
 
     DataBlockFileHandler<int> fileHandler;
-    fileHandler.openFileIfNeeded(ALBA_LARGE_SORTER_TEST_FILE);
-    ASSERT_TRUE(fileHandler.isFileStreamOpened());
+    fileHandler.openFileIfNeeded(ALBA_LARGE_SORTER_TEST_FILE);    ASSERT_TRUE(fileHandler.isFileStreamOpened());
     fileHandler.getFileDumpStreamReference()<<1<<endl;
     fileHandler.getFileDumpStreamReference()<<2<<endl;
     fileHandler.releaseFileStream();
@@ -373,20 +369,16 @@ TEST(AlbaLargeSorterTest, PrimitiveDataTypesForBlocksAreCreatedWhenBlocksWhenMem
 
 TEST(AlbaLargeSorterTest, FilesForBlocksAreDeletedAfterFileForBlocksAreCreated)
 {
-    AlbaWindowsPathHandler directoryPathHandler;
-    directoryPathHandler.inputPath(ALBA_LARGE_SORTER_BLOCK_DIR);
+    AlbaWindowsPathHandler directoryPathHandler(ALBA_LARGE_SORTER_BLOCK_DIR);
     set<string> listOfFiles;
     set<string> listOfDirectories;
     directoryPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& filePath : listOfFiles)
     {
-        AlbaWindowsPathHandler fileToDeletePathHandler;
-        fileToDeletePathHandler.inputPath(filePath);
-        fileToDeletePathHandler.deleteFile();
+        AlbaWindowsPathHandler(filePath).deleteFile();
     }
     listOfFiles.clear();
-    listOfDirectories.clear();
-    AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 100));
+    listOfDirectories.clear();    AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 100));
     for(int inputValue=0; inputValue<100; inputValue++)
     {
         largeSorter.add(inputValue);

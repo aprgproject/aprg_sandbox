@@ -31,29 +31,21 @@ WireSharkLogReader::WireSharkLogReader(string const pathOfOutputFile)
 
 void WireSharkLogReader::processDirectory(string const& directoryPath)
 {
-    AlbaWindowsPathHandler directoryPathHandler;
-    directoryPathHandler.inputPath(directoryPath);
     set<string> listOfFiles;
     set<string> listOfDirectories;
-    directoryPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
+    AlbaWindowsPathHandler(directoryPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& filePath : listOfFiles)
     {
-        AlbaWindowsPathHandler filePathHandler;
-        filePathHandler.inputPath(filePath);
-        processFile(filePathHandler.getFullPath());
+        processFile(AlbaWindowsPathHandler(filePath).getFullPath());
     }
 }
-
 void WireSharkLogReader::processFile(string const& filePath)
 {
     m_delays.clear();
-    AlbaWindowsPathHandler filePathHandler;
-    filePathHandler.inputPath(filePath);
-    cout<<"processFile: "<<filePathHandler.getFile()<<endl;
+    cout<<"processFile: "<<AlbaWindowsPathHandler(filePath).getFile()<<endl;
 
     ifstream inputLogFileStream(filePath);
-    AlbaFileReader fileReader(inputLogFileStream);
-    AlbaOptional<double> startTimeFetchedOptional;
+    AlbaFileReader fileReader(inputLogFileStream);    AlbaOptional<double> startTimeFetchedOptional;
     AlbaOptional<double> endTimeFetchedOptional;
     while(fileReader.isNotFinished())
     {
@@ -68,11 +60,10 @@ void WireSharkLogReader::processFile(string const& filePath)
         }
         else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CRNC-CommunicationContextID: )"))
         {
-            int crnccId = stringHelper::stringToNumber<int>(getNumberAfterThisString(lineInLogs, "CRNC-CommunicationContextID: "));
+            int crnccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "CRNC-CommunicationContextID: "));
             WireSharkDelay & delayForCrnccId = m_delays[crnccId];
             if(startTimeFetchedOptional)
-            {
-                delayForCrnccId.startTimeOptional.setValue(startTimeFetchedOptional.getReference());
+            {                delayForCrnccId.startTimeOptional.setValue(startTimeFetchedOptional.getReference());
             }
             if(endTimeFetchedOptional)
             {
@@ -110,11 +101,10 @@ double WireSharkLogReader::getWireSharkTime(string const& lineInLogs) const
     for(; i<length && stringHelper::isWhiteSpace(lineInLogs[i]); i++) {}
     for(; i<length && !stringHelper::isWhiteSpace(lineInLogs[i]); i++) {}
     endIndexOfTime = i;
-    return stringHelper::stringToNumber<double>(lineInLogs.substr(startIndexOfTime, endIndexOfTime-startIndexOfTime));
+    return stringHelper::convertStringToNumber<double>(lineInLogs.substr(startIndexOfTime, endIndexOfTime-startIndexOfTime));
 }
 
-string WireSharkLogReader::getNumberAfterThisString(string const& mainString, string const& stringToSearch) const
-{
+string WireSharkLogReader::getNumberAfterThisString(string const& mainString, string const& stringToSearch) const{
     string result;
     int firstIndexOfFirstString = mainString.find(stringToSearch);
     if(stringHelper::isNotNpos(firstIndexOfFirstString))

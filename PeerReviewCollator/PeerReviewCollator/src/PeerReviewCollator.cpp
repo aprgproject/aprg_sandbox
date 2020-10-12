@@ -14,15 +14,12 @@ namespace alba
 
 void PeerReviewCollator::processDirectory(string const& directoryPath)
 {
-    AlbaWindowsPathHandler directoryPathHandler;
-    directoryPathHandler.inputPath(directoryPath);
     set<string> listOfFiles;
     set<string> listOfDirectories;
-    directoryPathHandler.findFilesAndDirectoriesOneDepth("*.csv", listOfFiles, listOfDirectories);
+    AlbaWindowsPathHandler(directoryPath).findFilesAndDirectoriesOneDepth("*.csv", listOfFiles, listOfDirectories);
     for(string const& filePath: listOfFiles)
     {
-        processFile(filePath);
-    }
+        processFile(filePath);    }
     if(listOfFiles.empty())
     {
         cout<<"processDirectory -> No csv files found"<<endl;
@@ -31,12 +28,10 @@ void PeerReviewCollator::processDirectory(string const& directoryPath)
 
 void PeerReviewCollator::processFile(string const& filePath)
 {
-    AlbaWindowsPathHandler pathHandler;
-    pathHandler.inputPath(filePath);
+    AlbaWindowsPathHandler pathHandler(filePath);
     cout<<"processFile -> Processing File: "<<pathHandler.getFile()<<endl;
     ifstream inputFile(filePath);
-    AlbaFileReader fileReader(inputFile);
-    while(fileReader.isNotFinished())
+    AlbaFileReader fileReader(inputFile);    while(fileReader.isNotFinished())
     {
         string lineInFile(fileReader.getLineAndIgnoreWhiteSpaces());
         processLineForPerson(pathHandler.getFilenameOnly(), lineInFile);
@@ -68,11 +63,10 @@ void PeerReviewCollator::processLineForPerson(string const& person, string const
             isQuestionLine = 'Q'==cellString[0] && isNumber(cellString[1]);
             if(isQuestionLine)
             {
-                m_currentQuestionNumber = stringToNumber<int>(cellString.substr(1));
+                m_currentQuestionNumber = convertStringToNumber<int>(cellString.substr(1));
             }
             isAnswerLine = " about "==cellString.substr(0, 7);
-            if(isAnswerLine)
-            {
+            if(isAnswerLine)            {
                 answerForPerson = getStringAfterThisString(cellString, " about ");
             }
         }
@@ -148,13 +142,10 @@ void PeerReviewCollator::generateOutput(string const& outputDirectoryPath) const
     }
     for(auto const& mapOfPerson : outputDatabase)
     {
-        AlbaWindowsPathHandler pathHandler;
-        pathHandler.inputPath(outputDirectoryPath + R"(\)" + mapOfPerson.first + ".csv");
-        ofstream outputFile(pathHandler.getFullPath());
+        ofstream outputFile(AlbaWindowsPathHandler(outputDirectoryPath + R"(\)" + mapOfPerson.first + ".csv").getFullPath());
         int questionNumber = 0;
         for(auto const& mapPerQuestion : mapOfPerson.second)
-        {
-            if(questionNumber != mapPerQuestion.first)
+        {            if(questionNumber != mapPerQuestion.first)
             {
                 questionNumber = mapPerQuestion.first;
                 outputFile << "Q" << questionNumber << R"(,")" << m_questions.at(questionNumber) << R"(")" << endl;

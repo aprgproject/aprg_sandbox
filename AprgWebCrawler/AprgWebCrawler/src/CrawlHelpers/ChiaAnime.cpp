@@ -30,12 +30,10 @@ void AprgWebCrawler::crawlForChiaAnime(string & webLink)
 
     while(1)
     {
-        AlbaWebPathHandler webPathHandler;
-        webPathHandler.inputPath(webLink);
+        AlbaWebPathHandler webPathHandler(webLink);
         LinksForChiaAnime links(getLinksForChiaAnime(webPathHandler));
         if(links.isInvalid())
-        {
-            cout << "Links are invalid." << endl;
+        {            cout << "Links are invalid." << endl;
             links.printLinks();
             return;
         }
@@ -48,12 +46,10 @@ void AprgWebCrawler::crawlForChiaAnime(string & webLink)
             cout << "VideoLinkWebPath : " << videoWebPathHandler.getFullPath() << endl;
             return;
         }
-        AlbaWindowsPathHandler downloadPathHandler;
-        downloadPathHandler.inputPath(links.localPathForCurrentVideo);
+        AlbaWindowsPathHandler downloadPathHandler(links.localPathForCurrentVideo);
         downloadPathHandler.createDirectoriesIfItDoesNotExist();
         if(!downloadBinaryFile<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(videoWebPathHandler, downloadPathHandler))
-        {
-            cout << "Download of video file failed, retrying from the start" << endl;
+        {            cout << "Download of video file failed, retrying from the start" << endl;
             continue;
         }
         if(1000000 > downloadPathHandler.getFileSizeEstimate())
@@ -81,12 +77,10 @@ void AprgWebCrawler::crawlForChiaAnime(string & webLink)
 LinksForChiaAnime AprgWebCrawler::getLinksForChiaAnime(AlbaWebPathHandler const& webLinkPathHandler) const
 {
     LinksForChiaAnime links;
-    AlbaWindowsPathHandler downloadPathHandler;
-    downloadPathHandler.inputPath(m_workingPathHandler.getDirectory() + R"(\temp.html)");
+    AlbaWindowsPathHandler downloadPathHandler(m_workingPathHandler.getDirectory() + R"(\temp.html)");
     downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox>(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
-    if(!htmlFileStream.is_open())
-    {
+    if(!htmlFileStream.is_open())    {
         cout << "Cannot open html file." << endl;
         cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
         return links;
@@ -105,20 +99,16 @@ LinksForChiaAnime AprgWebCrawler::getLinksForChiaAnime(AlbaWebPathHandler const&
         }
     }
     links.linkForCurrentVideo = getVideoLinkForChiaAnime(webLinkPathHandler, links.linkForDownloadPage);
-    AlbaWebPathHandler videoWebPathHandler;
-    videoWebPathHandler.inputPath(links.linkForCurrentVideo);
+    AlbaWebPathHandler videoWebPathHandler(links.linkForCurrentVideo);
     links.localPathForCurrentVideo = m_workingPathHandler.getDirectory() + R"(\Video\)" + videoWebPathHandler.getFile();
     return links;
 }
-
 string AprgWebCrawler::getVideoLinkForChiaAnime(AlbaWebPathHandler const& webLinkPathHandler, string const& linkToDownloadPage) const
 {
-    AlbaWindowsPathHandler downloadPathHandler;
-    downloadPathHandler.inputPath(m_workingPathHandler.getDirectory() + R"(\temp.html)");
+    AlbaWindowsPathHandler downloadPathHandler(m_workingPathHandler.getDirectory() + R"(\temp.html)");
     AlbaWebPathHandler downloadPagePathHandler(webLinkPathHandler);
     downloadPagePathHandler.gotoLink(linkToDownloadPage);
-    downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox>(downloadPagePathHandler, downloadPathHandler);
-    ifstream htmlFileStream(downloadPathHandler.getFullPath());
+    downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox>(downloadPagePathHandler, downloadPathHandler);    ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
         cout << "Cannot open html file." << endl;

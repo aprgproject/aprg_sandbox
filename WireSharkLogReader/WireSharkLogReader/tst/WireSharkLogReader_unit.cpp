@@ -26,10 +26,9 @@ TEST(WireSharkLogReaderTest, GetNumberAfterThisStringWorksAsIntended)
 {
     WireSharkLogReader reader;
     string crnccIdString = reader.getNumberAfterThisString("criticality: ignore (1) value CRNC-CommunicationContextID: 13388 Item 1: id-NodeB-CommunicationContextID ProtocolIE-Field", "CRNC-CommunicationContextID: ");
-    int crnccId = stringHelper::stringToNumber<int>(crnccIdString);
+    int crnccId = stringHelper::convertStringToNumber<int>(crnccIdString);
     EXPECT_EQ(13388, crnccId);
 }
-
 TEST(WireSharkLogReaderTest, DISABLED_ProcessOneFile)
 {
     WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\results.csv)");

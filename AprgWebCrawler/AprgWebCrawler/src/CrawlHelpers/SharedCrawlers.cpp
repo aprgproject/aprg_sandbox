@@ -23,14 +23,11 @@ void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink, int const
 
     while(1)
     {
-        AlbaWebPathHandler currentWebLinkPathHandler;
-        currentWebLinkPathHandler.inputPath(webLink);
-        AlbaWindowsPathHandler downloadPathHandler;
-        downloadPathHandler.inputPath(m_workingPathHandler.getDirectory() + R"(\temp.html)");
+        AlbaWebPathHandler currentWebLinkPathHandler(webLink);
+        AlbaWindowsPathHandler downloadPathHandler(m_workingPathHandler.getDirectory() + R"(\temp.html)");
         downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox>(currentWebLinkPathHandler, downloadPathHandler);
         LinksForHtmlAndFileToDownload links(getLinksBasedOnMode(currentWebLinkPathHandler, downloadPathHandler.getFullPath()));
-        if(links.isInvalid())
-        {
+        if(links.isInvalid())        {
             cout << "Links are invalid." << endl;
             links.printLinks();
             return;
@@ -43,11 +40,10 @@ void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink, int const
             cout << "Link of file to Download: " << fileToDownloadWebPathHandler.getFullPath() << endl;
             return;
         }
-        downloadPathHandler.inputPath(links.localPathForCurrentFileToDownload);
+        downloadPathHandler.input(links.localPathForCurrentFileToDownload);
         downloadPathHandler.createDirectoriesIfItDoesNotExist();
         downloadBinaryFileWithFiniteNumberOfTries<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler, 20);
-        if(downloadPathHandler.getFileSizeEstimate() < minimumSizeOfDownload)
-        {
+        if(downloadPathHandler.getFileSizeEstimate() < minimumSizeOfDownload)        {
             cout << "Download file size is less than minimum. Retrying from the start." << endl;
             continue;
         }

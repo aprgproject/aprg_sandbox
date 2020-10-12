@@ -16,13 +16,10 @@ class DataBlockFileHandler
 public:
     ~DataBlockFileHandler()
     {
-        AlbaWindowsPathHandler filePathToDelete;
-        filePathToDelete.inputPath(m_path);
-        filePathToDelete.deleteFile();
+        AlbaWindowsPathHandler(m_path).deleteFile();
     }
     std::ofstream & getFileDumpStreamReference()
-    {
-        return m_fileOptional.getReference();
+    {        return m_fileOptional.getReference();
     }
     bool isFileStreamOpened()
     {
@@ -36,13 +33,10 @@ public:
     {
         if(!m_fileOptional)
         {
-            AlbaWindowsPathHandler filePath;
-            filePath.inputPath(path);
-            m_path = filePath.getFullPath();
+            m_path = AlbaWindowsPathHandler(path).getFullPath();
             m_fileOptional.createObjectUsingDefaultConstructor();
             std::ofstream & fileStream (m_fileOptional.getReference());
-            fileStream.open(m_path, std::ios::ate|std::ios::app);
-        }
+            fileStream.open(m_path, std::ios::ate|std::ios::app);        }
     }
     void add(ObjectToSort const& objectToSort)
     {

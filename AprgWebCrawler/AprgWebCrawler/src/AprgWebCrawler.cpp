@@ -13,14 +13,13 @@ namespace alba
 {
 
 AprgWebCrawler::AprgWebCrawler(string const& workingDirectory)
-    : m_isModeRecognized(false)
+    : m_workingPathHandler(workingDirectory)
+    , m_memoryCardPathHandler(workingDirectory + R"(\MemoryCard.txt)")
+    , m_isModeRecognized(false)
 {
-    m_workingPathHandler.inputPath(workingDirectory);
-    m_memoryCardPathHandler.inputPath(workingDirectory + R"(\MemoryCard.txt)");
     if (m_memoryCardPathHandler.isFoundInLocalSystem() && m_memoryCardPathHandler.isFile())
     {
-        loadMemoryCard();
-    }
+        loadMemoryCard();    }
 }
 
 bool AprgWebCrawler::isValid() const
@@ -61,12 +60,10 @@ void AprgWebCrawler::printStatus() const
         cout << "Web links are not valid" << endl;
         for(string const& webLink : m_webLinks)
         {
-            AlbaWebPathHandler webPathHandler;
-            webPathHandler.inputPath(webLink);
+            AlbaWebPathHandler webPathHandler(webLink);
             cout << "Url: ["<< webPathHandler.getFullPath() << "] isEmpty: " << webPathHandler.isEmpty() << " hasProtocol: " << webPathHandler.hasProtocol() << endl;
         }
-    }
-    else if(m_isModeRecognized)
+    }    else if(m_isModeRecognized)
     {
         cout << "Mode: ["<< getCrawlerModeString() << "] is not a recognized mode" << endl;
     }
@@ -101,12 +98,10 @@ void AprgWebCrawler::loadMemoryCard()
         setCrawlerMode(memoryCardReader.getLineAndIgnoreWhiteSpaces());
         while(memoryCardReader.isNotFinished())
         {
-            AlbaWebPathHandler webPathHandler;
-            webPathHandler.inputPath(memoryCardReader.getLineAndIgnoreWhiteSpaces());
+            AlbaWebPathHandler webPathHandler(memoryCardReader.getLineAndIgnoreWhiteSpaces());
             if(!webPathHandler.isEmpty())
             {
-                m_webLinks.push_back(webPathHandler.getFullPath());
-            }
+                m_webLinks.push_back(webPathHandler.getFullPath());            }
         }
     }
 }
@@ -219,12 +214,10 @@ bool AprgWebCrawler::isWebLinksValid() const
 {
     return all_of(m_webLinks.begin(), m_webLinks.end(), [](string const& webLink)
     {
-        AlbaWebPathHandler webPathHandler;
-        webPathHandler.inputPath(webLink);
+        AlbaWebPathHandler webPathHandler(webLink);
         return !webPathHandler.isEmpty() && webPathHandler.hasProtocol();
     });
 }
-
 string AprgWebCrawler::getUserInputAfterManuallyUsingMozillaFirefox(AlbaWebPathHandler const& webPathHandler) const
 {
     constexpr int bufferSize = 1000;

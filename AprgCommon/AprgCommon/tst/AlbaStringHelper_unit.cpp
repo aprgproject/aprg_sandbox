@@ -165,11 +165,17 @@ TEST(GetDataFromStringTest, GetStringReplacingSpacesWithUnderscore)
     EXPECT_EQ(getStringAndReplaceNonAlphanumericCharactersToUnderScore(testString), withoutSpecialCharacters);
 }
 
+TEST (getStringNumberAfterThisStringTest, getStringNumberAfterThisStringTest)
+{
+    EXPECT_EQ(string("1234"), getNumberAfterThisString("INF/TCOM/R, nbccId: 1234, ", "nbccId: "));
+    EXPECT_EQ(string("5678"), getNumberAfterThisString("INF/TCOM/R, nbccId: 5678 ", "nbccId: "));
+    EXPECT_EQ(string("7890"), getNumberAfterThisString("INF/TCOM/R, nbccId: 7890", "nbccId: "));
+}
+
 
 TEST(GetDataFromStringTest, GetStringWithoutRedundantSlashes_AllEnglishLettersWithSpecialCharacters)
 {
-    string testString(R"(////DIR1\\/\\/\\/DIR2\\\\DIR3///DIR4\\\\//DIR5////\\\\)");
-    string withoutRedundantSlashes(R"(\DIR1\DIR2\DIR3\DIR4\DIR5\)");
+    string testString(R"(////DIR1\\/\\/\\/DIR2\\\\DIR3///DIR4\\\\//DIR5////\\\\)");    string withoutRedundantSlashes(R"(\DIR1\DIR2\DIR3\DIR4\DIR5\)");
 
     EXPECT_EQ(getCorrectPathWithReplacedSlashCharacters(testString, R"(\)"), withoutRedundantSlashes);
 }
@@ -264,51 +270,50 @@ TEST(BooleanStringTest, StringCompareNotCaseSensitive)
 
 TEST(GetDataFromStringTest, ConvertStringToInteger_WithNumbersOnly)
 {
-    EXPECT_EQ(stringToNumber<int>("12345"), 12345);
-    EXPECT_EQ(stringToNumber<int>("-67890"), -67890);
-    EXPECT_EQ(stringToNumber<int>("--67890"), 67890);
-    EXPECT_EQ(stringToNumber<int>("--67-890"), 67890);
-    EXPECT_EQ(stringToNumber<int>("0--67-890"), 67890);
+    EXPECT_EQ(convertStringToNumber<int>("12345"), 12345);
+    EXPECT_EQ(convertStringToNumber<int>("-67890"), -67890);
+    EXPECT_EQ(convertStringToNumber<int>("--67890"), 67890);
+    EXPECT_EQ(convertStringToNumber<int>("--67-890"), 67890);
+    EXPECT_EQ(convertStringToNumber<int>("0--67-890"), 67890);
 }
 
 TEST(GetDataFromStringTest, ConvertStringToInteger_WithNumbersAndLettersAndSpecialCharacters)
 {
-    EXPECT_DOUBLE_EQ(stringToNumber<int>("1a2l3b4a5"), 12345);
-    EXPECT_DOUBLE_EQ(stringToNumber<int>("12345.6789"), 123456789);
-    EXPECT_DOUBLE_EQ(stringToNumber<int>("a&-.6$7*8(9)0"), -67890);
-    EXPECT_DOUBLE_EQ(stringToNumber<int>("$@!-a-a6.78)9(0"), 67890);
-    EXPECT_DOUBLE_EQ(stringToNumber<int>(")(*&^%$--6(*&.^%7-89(*&^%0"), 67890);
+    EXPECT_DOUBLE_EQ(convertStringToNumber<int>("1a2l3b4a5"), 12345);
+    EXPECT_DOUBLE_EQ(convertStringToNumber<int>("12345.6789"), 123456789);
+    EXPECT_DOUBLE_EQ(convertStringToNumber<int>("a&-.6$7*8(9)0"), -67890);
+    EXPECT_DOUBLE_EQ(convertStringToNumber<int>("$@!-a-a6.78)9(0"), 67890);
+    EXPECT_DOUBLE_EQ(convertStringToNumber<int>(")(*&^%$--6(*&.^%7-89(*&^%0"), 67890);
 }
 
 TEST(GetDataFromStringTest, ConvertStringToDouble_WithNumbersOnly)
 {
-    EXPECT_DOUBLE_EQ(stringToNumber<double>("12345.6789"), 12345.6789);
-    EXPECT_DOUBLE_EQ(stringToNumber<double>("-67890.1111"), -67890.1111);
-    EXPECT_DOUBLE_EQ(stringToNumber<double>("--67890.12345"), 67890.12345);
-    EXPECT_DOUBLE_EQ(stringToNumber<double>("--67-890.9999999"), 67890.9999999);
-    EXPECT_DOUBLE_EQ(stringToNumber<double>("0--67-890.67890"), 67890.67890);
+    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("12345.6789"), 12345.6789);
+    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("-67890.1111"), -67890.1111);
+    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("--67890.12345"), 67890.12345);
+    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("--67-890.9999999"), 67890.9999999);
+    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("0--67-890.67890"), 67890.67890);
 }
 
 TEST(GetDataFromStringTest, ConvertStringToDouble_WithNumbersAndLettersAndSpecialCharacters)
 {
-    EXPECT_DOUBLE_EQ(stringToNumber<double>("12l3^s45.67l$89"), 12345.6789);
-    EXPECT_DOUBLE_EQ(stringToNumber<double>("-67s8*a9s0.1s11d1"), -67890.1111);
-    EXPECT_DOUBLE_EQ(stringToNumber<double>("--6d&7sd8s90.12345"), 67890.12345);
-    EXPECT_DOUBLE_EQ(stringToNumber<double>("--6s7-8$f90.9d9*99$999"), 67890.9999999);
-    EXPECT_DOUBLE_EQ(stringToNumber<double>("0--67-j8#9j0.678&dk90"), 67890.67890);
+    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("12l3^s45.67l$89"), 12345.6789);
+    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("-67s8*a9s0.1s11d1"), -67890.1111);
+    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("--6d&7sd8s90.12345"), 67890.12345);
+    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("--6s7-8$f90.9d9*99$999"), 67890.9999999);
+    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("0--67-j8#9j0.678&dk90"), 67890.67890);
 }
 
 TEST(GetDataFromStringTest, HexConvertStringToInteger_WithNumbersOnly)
 {
-    EXPECT_EQ(hexStringToNumber<int>("12345"), 0x12345);
-    EXPECT_EQ(hexStringToNumber<int>("ABCDE"), 0xABCDE);
-    EXPECT_EQ(hexStringToNumber<int>("1A2B3"), 0x1A2B3);
-    EXPECT_EQ(hexStringToNumber<int>("A1B2C"), 0xA1B2C);
-    EXPECT_EQ(hexStringToNumber<int>("xxxA#$%1@#$#@B^&*&^2%^&%^C*(&"), 0xA1B2C);
+    EXPECT_EQ(convertHexStringToNumber<int>("12345"), 0x12345);
+    EXPECT_EQ(convertHexStringToNumber<int>("ABCDE"), 0xABCDE);
+    EXPECT_EQ(convertHexStringToNumber<int>("1A2B3"), 0x1A2B3);
+    EXPECT_EQ(convertHexStringToNumber<int>("A1B2C"), 0xA1B2C);
+    EXPECT_EQ(convertHexStringToNumber<int>("xxxA#$%1@#$#@B^&*&^2%^&%^C*(&"), 0xA1B2C);
 }
 
-TEST(GetDataFromStringTest, RemoveWhitespacesFromString)
-{
+TEST(GetDataFromStringTest, RemoveWhitespacesFromString){
     string correctOutput("Mark is the no#1 guy in the world");
     EXPECT_EQ(getStringWithoutRedundantWhiteSpace("Mark is the no#1 guy in the world"), correctOutput);
     EXPECT_EQ(getStringWithoutRedundantWhiteSpace("    Mark    is the no#1 guy  in the     world    "), correctOutput);

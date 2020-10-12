@@ -14,15 +14,15 @@ class AlbaPathHandler
 {
 public:
     explicit AlbaPathHandler(string const& slashCharacterString);
-    virtual void inputPath(string const& path);
+    explicit AlbaPathHandler(string const& path, string const& slashCharacterString);
     virtual void clear();
-    void goUp();
-    void reInputPath();
     virtual string getFullPath() const;
+    void input(string const& path);
+    void reInput();
+    void goUp();
     string getImmediateDirectoryName() const;
     string getDirectory() const;
-    string getFile() const;
-    string getFilenameOnly() const;
+    string getFile() const;    string getFilenameOnly() const;
     string getExtension() const;
     PathType getPathType() const;
     bool isDirectory() const;
@@ -30,10 +30,10 @@ public:
     bool isEmpty() const;
 
 protected:
+    virtual void save(string const& path);
     void setExtensionFromPath(string const& path);
     void setDirectoryAndFileFromPath(string const& path);
-    void setFileType();
-    PathType m_pathType;
+    void setFileType();    PathType m_pathType;
     string m_slashCharacterString;
     string m_directory;
     string m_file;

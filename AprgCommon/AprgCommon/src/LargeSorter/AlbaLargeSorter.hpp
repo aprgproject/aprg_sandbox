@@ -132,20 +132,16 @@ private:
     }
     void deleteAllFilesInDirectory()
     {
-        AlbaWindowsPathHandler directoryPathHandler;
-        directoryPathHandler.inputPath(m_configuration.m_directoryForBlocks);
+        AlbaWindowsPathHandler directoryPathHandler(m_configuration.m_directoryForBlocks);
         set<string> listOfFiles;
         set<string> listOfDirectories;
         directoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
         for(string const& filePath : listOfFiles)
         {
-            AlbaWindowsPathHandler filePathHandler;
-            filePathHandler.inputPath(filePath);
-            filePathHandler.deleteFile();
+            AlbaWindowsPathHandler(filePath).deleteFile();
         }
     }
-    AlbaLargeSorterConfiguration const m_configuration;
-    BlockCache m_memoryCache;
+    AlbaLargeSorterConfiguration const m_configuration;    BlockCache m_memoryCache;
     BlockCache m_fileStreamOpenedCache;
     DataBlocks<ObjectToSort> m_blocks;
 };

@@ -12,22 +12,19 @@ namespace alba{
 class AlbaWebPathHandler: public AlbaPathHandler
 {
 public:
-    AlbaWebPathHandler();
-    void inputPath(string const& path) override;
+    AlbaWebPathHandler(string const& path);
     void clear() override;
     string getFullPath() const override;
-    bool hasProtocol() const;
-    string getProtocol() const;
+    bool hasProtocol() const;    string getProtocol() const;
     void gotoLink(string const& newPath);
 
 private:
-    void splitPathInProtocol(string const& path, string & protocolWithSymbols, string & pathAfterProtocol);
-    string getCorrectPathWithoutUrlParameters(string const& correctPath) const;
-    void setProtocolAndCorrectProtocolInDirectory(string const& protocolWithSymbols);
-    void setUrlParameters(string const& correctPath);
+    void save(string const& path) override;
+    void setProtocolAndSplitPath(string const& path, string & protocolWithSymbols, string & pathAfterProtocol);
+    void setProtocol(string const& protocol);
+    void setUrlParameters(string const& urlParameters);
     string m_protocol;
     string m_urlParameters;
-    bool m_hasProtocol;
-};
+    bool m_hasProtocol;};
 
 }//namespace alba

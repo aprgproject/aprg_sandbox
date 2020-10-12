@@ -42,17 +42,16 @@ void BtsLogTime::setTimeByTimeStamp(BtsLogTimeType logTimeType, string const& ti
         }
         else if(!timeValueString.empty())
         {
-            timeValues.push_back(stringHelper::stringToNumber<int>(timeValueString));
+            timeValues.push_back(stringHelper::convertStringToNumber<int>(timeValueString));
             timeValueString.clear();
         }
     }
     if(!timeValueString.empty())
     {
-        timeValues.push_back(stringHelper::stringToNumber<int>(timeValueString));
+        timeValues.push_back(stringHelper::convertStringToNumber<int>(timeValueString));
     }
 
-    if(BtsLogTimeType::PcTimeStamp == logTimeType)
-    {
+    if(BtsLogTimeType::PcTimeStamp == logTimeType)    {
         if(6 == timeValues.size())
         {
             m_months = timeValues[1];

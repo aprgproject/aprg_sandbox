@@ -75,11 +75,11 @@ private:
     void crawlForYoutube_Old(string& webLink, ofstream& convertedYoutubeLinkStream);
     LinksForYoutube getLinkForYoutube(AlbaWebPathHandler const& webLinkPathHandler) const;
 
+    AlbaWindowsPathHandler m_workingPathHandler;
+    AlbaWindowsPathHandler m_memoryCardPathHandler;
     bool m_isModeRecognized;
     CrawlerMode m_mode;
     deque<string> m_webLinks;
-    AlbaWindowsPathHandler m_workingPathHandler;
-    AlbaWindowsPathHandler m_memoryCardPathHandler;
 };
 
 }

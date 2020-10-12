@@ -13,15 +13,12 @@ namespace alba{
 class AlbaWindowsPathHandler: public AlbaPathHandler
 {
 public:
-    AlbaWindowsPathHandler();
-    void inputPath(string const& path) override;
+    AlbaWindowsPathHandler(string const& path);
     void clear() override;
     string getDrive() const;
-    string getWildCardSearch() const;
     double getFileSizeEstimate();
     bool isFoundInLocalSystem() const;
-    void createDirectoriesIfItDoesNotExist() const;
-    void deleteFile();
+    void createDirectoriesIfItDoesNotExist() const;    void deleteFile();
     void renameFile(string const& newFileName);
     bool isRelativePath() const;
     void findFilesAndDirectoriesOneDepth(
@@ -38,10 +35,10 @@ public:
             set<string>& listOfFiles,
             set<string>& listOfDirectories) const;
 private:
+    void save(string const& path) override;
     void setDrive();
     void findFilesAndDirectoriesWithDepth(
-            string const& currentDirectory,
-            string const& wildCardSearch,
+            string const& currentDirectory,            string const& wildCardSearch,
             set<string>& listOfFiles,
             set<string>& listOfDirectories,
             int depth) const;

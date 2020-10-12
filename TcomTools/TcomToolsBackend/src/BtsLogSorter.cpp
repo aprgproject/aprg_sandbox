@@ -21,31 +21,25 @@ BtsLogSorter::BtsLogSorter(BtsLogSorterConfiguration const& configuration)
 
 void BtsLogSorter::processDirectory(string const& directoryPath)
 {
-    AlbaWindowsPathHandler directoryPathHandler;
-    directoryPathHandler.inputPath(directoryPath);
     set<string> listOfFiles;
     set<string> listOfDirectories;
-    directoryPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
+    AlbaWindowsPathHandler(directoryPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& filePath : listOfFiles)
     {
-        AlbaWindowsPathHandler filePathHandler;
-        filePathHandler.inputPath(filePath);
+        AlbaWindowsPathHandler filePathHandler(filePath);
         if(m_evaluator.evaluate(filePathHandler.getFile()))
         {
-            processFile(filePathHandler.getFullPath());
-        }
+            processFile(filePathHandler.getFullPath());        }
     }
 }
 
 void BtsLogSorter::processFile(string const& filePath)
 {
     openStartupLogsIfNeeded();
-    AlbaWindowsPathHandler filePathHandler;
-    filePathHandler.inputPath(filePath);
+    AlbaWindowsPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFile()<<endl;
 
-    ifstream inputLogFileStream(filePath);
-    AlbaFileReader fileReader(inputLogFileStream);
+    ifstream inputLogFileStream(filePath);    AlbaFileReader fileReader(inputLogFileStream);
     while(fileReader.isNotFinished())
     {
         BtsLogPrint logPrint(filePathHandler.getFile(), fileReader.getLineAndIgnoreWhiteSpaces());
@@ -79,21 +73,16 @@ void BtsLogSorter::saveLogsToOutputFile(string const& outputPath)
         mergeAndSaveAllLogs(outputPath);
         deleteFilesInDirectory(m_directoryOfLogsWithoutPcTime);
     }
-    AlbaWindowsPathHandler directoryPathHandler;
-    directoryPathHandler.inputPath(m_pathOfStartupLog);
+    AlbaWindowsPathHandler directoryPathHandler(m_pathOfStartupLog);
     deleteFilesInDirectory(directoryPathHandler.getDirectory());
 }
-
 string BtsLogSorter::getPathOfLogWithoutPcTime(string const& directory, string const& name) const
 {
     string filename = name.empty() ? "NoHardwareAddress" : name;
-    AlbaWindowsPathHandler newFilePath;
-    newFilePath.inputPath(directory + R"(\)" + filename + R"(.log)");
-    return newFilePath.getFullPath();
+    return AlbaWindowsPathHandler(directory + R"(\)" + filename + R"(.log)").getFullPath();
 }
 
-void BtsLogSorter::openStartupLogsIfNeeded()
-{
+void BtsLogSorter::openStartupLogsIfNeeded(){
     if(!m_startupLogStreamOptional)
     {
         m_startupLogStreamOptional.createObjectUsingDefaultConstructor();
@@ -216,17 +205,12 @@ void BtsLogSorter::writeLastPrintIfNeeded(ofstream & outputLogFileStream)
 
 void BtsLogSorter::deleteFilesInDirectory(string const& directoryOfLogs) const
 {
-    AlbaWindowsPathHandler directoryOfLogsPathHandler;
-    directoryOfLogsPathHandler.inputPath(directoryOfLogs);
     set<string> listOfFiles;
     set<string> listOfDirectories;
-    directoryOfLogsPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
+    AlbaWindowsPathHandler(directoryOfLogs).findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& file: listOfFiles)
     {
-        AlbaWindowsPathHandler logFile;
-        logFile.inputPath(file);
-        logFile.deleteFile();
+        AlbaWindowsPathHandler(file).deleteFile();
     }
 }
-
 }

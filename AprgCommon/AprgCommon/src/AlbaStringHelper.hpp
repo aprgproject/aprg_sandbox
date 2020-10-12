@@ -35,22 +35,23 @@ string getStringBeforeThisString(string const& mainString, string const& stringT
 string getStringAfterThisString(string const& mainString, string const& stringToSearch, int const indexToStart=0);
 string getStringInBetweenTwoStrings(string const& mainString, string const& firstString, string const& secondString, int const indexToStart=0);
 string getStringAndReplaceNonAlphanumericCharactersToUnderScore(string const& path);
+string getNumberAfterThisString(string const& mainString, string const& stringToSearch);
 
+string getCorrectPathWithoutUrlParameters(string const& path);
+string getUrlParameters(string const& path);
 string getCorrectPathWithReplacedSlashCharacters(string const& path, string const& slashCharacterString);
 string getCorrectPathWithoutDoublePeriod(string const& string1, string const& slashCharacterString);
-string getStringBeforeDoublePeriod(string const& string1, string const& slashCharacterString);
-string getImmediateDirectoryName(string const& string1, string const& slashCharacterString);
+string getStringBeforeDoublePeriod(string const& string1, string const& slashCharacterString);string getImmediateDirectoryName(string const& string1, string const& slashCharacterString);
 template<char slashCharacterString> string getCorrectPathWithReplacedSlashCharacters(string const& path);
 template<char slashCharacterString> string getCorrectPathWithoutDoublePeriod(string const& path);
 template<char slashCharacterString> string getStringBeforeDoublePeriod(string const& path);
 template<char slashCharacterString> string getImmediateDirectoryName(string const& path);
 
-template <typename NumberType> NumberType stringToNumber(string string1);
-template <typename NumberType> NumberType hexStringToNumber(string string1);
+template <typename NumberType> NumberType convertStringToNumber(string const& stringToConvert);
+template <typename NumberType> NumberType convertHexStringToNumber(string const& stringToConvert);
 
 inline bool isWhiteSpace(char const c)
-{
-    return (' '==c || '\t'==c || '\n'==c || '\r'==c);
+{    return (' '==c || '\t'==c || '\n'==c || '\r'==c);
 }
 
 inline bool isNotNpos(int const index)

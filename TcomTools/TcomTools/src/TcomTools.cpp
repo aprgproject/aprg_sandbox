@@ -4,10 +4,10 @@
 #include "ui_tcomtools.h"
 #include "TcomTools.h"
 
+using namespace alba;
 using namespace std;
 
-TcomTools::TcomTools(QWidget *parent)
-    : QMainWindow(parent)
+TcomTools::TcomTools(QWidget *parent)    : QMainWindow(parent)
     , ui(new Ui::TcomTools)
     , m_configuration()
 {
@@ -72,27 +72,21 @@ void TcomTools::on_execute_clicked()
 
 void TcomTools::on_actionOpenFile_triggered()
 {
-    alba::AlbaWindowsPathHandler pathHandler;
-    pathHandler.inputPath(m_configuration.inputFileOrDirectory);
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), QString::fromStdString(pathHandler.getFullPath()), tr("All Files (*)"));
-    pathHandler.inputPath(fileName.toStdString());
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), QString::fromStdString(AlbaWindowsPathHandler(m_configuration.inputFileOrDirectory).getFullPath()), tr("All Files (*)"));
+    AlbaWindowsPathHandler pathHandler(fileName.toStdString());
     if(!pathHandler.isEmpty())
     {
-        m_configuration.inputFileOrDirectory = pathHandler.getFullPath();
-        ui->inputFileAndFolder->setText(QString::fromStdString(pathHandler.getFullPath()));
+        m_configuration.inputFileOrDirectory = pathHandler.getFullPath();        ui->inputFileAndFolder->setText(QString::fromStdString(pathHandler.getFullPath()));
     }
 }
 
 void TcomTools::on_actionOpenFolder_triggered()
 {
-    alba::AlbaWindowsPathHandler pathHandler;
-    pathHandler.inputPath(m_configuration.inputFileOrDirectory);
-    QString directory = QFileDialog::getExistingDirectory(this, tr("Open folder"), QString::fromStdString(pathHandler.getDirectory()), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-    pathHandler.inputPath(directory.toStdString());
+    QString directory = QFileDialog::getExistingDirectory(this, tr("Open folder"), QString::fromStdString(AlbaWindowsPathHandler(m_configuration.inputFileOrDirectory).getDirectory()), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    AlbaWindowsPathHandler pathHandler(directory.toStdString());
     if(!pathHandler.isEmpty())
     {
-        m_configuration.inputFileOrDirectory = pathHandler.getFullPath();
-        ui->inputFileAndFolder->setText(QString::fromStdString(pathHandler.getFullPath()));
+        m_configuration.inputFileOrDirectory = pathHandler.getFullPath();        ui->inputFileAndFolder->setText(QString::fromStdString(pathHandler.getFullPath()));
     }
 }
 

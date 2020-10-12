@@ -152,33 +152,16 @@ TEST (BtsLogTimeTest, SubtractionOperatorWithUnderflowValues)
     EXPECT_TRUE(expectedAnswer==actualAnswer);
 }
 
-TEST (getStringNumberAfterThisStringTest, getStringNumberAfterThisStringTest)
-{
-    EXPECT_EQ(string("1234"), getStringNumberAfterThisString("INF/TCOM/R, nbccId: 1234, ", "nbccId: "));
-    EXPECT_EQ(string("5678"), getStringNumberAfterThisString("INF/TCOM/R, nbccId: 5678 ", "nbccId: "));
-    EXPECT_EQ(string("7890"), getStringNumberAfterThisString("INF/TCOM/R, nbccId: 7890", "nbccId: "));
-}
-
-
-
 TEST (BtsLogAnalyzerTest, Test1)
 {
-    AlbaWindowsPathHandler pathHandler;
-    pathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\wbts16_wireshark\sorted.log)");
-
-    AlbaWindowsPathHandler messageListPathHandler;
-    messageListPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\wbts16_wireshark\messageList.log)");
-
-    AlbaWindowsPathHandler delayListPathHandler;
-    delayListPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\wbts16_wireshark\delayList.log)");
-
-    AlbaWindowsPathHandler delayListStatisticPathHandler;
-    delayListStatisticPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\wbts16_wireshark\delayListStatistic.log)");
+    AlbaWindowsPathHandler pathHandler(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\wbts16_wireshark\sorted.log)");
+    AlbaWindowsPathHandler messageListPathHandler(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\wbts16_wireshark\messageList.log)");
+    AlbaWindowsPathHandler delayListPathHandler(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\wbts16_wireshark\delayList.log)");
+    AlbaWindowsPathHandler delayListStatisticPathHandler(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\wbts16_wireshark\delayListStatistic.log)");
 
     ofstream messageListStream(messageListPathHandler.getFullPath());
     ofstream delayListStream(delayListPathHandler.getFullPath());
     ofstream delayListStatistic(delayListStatisticPathHandler.getFullPath());
-
     BtsDelayInformationContainer btsDelayInformationContainer;
 
     BtsLogAnalyzer btsLogAnalyzer(btsDelayInformationContainer, delayListStream);
@@ -194,22 +177,14 @@ TEST (BtsLogAnalyzerTest, Test1)
 
 TEST (BtsLogAnalyzerTest, Test2)
 {
-    AlbaWindowsPathHandler pathHandler;
-    pathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\sorted.log)");
-
-    AlbaWindowsPathHandler messageListPathHandler;
-    messageListPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\messageList.log)");
-
-    AlbaWindowsPathHandler delayListPathHandler;
-    delayListPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\delayList.log)");
-
-    AlbaWindowsPathHandler delayListStatisticPathHandler;
-    delayListStatisticPathHandler.inputPath(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\delayListStatistic.log)");
+    AlbaWindowsPathHandler pathHandler(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\sorted.log)");
+    AlbaWindowsPathHandler messageListPathHandler(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\messageList.log)");
+    AlbaWindowsPathHandler delayListPathHandler(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\delayList.log)");
+    AlbaWindowsPathHandler delayListStatisticPathHandler(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17\delayListStatistic.log)");
 
     ofstream messageListStream(messageListPathHandler.getFullPath());
     ofstream delayListStream(delayListPathHandler.getFullPath());
     ofstream delayListStatistic(delayListStatisticPathHandler.getFullPath());
-
     BtsDelayInformationContainer btsDelayInformationContainer;
 
     BtsLogAnalyzer btsLogAnalyzer(btsDelayInformationContainer, delayListStream);

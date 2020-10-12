@@ -13,24 +13,9 @@ using namespace std;
 namespace alba
 {
 
-string getStringNumberAfterThisString(string const& mainString, string const& stringToSearch)
-{
-    string result;
-    int firstIndexOfFirstString = mainString.find(stringToSearch);
-    if(stringHelper::isNotNpos(firstIndexOfFirstString))
-    {
-        int lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
-        int lastIndexOfNumber;
-        for(lastIndexOfNumber = lastIndexOfFirstString; stringHelper::isNumber(mainString[lastIndexOfNumber]); ++lastIndexOfNumber);
-        result = mainString.substr(lastIndexOfFirstString, lastIndexOfNumber-lastIndexOfFirstString);
-    }
-    return result;
-}
-
 void addBtsDelayInformationToContainer(BtsDelayInformationContainer & container, BtsDelayInformation const& delayInformationToAdd)
 {
-    bool isAdded(false);
-    for(BtsDelayInformation & delayInformation : container)
+    bool isAdded(false);    for(BtsDelayInformation & delayInformation : container)
     {
         if(delayInformationToAdd.m_firstComponentString == delayInformation.m_firstComponentString &&
                 delayInformationToAdd.m_secondComponentString == delayInformation.m_secondComponentString &&
@@ -74,21 +59,19 @@ void BtsLogTime::saveTimeFromLineInLogs(string const& lineInLogs)
         }
         else
         {
-            timeValues.push_back(stringHelper::stringToNumber<int>(timeValueString));
+            timeValues.push_back(stringHelper::convertStringToNumber<int>(timeValueString));
             timeValueString.clear();
             if('T' == character)
-            {
-                hasTCharacter = true;
+            {                hasTCharacter = true;
             }
         }
     }
     if(!timeValueString.empty())
     {
-        timeValues.push_back(stringHelper::stringToNumber<int>(timeValueString));
+        timeValues.push_back(stringHelper::convertStringToNumber<int>(timeValueString));
     }
 
-    if(7 <= timeValues.size() && hasTCharacter)
-    {
+    if(7 <= timeValues.size() && hasTCharacter)    {
         m_years = timeValues[0];
         m_months = timeValues[1];
         m_days = timeValues[2];
@@ -388,12 +371,11 @@ void BtsLogUser::analyzeDelay()
         {
             if(it->second.getMessageString() == "CTRL_RLH_RlSetupReq3G," && it2->second.getMessageString() == "RLH_CTRL_RlSetupResp3G")
             {
-                unsigned int transactionId1 = stringHelper::stringToNumber<unsigned int>(getStringNumberAfterThisString(it->second.getPrint(), "transactionId: "));
-                unsigned int transactionId2 = stringHelper::stringToNumber<unsigned int>(getStringNumberAfterThisString(it2->second.getPrint(), "transactionId: "));
+                unsigned int transactionId1 = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(it->second.getPrint(), "transactionId: "));
+                unsigned int transactionId2 = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(it2->second.getPrint(), "transactionId: "));
                 if(transactionId1 == transactionId2)
                 {
-                    BtsDelayInformation delayInformationToAdd(m_nbccId, transactionId1, it->second.getComponentString(), it2->second.getComponentString(), it->second.getMessageString(),  it2->second.getMessageString(), it->first, it2->first);
-                    delayInformationToAdd.printWithNbccId(*m_delayListStreamPointer);
+                    BtsDelayInformation delayInformationToAdd(m_nbccId, transactionId1, it->second.getComponentString(), it2->second.getComponentString(), it->second.getMessageString(),  it2->second.getMessageString(), it->first, it2->first);                    delayInformationToAdd.printWithNbccId(*m_delayListStreamPointer);
                     addBtsDelayInformationToContainer(*m_btsDelayInformationContainerPointer, delayInformationToAdd);
 
                     m_prints.erase(it, it2);
@@ -429,11 +411,10 @@ void BtsLogAnalyzer::saveAllMessagePrintsForAllUsers(AlbaWindowsPathHandler cons
             string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
             if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, " nbccId:"))
             {
-                unsigned int nbccId = stringHelper::stringToNumber<unsigned int>(getStringNumberAfterThisString(lineInLogs, " nbccId: "));
+                unsigned int nbccId = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(lineInLogs, " nbccId: "));
 
                 if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "CTRL_RLH_RlSetupReq3G")
-                        || stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "RLH_CTRL_RlSetupResp3G"))
-                {
+                        || stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "RLH_CTRL_RlSetupResp3G"))                {
                     m_users[nbccId].m_nbccId = nbccId;
                     m_users[nbccId].m_btsDelayInformationContainerPointer = &m_btsDelayInformationContainer;
                     m_users[nbccId].m_delayListStreamPointer = &m_delayListStream;

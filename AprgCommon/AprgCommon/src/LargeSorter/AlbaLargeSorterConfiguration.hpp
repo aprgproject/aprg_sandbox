@@ -39,12 +39,10 @@ struct AlbaLargeSorterConfiguration
     {
         if(m_minimumNumberOfObjectsPerBlock <= 0) { return false; }
         if(m_maximumNumberOfObjectsPerBlock <= m_minimumNumberOfObjectsPerBlock) { return false; }
-        AlbaWindowsPathHandler directoryPath;
-        directoryPath.inputPath(m_directoryForBlocks);
+        AlbaWindowsPathHandler directoryPath(m_directoryForBlocks);
         if(!directoryPath.isFoundInLocalSystem()) { return false; }
         if(!directoryPath.isDirectory()) { return false; }
-        return true;
-    }
+        return true;    }
 };
 
 }

@@ -9,12 +9,9 @@
 
 namespace alba
 {
-string getStringNumberAfterThisString(string const& mainString, string const& stringToSearch);
-
 class BtsDelayInformation;
 
 typedef std::vector<BtsDelayInformation> BtsDelayInformationContainer;
-
 class BtsLogTime
 {
 public:
