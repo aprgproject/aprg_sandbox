@@ -2,6 +2,9 @@
 
 #include <iostream>
 
+namespace alba
+{
+
 namespace ProgressCounters
 {
 
@@ -19,5 +22,7 @@ extern int writeProgressForCombine;
 extern int grepProcessProgress;
 extern int cropProcessProgress;
 extern int numberOfStepsEnabled;
+
+}
 
 }

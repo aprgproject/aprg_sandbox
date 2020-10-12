@@ -8,9 +8,8 @@
 #include <StepHandler.hpp>
 #include <string>
 
-using namespace alba;
-using namespace std;
-
+namespace alba
+{
 namespace ProgressCounters
 {
 extern int grepProcessProgress;
@@ -18,9 +17,14 @@ extern int cropProcessProgress;
 extern int numberOfStepsEnabled;
 extern void resetProgressCounters();
 }
+}
+
+using namespace alba;
+using namespace std;
 
 namespace tcomToolsGui
 {
+
 StepHandler::StepHandler()
 {}
 
@@ -31,10 +35,12 @@ void StepHandler::execute(TcomToolsConfiguration const& configuration) const
     ProgressCounters::numberOfStepsEnabled = configuration.isExtractStepOn + configuration.isCombineAndSortStepOn + configuration.isGrepStepOn + configuration.isCropStepOn;
     for(int step=1; step<5; step++)
     {
-        currentPathHandler.reInput();        if(!currentPathHandler.isFoundInLocalSystem())
+        currentPathHandler.reInput();
+        if(!currentPathHandler.isFoundInLocalSystem())
         {
             cout << currentPathHandler.getFullPath() << " is not found in local system" << endl;
-            return;        }
+            return;
+        }
         if(1 == step && configuration.isExtractStepOn)
         {
             currentPathHandler.input(executeExtractStep(configuration, currentPathHandler.getFullPath()));
@@ -135,7 +141,8 @@ string StepHandler::grepFile(TcomToolsConfiguration const& configuration, string
     double sizeOfFile = fileReader.getFileSize();
     while(fileReader.isNotFinished())
     {
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());        if(evaluator.evaluate(lineInLogs))
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        if(evaluator.evaluate(lineInLogs))
         {
             outputFileStream << lineInLogs << endl;
         }
@@ -144,9 +151,11 @@ string StepHandler::grepFile(TcomToolsConfiguration const& configuration, string
     ProgressCounters::grepProcessProgress = 100;
     return pathHandler.getFullPath();
 }
+
 string StepHandler::executeCropStep(TcomToolsConfiguration const& configuration, string const& inputPath) const
 {
-    cout<<" (Crop) start | Input path: "<<inputPath<<endl;    AlbaWindowsPathHandler pathHandler(inputPath);
+    cout<<" (Crop) start | Input path: "<<inputPath<<endl;
+    AlbaWindowsPathHandler pathHandler(inputPath);
     string outputPath(inputPath);
     if(pathHandler.isFile())
     {
@@ -181,10 +190,12 @@ string StepHandler::cropFile(TcomToolsConfiguration const& configuration, string
     double locationDifference = locations.endLocation-locations.startLocation;
     while(fileReader.isNotFinished())
     {
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());        double currentLocation = fileReader.getCurrentLocation();
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        double currentLocation = fileReader.getCurrentLocation();
         if(currentLocation < locations.endLocation)
         {
-            outputFileStream << lineInLogs << endl;        }
+            outputFileStream << lineInLogs << endl;
+        }
         else
         {
             break;
@@ -194,6 +205,7 @@ string StepHandler::cropFile(TcomToolsConfiguration const& configuration, string
     ProgressCounters::cropProcessProgress = 100;
     return pathHandler.getFullPath();
 }
+
 double StepHandler::getLocationOfPriotizedPrint(TcomToolsConfiguration const& configuration, string const& inputPath) const
 {
     double foundLocation(-1);
@@ -203,7 +215,8 @@ double StepHandler::getLocationOfPriotizedPrint(TcomToolsConfiguration const& co
     double sizeOfFile = fileReader.getFileSize();
     while(fileReader.isNotFinished())
     {
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, configuration.prioritizedLogPrint))
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, configuration.prioritizedLogPrint))
         {
             cout<<"Found prioritized log print in input file. Log print: "<<lineInLogs<<endl;
             foundLocation = fileReader.getCurrentLocation();
@@ -214,9 +227,11 @@ double StepHandler::getLocationOfPriotizedPrint(TcomToolsConfiguration const& co
     ProgressCounters::cropProcessProgress = 50;
     return foundLocation;
 }
+
 StepHandler::LocationsInFile StepHandler::getLocationsInFile(TcomToolsConfiguration const& configuration, double foundLocation) const
 {
-    LocationsInFile locations;    double outputSize = 1000000 * configuration.cropSize;
+    LocationsInFile locations;
+    double outputSize = 1000000 * configuration.cropSize;
     double startingLocation = foundLocation - (outputSize/2);
     locations.startLocation = (startingLocation<0) ? 0 : startingLocation;
     locations.endLocation = startingLocation + outputSize;

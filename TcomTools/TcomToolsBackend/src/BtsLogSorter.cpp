@@ -8,6 +8,9 @@
 using namespace alba;
 using namespace std;
 
+namespace alba
+{
+
 namespace ProgressCounters
 {
 extern double totalSizeToBeReadForCombine;
@@ -15,11 +18,15 @@ extern double totalSizeReadForCombine;
 extern int writeProgressForCombine;
 }
 
+}
+
 namespace tcomToolsBackend
 {
+
 BtsLogSorter::BtsLogSorter(BtsLogSorterConfiguration const& configuration)
     : m_evaluator(configuration.m_condition)
-    , m_sorterWithPcTime(configuration.m_configurationWithPcTime)    , m_sorterWithoutPcTime(configuration.m_configurationWithoutPcTime)
+    , m_sorterWithPcTime(configuration.m_configurationWithPcTime)
+    , m_sorterWithoutPcTime(configuration.m_configurationWithoutPcTime)
     , m_directoryOfLogsWithoutPcTime(configuration.m_pathOfLogsWithoutPcTime)
     , m_pathOfStartupLog(configuration.m_pathOfStartupLog)
 {}
@@ -46,10 +53,12 @@ void BtsLogSorter::processDirectory(string const& directoryPath)
     ProgressCounters::totalSizeToBeReadForCombine = getTotalSizeToBeRead(listOfFiles);
     for(string const& filePath : listOfFiles)
     {
-        AlbaWindowsPathHandler filePathHandler(filePath);        if(m_evaluator.evaluate(filePathHandler.getFile()))
+        AlbaWindowsPathHandler filePathHandler(filePath);
+        if(m_evaluator.evaluate(filePathHandler.getFile()))
         {
             processFile(filePathHandler.getFullPath());
-        }    }
+        }
+    }
 }
 
 void BtsLogSorter::processFile(string const& filePath)
@@ -61,10 +70,12 @@ void BtsLogSorter::processFile(string const& filePath)
     double previousTotalSize(ProgressCounters::totalSizeReadForCombine);
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
-    while(fileReader.isNotFinished())    {
+    while(fileReader.isNotFinished())
+    {
         BtsLogPrint logPrint(filePathHandler.getFile(), fileReader.getLineAndIgnoreWhiteSpaces());
         m_foundHardwareAddresses.emplace(logPrint.getHardwareAddress());
-        if(logPrint.getPcTime().isEmpty())        {
+        if(logPrint.getPcTime().isEmpty())
+        {
             m_sorterWithoutPcTime.add(logPrint);
         }
         else if(logPrint.getBtsTime().isStartup())
@@ -95,10 +106,12 @@ void BtsLogSorter::saveLogsToOutputFile(string const& outputPath)
         writeLogsWithoutPcTimeToOutputFile(outputLogFileStream);
         deleteFilesInDirectory(m_directoryOfLogsWithoutPcTime);
     }
-    AlbaWindowsPathHandler directoryPathHandler(m_pathOfStartupLog);    deleteFilesInDirectory(directoryPathHandler.getDirectory());
+    AlbaWindowsPathHandler directoryPathHandler(m_pathOfStartupLog);
+    deleteFilesInDirectory(directoryPathHandler.getDirectory());
 }
 
-string BtsLogSorter::getPathOfLogWithoutPcTime(string const& directory, string const& name) const{
+string BtsLogSorter::getPathOfLogWithoutPcTime(string const& directory, string const& name) const
+{
     string filename = name.empty() ? "NoHardwareAddress" : name;
     return AlbaWindowsPathHandler(directory + R"(\)" + filename + R"(.log)").getFullPath();
 }
@@ -138,9 +151,11 @@ void BtsLogSorter::writeLogsWithoutPcTimeToOutputFile(ofstream & outputLogFileSt
     });
     writeLastPrintIfNeeded(outputLogFileStream);
 }
+
 void BtsLogSorter::separateLogsWithoutPcTimeIntoDifferentFiles()
 {
-    cout << "Save sorted logs without PC time into different addresses." << endl;    map<string, ofstream> filesWithoutPcTime;
+    cout << "Save sorted logs without PC time into different addresses." << endl;
+    map<string, ofstream> filesWithoutPcTime;
 
     for(string hardwareAddress: m_foundHardwareAddresses)
     {
@@ -177,10 +192,12 @@ void BtsLogSorter::writeLogsWithPcTimeToOutputFile(ofstream & outputLogFileStrea
     }
 }
 
-void BtsLogSorter::addPrintsFromFileReaderToSorterWithoutPcTime(BtsPrintReaderWithRollback & printReader){
+void BtsLogSorter::addPrintsFromFileReaderToSorterWithoutPcTime(BtsPrintReaderWithRollback & printReader)
+{
     while(printReader.isGood())
     {
-        BtsLogPrint logPrintWithoutPcTime(printReader.getPrint());        if(printReader.isGood())
+        BtsLogPrint logPrintWithoutPcTime(printReader.getPrint());
+        if(printReader.isGood())
         {
             m_sorterWithoutPcTime.add(logPrintWithoutPcTime);
         }

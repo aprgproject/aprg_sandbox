@@ -1,5 +1,8 @@
 #include <ProgressCounters.hpp>
 
+namespace alba
+{
+
 namespace ProgressCounters
 {
 
@@ -59,3 +62,4 @@ int numberOfStepsEnabled;
 
 }
 
+}

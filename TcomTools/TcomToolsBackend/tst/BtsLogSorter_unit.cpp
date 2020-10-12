@@ -2,9 +2,8 @@
 #include <BtsLogSorter.hpp>
 #include <gtest/gtest.h>
 
-using namespace alba;
-using namespace tcomToolsBackend;
-using namespace std;
+namespace alba
+{
 
 namespace ProgressCounters
 {
@@ -13,12 +12,20 @@ namespace ProgressCounters
     int writeProgressForCombine;
 }
 
+}
+
+using namespace alba;
+using namespace tcomToolsBackend;
+using namespace std;
+
 struct BtsLogSorterTest : public testing::Test
 {
-    BtsLogSorterTest()    {
+    BtsLogSorterTest()
+    {
         m_configuration.m_condition = R"( ([syslog]&&[.log]) || [ccns.log] || [tcom.log] || (([startup]||[runtime]||[system])&&[.log]) || ([UDP]&&([.log]||[.txt])) )";
         m_configuration.m_configurationWithPcTime.m_directoryForBlocks = R"(C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\WithPcTimeBlocks)";
-        m_configuration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock = 10000;        m_configuration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock = 100000;
+        m_configuration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock = 10000;
+        m_configuration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock = 100000;
         m_configuration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory = 200000;
         m_configuration.m_configurationWithPcTime.m_maximumFileStreams = 70;
         m_configuration.m_configurationWithoutPcTime.m_directoryForBlocks = R"(C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\WithoutPcTimeBlocks)";

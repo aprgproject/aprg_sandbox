@@ -28,9 +28,11 @@ signals:
     void executionDone();
 protected:
     void run() Q_DECL_OVERRIDE;
-private:    QMutex m_mutex;
+private:
+    QMutex m_mutex;
     QWaitCondition m_condition;
     TcomToolsConfiguration m_configuration;
-    ThreadState m_state;};
+    ThreadState m_state;
+};
 
 }
