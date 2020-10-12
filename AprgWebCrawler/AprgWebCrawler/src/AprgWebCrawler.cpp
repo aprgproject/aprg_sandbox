@@ -120,17 +120,18 @@ void AprgWebCrawler::crawl()
         break;
     case CrawlerMode::Gehen:
     case CrawlerMode::GuroManga:
+    case CrawlerMode::HBrowse:
+    case CrawlerMode::Hentai2Read:
     case CrawlerMode::Mangafox:
     case CrawlerMode::MangafoxWithVolume:
     case CrawlerMode::Mangahere:
+    case CrawlerMode::MangaPark:
     case CrawlerMode::Y8:
         crawlOneHtmlAndOneFileToDownload(100);
-        break;
-    case CrawlerMode::Youtube:
+        break;    case CrawlerMode::Youtube:
         crawlForYoutube();
         break;
-    }
-}
+    }}
 
 void AprgWebCrawler::setCrawlerMode(string const& modeString)
 {
@@ -146,26 +147,34 @@ void AprgWebCrawler::setCrawlerMode(string const& modeString)
     {
         m_mode = CrawlerMode::GuroManga;
     }
+    else if("hbrowse" == modeString || "CrawlerMode::HBrowse" == modeString)
+    {
+        m_mode = CrawlerMode::HBrowse;
+    }
+    else if("hentai2read" == modeString || "CrawlerMode::Hentai2Read" == modeString)
+    {
+        m_mode = CrawlerMode::Hentai2Read;
+    }
     else if("mangafox" == modeString || "CrawlerMode::Mangafox" == modeString)
     {
-        m_mode = CrawlerMode::Mangafox;
-    }
+        m_mode = CrawlerMode::Mangafox;    }
     else if("mangafoxfullpath" == modeString || "CrawlerMode::MangafoxWithVolume" == modeString)
     {
-        m_mode = CrawlerMode::MangafoxWithVolume;
-    }
+        m_mode = CrawlerMode::MangafoxWithVolume;    }
     else if("mangahere" == modeString || "CrawlerMode::Mangahere" == modeString)
     {
         m_mode = CrawlerMode::Mangahere;
     }
+    else if("mangapark" == modeString || "CrawlerMode::MangaPark" == modeString)
+    {
+        m_mode = CrawlerMode::MangaPark;
+    }
     else if("y8" == modeString || "CrawlerMode::Y8" == modeString)
     {
-        m_mode = CrawlerMode::Y8;
-    }
+        m_mode = CrawlerMode::Y8;    }
     else if("youtube" == modeString || "CrawlerMode::Youtube" == modeString)
     {
-        m_mode = CrawlerMode::Youtube;
-    }
+        m_mode = CrawlerMode::Youtube;    }
     else
     {
         cout << "AprgWebCrawler::setCrawlerMode | Mode is not recognized" << endl;
@@ -183,17 +192,18 @@ string AprgWebCrawler::getCrawlerModeString() const
     GET_ENUM_STRING(CrawlerMode::ChiaAnime)
             GET_ENUM_STRING(CrawlerMode::Gehen)
             GET_ENUM_STRING(CrawlerMode::GuroManga)
+            GET_ENUM_STRING(CrawlerMode::HBrowse)
+            GET_ENUM_STRING(CrawlerMode::Hentai2Read)
             GET_ENUM_STRING(CrawlerMode::Mangafox)
             GET_ENUM_STRING(CrawlerMode::MangafoxWithVolume)
             GET_ENUM_STRING(CrawlerMode::Mangahere)
+            GET_ENUM_STRING(CrawlerMode::MangaPark)
             GET_ENUM_STRING(CrawlerMode::Y8)
             GET_ENUM_STRING(CrawlerMode::Youtube)
-    }
-    return "";
+    }    return "";
 }
 
-bool AprgWebCrawler::isWebLinksEmpty() const
-{
+bool AprgWebCrawler::isWebLinksEmpty() const{
     return m_webLinks.empty();
 }
 
