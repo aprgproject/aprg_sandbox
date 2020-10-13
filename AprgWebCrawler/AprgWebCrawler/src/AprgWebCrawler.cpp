@@ -134,55 +134,53 @@ void AprgWebCrawler::crawl()
 
 void AprgWebCrawler::setCrawlerMode(string const& modeString)
 {
-    if("chiaanime" == modeString || "CrawlerMode::ChiaAnime" == modeString)
+    if("chiaanime" == modeString || "CrawlerMode::ChiaAnime" == modeString || "CrawlMode::ChiaAnime" == modeString)
     {
         m_mode = CrawlMode::ChiaAnime;
     }
-    else if("gehen" == modeString || "CrawlerMode::Gehen" == modeString)
+    else if("gehen" == modeString || "CrawlerMode::Gehen" == modeString || "CrawlMode::Gehen" == modeString)
     {
         m_mode = CrawlMode::Gehen;
     }
-    else if("guromanga" == modeString || "CrawlerMode::GuroManga" == modeString)
+    else if("guromanga" == modeString || "CrawlerMode::GuroManga" == modeString || "CrawlMode::GuroManga" == modeString)
     {
         m_mode = CrawlMode::GuroManga;
     }
-    else if("hbrowse" == modeString || "CrawlerMode::HBrowse" == modeString)
+    else if("hbrowse" == modeString || "CrawlerMode::HBrowse" == modeString || "CrawlMode::HBrowse" == modeString)
     {
         m_mode = CrawlMode::HBrowse;
     }
-    else if("hentai2read" == modeString || "CrawlerMode::Hentai2Read" == modeString)
+    else if("hentai2read" == modeString || "CrawlerMode::Hentai2Read" == modeString || "CrawlMode::Hentai2Read" == modeString)
     {
         m_mode = CrawlMode::Hentai2Read;
     }
-    else if("mangafox" == modeString || "CrawlerMode::Mangafox" == modeString)
+    else if("mangafox" == modeString || "CrawlerMode::Mangafox" == modeString || "CrawlMode::Mangafox" == modeString)
     {
         m_mode = CrawlMode::Mangafox;
     }
-    else if("mangafoxfullpath" == modeString || "CrawlerMode::MangafoxWithVolume" == modeString)
+    else if("mangafoxfullpath" == modeString || "CrawlerMode::MangafoxWithVolume" == modeString || "CrawlMode::MangafoxWithVolume" == modeString)
     {
         m_mode = CrawlMode::MangafoxWithVolume;
     }
-    else if("mangahere" == modeString || "CrawlerMode::Mangahere" == modeString)
+    else if("mangahere" == modeString || "CrawlerMode::Mangahere" == modeString || "CrawlMode::Mangahere" == modeString)
     {
         m_mode = CrawlMode::Mangahere;
     }
-    else if("mangapark" == modeString || "CrawlerMode::MangaPark" == modeString)
+    else if("mangapark" == modeString || "CrawlerMode::MangaPark" == modeString || "CrawlMode::MangaPark" == modeString)
     {
         m_mode = CrawlMode::MangaPark;
     }
-    else if("y8" == modeString || "CrawlerMode::Y8" == modeString)
+    else if("y8" == modeString || "CrawlerMode::Y8" == modeString || "CrawlMode::Y8" == modeString)
     {
         m_mode = CrawlMode::Y8;
     }
-    else if("youtube" == modeString || "CrawlerMode::Youtube" == modeString)
+    else if("youtube" == modeString || "CrawlerMode::Youtube" == modeString || "CrawlMode::Youtube" == modeString)
     {
         m_mode = CrawlMode::Youtube;
-    }
-    else
+    }    else
     {        cout << "AprgWebCrawler::setCrawlerMode | Mode is not recognized" << endl;
     }
-}
-#define GET_ENUM_STRING(en) \
+}#define GET_ENUM_STRING(en) \
     case en: \
     return #en;
 
