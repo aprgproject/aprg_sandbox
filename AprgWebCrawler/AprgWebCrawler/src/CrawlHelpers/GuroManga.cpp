@@ -1,12 +1,10 @@
-#include "AprgWebCrawler.hpp"
+#include "WebCrawler.hpp"
 
 #include <AlbaFileReader.hpp>
-#include <AlbaStringHelper.hpp>
-#include <fstream>
+#include <AlbaStringHelper.hpp>#include <fstream>
 #include <iostream>
 
 using namespace std;
-
 using alba::stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore;
 using alba::stringHelper::getStringInBetweenTwoStrings;
 using alba::stringHelper::isStringFoundInsideTheOtherStringCaseSensitive;
@@ -14,15 +12,13 @@ using alba::stringHelper::isStringFoundInsideTheOtherStringCaseSensitive;
 namespace alba
 {
 
-LinksForHtmlAndFileToDownload AprgWebCrawler::getLinksForGuroManga(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const
+LinksForHtmlAndFileToDownload WebCrawler::getLinksForGuroManga(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const
 {
     LinksForHtmlAndFileToDownload links;
-    ifstream htmlFileStream(pathOfHtmlFile);
-    if(!htmlFileStream.is_open())
+    ifstream htmlFileStream(pathOfHtmlFile);    if(!htmlFileStream.is_open())
     {
         cout << "Cannot open html file." << endl;
-        cout << "File to read:" << pathOfHtmlFile << endl;
-        return links;
+        cout << "File to read:" << pathOfHtmlFile << endl;        return links;
     }
     bool isDivClassImage(false);
     string title;

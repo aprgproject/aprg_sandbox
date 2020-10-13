@@ -1,20 +1,20 @@
-#include <AprgWebCrawler.hpp>
+#include <WebCrawler.hpp>
 #include <iostream>
 
-using namespace alba;
-using namespace std;
+using namespace alba;using namespace std;
 
 int main(int argc, char** argv)
 {
     if(argc < 2)
     {
-        cout << "There should be at least 1 argument." << endl;
-        return 1;
+        cout << "Something user interface" << endl;
     }
-    string path(argv[1]);
-    AprgWebCrawler crawler(path);
-    crawler.printStatus();
-    crawler.crawl();
-
+    else
+    {
+        string path(argv[1]);
+        WebCrawler crawler(path);
+        crawler.printStatus();
+        crawler.crawl();
+    }
     return 0;
 }

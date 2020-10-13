@@ -1,22 +1,19 @@
-#include "AprgWebCrawler.hpp"
+#include "WebCrawler.hpp"
 
 #include <CrawlConfiguration/CrawlConfiguration.hpp>
 #include <CurlInterface.hpp>
-
 using namespace curl::CurlInterface;
 
 namespace alba
 {
 
-bool AprgWebCrawler::downloadBinaryFile(
+bool WebCrawler::downloadBinaryFile(
         AlbaWebPathHandler const& fileToDownloadWebPathHandler,
         AlbaWindowsPathHandler const& downloadPathHandler) const
-{
-    bool isSuccessful(false);
+{    bool isSuccessful(false);
     CrawlConfiguration configuration(m_mode);
     if(configuration.isFileToBeDownloadUntilSuccessful())
-    {
-        isSuccessful = downloadBinaryFileUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler);
+    {        isSuccessful = downloadBinaryFileUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler);
     }
     else
     {
@@ -25,11 +22,10 @@ bool AprgWebCrawler::downloadBinaryFile(
     return isSuccessful;
 }
 
-bool AprgWebCrawler::downloadFileAsText(
+bool WebCrawler::downloadFileAsText(
         AlbaWebPathHandler const& fileToDownloadWebPathHandler,
         AlbaWindowsPathHandler const& downloadPathHandler) const
-{
-    return downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox>(fileToDownloadWebPathHandler, downloadPathHandler);
+{    return downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox>(fileToDownloadWebPathHandler, downloadPathHandler);
 }
 
 }

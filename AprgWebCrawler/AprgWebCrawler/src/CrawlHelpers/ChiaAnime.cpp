@@ -1,11 +1,9 @@
-#include "AprgWebCrawler.hpp"
+#include "WebCrawler.hpp"
 
 #include <AlbaFileReader.hpp>
-#include <AlbaStringHelper.hpp>
-#include <CrawlConfiguration/CrawlConfiguration.hpp>
+#include <AlbaStringHelper.hpp>#include <CrawlConfiguration/CrawlConfiguration.hpp>
 #include <fstream>
 #include <iostream>
-
 using namespace std;
 
 using alba::stringHelper::getStringInBetweenTwoStrings;
@@ -15,25 +13,22 @@ using alba::stringHelper::isStringFoundInsideTheOtherStringCaseSensitive;
 namespace alba
 {
 
-void AprgWebCrawler::crawlForChiaAnime()
+void WebCrawler::crawlForChiaAnime()
 {
     for(string & webLink : m_webLinks)
-    {
-        crawlForChiaAnime(webLink);
+    {        crawlForChiaAnime(webLink);
     }
 }
 
-void AprgWebCrawler::crawlForChiaAnime(string & webLink)
+void WebCrawler::crawlForChiaAnime(string & webLink)
 {
-    cout << "AprgWebCrawler::crawlForChiaAnime" << endl;
+    cout << "WebCrawler::crawlForChiaAnime" << endl;
     CrawlConfiguration configuration(m_mode);
     while(!isCrawlStateInvalid())
-    {
-        AlbaWebPathHandler webPathHandler(webLink);
+    {        AlbaWebPathHandler webPathHandler(webLink);
         LinksForChiaAnime links(getLinksForChiaAnime(webPathHandler));
         if(links.isInvalid())
-        {
-            cout << "Links are invalid." << endl;
+        {            cout << "Links are invalid." << endl;
             links.printLinks();
             saveInvalidStateToMemoryCard(CrawlState::LinksAreInvalid);
             break;
@@ -75,15 +70,13 @@ void AprgWebCrawler::crawlForChiaAnime(string & webLink)
     }
 }
 
-LinksForChiaAnime AprgWebCrawler::getLinksForChiaAnime(AlbaWebPathHandler const& webLinkPathHandler) const
+LinksForChiaAnime WebCrawler::getLinksForChiaAnime(AlbaWebPathHandler const& webLinkPathHandler) const
 {
     LinksForChiaAnime links;
-    AlbaWindowsPathHandler downloadPathHandler(m_workingPathHandler.getDirectory() + R"(\temp.html)");
-    downloadFileAsText(webLinkPathHandler, downloadPathHandler);
+    AlbaWindowsPathHandler downloadPathHandler(m_workingPathHandler.getDirectory() + R"(\temp.html)");    downloadFileAsText(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
-    {
-        cout << "Cannot open html file." << endl;
+    {        cout << "Cannot open html file." << endl;
         cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
         return links;
     }
@@ -106,15 +99,13 @@ LinksForChiaAnime AprgWebCrawler::getLinksForChiaAnime(AlbaWebPathHandler const&
     return links;
 }
 
-string AprgWebCrawler::getVideoLinkForChiaAnime(AlbaWebPathHandler const& webLinkPathHandler, string const& linkToDownloadPage) const
+string WebCrawler::getVideoLinkForChiaAnime(AlbaWebPathHandler const& webLinkPathHandler, string const& linkToDownloadPage) const
 {
     AlbaWindowsPathHandler downloadPathHandler(m_workingPathHandler.getDirectory() + R"(\temp.html)");
-    AlbaWebPathHandler downloadPagePathHandler(webLinkPathHandler);
-    downloadPagePathHandler.gotoLink(linkToDownloadPage);
+    AlbaWebPathHandler downloadPagePathHandler(webLinkPathHandler);    downloadPagePathHandler.gotoLink(linkToDownloadPage);
     downloadFileAsText(downloadPagePathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
-    if(!htmlFileStream.is_open())
-    {
+    if(!htmlFileStream.is_open())    {
         cout << "Cannot open html file." << endl;
         cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
         return string("");

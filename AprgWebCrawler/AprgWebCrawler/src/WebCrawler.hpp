@@ -14,15 +14,14 @@
 namespace alba
 {
 
-class AprgWebCrawler
+class WebCrawler
 {
 public:
     typedef std::deque<std::string> WebLinks;
-    AprgWebCrawler(std::string const& workingDirectory);
+    WebCrawler(std::string const& workingDirectory);
     bool isValid() const;
     void printStatus() const;
-    void saveMemoryCard() const;
-    void loadMemoryCard();
+    void saveMemoryCard() const;    void loadMemoryCard();
     void crawl();
 
 private:
