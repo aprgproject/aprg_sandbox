@@ -1,40 +1,39 @@
 #include "AprgWebCrawler.hpp"
 
 #include <CurlInterface.hpp>
+#include "CrawlerConfiguration.hpp"
 #include <iostream>
 
-using namespace curl::CurlInterface;
-using namespace std;
+using namespace curl::CurlInterface;using namespace std;
 
 namespace alba
 {
 
-void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(int const minimumSizeOfDownload)
+void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload()
 {
     for(string & webLink : m_webLinks)
     {
-        crawlOneHtmlAndOneFileToDownload(webLink, minimumSizeOfDownload);
+        crawlOneHtmlAndOneFileToDownload(webLink);
     }
 }
 
-void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink, int const minimumSizeOfDownload)
+void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
 {
     cout << "AprgWebCrawler::crawlPerHtmlAndDownloadImage" << endl;
 
+    CrawlerConfiguration crawlerConfiguration(m_mode);
     while(1)
     {
         AlbaWebPathHandler currentWebLinkPathHandler(webLink);
         AlbaWindowsPathHandler downloadPathHandler(m_workingPathHandler.getDirectory() + R"(\temp.html)");
         downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox>(currentWebLinkPathHandler, downloadPathHandler);
-        LinksForHtmlAndFileToDownload links(getLinksBasedOnMode(currentWebLinkPathHandler, downloadPathHandler.getFullPath()));
+        LinksForHtmlAndFileToDownload links(getLinks(currentWebLinkPathHandler, downloadPathHandler.getFullPath()));
         if(links.isInvalid())
         {
-            cout << "Links are invalid." << endl;
-            links.printLinks();
+            cout << "Links are invalid." << endl;            links.printLinks();
             return;
         }
-        AlbaWebPathHandler fileToDownloadWebPathHandler(currentWebLinkPathHandler);
-        fileToDownloadWebPathHandler.gotoLink(links.linkForCurrentFileToDownload);
+        AlbaWebPathHandler fileToDownloadWebPathHandler(currentWebLinkPathHandler);        fileToDownloadWebPathHandler.gotoLink(links.linkForCurrentFileToDownload);
         if(!fileToDownloadWebPathHandler.isFile())
         {
             cout << "Link is not to a file." << endl;
@@ -43,18 +42,23 @@ void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink, int const
         }
         downloadPathHandler.input(links.localPathForCurrentFileToDownload);
         downloadPathHandler.createDirectoriesIfItDoesNotExist();
-        downloadBinaryFileWithFiniteNumberOfTries<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler, 20);
-        if(downloadPathHandler.getFileSizeEstimate() < minimumSizeOfDownload)
+        if(crawlerConfiguration.isFileToBeDownloadUntilSuccessful())
         {
-            cout << "Download file size is less than minimum. Retrying from the start." << endl;
+            downloadBinaryFileUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler);
+        }
+        else
+        {
+            downloadBinaryFileWithFiniteNumberOfTries<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler, crawlerConfiguration.getNumberOfRetries());
+        }
+        if(downloadPathHandler.getFileSizeEstimate() < crawlerConfiguration.getMinimumFileSize())
+        {
+            cout << "Download file size is less than "<<crawlerConfiguration.getMinimumFileSize()<<". FileSize = "<< downloadPathHandler.getFileSizeEstimate() <<" Invalid file. Retrying from the start" << endl;
             continue;
         }
-        if(links.linkForNextHtml.empty())
-        {
+        if(links.linkForNextHtml.empty())        {
             cout << "Terminating the because next web link is empty." << endl;
             return;
-        }
-        AlbaWebPathHandler nextWebPathHandler(currentWebLinkPathHandler);
+        }        AlbaWebPathHandler nextWebPathHandler(currentWebLinkPathHandler);
         nextWebPathHandler.gotoLink(links.linkForNextHtml);
         if(currentWebLinkPathHandler.getFullPath() == nextWebPathHandler.getFullPath())
         {
@@ -66,34 +70,33 @@ void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink, int const
     }
 }
 
-LinksForHtmlAndFileToDownload AprgWebCrawler::getLinksBasedOnMode(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const
+LinksForHtmlAndFileToDownload AprgWebCrawler::getLinks(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const
 {
     switch(m_mode)
     {
-    case CrawlerMode::Gehen:
+    case CrawlMode::Gehen:
         return getLinksForGehen(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlerMode::GuroManga:
+    case CrawlMode::GuroManga:
         return getLinksForGuroManga(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlerMode::HBrowse:
+    case CrawlMode::HBrowse:
         return getLinksForHBrowse(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlerMode::Hentai2Read:
+    case CrawlMode::Hentai2Read:
         return getLinksForHentai2Read(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlerMode::Mangafox:
+    case CrawlMode::Mangafox:
         return getLinksForMangaFox(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlerMode::MangafoxWithVolume:
+    case CrawlMode::MangafoxWithVolume:
         return getLinksForMangaFoxSaveInVolumeAndChapter(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlerMode::Mangahere:
+    case CrawlMode::Mangahere:
         return getLinksForMangaHere(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlerMode::MangaPark:
+    case CrawlMode::MangaPark:
         return getLinksForMangaPark(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlerMode::Y8:
+    case CrawlMode::Y8:
         return getLinksForY8(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlerMode::ChiaAnime:
-    case CrawlerMode::Youtube:
+    case CrawlMode::ChiaAnime:
+    case CrawlMode::Youtube:
         cout << "AprgWebCrawler::getLinks | Mode is not recognized" << endl;
         break;
-    }
-    return LinksForHtmlAndFileToDownload();
+    }    return LinksForHtmlAndFileToDownload();
 }
 
 }

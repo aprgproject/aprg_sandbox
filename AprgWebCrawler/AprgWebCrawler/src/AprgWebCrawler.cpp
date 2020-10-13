@@ -113,78 +113,75 @@ void AprgWebCrawler::crawl()
 {
     switch(m_mode)
     {
-    case CrawlerMode::ChiaAnime:
+    case CrawlMode::ChiaAnime:
         crawlForChiaAnime();
         break;
-    case CrawlerMode::Gehen:
-    case CrawlerMode::GuroManga:
-    case CrawlerMode::HBrowse:
-    case CrawlerMode::Hentai2Read:
-    case CrawlerMode::Mangafox:
-    case CrawlerMode::MangafoxWithVolume:
-    case CrawlerMode::Mangahere:
-    case CrawlerMode::MangaPark:
-    case CrawlerMode::Y8:
-        crawlOneHtmlAndOneFileToDownload(100);
+    case CrawlMode::Gehen:
+    case CrawlMode::GuroManga:
+    case CrawlMode::HBrowse:
+    case CrawlMode::Hentai2Read:
+    case CrawlMode::Mangafox:
+    case CrawlMode::MangafoxWithVolume:
+    case CrawlMode::Mangahere:
+    case CrawlMode::MangaPark:
+    case CrawlMode::Y8:
+        crawlOneHtmlAndOneFileToDownload();
         break;
-    case CrawlerMode::Youtube:
+    case CrawlMode::Youtube:
         crawlForYoutube();
         break;
-    }
-}
+    }}
 
 void AprgWebCrawler::setCrawlerMode(string const& modeString)
 {
     if("chiaanime" == modeString || "CrawlerMode::ChiaAnime" == modeString)
     {
-        m_mode = CrawlerMode::ChiaAnime;
+        m_mode = CrawlMode::ChiaAnime;
     }
     else if("gehen" == modeString || "CrawlerMode::Gehen" == modeString)
     {
-        m_mode = CrawlerMode::Gehen;
+        m_mode = CrawlMode::Gehen;
     }
     else if("guromanga" == modeString || "CrawlerMode::GuroManga" == modeString)
     {
-        m_mode = CrawlerMode::GuroManga;
+        m_mode = CrawlMode::GuroManga;
     }
     else if("hbrowse" == modeString || "CrawlerMode::HBrowse" == modeString)
     {
-        m_mode = CrawlerMode::HBrowse;
+        m_mode = CrawlMode::HBrowse;
     }
     else if("hentai2read" == modeString || "CrawlerMode::Hentai2Read" == modeString)
     {
-        m_mode = CrawlerMode::Hentai2Read;
+        m_mode = CrawlMode::Hentai2Read;
     }
     else if("mangafox" == modeString || "CrawlerMode::Mangafox" == modeString)
     {
-        m_mode = CrawlerMode::Mangafox;
+        m_mode = CrawlMode::Mangafox;
     }
     else if("mangafoxfullpath" == modeString || "CrawlerMode::MangafoxWithVolume" == modeString)
     {
-        m_mode = CrawlerMode::MangafoxWithVolume;
+        m_mode = CrawlMode::MangafoxWithVolume;
     }
     else if("mangahere" == modeString || "CrawlerMode::Mangahere" == modeString)
     {
-        m_mode = CrawlerMode::Mangahere;
+        m_mode = CrawlMode::Mangahere;
     }
     else if("mangapark" == modeString || "CrawlerMode::MangaPark" == modeString)
     {
-        m_mode = CrawlerMode::MangaPark;
+        m_mode = CrawlMode::MangaPark;
     }
     else if("y8" == modeString || "CrawlerMode::Y8" == modeString)
     {
-        m_mode = CrawlerMode::Y8;
+        m_mode = CrawlMode::Y8;
     }
     else if("youtube" == modeString || "CrawlerMode::Youtube" == modeString)
     {
-        m_mode = CrawlerMode::Youtube;
+        m_mode = CrawlMode::Youtube;
     }
     else
-    {
-        cout << "AprgWebCrawler::setCrawlerMode | Mode is not recognized" << endl;
+    {        cout << "AprgWebCrawler::setCrawlerMode | Mode is not recognized" << endl;
     }
 }
-
 #define GET_ENUM_STRING(en) \
     case en: \
     return #en;
@@ -193,25 +190,23 @@ string AprgWebCrawler::getCrawlerModeString() const
 {
     switch(m_mode)
     {
-    GET_ENUM_STRING(CrawlerMode::ChiaAnime)
-            GET_ENUM_STRING(CrawlerMode::Gehen)
-            GET_ENUM_STRING(CrawlerMode::GuroManga)
-            GET_ENUM_STRING(CrawlerMode::HBrowse)
-            GET_ENUM_STRING(CrawlerMode::Hentai2Read)
-            GET_ENUM_STRING(CrawlerMode::Mangafox)
-            GET_ENUM_STRING(CrawlerMode::MangafoxWithVolume)
-            GET_ENUM_STRING(CrawlerMode::Mangahere)
-            GET_ENUM_STRING(CrawlerMode::MangaPark)
-            GET_ENUM_STRING(CrawlerMode::Y8)
-            GET_ENUM_STRING(CrawlerMode::Youtube)
+    GET_ENUM_STRING(CrawlMode::ChiaAnime)
+            GET_ENUM_STRING(CrawlMode::Gehen)
+            GET_ENUM_STRING(CrawlMode::GuroManga)
+            GET_ENUM_STRING(CrawlMode::HBrowse)
+            GET_ENUM_STRING(CrawlMode::Hentai2Read)
+            GET_ENUM_STRING(CrawlMode::Mangafox)
+            GET_ENUM_STRING(CrawlMode::MangafoxWithVolume)
+            GET_ENUM_STRING(CrawlMode::Mangahere)
+            GET_ENUM_STRING(CrawlMode::MangaPark)
+            GET_ENUM_STRING(CrawlMode::Y8)
+            GET_ENUM_STRING(CrawlMode::Youtube)
     }
     return "";
 }
-
 bool AprgWebCrawler::isWebLinksEmpty() const
 {
-    return m_webLinks.empty();
-}
+    return m_webLinks.empty();}
 
 bool AprgWebCrawler::isWebLinksValid() const
 {

@@ -81,15 +81,13 @@ void AprgWebCrawler::crawlForYoutube_Old(string & webLink, ofstream& convertedYo
         AlbaWebPathHandler videoWebPathHandler(links.linkForVideo);
         AlbaWindowsPathHandler downloadPathHandler(links.localPathForCurrentVideo);
         downloadPathHandler.createDirectoriesIfItDoesNotExist();
-        if(!downloadBinaryFileWithFiniteNumberOfTries<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(videoWebPathHandler, downloadPathHandler, 10))
+        if(!downloadBinaryFile<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(videoWebPathHandler, downloadPathHandler))
         {
             cout << "Download of video file failed, retrying from the start" << endl;
-            continue;
-        }
+            continue;        }
         convertedYoutubeLinkStream << links.linkForVideo << endl << flush;
         webLink.clear();
-        saveMemoryCard();
-        break;
+        saveMemoryCard();        break;
     }
 }
 
