@@ -2,6 +2,7 @@
 
 #include <CrawlConfiguration/CrawlConfiguration.hpp>
 #include <CurlInterface.hpp>
+
 using namespace curl::CurlInterface;
 
 namespace alba
@@ -10,10 +11,12 @@ namespace alba
 bool WebCrawler::downloadBinaryFile(
         AlbaWebPathHandler const& fileToDownloadWebPathHandler,
         AlbaWindowsPathHandler const& downloadPathHandler) const
-{    bool isSuccessful(false);
+{
+    bool isSuccessful(false);
     CrawlConfiguration configuration(m_mode);
     if(configuration.isFileToBeDownloadUntilSuccessful())
-    {        isSuccessful = downloadBinaryFileUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler);
+    {
+        isSuccessful = downloadBinaryFileUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler);
     }
     else
     {
@@ -25,7 +28,8 @@ bool WebCrawler::downloadBinaryFile(
 bool WebCrawler::downloadFileAsText(
         AlbaWebPathHandler const& fileToDownloadWebPathHandler,
         AlbaWindowsPathHandler const& downloadPathHandler) const
-{    return downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox>(fileToDownloadWebPathHandler, downloadPathHandler);
+{
+    return downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox>(fileToDownloadWebPathHandler, downloadPathHandler);
 }
 
 }

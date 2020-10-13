@@ -1,7 +1,8 @@
 #include <WebCrawler.hpp>
 #include <iostream>
 
-using namespace alba;using namespace std;
+using namespace alba;
+using namespace std;
 
 int main(int argc, char** argv)
 {

@@ -1,10 +1,12 @@
 #include "WebCrawler.hpp"
 
 #include <AlbaFileReader.hpp>
-#include <AlbaStringHelper.hpp>#include <fstream>
+#include <AlbaStringHelper.hpp>
+#include <fstream>
 #include <iostream>
 
 using namespace std;
+
 using alba::stringHelper::getStringAfterThisString;
 using alba::stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore;
 using alba::stringHelper::getStringInBetweenTwoStrings;
@@ -18,10 +20,12 @@ namespace alba
 void WebCrawler::crawlForYoutube()
 {
     AlbaWindowsPathHandler convertedYoutubeLinksPathHandler(m_workingPathHandler.getDirectory() + R"(\ConvertedYoutubeLinks.txt)");
-    convertedYoutubeLinksPathHandler.createDirectoriesIfItDoesNotExist();    ofstream convertedYoutubeLinkStream(convertedYoutubeLinksPathHandler.getFullPath());
+    convertedYoutubeLinksPathHandler.createDirectoriesIfItDoesNotExist();
+    ofstream convertedYoutubeLinkStream(convertedYoutubeLinksPathHandler.getFullPath());
 
     for(string & webLink : m_webLinks)
-    {        crawlForYoutube(webLink, convertedYoutubeLinkStream);
+    {
+        crawlForYoutube(webLink, convertedYoutubeLinkStream);
     }
 }
 
@@ -30,10 +34,12 @@ void WebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutubeLin
     cout << "WebCrawler::crawlForYoutube" << endl;
     while(!isCrawlStateInvalid())
     {
-        if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "youtube"))        {
+        if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "youtube"))
+        {
             cout << "Not a youtube link : " << webLink << endl;
             saveInvalidStateToMemoryCard(CrawlState::LinksAreInvalid);
-            break;        }
+            break;
+        }
         string ssYoutubeLink(webLink);
         stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "ssyoutube", "youtube");
         stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "youtube", "ssyoutube");
@@ -56,10 +62,12 @@ void WebCrawler::crawlForYoutube_Old(string & webLink, ofstream& convertedYoutub
     cout << "WebCrawler::crawlForYoutube" << endl;
     while(!isCrawlStateInvalid())
     {
-        if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "youtube"))        {
+        if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "youtube"))
+        {
             cout << "Not a youtube link : " << webLink << endl;
             saveInvalidStateToMemoryCard(CrawlState::LinksAreInvalid);
-            break;        }
+            break;
+        }
         AlbaWebPathHandler webPathHandler(webLink);
         LinksForYoutube links(getLinkForYoutube(webPathHandler));
         if(links.isInvalid())
@@ -82,9 +90,11 @@ void WebCrawler::crawlForYoutube_Old(string & webLink, ofstream& convertedYoutub
 LinksForYoutube WebCrawler::getLinkForYoutube(AlbaWebPathHandler const& webLinkPathHandler) const
 {
     LinksForYoutube links;
-    string ssYoutubeLink(webLinkPathHandler.getFullPath());    stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "youtube", "ssyoutube");
+    string ssYoutubeLink(webLinkPathHandler.getFullPath());
+    stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "youtube", "ssyoutube");
     AlbaWebPathHandler ssYoutubeLinkPathHandler(ssYoutubeLink);
     string linkForVideo(getUserInputAfterManuallyUsingMozillaFirefox(ssYoutubeLinkPathHandler));
+
     string fileNameForVideo1(getStringInBetweenTwoStrings(linkForVideo, "&title=", "&"));
     string fileNameForVideo2(getStringAfterThisString(linkForVideo, "&title="));
     string fileNameForVideo("NoName");

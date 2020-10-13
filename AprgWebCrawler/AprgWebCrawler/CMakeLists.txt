@@ -19,10 +19,12 @@ include(${APRG_DIR}/CurlCpp/AprgCmakeInclude/CurlCpp.cmake)
 set(SOURCES
     src/CrawlConfiguration/CrawlConfiguration.cpp
     src/CrawlConfiguration/CrawlConfiguration.hpp
-    src/CrawlHelpers/ChiaAnime.cpp    src/CrawlHelpers/DownloadHelpers.cpp
+    src/CrawlHelpers/ChiaAnime.cpp
+    src/CrawlHelpers/DownloadHelpers.cpp
     src/CrawlHelpers/Gehen.cpp
     src/CrawlHelpers/GoogleImages.cpp
-    src/CrawlHelpers/GuroManga.cpp    src/CrawlHelpers/HBrowse.cpp
+    src/CrawlHelpers/GuroManga.cpp
+    src/CrawlHelpers/HBrowse.cpp
     src/CrawlHelpers/Hentai2Read.cpp
     src/CrawlHelpers/MangaFox.cpp
     src/CrawlHelpers/MangaHere.cpp
@@ -36,7 +38,8 @@ set(SOURCES
     src/DirectoryAndFileCorrector/DirectoryAndFileCorrector.hpp
     src/LinksStructures/LinksForChiaAnime.cpp
     src/LinksStructures/LinksForChiaAnime.hpp
-    src/LinksStructures/LinksForHtmlAndFileToDownload.cpp    src/LinksStructures/LinksForHtmlAndFileToDownload.hpp
+    src/LinksStructures/LinksForHtmlAndFileToDownload.cpp
+    src/LinksStructures/LinksForHtmlAndFileToDownload.hpp
     src/LinksStructures/LinksForYoutube.cpp
     src/LinksStructures/LinksForYoutube.hpp
     src/DirectoryAndFileCorrector/DirectoryAndFileCorrector.cpp
@@ -47,7 +50,14 @@ set(SOURCES
     src/WebCrawler.hpp
 )
 
-set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")set(BUILD_SHARED_LIBRARIES OFF)
+set(INCLUDE_DIRECTORIES
+    src/
+    src/WebCrawler
+)
+
+set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+set(BUILD_SHARED_LIBRARIES OFF)
 set(CMAKE_EXE_LINKER_FLAGS "-static")
 add_executable(${OUTFILE} ${SOURCES})
-include_directories(src ${GTEST_INCLUDE_DIRS})target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON CURL_CPP )
+include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON CURL_CPP )

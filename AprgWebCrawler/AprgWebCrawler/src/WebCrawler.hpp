@@ -21,7 +21,8 @@ public:
     WebCrawler(std::string const& workingDirectory);
     bool isValid() const;
     void printStatus() const;
-    void saveMemoryCard() const;    void loadMemoryCard();
+    void saveMemoryCard() const;
+    void loadMemoryCard();
     void crawl();
 
 private:

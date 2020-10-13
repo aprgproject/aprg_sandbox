@@ -19,7 +19,7 @@ public:
     void createDirectoriesIfItDoesNotExist() const;
     void deleteFile();
     void renameFile(std::string const& newFileName);
-    void renameDirectory(std::string const& newDirectoryName);
+    void renameImmediateDirectory(std::string const& newDirectoryName);
     bool isRelativePath() const;
     void findFilesAndDirectoriesOneDepth(
             std::string const& wildCardSearch,

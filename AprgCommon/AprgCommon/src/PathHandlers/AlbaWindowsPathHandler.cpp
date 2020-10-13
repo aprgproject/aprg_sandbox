@@ -84,7 +84,7 @@ void AlbaWindowsPathHandler::renameFile(string const& newFileName)
     }
 }
 
-void AlbaWindowsPathHandler::renameDirectory(string const& newDirectoryName)
+void AlbaWindowsPathHandler::renameImmediateDirectory(string const& newDirectoryName)
 {
     if(isDirectory())
     {
