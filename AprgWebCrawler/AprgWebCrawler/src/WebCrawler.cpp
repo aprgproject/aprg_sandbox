@@ -18,15 +18,13 @@ WebCrawler::WebCrawler(string const& workingDirectory)
     : m_workingPathHandler(workingDirectory)
     , m_memoryCardPathHandler(workingDirectory + R"(\MemoryCard.txt)")
     , m_isModeRecognized(false)
-    , m_mode(CrawlMode::Empty)
-    , m_state(CrawlState::Empty)
+    , m_mode(CrawlMode::Unknown)
+    , m_state(CrawlState::Unknown)
 {
     if (m_memoryCardPathHandler.isFoundInLocalSystem() && m_memoryCardPathHandler.isFile())
-    {
-        loadMemoryCard();
+    {        loadMemoryCard();
     }
 }
-
 bool WebCrawler::isValid() const
 {
     return m_workingPathHandler.isFoundInLocalSystem() &&
@@ -146,14 +144,13 @@ void WebCrawler::crawl()
         crawlForYoutube();
         break;
     case CrawlMode::Empty:
+    case CrawlMode::Unknown:
         cout<<"WebCrawler::crawl | CrawlMode is still not set."<<endl;
         break;
-    }
-}
+    }}
 
 void WebCrawler::setCrawlerMode(CrawlMode mode)
-{
-    m_mode = mode;
+{    m_mode = mode;
 }
 
 void WebCrawler::setCrawlerState(CrawlState state)
@@ -176,14 +173,13 @@ string WebCrawler::getCrawlerMode() const
     switch(m_mode)
     {
     GET_ENUM_STRING(CrawlMode::Empty)
+    GET_ENUM_STRING(CrawlMode::Unknown)
             GET_ENUM_STRING(CrawlMode::ChiaAnime)
             GET_ENUM_STRING(CrawlMode::Gehen)
-            GET_ENUM_STRING(CrawlMode::GuroManga)
-            GET_ENUM_STRING(CrawlMode::HBrowse)
+            GET_ENUM_STRING(CrawlMode::GuroManga)            GET_ENUM_STRING(CrawlMode::HBrowse)
             GET_ENUM_STRING(CrawlMode::Hentai2Read)
             GET_ENUM_STRING(CrawlMode::Mangafox)
-            GET_ENUM_STRING(CrawlMode::MangafoxWithVolume)
-            GET_ENUM_STRING(CrawlMode::Mangahere)
+            GET_ENUM_STRING(CrawlMode::MangafoxWithVolume)            GET_ENUM_STRING(CrawlMode::Mangahere)
             GET_ENUM_STRING(CrawlMode::MangaPark)
             GET_ENUM_STRING(CrawlMode::Y8)
             GET_ENUM_STRING(CrawlMode::Youtube)
@@ -196,27 +192,28 @@ string WebCrawler::getCrawlerState() const
     switch(m_state)
     {
     GET_ENUM_STRING(CrawlState::Empty)
+    GET_ENUM_STRING(CrawlState::Unknown)
             GET_ENUM_STRING(CrawlState::Active)
             GET_ENUM_STRING(CrawlState::DownloadedFileIsInvalid)
-            GET_ENUM_STRING(CrawlState::LinksAreInvalid)
-            GET_ENUM_STRING(CrawlState::NextLinkIsInvalid)
+            GET_ENUM_STRING(CrawlState::LinksAreInvalid)            GET_ENUM_STRING(CrawlState::NextLinkIsInvalid)
     }
     return "";
 }
-
 CrawlMode WebCrawler::convertStringToCrawlerMode(string const& modeString) const
 {
     CrawlMode mode(CrawlMode::Empty);
-    if("chiaanime" == modeString || "CrawlerMode::ChiaAnime" == modeString || "CrawlMode::ChiaAnime" == modeString)
+    if("CrawlMode::Unknown" == modeString)
+    {
+        mode = CrawlMode::Unknown;
+    }
+    else if("chiaanime" == modeString || "CrawlerMode::ChiaAnime" == modeString || "CrawlMode::ChiaAnime" == modeString)
     {
         mode = CrawlMode::ChiaAnime;
     }
-    else if("gehen" == modeString || "CrawlerMode::Gehen" == modeString || "CrawlMode::Gehen" == modeString)
-    {
+    else if("gehen" == modeString || "CrawlerMode::Gehen" == modeString || "CrawlMode::Gehen" == modeString)    {
         mode = CrawlMode::Gehen;
     }
-    else if("guromanga" == modeString || "CrawlerMode::GuroManga" == modeString || "CrawlMode::GuroManga" == modeString)
-    {
+    else if("guromanga" == modeString || "CrawlerMode::GuroManga" == modeString || "CrawlMode::GuroManga" == modeString)    {
         mode = CrawlMode::GuroManga;
     }
     else if("hbrowse" == modeString || "CrawlerMode::HBrowse" == modeString || "CrawlMode::HBrowse" == modeString)
@@ -257,17 +254,15 @@ CrawlMode WebCrawler::convertStringToCrawlerMode(string const& modeString) const
 CrawlState WebCrawler::convertStringToCrawlerState(string const& stateString) const
 {
     CrawlState state(CrawlState::Empty);
-    if("CrawlState::Empty" == stateString)
+    if("CrawlState::Unknown" == stateString)
     {
-        state = CrawlState::Empty;
+        state = CrawlState::Unknown;
     }
     else if("CrawlState::Active" == stateString)
-    {
-        state = CrawlState::Active;
+    {        state = CrawlState::Active;
     }
     else if("CrawlState::DownloadedFileIsInvalid" == stateString)
-    {
-        state = CrawlState::DownloadedFileIsInvalid;
+    {        state = CrawlState::DownloadedFileIsInvalid;
     }
     else if("CrawlState::LinksAreInvalid" == stateString)
     {

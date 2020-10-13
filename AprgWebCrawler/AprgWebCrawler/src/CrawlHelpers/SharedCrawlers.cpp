@@ -97,10 +97,10 @@ LinksForHtmlAndFileToDownload WebCrawler::getLinks(AlbaWebPathHandler const& web
         cout << "WebCrawler::getLinks | Mode is not recognized" << endl;
         break;
     case CrawlMode::Empty:
+    case CrawlMode::Unknown:
         cout << "WebCrawler::getLinks | Mode is not set" << endl;
         break;
-    }
-    return LinksForHtmlAndFileToDownload();
+    }    return LinksForHtmlAndFileToDownload();
 }
 
 }

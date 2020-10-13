@@ -62,14 +62,13 @@ CrawlConfiguration::CrawlConfiguration(CrawlMode mode)
         m_minimumFileSize = 1000000;
         break;
     case CrawlMode::Empty:
+    case CrawlMode::Unknown:
         break;
     }
 }
-
 bool CrawlConfiguration::isFileToBeDownloadUntilSuccessful() const
 {
-    return m_isFileToBeDownloadUntilSuccessful;
-}
+    return m_isFileToBeDownloadUntilSuccessful;}
 
 int CrawlConfiguration::getNumberOfRetries() const
 {
