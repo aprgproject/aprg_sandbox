@@ -55,15 +55,15 @@ public:
     WireSharkLogReader(std::string const pathOfOutputFile);
     void processDirectoryForWireSharkDelay(std::string const& directoryPath);
     void processFileForWireSharkDelay(std::string const& filePath);
+    void processFileForMsgQueuingTime(std::string const& filePath);
     void processFileForBtsDelayForRlh(std::string const& filePath);
+    void processFileForBtsDelayForRlDeletion(std::string const& filePath);
     void processFileForBtsDelayForMikhailKnife(std::string const& filePath);
     void processFileForBtsDelayForGrm(std::string const& filePath);
-    double getWireSharkTime(std::string const& lineInLogs) const;
-    std::string getNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch) const;
+    double getWireSharkTime(std::string const& lineInLogs) const;    std::string getNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch) const;
     double getComputedAverageDelay() const;
 private:
-    std::ofstream m_outputStream;
-    double m_totalDelay;
+    std::ofstream m_outputStream;    double m_totalDelay;
     int m_count;
     std::map<int, WireSharkDelay> m_wireSharkDelays;
     std::map<UniqueId, BtsLogDelay> m_btsLogDelays;

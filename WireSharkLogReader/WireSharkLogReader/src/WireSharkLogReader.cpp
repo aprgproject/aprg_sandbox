@@ -28,15 +28,12 @@ WireSharkLogReader::WireSharkLogReader(string const pathOfOutputFile)
     {
         cout<<"OutputStream is opened. Saving to output files"<<endl;
     }
-    m_outputStream<<"crnccId,delay"<<endl;
 }
 
-void WireSharkLogReader::processDirectoryForWireSharkDelay(string const& directoryPath)
-{
+void WireSharkLogReader::processDirectoryForWireSharkDelay(string const& directoryPath){
     set<string> listOfFiles;
     set<string> listOfDirectories;
-    AlbaWindowsPathHandler(directoryPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
-    for(string const& filePath : listOfFiles)
+    AlbaWindowsPathHandler(directoryPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);    for(string const& filePath : listOfFiles)
     {
         processFileForWireSharkDelay(AlbaWindowsPathHandler(filePath).getFullPath());
     }
@@ -100,20 +97,45 @@ void WireSharkLogReader::processFileForWireSharkDelay(string const& filePath)
     }
 }
 
-void WireSharkLogReader::processFileForBtsDelayForRlh(string const& filePath)
+void WireSharkLogReader::processFileForMsgQueuingTime(string const& filePath)
 {
     AlbaWindowsPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
 
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
+    int totalMsgQueuingTime = 0;
+    int highestMsgQueuingTime = 0;
+    int numberOfPrints=0;
     while(fileReader.isNotFinished())
     {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+
+        int msgQueuingTime = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "msgQueuingTime: "));
+        totalMsgQueuingTime += msgQueuingTime;
+        if(msgQueuingTime > highestMsgQueuingTime)
+        {
+            highestMsgQueuingTime = msgQueuingTime;
+        }
+        numberOfPrints++;
+    }
+    cout<<"TotalMsgQueuingTime: "<<totalMsgQueuingTime<<" highestMsgQueuingTime: "<<highestMsgQueuingTime<<" AverageMsgQueuingTime: "<<((double)totalMsgQueuingTime)/numberOfPrints<<" numberOfPrints: "<<numberOfPrints<<endl;
+}
+
+
+void WireSharkLogReader::processFileForBtsDelayForRlh(string const& filePath)
+{
+    AlbaWindowsPathHandler filePathHandler(filePath);
+    cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
+
+    m_outputStream<<"crnccId,nbccId,transactionId,delay"<<endl;
+    ifstream inputLogFileStream(filePath);
+    AlbaFileReader fileReader(inputLogFileStream);
+    while(fileReader.isNotFinished())    {
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))
         {
-            UniqueId uniqueKey;
-            uniqueKey.crnccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "crnccId: "));
+            UniqueId uniqueKey;            uniqueKey.crnccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "crnccId: "));
             uniqueKey.nbccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "nbccId: "));
             uniqueKey.transactionId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "transactionId: "));
             BtsLogDelay & delayForCrnccId = m_btsLogDelays[uniqueKey];
@@ -149,14 +171,62 @@ void WireSharkLogReader::processFileForBtsDelayForRlh(string const& filePath)
     }
 }
 
-void WireSharkLogReader::processFileForBtsDelayForMikhailKnife(string const& filePath)
+void WireSharkLogReader::processFileForBtsDelayForRlDeletion(string const& filePath)
 {
     AlbaWindowsPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
 
+    m_outputStream<<"crnccId,nbccId,transactionId,delay"<<endl;
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
+    while(fileReader.isNotFinished())
+    {
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlDeletionReq3G)"))
+        {
+            UniqueId uniqueKey;
+            uniqueKey.crnccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "crnccId: "));
+            uniqueKey.nbccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "nbccId: "));
+            uniqueKey.transactionId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "transactionId: "));
+            BtsLogDelay & delayForCrnccId = m_btsLogDelays[uniqueKey];
+            BtsLogPrint logPrint(lineInLogs);
+            if(!logPrint.getBtsTime().isStartup())
+            {
+                delayForCrnccId.startTimeOptional.setValue(logPrint.getBtsTime());
+            }
+        }
+        else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(RLH_CTRL_RlDeletionResp3G)"))
+        {
+            UniqueId uniqueKey;
+            uniqueKey.crnccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "crncId: "));
+            uniqueKey.nbccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "nbccId: "));
+            uniqueKey.transactionId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "transactionId: "));
+            BtsLogDelay & delayForCrnccId = m_btsLogDelays[uniqueKey];
+            BtsLogPrint logPrint(lineInLogs);
+            if(!logPrint.getBtsTime().isStartup())
+            {
+                delayForCrnccId.endTimeOptional.setValue(logPrint.getBtsTime());
+            }
+            if(delayForCrnccId.startTimeOptional && delayForCrnccId.endTimeOptional && delayForCrnccId.startTimeOptional.getReference().getTotalSeconds() <= delayForCrnccId.endTimeOptional.getReference().getTotalSeconds())
+            {
+                BtsLogTime delayTime = delayForCrnccId.endTimeOptional.getReference() - delayForCrnccId.startTimeOptional.getReference();
+                int delay = delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000;
+                //if(uniqueKey.crnccId == 15167){cout<<"crnccId "<<uniqueKey.crnccId<<"nbccId "<<uniqueKey.nbccId<<"delay "<<delay<<"startTimeOptional "<<delayForCrnccId.startTimeOptional.getReference()<<"endTimeOptional "<<delayForCrnccId.endTimeOptional.getReference()<<endl;}
+                m_totalDelay += delay;
+                m_count++;
+                m_outputStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;
+                m_btsLogDelays.erase(uniqueKey);
+            }
+        }
+    }
+}
 
+void WireSharkLogReader::processFileForBtsDelayForMikhailKnife(string const& filePath)
+{
+    AlbaWindowsPathHandler filePathHandler(filePath);    cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
+
+    ifstream inputLogFileStream(filePath);
+    AlbaFileReader fileReader(inputLogFileStream);
     ofstream grmFetchFileStream(filePathHandler.getDirectory()+R"(grmFetchFileStream.csv)");
     ofstream grmProcessFileStream(filePathHandler.getDirectory()+R"(grmProcessFileStream.csv)");
     ofstream messageDeliveryFileStream(filePathHandler.getDirectory()+R"(messageDeliveryFileStream.csv)");
@@ -308,14 +378,13 @@ void WireSharkLogReader::processFileForBtsDelayForGrm(string const& filePath)
     AlbaWindowsPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
 
+    m_outputStream<<"crnccId,nbccId,transactionId,delay"<<endl;
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
-    while(fileReader.isNotFinished())
-    {
+    while(fileReader.isNotFinished())    {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(INF/TCOM/G, Received API_TCOM_RNC_MSG)"))
-        {
-            int nbccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "nbccId: "));
+        {            int nbccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "nbccId: "));
             BtsLogDelay & delayForCrnccId = m_btsLogDelaysGrm[nbccId];
             BtsLogPrint logPrint(lineInLogs);
             if(!logPrint.getBtsTime().isStartup())
@@ -347,23 +416,20 @@ void WireSharkLogReader::processFileForBtsDelayForGrm(string const& filePath)
                 m_btsLogDelaysGrm.erase(nbccId);
             }
         }
-        else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(INF/TCOM/R, CTRL_RLH_)")
+        /*else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(INF/TCOM/R, CTRL_RLH_)")
                 || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(INF/TCOM/R, RLH_CTRL_)")
                 || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(LRM_RL_)")
-                || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_2_RL_SETUP_IND_MSG)")
-                || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(BB_2_RL_)")
+                || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_2_RL_SETUP_IND_MSG)")                || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(BB_2_RL_)")
                 )
         {
             int nbccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "nbccId: "));
             m_btsLogDelaysGrm.erase(nbccId);
-        }
+        }*/
     }
 }
-
 double WireSharkLogReader::getWireSharkTime(string const& lineInLogs) const
 {
-    int length(lineInLogs.length());
-    int startIndexOfTime=0, endIndexOfTime=0;
+    int length(lineInLogs.length());    int startIndexOfTime=0, endIndexOfTime=0;
     int i=0;
     for(; i<length && stringHelper::isWhiteSpace(lineInLogs[i]); i++) {}
     for(; i<length && stringHelper::isNumber(lineInLogs[i]); i++) {}
