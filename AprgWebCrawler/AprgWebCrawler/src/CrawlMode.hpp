@@ -5,6 +5,7 @@ namespace alba
 
 enum class CrawlMode
 {
+    Empty,
     ChiaAnime,
     Gehen,
     GuroManga,

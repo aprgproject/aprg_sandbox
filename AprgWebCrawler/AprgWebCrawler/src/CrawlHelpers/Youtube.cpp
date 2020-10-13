@@ -2,11 +2,9 @@
 
 #include <AlbaFileReader.hpp>
 #include <AlbaStringHelper.hpp>
-#include <CurlInterface.hpp>
 #include <fstream>
 #include <iostream>
 
-using namespace curl::CurlInterface;
 using namespace std;
 
 using alba::stringHelper::getStringAfterThisString;
@@ -34,13 +32,13 @@ void AprgWebCrawler::crawlForYoutube()
 void AprgWebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutubeLinkStream)
 {
     cout << "AprgWebCrawler::crawlForYoutube" << endl;
-
-    while(1)
+    while(!isCrawlStateInvalid())
     {
         if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "youtube"))
         {
             cout << "Not a youtube link : " << webLink << endl;
-            return;
+            saveInvalidStateToMemoryCard(CrawlState::LinksAreInvalid);
+            break;
         }
         string ssYoutubeLink(webLink);
         stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "ssyoutube", "youtube");
@@ -62,13 +60,13 @@ void AprgWebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutub
 void AprgWebCrawler::crawlForYoutube_Old(string & webLink, ofstream& convertedYoutubeLinkStream)
 {
     cout << "AprgWebCrawler::crawlForYoutube" << endl;
-
-    while(1)
+    while(!isCrawlStateInvalid())
     {
         if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "youtube"))
         {
             cout << "Not a youtube link : " << webLink << endl;
-            return;
+            saveInvalidStateToMemoryCard(CrawlState::LinksAreInvalid);
+            break;
         }
         AlbaWebPathHandler webPathHandler(webLink);
         LinksForYoutube links(getLinkForYoutube(webPathHandler));
@@ -81,13 +79,11 @@ void AprgWebCrawler::crawlForYoutube_Old(string & webLink, ofstream& convertedYo
         AlbaWebPathHandler videoWebPathHandler(links.linkForVideo);
         AlbaWindowsPathHandler downloadPathHandler(links.localPathForCurrentVideo);
         downloadPathHandler.createDirectoriesIfItDoesNotExist();
-        if(!downloadBinaryFile<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(videoWebPathHandler, downloadPathHandler))
-        {
-            cout << "Download of video file failed, retrying from the start" << endl;
-            continue;        }
+        downloadBinaryFile(videoWebPathHandler, downloadPathHandler);
         convertedYoutubeLinkStream << links.linkForVideo << endl << flush;
         webLink.clear();
-        saveMemoryCard();        break;
+        saveMemoryCard();
+        break;
     }
 }
 

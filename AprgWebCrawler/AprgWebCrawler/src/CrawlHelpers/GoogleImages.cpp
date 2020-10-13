@@ -2,13 +2,11 @@
 
 #include <AlbaFileReader.hpp>
 #include <AlbaStringHelper.hpp>
-#include <CurlInterface.hpp>
 #include <deque>
 #include <fstream>
 #include <iostream>
 #include <unordered_set>
 
-using namespace curl::CurlInterface;
 using namespace std;
 
 using alba::stringHelper::getStringInBetweenTwoStrings;
@@ -21,7 +19,6 @@ void AprgWebCrawler::saveImageListFromGoogleImages()
 {
     AlbaWindowsPathHandler downloadPathHandler(m_workingPathHandler.getDirectory() + R"(\temp.html)");
     AlbaWindowsPathHandler listPathHandler(m_workingPathHandler.getDirectory() + R"(\ListOfImages.txt)");
-    //downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox>(m_webPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
@@ -55,8 +52,6 @@ void AprgWebCrawler::saveImageListFromGoogleImages()
     {
         listFileStream<<imageLink<<endl;
     }
-    ////m_mode = "googleImagesContinue";
-    ////saveMemoryCard();
 }
 
 void AprgWebCrawler::downloadGoogleImages() const
@@ -87,7 +82,7 @@ void AprgWebCrawler::downloadGoogleImages() const
             cout << "ImageLinkWebPath : " << imageWebPathHandler.getFullPath() << endl;
             return;
         }
-        downloadBinaryFileUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(imageWebPathHandler, AlbaWindowsPathHandler(m_workingPathHandler.getDirectory() + imageWebPathHandler.getFile()));
+        //downloadBinaryFileUntilSuccessful(imageWebPathHandler, AlbaWindowsPathHandler(m_workingPathHandler.getDirectory() + imageWebPathHandler.getFile()));
         listOfImages.pop_front();
         ofstream outListFileStream(listPathHandler.getFullPath());
         if(!outListFileStream.is_open())

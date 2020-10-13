@@ -5,10 +5,10 @@
 namespace alba
 {
 
-class CrawlerConfiguration
+class CrawlConfiguration
 {
 public:
-    CrawlerConfiguration(CrawlMode mode);
+    CrawlConfiguration(CrawlMode mode);
     bool isFileToBeDownloadUntilSuccessful() const;
     int getNumberOfRetries() const;
     double getMinimumFileSize() const;

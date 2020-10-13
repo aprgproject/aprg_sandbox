@@ -16,9 +16,5 @@ int main(int argc, char** argv)
     crawler.printStatus();
     crawler.crawl();
 
-    /*AlbaWebPathHandler webPathHandler(R"(http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=7EFSPTEY1s0&index=1&list=PL3_NLXp9puXX1iFiBaRX1s8TMbsae8MD5&format=json)");
-    AlbaWindowsPathHandler windowsPathHandler(R"(E:\CrawlerDownload\sample.txt)");
-    curl::CurlInterface::downloadBinaryFileUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(webPathHandler, windowsPathHandler);
-    */
     return 0;
 }

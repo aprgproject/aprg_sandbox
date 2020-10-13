@@ -84,6 +84,20 @@ void AlbaWindowsPathHandler::renameFile(string const& newFileName)
     }
 }
 
+void AlbaWindowsPathHandler::renameDirectory(string const& newDirectoryName)
+{
+    if(isDirectory())
+    {
+        AlbaWindowsPathHandler newPathHandler(getFullPath());
+        newPathHandler.goUp();
+        newPathHandler.input(newPathHandler.getDirectory()+m_slashCharacterString+newDirectoryName);
+        if(MoveFile(getFullPath().c_str(), newPathHandler.getFullPath().c_str()))
+        {
+            input(newPathHandler.getFullPath());
+        }
+    }
+}
+
 bool AlbaWindowsPathHandler::isRelativePath() const
 {
     return m_relativePath;

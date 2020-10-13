@@ -1,10 +1,9 @@
 #include "AprgWebCrawler.hpp"
 
-#include <CurlInterface.hpp>
-#include "CrawlerConfiguration.hpp"
+#include <CrawlConfiguration/CrawlConfiguration.hpp>
 #include <iostream>
 
-using namespace curl::CurlInterface;using namespace std;
+using namespace std;
 
 namespace alba
 {
@@ -21,49 +20,50 @@ void AprgWebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
 {
     cout << "AprgWebCrawler::crawlPerHtmlAndDownloadImage" << endl;
 
-    CrawlerConfiguration crawlerConfiguration(m_mode);
-    while(1)
+    CrawlConfiguration configuration(m_mode);
+    while(!isCrawlStateInvalid())
     {
         AlbaWebPathHandler currentWebLinkPathHandler(webLink);
         AlbaWindowsPathHandler downloadPathHandler(m_workingPathHandler.getDirectory() + R"(\temp.html)");
-        downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox>(currentWebLinkPathHandler, downloadPathHandler);
+        downloadFileAsText(currentWebLinkPathHandler, downloadPathHandler);
         LinksForHtmlAndFileToDownload links(getLinks(currentWebLinkPathHandler, downloadPathHandler.getFullPath()));
         if(links.isInvalid())
         {
-            cout << "Links are invalid." << endl;            links.printLinks();
-            return;
+            cout << "Links are invalid." << endl;
+            links.printLinks();
+            saveInvalidStateToMemoryCard(CrawlState::LinksAreInvalid);
+            break;
         }
-        AlbaWebPathHandler fileToDownloadWebPathHandler(currentWebLinkPathHandler);        fileToDownloadWebPathHandler.gotoLink(links.linkForCurrentFileToDownload);
+        AlbaWebPathHandler fileToDownloadWebPathHandler(currentWebLinkPathHandler);
+        fileToDownloadWebPathHandler.gotoLink(links.linkForCurrentFileToDownload);
         if(!fileToDownloadWebPathHandler.isFile())
         {
             cout << "Link is not to a file." << endl;
             cout << "Link of file to Download: " << fileToDownloadWebPathHandler.getFullPath() << endl;
-            return;
+            saveInvalidStateToMemoryCard(CrawlState::LinksAreInvalid);
+            break;
         }
         downloadPathHandler.input(links.localPathForCurrentFileToDownload);
         downloadPathHandler.createDirectoriesIfItDoesNotExist();
-        if(crawlerConfiguration.isFileToBeDownloadUntilSuccessful())
+        downloadBinaryFile(fileToDownloadWebPathHandler, downloadPathHandler);
+        if(downloadPathHandler.getFileSizeEstimate() < configuration.getMinimumFileSize())
         {
-            downloadBinaryFileUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler);
-        }
-        else
-        {
-            downloadBinaryFileWithFiniteNumberOfTries<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler, crawlerConfiguration.getNumberOfRetries());
-        }
-        if(downloadPathHandler.getFileSizeEstimate() < crawlerConfiguration.getMinimumFileSize())
-        {
-            cout << "Download file size is less than "<<crawlerConfiguration.getMinimumFileSize()<<". FileSize = "<< downloadPathHandler.getFileSizeEstimate() <<" Invalid file. Retrying from the start" << endl;
+            cout << "Download file size is less than "<<configuration.getMinimumFileSize()<<". FileSize = "<< downloadPathHandler.getFileSizeEstimate() <<" Invalid file. Retrying from the start" << endl;
             continue;
         }
-        if(links.linkForNextHtml.empty())        {
+        if(links.linkForNextHtml.empty())
+        {
             cout << "Terminating the because next web link is empty." << endl;
-            return;
-        }        AlbaWebPathHandler nextWebPathHandler(currentWebLinkPathHandler);
+            saveInvalidStateToMemoryCard(CrawlState::NextLinkIsInvalid);
+            break;
+        }
+        AlbaWebPathHandler nextWebPathHandler(currentWebLinkPathHandler);
         nextWebPathHandler.gotoLink(links.linkForNextHtml);
         if(currentWebLinkPathHandler.getFullPath() == nextWebPathHandler.getFullPath())
         {
             cout << "Crawler stop because the next web link is the same as previous link." << endl;
-            return;
+            saveInvalidStateToMemoryCard(CrawlState::NextLinkIsInvalid);
+            break;
         }
         webLink = nextWebPathHandler.getFullPath();
         saveMemoryCard();
@@ -96,7 +96,11 @@ LinksForHtmlAndFileToDownload AprgWebCrawler::getLinks(AlbaWebPathHandler const&
     case CrawlMode::Youtube:
         cout << "AprgWebCrawler::getLinks | Mode is not recognized" << endl;
         break;
-    }    return LinksForHtmlAndFileToDownload();
+    case CrawlMode::Empty:
+        cout << "AprgWebCrawler::getLinks | Mode is not set" << endl;
+        break;
+    }
+    return LinksForHtmlAndFileToDownload();
 }
 
 }

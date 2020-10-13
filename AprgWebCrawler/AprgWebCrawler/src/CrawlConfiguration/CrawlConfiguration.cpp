@@ -1,9 +1,9 @@
-#include "CrawlerConfiguration.hpp"
+#include "CrawlConfiguration.hpp"
 
 namespace alba
 {
 
-CrawlerConfiguration::CrawlerConfiguration(CrawlMode mode)
+CrawlConfiguration::CrawlConfiguration(CrawlMode mode)
 {
     switch(mode)
     {
@@ -57,23 +57,26 @@ CrawlerConfiguration::CrawlerConfiguration(CrawlMode mode)
         m_minimumFileSize = 10000;
         break;
     case CrawlMode::Youtube:
-        m_isFileToBeDownloadUntilSuccessful=true;        m_numberOfRetries = 0;
+        m_isFileToBeDownloadUntilSuccessful=true;
+        m_numberOfRetries = 0;
         m_minimumFileSize = 1000000;
         break;
-    }}
+    case CrawlMode::Empty:
+        break;
+    }
+}
 
-
-bool CrawlerConfiguration::isFileToBeDownloadUntilSuccessful() const
+bool CrawlConfiguration::isFileToBeDownloadUntilSuccessful() const
 {
     return m_isFileToBeDownloadUntilSuccessful;
 }
 
-int CrawlerConfiguration::getNumberOfRetries() const
+int CrawlConfiguration::getNumberOfRetries() const
 {
     return m_numberOfRetries;
 }
 
-double CrawlerConfiguration::getMinimumFileSize() const
+double CrawlConfiguration::getMinimumFileSize() const
 {
     return m_minimumFileSize;
 }
