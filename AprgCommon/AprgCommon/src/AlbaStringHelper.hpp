@@ -15,12 +15,15 @@ std::string constructFileLocator(std::string file, int lineNumber);
 bool isStringFoundInsideTheOtherStringCaseSensitive(std::string const& string1, std::string const& string2);
 bool isStringFoundInsideTheOtherStringNotCaseSensitive(std::string const& string1, std::string const& string2);
 bool isEqualNotCaseSensitive(std::string const& string1, std::string const& string2);
+bool isNumber(std::string const& string1);
+bool isWhiteSpace(std::string const& string1);
 
 bool transformReplaceStringIfFound(std::string & string1, std::string const& toReplace, std::string const& replaceWith);
 
 std::string getStringWithCapitalLetters(std::string const& string1);
 std::string getStringWithLowerCaseLetters(std::string const& string1);
 std::string getStringWithUrlDecodedString(std::string const& string1);
+std::string getStringWithoutStartingAndTrailingCharacters(std::string const& string1, std::string const& characters);
 std::string getStringWithoutStartingAndTrailingWhiteSpace(std::string const& string1);
 std::string getStringWithoutRedundantWhiteSpace(std::string const& string1);
 std::string getStringWithoutQuotations(std::string const& string1);
@@ -32,6 +35,7 @@ void copyBeforeStringAndAfterString(std::string const& mainString, std::string c
 std::string getStringBeforeThisString(std::string const& mainString, std::string const& stringToSearch, int const indexToStart=0);
 std::string getStringAfterThisString(std::string const& mainString, std::string const& stringToSearch, int const indexToStart=0);
 std::string getStringInBetweenTwoStrings(std::string const& mainString, std::string const& firstString, std::string const& secondString, int const indexToStart=0);
+std::string getStringBeforeThisCharacters(std::string const& mainString, std::string const& characters, int const indexToStart=0);
 std::string getStringAndReplaceNonAlphanumericCharactersToUnderScore(std::string const& path);
 std::string getNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
 

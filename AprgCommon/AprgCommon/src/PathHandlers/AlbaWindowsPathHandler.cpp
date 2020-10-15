@@ -64,38 +64,44 @@ void AlbaWindowsPathHandler::createDirectoriesIfItDoesNotExist() const
     }
 }
 
-void AlbaWindowsPathHandler::deleteFile()
+int AlbaWindowsPathHandler::deleteFile()
 {
+    int errorCode(0);
     if(isFile())
     {
         DeleteFile(getFullPath().c_str());
+        errorCode = (int)GetLastError();
+        reInput();
     }
+    return errorCode;
 }
 
-void AlbaWindowsPathHandler::renameFile(string const& newFileName)
+int AlbaWindowsPathHandler::renameFile(string const& newFileName)
 {
+    int errorCode(0);
     if(isFile())
     {
         string newPath(m_directory+newFileName);
-        if(MoveFile(getFullPath().c_str(), newPath.c_str()))
-        {
-            input(newPath);
-        }
+        MoveFile(getFullPath().c_str(), newPath.c_str());
+        errorCode = (int)GetLastError();
+        input(newPath);
     }
+    return errorCode;
 }
 
-void AlbaWindowsPathHandler::renameImmediateDirectory(string const& newDirectoryName)
+int AlbaWindowsPathHandler::renameImmediateDirectory(string const& newDirectoryName)
 {
+    int errorCode(0);
     if(isDirectory())
     {
         AlbaWindowsPathHandler newPathHandler(getFullPath());
         newPathHandler.goUp();
         newPathHandler.input(newPathHandler.getDirectory()+m_slashCharacterString+newDirectoryName);
-        if(MoveFile(getFullPath().c_str(), newPathHandler.getFullPath().c_str()))
-        {
-            input(newPathHandler.getFullPath());
-        }
+        MoveFile(getFullPath().c_str(), newPathHandler.getFullPath().c_str());
+        errorCode = (int)GetLastError();
+        input(newPathHandler.getFullPath());
     }
+    return errorCode;
 }
 
 bool AlbaWindowsPathHandler::isRelativePath() const

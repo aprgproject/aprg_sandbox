@@ -3,20 +3,23 @@
 namespace aprgWebCrawler
 {
 
-CrawlConfiguration::CrawlConfiguration(CrawlMode mode){
+CrawlConfiguration::CrawlConfiguration(CrawlMode mode)
+{
     switch(mode)
     {
     case CrawlMode::ChiaAnime:
-        m_isFileToBeDownloadUntilSuccessful=true;
-        m_numberOfRetries = 0;
+        m_isFileToBeDownloadUntilSuccessful=false;
+        m_numberOfRetries = 10;
         m_minimumFileSize = 1000000;
         break;
     case CrawlMode::Gehen:
         m_isFileToBeDownloadUntilSuccessful=false;
-        m_numberOfRetries = 10;        m_minimumFileSize = 10000;
+        m_numberOfRetries = 10;
+        m_minimumFileSize = 10000;
         break;
     case CrawlMode::GuroManga:
-        m_isFileToBeDownloadUntilSuccessful=true;        m_numberOfRetries = 0;
+        m_isFileToBeDownloadUntilSuccessful=true;
+        m_numberOfRetries = 0;
         m_minimumFileSize = 10000;
         break;
     case CrawlMode::HBrowse:

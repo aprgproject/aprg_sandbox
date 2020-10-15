@@ -16,10 +16,12 @@ using alba::stringHelper::isStringFoundInsideTheOtherStringCaseSensitive;
 namespace aprgWebCrawler
 {
 
-void WebCrawler::saveImageListFromGoogleImages(){
-    AlbaWindowsPathHandler downloadPathHandler(m_workingPathHandler.getDirectory() + R"(\temp.html)");
-    AlbaWindowsPathHandler listPathHandler(m_workingPathHandler.getDirectory() + R"(\ListOfImages.txt)");
-    ifstream htmlFileStream(downloadPathHandler.getFullPath());    if(!htmlFileStream.is_open())
+void WebCrawler::saveImageListFromGoogleImages()
+{
+    AlbaWindowsPathHandler downloadPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\temp.html)");
+    AlbaWindowsPathHandler listPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\ListOfImages.txt)");
+    ifstream htmlFileStream(downloadPathHandler.getFullPath());
+    if(!htmlFileStream.is_open())
     {
         cout << "Cannot open html file." << endl;
         cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
@@ -55,7 +57,7 @@ void WebCrawler::saveImageListFromGoogleImages(){
 
 void WebCrawler::downloadGoogleImages() const
 {
-    AlbaWindowsPathHandler listPathHandler(m_workingPathHandler.getDirectory() + R"(\ListOfImages.txt)");
+    AlbaWindowsPathHandler listPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\ListOfImages.txt)");
     ifstream listFileStream(listPathHandler.getFullPath());
     if(!listFileStream.is_open())
     {

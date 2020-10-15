@@ -3,10 +3,12 @@
 namespace aprgWebCrawler
 {
 
-enum class CrawlMode{
+enum class CrawlMode
+{
     Empty,
     Unknown,
-    ChiaAnime,    Gehen,
+    ChiaAnime,
+    Gehen,
     GuroManga,
     HBrowse,
     Hentai2Read,

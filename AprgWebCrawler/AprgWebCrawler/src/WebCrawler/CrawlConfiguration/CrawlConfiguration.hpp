@@ -5,7 +5,8 @@
 namespace aprgWebCrawler
 {
 
-class CrawlConfiguration{
+class CrawlConfiguration
+{
 public:
     CrawlConfiguration(CrawlMode mode);
     bool isFileToBeDownloadUntilSuccessful() const;

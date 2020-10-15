@@ -17,9 +17,9 @@ public:
     double getFileSizeEstimate();
     bool isFoundInLocalSystem() const;
     void createDirectoriesIfItDoesNotExist() const;
-    void deleteFile();
-    void renameFile(std::string const& newFileName);
-    void renameImmediateDirectory(std::string const& newDirectoryName);
+    int deleteFile();
+    int renameFile(std::string const& newFileName);
+    int renameImmediateDirectory(std::string const& newDirectoryName);
     bool isRelativePath() const;
     void findFilesAndDirectoriesOneDepth(
             std::string const& wildCardSearch,

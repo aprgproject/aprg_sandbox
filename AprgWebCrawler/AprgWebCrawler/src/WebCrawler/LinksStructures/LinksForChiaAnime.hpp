@@ -5,10 +5,12 @@
 namespace aprgWebCrawler
 {
 
-struct LinksForChiaAnime{
+struct LinksForChiaAnime
+{
     std::string linkForNextHtml;
     std::string linkForDownloadPage;
-    std::string linkForCurrentVideo;    std::string localPathForCurrentVideo;
+    std::string linkForCurrentVideo;
+    std::string localPathForCurrentVideo;
     bool isInvalid() const;
     void printLinks() const;
 };

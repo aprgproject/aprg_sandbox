@@ -6,18 +6,18 @@
 #include <iostream>
 
 using namespace alba;
+using namespace alba::stringHelper;
 using namespace std;
-
-using alba::stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore;using alba::stringHelper::getStringInBetweenTwoStrings;
-using alba::stringHelper::isStringFoundInsideTheOtherStringCaseSensitive;
 
 namespace aprgWebCrawler
 {
 
-LinksForHtmlAndFileToDownload WebCrawler::getLinksForGuroManga(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const{
+LinksForHtmlAndFileToDownload WebCrawler::getLinksForGuroManga(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const
+{
     LinksForHtmlAndFileToDownload links;
     ifstream htmlFileStream(pathOfHtmlFile);
-    if(!htmlFileStream.is_open())    {
+    if(!htmlFileStream.is_open())
+    {
         cout << "Cannot open html file." << endl;
         cout << "File to read:" << pathOfHtmlFile << endl;
         return links;
@@ -53,7 +53,7 @@ LinksForHtmlAndFileToDownload WebCrawler::getLinksForGuroManga(AlbaWebPathHandle
     AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);
     imageWebPathHandler.gotoLink(links.linkForCurrentFileToDownload);
     links.localPathForCurrentFileToDownload =
-            m_workingPathHandler.getDirectory()
+            m_downloadDirectoryPathHandler.getDirectory()
             + title
             + R"(\)"
             + imageWebPathHandler.getFile();

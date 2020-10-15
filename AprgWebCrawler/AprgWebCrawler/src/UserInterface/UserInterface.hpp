@@ -33,17 +33,28 @@ private:
     void showDownloadDirectories() const;
     void showDownloadSchedule() const;
     void showNotDownloadDirectories() const;
-    void findDownloadDirectories();
-    void findNotDownloadDirectories();
+    void showDownloadDirectoryDetails() const;
+
+    void addExistingDownloadAndNonDownloadDirectories();
+    void addExistingDownloadDirectories();
+    void addExistingNotDownloadDirectories();
+    void addNewDownloadDirectory();
+
     std::string getUserInput() const;
 
     void writeConfigurationFile() const;
     void readConfigurationFile();
+    void startDownload();
+    void renameImmediateDirectoryToTitle(std::string const& downloadDirectory) const;
+    void createBatchFile() const;
+    DownloadDirectoryDetails createDownloadDirectoryDetails(std::string const& downloadDirectory) const;
+    DownloadDirectoryDetails createDownloadDirectoryDetails(std::string const& workingDirectory, std::string const& webLink) const;
+
 
     std::vector<std::string> m_workingDirectories;
     std::vector<DownloadDirectoryDetails> m_downloadDirectories;
     std::vector<std::string> m_notDownloadDirectories;
-    std::vector<std::string> m_downloadSchedule;
+    std::vector<DownloadDirectoryDetails> m_downloadSchedule;
     std::string m_workingDirectory;
     DownloadDirectoryDetails m_downloadDirectoryDetails;
 };

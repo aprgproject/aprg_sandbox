@@ -6,18 +6,18 @@
 #include <iostream>
 
 using namespace alba;
+using namespace alba::stringHelper;
 using namespace std;
-
-using alba::stringHelper::getStringInBetweenTwoStrings;
-using alba::stringHelper::isStringFoundInsideTheOtherStringCaseSensitive;
 
 namespace aprgWebCrawler
 {
 
-LinksForHtmlAndFileToDownload WebCrawler::getLinksForMangaFox(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const{
+LinksForHtmlAndFileToDownload WebCrawler::getLinksForMangaFox(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const
+{
     LinksForHtmlAndFileToDownload links = getNextLinkAndImageLinkForMangaFox(pathOfHtmlFile);
     AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);
-    imageWebPathHandler.gotoLink(links.linkForCurrentFileToDownload);    links.localPathForCurrentFileToDownload = m_workingPathHandler.getDirectory() + webLinkPathHandler.getImmediateDirectoryName() + R"(\)" + imageWebPathHandler.getFile();
+    imageWebPathHandler.gotoLink(links.linkForCurrentFileToDownload);
+    links.localPathForCurrentFileToDownload = m_downloadDirectoryPathHandler.getDirectory() + webLinkPathHandler.getImmediateDirectoryName() + R"(\)" + imageWebPathHandler.getFile();
     return links;
 }
 
@@ -30,7 +30,7 @@ LinksForHtmlAndFileToDownload WebCrawler::getLinksForMangaFoxSaveInVolumeAndChap
     folderName = webPathForFolderName.getImmediateDirectoryName() + "_" + folderName;
     AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);
     imageWebPathHandler.gotoLink(links.linkForCurrentFileToDownload);
-    links.localPathForCurrentFileToDownload = m_workingPathHandler.getDirectory() + folderName + R"(\)" + imageWebPathHandler.getFile();
+    links.localPathForCurrentFileToDownload = m_downloadDirectoryPathHandler.getDirectory() + folderName + R"(\)" + imageWebPathHandler.getFile();
     return links;
 }
 

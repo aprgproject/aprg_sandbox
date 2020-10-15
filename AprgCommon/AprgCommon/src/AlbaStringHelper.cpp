@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <functional>
 #include <sstream>
 #include <typeinfo>
 
@@ -67,6 +68,16 @@ bool stringHelper::isEqualNotCaseSensitive(string const& string1, string const& 
     return getStringWithCapitalLetters(string1) == getStringWithCapitalLetters(string2);
 }
 
+bool stringHelper::isNumber(string const& string1)
+{
+    return std::any_of(string1.begin(), string1.end(), [](char const character){ return isNumber(character);});
+}
+
+bool stringHelper::isWhiteSpace(string const& string1)
+{
+    return std::all_of(string1.begin(), string1.end(), [](char const character){ return isWhiteSpace(character);});
+}
+
 bool stringHelper::transformReplaceStringIfFound(string& string1, string const& toReplace, string const& replaceWith)
 {
     bool found=false;
@@ -117,17 +128,17 @@ string stringHelper::getStringWithUrlDecodedString(string const& string1)
     return result;
 }
 
-string stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(string const& string1)
+string stringHelper::getStringWithoutStartingAndTrailingCharacters(string const& string1, string const& characters)
 {
     string result(string1);
-    int firstIndexOfNotWhiteSpace(result.find_first_not_of(WHITESPACE_STRING));
-    if(isNotNpos(firstIndexOfNotWhiteSpace))
+    int firstIndexOfNotOfCharacters(result.find_first_not_of(characters));
+    if(isNotNpos(firstIndexOfNotOfCharacters))
     {
-        result.erase(0, firstIndexOfNotWhiteSpace);
-        int lastIndexOfNotWhiteSpace(result.find_last_not_of(WHITESPACE_STRING));
-        if(isNotNpos(lastIndexOfNotWhiteSpace))
+        result.erase(0, firstIndexOfNotOfCharacters);
+        int lastIndexOfOfNotOfCharacters(result.find_last_not_of(characters));
+        if(isNotNpos(lastIndexOfOfNotOfCharacters))
         {
-            result.erase(lastIndexOfNotWhiteSpace+1);
+            result.erase(lastIndexOfOfNotOfCharacters+1);
         }
     }
     else
@@ -135,6 +146,11 @@ string stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(string const&
         result.clear();
     }
     return result;
+}
+
+string stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(string const& string1)
+{
+    return getStringWithoutStartingAndTrailingCharacters(string1, WHITESPACE_STRING);
 }
 
 string stringHelper::getStringWithoutRedundantWhiteSpace(string const& string1)
@@ -247,20 +263,31 @@ string stringHelper::getStringInBetweenTwoStrings(string const& mainString, stri
     return result;
 }
 
+string stringHelper::getStringBeforeThisCharacters(string const& string1, string const& characters, int const indexToStart)
+{
+    string result;
+    int firstIndexOfNotOfCharacters(string1.find_first_of(characters, indexToStart));
+    if(isNotNpos(firstIndexOfNotOfCharacters))
+    {
+        result = string1.substr(indexToStart, firstIndexOfNotOfCharacters-indexToStart);
+    }
+    return result;
+}
+
 string stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(string const& path)
 {
-    bool isNonAlphanumericDetected = false;
-    string correctPath = std::accumulate(path.cbegin(), path.cend(), string(""), [&isNonAlphanumericDetected](string partialResult, char const currentCharacter)
+    bool isPreviousCharacterNonAlphanumeric = false;
+    string correctPath = std::accumulate(path.cbegin(), path.cend(), string(""), [&isPreviousCharacterNonAlphanumeric](string partialResult, char const currentCharacter)
     {
         if(!isLetterOrNumber(currentCharacter))
         {
-            if(!isNonAlphanumericDetected){partialResult += "_";}
+            if(!isPreviousCharacterNonAlphanumeric){partialResult += "_";}
         }
         else
         {
             partialResult += currentCharacter;
         }
-        isNonAlphanumericDetected = !isLetterOrNumber(currentCharacter);
+        isPreviousCharacterNonAlphanumeric = !isLetterOrNumber(currentCharacter);
         return partialResult;
     });
     return correctPath;

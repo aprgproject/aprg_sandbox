@@ -14,28 +14,39 @@
 namespace aprgWebCrawler
 {
 
-class WebCrawler{
+class WebCrawler
+{
 public:
     typedef std::deque<std::string> WebLinks;
-    WebCrawler(std::string const& workingDirectory);
+    WebCrawler(std::string const& downloadDirectory);
+    WebCrawler(std::string const& workingDirectory, std::string const& webLink);
     bool isValid() const;
     void printStatus() const;
     CrawlMode getCrawlMode() const;
     CrawlState getCrawlState() const;
     std::string getCrawlModeString() const;
     std::string getCrawlStateString() const;
+    std::string getTitleFromFirstWebLink() const;
+    std::string getTitle(std::string const& webLink) const;
+    std::string getFirstWebLink() const;
+    std::string getDownloadDirectory() const;
     void saveMemoryCard() const;
     void loadMemoryCard();
     void crawl();
+
 private:
     void setCrawlMode(CrawlMode mode);
     void setCrawlState(CrawlState state);
-    void saveInvalidStateToMemoryCard(CrawlState state);
+    void saveStateToMemoryCard(CrawlState state);
     CrawlMode convertStringToCrawlerMode(std::string const& modeString) const;
+    CrawlMode convertWebLinkToCrawlerMode(std::string const& webLink) const;
     CrawlState convertStringToCrawlerState(std::string const& stateString) const;
+    std::string convertCrawlerModeToString(CrawlMode mode) const;
+    std::string convertCrawlerStateToString(CrawlState state) const;
     bool isCrawlStateInvalid() const;
     bool isWebLinksEmpty() const;
     bool isWebLinksValid() const;
+    bool isModeRecognized() const;
     std::string getUserInputAfterManuallyUsingMozillaFirefox(alba::AlbaWebPathHandler const& webPathHandler) const;
     void gotoLinkManuallyUsingMozillaFirefox(alba::AlbaWebPathHandler const& webPathHandler) const;
 
@@ -56,8 +67,11 @@ private:
     LinksForHtmlAndFileToDownload getLinksForGehen(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& pathOfHtmlFile) const;
     LinksForHtmlAndFileToDownload getLinksForY8(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& pathOfHtmlFile) const;
 
+    std::string getTitleFromTitleWindow(std::string const& webLink) const;
+
     void saveImageListFromGoogleImages();
     void downloadGoogleImages() const;
+
     void crawlForChiaAnime();
     void crawlForChiaAnime(std::string & webLink);
     LinksForChiaAnime getLinksForChiaAnime(alba::AlbaWebPathHandler const& webLinkPathHandler) const;
@@ -68,11 +82,11 @@ private:
     void crawlForYoutube_Old(std::string & webLink, std::ofstream & convertedYoutubeLinkStream);
     LinksForYoutube getLinkForYoutube(alba::AlbaWebPathHandler const& webLinkPathHandler) const;
 
-    alba::AlbaWindowsPathHandler m_workingPathHandler;
-    alba::AlbaWindowsPathHandler m_memoryCardPathHandler;
-    bool m_isModeRecognized;
     CrawlMode m_mode;
-    CrawlState m_state;    WebLinks m_webLinks;
+    CrawlState m_state;
+    alba::AlbaWindowsPathHandler m_downloadDirectoryPathHandler;
+    alba::AlbaWindowsPathHandler m_memoryCardPathHandler;
+    WebLinks m_webLinks;
 };
 
 }
