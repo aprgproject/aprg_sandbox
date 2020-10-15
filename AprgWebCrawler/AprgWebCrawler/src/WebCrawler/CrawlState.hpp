@@ -9,7 +9,8 @@ enum class CrawlState
     Unknown,
     Active,
     DownloadedFileIsInvalid,
-    LinksAreInvalid,    NextLinkIsInvalid
+    LinksAreInvalid,
+    NextLinkIsInvalid
 };
 
 }

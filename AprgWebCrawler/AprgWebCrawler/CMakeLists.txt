@@ -17,41 +17,43 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/CurlCpp/AprgCmakeInclude/CurlCpp.cmake)
 
 set(SOURCES
-    src/CrawlConfiguration/CrawlConfiguration.cpp
-    src/CrawlConfiguration/CrawlConfiguration.hpp
-    src/CrawlHelpers/ChiaAnime.cpp
-    src/CrawlHelpers/DownloadHelpers.cpp
-    src/CrawlHelpers/Gehen.cpp
-    src/CrawlHelpers/GoogleImages.cpp
-    src/CrawlHelpers/GuroManga.cpp
-    src/CrawlHelpers/HBrowse.cpp
-    src/CrawlHelpers/Hentai2Read.cpp
-    src/CrawlHelpers/MangaFox.cpp
-    src/CrawlHelpers/MangaHere.cpp
-    src/CrawlHelpers/MangaPark.cpp
-    src/CrawlHelpers/SharedCrawlers.cpp
-    src/CrawlHelpers/Youtube.cpp
-    src/CrawlHelpers/Y8.cpp
-    src/CrawlMode.hpp
-    src/CrawlState.hpp
     src/DirectoryAndFileCorrector/DirectoryAndFileCorrector.cpp
     src/DirectoryAndFileCorrector/DirectoryAndFileCorrector.hpp
-    src/LinksStructures/LinksForChiaAnime.cpp
-    src/LinksStructures/LinksForChiaAnime.hpp
-    src/LinksStructures/LinksForHtmlAndFileToDownload.cpp
-    src/LinksStructures/LinksForHtmlAndFileToDownload.hpp
-    src/LinksStructures/LinksForYoutube.cpp
-    src/LinksStructures/LinksForYoutube.hpp
     src/DirectoryAndFileCorrector/DirectoryAndFileCorrector.cpp
-    src/UserInterface/UserInterface.hpp
+    src/UserInterface/UserInterface.cpp
     src/UserInterface/UserInterface.hpp
     src/main.cpp
-    src/WebCrawler.cpp
-    src/WebCrawler.hpp
+    src/WebCrawler/CrawlConfiguration/CrawlConfiguration.cpp
+    src/WebCrawler/CrawlConfiguration/CrawlConfiguration.hpp
+    src/WebCrawler/CrawlHelpers/ChiaAnime.cpp
+    src/WebCrawler/CrawlHelpers/DownloadHelpers.cpp
+    src/WebCrawler/CrawlHelpers/Gehen.cpp
+    src/WebCrawler/CrawlHelpers/GoogleImages.cpp
+    src/WebCrawler/CrawlHelpers/GuroManga.cpp
+    src/WebCrawler/CrawlHelpers/HBrowse.cpp
+    src/WebCrawler/CrawlHelpers/Hentai2Read.cpp
+    src/WebCrawler/CrawlHelpers/MangaFox.cpp
+    src/WebCrawler/CrawlHelpers/MangaHere.cpp
+    src/WebCrawler/CrawlHelpers/MangaPark.cpp
+    src/WebCrawler/CrawlHelpers/SharedCrawlers.cpp
+    src/WebCrawler/CrawlHelpers/Youtube.cpp
+    src/WebCrawler/CrawlHelpers/Y8.cpp
+    src/WebCrawler/CrawlMode.hpp
+    src/WebCrawler/CrawlState.hpp
+    src/WebCrawler/LinksStructures/LinksForChiaAnime.cpp
+    src/WebCrawler/LinksStructures/LinksForChiaAnime.hpp
+    src/WebCrawler/LinksStructures/LinksForHtmlAndFileToDownload.cpp
+    src/WebCrawler/LinksStructures/LinksForHtmlAndFileToDownload.hpp
+    src/WebCrawler/LinksStructures/LinksForYoutube.cpp
+    src/WebCrawler/LinksStructures/LinksForYoutube.hpp
+    src/WebCrawler/WebCrawler.cpp
+    src/WebCrawler/WebCrawler.hpp
 )
 
 set(INCLUDE_DIRECTORIES
     src/
+    src/DirectoryAndFileCorrector
+    src/UserInterface
     src/WebCrawler
 )
 
