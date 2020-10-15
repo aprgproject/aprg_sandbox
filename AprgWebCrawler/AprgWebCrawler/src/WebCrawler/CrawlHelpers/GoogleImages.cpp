@@ -7,20 +7,19 @@
 #include <iostream>
 #include <unordered_set>
 
+using namespace alba;
 using namespace std;
 
 using alba::stringHelper::getStringInBetweenTwoStrings;
 using alba::stringHelper::isStringFoundInsideTheOtherStringCaseSensitive;
 
-namespace alba
+namespace aprgWebCrawler
 {
 
-void WebCrawler::saveImageListFromGoogleImages()
-{
+void WebCrawler::saveImageListFromGoogleImages(){
     AlbaWindowsPathHandler downloadPathHandler(m_workingPathHandler.getDirectory() + R"(\temp.html)");
     AlbaWindowsPathHandler listPathHandler(m_workingPathHandler.getDirectory() + R"(\ListOfImages.txt)");
-    ifstream htmlFileStream(downloadPathHandler.getFullPath());
-    if(!htmlFileStream.is_open())
+    ifstream htmlFileStream(downloadPathHandler.getFullPath());    if(!htmlFileStream.is_open())
     {
         cout << "Cannot open html file." << endl;
         cout << "File to read:" << downloadPathHandler.getFullPath() << endl;

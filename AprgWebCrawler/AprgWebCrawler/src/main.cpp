@@ -1,21 +1,20 @@
-#include <WebCrawler.hpp>
+#include <UserInterface.hpp>
 #include <iostream>
+#include <WebCrawler.hpp>
 
-using namespace alba;
+using namespace aprgWebCrawler;
 using namespace std;
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv){
     if(argc < 2)
     {
-        cout << "Something user interface" << endl;
+        UserInterface userInterface;
+        userInterface.startUi();
     }
     else
-    {
-        string path(argv[1]);
+    {        string path(argv[1]);
         WebCrawler crawler(path);
         crawler.printStatus();
-        crawler.crawl();
-    }
+        crawler.crawl();    }
     return 0;
 }

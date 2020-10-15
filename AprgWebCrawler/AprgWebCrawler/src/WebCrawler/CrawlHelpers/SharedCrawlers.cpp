@@ -3,17 +3,16 @@
 #include <CrawlConfiguration/CrawlConfiguration.hpp>
 #include <iostream>
 
+using namespace alba;
 using namespace std;
 
-namespace alba
+namespace aprgWebCrawler
 {
 
-void WebCrawler::crawlOneHtmlAndOneFileToDownload()
-{
+void WebCrawler::crawlOneHtmlAndOneFileToDownload(){
     for(string & webLink : m_webLinks)
     {
-        crawlOneHtmlAndOneFileToDownload(webLink);
-    }
+        crawlOneHtmlAndOneFileToDownload(webLink);    }
 }
 
 void WebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)

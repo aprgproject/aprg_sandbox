@@ -6,21 +6,19 @@
 #include <fstream>
 #include <iostream>
 
+using namespace alba;
 using namespace std;
 
-using alba::stringHelper::getStringInBetweenTwoStrings;
-using alba::stringHelper::getStringAfterThisString;
+using alba::stringHelper::getStringInBetweenTwoStrings;using alba::stringHelper::getStringAfterThisString;
 using alba::stringHelper::isStringFoundInsideTheOtherStringCaseSensitive;
 
-namespace alba
+namespace aprgWebCrawler
 {
 
-void WebCrawler::crawlForChiaAnime()
-{
+void WebCrawler::crawlForChiaAnime(){
     for(string & webLink : m_webLinks)
     {
-        crawlForChiaAnime(webLink);
-    }
+        crawlForChiaAnime(webLink);    }
 }
 
 void WebCrawler::crawlForChiaAnime(string & webLink)

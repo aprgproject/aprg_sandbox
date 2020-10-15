@@ -5,21 +5,19 @@
 #include <fstream>
 #include <iostream>
 
+using namespace alba;
 using namespace std;
 
-using alba::stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore;
-using alba::stringHelper::getStringInBetweenTwoStrings;
+using alba::stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore;using alba::stringHelper::getStringInBetweenTwoStrings;
 using alba::stringHelper::isStringFoundInsideTheOtherStringCaseSensitive;
 
-namespace alba
+namespace aprgWebCrawler
 {
 
-LinksForHtmlAndFileToDownload WebCrawler::getLinksForGuroManga(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const
-{
+LinksForHtmlAndFileToDownload WebCrawler::getLinksForGuroManga(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const{
     LinksForHtmlAndFileToDownload links;
     ifstream htmlFileStream(pathOfHtmlFile);
-    if(!htmlFileStream.is_open())
-    {
+    if(!htmlFileStream.is_open())    {
         cout << "Cannot open html file." << endl;
         cout << "File to read:" << pathOfHtmlFile << endl;
         return links;

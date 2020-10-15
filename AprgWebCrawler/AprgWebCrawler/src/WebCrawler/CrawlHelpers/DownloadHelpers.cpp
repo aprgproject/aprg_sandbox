@@ -3,17 +3,16 @@
 #include <CrawlConfiguration/CrawlConfiguration.hpp>
 #include <CurlInterface.hpp>
 
+using namespace alba;
 using namespace curl::CurlInterface;
 
-namespace alba
+namespace aprgWebCrawler
 {
 
-bool WebCrawler::downloadBinaryFile(
-        AlbaWebPathHandler const& fileToDownloadWebPathHandler,
+bool WebCrawler::downloadBinaryFile(        AlbaWebPathHandler const& fileToDownloadWebPathHandler,
         AlbaWindowsPathHandler const& downloadPathHandler) const
 {
-    bool isSuccessful(false);
-    CrawlConfiguration configuration(m_mode);
+    bool isSuccessful(false);    CrawlConfiguration configuration(m_mode);
     if(configuration.isFileToBeDownloadUntilSuccessful())
     {
         isSuccessful = downloadBinaryFileUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler);

@@ -2,24 +2,21 @@
 
 #include <AlbaFileReader.hpp>
 #include <algorithm>
-#include <CurlInterface.hpp>
 #include <fstream>
 #include <iostream>
 
 #define FIREFOX_EXECUTABLE_PATH R"(C:\"Program Files"\"Mozilla Firefox"\firefox.exe)"
 
-using namespace curl::CurlInterface;
+using namespace alba;
 using namespace std;
 
-namespace alba
+namespace aprgWebCrawler
 {
 
-WebCrawler::WebCrawler(string const& workingDirectory)
-    : m_workingPathHandler(workingDirectory)
+WebCrawler::WebCrawler(string const& workingDirectory)    : m_workingPathHandler(workingDirectory)
     , m_memoryCardPathHandler(workingDirectory + R"(\MemoryCard.txt)")
     , m_isModeRecognized(false)
-    , m_mode(CrawlMode::Unknown)
-    , m_state(CrawlState::Unknown)
+    , m_mode(CrawlMode::Unknown)    , m_state(CrawlState::Unknown)
 {
     if (m_memoryCardPathHandler.isFoundInLocalSystem() && m_memoryCardPathHandler.isFile())
     {
@@ -71,29 +68,74 @@ void WebCrawler::printStatus() const
     }
     else if(m_isModeRecognized)
     {
-        cout << "Mode: ["<< getCrawlerMode() << "] is not a recognized mode" << endl;
+        cout << "Mode: ["<< getCrawlModeString() << "] is not a recognized mode" << endl;
     }
     else
-    {
-        cout << "Status is okay" << endl;
+    {        cout << "Status is okay" << endl;
     }
 }
 
-void WebCrawler::saveMemoryCard() const
+CrawlMode WebCrawler::getCrawlMode() const
 {
+    return m_mode;
+}
+
+CrawlState WebCrawler::getCrawlState() const
+{
+    return m_state;
+}
+
+#define GET_ENUM_STRING(en) \
+    case en: \
+    return #en;
+
+string WebCrawler::getCrawlModeString() const
+{
+    switch(m_mode)
+    {
+    GET_ENUM_STRING(CrawlMode::Empty)
+    GET_ENUM_STRING(CrawlMode::Unknown)
+            GET_ENUM_STRING(CrawlMode::ChiaAnime)
+            GET_ENUM_STRING(CrawlMode::Gehen)
+            GET_ENUM_STRING(CrawlMode::GuroManga)
+            GET_ENUM_STRING(CrawlMode::HBrowse)
+            GET_ENUM_STRING(CrawlMode::Hentai2Read)
+            GET_ENUM_STRING(CrawlMode::Mangafox)
+            GET_ENUM_STRING(CrawlMode::MangafoxWithVolume)
+            GET_ENUM_STRING(CrawlMode::Mangahere)
+            GET_ENUM_STRING(CrawlMode::MangaPark)
+            GET_ENUM_STRING(CrawlMode::Y8)
+            GET_ENUM_STRING(CrawlMode::Youtube)
+    }
+    return "";
+}
+
+string WebCrawler::getCrawlStateString() const
+{
+    switch(m_state)
+    {
+    GET_ENUM_STRING(CrawlState::Empty)
+    GET_ENUM_STRING(CrawlState::Unknown)
+            GET_ENUM_STRING(CrawlState::Active)
+            GET_ENUM_STRING(CrawlState::DownloadedFileIsInvalid)
+            GET_ENUM_STRING(CrawlState::LinksAreInvalid)
+            GET_ENUM_STRING(CrawlState::NextLinkIsInvalid)
+    }
+    return "";
+}
+
+void WebCrawler::saveMemoryCard() const{
     ofstream memoryCardStream(m_memoryCardPathHandler.getFullPath());
     if(memoryCardStream.is_open())
     {
-        memoryCardStream << getCrawlerMode() << endl;
-        memoryCardStream << getCrawlerState() << endl;
+        memoryCardStream << getCrawlModeString() << endl;
+        memoryCardStream << getCrawlStateString() << endl;
         for(string const& webLink : m_webLinks)
         {
-            if(!webLink.empty())
-            {
+            if(!webLink.empty())            {
                 memoryCardStream << webLink << endl;
             }
-        }
-    }
+        }    }
 }
 
 void WebCrawler::loadMemoryCard()
@@ -110,19 +152,17 @@ void WebCrawler::loadMemoryCard()
             AlbaWebPathHandler webPathHandler(lineFromMemoryCard);
             if(CrawlMode::Empty != possibleMode)
             {
-                setCrawlerMode(possibleMode);
+                setCrawlMode(possibleMode);
             }
             else if(CrawlState::Empty != possibleState)
             {
-                setCrawlerState(possibleState);
+                setCrawlState(possibleState);
             }
             else if(!webPathHandler.isEmpty())
-            {
-                m_webLinks.push_back(webPathHandler.getFullPath());
+            {                m_webLinks.push_back(webPathHandler.getFullPath());
             }
         }
-    }
-}
+    }}
 
 void WebCrawler::crawl()
 {
@@ -152,69 +192,27 @@ void WebCrawler::crawl()
     }
 }
 
-void WebCrawler::setCrawlerMode(CrawlMode mode)
+void WebCrawler::setCrawlMode(CrawlMode mode)
 {
     m_mode = mode;
 }
 
-void WebCrawler::setCrawlerState(CrawlState state)
+void WebCrawler::setCrawlState(CrawlState state)
 {
     m_state = state;
 }
-
 void WebCrawler::saveInvalidStateToMemoryCard(CrawlState state)
 {
-    setCrawlerState(state);
+    setCrawlState(state);
     saveMemoryCard();
-}
-
-#define GET_ENUM_STRING(en) \
-    case en: \
-    return #en;
-
-string WebCrawler::getCrawlerMode() const
-{
-    switch(m_mode)
-    {
-    GET_ENUM_STRING(CrawlMode::Empty)
-    GET_ENUM_STRING(CrawlMode::Unknown)
-            GET_ENUM_STRING(CrawlMode::ChiaAnime)
-            GET_ENUM_STRING(CrawlMode::Gehen)
-            GET_ENUM_STRING(CrawlMode::GuroManga)
-            GET_ENUM_STRING(CrawlMode::HBrowse)
-            GET_ENUM_STRING(CrawlMode::Hentai2Read)
-            GET_ENUM_STRING(CrawlMode::Mangafox)
-            GET_ENUM_STRING(CrawlMode::MangafoxWithVolume)
-            GET_ENUM_STRING(CrawlMode::Mangahere)
-            GET_ENUM_STRING(CrawlMode::MangaPark)
-            GET_ENUM_STRING(CrawlMode::Y8)
-            GET_ENUM_STRING(CrawlMode::Youtube)
-    }
-    return "";
-}
-
-string WebCrawler::getCrawlerState() const
-{
-    switch(m_state)
-    {
-    GET_ENUM_STRING(CrawlState::Empty)
-    GET_ENUM_STRING(CrawlState::Unknown)
-            GET_ENUM_STRING(CrawlState::Active)
-            GET_ENUM_STRING(CrawlState::DownloadedFileIsInvalid)
-            GET_ENUM_STRING(CrawlState::LinksAreInvalid)
-            GET_ENUM_STRING(CrawlState::NextLinkIsInvalid)
-    }
-    return "";
 }
 
 CrawlMode WebCrawler::convertStringToCrawlerMode(string const& modeString) const
 {
-    CrawlMode mode(CrawlMode::Empty);
-    if("CrawlMode::Unknown" == modeString)
+    CrawlMode mode(CrawlMode::Empty);    if("CrawlMode::Unknown" == modeString)
     {
         mode = CrawlMode::Unknown;
-    }
-    else if("chiaanime" == modeString || "CrawlerMode::ChiaAnime" == modeString || "CrawlMode::ChiaAnime" == modeString)
+    }    else if("chiaanime" == modeString || "CrawlerMode::ChiaAnime" == modeString || "CrawlMode::ChiaAnime" == modeString)
     {
         mode = CrawlMode::ChiaAnime;
     }
