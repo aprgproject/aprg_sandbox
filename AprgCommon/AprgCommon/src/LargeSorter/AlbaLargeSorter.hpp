@@ -7,15 +7,11 @@
 #include <LargeSorter/DataBlocks.hpp>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
 
-using namespace std;
-
 namespace alba
 {
-
 template <typename ObjectToSort>
 class AlbaLargeSorter
-{
-    typedef AlbaLargeSorterBlockType<ObjectToSort> BlockType;
+{    typedef AlbaLargeSorterBlockType<ObjectToSort> BlockType;
     typedef AlbaLargeSorterBlockIterator<ObjectToSort> BlockIterator;
     typedef AlbaLargeSorterCache<BlockIterator> BlockCache;
     typedef typename BlockCache::BlockInformationPair BlockInformationPair;
@@ -143,18 +139,16 @@ private:
     void deleteAllFilesInDirectory()
     {
         AlbaWindowsPathHandler directoryPathHandler(m_configuration.m_directoryForBlocks);
-        set<string> listOfFiles;
-        set<string> listOfDirectories;
+        std::set<std::string> listOfFiles;
+        std::set<std::string> listOfDirectories;
         directoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
-        for(string const& filePath : listOfFiles)
+        for(std::string const& filePath : listOfFiles)
         {
             AlbaWindowsPathHandler(filePath).deleteFile();
-        }
-    }
+        }    }
     unsigned long long m_size;
     AlbaLargeSorterConfiguration const m_configuration;
-    BlockCache m_memoryCache;
-    BlockCache m_fileStreamOpenedCache;
+    BlockCache m_memoryCache;    BlockCache m_fileStreamOpenedCache;
     DataBlocks<ObjectToSort> m_blocks;
 };
 

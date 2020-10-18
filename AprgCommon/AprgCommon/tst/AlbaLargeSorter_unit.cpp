@@ -332,43 +332,43 @@ TEST(AlbaLargeSorterTest, PrimitiveDataTypesForBlocksAreCreatedWhenBlocksWhenMem
         largeSorter.add(inputValue);
     }
 
-    int integerInFile;
-    ifstream inputTestFile0(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_1.txt)");
-    ifstream inputTestFile1(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_2.txt)");
-    ifstream inputTestFile2(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_3.txt)");
-    ifstream inputTestFile3(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_4.txt)");
-    ASSERT_TRUE(inputTestFile0.is_open());
-    inputTestFile0>>integerInFile;
-    EXPECT_EQ(0, integerInFile);
-    inputTestFile0>>integerInFile;
-    EXPECT_EQ(1, integerInFile);
-    inputTestFile0>>integerInFile;
-    EXPECT_EQ(2, integerInFile);
-    ASSERT_TRUE(inputTestFile1.is_open());
-    inputTestFile1>>integerInFile;
-    EXPECT_EQ(3, integerInFile);
-    inputTestFile1>>integerInFile;
-    EXPECT_EQ(4, integerInFile);
-    inputTestFile1>>integerInFile;
-    EXPECT_EQ(5, integerInFile);
-    ASSERT_TRUE(inputTestFile2.is_open());
-    inputTestFile2>>integerInFile;
-    EXPECT_EQ(6, integerInFile);
-    inputTestFile2>>integerInFile;
-    EXPECT_EQ(7, integerInFile);
-    inputTestFile2>>integerInFile;
-    EXPECT_EQ(8, integerInFile);
-    ASSERT_TRUE(inputTestFile3.is_open());
-    inputTestFile3>>integerInFile;
-    EXPECT_EQ(9, integerInFile);
+    {
+        int integerInFile;
+        ifstream inputTestFile0(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_1.txt)");
+        ifstream inputTestFile1(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_2.txt)");
+        ifstream inputTestFile2(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_3.txt)");
+        ifstream inputTestFile3(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_4.txt)");
+        ASSERT_TRUE(inputTestFile0.is_open());
+        inputTestFile0>>integerInFile;
+        EXPECT_EQ(0, integerInFile);
+        inputTestFile0>>integerInFile;
+        EXPECT_EQ(1, integerInFile);
+        inputTestFile0>>integerInFile;
+        EXPECT_EQ(2, integerInFile);
+        ASSERT_TRUE(inputTestFile1.is_open());
+        inputTestFile1>>integerInFile;
+        EXPECT_EQ(3, integerInFile);
+        inputTestFile1>>integerInFile;
+        EXPECT_EQ(4, integerInFile);
+        inputTestFile1>>integerInFile;
+        EXPECT_EQ(5, integerInFile);
+        ASSERT_TRUE(inputTestFile2.is_open());
+        inputTestFile2>>integerInFile;
+        EXPECT_EQ(6, integerInFile);
+        inputTestFile2>>integerInFile;
+        EXPECT_EQ(7, integerInFile);
+        inputTestFile2>>integerInFile;
+        EXPECT_EQ(8, integerInFile);
+        ASSERT_TRUE(inputTestFile3.is_open());
+        inputTestFile3>>integerInFile;
+        EXPECT_EQ(9, integerInFile);
+    }
     int expectedValue=0;
     largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)
-    {
-        EXPECT_EQ(expectedValue++, actualValue);
+    {        EXPECT_EQ(expectedValue++, actualValue);
     });
     EXPECT_EQ(10, expectedValue);
 }
-
 TEST(AlbaLargeSorterTest, FilesForBlocksAreDeletedAfterFileForBlocksAreCreated)
 {
     AlbaWindowsPathHandler directoryPathHandler(ALBA_LARGE_SORTER_BLOCK_DIR);

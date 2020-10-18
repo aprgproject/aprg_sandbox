@@ -15,15 +15,13 @@ namespace aprgWebCrawler
 void WebCrawler::crawlForYoutube()
 {
     AlbaWindowsPathHandler convertedYoutubeLinksPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\ConvertedYoutubeLinks.txt)");
-    convertedYoutubeLinksPathHandler.createDirectoriesIfItDoesNotExist();
+    convertedYoutubeLinksPathHandler.createDirectoriesForNonExisitingDirectories();
     ofstream convertedYoutubeLinkStream(convertedYoutubeLinksPathHandler.getFullPath());
 
-    for(string & webLink : m_webLinks)
-    {
+    for(string & webLink : m_webLinks)    {
         crawlForYoutube(webLink, convertedYoutubeLinkStream);
     }
 }
-
 void WebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutubeLinkStream)
 {
     cout << "WebCrawler::crawlForYoutube" << endl;
@@ -74,15 +72,13 @@ void WebCrawler::crawlForYoutube_Old(string & webLink, ofstream& convertedYoutub
         }
         AlbaWebPathHandler videoWebPathHandler(links.linkForVideo);
         AlbaWindowsPathHandler downloadPathHandler(links.localPathForCurrentVideo);
-        downloadPathHandler.createDirectoriesIfItDoesNotExist();
+        downloadPathHandler.createDirectoriesForNonExisitingDirectories();
         downloadBinaryFile(videoWebPathHandler, downloadPathHandler);
         convertedYoutubeLinkStream << links.linkForVideo << endl << flush;
-        webLink.clear();
-        setCrawlState(CrawlState::Active);
+        webLink.clear();        setCrawlState(CrawlState::Active);
         saveMemoryCard();
         break;
-    }
-}
+    }}
 
 LinksForYoutube WebCrawler::getLinkForYoutube(AlbaWebPathHandler const& webLinkPathHandler) const
 {

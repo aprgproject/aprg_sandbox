@@ -47,15 +47,13 @@ void WebCrawler::crawlForChiaAnime(string & webLink)
             break;
         }
         AlbaWindowsPathHandler downloadPathHandler(links.localPathForCurrentVideo);
-        downloadPathHandler.createDirectoriesIfItDoesNotExist();
+        downloadPathHandler.createDirectoriesForNonExisitingDirectories();
         if(!downloadBinaryFile(videoWebPathHandler, downloadPathHandler))
         {
-            cout << "Download fails repetitively. Retrying from the start" << endl;
-            continue;
+            cout << "Download fails repetitively. Retrying from the start" << endl;            continue;
         }
         if(downloadPathHandler.getFileSizeEstimate() < configuration.getMinimumFileSize())
-        {
-            cout << "Video file is less than "<<configuration.getMinimumFileSize()<<". FileSize = "<< downloadPathHandler.getFileSizeEstimate() <<" Invalid file. Retrying from the start" << endl;
+        {            cout << "Video file is less than "<<configuration.getMinimumFileSize()<<". FileSize = "<< downloadPathHandler.getFileSizeEstimate() <<" Invalid file. Retrying from the start" << endl;
             saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
             continue;
         }

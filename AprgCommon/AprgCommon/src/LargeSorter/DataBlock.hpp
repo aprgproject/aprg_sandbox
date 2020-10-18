@@ -8,15 +8,11 @@
 #include <LargeSorter/DataBlockFileHandler.hpp>
 #include <string>
 
-#include <iostream>
-
 namespace alba
 {
-
 enum class DataBlockType
 {
-    Empty,
-    File,
+    Empty,    File,
     Memory
 };
 

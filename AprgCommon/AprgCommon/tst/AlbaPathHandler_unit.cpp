@@ -479,11 +479,19 @@ TEST(WindowsPathTest, FullPathWithDirectory_FindFileAndDirectoryUnlimitedDepthWi
     ASSERT_EQ(listOfDirectory.size(), 0);
 }
 
-TEST(WindowsPathTest, FileSizeTest)
+TEST(WindowsPathTest, FileSizeTest_FileIsNotExisting)
+{
+    AlbaWindowsPathHandler pathHandler("This path does not exist");
+
+    ASSERT_EQ(pathHandler.getPathType(), PathType::File);
+    ASSERT_FALSE(pathHandler.isFoundInLocalSystem());
+    EXPECT_DOUBLE_EQ(pathHandler.getFileSizeEstimate(), 0);
+}
+
+TEST(WindowsPathTest, FileSizeTest_FileIsExisting)
 {
     AlbaWindowsPathHandler pathHandler(SIZE_TEST_FILE);
 
-    ASSERT_EQ(pathHandler.getPathType(), PathType::File);
-    ASSERT_TRUE(pathHandler.isFoundInLocalSystem());
+    ASSERT_EQ(pathHandler.getPathType(), PathType::File);    ASSERT_TRUE(pathHandler.isFoundInLocalSystem());
     EXPECT_DOUBLE_EQ(pathHandler.getFileSizeEstimate(), 5000);
 }

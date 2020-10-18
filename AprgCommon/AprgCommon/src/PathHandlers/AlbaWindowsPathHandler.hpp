@@ -16,18 +16,16 @@ public:
     std::string getDrive() const;
     double getFileSizeEstimate();
     bool isFoundInLocalSystem() const;
-    void createDirectoriesIfItDoesNotExist() const;
-    int deleteFile();
-    int renameFile(std::string const& newFileName);
-    int renameImmediateDirectory(std::string const& newDirectoryName);
+    void createDirectoriesForNonExisitingDirectories() const;
+    bool deleteFile();
+    bool renameFile(std::string const& newFileName);
+    bool renameImmediateDirectory(std::string const& newDirectoryName);
     bool isRelativePath() const;
     void findFilesAndDirectoriesOneDepth(
-            std::string const& wildCardSearch,
-            ListOfPaths& listOfFiles,
+            std::string const& wildCardSearch,            ListOfPaths& listOfFiles,
             ListOfPaths& listOfDirectories) const;
     void findFilesAndDirectoriesMultipleDepth(
-            std::string const& wildCardSearch,
-            ListOfPaths& listOfFiles,
+            std::string const& wildCardSearch,            ListOfPaths& listOfFiles,
             ListOfPaths& listOfDirectories,
             int depth) const;
     void findFilesAndDirectoriesUnlimitedDepth(
@@ -43,9 +41,10 @@ private:
             ListOfPaths& listOfFiles,
             ListOfPaths& listOfDirectories,
             int depth) const;
+    void printErrorMessageFromWindows() const;
+    std::string getLastFormattedErrorMessage(int const errorCode) const;
     std::string m_drive;
     bool m_foundInLocalSystem;
-    bool m_relativePath;
-};
+    bool m_relativePath;};
 
 }//namespace alba

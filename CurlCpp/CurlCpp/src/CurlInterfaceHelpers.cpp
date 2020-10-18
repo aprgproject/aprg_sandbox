@@ -12,26 +12,23 @@ using namespace std;
 namespace curl
 {
 
+namespace CurlInterface
+{
+int lowSpeedLimit=1000;
+int lowSpeedTime=60;
+}
+
 static int xferinfo(void *, curl_off_t dlTotal, curl_off_t dlNow, curl_off_t ulTotal, curl_off_t ulNow)
 {
     curl_off_t currentBytesTransferred(dlNow+ulNow);
     curl_off_t totalBytes(dlTotal+ulTotal);
     double percentProgress = (totalBytes == 0) ? 0 : (double)100*currentBytesTransferred/totalBytes;
-    if((int)percentProgress == 100)
-    {
-        cout<< "\rProgress: " << percentProgress << "% (DownLink: " << dlNow << " of " << dlTotal << "   UpLink: " << ulNow << " of " << ulTotal  << ")" << endl;
-    }
-    else
-    {
-        cout<< "\rProgress: " << percentProgress << "% (DownLink: " << dlNow << " of " << dlTotal << "   UpLink: " << ulNow << " of " << ulTotal  << ")" << std::flush;
-    }
+    cout<< "\rProgress: " << percentProgress << "% (DownLink: " << dlNow << " of " << dlTotal << "   UpLink: " << ulNow << " of " << ulTotal  << ")" << std::flush;
     return 0;
 }
-
 void CurlInterface::addLowSpeedLimitToCurlEasy(curl_easy& easy, LONG const lowSpeedLimit, LONG const duration)
 {
-    easy.add<CURLOPT_LOW_SPEED_LIMIT>(lowSpeedLimit);
-    easy.add<CURLOPT_LOW_SPEED_TIME>(duration);
+    easy.add<CURLOPT_LOW_SPEED_LIMIT>(lowSpeedLimit);    easy.add<CURLOPT_LOW_SPEED_TIME>(duration);
 }
 
 template <ConfigType configType>
@@ -41,15 +38,13 @@ void CurlInterface::addToCurlEasy(curl_easy&)
 template <>
 void CurlInterface::addToCurlEasy<ConfigType::LowSpeedLimit>(curl_easy& easy)
 {
-    addLowSpeedLimitToCurlEasy(easy, 1000, 60);
+    addLowSpeedLimitToCurlEasy(easy, lowSpeedLimit, lowSpeedTime);
 }
 
-template <>
-void CurlInterface::addToCurlEasy<ConfigType::MozillaFireFox>(curl_easy& easy)
+template <>void CurlInterface::addToCurlEasy<ConfigType::MozillaFireFox>(curl_easy& easy)
 {
     struct curl_slist *chunk = NULL;
-    chunk = curl_slist_append(chunk, "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0");
-    chunk = curl_slist_append(chunk, "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+    chunk = curl_slist_append(chunk, "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0");    chunk = curl_slist_append(chunk, "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
     chunk = curl_slist_append(chunk, "Accept-Language: en-US,en;q=0.5");
     easy.add<CURLOPT_HTTPHEADER>(chunk);
 
@@ -99,27 +94,26 @@ bool CurlInterface::downloadForOutputFileStream(string url, ofstream& outputFile
     easy.add(curl_pair<CURLoption,string>(CURLOPT_URL, url));
     easy.add<CURLOPT_FOLLOWLOCATION>(1L);
 
+    bool status(false);
     additionalConfig(easy);
     try
     {
         easy.perform();
-        return true;
+        status = true;
     }
     catch (curl_easy_exception error)
-    {
-        auto errors = error.what();
+    {        auto errors = error.what();
         printDownloadErrorMessage(string(errors));
         error.print_traceback();
     }
-    return false;
+    cout << endl;
+    return status;
 }
 
-bool CurlInterface::downloadWithAdditionalConfig(string const& url, string const& fileLocation, function<void(curl_easy&)> additionalConfig)
-{
+bool CurlInterface::downloadWithAdditionalConfig(string const& url, string const& fileLocation, function<void(curl_easy&)> additionalConfig){
     cout<<"   --> Downloading file. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
     ofstream outputFile(fileLocation);
-    bool isSuccessful (downloadForOutputFileStream(url, outputFile, additionalConfig));
-    if(!isSuccessful)
+    bool isSuccessful (downloadForOutputFileStream(url, outputFile, additionalConfig));    if(!isSuccessful)
     {
         cout<<"   --> Download failed. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
     }
@@ -187,15 +181,12 @@ bool CurlInterface::downloadAsBinaryWithAdditionalConfigWithFiniteNumberOfTries(
         isSuccessful = downloadForOutputFileStream(url, outputFile, [numberOfTries, additionalConfig](curl_easy& easy)
         {
                 additionalConfig(easy);
-                addLowSpeedLimitToCurlEasy(easy, 1000, 10*numberOfTries);
         });
         if(!isSuccessful)
-        {
-            cout<<"   --> Download failed and retrying in a few seconds. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
+        {            cout<<"   --> Download failed and retrying in a few seconds. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
             Sleep(5000);
         }
-    }
-    return isSuccessful;
+    }    return isSuccessful;
 }
 
 void CurlInterface::printDownloadErrorMessage(string const& errorMessage)

@@ -16,14 +16,14 @@ public:
     StepHandler();
     void execute(TcomToolsConfiguration const& configuration) const;
 private:
-    string executeExtractStep(TcomToolsConfiguration const& configuration, string const& inputPath) const;
-    string executeCombineAndSortStep(TcomToolsConfiguration const& configuration, string const& inputPath) const;
-    string executeGrepStep(TcomToolsConfiguration const& configuration, string const& inputPath) const;
-    string grepFile(TcomToolsConfiguration const& configuration, string const& inputPath) const;
-    string executeCropStep(TcomToolsConfiguration const& configuration, string const& inputPath) const;
-    string cropFile(TcomToolsConfiguration const& configuration, string const& inputPath, double foundLocation) const;
+    std::string executeExtractStep(TcomToolsConfiguration const& configuration, std::string const& inputPath) const;
+    std::string executeCombineAndSortStep(TcomToolsConfiguration const& configuration, std::string const& inputPath) const;
+    std::string executeGrepStep(TcomToolsConfiguration const& configuration, std::string const& inputPath) const;
+    std::string grepFile(TcomToolsConfiguration const& configuration, std::string const& inputPath) const;
+    std::string executeCropStep(TcomToolsConfiguration const& configuration, std::string const& inputPath) const;
+    std::string cropFile(TcomToolsConfiguration const& configuration, std::string const& inputPath, double foundLocation) const;
     LocationsInFile getLocationsInFile(TcomToolsConfiguration const& configuration, double foundLocation) const;
-    double getLocationOfPriotizedPrint(TcomToolsConfiguration const& configuration, string const& inputPath) const;\
+    double getLocationOfPriotizedPrint(TcomToolsConfiguration const& configuration, std::string const& inputPath) const;\
 };
 
 }

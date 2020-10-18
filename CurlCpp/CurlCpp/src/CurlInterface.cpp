@@ -64,4 +64,5 @@ template bool downloadBinaryFileUntilSuccessful<ConfigType::LowSpeedLimitAndMozi
 template bool downloadBinaryFileWithFiniteNumberOfTries<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath, int const totalNumberOfTries);
 
 }
+
 }

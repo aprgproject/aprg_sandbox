@@ -15,15 +15,16 @@ CrawlConfiguration::CrawlConfiguration(CrawlMode mode)
     case CrawlMode::Gehen:
         m_isFileToBeDownloadUntilSuccessful=false;
         m_numberOfRetries = 10;
-        m_minimumFileSize = 10000;
+        m_minimumFileSize = 0;
+        m_lowSpeedLimitOptional.createObjectUsingDefaultConstructor();
+        m_lowSpeedLimitOptional.getReference().m_lowSpeedLimit=1000;
+        m_lowSpeedLimitOptional.getReference().m_lowSpeedTime=10;
         break;
     case CrawlMode::GuroManga:
-        m_isFileToBeDownloadUntilSuccessful=true;
-        m_numberOfRetries = 0;
+        m_isFileToBeDownloadUntilSuccessful=true;        m_numberOfRetries = 0;
         m_minimumFileSize = 10000;
         break;
-    case CrawlMode::HBrowse:
-        m_isFileToBeDownloadUntilSuccessful=true;
+    case CrawlMode::HBrowse:        m_isFileToBeDownloadUntilSuccessful=true;
         m_numberOfRetries = 0;
         m_minimumFileSize = 10000;
         break;
@@ -81,6 +82,11 @@ int CrawlConfiguration::getNumberOfRetries() const
 double CrawlConfiguration::getMinimumFileSize() const
 {
     return m_minimumFileSize;
+}
+
+DownloadLowSpeedLimitConfigurationOptional CrawlConfiguration::getDownloadLowSpeedLimitConfigurationOptional() const
+{
+    return m_lowSpeedLimitOptional;
 }
 
 }
