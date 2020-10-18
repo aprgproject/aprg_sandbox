@@ -345,26 +345,39 @@ TEST(GetDataFromStringTest, RemoveWhitespacesFromString)
 
 TEST(TransformStringTest, FindAndReplaceStrings)
 {
-    string string1("Mark is the no#1 guy in the world. Also Mark is also the nicest guy.");
+    string string1("Mark is the no#1 guy in the world. Mark is also the nicest guy.");
     EXPECT_EQ(transformReplaceStringIfFound(string1, "alba", "ALBA"), false);
     EXPECT_EQ(transformReplaceStringIfFound(string1, "Mark", "MARK"), true);
-    EXPECT_EQ(string1, "MARK is the no#1 guy in the world. Also MARK is also the nicest guy.");
+    EXPECT_EQ(string1, "MARK is the no#1 guy in the world. MARK is also the nicest guy.");
     EXPECT_EQ(transformReplaceStringIfFound(string1, "guy", "programmer"), true);
-    EXPECT_EQ(string1, "MARK is the no#1 programmer in the world. Also MARK is also the nicest programmer.");
+    EXPECT_EQ(string1, "MARK is the no#1 programmer in the world. MARK is also the nicest programmer.");
+}
+
+TEST(SplitStringTest, SplitBySpaces)
+{
+    string string1("   Mark is the no#1      guy in the  world.    Mark is also the nicest guy.    ");
+    vector<string> expectedStrings {"Mark", "is", "the", "no#1", "guy", "in", "the", "world.", "Mark", "is", "also", "the", "nicest", "guy."};
+    vector<string> actualStrings;
+    splitString(actualStrings, string1, " ");
+
+    EXPECT_EQ(actualStrings.size(), expectedStrings.size());
+    int size = expectedStrings.size();
+    for(int i=0; i<size; i++)
+    {
+        EXPECT_EQ(actualStrings[i], expectedStrings[i]);
+    }
 }
 
 TEST(UniqueIdTest, GenerateUniqueId)
 {
-    string string1("Mark is the no#1 guy in the world. Also Mark is also the nicest guy.");
-    string string2("MARK is the no#1 programmer in the world. Also MARK is also the nicest programmer.");
+    string string1("Mark is the no#1 guy in the world. Mark is also the nicest guy.");
+    string string2("MARK is the no#1 programmer in the world. MARK is also the nicest programmer.");
     unsigned int uniqueId1 = generateUniqueId(string1);
     unsigned int uniqueId2 = generateUniqueId(string2);
-    EXPECT_EQ(uniqueId1, 552749853);
-    EXPECT_EQ(uniqueId2, 1436619827);
+    EXPECT_EQ(uniqueId1, 552749853);    EXPECT_EQ(uniqueId2, 1436619827);
 }
 
-TEST(UniqueIdTest, CheckLevenshteinDistance)
-{
+TEST(UniqueIdTest, CheckLevenshteinDistance){
     string string1("This is a statement");
     string string2("This is  statement");
     string string3("This is not a statement");

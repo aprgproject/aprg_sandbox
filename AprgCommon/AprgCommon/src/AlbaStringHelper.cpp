@@ -10,135 +10,150 @@ using namespace std;
 
 namespace alba{
 
-unsigned int stringHelper::getLevenshteinDistance(string const& string1, string const& string2)
+unsigned int stringHelper::getLevenshteinDistance(string const& mainString, string const& string2)
 {
-    int string1Length = string1.size();
+    int mainStringLength = mainString.size();
     int string2Length = string2.size();
 
-    vector<unsigned int> current(string2Length + 1);
-    vector<unsigned int> previous(string2Length + 1);
+    vector<unsigned int> current(string2Length + 1);    vector<unsigned int> previous(string2Length + 1);
 
     int i = 0;
     generate(previous.begin(), previous.end(), [&] {return i++; });
 
-    for (i = 0; i < string1Length; ++i)
+    for (i = 0; i < mainStringLength; ++i)
     {
         current[0] = i + 1;
 
         for (int j = 0; j < string2Length; ++j)
         {
-            auto cost = string1[i] == string2[j] ? 0 : 1;
+            auto cost = mainString[i] == string2[j] ? 0 : 1;
             current[j + 1] = min(min(current[j] + 1, previous[j + 1] + 1), previous[j] + cost);
         }
-
         current.swap(previous);
     }
     return previous[string2Length];
 }
 
-unsigned int stringHelper::generateUniqueId(string const& string1)
+unsigned int stringHelper::generateUniqueId(string const& mainString)
 {
     unsigned int uniqueId=1;
-    uniqueId = accumulate(string1.begin(), string1.end(), uniqueId, [](unsigned int c1, unsigned char c2)
+    uniqueId = accumulate(mainString.begin(), mainString.end(), uniqueId, [](unsigned int c1, unsigned char c2)
     {
         return (c1*c2)+1;
-    });
-    return uniqueId;
+    });    return uniqueId;
 }
 
-string stringHelper::constructFileLocator(string file, int lineNumber)
-{
+string stringHelper::constructFileLocator(string file, int lineNumber){
     stringstream ss;
     ss << file.substr(file.find_last_of(R"(\)")+1) << "[" << lineNumber << "]";
     return ss.str();
 }
 
-bool stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(string const& string1, string const& string2)
+bool stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(string const& mainString, string const& string2)
 {
-    return isNotNpos(string1.find(string2));
+    return isNotNpos(mainString.find(string2));
 }
 
-bool stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(string const& string1, string const& string2)
+bool stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(string const& mainString, string const& string2)
 {
-    return isStringFoundInsideTheOtherStringCaseSensitive(getStringWithCapitalLetters(string1), getStringWithCapitalLetters(string2));
+    return isStringFoundInsideTheOtherStringCaseSensitive(getStringWithCapitalLetters(mainString), getStringWithCapitalLetters(string2));
 }
 
-bool stringHelper::isEqualNotCaseSensitive(string const& string1, string const& string2)
+bool stringHelper::isEqualNotCaseSensitive(string const& mainString, string const& string2)
 {
-    return getStringWithCapitalLetters(string1) == getStringWithCapitalLetters(string2);
+    return getStringWithCapitalLetters(mainString) == getStringWithCapitalLetters(string2);
 }
 
-bool stringHelper::isNumber(string const& string1)
+bool stringHelper::isNumber(string const& mainString)
 {
-    return std::any_of(string1.begin(), string1.end(), [](char const character){ return isNumber(character);});
+    return std::any_of(mainString.begin(), mainString.end(), [](char const character){ return isNumber(character);});
 }
 
-bool stringHelper::isWhiteSpace(string const& string1)
+bool stringHelper::isWhiteSpace(string const& mainString)
 {
-    return std::all_of(string1.begin(), string1.end(), [](char const character){ return isWhiteSpace(character);});
+    return std::all_of(mainString.begin(), mainString.end(), [](char const character){ return isWhiteSpace(character);});
 }
 
-bool stringHelper::transformReplaceStringIfFound(string& string1, string const& toReplace, string const& replaceWith)
+bool stringHelper::transformReplaceStringIfFound(string& mainString, string const& toReplace, string const& replaceWith)
 {
     bool found=false;
     int toReplaceLength = toReplace.length();
     int replaceWithLength = replaceWith.length();
-    int index = string1.find(toReplace);
+    int index = mainString.find(toReplace);
     while(isNotNpos(index))
     {
         found = true;
-        string1.replace(index, toReplaceLength, replaceWith);
-        index = string1.find(toReplace, index + replaceWithLength);
+        mainString.replace(index, toReplaceLength, replaceWith);
+        index = mainString.find(toReplace, index + replaceWithLength);
     }
     return found;
 }
 
-string stringHelper::getStringWithCapitalLetters(string const& string1)
+void stringHelper::splitToStrings(stringHelper::strings & strings, std::string const& mainString, std::string const& delimiter)
+{
+    int startingIndex(0);
+    int delimiterIndex = mainString.find(delimiter);
+    int delimeterLength = delimiter.length();
+    int mainStringLength = mainString.length();
+    while(isNotNpos(delimiterIndex))
+    {
+        if(startingIndex != delimiterIndex)
+        {
+            strings.emplace_back(mainString.substr(startingIndex, delimiterIndex-startingIndex));
+        }
+        startingIndex = delimiterIndex + delimeterLength;
+        delimiterIndex = mainString.find(delimiter, startingIndex);
+    }
+    if(startingIndex != mainStringLength)
+    {
+        strings.emplace_back(mainString.substr(startingIndex, mainStringLength-startingIndex));
+    }
+}
+
+string stringHelper::getStringWithCapitalLetters(string const& mainString)
 {
     string result;
-    result.resize(string1.length());
-    transform(string1.begin(), string1.end(), result.begin(), ::toupper);
+    result.resize(mainString.length());
+    transform(mainString.begin(), mainString.end(), result.begin(), ::toupper);
     return result;
 }
 
-string stringHelper::getStringWithLowerCaseLetters(string const& string1)
+string stringHelper::getStringWithLowerCaseLetters(string const& mainString)
 {
     string result;
-    result.resize(string1.length());
-    transform(string1.begin(), string1.end(), result.begin(), ::tolower);
+    result.resize(mainString.length());
+    transform(mainString.begin(), mainString.end(), result.begin(), ::tolower);
     return result;
 }
 
-string stringHelper::getStringWithUrlDecodedString(string const& string1)
+string stringHelper::getStringWithUrlDecodedString(string const& mainString)
 {
     string result;
-    int index = 0, length = string1.length();
+    int index = 0, length = mainString.length();
     while(index < length)
     {
-        if(string1[index] == '%' && (index < length-2) && isHexDigit(string1[index + 1]) && isHexDigit(string1[index + 2]))
+        if(mainString[index] == '%' && (index < length-2) && isHexDigit(mainString[index + 1]) && isHexDigit(mainString[index + 2]))
         {
-            result += convertHexStringToNumber<char>(string1.substr(index + 1, 2));
+            result += convertHexStringToNumber<char>(mainString.substr(index + 1, 2));
             index += 3;
         }
         else
         {
-            result += string1[index++];
+            result += mainString[index++];
         }
     }
     return result;
 }
 
-string stringHelper::getStringWithoutStartingAndTrailingCharacters(string const& string1, string const& characters)
+string stringHelper::getStringWithoutStartingAndTrailingCharacters(string const& mainString, string const& characters)
 {
-    string result(string1);
+    string result(mainString);
     int firstIndexOfNotOfCharacters(result.find_first_not_of(characters));
     if(isNotNpos(firstIndexOfNotOfCharacters))
-    {
-        result.erase(0, firstIndexOfNotOfCharacters);
+    {        result.erase(0, firstIndexOfNotOfCharacters);
         int lastIndexOfOfNotOfCharacters(result.find_last_not_of(characters));
         if(isNotNpos(lastIndexOfOfNotOfCharacters))
-        {
-            result.erase(lastIndexOfOfNotOfCharacters+1);
+        {            result.erase(lastIndexOfOfNotOfCharacters+1);
         }
     }
     else
@@ -148,70 +163,68 @@ string stringHelper::getStringWithoutStartingAndTrailingCharacters(string const&
     return result;
 }
 
-string stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(string const& string1)
+string stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(string const& mainString)
 {
-    return getStringWithoutStartingAndTrailingCharacters(string1, WHITESPACE_STRING);
+    return getStringWithoutStartingAndTrailingCharacters(mainString, WHITESPACE_STRING);
 }
 
-string stringHelper::getStringWithoutRedundantWhiteSpace(string const& string1)
+string stringHelper::getStringWithoutRedundantWhiteSpace(string const& mainString)
 {
     string result;
-    int index = 0, length = string1.length();
+    int index = 0, length = mainString.length();
     while(index < length)
     {
-        int indexNotWhiteSpace = string1.find_first_not_of(WHITESPACE_STRING, index);
+        int indexNotWhiteSpace = mainString.find_first_not_of(WHITESPACE_STRING, index);
         if(isNpos(indexNotWhiteSpace)){break;}
-        int indexWhiteSpace = string1.find_first_of(WHITESPACE_STRING, indexNotWhiteSpace);
+        int indexWhiteSpace = mainString.find_first_of(WHITESPACE_STRING, indexNotWhiteSpace);
         index = (isNotNpos(indexWhiteSpace)) ? indexWhiteSpace : length;
         result += (!result.empty()) ? " " : "";
-        result += string1.substr(indexNotWhiteSpace, index-indexNotWhiteSpace);
+        result += mainString.substr(indexNotWhiteSpace, index-indexNotWhiteSpace);
     }
     return result;
 }
 
-string stringHelper::getStringWithoutQuotations(string const& string1)
+string stringHelper::getStringWithoutQuotations(string const& mainString)
 {
-    int length = string1.length();
-    if(length>2 && string1[0] == '\"' && string1[length-1] == '\"')
+    int length = mainString.length();
+    if(length>2 && mainString[0] == '\"' && mainString[length-1] == '\"')
     {
-        return string1.substr(1, length-2);
+        return mainString.substr(1, length-2);
     }
-    return string1;
+    return mainString;
 }
 
-string stringHelper::getStringWithoutCharAtTheStartAndEnd(string const& string1, char const char1)
+string stringHelper::getStringWithoutCharAtTheStartAndEnd(string const& mainString, char const char1)
 {
-    return getStringWithoutCharAtTheStart(getStringWithoutCharAtTheEnd(string1, char1), char1);
+    return getStringWithoutCharAtTheStart(getStringWithoutCharAtTheEnd(mainString, char1), char1);
 }
 
-string stringHelper::getStringWithoutCharAtTheStart(string const& string1, char const char1)
+string stringHelper::getStringWithoutCharAtTheStart(string const& mainString, char const char1)
 {
-    int length = string1.length();
-    int start = (string1[0] == char1) ? 1 : 0;
-    return string1.substr(start, length-start);
+    int length = mainString.length();
+    int start = (mainString[0] == char1) ? 1 : 0;
+    return mainString.substr(start, length-start);
 }
 
-string stringHelper::getStringWithoutCharAtTheEnd(string const& string1, char const char1)
+string stringHelper::getStringWithoutCharAtTheEnd(string const& mainString, char const char1)
 {
-    int length = string1.length();
-    int end = (string1[length-1] == char1) ? length-1 : length;
-    return string1.substr(0, end);
+    int length = mainString.length();
+    int end = (mainString[length-1] == char1) ? length-1 : length;
+    return mainString.substr(0, end);
 }
 
-string stringHelper::getStringWithoutOpeningClosingOperators(string const& string1, char const openingOperator, char const closingOperator)
+string stringHelper::getStringWithoutOpeningClosingOperators(string const& mainString, char const openingOperator, char const closingOperator)
 {
-    int length = string1.length();
-    int start = (string1[0] == openingOperator) ? 1 : 0;
-    int end = (string1[length-1] == closingOperator) ? length-1 : length;
-    return string1.substr(start, end-start);
+    int length = mainString.length();
+    int start = (mainString[0] == openingOperator) ? 1 : 0;
+    int end = (mainString[length-1] == closingOperator) ? length-1 : length;
+    return mainString.substr(start, end-start);
 }
 
-void stringHelper::copyBeforeStringAndAfterString(
-        string const& mainString,
+void stringHelper::copyBeforeStringAndAfterString(        string const& mainString,
         string const& stringToSearch,
         string & beforeString,
-        string & afterString,
-        int const indexToStartTheSearch)
+        string & afterString,        int const indexToStartTheSearch)
 {
     beforeString.clear();
     afterString.clear();
@@ -263,30 +276,28 @@ string stringHelper::getStringInBetweenTwoStrings(string const& mainString, stri
     return result;
 }
 
-string stringHelper::getStringBeforeThisCharacters(string const& string1, string const& characters, int const indexToStart)
+string stringHelper::getStringBeforeThisCharacters(string const& mainString, string const& characters, int const indexToStart)
 {
     string result;
-    int firstIndexOfNotOfCharacters(string1.find_first_of(characters, indexToStart));
+    int firstIndexOfNotOfCharacters(mainString.find_first_of(characters, indexToStart));
     if(isNotNpos(firstIndexOfNotOfCharacters))
     {
-        result = string1.substr(indexToStart, firstIndexOfNotOfCharacters-indexToStart);
+        result = mainString.substr(indexToStart, firstIndexOfNotOfCharacters-indexToStart);
     }
     return result;
 }
-
 string stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(string const& path)
 {
     bool isPreviousCharacterNonAlphanumeric = false;
-    string correctPath = std::accumulate(path.cbegin(), path.cend(), string(""), [&isPreviousCharacterNonAlphanumeric](string partialResult, char const currentCharacter)
+    string correctPath = std::accumulate(path.cbegin(), path.cend(), string(""), [&isPreviousCharacterNonAlphanumeric](string const& currentString, char const currentCharacter)
     {
+        string partialResult(currentString);
         if(!isLetterOrNumber(currentCharacter))
         {
-            if(!isPreviousCharacterNonAlphanumeric){partialResult += "_";}
-        }
+            if(!isPreviousCharacterNonAlphanumeric){partialResult += "_";}        }
         else
         {
-            partialResult += currentCharacter;
-        }
+            partialResult += currentCharacter;        }
         isPreviousCharacterNonAlphanumeric = !isLetterOrNumber(currentCharacter);
         return partialResult;
     });
@@ -334,33 +345,30 @@ string stringHelper::getCorrectPathWithReplacedSlashCharacters(string const& pat
     bool isSlashDetected = false;
     string correctPath = std::accumulate(path.cbegin(), path.cend(), string(""),
                                          [&isSlashDetected, slashCharacterString]
-                                         (string partialResult, char const currentCharacter)
+                                         (string const& currentString, char const currentCharacter)
     {
+        string partialResult(currentString);
         if(isSlashCharacter(currentCharacter))
         {
-            if(!isSlashDetected){partialResult += slashCharacterString;}
-        }
+            if(!isSlashDetected){partialResult += slashCharacterString;}        }
         else
         {
-            partialResult += currentCharacter;
-        }
+            partialResult += currentCharacter;        }
         isSlashDetected = isSlashCharacter(currentCharacter);
         return partialResult;
     });
     return correctPath;
 }
 
-string stringHelper::getCorrectPathWithoutDoublePeriod(string const& string1, string const& slashCharacterString)
+string stringHelper::getCorrectPathWithoutDoublePeriod(string const& mainString, string const& slashCharacterString)
 {
-    string correctPath(string1);
+    string correctPath(mainString);
     bool isDirectoryChanged = true;
     while(isDirectoryChanged)
-    {
-        isDirectoryChanged = false;
+    {        isDirectoryChanged = false;
         int indexOfDoublePeriod = correctPath.find(slashCharacterString+".."+slashCharacterString);
         if(isNotNpos(indexOfDoublePeriod))
-        {
-            int indexOfNearestSlash = correctPath.find_last_of(slashCharacterString, indexOfDoublePeriod-1);
+        {            int indexOfNearestSlash = correctPath.find_last_of(slashCharacterString, indexOfDoublePeriod-1);
             if(isNotNpos(indexOfNearestSlash))
             {
                 isDirectoryChanged = true;
@@ -371,36 +379,34 @@ string stringHelper::getCorrectPathWithoutDoublePeriod(string const& string1, st
     return correctPath;
 }
 
-string stringHelper::getStringBeforeDoublePeriod(string const& string1, string const& slashCharacterString)
+string stringHelper::getStringBeforeDoublePeriod(string const& mainString, string const& slashCharacterString)
 {
-    int indexOfLastDoublePeriod = string1.rfind(string("..")+slashCharacterString);
+    int indexOfLastDoublePeriod = mainString.rfind(string("..")+slashCharacterString);
     if(isNotNpos(indexOfLastDoublePeriod))
     {
-        return string1.substr(indexOfLastDoublePeriod+3);
+        return mainString.substr(indexOfLastDoublePeriod+3);
     }
-    return string1;
+    return mainString;
 }
 
-string stringHelper::getImmediateDirectoryName(string const& string1, string const& slashCharacterString)
+string stringHelper::getImmediateDirectoryName(string const& mainString, string const& slashCharacterString)
 {
-    int indexLastCharacterToSearch = string1.length();
+    int indexLastCharacterToSearch = mainString.length();
     string result;
     while(result.empty())
     {
-        int indexOfLastSlashString = string1.find_last_of(slashCharacterString, indexLastCharacterToSearch);
+        int indexOfLastSlashString = mainString.find_last_of(slashCharacterString, indexLastCharacterToSearch);
         if(isNpos(indexOfLastSlashString))
         {
             break;
         }
-        result = string1.substr(indexOfLastSlashString+1, indexLastCharacterToSearch-indexOfLastSlashString);
+        result = mainString.substr(indexOfLastSlashString+1, indexLastCharacterToSearch-indexOfLastSlashString);
         indexLastCharacterToSearch = indexOfLastSlashString-1;
     }
-    return result;
-}
+    return result;}
 
 template<char slashCharacter>
-string stringHelper::getCorrectPathWithReplacedSlashCharacters(string const& path)
-{
+string stringHelper::getCorrectPathWithReplacedSlashCharacters(string const& path){
     return getCorrectPathWithReplacedSlashCharacters(path, string("")+slashCharacter);
 }
 template string stringHelper::getCorrectPathWithReplacedSlashCharacters<'\\'>(string const& path);
