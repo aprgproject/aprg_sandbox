@@ -5,9 +5,11 @@
 #include <iostream>
 #include <string>
 #include <windows.h>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 AlbaWindowsPathHandler::AlbaWindowsPathHandler(string const& path)
     : AlbaPathHandler(R"(\)")
@@ -43,6 +45,7 @@ double AlbaWindowsPathHandler::getFileSizeEstimate()
     }
     return fileSizeEstimate;
 }
+
 bool AlbaWindowsPathHandler::isFoundInLocalSystem() const
 {
     return m_foundInLocalSystem;
@@ -51,10 +54,12 @@ bool AlbaWindowsPathHandler::isFoundInLocalSystem() const
 void AlbaWindowsPathHandler::createDirectoriesForNonExisitingDirectories() const
 {
     string fullPath(getFullPath());
-    int index = 0, length = fullPath.length();    while(index < length)
+    int index = 0, length = fullPath.length();
+    while(index < length)
     {
         int indexWithSlashCharacter = fullPath.find_first_of(m_slashCharacterString, index);
-        if(stringHelper::isNpos(indexWithSlashCharacter)){break;}        string partialDirectory(fullPath.substr(0, indexWithSlashCharacter+1));
+        if(stringHelper::isNpos(indexWithSlashCharacter)){break;}
+        string partialDirectory(fullPath.substr(0, indexWithSlashCharacter+1));
         AlbaWindowsPathHandler partialDirectoryPathHandler(partialDirectory);
         if(!partialDirectoryPathHandler.isFoundInLocalSystem())
         {
@@ -116,9 +121,11 @@ bool AlbaWindowsPathHandler::renameImmediateDirectory(string const& newDirectory
     return isSuccessful;
 }
 
-bool AlbaWindowsPathHandler::isRelativePath() const{
+bool AlbaWindowsPathHandler::isRelativePath() const
+{
     return m_relativePath;
 }
+
 void AlbaWindowsPathHandler::save(string const& path)
 {
     string correctPath(stringHelper::getCorrectPathWithoutDoublePeriod(

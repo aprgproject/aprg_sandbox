@@ -51,10 +51,12 @@ void WebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
         downloadPathHandler.createDirectoriesForNonExisitingDirectories();
         downloadBinaryFile(fileToDownloadWebPathHandler, downloadPathHandler);
         if(downloadPathHandler.getFileSizeEstimate() < configuration.getMinimumFileSize())
-        {            cout << "Download file size is less than "<<configuration.getMinimumFileSize()<<". FileSize = "<< downloadPathHandler.getFileSizeEstimate() <<" Invalid file. Retrying from the start" << endl;
+        {
+            cout << "Download file size is less than "<<configuration.getMinimumFileSize()<<". FileSize = "<< downloadPathHandler.getFileSizeEstimate() <<" Invalid file. Retrying from the start" << endl;
             saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
             continue;
-        }        if(links.linkForNextHtml.empty())
+        }
+        if(links.linkForNextHtml.empty())
         {
             cout << "Terminating the because next web link is empty." << endl;
             saveStateToMemoryCard(CrawlState::NextLinkIsInvalid);

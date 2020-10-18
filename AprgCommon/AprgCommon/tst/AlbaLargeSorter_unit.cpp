@@ -365,10 +365,12 @@ TEST(AlbaLargeSorterTest, PrimitiveDataTypesForBlocksAreCreatedWhenBlocksWhenMem
     }
     int expectedValue=0;
     largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)
-    {        EXPECT_EQ(expectedValue++, actualValue);
+    {
+        EXPECT_EQ(expectedValue++, actualValue);
     });
     EXPECT_EQ(10, expectedValue);
 }
+
 TEST(AlbaLargeSorterTest, FilesForBlocksAreDeletedAfterFileForBlocksAreCreated)
 {
     AlbaWindowsPathHandler directoryPathHandler(ALBA_LARGE_SORTER_BLOCK_DIR);

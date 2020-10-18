@@ -22,10 +22,12 @@ public:
     bool renameImmediateDirectory(std::string const& newDirectoryName);
     bool isRelativePath() const;
     void findFilesAndDirectoriesOneDepth(
-            std::string const& wildCardSearch,            ListOfPaths& listOfFiles,
+            std::string const& wildCardSearch,
+            ListOfPaths& listOfFiles,
             ListOfPaths& listOfDirectories) const;
     void findFilesAndDirectoriesMultipleDepth(
-            std::string const& wildCardSearch,            ListOfPaths& listOfFiles,
+            std::string const& wildCardSearch,
+            ListOfPaths& listOfFiles,
             ListOfPaths& listOfDirectories,
             int depth) const;
     void findFilesAndDirectoriesUnlimitedDepth(
@@ -45,6 +47,7 @@ private:
     std::string getLastFormattedErrorMessage(int const errorCode) const;
     std::string m_drive;
     bool m_foundInLocalSystem;
-    bool m_relativePath;};
+    bool m_relativePath;
+};
 
 }//namespace alba

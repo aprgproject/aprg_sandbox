@@ -4,6 +4,7 @@
 #include <vector>
 
 namespace alba{
+
 std::string const WHITESPACE_STRING = " \t\n\r";
 
 namespace stringHelper{
@@ -36,10 +37,12 @@ std::string getStringWithoutCharAtTheEnd(std::string const& mainString, char con
 std::string getStringWithoutOpeningClosingOperators(std::string const& mainString, char const openingOperator, char const closingOperator);
 void copyBeforeStringAndAfterString(std::string const& mainString, std::string const& stringToSearch, std::string & beforeString, std::string & afterString, int const indexToStartTheSearch = 0);
 std::string getStringBeforeThisString(std::string const& mainString, std::string const& stringToSearch, int const indexToStart=0);
-std::string getStringAfterThisString(std::string const& mainString, std::string const& stringToSearch, int const indexToStart=0);std::string getStringInBetweenTwoStrings(std::string const& mainString, std::string const& firstString, std::string const& secondString, int const indexToStart=0);
+std::string getStringAfterThisString(std::string const& mainString, std::string const& stringToSearch, int const indexToStart=0);
+std::string getStringInBetweenTwoStrings(std::string const& mainString, std::string const& firstString, std::string const& secondString, int const indexToStart=0);
 std::string getStringBeforeThisCharacters(std::string const& mainString, std::string const& characters, int const indexToStart=0);
 std::string getStringAndReplaceNonAlphanumericCharactersToUnderScore(std::string const& path);
 std::string getNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
+
 std::string getCorrectPathWithoutUrlParameters(std::string const& path);
 std::string getUrlParameters(std::string const& path);
 std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path, std::string const& slashCharacterString);
@@ -48,10 +51,12 @@ std::string getStringBeforeDoublePeriod(std::string const& mainString, std::stri
 std::string getImmediateDirectoryName(std::string const& mainString, std::string const& slashCharacterString);
 template<char slashCharacterString> std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path);
 template<char slashCharacterString> std::string getCorrectPathWithoutDoublePeriod(std::string const& path);
-template<char slashCharacterString> std::string getStringBeforeDoublePeriod(std::string const& path);template<char slashCharacterString> std::string getImmediateDirectoryName(std::string const& path);
+template<char slashCharacterString> std::string getStringBeforeDoublePeriod(std::string const& path);
+template<char slashCharacterString> std::string getImmediateDirectoryName(std::string const& path);
 
 bool convertStringToBool(std::string const& stringToConvert);
-template <typename NumberType> NumberType convertStringToNumber(std::string const& stringToConvert);template <typename NumberType> NumberType convertHexStringToNumber(std::string const& stringToConvert);
+template <typename NumberType> NumberType convertStringToNumber(std::string const& stringToConvert);
+template <typename NumberType> NumberType convertHexStringToNumber(std::string const& stringToConvert);
 template <typename NumberType> std::string convertNumberToString(NumberType number);
 
 inline bool isWhiteSpace(char const c)
@@ -125,4 +130,5 @@ inline bool isLessThanStringLength(std::string const& mainString, int const inde
 }
 
 } //namespace stringHelper
+
 }//namespace alba

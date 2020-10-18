@@ -492,6 +492,7 @@ TEST(WindowsPathTest, FileSizeTest_FileIsExisting)
 {
     AlbaWindowsPathHandler pathHandler(SIZE_TEST_FILE);
 
-    ASSERT_EQ(pathHandler.getPathType(), PathType::File);    ASSERT_TRUE(pathHandler.isFoundInLocalSystem());
+    ASSERT_EQ(pathHandler.getPathType(), PathType::File);
+    ASSERT_TRUE(pathHandler.isFoundInLocalSystem());
     EXPECT_DOUBLE_EQ(pathHandler.getFileSizeEstimate(), 5000);
 }

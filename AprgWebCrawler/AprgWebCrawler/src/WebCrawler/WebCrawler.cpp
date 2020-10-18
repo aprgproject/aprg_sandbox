@@ -38,10 +38,12 @@ WebCrawler::WebCrawler(string const& workingDirectory, string const& webLink)
     m_memoryCardPathHandler.createDirectoriesForNonExisitingDirectories();
     saveMemoryCard();
     m_downloadDirectoryPathHandler.reInput();
-    m_memoryCardPathHandler.reInput();}
+    m_memoryCardPathHandler.reInput();
+}
 
 bool WebCrawler::isValid() const
-{    return m_downloadDirectoryPathHandler.isFoundInLocalSystem() &&
+{
+    return m_downloadDirectoryPathHandler.isFoundInLocalSystem() &&
             m_downloadDirectoryPathHandler.isDirectory() &&
             m_memoryCardPathHandler.isFoundInLocalSystem() &&
             m_memoryCardPathHandler.isFile() &&

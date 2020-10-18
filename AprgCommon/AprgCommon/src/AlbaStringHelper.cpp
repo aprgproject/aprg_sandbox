@@ -15,7 +15,8 @@ unsigned int stringHelper::getLevenshteinDistance(string const& mainString, stri
     int mainStringLength = mainString.size();
     int string2Length = string2.size();
 
-    vector<unsigned int> current(string2Length + 1);    vector<unsigned int> previous(string2Length + 1);
+    vector<unsigned int> current(string2Length + 1);
+    vector<unsigned int> previous(string2Length + 1);
 
     int i = 0;
     generate(previous.begin(), previous.end(), [&] {return i++; });
@@ -29,6 +30,7 @@ unsigned int stringHelper::getLevenshteinDistance(string const& mainString, stri
             auto cost = mainString[i] == string2[j] ? 0 : 1;
             current[j + 1] = min(min(current[j] + 1, previous[j + 1] + 1), previous[j] + cost);
         }
+
         current.swap(previous);
     }
     return previous[string2Length];
@@ -40,10 +42,12 @@ unsigned int stringHelper::generateUniqueId(string const& mainString)
     uniqueId = accumulate(mainString.begin(), mainString.end(), uniqueId, [](unsigned int c1, unsigned char c2)
     {
         return (c1*c2)+1;
-    });    return uniqueId;
+    });
+    return uniqueId;
 }
 
-string stringHelper::constructFileLocator(string file, int lineNumber){
+string stringHelper::constructFileLocator(string file, int lineNumber)
+{
     stringstream ss;
     ss << file.substr(file.find_last_of(R"(\)")+1) << "[" << lineNumber << "]";
     return ss.str();
@@ -150,10 +154,12 @@ string stringHelper::getStringWithoutStartingAndTrailingCharacters(string const&
     string result(mainString);
     int firstIndexOfNotOfCharacters(result.find_first_not_of(characters));
     if(isNotNpos(firstIndexOfNotOfCharacters))
-    {        result.erase(0, firstIndexOfNotOfCharacters);
+    {
+        result.erase(0, firstIndexOfNotOfCharacters);
         int lastIndexOfOfNotOfCharacters(result.find_last_not_of(characters));
         if(isNotNpos(lastIndexOfOfNotOfCharacters))
-        {            result.erase(lastIndexOfOfNotOfCharacters+1);
+        {
+            result.erase(lastIndexOfOfNotOfCharacters+1);
         }
     }
     else
@@ -221,10 +227,12 @@ string stringHelper::getStringWithoutOpeningClosingOperators(string const& mainS
     return mainString.substr(start, end-start);
 }
 
-void stringHelper::copyBeforeStringAndAfterString(        string const& mainString,
+void stringHelper::copyBeforeStringAndAfterString(
+        string const& mainString,
         string const& stringToSearch,
         string & beforeString,
-        string & afterString,        int const indexToStartTheSearch)
+        string & afterString,
+        int const indexToStartTheSearch)
 {
     beforeString.clear();
     afterString.clear();
@@ -286,6 +294,7 @@ string stringHelper::getStringBeforeThisCharacters(string const& mainString, str
     }
     return result;
 }
+
 string stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(string const& path)
 {
     bool isPreviousCharacterNonAlphanumeric = false;
@@ -294,10 +303,12 @@ string stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(st
         string partialResult(currentString);
         if(!isLetterOrNumber(currentCharacter))
         {
-            if(!isPreviousCharacterNonAlphanumeric){partialResult += "_";}        }
+            if(!isPreviousCharacterNonAlphanumeric){partialResult += "_";}
+        }
         else
         {
-            partialResult += currentCharacter;        }
+            partialResult += currentCharacter;
+        }
         isPreviousCharacterNonAlphanumeric = !isLetterOrNumber(currentCharacter);
         return partialResult;
     });
@@ -350,10 +361,12 @@ string stringHelper::getCorrectPathWithReplacedSlashCharacters(string const& pat
         string partialResult(currentString);
         if(isSlashCharacter(currentCharacter))
         {
-            if(!isSlashDetected){partialResult += slashCharacterString;}        }
+            if(!isSlashDetected){partialResult += slashCharacterString;}
+        }
         else
         {
-            partialResult += currentCharacter;        }
+            partialResult += currentCharacter;
+        }
         isSlashDetected = isSlashCharacter(currentCharacter);
         return partialResult;
     });
@@ -365,10 +378,12 @@ string stringHelper::getCorrectPathWithoutDoublePeriod(string const& mainString,
     string correctPath(mainString);
     bool isDirectoryChanged = true;
     while(isDirectoryChanged)
-    {        isDirectoryChanged = false;
+    {
+        isDirectoryChanged = false;
         int indexOfDoublePeriod = correctPath.find(slashCharacterString+".."+slashCharacterString);
         if(isNotNpos(indexOfDoublePeriod))
-        {            int indexOfNearestSlash = correctPath.find_last_of(slashCharacterString, indexOfDoublePeriod-1);
+        {
+            int indexOfNearestSlash = correctPath.find_last_of(slashCharacterString, indexOfDoublePeriod-1);
             if(isNotNpos(indexOfNearestSlash))
             {
                 isDirectoryChanged = true;
@@ -403,10 +418,12 @@ string stringHelper::getImmediateDirectoryName(string const& mainString, string 
         result = mainString.substr(indexOfLastSlashString+1, indexLastCharacterToSearch-indexOfLastSlashString);
         indexLastCharacterToSearch = indexOfLastSlashString-1;
     }
-    return result;}
+    return result;
+}
 
 template<char slashCharacter>
-string stringHelper::getCorrectPathWithReplacedSlashCharacters(string const& path){
+string stringHelper::getCorrectPathWithReplacedSlashCharacters(string const& path)
+{
     return getCorrectPathWithReplacedSlashCharacters(path, string("")+slashCharacter);
 }
 template string stringHelper::getCorrectPathWithReplacedSlashCharacters<'\\'>(string const& path);

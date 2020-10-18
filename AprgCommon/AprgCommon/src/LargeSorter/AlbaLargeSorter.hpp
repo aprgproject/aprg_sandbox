@@ -9,9 +9,11 @@
 
 namespace alba
 {
+
 template <typename ObjectToSort>
 class AlbaLargeSorter
-{    typedef AlbaLargeSorterBlockType<ObjectToSort> BlockType;
+{
+    typedef AlbaLargeSorterBlockType<ObjectToSort> BlockType;
     typedef AlbaLargeSorterBlockIterator<ObjectToSort> BlockIterator;
     typedef AlbaLargeSorterCache<BlockIterator> BlockCache;
     typedef typename BlockCache::BlockInformationPair BlockInformationPair;
@@ -145,10 +147,12 @@ private:
         for(std::string const& filePath : listOfFiles)
         {
             AlbaWindowsPathHandler(filePath).deleteFile();
-        }    }
+        }
+    }
     unsigned long long m_size;
     AlbaLargeSorterConfiguration const m_configuration;
-    BlockCache m_memoryCache;    BlockCache m_fileStreamOpenedCache;
+    BlockCache m_memoryCache;
+    BlockCache m_fileStreamOpenedCache;
     DataBlocks<ObjectToSort> m_blocks;
 };
 
