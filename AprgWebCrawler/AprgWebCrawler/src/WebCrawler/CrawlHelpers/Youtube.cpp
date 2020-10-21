@@ -5,9 +5,11 @@
 #include <CrawlConfiguration/CrawlConfiguration.hpp>
 #include <fstream>
 #include <iostream>
+
 using namespace alba;
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace aprgWebCrawler
 {
 
@@ -26,10 +28,12 @@ void WebCrawler::crawlForYoutube()
 void WebCrawler::crawlForYoutube_old(string & webLink, ofstream& convertedYoutubeLinkStream)
 {
     cout << "WebCrawler::crawlForYoutube" << endl;
-    while(!isCrawlStateInvalid())    {
+    while(!isCrawlStateInvalid())
+    {
         if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "youtube"))
         {
-            cout << "Not a youtube link : " << webLink << endl;            saveStateToMemoryCard(CrawlState::LinksAreInvalid);
+            cout << "Not a youtube link : " << webLink << endl;
+            saveStateToMemoryCard(CrawlState::LinksAreInvalid);
             break;
         }
         string ssYoutubeLink(webLink);
@@ -56,10 +60,12 @@ void WebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutubeLin
     CrawlConfiguration configuration(m_mode);
     while(!isCrawlStateInvalid())
     {
-        if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "youtube"))        {
+        if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "youtube"))
+        {
             cout << "Not a youtube link : " << webLink << endl;
             saveStateToMemoryCard(CrawlState::LinksAreInvalid);
-            break;        }
+            break;
+        }
         AlbaWebPathHandler webPathHandler(webLink);
         LinksForYoutube links(getLinkForYoutube(webPathHandler));
         if(links.isInvalid())
@@ -80,10 +86,12 @@ void WebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutubeLin
         }
         convertedYoutubeLinkStream << links.linkForVideo << endl << flush;
         webLink.clear();
-        setCrawlState(CrawlState::Active);        saveMemoryCard();
+        setCrawlState(CrawlState::Active);
+        saveMemoryCard();
         break;
     }
 }
+
 LinksForYoutube WebCrawler::getLinkForYoutube(AlbaWebPathHandler const& webLinkPathHandler) const
 {
     LinksForYoutube links;
@@ -111,4 +119,5 @@ LinksForYoutube WebCrawler::getLinkForYoutube(AlbaWebPathHandler const& webLinkP
     }
     return links;
 }
+
 }

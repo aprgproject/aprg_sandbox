@@ -1,4 +1,4 @@
-#include "WebCrawler.hpp"
+#include <Crawlers/OneDownloadPerPageCrawler.hpp>
 
 #include <AlbaFileReader.hpp>
 #include <AlbaStringHelper.hpp>
@@ -12,37 +12,35 @@ using namespace std;
 namespace aprgWebCrawler
 {
 
-LinksForHtmlAndFileToDownload WebCrawler::getLinksForMangaFox(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const
+void OneDownloadPerPageCrawler::retrieveLinksForMangaFox(AlbaWebPathHandler const& webLinkPathHandler)
 {
-    LinksForHtmlAndFileToDownload links = getNextLinkAndImageLinkForMangaFox(pathOfHtmlFile);
+    retrieveNextLinkAndImageLinkForMangaFox(webLinkPathHandler);
     AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);
-    imageWebPathHandler.gotoLink(links.linkForCurrentFileToDownload);
-    links.localPathForCurrentFileToDownload = m_downloadDirectoryPathHandler.getDirectory() + webLinkPathHandler.getImmediateDirectoryName() + R"(\)" + imageWebPathHandler.getFile();
-    return links;
+    imageWebPathHandler.gotoLink(m_linkForCurrentFileToDownload);
+    m_localPathForCurrentFileToDownload = m_webCrawler.getDownloadDirectory() + webLinkPathHandler.getImmediateDirectoryName() + R"(\)" + imageWebPathHandler.getFile();
 }
 
-LinksForHtmlAndFileToDownload WebCrawler::getLinksForMangaFoxSaveInVolumeAndChapter(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const
+void OneDownloadPerPageCrawler::retrieveLinksForMangaFoxSaveInVolumeAndChapter(AlbaWebPathHandler const& webLinkPathHandler)
 {
+    retrieveNextLinkAndImageLinkForMangaFox(webLinkPathHandler);
     AlbaWebPathHandler webPathForFolderName(webLinkPathHandler);
-    LinksForHtmlAndFileToDownload links = getNextLinkAndImageLinkForMangaFox(pathOfHtmlFile);
     string folderName(webPathForFolderName.getImmediateDirectoryName());
     webPathForFolderName.goUp();
     folderName = webPathForFolderName.getImmediateDirectoryName() + "_" + folderName;
     AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);
-    imageWebPathHandler.gotoLink(links.linkForCurrentFileToDownload);
-    links.localPathForCurrentFileToDownload = m_downloadDirectoryPathHandler.getDirectory() + folderName + R"(\)" + imageWebPathHandler.getFile();
-    return links;
+    imageWebPathHandler.gotoLink(m_linkForCurrentFileToDownload);
+    m_localPathForCurrentFileToDownload = m_webCrawler.getDownloadDirectory() + folderName + R"(\)" + imageWebPathHandler.getFile();
 }
 
-LinksForHtmlAndFileToDownload WebCrawler::getNextLinkAndImageLinkForMangaFox(string const& pathOfHtmlFile) const
+void OneDownloadPerPageCrawler::retrieveNextLinkAndImageLinkForMangaFox(AlbaWebPathHandler const& webLinkPathHandler)
 {
-    LinksForHtmlAndFileToDownload links;
-    ifstream htmlFileStream(pathOfHtmlFile);
+    AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
+    m_webCrawler.downloadFileAsText(webLinkPathHandler, downloadPathHandler);
+    ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
         cout << "Cannot open html file." << endl;
-        cout << "File to read:" << pathOfHtmlFile << endl;
-        return links;
+        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
     }
     string nextPageLink;
     string nextChapterLink;
@@ -56,7 +54,7 @@ LinksForHtmlAndFileToDownload WebCrawler::getNextLinkAndImageLinkForMangaFox(str
             string nextLineInHtmlFile(htmlFileReader.simpleGetLine());
             if(isStringFoundInsideTheOtherStringCaseSensitive(nextLineInHtmlFile, R"(<img src=")"))
             {
-                links.linkForCurrentFileToDownload = getStringInBetweenTwoStrings(nextLineInHtmlFile, R"(img src=")", R"(")");
+                m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(nextLineInHtmlFile, R"(img src=")", R"(")");
             }
         }
         else if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(class="btn next_page"><span></span>next page</a>)"))
@@ -72,13 +70,12 @@ LinksForHtmlAndFileToDownload WebCrawler::getNextLinkAndImageLinkForMangaFox(str
     if("next_chapter()" == onClickNextPage || "javascript:void(0);" == nextPageLink)
     {
         cout << "New chapter. NextChapterLink :" << nextChapterLink << endl;
-        links.linkForNextHtml = nextChapterLink;
+        m_linkForNextHtml = nextChapterLink;
     }
     else
     {
-        links.linkForNextHtml = nextPageLink;
+        m_linkForNextHtml = nextPageLink;
     }
-    return links;
 }
 
 }

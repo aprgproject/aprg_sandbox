@@ -1,4 +1,4 @@
-#include "WebCrawler.hpp"
+#include <Crawlers/OneDownloadPerPageCrawler.hpp>
 
 #include <AlbaFileReader.hpp>
 #include <AlbaStringHelper.hpp>
@@ -12,15 +12,16 @@ using namespace std;
 namespace aprgWebCrawler
 {
 
-LinksForHtmlAndFileToDownload WebCrawler::getLinksForGuroManga(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const
+void OneDownloadPerPageCrawler::retrieveLinksForGuroManga(AlbaWebPathHandler const& webLinkPathHandler)
 {
-    LinksForHtmlAndFileToDownload links;
-    ifstream htmlFileStream(pathOfHtmlFile);
+    AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
+    m_webCrawler.downloadFileAsText(webLinkPathHandler, downloadPathHandler);
+    ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
         cout << "Cannot open html file." << endl;
-        cout << "File to read:" << pathOfHtmlFile << endl;
-        return links;
+        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
+        return;
     }
     bool isDivClassImage(false);
     string title;
@@ -34,14 +35,14 @@ LinksForHtmlAndFileToDownload WebCrawler::getLinksForGuroManga(AlbaWebPathHandle
         }
         else if(isDivClassImage && isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<a href=")"))
         {
-            links.linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<a href=")", R"(")");
+            m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<a href=")", R"(")");
         }
         else if(isDivClassImage && isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<img src=")"))
         {
-            links.linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<img src=")", R"(")");
-            stringHelper::transformReplaceStringIfFound(links.linkForCurrentFileToDownload, R"(&#039;)", R"(')" ); // fix tis
+            m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<img src=")", R"(")");
+            stringHelper::transformReplaceStringIfFound(m_linkForCurrentFileToDownload, R"(&#039;)", R"(')" ); // fix tis
             isDivClassImage = false;
-            cout << links.linkForCurrentFileToDownload <<endl;
+            cout << m_linkForCurrentFileToDownload <<endl;
         }
         else if(isDivClassImage && isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<title>)"))
         {
@@ -51,14 +52,12 @@ LinksForHtmlAndFileToDownload WebCrawler::getLinksForGuroManga(AlbaWebPathHandle
 
     }
     AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);
-    imageWebPathHandler.gotoLink(links.linkForCurrentFileToDownload);
-    links.localPathForCurrentFileToDownload =
-            m_downloadDirectoryPathHandler.getDirectory()
+    imageWebPathHandler.gotoLink(m_linkForCurrentFileToDownload);
+    m_localPathForCurrentFileToDownload =
+            m_webCrawler.getDownloadDirectory()
             + title
             + R"(\)"
             + imageWebPathHandler.getFile();
-    links.printLinks();
-    return links;
 }
 
 }

@@ -361,10 +361,12 @@ TEST(SplitStringTest, SplitBySpaces)
     splitToStrings(actualStrings, string1, " ");
 
     EXPECT_EQ(actualStrings.size(), expectedStrings.size());
-    int size = expectedStrings.size();    for(int i=0; i<size; i++)
+    int size = expectedStrings.size();
+    for(int i=0; i<size; i++)
     {
         EXPECT_EQ(actualStrings[i], expectedStrings[i]);
-    }}
+    }
+}
 
 TEST(UniqueIdTest, GenerateUniqueId)
 {

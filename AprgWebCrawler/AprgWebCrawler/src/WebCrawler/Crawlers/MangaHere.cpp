@@ -1,4 +1,4 @@
-#include "WebCrawler.hpp"
+#include <Crawlers/OneDownloadPerPageCrawler.hpp>
 
 #include <AlbaFileReader.hpp>
 #include <AlbaStringHelper.hpp>
@@ -12,15 +12,16 @@ using namespace std;
 namespace aprgWebCrawler
 {
 
-LinksForHtmlAndFileToDownload WebCrawler::getLinksForMangaHere(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const
+void OneDownloadPerPageCrawler::retrieveLinksForMangaHere(AlbaWebPathHandler const& webLinkPathHandler)
 {
-    LinksForHtmlAndFileToDownload links;
-    ifstream htmlFileStream(pathOfHtmlFile);
+    AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
+    m_webCrawler.downloadFileAsText(webLinkPathHandler, downloadPathHandler);
+    ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
         cout << "Cannot open html file." << endl;
-        cout << "File to read:" << pathOfHtmlFile << endl;
-        return links;
+        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
+        return;
     }
     bool insideImportantSection(false);
     string nextPageLink;
@@ -39,7 +40,7 @@ LinksForHtmlAndFileToDownload WebCrawler::getLinksForMangaHere(AlbaWebPathHandle
         }
         else if(insideImportantSection && isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(img src=")"))
         {
-            links.linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"(img src=")", R"(")");
+            m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"(img src=")", R"(")");
         }
         else if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, "<strong>Next Chapter:</strong>"))
         {
@@ -52,22 +53,21 @@ LinksForHtmlAndFileToDownload WebCrawler::getLinksForMangaHere(AlbaWebPathHandle
         else if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<div class="mangaread_error">)"))
         {
             cout << "Final Chapter found" << endl;
-            return links;
+            return;
         }
     }
     if("javascript:void(0);" == nextPageLink)
     {
         cout << "New chapter. NextChapterLink :" << nextChapterLink << endl;
-        links.linkForNextHtml = nextChapterLink;
+        m_linkForNextHtml = nextChapterLink;
     }
     else
     {
-        links.linkForNextHtml = nextPageLink;
+        m_linkForNextHtml = nextPageLink;
     }
     AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);
-    imageWebPathHandler.gotoLink(links.linkForCurrentFileToDownload);
-    links.localPathForCurrentFileToDownload = m_downloadDirectoryPathHandler.getDirectory() + webLinkPathHandler.getImmediateDirectoryName() + R"(\)" + imageWebPathHandler.getFile();
-    return links;
+    imageWebPathHandler.gotoLink(m_linkForCurrentFileToDownload);
+    m_localPathForCurrentFileToDownload = m_webCrawler.getDownloadDirectory() + webLinkPathHandler.getImmediateDirectoryName() + R"(\)" + imageWebPathHandler.getFile();
 }
 
 }

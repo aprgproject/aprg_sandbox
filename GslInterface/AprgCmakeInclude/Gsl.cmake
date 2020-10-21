@@ -7,6 +7,7 @@ set(GSL_INCLUDE_DIRECTORIES
 )
 
 include_directories(${GSL_INCLUDE_DIRECTORIES})
+
 # add libraries
 add_library(GSL SHARED IMPORTED)
 set_property(TARGET GSL PROPERTY IMPORTED_IMPLIB ${GSL_INTERFACE_DIR}/lib/libgsl.a)

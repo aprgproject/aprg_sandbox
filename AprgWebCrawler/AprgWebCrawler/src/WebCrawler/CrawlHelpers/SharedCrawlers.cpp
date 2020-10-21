@@ -30,7 +30,7 @@ void WebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
         AlbaWebPathHandler currentWebLinkPathHandler(webLink);
         AlbaWindowsPathHandler downloadPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\temp.html)");
         downloadFileAsText(currentWebLinkPathHandler, downloadPathHandler);
-        LinksForHtmlAndFileToDownload links(getLinks(currentWebLinkPathHandler, downloadPathHandler.getFullPath()));
+        LinksForHtmlAndFileToDownload links;
         if(links.isInvalid())
         {
             cout << "Links are invalid." << endl;
@@ -74,40 +74,6 @@ void WebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
         setCrawlState(CrawlState::Active);
         saveMemoryCard();
     }
-}
-
-LinksForHtmlAndFileToDownload WebCrawler::getLinks(AlbaWebPathHandler const& webLinkPathHandler, string const& pathOfHtmlFile) const
-{
-    switch(m_mode)
-    {
-    case CrawlMode::Gehen:
-        return getLinksForGehen(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlMode::GuroManga:
-        return getLinksForGuroManga(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlMode::HBrowse:
-        return getLinksForHBrowse(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlMode::Hentai2Read:
-        return getLinksForHentai2Read(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlMode::Mangafox:
-        return getLinksForMangaFox(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlMode::MangafoxWithVolume:
-        return getLinksForMangaFoxSaveInVolumeAndChapter(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlMode::Mangahere:
-        return getLinksForMangaHere(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlMode::MangaPark:
-        return getLinksForMangaPark(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlMode::Y8:
-        return getLinksForY8(webLinkPathHandler, pathOfHtmlFile);
-    case CrawlMode::ChiaAnime:
-    case CrawlMode::Youtube:
-        cout << "WebCrawler::getLinks | Mode is not recognized" << endl;
-        break;
-    case CrawlMode::Empty:
-    case CrawlMode::Unknown:
-        cout << "WebCrawler::getLinks | Mode is not set" << endl;
-        break;
-    }
-    return LinksForHtmlAndFileToDownload();
 }
 
 }

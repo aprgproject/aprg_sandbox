@@ -379,7 +379,7 @@ void UserInterface::renameImmediateDirectoryToTitle(string const& downloadDirect
     string title;
     {
         WebCrawler crawler(downloadDirectory);
-        title = crawler.getTitleFromFirstWebLink();
+        title = crawler.getNewDirectoryName();
     }
     cout << "WebCrawler::renameImmediateToTitle | downloadDirectory: " << downloadDirectory << " title: " << title << endl;
     if(!title.empty())
@@ -406,7 +406,7 @@ void UserInterface::createBatchFile() const
         {
             AlbaWindowsPathHandler directoryPathHandler(directory);
             WebCrawler crawler(directory);
-            string newDirectoryName(crawler.getTitleFromFirstWebLink());
+            string newDirectoryName(crawler.getNewDirectoryName());
             if(newDirectoryName.empty())
             {
                 newDirectoryName = stringHelper::getStringWithoutStartingAndTrailingCharacters(

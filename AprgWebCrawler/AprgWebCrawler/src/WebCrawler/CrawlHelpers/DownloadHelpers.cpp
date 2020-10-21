@@ -10,16 +10,19 @@ using namespace alba;
 using namespace curl::CurlInterface;
 using namespace std;
 
+#define PHANTOM_BIN_PATH R"(C:\APRG\PhantomJs\PhantomJs\bin\)"
+
 namespace aprgWebCrawler
 {
 
-
 bool WebCrawler::downloadBinaryFile(
         AlbaWebPathHandler const& fileToDownloadWebPathHandler,
-        AlbaWindowsPathHandler const& downloadPathHandler) const{
+        AlbaWindowsPathHandler const& downloadPathHandler) const
+{
     bool isSuccessful(false);
     CrawlConfiguration configuration(m_mode);
-    DownloadLowSpeedLimitConfigurationOptional downloadLowSpeedLimitConfigurationOptional(configuration.getDownloadLowSpeedLimitConfigurationOptional());    if(downloadLowSpeedLimitConfigurationOptional)
+    DownloadLowSpeedLimitConfigurationOptional downloadLowSpeedLimitConfigurationOptional(configuration.getDownloadLowSpeedLimitConfigurationOptional());
+    if(downloadLowSpeedLimitConfigurationOptional)
     {
         curl::CurlInterface::lowSpeedLimit = downloadLowSpeedLimitConfigurationOptional.getReference().m_lowSpeedLimit;
         curl::CurlInterface::lowSpeedTime = downloadLowSpeedLimitConfigurationOptional.getReference().m_lowSpeedTime;
@@ -46,7 +49,7 @@ void WebCrawler::downloadFileUsingPhantomJs(
         AlbaWebPathHandler const& fileToDownloadWebPathHandler,
         AlbaWindowsPathHandler const& downloadPathHandler) const
 {
-    AlbaWindowsPathHandler const phantomJsFolder(R"(C:\APRG\PhantomJs\PhantomJs\bin\)");
+    AlbaWindowsPathHandler const phantomJsFolder(PHANTOM_BIN_PATH);
     string const command(phantomJsFolder.getFullPath()+"phantomjs.exe "+phantomJsFolder.getFullPath()+R"(loadPage.js ")"+fileToDownloadWebPathHandler.getFullPath()+R"(" ")"+downloadPathHandler.getFullPath()+R"(")");
     cout<<command<<endl;
     system(command.c_str());

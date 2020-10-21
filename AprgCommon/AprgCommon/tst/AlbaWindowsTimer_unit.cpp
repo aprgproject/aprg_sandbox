@@ -5,10 +5,12 @@
 using namespace alba;
 
 TEST(AlbaWindowsTimer, DISABLED_TimerCanBeInitialized)
-{    AlbaWindowsTimer timer;
+{
+    AlbaWindowsTimer timer;
     Sleep(2000);
     unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();
-    EXPECT_EQ(secondsElapsed, 2);}
+    EXPECT_EQ(secondsElapsed, 2);
+}
 
 TEST(AlbaWindowsTimer, DISABLED_TimerCanBeRestarted)
 {

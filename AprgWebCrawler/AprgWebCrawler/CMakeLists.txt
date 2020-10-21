@@ -22,27 +22,24 @@ set(SOURCES
     src/main.cpp
     src/WebCrawler/CrawlConfiguration/CrawlConfiguration.cpp
     src/WebCrawler/CrawlConfiguration/CrawlConfiguration.hpp
-    src/WebCrawler/CrawlHelpers/ChiaAnime.cpp
+    src/WebCrawler/Crawlers/ChiaAnimeCrawler.cpp
+    src/WebCrawler/Crawlers/ChiaAnimeCrawler.hpp
+    src/WebCrawler/Crawlers/Gehen.cpp
+    src/WebCrawler/Crawlers/GuroManga.cpp
+    src/WebCrawler/Crawlers/HBrowse.cpp
+    src/WebCrawler/Crawlers/Hentai2Read.cpp
+    src/WebCrawler/Crawlers/MangaFox.cpp
+    src/WebCrawler/Crawlers/MangaHere.cpp
+    src/WebCrawler/Crawlers/MangaPark.cpp
+    src/WebCrawler/Crawlers/OneDownloadPerPageCrawler.cpp
+    src/WebCrawler/Crawlers/OneDownloadPerPageCrawler.hpp
+    src/WebCrawler/Crawlers/Y8Crawler.cpp
+    src/WebCrawler/Crawlers/Y8Crawler.hpp
+    src/WebCrawler/CrawlHelpers/Converters.cpp
     src/WebCrawler/CrawlHelpers/DownloadHelpers.cpp
-    src/WebCrawler/CrawlHelpers/Gehen.cpp
-    src/WebCrawler/CrawlHelpers/GoogleImages.cpp
-    src/WebCrawler/CrawlHelpers/GuroManga.cpp
-    src/WebCrawler/CrawlHelpers/HBrowse.cpp
-    src/WebCrawler/CrawlHelpers/Hentai2Read.cpp
-    src/WebCrawler/CrawlHelpers/MangaFox.cpp
-    src/WebCrawler/CrawlHelpers/MangaHere.cpp
-    src/WebCrawler/CrawlHelpers/MangaPark.cpp
-    src/WebCrawler/CrawlHelpers/SharedCrawlers.cpp
-    src/WebCrawler/CrawlHelpers/Youtube.cpp
-    src/WebCrawler/CrawlHelpers/Y8.cpp
+    src/WebCrawler/CrawlHelpers/FirefoxHelpers.cpp
     src/WebCrawler/CrawlMode.hpp
     src/WebCrawler/CrawlState.hpp
-    src/WebCrawler/LinksStructures/LinksForChiaAnime.cpp
-    src/WebCrawler/LinksStructures/LinksForChiaAnime.hpp
-    src/WebCrawler/LinksStructures/LinksForHtmlAndFileToDownload.cpp
-    src/WebCrawler/LinksStructures/LinksForHtmlAndFileToDownload.hpp
-    src/WebCrawler/LinksStructures/LinksForYoutube.cpp
-    src/WebCrawler/LinksStructures/LinksForYoutube.hpp
     src/WebCrawler/WebCrawler.cpp
     src/WebCrawler/WebCrawler.hpp
 )
