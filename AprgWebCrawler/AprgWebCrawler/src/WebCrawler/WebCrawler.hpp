@@ -31,16 +31,19 @@ public:
     std::string getDownloadDirectory() const;
     std::string getNewDirectoryName() const;
     std::string getNewDirectoryNameFromWeblink(std::string const& webLink) const;
-    std::string getFirstWebLink() const;
-    WebLinks & getWebLinksReference();
+    std::string getFirstWebLinkIfPossible() const;
+
+    int getNumberOfWebLinks();
+    std::string getWebLinkAtIndex(int index);
+    void addWebLink(std::string const& webLink);
+    void modifyWebLink(std::string const& webLink, int index);
+    void removeWebLink(int index);
 
     bool isValid() const;
     bool isCrawlStateInvalid() const;
-
     void saveMemoryCard() const;
     void saveStateToMemoryCard(CrawlState state);
     void loadMemoryCard();
-
     void printStatus() const;
 
 private:

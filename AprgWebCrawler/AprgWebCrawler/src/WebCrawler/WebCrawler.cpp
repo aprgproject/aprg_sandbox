@@ -107,15 +107,13 @@ std::string WebCrawler::getDownloadDirectory() const
 
 string WebCrawler::getNewDirectoryName() const
 {
-    return getNewDirectoryNameFromWeblink(getFirstWebLink());
+    return getNewDirectoryNameFromWeblink(getFirstWebLinkIfPossible());
 }
 
-string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const
-{
+string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const{
     string title;
     switch(convertWebLinkToCrawlerMode(webLink))
-    {
-    case CrawlMode::ChiaAnime:
+    {    case CrawlMode::ChiaAnime:
         title = getTitleFromTitleWindow(webLink);
         title = getStringInBetweenTwoStrings(title, "Watch", "Episode");
         break;
@@ -133,15 +131,13 @@ string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const
     case CrawlMode::MangafoxWithVolume:
     case CrawlMode::Mangahere:
     case CrawlMode::MangaPark:
-        title = getStringInBetweenTwoStrings(AlbaWebPathHandler(getFirstWebLink()).getFullPath(), R"(/manga/)", R"(/)");
+        title = getStringInBetweenTwoStrings(AlbaWebPathHandler(getFirstWebLinkIfPossible()).getFullPath(), R"(/manga/)", R"(/)");
         break;
     case CrawlMode::Y8:
-        title = "Y8Games";
-        break;
+        title = "Y8Games";        break;
     case CrawlMode::Empty:
     case CrawlMode::Unknown:
-        cout << "WebCrawler::getNewDirectoryNameFromWeblink | Mode is not set" << endl;
-        break;
+        cout << "WebCrawler::getNewDirectoryNameFromWeblink | Mode is not set" << endl;        break;
     }
     if(title.empty())
     {
@@ -153,29 +149,47 @@ string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const
     return title;
 }
 
-std::string WebCrawler::getFirstWebLink() const
+int WebCrawler::getNumberOfWebLinks()
+{
+    return m_webLinks.size();
+}
+
+string WebCrawler::getWebLinkAtIndex(int index)
+{
+    return m_webLinks[index];
+}
+
+std::string WebCrawler::getFirstWebLinkIfPossible() const
 {
     string webLink;
     if(!m_webLinks.empty())
-    {
-        webLink = *(m_webLinks.begin());
+    {        webLink = *(m_webLinks.begin());
     }
     return webLink;
 }
 
-WebCrawler::WebLinks & WebCrawler::getWebLinksReference()
+
+void WebCrawler::addWebLink(std::string const& webLink)
 {
-    return m_webLinks;
+    m_webLinks.emplace_back(webLink);
+}
+
+void WebCrawler::modifyWebLink(std::string const& webLink, int index)
+{
+    m_webLinks[index]=webLink;
+}
+
+void WebCrawler::removeWebLink(int index)
+{
+    m_webLinks.erase(m_webLinks.begin()+index);
 }
 
 bool WebCrawler::isValid() const
 {
-    return m_downloadDirectoryPathHandler.isFoundInLocalSystem() &&
-            m_downloadDirectoryPathHandler.isDirectory() &&
+    return m_downloadDirectoryPathHandler.isFoundInLocalSystem() &&            m_downloadDirectoryPathHandler.isDirectory() &&
             m_memoryCardPathHandler.isFoundInLocalSystem() &&
             m_memoryCardPathHandler.isFile() &&
-            isModeUnrecognized() &&
-            !isWebLinksEmpty() &&
+            isModeUnrecognized() &&            !isWebLinksEmpty() &&
             isWebLinksValid();
 }
 
