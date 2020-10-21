@@ -304,10 +304,11 @@ SET(CIMG_FILES CImg_demo
   use_RGBclass
   )
 
-foreach(program ${CIMG_FILES})
+foreach(PROGRAM_NAME ${CIMG_FILES})
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
     set(BUILD_SHARED_LIBRARIES OFF)
     set(CMAKE_EXE_LINKER_FLAGS "-static")
-  add_executable(${program} ${program}.cpp)
-  target_link_libraries(${program} ${SYSTEM_LIBS} )
-endforeach(program)
+    set(PROGRAM_PATH ../ExampleOutput/${PROGRAM_NAME})
+  add_executable(${PROGRAM_PATH} ${PROGRAM_NAME}.cpp)
+  target_link_libraries(${PROGRAM_PATH} ${SYSTEM_LIBS} )
+endforeach(PROGRAM_NAME)
