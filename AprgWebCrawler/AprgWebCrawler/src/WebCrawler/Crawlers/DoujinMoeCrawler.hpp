@@ -5,28 +5,30 @@
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
 #include <string>
 #include <WebCrawler.hpp>
+#include <vector>
 
 namespace aprgWebCrawler
 {
 
-class Y8Crawler
+class DoujinMoeCrawler
 {
 public:
-    Y8Crawler(WebCrawler & webCrawler);
+    DoujinMoeCrawler(WebCrawler & webCrawler);
     void crawl();
 
 private:
     void crawl(int webLinkIndex);
-    void addWebLinksIfFound(int webLinkIndex);
     void retrieveLinks(alba::AlbaWebPathHandler const& webLinkPathHandler);
+    std::string getVideoLink(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& linkToDownloadPage) const;
     bool checkLinks();
-    bool downloadFile(alba::AlbaWebPathHandler const& webLinkPathHandler);
+    bool downloadImages(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void clearLinks();
     bool areLinksInvalid() const;
-    void printLinks() const;    WebCrawler & m_webCrawler;
+    WebCrawler & m_webCrawler;
     CrawlConfiguration m_configuration;
-    std::string m_linkForNextHtml;
-    std::string m_linkForCurrentFileToDownload;    std::string m_localPathForCurrentFileToDownload;
+    std::string m_title;
+    std::vector<std::string> m_innerLinks;
+    std::vector<std::string> m_imageLinks;
 };
 
 }

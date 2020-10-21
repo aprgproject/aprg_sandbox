@@ -3,13 +3,12 @@
 #include <algorithm>
 #include <cctype>
 #include <functional>
+#include <iomanip>
 #include <sstream>
 #include <typeinfo>
-
 using namespace std;
 
 namespace alba{
-
 unsigned int stringHelper::getLevenshteinDistance(string const& mainString, string const& string2)
 {
     int mainStringLength = mainString.size();
@@ -544,17 +543,28 @@ template int stringHelper::convertHexStringToNumber<int>(string const& stringToC
 template unsigned int stringHelper::convertHexStringToNumber<unsigned int>(string const& stringToConvert);
 
 template <typename NumberType>
-string stringHelper::convertNumberToString(NumberType number)
+string stringHelper::convertNumberToString(NumberType number, ConvertNumberToStringConfiguration const & configuration)
 {
-    stringstream ss;
-    ss.precision(10);
-    ss << number;
-    return ss.str();
+    stringstream temporaryStream;
+    if(configuration.precisionOptional)
+    {
+        temporaryStream.precision(configuration.precisionOptional.get());
+    }
+    if(configuration.fillCharacterOptional)
+    {
+        temporaryStream << setfill(configuration.fillCharacterOptional.get());
+    }
+    if(configuration.fieldWidthOptional)
+    {
+        temporaryStream << setw(configuration.fieldWidthOptional.get());
+    }
+    temporaryStream << number;
+    return temporaryStream.str();
 }
 
-template string stringHelper::convertNumberToString<int>(int number);
-template string stringHelper::convertNumberToString<unsigned int>(unsigned int number);
-template string stringHelper::convertNumberToString<float>(float number);
-template string stringHelper::convertNumberToString<double>(double number);
+template string stringHelper::convertNumberToString<int>(int number, ConvertNumberToStringConfiguration const & configuration);
+template string stringHelper::convertNumberToString<unsigned int>(unsigned int number, ConvertNumberToStringConfiguration const & configuration);
+template string stringHelper::convertNumberToString<float>(float number, ConvertNumberToStringConfiguration const & configuration);
+template string stringHelper::convertNumberToString<double>(double number, ConvertNumberToStringConfiguration const & configuration);
 
 }//namespace alba

@@ -4,13 +4,12 @@
 #include <AlbaStringHelper.hpp>
 #include <algorithm>
 #include <Crawlers/ChiaAnimeCrawler.hpp>
+#include <Crawlers/DoujinMoeCrawler.hpp>
 #include <Crawlers/OneDownloadPerPageCrawler.hpp>
 #include <Crawlers/Y8Crawler.hpp>
-#include <fstream>
-#include <iostream>
+#include <fstream>#include <iostream>
 
 #define APRG_WEB_CRAWLER_TEMP_HTML_FILE R"(C:\APRG\AprgWebCrawler\temp.html)"
-
 using namespace alba;
 using namespace alba::stringHelper;
 using namespace std;
@@ -53,14 +52,18 @@ void WebCrawler::crawl()
         chiaAnimeCrawler.crawl();
         break;
     }
+    case CrawlMode::DoujinMoe:
+    {
+        DoujinMoeCrawler doujinMoeCrawler(*this);
+        doujinMoeCrawler.crawl();
+        break;
+    }
     case CrawlMode::Gehen:
     case CrawlMode::GuroManga:
-    case CrawlMode::HBrowse:
-    case CrawlMode::Hentai2Read:
+    case CrawlMode::HBrowse:    case CrawlMode::Hentai2Read:
     case CrawlMode::Mangafox:
     case CrawlMode::MangafoxWithVolume:
-    case CrawlMode::Mangahere:
-    case CrawlMode::MangaPark:
+    case CrawlMode::Mangahere:    case CrawlMode::MangaPark:
     {
         OneDownloadPerPageCrawler oneDownloadPerPageCrawler(*this);
         oneDownloadPerPageCrawler.crawl();
@@ -119,14 +122,16 @@ string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const
         title = getTitleFromTitleWindow(webLink);
         title = getStringInBetweenTwoStrings(title, "Watch", "Episode");
         break;
+    case CrawlMode::DoujinMoe:
+        title = getTitleFromTitleWindow(webLink);
+        title = getStringAfterThisString(title, "Doujin-moe - ");
+        break;
     case CrawlMode::Gehen:
     case CrawlMode::GuroManga:
-    case CrawlMode::HBrowse:
-    case CrawlMode::Youtube:
+    case CrawlMode::HBrowse:    case CrawlMode::Youtube:
         title = getTitleFromTitleWindow(webLink);
         break;
-    case CrawlMode::Hentai2Read:
-        title = getTitleFromTitleWindow(webLink);
+    case CrawlMode::Hentai2Read:        title = getTitleFromTitleWindow(webLink);
         title = getStringBeforeThisString(title, "Hentai - Read");
         break;
     case CrawlMode::Mangafox:
@@ -200,19 +205,18 @@ bool WebCrawler::isValid() const
             isWebLinksValid();
 }
 
-bool WebCrawler::isCrawlStateInvalid() const
+bool WebCrawler::shouldDownloadStopBaseOnCrawlState() const
 {
     return m_state == CrawlState::DownloadedFileIsInvalid ||
             m_state == CrawlState::LinksAreInvalid ||
-            m_state == CrawlState::NextLinkIsInvalid;
+            m_state == CrawlState::NextLinkIsInvalid ||
+            m_state == CrawlState::Finished;
 }
 
-void WebCrawler::saveMemoryCard() const
-{
+void WebCrawler::saveMemoryCard() const{
     ofstream memoryCardStream(m_memoryCardPathHandler.getFullPath());
     if(memoryCardStream.is_open())
-    {
-        memoryCardStream << getCrawlModeString() << endl;
+    {        memoryCardStream << getCrawlModeString() << endl;
         memoryCardStream << getCrawlStateString() << endl;
         for(string const& webLink : m_webLinks)
         {

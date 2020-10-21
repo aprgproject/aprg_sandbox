@@ -20,49 +20,20 @@ CrawlConfiguration::CrawlConfiguration(CrawlMode mode)
         m_lowSpeedLimitOptional.getReference().m_lowSpeedLimit=1000;
         m_lowSpeedLimitOptional.getReference().m_lowSpeedTime=10;
         break;
+    case CrawlMode::DoujinMoe:
     case CrawlMode::GuroManga:
-        m_isFileToBeDownloadUntilSuccessful=true;
-        m_numberOfRetries = 0;
-        m_minimumFileSize = 10000;
-        break;
     case CrawlMode::HBrowse:
-        m_isFileToBeDownloadUntilSuccessful=true;
-        m_numberOfRetries = 0;
-        m_minimumFileSize = 10000;
-        break;
     case CrawlMode::Hentai2Read:
-        m_isFileToBeDownloadUntilSuccessful=true;
-        m_numberOfRetries = 0;
-        m_minimumFileSize = 10000;
-        break;
     case CrawlMode::Mangafox:
-        m_isFileToBeDownloadUntilSuccessful=true;
-        m_numberOfRetries = 0;
-        m_minimumFileSize = 10000;
-        break;
     case CrawlMode::MangafoxWithVolume:
-        m_isFileToBeDownloadUntilSuccessful=true;
-        m_numberOfRetries = 0;
-        m_minimumFileSize = 10000;
-        break;
     case CrawlMode::Mangahere:
-        m_isFileToBeDownloadUntilSuccessful=true;
-        m_numberOfRetries = 0;
-        m_minimumFileSize = 10000;
-        break;
     case CrawlMode::MangaPark:
-        m_isFileToBeDownloadUntilSuccessful=true;
-        m_numberOfRetries = 0;
-        m_minimumFileSize = 10000;
-        break;
     case CrawlMode::Y8:
         m_isFileToBeDownloadUntilSuccessful=true;
-        m_numberOfRetries = 0;
-        m_minimumFileSize = 10000;
+        m_numberOfRetries = 0;        m_minimumFileSize = 10000;
         break;
     case CrawlMode::Youtube:
-        m_isFileToBeDownloadUntilSuccessful=true;
-        m_numberOfRetries = 0;
+        m_isFileToBeDownloadUntilSuccessful=true;        m_numberOfRetries = 0;
         m_minimumFileSize = 1000000;
         break;
     case CrawlMode::Empty:

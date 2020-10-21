@@ -29,14 +29,15 @@ private:
     void retrieveNextLinkAndImageLinkForMangaFox(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void retrieveLinksForMangaHere(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void retrieveLinksForMangaPark(alba::AlbaWebPathHandler const& webLinkPathHandler);
+    bool checkLinks();
+    bool downloadFile(alba::AlbaWebPathHandler const& webLinkPathHandler);
+    bool gotoNextLink(alba::AlbaWebPathHandler const& webLinkPathHandler, int webLinkIndex);
     void clearLinks();
     bool areLinksInvalid() const;
-    void printLinks() const;
-    WebCrawler & m_webCrawler;
+    void printLinks() const;    WebCrawler & m_webCrawler;
     CrawlConfiguration m_configuration;
     CrawlMode m_mode;
-    std::string m_linkForNextHtml;
-    std::string m_linkForCurrentFileToDownload;
+    std::string m_linkForNextHtml;    std::string m_linkForCurrentFileToDownload;
     std::string m_localPathForCurrentFileToDownload;
 };
 

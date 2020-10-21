@@ -1,20 +1,19 @@
 #pragma once
 
+#include <AlbaOptional.hpp>
 #include <string>
 #include <vector>
-
 namespace alba{
 
 std::string const WHITESPACE_STRING = " \t\n\r";
 
-namespace stringHelper{
+namespace stringHelper
+{
 
 typedef std::vector<std::string> strings;
-
 unsigned int getLevenshteinDistance(std::string const& mainString, std::string const& string2);
 unsigned int generateUniqueId(std::string const& mainString);
 std::string constructFileLocator(std::string file, int lineNumber);
-
 bool isStringFoundInsideTheOtherStringCaseSensitive(std::string const& mainString, std::string const& string2);
 bool isStringFoundInsideTheOtherStringNotCaseSensitive(std::string const& mainString, std::string const& string2);
 bool isEqualNotCaseSensitive(std::string const& mainString, std::string const& string2);
@@ -57,16 +56,22 @@ template<char slashCharacterString> std::string getImmediateDirectoryName(std::s
 bool convertStringToBool(std::string const& stringToConvert);
 template <typename NumberType> NumberType convertStringToNumber(std::string const& stringToConvert);
 template <typename NumberType> NumberType convertHexStringToNumber(std::string const& stringToConvert);
-template <typename NumberType> std::string convertNumberToString(NumberType number);
+
+struct ConvertNumberToStringConfiguration
+{
+    alba::AlbaOptional<int> precisionOptional;
+    alba::AlbaOptional<char> fillCharacterOptional;
+    alba::AlbaOptional<int> fieldWidthOptional;
+};
+
+template <typename NumberType> std::string convertNumberToString(NumberType number, ConvertNumberToStringConfiguration const & configuration);
 
 inline bool isWhiteSpace(char const c)
 {
-    return (' '==c || '\t'==c || '\n'==c || '\r'==c);
-}
+    return (' '==c || '\t'==c || '\n'==c || '\r'==c);}
 
 inline bool isNotNpos(int const index)
-{
-    return (int)std::string::npos != index;
+{    return (int)std::string::npos != index;
 }
 
 inline bool isNpos(int const index)

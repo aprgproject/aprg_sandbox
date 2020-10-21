@@ -10,8 +10,8 @@ enum class CrawlState
     Active,
     DownloadedFileIsInvalid,
     DownloadedFileSizeIsLessThanExpected,
+    Finished,
     LinksAreInvalid,
     NextLinkIsInvalid
 };
-
 }

@@ -86,21 +86,21 @@ void CurlInterface::addToCurlEasy<DownloadType::LowSpeedLimitAndMozillaFireFoxAn
     addToCurlEasy<DownloadType::PrintDownloadProgress>(easy);
 }
 
-void CurlInterface::createOutputStream(ofstream** outputStream, OutputFileType outputFileType, string const& fileLocation)
+void CurlInterface::createOutputStream(unique_ptr<ofstream> & outputStream, OutputFileType outputFileType, string const& fileLocation)
 {
     switch (outputFileType)
     {
     case OutputFileType::Binary:
-        *outputStream = new ofstream(fileLocation, ofstream::binary);
+        outputStream.reset(new ofstream(fileLocation, ofstream::binary));
+        break;
     default:
-        *outputStream = new ofstream(fileLocation);
+        outputStream.reset(new ofstream(fileLocation));
+        break;
     }
 }
-
 bool CurlInterface::download(string url, ofstream& outputFile, function<void(curl_easy&)> additionalConfig)
 {
-    if(!outputFile.is_open())
-    {
+    if(!outputFile.is_open())    {
         printDownloadErrorMessage("Cannot open output file");
         return false;
     }
@@ -130,33 +130,29 @@ bool CurlInterface::download(string url, ofstream& outputFile, function<void(cur
 bool CurlInterface::downloadFile(string const& url, string const& fileLocation, OutputFileType outputFileType, CurlInterface::ConfigurationFunction additionalConfig)
 {
     cout<<"   --> Downloading file. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
-    ofstream* outputFile;
-    createOutputStream(&outputFile, outputFileType, fileLocation);
-    bool isSuccessful (download(url, *outputFile, additionalConfig));
+    unique_ptr<ofstream> outputFile;
+    createOutputStream(outputFile, outputFileType, fileLocation);
+    bool isSuccessful (download(url, *(outputFile.get()), additionalConfig));
     if(!isSuccessful)
     {
-        cout<<"   --> Download failed. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
-    }
+        cout<<"   --> Download failed. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;    }
     return isSuccessful;
 }
-
 bool CurlInterface::downloadFileUntilSuccessful(string const& url, string const& fileLocation, OutputFileType outputFileType, CurlInterface::ConfigurationFunction additionalConfig)
 {
     bool isSuccessful(false);
     while(!isSuccessful)
     {
         cout<<"   --> Downloading file until successful. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
-        ofstream* outputFile;
-        createOutputStream(&outputFile, outputFileType, fileLocation);
-        isSuccessful = download(url, *outputFile, additionalConfig);
+        unique_ptr<ofstream> outputFile;
+        createOutputStream(outputFile, outputFileType, fileLocation);
+        isSuccessful = download(url, *(outputFile.get()), additionalConfig);
         if(!isSuccessful)
         {
-            cout<<"   --> Download failed and retrying in a few seconds. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
-            Sleep(5000);
+            cout<<"   --> Download failed and retrying in a few seconds. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;            Sleep(5000);
         }
     }
-    return isSuccessful;
-}
+    return isSuccessful;}
 
 bool CurlInterface::downloadFileWithFiniteNumberOfTries(
         string const& url,
@@ -169,17 +165,15 @@ bool CurlInterface::downloadFileWithFiniteNumberOfTries(
     for(int numberOfTries = 1; (!isSuccessful)&&(numberOfTries <= totalNumberOfTries); numberOfTries++)
     {
         cout<<"   --> Downloading binary file. Number of tries=" << numberOfTries << " \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
-        ofstream* outputFile;
-        createOutputStream(&outputFile, outputFileType, fileLocation);
-        isSuccessful = download(url, *outputFile, [numberOfTries, additionalConfig](curl_easy& easy)
+        unique_ptr<ofstream> outputFile;
+        createOutputStream(outputFile, outputFileType, fileLocation);
+        isSuccessful = download(url, *(outputFile.get()), [numberOfTries, additionalConfig](curl_easy& easy)
         {
                 additionalConfig(easy);
-        });
-        if(!isSuccessful)
+        });        if(!isSuccessful)
         {
             cout<<"   --> Download failed and retrying in a few seconds. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
-            Sleep(5000);
-        }
+            Sleep(5000);        }
     }
     return isSuccessful;
 }
