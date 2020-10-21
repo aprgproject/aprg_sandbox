@@ -124,9 +124,9 @@ bool DoujinMoeCrawler::checkLinks()
 
 bool DoujinMoeCrawler::downloadImages(AlbaWebPathHandler const& webLinkPathHandler)
 {
-    ConvertNumberToStringConfiguration convertConfiguration;
-    convertConfiguration.fillCharacterOptional.setValue('0');
-    convertConfiguration.fieldWidthOptional.setValue(5);
+    NumberToStringConverter converter;
+    converter.setFillCharacter('0');
+    converter.setFieldWidth(5);
     int count = 0;
     for(string const& imageLink : m_imageLinks)
     {
@@ -139,7 +139,7 @@ bool DoujinMoeCrawler::downloadImages(AlbaWebPathHandler const& webLinkPathHandl
             m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileIsInvalid);
             return false;
         }
-        AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\)" + m_title + R"(\)" + convertNumberToString(count, convertConfiguration) + "." + imageWebPathHandler.getExtension());
+        AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\)" + m_title + R"(\)" + converter.convert(count) + "." + imageWebPathHandler.getExtension());
         downloadPathHandler.createDirectoriesForNonExisitingDirectories();
         if(!m_webCrawler.downloadBinaryFile(imageWebPathHandler, downloadPathHandler))
         {

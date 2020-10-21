@@ -14,4 +14,5 @@ enum class CrawlState
     LinksAreInvalid,
     NextLinkIsInvalid
 };
+
 }

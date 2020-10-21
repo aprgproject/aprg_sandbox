@@ -23,10 +23,12 @@ private:
     bool downloadFile(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void clearLinks();
     bool areLinksInvalid() const;
-    void printLinks() const;    WebCrawler & m_webCrawler;
+    void printLinks() const;
+    WebCrawler & m_webCrawler;
     CrawlConfiguration m_configuration;
     std::string m_linkForNextHtml;
-    std::string m_linkForCurrentFileToDownload;    std::string m_localPathForCurrentFileToDownload;
+    std::string m_linkForCurrentFileToDownload;
+    std::string m_localPathForCurrentFileToDownload;
 };
 
 }

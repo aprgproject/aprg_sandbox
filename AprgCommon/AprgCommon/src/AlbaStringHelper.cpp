@@ -6,9 +6,11 @@
 #include <iomanip>
 #include <sstream>
 #include <typeinfo>
+
 using namespace std;
 
 namespace alba{
+
 unsigned int stringHelper::getLevenshteinDistance(string const& mainString, string const& string2)
 {
     int mainStringLength = mainString.size();
@@ -543,28 +545,43 @@ template int stringHelper::convertHexStringToNumber<int>(string const& stringToC
 template unsigned int stringHelper::convertHexStringToNumber<unsigned int>(string const& stringToConvert);
 
 template <typename NumberType>
-string stringHelper::convertNumberToString(NumberType number, ConvertNumberToStringConfiguration const & configuration)
+string stringHelper::NumberToStringConverter::convert(NumberType number)
 {
     stringstream temporaryStream;
-    if(configuration.precisionOptional)
+    if(m_precisionOptional)
     {
-        temporaryStream.precision(configuration.precisionOptional.get());
+        temporaryStream.precision(m_precisionOptional.getReference());
     }
-    if(configuration.fillCharacterOptional)
+    if(m_fillCharacterOptional)
     {
-        temporaryStream << setfill(configuration.fillCharacterOptional.get());
+        temporaryStream << setfill(m_fillCharacterOptional.getReference());
     }
-    if(configuration.fieldWidthOptional)
+    if(m_fieldWidthOptional)
     {
-        temporaryStream << setw(configuration.fieldWidthOptional.get());
+        temporaryStream << setw(m_fieldWidthOptional.getReference());
     }
     temporaryStream << number;
     return temporaryStream.str();
 }
 
-template string stringHelper::convertNumberToString<int>(int number, ConvertNumberToStringConfiguration const & configuration);
-template string stringHelper::convertNumberToString<unsigned int>(unsigned int number, ConvertNumberToStringConfiguration const & configuration);
-template string stringHelper::convertNumberToString<float>(float number, ConvertNumberToStringConfiguration const & configuration);
-template string stringHelper::convertNumberToString<double>(double number, ConvertNumberToStringConfiguration const & configuration);
+void stringHelper::NumberToStringConverter::setPrecision(int precision)
+{
+    m_precisionOptional.setValue(precision);
+}
+
+void stringHelper::NumberToStringConverter::setFieldWidth(int fieldWidth)
+{
+    m_fieldWidthOptional.setValue(fieldWidth);
+}
+
+void stringHelper::NumberToStringConverter::setFillCharacter(char fillCharacter)
+{
+    m_fillCharacterOptional.setValue(fillCharacter);
+}
+
+template string stringHelper::NumberToStringConverter::convert<int>(int number);
+template string stringHelper::NumberToStringConverter::convert<unsigned int>(unsigned int number);
+template string stringHelper::NumberToStringConverter::convert<float>(float number);
+template string stringHelper::NumberToStringConverter::convert<double>(double number);
 
 }//namespace alba

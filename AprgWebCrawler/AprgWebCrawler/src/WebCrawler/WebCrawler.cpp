@@ -7,9 +7,11 @@
 #include <Crawlers/DoujinMoeCrawler.hpp>
 #include <Crawlers/OneDownloadPerPageCrawler.hpp>
 #include <Crawlers/Y8Crawler.hpp>
-#include <fstream>#include <iostream>
+#include <fstream>
+#include <iostream>
 
 #define APRG_WEB_CRAWLER_TEMP_HTML_FILE R"(C:\APRG\AprgWebCrawler\temp.html)"
+
 using namespace alba;
 using namespace alba::stringHelper;
 using namespace std;
@@ -60,10 +62,12 @@ void WebCrawler::crawl()
     }
     case CrawlMode::Gehen:
     case CrawlMode::GuroManga:
-    case CrawlMode::HBrowse:    case CrawlMode::Hentai2Read:
+    case CrawlMode::HBrowse:
+    case CrawlMode::Hentai2Read:
     case CrawlMode::Mangafox:
     case CrawlMode::MangafoxWithVolume:
-    case CrawlMode::Mangahere:    case CrawlMode::MangaPark:
+    case CrawlMode::Mangahere:
+    case CrawlMode::MangaPark:
     {
         OneDownloadPerPageCrawler oneDownloadPerPageCrawler(*this);
         oneDownloadPerPageCrawler.crawl();
@@ -128,10 +132,12 @@ string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const
         break;
     case CrawlMode::Gehen:
     case CrawlMode::GuroManga:
-    case CrawlMode::HBrowse:    case CrawlMode::Youtube:
+    case CrawlMode::HBrowse:
+    case CrawlMode::Youtube:
         title = getTitleFromTitleWindow(webLink);
         break;
-    case CrawlMode::Hentai2Read:        title = getTitleFromTitleWindow(webLink);
+    case CrawlMode::Hentai2Read:
+        title = getTitleFromTitleWindow(webLink);
         title = getStringBeforeThisString(title, "Hentai - Read");
         break;
     case CrawlMode::Mangafox:
@@ -213,10 +219,12 @@ bool WebCrawler::shouldDownloadStopBaseOnCrawlState() const
             m_state == CrawlState::Finished;
 }
 
-void WebCrawler::saveMemoryCard() const{
+void WebCrawler::saveMemoryCard() const
+{
     ofstream memoryCardStream(m_memoryCardPathHandler.getFullPath());
     if(memoryCardStream.is_open())
-    {        memoryCardStream << getCrawlModeString() << endl;
+    {
+        memoryCardStream << getCrawlModeString() << endl;
         memoryCardStream << getCrawlStateString() << endl;
         for(string const& webLink : m_webLinks)
         {

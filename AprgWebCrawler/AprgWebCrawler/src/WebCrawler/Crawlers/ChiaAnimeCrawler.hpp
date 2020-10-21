@@ -24,10 +24,12 @@ private:
     bool gotoNextLink(alba::AlbaWebPathHandler const& webLinkPathHandler, int webLinkIndex);
     void clearLinks();
     bool areLinksInvalid() const;
-    void printLinks() const;    WebCrawler & m_webCrawler;
+    void printLinks() const;
+    WebCrawler & m_webCrawler;
     CrawlConfiguration m_configuration;
     std::string m_linkForNextHtml;
-    std::string m_linkForDownloadPage;    std::string m_linkForCurrentVideo;
+    std::string m_linkForDownloadPage;
+    std::string m_linkForCurrentVideo;
     std::string m_localPathForCurrentVideo;
 };
 

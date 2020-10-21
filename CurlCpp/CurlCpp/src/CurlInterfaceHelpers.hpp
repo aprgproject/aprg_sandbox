@@ -29,10 +29,12 @@ template <> void addToCurlEasy<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPr
 void createOutputStream(std::unique_ptr<std::ofstream> & outputStream,OutputFileType outputFileType, std::string const& fileLocation);
 
 bool download(std::string url, std::ofstream & outputFile, ConfigurationFunction additionalConfig);
-bool downloadFile(std::string const& url, std::string const& fileLocation, OutputFileType outputFileType, ConfigurationFunction additionalConfig);bool downloadFileUntilSuccessful(std::string const& url, std::string const& fileLocation, OutputFileType outputFileType, ConfigurationFunction additionalConfig);
+bool downloadFile(std::string const& url, std::string const& fileLocation, OutputFileType outputFileType, ConfigurationFunction additionalConfig);
+bool downloadFileUntilSuccessful(std::string const& url, std::string const& fileLocation, OutputFileType outputFileType, ConfigurationFunction additionalConfig);
 bool downloadFileWithFiniteNumberOfTries(
         std::string const& url,
-        std::string const& fileLocation,        OutputFileType outputFileType,
+        std::string const& fileLocation,
+        OutputFileType outputFileType,
         int const totalNumberOfTries,
         ConfigurationFunction additionalConfig);
 inline void printDownloadErrorMessage(std::string const& errorMessage);

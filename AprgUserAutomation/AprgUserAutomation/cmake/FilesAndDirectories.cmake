@@ -1,0 +1,22 @@
+set(APRG_USER_AUTO_INCLUDE_DIRECTORIES
+    ${APRG_USER_AUTO_DIR}/src/
+)
+
+set(APRG_USER_AUTO_SOURCES
+    ${APRG_USER_AUTO_DIR}/src/AlbaUserAutomation.cpp
+    ${APRG_USER_AUTO_DIR}/src/AlbaUserAutomation.hpp
+)
+
+set(APRG_USER_AUTO_MAIN_SOURCES
+    ${APRG_USER_AUTO_DIR}/src/main.cpp
+)
+
+set(APRG_USER_AUTO_TESTS
+    ${APRG_USER_AUTO_DIR}/tst/AlbaUserAutomation_unit.cpp
+)
+
+set(APRG_USER_AUTO_SOURCES_AND_TESTS
+    ${APRG_USER_AUTO_SOURCES}
+    ${APRG_USER_AUTO_TESTS}
+)
+

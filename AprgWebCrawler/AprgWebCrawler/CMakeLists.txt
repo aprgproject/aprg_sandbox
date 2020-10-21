@@ -28,10 +28,12 @@ set(SOURCES
     src/WebCrawler/Crawlers/DoujinMoeCrawler.hpp
     src/WebCrawler/Crawlers/Gehen.cpp
     src/WebCrawler/Crawlers/GuroManga.cpp
-    src/WebCrawler/Crawlers/HBrowse.cpp    src/WebCrawler/Crawlers/Hentai2Read.cpp
+    src/WebCrawler/Crawlers/HBrowse.cpp
+    src/WebCrawler/Crawlers/Hentai2Read.cpp
     src/WebCrawler/Crawlers/MangaFox.cpp
     src/WebCrawler/Crawlers/MangaHere.cpp
-    src/WebCrawler/Crawlers/MangaPark.cpp    src/WebCrawler/Crawlers/OneDownloadPerPageCrawler.cpp
+    src/WebCrawler/Crawlers/MangaPark.cpp
+    src/WebCrawler/Crawlers/OneDownloadPerPageCrawler.cpp
     src/WebCrawler/Crawlers/OneDownloadPerPageCrawler.hpp
     src/WebCrawler/Crawlers/Y8Crawler.cpp
     src/WebCrawler/Crawlers/Y8Crawler.hpp
