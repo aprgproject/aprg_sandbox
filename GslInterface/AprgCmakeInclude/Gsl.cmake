@@ -11,7 +11,5 @@ include_directories(${GSL_INCLUDE_DIRECTORIES})
 # add libraries
 add_library(GSL SHARED IMPORTED)
 set_property(TARGET GSL PROPERTY IMPORTED_IMPLIB ${GSL_INTERFACE_DIR}/lib/libgsl.a)
-#set_property(TARGET GSL PROPERTY IMPORTED_LOCATION ${GNU_WIN32_DIR}/lib/)
-#set_property(TARGET GSL PROPERTY IMPORTED_IMPLIB ${GNU_WIN32_DIR}/bin/libgslcblas.dll)
 add_library(GSLCBLAS SHARED IMPORTED)
 set_property(TARGET GSLCBLAS PROPERTY IMPORTED_IMPLIB ${GSL_INTERFACE_DIR}/lib/libgslcblas.a)
