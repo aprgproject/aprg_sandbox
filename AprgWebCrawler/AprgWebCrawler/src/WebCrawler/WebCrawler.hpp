@@ -52,14 +52,13 @@ private:
 
     bool downloadBinaryFile(alba::AlbaWebPathHandler const& fileToDownloadWebPathHandler, alba::AlbaWindowsPathHandler const& downloadPathHandler) const;
     bool downloadFileAsText(alba::AlbaWebPathHandler const& fileToDownloadWebPathHandler, alba::AlbaWindowsPathHandler const& downloadPathHandler) const;
+    void downloadFileUsingPhantomJs(alba::AlbaWebPathHandler const& fileToDownloadWebPathHandler, alba::AlbaWindowsPathHandler const& downloadPathHandler) const;
 
     void crawlOneHtmlAndOneFileToDownload();
-    void crawlOneHtmlAndOneFileToDownload(std::string & webLink);
-    LinksForHtmlAndFileToDownload getLinks(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& pathOfHtmlFile) const;
+    void crawlOneHtmlAndOneFileToDownload(std::string & webLink);    LinksForHtmlAndFileToDownload getLinks(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& pathOfHtmlFile) const;
     LinksForHtmlAndFileToDownload getLinksForGuroManga(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& pathOfHtmlFile) const;
     LinksForHtmlAndFileToDownload getLinksForHBrowse(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& pathOfHtmlFile) const;
-    LinksForHtmlAndFileToDownload getLinksForHentai2Read(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& pathOfHtmlFile) const;
-    LinksForHtmlAndFileToDownload getLinksForMangaFox(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& pathOfHtmlFile) const;
+    LinksForHtmlAndFileToDownload getLinksForHentai2Read(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& pathOfHtmlFile) const;    LinksForHtmlAndFileToDownload getLinksForMangaFox(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& pathOfHtmlFile) const;
     LinksForHtmlAndFileToDownload getLinksForMangaFoxSaveInVolumeAndChapter(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& pathOfHtmlFile) const;
     LinksForHtmlAndFileToDownload getNextLinkAndImageLinkForMangaFox(std::string const& pathOfHtmlFile) const;
     LinksForHtmlAndFileToDownload getLinksForMangaHere(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& pathOfHtmlFile) const;
@@ -79,14 +78,12 @@ private:
 
     void crawlForYoutube();
     void crawlForYoutube(std::string & webLink, std::ofstream & convertedYoutubeLinkStream);
-    void crawlForYoutube_Old(std::string & webLink, std::ofstream & convertedYoutubeLinkStream);
+    void crawlForYoutube_old(std::string & webLink, std::ofstream & convertedYoutubeLinkStream);
     LinksForYoutube getLinkForYoutube(alba::AlbaWebPathHandler const& webLinkPathHandler) const;
 
-    CrawlMode m_mode;
-    CrawlState m_state;
+    CrawlMode m_mode;    CrawlState m_state;
     alba::AlbaWindowsPathHandler m_downloadDirectoryPathHandler;
     alba::AlbaWindowsPathHandler m_memoryCardPathHandler;
-    WebLinks m_webLinks;
-};
+    WebLinks m_webLinks;};
 
 }

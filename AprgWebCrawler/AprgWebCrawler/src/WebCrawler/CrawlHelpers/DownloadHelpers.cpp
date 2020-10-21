@@ -2,21 +2,24 @@
 
 #include <CrawlConfiguration/CrawlConfiguration.hpp>
 #include <CurlInterface.hpp>
+#include <string>
+#include <iostream>
+#include <windows.h>
 
 using namespace alba;
 using namespace curl::CurlInterface;
+using namespace std;
 
 namespace aprgWebCrawler
 {
 
+
 bool WebCrawler::downloadBinaryFile(
         AlbaWebPathHandler const& fileToDownloadWebPathHandler,
-        AlbaWindowsPathHandler const& downloadPathHandler) const
-{
+        AlbaWindowsPathHandler const& downloadPathHandler) const{
     bool isSuccessful(false);
     CrawlConfiguration configuration(m_mode);
-    DownloadLowSpeedLimitConfigurationOptional downloadLowSpeedLimitConfigurationOptional(configuration.getDownloadLowSpeedLimitConfigurationOptional());
-    if(downloadLowSpeedLimitConfigurationOptional)
+    DownloadLowSpeedLimitConfigurationOptional downloadLowSpeedLimitConfigurationOptional(configuration.getDownloadLowSpeedLimitConfigurationOptional());    if(downloadLowSpeedLimitConfigurationOptional)
     {
         curl::CurlInterface::lowSpeedLimit = downloadLowSpeedLimitConfigurationOptional.getReference().m_lowSpeedLimit;
         curl::CurlInterface::lowSpeedTime = downloadLowSpeedLimitConfigurationOptional.getReference().m_lowSpeedTime;
@@ -37,6 +40,16 @@ bool WebCrawler::downloadFileAsText(
         AlbaWindowsPathHandler const& downloadPathHandler) const
 {
     return downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox>(fileToDownloadWebPathHandler, downloadPathHandler);
+}
+
+void WebCrawler::downloadFileUsingPhantomJs(
+        AlbaWebPathHandler const& fileToDownloadWebPathHandler,
+        AlbaWindowsPathHandler const& downloadPathHandler) const
+{
+    AlbaWindowsPathHandler const phantomJsFolder(R"(C:\APRG\PhantomJs\PhantomJs\bin\)");
+    string const command(phantomJsFolder.getFullPath()+"phantomjs.exe "+phantomJsFolder.getFullPath()+R"(loadPage.js ")"+fileToDownloadWebPathHandler.getFullPath()+R"(" ")"+downloadPathHandler.getFullPath()+R"(")");
+    cout<<command<<endl;
+    system(command.c_str());
 }
 
 }

@@ -10,14 +10,14 @@ set(APRG_COMMON_SOURCES
     ${APRG_COMMON_DIR}/src/AlbaOptional.hpp
     ${APRG_COMMON_DIR}/src/AlbaRaiiafPointer.cpp
     ${APRG_COMMON_DIR}/src/AlbaRaiiafPointer.hpp
+    ${APRG_COMMON_DIR}/src/AlbaRandomizer.cpp
+    ${APRG_COMMON_DIR}/src/AlbaRandomizer.hpp
     ${APRG_COMMON_DIR}/src/AlbaStringHelper.cpp
     ${APRG_COMMON_DIR}/src/AlbaStringHelper.hpp
-    ${APRG_COMMON_DIR}/src/AlbaWindowsTimer.cpp
-    ${APRG_COMMON_DIR}/src/AlbaWindowsTimer.hpp
+    ${APRG_COMMON_DIR}/src/AlbaWindowsTimer.cpp    ${APRG_COMMON_DIR}/src/AlbaWindowsTimer.hpp
     ${APRG_COMMON_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluator.cpp
     ${APRG_COMMON_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluator.hpp
-    ${APRG_COMMON_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.cpp
-    ${APRG_COMMON_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.hpp
+    ${APRG_COMMON_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.cpp    ${APRG_COMMON_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.hpp
     ${APRG_COMMON_DIR}/src/LargeSorter/AlbaLargeSorter.hpp
     ${APRG_COMMON_DIR}/src/LargeSorter/AlbaLargeSorterCache.hpp
     ${APRG_COMMON_DIR}/src/LargeSorter/AlbaLargeSorterConfiguration.hpp
@@ -41,12 +41,11 @@ set(APRG_COMMON_TESTS
     ${APRG_COMMON_DIR}/tst/AlbaOptional_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaPathHandler_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaRaiiafPointer_unit.cpp
+    ${APRG_COMMON_DIR}/tst/AlbaRandomizer_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaStringHelper_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaWindowsTimer_unit.cpp
-    ${APRG_COMMON_DIR}/tst/GrepStringEvaluator/AlbaGrepStringEvaluator_unit.cpp
-)
+    ${APRG_COMMON_DIR}/tst/GrepStringEvaluator/AlbaGrepStringEvaluator_unit.cpp)
 
 set(APRG_COMMON_SOURCES_AND_TESTS
-    ${APRG_COMMON_SOURCES}
-    ${APRG_COMMON_TESTS}
+    ${APRG_COMMON_SOURCES}    ${APRG_COMMON_TESTS}
 )

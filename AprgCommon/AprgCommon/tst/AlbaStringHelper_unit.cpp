@@ -356,17 +356,15 @@ TEST(TransformStringTest, FindAndReplaceStrings)
 TEST(SplitStringTest, SplitBySpaces)
 {
     string string1("   Mark is the no#1      guy in the  world.    Mark is also the nicest guy.    ");
-    vector<string> expectedStrings {"Mark", "is", "the", "no#1", "guy", "in", "the", "world.", "Mark", "is", "also", "the", "nicest", "guy."};
-    vector<string> actualStrings;
-    splitString(actualStrings, string1, " ");
+    strings expectedStrings {"Mark", "is", "the", "no#1", "guy", "in", "the", "world.", "Mark", "is", "also", "the", "nicest", "guy."};
+    strings actualStrings;
+    splitToStrings(actualStrings, string1, " ");
 
     EXPECT_EQ(actualStrings.size(), expectedStrings.size());
-    int size = expectedStrings.size();
-    for(int i=0; i<size; i++)
+    int size = expectedStrings.size();    for(int i=0; i<size; i++)
     {
         EXPECT_EQ(actualStrings[i], expectedStrings[i]);
-    }
-}
+    }}
 
 TEST(UniqueIdTest, GenerateUniqueId)
 {
