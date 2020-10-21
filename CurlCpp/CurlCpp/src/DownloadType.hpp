@@ -6,7 +6,7 @@ namespace curl
 namespace CurlInterface
 {
 
-enum class ConfigType
+enum class DownloadType
 {
     LowSpeedLimit,
     MozillaFireFox,

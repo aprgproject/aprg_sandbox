@@ -4,7 +4,8 @@
 #include <iostream>
 #include <windows.h>
 
-using curl::CurlInterface::ConfigType;
+using curl::CurlInterface::DownloadType;
+using curl::CurlInterface::OutputFileType;
 using curl::curl_easy;
 
 using namespace std;
@@ -33,18 +34,18 @@ void CurlInterface::addLowSpeedLimitToCurlEasy(curl_easy& easy, LONG const lowSp
     easy.add<CURLOPT_LOW_SPEED_TIME>(duration);
 }
 
-template <ConfigType configType>
+template <DownloadType downloadType>
 void CurlInterface::addToCurlEasy(curl_easy&)
 {}
 
 template <>
-void CurlInterface::addToCurlEasy<ConfigType::LowSpeedLimit>(curl_easy& easy)
+void CurlInterface::addToCurlEasy<DownloadType::LowSpeedLimit>(curl_easy& easy)
 {
     addLowSpeedLimitToCurlEasy(easy, lowSpeedLimit, lowSpeedTime);
 }
 
 template <>
-void CurlInterface::addToCurlEasy<ConfigType::MozillaFireFox>(curl_easy& easy)
+void CurlInterface::addToCurlEasy<DownloadType::MozillaFireFox>(curl_easy& easy)
 {
     struct curl_slist *chunk = NULL;
     chunk = curl_slist_append(chunk, "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0");
@@ -56,7 +57,7 @@ void CurlInterface::addToCurlEasy<ConfigType::MozillaFireFox>(curl_easy& easy)
 }
 
 template <>
-void CurlInterface::addToCurlEasy<ConfigType::PrintDownloadProgress>(curl_easy& easy)
+void CurlInterface::addToCurlEasy<DownloadType::PrintDownloadProgress>(curl_easy& easy)
 {
     easy.add<CURLOPT_XFERINFOFUNCTION>(xferinfo);
     easy.add<CURLOPT_XFERINFODATA>(nullptr);
@@ -64,28 +65,39 @@ void CurlInterface::addToCurlEasy<ConfigType::PrintDownloadProgress>(curl_easy& 
 }
 
 template <>
-void CurlInterface::addToCurlEasy<ConfigType::MozillaFireFoxAndPrintDownloadProgress>(curl_easy& easy)
+void CurlInterface::addToCurlEasy<DownloadType::MozillaFireFoxAndPrintDownloadProgress>(curl_easy& easy)
 {
-    addToCurlEasy<ConfigType::MozillaFireFox>(easy);
-    addToCurlEasy<ConfigType::PrintDownloadProgress>(easy);
+    addToCurlEasy<DownloadType::MozillaFireFox>(easy);
+    addToCurlEasy<DownloadType::PrintDownloadProgress>(easy);
 }
 
 template <>
-void CurlInterface::addToCurlEasy<ConfigType::LowSpeedLimitAndMozillaFireFox>(curl_easy& easy)
+void CurlInterface::addToCurlEasy<DownloadType::LowSpeedLimitAndMozillaFireFox>(curl_easy& easy)
 {
-    addToCurlEasy<ConfigType::LowSpeedLimit>(easy);
-    addToCurlEasy<ConfigType::MozillaFireFox>(easy);
+    addToCurlEasy<DownloadType::LowSpeedLimit>(easy);
+    addToCurlEasy<DownloadType::MozillaFireFox>(easy);
 }
 
 template <>
-void CurlInterface::addToCurlEasy<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(curl_easy& easy)
+void CurlInterface::addToCurlEasy<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(curl_easy& easy)
 {
-    addToCurlEasy<ConfigType::LowSpeedLimit>(easy);
-    addToCurlEasy<ConfigType::MozillaFireFox>(easy);
-    addToCurlEasy<ConfigType::PrintDownloadProgress>(easy);
+    addToCurlEasy<DownloadType::LowSpeedLimit>(easy);
+    addToCurlEasy<DownloadType::MozillaFireFox>(easy);
+    addToCurlEasy<DownloadType::PrintDownloadProgress>(easy);
 }
 
-bool CurlInterface::downloadForOutputFileStream(string url, ofstream& outputFile, function<void(curl_easy&)> additionalConfig)
+void CurlInterface::createOutputStream(ofstream** outputStream, OutputFileType outputFileType, string const& fileLocation)
+{
+    switch (outputFileType)
+    {
+    case OutputFileType::Binary:
+        *outputStream = new ofstream(fileLocation, ofstream::binary);
+    default:
+        *outputStream = new ofstream(fileLocation);
+    }
+}
+
+bool CurlInterface::download(string url, ofstream& outputFile, function<void(curl_easy&)> additionalConfig)
 {
     if(!outputFile.is_open())
     {
@@ -115,11 +127,12 @@ bool CurlInterface::downloadForOutputFileStream(string url, ofstream& outputFile
     return status;
 }
 
-bool CurlInterface::downloadWithAdditionalConfig(string const& url, string const& fileLocation, function<void(curl_easy&)> additionalConfig)
+bool CurlInterface::downloadFile(string const& url, string const& fileLocation, OutputFileType outputFileType, CurlInterface::ConfigurationFunction additionalConfig)
 {
     cout<<"   --> Downloading file. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
-    ofstream outputFile(fileLocation);
-    bool isSuccessful (downloadForOutputFileStream(url, outputFile, additionalConfig));
+    ofstream* outputFile;
+    createOutputStream(&outputFile, outputFileType, fileLocation);
+    bool isSuccessful (download(url, *outputFile, additionalConfig));
     if(!isSuccessful)
     {
         cout<<"   --> Download failed. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
@@ -127,14 +140,15 @@ bool CurlInterface::downloadWithAdditionalConfig(string const& url, string const
     return isSuccessful;
 }
 
-bool CurlInterface::downloadWithAdditionalConfigUntilSuccessful(string const& url, string const& fileLocation, function<void(curl_easy&)> additionalConfig)
+bool CurlInterface::downloadFileUntilSuccessful(string const& url, string const& fileLocation, OutputFileType outputFileType, CurlInterface::ConfigurationFunction additionalConfig)
 {
     bool isSuccessful(false);
     while(!isSuccessful)
     {
         cout<<"   --> Downloading file until successful. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
-        ofstream outputFile(fileLocation);
-        isSuccessful = downloadForOutputFileStream(url, outputFile, additionalConfig);
+        ofstream* outputFile;
+        createOutputStream(&outputFile, outputFileType, fileLocation);
+        isSuccessful = download(url, *outputFile, additionalConfig);
         if(!isSuccessful)
         {
             cout<<"   --> Download failed and retrying in a few seconds. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
@@ -144,48 +158,20 @@ bool CurlInterface::downloadWithAdditionalConfigUntilSuccessful(string const& ur
     return isSuccessful;
 }
 
-
-bool CurlInterface::downloadAsBinaryWithAdditionalConfig(string const& url, string const& fileLocation, function<void(curl_easy&)> additionalConfig)
-{
-    cout<<"   --> Downloading binary file. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
-    ofstream outputFile(fileLocation, ofstream::binary);
-    bool isSuccessful (downloadForOutputFileStream(url, outputFile, additionalConfig));
-    if(!isSuccessful)
-    {
-        cout<<"   --> Download failed. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
-    }
-    return isSuccessful;
-}
-
-bool CurlInterface::downloadAsBinaryWithAdditionalConfigUntilSuccessful(string const& url, string const& fileLocation, function<void(curl_easy&)> additionalConfig)
-{
-    bool isSuccessful(false);
-    while(!isSuccessful)
-    {
-        cout<<"   --> Downloading binary file until successful. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
-        ofstream outputFile(fileLocation, ofstream::binary);
-        isSuccessful = downloadForOutputFileStream(url, outputFile, additionalConfig);
-        if(!isSuccessful)
-        {
-            cout<<"   --> Download failed and retrying in a few seconds. \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
-            Sleep(5000);
-        }
-    }
-    return isSuccessful;
-}
-
-bool CurlInterface::downloadAsBinaryWithAdditionalConfigWithFiniteNumberOfTries(
+bool CurlInterface::downloadFileWithFiniteNumberOfTries(
         string const& url,
         string const& fileLocation,
+        OutputFileType outputFileType,
         int const totalNumberOfTries,
-        function<void(curl_easy&)> additionalConfig)
+        CurlInterface::ConfigurationFunction additionalConfig)
 {
     bool isSuccessful(false);
     for(int numberOfTries = 1; (!isSuccessful)&&(numberOfTries <= totalNumberOfTries); numberOfTries++)
     {
         cout<<"   --> Downloading binary file. Number of tries=" << numberOfTries << " \nFile: ["<<fileLocation<<"] \nFrom: ["<<url<<"]"<<endl;
-        ofstream outputFile(fileLocation, ofstream::binary);
-        isSuccessful = downloadForOutputFileStream(url, outputFile, [numberOfTries, additionalConfig](curl_easy& easy)
+        ofstream* outputFile;
+        createOutputStream(&outputFile, outputFileType, fileLocation);
+        isSuccessful = download(url, *outputFile, [numberOfTries, additionalConfig](curl_easy& easy)
         {
                 additionalConfig(easy);
         });

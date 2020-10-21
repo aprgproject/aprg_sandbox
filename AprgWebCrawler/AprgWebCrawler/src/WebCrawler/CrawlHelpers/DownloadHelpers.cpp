@@ -29,11 +29,11 @@ bool WebCrawler::downloadBinaryFile(
     }
     if(configuration.isFileToBeDownloadUntilSuccessful())
     {
-        isSuccessful = downloadBinaryFileUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler);
+        isSuccessful = downloadBinaryFileUntilSuccessful<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler);
     }
     else
     {
-        isSuccessful = downloadBinaryFileWithFiniteNumberOfTries<ConfigType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler, configuration.getNumberOfRetries());
+        isSuccessful = downloadBinaryFileWithFiniteNumberOfTries<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(fileToDownloadWebPathHandler, downloadPathHandler, configuration.getNumberOfRetries());
     }
     return isSuccessful;
 }
@@ -42,7 +42,7 @@ bool WebCrawler::downloadFileAsText(
         AlbaWebPathHandler const& fileToDownloadWebPathHandler,
         AlbaWindowsPathHandler const& downloadPathHandler) const
 {
-    return downloadUntilSuccessful<ConfigType::LowSpeedLimitAndMozillaFireFox>(fileToDownloadWebPathHandler, downloadPathHandler);
+    return downloadUntilSuccessful<DownloadType::LowSpeedLimitAndMozillaFireFox>(fileToDownloadWebPathHandler, downloadPathHandler);
 }
 
 void WebCrawler::downloadFileUsingPhantomJs(

@@ -110,10 +110,12 @@ string WebCrawler::getNewDirectoryName() const
     return getNewDirectoryNameFromWeblink(getFirstWebLinkIfPossible());
 }
 
-string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const{
+string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const
+{
     string title;
     switch(convertWebLinkToCrawlerMode(webLink))
-    {    case CrawlMode::ChiaAnime:
+    {
+    case CrawlMode::ChiaAnime:
         title = getTitleFromTitleWindow(webLink);
         title = getStringInBetweenTwoStrings(title, "Watch", "Episode");
         break;
@@ -134,10 +136,12 @@ string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const{
         title = getStringInBetweenTwoStrings(AlbaWebPathHandler(getFirstWebLinkIfPossible()).getFullPath(), R"(/manga/)", R"(/)");
         break;
     case CrawlMode::Y8:
-        title = "Y8Games";        break;
+        title = "Y8Games";
+        break;
     case CrawlMode::Empty:
     case CrawlMode::Unknown:
-        cout << "WebCrawler::getNewDirectoryNameFromWeblink | Mode is not set" << endl;        break;
+        cout << "WebCrawler::getNewDirectoryNameFromWeblink | Mode is not set" << endl;
+        break;
     }
     if(title.empty())
     {
@@ -163,7 +167,8 @@ std::string WebCrawler::getFirstWebLinkIfPossible() const
 {
     string webLink;
     if(!m_webLinks.empty())
-    {        webLink = *(m_webLinks.begin());
+    {
+        webLink = *(m_webLinks.begin());
     }
     return webLink;
 }
@@ -186,10 +191,12 @@ void WebCrawler::removeWebLink(int index)
 
 bool WebCrawler::isValid() const
 {
-    return m_downloadDirectoryPathHandler.isFoundInLocalSystem() &&            m_downloadDirectoryPathHandler.isDirectory() &&
+    return m_downloadDirectoryPathHandler.isFoundInLocalSystem() &&
+            m_downloadDirectoryPathHandler.isDirectory() &&
             m_memoryCardPathHandler.isFoundInLocalSystem() &&
             m_memoryCardPathHandler.isFile() &&
-            isModeUnrecognized() &&            !isWebLinksEmpty() &&
+            isModeUnrecognized() &&
+            !isWebLinksEmpty() &&
             isWebLinksValid();
 }
 

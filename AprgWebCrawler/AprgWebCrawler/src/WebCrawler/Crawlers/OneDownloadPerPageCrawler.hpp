@@ -20,10 +20,12 @@ private:
     void crawl(int webLinkIndex);
     void download(alba::AlbaWebPathHandler webPathHandler);
     void retrieveLinks(alba::AlbaWebPathHandler const& webLinkPathHandler);
-    void retrieveLinksForGehen(alba::AlbaWebPathHandler const& webLinkPathHandler);    void retrieveLinksForGuroManga(alba::AlbaWebPathHandler const& webLinkPathHandler);
+    void retrieveLinksForGehen(alba::AlbaWebPathHandler const& webLinkPathHandler);
+    void retrieveLinksForGuroManga(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void retrieveLinksForHBrowse(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void retrieveLinksForHentai2Read(alba::AlbaWebPathHandler const& webLinkPathHandler);
-    void retrieveLinksForMangaFox(alba::AlbaWebPathHandler const& webLinkPathHandler);    void retrieveLinksForMangaFoxSaveInVolumeAndChapter(alba::AlbaWebPathHandler const& webLinkPathHandler);
+    void retrieveLinksForMangaFox(alba::AlbaWebPathHandler const& webLinkPathHandler);
+    void retrieveLinksForMangaFoxSaveInVolumeAndChapter(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void retrieveNextLinkAndImageLinkForMangaFox(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void retrieveLinksForMangaHere(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void retrieveLinksForMangaPark(alba::AlbaWebPathHandler const& webLinkPathHandler);

@@ -66,10 +66,12 @@ void Y8Crawler::addWebLinksIfFound(int webLinkIndex)
     cout << "Y8Crawler::addWebLinksIfFound" << webLinkPathHandler.getFullPath() << endl;
     AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     m_webCrawler.downloadFileAsText(webLinkPathHandler, downloadPathHandler);
-    ifstream htmlFileStream(downloadPathHandler.getFullPath());    if(!htmlFileStream.is_open())
+    ifstream htmlFileStream(downloadPathHandler.getFullPath());
+    if(!htmlFileStream.is_open())
     {
         cout << "Cannot open html file." << endl;
-        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;    }
+        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
+    }
     string webLinkFound;
     bool isInsideVideoBox(false);
     AlbaFileReader htmlFileReader(htmlFileStream);
@@ -89,7 +91,8 @@ void Y8Crawler::addWebLinksIfFound(int webLinkIndex)
                 m_webCrawler.addWebLink(webLinkFound);
                 webLinkFound.clear();
             }
-        }        else if(isInsideVideoBox && isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<a href=")"))
+        }
+        else if(isInsideVideoBox && isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<a href=")"))
         {
             webLinkFound = AlbaWebPathHandler(string(R"(http://www.y8.com/)") + getStringInBetweenTwoStrings(lineInHtmlFile, R"(<a href=")", R"(")")).getFullPath();
         }
@@ -98,10 +101,12 @@ void Y8Crawler::addWebLinksIfFound(int webLinkIndex)
 
 void Y8Crawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
 {
-    clearLinks();    AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
+    clearLinks();
+    AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     m_webCrawler.downloadFileAsText(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
-    if(!htmlFileStream.is_open())    {
+    if(!htmlFileStream.is_open())
+    {
         cout << "Cannot open html file." << endl;
         cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
     }

@@ -31,7 +31,8 @@ set(CURL_CPP_SOURCES
     ${CURL_CPP_DIR}/src/curl_writer.h
     ${CURL_CPP_DIR}/src/CurlInterface.cpp
     ${CURL_CPP_DIR}/src/CurlInterface.hpp
-    ${CURL_CPP_DIR}/src/CurlInterfaceConfigType.hpp
     ${CURL_CPP_DIR}/src/CurlInterfaceHelpers.cpp
     ${CURL_CPP_DIR}/src/CurlInterfaceHelpers.hpp
+    ${CURL_CPP_DIR}/src/DownloadType.hpp
+    ${CURL_CPP_DIR}/src/OutputFileType.hpp
 )
