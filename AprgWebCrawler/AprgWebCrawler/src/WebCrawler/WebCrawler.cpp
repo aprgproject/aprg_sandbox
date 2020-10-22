@@ -144,15 +144,13 @@ string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const
     case CrawlMode::MangafoxWithVolume:
     case CrawlMode::Mangahere:
     case CrawlMode::MangaPark:
-        title = getStringInBetweenTwoStrings(AlbaWebPathHandler(getFirstWebLinkIfPossible()).getFullPath(), R"(/manga/)", R"(/)");
+        title = getStringInBetweenTwoStrings(webLink, R"(/manga/)", R"(/)");
         break;
     case CrawlMode::Y8:
-        title = "Y8Games";
-        break;
+        title = "Y8Games";        break;
     case CrawlMode::Empty:
     case CrawlMode::Unknown:
-        cout << "WebCrawler::getNewDirectoryNameFromWeblink | Mode is not set" << endl;
-        break;
+        cout << "WebCrawler::getNewDirectoryNameFromWeblink | Mode is not set" << endl;        break;
     }
     if(title.empty())
     {
