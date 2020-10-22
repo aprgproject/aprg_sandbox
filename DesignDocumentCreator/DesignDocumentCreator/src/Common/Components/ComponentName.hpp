@@ -9,6 +9,9 @@ enum class ComponentName
 {
     EMPTY,
     SampleComponent
+
+#include <EditableFiles/EditComponentName.hpp>
+
 };
 
 }

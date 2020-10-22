@@ -6,9 +6,11 @@
 
 namespace DesignDocumentCreator
 {
+
 class GenericMessage
 {
-public:    GenericMessage()
+public:
+    GenericMessage()
         : m_messageName(MessageName::EMPTY)
     {}
     GenericMessage(MessageName const messageName, void* payloadBuffer, unsigned int const payloadSize)

@@ -2,8 +2,10 @@
 #include <iostream>
 
 using namespace std;
+
 namespace DesignDocumentCreator
 {
+
 void Component::pushBackEvent(Event const& event)
 {
     m_eventQueue.push_back(event);

@@ -29,4 +29,6 @@ struct SampleSack
     int sampleParameter;
 };
 
+#include <EditableFiles/EditSacksIncludes.hpp>
+
 }

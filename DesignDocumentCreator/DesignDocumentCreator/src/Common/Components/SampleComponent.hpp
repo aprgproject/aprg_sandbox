@@ -5,9 +5,11 @@
 
 namespace DesignDocumentCreator
 {
+
 class SampleComponent : public Component
 {
-public:    SampleComponent();
+public:
+    SampleComponent();
     SampleComponent(ComponentName const componentName);
 private:
     virtual void handleMessageEvent(GenericMessage const& genericMessage);

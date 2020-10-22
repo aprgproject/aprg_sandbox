@@ -6,9 +6,11 @@
 
 namespace DesignDocumentCreator
 {
+
 template<MessageName messageName>
 class SpecificMessage
-{public:
+{
+public:
     typedef MessageWrapper<messageName> SpecificMessageWrapper;
     typedef typename SpecificMessageWrapper::SackType SpecificMessageSackType;
     SpecificMessage()

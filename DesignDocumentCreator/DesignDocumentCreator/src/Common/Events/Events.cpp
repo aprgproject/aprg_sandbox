@@ -2,9 +2,11 @@
 
 namespace DesignDocumentCreator
 {
+
 Event::Event(GenericMessage const& message)
     : m_eventType(EventType::MessageEvent)
-    , m_message(message){}
+    , m_message(message)
+{}
 
 Event::Event(Timer const& timer)
     : m_eventType(EventType::TimerEvent)

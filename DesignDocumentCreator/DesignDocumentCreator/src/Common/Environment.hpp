@@ -4,9 +4,11 @@
 
 namespace DesignDocumentCreator
 {
+
 //singleton?
 
-class Environment{
+class Environment
+{
 public:
     void execute();
     Components& getComponentReference();

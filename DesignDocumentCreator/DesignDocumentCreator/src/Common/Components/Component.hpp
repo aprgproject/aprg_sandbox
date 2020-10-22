@@ -7,9 +7,11 @@
 
 namespace DesignDocumentCreator
 {
+
 class Component
 {
-public:    void pushBackEvent(Event const& event);
+public:
+    void pushBackEvent(Event const& event);
     void handleOneEvent();
     void handleAllEvents();
     bool isEventQueueEmpty();

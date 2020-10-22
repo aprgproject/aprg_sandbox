@@ -4,9 +4,11 @@
 
 namespace DesignDocumentCreator
 {
+
 typedef unsigned int TimerId;
 
-class Timer{
+class Timer
+{
 public:
     Timer();
     Timer(TimerType const timerType, TimerId const timerId);

@@ -3,8 +3,10 @@
 #include <iostream>
 
 using namespace std;
+
 namespace DesignDocumentCreator
 {
+
 SampleComponent::SampleComponent()
     : m_componentName(ComponentName::EMPTY)
 {}

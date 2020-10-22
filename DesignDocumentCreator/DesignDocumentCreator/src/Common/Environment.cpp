@@ -3,8 +3,10 @@
 #include <iostream>
 
 using namespace std;
+
 namespace DesignDocumentCreator
 {
+
 void Environment::execute()
 {
     m_components.executePendingEvents();

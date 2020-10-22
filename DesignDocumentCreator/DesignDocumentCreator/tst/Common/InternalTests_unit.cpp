@@ -7,8 +7,10 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
+
 using namespace DesignDocumentCreator;
 using namespace std;
+
 TEST(MessagesTest, SpecificMessageCanBeCreatedWithPayload)
 {
     SpecificMessage<MessageName::MESSAGE_SAMPLE> specificMessage;

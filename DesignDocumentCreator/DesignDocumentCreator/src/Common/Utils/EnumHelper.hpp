@@ -6,9 +6,11 @@
 
 namespace DesignDocumentCreator
 {
+
 namespace EnumHelper
 {
-    std::string convertToString(ComponentName const componentName);    std::string convertToString(MessageName const componentName);
+    std::string convertToString(ComponentName const componentName);
+    std::string convertToString(MessageName const componentName);
     std::string convertToString(TimerType const timerType);
 }
 

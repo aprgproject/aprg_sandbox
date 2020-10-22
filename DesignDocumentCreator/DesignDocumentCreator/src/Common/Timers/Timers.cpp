@@ -2,9 +2,11 @@
 
 namespace DesignDocumentCreator
 {
+
 Timer::Timer()
     : m_timerType(TimerType::EMPTY)
-    , m_timerId(0){}
+    , m_timerId(0)
+{}
 
 Timer::Timer(TimerType const timerType, TimerId const timerId)
     : m_timerType(timerType)

@@ -5,9 +5,11 @@
 
 namespace DesignDocumentCreator
 {
+
 enum EventType
 {
-    MessageEvent,    TimerEvent
+    MessageEvent,
+    TimerEvent
 };
 
 class Event

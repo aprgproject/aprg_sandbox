@@ -44,6 +44,12 @@ set(SOURCES
     src/Common/Utils/EnumHelper.hpp
     src/Common/Environment.cpp
     src/Common/Environment.hpp
+    src/EditableFiles/EditAddComponent.hpp
+    src/EditableFiles/EditComponentName.hpp
+    src/EditableFiles/EditComponentsIncludes.hpp
+    src/EditableFiles/EditMessageName.hpp
+    src/EditableFiles/EditSacksIncludes.hpp
+    src/EditableFiles/EditWrapMessage.hpp
 )
 
 set(MAIN_SOURCES
@@ -54,10 +60,12 @@ set(TESTS
     tst/Common/InternalTests_unit.cpp
 )
 
-set(INCLUDE_DIRECTORIES    src/
+set(INCLUDE_DIRECTORIES
+    src/
 )
 
-if (TEST_MODE)    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
+if (TEST_MODE)
+    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
     include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
     target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
     add_test(${OUTFILE} ${OUTFILE})
