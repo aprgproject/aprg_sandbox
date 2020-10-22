@@ -21,10 +21,12 @@ include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 
 set(SOURCES
     src/BtsLogPrint.cpp
-    src/BtsLogPrint.hpp    src/BtsLogSorter.cpp
+    src/BtsLogPrint.hpp
+    src/BtsLogSorter.cpp
     src/BtsLogSorter.hpp
     src/BtsLogSorterConfiguration.hpp
-    src/BtsLogTime.cpp    src/BtsLogTime.hpp
+    src/BtsLogTime.cpp
+    src/BtsLogTime.hpp
     src/BtsPrintReaderWithRollback.cpp
     src/BtsPrintReaderWithRollback.hpp
     tst/BtsLogPrint_unit.cpp
