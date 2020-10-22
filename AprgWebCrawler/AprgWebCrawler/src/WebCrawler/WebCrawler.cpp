@@ -26,7 +26,8 @@ WebCrawler::WebCrawler(string const& downloadDirectory, string const& temporaryF
     , m_temporaryFilePath(temporaryFilePath)
     , m_downloadDirectoryPathHandler(downloadDirectory + R"(\)")
     , m_memoryCardPathHandler(downloadDirectory + R"(\MemoryCard.txt)")
-{    if (m_memoryCardPathHandler.isFoundInLocalSystem() && m_memoryCardPathHandler.isFile())
+{
+    if (m_memoryCardPathHandler.isFoundInLocalSystem() && m_memoryCardPathHandler.isFile())
     {
         loadMemoryCard();
     }
@@ -38,10 +39,12 @@ WebCrawler::WebCrawler(string const& workingDirectory, string const& webLink, st
     , m_temporaryFilePath(temporaryFilePath)
     , m_downloadDirectoryPathHandler(workingDirectory + R"(\)" + getNewDirectoryNameFromWeblink(webLink) + R"(\)")
     , m_memoryCardPathHandler(m_downloadDirectoryPathHandler.getFullPath() + R"(\MemoryCard.txt)")
-{    m_webLinks.push_back(webLink);
+{
+    m_webLinks.push_back(webLink);
     m_memoryCardPathHandler.createDirectoriesForNonExisitingDirectories();
     saveMemoryCard();
-    m_downloadDirectoryPathHandler.reInput();    m_memoryCardPathHandler.reInput();
+    m_downloadDirectoryPathHandler.reInput();
+    m_memoryCardPathHandler.reInput();
 }
 
 void WebCrawler::crawl()
@@ -232,7 +235,8 @@ bool WebCrawler::isValid() const
 bool WebCrawler::isOnInvalidCrawlState() const
 {
     return m_state == CrawlState::DownloadedFileIsInvalid ||
-            m_state == CrawlState::LinksAreInvalid ||            m_state == CrawlState::NextLinkIsInvalid;
+            m_state == CrawlState::LinksAreInvalid ||
+            m_state == CrawlState::NextLinkIsInvalid;
 }
 
 bool WebCrawler::isOnCrawlStatesWhichRetryIsNeeded() const
@@ -245,9 +249,11 @@ bool WebCrawler::isOnCurrentDownloadFinishedCrawlState() const
 {
     return m_state == CrawlState::CurrentDownloadIsFinished;
 }
+
 void WebCrawler::saveMemoryCard() const
 {
-    ofstream memoryCardStream(m_memoryCardPathHandler.getFullPath());    if(memoryCardStream.is_open())
+    ofstream memoryCardStream(m_memoryCardPathHandler.getFullPath());
+    if(memoryCardStream.is_open())
     {
         memoryCardStream << getCrawlModeString() << endl;
         memoryCardStream << getCrawlStateString() << endl;

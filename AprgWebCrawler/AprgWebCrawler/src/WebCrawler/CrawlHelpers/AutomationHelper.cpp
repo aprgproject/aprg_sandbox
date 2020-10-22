@@ -1,51 +1,136 @@
 #include "AutomationHelper.hpp"
 
-#include <AlbaUserAutomation.hpp>
+#include <AlbaFileReader.hpp>
+#include <AlbaStringHelper.hpp>
+#include <fstream>
 #include <PathHandlers/AlbaWebPathHandler.hpp>
 #include <iostream>
 #include <windows.h>
 
-#define FIREFOX_EXECUTABLE_PATH R"(C:\"Program Files"\"Mozilla Firefox"\firefox.exe)"
-#define FIREFOX_RESTART_FIREFOX_POSITION 677, 541
-#define FIREFOX_FILE_POSITION 15,9
-#define FIREFOX_SAVE_PAGE_AS_POSITION 116, 127
-#define FIREFOX_CLOSE_BUTTON_POSITION 1338, 7
-#define FIREFOX_CLOSE_SECOND_TAB_BUTTON_POSITION 419, 38
-#define FDM_URL_BAR_POSITION 684, 195
-#define FDM_URL_BAR_COPY_POSITION 733, 261
-#define FDM_CLOSE_DOWNLOAD_WINDOW_POSITION 858, 159#define FIREFOX_OPEN_TIMEOUT 10000
-#define FIREFOX_LOADING_TIMEOUT 60000
-#define FIREFOX_WAIT_FOR_RESPONSE 10000
-using namespace alba;using namespace std;
+
+#define APRG_WEB_CRAWLER_AUTOMATION_CONFIGURATION_FILE R"(C:\APRG\AprgWebCrawler\automationConfiguration.txt)"
+
+using namespace alba;
+using namespace std;
+using namespace stringHelper;
 
 namespace aprgWebCrawler
 {
 
+AutomationHelper::AutomationHelper()
+{
+    readConfigurationFile();
+}
+
+void AutomationHelper::readConfigurationFile()
+{
+    ifstream configurationFile(APRG_WEB_CRAWLER_AUTOMATION_CONFIGURATION_FILE);
+    if(configurationFile.is_open())
+    {
+        AlbaFileReader configurationFileReader(configurationFile);
+        while(configurationFileReader.isNotFinished())
+        {
+            string lineFromConfigurationFile(configurationFileReader.getLineAndIgnoreWhiteSpaces());
+            if(lineFromConfigurationFile.empty())
+            {
+                continue;
+            }
+            else if("FirefoxExecutablePath:" == lineFromConfigurationFile)
+            {
+                m_firefoxExecutablePath = configurationFileReader.getLineAndIgnoreWhiteSpaces();
+            }
+            else if("FirefoxFilePosition:" == lineFromConfigurationFile)
+            {
+                strings listOfStrings;
+                splitToStrings(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
+                m_firefoxFilePosition.x = convertStringToNumber<int>(listOfStrings[0]);
+                m_firefoxFilePosition.y = convertStringToNumber<int>(listOfStrings[1]);
+            }
+            else if("FirefoxSavePagePosition:" == lineFromConfigurationFile)
+            {
+                strings listOfStrings;
+                splitToStrings(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
+                m_firefoxSavePagePosition.x = convertStringToNumber<int>(listOfStrings[0]);
+                m_firefoxSavePagePosition.y = convertStringToNumber<int>(listOfStrings[1]);
+            }
+            else if("FirefoxCloseButtonPosition:" == lineFromConfigurationFile)
+            {
+                strings listOfStrings;
+                splitToStrings(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
+                m_firefoxCloseButtonPosition.x = convertStringToNumber<int>(listOfStrings[0]);
+                m_firefoxCloseButtonPosition.y = convertStringToNumber<int>(listOfStrings[1]);
+            }
+            else if("FirefoxCloseSecondTabButtonPosition:" == lineFromConfigurationFile)
+            {
+                strings listOfStrings;
+                splitToStrings(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
+                m_firefoxCloseSecondTabButtonPosition.x = convertStringToNumber<int>(listOfStrings[0]);
+                m_firefoxCloseSecondTabButtonPosition.y = convertStringToNumber<int>(listOfStrings[1]);
+            }
+            else if("FdmUrlBarPosition:" == lineFromConfigurationFile)
+            {
+                strings listOfStrings;
+                splitToStrings(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
+                m_fdmUrlBarPosition.x = convertStringToNumber<int>(listOfStrings[0]);
+                m_fdmUrlBarPosition.y = convertStringToNumber<int>(listOfStrings[1]);
+            }
+            else if("FdmUrlCopyPosition:" == lineFromConfigurationFile)
+            {
+                strings listOfStrings;
+                splitToStrings(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
+                m_fdmUrlCopyPosition.x = convertStringToNumber<int>(listOfStrings[0]);
+                m_fdmUrlCopyPosition.y = convertStringToNumber<int>(listOfStrings[1]);
+            }
+            else if("FdmCloseDownloadWindowPosition:" == lineFromConfigurationFile)
+            {
+                strings listOfStrings;
+                splitToStrings(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
+                m_fdmCloseDownloadWindowPosition.x = convertStringToNumber<int>(listOfStrings[0]);
+                m_fdmCloseDownloadWindowPosition.y = convertStringToNumber<int>(listOfStrings[1]);
+            }
+            else if("TimeoutForOpeningFirefox:" == lineFromConfigurationFile)
+            {
+                m_timeoutForOpeningFirefox = convertStringToNumber<int>(configurationFileReader.getLineAndIgnoreWhiteSpaces());
+            }
+            else if("TimeoutForLoadingFirefox:" == lineFromConfigurationFile)
+            {
+                m_timeoutForLoadingFirefox = convertStringToNumber<int>(configurationFileReader.getLineAndIgnoreWhiteSpaces());
+            }
+            else if("TimeoutForWaitingResponseFromFirefox:" == lineFromConfigurationFile)
+            {
+                m_timeoutForWaitingResponseFromFirefox = convertStringToNumber<int>(configurationFileReader.getLineAndIgnoreWhiteSpaces());
+            }
+        }
+    }
+}
+
 void AutomationHelper::openMozillaFirefoxExecutableManually(string const& webPath)
 {
     AlbaWebPathHandler webPathHandler(webPath);
-    string firefoxCommand(string("start ")+FIREFOX_EXECUTABLE_PATH+R"( ")"+webPathHandler.getFullPath()+R"(")");
+    string firefoxCommand(string("start ")+m_firefoxExecutablePath+R"( ")"+webPathHandler.getFullPath()+R"(")");
     cout << firefoxCommand << endl;
     system(firefoxCommand.c_str());
 }
 
 void AutomationHelper::saveWebPageManuallyUsingMozillaFirefox(string const& webPath)
 {
-    AlbaWebPathHandler webPathHandler(webPath);    AlbaUserAutomation userAutomation;
+    AlbaWebPathHandler webPathHandler(webPath);
+    AlbaUserAutomation userAutomation;
     cout<<"Open Firefox"<<endl;
     openMozillaFirefoxExecutableManually(webPathHandler.getFullPath());
+
     cout<<"Wait"<<endl;
-    Sleep(FIREFOX_LOADING_TIMEOUT);
+    Sleep(m_timeoutForLoadingFirefox);
 
     cout<<"Click file"<<endl;
-    userAutomation.setMousePosition(MousePosition{FIREFOX_FILE_POSITION});
+    userAutomation.setMousePosition(m_firefoxFilePosition);
     userAutomation.doLeftClick();
     cout<<"Click save page as"<<endl;
-    userAutomation.setMousePosition(MousePosition{FIREFOX_SAVE_PAGE_AS_POSITION});
+    userAutomation.setMousePosition(m_firefoxSavePagePosition);
     userAutomation.doLeftClick();
 
     cout<<"Wait"<<endl;
-    Sleep(FIREFOX_WAIT_FOR_RESPONSE);
+    Sleep(m_timeoutForWaitingResponseFromFirefox);
 
     cout<<"Type name"<<endl;
     userAutomation.typeString(R"(temp.html)");
@@ -53,55 +138,62 @@ void AutomationHelper::saveWebPageManuallyUsingMozillaFirefox(string const& webP
     userAutomation.typeCharacter(0x0D);
 
     cout<<"Wait"<<endl;
-    Sleep(FIREFOX_WAIT_FOR_RESPONSE);
+    Sleep(m_timeoutForWaitingResponseFromFirefox);
 
     cout<<"Close firefox"<<endl;
-    userAutomation.setMousePosition(MousePosition{FIREFOX_CLOSE_SECOND_TAB_BUTTON_POSITION});
+    userAutomation.setMousePosition(m_firefoxCloseSecondTabButtonPosition);
     userAutomation.doLeftClick();
 }
+
 string AutomationHelper::getRedirectedLinkUsingMozillaFirefoxAndFdm(string const& webPath)
 {
-    AlbaWebPathHandler webPathHandler(webPath);    AlbaUserAutomation userAutomation;    cout<<"Open Firefox"<<endl;
-    openMozillaFirefoxExecutableManually(webPathHandler.getFullPath());
-    cout<<"Wait"<<endl;
-    Sleep(FIREFOX_LOADING_TIMEOUT);
-
-    cout<<"Right click address bar"<<endl;
-    userAutomation.setMousePosition(MousePosition{FDM_URL_BAR_POSITION});
-    userAutomation.doRightClick();
-    cout<<"Copy"<<endl;
-    userAutomation.setMousePosition(MousePosition{FDM_URL_BAR_COPY_POSITION});
-    userAutomation.doLeftClick();
-    cout<<"Close FDM"<<endl;
-    userAutomation.setMousePosition(MousePosition{FDM_CLOSE_DOWNLOAD_WINDOW_POSITION});
-    userAutomation.doLeftClick();
-
-    cout<<"Wait"<<endl;
-    Sleep(FIREFOX_WAIT_FOR_RESPONSE);
-
-    cout<<"Close firefox"<<endl;
-    userAutomation.setMousePosition(MousePosition{FIREFOX_CLOSE_SECOND_TAB_BUTTON_POSITION});
-    userAutomation.doLeftClick();
-
-    return userAutomation.getStringFromClipboard();}
-
-void AutomationHelper::downloadLinkUsingMozillaFirefoxAndFdm(string const& webPath)
-{    AlbaWebPathHandler webPathHandler(webPath);
+    AlbaWebPathHandler webPathHandler(webPath);
     AlbaUserAutomation userAutomation;
     cout<<"Open Firefox"<<endl;
     openMozillaFirefoxExecutableManually(webPathHandler.getFullPath());
 
     cout<<"Wait"<<endl;
-    Sleep(FIREFOX_LOADING_TIMEOUT);
+    Sleep(m_timeoutForLoadingFirefox);
+
+    cout<<"Right click address bar"<<endl;
+    userAutomation.setMousePosition(m_fdmUrlBarPosition);
+    userAutomation.doRightClick();
+    cout<<"Copy"<<endl;
+    userAutomation.setMousePosition(m_fdmUrlCopyPosition);
+    userAutomation.doLeftClick();
+    cout<<"Close FDM"<<endl;
+    userAutomation.setMousePosition(m_fdmCloseDownloadWindowPosition);
+    userAutomation.doLeftClick();
+
+    cout<<"Wait"<<endl;
+    Sleep(m_timeoutForWaitingResponseFromFirefox);
+
+    cout<<"Close firefox"<<endl;
+    userAutomation.setMousePosition(m_firefoxCloseSecondTabButtonPosition);
+    userAutomation.doLeftClick();
+
+    return userAutomation.getStringFromClipboard();
+}
+
+void AutomationHelper::downloadLinkUsingMozillaFirefoxAndFdm(string const& webPath)
+{
+    AlbaWebPathHandler webPathHandler(webPath);
+    AlbaUserAutomation userAutomation;
+    cout<<"Open Firefox"<<endl;
+    openMozillaFirefoxExecutableManually(webPathHandler.getFullPath());
+
+    cout<<"Wait"<<endl;
+    Sleep(m_timeoutForLoadingFirefox);
 
     cout<<"Enter"<<endl;
     userAutomation.typeCharacter(0x0D);
 
     cout<<"Wait"<<endl;
-    Sleep(FIREFOX_WAIT_FOR_RESPONSE);
+    Sleep(m_timeoutForWaitingResponseFromFirefox);
 
     cout<<"Close firefox"<<endl;
-    userAutomation.setMousePosition(MousePosition{FIREFOX_CLOSE_SECOND_TAB_BUTTON_POSITION});
+    userAutomation.setMousePosition(m_firefoxCloseSecondTabButtonPosition);
     userAutomation.doLeftClick();
 }
+
 }

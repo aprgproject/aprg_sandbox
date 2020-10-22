@@ -1,0 +1,22 @@
+FirefoxExecutablePath:
+C:\"Program Files"\"Mozilla Firefox"\firefox.exe
+FirefoxFilePosition:
+15,9
+FirefoxSavePagePosition:
+116, 127
+FirefoxCloseButtonPosition:
+1338, 7
+FirefoxCloseSecondTabButtonPosition:
+419, 38
+FdmUrlBarPosition:
+684, 195
+FdmUrlCopyPosition:
+733, 261
+FdmCloseDownloadWindowPosition:
+858, 159
+TimeoutForOpeningFirefox:
+10000
+TimeoutForLoadingFirefox:
+60000
+TimeoutForWaitingResponseFromFirefox:
+10000

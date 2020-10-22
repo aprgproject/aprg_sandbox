@@ -33,10 +33,12 @@ void DoujinMoeCrawler::crawl()
         if(m_webCrawler.isOnInvalidCrawlState())
         {
             break;
-        }        else
+        }
+        else
         {
             m_webCrawler.removeWebLink(webLinkIndex);
-            m_webCrawler.saveMemoryCard();            webLinkIndex=0;
+            m_webCrawler.saveMemoryCard();
+            webLinkIndex=0;
         }
     }
 }
@@ -46,10 +48,12 @@ void DoujinMoeCrawler::crawl(int webLinkIndex)
     while(!m_webCrawler.isOnInvalidCrawlState())
     {
         m_webCrawler.saveStateToMemoryCard(CrawlState::Active);
-        AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));        retrieveLinks(webLinkPathHandler);
+        AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
+        retrieveLinks(webLinkPathHandler);
         if(checkLinks())
         {
-            if(!m_innerLinks.empty())            {
+            if(!m_innerLinks.empty())
+            {
                 cout << "Inner links found, adding to webLinks first" << endl;
                 break;
             }
@@ -62,10 +66,12 @@ void DoujinMoeCrawler::crawl(int webLinkIndex)
         if(m_webCrawler.isOnCurrentDownloadFinishedCrawlState())
         {
             break;
-        }    }
+        }
+    }
 }
 
-void DoujinMoeCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler){
+void DoujinMoeCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
+{
     clearLinks();
     AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     downloadFileAsText(webLinkPathHandler, downloadPathHandler);
@@ -157,10 +163,12 @@ void DoujinMoeCrawler::downloadImages(AlbaWebPathHandler const& webLinkPathHandl
             m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadFailsAndRetryIsNeeded);
             return;
         }
-        if(downloadPathHandler.getFileSizeEstimate() < m_configuration.getMinimumFileSize())        {
+        if(downloadPathHandler.getFileSizeEstimate() < m_configuration.getMinimumFileSize())
+        {
             cout << "Image file is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start" << endl;
             m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
-            return;        }
+            return;
+        }
         count++;
     }
     m_webCrawler.saveStateToMemoryCard(CrawlState::CurrentDownloadIsFinished);

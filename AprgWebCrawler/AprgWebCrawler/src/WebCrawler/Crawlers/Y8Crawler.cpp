@@ -33,10 +33,12 @@ void Y8Crawler::crawl()
         if(m_webCrawler.isOnInvalidCrawlState())
         {
             break;
-        }        else
+        }
+        else
         {
             m_webCrawler.removeWebLink(webLinkIndex);
-            m_webCrawler.saveMemoryCard();            webLinkIndex=0;
+            m_webCrawler.saveMemoryCard();
+            webLinkIndex=0;
         }
     }
 }
@@ -46,7 +48,8 @@ void Y8Crawler::crawl(int webLinkIndex)
     while(!m_webCrawler.isOnInvalidCrawlState())
     {
         m_webCrawler.saveStateToMemoryCard(CrawlState::Active);
-        AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));        retrieveLinks(webLinkPathHandler);
+        AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
+        retrieveLinks(webLinkPathHandler);
         if(checkLinks())
         {
             downloadFile(webLinkPathHandler);
@@ -58,10 +61,12 @@ void Y8Crawler::crawl(int webLinkIndex)
         if(m_webCrawler.isOnCurrentDownloadFinishedCrawlState())
         {
             break;
-        }    }
+        }
+    }
 }
 
-void Y8Crawler::addWebLinksIfFound(int webLinkIndex){
+void Y8Crawler::addWebLinksIfFound(int webLinkIndex)
+{
     AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
     cout << "Y8Crawler::addWebLinksIfFound" << webLinkPathHandler.getFullPath() << endl;
     AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <CrawlConfiguration/CrawlConfiguration.hpp>
+#include <CrawlHelpers/AutomationHelper.hpp>
 #include <PathHandlers/AlbaWebPathHandler.hpp>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
 #include <string>
@@ -28,6 +29,7 @@ private:
     CrawlConfiguration m_configuration;
     std::string m_linkForVideo;
     std::string m_localPathForCurrentVideo;
+    AutomationHelper m_automationHelper;
 };
 
 }
