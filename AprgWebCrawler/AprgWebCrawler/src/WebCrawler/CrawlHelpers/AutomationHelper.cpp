@@ -13,23 +13,28 @@
 #define FDM_URL_BAR_POSITION 684, 195
 #define FDM_URL_BAR_COPY_POSITION 733, 261
 #define FDM_CLOSE_DOWNLOAD_WINDOW_POSITION 858, 159
-#define FIREFOX_OPEN_TIMEOUT 60000
+#define FIREFOX_OPEN_TIMEOUT 10000
 #define FIREFOX_LOADING_TIMEOUT 60000
 #define FIREFOX_WAIT_FOR_RESPONSE 10000
-
 using namespace alba;
 using namespace std;
 
 namespace aprgWebCrawler
 {
 
-void AutomationHelper::saveWebPageManuallyUsingMozillaFirefox(string const& webPath)
+void AutomationHelper::openMozillaFirefoxExecutableManually(string const& webPath)
 {
     AlbaWebPathHandler webPathHandler(webPath);
-    AlbaUserAutomation userAutomation;
+    string firefoxCommand(string("start ")+FIREFOX_EXECUTABLE_PATH+R"( ")"+webPathHandler.getFullPath()+R"(")");
+    cout << firefoxCommand << endl;
+    system(firefoxCommand.c_str());
+}
+
+void AutomationHelper::saveWebPageManuallyUsingMozillaFirefox(string const& webPath)
+{
+    AlbaWebPathHandler webPathHandler(webPath);    AlbaUserAutomation userAutomation;
     cout<<"Open Firefox"<<endl;
     openMozillaFirefoxExecutableManually(webPathHandler.getFullPath());
-
     cout<<"Wait"<<endl;
     Sleep(FIREFOX_LOADING_TIMEOUT);
 
@@ -56,21 +61,11 @@ void AutomationHelper::saveWebPageManuallyUsingMozillaFirefox(string const& webP
     userAutomation.doLeftClick();
 }
 
-void AutomationHelper::openMozillaFirefoxExecutableManually(string const& webPath)
-{
-    AlbaWebPathHandler webPathHandler(webPath);
-    string firefoxCommand(string("start ")+FIREFOX_EXECUTABLE_PATH+R"( ")"+webPathHandler.getFullPath()+R"(")");
-    cout << firefoxCommand << endl;
-    system(firefoxCommand.c_str());
-}
-
 string AutomationHelper::getRedirectedLinkUsingMozillaFirefoxAndFdm(string const& webPath)
 {
-    AlbaWebPathHandler webPathHandler(webPath);
-    AlbaUserAutomation userAutomation;
+    AlbaWebPathHandler webPathHandler(webPath);    AlbaUserAutomation userAutomation;
     cout<<"Open Firefox"<<endl;
     openMozillaFirefoxExecutableManually(webPathHandler.getFullPath());
-
     cout<<"Wait"<<endl;
     Sleep(FIREFOX_LOADING_TIMEOUT);
 

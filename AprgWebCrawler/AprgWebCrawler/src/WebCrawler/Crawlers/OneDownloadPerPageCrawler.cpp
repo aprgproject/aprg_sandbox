@@ -29,28 +29,25 @@ void OneDownloadPerPageCrawler::crawl()
 
 void OneDownloadPerPageCrawler::crawl(int webLinkIndex)
 {
-    while(!m_webCrawler.shouldDownloadStopBaseOnInvalidCrawlState())
+    while(!m_webCrawler.isOnInvalidCrawlState())
     {
         m_webCrawler.saveStateToMemoryCard(CrawlState::Active);
-        AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
-        retrieveLinks(webLinkPathHandler);
+        AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));        retrieveLinks(webLinkPathHandler);
         if(checkLinks())
         {
             downloadFile(webLinkPathHandler);
         }
-        if(m_webCrawler.shouldDownloadRestartBaseOnCrawlState())
+        if(m_webCrawler.isOnCrawlStatesWhichRetryIsNeeded())
         {
             continue;
         }
-        if(m_webCrawler.isCurrentDownloadFinishedBaseOnCrawlState())
+        if(m_webCrawler.isOnCurrentDownloadFinishedCrawlState())
         {
             gotoNextLink(webLinkPathHandler, webLinkIndex);
-        }
-    }
+        }    }
 }
 
-void OneDownloadPerPageCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
-{
+void OneDownloadPerPageCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler){
     clearLinks();
     switch(m_mode)
     {

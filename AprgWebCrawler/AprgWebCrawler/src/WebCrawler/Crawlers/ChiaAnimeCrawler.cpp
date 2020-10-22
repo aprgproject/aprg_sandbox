@@ -28,28 +28,25 @@ void ChiaAnimeCrawler::crawl()
 
 void ChiaAnimeCrawler::crawl(int webLinkIndex)
 {
-    while(!m_webCrawler.shouldDownloadStopBaseOnInvalidCrawlState())
+    while(!m_webCrawler.isOnInvalidCrawlState())
     {
         m_webCrawler.saveStateToMemoryCard(CrawlState::Active);
-        AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
-        retrieveLinks(webLinkPathHandler);
+        AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));        retrieveLinks(webLinkPathHandler);
         if(checkLinks())
         {
             downloadVideo(webLinkPathHandler);
         }
-        if(m_webCrawler.shouldDownloadRestartBaseOnCrawlState())
+        if(m_webCrawler.isOnCrawlStatesWhichRetryIsNeeded())
         {
             continue;
         }
-        if(m_webCrawler.isCurrentDownloadFinishedBaseOnCrawlState())
+        if(m_webCrawler.isOnCurrentDownloadFinishedCrawlState())
         {
             gotoNextLink(webLinkPathHandler, webLinkIndex);
-        }
-    }
+        }    }
 }
 
-void ChiaAnimeCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
-{
+void ChiaAnimeCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler){
     clearLinks();
     AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     downloadFileAsText(webLinkPathHandler, downloadPathHandler);
@@ -145,15 +142,13 @@ void ChiaAnimeCrawler::downloadVideo(AlbaWebPathHandler const& webLinkPathHandle
     if(!downloadBinaryFile(videoWebPathHandler, downloadPathHandler, m_webCrawler.getCrawlMode()))
     {
         cout << "Download fails repetitively. Retrying from the start" << endl;
-        m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadFailsRepetitively);
+        m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadFailsAndRetryIsNeeded);
         return;
     }
-    if(downloadPathHandler.getFileSizeEstimate() < m_configuration.getMinimumFileSize())
-    {
+    if(downloadPathHandler.getFileSizeEstimate() < m_configuration.getMinimumFileSize())    {
         cout << "Video file is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start" << endl;
         m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
-        return;
-    }
+        return;    }
     m_webCrawler.saveStateToMemoryCard(CrawlState::CurrentDownloadIsFinished);
 }
 

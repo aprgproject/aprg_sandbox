@@ -38,16 +38,14 @@ public:
     void removeWebLink(int index);
 
     bool isValid() const;
-    bool shouldDownloadStopBaseOnInvalidCrawlState() const;
-    bool shouldDownloadRestartBaseOnCrawlState() const;
-    bool isCurrentDownloadFinishedBaseOnCrawlState() const;
+    bool isOnInvalidCrawlState() const;
+    bool isOnCrawlStatesWhichRetryIsNeeded() const;
+    bool isOnCurrentDownloadFinishedCrawlState() const;
 
     void saveMemoryCard() const;
-    void saveStateToMemoryCard(CrawlState state);
-    void loadMemoryCard();
+    void saveStateToMemoryCard(CrawlState state);    void loadMemoryCard();
 
     void printStatus() const;
-
 private:
     std::string getTitleFromTitleWindow(std::string const& webLink) const;
     bool isModeUnrecognized() const;

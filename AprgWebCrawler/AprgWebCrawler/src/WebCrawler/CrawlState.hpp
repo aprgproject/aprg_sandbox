@@ -11,9 +11,8 @@ enum class CrawlState
     CurrentDownloadIsFinished,
     DownloadedFileIsInvalid,
     DownloadedFileSizeIsLessThanExpected,
-    DownloadFailsRepetitively,
+    DownloadFailsAndRetryIsNeeded,
     LinksAreInvalid,
     NextLinkIsInvalid
 };
-
 }

@@ -16,17 +16,12 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 #Include curlCpp, this needs APRG Directory
 include(${APRG_DIR}/CurlCpp/AprgCmakeInclude/CurlCpp.cmake)
 
-#Include aprgUserAutomation, this needs APRG Directory
-include(${APRG_DIR}/AprgUserAutomation/AprgCmakeInclude/AprgUserAutomation.cmake)
-
 set(SOURCES
     src/UserInterface/UserInterface.cpp
-    src/UserInterface/UserInterface.hpp
-    src/main.cpp
+    src/UserInterface/UserInterface.hpp    src/main.cpp
     src/WebCrawler/CrawlConfiguration/CrawlConfiguration.cpp
     src/WebCrawler/CrawlConfiguration/CrawlConfiguration.hpp
-    src/WebCrawler/Crawlers/ChiaAnimeCrawler.cpp
-    src/WebCrawler/Crawlers/ChiaAnimeCrawler.hpp
+    src/WebCrawler/Crawlers/ChiaAnimeCrawler.cpp    src/WebCrawler/Crawlers/ChiaAnimeCrawler.hpp
     src/WebCrawler/Crawlers/DoujinMoeCrawler.cpp
     src/WebCrawler/Crawlers/DoujinMoeCrawler.hpp
     src/WebCrawler/Crawlers/Gehen.cpp
@@ -64,4 +59,4 @@ set(BUILD_SHARED_LIBRARIES OFF)
 set(CMAKE_EXE_LINKER_FLAGS "-static")
 add_executable(${OUTFILE} ${SOURCES})
 include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON CURL_CPP APRG_USER_AUTO)
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON CURL_CPP)

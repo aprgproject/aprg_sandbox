@@ -230,28 +230,25 @@ bool WebCrawler::isValid() const
             isWebLinksValid();
 }
 
-bool WebCrawler::shouldDownloadStopBaseOnInvalidCrawlState() const
+bool WebCrawler::isOnInvalidCrawlState() const
 {
     return m_state == CrawlState::DownloadedFileIsInvalid ||
-            m_state == CrawlState::LinksAreInvalid ||
-            m_state == CrawlState::NextLinkIsInvalid;
+            m_state == CrawlState::LinksAreInvalid ||            m_state == CrawlState::NextLinkIsInvalid;
 }
 
-bool WebCrawler::shouldDownloadRestartBaseOnCrawlState() const
+bool WebCrawler::isOnCrawlStatesWhichRetryIsNeeded() const
 {
     return m_state == CrawlState::DownloadedFileSizeIsLessThanExpected ||
-            m_state == CrawlState::DownloadFailsRepetitively;
+            m_state == CrawlState::DownloadFailsAndRetryIsNeeded;
 }
 
-bool WebCrawler::isCurrentDownloadFinishedBaseOnCrawlState() const
+bool WebCrawler::isOnCurrentDownloadFinishedCrawlState() const
 {
     return m_state == CrawlState::CurrentDownloadIsFinished;
 }
-
 void WebCrawler::saveMemoryCard() const
 {
-    ofstream memoryCardStream(m_memoryCardPathHandler.getFullPath());
-    if(memoryCardStream.is_open())
+    ofstream memoryCardStream(m_memoryCardPathHandler.getFullPath());    if(memoryCardStream.is_open())
     {
         memoryCardStream << getCrawlModeString() << endl;
         memoryCardStream << getCrawlStateString() << endl;
