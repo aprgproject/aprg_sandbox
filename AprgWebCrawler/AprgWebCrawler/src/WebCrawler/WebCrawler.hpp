@@ -15,15 +15,13 @@ class WebCrawler
 {
 public:
     typedef std::deque<std::string> WebLinks;
-    WebCrawler(std::string const& downloadDirectory);
-    WebCrawler(std::string const& workingDirectory, std::string const& webLink);
+    WebCrawler(std::string const& downloadDirectory, std::string const& temporaryFilePath);
+    WebCrawler(std::string const& workingDirectory, std::string const& webLink, std::string const& temporaryFilePath);
 
     void crawl();
-
     CrawlMode getCrawlMode() const;
     CrawlState getCrawlState() const;
-    std::string getCrawlModeString() const;
-    std::string getCrawlStateString() const;
+    std::string getCrawlModeString() const;    std::string getCrawlStateString() const;
     std::string getDownloadDirectory() const;
     std::string getNewDirectoryName() const;
     std::string getNewDirectoryNameFromWeblink(std::string const& webLink) const;

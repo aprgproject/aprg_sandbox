@@ -310,14 +310,14 @@ void UserInterface::writeConfigurationFile() const
         {
             configurationFile << workingDirectories << endl;
         }
+        configurationFile<<"TemporaryFilePath:"<<endl;
+        configurationFile << m_temporaryFilePath << endl;
         configurationFile<<"DownloadSchedule:"<<endl;
         for(DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadSchedule)
-        {
-            configurationFile << downloadDirectoryDetails.downloadDirectory << endl;
+        {            configurationFile << downloadDirectoryDetails.downloadDirectory << endl;
         }
     }
 }
-
 void UserInterface::readConfigurationFile()
 {
     int state=0;
@@ -340,57 +340,50 @@ void UserInterface::readConfigurationFile()
             {
                 state=2;
             }
-            else if("DownloadSchedule:" == lineFromConfigurationFile)
+            else if("TemporaryFilePath:" == lineFromConfigurationFile)
             {
                 state=3;
             }
-            else if("TemporaryFilePath:" == lineFromConfigurationFile)
+            else if("DownloadSchedule:" == lineFromConfigurationFile)
             {
                 state=4;
-            }
-            else if(1==state)
+            }            else if(1==state)
             {
                 m_workingDirectory = lineFromConfigurationFile;
-            }
-            else if(2==state)
+            }            else if(2==state)
             {
                 m_workingDirectories.push_back(lineFromConfigurationFile);
             }
             else if(3==state)
             {
-                m_downloadSchedule.push_back(createDownloadDirectoryDetails(lineFromConfigurationFile));
+                m_temporaryFilePath = lineFromConfigurationFile;
             }
             else if(4==state)
             {
-                m_temporaryFilePath = lineFromConfigurationFile;
+                m_downloadSchedule.push_back(createDownloadDirectoryDetails(lineFromConfigurationFile));
             }
         }
-    }
-}
+    }}
 
 void UserInterface::startDownload()
 {
     for(DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadSchedule)
     {
-        WebCrawler crawler(downloadDirectoryDetails.downloadDirectory);
-        crawler.setTemporaryFilePath(m_temporaryFilePath);
+        WebCrawler crawler(downloadDirectoryDetails.downloadDirectory, m_temporaryFilePath);
         crawler.crawl();
     }
 }
-
 void UserInterface::renameImmediateDirectoryToTitle(string const& downloadDirectory) const
 {
     string title;
     {
-        WebCrawler crawler(downloadDirectory);
+        WebCrawler crawler(downloadDirectory, m_temporaryFilePath);
         title = crawler.getNewDirectoryName();
     }
-    cout << "WebCrawler::renameImmediateToTitle | downloadDirectory: " << downloadDirectory << " title: " << title << endl;
-    if(!title.empty())
+    cout << "WebCrawler::renameImmediateToTitle | downloadDirectory: " << downloadDirectory << " title: " << title << endl;    if(!title.empty())
     {
         AlbaWindowsPathHandler directoryPathHandler(downloadDirectory);
-        cout<<"Directory rename error code is " << directoryPathHandler.renameImmediateDirectory(title) << endl;
-    }
+        cout<<"Directory rename error code is " << directoryPathHandler.renameImmediateDirectory(title) << endl;    }
 }
 
 void UserInterface::createBatchFile() const
@@ -409,15 +402,13 @@ void UserInterface::createBatchFile() const
         for(string const& directory : listOfDirectories)
         {
             AlbaWindowsPathHandler directoryPathHandler(directory);
-            WebCrawler crawler(directory);
+            WebCrawler crawler(directory, m_temporaryFilePath);
             string newDirectoryName(crawler.getNewDirectoryName());
             if(newDirectoryName.empty())
-            {
-                newDirectoryName = getStringWithoutStartingAndTrailingCharacters(
+            {                newDirectoryName = getStringWithoutStartingAndTrailingCharacters(
                             getStringAndReplaceNonAlphanumericCharactersToUnderScore(
                                 directoryPathHandler.getImmediateDirectoryName()), "_");
             }
-
             if(directoryPathHandler.getImmediateDirectoryName() != newDirectoryName && !newDirectoryName.empty())
             {
                 batchFile << R"(rename ")" << directory << R"(" ")" << newDirectoryName << R"(")" << endl;
@@ -428,29 +419,25 @@ void UserInterface::createBatchFile() const
 
 DownloadDirectoryDetails UserInterface::createDownloadDirectoryDetails(string const& downloadDirectory) const
 {
-    WebCrawler crawler(downloadDirectory);
+    WebCrawler crawler(downloadDirectory, m_temporaryFilePath);
     DownloadDirectoryDetails downloadDirectoryDetails =
     {
-        downloadDirectory,
-        crawler.getCrawlMode(),
+        downloadDirectory,        crawler.getCrawlMode(),
         crawler.getCrawlState(),
         crawler.getCrawlModeString(),
-        crawler.getCrawlStateString()
-    };
+        crawler.getCrawlStateString()    };
     return downloadDirectoryDetails;
 }
 
 DownloadDirectoryDetails UserInterface::createDownloadDirectoryDetails(string const& workingDirectory, string const& webLink) const
 {
-    WebCrawler crawler(workingDirectory, webLink);
+    WebCrawler crawler(workingDirectory, webLink, m_temporaryFilePath);
     DownloadDirectoryDetails downloadDirectoryDetails =
     {
-        crawler.getDownloadDirectory(),
-        crawler.getCrawlMode(),
+        crawler.getDownloadDirectory(),        crawler.getCrawlMode(),
         crawler.getCrawlState(),
         crawler.getCrawlModeString(),
-        crawler.getCrawlStateString()
-    };
+        crawler.getCrawlStateString()    };
     return downloadDirectoryDetails;
 }
 
