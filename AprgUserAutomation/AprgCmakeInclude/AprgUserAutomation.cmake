@@ -5,4 +5,4 @@ set(APRG_USER_AUTO_DIR ${APRG_DIR}/AprgUserAutomation/AprgUserAutomation/)
 include(${APRG_USER_AUTO_DIR}/cmake/FilesAndDirectories.cmake)
 
 include_directories(${APRG_USER_AUTO_INCLUDE_DIRECTORIES})
-add_library(APRG_COMMON ${APRG_USER_AUTO_SOURCES})
+add_library(APRG_USER_AUTO ${APRG_USER_AUTO_SOURCES})

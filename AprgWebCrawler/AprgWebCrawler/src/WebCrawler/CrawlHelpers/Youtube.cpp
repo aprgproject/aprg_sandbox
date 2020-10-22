@@ -41,15 +41,13 @@ void WebCrawler::crawlForYoutube_old(string & webLink, ofstream& convertedYoutub
         stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "youtube", "ssyoutube");
         AlbaWebPathHandler ssYoutubeLinkPathHandler(ssYoutubeLink);
         cout<<"Enter user input(done, retry):"<<endl;
-        string userInput(getUserInputAfterManuallyUsingMozillaFirefox(ssYoutubeLinkPathHandler));
+        //string userInput(getUserInputAfterManuallyUsingMozillaFirefox(ssYoutubeLinkPathHandler));
         if(!stringHelper::isEqualNotCaseSensitive(userInput, "done"))
         {
-            continue;
-        }
+            continue;        }
         convertedYoutubeLinkStream << ssYoutubeLinkPathHandler.getFullPath() << endl << flush;
         webLink.clear();
-        setCrawlState(CrawlState::Active);
-        saveMemoryCard();
+        setCrawlState(CrawlState::Active);        saveMemoryCard();
         break;
     }
 }

@@ -1,12 +1,18 @@
 #include "CurlInterface.hpp"
+#include <string>
 
-using namespace curl::CurlInterface;
 using namespace alba;
+using namespace curl::CurlInterface;
+using namespace std;
 
-int main()
+int main(int argc, char** argv)
 {
-    AlbaWebPathHandler webPathHandler(R"(http://static.doujin-moe.us/r-xw2jdte8.jpg?st=I3ab-_KKAWFeoAMw0MzDIg&e=1462041117)");
-    AlbaWindowsPathHandler windowPathHandler(R"(C:\APRG\CurlCpp\CurlCpp\tst\home.jpg)");
-    //download<DownloadType::MozillaFireFoxAndPrintDownloadProgress>(webPathHandler, windowPathHandler);
-    downloadBinaryFile<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(webPathHandler, windowPathHandler);
+    if(argc >= 2)
+    {
+        string webPath(argv[1]);
+        AlbaWebPathHandler webPathHandler(webPath);
+        AlbaWindowsPathHandler windowPathHandler(R"(C:\APRG\CurlCpp\CurlCpp\tst\test.html)");
+        download<DownloadType::MozillaFireFoxAndPrintDownloadProgress>(webPathHandler, windowPathHandler);
+        //downloadBinaryFile<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(webPathHandler, windowPathHandler);
+    }
 }

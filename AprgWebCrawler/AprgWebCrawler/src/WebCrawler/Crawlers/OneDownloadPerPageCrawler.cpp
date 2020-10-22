@@ -1,18 +1,18 @@
 #include <AlbaFileReader.hpp>
 #include <AlbaStringHelper.hpp>
 #include <Crawlers/OneDownloadPerPageCrawler.hpp>
+#include <CrawlHelpers/Downloaders.hpp>
 #include <iostream>
 
 using namespace alba;
 using namespace alba::stringHelper;
+using namespace aprgWebCrawler::Downloaders;
 using namespace std;
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler{
 
 OneDownloadPerPageCrawler::OneDownloadPerPageCrawler(WebCrawler & webCrawler)
-    : m_webCrawler(webCrawler)
-    , m_configuration(webCrawler.getCrawlMode())
+    : m_webCrawler(webCrawler)    , m_configuration(webCrawler.getCrawlMode())
     , m_mode(webCrawler.getCrawlMode())
 {}
 
@@ -109,15 +109,13 @@ bool OneDownloadPerPageCrawler::downloadFile(AlbaWebPathHandler const& webLinkPa
     }
     AlbaWindowsPathHandler downloadPathHandler(m_localPathForCurrentFileToDownload);
     downloadPathHandler.createDirectoriesForNonExisitingDirectories();
-    m_webCrawler.downloadBinaryFile(fileToDownloadWebPathHandler, downloadPathHandler);
+    downloadBinaryFile(fileToDownloadWebPathHandler, downloadPathHandler, m_webCrawler.getCrawlMode());
     if(downloadPathHandler.getFileSizeEstimate() < m_configuration.getMinimumFileSize())
     {
-        cout << "Download file size is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start" << endl;
-        m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
+        cout << "Download file size is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start" << endl;        m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
         return false;
     }
-    return true;
-}
+    return true;}
 
 bool OneDownloadPerPageCrawler::gotoNextLink(AlbaWebPathHandler const& webLinkPathHandler, int webLinkIndex)
 {

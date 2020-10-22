@@ -2,19 +2,19 @@
 
 #include <AlbaFileReader.hpp>
 #include <AlbaStringHelper.hpp>
+#include <CrawlHelpers/Downloaders.hpp>
 #include <fstream>
 #include <iostream>
 
 using namespace alba;
 using namespace alba::stringHelper;
+using namespace aprgWebCrawler::Downloaders;
 using namespace std;
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler{
 
 void OneDownloadPerPageCrawler::retrieveLinksForMangaFox(AlbaWebPathHandler const& webLinkPathHandler)
-{
-    retrieveNextLinkAndImageLinkForMangaFox(webLinkPathHandler);
+{    retrieveNextLinkAndImageLinkForMangaFox(webLinkPathHandler);
     AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);
     imageWebPathHandler.gotoLink(m_linkForCurrentFileToDownload);
     m_localPathForCurrentFileToDownload = m_webCrawler.getDownloadDirectory() + webLinkPathHandler.getImmediateDirectoryName() + R"(\)" + imageWebPathHandler.getFile();
@@ -35,15 +35,13 @@ void OneDownloadPerPageCrawler::retrieveLinksForMangaFoxSaveInVolumeAndChapter(A
 void OneDownloadPerPageCrawler::retrieveNextLinkAndImageLinkForMangaFox(AlbaWebPathHandler const& webLinkPathHandler)
 {
     AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
-    m_webCrawler.downloadFileAsText(webLinkPathHandler, downloadPathHandler);
+    downloadFileAsText(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
-    {
-        cout << "Cannot open html file." << endl;
+    {        cout << "Cannot open html file." << endl;
         cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
     }
-    string nextPageLink;
-    string nextChapterLink;
+    string nextPageLink;    string nextChapterLink;
     string onClickNextPage;
     AlbaFileReader htmlFileReader(htmlFileStream);
     while (htmlFileReader.isNotFinished())

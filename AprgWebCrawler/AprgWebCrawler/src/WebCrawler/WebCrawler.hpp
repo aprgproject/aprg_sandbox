@@ -20,18 +20,12 @@ public:
 
     void crawl();
 
-    bool downloadBinaryFile(alba::AlbaWebPathHandler const& fileToDownloadWebPathHandler, alba::AlbaWindowsPathHandler const& downloadPathHandler) const;
-    bool downloadFileAsText(alba::AlbaWebPathHandler const& fileToDownloadWebPathHandler, alba::AlbaWindowsPathHandler const& downloadPathHandler) const;
-    void downloadFileUsingPhantomJs(alba::AlbaWebPathHandler const& fileToDownloadWebPathHandler, alba::AlbaWindowsPathHandler const& downloadPathHandler) const;
-
     CrawlMode getCrawlMode() const;
     CrawlState getCrawlState() const;
-    std::string getCrawlModeString() const;
-    std::string getCrawlStateString() const;
+    std::string getCrawlModeString() const;    std::string getCrawlStateString() const;
     std::string getDownloadDirectory() const;
     std::string getNewDirectoryName() const;
-    std::string getNewDirectoryNameFromWeblink(std::string const& webLink) const;
-    std::string getFirstWebLinkIfPossible() const;
+    std::string getNewDirectoryNameFromWeblink(std::string const& webLink) const;    std::string getFirstWebLinkIfPossible() const;
 
     int getNumberOfWebLinks();
     std::string getWebLinkAtIndex(int index);
@@ -62,14 +56,9 @@ private:
     std::string convertCrawlerModeToString(CrawlMode mode) const;
     std::string convertCrawlerStateToString(CrawlState state) const;
 
-    std::string getUserInputAfterManuallyUsingMozillaFirefox(alba::AlbaWebPathHandler const& webPathHandler) const;
-    void gotoLinkManuallyUsingMozillaFirefox(alba::AlbaWebPathHandler const& webPathHandler) const;
-
     CrawlMode m_mode;
     CrawlState m_state;
-    alba::AlbaWindowsPathHandler m_downloadDirectoryPathHandler;
-    alba::AlbaWindowsPathHandler m_memoryCardPathHandler;
+    alba::AlbaWindowsPathHandler m_downloadDirectoryPathHandler;    alba::AlbaWindowsPathHandler m_memoryCardPathHandler;
     WebLinks m_webLinks;
 };
-
 }

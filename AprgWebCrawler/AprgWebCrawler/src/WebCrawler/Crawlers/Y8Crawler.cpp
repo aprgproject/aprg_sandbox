@@ -1,18 +1,18 @@
 #include <AlbaFileReader.hpp>
 #include <AlbaStringHelper.hpp>
 #include <Crawlers/Y8Crawler.hpp>
+#include <CrawlHelpers/Downloaders.hpp>
 #include <iostream>
 
 using namespace alba;
 using namespace alba::stringHelper;
+using namespace aprgWebCrawler::Downloaders;
 using namespace std;
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler{
 
 Y8Crawler::Y8Crawler(WebCrawler & webCrawler)
-    : m_webCrawler(webCrawler)
-    , m_configuration(webCrawler.getCrawlMode())
+    : m_webCrawler(webCrawler)    , m_configuration(webCrawler.getCrawlMode())
 {}
 
 void Y8Crawler::crawl()
@@ -55,15 +55,13 @@ void Y8Crawler::addWebLinksIfFound(int webLinkIndex)
     AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
     cout << "Y8Crawler::addWebLinksIfFound" << webLinkPathHandler.getFullPath() << endl;
     AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
-    m_webCrawler.downloadFileAsText(webLinkPathHandler, downloadPathHandler);
+    downloadFileAsText(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
-    {
-        cout << "Cannot open html file." << endl;
+    {        cout << "Cannot open html file." << endl;
         cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
     }
-    string webLinkFound;
-    bool isInsideVideoBox(false);
+    string webLinkFound;    bool isInsideVideoBox(false);
     AlbaFileReader htmlFileReader(htmlFileStream);
     while (htmlFileReader.isNotFinished())
     {
@@ -93,15 +91,13 @@ void Y8Crawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
 {
     clearLinks();
     AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
-    m_webCrawler.downloadFileAsText(webLinkPathHandler, downloadPathHandler);
+    downloadFileAsText(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
-    {
-        cout << "Cannot open html file." << endl;
+    {        cout << "Cannot open html file." << endl;
         cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
     }
-    AlbaFileReader htmlFileReader(htmlFileStream);
-    while (htmlFileReader.isNotFinished())
+    AlbaFileReader htmlFileReader(htmlFileStream);    while (htmlFileReader.isNotFinished())
     {
         string lineInHtmlFile(htmlFileReader.simpleGetLine());
         if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<a class="controls-button maximize-button-no-js" href=")"))
@@ -140,15 +136,13 @@ bool Y8Crawler::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
     }
     AlbaWindowsPathHandler downloadPathHandler(m_localPathForCurrentFileToDownload);
     downloadPathHandler.createDirectoriesForNonExisitingDirectories();
-    return m_webCrawler.downloadBinaryFile(fileToDownloadWebPathHandler, downloadPathHandler);
+    return downloadBinaryFile(fileToDownloadWebPathHandler, downloadPathHandler, m_webCrawler.getCrawlMode());
 }
 
-void Y8Crawler::clearLinks()
-{
+void Y8Crawler::clearLinks(){
     m_linkForNextHtml.clear();
     m_linkForCurrentFileToDownload.clear();
-    m_localPathForCurrentFileToDownload.clear();
-}
+    m_localPathForCurrentFileToDownload.clear();}
 
 bool Y8Crawler::areLinksInvalid() const
 {

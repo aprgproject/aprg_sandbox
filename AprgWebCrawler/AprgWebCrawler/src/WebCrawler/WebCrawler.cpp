@@ -7,21 +7,20 @@
 #include <Crawlers/DoujinMoeCrawler.hpp>
 #include <Crawlers/OneDownloadPerPageCrawler.hpp>
 #include <Crawlers/Y8Crawler.hpp>
+#include <CrawlHelpers/Downloaders.hpp>
 #include <fstream>
 #include <iostream>
-
 #define APRG_WEB_CRAWLER_TEMP_HTML_FILE R"(C:\APRG\AprgWebCrawler\temp.html)"
 
 using namespace alba;
 using namespace alba::stringHelper;
+using namespace aprgWebCrawler::Downloaders;
 using namespace std;
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler{
 
 WebCrawler::WebCrawler(string const& downloadDirectory)
-    : m_mode(CrawlMode::Unknown)
-    , m_state(CrawlState::Unknown)
+    : m_mode(CrawlMode::Unknown)    , m_state(CrawlState::Unknown)
     , m_downloadDirectoryPathHandler(downloadDirectory + R"(\)")
     , m_memoryCardPathHandler(downloadDirectory + R"(\MemoryCard.txt)")
 {

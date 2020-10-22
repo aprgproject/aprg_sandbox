@@ -1,18 +1,23 @@
 #include "AlbaUserAutomation.hpp"
-
 #include <cctype>
+
+using namespace std;
 
 namespace alba
 {
 
+bool AlbaUserAutomation::isLetterPressed(char letter) const
+{
+    USHORT status = GetAsyncKeyState(::toupper(letter));
+    return (( ( status & 0x8000 ) >> 15 ) == 1) || (( status & 1 ) == 1);
+}
+
 MousePosition AlbaUserAutomation::getMousePosition() const
 {
-    MousePosition position;
-    POINT mouse;
+    MousePosition position;    POINT mouse;
     GetCursorPos(&mouse);
     position.x = mouse.x;
-    position.y = mouse.y;
-    return position;
+    position.y = mouse.y;    return position;
 }
 
 void AlbaUserAutomation::setMousePosition(MousePosition position) const
@@ -45,40 +50,38 @@ void AlbaUserAutomation::doLeftClick() const
     });
 }
 
-void AlbaUserAutomation::typeLetter(char letter) const
+void AlbaUserAutomation::typeCharacter(char character) const
 {
     doOperation([&](INPUT& input)
-    {
-        input.type = INPUT_KEYBOARD;
+    {        input.type = INPUT_KEYBOARD;
         input.ki.wScan = 0;
         input.ki.time = 0;
         input.ki.dwExtraInfo = 0;
-        input.ki.wVk = ::toupper(letter);
+        input.ki.wVk = ::toupper(character);
         input.ki.dwFlags = 0;
     });
-    doOperation([&](INPUT& input)
-    {
+    doOperation([&](INPUT& input)    {
         input.type = INPUT_KEYBOARD;
         input.ki.wScan = 0;
         input.ki.time = 0;
         input.ki.dwExtraInfo = 0;
-        input.ki.wVk = ::toupper(letter);
+        input.ki.wVk = ::toupper(character);
         input.ki.dwFlags = KEYEVENTF_KEYUP;
     });
 }
 
-bool AlbaUserAutomation::isLetterPressed(char letter) const
+void AlbaUserAutomation::typeString(string const& stringToType) const
 {
-    USHORT status = GetAsyncKeyState(::toupper(letter));
-    return (( ( status & 0x8000 ) >> 15 ) == 1) || (( status & 1 ) == 1);
+    for(char const character : stringToType)
+    {
+        typeCharacter(character);
+    }
 }
 
-void AlbaUserAutomation::doOperation(AlbaUserAutomation::InputFunction inputFunction) const
-{
+void AlbaUserAutomation::doOperation(AlbaUserAutomation::InputFunction inputFunction) const{
     INPUT input;
     memset(&input, 0, sizeof(INPUT));
-    inputFunction(input);
-    SendInput(1, &input, sizeof(INPUT));
+    inputFunction(input);    SendInput(1, &input, sizeof(INPUT));
     Sleep(m_realisticDelayInMilliseconds);
 }
 

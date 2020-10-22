@@ -16,14 +16,15 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 #Include curlCpp, this needs APRG Directory
 include(${APRG_DIR}/CurlCpp/AprgCmakeInclude/CurlCpp.cmake)
 
+#Include aprgUserAutomation, this needs APRG Directory
+include(${APRG_DIR}/AprgUserAutomation/AprgCmakeInclude/AprgUserAutomation.cmake)
+
 set(SOURCES
     src/UserInterface/UserInterface.cpp
-    src/UserInterface/UserInterface.hpp
-    src/main.cpp
+    src/UserInterface/UserInterface.hpp    src/main.cpp
     src/WebCrawler/CrawlConfiguration/CrawlConfiguration.cpp
     src/WebCrawler/CrawlConfiguration/CrawlConfiguration.hpp
-    src/WebCrawler/Crawlers/ChiaAnimeCrawler.cpp
-    src/WebCrawler/Crawlers/ChiaAnimeCrawler.hpp
+    src/WebCrawler/Crawlers/ChiaAnimeCrawler.cpp    src/WebCrawler/Crawlers/ChiaAnimeCrawler.hpp
     src/WebCrawler/Crawlers/DoujinMoeCrawler.cpp
     src/WebCrawler/Crawlers/DoujinMoeCrawler.hpp
     src/WebCrawler/Crawlers/Gehen.cpp
@@ -38,16 +39,16 @@ set(SOURCES
     src/WebCrawler/Crawlers/Y8Crawler.cpp
     src/WebCrawler/Crawlers/Y8Crawler.hpp
     src/WebCrawler/CrawlHelpers/Converters.cpp
-    src/WebCrawler/CrawlHelpers/DownloadHelpers.cpp
-    src/WebCrawler/CrawlHelpers/FirefoxHelpers.cpp
+    src/WebCrawler/CrawlHelpers/Downloaders.cpp
+    src/WebCrawler/CrawlHelpers/Downloaders.hpp
+    src/WebCrawler/CrawlHelpers/FirefoxHandler.cpp
+    src/WebCrawler/CrawlHelpers/FirefoxHandler.hpp
     src/WebCrawler/CrawlMode.hpp
     src/WebCrawler/CrawlState.hpp
-    src/WebCrawler/WebCrawler.cpp
-    src/WebCrawler/WebCrawler.hpp
+    src/WebCrawler/WebCrawler.cpp    src/WebCrawler/WebCrawler.hpp
 )
 
-set(INCLUDE_DIRECTORIES
-    src/
+set(INCLUDE_DIRECTORIES    src/
     src/UserInterface
     src/WebCrawler
 )
@@ -57,4 +58,4 @@ set(BUILD_SHARED_LIBRARIES OFF)
 set(CMAKE_EXE_LINKER_FLAGS "-static")
 add_executable(${OUTFILE} ${SOURCES})
 include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON CURL_CPP )
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON CURL_CPP APRG_USER_AUTO)

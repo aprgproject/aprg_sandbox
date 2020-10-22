@@ -2,28 +2,27 @@
 
 #include <AlbaFileReader.hpp>
 #include <AlbaStringHelper.hpp>
+#include <CrawlHelpers/Downloaders.hpp>
 #include <fstream>
 #include <iostream>
 
 using namespace alba;
 using namespace alba::stringHelper;
+using namespace aprgWebCrawler::Downloaders;
 using namespace std;
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler{
 
 void OneDownloadPerPageCrawler::retrieveLinksForMangaHere(AlbaWebPathHandler const& webLinkPathHandler)
 {
     AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
-    m_webCrawler.downloadFileAsText(webLinkPathHandler, downloadPathHandler);
+    downloadFileAsText(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
-    {
-        cout << "Cannot open html file." << endl;
+    {        cout << "Cannot open html file." << endl;
         cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
         return;
-    }
-    bool insideImportantSection(false);
+    }    bool insideImportantSection(false);
     string nextPageLink;
     string nextChapterLink;
     AlbaFileReader htmlFileReader(htmlFileStream);
