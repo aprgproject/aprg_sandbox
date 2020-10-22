@@ -50,7 +50,8 @@ void TcomTools::updateGuiUsingConfiguration()
     stringHelper::NumberToStringConverter converter;
     ui->extractStep->setChecked(m_configuration.isExtractStepOn);
     ui->combineAndSortStep->setChecked(m_configuration.isCombineAndSortStepOn);
-    ui->grepStep->setChecked(m_configuration.isGrepStepOn);    ui->cropStep->setChecked(m_configuration.isCropStepOn);
+    ui->grepStep->setChecked(m_configuration.isGrepStepOn);
+    ui->cropStep->setChecked(m_configuration.isCropStepOn);
     ui->tcom->setChecked(m_configuration.isGrepTcomEnabled);
     ui->err->setChecked(m_configuration.isGrepErrEnabled);
     ui->errWrnNoSpam->setChecked(m_configuration.isGrepErrWrnNoSpamEnabled);
@@ -75,7 +76,8 @@ void TcomTools::updateGuiUsingConfiguration()
     ui->cropSize->setText(QString::fromStdString(converter.convert(m_configuration.cropSize)));
 }
 
-void TcomTools::updateProgressBar(){
+void TcomTools::updateProgressBar()
+{
     ui->progressBar->setValue(ProgressCounters::getOverAllProgress());
 }
 

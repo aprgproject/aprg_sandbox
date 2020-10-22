@@ -22,10 +22,13 @@ public:
 
     CrawlMode getCrawlMode() const;
     CrawlState getCrawlState() const;
-    std::string getCrawlModeString() const;    std::string getCrawlStateString() const;
+    std::string getCrawlModeString() const;
+    std::string getCrawlStateString() const;
     std::string getDownloadDirectory() const;
     std::string getNewDirectoryName() const;
-    std::string getNewDirectoryNameFromWeblink(std::string const& webLink) const;    std::string getFirstWebLinkIfPossible() const;
+    std::string getNewDirectoryNameFromWeblink(std::string const& webLink) const;
+    std::string getFirstWebLinkIfPossible() const;
+    std::string getTemporaryFilePath() const;
 
     int getNumberOfWebLinks();
     std::string getWebLinkAtIndex(int index);
@@ -34,7 +37,9 @@ public:
     void removeWebLink(int index);
 
     bool isValid() const;
-    bool shouldDownloadStopBaseOnCrawlState() const;
+    bool shouldDownloadStopBaseOnInvalidCrawlState() const;
+    bool shouldDownloadRestartBaseOnCrawlState() const;
+    bool isCurrentDownloadFinishedBaseOnCrawlState() const;
 
     void saveMemoryCard() const;
     void saveStateToMemoryCard(CrawlState state);
@@ -58,7 +63,9 @@ private:
 
     CrawlMode m_mode;
     CrawlState m_state;
-    alba::AlbaWindowsPathHandler m_downloadDirectoryPathHandler;    alba::AlbaWindowsPathHandler m_memoryCardPathHandler;
+    alba::AlbaWindowsPathHandler m_downloadDirectoryPathHandler;
+    alba::AlbaWindowsPathHandler m_memoryCardPathHandler;
     WebLinks m_webLinks;
 };
+
 }

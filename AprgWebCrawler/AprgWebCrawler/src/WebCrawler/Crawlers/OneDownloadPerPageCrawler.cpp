@@ -9,10 +9,12 @@ using namespace alba::stringHelper;
 using namespace aprgWebCrawler::Downloaders;
 using namespace std;
 
-namespace aprgWebCrawler{
+namespace aprgWebCrawler
+{
 
 OneDownloadPerPageCrawler::OneDownloadPerPageCrawler(WebCrawler & webCrawler)
-    : m_webCrawler(webCrawler)    , m_configuration(webCrawler.getCrawlMode())
+    : m_webCrawler(webCrawler)
+    , m_configuration(webCrawler.getCrawlMode())
     , m_mode(webCrawler.getCrawlMode())
 {}
 
@@ -27,17 +29,22 @@ void OneDownloadPerPageCrawler::crawl()
 
 void OneDownloadPerPageCrawler::crawl(int webLinkIndex)
 {
-    while(!m_webCrawler.shouldDownloadStopBaseOnCrawlState())
+    while(!m_webCrawler.shouldDownloadStopBaseOnInvalidCrawlState())
     {
         m_webCrawler.saveStateToMemoryCard(CrawlState::Active);
         AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
         retrieveLinks(webLinkPathHandler);
         if(checkLinks())
         {
-            if(downloadFile(webLinkPathHandler))
-            {
-                gotoNextLink(webLinkPathHandler, webLinkIndex);
-            }
+            downloadFile(webLinkPathHandler);
+        }
+        if(m_webCrawler.shouldDownloadRestartBaseOnCrawlState())
+        {
+            continue;
+        }
+        if(m_webCrawler.isCurrentDownloadFinishedBaseOnCrawlState())
+        {
+            gotoNextLink(webLinkPathHandler, webLinkIndex);
         }
     }
 }
@@ -86,17 +93,18 @@ void OneDownloadPerPageCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkP
 
 bool OneDownloadPerPageCrawler::checkLinks()
 {
+    bool result(true);
     if(areLinksInvalid())
     {
         cout << "Links are invalid." << endl;
         printLinks();
         m_webCrawler.saveStateToMemoryCard(CrawlState::LinksAreInvalid);
-        return false;
+        result = false;
     }
-    return true;
+    return result;
 }
 
-bool OneDownloadPerPageCrawler::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
+void OneDownloadPerPageCrawler::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
 {
     AlbaWebPathHandler fileToDownloadWebPathHandler(webLinkPathHandler);
     fileToDownloadWebPathHandler.gotoLink(m_linkForCurrentFileToDownload);
@@ -105,36 +113,45 @@ bool OneDownloadPerPageCrawler::downloadFile(AlbaWebPathHandler const& webLinkPa
         cout << "Link is not to a file." << endl;
         cout << "Link of file to Download: " << fileToDownloadWebPathHandler.getFullPath() << endl;
         m_webCrawler.saveStateToMemoryCard(CrawlState::LinksAreInvalid);
-        return false;
     }
-    AlbaWindowsPathHandler downloadPathHandler(m_localPathForCurrentFileToDownload);
-    downloadPathHandler.createDirectoriesForNonExisitingDirectories();
-    downloadBinaryFile(fileToDownloadWebPathHandler, downloadPathHandler, m_webCrawler.getCrawlMode());
-    if(downloadPathHandler.getFileSizeEstimate() < m_configuration.getMinimumFileSize())
+    else
     {
-        cout << "Download file size is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start" << endl;        m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
-        return false;
+        AlbaWindowsPathHandler downloadPathHandler(m_localPathForCurrentFileToDownload);
+        downloadPathHandler.createDirectoriesForNonExisitingDirectories();
+        downloadBinaryFile(fileToDownloadWebPathHandler, downloadPathHandler, m_webCrawler.getCrawlMode());
+        if(downloadPathHandler.getFileSizeEstimate() < m_configuration.getMinimumFileSize())
+        {
+            cout << "Download file size is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start" << endl;
+            m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
+        }
+        else
+        {
+            m_webCrawler.saveStateToMemoryCard(CrawlState::CurrentDownloadIsFinished);
+        }
     }
-    return true;}
+}
 
-bool OneDownloadPerPageCrawler::gotoNextLink(AlbaWebPathHandler const& webLinkPathHandler, int webLinkIndex)
+void OneDownloadPerPageCrawler::gotoNextLink(AlbaWebPathHandler const& webLinkPathHandler, int webLinkIndex)
 {
     if(m_linkForNextHtml.empty())
     {
         cout << "Terminating the because next web link is empty." << endl;
         m_webCrawler.saveStateToMemoryCard(CrawlState::NextLinkIsInvalid);
-        return false;
     }
-    AlbaWebPathHandler nextWebPathHandler(webLinkPathHandler);
-    nextWebPathHandler.gotoLink(m_linkForNextHtml);
-    if(webLinkPathHandler.getFullPath() == nextWebPathHandler.getFullPath())
+    else
     {
-        cout << "Crawler stop because the next web link is the same as previous link." << endl;
-        m_webCrawler.saveStateToMemoryCard(CrawlState::NextLinkIsInvalid);
-        return false;
+        AlbaWebPathHandler nextWebPathHandler(webLinkPathHandler);
+        nextWebPathHandler.gotoLink(m_linkForNextHtml);
+        if(webLinkPathHandler.getFullPath() == nextWebPathHandler.getFullPath())
+        {
+            cout << "Crawler stop because the next web link is the same as previous link." << endl;
+            m_webCrawler.saveStateToMemoryCard(CrawlState::NextLinkIsInvalid);
+        }
+        else
+        {
+            m_webCrawler.modifyWebLink(nextWebPathHandler.getFullPath(), webLinkIndex);
+        }
     }
-    m_webCrawler.modifyWebLink(nextWebPathHandler.getFullPath(), webLinkIndex);
-    return true;
 }
 
 void OneDownloadPerPageCrawler::clearLinks()

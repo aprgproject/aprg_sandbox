@@ -24,7 +24,8 @@ bool Downloaders::downloadBinaryFile(
     CrawlConfiguration configuration(mode);
     DownloadLowSpeedLimitConfigurationOptional downloadLowSpeedLimitConfigurationOptional(configuration.getDownloadLowSpeedLimitConfigurationOptional());
     if(downloadLowSpeedLimitConfigurationOptional)
-    {        curl::CurlInterface::lowSpeedLimit = downloadLowSpeedLimitConfigurationOptional.getReference().m_lowSpeedLimit;
+    {
+        curl::CurlInterface::lowSpeedLimit = downloadLowSpeedLimitConfigurationOptional.getReference().m_lowSpeedLimit;
         curl::CurlInterface::lowSpeedTime = downloadLowSpeedLimitConfigurationOptional.getReference().m_lowSpeedTime;
     }
     if(configuration.isFileToBeDownloadUntilSuccessful())
@@ -50,7 +51,8 @@ void Downloaders::downloadFileUsingPhantomJs(
         AlbaWindowsPathHandler const& downloadPathHandler)
 {
     AlbaWindowsPathHandler const phantomJsFolder(PHANTOM_BIN_PATH);
-    string const command(phantomJsFolder.getFullPath()+"phantomjs.exe "+phantomJsFolder.getFullPath()+R"(loadPage.js ")"+fileToDownloadWebPathHandler.getFullPath()+R"(" ")"+downloadPathHandler.getFullPath()+R"(")");    cout<<command<<endl;
+    string const command(phantomJsFolder.getFullPath()+"phantomjs.exe "+phantomJsFolder.getFullPath()+R"(loadPage.js ")"+fileToDownloadWebPathHandler.getFullPath()+R"(" ")"+downloadPathHandler.getFullPath()+R"(")");
+    cout<<command<<endl;
     system(command.c_str());
 }
 

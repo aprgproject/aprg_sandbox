@@ -56,7 +56,8 @@ int main(int argc,char **argv) {
   const float x1 = cimg_option("-x1",10.0f,"Maximal X-value");
   const int resolution = cimg_option("-r",1024,"Plot resolution");
   const unsigned int nresolution = resolution>1?resolution:1024;
-  const unsigned int plot_type = cimg_option("-p",1,"Plot type");  const unsigned int vertex_type = cimg_option("-v",1,"Vertex type");
+  const unsigned int plot_type = cimg_option("-p",1,"Plot type");
+  const unsigned int vertex_type = cimg_option("-v",1,"Vertex type");
 
   // Create plot data.
   CImg<double> values(4,nresolution,1,1,0);
@@ -66,6 +67,7 @@ int main(int argc,char **argv) {
 
   // Display interactive plot window.
   values.display_graph(formula,plot_type,vertex_type,"X-axis",x0,x1,"Y-axis");
+
   // Quit.
   return 0;
 }

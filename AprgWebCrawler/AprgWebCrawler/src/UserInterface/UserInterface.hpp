@@ -40,8 +40,6 @@ private:
     void addExistingNotDownloadDirectories();
     void addNewDownloadDirectory();
 
-    std::string getUserInput() const;
-
     void writeConfigurationFile() const;
     void readConfigurationFile();
     void startDownload();

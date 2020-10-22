@@ -20,7 +20,7 @@ private:
     void addWebLinksIfFound(int webLinkIndex);
     void retrieveLinks(alba::AlbaWebPathHandler const& webLinkPathHandler);
     bool checkLinks();
-    bool downloadFile(alba::AlbaWebPathHandler const& webLinkPathHandler);
+    void downloadFile(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void clearLinks();
     bool areLinksInvalid() const;
     void printLinks() const;

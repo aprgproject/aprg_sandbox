@@ -21,10 +21,12 @@ include(${APRG_DIR}/AprgUserAutomation/AprgCmakeInclude/AprgUserAutomation.cmake
 
 set(SOURCES
     src/UserInterface/UserInterface.cpp
-    src/UserInterface/UserInterface.hpp    src/main.cpp
+    src/UserInterface/UserInterface.hpp
+    src/main.cpp
     src/WebCrawler/CrawlConfiguration/CrawlConfiguration.cpp
     src/WebCrawler/CrawlConfiguration/CrawlConfiguration.hpp
-    src/WebCrawler/Crawlers/ChiaAnimeCrawler.cpp    src/WebCrawler/Crawlers/ChiaAnimeCrawler.hpp
+    src/WebCrawler/Crawlers/ChiaAnimeCrawler.cpp
+    src/WebCrawler/Crawlers/ChiaAnimeCrawler.hpp
     src/WebCrawler/Crawlers/DoujinMoeCrawler.cpp
     src/WebCrawler/Crawlers/DoujinMoeCrawler.hpp
     src/WebCrawler/Crawlers/Gehen.cpp
@@ -38,17 +40,21 @@ set(SOURCES
     src/WebCrawler/Crawlers/OneDownloadPerPageCrawler.hpp
     src/WebCrawler/Crawlers/Y8Crawler.cpp
     src/WebCrawler/Crawlers/Y8Crawler.hpp
+    src/WebCrawler/Crawlers/Youtube.cpp
+    src/WebCrawler/Crawlers/Youtube.hpp
+    src/WebCrawler/CrawlHelpers/AutomationHelper.cpp
+    src/WebCrawler/CrawlHelpers/AutomationHelper.hpp
     src/WebCrawler/CrawlHelpers/Converters.cpp
     src/WebCrawler/CrawlHelpers/Downloaders.cpp
     src/WebCrawler/CrawlHelpers/Downloaders.hpp
-    src/WebCrawler/CrawlHelpers/FirefoxHandler.cpp
-    src/WebCrawler/CrawlHelpers/FirefoxHandler.hpp
     src/WebCrawler/CrawlMode.hpp
     src/WebCrawler/CrawlState.hpp
-    src/WebCrawler/WebCrawler.cpp    src/WebCrawler/WebCrawler.hpp
+    src/WebCrawler/WebCrawler.cpp
+    src/WebCrawler/WebCrawler.hpp
 )
 
-set(INCLUDE_DIRECTORIES    src/
+set(INCLUDE_DIRECTORIES
+    src/
     src/UserInterface
     src/WebCrawler
 )

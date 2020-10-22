@@ -24,7 +24,8 @@ public:
     double getTotalSizeToBeRead(std::set<std::string> listOfFiles);
 private:
     std::string getPathOfLogWithoutPcTime(std::string const& directory, std::string const& name) const;
-    void openStartupLogsIfNeeded();    void addStartupLogsOnSorterWithPcTime();
+    void openStartupLogsIfNeeded();
+    void addStartupLogsOnSorterWithPcTime();
     void writeLogsWithoutPcTimeToOutputFile(std::ofstream & outputLogFileStream);
     void separateLogsWithoutPcTimeIntoDifferentFiles();
     void writeLogsWithPcTimeToOutputFile(std::ofstream & outputLogFileStream);
@@ -34,11 +35,13 @@ private:
     void writeLastPrint(std::ofstream & outputLogFileStream);
     void deleteFilesInDirectory(std::string const& directoryOfLogs) const;
     alba::AlbaGrepStringEvaluator m_evaluator;
-    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithPcTime;    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithoutPcTime;
+    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithPcTime;
+    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithoutPcTime;
     std::string m_directoryOfLogsWithoutPcTime;
     std::string m_pathOfStartupLog;
     alba::AlbaOptional<std::ofstream> m_startupLogStreamOptional;
     BtsLogPrint m_currentPrintToWrite;
     std::set<std::string> m_foundHardwareAddresses;
 };
+
 }

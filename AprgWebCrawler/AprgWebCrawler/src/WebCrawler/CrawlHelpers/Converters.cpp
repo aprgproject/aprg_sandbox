@@ -131,6 +131,10 @@ CrawlState WebCrawler::convertStringToCrawlerState(string const& stateString) co
     {
         state = CrawlState::Active;
     }
+    else if("CrawlState::CurrentDownloadIsFinished" == stateString)
+    {
+        state = CrawlState::CurrentDownloadIsFinished;
+    }
     else if("CrawlState::DownloadedFileIsInvalid" == stateString)
     {
         state = CrawlState::DownloadedFileIsInvalid;
@@ -139,9 +143,9 @@ CrawlState WebCrawler::convertStringToCrawlerState(string const& stateString) co
     {
         state = CrawlState::DownloadedFileSizeIsLessThanExpected;
     }
-    else if("CrawlState::Finished" == stateString)
+    else if("CrawlState::DownloadFailsRepetitively" == stateString)
     {
-        state = CrawlState::Finished;
+        state = CrawlState::DownloadFailsRepetitively;
     }
     else if("CrawlState::LinksAreInvalid" == stateString)
     {
@@ -187,9 +191,10 @@ string WebCrawler::convertCrawlerStateToString(CrawlState state) const
     GET_ENUM_STRING(CrawlState::Empty)
             GET_ENUM_STRING(CrawlState::Unknown)
             GET_ENUM_STRING(CrawlState::Active)
+            GET_ENUM_STRING(CrawlState::CurrentDownloadIsFinished)
             GET_ENUM_STRING(CrawlState::DownloadedFileIsInvalid)
             GET_ENUM_STRING(CrawlState::DownloadedFileSizeIsLessThanExpected)
-            GET_ENUM_STRING(CrawlState::Finished)
+            GET_ENUM_STRING(CrawlState::DownloadFailsRepetitively)
             GET_ENUM_STRING(CrawlState::LinksAreInvalid)
             GET_ENUM_STRING(CrawlState::NextLinkIsInvalid)
     }

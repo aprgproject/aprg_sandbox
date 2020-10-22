@@ -2,6 +2,7 @@
 
 #include <AlbaFileReader.hpp>
 #include <AlbaStringHelper.hpp>
+#include <AlbaUserInterface.hpp>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -14,6 +15,8 @@
 #define APRG_WEB_CRAWLER_FIX_BATCH_FILE R"(C:\APRG\AprgWebCrawler\fixDirectoryNames.bat)"
 
 using namespace alba;
+using namespace alba::stringHelper;
+using namespace alba::AlbaUserInterface;
 using namespace std;
 
 namespace aprgWebCrawler
@@ -41,7 +44,7 @@ void UserInterface::inputTask()
     cout << "[DS]  : Check download schedule" << endl;
     cout << "[ST]  : Start download" << endl;
     cout << "Input your choice: ";
-    string choice(stringHelper::getStringWithCapitalLetters(getUserInput()));
+    string choice(getStringWithCapitalLetters(getUserInput()));
 
 
     if("A" == choice)
@@ -81,9 +84,9 @@ void UserInterface::inputWorkingDirectory()
     cout << "[B]   : Go back" << endl;
 
     cout << "Input your choice: ";
-    string choice(stringHelper::getStringWithCapitalLetters(getUserInput()));
-    unsigned int index = stringHelper::convertStringToNumber<unsigned int>(choice);
-    bool isNumber(stringHelper::isNumber(choice));
+    string choice(getStringWithCapitalLetters(getUserInput()));
+    unsigned int index = convertStringToNumber<unsigned int>(choice);
+    bool isNumberFound(isNumber(choice));
 
     if("A" == choice)
     {
@@ -99,7 +102,7 @@ void UserInterface::inputWorkingDirectory()
     {
         //nothing here
     }
-    else if (index < m_workingDirectories.size() && isNumber)
+    else if (index < m_workingDirectories.size() && isNumberFound)
     {
         m_workingDirectory = m_workingDirectories[index];
         addExistingDownloadAndNonDownloadDirectories();
@@ -121,9 +124,9 @@ void UserInterface::inputDownloadDirectory()
     cout << "[B]   : Go back" << endl;
 
     cout << "Input your choice: ";
-    string choice(stringHelper::getStringWithCapitalLetters(getUserInput()));
-    unsigned int index = stringHelper::convertStringToNumber<unsigned int>(choice);
-    bool isNumber(stringHelper::isNumber(choice));
+    string choice(getStringWithCapitalLetters(getUserInput()));
+    unsigned int index = convertStringToNumber<unsigned int>(choice);
+    bool isNumberFound(isNumber(choice));
 
     if("A" == choice)
     {
@@ -137,7 +140,7 @@ void UserInterface::inputDownloadDirectory()
     {
         //nothing here
     }
-    else if (index < m_downloadDirectories.size() && isNumber)
+    else if (index < m_downloadDirectories.size() && isNumberFound)
     {
         m_downloadDirectoryDetails = m_downloadDirectories[index];
         inputDownloadDirectoryTask();
@@ -164,7 +167,7 @@ void UserInterface::inputDownloadDirectoryTask()
     cout << "[B]   : Go back" << endl;
 
     cout << "Input your choice: ";
-    string choice(stringHelper::getStringWithCapitalLetters(getUserInput()));
+    string choice(getStringWithCapitalLetters(getUserInput()));
 
     if("DS" == choice)
     {
@@ -253,7 +256,7 @@ void UserInterface::addExistingDownloadDirectories()
     workingDirectoryPathHandler.findFilesAndDirectoriesMultipleDepth("*.*", listOfFiles, listOfDirectories, 2);
     for(string const& file : listOfFiles)
     {
-        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(file, "MemoryCard.txt"))
+        if(isStringFoundInsideTheOtherStringNotCaseSensitive(file, "MemoryCard.txt"))
         {
             AlbaWindowsPathHandler memoryCardPathHandler(file);
             m_downloadDirectories.push_back(createDownloadDirectoryDetails(memoryCardPathHandler.getDirectory()));
@@ -274,7 +277,7 @@ void UserInterface::addExistingNotDownloadDirectories()
         bool isDownloadDirectory(false);
         for(DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadDirectories)
         {
-            if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(downloadDirectoryDetails.downloadDirectory, directory))
+            if(isStringFoundInsideTheOtherStringNotCaseSensitive(downloadDirectoryDetails.downloadDirectory, directory))
             {
                 isDownloadDirectory = true;
                 break;
@@ -293,14 +296,6 @@ void UserInterface::addNewDownloadDirectory()
     string webLink(getUserInput());
     m_downloadSchedule.emplace(m_downloadSchedule.begin(), createDownloadDirectoryDetails(m_workingDirectory, webLink));
     addExistingDownloadAndNonDownloadDirectories();
-}
-
-string UserInterface::getUserInput() const
-{
-    constexpr int bufferSize = 1000;
-    char buffer[bufferSize];
-    cin.getline(buffer, bufferSize);
-    return string(buffer);
 }
 
 void UserInterface::writeConfigurationFile() const
@@ -409,8 +404,8 @@ void UserInterface::createBatchFile() const
             string newDirectoryName(crawler.getNewDirectoryName());
             if(newDirectoryName.empty())
             {
-                newDirectoryName = stringHelper::getStringWithoutStartingAndTrailingCharacters(
-                            stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(
+                newDirectoryName = getStringWithoutStartingAndTrailingCharacters(
+                            getStringAndReplaceNonAlphanumericCharactersToUnderScore(
                                 directoryPathHandler.getImmediateDirectoryName()), "_");
             }
 

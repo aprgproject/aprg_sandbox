@@ -21,7 +21,7 @@ private:
     void retrieveLinks(alba::AlbaWebPathHandler const& webLinkPathHandler);
     std::string getVideoLink(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& linkToDownloadPage) const;
     bool checkLinks();
-    bool downloadImages(alba::AlbaWebPathHandler const& webLinkPathHandler);
+    void downloadImages(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void clearLinks();
     bool areLinksInvalid() const;
     WebCrawler & m_webCrawler;

@@ -152,7 +152,8 @@ void BtsLogSorter::writeLogsWithoutPcTimeToOutputFile(ofstream & outputLogFileSt
     writeLastPrint(outputLogFileStream);
 }
 
-void BtsLogSorter::separateLogsWithoutPcTimeIntoDifferentFiles(){
+void BtsLogSorter::separateLogsWithoutPcTimeIntoDifferentFiles()
+{
     cout << "Save sorted logs without PC time into different addresses." << endl;
     map<string, ofstream> filesWithoutPcTime;
 
@@ -245,7 +246,8 @@ void BtsLogSorter::writeLastPrint(ofstream & outputLogFileStream)
     m_currentPrintToWrite = BtsLogPrint{};
 }
 
-void BtsLogSorter::deleteFilesInDirectory(string const& directoryOfLogs) const{
+void BtsLogSorter::deleteFilesInDirectory(string const& directoryOfLogs) const
+{
     set<string> listOfFiles;
     set<string> listOfDirectories;
     AlbaWindowsPathHandler(directoryOfLogs).findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);

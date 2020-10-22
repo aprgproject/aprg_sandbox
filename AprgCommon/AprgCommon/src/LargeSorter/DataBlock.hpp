@@ -9,7 +9,8 @@
 #include <iostream>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 enum class DataBlockType
 {

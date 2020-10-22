@@ -44,10 +44,12 @@ void WebCrawler::crawlForYoutube_old(string & webLink, ofstream& convertedYoutub
         //string userInput(getUserInputAfterManuallyUsingMozillaFirefox(ssYoutubeLinkPathHandler));
         if(!stringHelper::isEqualNotCaseSensitive(userInput, "done"))
         {
-            continue;        }
+            continue;
+        }
         convertedYoutubeLinkStream << ssYoutubeLinkPathHandler.getFullPath() << endl << flush;
         webLink.clear();
-        setCrawlState(CrawlState::Active);        saveMemoryCard();
+        setCrawlState(CrawlState::Active);
+        saveMemoryCard();
         break;
     }
 }

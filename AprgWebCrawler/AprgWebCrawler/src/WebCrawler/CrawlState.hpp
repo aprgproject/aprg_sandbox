@@ -8,9 +8,10 @@ enum class CrawlState
     Empty,
     Unknown,
     Active,
+    CurrentDownloadIsFinished,
     DownloadedFileIsInvalid,
     DownloadedFileSizeIsLessThanExpected,
-    Finished,
+    DownloadFailsRepetitively,
     LinksAreInvalid,
     NextLinkIsInvalid
 };

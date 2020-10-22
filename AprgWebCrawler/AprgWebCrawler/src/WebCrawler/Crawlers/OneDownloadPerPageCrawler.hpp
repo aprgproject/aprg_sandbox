@@ -18,7 +18,6 @@ public:
 
 private:
     void crawl(int webLinkIndex);
-    void download(alba::AlbaWebPathHandler webPathHandler);
     void retrieveLinks(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void retrieveLinksForGehen(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void retrieveLinksForGuroManga(alba::AlbaWebPathHandler const& webLinkPathHandler);
@@ -30,8 +29,8 @@ private:
     void retrieveLinksForMangaHere(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void retrieveLinksForMangaPark(alba::AlbaWebPathHandler const& webLinkPathHandler);
     bool checkLinks();
-    bool downloadFile(alba::AlbaWebPathHandler const& webLinkPathHandler);
-    bool gotoNextLink(alba::AlbaWebPathHandler const& webLinkPathHandler, int webLinkIndex);
+    void downloadFile(alba::AlbaWebPathHandler const& webLinkPathHandler);
+    void gotoNextLink(alba::AlbaWebPathHandler const& webLinkPathHandler, int webLinkIndex);
     void clearLinks();
     bool areLinksInvalid() const;
     void printLinks() const;
