@@ -57,4 +57,5 @@ private:
     std::string m_temporaryFilePath;
     DownloadDirectoryDetails m_downloadDirectoryDetails;
 };
+
 }

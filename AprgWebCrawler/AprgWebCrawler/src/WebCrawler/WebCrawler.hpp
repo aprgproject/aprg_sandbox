@@ -32,9 +32,11 @@ public:
     void setTemporaryFilePath(std::string const& temporaryFilePath);
 
     int getNumberOfWebLinks();
-    std::string getWebLinkAtIndex(int index);    void addWebLink(std::string const& webLink);
+    std::string getWebLinkAtIndex(int index);
+    void addWebLink(std::string const& webLink);
     void modifyWebLink(std::string const& webLink, int index);
     void removeWebLink(int index);
+
     bool isValid() const;
     bool shouldDownloadStopBaseOnInvalidCrawlState() const;
     bool shouldDownloadRestartBaseOnCrawlState() const;
@@ -65,6 +67,7 @@ private:
     std::string m_temporaryFilePath;
     alba::AlbaWindowsPathHandler m_downloadDirectoryPathHandler;
     alba::AlbaWindowsPathHandler m_memoryCardPathHandler;
-    WebLinks m_webLinks;};
+    WebLinks m_webLinks;
+};
 
 }
