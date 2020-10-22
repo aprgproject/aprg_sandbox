@@ -30,26 +30,38 @@ TEST(WireSharkLogReaderTest, DISABLED_GetNumberAfterThisStringWorksAsIntended)
     EXPECT_EQ(13388, crnccId);
 }
 
-TEST(WireSharkLogReaderTest, DISABLED_ProcessFileForBtsDelay)
+TEST(WireSharkLogReaderTestBtsDelay, ProcessFileForBtsDelay1)
 {
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\PR126049\4way\WBTS00_0000_1076_00 with PIC\BtsLogTimeResults.csv)");
-    reader.processFileForBtsDelayForRlh(R"(D:\W\ZZZ_Useless_Logs\PR126049\4way\WBTS00_0000_1076_00 with PIC\sorted.log)");
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithRan2861\BtsLogTimeResults.csv)");
+    reader.processFileForBtsDelayForRlh(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithRan2861\sorted.log)");
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
-TEST(WireSharkLogReaderTest, GetMsgQueuingTime)
+TEST(WireSharkLogReaderTestBtsDelay, ProcessFileForBtsDelay2)
 {
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\PR126049\4way\WBTS00_0000_1076_00 with PIC\nofile.csv)");
-    reader.processFileForMsgQueuingTime(R"(D:\W\ZZZ_Useless_Logs\PR126049\WBTS00_0000_1076_00 no PIC\sorted.log)");
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithoutRan2861\BtsLogTimeResults.csv)");
+    reader.processFileForBtsDelayForRlh(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithoutRan2861\sorted.log)");
+    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+}
+
+TEST(WireSharkLogReaderTestQueuingTime, GetMsgQueuingTime)
+{
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithRan2861\GetMsgQueuingTime.csv)");
+    reader.processFileForMsgQueuingTime(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithRan2861\sorted.log)");
+}
+
+TEST(WireSharkLogReaderTestQueuingTime, GetMsgQueuingTime2)
+{
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithoutRan2861\GetMsgQueuingTime.csv)");
+    reader.processFileForMsgQueuingTime(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithoutRan2861\sorted.log)");
 }
 
 TEST (WireSharkLogReaderTest, DISABLED_ProcessFileForBtsDelay_GRM)
 {
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\PR126049\4way\WBTS00_0000_1076_00 with PIC\GrmBtsLogTimeResults.csv)");
-    reader.processFileForBtsDelayForGrm(R"(D:\W\ZZZ_Useless_Logs\PR126049\4way\WBTS00_0000_1076_00 with PIC\sorted.log)");
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\Pr075191\Eureka\GrmBtsLogTimeResults.csv)");
+    reader.processFileForBtsDelayForGrm(R"(D:\W\ZZZ_Useless_Logs\Pr075191\Eureka\sorted.log)");
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
-
 TEST(WireSharkLogReaderTest, DISABLED_ProcessFileForBtsRlDeletionDelay)
 {
     WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\3RAT AttachDetach case\ALL\RL_setup_delete_TRACE\BtsLogTimeRlDelete.csv)");

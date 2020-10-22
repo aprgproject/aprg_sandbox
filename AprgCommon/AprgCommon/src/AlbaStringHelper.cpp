@@ -175,10 +175,24 @@ string stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(string const&
     return getStringWithoutStartingAndTrailingCharacters(mainString, WHITESPACE_STRING);
 }
 
-string stringHelper::getStringWithoutRedundantWhiteSpace(string const& mainString)
+string stringHelper::getStringWithoutWhiteSpace(string const& mainString)
 {
     string result;
     int index = 0, length = mainString.length();
+    while(index < length)
+    {
+        if(!isWhiteSpace(mainString[index]))
+        {
+            result+=mainString[index];
+        }
+        index++;
+    }
+    return result;
+}
+
+string stringHelper::getStringWithoutRedundantWhiteSpace(string const& mainString)
+{
+    string result;    int index = 0, length = mainString.length();
     while(index < length)
     {
         int indexNotWhiteSpace = mainString.find_first_not_of(WHITESPACE_STRING, index);
@@ -543,10 +557,10 @@ NumberType stringHelper::convertHexStringToNumber(string const& stringToConvert)
 template char stringHelper::convertHexStringToNumber<char>(string const& stringToConvert);
 template int stringHelper::convertHexStringToNumber<int>(string const& stringToConvert);
 template unsigned int stringHelper::convertHexStringToNumber<unsigned int>(string const& stringToConvert);
+template unsigned char stringHelper::convertHexStringToNumber<unsigned char>(string const& stringToConvert);
 
 template <typename NumberType>
-string stringHelper::NumberToStringConverter::convert(NumberType number)
-{
+string stringHelper::NumberToStringConverter::convert(NumberType number){
     stringstream temporaryStream;
     if(m_precisionOptional)
     {

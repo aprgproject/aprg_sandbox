@@ -14,11 +14,10 @@ AlbaMemoryBuffer::AlbaMemoryBuffer(AlbaMemoryBuffer const& memoryBuffer)
     , m_size(0)
     , m_bufferPointer(nullptr)
 {
-    setBuffer(memoryBuffer.m_bufferPointer, memoryBuffer.m_size);
+    setNewBuffer(memoryBuffer.m_bufferPointer, memoryBuffer.m_size);
 }
 
-AlbaMemoryBuffer::~AlbaMemoryBuffer()
-{
+AlbaMemoryBuffer::~AlbaMemoryBuffer(){
     releaseBufferIfNeeded();
 }
 
@@ -56,11 +55,10 @@ void AlbaMemoryBuffer::releaseBufferIfNeeded()
     m_bufferPointer = nullptr;
 }
 
-void AlbaMemoryBuffer::setBuffer(void* bufferPointer, unsigned int size)
+void AlbaMemoryBuffer::setNewBuffer(void* bufferPointer, unsigned int size)
 {
     reAllocateBuffer(size);
-    memcpy(m_bufferPointer, bufferPointer, size);
-}
+    memcpy(m_bufferPointer, bufferPointer, size);}
 
 
 }//namespace alba

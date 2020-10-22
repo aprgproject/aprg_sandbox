@@ -1,10 +1,9 @@
 #pragma once
 
-#include <assert.h>
+#include <cassert>
 #include <memory>
 
 namespace alba{
-
 template <typename ContentType> class AlbaOptional
 {
 public:

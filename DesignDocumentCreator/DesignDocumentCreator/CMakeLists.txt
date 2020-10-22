@@ -20,17 +20,31 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 
 set(SOURCES
+    src/Components/Component.cpp
+    src/Components/Component.hpp
+    src/Components/ComponentName.hpp
     src/Components/Components.cpp
     src/Components/Components.hpp
-    src/Messages/Messages.cpp
+    src/Components/SampleComponent.cpp
+    src/Components/SampleComponent.hpp
+    src/Events/Events.cpp
+    src/Events/Events.hpp
+    src/Messages/GenericMessage.hpp
+    src/Messages/MessageConverters.hpp
+    src/Messages/MessageName.hpp
     src/Messages/Messages.hpp
     src/Messages/MessageWrapper.hpp
+    src/Messages/SpecificMessage.hpp
     src/Sacks/Sacks.cpp
     src/Sacks/Sacks.hpp
+    src/Timers/Timers.cpp
+    src/Timers/Timers.hpp
+    src/Timers/TimerType.hpp
+    src/Utils/EnumHelper.cpp
+    src/Utils/EnumHelper.hpp
     src/Environment.cpp
     src/Environment.hpp
 )
-
 set(MAIN_SOURCES
     src/main.cpp
 )

@@ -1,15 +1,22 @@
 #pragma once
 
+#include <Components/Components.hpp>
+
 namespace DesignDocumentCreator
 {
+
+//singleton?
 
 class Environment
 {
 public:
-    Environment();
+    void execute();
+    Components& getComponentReference();
+    void send(ComponentName const sender, ComponentName const receiver, GenericMessage const& message);
+
 
 private:
-    int m_sample;
+    Components m_components;
 };
 
 }

@@ -499,8 +499,8 @@ string TcomToolsConfiguration::getGrepFileName() const
         fileName += "Hsch";
     }
     fileName += stringHelper::getStringWithoutCharAtTheStartAndEnd(stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(otherGrepCondition), '_');
+    fileName = fileName.substr(0, 50); //think of a better way to limit filename size
     fileName += ".log";
     return fileName;
 }
-
 }
