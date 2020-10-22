@@ -129,19 +129,18 @@ void Youtube::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
     {
         cout << "Waiting for download to finish" << endl;
         bool isNotFinished(true);
-        files.clear();
-        directories.clear();
         while(isNotFinished)
         {
+            files.clear();
+            directories.clear();
             temporaryPath.findFilesAndDirectoriesOneDepth("*.fdminc", files, directories);
+            cout<<"\risNotFinished:"<<isNotFinished<<" numberOfIncompleteFiles:"<<files.size();
             isNotFinished = !files.empty();
             Sleep(10000);
-        }
-        m_webCrawler.saveStateToMemoryCard(CrawlState::CurrentDownloadIsFinished);
+        }        m_webCrawler.saveStateToMemoryCard(CrawlState::CurrentDownloadIsFinished);
     }
     else
-    {
-        m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadFailsAndRetryIsNeeded);
+    {        m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadFailsAndRetryIsNeeded);
     }
 }
 

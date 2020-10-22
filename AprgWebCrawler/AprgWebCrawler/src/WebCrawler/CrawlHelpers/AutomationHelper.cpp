@@ -10,14 +10,13 @@
 #define FIREFOX_FILE_POSITION 15,9
 #define FIREFOX_SAVE_PAGE_AS_POSITION 116, 127
 #define FIREFOX_CLOSE_BUTTON_POSITION 1338, 7
+#define FIREFOX_CLOSE_SECOND_TAB_BUTTON_POSITION 419, 38
 #define FDM_URL_BAR_POSITION 684, 195
 #define FDM_URL_BAR_COPY_POSITION 733, 261
-#define FDM_CLOSE_DOWNLOAD_WINDOW_POSITION 858, 159
-#define FIREFOX_OPEN_TIMEOUT 10000
+#define FDM_CLOSE_DOWNLOAD_WINDOW_POSITION 858, 159#define FIREFOX_OPEN_TIMEOUT 10000
 #define FIREFOX_LOADING_TIMEOUT 60000
 #define FIREFOX_WAIT_FOR_RESPONSE 10000
-using namespace alba;
-using namespace std;
+using namespace alba;using namespace std;
 
 namespace aprgWebCrawler
 {
@@ -57,14 +56,12 @@ void AutomationHelper::saveWebPageManuallyUsingMozillaFirefox(string const& webP
     Sleep(FIREFOX_WAIT_FOR_RESPONSE);
 
     cout<<"Close firefox"<<endl;
-    userAutomation.setMousePosition(MousePosition{FIREFOX_CLOSE_BUTTON_POSITION});
+    userAutomation.setMousePosition(MousePosition{FIREFOX_CLOSE_SECOND_TAB_BUTTON_POSITION});
     userAutomation.doLeftClick();
 }
-
 string AutomationHelper::getRedirectedLinkUsingMozillaFirefoxAndFdm(string const& webPath)
 {
-    AlbaWebPathHandler webPathHandler(webPath);    AlbaUserAutomation userAutomation;
-    cout<<"Open Firefox"<<endl;
+    AlbaWebPathHandler webPathHandler(webPath);    AlbaUserAutomation userAutomation;    cout<<"Open Firefox"<<endl;
     openMozillaFirefoxExecutableManually(webPathHandler.getFullPath());
     cout<<"Wait"<<endl;
     Sleep(FIREFOX_LOADING_TIMEOUT);
@@ -83,15 +80,13 @@ string AutomationHelper::getRedirectedLinkUsingMozillaFirefoxAndFdm(string const
     Sleep(FIREFOX_WAIT_FOR_RESPONSE);
 
     cout<<"Close firefox"<<endl;
-    userAutomation.setMousePosition(MousePosition{FIREFOX_CLOSE_BUTTON_POSITION});
+    userAutomation.setMousePosition(MousePosition{FIREFOX_CLOSE_SECOND_TAB_BUTTON_POSITION});
     userAutomation.doLeftClick();
 
-    return userAutomation.getStringFromClipboard();
-}
+    return userAutomation.getStringFromClipboard();}
 
 void AutomationHelper::downloadLinkUsingMozillaFirefoxAndFdm(string const& webPath)
-{
-    AlbaWebPathHandler webPathHandler(webPath);
+{    AlbaWebPathHandler webPathHandler(webPath);
     AlbaUserAutomation userAutomation;
     cout<<"Open Firefox"<<endl;
     openMozillaFirefoxExecutableManually(webPathHandler.getFullPath());
@@ -106,8 +101,7 @@ void AutomationHelper::downloadLinkUsingMozillaFirefoxAndFdm(string const& webPa
     Sleep(FIREFOX_WAIT_FOR_RESPONSE);
 
     cout<<"Close firefox"<<endl;
-    userAutomation.setMousePosition(MousePosition{FIREFOX_CLOSE_BUTTON_POSITION});
+    userAutomation.setMousePosition(MousePosition{FIREFOX_CLOSE_SECOND_TAB_BUTTON_POSITION});
     userAutomation.doLeftClick();
 }
-
 }

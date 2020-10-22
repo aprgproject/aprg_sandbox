@@ -12,15 +12,13 @@ set(CURL_INCLUDE_DIRECTORIES
 )
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DCURL_STATICLIB -DHAVE_ZLIB_H -DHAVE_LIBZ")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DCURL_STATICLIB -DHAVE_ZLIB_H -DHAVE_LIBZ")
-include_directories(${CURL_INCLUDE_DIRECTORIES})
+
 set(CURL_LIB_SOURCES
     ${CURL_DIR}/include/curl/curl.h
-    ${CURL_DIR}/include/curl/curlbuild.h
-    ${CURL_DIR}/include/curl/curlrules.h
+    ${CURL_DIR}/include/curl/curlbuild.h    ${CURL_DIR}/include/curl/curlrules.h
     ${CURL_DIR}/include/curl/curlver.h
     ${CURL_DIR}/include/curl/easy.h
-    ${CURL_DIR}/include/curl/mprintf.h
-    ${CURL_DIR}/include/curl/multi.h
+    ${CURL_DIR}/include/curl/mprintf.h    ${CURL_DIR}/include/curl/multi.h
     ${CURL_DIR}/include/curl/stdcheaders.h
     ${CURL_DIR}/include/curl/typecheck-gcc.h
     ${CURL_DIR}/lib/amigaos.c
@@ -336,6 +334,9 @@ set(CURL_LIB_SOURCES
     ${CURL_DIR}/src/tool_xattr.c
     ${CURL_DIR}/src/tool_xattr.h
 )
+
+include_directories(${CURL_INCLUDE_DIRECTORIES})
+
 add_library(CURL_LIB ${CURL_LIB_SOURCES})
 set_target_properties(CURL_LIB PROPERTIES LINKER_LANGUAGE C)
 target_link_libraries(CURL_LIB zlib wsock32 ws2_32)
