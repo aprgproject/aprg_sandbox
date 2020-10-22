@@ -1,0 +1,1 @@
+ADD_COMPONENT(ComponentName::WRC, WRC)

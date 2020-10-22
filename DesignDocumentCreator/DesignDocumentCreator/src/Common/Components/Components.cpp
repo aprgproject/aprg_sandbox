@@ -1,26 +1,22 @@
 #include <Common/Components/Components.hpp>
 #include <Common/Components/SampleComponent.hpp>
-#include <EditableFiles/EditComponentsIncludes.hpp>
+#include <FeatureSpecificFiles/ComponentsIncludes.hpp>
 
 using namespace std;
-
 namespace DesignDocumentCreator
 {
-
 Components::Components()
 {
 #define ADD_COMPONENT(COMPONENT_NAME, COMPONENT_CLASS) m_components[COMPONENT_NAME].reset(new COMPONENT_CLASS(COMPONENT_NAME));
 
     ADD_COMPONENT(ComponentName::SampleComponent, SampleComponent)
-    #include <EditableFiles/EditAddComponent.hpp>
+    #include <FeatureSpecificFiles/AddComponent.hpp>
 
 #undef ADD_COMPONENT
 }
-
 Component* Components::getComponentPointer(ComponentName const componentName)
 {
-    if(isComponentExisting(componentName))
-    {
+    if(isComponentExisting(componentName))    {
         return m_components[componentName].get();
     }
     return nullptr;

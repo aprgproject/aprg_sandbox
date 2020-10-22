@@ -10,6 +10,6 @@ namespace DesignDocumentCreator
 {
 
 WRAP_MESSAGE(MessageName::MESSAGE_SAMPLE, SampleSack)
-#include <EditableFiles/EditWrapMessage.hpp>
+#include <FeatureSpecificFiles/WrapMessage.hpp>
 
 }

@@ -1,0 +1,1 @@
+WRAP_MESSAGE(MessageName::TC_LTX_TELECOM_MSG, AntennaCarrier_PowerEventInd)
