@@ -149,11 +149,10 @@ void BtsLogSorter::writeLogsWithoutPcTimeToOutputFile(ofstream & outputLogFileSt
         bufferPrintAndWrite(logPrint, outputLogFileStream);
         ProgressCounters::writeProgressForCombine = 75 + (printCount++ * 25/size);
     });
-    writeLastPrintIfNeeded(outputLogFileStream);
+    writeLastPrint(outputLogFileStream);
 }
 
-void BtsLogSorter::separateLogsWithoutPcTimeIntoDifferentFiles()
-{
+void BtsLogSorter::separateLogsWithoutPcTimeIntoDifferentFiles(){
     cout << "Save sorted logs without PC time into different addresses." << endl;
     map<string, ofstream> filesWithoutPcTime;
 
@@ -226,28 +225,27 @@ void BtsLogSorter::writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRo
 
 void BtsLogSorter::bufferPrintAndWrite(BtsLogPrint const& logPrint, ofstream & outputLogFileStream)
 {
-    if(m_notYetPrinted == logPrint)
+    if(m_currentPrintToWrite == logPrint)
     {
-        m_notYetPrinted.updatePcTimeAndFileNameDetails(logPrint);
+        m_currentPrintToWrite.updatePcTimeAndFileNameDetails(logPrint);
     }
     else
     {
-        if(!m_notYetPrinted.getPrint().empty())
+        if(!m_currentPrintToWrite.getPrint().empty())
         {
-            outputLogFileStream << m_notYetPrinted.getPrintWithAllDetails() << endl;
+            outputLogFileStream << m_currentPrintToWrite.getPrintWithAllDetails() << endl;
         }
-        m_notYetPrinted = logPrint;
+        m_currentPrintToWrite = logPrint;
     }
 }
 
-void BtsLogSorter::writeLastPrintIfNeeded(ofstream & outputLogFileStream)
+void BtsLogSorter::writeLastPrint(ofstream & outputLogFileStream)
 {
-    outputLogFileStream << m_notYetPrinted.getPrintWithAllDetails() << endl;
-    m_notYetPrinted = BtsLogPrint{};
+    outputLogFileStream << m_currentPrintToWrite.getPrintWithAllDetails() << endl;
+    m_currentPrintToWrite = BtsLogPrint{};
 }
 
-void BtsLogSorter::deleteFilesInDirectory(string const& directoryOfLogs) const
-{
+void BtsLogSorter::deleteFilesInDirectory(string const& directoryOfLogs) const{
     set<string> listOfFiles;
     set<string> listOfDirectories;
     AlbaWindowsPathHandler(directoryOfLogs).findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);

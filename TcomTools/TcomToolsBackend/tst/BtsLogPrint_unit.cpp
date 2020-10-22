@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <BtsLogPrint.hpp>
+#include <fstream>
 #include <gtest/gtest.h>
 #include <vector>
-
 using namespace tcomToolsBackend;
 using namespace std;
 
@@ -286,4 +286,17 @@ TEST(BtsLogPrintTest, SortingTestWithAndWithoutPcTime)
     EXPECT_EQ("FCT-1011-0-HWRSwDl <2015-01-01T00:01:33.827322Z> 3C0 WRN/HWA/SWDL, 1", logPrints[1].getPrint());
     EXPECT_EQ("FCT-1011-0-HWRSwDl <2015-01-01T00:01:34.533125Z> 3C0 WRN/HWA/SWDL, 2", logPrints[2].getPrint());
     EXPECT_EQ("FCT-1011-0-HWRSwDl <2015-01-01T00:01:34.533125Z> 3C0 WRN/HWA/SWDL, 2", logPrints[3].getPrint());
+}
+
+TEST(BtsLogPrintTest, DISABLED_InputStreamWorks)
+{
+    ifstream inputFileStream(R"(C:\APRG\TcomTools\TcomToolsBackend\tst\ProblemFiles\BLOCK_701.txt)");
+    int count(0);
+    while(inputFileStream.good())
+    {
+        BtsLogPrint logPrint;
+        inputFileStream>>logPrint;
+        count++;
+    }
+    EXPECT_EQ(1001, count);
 }

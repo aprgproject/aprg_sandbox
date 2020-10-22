@@ -27,19 +27,18 @@ private:
     void openStartupLogsIfNeeded();    void addStartupLogsOnSorterWithPcTime();
     void writeLogsWithoutPcTimeToOutputFile(std::ofstream & outputLogFileStream);
     void separateLogsWithoutPcTimeIntoDifferentFiles();
-    void writeLogsWithPcTimeToOutputFile(std::ofstream & outputLogFileStream);    void addPrintsFromFileReaderToSorterWithoutPcTime(BtsPrintReaderWithRollback & fileReader);
+    void writeLogsWithPcTimeToOutputFile(std::ofstream & outputLogFileStream);
+    void addPrintsFromFileReaderToSorterWithoutPcTime(BtsPrintReaderWithRollback & fileReader);
     void writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRollback & fileReader, BtsLogPrint const& logPrint, std::ofstream & outputLogFileStream);
     void bufferPrintAndWrite(BtsLogPrint const& logPrint, std::ofstream & outputLogFileStream);
-    void writeLastPrintIfNeeded(std::ofstream & outputLogFileStream);
+    void writeLastPrint(std::ofstream & outputLogFileStream);
     void deleteFilesInDirectory(std::string const& directoryOfLogs) const;
     alba::AlbaGrepStringEvaluator m_evaluator;
-    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithPcTime;
-    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithoutPcTime;
+    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithPcTime;    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithoutPcTime;
     std::string m_directoryOfLogsWithoutPcTime;
     std::string m_pathOfStartupLog;
     alba::AlbaOptional<std::ofstream> m_startupLogStreamOptional;
-    BtsLogPrint m_notYetPrinted;
+    BtsLogPrint m_currentPrintToWrite;
     std::set<std::string> m_foundHardwareAddresses;
 };
-
 }

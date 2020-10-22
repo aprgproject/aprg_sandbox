@@ -53,7 +53,8 @@ void TcomTools::updateGuiUsingConfiguration()
     ui->grepStep->setChecked(m_configuration.isGrepStepOn);    ui->cropStep->setChecked(m_configuration.isCropStepOn);
     ui->tcom->setChecked(m_configuration.isGrepTcomEnabled);
     ui->err->setChecked(m_configuration.isGrepErrEnabled);
-    ui->errWrnNoSpam->setChecked(m_configuration.isGrepErrWrnNoSpamEnabled);    ui->btsStatus->setChecked(m_configuration.isGrepBtsStatusEnabled);
+    ui->errWrnNoSpam->setChecked(m_configuration.isGrepErrWrnNoSpamEnabled);
+    ui->btsStatus->setChecked(m_configuration.isGrepBtsStatusEnabled);
     ui->recovery->setChecked(m_configuration.isGrepRecoveryEnabled);
     ui->allocation->setChecked(m_configuration.isGrepAllocationEnabled);
     ui->fault->setChecked(m_configuration.isGrepFaultEnabled);
@@ -77,6 +78,7 @@ void TcomTools::updateGuiUsingConfiguration()
 void TcomTools::updateProgressBar(){
     ui->progressBar->setValue(ProgressCounters::getOverAllProgress());
 }
+
 void TcomTools::onExecutionIsFinished()
 {
     m_progressBarThread.stopUpdatingProgressBar();

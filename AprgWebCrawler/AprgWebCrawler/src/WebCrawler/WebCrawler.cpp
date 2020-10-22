@@ -150,7 +150,8 @@ string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const
         title = "Y8Games";        break;
     case CrawlMode::Empty:
     case CrawlMode::Unknown:
-        cout << "WebCrawler::getNewDirectoryNameFromWeblink | Mode is not set" << endl;        break;
+        cout << "WebCrawler::getNewDirectoryNameFromWeblink | Mode is not set" << endl;
+        break;
     }
     if(title.empty())
     {

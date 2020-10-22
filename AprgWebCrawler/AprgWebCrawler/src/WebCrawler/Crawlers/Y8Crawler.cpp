@@ -51,7 +51,8 @@ void Y8Crawler::crawl(int webLinkIndex)
     }}
 
 void Y8Crawler::addWebLinksIfFound(int webLinkIndex)
-{    AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
+{
+    AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
     cout << "Y8Crawler::addWebLinksIfFound" << webLinkPathHandler.getFullPath() << endl;
     AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     m_webCrawler.downloadFileAsText(webLinkPathHandler, downloadPathHandler);

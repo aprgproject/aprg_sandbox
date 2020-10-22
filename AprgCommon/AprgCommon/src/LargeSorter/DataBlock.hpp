@@ -12,7 +12,8 @@
 namespace alba{
 
 enum class DataBlockType
-{    Empty,
+{
+    Empty,
     File,
     Memory
 };

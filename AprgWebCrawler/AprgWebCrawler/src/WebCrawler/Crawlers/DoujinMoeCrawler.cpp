@@ -56,7 +56,8 @@ void DoujinMoeCrawler::crawl(int webLinkIndex)
     }}
 
 void DoujinMoeCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
-{    clearLinks();
+{
+    clearLinks();
     AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     m_webCrawler.downloadFileAsText(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
