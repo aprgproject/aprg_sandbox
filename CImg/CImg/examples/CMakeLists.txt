@@ -272,43 +272,42 @@ endif()
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CIMG_CFLAGS}")
 
 
-SET(CIMG_FILES CImg_demo
-  captcha
-  curve_editor2d
-  dtmri_view3d
-  edge_explorer2d
-  fade_images
-  gaussian_fit1d
-  generate_loop_macros
-  hough_transform2d
-  image_registration2d
-  image2ascii
-  image_surface3d
-  jawbreaker
-  mcf_levelsets2d
-  mcf_levelsets3d
-  odykill
-  pde_heatflow2d
-  pde_TschumperleDeriche2d
+SET(CIMG_FILES
+#  CImg_demo
+#  captcha
+#  curve_editor2d
+#  dtmri_view3d
+#  edge_explorer2d
+#  fade_images
+#  gaussian_fit1d
+#  generate_loop_macros
+#  hough_transform2d
+#  image_registration2d
+#  image2ascii
+#  image_surface3d
+#  jawbreaker
+#  mcf_levelsets2d
+#  mcf_levelsets3d
+#  odykill
+#  pde_heatflow2d
+#  pde_TschumperleDeriche2d
   plotter1d
-  radon_transform2d
-  scene3d
-  spherical_function3d
-  tetris
-  tron
-  tutorial
-  wavelet_atrous
-  use_draw_gradient
-  use_nlmeans
-  use_skeleton
-  use_RGBclass
+#  radon_transform2d
+#  scene3d
+#  spherical_function3d
+#  tetris
+#  tron
+#  tutorial
+#  wavelet_atrous
+#  use_draw_gradient
+#  use_nlmeans
+#  use_skeleton
+#  use_RGBclass
   )
 
-foreach(PROGRAM_NAME ${CIMG_FILES})
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+foreach(PROGRAM_NAME ${CIMG_FILES})    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
     set(BUILD_SHARED_LIBRARIES OFF)
     set(CMAKE_EXE_LINKER_FLAGS "-static")
-    set(PROGRAM_PATH ../ExampleOutput/${PROGRAM_NAME})
-  add_executable(${PROGRAM_PATH} ${PROGRAM_NAME}.cpp)
+    set(PROGRAM_PATH ../ExampleOutput/${PROGRAM_NAME})  add_executable(${PROGRAM_PATH} ${PROGRAM_NAME}.cpp)
   target_link_libraries(${PROGRAM_PATH} ${SYSTEM_LIBS} )
 endforeach(PROGRAM_NAME)
