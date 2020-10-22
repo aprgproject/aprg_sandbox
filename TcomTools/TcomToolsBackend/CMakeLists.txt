@@ -16,14 +16,15 @@ include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 #Include AprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
+#Include AprgCommon, this needs APRG Directory
+include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
+
 set(SOURCES
     src/BtsLogPrint.cpp
-    src/BtsLogPrint.hpp
-    src/BtsLogSorter.cpp
+    src/BtsLogPrint.hpp    src/BtsLogSorter.cpp
     src/BtsLogSorter.hpp
     src/BtsLogSorterConfiguration.hpp
-    src/BtsLogTime.cpp
-    src/BtsLogTime.hpp
+    src/BtsLogTime.cpp    src/BtsLogTime.hpp
     src/BtsPrintReaderWithRollback.cpp
     src/BtsPrintReaderWithRollback.hpp
     tst/BtsLogPrint_unit.cpp
@@ -33,5 +34,5 @@ set(SOURCES
 
 add_executable(${OUTFILE} ${SOURCES})
 include_directories(src ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON APRG_ALGORITHM)
 add_test(${OUTFILE} ${OUTFILE})

@@ -56,15 +56,13 @@ TEST(AlbaUserAutomationTest, DISABLED_IsLetterPressedTest)
     EXPECT_TRUE(userAutomation.isLetterPressed('q'));
 }
 
-TEST(AlbaUserAutomationTest, ShowMousePosition)
+TEST(AlbaUserAutomationTest, DISABLED_ShowMousePosition)
 {
     AlbaUserAutomation userAutomation;
-    while(1)
-    {
+    while(1)    {
         MousePosition position(userAutomation.getMousePosition());
         cout<<"X: "<<position.x<<" Y: "<<position.y<<endl;
-        if(0==position.x && 0==position.y)
-        {
+        if(0==position.x && 0==position.y)        {
             break;
         }
         Sleep(100);
