@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Components/Components.hpp>
+#include <Common/Components/Components.hpp>
 
 namespace DesignDocumentCreator
 {
-
 //singleton?
 
-class Environment
-{
+class Environment{
 public:
     void execute();
     Components& getComponentReference();

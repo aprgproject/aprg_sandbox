@@ -1,14 +1,13 @@
 #pragma once
 
-#include <Messages/GenericMessage.hpp>
-#include <Messages/MessageConverters.hpp>
-#include <Messages/MessageWrapper.hpp>
-#include <Sacks/Sacks.hpp>
-#include <Messages/SpecificMessage.hpp>
+#include <Common/Messages/GenericMessage.hpp>
+#include <Common/Messages/MessageConverters.hpp>
+#include <Common/Messages/MessageWrapper.hpp>
+#include <Common/Messages/SpecificMessage.hpp>
+#include <Common/Sacks/Sacks.hpp>
 
 namespace DesignDocumentCreator
 {
-
 WRAP_MESSAGE(MessageName::MESSAGE_SAMPLE, SampleSack)
 
 }

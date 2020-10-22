@@ -1,11 +1,9 @@
-#include "Components.hpp"
-#include "SampleComponent.hpp"
+#include <Common/Components/Components.hpp>
+#include <Common/Components/SampleComponent.hpp>
 
 using namespace std;
-
 namespace DesignDocumentCreator
 {
-
 Components::Components()
 {
 #define ADD_COMPONENT(COMPONENT_NAME, COMPONENT_CLASS) m_components[COMPONENT_NAME].reset(new COMPONENT_CLASS(COMPONENT_NAME));

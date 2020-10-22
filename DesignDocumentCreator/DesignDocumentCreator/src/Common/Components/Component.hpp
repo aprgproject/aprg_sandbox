@@ -1,17 +1,15 @@
 #pragma once
 
-#include<deque>
-#include<Events/Events.hpp>
-#include<Messages/Messages.hpp>
-#include<Timers/Timers.hpp>
+#include <Common/Events/Events.hpp>
+#include <Common/Messages/Messages.hpp>
+#include <Common/Timers/Timers.hpp>
+#include <deque>
 
 namespace DesignDocumentCreator
 {
-
 class Component
 {
-public:
-    void pushBackEvent(Event const& event);
+public:    void pushBackEvent(Event const& event);
     void handleOneEvent();
     void handleAllEvents();
     bool isEventQueueEmpty();

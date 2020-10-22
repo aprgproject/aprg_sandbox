@@ -1,15 +1,13 @@
 #pragma once
 
-#include "ComponentName.hpp"
-#include "Component.hpp"
+#include <Common/Components/ComponentName.hpp>
+#include <Common/Components/Component.hpp>
 
 namespace DesignDocumentCreator
 {
-
 class SampleComponent : public Component
 {
-public:
-    SampleComponent();
+public:    SampleComponent();
     SampleComponent(ComponentName const componentName);
 private:
     virtual void handleMessageEvent(GenericMessage const& genericMessage);

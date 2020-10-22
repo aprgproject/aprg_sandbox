@@ -1,15 +1,13 @@
 #pragma once
 
-#include <Messages/GenericMessage.hpp>
-#include <Messages/SpecificMessage.hpp>
+#include <Common/Messages/GenericMessage.hpp>
+#include <Common/Messages/SpecificMessage.hpp>
 
 namespace DesignDocumentCreator
 {
-
 template<MessageName messageName>
 SpecificMessage<messageName> convertGenericToSpecific(GenericMessage& genericMessage)
-{
-    SpecificMessage<messageName> specificMessage;
+{    SpecificMessage<messageName> specificMessage;
     typedef typename SpecificMessage<messageName>::SpecificMessageSackType SackType;
     SackType& payloadReference = specificMessage.getPayloadReference();
     alba::AlbaMemoryBuffer& payloadBufferReference = genericMessage.getPayloadBufferReference();

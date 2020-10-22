@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Timers/TimerType.hpp>
+#include <Common/Timers/TimerType.hpp>
 
 namespace DesignDocumentCreator
 {
-
 typedef unsigned int TimerId;
 
-class Timer
-{
+class Timer{
 public:
     Timer();
     Timer(TimerType const timerType, TimerId const timerId);

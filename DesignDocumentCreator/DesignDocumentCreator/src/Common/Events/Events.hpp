@@ -1,15 +1,13 @@
 #pragma once
 
-#include<Messages/Messages.hpp>
-#include<Timers/Timers.hpp>
+#include <Common/Messages/Messages.hpp>
+#include <Common/Timers/Timers.hpp>
 
 namespace DesignDocumentCreator
 {
-
 enum EventType
 {
-    MessageEvent,
-    TimerEvent
+    MessageEvent,    TimerEvent
 };
 
 class Event

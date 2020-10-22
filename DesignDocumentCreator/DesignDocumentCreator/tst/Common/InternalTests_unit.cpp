@@ -1,17 +1,14 @@
-#include <Components/Components.hpp>
-#include <Components/SampleComponent.hpp>
-#include <Environment.hpp>
-#include <Events/Events.hpp>
+#include <Common/Components/Components.hpp>
+#include <Common/Components/SampleComponent.hpp>
+#include <Common/Environment.hpp>
+#include <Common/Events/Events.hpp>
+#include <Common/Messages/Messages.hpp>
+#include <Common/Timers/Timers.hpp>
 #include <gtest/gtest.h>
-#include <Messages/Messages.hpp>
-#include <Timers/Timers.hpp>
-
 #include <iostream>
 #include <string>
-
 using namespace DesignDocumentCreator;
 using namespace std;
-
 TEST(MessagesTest, SpecificMessageCanBeCreatedWithPayload)
 {
     SpecificMessage<MessageName::MESSAGE_SAMPLE> specificMessage;

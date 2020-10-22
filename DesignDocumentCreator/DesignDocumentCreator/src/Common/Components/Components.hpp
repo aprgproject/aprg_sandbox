@@ -1,13 +1,11 @@
 #pragma once
 
-#include "ComponentName.hpp"
-#include "Component.hpp"
+#include <Common/Components/ComponentName.hpp>
+#include <Common/Components/Component.hpp>
 #include <map>
 #include <memory>
-
 namespace DesignDocumentCreator
 {
-
 //Make this noncopyable
 
 class Components

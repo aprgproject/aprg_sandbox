@@ -20,46 +20,44 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 
 set(SOURCES
-    src/Components/Component.cpp
-    src/Components/Component.hpp
-    src/Components/ComponentName.hpp
-    src/Components/Components.cpp
-    src/Components/Components.hpp
-    src/Components/SampleComponent.cpp
-    src/Components/SampleComponent.hpp
-    src/Events/Events.cpp
-    src/Events/Events.hpp
-    src/Messages/GenericMessage.hpp
-    src/Messages/MessageConverters.hpp
-    src/Messages/MessageName.hpp
-    src/Messages/Messages.hpp
-    src/Messages/MessageWrapper.hpp
-    src/Messages/SpecificMessage.hpp
-    src/Sacks/Sacks.cpp
-    src/Sacks/Sacks.hpp
-    src/Timers/Timers.cpp
-    src/Timers/Timers.hpp
-    src/Timers/TimerType.hpp
-    src/Utils/EnumHelper.cpp
-    src/Utils/EnumHelper.hpp
-    src/Environment.cpp
-    src/Environment.hpp
+    src/Common/Components/Component.cpp
+    src/Common/Components/Component.hpp
+    src/Common/Components/ComponentName.hpp
+    src/Common/Components/Components.cpp
+    src/Common/Components/Components.hpp
+    src/Common/Components/SampleComponent.cpp
+    src/Common/Components/SampleComponent.hpp
+    src/Common/Events/Events.cpp
+    src/Common/Events/Events.hpp
+    src/Common/Messages/GenericMessage.hpp
+    src/Common/Messages/MessageConverters.hpp
+    src/Common/Messages/MessageName.hpp
+    src/Common/Messages/Messages.hpp
+    src/Common/Messages/MessageWrapper.hpp
+    src/Common/Messages/SpecificMessage.hpp
+    src/Common/Sacks/Sacks.cpp
+    src/Common/Sacks/Sacks.hpp
+    src/Common/Timers/Timers.cpp
+    src/Common/Timers/Timers.hpp
+    src/Common/Timers/TimerType.hpp
+    src/Common/Utils/EnumHelper.cpp
+    src/Common/Utils/EnumHelper.hpp
+    src/Common/Environment.cpp
+    src/Common/Environment.hpp
 )
 
 set(MAIN_SOURCES
-    src/main.cpp
+    src/Common/main.cpp
 )
 
 set(TESTS
-    tst/InternalTests_unit.cpp
+    tst/Common/InternalTests_unit.cpp
 )
 
-set(INCLUDE_DIRECTORIES
-    src/
+set(INCLUDE_DIRECTORIES    src/
 )
 
-if (TEST_MODE)
-    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
+if (TEST_MODE)    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
     include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
     target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
     add_test(${OUTFILE} ${OUTFILE})

@@ -1,15 +1,13 @@
 #pragma once
 
 #include <cassert>
-#include <Messages/MessageName.hpp>
+#include <Common/Messages/MessageName.hpp>
 #include <string>
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator{
 
 template <MessageName messageName>
-struct MessageWrapper
-{
+struct MessageWrapper{
     static_assert(true, "Message wrapper is used without sack");
 };
 
