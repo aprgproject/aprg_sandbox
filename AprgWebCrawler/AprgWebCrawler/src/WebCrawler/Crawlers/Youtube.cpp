@@ -4,14 +4,13 @@
 #include <CrawlHelpers/Downloaders.hpp>
 #include <CrawlHelpers/AutomationHelper.hpp>
 #include <iostream>
+#include <windows.h>
 
 using namespace alba;
-using namespace alba::stringHelper;
-using namespace aprgWebCrawler::Downloaders;
+using namespace alba::stringHelper;using namespace aprgWebCrawler::Downloaders;
 using namespace std;
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler{
 
 Youtube::Youtube(WebCrawler & webCrawler)
     : m_webCrawler(webCrawler)
@@ -24,15 +23,17 @@ void Youtube::crawl()
     for(int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks();)
     {
         crawl(webLinkIndex);
-        if(!m_webCrawler.shouldDownloadStopBaseOnInvalidCrawlState())
+        if(m_webCrawler.shouldDownloadStopBaseOnInvalidCrawlState())
+        {
+            break;
+        }
+        else
         {
             m_webCrawler.removeWebLink(webLinkIndex);
             m_webCrawler.saveMemoryCard();
-            webLinkIndex=0;
-        }
+            webLinkIndex=0;        }
     }
 }
-
 void Youtube::crawl(int webLinkIndex)
 {
     while(!m_webCrawler.shouldDownloadStopBaseOnInvalidCrawlState())
@@ -105,46 +106,52 @@ void Youtube::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
             }
         }
     }
-    m_linkForVideo = AutomationHelper::getRedirectedLinkUsingMozillaFirefoxAndFdm(m_linkForVideo);
 }
 
-bool Youtube::checkLinks()
-{
+bool Youtube::checkLinks(){
     bool result(true);
     if(areLinksInvalid())
     {
-        cout << "Links are invalid." << endl;
+        cout << "Links are invalid. Retryin" << endl;
         printLinks();
-        m_webCrawler.saveStateToMemoryCard(CrawlState::LinksAreInvalid);
         result = false;
     }
-    return result;
-}
+    return result;}
 
 void Youtube::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
-{
-    AlbaWebPathHandler videoWebPathHandler(webLinkPathHandler);
+{    AlbaWebPathHandler videoWebPathHandler(webLinkPathHandler);
     videoWebPathHandler.gotoLink(m_linkForVideo);
     AlbaWindowsPathHandler downloadPathHandler(m_localPathForCurrentVideo);
     downloadPathHandler.createDirectoriesForNonExisitingDirectories();
-    downloadBinaryFile(videoWebPathHandler, downloadPathHandler, m_webCrawler.getCrawlMode());
+    AutomationHelper::downloadLinkUsingMozillaFirefoxAndFdm(videoWebPathHandler.getFullPath());
+    cout << "Waitin for download to finis" << endl;
+    bool isNotFinished(true);
+    while(isNotFinished)
+    {
+        AlbaWindowsPathHandler temporaryPath(m_webCrawler.getTemporaryFilePath());
+        temporaryPath.input(temporaryPath.getDirectory());
+        AlbaWindowsPathHandler::ListOfPaths files;
+        AlbaWindowsPathHandler::ListOfPaths directories;
+        temporaryPath.findFilesAndDirectoriesOneDepth("*.fdminc", files, directories);
+        isNotFinished = !files.empty();
+        Sleep(10000);
+    }
+    /*downloadBinaryFile(videoWebPathHandler, downloadPathHandler, m_webCrawler.getCrawlMode());
     if(downloadPathHandler.getFileSizeEstimate() < m_configuration.getMinimumFileSize())
     {
-        cout << "Download file size is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start" << endl;
-        m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
+        cout << "Download file size is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start" << endl;        m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
     }
     else
     {
         m_webCrawler.saveStateToMemoryCard(CrawlState::CurrentDownloadIsFinished);
-    }
+    }*/
+    m_webCrawler.saveStateToMemoryCard(CrawlState::CurrentDownloadIsFinished);
 }
 
-void Youtube::clearLinks()
-{
+void Youtube::clearLinks(){
     m_linkForVideo.clear();
     m_localPathForCurrentVideo.clear();
 }
-
 bool Youtube::areLinksInvalid() const
 {
     return m_linkForVideo.empty() || m_localPathForCurrentVideo.empty();

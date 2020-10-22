@@ -54,7 +54,7 @@ private:
     std::vector<std::string> m_notDownloadDirectories;
     std::vector<DownloadDirectoryDetails> m_downloadSchedule;
     std::string m_workingDirectory;
+    std::string m_temporaryFilePath;
     DownloadDirectoryDetails m_downloadDirectoryDetails;
 };
-
 }

@@ -12,16 +12,12 @@
 #include <fstream>
 #include <iostream>
 
-#define APRG_WEB_CRAWLER_TEMP_HTML_FILE R"(C:\CrawlDownload\TemporaryFiles\temp.html)"
-
 using namespace alba;
 using namespace alba::stringHelper;
-using namespace aprgWebCrawler::Downloaders;
-using namespace std;
+using namespace aprgWebCrawler::Downloaders;using namespace std;
 
 namespace aprgWebCrawler
 {
-
 WebCrawler::WebCrawler(string const& downloadDirectory)
     : m_mode(CrawlMode::Unknown)
     , m_state(CrawlState::Unknown)
@@ -115,15 +111,13 @@ string WebCrawler::getCrawlStateString() const
     return convertCrawlerStateToString(m_state);
 }
 
-std::string WebCrawler::getDownloadDirectory() const
+string WebCrawler::getDownloadDirectory() const
 {
     return m_downloadDirectoryPathHandler.getDirectory();
 }
-
 string WebCrawler::getNewDirectoryName() const
 {
-    return getNewDirectoryNameFromWeblink(getFirstWebLinkIfPossible());
-}
+    return getNewDirectoryNameFromWeblink(getFirstWebLinkIfPossible());}
 
 string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const
 {
@@ -182,35 +176,41 @@ string WebCrawler::getWebLinkAtIndex(int index)
     return m_webLinks[index];
 }
 
-std::string WebCrawler::getFirstWebLinkIfPossible() const
+string WebCrawler::getFirstWebLinkIfPossible() const
 {
     string webLink;
-    if(!m_webLinks.empty())
-    {
+    if(!m_webLinks.empty())    {
         webLink = *(m_webLinks.begin());
     }
     return webLink;
 }
 
-std::string WebCrawler::getTemporaryFilePath() const
+string WebCrawler::getTemporaryFilePath() const
 {
-    return APRG_WEB_CRAWLER_TEMP_HTML_FILE;
+    if(m_temporaryFilePath.empty())
+    {
+        cout<<"TemporaryFilePath is not set! Possible problem in download"<<endl;
+    }
+    return m_temporaryFilePath;
 }
 
-void WebCrawler::addWebLink(std::string const& webLink)
+void WebCrawler::setTemporaryFilePath(string const& temporaryFilePath)
+{
+    m_temporaryFilePath = temporaryFilePath;
+}
+
+void WebCrawler::addWebLink(string const& webLink)
 {
     m_webLinks.emplace_back(webLink);
 }
 
-void WebCrawler::modifyWebLink(std::string const& webLink, int index)
+void WebCrawler::modifyWebLink(string const& webLink, int index)
 {
     m_webLinks[index]=webLink;
 }
-
 void WebCrawler::removeWebLink(int index)
 {
-    m_webLinks.erase(m_webLinks.begin()+index);
-}
+    m_webLinks.erase(m_webLinks.begin()+index);}
 
 bool WebCrawler::isValid() const
 {

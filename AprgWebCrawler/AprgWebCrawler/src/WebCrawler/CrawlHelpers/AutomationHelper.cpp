@@ -94,4 +94,25 @@ string AutomationHelper::getRedirectedLinkUsingMozillaFirefoxAndFdm(string const
     return userAutomation.getStringFromClipboard();
 }
 
+void AutomationHelper::downloadLinkUsingMozillaFirefoxAndFdm(string const& webPath)
+{
+    AlbaWebPathHandler webPathHandler(webPath);
+    AlbaUserAutomation userAutomation;
+    cout<<"Open Firefox"<<endl;
+    openMozillaFirefoxExecutableManually(webPathHandler.getFullPath());
+
+    cout<<"Wait"<<endl;
+    Sleep(FIREFOX_LOADING_TIMEOUT);
+
+    cout<<"Enter"<<endl;
+    userAutomation.typeCharacter(0x0D);
+
+    cout<<"Wait"<<endl;
+    Sleep(FIREFOX_WAIT_FOR_RESPONSE);
+
+    cout<<"Close firefox"<<endl;
+    userAutomation.setMousePosition(MousePosition{FIREFOX_CLOSE_BUTTON_POSITION});
+    userAutomation.doLeftClick();
+}
+
 }

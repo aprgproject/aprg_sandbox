@@ -29,13 +29,12 @@ public:
     std::string getNewDirectoryNameFromWeblink(std::string const& webLink) const;
     std::string getFirstWebLinkIfPossible() const;
     std::string getTemporaryFilePath() const;
+    void setTemporaryFilePath(std::string const& temporaryFilePath);
 
     int getNumberOfWebLinks();
-    std::string getWebLinkAtIndex(int index);
-    void addWebLink(std::string const& webLink);
+    std::string getWebLinkAtIndex(int index);    void addWebLink(std::string const& webLink);
     void modifyWebLink(std::string const& webLink, int index);
     void removeWebLink(int index);
-
     bool isValid() const;
     bool shouldDownloadStopBaseOnInvalidCrawlState() const;
     bool shouldDownloadRestartBaseOnCrawlState() const;
@@ -63,9 +62,9 @@ private:
 
     CrawlMode m_mode;
     CrawlState m_state;
+    std::string m_temporaryFilePath;
     alba::AlbaWindowsPathHandler m_downloadDirectoryPathHandler;
     alba::AlbaWindowsPathHandler m_memoryCardPathHandler;
-    WebLinks m_webLinks;
-};
+    WebLinks m_webLinks;};
 
 }
