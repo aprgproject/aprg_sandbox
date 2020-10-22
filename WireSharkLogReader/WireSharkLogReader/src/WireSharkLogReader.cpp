@@ -127,6 +127,7 @@ void WireSharkLogReader::processFileForMsgQueuingTime(string const& filePath)
     cout<<"TotalMsgQueuingTime: "<<totalMsgQueuingTime<<" highestMsgQueuingTime: "<<highestMsgQueuingTime<<" AverageMsgQueuingTime: "<<((double)totalMsgQueuingTime)/numberOfPrints<<" numberOfPrints: "<<numberOfPrints<<endl;
 }
 
+
 void WireSharkLogReader::processFileForBtsDelayForRlh(string const& filePath)
 {
     AlbaWindowsPathHandler filePathHandler(filePath);
@@ -137,7 +138,8 @@ void WireSharkLogReader::processFileForBtsDelayForRlh(string const& filePath)
     m_outputStream<<"crnccId,nbccId,transactionId,delay"<<endl;
     while(fileReader.isNotFinished())
     {
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))
         {
             UniqueId uniqueKey;
             uniqueKey.crnccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "crnccId: "));
@@ -347,7 +349,8 @@ void WireSharkLogReader::processFileForBtsDelayForMikhailKnife(string const& fil
             {
 
                 BtsLogTime delayTime = messageDeliveryInstance.endTimeOptional.getReference() - messageDeliveryInstance.startTimeOptional.getReference();
-                int delay = delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000;                messageDeliveryTotal += delay;
+                int delay = delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000;
+                messageDeliveryTotal += delay;
                 messageDeliveryCount++;
                 messageDeliveryFileStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;
             }

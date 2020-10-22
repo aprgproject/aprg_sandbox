@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <string>
+
 using namespace DesignDocumentCreator;
 using namespace std;
 
@@ -22,6 +23,7 @@ TEST(MessagesTest, SpecificMessageCanBeCreatedWithPayload)
     EXPECT_EQ(ComponentName::EMPTY, specificMessage.getReceiver());
     EXPECT_EQ(1234, specificMessage.getPayloadReference().sampleParameter);
 }
+
 TEST(MessagesTest, GenericMessageCanBeCreatedWithPayload)
 {
     SampleSack payload;
@@ -35,6 +37,7 @@ TEST(MessagesTest, GenericMessageCanBeCreatedWithPayload)
     EXPECT_EQ(ComponentName::EMPTY, genericMessage.getReceiver());
     EXPECT_EQ(5678, outputPayload.sampleParameter);
 }
+
 TEST(MessagesTest, GenericMessageCanBeConvertedToSpecific)
 {
     SampleSack payload;
@@ -50,6 +53,7 @@ TEST(MessagesTest, GenericMessageCanBeConvertedToSpecific)
     EXPECT_EQ(ComponentName::SampleComponent, specificMessage.getReceiver());
     EXPECT_EQ(5678, specificMessage.getPayloadReference().sampleParameter);
 }
+
 TEST(MessagesTest, SpecificMessageCanBeConvertedToGeneric)
 {
     SpecificMessage<MessageName::MESSAGE_SAMPLE> specificMessage;

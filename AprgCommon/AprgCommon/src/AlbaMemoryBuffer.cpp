@@ -17,7 +17,8 @@ AlbaMemoryBuffer::AlbaMemoryBuffer(AlbaMemoryBuffer const& memoryBuffer)
     setNewBuffer(memoryBuffer.m_bufferPointer, memoryBuffer.m_size);
 }
 
-AlbaMemoryBuffer::~AlbaMemoryBuffer(){
+AlbaMemoryBuffer::~AlbaMemoryBuffer()
+{
     releaseBufferIfNeeded();
 }
 
@@ -58,7 +59,8 @@ void AlbaMemoryBuffer::releaseBufferIfNeeded()
 void AlbaMemoryBuffer::setNewBuffer(void* bufferPointer, unsigned int size)
 {
     reAllocateBuffer(size);
-    memcpy(m_bufferPointer, bufferPointer, size);}
+    memcpy(m_bufferPointer, bufferPointer, size);
+}
 
 
 }//namespace alba

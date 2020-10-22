@@ -192,7 +192,8 @@ string stringHelper::getStringWithoutWhiteSpace(string const& mainString)
 
 string stringHelper::getStringWithoutRedundantWhiteSpace(string const& mainString)
 {
-    string result;    int index = 0, length = mainString.length();
+    string result;
+    int index = 0, length = mainString.length();
     while(index < length)
     {
         int indexNotWhiteSpace = mainString.find_first_not_of(WHITESPACE_STRING, index);
@@ -560,7 +561,8 @@ template unsigned int stringHelper::convertHexStringToNumber<unsigned int>(strin
 template unsigned char stringHelper::convertHexStringToNumber<unsigned char>(string const& stringToConvert);
 
 template <typename NumberType>
-string stringHelper::NumberToStringConverter::convert(NumberType number){
+string stringHelper::NumberToStringConverter::convert(NumberType number)
+{
     stringstream temporaryStream;
     if(m_precisionOptional)
     {

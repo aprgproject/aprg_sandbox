@@ -503,4 +503,5 @@ string TcomToolsConfiguration::getGrepFileName() const
     fileName += ".log";
     return fileName;
 }
+
 }

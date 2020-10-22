@@ -34,7 +34,8 @@ std::string getStringWithoutStartingAndTrailingWhiteSpace(std::string const& mai
 std::string getStringWithoutWhiteSpace(std::string const& mainString);
 std::string getStringWithoutRedundantWhiteSpace(std::string const& mainString);
 std::string getStringWithoutQuotations(std::string const& mainString);
-std::string getStringWithoutCharAtTheStartAndEnd(std::string const& mainString, char const char1);std::string getStringWithoutCharAtTheStart(std::string const& mainString, char const char1);
+std::string getStringWithoutCharAtTheStartAndEnd(std::string const& mainString, char const char1);
+std::string getStringWithoutCharAtTheStart(std::string const& mainString, char const char1);
 std::string getStringWithoutCharAtTheEnd(std::string const& mainString, char const char1);
 std::string getStringWithoutOpeningClosingOperators(std::string const& mainString, char const openingOperator, char const closingOperator);
 void copyBeforeStringAndAfterString(std::string const& mainString, std::string const& stringToSearch, std::string & beforeString, std::string & afterString, int const indexToStartTheSearch = 0);

@@ -19,7 +19,8 @@ public:
     void setNewBuffer(void* bufferPointer, unsigned int size);
 
 private:
-    bool m_hasContent;    unsigned int m_size;
+    bool m_hasContent;
+    unsigned int m_size;
     void* m_bufferPointer;
 };
 
