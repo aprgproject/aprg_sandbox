@@ -19,14 +19,40 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 #Include gTest, this needs APRG Directory
 include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 
+#Include AprgCMakeHelpers, this needs APRG Directory
+include(${APRG_DIR}/AprgCMakeHelpers/cmake/Macros.cmake)
+
+#RAN3374 Files
+set(RAN3374_SOURCES
+    src/RAN3374/Components/WRC.hpp
+    src/RAN3374/Components/WRC.cpp
+    src/RAN3374/FeatureSpecificFiles/AddComponent.hpp
+    src/RAN3374/FeatureSpecificFiles/ComponentName.hpp
+    src/RAN3374/FeatureSpecificFiles/ComponentsIncludes.hpp
+    src/RAN3374/FeatureSpecificFiles/ConvertToStringComponentName.hpp
+    src/RAN3374/FeatureSpecificFiles/ConvertToStringMessageName.hpp
+    src/RAN3374/FeatureSpecificFiles/MessageName.hpp
+    src/RAN3374/FeatureSpecificFiles/Sacks.hpp
+    src/RAN3374/FeatureSpecificFiles/WrapMessage.hpp
+    src/RAN3374/Sacks/Sacks.hpp
+    src/RAN3374/Sacks/SupplementarySacks/SupplementarySacks.hpp
+)
+
+#Supplementary sacks
+set(SUPPLEMENTARY_SACK_DIR
+    src/Common/Sacks/SupplementarySacks
+    src/RAN3374/Sacks/SupplementarySacks
+)
+#Use MACRO_GET_FILES to find supplementary files
+MACRO_GET_FILES(SUPPLEMENTARY_SACKS SUPPLEMENTARY_SACK_DIR)
+
+#Files
 set(SOURCES
     src/Common/Components/Component.cpp
-    src/Common/Components/Component.hpp
-    src/Common/Components/ComponentName.hpp
+    src/Common/Components/Component.hpp    src/Common/Components/ComponentName.hpp
     src/Common/Components/Components.cpp
     src/Common/Components/Components.hpp
-    src/Common/Components/SampleComponent.cpp
-    src/Common/Components/SampleComponent.hpp
+    src/Common/Components/SampleComponent.cpp    src/Common/Components/SampleComponent.hpp
     src/Common/Events/Events.cpp
     src/Common/Events/Events.hpp
     src/Common/Messages/GenericMessage.hpp
@@ -35,41 +61,47 @@ set(SOURCES
     src/Common/Messages/Messages.hpp
     src/Common/Messages/MessageWrapper.hpp
     src/Common/Messages/SpecificMessage.hpp
-    src/Common/Sacks/Sacks.cpp
     src/Common/Sacks/Sacks.hpp
+    src/Common/Sacks/SupplementarySacks/SupplementarySacks.hpp
     src/Common/Timers/Timers.cpp
     src/Common/Timers/Timers.hpp
-    src/Common/Timers/TimerType.hpp
-    src/Common/Utils/EnumHelper.cpp
+    src/Common/Timers/TimerType.hpp    src/Common/Utils/EnumHelper.cpp
     src/Common/Utils/EnumHelper.hpp
     src/Common/Environment.cpp
     src/Common/Environment.hpp
-    src/EditableFiles/EditAddComponent.hpp
-    src/EditableFiles/EditComponentName.hpp
-    src/EditableFiles/EditComponentsIncludes.hpp
-    src/EditableFiles/EditMessageName.hpp
-    src/EditableFiles/EditSacksIncludes.hpp
-    src/EditableFiles/EditWrapMessage.hpp
+    src/FeatureSpecificFiles/AddComponent.hpp
+    src/FeatureSpecificFiles/ComponentName.hpp
+    src/FeatureSpecificFiles/ComponentsIncludes.hpp
+    src/FeatureSpecificFiles/ConvertToStringComponentName.hpp
+    src/FeatureSpecificFiles/ConvertToStringMessageName.hpp
+    src/FeatureSpecificFiles/MessageName.hpp
+    src/FeatureSpecificFiles/Sacks.hpp
+    src/FeatureSpecificFiles/WrapMessage.hpp
+    ${RAN3374_SOURCES}
+    ${SUPPLEMENTARY_SACKS}
 )
 
-set(MAIN_SOURCES
-    src/Common/main.cpp
+set(MAIN_SOURCES    src/Common/main.cpp
 )
 
-set(TESTS
+set(INTERNAL_TESTS
     tst/Common/InternalTests_unit.cpp
 )
 
-set(INCLUDE_DIRECTORIES
-    src/
+set(TESTS
+    ${INTERNAL_TESTS}
 )
 
-if (TEST_MODE)
-    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
+#Include directories
+set(INCLUDE_DIRECTORIES
+    src/
+    ${SUPPLEMENTARY_SACK_DIR}
+)
+
+if (TEST_MODE)    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
     include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
     target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
-    add_test(${OUTFILE} ${OUTFILE})
-else()
+    add_test(${OUTFILE} ${OUTFILE})else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
     set(BUILD_SHARED_LIBRARIES OFF)
     set(CMAKE_EXE_LINKER_FLAGS "-static")
