@@ -99,7 +99,8 @@ TEST (BtsLogAnalyzerTest, UesWithTracingWithCount)
 TEST (BtsLogAnalyzerTest, DISABLED_SizeOfTest)
 {
     struct TraceSessionId
-    {        unsigned char rncId[2]; //2
+    {
+        unsigned char rncId[2]; //2
         unsigned char computer[2]; //2
         unsigned char family[2]; //2
     };

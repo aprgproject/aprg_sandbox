@@ -1,7 +1,8 @@
 #include <BtsLogAnalyzer.hpp>
 
 #include <AlbaFileReader.hpp>
-#include <AlbaStringHelper.hpp>#include <BtsLogPrint.hpp>
+#include <AlbaStringHelper.hpp>
+#include <BtsLogPrint.hpp>
 #include <iomanip>
 #include <iostream>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
@@ -21,7 +22,8 @@ BtsLogAnalyzer::BtsLogAnalyzer()
 BtsLogAnalyzer::BtsLogAnalyzer(string const pathOfOutputFile)
     : m_outputStream(pathOfOutputFile)
     , m_totalDelay(0)
-    , m_count(0){
+    , m_count(0)
+{
     if(m_outputStream.is_open())
     {
         cout<<"OutputStream is opened. Saving to output files"<<endl;
@@ -32,6 +34,7 @@ void BtsLogAnalyzer::processFileForToCountUsersWithTracing(string const& filePat
 {
     AlbaWindowsPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
+
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
     set<int> usersWithTracing;
@@ -62,7 +65,8 @@ void BtsLogAnalyzer::processFileForToCountUsersWithTracing(string const& filePat
 void BtsLogAnalyzer::processDirectoryForWireSharkDelay(string const& directoryPath)
 {
     set<string> listOfFiles;
-    set<string> listOfDirectories;    AlbaWindowsPathHandler(directoryPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
+    set<string> listOfDirectories;
+    AlbaWindowsPathHandler(directoryPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& filePath : listOfFiles)
     {
         processFileForWireSharkDelay(AlbaWindowsPathHandler(filePath).getFullPath());
@@ -73,6 +77,7 @@ void BtsLogAnalyzer::processFileForWireSharkDelay(string const& filePath)
 {
     m_wireSharkDelays.clear();
     cout<<"processFile: "<<AlbaWindowsPathHandler(filePath).getFile()<<endl;
+
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
     AlbaOptional<double> startTimeFetchedOptional;
@@ -130,6 +135,7 @@ void BtsLogAnalyzer::processFileForMsgQueuingTime(string const& filePath)
 {
     AlbaWindowsPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
+
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
     int totalMsgQueuingTime = 0;
@@ -157,7 +163,8 @@ void BtsLogAnalyzer::processFileForMsgQueuingTime(string const& filePath)
 void BtsLogAnalyzer::processFileForBtsDelayForRlh(string const& filePath)
 {
     AlbaWindowsPathHandler filePathHandler(filePath);
-    ifstream inputLogFileStream(filePath);    AlbaFileReader fileReader(inputLogFileStream);
+    ifstream inputLogFileStream(filePath);
+    AlbaFileReader fileReader(inputLogFileStream);
     cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<endl;
 
     m_outputStream<<"crnccId,nbccId,transactionId,delay"<<endl;
@@ -207,6 +214,7 @@ void BtsLogAnalyzer::processFileForBtsDelayForRlDeletion(string const& filePath)
 {
     AlbaWindowsPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
+
     m_outputStream<<"crnccId,nbccId,transactionId,delay"<<endl;
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
@@ -256,6 +264,7 @@ void BtsLogAnalyzer::processFileForBtsDelayForMikhailKnife(string const& filePat
 {
     AlbaWindowsPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
+
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
 
@@ -404,6 +413,7 @@ void BtsLogAnalyzer::processFileForBtsDelayForGrm(string const& filePath)
 {
     AlbaWindowsPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
+
     m_outputStream<<"crnccId,nbccId,transactionId,delay"<<endl;
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
@@ -460,7 +470,8 @@ void BtsLogAnalyzer::processFileForBtsDelayForGrm(string const& filePath)
 double BtsLogAnalyzer::getWireSharkTime(string const& lineInLogs) const
 {
     int length(lineInLogs.length());
-    int startIndexOfTime=0, endIndexOfTime=0;    int i=0;
+    int startIndexOfTime=0, endIndexOfTime=0;
+    int i=0;
     for(; i<length && stringHelper::isWhiteSpace(lineInLogs[i]); i++) {}
     for(; i<length && stringHelper::isNumber(lineInLogs[i]); i++) {}
     startIndexOfTime = i;
@@ -473,7 +484,8 @@ double BtsLogAnalyzer::getWireSharkTime(string const& lineInLogs) const
 string BtsLogAnalyzer::getNumberAfterThisString(string const& mainString, string const& stringToSearch) const
 {
     string result;
-    int firstIndexOfFirstString = mainString.find(stringToSearch);    if(stringHelper::isNotNpos(firstIndexOfFirstString))
+    int firstIndexOfFirstString = mainString.find(stringToSearch);
+    if(stringHelper::isNotNpos(firstIndexOfFirstString))
     {
         int lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
         int lastIndexOfNumber;
@@ -486,6 +498,7 @@ string BtsLogAnalyzer::getNumberAfterThisString(string const& mainString, string
 double BtsLogAnalyzer::getComputedAverageDelay() const
 {
     cout<<"totalDelay: "<<m_totalDelay<<" count: "<<m_count<<endl;
-    return (double)m_totalDelay/m_count;}
+    return (double)m_totalDelay/m_count;
+}
 
 }//namespace alba

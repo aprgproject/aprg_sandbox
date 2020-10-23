@@ -8,6 +8,7 @@
 #include <AlbaFileReader.hpp>
 #include <AlbaStringHelper.hpp>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <NsapHelper.hpp>
 
 using namespace alba;
 using namespace std;
@@ -142,7 +143,7 @@ TEST(SampleTest, DISABLED_GenerateSupplementarySacksHpp)
     }
 }
 
-TEST(SampleTest, GenerateFeatureSpecificComponentFiles)
+TEST(SampleTest, DISABLED_GenerateFeatureSpecificComponentFiles)
 {
     AlbaWindowsPathHandler currentDirectory(AlbaWindowsPathHandler::InitialValue::PathFromWindows);
     AlbaWindowsPathHandler featureSpecificDirectory(currentDirectory.getDirectory());
@@ -164,6 +165,59 @@ TEST(SampleTest, GenerateFeatureSpecificComponentFiles)
             convertToStringComponentNameFile<<R"(GET_ENUM_STRING(ComponentName::)"<<componentName<<")"<<endl;
         }
     }
+}
+
+TEST(SampleTest, DISABLED_CloudPrinting)
+{
+    char payloadPtr[40];
+    int payloadSize=40;
+    std::stringstream line;
+            line.str("HEX DUMP: ");
+            for(int i=0; i<payloadSize; i++)
+            {
+                char* charPayloadPtr = (char*)payloadPtr;
+                unsigned int byte = charPayloadPtr[i]&0xFF;
+                line << std::uppercase << std::setfill('0') << std::setw(2) << std::hex << (unsigned int)byte <<" ";
+                if(i%32==31)
+                {
+
+                    cout<< line.str()<<endl;
+                    line.str("HEX DUMP: ");
+                }
+            }
+            if(!line.str().empty())
+            {
+                cout<< line.str()<<endl;
+                line.str("");
+            }
+}
+
+TEST(SampleTest, DISABLED_NSAPCloudPrinting)
+{
+    u8 mark[4] = {0xA, 0x45, 0x1A, 0x1A};
+    TTransportLayerAddress nsap;
+    CommonClassLib::CNsapHelper::convertIPv4toNsap(mark, nsap);
+
+    for(int i=0; i<20; i++)
+    {
+        cout<<"nsap["<<i<<"]: "<<std::hex<<(int)nsap[i]<<endl;
+    }
+}
+
+TEST(SampleTest, u32toi32)
+{
+    typedef unsigned int   u32;     /* int == long */
+    typedef u32     TCounter;
+    typedef  i32 TPowerLevel;
+
+    TPowerLevel           powerLevel1, powerLevel2;
+    TCounter test;
+
+    powerLevel1 = -50;
+    test = powerLevel1;
+    powerLevel2 = test;
+
+    cout<<"PowerLevel1"<<powerLevel1<<"  PowerLevel2"<<powerLevel2<<"  test"<<test<<endl;
 }
 
 

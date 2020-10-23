@@ -93,10 +93,12 @@ private:
             numberOfObjectsInCurrentBlock = (numberOfObjectsInCurrentBlock < static_cast<int>(m_configuration.m_minimumNumberOfObjectsPerBlock)) ? numberOfObjectsInCurrentBlock : 0;
         });
         m_blocks.deleteBlock(blockIterator);
-    }    void limitMemoryConsumption()
+    }
+    void limitMemoryConsumption()
     {
         unsigned int totalMemoryConsumption = calculateTotalMemoryConsumption();
-        transferMemoryBlocksToFileIfNeeded(totalMemoryConsumption);    }
+        transferMemoryBlocksToFileIfNeeded(totalMemoryConsumption);
+    }
     unsigned int calculateTotalMemoryConsumption()
     {
         BlockInformationContainer memoryLimitCache = m_memoryCache.getContainerReference();

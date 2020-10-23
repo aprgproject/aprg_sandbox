@@ -22,6 +22,11 @@ include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 set(SOURCES
     src/SimplestDesignToCopy.cpp
     src/SimplestDesignToCopy.hpp
+    src/NsapHelper.cpp
+    src/NsapHelper.hpp
+    src/glo_def.h
+    src/TTransportLayerAddress.h
+    src/ArraySize.hpp
 )
 
 set(MAIN_SOURCES
