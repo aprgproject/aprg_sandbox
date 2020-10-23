@@ -25,6 +25,7 @@ bool AlbaGrepStringEvaluator::evaluate(string const& stringToEvaluate) const
 {
     if(m_isEvaluatorInvalid){return false;}
 
+    bool result(false);
     string evaluateStringWithCapitalLetters(alba::stringHelper::getStringWithCapitalLetters(stringToEvaluate));
     stack <bool> resultsStack;
 
@@ -52,9 +53,9 @@ bool AlbaGrepStringEvaluator::evaluate(string const& stringToEvaluate) const
 
     if(!resultsStack.empty())
     {
-        return resultsStack.top();
+        result = resultsStack.top();
     }
-    return false;
+    return result;
 }
 
 bool AlbaGrepStringEvaluator::isInvalid() const

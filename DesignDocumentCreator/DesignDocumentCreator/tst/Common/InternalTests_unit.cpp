@@ -5,8 +5,6 @@
 #include <Common/Messages/Messages.hpp>
 #include <Common/Timers/Timers.hpp>
 #include <gtest/gtest.h>
-#include <iostream>
-#include <string>
 
 using namespace DesignDocumentCreator;
 using namespace std;

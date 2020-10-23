@@ -11,6 +11,15 @@ using namespace std;
 namespace alba
 {
 
+AlbaWindowsPathHandler::AlbaWindowsPathHandler(InitialValue const initialValue)
+    : AlbaPathHandler(R"(\)")
+{
+    if(InitialValue::PathFromWindows == initialValue)
+    {
+        setPathToCurrentPathFromWindows();
+    }
+}
+
 AlbaWindowsPathHandler::AlbaWindowsPathHandler(string const& path)
     : AlbaPathHandler(R"(\)")
 {
@@ -49,6 +58,25 @@ double AlbaWindowsPathHandler::getFileSizeEstimate()
 bool AlbaWindowsPathHandler::isFoundInLocalSystem() const
 {
     return m_foundInLocalSystem;
+}
+
+bool AlbaWindowsPathHandler::isRelativePath() const
+{
+    return m_relativePath;
+}
+
+void AlbaWindowsPathHandler::setPathToCurrentPathFromWindows()
+{
+    char currentPathFromWindows[MAX_PATH] = "";
+    if (GetModuleFileName(NULL, currentPathFromWindows, MAX_PATH))
+    {
+        input(string(currentPathFromWindows));
+    }
+    else
+    {
+        cout<<"Error in AlbaWindowsPathHandler::setPathToCurrentPathFromWindows() path:"<<getFullPath()<<endl;
+        printErrorMessageFromWindows();
+    }
 }
 
 void AlbaWindowsPathHandler::createDirectoriesForNonExisitingDirectories() const
@@ -121,40 +149,6 @@ bool AlbaWindowsPathHandler::renameImmediateDirectory(string const& newDirectory
     return isSuccessful;
 }
 
-bool AlbaWindowsPathHandler::isRelativePath() const
-{
-    return m_relativePath;
-}
-
-void AlbaWindowsPathHandler::save(string const& path)
-{
-    string correctPath(stringHelper::getCorrectPathWithoutDoublePeriod(
-                           stringHelper::getCorrectPathWithReplacedSlashCharacters(
-                               path, m_slashCharacterString), m_slashCharacterString));
-    DWORD attributes = GetFileAttributes(correctPath.c_str());
-    bool isDirectoryInWindows(attributes == FILE_ATTRIBUTE_DIRECTORY);
-    bool isLastCharacterNotSlash(correctPath[correctPath.length()-1] != m_slashCharacterString[0]);
-    if(isDirectoryInWindows && isLastCharacterNotSlash)
-    {
-        correctPath = stringHelper::getCorrectPathWithoutDoublePeriod(correctPath + m_slashCharacterString, m_slashCharacterString);
-    }
-    setExtensionFromPath(correctPath);
-    setDirectoryAndFileFromPath(correctPath);
-    setDrive();
-    setFileType();
-    m_foundInLocalSystem = INVALID_FILE_ATTRIBUTES != attributes;
-}
-
-void AlbaWindowsPathHandler::setDrive()
-{
-    int index = m_directory.find_first_of(m_slashCharacterString + ":");
-    if (stringHelper::isNotNpos(index) && m_directory[index]==':')
-    {
-        m_drive = stringHelper::getStringWithCapitalLetters(m_directory.substr(0,index));
-    }
-    m_relativePath = m_drive.empty();
-}
-
 void AlbaWindowsPathHandler::findFilesAndDirectoriesOneDepth(
         string const& wildCardSearch,
         set<string>& listOfFiles,
@@ -213,6 +207,35 @@ void AlbaWindowsPathHandler::findFilesAndDirectoriesWithDepth(
         }
         bContinue = FindNextFile(hFind, &data);
     }
+}
+
+void AlbaWindowsPathHandler::save(string const& path)
+{
+    string correctPath(stringHelper::getCorrectPathWithoutDoublePeriod(
+                           stringHelper::getCorrectPathWithReplacedSlashCharacters(
+                               path, m_slashCharacterString), m_slashCharacterString));
+    DWORD attributes = GetFileAttributes(correctPath.c_str());
+    bool isDirectoryInWindows(attributes == FILE_ATTRIBUTE_DIRECTORY);
+    bool isLastCharacterNotSlash(correctPath[correctPath.length()-1] != m_slashCharacterString[0]);
+    if(isDirectoryInWindows && isLastCharacterNotSlash)
+    {
+        correctPath = stringHelper::getCorrectPathWithoutDoublePeriod(correctPath + m_slashCharacterString, m_slashCharacterString);
+    }
+    setExtensionFromPath(correctPath);
+    setDirectoryAndFileFromPath(correctPath);
+    setDrive();
+    setFileType();
+    m_foundInLocalSystem = INVALID_FILE_ATTRIBUTES != attributes;
+}
+
+void AlbaWindowsPathHandler::setDrive()
+{
+    int index = m_directory.find_first_of(m_slashCharacterString + ":");
+    if (stringHelper::isNotNpos(index) && m_directory[index]==':')
+    {
+        m_drive = stringHelper::getStringWithCapitalLetters(m_directory.substr(0,index));
+    }
+    m_relativePath = m_drive.empty();
 }
 
 void AlbaWindowsPathHandler::printErrorMessageFromWindows() const

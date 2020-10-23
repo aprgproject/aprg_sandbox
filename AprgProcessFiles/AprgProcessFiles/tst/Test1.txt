@@ -1,0 +1,5 @@
+typedef union myUnion1
+{
+unsigned long int integerParameter;
+double doubleParameter;
+} myUnion2;

@@ -30,6 +30,38 @@ WireSharkLogReader::WireSharkLogReader(string const pathOfOutputFile)
     }
 }
 
+void WireSharkLogReader::processFileForToCountUsersWithTracing(string const& filePath)
+{
+    AlbaWindowsPathHandler filePathHandler(filePath);
+    cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
+
+    ifstream inputLogFileStream(filePath);
+    AlbaFileReader fileReader(inputLogFileStream);
+    set<int> usersWithTracing;
+    while(fileReader.isNotFinished())
+    {
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "RLH sends BB_UE_TRACING_REPORT_IND_MSG (0x515D)"))
+        {
+            int msgType = stringHelper::convertHexStringToNumber<int>(getNumberAfterThisString(lineInLogs, "msgType: 0x"));
+            int nbccId = stringHelper::convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "nbccId: "));
+            if(msgType == 0x1200)
+            {
+                usersWithTracing.emplace(nbccId);
+                cout<<"msgType: "<<msgType<<" nbccId: "<<nbccId<<" number of usersWithTracing: "<<usersWithTracing.size()<<endl;
+            }
+            else if(msgType == 0x1300)
+            {
+                if(usersWithTracing.find(nbccId)!=usersWithTracing.end())
+                {
+                    usersWithTracing.erase(nbccId);
+                }
+                cout<<"msgType: "<<msgType<<" nbccId: "<<nbccId<<" number of usersWithTracing: "<<usersWithTracing.size()<<endl;
+            }
+        }
+    }
+}
+
 void WireSharkLogReader::processDirectoryForWireSharkDelay(string const& directoryPath)
 {
     set<string> listOfFiles;

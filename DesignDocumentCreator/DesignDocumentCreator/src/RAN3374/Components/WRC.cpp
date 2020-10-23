@@ -1,4 +1,4 @@
-#include <Common/Utils/EnumHelper.hpp>
+#include <Common/Utils/StringHelpers.hpp>
 #include <iostream>
 #include <RAN3374/Components/WRC.hpp>
 
@@ -23,13 +23,13 @@ void WRC::handleMessageEvent(GenericMessage const& genericMessage)
     case MessageName::TC_LTX_TELECOM_MSG:
         cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;
     default:
-        cout<<"Handle Message, messageName: "<<EnumHelper::convertToString(genericMessage.getMessageName())<<endl;
+        cout<<"Handle Message, messageName: "<<StringHelpers::convertToString(genericMessage.getMessageName())<<endl;
     }
 }
 
 void WRC::handleTimerEvent(Timer const& timer)
 {
-    cout<<"Handle Timer, timerType: "<<EnumHelper::convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
+    cout<<"Handle Timer, timerType: "<<StringHelpers::convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
 }
 
 }

@@ -20,11 +20,19 @@ std::string constructFileLocator(std::string file, int lineNumber);
 bool isStringFoundInsideTheOtherStringCaseSensitive(std::string const& mainString, std::string const& string2);
 bool isStringFoundInsideTheOtherStringNotCaseSensitive(std::string const& mainString, std::string const& string2);
 bool isEqualNotCaseSensitive(std::string const& mainString, std::string const& string2);
+bool isEqualWithLowestCommonLength(std::string const& string1, std::string const& string2);
 bool isNumber(std::string const& mainString);
 bool isWhiteSpace(std::string const& mainString);
+bool isIdentifier(std::string const& mainString);
 
 bool transformReplaceStringIfFound(std::string & mainString, std::string const& toReplace, std::string const& replaceWith);
-void splitToStrings(strings & strings, std::string const& mainString,  std::string const& delimiter);
+enum class SplitStringType
+{
+    WithDelimeters,
+    WithoutDelimeters
+};
+template <SplitStringType splitStringType> void splitToStrings(strings & strings, std::string const& mainString,  std::string const& delimiters);
+void splitLinesToAchieveTargetLength(stringHelper::strings & strings, std::string const& mainString, unsigned int const targetLength);
 
 std::string getStringWithCapitalLetters(std::string const& mainString);
 std::string getStringWithLowerCaseLetters(std::string const& mainString);
@@ -109,6 +117,11 @@ inline bool isNumber(char const c)
     return ('0'<=c && '9'>=c);
 }
 
+inline bool isUnderscore(char const c)
+{
+    return '_'==c;
+}
+
 inline bool isHexDigit(char const c)
 {
     return isNumber(c) || ('a'<=c && 'f'>=c) || ('A'<=c && 'F'>=c);
@@ -121,7 +134,7 @@ inline bool isLetterOrNumber(char const c)
 
 inline bool isLetterOrNumberOrUnderscore(char const c)
 {
-    return isLetter(c)||isNumber(c)||(c=='_');
+    return isLetter(c)||isNumber(c)||isUnderscore(c);
 }
 
 inline bool isSlashCharacter(char const c)

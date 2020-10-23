@@ -56,7 +56,7 @@ TEST(AlbaUserAutomationTest, DISABLED_IsLetterPressedTest)
     EXPECT_TRUE(userAutomation.isLetterPressed('q'));
 }
 
-TEST(AlbaUserAutomationTest, ShowMousePosition)
+TEST(AlbaUserAutomationTest, DISABLED_ShowMousePosition)
 {
     AlbaUserAutomation userAutomation;
     while(1)

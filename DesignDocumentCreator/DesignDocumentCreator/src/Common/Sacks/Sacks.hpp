@@ -1,7 +1,5 @@
 #pragma once
 
-#include <glo_def.h>
-
 namespace DesignDocumentCreator
 {
 

@@ -103,3 +103,92 @@ TEST(PeerReviewCollatorTest, ProcessDirectory_ActualTest)
     ASSERT_EQ(280, answers.size());
     collator.generateOutput(PATH_OF_OUTPUT_DIRECTORY);
 }
+
+const int AASYSCOM_GW_IP_ADDRESS_MAX_STR_LEN=46;
+
+struct IpString
+{
+    char ipAddressString[AASYSCOM_GW_IP_ADDRESS_MAX_STR_LEN];
+};
+
+string convertNumberToString(unsigned int number)
+{
+    stringstream ss;
+    ss << number;
+    return ss.str();
+}
+
+IpString convertToIpString(unsigned int ip)
+{
+    //print ip
+    IpString result;
+
+    int resultIndex=0;
+    for(int byteCount=1; byteCount<=4; byteCount++)
+    {
+        string currentByte;
+        switch(byteCount)
+        {
+        case 1:
+            currentByte=convertNumberToString((ip & 0xFF000000) >> 24);
+            break;
+        case 2:
+            currentByte=convertNumberToString((ip & 0x00FF0000) >> 16);
+            break;
+        case 3:
+            currentByte=convertNumberToString((ip & 0x0000FF00) >> 8);
+            break;
+        case 4:
+            currentByte=convertNumberToString(ip & 0x000000FF);
+            break;
+        default:
+            break;
+        }
+        int currentByteLength(currentByte.length());
+        for(int currentByteIndex=0; currentByteIndex<currentByteLength && resultIndex<AASYSCOM_GW_IP_ADDRESS_MAX_STR_LEN; currentByteIndex++)
+        {
+            result.ipAddressString[resultIndex++] = currentByte[currentByteIndex];
+        }
+        switch(byteCount)
+        {
+        case 1:
+        case 2:
+        case 3:
+            result.ipAddressString[resultIndex++] = '.';
+            break;
+        case 4:
+            result.ipAddressString[resultIndex++] = '\0';
+            break;
+        default:
+            break;
+        }
+    }
+    //print result
+    return result;
+}
+
+//TDD all the way
+
+TEST(IpToStringCoverterTest, ZeroIsReturnedWhenZero)
+{
+    IpString output(convertToIpString(0));
+    string expected(output.ipAddressString);
+
+    EXPECT_EQ(expected, "0.0.0.0");
+}
+
+TEST(IpToStringCoverterTest, ValidNumberIsReceived)
+{
+    IpString output(convertToIpString(2455258683));
+    string expected(output.ipAddressString);
+
+    EXPECT_EQ(expected, "146.88.70.59");
+}
+
+TEST(IpToStringCoverterTest, ActualIpInTesting)
+{
+    IpString output(convertToIpString(170691951));
+    string expected(output.ipAddressString);
+
+    EXPECT_EQ(expected, "10.44.141.111");
+}

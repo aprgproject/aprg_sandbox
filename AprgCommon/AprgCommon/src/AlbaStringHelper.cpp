@@ -69,6 +69,14 @@ bool stringHelper::isEqualNotCaseSensitive(string const& mainString, string cons
     return getStringWithCapitalLetters(mainString) == getStringWithCapitalLetters(string2);
 }
 
+bool stringHelper::isEqualWithLowestCommonLength(string const& string1, string const& string2)
+{
+    unsigned int length1 = string1.length();
+    unsigned int length2 = string2.length();
+    unsigned int lowestLength = (length1>length2) ? length2 : length1;
+    return string1.substr(0, lowestLength) == string2.substr(0, lowestLength);
+}
+
 bool stringHelper::isNumber(string const& mainString)
 {
     return std::any_of(mainString.begin(), mainString.end(), [](char const character){ return isNumber(character);});
@@ -77,6 +85,17 @@ bool stringHelper::isNumber(string const& mainString)
 bool stringHelper::isWhiteSpace(string const& mainString)
 {
     return std::all_of(mainString.begin(), mainString.end(), [](char const character){ return isWhiteSpace(character);});
+}
+
+bool stringHelper::isIdentifier(string const& mainString)
+{
+    bool isIdentifier(false);
+    if(!mainString.empty())
+    {
+        char firstCharacter = mainString[0];
+        isIdentifier = isLetter(firstCharacter) || isUnderscore(firstCharacter);
+    }
+    return isIdentifier;
 }
 
 bool stringHelper::transformReplaceStringIfFound(string& mainString, string const& toReplace, string const& replaceWith)
@@ -94,11 +113,11 @@ bool stringHelper::transformReplaceStringIfFound(string& mainString, string cons
     return found;
 }
 
-void stringHelper::splitToStrings(stringHelper::strings & strings, std::string const& mainString, std::string const& delimiter)
+template <stringHelper::SplitStringType splitStringType> void stringHelper::splitToStrings(stringHelper::strings & strings, std::string const& mainString, std::string const& delimiters)
 {
     int startingIndex(0);
-    int delimiterIndex = mainString.find(delimiter);
-    int delimeterLength = delimiter.length();
+    int delimiterIndex = mainString.find_first_of(delimiters);
+    int delimeterLength = 1;
     int mainStringLength = mainString.length();
     while(isNotNpos(delimiterIndex))
     {
@@ -106,13 +125,53 @@ void stringHelper::splitToStrings(stringHelper::strings & strings, std::string c
         {
             strings.emplace_back(mainString.substr(startingIndex, delimiterIndex-startingIndex));
         }
+        if(SplitStringType::WithDelimeters == splitStringType)
+        {
+            strings.emplace_back(mainString.substr(delimiterIndex, delimeterLength));
+        }
         startingIndex = delimiterIndex + delimeterLength;
-        delimiterIndex = mainString.find(delimiter, startingIndex);
+        delimiterIndex = mainString.find_first_of(delimiters, startingIndex);
     }
     if(startingIndex != mainStringLength)
     {
         strings.emplace_back(mainString.substr(startingIndex, mainStringLength-startingIndex));
     }
+}
+
+template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters> (stringHelper::strings & strings, std::string const& mainString, std::string const& delimiter);
+template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithDelimeters> (stringHelper::strings & strings, std::string const& mainString, std::string const& delimiter);
+
+void stringHelper::splitLinesToAchieveTargetLength(stringHelper::strings & strings, std::string const& mainString, unsigned int const targetLength)
+{
+    int mainStringLength = mainString.length();
+    int previousSplittingIndex=0;
+    for(int splittingIndex = 0; splittingIndex<mainStringLength; splittingIndex += targetLength)
+    {
+        bool isSplittingIndexFound(false);
+        for(int deltaFromSplittingIndex = 0; !isSplittingIndexFound; deltaFromSplittingIndex++)
+        {
+            if(splittingIndex+deltaFromSplittingIndex<mainStringLength && isWhiteSpace(mainString[splittingIndex+deltaFromSplittingIndex]))
+            {
+                splittingIndex=splittingIndex+deltaFromSplittingIndex;
+                isSplittingIndexFound=true;
+            }
+            if(splittingIndex-deltaFromSplittingIndex>=0 && isWhiteSpace(mainString[splittingIndex-deltaFromSplittingIndex]))
+            {
+                splittingIndex=splittingIndex-deltaFromSplittingIndex;
+                isSplittingIndexFound=true;
+            }
+        }
+        if(!isSplittingIndexFound)
+        {
+            splittingIndex = mainStringLength;
+        }
+        if(previousSplittingIndex<splittingIndex)
+        {
+            strings.emplace_back(mainString.substr(previousSplittingIndex, splittingIndex-previousSplittingIndex));
+        }
+        previousSplittingIndex=splittingIndex;
+    }
+
 }
 
 string stringHelper::getStringWithCapitalLetters(string const& mainString)

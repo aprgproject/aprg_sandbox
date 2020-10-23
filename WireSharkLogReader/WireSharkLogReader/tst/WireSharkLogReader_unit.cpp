@@ -30,27 +30,27 @@ TEST(WireSharkLogReaderTest, DISABLED_GetNumberAfterThisStringWorksAsIntended)
     EXPECT_EQ(13388, crnccId);
 }
 
-TEST(WireSharkLogReaderTestBtsDelay, ProcessFileForBtsDelay1)
+TEST(WireSharkLogReaderTestBtsDelay, DISABLED_ProcessFileForBtsDelay1)
 {
     WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithRan2861\BtsLogTimeResults.csv)");
     reader.processFileForBtsDelayForRlh(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithRan2861\sorted.log)");
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
-TEST(WireSharkLogReaderTestBtsDelay, ProcessFileForBtsDelay2)
+TEST(WireSharkLogReaderTestBtsDelay, DISABLED_ProcessFileForBtsDelay2)
 {
     WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithoutRan2861\BtsLogTimeResults.csv)");
     reader.processFileForBtsDelayForRlh(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithoutRan2861\sorted.log)");
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
-TEST(WireSharkLogReaderTestQueuingTime, GetMsgQueuingTime)
+TEST(WireSharkLogReaderTestQueuingTime, DISABLED_GetMsgQueuingTime)
 {
     WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithRan2861\GetMsgQueuingTime.csv)");
     reader.processFileForMsgQueuingTime(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithRan2861\sorted.log)");
 }
 
-TEST(WireSharkLogReaderTestQueuingTime, GetMsgQueuingTime2)
+TEST(WireSharkLogReaderTestQueuingTime, DISABLED_GetMsgQueuingTime2)
 {
     WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithoutRan2861\GetMsgQueuingTime.csv)");
     reader.processFileForMsgQueuingTime(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithoutRan2861\sorted.log)");
@@ -88,6 +88,12 @@ TEST (WireSharkLogReaderTest, DISABLED_ProcessFileWireshark)
     WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\PR075191\wbts17knife_117\wbts17knife_117\WireSharkResults.csv)");
     reader.processFileForWireSharkDelay(R"(D:\W\ZZZ_Useless_Logs\PR075191\wbts17knife_117\wbts17knife_117\WBTS17_knife_Torstai_00051_20160114121257\0001)");
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+}
+
+TEST (WireSharkLogReaderTest, UesWithTracingWithCount)
+{
+    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\WBTS17\TRACING_REPORT.csv)");
+    reader.processFileForToCountUsersWithTracing(R"(D:\W\ZZZ_Useless_Logs\RAN2861\WBTS17\TRACING_REPORT.log)");
 }
 
 TEST (WireSharkLogReaderTest, DISABLED_SizeOfTest)

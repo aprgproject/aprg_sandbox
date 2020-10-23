@@ -10,17 +10,23 @@ namespace alba{
 class AlbaWindowsPathHandler: public AlbaPathHandler
 {
 public:
+    enum class InitialValue
+    {
+        PathFromWindows
+    };
     typedef std::set<std::string> ListOfPaths;
+    AlbaWindowsPathHandler(InitialValue const initialValue);
     AlbaWindowsPathHandler(std::string const& path);
     void clear() override;
     std::string getDrive() const;
     double getFileSizeEstimate();
     bool isFoundInLocalSystem() const;
+    bool isRelativePath() const;
+    void setPathToCurrentPathFromWindows();
     void createDirectoriesForNonExisitingDirectories() const;
     bool deleteFile();
     bool renameFile(std::string const& newFileName);
     bool renameImmediateDirectory(std::string const& newDirectoryName);
-    bool isRelativePath() const;
     void findFilesAndDirectoriesOneDepth(
             std::string const& wildCardSearch,
             ListOfPaths& listOfFiles,

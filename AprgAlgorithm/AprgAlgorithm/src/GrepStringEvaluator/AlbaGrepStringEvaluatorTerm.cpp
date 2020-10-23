@@ -88,6 +88,7 @@ string AlbaGrepStringEvaluatorTerm::getTermTypeString() const
             GET_ENUM_STRING(AlbaGrepStringEvaluatorTermType::String)
     }
     return string("");
+#undef GET_ENUM_STRING
 }
 
 string AlbaGrepStringEvaluatorTerm::getString() const

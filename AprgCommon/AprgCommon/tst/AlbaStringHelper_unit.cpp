@@ -21,9 +21,41 @@ TEST(SplitStringTest, SplitBySpaces)
     string string1("   Mark is the no#1      guy in the  world.    Mark is also the nicest guy.    ");
     strings expectedStrings {"Mark", "is", "the", "no#1", "guy", "in", "the", "world.", "Mark", "is", "also", "the", "nicest", "guy."};
     strings actualStrings;
-    splitToStrings(actualStrings, string1, " ");
+    splitToStrings<SplitStringType::WithoutDelimeters>(actualStrings, string1, " ");
 
-    EXPECT_EQ(actualStrings.size(), expectedStrings.size());
+    ASSERT_EQ(actualStrings.size(), expectedStrings.size());
+    int size = expectedStrings.size();
+    for(int i=0; i<size; i++)
+    {
+        EXPECT_EQ(actualStrings[i], expectedStrings[i]);
+    }
+}
+
+TEST(SplitStringTest, SplitBySpacesWithDelimeters)
+{
+    string string1("   Mark is the no#1      guy in the  world.   ");
+    strings expectedStrings {" ", " ", " ", "Mark", " ", "is", " ", "the", " ", "no#1", " ", " ", " ", " ", " ", " ", "guy", " ", "in", " ", "the", " ", " ", "world.", " ", " ", " "};
+    strings actualStrings;
+    splitToStrings<SplitStringType::WithDelimeters>(actualStrings, string1, " ");
+
+    ASSERT_EQ(actualStrings.size(), expectedStrings.size());
+    int size = expectedStrings.size();
+    for(int i=0; i<size; i++)
+    {
+        EXPECT_EQ(actualStrings[i], expectedStrings[i]);
+    }
+}
+
+TEST(SplitStringTest, SplitLinesToAchieveTargetLength)
+{
+    string string1("   Mark is the no#1      guy in the  world.   ");
+    strings expectedStrings {"   Mark is", " the no#1 ", "     guy in", " the  world."};
+    strings actualStrings;
+    const int targetLength = 10;
+
+    splitLinesToAchieveTargetLength(actualStrings, string1, targetLength);
+
+    ASSERT_EQ(actualStrings.size(), expectedStrings.size());
     int size = expectedStrings.size();
     for(int i=0; i<size; i++)
     {
@@ -326,6 +358,15 @@ TEST(BooleanStringTest, StringCompareNotCaseSensitive)
     string capitalLetters("1234567890!@#$%^&*( )abcdEFghijklMnOPQRstUvWxYz");
 
     EXPECT_TRUE(isEqualNotCaseSensitive(testString, capitalLetters));
+}
+
+TEST(BooleanStringTest, StringCompareWithLowestCommonLength)
+{
+    string testString1("1234567890!@#$%^&*( )AbCD");
+    string testString2("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz");
+
+    EXPECT_TRUE(isEqualWithLowestCommonLength(testString1, testString2));
+    EXPECT_TRUE(isEqualWithLowestCommonLength(testString2, testString1));
 }
 
 TEST(ConvertFromStringTest, ConvertStringToBool)

@@ -24,8 +24,22 @@ include(${APRG_DIR}/AprgCMakeHelpers/cmake/Macros.cmake)
 
 #RAN3374 Files
 set(RAN3374_SOURCES
-    src/RAN3374/Components/WRC.hpp
+    src/RAN3374/Components/DMGR.cpp
+    src/RAN3374/Components/DMGR.hpp
+    src/RAN3374/Components/GRM.cpp
+    src/RAN3374/Components/GRM.hpp
+    src/RAN3374/Components/LRM.cpp
+    src/RAN3374/Components/LRM.hpp
+    src/RAN3374/Components/Rake.cpp
+    src/RAN3374/Components/Rake.hpp
+    src/RAN3374/Components/RF.cpp
+    src/RAN3374/Components/RF.hpp
+    src/RAN3374/Components/TLH.cpp
+    src/RAN3374/Components/TLH.hpp
+    src/RAN3374/Components/TOAM.cpp
+    src/RAN3374/Components/TOAM.hpp
     src/RAN3374/Components/WRC.cpp
+    src/RAN3374/Components/WRC.hpp
     src/RAN3374/FeatureSpecificFiles/AddComponent.hpp
     src/RAN3374/FeatureSpecificFiles/ComponentName.hpp
     src/RAN3374/FeatureSpecificFiles/ComponentsIncludes.hpp
@@ -35,7 +49,10 @@ set(RAN3374_SOURCES
     src/RAN3374/FeatureSpecificFiles/Sacks.hpp
     src/RAN3374/FeatureSpecificFiles/WrapMessage.hpp
     src/RAN3374/Sacks/Sacks.hpp
-    src/RAN3374/Sacks/SupplementarySacks/SupplementarySacks.hpp
+    src/RAN3374/Sacks/SupplementarySacks.hpp
+)
+set(RAN3374_TESTS
+    tst/RAN3374/RAN3374_unit.cpp
 )
 
 #Supplementary sacks
@@ -46,13 +63,15 @@ set(SUPPLEMENTARY_SACK_DIR
 #Use MACRO_GET_FILES to find supplementary files
 MACRO_GET_FILES(SUPPLEMENTARY_SACKS SUPPLEMENTARY_SACK_DIR)
 
-#Files
-set(SOURCES
+#Sources
+set(COMMON_SOURCES
     src/Common/Components/Component.cpp
-    src/Common/Components/Component.hpp    src/Common/Components/ComponentName.hpp
+    src/Common/Components/Component.hpp
+    src/Common/Components/ComponentName.hpp
     src/Common/Components/Components.cpp
     src/Common/Components/Components.hpp
-    src/Common/Components/SampleComponent.cpp    src/Common/Components/SampleComponent.hpp
+    src/Common/Components/SampleComponent.cpp
+    src/Common/Components/SampleComponent.hpp
     src/Common/Events/Events.cpp
     src/Common/Events/Events.hpp
     src/Common/Messages/GenericMessage.hpp
@@ -62,13 +81,22 @@ set(SOURCES
     src/Common/Messages/MessageWrapper.hpp
     src/Common/Messages/SpecificMessage.hpp
     src/Common/Sacks/Sacks.hpp
-    src/Common/Sacks/SupplementarySacks/SupplementarySacks.hpp
+    src/Common/Sacks/SupplementarySacks.hpp
     src/Common/Timers/Timers.cpp
     src/Common/Timers/Timers.hpp
-    src/Common/Timers/TimerType.hpp    src/Common/Utils/EnumHelper.cpp
-    src/Common/Utils/EnumHelper.hpp
+    src/Common/Timers/TimerType.hpp
+    src/Common/Uml/UmlArrowConfiguration.cpp
+    src/Common/Uml/UmlArrowConfiguration.hpp
+    src/Common/Uml/UmlConfiguration.cpp
+    src/Common/Uml/UmlConfiguration.hpp
+    src/Common/Uml/UmlLogger.cpp
+    src/Common/Uml/UmlLogger.hpp
+    src/Common/Utils/StringHelpers.cpp
+    src/Common/Utils/StringHelpers.hpp
     src/Common/Environment.cpp
     src/Common/Environment.hpp
+)
+set(FEATURE_SPECIFIC_SOURCES
     src/FeatureSpecificFiles/AddComponent.hpp
     src/FeatureSpecificFiles/ComponentName.hpp
     src/FeatureSpecificFiles/ComponentsIncludes.hpp
@@ -77,11 +105,18 @@ set(SOURCES
     src/FeatureSpecificFiles/MessageName.hpp
     src/FeatureSpecificFiles/Sacks.hpp
     src/FeatureSpecificFiles/WrapMessage.hpp
+)
+
+#Collecting files and directories
+set(SOURCES
+    ${COMMON_SOURCES}
+    ${FEATURE_SPECIFIC_SOURCES}
     ${RAN3374_SOURCES}
     ${SUPPLEMENTARY_SACKS}
 )
 
-set(MAIN_SOURCES    src/Common/main.cpp
+set(MAIN_SOURCES
+    src/Common/main.cpp
 )
 
 set(INTERNAL_TESTS
@@ -90,18 +125,20 @@ set(INTERNAL_TESTS
 
 set(TESTS
     ${INTERNAL_TESTS}
+    ${RAN3374_TESTS}
 )
 
-#Include directories
 set(INCLUDE_DIRECTORIES
     src/
     ${SUPPLEMENTARY_SACK_DIR}
 )
 
-if (TEST_MODE)    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
+if (TEST_MODE)
+    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
     include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
     target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
-    add_test(${OUTFILE} ${OUTFILE})else()
+    add_test(${OUTFILE} ${OUTFILE})
+else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
     set(BUILD_SHARED_LIBRARIES OFF)
     set(CMAKE_EXE_LINKER_FLAGS "-static")
