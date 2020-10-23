@@ -1,8 +1,7 @@
-#include "WireSharkLogReader.hpp"
+#include <BtsLogAnalyzer.hpp>
 
 #include <AlbaFileReader.hpp>
-#include <AlbaStringHelper.hpp>
-#include <BtsLogPrint.hpp>
+#include <AlbaStringHelper.hpp>#include <BtsLogPrint.hpp>
 #include <iomanip>
 #include <iostream>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
@@ -14,27 +13,25 @@ using namespace tcomToolsBackend;
 namespace alba
 {
 
-WireSharkLogReader::WireSharkLogReader()
+BtsLogAnalyzer::BtsLogAnalyzer()
     : m_totalDelay(0)
     , m_count(0)
 {}
 
-WireSharkLogReader::WireSharkLogReader(string const pathOfOutputFile)
+BtsLogAnalyzer::BtsLogAnalyzer(string const pathOfOutputFile)
     : m_outputStream(pathOfOutputFile)
     , m_totalDelay(0)
-    , m_count(0)
-{
+    , m_count(0){
     if(m_outputStream.is_open())
     {
         cout<<"OutputStream is opened. Saving to output files"<<endl;
     }
 }
 
-void WireSharkLogReader::processFileForToCountUsersWithTracing(string const& filePath)
+void BtsLogAnalyzer::processFileForToCountUsersWithTracing(string const& filePath)
 {
     AlbaWindowsPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
-
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
     set<int> usersWithTracing;
@@ -62,22 +59,20 @@ void WireSharkLogReader::processFileForToCountUsersWithTracing(string const& fil
     }
 }
 
-void WireSharkLogReader::processDirectoryForWireSharkDelay(string const& directoryPath)
+void BtsLogAnalyzer::processDirectoryForWireSharkDelay(string const& directoryPath)
 {
     set<string> listOfFiles;
-    set<string> listOfDirectories;
-    AlbaWindowsPathHandler(directoryPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
+    set<string> listOfDirectories;    AlbaWindowsPathHandler(directoryPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& filePath : listOfFiles)
     {
         processFileForWireSharkDelay(AlbaWindowsPathHandler(filePath).getFullPath());
     }
 }
 
-void WireSharkLogReader::processFileForWireSharkDelay(string const& filePath)
+void BtsLogAnalyzer::processFileForWireSharkDelay(string const& filePath)
 {
     m_wireSharkDelays.clear();
     cout<<"processFile: "<<AlbaWindowsPathHandler(filePath).getFile()<<endl;
-
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
     AlbaOptional<double> startTimeFetchedOptional;
@@ -131,11 +126,10 @@ void WireSharkLogReader::processFileForWireSharkDelay(string const& filePath)
     }
 }
 
-void WireSharkLogReader::processFileForMsgQueuingTime(string const& filePath)
+void BtsLogAnalyzer::processFileForMsgQueuingTime(string const& filePath)
 {
     AlbaWindowsPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
-
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
     int totalMsgQueuingTime = 0;
@@ -160,11 +154,10 @@ void WireSharkLogReader::processFileForMsgQueuingTime(string const& filePath)
 }
 
 
-void WireSharkLogReader::processFileForBtsDelayForRlh(string const& filePath)
+void BtsLogAnalyzer::processFileForBtsDelayForRlh(string const& filePath)
 {
     AlbaWindowsPathHandler filePathHandler(filePath);
-    ifstream inputLogFileStream(filePath);
-    AlbaFileReader fileReader(inputLogFileStream);
+    ifstream inputLogFileStream(filePath);    AlbaFileReader fileReader(inputLogFileStream);
     cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<endl;
 
     m_outputStream<<"crnccId,nbccId,transactionId,delay"<<endl;
@@ -210,11 +203,10 @@ void WireSharkLogReader::processFileForBtsDelayForRlh(string const& filePath)
     }
 }
 
-void WireSharkLogReader::processFileForBtsDelayForRlDeletion(string const& filePath)
+void BtsLogAnalyzer::processFileForBtsDelayForRlDeletion(string const& filePath)
 {
     AlbaWindowsPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
-
     m_outputStream<<"crnccId,nbccId,transactionId,delay"<<endl;
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
@@ -260,11 +252,10 @@ void WireSharkLogReader::processFileForBtsDelayForRlDeletion(string const& fileP
     }
 }
 
-void WireSharkLogReader::processFileForBtsDelayForMikhailKnife(string const& filePath)
+void BtsLogAnalyzer::processFileForBtsDelayForMikhailKnife(string const& filePath)
 {
     AlbaWindowsPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
-
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
 
@@ -409,11 +400,10 @@ void WireSharkLogReader::processFileForBtsDelayForMikhailKnife(string const& fil
     cout<<"rlSetupTotal: "<<rlSetupTotal<<" count: "<<rlSetupCount<<" average:"<<rlSetupTotal/rlSetupCount<<endl;
 }
 
-void WireSharkLogReader::processFileForBtsDelayForGrm(string const& filePath)
+void BtsLogAnalyzer::processFileForBtsDelayForGrm(string const& filePath)
 {
     AlbaWindowsPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
-
     m_outputStream<<"crnccId,nbccId,transactionId,delay"<<endl;
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
@@ -467,11 +457,10 @@ void WireSharkLogReader::processFileForBtsDelayForGrm(string const& filePath)
     }
 }
 
-double WireSharkLogReader::getWireSharkTime(string const& lineInLogs) const
+double BtsLogAnalyzer::getWireSharkTime(string const& lineInLogs) const
 {
     int length(lineInLogs.length());
-    int startIndexOfTime=0, endIndexOfTime=0;
-    int i=0;
+    int startIndexOfTime=0, endIndexOfTime=0;    int i=0;
     for(; i<length && stringHelper::isWhiteSpace(lineInLogs[i]); i++) {}
     for(; i<length && stringHelper::isNumber(lineInLogs[i]); i++) {}
     startIndexOfTime = i;
@@ -481,11 +470,10 @@ double WireSharkLogReader::getWireSharkTime(string const& lineInLogs) const
     return stringHelper::convertStringToNumber<double>(lineInLogs.substr(startIndexOfTime, endIndexOfTime-startIndexOfTime));
 }
 
-string WireSharkLogReader::getNumberAfterThisString(string const& mainString, string const& stringToSearch) const
+string BtsLogAnalyzer::getNumberAfterThisString(string const& mainString, string const& stringToSearch) const
 {
     string result;
-    int firstIndexOfFirstString = mainString.find(stringToSearch);
-    if(stringHelper::isNotNpos(firstIndexOfFirstString))
+    int firstIndexOfFirstString = mainString.find(stringToSearch);    if(stringHelper::isNotNpos(firstIndexOfFirstString))
     {
         int lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
         int lastIndexOfNumber;
@@ -495,10 +483,9 @@ string WireSharkLogReader::getNumberAfterThisString(string const& mainString, st
     return result;
 }
 
-double WireSharkLogReader::getComputedAverageDelay() const
+double BtsLogAnalyzer::getComputedAverageDelay() const
 {
     cout<<"totalDelay: "<<m_totalDelay<<" count: "<<m_count<<endl;
-    return (double)m_totalDelay/m_count;
-}
+    return (double)m_totalDelay/m_count;}
 
 }//namespace alba

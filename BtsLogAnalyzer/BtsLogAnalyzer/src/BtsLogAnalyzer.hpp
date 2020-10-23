@@ -48,15 +48,14 @@ struct WireSharkDelay
     AlbaOptional<double> endTimeOptional;
 };
 
-class WireSharkLogReader
+class BtsLogAnalyzer
 {
 public:
-    WireSharkLogReader();
-    WireSharkLogReader(std::string const pathOfOutputFile);
+    BtsLogAnalyzer();
+    BtsLogAnalyzer(std::string const pathOfOutputFile);
     void processFileForToCountUsersWithTracing(std::string const& filePath);
     void processDirectoryForWireSharkDelay(std::string const& directoryPath);
-    void processFileForWireSharkDelay(std::string const& filePath);
-    void processFileForMsgQueuingTime(std::string const& filePath);
+    void processFileForWireSharkDelay(std::string const& filePath);    void processFileForMsgQueuingTime(std::string const& filePath);
     void processFileForBtsDelayForRlh(std::string const& filePath);
     void processFileForBtsDelayForRlDeletion(std::string const& filePath);
     void processFileForBtsDelayForMikhailKnife(std::string const& filePath);

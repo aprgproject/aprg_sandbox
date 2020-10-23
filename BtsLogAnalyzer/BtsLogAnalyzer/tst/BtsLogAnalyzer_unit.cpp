@@ -1,106 +1,105 @@
 #include <AlbaStringHelper.hpp>
+#include <BtsLogAnalyzer.hpp>
 #include "gtest/gtest.h"
 #include <iostream>
-#include "WireSharkLogReader.hpp"
 
 using namespace alba;
 using namespace std;
 
-TEST(WireSharkLogReaderTest, DISABLED_WireSharkTimeCanBeExtracted)
+TEST(BtsLogAnalyzerTest, DISABLED_WireSharkTimeCanBeExtracted)
 {
-    WireSharkLogReader reader;
+    BtsLogAnalyzer reader;
     double timeStamp = reader.getWireSharkTime("94 0.004714000    10.34.246.5           10.34.46.6            NBAP     238    id-radioLinkSetup , RadioLinkSetupRequestFDD ");
 
     EXPECT_DOUBLE_EQ(0.004714, timeStamp);
 }
 
-TEST(WireSharkLogReaderTest, DISABLED_WireSharkTimeCanBeExtracted2)
+TEST(BtsLogAnalyzerTest, DISABLED_WireSharkTimeCanBeExtracted2)
 {
-    WireSharkLogReader reader;
+    BtsLogAnalyzer reader;
     double timeStamp = reader.getWireSharkTime("  96414 4.137924000    10.34.46.6            10.34.246.5           NBAP     138    id-radioLinkSetup , RadioLinkSetupResponseFDD ");
 
     EXPECT_DOUBLE_EQ(4.137924, timeStamp);
 }
 
-TEST(WireSharkLogReaderTest, DISABLED_GetNumberAfterThisStringWorksAsIntended)
+TEST(BtsLogAnalyzerTest, DISABLED_GetNumberAfterThisStringWorksAsIntended)
 {
-    WireSharkLogReader reader;
+    BtsLogAnalyzer reader;
     string crnccIdString = reader.getNumberAfterThisString("criticality: ignore (1) value CRNC-CommunicationContextID: 13388 Item 1: id-NodeB-CommunicationContextID ProtocolIE-Field", "CRNC-CommunicationContextID: ");
     int crnccId = stringHelper::convertStringToNumber<int>(crnccIdString);
     EXPECT_EQ(13388, crnccId);
 }
 
-TEST(WireSharkLogReaderTestBtsDelay, DISABLED_ProcessFileForBtsDelay1)
+TEST(BtsLogAnalyzerTestBtsDelay, DISABLED_ProcessFileForBtsDelay1)
 {
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithRan2861\BtsLogTimeResults.csv)");
+    BtsLogAnalyzer reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithRan2861\BtsLogTimeResults.csv)");
     reader.processFileForBtsDelayForRlh(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithRan2861\sorted.log)");
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
-TEST(WireSharkLogReaderTestBtsDelay, DISABLED_ProcessFileForBtsDelay2)
+TEST(BtsLogAnalyzerTestBtsDelay, DISABLED_ProcessFileForBtsDelay2)
 {
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithoutRan2861\BtsLogTimeResults.csv)");
+    BtsLogAnalyzer reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithoutRan2861\BtsLogTimeResults.csv)");
     reader.processFileForBtsDelayForRlh(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithoutRan2861\sorted.log)");
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
-TEST(WireSharkLogReaderTestQueuingTime, DISABLED_GetMsgQueuingTime)
+TEST(BtsLogAnalyzerTestQueuingTime, DISABLED_GetMsgQueuingTime)
 {
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithRan2861\GetMsgQueuingTime.csv)");
+    BtsLogAnalyzer reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithRan2861\GetMsgQueuingTime.csv)");
     reader.processFileForMsgQueuingTime(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithRan2861\sorted.log)");
 }
 
-TEST(WireSharkLogReaderTestQueuingTime, DISABLED_GetMsgQueuingTime2)
+TEST(BtsLogAnalyzerTestQueuingTime, DISABLED_GetMsgQueuingTime2)
 {
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithoutRan2861\GetMsgQueuingTime.csv)");
+    BtsLogAnalyzer reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithoutRan2861\GetMsgQueuingTime.csv)");
     reader.processFileForMsgQueuingTime(R"(D:\W\ZZZ_Useless_Logs\RAN2861\Rel2 performance\WithoutRan2861\sorted.log)");
 }
 
-TEST (WireSharkLogReaderTest, DISABLED_ProcessFileForBtsDelay_GRM)
+TEST (BtsLogAnalyzerTest, DISABLED_ProcessFileForBtsDelay_GRM)
 {
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\Pr075191\Eureka\GrmBtsLogTimeResults.csv)");
+    BtsLogAnalyzer reader(R"(D:\W\ZZZ_Useless_Logs\Pr075191\Eureka\GrmBtsLogTimeResults.csv)");
     reader.processFileForBtsDelayForGrm(R"(D:\W\ZZZ_Useless_Logs\Pr075191\Eureka\sorted.log)");
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
-TEST(WireSharkLogReaderTest, DISABLED_ProcessFileForBtsRlDeletionDelay)
+TEST(BtsLogAnalyzerTest, DISABLED_ProcessFileForBtsRlDeletionDelay)
 {
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\3RAT AttachDetach case\ALL\RL_setup_delete_TRACE\BtsLogTimeRlDelete.csv)");
+    BtsLogAnalyzer reader(R"(D:\W\ZZZ_Useless_Logs\3RAT AttachDetach case\ALL\RL_setup_delete_TRACE\BtsLogTimeRlDelete.csv)");
     reader.processFileForBtsDelayForRlDeletion(R"(D:\W\ZZZ_Useless_Logs\3RAT AttachDetach case\ALL\RL_setup_delete_TRACE\sorted.log)");
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
-TEST (WireSharkLogReaderTest, DISABLED_ProcessFileForBtsDelay_RLH_WBTS17Knife)
+TEST (BtsLogAnalyzerTest, DISABLED_ProcessFileForBtsDelay_RLH_WBTS17Knife)
 {
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17Knife\bts_logs\RlhBtsLogTimeResults.csv)");
+    BtsLogAnalyzer reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17Knife\bts_logs\RlhBtsLogTimeResults.csv)");
     reader.processFileForBtsDelayForMikhailKnife(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17Knife\bts_logs\sorted.log)");
 }
 
-TEST (WireSharkLogReaderTest, DISABLED_ProcessDirectoryWireshark)
+TEST (BtsLogAnalyzerTest, DISABLED_ProcessDirectoryWireshark)
 {
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17Knife\anna_bts\WireSharkResults.csv)");
+    BtsLogAnalyzer reader(R"(D:\W\ZZZ_Useless_Logs\wireshark_challenge\WBTS17Knife\anna_bts\WireSharkResults.csv)");
     reader.processDirectoryForWireSharkDelay(R"(D:\W\ZZZ_Useless_Logs\PR075191\01_11_2016\anna_bts\wireshark\)");
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
-TEST (WireSharkLogReaderTest, DISABLED_ProcessFileWireshark)
+TEST (BtsLogAnalyzerTest, DISABLED_ProcessFileWireshark)
 {
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\PR075191\wbts17knife_117\wbts17knife_117\WireSharkResults.csv)");
+    BtsLogAnalyzer reader(R"(D:\W\ZZZ_Useless_Logs\PR075191\wbts17knife_117\wbts17knife_117\WireSharkResults.csv)");
     reader.processFileForWireSharkDelay(R"(D:\W\ZZZ_Useless_Logs\PR075191\wbts17knife_117\wbts17knife_117\WBTS17_knife_Torstai_00051_20160114121257\0001)");
     cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
-TEST (WireSharkLogReaderTest, UesWithTracingWithCount)
+TEST (BtsLogAnalyzerTest, UesWithTracingWithCount)
 {
-    WireSharkLogReader reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\WBTS17\TRACING_REPORT.csv)");
+    BtsLogAnalyzer reader(R"(D:\W\ZZZ_Useless_Logs\RAN2861\WBTS17\TRACING_REPORT.csv)");
     reader.processFileForToCountUsersWithTracing(R"(D:\W\ZZZ_Useless_Logs\RAN2861\WBTS17\TRACING_REPORT.log)");
 }
 
-TEST (WireSharkLogReaderTest, DISABLED_SizeOfTest)
+TEST (BtsLogAnalyzerTest, DISABLED_SizeOfTest)
 {
     struct TraceSessionId
-    {
-        unsigned char rncId[2]; //2
+    {        unsigned char rncId[2]; //2
         unsigned char computer[2]; //2
         unsigned char family[2]; //2
     };
