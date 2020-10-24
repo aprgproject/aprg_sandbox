@@ -1,8 +1,8 @@
-#Assign AprgCommon directory, this needs aprg directory
-set(APRG_COMMON_DIR ${APRG_DIR}/AprgCommon/AprgCommon/)
+#Assign AprgFileExtractor directory, this needs aprg directory
+set(APRG_FILE_EXTRACTOR_DIR ${APRG_DIR}/AprgFileExtractor/AprgFileExtractor/)
 
-#Include APRG_COMMON files and directories
-include(${APRG_COMMON_DIR}/cmake/FilesAndDirectories.cmake)
+#Include APRG_FILE_EXTRACTOR_DIR files and directories
+include(${APRG_FILE_EXTRACTOR_DIR}/cmake/FilesAndDirectories.cmake)
 
-include_directories(${APRG_COMMON_INCLUDE_DIRECTORIES})
-add_library(APRG_COMMON ${APRG_COMMON_SOURCES})
+include_directories(${APRG_FILE_EXTRACTOR_INCLUDE_DIRECTORIES})
+add_library(APRG_FILE_EXTRACTOR ${APRG_FILE_EXTRACTOR_SOURCES})

@@ -30,22 +30,19 @@ TEST(BtsLogAnalyzerTest, DISABLED_GetNumberAfterThisStringWorksAsIntended)
     EXPECT_EQ(13388, crnccId);
 }
 
-TEST(BtsLogAnalyzerTestBtsDelay, ProcessFileForBtsDelay1)
+TEST(BtsLogAnalyzerTestBtsDelay, DISABLED_ProcessFileForBtsDelay1)
 {
     BtsLogAnalyzer reader(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS17_0000_0242_06\Rel3\BtsLogTimeResults.csv)");
-    reader.processFileForBtsDelayForRlh(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS17_0000_0242_06\Rel3\Tcom.log)");
-    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+    reader.processFileForBtsDelayForRlh(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS17_0000_0242_06\Rel3\Tcom.log)");    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
-TEST(BtsLogAnalyzerTestBtsDelay, ProcessFileForBtsDelay2)
+TEST(BtsLogAnalyzerTestBtsDelay, DISABLED_ProcessFileForBtsDelay2)
 {
     BtsLogAnalyzer reader(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS00_0000_2092_00\Rel3\BtsLogTimeResults.csv)");
-    reader.processFileForBtsDelayForRlh(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS00_0000_2092_00\Rel3\Tcom.log)");
-    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+    reader.processFileForBtsDelayForRlh(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS00_0000_2092_00\Rel3\Tcom.log)");    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
-TEST(BtsLogAnalyzerTestQueuingTime, GetMsgQueuingTime)
-{
+TEST(BtsLogAnalyzerTestQueuingTime, GetMsgQueuingTime){
     BtsLogAnalyzer reader(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS17_0000_0242_06\Rel3\GetMsgQueuingTime.csv)");
     reader.processFileForMsgQueuingTime(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS17_0000_0242_06\Rel3\Tcom.log)");
 }
@@ -56,34 +53,29 @@ TEST(BtsLogAnalyzerTestQueuingTime, GetMsgQueuingTime2)
     reader.processFileForMsgQueuingTime(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS00_0000_2092_00\Rel3\Tcom.log)");
 }
 
-TEST (BtsLogAnalyzerTest, ProcessFileForBtsDelay_GRM)
+TEST (BtsLogAnalyzerTest, DISABLED_ProcessFileForBtsDelay_GRM)
 {
     BtsLogAnalyzer reader(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS17_0000_0242_06\Rel3\GrmBtsLogTimeResults.csv)");
-    reader.processFileForBtsDelayForGrm(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS17_0000_0242_06\Rel3\Tcom.log)");
-    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+    reader.processFileForBtsDelayForGrm(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS17_0000_0242_06\Rel3\Tcom.log)");    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
-TEST (BtsLogAnalyzerTest, ProcessFileForBtsDelay_GRM2)
+TEST (BtsLogAnalyzerTest, DISABLED_ProcessFileForBtsDelay_GRM2)
 {
     BtsLogAnalyzer reader(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS00_0000_2092_00\Rel3\GrmBtsLogTimeResults.csv)");
-    reader.processFileForBtsDelayForGrm(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS00_0000_2092_00\Rel3\Tcom.log)");
-    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+    reader.processFileForBtsDelayForGrm(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS00_0000_2092_00\Rel3\Tcom.log)");    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
-TEST(BtsLogAnalyzerTest, ProcessFileForBtsRlDeletionDelay)
+TEST(BtsLogAnalyzerTest, DISABLED_ProcessFileForBtsRlDeletionDelay)
 {
     BtsLogAnalyzer reader(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS17_0000_0242_06\Rel3\BtsLogTimeRlDelete.csv)");
-    reader.processFileForBtsDelayForRlDeletion(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS17_0000_0242_06\Rel3\Tcom.log)");
-    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+    reader.processFileForBtsDelayForRlDeletion(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS17_0000_0242_06\Rel3\Tcom.log)");    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
 
-TEST(BtsLogAnalyzerTest, ProcessFileForBtsRlDeletionDelay2)
+TEST(BtsLogAnalyzerTest, DISABLED_ProcessFileForBtsRlDeletionDelay2)
 {
     BtsLogAnalyzer reader(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS00_0000_2092_00\Rel3\BtsLogTimeRlDelete.csv)");
-    reader.processFileForBtsDelayForRlDeletion(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS00_0000_2092_00\Rel3\sorted.log)");
-    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
+    reader.processFileForBtsDelayForRlDeletion(R"(D:\ZZZ_Logs\RAN3321Degradation\WBTS00_0000_2092_00\Rel3\sorted.log)");    cout<<"Average Delay:"<<reader.getComputedAverageDelay()<<endl;
 }
-
 
 TEST (BtsLogAnalyzerTest, DISABLED_ProcessFileForBtsDelay_RLH_WBTS17Knife)
 {
