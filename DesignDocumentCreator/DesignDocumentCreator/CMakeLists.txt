@@ -9,6 +9,9 @@ set(TEST_MODE "ON")
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 
+#Assign DesignDocumentCreatorDirectory
+set(DesignDocumentCreatorDirectory ${CMAKE_CURRENT_SOURCE_DIR})
+
 #Assign Flags do not include -mwindows to make a console build
 set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99")
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11")
@@ -23,45 +26,49 @@ include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 include(${APRG_DIR}/AprgCMakeHelpers/cmake/Macros.cmake)
 
 #RAN3374 Files
-set(RAN3374_SOURCES
-    src/RAN3374/Components/DMGR.cpp
-    src/RAN3374/Components/DMGR.hpp
-    src/RAN3374/Components/GRM.cpp
-    src/RAN3374/Components/GRM.hpp
-    src/RAN3374/Components/LRM.cpp
-    src/RAN3374/Components/LRM.hpp
-    src/RAN3374/Components/Rake.cpp
-    src/RAN3374/Components/Rake.hpp
-    src/RAN3374/Components/RF.cpp
-    src/RAN3374/Components/RF.hpp
-    src/RAN3374/Components/TLH.cpp
-    src/RAN3374/Components/TLH.hpp
-    src/RAN3374/Components/TOAM.cpp
-    src/RAN3374/Components/TOAM.hpp
-    src/RAN3374/Components/WRC.cpp
-    src/RAN3374/Components/WRC.hpp
-    src/RAN3374/FeatureSpecificFiles/AddComponent.hpp
-    src/RAN3374/FeatureSpecificFiles/ComponentName.hpp
-    src/RAN3374/FeatureSpecificFiles/ComponentsIncludes.hpp
-    src/RAN3374/FeatureSpecificFiles/ConvertToStringComponentName.hpp
-    src/RAN3374/FeatureSpecificFiles/ConvertToStringMessageName.hpp
-    src/RAN3374/FeatureSpecificFiles/MessageName.hpp
-    src/RAN3374/FeatureSpecificFiles/Sacks.hpp
-    src/RAN3374/FeatureSpecificFiles/WrapMessage.hpp
-    src/RAN3374/Sacks/Sacks.hpp
-    src/RAN3374/Sacks/SupplementarySacks.hpp
-)
-set(RAN3374_TESTS
-    tst/RAN3374/RAN3374_unit.cpp
-)
+MACRO_GET_ALL_SOURCES(${DesignDocumentCreatorDirectory}/src/RAN3374 RAN3374_SOURCES)
+MACRO_GET_ALL_SOURCES(${DesignDocumentCreatorDirectory}/tst/RAN3374 RAN3374_TESTS)
 
-#Supplementary sacks
-set(SUPPLEMENTARY_SACK_DIR
-    src/Common/Sacks/SupplementarySacks
-    src/RAN3374/Sacks/SupplementarySacks
+#Assign Sack Directory
+set(SackDirectory "D:/Branches/trunk")
+
+#Sacks
+set(SACKS_DIR_TO_INCLUDE
+    ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp
+    ${SackDirectory}/wbts_integration/I_Interface/Global_Env/Definitions
+    ${SackDirectory}/wbts_integration/I_Interface/Global_Env/Messages
+    ${SackDirectory}/wbts_integration/I_Interface/Application_Env
+    ${SackDirectory}/wbts_integration/I_Interface/Application_Env/Wn_Env/Bs_Env
+    ${SackDirectory}/wbts_integration/I_Interface/Application_Env/Definitions
+    ${SackDirectory}/wbts_integration/I_Interface/Application_Env/Wn_Env/Bs_Env/Definitions
+    ${SackDirectory}/wbts_integration/I_Interface/Application_Env/Messages
+    ${SackDirectory}/wbts_integration/I_Interface/Application_Env/Interfaces
+    ${SackDirectory}/wbts_integration/I_Interface/Application_Env/Wn_Env/Bs_Env/Messages
+    ${SackDirectory}/wbts_integration/I_Interface/Application_Env/Wn_Env/Bs_Env/Ppc_Env/Definitions
+    ${SackDirectory}/wbts_integration/I_Interface/Application_Env/Wn_Env/Bs_Env/Ppc_Env/Messages
+    ${SackDirectory}/wbts_integration/I_Interface/Application_Env/Wn_Env/Bs_Env/Dsp_Env/Definitions
+    ${SackDirectory}/wbts_integration/I_Interface/Application_Env/Wn_Env/Bs_Env/Dsp_Env/Messages
+    ${SackDirectory}/I_Interface/Private/SC_TCOM/Definitions
+    ${SackDirectory}/I_Interface/Private/SC_TCOM/Messages
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/CCS_ENV/MCU/Definitions
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/CCS_ENV/MCU/Messages
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/CCS_ENV/MCU/ServiceInterface
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/CCS_ENV/COMMON/Definitions
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/CCS_ENV/COMMON/Messages
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/CCS_ENV/COMMON/ServiceInterface
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/CCS_ENV/DSP/Definitions
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/Messages
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/MCUHWAPI_ENV/Definitions
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/MCUHWAPI_ENV/Messages
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/DSPHWAPI_ENV/Definitions
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/DSPHWAPI_ENV/Messages
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/UPHWAPI_ENV/DSP_AND_RTHWAPI_ENV/COMMON_ENV/Definitions
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/UPHWAPI_ENV/DSP_AND_RTHWAPI_ENV/COMMON_ENV/Messages
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/UPHWAPI_ENV/DSPHWAPI_ENV/FARADAY_ENV/Definitions
+    ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/Definitions
 )
-#Use MACRO_GET_FILES to find supplementary files
-MACRO_GET_FILES(SUPPLEMENTARY_SACKS SUPPLEMENTARY_SACK_DIR)
+MACRO_GET_ALL_SOURCES(${SackDirectory}/I_Interface TCOM_PRIVATE_SACKS)
+MACRO_GET_ALL_SOURCES(${SackDirectory}/wbts_integration/I_Interface BTS_SACKS)
 
 #Sources
 set(COMMON_SOURCES
@@ -81,7 +88,6 @@ set(COMMON_SOURCES
     src/Common/Messages/MessageWrapper.hpp
     src/Common/Messages/SpecificMessage.hpp
     src/Common/Sacks/Sacks.hpp
-    src/Common/Sacks/SupplementarySacks.hpp
     src/Common/Timers/Timers.cpp
     src/Common/Timers/Timers.hpp
     src/Common/Timers/TimerType.hpp
@@ -112,7 +118,8 @@ set(SOURCES
     ${COMMON_SOURCES}
     ${FEATURE_SPECIFIC_SOURCES}
     ${RAN3374_SOURCES}
-    ${SUPPLEMENTARY_SACKS}
+    ${TCOM_PRIVATE_SACKS}
+    ${BTS_SACKS}
 )
 
 set(MAIN_SOURCES
@@ -128,9 +135,12 @@ set(TESTS
     ${RAN3374_TESTS}
 )
 
+message(STATUS "TCOM_PRIVATE_SACKS_DIR: ${TCOM_PRIVATE_SACKS_DIR}")
+message(STATUS "BTS_SACKS_DIR: ${BTS_SACKS_DIR}")
+
 set(INCLUDE_DIRECTORIES
     src/
-    ${SUPPLEMENTARY_SACK_DIR}
+    ${SACKS_DIR_TO_INCLUDE}
 )
 
 if (TEST_MODE)
