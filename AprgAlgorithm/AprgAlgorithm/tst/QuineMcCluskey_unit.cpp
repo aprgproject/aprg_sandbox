@@ -242,3 +242,4 @@ TEST(QuineMcCluskey, TestFinalImplicants)
 
     cout<<quineMcCluskey.getOutputTable(finalImplicants);
 }
+

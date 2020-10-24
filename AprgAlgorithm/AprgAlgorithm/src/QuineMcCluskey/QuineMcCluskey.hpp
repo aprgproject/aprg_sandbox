@@ -29,10 +29,12 @@ public:
     bool isSuperset(unsigned int minterm) const;
     unsigned int getLengthOfEquivalentString() const;
     std::string getEquivalentString() const;
-    std::string getEquivalentString(unsigned int length) const;    std::string getMintermString() const;
+    std::string getEquivalentString(unsigned int length) const;
+    std::string getMintermString() const;
     unsigned int getFirstMinterm() const;
     unsigned int getAndResultOfMinterms() const;
     unsigned int getOrResultOfMinterms() const;
+
     void addMinterm(unsigned int minterm);
 private:
     std::set <unsigned int> m_minterms;
@@ -75,8 +77,10 @@ public:
 
 private:
     void addMintermForZeroCube(unsigned int minterm);
+
     unsigned int m_cubeSize;
     std::map<unsigned int, LogicalValue> m_functionMap;
-    std::map<unsigned int, ImplicantsMap> m_computationalTable; // https://en.wikipedia.org/wiki/Quine%E2%80%93McCluskey_algorithm};
+    std::map<unsigned int, ImplicantsMap> m_computationalTable; // https://en.wikipedia.org/wiki/Quine%E2%80%93McCluskey_algorithm
+};
 
 }

@@ -3,6 +3,7 @@
 #include <cctype>
 
 using namespace std;
+
 namespace alba
 {
 

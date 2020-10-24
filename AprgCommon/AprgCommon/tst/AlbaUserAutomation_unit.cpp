@@ -2,8 +2,10 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <windows.h>
+
 using namespace alba;
 using namespace std;
+
 TEST(AlbaUserAutomationTest, DISABLED_SetMouseTest)
 {
     AlbaUserAutomation userAutomation;

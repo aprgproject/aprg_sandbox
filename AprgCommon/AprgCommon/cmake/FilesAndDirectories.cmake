@@ -14,7 +14,8 @@ set(APRG_COMMON_SOURCES
     ${APRG_COMMON_DIR}/src/Optional/AlbaOptional.hpp
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaPathHandler.cpp
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaPathHandler.hpp
-    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaWebPathHandler.cpp    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaWebPathHandler.hpp
+    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaWebPathHandler.cpp
+    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaWebPathHandler.hpp
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaWindowsPathHandler.cpp
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaWindowsPathHandler.hpp
     ${APRG_COMMON_DIR}/src/String/AlbaStringHelper.cpp
@@ -29,7 +30,8 @@ set(APRG_COMMON_SOURCES
     ${APRG_COMMON_DIR}/src/User/AlbaUserInterface.hpp
 )
 
-set(APRG_COMMON_TESTS    ${APRG_COMMON_DIR}/tst/AlbaFileReader_unit.cpp
+set(APRG_COMMON_TESTS
+    ${APRG_COMMON_DIR}/tst/AlbaFileReader_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaMacroArgumentCounter_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaMemoryBuffer_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaOptional_unit.cpp
@@ -40,6 +42,8 @@ set(APRG_COMMON_TESTS    ${APRG_COMMON_DIR}/tst/AlbaFileReader_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaUserAutomation_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaWindowsTimer_unit.cpp
 )
+
 set(APRG_COMMON_SOURCES_AND_TESTS
     ${APRG_COMMON_SOURCES}
-    ${APRG_COMMON_TESTS})
+    ${APRG_COMMON_TESTS}
+)

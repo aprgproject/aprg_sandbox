@@ -3,6 +3,7 @@
 #include <String/AlbaStringHelper.hpp>
 
 using namespace std;
+
 namespace alba
 {
 

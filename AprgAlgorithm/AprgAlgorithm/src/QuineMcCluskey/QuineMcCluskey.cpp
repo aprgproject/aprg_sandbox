@@ -1,12 +1,13 @@
 #include "QuineMcCluskey.hpp"
 
-#include <AlbaTableDisplay.hpp>
+#include <User/AlbaDisplayTable.hpp>
 
-#include <iostream>
 #include <sstream>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 Implicant Implicant::operator+(Implicant const& implicant) const
 {
@@ -102,10 +103,12 @@ bool Implicant::isSuperset(unsigned int minterm) const
 
 unsigned int Implicant::getLengthOfEquivalentString() const
 {
-    unsigned int orResult(getOrResultOfMinterms());    unsigned int length=0;
+    unsigned int orResult(getOrResultOfMinterms());
+    unsigned int length=0;
     for(; orResult > 0; orResult >>= 1)
     {
-        length++;    }
+        length++;
+    }
     return length;
 }
 
@@ -414,8 +417,10 @@ string QuineMcCluskey::getOutputTable(Implicants const& finalImplicants)
 
 void QuineMcCluskey::addMintermForZeroCube(unsigned int minterm)
 {
-    unsigned int numberOfOnes = getNumberOfOnes(minterm);    Implicant implicant;
+    unsigned int numberOfOnes = getNumberOfOnes(minterm);
+    Implicant implicant;
     implicant.addMinterm(minterm);
     m_computationalTable[numberOfOnes].implicantsMap[0].addImplicant(implicant);
 }
+
 }
