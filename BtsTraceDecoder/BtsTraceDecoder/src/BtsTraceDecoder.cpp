@@ -45,16 +45,31 @@ void BtsTraceDecoder::processInputTraceFile(std::string const& inputTraceFilePat
 
 std::string BtsTraceDecoder::getNearestLowerSymbol(int const address, int const offset)
 {
-    BtsTraceDecoder::SymbolMapType::iterator symbolIterator = m_symbolMap.lower_bound(address+offset);
-    return symbolIterator->second;
+    int addressWithOffset(address+offset);
+    string symbol;
+    if(!m_symbolMap.empty())
+    {
+        BtsTraceDecoder::SymbolMapType::iterator symbolIterator = m_symbolMap.lower_bound(addressWithOffset);
+        if(symbolIterator->first <= addressWithOffset)
+        {
+            symbol = symbolIterator->second;
+        }
+        else
+        {
+            if(symbolIterator != m_symbolMap.begin())
+            {
+                symbolIterator--;
+                symbol = symbolIterator->second;
+            }
+        }
+    }
+    return symbol;
 }
 
-void BtsTraceDecoder::saveSymbolTable(std::string const& symbolTableFilePath, SymbolTableFileType const filetype)
-{
+void BtsTraceDecoder::saveSymbolTable(std::string const& symbolTableFilePath, SymbolTableFileType const filetype){
     ifstream symbolTableFileStream(AlbaWindowsPathHandler(symbolTableFilePath).getFullPath());
     if(symbolTableFileStream.is_open())
-    {
-        cout<<"Symbol table file is opened"<<endl;
+    {        cout<<"Symbol table file is opened"<<endl;
         AlbaFileReader symbolTableFileReader(symbolTableFileStream);
         while(symbolTableFileReader.isNotFinished())
         {
@@ -84,11 +99,9 @@ int BtsTraceDecoder::getAddressFromLineInFile(string const& lineInFile, SymbolTa
 
 void BtsTraceDecoder::saveLineInSymbolMapIfValid(int const address, std::string const& lineInFile)
 {
-    cout<<address<<lineInFile<<endl;
     if(address!=0)
     {
-        m_symbolMap.emplace(address, lineInFile);
-    }
+        m_symbolMap.emplace(address, lineInFile);    }
 }
 
 }
