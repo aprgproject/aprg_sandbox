@@ -7,6 +7,8 @@
 #include <sstream>
 #include <typeinfo>
 
+#include <iostream>
+
 using namespace std;
 
 namespace alba{
@@ -96,6 +98,11 @@ bool stringHelper::isIdentifier(string const& mainString)
         isIdentifier = isLetter(firstCharacter) || isUnderscore(firstCharacter);
     }
     return isIdentifier;
+}
+
+bool stringHelper::isOneWord(string const& mainString)
+{
+    return (!mainString.empty()) && std::none_of(mainString.begin(), mainString.end(), [](char const character){ return isWhiteSpace(character);});
 }
 
 bool stringHelper::transformReplaceStringIfFound(string& mainString, string const& toReplace, string const& replaceWith)
@@ -418,12 +425,128 @@ string stringHelper::getHexNumberAfterThisString(string const& mainString, strin
     return result;
 }
 
+string stringHelper::getStringUsingJustifyAlignment(string const& mainString, unsigned int length)
+{
+    string result;
+    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
+    string noWhiteSpace(getStringWithoutWhiteSpace(mainString));
+    if(mainString.empty())
+    {
+        string gap(length, ' ');
+        result = gap;
+    }
+    else if(noRedundantWhiteSpace.length()>=length)
+    {
+        result = noRedundantWhiteSpace;
+    }
+    else if(isOneWord(mainString))
+    {
+        unsigned int noRedundantWhiteSpaceLength = noRedundantWhiteSpace.length();
+        unsigned int gapLength = (length-noWhiteSpace.length())/(noRedundantWhiteSpaceLength+1);
+        string gap(gapLength, ' ');
+        result += gap;
+        for(unsigned int i=0; i<noRedundantWhiteSpaceLength; i++)
+        {
+            result += noRedundantWhiteSpace[i];
+            result += gap;
+        }
+        result += string(length-result.length(), ' ');
+    }
+    else
+    {
+        strings actualStrings;
+        splitToStrings<SplitStringType::WithoutDelimeters>(actualStrings, noRedundantWhiteSpace, " ");
+        unsigned int numberOfStrings = actualStrings.size();
+        unsigned int gapLength = (length-noWhiteSpace.length())/(numberOfStrings-1);
+        string gap(gapLength, ' ');
+        for(unsigned int i=0; i<numberOfStrings; i++)
+        {
+            result += actualStrings[i];
+            if(i<numberOfStrings-1)
+            {
+                result += gap;
+            }
+        }
+        result += string(length-result.length(), ' ');
+    }
+    return result;
+}
+
+string stringHelper::getStringUsingCenterAlignment(string const& mainString, unsigned int length)
+{
+    string result;
+    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
+    if(mainString.empty())
+    {
+        string gap(length, ' ');
+        result = gap;
+    }
+    else if(noRedundantWhiteSpace.length()>=length)
+    {
+        result = noRedundantWhiteSpace;
+    }
+    else
+    {
+        unsigned int gapLength = (length-noRedundantWhiteSpace.length())/2;
+        result += string(gapLength, ' ');
+        result += noRedundantWhiteSpace;
+        result += string(length-result.length(), ' ');
+    }
+    return result;
+}
+
+string stringHelper::getStringUsingRightAlignment(string const& mainString, unsigned int length)
+{
+    string result;
+    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
+    if(mainString.empty())
+    {
+        string gap(length, ' ');
+        result = gap;
+    }
+    else if(noRedundantWhiteSpace.length()>=length)
+    {
+        result = noRedundantWhiteSpace;
+    }
+    else
+    {
+        unsigned int gapLength = (length-noRedundantWhiteSpace.length());
+        result += string(gapLength, ' ');
+        result += noRedundantWhiteSpace;
+    }
+    return result;
+}
+
+string stringHelper::getStringUsingLeftAlignment(string const& mainString, unsigned int length)
+{
+    string result;
+    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
+    if(mainString.empty())
+    {
+        string gap(length, ' ');
+        result = gap;
+    }
+    else if(noRedundantWhiteSpace.length()>=length)
+    {
+        result = noRedundantWhiteSpace;
+    }
+    else
+    {
+        unsigned int gapLength = (length-noRedundantWhiteSpace.length());
+        result += noRedundantWhiteSpace;
+        result += string(gapLength, ' ');
+    }
+    return result;
+}
+
 string stringHelper::getCorrectPathWithoutUrlParameters(string const& path)
 {
-    string correctPathWithoutUrlParameters(path);    int indexOfQuestionMark = path.find_first_of("?");
+    string correctPathWithoutUrlParameters(path);
+    int indexOfQuestionMark = path.find_first_of("?");
     if(stringHelper::isNotNpos(indexOfQuestionMark))
     {
-            correctPathWithoutUrlParameters = path.substr(0, indexOfQuestionMark);    }
+            correctPathWithoutUrlParameters = path.substr(0, indexOfQuestionMark);
+    }
     return correctPathWithoutUrlParameters;
 }
 

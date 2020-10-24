@@ -31,10 +31,12 @@ include(${APRG_DIR}/TcomTools/AprgCmakeInclude/TcomToolsBackend.cmake)
 
 set(SOURCES
     src/PerformanceAnalyzer.cpp
-    src/PerformanceAnalyzer.hpp)
+    src/PerformanceAnalyzer.hpp
+)
 
 set(MAIN_SOURCES
-    src/main.cpp)
+    src/main.cpp
+)
 
 set(TESTS
     tst/PerformanceAnalyzer_unit.cpp
@@ -51,7 +53,8 @@ if (TEST_MODE)
     target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} gtest APRG_COMMON APRG_ALGORITHM APRG_FILE_EXTRACTOR TCOM_TOOLS_BACKEND)
     add_test(${OUTFILE} ${OUTFILE})
 else()
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")    set(BUILD_SHARED_LIBRARIES OFF)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    set(BUILD_SHARED_LIBRARIES OFF)
     set(CMAKE_EXE_LINKER_FLAGS "-static")
     add_executable(${OUTFILE} ${SOURCES} ${MAIN_SOURCES})
     include_directories(${INCLUDE_DIRECTORIES})

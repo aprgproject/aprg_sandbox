@@ -9,7 +9,8 @@
 
 #include <AlbaFileReader.hpp>
 #include <AlbaStringHelper.hpp>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>#include <NsapHelper.hpp>
+#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <NsapHelper.hpp>
 #include <stdio.h>
 
 using namespace alba;
@@ -111,10 +112,12 @@ TEST(SampleTest, MessageId_TcomTcom_test)
 
 /*
 TEST(SampleTest, DISABLED_SampleTest1)
-{    QuickestWayToProgram entity;
+{
+    QuickestWayToProgram entity;
 }
 
-TEST(SampleTest, DISABLED_SampleTest2){
+TEST(SampleTest, DISABLED_SampleTest2)
+{
     AlbaWindowsPathHandler pathHandler(R"(D:\W\ZZZ_Useless_Logs\RAN2861MegaplexerHang\WiresharkMegaPlexerDump.txt)");
     AlbaWindowsPathHandler pathHandler2(R"(D:\W\ZZZ_Useless_Logs\RAN2861MegaplexerHang\WiresharkMegaPlexerDumpFixed.txt)");
 

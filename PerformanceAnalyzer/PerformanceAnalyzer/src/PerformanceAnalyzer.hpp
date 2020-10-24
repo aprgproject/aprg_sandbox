@@ -28,7 +28,8 @@ private:
         int getTransactionId(std::string const& lineInLogs) const;
     };
     struct BtsLogDelay
-    {        AlbaOptional<tcomToolsBackend::BtsLogTime> startTimeOptional;
+    {
+        AlbaOptional<tcomToolsBackend::BtsLogTime> startTimeOptional;
         AlbaOptional<tcomToolsBackend::BtsLogTime> endTimeOptional;
     };
 
@@ -52,7 +53,8 @@ public:
 
 private:
     std::string m_extractGrepCondition;
-    tcomToolsBackend::BtsLogSorterConfiguration m_sorterConfiguration;    alba::AlbaOptional<std::ofstream> m_RawDataFileOptional;
+    tcomToolsBackend::BtsLogSorterConfiguration m_sorterConfiguration;
+    alba::AlbaOptional<std::ofstream> m_RawDataFileOptional;
 };
 
 }

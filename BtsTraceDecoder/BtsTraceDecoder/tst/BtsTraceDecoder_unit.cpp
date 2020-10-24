@@ -24,3 +24,4 @@ TEST(FileTest, DISABLED_InputTraceFileIsProcessedByTraceDecoderWithSymbolTableFr
     traceDecoder.saveSymbolTableFromMappedFile(R"(C:\APRG\tcomr3.map)");
     traceDecoder.processInputTraceFile(R"(C:\APRG\input.txt)");
 }
+

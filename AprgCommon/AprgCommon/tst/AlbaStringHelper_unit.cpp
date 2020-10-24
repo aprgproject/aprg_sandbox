@@ -257,12 +257,53 @@ TEST(GetNewStringFromStringTest, GetStringReplacingSpacesWithUnderscore)
     EXPECT_EQ(getStringAndReplaceNonAlphanumericCharactersToUnderScore(testString), withoutSpecialCharacters);
 }
 
-TEST(GetNewStringFromStringTest, GetStringNumberAfterThisString)
+TEST(GetStringNumberFromStringTest, GetStringNumberAfterThisString)
 {
     EXPECT_EQ(string("1234"), getNumberAfterThisString("INF/TCOM/R, nbccId: 1234, ", "nbccId: "));
     EXPECT_EQ(string("5678"), getNumberAfterThisString("INF/TCOM/R, nbccId: 5678 ", "nbccId: "));
     EXPECT_EQ(string("7890"), getNumberAfterThisString("INF/TCOM/R, nbccId: 7890", "nbccId: "));
 }
+
+TEST(GetStringNumberFromStringTest, GetStringHexNumberAfterThisString)
+{
+    EXPECT_EQ(string("AFBA"), getHexNumberAfterThisString("INF/TCOM/R, nbccId: AFBA, ", "nbccId: "));
+    EXPECT_EQ(string("1234"), getHexNumberAfterThisString("INF/TCOM/R, nbccId: 1234 ", "nbccId: "));
+    EXPECT_EQ(string("AC3EB434"), getHexNumberAfterThisString("INF/TCOM/R, nbccId: AC3EB434", "nbccId: "));
+}
+
+TEST(GetStringWithAlignmentFromStringTest, GetStringUsingJustifyAlignment)
+{
+    EXPECT_EQ(string("                        M                         "), getStringUsingJustifyAlignment("M", 50));
+    EXPECT_EQ(string("         M         a         r         k          "), getStringUsingJustifyAlignment("Mark", 50));
+    EXPECT_EQ(string("Mark        Earvin        Alba        1234567890  "), getStringUsingJustifyAlignment("Mark Earvin Alba 1234567890", 50));
+    EXPECT_EQ(string("Mark Earvin Alba 1234567890"), getStringUsingJustifyAlignment("Mark Earvin Alba 1234567890", 1));
+    EXPECT_EQ(string("                                                  "), getStringUsingJustifyAlignment("", 50));
+}
+
+TEST(GetStringWithAlignmentFromStringTest, GetStringUsingCenterAlignment)
+{
+    EXPECT_EQ(string("                       Mark                       "), getStringUsingCenterAlignment("Mark", 50));
+    EXPECT_EQ(string("           Mark Earvin Alba 1234567890            "), getStringUsingCenterAlignment("Mark Earvin Alba 1234567890", 50));
+    EXPECT_EQ(string("Mark Earvin Alba 1234567890"), getStringUsingCenterAlignment("Mark Earvin Alba 1234567890", 1));
+    EXPECT_EQ(string("                                                  "), getStringUsingCenterAlignment("", 50));
+}
+
+TEST(GetStringWithAlignmentFromStringTest, GetStringUsingRightAlignment)
+{
+    EXPECT_EQ(string("                                              Mark"), getStringUsingRightAlignment("Mark", 50));
+    EXPECT_EQ(string("                       Mark Earvin Alba 1234567890"), getStringUsingRightAlignment("Mark Earvin Alba 1234567890", 50));
+    EXPECT_EQ(string("Mark Earvin Alba 1234567890"), getStringUsingRightAlignment("Mark Earvin Alba 1234567890", 1));
+    EXPECT_EQ(string("                                                  "), getStringUsingRightAlignment("", 50));
+}
+
+TEST(GetStringWithAlignmentFromStringTest, GetStringUsingLeftAlignment)
+{
+    EXPECT_EQ(string("Mark                                              "), getStringUsingLeftAlignment("Mark", 50));
+    EXPECT_EQ(string("Mark Earvin Alba 1234567890                       "), getStringUsingLeftAlignment("Mark Earvin Alba 1234567890", 50));
+    EXPECT_EQ(string("Mark Earvin Alba 1234567890"), getStringUsingLeftAlignment("Mark Earvin Alba 1234567890", 1));
+    EXPECT_EQ(string("                                                  "), getStringUsingLeftAlignment("", 50));
+}
+
 
 TEST(GetNewStringFromStringTest, GetStringWithoutRedundantSlashesUsingAllLettersWithSpecialCharacters)
 {
@@ -367,6 +408,58 @@ TEST(BooleanStringTest, StringCompareWithLowestCommonLength)
 
     EXPECT_TRUE(isEqualWithLowestCommonLength(testString1, testString2));
     EXPECT_TRUE(isEqualWithLowestCommonLength(testString2, testString1));
+}
+
+TEST(BooleanStringTest, IsNumberTest)
+{
+    string testString1("AbCDEFghIjKlMnopQRstUvWxYz");
+    string testString2("AbCD1234567890!@#$%^&*( )");
+    string testString3("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz");
+
+    EXPECT_FALSE(isNumber(testString1));
+    EXPECT_TRUE(isNumber(testString2));
+    EXPECT_TRUE(isNumber(testString3));
+}
+
+TEST(BooleanStringTest, IsWhiteSpaceTest)
+{
+    string testString1("   AbCDEFghIjKlMnopQRstUvWxYz  ");
+    string testString2("       ");
+    string testString3("   \n\n    \t\t\t\t");
+
+    EXPECT_FALSE(isWhiteSpace(testString1));
+    EXPECT_TRUE(isWhiteSpace(testString2));
+    EXPECT_TRUE(isWhiteSpace(testString3));
+}
+
+TEST(BooleanStringTest, IsIdentifierTest)
+{
+    string testString1("   AbCDEFghIjKlMnopQRstUvWxYz  ");
+    string testString2("   \n\n    \t\t\t\t");
+    string testString3("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz");
+    string testString4("abc1234");
+    string testString5("_abc1234");
+
+    EXPECT_FALSE(isIdentifier(testString1));
+    EXPECT_FALSE(isIdentifier(testString2));
+    EXPECT_FALSE(isIdentifier(testString3));
+    EXPECT_TRUE(isIdentifier(testString4));
+    EXPECT_TRUE(isIdentifier(testString5));
+}
+
+TEST(BooleanStringTest, IsOneWordTest)
+{
+    string testString1("   AbCDEFghIjKlMnopQRstUvWxYz  ");
+    string testString2("   \n\n    \t\t\t\t");
+    string testString3("AbCDE FghIj KlM nopQR stU vWx Yz");
+    string testString4("AbCDEFghIjKlMnopQRstUvWxYz1234567890!@#$%^&*()");
+    string testString5("");
+
+    EXPECT_FALSE(isOneWord(testString1));
+    EXPECT_FALSE(isOneWord(testString2));
+    EXPECT_FALSE(isOneWord(testString3));
+    EXPECT_TRUE(isOneWord(testString4));
+    EXPECT_FALSE(isOneWord(testString5));
 }
 
 TEST(ConvertFromStringTest, ConvertStringToBool)

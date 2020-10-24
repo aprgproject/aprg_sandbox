@@ -18,6 +18,8 @@ set(APRG_COMMON_SOURCES
     ${APRG_COMMON_DIR}/src/AlbaStringHelper.hpp
     ${APRG_COMMON_DIR}/src/AlbaUserAutomation.cpp
     ${APRG_COMMON_DIR}/src/AlbaUserAutomation.hpp
+    ${APRG_COMMON_DIR}/src/AlbaTableDisplay.cpp
+    ${APRG_COMMON_DIR}/src/AlbaTableDisplay.hpp
     ${APRG_COMMON_DIR}/src/AlbaUserInterface.cpp
     ${APRG_COMMON_DIR}/src/AlbaUserInterface.hpp
     ${APRG_COMMON_DIR}/src/AlbaWindowsTimer.cpp
@@ -39,6 +41,7 @@ set(APRG_COMMON_TESTS
     ${APRG_COMMON_DIR}/tst/AlbaRaiiafPointer_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaRandomizer_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaStringHelper_unit.cpp
+    ${APRG_COMMON_DIR}/tst/AlbaTableDisplay_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaUserAutomation_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaWindowsTimer_unit.cpp
 )

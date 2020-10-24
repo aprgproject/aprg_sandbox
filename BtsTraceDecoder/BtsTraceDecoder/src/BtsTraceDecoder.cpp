@@ -66,10 +66,12 @@ std::string BtsTraceDecoder::getNearestLowerSymbol(int const address, int const 
     return symbol;
 }
 
-void BtsTraceDecoder::saveSymbolTable(std::string const& symbolTableFilePath, SymbolTableFileType const filetype){
+void BtsTraceDecoder::saveSymbolTable(std::string const& symbolTableFilePath, SymbolTableFileType const filetype)
+{
     ifstream symbolTableFileStream(AlbaWindowsPathHandler(symbolTableFilePath).getFullPath());
     if(symbolTableFileStream.is_open())
-    {        cout<<"Symbol table file is opened"<<endl;
+    {
+        cout<<"Symbol table file is opened"<<endl;
         AlbaFileReader symbolTableFileReader(symbolTableFileStream);
         while(symbolTableFileReader.isNotFinished())
         {
@@ -101,7 +103,8 @@ void BtsTraceDecoder::saveLineInSymbolMapIfValid(int const address, std::string 
 {
     if(address!=0)
     {
-        m_symbolMap.emplace(address, lineInFile);    }
+        m_symbolMap.emplace(address, lineInFile);
+    }
 }
 
 }

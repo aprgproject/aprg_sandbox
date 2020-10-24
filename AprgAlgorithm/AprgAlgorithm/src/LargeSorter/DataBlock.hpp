@@ -9,10 +9,12 @@
 //#include <iostream>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 enum class DataBlockType
-{    Empty,
+{
+    Empty,
     File,
     Memory
 };
@@ -147,10 +149,12 @@ public:
             }*/
             assert(contents.size() == m_numberOfObjects);
         }
-        m_blockFileHandler.clear();        m_blockType = DataBlockType::Memory;
+        m_blockFileHandler.clear();
+        m_blockType = DataBlockType::Memory;
     }
     void releaseFileStream()
-    {        m_blockFileHandler.getReference().releaseFileStream();
+    {
+        m_blockFileHandler.getReference().releaseFileStream();
     }
 
 private:

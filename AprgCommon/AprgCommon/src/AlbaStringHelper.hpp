@@ -24,6 +24,7 @@ bool isEqualWithLowestCommonLength(std::string const& string1, std::string const
 bool isNumber(std::string const& mainString);
 bool isWhiteSpace(std::string const& mainString);
 bool isIdentifier(std::string const& mainString);
+bool isOneWord(std::string const& mainString);
 
 bool transformReplaceStringIfFound(std::string & mainString, std::string const& toReplace, std::string const& replaceWith);
 enum class SplitStringType
@@ -50,16 +51,23 @@ void copyBeforeStringAndAfterString(std::string const& mainString, std::string c
 std::string getStringBeforeThisString(std::string const& mainString, std::string const& stringToSearch, int const indexToStart=0);
 std::string getStringAfterThisString(std::string const& mainString, std::string const& stringToSearch, int const indexToStart=0);
 std::string getStringInBetweenTwoStrings(std::string const& mainString, std::string const& firstString, std::string const& secondString, int const indexToStart=0);
-std::string getStringBeforeThisCharacters(std::string const& mainString, std::string const& characters, int const indexToStart=0);
+std::string getStringBeforeThisCharacters(std::string const& mainString, std::string const& characters, int const indexToStart=0);//implement UTs
 std::string getStringAndReplaceNonAlphanumericCharactersToUnderScore(std::string const& path);
 std::string getNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
-std::string getHexNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);//implement UTs
+std::string getHexNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
+
+std::string getStringUsingJustifyAlignment(std::string const& mainString, unsigned int length);
+std::string getStringUsingCenterAlignment(std::string const& mainString, unsigned int length);
+std::string getStringUsingRightAlignment(std::string const& mainString, unsigned int length);
+std::string getStringUsingLeftAlignment(std::string const& mainString, unsigned int length);
 
 std::string getCorrectPathWithoutUrlParameters(std::string const& path);
-std::string getUrlParameters(std::string const& path);std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path, std::string const& slashCharacterString);
+std::string getUrlParameters(std::string const& path);
+std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path, std::string const& slashCharacterString);
 std::string getCorrectPathWithoutDoublePeriod(std::string const& mainString, std::string const& slashCharacterString);
 std::string getStringBeforeDoublePeriod(std::string const& mainString, std::string const& slashCharacterString);
-std::string getImmediateDirectoryName(std::string const& mainString, std::string const& slashCharacterString);template<char slashCharacterString> std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path);
+std::string getImmediateDirectoryName(std::string const& mainString, std::string const& slashCharacterString);
+template<char slashCharacterString> std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path);
 template<char slashCharacterString> std::string getCorrectPathWithoutDoublePeriod(std::string const& path);
 template<char slashCharacterString> std::string getStringBeforeDoublePeriod(std::string const& path);
 template<char slashCharacterString> std::string getImmediateDirectoryName(std::string const& path);
