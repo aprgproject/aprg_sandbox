@@ -1,11 +1,9 @@
-#include <AlbaStringHelper.hpp>
+#include <String/AlbaStringHelper.hpp>
 #include <BtsLogAnalyzer.hpp>
 #include "gtest/gtest.h"
 #include <iostream>
-
 using namespace alba;
 using namespace std;
-
 TEST(BtsLogAnalyzerTest, DISABLED_WireSharkTimeCanBeExtracted)
 {
     BtsLogAnalyzer reader;
