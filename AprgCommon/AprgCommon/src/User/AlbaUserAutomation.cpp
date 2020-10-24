@@ -1,9 +1,8 @@
 #include "AlbaUserAutomation.hpp"
-#include <AlbaStringHelper.hpp>
+#include <String/AlbaStringHelper.hpp>
 #include <cctype>
 
 using namespace std;
-
 namespace alba
 {
 

@@ -1,11 +1,9 @@
-#include <AlbaFileReader.hpp>
+#include <File/AlbaFileReader.hpp>
 
 #include <gtest/gtest.h>
 #include <string>
-
 using namespace alba;
 using namespace std;
-
 #define ALBA_FILE_READER_TEST_FILE R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\FileReaderTest\Test1.txt)"
 #define ALBA_FILE_READER_SIZE_TEST_FILE R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\FileReaderTest\Test2_SizeTest.txt)"
 

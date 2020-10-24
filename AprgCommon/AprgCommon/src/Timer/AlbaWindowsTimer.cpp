@@ -1,7 +1,6 @@
-#include <AlbaWindowsTimer.hpp>
+#include <Timer/AlbaWindowsTimer.hpp>
 
 namespace alba{
-
 AlbaWindowsTimer::AlbaWindowsTimer()
 {
     GetSystemTime(&m_time1);

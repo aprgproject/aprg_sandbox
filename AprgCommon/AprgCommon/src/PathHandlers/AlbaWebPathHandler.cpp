@@ -1,13 +1,11 @@
 #include "AlbaWebPathHandler.hpp"
 
-#include <AlbaStringHelper.hpp>
+#include <String/AlbaStringHelper.hpp>
 #include <functional>
 #include <string>
-
 using namespace std;
 
 namespace alba{
-
 AlbaWebPathHandler::AlbaWebPathHandler(string const& path)
     : AlbaPathHandler("/")
     , m_hasProtocol(false)

@@ -1,11 +1,9 @@
-#include <AlbaStringHelper.hpp>
+#include <String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 #include <string>
-
 using namespace std;
 using namespace alba::stringHelper;
-
 TEST(GetNewStringFromStringTest, FindAndReplaceStrings)
 {
     string string1("Mark is the no#1 guy in the world. Mark is also the nicest guy.");
