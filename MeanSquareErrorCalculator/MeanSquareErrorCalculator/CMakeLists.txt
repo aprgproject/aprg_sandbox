@@ -26,10 +26,12 @@ include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 include(${APRG_DIR}/gsl1.8/AprgCmakeInclude/Gsl.cmake)
 
 set(SOURCES
-    src/MeanSquareErrorCalculator.cpp    src/MeanSquareErrorCalculator.hpp
+    src/MeanSquareErrorCalculator.cpp
+    src/MeanSquareErrorCalculator.hpp
     src/UserInterface.cpp
     src/UserInterface.hpp
 )
+
 set(MAIN_SOURCES
     src/main.cpp
 )
@@ -48,7 +50,8 @@ if (TEST_MODE)
     target_link_libraries(${OUTFILE} gtest APRG_COMMON APRG_ALGORITHM ${CMAKE_THREAD_LIBS_INIT} GSL GSLCBLAS)
     add_test(${OUTFILE} ${OUTFILE})
 else()
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")    set(BUILD_SHARED_LIBRARIES OFF)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    set(BUILD_SHARED_LIBRARIES OFF)
     set(CMAKE_EXE_LINKER_FLAGS "-static")
     add_executable(${OUTFILE} ${SOURCES} ${MAIN_SOURCES})
     include_directories(${INCLUDE_DIRECTORIES})

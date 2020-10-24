@@ -45,7 +45,8 @@ using Cells = std::vector<DisplayTableCell>;
 
 class DisplayTableRow
 {
-public:    DisplayTableRow(unsigned int rowIndex);
+public:
+    DisplayTableRow(unsigned int rowIndex);
     bool isAlign() const;
     unsigned int getNumberOfColumns() const;
     unsigned int getCharacters() const;
@@ -53,13 +54,15 @@ public:    DisplayTableRow(unsigned int rowIndex);
     Cells& getCellsReference();
     DisplayTableCell& getCellReference(unsigned int columnIndex);
     void addCell(std::string const& text);
+
 private:
     int m_rowIndex;
     DisplayTableRowMode m_rowMode;
     Cells m_cells;
 };
 
-class DisplayTable{
+class DisplayTable
+{
 public:
     DisplayTable();
     unsigned int getTotalRows() const;
@@ -89,6 +92,7 @@ private:
     std::vector<DisplayTableRow> m_rows;
     std::vector<unsigned int> m_calculatedLengthPerColumn;
 };
+
 
 
 }//namespace alba

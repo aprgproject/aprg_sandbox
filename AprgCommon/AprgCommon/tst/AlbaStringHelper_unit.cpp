@@ -268,9 +268,11 @@ TEST(GetNewStringFromStringTest, GetStringByRepeatingUntilDesiredLength)
 
 TEST(GetStringNumberFromStringTest, GetStringNumberAfterThisString)
 {
-    EXPECT_EQ(string("1234"), getNumberAfterThisString("INF/TCOM/R, nbccId: 1234, ", "nbccId: "));    EXPECT_EQ(string("5678"), getNumberAfterThisString("INF/TCOM/R, nbccId: 5678 ", "nbccId: "));
+    EXPECT_EQ(string("1234"), getNumberAfterThisString("INF/TCOM/R, nbccId: 1234, ", "nbccId: "));
+    EXPECT_EQ(string("5678"), getNumberAfterThisString("INF/TCOM/R, nbccId: 5678 ", "nbccId: "));
     EXPECT_EQ(string("7890"), getNumberAfterThisString("INF/TCOM/R, nbccId: 7890", "nbccId: "));
 }
+
 TEST(GetStringNumberFromStringTest, GetStringHexNumberAfterThisString)
 {
     EXPECT_EQ(string("AFBA"), getHexNumberAfterThisString("INF/TCOM/R, nbccId: AFBA, ", "nbccId: "));

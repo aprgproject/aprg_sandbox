@@ -390,10 +390,12 @@ string QuineMcCluskey::getOutputTable(Implicants const& finalImplicants)
     displayTable.setBorders("", "|");
     displayTable.addRow();
     displayTable.getLastRow().addCell(" ");
-    for(auto const& input : inputsWithTrue)    {
+    for(auto const& input : inputsWithTrue)
+    {
         stringstream ss;
         ss<<"0x"<<input;
-        displayTable.getLastRow().addCell(ss.str());    }
+        displayTable.getLastRow().addCell(ss.str());
+    }
     finalImplicants.loopAllImplicants([&](Implicant const& implicant)
     {
         displayTable.addRow();

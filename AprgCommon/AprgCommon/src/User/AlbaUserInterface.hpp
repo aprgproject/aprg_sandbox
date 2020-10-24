@@ -5,11 +5,16 @@
 namespace alba{
 
 
-namespace AlbaUserInterface
+class AlbaUserInterface
 {
+public:
+    std::string getUserInput();
+    std::string getFilePathInput();
+    template <typename NumberType> NumberType getNumberFromInput();
 
-std::string getUserInput();
-
-}
+private:
+    static constexpr int bufferSize = 1000;
+    char buffer[bufferSize];
+};
 
 }//namespace alba
