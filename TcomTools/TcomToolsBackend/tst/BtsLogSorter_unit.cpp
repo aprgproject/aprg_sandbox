@@ -1,8 +1,10 @@
 #include <File/AlbaFileReader.hpp>
 #include <BtsLogSorter.hpp>
 #include <gtest/gtest.h>
+
 namespace alba
 {
+
 namespace ProgressCounters
 {
     double totalSizeToBeReadForCombine;

@@ -5,8 +5,10 @@
 #include <Optional/AlbaOptional.hpp>
 #include <BtsLogSorterConfiguration.hpp>
 #include <BtsLogTime.hpp>
+
 namespace alba
 {
+
 class PerformanceAnalyzer
 {
 private:

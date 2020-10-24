@@ -3,10 +3,12 @@
 #include <User/AlbaUserAutomation.hpp>
 #include <string>
 
-namespace aprgWebCrawler{
+namespace aprgWebCrawler
+{
 
 class AutomationHelper
-{public:
+{
+public:
     AutomationHelper();
     void openMozillaFirefoxExecutableManually(std::string const& webPath);
     void saveWebPageManuallyUsingMozillaFirefox(std::string const& webPath);

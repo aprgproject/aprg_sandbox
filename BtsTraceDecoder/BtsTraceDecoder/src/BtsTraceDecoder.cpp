@@ -6,10 +6,12 @@
 #include <String/AlbaStringHelper.hpp>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
 
-using namespace std;using namespace alba::stringHelper;
+using namespace std;
+using namespace alba::stringHelper;
 
 namespace alba
 {
+
 BtsTraceDecoder::BtsTraceDecoder()
 {}
 

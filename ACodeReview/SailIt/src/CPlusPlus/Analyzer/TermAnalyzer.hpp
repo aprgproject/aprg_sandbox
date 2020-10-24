@@ -3,9 +3,11 @@
 #include <Optional/AlbaOptional.hpp>
 #include "Findings/FindingsBuffer.hpp"
 #include "Findings/FindingsToAdd.hpp"
-#include "Loopers/Looper.hpp"#include <unordered_map>
+#include "Loopers/Looper.hpp"
+#include <unordered_map>
 #include <string>
 #include "../Utilities.hpp"
+
 using std::string;
 
 #define T(...) Term(__VA_ARGS__)

@@ -1,10 +1,12 @@
 #include <String/AlbaStringHelper.hpp>
 #include "StringHelpers.hpp"
 
-using namespace alba;using namespace DesignDocumentCreator::UmlConfiguration;
+using namespace alba;
+using namespace DesignDocumentCreator::UmlConfiguration;
 using namespace std;
 
-namespace DesignDocumentCreator{
+namespace DesignDocumentCreator
+{
 
 #define GET_ENUM_STRING(en) \
     case en: \

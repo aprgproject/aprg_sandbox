@@ -1,10 +1,12 @@
 #include <String/AlbaStringHelper.hpp>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>#include "ui_tcomtools.h"
+#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include "ui_tcomtools.h"
 #include "TcomTools.h"
 
-using namespace alba;using namespace std;
+using namespace alba;
+using namespace std;
 
 namespace alba
 {

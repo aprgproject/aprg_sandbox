@@ -3,9 +3,11 @@
 #include <String/AlbaStringHelper.hpp>
 #include <BtsLogSorter.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
-#include <fstream>#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <fstream>
+#include <PathHandlers/AlbaWindowsPathHandler.hpp>
 #include <StepHandler.hpp>
 #include <string>
+
 namespace alba
 {
 namespace ProgressCounters

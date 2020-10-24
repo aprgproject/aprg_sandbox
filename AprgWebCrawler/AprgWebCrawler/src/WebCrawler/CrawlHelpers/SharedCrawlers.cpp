@@ -4,9 +4,11 @@
 #include <String/AlbaStringHelper.hpp>
 #include <CrawlConfiguration/CrawlConfiguration.hpp>
 #include <iostream>
+
 using namespace alba;
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace aprgWebCrawler
 {
 

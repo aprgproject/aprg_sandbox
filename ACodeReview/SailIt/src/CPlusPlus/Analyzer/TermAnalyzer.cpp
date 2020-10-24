@@ -3,10 +3,12 @@
 #include <String/AlbaStringHelper.hpp>
 #include <algorithm>
 #include "Findings/TemporaryFindings.hpp"
-#include <fstream>#include <iostream>
+#include <fstream>
+#include <iostream>
 #include <iterator>
 #include "../Database/CPlusPlusDatabase.hpp"
-#include "../Term/CheckerHelpers.hpp"#include "../Term/TermChecker.hpp"
+#include "../Term/CheckerHelpers.hpp"
+#include "../Term/TermChecker.hpp"
 
 using namespace std;
 using namespace alba::stringHelper;

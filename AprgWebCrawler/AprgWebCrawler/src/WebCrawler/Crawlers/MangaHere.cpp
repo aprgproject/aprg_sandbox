@@ -5,9 +5,11 @@
 #include <CrawlHelpers/Downloaders.hpp>
 #include <fstream>
 #include <iostream>
+
 using namespace alba;
 using namespace alba::stringHelper;
-using namespace aprgWebCrawler::Downloaders;using namespace std;
+using namespace aprgWebCrawler::Downloaders;
+using namespace std;
 
 namespace aprgWebCrawler
 {

@@ -4,10 +4,12 @@
 #include <String/AlbaStringHelper.hpp>
 #include <BtsLogPrint.hpp>
 #include <iomanip>
-#include <iostream>#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <iostream>
+#include <PathHandlers/AlbaWindowsPathHandler.hpp>
 #include <set>
 
-using namespace std;using namespace tcomToolsBackend;
+using namespace std;
+using namespace tcomToolsBackend;
 
 namespace alba
 {

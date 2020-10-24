@@ -3,9 +3,11 @@
 #include <File/AlbaFileReader.hpp>
 #include <fstream>
 #include <string>
-#include <vector>#include "../Builder/TermBuilder.hpp"
+#include <vector>
+#include "../Builder/TermBuilder.hpp"
 #include "../Findings/Findings.hpp"
 #include "../Term/Term.hpp"
+
 using alba::AlbaFileReader;
 using std::ifstream;
 using std::string;

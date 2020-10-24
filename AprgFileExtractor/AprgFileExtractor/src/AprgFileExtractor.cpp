@@ -4,9 +4,11 @@
 #include <String/AlbaStringHelper.hpp>
 #include <fstream>
 #include <iostream>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>#include <windows.h>
+#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <windows.h>
 
 using namespace std;
+
 namespace alba
 {
 

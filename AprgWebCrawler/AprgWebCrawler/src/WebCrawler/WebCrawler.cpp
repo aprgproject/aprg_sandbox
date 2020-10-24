@@ -4,10 +4,12 @@
 #include <String/AlbaStringHelper.hpp>
 #include <algorithm>
 #include <Crawlers/ChiaAnimeCrawler.hpp>
-#include <Crawlers/DoujinMoeCrawler.hpp>#include <Crawlers/OneDownloadPerPageCrawler.hpp>
+#include <Crawlers/DoujinMoeCrawler.hpp>
+#include <Crawlers/OneDownloadPerPageCrawler.hpp>
 #include <Crawlers/Y8Crawler.hpp>
 #include <Crawlers/Youtube.hpp>
-#include <CrawlHelpers/Downloaders.hpp>#include <fstream>
+#include <CrawlHelpers/Downloaders.hpp>
+#include <fstream>
 #include <iostream>
 
 using namespace alba;

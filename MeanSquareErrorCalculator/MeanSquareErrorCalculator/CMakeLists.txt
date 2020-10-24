@@ -23,10 +23,12 @@ include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 include(${APRG_DIR}/GslInterface/AprgCmakeInclude/Gsl.cmake)
 
 set(SOURCES
-    src/MeanSquareErrorCalculator.cpp    src/MeanSquareErrorCalculator.hpp
+    src/MeanSquareErrorCalculator.cpp
+    src/MeanSquareErrorCalculator.hpp
     src/UserInterface.cpp
     src/UserInterface.hpp
 )
+
 set(MAIN_SOURCES
     src/main.cpp
 )
