@@ -5,6 +5,7 @@
 #include <vector>
 
 namespace alba{
+
 class AlbaFileReader
 {
 public:
@@ -15,7 +16,8 @@ public:
     template<typename NumberType> NumberType getFourByteData();
     std::string getLineAndIgnoreWhiteSpaces();
     std::string simpleGetLine();
-    double getCurrentLocation() const;    double getFileSize() const;
+    double getCurrentLocation() const;
+    double getFileSize() const;
     void moveToTheBeginning() const;
     void moveLocation(unsigned long long location) const;
     void setMaxBufferSize(unsigned int bufferSize);
@@ -25,4 +27,5 @@ private:
     char m_characterBuffer[MAX_BUFFER_SIZE];
     std::ifstream& m_stream;
 };
+
 }//namespace alba
