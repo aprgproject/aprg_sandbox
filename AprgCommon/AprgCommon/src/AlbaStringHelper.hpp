@@ -53,14 +53,13 @@ std::string getStringInBetweenTwoStrings(std::string const& mainString, std::str
 std::string getStringBeforeThisCharacters(std::string const& mainString, std::string const& characters, int const indexToStart=0);
 std::string getStringAndReplaceNonAlphanumericCharactersToUnderScore(std::string const& path);
 std::string getNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);
+std::string getHexNumberAfterThisString(std::string const& mainString, std::string const& stringToSearch);//implement UTs
 
 std::string getCorrectPathWithoutUrlParameters(std::string const& path);
-std::string getUrlParameters(std::string const& path);
-std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path, std::string const& slashCharacterString);
+std::string getUrlParameters(std::string const& path);std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path, std::string const& slashCharacterString);
 std::string getCorrectPathWithoutDoublePeriod(std::string const& mainString, std::string const& slashCharacterString);
 std::string getStringBeforeDoublePeriod(std::string const& mainString, std::string const& slashCharacterString);
-std::string getImmediateDirectoryName(std::string const& mainString, std::string const& slashCharacterString);
-template<char slashCharacterString> std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path);
+std::string getImmediateDirectoryName(std::string const& mainString, std::string const& slashCharacterString);template<char slashCharacterString> std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path);
 template<char slashCharacterString> std::string getCorrectPathWithoutDoublePeriod(std::string const& path);
 template<char slashCharacterString> std::string getStringBeforeDoublePeriod(std::string const& path);
 template<char slashCharacterString> std::string getImmediateDirectoryName(std::string const& path);

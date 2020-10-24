@@ -160,14 +160,28 @@ string BtsLogTime::getEquivalentStringPcTimeFormat() const
     return ss.str();
 }
 
+string BtsLogTime::getEquivalentStringBtsTimeFormat() const
+{
+    stringstream ss;
+    ss << "<";
+    ss << setfill('0') << setw(4) << getYears() << "-";
+    ss << setfill('0') << setw(2) << getMonths() << "-";
+    ss << setfill('0') << setw(2) << getDays() << "T";
+    ss << setfill('0') << setw(2) << getHours() << ":";
+    ss << setfill('0') << setw(2) << getMinutes() << ":";
+    ss << setfill('0') << setw(2) << getSeconds() << ".";
+    ss << setfill('0') << setw(6) << getMicroSeconds();
+    ss << "Z>";
+
+    return ss.str();
+}
+
 bool BtsLogTime::operator<(BtsLogTime const& btsLogTimeToCompare) const
 {
-    if(m_years < btsLogTimeToCompare.m_years) return true;
-    if(m_years > btsLogTimeToCompare.m_years) return false;
+    if(m_years < btsLogTimeToCompare.m_years) return true;    if(m_years > btsLogTimeToCompare.m_years) return false;
     if(m_months < btsLogTimeToCompare.m_months) return true;
     if(m_months > btsLogTimeToCompare.m_months) return false;
-    if(m_days < btsLogTimeToCompare.m_days) return true;
-    if(m_days > btsLogTimeToCompare.m_days) return false;
+    if(m_days < btsLogTimeToCompare.m_days) return true;    if(m_days > btsLogTimeToCompare.m_days) return false;
     if(m_seconds < btsLogTimeToCompare.m_seconds) return true;
     if(m_seconds > btsLogTimeToCompare.m_seconds) return false;
     if(m_microseconds < btsLogTimeToCompare.m_microseconds) return true;

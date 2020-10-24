@@ -14,14 +14,13 @@ class DataBlockFileHandler
 public:
     ~DataBlockFileHandler()
     {
+        m_fileOptional.clear();
         AlbaWindowsPathHandler(m_path).deleteFile();
     }
-    std::ofstream & getFileDumpStreamReference()
-    {
+    std::ofstream & getFileDumpStreamReference()    {
         return m_fileOptional.getReference();
     }
-    bool isFileStreamOpened()
-    {
+    bool isFileStreamOpened()    {
         if(m_fileOptional)
         {
             return m_fileOptional.getReference().is_open();

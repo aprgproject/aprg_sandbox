@@ -3,24 +3,118 @@
 
 #include <windows.h>
 #include <iostream>
+#include <map>
 #include <string>
 #include <algorithm>
+
 #include <AlbaFileReader.hpp>
 #include <AlbaStringHelper.hpp>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
-#include <NsapHelper.hpp>
+#include <PathHandlers/AlbaWindowsPathHandler.hpp>#include <NsapHelper.hpp>
 #include <stdio.h>
 
 using namespace alba;
 using namespace std;
-/*
-TEST(SampleTest, DISABLED_SampleTest1)
+
+TEST(SampleTest, MessageId_TcomTcom_test)
 {
-    QuickestWayToProgram entity;
+    AlbaWindowsPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
+    AlbaWindowsPathHandler pathHandler2(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_TcomTcom_xml_format.txt)");
+    AlbaWindowsPathHandler pathHandler3(R"(D:\userdata\malba\Desktop\SCTRoutes\Unedited\routeList_VM.xml)");
+    AlbaWindowsPathHandler pathHandler4(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_comparison.csv)");
+
+    ifstream tcomTcomFile(pathHandler.getFullPath());
+    ifstream routeListFile(pathHandler3.getFullPath());
+    ofstream xmlFormattedFile(pathHandler2.getFullPath());
+    ofstream messageIdComparisonFile(pathHandler4.getFullPath());
+
+    xmlFormattedFile<<"<messages>"<<endl;
+
+    map<unsigned int, string> tcomTcomMessageIds;
+    set<unsigned int> routeListMessageIds;
+    if(tcomTcomFile.is_open())
+    {
+        AlbaFileReader tcomTcomFileReader(tcomTcomFile);
+        while(tcomTcomFileReader.isNotFinished())
+        {
+            string lineInFile(tcomTcomFileReader.getLineAndIgnoreWhiteSpaces());
+            if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "#define"))
+            {
+                string messageIdString(stringHelper::getStringInBetweenTwoStrings(lineInFile, "(", ")"));
+                bool isTcomBasePrintVisible = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "TC_TCOM_BASE");
+                unsigned int messageId = stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(messageIdString, "0x"));
+                string messageName = stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(stringHelper::getStringInBetweenTwoStrings(lineInFile, "#define", "("));
+                if(messageId>0)
+                {
+                    if(isTcomBasePrintVisible)
+                    {
+                        messageId = 0x6800+messageId;
+                    }
+                    cout<<"isTcomBasePrintVisible"<<isTcomBasePrintVisible<<" messageId: "<<messageId<<" messageName: "<<messageName<<endl;
+                    tcomTcomMessageIds.emplace(messageId, messageName);
+                    xmlFormattedFile<<"\t<message>"<<endl;
+                    xmlFormattedFile<<"\t\t<type>"<<messageId<<"</type>"<<endl;
+                    xmlFormattedFile<<"\t</message>"<<endl;
+                }
+            }
+        }
+    }
+    xmlFormattedFile<<"</messages>"<<endl;
+
+    messageIdComparisonFile<<"messageId,isExistInRouteList,isExistInTcomTcom,messageName"<<endl;
+
+    bool isMessageSpace;
+    if(routeListFile.is_open())
+    {
+        AlbaFileReader routeListFileReader(routeListFile);
+        while(routeListFileReader.isNotFinished())
+        {
+            string lineInFile(routeListFileReader.getLineAndIgnoreWhiteSpaces());
+
+            if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "<message>"))
+            {
+                isMessageSpace=true;
+            }
+
+            if(isMessageSpace && stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "<type>"))
+            {
+                unsigned int messageId = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getStringInBetweenTwoStrings(lineInFile, "<type>", "</type>"));
+                if(messageId>0)
+                {
+                    routeListMessageIds.emplace(messageId);
+
+                }
+                //cout<<"messageId:"<<messageId<<endl;
+            }
+
+            if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "</message>"))
+            {
+                isMessageSpace=false;
+            }
+        }
+    }
+    for(unsigned int i=0; i<0xFFFF; i++)
+    {
+        bool isExistInRouteList = routeListMessageIds.count(i)>0;
+        map<unsigned int, string>::iterator tcomTcomMessageIdIterator = tcomTcomMessageIds.find(i);
+        bool isExistInTcomTcom = tcomTcomMessageIdIterator!=tcomTcomMessageIds.end();
+        if(!isExistInRouteList !=  !isExistInTcomTcom)
+        {
+            messageIdComparisonFile<<i<<","<<isExistInRouteList<<","<<isExistInTcomTcom;
+            if(isExistInTcomTcom)
+            {
+                messageIdComparisonFile<<",MessageName:["<<tcomTcomMessageIdIterator->second<<"]";
+            }
+            messageIdComparisonFile<<endl;
+        }
+    }
 }
 
-TEST(SampleTest, DISABLED_SampleTest2)
-{
+/*
+TEST(SampleTest, DISABLED_SampleTest1)
+{    QuickestWayToProgram entity;
+}
+
+TEST(SampleTest, DISABLED_SampleTest2){
     AlbaWindowsPathHandler pathHandler(R"(D:\W\ZZZ_Useless_Logs\RAN2861MegaplexerHang\WiresharkMegaPlexerDump.txt)");
     AlbaWindowsPathHandler pathHandler2(R"(D:\W\ZZZ_Useless_Logs\RAN2861MegaplexerHang\WiresharkMegaPlexerDumpFixed.txt)");
 

@@ -10,14 +10,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = TcomTools
 TEMPLATE = app
+CONFIG += staticlib
 
 SOURCES += \
-src/main.cpp\
-src/ProgressCounters.cpp\
+src/main.cpp\src/ProgressCounters.cpp\
 src/ProgressBarThread.cpp\
 src/StepHandler.cpp\
-src/StepHandlerThread.cpp\
-src/TcomTools.cpp\
+src/StepHandlerThread.cpp\src/TcomTools.cpp\
 src/TcomToolsConfiguration.cpp\
 ../TcomToolsBackend/src/BtsLogPrint.cpp\
 ../TcomToolsBackend/src/BtsLogSorter.cpp\

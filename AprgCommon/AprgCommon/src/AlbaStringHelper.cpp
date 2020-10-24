@@ -404,14 +404,26 @@ string stringHelper::getNumberAfterThisString(string const& mainString, string c
     return result;
 }
 
+string stringHelper::getHexNumberAfterThisString(string const& mainString, string const& stringToSearch)
+{
+    string result;
+    int firstIndexOfFirstString = mainString.find(stringToSearch);
+    if(stringHelper::isNotNpos(firstIndexOfFirstString))
+    {
+        int lastIndexOfFirstString = firstIndexOfFirstString + stringToSearch.length();
+        int lastIndexOfNumber;
+        for(lastIndexOfNumber = lastIndexOfFirstString; stringHelper::isHexDigit(mainString[lastIndexOfNumber]); ++lastIndexOfNumber);
+        result = mainString.substr(lastIndexOfFirstString, lastIndexOfNumber-lastIndexOfFirstString);
+    }
+    return result;
+}
+
 string stringHelper::getCorrectPathWithoutUrlParameters(string const& path)
 {
-    string correctPathWithoutUrlParameters(path);
-    int indexOfQuestionMark = path.find_first_of("?");
+    string correctPathWithoutUrlParameters(path);    int indexOfQuestionMark = path.find_first_of("?");
     if(stringHelper::isNotNpos(indexOfQuestionMark))
     {
-            correctPathWithoutUrlParameters = path.substr(0, indexOfQuestionMark);
-    }
+            correctPathWithoutUrlParameters = path.substr(0, indexOfQuestionMark);    }
     return correctPathWithoutUrlParameters;
 }
 
