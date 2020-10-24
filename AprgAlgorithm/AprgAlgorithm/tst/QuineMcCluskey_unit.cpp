@@ -202,5 +202,43 @@ TEST(QuineMcCluskey, GetFinalImplicants)
 
     ASSERT_EQ(4, finalImplicants.getSize());
     EXPECT_EQ("[0 : 8|9|10|11|], [1 : 8|10|12|14|], [2 : 10|11|14|15|], [3 : 4|12|], ", finalImplicants.getImplicantsString());
+    cout<<quineMcCluskey.getOutputTable(finalImplicants);
 }
 
+TEST(QuineMcCluskey, TestFinalImplicants)
+{
+    QuineMcCluskey quineMcCluskey;
+    /*quineMcCluskey.setInputOutput(0, LogicalValue::True);
+    quineMcCluskey.setInputOutput(1, LogicalValue::True);
+    quineMcCluskey.setInputOutput(3, LogicalValue::DontCare);
+    quineMcCluskey.setInputOutput(4, LogicalValue::True);
+    quineMcCluskey.setInputOutput(5, LogicalValue::DontCare);
+    quineMcCluskey.setInputOutput(6, LogicalValue::DontCare);
+    quineMcCluskey.setInputOutput(7, LogicalValue::True);
+    quineMcCluskey.setInputOutput(8, LogicalValue::True);
+    quineMcCluskey.setInputOutput(9, LogicalValue::DontCare);
+    quineMcCluskey.setInputOutput(10, LogicalValue::DontCare);
+    quineMcCluskey.setInputOutput(12, LogicalValue::DontCare);
+    quineMcCluskey.setInputOutput(13, LogicalValue::True);
+    quineMcCluskey.setInputOutput(15, LogicalValue::DontCare);*/
+
+    quineMcCluskey.setInputOutput(2, LogicalValue::True);
+    quineMcCluskey.setInputOutput(3, LogicalValue::DontCare);
+    quineMcCluskey.setInputOutput(4, LogicalValue::True);
+    quineMcCluskey.setInputOutput(5, LogicalValue::DontCare);
+    quineMcCluskey.setInputOutput(6, LogicalValue::DontCare);
+    quineMcCluskey.setInputOutput(8, LogicalValue::True);
+    quineMcCluskey.setInputOutput(9, LogicalValue::DontCare);
+    quineMcCluskey.setInputOutput(10, LogicalValue::DontCare);
+    quineMcCluskey.setInputOutput(11, LogicalValue::True);
+    quineMcCluskey.setInputOutput(12, LogicalValue::DontCare);
+    quineMcCluskey.setInputOutput(14, LogicalValue::True);
+    quineMcCluskey.setInputOutput(15, LogicalValue::DontCare);
+
+    quineMcCluskey.fillComputationalTableWithMintermsForZeroCube();
+    quineMcCluskey.findAllCombinations();
+
+    Implicants finalImplicants(quineMcCluskey.getAllFinalImplicants());
+
+    cout<<quineMcCluskey.getOutputTable(finalImplicants);
+}
