@@ -1,13 +1,11 @@
 #include "FileDirectoryDatabase.hpp"
 
-#include <AlbaStringHelper.hpp>
+#include <String/AlbaStringHelper.hpp>
 #include <AlbaWindowsPathHandler.hpp>
 #include <iostream>
-
 using namespace alba;
 using namespace alba::stringHelper;
-using namespace codeReview;
-using namespace std;
+using namespace codeReview;using namespace std;
 
 void FileDirectoryDatabase::printFilesAndDirectories(ostream& outputStream) const
 {

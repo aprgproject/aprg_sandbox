@@ -1,15 +1,13 @@
 #include "MeanSquareErrorCalculator.hpp"
 
-#include <AlbaFileReader.hpp>
-#include <AlbaRandomizer.hpp>
-#include <AlbaStringHelper.hpp>
+#include <File/AlbaFileReader.hpp>
+#include <Randomizer/AlbaRandomizer.hpp>
+#include <String/AlbaStringHelper.hpp>
 #include <algorithm>
 #include <gsl/gsl_multifit.h>
-#include <iomanip>
-#include <iostream>
+#include <iomanip>#include <iostream>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
 #include <windows.h>
-
 using namespace alba;
 using namespace std;
 

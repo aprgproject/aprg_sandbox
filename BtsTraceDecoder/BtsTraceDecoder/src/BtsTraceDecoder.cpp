@@ -2,16 +2,14 @@
 
 #include <iostream>
 
-#include <AlbaFileReader.hpp>
-#include <AlbaStringHelper.hpp>
+#include <File/AlbaFileReader.hpp>
+#include <String/AlbaStringHelper.hpp>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
 
-using namespace std;
-using namespace alba::stringHelper;
+using namespace std;using namespace alba::stringHelper;
 
 namespace alba
 {
-
 BtsTraceDecoder::BtsTraceDecoder()
 {}
 

@@ -1,14 +1,12 @@
 #include "PeerReviewCollator.hpp"
 
-#include <AlbaFileReader.hpp>
-#include <AlbaStringHelper.hpp>
+#include <File/AlbaFileReader.hpp>
+#include <String/AlbaStringHelper.hpp>
 #include <fstream>
 #include <iostream>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
-
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
 

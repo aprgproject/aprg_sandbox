@@ -1,14 +1,12 @@
 #pragma once
 
-#include <AlbaOptional.hpp>
+#include <Optional/AlbaOptional.hpp>
 #include "CPlusPlusClass/CPlusPlusClass.hpp"
 #include "CPlusPlusFunction/CPlusPlusFunction.hpp"
-#include "CPlusPlusMacro.hpp"
-#include "CPlusPlusNamespace.hpp"
+#include "CPlusPlusMacro.hpp"#include "CPlusPlusNamespace.hpp"
 #include "CPlusPlusVariable.hpp"
 #include "CPlusPlusScope.hpp"
-#include <functional>
-#include <set>
+#include <functional>#include <set>
 #include <string>
 #include <map>
 #include <vector>

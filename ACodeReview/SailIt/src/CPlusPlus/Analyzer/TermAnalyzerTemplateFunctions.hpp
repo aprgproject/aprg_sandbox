@@ -1,14 +1,12 @@
 #pragma once
 
-#include <AlbaStringHelper.hpp>
+#include <String/AlbaStringHelper.hpp>
 
 #include "Findings/TemporaryFindings.hpp"
-#include <iostream>
-#include "TermAnalyzer.hpp"
+#include <iostream>#include "TermAnalyzer.hpp"
 #include "../Term/CheckerHelpers.hpp"
 
-using namespace std;
-using alba::stringHelper::constructFileLocator;
+using namespace std;using alba::stringHelper::constructFileLocator;
 
 namespace codeReview
 {

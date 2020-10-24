@@ -1,13 +1,11 @@
 #include "WebCrawler.hpp"
 
-#include <AlbaStringHelper.hpp>
+#include <String/AlbaStringHelper.hpp>
 
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace aprgWebCrawler
 {
-
 CrawlMode WebCrawler::convertStringToCrawlerMode(string const& modeString) const
 {
     CrawlMode mode(CrawlMode::Empty);

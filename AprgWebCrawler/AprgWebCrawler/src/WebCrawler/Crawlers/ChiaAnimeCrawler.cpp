@@ -1,13 +1,11 @@
-#include <AlbaFileReader.hpp>
-#include <AlbaStringHelper.hpp>
+#include <File/AlbaFileReader.hpp>
+#include <String/AlbaStringHelper.hpp>
 #include <Crawlers/ChiaAnimeCrawler.hpp>
 #include <CrawlHelpers/Downloaders.hpp>
 #include <iostream>
-
 using namespace alba;
 using namespace alba::stringHelper;
-using namespace aprgWebCrawler::Downloaders;
-using namespace std;
+using namespace aprgWebCrawler::Downloaders;using namespace std;
 
 namespace aprgWebCrawler
 {

@@ -1,14 +1,12 @@
 #pragma once
 
-#include <AlbaOptional.hpp>
+#include <Optional/AlbaOptional.hpp>
 #include <ostream>
 #include <string>
 #include "../Database/CPlusPlusType.hpp"
-
 using std::string;
 using std::ostream;
 using alba::AlbaOptional;
-
 namespace codeReview
 {
 

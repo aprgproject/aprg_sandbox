@@ -1,12 +1,10 @@
 #pragma once
 
-#include <AlbaMemoryBuffer.hpp>
+#include <Memory/AlbaMemoryBuffer.hpp>
 #include <Common/Components//ComponentName.hpp>
 #include <Common/Messages/MessageName.hpp>
-
 namespace DesignDocumentCreator
 {
-
 class GenericMessage
 {
 public:
