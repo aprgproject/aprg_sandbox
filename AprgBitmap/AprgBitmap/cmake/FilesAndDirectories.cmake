@@ -1,0 +1,17 @@
+set(APRG_BITMAP_INCLUDE_DIRECTORIES
+    ${APRG_BITMAP_DIR}/src
+)
+
+set(APRG_BITMAP_SOURCES
+    ${APRG_BITMAP_DIR}/src/AprgBitmap.cpp
+    ${APRG_BITMAP_DIR}/src/AprgBitmap.hpp
+)
+
+set(APRG_BITMAP_TESTS
+    ${APRG_BITMAP_DIR}/tst/AprgBitmap_unit.cpp
+)
+
+set(APRG_BITMAP_SOURCES_AND_TESTS
+    ${APRG_BITMAP_SOURCES}
+    ${APRG_BITMAP_TESTS}
+)
