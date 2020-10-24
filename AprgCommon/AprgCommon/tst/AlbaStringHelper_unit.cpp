@@ -257,13 +257,20 @@ TEST(GetNewStringFromStringTest, GetStringReplacingSpacesWithUnderscore)
     EXPECT_EQ(getStringAndReplaceNonAlphanumericCharactersToUnderScore(testString), withoutSpecialCharacters);
 }
 
-TEST(GetStringNumberFromStringTest, GetStringNumberAfterThisString)
+TEST(GetNewStringFromStringTest, GetStringByRepeatingUntilDesiredLength)
 {
-    EXPECT_EQ(string("1234"), getNumberAfterThisString("INF/TCOM/R, nbccId: 1234, ", "nbccId: "));
-    EXPECT_EQ(string("5678"), getNumberAfterThisString("INF/TCOM/R, nbccId: 5678 ", "nbccId: "));
-    EXPECT_EQ(string("7890"), getNumberAfterThisString("INF/TCOM/R, nbccId: 7890", "nbccId: "));
+    EXPECT_EQ("", getStringByRepeatingUntilDesiredLength("",50));
+    EXPECT_EQ("", getStringByRepeatingUntilDesiredLength("MARK",0));
+    EXPECT_EQ("MARKMARK", getStringByRepeatingUntilDesiredLength("MARK",8));
+    EXPECT_EQ("MARKMARKMA", getStringByRepeatingUntilDesiredLength("MARK",10));
 }
 
+
+TEST(GetStringNumberFromStringTest, GetStringNumberAfterThisString)
+{
+    EXPECT_EQ(string("1234"), getNumberAfterThisString("INF/TCOM/R, nbccId: 1234, ", "nbccId: "));    EXPECT_EQ(string("5678"), getNumberAfterThisString("INF/TCOM/R, nbccId: 5678 ", "nbccId: "));
+    EXPECT_EQ(string("7890"), getNumberAfterThisString("INF/TCOM/R, nbccId: 7890", "nbccId: "));
+}
 TEST(GetStringNumberFromStringTest, GetStringHexNumberAfterThisString)
 {
     EXPECT_EQ(string("AFBA"), getHexNumberAfterThisString("INF/TCOM/R, nbccId: AFBA, ", "nbccId: "));

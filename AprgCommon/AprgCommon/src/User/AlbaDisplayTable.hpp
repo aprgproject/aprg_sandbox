@@ -41,45 +41,54 @@ private:
     DisplayTableCellMode m_verticalMode;
 };
 
+using Cells = std::vector<DisplayTableCell>;
+
 class DisplayTableRow
 {
-public:
-    DisplayTableRow(unsigned int rowIndex);
+public:    DisplayTableRow(unsigned int rowIndex);
     bool isAlign() const;
     unsigned int getNumberOfColumns() const;
-    unsigned int getCharacters();
-    std::vector<DisplayTableCell>& getCells();
+    unsigned int getCharacters() const;
+
+    Cells& getCellsReference();
     DisplayTableCell& getCellReference(unsigned int columnIndex);
     void addCell(std::string const& text);
-
 private:
     int m_rowIndex;
     DisplayTableRowMode m_rowMode;
-    std::vector<DisplayTableCell> m_cells;
+    Cells m_cells;
 };
 
-class DisplayTable
-{
+class DisplayTable{
 public:
     DisplayTable();
-    std::string drawOutput();
+    unsigned int getTotalRows() const;
+    unsigned int getTotalColumns() const;
+    unsigned int getMaxCharactersInOneRow() const;
+    std::string getCellText(DisplayTableCell const& cell, unsigned int length) const;
 
     DisplayTableRow& getLastRow();
     DisplayTableRow& getRowReference(unsigned int rowIndex);
     DisplayTableCell& getCellReference(unsigned int rowIndex, unsigned int columnIndex);
+
     void addRow();
-    unsigned int getTotalRows();
-    unsigned int getTotalColumns();
-    unsigned int getMaxCharactersInOneRow();
-    void setBorders(char horizontalBorder, char verticalBorder);
-    std::string getCellText(DisplayTableCell const& cell, unsigned int length);
+    void setBorders(std::string const& horizontalBorder, std::string const& verticalBorder);
 
+    std::string drawOutput();
 private:
-    char m_horizontalBorder;
-    char m_verticalBorder;
-    std::vector<DisplayTableRow> m_rows;
-};
 
+    void calculateLengthPerColumn();
+    unsigned int getTotalColumnLength() const;
+    std::string getHorizontalBorderLine() const;
+    std::string getVerticalBorderPoint() const;
+    unsigned int getVerticalBorderLength() const;
+    unsigned int getHorizontalBorderLength(unsigned int const totalColumnLength) const;
+
+    std::string m_horizontalBorder;
+    std::string m_verticalBorder;
+    std::vector<DisplayTableRow> m_rows;
+    std::vector<unsigned int> m_calculatedLengthPerColumn;
+};
 
 
 }//namespace alba

@@ -31,19 +31,16 @@ set(APRG_COMMON_SOURCES
 )
 
 set(APRG_COMMON_TESTS
+    ${APRG_COMMON_DIR}/tst/AlbaDisplayTable_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaFileReader_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaMacroArgumentCounter_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaMemoryBuffer_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaOptional_unit.cpp
+    ${APRG_COMMON_DIR}/tst/AlbaMemoryBuffer_unit.cpp    ${APRG_COMMON_DIR}/tst/AlbaOptional_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaPathHandler_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaRaiiafPointer_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaStringHelper_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaDisplayTable_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaUserAutomation_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaWindowsTimer_unit.cpp
 )
-
 set(APRG_COMMON_SOURCES_AND_TESTS
     ${APRG_COMMON_SOURCES}
-    ${APRG_COMMON_TESTS}
-)
+    ${APRG_COMMON_TESTS})

@@ -7,16 +7,12 @@
 #include <sstream>
 #include <typeinfo>
 
-#include <iostream>
-
 using namespace std;
 
 namespace alba{
-
 unsigned int stringHelper::getLevenshteinDistance(string const& mainString, string const& string2)
 {
-    int mainStringLength = mainString.size();
-    int string2Length = string2.size();
+    int mainStringLength = mainString.size();    int string2Length = string2.size();
 
     vector<unsigned int> current(string2Length + 1);
     vector<unsigned int> previous(string2Length + 1);
@@ -377,14 +373,27 @@ string stringHelper::getStringBeforeThisCharacters(string const& mainString, str
     return result;
 }
 
+string stringHelper::getStringByRepeatingUntilDesiredLength(std::string const& stringToRepeat, unsigned int desiredLength)
+{
+    string result;
+    if(!stringToRepeat.empty())
+    {
+        unsigned int stringToRepeatLength = stringToRepeat.length();
+        for(unsigned int index=0; index<=desiredLength; index += stringToRepeatLength)
+        {
+            result += stringToRepeat;
+        }
+        result = result.substr(0, desiredLength);
+    }
+    return result;
+}
+
 string stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(string const& path)
 {
-    bool isPreviousCharacterNonAlphanumeric = false;
-    string correctPath = std::accumulate(path.cbegin(), path.cend(), string(""), [&isPreviousCharacterNonAlphanumeric](string const& currentString, char const currentCharacter)
+    bool isPreviousCharacterNonAlphanumeric = false;    string correctPath = std::accumulate(path.cbegin(), path.cend(), string(""), [&isPreviousCharacterNonAlphanumeric](string const& currentString, char const currentCharacter)
     {
         string partialResult(currentString);
-        if(!isLetterOrNumber(currentCharacter))
-        {
+        if(!isLetterOrNumber(currentCharacter))        {
             if(!isPreviousCharacterNonAlphanumeric){partialResult += "_";}
         }
         else

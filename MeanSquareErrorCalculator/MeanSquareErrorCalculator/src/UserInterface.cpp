@@ -39,32 +39,30 @@ void UserInterface::executeRandomSubSampling()
         int samples(gsl.getNumberOfRows());
         cout<<"Number of samples: "<<samples<<endl;
 
-        cout<<"Number of samples for training: ";
-        int trainingSamples(getNumberFromInput());
+        cout<<"Number of samples for modeling: ";
+        int modelingSamples(getNumberFromInput());
 
-        if(trainingSamples>=samples)
+        if(modelingSamples>=samples)
         {
-            cout<<"Number of samples for training is more than number of samples."<<endl;
+            cout<<"Number of samples for modeling is more than number of samples."<<endl;
             continue;
         }
 
-        int validationSamples(samples-trainingSamples);
+        int validationSamples(samples-modelingSamples);
         cout<<"Number of samples for validation: "<<validationSamples<<endl;
 
         for(int i=0; i<iterations; i++)
         {
             gsl.randomizeSampleDatabase();
-            gsl.retrieveTrainingSamples(0,trainingSamples);
-            gsl.retrieveValidationSamples(trainingSamples, trainingSamples+validationSamples);
-            gsl.performRegression();
+            gsl.retrieveModelingSamples(0,modelingSamples);
+            gsl.retrieveValidationSamples(modelingSamples, modelingSamples+validationSamples);
+            gsl.performModelingAndValidation();
         }
         gsl.printAverageOfSquareErrors();
-    }
-}
+    }}
 
 void UserInterface::executeKFold()
-{
-    while (1)
+{    while (1)
     {
         string filePath(getFilePathInput());
         cout<<"Number of folds: ";
@@ -91,19 +89,17 @@ void UserInterface::executeKFold()
         gsl.randomizeSampleDatabase();
         for(int i=0; i<folds; i++)
         {
-            gsl.clearTrainingAndValidation();
-            gsl.retrieveTrainingSamples(0,splitIndex[i]);
+            gsl.clearModelingAndValidation();
+            gsl.retrieveModelingSamples(0,splitIndex[i]);
             gsl.retrieveValidationSamples(splitIndex[i],splitIndex[i+1]);
-            gsl.retrieveTrainingSamples(splitIndex[i+1],samples);
-            gsl.performRegression();
+            gsl.retrieveModelingSamples(splitIndex[i+1],samples);
+            gsl.performModelingAndValidation();
         }
         gsl.printAverageOfSquareErrors();
-    }
-}
+    }}
 
 int UserInterface::getModeInput()
-{
-    while (1)
+{    while (1)
     {
         cout<<"Enter mode (1-RandomSubSampling, 2->K-Fold)"<<endl;
         int mode(getNumberFromInput());

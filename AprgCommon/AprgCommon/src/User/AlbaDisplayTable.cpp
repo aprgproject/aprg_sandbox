@@ -56,35 +56,32 @@ DisplayTableRow::DisplayTableRow(unsigned int rowIndex)
     , m_rowMode(DisplayTableRowMode::align)
 {}
 
-unsigned int DisplayTableRow::getNumberOfColumns() const
-{
-    return m_cells.size();
-}
-
 bool DisplayTableRow::isAlign() const
 {
     return DisplayTableRowMode::align == m_rowMode;
 }
 
-unsigned int DisplayTableRow::getCharacters()
+unsigned int DisplayTableRow::getNumberOfColumns() const
 {
-    unsigned int numberOfCharacters(0);
-    for(DisplayTableCell & cell : getCells())
-    {
-        numberOfCharacters+=cell.getText().size();
-    }
-    return numberOfCharacters;
+    return m_cells.size();
 }
 
-vector<DisplayTableCell>& DisplayTableRow::getCells()
+unsigned int DisplayTableRow::getCharacters() const
+{
+    unsigned int numberOfCharacters(0);
+    for(DisplayTableCell const & cell : m_cells)
+    {
+        numberOfCharacters+=cell.getText().size();
+    }    return numberOfCharacters;
+}
+
+Cells& DisplayTableRow::getCellsReference()
 {
     return m_cells;
 }
-
 DisplayTableCell& DisplayTableRow::getCellReference(unsigned int columnIndex)
 {
-    return m_cells[columnIndex];
-}
+    return m_cells[columnIndex];}
 
 void DisplayTableRow::addCell(string const & text)
 {
@@ -92,59 +89,36 @@ void DisplayTableRow::addCell(string const & text)
 }
 
 DisplayTable::DisplayTable()
-    : m_horizontalBorder(' ')
-    , m_verticalBorder(' ')
 {}
 
-string DisplayTable::drawOutput()
+unsigned int DisplayTable::getTotalRows() const
 {
-    vector <unsigned int> determinedLengthPerColumn(getTotalColumns(), 0);
-    for(DisplayTableRow & row : m_rows)
-    {
-        int column=0;
-        for(DisplayTableCell & cell : row.getCells())
-        {
-            if(row.isAlign())
-            {
-                determinedLengthPerColumn[column] = std::max(determinedLengthPerColumn[column], cell.getText().size());
-                column++;
-            }
-        }
-    }
-    int totalColumnLength=0;
-    for(unsigned int & lengthPerColumn : determinedLengthPerColumn)
-    {
-        totalColumnLength+=lengthPerColumn;
-    }
-    string horizontalLine(getTotalColumns()+totalColumnLength+1, m_horizontalBorder);
-    string buffer(horizontalLine);
-    buffer+="\n";
-    for(DisplayTableRow & row : m_rows)
-    {
-        string line;
-        line+=m_verticalBorder;
-        int column=0;
-        for(DisplayTableCell & cell : row.getCells())
-        {
-            if(row.isAlign())
-            {
-                line+=getCellText(cell, determinedLengthPerColumn[column++]);
-            }
-            line+=m_verticalBorder;
-        }
-        buffer+=line;
-        buffer+="\n";
-    }
-    buffer+=horizontalLine;
-    buffer+="\n";
-    return buffer;
+    return m_rows.size();
 }
 
-DisplayTableRow& DisplayTable::getLastRow()
+unsigned int DisplayTable::getTotalColumns() const
 {
+    unsigned int maxColumns=0;
+    for(DisplayTableRow const& row : m_rows)
+    {
+        maxColumns = max(maxColumns, row.getNumberOfColumns());
+    }
+    return maxColumns;
+}
+
+unsigned int DisplayTable::getMaxCharactersInOneRow() const
+{
+    unsigned int maxCharacters=0;
+    for(DisplayTableRow const& row : m_rows)
+    {
+        maxCharacters = max(maxCharacters, row.getCharacters());
+    }
+    return maxCharacters;
+}
+
+DisplayTableRow& DisplayTable::getLastRow(){
     return m_rows.back();
 }
-
 DisplayTableRow& DisplayTable::getRowReference(unsigned int rowIndex)
 {
     return m_rows[rowIndex];
@@ -160,46 +134,19 @@ void DisplayTable::addRow()
     m_rows.emplace_back(getTotalRows());
 }
 
-unsigned int DisplayTable::getTotalRows()
-{
-    return m_rows.size();
-}
-
-unsigned int DisplayTable::getTotalColumns()
-{
-    unsigned int maxColumns=0;
-    for(DisplayTableRow const& row : m_rows)
-    {
-        maxColumns = max(maxColumns, row.getNumberOfColumns());
-    }
-    return maxColumns;
-}
-
-unsigned int DisplayTable::getMaxCharactersInOneRow()
-{
-    unsigned int maxCharacters=0;
-    for(DisplayTableRow& row : m_rows)
-    {
-        maxCharacters = max(maxCharacters, row.getCharacters());
-    }
-    return maxCharacters;
-}
-
-void DisplayTable::setBorders(char horizontalBorder, char verticalBorder)
+void DisplayTable::setBorders(string const& horizontalBorder, string const& verticalBorder)
 {
     m_horizontalBorder = horizontalBorder;
     m_verticalBorder = verticalBorder;
 }
 
-std::string DisplayTable::getCellText(DisplayTableCell const& cell, unsigned int length)
+std::string DisplayTable::getCellText(DisplayTableCell const& cell, unsigned int length) const
 {
     DisplayTableCellMode mode = cell.getHorizontalMode();
-    string result;
-    switch(mode)
+    string result;    switch(mode)
     {
     case DisplayTableCellMode::justify:
-        result = stringHelper::getStringUsingJustifyAlignment(cell.getText(), length);
-        break;
+        result = stringHelper::getStringUsingJustifyAlignment(cell.getText(), length);        break;
     case DisplayTableCellMode::center:
         result = stringHelper::getStringUsingCenterAlignment(cell.getText(), length);
         break;
@@ -211,6 +158,87 @@ std::string DisplayTable::getCellText(DisplayTableCell const& cell, unsigned int
         break;
     }
     return result;
+}
+
+void DisplayTable::calculateLengthPerColumn()
+{
+    unsigned int totalColumns = getTotalColumns();
+    m_calculatedLengthPerColumn.resize(totalColumns);
+    for(unsigned int i=0; i<totalColumns; i++)
+    {
+        m_calculatedLengthPerColumn[i]=0;
+    }
+    for(DisplayTableRow & row : m_rows)
+    {
+        unsigned int column=0;
+        for(DisplayTableCell & cell : row.getCellsReference())
+        {
+            if(row.isAlign())
+            {
+                m_calculatedLengthPerColumn[column] = std::max(m_calculatedLengthPerColumn[column], cell.getText().size());
+            }
+            column++;
+        }
+    }
+}
+
+unsigned int DisplayTable::getTotalColumnLength() const
+{
+    unsigned int totalColumnLength=0;
+    for(unsigned int lengthPerColumn : m_calculatedLengthPerColumn)
+    {
+        totalColumnLength+=lengthPerColumn;
+    }
+    return totalColumnLength;
+}
+
+string DisplayTable::getHorizontalBorderLine() const
+{
+    string result;
+    if(!m_horizontalBorder.empty())
+    {
+        result = stringHelper::getStringByRepeatingUntilDesiredLength(m_horizontalBorder, getHorizontalBorderLength(getTotalColumnLength()))+"\n";
+    }
+    return result;
+}
+
+string DisplayTable::getVerticalBorderPoint() const
+{
+    return m_verticalBorder;
+}
+
+unsigned int DisplayTable::getVerticalBorderLength() const
+{
+    return m_verticalBorder.length();
+}
+
+unsigned int DisplayTable::getHorizontalBorderLength(unsigned int const totalColumnLength) const
+{
+    return ((getTotalColumns()+1)*getVerticalBorderLength())+totalColumnLength;
+}
+
+string DisplayTable::drawOutput()
+{
+    calculateLengthPerColumn();
+    string horizontalLine(getHorizontalBorderLine());
+    string buffer(horizontalLine);
+    for(DisplayTableRow & row : m_rows)
+    {
+        string line(getVerticalBorderPoint());
+        unsigned int column=0;
+        for(DisplayTableCell & cell : row.getCellsReference())
+        {
+            if(row.isAlign())
+            {
+                line+=getCellText(cell, m_calculatedLengthPerColumn[column]);
+            }
+            column++;
+            line+=getVerticalBorderPoint();
+        }
+        buffer+=line+"\n";
+        buffer+=horizontalLine;
+    }
+    return buffer;
 }
 
 
