@@ -9,18 +9,17 @@
 #include <AlbaStringHelper.hpp>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
 #include <NsapHelper.hpp>
+#include <stdio.h>
 
 using namespace alba;
 using namespace std;
-
+/*
 TEST(SampleTest, DISABLED_SampleTest1)
 {
-    SimplestDesignToCopy entity;
-}
+    SimplestDesignToCopy entity;}
 
 TEST(SampleTest, DISABLED_SampleTest2)
-{
-    AlbaWindowsPathHandler pathHandler(R"(D:\W\ZZZ_Useless_Logs\RAN2861MegaplexerHang\WiresharkMegaPlexerDump.txt)");
+{    AlbaWindowsPathHandler pathHandler(R"(D:\W\ZZZ_Useless_Logs\RAN2861MegaplexerHang\WiresharkMegaPlexerDump.txt)");
     AlbaWindowsPathHandler pathHandler2(R"(D:\W\ZZZ_Useless_Logs\RAN2861MegaplexerHang\WiresharkMegaPlexerDumpFixed.txt)");
 
     ifstream wiresharkDumpFile(pathHandler.getFullPath());
@@ -204,15 +203,13 @@ TEST(SampleTest, DISABLED_NSAPCloudPrinting)
     }
 }
 
-TEST(SampleTest, u32toi32)
+TEST(SampleTest, DISABLED_u32toi32)
 {
-    typedef unsigned int   u32;     /* int == long */
+    typedef unsigned int   u32;
     typedef u32     TCounter;
     typedef  i32 TPowerLevel;
-
     TPowerLevel           powerLevel1, powerLevel2;
     TCounter test;
-
     powerLevel1 = -50;
     test = powerLevel1;
     powerLevel2 = test;
@@ -220,5 +217,155 @@ TEST(SampleTest, u32toi32)
     cout<<"PowerLevel1"<<powerLevel1<<"  PowerLevel2"<<powerLevel2<<"  test"<<test<<endl;
 }
 
+TEST(SampleTest, DISABLED_RhapsodyShit)
+{
+    class OMThread
+    {
+    public:
+        int m_param2;
+        virtual int getSize(){return sizeof(*this);}
+        virtual int execute(){cout<<"OMThread: execute"<<endl;}
 
+    };
+    class CMessageReceiver : public OMThread
+    {
+    public:
+        int m_param1;
+        int m_param3;
+        //virtual int getSize(){return sizeof(*this);}
+        virtual int execute(){cout<<"CMessageReceiver: execute"<<endl;}
+    };
 
+    const char* name="TCOM_TOAM_EWRP_TASK";
+    printf("hello %s\n", name);
+
+    cout<<"CMessageReceiver: "<<sizeof(CMessageReceiver)<<endl;
+    cout<<"OMThread: "<<sizeof(OMThread)<<endl;
+    OMThread* polyPointer = new CMessageReceiver();
+    cout<<"OMThread: "<<sizeof(*polyPointer)<<endl;
+    cout<<"OMThread getSize(): "<<polyPointer->getSize()<<endl;
+
+    int size = polyPointer->getSize();
+    cout<<"size: "<<size<<endl;
+    void* polyPointerVoid = polyPointer;
+    void* ccsPointer = malloc(size);
+    memcpy(ccsPointer, polyPointer, size);
+    printf("polyPointer: %p\n", polyPointer);
+    printf("ccsPointer: %p\n", ccsPointer);
+
+    OMThread* staticCastPointer = static_cast<OMThread*>(polyPointerVoid);
+    staticCastPointer->execute();
+}
+*/
+
+TEST(SampleTest, FindThoseIpAddresses)
+{
+    AlbaWindowsPathHandler fileToReadHandler(R"(D:\ZZZ_Logs\NSASampleSnapshots\SampleSnapshots\sorted.log)");
+    ifstream fileToReadStream(fileToReadHandler.getFullPath());
+    AlbaFileReader fileToRead(fileToReadStream);
+    ofstream ipAddressesFile(fileToReadHandler.getDirectory()+"IpAddresses.txt");
+    ofstream ipAddressesFile25(fileToReadHandler.getDirectory()+"IpAddresses25.txt");
+    while(fileToRead.isNotFinished())
+    {
+        string lineFromFile(fileToRead.getLineAndIgnoreWhiteSpaces());
+        int lineFromFileLength = lineFromFile.length();
+        int ipState(0);
+        bool isIpAddress(false);
+        for (int i = 0; i < lineFromFileLength; ++i)
+        {
+            //cout <<"printed:["<<lineFromFile[i]<<","<<ipState<<"]"<<endl;
+            if(ipState == 0)
+            {
+                if(stringHelper::isNumber(lineFromFile[i]))
+                {
+                    ipState = 1;
+                }
+            }
+            else if(ipState == 1)
+            {//100
+                if(stringHelper::isNumber(lineFromFile[i]))
+                {
+                    ipState = 1;
+                }
+                else if(lineFromFile[i]=='.')
+                {
+                    ipState = 2;
+                }
+                else
+                {
+                    ipState = 0;
+                }
+            }
+            else if(ipState == 2)
+            {//100.
+                if(stringHelper::isNumber(lineFromFile[i]))
+                {
+                    ipState = 3;
+                }
+                else
+                {
+                    ipState = 0;
+                }
+            }
+            else if(ipState == 3)
+            {//100.100
+                if(stringHelper::isNumber(lineFromFile[i]))
+                {
+                    ipState = 3;
+                }
+                else if(lineFromFile[i]=='.')
+                {
+                    ipState = 4;
+                }
+                else
+                {
+                    ipState = 0;
+                }
+            }
+            else if(ipState == 4)
+            {//100.100.
+                if(stringHelper::isNumber(lineFromFile[i]))
+                {
+                    ipState = 5;
+                }
+                else
+                {
+                    ipState = 0;
+                }
+            }
+            else if(ipState == 5)
+            {//100.100.100
+                if(stringHelper::isNumber(lineFromFile[i]))
+                {
+                    ipState = 5;
+                }
+                else if(lineFromFile[i]=='.')
+                {
+                    ipState = 6;
+                }
+                else
+                {
+                    ipState = 0;
+                }
+            }
+            else if(ipState == 6)
+            {//100.100.100.
+                if(stringHelper::isNumber(lineFromFile[i]))
+                {
+                    ipState = 7;
+                    isIpAddress = true;
+                    break;
+                }
+                else
+                {
+                    ipState = 0;
+                }
+            }
+        }
+        if(isIpAddress)
+        {
+            ipAddressesFile << lineFromFile << endl;
+            ipAddressesFile25 << lineFromFile.substr(0,25) << endl;
+        }
+    }
+}
