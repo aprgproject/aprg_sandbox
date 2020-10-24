@@ -144,11 +144,13 @@ inline bool isPrintable(char const c)
 
 inline bool isSlashCharacter(char const c)
 {
-    return ('\\'==c || '/'==c);}
+    return ('\\'==c || '/'==c);
+}
 
 inline bool isNotEmptyLine(std::string const& mainString)
 {
-    return isNotNpos(mainString.find_first_not_of(WHITESPACE_STRING));}
+    return isNotNpos(mainString.find_first_not_of(WHITESPACE_STRING));
+}
 
 inline bool isPeriodOrDoublePeriod(std::string const& mainString)
 {

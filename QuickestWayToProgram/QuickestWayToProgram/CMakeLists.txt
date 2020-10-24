@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(SimplestDesignToCopy C CXX)
+project(QuickestWayToProgram C CXX)
 
 set(OUTFILE ${PROJECT_NAME})
 
@@ -20,8 +20,13 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 
 set(SOURCES
-    src/SimplestDesignToCopy.cpp
-    src/SimplestDesignToCopy.hpp
+    src/QuickestWayToProgram.cpp
+    src/QuickestWayToProgram.hpp
+    src/NsapHelper.cpp
+    src/NsapHelper.hpp
+    src/glo_def.h
+    src/TTransportLayerAddress.h
+    src/ArraySize.hpp
 )
 
 set(MAIN_SOURCES
@@ -29,7 +34,7 @@ set(MAIN_SOURCES
 )
 
 set(TESTS
-    tst/SimplestDesignToCopy_unit.cpp
+    tst/QuickestWayToProgram_unit.cpp
 )
 
 set(INCLUDE_DIRECTORIES
