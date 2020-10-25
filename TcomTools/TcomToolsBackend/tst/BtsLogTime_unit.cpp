@@ -14,53 +14,57 @@ TEST(BtsLogTimeTest, BtsTimeStampWithSevenNumbersIsUsed)
     EXPECT_EQ(14, logTime.getMinutes());
     EXPECT_EQ(51, logTime.getSeconds());
     EXPECT_EQ(565172, logTime.getMicroSeconds());
+    EXPECT_EQ("2015| 8|20|18|14|51|565172", logTime.getEquivalentString());
+    EXPECT_EQ("20.08 18:14:51.565172", logTime.getEquivalentStringPcTimeFormat());
+    EXPECT_EQ("<2015-08-20T18:14:51.565172Z>", logTime.getEquivalentStringBtsTimeFormat());
 }
 
-TEST(BtsLogTimeTest, BtsTimeStampWithSpacesAreStartAndEnd)
-{
+TEST(BtsLogTimeTest, BtsTimeStampWithSpacesAreStartAndEnd){
     BtsLogTime logTime(BtsLogTimeType::BtsTimeStamp, " <2015-08-20T18:14:51.565172Z> ");
 
-    EXPECT_EQ(2015, logTime.getYears());
-    EXPECT_EQ(8, logTime.getMonths());
+    EXPECT_EQ(2015, logTime.getYears());    EXPECT_EQ(8, logTime.getMonths());
     EXPECT_EQ(20, logTime.getDays());
     EXPECT_EQ(18, logTime.getHours());
     EXPECT_EQ(14, logTime.getMinutes());
     EXPECT_EQ(51, logTime.getSeconds());
     EXPECT_EQ(565172, logTime.getMicroSeconds());
+    EXPECT_EQ("2015| 8|20|18|14|51|565172", logTime.getEquivalentString());
+    EXPECT_EQ("20.08 18:14:51.565172", logTime.getEquivalentStringPcTimeFormat());
+    EXPECT_EQ("<2015-08-20T18:14:51.565172Z>", logTime.getEquivalentStringBtsTimeFormat());
 }
 
-TEST(BtsLogTimeTest, BtsTimeStampWithSixNumbersIsUsed)
+TEST(BtsLogTimeTest, PcTimeStampWithSixNumbersIsUsed)
 {
     BtsLogTime logTime(BtsLogTimeType::BtsTimeStamp, "13.09 05:24:24.772449");
-
     EXPECT_EQ(0, logTime.getYears());
     EXPECT_EQ(9, logTime.getMonths());
-    EXPECT_EQ(13, logTime.getDays());
-    EXPECT_EQ(5, logTime.getHours());
+    EXPECT_EQ(13, logTime.getDays());    EXPECT_EQ(5, logTime.getHours());
     EXPECT_EQ(24, logTime.getMinutes());
     EXPECT_EQ(24, logTime.getSeconds());
     EXPECT_EQ(772449, logTime.getMicroSeconds());
+    EXPECT_EQ("   0| 9|13| 5|24|24|772449", logTime.getEquivalentString());
+    EXPECT_EQ("13.09 05:24:24.772449", logTime.getEquivalentStringPcTimeFormat());
+    EXPECT_EQ("<0000-09-13T05:24:24.772449Z>", logTime.getEquivalentStringBtsTimeFormat());
 }
 
-TEST(BtsLogTimeTest, PcTimeStampIsUsed)
-{
+TEST(BtsLogTimeTest, PcTimeStampIsUsed){
     BtsLogTime logTime(BtsLogTimeType::PcTimeStamp, "23.09 12:06:02.982");
 
-    EXPECT_EQ(0, logTime.getYears());
-    EXPECT_EQ(9, logTime.getMonths());
+    EXPECT_EQ(0, logTime.getYears());    EXPECT_EQ(9, logTime.getMonths());
     EXPECT_EQ(23, logTime.getDays());
     EXPECT_EQ(12, logTime.getHours());
     EXPECT_EQ(6, logTime.getMinutes());
     EXPECT_EQ(2, logTime.getSeconds());
     EXPECT_EQ(982000, logTime.getMicroSeconds());
+    EXPECT_EQ("   0| 9|23|12| 6| 2|982000", logTime.getEquivalentString());
+    EXPECT_EQ("23.09 12:06:02.982000", logTime.getEquivalentStringPcTimeFormat());
+    EXPECT_EQ("<0000-09-23T12:06:02.982000Z>", logTime.getEquivalentStringBtsTimeFormat());
 }
 
-TEST(BtsLogTimeTest, LessThanOperatorWorksAsIntended)
-{
+TEST(BtsLogTimeTest, LessThanOperatorWorksAsIntended){
     BtsLogTime logTime1(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:14:51.565172Z");
     BtsLogTime logTime2(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:14:51.565173Z");
-    BtsLogTime logTime3(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:14:52.565172Z");
-    BtsLogTime logTime4(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:15:51.565172Z");
+    BtsLogTime logTime3(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:14:52.565172Z");    BtsLogTime logTime4(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:15:51.565172Z");
     BtsLogTime logTime5(BtsLogTimeType::BtsTimeStamp, "2015-08-20T19:14:51.565172Z");
     BtsLogTime logTime6(BtsLogTimeType::BtsTimeStamp, "2015-08-21T18:14:51.565172Z");
     BtsLogTime logTime7(BtsLogTimeType::BtsTimeStamp, "2015-09-20T18:14:51.565172Z");
