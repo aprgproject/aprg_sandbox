@@ -47,14 +47,15 @@ public:
     void processFileForRlSetupDelayInTupcWithSymonKnifeForFtm(std::string const& filePath);
     void processFileForFtmFcmWireshark(std::string const& filePath);
     void processFileForTopLogs(std::string const& filePath);
+    void processFileForRlSetupPerSecond(std::string const& filePath);
+    void processFileForTraceLog(std::string const& traceLogPath);
+    void processDirectoryForTraceLog(std::string const& traceLogPath);
 
     int getDelayTimeInUs(tcomToolsBackend::BtsLogTime const& endTime, tcomToolsBackend::BtsLogTime const& startTime) const;
     int getDelayTimeInMinutes(tcomToolsBackend::BtsLogTime const& endTime, tcomToolsBackend::BtsLogTime const& startTime) const;
-
 private:
     std::string m_extractGrepCondition;
-    tcomToolsBackend::BtsLogSorterConfiguration m_sorterConfiguration;
-    alba::AlbaOptional<std::ofstream> m_RawDataFileOptional;
+    tcomToolsBackend::BtsLogSorterConfiguration m_sorterConfiguration;    alba::AlbaOptional<std::ofstream> m_RawDataFileOptional;
 };
 
 }
