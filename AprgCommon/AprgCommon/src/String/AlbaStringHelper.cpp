@@ -154,6 +154,7 @@ void stringHelper::splitLinesToAchieveTargetLength(stringHelper::strings & strin
     set<unsigned int> transitionIndexes;
     unsigned int mainStringLength = mainString.length();
     bool isPreviousCharacterAWhitespace(false);
+    transitionIndexes.emplace(0);
     for(unsigned int i = 0; i < mainStringLength; i++)
     {
         char currentCharacter = mainString[i];
@@ -167,37 +168,39 @@ void stringHelper::splitLinesToAchieveTargetLength(stringHelper::strings & strin
         }
         isPreviousCharacterAWhitespace = isWhiteSpace(currentCharacter);
     }
-    transitionIndexes.emplace(0);
     transitionIndexes.emplace(mainStringLength);
 
     unsigned int previousSplittingIndex = 0;
     for(unsigned int splittingIndex = targetLength; splittingIndex < mainStringLength; splittingIndex += targetLength)
     {
         char currentCharacter = mainString[splittingIndex];
+
         if(!isWhiteSpace(currentCharacter))
         {
             auto pairOfIndex = containerHelper::getInclusiveRangeFromSet(transitionIndexes, splittingIndex);
-            unsigned int lowerTransitionIndex(pairOfIndex.first);
+            unsigned int lowerTransitionIndex(pairOfIndex.first+1);
             unsigned int upperTransitionIndex(pairOfIndex.second);
-            int lowerDelta = splittingIndex-lowerTransitionIndex;            int upperDelta = upperTransitionIndex-splittingIndex;
+            int lowerDelta = splittingIndex-lowerTransitionIndex;
+            int upperDelta = upperTransitionIndex-splittingIndex;
 
-            if(upperDelta > 0 && lowerDelta > 0)
-            {                if(upperDelta < lowerDelta)
+            if(upperDelta >= 0 && lowerDelta >= 0 && lowerTransitionIndex > previousSplittingIndex)
+            {
+                if(upperDelta < lowerDelta)
                 {
                     splittingIndex = upperTransitionIndex;
                 }
                 else
                 {
-                    splittingIndex = lowerTransitionIndex+1;
+                    splittingIndex = lowerTransitionIndex;
                 }
             }
-            else if(upperDelta > 0)
+            else if(upperDelta >= 0)
             {
                 splittingIndex = upperTransitionIndex;
             }
-            else if(lowerDelta > 0)
+            else if(lowerDelta >= 0 && lowerTransitionIndex > previousSplittingIndex)
             {
-                splittingIndex = lowerTransitionIndex+1;
+                splittingIndex = lowerTransitionIndex;
             }
         }
         strings.emplace_back(mainString.substr(previousSplittingIndex, splittingIndex-previousSplittingIndex));

@@ -1,4 +1,5 @@
 #include <User/AlbaDisplayTable.hpp>
+
 #include <gtest/gtest.h>
 #include <windows.h>
 

@@ -11,6 +11,9 @@ set(APRG_COMMON_DIR ${APRG_DIR}/AprgCommon/AprgCommon/)
 set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99 -mwindows")
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11 -mwindows")
 
+#Assign Definitions
+add_definitions(-DAPRG_DIR="${APRG_DIR}")
+
 #Include gTest, this needs APRG Directory
 include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 

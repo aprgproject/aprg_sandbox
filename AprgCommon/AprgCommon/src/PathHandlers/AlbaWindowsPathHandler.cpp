@@ -14,7 +14,7 @@ namespace alba
 AlbaWindowsPathHandler::AlbaWindowsPathHandler(InitialValue const initialValue)
     : AlbaPathHandler(R"(\)")
 {
-    if(InitialValue::PathFromWindows == initialValue)
+    if(InitialValue::DetectedLocalPath == initialValue)
     {
         setPathToCurrentPathFromWindows();
     }

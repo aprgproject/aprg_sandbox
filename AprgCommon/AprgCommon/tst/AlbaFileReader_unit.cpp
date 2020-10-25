@@ -6,8 +6,8 @@
 using namespace alba;
 using namespace std;
 
-#define ALBA_FILE_READER_TEST_FILE R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\FileReaderTest\Test1.txt)"
-#define ALBA_FILE_READER_SIZE_TEST_FILE R"(C:\APRG\AprgCommon\AprgCommon\tst\FilesForTests\FileReaderTest\Test2_SizeTest.txt)"
+#define ALBA_FILE_READER_TEST_FILE APRG_DIR R"(\AprgCommon\AprgCommon\tst\FilesForTests\FileReaderTest\Test1.txt)"
+#define ALBA_FILE_READER_SIZE_TEST_FILE APRG_DIR R"(\AprgCommon\AprgCommon\tst\FilesForTests\FileReaderTest\Test2_SizeTest.txt)"
 
 TEST(FileReadTest, ReadFromTestFile_ReadSingleCharacterFromBinaryFile)
 {
@@ -75,8 +75,8 @@ TEST(FileReadTest, ReadFromTestFile_ReadFourByteNumbers)
     testFile.put(0x23);
     testFile.put(0x45);
     testFile.put(0x67);
-    testFile.put(0xA1);
-    testFile.put(0xBA);
+    testFile.put((char)0xA1);
+    testFile.put((char)0xBA);
     testFile.close();
 
 

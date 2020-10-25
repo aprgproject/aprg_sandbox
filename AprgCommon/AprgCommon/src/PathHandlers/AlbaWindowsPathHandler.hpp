@@ -12,7 +12,7 @@ class AlbaWindowsPathHandler: public AlbaPathHandler
 public:
     enum class InitialValue
     {
-        PathFromWindows
+        DetectedLocalPath
     };
     typedef std::set<std::string> ListOfPaths;
     AlbaWindowsPathHandler(InitialValue const initialValue);

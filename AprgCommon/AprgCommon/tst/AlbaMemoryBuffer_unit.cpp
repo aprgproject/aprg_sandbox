@@ -12,9 +12,11 @@ TEST(AlbaMemoryBufferTest, DefaultValuesAreClear)
     EXPECT_FALSE(buffer.hasContent());
     EXPECT_EQ(0, buffer.getSize());
 }
+
 TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeSaved)
 {
-    AlbaMemoryBuffer buffer;    int input = 11111111;
+    AlbaMemoryBuffer buffer;
+    int input = 11111111;
     buffer.setNewBuffer((void*)&input, sizeof(input));
     int output = *reinterpret_cast<int*>(buffer.getBufferPointer());
 
@@ -23,9 +25,11 @@ TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeSaved)
     EXPECT_EQ(4, buffer.getSize());
     EXPECT_EQ(input, output);
 }
+
 TEST(AlbaMemoryBufferTest, MemoryBufferCanBeCopied)
 {
-    AlbaMemoryBuffer buffer;    int input = 11111111;
+    AlbaMemoryBuffer buffer;
+    int input = 11111111;
     buffer.setNewBuffer((void*)&input, sizeof(input));
     AlbaMemoryBuffer buffer2(buffer);
     int output = *reinterpret_cast<int*>(buffer2.getBufferPointer());
@@ -35,9 +39,11 @@ TEST(AlbaMemoryBufferTest, MemoryBufferCanBeCopied)
     EXPECT_EQ(4, buffer2.getSize());
     EXPECT_EQ(input, output);
 }
+
 TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeSavedConsecutively2Times)
 {
-    AlbaMemoryBuffer buffer;    int input = 11111111, input2 = 22222222;
+    AlbaMemoryBuffer buffer;
+    int input = 11111111, input2 = 22222222;
     buffer.setNewBuffer((void*)&input, sizeof(input));
     buffer.setNewBuffer((void*)&input2, sizeof(input2));
     int output = *reinterpret_cast<int*>(buffer.getBufferPointer());
@@ -47,9 +53,11 @@ TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeSavedConsecutively2Times)
     EXPECT_EQ(4, buffer.getSize());
     EXPECT_EQ(input2, output);
 }
+
 TEST(AlbaMemoryBufferTest, StructureCanBeSaved)
 {
-    AlbaMemoryBuffer buffer;    struct Sample
+    AlbaMemoryBuffer buffer;
+    struct Sample
     {
         bool param1;
         int param2;
@@ -67,5 +75,6 @@ TEST(AlbaMemoryBufferTest, StructureCanBeSaved)
     EXPECT_TRUE(buffer.hasContent());
     EXPECT_EQ(sizeof(Sample), buffer.getSize());
     EXPECT_EQ(input.param1, output.param1);
-    EXPECT_EQ(input.param2, output.param2);    EXPECT_EQ(input.param3, output.param3);
+    EXPECT_EQ(input.param2, output.param2);
+    EXPECT_EQ(input.param3, output.param3);
 }
