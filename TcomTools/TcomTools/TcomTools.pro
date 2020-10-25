@@ -63,8 +63,16 @@ src\
 ../../AprgAlgorithm/AprgAlgorithm/src\
 ../../AprgCommon/AprgCommon/src
 
-QMAKE_LFLAGS += -Wl,-subsystem,windows
+
+win32 {
+     QMAKE_LFLAGS += -Wl,-subsystem,windows
+}
+
+message(APRG_DIR=\\\"$$PWD/../../\\\")
 
 DEFINES -= UNICODE
+DEFINES += APRG_DIR=\\\"$$PWD/../../\\\"
+DEFINES += PATH_OF_7Z_EXECUTABLE=\\\"$$PWD/../../AprgFileExtractor/7z32/7z.exe\\\"
+DEFINES += PATH_OF_7Z_TEMP_FILE=\\\"$$PWD/../../AprgFileExtractor/7z32/TempFile.txt\\\"
 
 CONFIG += c++11 console
