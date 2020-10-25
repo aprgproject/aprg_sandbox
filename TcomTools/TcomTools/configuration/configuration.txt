@@ -35,16 +35,14 @@ grepConditionForCchhSdl:(([CCHH] || [HSCTRL] || [CCHCTRL]) && [TCOM/Logger]) || 
 grepConditionForHsch:[TCOM/HSCH]
 grepConditionForDmgr:[TCOM/DMGR]
 inputFileOrDirectory:D:\W\ZZZ_Useless_Logs\FZPDeployment\2016-01-10\sorted.log
-extractGrepCondition:[LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles]
-acceptedFilesGrepCondition: [ccns.log] || [tcom.log] || [system.log] || [UDP] || (([SYSLOG_] || [startup] || [runtime]|| [_pm_] || [CPU]) && [.log])
+extractGrepCondition:[LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [pm_] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles]
+acceptedFilesGrepCondition: [ccns.log] || [tcom.log] || [system.log] || [UDP] || (([SYSLOG_] || [startup] || [runtime]|| [pm_] || [CPU]) && [.log])
 otherGrepCondition:
 prioritizedLogPrint:
-cropSize:100
-btsLogSorterConfiguration.m_pathOfLogsWithoutPcTime:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\LogsWithoutPcTime
+cropSize:100btsLogSorterConfiguration.m_pathOfLogsWithoutPcTime:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\LogsWithoutPcTime
 btsLogSorterConfiguration.m_pathOfStartupLog:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\StartupLog\Startup.log
 btsLogSorterConfiguration.m_configurationWithPcTime.m_directoryForBlocks:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\WithPcTimeBlocks
-btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock:10000
-btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock:100000
+btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock:10000btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock:100000
 btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory:200000
 btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams:50
 btsLogSorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\WithoutPcTimeBlocks
