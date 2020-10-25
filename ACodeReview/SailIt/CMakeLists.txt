@@ -7,15 +7,21 @@ set(TEST_MODE "ON")
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 
 #Assign Flags
-set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99 -mwindows")
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11 -mwindows")
+set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11")
+if(WIN32)
+    #add -mwindows for windows GUI, do not add for console build
+    #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mwindows")
+    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
+endif()
+
+#Assign Definitions
+add_definitions(-DAPRG_DIR="${APRG_DIR}")
 
 #Include gTest, this needs APRG Directory
 include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
-
 #Include AprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
-
 set(CODE_SOURCES
     src/SailIt.cpp
     src/SailIt.hpp

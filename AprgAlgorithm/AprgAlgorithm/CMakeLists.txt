@@ -8,15 +8,24 @@ set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(APRG_ALGORITHM_DIR ${APRG_DIR}/AprgAlgorithm/AprgAlgorithm/)
 
 #Assign Flags
-set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99 -mwindows")
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11 -mwindows")
+set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11")
+if(WIN32)
+    #add -mwindows for windows GUI, do not add for console build
+    #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mwindows")
+    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
+endif()
+
+#Assign Definitions
+add_definitions(-DAPRG_DIR="${APRG_DIR}")
+
+#Assign Definitions
+add_definitions(-DAPRG_DIR="${APRG_DIR}")
 
 #Include aprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
-
 #Include gTest, this needs APRG Directory
 include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
-
 #Add files and directories
 include(${APRG_ALGORITHM_DIR}/cmake/FilesAndDirectories.cmake)
 
