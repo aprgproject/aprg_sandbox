@@ -30,57 +30,50 @@ bool Implicant::operator==(Implicant const& implicant) const
 
 bool Implicant::operator<(Implicant const& implicant) const
 {
-    return getFirstMinterm() < implicant.getFirstMinterm();
+    return  m_minterms<implicant.m_minterms;
 }
 
-bool Implicant::isCompatible(Implicant const& implicant) const
-{
+bool Implicant::isCompatible(Implicant const& implicant) const{
     unsigned int length(std::max(getLengthOfEquivalentString(), implicant.getLengthOfEquivalentString()));
     string string1(getEquivalentString(length));
-    string string2(implicant.getEquivalentString(length));
-    bool result(true);
+    string string2(implicant.getEquivalentString(length));    bool result(true);
     unsigned int difference=0;
     for(unsigned int i=0; i<length; i++)
     {
-        if(string1[i] == string2[i])
+        if(string1[i] != string2[i])
         {
-
-        }
-        else if(string1[i] == '-' || string2[i] == '-')
-        {
-            result = false;
-            break;
-        }
-        else if(difference > 1)
-        {
-            result = false;
-            break;
-        }
-        else
-        {
-            difference++;
-        }
-    }
-    return result;
-}
-
-bool Implicant::isSubset(Implicant const& implicant) const
-{
-    bool result(false);
-    if(m_minterms.size() <= implicant.m_minterms.size())
-    {
-        result = true;
-        for(unsigned int minterm : m_minterms)
-        {
-            auto it = implicant.m_minterms.find(minterm);
-            if (it == implicant.m_minterms.end())
+            if(string1[i] == '-' || string2[i] == '-')
             {
-                result=false;
+                result = false;
                 break;
+            }
+            else if(difference > 1)
+            {
+                result = false;
+                break;
+            }
+            else
+            {
+                difference++;
             }
         }
     }
     return result;
+}
+bool Implicant::isSubset(Implicant const& implicant) const
+{
+    bool result(false);    if(m_minterms.size() <= implicant.m_minterms.size())
+    {
+        result = true;
+        for(unsigned int minterm : m_minterms)
+        {
+            Minterms::const_iterator it = implicant.m_minterms.find(minterm);
+            if (it == implicant.m_minterms.end())
+            {
+                result=false;                break;
+            }
+        }
+    }    return result;
 }
 
 bool Implicant::isSuperset(unsigned int minterm) const
@@ -88,15 +81,13 @@ bool Implicant::isSuperset(unsigned int minterm) const
     bool result(false);
     if(m_minterms.size()>0)
     {
-        auto it = m_minterms.find(minterm);
+        Minterms::const_iterator it = m_minterms.find(minterm);
         if (it == m_minterms.end())
         {
-            result = false;
-        }
+            result = false;        }
         else
         {
-            result = true;
-        }
+            result = true;        }
     }
     return result;
 }
@@ -228,14 +219,12 @@ void Implicants::addImplicant(Implicant const& implicant)
     }
     if(!isExisting)
     {
-        m_implicants.emplace_back(implicant);
+        m_implicants.emplace(implicant);
     }
 }
-
 void Implicants::addFinalImplicant(Implicant const& implicant)
 {
-    bool isAlreadyRepresented(false);
-    for(Implicant const& iteratorImplicant : m_implicants)
+    bool isAlreadyRepresented(false);    for(Implicant const& iteratorImplicant : m_implicants)
     {
         if(implicant.isSubset(iteratorImplicant))
         {
@@ -245,10 +234,9 @@ void Implicants::addFinalImplicant(Implicant const& implicant)
     }
     if(!isAlreadyRepresented)
     {
-        m_implicants.emplace_back(implicant);
+        m_implicants.emplace(implicant);
     }
 }
-
 
 QuineMcCluskey::QuineMcCluskey()
 {}
@@ -256,14 +244,12 @@ QuineMcCluskey::QuineMcCluskey()
 LogicalValue QuineMcCluskey::getOutput(unsigned int const input) const
 {
     LogicalValue result(LogicalValue::False);
-    auto it = m_functionMap.find(input);
+    FunctionsMap::const_iterator it = m_functionMap.find(input);
     if (it != m_functionMap.end())
     {
-        result = it->second;
-    }
+        result = it->second;    }
     return result;
 }
-
 unsigned int QuineMcCluskey::getNumberOfOnes(unsigned int const value) const
 {
     int count=0;
@@ -280,106 +266,103 @@ unsigned int QuineMcCluskey::getNumberOfOnes(unsigned int const value) const
 Implicants QuineMcCluskey::getImplicants(unsigned int degree, unsigned int cubeSize) const
 {
     Implicants result;
-    auto it = m_computationalTable.find(degree);
+    ComputationalTable::const_iterator it = m_computationalTable.find(degree);
     if (it != m_computationalTable.end())
     {
         ImplicantsMap const& implicantsMap(it->second);
-        auto it2 = implicantsMap.implicantsMap.find(cubeSize);
-        if (it2 != implicantsMap.implicantsMap.end())
+        ImplicantsMap::const_iterator it2 = implicantsMap.find(cubeSize);
+        if (it2 != implicantsMap.end())
         {
             Implicants const& implicants(it2->second);
-            implicants.loopAllImplicants([&](Implicant const& implicant)
-            {
+            implicants.loopAllImplicants([&](Implicant const& implicant)            {
                 result.addImplicant(implicant);
             });
-        }
-    }
+        }    }
     return result;
 }
 
 Implicants QuineMcCluskey::getAllFinalImplicants() const
 {
     Implicants result;
-    for(int cubeSize=(int)m_cubeSize; cubeSize>=0; cubeSize--)
+    ComputationalTable::const_iterator itFinal=m_computationalTable.end();
+    itFinal--;
+    for(ComputationalTable::const_iterator it=m_computationalTable.begin(); it!=itFinal; it++)
     {
-        for(unsigned int degree=0; degree+1<m_computationalTable.size(); degree++)
+        ImplicantsMap const& implicantsMap(it->second);
+        for(ImplicantsMap::const_reverse_iterator it2=implicantsMap.rbegin(); it2!=implicantsMap.rend(); it2++)
         {
-            auto it = m_computationalTable.find(degree);
-            if (it != m_computationalTable.end())
+            Implicants const& currentImplicants(it2->second);
+            currentImplicants.loopAllImplicants([&](Implicant const& implicant)
             {
-                ImplicantsMap const& implicantsMap(it->second);
-                auto it2 = implicantsMap.implicantsMap.find(cubeSize);
-                if (it2 != implicantsMap.implicantsMap.end())
-                {
-                    Implicants const& currentImplicants(it2->second);
-                    currentImplicants.loopAllImplicants([&](Implicant const& implicant)
-                    {
-                        result.addFinalImplicant(implicant);
-                    });
-                }
-            }
+                result.addFinalImplicant(implicant);
+            });
         }
+    }
+    return result;
+}
+
+bool QuineMcCluskey::doImplicantsExistAt(unsigned int degree, unsigned int cubeSize) const
+{
+    bool result(false);
+    ComputationalTable::const_iterator it = m_computationalTable.find(degree);
+    if (it != m_computationalTable.end())
+    {
+        ImplicantsMap const& implicantsMap(it->second);
+        result = implicantsMap.find(cubeSize) != implicantsMap.end();
     }
     return result;
 }
 
 void QuineMcCluskey::setInputOutput(unsigned int const input, LogicalValue const output)
 {
-    if(output == LogicalValue::True || output == LogicalValue::DontCare)
-    {
+    if(output == LogicalValue::True || output == LogicalValue::DontCare)    {
         m_functionMap.emplace(input, output);
     }
 }
 
 void QuineMcCluskey::fillComputationalTableWithMintermsForZeroCube()
 {
-    for(auto const & mintermOutputPair : m_functionMap)
+    for(FunctionsMap::value_type const & mintermOutputPair : m_functionMap)
     {
         addMintermForZeroCube(mintermOutputPair.first);
-    }
-}
+    }}
 
 void QuineMcCluskey::findCombinationOfImplicants(unsigned int degree, unsigned int cubeSize)
 {
     if(degree+1<m_computationalTable.size())
     {
-        Implicants const& implicants1(m_computationalTable[degree].implicantsMap[cubeSize]);
-        Implicants const& implicants2(m_computationalTable[degree+1].implicantsMap[cubeSize]);
+        Implicants const& implicants1(m_computationalTable[degree][cubeSize]);
+        Implicants const& implicants2(m_computationalTable[degree+1][cubeSize]);
         implicants1.loopAllImplicants([&](Implicant const& implicant1)
         {
-            implicants2.loopAllImplicants([&](Implicant const& implicant2)
-            {
+            implicants2.loopAllImplicants([&](Implicant const& implicant2)            {
                 if(implicant1.isCompatible(implicant2))
                 {
-                    m_computationalTable[degree].implicantsMap[cubeSize+1].addImplicant(implicant1+implicant2);
+                    m_computationalTable[degree][cubeSize+1].addImplicant(implicant1+implicant2);
                 }
             });
-        });
-    }
+        });    }
 }
 
-void QuineMcCluskey::findAllCombinations()
-{
+void QuineMcCluskey::findAllCombinations(){
     unsigned int cubeSize=0;
     bool areAllCombinationsFound(false);
     while(!areAllCombinationsFound)
     {
-        unsigned int count=0;
+        bool isCombinationFound(false);
         for(unsigned int degree=0; degree+1<m_computationalTable.size(); degree++)
         {
             findCombinationOfImplicants(degree, cubeSize);
-            count += m_computationalTable[degree].implicantsMap[cubeSize].getSize();
+            isCombinationFound = isCombinationFound | doImplicantsExistAt(degree, cubeSize+1);
         }
+        areAllCombinationsFound = !isCombinationFound;
         cubeSize++;
-        areAllCombinationsFound = count==0;
     }
     m_cubeSize = (cubeSize>0) ? cubeSize-1 : 0;
 }
-
 string QuineMcCluskey::getOutputTable(Implicants const& finalImplicants)
 {
-    vector<unsigned int> inputsWithTrue;
-    for(auto inputOutputPair : m_functionMap)
+    vector<unsigned int> inputsWithTrue;    for(auto inputOutputPair : m_functionMap)
     {
         if(inputOutputPair.second == LogicalValue::True)
         {
@@ -420,7 +403,7 @@ void QuineMcCluskey::addMintermForZeroCube(unsigned int minterm)
     unsigned int numberOfOnes = getNumberOfOnes(minterm);
     Implicant implicant;
     implicant.addMinterm(minterm);
-    m_computationalTable[numberOfOnes].implicantsMap[0].addImplicant(implicant);
+    m_computationalTable[numberOfOnes][0].addImplicant(implicant);
 }
 
 }
