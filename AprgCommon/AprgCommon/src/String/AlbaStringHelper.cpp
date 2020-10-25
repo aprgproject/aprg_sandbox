@@ -148,43 +148,44 @@ template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithDe
 
 void stringHelper::splitLinesToAchieveTargetLength(stringHelper::strings & strings, std::string const& mainString, unsigned int const targetLength)
 {
-    int mainStringLength = mainString.length();
-    int previousSplittingIndex=0;
-    for(int splittingIndex = 0; splittingIndex<mainStringLength; splittingIndex += targetLength)
+    unsigned int mainStringLength = mainString.length();
+    unsigned int previousSplittingIndex=0;
+    for(unsigned int splittingIndex = 0; splittingIndex < mainStringLength; splittingIndex += targetLength)
     {
         bool isSplittingIndexFound(false);
-        for(int deltaFromSplittingIndex = 0; !isSplittingIndexFound; deltaFromSplittingIndex++)
+        for(unsigned int deltaFromSplittingIndex = 0; splittingIndex+deltaFromSplittingIndex < mainStringLength; deltaFromSplittingIndex++)
         {
             if(splittingIndex+deltaFromSplittingIndex<mainStringLength && isWhiteSpace(mainString[splittingIndex+deltaFromSplittingIndex]))
             {
                 splittingIndex=splittingIndex+deltaFromSplittingIndex;
                 isSplittingIndexFound=true;
+                break;
             }
-            if(splittingIndex-deltaFromSplittingIndex>=0 && isWhiteSpace(mainString[splittingIndex-deltaFromSplittingIndex]))
+            else if(splittingIndex>=deltaFromSplittingIndex && isWhiteSpace(mainString[splittingIndex-deltaFromSplittingIndex]))
             {
-                splittingIndex=splittingIndex-deltaFromSplittingIndex;
+                splittingIndex=splittingIndex-deltaFromSplittingIndex+1;
                 isSplittingIndexFound=true;
+                break;
             }
         }
-        if(!isSplittingIndexFound)
-        {
+        if(!isSplittingIndexFound)        {
             splittingIndex = mainStringLength;
         }
-        if(previousSplittingIndex<splittingIndex)
-        {
+        if(previousSplittingIndex<splittingIndex)        {
             strings.emplace_back(mainString.substr(previousSplittingIndex, splittingIndex-previousSplittingIndex));
         }
         previousSplittingIndex=splittingIndex;
     }
-
+    if(previousSplittingIndex<mainStringLength)
+    {
+        strings.emplace_back(mainString.substr(previousSplittingIndex, mainStringLength-previousSplittingIndex));
+    }
 }
 
-string stringHelper::getStringWithCapitalLetters(string const& mainString)
-{
+string stringHelper::getStringWithCapitalLetters(string const& mainString){
     string result;
     result.resize(mainString.length());
-    transform(mainString.begin(), mainString.end(), result.begin(), ::toupper);
-    return result;
+    transform(mainString.begin(), mainString.end(), result.begin(), ::toupper);    return result;
 }
 
 string stringHelper::getStringWithLowerCaseLetters(string const& mainString)
