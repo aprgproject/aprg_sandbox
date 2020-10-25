@@ -9,218 +9,198 @@ using namespace alba::stringHelper;
 TEST(GetNewStringFromStringTest, FindAndReplaceStrings)
 {
     string string1("Mark is the no#1 guy in the world. Mark is also the nicest guy.");
-    EXPECT_EQ(transformReplaceStringIfFound(string1, "alba", "ALBA"), false);
-    EXPECT_EQ(transformReplaceStringIfFound(string1, "Mark", "MARK"), true);
-    EXPECT_EQ(string1, "MARK is the no#1 guy in the world. MARK is also the nicest guy.");
-    EXPECT_EQ(transformReplaceStringIfFound(string1, "guy", "programmer"), true);
-    EXPECT_EQ(string1, "MARK is the no#1 programmer in the world. MARK is also the nicest programmer.");
+
+    EXPECT_FALSE(transformReplaceStringIfFound(string1, "alba", "ALBA"));
+    EXPECT_TRUE(transformReplaceStringIfFound(string1, "Mark", "MARK"));
+    EXPECT_EQ("MARK is the no#1 guy in the world. MARK is also the nicest guy.", string1);
+    EXPECT_TRUE(transformReplaceStringIfFound(string1, "guy", "programmer"));
+    EXPECT_EQ("MARK is the no#1 programmer in the world. MARK is also the nicest programmer.", string1);
 }
 
-TEST(SplitStringTest, SplitBySpaces)
-{
+TEST(SplitStringTest, SplitBySpaces){
     string string1("   Mark is the no#1      guy in the  world.    Mark is also the nicest guy.    ");
     strings expectedStrings {"Mark", "is", "the", "no#1", "guy", "in", "the", "world.", "Mark", "is", "also", "the", "nicest", "guy."};
     strings actualStrings;
     splitToStrings<SplitStringType::WithoutDelimeters>(actualStrings, string1, " ");
 
-    ASSERT_EQ(actualStrings.size(), expectedStrings.size());
+    ASSERT_EQ(expectedStrings.size(), actualStrings.size());
     int size = expectedStrings.size();
-    for(int i=0; i<size; i++)
-    {
-        EXPECT_EQ(actualStrings[i], expectedStrings[i]);
-    }
-}
-
-TEST(SplitStringTest, SplitBySpacesWithDelimeters)
-{
-    string string1("   Mark is the no#1      guy in the  world.   ");
-    strings expectedStrings {" ", " ", " ", "Mark", " ", "is", " ", "the", " ", "no#1", " ", " ", " ", " ", " ", " ", "guy", " ", "in", " ", "the", " ", " ", "world.", " ", " ", " "};
-    strings actualStrings;
-    splitToStrings<SplitStringType::WithDelimeters>(actualStrings, string1, " ");
-
-    ASSERT_EQ(actualStrings.size(), expectedStrings.size());
-    int size = expectedStrings.size();
-    for(int i=0; i<size; i++)
-    {
-        EXPECT_EQ(actualStrings[i], expectedStrings[i]);
-    }
-}
-
-TEST(SplitStringTest, SplitLinesToAchieveTargetLength)
-{
-    string string1("   Mark is the no#1      guy in the  world.   ThisIsALongString");
-    strings expectedStrings {"   Mark is", " the no#1 ", "     guy in", " the  world.", "   ", "ThisIsALongString"};
-    strings actualStrings;
-    const int targetLength = 10;
-
-    splitLinesToAchieveTargetLength(actualStrings, string1, targetLength);
-
-    //ASSERT_EQ(expectedStrings.size(), actualStrings.size());
-    int size = std::min(expectedStrings.size(), actualStrings.size());
     for(int i=0; i<size; i++)
     {
         EXPECT_EQ(expectedStrings[i], actualStrings[i]);
     }
 }
-
-TEST(UniqueIdTest, GenerateUniqueId)
+TEST(SplitStringTest, SplitBySpacesWithDelimeters)
 {
+    string string1("   Mark is the no#1      guy in the  world.   ");    strings expectedStrings {" ", " ", " ", "Mark", " ", "is", " ", "the", " ", "no#1", " ", " ", " ", " ", " ", " ", "guy", " ", "in", " ", "the", " ", " ", "world.", " ", " ", " "};
+    strings actualStrings;
+    splitToStrings<SplitStringType::WithDelimeters>(actualStrings, string1, " ");
+
+    ASSERT_EQ(expectedStrings.size(), actualStrings.size());
+    int size = expectedStrings.size();
+    for(int i=0; i<size; i++)
+    {
+        EXPECT_EQ(expectedStrings[i], actualStrings[i]);
+    }
+}
+TEST(SplitStringTest, SplitLinesToAchieveTargetLength)
+{
+    string string1("   Mark is the no#1      guy in the  world.   ThisIsALongString");    strings expectedStrings {"   Mark is", " the no#1 ", "     guy in", " the  world.", "   ", "ThisIsALongString"};
+    strings actualStrings;
+    const int targetLength = 10;
+
+    splitLinesToAchieveTargetLength(actualStrings, string1, targetLength);
+
+    ASSERT_EQ(expectedStrings.size(), actualStrings.size());
+    int size = expectedStrings.size();
+    for(int i=0; i<size; i++)
+    {
+        EXPECT_EQ(expectedStrings[i], actualStrings[i]);    }
+}
+
+TEST(UniqueIdTest, GenerateUniqueId){
     string string1("Mark is the no#1 guy in the world. Mark is also the nicest guy.");
     string string2("MARK is the no#1 programmer in the world. MARK is also the nicest programmer.");
     unsigned int uniqueId1 = generateUniqueId(string1);
     unsigned int uniqueId2 = generateUniqueId(string2);
-    EXPECT_EQ(uniqueId1, 552749853u);
-    EXPECT_EQ(uniqueId2, 1436619827u);
+    EXPECT_EQ(552749853u, uniqueId1);
+    EXPECT_EQ(1436619827u, uniqueId2);
+}
+
+TEST(ConstructFileLocatorTest, ConstructFileLocator)
+{
+    EXPECT_FALSE(constructFileLocator(__FILE__, __LINE__).empty());
 }
 
 TEST(UniqueIdTest, CheckLevenshteinDistance)
 {
-    string string1("This is a statement");
-    string string2("This is  statement");
+    string string1("This is a statement");    string string2("This is  statement");
     string string3("This is not a statement");
     string string4("This is b statement");
-    EXPECT_EQ(getLevenshteinDistance(string1, string2), 1u);
-    EXPECT_EQ(getLevenshteinDistance(string1, string3), 4u);
-    EXPECT_EQ(getLevenshteinDistance(string1, string4), 1u);
+    EXPECT_EQ(1u, getLevenshteinDistance(string1, string2));
+    EXPECT_EQ(4u, getLevenshteinDistance(string1, string3));
+    EXPECT_EQ(1u, getLevenshteinDistance(string1, string4));
 }
 TEST(ConvertCaseFromStringTest, ConvertToCapitalLettersUsingAllLetters)
-{
-    string testString("AbCDEFghIjKlMnopQRstUvWxYz");
+{    string testString("AbCDEFghIjKlMnopQRstUvWxYz");
     string capitalLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-    EXPECT_EQ(getStringWithCapitalLetters(testString), capitalLetters);
+    EXPECT_EQ(capitalLetters, getStringWithCapitalLetters(testString));
 }
 
-TEST(ConvertCaseFromStringTest, ConvertToCapitalLettersUsingAllLettersWithSpecialCharacters)
-{
+TEST(ConvertCaseFromStringTest, ConvertToCapitalLettersUsingAllLettersWithSpecialCharacters){
     string testString("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz");
     string capitalLetters("1234567890!@#$%^&*( )ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-    EXPECT_EQ(getStringWithCapitalLetters(testString), capitalLetters);
+    EXPECT_EQ(capitalLetters, getStringWithCapitalLetters(testString));
 }
 
-TEST(ConvertCaseFromStringTest, ConvertToLowerCaseLettersUsingAllLettersWithSpecialCharacters)
-{
+TEST(ConvertCaseFromStringTest, ConvertToLowerCaseLettersUsingAllLettersWithSpecialCharacters){
     string testString("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz");
     string lowerCaseLetters("1234567890!@#$%^&*( )abcdefghijklmnopqrstuvwxyz");
 
-    EXPECT_EQ(getStringWithLowerCaseLetters(testString), lowerCaseLetters);
+    EXPECT_EQ(lowerCaseLetters, getStringWithLowerCaseLetters(testString));
 }
 
-TEST(ConvertUrlFromStringTest, DecodeUrlString)
-{
+TEST(ConvertUrlFromStringTest, DecodeUrlString){
     string testString("https%3A%2F%2Fmywebsite%2Fdocs%2Fenglish%2Fsite%2Fmybook.do%3Frequest_type");
     string decodedUrl("https://mywebsite/docs/english/site/mybook.do?request_type");
 
-    EXPECT_EQ(getStringWithUrlDecodedString(testString), decodedUrl);
+    EXPECT_EQ(decodedUrl, getStringWithUrlDecodedString(testString));
 }
 
-TEST(ConvertUrlFromStringTest, DecodeUrlString2)
-{
+TEST(ConvertUrlFromStringTest, DecodeUrlString2){
     string testString("Last+Week+Tonight+with+John+Oliver-+The+IRS+%28HBO%29");
     string decodedUrl("Last+Week+Tonight+with+John+Oliver-+The+IRS+(HBO)");
 
-    EXPECT_EQ(getStringWithUrlDecodedString(testString), decodedUrl);
+    EXPECT_EQ(decodedUrl, getStringWithUrlDecodedString(testString));
 }
 
-TEST(GetPartialStringFromStringTest, GetWithoutStartingAndTrailingWhiteSpaceUsingWhiteSpaceOnly)
-{
+TEST(GetPartialStringFromStringTest, GetWithoutStartingAndTrailingWhiteSpaceUsingWhiteSpaceOnly){
     string testString("     \n\n    \t\t\t   ");
     EXPECT_TRUE(getStringWithoutStartingAndTrailingWhiteSpace(testString).empty());
 }
-
 TEST(GetPartialStringFromStringTest, GetWithoutStartingAndTrailingWhiteSpaceUsingAllLettersWithSpecialCharacters)
 {
     string testString("     \n\n1 2 3 4 5 6   7 8 9 0!@#$%^&*( )a   b   c d e f g   h i j k l m  n o   p q r\n\n\ns t u v w x y z    ");
     string withoutStartingAndTrailingWhiteSpace("1 2 3 4 5 6   7 8 9 0!@#$%^&*( )a   b   c d e f g   h i j k l m  n o   p q r\n\n\ns t u v w x y z");
 
-    EXPECT_EQ(getStringWithoutStartingAndTrailingWhiteSpace(testString), withoutStartingAndTrailingWhiteSpace);
+    EXPECT_EQ(withoutStartingAndTrailingWhiteSpace, getStringWithoutStartingAndTrailingWhiteSpace(testString));
 }
 
-TEST(GetPartialStringFromStringTest, GetWithoutRedundantWhiteSpaceUsingAllLettersWithSpecialCharacters)
-{
+TEST(GetPartialStringFromStringTest, GetWithoutRedundantWhiteSpaceUsingAllLettersWithSpecialCharacters){
     string testString("     \n\n1 2 3 4 5 6   7 8 9 0!@#$%^&*( )a   b   c d e f g   h i j k l m  n o   p q r\n\n\ns t u v w x y z    ");
     string withoutRedundantWhiteSpace("1 2 3 4 5 6 7 8 9 0!@#$%^&*( )a b c d e f g h i j k l m n o p q r s t u v w x y z");
 
-    EXPECT_EQ(getStringWithoutRedundantWhiteSpace(testString), withoutRedundantWhiteSpace);
+    EXPECT_EQ(withoutRedundantWhiteSpace, getStringWithoutRedundantWhiteSpace(testString));
 }
 
 TEST(GetPartialStringFromStringTest, GetWithoutRedundantWhiteSpaceWithTabsAndNewLine)
 {
     string correctOutput("Mark is the no#1 guy in the world");
-    EXPECT_EQ(getStringWithoutRedundantWhiteSpace("Mark is the no#1 guy in the world"), correctOutput);
-    EXPECT_EQ(getStringWithoutRedundantWhiteSpace("    Mark    is the no#1 guy  in the     world    "), correctOutput);
-    EXPECT_EQ(getStringWithoutRedundantWhiteSpace("Mark is\n\tthe\tno#1    \n\n\nguy\tin\r\rthe\nworld"), correctOutput);
+    EXPECT_EQ(correctOutput, getStringWithoutRedundantWhiteSpace("Mark is the no#1 guy in the world"));
+    EXPECT_EQ(correctOutput, getStringWithoutRedundantWhiteSpace("    Mark    is the no#1 guy  in the     world    "));
+    EXPECT_EQ(correctOutput, getStringWithoutRedundantWhiteSpace("Mark is\n\tthe\tno#1    \n\n\nguy\tin\r\rthe\nworld"));
 }
 
-TEST(GetPartialStringFromStringTest, GetStringWithoutQuotationsUsingAllLettersWithSpecialCharacters)
-{
+TEST(GetPartialStringFromStringTest, GetStringWithoutQuotationsUsingAllLettersWithSpecialCharacters){
     string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
     string withoutQuotations("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz");
 
-    EXPECT_EQ(getStringWithoutQuotations(testString), withoutQuotations);
+    EXPECT_EQ(withoutQuotations, getStringWithoutQuotations(testString));
 }
 
-TEST(GetPartialStringFromStringTest, GetStringWithoutCharacterAtTheStartUsingAllLetters)
-{
+TEST(GetPartialStringFromStringTest, GetStringWithoutCharacterAtTheStartUsingAllLetters){
     string testString("_AbCDEFghIjKlMnopQRstUvWxYz");
     string withoutUnderscore("AbCDEFghIjKlMnopQRstUvWxYz");
 
-    EXPECT_EQ(getStringWithoutCharAtTheStart(testString, '_'), withoutUnderscore);
+    EXPECT_EQ(withoutUnderscore, getStringWithoutCharAtTheStart(testString, '_'));
 }
 
-TEST(GetPartialStringFromStringTest, GetStringWithoutCharacterAtTheEndUsingAllLetters)
-{
+TEST(GetPartialStringFromStringTest, GetStringWithoutCharacterAtTheEndUsingAllLetters){
     string testString("AbCDEFghIjKlMnopQRstUvWxYz_");
     string withoutUnderscore("AbCDEFghIjKlMnopQRstUvWxYz");
 
-    EXPECT_EQ(getStringWithoutCharAtTheEnd(testString, '_'), withoutUnderscore);
+    EXPECT_EQ(withoutUnderscore, getStringWithoutCharAtTheEnd(testString, '_'));
 }
 
-TEST(GetPartialStringFromStringTest, GetStringWithoutCharacterAtTheStartAndEndUsingAllLetters)
-{
+TEST(GetPartialStringFromStringTest, GetStringWithoutCharacterAtTheStartAndEndUsingAllLetters){
     string testString("_AbCDEFghIjKlMnopQRstUvWxYz_");
     string withoutUnderscore("AbCDEFghIjKlMnopQRstUvWxYz");
 
-    EXPECT_EQ(getStringWithoutCharAtTheStartAndEnd(testString, '_'), withoutUnderscore);
+    EXPECT_EQ(withoutUnderscore, getStringWithoutCharAtTheStartAndEnd(testString, '_'));
 }
 
-TEST(GetPartialStringFromStringTest, GetStringBeforeThisStringWithCharactersAfterQuestionMarkIsRemoved)
-{
+TEST(GetPartialStringFromStringTest, GetStringBeforeThisStringWithCharactersAfterQuestionMarkIsRemoved){
     string testString("http://a.mhcdn.net/store/manga/12114/001.0/compressed/r049.jpg?v=1354256522");
     string withCharactersAfterQuestionMarkRemoved("http://a.mhcdn.net/store/manga/12114/001.0/compressed/r049.jpg");
     string questionMarkString("?");
 
-    EXPECT_EQ(getStringBeforeThisString(testString, questionMarkString), withCharactersAfterQuestionMarkRemoved);
+    EXPECT_EQ(withCharactersAfterQuestionMarkRemoved, getStringBeforeThisString(testString, questionMarkString));
 }
 
-TEST(GetPartialStringFromStringTest, GetStringAfterThisStringUsingAllLettersWithSpecialCharacters)
-{
+TEST(GetPartialStringFromStringTest, GetStringAfterThisStringUsingAllLettersWithSpecialCharacters){
     string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
     string stringInBetweenAtTheStart(R"(567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
     string stringInBetweenInTheMiddle(R"(^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
 
-    EXPECT_EQ(getStringAfterThisString(testString, R"("1234)"), stringInBetweenAtTheStart);
-    EXPECT_EQ(getStringAfterThisString(testString, "@#$%"), stringInBetweenInTheMiddle);
+    EXPECT_EQ(stringInBetweenAtTheStart, getStringAfterThisString(testString, R"("1234)"));
+    EXPECT_EQ(stringInBetweenInTheMiddle, getStringAfterThisString(testString, "@#$%"));
     EXPECT_TRUE(getStringAfterThisString(testString, "777").empty());
 }
-
 TEST(GetPartialStringFromStringTest, GetStringInBetweenTwoStringsUsingAllLettersWithSpecialCharacters)
 {
-    string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
-    string firstString("1234567890");
+    string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");    string firstString("1234567890");
     string secondString("AbCDEFghIjKlMnopQRstUvWxYz");
     string stringInBetween("!@#$%^&*( )");
 
-    EXPECT_EQ(getStringInBetweenTwoStrings(testString, firstString, secondString), stringInBetween);
+    EXPECT_EQ(stringInBetween, getStringInBetweenTwoStrings(testString, firstString, secondString));
     EXPECT_TRUE(getStringInBetweenTwoStrings(testString, secondString, firstString).empty());
     EXPECT_TRUE(getStringInBetweenTwoStrings(testString, firstString, firstString).empty());
 }
-
 TEST(GetPartialStringFromStringTest, CopyBeforeStringAndAfterStringWhenStringIsFound)
 {
-    string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
-    string expectedBeforeString(R"("1234567890!@#$%^&*( ))");
+    string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");    string expectedBeforeString(R"("1234567890!@#$%^&*( ))");
     string expectedAfterString(R"(EFghIjKlMnopQRstUvWxYz")");
     string actualBeforeString;
     string actualAfterString;
@@ -246,23 +226,20 @@ TEST(GetNewStringFromStringTest, GetStringReplacingSpecialCharactersWithUndersco
     string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
     string withoutSpecialCharacters("_1234567890_AbCDEFghIjKlMnopQRstUvWxYz_");
 
-    EXPECT_EQ(getStringAndReplaceNonAlphanumericCharactersToUnderScore(testString), withoutSpecialCharacters);
+    EXPECT_EQ(withoutSpecialCharacters, getStringAndReplaceNonAlphanumericCharactersToUnderScore(testString));
 }
 
-TEST(GetNewStringFromStringTest, GetStringReplacingSpacesWithUnderscore)
-{
+TEST(GetNewStringFromStringTest, GetStringReplacingSpacesWithUnderscore){
     string testString(R"( Mark Earvin Alba 1234567890 ")");
     string withoutSpecialCharacters("_Mark_Earvin_Alba_1234567890_");
 
-    EXPECT_EQ(getStringAndReplaceNonAlphanumericCharactersToUnderScore(testString), withoutSpecialCharacters);
+    EXPECT_EQ(withoutSpecialCharacters, getStringAndReplaceNonAlphanumericCharactersToUnderScore(testString));
 }
 
-TEST(GetNewStringFromStringTest, GetStringByRepeatingUntilDesiredLength)
-{
+TEST(GetNewStringFromStringTest, GetStringByRepeatingUntilDesiredLength){
     EXPECT_EQ("", getStringByRepeatingUntilDesiredLength("",50));
     EXPECT_EQ("", getStringByRepeatingUntilDesiredLength("MARK",0));
-    EXPECT_EQ("MARKMARK", getStringByRepeatingUntilDesiredLength("MARK",8));
-    EXPECT_EQ("MARKMARKMA", getStringByRepeatingUntilDesiredLength("MARK",10));
+    EXPECT_EQ("MARKMARK", getStringByRepeatingUntilDesiredLength("MARK",8));    EXPECT_EQ("MARKMARKMA", getStringByRepeatingUntilDesiredLength("MARK",10));
 }
 
 
@@ -319,55 +296,48 @@ TEST(GetNewStringFromStringTest, GetStringWithoutRedundantSlashesUsingAllLetters
     string testString(R"(////DIR1\\/\\/\\/DIR2\\\\DIR3///DIR4\\\\//DIR5////\\\\)");
     string withoutRedundantSlashes(R"(\DIR1\DIR2\DIR3\DIR4\DIR5\)");
 
-    EXPECT_EQ(getCorrectPathWithReplacedSlashCharacters(testString, R"(\)"), withoutRedundantSlashes);
+    EXPECT_EQ(withoutRedundantSlashes, getCorrectPathWithReplacedSlashCharacters(testString, R"(\)"));
 }
 
-TEST(GetNewStringFromStringTest, GetStringWithoutRedundantPeriodInPathUsingAllLettersWithSpecialCharacters)
-{
+TEST(GetNewStringFromStringTest, GetStringWithoutRedundantPeriodInPathUsingAllLettersWithSpecialCharacters){
     string testString(R"(\DIR1\DIR2\..\DIR3\DIR4\..\..\DIR5\)");
     string withoutRedundantPeriodInPath(R"(\DIR1\DIR5\)");
 
-    EXPECT_EQ(getCorrectPathWithoutDoublePeriod(testString, R"(\)"), withoutRedundantPeriodInPath);
+    EXPECT_EQ(withoutRedundantPeriodInPath, getCorrectPathWithoutDoublePeriod(testString, R"(\)"));
 }
 
-TEST(GetNewStringFromStringTest, GetStringBeforeDoublePeriodInPathUsingAllLettersWithSpecialCharacters)
-{
+TEST(GetNewStringFromStringTest, GetStringBeforeDoublePeriodInPathUsingAllLettersWithSpecialCharacters){
     string testString(R"(\DIR1\DIR2\..\DIR3\DIR4\..\..\DIR5\)");
     string beforeDoublePeriod(R"(DIR5\)");
 
-    EXPECT_EQ(getStringBeforeDoublePeriod(testString, R"(\)"), beforeDoublePeriod);
+    EXPECT_EQ(beforeDoublePeriod, getStringBeforeDoublePeriod(testString, R"(\)"));
 }
 
-TEST(GetNewStringFromStringTest, GetStringBeforeDoublePeriodInPathUsingNoDoublePeriodInput)
-{
+TEST(GetNewStringFromStringTest, GetStringBeforeDoublePeriodInPathUsingNoDoublePeriodInput){
     string testString(R"(\DIR1\DIR2\DIR3\DIR4\DIR5\)");
     string beforeDoublePeriod(R"(\DIR1\DIR2\DIR3\DIR4\DIR5\)");
 
-    EXPECT_EQ(getStringBeforeDoublePeriod(testString, R"(\)"), beforeDoublePeriod);
+    EXPECT_EQ(beforeDoublePeriod, getStringBeforeDoublePeriod(testString, R"(\)"));
 }
 
-TEST(GetNewStringFromStringTest, GetImmediateDirectoryNameUsingLastCharacterIsSlash)
-{
+TEST(GetNewStringFromStringTest, GetImmediateDirectoryNameUsingLastCharacterIsSlash){
     string testString(R"(\DIR1\DIR2\DIR3\DIR4\DIR5\)");
     string immediateDirectoryName("DIR5");
 
-    EXPECT_EQ(getImmediateDirectoryName(testString, R"(\)"), immediateDirectoryName);
+    EXPECT_EQ(immediateDirectoryName, getImmediateDirectoryName(testString, R"(\)"));
 }
 
-TEST(GetNewStringFromStringTest, GetImmediateDirectoryNameUsingLastCharacterIsNotSlash)
-{
+TEST(GetNewStringFromStringTest, GetImmediateDirectoryNameUsingLastCharacterIsNotSlash){
     string testString(R"(\DIR1\DIR2\DIR3\DIR4\DIR5)");
     string immediateDirectoryName("DIR5");
 
-    EXPECT_EQ(getImmediateDirectoryName(testString, R"(\)"), immediateDirectoryName);
+    EXPECT_EQ(immediateDirectoryName, getImmediateDirectoryName(testString, R"(\)"));
 }
 
-TEST(BooleanStringTest, isStringFoundInsideTheOtherStringCaseSensitiveWithLettersOnly)
-{
+TEST(BooleanStringTest, isStringFoundInsideTheOtherStringCaseSensitiveWithLettersOnly){
     string longString("Mark is the no#1 guy in the world");
 
-    EXPECT_FALSE(isStringFoundInsideTheOtherStringCaseSensitive(longString, "mark"));
-    EXPECT_TRUE(isStringFoundInsideTheOtherStringCaseSensitive(longString, "Mark"));
+    EXPECT_FALSE(isStringFoundInsideTheOtherStringCaseSensitive(longString, "mark"));    EXPECT_TRUE(isStringFoundInsideTheOtherStringCaseSensitive(longString, "Mark"));
 }
 
 TEST(BooleanStringTest, isStringFoundInsideTheOtherStringCaseSensitiveWithLettersAndNumbersAndSpecialCharacters)
@@ -473,116 +443,111 @@ TEST(BooleanStringTest, IsOneWordTest)
 
 TEST(ConvertFromStringTest, ConvertStringToBool)
 {
-    EXPECT_EQ(convertStringToBool("true"), true);
-    EXPECT_EQ(convertStringToBool("false"), false);
-    EXPECT_EQ(convertStringToBool("TruE"), true);
-    EXPECT_EQ(convertStringToBool("fAlse"), false);
-    EXPECT_EQ(convertStringToBool("0"), false);
-    EXPECT_EQ(convertStringToBool("00000"), false);
-    EXPECT_EQ(convertStringToBool("1"), true);
-    EXPECT_EQ(convertStringToBool("-892347589"), true);
-    EXPECT_EQ(convertStringToBool("this is a random string"), false);
-    EXPECT_EQ(convertStringToNumber<int>("this is a random string"), 0);
+    EXPECT_TRUE(convertStringToBool("true"));
+    EXPECT_FALSE(convertStringToBool("false"));
+    EXPECT_TRUE(convertStringToBool("TruE"));
+    EXPECT_FALSE(convertStringToBool("fAlse"));
+    EXPECT_FALSE(convertStringToBool("0"));
+    EXPECT_FALSE(convertStringToBool("00000"));
+    EXPECT_TRUE(convertStringToBool("1"));
+    EXPECT_TRUE(convertStringToBool("-892347589"));
+    EXPECT_FALSE(convertStringToBool("this is a random string"));
 }
 
 TEST(ConvertFromStringTest, ConvertStringToIntegerWithNumbersOnly)
 {
-    EXPECT_EQ(convertStringToNumber<int>("12345"), 12345);
-    EXPECT_EQ(convertStringToNumber<int>("-67890"), -67890);
-    EXPECT_EQ(convertStringToNumber<int>("--67890"), 67890);
-    EXPECT_EQ(convertStringToNumber<int>("--67-890"), 67890);
-    EXPECT_EQ(convertStringToNumber<int>("0--67-890"), 67890);
+    EXPECT_EQ(0, convertStringToNumber<int>("this is a random string"));
+    EXPECT_EQ(12345, convertStringToNumber<int>("12345"));
+    EXPECT_EQ(-67890, convertStringToNumber<int>("-67890"));
+    EXPECT_EQ(67890, convertStringToNumber<int>("--67890"));
+    EXPECT_EQ(67890, convertStringToNumber<int>("--67-890"));
+    EXPECT_EQ(67890, convertStringToNumber<int>("0--67-890"));
 }
 
 TEST(ConvertFromStringTest, ConvertStringToIntegerWithNumbersAndLettersAndSpecialCharacters)
 {
-    EXPECT_DOUBLE_EQ(convertStringToNumber<int>("1a2l3b4a5"), 12345);
-    EXPECT_DOUBLE_EQ(convertStringToNumber<int>("12345.6789"), 123456789);
-    EXPECT_DOUBLE_EQ(convertStringToNumber<int>("a&-.6$7*8(9)0"), -67890);
-    EXPECT_DOUBLE_EQ(convertStringToNumber<int>("$@!-a-a6.78)9(0"), 67890);
-    EXPECT_DOUBLE_EQ(convertStringToNumber<int>(")(*&^%$--6(*&.^%7-89(*&^%0"), 67890);
+    EXPECT_DOUBLE_EQ(12345, convertStringToNumber<int>("1a2l3b4a5"));
+    EXPECT_DOUBLE_EQ(123456789, convertStringToNumber<int>("12345.6789"));
+    EXPECT_DOUBLE_EQ(-67890, convertStringToNumber<int>("a&-.6$7*8(9)0"));
+    EXPECT_DOUBLE_EQ(67890, convertStringToNumber<int>("$@!-a-a6.78)9(0"));
+    EXPECT_DOUBLE_EQ(67890, convertStringToNumber<int>(")(*&^%$--6(*&.^%7-89(*&^%0"));
 }
 
 TEST(ConvertFromStringTest, ConvertStringToDoubleWithNumbersOnly)
 {
-    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("12345.6789"), 12345.6789);
-    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("-67890.1111"), -67890.1111);
-    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("--67890.12345"), 67890.12345);
-    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("--67-890.9999999"), 67890.9999999);
-    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("0--67-890.67890"), 67890.67890);
+    EXPECT_DOUBLE_EQ(12345.6789, convertStringToNumber<double>("12345.6789"));
+    EXPECT_DOUBLE_EQ(-67890.1111, convertStringToNumber<double>("-67890.1111"));
+    EXPECT_DOUBLE_EQ(67890.12345, convertStringToNumber<double>("--67890.12345"));
+    EXPECT_DOUBLE_EQ(67890.9999999, convertStringToNumber<double>("--67-890.9999999"));
+    EXPECT_DOUBLE_EQ(67890.67890, convertStringToNumber<double>("0--67-890. 67890"));
 }
 
 TEST(ConvertFromStringTest, ConvertStringToDoubleWithNumbersAndLettersAndSpecialCharacters)
 {
-    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("12l3^s45.67l$89"), 12345.6789);
-    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("-67s8*a9s0.1s11d1"), -67890.1111);
-    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("--6d&7sd8s90.12345"), 67890.12345);
-    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("--6s7-8$f90.9d9*99$999"), 67890.9999999);
-    EXPECT_DOUBLE_EQ(convertStringToNumber<double>("0--67-j8#9j0.678&dk90"), 67890.67890);
+    EXPECT_DOUBLE_EQ(12345.6789, convertStringToNumber<double>("12l3^s45.67l$89"));
+    EXPECT_DOUBLE_EQ(-67890.1111, convertStringToNumber<double>("-67s8*a9s0.1s11d1"));
+    EXPECT_DOUBLE_EQ(67890.12345, convertStringToNumber<double>("--6d&7sd8s90.12345"));
+    EXPECT_DOUBLE_EQ(67890.9999999, convertStringToNumber<double>("--6s7-8$f90.9d9*99$999"));
+    EXPECT_DOUBLE_EQ(67890.67890, convertStringToNumber<double>("0--67-j 8#9j0.678& dk90"));
 }
 
 TEST(ConvertFromStringTest, HexConvertStringToIntegerWithNumbersOnly)
 {
-    EXPECT_EQ(convertHexStringToNumber<int>("12345"), 0x12345);
-    EXPECT_EQ(convertHexStringToNumber<int>("ABCDE"), 0xABCDE);
-    EXPECT_EQ(convertHexStringToNumber<int>("1A2B3"), 0x1A2B3);
-    EXPECT_EQ(convertHexStringToNumber<int>("A1B2C"), 0xA1B2C);
-    EXPECT_EQ(convertHexStringToNumber<int>("xxxA#$%1@#$#@B^&*&^2%^&%^C*(&"), 0xA1B2C);
+    EXPECT_EQ(0x12345, convertHexStringToNumber<int>("12345"));
+    EXPECT_EQ(0xABCDE, convertHexStringToNumber<int>("ABCDE"));
+    EXPECT_EQ(0x1A2B3, convertHexStringToNumber<int>("1A2B3"));
+    EXPECT_EQ(0xA1B2C, convertHexStringToNumber<int>("A1B2C"));
+    EXPECT_EQ(0xA1B2C, convertHexStringToNumber<int>("xxxA#$%1 @#$#@B ^&*&^2%^&%^C*(&"));
 }
 
 TEST(ConvertToStringTest, ConvertNumberToStringWithDefaultParameters)
 {
     NumberToStringConverter converter;
-    EXPECT_EQ(converter.convert(12345), "12345");
-    EXPECT_EQ(converter.convert(12345.6789), "12345.7");
-    EXPECT_EQ(converter.convert(-67890.1111), "-67890.1");
+    EXPECT_EQ("12345", converter.convert(12345));
+    EXPECT_EQ("12345.7", converter.convert(12345.6789));
+    EXPECT_EQ("-67890.1", converter.convert(-67890.1111));
 }
 
-TEST(ConvertToStringTest, ConvertNumberToStringWithUnderPrecision)
-{
+TEST(ConvertToStringTest, ConvertNumberToStringWithUnderPrecision){
     NumberToStringConverter converter;
     converter.setPrecision(8);
-    EXPECT_EQ(converter.convert(12345), "12345");
-    EXPECT_EQ(converter.convert(12345.6789), "12345.679");
-    EXPECT_EQ(converter.convert(-67890.1111), "-67890.111");
+    EXPECT_EQ("12345", converter.convert(12345));
+    EXPECT_EQ("12345.679", converter.convert(12345.6789));
+    EXPECT_EQ("-67890.111", converter.convert(-67890.1111));
 }
 
-TEST(ConvertToStringTest, ConvertNumberToStringWithOverPrecision)
-{
+TEST(ConvertToStringTest, ConvertNumberToStringWithOverPrecision){
     NumberToStringConverter converter;
     converter.setPrecision(15);
-    EXPECT_EQ(converter.convert(12345), "12345");
-    EXPECT_EQ(converter.convert(12345.6789), "12345.6789");
-    EXPECT_EQ(converter.convert(-67890.1111), "-67890.1111");
+    EXPECT_EQ("12345", converter.convert(12345));
+    EXPECT_EQ("12345.6789", converter.convert(12345.6789));
+    EXPECT_EQ("-67890.1111", converter.convert(-67890.1111));
 }
 
-TEST(ConvertToStringTest, ConvertNumberToStringWithLessFieldWidth)
-{
+TEST(ConvertToStringTest, ConvertNumberToStringWithLessFieldWidth){
     NumberToStringConverter converter;
     converter.setPrecision(15);
     converter.setFieldWidth(3);
-    EXPECT_EQ(converter.convert(12345), "12345");
-    EXPECT_EQ(converter.convert(12345.6789), "12345.6789");
-    EXPECT_EQ(converter.convert(-67890.1111), "-67890.1111");
+    EXPECT_EQ("12345", converter.convert(12345));
+    EXPECT_EQ("12345.6789", converter.convert(12345.6789));
+    EXPECT_EQ("-67890.1111", converter.convert(-67890.1111));
 }
 
-TEST(ConvertToStringTest, ConvertNumberToStringWithMoreFieldWidth)
-{
+TEST(ConvertToStringTest, ConvertNumberToStringWithMoreFieldWidth){
     NumberToStringConverter converter;
     converter.setPrecision(15);
     converter.setFieldWidth(15);
-    EXPECT_EQ(converter.convert(12345), "          12345");
-    EXPECT_EQ(converter.convert(12345.6789), "     12345.6789");
-    EXPECT_EQ(converter.convert(-67890.1111), "    -67890.1111");
+    EXPECT_EQ("          12345", converter.convert(12345));
+    EXPECT_EQ("     12345.6789", converter.convert(12345.6789));
+    EXPECT_EQ("    -67890.1111", converter.convert(-67890.1111));
 }
 
-TEST(ConvertToStringTest, ConvertNumberToStringWithFillCharacter)
-{
+TEST(ConvertToStringTest, ConvertNumberToStringWithFillCharacter){
     NumberToStringConverter converter;
     converter.setPrecision(15);
     converter.setFieldWidth(15);
     converter.setFillCharacter('0');
-    EXPECT_EQ(converter.convert(12345), "000000000012345");
-    EXPECT_EQ(converter.convert(12345.6789), "0000012345.6789");
-    EXPECT_EQ(converter.convert(-67890.1111), "0000-67890.1111");
+    EXPECT_EQ("000000000012345", converter.convert(12345));
+    EXPECT_EQ("0000012345.6789", converter.convert(12345.6789));
+    EXPECT_EQ("0000-67890.1111", converter.convert(-67890.1111));
 }
