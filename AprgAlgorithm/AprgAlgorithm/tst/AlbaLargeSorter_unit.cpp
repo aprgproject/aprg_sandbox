@@ -9,15 +9,13 @@
 using namespace alba;
 using namespace std;
 
-#define ALBA_LARGE_SORTER_TEST_FILE R"(C:\APRG\AprgAlgorithm\AprgAlgorithm\tst\FilesForTests\LargeSorterTest\Test1.txt)"
-#define ALBA_LARGE_SORTER_BLOCK_DIR R"(C:\APRG\AprgAlgorithm\AprgAlgorithm\tst\FilesForTests\LargeSorterTest\blocks)"
+#define ALBA_LARGE_SORTER_TEST_FILE APRG_DIR R"(AprgAlgorithm\AprgAlgorithm\tst\FilesForTests\LargeSorterTest\Test1.txt)"
+#define ALBA_LARGE_SORTER_BLOCK_DIR APRG_DIR R"(AprgAlgorithm\AprgAlgorithm\tst\FilesForTests\LargeSorterTest\blocks)"
 
 class TestObject
-{
-public:
+{public:
     TestObject()
     {}
-
     TestObject(int valueInteger, double valueDouble, char valueCharacter, string valueString)
         : m_valueInteger(valueInteger)
         , m_valueDouble(valueDouble)

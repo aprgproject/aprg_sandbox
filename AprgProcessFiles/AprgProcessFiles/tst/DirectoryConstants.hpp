@@ -1,1 +1,1 @@
-#define FILE_READER_TEST_FILE R"(C:\APRG\AprgProcessFiles\AprgProcessFiles\tst\Test1.txt)"
+#define APRG_PROCESS_FILES_TEST_FILE_TO_READ APRG_DIR R"(AprgProcessFiles\AprgProcessFiles\tst\Test1.txt)"

@@ -11,16 +11,14 @@
 #include <windows.h>
 #include <WebCrawler.hpp>
 
-#define APRG_WEB_CRAWLER_CONFIGURATION_FILE R"(C:\APRG\AprgWebCrawler\configuration.txt)"
-#define APRG_WEB_CRAWLER_FIX_BATCH_FILE R"(C:\APRG\AprgWebCrawler\fixDirectoryNames.bat)"
+#define APRG_WEB_CRAWLER_CONFIGURATION_FILE APRG_DIR R"(AprgWebCrawler\configuration.txt)"
+#define APRG_WEB_CRAWLER_FIX_BATCH_FILE R"(AprgWebCrawler\fixDirectoryNames.bat)"
 
 using namespace alba;
-using namespace alba::stringHelper;
-using namespace alba::AlbaUserInterface;
+using namespace alba::stringHelper;using namespace alba::AlbaUserInterface;
 using namespace std;
 
-namespace aprgWebCrawler
-{
+namespace aprgWebCrawler{
 
 void UserInterface::startUi()
 {

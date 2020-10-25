@@ -11,8 +11,7 @@ int main(int argc, char** argv)
     {
         string webPath(argv[1]);
         AlbaWebPathHandler webPathHandler(webPath);
-        AlbaWindowsPathHandler windowPathHandler(R"(C:\APRG\CurlCpp\CurlCpp\tst\test.html)");
+        AlbaWindowsPathHandler windowPathHandler(APRG_DIR R"(CurlCpp\CurlCpp\tst\test.html)");
         download<DownloadType::MozillaFireFoxAndPrintDownloadProgress>(webPathHandler, windowPathHandler);
         //downloadBinaryFile<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(webPathHandler, windowPathHandler);
-    }
-}
+    }}
