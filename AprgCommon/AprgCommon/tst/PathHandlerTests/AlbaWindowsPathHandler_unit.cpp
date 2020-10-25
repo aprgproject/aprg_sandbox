@@ -1,4 +1,3 @@
-#include <PathHandlers/AlbaWebPathHandler.hpp>
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
 
 #include <fstream>
@@ -9,67 +8,6 @@ using namespace std;
 using namespace alba;
 
 #define ALBA_PATH_HANDLER_SIZE_TEST_FILE APRG_DIR R"(\AprgCommon\AprgCommon\tst\FilesForTests\FileReaderTest\Test2_SizeTest.txt)"
-
-TEST(PathTest, FullPathWithDirectoryAndFileGiven)
-{
-    AlbaPathHandler pathHandler(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", R"(\)");
-    EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\)", pathHandler.getDirectory());
-    EXPECT_EQ("76543.txt", pathHandler.getFile());
-    EXPECT_EQ("76543", pathHandler.getFilenameOnly());
-    EXPECT_EQ("txt", pathHandler.getExtension());
-    EXPECT_EQ(PathType::File, pathHandler.getPathType());
-    EXPECT_EQ("tst", pathHandler.getImmediateDirectoryName());
-}
-
-TEST(PathTest, FileOnly)
-{
-    AlbaPathHandler pathHandler("src", R"(\)");
-    EXPECT_TRUE(pathHandler.getDirectory().empty());
-    EXPECT_EQ("src", pathHandler.getFile());
-    EXPECT_EQ("src", pathHandler.getFilenameOnly());
-    EXPECT_TRUE(pathHandler.getExtension().empty());
-    EXPECT_EQ(PathType::File, pathHandler.getPathType());
-    EXPECT_TRUE(pathHandler.getImmediateDirectoryName().empty());
-}
-
-TEST(PathTest, ReInputFile)
-{
-    AlbaPathHandler pathHandler("src", R"(\)");
-    pathHandler.reInput();
-    EXPECT_TRUE(pathHandler.getDirectory().empty());
-    EXPECT_EQ("src", pathHandler.getFile());
-    EXPECT_EQ("src", pathHandler.getFilenameOnly());
-    EXPECT_TRUE(pathHandler.getExtension().empty());
-    EXPECT_EQ(PathType::File, pathHandler.getPathType());
-    EXPECT_TRUE(pathHandler.getImmediateDirectoryName().empty());
-}
-
-TEST(PathTest, GoUpUntilLastFolder)
-{
-    AlbaPathHandler pathHandler(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", R"(\)");
-    EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", pathHandler.getFullPath());
-    EXPECT_EQ(PathType::File, pathHandler.getPathType());
-
-    pathHandler.goUp();
-    EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\)", pathHandler.getFullPath());
-    EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
-
-    pathHandler.goUp();
-    EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\)", pathHandler.getFullPath());
-    EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
-
-    pathHandler.goUp();
-    EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\)", pathHandler.getFullPath());
-    EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
-
-    pathHandler.goUp();
-    EXPECT_EQ(R"(APRG_DRIVE:\)", pathHandler.getFullPath());
-    EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
-
-    pathHandler.goUp();
-    EXPECT_EQ(R"(APRG_DRIVE:\)", pathHandler.getFullPath());
-    EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
-}
 
 TEST(WindowsPathTest, FullPathWithOnlyDirectoryGiven_WindowsStyleInput)
 {
@@ -102,70 +40,6 @@ TEST(WindowsPathTest, FullPathWithOnlyDirectoryGiven_WithNumbersAndSpecialCharac
     EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
     EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
-}
-
-TEST(WebPathTest, DirectoryWithColonAndFileGivenAndNoProtocol)
-{
-    AlbaWebPathHandler pathHandler(R"(\\::://directory!@#$%12345\\\\/\\\\/file.txt)");
-    EXPECT_FALSE(pathHandler.hasProtocol());
-    EXPECT_TRUE(pathHandler.getProtocol().empty());
-    EXPECT_EQ(R"(\\::://directory!@#$%12345/)", pathHandler.getDirectory());
-    EXPECT_EQ("file.txt", pathHandler.getFile());
-    EXPECT_EQ("file", pathHandler.getFilenameOnly());
-    EXPECT_EQ("txt", pathHandler.getExtension());
-    EXPECT_EQ(PathType::File, pathHandler.getPathType());
-}
-
-TEST(WebPathTest, FullPathWithOnlyDirectoryGiven_HttpStyleInput)
-{
-    AlbaWebPathHandler pathHandler(R"(hTTp://www.google.com\\\\/\\\\/!@#$%12345\\///)");
-    EXPECT_TRUE(pathHandler.hasProtocol());
-    EXPECT_EQ("http", pathHandler.getProtocol());
-    EXPECT_EQ("hTTp://www.google.com/!@#$%12345/", pathHandler.getDirectory());
-    EXPECT_TRUE(pathHandler.getFile().empty());
-    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
-    EXPECT_TRUE(pathHandler.getExtension().empty());
-    EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
-}
-
-TEST(WebPathTest, FullPathWithQuestionMark)
-{
-    AlbaWebPathHandler pathHandler("http://a.mhcdn.net/store/manga/12114/001.0/compressed/r049.jpg?v=1354256522");
-    EXPECT_TRUE(pathHandler.hasProtocol());
-    EXPECT_EQ("http", pathHandler.getProtocol());
-    EXPECT_EQ("http://a.mhcdn.net/store/manga/12114/001.0/compressed/", pathHandler.getDirectory());
-    EXPECT_EQ("r049.jpg", pathHandler.getFile());
-    EXPECT_EQ("r049", pathHandler.getFilenameOnly());
-    EXPECT_EQ("jpg", pathHandler.getExtension());
-    EXPECT_EQ(PathType::File, pathHandler.getPathType());
-}
-
-TEST(WebPathTest, GotoLinkWhenNoProtocolIsGiven)
-{
-    AlbaWebPathHandler pathHandler(R"(hTTp://www.google.com\\\\/\\\\/!@#$%12345\\///NewFile1.txt)");
-    pathHandler.gotoLink(R"(NewDirectory1\NewFile2.ext)");
-
-    EXPECT_TRUE(pathHandler.hasProtocol());
-    EXPECT_EQ("http", pathHandler.getProtocol());
-    EXPECT_EQ("hTTp://www.google.com/!@#$%12345/NewDirectory1/", pathHandler.getDirectory());
-    EXPECT_EQ("NewFile2.ext", pathHandler.getFile());
-    EXPECT_EQ("NewFile2", pathHandler.getFilenameOnly());
-    EXPECT_EQ("ext", pathHandler.getExtension());
-    EXPECT_EQ(PathType::File, pathHandler.getPathType());
-}
-
-TEST(WebPathTest, GotoLinkWhenWithProtocolIsGiven)
-{
-    AlbaWebPathHandler pathHandler(R"(hTTp://www.google.com\\\\/\\\\/!@#$%12345\\///)");
-    pathHandler.gotoLink(R"(ftP://www.yahoo.com\NewDirectory1\\NewFile2.ext)");
-
-    EXPECT_TRUE(pathHandler.hasProtocol());
-    EXPECT_EQ("ftp", pathHandler.getProtocol());
-    EXPECT_EQ("ftP://www.yahoo.com/NewDirectory1/", pathHandler.getDirectory());
-    EXPECT_EQ("NewFile2.ext", pathHandler.getFile());
-    EXPECT_EQ("NewFile2", pathHandler.getFilenameOnly());
-    EXPECT_EQ("ext", pathHandler.getExtension());
-    EXPECT_EQ(PathType::File, pathHandler.getPathType());
 }
 
 TEST(WindowsPathTest, FullPathWithDirectoryAndFileGiven_WithNumbersAndSpecialCharacters)
