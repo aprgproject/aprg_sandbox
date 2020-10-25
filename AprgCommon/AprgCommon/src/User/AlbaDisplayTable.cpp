@@ -152,16 +152,16 @@ std::string DisplayTable::getCellText(DisplayTableCell const& cell, unsigned int
     switch(mode)
     {
     case DisplayTableCellMode::justify:
-        result = stringHelper::getStringUsingJustifyAlignment(cell.getText(), length);
+        result = stringHelper::getStringWithJustifyAlignment(cell.getText(), length);
         break;
     case DisplayTableCellMode::center:
-        result = stringHelper::getStringUsingCenterAlignment(cell.getText(), length);
+        result = stringHelper::getStringWithCenterAlignment(cell.getText(), length);
         break;
     case DisplayTableCellMode::right:
-        result = stringHelper::getStringUsingRightAlignment(cell.getText(), length);
+        result = stringHelper::getStringWithRightAlignment(cell.getText(), length);
         break;
     case DisplayTableCellMode::left:
-        result = stringHelper::getStringUsingLeftAlignment(cell.getText(), length);
+        result = stringHelper::getStringWithLeftAlignment(cell.getText(), length);
         break;
     }
     return result;

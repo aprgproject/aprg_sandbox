@@ -4,8 +4,11 @@
 #include <cctype>
 #include <functional>
 #include <iomanip>
+#include <set>
 #include <sstream>
 #include <typeinfo>
+
+#include <Container/AlbaContainerHelper.hpp>
 
 using namespace std;
 
@@ -148,44 +151,68 @@ template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithDe
 
 void stringHelper::splitLinesToAchieveTargetLength(stringHelper::strings & strings, std::string const& mainString, unsigned int const targetLength)
 {
+    set<unsigned int> transitionIndexes;
     unsigned int mainStringLength = mainString.length();
-    unsigned int previousSplittingIndex=0;
-    for(unsigned int splittingIndex = 0; splittingIndex < mainStringLength; splittingIndex += targetLength)
+    bool isPreviousCharacterAWhitespace(false);
+    for(unsigned int i = 0; i < mainStringLength; i++)
     {
-        bool isSplittingIndexFound(false);
-        for(unsigned int deltaFromSplittingIndex = 0; splittingIndex+deltaFromSplittingIndex < mainStringLength; deltaFromSplittingIndex++)
+        char currentCharacter = mainString[i];
+        if(isPreviousCharacterAWhitespace && !isWhiteSpace(currentCharacter))
         {
-            if(splittingIndex+deltaFromSplittingIndex<mainStringLength && isWhiteSpace(mainString[splittingIndex+deltaFromSplittingIndex]))
-            {
-                splittingIndex=splittingIndex+deltaFromSplittingIndex;
-                isSplittingIndexFound=true;
-                break;
-            }
-            else if(splittingIndex>=deltaFromSplittingIndex && isWhiteSpace(mainString[splittingIndex-deltaFromSplittingIndex]))
-            {
-                splittingIndex=splittingIndex-deltaFromSplittingIndex+1;
-                isSplittingIndexFound=true;
-                break;
-            }
+            transitionIndexes.emplace(i-1);
         }
-        if(!isSplittingIndexFound)        {
-            splittingIndex = mainStringLength;
+        else if(!isPreviousCharacterAWhitespace && isWhiteSpace(currentCharacter))
+        {
+            transitionIndexes.emplace(i);
         }
-        if(previousSplittingIndex<splittingIndex)        {
-            strings.emplace_back(mainString.substr(previousSplittingIndex, splittingIndex-previousSplittingIndex));
-        }
-        previousSplittingIndex=splittingIndex;
+        isPreviousCharacterAWhitespace = isWhiteSpace(currentCharacter);
     }
-    if(previousSplittingIndex<mainStringLength)
+    transitionIndexes.emplace(0);
+    transitionIndexes.emplace(mainStringLength);
+
+    unsigned int previousSplittingIndex = 0;
+    for(unsigned int splittingIndex = targetLength; splittingIndex < mainStringLength; splittingIndex += targetLength)
     {
-        strings.emplace_back(mainString.substr(previousSplittingIndex, mainStringLength-previousSplittingIndex));
+        char currentCharacter = mainString[splittingIndex];
+        if(!isWhiteSpace(currentCharacter))
+        {
+            auto pairOfIndex = ContainerHelper::getInclusiveRangeFromSet(transitionIndexes, splittingIndex);
+            unsigned int lowerTransitionIndex(pairOfIndex.first);
+            unsigned int upperTransitionIndex(pairOfIndex.second);
+            int lowerDelta = splittingIndex-lowerTransitionIndex;
+            int upperDelta = upperTransitionIndex-splittingIndex;
+
+            if(upperDelta > 0 && lowerDelta > 0)
+            {
+                if(upperDelta < lowerDelta)
+                {
+                    splittingIndex = upperTransitionIndex;
+                }
+                else
+                {
+                    splittingIndex = lowerTransitionIndex+1;
+                }
+            }
+            else if(upperDelta > 0)
+            {
+                splittingIndex = upperTransitionIndex;
+            }
+            else if(lowerDelta > 0)
+            {
+                splittingIndex = lowerTransitionIndex+1;
+            }
+        }
+        strings.emplace_back(mainString.substr(previousSplittingIndex, splittingIndex-previousSplittingIndex));
+        previousSplittingIndex = splittingIndex;
     }
 }
 
-string stringHelper::getStringWithCapitalLetters(string const& mainString){
+string stringHelper::getStringWithCapitalLetters(string const& mainString)
+{
     string result;
     result.resize(mainString.length());
-    transform(mainString.begin(), mainString.end(), result.begin(), ::toupper);    return result;
+    transform(mainString.begin(), mainString.end(), result.begin(), ::toupper);
+    return result;
 }
 
 string stringHelper::getStringWithLowerCaseLetters(string const& mainString)
@@ -439,7 +466,7 @@ string stringHelper::getHexNumberAfterThisString(string const& mainString, strin
     return result;
 }
 
-string stringHelper::getStringUsingJustifyAlignment(string const& mainString, unsigned int length)
+string stringHelper::getStringWithJustifyAlignment(string const& mainString, unsigned int length)
 {
     string result;
     string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
@@ -486,7 +513,7 @@ string stringHelper::getStringUsingJustifyAlignment(string const& mainString, un
     return result;
 }
 
-string stringHelper::getStringUsingCenterAlignment(string const& mainString, unsigned int length)
+string stringHelper::getStringWithCenterAlignment(string const& mainString, unsigned int length)
 {
     string result;
     string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
@@ -509,7 +536,7 @@ string stringHelper::getStringUsingCenterAlignment(string const& mainString, uns
     return result;
 }
 
-string stringHelper::getStringUsingRightAlignment(string const& mainString, unsigned int length)
+string stringHelper::getStringWithRightAlignment(string const& mainString, unsigned int length)
 {
     string result;
     string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
@@ -531,7 +558,7 @@ string stringHelper::getStringUsingRightAlignment(string const& mainString, unsi
     return result;
 }
 
-string stringHelper::getStringUsingLeftAlignment(string const& mainString, unsigned int length)
+string stringHelper::getStringWithLeftAlignment(string const& mainString, unsigned int length)
 {
     string result;
     string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));

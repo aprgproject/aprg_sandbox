@@ -53,9 +53,11 @@ public:
 
     int getDelayTimeInUs(tcomToolsBackend::BtsLogTime const& endTime, tcomToolsBackend::BtsLogTime const& startTime) const;
     int getDelayTimeInMinutes(tcomToolsBackend::BtsLogTime const& endTime, tcomToolsBackend::BtsLogTime const& startTime) const;
+
 private:
     std::string m_extractGrepCondition;
-    tcomToolsBackend::BtsLogSorterConfiguration m_sorterConfiguration;    alba::AlbaOptional<std::ofstream> m_RawDataFileOptional;
+    tcomToolsBackend::BtsLogSorterConfiguration m_sorterConfiguration;
+    alba::AlbaOptional<std::ofstream> m_RawDataFileOptional;
 };
 
 }

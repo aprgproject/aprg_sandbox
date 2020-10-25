@@ -17,9 +17,11 @@ using tcomToolsBackend::BtsLogTimeType;
 
 namespace alba
 {
+
 namespace ProgressCounters
 {
-    int numberOfFilesToBeAnalyzedForExtraction;    int numberOfFilesAnalyzedForExtraction;
+    int numberOfFilesToBeAnalyzedForExtraction;
+    int numberOfFilesAnalyzedForExtraction;
     double totalSizeToBeReadForCombine;
     double totalSizeReadForCombine;
     int writeProgressForCombine;
@@ -932,7 +934,8 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
     double maxCpuTcomGrm = 0;
     double maxCpuTupcConman = 0;
     double maxCpuTcomAalman = 0;
-    double startTime=0, endTime=0;    while(fileReader.isNotFinished())
+    double startTime=0, endTime=0;
+    while(fileReader.isNotFinished())
     {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         if(lineInLogs.length()>67)
@@ -954,10 +957,12 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
             else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(Aalman_EU)"))
             {
                 maxCpuTcomAalman = std::max(maxCpuTcomAalman, cpuLoad);
-            }            else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(top - )"))
+            }
+            else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(top - )"))
             {
                 string time = stringHelper::getStringInBetweenTwoStrings(lineInLogs, "top - ", " ");
-                unsigned int hours = stringHelper::convertStringToNumber<unsigned int>(time.substr(0,2));                unsigned int mins = stringHelper::convertStringToNumber<unsigned int>(time.substr(3,2));
+                unsigned int hours = stringHelper::convertStringToNumber<unsigned int>(time.substr(0,2));
+                unsigned int mins = stringHelper::convertStringToNumber<unsigned int>(time.substr(3,2));
                 unsigned int secs = stringHelper::convertStringToNumber<unsigned int>(time.substr(5,2));
                 double totalTime = ((((double)hours*60)+mins)*60)+secs;
                 if(startTime==0)
@@ -972,7 +977,8 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
     cout<<"Max CPU LRM TCOM:"<<maxCpuTcomLrm<<endl;
     cout<<"Max CPU TUP Conman:"<<maxCpuTupcConman<<endl;
     cout<<"Max CPU TUP Aalman:"<<maxCpuTcomAalman<<endl;
-    double duration = endTime - startTime;    //cout<<"duration min:"<<duration/60<<" sec:"<<((int)duration)%60<<endl; // di reliable
+    double duration = endTime - startTime;
+    //cout<<"duration min:"<<duration/60<<" sec:"<<((int)duration)%60<<endl; // di reliable
 }
 
 void PerformanceAnalyzer::processFileForRlSetupPerSecond(string const& filePath)

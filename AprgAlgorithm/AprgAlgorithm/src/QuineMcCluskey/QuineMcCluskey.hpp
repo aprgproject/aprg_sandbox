@@ -25,10 +25,12 @@ public:
 
     bool operator==(Implicant const& implicant) const;
     bool operator<(Implicant const& implicant) const;
-    Implicant operator+(Implicant const& implicant) const;    bool isCompatible(Implicant const& implicant) const;
+    Implicant operator+(Implicant const& implicant) const;
+    bool isCompatible(Implicant const& implicant) const;
     bool isSubset(Implicant const& implicant) const;
     bool isSuperset(unsigned int minterm) const;
-    unsigned int getLengthOfEquivalentString() const;    std::string getEquivalentString() const;
+    unsigned int getLengthOfEquivalentString() const;
+    std::string getEquivalentString() const;
     std::string getEquivalentString(unsigned int length) const;
     std::string getMintermString() const;
     unsigned int getFirstMinterm() const;
@@ -40,10 +42,12 @@ private:
     Minterms m_minterms;
 };
 
-class Implicants{
+class Implicants
+{
 public:
     void loopAllImplicants(std::function<void(Implicant const&)> doFunction) const;
-    unsigned int getSize() const;    std::string getImplicantsString() const;
+    unsigned int getSize() const;
+    std::string getImplicantsString() const;
 
     void addImplicant(Implicant const& implicant);
     void addFinalImplicant(Implicant const& implicant);
@@ -66,10 +70,12 @@ public:
     bool doImplicantsExistAt(unsigned int degree, unsigned int cubeSize) const;
 
     void setInputOutput(unsigned int const input, LogicalValue const output);
-    void fillComputationalTableWithMintermsForZeroCube();    void findCombinationOfImplicants(unsigned int degree, unsigned int cubeSize);
+    void fillComputationalTableWithMintermsForZeroCube();
+    void findCombinationOfImplicants(unsigned int degree, unsigned int cubeSize);
     void findAllCombinations();
 
     std::string getOutputTable(Implicants const& finalImplicants);
+
 private:
     void addMintermForZeroCube(unsigned int minterm);
 

@@ -3,6 +3,8 @@ set(APRG_COMMON_INCLUDE_DIRECTORIES
 )
 
 set(APRG_COMMON_SOURCES
+    ${APRG_COMMON_DIR}/src/Container/AlbaContainerHelper.cpp
+    ${APRG_COMMON_DIR}/src/Container/AlbaContainerHelper.hpp
     ${APRG_COMMON_DIR}/src/File/AlbaFileReader.cpp
     ${APRG_COMMON_DIR}/src/File/AlbaFileReader.hpp
     ${APRG_COMMON_DIR}/src/Macros/AlbaMacroArgumentCounter.hpp
@@ -31,6 +33,7 @@ set(APRG_COMMON_SOURCES
 )
 
 set(APRG_COMMON_TESTS
+    ${APRG_COMMON_DIR}/tst/AlbaContainerHelper_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaDisplayTable_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaFileReader_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaMacroArgumentCounter_unit.cpp

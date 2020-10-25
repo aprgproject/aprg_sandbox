@@ -33,10 +33,12 @@ bool Implicant::operator<(Implicant const& implicant) const
     return  m_minterms<implicant.m_minterms;
 }
 
-bool Implicant::isCompatible(Implicant const& implicant) const{
+bool Implicant::isCompatible(Implicant const& implicant) const
+{
     unsigned int length(std::max(getLengthOfEquivalentString(), implicant.getLengthOfEquivalentString()));
     string string1(getEquivalentString(length));
-    string string2(implicant.getEquivalentString(length));    bool result(true);
+    string string2(implicant.getEquivalentString(length));
+    bool result(true);
     unsigned int difference=0;
     for(unsigned int i=0; i<length; i++)
     {
@@ -60,9 +62,11 @@ bool Implicant::isCompatible(Implicant const& implicant) const{
     }
     return result;
 }
+
 bool Implicant::isSubset(Implicant const& implicant) const
 {
-    bool result(false);    if(m_minterms.size() <= implicant.m_minterms.size())
+    bool result(false);
+    if(m_minterms.size() <= implicant.m_minterms.size())
     {
         result = true;
         for(unsigned int minterm : m_minterms)
@@ -70,10 +74,12 @@ bool Implicant::isSubset(Implicant const& implicant) const
             Minterms::const_iterator it = implicant.m_minterms.find(minterm);
             if (it == implicant.m_minterms.end())
             {
-                result=false;                break;
+                result=false;
+                break;
             }
         }
-    }    return result;
+    }
+    return result;
 }
 
 bool Implicant::isSuperset(unsigned int minterm) const
@@ -84,10 +90,12 @@ bool Implicant::isSuperset(unsigned int minterm) const
         Minterms::const_iterator it = m_minterms.find(minterm);
         if (it == m_minterms.end())
         {
-            result = false;        }
+            result = false;
+        }
         else
         {
-            result = true;        }
+            result = true;
+        }
     }
     return result;
 }
@@ -222,9 +230,11 @@ void Implicants::addImplicant(Implicant const& implicant)
         m_implicants.emplace(implicant);
     }
 }
+
 void Implicants::addFinalImplicant(Implicant const& implicant)
 {
-    bool isAlreadyRepresented(false);    for(Implicant const& iteratorImplicant : m_implicants)
+    bool isAlreadyRepresented(false);
+    for(Implicant const& iteratorImplicant : m_implicants)
     {
         if(implicant.isSubset(iteratorImplicant))
         {
@@ -238,6 +248,7 @@ void Implicants::addFinalImplicant(Implicant const& implicant)
     }
 }
 
+
 QuineMcCluskey::QuineMcCluskey()
 {}
 
@@ -247,9 +258,11 @@ LogicalValue QuineMcCluskey::getOutput(unsigned int const input) const
     FunctionsMap::const_iterator it = m_functionMap.find(input);
     if (it != m_functionMap.end())
     {
-        result = it->second;    }
+        result = it->second;
+    }
     return result;
 }
+
 unsigned int QuineMcCluskey::getNumberOfOnes(unsigned int const value) const
 {
     int count=0;
@@ -274,10 +287,12 @@ Implicants QuineMcCluskey::getImplicants(unsigned int degree, unsigned int cubeS
         if (it2 != implicantsMap.end())
         {
             Implicants const& implicants(it2->second);
-            implicants.loopAllImplicants([&](Implicant const& implicant)            {
+            implicants.loopAllImplicants([&](Implicant const& implicant)
+            {
                 result.addImplicant(implicant);
             });
-        }    }
+        }
+    }
     return result;
 }
 
@@ -315,7 +330,8 @@ bool QuineMcCluskey::doImplicantsExistAt(unsigned int degree, unsigned int cubeS
 
 void QuineMcCluskey::setInputOutput(unsigned int const input, LogicalValue const output)
 {
-    if(output == LogicalValue::True || output == LogicalValue::DontCare)    {
+    if(output == LogicalValue::True || output == LogicalValue::DontCare)
+    {
         m_functionMap.emplace(input, output);
     }
 }
@@ -325,7 +341,8 @@ void QuineMcCluskey::fillComputationalTableWithMintermsForZeroCube()
     for(FunctionsMap::value_type const & mintermOutputPair : m_functionMap)
     {
         addMintermForZeroCube(mintermOutputPair.first);
-    }}
+    }
+}
 
 void QuineMcCluskey::findCombinationOfImplicants(unsigned int degree, unsigned int cubeSize)
 {
@@ -335,16 +352,19 @@ void QuineMcCluskey::findCombinationOfImplicants(unsigned int degree, unsigned i
         Implicants const& implicants2(m_computationalTable[degree+1][cubeSize]);
         implicants1.loopAllImplicants([&](Implicant const& implicant1)
         {
-            implicants2.loopAllImplicants([&](Implicant const& implicant2)            {
+            implicants2.loopAllImplicants([&](Implicant const& implicant2)
+            {
                 if(implicant1.isCompatible(implicant2))
                 {
                     m_computationalTable[degree][cubeSize+1].addImplicant(implicant1+implicant2);
                 }
             });
-        });    }
+        });
+    }
 }
 
-void QuineMcCluskey::findAllCombinations(){
+void QuineMcCluskey::findAllCombinations()
+{
     unsigned int cubeSize=0;
     bool areAllCombinationsFound(false);
     while(!areAllCombinationsFound)
@@ -360,9 +380,11 @@ void QuineMcCluskey::findAllCombinations(){
     }
     m_cubeSize = (cubeSize>0) ? cubeSize-1 : 0;
 }
+
 string QuineMcCluskey::getOutputTable(Implicants const& finalImplicants)
 {
-    vector<unsigned int> inputsWithTrue;    for(auto inputOutputPair : m_functionMap)
+    vector<unsigned int> inputsWithTrue;
+    for(auto inputOutputPair : m_functionMap)
     {
         if(inputOutputPair.second == LogicalValue::True)
         {
