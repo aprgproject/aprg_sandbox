@@ -38,9 +38,11 @@ struct BtsLogSorterTest : public testing::Test
     }
     BtsLogSorterConfiguration m_configuration;
 };
+
 TEST_F(BtsLogSorterTest, PerformanceTest)
 {
-    BtsLogSorter btsLogSorter(m_configuration);    btsLogSorter.processDirectory(R"(D:\W\ZZZ_Useless_Logs\PR111534\PR(alarm 160 didn't cancel)\Test\PR(alarm 160 didn't cancel))");
+    BtsLogSorter btsLogSorter(m_configuration);
+    btsLogSorter.processDirectory(R"(D:\W\ZZZ_Useless_Logs\PR111534\PR(alarm 160 didn't cancel)\Test\PR(alarm 160 didn't cancel))");
     btsLogSorter.saveLogsToOutputFile(R"(D:\W\ZZZ_Useless_Logs\PR111534\PR(alarm 160 didn't cancel)\Test\sortednew.log)");
 }
 
@@ -54,9 +56,11 @@ TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreMerged)
     ifstream inputLogFileStream(APRG_DIR R"(TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged\output.log)");
     AlbaFileReader fileReader(inputLogFileStream);
     while(fileReader.isNotFinished())
-    {        fileReader.getLineAndIgnoreWhiteSpaces();
+    {
+        fileReader.getLineAndIgnoreWhiteSpaces();
         lines++;
     }
+
     EXPECT_EQ(3, lines);
 }
 
@@ -70,9 +74,11 @@ TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreMerged2)
     ifstream inputLogFileStream(APRG_DIR R"(TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged2\output.log)");
     AlbaFileReader fileReader(inputLogFileStream);
     while(fileReader.isNotFinished())
-    {        fileReader.getLineAndIgnoreWhiteSpaces();
+    {
+        fileReader.getLineAndIgnoreWhiteSpaces();
         lines++;
     }
+
     EXPECT_EQ(60, lines);
 }
 
@@ -86,8 +92,10 @@ TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime)
     ifstream inputLogFileStream(APRG_DIR R"(TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime\output.log)");
     AlbaFileReader fileReader(inputLogFileStream);
     while(fileReader.isNotFinished())
-    {        fileReader.getLineAndIgnoreWhiteSpaces();
+    {
+        fileReader.getLineAndIgnoreWhiteSpaces();
         lines++;
     }
+
     EXPECT_EQ(5, lines);
 }

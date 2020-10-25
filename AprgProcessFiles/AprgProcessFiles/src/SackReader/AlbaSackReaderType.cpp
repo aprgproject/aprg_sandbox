@@ -12,9 +12,11 @@ AlbaSackReaderType::AlbaSackReaderType()
     : m_isUnion(false)
 {}
 
-bool AlbaSackReaderType::isUnion() const{
+bool AlbaSackReaderType::isUnion() const
+{
     return m_isUnion;
 }
+
 AlbaSackReaderType::Parameters AlbaSackReaderType::getParameters() const
 {
     return m_parameters;

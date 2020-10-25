@@ -20,8 +20,10 @@ add_definitions(-DAPRG_DIR="${APRG_DIR}")
 
 #Include aprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
+
 #Include curlCpp, this needs APRG Directory
 include(${APRG_DIR}/CurlCpp/AprgCmakeInclude/CurlCpp.cmake)
+
 set(SOURCES
     src/UserInterface/UserInterface.cpp
     src/UserInterface/UserInterface.hpp

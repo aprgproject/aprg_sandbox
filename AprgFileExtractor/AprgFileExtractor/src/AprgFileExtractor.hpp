@@ -1,11 +1,9 @@
 #pragma once
 
-#include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
 #include <set>
 #include <string>
 
-#define PATH_OF_7Z_EXECUTABLE R"(C:\APRG\AprgFileExtractor\7z32\7z.exe)"
-#define PATH_OF_7Z_TEMP_FILE R"(C:\APRG\AprgFileExtractor\7z32\TempFile.txt)"
+#include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
 
 namespace alba
 {
@@ -28,6 +26,8 @@ private:
     void extractAllRelevantFilesRecursively(std::string const& filePathOfCompressedFile) const;
     bool isTheExtensionXz(std::string const& extension) const;
     AlbaGrepStringEvaluator m_grepEvaluator;
+    std::string m_pathOf7zExecutable;
+    std::string m_pathOf7zTempFile;
 };
 
 }

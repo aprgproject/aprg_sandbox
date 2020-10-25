@@ -2,6 +2,8 @@
 
 #include <string>
 #include <vector>
+
+#include <User/AlbaUserInterface.hpp>
 #include <WebCrawler/CrawlMode.hpp>
 #include <WebCrawler/CrawlState.hpp>
 
@@ -56,6 +58,8 @@ private:
     std::string m_workingDirectory;
     std::string m_temporaryFilePath;
     DownloadDirectoryDetails m_downloadDirectoryDetails;
+
+    alba::AlbaUserInterface m_userInterface;
 };
 
 }

@@ -40,7 +40,8 @@ set(APRG_COMMON_TESTS
     ${APRG_COMMON_DIR}/tst/TimerTests/AlbaWindowsTimer_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaBitManipulation_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaContainerHelper_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaDisplayTable_unit.cpp    ${APRG_COMMON_DIR}/tst/AlbaFileReader_unit.cpp
+    ${APRG_COMMON_DIR}/tst/AlbaDisplayTable_unit.cpp
+    ${APRG_COMMON_DIR}/tst/AlbaFileReader_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaMacroArgumentCounter_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaMemoryBuffer_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaOptional_unit.cpp
@@ -49,6 +50,7 @@ set(APRG_COMMON_TESTS
     ${APRG_COMMON_DIR}/tst/AlbaUserAutomation_unit.cpp
 )
 
-set(APRG_COMMON_SOURCES_AND_TESTS    ${APRG_COMMON_SOURCES}
+set(APRG_COMMON_SOURCES_AND_TESTS
+    ${APRG_COMMON_SOURCES}
     ${APRG_COMMON_TESTS}
 )

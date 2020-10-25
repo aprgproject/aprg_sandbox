@@ -13,9 +13,11 @@ using namespace std;
 #define ALBA_LARGE_SORTER_BLOCK_DIR APRG_DIR R"(AprgAlgorithm\AprgAlgorithm\tst\FilesForTests\LargeSorterTest\blocks)"
 
 class TestObject
-{public:
+{
+public:
     TestObject()
     {}
+
     TestObject(int valueInteger, double valueDouble, char valueCharacter, string valueString)
         : m_valueInteger(valueInteger)
         , m_valueDouble(valueDouble)

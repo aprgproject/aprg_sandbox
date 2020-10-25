@@ -4,7 +4,8 @@ project(AprgCommon C CXX)
 #set project name
 set(OUTFILE ${PROJECT_NAME})
 
-#Assign APRG Directoryset(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
+#Assign APRG Directory
+set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(APRG_COMMON_DIR ${APRG_DIR}/AprgCommon/AprgCommon/)
 
 #Assign Flags
@@ -18,8 +19,10 @@ endif()
 
 #Assign Definitions
 add_definitions(-DAPRG_DIR="${APRG_DIR}")
+
 #Include gTest, this needs APRG Directory
 include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
+
 #Add files and directories
 include(${APRG_COMMON_DIR}/cmake/FilesAndDirectories.cmake)
 

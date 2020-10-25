@@ -11,10 +11,12 @@
 #define APRG_WEB_CRAWLER_AUTOMATION_CONFIGURATION_FILE APRG_DIR R"(AprgWebCrawler\automationConfiguration.txt)"
 
 using namespace alba;
-using namespace std;using namespace stringHelper;
+using namespace std;
+using namespace stringHelper;
 
 namespace aprgWebCrawler
 {
+
 AutomationHelper::AutomationHelper()
 {
     readConfigurationFile();
@@ -40,49 +42,49 @@ void AutomationHelper::readConfigurationFile()
             else if("FirefoxFilePosition:" == lineFromConfigurationFile)
             {
                 strings listOfStrings;
-                splitToStrings(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
+                splitToStrings<SplitStringType::WithoutDelimeters>(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
                 m_firefoxFilePosition.x = convertStringToNumber<int>(listOfStrings[0]);
                 m_firefoxFilePosition.y = convertStringToNumber<int>(listOfStrings[1]);
             }
             else if("FirefoxSavePagePosition:" == lineFromConfigurationFile)
             {
                 strings listOfStrings;
-                splitToStrings(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
+                splitToStrings<SplitStringType::WithoutDelimeters>(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
                 m_firefoxSavePagePosition.x = convertStringToNumber<int>(listOfStrings[0]);
                 m_firefoxSavePagePosition.y = convertStringToNumber<int>(listOfStrings[1]);
             }
             else if("FirefoxCloseButtonPosition:" == lineFromConfigurationFile)
             {
                 strings listOfStrings;
-                splitToStrings(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
+                splitToStrings<SplitStringType::WithoutDelimeters>(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
                 m_firefoxCloseButtonPosition.x = convertStringToNumber<int>(listOfStrings[0]);
                 m_firefoxCloseButtonPosition.y = convertStringToNumber<int>(listOfStrings[1]);
             }
             else if("FirefoxCloseSecondTabButtonPosition:" == lineFromConfigurationFile)
             {
                 strings listOfStrings;
-                splitToStrings(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
+                splitToStrings<SplitStringType::WithoutDelimeters>(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
                 m_firefoxCloseSecondTabButtonPosition.x = convertStringToNumber<int>(listOfStrings[0]);
                 m_firefoxCloseSecondTabButtonPosition.y = convertStringToNumber<int>(listOfStrings[1]);
             }
             else if("FdmUrlBarPosition:" == lineFromConfigurationFile)
             {
                 strings listOfStrings;
-                splitToStrings(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
+                splitToStrings<SplitStringType::WithoutDelimeters>(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
                 m_fdmUrlBarPosition.x = convertStringToNumber<int>(listOfStrings[0]);
                 m_fdmUrlBarPosition.y = convertStringToNumber<int>(listOfStrings[1]);
             }
             else if("FdmUrlCopyPosition:" == lineFromConfigurationFile)
             {
                 strings listOfStrings;
-                splitToStrings(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
+                splitToStrings<SplitStringType::WithoutDelimeters>(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
                 m_fdmUrlCopyPosition.x = convertStringToNumber<int>(listOfStrings[0]);
                 m_fdmUrlCopyPosition.y = convertStringToNumber<int>(listOfStrings[1]);
             }
             else if("FdmCloseDownloadWindowPosition:" == lineFromConfigurationFile)
             {
                 strings listOfStrings;
-                splitToStrings(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
+                splitToStrings<SplitStringType::WithoutDelimeters>(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
                 m_fdmCloseDownloadWindowPosition.x = convertStringToNumber<int>(listOfStrings[0]);
                 m_fdmCloseDownloadWindowPosition.y = convertStringToNumber<int>(listOfStrings[1]);
             }

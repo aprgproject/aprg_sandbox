@@ -19,10 +19,12 @@ TEST(BtsLogTimeTest, BtsTimeStampWithSevenNumbersIsUsed)
     EXPECT_EQ("<2015-08-20T18:14:51.565172Z>", logTime.getEquivalentStringBtsTimeFormat());
 }
 
-TEST(BtsLogTimeTest, BtsTimeStampWithSpacesAreStartAndEnd){
+TEST(BtsLogTimeTest, BtsTimeStampWithSpacesAreStartAndEnd)
+{
     BtsLogTime logTime(BtsLogTimeType::BtsTimeStamp, " <2015-08-20T18:14:51.565172Z> ");
 
-    EXPECT_EQ(2015, logTime.getYears());    EXPECT_EQ(8, logTime.getMonths());
+    EXPECT_EQ(2015, logTime.getYears());
+    EXPECT_EQ(8, logTime.getMonths());
     EXPECT_EQ(20, logTime.getDays());
     EXPECT_EQ(18, logTime.getHours());
     EXPECT_EQ(14, logTime.getMinutes());
@@ -36,9 +38,11 @@ TEST(BtsLogTimeTest, BtsTimeStampWithSpacesAreStartAndEnd){
 TEST(BtsLogTimeTest, PcTimeStampWithSixNumbersIsUsed)
 {
     BtsLogTime logTime(BtsLogTimeType::BtsTimeStamp, "13.09 05:24:24.772449");
+
     EXPECT_EQ(0, logTime.getYears());
     EXPECT_EQ(9, logTime.getMonths());
-    EXPECT_EQ(13, logTime.getDays());    EXPECT_EQ(5, logTime.getHours());
+    EXPECT_EQ(13, logTime.getDays());
+    EXPECT_EQ(5, logTime.getHours());
     EXPECT_EQ(24, logTime.getMinutes());
     EXPECT_EQ(24, logTime.getSeconds());
     EXPECT_EQ(772449, logTime.getMicroSeconds());
@@ -47,10 +51,12 @@ TEST(BtsLogTimeTest, PcTimeStampWithSixNumbersIsUsed)
     EXPECT_EQ("<0000-09-13T05:24:24.772449Z>", logTime.getEquivalentStringBtsTimeFormat());
 }
 
-TEST(BtsLogTimeTest, PcTimeStampIsUsed){
+TEST(BtsLogTimeTest, PcTimeStampIsUsed)
+{
     BtsLogTime logTime(BtsLogTimeType::PcTimeStamp, "23.09 12:06:02.982");
 
-    EXPECT_EQ(0, logTime.getYears());    EXPECT_EQ(9, logTime.getMonths());
+    EXPECT_EQ(0, logTime.getYears());
+    EXPECT_EQ(9, logTime.getMonths());
     EXPECT_EQ(23, logTime.getDays());
     EXPECT_EQ(12, logTime.getHours());
     EXPECT_EQ(6, logTime.getMinutes());
@@ -61,10 +67,12 @@ TEST(BtsLogTimeTest, PcTimeStampIsUsed){
     EXPECT_EQ("<0000-09-23T12:06:02.982000Z>", logTime.getEquivalentStringBtsTimeFormat());
 }
 
-TEST(BtsLogTimeTest, LessThanOperatorWorksAsIntended){
+TEST(BtsLogTimeTest, LessThanOperatorWorksAsIntended)
+{
     BtsLogTime logTime1(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:14:51.565172Z");
     BtsLogTime logTime2(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:14:51.565173Z");
-    BtsLogTime logTime3(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:14:52.565172Z");    BtsLogTime logTime4(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:15:51.565172Z");
+    BtsLogTime logTime3(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:14:52.565172Z");
+    BtsLogTime logTime4(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:15:51.565172Z");
     BtsLogTime logTime5(BtsLogTimeType::BtsTimeStamp, "2015-08-20T19:14:51.565172Z");
     BtsLogTime logTime6(BtsLogTimeType::BtsTimeStamp, "2015-08-21T18:14:51.565172Z");
     BtsLogTime logTime7(BtsLogTimeType::BtsTimeStamp, "2015-09-20T18:14:51.565172Z");

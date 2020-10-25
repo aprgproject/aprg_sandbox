@@ -1,11 +1,22 @@
 #include "AprgFileExtractor.hpp"
 
-#include <File/AlbaFileReader.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <cassert>
 #include <fstream>
 #include <iostream>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
 #include <windows.h>
+
+#include <File/AlbaFileReader.hpp>
+#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <String/AlbaStringHelper.hpp>
+
+
+#ifndef PATH_OF_7Z_EXECUTABLE
+    static_assert(false, "PATH_OF_7Z_EXECUTABLE is not set in cmake");
+#endif
+
+#ifndef PATH_OF_7Z_TEMP_FILE
+    static_assert(false, "PATH_OF_7Z_TEMP_FILE is not set in cmake");
+#endif
 
 using namespace std;
 
@@ -20,10 +31,14 @@ extern int numberOfFilesAnalyzedForExtraction;
 
 AprgFileExtractor::AprgFileExtractor()
     : m_grepEvaluator("")
+    , m_pathOf7zExecutable(AlbaWindowsPathHandler(PATH_OF_7Z_EXECUTABLE).getFullPath())
+    , m_pathOf7zTempFile(AlbaWindowsPathHandler(PATH_OF_7Z_TEMP_FILE).getFullPath())
 {}
 
 AprgFileExtractor::AprgFileExtractor(string const& condition)
     : m_grepEvaluator(condition)
+    , m_pathOf7zExecutable(AlbaWindowsPathHandler(PATH_OF_7Z_EXECUTABLE).getFullPath())
+    , m_pathOf7zTempFile(AlbaWindowsPathHandler(PATH_OF_7Z_TEMP_FILE).getFullPath())
 {}
 
 void AprgFileExtractor::extractAllRelevantFiles(string const& pathOfFileOrDirectory) const
@@ -46,12 +61,12 @@ void AprgFileExtractor::extractAllRelevantFiles(string const& pathOfFileOrDirect
 void AprgFileExtractor::copyRelativeFilePathsFromCompressedFile(string const& filePathOfCompressedFile, set<string>& files) const
 {
     AlbaWindowsPathHandler filePathHandler(filePathOfCompressedFile);
-    string command = string("") + PATH_OF_7Z_EXECUTABLE + R"( l -slt ")"
+    string command = m_pathOf7zExecutable + R"( l -slt ")"
             + filePathHandler.getFullPath() + R"(" > ")"
-            + PATH_OF_7Z_TEMP_FILE + R"(")";
+            + m_pathOf7zTempFile + R"(")";
     system(command.c_str());
 
-    ifstream tempFile(PATH_OF_7Z_TEMP_FILE);
+    ifstream tempFile(m_pathOf7zTempFile);
     string path;
     AlbaFileReader fileReader(tempFile);
     while(fileReader.isNotFinished())
@@ -75,7 +90,7 @@ string AprgFileExtractor::extractAll(string const& filePathOfCompressedFile) con
 {
     AlbaWindowsPathHandler compressedFilePathHandler(filePathOfCompressedFile);
     AlbaWindowsPathHandler outputPathHandler(compressedFilePathHandler.getDirectory() + R"(\)" + compressedFilePathHandler.getFilenameOnly() + R"(\)");
-    string command = string("") + PATH_OF_7Z_EXECUTABLE + R"( e -y -o")"
+    string command = m_pathOf7zExecutable + R"( e -y -o")"
             + outputPathHandler.getDirectory() + R"(" ")"
             + compressedFilePathHandler.getFullPath() + R"(" > nul)";
     system(command.c_str());
@@ -87,7 +102,7 @@ string AprgFileExtractor::extractOneFile(string const& filePathOfCompressedFile,
 {
     AlbaWindowsPathHandler compressedFilePathHandler(filePathOfCompressedFile);
     AlbaWindowsPathHandler outputPathHandler(compressedFilePathHandler.getDirectory() + R"(\)" + compressedFilePathHandler.getFilenameOnly() + R"(\)" + relativePathOfFile);
-    string command = string("") + PATH_OF_7Z_EXECUTABLE + R"( e -y -o")"
+    string command = m_pathOf7zExecutable + R"( e -y -o")"
             + outputPathHandler.getDirectory() + R"(" ")"
             + compressedFilePathHandler.getFullPath() + R"(" ")"
             + relativePathOfFile + R"(" > nul)";

@@ -20,7 +20,7 @@ TEST(SampleTest, FilesToFind)
 {
     AlbaWindowsPathHandler::ListOfPaths files;
     AlbaWindowsPathHandler::ListOfPaths directories;
-    AlbaWindowsPathHandler pathHandler(R"(C:\APRG\boost_1_51_0\boost_1_51_0\boost)");
+    AlbaWindowsPathHandler pathHandler(APRG_DIR R"(boost_1_51_0\boost_1_51_0\boost)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
 
     for(string const& file: files)

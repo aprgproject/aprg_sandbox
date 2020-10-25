@@ -8,9 +8,11 @@
 
 namespace tcomToolsGui
 {
+
 struct TcomToolsConfiguration
 {
-    TcomToolsConfiguration();    std::string getGrepCondition() const;
+    TcomToolsConfiguration();
+    std::string getGrepCondition() const;
     std::string getGrepFileName() const;
     void loadConfigurationFromFile();
     void saveConfigurationToFile() const;

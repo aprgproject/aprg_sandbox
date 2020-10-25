@@ -20,8 +20,10 @@ add_definitions(-DAPRG_DIR="${APRG_DIR}")
 
 #Include gTest, this needs APRG Directory
 include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
+
 #Include AprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
+
 set(CODE_SOURCES
     src/SailIt.cpp
     src/SailIt.hpp

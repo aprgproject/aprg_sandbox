@@ -1,24 +1,25 @@
 #include "UserInterface.hpp"
 
-#include <File/AlbaFileReader.hpp>
-#include <String/AlbaStringHelper.hpp>
-#include <User/AlbaUserInterface.hpp>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
 #include <set>
 #include <windows.h>
+
+#include <File/AlbaFileReader.hpp>
+#include <String/AlbaStringHelper.hpp>
+#include <PathHandlers/AlbaWindowsPathHandler.hpp>
 #include <WebCrawler.hpp>
 
 #define APRG_WEB_CRAWLER_CONFIGURATION_FILE APRG_DIR R"(AprgWebCrawler\configuration.txt)"
 #define APRG_WEB_CRAWLER_FIX_BATCH_FILE R"(AprgWebCrawler\fixDirectoryNames.bat)"
 
 using namespace alba;
-using namespace alba::stringHelper;using namespace alba::AlbaUserInterface;
+using namespace alba::stringHelper;
 using namespace std;
 
-namespace aprgWebCrawler{
+namespace aprgWebCrawler
+{
 
 void UserInterface::startUi()
 {
@@ -42,7 +43,7 @@ void UserInterface::inputTask()
     cout << "[DS]  : Check download schedule" << endl;
     cout << "[ST]  : Start download" << endl;
     cout << "Input your choice: ";
-    string choice(getStringWithCapitalLetters(getUserInput()));
+    string choice(getStringWithCapitalLetters(m_userInterface.getUserInput()));
 
 
     if("A" == choice)
@@ -82,14 +83,14 @@ void UserInterface::inputWorkingDirectory()
     cout << "[B]   : Go back" << endl;
 
     cout << "Input your choice: ";
-    string choice(getStringWithCapitalLetters(getUserInput()));
+    string choice(getStringWithCapitalLetters(m_userInterface.getUserInput()));
     unsigned int index = convertStringToNumber<unsigned int>(choice);
     bool isNumberFound(isNumber(choice));
 
     if("A" == choice)
     {
         cout << "Input new directory path: ";
-        m_workingDirectories.push_back(getUserInput());
+        m_workingDirectories.push_back(m_userInterface.getUserInput());
         inputWorkingDirectory();
     }
     else if("C" == choice)
@@ -122,7 +123,7 @@ void UserInterface::inputDownloadDirectory()
     cout << "[B]   : Go back" << endl;
 
     cout << "Input your choice: ";
-    string choice(getStringWithCapitalLetters(getUserInput()));
+    string choice(getStringWithCapitalLetters(m_userInterface.getUserInput()));
     unsigned int index = convertStringToNumber<unsigned int>(choice);
     bool isNumberFound(isNumber(choice));
 
@@ -165,7 +166,7 @@ void UserInterface::inputDownloadDirectoryTask()
     cout << "[B]   : Go back" << endl;
 
     cout << "Input your choice: ";
-    string choice(getStringWithCapitalLetters(getUserInput()));
+    string choice(getStringWithCapitalLetters(m_userInterface.getUserInput()));
 
     if("DS" == choice)
     {
@@ -291,7 +292,7 @@ void UserInterface::addExistingNotDownloadDirectories()
 void UserInterface::addNewDownloadDirectory()
 {
     cout << "Input webLink: ";
-    string webLink(getUserInput());
+    string webLink(m_userInterface.getUserInput());
     m_downloadSchedule.emplace(m_downloadSchedule.begin(), createDownloadDirectoryDetails(m_workingDirectory, webLink));
     addExistingDownloadAndNonDownloadDirectories();
 }
