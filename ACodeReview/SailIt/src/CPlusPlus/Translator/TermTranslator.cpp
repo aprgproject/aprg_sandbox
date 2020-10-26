@@ -272,15 +272,13 @@ string TermTranslator::getLine()
 {
     m_lineNumber++;
     m_termBuilder.setLineNumber(m_lineNumber);
-    return m_albaFileReader.simpleGetLine();
+    return m_albaFileReader.getLine();
 }
 
-bool TermTranslator::isEqualToFirstTwoCharacters(string const& lineString, int& index, string const& stringToCheck)
-{
+bool TermTranslator::isEqualToFirstTwoCharacters(string const& lineString, int& index, string const& stringToCheck){
     if(!isLessThanStringLength(lineString, index+1)) return false;
     return stringToCheck == lineString.substr(index, 2);
 }
-
 string TermTranslator::fetchOperator(string const& lineString, int& index)
 {
     //switch or stl algorithm

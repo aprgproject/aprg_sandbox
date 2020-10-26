@@ -359,15 +359,13 @@ string WebCrawler::getTitleFromTitleWindow(string const& webLink) const
         AlbaFileReader htmlFileReader(htmlFileStream);
         while (htmlFileReader.isNotFinished())
         {
-            string lineInHtmlFile(htmlFileReader.simpleGetLine());
+            string lineInHtmlFile(htmlFileReader.getLine());
             if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<title>)"))
             {
-                title = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<title>)", R"(</title>)");
-            }
+                title = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<title>)", R"(</title>)");            }
         }
     }
-    return title;
-}
+    return title;}
 
 bool WebCrawler::isModeUnrecognized() const
 {

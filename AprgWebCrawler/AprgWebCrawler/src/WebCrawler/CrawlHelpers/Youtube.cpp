@@ -110,14 +110,12 @@ LinksForYoutube WebCrawler::getLinkForYoutube(AlbaWebPathHandler const& webLinkP
     AlbaFileReader htmlFileReader(htmlFileStream);
     while (htmlFileReader.isNotFinished())
     {
-        string lineInHtmlFile(htmlFileReader.simpleGetLine());
+        string lineInHtmlFile(htmlFileReader.getLine());
         if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<div class="def-btn-box"><a)"))
         {
-            links.linkForVideo = getStringInBetweenTwoStrings(lineInHtmlFile, R"(href=")", R"(")");
-            links.localPathForCurrentVideo = m_downloadDirectoryPathHandler.getDirectory() + R"(\Video\)" + getStringInBetweenTwoStrings(lineInHtmlFile, R"(download=")", R"(")");
+            links.linkForVideo = getStringInBetweenTwoStrings(lineInHtmlFile, R"(href=")", R"(")");            links.localPathForCurrentVideo = m_downloadDirectoryPathHandler.getDirectory() + R"(\Video\)" + getStringInBetweenTwoStrings(lineInHtmlFile, R"(download=")", R"(")");
         }
     }
-    return links;
-}
+    return links;}
 
 }

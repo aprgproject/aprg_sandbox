@@ -15,15 +15,13 @@ public:
     char* getCharacters(unsigned int& numberOfCharacters);
     template<typename NumberType> NumberType getFourByteData();
     std::string getLineAndIgnoreWhiteSpaces();
-    std::string simpleGetLine();
+    std::string getLine();
     double getCurrentLocation() const;
     double getFileSize() const;
-    void moveToTheBeginning() const;
-    void moveLocation(unsigned long long location) const;
+    void moveToTheBeginning() const;    void moveLocation(unsigned long long location) const;
     void setMaxBufferSize(unsigned int bufferSize);
 private:
-    static const unsigned int MAX_BUFFER_SIZE = 10001;
-    unsigned int m_bufferSize = MAX_BUFFER_SIZE;
+    static const unsigned int MAX_BUFFER_SIZE = 10001;    unsigned int m_bufferSize = MAX_BUFFER_SIZE;
     char m_characterBuffer[MAX_BUFFER_SIZE];
     std::ifstream& m_stream;
 };

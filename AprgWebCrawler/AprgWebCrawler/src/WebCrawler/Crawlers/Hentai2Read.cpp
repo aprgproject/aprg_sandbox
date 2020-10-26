@@ -29,15 +29,13 @@ void OneDownloadPerPageCrawler::retrieveLinksForHentai2Read(AlbaWebPathHandler c
         AlbaFileReader htmlFileReader(htmlFileStream);
         while (htmlFileReader.isNotFinished())
         {
-            string lineInHtmlFile(htmlFileReader.simpleGetLine());
+            string lineInHtmlFile(htmlFileReader.getLine());
             if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<img id="img_mng_enl")"))
             {
-                m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"( src=")", R"(")");
-            }
+                m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"( src=")", R"(")");            }
             else if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(Next</a><br/>)"))
             {
-                m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<a href=")", R"(")");
-            }
+                m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<a href=")", R"(")");            }
         }
         AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);
         imageWebPathHandler.gotoLink(m_linkForCurrentFileToDownload);

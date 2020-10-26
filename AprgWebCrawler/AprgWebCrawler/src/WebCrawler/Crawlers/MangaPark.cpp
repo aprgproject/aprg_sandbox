@@ -29,15 +29,13 @@ void OneDownloadPerPageCrawler::retrieveLinksForMangaPark(AlbaWebPathHandler con
         AlbaFileReader htmlFileReader(htmlFileStream);
         while (htmlFileReader.isNotFinished())
         {
-            string lineInHtmlFile(htmlFileReader.simpleGetLine());
+            string lineInHtmlFile(htmlFileReader.getLine());
             if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<a class="img-num")"))
             {
-                m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"( href=")", R"(")");
-            }
+                m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"( href=")", R"(")");            }
             else if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(">Next▶</a>)"))
             {
-                m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"(◀Prev</a></span>					<span><a href=")", R"(">Next▶</a>)");
-            }
+                m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"(◀Prev</a></span>					<span><a href=")", R"(">Next▶</a>)");            }
         }
         AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);
         imageWebPathHandler.gotoLink(m_linkForCurrentFileToDownload);

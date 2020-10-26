@@ -20,19 +20,34 @@ TEST(SampleTest, FilesToFind)
 {
     AlbaLocalPathHandler::ListOfPaths files;
     AlbaLocalPathHandler::ListOfPaths directories;
-    AlbaLocalPathHandler pathHandler(APRG_DIR R"(boost_1_51_0\boost_1_51_0\boost)");
+    AlbaLocalPathHandler pathHandler(APRG_DIR);
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
 
     for(string const& file: files)
     {
-        cout<<file<<endl;
+        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(file, ".cpp") || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(file, ".hpp"))
+        {
+            vector<string> listOfHeaders;
+            AlbaLocalPathHandler pathHandler(file);
+            ifstream inputFileStream(pathHandler.getFullPath());
+            if(inputFileStream.is_open())
+            {
+                AlbaFileReader inputFileReader(inputFileStream);
+                while(inputFileReader.isNotFinished())
+                {
+                    string lineInFile(inputFileReader.getLineAndIgnoreWhiteSpaces());
+                    if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInFile, "#include") )
+                    {
+                        listOfHeaders.emplace_back()
+                    }
+                }
+            }
+        }
     }
 }
-
 /*
 TEST(SampleTest, MessageId_TcomTcom_test)
-{
-    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
+{    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
     AlbaLocalPathHandler pathHandler2(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_TcomTcom_xml_format.txt)");
     AlbaLocalPathHandler pathHandler3(R"(D:\userdata\malba\Desktop\SCTRoutes\Unedited\routeList_VM.xml)");
     AlbaLocalPathHandler pathHandler4(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_comparison.csv)");

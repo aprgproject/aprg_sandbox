@@ -29,15 +29,13 @@ void OneDownloadPerPageCrawler::retrieveLinksForGehen(AlbaWebPathHandler const& 
         AlbaFileReader htmlFileReader(htmlFileStream);
         while (htmlFileReader.isNotFinished())
         {
-            string lineInHtmlFile(htmlFileReader.simpleGetLine());
+            string lineInHtmlFile(htmlFileReader.getLine());
             if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<img id="img" src=")"))
             {
-                m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<img id="img" src=")", R"(")");
-                int indexOfPreviousPng = lineInHtmlFile.find("http://ehgt.org/g/p.png");
+                m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<img id="img" src=")", R"(")");                int indexOfPreviousPng = lineInHtmlFile.find("http://ehgt.org/g/p.png");
                 if(stringHelper::isNotNpos(indexOfPreviousPng))
                 {
-                    m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"(href=")", R"(")", indexOfPreviousPng);
-                }
+                    m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"(href=")", R"(")", indexOfPreviousPng);                }
             }
         }
         AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);
