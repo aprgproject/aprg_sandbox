@@ -1,6 +1,7 @@
 #include <CPlusPlusFileFixer/CPlusPlusFileFixer.hpp>
 
 #include <gtest/gtest.h>
+
 #include <string>
 
 using namespace alba;
@@ -8,5 +9,8 @@ using namespace alba;
 TEST(CPlusPlusFileFixerTest, TestFilesToBeGrep)
 {
     CPlusPlusFileFixer fixer;
-    fixer.processFile(R"(C:\APRG\AprgCommon\AprgCommon\src\PathHandlers\AlbaWindowsPathHandler.hpp)");
+    fixer.processDirectory(R"(C:\APRG\)");
+    //fixer.processFile(R"(C:\APRG\AprgCommon\AprgCommon\tst\AlbaStringHelper_unit.cpp)");
 }
+
+

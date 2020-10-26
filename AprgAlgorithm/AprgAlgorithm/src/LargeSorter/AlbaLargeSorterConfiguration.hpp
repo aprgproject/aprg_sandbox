@@ -2,6 +2,7 @@
 
 #include <LargeSorter/DataBlock.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+
 #include <string>
 
 namespace alba
@@ -45,3 +46,5 @@ struct AlbaLargeSorterConfiguration
 };
 
 }
+
+

@@ -120,3 +120,5 @@ void CFourier::ComplexFFT(float data[], unsigned long number_of_samples, unsigne
 	fundamental_frequency=(long)floor((float)fundamental_frequency/2);
 
 }
+
+

@@ -1,7 +1,7 @@
+#include "../Utilities.hpp"
 #include "TermBuilder.hpp"
 
 #include <iostream>
-#include "../Utilities.hpp"
 
 using namespace std;
 
@@ -124,3 +124,5 @@ Term& TermBuilder::getLastTermReference()
 }
 
 }
+
+

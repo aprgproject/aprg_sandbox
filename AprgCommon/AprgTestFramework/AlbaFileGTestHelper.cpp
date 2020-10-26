@@ -1,4 +1,5 @@
 #include "AlbaFileGTestHelper.hpp"
+
 #include <algorithm>
 
 void AlbaFileGTestHelper::SetUp()
@@ -37,3 +38,5 @@ void AlbaFileGTestHelper::writeLineToFile(string const& string1, ofstream& fileW
 {
     fileWriter<<string1<<"\n";
 }
+
+

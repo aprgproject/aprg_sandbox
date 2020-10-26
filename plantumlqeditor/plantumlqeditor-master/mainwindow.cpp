@@ -1,17 +1,17 @@
-#include "mainwindow.h"
-#include "previewwidget.h"
-#include "preferencesdialog.h"
 #include "assistantxmlreader.h"
-#include "settingsconstants.h"
 #include "filecache.h"
+#include "mainwindow.h"
+#include "preferencesdialog.h"
+#include "previewwidget.h"
 #include "recentdocuments.h"
-#include "utils.h"
+#include "settingsconstants.h"
 #include "textedit.h"
+#include "utils.h"
 
-#include <QtGui>
-#include <QtSvg>
-#include <QtSingleApplication>
 #include <QScrollArea>
+#include <QtGui>
+#include <QtSingleApplication>
+#include <QtSvg>
 
 namespace {
 const int ASSISTANT_ITEM_DATA_ROLE = Qt::UserRole;
@@ -1157,3 +1157,4 @@ void MainWindow::insertAssistantCode(const QString &code)
         cursor.endEditBlock();
     }
 }
+

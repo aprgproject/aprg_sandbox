@@ -1,10 +1,10 @@
-#include <string>
-#include <iostream>
-#include <fstream>
-
-#include "gtest/gtest.h"
-#include "../../MtDirectoryConstants.hpp"
 #include "../../../src/FileDirectoryDatabase/CMake/CMakeReader.hpp"
+#include "../../MtDirectoryConstants.hpp"
+#include "gtest/gtest.h"
+
+#include <fstream>
+#include <iostream>
+#include <string>
 
 using namespace codeReview;
 using namespace std;
@@ -595,3 +595,5 @@ TEST(CMakeReaderTest, CMakeFileRead_AddExecutableCommandSyntaxTest)
     EXPECT_EQ(*(itFile++), currentDirectory + "DIR3\\File3.bin");
     EXPECT_EQ(*(itFile++), currentDirectory + "File4.out");
 }
+
+

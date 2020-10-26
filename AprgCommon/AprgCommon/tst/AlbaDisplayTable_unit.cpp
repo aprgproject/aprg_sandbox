@@ -44,3 +44,6 @@ TEST(AlbaTableDisplay, TableCanOutputTextFor3by3Table)
     EXPECT_EQ("----------------\n|1000|2|   3   |\n----------------\n|4.1 |5| 6.55  |\n----------------\n| 7  |8|9000000|\n----------------\n", table.drawOutput());
     cout<<table.drawOutput();
 }
+
+
+

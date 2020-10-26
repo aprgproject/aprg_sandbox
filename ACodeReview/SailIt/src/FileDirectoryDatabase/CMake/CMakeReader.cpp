@@ -1,11 +1,12 @@
 #include "CMakeReader.hpp"
 
+#include <AlbaLocalPathHandler.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <AlbaLocalPathHandler.hpp>
+
 #include <algorithm>
-#include <functional>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <string>
 
@@ -468,4 +469,6 @@ bool CMakeReader::hasCMakeVariables(string const& string1)
 }
 
 }// namespace codeReview
+
+
 

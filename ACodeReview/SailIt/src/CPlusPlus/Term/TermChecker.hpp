@@ -1,8 +1,10 @@
 #pragma once
 
-#include <Optional/AlbaOptional.hpp>
 #include "MultipleTerms.hpp"
 #include "Term.hpp"
+
+#include <Optional/AlbaOptional.hpp>
+
 #include <ostream>
 #include <string>
 
@@ -59,3 +61,5 @@ private:
 };
 
 }// namespace codeReview
+
+

@@ -34,3 +34,5 @@
 #define CHECK_TYPE_IN_DATABASE(database, typeName, cPlusPlusType) \
     ASSERT_TRUE(database.isType(typeName));\
     EXPECT_EQ(database.getTypeReferenceWithAlias(typeName), cPlusPlusType);
+
+

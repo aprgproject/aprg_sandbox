@@ -1,5 +1,6 @@
-#include <File/AlbaFileReader.hpp>
 #include <BtsLogSorter.hpp>
+#include <File/AlbaFileReader.hpp>
+
 #include <gtest/gtest.h>
 
 namespace alba
@@ -99,3 +100,5 @@ TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime)
 
     EXPECT_EQ(5, lines);
 }
+
+

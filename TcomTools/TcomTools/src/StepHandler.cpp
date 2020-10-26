@@ -1,11 +1,13 @@
-#include <File/AlbaFileReader.hpp>
-#include <AprgFileExtractor.hpp>
-#include <String/AlbaStringHelper.hpp>
-#include <BtsLogSorter.hpp>
-#include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
-#include <fstream>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <StepHandler.hpp>
+
+#include <AprgFileExtractor.hpp>
+#include <BtsLogSorter.hpp>
+#include <File/AlbaFileReader.hpp>
+#include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <String/AlbaStringHelper.hpp>
+
+#include <fstream>
 #include <string>
 
 namespace alba
@@ -239,3 +241,5 @@ StepHandler::LocationsInFile StepHandler::getLocationsInFile(TcomToolsConfigurat
 }
 
 }
+
+

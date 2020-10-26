@@ -1,4 +1,5 @@
 #include "recentdocuments.h"
+
 #include <QAction>
 #include <QSettings>
 #include <QSignalMapper>
@@ -117,3 +118,4 @@ void RecentDocuments::onRecentDocumentsActionTriggered(int index)
 {
     emit recentDocument(m_documents.value(index));
 }
+

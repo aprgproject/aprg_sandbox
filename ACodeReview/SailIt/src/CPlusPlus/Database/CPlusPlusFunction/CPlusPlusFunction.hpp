@@ -1,10 +1,12 @@
 #pragma once
 
-#include <Optional/AlbaOptional.hpp>
+#include "../CPlusPlusType.hpp"
 #include "CPlusPlusFunctionSignature.hpp"
+
+#include <Optional/AlbaOptional.hpp>
+
 #include <string>
 #include <vector>
-#include "../CPlusPlusType.hpp"
 
 using std::string;
 using std::vector;
@@ -36,3 +38,5 @@ private:
 typedef alba::AlbaOptional<CPlusPlusFunction> CPlusPlusFunctionOptional;
 
 }
+
+

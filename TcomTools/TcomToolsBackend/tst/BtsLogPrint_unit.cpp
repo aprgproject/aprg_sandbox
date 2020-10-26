@@ -1,7 +1,9 @@
-#include <algorithm>
 #include <BtsLogPrint.hpp>
-#include <fstream>
+
 #include <gtest/gtest.h>
+
+#include <algorithm>
+#include <fstream>
 #include <vector>
 
 using namespace tcomToolsBackend;
@@ -301,3 +303,5 @@ TEST(BtsLogPrintTest, DISABLED_InputStreamWorks)
     }
     EXPECT_EQ(1001, count);
 }
+
+

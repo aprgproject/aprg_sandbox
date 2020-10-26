@@ -1,11 +1,12 @@
 #pragma once
 
-#include <algorithm>
-#include <functional>
-#include <LargeSorter/AlbaLargeSorterConfiguration.hpp>
 #include <LargeSorter/AlbaLargeSorterCache.hpp>
+#include <LargeSorter/AlbaLargeSorterConfiguration.hpp>
 #include <LargeSorter/AlbaLargeSorterTypes.hpp>
 #include <LargeSorter/DataBlock.hpp>
+
+#include <algorithm>
+#include <functional>
 #include <sstream>
 
 namespace alba
@@ -142,3 +143,5 @@ private:
 };
 
 }//namespace alba
+
+

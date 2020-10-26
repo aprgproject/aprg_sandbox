@@ -1,7 +1,8 @@
 #pragma once
 
-#include <string>
 #include "Term.hpp"
+
+#include <string>
 #include <vector>
 
 using std::string;
@@ -50,3 +51,5 @@ namespace CheckerHelpers
 }
 
 }
+
+

@@ -1,11 +1,11 @@
 #pragma once
 
-#include <string>
-#include <vector>
-
 #include <User/AlbaUserInterface.hpp>
 #include <WebCrawler/CrawlMode.hpp>
 #include <WebCrawler/CrawlState.hpp>
+
+#include <string>
+#include <vector>
 
 namespace aprgWebCrawler
 {
@@ -63,3 +63,5 @@ private:
 };
 
 }
+
+

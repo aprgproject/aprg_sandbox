@@ -1,18 +1,20 @@
 #pragma once
 
-#include <Optional/AlbaOptional.hpp>
+#include "../Utilities.hpp"
 #include "CPlusPlusClass/CPlusPlusClass.hpp"
 #include "CPlusPlusFunction/CPlusPlusFunction.hpp"
 #include "CPlusPlusMacro.hpp"
 #include "CPlusPlusNamespace.hpp"
-#include "CPlusPlusVariable.hpp"
 #include "CPlusPlusScope.hpp"
+#include "CPlusPlusVariable.hpp"
+
+#include <Optional/AlbaOptional.hpp>
+
 #include <functional>
+#include <map>
 #include <set>
 #include <string>
-#include <map>
 #include <vector>
-#include "../Utilities.hpp"
 
 using std::string;
 using std::set;
@@ -130,3 +132,5 @@ private:
 };
 
 }// namespace codeReview
+
+

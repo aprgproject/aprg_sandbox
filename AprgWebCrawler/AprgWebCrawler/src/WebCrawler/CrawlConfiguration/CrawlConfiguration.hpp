@@ -1,7 +1,8 @@
 #pragma once
 
-#include <Optional/AlbaOptional.hpp>
 #include "CrawlMode.hpp"
+
+#include <Optional/AlbaOptional.hpp>
 
 namespace aprgWebCrawler
 {
@@ -30,3 +31,5 @@ private:
 };
 
 }
+
+

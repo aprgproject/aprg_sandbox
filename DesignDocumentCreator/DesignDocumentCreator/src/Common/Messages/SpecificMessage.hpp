@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Common/Components//ComponentName.hpp>
+#include <Common/Components/ComponentName.hpp>
 #include <Common/Messages/MessageName.hpp>
 #include <Common/Messages/MessageWrapper.hpp>
 
@@ -50,3 +50,5 @@ private:
 };
 
 }
+
+

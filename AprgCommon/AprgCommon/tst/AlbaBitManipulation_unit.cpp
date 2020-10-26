@@ -43,3 +43,6 @@ TEST(AlbaBitManipulationTest, BytesAreSuccessfullyObtainedWhenU32IsUsed)
     EXPECT_EQ(0x34, AlbaBitManipulation<unsigned int>::getByteAtLeastSignificantPosition<2>(input));
     EXPECT_EQ(0x12, AlbaBitManipulation<unsigned int>::getByteAtLeastSignificantPosition<3>(input));
 }
+
+
+

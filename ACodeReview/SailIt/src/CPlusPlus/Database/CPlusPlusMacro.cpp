@@ -49,3 +49,5 @@ void CPlusPlusMacro::setVariadicParameterIndex(int const parameterIndex)
 
 
 }
+
+

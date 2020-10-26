@@ -1,5 +1,6 @@
-#include <gtest/gtest.h>
 #include <PerformanceAnalyzer.hpp>
+
+#include <gtest/gtest.h>
 
 using namespace std;
 
@@ -142,3 +143,5 @@ TEST(PerformanceAnalyzerTest,DISABLED_ProcessFileForTraceTimes)
 
 
 }
+
+

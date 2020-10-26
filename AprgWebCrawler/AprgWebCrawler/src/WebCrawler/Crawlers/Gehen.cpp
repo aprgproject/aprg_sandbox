@@ -1,8 +1,8 @@
+#include <CrawlHelpers/Downloaders.hpp>
 #include <Crawlers/OneDownloadPerPageCrawler.hpp>
-
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <CrawlHelpers/Downloaders.hpp>
+
 #include <fstream>
 #include <iostream>
 
@@ -32,10 +32,12 @@ void OneDownloadPerPageCrawler::retrieveLinksForGehen(AlbaWebPathHandler const& 
             string lineInHtmlFile(htmlFileReader.getLine());
             if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<img id="img" src=")"))
             {
-                m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<img id="img" src=")", R"(")");                int indexOfPreviousPng = lineInHtmlFile.find("http://ehgt.org/g/p.png");
+                m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<img id="img" src=")", R"(")");
+                int indexOfPreviousPng = lineInHtmlFile.find("http://ehgt.org/g/p.png");
                 if(stringHelper::isNotNpos(indexOfPreviousPng))
                 {
-                    m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"(href=")", R"(")", indexOfPreviousPng);                }
+                    m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"(href=")", R"(")", indexOfPreviousPng);
+                }
             }
         }
         AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);
@@ -45,3 +47,5 @@ void OneDownloadPerPageCrawler::retrieveLinksForGehen(AlbaWebPathHandler const& 
 }
 
 }
+
+

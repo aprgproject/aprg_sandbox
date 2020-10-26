@@ -1,8 +1,9 @@
 #include "assistantxmlreader.h"
-#include <QFileInfo>
-#include <QFile>
-#include <QDir>
+
 #include <QDebug>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
 
 namespace {
 const QString ROOT_TAG = "assistants";
@@ -274,3 +275,4 @@ void Assistant::append(AssistantItem *item)
 {
     m_items.append(item);
 }
+

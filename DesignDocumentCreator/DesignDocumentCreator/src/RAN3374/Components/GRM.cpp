@@ -1,6 +1,7 @@
 #include <Common/Utils/StringHelpers.hpp>
-#include <iostream>
 #include <RAN3374/Components/GRM.hpp>
+
+#include <iostream>
 
 using namespace std;
 
@@ -33,3 +34,5 @@ void GRM::handleTimerEvent(Timer const& timer)
 }
 
 }
+
+

@@ -1,6 +1,6 @@
+#include "../CPlusPlusClass/CPlusPlusClass.hpp"
 #include "CPlusPlusFunction.hpp"
 
-#include "../CPlusPlusClass/CPlusPlusClass.hpp"
 #include <iostream>
 
 using namespace std;
@@ -118,3 +118,5 @@ CPlusPlusType CPlusPlusFunction::getReturnTypeWithSignature(CPlusPlusFunctionSig
 }
 
 }
+
+

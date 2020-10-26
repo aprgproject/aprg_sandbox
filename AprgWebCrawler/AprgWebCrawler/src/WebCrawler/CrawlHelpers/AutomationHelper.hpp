@@ -1,6 +1,7 @@
 #pragma once
 
 #include <User/AlbaWindowsUserAutomation.hpp>
+
 #include <string>
 
 namespace aprgWebCrawler
@@ -30,3 +31,5 @@ private:
 };
 
 }
+
+

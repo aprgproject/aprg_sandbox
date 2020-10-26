@@ -1,9 +1,9 @@
+#include "../Checkers.hpp"
 #include "fixtures/ModuleTest.hpp"
-
 #include "gtest/gtest.h"
+
 #include <fstream>
 #include <string>
-#include "../Checkers.hpp"
 
 using namespace codeReview;
 using namespace std;
@@ -244,3 +244,5 @@ TEST_F(ModuleTest, CStyleStructPointerTest)
     CHECK_TERM(it, TermType::ProcessedTerm, "struct lconv* lconv;\n", 1);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
+
+

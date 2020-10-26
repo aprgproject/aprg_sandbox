@@ -1,7 +1,7 @@
 #include <AprgFileExtractor.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 #include <gtest/gtest.h>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 #ifndef PATH_OF_7Z_TEMP_FILE
     static_assert(false, "PATH_OF_7Z_TEMP_FILE is not set in cmake");
@@ -140,3 +140,5 @@ TEST(AprgFileExtractorTest, FilesAreExtractedRecursivelyWhenSatisyingTheConditio
     filePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest2\DirectoryTest2\DirectoryTest2\DirectoryTest2.txt)");
     EXPECT_TRUE(filePathHandler.isFoundInLocalSystem());
 }
+
+

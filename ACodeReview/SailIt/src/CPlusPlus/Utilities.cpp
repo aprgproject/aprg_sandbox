@@ -1,7 +1,8 @@
-#include <algorithm>
-#include <iterator>
-#include <iostream>
 #include "Utilities.hpp"
+
+#include <algorithm>
+#include <iostream>
+#include <iterator>
 
 using namespace std;
 
@@ -27,3 +28,5 @@ void printContentOfTerms(DequeOfTerms const& terms, ostream& outStream)
 }
 
 }// namespace codeReview
+
+

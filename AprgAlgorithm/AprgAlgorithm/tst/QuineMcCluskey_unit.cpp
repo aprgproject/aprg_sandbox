@@ -1,5 +1,6 @@
-#include <gtest/gtest.h>
 #include <QuineMcCluskey/QuineMcCluskey.hpp>
+
+#include <gtest/gtest.h>
 
 #include <iostream>
 
@@ -242,4 +243,6 @@ TEST(QuineMcCluskeyTest, TestFinalImplicants)
 
     cout<<quineMcCluskey.getOutputTable(finalImplicants);
 }
+
+
 

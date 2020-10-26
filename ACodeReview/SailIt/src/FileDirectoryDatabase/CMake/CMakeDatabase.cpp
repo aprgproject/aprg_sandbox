@@ -1,7 +1,7 @@
 #include "CMakeDatabase.hpp"
 
-#include <String/AlbaStringHelper.hpp>
 #include <AlbaLocalPathHandler.hpp>
+#include <String/AlbaStringHelper.hpp>
 
 #include <iostream>
 
@@ -263,3 +263,5 @@ template <> CMakeDatabase& CMakeDatabase::proceedToNextDirectory<RecursionDirect
 }
 
 }// namespace codeReview
+
+

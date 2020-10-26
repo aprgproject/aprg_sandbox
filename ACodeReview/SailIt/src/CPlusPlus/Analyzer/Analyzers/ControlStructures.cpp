@@ -1,8 +1,9 @@
-#include <iostream>
+#include "../../Database/CPlusPlusDatabase.hpp"
 #include "../Findings/TemporaryFindings.hpp"
 #include "../TermAnalyzer.hpp"
 #include "../TermAnalyzerTemplateFunctions.hpp"
-#include "../../Database/CPlusPlusDatabase.hpp"
+
+#include <iostream>
 
 using namespace std;
 
@@ -156,3 +157,5 @@ bool TermAnalyzer::isModifiedDueToOneConditionConstructAndMoveLooper(
 }
 
 }// namespace codeReview
+
+

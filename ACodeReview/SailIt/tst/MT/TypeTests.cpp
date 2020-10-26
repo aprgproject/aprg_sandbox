@@ -1,8 +1,8 @@
-#include "fixtures/ModuleTest.hpp"
-
-#include "gtest/gtest.h"
-#include <fstream>
 #include "../Checkers.hpp"
+#include "fixtures/ModuleTest.hpp"
+#include "gtest/gtest.h"
+
+#include <fstream>
 
 using namespace codeReview;
 using namespace std;
@@ -319,3 +319,5 @@ TEST_F(ModuleTest, TypesAreRecognizedAfterMacro)
 
 //check database for type
 //edit type database how?
+
+

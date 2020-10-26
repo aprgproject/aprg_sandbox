@@ -26,3 +26,5 @@ bool isUnexpectedNewLineIncluded(FindingsToAdd const findingsToAdd)
 }//namespace FindingsToAddHelper
 
 }//namespace codeReview
+
+

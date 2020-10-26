@@ -142,3 +142,5 @@ void curl_easy::pause(const int bitmask) {
         throw curl_easy_exception(code,__FUNCTION__);
     }
 }
+
+

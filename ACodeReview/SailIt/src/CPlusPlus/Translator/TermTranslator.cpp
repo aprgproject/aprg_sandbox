@@ -1,11 +1,12 @@
+#include "TermListConstants.hpp"
 #include "TermTranslator.hpp"
 
+#include <AlbaLocalPathHandler.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <AlbaLocalPathHandler.hpp>
+
 #include <algorithm>
 #include <iostream>
-#include "TermListConstants.hpp"
 #include <string>
 
 using namespace alba;
@@ -275,10 +276,12 @@ string TermTranslator::getLine()
     return m_albaFileReader.getLine();
 }
 
-bool TermTranslator::isEqualToFirstTwoCharacters(string const& lineString, int& index, string const& stringToCheck){
+bool TermTranslator::isEqualToFirstTwoCharacters(string const& lineString, int& index, string const& stringToCheck)
+{
     if(!isLessThanStringLength(lineString, index+1)) return false;
     return stringToCheck == lineString.substr(index, 2);
 }
+
 string TermTranslator::fetchOperator(string const& lineString, int& index)
 {
     //switch or stl algorithm
@@ -349,3 +352,5 @@ string TermTranslator::readAndAccumulateUntilStringIfFound(string & lineString, 
 
 
 }// namespace codeReview
+
+

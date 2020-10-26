@@ -4,10 +4,12 @@
 
 #include <string>
 
-using namespace alba;using namespace std;
+using namespace alba;
+using namespace std;
 
 TEST(AlbaRaiiafPointerTest, IntegerTest)
-{    AlbaRaiiafPointer integerPointer;
+{
+    AlbaRaiiafPointer integerPointer;
     integerPointer.setAndAllocateNewContent<int>(0xA1BA);
     EXPECT_EQ(integerPointer.get<int>(), 0xA1BA);
     EXPECT_EQ(integerPointer.getReference<int>(), 0xA1BA);
@@ -51,4 +53,7 @@ TEST(AlbaRaiiafPointerTest, IntAndStringTest)
     EXPECT_EQ(anyPointer.getReference<string>(), "Replace with new object");
     anyPointer.deAllocate<string>();
 }
+
+
+
 

@@ -1,5 +1,5 @@
-#include "gtest/gtest.h"
 #include "../../src/CPlusPlus/Database/CPlusPlusDatabase.hpp"
+#include "gtest/gtest.h"
 
 using namespace codeReview;
 using namespace std;
@@ -439,3 +439,5 @@ void checkThatDatabaseIsEmpty(CPlusPlusDatabase& database)
     EXPECT_EQ(database.getUsingNamespacesReference().size(), 0);
     EXPECT_EQ(database.getVariablesReference().size(), 0);
 }
+
+

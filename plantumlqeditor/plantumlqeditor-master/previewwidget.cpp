@@ -1,6 +1,7 @@
 #include "previewwidget.h"
-#include <QPainter>
+
 #include <QDebug>
+#include <QPainter>
 #include <QSvgRenderer>
 
 namespace {
@@ -88,3 +89,4 @@ void PreviewWidget::zoomImage()
         }
     }
 }
+

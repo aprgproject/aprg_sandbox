@@ -61,3 +61,5 @@ void Findings::setFileName(string const& fileName)
 }
 
 }
+
+

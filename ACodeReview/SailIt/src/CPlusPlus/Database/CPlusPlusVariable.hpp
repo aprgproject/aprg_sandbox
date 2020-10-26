@@ -1,7 +1,8 @@
 #pragma once
 
-#include <string>
 #include "CPlusPlusType.hpp"
+
+#include <string>
 
 using std::string;
 
@@ -19,3 +20,5 @@ private:
 };
 
 }
+
+

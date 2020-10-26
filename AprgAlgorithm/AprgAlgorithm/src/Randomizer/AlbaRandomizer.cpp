@@ -1,6 +1,6 @@
 #include <Randomizer/AlbaRandomizer.hpp>
-
 #include <math.h>
+
 #include <windows.h>
 
 namespace alba{
@@ -28,3 +28,5 @@ int AlbaRandomizer::getRandomValueInUniformDistribution(int const first, int con
 }
 
 }//namespace alba
+
+

@@ -8,10 +8,12 @@
 
 namespace alba{
 
-class AlbaWindowsPathHandler: public AlbaPathHandler{
+class AlbaWindowsPathHandler: public AlbaPathHandler
+{
 public:
     typedef std::set<std::string> ListOfPaths;
-    AlbaWindowsPathHandler(PathInitialValueSource const initialValueSource);    AlbaWindowsPathHandler(std::string const& path);
+    AlbaWindowsPathHandler(PathInitialValueSource const initialValueSource);
+    AlbaWindowsPathHandler(std::string const& path);
     void clear() override;
     std::string getDriveOrRoot() const;
     double getFileSizeEstimate();
@@ -51,3 +53,6 @@ private:
 };
 
 }//namespace alba
+
+
+

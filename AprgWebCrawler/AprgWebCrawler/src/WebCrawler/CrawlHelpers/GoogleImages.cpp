@@ -2,6 +2,7 @@
 
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
+
 #include <deque>
 #include <fstream>
 #include <iostream>
@@ -41,10 +42,12 @@ void WebCrawler::saveImageListFromGoogleImages()
         string lineInHtmlFile(htmlFileReader.getLine());
         if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, "http://www.google.com/imgres?imgurl="))
         {
-            int indexOfImgres = lineInHtmlFile.find("http://www.google.com/imgres?");            while(stringHelper::isNotNpos(indexOfImgres))
+            int indexOfImgres = lineInHtmlFile.find("http://www.google.com/imgres?");
+            while(stringHelper::isNotNpos(indexOfImgres))
             {
                 listOfImages.emplace(getStringInBetweenTwoStrings(lineInHtmlFile, "imgurl=", "&", indexOfImgres));
-                indexOfImgres = lineInHtmlFile.find("http://www.google.com/imgres?", indexOfImgres);            }
+                indexOfImgres = lineInHtmlFile.find("http://www.google.com/imgres?", indexOfImgres);
+            }
         }
     }
     for(string const imageLink:listOfImages)
@@ -71,9 +74,11 @@ void WebCrawler::downloadGoogleImages() const
     }
     listFileStream.close();
 
+
     while(!listOfImages.empty())
     {
-        AlbaWebPathHandler imageWebPathHandler(listOfImages.front());        if(!imageWebPathHandler.isFile())
+        AlbaWebPathHandler imageWebPathHandler(listOfImages.front());
+        if(!imageWebPathHandler.isFile())
         {
             cout << "Image link is not to a file." << endl;
             cout << "ImageLinkWebPath : " << imageWebPathHandler.getFullPath() << endl;
@@ -96,3 +101,5 @@ void WebCrawler::downloadGoogleImages() const
 }
 
 }
+
+

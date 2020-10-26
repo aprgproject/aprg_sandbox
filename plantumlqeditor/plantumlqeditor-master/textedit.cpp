@@ -1,10 +1,10 @@
-#include <QKeyEvent>
-#include <QTextCursor>
-#include <QTextBlock>
-#include <QDebug>
-#include <QPainter>
-
 #include "textedit.h"
+
+#include <QDebug>
+#include <QKeyEvent>
+#include <QPainter>
+#include <QTextBlock>
+#include <QTextCursor>
 
 // See to:
 
@@ -196,4 +196,5 @@ void TextEdit::updateLineNumberArea(const QRect &rect, int dy)
         updateLineNumberAreaWidth(0);
     }
 }
+
 

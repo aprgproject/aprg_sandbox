@@ -1,9 +1,9 @@
 #pragma once
 
+#include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
+
 #include <set>
 #include <string>
-
-#include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
 
 namespace alba
 {
@@ -31,3 +31,5 @@ private:
 };
 
 }
+
+

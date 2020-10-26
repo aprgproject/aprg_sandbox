@@ -212,3 +212,4 @@ QtLockedFile::~QtLockedFile()
     if (wmutex)
         CloseHandle(wmutex);
 }
+

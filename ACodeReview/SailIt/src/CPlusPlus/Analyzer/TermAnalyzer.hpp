@@ -1,12 +1,14 @@
 #pragma once
 
-#include <Optional/AlbaOptional.hpp>
+#include "../Utilities.hpp"
 #include "Findings/FindingsBuffer.hpp"
 #include "Findings/FindingsToAdd.hpp"
 #include "Loopers/Looper.hpp"
-#include <unordered_map>
+
+#include <Optional/AlbaOptional.hpp>
+
 #include <string>
-#include "../Utilities.hpp"
+#include <unordered_map>
 
 using std::string;
 
@@ -221,3 +223,5 @@ private:
 };
 
 }// namespace codeReview
+
+

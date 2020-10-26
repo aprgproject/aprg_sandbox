@@ -1,11 +1,11 @@
 #pragma once
 
-#include "gtest/gtest.h"
-#include "../../MtDirectoryConstants.hpp"
 #include "../../../src/CPlusPlus/Analyzer/TermAnalyzer.hpp"
+#include "../../../src/CPlusPlus/Database/CPlusPlusDatabase.hpp"
 #include "../../../src/CPlusPlus/Findings/Findings.hpp"
 #include "../../../src/CPlusPlus/Translator/TermTranslator.hpp"
-#include "../../../src/CPlusPlus/Database/CPlusPlusDatabase.hpp"
+#include "../../MtDirectoryConstants.hpp"
+#include "gtest/gtest.h"
 
 struct ModuleTest : public ::testing::Test
 {
@@ -17,4 +17,6 @@ struct ModuleTest : public ::testing::Test
     codeReview::TermTranslator m_termTranslator;
     codeReview::TermAnalyzer m_termAnalyzer;
 };
+
+
 

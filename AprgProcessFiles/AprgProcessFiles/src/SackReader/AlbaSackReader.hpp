@@ -1,10 +1,11 @@
 #pragma once
 
-#include <String/AlbaStringHelper.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <map>
 #include <SackReader/AlbaSackReaderType.hpp>
+#include <String/AlbaStringHelper.hpp>
+
+#include <map>
 #include <string>
 
 namespace alba
@@ -58,3 +59,5 @@ private:
 };
 
 }
+
+

@@ -1,15 +1,16 @@
 #include "UserInterface.hpp"
 
+#include <File/AlbaFileReader.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <String/AlbaStringHelper.hpp>
+#include <WebCrawler.hpp>
+
+#include <windows.h>
+
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <set>
-#include <windows.h>
-
-#include <File/AlbaFileReader.hpp>
-#include <String/AlbaStringHelper.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <WebCrawler.hpp>
 
 #define APRG_WEB_CRAWLER_CONFIGURATION_FILE APRG_DIR R"(AprgWebCrawler\configuration.txt)"
 #define APRG_WEB_CRAWLER_FIX_BATCH_FILE R"(AprgWebCrawler\fixDirectoryNames.bat)"
@@ -455,3 +456,5 @@ DownloadDirectoryDetails UserInterface::createDownloadDirectoryDetails(string co
 }
 
 }
+
+

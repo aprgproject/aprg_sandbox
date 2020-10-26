@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>
 #include <iostream>
+#include <string>
 
 using std::ostream;
 using std::string;
@@ -56,3 +56,5 @@ private:
 };
 
 }
+
+

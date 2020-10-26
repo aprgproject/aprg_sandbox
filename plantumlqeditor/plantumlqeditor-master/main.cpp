@@ -1,7 +1,8 @@
-#include <QtSingleApplication>
-#include <QFileInfo>
-#include <QDebug>
 #include "mainwindow.h"
+
+#include <QDebug>
+#include <QFileInfo>
+#include <QtSingleApplication>
 
 namespace {
 const char* APPLICATION_NAME = "PlantUML Editor";
@@ -79,3 +80,4 @@ int main(int argc, char *argv[])
 
     return a.exec();
 }
+

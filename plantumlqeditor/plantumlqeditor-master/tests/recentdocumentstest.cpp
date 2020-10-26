@@ -1,4 +1,5 @@
 #include "recentdocuments.h"
+
 #include <QAction>
 #include <gmock/gmock.h>
 
@@ -56,3 +57,4 @@ TEST(RecentDocuments, testClear) {
     EXPECT_EQ("", documents.actions()[0]->text());
     EXPECT_EQ("", documents.actions()[1]->text());
 }
+

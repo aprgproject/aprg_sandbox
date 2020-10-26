@@ -1,12 +1,13 @@
 #include "AutomationHelper.hpp"
 
 #include <File/AlbaFileReader.hpp>
-#include <String/AlbaStringHelper.hpp>
-#include <fstream>
 #include <PathHandlers/AlbaWebPathHandler.hpp>
-#include <iostream>
+#include <String/AlbaStringHelper.hpp>
+
 #include <windows.h>
 
+#include <fstream>
+#include <iostream>
 
 #define APRG_WEB_CRAWLER_AUTOMATION_CONFIGURATION_FILE APRG_DIR R"(AprgWebCrawler\automationConfiguration.txt)"
 
@@ -197,3 +198,5 @@ void AutomationHelper::downloadLinkUsingMozillaFirefoxAndFdm(string const& webPa
 }
 
 }
+
+

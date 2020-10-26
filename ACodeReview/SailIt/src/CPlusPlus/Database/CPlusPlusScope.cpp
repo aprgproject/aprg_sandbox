@@ -98,3 +98,5 @@ void CPlusPlusScope::addVariable(string const& variableName)
 }
 
 }
+
+

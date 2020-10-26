@@ -2,6 +2,7 @@
 
 #include <BtsLogSorterConfiguration.hpp>
 #include <LargeSorter/AlbaLargeSorterConfiguration.hpp>
+
 #include <string>
 
 #define CONFIGURATION_FILE APRG_DIR R"(TcomTools\TcomTools\configuration\configuration.txt)"
@@ -62,3 +63,5 @@ struct TcomToolsConfiguration
 };
 
 }
+
+

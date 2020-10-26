@@ -1,4 +1,5 @@
 #include <AprgFileExtractor.hpp>
+
 #include <iostream>
 #include <string>
 
@@ -28,3 +29,5 @@ int main(int argc, char *argv[])
     AprgFileExtractor fileExtractor(condition);
     fileExtractor.extractAllRelevantFiles(inputPath);
 }
+
+

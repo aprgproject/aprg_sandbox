@@ -1,4 +1,5 @@
 #include "MultipleTerms.hpp"
+
 #include <algorithm>
 #include <iostream>
 
@@ -20,3 +21,5 @@ bool MultipleTerms::isEqualToAnyOfTheTerms(Term const& termToCompare) const
 }
 
 }
+
+

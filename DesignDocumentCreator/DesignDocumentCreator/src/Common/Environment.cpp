@@ -1,5 +1,6 @@
 #include <Common/Environment.hpp>
 #include <Common/Utils/StringHelpers.hpp>
+
 #include <iostream>
 
 using namespace std;
@@ -43,3 +44,5 @@ void Environment::send(ComponentName const sender, ComponentName const receiver,
 }
 
 }
+
+

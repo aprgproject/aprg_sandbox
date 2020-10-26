@@ -190,3 +190,4 @@ QtLockedFile::LockMode QtLockedFile::lockMode() const
     Destroys the \e QtLockedFile object. If any locks were held, they
     are released.
 */
+

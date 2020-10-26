@@ -1,7 +1,8 @@
 #pragma once
 
-#include <vector>
 #include "../DatabaseTypes.hpp"
+
+#include <vector>
 
 using std::vector;
 
@@ -70,3 +71,5 @@ private:
 
 
 }// namespace codeReview
+
+

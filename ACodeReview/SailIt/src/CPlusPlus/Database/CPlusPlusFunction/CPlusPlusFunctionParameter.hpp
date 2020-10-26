@@ -1,7 +1,8 @@
 #pragma once
 
-#include <string>
 #include "../CPlusPlusType.hpp"
+
+#include <string>
 
 namespace codeReview
 {
@@ -23,3 +24,5 @@ private:
 };
 
 }
+
+

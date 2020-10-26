@@ -1,9 +1,10 @@
 #include "Term.hpp"
 
 #include <String/AlbaStringHelper.hpp>
+
 #include <iostream>
-#include <utility>
 #include <string>
+#include <utility>
 
 using namespace std;
 using namespace alba::stringHelper;
@@ -189,3 +190,5 @@ bool Term::hasNoContentString() const
 }
 
 }
+
+

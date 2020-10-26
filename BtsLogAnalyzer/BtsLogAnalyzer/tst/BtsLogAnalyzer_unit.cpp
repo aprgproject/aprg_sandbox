@@ -1,6 +1,8 @@
-#include <String/AlbaStringHelper.hpp>
-#include <BtsLogAnalyzer.hpp>
 #include "gtest/gtest.h"
+
+#include <BtsLogAnalyzer.hpp>
+#include <String/AlbaStringHelper.hpp>
+
 #include <iostream>
 
 using namespace alba;
@@ -129,5 +131,7 @@ TEST (BtsLogAnalyzerTest, DISABLED_SizeOfTest)
     TraceReportHeader traceReportHeader;
     cout<<"Size of:"<<sizeof(traceReportHeader)<<endl;
 }
+
+
 
 

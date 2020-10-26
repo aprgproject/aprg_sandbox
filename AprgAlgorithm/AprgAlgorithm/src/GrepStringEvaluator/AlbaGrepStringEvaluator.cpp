@@ -1,6 +1,7 @@
 #include "AlbaGrepStringEvaluator.hpp"
 
 #include <String/AlbaStringHelper.hpp>
+
 #include <algorithm>
 
 using namespace std;
@@ -361,4 +362,6 @@ void AlbaGrepStringEvaluator::setErrorMessage(string const& errorMessage)
 }
 
 }
+
+
 

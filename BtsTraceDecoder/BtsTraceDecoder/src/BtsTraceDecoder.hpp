@@ -1,9 +1,9 @@
 #pragma once
 
+#include <SymbolTableFileType.hpp>
+
 #include <map>
 #include <string>
-
-#include <SymbolTableFileType.hpp>
 
 namespace alba
 {
@@ -25,3 +25,5 @@ private:
 };
 
 }
+
+

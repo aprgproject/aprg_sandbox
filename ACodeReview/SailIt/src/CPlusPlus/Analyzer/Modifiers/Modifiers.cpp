@@ -1,8 +1,9 @@
-#include <iostream>
-#include <iterator>
+#include "../../Database/CPlusPlusDatabase.hpp"
 #include "../TermAnalyzer.hpp"
 #include "../TermAnalyzerTemplateFunctions.hpp"
-#include "../../Database/CPlusPlusDatabase.hpp"
+
+#include <iostream>
+#include <iterator>
 
 using namespace std;
 
@@ -215,3 +216,5 @@ void TermAnalyzer::clearFlagsForAnotherIteration()
 }
 
 }// namespace codeReview
+
+

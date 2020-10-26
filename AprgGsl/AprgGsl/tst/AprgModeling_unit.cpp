@@ -1,5 +1,6 @@
-#include <gtest/gtest.h>
 #include <Modeling/AprgModeling.hpp>
+
+#include <gtest/gtest.h>
 
 using namespace alba;
 using namespace std;
@@ -28,3 +29,5 @@ TEST(SampleTest, TestForDataSet)
         cout<<"["<<i++<<" -> "<<std::setprecision(20)<<coefficient<<"],"<<endl;
     }
 }
+
+

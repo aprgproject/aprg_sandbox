@@ -10,8 +10,10 @@
 #include <string>
 
 using namespace std;
+
 namespace alba
 {
+
 AlbaWindowsPathHandler::AlbaWindowsPathHandler(PathInitialValueSource const initialValueSource)
     : AlbaPathHandler(R"(\)")
 {
@@ -267,3 +269,6 @@ string AlbaWindowsPathHandler::getLastFormattedErrorMessage() const
 }
 
 }//namespace alba
+
+
+

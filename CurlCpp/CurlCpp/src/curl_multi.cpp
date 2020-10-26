@@ -157,3 +157,5 @@ curl_multi::curl_message::curl_message(const CURLMsg *msg) :
     message(msg->msg), whatever(msg->data.whatever), code(msg->data.result) {
     // ... nothing to do here ...
 }
+
+

@@ -179,3 +179,6 @@ private:
 
 template <typename ContentType> ContentType AlbaOptional<ContentType &>::m_empty;
 }//namespace alba
+
+
+

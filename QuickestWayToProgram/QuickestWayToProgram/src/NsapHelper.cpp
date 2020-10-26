@@ -1,6 +1,8 @@
 #include <NsapHelper.hpp>
-#include <algorithm>
+
 #include <ArraySize.hpp>
+
+#include <algorithm>
 #include <cstdio>
 
 namespace CommonClassLib
@@ -97,3 +99,5 @@ std::string CNsapHelper::convertNsapToIp(TTransportLayerAddress const& nsap)
 }
 
 }
+
+

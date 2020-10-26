@@ -1,8 +1,9 @@
 #include "WebCrawler.hpp"
 
+#include <CrawlConfiguration/CrawlConfiguration.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <CrawlConfiguration/CrawlConfiguration.hpp>
+
 #include <fstream>
 #include <iostream>
 
@@ -113,9 +114,13 @@ LinksForYoutube WebCrawler::getLinkForYoutube(AlbaWebPathHandler const& webLinkP
         string lineInHtmlFile(htmlFileReader.getLine());
         if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<div class="def-btn-box"><a)"))
         {
-            links.linkForVideo = getStringInBetweenTwoStrings(lineInHtmlFile, R"(href=")", R"(")");            links.localPathForCurrentVideo = m_downloadDirectoryPathHandler.getDirectory() + R"(\Video\)" + getStringInBetweenTwoStrings(lineInHtmlFile, R"(download=")", R"(")");
+            links.linkForVideo = getStringInBetweenTwoStrings(lineInHtmlFile, R"(href=")", R"(")");
+            links.localPathForCurrentVideo = m_downloadDirectoryPathHandler.getDirectory() + R"(\Video\)" + getStringInBetweenTwoStrings(lineInHtmlFile, R"(download=")", R"(")");
         }
     }
-    return links;}
+    return links;
+}
 
 }
+
+

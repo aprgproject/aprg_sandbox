@@ -1,9 +1,10 @@
-#include <String/AlbaStringHelper.hpp>
+#include "TcomTools.h"
+#include "ui_tcomtools.h"
+
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include "ui_tcomtools.h"
-#include "TcomTools.h"
+#include <String/AlbaStringHelper.hpp>
 
 using namespace alba;
 using namespace std;
@@ -256,3 +257,5 @@ void TcomTools::on_cropSize_editingFinished()
 {
     m_configuration.cropSize = stringHelper::convertStringToNumber<double>(ui->cropSize->text().toStdString());
 }
+
+

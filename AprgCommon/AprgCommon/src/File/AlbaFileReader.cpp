@@ -66,10 +66,12 @@ string AlbaFileReader::getLineAndIgnoreWhiteSpaces()
 string AlbaFileReader::getLine()
 {
     if(!m_stream.eof())
-    {        m_stream.clear();
+    {
+        m_stream.clear();
         m_stream.getline (m_characterBuffer, m_bufferSize);
         return string(m_characterBuffer);
-    }    return "";
+    }
+    return "";
 }
 
 double AlbaFileReader::getCurrentLocation() const
@@ -105,3 +107,6 @@ void AlbaFileReader::setMaxBufferSize(unsigned int bufferSize)
 }
 
 }//namespace alba
+
+
+

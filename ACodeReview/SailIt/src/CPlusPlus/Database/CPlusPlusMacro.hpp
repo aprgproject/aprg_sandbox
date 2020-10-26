@@ -1,9 +1,11 @@
 #pragma once
 
-#include <Optional/AlbaOptional.hpp>
-#include <string>
-#include <map>
 #include "../Utilities.hpp"
+
+#include <Optional/AlbaOptional.hpp>
+
+#include <map>
+#include <string>
 
 using std::string;
 using std::map;
@@ -34,3 +36,5 @@ private:
 };
 
 }
+
+

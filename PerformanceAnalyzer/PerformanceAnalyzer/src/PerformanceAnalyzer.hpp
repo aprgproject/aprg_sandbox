@@ -1,10 +1,10 @@
 #pragma once
 
-#include <string>
-
-#include <Optional/AlbaOptional.hpp>
 #include <BtsLogSorterConfiguration.hpp>
 #include <BtsLogTime.hpp>
+#include <Optional/AlbaOptional.hpp>
+
+#include <string>
 
 namespace alba
 {
@@ -61,3 +61,5 @@ private:
 };
 
 }
+
+

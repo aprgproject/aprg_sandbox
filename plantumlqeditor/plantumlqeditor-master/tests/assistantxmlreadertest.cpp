@@ -1,7 +1,9 @@
 #include "assistantxmlreader.h"
-#include <gtest/gtest.h>
-#include <QFile>
+
 #include <QDebug>
+#include <QFile>
+
+#include <gtest/gtest.h>
 
 namespace {
 bool writeFile(const QString& data, const QString& file_name) {
@@ -131,3 +133,4 @@ TEST(AssistantXmlReader, testParsingCDATANotes) {
     EXPECT_EQ("content\n  content\ncontent\nmore content", item->data());
     EXPECT_EQ("Simple notes\nnotes\n  notes\nnotes", item->notes());
 }
+

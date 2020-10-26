@@ -1,8 +1,9 @@
 #include "CheckerHelpers.hpp"
+#include "TermChecker.hpp"
 
 #include <String/AlbaStringHelper.hpp>
+
 #include <algorithm>
-#include "TermChecker.hpp"
 
 using namespace alba::stringHelper;
 
@@ -197,3 +198,5 @@ bool CheckerHelpers::isIncludedInTheList(VectorOfStrings strings, string const& 
 }
 
 }
+
+

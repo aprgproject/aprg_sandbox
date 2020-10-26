@@ -1,4 +1,5 @@
 #include "CPlusPlusNamespace.hpp"
+
 #include <algorithm>
 
 using namespace std;
@@ -67,3 +68,5 @@ void CPlusPlusNamespace::addVariable(string const& variableName)
 }
 
 }
+
+

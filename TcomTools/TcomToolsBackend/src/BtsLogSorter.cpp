@@ -1,9 +1,10 @@
 #include "BtsLogSorter.hpp"
 
 #include <File/AlbaFileReader.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
+
 #include <iostream>
 #include <map>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 using namespace alba;
 using namespace std;
@@ -258,3 +259,5 @@ void BtsLogSorter::deleteFilesInDirectory(string const& directoryOfLogs) const
 }
 
 }
+
+

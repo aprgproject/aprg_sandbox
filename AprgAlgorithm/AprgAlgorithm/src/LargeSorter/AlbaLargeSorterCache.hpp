@@ -1,8 +1,9 @@
 #pragma once
 
-#include <algorithm>
 #include <LargeSorter/AlbaLargeSorterTypes.hpp>
 #include <LargeSorter/DataBlock.hpp>
+
+#include <algorithm>
 #include <deque>
 
 namespace alba
@@ -62,3 +63,5 @@ private:
 };
 
 }
+
+

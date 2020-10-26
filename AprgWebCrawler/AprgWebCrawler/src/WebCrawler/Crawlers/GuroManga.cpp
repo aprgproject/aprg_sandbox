@@ -1,8 +1,8 @@
+#include <CrawlHelpers/Downloaders.hpp>
 #include <Crawlers/OneDownloadPerPageCrawler.hpp>
-
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <CrawlHelpers/Downloaders.hpp>
+
 #include <fstream>
 #include <iostream>
 
@@ -34,10 +34,12 @@ void OneDownloadPerPageCrawler::retrieveLinksForGuroManga(AlbaWebPathHandler con
             string lineInHtmlFile(htmlFileReader.getLine());
             if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<div class="page-image">)"))
             {
-                isDivClassImage = true;            }
+                isDivClassImage = true;
+            }
             else if(isDivClassImage && isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<a href=")"))
             {
-                m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<a href=")", R"(")");            }
+                m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<a href=")", R"(")");
+            }
             else if(isDivClassImage && isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<img src=")"))
             {
                 m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<img src=")", R"(")");
@@ -63,3 +65,5 @@ void OneDownloadPerPageCrawler::retrieveLinksForGuroManga(AlbaWebPathHandler con
 }
 
 }
+
+

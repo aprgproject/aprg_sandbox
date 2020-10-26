@@ -1,8 +1,10 @@
 #include "DirectoryConstants.hpp"
 
-#include <gtest/gtest.h>
-#include <fstream>
 #include <SackReader/AlbaSackReader.hpp>
+
+#include <gtest/gtest.h>
+
+#include <fstream>
 #include <string>
 
 using namespace alba;
@@ -208,3 +210,5 @@ TEST(AlbaSackReaderTest, TypedefWithEnumAreRecognized)
     AlbaSackReaderType::Parameters myClassParameters = myClass.getParameters();
     ASSERT_EQ(0, myClassParameters.size());
 }
+
+

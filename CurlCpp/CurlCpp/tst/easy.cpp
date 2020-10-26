@@ -1,4 +1,5 @@
 #include "CurlInterface.hpp"
+
 #include <string>
 
 using namespace alba;
@@ -16,3 +17,5 @@ int main(int argc, char** argv)
         //downloadBinaryFile<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(webPathHandler, windowPathHandler);
     }
 }
+
+

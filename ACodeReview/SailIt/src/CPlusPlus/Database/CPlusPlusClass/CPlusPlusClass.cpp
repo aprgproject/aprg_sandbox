@@ -1,4 +1,5 @@
 #include "CPlusPlusClass.hpp"
+
 #include <algorithm>
 
 using namespace std;
@@ -190,3 +191,5 @@ CPlusPlusClassTemplateSignature& CPlusPlusTemplateClass::getTemplateSignatureIns
 }
 
 }
+
+

@@ -1,8 +1,9 @@
 #pragma once
 
 #include <DownloadType.hpp>
-#include <PathHandlers/AlbaWebPathHandler.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <PathHandlers/AlbaWebPathHandler.hpp>
+
 #include <string>
 
 namespace curl
@@ -24,3 +25,5 @@ template <DownloadType configType> bool downloadBinaryFileWithFiniteNumberOfTrie
 
 
 }
+
+

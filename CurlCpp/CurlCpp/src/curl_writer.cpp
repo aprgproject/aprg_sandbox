@@ -56,3 +56,4 @@ curlcpp_writer_type curl_writer::get_function() const {
 void curl_writer::set_writer_ptr(curlcpp_writer_type writer_ptr) {
     _writer_ptr = (writer_ptr == nullptr) ? &write_memory_callback : writer_ptr;
 }
+

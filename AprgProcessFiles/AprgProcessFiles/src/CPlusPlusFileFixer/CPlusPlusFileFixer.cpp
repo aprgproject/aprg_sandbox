@@ -20,9 +20,7 @@ void CPlusPlusFileFixer::processDirectory(string const& path)
     for(string const& filePath : listOfFiles)
     {
         if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(filePath, ".cpp") ||
-                stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(filePath, ".hpp") ||
-                stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(filePath, ".c") ||
-                stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(filePath, ".h"))
+                stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(filePath, ".hpp"))
         {
             processFile(filePath);
         }
@@ -31,7 +29,7 @@ void CPlusPlusFileFixer::processDirectory(string const& path)
 
 void CPlusPlusFileFixer::processFile(string const& path)
 {
-    outputLogFileStream<<"ProcessFile: "<<path<<endl;
+    cout<<"ProcessFile: "<<path<<endl;
     clear();
     checkFile(path);
     fix(path);
@@ -42,6 +40,7 @@ void CPlusPlusFileFixer::clear()
 {
     m_linesAfterTheHeader.clear();
     m_headerListFromAngleBrackets.clear();
+    m_headerListFromQuotation.clear();
     m_isPragmaOnceFound = false;
 }
 
@@ -58,6 +57,10 @@ void CPlusPlusFileFixer::checkFile(string const& path)
         {
             if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "#include"))
             {
+                if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "//"))
+                {
+                    cout<<"Please check header commented on path:"<<path<<" line:"<<line<<endl;
+                }
                 string headerFromAngleBrackets(stringHelper::getStringInBetweenTwoStrings(line, R"(<)", R"(>)"));
                 string headerFromQuotations(stringHelper::getStringInBetweenTwoStrings(line, R"(")", R"(")"));
                 if(!headerFromAngleBrackets.empty())
@@ -81,7 +84,8 @@ void CPlusPlusFileFixer::checkFile(string const& path)
         }
         else
         {
-            if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "namespace alba{"))
+namespace alba
+{
             {
                 m_linesAfterTheHeader.emplace_back("namespace alba");
                 m_linesAfterTheHeader.emplace_back("{");
@@ -223,7 +227,7 @@ bool CPlusPlusFileFixer::isCPlusPlusHeader(string const& header) const
 bool CPlusPlusFileFixer::isOtherLibraryHeaders(string const& headerFoundInFile) const
 {
     bool result(false);
-    if("windows.h" == headerFoundInFile)
+    if("windows.h" == headerFoundInFile || stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(headerFoundInFile, "gtest"))
     {
         result=true;
     }
@@ -242,4 +246,6 @@ bool CPlusPlusFileFixer::isMainHeader(string const& headerFoundInFile, string co
 
 
 }
+
+
 

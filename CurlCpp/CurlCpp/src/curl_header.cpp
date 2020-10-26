@@ -56,3 +56,5 @@ void curl_header::add(const string header) {
     }
     ++this->size;
 }
+
+

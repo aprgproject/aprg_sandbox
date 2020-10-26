@@ -1,6 +1,7 @@
 #pragma once
 
 #include <LargeSorter/DataBlock.hpp>
+
 #include <list>
 
 namespace alba
@@ -11,3 +12,5 @@ template <typename ObjectToSort> using AlbaLargeSorterBlockContainer = std::list
 template <typename ObjectToSort> using AlbaLargeSorterBlockIterator = typename AlbaLargeSorterBlockContainer<ObjectToSort>::iterator;
 
 }
+
+

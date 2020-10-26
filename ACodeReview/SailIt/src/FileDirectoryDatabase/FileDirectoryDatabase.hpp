@@ -1,5 +1,7 @@
 #pragma once
+
 #include "DatabaseTypes.hpp"
+
 #include <ostream>
 
 namespace codeReview
@@ -28,3 +30,5 @@ private:
 };
 
 }// namespace codeReview
+
+

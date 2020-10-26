@@ -1,7 +1,7 @@
 #include <mysql/mysql.h>
-#include <string>
 
 #include <ctime>
+#include <string>
 
 class SqlConnect
 {
@@ -35,3 +35,5 @@ private:
 
 	bool open();
 };
+
+

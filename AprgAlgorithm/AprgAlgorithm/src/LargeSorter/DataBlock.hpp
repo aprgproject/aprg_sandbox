@@ -1,12 +1,13 @@
 #pragma once
 
-#include <Optional/AlbaOptional.hpp>
-#include <algorithm>
-#include <functional>
-#include <fstream>
-#include <LargeSorter/DataBlockMemoryHandler.hpp>
 #include <LargeSorter/DataBlockFileHandler.hpp>
-//#include <iostream>
+#include <LargeSorter/DataBlockMemoryHandler.hpp>
+#include <Optional/AlbaOptional.hpp>
+
+#include <algorithm>
+#include <fstream>
+#include <functional>
+#include <iostream>
 #include <string>
 
 namespace alba
@@ -196,3 +197,5 @@ private:
 };
 
 }//namespace alba
+
+

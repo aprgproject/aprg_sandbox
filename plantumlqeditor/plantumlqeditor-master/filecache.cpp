@@ -1,6 +1,7 @@
 #include "filecache.h"
-#include <QDir>
+
 #include <QDebug>
+#include <QDir>
 
 //------------------------------------------------------------------------------
 
@@ -189,3 +190,4 @@ bool FileCache::updateFromDisk(const QString &path, ItemGenerator item_generator
 }
 
 //------------------------------------------------------------------------------
+

@@ -1,4 +1,5 @@
 #include <Common/Components/Component.hpp>
+
 #include <iostream>
 
 using namespace std;
@@ -58,3 +59,5 @@ void Component::handleTimerEvent(Timer const& timer)
 }
 
 }
+
+

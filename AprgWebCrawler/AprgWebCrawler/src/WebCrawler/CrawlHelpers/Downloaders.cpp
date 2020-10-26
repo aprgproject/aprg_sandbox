@@ -2,9 +2,11 @@
 
 #include <CrawlConfiguration/CrawlConfiguration.hpp>
 #include <CurlInterface.hpp>
+
+#include <windows.h>
+
 #include <iostream>
 #include <string>
-#include <windows.h>
 
 #define PHANTOM_BIN_PATH APRG_DIR R"(PhantomJs\PhantomJs\bin\)"
 
@@ -57,3 +59,5 @@ void Downloaders::downloadFileUsingPhantomJs(
 }
 
 }
+
+

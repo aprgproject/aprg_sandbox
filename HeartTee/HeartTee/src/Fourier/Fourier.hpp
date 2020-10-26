@@ -11,3 +11,5 @@ public:
 	// FFT 1D
 	void ComplexFFT(float data[], unsigned long number_of_samples, unsigned int sample_rate, int sign);
 };
+
+

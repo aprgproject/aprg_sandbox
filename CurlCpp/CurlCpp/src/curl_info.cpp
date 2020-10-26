@@ -28,3 +28,5 @@ list<string> curl_info::get_protocols() const NOEXCEPT {
     }
     return protocols;
 }
+
+

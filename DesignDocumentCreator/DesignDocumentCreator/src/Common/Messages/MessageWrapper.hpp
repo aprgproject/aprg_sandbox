@@ -1,7 +1,8 @@
 #pragma once
 
-#include <cassert>
 #include <Common/Messages/MessageName.hpp>
+
+#include <cassert>
 #include <string>
 
 namespace DesignDocumentCreator
@@ -23,3 +24,5 @@ struct MessageWrapper
     };
 
 }
+
+

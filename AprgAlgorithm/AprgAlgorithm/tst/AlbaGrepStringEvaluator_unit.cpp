@@ -1,5 +1,7 @@
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
+
 #include <gtest/gtest.h>
+
 #include <string>
 
 using namespace alba;
@@ -264,4 +266,6 @@ TEST(AlbaGrepStringEvaluatorTest, EvaluatorIsInvalidWhenNumberOfOpeningAndClosin
 }
 
 /// parenthesis incomplete
+
+
 

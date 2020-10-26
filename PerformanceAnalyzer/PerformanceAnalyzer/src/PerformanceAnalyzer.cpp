@@ -1,14 +1,14 @@
 #include "PerformanceAnalyzer.hpp"
 
+#include <AprgFileExtractor.hpp>
+#include <BtsLogSorter.hpp>
+#include <File/AlbaFileReader.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <String/AlbaStringHelper.hpp>
+
 #include <iomanip>
 #include <iostream>
 #include <map>
-
-#include <File/AlbaFileReader.hpp>
-#include <String/AlbaStringHelper.hpp>
-#include <AprgFileExtractor.hpp>
-#include <BtsLogSorter.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 using namespace std;
 using tcomToolsBackend::BtsLogPrint;
@@ -1071,3 +1071,5 @@ void PerformanceAnalyzer::processDirectoryForTraceLog(string const& traceLogPath
 
 
 }
+
+

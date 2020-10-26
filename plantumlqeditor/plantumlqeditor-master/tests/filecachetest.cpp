@@ -1,5 +1,6 @@
-#include "filecache.h"
 #include "config.h"
+#include "filecache.h"
+
 #include <QDir>
 #include <gmock/gmock.h>
 
@@ -212,3 +213,4 @@ TEST(FileCache, testSetPath) {
     EXPECT_EQ(QFileInfo(QDir(TEST_DIR1), "item1.svg").absoluteFilePath(),
               cache.item("item1.svg")->path());
 }
+

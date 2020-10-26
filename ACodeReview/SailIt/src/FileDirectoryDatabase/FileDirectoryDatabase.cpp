@@ -1,7 +1,8 @@
 #include "FileDirectoryDatabase.hpp"
 
-#include <String/AlbaStringHelper.hpp>
 #include <AlbaLocalPathHandler.hpp>
+#include <String/AlbaStringHelper.hpp>
+
 #include <iostream>
 
 using namespace alba;
@@ -132,4 +133,6 @@ void FileDirectoryDatabase::addFileOrDirectory(string const& fileOrDirectory)
         cout << "FileDirectoryDatabase::addFileOrDirectory| InvalidFileAndDirectory: [" << fileOrDirectory << "]" << endl;
     }
 }
+
+
 

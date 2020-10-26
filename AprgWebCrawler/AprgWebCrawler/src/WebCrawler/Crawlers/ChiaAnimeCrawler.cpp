@@ -1,7 +1,8 @@
+#include <CrawlHelpers/Downloaders.hpp>
+#include <Crawlers/ChiaAnimeCrawler.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <Crawlers/ChiaAnimeCrawler.hpp>
-#include <CrawlHelpers/Downloaders.hpp>
+
 #include <iostream>
 
 using namespace alba;
@@ -67,10 +68,12 @@ void ChiaAnimeCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandle
             string lineInHtmlFile(htmlFileReader.getLine());
             if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<a id="download")"))
             {
-                m_linkForDownloadPage = getStringInBetweenTwoStrings(lineInHtmlFile, R"(href=")", R"(")");            }
+                m_linkForDownloadPage = getStringInBetweenTwoStrings(lineInHtmlFile, R"(href=")", R"(")");
+            }
             else if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(>Next Episode<)"))
             {
-                m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<a href=")", R"(")");            }
+                m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<a href=")", R"(")");
+            }
         }
         m_linkForCurrentVideo = getVideoLink(webLinkPathHandler, m_linkForDownloadPage);
         AlbaWebPathHandler videoWebPathHandler(m_linkForCurrentVideo);
@@ -99,10 +102,12 @@ string ChiaAnimeCrawler::getVideoLink(AlbaWebPathHandler const& webLinkPathHandl
             string lineInHtmlFile(htmlFileReader.getLine());
             if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"( target="_blank" )") &&
                     isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"( download=")"))
-            {                string webLink1(getStringInBetweenTwoStrings(lineInHtmlFile, R"(href=")", R"(")"));
+            {
+                string webLink1(getStringInBetweenTwoStrings(lineInHtmlFile, R"(href=")", R"(")"));
                 string webLink2(getStringAfterThisString(lineInHtmlFile, R"(href=")"));
                 if(webLink1.empty())
-                {                    result = webLink2;
+                {
+                    result = webLink2;
                 }
                 result = webLink1;
             }
@@ -198,3 +203,5 @@ void ChiaAnimeCrawler::printLinks() const
 }
 
 }
+
+

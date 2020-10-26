@@ -1,8 +1,9 @@
 #pragma once
 
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
-#include <fstream>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+
+#include <fstream>
 #include <string>
 
 namespace alba
@@ -23,3 +24,5 @@ private:
 };
 
 }
+
+

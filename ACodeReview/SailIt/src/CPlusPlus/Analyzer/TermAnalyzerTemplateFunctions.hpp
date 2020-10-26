@@ -1,11 +1,12 @@
 #pragma once
 
+#include "../Term/CheckerHelpers.hpp"
+#include "Findings/TemporaryFindings.hpp"
+#include "TermAnalyzer.hpp"
+
 #include <String/AlbaStringHelper.hpp>
 
-#include "Findings/TemporaryFindings.hpp"
 #include <iostream>
-#include "TermAnalyzer.hpp"
-#include "../Term/CheckerHelpers.hpp"
 
 using namespace std;
 using alba::stringHelper::constructFileLocator;
@@ -395,3 +396,5 @@ template <FindingsToAdd findingsToAdd> void TermAnalyzer::decrementLooperIfWhite
 }
 
 }// namespace codeReview
+
+

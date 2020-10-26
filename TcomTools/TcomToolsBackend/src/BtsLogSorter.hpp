@@ -1,11 +1,13 @@
 #pragma once
 
-#include <BtsLogPrint.hpp>
 #include <BtsLogSorterConfiguration.hpp>
+
+#include <BtsLogPrint.hpp>
 #include <BtsPrintReaderWithRollback.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
-#include <fstream>
 #include <LargeSorter/AlbaLargeSorter.hpp>
+
+#include <fstream>
 #include <set>
 #include <string>
 
@@ -45,3 +47,5 @@ private:
 };
 
 }
+
+

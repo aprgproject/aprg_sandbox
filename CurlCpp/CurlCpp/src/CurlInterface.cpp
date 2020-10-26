@@ -1,5 +1,4 @@
 #include "CurlInterface.hpp"
-
 #include "CurlInterfaceHelpers.hpp"
 
 using namespace alba;
@@ -66,3 +65,5 @@ template bool downloadBinaryFileWithFiniteNumberOfTries<DownloadType::LowSpeedLi
 }
 
 }
+
+

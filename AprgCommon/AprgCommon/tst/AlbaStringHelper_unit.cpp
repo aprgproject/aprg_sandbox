@@ -4,10 +4,12 @@
 
 #include <string>
 
-using namespace std;using namespace alba::stringHelper;
+using namespace std;
+using namespace alba::stringHelper;
 
 TEST(GetNewStringFromStringTest, FindAndReplaceStrings)
-{    string string1("Mark is the no#1 guy in the world. Mark is also the nicest guy.");
+{
+    string string1("Mark is the no#1 guy in the world. Mark is also the nicest guy.");
 
     EXPECT_FALSE(transformReplaceStringIfFound(string1, "alba", "ALBA"));
     EXPECT_TRUE(transformReplaceStringIfFound(string1, "Mark", "MARK"));
@@ -608,4 +610,8 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithFillCharacter)
     EXPECT_EQ("0000012345.6789", converter.convert(12345.6789));
     EXPECT_EQ("0000-67890.1111", converter.convert(-67890.1111));
 }
+
+
+
+
 

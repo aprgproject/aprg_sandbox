@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Finding.hpp"
+
 #include <map>
 #include <string>
 
@@ -34,3 +35,5 @@ private:
 };
 
 }
+
+

@@ -1,9 +1,10 @@
 #pragma once
 
-#include <functional>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.hpp>
-#include <string>
+
+#include <functional>
 #include <stack>
+#include <string>
 #include <vector>
 
 namespace alba
@@ -41,3 +42,5 @@ private:
 };
 
 }
+
+

@@ -1,10 +1,10 @@
 #include "BtsTraceDecoder.hpp"
 
-#include <iostream>
-
 #include <File/AlbaFileReader.hpp>
-#include <String/AlbaStringHelper.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <String/AlbaStringHelper.hpp>
+
+#include <iostream>
 
 using namespace std;
 using namespace alba::stringHelper;
@@ -36,10 +36,12 @@ void BtsTraceDecoder::processInputTraceFile(std::string const& inputTraceFilePat
             string lineInTraceFile(traceFileReader.getLine());
             unsigned int traceAddressValue = convertHexStringToNumber<unsigned int>(getStringInBetweenTwoStrings(lineInTraceFile, "[", "]"));
             if(traceAddressValue != 0)
-            {                cout<<"TraceAddressValue: [0x"<<std::hex<<traceAddressValue<<"] NearestSymbol: ["<<getNearestLowerSymbol(traceAddressValue)<<"]"<<endl;
+            {
+                cout<<"TraceAddressValue: [0x"<<std::hex<<traceAddressValue<<"] NearestSymbol: ["<<getNearestLowerSymbol(traceAddressValue)<<"]"<<endl;
             }
         }
-    }}
+    }
+}
 
 std::string BtsTraceDecoder::getNearestLowerSymbol(int const address, int const offset)
 {
@@ -106,3 +108,5 @@ void BtsTraceDecoder::saveLineInSymbolMapIfValid(int const address, std::string 
 }
 
 }
+
+

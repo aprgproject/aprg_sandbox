@@ -1,8 +1,9 @@
-#include <fstream>
-#include "gtest/gtest.h"
+#include "../../src/CPlusPlus/Translator/TermTranslator.hpp"
 #include "../Checkers.hpp"
 #include "../MtDirectoryConstants.hpp"
-#include "../../src/CPlusPlus/Translator/TermTranslator.hpp"
+#include "gtest/gtest.h"
+
+#include <fstream>
 
 using namespace codeReview;
 using namespace std;
@@ -386,3 +387,5 @@ TEST_F(TermTranslatorTest, CheckKeyword)
 
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
+
+

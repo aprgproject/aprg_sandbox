@@ -1,8 +1,9 @@
 #pragma once
 
-#include <string>
-#include <map>
 #include "../Utilities.hpp"
+
+#include <map>
+#include <string>
 
 using std::string;
 using std::map;
@@ -55,3 +56,5 @@ private:
 };
 
 }
+
+

@@ -1,10 +1,11 @@
-#include <iostream>
-#include <array>
+#include "../../Database/CPlusPlusDatabase.hpp"
+#include "../../Term/TermChecker.hpp"
 #include "../Findings/TemporaryFindings.hpp"
 #include "../TermAnalyzer.hpp"
 #include "../TermAnalyzerTemplateFunctions.hpp"
-#include "../../Term/TermChecker.hpp"
-#include "../../Database/CPlusPlusDatabase.hpp"
+
+#include <array>
+#include <iostream>
 
 using namespace std;
 
@@ -533,3 +534,5 @@ bool TermAnalyzer::areTheTypesValidForCombination(CPlusPlusType const& type1, CP
 }
 
 }// namespace codeReview
+
+

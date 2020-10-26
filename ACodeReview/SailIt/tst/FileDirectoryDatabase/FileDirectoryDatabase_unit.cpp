@@ -1,10 +1,10 @@
-#include <string>
-#include <iostream>
-#include <fstream>
-
-#include "gtest/gtest.h"
-#include "../MtDirectoryConstants.hpp"
 #include "../../src/FileDirectoryDatabase/FileDirectoryDatabase.hpp"
+#include "../MtDirectoryConstants.hpp"
+#include "gtest/gtest.h"
+
+#include <fstream>
+#include <iostream>
+#include <string>
 
 using namespace codeReview;
 using namespace std;
@@ -71,3 +71,5 @@ TEST(FileDirectoryDatabaseTest, FullPathOfFilesAreFound)
     EXPECT_EQ(fileDirectoryDatabase.getFullPathOfFile("", "file5.hpp"), directory+"file5.hpp");
     EXPECT_EQ(fileDirectoryDatabase.getFullPathOfFile("", "file6.hpp"), directory+"file6.hpp");
 }
+
+

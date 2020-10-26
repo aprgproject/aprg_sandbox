@@ -1,9 +1,10 @@
 #pragma once
 
 #include <SerialPort.hpp>
+#include <SqlConnect.hpp>
+
 #include <ctime>
 #include <vector>
-#include <SqlConnect.hpp>
 
 namespace alba
 {
@@ -72,3 +73,5 @@ private:
 };
 
 }
+
+

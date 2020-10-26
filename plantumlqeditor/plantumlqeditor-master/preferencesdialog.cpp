@@ -1,12 +1,12 @@
-#include "preferencesdialog.h"
-#include "ui_preferencesdialog.h"
-
-#include "utils.h"
 #include "filecache.h"
+#include "preferencesdialog.h"
 #include "settingsconstants.h"
+#include "ui_preferencesdialog.h"
+#include "utils.h"
+
+#include <QDesktopServices>
 #include <QFileDialog>
 #include <QSettings>
-#include <QDesktopServices>
 
 PreferencesDialog::PreferencesDialog(FileCache* file_cache, QWidget *parent)
     : QDialog(parent)
@@ -230,3 +230,4 @@ void PreferencesDialog::on_clearCacheButton_clicked()
         m_ui->cacheCurrentSizeLabel->setText(cacheSizeToString(m_fileCache->totalCost()));
     }
 }
+

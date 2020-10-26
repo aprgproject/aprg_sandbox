@@ -1,5 +1,6 @@
-#include "gtest/gtest.h"
 #include "../../src/SailIt.hpp"
+#include "gtest/gtest.h"
+
 #include <fstream>
 
 using namespace codeReview;
@@ -19,3 +20,5 @@ TEST(Sct, ActualTest)
     ofstream unprocessedTermFile("C:\\APRG\\ACodeReview\\unprocessedTerm.txt");
     sailIt.printFindings(unprocessedTermFile, "Unprocessed term");
 }
+
+

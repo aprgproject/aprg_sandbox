@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Utilities.hpp"
 #include "../Term/Term.hpp"
+#include "../Utilities.hpp"
 
 namespace codeReview
 {
@@ -39,3 +39,5 @@ private:
 };
 
 }
+
+

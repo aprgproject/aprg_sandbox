@@ -1,8 +1,9 @@
 #include <CurlInterfaceHelpers.hpp>
 
+#include <windows.h>
+
 #include <fstream>
 #include <iostream>
-#include <windows.h>
 
 using curl::CurlInterface::DownloadType;
 using curl::CurlInterface::OutputFileType;
@@ -192,3 +193,5 @@ void CurlInterface::printDownloadErrorMessage(string const& errorMessage)
 }
 
 }
+
+

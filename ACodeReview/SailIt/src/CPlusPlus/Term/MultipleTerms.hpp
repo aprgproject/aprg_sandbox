@@ -1,7 +1,8 @@
 #pragma once
 
-#include <initializer_list>
 #include "Term.hpp"
+
+#include <initializer_list>
 #include <vector>
 
 using std::vector;
@@ -21,3 +22,5 @@ private:
 };
 
 }// namespace codeReview
+
+

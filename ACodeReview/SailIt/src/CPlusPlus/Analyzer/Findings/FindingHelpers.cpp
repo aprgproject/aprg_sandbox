@@ -1,7 +1,9 @@
-#include <String/AlbaStringHelper.hpp>
-#include "FindingsToAddHelper.hpp"
-#include <iostream>
 #include "../TermAnalyzer.hpp"
+#include "FindingsToAddHelper.hpp"
+
+#include <String/AlbaStringHelper.hpp>
+
+#include <iostream>
 
 using namespace std;
 using alba::stringHelper::constructFileLocator;
@@ -52,3 +54,5 @@ template <> void TermAnalyzer::addFindingsForUnexpectedNewLineIfNeeded<FindingsT
 
 
 }// namespace codeReview
+
+

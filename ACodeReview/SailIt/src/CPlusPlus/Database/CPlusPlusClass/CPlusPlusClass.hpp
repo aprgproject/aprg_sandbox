@@ -1,7 +1,8 @@
 #pragma once
 
-#include <string>
 #include "../../Utilities.hpp"
+
+#include <string>
 
 using std::string;
 
@@ -93,3 +94,5 @@ private:
 };
 
 }
+
+

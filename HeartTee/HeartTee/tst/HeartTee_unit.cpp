@@ -1,8 +1,9 @@
-#include <gtest/gtest.h>
 #include <HeartTee.hpp>
 #include <SerialPort.hpp>
-
 #include <unistd.h>
+
+#include <gtest/gtest.h>
+
 #include <iostream>
 
 using namespace alba;
@@ -53,3 +54,5 @@ TEST(SampleTest, ProcessTest)
     heartTee.processData();
     heartTee.printDatabase();
 }
+
+

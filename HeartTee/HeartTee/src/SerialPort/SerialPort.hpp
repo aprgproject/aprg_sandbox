@@ -1,4 +1,3 @@
-
 class SerialPort
 {
 public:
@@ -14,3 +13,5 @@ private:
     int m_fd;
     int m_bytesRead;
 };
+
+

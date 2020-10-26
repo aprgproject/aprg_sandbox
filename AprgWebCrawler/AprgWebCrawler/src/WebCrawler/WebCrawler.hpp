@@ -1,11 +1,12 @@
 #pragma once
 
-#include <deque>
-#include <fstream>
 #include <CrawlMode.hpp>
 #include <CrawlState.hpp>
-#include <PathHandlers/AlbaWebPathHandler.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <PathHandlers/AlbaWebPathHandler.hpp>
+
+#include <deque>
+#include <fstream>
 #include <string>
 
 namespace aprgWebCrawler
@@ -71,3 +72,5 @@ private:
 };
 
 }
+
+

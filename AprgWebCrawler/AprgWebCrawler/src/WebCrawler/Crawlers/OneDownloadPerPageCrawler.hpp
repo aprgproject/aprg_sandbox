@@ -2,10 +2,11 @@
 
 #include <CrawlConfiguration/CrawlConfiguration.hpp>
 #include <CrawlMode.hpp>
-#include <PathHandlers/AlbaWebPathHandler.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <string>
+#include <PathHandlers/AlbaWebPathHandler.hpp>
 #include <WebCrawler.hpp>
+
+#include <string>
 
 namespace aprgWebCrawler
 {
@@ -43,3 +44,5 @@ private:
 };
 
 }
+
+

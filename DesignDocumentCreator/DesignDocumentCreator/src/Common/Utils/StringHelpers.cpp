@@ -1,5 +1,6 @@
-#include <String/AlbaStringHelper.hpp>
 #include "StringHelpers.hpp"
+
+#include <String/AlbaStringHelper.hpp>
 
 using namespace alba;
 using namespace DesignDocumentCreator::UmlConfiguration;
@@ -95,3 +96,5 @@ bool StringHelpers::isNbapMessage(string const& messageName)
 #undef GET_ENUM_STRING
 
 }
+
+

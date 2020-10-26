@@ -1,9 +1,10 @@
-#include <iostream>
+#include "../../Database/CPlusPlusDatabase.hpp"
+#include "../../Term/TermChecker.hpp"
 #include "../Findings/TemporaryFindings.hpp"
 #include "../TermAnalyzer.hpp"
 #include "../TermAnalyzerTemplateFunctions.hpp"
-#include "../../Database/CPlusPlusDatabase.hpp"
-#include "../../Term/TermChecker.hpp"
+
+#include <iostream>
 
 using namespace std;
 
@@ -76,3 +77,5 @@ bool TermAnalyzer::isModifiedDueToExternBlock(Looper const& startLooper)
 }
 
 }// namespace codeReview
+
+

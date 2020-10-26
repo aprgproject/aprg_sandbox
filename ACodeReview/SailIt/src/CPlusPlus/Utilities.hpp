@@ -1,11 +1,12 @@
 #pragma once
 
-#include <deque>
 #include "Term/Term.hpp"
+
+#include <deque>
 #include <ostream>
-#include <vector>
-#include <string>
 #include <set>
+#include <string>
+#include <vector>
 
 using std::deque;
 using std::vector;
@@ -30,3 +31,5 @@ void printContentOfTerms(DequeOfTerms const& terms, std::ostream& fileStream);
 
 
 }// namespace codeReview
+
+

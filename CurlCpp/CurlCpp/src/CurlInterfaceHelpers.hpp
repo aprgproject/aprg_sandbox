@@ -1,10 +1,11 @@
 #pragma once
 
-#include <curl_easy.h>
 #include <DownloadType.hpp>
+#include <OutputFileType.hpp>
+#include <curl_easy.h>
+
 #include <fstream>
 #include <functional>
-#include <OutputFileType.hpp>
 #include <string>
 
 namespace curl
@@ -43,3 +44,5 @@ inline void printDownloadErrorMessage(std::string const& errorMessage);
 
 
 }
+
+

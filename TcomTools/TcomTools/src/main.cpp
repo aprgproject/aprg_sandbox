@@ -1,7 +1,8 @@
-#include <String/AlbaStringHelper.hpp>
+#include "TcomTools.h"
+
 #include <ProgressCounters.hpp>
 #include <QApplication>
-#include "TcomTools.h"
+#include <String/AlbaStringHelper.hpp>
 
 using namespace std;
 
@@ -17,3 +18,5 @@ int main(int argc, char *argv[])
 
     return a.exec();
 }
+
+

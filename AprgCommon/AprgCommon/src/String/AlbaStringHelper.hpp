@@ -4,9 +4,11 @@
 
 #include <string>
 #include <vector>
+
 namespace alba{
 
 std::string const WHITESPACE_STRING = " \t\n\r";
+
 namespace stringHelper
 {
 
@@ -172,3 +174,6 @@ inline bool isLessThanStringLength(std::string const& mainString, int const inde
 } //namespace stringHelper
 
 }//namespace alba
+
+
+

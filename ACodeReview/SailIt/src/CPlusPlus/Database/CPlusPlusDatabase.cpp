@@ -1,7 +1,8 @@
-#include <iostream>
-#include <algorithm>
-#include <iterator>
 #include "CPlusPlusDatabase.hpp"
+
+#include <algorithm>
+#include <iostream>
+#include <iterator>
 
 using namespace std;
 
@@ -679,3 +680,5 @@ void CPlusPlusDatabase::exitScope()
 }
 
 }// namespace codeReview
+
+

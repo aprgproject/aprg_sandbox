@@ -1,9 +1,10 @@
+#include "CPlusPlus/Analyzer/TermAnalyzer.hpp"
+#include "CPlusPlus/Translator/TermTranslator.hpp"
 #include "SailIt.hpp"
 
 #include <AlbaLocalPathHandler.hpp>
+
 #include <algorithm>
-#include "CPlusPlus/Analyzer/TermAnalyzer.hpp"
-#include "CPlusPlus/Translator/TermTranslator.hpp"
 #include <iostream>
 
 using namespace std;
@@ -77,3 +78,5 @@ void SailIt::addAndAnalyzeThisFileToCPlusPlusDatabase(string const& fullPathFile
 }
 
 }// namespace codeReview
+
+

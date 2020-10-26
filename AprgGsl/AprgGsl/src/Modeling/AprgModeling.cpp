@@ -4,11 +4,11 @@
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <Randomizer/AlbaRandomizer.hpp>
 #include <String/AlbaStringHelper.hpp>
-
 #include <gsl/gsl_multifit.h>
 
-#include <algorithm>
 #include <windows.h>
+
+#include <algorithm>
 
 using namespace std;
 
@@ -240,3 +240,5 @@ void AprgModeling::clearOtherData()
 }
 
 }
+
+

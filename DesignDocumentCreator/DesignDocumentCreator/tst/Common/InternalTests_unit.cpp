@@ -4,6 +4,7 @@
 #include <Common/Events/Events.hpp>
 #include <Common/Messages/Messages.hpp>
 #include <Common/Timers/Timers.hpp>
+
 #include <gtest/gtest.h>
 
 using namespace DesignDocumentCreator;
@@ -168,3 +169,5 @@ TEST(EnvironmentTest, SentMessagesAreExecutedByRecipientComponent)
 
     EXPECT_TRUE(componentPointer->isEventQueueEmpty());
 }
+
+

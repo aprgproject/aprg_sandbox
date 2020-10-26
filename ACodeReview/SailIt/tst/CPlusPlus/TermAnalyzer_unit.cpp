@@ -1,11 +1,12 @@
-#include <fstream>
-#include "gtest/gtest.h"
-#include "../Checkers.hpp"
-#include "../MtDirectoryConstants.hpp"
 #include "../../src/CPlusPlus/Analyzer/TermAnalyzer.hpp"
 #include "../../src/CPlusPlus/Builder/TermBuilder.hpp"
 #include "../../src/CPlusPlus/Database/CPlusPlusDatabase.hpp"
 #include "../../src/FileDirectoryDatabase/FileDirectoryDatabase.hpp"
+#include "../Checkers.hpp"
+#include "../MtDirectoryConstants.hpp"
+#include "gtest/gtest.h"
+
+#include <fstream>
 
 using namespace codeReview;
 using namespace std;
@@ -560,3 +561,5 @@ TEST_F(TermAnalyzerTest, StatementsAreSimplifiedUsingRValueStatement)
 
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
+
+

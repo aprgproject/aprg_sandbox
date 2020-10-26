@@ -1,8 +1,8 @@
+#include "CheckerHelpers.hpp"
+#include "Term.hpp"
 #include "TermChecker.hpp"
 
-#include "CheckerHelpers.hpp"
 #include <string>
-#include "Term.hpp"
 
 using namespace std;
 
@@ -144,3 +144,5 @@ string TermChecker::getTermCheckerTypeString() const
 }
 
 }
+
+

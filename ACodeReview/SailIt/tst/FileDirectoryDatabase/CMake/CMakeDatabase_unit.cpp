@@ -1,10 +1,10 @@
-#include <string>
-#include <iostream>
-#include <fstream>
-
-#include "gtest/gtest.h"
-#include "../../MtDirectoryConstants.hpp"
 #include "../../../src/FileDirectoryDatabase/CMake/CMakeDatabase.hpp"
+#include "../../MtDirectoryConstants.hpp"
+#include "gtest/gtest.h"
+
+#include <fstream>
+#include <iostream>
+#include <string>
 
 using namespace codeReview;
 using namespace std;
@@ -185,3 +185,5 @@ TEST(CMakeDatabaseTest, SearchCMakeFileDirectoryOuterDirection)
     EXPECT_EQ(*(itFile++), directory+"file2sub2.hpp");
     EXPECT_EQ(*(itFile++), directory+"file3sub2.hpp");
 }
+
+

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Findings/Findings.hpp"
+
 #include <vector>
 
 namespace codeReview
@@ -24,3 +25,5 @@ private:
 };
 
 }
+
+

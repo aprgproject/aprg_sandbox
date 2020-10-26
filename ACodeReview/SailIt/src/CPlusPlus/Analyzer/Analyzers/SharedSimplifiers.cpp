@@ -1,9 +1,10 @@
-#include <iostream>
+#include "../../Database/CPlusPlusMacro.hpp"
+#include "../../Term/TermChecker.hpp"
 #include "../Findings/TemporaryFindings.hpp"
 #include "../TermAnalyzer.hpp"
 #include "../TermAnalyzerTemplateFunctions.hpp"
-#include "../../Database/CPlusPlusMacro.hpp"
-#include "../../Term/TermChecker.hpp"
+
+#include <iostream>
 
 using namespace std;
 
@@ -68,3 +69,5 @@ template <> void TermAnalyzer::connectLooper<LooperConnector::WhiteSpaceAndNewLi
 }
 
 }// namespace codeReview
+
+

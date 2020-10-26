@@ -53,3 +53,5 @@ double BtsPrintReaderWithRollback::getCurrentLocation()
 }
 
 }
+
+

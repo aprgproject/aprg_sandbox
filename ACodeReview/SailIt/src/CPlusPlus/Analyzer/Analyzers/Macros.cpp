@@ -1,11 +1,12 @@
-#include <array>
-#include <iostream>
+#include "../../../SailIt.hpp"
+#include "../../Database/CPlusPlusDatabase.hpp"
+#include "../../Term/TermChecker.hpp"
 #include "../Findings/TemporaryFindings.hpp"
 #include "../TermAnalyzer.hpp"
 #include "../TermAnalyzerTemplateFunctions.hpp"
-#include "../../Database/CPlusPlusDatabase.hpp"
-#include "../../Term/TermChecker.hpp"
-#include "../../../SailIt.hpp"
+
+#include <array>
+#include <iostream>
 
 using namespace std;
 using namespace alba::stringHelper;
@@ -344,3 +345,5 @@ void TermAnalyzer::checkMacroParameters(Looper const& startLooper, CPlusPlusMacr
 
 
 }// namespace codeReview
+
+

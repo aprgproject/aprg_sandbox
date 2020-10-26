@@ -7,9 +7,11 @@
 
 namespace alba
 {
+
 struct MousePosition
 {
-    int x;    int y;
+    int x;
+    int y;
 };
 
 class AlbaWindowsUserAutomation
@@ -31,3 +33,6 @@ private:
 };
 
 }
+
+
+
