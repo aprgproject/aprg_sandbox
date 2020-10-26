@@ -25,10 +25,10 @@ public:
     void doRightClick() const;
     void typeString(std::string const& stringToType) const;
     void typeCharacter(char character) const;
-    int convertToVirtualKey(char character) const;
+    unsigned int convertToVirtualKey(char character) const;
 private:
     void doOperation(InputFunction inputFunction) const;
-    const int m_realisticDelayInMilliseconds=500;
+    const unsigned int m_realisticDelayInMilliseconds=500;
 };
 
 }

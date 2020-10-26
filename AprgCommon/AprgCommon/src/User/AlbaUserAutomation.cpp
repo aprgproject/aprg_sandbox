@@ -1,15 +1,16 @@
 #include "AlbaUserAutomation.hpp"
-#include <String/AlbaStringHelper.hpp>
+
 #include <cctype>
+#include <windows.h>
+
+#include <String/AlbaStringHelper.hpp>
 
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 bool AlbaUserAutomation::isLetterPressed(char letter) const
-{
-    USHORT status = GetAsyncKeyState(::toupper(letter));
+{    USHORT status = GetAsyncKeyState(::toupper(letter));
     return (( ( status & 0x8000 ) >> 15 ) == 1) || (( status & 1 ) == 1);
 }
 
@@ -109,15 +110,13 @@ void AlbaUserAutomation::typeCharacter(char character) const
     });
 }
 
-int AlbaUserAutomation::convertToVirtualKey(char character) const
+unsigned int AlbaUserAutomation::convertToVirtualKey(char character) const
 {
     int virtualKey = character;
-    if(stringHelper::isLetter(character))
-    {
+    if(stringHelper::isLetter(character))    {
         virtualKey = ::toupper(character);
     }
-    else if('.' == character)
-    {
+    else if('.' == character)    {
         virtualKey = VK_OEM_PERIOD;
     }
     return virtualKey;

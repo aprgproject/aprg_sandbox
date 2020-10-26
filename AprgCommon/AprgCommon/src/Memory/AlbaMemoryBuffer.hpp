@@ -1,14 +1,10 @@
 #pragma once
 
-#include <windows.h>
-
 namespace alba
 {
-
 class AlbaMemoryBuffer
 {
-public:
-    AlbaMemoryBuffer();
+public:    AlbaMemoryBuffer();
     AlbaMemoryBuffer(AlbaMemoryBuffer const& memoryBuffer);
     ~AlbaMemoryBuffer();
     operator bool() const;
