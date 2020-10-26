@@ -9,15 +9,13 @@
 using namespace alba;
 using namespace std;
 
-#define C_PLUS_PLUS_FILE_FIXER_TEST_FILE APRG_DIR R"(AprgProcessFiles\AprgProcessFiles\src\CPlusPlusFileFixer\FilesForTests\FileReaderTest\Test1.txt)"
+#define C_PLUS_PLUS_FILE_FIXER_TEST_FILE APRG_DIR R"(AprgProcessFiles\AprgProcessFiles\tst\FilesForTests\FileReaderTest\Test1.txt)"
 
 TEST(CPlusPlusFileFixerTest, DISABLED_TestFilesToBeGrep)
-{
-    CPlusPlusFileFixer fixer;
+{    CPlusPlusFileFixer fixer;
     fixer.processDirectory(R"(C:\APRG\)");
     //fixer.processFile(R"(C:\APRG\AprgCommon\AprgCommon\tst\AlbaStringHelper_unit.cpp)");
 }
-
 TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersTest)
 {
     CPlusPlusFileFixer fixer;
