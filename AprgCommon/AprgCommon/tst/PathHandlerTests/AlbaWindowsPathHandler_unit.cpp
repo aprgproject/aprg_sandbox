@@ -374,13 +374,13 @@ TEST(WindowsPathTest, FileSizeTest_FileIsExisting)
     EXPECT_DOUBLE_EQ(5000, pathHandler.getFileSizeEstimate());
 }
 
-TEST(WindowsPathTest, SetCurrentDirectoryFromWindows)
+TEST(WindowsPathTest, SetCurrentDirectoryFromDetectedLocalPath)
 {
     AlbaWindowsPathHandler pathHandler(PathInitialValueSource::DetectedLocalPath);
 
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
     ASSERT_TRUE(pathHandler.isFoundInLocalSystem());
-    cout<<"SetCurrentDirectoryFromWindows:"<<pathHandler.getFullPath()<<endl;
+    cout<<"SetCurrentDirectoryFromDetectedLocalPath:"<<pathHandler.getFullPath()<<endl;
 }
 
 

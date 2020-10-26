@@ -1,11 +1,9 @@
 #pragma once
 
-#include <algorithm>
 #include <functional>
 #include <map>
 #include <set>
 #include <string>
-#include <vector>
 
 namespace alba
 {
