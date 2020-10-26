@@ -19,14 +19,13 @@ void CPlusPlusFileFixer::processDirectory(string const& path)
     AlbaLocalPathHandler(path).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& filePath : listOfFiles)
     {
-        if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(filePath, ".cpp") ||
-                stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(filePath, ".hpp"))
+        AlbaLocalPathHandler filePathHandler(filePath);
+        if("cpp" == filePathHandler.getExtension() || "hpp" == filePathHandler.getExtension())
         {
-            processFile(filePath);
+            processFile(filePathHandler.getFullPath());
         }
     }
 }
-
 void CPlusPlusFileFixer::processFile(string const& path)
 {
     cout<<"ProcessFile: "<<path<<endl;
@@ -40,10 +39,9 @@ void CPlusPlusFileFixer::clear()
 {
     m_linesAfterTheHeader.clear();
     m_headerListFromAngleBrackets.clear();
-    m_headerListFromQuotation.clear();
+    m_headerListFromQuotations.clear();
     m_isPragmaOnceFound = false;
 }
-
 void CPlusPlusFileFixer::checkFile(string const& path)
 {
     AlbaLocalPathHandler filePathHandler(path);
@@ -65,15 +63,14 @@ void CPlusPlusFileFixer::checkFile(string const& path)
                 string headerFromQuotations(stringHelper::getStringInBetweenTwoStrings(line, R"(")", R"(")"));
                 if(!headerFromAngleBrackets.empty())
                 {
-                    m_headerListFromAngleBrackets.emplace_back(headerFromAngleBrackets);
+                    addHeaderFileFromAngleBrackets(headerFromAngleBrackets);
                 }
                 if(!headerFromQuotations.empty())
                 {
-                    m_headerListFromQuotation.emplace(headerFromQuotations);
+                    addHeaderFileFromQuotations(headerFromQuotations);
                 }
             }
-            else if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "#pragma") && stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "once"))
-            {
+            else if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "#pragma") && stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "once"))            {
                 m_isPragmaOnceFound = true;
             }
             else if(!stringHelper::isWhiteSpace(line))
@@ -84,26 +81,23 @@ void CPlusPlusFileFixer::checkFile(string const& path)
         }
         else
         {
-namespace alba
-{
-            {
-                m_linesAfterTheHeader.emplace_back("namespace alba");
-                m_linesAfterTheHeader.emplace_back("{");
-            }
-            else
-            {
-                m_linesAfterTheHeader.emplace_back(line);
-            }
+            m_linesAfterTheHeader.emplace_back(line);
         }
     }
 }
-
 void CPlusPlusFileFixer::fix(string const& path)
+{
+    fixHeaders(path);
+
+    removeTrailingLinesInCode();
+    fixNamespaces();
+}
+
+void CPlusPlusFileFixer::fixHeaders(string const& path)
 {
     AlbaLocalPathHandler filePathHandler(path);
     set<string> mainHeaders;
-    set<string> cPlusPlusHeaders;
-    set<string> otherLibraryHeaders;
+    set<string> cPlusPlusHeaders;    set<string> otherLibraryHeaders;
     set<string> aprgFiles;
     for(string const& header: m_headerListFromAngleBrackets)
     {
@@ -129,52 +123,75 @@ void CPlusPlusFileFixer::fix(string const& path)
     {
         for(string const& header: mainHeaders)
         {
-            m_headerListFromAngleBrackets.emplace_back(header);
+            addHeaderFileFromAngleBrackets(header);
         }
-        m_headerListFromAngleBrackets.emplace_back("");
+        addHeaderFileFromAngleBrackets("");
     }
     if(!aprgFiles.empty())
     {
         for(string const& header: aprgFiles)
         {
-            m_headerListFromAngleBrackets.emplace_back(header);
+            addHeaderFileFromAngleBrackets(header);
         }
-        m_headerListFromAngleBrackets.emplace_back("");
+        addHeaderFileFromAngleBrackets("");
     }
     if(!otherLibraryHeaders.empty())
     {
         for(string const& header: otherLibraryHeaders)
         {
-            m_headerListFromAngleBrackets.emplace_back(header);
+            addHeaderFileFromAngleBrackets(header);
         }
-        m_headerListFromAngleBrackets.emplace_back("");
+        addHeaderFileFromAngleBrackets("");
     }
     if(!cPlusPlusHeaders.empty())
     {
         for(string const& header: cPlusPlusHeaders)
         {
-            m_headerListFromAngleBrackets.emplace_back(header);
+            addHeaderFileFromAngleBrackets(header);
         }
-        m_headerListFromAngleBrackets.emplace_back("");
+        addHeaderFileFromAngleBrackets("");
+    }
+}
+
+void CPlusPlusFileFixer::removeTrailingLinesInCode()
+{
+    auto nonWhiteSpaceLineIterator = m_linesAfterTheHeader.rbegin();
+    for(; nonWhiteSpaceLineIterator != m_linesAfterTheHeader.rend(); nonWhiteSpaceLineIterator++)
+    {
+        if(!stringHelper::isWhiteSpace(*nonWhiteSpaceLineIterator))
+        {
+            break;
+        }
+    }
+    m_linesAfterTheHeader.erase(nonWhiteSpaceLineIterator.base(), m_linesAfterTheHeader.end());
+}
+
+void CPlusPlusFileFixer::fixNamespaces()
+{
+    for(string & line : m_linesAfterTheHeader)
+    {
+        string firstWord(stringHelper::getStringBeforeThisString(stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(line), " "));
+        if("namespace" == firstWord)
+        {
+            stringHelper::transformReplaceStringIfFound(line, "{", "\n{");
+        }
     }
 }
 
 void CPlusPlusFileFixer::writeFile(string const& path)
 {
-    AlbaLocalPathHandler filePathHandler(path);
-    ofstream outputLogFileStream(filePathHandler.getFullPath());
+    AlbaLocalPathHandler filePathHandler(path);    ofstream outputLogFileStream(filePathHandler.getFullPath());
     if(m_isPragmaOnceFound)
     {
         outputLogFileStream<<"#pragma once"<<endl;
         outputLogFileStream<<endl;
     }
-    if(!m_headerListFromQuotation.empty())
+    if(!m_headerListFromQuotations.empty())
     {
-        for(string const& header: m_headerListFromQuotation)
+        for(string const& header: m_headerListFromQuotations)
         {
             if(!header.empty())
-            {
-                outputLogFileStream<<R"(#include ")"<<header<<R"(")"<<endl;
+            {                outputLogFileStream<<R"(#include ")"<<header<<R"(")"<<endl;
             }
             else
             {
@@ -237,15 +254,26 @@ bool CPlusPlusFileFixer::isOtherLibraryHeaders(string const& headerFoundInFile) 
 bool CPlusPlusFileFixer::isMainHeader(string const& headerFoundInFile, string const& filePath) const
 {
     bool result(false);
-    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(headerFoundInFile, AlbaLocalPathHandler(filePath).getFilenameOnly()) && AlbaLocalPathHandler(headerFoundInFile).getDirectory().empty())
+    AlbaLocalPathHandler headerFileHandler(headerFoundInFile);
+    AlbaLocalPathHandler filePathHandler(filePath);
+    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(headerFileHandler.getFilenameOnly(), filePathHandler.getFilenameOnly()))
     {
         result=true;
-    }
-    return result;
+    }    return result;
+}
+
+void CPlusPlusFileFixer::addHeaderFileFromAngleBrackets(std::string const& header)
+{
+    AlbaPathHandler headerPathHandler(header, "/");
+    m_headerListFromAngleBrackets.emplace_back(headerPathHandler.getFullPath());
+}
+
+void CPlusPlusFileFixer::addHeaderFileFromQuotations(std::string const& header)
+{
+    AlbaPathHandler headerPathHandler(header, "/");
+    m_headerListFromQuotations.emplace(headerPathHandler.getFullPath());
 }
 
 
 }
-
-
 

@@ -3,11 +3,11 @@
 
 #include <windows.h>
 
-namespace alba{
+namespace alba
+{
 
 AlbaRandomizer::AlbaRandomizer()
-{
-    resetRandomSeed();
+{    resetRandomSeed();
 }
 
 void AlbaRandomizer::resetRandomSeed()

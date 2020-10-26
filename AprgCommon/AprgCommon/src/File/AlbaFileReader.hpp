@@ -4,11 +4,11 @@
 #include <string>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 class AlbaFileReader
-{
-public:
+{public:
     explicit AlbaFileReader(std::ifstream& stream);
     bool isNotFinished();
     char getCharacter();

@@ -17,17 +17,21 @@ private:
     void clear();
     void checkFile(std::string const& path);
     void fix(std::string const& path);
+    void fixHeaders(std::string const& path);
+    void removeTrailingLinesInCode();
+    void fixNamespaces();
     void writeFile(std::string const& path);
     bool isCPlusPlusHeader(std::string const& header) const;
     bool isOtherLibraryHeaders(std::string const& headerFoundInFile) const;
     bool isMainHeader(std::string const& headerFoundInFile, std::string const& filePath) const;
+    void addHeaderFileFromAngleBrackets(std::string const& header);
+    void addHeaderFileFromQuotations(std::string const& header);
 
     std::vector<std::string> m_linesAfterTheHeader;
     std::vector<std::string> m_headerListFromAngleBrackets;
-    std::set<std::string> m_headerListFromQuotation;
+    std::set<std::string> m_headerListFromQuotations;
     bool m_isPragmaOnceFound;
 };
-
 }
 
 

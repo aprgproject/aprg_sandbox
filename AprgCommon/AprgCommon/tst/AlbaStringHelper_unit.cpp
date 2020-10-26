@@ -18,10 +18,17 @@ TEST(GetNewStringFromStringTest, FindAndReplaceStrings)
     EXPECT_EQ("MARK is the no#1 programmer in the world. MARK is also the nicest programmer.", string1);
 }
 
+TEST(GetNewStringFromStringTest, FindAndReplaceStringsWithRedundantStrings)
+{
+    string string1("Mark is the no#1 guy in the world. Mark is also the nicest guy.");
+
+    EXPECT_TRUE(transformReplaceStringIfFound(string1, "M", "MMMMMMMMMMMM"));
+    EXPECT_EQ("MMMMMMMMMMMMark is the no#1 guy in the world. MMMMMMMMMMMMark is also the nicest guy.", string1);
+}
+
 TEST(SplitStringTest, SplitBySpaces)
 {
-    string string1("   Mark is the no#1      guy in the  world.    Mark is also the nicest guy.    ");
-    strings expectedStrings {"Mark", "is", "the", "no#1", "guy", "in", "the", "world.", "Mark", "is", "also", "the", "nicest", "guy."};
+    string string1("   Mark is the no#1      guy in the  world.    Mark is also the nicest guy.    ");    strings expectedStrings {"Mark", "is", "the", "no#1", "guy", "in", "the", "world.", "Mark", "is", "also", "the", "nicest", "guy."};
     strings actualStrings;
     splitToStrings<SplitStringType::WithoutDelimeters>(actualStrings, string1, " ");
 
