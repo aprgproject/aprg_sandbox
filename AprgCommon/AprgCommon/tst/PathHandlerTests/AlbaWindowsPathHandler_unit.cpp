@@ -1,15 +1,14 @@
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
 
-#include <fstream>
 #include <gtest/gtest.h>
+
+#include <fstream>
 #include <string>
 
-using namespace std;
-using namespace alba;
+using namespace std;using namespace alba;
 
 #define APRG_DIR_SIMPLFIED R"(C:\APRG)"
 #define ALBA_PATH_HANDLER_SIZE_TEST_FILE APRG_DIR R"(\AprgCommon\AprgCommon\tst\FilesForTests\FileReaderTest\Test2_SizeTest.txt)"
-
 TEST(WindowsPathTest, FullPathWithOnlyDirectoryGiven_WindowsStyleInput)
 {
     AlbaWindowsPathHandler pathHandler(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\)");

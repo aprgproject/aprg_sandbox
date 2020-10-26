@@ -1,16 +1,15 @@
 #include <User/AlbaWindowsUserAutomation.hpp>
 
 #include <gtest/gtest.h>
-#include <iostream>
 #include <windows.h>
+
+#include <iostream>
 
 using namespace alba;
 using namespace std;
-
 TEST(AlbaWindowsUserAutomationTest, DISABLED_SetMouseTest)
 {
-    AlbaWindowsUserAutomation userAutomation;
-    for(int x=0; x<50; x++)
+    AlbaWindowsUserAutomation userAutomation;    for(int x=0; x<50; x++)
     {
         MousePosition position{x,x};
         userAutomation.setMousePosition(position);

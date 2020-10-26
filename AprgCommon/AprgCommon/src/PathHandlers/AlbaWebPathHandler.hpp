@@ -1,14 +1,13 @@
 #pragma once
 
 #include <PathHandlers/AlbaPathHandler.hpp>
+
 #include <string>
 
 namespace alba{
-
 class AlbaWebPathHandler: public AlbaPathHandler
 {
-public:
-    AlbaWebPathHandler(std::string const& path);
+public:    AlbaWebPathHandler(std::string const& path);
     void clear() override;
     std::string getFullPath() const override;
     bool hasProtocol() const;

@@ -1,19 +1,17 @@
 #pragma once
 
-#include <functional>
-#include <string>
-
 #include <PathHandlers/AlbaPathHandler.hpp>
 #include <PathHandlers/PathContantsAndTypes.hpp>
 
+#include <functional>
+#include <string>
+
 namespace alba{
 
-class AlbaWindowsPathHandler: public AlbaPathHandler
-{
+class AlbaWindowsPathHandler: public AlbaPathHandler{
 public:
     typedef std::set<std::string> ListOfPaths;
-    AlbaWindowsPathHandler(PathInitialValueSource const initialValueSource);
-    AlbaWindowsPathHandler(std::string const& path);
+    AlbaWindowsPathHandler(PathInitialValueSource const initialValueSource);    AlbaWindowsPathHandler(std::string const& path);
     void clear() override;
     std::string getDriveOrRoot() const;
     double getFileSizeEstimate();

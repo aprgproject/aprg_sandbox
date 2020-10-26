@@ -1,26 +1,24 @@
 #include "AlbaStringHelper.hpp"
 
+#include <Container/AlbaContainerHelper.hpp>
+
 #include <algorithm>
 #include <cctype>
-#include <functional>
-#include <iomanip>
+#include <functional>#include <iomanip>
 #include <set>
 #include <sstream>
 #include <typeinfo>
 
-#include <Container/AlbaContainerHelper.hpp>
-
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 unsigned int stringHelper::getLevenshteinDistance(string const& mainString, string const& string2)
-{
-    int mainStringLength = mainString.size();
+{    int mainStringLength = mainString.size();
     int string2Length = string2.size();
 
-    vector<unsigned int> current(string2Length + 1);
-    vector<unsigned int> previous(string2Length + 1);
+    vector<unsigned int> current(string2Length + 1);    vector<unsigned int> previous(string2Length + 1);
 
     int i = 0;
     generate(previous.begin(), previous.end(), [&] {return i++; });

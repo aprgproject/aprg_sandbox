@@ -1,16 +1,15 @@
 #pragma once
 
+#include <windows.h>
+
 #include <functional>
 #include <string>
-#include <windows.h>
 
 namespace alba
 {
-
 struct MousePosition
 {
-    int x;
-    int y;
+    int x;    int y;
 };
 
 class AlbaWindowsUserAutomation

@@ -1,13 +1,12 @@
 #pragma once
 
 #include <Optional/AlbaOptional.hpp>
+
 #include <string>
 #include <vector>
-
 namespace alba{
 
 std::string const WHITESPACE_STRING = " \t\n\r";
-
 namespace stringHelper
 {
 

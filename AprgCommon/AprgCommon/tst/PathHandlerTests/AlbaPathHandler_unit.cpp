@@ -1,15 +1,14 @@
 #include <PathHandlers/AlbaPathHandler.hpp>
 
-#include <fstream>
 #include <gtest/gtest.h>
+
+#include <fstream>
 #include <string>
 
-using namespace std;
-using namespace alba;
+using namespace std;using namespace alba;
 
 TEST(PathTest, FullPathWithDirectoryAndFileGiven)
-{
-    AlbaPathHandler pathHandler(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", R"(\)");
+{    AlbaPathHandler pathHandler(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", R"(\)");
     EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\)", pathHandler.getDirectory());
     EXPECT_EQ("76543.txt", pathHandler.getFile());
     EXPECT_EQ("76543", pathHandler.getFilenameOnly());

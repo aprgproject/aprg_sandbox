@@ -1,15 +1,14 @@
 #include "AlbaWindowsUserAutomation.hpp"
 
-#include <cctype>
-#include <windows.h>
-
 #include <String/AlbaStringHelper.hpp>
 
-using namespace std;
+#include <windows.h>
 
+#include <cctype>
+
+using namespace std;
 namespace alba
 {
-
 bool AlbaWindowsUserAutomation::isLetterPressed(char letter) const
 {
     USHORT status = GetAsyncKeyState(::toupper(letter));

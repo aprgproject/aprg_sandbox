@@ -1,15 +1,14 @@
 #include <PathHandlers/AlbaWebPathHandler.hpp>
 
-#include <fstream>
 #include <gtest/gtest.h>
+
+#include <fstream>
 #include <string>
 
-using namespace std;
-using namespace alba;
+using namespace std;using namespace alba;
 
 TEST(WebPathTest, DirectoryWithColonAndFileGivenAndNoProtocol)
-{
-    AlbaWebPathHandler pathHandler(R"(\\::://directory!@#$%12345\\\\/\\\\/file.txt)");
+{    AlbaWebPathHandler pathHandler(R"(\\::://directory!@#$%12345\\\\/\\\\/file.txt)");
     EXPECT_FALSE(pathHandler.hasProtocol());
     EXPECT_TRUE(pathHandler.getProtocol().empty());
     EXPECT_EQ(R"(\\::://directory!@#$%12345/)", pathHandler.getDirectory());
