@@ -15,7 +15,7 @@ namespace aprgWebCrawler
 
 void WebCrawler::crawlForYoutube()
 {
-    AlbaWindowsPathHandler convertedYoutubeLinksPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\ConvertedYoutubeLinks.txt)");
+    AlbaLocalPathHandler convertedYoutubeLinksPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\ConvertedYoutubeLinks.txt)");
     convertedYoutubeLinksPathHandler.createDirectoriesForNonExisitingDirectories();
     ofstream convertedYoutubeLinkStream(convertedYoutubeLinksPathHandler.getFullPath());
 
@@ -75,7 +75,7 @@ void WebCrawler::crawlForYoutube(string & webLink, ofstream& convertedYoutubeLin
             continue;
         }
         AlbaWebPathHandler videoWebPathHandler(links.linkForVideo);
-        AlbaWindowsPathHandler downloadPathHandler(links.localPathForCurrentVideo);
+        AlbaLocalPathHandler downloadPathHandler(links.localPathForCurrentVideo);
         downloadPathHandler.createDirectoriesForNonExisitingDirectories();
         downloadBinaryFile(videoWebPathHandler, downloadPathHandler);
         if(downloadPathHandler.getFileSizeEstimate() < configuration.getMinimumFileSize())
@@ -98,7 +98,7 @@ LinksForYoutube WebCrawler::getLinkForYoutube(AlbaWebPathHandler const& webLinkP
     string ssYoutubeLink(webLinkPathHandler.getFullPath());
     stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "youtube", "ssyoutube");
     AlbaWebPathHandler ssYoutubeLinkPathHandler(ssYoutubeLink);
-    AlbaWindowsPathHandler downloadPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\temp.html)");
+    AlbaLocalPathHandler downloadPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\temp.html)");
     downloadFileUsingPhantomJs(ssYoutubeLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())

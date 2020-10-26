@@ -4,7 +4,7 @@
 
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 using namespace std;
 using namespace alba::stringHelper;
@@ -27,7 +27,7 @@ void BtsTraceDecoder::saveSymbolTableFromMappedFile(std::string const& symbolTab
 
 void BtsTraceDecoder::processInputTraceFile(std::string const& inputTraceFilePath)
 {
-    ifstream traceFile(AlbaWindowsPathHandler(inputTraceFilePath).getFullPath());
+    ifstream traceFile(AlbaLocalPathHandler(inputTraceFilePath).getFullPath());
     if(traceFile.is_open())
     {
         AlbaFileReader traceFileReader(traceFile);
@@ -68,7 +68,7 @@ std::string BtsTraceDecoder::getNearestLowerSymbol(int const address, int const 
 
 void BtsTraceDecoder::saveSymbolTable(std::string const& symbolTableFilePath, SymbolTableFileType const filetype)
 {
-    ifstream symbolTableFileStream(AlbaWindowsPathHandler(symbolTableFilePath).getFullPath());
+    ifstream symbolTableFileStream(AlbaLocalPathHandler(symbolTableFilePath).getFullPath());
     if(symbolTableFileStream.is_open())
     {
         cout<<"Symbol table file is opened"<<endl;

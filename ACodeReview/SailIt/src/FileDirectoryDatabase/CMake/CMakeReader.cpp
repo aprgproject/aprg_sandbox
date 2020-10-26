@@ -2,7 +2,7 @@
 
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <AlbaWindowsPathHandler.hpp>
+#include <AlbaLocalPathHandler.hpp>
 #include <algorithm>
 #include <functional>
 #include <fstream>
@@ -22,7 +22,7 @@ CMakeReader::CMakeReader(string const& fileName, CMakeDatabase& fileDirectoryDat
     , m_fileDirectoryDatabase(fileDirectoryDatabase)
     , m_isFileValid(false)
 {
-    AlbaWindowsPathHandler pathHandler;
+    AlbaLocalPathHandler pathHandler;
     pathHandler.inputPath(fileName);
     if(pathHandler.isFoundInLocalSystem() && pathHandler.isFile())
     {
@@ -317,7 +317,7 @@ void CMakeReader::addCMakeDirectoryIfNeededAndDoOperation(
         string const& string1,
         function<void(string)> operationForEachString)
 {
-    AlbaWindowsPathHandler pathHandler;
+    AlbaLocalPathHandler pathHandler;
     pathHandler.inputPath(string1);
 
     if(pathHandler.isRelativePath())
@@ -326,7 +326,7 @@ void CMakeReader::addCMakeDirectoryIfNeededAndDoOperation(
         {
             for(string cMakeFileDirectory : m_variableMap.at("CMAKE_CURRENT_SOURCE_DIR"))
             {
-                AlbaWindowsPathHandler pathHandlerWithCMake;
+                AlbaLocalPathHandler pathHandlerWithCMake;
                 pathHandlerWithCMake.inputPath(cMakeFileDirectory+"\\"+pathHandler.getFullPath());
                 //check if path exists before adding
                 operationForEachString(pathHandlerWithCMake.getFullPath());

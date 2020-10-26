@@ -59,7 +59,7 @@ void AlbaSackReader::processDirectory(string const& path)
 {
     set<string> listOfFiles;
     set<string> listOfDirectories;
-    AlbaWindowsPathHandler(path).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
+    AlbaLocalPathHandler(path).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& filePath : listOfFiles)
     {
         processFile(filePath);
@@ -68,7 +68,7 @@ void AlbaSackReader::processDirectory(string const& path)
 
 void AlbaSackReader::processFile(string const& path)
 {
-    AlbaWindowsPathHandler filePathHandler(path);
+    AlbaLocalPathHandler filePathHandler(path);
     stringHelper::strings tokens;
     if(m_fileEvaluator.isInvalid() || m_fileEvaluator.evaluate(filePathHandler.getFile()))
     {

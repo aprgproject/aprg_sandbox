@@ -4,7 +4,7 @@
 #include <BtsLogSorter.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
 #include <fstream>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <StepHandler.hpp>
 #include <string>
 
@@ -30,7 +30,7 @@ StepHandler::StepHandler()
 
 void StepHandler::execute(TcomToolsConfiguration const& configuration) const
 {
-    AlbaWindowsPathHandler currentPathHandler(configuration.inputFileOrDirectory);
+    AlbaLocalPathHandler currentPathHandler(configuration.inputFileOrDirectory);
     ProgressCounters::resetProgressCounters();
     ProgressCounters::numberOfStepsEnabled = configuration.isExtractStepOn + configuration.isCombineAndSortStepOn + configuration.isGrepStepOn + configuration.isCropStepOn;
     for(int step=1; step<5; step++)
@@ -64,7 +64,7 @@ string StepHandler::executeExtractStep(TcomToolsConfiguration const& configurati
 {
     cout<<" (Extract) start | Input path: "<<inputPath<<endl;
     AprgFileExtractor fileExtractor(configuration.extractGrepCondition);
-    AlbaWindowsPathHandler pathHandler(inputPath);
+    AlbaLocalPathHandler pathHandler(inputPath);
     string outputPath(inputPath);
     if(pathHandler.isDirectory())
     {
@@ -87,7 +87,7 @@ string StepHandler::executeExtractStep(TcomToolsConfiguration const& configurati
 string StepHandler::executeCombineAndSortStep(TcomToolsConfiguration const& configuration, string const& inputPath) const
 {
     cout<<" (CombineAndSort) start | Input path: "<<inputPath<<endl;
-    AlbaWindowsPathHandler pathHandler(inputPath);
+    AlbaLocalPathHandler pathHandler(inputPath);
     string outputPath(inputPath);
     if(pathHandler.isDirectory())
     {
@@ -111,7 +111,7 @@ string StepHandler::executeCombineAndSortStep(TcomToolsConfiguration const& conf
 string StepHandler::executeGrepStep(TcomToolsConfiguration const& configuration, string const& inputPath) const
 {
     cout<<" (Grep) start | Input path: "<<inputPath<<endl;
-    AlbaWindowsPathHandler pathHandler(inputPath);
+    AlbaLocalPathHandler pathHandler(inputPath);
     string outputPath(inputPath);
     AlbaGrepStringEvaluator evaluator(configuration.getGrepCondition());
     if(evaluator.isInvalid())
@@ -133,7 +133,7 @@ string StepHandler::executeGrepStep(TcomToolsConfiguration const& configuration,
 string StepHandler::grepFile(TcomToolsConfiguration const& configuration, string const& inputPath) const
 {
     AlbaGrepStringEvaluator evaluator(configuration.getGrepCondition());
-    AlbaWindowsPathHandler pathHandler(inputPath);
+    AlbaLocalPathHandler pathHandler(inputPath);
     ifstream inputFileStream(pathHandler.getFullPath());
     pathHandler.input(pathHandler.getDirectory() + R"(\)" + configuration.getGrepFileName());
     ofstream outputFileStream(pathHandler.getFullPath());
@@ -155,7 +155,7 @@ string StepHandler::grepFile(TcomToolsConfiguration const& configuration, string
 string StepHandler::executeCropStep(TcomToolsConfiguration const& configuration, string const& inputPath) const
 {
     cout<<" (Crop) start | Input path: "<<inputPath<<endl;
-    AlbaWindowsPathHandler pathHandler(inputPath);
+    AlbaLocalPathHandler pathHandler(inputPath);
     string outputPath(inputPath);
     if(pathHandler.isFile())
     {
@@ -180,7 +180,7 @@ string StepHandler::executeCropStep(TcomToolsConfiguration const& configuration,
 string StepHandler::cropFile(TcomToolsConfiguration const& configuration, string const& inputPath, double foundLocation) const
 {
     LocationsInFile locations(getLocationsInFile(configuration, foundLocation));
-    AlbaWindowsPathHandler pathHandler(inputPath);
+    AlbaLocalPathHandler pathHandler(inputPath);
     ifstream inputFileStream(pathHandler.getFullPath());
     pathHandler.input(pathHandler.getDirectory() + R"(\)" + pathHandler.getFilenameOnly() + "Cropped.log");
     ofstream outputFileStream(pathHandler.getFullPath());
@@ -209,7 +209,7 @@ string StepHandler::cropFile(TcomToolsConfiguration const& configuration, string
 double StepHandler::getLocationOfPriotizedPrint(TcomToolsConfiguration const& configuration, string const& inputPath) const
 {
     double foundLocation(-1);
-    AlbaWindowsPathHandler pathHandler(inputPath);
+    AlbaLocalPathHandler pathHandler(inputPath);
     ifstream inputFileStream(pathHandler.getFullPath());
     AlbaFileReader fileReader(inputFileStream);
     double sizeOfFile = fileReader.getFileSize();

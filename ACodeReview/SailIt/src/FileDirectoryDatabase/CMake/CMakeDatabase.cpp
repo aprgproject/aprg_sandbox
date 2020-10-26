@@ -1,7 +1,7 @@
 #include "CMakeDatabase.hpp"
 
 #include <String/AlbaStringHelper.hpp>
-#include <AlbaWindowsPathHandler.hpp>
+#include <AlbaLocalPathHandler.hpp>
 
 #include <iostream>
 
@@ -60,7 +60,7 @@ void CMakeDatabase::printFilesAndDirectories() const
 
 void CMakeDatabase::addFileOrDirectory(string const& fileOrDirectory)
 {
-    AlbaWindowsPathHandler pathHandler;
+    AlbaLocalPathHandler pathHandler;
     pathHandler.inputPath(fileOrDirectory);
     if(m_isNonExistentDirectoriesAllowed || pathHandler.isFoundInLocalSystem())
     {
@@ -107,7 +107,7 @@ CMakeDatabase& CMakeDatabase::find_InnerDirection(
         string& stringFullPathOut)
 {
     isFoundResult = false;
-    AlbaWindowsPathHandler pathHandler;
+    AlbaLocalPathHandler pathHandler;
     pathHandler.inputPath(stringPathIn);
     if(pathHandler.isFile())
     {
@@ -126,7 +126,7 @@ CMakeDatabase& CMakeDatabase::find_OuterDirection(
         string& stringFullPathOut)
 {
     isFoundResult = false;
-    AlbaWindowsPathHandler pathHandler;
+    AlbaLocalPathHandler pathHandler;
     pathHandler.inputPath(stringPathIn);
     if(pathHandler.isFile())
     {
@@ -168,7 +168,7 @@ template <RecursionDirectionType direction> CMakeDatabase& CMakeDatabase::findFi
     }
     for (auto& directory :  m_setOfDirectories)
     {
-        AlbaWindowsPathHandler pathHandler;
+        AlbaLocalPathHandler pathHandler;
         pathHandler.inputPath(directory);
         set<string> temporaryListOfFiles;
         set<string> temporaryListOfDirectories;

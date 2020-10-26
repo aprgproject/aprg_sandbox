@@ -1,7 +1,7 @@
 #include "FileDirectoryDatabase.hpp"
 
 #include <String/AlbaStringHelper.hpp>
-#include <AlbaWindowsPathHandler.hpp>
+#include <AlbaLocalPathHandler.hpp>
 #include <iostream>
 
 using namespace alba;
@@ -113,7 +113,7 @@ void FileDirectoryDatabase::allowNonExistentDirectories()
 
 void FileDirectoryDatabase::addFileOrDirectory(string const& fileOrDirectory)
 {
-    AlbaWindowsPathHandler pathHandler;
+    AlbaLocalPathHandler pathHandler;
     pathHandler.inputPath(fileOrDirectory);
     if(m_isNonExistentDirectoriesAllowed || pathHandler.isFoundInLocalSystem())
     {

@@ -1,7 +1,7 @@
 #include <AprgFileExtractor.hpp>
 
 #include <gtest/gtest.h>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 #ifndef PATH_OF_7Z_TEMP_FILE
     static_assert(false, "PATH_OF_7Z_TEMP_FILE is not set in cmake");
@@ -53,7 +53,7 @@ TEST(AprgFileExtractorTest, ListOfFilesFromZipFileAreCorrectlyRetrieved)
 TEST(AprgFileExtractorTest, OneFileIsExtractedSuccessfully)
 {
     AprgFileExtractor fileExtractor;
-    AlbaWindowsPathHandler filePathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\DirectoryTest\DIR1\File1.log)");
+    AlbaLocalPathHandler filePathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\DirectoryTest\DIR1\File1.log)");
     filePathHandler.deleteFile();
     filePathHandler.reInput();
     ASSERT_FALSE(filePathHandler.isFoundInLocalSystem());
@@ -68,13 +68,13 @@ TEST(AprgFileExtractorTest, OneFileIsExtractedSuccessfully)
 TEST(AprgFileExtractorTest, AllFilesAreExtractedSuccessfully)
 {
     AprgFileExtractor fileExtractor;
-    AlbaWindowsPathHandler directoryPathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\)");
+    AlbaLocalPathHandler directoryPathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\)");
     set<string> files;
     set<string> directories;
     directoryPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
     for(string const& file: files)
     {
-        AlbaWindowsPathHandler filePathHandler(file);
+        AlbaLocalPathHandler filePathHandler(file);
         filePathHandler.deleteFile();
         filePathHandler.reInput();
         ASSERT_FALSE(filePathHandler.isFoundInLocalSystem());
@@ -83,7 +83,7 @@ TEST(AprgFileExtractorTest, AllFilesAreExtractedSuccessfully)
     string outputDirectoryPath = fileExtractor.extractAll(PATH_OF_SAMPLE_ZIP_1);
 
     EXPECT_EQ(directoryPathHandler.getFullPath(), outputDirectoryPath);
-    AlbaWindowsPathHandler outputFilePathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\DIR1\File1.log)");
+    AlbaLocalPathHandler outputFilePathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\DIR1\File1.log)");
     //EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
     outputFilePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\DIR2\File2.txt)");
     //EXPECT_TRUE(outputFilePathHandler.isFoundInLocalSystem());
@@ -110,7 +110,7 @@ TEST(AprgFileExtractorTest, AllFilesAreExtractedSuccessfully)
 TEST(AprgFileExtractorTest, FilesAreExtractedSuccessfullyWhenSatisyingTheCondition)
 {
     AprgFileExtractor fileExtractor("[.log]");
-    AlbaWindowsPathHandler filePathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\DirectoryTest\DIR1\File1.log)");
+    AlbaLocalPathHandler filePathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\DirectoryTest\DIR1\File1.log)");
     filePathHandler.deleteFile();
     filePathHandler.reInput();
     ASSERT_FALSE(filePathHandler.isFoundInLocalSystem());
@@ -130,7 +130,7 @@ TEST(AprgFileExtractorTest, FilesAreExtractedSuccessfullyWhenSatisyingTheConditi
 TEST(AprgFileExtractorTest, FilesAreExtractedRecursivelyWhenSatisyingTheCondition)
 {
     AprgFileExtractor fileExtractor("[DirectoryTest]");
-    AlbaWindowsPathHandler filePathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest2\DirectoryTest2\DirectoryTest2\DirectoryTest2.txt)");
+    AlbaLocalPathHandler filePathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest2\DirectoryTest2\DirectoryTest2\DirectoryTest2.txt)");
     filePathHandler.deleteFile();
     filePathHandler.reInput();
     ASSERT_FALSE(filePathHandler.isFoundInLocalSystem());

@@ -18,8 +18,8 @@ namespace aprgWebCrawler
 
 void WebCrawler::saveImageListFromGoogleImages()
 {
-    AlbaWindowsPathHandler downloadPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\temp.html)");
-    AlbaWindowsPathHandler listPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\ListOfImages.txt)");
+    AlbaLocalPathHandler downloadPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\temp.html)");
+    AlbaLocalPathHandler listPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\ListOfImages.txt)");
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
@@ -57,7 +57,7 @@ void WebCrawler::saveImageListFromGoogleImages()
 
 void WebCrawler::downloadGoogleImages() const
 {
-    AlbaWindowsPathHandler listPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\ListOfImages.txt)");
+    AlbaLocalPathHandler listPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\ListOfImages.txt)");
     ifstream listFileStream(listPathHandler.getFullPath());
     if(!listFileStream.is_open())
     {
@@ -83,7 +83,7 @@ void WebCrawler::downloadGoogleImages() const
             cout << "ImageLinkWebPath : " << imageWebPathHandler.getFullPath() << endl;
             return;
         }
-        //downloadBinaryFileUntilSuccessful(imageWebPathHandler, AlbaWindowsPathHandler(m_workingPathHandler.getDirectory() + imageWebPathHandler.getFile()));
+        //downloadBinaryFileUntilSuccessful(imageWebPathHandler, AlbaLocalPathHandler(m_workingPathHandler.getDirectory() + imageWebPathHandler.getFile()));
         listOfImages.pop_front();
         ofstream outListFileStream(listPathHandler.getFullPath());
         if(!outListFileStream.is_open())

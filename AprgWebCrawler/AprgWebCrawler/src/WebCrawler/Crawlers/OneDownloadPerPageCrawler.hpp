@@ -3,7 +3,7 @@
 #include <CrawlConfiguration/CrawlConfiguration.hpp>
 #include <CrawlMode.hpp>
 #include <PathHandlers/AlbaWebPathHandler.hpp>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <string>
 #include <WebCrawler.hpp>
 

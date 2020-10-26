@@ -10,7 +10,8 @@
 
 #include <PathHandlers/PathContantsAndTypes.hpp>
 
-namespace alba{
+namespace alba
+{
 
 #ifdef OS_WINDOWS
 class AlbaLocalPathHandler: public AlbaWindowsPathHandler

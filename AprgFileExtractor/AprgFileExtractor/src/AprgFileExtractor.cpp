@@ -6,7 +6,7 @@
 #include <windows.h>
 
 #include <File/AlbaFileReader.hpp>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <String/AlbaStringHelper.hpp>
 
 
@@ -31,19 +31,19 @@ extern int numberOfFilesAnalyzedForExtraction;
 
 AprgFileExtractor::AprgFileExtractor()
     : m_grepEvaluator("")
-    , m_pathOf7zExecutable(AlbaWindowsPathHandler(PATH_OF_7Z_EXECUTABLE).getFullPath())
-    , m_pathOf7zTempFile(AlbaWindowsPathHandler(PATH_OF_7Z_TEMP_FILE).getFullPath())
+    , m_pathOf7zExecutable(AlbaLocalPathHandler(PATH_OF_7Z_EXECUTABLE).getFullPath())
+    , m_pathOf7zTempFile(AlbaLocalPathHandler(PATH_OF_7Z_TEMP_FILE).getFullPath())
 {}
 
 AprgFileExtractor::AprgFileExtractor(string const& condition)
     : m_grepEvaluator(condition)
-    , m_pathOf7zExecutable(AlbaWindowsPathHandler(PATH_OF_7Z_EXECUTABLE).getFullPath())
-    , m_pathOf7zTempFile(AlbaWindowsPathHandler(PATH_OF_7Z_TEMP_FILE).getFullPath())
+    , m_pathOf7zExecutable(AlbaLocalPathHandler(PATH_OF_7Z_EXECUTABLE).getFullPath())
+    , m_pathOf7zTempFile(AlbaLocalPathHandler(PATH_OF_7Z_TEMP_FILE).getFullPath())
 {}
 
 void AprgFileExtractor::extractAllRelevantFiles(string const& pathOfFileOrDirectory) const
 {
-    AlbaWindowsPathHandler fileOrDirectoryPathHandler(pathOfFileOrDirectory);
+    AlbaLocalPathHandler fileOrDirectoryPathHandler(pathOfFileOrDirectory);
     if(!fileOrDirectoryPathHandler.isFoundInLocalSystem())
     {
         cout << "extractAllRelevantFiles: File or directory not found in local system." << endl;
@@ -60,7 +60,7 @@ void AprgFileExtractor::extractAllRelevantFiles(string const& pathOfFileOrDirect
 
 void AprgFileExtractor::copyRelativeFilePathsFromCompressedFile(string const& filePathOfCompressedFile, set<string>& files) const
 {
-    AlbaWindowsPathHandler filePathHandler(filePathOfCompressedFile);
+    AlbaLocalPathHandler filePathHandler(filePathOfCompressedFile);
     string command = m_pathOf7zExecutable + R"( l -slt ")"
             + filePathHandler.getFullPath() + R"(" > ")"
             + m_pathOf7zTempFile + R"(")";
@@ -88,8 +88,8 @@ void AprgFileExtractor::copyRelativeFilePathsFromCompressedFile(string const& fi
 
 string AprgFileExtractor::extractAll(string const& filePathOfCompressedFile) const
 {
-    AlbaWindowsPathHandler compressedFilePathHandler(filePathOfCompressedFile);
-    AlbaWindowsPathHandler outputPathHandler(compressedFilePathHandler.getDirectory() + R"(\)" + compressedFilePathHandler.getFilenameOnly() + R"(\)");
+    AlbaLocalPathHandler compressedFilePathHandler(filePathOfCompressedFile);
+    AlbaLocalPathHandler outputPathHandler(compressedFilePathHandler.getDirectory() + R"(\)" + compressedFilePathHandler.getFilenameOnly() + R"(\)");
     string command = m_pathOf7zExecutable + R"( e -y -o")"
             + outputPathHandler.getDirectory() + R"(" ")"
             + compressedFilePathHandler.getFullPath() + R"(" > nul)";
@@ -100,8 +100,8 @@ string AprgFileExtractor::extractAll(string const& filePathOfCompressedFile) con
 
 string AprgFileExtractor::extractOneFile(string const& filePathOfCompressedFile, string const& relativePathOfFile) const
 {
-    AlbaWindowsPathHandler compressedFilePathHandler(filePathOfCompressedFile);
-    AlbaWindowsPathHandler outputPathHandler(compressedFilePathHandler.getDirectory() + R"(\)" + compressedFilePathHandler.getFilenameOnly() + R"(\)" + relativePathOfFile);
+    AlbaLocalPathHandler compressedFilePathHandler(filePathOfCompressedFile);
+    AlbaLocalPathHandler outputPathHandler(compressedFilePathHandler.getDirectory() + R"(\)" + compressedFilePathHandler.getFilenameOnly() + R"(\)" + relativePathOfFile);
     string command = m_pathOf7zExecutable + R"( e -y -o")"
             + outputPathHandler.getDirectory() + R"(" ")"
             + compressedFilePathHandler.getFullPath() + R"(" ")"
@@ -121,14 +121,14 @@ bool AprgFileExtractor::isRecognizedCompressedFile(string const& extension) cons
 
 void AprgFileExtractor::extractAllRelevantFilesInThisDirectory(string const& directoryPath) const
 {
-    AlbaWindowsPathHandler directoryPathHandler(directoryPath);
+    AlbaLocalPathHandler directoryPathHandler(directoryPath);
     set<string> listOfFiles;
     set<string> listOfDirectories;
     directoryPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     ProgressCounters::numberOfFilesToBeAnalyzedForExtraction += listOfFiles.size();
     for(string const& filePath: listOfFiles)
     {
-        AlbaWindowsPathHandler extractedPathHandler(filePath);
+        AlbaLocalPathHandler extractedPathHandler(filePath);
         if(isRecognizedCompressedFile(extractedPathHandler.getExtension()))
         {
             extractAllRelevantFilesInThisCompressedFile(extractedPathHandler.getFullPath());
@@ -139,7 +139,7 @@ void AprgFileExtractor::extractAllRelevantFilesInThisDirectory(string const& dir
 
 void AprgFileExtractor::extractAllRelevantFilesInThisCompressedFile(string const& filePathOfCompressedFile) const
 {
-    AlbaWindowsPathHandler compressedFilePathHandler(filePathOfCompressedFile);
+    AlbaLocalPathHandler compressedFilePathHandler(filePathOfCompressedFile);
     if(isTheExtensionXz(compressedFilePathHandler.getExtension()))
     {
         extractAllFilesRecursively(filePathOfCompressedFile);
@@ -152,7 +152,7 @@ void AprgFileExtractor::extractAllRelevantFilesInThisCompressedFile(string const
 
 void AprgFileExtractor::extractAllFilesRecursively(string const& filePathOfCompressedFile) const
 {
-    AlbaWindowsPathHandler extractedPathHandler(extractAll(filePathOfCompressedFile));
+    AlbaLocalPathHandler extractedPathHandler(extractAll(filePathOfCompressedFile));
     if(isRecognizedCompressedFile(extractedPathHandler.getExtension()))
     {
         extractAllRelevantFilesInThisDirectory(extractedPathHandler.getFullPath());
@@ -167,10 +167,10 @@ void AprgFileExtractor::extractAllRelevantFilesRecursively(string const& filePat
     ProgressCounters::numberOfFilesToBeAnalyzedForExtraction += filePaths.size();
     for(string const filePath : filePaths)
     {
-        AlbaWindowsPathHandler filePathHandler(filePath);
+        AlbaLocalPathHandler filePathHandler(filePath);
         if(m_grepEvaluator.evaluate(filePathHandler.getFile()))
         {
-            AlbaWindowsPathHandler extractedPathHandler(extractOneFile(filePathOfCompressedFile, filePath));
+            AlbaLocalPathHandler extractedPathHandler(extractOneFile(filePathOfCompressedFile, filePath));
             if(isRecognizedCompressedFile(extractedPathHandler.getExtension()))
             {
                 extractAllRelevantFilesInThisCompressedFile(extractedPathHandler.getFullPath());

@@ -247,7 +247,7 @@ TEST(AlbaLargeSorterTest, CacheTest_ContainerReferenceCanFetched)
 
 TEST(AlbaLargeSorterTest, FileHandlerTest_FileAreWrittenAtTheEndAgainAfterRelease)
 {
-    AlbaWindowsPathHandler(ALBA_LARGE_SORTER_TEST_FILE).deleteFile();
+    AlbaLocalPathHandler(ALBA_LARGE_SORTER_TEST_FILE).deleteFile();
 
     DataBlockFileHandler<int> fileHandler;
     fileHandler.openFileIfNeeded(ALBA_LARGE_SORTER_TEST_FILE);
@@ -373,13 +373,13 @@ TEST(AlbaLargeSorterTest, PrimitiveDataTypesForBlocksAreCreatedWhenBlocksWhenMem
 
 TEST(AlbaLargeSorterTest, FilesForBlocksAreDeletedAfterFileForBlocksAreCreated)
 {
-    AlbaWindowsPathHandler directoryPathHandler(ALBA_LARGE_SORTER_BLOCK_DIR);
+    AlbaLocalPathHandler directoryPathHandler(ALBA_LARGE_SORTER_BLOCK_DIR);
     set<string> listOfFiles;
     set<string> listOfDirectories;
     directoryPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& filePath : listOfFiles)
     {
-        AlbaWindowsPathHandler(filePath).deleteFile();
+        AlbaLocalPathHandler(filePath).deleteFile();
     }
     listOfFiles.clear();
     listOfDirectories.clear();

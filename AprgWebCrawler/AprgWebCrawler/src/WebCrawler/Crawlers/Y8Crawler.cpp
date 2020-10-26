@@ -69,7 +69,7 @@ void Y8Crawler::addWebLinksIfFound(int webLinkIndex)
 {
     AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
     cout << "Y8Crawler::addWebLinksIfFound" << webLinkPathHandler.getFullPath() << endl;
-    AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
+    AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     downloadFileAsText(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
@@ -110,7 +110,7 @@ void Y8Crawler::addWebLinksIfFound(int webLinkIndex)
 void Y8Crawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
 {
     clearLinks();
-    AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
+    AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     downloadFileAsText(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
@@ -161,7 +161,7 @@ void Y8Crawler::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
     }
     else
     {
-        AlbaWindowsPathHandler downloadPathHandler(m_localPathForCurrentFileToDownload);
+        AlbaLocalPathHandler downloadPathHandler(m_localPathForCurrentFileToDownload);
         downloadPathHandler.createDirectoriesForNonExisitingDirectories();
         downloadBinaryFile(fileToDownloadWebPathHandler, downloadPathHandler, m_webCrawler.getCrawlMode());
         if(downloadPathHandler.getFileSizeEstimate() < m_configuration.getMinimumFileSize())

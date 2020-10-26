@@ -2,7 +2,7 @@
 
 #include <Optional/AlbaOptional.hpp>
 #include <fstream>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <string>
 
 namespace alba
@@ -15,7 +15,7 @@ public:
     ~DataBlockFileHandler()
     {
         m_fileOptional.clear();
-        AlbaWindowsPathHandler(m_path).deleteFile();
+        AlbaLocalPathHandler(m_path).deleteFile();
     }
     std::ofstream & getFileDumpStreamReference()
     {
@@ -33,7 +33,7 @@ public:
     {
         if(!m_fileOptional)
         {
-            m_path = AlbaWindowsPathHandler(path).getFullPath();
+            m_path = AlbaLocalPathHandler(path).getFullPath();
             m_fileOptional.createObjectUsingDefaultConstructor();
             std::ofstream & fileStream (m_fileOptional.getReference());
             fileStream.open(m_path, std::ios::ate|std::ios::app);

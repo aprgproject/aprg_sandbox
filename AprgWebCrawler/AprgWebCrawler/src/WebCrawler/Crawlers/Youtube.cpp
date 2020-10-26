@@ -72,7 +72,7 @@ void Youtube::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
     string ssYoutubeLink(webLinkPathHandler.getFullPath());
     stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "youtube", "ssyoutube");
     AlbaWebPathHandler ssYoutubeLinkPathHandler(ssYoutubeLink);
-    AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getTemporaryFilePath());
+    AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getTemporaryFilePath());
     downloadPathHandler.deleteFile();
     m_automationHelper.saveWebPageManuallyUsingMozillaFirefox(ssYoutubeLinkPathHandler.getFullPath());
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
@@ -120,9 +120,9 @@ void Youtube::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
 {
     AlbaWebPathHandler videoWebPathHandler(webLinkPathHandler);
     videoWebPathHandler.gotoLink(m_linkForVideo);
-    AlbaWindowsPathHandler temporaryPath(m_webCrawler.getTemporaryFilePath());
-    AlbaWindowsPathHandler::ListOfPaths files;
-    AlbaWindowsPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler temporaryPath(m_webCrawler.getTemporaryFilePath());
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;
     temporaryPath.input(temporaryPath.getDirectory());
     temporaryPath.findFilesAndDirectoriesOneDepth("*.*", files, directories);
     unsigned int initialNumberOfFiles(files.size());

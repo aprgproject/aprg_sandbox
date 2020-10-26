@@ -1,7 +1,7 @@
 #include <String/AlbaStringHelper.hpp>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include "ui_tcomtools.h"
 #include "TcomTools.h"
 
@@ -97,8 +97,8 @@ void TcomTools::on_execute_clicked()
 
 void TcomTools::on_actionOpenFile_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), QString::fromStdString(AlbaWindowsPathHandler(m_configuration.inputFileOrDirectory).getFullPath()), tr("All Files (*)"));
-    AlbaWindowsPathHandler pathHandler(fileName.toStdString());
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), QString::fromStdString(AlbaLocalPathHandler(m_configuration.inputFileOrDirectory).getFullPath()), tr("All Files (*)"));
+    AlbaLocalPathHandler pathHandler(fileName.toStdString());
     if(!pathHandler.isEmpty())
     {
         m_configuration.inputFileOrDirectory = pathHandler.getFullPath();
@@ -108,8 +108,8 @@ void TcomTools::on_actionOpenFile_triggered()
 
 void TcomTools::on_actionOpenFolder_triggered()
 {
-    QString directory = QFileDialog::getExistingDirectory(this, tr("Open folder"), QString::fromStdString(AlbaWindowsPathHandler(m_configuration.inputFileOrDirectory).getDirectory()), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-    AlbaWindowsPathHandler pathHandler(directory.toStdString());
+    QString directory = QFileDialog::getExistingDirectory(this, tr("Open folder"), QString::fromStdString(AlbaLocalPathHandler(m_configuration.inputFileOrDirectory).getDirectory()), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    AlbaLocalPathHandler pathHandler(directory.toStdString());
     if(!pathHandler.isEmpty())
     {
         m_configuration.inputFileOrDirectory = pathHandler.getFullPath();

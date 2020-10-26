@@ -116,7 +116,7 @@ void OneDownloadPerPageCrawler::downloadFile(AlbaWebPathHandler const& webLinkPa
     }
     else
     {
-        AlbaWindowsPathHandler downloadPathHandler(m_localPathForCurrentFileToDownload);
+        AlbaLocalPathHandler downloadPathHandler(m_localPathForCurrentFileToDownload);
         downloadPathHandler.createDirectoriesForNonExisitingDirectories();
         downloadBinaryFile(fileToDownloadWebPathHandler, downloadPathHandler, m_webCrawler.getCrawlMode());
         if(downloadPathHandler.getFileSizeEstimate() < m_configuration.getMinimumFileSize())

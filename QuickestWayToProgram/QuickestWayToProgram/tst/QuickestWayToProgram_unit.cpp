@@ -9,7 +9,7 @@
 
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <NsapHelper.hpp>
 #include <stdio.h>
 
@@ -18,9 +18,9 @@ using namespace std;
 
 TEST(SampleTest, FilesToFind)
 {
-    AlbaWindowsPathHandler::ListOfPaths files;
-    AlbaWindowsPathHandler::ListOfPaths directories;
-    AlbaWindowsPathHandler pathHandler(APRG_DIR R"(boost_1_51_0\boost_1_51_0\boost)");
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler pathHandler(APRG_DIR R"(boost_1_51_0\boost_1_51_0\boost)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
 
     for(string const& file: files)
@@ -32,10 +32,10 @@ TEST(SampleTest, FilesToFind)
 /*
 TEST(SampleTest, MessageId_TcomTcom_test)
 {
-    AlbaWindowsPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
-    AlbaWindowsPathHandler pathHandler2(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_TcomTcom_xml_format.txt)");
-    AlbaWindowsPathHandler pathHandler3(R"(D:\userdata\malba\Desktop\SCTRoutes\Unedited\routeList_VM.xml)");
-    AlbaWindowsPathHandler pathHandler4(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_comparison.csv)");
+    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
+    AlbaLocalPathHandler pathHandler2(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_TcomTcom_xml_format.txt)");
+    AlbaLocalPathHandler pathHandler3(R"(D:\userdata\malba\Desktop\SCTRoutes\Unedited\routeList_VM.xml)");
+    AlbaLocalPathHandler pathHandler4(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_comparison.csv)");
 
     ifstream tcomTcomFile(pathHandler.getFullPath());
     ifstream routeListFile(pathHandler3.getFullPath());
@@ -132,8 +132,8 @@ TEST(SampleTest, DISABLED_SampleTest1)
 
 TEST(SampleTest, DISABLED_SampleTest2)
 {
-    AlbaWindowsPathHandler pathHandler(R"(D:\W\ZZZ_Useless_Logs\RAN2861MegaplexerHang\WiresharkMegaPlexerDump.txt)");
-    AlbaWindowsPathHandler pathHandler2(R"(D:\W\ZZZ_Useless_Logs\RAN2861MegaplexerHang\WiresharkMegaPlexerDumpFixed.txt)");
+    AlbaLocalPathHandler pathHandler(R"(D:\W\ZZZ_Useless_Logs\RAN2861MegaplexerHang\WiresharkMegaPlexerDump.txt)");
+    AlbaLocalPathHandler pathHandler2(R"(D:\W\ZZZ_Useless_Logs\RAN2861MegaplexerHang\WiresharkMegaPlexerDumpFixed.txt)");
 
     ifstream wiresharkDumpFile(pathHandler.getFullPath());
     ofstream wiresharkDumpFileFixed(pathHandler2.getFullPath(), ofstream::binary);
@@ -190,7 +190,7 @@ void checkTrace();
 
 void checkTrace()
 {
-    AlbaWindowsPathHandler pathHandler(R"(D:\W\ZZZ_Useless_Logs\RAN2861_slow\PS NRT\1100_MegaPlexer\Ip_10.68.159.157_41786_544_160706_110531.codec.wtbin)");
+    AlbaLocalPathHandler pathHandler(R"(D:\W\ZZZ_Useless_Logs\RAN2861_slow\PS NRT\1100_MegaPlexer\Ip_10.68.159.157_41786_544_160706_110531.codec.wtbin)");
     ifstream megaplexerStream(pathHandler.getFullPath(), ifstream::binary);
     if(megaplexerStream.is_open())
     {
@@ -229,27 +229,31 @@ TEST(SampleTest, DISABLED_VectorAccumulate)
 
 TEST(SampleTest, DISABLED_GenerateSupplementarySacksHpp)
 {
-    AlbaWindowsPathHandler currentDirectory(PathInitialValueSource::DetectedLocalPath);
-    AlbaWindowsPathHandler supplementaryDirectory(currentDirectory.getDirectory()+R"(\SupplementarySacks\)");
-    AlbaWindowsPathHandler supplementaryHeaderFilePath(currentDirectory.getDirectory()+R"(\SupplementarySacks.hpp)");
-    AlbaWindowsPathHandler::ListOfPaths files;    AlbaWindowsPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler currentDirectory(PathInitialValueSource::DetectedLocalPath);
+    AlbaLocalPathHandler supplementaryDirectory(currentDirectory.getDirectory()+R"(\SupplementarySacks\)");
+    AlbaLocalPathHandler supplementaryHeaderFilePath(currentDirectory.getDirectory()+R"(\SupplementarySacks.hpp)");
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;
     supplementaryDirectory.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
 
-    ofstream supplementaryHeaderFile(supplementaryHeaderFilePath.getFullPath());    for(string const& file: files)
+    ofstream supplementaryHeaderFile(supplementaryHeaderFilePath.getFullPath());
+    for(string const& file: files)
     {
-        AlbaWindowsPathHandler filePath(file);
+        AlbaLocalPathHandler filePath(file);
         supplementaryHeaderFile<<"#include <"<<filePath.getFile()<<">"<<endl;
     }
 }
 
 TEST(SampleTest, DISABLED_GenerateFeatureSpecificComponentFiles)
 {
-    AlbaWindowsPathHandler currentDirectory(PathInitialValueSource::DetectedLocalPath);
-    AlbaWindowsPathHandler featureSpecificDirectory(currentDirectory.getDirectory());
+    AlbaLocalPathHandler currentDirectory(PathInitialValueSource::DetectedLocalPath);
+    AlbaLocalPathHandler featureSpecificDirectory(currentDirectory.getDirectory());
 
-    ifstream componentNameFile(featureSpecificDirectory.getFullPath()+"ComponentName.hpp");    ofstream addComponentFile(featureSpecificDirectory.getFullPath()+"AddComponent.hpp");
+    ifstream componentNameFile(featureSpecificDirectory.getFullPath()+"ComponentName.hpp");
+    ofstream addComponentFile(featureSpecificDirectory.getFullPath()+"AddComponent.hpp");
     ofstream componentsIncludesFile(featureSpecificDirectory.getFullPath()+"ComponentsIncludes.hpp");
     ofstream convertToStringComponentNameFile(featureSpecificDirectory.getFullPath()+"ConvertToStringComponentName.hpp");
+
     AlbaFileReader componentNameFileReader(componentNameFile);
     while(componentNameFileReader.isNotFinished())
     {
@@ -359,7 +363,7 @@ TEST(SampleTest, DISABLED_RhapsodyShit)
 
 TEST(SampleTest, FindThoseIpAddresses)
 {
-    AlbaWindowsPathHandler fileToReadHandler(R"(D:\ZZZ_Logs\NSASampleSnapshots\SampleSnapshots\sorted.log)");
+    AlbaLocalPathHandler fileToReadHandler(R"(D:\ZZZ_Logs\NSASampleSnapshots\SampleSnapshots\sorted.log)");
     ifstream fileToReadStream(fileToReadHandler.getFullPath());
     AlbaFileReader fileToRead(fileToReadStream);
     ofstream ipAddressesFile(fileToReadHandler.getDirectory()+"IpAddresses.txt");

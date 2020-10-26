@@ -5,7 +5,7 @@
 #include <CrawlMode.hpp>
 #include <CrawlState.hpp>
 #include <PathHandlers/AlbaWebPathHandler.hpp>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <string>
 
 namespace aprgWebCrawler
@@ -65,8 +65,8 @@ private:
     CrawlMode m_mode;
     CrawlState m_state;
     std::string m_temporaryFilePath;
-    alba::AlbaWindowsPathHandler m_downloadDirectoryPathHandler;
-    alba::AlbaWindowsPathHandler m_memoryCardPathHandler;
+    alba::AlbaLocalPathHandler m_downloadDirectoryPathHandler;
+    alba::AlbaLocalPathHandler m_memoryCardPathHandler;
     WebLinks m_webLinks;
 };
 

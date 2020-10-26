@@ -3,7 +3,7 @@
 #include <File/AlbaFileReader.hpp>
 #include <iostream>
 #include <map>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 using namespace alba;
 using namespace std;
@@ -36,7 +36,7 @@ double BtsLogSorter::getTotalSizeToBeRead(set<string> listOfFiles)
     double totalFileSize(0);
     for(string const& filePath : listOfFiles)
     {
-        AlbaWindowsPathHandler filePathHandler(filePath);
+        AlbaLocalPathHandler filePathHandler(filePath);
         if(m_evaluator.evaluate(filePathHandler.getFile()))
         {
             totalFileSize += filePathHandler.getFileSizeEstimate();
@@ -49,11 +49,11 @@ void BtsLogSorter::processDirectory(string const& directoryPath)
 {
     set<string> listOfFiles;
     set<string> listOfDirectories;
-    AlbaWindowsPathHandler(directoryPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
+    AlbaLocalPathHandler(directoryPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     ProgressCounters::totalSizeToBeReadForCombine = getTotalSizeToBeRead(listOfFiles);
     for(string const& filePath : listOfFiles)
     {
-        AlbaWindowsPathHandler filePathHandler(filePath);
+        AlbaLocalPathHandler filePathHandler(filePath);
         if(m_evaluator.evaluate(filePathHandler.getFile()))
         {
             processFile(filePathHandler.getFullPath());
@@ -64,7 +64,7 @@ void BtsLogSorter::processDirectory(string const& directoryPath)
 void BtsLogSorter::processFile(string const& filePath)
 {
     openStartupLogsIfNeeded();
-    AlbaWindowsPathHandler filePathHandler(filePath);
+    AlbaLocalPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFile()<<endl;
 
     double previousTotalSize(ProgressCounters::totalSizeReadForCombine);
@@ -106,14 +106,14 @@ void BtsLogSorter::saveLogsToOutputFile(string const& outputPath)
         writeLogsWithoutPcTimeToOutputFile(outputLogFileStream);
         deleteFilesInDirectory(m_directoryOfLogsWithoutPcTime);
     }
-    AlbaWindowsPathHandler directoryPathHandler(m_pathOfStartupLog);
+    AlbaLocalPathHandler directoryPathHandler(m_pathOfStartupLog);
     deleteFilesInDirectory(directoryPathHandler.getDirectory());
 }
 
 string BtsLogSorter::getPathOfLogWithoutPcTime(string const& directory, string const& name) const
 {
     string filename = name.empty() ? "NoHardwareAddress" : name;
-    return AlbaWindowsPathHandler(directory + R"(\)" + filename + R"(.log)").getFullPath();
+    return AlbaLocalPathHandler(directory + R"(\)" + filename + R"(.log)").getFullPath();
 }
 
 void BtsLogSorter::openStartupLogsIfNeeded()
@@ -131,7 +131,7 @@ void BtsLogSorter::addStartupLogsOnSorterWithPcTime()
     m_startupLogStreamOptional.clear();
     BtsPrintReaderWithRollback printReader;
     printReader.openIfNeeded(m_pathOfStartupLog);
-    double fileSize(AlbaWindowsPathHandler(m_pathOfStartupLog).getFileSizeEstimate());
+    double fileSize(AlbaLocalPathHandler(m_pathOfStartupLog).getFileSizeEstimate());
     while(printReader.isGood())
     {
         m_sorterWithPcTime.add(printReader.getPrint());
@@ -250,10 +250,10 @@ void BtsLogSorter::deleteFilesInDirectory(string const& directoryOfLogs) const
 {
     set<string> listOfFiles;
     set<string> listOfDirectories;
-    AlbaWindowsPathHandler(directoryOfLogs).findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
+    AlbaLocalPathHandler(directoryOfLogs).findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& file: listOfFiles)
     {
-        AlbaWindowsPathHandler(file).deleteFile();
+        AlbaLocalPathHandler(file).deleteFile();
     }
 }
 

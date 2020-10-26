@@ -2,7 +2,7 @@
 
 #include <String/AlbaStringHelper.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <map>
 #include <SackReader/AlbaSackReaderType.hpp>
 #include <string>
@@ -52,7 +52,7 @@ private:
     void combineArrayOperators(stringHelper::strings & tokens);
     void analyze(stringHelper::strings const& tokens);
     template <ReaderState readerState> void analyzeInReaderState(ReaderTransactionData& transactionData, std::string const& token);
-    AlbaWindowsPathHandler m_inputPathHandler;
+    AlbaLocalPathHandler m_inputPathHandler;
     std::map<std::string, AlbaSackReaderType> m_types;
     AlbaGrepStringEvaluator m_fileEvaluator;
 };

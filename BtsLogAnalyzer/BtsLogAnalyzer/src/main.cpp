@@ -1,5 +1,5 @@
 #include <BtsLogAnalyzer.hpp>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 int main()
 {

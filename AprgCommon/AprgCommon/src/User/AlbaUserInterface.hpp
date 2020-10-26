@@ -13,8 +13,8 @@ public:
     template <typename NumberType> NumberType getNumberFromInput();
 
 private:
-    static constexpr int bufferSize = 1000;
-    char buffer[bufferSize];
+    static constexpr int c_bufferSize = 1000;
+    char buffer[c_bufferSize];
 };
 
 }//namespace alba

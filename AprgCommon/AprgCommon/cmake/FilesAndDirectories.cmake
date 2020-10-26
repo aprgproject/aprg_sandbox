@@ -19,7 +19,8 @@ set(APRG_COMMON_SOURCES
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaLocalPathHandler.hpp
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaPathHandler.cpp
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaPathHandler.hpp
-    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaWebPathHandler.cpp    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaWebPathHandler.hpp
+    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaWebPathHandler.cpp
+    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaWebPathHandler.hpp
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaWindowsPathHandler.cpp
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaWindowsPathHandler.hpp
     ${APRG_COMMON_DIR}/src/PathHandlers/PathContantsAndTypes.hpp
@@ -29,10 +30,14 @@ set(APRG_COMMON_SOURCES
     ${APRG_COMMON_DIR}/src/Timer/AlbaLocalTimer.hpp
     ${APRG_COMMON_DIR}/src/Timer/AlbaWindowsTimer.cpp
     ${APRG_COMMON_DIR}/src/Timer/AlbaWindowsTimer.hpp
-    ${APRG_COMMON_DIR}/src/User/AlbaDisplayTable.cpp    ${APRG_COMMON_DIR}/src/User/AlbaDisplayTable.hpp
-    ${APRG_COMMON_DIR}/src/User/AlbaUserAutomation.cpp
-    ${APRG_COMMON_DIR}/src/User/AlbaUserAutomation.hpp
-    ${APRG_COMMON_DIR}/src/User/AlbaUserInterface.cpp    ${APRG_COMMON_DIR}/src/User/AlbaUserInterface.hpp
+    ${APRG_COMMON_DIR}/src/User/AlbaDisplayTable.cpp
+    ${APRG_COMMON_DIR}/src/User/AlbaDisplayTable.hpp
+    ${APRG_COMMON_DIR}/src/User/AlbaLocalUserAutomation.cpp
+    ${APRG_COMMON_DIR}/src/User/AlbaLocalUserAutomation.hpp
+    ${APRG_COMMON_DIR}/src/User/AlbaUserInterface.cpp
+    ${APRG_COMMON_DIR}/src/User/AlbaUserInterface.hpp
+    ${APRG_COMMON_DIR}/src/User/AlbaWindowsUserAutomation.cpp
+    ${APRG_COMMON_DIR}/src/User/AlbaWindowsUserAutomation.hpp
 )
 
 set(APRG_COMMON_TESTS
@@ -49,7 +54,7 @@ set(APRG_COMMON_TESTS
     ${APRG_COMMON_DIR}/tst/AlbaOptional_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaRaiiafPointer_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaStringHelper_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaUserAutomation_unit.cpp
+    ${APRG_COMMON_DIR}/tst/AlbaWindowsUserAutomation_unit.cpp
 )
 
 set(APRG_COMMON_SOURCES_AND_TESTS

@@ -17,7 +17,7 @@ namespace aprgWebCrawler
 
 bool Downloaders::downloadBinaryFile(
         AlbaWebPathHandler const& fileToDownloadWebPathHandler,
-        AlbaWindowsPathHandler const& downloadPathHandler,
+        AlbaLocalPathHandler const& downloadPathHandler,
         CrawlMode mode)
 {
     bool isSuccessful(false);
@@ -41,16 +41,16 @@ bool Downloaders::downloadBinaryFile(
 
 bool Downloaders::downloadFileAsText(
         AlbaWebPathHandler const& fileToDownloadWebPathHandler,
-        AlbaWindowsPathHandler const& downloadPathHandler)
+        AlbaLocalPathHandler const& downloadPathHandler)
 {
     return downloadUntilSuccessful<DownloadType::LowSpeedLimitAndMozillaFireFox>(fileToDownloadWebPathHandler, downloadPathHandler);
 }
 
 void Downloaders::downloadFileUsingPhantomJs(
         AlbaWebPathHandler const& fileToDownloadWebPathHandler,
-        AlbaWindowsPathHandler const& downloadPathHandler)
+        AlbaLocalPathHandler const& downloadPathHandler)
 {
-    AlbaWindowsPathHandler const phantomJsFolder(PHANTOM_BIN_PATH);
+    AlbaLocalPathHandler const phantomJsFolder(PHANTOM_BIN_PATH);
     string const command(phantomJsFolder.getFullPath()+"phantomjs.exe "+phantomJsFolder.getFullPath()+R"(loadPage.js ")"+fileToDownloadWebPathHandler.getFullPath()+R"(" ")"+downloadPathHandler.getFullPath()+R"(")");
     cout<<command<<endl;
     system(command.c_str());

@@ -13,7 +13,7 @@ struct MousePosition
     int y;
 };
 
-class AlbaUserAutomation
+class AlbaWindowsUserAutomation
 {
 public:
     typedef std::function<void(INPUT&)> InputFunction;
@@ -28,7 +28,7 @@ public:
     unsigned int convertToVirtualKey(char character) const;
 private:
     void doOperation(InputFunction inputFunction) const;
-    const unsigned int m_realisticDelayInMilliseconds=500;
+    static constexpr unsigned int c_realisticDelayInMilliseconds=500;
 };
 
 }

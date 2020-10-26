@@ -4,9 +4,11 @@
 
 namespace alba
 {
+
 AlbaMemoryBuffer::AlbaMemoryBuffer()
     : m_hasContent(0)
-    , m_size(0)    , m_bufferPointer(nullptr)
+    , m_size(0)
+    , m_bufferPointer(nullptr)
 {}
 
 AlbaMemoryBuffer::AlbaMemoryBuffer(AlbaMemoryBuffer const& memoryBuffer)

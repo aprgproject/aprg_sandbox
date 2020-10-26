@@ -22,10 +22,12 @@ public:
     void setPathToDetectedLocalPath();
     void createDirectoriesForNonExisitingDirectories() const;
     bool deleteFile();
-    bool renameFile(std::string const& newFileName);    bool renameImmediateDirectory(std::string const& newDirectoryName);
+    bool renameFile(std::string const& newFileName);
+    bool renameImmediateDirectory(std::string const& newDirectoryName);
     void findFilesAndDirectoriesOneDepth(
             std::string const& wildCardSearch,
-            ListOfPaths& listOfFiles,            ListOfPaths& listOfDirectories) const;
+            ListOfPaths& listOfFiles,
+            ListOfPaths& listOfDirectories) const;
     void findFilesAndDirectoriesMultipleDepth(
             std::string const& wildCardSearch,
             ListOfPaths& listOfFiles,
@@ -40,7 +42,8 @@ private:
     void setDriveOrRoot();
     void findFilesAndDirectoriesWithDepth(
             std::string const& currentDirectory,
-            std::string const& wildCardSearch,            ListOfPaths& listOfFiles,
+            std::string const& wildCardSearch,
+            ListOfPaths& listOfFiles,
             ListOfPaths& listOfDirectories,
             int depth) const;
     std::string getLastFormattedErrorMessage() const;
@@ -48,4 +51,5 @@ private:
     bool m_foundInLocalSystem;
     bool m_relativePath;
 };
+
 }//namespace alba

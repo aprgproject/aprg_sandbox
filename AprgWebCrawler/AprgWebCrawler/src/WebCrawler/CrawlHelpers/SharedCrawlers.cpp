@@ -28,7 +28,7 @@ void WebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
     while(!isCrawlStateInvalid())
     {
         AlbaWebPathHandler currentWebLinkPathHandler(webLink);
-        AlbaWindowsPathHandler downloadPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\temp.html)");
+        AlbaLocalPathHandler downloadPathHandler(m_downloadDirectoryPathHandler.getDirectory() + R"(\temp.html)");
         downloadFileAsText(currentWebLinkPathHandler, downloadPathHandler);
         LinksForHtmlAndFileToDownload links;
         if(links.isInvalid())

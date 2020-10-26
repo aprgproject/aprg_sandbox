@@ -8,7 +8,7 @@
 #include <String/AlbaStringHelper.hpp>
 #include <AprgFileExtractor.hpp>
 #include <BtsLogSorter.hpp>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 using namespace std;
 using tcomToolsBackend::BtsLogPrint;
@@ -108,20 +108,20 @@ PerformanceAnalyzer::PerformanceAnalyzer()
 {
     //defautlvalues
     m_extractGrepCondition = R"([LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles])";
-    AlbaWindowsPathHandler pathHandler(R"(C:\temp\BtsSorter\)");
+    AlbaLocalPathHandler pathHandler(R"(C:\temp\BtsSorter\)");
     pathHandler.createDirectoriesForNonExisitingDirectories();
     m_sorterConfiguration.m_condition = R"( ([syslog]&&[.log]) || [ccns.log] || [tcom.log] || (([startup]||[runtime]||[system])&&[.log]) || ([UDP]&&([.log]||[.txt])) )";
     m_sorterConfiguration.m_pathOfLogsWithoutPcTime = pathHandler.getFullPath() + R"(LogsWithoutPcTime\)";
-    AlbaWindowsPathHandler(m_sorterConfiguration.m_pathOfLogsWithoutPcTime).createDirectoriesForNonExisitingDirectories();
+    AlbaLocalPathHandler(m_sorterConfiguration.m_pathOfLogsWithoutPcTime).createDirectoriesForNonExisitingDirectories();
     m_sorterConfiguration.m_pathOfStartupLog = pathHandler.getFullPath() + R"(Startup.log)";
     m_sorterConfiguration.m_configurationWithPcTime.m_directoryForBlocks = pathHandler.getFullPath() + R"(WithPcTimeBlocks\)";
-    AlbaWindowsPathHandler(m_sorterConfiguration.m_configurationWithPcTime.m_directoryForBlocks).createDirectoriesForNonExisitingDirectories();
+    AlbaLocalPathHandler(m_sorterConfiguration.m_configurationWithPcTime.m_directoryForBlocks).createDirectoriesForNonExisitingDirectories();
     m_sorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock = 10000;
     m_sorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock = 100000;
     m_sorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory = 200000;
     m_sorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams = 50;
     m_sorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks = pathHandler.getFullPath() + R"(WithoutPcTimeBlocks\)";
-    AlbaWindowsPathHandler(m_sorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks).createDirectoriesForNonExisitingDirectories();
+    AlbaLocalPathHandler(m_sorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks).createDirectoriesForNonExisitingDirectories();
     m_sorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock = 1000;
     m_sorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock = 100000;
     m_sorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory = 200000;
@@ -133,7 +133,7 @@ string PerformanceAnalyzer::extract(string const& inputPath) const
 {
     cout<<" (Extract) start | Input path: "<<inputPath<<endl;
     AprgFileExtractor fileExtractor(m_extractGrepCondition);
-    AlbaWindowsPathHandler pathHandler(inputPath);
+    AlbaLocalPathHandler pathHandler(inputPath);
     string outputPath(inputPath);
     if(pathHandler.isDirectory())
     {
@@ -156,7 +156,7 @@ string PerformanceAnalyzer::extract(string const& inputPath) const
 string PerformanceAnalyzer::combineAndSort(string const& inputPath) const
 {
     cout<<" (CombineAndSort) start | Input path: "<<inputPath<<endl;
-    AlbaWindowsPathHandler pathHandler(inputPath);
+    AlbaLocalPathHandler pathHandler(inputPath);
     string outputPath(inputPath);
     if(pathHandler.isDirectory())
     {
@@ -207,7 +207,7 @@ void PerformanceAnalyzer::logStringInRawDataFile(string const& line)
 
 void PerformanceAnalyzer::processFileForMsgQueuingTime(string const& filePath)
 {
-    AlbaWindowsPathHandler filePathHandler(filePath);
+    AlbaLocalPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
 
     ifstream inputLogFileStream(filePath);
@@ -234,7 +234,7 @@ void PerformanceAnalyzer::processFileForMsgQueuingTime(string const& filePath)
 
 void PerformanceAnalyzer::processFileForRlSetupDelayInRlh(string const& filePath)
 {
-    AlbaWindowsPathHandler filePathHandler(filePath);
+    AlbaLocalPathHandler filePathHandler(filePath);
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
 
@@ -302,7 +302,7 @@ void PerformanceAnalyzer::processFileForRlSetupDelayInRlh(string const& filePath
 
 void PerformanceAnalyzer::processFileForRlDeletionDelayInRlh(string const& filePath)
 {
-    AlbaWindowsPathHandler filePathHandler(filePath);
+    AlbaLocalPathHandler filePathHandler(filePath);
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
 
@@ -353,7 +353,7 @@ void PerformanceAnalyzer::processFileForRlDeletionDelayInRlh(string const& fileP
 
 void PerformanceAnalyzer::processFileForRlSetupDelayInTupcWithSymonKnife(string const& filePath)
 {
-    AlbaWindowsPathHandler filePathHandler(filePath);
+    AlbaLocalPathHandler filePathHandler(filePath);
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
 
@@ -603,7 +603,7 @@ void PerformanceAnalyzer::processFileForRlSetupDelayInTupcWithSymonKnife(string 
 
 void PerformanceAnalyzer::processFileForRlSetupDelayInTupcWithSymonKnifeForFtm(string const& filePath)
 {
-    AlbaWindowsPathHandler filePathHandler(filePath);
+    AlbaLocalPathHandler filePathHandler(filePath);
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
 
@@ -786,7 +786,7 @@ int PerformanceAnalyzer::getDelayTimeInMinutes(BtsLogTime const& endTime, BtsLog
 
 void PerformanceAnalyzer::processFileForFtmFcmWireshark(string const& filePath)
 {
-    AlbaWindowsPathHandler filePathHandler(filePath);
+    AlbaLocalPathHandler filePathHandler(filePath);
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
 
@@ -924,7 +924,7 @@ void PerformanceAnalyzer::processFileForFtmFcmWireshark(string const& filePath)
 
 void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
 {
-    AlbaWindowsPathHandler filePathHandler(filePath);
+    AlbaLocalPathHandler filePathHandler(filePath);
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
 
@@ -983,7 +983,7 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
 
 void PerformanceAnalyzer::processFileForRlSetupPerSecond(string const& filePath)
 {
-    AlbaWindowsPathHandler filePathHandler(filePath);
+    AlbaLocalPathHandler filePathHandler(filePath);
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
 
@@ -1024,7 +1024,7 @@ void PerformanceAnalyzer::processFileForRlSetupPerSecond(string const& filePath)
 
 void PerformanceAnalyzer::processFileForTraceLog(string const& traceLogPath)
 {
-    AlbaWindowsPathHandler filePathHandler(traceLogPath);
+    AlbaLocalPathHandler filePathHandler(traceLogPath);
     ifstream inputLogFileStream(traceLogPath);
     AlbaFileReader fileReader(inputLogFileStream);
 
@@ -1059,12 +1059,12 @@ void PerformanceAnalyzer::processDirectoryForTraceLog(string const& traceLogPath
     logLineInRawDataFile("StartTime,EndTime");
     set<string> listOfFiles;
     set<string> listOfDirectories;
-    AlbaWindowsPathHandler(traceLogPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
+    AlbaLocalPathHandler(traceLogPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& filePath : listOfFiles)
     {
         if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePath, "trace"))
         {
-            processFileForTraceLog(AlbaWindowsPathHandler(filePath).getFullPath());
+            processFileForTraceLog(AlbaLocalPathHandler(filePath).getFullPath());
         }
     }
 }

@@ -8,7 +8,7 @@
 
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <WebCrawler.hpp>
 
 #define APRG_WEB_CRAWLER_CONFIGURATION_FILE APRG_DIR R"(AprgWebCrawler\configuration.txt)"
@@ -249,7 +249,7 @@ void UserInterface::addExistingDownloadDirectories()
 {
     cout << "Finding download directories" << endl;
     m_downloadDirectories.clear();
-    AlbaWindowsPathHandler workingDirectoryPathHandler(m_workingDirectory);
+    AlbaLocalPathHandler workingDirectoryPathHandler(m_workingDirectory);
     set<string> listOfFiles;
     set<string> listOfDirectories;
     workingDirectoryPathHandler.findFilesAndDirectoriesMultipleDepth("*.*", listOfFiles, listOfDirectories, 2);
@@ -257,7 +257,7 @@ void UserInterface::addExistingDownloadDirectories()
     {
         if(isStringFoundInsideTheOtherStringNotCaseSensitive(file, "MemoryCard.txt"))
         {
-            AlbaWindowsPathHandler memoryCardPathHandler(file);
+            AlbaLocalPathHandler memoryCardPathHandler(file);
             m_downloadDirectories.push_back(createDownloadDirectoryDetails(memoryCardPathHandler.getDirectory()));
         }
     }
@@ -267,7 +267,7 @@ void UserInterface::addExistingNotDownloadDirectories()
 {
     cout << "Finding not download directories" << endl;
     m_notDownloadDirectories.clear();
-    AlbaWindowsPathHandler workingDirectoryPathHandler(m_workingDirectory);
+    AlbaLocalPathHandler workingDirectoryPathHandler(m_workingDirectory);
     set<string> listOfFiles;
     set<string> listOfDirectories;
     workingDirectoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
@@ -388,7 +388,7 @@ void UserInterface::renameImmediateDirectoryToTitle(string const& downloadDirect
     cout << "WebCrawler::renameImmediateToTitle | downloadDirectory: " << downloadDirectory << " title: " << title << endl;
     if(!title.empty())
     {
-        AlbaWindowsPathHandler directoryPathHandler(downloadDirectory);
+        AlbaLocalPathHandler directoryPathHandler(downloadDirectory);
         cout<<"Directory rename error code is " << directoryPathHandler.renameImmediateDirectory(title) << endl;
     }
 }
@@ -398,7 +398,7 @@ void UserInterface::createBatchFile() const
     ofstream batchFile(APRG_WEB_CRAWLER_FIX_BATCH_FILE);
     if(batchFile.is_open())
     {
-        AlbaWindowsPathHandler workingDirectoryPathHandler(m_workingDirectory);
+        AlbaLocalPathHandler workingDirectoryPathHandler(m_workingDirectory);
         set<string> listOfFiles;
         set<string> listOfDirectories;
         workingDirectoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
@@ -408,7 +408,7 @@ void UserInterface::createBatchFile() const
         }
         for(string const& directory : listOfDirectories)
         {
-            AlbaWindowsPathHandler directoryPathHandler(directory);
+            AlbaLocalPathHandler directoryPathHandler(directory);
             WebCrawler crawler(directory, m_temporaryFilePath);
             string newDirectoryName(crawler.getNewDirectoryName());
             if(newDirectoryName.empty())

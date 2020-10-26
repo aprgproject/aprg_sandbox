@@ -1,4 +1,4 @@
-#include "AlbaUserAutomation.hpp"
+#include "AlbaWindowsUserAutomation.hpp"
 
 #include <cctype>
 #include <windows.h>
@@ -7,14 +7,16 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
-bool AlbaUserAutomation::isLetterPressed(char letter) const
-{    USHORT status = GetAsyncKeyState(::toupper(letter));
+bool AlbaWindowsUserAutomation::isLetterPressed(char letter) const
+{
+    USHORT status = GetAsyncKeyState(::toupper(letter));
     return (( ( status & 0x8000 ) >> 15 ) == 1) || (( status & 1 ) == 1);
 }
 
-string AlbaUserAutomation::getStringFromClipboard() const
+string AlbaWindowsUserAutomation::getStringFromClipboard() const
 {
     string stringInClipboard;
     if(OpenClipboard(NULL))
@@ -26,7 +28,7 @@ string AlbaUserAutomation::getStringFromClipboard() const
     return stringInClipboard;
 }
 
-MousePosition AlbaUserAutomation::getMousePosition() const
+MousePosition AlbaWindowsUserAutomation::getMousePosition() const
 {
     MousePosition position;
     POINT mouse;
@@ -36,7 +38,7 @@ MousePosition AlbaUserAutomation::getMousePosition() const
     return position;
 }
 
-void AlbaUserAutomation::setMousePosition(MousePosition position) const
+void AlbaWindowsUserAutomation::setMousePosition(MousePosition position) const
 {
     long screenWidth = GetSystemMetrics( SM_CXSCREEN ) - 1;
     long screenHeight = GetSystemMetrics( SM_CYSCREEN ) - 1;
@@ -52,7 +54,7 @@ void AlbaUserAutomation::setMousePosition(MousePosition position) const
     });
 }
 
-void AlbaUserAutomation::doLeftClick() const
+void AlbaWindowsUserAutomation::doLeftClick() const
 {
     doOperation([](INPUT& input)
     {
@@ -66,7 +68,7 @@ void AlbaUserAutomation::doLeftClick() const
     });
 }
 
-void AlbaUserAutomation::doRightClick() const
+void AlbaWindowsUserAutomation::doRightClick() const
 {
     doOperation([](INPUT& input)
     {
@@ -80,7 +82,7 @@ void AlbaUserAutomation::doRightClick() const
     });
 }
 
-void AlbaUserAutomation::typeString(string const& stringToType) const
+void AlbaWindowsUserAutomation::typeString(string const& stringToType) const
 {
     for(char const character : stringToType)
     {
@@ -88,7 +90,7 @@ void AlbaUserAutomation::typeString(string const& stringToType) const
     }
 }
 
-void AlbaUserAutomation::typeCharacter(char character) const
+void AlbaWindowsUserAutomation::typeCharacter(char character) const
 {
     doOperation([&](INPUT& input)
     {
@@ -110,25 +112,27 @@ void AlbaUserAutomation::typeCharacter(char character) const
     });
 }
 
-unsigned int AlbaUserAutomation::convertToVirtualKey(char character) const
+unsigned int AlbaWindowsUserAutomation::convertToVirtualKey(char character) const
 {
     int virtualKey = character;
-    if(stringHelper::isLetter(character))    {
+    if(stringHelper::isLetter(character))
+    {
         virtualKey = ::toupper(character);
     }
-    else if('.' == character)    {
+    else if('.' == character)
+    {
         virtualKey = VK_OEM_PERIOD;
     }
     return virtualKey;
 }
 
-void AlbaUserAutomation::doOperation(AlbaUserAutomation::InputFunction inputFunction) const
+void AlbaWindowsUserAutomation::doOperation(AlbaWindowsUserAutomation::InputFunction inputFunction) const
 {
     INPUT input;
     memset(&input, 0, sizeof(INPUT));
     inputFunction(input);
     SendInput(1, &input, sizeof(INPUT));
-    Sleep(m_realisticDelayInMilliseconds);
+    Sleep(c_realisticDelayInMilliseconds);
 }
 
 }

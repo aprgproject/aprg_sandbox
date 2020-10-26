@@ -25,8 +25,10 @@ endif()
 
 #Include gTest, this needs APRG Directory
 include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
+
 #Add files and directories
 include(${APRG_COMMON_DIR}/cmake/FilesAndDirectories.cmake)
+
 add_executable(${OUTFILE} ${APRG_COMMON_SOURCES_AND_TESTS})
 include_directories(${APRG_COMMON_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
 target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT})

@@ -1,6 +1,6 @@
 #include "SailIt.hpp"
 
-#include <AlbaWindowsPathHandler.hpp>
+#include <AlbaLocalPathHandler.hpp>
 #include <algorithm>
 #include "CPlusPlus/Analyzer/TermAnalyzer.hpp"
 #include "CPlusPlus/Translator/TermTranslator.hpp"
@@ -60,7 +60,7 @@ void SailIt::addCPlusPlusDatabaseReferenceForThisFileIfNeeded(string const& full
 
 void SailIt::addAndAnalyzeThisFileToCPlusPlusDatabase(string const& fullPathFile)
 {
-    AlbaWindowsPathHandler pathHandler;
+    AlbaLocalPathHandler pathHandler;
     pathHandler.inputPath(fullPathFile);
     if(pathHandler.isFoundInLocalSystem())
     {

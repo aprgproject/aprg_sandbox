@@ -1,6 +1,6 @@
 #include "AlbaUserInterface.hpp"
 
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <String/AlbaStringHelper.hpp>
 
 #include <iostream>
@@ -12,7 +12,7 @@ namespace alba
 
 string AlbaUserInterface::getUserInput()
 {
-    cin.getline(buffer, bufferSize);
+    cin.getline(buffer, c_bufferSize);
     return string(buffer);
 }
 
@@ -21,7 +21,7 @@ string AlbaUserInterface::getFilePathInput()
     while (1)
     {
         string pathString(getUserInput());
-        AlbaWindowsPathHandler filePath(pathString);
+        AlbaLocalPathHandler filePath(pathString);
         if(filePath.isFoundInLocalSystem() && filePath.isFile())
         {
             return filePath.getFullPath();

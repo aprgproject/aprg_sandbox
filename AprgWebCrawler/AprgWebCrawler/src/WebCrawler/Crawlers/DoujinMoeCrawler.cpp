@@ -73,7 +73,7 @@ void DoujinMoeCrawler::crawl(int webLinkIndex)
 void DoujinMoeCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
 {
     clearLinks();
-    AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
+    AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     downloadFileAsText(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
@@ -155,7 +155,7 @@ void DoujinMoeCrawler::downloadImages(AlbaWebPathHandler const& webLinkPathHandl
             m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileIsInvalid);
             return;
         }
-        AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\)" + m_title + R"(\)" + converter.convert(count) + "." + imageWebPathHandler.getExtension());
+        AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\)" + m_title + R"(\)" + converter.convert(count) + "." + imageWebPathHandler.getExtension());
         downloadPathHandler.createDirectoriesForNonExisitingDirectories();
         if(!downloadBinaryFile(imageWebPathHandler, downloadPathHandler, m_webCrawler.getCrawlMode()))
         {

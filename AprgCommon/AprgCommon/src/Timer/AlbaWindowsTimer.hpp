@@ -2,7 +2,8 @@
 
 #include <windows.h>
 
-namespace alba{
+namespace alba
+{
 
 class AlbaWindowsTimer
 {

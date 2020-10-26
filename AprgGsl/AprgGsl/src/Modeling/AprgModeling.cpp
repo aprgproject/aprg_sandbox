@@ -1,7 +1,7 @@
 #include "AprgModeling.hpp"
 
 #include <File/AlbaFileReader.hpp>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <Randomizer/AlbaRandomizer.hpp>
 #include <String/AlbaStringHelper.hpp>
 

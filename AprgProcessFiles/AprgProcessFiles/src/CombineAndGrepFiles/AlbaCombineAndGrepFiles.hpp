@@ -2,7 +2,7 @@
 
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
 #include <fstream>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <string>
 
 namespace alba
@@ -16,7 +16,7 @@ public:
     void processFile(std::string const& path);
 
 private:
-    AlbaWindowsPathHandler m_pathHandler;
+    AlbaLocalPathHandler m_pathHandler;
     std::ofstream m_outputFileStream;
     AlbaGrepStringEvaluator m_fileEvaluator;
     AlbaGrepStringEvaluator m_lineEvaluator;

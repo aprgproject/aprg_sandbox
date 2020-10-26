@@ -2,7 +2,7 @@
 
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <AlbaWindowsPathHandler.hpp>
+#include <AlbaLocalPathHandler.hpp>
 #include <algorithm>
 #include <iostream>
 #include "TermListConstants.hpp"
@@ -30,7 +30,7 @@ TermTranslator::TermTranslator(string const& fileName, Findings& findings, Deque
     , m_stringOfPrimitiveTypes{PRIMITIVE_TYPES}
     , m_stringOfIgnorableIdentifiers{CPLUSPLUS_IGNORABLE_IDENTIFIERS}
 {
-    AlbaWindowsPathHandler pathHandler;
+    AlbaLocalPathHandler pathHandler;
     pathHandler.inputPath(fileName);
     if(pathHandler.isFoundInLocalSystem() && pathHandler.isFile())
     {

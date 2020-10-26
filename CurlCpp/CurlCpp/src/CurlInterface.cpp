@@ -12,7 +12,7 @@ namespace CurlInterface
 {
 
 template<DownloadType configType>
-bool download(AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath)
+bool download(AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath)
 {
     return downloadFile(webPath.getFullPath(), windowsPath.getFullPath(), OutputFileType::Default, [](curl_easy& easy)
     {
@@ -21,7 +21,7 @@ bool download(AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& w
 }
 
 template<DownloadType configType>
-bool downloadUntilSuccessful(AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath)
+bool downloadUntilSuccessful(AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath)
 {
     return downloadFileUntilSuccessful(webPath.getFullPath(), windowsPath.getFullPath(), OutputFileType::Default, [](curl_easy& easy)
     {
@@ -30,7 +30,7 @@ bool downloadUntilSuccessful(AlbaWebPathHandler const& webPath, AlbaWindowsPathH
 }
 
 template<DownloadType configType>
-bool downloadBinaryFile(AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath)
+bool downloadBinaryFile(AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath)
 {
     return downloadFile(webPath.getFullPath(), windowsPath.getFullPath(), OutputFileType::Binary, [](curl_easy& easy)
     {
@@ -39,7 +39,7 @@ bool downloadBinaryFile(AlbaWebPathHandler const& webPath, AlbaWindowsPathHandle
 }
 
 template<DownloadType configType>
-bool downloadBinaryFileUntilSuccessful(AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath)
+bool downloadBinaryFileUntilSuccessful(AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath)
 {
     return downloadFileUntilSuccessful(webPath.getFullPath(), windowsPath.getFullPath(), OutputFileType::Binary, [](curl_easy& easy)
     {
@@ -48,7 +48,7 @@ bool downloadBinaryFileUntilSuccessful(AlbaWebPathHandler const& webPath, AlbaWi
 }
 
 template<DownloadType configType>
-bool downloadBinaryFileWithFiniteNumberOfTries(AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath, int const totalNumberOfTries)
+bool downloadBinaryFileWithFiniteNumberOfTries(AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath, int const totalNumberOfTries)
 {
     return downloadFileWithFiniteNumberOfTries(webPath.getFullPath(), windowsPath.getFullPath(), OutputFileType::Binary, totalNumberOfTries, [](curl_easy& easy)
     {
@@ -56,12 +56,12 @@ bool downloadBinaryFileWithFiniteNumberOfTries(AlbaWebPathHandler const& webPath
     });
 }
 
-template bool download<DownloadType::LowSpeedLimitAndMozillaFireFox> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
-template bool download<DownloadType::MozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
-template bool downloadUntilSuccessful<DownloadType::LowSpeedLimitAndMozillaFireFox> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
-template bool downloadBinaryFile<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
-template bool downloadBinaryFileUntilSuccessful<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath);
-template bool downloadBinaryFileWithFiniteNumberOfTries<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaWindowsPathHandler const& windowsPath, int const totalNumberOfTries);
+template bool download<DownloadType::LowSpeedLimitAndMozillaFireFox> (AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath);
+template bool download<DownloadType::MozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath);
+template bool downloadUntilSuccessful<DownloadType::LowSpeedLimitAndMozillaFireFox> (AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath);
+template bool downloadBinaryFile<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath);
+template bool downloadBinaryFileUntilSuccessful<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath);
+template bool downloadBinaryFileWithFiniteNumberOfTries<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath, int const totalNumberOfTries);
 
 }
 

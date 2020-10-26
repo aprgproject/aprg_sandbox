@@ -16,7 +16,7 @@ namespace aprgWebCrawler
 
 void OneDownloadPerPageCrawler::retrieveLinksForGehen(AlbaWebPathHandler const& webLinkPathHandler)
 {
-    AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
+    AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     downloadFileAsText(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())

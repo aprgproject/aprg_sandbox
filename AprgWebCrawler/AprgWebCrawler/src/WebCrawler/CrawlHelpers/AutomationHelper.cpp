@@ -115,7 +115,7 @@ void AutomationHelper::openMozillaFirefoxExecutableManually(string const& webPat
 void AutomationHelper::saveWebPageManuallyUsingMozillaFirefox(string const& webPath)
 {
     AlbaWebPathHandler webPathHandler(webPath);
-    AlbaUserAutomation userAutomation;
+    AlbaWindowsUserAutomation userAutomation;
     cout<<"Open Firefox"<<endl;
     openMozillaFirefoxExecutableManually(webPathHandler.getFullPath());
 
@@ -148,7 +148,7 @@ void AutomationHelper::saveWebPageManuallyUsingMozillaFirefox(string const& webP
 string AutomationHelper::getRedirectedLinkUsingMozillaFirefoxAndFdm(string const& webPath)
 {
     AlbaWebPathHandler webPathHandler(webPath);
-    AlbaUserAutomation userAutomation;
+    AlbaWindowsUserAutomation userAutomation;
     cout<<"Open Firefox"<<endl;
     openMozillaFirefoxExecutableManually(webPathHandler.getFullPath());
 
@@ -178,7 +178,7 @@ string AutomationHelper::getRedirectedLinkUsingMozillaFirefoxAndFdm(string const
 void AutomationHelper::downloadLinkUsingMozillaFirefoxAndFdm(string const& webPath)
 {
     AlbaWebPathHandler webPathHandler(webPath);
-    AlbaUserAutomation userAutomation;
+    AlbaWindowsUserAutomation userAutomation;
     cout<<"Open Firefox"<<endl;
     openMozillaFirefoxExecutableManually(webPathHandler.getFullPath());
 

@@ -5,7 +5,7 @@
 #include <LargeSorter/AlbaLargeSorterCache.hpp>
 #include <LargeSorter/AlbaLargeSorterTypes.hpp>
 #include <LargeSorter/DataBlocks.hpp>
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 namespace alba
 {
@@ -140,13 +140,13 @@ private:
     }
     void deleteAllFilesInDirectory()
     {
-        AlbaWindowsPathHandler directoryPathHandler(m_configuration.m_directoryForBlocks);
+        AlbaLocalPathHandler directoryPathHandler(m_configuration.m_directoryForBlocks);
         std::set<std::string> listOfFiles;
         std::set<std::string> listOfDirectories;
         directoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
         for(std::string const& filePath : listOfFiles)
         {
-            AlbaWindowsPathHandler(filePath).deleteFile();
+            AlbaLocalPathHandler(filePath).deleteFile();
         }
     }
     unsigned long long m_size;

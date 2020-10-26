@@ -1,6 +1,6 @@
 #include "AprgBitmap.hpp"
 
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 using namespace std;
 
@@ -8,7 +8,7 @@ namespace alba
 {
 
 AprgBitmap::AprgBitmap(string const& path)
-    : m_inputStream(AlbaWindowsPathHandler(path).getFullPath(), ios::binary)
+    : m_inputStream(AlbaLocalPathHandler(path).getFullPath(), ios::binary)
     , m_fileReader(m_inputStream)
 {}
 

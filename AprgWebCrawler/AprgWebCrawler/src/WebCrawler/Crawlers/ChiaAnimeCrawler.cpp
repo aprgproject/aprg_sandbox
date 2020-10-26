@@ -51,7 +51,7 @@ void ChiaAnimeCrawler::crawl(int webLinkIndex)
 void ChiaAnimeCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
 {
     clearLinks();
-    AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
+    AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     downloadFileAsText(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
@@ -83,7 +83,7 @@ void ChiaAnimeCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandle
 string ChiaAnimeCrawler::getVideoLink(AlbaWebPathHandler const& webLinkPathHandler, string const& linkToDownloadPage) const
 {
     string result;
-    AlbaWindowsPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
+    AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     AlbaWebPathHandler downloadPagePathHandler(webLinkPathHandler);
     downloadPagePathHandler.gotoLink(linkToDownloadPage);
     downloadFileAsText(downloadPagePathHandler, downloadPathHandler);
@@ -140,7 +140,7 @@ void ChiaAnimeCrawler::downloadVideo(AlbaWebPathHandler const& webLinkPathHandle
         m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileIsInvalid);
         return;
     }
-    AlbaWindowsPathHandler downloadPathHandler(m_localPathForCurrentVideo);
+    AlbaLocalPathHandler downloadPathHandler(m_localPathForCurrentVideo);
     downloadPathHandler.createDirectoriesForNonExisitingDirectories();
     if(!downloadBinaryFile(videoWebPathHandler, downloadPathHandler, m_webCrawler.getCrawlMode()))
     {

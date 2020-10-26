@@ -346,7 +346,7 @@ string WebCrawler::getTitleFromTitleWindow(string const& webLink) const
 {
     string title;
     AlbaWebPathHandler webLinkPathHandler(webLink);
-    AlbaWindowsPathHandler downloadPathHandler(getTemporaryFilePath());
+    AlbaLocalPathHandler downloadPathHandler(getTemporaryFilePath());
     downloadFileAsText(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
