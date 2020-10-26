@@ -1,79 +1,72 @@
-#include <User/AlbaUserAutomation.hpp>
+#include <User/AlbaWindowsUserAutomation.hpp>
 
 #include <gtest/gtest.h>
-#include <iostream>
-#include <windows.h>
+#include <iostream>#include <windows.h>
 
 using namespace alba;
 using namespace std;
 
-TEST(AlbaUserAutomationTest, DISABLED_SetMouseTest)
+TEST(AlbaWindowsUserAutomationTest, DISABLED_SetMouseTest)
 {
-    AlbaUserAutomation userAutomation;
+    AlbaWindowsUserAutomation userAutomation;
     for(int x=0; x<50; x++)
     {
-        MousePosition position{x,x};
-        userAutomation.setMousePosition(position);
+        MousePosition position{x,x};        userAutomation.setMousePosition(position);
     }
 }
 
-TEST(AlbaUserAutomationTest, DISABLED_KeyPressSmallLetterTest)
+TEST(AlbaWindowsUserAutomationTest, DISABLED_KeyPressSmallLetterTest)
 {
-    AlbaUserAutomation userAutomation;
+    AlbaWindowsUserAutomation userAutomation;
     for(char c='a'; c<='z'; c++)
     {
-        userAutomation.typeCharacter(c);
-    }
+        userAutomation.typeCharacter(c);    }
 }
 
-TEST(AlbaUserAutomationTest, DISABLED_KeyPressCapitalLetterTest)
+TEST(AlbaWindowsUserAutomationTest, DISABLED_KeyPressCapitalLetterTest)
 {
-    AlbaUserAutomation userAutomation;
+    AlbaWindowsUserAutomation userAutomation;
     for(char c='A'; c<='Z'; c++)
     {
-        userAutomation.typeCharacter(c);
-    }
+        userAutomation.typeCharacter(c);    }
 }
 
-TEST(AlbaUserAutomationTest, DISABLED_KeyPressNumberTest)
+TEST(AlbaWindowsUserAutomationTest, DISABLED_KeyPressNumberTest)
 {
-    AlbaUserAutomation userAutomation;
+    AlbaWindowsUserAutomation userAutomation;
     for(char c='0'; c<='9'; c++)
     {
-        userAutomation.typeCharacter(c);
-    }
+        userAutomation.typeCharacter(c);    }
 }
 
-TEST(AlbaUserAutomationTest, DISABLED_KeyPressOtherCharacterTest)
+TEST(AlbaWindowsUserAutomationTest, DISABLED_KeyPressOtherCharacterTest)
 {
-    AlbaUserAutomation userAutomation;
+    AlbaWindowsUserAutomation userAutomation;
     userAutomation.typeString(R"(.......)");
     //userAutomation.typeString(R"(`~!@#$%^&*()_+-=[]\{}|;':",./<>?)");
 }
 
-TEST(AlbaUserAutomationTest, DISABLED_IsLetterPressedTest)
+TEST(AlbaWindowsUserAutomationTest, DISABLED_IsLetterPressedTest)
 {
-    AlbaUserAutomation userAutomation;
+    AlbaWindowsUserAutomation userAutomation;
     EXPECT_TRUE(userAutomation.isLetterPressed('q'));
 }
 
-TEST(AlbaUserAutomationTest, DISABLED_ShowMousePosition)
+TEST(AlbaWindowsUserAutomationTest, DISABLED_ShowMousePosition)
 {
-    AlbaUserAutomation userAutomation;
+    AlbaWindowsUserAutomation userAutomation;
     while(1)
     {
-        MousePosition position(userAutomation.getMousePosition());
-        cout<<"X: "<<position.x<<" Y: "<<position.y<<endl;
+        MousePosition position(userAutomation.getMousePosition());        cout<<"X: "<<position.x<<" Y: "<<position.y<<endl;
         if(0==position.x && 0==position.y)
         {
-            break;
-        }
+            break;        }
         Sleep(100);
     }
 }
 
-TEST(AlbaUserAutomationTest, DISABLED_GetStringFromClipboard)
+TEST(AlbaWindowsUserAutomationTest, DISABLED_GetStringFromClipboard)
 {
-    AlbaUserAutomation userAutomation;
+    AlbaWindowsUserAutomation userAutomation;
     cout <<  userAutomation.getStringFromClipboard() << endl;
 }
