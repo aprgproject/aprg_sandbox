@@ -12,5 +12,3 @@ enum class TimerType
 };
 
 }
-
-

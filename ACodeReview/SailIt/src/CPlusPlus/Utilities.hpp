@@ -31,5 +31,3 @@ void printContentOfTerms(DequeOfTerms const& terms, std::ostream& fileStream);
 
 
 }// namespace codeReview
-
-

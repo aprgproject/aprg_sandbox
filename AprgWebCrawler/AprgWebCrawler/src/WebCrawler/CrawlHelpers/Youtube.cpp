@@ -122,5 +122,3 @@ LinksForYoutube WebCrawler::getLinkForYoutube(AlbaWebPathHandler const& webLinkP
 }
 
 }
-
-

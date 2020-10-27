@@ -259,5 +259,3 @@ void BtsLogSorter::deleteFilesInDirectory(string const& directoryOfLogs) const
 }
 
 }
-
-

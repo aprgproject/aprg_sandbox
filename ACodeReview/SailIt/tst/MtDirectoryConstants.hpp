@@ -4,5 +4,3 @@
 #define MT_FILE_READER_TEST_INCLUDE_DIRECTORY_NAME "include"
 #define MT_FILE_READER_TEST_SUBDIRECTORY "C:\\APRG\\ACodeReview\\SailIt\\tst\\sub_directory\\"
 #define MT_FILE_READER_TEST_SUBDIRECTORY_NAME "sub_directory"
-
-

@@ -257,5 +257,3 @@ void TcomTools::on_cropSize_editingFinished()
 {
     m_configuration.cropSize = stringHelper::convertStringToNumber<double>(ui->cropSize->text().toStdString());
 }
-
-

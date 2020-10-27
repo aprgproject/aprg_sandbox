@@ -1,5 +1,6 @@
-#include <Common/Utils/StringHelpers.hpp>
 #include <RAN3374/Components/RF.hpp>
+
+#include <Common/Utils/StringHelpers.hpp>
 
 #include <iostream>
 
@@ -34,5 +35,3 @@ void RF::handleTimerEvent(Timer const& timer)
 }
 
 }
-
-

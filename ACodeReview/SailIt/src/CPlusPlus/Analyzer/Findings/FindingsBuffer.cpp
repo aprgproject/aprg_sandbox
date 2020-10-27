@@ -67,5 +67,3 @@ void FindingsBuffer::addFinding(unsigned int const lineNumber, string const& fil
 }
 
 }//namespace codeReview
-
-

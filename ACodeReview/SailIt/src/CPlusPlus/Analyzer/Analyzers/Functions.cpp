@@ -178,5 +178,3 @@ void TermAnalyzer::fillFunctionSignatureFromFunctionCall(Looper const& startLoop
 }
 
 }// namespace codeReview
-
-

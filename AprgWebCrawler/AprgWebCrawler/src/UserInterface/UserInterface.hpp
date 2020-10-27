@@ -1,6 +1,7 @@
 #pragma once
 
 #include <User/AlbaUserInterface.hpp>
+
 #include <WebCrawler/CrawlMode.hpp>
 #include <WebCrawler/CrawlState.hpp>
 
@@ -63,5 +64,3 @@ private:
 };
 
 }
-
-

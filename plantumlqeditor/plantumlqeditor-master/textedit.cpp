@@ -196,5 +196,3 @@ void TextEdit::updateLineNumberArea(const QRect &rect, int dy)
         updateLineNumberAreaWidth(0);
     }
 }
-
-

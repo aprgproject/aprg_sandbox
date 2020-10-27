@@ -107,6 +107,3 @@ void AlbaFileReader::setMaxBufferSize(unsigned int bufferSize)
 }
 
 }//namespace alba
-
-
-

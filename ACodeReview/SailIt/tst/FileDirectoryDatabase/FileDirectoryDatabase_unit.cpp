@@ -71,5 +71,3 @@ TEST(FileDirectoryDatabaseTest, FullPathOfFilesAreFound)
     EXPECT_EQ(fileDirectoryDatabase.getFullPathOfFile("", "file5.hpp"), directory+"file5.hpp");
     EXPECT_EQ(fileDirectoryDatabase.getFullPathOfFile("", "file6.hpp"), directory+"file6.hpp");
 }
-
-

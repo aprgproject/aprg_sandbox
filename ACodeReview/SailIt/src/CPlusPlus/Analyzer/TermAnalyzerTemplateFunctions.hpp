@@ -396,5 +396,3 @@ template <FindingsToAdd findingsToAdd> void TermAnalyzer::decrementLooperIfWhite
 }
 
 }// namespace codeReview
-
-

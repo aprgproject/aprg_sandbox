@@ -19,6 +19,3 @@ class AlbaLocalUserAutomation: public AlbaWindowsUserAutomation
 };
 
 }
-
-
-

@@ -17,5 +17,3 @@ CPlusPlusType CPlusPlusVariable::getType() const
 }
 
 }
-
-

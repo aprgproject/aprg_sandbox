@@ -78,5 +78,3 @@ void SailIt::addAndAnalyzeThisFileToCPlusPlusDatabase(string const& fullPathFile
 }
 
 }// namespace codeReview
-
-

@@ -18,5 +18,3 @@ curl_exception::curl_exception(const string &error, const string &method) {
 curl_exception::~curl_exception() NOEXCEPT {
     // ... nothing to do here ...
 }
-
-

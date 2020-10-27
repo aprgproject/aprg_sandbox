@@ -61,5 +61,3 @@ private:
 };
 
 }// namespace codeReview
-
-

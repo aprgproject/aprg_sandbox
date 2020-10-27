@@ -25,5 +25,3 @@ template <DownloadType configType> bool downloadBinaryFileWithFiniteNumberOfTrie
 
 
 }
-
-

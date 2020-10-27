@@ -111,5 +111,3 @@ QtLockedFile::~QtLockedFile()
     if (isOpen())
         unlock();
 }
-
-

@@ -1,4 +1,5 @@
 #include <Randomizer/AlbaRandomizer.hpp>
+
 #include <math.h>
 
 #include <windows.h>
@@ -7,7 +8,8 @@ namespace alba
 {
 
 AlbaRandomizer::AlbaRandomizer()
-{    resetRandomSeed();
+{
+    resetRandomSeed();
 }
 
 void AlbaRandomizer::resetRandomSeed()
@@ -28,5 +30,3 @@ int AlbaRandomizer::getRandomValueInUniformDistribution(int const first, int con
 }
 
 }//namespace alba
-
-

@@ -65,5 +65,3 @@ template bool downloadBinaryFileWithFiniteNumberOfTries<DownloadType::LowSpeedLi
 }
 
 }
-
-

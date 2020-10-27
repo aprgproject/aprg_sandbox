@@ -62,5 +62,3 @@ void ProgressBarThread::run()
 }
 
 }
-
-

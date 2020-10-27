@@ -425,6 +425,3 @@ void AlbaSackReader::analyze(stringHelper::strings const& tokens)
 }
 
 }
-
-
-

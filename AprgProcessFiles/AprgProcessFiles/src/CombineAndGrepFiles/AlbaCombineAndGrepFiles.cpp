@@ -48,6 +48,3 @@ void AlbaCombineAndGrepFiles::processFile(string const& path)
 }
 
 }
-
-
-

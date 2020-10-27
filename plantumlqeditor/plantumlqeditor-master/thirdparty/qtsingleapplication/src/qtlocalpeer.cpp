@@ -55,7 +55,8 @@ static PProcessIdToSessionId pProcessIdToSessionId = 0;
 #include <sys/types.h>
 #endif
 
-namespace QtLP_Private {
+namespace QtLP_Private 
+{
 #include "qtlockedfile.cpp"
 #if defined(Q_OS_WIN)
 #include "qtlockedfile_win.cpp"
@@ -200,4 +201,3 @@ void QtLocalPeer::receiveConnection()
     delete socket;
     emit messageReceived(message); //### (might take a long time to return)
 }
-

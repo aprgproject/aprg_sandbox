@@ -46,5 +46,3 @@ void OneDownloadPerPageCrawler::retrieveLinksForHBrowse(AlbaWebPathHandler const
 }
 
 }
-
-

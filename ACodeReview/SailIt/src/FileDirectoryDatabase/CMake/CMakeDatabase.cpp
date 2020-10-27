@@ -263,5 +263,3 @@ template <> CMakeDatabase& CMakeDatabase::proceedToNextDirectory<RecursionDirect
 }
 
 }// namespace codeReview
-
-

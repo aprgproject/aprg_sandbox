@@ -108,5 +108,3 @@ void BtsTraceDecoder::saveLineInSymbolMapIfValid(int const address, std::string 
 }
 
 }
-
-

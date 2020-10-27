@@ -17,6 +17,3 @@ struct ModuleTest : public ::testing::Test
     codeReview::TermTranslator m_termTranslator;
     codeReview::TermAnalyzer m_termAnalyzer;
 };
-
-
-

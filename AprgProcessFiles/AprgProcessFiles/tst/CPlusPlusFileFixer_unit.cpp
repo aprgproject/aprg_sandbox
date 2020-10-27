@@ -1,3 +1,5 @@
+#include "DirectoryConstants.hpp"
+
 #include <CPlusPlusFileFixer/CPlusPlusFileFixer.hpp>
 #include <File/AlbaFileReader.hpp>
 
@@ -9,17 +11,17 @@
 using namespace alba;
 using namespace std;
 
-#define C_PLUS_PLUS_FILE_FIXER_TEST_FILE APRG_DIR R"(AprgProcessFiles\AprgProcessFiles\tst\FilesForTests\FileReaderTest\Test1.txt)"
-
-TEST(CPlusPlusFileFixerTest, DISABLED_TestFilesToBeGrep)
-{    CPlusPlusFileFixer fixer;
-    fixer.processDirectory(R"(C:\APRG\)");
+TEST(CPlusPlusFileFixerTest, ActualRun)
+{
+    CPlusPlusFileFixer fixer;
+    //fixer.processDirectory(R"(C:\APRG\)");
     //fixer.processFile(R"(C:\APRG\AprgCommon\AprgCommon\tst\AlbaStringHelper_unit.cpp)");
 }
+
 TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersTest)
 {
     CPlusPlusFileFixer fixer;
-    ofstream testFile(C_PLUS_PLUS_FILE_FIXER_TEST_FILE);
+    ofstream testFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
     ASSERT_TRUE(testFile.is_open());
     testFile << R"(#include <file2.hpp>)" << endl;
     testFile << R"(#include<string>)" << endl;
@@ -32,9 +34,9 @@ TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersTest)
     testFile << "       \t\t\t\t       This is another line in the code    " << endl;
     testFile.close();
 
-    fixer.processFile(C_PLUS_PLUS_FILE_FIXER_TEST_FILE);
+    fixer.processFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
 
-    ifstream inputTestFile(C_PLUS_PLUS_FILE_FIXER_TEST_FILE);
+    ifstream inputTestFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
     ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
@@ -62,7 +64,7 @@ TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersTest)
 TEST(CPlusPlusFileFixerTest, RemoveTrailingEmptyLineTest)
 {
     CPlusPlusFileFixer fixer;
-    ofstream testFile(C_PLUS_PLUS_FILE_FIXER_TEST_FILE);
+    ofstream testFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
     ASSERT_TRUE(testFile.is_open());
     testFile << R"(         This is a line in the code)" << endl;
     testFile << "       \t\t\t\t       This is another line in the code    " << endl;
@@ -73,9 +75,9 @@ TEST(CPlusPlusFileFixerTest, RemoveTrailingEmptyLineTest)
     testFile << R"()"<< endl;
     testFile.close();
 
-    fixer.processFile(C_PLUS_PLUS_FILE_FIXER_TEST_FILE);
+    fixer.processFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
 
-    ifstream inputTestFile(C_PLUS_PLUS_FILE_FIXER_TEST_FILE);
+    ifstream inputTestFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
     ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
@@ -91,15 +93,15 @@ TEST(CPlusPlusFileFixerTest, RemoveTrailingEmptyLineTest)
 TEST(CPlusPlusFileFixerTest, NamespaceCorrection)
 {
     CPlusPlusFileFixer fixer;
-    ofstream testFile(C_PLUS_PLUS_FILE_FIXER_TEST_FILE);
+    ofstream testFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
     ASSERT_TRUE(testFile.is_open());
     testFile << R"(namespace samplenamespace {)" << endl;
     testFile << R"(})" << endl;
     testFile.close();
 
-    fixer.processFile(C_PLUS_PLUS_FILE_FIXER_TEST_FILE);
+    fixer.processFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
 
-    ifstream inputTestFile(C_PLUS_PLUS_FILE_FIXER_TEST_FILE);
+    ifstream inputTestFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
     ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
@@ -112,4 +114,3 @@ TEST(CPlusPlusFileFixerTest, NamespaceCorrection)
     EXPECT_EQ("", fileReader.getLine());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
-

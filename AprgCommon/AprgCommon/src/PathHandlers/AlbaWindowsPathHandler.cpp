@@ -269,6 +269,3 @@ string AlbaWindowsPathHandler::getLastFormattedErrorMessage() const
 }
 
 }//namespace alba
-
-
-

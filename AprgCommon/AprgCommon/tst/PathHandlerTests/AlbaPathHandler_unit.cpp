@@ -68,6 +68,3 @@ TEST(PathTest, GoUpUntilLastFolder)
     EXPECT_EQ(R"(APRG_DRIVE:\)", pathHandler.getFullPath());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
 }
-
-
-

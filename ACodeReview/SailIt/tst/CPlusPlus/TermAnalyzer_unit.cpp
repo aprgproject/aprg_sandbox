@@ -561,5 +561,3 @@ TEST_F(TermAnalyzerTest, StatementsAreSimplifiedUsingRValueStatement)
 
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
-
-

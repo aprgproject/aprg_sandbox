@@ -345,5 +345,3 @@ void TermAnalyzer::checkMacroParameters(Looper const& startLooper, CPlusPlusMacr
 
 
 }// namespace codeReview
-
-

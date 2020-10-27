@@ -14,6 +14,3 @@ enum class PathInitialValueSource
 typedef std::set<std::string> ListOfPaths;
 
 }//namespace alba
-
-
-

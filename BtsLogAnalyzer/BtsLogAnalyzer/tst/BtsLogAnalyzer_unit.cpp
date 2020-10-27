@@ -131,7 +131,3 @@ TEST (BtsLogAnalyzerTest, DISABLED_SizeOfTest)
     TraceReportHeader traceReportHeader;
     cout<<"Size of:"<<sizeof(traceReportHeader)<<endl;
 }
-
-
-
-

@@ -190,5 +190,3 @@ bool Term::hasNoContentString() const
 }
 
 }
-
-

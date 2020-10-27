@@ -75,5 +75,3 @@ void OneDownloadPerPageCrawler::retrieveLinksForMangaHere(AlbaWebPathHandler con
 }
 
 }
-
-

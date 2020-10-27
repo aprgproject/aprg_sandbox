@@ -30,6 +30,3 @@ template <typename ValueType> std::pair<ValueType,ValueType> getInclusiveRangeFr
 } //namespace containerHelper
 
 }//namespace alba
-
-
-

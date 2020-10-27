@@ -69,5 +69,3 @@ template <> void TermAnalyzer::connectLooper<LooperConnector::WhiteSpaceAndNewLi
 }
 
 }// namespace codeReview
-
-

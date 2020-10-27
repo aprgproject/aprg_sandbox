@@ -59,5 +59,3 @@ void Downloaders::downloadFileUsingPhantomJs(
 }
 
 }
-
-

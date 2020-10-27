@@ -382,6 +382,3 @@ TEST(WindowsPathTest, SetCurrentDirectoryFromDetectedLocalPath)
     ASSERT_TRUE(pathHandler.isFoundInLocalSystem());
     cout<<"SetCurrentDirectoryFromDetectedLocalPath:"<<pathHandler.getFullPath()<<endl;
 }
-
-
-

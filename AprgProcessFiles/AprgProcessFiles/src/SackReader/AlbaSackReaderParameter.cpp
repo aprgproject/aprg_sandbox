@@ -20,5 +20,3 @@ string AlbaSackReaderParameter::getParameterName() const
     return m_parameterName;
 }
 }
-
-

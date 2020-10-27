@@ -51,5 +51,3 @@ std::streamsize LineEditStream::xsputn(const char *p, std::streamsize n)
 }
 */
 }
-
-

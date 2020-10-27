@@ -77,5 +77,3 @@ bool TermAnalyzer::isModifiedDueToExternBlock(Looper const& startLooper)
 }
 
 }// namespace codeReview
-
-

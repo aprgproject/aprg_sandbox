@@ -70,6 +70,3 @@ void AlbaSackReaderType::printAll() const
 }
 
 }
-
-
-

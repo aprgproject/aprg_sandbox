@@ -6,7 +6,8 @@
 #include <functional>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 class AlbaWindowsPathHandler: public AlbaPathHandler
 {
@@ -53,6 +54,3 @@ private:
 };
 
 }//namespace alba
-
-
-

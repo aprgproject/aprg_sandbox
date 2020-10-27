@@ -71,6 +71,3 @@ void AlbaMemoryBuffer::setNewBuffer(void* bufferPointer, unsigned int size)
 
 
 }//namespace alba
-
-
-

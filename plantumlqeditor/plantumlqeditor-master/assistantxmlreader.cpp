@@ -5,7 +5,8 @@
 #include <QFile>
 #include <QFileInfo>
 
-namespace {
+namespace 
+{
 const QString ROOT_TAG = "assistants";
 const QString ASSISTANT_TAG = "assistant";
 }
@@ -275,4 +276,3 @@ void Assistant::append(AssistantItem *item)
 {
     m_items.append(item);
 }
-

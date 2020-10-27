@@ -216,5 +216,3 @@ void TermAnalyzer::clearFlagsForAnotherIteration()
 }
 
 }// namespace codeReview
-
-

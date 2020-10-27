@@ -63,5 +63,3 @@ int numberOfStepsEnabled;
 }
 
 }
-
-

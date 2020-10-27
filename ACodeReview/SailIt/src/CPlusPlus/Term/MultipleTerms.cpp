@@ -21,5 +21,3 @@ bool MultipleTerms::isEqualToAnyOfTheTerms(Term const& termToCompare) const
 }
 
 }
-
-

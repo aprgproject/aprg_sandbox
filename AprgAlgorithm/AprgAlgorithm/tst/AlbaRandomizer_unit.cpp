@@ -49,6 +49,3 @@ TEST(AlbaRandomizer, RandomValuesAreUniformlyDistributed)
     int deviation(maximumHits-minimumHits);
     EXPECT_LE(deviation, allowedDeviation);
 }
-
-
-

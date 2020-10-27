@@ -293,5 +293,3 @@ istream& operator>>(istream & in, BtsLogTime& btsLogTime)
 }
 
 }
-
-

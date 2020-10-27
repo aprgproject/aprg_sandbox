@@ -199,5 +199,3 @@ TEST_F(ModuleTest, MultiLineWhileLoopTest)
     CHECK_TERM(it, TermType::ProcessedTerm, "while(2 == 2);\n", 5);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
-
-

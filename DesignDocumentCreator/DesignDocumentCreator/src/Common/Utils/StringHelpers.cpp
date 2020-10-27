@@ -96,5 +96,3 @@ bool StringHelpers::isNbapMessage(string const& messageName)
 #undef GET_ENUM_STRING
 
 }
-
-

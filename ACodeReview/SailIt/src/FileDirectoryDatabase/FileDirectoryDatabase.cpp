@@ -133,6 +133,3 @@ void FileDirectoryDatabase::addFileOrDirectory(string const& fileOrDirectory)
         cout << "FileDirectoryDatabase::addFileOrDirectory| InvalidFileAndDirectory: [" << fileOrDirectory << "]" << endl;
     }
 }
-
-
-

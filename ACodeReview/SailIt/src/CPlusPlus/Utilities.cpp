@@ -28,5 +28,3 @@ void printContentOfTerms(DequeOfTerms const& terms, ostream& outStream)
 }
 
 }// namespace codeReview
-
-

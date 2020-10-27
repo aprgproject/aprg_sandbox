@@ -48,5 +48,3 @@ void OneDownloadPerPageCrawler::retrieveLinksForHentai2Read(AlbaWebPathHandler c
 }
 
 }
-
-

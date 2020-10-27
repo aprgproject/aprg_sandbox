@@ -213,4 +213,3 @@ TEST(FileCache, testSetPath) {
     EXPECT_EQ(QFileInfo(QDir(TEST_DIR1), "item1.svg").absoluteFilePath(),
               cache.item("item1.svg")->path());
 }
-

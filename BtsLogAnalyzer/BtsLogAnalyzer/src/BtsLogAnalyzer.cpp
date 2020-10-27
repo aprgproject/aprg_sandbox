@@ -503,5 +503,3 @@ double BtsLogAnalyzer::getComputedAverageDelay() const
 }
 
 }//namespace alba
-
-

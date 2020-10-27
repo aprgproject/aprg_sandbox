@@ -116,7 +116,8 @@ void curl_easy::reset() NOEXCEPT {
 }
 
 // Putting the namespace here will avoid the "specialization in different namespace" error.
-namespace curl {
+namespace curl 
+{
     template<> unique_ptr<vector<string>> curl_easy::get_info(const CURLINFO info) const {
         struct curl_slist *ptr = nullptr;
         const CURLcode code = curl_easy_getinfo(this->curl,info,&ptr);
@@ -142,5 +143,3 @@ void curl_easy::pause(const int bitmask) {
         throw curl_easy_exception(code,__FUNCTION__);
     }
 }
-
-

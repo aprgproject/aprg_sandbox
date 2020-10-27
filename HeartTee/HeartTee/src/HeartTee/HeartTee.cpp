@@ -300,5 +300,3 @@ void HeartTee::saveToSql()
 
 
 }
-
-

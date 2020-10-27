@@ -26,6 +26,7 @@ void CPlusPlusFileFixer::processDirectory(string const& path)
         }
     }
 }
+
 void CPlusPlusFileFixer::processFile(string const& path)
 {
     cout<<"ProcessFile: "<<path<<endl;
@@ -42,6 +43,7 @@ void CPlusPlusFileFixer::clear()
     m_headerListFromQuotations.clear();
     m_isPragmaOnceFound = false;
 }
+
 void CPlusPlusFileFixer::checkFile(string const& path)
 {
     AlbaLocalPathHandler filePathHandler(path);
@@ -70,7 +72,8 @@ void CPlusPlusFileFixer::checkFile(string const& path)
                     addHeaderFileFromQuotations(headerFromQuotations);
                 }
             }
-            else if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "#pragma") && stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "once"))            {
+            else if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "#pragma") && stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "once"))
+            {
                 m_isPragmaOnceFound = true;
             }
             else if(!stringHelper::isWhiteSpace(line))
@@ -85,6 +88,7 @@ void CPlusPlusFileFixer::checkFile(string const& path)
         }
     }
 }
+
 void CPlusPlusFileFixer::fix(string const& path)
 {
     fixHeaders(path);
@@ -97,7 +101,8 @@ void CPlusPlusFileFixer::fixHeaders(string const& path)
 {
     AlbaLocalPathHandler filePathHandler(path);
     set<string> mainHeaders;
-    set<string> cPlusPlusHeaders;    set<string> otherLibraryHeaders;
+    set<string> cPlusPlusHeaders;
+    set<string> otherLibraryHeaders;
     set<string> aprgFiles;
     for(string const& header: m_headerListFromAngleBrackets)
     {
@@ -180,7 +185,8 @@ void CPlusPlusFileFixer::fixNamespaces()
 
 void CPlusPlusFileFixer::writeFile(string const& path)
 {
-    AlbaLocalPathHandler filePathHandler(path);    ofstream outputLogFileStream(filePathHandler.getFullPath());
+    AlbaLocalPathHandler filePathHandler(path);
+    ofstream outputLogFileStream(filePathHandler.getFullPath());
     if(m_isPragmaOnceFound)
     {
         outputLogFileStream<<"#pragma once"<<endl;
@@ -191,7 +197,8 @@ void CPlusPlusFileFixer::writeFile(string const& path)
         for(string const& header: m_headerListFromQuotations)
         {
             if(!header.empty())
-            {                outputLogFileStream<<R"(#include ")"<<header<<R"(")"<<endl;
+            {
+                outputLogFileStream<<R"(#include ")"<<header<<R"(")"<<endl;
             }
             else
             {
@@ -259,7 +266,8 @@ bool CPlusPlusFileFixer::isMainHeader(string const& headerFoundInFile, string co
     if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(headerFileHandler.getFilenameOnly(), filePathHandler.getFilenameOnly()))
     {
         result=true;
-    }    return result;
+    }
+    return result;
 }
 
 void CPlusPlusFileFixer::addHeaderFileFromAngleBrackets(std::string const& header)
@@ -276,4 +284,3 @@ void CPlusPlusFileFixer::addHeaderFileFromQuotations(std::string const& header)
 
 
 }
-

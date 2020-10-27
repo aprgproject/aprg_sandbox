@@ -144,5 +144,3 @@ string TermChecker::getTermCheckerTypeString() const
 }
 
 }
-
-

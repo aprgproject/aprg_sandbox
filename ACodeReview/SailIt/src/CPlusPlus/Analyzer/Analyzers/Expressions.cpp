@@ -534,5 +534,3 @@ bool TermAnalyzer::areTheTypesValidForCombination(CPlusPlusType const& type1, CP
 }
 
 }// namespace codeReview
-
-

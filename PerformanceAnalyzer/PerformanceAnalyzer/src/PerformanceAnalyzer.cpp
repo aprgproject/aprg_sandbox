@@ -1071,5 +1071,3 @@ void PerformanceAnalyzer::processDirectoryForTraceLog(string const& traceLogPath
 
 
 }
-
-

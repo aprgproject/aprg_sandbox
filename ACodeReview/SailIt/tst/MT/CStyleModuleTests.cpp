@@ -244,5 +244,3 @@ TEST_F(ModuleTest, CStyleStructPointerTest)
     CHECK_TERM(it, TermType::ProcessedTerm, "struct lconv* lconv;\n", 1);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
-
-

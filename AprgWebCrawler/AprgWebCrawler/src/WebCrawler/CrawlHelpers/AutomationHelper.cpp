@@ -198,5 +198,3 @@ void AutomationHelper::downloadLinkUsingMozillaFirefoxAndFdm(string const& webPa
 }
 
 }
-
-

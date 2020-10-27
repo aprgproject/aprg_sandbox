@@ -31,4 +31,3 @@ curl_share::~curl_share() NOEXCEPT {
         this->curl = nullptr;
     }
 }
-

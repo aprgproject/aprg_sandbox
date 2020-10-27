@@ -230,4 +230,3 @@ void PreferencesDialog::on_clearCacheButton_clicked()
         m_ui->cacheCurrentSizeLabel->setText(cacheSizeToString(m_fileCache->totalCost()));
     }
 }
-

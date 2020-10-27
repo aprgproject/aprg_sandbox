@@ -121,8 +121,3 @@ bool SqlConnect::deleteTableIfExist()
 	}
 	return false;
 }
-
-
-
-
-

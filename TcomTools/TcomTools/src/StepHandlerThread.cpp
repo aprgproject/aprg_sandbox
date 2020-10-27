@@ -56,5 +56,3 @@ void StepHandlerThread::run()
 }
 
 }
-
-

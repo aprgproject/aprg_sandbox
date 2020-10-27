@@ -387,5 +387,3 @@ TEST_F(TermTranslatorTest, CheckKeyword)
 
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
-
-

@@ -343,4 +343,3 @@ void QtSingleApplication::activateWindow()
 
     \obsolete
 */
-

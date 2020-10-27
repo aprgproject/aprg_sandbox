@@ -1,4 +1,5 @@
 #include <Common/Components/SampleComponent.hpp>
+
 #include <Common/Utils/StringHelpers.hpp>
 
 #include <iostream>
@@ -27,5 +28,3 @@ void SampleComponent::handleTimerEvent(Timer const& timer)
 }
 
 }
-
-

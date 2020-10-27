@@ -266,6 +266,3 @@ TEST(AlbaGrepStringEvaluatorTest, EvaluatorIsInvalidWhenNumberOfOpeningAndClosin
 }
 
 /// parenthesis incomplete
-
-
-

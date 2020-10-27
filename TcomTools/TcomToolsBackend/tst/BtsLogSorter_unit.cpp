@@ -100,5 +100,3 @@ TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime)
 
     EXPECT_EQ(5, lines);
 }
-
-

@@ -13,5 +13,3 @@ WRAP_MESSAGE(MessageName::MESSAGE_SAMPLE, SampleSack)
 #include <FeatureSpecificFiles/WrapMessage.hpp>
 
 }
-
-

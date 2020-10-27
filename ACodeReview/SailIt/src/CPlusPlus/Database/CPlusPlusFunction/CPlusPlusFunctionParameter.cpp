@@ -40,5 +40,3 @@ void CPlusPlusFunctionParameter::set(CPlusPlusType const& type, string const& na
 }
 
 }
-
-

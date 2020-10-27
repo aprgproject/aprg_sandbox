@@ -99,5 +99,3 @@ std::string CNsapHelper::convertNsapToIp(TTransportLayerAddress const& nsap)
 }
 
 }
-
-

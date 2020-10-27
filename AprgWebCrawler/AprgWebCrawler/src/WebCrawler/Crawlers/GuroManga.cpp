@@ -65,5 +65,3 @@ void OneDownloadPerPageCrawler::retrieveLinksForGuroManga(AlbaWebPathHandler con
 }
 
 }
-
-

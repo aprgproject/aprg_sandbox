@@ -84,5 +84,3 @@ void OneDownloadPerPageCrawler::retrieveNextLinkAndImageLinkForMangaFox(AlbaWebP
 }
 
 }
-
-

@@ -13,7 +13,8 @@
 #include <QtSingleApplication>
 #include <QtSvg>
 
-namespace {
+namespace 
+{
 const int ASSISTANT_ITEM_DATA_ROLE = Qt::UserRole;
 const int ASSISTANT_ITEM_NOTES_ROLE = Qt::UserRole + 1;
 
@@ -1157,4 +1158,3 @@ void MainWindow::insertAssistantCode(const QString &code)
         cursor.endEditBlock();
     }
 }
-

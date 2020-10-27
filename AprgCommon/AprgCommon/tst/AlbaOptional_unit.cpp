@@ -119,6 +119,3 @@ TEST(AlbaOptionalTest, AlbaOptionalCanBeClearedTest)
     EXPECT_FALSE((bool)integerOptional1);
     EXPECT_FALSE((bool)integerOptional2);
 }
-
-
-

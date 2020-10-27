@@ -59,5 +59,3 @@ void Component::handleTimerEvent(Timer const& timer)
 }
 
 }
-
-

@@ -4,7 +4,8 @@
 
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 class AlbaWebPathHandler: public AlbaPathHandler
 {
@@ -27,6 +28,3 @@ private:
 };
 
 }//namespace alba
-
-
-

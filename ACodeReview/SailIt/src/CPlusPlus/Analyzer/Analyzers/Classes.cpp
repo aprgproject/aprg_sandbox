@@ -151,5 +151,3 @@ bool TermAnalyzer::isModifiedDueToCStyleStructArrayDefinition(Looper const& star
 }
 
 }// namespace codeReview
-
-

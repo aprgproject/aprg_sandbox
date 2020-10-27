@@ -3,7 +3,8 @@
 #include <cassert>
 #include <memory>
 
-namespace alba{
+namespace alba
+{
 
 template <typename ContentType> class AlbaOptional
 {
@@ -179,6 +180,3 @@ private:
 
 template <typename ContentType> ContentType AlbaOptional<ContentType &>::m_empty;
 }//namespace alba
-
-
-

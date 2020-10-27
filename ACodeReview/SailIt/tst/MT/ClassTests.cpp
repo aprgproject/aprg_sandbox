@@ -87,6 +87,3 @@ TEST_F(ModuleTest, ForwardDeclarationTest)
     CHECK_TERM(it, TermType::ProcessedTerm, "struct myStruct;\n", 2);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
-
-
-

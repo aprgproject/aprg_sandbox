@@ -78,6 +78,3 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_GetStringFromClipboard)
     AlbaWindowsUserAutomation userAutomation;
     cout <<  userAutomation.getStringFromClipboard() << endl;
 }
-
-
-

@@ -1,6 +1,7 @@
 #include <Common/Components/Components.hpp>
-#include <Common/Components/SampleComponent.hpp>
 #include <FeatureSpecificFiles/ComponentsIncludes.hpp>
+
+#include <Common/Components/SampleComponent.hpp>
 
 using namespace std;
 
@@ -67,5 +68,3 @@ void Components::executeAllPendingEventsPerComponent()
 }
 
 }
-
-

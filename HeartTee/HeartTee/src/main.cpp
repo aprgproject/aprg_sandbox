@@ -8,5 +8,3 @@ int main()
     heartTee.startRun();
     return 0;
 }
-
-

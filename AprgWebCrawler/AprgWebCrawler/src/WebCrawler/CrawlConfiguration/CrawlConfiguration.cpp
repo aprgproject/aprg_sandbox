@@ -65,5 +65,3 @@ DownloadLowSpeedLimitConfigurationOptional CrawlConfiguration::getDownloadLowSpe
 }
 
 }
-
-

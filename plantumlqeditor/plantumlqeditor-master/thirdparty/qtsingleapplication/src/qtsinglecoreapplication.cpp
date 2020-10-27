@@ -146,4 +146,3 @@ QString QtSingleCoreApplication::id() const
 
     \sa sendMessage()
 */
-

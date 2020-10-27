@@ -30,8 +30,3 @@ TEST(SampleTest, GenerateFeatureSpecificComponentFiles)
         }
     }
 }
-
-
-
-
-

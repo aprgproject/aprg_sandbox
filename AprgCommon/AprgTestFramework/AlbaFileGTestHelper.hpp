@@ -30,5 +30,3 @@ private:
     std::vector<std::ifstream> listOfFileReaders;
     std::vector<std::ofstream> listOfFileWriters;
 };
-
-

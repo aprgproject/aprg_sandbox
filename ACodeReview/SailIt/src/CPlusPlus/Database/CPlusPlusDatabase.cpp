@@ -680,5 +680,3 @@ void CPlusPlusDatabase::exitScope()
 }
 
 }// namespace codeReview
-
-

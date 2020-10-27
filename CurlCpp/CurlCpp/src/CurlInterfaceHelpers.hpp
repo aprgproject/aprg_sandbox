@@ -44,5 +44,3 @@ inline void printDownloadErrorMessage(std::string const& errorMessage);
 
 
 }
-
-

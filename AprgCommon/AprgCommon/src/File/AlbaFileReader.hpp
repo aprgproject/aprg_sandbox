@@ -8,7 +8,8 @@ namespace alba
 {
 
 class AlbaFileReader
-{public:
+{
+public:
     explicit AlbaFileReader(std::ifstream& stream);
     bool isNotFinished();
     char getCharacter();
@@ -29,6 +30,3 @@ private:
 };
 
 }//namespace alba
-
-
-

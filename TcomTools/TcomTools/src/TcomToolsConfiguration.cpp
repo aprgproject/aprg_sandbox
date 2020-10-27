@@ -506,5 +506,3 @@ string TcomToolsConfiguration::getGrepFileName() const
 }
 
 }
-
-

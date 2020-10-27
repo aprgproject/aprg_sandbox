@@ -161,5 +161,3 @@ void curl_form::copy_ptr(struct curl_httppost **ptr, const struct curl_httppost 
     // Copy flags
     (*ptr)->flags = old_ptr->flags;
 }
-
-

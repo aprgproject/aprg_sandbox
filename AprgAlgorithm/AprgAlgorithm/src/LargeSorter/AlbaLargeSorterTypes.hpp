@@ -12,5 +12,3 @@ template <typename ObjectToSort> using AlbaLargeSorterBlockContainer = std::list
 template <typename ObjectToSort> using AlbaLargeSorterBlockIterator = typename AlbaLargeSorterBlockContainer<ObjectToSort>::iterator;
 
 }
-
-

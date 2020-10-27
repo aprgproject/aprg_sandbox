@@ -157,6 +157,3 @@ void AlbaPathHandler::setFileType()
 }
 
 }//namespace alba
-
-
-

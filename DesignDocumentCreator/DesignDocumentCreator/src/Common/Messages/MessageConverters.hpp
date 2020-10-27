@@ -32,5 +32,3 @@ GenericMessage convertSpecificToGeneric(SpecificMessage<messageName>& specificMe
 }
 
 }
-
-

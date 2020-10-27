@@ -47,5 +47,3 @@ void OneDownloadPerPageCrawler::retrieveLinksForGehen(AlbaWebPathHandler const& 
 }
 
 }
-
-

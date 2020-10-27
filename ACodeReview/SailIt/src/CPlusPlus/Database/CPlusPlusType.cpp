@@ -185,5 +185,3 @@ void CPlusPlusType::setTemplateInstantiationIndex(int index)
 }
 
 }
-
-

@@ -303,5 +303,3 @@ TEST(BtsLogPrintTest, DISABLED_InputStreamWorks)
     }
     EXPECT_EQ(1001, count);
 }
-
-

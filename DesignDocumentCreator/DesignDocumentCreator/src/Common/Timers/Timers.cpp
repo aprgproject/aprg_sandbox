@@ -24,5 +24,3 @@ TimerId Timer::getId() const
 }
 
 }
-
-

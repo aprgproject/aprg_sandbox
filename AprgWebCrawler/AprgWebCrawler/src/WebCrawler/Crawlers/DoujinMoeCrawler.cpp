@@ -1,5 +1,6 @@
-#include <CrawlHelpers/Downloaders.hpp>
 #include <Crawlers/DoujinMoeCrawler.hpp>
+
+#include <CrawlHelpers/Downloaders.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
 
@@ -188,5 +189,3 @@ bool DoujinMoeCrawler::areLinksInvalid() const
 }
 
 }
-
-

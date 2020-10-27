@@ -9,7 +9,8 @@ using std::cout;
 using curl::curl_writer;
 
 // Default memory write callback.
-namespace {
+namespace 
+{
     size_t write_memory_callback(void *contents, size_t size, size_t nmemb, void *userp) {
         const size_t realsize = size * nmemb;
         ostream* const mem = static_cast<ostream*>(userp);
@@ -56,4 +57,3 @@ curlcpp_writer_type curl_writer::get_function() const {
 void curl_writer::set_writer_ptr(curlcpp_writer_type writer_ptr) {
     _writer_ptr = (writer_ptr == nullptr) ? &write_memory_callback : writer_ptr;
 }
-

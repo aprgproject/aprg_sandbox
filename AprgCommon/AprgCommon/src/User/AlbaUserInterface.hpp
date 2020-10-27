@@ -2,7 +2,8 @@
 
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 
 class AlbaUserInterface
@@ -18,6 +19,3 @@ private:
 };
 
 }//namespace alba
-
-
-

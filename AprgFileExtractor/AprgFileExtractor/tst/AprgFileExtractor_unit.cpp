@@ -140,5 +140,3 @@ TEST(AprgFileExtractorTest, FilesAreExtractedRecursivelyWhenSatisyingTheConditio
     filePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest2\DirectoryTest2\DirectoryTest2\DirectoryTest2.txt)");
     EXPECT_TRUE(filePathHandler.isFoundInLocalSystem());
 }
-
-

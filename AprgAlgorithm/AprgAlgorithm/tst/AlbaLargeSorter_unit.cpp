@@ -590,8 +590,3 @@ TEST(AlbaLargeSorterTest, DISABLED_FileStreamAreLimitedByMaximumFileStreams)
     });
     EXPECT_EQ(1000, expectedValue);
 }
-
-
-
-
-

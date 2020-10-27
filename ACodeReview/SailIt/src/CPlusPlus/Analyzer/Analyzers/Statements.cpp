@@ -318,5 +318,3 @@ bool TermAnalyzer::areTypesFoundForTypedefThenFillAndMoveLooper(Looper& movableL
 }
 
 }// namespace codeReview
-
-

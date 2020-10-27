@@ -137,6 +137,3 @@ void AlbaWindowsUserAutomation::doOperation(AlbaWindowsUserAutomation::InputFunc
 }
 
 }
-
-
-

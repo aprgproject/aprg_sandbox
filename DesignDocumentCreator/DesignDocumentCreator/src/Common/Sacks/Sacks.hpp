@@ -11,5 +11,3 @@ struct SampleSack
 #include <FeatureSpecificFiles/Sacks.hpp>
 
 }
-
-

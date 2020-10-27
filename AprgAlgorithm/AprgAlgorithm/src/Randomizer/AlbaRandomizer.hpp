@@ -4,12 +4,11 @@ namespace alba
 {
 
 class AlbaRandomizer
-{public:
+{
+public:
     AlbaRandomizer();
     void resetRandomSeed();
     int getRandomValueInUniformDistribution(int const min, int const max) const;
 };
 
 }//namespace alba
-
-

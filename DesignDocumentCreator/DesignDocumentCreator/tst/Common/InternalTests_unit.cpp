@@ -169,5 +169,3 @@ TEST(EnvironmentTest, SentMessagesAreExecutedByRecipientComponent)
 
     EXPECT_TRUE(componentPointer->isEventQueueEmpty());
 }
-
-

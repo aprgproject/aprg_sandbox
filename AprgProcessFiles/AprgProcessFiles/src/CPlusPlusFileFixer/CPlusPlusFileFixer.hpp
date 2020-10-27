@@ -32,6 +32,5 @@ private:
     std::set<std::string> m_headerListFromQuotations;
     bool m_isPragmaOnceFound;
 };
+
 }
-
-

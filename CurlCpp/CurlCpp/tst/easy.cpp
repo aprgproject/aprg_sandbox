@@ -17,5 +17,3 @@ int main(int argc, char** argv)
         //downloadBinaryFile<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress>(webPathHandler, windowPathHandler);
     }
 }
-
-

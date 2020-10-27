@@ -78,5 +78,3 @@ void WebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
 }
 
 }
-
-

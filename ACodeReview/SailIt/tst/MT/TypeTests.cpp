@@ -319,5 +319,3 @@ TEST_F(ModuleTest, TypesAreRecognizedAfterMacro)
 
 //check database for type
 //edit type database how?
-
-

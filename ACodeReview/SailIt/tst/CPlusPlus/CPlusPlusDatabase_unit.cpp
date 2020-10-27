@@ -439,5 +439,3 @@ void checkThatDatabaseIsEmpty(CPlusPlusDatabase& database)
     EXPECT_EQ(database.getUsingNamespacesReference().size(), 0);
     EXPECT_EQ(database.getVariablesReference().size(), 0);
 }
-
-

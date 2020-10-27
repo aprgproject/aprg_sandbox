@@ -456,5 +456,3 @@ DownloadDirectoryDetails UserInterface::createDownloadDirectoryDetails(string co
 }
 
 }
-
-

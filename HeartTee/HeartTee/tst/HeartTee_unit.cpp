@@ -54,5 +54,3 @@ TEST(SampleTest, ProcessTest)
     heartTee.processData();
     heartTee.printDatabase();
 }
-
-

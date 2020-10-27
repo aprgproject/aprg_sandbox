@@ -114,7 +114,3 @@ int SerialPort::getBytesRead()
 {
     return m_bytesRead;
 }
-
-
-
-

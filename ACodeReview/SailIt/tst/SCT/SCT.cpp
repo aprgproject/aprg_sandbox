@@ -20,5 +20,3 @@ TEST(Sct, ActualTest)
     ofstream unprocessedTermFile("C:\\APRG\\ACodeReview\\unprocessedTerm.txt");
     sailIt.printFindings(unprocessedTermFile, "Unprocessed term");
 }
-
-

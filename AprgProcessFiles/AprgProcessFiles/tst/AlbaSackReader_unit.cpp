@@ -210,5 +210,3 @@ TEST(AlbaSackReaderTest, TypedefWithEnumAreRecognized)
     AlbaSackReaderType::Parameters myClassParameters = myClass.getParameters();
     ASSERT_EQ(0, myClassParameters.size());
 }
-
-

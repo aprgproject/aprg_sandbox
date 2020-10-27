@@ -296,5 +296,3 @@ string TermAnalyzer::accumulateLooperContentsToPrintableString(Looper const& sta
 }
 
 }// namespace codeReview
-
-

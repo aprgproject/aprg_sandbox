@@ -429,5 +429,3 @@ void QuineMcCluskey::addMintermForZeroCube(unsigned int minterm)
 }
 
 }
-
-

@@ -241,5 +241,3 @@ StepHandler::LocationsInFile StepHandler::getLocationsInFile(TcomToolsConfigurat
 }
 
 }
-
-

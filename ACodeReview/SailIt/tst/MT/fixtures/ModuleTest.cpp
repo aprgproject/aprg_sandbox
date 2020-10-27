@@ -16,5 +16,3 @@ void ModuleTest::processFile()
     m_findings.printFindings(std::cout);
     //m_database.print(cout);
 }
-
-

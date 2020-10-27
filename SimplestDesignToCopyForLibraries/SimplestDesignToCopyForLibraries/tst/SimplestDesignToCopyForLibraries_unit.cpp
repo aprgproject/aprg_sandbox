@@ -9,5 +9,3 @@ TEST(SampleTest, DISABLED_SampleTest1)
 {
     SimplestDesignToCopyForLibraries entity;
 }
-
-

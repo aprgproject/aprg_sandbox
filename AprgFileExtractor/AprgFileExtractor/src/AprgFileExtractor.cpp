@@ -187,5 +187,3 @@ bool AprgFileExtractor::isTheExtensionXz(string const& extension) const
 }
 
 }
-
-

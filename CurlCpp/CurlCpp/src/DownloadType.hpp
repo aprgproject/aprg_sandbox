@@ -19,5 +19,3 @@ enum class DownloadType
 }
 
 }
-
-

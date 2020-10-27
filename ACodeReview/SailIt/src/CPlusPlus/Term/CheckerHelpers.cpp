@@ -198,5 +198,3 @@ bool CheckerHelpers::isIncludedInTheList(VectorOfStrings strings, string const& 
 }
 
 }
-
-

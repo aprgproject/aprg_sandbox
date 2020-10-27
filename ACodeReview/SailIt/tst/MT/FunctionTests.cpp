@@ -200,6 +200,3 @@ TEST_F(ModuleTest, NamesCheckedForFunctionDeclarationAndDefinitionTest)
     CHECK_TERM(it, TermType::ProcessedTerm, "int z = myFunction3(5);\n", 15);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 3);
 }
-
-
-

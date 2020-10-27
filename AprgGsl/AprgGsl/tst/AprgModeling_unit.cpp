@@ -29,5 +29,3 @@ TEST(SampleTest, TestForDataSet)
         cout<<"["<<i++<<" -> "<<std::setprecision(20)<<coefficient<<"],"<<endl;
     }
 }
-
-

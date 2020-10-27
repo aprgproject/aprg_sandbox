@@ -131,6 +131,3 @@ void AlbaGrepStringEvaluatorTerm::setType(AlbaGrepStringEvaluatorTermType const 
 }
 
 }
-
-
-

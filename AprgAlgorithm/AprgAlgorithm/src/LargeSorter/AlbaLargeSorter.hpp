@@ -3,6 +3,7 @@
 #include <LargeSorter/AlbaLargeSorterCache.hpp>
 #include <LargeSorter/AlbaLargeSorterConfiguration.hpp>
 #include <LargeSorter/AlbaLargeSorterTypes.hpp>
+
 #include <LargeSorter/DataBlocks.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 
@@ -158,5 +159,3 @@ private:
 };
 
 }//namespace alba
-
-

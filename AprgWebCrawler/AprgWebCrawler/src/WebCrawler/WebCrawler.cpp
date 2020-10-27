@@ -400,5 +400,3 @@ void WebCrawler::setCrawlState(CrawlState state)
 }
 
 }
-
-

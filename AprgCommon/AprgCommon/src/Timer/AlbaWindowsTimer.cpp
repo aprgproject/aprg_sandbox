@@ -1,6 +1,7 @@
 #include <Timer/AlbaWindowsTimer.hpp>
 
-namespace alba{
+namespace alba
+{
 
 AlbaWindowsTimer::AlbaWindowsTimer()
 {
@@ -55,6 +56,3 @@ unsigned int AlbaWindowsTimer::getElapsedTimeInHours() const
 }
 
 }//namespace alba
-
-
-

@@ -4,7 +4,8 @@
 #include <QSettings>
 #include <QSignalMapper>
 
-namespace {
+namespace 
+{
 const QString SETTINGS_RECENT_DOCUMENTS_DOCUMENT_KEY = "document";
 } // namespace {}
 
@@ -118,4 +119,3 @@ void RecentDocuments::onRecentDocumentsActionTriggered(int index)
 {
     emit recentDocument(m_documents.value(index));
 }
-

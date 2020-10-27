@@ -595,5 +595,3 @@ TEST(CMakeReaderTest, CMakeFileRead_AddExecutableCommandSyntaxTest)
     EXPECT_EQ(*(itFile++), currentDirectory + "DIR3\\File3.bin");
     EXPECT_EQ(*(itFile++), currentDirectory + "File4.out");
 }
-
-

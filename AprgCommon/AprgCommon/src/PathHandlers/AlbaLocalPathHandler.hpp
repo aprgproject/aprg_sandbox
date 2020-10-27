@@ -23,6 +23,3 @@ public:
 };
 
 }//namespace alba
-
-
-

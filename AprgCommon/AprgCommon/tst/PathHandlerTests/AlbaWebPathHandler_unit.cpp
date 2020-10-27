@@ -71,6 +71,3 @@ TEST(WebPathTest, GotoLinkWhenWithProtocolIsGiven)
     EXPECT_EQ("ext", pathHandler.getExtension());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
 }
-
-
-

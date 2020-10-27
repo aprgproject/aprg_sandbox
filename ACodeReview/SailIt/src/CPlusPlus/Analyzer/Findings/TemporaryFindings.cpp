@@ -25,5 +25,3 @@ void TemporaryFindings::saveCurrentFindings()
 }
 
 }//namespace codeReview
-
-

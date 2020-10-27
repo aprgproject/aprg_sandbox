@@ -68,5 +68,3 @@ void CPlusPlusNamespace::addVariable(string const& variableName)
 }
 
 }
-
-

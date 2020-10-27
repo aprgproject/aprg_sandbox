@@ -5,7 +5,8 @@
 
 //------------------------------------------------------------------------------
 
-namespace {
+namespace 
+{
 QString cachePathFromPathAndKey(const QString& path, const QString& key) {
     return QFileInfo(QDir(path), key).absoluteFilePath();
 }
@@ -190,4 +191,3 @@ bool FileCache::updateFromDisk(const QString &path, ItemGenerator item_generator
 }
 
 //------------------------------------------------------------------------------
-

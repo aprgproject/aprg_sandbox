@@ -101,5 +101,3 @@ void WebCrawler::downloadGoogleImages() const
 }
 
 }
-
-

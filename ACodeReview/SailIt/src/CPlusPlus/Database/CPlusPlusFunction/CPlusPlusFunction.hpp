@@ -38,5 +38,3 @@ private:
 typedef alba::AlbaOptional<CPlusPlusFunction> CPlusPlusFunctionOptional;
 
 }
-
-

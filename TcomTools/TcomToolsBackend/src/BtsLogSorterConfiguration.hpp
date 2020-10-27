@@ -17,5 +17,3 @@ struct BtsLogSorterConfiguration
 };
 
 }
-
-

@@ -98,5 +98,3 @@ TEST_F(ModuleTest, ExternBlockInvalidSpacesTest)
     CHECK_TERM(it, TermType::ProcessedTerm, "extern \"C++\" {\n}\n", 3);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 4);
 }
-
-

@@ -2,6 +2,7 @@
 
 #include <LargeSorter/DataBlockFileHandler.hpp>
 #include <LargeSorter/DataBlockMemoryHandler.hpp>
+
 #include <Optional/AlbaOptional.hpp>
 
 #include <algorithm>
@@ -196,5 +197,3 @@ private:
 };
 
 }//namespace alba
-
-

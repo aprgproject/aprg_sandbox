@@ -193,5 +193,3 @@ void CurlInterface::printDownloadErrorMessage(string const& errorMessage)
 }
 
 }
-
-

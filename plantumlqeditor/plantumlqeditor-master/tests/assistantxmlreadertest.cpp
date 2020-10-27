@@ -5,7 +5,8 @@
 
 #include <gtest/gtest.h>
 
-namespace {
+namespace 
+{
 bool writeFile(const QString& data, const QString& file_name) {
     QFile file(file_name);
     if (!file.open(QFile::WriteOnly)) {
@@ -133,4 +134,3 @@ TEST(AssistantXmlReader, testParsingCDATANotes) {
     EXPECT_EQ("content\n  content\ncontent\nmore content", item->data());
     EXPECT_EQ("Simple notes\nnotes\n  notes\nnotes", item->notes());
 }
-

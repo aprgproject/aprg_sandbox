@@ -6,5 +6,3 @@ ADD_COMPONENT(ComponentName::RF, RF)
 ADD_COMPONENT(ComponentName::TLH, TLH)
 ADD_COMPONENT(ComponentName::TOAM, TOAM)
 ADD_COMPONENT(ComponentName::WRC, WRC)
-
-

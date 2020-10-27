@@ -1,5 +1,6 @@
-#include <CrawlHelpers/Downloaders.hpp>
 #include <Crawlers/OneDownloadPerPageCrawler.hpp>
+
+#include <CrawlHelpers/Downloaders.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
 
@@ -175,5 +176,3 @@ void OneDownloadPerPageCrawler::printLinks() const
 }
 
 }
-
-

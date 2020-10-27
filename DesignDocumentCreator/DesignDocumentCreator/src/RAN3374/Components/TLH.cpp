@@ -1,5 +1,6 @@
-#include <Common/Utils/StringHelpers.hpp>
 #include <RAN3374/Components/TLH.hpp>
+
+#include <Common/Utils/StringHelpers.hpp>
 
 #include <iostream>
 
@@ -34,5 +35,3 @@ void TLH::handleTimerEvent(Timer const& timer)
 }
 
 }
-
-

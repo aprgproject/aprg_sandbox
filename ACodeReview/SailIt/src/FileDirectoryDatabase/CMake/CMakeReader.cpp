@@ -469,6 +469,3 @@ bool CMakeReader::hasCMakeVariables(string const& string1)
 }
 
 }// namespace codeReview
-
-
-

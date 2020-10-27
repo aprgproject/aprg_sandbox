@@ -4,7 +4,8 @@
 #include <QPainter>
 #include <QSvgRenderer>
 
-namespace {
+namespace 
+{
     const int ZOOM_BIG_INCREMENT = 200;  // used when m_zoomScale > ZOOM_ORIGINAL_SCALE
     const int ZOOM_SMALL_INCREMENT = 25; // used when m_zoomScale < ZOOM_ORIGINAL_SCALE
     const int MAX_ZOOM_SCALE = 900;
@@ -89,4 +90,3 @@ void PreviewWidget::zoomImage()
         }
     }
 }
-

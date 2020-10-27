@@ -54,5 +54,3 @@ template <> void TermAnalyzer::addFindingsForUnexpectedNewLineIfNeeded<FindingsT
 
 
 }// namespace codeReview
-
-

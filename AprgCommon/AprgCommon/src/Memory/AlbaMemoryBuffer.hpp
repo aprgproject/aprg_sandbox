@@ -24,6 +24,3 @@ private:
 };
 
 }//namespace alba
-
-
-

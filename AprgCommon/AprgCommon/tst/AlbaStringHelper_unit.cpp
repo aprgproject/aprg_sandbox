@@ -28,7 +28,8 @@ TEST(GetNewStringFromStringTest, FindAndReplaceStringsWithRedundantStrings)
 
 TEST(SplitStringTest, SplitBySpaces)
 {
-    string string1("   Mark is the no#1      guy in the  world.    Mark is also the nicest guy.    ");    strings expectedStrings {"Mark", "is", "the", "no#1", "guy", "in", "the", "world.", "Mark", "is", "also", "the", "nicest", "guy."};
+    string string1("   Mark is the no#1      guy in the  world.    Mark is also the nicest guy.    ");
+    strings expectedStrings {"Mark", "is", "the", "no#1", "guy", "in", "the", "world.", "Mark", "is", "also", "the", "nicest", "guy."};
     strings actualStrings;
     splitToStrings<SplitStringType::WithoutDelimeters>(actualStrings, string1, " ");
 
@@ -617,8 +618,3 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithFillCharacter)
     EXPECT_EQ("0000012345.6789", converter.convert(12345.6789));
     EXPECT_EQ("0000-67890.1111", converter.convert(-67890.1111));
 }
-
-
-
-
-

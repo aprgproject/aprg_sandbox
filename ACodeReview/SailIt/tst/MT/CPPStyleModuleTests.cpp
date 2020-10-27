@@ -32,5 +32,3 @@ TEST_F(ModuleTest, CheckScopeOperatorForCPlusPlus)
     CHECK_TERM(it, TermType::ProcessedTerm, "int myStruct::variable1;\n", 8);
     EXPECT_EQ(m_findings.getMultiMapOfFindingsReference().size(), 0);
 }
-
-

@@ -46,5 +46,3 @@ void OneDownloadPerPageCrawler::retrieveLinksForMangaPark(AlbaWebPathHandler con
 }
 
 }
-
-

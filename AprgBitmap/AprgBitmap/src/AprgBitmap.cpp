@@ -51,5 +51,3 @@ void AprgBitmap::loadBitmap()
 }
 
 }
-
-

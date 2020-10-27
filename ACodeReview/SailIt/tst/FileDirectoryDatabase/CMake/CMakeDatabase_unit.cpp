@@ -185,5 +185,3 @@ TEST(CMakeDatabaseTest, SearchCMakeFileDirectoryOuterDirection)
     EXPECT_EQ(*(itFile++), directory+"file2sub2.hpp");
     EXPECT_EQ(*(itFile++), directory+"file3sub2.hpp");
 }
-
-

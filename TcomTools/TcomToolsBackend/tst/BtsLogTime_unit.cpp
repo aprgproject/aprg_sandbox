@@ -199,5 +199,3 @@ TEST(BtsLogTimeTest, SubtractionOperatorWithUnderflowValues)
     BtsLogTime actualAnswer = logTime2 - logTime1;
     EXPECT_EQ(expectedAnswer, actualAnswer);
 }
-
-

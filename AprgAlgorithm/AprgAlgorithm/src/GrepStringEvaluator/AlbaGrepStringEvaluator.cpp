@@ -362,6 +362,3 @@ void AlbaGrepStringEvaluator::setErrorMessage(string const& errorMessage)
 }
 
 }
-
-
-

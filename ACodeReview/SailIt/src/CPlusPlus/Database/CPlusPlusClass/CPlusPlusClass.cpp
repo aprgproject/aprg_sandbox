@@ -191,5 +191,3 @@ CPlusPlusClassTemplateSignature& CPlusPlusTemplateClass::getTemplateSignatureIns
 }
 
 }
-
-

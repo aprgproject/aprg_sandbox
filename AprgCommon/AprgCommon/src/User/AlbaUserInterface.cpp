@@ -45,6 +45,3 @@ template float AlbaUserInterface::getNumberFromInput<float>();
 template double AlbaUserInterface::getNumberFromInput<double>();
 
 }//namespace alba
-
-
-

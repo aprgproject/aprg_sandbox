@@ -1,5 +1,6 @@
-#include <Common/Utils/StringHelpers.hpp>
 #include <RAN3374/Components/WRC.hpp>
+
+#include <Common/Utils/StringHelpers.hpp>
 
 #include <iostream>
 
@@ -34,5 +35,3 @@ void WRC::handleTimerEvent(Timer const& timer)
 }
 
 }
-
-

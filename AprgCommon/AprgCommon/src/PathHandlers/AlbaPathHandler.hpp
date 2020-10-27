@@ -2,7 +2,8 @@
 
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 enum class PathType{Empty, Directory, File};
 
@@ -39,6 +40,3 @@ protected:
 };
 
 }//namespace alba
-
-
-

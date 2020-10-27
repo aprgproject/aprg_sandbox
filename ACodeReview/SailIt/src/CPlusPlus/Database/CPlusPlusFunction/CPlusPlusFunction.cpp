@@ -118,5 +118,3 @@ CPlusPlusType CPlusPlusFunction::getReturnTypeWithSignature(CPlusPlusFunctionSig
 }
 
 }
-
-

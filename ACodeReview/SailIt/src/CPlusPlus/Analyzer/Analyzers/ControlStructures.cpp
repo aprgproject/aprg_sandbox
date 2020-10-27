@@ -157,5 +157,3 @@ bool TermAnalyzer::isModifiedDueToOneConditionConstructAndMoveLooper(
 }
 
 }// namespace codeReview
-
-

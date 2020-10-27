@@ -53,7 +53,3 @@ TEST(AlbaRaiiafPointerTest, IntAndStringTest)
     EXPECT_EQ(anyPointer.getReference<string>(), "Replace with new object");
     anyPointer.deAllocate<string>();
 }
-
-
-
-

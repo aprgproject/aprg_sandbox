@@ -352,5 +352,3 @@ string TermTranslator::readAndAccumulateUntilStringIfFound(string & lineString, 
 
 
 }// namespace codeReview
-
-

@@ -29,5 +29,3 @@ int main(int argc, char *argv[])
     AprgFileExtractor fileExtractor(condition);
     fileExtractor.extractAllRelevantFiles(inputPath);
 }
-
-

@@ -26,5 +26,3 @@ extern int numberOfStepsEnabled;
 }
 
 }
-
-

@@ -7,7 +7,8 @@ namespace alba
 {
 
 //RAIIAF
-//Request Aquisition Is In A Function//anti RAII :(
+//Request Aquisition Is In A Function
+//anti RAII :(
 class AlbaRaiiafPointer
 {
 public:
@@ -61,6 +62,3 @@ private:
 };
 
 }//namespace alba
-
-
-

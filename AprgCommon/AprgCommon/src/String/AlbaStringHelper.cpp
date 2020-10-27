@@ -838,6 +838,3 @@ template string stringHelper::NumberToStringConverter::convert<float>(float numb
 template string stringHelper::NumberToStringConverter::convert<double>(double number);
 
 }//namespace alba
-
-
-
