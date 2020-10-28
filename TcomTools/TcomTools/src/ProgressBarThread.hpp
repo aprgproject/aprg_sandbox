@@ -9,9 +9,11 @@
 
 namespace tcomToolsGui
 {
+
 class QImage;
 
-class ProgressBarThread : public QThread{
+class ProgressBarThread : public QThread
+{
     Q_OBJECT
     enum class ThreadState
     {

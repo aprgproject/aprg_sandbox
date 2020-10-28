@@ -9,9 +9,11 @@
 
 namespace tcomToolsGui
 {
+
 class QImage;
 
-class StepHandlerThread : public QThread{
+class StepHandlerThread : public QThread
+{
     Q_OBJECT
     enum class ThreadState
     {

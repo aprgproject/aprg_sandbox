@@ -20,12 +20,13 @@ private:
     void fixHeaders(std::string const& path);
     void removeTrailingLinesInCode();
     void fixNamespaces();
-    void writeFile(std::string const& path);
-    bool isCPlusPlusHeader(std::string const& header) const;
-    bool isOtherLibraryHeaders(std::string const& headerFoundInFile) const;
-    bool isMainHeader(std::string const& headerFoundInFile, std::string const& filePath) const;
     void addHeaderFileFromAngleBrackets(std::string const& header);
     void addHeaderFileFromQuotations(std::string const& header);
+    void writeFile(std::string const& path);
+    bool isCPlusPlusHeader(std::string const& header) const;
+    bool isQtHeader(std::string const& header) const;
+    bool isOtherLibraryHeaders(std::string const& header) const;
+    bool isMainHeader(std::string const& headerFoundInFile, std::string const& filePath) const;
 
     std::vector<std::string> m_linesAfterTheHeader;
     std::vector<std::string> m_headerListFromAngleBrackets;

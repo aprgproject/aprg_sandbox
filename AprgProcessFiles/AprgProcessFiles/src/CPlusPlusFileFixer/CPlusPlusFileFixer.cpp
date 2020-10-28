@@ -183,6 +183,18 @@ void CPlusPlusFileFixer::fixNamespaces()
     }
 }
 
+void CPlusPlusFileFixer::addHeaderFileFromAngleBrackets(std::string const& header)
+{
+    AlbaPathHandler headerPathHandler(header, "/");
+    m_headerListFromAngleBrackets.emplace_back(headerPathHandler.getFullPath());
+}
+
+void CPlusPlusFileFixer::addHeaderFileFromQuotations(std::string const& header)
+{
+    AlbaPathHandler headerPathHandler(header, "/");
+    m_headerListFromQuotations.emplace(headerPathHandler.getFullPath());
+}
+
 void CPlusPlusFileFixer::writeFile(string const& path)
 {
     AlbaLocalPathHandler filePathHandler(path);
@@ -248,10 +260,24 @@ bool CPlusPlusFileFixer::isCPlusPlusHeader(string const& header) const
     return result;
 }
 
-bool CPlusPlusFileFixer::isOtherLibraryHeaders(string const& headerFoundInFile) const
+bool CPlusPlusFileFixer::isQtHeader(string const& header) const
 {
     bool result(false);
-    if("windows.h" == headerFoundInFile || stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(headerFoundInFile, "gtest"))
+    AlbaLocalPathHandler headerFileHandler(header);
+    if(header.length()>=2)
+    {
+        if('Q' == header[0] && ('t' == header[1] || stringHelper::isCapitalLetter(header[1])) && headerFileHandler.getExtension().empty())
+        {
+            result = true;
+        }
+    }
+    return result;
+}
+
+bool CPlusPlusFileFixer::isOtherLibraryHeaders(string const& header) const
+{
+    bool result(false);
+    if("windows.h" == header || stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(header, "gtest") || isQtHeader(header))
     {
         result=true;
     }
@@ -268,18 +294,6 @@ bool CPlusPlusFileFixer::isMainHeader(string const& headerFoundInFile, string co
         result=true;
     }
     return result;
-}
-
-void CPlusPlusFileFixer::addHeaderFileFromAngleBrackets(std::string const& header)
-{
-    AlbaPathHandler headerPathHandler(header, "/");
-    m_headerListFromAngleBrackets.emplace_back(headerPathHandler.getFullPath());
-}
-
-void CPlusPlusFileFixer::addHeaderFileFromQuotations(std::string const& header)
-{
-    AlbaPathHandler headerPathHandler(header, "/");
-    m_headerListFromQuotations.emplace(headerPathHandler.getFullPath());
 }
 
 

@@ -20,29 +20,13 @@ TEST(SampleTest, FilesToFind)
 {
     AlbaLocalPathHandler::ListOfPaths files;
     AlbaLocalPathHandler::ListOfPaths directories;
-    AlbaLocalPathHandler pathHandler(APRG_DIR);
+    AlbaLocalPathHandler pathHandler(R"(C:\Qt\Qt5.3.2\5.3\mingw482_32\include)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
 
     for(string const& file: files)
     {
-        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(file, ".cpp") || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(file, ".hpp"))
-        {
-            vector<string> listOfHeaders;
-            AlbaLocalPathHandler pathHandler(file);
-            ifstream inputFileStream(pathHandler.getFullPath());
-            if(inputFileStream.is_open())
-            {
-                AlbaFileReader inputFileReader(inputFileStream);
-                while(inputFileReader.isNotFinished())
-                {
-                    string lineInFile(inputFileReader.getLineAndIgnoreWhiteSpaces());
-                    if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInFile, "#include") )
-                    {
-                        listOfHeaders.emplace_back()
-                    }
-                }
-            }
-        }
+        AlbaLocalPathHandler filePathHandler(file);
+        cout<<filePathHandler.getFile()<<endl;
     }
 }
 

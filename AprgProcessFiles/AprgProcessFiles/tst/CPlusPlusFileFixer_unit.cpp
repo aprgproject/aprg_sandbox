@@ -15,6 +15,7 @@ TEST(CPlusPlusFileFixerTest, ActualRun)
 {
     CPlusPlusFileFixer fixer;
     //fixer.processDirectory(R"(C:\APRG\)");
+    //fixer.processDirectory(R"(C:\APRG\TcomTools\)");
     //fixer.processFile(R"(C:\APRG\AprgCommon\AprgCommon\tst\AlbaStringHelper_unit.cpp)");
 }
 
@@ -29,6 +30,9 @@ TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersTest)
     testFile << "   #pragma once\t\t\t " << endl;
     testFile << R"()"<< endl;
     testFile << R"(#include "file1.hpp")" << endl;
+    testFile << R"()"<< endl;
+    testFile << R"(#include <QDebug>)" << endl;
+    testFile << R"(#include <QtWidgets>)" << endl;
     testFile << R"(#include <Test1\Test1.hpp>)" << endl;
     testFile << R"(         This is a line in the code)" << endl;
     testFile << "       \t\t\t\t       This is another line in the code    " << endl;
@@ -51,6 +55,8 @@ TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersTest)
     EXPECT_EQ(R"()", fileReader.getLine());
     EXPECT_EQ(R"(#include <file2.hpp>)", fileReader.getLine());
     EXPECT_EQ(R"()", fileReader.getLine());
+    EXPECT_EQ(R"(#include <QDebug>)", fileReader.getLine());
+    EXPECT_EQ(R"(#include <QtWidgets>)", fileReader.getLine());
     EXPECT_EQ(R"(#include <gtest/gtest.h>)", fileReader.getLine());
     EXPECT_EQ(R"()", fileReader.getLine());
     EXPECT_EQ(R"(#include <string>)", fileReader.getLine());

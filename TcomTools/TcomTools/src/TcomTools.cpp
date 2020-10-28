@@ -9,8 +9,10 @@
 
 using namespace alba;
 using namespace std;
+
 namespace alba
 {
+
 namespace ProgressCounters
 {
 extern int getOverAllProgress();
