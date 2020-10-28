@@ -13,7 +13,6 @@
     29,28,27,26,25,24,23,22,21,20, 19,18,17,16,15,14,13,12,11,10,  9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 
 
-/* definition to expand macro then apply to pragma message */
-#define VALUE_TO_STRING(x) #x
-#define VALUE(x) VALUE_TO_STRING(x)
-#define VAR_NAME_VALUE(var) #var "="  VALUE(var)
+#define EXPAND_TO_LITERAL_TEXT(x) #x
+#define GET_VALUE(x) EXPAND_TO_LITERAL_TEXT(x)
+#define DISPLAY_VALUE_PRAGMA_MESSAGE(var) #var "="  VALUE(var)
