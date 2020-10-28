@@ -8,16 +8,19 @@ set(APRG_COMMON_TEST_INCLUDE_DIRECTORIES
 
 set(APRG_COMMON_SOURCES
     ${APRG_COMMON_DIR}/src/Bit/AlbaBitManipulation.hpp
-    ${APRG_COMMON_DIR}/src/Container/AlbaContainerHelper.cpp    ${APRG_COMMON_DIR}/src/Container/AlbaContainerHelper.hpp
+    ${APRG_COMMON_DIR}/src/Container/AlbaContainerHelper.cpp
+    ${APRG_COMMON_DIR}/src/Container/AlbaContainerHelper.hpp
     ${APRG_COMMON_DIR}/src/File/AlbaFileReader.cpp
     ${APRG_COMMON_DIR}/src/File/AlbaFileReader.hpp
     ${APRG_COMMON_DIR}/src/Macros/AlbaMacros.hpp
     ${APRG_COMMON_DIR}/src/Memory/AlbaMemoryBuffer.cpp
     ${APRG_COMMON_DIR}/src/Memory/AlbaMemoryBuffer.hpp
-    ${APRG_COMMON_DIR}/src/Memory/AlbaRaiiafPointer.cpp    ${APRG_COMMON_DIR}/src/Memory/AlbaRaiiafPointer.hpp
+    ${APRG_COMMON_DIR}/src/Memory/AlbaRaiiafPointer.cpp
+    ${APRG_COMMON_DIR}/src/Memory/AlbaRaiiafPointer.hpp
     ${APRG_COMMON_DIR}/src/Optional/AlbaOptional.cpp
     ${APRG_COMMON_DIR}/src/Optional/AlbaOptional.hpp
-    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaLocalPathHandler.cpp    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaLocalPathHandler.hpp
+    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaLocalPathHandler.cpp
+    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaLocalPathHandler.hpp
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaPathHandler.cpp
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaPathHandler.hpp
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaWebPathHandler.cpp
@@ -59,6 +62,7 @@ set(APRG_COMMON_TESTS
     ${APRG_COMMON_DIR}/tst/DirectoryConstants.hpp
 )
 
-set(APRG_COMMON_SOURCES_AND_TESTS    ${APRG_COMMON_SOURCES}
+set(APRG_COMMON_SOURCES_AND_TESTS
+    ${APRG_COMMON_SOURCES}
     ${APRG_COMMON_TESTS}
 )

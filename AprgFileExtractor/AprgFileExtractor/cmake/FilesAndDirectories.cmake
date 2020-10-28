@@ -8,10 +8,12 @@ set(APRG_FILE_EXTRACTOR_TEST_INCLUDE_DIRECTORIES
 
 set(APRG_FILE_EXTRACTOR_SOURCES
     ${APRG_FILE_EXTRACTOR_DIR}/src/AprgFileExtractor.cpp
-    ${APRG_FILE_EXTRACTOR_DIR}/src/AprgFileExtractor.hpp)
+    ${APRG_FILE_EXTRACTOR_DIR}/src/AprgFileExtractor.hpp
+)
 
 set(APRG_FILE_EXTRACTOR_TESTS
-    ${APRG_FILE_EXTRACTOR_DIR}/tst/AprgFileExtractor_unit.cpp)
+    ${APRG_FILE_EXTRACTOR_DIR}/tst/AprgFileExtractor_unit.cpp
+)
 
 set(APRG_FILE_EXTRACTOR_SOURCES_AND_TESTS
     ${APRG_FILE_EXTRACTOR_SOURCES}

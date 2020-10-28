@@ -11,8 +11,10 @@ static_assert(false, "WINDOWS is only the supported OS yet.");
 #endif
 
 #include <PathHandlers/PathContantsAndTypes.hpp>
+
 namespace alba
 {
+
 #ifdef OS_WINDOWS
 class AlbaLocalPathHandler: public AlbaWindowsPathHandler
 #endif

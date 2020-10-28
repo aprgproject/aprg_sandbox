@@ -3,8 +3,10 @@
 #include <File/AlbaFileReader.hpp>
 
 #include <gtest/gtest.h>
+
 #include <fstream>
 #include <string>
+
 using namespace alba;
 using namespace std;
 
@@ -35,9 +37,11 @@ TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersTest)
     testFile << R"(         This is a line in the code)" << endl;
     testFile << "       \t\t\t\t       This is another line in the code    " << endl;
     testFile.close();
+
     fixer.processFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
 
-    ifstream inputTestFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);    ASSERT_TRUE(inputTestFile.is_open());
+    ifstream inputTestFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
+    ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
     ASSERT_TRUE(inputTestFile.good());
@@ -51,10 +55,12 @@ TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersTest)
     EXPECT_EQ(R"(#include <Test1/Test1_unit.hpp>)", fileReader.getLine());
     EXPECT_EQ(R"()", fileReader.getLine());
     EXPECT_EQ(R"(#include <file2.hpp>)", fileReader.getLine());
-    EXPECT_EQ(R"()", fileReader.getLine());    EXPECT_EQ(R"(#include <QDebug>)", fileReader.getLine());
+    EXPECT_EQ(R"()", fileReader.getLine());
+    EXPECT_EQ(R"(#include <QDebug>)", fileReader.getLine());
     EXPECT_EQ(R"(#include <QtWidgets>)", fileReader.getLine());
     EXPECT_EQ(R"(#include <gtest/gtest.h>)", fileReader.getLine());
-    EXPECT_EQ(R"()", fileReader.getLine());    EXPECT_EQ(R"(#include <string>)", fileReader.getLine());
+    EXPECT_EQ(R"()", fileReader.getLine());
+    EXPECT_EQ(R"(#include <string>)", fileReader.getLine());
     EXPECT_EQ(R"()", fileReader.getLine());
     EXPECT_EQ(R"(         This is a line in the code)", fileReader.getLine());
     EXPECT_EQ("       \t\t\t\t       This is another line in the code    ", fileReader.getLine());

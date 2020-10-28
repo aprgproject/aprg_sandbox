@@ -1,5 +1,7 @@
 #include <File/AlbaFileReader.hpp>
 
+#include <DirectoryConstants.hpp>
+
 #include <gtest/gtest.h>
 
 #include <string>
@@ -7,91 +9,9 @@
 using namespace alba;
 using namespace std;
 
-TEST(FileReadTest, ReadFromTestFile_ReadSingleCharacterFromBinaryFile)
-{
-    ofstream testFile(ALBA_FILE_READER_TEST_FILE);    ASSERT_TRUE(testFile.is_open());
-    testFile << "123!@# \t\n";
-    testFile.close();
-
-    ifstream inputTestFile(ALBA_FILE_READER_TEST_FILE, ios::binary);
-    ASSERT_TRUE(inputTestFile.is_open());
-
-    AlbaFileReader fileReader(inputTestFile);
-    ASSERT_TRUE(inputTestFile.good());
-    ASSERT_FALSE(inputTestFile.eof());
-    EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ('1' ,fileReader.getCharacter());
-    EXPECT_EQ('2' ,fileReader.getCharacter());
-    EXPECT_EQ('3' ,fileReader.getCharacter());
-    EXPECT_EQ('!' ,fileReader.getCharacter());
-    EXPECT_EQ('@' ,fileReader.getCharacter());
-    EXPECT_EQ('#' ,fileReader.getCharacter());
-    EXPECT_EQ(' ' ,fileReader.getCharacter());
-    EXPECT_EQ('\t' ,fileReader.getCharacter());
-    EXPECT_EQ('\r' ,fileReader.getCharacter());
-    EXPECT_EQ('\n' ,fileReader.getCharacter());
-    EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(fileReader.getCharacter(), 0);
-    EXPECT_FALSE(fileReader.isNotFinished());
-}
-
-TEST(FileReadTest, ReadFromTestFile_ReadMultipleCharacters)
-{
-    ofstream testFile(ALBA_FILE_READER_TEST_FILE);
-    ASSERT_TRUE(testFile.is_open());
-    testFile << "123!@# \t\n";
-    testFile.close();
-
-
-    ifstream inputTestFile(ALBA_FILE_READER_TEST_FILE, ios::binary);
-    ASSERT_TRUE(inputTestFile.is_open());
-
-    AlbaFileReader fileReader(inputTestFile);
-    ASSERT_TRUE(inputTestFile.good());
-    ASSERT_FALSE(inputTestFile.eof());
-    EXPECT_TRUE(fileReader.isNotFinished());
-    unsigned int numberOfCharacters=3;
-    EXPECT_EQ("123", string(fileReader.getCharacters(numberOfCharacters), numberOfCharacters));
-    EXPECT_EQ(numberOfCharacters, 3);
-    EXPECT_EQ("!@#", string(fileReader.getCharacters(numberOfCharacters), numberOfCharacters));
-    EXPECT_EQ(numberOfCharacters, 3);
-    EXPECT_EQ(" \t\r", string(fileReader.getCharacters(numberOfCharacters), numberOfCharacters));
-    EXPECT_EQ(numberOfCharacters, 3);
-    EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ("\n", string(fileReader.getCharacters(numberOfCharacters), 1));
-    EXPECT_EQ(numberOfCharacters, 1);
-    EXPECT_FALSE(fileReader.isNotFinished());
-}
-
-TEST(FileReadTest, ReadFromTestFile_ReadFourByteNumbers)
-{
-    ofstream testFile(ALBA_FILE_READER_TEST_FILE);
-    ASSERT_TRUE(testFile.is_open());
-    testFile.put(0x01);
-    testFile.put(0x23);
-    testFile.put(0x45);
-    testFile.put(0x67);
-    testFile.put((char)0xA1);
-    testFile.put((char)0xBA);
-    testFile.close();
-
-
-    ifstream inputTestFile(ALBA_FILE_READER_TEST_FILE, ios::binary);
-    ASSERT_TRUE(inputTestFile.is_open());
-
-    AlbaFileReader fileReader(inputTestFile);
-    ASSERT_TRUE(inputTestFile.good());
-    ASSERT_FALSE(inputTestFile.eof());
-    EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(0x01234567, fileReader.getFourByteData<unsigned int>());
-    EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(0xA1BA, fileReader.getFourByteData<unsigned int>());
-    EXPECT_FALSE(fileReader.isNotFinished());
-}
-
 TEST(FileReadTest, ReadFromTestFile_ReadLineUsingVariousCharacters)
 {
-    ofstream testFile(ALBA_FILE_READER_TEST_FILE);
+    ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);
     ASSERT_TRUE(testFile.is_open());
     testFile << "1         " << endl;
     testFile << "12        " << endl;
@@ -117,7 +37,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadLineUsingVariousCharacters)
     testFile.close();
 
 
-    ifstream inputTestFile(ALBA_FILE_READER_TEST_FILE);
+    ifstream inputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
     ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
@@ -144,7 +64,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadLineUsingVariousCharacters)
 
 TEST(FileReadTest, ReadFromTestFile_ReadLineWithSizeLimit)
 {
-    ifstream inputTestFile(ALBA_FILE_READER_SIZE_TEST_FILE);
+    ifstream inputTestFile(ALBA_COMMON_SIZE_TEST_FILE);
     ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
@@ -158,4 +78,88 @@ TEST(FileReadTest, ReadFromTestFile_ReadLineWithSizeLimit)
     EXPECT_EQ(1000, fileReader.getLineAndIgnoreWhiteSpaces().length());
     EXPECT_FALSE(fileReader.isNotFinished());
     EXPECT_EQ("", fileReader.getLineAndIgnoreWhiteSpaces());
+}
+
+TEST(FileReadTest, ReadFromTestFile_ReadSingleCharacterFromBinaryFile)
+{
+    ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);
+    ASSERT_TRUE(testFile.is_open());
+    testFile << "123!@# \t\n";
+    testFile.close();
+
+
+    ifstream inputTestFile(APRG_COMMON_TEST_FILE_TO_READ, ios::binary);
+    ASSERT_TRUE(inputTestFile.is_open());
+
+    AlbaFileReader fileReader(inputTestFile);
+    ASSERT_TRUE(inputTestFile.good());
+    ASSERT_FALSE(inputTestFile.eof());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ('1' ,fileReader.getCharacter());
+    EXPECT_EQ('2' ,fileReader.getCharacter());
+    EXPECT_EQ('3' ,fileReader.getCharacter());
+    EXPECT_EQ('!' ,fileReader.getCharacter());
+    EXPECT_EQ('@' ,fileReader.getCharacter());
+    EXPECT_EQ('#' ,fileReader.getCharacter());
+    EXPECT_EQ(' ' ,fileReader.getCharacter());
+    EXPECT_EQ('\t' ,fileReader.getCharacter());
+    EXPECT_EQ('\r' ,fileReader.getCharacter());
+    EXPECT_EQ('\n' ,fileReader.getCharacter());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(fileReader.getCharacter(), 0);
+    EXPECT_FALSE(fileReader.isNotFinished());
+}
+
+TEST(FileReadTest, ReadFromTestFile_ReadMultipleCharacters)
+{
+    ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);
+    ASSERT_TRUE(testFile.is_open());
+    testFile << "123!@# \t\n";
+    testFile.close();
+
+
+    ifstream inputTestFile(APRG_COMMON_TEST_FILE_TO_READ, ios::binary);
+    ASSERT_TRUE(inputTestFile.is_open());
+
+    AlbaFileReader fileReader(inputTestFile);
+    ASSERT_TRUE(inputTestFile.good());
+    ASSERT_FALSE(inputTestFile.eof());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    unsigned int numberOfCharacters=3;
+    EXPECT_EQ("123", string(fileReader.getCharacters(numberOfCharacters), numberOfCharacters));
+    EXPECT_EQ(numberOfCharacters, 3);
+    EXPECT_EQ("!@#", string(fileReader.getCharacters(numberOfCharacters), numberOfCharacters));
+    EXPECT_EQ(numberOfCharacters, 3);
+    EXPECT_EQ(" \t\r", string(fileReader.getCharacters(numberOfCharacters), numberOfCharacters));
+    EXPECT_EQ(numberOfCharacters, 3);
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ("\n", string(fileReader.getCharacters(numberOfCharacters), 1));
+    EXPECT_EQ(numberOfCharacters, 1);
+    EXPECT_FALSE(fileReader.isNotFinished());
+}
+
+TEST(FileReadTest, ReadFromTestFile_ReadFourByteNumbers)
+{
+    ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);
+    ASSERT_TRUE(testFile.is_open());
+    testFile.put(0x01);
+    testFile.put(0x23);
+    testFile.put(0x45);
+    testFile.put(0x67);
+    testFile.put((char)0xA1);
+    testFile.put((char)0xBA);
+    testFile.close();
+
+
+    ifstream inputTestFile(APRG_COMMON_TEST_FILE_TO_READ, ios::binary);
+    ASSERT_TRUE(inputTestFile.is_open());
+
+    AlbaFileReader fileReader(inputTestFile);
+    ASSERT_TRUE(inputTestFile.good());
+    ASSERT_FALSE(inputTestFile.eof());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0x01234567, fileReader.getFourByteData<unsigned int>());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0xA1BA, fileReader.getFourByteData<unsigned int>());
+    EXPECT_FALSE(fileReader.isNotFinished());
 }
