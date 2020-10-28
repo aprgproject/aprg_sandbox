@@ -3,6 +3,7 @@
 #include <LargeSorter/DataBlockFileHandler.hpp>
 #include <LargeSorter/DataBlockMemoryHandler.hpp>
 
+#include <Container/AlbaContainerHelper.hpp>
 #include <Optional/AlbaOptional.hpp>
 
 #include <algorithm>
@@ -122,10 +123,7 @@ public:
             MemoryContainer const & contents(m_memoryBlockHandler.getReference().getContainerReference());
             m_blockFileHandler.getReference().openFileIfNeeded(m_fileDumpPath);
             std::ofstream & fileDump = m_blockFileHandler.getReference().getFileDumpStreamReference();
-            for(ObjectToSort const& objectToSort : contents)
-            {
-                fileDump<<objectToSort<<std::endl;
-            }
+            containerHelper::saveContentsOfContainerToFile(fileDump, contents);
         }
         m_memoryBlockHandler.clear();
         m_blockType = DataBlockType::File;
@@ -138,16 +136,7 @@ public:
             m_blockFileHandler.getReference().releaseFileStream();
             MemoryContainer & contents(m_memoryBlockHandler.getReference().getContainerReference());
             std::ifstream inputFileStream(m_fileDumpPath);
-            while(inputFileStream.good())
-            {
-                ObjectToSort objectToSort;
-                inputFileStream>>objectToSort;
-                if(inputFileStream.good()) { contents.push_back(objectToSort); }
-            }
-            /*if(contents.size() != m_numberOfObjects)
-            {
-                std::cout<<"assert failed blockId:"<<m_blockId<<" contents: "<<contents.size()<<" NumObjects: "<<m_numberOfObjects<<" blockType:"<<(int const)m_blockType<<std::endl;
-            }*/
+            containerHelper::retrieveContentsOfContainerFromFile(inputFileStream, contents);
             assert(contents.size() == m_numberOfObjects);
         }
         m_blockFileHandler.clear();

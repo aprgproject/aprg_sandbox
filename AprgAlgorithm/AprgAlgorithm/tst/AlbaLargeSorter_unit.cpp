@@ -152,7 +152,7 @@ TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanBeAdded)
     cache.addBlock(3, 30);
     cache.addBlock(4, 40);
     cache.addBlock(5, 50);
-    EXPECT_EQ(5, cache.getContainerReference().size());
+    EXPECT_EQ(5u, cache.getContainerReference().size());
 }
 
 TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanNotBeDuplicated)
@@ -167,7 +167,7 @@ TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanNotBeDuplicated)
     cache.addBlock(3, 30);
     cache.addBlock(3, 30);
     cache.addBlock(3, 30);
-    EXPECT_EQ(5, cache.getContainerReference().size());
+    EXPECT_EQ(5u, cache.getContainerReference().size());
 }
 
 TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanBeDeleted)
@@ -199,7 +199,7 @@ TEST(AlbaLargeSorterTest, CacheTest_CacheIsUnchangedByDeletionOfNonExistingObjec
     cache.deleteBlock(7);
     cache.deleteBlock(7);
     cache.deleteBlock(8);
-    EXPECT_EQ(5, cache.getContainerReference().size());
+    EXPECT_EQ(5u, cache.getContainerReference().size());
 }
 
 TEST(AlbaLargeSorterTest, CacheTest_EarliestObjectsCanBePop)
@@ -239,7 +239,7 @@ TEST(AlbaLargeSorterTest, CacheTest_ContainerReferenceCanFetched)
     cache.addBlock(4, 40);
     cache.addBlock(5, 50);
     AlbaLargeSorterCache<int>::BlocksInformationContainer & container(cache.getContainerReference());
-    ASSERT_EQ(5, container.size());
+    ASSERT_EQ(5u, container.size());
     EXPECT_EQ(50, container[0].m_blockInformation);
     EXPECT_EQ(40, container[1].m_blockInformation);
     EXPECT_EQ(30, container[2].m_blockInformation);
