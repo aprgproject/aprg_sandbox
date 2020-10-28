@@ -32,6 +32,6 @@ include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 include(${SIMPLEST_DESIGN_TO_COPY_DIR}/cmake/FilesAndDirectories.cmake)
 
 add_executable(${OUTFILE} ${SIMPLEST_DESIGN_TO_COPY_SOURCES_AND_TESTS})
-include_directories(${SIMPLEST_DESIGN_TO_COPY_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+include_directories(${SIMPLEST_DESIGN_TO_COPY_INCLUDE_DIRECTORIES} ${SIMPLEST_DESIGN_TO_COPY_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
 target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
 add_test(${OUTFILE} ${OUTFILE})

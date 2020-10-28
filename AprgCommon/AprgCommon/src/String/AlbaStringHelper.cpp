@@ -178,15 +178,13 @@ void stringHelper::splitLinesToAchieveTargetLength(stringHelper::strings & strin
 
         if(!isWhiteSpace(currentCharacter))
         {
-            auto pairOfIndex = containerHelper::getInclusiveRangeFromSet(transitionIndexes, splittingIndex);
+            auto pairOfIndex = containerHelper::getRangeFromSetBasedFromValue(transitionIndexes, splittingIndex);
             unsigned int lowerTransitionIndex(pairOfIndex.first+1);
             unsigned int upperTransitionIndex(pairOfIndex.second);
-            int lowerDelta = splittingIndex-lowerTransitionIndex;
-            int upperDelta = upperTransitionIndex-splittingIndex;
+            int lowerDelta = splittingIndex-lowerTransitionIndex;            int upperDelta = upperTransitionIndex-splittingIndex;
 
             if(upperDelta >= 0 && lowerDelta >= 0 && lowerTransitionIndex > previousSplittingIndex)
-            {
-                if(upperDelta < lowerDelta)
+            {                if(upperDelta < lowerDelta)
                 {
                     splittingIndex = upperTransitionIndex;
                 }

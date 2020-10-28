@@ -32,6 +32,6 @@ include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 include(${APRG_ALGORITHM_DIR}/cmake/FilesAndDirectories.cmake)
 
 add_executable(${OUTFILE} ${APRG_ALGORITHM_SOURCES_AND_TESTS})
-include_directories(${APRG_ALGORITHM_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+include_directories(${APRG_ALGORITHM_INCLUDE_DIRECTORIES} ${APRG_ALGORITHM_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
 target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON)
 add_test(${OUTFILE} ${OUTFILE})

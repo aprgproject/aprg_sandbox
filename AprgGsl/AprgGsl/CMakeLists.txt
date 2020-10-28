@@ -38,6 +38,6 @@ include(${APRG_DIR}/gsl1.8/AprgCmakeInclude/Gsl.cmake)
 include(${APRG_GSL_DIR}/cmake/FilesAndDirectories.cmake)
 
 add_executable(${OUTFILE} ${APRG_GSL_SOURCES_AND_TESTS})
-include_directories(${APRG_GSL_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+include_directories(${APRG_GSL_INCLUDE_DIRECTORIES} ${APRG_GSL_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
 target_link_libraries(${OUTFILE} gtest APRG_COMMON APRG_ALGORITHM ${CMAKE_THREAD_LIBS_INIT} GSL GSLCBLAS)
 add_test(${OUTFILE} ${OUTFILE})

@@ -2,14 +2,16 @@ set(APRG_ALGORITHM_INCLUDE_DIRECTORIES
     ${APRG_ALGORITHM_DIR}/src
 )
 
+set(APRG_ALGORITHM_TEST_INCLUDE_DIRECTORIES
+    ${APRG_COMMON_DIR}/tst
+)
+
 set(APRG_ALGORITHM_SOURCES
     ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluator.cpp
-    ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluator.hpp
-    ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.cpp
+    ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluator.hpp    ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.cpp
     ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.hpp
     ${APRG_ALGORITHM_DIR}/src/LargeSorter/AlbaLargeSorter.hpp
-    ${APRG_ALGORITHM_DIR}/src/LargeSorter/AlbaLargeSorterCache.hpp
-    ${APRG_ALGORITHM_DIR}/src/LargeSorter/AlbaLargeSorterConfiguration.hpp
+    ${APRG_ALGORITHM_DIR}/src/LargeSorter/AlbaLargeSorterCache.hpp    ${APRG_ALGORITHM_DIR}/src/LargeSorter/AlbaLargeSorterConfiguration.hpp
     ${APRG_ALGORITHM_DIR}/src/LargeSorter/AlbaLargeSorterTypes.hpp
     ${APRG_ALGORITHM_DIR}/src/LargeSorter/DataBlock.hpp
     ${APRG_ALGORITHM_DIR}/src/LargeSorter/DataBlockFileHandler.hpp

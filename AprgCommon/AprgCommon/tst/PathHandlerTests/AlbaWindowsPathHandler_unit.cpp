@@ -1,24 +1,19 @@
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
+#include <DirectoryConstants.hpp>
 
 #include <gtest/gtest.h>
-
 #include <fstream>
 #include <string>
 
 using namespace std;
 using namespace alba;
 
-#define APRG_DIR_SIMPLFIED R"(C:\APRG)"
-#define ALBA_PATH_HANDLER_SIZE_TEST_FILE APRG_DIR R"(\AprgCommon\AprgCommon\tst\FilesForTests\FileReaderTest\Test2_SizeTest.txt)"
-
 TEST(WindowsPathTest, FullPathWithOnlyDirectoryGiven_WindowsStyleInput)
 {
-    AlbaWindowsPathHandler pathHandler(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\)");
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    AlbaWindowsPathHandler pathHandler(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\)");    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\)", pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
-    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
-    EXPECT_TRUE(pathHandler.getExtension().empty());
+    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());    EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
 }
 

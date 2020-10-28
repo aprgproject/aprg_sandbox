@@ -385,26 +385,23 @@ TEST(AlbaLargeSorterTest, FilesForBlocksAreDeletedAfterFileForBlocksAreCreated)
     }
     listOfFiles.clear();
     listOfDirectories.clear();
-    AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 100));
-    for(int inputValue=0; inputValue<100; inputValue++)
+    AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 200));
+    for(int inputValue=0; inputValue<200; inputValue++)
     {
         largeSorter.add(inputValue);
     }
-
     int expectedValue=0;
     largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)
     {
         EXPECT_EQ(expectedValue++, actualValue);
     });
-    EXPECT_EQ(100, expectedValue);
+    EXPECT_EQ(200, expectedValue);
     directoryPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     EXPECT_TRUE(listOfFiles.empty());
-    EXPECT_TRUE(listOfDirectories.empty());
-}
+    EXPECT_TRUE(listOfDirectories.empty());}
 
 TEST(AlbaLargeSorterTest, PrimitiveDataTypesAreSortedWhenBlocksAreCreated)
-{
-    AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 100));
+{    AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 100));
     largeSorter.add(8);
     largeSorter.add(4);
     largeSorter.add(2);
@@ -571,15 +568,13 @@ TEST(AlbaLargeSorterTest, ObjectsAreSortedWhenUsingRandomShuffle)
 
 TEST(AlbaLargeSorterTest, DISABLED_FileStreamAreLimitedByMaximumFileStreams)
 {
-    AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 1, 2, 0, 100));
+    AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 0, 1, 0, 200));
     vector<int> integersToShuffle;
     for(int inputValue=0; inputValue<1000; inputValue++)
-    {
-        integersToShuffle.emplace_back(inputValue);
+    {        integersToShuffle.emplace_back(inputValue);
     }
     random_shuffle(integersToShuffle.begin(), integersToShuffle.end());
-    for(int value : integersToShuffle)
-    {
+    for(int value : integersToShuffle)    {
         largeSorter.add(value);
     }
 

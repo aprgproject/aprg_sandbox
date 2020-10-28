@@ -32,6 +32,6 @@ include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 include(${APRG_BITMAP_DIR}/cmake/FilesAndDirectories.cmake)
 
 add_executable(${OUTFILE} ${APRG_BITMAP_SOURCES_AND_TESTS})
-include_directories(${APRG_BITMAP_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+include_directories(${APRG_BITMAP_INCLUDE_DIRECTORIES} ${APRG_BITMAP_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
 target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
 add_test(${OUTFILE} ${OUTFILE})

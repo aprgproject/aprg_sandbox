@@ -7,16 +7,11 @@
 using namespace alba;
 using namespace std;
 
-#define ALBA_FILE_READER_TEST_FILE APRG_DIR R"(AprgCommon\AprgCommon\tst\FilesForTests\FileReaderTest\Test1.txt)"
-#define ALBA_FILE_READER_SIZE_TEST_FILE APRG_DIR R"(AprgCommon\AprgCommon\tst\FilesForTests\FileReaderTest\Test2_SizeTest.txt)"
-
 TEST(FileReadTest, ReadFromTestFile_ReadSingleCharacterFromBinaryFile)
 {
-    ofstream testFile(ALBA_FILE_READER_TEST_FILE);
-    ASSERT_TRUE(testFile.is_open());
+    ofstream testFile(ALBA_FILE_READER_TEST_FILE);    ASSERT_TRUE(testFile.is_open());
     testFile << "123!@# \t\n";
     testFile.close();
-
 
     ifstream inputTestFile(ALBA_FILE_READER_TEST_FILE, ios::binary);
     ASSERT_TRUE(inputTestFile.is_open());

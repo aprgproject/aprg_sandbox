@@ -1,28 +1,34 @@
-#include <Macros/AlbaMacroArgumentCounter.hpp>
+#include <Macros/AlbaMacros.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
 TEST(AlbaMacroArgumentCounter, IntegerTest)
 {
-    EXPECT_EQ(ALBA_COUNT_ARGS(1), 1);
-    EXPECT_EQ(ALBA_COUNT_ARGS(8237, 23458, 28749), 3);
-    EXPECT_EQ(ALBA_COUNT_ARGS(0x1, 0x2, 0x3, 0x4), 4);
+    EXPECT_EQ(1, ALBA_MACROS_COUNT_ARGS(1));
+    EXPECT_EQ(3, ALBA_MACROS_COUNT_ARGS(8237, 23458, 28749));
+    EXPECT_EQ(4, ALBA_MACROS_COUNT_ARGS(0x1, 0x2, 0x3, 0x4));
 }
 
 TEST(AlbaMacroArgumentCounter, VariableTest)
 {
     int i1=1, i2=2, i3=3;
-    EXPECT_EQ(ALBA_COUNT_ARGS(i1), 1);
-    EXPECT_EQ(ALBA_COUNT_ARGS(i1, i2), 2);
-    EXPECT_EQ(ALBA_COUNT_ARGS(i1, i2, i3), 3);
+    EXPECT_EQ(1, ALBA_MACROS_COUNT_ARGS(i1));
+    EXPECT_EQ(2, ALBA_MACROS_COUNT_ARGS(i1, i2));
+    EXPECT_EQ(3, ALBA_MACROS_COUNT_ARGS(i1, i2, i3));
     i1=i2; i2=i3; i3=i1;
 }
 
-TEST(AlbaMacroArgumentCounter,StringTest)
+TEST(AlbaMacroArgumentCounter, StringTest)
 {
-    EXPECT_EQ(ALBA_COUNT_ARGS("one"), 1);
-    EXPECT_EQ(ALBA_COUNT_ARGS("one", "two"), 2);
-    EXPECT_EQ(ALBA_COUNT_ARGS("one", "two", "three"), 3);
+    EXPECT_EQ(1, ALBA_MACROS_COUNT_ARGS("one"));
+    EXPECT_EQ(2, ALBA_MACROS_COUNT_ARGS("one", "two"));
+    EXPECT_EQ(3, ALBA_MACROS_COUNT_ARGS("one", "two", "three"));
+}
+
+TEST(AlbaMacros, DisplayMessageTest)
+{
+    #define ALBA_MACROS_DISPLAY_VALUE_PRAGMA_MESSAGE_SAMPLE_MACRO 10000
+    EXPECT_EQ("ALBA_MACROS_DISPLAY_VALUE_PRAGMA_MESSAGE_SAMPLE_MACRO=10000", ALBA_MACROS_DISPLAY_VALUE_PRAGMA_MESSAGE(ALBA_MACROS_DISPLAY_VALUE_PRAGMA_MESSAGE_SAMPLE_MACRO));
+    #pragma message(ALBA_MACROS_DISPLAY_VALUE_PRAGMA_MESSAGE(ALBA_MACROS_DISPLAY_VALUE_PRAGMA_MESSAGE_SAMPLE_MACRO))
 }
