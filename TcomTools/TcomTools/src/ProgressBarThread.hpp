@@ -1,18 +1,17 @@
 #pragma once
 
 #include <Optional/AlbaOptional.hpp>
+#include <TcomToolsConfiguration.hpp>
+
 #include <QMutex>
 #include <QThread>
 #include <QWaitCondition>
-#include <TcomToolsConfiguration.hpp>
 
 namespace tcomToolsGui
 {
-
 class QImage;
 
-class ProgressBarThread : public QThread
-{
+class ProgressBarThread : public QThread{
     Q_OBJECT
     enum class ThreadState
     {

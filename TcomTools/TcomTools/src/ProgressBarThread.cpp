@@ -1,16 +1,15 @@
 #include <ProgressBarThread.hpp>
 
-#include <QtWidgets>
 #include <StepHandler.hpp>
+
+#include <QtWidgets>
 
 using namespace std;
 
-namespace tcomToolsGui
-{
+namespace tcomToolsGui{
 
 ProgressBarThread::ProgressBarThread(QObject *parent)
-    : QThread(parent)
-    , m_mutex()
+    : QThread(parent)    , m_mutex()
     , m_condition()
     , m_state(ThreadState::Stopped)
 {}

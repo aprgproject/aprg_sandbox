@@ -1,16 +1,15 @@
 #include <StepHandlerThread.hpp>
 
-#include <QtWidgets>
 #include <StepHandler.hpp>
+
+#include <QtWidgets>
 
 using namespace std;
 
-namespace tcomToolsGui
-{
+namespace tcomToolsGui{
 
 StepHandlerThread::StepHandlerThread(QObject *parent)
-    : QThread(parent)
-    , m_mutex()
+    : QThread(parent)    , m_mutex()
     , m_condition()
     , m_configuration()
     , m_state(ThreadState::Inactive)
