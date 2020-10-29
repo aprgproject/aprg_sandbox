@@ -57,7 +57,8 @@ public:
 
 private:
     template <typename ArgumentType>
-    static constexpr DataTypeToManipulate concatenateBytes(ArgumentType arg)    {
+    static constexpr DataTypeToManipulate concatenateBytes(ArgumentType arg)
+    {
         static_assert(sizeof(ArgumentType) == 1, "concatenateBytes: ArgumentType size is greater than a byte");
         return arg;
     }
@@ -99,4 +100,4 @@ constexpr unsigned long long AlbaBitManipulation<unsigned long long>::swapWithBy
 }
 
 
-}
+}

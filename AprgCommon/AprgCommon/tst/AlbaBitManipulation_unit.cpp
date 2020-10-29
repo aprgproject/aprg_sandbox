@@ -110,4 +110,4 @@ TEST(AlbaBitManipulationTest, BytesAreSuccessfullySwappedForEightBytes)
     // Then
     EXPECT_EQ(0xF0DEBC9A78563412, AlbaBitManipulation<unsigned long long>::swapForEightBytes(input));
 }
-
+

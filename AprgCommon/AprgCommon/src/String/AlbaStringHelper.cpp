@@ -755,7 +755,8 @@ NumberType stringHelper::convertStringToNumber(string const& stringToConvert)
             if(isInteger || isPeriodNotYetEncountered) // consider "if constexpr"
             {
                 value = (value * 10) + currentCharacter - '0';
-                isNumberNotYetEncountered=false;            }
+                isNumberNotYetEncountered=false;
+            }
             else
             {
                 value = value + (((NumberType)currentCharacter - '0') / decimalPlacesInPowersOfTen);

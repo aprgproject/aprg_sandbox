@@ -3,7 +3,8 @@
 #include <Bit/AlbaBitManipulation.hpp>
 #include <String/AlbaStringHelper.hpp>
 
-#include <algorithm>#include <fstream>
+#include <algorithm>
+#include <fstream>
 #include <string>
 
 using namespace std;
@@ -34,7 +35,8 @@ char* AlbaFileReader::getCharacters(unsigned int& numberOfCharacters)
 }
 template <typename NumberType>
 NumberType AlbaFileReader::getTwoByteData()
-{    return getData<NumberType, 2>();
+{
+    return getData<NumberType, 2>();
 }
 
 template <typename NumberType>
@@ -94,7 +96,8 @@ template unsigned int AlbaFileReader::getData<unsigned int, 4>();
 template unsigned int AlbaFileReader::getData<unsigned int, 8>();
 
 string AlbaFileReader::getLineAndIgnoreWhiteSpaces()
-{    while(!m_stream.eof())
+{
+    while(!m_stream.eof())
     {
         m_stream.clear();
         m_stream.getline(m_characterBuffer, m_bufferSize);

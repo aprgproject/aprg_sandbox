@@ -35,7 +35,8 @@ public:
     BitmapCompressedMethodType getCompressedMethodType() const;
 
 private:
-    void loadBitmap();    BitmapCompressedMethodType determineCompressedMethodType(unsigned int compressedMethodValue) const;
+    void loadBitmap();
+    BitmapCompressedMethodType determineCompressedMethodType(unsigned int compressedMethodValue) const;
     std::ifstream m_inputStream;
     AlbaFileReader m_fileReader;
     std::string m_signature;

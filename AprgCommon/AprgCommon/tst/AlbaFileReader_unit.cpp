@@ -170,7 +170,8 @@ TEST(FileReadTest, ReadFromTestFile_ReadTwoByteNumbers)
 
 TEST(FileReadTest, ReadFromTestFile_ReadFourByteNumbers)
 {
-    ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);    ASSERT_TRUE(testFile.is_open());
+    ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);
+    ASSERT_TRUE(testFile.is_open());
     testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
@@ -270,4 +271,4 @@ TEST(FileReadTest, ReadFromTestFile_ReadSwappedEightByteNumbers)
     EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ(0xBAA1674523010000, fileReader.getEightByteSwappedData<unsigned long long>());
     EXPECT_FALSE(fileReader.isNotFinished());
-}
+}

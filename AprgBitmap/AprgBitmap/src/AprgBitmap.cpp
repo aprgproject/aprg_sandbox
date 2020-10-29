@@ -47,6 +47,7 @@ void AprgBitmap::loadBitmap()
 
     m_fileReader.moveLocation(30);
     m_compressionMethodType = determineCompressedMethodType(m_fileReader.getFourByteData<unsigned int>());
+
     m_fileReader.moveLocation(34);
     m_imageSize = m_fileReader.getFourByteData<unsigned int>();
 
@@ -64,6 +65,7 @@ void AprgBitmap::loadBitmap()
 
     m_fileReader.moveLocation(54);
     m_defaultColor = (unsigned int) m_fileReader.getCharacter();
+
     //m_rasterPadSize =( 4-(rasterRound((double)nCols/8)%4) ) % 4;
 }
 
@@ -79,7 +81,8 @@ bool AprgBitmap::isSignatureValid() const
 
 bool AprgBitmap::isHeaderValid() const
 {
-    return (m_sizeOfHeader == 40);}
+    return (m_sizeOfHeader == 40);
+}
 
 bool AprgBitmap::isNumberOfColorPlanesValid() const
 {
@@ -108,7 +111,8 @@ BitmapCompressedMethodType AprgBitmap::getCompressedMethodType() const
 
 BitmapCompressedMethodType AprgBitmap::determineCompressedMethodType(unsigned int compressedMethodValue) const
 {
-    BitmapCompressedMethodType compressedMethodType;    switch(compressedMethodValue)
+    BitmapCompressedMethodType compressedMethodType;
+    switch(compressedMethodValue)
     {
     case 0: compressedMethodType = BitmapCompressedMethodType::BI_RGB; break;
     case 1: compressedMethodType = BitmapCompressedMethodType::BI_RLE8; break;

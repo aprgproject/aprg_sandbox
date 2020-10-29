@@ -21,7 +21,8 @@ public:
     template<typename NumberType> NumberType getEightByteSwappedData();
     template<typename NumberType, unsigned int numberOfBytesToRead> NumberType getData();
     std::string getLineAndIgnoreWhiteSpaces();
-    std::string getLine();    double getCurrentLocation() const;
+    std::string getLine();
+    double getCurrentLocation() const;
     double getFileSize() const;
     void moveToTheBeginning() const;
     void moveLocation(unsigned long long location) const;
