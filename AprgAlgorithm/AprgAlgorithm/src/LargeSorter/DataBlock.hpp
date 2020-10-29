@@ -10,14 +10,13 @@
 #include <fstream>
 #include <functional>
 #include <string>
+#include <vector>
 
 namespace alba
 {
-
 enum class DataBlockType
 {
-    Empty,
-    File,
+    Empty,    File,
     Memory
 };
 
@@ -25,14 +24,14 @@ template <typename ObjectToSort>
 class DataBlock
 {
     typedef DataBlockMemoryContainer<ObjectToSort> MemoryContainer;
+    typedef unsigned int Index;
+    typedef std::vector<unsigned int> Indexes;
 
 public:
-    DataBlock(DataBlockType const blockType, unsigned int const blockNumber, std::string const& fileDumpPath)
-        : m_blockType(blockType)
+    DataBlock(DataBlockType const blockType, unsigned int const blockNumber, std::string const& fileDumpPath)        : m_blockType(blockType)
         , m_blockId(blockNumber)
         , m_fileDumpPath(fileDumpPath)
-        , m_numberOfObjects(0)
-    {
+        , m_numberOfObjects(0)    {
         switch(blockType)
         {
         case DataBlockType::Empty:
@@ -115,14 +114,26 @@ public:
         }
         clearAll();
     }
+    void nthElementThenDoFunctionThenRelease(Indexes const& indexes, std::function<void(ObjectToSort const&)> doFunctionForAllObjects)
+    {
+        switchToMemoryMode();
+        MemoryContainer & contents(m_memoryBlockHandler.getReference().getContainerReference());
+        for(Index const& index : indexes)
+        {
+            std::nth_element(contents.begin(), contents.begin()+index, contents.end());
+        }
+        for(ObjectToSort const& objectToSort : contents)
+        {
+            doFunctionForAllObjects(objectToSort);
+        }
+        clearAll();
+    }
     void switchToFileMode()
     {
-        createFileHandlerIfNeeded();
-        if(m_memoryBlockHandler)
+        createFileHandlerIfNeeded();        if(m_memoryBlockHandler)
         {
             MemoryContainer const & contents(m_memoryBlockHandler.getReference().getContainerReference());
-            m_blockFileHandler.getReference().openFileIfNeeded(m_fileDumpPath);
-            std::ofstream & fileDump = m_blockFileHandler.getReference().getFileDumpStreamReference();
+            m_blockFileHandler.getReference().openFileIfNeeded(m_fileDumpPath);            std::ofstream & fileDump = m_blockFileHandler.getReference().getFileDumpStreamReference();
             containerHelper::saveContentsOfContainerToFile(fileDump, contents);
         }
         m_memoryBlockHandler.clear();

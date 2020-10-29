@@ -82,15 +82,13 @@ private:
         iteratorAfterBlockToSplit++;
         int numberOfObjectsInCurrentBlock=0;
         BlockIterator newBlockIterator(iteratorAfterBlockToSplit);
-        blockIterator->sortThenDoFunctionThenRelease([&](ObjectToSort const& objectToSort)
+        blockIterator->sortThenDoFunctionThenRelease([&](ObjectToSort const& objectToSort) // this should be nth element
         {
             if(numberOfObjectsInCurrentBlock == 0)
-            {
-                m_blocks.createNewBlockBeforeThisIterator(iteratorAfterBlockToSplit, blockTypeForNewBlocks);
+            {                m_blocks.createNewBlockBeforeThisIterator(iteratorAfterBlockToSplit, blockTypeForNewBlocks);
                 newBlockIterator = iteratorAfterBlockToSplit;
                 newBlockIterator--;
-            }
-            m_blocks.addObjectToBlock(newBlockIterator, objectToSort);
+            }            m_blocks.addObjectToBlock(newBlockIterator, objectToSort);
             numberOfObjectsInCurrentBlock++;
             numberOfObjectsInCurrentBlock = (numberOfObjectsInCurrentBlock < static_cast<int>(m_configuration.m_minimumNumberOfObjectsPerBlock)) ? numberOfObjectsInCurrentBlock : 0;
         });
