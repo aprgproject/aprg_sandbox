@@ -17,9 +17,9 @@ public:
         : m_messageName(messageName)
         , m_sender(ComponentName::EMPTY)
         , m_receiver(ComponentName::EMPTY)
-    {
-        m_payloadBuffer.setNewBuffer(payloadBuffer, payloadSize);
-    }
+        , m_payloadBuffer(payloadBuffer, payloadSize)
+    {}
+
     MessageName getMessageName() const
     {
         return m_messageName;

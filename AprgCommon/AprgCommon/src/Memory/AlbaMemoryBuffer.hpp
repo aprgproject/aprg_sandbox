@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 namespace alba
 {
 
@@ -7,19 +10,20 @@ class AlbaMemoryBuffer
 {
 public:
     AlbaMemoryBuffer();
-    AlbaMemoryBuffer(AlbaMemoryBuffer const& memoryBuffer);
-    ~AlbaMemoryBuffer();
+    AlbaMemoryBuffer(void* bufferPointer, unsigned int size);
     operator bool() const;
     bool hasContent() const;
     unsigned int getSize() const;
     void* getBufferPointer();
-    void reAllocateBuffer(unsigned int size);
-    void releaseBufferIfNeeded();
-    void setNewBuffer(void* bufferPointer, unsigned int size);
+    void const* getConstantBufferPointer() const;
+    void clear();
+    void clearAndSetNewData(void* bufferPointer, unsigned int size);
+    void* addDataForWritingOutside(unsigned int size);
+    void addData(void* bufferPointer, unsigned int size);
+    std::string getDisplayableString() const;
 
 private:
-    bool m_hasContent;
-    unsigned int m_size;
+    std::vector<unsigned char> m_buffer;
     void* m_bufferPointer;
 };
 

@@ -137,6 +137,26 @@ std::string getStringFromContentsOfContainer(Container<KeyType, ValueType> const
     return result.str();
 }
 
+
+
+template <typename ValueType,
+          template<typename, typename = std::allocator<ValueType>> class Container>
+std::string getStringFromContentsOfContainerWithNumberFormat(Container<ValueType> const& container, std::string const& delimiter)
+{
+    std::ostringstream result;
+    std::ostream_iterator<unsigned int> outputIterator(result, delimiter.c_str());
+
+    result<<"Decimal values: {"<<std::dec;
+    std::copy(container.cbegin(), container.cend(), outputIterator);
+    result<<"}\n";
+
+    result<<"Hexadecimal values: {"<<std::hex;
+    std::copy(container.cbegin(), container.cend(), outputIterator);
+    result<<"}\n";
+
+    return result.str();
+}
+
 } //namespace containerHelper
 
 }//namespace alba

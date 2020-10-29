@@ -248,7 +248,6 @@ TEST(FileReadTest, ReadFromTestFile_ReadSwappedTwoByteNumbers)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-
 TEST(FileReadTest, ReadFromTestFile_ReadSwappedEightByteNumbers)
 {
     ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);
@@ -270,5 +269,38 @@ TEST(FileReadTest, ReadFromTestFile_ReadSwappedEightByteNumbers)
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ(0xBAA1674523010000, fileReader.getEightByteSwappedData<unsigned long long>());
+    EXPECT_FALSE(fileReader.isNotFinished());
+}
+
+TEST(FileReadTest, ReadFromTestFile_FileContentsCanBeSavedInMemoryBuffer)
+{
+    ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);
+    ASSERT_TRUE(testFile.is_open());
+    testFile.put(0x01);
+    testFile.put(0x23);
+    testFile.put(0x45);
+    testFile.put(0x67);
+    testFile.put((char)0xA1);
+    testFile.put((char)0xBA);
+    testFile.close();
+
+
+    ifstream inputTestFile(APRG_COMMON_TEST_FILE_TO_READ, ios::binary);
+    ASSERT_TRUE(inputTestFile.is_open());
+
+    AlbaFileReader fileReader(inputTestFile);
+    ASSERT_TRUE(inputTestFile.good());
+    ASSERT_FALSE(inputTestFile.eof());
+    EXPECT_TRUE(fileReader.isNotFinished());
+
+    AlbaMemoryBuffer buffer;
+    fileReader.saveDataToMemoryBuffer(buffer, 8);
+    unsigned char* reader = reinterpret_cast<unsigned char*>(buffer.getBufferPointer());
+    EXPECT_EQ(0x01, reader[0]);
+    EXPECT_EQ(0x23, reader[1]);
+    EXPECT_EQ(0x45, reader[2]);
+    EXPECT_EQ(0x67, reader[3]);
+    EXPECT_EQ(0xA1, reader[4]);
+    EXPECT_EQ(0xBA, reader[5]);
     EXPECT_FALSE(fileReader.isNotFinished());
 }

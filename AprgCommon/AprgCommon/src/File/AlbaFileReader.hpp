@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Memory/AlbaMemoryBuffer.hpp>
+
 #include <fstream>
 #include <string>
 
@@ -20,6 +22,7 @@ public:
     template<typename NumberType> NumberType getFourByteSwappedData();
     template<typename NumberType> NumberType getEightByteSwappedData();
     template<typename NumberType, unsigned int numberOfBytesToRead> NumberType getData();
+    void saveDataToMemoryBuffer(AlbaMemoryBuffer& buffer, unsigned int numberOfBytesToRead);
     std::string getLineAndIgnoreWhiteSpaces();
     std::string getLine();
     double getCurrentLocation() const;

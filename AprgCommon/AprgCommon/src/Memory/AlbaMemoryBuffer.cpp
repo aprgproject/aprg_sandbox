@@ -1,72 +1,77 @@
 #include <Memory/AlbaMemoryBuffer.hpp>
 
+#include <Container/AlbaContainerHelper.hpp>
+
 #include <memory>
+
+using namespace std;
 
 namespace alba
 {
 
 AlbaMemoryBuffer::AlbaMemoryBuffer()
-    : m_hasContent(0)
-    , m_size(0)
-    , m_bufferPointer(nullptr)
 {}
 
-AlbaMemoryBuffer::AlbaMemoryBuffer(AlbaMemoryBuffer const& memoryBuffer)
-    : m_hasContent(0)
-    , m_size(0)
-    , m_bufferPointer(nullptr)
+AlbaMemoryBuffer::AlbaMemoryBuffer(void* bufferPointer, unsigned int size)
 {
-    setNewBuffer(memoryBuffer.m_bufferPointer, memoryBuffer.m_size);
+    addData(bufferPointer, size);
 }
 
-AlbaMemoryBuffer::~AlbaMemoryBuffer()
-{
-    releaseBufferIfNeeded();
-}
 
 AlbaMemoryBuffer::operator bool() const
 {
-    return m_hasContent;
+    return hasContent();
 }
 
 bool AlbaMemoryBuffer::hasContent() const
 {
-    return m_hasContent;
+    return m_buffer.size()>0;
 }
 
 unsigned int AlbaMemoryBuffer::getSize() const
 {
-    return m_size;
+    return m_buffer.size();
 }
 
 void* AlbaMemoryBuffer::getBufferPointer()
 {
-    return m_bufferPointer;
+    return m_buffer.begin().base();
 }
 
-void AlbaMemoryBuffer::reAllocateBuffer(unsigned int size)
+void const* AlbaMemoryBuffer::getConstantBufferPointer() const
 {
-     releaseBufferIfNeeded();
-     m_hasContent = true;
-     m_size = size;
-     m_bufferPointer = malloc(size);
+    return m_buffer.begin().base();
 }
 
-void AlbaMemoryBuffer::releaseBufferIfNeeded()
+void AlbaMemoryBuffer::clear()
 {
-    if(m_hasContent)
+    m_buffer.clear();
+}
+
+void AlbaMemoryBuffer::clearAndSetNewData(void* bufferPointer, unsigned int size)
+{
+    clear();
+    addData(bufferPointer, size);
+}
+
+void* AlbaMemoryBuffer::addDataForWritingOutside(unsigned int additionalSize)
+{
+    unsigned int oldSize = getSize();
+    m_buffer.resize(oldSize+additionalSize);
+    return m_buffer.begin().base()+oldSize;
+}
+
+void AlbaMemoryBuffer::addData(void* bufferPointer, unsigned int additionalSize)
+{
+    unsigned char* bufferPointerByteType = (unsigned char*)bufferPointer;
+    for(unsigned int i=0; i<additionalSize; i++)
     {
-        free(m_bufferPointer);
+        m_buffer.emplace_back(bufferPointerByteType[i]);
     }
-    m_hasContent = false;
-    m_size = 0;
-    m_bufferPointer = nullptr;
 }
-
-void AlbaMemoryBuffer::setNewBuffer(void* bufferPointer, unsigned int size)
+string AlbaMemoryBuffer::getDisplayableString() const
 {
-    reAllocateBuffer(size);
-    memcpy(m_bufferPointer, bufferPointer, size);
+    return containerHelper::getStringFromContentsOfContainerWithNumberFormat(m_buffer, ", ");
 }
 
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cassert>
+#include <cmath>
 
 namespace alba
 {
@@ -10,21 +11,24 @@ class AlbaBitManipulation
 {
 
 public:
+
+    static unsigned char const BYTE_SIZE_IN_BITS = 8;
+
     AlbaBitManipulation() = delete;
 
     template <typename ArgumentType, typename... Arguments>
     static constexpr DataTypeToManipulate concatenateBytes(ArgumentType const currentByte, Arguments const... arguments)
     {
         static_assert(sizeof(ArgumentType) == 1, "concatenateBytes: ArgumentType size is greater than a byte");
-        static_assert(sizeof(DataTypeToManipulate) > sizeof...(Arguments), "concatenateBytes: DataTypeToManipulate size is greater than Arguments size");
-        return ((DataTypeToManipulate)currentByte << (sizeof...(Arguments) * s_byteSizeInBits)) | concatenateBytes(arguments...);
+        static_assert(sizeof(DataTypeToManipulate) > sizeof...(Arguments), "concatenateBytes: sizeof(DataTypeToManipulate) size is greater than Arguments size");
+        return ((DataTypeToManipulate)currentByte << (sizeof...(Arguments) * BYTE_SIZE_IN_BITS)) | concatenateBytes(arguments...);
     }
 
     template <unsigned char position>
     static constexpr unsigned char getByteAtLeastSignificantPosition(DataTypeToManipulate const value)
     {
         static_assert(sizeof(DataTypeToManipulate) > position, "getByteAtLeastSignificantPosition: position is greater than DataTypeToManipulate size");
-        return value >> (position * s_byteSizeInBits);
+        return value >> (position * BYTE_SIZE_IN_BITS);
     }
 
     template <unsigned char size>
@@ -54,6 +58,10 @@ public:
         return swapWithBytes<8>(value);
     }
 
+    static DataTypeToManipulate generateOnesWithNumberOfBits(unsigned int numberOfOnes)
+    {
+        return (DataTypeToManipulate)(round(pow((double)2, (double)numberOfOnes))-1);
+    }
 
 private:
     template <typename ArgumentType>
@@ -62,8 +70,6 @@ private:
         static_assert(sizeof(ArgumentType) == 1, "concatenateBytes: ArgumentType size is greater than a byte");
         return arg;
     }
-
-    static unsigned char const s_byteSizeInBits = 8;
 };
 
 
