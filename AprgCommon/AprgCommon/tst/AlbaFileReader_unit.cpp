@@ -138,10 +138,39 @@ TEST(FileReadTest, ReadFromTestFile_ReadMultipleCharacters)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(FileReadTest, ReadFromTestFile_ReadFourByteNumbers)
+TEST(FileReadTest, ReadFromTestFile_ReadTwoByteNumbers)
 {
     ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);
     ASSERT_TRUE(testFile.is_open());
+    testFile.put(0x01);
+    testFile.put(0x23);
+    testFile.put(0x45);
+    testFile.put(0x67);
+    testFile.put((char)0xA1);
+    testFile.put((char)0xBA);
+    testFile.close();
+
+
+    ifstream inputTestFile(APRG_COMMON_TEST_FILE_TO_READ, ios::binary);
+    ASSERT_TRUE(inputTestFile.is_open());
+
+    AlbaFileReader fileReader(inputTestFile);
+    ASSERT_TRUE(inputTestFile.good());
+    ASSERT_FALSE(inputTestFile.eof());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0x0123, fileReader.getTwoByteData<unsigned int>());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0x4567, fileReader.getTwoByteData<unsigned int>());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0xA1BA, fileReader.getTwoByteData<unsigned int>());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0x0, fileReader.getTwoByteData<unsigned int>());
+    EXPECT_FALSE(fileReader.isNotFinished());
+}
+
+TEST(FileReadTest, ReadFromTestFile_ReadFourByteNumbers)
+{
+    ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);    ASSERT_TRUE(testFile.is_open());
     testFile.put(0x01);
     testFile.put(0x23);
     testFile.put(0x45);
@@ -163,3 +192,82 @@ TEST(FileReadTest, ReadFromTestFile_ReadFourByteNumbers)
     EXPECT_EQ(0xA1BA, fileReader.getFourByteData<unsigned int>());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
+
+TEST(FileReadTest, ReadFromTestFile_ReadEightByteNumbers)
+{
+    ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);
+    ASSERT_TRUE(testFile.is_open());
+    testFile.put(0x01);
+    testFile.put(0x23);
+    testFile.put(0x45);
+    testFile.put(0x67);
+    testFile.put((char)0xA1);
+    testFile.put((char)0xBA);
+    testFile.close();
+
+
+    ifstream inputTestFile(APRG_COMMON_TEST_FILE_TO_READ, ios::binary);
+    ASSERT_TRUE(inputTestFile.is_open());
+
+    AlbaFileReader fileReader(inputTestFile);
+    ASSERT_TRUE(inputTestFile.good());
+    ASSERT_FALSE(inputTestFile.eof());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0x000001234567A1BA, fileReader.getEightByteData<unsigned long long>());
+    EXPECT_FALSE(fileReader.isNotFinished());
+}
+
+TEST(FileReadTest, ReadFromTestFile_ReadSwappedTwoByteNumbers)
+{
+    ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);
+    ASSERT_TRUE(testFile.is_open());
+    testFile.put(0x01);
+    testFile.put(0x23);
+    testFile.put(0x45);
+    testFile.put(0x67);
+    testFile.put((char)0xA1);
+    testFile.put((char)0xBA);
+    testFile.close();
+
+
+    ifstream inputTestFile(APRG_COMMON_TEST_FILE_TO_READ, ios::binary);
+    ASSERT_TRUE(inputTestFile.is_open());
+
+    AlbaFileReader fileReader(inputTestFile);
+    ASSERT_TRUE(inputTestFile.good());
+    ASSERT_FALSE(inputTestFile.eof());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0x2301, fileReader.getTwoByteSwappedData<unsigned int>());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0x6745, fileReader.getTwoByteSwappedData<unsigned int>());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0xBAA1, fileReader.getTwoByteSwappedData<unsigned int>());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0x0, fileReader.getTwoByteSwappedData<unsigned int>());
+    EXPECT_FALSE(fileReader.isNotFinished());
+}
+
+
+TEST(FileReadTest, ReadFromTestFile_ReadSwappedEightByteNumbers)
+{
+    ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);
+    ASSERT_TRUE(testFile.is_open());
+    testFile.put(0x01);
+    testFile.put(0x23);
+    testFile.put(0x45);
+    testFile.put(0x67);
+    testFile.put((char)0xA1);
+    testFile.put((char)0xBA);
+    testFile.close();
+
+
+    ifstream inputTestFile(APRG_COMMON_TEST_FILE_TO_READ, ios::binary);
+    ASSERT_TRUE(inputTestFile.is_open());
+
+    AlbaFileReader fileReader(inputTestFile);
+    ASSERT_TRUE(inputTestFile.good());
+    ASSERT_FALSE(inputTestFile.eof());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(0xBAA1674523010000, fileReader.getEightByteSwappedData<unsigned long long>());
+    EXPECT_FALSE(fileReader.isNotFinished());
+}

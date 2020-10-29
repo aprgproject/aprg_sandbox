@@ -27,14 +27,15 @@ class AprgBitmap
 public:
     AprgBitmap(std::string const& path);
     bool isValid() const;
+    bool isSignatureValid() const;
     bool isHeaderValid() const;
     bool isNumberOfColorPlanesValid() const;
     bool isNumberOfBitsPerPixelValid() const;
     bool isCompressedMethodSupported() const;
+    BitmapCompressedMethodType getCompressedMethodType() const;
 
 private:
-    void loadBitmap();
-    BitmapCompressedMethodType determineCompressedMethodType(unsigned int compressedMethodValue) const;
+    void loadBitmap();    BitmapCompressedMethodType determineCompressedMethodType(unsigned int compressedMethodValue) const;
     std::ifstream m_inputStream;
     AlbaFileReader m_fileReader;
     std::string m_signature;

@@ -23,64 +23,63 @@ void AprgBitmap::loadBitmap()
     m_signature += m_fileReader.getCharacter();
 
     m_fileReader.moveLocation(2);
-    m_fileSize = m_fileReader.getFourByteData<unsigned int>();
+    m_fileSize = m_fileReader.getEightByteSwappedData<unsigned long long>();
 
     m_fileReader.moveLocation(10);
-    m_rasterPadSize = m_fileReader.getFourByteData<unsigned int>();
+    m_rasterPadSize = m_fileReader.getFourByteSwappedData<unsigned int>();
 
     m_fileReader.moveLocation(14);
-    m_sizeOfHeader = m_fileReader.getFourByteData<unsigned int>();
+    m_sizeOfHeader = m_fileReader.getFourByteSwappedData<unsigned int>();
 
     m_fileReader.moveLocation(18);
-    m_bitmapWidth = m_fileReader.getFourByteData<unsigned int>();
+    m_bitmapWidth = m_fileReader.getFourByteSwappedData<unsigned int>();
 
     m_fileReader.moveLocation(22);
-    m_bitmapHeight = m_fileReader.getFourByteData<unsigned int>();
-
-    cout<<hex<<m_bitmapWidth<<endl;// you need to fix endianess
-    cout<<hex<<m_bitmapHeight<<endl;
+    m_bitmapHeight = m_fileReader.getFourByteSwappedData<unsigned int>();
 
     m_fileReader.moveLocation(26);
-    m_numberOfColorPlanes = m_fileReader.getTwoByteData<unsigned int>();
+    m_numberOfColorPlanes = m_fileReader.getTwoByteSwappedData<unsigned int>();
 
     m_fileReader.moveLocation(28);
-    m_numberOfBitsPerPixel = m_fileReader.getTwoByteData<unsigned int>();
+    m_numberOfBitsPerPixel = m_fileReader.getTwoByteSwappedData<unsigned int>();
 
-    m_bitmapSize = m_bitmapWidth*m_bitmapHeight;
+    m_bitmapSize = (unsigned long)m_bitmapWidth*m_bitmapHeight;
 
     m_fileReader.moveLocation(30);
     m_compressionMethodType = determineCompressedMethodType(m_fileReader.getFourByteData<unsigned int>());
-
     m_fileReader.moveLocation(34);
     m_imageSize = m_fileReader.getFourByteData<unsigned int>();
 
     m_fileReader.moveLocation(38);
-    m_horizontalResolutionPixelInAMeter = m_fileReader.getFourByteData<unsigned int>();
+    m_horizontalResolutionPixelInAMeter = m_fileReader.getFourByteSwappedData<unsigned int>();
 
     m_fileReader.moveLocation(42);
-    m_verticalResolutionPixelInAMeter = m_fileReader.getFourByteData<unsigned int>();
+    m_verticalResolutionPixelInAMeter = m_fileReader.getFourByteSwappedData<unsigned int>();
 
     m_fileReader.moveLocation(46);
-    m_numberOfColors = m_fileReader.getFourByteData<unsigned int>();
+    m_numberOfColors = m_fileReader.getFourByteSwappedData<unsigned int>();
 
     m_fileReader.moveLocation(50);
-    m_numberImportantOfColors = m_fileReader.getFourByteData<unsigned int>();
+    m_numberImportantOfColors = m_fileReader.getFourByteSwappedData<unsigned int>();
 
     m_fileReader.moveLocation(54);
     m_defaultColor = (unsigned int) m_fileReader.getCharacter();
-
     //m_rasterPadSize =( 4-(rasterRound((double)nCols/8)%4) ) % 4;
 }
 
 bool AprgBitmap::isValid() const
 {
-    return isHeaderValid() && isNumberOfColorPlanesValid() && isNumberOfBitsPerPixelValid();
+    return isSignatureValid() && isHeaderValid() && isNumberOfColorPlanesValid() && isNumberOfBitsPerPixelValid();
+}
+
+bool AprgBitmap::isSignatureValid() const
+{
+    return (m_signature == "BM");
 }
 
 bool AprgBitmap::isHeaderValid() const
 {
-    return (m_sizeOfHeader == 40);
-}
+    return (m_sizeOfHeader == 40);}
 
 bool AprgBitmap::isNumberOfColorPlanesValid() const
 {
@@ -99,13 +98,17 @@ bool AprgBitmap::isNumberOfBitsPerPixelValid() const
 
 bool AprgBitmap::isCompressedMethodSupported() const
 {
-    return false;
+    return (m_compressionMethodType == BitmapCompressedMethodType::BI_RGB);
+}
+
+BitmapCompressedMethodType AprgBitmap::getCompressedMethodType() const
+{
+    return m_compressionMethodType;
 }
 
 BitmapCompressedMethodType AprgBitmap::determineCompressedMethodType(unsigned int compressedMethodValue) const
 {
-    BitmapCompressedMethodType compressedMethodType;
-    switch(compressedMethodValue)
+    BitmapCompressedMethodType compressedMethodType;    switch(compressedMethodValue)
     {
     case 0: compressedMethodType = BitmapCompressedMethodType::BI_RGB; break;
     case 1: compressedMethodType = BitmapCompressedMethodType::BI_RLE8; break;

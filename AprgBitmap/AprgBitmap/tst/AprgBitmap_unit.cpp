@@ -11,7 +11,7 @@ TEST(SampleTest, MonochromeTest)
 {
     AprgBitmap bitmap(APRG_BITMAP_MONOCHROME_TEST_FILE);
     EXPECT_TRUE(bitmap.isValid());
-    EXPECT_TRUE(bitmap.isHeaderValid());
-    EXPECT_TRUE(bitmap.isNumberOfColorPlanesValid());
-    EXPECT_TRUE(bitmap.isNumberOfBitsPerPixelValid());
+    EXPECT_EQ(BitmapCompressedMethodType::BI_RGB, bitmap.getCompressedMethodType());
+    EXPECT_TRUE(bitmap.isCompressedMethodSupported());
+
 }
