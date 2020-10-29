@@ -1,12 +1,10 @@
 #pragma once
 
-#include <LargeSorter/AlbaLargeSorterCache.hpp>
+#include <LargeSorter/DataBlockCache.hpp>
 #include <LargeSorter/AlbaLargeSorterConfiguration.hpp>
 #include <LargeSorter/AlbaLargeSorterTypes.hpp>
-
 #include <LargeSorter/DataBlocks.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
-
 #include <functional>
 
 namespace alba
@@ -15,20 +13,19 @@ namespace alba
 template <typename ObjectToSort>
 class AlbaLargeSorter
 {
-    typedef AlbaLargeSorterBlockType<ObjectToSort> BlockType;
-    typedef AlbaLargeSorterBlockIterator<ObjectToSort> BlockIterator;
-    typedef AlbaLargeSorterCache<BlockIterator> BlockCache;
-    typedef typename BlockCache::BlockInformationPair BlockInformationPair;
-    typedef typename BlockCache::BlocksInformationContainer BlockInformationContainer;
+    using BlockType = AlbaLargeSorterBlockType<ObjectToSort>;
+    using BlockIterator = AlbaLargeSorterBlockIterator<ObjectToSort>;
+
+    using BlockCache = AlbaLargeSorterBlockCache<BlockIterator>;
+    using BlockCacheEntry = AlbaLargeSorterBlockCacheEntry<BlockIterator>;
+    using BlockCacheContainer = AlbaLargeSorterBlockCacheContainer<BlockIterator>;
 
 public:
     AlbaLargeSorter(AlbaLargeSorterConfiguration const& configuration)
-        : m_size(0)
-        , m_configuration(configuration)
+        : m_size(0)        , m_configuration(configuration)
         , m_memoryCache()
         , m_fileStreamOpenedCache()
-        , m_blocks(m_configuration, m_memoryCache, m_fileStreamOpenedCache)
-    {
+        , m_blocks(m_configuration, m_memoryCache, m_fileStreamOpenedCache)    {
         deleteAllFilesInDirectory();
     }
     bool isEmpty() const
@@ -101,19 +98,17 @@ private:
     }
     unsigned int calculateTotalMemoryConsumption()
     {
-        BlockInformationContainer const & memoryLimitCache(m_memoryCache.getContainerReference());
+        BlockCacheContainer const & memoryLimitCache(m_memoryCache.getContainerReference());
         unsigned int totalMemoryConsumption  =
-                accumulate(memoryLimitCache.cbegin(), memoryLimitCache.cend(), 0, [](unsigned int memoryConsumption, BlockInformationPair const& blockInformationPair)
+                accumulate(memoryLimitCache.cbegin(), memoryLimitCache.cend(), 0, [](unsigned int memoryConsumption, BlockCacheEntry const& blockCacheEntry)
         {
-            memoryConsumption += blockInformationPair.m_blockInformation->getNumberOfObjectsInMemory();
+            memoryConsumption += blockCacheEntry.m_blockInformation->getNumberOfObjectsInMemory();
             return memoryConsumption;
         });
-        return totalMemoryConsumption;
-    }
+        return totalMemoryConsumption;    }
     void transferMemoryBlocksToFileIfNeeded(unsigned int totalMemoryConsumption)
     {
-        while(totalMemoryConsumption > m_configuration.m_maximumNumberOfObjectsInMemory)
-        {
+        while(totalMemoryConsumption > m_configuration.m_maximumNumberOfObjectsInMemory)        {
             BlockIterator blockToSwitchToFileMode(m_memoryCache.popTheEarliestAddedBlock());
             totalMemoryConsumption -= blockToSwitchToFileMode->getNumberOfObjectsInMemory();
             if(blockToSwitchToFileMode->getNumberOfObjectsInMemory() > m_configuration.m_minimumNumberOfObjectsPerBlock)
