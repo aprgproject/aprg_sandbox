@@ -13,7 +13,9 @@ public:
     bool isNotFinished();
     char getCharacter();
     char* getCharacters(unsigned int& numberOfCharacters);
+    template<typename NumberType> NumberType getTwoByteData();
     template<typename NumberType> NumberType getFourByteData();
+    template<typename NumberType, unsigned int numberOfBytesToRead> NumberType getData();
     std::string getLineAndIgnoreWhiteSpaces();
     std::string getLine();
     double getCurrentLocation() const;

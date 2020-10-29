@@ -34,21 +34,36 @@ char* AlbaFileReader::getCharacters(unsigned int& numberOfCharacters)
 }
 
 template <typename NumberType>
+NumberType AlbaFileReader::getTwoByteData()
+{
+    return getData<NumberType, 2>();
+}
+
+template <typename NumberType>
 NumberType AlbaFileReader::getFourByteData()
 {
+    return getData<NumberType, 4>();
+}
+
+template <typename NumberType, unsigned int numberOfBytesToRead>
+NumberType AlbaFileReader::getData()
+{
     NumberType result=0;
-    m_stream.read(m_characterBuffer, 4);
+    m_stream.read(m_characterBuffer, numberOfBytesToRead);
     unsigned int numberOfCharacters = m_stream.gcount();
     result = accumulate(m_characterBuffer, m_characterBuffer+numberOfCharacters, 0, [&](NumberType partialSum, NumberType newValue)
     {
         partialSum <<= 8;
-        partialSum |= (0xFF&newValue);
+        partialSum |= (0xFF & newValue);
         return partialSum;
     });
     return result;
 }
 
+template unsigned int AlbaFileReader::getTwoByteData<unsigned int>();
 template unsigned int AlbaFileReader::getFourByteData<unsigned int>();
+template unsigned int AlbaFileReader::getData<unsigned int, 2>();
+template unsigned int AlbaFileReader::getData<unsigned int, 4>();
 
 string AlbaFileReader::getLineAndIgnoreWhiteSpaces()
 {
