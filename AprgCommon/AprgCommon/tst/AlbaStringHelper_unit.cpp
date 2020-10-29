@@ -113,10 +113,12 @@ TEST(RandomStringTest, RandomString100Characters)
 
 TEST(UniqueIdTest, CheckLevenshteinDistance)
 {
-    string string1("This is a statement");    string string2("This is  statement");
+    string string1("This is a statement");
+    string string2("This is  statement");
     string string3("This is not a statement");
     string string4("This is b statement");
-    EXPECT_EQ(1u, getLevenshteinDistance(string1, string2));    EXPECT_EQ(4u, getLevenshteinDistance(string1, string3));
+    EXPECT_EQ(1u, getLevenshteinDistance(string1, string2));
+    EXPECT_EQ(4u, getLevenshteinDistance(string1, string3));
     EXPECT_EQ(1u, getLevenshteinDistance(string1, string4));
 }
 TEST(ConvertCaseFromStringTest, ConvertToCapitalLettersUsingAllLetters)

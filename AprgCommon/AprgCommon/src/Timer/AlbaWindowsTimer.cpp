@@ -52,4 +52,5 @@ unsigned int AlbaWindowsTimer::getElapsedTimeInHours() const
     difference = (m_time2.wHour - m_time1.wHour);
     return difference;
 }
+
 }//namespace alba

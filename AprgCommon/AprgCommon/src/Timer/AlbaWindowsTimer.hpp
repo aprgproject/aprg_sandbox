@@ -13,7 +13,8 @@ public:
     void stopTimer();
 
     unsigned int getElapsedTimeInMilliseconds() const;
-    unsigned int getElapsedTimeInSeconds() const;    unsigned int getElapsedTimeInMinutes() const;
+    unsigned int getElapsedTimeInSeconds() const;
+    unsigned int getElapsedTimeInMinutes() const;
     unsigned int getElapsedTimeInHours() const;
 
 private:

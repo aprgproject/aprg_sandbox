@@ -12,6 +12,7 @@ TEST(AlbaWindowsTimer, DISABLED_TimerCanBeInitialized)
     unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();
     EXPECT_EQ(secondsElapsed, 2);
 }
+
 TEST(AlbaWindowsTimer, DISABLED_TimerCanBeRestarted)
 {
     AlbaWindowsTimer timer;

@@ -3,8 +3,10 @@
 #include <LargeSorter/DataBlockCache.hpp>
 #include <LargeSorter/AlbaLargeSorterConfiguration.hpp>
 #include <LargeSorter/AlbaLargeSorterTypes.hpp>
+
 #include <LargeSorter/DataBlocks.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+
 #include <functional>
 
 namespace alba
@@ -22,10 +24,12 @@ class AlbaLargeSorter
 
 public:
     AlbaLargeSorter(AlbaLargeSorterConfiguration const& configuration)
-        : m_size(0)        , m_configuration(configuration)
+        : m_size(0)
+        , m_configuration(configuration)
         , m_memoryCache()
         , m_fileStreamOpenedCache()
-        , m_blocks(m_configuration, m_memoryCache, m_fileStreamOpenedCache)    {
+        , m_blocks(m_configuration, m_memoryCache, m_fileStreamOpenedCache)
+    {
         deleteAllFilesInDirectory();
     }
     bool isEmpty() const
@@ -73,24 +77,55 @@ private:
             splitToSmallestBlocks(blockIterator, DataBlockType::Memory);
         }
     }
+    /*
+    //nth element implementation
+    void splitToSmallestBlocks(BlockIterator const & blockIterator, DataBlockType const blockTypeForNewBlocks)
+    {
+        BlockIterator iteratorAfterBlockToSplit(blockIterator);
+        iteratorAfterBlockToSplit++;
+        unsigned int index=0, indexOfIndexes=0;
+        BlockIterator newBlockIterator(iteratorAfterBlockToSplit);
+
+        Indexes indexes;
+        putIndexesWithMultiplesOfNumber(indexes, m_configuration.m_minimumNumberOfObjectsPerBlock, blockIterator->getNumberOfObjects());
+
+        blockIterator->nthElementThenDoFunctionThenRelease(indexes, [&](ObjectToSort const& objectToSort)
+        {
+            if(indexOfIndexes<indexes.size() && index >= indexes[indexOfIndexes])
+            {
+                m_blocks.createNewBlockBeforeThisIterator(iteratorAfterBlockToSplit, blockTypeForNewBlocks);
+                newBlockIterator = iteratorAfterBlockToSplit;
+                newBlockIterator--;
+                indexOfIndexes++;
+            }
+            m_blocks.addObjectToBlock(newBlockIterator, objectToSort);
+            index++;
+        });
+        m_blocks.deleteBlock(blockIterator);
+    }
+    */
+
     void splitToSmallestBlocks(BlockIterator const & blockIterator, DataBlockType const blockTypeForNewBlocks)
     {
         BlockIterator iteratorAfterBlockToSplit(blockIterator);
         iteratorAfterBlockToSplit++;
         int numberOfObjectsInCurrentBlock=0;
         BlockIterator newBlockIterator(iteratorAfterBlockToSplit);
-        blockIterator->sortThenDoFunctionThenRelease([&](ObjectToSort const& objectToSort) // this should be nth element
+        blockIterator->sortThenDoFunctionThenRelease([&](ObjectToSort const& objectToSort)
         {
             if(numberOfObjectsInCurrentBlock == 0)
-            {                m_blocks.createNewBlockBeforeThisIterator(iteratorAfterBlockToSplit, blockTypeForNewBlocks);
+            {
+                m_blocks.createNewBlockBeforeThisIterator(iteratorAfterBlockToSplit, blockTypeForNewBlocks);
                 newBlockIterator = iteratorAfterBlockToSplit;
                 newBlockIterator--;
-            }            m_blocks.addObjectToBlock(newBlockIterator, objectToSort);
+            }
+            m_blocks.addObjectToBlock(newBlockIterator, objectToSort);
             numberOfObjectsInCurrentBlock++;
             numberOfObjectsInCurrentBlock = (numberOfObjectsInCurrentBlock < static_cast<int>(m_configuration.m_minimumNumberOfObjectsPerBlock)) ? numberOfObjectsInCurrentBlock : 0;
         });
         m_blocks.deleteBlock(blockIterator);
     }
+
     void limitMemoryConsumption()
     {
         unsigned int totalMemoryConsumption = calculateTotalMemoryConsumption();
@@ -105,10 +140,12 @@ private:
             memoryConsumption += blockCacheEntry.m_blockInformation->getNumberOfObjectsInMemory();
             return memoryConsumption;
         });
-        return totalMemoryConsumption;    }
+        return totalMemoryConsumption;
+    }
     void transferMemoryBlocksToFileIfNeeded(unsigned int totalMemoryConsumption)
     {
-        while(totalMemoryConsumption > m_configuration.m_maximumNumberOfObjectsInMemory)        {
+        while(totalMemoryConsumption > m_configuration.m_maximumNumberOfObjectsInMemory)
+        {
             BlockIterator blockToSwitchToFileMode(m_memoryCache.popTheEarliestAddedBlock());
             totalMemoryConsumption -= blockToSwitchToFileMode->getNumberOfObjectsInMemory();
             if(blockToSwitchToFileMode->getNumberOfObjectsInMemory() > m_configuration.m_minimumNumberOfObjectsPerBlock)
@@ -139,6 +176,13 @@ private:
         for(std::string const& filePath : listOfFiles)
         {
             AlbaLocalPathHandler(filePath).deleteFile();
+        }
+    }
+    void putIndexesWithMultiplesOfNumber(Indexes & indexes, unsigned int number, unsigned int numberOfObjects)
+    {
+        for(unsigned int index=0; index<numberOfObjects; index+=number)
+        {
+            indexes.emplace_back(index);
         }
     }
     unsigned long long m_size;

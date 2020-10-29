@@ -4,10 +4,12 @@
 #include <Randomizer/AlbaRandomizer.hpp>
 
 #include <algorithm>
-#include <cctype>#include <functional>
+#include <cctype>
+#include <functional>
 #include <iomanip>
 #include <set>
-#include <sstream>#include <typeinfo>
+#include <sstream>
+#include <typeinfo>
 
 using namespace std;
 
@@ -72,11 +74,13 @@ std::string stringHelper::getRandomAlphaNumericString(unsigned int const length)
 
 bool stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(string const& mainString, string const& string2)
 {
-    return isNotNpos(mainString.find(string2));}
+    return isNotNpos(mainString.find(string2));
+}
 
 bool stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(string const& mainString, string const& string2)
 {
-    return isStringFoundInsideTheOtherStringCaseSensitive(getStringWithCapitalLetters(mainString), getStringWithCapitalLetters(string2));}
+    return isStringFoundInsideTheOtherStringCaseSensitive(getStringWithCapitalLetters(mainString), getStringWithCapitalLetters(string2));
+}
 
 bool stringHelper::isEqualNotCaseSensitive(string const& mainString, string const& string2)
 {

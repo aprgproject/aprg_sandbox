@@ -3,8 +3,10 @@
 #include <LargeSorter/DataBlockCache.hpp>
 #include <LargeSorter/AlbaLargeSorterConfiguration.hpp>
 #include <LargeSorter/AlbaLargeSorterTypes.hpp>
+
 #include <LargeSorter/DataBlocks.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+
 #include <functional>
 
 namespace alba
@@ -18,9 +20,11 @@ class AlbaLargeSorter
     typedef DataBlockCache<BlockIterator> BlockCache;
     typedef typename BlockCache::BlockInformationPair BlockInformationPair;
     typedef typename BlockCache::BlocksInformationContainer BlockInformationContainer;
+
 public:
     AlbaLargeSorter(AlbaLargeSorterConfiguration const& configuration)
-        : m_size(0)        , m_configuration(configuration)
+        : m_size(0)
+        , m_configuration(configuration)
         , m_memoryCache()
         , m_fileStreamOpenedCache()
         , m_blocks(m_configuration, m_memoryCache, m_fileStreamOpenedCache)

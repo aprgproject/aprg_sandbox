@@ -13,6 +13,7 @@ std::string const ALPHA_NUMERIC_CHAR_MAP = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ
 
 namespace stringHelper
 {
+
 typedef std::vector<std::string> strings;
 
 unsigned int getLevenshteinDistance(std::string const& mainString, std::string const& string2);
@@ -21,10 +22,12 @@ std::string constructFileLocator(std::string file, int lineNumber);
 std::string getRandomAlphaNumericString(unsigned int const length);
 
 bool isStringFoundInsideTheOtherStringCaseSensitive(std::string const& mainString, std::string const& string2);
-bool isStringFoundInsideTheOtherStringNotCaseSensitive(std::string const& mainString, std::string const& string2);bool isEqualNotCaseSensitive(std::string const& mainString, std::string const& string2);
+bool isStringFoundInsideTheOtherStringNotCaseSensitive(std::string const& mainString, std::string const& string2);
+bool isEqualNotCaseSensitive(std::string const& mainString, std::string const& string2);
 bool isEqualWithLowestCommonLength(std::string const& string1, std::string const& string2);
 bool isNumber(std::string const& mainString);
-bool isWhiteSpace(std::string const& mainString);bool isIdentifier(std::string const& mainString);
+bool isWhiteSpace(std::string const& mainString);
+bool isIdentifier(std::string const& mainString);
 bool isOneWord(std::string const& mainString);
 
 bool transformReplaceStringIfFound(std::string & mainString, std::string const& toReplace, std::string const& replaceWith);

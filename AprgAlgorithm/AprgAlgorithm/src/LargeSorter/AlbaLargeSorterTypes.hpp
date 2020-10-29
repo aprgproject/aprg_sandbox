@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <vector>
 
 namespace alba
 {
@@ -13,5 +14,7 @@ template <typename BlockIterator> class DataBlockCache;
 template <typename BlockIterator> using AlbaLargeSorterBlockCache = DataBlockCache<BlockIterator>;
 template <typename BlockIterator> using AlbaLargeSorterBlockCacheEntry = typename AlbaLargeSorterBlockCache<BlockIterator>::BlockCacheEntry;
 template <typename BlockIterator> using AlbaLargeSorterBlockCacheContainer = typename AlbaLargeSorterBlockCache<BlockIterator>::BlockCacheContainer;
+
+using Indexes = std::vector<unsigned int> ;
 
 }

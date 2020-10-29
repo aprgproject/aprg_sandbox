@@ -12,10 +12,12 @@
 #include <unordered_map>
 
 using namespace std;
-using tcomToolsBackend::BtsLogPrint;using tcomToolsBackend::BtsLogTime;
+using tcomToolsBackend::BtsLogPrint;
+using tcomToolsBackend::BtsLogTime;
 using tcomToolsBackend::BtsLogTimeType;
 
-namespace alba{
+namespace alba
+{
 
 namespace ProgressCounters
 {
@@ -1000,10 +1002,12 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
 
             if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(_LRM_)"))
             {
-                maxCpuTcomLrm = std::max(maxCpuTcomLrm, cpuLoad);            }
+                maxCpuTcomLrm = std::max(maxCpuTcomLrm, cpuLoad);
+            }
             else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TCOM_GRM_TASK)"))
             {
-                maxCpuTcomGrm = std::max(maxCpuTcomGrm, cpuLoad);            }
+                maxCpuTcomGrm = std::max(maxCpuTcomGrm, cpuLoad);
+            }
             else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(Conman_EU)"))
             {
                 maxCpuTupcConman = std::max(maxCpuTupcConman, cpuLoad);
@@ -1014,7 +1018,8 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
             }
         }
     }
-    cout<<"Max CPU GRM TCOM:"<<maxCpuTcomGrm<<endl;    cout<<"Max CPU LRM TCOM:"<<maxCpuTcomLrm<<endl;
+    cout<<"Max CPU GRM TCOM:"<<maxCpuTcomGrm<<endl;
+    cout<<"Max CPU LRM TCOM:"<<maxCpuTcomLrm<<endl;
     cout<<"Max CPU TUP Conman:"<<maxCpuTupcConman<<endl;
     cout<<"Max CPU TUP Aalman:"<<maxCpuTcomAalman<<endl;
 
@@ -1028,10 +1033,12 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
     logLineInRawDataFile(masterStringStream.str());
 }
 
-void PerformanceAnalyzer::processFileForRlSetupPerSecond(string const& filePath){
+void PerformanceAnalyzer::processFileForRlSetupPerSecond(string const& filePath)
+{
     AlbaLocalPathHandler filePathHandler(filePath);
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
+
     cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<endl;
     logLineInRawDataFile("BtsTime,instances");
 

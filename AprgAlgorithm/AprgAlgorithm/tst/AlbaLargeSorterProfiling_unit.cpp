@@ -16,20 +16,20 @@ using namespace std;
 
 #define ALBA_LARGE_SORTER_BLOCK_DIR APRG_DIR "AprgAlgorithm\\AprgAlgorithm\\tst\\FilesForTests\\LargeSorterTest\\blocks"
 
-TEST(AlbaLargeSorterPriofileTest, DISABLED_FirstTest)
+TEST(AlbaLargeSorterPriofileTest, FirstTest)
 {
     unsigned int stringSize(200);
     AlbaLargeSorterConfiguration sorterConfiguration;
     sorterConfiguration.m_directoryForBlocks = ALBA_LARGE_SORTER_BLOCK_DIR;
-    sorterConfiguration.m_minimumNumberOfObjectsPerBlock = 10000;
+    sorterConfiguration.m_minimumNumberOfObjectsPerBlock = 1000;
     sorterConfiguration.m_maximumNumberOfObjectsPerBlock = 10000;
-    sorterConfiguration.m_maximumNumberOfObjectsInMemory = 1000;
+    sorterConfiguration.m_maximumNumberOfObjectsInMemory = 100000;
     sorterConfiguration.m_maximumFileStreams = 10;
 
-    AlbaUserInterface ui;
-    while(1)
-    {
-        unsigned int sampleSize(stringHelper::convertStringToNumber<unsigned int>(ui.getUserInput()));
+    //AlbaUserInterface ui;
+    //while(1)
+    //{
+        unsigned int sampleSize = 1280000;//(stringHelper::convertStringToNumber<unsigned int>(ui.getUserInput()));
 
         vector<string> samples;
         samples.resize(sampleSize);
@@ -47,6 +47,6 @@ TEST(AlbaLargeSorterPriofileTest, DISABLED_FirstTest)
         }
         timer.stopTimer();
         cout<<"Executed in "<<timer.getElapsedTimeInMilliseconds()<<" ms"<<endl;
-    }
+    //}
 }
 
