@@ -1,13 +1,13 @@
+#include <QuickestWayToProgram.hpp>
+
 #include <File/AlbaFileReader.hpp>
 #include <NsapHelper.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <QuickestWayToProgram.hpp>
+
 #include <String/AlbaStringHelper.hpp>
 #include <stdio.h>
-
 #include <gtest/gtest.h>
 #include <windows.h>
-
 #include <algorithm>
 #include <iostream>
 #include <map>
@@ -20,20 +20,20 @@ TEST(SampleTest, FilesToFind)
 {
     AlbaLocalPathHandler::ListOfPaths files;
     AlbaLocalPathHandler::ListOfPaths directories;
-    AlbaLocalPathHandler pathHandler(R"(C:\Qt\Qt5.3.2\5.3\mingw482_32\include)");
+    AlbaLocalPathHandler pathHandler(R"(D:\ZZZ_Logs\PR224369_NEWEST\WBTS17vsWBTS18\WBTS18Second\trace_TUPCexe_Conman_EU_1448_1494233464)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
 
     for(string const& file: files)
     {
         AlbaLocalPathHandler filePathHandler(file);
-        cout<<filePathHandler.getFile()<<endl;
+        cout<<R"(./decodeTrace )"<<filePathHandler.getFilenameOnly()<<R"(.log SS_TUPC addr2line)"<<endl;
+        cout<<R"(./flameGraph )"<<filePathHandler.getFilenameOnly()<<R"(.log_decode > )"<<filePathHandler.getFilenameOnly()<<R"(.log_flame)"<<endl;
+        cout<<R"(cat )"<<filePathHandler.getFilenameOnly()<<R"(.log_flame ~/flamegraphs/FlameGraph-master/stackcollapse-perf.pl | ~/flamegraphs/FlameGraph-master/flamegraph.pl > generatedflamegraphs2/)"<<filePathHandler.getFilenameOnly()<<R"(.svg)"<<endl;
     }
 }
-
 /*
 TEST(SampleTest, MessageId_TcomTcom_test)
-{
-    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
+{    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
     AlbaLocalPathHandler pathHandler2(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_TcomTcom_xml_format.txt)");
     AlbaLocalPathHandler pathHandler3(R"(D:\userdata\malba\Desktop\SCTRoutes\Unedited\routeList_VM.xml)");
     AlbaLocalPathHandler pathHandler4(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_comparison.csv)");
