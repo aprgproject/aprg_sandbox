@@ -258,14 +258,23 @@ string stringHelper::getStringWithUrlDecodedString(string const& mainString)
     return result;
 }
 
-string stringHelper::getStringWithoutStartingAndTrailingCharacters(string const& mainString, string const& characters)
+string stringHelper::getStringThatContainsWhiteSpaceIndention(string const& mainString)
 {
-    string result(mainString);
-    int firstIndexOfNotOfCharacters(result.find_first_not_of(characters));
+    string result;
+    int firstIndexOfNotOfCharacters(mainString.find_first_not_of(WHITESPACE_STRING));
     if(isNotNpos(firstIndexOfNotOfCharacters))
     {
-        result.erase(0, firstIndexOfNotOfCharacters);
-        int lastIndexOfOfNotOfCharacters(result.find_last_not_of(characters));
+        result = mainString.substr(0, firstIndexOfNotOfCharacters);
+    }
+    return result;
+}
+
+string stringHelper::getStringWithoutStartingAndTrailingCharacters(string const& mainString, string const& characters)
+{
+    string result(mainString);    int firstIndexOfNotOfCharacters(result.find_first_not_of(characters));
+    if(isNotNpos(firstIndexOfNotOfCharacters))
+    {
+        result.erase(0, firstIndexOfNotOfCharacters);        int lastIndexOfOfNotOfCharacters(result.find_last_not_of(characters));
         if(isNotNpos(lastIndexOfOfNotOfCharacters))
         {
             result.erase(lastIndexOfOfNotOfCharacters+1);

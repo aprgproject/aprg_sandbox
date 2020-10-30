@@ -14,15 +14,13 @@ using namespace std;
 TEST(CPlusPlusFileFixerTest, ActualRun)
 {
     CPlusPlusFileFixer fixer;
-    fixer.processDirectory(R"(C:\APRG\)");
+    fixer.processDirectory(R"(C:\APRG_CLEAN_COPY\)");
     //fixer.processDirectory(R"(C:\APRG\TcomTools\)");
     //fixer.processFile(R"(C:\APRG\AprgCommon\AprgCommon\tst\AlbaStringHelper_unit.cpp)");
 }
-
 TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersTest)
 {
-    CPlusPlusFileFixer fixer;
-    ofstream testFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
+    CPlusPlusFileFixer fixer;    ofstream testFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
     ASSERT_TRUE(testFile.is_open());
     testFile << R"(#include <file2.hpp>)" << endl;
     testFile << R"(#include<string>)" << endl;
@@ -121,4 +119,20 @@ TEST(CPlusPlusFileFixerTest, NamespaceCorrection)
     EXPECT_EQ(R"(})", fileReader.getLine());
     EXPECT_EQ("", fileReader.getLine());
     EXPECT_FALSE(fileReader.isNotFinished());
+}
+
+TEST(CPlusPlusFileFixerTest, DISABLED_TwoCascadingLoopsDetection)
+{
+    CPlusPlusFileFixer fixer;
+    ofstream testFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
+    ASSERT_TRUE(testFile.is_open());
+    testFile << R"(for(SomeDetailsHere))" << endl;
+    testFile << R"(    while(SomeAdditionalDetailsHere))" << endl;
+    testFile << R"(         while(SomeAdditionalDetailsHere))" << endl;
+    testFile << R"(         })" << endl;
+    testFile << R"(    })" << endl;
+    testFile << R"(})" << endl;
+    testFile.close();
+
+    fixer.processFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
 }

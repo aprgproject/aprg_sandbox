@@ -1,3 +1,6 @@
-namespace samplenamespace 
-{
+for(SomeDetailsHere)
+    while(SomeAdditionalDetailsHere)
+         while(SomeAdditionalDetailsHere)
+         }
+    }
 }

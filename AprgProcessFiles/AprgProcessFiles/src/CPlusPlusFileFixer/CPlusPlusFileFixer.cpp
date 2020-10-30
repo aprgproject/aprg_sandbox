@@ -7,12 +7,11 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <set>
 
 using namespace std;
-
 namespace alba
 {
-
 void CPlusPlusFileFixer::processDirectory(string const& path)
 {
     set<string> listOfFiles;
@@ -50,14 +49,20 @@ void CPlusPlusFileFixer::clear()
 
 void CPlusPlusFileFixer::checkFile(string const& path)
 {
+    readContentsFromFile(path);
+    //notifyIfIostreamHeaderExistInProductionCode(path);
+    //notifyIfCAssertHeaderExistInProductionCode(path);
+    notifyIfMoreThanLoopsAreCascaded(path);
+}
+
+void CPlusPlusFileFixer::readContentsFromFile(string const& path)
+{
     AlbaLocalPathHandler filePathHandler(path);
     ifstream inputLogFileStream(filePathHandler.getFullPath());
-    AlbaFileReader fileReader(inputLogFileStream);
-    bool isOnHeaderPart(true);
+    AlbaFileReader fileReader(inputLogFileStream);    bool isOnHeaderPart(true);
     while(fileReader.isNotFinished())
     {
-        string line(fileReader.getLine());
-        if(isOnHeaderPart)
+        string line(fileReader.getLine());        if(isOnHeaderPart)
         {
             if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "#include"))
             {
@@ -88,69 +93,14 @@ void CPlusPlusFileFixer::checkFile(string const& path)
             m_linesAfterTheHeader.emplace_back(line);
         }
     }
-    notifyIfIostreamHeaderExistInProductionCode(path);
-    notifyIfCAssertHeaderExistInProductionCode(path);
-}
-
-void CPlusPlusFileFixer::fix(string const& path)
-{
-    fixHeaders(path);
-    removeTrailingLinesInCode();
-    fixNamespaces();
-}
-
-void CPlusPlusFileFixer::writeFile(string const& path)
-{
-    AlbaLocalPathHandler filePathHandler(path);
-    ofstream outputLogFileStream(filePathHandler.getFullPath());
-    if(m_isPragmaOnceFound)
-    {
-        outputLogFileStream<<"#pragma once"<<endl;
-        outputLogFileStream<<endl;
-    }
-    if(!m_headerListFromQuotations.empty())
-    {
-        for(string const& header: m_headerListFromQuotations)
-        {
-            if(!header.empty())
-            {
-                outputLogFileStream<<R"(#include ")"<<header<<R"(")"<<endl;
-            }
-            else
-            {
-                outputLogFileStream<<endl;
-            }
-        }
-        outputLogFileStream<<endl;
-    }
-    if(!m_headerListFromAngleBrackets.empty())
-    {
-        for(string const& header: m_headerListFromAngleBrackets)
-        {
-            if(!header.empty())
-            {
-                outputLogFileStream<<R"(#include <)"<<header<<R"(>)"<<endl;
-            }
-            else
-            {
-                outputLogFileStream<<endl;
-            }
-        }
-    }
-    for(string const& line: m_linesAfterTheHeader)
-    {
-        outputLogFileStream<<line<<endl;
-    }
 }
 
 void CPlusPlusFileFixer::notifyIfThereAreCommentsInHeader(string const& path, std::string const& line) const
 {
-    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "//"))
-    {
+    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "//"))    {
         cout<<"CHECK THIS: Header comments on:["<<path<<"] in line:["<<line<<"]"<<endl;
     }
 }
-
 void CPlusPlusFileFixer::notifyIfIostreamHeaderExistInProductionCode(string const& path) const
 {
     AlbaLocalPathHandler filePathHandler(path);
@@ -172,14 +122,43 @@ void CPlusPlusFileFixer::notifyIfCAssertHeaderExistInProductionCode(string const
     }
 }
 
+void CPlusPlusFileFixer::notifyIfMoreThanLoopsAreCascaded(string const& path) const
+{
+    std::set<unsigned int> indentionsOfLoops;
+    for(string const& line : m_linesAfterTheHeader)
+    {
+        if(isLineWithALoopStart(line))
+        {
+            indentionsOfLoops.emplace(stringHelper::getStringThatContainsWhiteSpaceIndention(line).size());
+            if(indentionsOfLoops.size()>=2)
+            {
+                cout<<"CHECK THIS: More than 2 loops found in:["<<path<<"] in line:["<<line<<"]."<<endl;
+            }
+        }
+        else if(isLineWithALoopEnd(line))
+        {
+            auto it = indentionsOfLoops.find(stringHelper::getStringThatContainsWhiteSpaceIndention(line).size());
+            if(it!=indentionsOfLoops.end())
+            {
+                indentionsOfLoops.erase(it);
+            }
+        }
+    }
+}
+
+void CPlusPlusFileFixer::fix(string const& path)
+{
+    fixHeaders(path);
+    removeTrailingLinesInCode();
+    fixNamespaces();
+}
+
 void CPlusPlusFileFixer::fixHeaders(string const& path)
 {
-    AlbaLocalPathHandler filePathHandler(path);
-    set<string> mainHeaders;
+    AlbaLocalPathHandler filePathHandler(path);    set<string> mainHeaders;
     set<string> cPlusPlusHeaders;
     set<string> otherLibraryHeaders;
-    set<string> aprgFiles;
-    for(string const& header: m_headerListFromAngleBrackets)
+    set<string> aprgFiles;    for(string const& header: m_headerListFromAngleBrackets)
     {
         if(isMainHeader(header, filePathHandler.getFullPath()))
         {
@@ -270,14 +249,89 @@ void CPlusPlusFileFixer::addHeaderFileFromQuotations(std::string const& header)
     m_headerListFromQuotations.emplace(headerPathHandler.getFullPath());
 }
 
-bool CPlusPlusFileFixer::isPathIgnored(string const& path) const
+void CPlusPlusFileFixer::writeFile(string const& path)
+{
+    AlbaLocalPathHandler filePathHandler(path);
+    ofstream outputLogFileStream(filePathHandler.getFullPath());
+    if(m_isPragmaOnceFound)
+    {
+        outputLogFileStream<<"#pragma once"<<endl;
+        outputLogFileStream<<endl;
+    }
+    if(!m_headerListFromQuotations.empty())
+    {
+        writeHeadersWithQuotations(outputLogFileStream);
+    }
+    if(!m_headerListFromAngleBrackets.empty())
+    {
+        writeHeadersWithAngleBrackets(outputLogFileStream);
+    }
+    for(string const& line: m_linesAfterTheHeader)
+    {
+        outputLogFileStream<<line<<endl;
+    }
+}
+
+void CPlusPlusFileFixer::writeHeadersWithQuotations(ofstream & outputLogFileStream) const
+{
+    for(string const& header: m_headerListFromQuotations)
+    {
+        if(!header.empty())
+        {
+            outputLogFileStream<<R"(#include ")"<<header<<R"(")"<<endl;
+        }
+        else
+        {
+            outputLogFileStream<<endl;
+        }
+    }
+    outputLogFileStream<<endl;
+}
+
+void CPlusPlusFileFixer::writeHeadersWithAngleBrackets(ofstream & outputLogFileStream) const
+{
+    for(string const& header: m_headerListFromAngleBrackets)
+    {
+        if(!header.empty())
+        {
+            outputLogFileStream<<R"(#include <)"<<header<<R"(>)"<<endl;
+        }
+        else
+        {
+            outputLogFileStream<<endl;
+        }
+    }
+}
+
+bool CPlusPlusFileFixer::isLineWithALoopStart(string const& line) const
 {
     bool result(false);
-    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "ACodeReview") ||
+    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "for(") ||
+            stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "while("))
+    {
+        result=true;
+    }
+    return result;
+}
+
+bool CPlusPlusFileFixer::isLineWithALoopEnd(string const& line) const
+{
+    bool result(false);
+    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "}") &&
+            !stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "{"))
+    {
+        result=true;
+    }
+    return result;
+}
+
+
+bool CPlusPlusFileFixer::isPathIgnored(string const& path) const
+{
+    bool result(false);    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "ACodeReview") ||
             stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "AprgCMakeHelpers") ||
             stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "CImg") ||
-            stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "curl-7.38.0") ||
-            stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "CurlCpp") ||
+            stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "curl-7.38.0") ||            stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "CurlCpp") ||
             stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "gsl1.8") ||
             stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "gtest-1.7.0") ||
             stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "plantumlqeditor") ||
