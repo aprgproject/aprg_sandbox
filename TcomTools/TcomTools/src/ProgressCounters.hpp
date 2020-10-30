@@ -1,13 +1,9 @@
 #pragma once
 
-#include <iostream>
-
 namespace alba
 {
-
 namespace ProgressCounters
 {
-
 int getOverAllProgress();
 void resetProgressCounters();
 int getExtractProgress();
