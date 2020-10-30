@@ -97,6 +97,3 @@ TEST(DataSampleTest, DataSamplesCanBeAddedWithSingleValue)
     EXPECT_EQ(41u, actualResult.getValueAt(3));
     EXPECT_EQ(51u, actualResult.getValueAt(4));
 }
-
-
-

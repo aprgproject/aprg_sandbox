@@ -1,9 +1,9 @@
 #pragma once
 
-#include <LargeSorter/DataBlockCache.hpp>
 #include <LargeSorter/AlbaLargeSorterConfiguration.hpp>
 #include <LargeSorter/AlbaLargeSorterTypes.hpp>
 
+#include <LargeSorter/DataBlockCache.hpp>
 #include <LargeSorter/DataBlocks.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 

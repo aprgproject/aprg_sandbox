@@ -3,8 +3,8 @@
 #include <LargeSorter/DataBlockFileHandler.hpp>
 #include <LargeSorter/DataBlockMemoryHandler.hpp>
 
-#include <LargeSorter/AlbaLargeSorterTypes.hpp>
 #include <Container/AlbaContainerHelper.hpp>
+#include <LargeSorter/AlbaLargeSorterTypes.hpp>
 #include <Optional/AlbaOptional.hpp>
 
 #include <algorithm>

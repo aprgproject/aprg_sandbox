@@ -38,10 +38,12 @@ private:
     bool isLineWithALoopEnd(std::string const& line) const;
     bool isPathIgnored(std::string const& path) const;
     bool isCPlusPlusHeader(std::string const& header) const;
-    bool isQtHeader(std::string const& header) const;    bool isOtherLibraryHeaders(std::string const& header) const;
+    bool isQtHeader(std::string const& header) const;
+    bool isOtherLibraryHeaders(std::string const& header) const;
     bool isMainHeader(std::string const& headerFoundInFile, std::string const& filePath) const;
 
-    std::vector<std::string> m_linesAfterTheHeader;    std::vector<std::string> m_headerListFromAngleBrackets;
+    std::vector<std::string> m_linesAfterTheHeader;
+    std::vector<std::string> m_headerListFromAngleBrackets;
     std::set<std::string> m_headerListFromQuotations;
     bool m_isPragmaOnceFound;
 };

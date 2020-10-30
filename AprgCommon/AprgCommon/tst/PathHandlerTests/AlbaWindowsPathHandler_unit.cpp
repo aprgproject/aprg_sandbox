@@ -1,5 +1,5 @@
-#include <PathHandlers/AlbaWindowsPathHandler.hpp>
 #include <DirectoryConstants.hpp>
+#include <PathHandlers/AlbaWindowsPathHandler.hpp>
 
 #include <gtest/gtest.h>
 

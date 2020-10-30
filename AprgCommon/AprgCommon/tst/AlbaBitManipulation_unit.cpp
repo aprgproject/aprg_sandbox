@@ -128,4 +128,3 @@ TEST(AlbaBitManipulationTest, GetAllBitsAsserted)
     EXPECT_EQ(0xFFFFFFFF, AlbaBitManipulation<unsigned int>::getAllBitsAsserted());
     EXPECT_EQ(0xFFFFFFFFFFFFFFFF, AlbaBitManipulation<unsigned long long>::getAllBitsAsserted());
 }
-

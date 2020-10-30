@@ -1,5 +1,4 @@
 #include <DirectoryConstants.hpp>
-
 #include <SackReader/AlbaSackReader.hpp>
 
 #include <gtest/gtest.h>

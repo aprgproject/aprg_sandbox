@@ -10,8 +10,10 @@
 #include <set>
 
 using namespace std;
+
 namespace alba
 {
+
 void CPlusPlusFileFixer::processDirectory(string const& path)
 {
     set<string> listOfFiles;
@@ -59,10 +61,12 @@ void CPlusPlusFileFixer::readContentsFromFile(string const& path)
 {
     AlbaLocalPathHandler filePathHandler(path);
     ifstream inputLogFileStream(filePathHandler.getFullPath());
-    AlbaFileReader fileReader(inputLogFileStream);    bool isOnHeaderPart(true);
+    AlbaFileReader fileReader(inputLogFileStream);
+    bool isOnHeaderPart(true);
     while(fileReader.isNotFinished())
     {
-        string line(fileReader.getLine());        if(isOnHeaderPart)
+        string line(fileReader.getLine());
+        if(isOnHeaderPart)
         {
             if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "#include"))
             {
@@ -97,10 +101,12 @@ void CPlusPlusFileFixer::readContentsFromFile(string const& path)
 
 void CPlusPlusFileFixer::notifyIfThereAreCommentsInHeader(string const& path, std::string const& line) const
 {
-    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "//"))    {
+    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "//"))
+    {
         cout<<"CHECK THIS: Header comments on:["<<path<<"] in line:["<<line<<"]"<<endl;
     }
 }
+
 void CPlusPlusFileFixer::notifyIfIostreamHeaderExistInProductionCode(string const& path) const
 {
     AlbaLocalPathHandler filePathHandler(path);
@@ -155,10 +161,12 @@ void CPlusPlusFileFixer::fix(string const& path)
 
 void CPlusPlusFileFixer::fixHeaders(string const& path)
 {
-    AlbaLocalPathHandler filePathHandler(path);    set<string> mainHeaders;
+    AlbaLocalPathHandler filePathHandler(path);
+    set<string> mainHeaders;
     set<string> cPlusPlusHeaders;
     set<string> otherLibraryHeaders;
-    set<string> aprgFiles;    for(string const& header: m_headerListFromAngleBrackets)
+    set<string> aprgFiles;
+    for(string const& header: m_headerListFromAngleBrackets)
     {
         if(isMainHeader(header, filePathHandler.getFullPath()))
         {
@@ -328,10 +336,12 @@ bool CPlusPlusFileFixer::isLineWithALoopEnd(string const& line) const
 
 bool CPlusPlusFileFixer::isPathIgnored(string const& path) const
 {
-    bool result(false);    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "ACodeReview") ||
+    bool result(false);
+    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "ACodeReview") ||
             stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "AprgCMakeHelpers") ||
             stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "CImg") ||
-            stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "curl-7.38.0") ||            stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "CurlCpp") ||
+            stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "curl-7.38.0") ||
+            stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "CurlCpp") ||
             stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "gsl1.8") ||
             stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "gtest-1.7.0") ||
             stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(path, "plantumlqeditor") ||

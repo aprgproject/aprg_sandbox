@@ -3,8 +3,8 @@
 #include <TwoDimensions/Line.hpp>
 #include <TwoDimensions/Point.hpp>
 
-#include <array>
 #include <algorithm>
+#include <array>
 
 namespace alba
 {

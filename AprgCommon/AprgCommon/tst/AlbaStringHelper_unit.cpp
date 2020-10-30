@@ -171,10 +171,12 @@ TEST(GetPartialStringFromStringTest, GetStringThatContainsWhiteSpaceIndention)
 
 TEST(GetPartialStringFromStringTest, GetWithoutStartingAndTrailingWhiteSpaceUsingWhiteSpaceOnly)
 {
-    string testString("     \n\n    \t\t\t   ");    EXPECT_TRUE(getStringWithoutStartingAndTrailingWhiteSpace(testString).empty());
+    string testString("     \n\n    \t\t\t   ");
+    EXPECT_TRUE(getStringWithoutStartingAndTrailingWhiteSpace(testString).empty());
 }
 
-TEST(GetPartialStringFromStringTest, GetWithoutStartingAndTrailingWhiteSpaceUsingAllLettersWithSpecialCharacters){
+TEST(GetPartialStringFromStringTest, GetWithoutStartingAndTrailingWhiteSpaceUsingAllLettersWithSpecialCharacters)
+{
     string testString("     \n\n1 2 3 4 5 6   7 8 9 0!@#$%^&*( )a   b   c d e f g   h i j k l m  n o   p q r\n\n\ns t u v w x y z    ");
     string withoutStartingAndTrailingWhiteSpace("1 2 3 4 5 6   7 8 9 0!@#$%^&*( )a   b   c d e f g   h i j k l m  n o   p q r\n\n\ns t u v w x y z");
 
@@ -272,10 +274,12 @@ TEST(GetPartialStringFromStringTest, GetStringBeforeThisCharacters)
 
 TEST(GetPartialStringFromStringTest, CopyBeforeStringAndAfterStringWhenStringIsFound)
 {
-    string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");    string expectedBeforeString(R"("1234567890!@#$%^&*( ))");
+    string testString(R"("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz")");
+    string expectedBeforeString(R"("1234567890!@#$%^&*( ))");
     string expectedAfterString(R"(EFghIjKlMnopQRstUvWxYz")");
     string actualBeforeString;
     string actualAfterString;
+
     copyBeforeStringAndAfterString(testString, "AbCD", actualBeforeString, actualAfterString);
     EXPECT_EQ(expectedBeforeString, actualBeforeString);
     EXPECT_EQ(expectedAfterString, actualAfterString);

@@ -1,5 +1,4 @@
 #include <CPlusPlusFileFixer/CPlusPlusFileFixer.hpp>
-
 #include <DirectoryConstants.hpp>
 #include <File/AlbaFileReader.hpp>
 
@@ -18,9 +17,11 @@ TEST(CPlusPlusFileFixerTest, ActualRun)
     //fixer.processDirectory(R"(C:\APRG\TcomTools\)");
     //fixer.processFile(R"(C:\APRG\AprgCommon\AprgCommon\tst\AlbaStringHelper_unit.cpp)");
 }
+
 TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersTest)
 {
-    CPlusPlusFileFixer fixer;    ofstream testFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
+    CPlusPlusFileFixer fixer;
+    ofstream testFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
     ASSERT_TRUE(testFile.is_open());
     testFile << R"(#include <file2.hpp>)" << endl;
     testFile << R"(#include<string>)" << endl;

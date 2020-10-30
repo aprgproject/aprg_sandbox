@@ -2,6 +2,7 @@
 
 #include <AprgBitmapConfiguration.hpp>
 #include <AprgBitmapSnippet.hpp>
+
 #include <CommonTypes.hpp>
 
 #include <string>

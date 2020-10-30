@@ -1,9 +1,7 @@
-#include <QuickestWayToProgram.hpp>
-
 #include <File/AlbaFileReader.hpp>
 #include <NsapHelper.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
-
+#include <QuickestWayToProgram.hpp>
 #include <String/AlbaStringHelper.hpp>
 #include <stdio.h>
 

@@ -1,6 +1,7 @@
 #include <AprgBitmap.hpp>
 
 #include <gtest/gtest.h>
+
 #include <cmath>
 
 using namespace alba;

@@ -271,10 +271,12 @@ string stringHelper::getStringThatContainsWhiteSpaceIndention(string const& main
 
 string stringHelper::getStringWithoutStartingAndTrailingCharacters(string const& mainString, string const& characters)
 {
-    string result(mainString);    int firstIndexOfNotOfCharacters(result.find_first_not_of(characters));
+    string result(mainString);
+    int firstIndexOfNotOfCharacters(result.find_first_not_of(characters));
     if(isNotNpos(firstIndexOfNotOfCharacters))
     {
-        result.erase(0, firstIndexOfNotOfCharacters);        int lastIndexOfOfNotOfCharacters(result.find_last_not_of(characters));
+        result.erase(0, firstIndexOfNotOfCharacters);
+        int lastIndexOfOfNotOfCharacters(result.find_last_not_of(characters));
         if(isNotNpos(lastIndexOfOfNotOfCharacters))
         {
             result.erase(lastIndexOfOfNotOfCharacters+1);

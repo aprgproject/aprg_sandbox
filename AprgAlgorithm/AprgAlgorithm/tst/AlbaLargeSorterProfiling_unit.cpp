@@ -1,5 +1,4 @@
 #include <LargeSorter/AlbaLargeSorter.hpp>
-
 #include <String/AlbaStringHelper.hpp>
 #include <Timer/AlbaLocalTimer.hpp>
 #include <User/AlbaUserInterface.hpp>
@@ -49,4 +48,3 @@ TEST(AlbaLargeSorterPriofileTest, DISABLED_FirstTest)
         cout<<"Executed in "<<timer.getElapsedTimeInMilliseconds()<<" ms"<<endl;
     //}
 }
-
