@@ -17,20 +17,21 @@ private:
     void clear();
     void checkFile(std::string const& path);
     void fix(std::string const& path);
+    void notify(std::string const& path) const;
+    void writeFile(std::string const& path);
+    void notifyIfIostreamHeaderExistInProductionCode(std::string const& path) const;
     void fixHeaders(std::string const& path);
     void removeTrailingLinesInCode();
     void fixNamespaces();
     void addHeaderFileFromAngleBrackets(std::string const& header);
     void addHeaderFileFromQuotations(std::string const& header);
-    void writeFile(std::string const& path);
+    bool isPathIgnored(std::string const& path) const;
     bool isCPlusPlusHeader(std::string const& header) const;
     bool isQtHeader(std::string const& header) const;
-    bool isOtherLibraryHeaders(std::string const& header) const;
-    bool isMainHeader(std::string const& headerFoundInFile, std::string const& filePath) const;
+    bool isOtherLibraryHeaders(std::string const& header) const;    bool isMainHeader(std::string const& headerFoundInFile, std::string const& filePath) const;
 
     std::vector<std::string> m_linesAfterTheHeader;
-    std::vector<std::string> m_headerListFromAngleBrackets;
-    std::set<std::string> m_headerListFromQuotations;
+    std::vector<std::string> m_headerListFromAngleBrackets;    std::set<std::string> m_headerListFromQuotations;
     bool m_isPragmaOnceFound;
 };
 
