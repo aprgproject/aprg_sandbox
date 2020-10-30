@@ -122,3 +122,10 @@ TEST(AlbaBitManipulationTest, GenerationOfOnesIsSuccessful)
     EXPECT_EQ(0x00000003, AlbaBitManipulation<unsigned int>::generateOnesWithNumberOfBits(input));
 }
 
+TEST(AlbaBitManipulationTest, GetAllBitsAsserted)
+{
+    EXPECT_EQ(0xFFFF, AlbaBitManipulation<short unsigned int>::getAllBitsAsserted());
+    EXPECT_EQ(0xFFFFFFFF, AlbaBitManipulation<unsigned int>::getAllBitsAsserted());
+    EXPECT_EQ(0xFFFFFFFFFFFFFFFF, AlbaBitManipulation<unsigned long long>::getAllBitsAsserted());
+}
+

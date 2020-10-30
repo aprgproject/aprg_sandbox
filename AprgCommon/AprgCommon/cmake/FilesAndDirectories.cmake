@@ -7,9 +7,11 @@ set(APRG_COMMON_TEST_INCLUDE_DIRECTORIES
 )
 
 set(APRG_COMMON_SOURCES
+    ${APRG_COMMON_DIR}/src/Bit/AlbaBitConstants.hpp
     ${APRG_COMMON_DIR}/src/Bit/AlbaBitManipulation.hpp
     ${APRG_COMMON_DIR}/src/Container/AlbaContainerHelper.cpp
     ${APRG_COMMON_DIR}/src/Container/AlbaContainerHelper.hpp
+    ${APRG_COMMON_DIR}/src/Container/AlbaXY.hpp
     ${APRG_COMMON_DIR}/src/File/AlbaFileReader.cpp
     ${APRG_COMMON_DIR}/src/File/AlbaFileReader.hpp
     ${APRG_COMMON_DIR}/src/Macros/AlbaMacros.hpp
@@ -62,6 +64,7 @@ set(APRG_COMMON_TESTS
     ${APRG_COMMON_DIR}/tst/AlbaRandomizer_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaStringHelper_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaWindowsUserAutomation_unit.cpp
+    ${APRG_COMMON_DIR}/tst/AlbaXY_unit.cpp
     ${APRG_COMMON_DIR}/tst/DirectoryConstants.hpp
 )
 

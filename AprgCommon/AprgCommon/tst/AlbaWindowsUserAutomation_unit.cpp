@@ -64,8 +64,8 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_ShowMousePosition)
     while(1)
     {
         MousePosition position(userAutomation.getMousePosition());
-        cout<<"X: "<<position.x<<" Y: "<<position.y<<endl;
-        if(0==position.x && 0==position.y)
+        cout<<"X: "<<position.getX()<<" Y: "<<position.getY()<<endl;
+        if(0==position.getX() && 0==position.getY())
         {
             break;
         }

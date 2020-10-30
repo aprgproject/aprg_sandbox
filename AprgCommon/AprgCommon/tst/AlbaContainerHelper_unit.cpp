@@ -2,7 +2,6 @@
 
 #include <DirectoryConstants.hpp>
 #include <File/AlbaFileReader.hpp>
-#include <Optional/AlbaOptional.hpp>
 
 #include <gtest/gtest.h>
 

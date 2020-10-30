@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Container/AlbaXY.hpp>
+
 #include <windows.h>
 
 #include <functional>
@@ -8,11 +10,8 @@
 namespace alba
 {
 
-struct MousePosition
-{
-    int x;
-    int y;
-};
+using  MousePosition = AlbaXY<int>;
+
 
 class AlbaWindowsUserAutomation
 {

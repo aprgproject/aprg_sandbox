@@ -34,17 +34,15 @@ MousePosition AlbaWindowsUserAutomation::getMousePosition() const
     MousePosition position;
     POINT mouse;
     GetCursorPos(&mouse);
-    position.x = mouse.x;
-    position.y = mouse.y;
-    return position;
+    return MousePosition(mouse.x, mouse.y);
 }
 
 void AlbaWindowsUserAutomation::setMousePosition(MousePosition position) const
 {
     long screenWidth = GetSystemMetrics( SM_CXSCREEN ) - 1;
     long screenHeight = GetSystemMetrics( SM_CYSCREEN ) - 1;
-    float ratioInX = position.x * ( 65535.0f / screenWidth  );
-    float ratioInY = position.y * ( 65535.0f / screenHeight );
+    float ratioInX = position.getX() * ( 65535.0f / screenWidth  );
+    float ratioInY = position.getY() * ( 65535.0f / screenHeight );
 
     doOperation([&](INPUT& input)
     {

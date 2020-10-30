@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Bit/AlbaBitConstants.hpp>
+
 #include <cassert>
 #include <cmath>
 
@@ -12,8 +14,6 @@ class AlbaBitManipulation
 
 public:
 
-    static unsigned char const BYTE_SIZE_IN_BITS = 8;
-
     AlbaBitManipulation() = delete;
 
     template <typename ArgumentType, typename... Arguments>
@@ -21,14 +21,14 @@ public:
     {
         static_assert(sizeof(ArgumentType) == 1, "concatenateBytes: ArgumentType size is greater than a byte");
         static_assert(sizeof(DataTypeToManipulate) > sizeof...(Arguments), "concatenateBytes: sizeof(DataTypeToManipulate) size is greater than Arguments size");
-        return ((DataTypeToManipulate)currentByte << (sizeof...(Arguments) * BYTE_SIZE_IN_BITS)) | concatenateBytes(arguments...);
+        return ((DataTypeToManipulate)currentByte << (sizeof...(Arguments) * AlbaBitConstants::BYTE_SIZE_IN_BITS)) | concatenateBytes(arguments...);
     }
 
     template <unsigned char position>
     static constexpr unsigned char getByteAtLeastSignificantPosition(DataTypeToManipulate const value)
     {
         static_assert(sizeof(DataTypeToManipulate) > position, "getByteAtLeastSignificantPosition: position is greater than DataTypeToManipulate size");
-        return value >> (position * BYTE_SIZE_IN_BITS);
+        return value >> (position * AlbaBitConstants::BYTE_SIZE_IN_BITS);
     }
 
     template <unsigned char size>
@@ -38,29 +38,35 @@ public:
         return 0;
     }
 
-    static DataTypeToManipulate swap(DataTypeToManipulate const value)
+    static constexpr DataTypeToManipulate swap(DataTypeToManipulate const value)
     {
         return swapWithBytes<sizeof(DataTypeToManipulate)>(value);
     }
 
-    static DataTypeToManipulate swapForTwoBytes(DataTypeToManipulate const value)
+    static constexpr DataTypeToManipulate swapForTwoBytes(DataTypeToManipulate const value)
     {
         return swapWithBytes<2>(value);
     }
 
-    static DataTypeToManipulate swapForFourBytes(DataTypeToManipulate const value)
+    static constexpr DataTypeToManipulate swapForFourBytes(DataTypeToManipulate const value)
     {
         return swapWithBytes<4>(value);
     }
 
-    static DataTypeToManipulate swapForEightBytes(DataTypeToManipulate const value)
+    static constexpr DataTypeToManipulate swapForEightBytes(DataTypeToManipulate const value)
     {
         return swapWithBytes<8>(value);
     }
 
-    static DataTypeToManipulate generateOnesWithNumberOfBits(unsigned int numberOfOnes)
+    static constexpr DataTypeToManipulate generateOnesWithNumberOfBits(unsigned int numberOfOnes)
     {
         return (DataTypeToManipulate)(round(pow((double)2, (double)numberOfOnes))-1);
+    }
+
+    static constexpr DataTypeToManipulate getAllBitsAsserted()
+    {
+        static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate), "The swapWithSize with this size or type is not supported. Please add a specialization.");
+        return 0;
     }
 
 private:
@@ -105,5 +111,22 @@ constexpr unsigned long long AlbaBitManipulation<unsigned long long>::swapWithBy
                             getByteAtLeastSignificantPosition<6>(value), getByteAtLeastSignificantPosition<7>(value));
 }
 
+template <>
+constexpr short unsigned int AlbaBitManipulation<short unsigned int>::getAllBitsAsserted()
+{
+    return 0xFFFF;
+}
+
+template <>
+constexpr unsigned int AlbaBitManipulation<unsigned int>::getAllBitsAsserted()
+{
+    return 0xFFFFFFFF;
+}
+
+template <>
+constexpr unsigned long long AlbaBitManipulation<unsigned long long>::getAllBitsAsserted()
+{
+    return 0xFFFFFFFFFFFFFFFF;
+}
 
 }
