@@ -1,15 +1,21 @@
 #pragma once
 
+#include <Container/AlbaXY.hpp>
+
+#include <vector>
+
 namespace alba
 {
 
-class SimplestDesignToCopyForLibraries
+using PointParent = AlbaXY<double>;
+
+class Point : public PointParent
 {
 public:
-    SimplestDesignToCopyForLibraries();
-
-private:
-    int m_sample;
+    Point();
+    Point(double const xValue, double const yValue);
 };
+
+using Points = std::vector<Point>;
 
 }

@@ -5,11 +5,9 @@
 #include <algorithm>
 #include <functional>
 #include <vector>
-#include <iostream>
 
 namespace alba
 {
-
 template <typename DataType, unsigned int dimensions>
 class DataStatistics
 {
@@ -50,11 +48,10 @@ public:
     static DataType calculateDispersionAroundTheCentroid(Samples const& samples)
     {
         Sample dispersionCalculationTemp(calculateSampleStandardDeviation(samples));
-        dispersionCalculationTemp.calculateRaiseToPower(2);
+        dispersionCalculationTemp = dispersionCalculationTemp.calculateRaiseToPower(2);
         return pow((double)dispersionCalculationTemp.getSum(), 0.5);
     }
 private:
-
     static Sample calculateVariance(Samples const& samples, unsigned int sampleSize)
     {
         Samples varianceCalculationTemp(samples);
@@ -70,9 +67,8 @@ private:
     static Sample calculateStandardDeviation(Samples const& samples, unsigned int sampleSize)
     {
         Sample standardDeviation(calculateVariance(samples, sampleSize));
-        standardDeviation.calculateRaiseToInversePower(2);
+        standardDeviation = standardDeviation.calculateRaiseToInversePower(2);
         return standardDeviation;
     }
 };
-
 }

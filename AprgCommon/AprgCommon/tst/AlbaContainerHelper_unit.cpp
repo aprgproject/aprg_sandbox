@@ -5,10 +5,10 @@
 
 #include <gtest/gtest.h>
 
+#include <array>
 #include <map>
 #include <set>
-#include <string>
-#include <vector>
+#include <string>#include <vector>
 
 using namespace alba;
 using namespace alba::containerHelper;
@@ -27,10 +27,10 @@ TEST(ContainerSetTest, GetRangeFromSetBasedFromValue)
 
 TEST(ContainerTest, SaveVectorOfIntegersToFile)
 {
-    vector<int> temporaryVector{0, -23, 4, 379,- 482, 37};
+    std::array<int, 6> temporaryArray{0, -23, 4, 379,- 482, 37};
     ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
 
-    saveContentsOfContainerToFile(outputTestFile, temporaryVector);
+    saveContentsOfContainerToFile(outputTestFile, temporaryArray);
     outputTestFile.close();
 
     ifstream inputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
@@ -52,9 +52,62 @@ TEST(ContainerTest, SaveVectorOfIntegersToFile)
 
 TEST(ContainerTest, RetrieveVectorOfIntegersFromFile)
 {
-    vector<int> temporaryVector;
+    std::array<int, 4> temporaryArray;
     ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
     outputTestFile<<"18723"<<endl;
+    outputTestFile<<"-608"<<endl;
+    outputTestFile<<"-43735"<<endl;
+    outputTestFile<<"23234"<<endl;
+    outputTestFile.close();
+
+    ifstream inputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
+    ASSERT_TRUE(inputTestFile.is_open());
+
+    retrieveContentsOfContainerFromFile(inputTestFile, temporaryArray);
+
+    ASSERT_EQ(4u, temporaryArray.size());
+    auto it = temporaryArray.begin();
+    EXPECT_EQ(18723, *(it++));
+    EXPECT_EQ(-608, *(it++));
+    EXPECT_EQ(-43735, *(it++));
+    EXPECT_EQ(23234, *(it++));
+}
+
+TEST(ContainerTest, GetStringFromContentsOfArray)
+{
+    std::array<int, 4> temporaryArray{23, -345, 5324, 1};
+    EXPECT_EQ("23, -345, 5324, 1, ", getStringFromContentsOfContainer(temporaryArray, ", "));
+}
+
+
+TEST(ContainerTest, SaveArrayOfIntegersToFile)
+{
+    vector<int> temporaryVector{0, -23, 4, 379,- 482, 37};
+    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
+    saveContentsOfContainerToFile(outputTestFile, temporaryVector);
+    outputTestFile.close();
+
+    ifstream inputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
+    ASSERT_TRUE(inputTestFile.is_open());
+
+    AlbaFileReader fileReader(inputTestFile);
+    ASSERT_TRUE(inputTestFile.good());
+    ASSERT_FALSE(inputTestFile.eof());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ("0", fileReader.getLine());
+    EXPECT_EQ("-23", fileReader.getLine());
+    EXPECT_EQ("4", fileReader.getLine());
+    EXPECT_EQ("379", fileReader.getLine());
+    EXPECT_EQ("-482", fileReader.getLine());
+    EXPECT_EQ("37", fileReader.getLine());
+    EXPECT_EQ("", fileReader.getLine());
+    EXPECT_FALSE(fileReader.isNotFinished());
+}
+
+TEST(ContainerTest, RetrieveArrayOfIntegersFromFile)
+{
+    vector<int> temporaryVector;
+    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);    outputTestFile<<"18723"<<endl;
     outputTestFile<<"-608"<<endl;
     outputTestFile<<"-43735"<<endl;
     outputTestFile<<"23234"<<endl;

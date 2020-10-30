@@ -1,11 +1,12 @@
-#include <SimplestDesignToCopyForLibraries.hpp>
+#include <TwoDimensions/Point.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba;
 using namespace std;
 
-TEST(SampleTest, DISABLED_SampleTest1)
+TEST(PointTest, PointsCanBeCreated)
 {
-    SimplestDesignToCopyForLibraries entity;
+    Point point (100, 200);
+    EXPECT_EQ(100, point.getX());
+    EXPECT_EQ(200, point.getY());
 }

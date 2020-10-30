@@ -2,10 +2,10 @@
 
 #include <Container/AlbaContainerHelper.hpp>
 
+#include <algorithm>
 #include <array>
 #include <cmath>
-#include <functional>
-#include <initializer_list>
+#include <functional>#include <initializer_list>
 
 namespace alba
 {
@@ -19,23 +19,16 @@ public:
 
     DataSample()
     {
-        for (unsigned int index=0; index<dimensions; index++)
-        {
-            m_data[index]=0;
-        }
+        std::fill(m_data.begin(), m_data.end(), 0);
     }
 
     DataSample(std::initializer_list<DataType> dataSampleValues)
     {
         unsigned int limit = std::min(dimensions, dataSampleValues.size());
-        for (unsigned int index=0; index<limit; index++)
-        {
-            m_data[index]=*(dataSampleValues.begin()+index);
-        }
+        std::copy(dataSampleValues.begin(), dataSampleValues.begin()+limit, m_data.begin());
     }
 
-    bool isIndexValid(unsigned int index) const
-    {
+    bool isIndexValid(unsigned int index) const    {
         return index < dimensions;
     }
 
@@ -61,19 +54,10 @@ public:
 
     std::string getDisplayableString() const
     {
-        std::stringstream ss;
-        ss << "[";
-        for (unsigned int index=0; index<dimensions; index++)
-        {
-            ss << m_data.at(index) << ", ";
-        }
-        ss<<"]";
-        return ss.str();
-        //return std::string("[") + containerHelper::getStringFromContentsOfContainerWithNumberFormat(m_data, ",") + "]\n";
+        return containerHelper::getStringFromContentsOfContainer(m_data, ", ");
     }
 
-    void setValueAt(unsigned int index, DataType const dataSampleValue)
-    {
+    void setValueAt(unsigned int index, DataType const dataSampleValue)    {
         if(isIndexValid(index))
         {
             m_data[index] = dataSampleValue;
@@ -82,13 +66,17 @@ public:
 
     bool operator==(Sample const& value) const
     {
-        return performConditionCheckWithAnd(value, std::equal_to<DataType>());
+        return std::equal(m_data.cbegin(), m_data.cend(), value.m_data.cbegin());
+    }
+
+    bool operator!=(Sample const& value) const
+    {
+        return !(*this==value);
     }
 
     Sample operator+(Sample const& value) const
     {
-        return performDataTypeAndDataTypeFunction(value, std::plus<DataType>());
-    }
+        return performDataTypeAndDataTypeFunction(value, std::plus<DataType>());    }
 
     Sample operator-(Sample const& value) const
     {
@@ -145,38 +133,20 @@ private:
 
     Sample performDataTypeAndDataTypeFunction(Sample const& value, std::function<DataType(DataType, DataType)> binaryFunction) const
     {
-        Sample sample;
-        for (unsigned int index=0; index<dimensions; index++)
-        {
-            sample.m_data.at(index) = binaryFunction(m_data.at(index), value.m_data.at(index));
-        }
-        return sample;
+        Sample result;
+        std::transform(m_data.cbegin(), m_data.cend(), value.m_data.cbegin(), result.m_data.begin(), binaryFunction);
+        return result;
     }
 
     Sample performDataTypeAndConstantFunction(DataType const value, std::function<DataType(DataType, DataType)> binaryFunction) const
     {
-        Sample sample;
-        for (unsigned int index=0; index<dimensions; index++)
+        Sample result;
+        std::transform(m_data.begin(), m_data.cend(), result.m_data.begin(), [&](DataType const data)->DataType
         {
-            sample.m_data.at(index) = binaryFunction(m_data.at(index), value);
-        }
-        return sample;
-    }
-
-    bool performConditionCheckWithAnd(Sample const& value, std::function<bool(DataType, DataType)> conditionFunction) const
-    {
-        bool result(true);
-        for (unsigned int index=0; index<dimensions; index++)
-        {
-            result &= conditionFunction(m_data.at(index), value.m_data.at(index));
-            if(result)
-            {
-                break;
-            }
-        }
+            return binaryFunction(data, value);
+        });
         return result;
     }
-
     BufferType m_data;
 };
 

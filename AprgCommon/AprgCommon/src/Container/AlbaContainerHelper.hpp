@@ -32,11 +32,18 @@ std::pair<ValueType,ValueType> getRangeFromSetBasedFromValue(std::set<ValueType>
     return result;
 }
 
-//implement for array type as well
+//SaveContentsOfContainerToFile
+template <typename ValueType, std::size_t size,
+          template<typename, std::size_t> class Container>
+void saveContentsOfContainerToFile(std::ofstream & outputFile, Container<ValueType, size> const& container)
+{
+    //tested on array
+    std::ostream_iterator<ValueType> outputIterator (outputFile, "\n");
+    std::copy(container.cbegin(), container.cend(), outputIterator);
+}
 
 template <typename ValueType,
-          template<typename, typename = std::allocator<ValueType>> class Container>
-void saveContentsOfContainerToFile(std::ofstream & outputFile, Container<ValueType> const& container)
+          template<typename, typename = std::allocator<ValueType>> class Container>void saveContentsOfContainerToFile(std::ofstream & outputFile, Container<ValueType> const& container)
 {
     //tested on vector
     std::ostream_iterator<ValueType> outputIterator (outputFile, "\n");
@@ -64,10 +71,21 @@ void saveContentsOfContainerToFile(std::ofstream & outputFile, Container<KeyType
     }
 }
 
+
+//RetrieveContentsOfContainerFromFile
+template <typename ValueType, std::size_t size,
+          template<typename, std::size_t> class Container>
+void retrieveContentsOfContainerFromFile(std::ifstream & inputFile, Container<ValueType, size> & container)
+{
+    //tested on array
+    std::istream_iterator<ValueType> inputIterator(inputFile);
+    std::istream_iterator<ValueType> inputIteratorEnd;
+    std::copy(inputIterator, inputIteratorEnd, container.begin());
+}
+
 template <typename ValueType,
           template<typename, typename = std::allocator<ValueType>> class Container>
-void retrieveContentsOfContainerFromFile(std::ifstream & inputFile, Container<ValueType> & container)
-{
+void retrieveContentsOfContainerFromFile(std::ifstream & inputFile, Container<ValueType> & container){
     //tested on vector
     std::istream_iterator<ValueType> inputIterator(inputFile);
     std::istream_iterator<ValueType> inputIteratorEnd;
@@ -107,44 +125,55 @@ void retrieveContentsOfContainerFromFile(std::ifstream & inputFile, Container<Ke
     }
 }
 
-template <typename ValueType,
-          template<typename, typename = std::allocator<ValueType>> class Container>
-std::string getStringFromContentsOfContainer(Container<ValueType> const& container, std::string const& delimiter)
+//GetStringFromContentsOfContainer
+template <typename ValueType, std::size_t size,
+          template<typename, std::size_t> class Container>
+std::string getStringFromContentsOfContainer(Container<ValueType, size> const& container, std::string const& delimiter)
 {
+    //tested on array
     std::ostringstream result;
     std::ostream_iterator<ValueType> outputIterator(result, delimiter.c_str());
     std::copy(container.cbegin(), container.cend(), outputIterator);
     return result.str();
+}
+
+template <typename ValueType,
+          template<typename, typename = std::allocator<ValueType>> class Container>
+std::string getStringFromContentsOfContainer(Container<ValueType> const& container, std::string const& delimiter)
+{
+    //tested on vector
+    std::ostringstream result;
+    std::ostream_iterator<ValueType> outputIterator(result, delimiter.c_str());
+    std::copy(container.cbegin(), container.cend(), outputIterator);    return result.str();
 }
 
 template <typename ValueType,
           template<typename, typename = std::less<ValueType>, typename = std::allocator<ValueType>> class Container>
 std::string getStringFromContentsOfContainer(Container<ValueType> const& container, std::string const& delimiter)
 {
+    //tested on set
     std::ostringstream result;
     std::ostream_iterator<ValueType> outputIterator(result, delimiter.c_str());
-    std::copy(container.cbegin(), container.cend(), outputIterator);
-    return result.str();
+    std::copy(container.cbegin(), container.cend(), outputIterator);    return result.str();
 }
 
 template <typename KeyType, typename ValueType,
           template<typename, typename, typename = std::less<KeyType>, typename = std::allocator<std::pair<KeyType const, ValueType>>> class Container>
 std::string getStringFromContentsOfContainer(Container<KeyType, ValueType> const& container, std::string const& delimiter)
 {
+    //tested on map
     std::stringstream result;
     for(auto const& content : container)
-    {
-        result << "[" << content.first << ":" << content.second << "]" << delimiter;
+    {        result << "[" << content.first << ":" << content.second << "]" << delimiter;
     }
     return result.str();
 }
 
 
-
+//GetStringOtherFormats
 template <typename ValueType,
           template<typename, typename = std::allocator<ValueType>> class Container>
-std::string getStringFromContentsOfContainerWithNumberFormat(Container<ValueType> const& container, std::string const& delimiter)
-{
+std::string getStringFromContentsOfContainerWithNumberFormat(Container<ValueType> const& container, std::string const& delimiter){
     std::ostringstream result;
     std::ostream_iterator<unsigned int> outputIterator(result, delimiter.c_str());
 

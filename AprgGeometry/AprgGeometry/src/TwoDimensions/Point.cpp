@@ -1,11 +1,14 @@
-#include "SimplestDesignToCopyForLibraries.hpp"
+#include "Point.hpp"
 
 namespace alba
 {
 
-SimplestDesignToCopyForLibraries::SimplestDesignToCopyForLibraries()
-{
-    m_sample = 0;
-}
+Point::Point()
+    : PointParent(0, 0)
+{}
+
+Point::Point(double const xValue, double const yValue)
+    : PointParent(xValue, yValue)
+{}
 
 }
