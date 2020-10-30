@@ -1,9 +1,6 @@
 #include <Statistics/DataSample.hpp>
-#include <Statistics/DataStatistics.hpp>
 
 #include <gtest/gtest.h>
-
-#include <iostream>
 
 using namespace alba;
 using namespace std;
@@ -11,21 +8,27 @@ using namespace std;
 TEST(DataSampleTest, DataSampleWithDefaultConstructorIsZero)
 {
     DataSample<unsigned int, 5> dataSample;
-    EXPECT_EQ(0, dataSample.getValueAt(0));
-    EXPECT_EQ(0, dataSample.getValueAt(1));
-    EXPECT_EQ(0, dataSample.getValueAt(2));
-    EXPECT_EQ(0, dataSample.getValueAt(3));
-    EXPECT_EQ(0, dataSample.getValueAt(4));
+    EXPECT_EQ(0u, dataSample.getValueAt(0));
+    EXPECT_EQ(0u, dataSample.getValueAt(1));
+    EXPECT_EQ(0u, dataSample.getValueAt(2));
+    EXPECT_EQ(0u, dataSample.getValueAt(3));
+    EXPECT_EQ(0u, dataSample.getValueAt(4));
 }
 
 TEST(DataSampleTest, DataSampleWithInitializerListIsCorrectlyInitialized)
 {
     DataSample<unsigned int, 5> dataSample{10, 20, 30, 40, 50};
-    EXPECT_EQ(10, dataSample.getValueAt(0));
-    EXPECT_EQ(20, dataSample.getValueAt(1));
-    EXPECT_EQ(30, dataSample.getValueAt(2));
-    EXPECT_EQ(40, dataSample.getValueAt(3));
-    EXPECT_EQ(50, dataSample.getValueAt(4));
+    EXPECT_EQ(10u, dataSample.getValueAt(0));
+    EXPECT_EQ(20u, dataSample.getValueAt(1));
+    EXPECT_EQ(30u, dataSample.getValueAt(2));
+    EXPECT_EQ(40u, dataSample.getValueAt(3));
+    EXPECT_EQ(50u, dataSample.getValueAt(4));
+}
+
+TEST(DataSampleTest, SumCanBeCalculated)
+{
+    DataSample<unsigned int, 5> dataSample{10, 20, 30, 40, 50};
+    EXPECT_EQ(150u, dataSample.getSum());
 }
 
 TEST(DataSampleTest, IndexCanBeChecked)
@@ -43,8 +46,8 @@ TEST(DataSampleTest, IndexCanBeChecked)
 TEST(DataSampleTest, GetValueAtInvalidIndexReturnsZero)
 {
     DataSample<unsigned int, 5> dataSample{10, 20, 30, 40, 50};
-    EXPECT_EQ(0, dataSample.getValueAt(5));
-    EXPECT_EQ(0, dataSample.getValueAt(-5));
+    EXPECT_EQ(0u, dataSample.getValueAt(5));
+    EXPECT_EQ(0u, dataSample.getValueAt(-5));
 }
 
 TEST(DataSampleTest, DataSampleCanBeSet)
@@ -55,11 +58,11 @@ TEST(DataSampleTest, DataSampleCanBeSet)
     dataSample.setValueAt(2, 300);
     dataSample.setValueAt(3, 200);
     dataSample.setValueAt(4, 100);
-    EXPECT_EQ(500, dataSample.getValueAt(0));
-    EXPECT_EQ(400, dataSample.getValueAt(1));
-    EXPECT_EQ(300, dataSample.getValueAt(2));
-    EXPECT_EQ(200, dataSample.getValueAt(3));
-    EXPECT_EQ(100, dataSample.getValueAt(4));
+    EXPECT_EQ(500u, dataSample.getValueAt(0));
+    EXPECT_EQ(400u, dataSample.getValueAt(1));
+    EXPECT_EQ(300u, dataSample.getValueAt(2));
+    EXPECT_EQ(200u, dataSample.getValueAt(3));
+    EXPECT_EQ(100u, dataSample.getValueAt(4));
 }
 
 TEST(DataSampleTest, DataSamplesCanBeAddedTogether)
@@ -67,11 +70,11 @@ TEST(DataSampleTest, DataSamplesCanBeAddedTogether)
     DataSample<unsigned int, 5> dataSample1{10, 20, 30, 40, 50};
     DataSample<unsigned int, 5> dataSample2{10, 20, 30, 40, 50};
     DataSample<unsigned int, 5> actualResult = dataSample1+dataSample2;
-    EXPECT_EQ(20, actualResult.getValueAt(0));
-    EXPECT_EQ(40, actualResult.getValueAt(1));
-    EXPECT_EQ(60, actualResult.getValueAt(2));
-    EXPECT_EQ(80, actualResult.getValueAt(3));
-    EXPECT_EQ(100, actualResult.getValueAt(4));
+    EXPECT_EQ(20u, actualResult.getValueAt(0));
+    EXPECT_EQ(40u, actualResult.getValueAt(1));
+    EXPECT_EQ(60u, actualResult.getValueAt(2));
+    EXPECT_EQ(80u, actualResult.getValueAt(3));
+    EXPECT_EQ(100u, actualResult.getValueAt(4));
 }
 
 TEST(DataSampleTest, DataSamplesCanBeAddedWithSingleValue)
@@ -79,11 +82,11 @@ TEST(DataSampleTest, DataSamplesCanBeAddedWithSingleValue)
     DataSample<unsigned int, 5> dataSample1{10, 20, 30, 40, 50};
     unsigned int singleValue = 1;
     DataSample<unsigned int, 5> actualResult = dataSample1+singleValue;
-    EXPECT_EQ(11, actualResult.getValueAt(0));
-    EXPECT_EQ(21, actualResult.getValueAt(1));
-    EXPECT_EQ(31, actualResult.getValueAt(2));
-    EXPECT_EQ(41, actualResult.getValueAt(3));
-    EXPECT_EQ(51, actualResult.getValueAt(4));
+    EXPECT_EQ(11u, actualResult.getValueAt(0));
+    EXPECT_EQ(21u, actualResult.getValueAt(1));
+    EXPECT_EQ(31u, actualResult.getValueAt(2));
+    EXPECT_EQ(41u, actualResult.getValueAt(3));
+    EXPECT_EQ(51u, actualResult.getValueAt(4));
 }
 
 
