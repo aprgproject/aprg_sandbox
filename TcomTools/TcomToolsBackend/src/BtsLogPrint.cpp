@@ -2,12 +2,12 @@
 
 #include <String/AlbaStringHelper.hpp>
 
+#include <iostream>
+
 using namespace alba;
 using namespace std;
-
 namespace tcomToolsBackend
 {
-
 using namespace BtsLogPrintStateMachine;
 
 int const NUMBER_OF_CHARACTER_FOR_FILE = 25;
