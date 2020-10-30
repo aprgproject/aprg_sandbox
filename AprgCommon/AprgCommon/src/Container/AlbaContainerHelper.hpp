@@ -43,7 +43,8 @@ void saveContentsOfContainerToFile(std::ofstream & outputFile, Container<ValueTy
 }
 
 template <typename ValueType,
-          template<typename, typename = std::allocator<ValueType>> class Container>void saveContentsOfContainerToFile(std::ofstream & outputFile, Container<ValueType> const& container)
+          template<typename, typename = std::allocator<ValueType>> class Container>
+void saveContentsOfContainerToFile(std::ofstream & outputFile, Container<ValueType> const& container)
 {
     //tested on vector
     std::ostream_iterator<ValueType> outputIterator (outputFile, "\n");
@@ -85,7 +86,8 @@ void retrieveContentsOfContainerFromFile(std::ifstream & inputFile, Container<Va
 
 template <typename ValueType,
           template<typename, typename = std::allocator<ValueType>> class Container>
-void retrieveContentsOfContainerFromFile(std::ifstream & inputFile, Container<ValueType> & container){
+void retrieveContentsOfContainerFromFile(std::ifstream & inputFile, Container<ValueType> & container)
+{
     //tested on vector
     std::istream_iterator<ValueType> inputIterator(inputFile);
     std::istream_iterator<ValueType> inputIteratorEnd;
@@ -144,7 +146,8 @@ std::string getStringFromContentsOfContainer(Container<ValueType> const& contain
     //tested on vector
     std::ostringstream result;
     std::ostream_iterator<ValueType> outputIterator(result, delimiter.c_str());
-    std::copy(container.cbegin(), container.cend(), outputIterator);    return result.str();
+    std::copy(container.cbegin(), container.cend(), outputIterator);
+    return result.str();
 }
 
 template <typename ValueType,
@@ -154,7 +157,8 @@ std::string getStringFromContentsOfContainer(Container<ValueType> const& contain
     //tested on set
     std::ostringstream result;
     std::ostream_iterator<ValueType> outputIterator(result, delimiter.c_str());
-    std::copy(container.cbegin(), container.cend(), outputIterator);    return result.str();
+    std::copy(container.cbegin(), container.cend(), outputIterator);
+    return result.str();
 }
 
 template <typename KeyType, typename ValueType,
@@ -164,7 +168,8 @@ std::string getStringFromContentsOfContainer(Container<KeyType, ValueType> const
     //tested on map
     std::stringstream result;
     for(auto const& content : container)
-    {        result << "[" << content.first << ":" << content.second << "]" << delimiter;
+    {
+        result << "[" << content.first << ":" << content.second << "]" << delimiter;
     }
     return result.str();
 }
@@ -173,7 +178,8 @@ std::string getStringFromContentsOfContainer(Container<KeyType, ValueType> const
 //GetStringOtherFormats
 template <typename ValueType,
           template<typename, typename = std::allocator<ValueType>> class Container>
-std::string getStringFromContentsOfContainerWithNumberFormat(Container<ValueType> const& container, std::string const& delimiter){
+std::string getStringFromContentsOfContainerWithNumberFormat(Container<ValueType> const& container, std::string const& delimiter)
+{
     std::ostringstream result;
     std::ostream_iterator<unsigned int> outputIterator(result, delimiter.c_str());
 

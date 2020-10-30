@@ -8,9 +8,11 @@
 
 #include <fstream>
 #include <iostream>
+
 #ifndef PATH_OF_7Z_EXECUTABLE
     static_assert(false, "PATH_OF_7Z_EXECUTABLE is not set in cmake");
 #endif
+
 #ifndef PATH_OF_7Z_TEMP_FILE
     static_assert(false, "PATH_OF_7Z_TEMP_FILE is not set in cmake");
 #endif

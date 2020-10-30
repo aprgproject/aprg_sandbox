@@ -76,7 +76,8 @@ TEST(DataSampleTest, DataSampleCanBeCompared)
 
 TEST(DataSampleTest, DataSamplesCanBeAddedTogether)
 {
-    DataSample<unsigned int, 5> dataSample1{10, 20, 30, 40, 50};    DataSample<unsigned int, 5> dataSample2{10, 20, 30, 40, 50};
+    DataSample<unsigned int, 5> dataSample1{10, 20, 30, 40, 50};
+    DataSample<unsigned int, 5> dataSample2{10, 20, 30, 40, 50};
     DataSample<unsigned int, 5> actualResult = dataSample1+dataSample2;
     EXPECT_EQ(20u, actualResult.getValueAt(0));
     EXPECT_EQ(40u, actualResult.getValueAt(1));

@@ -7,9 +7,11 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 void CPlusPlusFileFixer::processDirectory(string const& path)
 {
@@ -28,20 +30,22 @@ void CPlusPlusFileFixer::processDirectory(string const& path)
         }
     }
 }
+
 void CPlusPlusFileFixer::processFile(string const& path)
 {
     //cout<<"ProcessFile: "<<path<<endl;
     clear();
     checkFile(path);
-    notify(path);
     //fix(path);
     //writeFile(path);
 }
 
-void CPlusPlusFileFixer::clear(){
+void CPlusPlusFileFixer::clear()
+{
     m_linesAfterTheHeader.clear();
     m_headerListFromAngleBrackets.clear();
-    m_headerListFromQuotations.clear();    m_isPragmaOnceFound = false;
+    m_headerListFromQuotations.clear();
+    m_isPragmaOnceFound = false;
 }
 
 void CPlusPlusFileFixer::checkFile(string const& path)
@@ -57,10 +61,7 @@ void CPlusPlusFileFixer::checkFile(string const& path)
         {
             if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "#include"))
             {
-                if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "//"))
-                {
-                    cout<<"Please check header commented on path:"<<path<<" line:"<<line<<endl;
-                }
+                notifyIfThereAreCommentsInHeader(path, line);
                 string headerFromAngleBrackets(stringHelper::getStringInBetweenTwoStrings(line, R"(<)", R"(>)"));
                 string headerFromQuotations(stringHelper::getStringInBetweenTwoStrings(line, R"(")", R"(")"));
                 if(!headerFromAngleBrackets.empty())
@@ -87,6 +88,8 @@ void CPlusPlusFileFixer::checkFile(string const& path)
             m_linesAfterTheHeader.emplace_back(line);
         }
     }
+    notifyIfIostreamHeaderExistInProductionCode(path);
+    notifyIfCAssertHeaderExistInProductionCode(path);
 }
 
 void CPlusPlusFileFixer::fix(string const& path)
@@ -94,11 +97,6 @@ void CPlusPlusFileFixer::fix(string const& path)
     fixHeaders(path);
     removeTrailingLinesInCode();
     fixNamespaces();
-}
-
-void CPlusPlusFileFixer::notify(string const& path) const
-{
-    notifyIfIostreamHeaderExistInProductionCode(path);
 }
 
 void CPlusPlusFileFixer::writeFile(string const& path)
@@ -145,23 +143,43 @@ void CPlusPlusFileFixer::writeFile(string const& path)
     }
 }
 
+void CPlusPlusFileFixer::notifyIfThereAreCommentsInHeader(string const& path, std::string const& line) const
+{
+    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(line, "//"))
+    {
+        cout<<"CHECK THIS: Header comments on:["<<path<<"] in line:["<<line<<"]"<<endl;
+    }
+}
+
 void CPlusPlusFileFixer::notifyIfIostreamHeaderExistInProductionCode(string const& path) const
 {
     AlbaLocalPathHandler filePathHandler(path);
     bool isIostreamFound = (std::find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("iostream")) != m_headerListFromAngleBrackets.end());
-    bool isCpp = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(filePathHandler.getFile(), ".cpp");
-    if(isIostreamFound && !isUnitTest)
+    bool isCpp = filePathHandler.getExtension() == "cpp";
+    bool isUnitTest = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(filePathHandler.getFile(), "_unit.cpp");
+    if(isIostreamFound && !isCpp) // !isUnitTest)
     {
-        cout<<"Iostream found in:["<<path<<"]. Please check it."<<endl;
+        cout<<"CHECK THIS: iostream found in:["<<path<<"]."<<endl;
+    }
+}
+
+void CPlusPlusFileFixer::notifyIfCAssertHeaderExistInProductionCode(string const& path) const
+{
+    bool isCAssertFound = (std::find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("cassert")) != m_headerListFromAngleBrackets.end());
+    if(isCAssertFound)
+    {
+        cout<<"CHECK THIS: cassert found in:["<<path<<"]."<<endl;
     }
 }
 
 void CPlusPlusFileFixer::fixHeaders(string const& path)
 {
-    AlbaLocalPathHandler filePathHandler(path);    set<string> mainHeaders;
+    AlbaLocalPathHandler filePathHandler(path);
+    set<string> mainHeaders;
     set<string> cPlusPlusHeaders;
     set<string> otherLibraryHeaders;
-    set<string> aprgFiles;    for(string const& header: m_headerListFromAngleBrackets)
+    set<string> aprgFiles;
+    for(string const& header: m_headerListFromAngleBrackets)
     {
         if(isMainHeader(header, filePathHandler.getFullPath()))
         {
@@ -270,10 +288,12 @@ bool CPlusPlusFileFixer::isPathIgnored(string const& path) const
     return result;
 }
 
-bool CPlusPlusFileFixer::isCPlusPlusHeader(string const& header) const{
+bool CPlusPlusFileFixer::isCPlusPlusHeader(string const& header) const
+{
     bool result(false);
     if("cstdlib" == header || "csignal" == header || "csetjmp" == header || "cstdarg" == header || "typeinfo" == header || "typeindex" == header || "type_traits" == header ||
-            "bitset" == header || "functional" == header || "utility" == header || "ctime" == header || "chrono" == header || "cstddef" == header || "initializer_list" == header ||            "tuple" == header || "any" == header || "optional" == header || "variant" == header || "new" == header || "memory" == header || "scoped_allocator" == header ||
+            "bitset" == header || "functional" == header || "utility" == header || "ctime" == header || "chrono" == header || "cstddef" == header || "initializer_list" == header ||
+            "tuple" == header || "any" == header || "optional" == header || "variant" == header || "new" == header || "memory" == header || "scoped_allocator" == header ||
             "memory_resource" == header || "climits" == header || "cfloat" == header || "cstdint" == header || "cinttypes" == header || "limits" == header || "exception" == header ||
             "stdexcept" == header || "cassert" == header || "system_error" == header || "cerrno" == header || "cctype" == header || "cwctype" == header || "cstring" == header || "cwchar" == header ||
             "cuchar" == header || "string" == header || "string_view" == header || "array" == header || "vector" == header || "deque" == header || "list" == header || "forward_list" == header ||

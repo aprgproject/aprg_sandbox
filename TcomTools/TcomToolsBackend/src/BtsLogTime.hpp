@@ -2,10 +2,12 @@
 
 #include <string>
 
-namespace tcomToolsBackend{
+namespace tcomToolsBackend
+{
 
 enum class BtsLogTimeType
-{    BtsTimeStamp,
+{
+    BtsTimeStamp,
     PcTimeStamp
 };
 

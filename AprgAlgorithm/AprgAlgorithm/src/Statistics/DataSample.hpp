@@ -5,7 +5,8 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <functional>#include <initializer_list>
+#include <functional>
+#include <initializer_list>
 
 namespace alba
 {
@@ -28,7 +29,8 @@ public:
         std::copy(dataSampleValues.begin(), dataSampleValues.begin()+limit, m_data.begin());
     }
 
-    bool isIndexValid(unsigned int index) const    {
+    bool isIndexValid(unsigned int index) const
+    {
         return index < dimensions;
     }
 
@@ -57,7 +59,8 @@ public:
         return containerHelper::getStringFromContentsOfContainer(m_data, ", ");
     }
 
-    void setValueAt(unsigned int index, DataType const dataSampleValue)    {
+    void setValueAt(unsigned int index, DataType const dataSampleValue)
+    {
         if(isIndexValid(index))
         {
             m_data[index] = dataSampleValue;
@@ -76,7 +79,8 @@ public:
 
     Sample operator+(Sample const& value) const
     {
-        return performDataTypeAndDataTypeFunction(value, std::plus<DataType>());    }
+        return performDataTypeAndDataTypeFunction(value, std::plus<DataType>());
+    }
 
     Sample operator-(Sample const& value) const
     {
@@ -147,6 +151,7 @@ private:
         });
         return result;
     }
+
     BufferType m_data;
 };
 

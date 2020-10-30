@@ -11,7 +11,8 @@ using namespace std;
 TEST(BitmapWriteTest, DISABLED_TestForWritingBitmap)
 {
     AprgBitmap bitmap(APRG_BITMAP_WRITE_TEST_FILE);
-    ASSERT_TRUE(bitmap.getConfiguration().isValid());    ASSERT_EQ(CompressedMethodType::BI_RGB, bitmap.getConfiguration().getCompressedMethodType());
+    ASSERT_TRUE(bitmap.getConfiguration().isValid());
+    ASSERT_EQ(CompressedMethodType::BI_RGB, bitmap.getConfiguration().getCompressedMethodType());
     ASSERT_TRUE(bitmap.getConfiguration().isCompressedMethodSupported());
 
     AprgBitmapSnippet snippet(bitmap.getSnippetReadFromFile(BitmapXY(50, 50), BitmapXY(150, 150)));

@@ -342,3 +342,4 @@ TEST(BitmapReadTest, TestFor32BitBitmap)
     EXPECT_EQ(0x00442E47, snippet.getPixelAt(BitmapXY(49, 49)));
     EXPECT_EQ(0x00442E47, snippet.getColorAt(BitmapXY(49, 49)));
 }
+

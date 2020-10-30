@@ -2,9 +2,11 @@
 
 #include <DirectoryConstants.hpp>
 #include <File/AlbaFileReader.hpp>
+
 #include <gtest/gtest.h>
 
-#include <fstream>#include <string>
+#include <fstream>
+#include <string>
 
 using namespace alba;
 using namespace std;
@@ -12,13 +14,15 @@ using namespace std;
 TEST(CPlusPlusFileFixerTest, ActualRun)
 {
     CPlusPlusFileFixer fixer;
-    fixer.processDirectory(R"(C:\APRG_CLEAN_COPY\)");
+    fixer.processDirectory(R"(C:\APRG\)");
     //fixer.processDirectory(R"(C:\APRG\TcomTools\)");
     //fixer.processFile(R"(C:\APRG\AprgCommon\AprgCommon\tst\AlbaStringHelper_unit.cpp)");
 }
+
 TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersTest)
 {
-    CPlusPlusFileFixer fixer;    ofstream testFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
+    CPlusPlusFileFixer fixer;
+    ofstream testFile(APRG_PROCESS_FILES_TEST_FILE_TO_READ);
     ASSERT_TRUE(testFile.is_open());
     testFile << R"(#include <file2.hpp>)" << endl;
     testFile << R"(#include<string>)" << endl;

@@ -61,7 +61,8 @@ public:
 
     std::string getDisplayableString() const
     {
-        std::stringstream ss;        ss<<"("<<x<<","<<y<<")";
+        std::stringstream ss;
+        ss<<"("<<x<<","<<y<<")";
         return ss.str();
     }
 

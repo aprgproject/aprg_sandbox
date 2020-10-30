@@ -8,7 +8,8 @@
 #include <array>
 #include <map>
 #include <set>
-#include <string>#include <vector>
+#include <string>
+#include <vector>
 
 using namespace alba;
 using namespace alba::containerHelper;
@@ -84,6 +85,7 @@ TEST(ContainerTest, SaveArrayOfIntegersToFile)
 {
     vector<int> temporaryVector{0, -23, 4, 379,- 482, 37};
     ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
+
     saveContentsOfContainerToFile(outputTestFile, temporaryVector);
     outputTestFile.close();
 
@@ -107,7 +109,8 @@ TEST(ContainerTest, SaveArrayOfIntegersToFile)
 TEST(ContainerTest, RetrieveArrayOfIntegersFromFile)
 {
     vector<int> temporaryVector;
-    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);    outputTestFile<<"18723"<<endl;
+    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
+    outputTestFile<<"18723"<<endl;
     outputTestFile<<"-608"<<endl;
     outputTestFile<<"-43735"<<endl;
     outputTestFile<<"23234"<<endl;

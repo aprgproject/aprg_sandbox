@@ -4,10 +4,12 @@
 
 #include <string>
 
-namespace tcomToolsBackend{
+namespace tcomToolsBackend
+{
 
 namespace BtsLogPrintStateMachine
 {
+
 enum class State
 {
     UnknownState,

@@ -8,6 +8,7 @@
 
 namespace alba
 {
+
 template <typename DataType, unsigned int dimensions>
 class DataStatistics
 {
@@ -52,6 +53,7 @@ public:
         return pow((double)dispersionCalculationTemp.getSum(), 0.5);
     }
 private:
+
     static Sample calculateVariance(Samples const& samples, unsigned int sampleSize)
     {
         Samples varianceCalculationTemp(samples);
@@ -71,4 +73,5 @@ private:
         return standardDeviation;
     }
 };
+
 }

@@ -2,7 +2,6 @@
 
 #include <Bit/AlbaBitConstants.hpp>
 
-#include <cassert>
 #include <cmath>
 
 namespace alba

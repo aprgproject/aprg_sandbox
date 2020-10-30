@@ -1,6 +1,7 @@
 #include <TwoDimensions/Point.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba;
 using namespace std;
 
