@@ -21,10 +21,12 @@ public:
     std::string getImmediateDirectoryName() const;
     std::string getFile() const;
     std::string getFilenameOnly() const;
-    std::string getExtension() const;    PathType getPathType() const;
+    std::string getExtension() const;
+    PathType getPathType() const;
     bool isDirectory() const;
     bool isFile() const;
     bool isEmpty() const;
+
 protected:
     virtual void save(std::string const& path);
     void setExtensionFromPath(std::string const& path);

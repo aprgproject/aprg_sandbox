@@ -9,13 +9,14 @@
 
 namespace alba
 {
-struct AprgBitmapConfiguration
 
 class AprgBitmap
-{public:
+{
+public:
     AprgBitmap(std::string const& path);
 
-    AprgBitmapConfiguration getConfiguration() const;    AprgBitmapSnippet getSnippetReadFromFile(BitmapXY const topLeftCorner, BitmapXY const bottomRightCorner) const;
+    AprgBitmapConfiguration getConfiguration() const;
+    AprgBitmapSnippet getSnippetReadFromFile(BitmapXY const topLeftCorner, BitmapXY const bottomRightCorner) const;
     AprgBitmapSnippet getSnippetReadFromFile(BitmapXY const center, unsigned int const numberOfBytesToRead) const;
     void setSnippetWriteToFile(AprgBitmapSnippet const& snippet) const;
 

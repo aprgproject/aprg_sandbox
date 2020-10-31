@@ -52,4 +52,5 @@ void OneDownloadPerPageCrawler::retrieveLinksForH2Read(AlbaWebPathHandler const&
         m_localPathForCurrentFileToDownload = m_webCrawler.getDownloadDirectory() + R"(chapter)" + chapterWebPathHandler.getImmediateDirectoryName() + R"(\)" + imageWebPathHandler.getFile();
     }
 }
+
 }

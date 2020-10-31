@@ -24,6 +24,7 @@ void AlbaWebPathHandler::clear()
     m_urlParameters.clear();
     m_hasProtocol = false;
 }
+
 string AlbaWebPathHandler::getFullPath() const
 {
     return m_protocolWithSymbols+m_directory+m_file+m_urlParameters;
@@ -36,7 +37,8 @@ string AlbaWebPathHandler::getDirectory() const
 
 bool AlbaWebPathHandler::hasProtocol() const
 {
-    return m_hasProtocol;}
+    return m_hasProtocol;
+}
 
 string AlbaWebPathHandler::getProtocol() const
 {
@@ -49,10 +51,12 @@ string AlbaWebPathHandler::getProtocol() const
     return protocol;
 }
 
-void AlbaWebPathHandler::gotoLink(string const& newPath){
+void AlbaWebPathHandler::gotoLink(string const& newPath)
+{
     AlbaWebPathHandler newPathHandler(newPath);
     if(newPathHandler.hasProtocol())
-    {        input(newPath);
+    {
+        input(newPath);
     }
     else
     {
@@ -87,10 +91,12 @@ void AlbaWebPathHandler::save(string const& path)
 void AlbaWebPathHandler::splitPathToBeforeAndAfterProtocol(string const& path, string & protocolWithSymbols, string & pathAfterProtocol)
 {
     int indexBeforeProtocol = path.find("://");
-    int indexBeforeSlash = path.find_first_of(m_slashCharacterString);    if(stringHelper::isNotNpos(indexBeforeProtocol) && stringHelper::isNotNpos(indexBeforeSlash) && indexBeforeProtocol < indexBeforeSlash)
+    int indexBeforeSlash = path.find_first_of(m_slashCharacterString);
+    if(stringHelper::isNotNpos(indexBeforeProtocol) && stringHelper::isNotNpos(indexBeforeSlash) && indexBeforeProtocol < indexBeforeSlash)
     {
         protocolWithSymbols = path.substr(0,indexBeforeProtocol+3);
-        pathAfterProtocol = path.substr(indexBeforeProtocol+3);    }
+        pathAfterProtocol = path.substr(indexBeforeProtocol+3);
+    }
     else
     {
         protocolWithSymbols.clear();
@@ -100,7 +106,8 @@ void AlbaWebPathHandler::splitPathToBeforeAndAfterProtocol(string const& path, s
 
 void AlbaWebPathHandler::setUrlParameters(string const& urlParameters)
 {
-    m_urlParameters = urlParameters;}
+    m_urlParameters = urlParameters;
+}
 
 
 }
