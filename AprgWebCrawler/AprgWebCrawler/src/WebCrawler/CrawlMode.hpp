@@ -12,7 +12,7 @@ enum class CrawlMode
     Gehen,
     GuroManga,
     HBrowse,
-    Hentai2Read,
+    H2Read,
     Mangafox,
     MangafoxWithVolume,
     Mangahere,

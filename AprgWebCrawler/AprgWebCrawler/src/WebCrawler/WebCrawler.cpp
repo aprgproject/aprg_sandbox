@@ -67,7 +67,7 @@ void WebCrawler::crawl()
     case CrawlMode::Gehen:
     case CrawlMode::GuroManga:
     case CrawlMode::HBrowse:
-    case CrawlMode::Hentai2Read:
+    case CrawlMode::H2Read:
     case CrawlMode::Mangafox:
     case CrawlMode::MangafoxWithVolume:
     case CrawlMode::Mangahere:
@@ -145,9 +145,9 @@ string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const
     case CrawlMode::Youtube:
         title = getTitleFromTitleWindow(webLink);
         break;
-    case CrawlMode::Hentai2Read:
+    case CrawlMode::H2Read:
         title = getTitleFromTitleWindow(webLink);
-        title = getStringBeforeThisString(title, "Hentai - Read");
+        title = getStringBeforeThisString(title, "Read");
         break;
     case CrawlMode::Mangafox:
     case CrawlMode::MangafoxWithVolume:

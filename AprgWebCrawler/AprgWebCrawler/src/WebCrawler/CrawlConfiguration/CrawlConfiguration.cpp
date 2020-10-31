@@ -23,7 +23,7 @@ CrawlConfiguration::CrawlConfiguration(CrawlMode mode)
     case CrawlMode::DoujinMoe:
     case CrawlMode::GuroManga:
     case CrawlMode::HBrowse:
-    case CrawlMode::Hentai2Read:
+    case CrawlMode::H2Read:
     case CrawlMode::Mangafox:
     case CrawlMode::MangafoxWithVolume:
     case CrawlMode::Mangahere:

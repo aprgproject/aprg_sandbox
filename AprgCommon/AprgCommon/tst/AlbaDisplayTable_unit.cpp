@@ -43,3 +43,20 @@ TEST(AlbaTableDisplay, TableCanOutputTextFor3by3Table)
     EXPECT_EQ("----------------\n|1000|2|   3   |\n----------------\n|4.1 |5| 6.55  |\n----------------\n| 7  |8|9000000|\n----------------\n", table.drawOutput());
     cout<<table.drawOutput();
 }
+
+TEST(AlbaTableDisplay, CellWithAlignmentCanBeAdded)
+{
+    DisplayTable table;
+    table.addRow();
+    table.getLastRow().addCell("12345");
+    table.addRow();
+    table.getLastRow().addCell("C", DisplayTableCellMode::center, DisplayTableCellMode::center);
+    table.addRow();
+    table.getLastRow().addCell("L", DisplayTableCellMode::left, DisplayTableCellMode::center);
+    table.addRow();
+    table.getLastRow().addCell("R", DisplayTableCellMode::right, DisplayTableCellMode::center);
+    table.addRow();
+    table.getLastRow().addCell("J", DisplayTableCellMode::justify, DisplayTableCellMode::center);
+    EXPECT_EQ("12345\n  C  \nL    \n    R\n  J  \n", table.drawOutput());
+    cout<<table.drawOutput();
+}

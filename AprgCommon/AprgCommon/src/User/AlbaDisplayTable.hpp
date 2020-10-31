@@ -26,6 +26,7 @@ class DisplayTableCell
 public:
     DisplayTableCell(unsigned int columnIndex);
     DisplayTableCell(unsigned int columnIndex, std::string const& text);
+    DisplayTableCell(unsigned int columnIndex, std::string const& text, DisplayTableCellMode const horizontalMode, DisplayTableCellMode const verticalMode);
 
     std::string getText() const;
     DisplayTableCellMode getHorizontalMode() const;
@@ -54,6 +55,7 @@ public:
     Cells& getCellsReference();
     DisplayTableCell& getCellReference(unsigned int columnIndex);
     void addCell(std::string const& text);
+    void addCell(std::string const & text, DisplayTableCellMode const horizontalMode, DisplayTableCellMode const verticalMode);
 
 private:
     int m_rowIndex;

@@ -35,9 +35,9 @@ CrawlMode WebCrawler::convertStringToCrawlerMode(string const& modeString) const
     {
         mode = CrawlMode::HBrowse;
     }
-    else if("hentai2read" == modeString || "CrawlerMode::Hentai2Read" == modeString || "CrawlMode::Hentai2Read" == modeString)
+    else if("h2read" == modeString || "CrawlerMode::H2Read" == modeString || "CrawlMode::H2Read" == modeString)
     {
-        mode = CrawlMode::Hentai2Read;
+        mode = CrawlMode::H2Read;
     }
     else if("mangafox" == modeString || "CrawlerMode::Mangafox" == modeString || "CrawlMode::Mangafox" == modeString)
     {
@@ -77,7 +77,7 @@ CrawlMode WebCrawler::convertWebLinkToCrawlerMode(string const& webLink) const
     {
         mode = CrawlMode::DoujinMoe;
     }
-    else if(isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "g.e-hentai.org"))
+    else if(isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "g.e-h") && isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, ".org"))
     {
         mode = CrawlMode::Gehen;
     }
@@ -89,9 +89,9 @@ CrawlMode WebCrawler::convertWebLinkToCrawlerMode(string const& webLink) const
     {
         mode = CrawlMode::HBrowse;
     }
-    else if(isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "hentai2read.com"))
+    else if(isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "h") && isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "2read.com"))
     {
-        mode = CrawlMode::Hentai2Read;
+        mode = CrawlMode::H2Read;
     }
     else if(isStringFoundInsideTheOtherStringNotCaseSensitive(webLink, "mangafox.me"))
     {
@@ -173,7 +173,7 @@ string WebCrawler::convertCrawlerModeToString(CrawlMode mode) const
             GET_ENUM_STRING(CrawlMode::Gehen)
             GET_ENUM_STRING(CrawlMode::GuroManga)
             GET_ENUM_STRING(CrawlMode::HBrowse)
-            GET_ENUM_STRING(CrawlMode::Hentai2Read)
+            GET_ENUM_STRING(CrawlMode::H2Read)
             GET_ENUM_STRING(CrawlMode::Mangafox)
             GET_ENUM_STRING(CrawlMode::MangafoxWithVolume)
             GET_ENUM_STRING(CrawlMode::Mangahere)

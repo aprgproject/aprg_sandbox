@@ -17,10 +17,12 @@ namespace aprgWebCrawler
 void OneDownloadPerPageCrawler::retrieveLinksForH2Read(AlbaWebPathHandler const& webLinkPathHandler)
 {
     AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
-    downloadFileAsText(webLinkPathHandler, downloadPathHandler);    ifstream htmlFileStream(downloadPathHandler.getFullPath());
+    downloadFileAsText(webLinkPathHandler, downloadPathHandler);
+    ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
-        cout << "Cannot open html file." << endl;        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
+        cout << "Cannot open html file." << endl;
+        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
     }
     else
     {

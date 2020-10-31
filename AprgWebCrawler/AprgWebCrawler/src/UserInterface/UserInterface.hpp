@@ -32,6 +32,8 @@ private:
     void inputDownloadSchedule();
     void inputDownloadDirectoryTask();
 
+    void copyWorkingDirectoriesToChoices(alba::AlbaUserInterface::Choices<std::string> & choices);
+    void copyDownloadDirectoriesToChoices(alba::AlbaUserInterface::Choices<std::string> & choices);
     void showWorkingDirectories() const;
     void showDownloadDirectories() const;
     void showDownloadSchedule() const;

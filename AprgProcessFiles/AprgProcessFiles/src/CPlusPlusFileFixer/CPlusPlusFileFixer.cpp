@@ -41,10 +41,12 @@ void CPlusPlusFileFixer::processFile(string const& path)
     writeFile(path);
 }
 
-void CPlusPlusFileFixer::clear(){
+void CPlusPlusFileFixer::clear()
+{
     m_linesAfterTheHeader.clear();
     m_headerListFromAngleBrackets.clear();
-    m_headerListFromQuotations.clear();    m_isPragmaOnceFound = false;
+    m_headerListFromQuotations.clear();
+    m_isPragmaOnceFound = false;
 }
 
 void CPlusPlusFileFixer::checkFile(string const& path)

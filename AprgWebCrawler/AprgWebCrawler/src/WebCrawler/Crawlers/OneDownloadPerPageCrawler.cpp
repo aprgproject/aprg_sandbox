@@ -65,8 +65,8 @@ void OneDownloadPerPageCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkP
     case CrawlMode::HBrowse:
         retrieveLinksForHBrowse(webLinkPathHandler);
         break;
-    case CrawlMode::Hentai2Read:
-        retrieveLinksForHentai2Read(webLinkPathHandler);
+    case CrawlMode::H2Read:
+        retrieveLinksForH2Read(webLinkPathHandler);
         break;
     case CrawlMode::Mangafox:
         retrieveLinksForMangaFox(webLinkPathHandler);

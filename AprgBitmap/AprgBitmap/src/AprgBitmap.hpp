@@ -24,4 +24,5 @@ private:
     void calculateNewCornersBasedOnCenterAndNumberOfBytes(BitmapXY & topLeftCorner, BitmapXY & bottomRightCorner, BitmapXY const center, unsigned int const numberOfBytes) const;
     AprgBitmapConfiguration m_configuration;
 };
+
 }

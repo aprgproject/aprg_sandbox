@@ -44,50 +44,50 @@ void AutomationHelper::readConfigurationFile()
             {
                 strings listOfStrings;
                 splitToStrings<SplitStringType::WithoutDelimeters>(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
-                m_firefoxFilePosition.x = convertStringToNumber<int>(listOfStrings[0]);
-                m_firefoxFilePosition.y = convertStringToNumber<int>(listOfStrings[1]);
+                m_firefoxFilePosition.setX(convertStringToNumber<int>(listOfStrings[0]));
+                m_firefoxFilePosition.setY(convertStringToNumber<int>(listOfStrings[1]));
             }
             else if("FirefoxSavePagePosition:" == lineFromConfigurationFile)
             {
                 strings listOfStrings;
                 splitToStrings<SplitStringType::WithoutDelimeters>(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
-                m_firefoxSavePagePosition.x = convertStringToNumber<int>(listOfStrings[0]);
-                m_firefoxSavePagePosition.y = convertStringToNumber<int>(listOfStrings[1]);
+                m_firefoxSavePagePosition.setX(convertStringToNumber<int>(listOfStrings[0]));
+                m_firefoxSavePagePosition.setY(convertStringToNumber<int>(listOfStrings[1]));
             }
             else if("FirefoxCloseButtonPosition:" == lineFromConfigurationFile)
             {
                 strings listOfStrings;
                 splitToStrings<SplitStringType::WithoutDelimeters>(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
-                m_firefoxCloseButtonPosition.x = convertStringToNumber<int>(listOfStrings[0]);
-                m_firefoxCloseButtonPosition.y = convertStringToNumber<int>(listOfStrings[1]);
+                m_firefoxCloseButtonPosition.setX(convertStringToNumber<int>(listOfStrings[0]));
+                m_firefoxCloseButtonPosition.setY(convertStringToNumber<int>(listOfStrings[1]));
             }
             else if("FirefoxCloseSecondTabButtonPosition:" == lineFromConfigurationFile)
             {
                 strings listOfStrings;
                 splitToStrings<SplitStringType::WithoutDelimeters>(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
-                m_firefoxCloseSecondTabButtonPosition.x = convertStringToNumber<int>(listOfStrings[0]);
-                m_firefoxCloseSecondTabButtonPosition.y = convertStringToNumber<int>(listOfStrings[1]);
+                m_firefoxCloseSecondTabButtonPosition.setX(convertStringToNumber<int>(listOfStrings[0]));
+                m_firefoxCloseSecondTabButtonPosition.setY(convertStringToNumber<int>(listOfStrings[1]));
             }
             else if("FdmUrlBarPosition:" == lineFromConfigurationFile)
             {
                 strings listOfStrings;
                 splitToStrings<SplitStringType::WithoutDelimeters>(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
-                m_fdmUrlBarPosition.x = convertStringToNumber<int>(listOfStrings[0]);
-                m_fdmUrlBarPosition.y = convertStringToNumber<int>(listOfStrings[1]);
+                m_fdmUrlBarPosition.setX(convertStringToNumber<int>(listOfStrings[0]));
+                m_fdmUrlBarPosition.setY(convertStringToNumber<int>(listOfStrings[1]));
             }
             else if("FdmUrlCopyPosition:" == lineFromConfigurationFile)
             {
                 strings listOfStrings;
                 splitToStrings<SplitStringType::WithoutDelimeters>(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
-                m_fdmUrlCopyPosition.x = convertStringToNumber<int>(listOfStrings[0]);
-                m_fdmUrlCopyPosition.y = convertStringToNumber<int>(listOfStrings[1]);
+                m_fdmUrlCopyPosition.setX(convertStringToNumber<int>(listOfStrings[0]));
+                m_fdmUrlCopyPosition.setY(convertStringToNumber<int>(listOfStrings[1]));
             }
             else if("FdmCloseDownloadWindowPosition:" == lineFromConfigurationFile)
             {
                 strings listOfStrings;
                 splitToStrings<SplitStringType::WithoutDelimeters>(listOfStrings, configurationFileReader.getLineAndIgnoreWhiteSpaces(), ",");
-                m_fdmCloseDownloadWindowPosition.x = convertStringToNumber<int>(listOfStrings[0]);
-                m_fdmCloseDownloadWindowPosition.y = convertStringToNumber<int>(listOfStrings[1]);
+                m_fdmCloseDownloadWindowPosition.setX(convertStringToNumber<int>(listOfStrings[0]));
+                m_fdmCloseDownloadWindowPosition.setY(convertStringToNumber<int>(listOfStrings[1]));
             }
             else if("TimeoutForOpeningFirefox:" == lineFromConfigurationFile)
             {

@@ -21,6 +21,13 @@ DisplayTableCell::DisplayTableCell(unsigned int columnIndex, string const& text)
     , m_verticalMode(DisplayTableCellMode::center)
 {}
 
+DisplayTableCell::DisplayTableCell(unsigned int columnIndex, string const& text, DisplayTableCellMode const horizontalMode, DisplayTableCellMode const verticalMode)
+    : m_columnIndex(columnIndex)
+    , m_textToDisplay(text)
+    , m_horizontalMode(horizontalMode)
+    , m_verticalMode(verticalMode)
+{}
+
 string DisplayTableCell::getText() const
 {
     return m_textToDisplay;
@@ -89,6 +96,11 @@ DisplayTableCell& DisplayTableRow::getCellReference(unsigned int columnIndex)
 void DisplayTableRow::addCell(string const & text)
 {
     m_cells.emplace_back(getNumberOfColumns(), text);
+}
+
+void DisplayTableRow::addCell(string const & text, DisplayTableCellMode const horizontalMode, DisplayTableCellMode const verticalMode)
+{
+    m_cells.emplace_back(getNumberOfColumns(), text, horizontalMode, verticalMode);
 }
 
 DisplayTable::DisplayTable()

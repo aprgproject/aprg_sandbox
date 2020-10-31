@@ -36,16 +36,17 @@ void UserInterface::inputTask()
 {
     cout << endl;
     cout << "Working directory: [" << m_workingDirectory << "]" << endl;
-    cout << "Please select a task" << endl;
-    cout << "[WD]  : Select a working directory" << endl;
-    cout << "[DD]  : Select a download directory for download" << endl;
-    cout << "[A]   : Add a new download" << endl;
-    cout << "[DN]  : Show directories not for download" << endl;
-    cout << "[DS]  : Check download schedule" << endl;
-    cout << "[ST]  : Start download" << endl;
-    cout << "Input your choice: ";
-    string choice(getStringWithCapitalLetters(m_userInterface.getUserInput()));
 
+    AlbaUserInterface::Choices<string> choices;
+    copyWorkingDirectoriesToChoices(choices);
+    choices.emplace("WD", "Select a working directory");
+    choices.emplace("DD", "Select a download directory for download");
+    choices.emplace("A", "Add a new download");
+    choices.emplace("DN", "Show directories not for download");
+    choices.emplace("DS", "Check download schedule");
+    choices.emplace("ST", "Start download");
+
+    string choice(m_userInterface.displayQuestionAndChoicesAndGetStringAnswerInAllCapitals("Please select a task.", choices));
 
     if("A" == choice)
     {
@@ -77,14 +78,13 @@ void UserInterface::inputTask()
 void UserInterface::inputWorkingDirectory()
 {
     cout << endl;
-    cout << "Please select working directory" << endl;
-    showWorkingDirectories();
-    cout << "[A]   : Add a new working directory" << endl;
-    cout << "[C]   : Create batch script to fix all directory names" << endl;
-    cout << "[B]   : Go back" << endl;
+    AlbaUserInterface::Choices<string> choices;
+    copyWorkingDirectoriesToChoices(choices);
+    choices.emplace("A", "Add a new working directory");
+    choices.emplace("C", "Create batch script to fix all directory names");
+    choices.emplace("B", "Go back");
 
-    cout << "Input your choice: ";
-    string choice(getStringWithCapitalLetters(m_userInterface.getUserInput()));
+    string choice(m_userInterface.displayQuestionAndChoicesAndGetStringAnswerInAllCapitals("Please select working directory.", choices));
     unsigned int index = convertStringToNumber<unsigned int>(choice);
     bool isNumberFound(isNumber(choice));
 
@@ -117,14 +117,14 @@ void UserInterface::inputWorkingDirectory()
 void UserInterface::inputDownloadDirectory()
 {
     cout << endl;
-    cout << "Please select download directory" << endl;
-    showDownloadDirectories();
-    cout << "[A]   : Add a new download" << endl;
-    cout << "[R]   : Refresh download directory" << endl;
-    cout << "[B]   : Go back" << endl;
+    AlbaUserInterface::Choices<string> choices;
+    copyDownloadDirectoriesToChoices(choices);
+    choices.emplace("A", "Add a new download");
+    choices.emplace("R", "Refresh download directory");
+    choices.emplace("B", "Go back");
 
     cout << "Input your choice: ";
-    string choice(getStringWithCapitalLetters(m_userInterface.getUserInput()));
+    string choice(m_userInterface.displayQuestionAndChoicesAndGetStringAnswerInAllCapitals("Please select download directory.", choices));
     unsigned int index = convertStringToNumber<unsigned int>(choice);
     bool isNumberFound(isNumber(choice));
 
@@ -160,14 +160,13 @@ void UserInterface::inputDownloadSchedule()
 void UserInterface::inputDownloadDirectoryTask()
 {
     cout << endl;
-    cout << "Please select download directory task" << endl;
     showDownloadDirectoryDetails();
-    cout << "[DS]  : Add to download schedule" << endl;
-    cout << "[F]   : Fix directory name and memory card" << endl;
-    cout << "[B]   : Go back" << endl;
+    AlbaUserInterface::Choices<string> choices;
+    choices.emplace("DS", "Add to download schedule");
+    choices.emplace("F", "Fix directory name and memory card");
+    choices.emplace("B", "Go back");
 
-    cout << "Input your choice: ";
-    string choice(getStringWithCapitalLetters(m_userInterface.getUserInput()));
+    string choice(m_userInterface.displayQuestionAndChoicesAndGetStringAnswerInAllCapitals("Please select download directory task.", choices));
 
     if("DS" == choice)
     {
@@ -188,6 +187,26 @@ void UserInterface::inputDownloadDirectoryTask()
 }
 
 
+void UserInterface::copyWorkingDirectoriesToChoices(AlbaUserInterface::Choices<string> & choices)
+{
+    stringHelper::NumberToStringConverter converter;
+    unsigned int displayedIndex(0);
+    for(string const& workingDirectory : m_workingDirectories)
+    {
+        choices.emplace(converter.convert<unsigned int>(displayedIndex++), workingDirectory);
+    }
+}
+
+void UserInterface::copyDownloadDirectoriesToChoices(AlbaUserInterface::Choices<string> & choices)
+{
+    stringHelper::NumberToStringConverter converter;
+    unsigned int displayedIndex(0);
+    for(DownloadDirectoryDetails const& downloadDirectoryDetails : m_downloadDirectories)
+    {
+        choices.emplace(converter.convert<unsigned int>(displayedIndex++), downloadDirectoryDetails.downloadDirectory+" "+downloadDirectoryDetails.modeString+" "+downloadDirectoryDetails.stateString);
+    }
+}
+
 void UserInterface::showWorkingDirectories() const
 {
     cout << "Working Directories:" << endl;
@@ -196,7 +215,6 @@ void UserInterface::showWorkingDirectories() const
     {
         cout << "[" << std::setfill(' ') << std::setw(3) << index++ << "] : " << workingDirectories << endl;
     }
-
 }
 
 void UserInterface::showDownloadDirectories() const
