@@ -3,13 +3,12 @@
 namespace alba
 {
 
-class SimplestDesignToCopy
+class SOOSA
 {
 public:
-    SimplestDesignToCopy();
+    SOOSA();
 
 private:
-    int m_sample;
-};
+    int m_sample;};
 
 }

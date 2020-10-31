@@ -1,11 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
-project(SimplestDesignToCopy C CXX)
+project(SOOSA C CXX)
 
 set(OUTFILE ${PROJECT_NAME})
-
 #Comment out TEST_MODE to build static executable
 set(TEST_MODE "ON")
-
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 
@@ -28,24 +26,21 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 
 set(SOURCES
-    src/SimplestDesignToCopy.cpp
-    src/SimplestDesignToCopy.hpp
+    src/SOOSA.cpp
+    src/SOOSA.hpp
 )
 
-set(MAIN_SOURCES
-    src/main.cpp
+set(MAIN_SOURCES    src/main.cpp
 )
 
 set(TESTS
-    tst/SimplestDesignToCopy_unit.cpp
+    tst/SOOSA_unit.cpp
 )
 
-set(INCLUDE_DIRECTORIES
-    src/
+set(INCLUDE_DIRECTORIES    src/
 )
 
-if (TEST_MODE)
-    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
+if (TEST_MODE)    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
     include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
     target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
     add_test(${OUTFILE} ${OUTFILE})

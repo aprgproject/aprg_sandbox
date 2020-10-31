@@ -19,10 +19,9 @@ public:
     AprgBitmapSnippet getSnippetReadFromFile(BitmapXY const topLeftCorner, BitmapXY const bottomRightCorner) const;
     AprgBitmapSnippet getSnippetReadFromFile(BitmapXY const center, unsigned int const numberOfBytesToRead) const;
     void setSnippetWriteToFile(AprgBitmapSnippet const& snippet) const;
-    void saveCornersForCenterAndNumberOfBytes(BitmapXY & topLeftCorner, BitmapXY & bottomRightCorner, BitmapXY const center, unsigned int const numberOfBytes) const;
 
 private:
+    void calculateNewCornersBasedOnCenterAndNumberOfBytes(BitmapXY & topLeftCorner, BitmapXY & bottomRightCorner, BitmapXY const center, unsigned int const numberOfBytes) const;
     AprgBitmapConfiguration m_configuration;
 };
-
 }

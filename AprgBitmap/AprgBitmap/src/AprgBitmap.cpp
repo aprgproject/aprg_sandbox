@@ -53,15 +53,13 @@ AprgBitmapSnippet AprgBitmap::getSnippetReadFromFile(BitmapXY const center, unsi
     {
         BitmapXY topLeftCorner;
         BitmapXY bottomRightCorner;
-        saveCornersForCenterAndNumberOfBytes(topLeftCorner, bottomRightCorner, center, numberOfBytesToRead);
+        calculateNewCornersBasedOnCenterAndNumberOfBytes(topLeftCorner, bottomRightCorner, center, numberOfBytesToRead);
         snippet = getSnippetReadFromFile(topLeftCorner, bottomRightCorner);
     }
-    return snippet;
-}
+    return snippet;}
 
 void AprgBitmap::setSnippetWriteToFile(AprgBitmapSnippet const& snippet) const
-{
-    if(m_configuration.isPositionWithinTheBitmap(snippet.getTopLeftCorner()) && m_configuration.isPositionWithinTheBitmap(snippet.getBottomRightCorner()))
+{    if(m_configuration.isPositionWithinTheBitmap(snippet.getTopLeftCorner()) && m_configuration.isPositionWithinTheBitmap(snippet.getBottomRightCorner()))
     {
         fstream streamFile(m_configuration.getPath(), fstream::in | fstream::out | fstream::binary);
 
@@ -84,15 +82,13 @@ void AprgBitmap::setSnippetWriteToFile(AprgBitmapSnippet const& snippet) const
     }
 }
 
-void AprgBitmap::saveCornersForCenterAndNumberOfBytes(BitmapXY & topLeftCorner, BitmapXY & bottomRightCorner, BitmapXY const center, unsigned int const numberOfBytes) const
+void AprgBitmap::calculateNewCornersBasedOnCenterAndNumberOfBytes(BitmapXY & topLeftCorner, BitmapXY & bottomRightCorner, BitmapXY const center, unsigned int const numberOfBytes) const
 {
     int side(m_configuration.estimateSquareSideInPixels(numberOfBytes));
-    int halfSide(side/2);
-    int left(center.getX()-halfSide);
+    int halfSide(side/2);    int left(center.getX()-halfSide);
     int right(center.getX()+halfSide);
     m_configuration.adjustToCorrectCoordinate(left, m_configuration.getBitmapWidth());
-    m_configuration.adjustToCorrectCoordinate(right, m_configuration.getBitmapWidth());
-    m_configuration.adjustToCorrectLength(left, right, side, m_configuration.getBitmapWidth());
+    m_configuration.adjustToCorrectCoordinate(right, m_configuration.getBitmapWidth());    m_configuration.adjustToCorrectLength(left, right, side, m_configuration.getBitmapWidth());
 
     int xSizeInBytes(m_configuration.getOneRowSizeInBytesFromPixels(left, right));
     xSizeInBytes = (xSizeInBytes > 0) ? xSizeInBytes : 1;

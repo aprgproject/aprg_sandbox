@@ -1,11 +1,10 @@
-#include "SimplestDesignToCopy.hpp"
+#include "SOOSA.hpp"
 
 namespace alba
 {
 
-SimplestDesignToCopy::SimplestDesignToCopy()
+SOOSA::SOOSA()
 {
     m_sample = 0;
 }
-
 }
