@@ -2,6 +2,7 @@
 
 #include <Container/AlbaXY.hpp>
 
+#include <set>
 #include <vector>
 
 namespace alba
@@ -17,5 +18,6 @@ public:
 };
 
 using Points = std::vector<Point>;
+using SortedPoints = std::set<Point>;
 
 }

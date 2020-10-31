@@ -56,35 +56,34 @@ double Line::getSlope() const
 
 Points Line::getPoints(Point const& first, Point const& second, double const interval) const
 {
-    Points points;
+    SortedPoints sortedPoints;
     if(m_type == LineType::Vertical)
     {
-        //do something here, there should be common loop with direction
-        int sign =
-        double intervalWithSign =
-        for(double iterator = first.getY(); iterator<=second.getY(); iterator+=interval)
+        traverseValues(first.getY(), second.getY(), interval, [&](double traverseValue)
         {
-            points.emplace_back(Point(m_xIntercept, iterator));        }
+            sortedPoints.emplace(Point(m_xIntercept, traverseValue));
+        });
     }
     else if(m_type == LineType::Horizontal)
-    {        for(double iterator = first.getX(); iterator<=second.getX(); iterator+=interval)
+    {
+        traverseValues(first.getX(), second.getX(), interval, [&](double traverseValue)
         {
-            points.emplace_back(Point(iterator, m_yIntercept));
-        }
+            sortedPoints.emplace(Point(traverseValue, m_yIntercept));
+        });
     }
     else
     {
-        set<Point> sortedPoints;
-        for(double iterator = first.getX(); iterator<=second.getX(); iterator+=interval)
+        traverseValues(first.getX(), second.getX(), interval, [&](double traverseValue)
         {
-            sortedPoints.emplace(Point(iterator, calculateYFromX(iterator)));
-        }
-        for(double iterator = first.getY(); iterator<=second.getY(); iterator+=interval)
+            sortedPoints.emplace(Point(traverseValue, calculateYFromX(traverseValue)));
+        });
+        traverseValues(first.getY(), second.getY(), interval, [&](double traverseValue)
         {
-            sortedPoints.emplace(Point(calculateXFromY(iterator), iterator));
-        }
-        copy(sortedPoints.begin(), sortedPoints.end(), back_inserter(points));
+            sortedPoints.emplace(Point(calculateXFromY(traverseValue), traverseValue));
+        });
     }
+    Points points;
+    copy(sortedPoints.begin(), sortedPoints.end(), std::back_inserter(points));
     return points; //RVO
 }
 
@@ -96,6 +95,25 @@ double Line::calculateYFromX(double const x) const
 double Line::calculateXFromY(double const y) const
 {
     return (y/m_slope) + m_xIntercept; //x=y/m+a
+}
+
+void Line::traverseValues(double const startValue, double const endValue, double const interval, function<void(double)> performOperation) const
+{
+    bool directionOfTraversal = (startValue <= endValue);
+    double intervalWithSign = (directionOfTraversal) ? interval : -interval;
+    function<bool(double,double)> loopCondition;
+    if(directionOfTraversal)
+    {
+        loopCondition = less_equal<double>();
+    }
+    else
+    {
+        loopCondition = greater_equal<double>();
+    }
+    for(double traverseValue = startValue; loopCondition(traverseValue, endValue); traverseValue+=intervalWithSign)
+    {
+        performOperation(traverseValue);
+    }
 }
 
 LineType Line::determineLineType(double const deltaY, double const deltaX) const

@@ -2,6 +2,7 @@
 
 #include <TwoDimensions/Point.hpp>
 
+#include <functional>
 #include <vector>
 
 namespace alba
@@ -27,6 +28,7 @@ public:
     Points getPoints(Point const& first, Point const& second, double const interval) const;
     double calculateYFromX(double const x) const;
     double calculateXFromY(double const y) const;
+    void traverseValues(double const startValue, double const endValue, double const interval, std::function<void(double)> performOperation) const;
 
 private:
     LineType determineLineType(double const deltaY, double const deltaX) const;

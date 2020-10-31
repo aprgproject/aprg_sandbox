@@ -26,15 +26,17 @@ public:
 
     Points getPoints(double const interval, double const x1, double const x2) const
     {
-        Points points;
+        SortedPoints sortedPoints;
         for(double x=x1; x<x2; x+=interval)
         {
             Point firstPoint(x1, calculateYfromX(x1));
             Point secondPoint(x2, calculateYfromX(x2));
             Line line(firstPoint, secondPoint);
             Points pointsInLine(line.getPoints(firstPoint, secondPoint, interval));
-            std::copy(pointsInLine.begin(), pointsInLine.end(), std::back_inserter(points));
+            std::copy(pointsInLine.begin(), pointsInLine.end(), std::inserter(sortedPoints, sortedPoints.begin()));
         }
+        Points points;
+        copy(sortedPoints.begin(), sortedPoints.end(), std::back_inserter(points));
         return points; //RVO
     }
 

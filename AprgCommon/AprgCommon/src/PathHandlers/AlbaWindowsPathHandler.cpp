@@ -134,10 +134,12 @@ bool AlbaWindowsPathHandler::copyToNewFile(string const& newFilePath)
 
 bool AlbaWindowsPathHandler::renameFile(string const& newFileName)
 {
-    bool isSuccessful(false);    if(isFile())
+    bool isSuccessful(false);
+    if(isFile())
     {
         string newPath(m_directory+newFileName);
-        isSuccessful = (bool)MoveFile(getFullPath().c_str(), newPath.c_str());        if(!isSuccessful)
+        isSuccessful = (bool)MoveFile(getFullPath().c_str(), newPath.c_str());
+        if(!isSuccessful)
         {
             cout<<"Error in AlbaWindowsPathHandler::renameFile() path:"<<getFullPath()<<" newFileName:"<<newFileName<<endl;
             cout<<getLastFormattedErrorMessage()<<endl;

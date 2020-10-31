@@ -940,16 +940,19 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
     double maxTotalCpuFromTop;
     vector<string> processNames;
     vector<double> cpuConsumptions;
-    unsigned int state=0;    int cpuIndexInLine=0;
+    unsigned int state=0;
+    int cpuIndexInLine=0;
     int commmandIndexInLine=0;
     stringstream masterStringStream;
     double totalCpuFromTop(0);
     while(fileReader.isNotFinished())
     {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+
         if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "=~=~=~=~=~=~=~=~=~=~=~=") || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "top - "))
         {
-            state=1;        }
+            state=1;
+        }
         else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "PID") &&
                 stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "%CPU") &&
                 stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "COMMAND"))
@@ -979,10 +982,12 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
         }
         if(state==2 && stringHelper::isNotNpos(commmandIndexInLine) && stringHelper::isNotNpos(cpuIndexInLine)
                 && commmandIndexInLine<lineInLogs.length() && cpuIndexInLine+5<lineInLogs.length())
-        {            string processName(stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(lineInLogs.substr(commmandIndexInLine)));
+        {
+            string processName(stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(lineInLogs.substr(commmandIndexInLine)));
             double cpuLoad = stringHelper::convertStringToNumber<double>(lineInLogs.substr(cpuIndexInLine,5));
             if(cpuLoad>0 && processName!="`- top")
-            {                int i=0;
+            {
+                int i=0;
                 bool isFound(false);
                 for(; i<processNames.size(); i++)
                 {
@@ -1017,7 +1022,8 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
             }
             else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(Conman_EU)"))
             {
-                maxCpuTupcConman = std::max(maxCpuTupcConman, cpuLoad);            }
+                maxCpuTupcConman = std::max(maxCpuTupcConman, cpuLoad);
+            }
             else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(Aalman_EU)"))
             {
                 maxCpuTcomAalman = std::max(maxCpuTcomAalman, cpuLoad);
@@ -1036,7 +1042,8 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
     ss<<"totalCpuFromTop, totalCpu, ";
     for(int i=0; i<processNames.size(); i++)
     {
-        ss<<processNames[i]<<", ";    }
+        ss<<processNames[i]<<", ";
+    }
     logLineInRawDataFile(ss.str());
     logLineInRawDataFile(masterStringStream.str());
 }
@@ -1141,17 +1148,20 @@ void PerformanceAnalyzer::processFileForTopLogsMem(string const& filePath)
     ss<<"totalMEM, ";
     for(int i=0; i<processNames.size(); i++)
     {
-        ss<<processNames[i]<<", ";    }
+        ss<<processNames[i]<<", ";
+    }
     logLineInRawDataFile(ss.str());
     logLineInRawDataFile(masterStringStream.str());
 }
 
 void PerformanceAnalyzer::processFileForRlSetupPerSecond(string const& filePath)
 {
-    AlbaLocalPathHandler filePathHandler(filePath);    ifstream inputLogFileStream(filePath);
+    AlbaLocalPathHandler filePathHandler(filePath);
+    ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
 
-    cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<endl;    logLineInRawDataFile("BtsTime,instances");
+    cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<endl;
+    logLineInRawDataFile("BtsTime,instances");
 
     int hour = 0, min = 0, sec = 0, instances=0;
     BtsLogTime firstLogTime;

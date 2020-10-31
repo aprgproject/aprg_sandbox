@@ -20,9 +20,11 @@ TEST(LineTest, HorizontalLine)
     ASSERT_EQ(5u, points.size());
     EXPECT_EQ(Point(-2,3), points[0]);
     EXPECT_EQ(Point(-1,3), points[1]);
-    EXPECT_EQ(Point(0,3), points[2]);    EXPECT_EQ(Point(1,3), points[3]);
+    EXPECT_EQ(Point(0,3), points[2]);
+    EXPECT_EQ(Point(1,3), points[3]);
     EXPECT_EQ(Point(2,3), points[4]);
 }
+
 TEST(LineTest, VerticalLine)
 {
     Line line(Point(2,-3), Point(2,3));
@@ -36,10 +38,12 @@ TEST(LineTest, VerticalLine)
     ASSERT_EQ(7u, points.size());
     EXPECT_EQ(Point(2,-3), points[0]);
     EXPECT_EQ(Point(2,-2), points[1]);
-    EXPECT_EQ(Point(2,-1), points[2]);    EXPECT_EQ(Point(2,0), points[3]);
+    EXPECT_EQ(Point(2,-1), points[2]);
+    EXPECT_EQ(Point(2,0), points[3]);
     EXPECT_EQ(Point(2,1), points[4]);
     EXPECT_EQ(Point(2,2), points[5]);
-    EXPECT_EQ(Point(2,3), points[6]);}
+    EXPECT_EQ(Point(2,3), points[6]);
+}
 
 TEST(LineTest, LineWithSlope)
 {
@@ -54,7 +58,8 @@ TEST(LineTest, LineWithSlope)
     ASSERT_EQ(9u, points.size());
     EXPECT_EQ(Point(-2,-3), points[0]);
     EXPECT_EQ(Point(-1.33333333333333333,-2), points[1]);
-    EXPECT_EQ(Point(-1,-1.5), points[2]);    EXPECT_EQ(Point(-0.66666666666666666,-1), points[3]);
+    EXPECT_EQ(Point(-1,-1.5), points[2]);
+    EXPECT_EQ(Point(-0.66666666666666666,-1), points[3]);
     EXPECT_EQ(Point(0,0), points[4]);
     EXPECT_EQ(Point(0.66666666666666666,1), points[5]);
     EXPECT_EQ(Point(1,1.5), points[6]);
@@ -81,3 +86,4 @@ TEST(LineTest, VerticalLineWithPointsReversed)
     EXPECT_EQ(Point(0,5), points[5]);
     EXPECT_EQ(Point(0,6), points[6]);
 }
+

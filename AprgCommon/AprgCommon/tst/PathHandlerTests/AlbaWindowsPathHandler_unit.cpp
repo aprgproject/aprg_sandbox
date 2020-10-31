@@ -248,9 +248,11 @@ TEST(WindowsPathTest, FileIsCopiedToNewFile_ActualLocalDirectory)
 TEST(WindowsPathTest, ReInputDirectoryThatIsToBeRenamed_ActualLocalDirectory)
 {
     string const pathOfDirectoryToBeRenamed(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1)");
+
     AlbaWindowsPathHandler pathHandler(pathOfDirectoryToBeRenamed);
     EXPECT_EQ("C", pathHandler.getDriveOrRoot());
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1\)",  pathHandler.getDirectory());    EXPECT_TRUE(pathHandler.getFile().empty());
+    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1\)",  pathHandler.getDirectory());
+    EXPECT_TRUE(pathHandler.getFile().empty());
     EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
     EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
