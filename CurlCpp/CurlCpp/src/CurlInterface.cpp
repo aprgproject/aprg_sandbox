@@ -61,7 +61,9 @@ template bool downloadUntilSuccessful<DownloadType::LowSpeedLimitAndMozillaFireF
 template bool downloadBinaryFile<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath);
 template bool downloadBinaryFileUntilSuccessful<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath);
 template bool downloadBinaryFileWithFiniteNumberOfTries<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress> (AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath, int const totalNumberOfTries);
+template bool downloadBinaryFile<DownloadType::LowSpeedLimit> (AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath);
+template bool downloadBinaryFileUntilSuccessful<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgressWithSsl> (AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath);
+template bool downloadBinaryFileWithFiniteNumberOfTries<DownloadType::LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgressWithSsl> (AlbaWebPathHandler const& webPath, AlbaLocalPathHandler const& windowsPath, int const totalNumberOfTries);
 
 }
-
 }

@@ -11,11 +11,12 @@ enum class DownloadType
     LowSpeedLimit,
     MozillaFireFox,
     PrintDownloadProgress,
+    Ssl,
     LowSpeedLimitAndMozillaFireFox,
     MozillaFireFoxAndPrintDownloadProgress,
-    LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress
+    LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgress,
+    LowSpeedLimitAndMozillaFireFoxAndPrintDownloadProgressWithSsl
 };
 
 }
-
 }

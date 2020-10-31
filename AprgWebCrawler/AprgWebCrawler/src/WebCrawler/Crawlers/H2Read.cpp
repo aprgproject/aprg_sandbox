@@ -27,24 +27,29 @@ void OneDownloadPerPageCrawler::retrieveLinksForH2Read(AlbaWebPathHandler const&
     else
     {
         AlbaFileReader htmlFileReader(htmlFileStream);
+        unsigned int index(0);
         while (htmlFileReader.isNotFinished())
         {
             string lineInHtmlFile(htmlFileReader.getLine());
-            if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<img id="img_mng_enl")"))
+            if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<img id="arf-reader")"))
             {
                 m_linkForCurrentFileToDownload = getStringInBetweenTwoStrings(lineInHtmlFile, R"( src=")", R"(")");
             }
-            else if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(Next</a><br/>)"))
+            else if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"('index' : )"))
             {
-                m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<a href=")", R"(")");
+                index = convertStringToNumber<unsigned int>(getStringInBetweenTwoStrings(lineInHtmlFile, R"('index' : )", R"(,)"));
+            }
+            else if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"('currentURL' : ')"))
+            {
+                index++;
+                NumberToStringConverter converter;
+                m_linkForNextHtml = getStringInBetweenTwoStrings(lineInHtmlFile, R"('currentURL' : ')", R"(',)")+converter.convert<unsigned int>(index);
             }
         }
         AlbaWebPathHandler imageWebPathHandler(webLinkPathHandler);
         imageWebPathHandler.gotoLink(m_linkForCurrentFileToDownload);
         AlbaWebPathHandler chapterWebPathHandler(webLinkPathHandler);
-        chapterWebPathHandler.goUp();
         m_localPathForCurrentFileToDownload = m_webCrawler.getDownloadDirectory() + R"(chapter)" + chapterWebPathHandler.getImmediateDirectoryName() + R"(\)" + imageWebPathHandler.getFile();
     }
 }
-
 }

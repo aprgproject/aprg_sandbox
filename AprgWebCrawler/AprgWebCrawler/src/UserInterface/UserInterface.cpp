@@ -38,14 +38,11 @@ void UserInterface::inputTask()
     cout << "Working directory: [" << m_workingDirectory << "]" << endl;
 
     AlbaUserInterface::Choices<string> choices;
-    copyWorkingDirectoriesToChoices(choices);
     choices.emplace("WD", "Select a working directory");
     choices.emplace("DD", "Select a download directory for download");
-    choices.emplace("A", "Add a new download");
-    choices.emplace("DN", "Show directories not for download");
+    choices.emplace("A", "Add a new download");    choices.emplace("DN", "Show directories not for download");
     choices.emplace("DS", "Check download schedule");
     choices.emplace("ST", "Start download");
-
     string choice(m_userInterface.displayQuestionAndChoicesAndGetStringAnswerInAllCapitals("Please select a task.", choices));
 
     if("A" == choice)

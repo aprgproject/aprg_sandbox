@@ -14,19 +14,17 @@ public:
     explicit AlbaPathHandler(std::string const& path, std::string const& slashCharacterString);
     virtual void clear();
     virtual std::string getFullPath() const;
+    virtual std::string getDirectory() const;
     void input(std::string const& path);
     void reInput();
     void goUp();
     std::string getImmediateDirectoryName() const;
-    std::string getDirectory() const;
     std::string getFile() const;
     std::string getFilenameOnly() const;
-    std::string getExtension() const;
-    PathType getPathType() const;
+    std::string getExtension() const;    PathType getPathType() const;
     bool isDirectory() const;
     bool isFile() const;
     bool isEmpty() const;
-
 protected:
     virtual void save(std::string const& path);
     void setExtensionFromPath(std::string const& path);
