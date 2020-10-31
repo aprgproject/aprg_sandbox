@@ -16,13 +16,133 @@
 using namespace alba;
 using namespace std;
 
+u32 calculateShiftDelayedSfn(u32 const currentSfn, u32 const calculatedSfn)
+{
+    const u32 RADIO_FRAME_CYCLE = 4096;
+    const u32 MAX_FRAME_NUMBER = 4095;
+    const u32 MAX_NUM_OF_TTI = 8;
+    const u32 SFN_LOW_LIMIT = 12;
+    const u32 SFN_HIGH_LIMIT = 220;
+
+    const u32 limit = (currentSfn + SFN_LOW_LIMIT) % RADIO_FRAME_CYCLE;
+    u32 tempSfn = calculatedSfn;
+    //cout<<"tempSfn"<<tempSfn<<endl;
+    //cout<<"limit"<<limit<<endl;
+    while (tempSfn > limit){
+        if (tempSfn < MAX_NUM_OF_TTI){
+            break;
+        }
+        tempSfn = (tempSfn + MAX_NUM_OF_TTI) % RADIO_FRAME_CYCLE;
+    }
+    //cout<<"tempSfn"<<tempSfn<<endl;
+    //cout<<"limit"<<limit<<endl;
+    while (tempSfn < limit){
+        if (limit > (MAX_FRAME_NUMBER - MAX_NUM_OF_TTI) && tempSfn < MAX_NUM_OF_TTI){
+            //cout<<"condition"<<MAX_FRAME_NUMBER-MAX_NUM_OF_TTI<<endl;
+            //cout<<"tempSfnInside"<<tempSfn<<endl;
+            break;
+        }
+        //cout<<"tempSfnInside"<<tempSfn<<endl;
+        tempSfn = (tempSfn + MAX_NUM_OF_TTI) % (RADIO_FRAME_CYCLE);
+    }
+    //cout<<"tempSfn"<<tempSfn<<endl;
+    //cout<<"limit"<<limit<<endl;
+    return tempSfn;
+}
+
+u32 calculateShiftDelayedSfnNew(u32 const currentSfn, u32 const calculatedSfn)
+{
+    const u32 RADIO_FRAME_CYCLE = 4096;
+    const u32 MAX_FRAME_NUMBER = 4095;
+    const u32 MAX_NUM_OF_TTI = 8;
+    const u32 SFN_LOW_LIMIT = 12;
+    const u32 SFN_HIGH_LIMIT = 220;
+
+    const u32 limit = (currentSfn + SFN_LOW_LIMIT) % RADIO_FRAME_CYCLE;
+    u32 ttiAlignmentValueForCalculatedSfn = calculatedSfn%MAX_NUM_OF_TTI;
+    u32 ttiAlignmentValueForLimit  = limit%MAX_NUM_OF_TTI;
+    u32 shiftedSfn=0;
+    if(ttiAlignmentValueForCalculatedSfn == ttiAlignmentValueForLimit)
+    {
+        shiftedSfn = limit;
+    }
+    else if(ttiAlignmentValueForCalculatedSfn > ttiAlignmentValueForLimit)
+    {
+        shiftedSfn = limit+ttiAlignmentValueForCalculatedSfn-ttiAlignmentValueForLimit;
+    }
+    else if(ttiAlignmentValueForCalculatedSfn < ttiAlignmentValueForLimit)
+    {
+        shiftedSfn = limit+ttiAlignmentValueForCalculatedSfn-ttiAlignmentValueForLimit+MAX_NUM_OF_TTI;
+    }
+    shiftedSfn = shiftedSfn%RADIO_FRAME_CYCLE;
+    return shiftedSfn;
+}
+
+TEST(SampleTest, DISABLED_RlhBug)
+{
+    calculateShiftDelayedSfn(4076, 0);
+
+}
+
+TEST(SampleTest, ComparisonOfResultsOfTwoAlgorithms)
+{
+    AlbaLocalPathHandler pathOfNewAlgorithm(R"(D:\userdata\malba\Desktop\Prontos\PR235148\NewResults.csv)");
+    AlbaLocalPathHandler pathOfOldAlgorithm(R"(D:\userdata\malba\Desktop\Prontos\PR235148\OldResults.csv)");
+
+    ifstream newAlgoResultFile(pathOfNewAlgorithm.getFullPath());
+    ifstream oldAlgoResultFile(pathOfOldAlgorithm.getFullPath());
+    AlbaFileReader newAlgoReader(newAlgoResultFile);
+    AlbaFileReader oldAlgoReader(oldAlgoResultFile);
+
+    while(newAlgoReader.isNotFinished() || oldAlgoReader.isNotFinished())
+    {
+        string lineInFileInNewAlgo(newAlgoReader.getLineAndIgnoreWhiteSpaces());
+        string lineInFileInOldAlgo(oldAlgoReader.getLineAndIgnoreWhiteSpaces());
+        if(lineInFileInNewAlgo!=lineInFileInOldAlgo)
+        {
+            cout<<"lineInFileInNewAlgo:["<<lineInFileInNewAlgo<<"]"<<endl;
+            cout<<"lineInFileInOldAlgo:["<<lineInFileInOldAlgo<<"]"<<endl;
+            //break;
+        }
+    }
+}
+
+TEST(SampleTest, DISABLED_RlhNewLogic)
+{
+    AlbaLocalPathHandler pathHandler(R"(D:\userdata\malba\Desktop\Prontos\PR235148\NewResults.csv)");
+    ofstream fileOutput(pathHandler.getFullPath());
+
+    fileOutput<<"CurrentSfn,CalculatedSfn,ShiftedSfn"<<endl;
+    for(u32 currentSfn=0; currentSfn<=4096; currentSfn++)
+    {
+        for(u32 calculatedSfn=0; calculatedSfn<=4096; calculatedSfn++)
+        {
+            fileOutput<<currentSfn<<","<<calculatedSfn<<","<<calculateShiftDelayedSfnNew(currentSfn, calculatedSfn)<<endl;
+        }
+    }
+}
+
+TEST(SampleTest, DISABLED_RlhOldLogic)
+{
+    AlbaLocalPathHandler pathHandler(R"(D:\userdata\malba\Desktop\Prontos\PR235148\OldResults.csv)");
+    ofstream fileOutput(pathHandler.getFullPath());
+
+    fileOutput<<"CurrentSfn,CalculatedSfn,ShiftedSfn"<<endl;
+    for(u32 currentSfn=0; currentSfn<=4096; currentSfn++)
+    {
+        for(u32 calculatedSfn=0; calculatedSfn<=4096; calculatedSfn++)
+        {
+            fileOutput<<currentSfn<<","<<calculatedSfn<<","<<calculateShiftDelayedSfn(currentSfn, calculatedSfn)<<endl;
+        }
+    }
+}
+
+/*
 TEST(SampleTest, FilesToFind)
 {
-    AlbaLocalPathHandler::ListOfPaths files;
-    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler::ListOfPaths files;    AlbaLocalPathHandler::ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(D:\ZZZ_Logs\PR224369_NEWEST\WBTS17vsWBTS18\WBTS18Second\trace_TUPCexe_Conman_EU_1448_1494233464)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
-
     for(string const& file: files)
     {
         AlbaLocalPathHandler filePathHandler(file);
@@ -32,14 +152,12 @@ TEST(SampleTest, FilesToFind)
     }
 }
 
-/*
+
 TEST(SampleTest, MessageId_TcomTcom_test)
 {
-    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
-    AlbaLocalPathHandler pathHandler2(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_TcomTcom_xml_format.txt)");
+    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");    AlbaLocalPathHandler pathHandler2(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_TcomTcom_xml_format.txt)");
     AlbaLocalPathHandler pathHandler3(R"(D:\userdata\malba\Desktop\SCTRoutes\Unedited\routeList_VM.xml)");
     AlbaLocalPathHandler pathHandler4(R"(D:\userdata\malba\Desktop\SCTRoutes\MessageId_comparison.csv)");
-
     ifstream tcomTcomFile(pathHandler.getFullPath());
     ifstream routeListFile(pathHandler3.getFullPath());
     ofstream xmlFormattedFile(pathHandler2.getFullPath());

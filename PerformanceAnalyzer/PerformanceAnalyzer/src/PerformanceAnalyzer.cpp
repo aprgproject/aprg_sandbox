@@ -933,22 +933,23 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
 
     double maxCpuTcomLrm = 0;
     double maxCpuTcomGrm = 0;
+    double maxCpuTcomRlh = 0;
     double maxCpuTupcConman = 0;
     double maxCpuTcomAalman = 0;
+    double maxTotalCpu = 0;
+    double maxTotalCpuFromTop;
     vector<string> processNames;
     vector<double> cpuConsumptions;
-    unsigned int state=0;
-    int cpuIndexInLine=0;
+    unsigned int state=0;    int cpuIndexInLine=0;
     int commmandIndexInLine=0;
     stringstream masterStringStream;
+    double totalCpuFromTop(0);
     while(fileReader.isNotFinished())
     {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
-
         if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "=~=~=~=~=~=~=~=~=~=~=~=") || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "top - "))
         {
-            state=1;
-        }
+            state=1;        }
         else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "PID") &&
                 stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "%CPU") &&
                 stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "COMMAND"))
@@ -966,20 +967,22 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
                 ss<<cpuConsumptions[i]<<", ";
                 cpuConsumptions[i] = 0;
             }
-            masterStringStream<<totalCpu<<", "<<ss.str()<<endl;
-            if(totalCpu>95)
-            {
-                cout<<"High CPU consumption:"<<totalCpu<<endl;
-            }
+            masterStringStream<<totalCpuFromTop<<", "<<totalCpu<<", "<<ss.str()<<endl;
+            maxTotalCpu = std::max(maxTotalCpu, totalCpu);
+            totalCpuFromTop=0;
+        }
+        else if(state==1 && stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "%Cpu0  :"))
+        {
+            unsigned int bracketCpuIndexInLine(lineInLogs.find("["));
+            totalCpuFromTop = stringHelper::convertStringToNumber<double>(lineInLogs.substr(bracketCpuIndexInLine-3, 3));
+            maxTotalCpuFromTop = std::max(maxTotalCpuFromTop, totalCpuFromTop);
         }
         if(state==2 && stringHelper::isNotNpos(commmandIndexInLine) && stringHelper::isNotNpos(cpuIndexInLine)
                 && commmandIndexInLine<lineInLogs.length() && cpuIndexInLine+5<lineInLogs.length())
-        {
-            string processName(stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(lineInLogs.substr(commmandIndexInLine)));
+        {            string processName(stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(lineInLogs.substr(commmandIndexInLine)));
             double cpuLoad = stringHelper::convertStringToNumber<double>(lineInLogs.substr(cpuIndexInLine,5));
             if(cpuLoad>0 && processName!="`- top")
-            {
-                int i=0;
+            {                int i=0;
                 bool isFound(false);
                 for(; i<processNames.size(); i++)
                 {
@@ -1004,43 +1007,151 @@ void PerformanceAnalyzer::processFileForTopLogs(string const& filePath)
             {
                 maxCpuTcomLrm = std::max(maxCpuTcomLrm, cpuLoad);
             }
-            else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TCOM_GRM_TASK)"))
+            else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(_GRM_)"))
             {
                 maxCpuTcomGrm = std::max(maxCpuTcomGrm, cpuLoad);
             }
+            else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(_RLH_)"))
+            {
+                maxCpuTcomRlh = std::max(maxCpuTcomRlh, cpuLoad);
+            }
             else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(Conman_EU)"))
             {
-                maxCpuTupcConman = std::max(maxCpuTupcConman, cpuLoad);
-            }
+                maxCpuTupcConman = std::max(maxCpuTupcConman, cpuLoad);            }
             else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(Aalman_EU)"))
             {
                 maxCpuTcomAalman = std::max(maxCpuTcomAalman, cpuLoad);
             }
         }
     }
+    cout<<"Max Total CPU from TOP:"<<maxTotalCpuFromTop<<endl;
+    cout<<"Max Total CPU:"<<maxTotalCpu<<endl;
     cout<<"Max CPU GRM TCOM:"<<maxCpuTcomGrm<<endl;
     cout<<"Max CPU LRM TCOM:"<<maxCpuTcomLrm<<endl;
+    cout<<"Max CPU RLH TCOM:"<<maxCpuTcomRlh<<endl;
     cout<<"Max CPU TUP Conman:"<<maxCpuTupcConman<<endl;
     cout<<"Max CPU TUP Aalman:"<<maxCpuTcomAalman<<endl;
 
     stringstream ss;
-    ss<<"totalCPU, ";
+    ss<<"totalCpuFromTop, totalCpu, ";
     for(int i=0; i<processNames.size(); i++)
     {
-        ss<<processNames[i]<<", ";
-    }
+        ss<<processNames[i]<<", ";    }
     logLineInRawDataFile(ss.str());
     logLineInRawDataFile(masterStringStream.str());
 }
 
-void PerformanceAnalyzer::processFileForRlSetupPerSecond(string const& filePath)
+void PerformanceAnalyzer::processFileForTopLogsMem(string const& filePath)
 {
     AlbaLocalPathHandler filePathHandler(filePath);
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
 
     cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<endl;
-    logLineInRawDataFile("BtsTime,instances");
+
+    double maxMemTcomLrm = 0;
+    double maxMemTcomGrm = 0;
+    double maxMemTupcConman = 0;
+    double maxMemTcomAalman = 0;
+    vector<string> processNames;
+    vector<double> memConsumptions;
+    unsigned int state=0;
+    int memIndexInLine=0;
+    int commmandIndexInLine=0;
+    stringstream masterStringStream;
+    while(fileReader.isNotFinished())
+    {
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+
+        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "=~=~=~=~=~=~=~=~=~=~=~=") || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "top - "))
+        {
+            state=1;
+        }
+        else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "PID") &&
+                stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "MEM") &&
+                stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, "COMMAND"))
+        {
+            state=2;
+            memIndexInLine = lineInLogs.find("MEM");
+            commmandIndexInLine = lineInLogs.find("COMMAND");
+
+            double totalMem(0);
+            stringstream ss;
+            for(int i=0; i<memConsumptions.size(); i++)
+            {
+                totalMem+=memConsumptions[i];
+                //ss<<processNames[i]<<":";
+                ss<<memConsumptions[i]<<", ";
+                memConsumptions[i] = 0;
+            }
+            masterStringStream<<totalMem<<", "<<ss.str()<<endl;
+        }
+        if(state==2 && stringHelper::isNotNpos(commmandIndexInLine) && stringHelper::isNotNpos(memIndexInLine)
+                && commmandIndexInLine<lineInLogs.length() && memIndexInLine+5<lineInLogs.length())
+        {
+            string processName(stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(lineInLogs.substr(commmandIndexInLine)));
+            double memLoad = stringHelper::convertStringToNumber<double>(lineInLogs.substr(memIndexInLine-1,4));
+            if(memLoad>0 && processName!="`- top")
+            {
+                int i=0;
+                bool isFound(false);
+                for(; i<processNames.size(); i++)
+                {
+                    if(processNames[i] == processName)
+                    {
+                        isFound = true;
+                        break;
+                    }
+                }
+                if(isFound)
+                {
+                    memConsumptions[i]=memLoad;
+                }
+                else
+                {
+                    processNames.emplace_back(processName);
+                    memConsumptions.emplace_back(memLoad);
+                }
+            }
+
+            if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(_LRM_)"))
+            {
+                maxMemTcomLrm = std::max(maxMemTcomLrm, memLoad);
+            }
+            else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TCOM_GRM_TASK)"))
+            {
+                maxMemTcomGrm = std::max(maxMemTcomGrm, memLoad);
+            }
+            else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(Conman_EU)"))
+            {
+                maxMemTupcConman = std::max(maxMemTupcConman, memLoad);
+            }
+            else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(Aalman_EU)"))
+            {
+                maxMemTcomAalman = std::max(maxMemTcomAalman, memLoad);
+            }
+        }
+    }
+    cout<<"Max MEM GRM TCOM:"<<maxMemTcomGrm<<endl;
+    cout<<"Max MEM LRM TCOM:"<<maxMemTcomLrm<<endl;
+    cout<<"Max MEM TUP Conman:"<<maxMemTupcConman<<endl;
+    cout<<"Max MEM TUP Aalman:"<<maxMemTcomAalman<<endl;
+
+    stringstream ss;
+    ss<<"totalMEM, ";
+    for(int i=0; i<processNames.size(); i++)
+    {
+        ss<<processNames[i]<<", ";    }
+    logLineInRawDataFile(ss.str());
+    logLineInRawDataFile(masterStringStream.str());
+}
+
+void PerformanceAnalyzer::processFileForRlSetupPerSecond(string const& filePath)
+{
+    AlbaLocalPathHandler filePathHandler(filePath);    ifstream inputLogFileStream(filePath);
+    AlbaFileReader fileReader(inputLogFileStream);
+
+    cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<endl;    logLineInRawDataFile("BtsTime,instances");
 
     int hour = 0, min = 0, sec = 0, instances=0;
     BtsLogTime firstLogTime;

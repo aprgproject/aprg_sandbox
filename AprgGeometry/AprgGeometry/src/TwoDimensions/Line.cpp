@@ -59,14 +59,15 @@ Points Line::getPoints(Point const& first, Point const& second, double const int
     Points points;
     if(m_type == LineType::Vertical)
     {
+        //do something here, there should be common loop with direction
+        int sign =
+        double intervalWithSign =
         for(double iterator = first.getY(); iterator<=second.getY(); iterator+=interval)
         {
-            points.emplace_back(Point(m_xIntercept, iterator));
-        }
+            points.emplace_back(Point(m_xIntercept, iterator));        }
     }
     else if(m_type == LineType::Horizontal)
-    {
-        for(double iterator = first.getX(); iterator<=second.getX(); iterator+=interval)
+    {        for(double iterator = first.getX(); iterator<=second.getX(); iterator+=interval)
         {
             points.emplace_back(Point(iterator, m_yIntercept));
         }
