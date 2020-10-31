@@ -214,14 +214,43 @@ TEST(WindowsPathTest, ReInputFileThatIsToBeRenamed_ActualLocalDirectory)
     EXPECT_TRUE(pathHandler.deleteFile());
 }
 
+TEST(WindowsPathTest, FileIsCopiedToNewFile_ActualLocalDirectory)
+{
+    string const pathOfFileToBeCopied(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\FileToBeCopied.log)");
+    string const pathOfCopiedFile("CopiedFile.log");
+    std::ofstream fileToBeDeleted(pathOfFileToBeCopied);
+    fileToBeDeleted.close();
+
+    AlbaWindowsPathHandler pathHandler(pathOfFileToBeCopied);
+    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\)", pathHandler.getDirectory());
+    EXPECT_EQ("FileToBeCopied.log", pathHandler.getFile());
+    EXPECT_EQ("FileToBeCopied", pathHandler.getFilenameOnly());
+    EXPECT_EQ("log", pathHandler.getExtension());
+    EXPECT_EQ(PathType::File, pathHandler.getPathType());
+    EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
+
+    EXPECT_TRUE(pathHandler.copyToNewFile(pathHandler.getDirectory()+pathOfCopiedFile));
+
+    AlbaWindowsPathHandler pathHandlerOfCopiedFile(pathHandler.getDirectory()+pathOfCopiedFile);
+    EXPECT_EQ("C", pathHandlerOfCopiedFile.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\)", pathHandlerOfCopiedFile.getDirectory());
+    EXPECT_EQ("CopiedFile.log", pathHandlerOfCopiedFile.getFile());
+    EXPECT_EQ("CopiedFile", pathHandlerOfCopiedFile.getFilenameOnly());
+    EXPECT_EQ("log", pathHandlerOfCopiedFile.getExtension());
+    EXPECT_EQ(PathType::File, pathHandlerOfCopiedFile.getPathType());
+    EXPECT_TRUE(pathHandlerOfCopiedFile.isFoundInLocalSystem());
+
+    EXPECT_TRUE(pathHandler.deleteFile());
+    EXPECT_TRUE(pathHandlerOfCopiedFile.deleteFile());
+}
+
 TEST(WindowsPathTest, ReInputDirectoryThatIsToBeRenamed_ActualLocalDirectory)
 {
     string const pathOfDirectoryToBeRenamed(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1)");
-
     AlbaWindowsPathHandler pathHandler(pathOfDirectoryToBeRenamed);
     EXPECT_EQ("C", pathHandler.getDriveOrRoot());
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1\)",  pathHandler.getDirectory());
-    EXPECT_TRUE(pathHandler.getFile().empty());
+    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1\)",  pathHandler.getDirectory());    EXPECT_TRUE(pathHandler.getFile().empty());
     EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
     EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());

@@ -116,14 +116,28 @@ bool AlbaWindowsPathHandler::deleteFile()
     return isSuccessful;
 }
 
-bool AlbaWindowsPathHandler::renameFile(string const& newFileName)
+bool AlbaWindowsPathHandler::copyToNewFile(string const& newFilePath)
 {
     bool isSuccessful(false);
     if(isFile())
     {
-        string newPath(m_directory+newFileName);
-        isSuccessful = (bool)MoveFile(getFullPath().c_str(), newPath.c_str());
+        isSuccessful = (bool)CopyFile(getFullPath().c_str(), newFilePath.c_str(), 0);
         if(!isSuccessful)
+        {
+            cout<<"Error in AlbaWindowsPathHandler::CopyFile() path:["<<getFullPath()<<"] newFilePath:["<<newFilePath<<"]"<<endl;
+            cout<<getLastFormattedErrorMessage()<<endl;
+        }
+        reInput();
+    }
+    return isSuccessful;
+}
+
+bool AlbaWindowsPathHandler::renameFile(string const& newFileName)
+{
+    bool isSuccessful(false);    if(isFile())
+    {
+        string newPath(m_directory+newFileName);
+        isSuccessful = (bool)MoveFile(getFullPath().c_str(), newPath.c_str());        if(!isSuccessful)
         {
             cout<<"Error in AlbaWindowsPathHandler::renameFile() path:"<<getFullPath()<<" newFileName:"<<newFileName<<endl;
             cout<<getLastFormattedErrorMessage()<<endl;
