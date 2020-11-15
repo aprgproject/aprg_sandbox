@@ -26,32 +26,26 @@ public:
 
     Points getPoints(double const interval, double const x1, double const x2) const
     {
-        SortedPoints sortedPoints;
+        Points points;
         for(double x=x1; x<x2; x+=interval)
         {
-            Point firstPoint(x1, calculateYfromX(x1));
-            Point secondPoint(x2, calculateYfromX(x2));
+            Point firstPoint(x1, calculateYfromX(x1));            Point secondPoint(x2, calculateYfromX(x2));
             Line line(firstPoint, secondPoint);
             Points pointsInLine(line.getPoints(firstPoint, secondPoint, interval));
-            std::copy(pointsInLine.begin(), pointsInLine.end(), std::inserter(sortedPoints, sortedPoints.begin()));
+            std::copy(pointsInLine.begin(), pointsInLine.end(), std::back_inserter(points));
         }
-        Points points;
-        copy(sortedPoints.begin(), sortedPoints.end(), std::back_inserter(points));
         return points; //RVO
     }
-
     double calculateYfromX(double const x) const
     {
         double valueOfPowerOfX(1);
         double result(0);
-        for(unsigned int i=0; i<size; i++)
+        for(unsigned int i=0; i<degree; i++)
         {
             result += m_coefficients[i]*valueOfPowerOfX;
-            valueOfPowerOfX *= x;
-        }
+            valueOfPowerOfX *= x;        }
         return result;
     }
-
 
 private:
     std::array<double, degree> m_coefficients; //form is c0 + c1*x + c2*x2....

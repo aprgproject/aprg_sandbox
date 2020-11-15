@@ -2,17 +2,20 @@
 
 #include <TwoDimensions/Line.hpp>
 #include <TwoDimensions/Point.hpp>
+#include <TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <algorithm>
 #include <array>
 
+#include <iostream>
+#include <Container/AlbaContainerHelper.hpp>
+using namespace std;
+
 namespace alba
 {
-
 template<unsigned int numberOfVertices>
 class Polygon
-{
-public:
+{public:
     Polygon()
     {}
 
@@ -43,35 +46,40 @@ public:
 
     Points getPoints(double const interval) const
     {
-        SortedPoints sortedPoints;
-        unsigned int size = m_vertices.size();
-        for(unsigned int i=0; i<size; i++)
-        {
-            if(i==size-1)
-            {
-                getPointsFromVertices(sortedPoints, interval, i, 0);
-            }
-            else
-            {
-                getPointsFromVertices(sortedPoints, interval, i, i+1);
-            }
-        }
         Points points;
-        copy(sortedPoints.begin(), sortedPoints.end(), std::back_inserter(points));
+        unsigned int size = m_vertices.size();
+        for(unsigned int i=0; i<size-1; i++)
+        {
+            getPointsFromVerticesWithoutLastPoint(points, interval, i, i+1);
+        }
+        getPointsFromVerticesWithoutLastPoint(points, interval, size-1, 0);
         return points; //RVO
     }
 
-    void getPointsFromVertices(SortedPoints & sortedPoints, double const interval, unsigned int vertexIndex1, unsigned int vertexIndex2) const
+    void getPointsFromVertices(Points & points, double const interval, unsigned int vertexIndex1, unsigned int vertexIndex2) const
     {
         Point const & firstPoint(m_vertices[vertexIndex1]);
         Point const & secondPoint(m_vertices[vertexIndex2]);
         Line line(firstPoint, secondPoint);
         Points pointsFromCurrentLine(line.getPoints(firstPoint, secondPoint, interval));
-        copy(pointsFromCurrentLine.cbegin(), pointsFromCurrentLine.cend(), std::inserter(sortedPoints, sortedPoints.begin()));
+        copy(pointsFromCurrentLine.cbegin(), pointsFromCurrentLine.cend(), std::back_inserter(points));
+    }
+
+    void getPointsFromVerticesWithoutLastPoint(Points & points, double const interval, unsigned int vertexIndex1, unsigned int vertexIndex2) const
+    {
+        Point const & firstPoint(m_vertices[vertexIndex1]);
+        Point const & secondPoint(m_vertices[vertexIndex2]);
+        Line line(firstPoint, secondPoint);
+        Points pointsFromCurrentLine(line.getPoints(firstPoint, secondPoint, interval));
+        if(!pointsFromCurrentLine.empty())
+        {
+            Points::const_iterator endIterator = pointsFromCurrentLine.cend();
+            endIterator--;
+            copy(pointsFromCurrentLine.cbegin(), endIterator, std::back_inserter(points));
+        }
     }
 
 private:
     std::array<Point, numberOfVertices> m_vertices;
 };
-
 }

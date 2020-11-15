@@ -4,40 +4,48 @@
 #include <iterator>
 #include <set>
 
+#include <iostream>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 Line::Line(Point const& first, Point const& second)
 {
     double deltaY = second.getY() - first.getY();
     double deltaX = second.getX() - first.getX();
     m_type = determineLineType(deltaY, deltaX);
-    if(m_type == LineType::Horizontal)
+    switch(m_type)
     {
+    case LineType::Horizontal:
         m_slope = 0;
         m_yIntercept = first.getY();
         m_xIntercept = 0;
-    }
-    else if(m_type == LineType::Vertical)
-    {
-        m_slope = 0;
+        m_aCoefficient = 0;
+        m_bCoefficient = -deltaX;
+        m_cCoefficient = first.getY()*deltaX;
+        break;
+    case LineType::Vertical:
+        m_slope = INFINITY;
         m_yIntercept = 0;
         m_xIntercept = first.getX();
-    }
-    else
-    {
+        m_aCoefficient = deltaY;
+        m_bCoefficient = 0;
+        m_cCoefficient = -first.getX()*deltaY;
+        break;
+    default:
         m_slope = deltaY/deltaX;
         m_yIntercept = first.getY() - ((deltaY/deltaX)*first.getX());
         m_xIntercept = -1*m_yIntercept/m_slope;
+        m_aCoefficient = deltaY;
+        m_bCoefficient = -deltaX;
+        m_cCoefficient = (first.getY()*deltaX)-(first.getX()*deltaY);
+        break;
     }
 }
-
 LineType Line::getType() const
 {
-    return m_type;
-}
+    return m_type;}
 
 double Line::getYIntercept() const
 {
@@ -54,63 +62,156 @@ double Line::getSlope() const
     return m_slope;
 }
 
+double Line::getACoefficient() const
+{
+    return m_aCoefficient;
+}
+
+double Line::getBCoefficient() const
+{
+    return m_bCoefficient;
+}
+
+double Line::getCCoefficient() const
+{
+    return m_cCoefficient;
+}
+
 Points Line::getPoints(Point const& first, Point const& second, double const interval) const
 {
-    SortedPoints sortedPoints;
+    Points points;
     if(m_type == LineType::Vertical)
     {
-        traverseValues(first.getY(), second.getY(), interval, [&](double traverseValue)
-        {
-            sortedPoints.emplace(Point(m_xIntercept, traverseValue));
-        });
+        getPointsForVerticalLine(points, first, second, interval);
     }
     else if(m_type == LineType::Horizontal)
     {
-        traverseValues(first.getX(), second.getX(), interval, [&](double traverseValue)
-        {
-            sortedPoints.emplace(Point(traverseValue, m_yIntercept));
-        });
+        getPointsForHorizontalLine(points, first, second, interval);
     }
     else
     {
-        traverseValues(first.getX(), second.getX(), interval, [&](double traverseValue)
-        {
-            sortedPoints.emplace(Point(traverseValue, calculateYFromX(traverseValue)));
-        });
-        traverseValues(first.getY(), second.getY(), interval, [&](double traverseValue)
-        {
-            sortedPoints.emplace(Point(calculateXFromY(traverseValue), traverseValue));
-        });
+        getPointsForLineWithSlope(points, first, second, interval);
     }
-    Points points;
-    copy(sortedPoints.begin(), sortedPoints.end(), std::back_inserter(points));
     return points; //RVO
 }
-
 double Line::calculateYFromX(double const x) const
 {
-    return (x*m_slope) + m_yIntercept; //y=mx+b
-}
+    return (x*m_slope) + m_yIntercept; //y=mx+b}
 
 double Line::calculateXFromY(double const y) const
 {
     return (y/m_slope) + m_xIntercept; //x=y/m+a
 }
 
+void Line::getPointsForVerticalLine(Points & points, Point const& first, Point const& second, double const interval) const
+{
+    traverseValues(first.getY(), second.getY(), interval, [&](double traverseValue)
+    {
+        points.emplace_back(Point(m_xIntercept, traverseValue));
+    });
+}
+
+void Line::getPointsForHorizontalLine(Points & points, Point const& first, Point const& second, double const interval) const
+{
+    traverseValues(first.getX(), second.getX(), interval, [&](double traverseValue)
+    {
+        points.emplace_back(Point(traverseValue, m_yIntercept));
+    });
+}
+
+void Line::getPointsForLineWithSlope(Points & points, Point const& first, Point const& second, double const interval) const
+{
+    bool isDirectionAscendingForX = first.getX() <= second.getX();
+    double lowestXValue = min(min(first.getX(), second.getX()), min(calculateXFromY(first.getY()), calculateXFromY(second.getY())));
+    double highestXValue = max(max(first.getX(), second.getX()), max(calculateXFromY(first.getY()), calculateXFromY(second.getY())));
+    double startValueOfX = isDirectionAscendingForX ? lowestXValue : highestXValue;
+    double endValueOfX = isDirectionAscendingForX ? highestXValue : lowestXValue;
+
+    bool isDirectionAscendingForY = first.getY() <= second.getY();
+    double lowestYValue = min(min(first.getY(), second.getY()), min(calculateYFromX(first.getX()), calculateYFromX(second.getX())));
+    double highestYValue = max(max(first.getY(), second.getY()), max(calculateYFromX(first.getX()), calculateYFromX(second.getX())));
+    double startValueOfY = isDirectionAscendingForY ? lowestYValue : highestYValue;
+    double endValueOfY = isDirectionAscendingForY ? highestYValue : lowestYValue;
+
+    Points pointsFromXCoordinate;
+    traverseValues(startValueOfX, endValueOfX, interval, [&](double traverseValueOfX)
+    {
+        pointsFromXCoordinate.emplace_back(Point(traverseValueOfX, calculateYFromX(traverseValueOfX)));
+    });
+
+    Points pointsFromYCoordinate;
+    traverseValues(startValueOfY, endValueOfY, interval, [&](double traverseValueOfY)
+    {
+        pointsFromYCoordinate.emplace_back(Point(calculateXFromY(traverseValueOfY), traverseValueOfY));
+    });
+
+    mergePointsFromPointsFromXAndY(points, pointsFromXCoordinate, pointsFromYCoordinate, isDirectionAscendingForX);
+}
+
+void Line::mergePointsFromPointsFromXAndY(Points & points, Points const& pointsFromXCoordinate, Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const
+{
+    Points::const_iterator iteratorForX = pointsFromXCoordinate.cbegin();
+    Points::const_iterator iteratorForY = pointsFromYCoordinate.cbegin();
+    while(iteratorForX != pointsFromXCoordinate.cend() || iteratorForY != pointsFromYCoordinate.cend())
+    {
+        if(iteratorForX != pointsFromXCoordinate.cend() && iteratorForY != pointsFromYCoordinate.cend())
+        {
+            if(isDirectionAscendingForX)
+            {
+                if(iteratorForX->getX() == iteratorForY->getX())
+                {
+                    points.emplace_back(*iteratorForX++);
+                    iteratorForY++;
+                }
+                else if(iteratorForX->getX() < iteratorForY->getX())
+                {
+                    points.emplace_back(*iteratorForX++);
+                }
+                else
+                {
+                    points.emplace_back(*iteratorForY++);
+                }
+            }
+            else
+            {
+                if(iteratorForX->getX() == iteratorForY->getX())
+                {
+                    points.emplace_back(*iteratorForX++);
+                    iteratorForY++;
+                }
+                else if(iteratorForX->getX() > iteratorForY->getX())
+                {
+                    points.emplace_back(*iteratorForX++);
+                }
+                else
+                {
+                    points.emplace_back(*iteratorForY++);
+                }
+            }
+        }
+        else if(iteratorForX != pointsFromXCoordinate.cend())
+        {
+            points.emplace_back(*iteratorForX++);
+        }
+        else if(iteratorForY != pointsFromYCoordinate.cend())
+        {
+            points.emplace_back(*iteratorForY++);
+        }
+    }
+}
+
 void Line::traverseValues(double const startValue, double const endValue, double const interval, function<void(double)> performOperation) const
 {
-    bool directionOfTraversal = (startValue <= endValue);
-    double intervalWithSign = (directionOfTraversal) ? interval : -interval;
+    bool isDirectionAscending = (startValue <= endValue);
+    double intervalWithSign = (isDirectionAscending) ? interval : -interval;
     function<bool(double,double)> loopCondition;
-    if(directionOfTraversal)
+    if(isDirectionAscending)
     {
         loopCondition = less_equal<double>();
-    }
-    else
+    }    else
     {
         loopCondition = greater_equal<double>();
-    }
-    for(double traverseValue = startValue; loopCondition(traverseValue, endValue); traverseValue+=intervalWithSign)
+    }    for(double traverseValue = startValue; loopCondition(traverseValue, endValue); traverseValue+=intervalWithSign)
     {
         performOperation(traverseValue);
     }

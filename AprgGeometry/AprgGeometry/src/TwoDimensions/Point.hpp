@@ -18,6 +18,5 @@ public:
 };
 
 using Points = std::vector<Point>;
-using SortedPoints = std::set<Point>;
 
 }
