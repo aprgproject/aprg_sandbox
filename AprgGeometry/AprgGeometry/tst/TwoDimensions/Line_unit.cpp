@@ -253,3 +253,9 @@ TEST(LineTest, LineWithSlopeConstructedByCoefficients)
     EXPECT_EQ(Point(1.33333333333333333,2), points[7]);
     EXPECT_EQ(Point(2,3), points[8]);
 }
+
+TEST(LineTest, LineCanBeComparedForEquality)
+{
+    EXPECT_EQ(Line(1,2,3), Line(10,20,30));
+    EXPECT_NE(Line(1,2,3), Line(2,3,4));
+}

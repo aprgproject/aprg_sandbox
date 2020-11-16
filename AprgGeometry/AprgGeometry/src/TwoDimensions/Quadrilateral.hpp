@@ -5,14 +5,12 @@
 namespace alba
 {
 
-using QuadrilateralParent = Polygon<4>;
+using QuadrilateralPolygonParent = Polygon<4>;
 
-class Quadrilateral : public QuadrilateralParent
+class Quadrilateral : public QuadrilateralPolygonParent
 {
 public:
-    Quadrilateral();
-    Quadrilateral(Point const& first, Point const& second, Point const& third, Point const& fourth);
+    Quadrilateral();    Quadrilateral(Point const& first, Point const& second, Point const& third, Point const& fourth);
 
 };
-
 }

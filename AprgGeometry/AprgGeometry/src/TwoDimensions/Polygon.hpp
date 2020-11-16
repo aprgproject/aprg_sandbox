@@ -54,31 +54,16 @@ public:
         return points; //RVO
     }
 
-    void getPointsFromVertices(Points & points, double const interval, unsigned int vertexIndex1, unsigned int vertexIndex2) const
-    {
-        Point const & firstPoint(m_vertices[vertexIndex1]);
-        Point const & secondPoint(m_vertices[vertexIndex2]);
-        Line line(firstPoint, secondPoint);
-        Points pointsFromCurrentLine(line.getPoints(firstPoint, secondPoint, interval));
-        copy(pointsFromCurrentLine.cbegin(), pointsFromCurrentLine.cend(), std::back_inserter(points));
-    }
-
     void getPointsFromVerticesWithoutLastPoint(Points & points, double const interval, unsigned int vertexIndex1, unsigned int vertexIndex2) const
     {
         Point const & firstPoint(m_vertices[vertexIndex1]);
         Point const & secondPoint(m_vertices[vertexIndex2]);
         Line line(firstPoint, secondPoint);
-        Points pointsFromCurrentLine(line.getPoints(firstPoint, secondPoint, interval));
-        if(!pointsFromCurrentLine.empty())
-        {
-            Points::const_iterator endIterator = pointsFromCurrentLine.cend();
-            endIterator--;
-            copy(pointsFromCurrentLine.cbegin(), endIterator, std::back_inserter(points));
-        }
+        Points pointsFromCurrentLine(line.getPointsWithoutLastPoint(firstPoint, secondPoint, interval));
+        copy(pointsFromCurrentLine.cbegin(), pointsFromCurrentLine.cend(), std::back_inserter(points));
     }
 
 private:
     std::array<Point, numberOfVertices> m_vertices;
 };
-
 }

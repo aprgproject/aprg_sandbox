@@ -9,14 +9,14 @@ set(APRG_GEOMETRY_TEST_INCLUDE_DIRECTORIES
 set(APRG_GEOMETRY_SOURCES
     ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Line.cpp
     ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Line.hpp
+    ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Parabola.cpp
+    ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Parabola.hpp
     ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Point.cpp
     ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Point.hpp
-    ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Polygon.hpp
-    ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Polynomial.hpp
+    ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Polygon.hpp    ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Polynomial.hpp
     ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Quadrilateral.cpp
     ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Quadrilateral.hpp
-    ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Triangle.cpp
-    ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Triangle.hpp
+    ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Triangle.cpp    ${APRG_GEOMETRY_DIR}/src/TwoDimensions/Triangle.hpp
     ${APRG_GEOMETRY_DIR}/src/TwoDimensions/TwoDimensionsHelper.cpp
     ${APRG_GEOMETRY_DIR}/src/TwoDimensions/TwoDimensionsHelper.hpp
 )

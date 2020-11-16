@@ -5,14 +5,12 @@
 namespace alba
 {
 
-using TriangleParent = Polygon<3>;
+using TrianglePolygonParent = Polygon<3>;
 
-class Triangle : public TriangleParent
+class Triangle : public TrianglePolygonParent
 {
 public:
-    Triangle();
-    Triangle(Point const& first, Point const& second, Point const& third);
+    Triangle();    Triangle(Point const& first, Point const& second, Point const& third);
 
 };
-
 }
