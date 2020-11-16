@@ -4,17 +4,16 @@
 #include <iterator>
 #include <set>
 
-#include <iostream>
-
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 Line::Line(Point const& first, Point const& second)
 {
     double deltaY = second.getY() - first.getY();
     double deltaX = second.getX() - first.getX();
-    m_type = determineLineType(deltaY, deltaX);
+    m_type = determineLineTypeUsingDeltaXandDeltaY(deltaY, deltaX);
     switch(m_type)
     {
     case LineType::Horizontal:
@@ -43,9 +42,37 @@ Line::Line(Point const& first, Point const& second)
         break;
     }
 }
+
+Line::Line(double const aCoefficient, double const bCoefficient, double const cCoefficient)
+{
+    m_aCoefficient = aCoefficient;
+    m_bCoefficient = bCoefficient;
+    m_cCoefficient = cCoefficient;
+    m_type = determineLineTypeUsingCoefficients(aCoefficient, bCoefficient);
+    switch(m_type)
+    {
+    case LineType::Horizontal:
+        m_slope = 0;
+        m_yIntercept = -cCoefficient/bCoefficient;
+        m_xIntercept = 0;
+        break;
+    case LineType::Vertical:
+        m_slope = INFINITY;
+        m_yIntercept = 0;
+        m_xIntercept = -cCoefficient/aCoefficient;
+        break;
+    default:
+        m_slope = -aCoefficient/bCoefficient;
+        m_yIntercept = -cCoefficient/bCoefficient;
+        m_xIntercept = -cCoefficient/aCoefficient;
+        break;
+    }
+}
+
 LineType Line::getType() const
 {
-    return m_type;}
+    return m_type;
+}
 
 double Line::getYIntercept() const
 {
@@ -94,9 +121,11 @@ Points Line::getPoints(Point const& first, Point const& second, double const int
     }
     return points; //RVO
 }
+
 double Line::calculateYFromX(double const x) const
 {
-    return (x*m_slope) + m_yIntercept; //y=mx+b}
+    return (x*m_slope) + m_yIntercept; //y=mx+b
+}
 
 double Line::calculateXFromY(double const y) const
 {
@@ -208,21 +237,27 @@ void Line::traverseValues(double const startValue, double const endValue, double
     if(isDirectionAscending)
     {
         loopCondition = less_equal<double>();
-    }    else
+    }
+    else
     {
         loopCondition = greater_equal<double>();
-    }    for(double traverseValue = startValue; loopCondition(traverseValue, endValue); traverseValue+=intervalWithSign)
+    }
+    for(double traverseValue = startValue; loopCondition(traverseValue, endValue); traverseValue+=intervalWithSign)
     {
         performOperation(traverseValue);
     }
 }
 
-LineType Line::determineLineType(double const deltaY, double const deltaX) const
+LineType Line::determineLineTypeUsingDeltaXandDeltaY(double const deltaY, double const deltaX) const
 {
-    bool isNegativeDeltaY = (deltaY>0);
-    bool isNegativeDeltaX = (deltaX>0);
-    LineType lineType(LineType::Unknown);
-    if(deltaY == 0)
+    bool isNegativeDeltaY = (deltaY<0);
+    bool isNegativeDeltaX = (deltaX<0);
+    LineType lineType(LineType::Invalid);
+    if(deltaY == 0 && deltaX == 0)
+    {
+        lineType = LineType::Invalid;
+    }
+    else if(deltaY == 0)
     {
         lineType = LineType::Horizontal;
     }
@@ -237,6 +272,34 @@ LineType Line::determineLineType(double const deltaY, double const deltaX) const
     else
     {
         lineType = LineType::WithNegativeSlope;
+    }
+    return lineType;
+}
+
+LineType Line::determineLineTypeUsingCoefficients(double const aCoefficient, double const bCoefficient) const
+{
+    bool isNegativeA = (aCoefficient<0);
+    bool isNegativeB = (bCoefficient<0);
+    LineType lineType(LineType::Invalid);
+    if(aCoefficient == 0 && bCoefficient == 0)
+    {
+        lineType = LineType::Invalid;
+    }
+    else if(aCoefficient == 0)
+    {
+        lineType = LineType::Horizontal;
+    }
+    else if(bCoefficient == 0)
+    {
+        lineType = LineType::Vertical;
+    }
+    else if(isNegativeA == isNegativeB)
+    {
+        lineType = LineType::WithNegativeSlope;
+    }
+    else
+    {
+        lineType = LineType::WithPositiveSlope;
     }
     return lineType;
 }

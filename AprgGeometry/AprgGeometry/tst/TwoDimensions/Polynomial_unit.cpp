@@ -7,7 +7,7 @@
 using namespace alba;
 using namespace std;
 
-TEST(PolynomialTest, PolygonCanBeCreated)
+TEST(PolynomialTest, PolynomialCanBeCreated)
 {
-    //Polygon<3> polygon{Point(1,1), Point(2,3), Point(0,17)};
+    Polynomial<3> polynomial{3,2,1};
 }

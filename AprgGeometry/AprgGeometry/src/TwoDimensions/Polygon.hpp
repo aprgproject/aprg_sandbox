@@ -7,15 +7,13 @@
 #include <algorithm>
 #include <array>
 
-#include <iostream>
-#include <Container/AlbaContainerHelper.hpp>
-using namespace std;
-
 namespace alba
 {
+
 template<unsigned int numberOfVertices>
 class Polygon
-{public:
+{
+public:
     Polygon()
     {}
 
@@ -82,4 +80,5 @@ class Polygon
 private:
     std::array<Point, numberOfVertices> m_vertices;
 };
+
 }

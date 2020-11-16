@@ -14,13 +14,14 @@ enum class LineType
     Vertical,
     WithPositiveSlope,
     WithNegativeSlope,
-    Unknown
+    Invalid
 };
 
 class Line
 {
 public:
     Line(Point const& first, Point const& second);
+    Line(double const aCoefficient, double const bCoefficient, double const cCoefficient);
     LineType getType() const;
     double getXIntercept() const;
     double getYIntercept() const;
@@ -38,7 +39,8 @@ private:
     void getPointsForLineWithSlope(Points & points, Point const& first, Point const& second, double const interval) const;
     void mergePointsFromPointsFromXAndY(Points & points, Points const& pointsFromXCoordinate, Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const;
     void traverseValues(double const startValue, double const endValue, double const interval, std::function<void(double)> performOperation) const;
-    LineType determineLineType(double const deltaY, double const deltaX) const;
+    LineType determineLineTypeUsingDeltaXandDeltaY(double const deltaY, double const deltaX) const;
+    LineType determineLineTypeUsingCoefficients(double const aCoefficient, double const bCoefficient) const;
     LineType m_type;
     double m_yIntercept;
     double m_xIntercept;
@@ -47,6 +49,7 @@ private:
     double m_cCoefficient; //form: a*x + b*y + c
     double m_slope;
 };
+
 using Lines = std::vector<Line>;
 
 }

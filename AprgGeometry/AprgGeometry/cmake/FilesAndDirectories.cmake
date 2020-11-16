@@ -21,13 +21,15 @@ set(APRG_GEOMETRY_SOURCES
     ${APRG_GEOMETRY_DIR}/src/TwoDimensions/TwoDimensionsHelper.hpp
 )
 
-set(APRG_GEOMETRY_TESTS    ${APRG_GEOMETRY_DIR}/tst/TwoDimensions/Line_unit.cpp
+set(APRG_GEOMETRY_TESTS
+    ${APRG_GEOMETRY_DIR}/tst/TwoDimensions/Line_unit.cpp
     ${APRG_GEOMETRY_DIR}/tst/TwoDimensions/Point_unit.cpp
     ${APRG_GEOMETRY_DIR}/tst/TwoDimensions/Polygon_unit.cpp
     ${APRG_GEOMETRY_DIR}/tst/TwoDimensions/Polynomial_unit.cpp
     ${APRG_GEOMETRY_DIR}/tst/TwoDimensions/TwoDimensionsHelper_unit.cpp
 )
 
-set(APRG_GEOMETRY_SOURCES_AND_TESTS    ${APRG_GEOMETRY_SOURCES}
+set(APRG_GEOMETRY_SOURCES_AND_TESTS
+    ${APRG_GEOMETRY_SOURCES}
     ${APRG_GEOMETRY_TESTS}
 )
