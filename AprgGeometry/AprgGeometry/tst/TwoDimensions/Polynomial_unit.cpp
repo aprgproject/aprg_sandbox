@@ -2,9 +2,11 @@
 #include <TwoDimensions/Polynomial.hpp>
 
 #include <gtest/gtest.h>
+
 #include <iostream>
 
-using namespace alba;using namespace std;
+using namespace alba;
+using namespace std;
 
 TEST(PolynomialTest, PolynomialCanBeCreated)
 {

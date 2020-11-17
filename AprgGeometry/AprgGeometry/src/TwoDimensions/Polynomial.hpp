@@ -17,7 +17,8 @@ namespace alba
 template<unsigned int numberOfCoefficients>
 class Polynomial
 {
-public:    Polynomial()
+public:
+    Polynomial()
     {}
 
     Polynomial(std::initializer_list<double> coefficients)
@@ -51,6 +52,7 @@ public:    Polynomial()
         points.push_back(Point(endValueOfX, calculateYfromX(endValueOfX)));
         return points; //RVO
     }
+
     double calculateYfromX(double const x) const
     {
         double valueOfPowerOfX(1);

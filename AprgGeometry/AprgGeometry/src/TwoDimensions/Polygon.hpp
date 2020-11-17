@@ -66,4 +66,5 @@ public:
 private:
     std::array<Point, numberOfVertices> m_vertices;
 };
+
 }

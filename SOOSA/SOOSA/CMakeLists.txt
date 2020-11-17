@@ -30,6 +30,8 @@ include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 set(SOURCES
     src/SOOSA.cpp
     src/SOOSA.hpp
+    src/SoosaConfiguration.cpp
+    src/SoosaConfiguration.hpp
 )
 
 set(MAIN_SOURCES
