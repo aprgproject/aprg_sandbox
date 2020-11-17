@@ -1,15 +1,15 @@
 #pragma once
 
 #include <SoosaConfiguration.hpp>
+#include <SoosaStatus.hpp>
 
 #include <array>
+#include <fstream>
 #include <map>
 #include <string>
 #include <vector>
-
 #define MAXQUESTIONS 30
 #define MAXQUESTIONSALL 60
-
 namespace alba
 {
 
@@ -24,33 +24,31 @@ public:
     void saveFormDetailsFromFormDetailsPath(std::string const& formDetailsFilePath);
     unsigned int getAnswerToQuestion(unsigned int const questionNumber) const;
 private:
+    std::string getCsvFileName(std::string const& path) const;
+    std::string getReportHtmlFileName(std::string const& path) const;
+    std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
     std::string getPathOfFormDetailsUsingUserInterface() const;
     void setAnswerToQuestion(unsigned int const columnNumber, unsigned int const questionOffset, unsigned int const answer);
     void addToFrequencyDatabase(unsigned int const questionNumber, unsigned int const answer);
+    void saveDataToCsvFile(std::string const& processedFilePath);
+    void saveHeadersToCsvFile();
+    void saveOutputHtmlFile(std::string const& processedFilePath);
     SoosaConfiguration m_configuration;
+    SoosaStatus m_status;
     std::map<unsigned int, unsigned int> m_questionToAnswersMap;
     std::map<unsigned int, std::array<unsigned int, 6>> m_questionToAnswerFrequencyMap;
 
 
 
 
-
-
-
 //OLD WAY
-    FILE* m_logFile;
-    FILE* m_csvFile;
-    FILE* circlefile;
-
 
     typedef struct DATAXYPAIR{
         int _x;
-        int _y;
-    }PairXY;
+        int _y;    }PairXY;
 
     typedef struct DATA2BIT{
-        int status; //if 0 then Empty, if 1 then points added, if 2 then allocated and ready to use
-        int xlow;
+        int status; //if 0 then Empty, if 1 then points added, if 2 then allocated and ready to use        int xlow;
         int ylow;
         int xhigh;
         int yhigh;
@@ -109,15 +107,13 @@ private:
     inline void assignCircleCriterion(CircleCriterion* circ, int radius);
     inline void assignMidCircleCriterion(CircleCriterion* circ, CircleCriterion* c1, CircleCriterion* c2, int type);
     long getImageInfo(FILE* inputFile, long offset, int numberOfChars);
-    int openBmpImage(BmpImage* inBmpImage, char* sbmp);
+    int openBmpImage(BmpImage* inBmpImage, char const* sbmp);
     inline void closeBmpImage(BmpImage* inBmpImage);
     int getDataFromBmp(BmpImage* inBmpImage,DataDigital* indata);
-    inline int allocData(DataDigital* indata);
-    inline void deAllocData(DataDigital* indata);
+    inline int allocData(DataDigital* indata);    inline void deAllocData(DataDigital* indata);
     inline void cleanDataDigital(DataDigital* indata);
     inline void printDataDigitalBuffer(DataDigital* indata);
-    inline void printDataDigitalProperty(DataDigital* indata);
-    void addPointToDataDigital(BmpImage* inBmpImage,DataDigital* indata, int xp, int yp);
+    inline void printDataDigitalProperty(DataDigital* indata);    void addPointToDataDigital(BmpImage* inBmpImage,DataDigital* indata, int xp, int yp);
     inline double checkIfShaded(DataDigital* indata,PairXY center, CircleCriterion circ, int ques, int col, int choice, PairXY point1, PairXY point2);
     inline int processOneQuestion(DataDigital* indata, PairXY point1, PairXY point2, int ques, int col, CircleCriterion circ);
     int processOneColumn(DataDigital* indata, PairXY* QuesArr1, PairXY* QuesArr2, int numQuestionsColumn, int columnNumber);
@@ -137,11 +133,11 @@ private:
     int barWidthGetCriterion(int *barWidth, int barWidthArrSize, ChebyshevCriterion* ccLine, ChebyshevCriterion* ccBar);
     void getQuestions(DataDigital* dd, PairXY* in_questions, int* in_numQuestion, PairXY* qFindSamples, int* qFindSamplesType, int* barWidth, int numQFindSamples, LineSlopeIntercept tslopeintercept, ChebyshevCriterion ccLine, ChebyshevCriterion ccBar);
     int getQuestionsFromLine(DataDigital* in_dd, PairXY* out_questions, int numExpectedQuestions, double* tdoublearr, LineSlopeIntercept tslopeintercept, PairXY tcornerup, PairXY tcornerdown, int barheightsamplepixels);
-    int processOneFile(char* fileName);
-    void processDir(char* path);
+    void processOneFile(std::string const & fileName);
+    void processDirectory(std::string const & directoryPath);
+    bool isStatusNoError(SoosaStatus const status);
 
 public:
-    int process();
-};
+    int process();};
 
 }

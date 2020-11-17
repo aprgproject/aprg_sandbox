@@ -4,27 +4,26 @@
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <String/AlbaStringHelper.hpp>
 #include <User/AlbaUserInterface.hpp>
+#include <Statistics/FrequencyStatistics.hpp>
 
+#include <sstream>
 #include <iostream>
 
-//OLD HEADERS
-#include <stdio.h>
+//OLD HEADERS#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <windows.h>
-
 //#define DBGFLAG 1
 //#define LOPFLAG 1
 //#define CIRFLAG 1
 
+#define FILE_PATH_BASIS_HTML APRG_DIR R"(SOOSA2014\basis.html)"
 #define MAXSTR 500
 #define MAXQUESTIONSCOOR 60 //2*30 -> MUST be twice of MAXQUESTIONS
-#define SAMPLESLINETOALLOC 1000
-#define SAMPLESLINE 500
+#define SAMPLESLINETOALLOC 1000#define SAMPLESLINE 500
 #define MINSAMPLESLINE 200
 #define SAMPLESLINETOPBOTTOM 300
-#define MINSAMPLESLINETOPBOTTOM 100
-#define ROBUSTSAMPLESLINE 1000
+#define MINSAMPLESLINETOPBOTTOM 100#define ROBUSTSAMPLESLINE 1000
 #define ROBUSTMINSAMPLESLINE 100
 #define ROBUSTSAMPLESLINETOPBOTTOM 500
 #define ROBUSTMINSAMPLESLINETOPBOTTOM 100
@@ -45,28 +44,26 @@
 #define CHEBYCHEVKVALUEQUES 1
 
 #ifdef  CIRFLAG
-#define CIRPRINT(...) fprintf(circlefile,__VA_ARGS__);
+#define CIRPRINT(...) printf(__VA_ARGS__);
 #else
 #define CIRPRINT(...)
 #endif
 #ifdef  LOPFLAG
-#define LOPPRINT(...) fprintf(Snapshot,  __VA_ARGS__);
+#define LOPPRINT(...) printf(__VA_ARGS__);
 #else
 #define LOPPRINT(...)
 #endif
 #ifdef  DBGFLAG
-#define DBGPRINT(...) fprintf(Snapshot,  __VA_ARGS__);
+#define DBGPRINT(...) printf(__VA_ARGS__);
 #else
 #define DBGPRINT(...)
 #endif
-#define INFPRINT(...)  printf(__VA_ARGS__); //fprintf(Snapshot, __VA_ARGS__); std::cout<<"INFPRINT"<<std::endl;
+#define INFPRINT(...)  printf(__VA_ARGS__);
 #define CSVPRINT(...) fprintf(m_csvFile, __VA_ARGS__);
-
 
 //gawa struct for x y for points and slope
 //gawa function search to right search to the left
-//chebyshev
-//k-mean cluster algo
+//chebyshev//k-mean cluster algo
 //cache in DataDigital for continuous access
 
 //malloc check
@@ -81,29 +78,14 @@ namespace alba
 
 SOOSA::SOOSA(SoosaConfiguration const& configuration)
     : m_configuration(configuration)
-    , m_logFile(NULL)
-    , m_csvFile(NULL)
 {
-    AlbaLocalPathHandler pathHandler(m_configuration.path);
-    string logFilePath(pathHandler.getDirectory()+"Logs.txt");
-    string csvFilePath(pathHandler.getDirectory()+"PSS_Report_"+m_configuration.area+"_"+m_configuration.period+".csv");
-
-    if ((m_logFile = fopen(logFilePath.c_str(), "w")) == NULL)
-    {
-        cout<<"ERROR: Error in Reading LOG File:"<<logFilePath<<endl;
-    }
-    if ((m_csvFile = fopen(csvFilePath.c_str(), "w")) == NULL)
-    {
-        cout<<"ERROR: Error in CSV File. File:"<<csvFilePath<<endl;
-    }
+    m_configuration.numberOfRespondents=0;
 }
 
-void SOOSA::clearFrequencyDatabase()
-{
+void SOOSA::clearFrequencyDatabase(){
     for(unsigned int i=0; i<MAXQUESTIONSALL; i++)
     {
-        for(unsigned int j=0; j<6; j++)
-        {
+        for(unsigned int j=0; j<6; j++)        {
             m_questionToAnswerFrequencyMap[i][j]=0;
         }
     }
@@ -150,25 +132,48 @@ unsigned int SOOSA::getAnswerToQuestion(unsigned int const questionNumber) const
     return m_questionToAnswersMap.at(questionNumber);
 }
 
+string SOOSA::getCsvFileName(string const& path) const
+{
+    return AlbaLocalPathHandler(path).getDirectory()+"PSS_Report_"+m_configuration.area+"_"+m_configuration.period+".csv";
+}
+
+string SOOSA::getReportHtmlFileName(string const& path) const
+{
+    return AlbaLocalPathHandler(path).getDirectory()+"PSS_Report_"+m_configuration.area+"_"+m_configuration.period+".html";
+}
+
+string SOOSA::getPrintableStringForPercentage(double const numerator, double const denominator) const
+{
+    stringstream ss;
+    ss.precision(5);
+    if(denominator==0)
+    {
+        ss << " - ";
+    }
+    else
+    {
+        ss << (numerator/denominator*100) << "%";
+    }
+    return ss.str();
+}
+
 string SOOSA::getPathOfFormDetailsUsingUserInterface() const
 {
     AlbaLocalPathHandler formDetailsPathHandler(m_configuration.formDetailsDirectoryPath);
 
     set<string> listOfFiles;
-    set<string> listOfDirectory;
+    set<string> listOfDirectories;
     AlbaUserInterface ui;
     AlbaUserInterface::Choices<unsigned int> choices;
     unsigned int choice(0);
 
-    formDetailsPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectory);
+    formDetailsPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
 
     for(string const& formDetailsFile: listOfFiles)
-    {
-        cout<<"Choice "<<choice<<" :: "<<AlbaLocalPathHandler(formDetailsFile).getFile()<<endl;
+    {        cout<<"Choice "<<choice<<" :: "<<AlbaLocalPathHandler(formDetailsFile).getFile()<<endl;
         choices.emplace(choice++, AlbaLocalPathHandler(formDetailsFile).getFullPath());
     }
-    unsigned int chosenChoice = 0;//ui.displayQuestionAndChoicesAndGetNumberAnswer("Select formDetails:", choices);
-    cout<<"Chosen choice: "<<chosenChoice<<endl;
+    unsigned int chosenChoice = 0;//ui.displayQuestionAndChoicesAndGetNumberAnswer("Select formDetails:", choices);    cout<<"Chosen choice: "<<chosenChoice<<endl;
 
     return choices[chosenChoice];
 }
@@ -183,7 +188,99 @@ void  SOOSA::addToFrequencyDatabase(unsigned int const questionNumber, unsigned 
     m_questionToAnswerFrequencyMap[questionNumber][answer]++;
 }
 
+void SOOSA::saveDataToCsvFile(string const& processedFilePath)
+{
+    ofstream outputCsvReportStream(getCsvFileName(m_configuration.path), ofstream::app);
+    if(isStatusNoError(m_status))
+    {
+        outputCsvReportStream<<processedFilePath<<",OK";
+        for(unsigned int i=0;i<m_configuration.getNumberOfQuestions();i++)
+        {
+            outputCsvReportStream<<","<<getAnswerToQuestion(i);
+            if(getAnswerToQuestion(i)<=5 && getAnswerToQuestion(i)>=1){addToFrequencyDatabase(i, getAnswerToQuestion(i)-1);}
+        }
+        outputCsvReportStream<<endl;
+    }
+    else
+    {
+        outputCsvReportStream<<processedFilePath<<","<<getString(m_status)<<endl;
+    }
+}
 
+void SOOSA::saveHeadersToCsvFile()
+{
+    ofstream outputCsvReportStream(getCsvFileName(m_configuration.path));
+    outputCsvReportStream << "FILE,STATUS";
+    for(unsigned int i=0; i<m_configuration.getNumberOfQuestions(); i++)
+    {
+        outputCsvReportStream<<",Question_"<<i+1;
+    }
+    outputCsvReportStream<<endl;
+}
+
+void SOOSA::saveOutputHtmlFile(string const& processedFilePath)
+{
+    cout<<"saveOutputHtmlFile"<<endl;
+
+    ifstream htmlBasisFileStream(FILE_PATH_BASIS_HTML);
+    AlbaFileReader htmlBasisFileReader(htmlBasisFileStream);
+    ofstream reportHtmlFileStream(getReportHtmlFileName(processedFilePath));
+    reportHtmlFileStream.precision(5);
+    while(htmlBasisFileReader.isNotFinished())
+    {
+        string line(htmlBasisFileReader.getLineAndIgnoreWhiteSpaces());
+        if(line == "@AAA@")
+        {
+            reportHtmlFileStream<<m_configuration.area.c_str();
+        }
+        else if(line == "@PPP@")
+        {
+            reportHtmlFileStream<<m_configuration.period.c_str();
+        }
+        else if(line == "@LLL@")
+        {
+            reportHtmlFileStream<<"<h2>Number of Respondents: "<<m_configuration.numberOfRespondents<<"</h2>"<<endl;
+            reportHtmlFileStream<<"<h2>Average Discharges per Month: "<<m_configuration.discharge.c_str()<<"</h2>"<<endl;
+            double dischargeValue(stringHelper::convertStringToNumber<double>(m_configuration.discharge));
+            reportHtmlFileStream<<"<h2>Percentage of respondents to discharges: "<<getPrintableStringForPercentage(m_configuration.numberOfRespondents, dischargeValue)<<"</h2>"<<endl;
+        }
+        else if(line == "@TTT@")
+        {
+            for(unsigned int questionIndex=0; questionIndex<m_configuration.getNumberOfQuestions(); questionIndex++)
+            {
+                reportHtmlFileStream<<"<tr>"<<endl;
+                FrequencyStatistics<double>::FrequencySamples samples;
+                for(unsigned int answerIndex=0; answerIndex<5; answerIndex++)
+                {
+                    samples[answerIndex+1] = m_questionToAnswerFrequencyMap[questionIndex][answerIndex];
+                }
+                unsigned int numberOfSamplesForQuestion = FrequencyStatistics<double>::calculateNumberOfSamples(samples);
+                double median = FrequencyStatistics<double>::calculateMedian(samples);
+                if(questionIndex==m_configuration.getNumberOfQuestions()-1)
+                {
+                    reportHtmlFileStream<<"<td style=\"text-align:left;padding:3px\"><b>"<<m_configuration.formDetails.questions[questionIndex]<<"</b></td>"<<endl;
+                }
+                else
+                {
+                    reportHtmlFileStream<<"<td style=\"text-align:left;padding:3px\">"<<m_configuration.formDetails.questions[questionIndex]<<"</td>"<<endl;
+                }
+                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_questionToAnswerFrequencyMap[questionIndex][4],numberOfSamplesForQuestion)<<"</td>"<<endl;
+                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_questionToAnswerFrequencyMap[questionIndex][3],numberOfSamplesForQuestion)<<"</td>"<<endl;
+                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_questionToAnswerFrequencyMap[questionIndex][2],numberOfSamplesForQuestion)<<"</td>"<<endl;
+                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_questionToAnswerFrequencyMap[questionIndex][1],numberOfSamplesForQuestion)<<"</td>"<<endl;
+                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_questionToAnswerFrequencyMap[questionIndex][0],numberOfSamplesForQuestion)<<"</td>"<<endl;
+                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<numberOfSamplesForQuestion<<"</td>"<<endl;
+                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<median<<"</td>"<<endl;
+                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_questionToAnswerFrequencyMap[questionIndex][4]+m_questionToAnswerFrequencyMap[questionIndex][3]+m_questionToAnswerFrequencyMap[questionIndex][2],numberOfSamplesForQuestion)<<"</td>"<<endl;
+                reportHtmlFileStream<<"</tr>"<<endl;
+            }
+        }
+        else
+        {
+            reportHtmlFileStream<<line<<endl;
+        }
+    }
+}
 
 
 
@@ -202,12 +299,10 @@ void  SOOSA::addToFrequencyDatabase(unsigned int const questionNumber, unsigned 
 
 void SOOSA::getChebyshevInt(ChebyshevCriterion* in_cc, int* arr, int num)
 {
-    int i;
-    double mean=0, stddev=0;
+    int i;    double mean=0, stddev=0;
     for(i=0; i<num; i++){
         LOPPRINT("  FUNCLOOP:getChebyshevInt[i=%d]->(arr[i]=%d|mean=%lf)\n",i,arr[i],mean);
-        mean=mean+arr[i];
-    }
+        mean=mean+arr[i];    }
     mean=mean/num;
     for(i=0; i<num; i++){
         LOPPRINT("  FUNCLOOP:getChebyshevInt[i=%d]->(arr[i]=%d|stddev=%lf)\n",i,arr[i],stddev);
@@ -435,15 +530,13 @@ long SOOSA::getImageInfo(FILE* inputFile, long offset, int numberOfChars)
 
 }
 
-int SOOSA::openBmpImage(BmpImage* inBmpImage, char* sbmp)
+int SOOSA::openBmpImage(BmpImage* inBmpImage, char const* sbmp)
 {
 
-    FILE* bmpInput = NULL;
-    inBmpImage->filePtr = NULL;
+    FILE* bmpInput = NULL;    inBmpImage->filePtr = NULL;
     char signature[2]; /* Signature of the Image File BM = BMP */
     int nRows, nCols; /* Row and Column size of the Image */
-    int xpixpeRm, ypixpeRm; /* Pixel/m */
-    long nColors; /* BMP number of colors */
+    int xpixpeRm, ypixpeRm; /* Pixel/m */    long nColors; /* BMP number of colors */
     long fileSize; /* BMP file size */
     long vectorSize; /* BMP's raster data in number of bytes */
     int nBits; /* # of BIts per Pixel */
@@ -1748,35 +1841,34 @@ int SOOSA::getQuestionsFromLine(DataDigital* in_dd, PairXY* out_questions, int n
     return fail;
 }
 
-int SOOSA::processOneFile(char* fileName)
+void SOOSA::processOneFile(string const& fileName)
 {
+    cout<<"processOneFile: ["<<fileName<<"]"<<endl;
+    m_status = SoosaStatus::NoError;
 
     BmpImage img;
-    DataDigital dd;
-    ChebyshevCriterion ccSlope;
+    DataDigital dd;    ChebyshevCriterion ccSlope;
     dd.buf = NULL;//IMPT
     dd.status=0;
-    if(openBmpImage(&img,fileName)){
+    if(openBmpImage(&img,fileName.c_str())){
         cout<<"ERROR: Error in Reading BMP File. BMP File: ["<<fileName<<"]"<<endl;
         closeBmpImage(&img);
-        return 1;
+        m_status = SoosaStatus::BitmapError;
+        return;
     }
     if(img.xSize<=PIXELSPERPENLINE || img.ySize<=PIXELSPERPENLINE){
         cout<<"ERROR: BMP File is too small ("<<PIXELSPERPENLINE<<" pixels by "<<PIXELSPERPENLINE<<" pixels only)."<<endl;
         closeBmpImage(&img);
-        return 1;
+        m_status = SoosaStatus::BitmapError;
+        return;
     }
-
-    cout<<"processOneFile: ["<<fileName<<"]"<<endl;
 
     //forfaster
     int barheightsamplepixels = 10;
-    int xsearchsize = img.xSize/8;
-    int ysearchsize = img.ySize/8;
+    int xsearchsize = img.xSize/8;    int ysearchsize = img.ySize/8;
 
     LineSlopeIntercept leftline, rightline, topline, bottomline, centerleftline, centerrightline, templine;
-    PairXY uplfcorner, uprtcorner, dnlfcorner, dnrtcorner, upcenter, dncenter;
-    PairXY temppoint1,temppoint2,temppoint3;
+    PairXY uplfcorner, uprtcorner, dnlfcorner, dnrtcorner, upcenter, dncenter;    PairXY temppoint1,temppoint2,temppoint3;
     PairXY lineSamples[SAMPLESLINETOALLOC];
     PairXY Q1[MAXQUESTIONSCOOR],Q2[MAXQUESTIONSCOOR],Q3[MAXQUESTIONSCOOR],Q4[MAXQUESTIONSCOOR];
     int numLineSamples,maxLineSamples;
@@ -2422,249 +2514,60 @@ int SOOSA::processOneFile(char* fileName)
     cout<<"DONE!"<<endl;
     if(algoTries==2)
     {
-        return 1;
+        m_status = SoosaStatus::AlgorithmError;
+        return;
     }
-    return 0;
+    m_configuration.numberOfRespondents++;
     cleanDataDigital(&dd);
     closeBmpImage(&img);
 
 }
 
-void SOOSA::processDir(char* path)
+bool SOOSA::isStatusNoError(SoosaStatus const status)
 {
-    int x,i;
-    int len=strlen(path);
-    if(len<=0){return;}
-    if(path[len-1]!='\\'){strcat(path,"\\");}
-
-    HANDLE hFind;
-    BOOL bContinue = TRUE;
-    WIN32_FIND_DATA data;
-    char innerPath[MAXSTR];
-    char basePath[MAXSTR];
-    strcpy(basePath,path);
-    strcat(path,"*.*");
-    hFind = FindFirstFile(path, &data);
-
-    m_configuration.numberOfRespondents=0;
-    while (hFind && bContinue) {
-        // Check if this entry is a directory
-        if (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-            // This is a directory
-            if(!strcmp(data.cFileName,".")){bContinue = FindNextFile(hFind, &data);continue;}
-            if(!strcmp(data.cFileName,"..")){bContinue = FindNextFile(hFind, &data);continue;}
-
-            strcpy(innerPath,basePath);
-            strcat(innerPath,data.cFileName);
-            processDir(innerPath);
-
-        }else{
-            if(!strcmp(data.cFileName,".")){bContinue = FindNextFile(hFind, &data);continue;}
-            if(!strcmp(data.cFileName,"..")){bContinue = FindNextFile(hFind, &data);continue;}
-            if(!strcmpi(data.cFileName,"thumbs.db")){bContinue = FindNextFile(hFind, &data);continue;}
-
-
-            strcpy(innerPath,basePath);
-            strcat(innerPath,data.cFileName);
-            cout<<"\nProcessing: "<<data.cFileName<<endl;
-            if(processOneFile(innerPath)==0)
-            {
-                CSVPRINT("%s,OK",innerPath);
-                for(x=0;x<m_configuration.getNumberOfQuestions();x++)
-                {
-                    CSVPRINT(",%d",getAnswerToQuestion(x));
-                    if(getAnswerToQuestion(x)<=5 && getAnswerToQuestion(x)>=1){addToFrequencyDatabase(x, getAnswerToQuestion(x)-1);}
-                }
-                CSVPRINT("\n");
-            }
-            else
-            {
-                cout<<"DONE FAILED 1"<<endl;
-                CSVPRINT("%s,FAILED 1\n",innerPath);
-                return;
-            }
-            m_configuration.numberOfRespondents++;
-            //dito file
-        }
-        bContinue = FindNextFile(hFind, &data);
-    }
-    FindClose(hFind); // Free the dir structure
+    return status == SoosaStatus::NoError;
 }
 
-int SOOSA::process()
+void SOOSA::processDirectory(string const& directoryPath)
 {
+    cout<<"processDirectory: ["<<directoryPath<<"]"<<endl;
+
+    AlbaLocalPathHandler directoryPathToBeProcessed(directoryPath);
+    set<string> listOfFiles;
+    set<string> listOfDirectories;
+    directoryPathToBeProcessed.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
+
+    for(string const& filePath : listOfFiles)
+    {
+        processOneFile(filePath.c_str());
+        saveDataToCsvFile(filePath);
+    }
+}
+
+int SOOSA::process(){
     cout<<"SOOSA2014 - Survey Output Optical Scan Analyzer\n\n"<<endl;
     cout<<"AREA: "<<m_configuration.area<<endl;
-    cout<<"PERIOD: "<<m_configuration.period<<endl;
-    cout<<"DISCHARGE: "<<m_configuration.discharge<<endl;
+    cout<<"PERIOD: "<<m_configuration.period<<endl;    cout<<"DISCHARGE: "<<m_configuration.discharge<<endl;
 
     AlbaLocalPathHandler pathHandler(m_configuration.path);
-
-    char str[MAXSTR];
-    int len,x,i,j,total,median1,median2;
-    FILE* basisHtml = NULL;
-    FILE* outputHtml = NULL;
-
-    string reportHtmlFilePath(pathHandler.getDirectory()+"PSS_Report_"+m_configuration.area+"_"+m_configuration.period+".html");
-    if ((outputHtml = fopen(reportHtmlFilePath.c_str(), "w")) == NULL)
-    {
-        cout<<"ERROR: Error in HTML File. File:"<<reportHtmlFilePath<<endl;
-        return 1;
-    }
 
     saveFormDetailsFromUserInterface();
     clearFrequencyDatabase();
 
-    strcpy(str,m_configuration.path.c_str());
-    len=strlen(str);
-    if(len<=0){return 1;}
-    CSVPRINT("FILE,STATUS");
-    if(m_configuration.getColumns()==2){
-        for(x=0;x<m_configuration.getNumberOfQuestionsAtColumn(1);x++){CSVPRINT(",Col1_Q%d",x+1);}
-        for(x=0;x<m_configuration.getNumberOfQuestionsAtColumn(2);x++){CSVPRINT(",Col2_Q%d",x+1);}
-    }else{
-        for(x=0;x<m_configuration.getNumberOfQuestionsAtColumn(1);x++){CSVPRINT(",Col1_Q%d",x+1);}
+    saveHeadersToCsvFile();
+    if(pathHandler.isDirectory())
+    {
+        processDirectory(pathHandler.getFullPath());
     }
-    CSVPRINT("\n");
-    if(str[len-1]=='\"'){
-        str[len-1]='\0';
-        cout<<"\nProcess Folder:"<<str<<endl;
-        processDir(str);
-    }else{
-        cout<<"\nProcess File:"<<str<<endl;
-        if(processOneFile(str)==0){
-            CSVPRINT("%s,OK",str);
-            for(x=0;x<m_configuration.getNumberOfQuestions();x++)
-            {
-                CSVPRINT(",%d",getAnswerToQuestion(x));
-                if(getAnswerToQuestion(x)<=5 && getAnswerToQuestion(x)>=1){addToFrequencyDatabase(x, getAnswerToQuestion(x)-1);}
-            }
-            CSVPRINT("\n");
-        }else{
-            cout<<"DONE FAILED2"<<endl;
-            CSVPRINT("%s,FAILED 2\n",str);
-            return 1;
-        }
+    else
+    {
+        processOneFile(pathHandler.getFullPath());
+        saveDataToCsvFile(pathHandler.getFullPath());
         m_configuration.numberOfRespondents++;
     }
+    saveOutputHtmlFile(pathHandler.getFullPath());
 
-    cout<<"Generating output file"<<endl;
-
-    if ((basisHtml = fopen("C:\\APRG\\SOOSA2014\\basis.html", "r")) == NULL)
-    {
-        cout<<"ERROR: Error in basis.html file."<<endl;
-        return 1;
-    }
-
-    while(fgets(str,MAXSTR,basisHtml)!=NULL)
-    {
-        if(str[0]=='@' && str[1]=='A' && str[2]=='A' && str[3]=='A' && str[4]=='@')
-        {
-            fprintf(outputHtml,"%s", m_configuration.area.c_str());
-        }
-        else if(str[0]=='@' && str[1]=='P' && str[2]=='P' && str[3]=='P' && str[4]=='@')
-        {
-            fprintf(outputHtml,"%s", m_configuration.period.c_str());
-        }
-        else if(str[0]=='@' && str[1]=='L' && str[2]=='L' && str[3]=='L' && str[4]=='@')
-        {
-            fprintf(outputHtml,"<h2>Number of Respondents: %d</h2>\n", m_configuration.numberOfRespondents);
-            fprintf(outputHtml,"<h2>Average Discharges per Month: %s</h2>\n",  m_configuration.discharge.c_str());
-            j=atoi(m_configuration.discharge.c_str());
-            fprintf(outputHtml,"<h2>%% of Respondents to Discharges: %3.1lf%%</h2>\n", (double)m_configuration.numberOfRespondents/j*100);
-        }
-        else if(str[0]=='@' && str[1]=='T' && str[2]=='T' && str[3]=='T' && str[4]=='@')
-        {
-            i=std::min(m_configuration.getNumberOfQuestionsAtColumn(1)+m_configuration.getNumberOfQuestionsAtColumn(2), m_configuration.formDetails.questions.size());
-            for(x=0;x<i;x++)
-            {
-                fprintf(outputHtml,"<tr>\n");
-                total = m_questionToAnswerFrequencyMap[x][0]+m_questionToAnswerFrequencyMap[x][1]+m_questionToAnswerFrequencyMap[x][2]+m_questionToAnswerFrequencyMap[x][3]+m_questionToAnswerFrequencyMap[x][4];
-                if((total+1)%2==0)
-                {
-                    median1 = (total+1)/2;
-                    j=0;
-                    while(median1>m_questionToAnswerFrequencyMap[x][j] && j<5)
-                    {
-                        median1 = median1-m_questionToAnswerFrequencyMap[x][j++];
-                    }
-                    median1=j+1+j+1;
-                }
-                else
-                {
-                    median1 = (total+1)/2;
-                    median2 = median1+1;
-                    j=0;
-                    while(median1>m_questionToAnswerFrequencyMap[x][j] && j<5)
-                    {
-                        median1 = median1-m_questionToAnswerFrequencyMap[x][j++];
-                    }
-                    median1=j+1;
-                    j=0;
-                    while(median2>m_questionToAnswerFrequencyMap[x][j] && j<5)
-                    {
-                        median2 = median2-m_questionToAnswerFrequencyMap[x][j++];
-                    }
-                    median2=j+1;
-                    median1=median1+median2;
-
-                }
-                if(x==i-1)
-                {
-                    fprintf(outputHtml,"<td style=\"text-align:left;padding:3px\"><b>%s</b></td>\n",m_configuration.formDetails.questions[x].c_str());
-                }
-                else
-                {
-                    fprintf(outputHtml,"<td style=\"text-align:left;padding:3px\">%s</td>\n",m_configuration.formDetails.questions[x].c_str());
-                }
-                if(total==0)
-                {
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> 0.0%% </td>\n");
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> 0.0%% </td>\n");
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> 0.0%% </td>\n");
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> 0.0%% </td>\n");
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> 0.0%% </td>\n");
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> 0 </td>\n");
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> - </td>\n");
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> - </td>\n");
-                }
-                else
-                {
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%3.1lf%%</td>\n",((double)m_questionToAnswerFrequencyMap[x][4])/total*100);
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%3.1lf%%</td>\n",((double)m_questionToAnswerFrequencyMap[x][3])/total*100);
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%3.1lf%%</td>\n",((double)m_questionToAnswerFrequencyMap[x][2])/total*100);
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%3.1lf%%</td>\n",((double)m_questionToAnswerFrequencyMap[x][1])/total*100);
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%3.1lf%%</td>\n",((double)m_questionToAnswerFrequencyMap[x][0])/total*100);
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%d</td>\n",total);
-                    if(median1%2==0)
-                    {
-                        fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%d</td>\n",(median1/2));
-                    }
-                    else
-                    {
-                        fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%1.1lf</td>\n",((double)median1)/2);
-                    }
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%3.1lf%%</td>\n",((double)m_questionToAnswerFrequencyMap[x][4]+m_questionToAnswerFrequencyMap[x][3]+m_questionToAnswerFrequencyMap[x][2])/total*100);
-                }
-                fprintf(outputHtml,"</tr>\n");
-            }
-        }
-        else
-        {
-            fprintf(outputHtml,"%s",str);
-        }
-    }
-    fclose(outputHtml);
-    fclose(m_csvFile);
-#ifdef LOPFLAG
-    fclose(Snapshot);
-#elif  DBGFLAG
-    fclose(Snapshot);
-#else
-    fclose(m_logFile);
-#endif
     return 0;
 }
-
 
 }

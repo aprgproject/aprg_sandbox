@@ -16,15 +16,13 @@ public:
     using Sample = DataSample<DataType, dimensions>;
     using Samples = std::vector<Sample>;
 
-    static Sample calculateSum(Samples const& samples) //this should be static
+    static Sample calculateSum(Samples const& samples)
     {
         return (Sample)std::accumulate(samples.begin(), samples.end(), Sample(), std::plus<Sample>());
     }
-
     static Sample calculateMean(Samples const& samples)
     {
-        return calculateSum(samples)/samples.size();
-    }
+        return calculateSum(samples)/samples.size();    }
 
     static Sample calculateSampleVariance(Samples const& samples)
     {

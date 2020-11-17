@@ -13,14 +13,12 @@ TEST(SoosaTest, SampleTest1)
     configuration.formDetailsDirectoryPath = R"(C:\APRG\SOOSA\SOOSA\basis\FormDetails\)";
     configuration.area = "area";
     configuration.period = "period";
-    configuration.discharge = "discharge";
+    configuration.discharge = "12.345";
     SOOSA soosa(configuration);
     soosa.process();
-
     EXPECT_EQ(5, soosa.getAnswerToQuestion(0));
     EXPECT_EQ(4, soosa.getAnswerToQuestion(1));
-    EXPECT_EQ(3, soosa.getAnswerToQuestion(2));
-    EXPECT_EQ(2, soosa.getAnswerToQuestion(3));
+    EXPECT_EQ(3, soosa.getAnswerToQuestion(2));    EXPECT_EQ(2, soosa.getAnswerToQuestion(3));
     EXPECT_EQ(1, soosa.getAnswerToQuestion(4));
     EXPECT_EQ(2, soosa.getAnswerToQuestion(5));
     EXPECT_EQ(3, soosa.getAnswerToQuestion(6));

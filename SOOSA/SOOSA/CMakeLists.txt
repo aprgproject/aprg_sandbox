@@ -24,22 +24,25 @@ add_definitions(-DAPRG_DIR="${APRG_DIR}")
 #Include aprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
+#Include aprgAlgorithm, this needs APRG Directory
+include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
+
 #Include gTest, this needs APRG Directory
 include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
-
 set(SOURCES
     src/SOOSA.cpp
     src/SOOSA.hpp
     src/SoosaConfiguration.cpp
     src/SoosaConfiguration.hpp
+    src/SoosaStatus.cpp
+    src/SoosaStatus.hpp
+
 )
 
-set(MAIN_SOURCES
-    src/main.cpp
+set(MAIN_SOURCES    src/main.cpp
 )
 
-set(TESTS
-    tst/SOOSA_unit.cpp
+set(TESTS    tst/SOOSA_unit.cpp
 )
 
 set(INCLUDE_DIRECTORIES
