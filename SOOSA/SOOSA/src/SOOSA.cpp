@@ -1,14 +1,16 @@
 #include "SOOSA.hpp"
 
+#include <File/AlbaFileReader.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <String/AlbaStringHelper.hpp>
+#include <User/AlbaUserInterface.hpp>
+
 #include <iostream>
 
-//OLD HEADERS
-#include <stdio.h>
+//OLD HEADERS#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <windows.h>
-
 //#define DBGFLAG 1
 //#define LOPFLAG 1
 //#define CIRFLAG 1
@@ -56,15 +58,13 @@
 #define DBGPRINT(...)
 #endif
 #define INFPRINT(...)  printf(__VA_ARGS__); //fprintf(Snapshot, __VA_ARGS__); std::cout<<"INFPRINT"<<std::endl;
-#define CSVPRINT(...) fprintf(csvfile,__VA_ARGS__);
+#define CSVPRINT(...) fprintf(m_csvFile, __VA_ARGS__);
 
 
-//gawa struct for x y for points and slope
-//gawa function search to right search to the left
+//gawa struct for x y for points and slope//gawa function search to right search to the left
 //chebyshev
 //k-mean cluster algo
 //cache in DataDigital for continuous access
-
 //malloc check
 //getvalue check cache
 
@@ -86,25 +86,21 @@ SOOSA::SOOSA(SoosaConfiguration const& configuration)
 
     if ((m_logFile = fopen(logFilePath.c_str(), "w")) == NULL)
     {
-        cout<<"ERROR: Error in Reading LOG File."<<endl;
-        return 1;
+        cout<<"ERROR: Error in Reading LOG File:"<<logFilePath<<endl;
     }
     if ((m_csvFile = fopen(csvFilePath.c_str(), "w")) == NULL)
     {
-        cout<<"ERROR: Error in CSV File. File:"<<reportCsvFile<<endl;
-        return 1;
+        cout<<"ERROR: Error in CSV File. File:"<<csvFilePath<<endl;
     }
 
-    for(i=0; i<MAXQUESTIONSALL; i++)
+    for(unsigned int i=0; i<MAXQUESTIONSALL; i++)
     {
-        for(j=0; j<6; j++)
+        for(unsigned int j=0; j<6; j++)
         {
             m_frequencyDatabase[i][j]=0;
-        }
-    }
+        }    }
 
 }
-
 void SOOSA::getChebyshevInt(ChebyshevCriterion* in_cc, int* arr, int num)
 {
     int i;
@@ -2010,15 +2006,13 @@ int SOOSA::processOneFile(char* fileName)
             temppoint1 = transposePoint(uplfcorner,dd.xlow,dd.ylow);
             temppoint2 = transposePoint(dnlfcorner,dd.xlow,dd.ylow);
             templine=transposeLine(leftline,0,dd.xlow,dd.ylow);
-            if(getQuestionsFromLine(&dd,Q1,numQuestionCol1,tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
+            if(getQuestionsFromLine(&dd,Q1,m_configuration.formDetails.numberQuestionsOfColumn1,tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
             {
                 cout<<"ERROR: Error in finding questions in left line."<<endl;
-                algoTries++;
-                continue;
+                algoTries++;                continue;
             }
             deAllocData(&dd);
-            //Q4
-            addPointToDataDigital(&img,&dd,uprtcorner._x-PIXELSSEARCHSIZE,uprtcorner._y-PIXELSSEARCHSIZE);
+            //Q4            addPointToDataDigital(&img,&dd,uprtcorner._x-PIXELSSEARCHSIZE,uprtcorner._y-PIXELSSEARCHSIZE);
             addPointToDataDigital(&img,&dd,uprtcorner._x+PIXELSSEARCHSIZE,uprtcorner._y+PIXELSSEARCHSIZE);
             addPointToDataDigital(&img,&dd,dnrtcorner._x-PIXELSSEARCHSIZE,dnrtcorner._y-PIXELSSEARCHSIZE);
             addPointToDataDigital(&img,&dd,dnrtcorner._x+PIXELSSEARCHSIZE,dnrtcorner._y+PIXELSSEARCHSIZE);
@@ -2037,22 +2031,19 @@ int SOOSA::processOneFile(char* fileName)
             temppoint1 = transposePoint(uprtcorner,dd.xlow,dd.ylow);
             temppoint2 = transposePoint(dnrtcorner,dd.xlow,dd.ylow);
             templine=transposeLine(rightline,0,dd.xlow,dd.ylow);
-            if(getQuestionsFromLine(&dd,Q4,numQuestionCol2,tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
+            if(getQuestionsFromLine(&dd,Q4,m_configuration.formDetails.numberQuestionsOfColumn2,tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
             {
                 cout<<"ERROR: Error in finding questions in right line."<<endl;
-                algoTries++;
-                continue;
+                algoTries++;                continue;
             }
             deAllocData(&dd);
-            if(numColumns==2){
+            if(m_configuration.formDetails.numberOfColumns==2){
                 temppoint1=getMidpoint(uplfcorner,upcenter);
                 temppoint2=getMidpoint(upcenter,uprtcorner);
-                addPointToDataDigital(&img,&dd,temppoint1._x,temppoint1._y-PIXELSSEARCHSIZE);
-                addPointToDataDigital(&img,&dd,temppoint2._x,temppoint2._y-PIXELSSEARCHSIZE);
+                addPointToDataDigital(&img,&dd,temppoint1._x,temppoint1._y-PIXELSSEARCHSIZE);                addPointToDataDigital(&img,&dd,temppoint2._x,temppoint2._y-PIXELSSEARCHSIZE);
                 temppoint1=getMidpoint(dnlfcorner,dncenter);
                 temppoint2=getMidpoint(dncenter,dnrtcorner);
-                addPointToDataDigital(&img,&dd,temppoint1._x,temppoint1._y+PIXELSSEARCHSIZE);
-                addPointToDataDigital(&img,&dd,temppoint2._x,temppoint2._y+PIXELSSEARCHSIZE);
+                addPointToDataDigital(&img,&dd,temppoint1._x,temppoint1._y+PIXELSSEARCHSIZE);                addPointToDataDigital(&img,&dd,temppoint2._x,temppoint2._y+PIXELSSEARCHSIZE);
                 if(allocData(&dd)==1)
                 {
                     cout<<"ERROR: Error in allocating data for image buffer."<<endl;
@@ -2094,15 +2085,13 @@ int SOOSA::processOneFile(char* fileName)
                 temppoint1 = findIntersection(centerleftline,topline);temppoint1 = transposePoint(temppoint1,dd.xlow,dd.ylow);
                 temppoint2 = findIntersection(centerleftline,bottomline);temppoint2 = transposePoint(temppoint2,dd.xlow,dd.ylow);
                 templine = transposeLine(centerleftline,0,dd.xlow,dd.ylow);
-                if(getQuestionsFromLine(&dd,Q2,numQuestionCol1,tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
+                if(getQuestionsFromLine(&dd,Q2,m_configuration.formDetails.numberQuestionsOfColumn1,tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
                 {
                     cout<<"ERROR: Error in finding questions in center left line."<<endl;
-                    algoTries++;
-                    continue;
+                    algoTries++;                    continue;
                 }
                 //center right line
-                temppoint1 = transposePoint(upcenter,dd.xlow,dd.ylow);
-                temppoint2 = transposePoint(dncenter,dd.xlow,dd.ylow);
+                temppoint1 = transposePoint(upcenter,dd.xlow,dd.ylow);                temppoint2 = transposePoint(dncenter,dd.xlow,dd.ylow);
                 cout<<"INFO: Finding center right line. NumOfSamples="<<maxLineSamples<<endl;
                 numLineSamples = findLineImageFromLeft(lineSamples,maxLineSamples, dd.buf, dd.xSizeBytesAllocated,temppoint1,temppoint2);
                 DBGPRINT("INFO: BlackSamples=%d\n",numLineSamples);
@@ -2128,39 +2117,35 @@ int SOOSA::processOneFile(char* fileName)
                 temppoint1 = findIntersection(centerrightline,topline);temppoint1 = transposePoint(temppoint1,dd.xlow,dd.ylow);
                 temppoint2 = findIntersection(centerrightline,bottomline);temppoint2 = transposePoint(temppoint2,dd.xlow,dd.ylow);
                 templine = transposeLine(centerrightline,0,dd.xlow,dd.ylow);
-                if(getQuestionsFromLine(&dd,Q3,numQuestionCol2,tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
+                if(getQuestionsFromLine(&dd,Q3,m_configuration.formDetails.numberQuestionsOfColumn2,tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
                 {
                     cout<<"ERROR: Error in finding questions in center right line."<<endl;
-                    algoTries++;
-                    continue;
+                    algoTries++;                    continue;
                 }
                 deAllocData(&dd);
             }
         }else if(algoTries==1){
             barheightsamplepixels=5;
             //Q1
-            if(getQuestionsFromLine(&dd,Q1,numQuestionCol1,tdoublearr,leftline,uplfcorner,dnlfcorner,barheightsamplepixels)==1)
+            if(getQuestionsFromLine(&dd,Q1,m_configuration.formDetails.numberQuestionsOfColumn1,tdoublearr,leftline,uplfcorner,dnlfcorner,barheightsamplepixels)==1)
             {
                 cout<<"ERROR: Error in finding questions in left line."<<endl;
-                algoTries++;
-                continue;
+                algoTries++;                continue;
             }
             //Q4
-            if(getQuestionsFromLine(&dd,Q4,numQuestionCol2,tdoublearr,rightline,uprtcorner,dnrtcorner,barheightsamplepixels)==1)
+            if(getQuestionsFromLine(&dd,Q4,m_configuration.formDetails.numberQuestionsOfColumn2,tdoublearr,rightline,uprtcorner,dnrtcorner,barheightsamplepixels)==1)
             {
                 cout<<"ERROR: Error in finding questions in right line."<<endl;
                 algoTries++;
                 continue;
             }
-            if(numColumns==2){
+            if(m_configuration.formDetails.numberOfColumns==2){
                 maxLineSamples=ROBUSTSAMPLESLINE;
                 //center left line
-                cout<<"INFO: Finding center left line. NumOfSamples="<<numLineSamples<<endl;
-                numLineSamples = findLineImageFromRight(lineSamples,maxLineSamples, dd.buf, dd.xSizeBytesAllocated,upcenter,dncenter);
+                cout<<"INFO: Finding center left line. NumOfSamples="<<numLineSamples<<endl;                numLineSamples = findLineImageFromRight(lineSamples,maxLineSamples, dd.buf, dd.xSizeBytesAllocated,upcenter,dncenter);
                 DBGPRINT("INFO: BlackSamples=%d\n",numLineSamples);
                 numLineSamples = removeOutliersFromLineSmart(lineSamples, numLineSamples, ROBUSTMINSAMPLESLINE, 0);
-                DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
-                if(ROBUSTMINSAMPLESLINE>numLineSamples)
+                DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);                if(ROBUSTMINSAMPLESLINE>numLineSamples)
                 {
                     cout<<"ERROR: Error in finding the line. Number of samples is not enough (numLineSamples="<<numLineSamples<<")."<<endl;
                     algoTries++;
@@ -2178,15 +2163,13 @@ int SOOSA::processOneFile(char* fileName)
                 //Q2
                 temppoint1 = findIntersection(centerleftline,topline);
                 temppoint2 = findIntersection(centerleftline,bottomline);
-                if(getQuestionsFromLine(&dd,Q2,numQuestionCol1,tdoublearr,centerleftline,temppoint1,temppoint2,barheightsamplepixels)==1)
+                if(getQuestionsFromLine(&dd,Q2,m_configuration.formDetails.numberQuestionsOfColumn1,tdoublearr,centerleftline,temppoint1,temppoint2,barheightsamplepixels)==1)
                 {
                     cout<<"ERROR: Error in finding questions in center left line."<<endl;
-                    algoTries++;
-                    continue;
+                    algoTries++;                    continue;
                 }
                 //center right line
-                cout<<"INFO: Finding center right line. NumOfSamples="<<maxLineSamples<<endl;
-                numLineSamples = findLineImageFromLeft(lineSamples,maxLineSamples, dd.buf, dd.xSizeBytesAllocated,upcenter,dncenter);
+                cout<<"INFO: Finding center right line. NumOfSamples="<<maxLineSamples<<endl;                numLineSamples = findLineImageFromLeft(lineSamples,maxLineSamples, dd.buf, dd.xSizeBytesAllocated,upcenter,dncenter);
                 DBGPRINT("INFO: BlackSamples=%d\n",numLineSamples);
                 numLineSamples = removeOutliersFromLineSmart(lineSamples, numLineSamples, ROBUSTMINSAMPLESLINE, 0);
                 DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
@@ -2208,24 +2191,21 @@ int SOOSA::processOneFile(char* fileName)
                 //Q3
                 temppoint1 = findIntersection(centerrightline,topline);
                 temppoint2 = findIntersection(centerrightline,bottomline);
-                if(getQuestionsFromLine(&dd,Q3,numQuestionCol2,tdoublearr,centerrightline,temppoint1,temppoint2,barheightsamplepixels)==1)
+                if(getQuestionsFromLine(&dd,Q3,m_configuration.formDetails.numberQuestionsOfColumn2,tdoublearr,centerrightline,temppoint1,temppoint2,barheightsamplepixels)==1)
                 {
                     cout<<"ERROR: Error in finding questions in center right line."<<endl;
-                    algoTries++;
-                    continue;
+                    algoTries++;                    continue;
                 }
             }
         }
         if(algoTries==0){
-            if(numColumns==2){
+            if(m_configuration.formDetails.numberOfColumns==2){
                 //COL1
                 addPointToDataDigital(&img,&dd,uplfcorner._x,uplfcorner._y);
-                addPointToDataDigital(&img,&dd,dnlfcorner._x,dnlfcorner._y);
-                addPointToDataDigital(&img,&dd,upcenter._x,upcenter._y);
+                addPointToDataDigital(&img,&dd,dnlfcorner._x,dnlfcorner._y);                addPointToDataDigital(&img,&dd,upcenter._x,upcenter._y);
                 addPointToDataDigital(&img,&dd,dncenter._x,dncenter._y);
                 if(allocData(&dd)==1)
-                {
-                    cout<<"ERROR: Error in allocating data for image buffer."<<endl;
+                {                    cout<<"ERROR: Error in allocating data for image buffer."<<endl;
                     algoTries++;
                     continue;
                 }
@@ -2235,15 +2215,13 @@ int SOOSA::processOneFile(char* fileName)
                     algoTries++;
                     continue;
                 }
-                if(processOneColumn(&dd, Q1, Q2, numQuestionCol1, 1))
+                if(processOneColumn(&dd, Q1, Q2, m_configuration.formDetails.numberQuestionsOfColumn1, 1))
                 {
                     cout<<"ERROR: Error in finding number circles."<<endl;
-                    algoTries++;
-                    continue;
+                    algoTries++;                    continue;
                 }
                 deAllocData(&dd);
-                //COL2
-                addPointToDataDigital(&img,&dd,upcenter._x,upcenter._y);
+                //COL2                addPointToDataDigital(&img,&dd,upcenter._x,upcenter._y);
                 addPointToDataDigital(&img,&dd,dncenter._x,dncenter._y);
                 addPointToDataDigital(&img,&dd,uprtcorner._x,uprtcorner._y);
                 addPointToDataDigital(&img,&dd,dnrtcorner._x,dnrtcorner._y);
@@ -2259,22 +2237,19 @@ int SOOSA::processOneFile(char* fileName)
                     algoTries++;
                     continue;
                 }
-                if(processOneColumn(&dd, Q3, Q4, numQuestionCol2, 2))
+                if(processOneColumn(&dd, Q3, Q4, m_configuration.formDetails.numberQuestionsOfColumn2, 2))
                 {
                     cout<<"ERROR: Error in finding number circles."<<endl;
-                    algoTries++;
-                    continue;
+                    algoTries++;                    continue;
                 }
                 deAllocData(&dd);
-            }else if(numColumns==1){
+            }else if(m_configuration.formDetails.numberOfColumns==1){
                 //SINGLE COLUMN
                 addPointToDataDigital(&img,&dd,uplfcorner._x,uplfcorner._y);
-                addPointToDataDigital(&img,&dd,dnlfcorner._x,dnlfcorner._y);
-                addPointToDataDigital(&img,&dd,uprtcorner._x,uprtcorner._y);
+                addPointToDataDigital(&img,&dd,dnlfcorner._x,dnlfcorner._y);                addPointToDataDigital(&img,&dd,uprtcorner._x,uprtcorner._y);
                 addPointToDataDigital(&img,&dd,dnrtcorner._x,dnrtcorner._y);
                 if(allocData(&dd)==1)
-                {
-                    cout<<"ERROR: Error in allocating data for image buffer."<<endl;
+                {                    cout<<"ERROR: Error in allocating data for image buffer."<<endl;
                     algoTries++;
                     continue;
                 }
@@ -2285,54 +2260,50 @@ int SOOSA::processOneFile(char* fileName)
                     continue;
                 }
                 printDataDigitalBuffer(&dd);
-                if(processOneColumn(&dd, Q1, Q4, numQuestionCol1, 1))
+                if(processOneColumn(&dd, Q1, Q4, m_configuration.formDetails.numberQuestionsOfColumn1, 1))
                 {
                     cout<<"ERROR: Error in finding number circles."<<endl;
-                    algoTries++;
-                    continue;
+                    algoTries++;                    continue;
                 }
                 deAllocData(&dd);
             }
             algoTries=3;
         }else if(algoTries==1){
-            if(numColumns==2){
+            if(m_configuration.formDetails.numberOfColumns==2){
                 //COL1
-                if(processOneColumn(&dd, Q1, Q2, numQuestionCol1, 1))
+                if(processOneColumn(&dd, Q1, Q2, m_configuration.formDetails.numberQuestionsOfColumn1, 1))
                 {
                     cout<<"ERROR: Error in finding number circles."<<endl;
-                    algoTries++;
-                    continue;
+                    algoTries++;                    continue;
                 }
                 //COL2
-                if(processOneColumn(&dd, Q3, Q4, numQuestionCol2, 2))
+                if(processOneColumn(&dd, Q3, Q4, m_configuration.formDetails.numberQuestionsOfColumn2, 2))
                 {
                     cout<<"ERROR: Error in finding number circles."<<endl;
                     algoTries++;
                     continue;
                 }
-            }else if(numColumns==1){
+            }else if(m_configuration.formDetails.numberOfColumns==1){
                 //SINGLE COLUMN
-                if(processOneColumn(&dd, Q1, Q4, numQuestionCol1, 1))
+                if(processOneColumn(&dd, Q1, Q4, m_configuration.formDetails.numberQuestionsOfColumn1, 1))
                 {
                     cout<<"ERROR: Error in finding number circles."<<endl;
-                    algoTries++;
-                    continue;
+                    algoTries++;                    continue;
                 }
             }
-            algoTries=3;
-            deAllocData(&dd);
+            algoTries=3;            deAllocData(&dd);
         }
         algoTries++;
     }//two tries
-    if(algoTries==2){
+    cout<<"DONE!"<<endl;
+    if(algoTries==2)
+    {
         return 1;
     }
-    return 0;
-    cleanDataDigital(&dd);
+    return 0;    cleanDataDigital(&dd);
     closeBmpImage(&img);
 
 }
-
 void SOOSA::processDir(char* path)
 {
     int x,i;
@@ -2349,13 +2320,12 @@ void SOOSA::processDir(char* path)
     strcat(path,"*.*");
     hFind = FindFirstFile(path, &data);
 
+    m_configuration.numberOfRespondents=0;
     while (hFind && bContinue) {
         // Check if this entry is a directory
-        if (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-            // This is a directory
+        if (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {            // This is a directory
             if(!strcmp(data.cFileName,".")){bContinue = FindNextFile(hFind, &data);continue;}
             if(!strcmp(data.cFileName,"..")){bContinue = FindNextFile(hFind, &data);continue;}
-
             strcpy(innerPath,basePath);
             strcat(innerPath,data.cFileName);
             processDir(innerPath);
@@ -2371,128 +2341,92 @@ void SOOSA::processDir(char* path)
             cout<<"\nProcessing: "<<data.cFileName<<endl;
             if(processOneFile(innerPath)==0){
                 CSVPRINT("%s,OK",innerPath);
-                if(numColumns==2){
+                if(m_configuration.formDetails.numberOfColumns==2){
                     i=0;
-                    for(x=0;x<numQuestionCol1;x++){
+                    for(x=0;x<m_configuration.formDetails.numberQuestionsOfColumn1;x++){
                         CSVPRINT(",%d",ColumnAnswers1[x]);
                         if(ColumnAnswers1[x]<=5 && ColumnAnswers1[x]>=1){m_frequencyDatabase[i][ColumnAnswers1[x]-1]++;}
                         i++;
                     }
-                    for(x=0;x<numQuestionCol2;x++){
+                    for(x=0;x<m_configuration.formDetails.numberQuestionsOfColumn2;x++){
                         CSVPRINT(",%d",ColumnAnswers2[x]);
                         if(ColumnAnswers2[x]<=5 && ColumnAnswers2[x]>=1){m_frequencyDatabase[i][ColumnAnswers2[x]-1]++;}
-                        i++;
-                    }
+                        i++;                    }
                 }else{
                     i=0;
-                    for(x=0;x<numQuestionCol1;x++){
+                    for(x=0;x<m_configuration.formDetails.numberQuestionsOfColumn1;x++){
                         CSVPRINT(",%d",ColumnAnswers1[x]);
                         if(ColumnAnswers1[x]<=5 && ColumnAnswers1[x]>=1){m_frequencyDatabase[i][ColumnAnswers1[x]-1]++;}
-                        i++;
-                    }
+                        i++;                    }
                 }
                 CSVPRINT("\n");
             }else{
+                cout<<"DONE FAILED 1"<<endl;
                 CSVPRINT("%s,FAILED 1\n",innerPath);
+                return;
             }
-            numOfResp++;
+            m_configuration.numberOfRespondents++;
             //dito file
         }
-        bContinue = FindNextFile(hFind, &data);
-    }
+        bContinue = FindNextFile(hFind, &data);    }
     FindClose(hFind); // Free the dir structure
 }
 
 
-FILE* SOOSA::selectFormDetailsFromFormDetailsDirectory()
+void SOOSA::selectFormDetailsFromFormDetailsDirectory()
 {
     AlbaLocalPathHandler formDetailsPathHandler(m_configuration.formDetailsPath);
 
     set<string> listOfFiles;
     set<string> listOfDirectory;
-    unsigned choice;
+    AlbaUserInterface ui;
+    AlbaUserInterface::Choices<unsigned int> choices;
+    unsigned int choice(0);
 
     formDetailsPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectory);
-    cout<<"Select formDetails:"<<endl;
+
     for(string const& formDetailsFile: listOfFiles)
     {
-        cout<<"Choice:"<<choice<<". "<<AlbaLocalPathHandler(formDetailsFile).getFile()<<endl;
-        choice++;
+        cout<<"Choice "<<choice<<" :: "<<AlbaLocalPathHandler(formDetailsFile).getFile()<<endl;
+        choices.emplace(choice++, AlbaLocalPathHandler(formDetailsFile).getFullPath());
+    }
+    unsigned int chosenChoice = 0;//ui.displayQuestionAndChoicesAndGetNumberAnswer("Select formDetails:", choices);
+    cout<<"Chosen choice: "<<chosenChoice<<endl;
+
+    ifstream formDetailsStream(choices[chosenChoice]);
+    AlbaFileReader fileReader(formDetailsStream);
+
+    m_configuration.formDetails.title = fileReader.getLineAndIgnoreWhiteSpaces();
+    m_configuration.formDetails.numberOfColumns = stringHelper::convertStringToNumber<unsigned int>(fileReader.getLineAndIgnoreWhiteSpaces());
+    m_configuration.formDetails.numberQuestionsOfColumn1 = stringHelper::convertStringToNumber<unsigned int>(fileReader.getLineAndIgnoreWhiteSpaces());
+    m_configuration.formDetails.numberQuestionsOfColumn2 = stringHelper::convertStringToNumber<unsigned int>(fileReader.getLineAndIgnoreWhiteSpaces());
+    while(fileReader.isNotFinished())
+    {
+        m_configuration.formDetails.questions.emplace_back(fileReader.getLineAndIgnoreWhiteSpaces());
     }
 
-
-    //You need to fix form details here.
-
-
-    HANDLE hFind;
-    BOOL bContinue = TRUE;
-    WIN32_FIND_DATA data;
-    FILE* tempFormDetailsForm = NULL;
-    char str1[MAXSTR];
-
-    cout<<"Form Type:"<<endl;
-    hFind = FindFirstFile("C:\\APRG\\SOOSA2014\\formDetailss\\*.*", &data);
-    int choice=1,ichoice=1;
-    while (hFind && bContinue){
-        // Check if this entry is a directory
-        if (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-            // This is a directory
-            if(!strcmp(data.cFileName,".")){bContinue = FindNextFile(hFind, &data);continue;}
-            if(!strcmp(data.cFileName,"..")){bContinue = FindNextFile(hFind, &data);continue;}
-
-        }else{
-            cout<<"Choice:"<<choice<<". "<<data.cFileName<<endl;
-            choice++;
-        }
-        bContinue = FindNextFile(hFind, &data);
+    if(m_configuration.formDetails.numberQuestionsOfColumn1 > MAXQUESTIONS)
+    {
+        cout<<"ERROR: Maximum number of questions exceeded. There are "<<m_configuration.formDetails.numberQuestionsOfColumn1<<" questions (max="<<MAXQUESTIONS<<")."<<endl;
     }
-    cout<<"Enter selection: "<<endl;
-    fgets(str1,MAXSTR,stdin);
-    choice = atoi(str1);
-    cout<<"Choice: "<<choice<<endl;
-    FindClose(hFind); // Free the dir structure
-
-    strcpy(str1,"C:\\APRG\\SOOSA2014\\formDetailss\\");
-    hFind = FindFirstFile("C:\\APRG\\SOOSA2014\\formDetailss\\*.*", &data);
-    bContinue = TRUE;
-    ichoice=1;
-    while (hFind && bContinue) {
-        // Check if this entry is a directory
-        if (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-            // This is a directory
-            if(!strcmp(data.cFileName,".")){bContinue = FindNextFile(hFind, &data);continue;}
-            if(!strcmp(data.cFileName,"..")){bContinue = FindNextFile(hFind, &data);continue;}
-        }else{
-            if(choice==ichoice){
-                strcat(str1,data.cFileName);
-                if ((tempFormDetailsForm = fopen(str1, "r")) == NULL)
-                {
-                    cout<<"ERROR: Error in reading formDetails File."<<endl;
-                    return NULL;
-                }
-                fgets(str1,MAXSTR,tempFormDetailsForm);
-                fgets(str1,MAXSTR,tempFormDetailsForm);
-                numColumns=atoi(str1);
-                fgets(str1,MAXSTR,tempFormDetailsForm);
-                numQuestionCol1=atoi(str1);
-                fgets(str1,MAXSTR,tempFormDetailsForm);
-                numQuestionCol2=atoi(str1);
-                cout<<"FormDetails Information: numColumns="<<numColumns<<" numQuestionCol1="<<numQuestionCol1<<" numQuestionCol2="<<numQuestionCol2<<"."<<endl;
-                return tempFormDetailsForm;
-            }
-            ichoice++;
-        }
-        bContinue = FindNextFile(hFind, &data);
+    if(m_configuration.formDetails.numberQuestionsOfColumn1 > MAXQUESTIONS)
+    {
+        cout<<"ERROR: Maximum number of questions exceeded. There are "<<m_configuration.formDetails.numberQuestionsOfColumn2<<" questions (max="<<MAXQUESTIONS<<")."<<endl;
     }
-    return NULL;
+    if(!(m_configuration.formDetails.numberOfColumns == 1 || m_configuration.formDetails.numberOfColumns ==2))
+    {
+        cout<<"ERROR: Number of columns can be only 1 or 2. (numberOfColumns="<<m_configuration.formDetails.numberOfColumns<<")."<<endl;
+    }
+    if(m_configuration.formDetails.numberOfColumns == 1)
+    {
+         m_configuration.formDetails.numberQuestionsOfColumn2 = m_configuration.formDetails.numberQuestionsOfColumn1;
+    }
 }
 
-int SOOSA::process()
-{
+int SOOSA::process(){
     cout<<"SOOSA2014 - Survey Output Optical Scan Analyzer\n\n"<<endl;
     cout<<"AREA: "<<m_configuration.area<<endl;
-    cout<<"PERIOD: "<<m_configuration.period<<endl;
-    cout<<"DISCHARGE: "<<m_configuration.discharge<<endl;
+    cout<<"PERIOD: "<<m_configuration.period<<endl;    cout<<"DISCHARGE: "<<m_configuration.discharge<<endl;
 
     AlbaLocalPathHandler pathHandler(m_configuration.path);
 
@@ -2500,141 +2434,112 @@ int SOOSA::process()
     int len,x,i,j,total,median1,median2;
     FILE* basisHtml = NULL;
     FILE* outputHtml = NULL;
-    FILE* formDetailsForm = NULL;
 
     string reportHtmlFilePath(pathHandler.getDirectory()+"PSS_Report_"+m_configuration.area+"_"+m_configuration.period+".html");
-    if ((outputHtml = fopen(reportHtmlFilePath.c_str(), "w")) == NULL)
-    {
+    if ((outputHtml = fopen(reportHtmlFilePath.c_str(), "w")) == NULL)    {
         cout<<"ERROR: Error in HTML File. File:"<<reportHtmlFilePath<<endl;
         return 1;
     }
 
-    numQuestionCol1=0;
-    numQuestionCol2=0;
-    numColumns=0;
-    numOfResp=0;
-    formDetailsForm = selectFormDetailsFromFormDetailsDirectory();
-    if(formDetailsForm == NULL)
-    {
-        cout<<"ERROR: Cannot find formDetails."<<endl;
-        return 1;
-    }
-    if(numQuestionCol1>MAXQUESTIONS)
-    {
-        cout<<"ERROR: Maximum number of questions exceeded. There are "<<numQuestionCol1<<" questions (max="<<MAXQUESTIONS<<")."<<endl;
-        return 1;
-    }
-    if(numQuestionCol2>MAXQUESTIONS)
-    {
-        cout<<"ERROR: Maximum number of questions exceeded. There are "<<numQuestionCol2<<" questions (max="<<MAXQUESTIONS<<")."<<endl;
-        return 1;
-    }
-    if(numColumns!=1 && numColumns!=2)
-    {
-        cout<<"ERROR: Number of columns can be only 1 or 2. (numColumns="<<numColumns<<")."<<endl;
-        return 1;
-    }
-    if(numColumns==1)
-    {
-        numQuestionCol2=numQuestionCol1;
-    }
-    strcpy(str,path.c_str());
+    selectFormDetailsFromFormDetailsDirectory();
+
+    strcpy(str,m_configuration.path.c_str());
     len=strlen(str);
     if(len<=0){return 1;}
     CSVPRINT("FILE,STATUS");
-    if(numColumns==2){
-        for(x=0;x<numQuestionCol1;x++){CSVPRINT(",Col1_Q%d",x+1);}
-        for(x=0;x<numQuestionCol2;x++){CSVPRINT(",Col2_Q%d",x+1);}
+    if(m_configuration.formDetails.numberOfColumns==2){
+        for(x=0;x<m_configuration.formDetails.numberQuestionsOfColumn1;x++){CSVPRINT(",Col1_Q%d",x+1);}
+        for(x=0;x<m_configuration.formDetails.numberQuestionsOfColumn2;x++){CSVPRINT(",Col2_Q%d",x+1);}
     }else{
-        for(x=0;x<numQuestionCol1;x++){CSVPRINT(",Col1_Q%d",x+1);}
+        for(x=0;x<m_configuration.formDetails.numberQuestionsOfColumn1;x++){CSVPRINT(",Col1_Q%d",x+1);}
     }
     CSVPRINT("\n");
-    if(str[len-1]=='\"'){
-        str[len-1]='\0';
+    if(str[len-1]=='\"'){        str[len-1]='\0';
         cout<<"\nProcess Folder:"<<str<<endl;
         processDir(str);
     }else{
         cout<<"\nProcess File:"<<str<<endl;
         if(processOneFile(str)==0){
             CSVPRINT("%s,OK",str);
-            if(numColumns==2){
+            if(m_configuration.formDetails.numberOfColumns==2){
                 i=0;
-                for(x=0;x<numQuestionCol1;x++){
+                for(x=0;x<m_configuration.formDetails.numberQuestionsOfColumn1;x++){
                     CSVPRINT(",%d",ColumnAnswers1[x]);
                     if(ColumnAnswers1[x]<=5 && ColumnAnswers1[x]>=1){m_frequencyDatabase[i][ColumnAnswers1[x]-1]++;}
                     i++;
                 }
-                for(x=0;x<numQuestionCol2;x++){
+                for(x=0;x<m_configuration.formDetails.numberQuestionsOfColumn2;x++){
                     CSVPRINT(",%d",ColumnAnswers2[x]);
                     if(ColumnAnswers2[x]<=5 && ColumnAnswers2[x]>=1){m_frequencyDatabase[i][ColumnAnswers2[x]-1]++;}
-                    i++;
-                }
+                    i++;                }
             }else{
                 i=0;
-                for(x=0;x<numQuestionCol1;x++){
+                for(x=0;x<m_configuration.formDetails.numberQuestionsOfColumn1;x++){
                     CSVPRINT(",%d",ColumnAnswers1[x]);
                     if(ColumnAnswers1[x]<=5 && ColumnAnswers1[x]>=1){m_frequencyDatabase[i][ColumnAnswers1[x]-1]++;}
-                    i++;
-                }
+                    i++;                }
             }
             CSVPRINT("\n");
         }else{
+            cout<<"DONE FAILED2"<<endl;
             CSVPRINT("%s,FAILED 2\n",str);
+            return 1;
         }
-        numOfResp++;
+        m_configuration.numberOfRespondents++;
     }
+
+    cout<<"Generating output file"<<endl;
 
     if ((basisHtml = fopen("C:\\APRG\\SOOSA2014\\basis.html", "r")) == NULL)
     {
-        cout<<"ERROR: Error in basis.html file."<<endl;
-        return 1;
+        cout<<"ERROR: Error in basis.html file."<<endl;        return 1;
     }
 
     while(fgets(str,MAXSTR,basisHtml)!=NULL)
     {
         if(str[0]=='@' && str[1]=='A' && str[2]=='A' && str[3]=='A' && str[4]=='@')
         {
-            fprintf(outputHtml,"%s",area.c_str());
+            fprintf(outputHtml,"%s", m_configuration.area.c_str());
         }
         else if(str[0]=='@' && str[1]=='P' && str[2]=='P' && str[3]=='P' && str[4]=='@')
         {
-            fprintf(outputHtml,"%s",period.c_str());
+            fprintf(outputHtml,"%s", m_configuration.period.c_str());
         }
         else if(str[0]=='@' && str[1]=='L' && str[2]=='L' && str[3]=='L' && str[4]=='@')
         {
-            fprintf(outputHtml,"<h2>Number of Respondents: %d</h2>\n", numOfResp);
-            fprintf(outputHtml,"<h2>Average Discharges per Month: %s</h2>\n", discharge.c_str());
-            j=atoi(discharge.c_str());
-            fprintf(outputHtml,"<h2>%% of Respondents to Discharges: %3.1lf%%</h2>\n", (double)numOfResp/j*100);
+            fprintf(outputHtml,"<h2>Number of Respondents: %d</h2>\n", m_configuration.numberOfRespondents);
+            fprintf(outputHtml,"<h2>Average Discharges per Month: %s</h2>\n",  m_configuration.discharge.c_str());
+            j=atoi(m_configuration.discharge.c_str());
+            fprintf(outputHtml,"<h2>%% of Respondents to Discharges: %3.1lf%%</h2>\n", (double)m_configuration.numberOfRespondents/j*100);
         }
         else if(str[0]=='@' && str[1]=='T' && str[2]=='T' && str[3]=='T' && str[4]=='@')
         {
-            i=numQuestionCol1+numQuestionCol2;
+            cout<<"DAAN1"<<endl;
+            i=std::min(m_configuration.formDetails.numberQuestionsOfColumn1+m_configuration.formDetails.numberQuestionsOfColumn2, m_configuration.formDetails.questions.size());
             for(x=0;x<i;x++)
             {
+                cout<<"DAAN2"<<endl;
                 fprintf(outputHtml,"<tr>\n");
-                fgets(str,MAXSTR,formDetailsForm);
                 total = m_frequencyDatabase[x][0]+m_frequencyDatabase[x][1]+m_frequencyDatabase[x][2]+m_frequencyDatabase[x][3]+m_frequencyDatabase[x][4];
                 if((total+1)%2==0)
                 {
+                    cout<<"DAAN3"<<endl;
                     median1 = (total+1)/2;
                     j=0;
-                    while(median1>m_frequencyDatabase[x][j] && j<5)
-                    {
+                    while(median1>m_frequencyDatabase[x][j] && j<5)                    {
                         median1 = median1-m_frequencyDatabase[x][j++];
                     }
                     median1=j+1+j+1;
                 }
                 else
                 {
+                    cout<<"DAAN4"<<endl;
                     median1 = (total+1)/2;
                     median2 = median1+1;
-                    j=0;
-                    while(median1>m_frequencyDatabase[x][j] && j<5)
+                    j=0;                    while(median1>m_frequencyDatabase[x][j] && j<5)
                     {
                         median1 = median1-m_frequencyDatabase[x][j++];
-                    }
-                    median1=j+1;
+                    }                    median1=j+1;
                     j=0;
                     while(median2>m_frequencyDatabase[x][j] && j<5)
                     {
@@ -2646,59 +2551,61 @@ int SOOSA::process()
                 }
                 if(x==i-1)
                 {
-                    fprintf(outputHtml,"<td style=\"text-align:left;padding:3px\"><b>%s</b></td>\n",str);
+                    cout<<"DAAN5"<<endl;
+                    fprintf(outputHtml,"<td style=\"text-align:left;padding:3px\"><b>%s</b></td>\n",m_configuration.formDetails.questions[x].c_str());
                 }
                 else
                 {
-                    fprintf(outputHtml,"<td style=\"text-align:left;padding:3px\">%s</td>\n",str);
+                    cout<<"DAAN6"<<endl;
+                    fprintf(outputHtml,"<td style=\"text-align:left;padding:3px\">%s</td>\n",m_configuration.formDetails.questions[x].c_str());
                 }
                 if(total==0)
                 {
+                    cout<<"DAAN7"<<endl;
                     fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> 0.0%% </td>\n");
                     fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> 0.0%% </td>\n");
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> 0.0%% </td>\n");
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> 0.0%% </td>\n");
+                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> 0.0%% </td>\n");                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> 0.0%% </td>\n");
                     fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> 0.0%% </td>\n");
                     fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> 0 </td>\n");
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> - </td>\n");
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> - </td>\n");
+                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> - </td>\n");                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\"> - </td>\n");
                 }
                 else
                 {
+                    cout<<"DAAN8"<<endl;
                     fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%3.1lf%%</td>\n",((double)m_frequencyDatabase[x][4])/total*100);
                     fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%3.1lf%%</td>\n",((double)m_frequencyDatabase[x][3])/total*100);
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%3.1lf%%</td>\n",((double)m_frequencyDatabase[x][2])/total*100);
-                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%3.1lf%%</td>\n",((double)m_frequencyDatabase[x][1])/total*100);
+                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%3.1lf%%</td>\n",((double)m_frequencyDatabase[x][2])/total*100);                    fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%3.1lf%%</td>\n",((double)m_frequencyDatabase[x][1])/total*100);
                     fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%3.1lf%%</td>\n",((double)m_frequencyDatabase[x][0])/total*100);
                     fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%d</td>\n",total);
                     if(median1%2==0)
                     {
+                        cout<<"DAAN9"<<endl;
                         fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%d</td>\n",(median1/2));
                     }
                     else
                     {
+                        cout<<"DAAN10"<<endl;
                         fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%1.1lf</td>\n",((double)median1)/2);
                     }
                     fprintf(outputHtml,"<td style=\"text-align:center;padding:3px\">%3.1lf%%</td>\n",((double)m_frequencyDatabase[x][4]+m_frequencyDatabase[x][3]+m_frequencyDatabase[x][2])/total*100);
                 }
+                cout<<"DAAN11"<<endl;
                 fprintf(outputHtml,"</tr>\n");
             }
+            cout<<"DAAN12"<<endl;
         }
         else
         {
+            cout<<"DAAN13"<<endl;
             fprintf(outputHtml,"%s",str);
         }
     }
-
-    fclose(formDetailsForm);
     fclose(outputHtml);
     fclose(m_csvFile);
-#ifdef LOPFLAG
-    fclose(Snapshot);
+#ifdef LOPFLAG    fclose(Snapshot);
 #elif  DBGFLAG
     fclose(Snapshot);
-#else
-    fclose(m_logFile);
+#else    fclose(m_logFile);
 #endif
     return 0;
 }
