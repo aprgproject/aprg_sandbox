@@ -45,27 +45,11 @@ public:
         return !((*this)==xy);
     }
 
-    bool operator<(AlbaXY<CoordinateType> const& xy) const
-    {
-        bool isLessThan(false);
-        if(x < xy.x)
-        {
-            isLessThan = true;
-        }
-        else if(x == xy.x)
-        {
-            isLessThan = (y < xy.y);
-        }
-        return  isLessThan;
-    }
-
     std::string getDisplayableString() const
     {
-        std::stringstream ss;
-        ss<<"("<<x<<","<<y<<")";
+        std::stringstream ss;        ss<<"("<<x<<","<<y<<")";
         return ss.str();
     }
-
     void setXAndY(CoordinateType xValue, CoordinateType yValue)
     {
         x = xValue;
