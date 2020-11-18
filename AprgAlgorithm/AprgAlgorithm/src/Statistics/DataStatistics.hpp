@@ -20,9 +20,11 @@ public:
     {
         return (Sample)std::accumulate(samples.begin(), samples.end(), Sample(), std::plus<Sample>());
     }
+
     static Sample calculateMean(Samples const& samples)
     {
-        return calculateSum(samples)/samples.size();    }
+        return calculateSum(samples)/samples.size();
+    }
 
     static Sample calculateSampleVariance(Samples const& samples)
     {

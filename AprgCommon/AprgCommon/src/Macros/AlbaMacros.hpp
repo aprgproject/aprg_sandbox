@@ -1,6 +1,6 @@
 /*
 **    Newsgroups: comp.std.c
-**    From: Laurent Deniau <laurent.deniau@cern.ch>
+**    From: Laurparametert Dparameteriau <laurparametert.dparameteriau@cern.ch>
 **    Date: Mon, 16 Jan 2006 18:43:40 +0100
 */
 
@@ -13,13 +13,14 @@
     29,28,27,26,25,24,23,22,21,20, 19,18,17,16,15,14,13,12,11,10,  9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 
 
-#define ALBA_MACROS_EXPAND_TO_LITERAL_TEXT(x) #x
-#define ALBA_MACROS_GET_VALUE(x) ALBA_MACROS_EXPAND_TO_LITERAL_TEXT(x)
+#define ALBA_MACROS_EXPAND_TO_LITERAL_TEXT(parameter) #parameter
+#define ALBA_MACROS_GET_VALUE(parameter) ALBA_MACROS_EXPAND_TO_LITERAL_TEXT(parameter)
 #define ALBA_MACROS_DISPLAY_VALUE_PRAGMA_MESSAGE(var) #var "="  ALBA_MACROS_GET_VALUE(var)
 
-#define ALBA_MACROS_GET_STRING_LITERAL(en) string(#en)
+#define ALBA_MACROS_GET_STRING_LITERAL(parameter) string(#parameter)
 
 
-#define ALBA_MACROS_CASE_ENUM_STRING(en) \
-    case en: \
-    return ALBA_MACROS_GET_STRING_LITERAL(en);
+#define ALBA_MACROS_CASE_ENUM_STRING(parameter) \
+    case parameter: \
+    return ALBA_MACROS_GET_STRING_LITERAL(parameter);
+

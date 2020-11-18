@@ -12,6 +12,7 @@ set(APRG_COMMON_SOURCES
     ${APRG_COMMON_DIR}/src/Container/AlbaContainerHelper.cpp
     ${APRG_COMMON_DIR}/src/Container/AlbaContainerHelper.hpp
     ${APRG_COMMON_DIR}/src/Container/AlbaXY.hpp
+    ${APRG_COMMON_DIR}/src/Debug/AlbaDebug.hpp
     ${APRG_COMMON_DIR}/src/File/AlbaFileReader.cpp
     ${APRG_COMMON_DIR}/src/File/AlbaFileReader.hpp
     ${APRG_COMMON_DIR}/src/Macros/AlbaMacros.hpp
@@ -34,6 +35,8 @@ set(APRG_COMMON_SOURCES
     ${APRG_COMMON_DIR}/src/Randomizer/AlbaRandomizer.hpp
     ${APRG_COMMON_DIR}/src/String/AlbaStringHelper.cpp
     ${APRG_COMMON_DIR}/src/String/AlbaStringHelper.hpp
+    ${APRG_COMMON_DIR}/src/Timer/AlbaDateTimeFormat.cpp
+    ${APRG_COMMON_DIR}/src/Timer/AlbaDateTimeFormat.hpp
     ${APRG_COMMON_DIR}/src/Timer/AlbaLocalTimer.cpp
     ${APRG_COMMON_DIR}/src/Timer/AlbaLocalTimer.hpp
     ${APRG_COMMON_DIR}/src/Timer/AlbaWindowsTimer.cpp
@@ -55,6 +58,7 @@ set(APRG_COMMON_TESTS
     ${APRG_COMMON_DIR}/tst/TimerTests/AlbaWindowsTimer_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaBitManipulation_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaContainerHelper_unit.cpp
+    ${APRG_COMMON_DIR}/tst/AlbaDebug_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaDisplayTable_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaFileReader_unit.cpp
     ${APRG_COMMON_DIR}/tst/AlbaMacros_unit.cpp

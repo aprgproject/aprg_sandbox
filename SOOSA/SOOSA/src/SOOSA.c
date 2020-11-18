@@ -2015,10 +2015,12 @@ int main ( int argc, char *argv[] ) {
     Snapshot=NULL; csvfile=NULL;
 #ifdef LOPFLAG
     if ((Snapshot = fopen("LogsAll.txt", "w")) == NULL){
-        INFPRINT("ERROR: Error in Reading LOG File.\n"); return 1;    }
+        INFPRINT("ERROR: Error in Reading LOG File.\n"); return 1;
+    }
 #elif  DBGFLAG
     if ((Snapshot = fopen("LogsDBG.txt", "w")) == NULL){
-        INFPRINT("ERROR: Error in Reading LOG File.\n"); return 1;    }
+        INFPRINT("ERROR: Error in Reading LOG File.\n"); return 1;
+    }
 #else
     if ((Snapshot = fopen("Logs.txt", "w")) == NULL){
         INFPRINT("ERROR: Error in Reading LOG File.\n"); return 1;

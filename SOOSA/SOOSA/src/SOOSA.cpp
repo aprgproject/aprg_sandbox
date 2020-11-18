@@ -9,10 +9,12 @@
 #include <sstream>
 #include <iostream>
 
-//OLD HEADERS#include <stdio.h>
+//OLD HEADERS
+#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <windows.h>
+
 //#define DBGFLAG 1
 //#define LOPFLAG 1
 //#define CIRFLAG 1
@@ -20,10 +22,12 @@
 #define FILE_PATH_BASIS_HTML APRG_DIR R"(SOOSA2014\basis.html)"
 #define MAXSTR 500
 #define MAXQUESTIONSCOOR 60 //2*30 -> MUST be twice of MAXQUESTIONS
-#define SAMPLESLINETOALLOC 1000#define SAMPLESLINE 500
+#define SAMPLESLINETOALLOC 1000
+#define SAMPLESLINE 500
 #define MINSAMPLESLINE 200
 #define SAMPLESLINETOPBOTTOM 300
-#define MINSAMPLESLINETOPBOTTOM 100#define ROBUSTSAMPLESLINE 1000
+#define MINSAMPLESLINETOPBOTTOM 100
+#define ROBUSTSAMPLESLINE 1000
 #define ROBUSTMINSAMPLESLINE 100
 #define ROBUSTSAMPLESLINETOPBOTTOM 500
 #define ROBUSTMINSAMPLESLINETOPBOTTOM 100
@@ -61,9 +65,11 @@
 #define INFPRINT(...)  printf(__VA_ARGS__);
 #define CSVPRINT(...) fprintf(m_csvFile, __VA_ARGS__);
 
+
 //gawa struct for x y for points and slope
 //gawa function search to right search to the left
-//chebyshev//k-mean cluster algo
+//chebyshev
+//k-mean cluster algo
 //cache in DataDigital for continuous access
 
 //malloc check
@@ -79,67 +85,36 @@ namespace alba
 SOOSA::SOOSA(SoosaConfiguration const& configuration)
     : m_configuration(configuration)
 {
-    m_configuration.numberOfRespondents=0;
+    m_numberOfRespondents=0;
 }
 
-void SOOSA::clearFrequencyDatabase(){
+void SOOSA::clearFrequencyDatabase()
+{
     for(unsigned int i=0; i<MAXQUESTIONSALL; i++)
     {
-        for(unsigned int j=0; j<6; j++)        {
+        for(unsigned int j=0; j<6; j++)
+        {
             m_questionToAnswerFrequencyMap[i][j]=0;
         }
     }
 }
 
-void SOOSA::saveFormDetailsFromUserInterface()
-{
-    saveFormDetailsFromFormDetailsPath(getPathOfFormDetailsUsingUserInterface());
-}
-
-void SOOSA::saveFormDetailsFromFormDetailsPath(string const& formDetailsFilePath)
-{
-    ifstream formDetailsStream(formDetailsFilePath);
-    AlbaFileReader fileReader(formDetailsStream);
-
-    m_configuration.formDetails.title = fileReader.getLineAndIgnoreWhiteSpaces();
-
-    unsigned int columnNumber=0;
-    unsigned int questionNumber=0;
-    unsigned int questionNumberAtTheStartOfColumn=questionNumber;
-    while(fileReader.isNotFinished())
-    {
-        string line(fileReader.getLineAndIgnoreWhiteSpaces());
-        if(line == "NEW_COLUMN")
-        {
-            if(columnNumber>0)
-            {
-                m_configuration.formDetails.columnToQuestionRangeMap.emplace(columnNumber, SoosaQuestionRange(questionNumberAtTheStartOfColumn,questionNumber));
-            }
-            questionNumberAtTheStartOfColumn = questionNumber;
-            columnNumber++;
-        }
-        else
-        {
-            m_configuration.formDetails.questions.emplace_back(line);
-            questionNumber++;
-        }
-    }
-    m_configuration.formDetails.columnToQuestionRangeMap.emplace(columnNumber, SoosaQuestionRange(questionNumberAtTheStartOfColumn,questionNumber));
-}
-
 unsigned int SOOSA::getAnswerToQuestion(unsigned int const questionNumber) const
 {
+    cout<<"m_questionToAnswersMap"<<m_questionToAnswersMap.size()<<endl;
+
+    cout<<"questionNumber"<<questionNumber<<endl;
     return m_questionToAnswersMap.at(questionNumber);
 }
 
 string SOOSA::getCsvFileName(string const& path) const
 {
-    return AlbaLocalPathHandler(path).getDirectory()+"PSS_Report_"+m_configuration.area+"_"+m_configuration.period+".csv";
+    return AlbaLocalPathHandler(path).getDirectory()+"PSS_Report_"+m_configuration.getArea()+"_"+m_configuration.getPeriod()+".csv";
 }
 
 string SOOSA::getReportHtmlFileName(string const& path) const
 {
-    return AlbaLocalPathHandler(path).getDirectory()+"PSS_Report_"+m_configuration.area+"_"+m_configuration.period+".html";
+    return AlbaLocalPathHandler(path).getDirectory()+"PSS_Report_"+m_configuration.getArea()+"_"+m_configuration.getPeriod()+".html";
 }
 
 string SOOSA::getPrintableStringForPercentage(double const numerator, double const denominator) const
@@ -157,30 +132,10 @@ string SOOSA::getPrintableStringForPercentage(double const numerator, double con
     return ss.str();
 }
 
-string SOOSA::getPathOfFormDetailsUsingUserInterface() const
+void SOOSA::setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer)
 {
-    AlbaLocalPathHandler formDetailsPathHandler(m_configuration.formDetailsDirectoryPath);
-
-    set<string> listOfFiles;
-    set<string> listOfDirectories;
-    AlbaUserInterface ui;
-    AlbaUserInterface::Choices<unsigned int> choices;
-    unsigned int choice(0);
-
-    formDetailsPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
-
-    for(string const& formDetailsFile: listOfFiles)
-    {        cout<<"Choice "<<choice<<" :: "<<AlbaLocalPathHandler(formDetailsFile).getFile()<<endl;
-        choices.emplace(choice++, AlbaLocalPathHandler(formDetailsFile).getFullPath());
-    }
-    unsigned int chosenChoice = 0;//ui.displayQuestionAndChoicesAndGetNumberAnswer("Select formDetails:", choices);    cout<<"Chosen choice: "<<chosenChoice<<endl;
-
-    return choices[chosenChoice];
-}
-
-void SOOSA::setAnswerToQuestion(unsigned int const columnNumber, unsigned int const questionOffset, unsigned int const answer)
-{
-    m_questionToAnswersMap[m_configuration.getQuestionNumber(columnNumber, questionOffset)] = answer;
+    cout<<"getQuestionNumberInColumn"<<m_configuration.getQuestionNumberInColumn(columnNumber, questionOffsetInColumn)<<" columnNumber"<<columnNumber<<" questionOffsetInColumn"<<questionOffsetInColumn<<endl;
+    m_questionToAnswersMap[m_configuration.getQuestionNumberInColumn(columnNumber, questionOffsetInColumn)] = answer;
 }
 
 void  SOOSA::addToFrequencyDatabase(unsigned int const questionNumber, unsigned int const answer)
@@ -190,7 +145,7 @@ void  SOOSA::addToFrequencyDatabase(unsigned int const questionNumber, unsigned 
 
 void SOOSA::saveDataToCsvFile(string const& processedFilePath)
 {
-    ofstream outputCsvReportStream(getCsvFileName(m_configuration.path), ofstream::app);
+    ofstream outputCsvReportStream(getCsvFileName(m_configuration.getPath()), ofstream::app);
     if(isStatusNoError(m_status))
     {
         outputCsvReportStream<<processedFilePath<<",OK";
@@ -209,7 +164,7 @@ void SOOSA::saveDataToCsvFile(string const& processedFilePath)
 
 void SOOSA::saveHeadersToCsvFile()
 {
-    ofstream outputCsvReportStream(getCsvFileName(m_configuration.path));
+    ofstream outputCsvReportStream(getCsvFileName(m_configuration.getPath()));
     outputCsvReportStream << "FILE,STATUS";
     for(unsigned int i=0; i<m_configuration.getNumberOfQuestions(); i++)
     {
@@ -231,18 +186,18 @@ void SOOSA::saveOutputHtmlFile(string const& processedFilePath)
         string line(htmlBasisFileReader.getLineAndIgnoreWhiteSpaces());
         if(line == "@AAA@")
         {
-            reportHtmlFileStream<<m_configuration.area.c_str();
+            reportHtmlFileStream<<m_configuration.getArea();
         }
         else if(line == "@PPP@")
         {
-            reportHtmlFileStream<<m_configuration.period.c_str();
+            reportHtmlFileStream<<m_configuration.getPeriod();
         }
         else if(line == "@LLL@")
         {
-            reportHtmlFileStream<<"<h2>Number of Respondents: "<<m_configuration.numberOfRespondents<<"</h2>"<<endl;
-            reportHtmlFileStream<<"<h2>Average Discharges per Month: "<<m_configuration.discharge.c_str()<<"</h2>"<<endl;
-            double dischargeValue(stringHelper::convertStringToNumber<double>(m_configuration.discharge));
-            reportHtmlFileStream<<"<h2>Percentage of respondents to discharges: "<<getPrintableStringForPercentage(m_configuration.numberOfRespondents, dischargeValue)<<"</h2>"<<endl;
+            reportHtmlFileStream<<"<h2>Number of Respondents: "<<m_numberOfRespondents<<"</h2>"<<endl;
+            reportHtmlFileStream<<"<h2>Average Discharges per Month: "<<m_configuration.getDischarge()<<"</h2>"<<endl;
+            double dischargeValue(m_configuration.getDischarge());
+            reportHtmlFileStream<<"<h2>Percentage of respondents to discharges: "<<getPrintableStringForPercentage(m_numberOfRespondents, dischargeValue)<<"</h2>"<<endl;
         }
         else if(line == "@TTT@")
         {
@@ -258,11 +213,11 @@ void SOOSA::saveOutputHtmlFile(string const& processedFilePath)
                 double median = FrequencyStatistics<double>::calculateMedian(samples);
                 if(questionIndex==m_configuration.getNumberOfQuestions()-1)
                 {
-                    reportHtmlFileStream<<"<td style=\"text-align:left;padding:3px\"><b>"<<m_configuration.formDetails.questions[questionIndex]<<"</b></td>"<<endl;
+                    reportHtmlFileStream<<"<td style=\"text-align:left;padding:3px\"><b>"<<m_configuration.getQuestionAt(questionIndex)<<"</b></td>"<<endl;
                 }
                 else
                 {
-                    reportHtmlFileStream<<"<td style=\"text-align:left;padding:3px\">"<<m_configuration.formDetails.questions[questionIndex]<<"</td>"<<endl;
+                    reportHtmlFileStream<<"<td style=\"text-align:left;padding:3px\">"<<m_configuration.getQuestionAt(questionIndex)<<"</td>"<<endl;
                 }
                 reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_questionToAnswerFrequencyMap[questionIndex][4],numberOfSamplesForQuestion)<<"</td>"<<endl;
                 reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_questionToAnswerFrequencyMap[questionIndex][3],numberOfSamplesForQuestion)<<"</td>"<<endl;
@@ -297,12 +252,16 @@ void SOOSA::saveOutputHtmlFile(string const& processedFilePath)
 
 
 
+
+
 void SOOSA::getChebyshevInt(ChebyshevCriterion* in_cc, int* arr, int num)
 {
-    int i;    double mean=0, stddev=0;
+    int i;
+    double mean=0, stddev=0;
     for(i=0; i<num; i++){
         LOPPRINT("  FUNCLOOP:getChebyshevInt[i=%d]->(arr[i]=%d|mean=%lf)\n",i,arr[i],mean);
-        mean=mean+arr[i];    }
+        mean=mean+arr[i];
+    }
     mean=mean/num;
     for(i=0; i<num; i++){
         LOPPRINT("  FUNCLOOP:getChebyshevInt[i=%d]->(arr[i]=%d|stddev=%lf)\n",i,arr[i],stddev);
@@ -533,10 +492,12 @@ long SOOSA::getImageInfo(FILE* inputFile, long offset, int numberOfChars)
 int SOOSA::openBmpImage(BmpImage* inBmpImage, char const* sbmp)
 {
 
-    FILE* bmpInput = NULL;    inBmpImage->filePtr = NULL;
+    FILE* bmpInput = NULL;
+    inBmpImage->filePtr = NULL;
     char signature[2]; /* Signature of the Image File BM = BMP */
     int nRows, nCols; /* Row and Column size of the Image */
-    int xpixpeRm, ypixpeRm; /* Pixel/m */    long nColors; /* BMP number of colors */
+    int xpixpeRm, ypixpeRm; /* Pixel/m */
+    long nColors; /* BMP number of colors */
     long fileSize; /* BMP file size */
     long vectorSize; /* BMP's raster data in number of bytes */
     int nBits; /* # of BIts per Pixel */
@@ -960,21 +921,21 @@ int SOOSA::processOneColumn(DataDigital* indata, PairXY* QuesArr1, PairXY* QuesA
         {
             if(tchoice>=1 && tchoice<=5)
             {
-                setAnswerToQuestion(1, t1, tchoice);
+                setAnswerToQuestionInColumn(1, t1, tchoice);
             }
             else
             {
-                setAnswerToQuestion(1, t1, 0);
+                setAnswerToQuestionInColumn(1, t1, 0);
             }
         }else if(columnNumber==2)
         {
             if(tchoice>=1 && tchoice<=5)
             {
-                setAnswerToQuestion(2, t1, tchoice);
+                setAnswerToQuestionInColumn(2, t1, tchoice);
             }
             else
             {
-                setAnswerToQuestion(2, t1, 0);
+                setAnswerToQuestionInColumn(2, t1, 0);
             }
         }
         t2=t2+2;
@@ -1847,7 +1808,8 @@ void SOOSA::processOneFile(string const& fileName)
     m_status = SoosaStatus::NoError;
 
     BmpImage img;
-    DataDigital dd;    ChebyshevCriterion ccSlope;
+    DataDigital dd;
+    ChebyshevCriterion ccSlope;
     dd.buf = NULL;//IMPT
     dd.status=0;
     if(openBmpImage(&img,fileName.c_str())){
@@ -1865,10 +1827,12 @@ void SOOSA::processOneFile(string const& fileName)
 
     //forfaster
     int barheightsamplepixels = 10;
-    int xsearchsize = img.xSize/8;    int ysearchsize = img.ySize/8;
+    int xsearchsize = img.xSize/8;
+    int ysearchsize = img.ySize/8;
 
     LineSlopeIntercept leftline, rightline, topline, bottomline, centerleftline, centerrightline, templine;
-    PairXY uplfcorner, uprtcorner, dnlfcorner, dnrtcorner, upcenter, dncenter;    PairXY temppoint1,temppoint2,temppoint3;
+    PairXY uplfcorner, uprtcorner, dnlfcorner, dnrtcorner, upcenter, dncenter;
+    PairXY temppoint1,temppoint2,temppoint3;
     PairXY lineSamples[SAMPLESLINETOALLOC];
     PairXY Q1[MAXQUESTIONSCOOR],Q2[MAXQUESTIONSCOOR],Q3[MAXQUESTIONSCOOR],Q4[MAXQUESTIONSCOOR];
     int numLineSamples,maxLineSamples;
@@ -2231,7 +2195,7 @@ void SOOSA::processOneFile(string const& fileName)
                 continue;
             }
             deAllocData(&dd);
-            if(m_configuration.getColumns()==2){
+            if(m_configuration.getNumberOfColumns()==2){
                 temppoint1=getMidpoint(uplfcorner,upcenter);
                 temppoint2=getMidpoint(upcenter,uprtcorner);
                 addPointToDataDigital(&img,&dd,temppoint1._x,temppoint1._y-PIXELSSEARCHSIZE);
@@ -2339,7 +2303,7 @@ void SOOSA::processOneFile(string const& fileName)
                 algoTries++;
                 continue;
             }
-            if(m_configuration.getColumns()==2){
+            if(m_configuration.getNumberOfColumns()==2){
                 maxLineSamples=ROBUSTSAMPLESLINE;
                 //center left line
                 cout<<"INFO: Finding center left line. NumOfSamples="<<numLineSamples<<endl;
@@ -2404,7 +2368,7 @@ void SOOSA::processOneFile(string const& fileName)
             }
         }
         if(algoTries==0){
-            if(m_configuration.getColumns()==2){
+            if(m_configuration.getNumberOfColumns()==2){
                 //COL1
                 addPointToDataDigital(&img,&dd,uplfcorner._x,uplfcorner._y);
                 addPointToDataDigital(&img,&dd,dnlfcorner._x,dnlfcorner._y);
@@ -2453,7 +2417,7 @@ void SOOSA::processOneFile(string const& fileName)
                     continue;
                 }
                 deAllocData(&dd);
-            }else if(m_configuration.getColumns()==1){
+            }else if(m_configuration.getNumberOfColumns()==1){
                 //SINGLE COLUMN
                 addPointToDataDigital(&img,&dd,uplfcorner._x,uplfcorner._y);
                 addPointToDataDigital(&img,&dd,dnlfcorner._x,dnlfcorner._y);
@@ -2482,7 +2446,7 @@ void SOOSA::processOneFile(string const& fileName)
             }
             algoTries=3;
         }else if(algoTries==1){
-            if(m_configuration.getColumns()==2){
+            if(m_configuration.getNumberOfColumns()==2){
                 //COL1
                 if(processOneColumn(&dd, Q1, Q2, m_configuration.getNumberOfQuestionsAtColumn(1), 1))
                 {
@@ -2497,7 +2461,7 @@ void SOOSA::processOneFile(string const& fileName)
                     algoTries++;
                     continue;
                 }
-            }else if(m_configuration.getColumns()==1){
+            }else if(m_configuration.getNumberOfColumns()==1){
                 //SINGLE COLUMN
                 if(processOneColumn(&dd, Q1, Q4, m_configuration.getNumberOfQuestionsAtColumn(1), 1))
                 {
@@ -2517,7 +2481,7 @@ void SOOSA::processOneFile(string const& fileName)
         m_status = SoosaStatus::AlgorithmError;
         return;
     }
-    m_configuration.numberOfRespondents++;
+    m_numberOfRespondents++;
     cleanDataDigital(&dd);
     closeBmpImage(&img);
 
@@ -2539,19 +2503,23 @@ void SOOSA::processDirectory(string const& directoryPath)
 
     for(string const& filePath : listOfFiles)
     {
-        processOneFile(filePath.c_str());
+        processOneFile(filePath);
         saveDataToCsvFile(filePath);
     }
 }
 
-int SOOSA::process(){
+int SOOSA::process()
+{
     cout<<"SOOSA2014 - Survey Output Optical Scan Analyzer\n\n"<<endl;
-    cout<<"AREA: "<<m_configuration.area<<endl;
-    cout<<"PERIOD: "<<m_configuration.period<<endl;    cout<<"DISCHARGE: "<<m_configuration.discharge<<endl;
+    cout<<"Path: "<<m_configuration.getPath()<<endl;
+    cout<<"Area: "<<m_configuration.getArea()<<endl;
+    cout<<"Period: "<<m_configuration.getPeriod()<<endl;
+    cout<<"Discharge: "<<m_configuration.getDischarge()<<endl;
+    cout<<"NumberOfQuestions: "<<m_configuration.getNumberOfQuestions()<<endl;
+    cout<<"NumberOColumns: "<<m_configuration.getNumberOfColumns()<<endl;
 
-    AlbaLocalPathHandler pathHandler(m_configuration.path);
 
-    saveFormDetailsFromUserInterface();
+    AlbaLocalPathHandler pathHandler(m_configuration.getPath());
     clearFrequencyDatabase();
 
     saveHeadersToCsvFile();
@@ -2563,11 +2531,12 @@ int SOOSA::process(){
     {
         processOneFile(pathHandler.getFullPath());
         saveDataToCsvFile(pathHandler.getFullPath());
-        m_configuration.numberOfRespondents++;
+        m_numberOfRespondents++;
     }
     saveOutputHtmlFile(pathHandler.getFullPath());
 
     return 0;
 }
+
 
 }

@@ -7,7 +7,7 @@ class AlbaRandomizer
 {
 public:
     AlbaRandomizer();
-    void resetRandomSeed();
+    void resetRandomSeed();//remove windows here get local timer
     int getRandomValueInUniformDistribution(int const min, int const max) const;
 };
 

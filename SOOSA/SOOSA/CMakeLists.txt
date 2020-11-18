@@ -29,6 +29,7 @@ include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 
 #Include gTest, this needs APRG Directory
 include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
+
 set(SOURCES
     src/SOOSA.cpp
     src/SOOSA.hpp
@@ -36,13 +37,17 @@ set(SOURCES
     src/SoosaConfiguration.hpp
     src/SoosaStatus.cpp
     src/SoosaStatus.hpp
+    src/SoosaUi.cpp
+    src/SoosaUi.hpp
 
 )
 
-set(MAIN_SOURCES    src/main.cpp
+set(MAIN_SOURCES
+    src/main.cpp
 )
 
-set(TESTS    tst/SOOSA_unit.cpp
+set(TESTS
+    tst/SOOSA_unit.cpp
 )
 
 set(INCLUDE_DIRECTORIES

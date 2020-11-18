@@ -26,7 +26,8 @@ set(APRG_ALGORITHM_SOURCES
     ${APRG_ALGORITHM_DIR}/src/Statistics/FrequencyStatistics.hpp
 )
 
-set(APRG_ALGORITHM_TESTS    ${APRG_ALGORITHM_DIR}/tst/AlbaGrepStringEvaluator_unit.cpp
+set(APRG_ALGORITHM_TESTS
+    ${APRG_ALGORITHM_DIR}/tst/AlbaGrepStringEvaluator_unit.cpp
     ${APRG_ALGORITHM_DIR}/tst/AlbaLargeSorter_unit.cpp
     ${APRG_ALGORITHM_DIR}/tst/AlbaLargeSorterProfiling_unit.cpp
     ${APRG_ALGORITHM_DIR}/tst/QuineMcCluskey_unit.cpp
@@ -35,6 +36,7 @@ set(APRG_ALGORITHM_TESTS    ${APRG_ALGORITHM_DIR}/tst/AlbaGrepStringEvaluator_un
     ${APRG_ALGORITHM_DIR}/tst/StatisticsFrequencyStatistics_unit.cpp
 )
 
-set(APRG_ALGORITHM_SOURCES_AND_TESTS    ${APRG_ALGORITHM_SOURCES}
+set(APRG_ALGORITHM_SOURCES_AND_TESTS
+    ${APRG_ALGORITHM_SOURCES}
     ${APRG_ALGORITHM_TESTS}
 )
