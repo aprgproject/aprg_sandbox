@@ -35,16 +35,14 @@ set(APRG_COMMON_SOURCES
     ${APRG_COMMON_DIR}/src/Randomizer/AlbaRandomizer.hpp
     ${APRG_COMMON_DIR}/src/String/AlbaStringHelper.cpp
     ${APRG_COMMON_DIR}/src/String/AlbaStringHelper.hpp
-    ${APRG_COMMON_DIR}/src/Timer/AlbaDateTimeFormat.cpp
-    ${APRG_COMMON_DIR}/src/Timer/AlbaDateTimeFormat.hpp
+    ${APRG_COMMON_DIR}/src/Timer/AlbaDateTime.cpp
+    ${APRG_COMMON_DIR}/src/Timer/AlbaDateTime.hpp
     ${APRG_COMMON_DIR}/src/Timer/AlbaLocalTimer.cpp
     ${APRG_COMMON_DIR}/src/Timer/AlbaLocalTimer.hpp
-    ${APRG_COMMON_DIR}/src/Timer/AlbaWindowsTimer.cpp
-    ${APRG_COMMON_DIR}/src/Timer/AlbaWindowsTimer.hpp
+    ${APRG_COMMON_DIR}/src/Timer/AlbaWindowsTimer.cpp    ${APRG_COMMON_DIR}/src/Timer/AlbaWindowsTimer.hpp
     ${APRG_COMMON_DIR}/src/User/AlbaDisplayTable.cpp
     ${APRG_COMMON_DIR}/src/User/AlbaDisplayTable.hpp
-    ${APRG_COMMON_DIR}/src/User/AlbaLocalUserAutomation.cpp
-    ${APRG_COMMON_DIR}/src/User/AlbaLocalUserAutomation.hpp
+    ${APRG_COMMON_DIR}/src/User/AlbaLocalUserAutomation.cpp    ${APRG_COMMON_DIR}/src/User/AlbaLocalUserAutomation.hpp
     ${APRG_COMMON_DIR}/src/User/AlbaUserInterface.cpp
     ${APRG_COMMON_DIR}/src/User/AlbaUserInterface.hpp
     ${APRG_COMMON_DIR}/src/User/AlbaWindowsUserAutomation.cpp
@@ -52,27 +50,26 @@ set(APRG_COMMON_SOURCES
 )
 
 set(APRG_COMMON_TESTS
+    ${APRG_COMMON_DIR}/tst/BitTests/AlbaBitManipulation_unit.cpp
+    ${APRG_COMMON_DIR}/tst/ContainerTests/AlbaContainerHelper_unit.cpp
+    ${APRG_COMMON_DIR}/tst/ContainerTests/AlbaXY_unit.cpp
+    ${APRG_COMMON_DIR}/tst/DebugTests/AlbaDebug_unit.cpp
+    ${APRG_COMMON_DIR}/tst/FileTests/AlbaFileReader_unit.cpp
+    ${APRG_COMMON_DIR}/tst/MacrosTests/AlbaMacros_unit.cpp
+    ${APRG_COMMON_DIR}/tst/MemoryTests/AlbaMemoryBuffer_unit.cpp
+    ${APRG_COMMON_DIR}/tst/MemoryTests/AlbaRaiiafPointer_unit.cpp
+    ${APRG_COMMON_DIR}/tst/OptionalTests/AlbaOptional_unit.cpp
     ${APRG_COMMON_DIR}/tst/PathHandlerTests/AlbaPathHandler_unit.cpp
     ${APRG_COMMON_DIR}/tst/PathHandlerTests/AlbaWebPathHandler_unit.cpp
     ${APRG_COMMON_DIR}/tst/PathHandlerTests/AlbaWindowsPathHandler_unit.cpp
+    ${APRG_COMMON_DIR}/tst/RandomizerTests/AlbaRandomizer_unit.cpp
+    ${APRG_COMMON_DIR}/tst/StringTests/AlbaStringHelper_unit.cpp
     ${APRG_COMMON_DIR}/tst/TimerTests/AlbaWindowsTimer_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaBitManipulation_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaContainerHelper_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaDebug_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaDisplayTable_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaFileReader_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaMacros_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaMemoryBuffer_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaOptional_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaRaiiafPointer_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaRandomizer_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaStringHelper_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaWindowsUserAutomation_unit.cpp
-    ${APRG_COMMON_DIR}/tst/AlbaXY_unit.cpp
+    ${APRG_COMMON_DIR}/tst/TimerTests/AlbaDateTime_unit.cpp
+    ${APRG_COMMON_DIR}/tst/UserTests/AlbaDisplayTable_unit.cpp
+    ${APRG_COMMON_DIR}/tst/UserTests/AlbaWindowsUserAutomation_unit.cpp
     ${APRG_COMMON_DIR}/tst/DirectoryConstants.hpp
 )
-
 set(APRG_COMMON_SOURCES_AND_TESTS
     ${APRG_COMMON_SOURCES}
-    ${APRG_COMMON_TESTS}
-)
+    ${APRG_COMMON_TESTS})
