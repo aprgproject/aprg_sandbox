@@ -1,11 +1,9 @@
-#include <Timer/AlbaWindowsTimer.hpp>
+#include <Time/AlbaWindowsTimer.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba;
 
-TEST(AlbaWindowsTimer, DISABLED_TimerCanBeInitialized)
-{
+TEST(AlbaWindowsTimer, DISABLED_TimerCanBeInitialized){
     AlbaWindowsTimer timer;
     Sleep(2000);
     timer.stopTimer();

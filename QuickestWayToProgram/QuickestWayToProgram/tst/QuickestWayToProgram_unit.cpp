@@ -1,29 +1,80 @@
 #include <File/AlbaFileReader.hpp>
 #include <NsapHelper.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <QuickestWayToProgram.hpp>
 #include <String/AlbaStringHelper.hpp>
+#include <Debug/AlbaDebug.hpp>
 #include <stdio.h>
 
-#include <gtest/gtest.h>
-#include <windows.h>
+#include <gtest/gtest.h>#include <windows.h>
 
 #include <algorithm>
-#include <iostream>
-#include <map>
+#include <iostream>#include <map>
 #include <string>
 
 using namespace alba;
 using namespace std;
 
+bool isLeapYear(unsigned int const year)
+{
+    bool result(true);
+    if (year%4 != 0) result = false;
+    else if (year%100 != 0) result = true;
+    else if (year%400 != 0) result = false;
+    return result;
+}
+
+unsigned int getMaximumDaysInAMonth(unsigned int const monthIndex, unsigned int const year)
+{
+    unsigned int maximumDaysOfTheMonth=31;
+    if(monthIndex==3 || monthIndex==5 || monthIndex==8 || monthIndex==10)
+    {
+        maximumDaysOfTheMonth=30;
+    }
+    else if(monthIndex==1)
+    {
+        if(isLeapYear(year))
+        {
+            maximumDaysOfTheMonth=29;
+        }
+        else
+        {
+            maximumDaysOfTheMonth=28;
+        }
+    }
+    ALBA_DEBUG_PRINT2(monthIndex, maximumDaysOfTheMonth);
+    return maximumDaysOfTheMonth;
+}
+
+int getNumberOfLeapYears(unsigned int const year)
+{
+    int beforeThisYear = year-1;
+    //cout<<"beforeThisYear"<<(beforeThisYear/4)<<","<<(beforeThisYear/100)<<","<<(beforeThisYear/400)<<","<<(beforeThisYear/4)+(beforeThisYear/100)<<","<<(beforeThisYear/4)+(beforeThisYear/100)+(beforeThisYear/400)<<(beforeThisYear/4)+(beforeThisYear/100)+(beforeThisYear/400)+1<<endl;
+    return (beforeThisYear/4)-(beforeThisYear/100)+(beforeThisYear/400)+1;
+}
+
+TEST(SampleTest, DateTimeAlgorithm)
+{
+    AlbaLocalPathHandler pathHandler(R"(C:\APRG\DateMonthStudy1.csv)");
+    ofstream fileOutput(pathHandler.getFullPath());
+
+    fileOutput<<"month,days"<<endl;
+
+    unsigned int numberOfDays=0;
+    for(unsigned int month = 0; month<12; month++)
+    {
+        fileOutput<<month<<","<<numberOfDays<<endl;
+        numberOfDays+=getMaximumDaysInAMonth(month,1);
+    }
+}
+/*
 u32 calculateShiftDelayedSfn(u32 const currentSfn, u32 const calculatedSfn)
 {
-    const u32 RADIO_FRAME_CYCLE = 4096;
-    const u32 MAX_FRAME_NUMBER = 4095;
+    const u32 RADIO_FRAME_CYCLE = 4096;    const u32 MAX_FRAME_NUMBER = 4095;
     const u32 MAX_NUM_OF_TTI = 8;
     const u32 SFN_LOW_LIMIT = 12;
     const u32 SFN_HIGH_LIMIT = 220;
-
     const u32 limit = (currentSfn + SFN_LOW_LIMIT) % RADIO_FRAME_CYCLE;
     u32 tempSfn = calculatedSfn;
     //cout<<"tempSfn"<<tempSfn<<endl;
@@ -137,14 +188,12 @@ TEST(SampleTest, DISABLED_RlhOldLogic)
     }
 }
 
-/*
+
 TEST(SampleTest, FilesToFind)
 {
-    AlbaLocalPathHandler::ListOfPaths files;
-    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler::ListOfPaths files;    AlbaLocalPathHandler::ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(D:\ZZZ_Logs\PR224369_NEWEST\WBTS17vsWBTS18\WBTS18Second\trace_TUPCexe_Conman_EU_1448_1494233464)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
-
     for(string const& file: files)
     {
         AlbaLocalPathHandler filePathHandler(file);
