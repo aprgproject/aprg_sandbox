@@ -6,6 +6,7 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+
 using namespace std;
 
 namespace alba
@@ -79,14 +80,16 @@ unsigned int AlbaDateTime::getMicroSeconds() const
 string AlbaDateTime::getPrintableStringFormat1() const
 {
     stringstream ss;
-    ss << setfill('0');    ss << setw(4) << getYears() << "-";
+    ss << setfill('0');
+    ss << setw(4) << getYears() << "-";
     ss << setw(2) << getMonths() << "-";
     ss << setw(2) << getDays() << " ";
     ss << setw(2) << getHours() << ":";
     ss << setw(2) << getMinutes() << ":";
     ss << setw(2) << getSeconds() << ".";
     ss << setw(6) << getMicroSeconds();
-    return ss.str();}
+    return ss.str();
+}
 
 bool AlbaDateTime::operator<(AlbaDateTime const& btsLogTimeToCompare) const
 {
@@ -121,7 +124,8 @@ bool AlbaDateTime::operator==(AlbaDateTime const& btsLogTimeToCompare) const
     return result;
 }
 
-bool AlbaDateTime::operator!=(AlbaDateTime const& btsLogTimeToCompare) const{
+bool AlbaDateTime::operator!=(AlbaDateTime const& btsLogTimeToCompare) const
+{
     return !((*this)==btsLogTimeToCompare);
 }
 
@@ -254,10 +258,12 @@ void AlbaDateTime::reorganizeOverflowValues()
 
 void AlbaDateTime::reorganizeUnderflowValues()
 {
-    /*while(m_microseconds < 0)    {
+    /*while(m_microseconds < 0)
+    {
         m_seconds--;
         m_microseconds += 1000000;
     }
+
     while(m_seconds < 0)
     {
         m_days--;

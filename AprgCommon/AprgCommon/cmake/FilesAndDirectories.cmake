@@ -35,14 +35,16 @@ set(APRG_COMMON_SOURCES
     ${APRG_COMMON_DIR}/src/Randomizer/AlbaRandomizer.hpp
     ${APRG_COMMON_DIR}/src/String/AlbaStringHelper.cpp
     ${APRG_COMMON_DIR}/src/String/AlbaStringHelper.hpp
-    ${APRG_COMMON_DIR}/src/Timer/AlbaDateTime.cpp
-    ${APRG_COMMON_DIR}/src/Timer/AlbaDateTime.hpp
-    ${APRG_COMMON_DIR}/src/Timer/AlbaLocalTimer.cpp
-    ${APRG_COMMON_DIR}/src/Timer/AlbaLocalTimer.hpp
-    ${APRG_COMMON_DIR}/src/Timer/AlbaWindowsTimer.cpp    ${APRG_COMMON_DIR}/src/Timer/AlbaWindowsTimer.hpp
+    ${APRG_COMMON_DIR}/src/Time/AlbaDateTime.cpp
+    ${APRG_COMMON_DIR}/src/Time/AlbaDateTime.hpp
+    ${APRG_COMMON_DIR}/src/Time/AlbaLocalTimer.cpp
+    ${APRG_COMMON_DIR}/src/Time/AlbaLocalTimer.hpp
+    ${APRG_COMMON_DIR}/src/Time/AlbaWindowsTimer.cpp
+    ${APRG_COMMON_DIR}/src/Time/AlbaWindowsTimer.hpp
     ${APRG_COMMON_DIR}/src/User/AlbaDisplayTable.cpp
     ${APRG_COMMON_DIR}/src/User/AlbaDisplayTable.hpp
-    ${APRG_COMMON_DIR}/src/User/AlbaLocalUserAutomation.cpp    ${APRG_COMMON_DIR}/src/User/AlbaLocalUserAutomation.hpp
+    ${APRG_COMMON_DIR}/src/User/AlbaLocalUserAutomation.cpp
+    ${APRG_COMMON_DIR}/src/User/AlbaLocalUserAutomation.hpp
     ${APRG_COMMON_DIR}/src/User/AlbaUserInterface.cpp
     ${APRG_COMMON_DIR}/src/User/AlbaUserInterface.hpp
     ${APRG_COMMON_DIR}/src/User/AlbaWindowsUserAutomation.cpp
@@ -64,12 +66,14 @@ set(APRG_COMMON_TESTS
     ${APRG_COMMON_DIR}/tst/PathHandlerTests/AlbaWindowsPathHandler_unit.cpp
     ${APRG_COMMON_DIR}/tst/RandomizerTests/AlbaRandomizer_unit.cpp
     ${APRG_COMMON_DIR}/tst/StringTests/AlbaStringHelper_unit.cpp
-    ${APRG_COMMON_DIR}/tst/TimerTests/AlbaWindowsTimer_unit.cpp
-    ${APRG_COMMON_DIR}/tst/TimerTests/AlbaDateTime_unit.cpp
+    ${APRG_COMMON_DIR}/tst/TimeTests/AlbaWindowsTimer_unit.cpp
+    ${APRG_COMMON_DIR}/tst/TimeTests/AlbaDateTime_unit.cpp
     ${APRG_COMMON_DIR}/tst/UserTests/AlbaDisplayTable_unit.cpp
     ${APRG_COMMON_DIR}/tst/UserTests/AlbaWindowsUserAutomation_unit.cpp
     ${APRG_COMMON_DIR}/tst/DirectoryConstants.hpp
 )
+
 set(APRG_COMMON_SOURCES_AND_TESTS
     ${APRG_COMMON_SOURCES}
-    ${APRG_COMMON_TESTS})
+    ${APRG_COMMON_TESTS}
+)

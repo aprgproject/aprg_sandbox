@@ -24,7 +24,8 @@ public:
     std::string getPrintableStringFormat1() const; //YYYY-MM-DD HH:MM:SS.MMMMMM
     bool operator<(AlbaDateTime const& btsLogTimeToCompare) const;
     bool operator>(AlbaDateTime const& btsLogTimeToCompare) const;
-    bool operator==(AlbaDateTime const& btsLogTimeToCompare) const;    bool operator!=(AlbaDateTime const& btsLogTimeToCompare) const;
+    bool operator==(AlbaDateTime const& btsLogTimeToCompare) const;
+    bool operator!=(AlbaDateTime const& btsLogTimeToCompare) const;
     AlbaDateTime operator+(AlbaDateTime const& btsLogTime) const;
     AlbaDateTime operator-(AlbaDateTime const& btsLogTime) const;
     bool isLeapYear(unsigned int const year) const;
@@ -40,4 +41,5 @@ private:
     unsigned int m_hourMinuteSecond;
     unsigned int m_microseconds;
 };
+
 }//namespace alba

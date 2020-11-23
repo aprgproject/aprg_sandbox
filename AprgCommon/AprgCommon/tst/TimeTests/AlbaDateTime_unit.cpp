@@ -29,7 +29,8 @@ TEST(AlbaDateTimeTest, DateTimeCanBeCreatedWithParameters)
     EXPECT_FALSE(timeSample.isEmpty());
     EXPECT_EQ(2017, timeSample.getYears());
     EXPECT_EQ(10, timeSample.getMonths());
-    EXPECT_EQ(6, timeSample.getDays());    EXPECT_EQ(4, timeSample.getHours());
+    EXPECT_EQ(6, timeSample.getDays());
+    EXPECT_EQ(4, timeSample.getHours());
     EXPECT_EQ(59, timeSample.getMinutes());
     EXPECT_EQ(44, timeSample.getSeconds());
     EXPECT_EQ(32487, timeSample.getMicroSeconds());
@@ -48,10 +49,12 @@ TEST(AlbaDateTimeTest, LessThanOperatorWorksAsIntended)
     AlbaDateTime timeSample8(2016,8,20,18,14,51,565172);
 
     EXPECT_TRUE(timeSample1<timeSample2);
-    EXPECT_TRUE(timeSample1<timeSample3);    EXPECT_TRUE(timeSample1<timeSample4);
+    EXPECT_TRUE(timeSample1<timeSample3);
+    EXPECT_TRUE(timeSample1<timeSample4);
     EXPECT_TRUE(timeSample1<timeSample5);
     EXPECT_TRUE(timeSample1<timeSample6);
-    EXPECT_TRUE(timeSample1<timeSample7);    EXPECT_TRUE(timeSample1<timeSample8);
+    EXPECT_TRUE(timeSample1<timeSample7);
+    EXPECT_TRUE(timeSample1<timeSample8);
 
     EXPECT_FALSE(timeSample2<timeSample1);
     EXPECT_FALSE(timeSample3<timeSample1);
@@ -77,10 +80,12 @@ TEST(AlbaDateTimeTest, GreaterThanOperatorWorksAsIntended)
     AlbaDateTime timeSample8(2016,8,20,18,14,51,565172);
 
     EXPECT_TRUE(timeSample8>timeSample1);
-    EXPECT_TRUE(timeSample8>timeSample2);    EXPECT_TRUE(timeSample8>timeSample3);
+    EXPECT_TRUE(timeSample8>timeSample2);
+    EXPECT_TRUE(timeSample8>timeSample3);
     EXPECT_TRUE(timeSample8>timeSample4);
     EXPECT_TRUE(timeSample8>timeSample5);
-    EXPECT_TRUE(timeSample8>timeSample6);    EXPECT_TRUE(timeSample8>timeSample7);
+    EXPECT_TRUE(timeSample8>timeSample6);
+    EXPECT_TRUE(timeSample8>timeSample7);
 
     EXPECT_FALSE(timeSample1>timeSample8);
     EXPECT_FALSE(timeSample2>timeSample8);
@@ -106,10 +111,12 @@ TEST(AlbaDateTimeTest, EqualityOperatorWorksAsIntended)
     AlbaDateTime timeSample8(2016,8,20,18,14,51,565172);
 
     EXPECT_FALSE(timeSample8==timeSample1);
-    EXPECT_FALSE(timeSample8==timeSample2);    EXPECT_FALSE(timeSample8==timeSample3);
+    EXPECT_FALSE(timeSample8==timeSample2);
+    EXPECT_FALSE(timeSample8==timeSample3);
     EXPECT_FALSE(timeSample8==timeSample4);
     EXPECT_FALSE(timeSample8==timeSample5);
-    EXPECT_FALSE(timeSample8==timeSample6);    EXPECT_FALSE(timeSample8==timeSample7);
+    EXPECT_FALSE(timeSample8==timeSample6);
+    EXPECT_FALSE(timeSample8==timeSample7);
 
     EXPECT_TRUE(timeSample1==timeSample1);
     EXPECT_TRUE(timeSample2==timeSample2);
@@ -176,10 +183,12 @@ TEST(AlbaDateTimeTest, IsLeapYear)
 
 TEST(AlbaDateTimeTest, SubtractionOperatorWorksAsIntended)
 {
-    AlbaDateTime timeSample1(AlbaDateTimeType::BtsTimeStamp, "0001-01-01T01:01:01.1");    AlbaDateTime timeSample2(AlbaDateTimeType::BtsTimeStamp, "0002-02-02T02:02:02.2");
+    AlbaDateTime timeSample1(AlbaDateTimeType::BtsTimeStamp, "0001-01-01T01:01:01.1");
+    AlbaDateTime timeSample2(AlbaDateTimeType::BtsTimeStamp, "0002-02-02T02:02:02.2");
     AlbaDateTime expectedAnswer(AlbaDateTimeType::BtsTimeStamp, "0001-01-01T01:01:01.1");
 
-    AlbaDateTime actualAnswer = timeSample2 - timeSample1;    EXPECT_EQ(expectedAnswer, actualAnswer);
+    AlbaDateTime actualAnswer = timeSample2 - timeSample1;
+    EXPECT_EQ(expectedAnswer, actualAnswer);
 }
 
 TEST(AlbaDateTimeTest, SubtractionOperatorWithUnderflowValues)
