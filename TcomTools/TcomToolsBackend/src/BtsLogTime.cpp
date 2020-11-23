@@ -13,144 +13,136 @@ namespace tcomToolsBackend
 {
 
 BtsLogTime::BtsLogTime()
-    : m_years(0)
-    , m_months(0)
-    , m_days(0)
-    , m_seconds(0)
-    , m_microseconds(0)
+    : m_dateTime()
 {}
 
 BtsLogTime::BtsLogTime(BtsLogTimeType logTimeType, string const& timeStampString)
-    : m_years(0)
-    , m_months(0)
-    , m_days(0)
-    , m_seconds(0)
-    , m_microseconds(0)
+    : m_dateTime()
 {
     setTimeByTimeStamp(logTimeType, timeStampString);
 }
-
 void BtsLogTime::setTimeByTimeStamp(BtsLogTimeType logTimeType, string const& timeStampString)
 {
-    vector <int> timeValues;
+    unsigned int years=0;
+    unsigned int months=0;
+    unsigned int days=0;
+    unsigned int hours=0;
+    unsigned int minutes=0;
+    unsigned int seconds=0;
+    unsigned int microseconds=0;
+    vector <unsigned int> timeValues;
     string timeValueString;
 
-    for(char character: timeStampString)
-    {
+    for(char character: timeStampString)    {
         if(stringHelper::isNumber(character))
         {
             timeValueString += character;
         }
         else if(!timeValueString.empty())
         {
-            timeValues.push_back(stringHelper::convertStringToNumber<int>(timeValueString));
+            timeValues.push_back(stringHelper::convertStringToNumber<unsigned int>(timeValueString));
             timeValueString.clear();
         }
     }
     if(!timeValueString.empty())
     {
-        timeValues.push_back(stringHelper::convertStringToNumber<int>(timeValueString));
+        timeValues.push_back(stringHelper::convertStringToNumber<unsigned int>(timeValueString));
     }
 
-    if(BtsLogTimeType::PcTimeStamp == logTimeType)
-    {
+    if(BtsLogTimeType::PcTimeStamp == logTimeType)    {
         if(6 == timeValues.size())
         {
-            m_months = timeValues[1];
-            m_days = timeValues[0];
-            m_seconds = timeValues[2]*3600 + timeValues[3]*60 + timeValues[4];
-            m_microseconds = timeValues[5]*1000;
+            months = timeValues[1];
+            days = timeValues[0];
+            hours = timeValues[2];
+            minutes = timeValues[3];
+            seconds = timeValues[4];
+            microseconds = timeValues[5]*1000;
         }
     }
-    else
-    {
+    else    {
         switch(timeValues.size())
         {
         case 6:
-            m_months = timeValues[1];
-            m_days = timeValues[0];
-            m_seconds = timeValues[2]*3600 + timeValues[3]*60 + timeValues[4];
-            m_microseconds = timeValues[5];
+            months = timeValues[1];
+            days = timeValues[0];
+            hours = timeValues[2];
+            minutes = timeValues[3];
+            seconds = timeValues[4];
+            microseconds = timeValues[5];
             break;
         case 7:
-            m_years = timeValues[0];
-            m_months = timeValues[1];
-            m_days = timeValues[2];
-            m_seconds = timeValues[3]*3600 + timeValues[4]*60 + timeValues[5];
-            m_microseconds = timeValues[6];
+            years = timeValues[0];
+            months = timeValues[1];
+            days = timeValues[2];
+            hours = timeValues[3];
+            minutes = timeValues[4];
+            seconds = timeValues[5];
+            microseconds = timeValues[6];
             break;
         default:
             break;
         }
     }
+    m_dateTime.setTime((unsigned short int)years, (unsigned char)months, (unsigned char)days, (unsigned char)hours, (unsigned char)minutes, (unsigned char)seconds, microseconds);
 }
 
 bool BtsLogTime::isEmpty() const
 {
-    return (0 == m_years) && (0 == m_months) && (0 == m_days) && (0 == m_seconds) && (0 == m_microseconds);
+    return m_dateTime.isEmpty();
 }
 
 bool BtsLogTime::isStartup() const
 {
-    return m_years<2010;
+    return m_dateTime.getYears()<2010;
 }
 
 int BtsLogTime::getYears() const
 {
-    return m_years;
+    return m_dateTime.getYears();
 }
 
 int BtsLogTime::getMonths() const
 {
-    return (int)m_months;
+    return m_dateTime.getMonths();
 }
 
 int BtsLogTime::getDays() const
 {
-    return m_days;
+    return m_dateTime.getDays();
 }
 
 int BtsLogTime::getHours() const
 {
-    return m_seconds/3600;
+    return m_dateTime.getHours();
 }
 
 int BtsLogTime::getMinutes() const
 {
-    return (m_seconds/60)%60;
+    return m_dateTime.getMinutes();
 }
 
 int BtsLogTime::getSeconds() const
 {
-    return m_seconds%60;
+    return m_dateTime.getSeconds();
 }
 
 int BtsLogTime::getTotalSeconds() const
 {
-    return m_seconds;
+    return m_dateTime.getTotalSecondsInHourMinutesSeconds();
 }
 
 int BtsLogTime::getMicroSeconds() const
 {
-    return m_microseconds;
+    return m_dateTime.getMicroSeconds();
 }
 
-string BtsLogTime::getEquivalentString() const
+string BtsLogTime::getPrintableString() const
 {
-    string separator("|");
-    stringstream ss;
-    ss << setw(4) << getYears() << separator;
-    ss << setw(2) << getMonths() << separator;
-    ss << setw(2) << getDays() << separator;
-    ss << setw(2) << getHours() << separator;
-    ss << setw(2) << getMinutes() << separator;
-    ss << setw(2) << getSeconds() << separator;
-    ss << setw(6) << getMicroSeconds();
-    return ss.str();
+    return m_dateTime.getPrintableStringFormat1();
 }
 
-string BtsLogTime::getEquivalentStringPcTimeFormat() const
-{
+string BtsLogTime::getEquivalentStringPcTimeFormat() const{
     stringstream ss;
     ss << setw(2) << setfill('0') << getDays() << ".";
     ss << setw(2) << setfill('0') << getMonths() << " ";
@@ -173,123 +165,69 @@ string BtsLogTime::getEquivalentStringBtsTimeFormat() const
     ss << setfill('0') << setw(2) << getSeconds() << ".";
     ss << setfill('0') << setw(6) << getMicroSeconds();
     ss << "Z>";
-
     return ss.str();
 }
 
 bool BtsLogTime::operator<(BtsLogTime const& btsLogTimeToCompare) const
 {
-    if(m_years < btsLogTimeToCompare.m_years) return true;
-    if(m_years > btsLogTimeToCompare.m_years) return false;
-    if(m_months < btsLogTimeToCompare.m_months) return true;
-    if(m_months > btsLogTimeToCompare.m_months) return false;
-    if(m_days < btsLogTimeToCompare.m_days) return true;
-    if(m_days > btsLogTimeToCompare.m_days) return false;
-    if(m_seconds < btsLogTimeToCompare.m_seconds) return true;
-    if(m_seconds > btsLogTimeToCompare.m_seconds) return false;
-    if(m_microseconds < btsLogTimeToCompare.m_microseconds) return true;
-    if(m_microseconds > btsLogTimeToCompare.m_microseconds) return false;
-    return false;
+    return m_dateTime < btsLogTimeToCompare.m_dateTime;
 }
 
 bool BtsLogTime::operator>(BtsLogTime const& btsLogTimeToCompare) const
 {
-    if(m_years < btsLogTimeToCompare.m_years) return false;
-    if(m_years > btsLogTimeToCompare.m_years) return true;
-    if(m_months < btsLogTimeToCompare.m_months) return false;
-    if(m_months > btsLogTimeToCompare.m_months) return true;
-    if(m_days < btsLogTimeToCompare.m_days) return false;
-    if(m_days > btsLogTimeToCompare.m_days) return true;
-    if(m_seconds < btsLogTimeToCompare.m_seconds) return false;
-    if(m_seconds > btsLogTimeToCompare.m_seconds) return true;
-    if(m_microseconds < btsLogTimeToCompare.m_microseconds) return false;
-    if(m_microseconds > btsLogTimeToCompare.m_microseconds) return true;
-    return false;
-
+    return m_dateTime > btsLogTimeToCompare.m_dateTime;
 }
 
 bool BtsLogTime::operator==(BtsLogTime const& btsLogTimeToCompare) const
 {
-    if(m_years != btsLogTimeToCompare.m_years) return false;
-    if(m_months != btsLogTimeToCompare.m_months) return false;
-    if(m_days != btsLogTimeToCompare.m_days) return false;
-    if(m_seconds != btsLogTimeToCompare.m_seconds) return false;
-    if(m_microseconds != btsLogTimeToCompare.m_microseconds) return false;
-    return true;
+    return m_dateTime == btsLogTimeToCompare.m_dateTime;
 }
 
 BtsLogTime BtsLogTime::operator+(BtsLogTime const& btsLogTime2) const
 {
-    BtsLogTime btsLogTime1(*this);
-    btsLogTime1.m_years += btsLogTime2.m_years;
-    btsLogTime1.m_months += btsLogTime2.m_months;
-    btsLogTime1.m_days += btsLogTime2.m_days;
-    btsLogTime1.m_seconds += btsLogTime2.m_seconds;
-    btsLogTime1.m_microseconds += btsLogTime2.m_microseconds;
-    btsLogTime1.reorganizeOverflowValues();
-    return btsLogTime1;
+    BtsLogTime result;
+    BtsLogTime const& btsLogTime1(*this);
+    result.m_dateTime = btsLogTime1.m_dateTime + btsLogTime2.m_dateTime;
+    return result;
 }
 
 BtsLogTime BtsLogTime::operator-(BtsLogTime const& btsLogTime2) const
 {
-    BtsLogTime btsLogTime1(*this);
-    btsLogTime1.m_years -= btsLogTime2.m_years;
-    btsLogTime1.m_months -= btsLogTime2.m_months;
-    btsLogTime1.m_days -= btsLogTime2.m_days;
-    btsLogTime1.m_seconds -= btsLogTime2.m_seconds;
-    btsLogTime1.m_microseconds -= btsLogTime2.m_microseconds;
-    btsLogTime1.reorganizeUnderflowValues();
-    return btsLogTime1;
-}
-
-void BtsLogTime::reorganizeOverflowValues()
-{
-    while(m_microseconds >= 1000000)
-    {
-        m_seconds++;
-        m_microseconds -= 1000000;
-    }
-
-    while(m_seconds >= 86400)
-    {
-        m_days++;
-        m_seconds -= 86400;
-    }
-}
-
-void BtsLogTime::reorganizeUnderflowValues()
-{
-    while(m_microseconds < 0)
-    {
-        m_seconds--;
-        m_microseconds += 1000000;
-    }
-
-    while(m_seconds < 0)
-    {
-        m_days--;
-        m_seconds += 86400;
-    }
+    BtsLogTime result;
+    BtsLogTime const& btsLogTime1(*this);
+    result.m_dateTime = btsLogTime1.m_dateTime - btsLogTime2.m_dateTime;
+    return result;
 }
 
 ostream& operator<<(ostream & out, BtsLogTime const& btsLogTime)
 {
-    out << btsLogTime.m_years << endl;
-    out << btsLogTime.m_months << endl;
-    out << btsLogTime.m_days << endl;
-    out << btsLogTime.m_seconds << endl;
-    out << btsLogTime.m_microseconds;
+    out << btsLogTime.getYears() << endl;
+    out << btsLogTime.getMonths() << endl;
+    out << btsLogTime.getDays() << endl;
+    out << btsLogTime.getHours() << endl;
+    out << btsLogTime.getMinutes() << endl;
+    out << btsLogTime.getSeconds() << endl;
+    out << btsLogTime.getMicroSeconds();
     return out;
 }
 
 istream& operator>>(istream & in, BtsLogTime& btsLogTime)
 {
-    in >> btsLogTime.m_years;
-    in >> btsLogTime.m_months;
-    in >> btsLogTime.m_days;
-    in >> btsLogTime.m_seconds;
-    in >> btsLogTime.m_microseconds;
+    unsigned int years=0;
+    unsigned int months=0;
+    unsigned int days=0;
+    unsigned int hours=0;
+    unsigned int minutes=0;
+    unsigned int seconds=0;
+    unsigned int microseconds=0;
+    in >> years;
+    in >> months;
+    in >> days;
+    in >> hours;
+    in >> minutes;
+    in >> seconds;
+    in >> microseconds;
+    btsLogTime.m_dateTime.setTime((unsigned short int)years, (unsigned char)months, (unsigned char)days, (unsigned char)hours, (unsigned char)minutes, (unsigned char)seconds, microseconds);
     return in;
 }
-
 }

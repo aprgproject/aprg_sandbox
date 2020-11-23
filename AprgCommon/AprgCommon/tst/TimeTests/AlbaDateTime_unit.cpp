@@ -1,7 +1,6 @@
-#include <Timer/AlbaDateTime.hpp>
+#include <Time/AlbaDateTime.hpp>
 
 #include <iostream>
-
 #include <gtest/gtest.h>
 
 using namespace alba;
@@ -19,11 +18,12 @@ TEST(AlbaDateTimeTest, EmptyDateTimeCanBeCreated)
     EXPECT_EQ(0, timeSample.getMinutes());
     EXPECT_EQ(0, timeSample.getSeconds());
     EXPECT_EQ(0, timeSample.getMicroSeconds());
-    EXPECT_EQ("0000-00-00 00:00:00.000000", timeSample.getPrintableStringFormat1());
+    EXPECT_EQ(0, timeSample.getTotalDaysInYearMonthDays());
+    EXPECT_EQ(0, timeSample.getTotalSecondsInHourMinutesSeconds());
+    EXPECT_EQ(" 1 * 0000-00-00 00:00:00.000000", timeSample.getPrintableStringFormat1());
 }
 
-TEST(AlbaDateTimeTest, DateTimeCanBeCreatedWithParameters)
-{
+TEST(AlbaDateTimeTest, DateTimeCanBeCreatedWithParameters){
     AlbaDateTime timeSample(2017, 10, 6, 4, 59, 44, 32487);
 
     EXPECT_FALSE(timeSample.isEmpty());
@@ -34,11 +34,12 @@ TEST(AlbaDateTimeTest, DateTimeCanBeCreatedWithParameters)
     EXPECT_EQ(59, timeSample.getMinutes());
     EXPECT_EQ(44, timeSample.getSeconds());
     EXPECT_EQ(32487, timeSample.getMicroSeconds());
-    EXPECT_EQ("2017-10-06 04:59:44.032487", timeSample.getPrintableStringFormat1());
+    EXPECT_EQ(736974, timeSample.getTotalDaysInYearMonthDays());
+    EXPECT_EQ(17984, timeSample.getTotalSecondsInHourMinutesSeconds());
+    EXPECT_EQ(" 1 * 2017-10-06 04:59:44.032487", timeSample.getPrintableStringFormat1());
 }
 
-TEST(AlbaDateTimeTest, LessThanOperatorWorksAsIntended)
-{
+TEST(AlbaDateTimeTest, LessThanOperatorWorksAsIntended){
     AlbaDateTime timeSample1(2015,8,20,18,14,51,565172);
     AlbaDateTime timeSample2(2015,8,20,18,14,51,565173);
     AlbaDateTime timeSample3(2015,8,20,18,14,52,565172);
@@ -130,13 +131,12 @@ TEST(AlbaDateTimeTest, EqualityOperatorWorksAsIntended)
 
 TEST(AlbaDateTimeTest, AdditionOperatorWorksAsIntended)
 {
-    AlbaDateTime timeSample1(0001,01,01,01,01,01,1);
-    AlbaDateTime timeSample2(0002,02,02,02,02,02,2);
-    AlbaDateTime expectedAnswer(0003,03,03,03,03,03,3);
+    AlbaDateTime timeSample1(0000,00,01,01,01,01,000001);
+    AlbaDateTime timeSample2(2000,01,02,02,02,02,000002);
+    AlbaDateTime expectedAnswer(2000,01,03,03,03,03,000003);
 
     AlbaDateTime actualAnswer = timeSample1 + timeSample2;
-    EXPECT_EQ(expectedAnswer, actualAnswer);
-}
+    EXPECT_EQ(expectedAnswer, actualAnswer);}
 
 TEST(AlbaDateTimeTest, AdditionOperatorWorksWithOverflowValuesAfterYear1970)
 {
@@ -148,44 +148,30 @@ TEST(AlbaDateTimeTest, AdditionOperatorWorksWithOverflowValuesAfterYear1970)
     EXPECT_EQ(expectedAnswer, actualAnswer);
 }
 
-TEST(AlbaDateTimeTest, AdditionOperatorDoesNotWorkWithOverflowValuesBeforeYear1970)
+TEST(AlbaDateTimeTest, AdditionOperatorWorksWithOverflowValuesBeforeYear1970)
 {
     AlbaDateTime timeSample1(0000,00,00,00,00,00,000001);
     AlbaDateTime timeSample2(1969,12,31,23,59,59,999999);
-    AlbaDateTime expectedAnswer(1971,12,32,00,00,00,000000);
+    AlbaDateTime expectedAnswer(1970,01,01,00,00,00,000000);
 
     AlbaDateTime actualAnswer = timeSample1 + timeSample2;
-    EXPECT_EQ(expectedAnswer, actualAnswer);
-}
+    EXPECT_EQ(expectedAnswer, actualAnswer);}
 
 TEST(AlbaDateTimeTest, AdditionOperatorWithDateOverflow)
 {
     AlbaDateTime timeSample1(2000,12,31,00,00,00,000000);
     AlbaDateTime timeSample2(2000,12,31,00,00,0,000000);
-    AlbaDateTime expectedAnswer(1971,12,32,00,00,00,000000);
+    AlbaDateTime expectedAnswer(4002,01,01,00,00,00,000000);
 
     AlbaDateTime actualAnswer = timeSample1 + timeSample2;
     EXPECT_EQ(expectedAnswer, actualAnswer);
 }
-
-TEST(AlbaDateTimeTest, IsLeapYear)
-{
-    AlbaDateTime timeSample;
-    AlbaDateTime timeSample2(2000,12,31,00,00,0,000000);
-    AlbaDateTime expectedAnswer(1971,12,32,00,00,00,000000);
-
-    AlbaDateTime actualAnswer = timeSample1 + timeSample2;
-    EXPECT_EQ(expectedAnswer, actualAnswer);
-}
-
-
-/*
 
 TEST(AlbaDateTimeTest, SubtractionOperatorWorksAsIntended)
 {
-    AlbaDateTime timeSample1(AlbaDateTimeType::BtsTimeStamp, "0001-01-01T01:01:01.1");
-    AlbaDateTime timeSample2(AlbaDateTimeType::BtsTimeStamp, "0002-02-02T02:02:02.2");
-    AlbaDateTime expectedAnswer(AlbaDateTimeType::BtsTimeStamp, "0001-01-01T01:01:01.1");
+    AlbaDateTime timeSample1(0000,00,01,01,01,01,000001);
+    AlbaDateTime timeSample2(2000,01,02,02,02,02,000002);
+    AlbaDateTime expectedAnswer(2000,01,01,01,01,01,000001);
 
     AlbaDateTime actualAnswer = timeSample2 - timeSample1;
     EXPECT_EQ(expectedAnswer, actualAnswer);
@@ -193,11 +179,21 @@ TEST(AlbaDateTimeTest, SubtractionOperatorWorksAsIntended)
 
 TEST(AlbaDateTimeTest, SubtractionOperatorWithUnderflowValues)
 {
-    AlbaDateTime timeSample1(AlbaDateTimeType::BtsTimeStamp, "0000-00-00T00:00:00.000001");
-    AlbaDateTime timeSample2(AlbaDateTimeType::BtsTimeStamp, "0000-00-01T00:00:00.000000");
-    AlbaDateTime expectedAnswer(AlbaDateTimeType::BtsTimeStamp, "0000-00-00T23:59:59.999999");
+    AlbaDateTime timeSample1(0000,00,00,00,00,00,000001);
+    AlbaDateTime timeSample2(2000,01,01,00,00,00,000000);
+    AlbaDateTime expectedAnswer(1999,12,31,23,59,59,999999);
 
     AlbaDateTime actualAnswer = timeSample2 - timeSample1;
     EXPECT_EQ(expectedAnswer, actualAnswer);
 }
-*/
+
+TEST(AlbaDateTimeTest, SubtractionOperatorWitNegativeResult)
+{
+    AlbaDateTime timeSample1(0000,00,00,00,00,00,000001);
+    AlbaDateTime timeSample2(2000,01,01,00,00,00,000000);
+    AlbaDateTime expectedAnswer(1999,12,31,23,59,59,999999);
+    expectedAnswer.negate();
+
+    AlbaDateTime actualAnswer = timeSample1 - timeSample2;
+    EXPECT_EQ(expectedAnswer, actualAnswer);
+}

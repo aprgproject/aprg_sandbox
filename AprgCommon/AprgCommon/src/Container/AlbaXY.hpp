@@ -40,13 +40,13 @@ public:
         return (x == xy.x) && (y == xy.y);
     }
 
-    bool operator!=(AlbaXY<CoordinateType> const& xy) const
+    bool operator!=(AlbaXY<CoordinateType> const& secondXy) const
     {
-        return !((*this)==xy);
+        AlbaXY<CoordinateType> const& firstXy(*this);
+        return !(firstXy==secondXy);
     }
 
-    std::string getDisplayableString() const
-    {
+    std::string getDisplayableString() const    {
         std::stringstream ss;
         ss<<"("<<x<<","<<y<<")";
         return ss.str();

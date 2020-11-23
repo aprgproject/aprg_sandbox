@@ -4,10 +4,25 @@
 
 using namespace alba;
 
+TEST(AlbaBitManipulationTest, ShiftLeftWorks)
+{
+    EXPECT_EQ(0xA1, AlbaBitManipulation<unsigned int>::shiftLeft<0>(0xA1));
+    EXPECT_EQ(0xA100, AlbaBitManipulation<unsigned int>::shiftLeft<1>(0xA1));
+    EXPECT_EQ(0xA10000, AlbaBitManipulation<unsigned int>::shiftLeft<2>(0xA1));
+    EXPECT_EQ(0xA1000000, AlbaBitManipulation<unsigned int>::shiftLeft<3>(0xA1));
+}
+
+TEST(AlbaBitManipulationTest, ShiftRightWorks)
+{
+    EXPECT_EQ(0xA1000000, AlbaBitManipulation<unsigned int>::shiftRight<0>(0xA1000000));
+    EXPECT_EQ(0xA10000, AlbaBitManipulation<unsigned int>::shiftRight<1>(0xA1000000));
+    EXPECT_EQ(0xA100, AlbaBitManipulation<unsigned int>::shiftRight<2>(0xA1000000));
+    EXPECT_EQ(0xA1, AlbaBitManipulation<unsigned int>::shiftRight<3>(0xA1000000));
+}
+
 TEST(AlbaBitManipulationTest, Concatenation_ArgumentsSizeLessThanResult)
 {
-    // Given
-    const unsigned char byte1 = 0xA1;
+    // Given    const unsigned char byte1 = 0xA1;
     const unsigned char byte2 = 0xBA;
 
     // When
@@ -38,14 +53,13 @@ TEST(AlbaBitManipulationTest, BytesAreSuccessfullyObtainedWhenU32IsUsed)
     // When
 
     // Then
-    EXPECT_EQ(0x78, AlbaBitManipulation<unsigned int>::getByteAtLeastSignificantPosition<0>(input));
-    EXPECT_EQ(0x56, AlbaBitManipulation<unsigned int>::getByteAtLeastSignificantPosition<1>(input));
-    EXPECT_EQ(0x34, AlbaBitManipulation<unsigned int>::getByteAtLeastSignificantPosition<2>(input));
-    EXPECT_EQ(0x12, AlbaBitManipulation<unsigned int>::getByteAtLeastSignificantPosition<3>(input));
+    EXPECT_EQ(0x78, AlbaBitManipulation<unsigned int>::getByteAt<0>(input));
+    EXPECT_EQ(0x56, AlbaBitManipulation<unsigned int>::getByteAt<1>(input));
+    EXPECT_EQ(0x34, AlbaBitManipulation<unsigned int>::getByteAt<2>(input));
+    EXPECT_EQ(0x12, AlbaBitManipulation<unsigned int>::getByteAt<3>(input));
 }
 
-TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU16IsUsed)
-{
+TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU16IsUsed){
     // Given
     const short unsigned int input = 0x1234;
 

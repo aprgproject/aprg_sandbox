@@ -2,11 +2,13 @@
 
 #include <gtest/gtest.h>
 
+#include <fstream>
+
 using namespace tcomToolsBackend;
+using namespace std;
 
 TEST(BtsLogTimeTest, BtsTimeStampWithSevenNumbersIsUsed)
-{
-    BtsLogTime logTime(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:14:51.565172Z");
+{    BtsLogTime logTime(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:14:51.565172Z");
 
     EXPECT_EQ(2015, logTime.getYears());
     EXPECT_EQ(8, logTime.getMonths());
@@ -15,11 +17,10 @@ TEST(BtsLogTimeTest, BtsTimeStampWithSevenNumbersIsUsed)
     EXPECT_EQ(14, logTime.getMinutes());
     EXPECT_EQ(51, logTime.getSeconds());
     EXPECT_EQ(565172, logTime.getMicroSeconds());
-    EXPECT_EQ("2015| 8|20|18|14|51|565172", logTime.getEquivalentString());
+    EXPECT_EQ(" 1 * 2015-08-20 18:14:51.565172", logTime.getPrintableString());
     EXPECT_EQ("20.08 18:14:51.565172", logTime.getEquivalentStringPcTimeFormat());
     EXPECT_EQ("<2015-08-20T18:14:51.565172Z>", logTime.getEquivalentStringBtsTimeFormat());
 }
-
 TEST(BtsLogTimeTest, BtsTimeStampWithSpacesAreStartAndEnd)
 {
     BtsLogTime logTime(BtsLogTimeType::BtsTimeStamp, " <2015-08-20T18:14:51.565172Z> ");
@@ -31,11 +32,10 @@ TEST(BtsLogTimeTest, BtsTimeStampWithSpacesAreStartAndEnd)
     EXPECT_EQ(14, logTime.getMinutes());
     EXPECT_EQ(51, logTime.getSeconds());
     EXPECT_EQ(565172, logTime.getMicroSeconds());
-    EXPECT_EQ("2015| 8|20|18|14|51|565172", logTime.getEquivalentString());
+    EXPECT_EQ(" 1 * 2015-08-20 18:14:51.565172", logTime.getPrintableString());
     EXPECT_EQ("20.08 18:14:51.565172", logTime.getEquivalentStringPcTimeFormat());
     EXPECT_EQ("<2015-08-20T18:14:51.565172Z>", logTime.getEquivalentStringBtsTimeFormat());
 }
-
 TEST(BtsLogTimeTest, PcTimeStampWithSixNumbersIsUsed)
 {
     BtsLogTime logTime(BtsLogTimeType::BtsTimeStamp, "13.09 05:24:24.772449");
@@ -47,11 +47,10 @@ TEST(BtsLogTimeTest, PcTimeStampWithSixNumbersIsUsed)
     EXPECT_EQ(24, logTime.getMinutes());
     EXPECT_EQ(24, logTime.getSeconds());
     EXPECT_EQ(772449, logTime.getMicroSeconds());
-    EXPECT_EQ("   0| 9|13| 5|24|24|772449", logTime.getEquivalentString());
+    EXPECT_EQ(" 1 * 0000-09-13 05:24:24.772449", logTime.getPrintableString());
     EXPECT_EQ("13.09 05:24:24.772449", logTime.getEquivalentStringPcTimeFormat());
     EXPECT_EQ("<0000-09-13T05:24:24.772449Z>", logTime.getEquivalentStringBtsTimeFormat());
 }
-
 TEST(BtsLogTimeTest, PcTimeStampIsUsed)
 {
     BtsLogTime logTime(BtsLogTimeType::PcTimeStamp, "23.09 12:06:02.982");
@@ -63,11 +62,10 @@ TEST(BtsLogTimeTest, PcTimeStampIsUsed)
     EXPECT_EQ(6, logTime.getMinutes());
     EXPECT_EQ(2, logTime.getSeconds());
     EXPECT_EQ(982000, logTime.getMicroSeconds());
-    EXPECT_EQ("   0| 9|23|12| 6| 2|982000", logTime.getEquivalentString());
+    EXPECT_EQ(" 1 * 0000-09-23 12:06:02.982000", logTime.getPrintableString());
     EXPECT_EQ("23.09 12:06:02.982000", logTime.getEquivalentStringPcTimeFormat());
     EXPECT_EQ("<0000-09-23T12:06:02.982000Z>", logTime.getEquivalentStringBtsTimeFormat());
 }
-
 TEST(BtsLogTimeTest, LessThanOperatorWorksAsIntended)
 {
     BtsLogTime logTime1(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:14:51.565172Z");
@@ -162,40 +160,54 @@ TEST(BtsLogTimeTest, EqualityOperatorWorksAsIntended)
 
 TEST(BtsLogTimeTest, AdditionOperatorWorksAsIntended)
 {
-    BtsLogTime logTime1(BtsLogTimeType::BtsTimeStamp, "0001-01-01T01:01:01.1");
-    BtsLogTime logTime2(BtsLogTimeType::BtsTimeStamp, "0002-02-02T02:02:02.2");
-    BtsLogTime expectedAnswer(BtsLogTimeType::BtsTimeStamp, "0003-03-03T03:03:03.3");
+    BtsLogTime logTime1(BtsLogTimeType::BtsTimeStamp, "0000-00-01T01:01:01.1");
+    BtsLogTime logTime2(BtsLogTimeType::BtsTimeStamp, "2000-01-02T02:02:02.2");
+    BtsLogTime expectedAnswer(BtsLogTimeType::BtsTimeStamp, "2000-01-03T03:03:03.3");
 
     BtsLogTime actualAnswer = logTime1 + logTime2;
-    EXPECT_EQ(expectedAnswer, actualAnswer);
-}
+    EXPECT_EQ(expectedAnswer, actualAnswer);}
 
 TEST(BtsLogTimeTest, AdditionOperatorWorksWithOverflowValues)
 {
     BtsLogTime logTime1(BtsLogTimeType::BtsTimeStamp, "0000-00-00T00:00:00.000001");
-    BtsLogTime logTime2(BtsLogTimeType::BtsTimeStamp, "0000-00-00T23:59:59.999999");
-    BtsLogTime expectedAnswer(BtsLogTimeType::BtsTimeStamp, "0000-00-01T00:00:00.000000");
+    BtsLogTime logTime2(BtsLogTimeType::BtsTimeStamp, "2000-01-01T23:59:59.999999");
+    BtsLogTime expectedAnswer(BtsLogTimeType::BtsTimeStamp, "2000-01-02T00:00:00.000000");
 
     BtsLogTime actualAnswer = logTime1 + logTime2;
-    EXPECT_EQ(expectedAnswer, actualAnswer);
-}
+    EXPECT_EQ(expectedAnswer, actualAnswer);}
 
 TEST(BtsLogTimeTest, SubtractionOperatorWorksAsIntended)
 {
-    BtsLogTime logTime1(BtsLogTimeType::BtsTimeStamp, "0001-01-01T01:01:01.1");
-    BtsLogTime logTime2(BtsLogTimeType::BtsTimeStamp, "0002-02-02T02:02:02.2");
-    BtsLogTime expectedAnswer(BtsLogTimeType::BtsTimeStamp, "0001-01-01T01:01:01.1");
+    BtsLogTime logTime1(BtsLogTimeType::BtsTimeStamp, "0000-00-01T01:01:01.1");
+    BtsLogTime logTime2(BtsLogTimeType::BtsTimeStamp, "2000-01-02T02:02:02.2");
+    BtsLogTime expectedAnswer(BtsLogTimeType::BtsTimeStamp, "2000-01-01T01:01:01.1");
 
     BtsLogTime actualAnswer = logTime2 - logTime1;
-    EXPECT_EQ(expectedAnswer, actualAnswer);
-}
+    EXPECT_EQ(expectedAnswer, actualAnswer);}
 
 TEST(BtsLogTimeTest, SubtractionOperatorWithUnderflowValues)
 {
     BtsLogTime logTime1(BtsLogTimeType::BtsTimeStamp, "0000-00-00T00:00:00.000001");
-    BtsLogTime logTime2(BtsLogTimeType::BtsTimeStamp, "0000-00-01T00:00:00.000000");
-    BtsLogTime expectedAnswer(BtsLogTimeType::BtsTimeStamp, "0000-00-00T23:59:59.999999");
+    BtsLogTime logTime2(BtsLogTimeType::BtsTimeStamp, "2000-01-02T00:00:00.000000");
+    BtsLogTime expectedAnswer(BtsLogTimeType::BtsTimeStamp, "2000-01-01T23:59:59.999999");
 
     BtsLogTime actualAnswer = logTime2 - logTime1;
     EXPECT_EQ(expectedAnswer, actualAnswer);
+}
+
+TEST(BtsLogTimeTest, TheDataCanBeSavedToAndRetrieveFromFile)
+{
+    BtsLogTime sampleLogTime(BtsLogTimeType::BtsTimeStamp, "2000-01-01T23:59:59.999999");
+    BtsLogTime testLogTime;
+    string pathOfTempFile(APRG_DIR R"(TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\TempTestFiles\temp.txt)");
+    {
+        ofstream outputStream(pathOfTempFile);
+        outputStream<<sampleLogTime<<endl;
+    }
+    ASSERT_TRUE(testLogTime.isEmpty());
+    {
+        ifstream inputStream(pathOfTempFile);
+        inputStream>>testLogTime;
+    }
+    EXPECT_EQ(sampleLogTime, testLogTime);
 }

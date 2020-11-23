@@ -20,18 +20,29 @@ public:
     {
         static_assert(sizeof(ArgumentType) == 1, "concatenateBytes: ArgumentType size is greater than a byte");
         static_assert(sizeof(DataTypeToManipulate) > sizeof...(Arguments), "concatenateBytes: sizeof(DataTypeToManipulate) size is greater than Arguments size");
-        return ((DataTypeToManipulate)currentByte << (sizeof...(Arguments) * AlbaBitConstants::BYTE_SIZE_IN_BITS)) | concatenateBytes(arguments...);
+        return shiftLeft<sizeof...(Arguments)>(currentByte) | concatenateBytes(arguments...);
+    }
+
+    template <unsigned char shiftValue, typename ArgumentType>
+    static constexpr DataTypeToManipulate shiftLeft(ArgumentType const value)
+    {
+        return ((DataTypeToManipulate)value << (shiftValue*AlbaBitConstants::BYTE_SIZE_IN_BITS));
+    }
+
+    template <unsigned char shiftValue, typename ArgumentType>
+    static constexpr DataTypeToManipulate shiftRight(ArgumentType const value)
+    {
+        return ((DataTypeToManipulate)value >> (shiftValue*AlbaBitConstants::BYTE_SIZE_IN_BITS));
     }
 
     template <unsigned char position>
-    static constexpr unsigned char getByteAtLeastSignificantPosition(DataTypeToManipulate const value)
+    static constexpr unsigned char getByteAt(DataTypeToManipulate const value)
     {
-        static_assert(sizeof(DataTypeToManipulate) > position, "getByteAtLeastSignificantPosition: position is greater than DataTypeToManipulate size");
-        return value >> (position * AlbaBitConstants::BYTE_SIZE_IN_BITS);
+        static_assert(sizeof(DataTypeToManipulate) > position, "getByteAt: position is greater than DataTypeToManipulate size");
+        return shiftRight<position>(value);
     }
 
-    template <unsigned char size>
-    static constexpr DataTypeToManipulate swapWithBytes(DataTypeToManipulate const)
+    template <unsigned char size>    static constexpr DataTypeToManipulate swapWithBytes(DataTypeToManipulate const)
     {
         static_assert(size != size, "The swapWithSize with this size or type is not supported. Please add a specialization.");
         return 0;
@@ -82,36 +93,32 @@ template <>
 template <>
 constexpr short unsigned int AlbaBitManipulation<short unsigned int>::swapWithBytes<2>(short unsigned int const value)
 {
-    return concatenateBytes(getByteAtLeastSignificantPosition<0>(value), getByteAtLeastSignificantPosition<1>(value));
+    return concatenateBytes(getByteAt<0>(value), getByteAt<1>(value));
 }
 
-template <>
-template <>
+template <>template <>
 constexpr unsigned int AlbaBitManipulation<unsigned int>::swapWithBytes<2>(unsigned int const value)
 {
-    return concatenateBytes(getByteAtLeastSignificantPosition<0>(value), getByteAtLeastSignificantPosition<1>(value));
+    return concatenateBytes(getByteAt<0>(value), getByteAt<1>(value));
 }
 
-template <>
-template <>
+template <>template <>
 constexpr unsigned int AlbaBitManipulation<unsigned int>::swapWithBytes<4>(unsigned int const value)
 {
-    return concatenateBytes(getByteAtLeastSignificantPosition<0>(value), getByteAtLeastSignificantPosition<1>(value),
-                            getByteAtLeastSignificantPosition<2>(value), getByteAtLeastSignificantPosition<3>(value));
+    return concatenateBytes(getByteAt<0>(value), getByteAt<1>(value),
+                            getByteAt<2>(value), getByteAt<3>(value));
 }
 
-template <>
-template <>
+template <>template <>
 constexpr unsigned long long AlbaBitManipulation<unsigned long long>::swapWithBytes<8>(unsigned long long const value)
 {
-    return concatenateBytes(getByteAtLeastSignificantPosition<0>(value), getByteAtLeastSignificantPosition<1>(value),
-                            getByteAtLeastSignificantPosition<2>(value), getByteAtLeastSignificantPosition<3>(value),
-                            getByteAtLeastSignificantPosition<4>(value), getByteAtLeastSignificantPosition<5>(value),
-                            getByteAtLeastSignificantPosition<6>(value), getByteAtLeastSignificantPosition<7>(value));
+    return concatenateBytes(getByteAt<0>(value), getByteAt<1>(value),
+                            getByteAt<2>(value), getByteAt<3>(value),
+                            getByteAt<4>(value), getByteAt<5>(value),
+                            getByteAt<6>(value), getByteAt<7>(value));
 }
 
-template <>
-constexpr short unsigned int AlbaBitManipulation<short unsigned int>::getAllBitsAsserted()
+template <>constexpr short unsigned int AlbaBitManipulation<short unsigned int>::getAllBitsAsserted()
 {
     return 0xFFFF;
 }

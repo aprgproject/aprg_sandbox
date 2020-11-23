@@ -31,10 +31,14 @@ BtsLogPrint::BtsLogPrint(string const& filename, string const& lineInLogs)
     analyzeLineInLogs(lineInLogs);
 }
 
+bool BtsLogPrint::isEmpty() const
+{
+    return m_btsTime.isEmpty() && m_pcTime.isEmpty();
+}
+
 BtsLogTime BtsLogPrint::getBtsTime() const
 {
-    return m_btsTime;
-}
+    return m_btsTime;}
 
 BtsLogTime BtsLogPrint::getPcTime() const
 {

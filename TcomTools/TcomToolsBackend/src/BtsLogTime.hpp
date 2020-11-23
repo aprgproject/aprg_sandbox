@@ -1,9 +1,10 @@
 #pragma once
 
+#include <Time/AlbaDateTime.hpp>
+
 #include <string>
 
-namespace tcomToolsBackend
-{
+namespace tcomToolsBackend{
 
 enum class BtsLogTimeType
 {
@@ -27,11 +28,10 @@ public:
     int getSeconds() const;
     int getTotalSeconds() const;
     int getMicroSeconds() const;
-    std::string getEquivalentString() const;
+    std::string getPrintableString() const;
     std::string getEquivalentStringPcTimeFormat() const;
     std::string getEquivalentStringBtsTimeFormat() const;
-    bool operator<(BtsLogTime const& btsLogTimeToCompare) const;
-    bool operator>(BtsLogTime const& btsLogTimeToCompare) const;
+    bool operator<(BtsLogTime const& btsLogTimeToCompare) const;    bool operator>(BtsLogTime const& btsLogTimeToCompare) const;
     bool operator==(BtsLogTime const& btsLogTimeToCompare) const;
     BtsLogTime operator+(BtsLogTime const& btsLogTime) const;
     BtsLogTime operator-(BtsLogTime const& btsLogTime) const;
@@ -39,13 +39,7 @@ public:
     friend std::istream & operator>>(std::istream & in, BtsLogTime& btsLogTime);
 
 private:
-    void reorganizeOverflowValues();
-    void reorganizeUnderflowValues();
-    int m_years;
-    int m_months;
-    int m_days;
-    int m_seconds;
-    int m_microseconds;
+    alba::AlbaDateTime m_dateTime;
 };
 
 }

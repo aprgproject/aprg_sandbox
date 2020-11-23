@@ -135,11 +135,13 @@ void BtsLogSorter::addStartupLogsOnSorterWithPcTime()
     double fileSize(AlbaLocalPathHandler(m_pathOfStartupLog).getFileSizeEstimate());
     while(printReader.isGood())
     {
-        m_sorterWithPcTime.add(printReader.getPrint());
+        if(!printReader.getPrint().isEmpty())
+        {
+            m_sorterWithPcTime.add(printReader.getPrint());
+        }
         ProgressCounters::writeProgressForCombine = 25*printReader.getCurrentLocation()/fileSize;
     }
 }
-
 void BtsLogSorter::writeLogsWithoutPcTimeToOutputFile(ofstream & outputLogFileStream)
 {
     cout << "Save sorted logs without PC time." << endl;
