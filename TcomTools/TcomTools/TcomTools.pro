@@ -34,14 +34,14 @@ src/TcomToolsConfiguration.cpp\
 ../../AprgCommon/AprgCommon/src/PathHandlers/AlbaWindowsPathHandler.cpp\
 ../../AprgCommon/AprgCommon/src/Randomizer/AlbaRandomizer.cpp\
 ../../AprgCommon/AprgCommon/src/String/AlbaStringHelper.cpp\
+../../AprgCommon/AprgCommon/src/Time/AlbaDateTime.cpp\
+../../AprgCommon/AprgCommon/src/Time/AlbaDateTimeHelper.cpp\
 ../../AprgFileExtractor/AprgFileExtractor/src/AprgFileExtractor.cpp
 
-HEADERS += \
-src/ProgressCounters.hpp\
+HEADERS += \src/ProgressCounters.hpp\
 src/ProgressBarThread.hpp\
 src/StepHandler.hpp\
-src/StepHandlerThread.hpp\
-src/TcomTools.h\
+src/StepHandlerThread.hpp\src/TcomTools.h\
 src/TcomToolsConfiguration.hpp\
 ../TcomToolsBackend/src/BtsLogPrint.hpp\
 ../TcomToolsBackend/src/BtsLogSorter.hpp\
@@ -58,14 +58,15 @@ src/TcomToolsConfiguration.hpp\
 ../../AprgCommon/AprgCommon/src/PathHandlers/AlbaWindowsPathHandler.hpp\
 ../../AprgCommon/AprgCommon/src/Randomizer/AlbaRandomizer.hpp\
 ../../AprgCommon/AprgCommon/src/String/AlbaStringHelper.hpp\
+../../AprgCommon/AprgCommon/src/Time/AlbaDateTime.hpp\
+../../AprgCommon/AprgCommon/src/Time/AlbaDateTimeHelper.hpp\
+../../AprgCommon/AprgCommon/src/Time/AlbaDateTimeConstants.hpp\
 ../../AprgFileExtractor/AprgFileExtractor/src/AprgFileExtractor.hpp
 
 FORMS += src/TcomTools.ui
-
 QMAKE_INCDIR += \
 src\
-../TcomToolsBackend/src\
-../../AprgFileExtractor/AprgFileExtractor/src\
+../TcomToolsBackend/src\../../AprgFileExtractor/AprgFileExtractor/src\
 ../../AprgAlgorithm/AprgAlgorithm/src\
 ../../AprgCommon/AprgCommon/src
 
