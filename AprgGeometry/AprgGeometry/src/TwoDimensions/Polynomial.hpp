@@ -9,9 +9,11 @@
 
 namespace alba
 {
+
 template<unsigned int numberOfCoefficients>
 class Polynomial
-{public:
+{
+public:
     Polynomial()
     {}
 

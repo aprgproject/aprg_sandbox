@@ -61,8 +61,8 @@ public:
     bool operator>(AlbaDateTime const& secondDateTime) const;
     bool operator==(AlbaDateTime const& secondDateTime) const;
     bool operator!=(AlbaDateTime const& secondDateTime) const;
-    AlbaDateTime operator+(AlbaDateTime const& btsLogTime) const;
-    AlbaDateTime operator-(AlbaDateTime const& btsLogTime) const;
+    AlbaDateTime operator+(AlbaDateTime const& secondDateTime) const;
+    AlbaDateTime operator-(AlbaDateTime const& secondDateTime) const;
     void negate();
     void setTime(unsigned short int const years, unsigned char const months, unsigned char const days, unsigned char const hours, unsigned char const minutes, unsigned char const seconds, unsigned int const microseconds);
 private:

@@ -55,6 +55,7 @@ TEST(SoosaTest, SampleTest1)
     SOOSA soosa(configuration);
     soosa.process();
 
+    ASSERT_EQ(39, soosa.getNumberOfAnswers());
     EXPECT_EQ(5, soosa.getAnswerToQuestion(0));
     EXPECT_EQ(4, soosa.getAnswerToQuestion(1));
     EXPECT_EQ(3, soosa.getAnswerToQuestion(2));

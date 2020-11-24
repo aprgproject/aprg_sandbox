@@ -6,6 +6,8 @@
 #include <User/AlbaUserInterface.hpp>
 #include <Statistics/FrequencyStatistics.hpp>
 
+#include <Debug/AlbaDebug.hpp>
+
 #include <sstream>
 #include <iostream>
 
@@ -23,10 +25,6 @@
 #define MAXSTR 500
 #define MAXQUESTIONSCOOR 60 //2*30 -> MUST be twice of MAXQUESTIONS
 #define SAMPLESLINETOALLOC 1000
-#define SAMPLESLINE 500
-#define MINSAMPLESLINE 200
-#define SAMPLESLINETOPBOTTOM 300
-#define MINSAMPLESLINETOPBOTTOM 100
 #define ROBUSTSAMPLESLINE 1000
 #define ROBUSTMINSAMPLESLINE 100
 #define ROBUSTSAMPLESLINETOPBOTTOM 500
@@ -99,11 +97,13 @@ void SOOSA::clearFrequencyDatabase()
     }
 }
 
+unsigned int SOOSA::getNumberOfAnswers() const
+{
+    return m_questionToAnswersMap.size();
+}
+
 unsigned int SOOSA::getAnswerToQuestion(unsigned int const questionNumber) const
 {
-    cout<<"m_questionToAnswersMap"<<m_questionToAnswersMap.size()<<endl;
-
-    cout<<"questionNumber"<<questionNumber<<endl;
     return m_questionToAnswersMap.at(questionNumber);
 }
 
@@ -134,7 +134,6 @@ string SOOSA::getPrintableStringForPercentage(double const numerator, double con
 
 void SOOSA::setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer)
 {
-    cout<<"getQuestionNumberInColumn"<<m_configuration.getQuestionNumberInColumn(columnNumber, questionOffsetInColumn)<<" columnNumber"<<columnNumber<<" questionOffsetInColumn"<<questionOffsetInColumn<<endl;
     m_questionToAnswersMap[m_configuration.getQuestionNumberInColumn(columnNumber, questionOffsetInColumn)] = answer;
 }
 
@@ -146,6 +145,12 @@ void  SOOSA::addToFrequencyDatabase(unsigned int const questionNumber, unsigned 
 void SOOSA::saveDataToCsvFile(string const& processedFilePath)
 {
     ofstream outputCsvReportStream(getCsvFileName(m_configuration.getPath()), ofstream::app);
+    ALBA_DEBUG_PRINT2(m_configuration.getNumberOfQuestions(), m_questionToAnswersMap.size());
+    if(m_configuration.getNumberOfQuestions() != m_questionToAnswersMap.size())
+    {
+        m_status = SoosaStatus::AlgorithmError;
+        ALBA_DEBUG_PRINT1((int)m_status);
+    }
     if(isStatusNoError(m_status))
     {
         outputCsvReportStream<<processedFilePath<<",OK";
@@ -943,6 +948,52 @@ int SOOSA::processOneColumn(DataDigital* indata, PairXY* QuesArr1, PairXY* QuesA
     return 0;
 }
 
+inline int SOOSA::followLineGetLengthXNew(AprgBitmapSnippet const& snippet, PairXY start, PairXY p1)
+{
+    //p2 and p3 are opposite directions, use states to dont go backwards
+    int state,x,y,pty;
+    LOPPRINT("  FUNC:followLineGetLengthX Start(%d|%d) P1(%d|%d) P3(%d|%d)\n",start._x+gddx,start._y+gddy,p1._x+gddx,p1._y+gddy);
+    x=start._x; y=start._y; pty=0; state=0;
+
+    while(snippet.isPositionInside(BitmapXY(x+gddx,y-1+gddy)))
+    {
+        LOPPRINT("  FUNCLOOP:followLineGetLengthX(x=%d|y=%d|pt=%d)\n",x+gddx,y+gddy,pty);
+        if(pty>=PIXELSPERPENLINE)
+        {
+            break;
+            LOPPRINT("  FUNCLOOP:followLineGetLengthX->(pty=%d) |Perpendicular line exit\n",pty);
+        }
+        else if(snippet.isBlackAt(BitmapXY(x+p1._x+gddx,y+p1._y+gddy)))
+        {
+            x=x+p1._x;
+            y=y+p1._y;
+            state = 1;
+            pty=pty+1;
+            LOPPRINT("  FUNCLOOP:followLineGetLengthX->(Follow P1:(%d,%d)\n",x+gddx,y+gddy);
+        }
+        else if(state==1)
+        {
+            while(snippet.isPositionInside(BitmapXY(x+gddx,y-1+gddy)) && snippet.isBlackAt(BitmapXY(x+gddx,y-1+gddy)))
+            {
+                y=y-1;
+            }
+            state=2;
+            LOPPRINT("  FUNCLOOP:followLineGetLengthX->(Find TOP:(%d,%d)\n",x+gddx,y+gddy);
+        }
+        else if(state==2 && snippet.isBlackAt(BitmapXY(x+gddx,y+1+gddy)))
+        {
+            y=y+1;
+            LOPPRINT("  FUNCLOOP:followLineGetLengthX->(Go Down(%d,%d)\n",x+gddx,y+gddy);
+        }
+        else
+        {
+            break;
+        }
+    }
+    LOPPRINT("  FUNC:followLineGetLengthX->(out=%d)\n",pty);
+    return pty;
+}
+
 inline int SOOSA::followLineGetLengthX(DataDigital* indata,PairXY start, PairXY p1)
 {
     //p2 and p3 are opposite directions, use states to dont go backwards
@@ -964,6 +1015,60 @@ inline int SOOSA::followLineGetLengthX(DataDigital* indata,PairXY start, PairXY 
     }
     LOPPRINT("  FUNC:followLineGetLengthX->(out=%d)\n",pty);
     return pty;
+}
+
+int SOOSA::findLineImageFromLeftNew(AprgBitmapSnippet const& snippet, PairXY* in_line, int numberOfSamples, PairXY inStart, PairXY inEnd)
+{
+    int lineSamples,pt,ptwhite,lineSamplesSaved;
+    lineSamplesSaved=0;
+    DBGPRINT("  FUNC:findLineImageFromLeft(startx=%d|starty=%d|endx=%d|endy=%d)\n",inStart._x+gddx,inStart._y+gddy,inEnd._x+gddx,inEnd._y+gddy);
+    for(lineSamples=0;lineSamples<numberOfSamples;lineSamples++)
+    {
+        in_line[lineSamplesSaved]._x = roundOffSignRobust((double)(inEnd._x-inStart._x)*lineSamples/(numberOfSamples))+inStart._x;
+        in_line[lineSamplesSaved]._y = roundOffSignRobust((double)(inEnd._y-inStart._y)*lineSamples/(numberOfSamples))+inStart._y;
+        LOPPRINT("  FUNCLOOP:findLineImageFromLeft[lt=%d|x=%d|y=%d]\n",lineSamples,in_line[lineSamplesSaved]._x+gddx,in_line[lineSamplesSaved]._y+gddy);
+        pt = 0;
+        ptwhite=0;
+        unsigned int yInSnippet = in_line[lineSamplesSaved]._y+gddy;
+        for(unsigned int xInSnippet=in_line[lineSamplesSaved]._x+gddx; xInSnippet<snippet.getBottomRightCorner().getX(); xInSnippet++)
+        {
+            if(pt>=PIXELSPERPENLINE)
+            {
+                break;
+            }
+            if(snippet.isBlackAt(BitmapXY(xInSnippet, yInSnippet)))
+            {
+                pt=pt+1;
+                ptwhite=0;
+            }
+            else if(pt>PIXELSDIRTBLACKDOT && ptwhite>=PIXELSDIRTWHITEDOT)
+            {
+                pt=pt-ptwhite;
+                in_line[lineSamplesSaved]._x = roundOffSignRobust(xInSnippet-gddx-1-pt+(((double)pt)/2)-ptwhite );//minus-1 to get last white
+                LOPPRINT("  FUNCLOOPXXX:findLineImageFromLeft Successful->[x=%d|y=%d]\n",in_line[lineSamplesSaved]._x+gddx,in_line[lineSamplesSaved]._y+gddy);
+                lineSamplesSaved++;
+                break;
+            }
+            else
+            {
+                if(ptwhite<PIXELSDIRTWHITEDOT && pt>0)
+                {
+                    ptwhite++;
+                    pt++;
+                }
+                else
+                {
+                    pt=0;//if dirt encountered clear once white again
+                }
+            }
+        }
+    }
+#ifdef  DBGFLAG
+    for(lineSamples=0;lineSamples<lineSamplesSaved;lineSamples++){//lineSamples
+        DBGPRINT("  FUNCOUT:findLineImageFromLeft[%d]->[x=%d|y=%d]\n",lineSamples,in_line[lineSamples]._x+gddx,in_line[lineSamples]._y+gddy);
+    }
+#endif
+    return lineSamplesSaved;
 }
 
 int SOOSA::findLineImageFromLeft(PairXY* in_line, int numsamplesize, unsigned char* in_buf,int xsizebytesallocated,PairXY inStart,PairXY inEnd)
@@ -1017,6 +1122,60 @@ int SOOSA::findLineImageFromLeft(PairXY* in_line, int numsamplesize, unsigned ch
 
 }
 
+int SOOSA::findLineImageFromRightNew(AprgBitmapSnippet const& snippet, PairXY* in_line, int numberOfSamples, PairXY inStart, PairXY inEnd)
+{
+    int lineSamples,pt,ptwhite,lineSamplesSaved;
+    lineSamplesSaved=0;
+    DBGPRINT("  FUNC:findLineImageFromRight(startx=%d|starty=%d|endx=%d|endy=%d)\n",inStart._x+gddx,inStart._y+gddy,inEnd._x+gddx,inEnd._y+gddy);
+    for(lineSamples=0;lineSamples<numberOfSamples;lineSamples++)
+    {
+        in_line[lineSamplesSaved]._x = roundOffSignRobust((double)(inEnd._x-inStart._x)*lineSamples/(numberOfSamples))+inStart._x;
+        in_line[lineSamplesSaved]._y = roundOffSignRobust((double)(inEnd._y-inStart._y)*lineSamples/(numberOfSamples))+inStart._y;
+        LOPPRINT("  FUNCLOOP:findLineImageFromRight[lt=%d|x=%d|y=%d]\n",lineSamples,in_line[lineSamplesSaved]._x+gddx,in_line[lineSamplesSaved]._y+gddy);
+        pt = 0;
+        ptwhite=0;
+        unsigned int yInSnippet = in_line[lineSamplesSaved]._y+gddy;
+        for(unsigned int xInSnippet=in_line[lineSamplesSaved]._x+gddx; xInSnippet>=0; xInSnippet--)
+        {
+            if(pt>=PIXELSPERPENLINE)
+            {
+                break;
+            }
+            if(snippet.isBlackAt(BitmapXY(xInSnippet, yInSnippet)))
+            {
+                pt=pt+1;
+                ptwhite=0;
+            }
+            else if(pt>PIXELSDIRTBLACKDOT && ptwhite>=PIXELSDIRTWHITEDOT)
+            {
+                pt=pt-ptwhite;
+                in_line[lineSamplesSaved]._x = roundOffSignRobust(xInSnippet-gddx +(((double)pt)/2)+ptwhite);
+                LOPPRINT("  FUNCLOOPXXX:findLineImageFromRight Successful->[x=%d|y=%d]\n",in_line[lineSamplesSaved]._x+gddx,in_line[lineSamplesSaved]._y+gddy);
+                lineSamplesSaved++;
+                break;
+            }
+            else
+            {
+                if(ptwhite<PIXELSDIRTWHITEDOT && pt>0)
+                {
+                    ptwhite++;
+                    pt++;
+                }
+                else
+                {
+                    pt=0;//if dirt encountered clear once white again
+                }
+            }
+        }
+    }
+#ifdef  DBGFLAG
+    for(lineSamples=0;lineSamples<lineSamplesSaved;lineSamples++){//lineSamples
+        DBGPRINT("  FUNCOUT:findLineImageFromRight[%d]->[x=%d|y=%d]\n",lineSamples,in_line[lineSamples]._x+gddx,in_line[lineSamples]._y+gddy);
+    }
+#endif
+    return lineSamplesSaved;
+}
+
 int SOOSA::findLineImageFromRight(PairXY* in_line, int numsamplesize, unsigned char* in_buf,int xsizebytesallocated,PairXY inStart,PairXY inEnd)
 {
     int xt,yt,lt,mt,pt,ptwhite,lt_success;
@@ -1067,6 +1226,58 @@ int SOOSA::findLineImageFromRight(PairXY* in_line, int numsamplesize, unsigned c
     return lt_success;
 }
 
+int SOOSA::findLineImageFromTopNew(AprgBitmapSnippet const& snippet, PairXY* in_line, int numberOfSamples, PairXY inStart, PairXY inEnd)
+{
+    int lineSamples,lineSamplesSaved,pt,iy,pty;
+    lineSamplesSaved=0;
+    DBGPRINT("  FUNC:findLineImageFromTop(startx=%d|starty=%d|endx=%d|endy=%d)\n",inStart._x+gddx,inStart._y+gddy,inEnd._x+gddx,inEnd._y+gddy);
+    for(lineSamples=0;lineSamples<numberOfSamples;lineSamples++)
+    {
+        in_line[lineSamplesSaved]._x = roundOffSignRobust((double)(inEnd._x-inStart._x)*lineSamples/(numberOfSamples))+inStart._x;
+        in_line[lineSamplesSaved]._y = roundOffSignRobust((double)(inEnd._y-inStart._y)*lineSamples/(numberOfSamples))+inStart._y;
+        pt = 0;
+        LOPPRINT("  FUNCLOOP:findLineImageFromTop[lt=%d|x=%d|y=%d]\n",lineSamples,in_line[lineSamplesSaved]._x+gddx,in_line[lineSamplesSaved]._y+gddy);
+        for(iy=in_line[lineSamplesSaved]._y; iy<snippet.getBottomRightCorner().getY(); iy++)
+        {
+            LOPPRINT("  FUNCLOOPXXX:findLineImageFromTop[x=%d,y=%d|pt=%d|dummy=%d|mask=%d]->bit=%d\n",in_line[lineSamplesSaved]._x+gddx,iy+gddy,pt,dummy,mask,(dummy&mask)==0x00);
+            if(pt>=PIXELSPERPENLINE)
+            {
+                break;
+            }
+            if(snippet.isBlackAt(BitmapXY(in_line[lineSamplesSaved]._x+gddx, iy+gddy)))
+            {
+                    pt=pt+1;
+            }
+            else if(pt>PIXELSDIRTBLACKDOT)
+            {
+                in_line[lineSamplesSaved]._y = roundOffSignRobust( iy-1-pt+(((double)pt)/2) );//minus-1 to get last white
+                pty=1+followLineGetLengthXNew(snippet,createXY(in_line[lineSamplesSaved]._x,in_line[lineSamplesSaved]._y), createXY(1,0) );
+                pty=pty+followLineGetLengthXNew(snippet,createXY(in_line[lineSamplesSaved]._x,in_line[lineSamplesSaved]._y), createXY(-1,0) );
+                if(pty>=PIXELSPERPENLINE)
+                {
+                    LOPPRINT("  FUNCLOOPXXX:findLineImageFromTop Successful->[x=%d|y=%d]\n",in_line[lineSamplesSaved]._x+gddx,in_line[lineSamplesSaved]._y+gddy);
+                    lineSamplesSaved++;
+                    break;
+                }
+                else
+                {
+                    pt=0;
+                }
+            }
+            else
+            {
+                pt=0;//if dirt encountered clear once white again
+            }
+        }
+    }
+#ifdef  DBGFLAG
+    for(lineSamples=0;lineSamples<lineSamplesSaved;lineSamples++){//lineSamples
+        DBGPRINT("  FUNCOUT:findLineImageFromTop[%d]->[x=%d|y=%d]\n",lineSamples,in_line[lineSamples]._x+gddx,in_line[lineSamples]._y+gddy);
+    }
+#endif
+    return lineSamplesSaved;
+}
+
 int SOOSA::findLineImageFromTop(DataDigital* indata, PairXY* in_line, int numsamplesize, PairXY inStart,PairXY inEnd)
 {
     int xt,yt,lt,lt_success,pt,iy,pty;
@@ -1082,7 +1293,7 @@ int SOOSA::findLineImageFromTop(DataDigital* indata, PairXY* in_line, int numsam
         xt = in_line[lt_success]._x/8;
         mask=0x80>>(in_line[lt_success]._x%8);
         pt = 0;
-        LOPPRINT("  FUNCLOOP:findLineImageFromTop[lt=%d|x=%d|y=%d]\n",lt,in_line[lt_success]._x+gddx,in_line[lt_success]._y+gddy);
+        DBGPRINT("  FUNCLOOP:findLineImageFromTop[lt=%d|x=%d|y=%d]\n",lt,in_line[lt_success]._x+gddx,in_line[lt_success]._y+gddy);
         for(iy=in_line[lt_success]._y; iy<ysizebytesallocated; iy++){//linebyteloop
             yt=(iy*xsizebytesallocated);
             dummy = indata->buf[yt+xt];
@@ -1113,6 +1324,59 @@ int SOOSA::findLineImageFromTop(DataDigital* indata, PairXY* in_line, int numsam
     }
 #endif
     return lt_success;
+}
+int SOOSA::findLineImageFromBottomNew(AprgBitmapSnippet const& snippet, PairXY* in_line, int numsamplesize, PairXY inStart,PairXY inEnd)
+{
+    int lineSamples,lineSamplesSaved,pt,iy,pty;
+    unsigned char dummy,mask;
+    lineSamplesSaved=0;
+    DBGPRINT("  FUNC:findLineImageFromBottom(startx=%d|starty=%d|endx=%d|endy=%d)\n",inStart._x+gddx,inStart._y+gddy,inEnd._x+gddx,inEnd._y+gddy);
+    for(lineSamples=0;lineSamples<numsamplesize;lineSamples++)
+    {
+        in_line[lineSamplesSaved]._x = roundOffSignRobust((double)(inEnd._x-inStart._x)*lineSamples/(numsamplesize))+inStart._x;
+        in_line[lineSamplesSaved]._y = roundOffSignRobust((double)(inEnd._y-inStart._y)*lineSamples/(numsamplesize))+inStart._y;
+        pt = 0;
+        LOPPRINT("  FUNCLOOP:findLineImageFromBottom[lt=%d|x=%d|y=%d]\n",lineSamples,in_line[lineSamplesSaved]._x+gddx,in_line[lineSamplesSaved]._y+gddy);
+        for(iy=in_line[lineSamplesSaved]._y; iy>=0; iy--)
+        {
+            LOPPRINT("  FUNCLOOPXXX:findLineImageFromBottom[x=%d,y=%d|pt=%d|dummy=%d|mask=%d]->bit=%d\n",in_line[lineSamplesSaved]._x+gddx,iy+gddy,pt,dummy,mask,(dummy&mask)==0x00);
+            if(pt>=PIXELSPERPENLINE)
+            {
+                break;
+            }
+            if(snippet.isBlackAt(BitmapXY(in_line[lineSamplesSaved]._x+gddx, iy+gddy)))
+            {
+                pt=pt+1;
+            }
+            else if(pt>PIXELSDIRTBLACKDOT)
+            {
+                in_line[lineSamplesSaved]._y = roundOffSignRobust( iy+(((double)pt)/2) );//minus-1 to get last white
+                pty=1+followLineGetLengthXNew(snippet, createXY(in_line[lineSamplesSaved]._x,in_line[lineSamplesSaved]._y), createXY(1,0) );
+                pty=pty+followLineGetLengthXNew(snippet, createXY(in_line[lineSamplesSaved]._x,in_line[lineSamplesSaved]._y), createXY(-1,0) );
+                if(pty>=PIXELSPERPENLINE)
+                {
+                    LOPPRINT("  FUNCLOOPXXX:findLineImageFromBottom Successful->[x=%d|y=%d]\n",in_line[lineSamplesSaved]._x+gddx,in_line[lineSamplesSaved]._y+gddy);
+                    lineSamplesSaved++;
+                    break;
+                }
+                else
+                {
+                    pt=0;
+                }
+            }
+            else
+            {
+                pt=0;//if dirt encountered clear once white again
+            }
+
+        }
+    }
+#ifdef  DBGFLAG
+    for(lineSamples=0;lineSamples<lineSamplesSaved;lineSamples++){//lineSamples
+        DBGPRINT("  FUNCOUT:findLineImageFromBottom[%d]->[x=%d|y=%d]\n",lineSamples,in_line[lineSamples]._x+gddx,in_line[lineSamples]._y+gddy);
+    }
+#endif
+    return lineSamplesSaved;
 }
 
 int SOOSA::findLineImageFromBottom(DataDigital* indata, PairXY* in_line, int numsamplesize, PairXY inStart,PairXY inEnd)
@@ -1802,9 +2066,9 @@ int SOOSA::getQuestionsFromLine(DataDigital* in_dd, PairXY* out_questions, int n
     return fail;
 }
 
-void SOOSA::processOneFile(string const& fileName)
+void SOOSA::processOneFileOld(string const& fileName)
 {
-    cout<<"processOneFile: ["<<fileName<<"]"<<endl;
+    /*cout<<"processOneFile: ["<<fileName<<"]"<<endl;
     m_status = SoosaStatus::NoError;
 
     BmpImage img;
@@ -2484,7 +2748,399 @@ void SOOSA::processOneFile(string const& fileName)
     m_numberOfRespondents++;
     cleanDataDigital(&dd);
     closeBmpImage(&img);
+*/
+}
 
+void SOOSA::processOneFile(string const& filePath)
+{
+    cout<<"processOneFile: ["<<filePath<<"]"<<endl;
+    m_status = SoosaStatus::NoError;
+
+    //newway
+
+    AprgBitmap bitmap(filePath);
+
+    BmpImage img;
+    DataDigital dd;
+    ChebyshevCriterion ccSlope;
+    dd.buf = NULL;//IMPT
+    dd.status=0;
+    if(openBmpImage(&img,filePath.c_str())){
+        cout<<"ERROR: Error in Reading BMP File. BMP File: ["<<filePath<<"]"<<endl;
+        closeBmpImage(&img);
+        m_status = SoosaStatus::BitmapError;
+        return;
+    }
+    if(img.xSize<=PIXELSPERPENLINE || img.ySize<=PIXELSPERPENLINE){
+        cout<<"ERROR: BMP File is too small ("<<PIXELSPERPENLINE<<" pixels by "<<PIXELSPERPENLINE<<" pixels only)."<<endl;
+        closeBmpImage(&img);
+        m_status = SoosaStatus::BitmapError;
+        return;
+    }
+
+    //forfaster
+    int barheightsamplepixels = 10;
+    int xsearchsize = img.xSize/8;
+    int ysearchsize = img.ySize/8;
+
+    LineSlopeIntercept leftline, rightline, topline, bottomline, centerleftline, centerrightline, templine;
+    PairXY uplfcorner, uprtcorner, dnlfcorner, dnrtcorner, upcenter, dncenter;
+    PairXY temppoint1,temppoint2,temppoint3;
+    PairXY lineSamples[SAMPLESLINETOALLOC];
+    PairXY Q1[MAXQUESTIONSCOOR],Q2[MAXQUESTIONSCOOR],Q3[MAXQUESTIONSCOOR],Q4[MAXQUESTIONSCOOR];
+    int numLineSamples,maxLineSamples;
+    double tdoublearr[SAMPLESLINETOALLOC];
+    int t1, isFinishedSuccessfully(false);
+
+    while(!isFinishedSuccessfully)//Two Tries only
+    {
+        cleanDataDigital(&dd);
+        maxLineSamples=ROBUSTSAMPLESLINE;
+        //Left Line
+        cout<<"INFO: Finding left line. NumOfSamples="<<maxLineSamples<<endl;
+        gddx=0;
+        gddy=0;
+        AprgBitmapSnippet snippet(bitmap.getSnippetReadFromFile(BitmapXY(gddx, gddy), BitmapXY(xsearchsize,img.ySize-1)));
+        numLineSamples = findLineImageFromLeftNew(snippet, lineSamples, maxLineSamples, createXY(0,0), createXY(0,img.ySize-1));
+        DBGPRINT("INFO: BlackSamples=%d\n",numLineSamples);
+        numLineSamples = removeOutliersFromLine(lineSamples, tdoublearr, &ccSlope, numLineSamples, 0);
+        DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
+        if(ROBUSTMINSAMPLESLINE>numLineSamples)
+        {
+            cout<<"ERROR: Error in finding the line. Number of samples is not enough (numLineSamples="<<numLineSamples<<")."<<endl;
+            break;
+        }
+        if(getSlope(lineSamples,tdoublearr,numLineSamples, 0)==1)
+        {
+            cout<<"ERROR: Invalid Slope."<<endl;
+            break;
+        }
+        getChebyshevDouble(&ccSlope, tdoublearr, numLineSamples-1);
+        leftline.intercept=getIntercept(lineSamples,ccSlope.mean,numLineSamples,0);
+        leftline.slope=ccSlope.mean;
+        leftline = transposeLine(leftline,0,-1*gddx,-1*gddy);
+        //Right Line
+        cout<<"INFO: Finding right line. NumOfSamples="<<maxLineSamples<<endl;
+        snippet.clear();
+        gddx=img.xSize-1-xsearchsize;
+        gddy=0;
+        snippet = bitmap.getSnippetReadFromFile(BitmapXY(gddx, gddy), BitmapXY(img.xSize-1, img.ySize-1));
+        numLineSamples = findLineImageFromRightNew(snippet, lineSamples, maxLineSamples, createXY(xsearchsize-1,0),createXY(xsearchsize-1,img.ySize-1));
+        DBGPRINT("INFO: BlackSamples=%d\n",numLineSamples);
+        numLineSamples = removeOutliersFromLine(lineSamples, tdoublearr, &ccSlope, numLineSamples, 0);
+        DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
+        if(ROBUSTMINSAMPLESLINE>numLineSamples)
+        {
+            cout<<"ERROR: Error in finding the line. Number of samples is not enough (numLineSamples="<<numLineSamples<<")."<<endl;
+            break;
+        }
+        if(getSlope(lineSamples,tdoublearr,numLineSamples, 0)==1)
+        {
+            cout<<"ERROR: Invalid Slope."<<endl;
+            break;
+        }
+        getChebyshevDouble(&ccSlope, tdoublearr, numLineSamples-1);
+        rightline.intercept=getIntercept(lineSamples,ccSlope.mean,numLineSamples,0);
+        rightline.slope=ccSlope.mean;
+        rightline = transposeLine(rightline,0,-1*gddx,-1*gddy);
+        maxLineSamples=ROBUSTSAMPLESLINETOPBOTTOM;
+        //Top Line
+        cout<<"INFO: Finding top line. NumOfSamples="<<maxLineSamples<<endl;
+        snippet.clear();
+        gddx=0;
+        gddy=0;
+        snippet = bitmap.getSnippetReadFromFile(BitmapXY(gddx, gddy), BitmapXY(img.xSize-1,ysearchsize));
+        numLineSamples = findLineImageFromTopNew(snippet, lineSamples, maxLineSamples, createXY(0,0), createXY(img.xSize-1,0));
+        DBGPRINT("INFO: BlackPerpendicularSamples=%d\n",numLineSamples);
+        numLineSamples = removeOutliersFromLine(lineSamples, tdoublearr, &ccSlope, numLineSamples, 1);
+        DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
+        if(ROBUSTMINSAMPLESLINETOPBOTTOM>numLineSamples)
+        {
+            cout<<"ERROR: Error in finding the line. Number of samples is not enough (numLineSamples="<<numLineSamples<<")."<<endl;
+            break;
+        }
+        if(getSlope(lineSamples,tdoublearr,numLineSamples, 1)==1)
+        {
+            cout<<"ERROR: Invalid Slope."<<endl;
+            break;
+        }
+        getChebyshevDouble(&ccSlope, tdoublearr, numLineSamples-1);
+        topline.intercept=getIntercept(lineSamples,ccSlope.mean,numLineSamples,1);
+        topline.slope=ccSlope.mean;
+        topline = transposeLine(topline,1,-1*gddx,-1*gddy);
+        maxLineSamples=ROBUSTSAMPLESLINETOPBOTTOM;
+        //Bottom Line
+        cout<<"INFO: Finding bottom line. NumOfSamples="<<maxLineSamples<<endl;
+        snippet.clear();
+        gddx=0;
+        gddy=img.ySize-1-ysearchsize;
+        snippet = bitmap.getSnippetReadFromFile(BitmapXY(gddx, gddy), BitmapXY(img.xSize-1,img.ySize-1));
+
+        numLineSamples = findLineImageFromBottomNew(snippet, lineSamples, maxLineSamples, createXY(0,ysearchsize-1),createXY(img.xSize-1,ysearchsize-1));
+        DBGPRINT("INFO: BlackPerpendicularSamples=%d\n",numLineSamples);
+        numLineSamples = removeOutliersFromLine(lineSamples, tdoublearr, &ccSlope, numLineSamples, 1);
+        DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
+        if(ROBUSTMINSAMPLESLINETOPBOTTOM>numLineSamples)
+        {
+            cout<<"ERROR: Error in finding the line. Number of samples is not enough (numLineSamples="<<numLineSamples<<")."<<endl;
+            break;
+        }
+        if(getSlope(lineSamples,tdoublearr,numLineSamples, 1)==1)
+        {
+            cout<<"ERROR: Invalid Slope."<<endl;
+            break;
+        }
+        getChebyshevDouble(&ccSlope, tdoublearr, numLineSamples-1);
+        bottomline.intercept=getIntercept(lineSamples,ccSlope.mean,numLineSamples,1);
+        bottomline.slope=ccSlope.mean;
+        bottomline = transposeLine(bottomline,1,-1*gddx,-1*gddy);
+
+        DBGPRINT("INFO: LeftLine (slope=%lf|intercept=%lf)\n",leftline.slope,leftline.intercept);
+        DBGPRINT("INFO: RightLine (slope=%lf|intercept=%lf)\n",rightline.slope,rightline.intercept);
+        DBGPRINT("INFO: TopLine (slope=%lf|intercept=%lf)\n",topline.slope,topline.intercept);
+        DBGPRINT("INFO: BottomLine (slope=%lf|intercept=%lf)\n",bottomline.slope,bottomline.intercept);
+        uplfcorner = findIntersection(leftline,topline);
+        uprtcorner = findIntersection(rightline,topline);
+        dnlfcorner = findIntersection(leftline,bottomline);
+        dnrtcorner = findIntersection(rightline,bottomline);
+        upcenter = getMidpoint(uplfcorner,uprtcorner);
+        dncenter = getMidpoint(dnlfcorner,dnrtcorner);
+        DBGPRINT("INFO: UpLeftCorner (x=%d,y=%d)\n",uplfcorner._x,uplfcorner._y);
+        DBGPRINT("INFO: UpRightCorner (x=%d,y=%d)\n",uprtcorner._x,uprtcorner._y);
+        DBGPRINT("INFO: DownLeftCorner (x=%d,y=%d)\n",dnlfcorner._x,dnlfcorner._y);
+        DBGPRINT("INFO: DownRightCorner (x=%d,y=%d)\n",dnrtcorner._x,dnrtcorner._y);
+        if(checkIfWithinImageBounds(uplfcorner,img.xSize-1,img.ySize-1)==1)
+        {
+            cout<<"ERROR: Invalid UpLeftCorner point."<<endl;
+            break;
+        }
+        if(checkIfWithinImageBounds(uprtcorner,img.xSize-1,img.ySize-1)==1)
+        {
+            cout<<"ERROR: Invalid UpRightCorner point."<<endl;
+            break;
+        }
+        if(checkIfWithinImageBounds(dnlfcorner,img.xSize-1,img.ySize-1)==1)
+        {
+            cout<<"ERROR: Invalid DownLeftCorner point."<<endl;
+            break;
+        }
+        if(checkIfWithinImageBounds(dnrtcorner,img.xSize-1,img.ySize-1)==1)
+        {
+            cout<<"ERROR: Invalid DownRightCorner point."<<endl;
+            break;
+        }
+        barheightsamplepixels=10;
+        //Q1
+        addPointToDataDigital(&img,&dd,uplfcorner._x-PIXELSSEARCHSIZE,uplfcorner._y-PIXELSSEARCHSIZE);
+        addPointToDataDigital(&img,&dd,uplfcorner._x+PIXELSSEARCHSIZE,uplfcorner._y+PIXELSSEARCHSIZE);
+        addPointToDataDigital(&img,&dd,dnlfcorner._x-PIXELSSEARCHSIZE,dnlfcorner._y-PIXELSSEARCHSIZE);
+        addPointToDataDigital(&img,&dd,dnlfcorner._x+PIXELSSEARCHSIZE,dnlfcorner._y+PIXELSSEARCHSIZE);
+        if(allocData(&dd)==1)
+        {
+            cout<<"ERROR: Error in allocating data for image buffer."<<endl;
+            break;
+        }
+        if(getDataFromBmp(&img,&dd)==1)
+        {
+            cout<<"ERROR: Error in transferring data to image buffer."<<endl;
+            break;
+        }
+        temppoint1 = transposePoint(uplfcorner,dd.xlow,dd.ylow);
+        temppoint2 = transposePoint(dnlfcorner,dd.xlow,dd.ylow);
+        templine=transposeLine(leftline,0,dd.xlow,dd.ylow);
+        if(getQuestionsFromLine(&dd,Q1,m_configuration.getNumberOfQuestionsAtColumn(1),tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
+        {
+            cout<<"ERROR: Error in finding questions in left line."<<endl;
+            break;
+        }
+        deAllocData(&dd);
+        //Q4
+        addPointToDataDigital(&img,&dd,uprtcorner._x-PIXELSSEARCHSIZE,uprtcorner._y-PIXELSSEARCHSIZE);
+        addPointToDataDigital(&img,&dd,uprtcorner._x+PIXELSSEARCHSIZE,uprtcorner._y+PIXELSSEARCHSIZE);
+        addPointToDataDigital(&img,&dd,dnrtcorner._x-PIXELSSEARCHSIZE,dnrtcorner._y-PIXELSSEARCHSIZE);
+        addPointToDataDigital(&img,&dd,dnrtcorner._x+PIXELSSEARCHSIZE,dnrtcorner._y+PIXELSSEARCHSIZE);
+        if(allocData(&dd)==1)
+        {
+            cout<<"ERROR: Error in allocating data for image buffer."<<endl;
+            break;
+        }
+        if(getDataFromBmp(&img,&dd)==1)
+        {
+            cout<<"ERROR: Error in transferring data to image buffer."<<endl;
+            break;
+        }
+        temppoint1 = transposePoint(uprtcorner,dd.xlow,dd.ylow);
+        temppoint2 = transposePoint(dnrtcorner,dd.xlow,dd.ylow);
+        templine=transposeLine(rightline,0,dd.xlow,dd.ylow);
+        if(getQuestionsFromLine(&dd,Q4,m_configuration.getNumberOfQuestionsAtColumn(2),tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
+        {
+            cout<<"ERROR: Error in finding questions in right line."<<endl;
+            break;
+        }
+        deAllocData(&dd);
+        if(m_configuration.getNumberOfColumns()==2)
+        {
+            temppoint1=getMidpoint(uplfcorner,upcenter);
+            temppoint2=getMidpoint(upcenter,uprtcorner);
+            addPointToDataDigital(&img,&dd,temppoint1._x,temppoint1._y-PIXELSSEARCHSIZE);
+            addPointToDataDigital(&img,&dd,temppoint2._x,temppoint2._y-PIXELSSEARCHSIZE);
+            temppoint1=getMidpoint(dnlfcorner,dncenter);
+            temppoint2=getMidpoint(dncenter,dnrtcorner);
+            addPointToDataDigital(&img,&dd,temppoint1._x,temppoint1._y+PIXELSSEARCHSIZE);
+            addPointToDataDigital(&img,&dd,temppoint2._x,temppoint2._y+PIXELSSEARCHSIZE);
+            if(allocData(&dd)==1)
+            {
+                cout<<"ERROR: Error in allocating data for image buffer."<<endl;
+                break;
+            }
+            if(getDataFromBmp(&img,&dd)==1)
+            {
+                cout<<"ERROR: Error in transferring data to image buffer."<<endl;
+                break;
+            }
+            maxLineSamples=ROBUSTSAMPLESLINE;
+            //center left line
+            temppoint1 = transposePoint(upcenter,dd.xlow,dd.ylow);
+            temppoint2 = transposePoint(dncenter,dd.xlow,dd.ylow);
+            cout<<"INFO: Finding center left line. NumOfSamples="<<maxLineSamples<<endl;
+            numLineSamples = findLineImageFromRight(lineSamples,maxLineSamples, dd.buf, dd.xSizeBytesAllocated,temppoint1,temppoint2);
+            DBGPRINT("INFO: BlackSamples=%d\n",numLineSamples);
+            numLineSamples = removeOutliersFromLine(lineSamples, tdoublearr, &ccSlope, numLineSamples, 0);
+            DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
+            if(ROBUSTMINSAMPLESLINE>numLineSamples)
+            {
+                cout<<"ERROR: Error in finding the line. Number of samples is not enough (numLineSamples="<<numLineSamples<<")."<<endl;
+                break;
+            }
+            if(getSlope(lineSamples,tdoublearr,numLineSamples, 0)==1)
+            {
+                cout<<"ERROR: Invalid Slope."<<endl;
+                break;
+            }
+            getChebyshevDouble(&ccSlope, tdoublearr, numLineSamples-1);
+            centerleftline.intercept=getIntercept(lineSamples,ccSlope.mean,numLineSamples,0);
+            centerleftline.slope=ccSlope.mean;
+            centerleftline=transposeLine(centerleftline,0,-1*dd.xlow,-1*dd.ylow);
+            //Q2
+            temppoint1 = findIntersection(centerleftline,topline);temppoint1 = transposePoint(temppoint1,dd.xlow,dd.ylow);
+            temppoint2 = findIntersection(centerleftline,bottomline);temppoint2 = transposePoint(temppoint2,dd.xlow,dd.ylow);
+            templine = transposeLine(centerleftline,0,dd.xlow,dd.ylow);
+            if(getQuestionsFromLine(&dd,Q2,m_configuration.getNumberOfQuestionsAtColumn(1),tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
+            {
+                cout<<"ERROR: Error in finding questions in center left line."<<endl;
+                break;
+            }
+            //center right line
+            temppoint1 = transposePoint(upcenter,dd.xlow,dd.ylow);
+            temppoint2 = transposePoint(dncenter,dd.xlow,dd.ylow);
+            cout<<"INFO: Finding center right line. NumOfSamples="<<maxLineSamples<<endl;
+            numLineSamples = findLineImageFromLeft(lineSamples,maxLineSamples, dd.buf, dd.xSizeBytesAllocated,temppoint1,temppoint2);
+            DBGPRINT("INFO: BlackSamples=%d\n",numLineSamples);
+            numLineSamples = removeOutliersFromLine(lineSamples, tdoublearr, &ccSlope, numLineSamples, 0);
+            DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
+            if(ROBUSTMINSAMPLESLINE>numLineSamples)
+            {
+                cout<<"ERROR: Error in finding the line. Number of samples is not enough (numLineSamples="<<numLineSamples<<")."<<endl;
+                break;
+            }
+            if(getSlope(lineSamples,tdoublearr,numLineSamples, 0)==1)
+            {
+                cout<<"ERROR: Invalid Slope."<<endl;
+                break;
+            }
+            getChebyshevDouble(&ccSlope, tdoublearr, numLineSamples-1);
+            centerrightline.intercept=getIntercept(lineSamples,ccSlope.mean,numLineSamples,0);
+            centerrightline.slope=ccSlope.mean;
+            centerrightline=transposeLine(centerrightline,0,-1*dd.xlow,-1*dd.ylow);
+            //Q3
+            temppoint1 = findIntersection(centerrightline,topline);temppoint1 = transposePoint(temppoint1,dd.xlow,dd.ylow);
+            temppoint2 = findIntersection(centerrightline,bottomline);temppoint2 = transposePoint(temppoint2,dd.xlow,dd.ylow);
+            templine = transposeLine(centerrightline,0,dd.xlow,dd.ylow);
+            if(getQuestionsFromLine(&dd,Q3,m_configuration.getNumberOfQuestionsAtColumn(2),tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
+            {
+                cout<<"ERROR: Error in finding questions in center right line."<<endl;
+                break;
+            }
+            deAllocData(&dd);
+        }
+        if(m_configuration.getNumberOfColumns()==2){
+            //COL1
+            addPointToDataDigital(&img,&dd,uplfcorner._x,uplfcorner._y);
+            addPointToDataDigital(&img,&dd,dnlfcorner._x,dnlfcorner._y);
+            addPointToDataDigital(&img,&dd,upcenter._x,upcenter._y);
+            addPointToDataDigital(&img,&dd,dncenter._x,dncenter._y);
+            if(allocData(&dd)==1)
+            {
+                cout<<"ERROR: Error in allocating data for image buffer."<<endl;
+                break;
+            }
+            if(getDataFromBmp(&img,&dd)==1)
+            {
+                cout<<"ERROR: Error in transferring data for image buffer."<<endl;
+                break;
+            }
+            if(processOneColumn(&dd, Q1, Q2, m_configuration.getNumberOfQuestionsAtColumn(1), 1))
+            {
+                cout<<"ERROR: Error in finding number circles."<<endl;
+                break;
+            }
+            deAllocData(&dd);
+            //COL2
+            addPointToDataDigital(&img,&dd,upcenter._x,upcenter._y);
+            addPointToDataDigital(&img,&dd,dncenter._x,dncenter._y);
+            addPointToDataDigital(&img,&dd,uprtcorner._x,uprtcorner._y);
+            addPointToDataDigital(&img,&dd,dnrtcorner._x,dnrtcorner._y);
+            if(allocData(&dd)==1)
+            {
+                cout<<"ERROR: Error in allocating data for image buffer."<<endl;
+                break;
+            }
+            if(getDataFromBmp(&img,&dd)==1)
+            {
+                cout<<"ERROR: Error in transferring data for image buffer."<<endl;
+                break;
+            }
+            if(processOneColumn(&dd, Q3, Q4, m_configuration.getNumberOfQuestionsAtColumn(2), 2))
+            {
+                cout<<"ERROR: Error in finding number circles."<<endl;
+                break;
+            }
+            deAllocData(&dd);
+        }else if(m_configuration.getNumberOfColumns()==1){
+            //SINGLE COLUMN
+            addPointToDataDigital(&img,&dd,uplfcorner._x,uplfcorner._y);
+            addPointToDataDigital(&img,&dd,dnlfcorner._x,dnlfcorner._y);
+            addPointToDataDigital(&img,&dd,uprtcorner._x,uprtcorner._y);
+            addPointToDataDigital(&img,&dd,dnrtcorner._x,dnrtcorner._y);
+            if(allocData(&dd)==1)
+            {
+                cout<<"ERROR: Error in allocating data for image buffer."<<endl;
+                break;
+            }
+            if(getDataFromBmp(&img,&dd)==1)
+            {
+                cout<<"ERROR: Error in transferring data for image buffer."<<endl;
+                break;
+            }
+            printDataDigitalBuffer(&dd);
+            if(processOneColumn(&dd, Q1, Q4, m_configuration.getNumberOfQuestionsAtColumn(1), 1))
+            {
+                cout<<"ERROR: Error in finding number circles."<<endl;
+                break;
+            }
+            deAllocData(&dd);
+        }
+        isFinishedSuccessfully=true;
+    }
+    cout<<"DONE!"<<endl;
+    if(!isFinishedSuccessfully)
+    {
+        m_numberOfRespondents++;
+        m_status = SoosaStatus::AlgorithmError;
+        return;
+    }
+    cleanDataDigital(&dd);
+    closeBmpImage(&img);
 }
 
 bool SOOSA::isStatusNoError(SoosaStatus const status)
@@ -2531,7 +3187,6 @@ int SOOSA::process()
     {
         processOneFile(pathHandler.getFullPath());
         saveDataToCsvFile(pathHandler.getFullPath());
-        m_numberOfRespondents++;
     }
     saveOutputHtmlFile(pathHandler.getFullPath());
 

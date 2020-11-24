@@ -28,7 +28,7 @@ public:
     unsigned int convertToVirtualKey(char character) const;
 private:
     void doOperation(InputFunction inputFunction) const;
-    static constexpr unsigned int c_realisticDelayInMilliseconds=500;
+    static constexpr unsigned int REALISTIC_DELAY_IN_MILLISECONDS=500;
 };
 
 }

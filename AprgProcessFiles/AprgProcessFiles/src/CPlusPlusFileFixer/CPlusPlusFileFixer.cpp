@@ -52,9 +52,9 @@ void CPlusPlusFileFixer::clear()
 void CPlusPlusFileFixer::checkFile(string const& path)
 {
     readContentsFromFile(path);
-    //notifyIfIostreamHeaderExistInProductionCode(path);
-    //notifyIfCAssertHeaderExistInProductionCode(path);
-    notifyIfMoreThanLoopsAreCascaded(path);
+    notifyIfIostreamHeaderExistInProductionCode(path);
+    notifyIfCAssertHeaderExistInProductionCode(path);
+    //notifyIfMoreThanLoopsAreCascaded(path);
 }
 
 void CPlusPlusFileFixer::readContentsFromFile(string const& path)
@@ -107,13 +107,23 @@ void CPlusPlusFileFixer::notifyIfThereAreCommentsInHeader(string const& path, st
     }
 }
 
+void CPlusPlusFileFixer::notifyIfAlbaDebugHeaderExistInProductionCode(string const& path) const
+{
+    AlbaLocalPathHandler filePathHandler(path);
+    bool isAlbaDebugHeaderFound = (std::find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("Debug/AlbaDebug.hpp")) != m_headerListFromAngleBrackets.end());
+    if(isAlbaDebugHeaderFound) // !isUnitTest)
+    {
+        cout<<"CHECK THIS: iostream found in:["<<path<<"]."<<endl;
+    }
+}
+
 void CPlusPlusFileFixer::notifyIfIostreamHeaderExistInProductionCode(string const& path) const
 {
     AlbaLocalPathHandler filePathHandler(path);
     bool isIostreamFound = (std::find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("iostream")) != m_headerListFromAngleBrackets.end());
     bool isCpp = filePathHandler.getExtension() == "cpp";
     bool isUnitTest = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(filePathHandler.getFile(), "_unit.cpp");
-    if(isIostreamFound && !isCpp) // !isUnitTest)
+    if(isIostreamFound && !isUnitTest)// && !isCpp) // !isUnitTest)
     {
         cout<<"CHECK THIS: iostream found in:["<<path<<"]."<<endl;
     }

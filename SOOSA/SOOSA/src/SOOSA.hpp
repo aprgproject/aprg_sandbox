@@ -1,5 +1,7 @@
 #pragma once
 
+#include <AprgBitmap.hpp>
+#include <AprgBitmapSnippet.hpp>
 #include <SoosaConfiguration.hpp>
 #include <SoosaStatus.hpp>
 
@@ -22,6 +24,7 @@ public:
 
     SOOSA(SoosaConfiguration const& configuration);
     void clearFrequencyDatabase();
+    unsigned int getNumberOfAnswers() const;
     unsigned int getAnswerToQuestion(unsigned int const questionNumber) const;
 private:
     std::string getCsvFileName(std::string const& path) const;
@@ -123,10 +126,15 @@ private:
     inline double checkIfShaded(DataDigital* indata,PairXY center, CircleCriterion circ, int ques, int col, int choice, PairXY point1, PairXY point2);
     inline int processOneQuestion(DataDigital* indata, PairXY point1, PairXY point2, int ques, int col, CircleCriterion circ);
     int processOneColumn(DataDigital* indata, PairXY* QuesArr1, PairXY* QuesArr2, int numQuestionsColumn, int columnNumber);
+    inline int followLineGetLengthXNew(AprgBitmapSnippet const& snippet, PairXY start, PairXY p1);
     inline int followLineGetLengthX(DataDigital* indata,PairXY start, PairXY p1);
+    int findLineImageFromLeftNew(AprgBitmapSnippet const& snippet, PairXY* in_line, int numberOfSamples, PairXY inStart, PairXY inEnd);
     int findLineImageFromLeft(PairXY* in_line, int numsamplesize, unsigned char* in_buf,int xsizebytesallocated,PairXY inStart,PairXY inEnd);
+    int findLineImageFromRightNew(AprgBitmapSnippet const& snippet, PairXY* in_line, int numberOfSamples, PairXY inStart, PairXY inEnd);
     int findLineImageFromRight(PairXY* in_line, int numsamplesize, unsigned char* in_buf,int xsizebytesallocated,PairXY inStart,PairXY inEnd);
+    int findLineImageFromTopNew(AprgBitmapSnippet const& snippet, PairXY* in_line, int numberOfSamples, PairXY inStart, PairXY inEnd);
     int findLineImageFromTop(DataDigital* indata, PairXY* in_line, int numsamplesize, PairXY inStart,PairXY inEnd);
+    int findLineImageFromBottomNew(AprgBitmapSnippet const& snippet, PairXY* in_line, int numsamplesize, PairXY inStart,PairXY inEnd);
     int findLineImageFromBottom(DataDigital* indata, PairXY* in_line, int numsamplesize, PairXY inStart,PairXY inEnd);
     inline int getSlope(PairXY* in_samples,double* out_slope, int nsize, int type);
     inline double getBarHeight(PairXY point1,PairXY point2);
@@ -139,6 +147,7 @@ private:
     int barWidthGetCriterion(int *barWidth, int barWidthArrSize, ChebyshevCriterion* ccLine, ChebyshevCriterion* ccBar);
     void getQuestions(DataDigital* dd, PairXY* in_questions, int* in_numQuestion, PairXY* qFindSamples, int* qFindSamplesType, int* barWidth, int numQFindSamples, LineSlopeIntercept tslopeintercept, ChebyshevCriterion ccLine, ChebyshevCriterion ccBar);
     int getQuestionsFromLine(DataDigital* in_dd, PairXY* out_questions, int numExpectedQuestions, double* tdoublearr, LineSlopeIntercept tslopeintercept, PairXY tcornerup, PairXY tcornerdown, int barheightsamplepixels);
+    void processOneFileOld(std::string const& fileName);
     void processOneFile(std::string const & fileName);
     void processDirectory(std::string const & directoryPath);
     bool isStatusNoError(SoosaStatus const status);

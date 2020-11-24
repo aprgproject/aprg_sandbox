@@ -198,12 +198,15 @@ void AprgBitmapConfiguration::readBitmapHeaders(string const& path)
 
     m_path=path;
     ifstream inputStream(path, ios::binary);
-    AlbaFileReader fileReader(inputStream);
+    if(inputStream.is_open())
+    {
+        AlbaFileReader fileReader(inputStream);
 
-    readBitmapFileHeader(fileReader);
-    readDibHeader(fileReader);
-    readColors(fileReader);
-    calculateOtherValuesAfterReading();
+        readBitmapFileHeader(fileReader);
+        readDibHeader(fileReader);
+        readColors(fileReader);
+        calculateOtherValuesAfterReading();
+    }
 }
 
 void AprgBitmapConfiguration::readBitmapFileHeader(AlbaFileReader& fileReader)
@@ -292,6 +295,11 @@ CompressedMethodType AprgBitmapConfiguration::determineCompressedMethodType(unsi
     default: compressedMethodType = CompressedMethodType::Unknown; break;
     }
     return compressedMethodType;
+}
+
+bool AprgBitmapConfiguration::operator==(AprgBitmapConfiguration const& configuration) const
+{
+    return m_path==configuration.m_path;
 }
 
 

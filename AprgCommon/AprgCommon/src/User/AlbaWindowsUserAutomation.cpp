@@ -131,7 +131,7 @@ void AlbaWindowsUserAutomation::doOperation(AlbaWindowsUserAutomation::InputFunc
     memset(&input, 0, sizeof(INPUT));
     inputFunction(input);
     SendInput(1, &input, sizeof(INPUT));
-    Sleep(c_realisticDelayInMilliseconds);
+    Sleep(REALISTIC_DELAY_IN_MILLISECONDS);
 }
 
 }

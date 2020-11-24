@@ -19,6 +19,7 @@ private:
     void checkFile(std::string const& path);
     void readContentsFromFile(std::string const& path);
     void notifyIfThereAreCommentsInHeader(std::string const& path, std::string const& line) const;
+    void notifyIfAlbaDebugHeaderExistInProductionCode(std::string const& path) const;
     void notifyIfIostreamHeaderExistInProductionCode(std::string const& path) const;
     void notifyIfCAssertHeaderExistInProductionCode(std::string const& path) const;
     void notifyIfMoreThanLoopsAreCascaded(std::string const& path) const;

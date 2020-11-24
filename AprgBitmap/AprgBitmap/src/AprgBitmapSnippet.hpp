@@ -12,6 +12,7 @@ public:
     AprgBitmapSnippet();
     AprgBitmapSnippet(BitmapXY const topLeftCornerPosition, BitmapXY const bottomRightCornerPosition, AprgBitmapConfiguration const& configuration);
     bool isPositionInside(BitmapXY const position) const;
+    AprgBitmapConfiguration getConfiguration() const;
     BitmapXY getTopLeftCorner() const;
     BitmapXY getBottomRightCorner() const;
     unsigned int getDeltaX() const;
@@ -23,6 +24,8 @@ public:
     PixelData const& getPixelDataConstReference() const;
     unsigned int getPixelAt(BitmapXY const position) const;
     unsigned int getColorAt(BitmapXY const position) const;
+    bool isBlackAt(BitmapXY const position) const;
+    bool isWhiteAt(BitmapXY const position) const;
     void setPixelAt(BitmapXY const position, unsigned int const value);
 
 private:

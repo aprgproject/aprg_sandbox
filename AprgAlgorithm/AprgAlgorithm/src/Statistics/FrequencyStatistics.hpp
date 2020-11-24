@@ -59,7 +59,8 @@ public:
     static DataType calculateMedian(FrequencySamples const& samples) // perform test when empty
     {
         unsigned int numberOfSamples = calculateNumberOfSamples(samples);
-        double medianLocation = ((double)numberOfSamples+1)/2;        unsigned int currentSampleRangeOffset=0;
+        double medianLocation = ((double)numberOfSamples+1)/2;
+        unsigned int currentSampleRangeOffset=0;
         unsigned int previousSampleRangeOffset=0;
         unsigned int currentMinimumFrequency=0;
         unsigned int previousMinimumFrequency=0;
@@ -67,10 +68,12 @@ public:
         DataType result(0);
         for(FrequencyPair const& frequencyPair : samples)
         {
-            currentMinimumFrequency = (frequencyPair.second>0) ? 1 : 0;            if(currentSampleRangeOffset+currentMinimumFrequency <= medianLocation && currentSampleRangeOffset+frequencyPair.second >= medianLocation)
+            currentMinimumFrequency = (frequencyPair.second>0) ? 1 : 0;
+            if(currentSampleRangeOffset+currentMinimumFrequency <= medianLocation && currentSampleRangeOffset+frequencyPair.second >= medianLocation)
             {
                 result = frequencyPair.first;
-                break;            }
+                break;
+            }
             else if(previousSampleRangeOffset+previousMinimumFrequency <= medianLocation && currentSampleRangeOffset+frequencyPair.second >= medianLocation)
             {
                 result = (DataType)(((double)previousValue + frequencyPair.first)/2) ;

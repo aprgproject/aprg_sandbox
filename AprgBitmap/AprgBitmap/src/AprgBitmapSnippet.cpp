@@ -17,6 +17,11 @@ AprgBitmapSnippet::AprgBitmapSnippet(BitmapXY const topLeftCornerPosition, Bitma
     , m_configuration(configuration)
 {}
 
+AprgBitmapConfiguration AprgBitmapSnippet::getConfiguration() const
+{
+    return m_configuration;
+}
+
 bool AprgBitmapSnippet::isPositionInside(BitmapXY const position) const
 {
     return m_topLeftCorner.getX() <= position.getX() && m_topLeftCorner.getY() <= position.getY() && m_bottomRightCorner.getX() >= position.getX() && m_bottomRightCorner.getY() >= position.getY();
@@ -88,6 +93,16 @@ unsigned int AprgBitmapSnippet::getPixelAt(BitmapXY const position) const
 unsigned int AprgBitmapSnippet::getColorAt(BitmapXY const position) const
 {
     return m_configuration.getColorUsingPixelValue(getPixelAt(position));
+}
+
+bool AprgBitmapSnippet::isBlackAt(BitmapXY const position) const
+{
+    return (m_configuration.getColorUsingPixelValue(getPixelAt(position))==0x00000000);
+}
+
+bool AprgBitmapSnippet::isWhiteAt(BitmapXY const position) const
+{
+    return (m_configuration.getColorUsingPixelValue(getPixelAt(position))==0x00FFFFFF);
 }
 
 void AprgBitmapSnippet::setPixelAt(BitmapXY const position, unsigned int const value)

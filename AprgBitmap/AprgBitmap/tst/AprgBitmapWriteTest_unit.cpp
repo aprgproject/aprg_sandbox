@@ -2,6 +2,7 @@
 
 #include <gtest/gtest.h>
 
+#include <iostream>
 #include <cmath>
 
 using namespace alba;
@@ -9,7 +10,7 @@ using namespace std;
 
 #define APRG_BITMAP_WRITE_TEST_FILE APRG_DIR R"(AprgBitmap\AprgBitmap\tst\Bitmaps\WriteTestFile.bmp)"
 
-TEST(BitmapWriteTest, DISABLED_TestForWritingBitmap)
+TEST(BitmapWriteTest, TestForWritingBitmap)
 {
     AprgBitmap bitmap(APRG_BITMAP_WRITE_TEST_FILE);
     ASSERT_TRUE(bitmap.getConfiguration().isValid());
@@ -20,7 +21,7 @@ TEST(BitmapWriteTest, DISABLED_TestForWritingBitmap)
 
     for(unsigned i=50; i<=150; i++)
     {
-        snippet.setPixelAt(BitmapXY(i, round((double)100+10*(sin((double)i/10)))), 0x00FF0000);
+        snippet.setPixelAt(BitmapXY(i, round((double)100+40*(sin((double)i/10)))), 0x00FF0000);
     }
     bitmap.setSnippetWriteToFile(snippet);
 
