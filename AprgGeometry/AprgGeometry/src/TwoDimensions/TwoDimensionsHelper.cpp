@@ -58,4 +58,31 @@ void twoDimensionsHelper::traverseValues(double const startValue, double const e
     }
 }
 
+Points twoDimensionsHelper::getConnectedPointsUsingALine(Points const& inputPoints, double const interval)
+{
+    Points resultingPoints;
+    if(!inputPoints.empty())
+    {
+        Point previousPoint(inputPoints.front());
+        for(Point const& currentPoint: inputPoints)
+        {
+            if(currentPoint != previousPoint)
+            {
+                savePointsFromTwoPointsUsingALineWithoutLastPoint(resultingPoints, previousPoint, currentPoint, interval);
+            }
+            previousPoint = currentPoint;
+        }
+        resultingPoints.push_back(previousPoint);
+    }
+    return resultingPoints; //RVO
+}
+
+void twoDimensionsHelper::savePointsFromTwoPointsUsingALineWithoutLastPoint(Points & points, Point const& previousPoint, Point const& currentPoint, double const interval)
+{
+    Line line(previousPoint, currentPoint);
+    Points pointsInLine(line.getPointsWithoutLastPoint(previousPoint, currentPoint, interval));
+    std::copy(pointsInLine.begin(), pointsInLine.end(), std::back_inserter(points));
+}
+
+
 }
