@@ -10,5 +10,3 @@ TEST(AlbaDebug, DISABLED_PrintTest)
 
     ALBA_DEBUG_PRINT3(Mark, Earvin, Alba);
 }
-
-

@@ -77,4 +77,5 @@ private:
     AlbaHourMinuteSecond m_hourMinuteSecond;
     unsigned int m_microseconds;
 };
+
 }//namespace alba

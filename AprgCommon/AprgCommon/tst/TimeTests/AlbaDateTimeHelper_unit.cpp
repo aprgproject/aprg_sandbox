@@ -1,8 +1,8 @@
 #include <Time/AlbaDateTimeHelper.hpp>
 
-#include <iostream>
-
 #include <gtest/gtest.h>
+
+#include <iostream>
 
 using namespace alba;
 using namespace std;
@@ -235,4 +235,3 @@ TEST(AlbaDateTimeHelperTest, ValuesCanBeReorganizedIfThereIsUnderflow)
     EXPECT_EQ(51101, seconds);
     EXPECT_EQ(1, microSeconds);
 }
-

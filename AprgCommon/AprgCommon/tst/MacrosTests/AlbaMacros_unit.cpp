@@ -72,5 +72,3 @@ TEST(AlbaMacros, CaseEnumStringLiteral)
     EXPECT_EQ("SampleEnumClass::Type1", sampleObject.getString(enumValue1));
     EXPECT_EQ("SampleEnumClass::Type2", sampleObject.getString(enumValue2));
 }
-
-

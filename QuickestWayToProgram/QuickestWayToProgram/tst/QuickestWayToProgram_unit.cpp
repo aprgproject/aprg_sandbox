@@ -62,13 +62,15 @@ TEST(SampleTest, DateTimeAlgorithm)
     ofstream fileOutput(pathHandler.getFullPath());
 
     fileOutput<<"month,days"<<endl;
+
     unsigned int numberOfDays=0;
     for(unsigned int month = 0; month<12; month++)
     {
         fileOutput<<month<<","<<(bool)(numberOfDays&2)<<endl;
         numberOfDays+=getMaximumDaysInAMonth(month,1);
     }
-}/*
+}
+/*
 u32 calculateShiftDelayedSfn(u32 const currentSfn, u32 const calculatedSfn)
 {
     const u32 RADIO_FRAME_CYCLE = 4096;

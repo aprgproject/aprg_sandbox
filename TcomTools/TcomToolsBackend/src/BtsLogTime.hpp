@@ -4,7 +4,8 @@
 
 #include <string>
 
-namespace tcomToolsBackend{
+namespace tcomToolsBackend
+{
 
 enum class BtsLogTimeType
 {
@@ -31,7 +32,8 @@ public:
     std::string getPrintableString() const;
     std::string getEquivalentStringPcTimeFormat() const;
     std::string getEquivalentStringBtsTimeFormat() const;
-    bool operator<(BtsLogTime const& btsLogTimeToCompare) const;    bool operator>(BtsLogTime const& btsLogTimeToCompare) const;
+    bool operator<(BtsLogTime const& btsLogTimeToCompare) const;
+    bool operator>(BtsLogTime const& btsLogTimeToCompare) const;
     bool operator==(BtsLogTime const& btsLogTimeToCompare) const;
     BtsLogTime operator+(BtsLogTime const& btsLogTime) const;
     BtsLogTime operator-(BtsLogTime const& btsLogTime) const;

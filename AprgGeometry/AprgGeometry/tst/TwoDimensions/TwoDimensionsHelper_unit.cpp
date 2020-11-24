@@ -62,4 +62,3 @@ TEST(TwoDimensionsHelperTest, DistanceBetweenPointAndLineCanBeCalculated)
     EXPECT_EQ(2, twoDimensionsHelper::getDistance(Point(2,2), Line(-1,0,4)));
     EXPECT_EQ(2*pow(2, 0.5), twoDimensionsHelper::getDistance(Point(2,2), Line(1,1,0)));
 }
-

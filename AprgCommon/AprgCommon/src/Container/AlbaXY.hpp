@@ -46,7 +46,8 @@ public:
         return !(firstXy==secondXy);
     }
 
-    std::string getDisplayableString() const    {
+    std::string getDisplayableString() const
+    {
         std::stringstream ss;
         ss<<"("<<x<<","<<y<<")";
         return ss.str();

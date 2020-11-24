@@ -2,11 +2,13 @@
 
 #include <Macros/AlbaMacros.hpp>
 
-#include <iostream>
-#include <string>
 #include <windows.h>
 
+#include <iostream>
+#include <string>
+
 using namespace std;
+
 namespace alba
 {
 
@@ -30,7 +32,8 @@ namespace alba
 #define ALBA_DEBUG_PRINT0(parameter) cout << parameter << endl
 #define ALBA_DEBUG_PRINT1(...) cout << ALBA_DEBUG_GET_STRING_PRINT1(__VA_ARGS__) << endl
 #define ALBA_DEBUG_PRINT2(...) cout << ALBA_DEBUG_GET_STRING_PRINT2(__VA_ARGS__) << endl
-#define ALBA_DEBUG_PRINT3(...) cout << ALBA_DEBUG_GET_STRING_PRINT3(__VA_ARGS__) << endl#define ALBA_DEBUG_PRINT4(...) cout << ALBA_DEBUG_GET_STRING_PRINT4(__VA_ARGS__) << endl
+#define ALBA_DEBUG_PRINT3(...) cout << ALBA_DEBUG_GET_STRING_PRINT3(__VA_ARGS__) << endl
+#define ALBA_DEBUG_PRINT4(...) cout << ALBA_DEBUG_GET_STRING_PRINT4(__VA_ARGS__) << endl
 #define ALBA_DEBUG_PRINT5(...) cout << ALBA_DEBUG_GET_STRING_PRINT5(__VA_ARGS__) << endl
 
 

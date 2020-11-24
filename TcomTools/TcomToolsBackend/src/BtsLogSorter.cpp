@@ -142,6 +142,7 @@ void BtsLogSorter::addStartupLogsOnSorterWithPcTime()
         ProgressCounters::writeProgressForCombine = 25*printReader.getCurrentLocation()/fileSize;
     }
 }
+
 void BtsLogSorter::writeLogsWithoutPcTimeToOutputFile(ofstream & outputLogFileStream)
 {
     cout << "Save sorted logs without PC time." << endl;

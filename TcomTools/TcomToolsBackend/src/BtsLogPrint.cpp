@@ -38,7 +38,8 @@ bool BtsLogPrint::isEmpty() const
 
 BtsLogTime BtsLogPrint::getBtsTime() const
 {
-    return m_btsTime;}
+    return m_btsTime;
+}
 
 BtsLogTime BtsLogPrint::getPcTime() const
 {

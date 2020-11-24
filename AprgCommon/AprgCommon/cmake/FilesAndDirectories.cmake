@@ -9,7 +9,8 @@ set(APRG_COMMON_TEST_INCLUDE_DIRECTORIES
 set(APRG_COMMON_MAIN_SOURCES
     ${APRG_COMMON_DIR}/src/Bit/AlbaBitConstants.hpp
     ${APRG_COMMON_DIR}/src/Bit/AlbaBitManipulation.hpp
-    ${APRG_COMMON_DIR}/src/Container/AlbaContainerHelper.cpp    ${APRG_COMMON_DIR}/src/Container/AlbaContainerHelper.hpp
+    ${APRG_COMMON_DIR}/src/Container/AlbaContainerHelper.cpp
+    ${APRG_COMMON_DIR}/src/Container/AlbaContainerHelper.hpp
     ${APRG_COMMON_DIR}/src/Container/AlbaXY.hpp
     ${APRG_COMMON_DIR}/src/Debug/AlbaDebug.hpp
     ${APRG_COMMON_DIR}/src/File/AlbaFileReader.cpp
@@ -29,7 +30,8 @@ set(APRG_COMMON_MAIN_SOURCES
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaWebPathHandler.hpp
     ${APRG_COMMON_DIR}/src/PathHandlers/PathContantsAndTypes.hpp
     ${APRG_COMMON_DIR}/src/Randomizer/AlbaRandomizer.cpp
-    ${APRG_COMMON_DIR}/src/Randomizer/AlbaRandomizer.hpp    ${APRG_COMMON_DIR}/src/String/AlbaStringHelper.cpp
+    ${APRG_COMMON_DIR}/src/Randomizer/AlbaRandomizer.hpp
+    ${APRG_COMMON_DIR}/src/String/AlbaStringHelper.cpp
     ${APRG_COMMON_DIR}/src/String/AlbaStringHelper.hpp
     ${APRG_COMMON_DIR}/src/Time/AlbaDateTime.cpp
     ${APRG_COMMON_DIR}/src/Time/AlbaDateTime.hpp
@@ -40,7 +42,8 @@ set(APRG_COMMON_MAIN_SOURCES
     ${APRG_COMMON_DIR}/src/Time/AlbaLocalTimer.hpp
     ${APRG_COMMON_DIR}/src/User/AlbaDisplayTable.cpp
     ${APRG_COMMON_DIR}/src/User/AlbaDisplayTable.hpp
-    ${APRG_COMMON_DIR}/src/User/AlbaLocalUserAutomation.cpp    ${APRG_COMMON_DIR}/src/User/AlbaLocalUserAutomation.hpp
+    ${APRG_COMMON_DIR}/src/User/AlbaLocalUserAutomation.cpp
+    ${APRG_COMMON_DIR}/src/User/AlbaLocalUserAutomation.hpp
     ${APRG_COMMON_DIR}/src/User/AlbaUserInterface.cpp
     ${APRG_COMMON_DIR}/src/User/AlbaUserInterface.hpp
 )
@@ -57,7 +60,8 @@ set(APRG_COMMON_WINDOWS_SOURCES
 set(APRG_COMMON_MAIN_TESTS
     ${APRG_COMMON_DIR}/tst/BitTests/AlbaBitManipulation_unit.cpp
     ${APRG_COMMON_DIR}/tst/ContainerTests/AlbaContainerHelper_unit.cpp
-    ${APRG_COMMON_DIR}/tst/ContainerTests/AlbaXY_unit.cpp    ${APRG_COMMON_DIR}/tst/DebugTests/AlbaDebug_unit.cpp
+    ${APRG_COMMON_DIR}/tst/ContainerTests/AlbaXY_unit.cpp
+    ${APRG_COMMON_DIR}/tst/DebugTests/AlbaDebug_unit.cpp
     ${APRG_COMMON_DIR}/tst/FileTests/AlbaFileReader_unit.cpp
     ${APRG_COMMON_DIR}/tst/MacrosTests/AlbaMacros_unit.cpp
     ${APRG_COMMON_DIR}/tst/MemoryTests/AlbaMemoryBuffer_unit.cpp
@@ -101,4 +105,5 @@ endif()
 
 set(APRG_COMMON_SOURCES_AND_TESTS
     ${APRG_COMMON_SOURCES}
-    ${APRG_COMMON_TESTS})
+    ${APRG_COMMON_TESTS}
+)

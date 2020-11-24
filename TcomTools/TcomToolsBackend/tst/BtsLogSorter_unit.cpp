@@ -43,7 +43,8 @@ struct BtsLogSorterTest : public testing::Test
 TEST_F(BtsLogSorterTest, DISABLED_PerformanceTest)
 {
     BtsLogSorter btsLogSorter(m_configuration);
-    btsLogSorter.processDirectory(R"(D:\W\ZZZ_Useless_Logs\PR111534\PR(alarm 160 didn't cancel)\Test\PR(alarm 160 didn't cancel))");    btsLogSorter.saveLogsToOutputFile(R"(D:\W\ZZZ_Useless_Logs\PR111534\PR(alarm 160 didn't cancel)\Test\sortednew.log)");
+    btsLogSorter.processDirectory(R"(D:\W\ZZZ_Useless_Logs\PR111534\PR(alarm 160 didn't cancel)\Test\PR(alarm 160 didn't cancel))");
+    btsLogSorter.saveLogsToOutputFile(R"(D:\W\ZZZ_Useless_Logs\PR111534\PR(alarm 160 didn't cancel)\Test\sortednew.log)");
 }
 
 TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreMerged)
@@ -96,5 +97,6 @@ TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime)
         cout<<fileReader.getLineAndIgnoreWhiteSpaces()<<endl;
         lines++;
     }
+
     EXPECT_EQ(5, lines);
 }

@@ -21,6 +21,7 @@ BtsLogTime::BtsLogTime(BtsLogTimeType logTimeType, string const& timeStampString
 {
     setTimeByTimeStamp(logTimeType, timeStampString);
 }
+
 void BtsLogTime::setTimeByTimeStamp(BtsLogTimeType logTimeType, string const& timeStampString)
 {
     unsigned int years=0;
@@ -33,7 +34,8 @@ void BtsLogTime::setTimeByTimeStamp(BtsLogTimeType logTimeType, string const& ti
     vector <unsigned int> timeValues;
     string timeValueString;
 
-    for(char character: timeStampString)    {
+    for(char character: timeStampString)
+    {
         if(stringHelper::isNumber(character))
         {
             timeValueString += character;
@@ -49,7 +51,8 @@ void BtsLogTime::setTimeByTimeStamp(BtsLogTimeType logTimeType, string const& ti
         timeValues.push_back(stringHelper::convertStringToNumber<unsigned int>(timeValueString));
     }
 
-    if(BtsLogTimeType::PcTimeStamp == logTimeType)    {
+    if(BtsLogTimeType::PcTimeStamp == logTimeType)
+    {
         if(6 == timeValues.size())
         {
             months = timeValues[1];
@@ -60,7 +63,8 @@ void BtsLogTime::setTimeByTimeStamp(BtsLogTimeType logTimeType, string const& ti
             microseconds = timeValues[5]*1000;
         }
     }
-    else    {
+    else
+    {
         switch(timeValues.size())
         {
         case 6:
@@ -142,7 +146,8 @@ string BtsLogTime::getPrintableString() const
     return m_dateTime.getPrintableStringFormat1();
 }
 
-string BtsLogTime::getEquivalentStringPcTimeFormat() const{
+string BtsLogTime::getEquivalentStringPcTimeFormat() const
+{
     stringstream ss;
     ss << setw(2) << setfill('0') << getDays() << ".";
     ss << setw(2) << setfill('0') << getMonths() << " ";
@@ -230,4 +235,5 @@ istream& operator>>(istream & in, BtsLogTime& btsLogTime)
     btsLogTime.m_dateTime.setTime((unsigned short int)years, (unsigned char)months, (unsigned char)days, (unsigned char)hours, (unsigned char)minutes, (unsigned char)seconds, microseconds);
     return in;
 }
+
 }

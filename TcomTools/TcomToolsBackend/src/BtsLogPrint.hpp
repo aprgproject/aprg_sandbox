@@ -65,7 +65,8 @@ public:
     bool isEmpty() const;
     BtsLogTime getBtsTime() const;
     BtsLogTime getPcTime() const;
-    std::string getHardwareAddress() const;    std::string getPrint() const;
+    std::string getHardwareAddress() const;
+    std::string getPrint() const;
     std::string getPrintWithAllDetails() const;
     void updatePcTimeAndFileNameDetails(BtsLogPrint const& logPrint);
     bool operator<(BtsLogPrint const& btsLogPrintToCompare) const;

@@ -42,7 +42,8 @@ public:
         return shiftRight<position>(value);
     }
 
-    template <unsigned char size>    static constexpr DataTypeToManipulate swapWithBytes(DataTypeToManipulate const)
+    template <unsigned char size>
+    static constexpr DataTypeToManipulate swapWithBytes(DataTypeToManipulate const)
     {
         static_assert(size != size, "The swapWithSize with this size or type is not supported. Please add a specialization.");
         return 0;
@@ -96,20 +97,23 @@ constexpr short unsigned int AlbaBitManipulation<short unsigned int>::swapWithBy
     return concatenateBytes(getByteAt<0>(value), getByteAt<1>(value));
 }
 
-template <>template <>
+template <>
+template <>
 constexpr unsigned int AlbaBitManipulation<unsigned int>::swapWithBytes<2>(unsigned int const value)
 {
     return concatenateBytes(getByteAt<0>(value), getByteAt<1>(value));
 }
 
-template <>template <>
+template <>
+template <>
 constexpr unsigned int AlbaBitManipulation<unsigned int>::swapWithBytes<4>(unsigned int const value)
 {
     return concatenateBytes(getByteAt<0>(value), getByteAt<1>(value),
                             getByteAt<2>(value), getByteAt<3>(value));
 }
 
-template <>template <>
+template <>
+template <>
 constexpr unsigned long long AlbaBitManipulation<unsigned long long>::swapWithBytes<8>(unsigned long long const value)
 {
     return concatenateBytes(getByteAt<0>(value), getByteAt<1>(value),
@@ -118,7 +122,8 @@ constexpr unsigned long long AlbaBitManipulation<unsigned long long>::swapWithBy
                             getByteAt<6>(value), getByteAt<7>(value));
 }
 
-template <>constexpr short unsigned int AlbaBitManipulation<short unsigned int>::getAllBitsAsserted()
+template <>
+constexpr short unsigned int AlbaBitManipulation<short unsigned int>::getAllBitsAsserted()
 {
     return 0xFFFF;
 }

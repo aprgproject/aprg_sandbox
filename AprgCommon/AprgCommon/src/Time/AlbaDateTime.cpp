@@ -6,6 +6,7 @@
 
 #include <iomanip>
 #include <sstream>
+
 using namespace std;
 
 namespace alba
@@ -187,7 +188,8 @@ string AlbaDateTime::getPrintableStringFormat1() const
     ss << setw(2) << m_sign << " * ";
     ss << setfill('0');
     ss << setw(4) << getYears() << "-";
-    ss << setw(2) << getMonths() << "-";    ss << setw(2) << getDays() << " ";
+    ss << setw(2) << getMonths() << "-";
+    ss << setw(2) << getDays() << " ";
     ss << setw(2) << getHours() << ":";
     ss << setw(2) << getMinutes() << ":";
     ss << setw(2) << getSeconds() << ".";

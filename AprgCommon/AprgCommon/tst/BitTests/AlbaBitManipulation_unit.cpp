@@ -22,7 +22,8 @@ TEST(AlbaBitManipulationTest, ShiftRightWorks)
 
 TEST(AlbaBitManipulationTest, Concatenation_ArgumentsSizeLessThanResult)
 {
-    // Given    const unsigned char byte1 = 0xA1;
+    // Given
+    const unsigned char byte1 = 0xA1;
     const unsigned char byte2 = 0xBA;
 
     // When
@@ -59,7 +60,8 @@ TEST(AlbaBitManipulationTest, BytesAreSuccessfullyObtainedWhenU32IsUsed)
     EXPECT_EQ(0x12, AlbaBitManipulation<unsigned int>::getByteAt<3>(input));
 }
 
-TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU16IsUsed){
+TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU16IsUsed)
+{
     // Given
     const short unsigned int input = 0x1234;
 

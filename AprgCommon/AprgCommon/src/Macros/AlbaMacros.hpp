@@ -23,4 +23,3 @@
 #define ALBA_MACROS_CASE_ENUM_STRING(parameter) \
     case parameter: \
     return ALBA_MACROS_GET_STRING_LITERAL(parameter);
-

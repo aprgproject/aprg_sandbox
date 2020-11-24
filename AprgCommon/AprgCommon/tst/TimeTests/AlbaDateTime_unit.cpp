@@ -1,7 +1,8 @@
 #include <Time/AlbaDateTime.hpp>
 
-#include <iostream>
 #include <gtest/gtest.h>
+
+#include <iostream>
 
 using namespace alba;
 using namespace std;
@@ -23,7 +24,8 @@ TEST(AlbaDateTimeTest, EmptyDateTimeCanBeCreated)
     EXPECT_EQ(" 1 * 0000-00-00 00:00:00.000000", timeSample.getPrintableStringFormat1());
 }
 
-TEST(AlbaDateTimeTest, DateTimeCanBeCreatedWithParameters){
+TEST(AlbaDateTimeTest, DateTimeCanBeCreatedWithParameters)
+{
     AlbaDateTime timeSample(2017, 10, 6, 4, 59, 44, 32487);
 
     EXPECT_FALSE(timeSample.isEmpty());
@@ -39,7 +41,8 @@ TEST(AlbaDateTimeTest, DateTimeCanBeCreatedWithParameters){
     EXPECT_EQ(" 1 * 2017-10-06 04:59:44.032487", timeSample.getPrintableStringFormat1());
 }
 
-TEST(AlbaDateTimeTest, LessThanOperatorWorksAsIntended){
+TEST(AlbaDateTimeTest, LessThanOperatorWorksAsIntended)
+{
     AlbaDateTime timeSample1(2015,8,20,18,14,51,565172);
     AlbaDateTime timeSample2(2015,8,20,18,14,51,565173);
     AlbaDateTime timeSample3(2015,8,20,18,14,52,565172);
@@ -136,7 +139,8 @@ TEST(AlbaDateTimeTest, AdditionOperatorWorksAsIntended)
     AlbaDateTime expectedAnswer(2000,01,03,03,03,03,000003);
 
     AlbaDateTime actualAnswer = timeSample1 + timeSample2;
-    EXPECT_EQ(expectedAnswer, actualAnswer);}
+    EXPECT_EQ(expectedAnswer, actualAnswer);
+}
 
 TEST(AlbaDateTimeTest, AdditionOperatorWorksWithOverflowValuesAfterYear1970)
 {
@@ -155,7 +159,8 @@ TEST(AlbaDateTimeTest, AdditionOperatorWorksWithOverflowValuesBeforeYear1970)
     AlbaDateTime expectedAnswer(1970,01,01,00,00,00,000000);
 
     AlbaDateTime actualAnswer = timeSample1 + timeSample2;
-    EXPECT_EQ(expectedAnswer, actualAnswer);}
+    EXPECT_EQ(expectedAnswer, actualAnswer);
+}
 
 TEST(AlbaDateTimeTest, AdditionOperatorWithDateOverflow)
 {
