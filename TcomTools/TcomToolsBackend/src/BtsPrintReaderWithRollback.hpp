@@ -12,14 +12,13 @@ class BtsPrintReaderWithRollback
 public:
     bool isGood() const;
     BtsLogPrint getPrint();
-    void rollBackGetPrint();
+    void rollBackPrint();
     void openIfNeeded(std::string const& filePath);
     double getCurrentLocation();
 private:
     bool m_isGood;
-    bool m_isPreviousPrintValid;
+    bool m_isRollbackActivated;
     BtsLogPrint m_previousPrint;
     std::ifstream m_inputStream;
 };
-
 }
