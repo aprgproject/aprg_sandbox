@@ -15,13 +15,12 @@ namespace CurlInterface
 extern int lowSpeedLimit;
 extern int lowSpeedTime;
 
-template <DownloadType configType> bool download(alba::AlbaWebPathHandler const& webPath, alba::AlbaLocalPathHandler const& windowsPath);
-template <DownloadType configType> bool downloadUntilSuccessful(alba::AlbaWebPathHandler const& webPath, alba::AlbaLocalPathHandler const& windowsPath);
-template <DownloadType configType> bool downloadBinaryFile(alba::AlbaWebPathHandler const& webPath, alba::AlbaLocalPathHandler const& windowsPath);
-template <DownloadType configType> bool downloadBinaryFileUntilSuccessful(alba::AlbaWebPathHandler const& webPath, alba::AlbaLocalPathHandler const& windowsPath);
-template <DownloadType configType> bool downloadBinaryFileWithFiniteNumberOfTries(alba::AlbaWebPathHandler const& webPath, alba::AlbaLocalPathHandler const& windowsPath, int const totalNumberOfTries);
+template <DownloadType... configTypes> bool download(alba::AlbaWebPathHandler const& webPath, alba::AlbaLocalPathHandler const& windowsPath);
+template <DownloadType... configTypes> bool downloadUntilSuccessful(alba::AlbaWebPathHandler const& webPath, alba::AlbaLocalPathHandler const& windowsPath);
+template <DownloadType... configTypes> bool downloadBinaryFile(alba::AlbaWebPathHandler const& webPath, alba::AlbaLocalPathHandler const& windowsPath);
+template <DownloadType... configTypes> bool downloadBinaryFileUntilSuccessful(alba::AlbaWebPathHandler const& webPath, alba::AlbaLocalPathHandler const& windowsPath);
+template <DownloadType... configTypes> bool downloadBinaryFileWithFiniteNumberOfTries(alba::AlbaWebPathHandler const& webPath, alba::AlbaLocalPathHandler const& windowsPath, int const totalNumberOfTries);
 
 }
-
 
 }
