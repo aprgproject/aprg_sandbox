@@ -249,14 +249,12 @@ TEST(QuineMcCluskeyTest, DISABLED_ExperimentalTest)
     cout<<quineMcCluskey.getOutputTable(finalImplicants);
 }
 
-TEST(QuineMcCluskeyTest, AnalyzeResultsFromFile)
+TEST(QuineMcCluskeyTest, DISABLED_AnalyzeResultsFromFile)
 {
     QuineMcCluskey quineMcCluskey;
     AlbaLocalPathHandler pathOfNewAlgorithm(R"(C:\APRG\DateAlgorithmStudy.csv)");
-
     ifstream algorithmResultsFileStream(pathOfNewAlgorithm.getFullPath());
     AlbaFileReader algorithmResultsReader(algorithmResultsFileStream);
-
     while(algorithmResultsReader.isNotFinished())
     {
         string lineInFile(algorithmResultsReader.getLineAndIgnoreWhiteSpaces());
