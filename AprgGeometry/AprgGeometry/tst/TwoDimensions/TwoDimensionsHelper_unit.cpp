@@ -4,20 +4,23 @@
 
 #include <gtest/gtest.h>
 
-#include <cmath>#include <iostream>
+#include <cmath>
+#include <iostream>
 
 using namespace alba;
 using namespace alba::twoDimensionsHelper;
 using namespace std;
 
-TEST(TwoDimensionsHelperTest, LineAndLineIntersectionCanBeFound){
+TEST(TwoDimensionsHelperTest, LineAndLineIntersectionCanBeFound)
+{
     Line line1(Point(2,4), Point(3,3));
     Line line2(Point(4,4), Point(3,3));
 
     EXPECT_EQ(Point(3,3), getIntersection(line1, line2));
 }
 
-TEST(TwoDimensionsHelperTest, VerticalLineAndHorizontalLineIntersectionCanBeFound){
+TEST(TwoDimensionsHelperTest, VerticalLineAndHorizontalLineIntersectionCanBeFound)
+{
     Line line1(Point(4,3), Point(3,3));
     Line line2(Point(3,4), Point(3,3));
     EXPECT_EQ(Point(3,3), getIntersection(line1, line2));
@@ -36,10 +39,12 @@ TEST(TwoDimensionsHelperTest, GetLineWithSameSlopeAndPoint)
     Line expectedLine(getLineWithSameSlope(lineInput, Point(2,2)));
 
     EXPECT_EQ(4, expectedLine.getYIntercept());
-    EXPECT_EQ(4, expectedLine.getXIntercept());    EXPECT_EQ(-1, expectedLine.getSlope());
+    EXPECT_EQ(4, expectedLine.getXIntercept());
+    EXPECT_EQ(-1, expectedLine.getSlope());
     EXPECT_EQ(1, expectedLine.getACoefficient());
     EXPECT_EQ(1, expectedLine.getBCoefficient());
-    EXPECT_EQ(-4, expectedLine.getCCoefficient());}
+    EXPECT_EQ(-4, expectedLine.getCCoefficient());
+}
 
 TEST(TwoDimensionsHelperTest, GetLineWithInverseSlopeAndPoint)
 {
@@ -47,10 +52,12 @@ TEST(TwoDimensionsHelperTest, GetLineWithInverseSlopeAndPoint)
     Line expectedLine(getLineWithInverseSlope(lineInput, Point(2,2)));
 
     EXPECT_EQ(4, expectedLine.getYIntercept());
-    EXPECT_EQ(4, expectedLine.getXIntercept());    EXPECT_EQ(-1, expectedLine.getSlope());
+    EXPECT_EQ(4, expectedLine.getXIntercept());
+    EXPECT_EQ(-1, expectedLine.getSlope());
     EXPECT_EQ(-1, expectedLine.getACoefficient());
     EXPECT_EQ(-1, expectedLine.getBCoefficient());
-    EXPECT_EQ(4, expectedLine.getCCoefficient());}
+    EXPECT_EQ(4, expectedLine.getCCoefficient());
+}
 
 TEST(TwoDimensionsHelperTest, DistanceBetweenPointAndLineCanBeCalculated)
 {

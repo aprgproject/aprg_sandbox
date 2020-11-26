@@ -38,10 +38,12 @@ private:
     void updateOrWriteCurrentPrint(BtsLogPrint const& logPrint, std::ofstream & outputLogFileStream);
     void writeLastPrint(std::ofstream & outputLogFileStream);
     void deleteFilesInDirectory(std::string const& directoryOfLogs) const;
-    alba::AlbaGrepStringEvaluator m_evaluator;    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithPcTime;
+    alba::AlbaGrepStringEvaluator m_evaluator;
+    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithPcTime;
     alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithoutPcTime;
     std::string m_directoryOfLogsWithoutPcTime;
-    std::string m_pathOfStartupLog;    alba::AlbaOptional<std::ofstream> m_startupLogStreamOptional;
+    std::string m_pathOfStartupLog;
+    alba::AlbaOptional<std::ofstream> m_startupLogStreamOptional;
     BtsLogPrint m_currentPrintToWrite;
     std::set<std::string> m_foundHardwareAddresses;
 };

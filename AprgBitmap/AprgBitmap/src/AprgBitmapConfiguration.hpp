@@ -53,8 +53,6 @@ public:
     unsigned int estimateSquareSideInPixels(unsigned int const numberOfBytesToRead) const;
     unsigned int getOneRowSizeInBytesFromPixels(unsigned int const leftPixelInclusive, unsigned int const rightPixelInclusive) const;
     unsigned int getOneRowSizeInBytesFromBytes(unsigned int const leftByteInclusive, unsigned int const rightByteInclusive) const;
-    void adjustToCorrectCoordinate(int & coordinate, unsigned int const maxLength) const;
-    void adjustToCorrectLength(int & low, int & high, int const targetLength, unsigned int const maxLength) const;
 
     Colors getColorTable() const;
 

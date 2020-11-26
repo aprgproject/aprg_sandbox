@@ -4,9 +4,11 @@
 
 #include <iostream>
 #include <string>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 #pragma warning("The class AlbaDebug is used. Please remove after your done debugging.")
 
@@ -18,10 +20,12 @@ namespace alba{
 #define Z_ALBA_PRIVATE_DEBUG_GET_STRING_LITERALS5(parameter, ...)                  Z_ALBA_PRIVATE_DEBUG_GET_STRING_LITERALS_EXPANSION(parameter, Z_ALBA_PRIVATE_DEBUG_GET_STRING_LITERALS4(__VA_ARGS__))
 
 #define Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT_EXPANSION(parameter1, parameter2) parameter1 << parameter2
-#define Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT1(parameter1)                      ALBA_MACROS_GET_STRING_LITERAL(parameter1) << ":[" << parameter1 << "] "#define Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT2(parameter1, parameter2)          ALBA_MACROS_GET_STRING_LITERAL(parameter1) << ":[" << parameter1 << "] " << ALBA_MACROS_GET_STRING_LITERAL(parameter2) << ":[" << parameter2 << "] "
+#define Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT1(parameter1)                      ALBA_MACROS_GET_STRING_LITERAL(parameter1) << ":[" << parameter1 << "] "
+#define Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT2(parameter1, parameter2)          ALBA_MACROS_GET_STRING_LITERAL(parameter1) << ":[" << parameter1 << "] " << ALBA_MACROS_GET_STRING_LITERAL(parameter2) << ":[" << parameter2 << "] "
 #define Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT3(parameter, ...)                  Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT_EXPANSION(Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT1(parameter), Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT2(__VA_ARGS__))
 #define Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT4(parameter, ...)                  Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT_EXPANSION(Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT1(parameter), Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT3(__VA_ARGS__))
 #define Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT5(parameter, ...)                  Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT_EXPANSION(Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT1(parameter), Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT4(__VA_ARGS__))
+
 #define ALBA_DEBUG_EXIT exit(0)
 #define ALBA_DEBUG_PRINT0(parameter) cout << "ALBA_DEBUG_PRINT0:" << parameter << endl
 #define ALBA_DEBUG_PRINT1(...) cout << "ALBA_DEBUG_PRINT1:" << Z_ALBA_PRIVATE_DEBUG_GET_STRING_PRINT1(__VA_ARGS__) << endl

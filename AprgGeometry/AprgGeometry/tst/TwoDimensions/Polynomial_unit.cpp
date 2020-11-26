@@ -44,10 +44,12 @@ TEST(ParabolaTest, GetPointsAreCorrectWhenBoundariesAreReversed)
     EXPECT_EQ(Point(-2,3), points[4]);
 }
 
-TEST(ParabolaTest, GetSlopeIsCorrect){
+TEST(ParabolaTest, GetSlopeIsCorrect)
+{
     Parabola parabola{1,2,3};
 
-    EXPECT_EQ(-198, parabola.getSlopeAt(-100));    EXPECT_EQ(-18, parabola.getSlopeAt(-10));
+    EXPECT_EQ(-198, parabola.getSlopeAt(-100));
+    EXPECT_EQ(-18, parabola.getSlopeAt(-10));
     EXPECT_EQ(0, parabola.getSlopeAt(-1));
     EXPECT_EQ(2, parabola.getSlopeAt(0));
     EXPECT_EQ(4, parabola.getSlopeAt(1));
@@ -61,9 +63,11 @@ TEST(ParabolaTest, GetTangentLineIsCorrect)
     Line expectedLine1(parabola.getTangentLineAt(-1));
     Line expectedLine2(parabola.getTangentLineAt(0));
     Line expectedLine3(parabola.getTangentLineAt(1));
+
     EXPECT_EQ(LineType::Horizontal, expectedLine1.getType());
     EXPECT_EQ(2, expectedLine1.getYIntercept());
-    EXPECT_EQ(0, expectedLine1.getXIntercept());    EXPECT_EQ(0, expectedLine1.getSlope());
+    EXPECT_EQ(0, expectedLine1.getXIntercept());
+    EXPECT_EQ(0, expectedLine1.getSlope());
 
     EXPECT_EQ(LineType::WithPositiveSlope, expectedLine2.getType());
     EXPECT_EQ(3, expectedLine2.getYIntercept());

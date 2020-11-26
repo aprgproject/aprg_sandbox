@@ -15,6 +15,26 @@ AprgBitmapConfiguration AprgBitmap::getConfiguration() const
     return m_configuration;
 }
 
+AprgBitmapSnippet AprgBitmap::getSnippetReadFromFileWithOutOfRangeCoordinates(int const outOfRangeTop, int const outOfRangeLeft, int const outOfRangeBottom, int const outOfRangeRight) const
+{
+    BitmapXY const topLeftCorner = getPointWithinTheBitmap(outOfRangeTop, outOfRangeLeft);
+    BitmapXY const bottomRightCorner = getPointWithinTheBitmap(outOfRangeBottom, outOfRangeRight);
+    return getSnippetReadFromFile(topLeftCorner, bottomRightCorner);
+}
+
+AprgBitmapSnippet AprgBitmap::getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY const center, unsigned int const numberOfBytesToRead) const
+{
+    AprgBitmapSnippet snippet;
+    if(m_configuration.isPositionWithinTheBitmap(center))
+    {
+        BitmapXY topLeftCorner;
+        BitmapXY bottomRightCorner;
+        calculateNewCornersBasedOnCenterAndNumberOfBytes(topLeftCorner, bottomRightCorner, center, numberOfBytesToRead);
+        snippet = getSnippetReadFromFile(topLeftCorner, bottomRightCorner);
+    }
+    return snippet;
+}
+
 AprgBitmapSnippet AprgBitmap::getSnippetReadFromFile(BitmapXY const topLeftCorner, BitmapXY const bottomRightCorner) const
 {
     AprgBitmapSnippet snippet;
@@ -29,10 +49,8 @@ AprgBitmapSnippet AprgBitmap::getSnippetReadFromFile(BitmapXY const topLeftCorne
         int offsetInYForEnd = m_configuration.getBitmapHeight()-bottomRightCorner.getY()-1;
         int numberOfBytesToBeCopiedForX = m_configuration.getOneRowSizeInBytesFromBytes(byteOffsetInXForStart, byteOffsetInXForEnd);
 
-        int xStartPixel = (int)m_configuration.convertBytesToPixels(byteOffsetInXForStart);
-        int xEndPixel = (int)m_configuration.convertBytesToPixels(byteOffsetInXForEnd)+m_configuration.getMaximumNumberOfPixelsBeforeOneByte();
-        m_configuration.adjustToCorrectCoordinate(xStartPixel, m_configuration.getBitmapWidth());
-        m_configuration.adjustToCorrectCoordinate(xEndPixel, m_configuration.getBitmapWidth());
+        int xStartPixel = getXCoordinateWithinTheBitmap((int)m_configuration.convertBytesToPixels(byteOffsetInXForStart));
+        int xEndPixel = getXCoordinateWithinTheBitmap((int)m_configuration.convertBytesToPixels(byteOffsetInXForEnd)+m_configuration.getMaximumNumberOfPixelsBeforeOneByte());
 
         snippet = AprgBitmapSnippet(BitmapXY(xStartPixel, topLeftCorner.getY()), BitmapXY(xEndPixel, bottomRightCorner.getY()), m_configuration);
 
@@ -44,19 +62,6 @@ AprgBitmapSnippet AprgBitmap::getSnippetReadFromFile(BitmapXY const topLeftCorne
         }
     }
     return snippet; //RVO takes care of this
-}
-
-AprgBitmapSnippet AprgBitmap::getSnippetReadFromFile(BitmapXY const center, unsigned int const numberOfBytesToRead) const
-{
-    AprgBitmapSnippet snippet;
-    if(m_configuration.isPositionWithinTheBitmap(center))
-    {
-        BitmapXY topLeftCorner;
-        BitmapXY bottomRightCorner;
-        calculateNewCornersBasedOnCenterAndNumberOfBytes(topLeftCorner, bottomRightCorner, center, numberOfBytesToRead);
-        snippet = getSnippetReadFromFile(topLeftCorner, bottomRightCorner);
-    }
-    return snippet;
 }
 
 void AprgBitmap::setSnippetWriteToFile(AprgBitmapSnippet const& snippet) const
@@ -87,30 +92,62 @@ void AprgBitmap::setSnippetWriteToFile(AprgBitmapSnippet const& snippet) const
     }
 }
 
+BitmapXY AprgBitmap::getPointWithinTheBitmap(int const xCoordinate, int const yCoordinate) const
+{
+    return BitmapXY(getXCoordinateWithinTheBitmap(xCoordinate), getYCoordinateWithinTheBitmap(yCoordinate));
+}
+
+unsigned int AprgBitmap::getXCoordinateWithinTheBitmap(int const coordinate) const
+{
+    return getCoordinateWithinRange(coordinate, m_configuration.getBitmapWidth());
+}
+
+unsigned int AprgBitmap::getYCoordinateWithinTheBitmap(int const coordinate) const
+{
+    return getCoordinateWithinRange(coordinate, m_configuration.getBitmapHeight());
+}
+
+unsigned int AprgBitmap::getCoordinateWithinRange(int const coordinate, int maxLength) const
+{
+    return (coordinate < 0) ? 0 : (coordinate >= maxLength) ? maxLength-1 : coordinate;
+}
+
 void AprgBitmap::calculateNewCornersBasedOnCenterAndNumberOfBytes(BitmapXY & topLeftCorner, BitmapXY & bottomRightCorner, BitmapXY const center, unsigned int const numberOfBytes) const
 {
     int side(m_configuration.estimateSquareSideInPixels(numberOfBytes));
     int halfSide(side/2);
-    int left(center.getX()-halfSide);
-    int right(center.getX()+halfSide);
-    m_configuration.adjustToCorrectCoordinate(left, m_configuration.getBitmapWidth());
-    m_configuration.adjustToCorrectCoordinate(right, m_configuration.getBitmapWidth());
-    m_configuration.adjustToCorrectLength(left, right, side, m_configuration.getBitmapWidth());
+    int left(getXCoordinateWithinTheBitmap(center.getX()-halfSide));
+    int right(getXCoordinateWithinTheBitmap(center.getX()+halfSide));
+    adjustToTargetLength(left, right, side, m_configuration.getBitmapWidth());
 
     int xSizeInBytes(m_configuration.getOneRowSizeInBytesFromPixels(left, right));
     xSizeInBytes = (xSizeInBytes > 0) ? xSizeInBytes : 1;
     int ySizeInBytes(numberOfBytes/xSizeInBytes);
     int halfYSizeInBytes(ySizeInBytes/2);
-    int top(center.getY()-halfYSizeInBytes);
-    int bottom(center.getY()+halfYSizeInBytes);
-    m_configuration.adjustToCorrectCoordinate(top, m_configuration.getBitmapHeight());
-    m_configuration.adjustToCorrectCoordinate(bottom, m_configuration.getBitmapHeight());
-    m_configuration.adjustToCorrectLength(top, bottom, ySizeInBytes, m_configuration.getBitmapHeight());
+    int top(getYCoordinateWithinTheBitmap(center.getY()-halfYSizeInBytes));
+    int bottom(getYCoordinateWithinTheBitmap(center.getY()+halfYSizeInBytes));
+    adjustToTargetLength(top, bottom, ySizeInBytes, m_configuration.getBitmapHeight());
 
     topLeftCorner.setX(left);
     topLeftCorner.setY(top);
     bottomRightCorner.setX(right);
     bottomRightCorner.setY(bottom);
+}
+
+void AprgBitmap::adjustToTargetLength(int & low, int & high, int const targetLength, unsigned int const maxLength) const
+{
+    if(high-low+1 < (int)targetLength)
+    {
+        int additionalSizeInX = targetLength - (high-low+1);
+        if((low - additionalSizeInX) >= 0)
+        {
+            low = low - additionalSizeInX;
+        }
+        else if((unsigned int)(high + additionalSizeInX) < maxLength)
+        {
+            high = high + additionalSizeInX;
+        }
+    }
 }
 
 

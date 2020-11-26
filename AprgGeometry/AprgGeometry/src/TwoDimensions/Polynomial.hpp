@@ -41,9 +41,11 @@ public:
         });
         return points; //RVO
     }
+
     double calculateYfromX(double const x) const
     {
-        double valueOfPowerOfX(1);        double result(0);
+        double valueOfPowerOfX(1);
+        double result(0);
         for(double const coefficient : m_coefficients)
         {
             result += coefficient*valueOfPowerOfX;
@@ -76,4 +78,5 @@ private:
     std::array<double, numberOfCoefficients> m_coefficients; //form is c0 + c1*x + c2*x2....
     std::array<double, numberOfCoefficients-1> m_coefficientsOfFirstDerivative; //form is c0 + c1*x + c2*x2....
 };
+
 }

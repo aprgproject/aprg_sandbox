@@ -21,4 +21,5 @@ Points getConnectedPointsUsingALine(Points const& inputPoints, double const inte
 void savePointsFromTwoPointsUsingALineWithoutLastPoint(Points & points, Point const& previousPoint, Point const& currentPoint, double const interval);
 
 }
+
 }

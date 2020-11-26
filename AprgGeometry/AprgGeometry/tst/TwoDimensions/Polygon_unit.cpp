@@ -26,10 +26,12 @@ TEST(TriangleTest, GetPointsAreCorrect)
 
     ASSERT_EQ(12u, points.size());
     EXPECT_EQ(Point(0,0), points[0]);
-    EXPECT_EQ(Point(1,1), points[1]);    EXPECT_EQ(Point(2,2), points[2]);
+    EXPECT_EQ(Point(1,1), points[1]);
+    EXPECT_EQ(Point(2,2), points[2]);
     EXPECT_EQ(Point(3,3), points[3]);
     EXPECT_EQ(Point(2,4), points[4]);
-    EXPECT_EQ(Point(1,5), points[5]);    EXPECT_EQ(Point(0,6), points[6]);
+    EXPECT_EQ(Point(1,5), points[5]);
+    EXPECT_EQ(Point(0,6), points[6]);
     EXPECT_EQ(Point(0,5), points[7]);
     EXPECT_EQ(Point(0,4), points[8]);
     EXPECT_EQ(Point(0,3), points[9]);
@@ -49,10 +51,12 @@ TEST(QuadrilateralTest, GetPointsAreCorrect)
 
     ASSERT_EQ(8u, points.size());
     EXPECT_EQ(Point(-2,0), points[0]);
-    EXPECT_EQ(Point(-1,-1), points[1]);    EXPECT_EQ(Point(0,-2), points[2]);
+    EXPECT_EQ(Point(-1,-1), points[1]);
+    EXPECT_EQ(Point(0,-2), points[2]);
     EXPECT_EQ(Point(1,-1), points[3]);
     EXPECT_EQ(Point(2,0), points[4]);
-    EXPECT_EQ(Point(1,1), points[5]);    EXPECT_EQ(Point(0,2), points[6]);
+    EXPECT_EQ(Point(1,1), points[5]);
+    EXPECT_EQ(Point(0,2), points[6]);
     EXPECT_EQ(Point(-1,1), points[7]);
 }
 
@@ -64,9 +68,11 @@ TEST(QuadrilateralTest, DISABLED_PointsInQuadilateralAreCorrectWhenOutOfOrderVer
 
     ASSERT_EQ(8u, points.size());
     EXPECT_EQ(Point(-2,0), points[0]);
-    EXPECT_EQ(Point(-1,-1), points[1]);    EXPECT_EQ(Point(0,-2), points[2]);
+    EXPECT_EQ(Point(-1,-1), points[1]);
+    EXPECT_EQ(Point(0,-2), points[2]);
     EXPECT_EQ(Point(1,-1), points[3]);
     EXPECT_EQ(Point(2,0), points[4]);
-    EXPECT_EQ(Point(1,1), points[5]);    EXPECT_EQ(Point(0,2), points[6]);
+    EXPECT_EQ(Point(1,1), points[5]);
+    EXPECT_EQ(Point(0,2), points[6]);
     EXPECT_EQ(Point(-1,1), points[7]);
 }

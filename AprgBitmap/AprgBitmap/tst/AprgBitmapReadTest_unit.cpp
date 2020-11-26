@@ -48,35 +48,35 @@ TEST(BitmapReadTest, TestForMonochromeBitmap)
     EXPECT_EQ(0x01, snippet.getPixelAt(BitmapXY(100, 99)));
     EXPECT_EQ(0x01, snippet.getPixelAt(BitmapXY(101, 99)));
 
-    AprgBitmapSnippet snippet1(bitmap.getSnippetReadFromFile(BitmapXY(0, 0), 3));
+    AprgBitmapSnippet snippet1(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(0, 0), 3));
     ASSERT_EQ(3, snippet1.getPixelDataSize());
     EXPECT_EQ(0x01, snippet1.getPixelAt(BitmapXY(0, 0)));
     EXPECT_EQ(0xFFFFFF, snippet1.getColorAt(BitmapXY(0, 0)));
     EXPECT_EQ(BitmapXY(0, 0), snippet1.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(7, 2), snippet1.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet2(bitmap.getSnippetReadFromFile(BitmapXY(152, 101), 3));
+    AprgBitmapSnippet snippet2(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(152, 101), 3));
     ASSERT_EQ(3, snippet2.getPixelDataSize());
     EXPECT_EQ(0x01, snippet2.getPixelAt(BitmapXY(152, 101)));
     EXPECT_EQ(0xFFFFFF, snippet2.getColorAt(BitmapXY(152, 101)));
     EXPECT_EQ(BitmapXY(152, 100), snippet2.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(159, 102), snippet2.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet3(bitmap.getSnippetReadFromFile(BitmapXY(17, 114), 3));
+    AprgBitmapSnippet snippet3(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(17, 114), 3));
     ASSERT_EQ(3, snippet3.getPixelDataSize());
     EXPECT_EQ(0x01, snippet3.getPixelAt(BitmapXY(17, 114)));
     EXPECT_EQ(0xFFFFFF, snippet3.getColorAt(BitmapXY(17, 114)));
     EXPECT_EQ(BitmapXY(16, 113), snippet3.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(23, 115), snippet3.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet4(bitmap.getSnippetReadFromFile(BitmapXY(174, 173), 3));
+    AprgBitmapSnippet snippet4(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(174, 173), 3));
     ASSERT_EQ(3, snippet4.getPixelDataSize());
     EXPECT_EQ(0x01, snippet4.getPixelAt(BitmapXY(174, 173)));
     EXPECT_EQ(0xFFFFFF, snippet4.getColorAt(BitmapXY(174, 173)));
     EXPECT_EQ(BitmapXY(168, 171), snippet4.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(174, 173), snippet4.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet5(bitmap.getSnippetReadFromFile(BitmapXY(180, 180), 3));
+    AprgBitmapSnippet snippet5(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(180, 180), 3));
     ASSERT_EQ(0, snippet5.getPixelDataSize());
     EXPECT_EQ(0x0, snippet5.getColorAt(BitmapXY(180, 180)));
 }
@@ -121,35 +121,35 @@ TEST(BitmapReadTest, TestFor16ColorBitmap)
     EXPECT_EQ(0x0F, snippet.getPixelAt(BitmapXY(100, 99)));
     EXPECT_EQ(0x08, snippet.getPixelAt(BitmapXY(101, 99)));
 
-    AprgBitmapSnippet snippet1(bitmap.getSnippetReadFromFile(BitmapXY(0, 0), 6));
+    AprgBitmapSnippet snippet1(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(0, 0), 6));
     ASSERT_EQ(6, snippet1.getPixelDataSize());
     EXPECT_EQ(0x0F, snippet1.getPixelAt(BitmapXY(0, 0)));
     EXPECT_EQ(0xFFFFFF, snippet1.getColorAt(BitmapXY(0, 0)));
     EXPECT_EQ(BitmapXY(0, 0), snippet1.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(1, 5), snippet1.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet2(bitmap.getSnippetReadFromFile(BitmapXY(152, 101), 6));
+    AprgBitmapSnippet snippet2(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(152, 101), 6));
     ASSERT_EQ(6, snippet2.getPixelDataSize());
     EXPECT_EQ(0x08, snippet2.getPixelAt(BitmapXY(152, 101)));
     EXPECT_EQ(0xC0C0C0, snippet2.getColorAt(BitmapXY(152, 101)));
     EXPECT_EQ(BitmapXY(150, 100), snippet2.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(153, 102), snippet2.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet3(bitmap.getSnippetReadFromFile(BitmapXY(17, 114), 6));
+    AprgBitmapSnippet snippet3(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(17, 114), 6));
     ASSERT_EQ(6, snippet3.getPixelDataSize());
     EXPECT_EQ(0x07, snippet3.getPixelAt(BitmapXY(17, 114)));
     EXPECT_EQ(0x808080, snippet3.getColorAt(BitmapXY(17, 114)));
     EXPECT_EQ(BitmapXY(16, 113), snippet3.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(19, 115), snippet3.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet4(bitmap.getSnippetReadFromFile(BitmapXY(174, 173), 6));
+    AprgBitmapSnippet snippet4(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(174, 173), 6));
     ASSERT_EQ(6, snippet4.getPixelDataSize());
     EXPECT_EQ(0x0F, snippet4.getPixelAt(BitmapXY(174, 173)));
     EXPECT_EQ(0xFFFFFF, snippet4.getColorAt(BitmapXY(174, 173)));
     EXPECT_EQ(BitmapXY(172, 171), snippet4.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(174, 173), snippet4.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet5(bitmap.getSnippetReadFromFile(BitmapXY(180, 180), 3));
+    AprgBitmapSnippet snippet5(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(180, 180), 3));
     ASSERT_EQ(0, snippet5.getPixelDataSize());
     EXPECT_EQ(0x0, snippet5.getColorAt(BitmapXY(180, 180)));
 }
@@ -198,35 +198,35 @@ TEST(BitmapReadTest, TestFor256ColorBitmap)
     EXPECT_EQ(0xF6, snippet.getPixelAt(BitmapXY(100, 99)));
     EXPECT_EQ(0x07, snippet.getPixelAt(BitmapXY(101, 99)));
 
-    AprgBitmapSnippet snippet1(bitmap.getSnippetReadFromFile(BitmapXY(0, 0), 9));
+    AprgBitmapSnippet snippet1(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(0, 0), 9));
     ASSERT_EQ(8, snippet1.getPixelDataSize());
     EXPECT_EQ(0xFF, snippet1.getPixelAt(BitmapXY(0, 0)));
     EXPECT_EQ(0xFFFFFF, snippet1.getColorAt(BitmapXY(0, 0)));
     EXPECT_EQ(BitmapXY(0, 0), snippet1.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(1, 3), snippet1.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet2(bitmap.getSnippetReadFromFile(BitmapXY(152, 101), 9));
+    AprgBitmapSnippet snippet2(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(152, 101), 9));
     ASSERT_EQ(9, snippet2.getPixelDataSize());
     EXPECT_EQ(0xF5, snippet2.getPixelAt(BitmapXY(152, 101)));
     EXPECT_EQ(0xA0C0C0, snippet2.getColorAt(BitmapXY(152, 101)));
     EXPECT_EQ(BitmapXY(151, 100), snippet2.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(153, 102), snippet2.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet3(bitmap.getSnippetReadFromFile(BitmapXY(17, 114), 9));
+    AprgBitmapSnippet snippet3(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(17, 114), 9));
     ASSERT_EQ(9, snippet3.getPixelDataSize());
     EXPECT_EQ(0x9D, snippet3.getPixelAt(BitmapXY(17, 114)));
     EXPECT_EQ(0xA06080, snippet3.getColorAt(BitmapXY(17, 114)));
     EXPECT_EQ(BitmapXY(16, 113), snippet3.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(18, 115), snippet3.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet4(bitmap.getSnippetReadFromFile(BitmapXY(174, 173), 9));
+    AprgBitmapSnippet snippet4(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(174, 173), 9));
     ASSERT_EQ(8, snippet4.getPixelDataSize());
     EXPECT_EQ(0xFF, snippet4.getPixelAt(BitmapXY(174, 173)));
     EXPECT_EQ(0xFFFFFF, snippet4.getColorAt(BitmapXY(174, 173)));
     EXPECT_EQ(BitmapXY(173, 170), snippet4.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(174, 173), snippet4.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet5(bitmap.getSnippetReadFromFile(BitmapXY(180, 180), 9));
+    AprgBitmapSnippet snippet5(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(180, 180), 9));
     ASSERT_EQ(0, snippet5.getPixelDataSize());
     EXPECT_EQ(0x0, snippet5.getColorAt(BitmapXY(180, 180)));
 }
@@ -288,35 +288,35 @@ TEST(BitmapReadTest, TestFor24BitBitmap)
     EXPECT_EQ(0xE9E8E9, snippet.getPixelAt(BitmapXY(100, 99)));
     EXPECT_EQ(0xC2BEC3, snippet.getPixelAt(BitmapXY(101, 99)));
 
-    AprgBitmapSnippet snippet1(bitmap.getSnippetReadFromFile(BitmapXY(0, 0), 27));
+    AprgBitmapSnippet snippet1(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(0, 0), 27));
     ASSERT_EQ(24, snippet1.getPixelDataSize());
     EXPECT_EQ(0xFFFFFF, snippet1.getPixelAt(BitmapXY(0, 0)));
     EXPECT_EQ(0xFFFFFF, snippet1.getColorAt(BitmapXY(0, 0)));
     EXPECT_EQ(BitmapXY(0, 0), snippet1.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(1, 3), snippet1.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet2(bitmap.getSnippetReadFromFile(BitmapXY(152, 101), 27));
+    AprgBitmapSnippet snippet2(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(152, 101), 27));
     ASSERT_EQ(27, snippet2.getPixelDataSize());
     EXPECT_EQ(0xAFB3B5, snippet2.getPixelAt(BitmapXY(152, 101)));
     EXPECT_EQ(0xAFB3B5, snippet2.getColorAt(BitmapXY(152, 101)));
     EXPECT_EQ(BitmapXY(151, 100), snippet2.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(153, 102), snippet2.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet3(bitmap.getSnippetReadFromFile(BitmapXY(17, 114), 27));
+    AprgBitmapSnippet snippet3(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(17, 114), 27));
     ASSERT_EQ(27, snippet3.getPixelDataSize());
     EXPECT_EQ(0x916E95, snippet3.getPixelAt(BitmapXY(17, 114)));
     EXPECT_EQ(0x916E95, snippet3.getColorAt(BitmapXY(17, 114)));
     EXPECT_EQ(BitmapXY(16, 113), snippet3.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(18, 115), snippet3.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet4(bitmap.getSnippetReadFromFile(BitmapXY(174, 173), 27));
+    AprgBitmapSnippet snippet4(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(174, 173), 27));
     ASSERT_EQ(24, snippet4.getPixelDataSize());
     EXPECT_EQ(0xFFFFFF, snippet4.getPixelAt(BitmapXY(174, 173)));
     EXPECT_EQ(0xFFFFFF, snippet4.getColorAt(BitmapXY(174, 173)));
     EXPECT_EQ(BitmapXY(173, 170), snippet4.getTopLeftCorner());
     EXPECT_EQ(BitmapXY(174, 173), snippet4.getBottomRightCorner());
 
-    AprgBitmapSnippet snippet5(bitmap.getSnippetReadFromFile(BitmapXY(180, 180), 27));
+    AprgBitmapSnippet snippet5(bitmap.getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY(180, 180), 27));
     ASSERT_EQ(0, snippet5.getPixelDataSize());
     EXPECT_EQ(0x0, snippet5.getColorAt(BitmapXY(180, 180)));
 }
@@ -341,4 +341,25 @@ TEST(BitmapReadTest, TestFor32BitBitmap)
     ASSERT_EQ(36, pixels.getSize());
     EXPECT_EQ(0x00442E47, snippet.getPixelAt(BitmapXY(49, 49)));
     EXPECT_EQ(0x00442E47, snippet.getColorAt(BitmapXY(49, 49)));
+}
+
+TEST(BitmapReadTest, TestForMonochromeBitmapWithOutOfRangeValues)
+{
+    AprgBitmap bitmap(APRG_BITMAP_MONOCHROME_TEST_FILE);
+    ASSERT_TRUE(bitmap.getConfiguration().isValid());
+    ASSERT_EQ(CompressedMethodType::BI_RGB, bitmap.getConfiguration().getCompressedMethodType());
+    ASSERT_TRUE(bitmap.getConfiguration().isCompressedMethodSupported());
+
+    Colors colors(bitmap.getConfiguration().getColorTable());
+    ASSERT_EQ(2, colors.size());
+    EXPECT_EQ(0x00000000, colors[0]);
+    EXPECT_EQ(0x00FFFFFF, colors[1]);
+    EXPECT_EQ(0x00000000, bitmap.getConfiguration().getColorUsingPixelValue(0));
+    EXPECT_EQ(0x00FFFFFF, bitmap.getConfiguration().getColorUsingPixelValue(1));
+
+    AprgBitmapSnippet snippet(bitmap.getSnippetReadFromFileWithOutOfRangeCoordinates(-100, -100, 99999999, 99999999));
+    EXPECT_EQ(BitmapXY(0, 0), snippet.getTopLeftCorner());
+    EXPECT_EQ(BitmapXY(174, 173), snippet.getBottomRightCorner());
+
+    EXPECT_EQ(0x00000000, snippet.getPixelAt(BitmapXY(99999999, 99999999)));
 }

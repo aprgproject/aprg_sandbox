@@ -54,10 +54,10 @@ TEST(AlbaXYTest, DisplayableStringIsNotEmpty)
 TEST(AlbaXYTest, XYSaveTopLeftCorner)
 {
     AlbaXY<int> xy;
-    xy.saveAsTopLeftCorner(AlbaXY<int>(-5,5));
-    xy.saveAsTopLeftCorner(AlbaXY<int>(5,-5));
-    xy.saveAsTopLeftCorner(AlbaXY<int>(-5,-5));
-    xy.saveAsTopLeftCorner(AlbaXY<int>(5,5));
+    xy.saveMinimumXAndY(AlbaXY<int>(-5,5));
+    xy.saveMinimumXAndY(AlbaXY<int>(5,-5));
+    xy.saveMinimumXAndY(AlbaXY<int>(-5,-5));
+    xy.saveMinimumXAndY(AlbaXY<int>(5,5));
 
     EXPECT_EQ(AlbaXY<int>(-5,-5), xy);
 }
@@ -65,10 +65,10 @@ TEST(AlbaXYTest, XYSaveTopLeftCorner)
 TEST(AlbaXYTest, XYSaveBottomRightCorner)
 {
     AlbaXY<int> xy;
-    xy.saveAsBottomRightCorner(AlbaXY<int>(-5,5));
-    xy.saveAsBottomRightCorner(AlbaXY<int>(5,-5));
-    xy.saveAsBottomRightCorner(AlbaXY<int>(-5,-5));
-    xy.saveAsBottomRightCorner(AlbaXY<int>(5,5));
+    xy.saveMaximumXAndY(AlbaXY<int>(-5,5));
+    xy.saveMaximumXAndY(AlbaXY<int>(5,-5));
+    xy.saveMaximumXAndY(AlbaXY<int>(-5,-5));
+    xy.saveMaximumXAndY(AlbaXY<int>(5,5));
 
     EXPECT_EQ(AlbaXY<int>(5,5), xy);
 }

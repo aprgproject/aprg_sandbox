@@ -21,4 +21,5 @@ private:
     BtsLogPrint m_previousPrint;
     std::ifstream m_inputStream;
 };
+
 }

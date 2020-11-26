@@ -26,6 +26,7 @@ bool AprgBitmapSnippet::isPositionInside(BitmapXY const position) const
 {
     return m_topLeftCorner.getX() <= position.getX() && m_topLeftCorner.getY() <= position.getY() && m_bottomRightCorner.getX() >= position.getX() && m_bottomRightCorner.getY() >= position.getY();
 }
+
 BitmapXY AprgBitmapSnippet::getTopLeftCorner() const
 {
     return m_topLeftCorner;

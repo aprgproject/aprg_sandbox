@@ -165,28 +165,6 @@ unsigned int AprgBitmapConfiguration::getOneRowSizeInBytesFromBytes(unsigned int
     return rightByteInclusive-leftByteInclusive+getMinimumNumberOfBytesForOnePixel();
 }
 
-void AprgBitmapConfiguration::adjustToCorrectCoordinate(int & coordinate, unsigned int const maxLength) const
-{
-    coordinate = (coordinate < 0) ? 0 : coordinate;
-    coordinate = (coordinate >= (int)maxLength) ? maxLength-1 : coordinate;
-}
-
-void AprgBitmapConfiguration::adjustToCorrectLength(int & low, int & high, int const targetLength, unsigned int const maxLength) const
-{
-    if(high-low+1 < (int)targetLength)
-    {
-        int additionalSizeInX = targetLength - (high-low+1);
-        if((low - additionalSizeInX) >= 0)
-        {
-            low = low - additionalSizeInX;
-        }
-        else if((unsigned int)(high + additionalSizeInX) < maxLength)
-        {
-            high = high + additionalSizeInX;
-        }
-    }
-}
-
 Colors AprgBitmapConfiguration::getColorTable() const
 {
     return m_colors;

@@ -129,9 +129,11 @@ string BtsLogSorter::getPathOfLogWithoutPcTimeBasedFromHardwareAddress(string co
     string filename = hardwareAddress.empty() ? "NoHardwareAddress" : hardwareAddress;
     return AlbaLocalPathHandler(directory + R"(\)" + filename + R"(.log)").getFullPath();
 }
+
 void BtsLogSorter::openStartupLogsIfNeeded()
 {
-    if(!m_startupLogStreamOptional)    {
+    if(!m_startupLogStreamOptional)
+    {
         m_startupLogStreamOptional.createObjectUsingDefaultConstructor();
         m_startupLogStreamOptional.getReference().open(m_pathOfStartupLog, std::ios::ate|std::ios::app);
     }
@@ -152,10 +154,12 @@ void BtsLogSorter::addStartupLogsOnSorterWithPcTime()
             m_sorterWithPcTime.add(startupLogPrint);
         }
         ProgressCounters::writeProgressForCombine = 25*printReader.getCurrentLocation()/fileSize;
-    }}
+    }
+}
 
 void BtsLogSorter::writeLogsWithoutPcTimeToOutputFile(ofstream & outputLogFileStream)
-{    cout << "Save sorted logs without PC time." << endl;
+{
+    cout << "Save sorted logs without PC time." << endl;
     unsigned long long printCount(0);
     unsigned long long size(m_sorterWithoutPcTime.getSize());
     m_sorterWithoutPcTime.sortThenDoFunctionThenReleaseAllObjects([&](BtsLogPrint const& logPrint)
@@ -183,6 +187,7 @@ void BtsLogSorter::separateLogsWithoutPcTimeIntoDifferentAddresses()
         ProgressCounters::writeProgressForCombine = 25 + (printCount++ * 25/size);
     });
 }
+
 void BtsLogSorter::writeLogsWithPcTimeToOutputFile(ofstream & outputLogFileStream)
 {
     cout << "Merge logs with and without PC time and save to output file." << endl;
@@ -213,10 +218,12 @@ void BtsLogSorter::addPrintsFromReaderToSorterWithoutPcTime(BtsPrintReaderWithRo
         if(!logPrintWithoutPcTime.isEmpty())
         {
             m_sorterWithoutPcTime.add(logPrintWithoutPcTime);
-        }    }
+        }
+    }
 }
 
-void BtsLogSorter::writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRollback & printReader, BtsLogPrint const& logPrint, ofstream & outputLogFileStream){
+void BtsLogSorter::writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRollback & printReader, BtsLogPrint const& logPrint, ofstream & outputLogFileStream)
+{
     while(printReader.isGood())
     {
         BtsLogPrint logPrintWithoutPcTime(printReader.getPrint());
@@ -238,10 +245,12 @@ void BtsLogSorter::writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRo
 void BtsLogSorter::updateOrWriteCurrentPrint(BtsLogPrint const& logPrint, ofstream & outputLogFileStream)
 {
     if(m_currentPrintToWrite == logPrint)
-    {        m_currentPrintToWrite.updatePcTimeAndFileNameDetails(logPrint);
+    {
+        m_currentPrintToWrite.updatePcTimeAndFileNameDetails(logPrint);
     }
     else
-    {        if(!m_currentPrintToWrite.getPrint().empty())
+    {
+        if(!m_currentPrintToWrite.getPrint().empty())
         {
             outputLogFileStream << m_currentPrintToWrite.getPrintWithAllDetails() << endl;
         }

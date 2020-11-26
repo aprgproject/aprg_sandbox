@@ -23,4 +23,5 @@ template <DownloadType... configTypes> bool downloadBinaryFileWithFiniteNumberOf
 
 }
 
+
 }

@@ -37,10 +37,12 @@ void CurlInterface::addLowSpeedLimitToCurlEasy(curl_easy& easy, LONG const lowSp
 
 template <>
 void CurlInterface::addToCurlEasy<DownloadType::LowSpeedLimit>(curl_easy& easy)
-{    addLowSpeedLimitToCurlEasy(easy, lowSpeedLimit, lowSpeedTime);
+{
+    addLowSpeedLimitToCurlEasy(easy, lowSpeedLimit, lowSpeedTime);
 }
 
-template <>void CurlInterface::addToCurlEasy<DownloadType::MozillaFireFox>(curl_easy& easy)
+template <>
+void CurlInterface::addToCurlEasy<DownloadType::MozillaFireFox>(curl_easy& easy)
 {
     struct curl_slist *chunk = NULL;
     chunk = curl_slist_append(chunk, "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0");
@@ -68,10 +70,12 @@ void CurlInterface::addToCurlEasy<DownloadType::Ssl>(curl_easy& easy)
 
 void CurlInterface::createOutputStream(unique_ptr<ofstream> & outputStream, OutputFileType outputFileType, string const& fileLocation)
 {
-    switch (outputFileType)    {
+    switch (outputFileType)
+    {
     case OutputFileType::Binary:
         outputStream.reset(new ofstream(fileLocation, ofstream::binary));
-        break;    default:
+        break;
+    default:
         outputStream.reset(new ofstream(fileLocation));
         break;
     }

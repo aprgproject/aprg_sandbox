@@ -69,7 +69,7 @@ public:
         y = yValue;
     }
 
-    void saveAsTopLeftCorner(AlbaXY const xy)
+    void saveMinimumXAndY(AlbaXY const xy)
     {
         if(x > xy.x)
         {
@@ -80,7 +80,8 @@ public:
             y = xy.y;
         }
     }
-    void saveAsBottomRightCorner(AlbaXY const xy)
+
+    void saveMaximumXAndY(AlbaXY const xy)
     {
         if(x < xy.x)
         {
@@ -106,6 +107,7 @@ public:
 
 private:
     CoordinateType x;
-    CoordinateType y;};
+    CoordinateType y;
+};
 
 }

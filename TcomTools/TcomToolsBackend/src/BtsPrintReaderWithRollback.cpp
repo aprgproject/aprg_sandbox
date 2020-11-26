@@ -21,10 +21,12 @@ BtsLogPrint BtsPrintReaderWithRollback::getPrint()
             m_isRollbackActivated = false;
             return m_previousPrint;
         }
-        else        {
+        else
+        {
             m_inputStream >> m_previousPrint;
             return m_previousPrint;
-        }    }
+        }
+    }
     return BtsLogPrint{};
 }
 
@@ -37,10 +39,12 @@ void BtsPrintReaderWithRollback::rollBackPrint()
     m_isRollbackActivated = true;
 }
 
-void BtsPrintReaderWithRollback::openIfNeeded(string const& filePath){
+void BtsPrintReaderWithRollback::openIfNeeded(string const& filePath)
+{
     if(!m_inputStream.is_open())
     {
-        m_inputStream.open(filePath);    }
+        m_inputStream.open(filePath);
+    }
 }
 
 double BtsPrintReaderWithRollback::getCurrentLocation()
