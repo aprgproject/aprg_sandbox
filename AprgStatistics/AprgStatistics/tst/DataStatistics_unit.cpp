@@ -1,7 +1,6 @@
-#include <Statistics/DataStatistics.hpp>
+#include <DataStatistics.hpp>
 
 #include <gtest/gtest.h>
-
 #include <iostream>
 
 using namespace alba;

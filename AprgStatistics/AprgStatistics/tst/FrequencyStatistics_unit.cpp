@@ -1,7 +1,6 @@
-#include <Statistics/FrequencyStatistics.hpp>
+#include <FrequencyStatistics.hpp>
 
 #include <gtest/gtest.h>
-
 #include <iostream>
 
 using namespace alba;
