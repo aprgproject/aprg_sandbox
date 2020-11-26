@@ -1659,14 +1659,61 @@ int SOOSA::getBarWidthCorrectPoint(DataDigital* indata, double invslope, PairXY*
     return width;
 }
 
+int SOOSA::getBarWidthCorrectPointNew(AprgBitmapSnippet const& snippet, double invslope, PairXY* io_point, int correctPoint)
+{
+    int tx,ty,width=0,whiteWidth;
+    PairXY tpoint,point,blackPoint,minx,maxx;
+    point=*io_point;
+    tpoint=point;minx=tpoint;maxx=tpoint;
+    blackPoint = point;
+    if(!snippet.isBlackAt(BitmapXY(point._x+gddx,point._y+gddy))){
+        //Find the first black
+        for(tx=1;tx<PIXELSPERPENLINE;tx++){
+            ty=roundOffSignRobust(-1*invslope*(tx));
+            tpoint._x=point._x+tx; tpoint._y=point._y+ty;
+            if(snippet.isBlackAt(BitmapXY(tpoint._x+gddx,tpoint._y+gddy))){ blackPoint._x=tpoint._x; blackPoint._y=tpoint._y; width=1;break; }
+            LOPPRINT("  FUNCLOOP:getBarWidthCorrectPoint FindFirstBlack [tpointx=%d|tpointy=%d]->(tvalue=%X)\n",tpoint._x+gddx,tpoint._y+gddy,tvalue);
+            tpoint._x=point._x-tx; tpoint._y=point._y-ty;
+            LOPPRINT("  FUNCLOOP:getBarWidthCorrectPoint FindFirstBlack [tpointx=%d|tpointy=%d]->(tvalue=%X)\n",tpoint._x+gddx,tpoint._y+gddy,tvalue);
+            if(snippet.isBlackAt(BitmapXY(tpoint._x+gddx,tpoint._y+gddy))){ blackPoint._x=tpoint._x; blackPoint._y=tpoint._y; width=1;break; }
+        }
+    }else{
+        width=1;
+    }
+    whiteWidth=0;
+    for(tx=1;tx<PIXELSPERPENLINE;tx++){
+        ty=roundOffSignRobust(-1*invslope*(tx));
+        tpoint._x=blackPoint._x+tx; tpoint._y=blackPoint._y+ty;
+        LOPPRINT("  FUNCLOOP:getBarWidthCorrectPoint [tpointx=%d|tpointy=%d]->(tvalue=%X)->(width=%d)\n",tpoint._x+gddx,tpoint._y+gddy,tvalue,width);
+        if(snippet.isBlackAt(BitmapXY(tpoint._x+gddx,tpoint._y+gddy))){width=width+whiteWidth+1; whiteWidth=0;}
+        else{ if(whiteWidth>=PIXELSDIRTWHITEDOT){break;} whiteWidth++;}
+    }
+    maxx._x=blackPoint._x+tx; maxx._y=blackPoint._y+ty;
+    whiteWidth=0;
+    for(tx=1;tx<PIXELSPERPENLINE;tx++){
+        ty=roundOffSignRobust(-1*invslope*(tx));
+        tpoint._x=blackPoint._x-tx; tpoint._y=blackPoint._y-ty;
+        LOPPRINT("  FUNCLOOP:getBarWidthCorrectPoint [tpointx=%d|tpointy=%d]->(tvalue=%X)->(width=%d)\n",tpoint._x+gddx,tpoint._y+gddy,tvalue,width);
+        if(snippet.isBlackAt(BitmapXY(tpoint._x+gddx,tpoint._y+gddy))){width=width+whiteWidth+1; whiteWidth=0;}
+        else{ if(whiteWidth>=PIXELSDIRTWHITEDOT){break;} whiteWidth++;}
+    }
+    minx._x=blackPoint._x-tx; minx._y=blackPoint._y-ty;
+
+    LOPPRINT("  FUNC:getBarWidthCorrectPoint (%d,%d)->(width=%d)\n",io_point->_x+gddx,io_point->_y+gddy,width);
+    if(width>=PIXELSPERPENLINE || width<=PIXELSDIRTBLACKDOT){return 0;}
+    if(correctPoint==1){
+        (*io_point) = getMidpoint(minx,maxx);
+        LOPPRINT("  FUNCOUT:getBarWidthCorrectPoint(minx=%d|miny=%d|maxx=%d|maxy=%d) OUT->(iopointx=%d,iopointy=%d)\n",minx._x+gddx,minx._y+gddy,maxx._x+gddx,maxx._y+gddy,io_point->_x+gddx,io_point->_y+gddy);
+    }
+    return width;
+}
+
 int SOOSA::barWidthGetCriterion(int *barWidth, int barWidthArrSize, ChebyshevCriterion* ccLine, ChebyshevCriterion* ccBar)
 {
-    int t1,t2,maxBarWidth,numOfWidths;
-    int* freqBarWidth=NULL;
+    int t1,t2,maxBarWidth,numOfWidths;    int* freqBarWidth=NULL;
     int* indexBarWidth=NULL;
     ChebyshevCriterion cc;
-    maxBarWidth=0;
-    for(t1=0;t1<barWidthArrSize;t1++){
+    maxBarWidth=0;    for(t1=0;t1<barWidthArrSize;t1++){
         if(maxBarWidth<barWidth[t1]){
             maxBarWidth=barWidth[t1];
             LOPPRINT("  FUNCLOOP:barWidthGetCriterion(maxBarWidth=%d)\n",maxBarWidth);
@@ -1775,11 +1822,10 @@ int SOOSA::barWidthGetCriterion(int *barWidth, int barWidthArrSize, ChebyshevCri
     return 0;
 }
 
-void SOOSA::getQuestions(DataDigital* dd, PairXY* in_questions, int* in_numQuestion, PairXY* qFindSamples, int* qFindSamplesType, int* barWidth, int numQFindSamples, LineSlopeIntercept tslopeintercept, ChebyshevCriterion ccLine, ChebyshevCriterion ccBar)
+void SOOSA::getQuestions(DataDigital* in_data, PairXY* in_questions, int* in_numQuestion, PairXY* qFindSamples, int* qFindSamplesType, int* barWidth, int numQFindSamples, LineSlopeIntercept tslopeintercept, ChebyshevCriterion ccLine, ChebyshevCriterion ccBar)
 {
     int t1,t2,numQuestion=0,type,prevtype,twidth,numImptCoor,numBarHeightArr,saved;
-    double tdouble,tempBarHeight;
-    int* barHeightArr;
+    double tdouble,tempBarHeight;    int* barHeightArr;
     int correctPosition,limitY;
     ChebyshevCriterion cc;
     PairXY prevpair,bgnpair,endpair,tmppair;
@@ -1814,11 +1860,10 @@ void SOOSA::getQuestions(DataDigital* dd, PairXY* in_questions, int* in_numQuest
             while(t2<bgnpair2._y){
                 tmppair._x = roundOffSignRobust(((double)t2*bgnpair2._x/bgnpair2._y)+bgnpair._x);
                 tmppair._y = roundOffSignRobust(bgnpair._y+t2);
-                twidth = getBarWidthCorrectPoint(dd, tslopeintercept.slope, &tmppair, 0);
+                twidth = getBarWidthCorrectPoint(in_data, tslopeintercept.slope, &tmppair, 0);
                 DBGPRINT("  FUNC:getQuestions-NoClassToNoClass[(%d,%d),(%d,%d)]->temppair(%d,%d)|twidth:%d\n",
                 bgnpair._x+gddx,bgnpair._y+gddy,endpair._x+gddx,endpair._y+gddy,tmppair._x+gddx,tmppair._y+gddy,twidth);
-                if(twidth<=PIXELSDIRTBLACKDOT){//assume line
-                }else if(getKFromChebyshev(ccLine,twidth)<CHEBYCHEVKVALUEWIDTH){
+                if(twidth<=PIXELSDIRTBLACKDOT){//assume line                }else if(getKFromChebyshev(ccLine,twidth)<CHEBYCHEVKVALUEWIDTH){
                     qFindSamples[t1] = tmppair;
                     barWidth[t1]=twidth;
                     limitY=1;
@@ -1843,11 +1888,10 @@ void SOOSA::getQuestions(DataDigital* dd, PairXY* in_questions, int* in_numQuest
             while(limitY>1){
                 bgnpair2 = bgnpair; endpair2 = endpair;
                 tmppair = getMidpoint(bgnpair2,endpair2);
-                twidth = getBarWidthCorrectPoint(dd, tslopeintercept.slope, &tmppair, correctPosition);
+                twidth = getBarWidthCorrectPoint(in_data, tslopeintercept.slope, &tmppair, correctPosition);
                 DBGPRINT("  FUNC:getQuestions-LineToBar[(%d,%d),(%d,%d)]->temppair(%d,%d)|twidth:%d\n",
                 bgnpair._x+gddx,bgnpair._y+gddy,endpair._x+gddx,endpair._y+gddy,tmppair._x+gddx,tmppair._y+gddy,twidth);
-                if(twidth<=PIXELSDIRTBLACKDOT){//assume line
-                    bgnpair2 = tmppair;
+                if(twidth<=PIXELSDIRTBLACKDOT){//assume line                    bgnpair2 = tmppair;
                 }else if(getKFromChebyshev(ccLine,twidth)<CHEBYCHEVKVALUEWIDTH){
                     bgnpair2 = tmppair;
                 }else if(getKFromChebyshev(ccBar,twidth)<CHEBYCHEVKVALUEWIDTH){
@@ -1873,11 +1917,10 @@ void SOOSA::getQuestions(DataDigital* dd, PairXY* in_questions, int* in_numQuest
             while(endpair._y-bgnpair._y>1){
                 bgnpair2 = bgnpair; endpair2 = endpair;
                 tmppair = getMidpoint(bgnpair2,endpair2);
-                twidth = getBarWidthCorrectPoint(dd, tslopeintercept.slope, &tmppair, correctPosition);
+                twidth = getBarWidthCorrectPoint(in_data, tslopeintercept.slope, &tmppair, correctPosition);
                 DBGPRINT("  FUNC:getQuestions-BarToLine[(%d,%d),(%d,%d)]->temppair(%d,%d)|twidth:%d\n",
                 bgnpair._x+gddx,bgnpair._y+gddy,endpair._x+gddx,endpair._y+gddy,tmppair._x+gddx,tmppair._y+gddy,twidth);
-                if(twidth<=PIXELSDIRTBLACKDOT){//assume line
-                    endpair2 = tmppair;
+                if(twidth<=PIXELSDIRTBLACKDOT){//assume line                    endpair2 = tmppair;
                 }else if(getKFromChebyshev(ccLine,twidth)<CHEBYCHEVKVALUEWIDTH){
                     endpair2 = tmppair;
                 }else if(getKFromChebyshev(ccBar,twidth)<CHEBYCHEVKVALUEWIDTH){
@@ -1967,11 +2010,198 @@ void SOOSA::getQuestions(DataDigital* dd, PairXY* in_questions, int* in_numQuest
     *in_numQuestion=numQuestion;
 }
 
-int SOOSA::getQuestionsFromLine(DataDigital* in_dd, PairXY* out_questions, int numExpectedQuestions, double* tdoublearr, LineSlopeIntercept tslopeintercept, PairXY tcornerup, PairXY tcornerdown, int barheightsamplepixels)
+void SOOSA::getQuestionsNew(AprgBitmapSnippet const& snippet, PairXY* in_questions, int* in_numQuestion, PairXY* qFindSamples, int* qFindSamplesType, int* barWidth, int numQFindSamples, LineSlopeIntercept tslopeintercept, ChebyshevCriterion ccLine, ChebyshevCriterion ccBar)
+{
+    int t1,t2,numQuestion=0,type,prevtype,twidth,numImptCoor,numBarHeightArr,saved;
+    double tdouble,tempBarHeight;    int* barHeightArr;
+    int correctPosition,limitY;
+    ChebyshevCriterion cc;
+    PairXY prevpair,bgnpair,endpair,tmppair;
+    PairXY bgnpair2,endpair2;
+    prevtype = 0;
+    prevpair = qFindSamples[0];
+    numImptCoor=0;
+    for(t1=0;t1<numQFindSamples;t1++){
+        if(barWidth[t1]<=PIXELSDIRTBLACKDOT){
+            type=0;
+            DBGPRINT("  FUNC:getQuestions[%d]->(%d,%d):( BARWIDTH=%d |LineDeviation(k)=%lf|BarDeviation(k)=%lf|AcceptableK=%d) [Dirt] [ptype:%d,type:%d]\n",
+            t1,qFindSamples[t1]._x+gddx,qFindSamples[t1]._y+gddy,barWidth[t1],getKFromChebyshev(ccLine,barWidth[t1]),getKFromChebyshev(ccBar,barWidth[t1]),CHEBYCHEVKVALUEWIDTH,prevtype,type);
+        }else if(getKFromChebyshev(ccLine,barWidth[t1])<CHEBYCHEVKVALUEWIDTH){
+            type=1;
+            DBGPRINT("  FUNC:getQuestions[%d]->(%d,%d):( BARWIDTH=%d |LineDeviation(k)=%lf|BarDeviation(k)=%lf|AcceptableK=%d) [Line] [ptype:%d,type:%d]\n",
+            t1,qFindSamples[t1]._x+gddx,qFindSamples[t1]._y+gddy,barWidth[t1],getKFromChebyshev(ccLine,barWidth[t1]),getKFromChebyshev(ccBar,barWidth[t1]),CHEBYCHEVKVALUEWIDTH,prevtype,type);
+        }else if(getKFromChebyshev(ccBar,barWidth[t1])<CHEBYCHEVKVALUEWIDTH){
+            type=2;
+            DBGPRINT("  FUNC:getQuestions[%d]->(%d,%d):( BARWIDTH=%d |LineDeviation(k)=%lf|BarDeviation(k)=%lf|AcceptableK=%d) [Bar] [ptype:%d,type:%d]\n",
+            t1,qFindSamples[t1]._x+gddx,qFindSamples[t1]._y+gddy,barWidth[t1],getKFromChebyshev(ccLine,barWidth[t1]),getKFromChebyshev(ccBar,barWidth[t1]),CHEBYCHEVKVALUEWIDTH,prevtype,type);
+        }else{
+            type=0;
+            DBGPRINT("  FUNC:getQuestions[%d]->(%d,%d):( BARWIDTH=%d |LineDeviation(k)=%lf|BarDeviation(k)=%lf|AcceptableK=%d) [No Class] [ptype:%d,type:%d]\n",
+            t1,qFindSamples[t1]._x+gddx,qFindSamples[t1]._y+gddy,barWidth[t1],getKFromChebyshev(ccLine,barWidth[t1]),getKFromChebyshev(ccBar,barWidth[t1]),CHEBYCHEVKVALUEWIDTH,prevtype,type);
+        }
+        if(prevtype==0 && type==0 && t1!=0){//both no class case
+            bgnpair = prevpair;
+            endpair = qFindSamples[t1];
+            bgnpair2._x=endpair._x-bgnpair._x; bgnpair2._y=endpair._y-bgnpair._y;
+            limitY=0;
+            t2=1;
+            while(t2<bgnpair2._y){
+                tmppair._x = roundOffSignRobust(((double)t2*bgnpair2._x/bgnpair2._y)+bgnpair._x);
+                tmppair._y = roundOffSignRobust(bgnpair._y+t2);
+                twidth = getBarWidthCorrectPointNew(snippet, tslopeintercept.slope, &tmppair, 0);
+                DBGPRINT("  FUNC:getQuestions-NoClassToNoClass[(%d,%d),(%d,%d)]->temppair(%d,%d)|twidth:%d\n",
+                bgnpair._x+gddx,bgnpair._y+gddy,endpair._x+gddx,endpair._y+gddy,tmppair._x+gddx,tmppair._y+gddy,twidth);
+                if(twidth<=PIXELSDIRTBLACKDOT){//assume line                }else if(getKFromChebyshev(ccLine,twidth)<CHEBYCHEVKVALUEWIDTH){
+                    qFindSamples[t1] = tmppair;
+                    barWidth[t1]=twidth;
+                    limitY=1;
+                    break;
+                }else if(getKFromChebyshev(ccBar,twidth)<CHEBYCHEVKVALUEWIDTH){
+                    qFindSamples[t1] = tmppair;
+                    barWidth[t1]=twidth;
+                    limitY=1;
+                    break;
+                }
+                t2=t2+1;
+            }
+            if(limitY==1){
+                t1=t1-1;
+                continue;
+            }
+        }else if((prevtype==0 && type==2) || (prevtype==1 && type==2)){
+            bgnpair = prevpair;
+            endpair = qFindSamples[t1];
+            limitY=endpair._y-bgnpair._y;
+            correctPosition=1;
+            while(limitY>1){
+                bgnpair2 = bgnpair; endpair2 = endpair;
+                tmppair = getMidpoint(bgnpair2,endpair2);
+                twidth = getBarWidthCorrectPointNew(snippet, tslopeintercept.slope, &tmppair, correctPosition);
+                DBGPRINT("  FUNC:getQuestions-LineToBar[(%d,%d),(%d,%d)]->temppair(%d,%d)|twidth:%d\n",
+                bgnpair._x+gddx,bgnpair._y+gddy,endpair._x+gddx,endpair._y+gddy,tmppair._x+gddx,tmppair._y+gddy,twidth);
+                if(twidth<=PIXELSDIRTBLACKDOT){//assume line                    bgnpair2 = tmppair;
+                }else if(getKFromChebyshev(ccLine,twidth)<CHEBYCHEVKVALUEWIDTH){
+                    bgnpair2 = tmppair;
+                }else if(getKFromChebyshev(ccBar,twidth)<CHEBYCHEVKVALUEWIDTH){
+                    endpair2 = tmppair;
+                }else{//assume line
+                    bgnpair2 = tmppair;
+                }
+                if(endpair2._y-bgnpair2._y<limitY){
+                    bgnpair = bgnpair2; endpair = endpair2; limitY=endpair._y-bgnpair._y;
+                    correctPosition=1;
+                }else{
+                    correctPosition=0;
+                }
+            }
+            qFindSamples[numImptCoor] = endpair;
+            qFindSamplesType[numImptCoor] = 1; //line to bar
+            numImptCoor++;
+        }else if((prevtype==2 && type==0) || (prevtype==2 && type==1)){
+            bgnpair = prevpair;
+            endpair = qFindSamples[t1];
+            limitY=endpair._y-bgnpair._y;
+            correctPosition=1;
+            while(endpair._y-bgnpair._y>1){
+                bgnpair2 = bgnpair; endpair2 = endpair;
+                tmppair = getMidpoint(bgnpair2,endpair2);
+                twidth = getBarWidthCorrectPointNew(snippet, tslopeintercept.slope, &tmppair, correctPosition);
+                DBGPRINT("  FUNC:getQuestions-BarToLine[(%d,%d),(%d,%d)]->temppair(%d,%d)|twidth:%d\n",
+                bgnpair._x+gddx,bgnpair._y+gddy,endpair._x+gddx,endpair._y+gddy,tmppair._x+gddx,tmppair._y+gddy,twidth);
+                if(twidth<=PIXELSDIRTBLACKDOT){//assume line                    endpair2 = tmppair;
+                }else if(getKFromChebyshev(ccLine,twidth)<CHEBYCHEVKVALUEWIDTH){
+                    endpair2 = tmppair;
+                }else if(getKFromChebyshev(ccBar,twidth)<CHEBYCHEVKVALUEWIDTH){
+                    bgnpair2 = tmppair;
+                }else{//assume line
+                    endpair2 = tmppair;
+                }
+                if(endpair2._y-bgnpair2._y<limitY){
+                    bgnpair = bgnpair2; endpair = endpair2; limitY=endpair._y-bgnpair._y;
+                    correctPosition=1;
+                }else{
+                    correctPosition=0;
+                }
+            }
+            qFindSamples[numImptCoor] = bgnpair;
+            qFindSamplesType[numImptCoor] = 2; //bar to line
+            numImptCoor++;
+        }
+        if(t1==numQFindSamples-1 && type==2){ //last bar
+            qFindSamples[numImptCoor] = qFindSamples[t1]; //add point if last bar
+            qFindSamplesType[numImptCoor] = 2;
+            numImptCoor++;
+        }
+        prevpair = qFindSamples[t1];
+        prevtype = type;
+    }
+
+    //Get Bar Height
+    barHeightArr=(int*)malloc(numImptCoor*sizeof(int));
+    if(barHeightArr==NULL)
+    {
+        cout<<"ERROR: Error in allocating barHeightArr array."<<endl;
+        return;
+    }
+
+    numBarHeightArr=0;
+    saved=0;
+    prevpair = qFindSamples[0];
+    for(t1=0;t1<numImptCoor;t1++){
+        DBGPRINT("  FUNC:getQuestions barHeightArr[%d]|type:%d->(%d,%d)\n",t1,qFindSamplesType[t1],qFindSamples[t1]._x+gddx,qFindSamples[t1]._y+gddy);
+        if(qFindSamplesType[t1]==1){ prevpair = qFindSamples[t1]; saved=1;
+        }else if(qFindSamplesType[t1]==2 && saved==1){
+            tempBarHeight = getBarHeight(qFindSamples[t1],prevpair);
+            if (BARHEIGHTLOW<tempBarHeight && BARHEIGHTHIGH>tempBarHeight){
+                DBGPRINT("  FUNC:getQuestions barHeightArr[%d]|type:%d->[numBar:%d](%d-%d=%d)\n",t1,qFindSamplesType[t1],numBarHeightArr,qFindSamples[t1]._y+gddy,prevpair._y+gddy,qFindSamples[t1]._y-prevpair._y);
+                barHeightArr[numBarHeightArr++] = (int)tempBarHeight;
+            }
+        }
+    }
+    getChebyshevInt(&cc, barHeightArr, numBarHeightArr);
+    prevpair = qFindSamples[0];
+    numQuestion=0;
+    for(t1=0;t1<numImptCoor;t1++){
+        if(qFindSamplesType[t1]==1){
+            prevpair = qFindSamples[t1];
+            DBGPRINT("  FUNC:getQuestions[%d](%d,%d) Type:1 \n",t1,qFindSamples[t1]._x+gddx,qFindSamples[t1]._y+gddy);
+            tdouble = BARHEIGHTHIGH-BARHEIGHTLOW;// assign properlimit;
+            saved=0;
+            for(t2=t1+1;t2<numImptCoor;t2++){
+                tempBarHeight = getBarHeight(qFindSamples[t2],prevpair);
+                DBGPRINT("  FUNC:getQuestions[%d]->(height=%lf)<(%lf):(MeanBarHeight=%lf)\n",t2,tempBarHeight,tdouble,cc.mean);
+                if(qFindSamplesType[t2]==2 && BARHEIGHTLOW<tempBarHeight && BARHEIGHTHIGH>tempBarHeight && absValDouble(tempBarHeight-cc.mean)<tdouble){
+                    DBGPRINT("  FUNC:getQuestions[%d] Question endpoint candidate (%d,%d)(%d,%d)->height(%d):(Mean(k)=%lf)\n",
+                    t2,prevpair._x+gddx,prevpair._y+gddy,qFindSamples[t2]._x+gddx,qFindSamples[t2]._y+gddy,tempBarHeight,cc.mean);
+                    in_questions[numQuestion]._x=prevpair._x; in_questions[numQuestion]._y=prevpair._y;
+                    in_questions[numQuestion+1]._x=qFindSamples[t2]._x; in_questions[numQuestion+1]._y=qFindSamples[t2]._y;
+                    tdouble = absValDouble(tempBarHeight-cc.mean);
+                    t1=t2;
+                    saved=1;
+                }
+                if(tempBarHeight>BARHEIGHTHIGH){ break;}
+            }
+            if(saved==1){
+                DBGPRINT("  FUNC:getQuestions: Endpoint ADDED\n");
+                numQuestion=numQuestion+2;
+            }
+        }
+    }
+
+    free(barHeightArr);barHeightArr=NULL;
+
+#ifdef DBGFLAG
+    for(t1=0;t1<numQuestion;t1++){//lineSamples
+        DBGPRINT("FUNCOUT:getQuestions[%d]->[x=%d|y=%d]\n",t1,in_questions[t1]._x+gddx,in_questions[t1]._y+gddy);
+    }
+#endif
+    *in_numQuestion=numQuestion;
+}
+
+int SOOSA::getQuestionsFromLineNew(AprgBitmapSnippet const& snippet, PairXY* out_questions, int numExpectedQuestions, double* tdoublearr, LineSlopeIntercept tslopeintercept, PairXY tcornerup, PairXY tcornerdown, int barheightsamplepixels)
 {
     ChebyshevCriterion ccLine,ccBar,ccBarHeight;
-    PairXY* qFindSamples=NULL;
-    int* barWidth=NULL;
+    PairXY* qFindSamples=NULL;    int* barWidth=NULL;
     int* qFindSamplesType=NULL;
     int numQFindSamples, numQuestionsCoor;
     int t1=0,fail=0;
@@ -1980,6 +2210,103 @@ int SOOSA::getQuestionsFromLine(DataDigital* in_dd, PairXY* out_questions, int n
         numQFindSamples = rasterRound(((double)tcornerdown._y-tcornerup._y)/barheightsamplepixels)+1;
         if(numQFindSamples<numExpectedQuestions)
         {
+            cout<<"ERROR: Number of QFindSamples is not enough."<<endl;
+            fail=1;
+            break;
+        }
+        qFindSamples=(PairXY*)malloc(numQFindSamples*sizeof(PairXY));
+        if(qFindSamples==NULL)
+        {
+            cout<<"ERROR: Error in allocating qFindSamples array."<<endl;
+            fail=1;
+            break;
+        }
+        qFindSamplesType=(int*)malloc(numQFindSamples*sizeof(PairXY));
+        if(qFindSamplesType==NULL)
+        {
+            cout<<"ERROR: Error in allocating qFindSamplesType array."<<endl;
+            fail=1;
+            break;
+        }
+        getQFindSamples(qFindSamples, numQFindSamples, tcornerup, tcornerdown, tslopeintercept, barheightsamplepixels);
+        barWidth=(int*)malloc(numQFindSamples*sizeof(int));
+        if(barWidth==NULL)
+        {
+            cout<<"ERROR: Error in allocating BarWidth array."<<endl;
+            fail=1;
+            break;
+        }
+        for(t1=0;t1<numQFindSamples;t1++){barWidth[t1] = getBarWidthCorrectPointNew(snippet, tslopeintercept.slope, &(qFindSamples[t1]),1);}
+        if(barWidthGetCriterion(barWidth, numQFindSamples, &ccLine, &ccBar)==1)
+        {
+            cout<<"ERROR: Error in allocating IndexBarWidth and FreqBarWidth array."<<endl;
+            fail=1;
+            break;
+        }
+        getQuestionsNew(snippet, out_questions, &numQuestionsCoor, qFindSamples, qFindSamplesType, barWidth, numQFindSamples, tslopeintercept, ccLine, ccBar);
+        free(barWidth);barWidth=NULL;
+        free(qFindSamples);qFindSamples=NULL;
+        free(qFindSamplesType);qFindSamplesType=NULL;
+        if(numQuestionsCoor%2==1)
+        {
+            cout<<"ERROR: Error in finding questions. Odd number of coordinates for the bars."<<endl;
+            fail=1;
+            break;
+        }
+        if(numExpectedQuestions*2!=numQuestionsCoor)
+        {
+            cout<<"ERROR: Number of questions does not match with expected number"<<endl;
+            fail=1;
+            break;
+        }
+        getBarHeightArr(out_questions,tdoublearr, numQuestionsCoor);
+        for(t1=0;t1<numExpectedQuestions;t1++)
+        {
+            DBGPRINT("  FUNCOUT:getQuestionsFromLine(BarHeight)[%d] -> ( barHeight=%lf)\n",t1,tdoublearr[t1]);
+            if(!(BARHEIGHTLOW<tdoublearr[t1] && BARHEIGHTHIGH>tdoublearr[t1])){ fail=1;break;}
+        }
+        if(fail==1)
+        {
+            cout<<"ERROR: Error in finding questions. Invalid BarHeightFound."<<endl;
+            fail=1;
+            break;
+        }
+        for(t1=0;t1<numQuestionsCoor;t1++)
+        {
+            DBGPRINT("  FUNCOUT:getQuestionsFromLine[%d] -> (x=%d,y=%d)\n",(t1/2)+1,out_questions[t1]._x+gddx,out_questions[t1]._y+gddy);
+            out_questions[t1]._x=out_questions[t1]._x+gddx; out_questions[t1]._y=out_questions[t1]._y+gddy;
+        }
+    }
+    while(0);
+    if(qFindSamples!=NULL)
+    {
+        free(qFindSamples);
+        qFindSamples=NULL;
+    }
+    if(qFindSamplesType!=NULL)
+    {
+        free(qFindSamplesType);
+        qFindSamplesType=NULL;
+    }
+    if(barWidth!=NULL)
+    {
+        free(barWidth);
+        barWidth=NULL;
+    }
+    return fail;
+}
+
+int SOOSA::getQuestionsFromLine(DataDigital* in_dd, PairXY* out_questions, int numExpectedQuestions, double* tdoublearr, LineSlopeIntercept tslopeintercept, PairXY tcornerup, PairXY tcornerdown, int barheightsamplepixels)
+{
+    ChebyshevCriterion ccLine,ccBar,ccBarHeight;    PairXY* qFindSamples=NULL;
+    int* barWidth=NULL;
+    int* qFindSamplesType=NULL;
+    int numQFindSamples, numQuestionsCoor;
+    int t1=0,fail=0;
+    double temp;
+    do{
+        numQFindSamples = rasterRound(((double)tcornerdown._y-tcornerup._y)/barheightsamplepixels)+1;
+        if(numQFindSamples<numExpectedQuestions)        {
             cout<<"ERROR: Number of QFindSamples is not enough."<<endl;
             fail=1;
             break;
@@ -2930,38 +3257,35 @@ void SOOSA::processOneFile(string const& filePath)
             break;
         }
         barheightsamplepixels=10;
+        snippet.clear();
+        BitmapSignedXY topLeftCorner(uplfcorner._x-PIXELSSEARCHSIZE,uplfcorner._y-PIXELSSEARCHSIZE);
+        topLeftCorner.saveAsTopLeftCorner(BitmapSignedXY(uplfcorner._x+PIXELSSEARCHSIZE,uplfcorner._y+PIXELSSEARCHSIZE));
+        topLeftCorner.saveAsTopLeftCorner(BitmapSignedXY(dnlfcorner._x-PIXELSSEARCHSIZE,dnlfcorner._y-PIXELSSEARCHSIZE));
+        topLeftCorner.saveAsTopLeftCorner(BitmapSignedXY(dnlfcorner._x+PIXELSSEARCHSIZE,dnlfcorner._y+PIXELSSEARCHSIZE));
+        BitmapSignedXY bottomRightCorner(uplfcorner._x-PIXELSSEARCHSIZE,uplfcorner._y-PIXELSSEARCHSIZE);
+        bottomRightCorner.saveAsBottomRightCorner(BitmapSignedXY(uplfcorner._x+PIXELSSEARCHSIZE,uplfcorner._y+PIXELSSEARCHSIZE));
+        bottomRightCorner.saveAsBottomRightCorner(BitmapSignedXY(dnlfcorner._x-PIXELSSEARCHSIZE,dnlfcorner._y-PIXELSSEARCHSIZE));
+        bottomRightCorner.saveAsBottomRightCorner(BitmapSignedXY(dnlfcorner._x+PIXELSSEARCHSIZE,dnlfcorner._y+PIXELSSEARCHSIZE));
+        topLeftCorner.setNegativeToZero();
+
+        gddx=topLeftCorner.getX();
+        gddy=topLeftCorner.getY();
+        snippet = bitmap.getSnippetReadFromFile(BitmapXY(topLeftCorner.getX(), topLeftCorner.getY()), BitmapXY(bottomRightCorner.getX(), bottomRightCorner.getY()));
         //Q1
-        addPointToDataDigital(&img,&dd,uplfcorner._x-PIXELSSEARCHSIZE,uplfcorner._y-PIXELSSEARCHSIZE);
-        addPointToDataDigital(&img,&dd,uplfcorner._x+PIXELSSEARCHSIZE,uplfcorner._y+PIXELSSEARCHSIZE);
-        addPointToDataDigital(&img,&dd,dnlfcorner._x-PIXELSSEARCHSIZE,dnlfcorner._y-PIXELSSEARCHSIZE);
-        addPointToDataDigital(&img,&dd,dnlfcorner._x+PIXELSSEARCHSIZE,dnlfcorner._y+PIXELSSEARCHSIZE);
-        if(allocData(&dd)==1)
-        {
-            cout<<"ERROR: Error in allocating data for image buffer."<<endl;
-            break;
-        }
-        if(getDataFromBmp(&img,&dd)==1)
-        {
-            cout<<"ERROR: Error in transferring data to image buffer."<<endl;
-            break;
-        }
         temppoint1 = transposePoint(uplfcorner,dd.xlow,dd.ylow);
         temppoint2 = transposePoint(dnlfcorner,dd.xlow,dd.ylow);
         templine=transposeLine(leftline,0,dd.xlow,dd.ylow);
-        if(getQuestionsFromLine(&dd,Q1,m_configuration.getNumberOfQuestionsAtColumn(1),tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
+        if(getQuestionsFromLineNew(snippet, Q1,m_configuration.getNumberOfQuestionsAtColumn(1),tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
         {
             cout<<"ERROR: Error in finding questions in left line."<<endl;
             break;
         }
-        deAllocData(&dd);
         //Q4
         addPointToDataDigital(&img,&dd,uprtcorner._x-PIXELSSEARCHSIZE,uprtcorner._y-PIXELSSEARCHSIZE);
-        addPointToDataDigital(&img,&dd,uprtcorner._x+PIXELSSEARCHSIZE,uprtcorner._y+PIXELSSEARCHSIZE);
-        addPointToDataDigital(&img,&dd,dnrtcorner._x-PIXELSSEARCHSIZE,dnrtcorner._y-PIXELSSEARCHSIZE);
+        addPointToDataDigital(&img,&dd,uprtcorner._x+PIXELSSEARCHSIZE,uprtcorner._y+PIXELSSEARCHSIZE);        addPointToDataDigital(&img,&dd,dnrtcorner._x-PIXELSSEARCHSIZE,dnrtcorner._y-PIXELSSEARCHSIZE);
         addPointToDataDigital(&img,&dd,dnrtcorner._x+PIXELSSEARCHSIZE,dnrtcorner._y+PIXELSSEARCHSIZE);
         if(allocData(&dd)==1)
-        {
-            cout<<"ERROR: Error in allocating data for image buffer."<<endl;
+        {            cout<<"ERROR: Error in allocating data for image buffer."<<endl;
             break;
         }
         if(getDataFromBmp(&img,&dd)==1)

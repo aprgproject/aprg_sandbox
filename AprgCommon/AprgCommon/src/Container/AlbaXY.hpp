@@ -73,29 +73,39 @@ public:
     {
         if(x > xy.x)
         {
-            x=xy.x;
+            x = xy.x;
         }
         if(y > xy.y)
         {
-            y=xy.y;
+            y = xy.y;
         }
     }
-
     void saveAsBottomRightCorner(AlbaXY const xy)
     {
         if(x < xy.x)
         {
-            x=xy.x;
+            x = xy.x;
         }
         if(y < xy.y)
         {
-            y=xy.y;
+            y = xy.y;
+        }
+    }
+
+    void setNegativeToZero()
+    {
+        if(x < 0)
+        {
+            x = 0;
+        }
+        if(y < 0)
+        {
+            y = 0;
         }
     }
 
 private:
     CoordinateType x;
-    CoordinateType y;
-};
+    CoordinateType y;};
 
 }

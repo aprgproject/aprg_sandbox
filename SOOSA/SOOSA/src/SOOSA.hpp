@@ -144,16 +144,17 @@ private:
     int removeOutliersFromLineSmart(PairXY* lineSamples, int numLineSamples, int numLineSamplesDesired, int type);
     void getQFindSamples(PairXY* qFindSamples, int numQFindSamples, PairXY start, PairXY finish, LineSlopeIntercept lsi, int barheightsamplepixels);
     int getBarWidthCorrectPoint(DataDigital* indata, double invslope, PairXY* io_point, int correctPoint);
+    int getBarWidthCorrectPointNew(AprgBitmapSnippet const& snippet, double invslope, PairXY* io_point, int correctPoint);
     int barWidthGetCriterion(int *barWidth, int barWidthArrSize, ChebyshevCriterion* ccLine, ChebyshevCriterion* ccBar);
     void getQuestions(DataDigital* dd, PairXY* in_questions, int* in_numQuestion, PairXY* qFindSamples, int* qFindSamplesType, int* barWidth, int numQFindSamples, LineSlopeIntercept tslopeintercept, ChebyshevCriterion ccLine, ChebyshevCriterion ccBar);
+    void getQuestionsNew(AprgBitmapSnippet const& snippet, PairXY* in_questions, int* in_numQuestion, PairXY* qFindSamples, int* qFindSamplesType, int* barWidth, int numQFindSamples, LineSlopeIntercept tslopeintercept, ChebyshevCriterion ccLine, ChebyshevCriterion ccBar);
+    int getQuestionsFromLineNew(AprgBitmapSnippet const& snippet, PairXY* out_questions, int numExpectedQuestions, double* tdoublearr, LineSlopeIntercept tslopeintercept, PairXY tcornerup, PairXY tcornerdown, int barheightsamplepixels);
     int getQuestionsFromLine(DataDigital* in_dd, PairXY* out_questions, int numExpectedQuestions, double* tdoublearr, LineSlopeIntercept tslopeintercept, PairXY tcornerup, PairXY tcornerdown, int barheightsamplepixels);
     void processOneFileOld(std::string const& fileName);
-    void processOneFile(std::string const & fileName);
-    void processDirectory(std::string const & directoryPath);
+    void processOneFile(std::string const & fileName);    void processDirectory(std::string const & directoryPath);
     bool isStatusNoError(SoosaStatus const status);
 
-public:
-    int process();
+public:    int process();
 };
 
 }
