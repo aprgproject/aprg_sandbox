@@ -43,6 +43,37 @@ public:
         return result;
     }
 
+    static DataType calculateMedian(FrequencySamples const& samples)
+    {
+        unsigned int numberOfSamples = calculateNumberOfSamples(samples);
+        double medianLocation = ((double)numberOfSamples+1)/2;
+        unsigned int rangeOffsetForCurrentValue=0;
+        unsigned int previousMinimumValue=0;
+        DataType previousValue=0;
+        DataType result(0);
+        for(FrequencyPair const& frequencyPair : samples)
+        {
+            unsigned int minimumValueOffset = (frequencyPair.second>0) ? 1 : 0;
+            if(rangeOffsetForCurrentValue+minimumValueOffset <= medianLocation && medianLocation <= rangeOffsetForCurrentValue+frequencyPair.second)
+            {
+                result = frequencyPair.first;
+                break;
+            }
+            else if(previousMinimumValue <= medianLocation && medianLocation <= rangeOffsetForCurrentValue+frequencyPair.second)
+            {
+                result = (DataType)(((double)previousValue + frequencyPair.first)/2) ;
+                break;
+            }
+            if(frequencyPair.second>0)
+            {
+                previousValue = frequencyPair.first;
+                previousMinimumValue = minimumValueOffset + rangeOffsetForCurrentValue;
+                rangeOffsetForCurrentValue += frequencyPair.second;
+            }
+        }
+        return result;
+    }
+
     static MultipleValues calculateMode(FrequencySamples const& samples)
     {
         MultipleValues result;
@@ -59,37 +90,6 @@ public:
                 result.push_back(frequencyPair.first);
             }
         });
-        return result;
-    }
-
-    static DataType calculateMedian(FrequencySamples const& samples)
-    {
-        unsigned int numberOfSamples = calculateNumberOfSamples(samples);
-        double medianLocation = ((double)numberOfSamples+1)/2;
-        unsigned int currentSampleRangeOffset=0;
-        unsigned int previousSampleRangeOffset=0;
-        unsigned int currentMinimumFrequency=0;
-        unsigned int previousMinimumFrequency=0;
-        DataType previousValue=0;
-        DataType result(0);
-        for(FrequencyPair const& frequencyPair : samples)
-        {
-            currentMinimumFrequency = (frequencyPair.second>0) ? 1 : 0;
-            if(currentSampleRangeOffset+currentMinimumFrequency <= medianLocation && currentSampleRangeOffset+frequencyPair.second >= medianLocation)
-            {
-                result = frequencyPair.first;
-                break;
-            }
-            else if(previousSampleRangeOffset+previousMinimumFrequency <= medianLocation && currentSampleRangeOffset+frequencyPair.second >= medianLocation)
-            {
-                result = (DataType)(((double)previousValue + frequencyPair.first)/2) ;
-                break;
-            }
-            previousValue = frequencyPair.first;
-            previousMinimumFrequency = currentMinimumFrequency;
-            previousSampleRangeOffset = currentSampleRangeOffset;
-            currentSampleRangeOffset += frequencyPair.second;
-        }
         return result;
     }
 };

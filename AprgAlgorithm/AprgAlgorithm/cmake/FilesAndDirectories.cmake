@@ -21,22 +21,14 @@ set(APRG_ALGORITHM_SOURCES
     ${APRG_ALGORITHM_DIR}/src/LargeSorter/DataBlocks.hpp
     ${APRG_ALGORITHM_DIR}/src/QuineMcCluskey/QuineMcCluskey.cpp
     ${APRG_ALGORITHM_DIR}/src/QuineMcCluskey/QuineMcCluskey.hpp
-    ${APRG_ALGORITHM_DIR}/src/Statistics/DataSample.hpp
-    ${APRG_ALGORITHM_DIR}/src/Statistics/DataStatistics.hpp
-    ${APRG_ALGORITHM_DIR}/src/Statistics/FrequencyStatistics.hpp
 )
 
-set(APRG_ALGORITHM_TESTS
-    ${APRG_ALGORITHM_DIR}/tst/AlbaGrepStringEvaluator_unit.cpp
+set(APRG_ALGORITHM_TESTS    ${APRG_ALGORITHM_DIR}/tst/AlbaGrepStringEvaluator_unit.cpp
     ${APRG_ALGORITHM_DIR}/tst/AlbaLargeSorter_unit.cpp
     ${APRG_ALGORITHM_DIR}/tst/AlbaLargeSorterProfiling_unit.cpp
     ${APRG_ALGORITHM_DIR}/tst/QuineMcCluskey_unit.cpp
-    ${APRG_ALGORITHM_DIR}/tst/StatisticsDataSample_unit.cpp
-    ${APRG_ALGORITHM_DIR}/tst/StatisticsDataStatistics_unit.cpp
-    ${APRG_ALGORITHM_DIR}/tst/StatisticsFrequencyStatistics_unit.cpp
 )
 
-set(APRG_ALGORITHM_SOURCES_AND_TESTS
-    ${APRG_ALGORITHM_SOURCES}
+set(APRG_ALGORITHM_SOURCES_AND_TESTS    ${APRG_ALGORITHM_SOURCES}
     ${APRG_ALGORITHM_TESTS}
 )

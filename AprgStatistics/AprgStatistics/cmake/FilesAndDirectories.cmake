@@ -10,15 +10,15 @@ set(APRG_STATISTICS_SOURCES
     ${APRG_STATISTICS_DIR}/src/DataSample.hpp
     ${APRG_STATISTICS_DIR}/src/DataStatistics.hpp
     ${APRG_STATISTICS_DIR}/src/FrequencyStatistics.hpp
+    ${APRG_STATISTICS_DIR}/src/TwoDimensionsStatistics.hpp
 )
 
-set(APRG_STATISTICS_TESTS
-    ${APRG_STATISTICS_DIR}/tst/DataSample_unit.cpp
+set(APRG_STATISTICS_TESTS    ${APRG_STATISTICS_DIR}/tst/DataSample_unit.cpp
     ${APRG_STATISTICS_DIR}/tst/DataStatistics_unit.cpp
     ${APRG_STATISTICS_DIR}/tst/FrequencyStatistics_unit.cpp
+    ${APRG_STATISTICS_DIR}/tst/TwoDimensionsStatistics_unit.cpp
 )
 
-set(APRG_STATISTICS_SOURCES_AND_TESTS
-    ${APRG_STATISTICS_SOURCES}
+set(APRG_STATISTICS_SOURCES_AND_TESTS    ${APRG_STATISTICS_SOURCES}
     ${APRG_STATISTICS_TESTS}
 )
