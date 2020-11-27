@@ -17,6 +17,7 @@ set(APRG_STATISTICS_SOURCES
     ${APRG_STATISTICS_DIR}/src/TwoDimensionsStatistics.cpp
     ${APRG_STATISTICS_DIR}/src/TwoDimensionsStatistics.hpp
 )
+
 set(APRG_STATISTICS_TESTS
     ${APRG_STATISTICS_DIR}/tst/DataSample_unit.cpp
     ${APRG_STATISTICS_DIR}/tst/DataStatistics_unit.cpp
@@ -24,6 +25,8 @@ set(APRG_STATISTICS_TESTS
     ${APRG_STATISTICS_DIR}/tst/KMeansClustering_unit.cpp
     ${APRG_STATISTICS_DIR}/tst/TwoDimensionsStatistics_unit.cpp
 )
+
 set(APRG_STATISTICS_SOURCES_AND_TESTS
     ${APRG_STATISTICS_SOURCES}
-    ${APRG_STATISTICS_TESTS})
+    ${APRG_STATISTICS_TESTS}
+)

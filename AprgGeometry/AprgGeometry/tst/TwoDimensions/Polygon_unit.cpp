@@ -4,9 +4,11 @@
 #include <TwoDimensions/Triangle.hpp>
 
 #include <gtest/gtest.h>
+
 #include <iostream>
 
-using namespace alba;using namespace std;
+using namespace alba;
+using namespace std;
 
 TEST(PolygonTest, PolygonCanBeCreated)
 {
@@ -77,10 +79,12 @@ TEST(RectangleTest, GetPointsAreCorrect)
 
 TEST(QuadrilateralTest, DISABLED_PointsInQuadilateralAreCorrectWhenOutOfOrderVerticesAreUsed)
 {
-    //how can this be done?    Quadrilateral quadrilateral(Point(-2,0), Point(2,0), Point(0,2), Point(0,-2));
+    //how can this be done?
+    Quadrilateral quadrilateral(Point(-2,0), Point(2,0), Point(0,2), Point(0,-2));
     Points points(quadrilateral.getPoints(1));
 
-    ASSERT_EQ(8u, points.size());    EXPECT_EQ(Point(-2,0), points[0]);
+    ASSERT_EQ(8u, points.size());
+    EXPECT_EQ(Point(-2,0), points[0]);
     EXPECT_EQ(Point(-1,-1), points[1]);
     EXPECT_EQ(Point(0,-2), points[2]);
     EXPECT_EQ(Point(1,-1), points[3]);

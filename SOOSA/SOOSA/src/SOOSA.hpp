@@ -37,12 +37,15 @@ public:
     };
     using BitmapRange = AlbaRange<int>;
     using VectorOfDoubles = std::vector<double>;
+    using QuestionBars = std::vector<AlbaRange<double>>;
 
     SOOSA(SoosaConfiguration const& configuration);
-    unsigned int getNumberOfAnswers() const;    unsigned int getAnswerToQuestion(unsigned int const questionNumber) const;
+    unsigned int getNumberOfAnswers() const;
+    unsigned int getAnswerToQuestion(unsigned int const questionNumber) const;
 private:
     std::string getCsvFileName(std::string const& path) const;
-    std::string getReportHtmlFileName(std::string const& path) const;    std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
+    std::string getReportHtmlFileName(std::string const& path) const;
+    std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
     void setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer);
     void saveDataToCsvFile(std::string const& processedFilePath) const;
     void saveHeadersToCsvFile() const;
@@ -60,13 +63,19 @@ private:
     VectorOfDoubles getAcceptableSquareErrorsUsingKMeans(TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const;
     VectorOfDoubles getAcceptableSquareErrorsUsingRetainRatio(TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const;
     void updateSamplesForLineModelingFromSquareErrorToSampleMultimap(TwoDimensionsStatistics::Samples & samplesLineModeling, TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const;
-    void processOneColumnNew(AprgBitmapSnippet const& snippet, Line const& leftLine, Line const& rightLine, unsigned int const columnNumber);
+    void processOneColumnNew(AprgBitmapSnippet const& snippet, Line const& leftLine, Line const& rightLine, unsigned int const columnNumber) const;
+    void getQuestionBarsFromLine(AprgBitmapSnippet const& snippet, Line const& line) const;
+    Points getNearestBlackPointsFromLine(AprgBitmapSnippet const& snippet, Line const& line) const;
+    Point getNearestBlackPointFromLine(AprgBitmapSnippet const& snippet, Line const& line, Point const& point) const;
+    double getBarWidthFromBlackPoint(AprgBitmapSnippet & snippet, Line const& line, Point const& blackPoint) const;
     void writeLineInBitmap(AprgBitmap & bitmap, Line const& line) const;
     BitmapXY convertPoint(Point const& point) const;
-    Point convertPoint(BitmapXY const& bitmapXY) const;    SoosaConfiguration m_configuration;
+    Point convertPoint(BitmapXY const& bitmapXY) const;
+    SoosaConfiguration m_configuration;
     SoosaStatus m_status;
     unsigned int m_numberOfRespondents;
-    std::map<unsigned int, unsigned int> m_questionToAnswersMap;    FrequencyDatabase m_frequencyDatabase;
+    std::map<unsigned int, unsigned int> m_questionToAnswersMap;
+    FrequencyDatabase m_frequencyDatabase;
 
 
 

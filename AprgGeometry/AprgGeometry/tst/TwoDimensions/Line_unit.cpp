@@ -8,6 +8,19 @@ using namespace alba;
 using namespace std;
 
 
+TEST(LineTest, EmptyLine)
+{
+    Line line;
+
+    EXPECT_EQ(LineType::Invalid, line.getType());
+    EXPECT_EQ(0, line.getACoefficient());
+    EXPECT_EQ(0, line.getBCoefficient());
+    EXPECT_EQ(0, line.getCCoefficient());
+
+    Points points(line.getPoints(Point(-10,-10), Point(10,10), 1));
+    ASSERT_TRUE(points.empty());
+}
+
 TEST(LineTest, InvalidLine)
 {
     Line line(Point(3,3), Point(3,3));
@@ -16,6 +29,9 @@ TEST(LineTest, InvalidLine)
     EXPECT_EQ(0, line.getACoefficient());
     EXPECT_EQ(0, line.getBCoefficient());
     EXPECT_EQ(0, line.getCCoefficient());
+
+    Points points(line.getPoints(Point(-10,-10), Point(10,10), 1));
+    ASSERT_TRUE(points.empty());
 }
 
 TEST(LineTest, HorizontalLine)
@@ -275,18 +291,20 @@ TEST(LineTest, PointsAreCorrectForLineWithSteepSlope)
     EXPECT_EQ(Point(0.4,2), points[4]);
 }
 
-TEST(LineTest, DISABLED_LineWithExtremeSlopeWithManyPoints)
+TEST(LineTest, LineWithExtremeSlopeWithManyPoints)
 {
-    Line line(0.001253,32.4827,-4316.74);
-    EXPECT_EQ(LineType::Vertical, line.getType());
-    EXPECT_EQ(0, line.getYIntercept());
-    EXPECT_EQ(85, line.getXIntercept());    EXPECT_EQ(INFINITY, line.getSlope());
-    EXPECT_EQ(1, line.getACoefficient());
-    EXPECT_EQ(0, line.getBCoefficient());
-    EXPECT_EQ(-85, line.getCCoefficient());
+    Line line(1,0.229085,-868.451);
 
-    Points points(line.getPoints(Point(0,3506), Point(0,3506), 1));
-    ASSERT_EQ(0, points.size());
+    EXPECT_EQ(LineType::WithNegativeSlope, line.getType());
+    EXPECT_EQ(3790.9553222602962705, line.getYIntercept());
+    EXPECT_EQ(868.451, line.getXIntercept());
+    EXPECT_EQ(-4.3651919593164105748, line.getSlope());
+    EXPECT_EQ(1, line.getACoefficient());
+    EXPECT_EQ(0.229085, line.getBCoefficient());
+    EXPECT_EQ(-868.451, line.getCCoefficient());
+
+    Points points(line.getPoints(Point(0,0), Point(3194,3966), 1));
+    ASSERT_EQ(4659, points.size());
 }
 
 TEST(LineTest, LineCanBeComparedForEquality)

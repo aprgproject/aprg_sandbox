@@ -20,6 +20,11 @@ public:
         , y(yValue)
     {}
 
+    bool isEmpty() const
+    {
+        return x==0 && y==0;
+    }
+
     CoordinateType getX() const
     {
         return x;

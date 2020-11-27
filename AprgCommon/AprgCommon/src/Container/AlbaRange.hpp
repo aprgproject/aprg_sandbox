@@ -122,10 +122,12 @@ public:
 
 private:
 
-    TerminationCondition getTerminationCondition(AlbaRangeType const rangeType) const    {
+    TerminationCondition getTerminationCondition(AlbaRangeType const rangeType) const
+    {
         TerminationCondition terminationCondition;
         switch(rangeType)
-        {        case AlbaRangeType::Forward:
+        {
+        case AlbaRangeType::Forward:
             terminationCondition = std::less_equal<DataType>();
             break;
         case AlbaRangeType::Backward:

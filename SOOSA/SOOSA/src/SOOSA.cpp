@@ -5,10 +5,12 @@
 #include <KMeansClustering.hpp>
 #include <Math/AlbaMathHelper.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <String/AlbaStringHelper.hpp>#include <User/AlbaUserInterface.hpp>
+#include <String/AlbaStringHelper.hpp>
+#include <User/AlbaUserInterface.hpp>
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <Debug/AlbaDebug.hpp>
+
 #include <sstream>
 #include <iostream>
 
@@ -26,12 +28,15 @@
 #define ALLOWABLE_LINE_DEVIATION 2
 #define MINIMUM_NUMBER_OF_LINE_SAMPLES 10
 #define RETAIN_RATIO_FOR_DEVIATION 0.90
+#define MAXIMUM_BAR_WIDTH 500
 
 #define FILE_PATH_BASIS_HTML APRG_DIR R"(SOOSA2014\basis.html)"
-#define MAXQUESTIONSCOOR 60 //2*30 -> MUST be twice of MAXQUESTIONS#define SAMPLESLINETOALLOC 1000
+#define MAXQUESTIONSCOOR 60 //2*30 -> MUST be twice of MAXQUESTIONS
+#define SAMPLESLINETOALLOC 1000
 #define ROBUSTSAMPLESLINE 1000
 #define ROBUSTMINSAMPLESLINE 100
-#define ROBUSTSAMPLESLINETOPBOTTOM 500#define ROBUSTMINSAMPLESLINETOPBOTTOM 100
+#define ROBUSTSAMPLESLINETOPBOTTOM 500
+#define ROBUSTMINSAMPLESLINETOPBOTTOM 100
 #define PIXELSPERPENLINE 100
 #define PIXELSSEARCHSIZE 200//2*PIXELSPERPENLINE -> MUST be twice of PIXELSPERPENLINE
 #define PIXELSCIRCLERADIUSHIGH 16
@@ -250,24 +255,29 @@ Line SOOSA::findLeftLine(AprgBitmapSnippet const& snippet) const
     BitmapRange rangeForX(snippet.getTopLeftCorner().getX(), snippet.getBottomRightCorner().getX(), 1);
     return findVerticalLine(snippet, rangeForX);
 }
+
 Line SOOSA::findRightLine(AprgBitmapSnippet const& snippet) const
 {
     BitmapRange rangeForX(snippet.getBottomRightCorner().getX(), snippet.getTopLeftCorner().getX(), -1);
     return findVerticalLine(snippet, rangeForX);
 }
+
 Line SOOSA::findTopLine(AprgBitmapSnippet const& snippet) const
 {
     BitmapRange rangeForY(snippet.getTopLeftCorner().getY(), snippet.getBottomRightCorner().getY(), 1);
     return findHorizontalLine(snippet, rangeForY);
 }
+
 Line SOOSA::findBottomLine(AprgBitmapSnippet const& snippet) const
 {
     BitmapRange rangeForY(snippet.getBottomRightCorner().getY(), snippet.getTopLeftCorner().getY(), -1);
     return findHorizontalLine(snippet, rangeForY);
 }
+
 Line SOOSA::findVerticalLine(AprgBitmapSnippet const& snippet, BitmapRange const& rangeForX) const
 {
-    BitmapRange::TerminationCondition conditionForX(rangeForX.getTerminationCondition());    Samples samples;
+    BitmapRange::TerminationCondition conditionForX(rangeForX.getTerminationCondition());
+    Samples samples;
     for(unsigned int y=snippet.getTopLeftCorner().getY(); y<=snippet.getBottomRightCorner().getY(); y++)
     {
         AlbaRange<double> consecutiveBlackPixels;
@@ -430,17 +440,117 @@ void SOOSA::updateSamplesForLineModelingFromSquareErrorToSampleMultimap(Samples 
     });
 }
 
-void SOOSA::processOneColumnNew(AprgBitmapSnippet const& snippet, Line const& leftLine, Line const& rightLine, unsigned int const columnNumber)
+void SOOSA::processOneColumnNew(AprgBitmapSnippet const& snippet, Line const& leftLine, Line const& rightLine, unsigned int const columnNumber) const
 {
     Samples questionBarLocationsForLeftLine;
 }
 
+void SOOSA::getQuestionBarsFromLine(AprgBitmapSnippet const& snippet, Line const& line) const
+{
+    AprgBitmap bitmap(snippet.getConfiguration().getPath());
+    AprgBitmapSnippet snippetToWrite(snippet);
+    Points nearestBlackPointsFromLine(getNearestBlackPointsFromLine(snippet, line));
+    for(Point const& point : nearestBlackPointsFromLine)
+    {
+        double barWidth(getBarWidthFromBlackPoint(snippetToWrite, line, point));
+        //okay so what next? do to deal with extreme values, retain ratio on line and bar? mean!
+        //TwoDimensionsStatistics::ValueToSampleMultimap barWidthToSampleMultimap;
+        //barWidthToSampleMultimap.emplace(barWidth, Sample{point.g})
+        ALBA_PRINT1(barWidth);
+    }
+    bitmap.setSnippetWriteToFile(snippetToWrite);
+}
+
+Points SOOSA::getNearestBlackPointsFromLine(AprgBitmapSnippet const& snippet, Line const& line) const
+{
+    Points linePoints(line.getPoints(convertPoint(snippet.getTopLeftCorner()), convertPoint(snippet.getBottomRightCorner()), 1));
+    Points nearestBlackPointsFromLine;
+    for(Point const& point : linePoints)
+    {
+        if(snippet.isBlackAt(convertPoint(point)))
+        {
+            nearestBlackPointsFromLine.emplace_back(point);
+        }
+        else
+        {
+            Point blackPoint(getNearestBlackPointFromLine(snippet, line, point));
+            if(!blackPoint.isEmpty())
+            {
+                nearestBlackPointsFromLine.emplace_back(blackPoint);
+            }
+        }
+    }
+    return nearestBlackPointsFromLine;
+}
+
+Point SOOSA::getNearestBlackPointFromLine(AprgBitmapSnippet const& snippet, Line const& line, Point const& point) const
+{
+    Point blackPoint;
+    Line perpendicularLine(twoDimensionsHelper::getLineWithPerpendicularSlope(line, point));
+    for(unsigned int deviation=1; deviation<=ALLOWABLE_LINE_DEVIATION; deviation++)
+    {
+        double lowerDeviatedInX = point.getX()-deviation;
+        Point lowerDeviatedPoint(lowerDeviatedInX, perpendicularLine.calculateYFromX(lowerDeviatedInX));
+        if(snippet.isBlackAt(convertPoint(lowerDeviatedPoint)))
+        {
+            blackPoint = lowerDeviatedPoint;
+            break;
+        }
+        double higherDeviatedInX = point.getX()+deviation;
+        Point higherDeviatedPoint(higherDeviatedInX, perpendicularLine.calculateYFromX(higherDeviatedInX));
+        if(snippet.isBlackAt(convertPoint(higherDeviatedPoint)))
+        {
+            blackPoint = higherDeviatedPoint;
+            break;
+        }
+    }
+    return blackPoint;
+}
+
+double SOOSA::getBarWidthFromBlackPoint(AprgBitmapSnippet& snippet, Line const& line, Point const& blackPoint) const
+{
+    Line perpendicularLine(twoDimensionsHelper::getLineWithPerpendicularSlope(line, blackPoint));
+    Point leftMostBlack(blackPoint);
+    Point rightMostBlack(blackPoint);
+    for(unsigned int offset=1; offset<=MAXIMUM_BAR_WIDTH; offset++)
+    {
+        double possibleBlackPointInX = blackPoint.getX()-offset;
+        Point possibleBlackPoint(possibleBlackPointInX, perpendicularLine.calculateYFromX(possibleBlackPointInX));
+        if(snippet.isBlackAt(convertPoint(possibleBlackPoint)))
+        {
+            snippet.setPixelAt(convertPoint(possibleBlackPoint), 0x000000EE);
+            leftMostBlack=possibleBlackPoint;
+        }
+        else
+        {
+            break;
+        }
+    }
+    for(unsigned int offset=1; offset<=MAXIMUM_BAR_WIDTH; offset++)
+    {
+        double possibleBlackPointInX = blackPoint.getX()+offset;
+        Point possibleBlackPoint(possibleBlackPointInX, perpendicularLine.calculateYFromX(possibleBlackPointInX));
+        if(snippet.isBlackAt(convertPoint(possibleBlackPoint)))
+        {
+            snippet.setPixelAt(convertPoint(possibleBlackPoint), 0x000000EE);
+            rightMostBlack=possibleBlackPoint;
+        }
+        else
+        {
+            break;
+        }
+    }
+    return twoDimensionsHelper::getDistance(leftMostBlack, rightMostBlack);
+}
+
 void SOOSA::writeLineInBitmap(AprgBitmap & bitmap, Line const& line) const
 {
-    BitmapXY topLeft(0,0);    BitmapXY bottomRight(bitmap.getConfiguration().getBitmapWidth()-1, bitmap.getConfiguration().getBitmapHeight()-1);
+    BitmapXY topLeft(0,0);
+    BitmapXY bottomRight(bitmap.getConfiguration().getBitmapWidth()-1, bitmap.getConfiguration().getBitmapHeight()-1);
 
     AprgBitmapSnippet snippet(bitmap.getSnippetReadFromFileWithOutOfRangeCoordinates(topLeft.getX(), topLeft.getY(), bottomRight.getX(), bottomRight.getY()));
-    Points points(line.getPoints(Point(topLeft.getX(), topLeft.getY()), Point(bottomRight.getX(), bottomRight.getY()), 1));    for (Point point: points)
+    Points points(line.getPoints(Point(topLeft.getX(), topLeft.getY()), Point(bottomRight.getX(), bottomRight.getY()), 1));
+    for (Point point: points)
     {
         snippet.setPixelAt(BitmapXY(point.getX(), point.getY()), 0x00EE0000);
     }
@@ -1755,7 +1865,11 @@ void SOOSA::processOneFile(string const& filePath)
     AprgBitmap bitmap(filePath);
     unsigned int bitmapWidth(bitmap.getConfiguration().getBitmapWidth());
     unsigned int bitmapHeight(bitmap.getConfiguration().getBitmapHeight());
-    ChebyshevCriterion ccSlope;
+    AprgBitmapSnippet globalSnippet(bitmap.getSnippetReadFromFile(BitmapXY(0, 0), BitmapXY(bitmapWidth-1,bitmapHeight-1)));
+    gddx=0;
+    gddy=0;
+
+
     if(bitmapWidth<=PIXELSPERPENLINE || bitmapHeight<=PIXELSPERPENLINE){
         cout<<"ERROR: BMP File is too small ("<<PIXELSPERPENLINE<<" pixels by "<<PIXELSPERPENLINE<<" pixels only)."<<endl;
         m_status = SoosaStatus::BitmapError;
@@ -1764,15 +1878,12 @@ void SOOSA::processOneFile(string const& filePath)
 
     //forfaster
     int barheightsamplepixels = 10;
-    int snippetSizeInX = bitmapWidth/4;
-    int snippetSizeInY = bitmapHeight/4;
 
+    Line leftLine, rightLine, topLine, bottomLine, centerLeftLine, centerRightLine;
     LineSlopeIntercept leftline, rightline, topline, bottomline, centerleftline, centerrightline, templine;
     PairXY uplfcorner, uprtcorner, dnlfcorner, dnrtcorner, upcenter, dncenter;
     PairXY temppoint1,temppoint2;
-    PairXY lineSamples[SAMPLESLINETOALLOC];
     PairXY Q1[MAXQUESTIONSCOOR],Q2[MAXQUESTIONSCOOR],Q3[MAXQUESTIONSCOOR],Q4[MAXQUESTIONSCOOR];
-    int numLineSamples,maxLineSamples;
     double tdoublearr[SAMPLESLINETOALLOC];
     bool isFinishedSuccessfully(false);
 
@@ -1780,33 +1891,21 @@ void SOOSA::processOneFile(string const& filePath)
     {
         //Left Line
         cout<<"INFO: Finding left line."<<endl;
-        gddx=0;
-        gddy=0;
-        AprgBitmapSnippet snippet(bitmap.getSnippetReadFromFile(BitmapXY(gddx, gddy), BitmapXY(snippetSizeInX,bitmapHeight-1)));
-        Line leftLine = findLeftLine(snippet);
-        writeLineInBitmap(bitmap, leftLine);
+        leftLine = findLeftLine(globalSnippet);
         leftline.intercept=leftLine.getXIntercept();
         leftline.slope=leftLine.getInverseSlope();
 
+        getQuestionBarsFromLine(globalSnippet, leftLine);
+
         //Right Line
         cout<<"INFO: Finding right line."<<endl;
-        snippet.clear();
-        gddx=bitmapWidth-1-snippetSizeInX;
-        gddy=0;
-        snippet = bitmap.getSnippetReadFromFile(BitmapXY(gddx, gddy), BitmapXY(bitmapWidth-1, bitmapHeight-1));
-        Line rightLine = findRightLine(snippet);
-        writeLineInBitmap(bitmap, rightLine);
+        rightLine = findRightLine(globalSnippet);
         rightline.intercept=rightLine.getXIntercept();
         rightline.slope=rightLine.getInverseSlope();
 
         //Top Line
         cout<<"INFO: Finding top line."<<endl;
-        snippet.clear();
-        gddx=0;
-        gddy=0;
-        snippet = bitmap.getSnippetReadFromFile(BitmapXY(gddx, gddy), BitmapXY(bitmapWidth-1,snippetSizeInY));
-        Line topLine = findTopLine(snippet);
-        writeLineInBitmap(bitmap, topLine);
+        topLine = findTopLine(globalSnippet);
         topline.intercept=topLine.getYIntercept();
         topline.slope=topLine.getSlope();
         ALBA_PRINT2(topline.intercept, topline.slope);
@@ -1814,12 +1913,7 @@ void SOOSA::processOneFile(string const& filePath)
 
         //Bottom Line
         cout<<"INFO: Finding bottom line."<<endl;
-        snippet.clear();
-        gddx=0;
-        gddy=bitmapHeight-1-snippetSizeInY;
-        snippet = bitmap.getSnippetReadFromFile(BitmapXY(gddx, gddy), BitmapXY(bitmapWidth-1,bitmapHeight-1));
-        Line bottomLine = findBottomLine(snippet);
-        writeLineInBitmap(bitmap, bottomLine);
+        bottomLine = findBottomLine(globalSnippet);
         bottomline.intercept=bottomLine.getYIntercept();
         bottomline.slope=bottomLine.getSlope();
 
@@ -1866,7 +1960,6 @@ void SOOSA::processOneFile(string const& filePath)
             break;
         }
         barheightsamplepixels=10;
-        snippet.clear();
         BitmapSignedXY topLeftCorner(uplfcorner._x-PIXELSSEARCHSIZE,uplfcorner._y-PIXELSSEARCHSIZE);
         topLeftCorner.saveMinimumXAndY(BitmapSignedXY(uplfcorner._x+PIXELSSEARCHSIZE,uplfcorner._y+PIXELSSEARCHSIZE));
         topLeftCorner.saveMinimumXAndY(BitmapSignedXY(dnlfcorner._x-PIXELSSEARCHSIZE,dnlfcorner._y-PIXELSSEARCHSIZE));
@@ -1883,28 +1976,21 @@ void SOOSA::processOneFile(string const& filePath)
         bottomRightCorner.saveMaximumXAndY(BitmapSignedXY(uprtcorner._x+PIXELSSEARCHSIZE,uprtcorner._y+PIXELSSEARCHSIZE));
         bottomRightCorner.saveMaximumXAndY(BitmapSignedXY(dnrtcorner._x-PIXELSSEARCHSIZE,dnrtcorner._y-PIXELSSEARCHSIZE));
         bottomRightCorner.saveMaximumXAndY(BitmapSignedXY(dnrtcorner._x+PIXELSSEARCHSIZE,dnrtcorner._y+PIXELSSEARCHSIZE));
-        gddx=topLeftCorner.getX();
-        gddy=topLeftCorner.getY();
-        snippet = bitmap.getSnippetReadFromFileWithOutOfRangeCoordinates(gddx, gddy, bottomLeftCorner.getX(), bottomLeftCorner.getY());
         //Q1
         temppoint1 = transposePoint(uplfcorner,gddx,gddy);
         temppoint2 = transposePoint(dnlfcorner,gddx,gddy);
         templine=transposeLine(leftline,0,gddx,gddy);
-        if(getQuestionsFromLine(snippet, Q1,m_configuration.getNumberOfQuestionsAtColumn(1),tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
+        if(getQuestionsFromLine(globalSnippet, Q1,m_configuration.getNumberOfQuestionsAtColumn(1),tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
         {
             cout<<"ERROR: Error in finding questions in left line."<<endl;
             break;
         }
         //Q4
 
-        snippet.clear();
-        gddx=topRightCorner.getX();
-        gddy=topRightCorner.getY();
-        snippet = bitmap.getSnippetReadFromFileWithOutOfRangeCoordinates(gddx, gddy, bottomRightCorner.getX(), bottomRightCorner.getY());
         temppoint1 = transposePoint(uprtcorner,gddx,gddy);
         temppoint2 = transposePoint(dnrtcorner,gddx,gddy);
         templine=transposeLine(rightline,0,gddx,gddy);
-        if(getQuestionsFromLine(snippet, Q4,m_configuration.getNumberOfQuestionsAtColumn(2),tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
+        if(getQuestionsFromLine(globalSnippet, Q4,m_configuration.getNumberOfQuestionsAtColumn(2),tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
         {
             cout<<"ERROR: Error in finding questions in right line."<<endl;
             break;
@@ -1926,24 +2012,17 @@ void SOOSA::processOneFile(string const& filePath)
             bottomRightCornerMidPoint.saveMaximumXAndY(BitmapSignedXY(temppoint1._x,temppoint1._y+PIXELSSEARCHSIZE));
             bottomRightCornerMidPoint.saveMaximumXAndY(BitmapSignedXY(temppoint2._x,temppoint2._y+PIXELSSEARCHSIZE));
 
-            snippet.clear();
-            gddx=topLeftCornerMidPoint.getX();
-            gddy=topLeftCornerMidPoint.getY();
-            snippet = bitmap.getSnippetReadFromFileWithOutOfRangeCoordinates(gddx, gddy, bottomRightCornerMidPoint.getX(), bottomRightCornerMidPoint.getY());
-
             Line centerLine(edgePoints[0][1], edgePoints[1][1]);
 
             //Center Left Line
             cout<<"INFO: Finding center left line."<<endl;
-            Line centerLeftLine = findRightLineUsingStartingLine(snippet, centerLine);
-            writeLineInBitmap(bitmap, centerLeftLine);
+            centerLeftLine = findRightLineUsingStartingLine(globalSnippet, centerLine);
             centerleftline.intercept=centerLeftLine.getXIntercept();
             centerleftline.slope=centerLeftLine.getInverseSlope();
 
             //Center Right Line
             cout<<"INFO: Finding center right line."<<endl;
-            Line centerRightLine = findLeftLineUsingStartingLine(snippet, centerLine);
-            writeLineInBitmap(bitmap, centerRightLine);
+            centerRightLine = findLeftLineUsingStartingLine(globalSnippet, centerLine);
             centerrightline.intercept=centerRightLine.getXIntercept();
             centerrightline.slope=centerRightLine.getInverseSlope();
 
@@ -1957,7 +2036,7 @@ void SOOSA::processOneFile(string const& filePath)
             temppoint2 = transposePoint(temppoint2,gddx,gddy);
             ALBA_PRINT2(temppoint2._x,temppoint2._y);
             templine = transposeLine(centerleftline,0,gddx,gddy);
-            if(getQuestionsFromLine(snippet,Q2,m_configuration.getNumberOfQuestionsAtColumn(1),tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
+            if(getQuestionsFromLine(globalSnippet,Q2,m_configuration.getNumberOfQuestionsAtColumn(1),tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
             {
                 cout<<"ERROR: Error in finding questions in center left line."<<endl;
                 break;
@@ -1967,7 +2046,7 @@ void SOOSA::processOneFile(string const& filePath)
             temppoint1 = findIntersection(centerrightline,topline);temppoint1 = transposePoint(temppoint1,gddx,gddy);
             temppoint2 = findIntersection(centerrightline,bottomline);temppoint2 = transposePoint(temppoint2,gddx,gddy);
             templine = transposeLine(centerrightline,0,gddx,gddy);
-            if(getQuestionsFromLine(snippet ,Q3,m_configuration.getNumberOfQuestionsAtColumn(2),tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
+            if(getQuestionsFromLine(globalSnippet ,Q3,m_configuration.getNumberOfQuestionsAtColumn(2),tdoublearr,templine,temppoint1,temppoint2,barheightsamplepixels)==1)
             {
                 cout<<"ERROR: Error in finding questions in center right line."<<endl;
                 break;
@@ -1984,12 +2063,7 @@ void SOOSA::processOneFile(string const& filePath)
             bottomRightCornerColumn1.saveMaximumXAndY(BitmapSignedXY(dnlfcorner._x,dnlfcorner._y));
             bottomRightCornerColumn1.saveMaximumXAndY(BitmapSignedXY(dncenter._x,dncenter._y));
 
-            snippet.clear();
-            gddx=topLeftCornerColumn1.getX();
-            gddy=topLeftCornerColumn1.getY();
-            snippet = bitmap.getSnippetReadFromFileWithOutOfRangeCoordinates(gddx, gddy, bottomRightCornerColumn1.getX(), bottomRightCornerColumn1.getY());
-
-            if(processOneColumn(snippet, Q1, Q2, m_configuration.getNumberOfQuestionsAtColumn(1), 1))
+            if(processOneColumn(globalSnippet, Q1, Q2, m_configuration.getNumberOfQuestionsAtColumn(1), 1))
             {
                 cout<<"ERROR: Error in finding number circles."<<endl;
                 break;
@@ -2004,12 +2078,7 @@ void SOOSA::processOneFile(string const& filePath)
             bottomRightCornerColumn2.saveMaximumXAndY(BitmapSignedXY(uprtcorner._x,uprtcorner._y));
             bottomRightCornerColumn2.saveMaximumXAndY(BitmapSignedXY(dnrtcorner._x,dnrtcorner._y));
 
-            snippet.clear();
-            gddx=topLeftCornerColumn2.getX();
-            gddy=topLeftCornerColumn2.getY();
-            snippet = bitmap.getSnippetReadFromFileWithOutOfRangeCoordinates(gddx, gddy, bottomRightCornerColumn2.getX(), bottomRightCornerColumn2.getY());
-
-            if(processOneColumn(snippet, Q3, Q4, m_configuration.getNumberOfQuestionsAtColumn(2), 2))
+            if(processOneColumn(globalSnippet, Q3, Q4, m_configuration.getNumberOfQuestionsAtColumn(2), 2))
             {
                 cout<<"ERROR: Error in finding number circles."<<endl;
                 break;
@@ -2025,12 +2094,7 @@ void SOOSA::processOneFile(string const& filePath)
             bottomRightCornerColumn1.saveMaximumXAndY(BitmapSignedXY(uprtcorner._x,uprtcorner._y));
             bottomRightCornerColumn1.saveMaximumXAndY(BitmapSignedXY(dnrtcorner._x,dnrtcorner._y));
 
-            snippet.clear();
-            gddx=topLeftCornerColumn1.getX();
-            gddy=topLeftCornerColumn1.getY();
-            snippet = bitmap.getSnippetReadFromFileWithOutOfRangeCoordinates(gddx, gddy, bottomRightCornerColumn1.getX(), bottomRightCornerColumn1.getY());
-
-            if(processOneColumn(snippet, Q1, Q4, m_configuration.getNumberOfQuestionsAtColumn(1), 1))
+            if(processOneColumn(globalSnippet, Q1, Q4, m_configuration.getNumberOfQuestionsAtColumn(1), 1))
             {
                 cout<<"ERROR: Error in finding number circles."<<endl;
                 break;
@@ -2038,6 +2102,12 @@ void SOOSA::processOneFile(string const& filePath)
         }
         isFinishedSuccessfully=true;
     }
+    //writeLineInBitmap(bitmap, leftLine);
+    //writeLineInBitmap(bitmap, rightLine);
+    //writeLineInBitmap(bitmap, topLine);
+    //writeLineInBitmap(bitmap, bottomLine);
+    //writeLineInBitmap(bitmap, centerLeftLine);
+    //writeLineInBitmap(bitmap, centerRightLine);
     cout<<"DONE!"<<endl;
     if(!isFinishedSuccessfully || m_configuration.getNumberOfQuestions() != m_questionToAnswersMap.size())
     {

@@ -34,7 +34,7 @@ TEST(TwoDimensionsHelperTest, GetLineWithSameSlopeAndPoint)
 TEST(TwoDimensionsHelperTest, GetLineWithInverseSlopeAndPoint)
 {
     Line lineInput(Point(0,0), Point(1,1));
-    Line expectedLine(getLineWithInverseSlope(lineInput, Point(2,2)));
+    Line expectedLine(getLineWithPerpendicularSlope(lineInput, Point(2,2)));
 
     EXPECT_EQ(4, expectedLine.getYIntercept());
     EXPECT_EQ(4, expectedLine.getXIntercept());
@@ -98,3 +98,54 @@ TEST(TwoDimensionsHelperTest, GetPointsFromTwoPointsUsingALineWithoutLastPointCa
     EXPECT_EQ(Point(-3,-3), pointsWithoutLastPoint[3]);
     EXPECT_EQ(Point(-4,-4), pointsWithoutLastPoint[4]);
 }
+
+TEST(TwoDimensionsHelperTest, PopNearestPointWorks)
+{
+    Points points;
+    points.emplace_back(4,4);
+    points.emplace_back(1,1);
+    points.emplace_back(3,3);
+    points.emplace_back(2,2);
+
+    EXPECT_EQ(Point(1,1), popNearestPoint(points, Point(0,0)));
+    EXPECT_EQ(Point(2,2), popNearestPoint(points, Point(0,0)));
+    EXPECT_EQ(Point(3,3), popNearestPoint(points, Point(0,0)));
+    EXPECT_EQ(Point(4,4), popNearestPoint(points, Point(0,0)));
+    EXPECT_EQ(Point(0,0), popNearestPoint(points, Point(0,0)));
+    EXPECT_EQ(Point(0,0), popNearestPoint(points, Point(0,0)));
+}
+
+TEST(TwoDimensionsHelperTest, AddPointIfInsideTwoPointsWorks)
+{
+    Points points;
+    Point minimumXAndY(-1,-1);
+    Point maximumXAndY(1,1);
+    addPointIfInsideTwoPoints(points, Point(-3,-3), minimumXAndY, maximumXAndY);
+    addPointIfInsideTwoPoints(points, Point(-2,-2), minimumXAndY, maximumXAndY);
+    addPointIfInsideTwoPoints(points, Point(-1,-1), minimumXAndY, maximumXAndY);
+    addPointIfInsideTwoPoints(points, Point(0,0), minimumXAndY, maximumXAndY);
+    addPointIfInsideTwoPoints(points, Point(1,1), minimumXAndY, maximumXAndY);
+    addPointIfInsideTwoPoints(points, Point(2,2), minimumXAndY, maximumXAndY);
+    addPointIfInsideTwoPoints(points, Point(3,3), minimumXAndY, maximumXAndY);
+
+    ASSERT_EQ(3u, points.size());
+    EXPECT_EQ(Point(-1,-1), points[0]);
+    EXPECT_EQ(Point(0,0), points[1]);
+    EXPECT_EQ(Point(1,1), points[2]);
+}
+
+TEST(TwoDimensionsHelperTest, IsInsideTwoPointsWorks)
+{
+    Points points;
+    Point minimumXAndY(-1,-1);
+    Point maximumXAndY(1,1);
+    EXPECT_FALSE(isInsideTwoPoints(Point(-3,-3), minimumXAndY, maximumXAndY));
+    EXPECT_FALSE(isInsideTwoPoints(Point(-2,-2), minimumXAndY, maximumXAndY));
+    EXPECT_TRUE(isInsideTwoPoints(Point(-1,-1), minimumXAndY, maximumXAndY));
+    EXPECT_TRUE(isInsideTwoPoints(Point(0,0), minimumXAndY, maximumXAndY));
+    EXPECT_TRUE(isInsideTwoPoints(Point(1,1), minimumXAndY, maximumXAndY));
+    EXPECT_FALSE(isInsideTwoPoints(Point(2,2), minimumXAndY, maximumXAndY));
+    EXPECT_FALSE(isInsideTwoPoints(Point(3,3), minimumXAndY, maximumXAndY));
+}
+
+

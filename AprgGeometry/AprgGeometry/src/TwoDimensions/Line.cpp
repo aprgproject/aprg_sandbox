@@ -12,6 +12,17 @@ using namespace std;
 namespace alba
 {
 
+Line::Line()
+{
+    m_type = LineType::Invalid;
+    m_slope = 0;
+    m_yIntercept = 0;
+    m_xIntercept = 0;
+    m_aCoefficient = 0;
+    m_bCoefficient = 0;
+    m_cCoefficient = 0;
+}
+
 Line::Line(Point const& first, Point const& second)
 {
     double deltaY = second.getY() - first.getY();
@@ -133,7 +144,7 @@ Points Line::getPoints(Point const& first, Point const& second, double const int
     {
         getPointsForHorizontalLine(points, first, second, interval);
     }
-    else
+    else if(m_type == LineType::WithPositiveSlope || m_type == LineType::WithNegativeSlope)
     {
         getPointsForLineWithSlope(points, first, second, interval);
     }
@@ -165,7 +176,7 @@ void Line::getPointsForVerticalLine(Points & points, Point const& first, Point c
     AlbaRange<double> range(first.getY(), second.getY(), interval);
     range.traverse([&](double traverseValue)
     {
-        points.emplace_back(Point(m_xIntercept, traverseValue));
+        points.emplace_back(m_xIntercept, traverseValue);
     });
 }
 
@@ -174,42 +185,60 @@ void Line::getPointsForHorizontalLine(Points & points, Point const& first, Point
     AlbaRange<double> range(first.getX(), second.getX(), interval);
     range.traverse([&](double traverseValue)
     {
-        points.emplace_back(Point(traverseValue, m_yIntercept));
+        points.emplace_back(traverseValue, m_yIntercept);
     });
 }
 
 void Line::getPointsForLineWithSlope(Points & points, Point const& first, Point const& second, double const interval) const
 {
-    Point startingPoint1(first.getX(), calculateYFromX(first.getX()));
-    Point startingPoint2(calculateXFromY(first.getY()), first.getY());
-    Point endPoint1(second.getX(), calculateYFromX(second.getX()));
-    Point endPoint2(calculateXFromY(second.getY()), second.getY());
-    Point startingPoint = (twoDimensionsHelper::getDistance(startingPoint1, second)<twoDimensionsHelper::getDistance(startingPoint2, second)) ? startingPoint1 : startingPoint2;
-    Point endPoint = (twoDimensionsHelper::getDistance(endPoint1, first)<twoDimensionsHelper::getDistance(endPoint2, first)) ? endPoint1 : endPoint2;
-    bool isDirectionAscendingForX = startingPoint.getX() <= endPoint.getX();
-
-    Points pointsFromXCoordinate;
-    AlbaRange<double> rangeForX(startingPoint.getX(), endPoint.getX(), interval);
-    rangeForX.traverse([&](double traverseValueOfX)
+    Point minimumXAndY;
+    Point maximumXAndY;
+    Points pointsAtBorder;
+    minimumXAndY.saveMinimumXAndY(first);
+    minimumXAndY.saveMinimumXAndY(second);
+    maximumXAndY.saveMaximumXAndY(first);
+    maximumXAndY.saveMaximumXAndY(second);
+    Point point1(first.getX(), calculateYFromX(first.getX()));
+    Point point2(calculateXFromY(first.getY()), first.getY());
+    Point point3(second.getX(), calculateYFromX(second.getX()));
+    Point point4(calculateXFromY(second.getY()), second.getY());
+    twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, point1, minimumXAndY, maximumXAndY);
+    twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, point2, minimumXAndY, maximumXAndY);
+    twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, point3, minimumXAndY, maximumXAndY);
+    twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, point4, minimumXAndY, maximumXAndY);
+    if(pointsAtBorder.size()>=2)
     {
-        pointsFromXCoordinate.emplace_back(Point(traverseValueOfX, calculateYFromX(traverseValueOfX)));    });
+        Point startingPoint(twoDimensionsHelper::popNearestPoint(pointsAtBorder, first));
+        Point endPoint(twoDimensionsHelper::popNearestPoint(pointsAtBorder, second));
+        bool isDirectionAscendingForX = startingPoint.getX() <= endPoint.getX();
 
-    Points pointsFromYCoordinate;
-    AlbaRange<double> rangeForY(startingPoint.getY(), endPoint.getY(), interval);
-    rangeForY.traverse([&](double traverseValueOfY)
-    {
-        pointsFromYCoordinate.emplace_back(Point(calculateXFromY(traverseValueOfY), traverseValueOfY));    });
+        Points pointsFromXCoordinate;
+        AlbaRange<double> rangeForX(startingPoint.getX(), endPoint.getX(), interval);
+        rangeForX.traverse([&](double traverseValueOfX)
+        {
+            pointsFromXCoordinate.emplace_back(traverseValueOfX, calculateYFromX(traverseValueOfX));
+        });
 
-    mergePointsFromPointsFromXAndY(points, pointsFromXCoordinate, pointsFromYCoordinate, isDirectionAscendingForX);
+        Points pointsFromYCoordinate;
+        AlbaRange<double> rangeForY(startingPoint.getY(), endPoint.getY(), interval);
+        rangeForY.traverse([&](double traverseValueOfY)
+        {
+            pointsFromYCoordinate.emplace_back(calculateXFromY(traverseValueOfY), traverseValueOfY);
+        });
+
+        mergePointsFromPointsFromXAndY(points, pointsFromXCoordinate, pointsFromYCoordinate, isDirectionAscendingForX);
+    }
 }
 
 
 void Line::mergePointsFromPointsFromXAndY(Points & points, Points const& pointsFromXCoordinate, Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const
 {
-    Points::const_iterator iteratorForX = pointsFromXCoordinate.cbegin();    Points::const_iterator iteratorForY = pointsFromYCoordinate.cbegin();
+    Points::const_iterator iteratorForX = pointsFromXCoordinate.cbegin();
+    Points::const_iterator iteratorForY = pointsFromYCoordinate.cbegin();
     while(iteratorForX != pointsFromXCoordinate.cend() || iteratorForY != pointsFromYCoordinate.cend())
     {
-        if(iteratorForX != pointsFromXCoordinate.cend() && iteratorForY != pointsFromYCoordinate.cend())        {
+        if(iteratorForX != pointsFromXCoordinate.cend() && iteratorForY != pointsFromYCoordinate.cend())
+        {
             if(isDirectionAscendingForX)
             {
                 if(iteratorForX->getX() == iteratorForY->getX())

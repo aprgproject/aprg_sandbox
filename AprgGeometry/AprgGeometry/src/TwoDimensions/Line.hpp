@@ -19,6 +19,7 @@ enum class LineType
 class Line
 {
 public:
+    Line();
     Line(Point const& first, Point const& second);
     Line(double const aCoefficient, double const bCoefficient, double const cCoefficient);
     bool operator==(Line const& line) const;
@@ -35,7 +36,6 @@ public:
     Points getPointsWithoutLastPoint(Point const& first, Point const& second, double const interval) const;
     double calculateYFromX(double const x) const;
     double calculateXFromY(double const y) const;
-
 private:
     void getPointsForVerticalLine(Points & points, Point const& first, Point const& second, double const interval) const;
     void getPointsForHorizontalLine(Points & points, Point const& first, Point const& second, double const interval) const;
@@ -43,6 +43,7 @@ private:
     void mergePointsFromPointsFromXAndY(Points & points, Points const& pointsFromXCoordinate, Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const;
     LineType determineLineTypeUsingDeltaXandDeltaY(double const deltaY, double const deltaX) const;
     LineType determineLineTypeUsingCoefficients(double const aCoefficient, double const bCoefficient) const;
+    bool isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point const& maximumXAndY) const;
     LineType m_type;
     double m_yIntercept;
     double m_xIntercept;
