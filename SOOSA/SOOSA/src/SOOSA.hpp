@@ -33,10 +33,12 @@ public:
         unsigned int getFrequencyOfAnswer(unsigned int const questionNumber, unsigned int const answer) const;
     private:
         unsigned int m_numberOfQuestions;
-        std::map<unsigned int, std::array<unsigned int, 5>> m_questionToAnswerFrequencyMap;    };
+        std::map<unsigned int, std::array<unsigned int, 5>> m_questionToAnswerFrequencyMap;
+    };
     using BitmapRange = AlbaRange<int>;
 
-    SOOSA(SoosaConfiguration const& configuration);    unsigned int getNumberOfAnswers() const;
+    SOOSA(SoosaConfiguration const& configuration);
+    unsigned int getNumberOfAnswers() const;
     unsigned int getAnswerToQuestion(unsigned int const questionNumber) const;
 private:
     std::string getCsvFileName(std::string const& path) const;
@@ -50,16 +52,21 @@ private:
     Line findRightLine(AprgBitmapSnippet const& snippet) const;
     Line findTopLine(AprgBitmapSnippet const& snippet) const;
     Line findBottomLine(AprgBitmapSnippet const& snippet) const;
-    Line findVerticalLine(AprgBitmapSnippet const& snippet, BitmapRange const& range1, BitmapRange const& range2) const;
-    Line findHorizontalLine(AprgBitmapSnippet const& snippet, BitmapRange const& range1, BitmapRange const& range2) const;
+    Line findVerticalLine(AprgBitmapSnippet const& snippet, BitmapRange const& range) const;
+    Line findHorizontalLine(AprgBitmapSnippet const& snippet, BitmapRange const& range) const;
+    Line findLeftLineUsingStartingLine(AprgBitmapSnippet const& snippet, Line startingLine) const;
+    Line findRightLineUsingStartingLine(AprgBitmapSnippet const& snippet, Line startingLine) const;\
+    Line findVerticalLineUsingStartingLine(AprgBitmapSnippet const& snippet, Line startingLine, BitmapRange const& rangeForX) const;
     Line getLineModel(TwoDimensionsStatistics::Samples & samples) const;
     void writeLineInBitmap(AprgBitmap & bitmap, Line const& line) const;
     BitmapXY convertPoint(Point const& point) const;
     Point convertPoint(BitmapXY const& bitmapXY) const;
     SoosaConfiguration m_configuration;
     SoosaStatus m_status;
-    unsigned int m_numberOfRespondents;    std::map<unsigned int, unsigned int> m_questionToAnswersMap;
+    unsigned int m_numberOfRespondents;
+    std::map<unsigned int, unsigned int> m_questionToAnswersMap;
     FrequencyDatabase m_frequencyDatabase;
+
 
 
 
@@ -129,8 +136,11 @@ private:
     void processOneFile(std::string const & fileName);
     void processDirectory(std::string const & directoryPath);
     bool isStatusNoError(SoosaStatus const status) const;
+    PairXY convertOldPoint(Point const& point) const;
+
 
 public:
-    int process();};
+    int process();
+};
 
 }

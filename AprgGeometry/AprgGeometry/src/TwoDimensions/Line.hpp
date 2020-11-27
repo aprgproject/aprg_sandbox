@@ -27,6 +27,7 @@ public:
     double getXIntercept() const;
     double getYIntercept() const;
     double getSlope() const;
+    double getInverseSlope() const;
     double getACoefficient() const;
     double getBCoefficient() const;
     double getCCoefficient() const;

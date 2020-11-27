@@ -11,26 +11,11 @@ using namespace alba;
 using namespace alba::twoDimensionsHelper;
 using namespace std;
 
-TEST(TwoDimensionsHelperTest, LineAndLineIntersectionCanBeFound)
+TEST(TwoDimensionsHelperTest, MidpointBetweenTwoPointsCanBeCalculated)
 {
-    Line line1(Point(2,4), Point(3,3));
-    Line line2(Point(4,4), Point(3,3));
-
-    EXPECT_EQ(Point(3,3), getIntersection(line1, line2));
-}
-
-TEST(TwoDimensionsHelperTest, VerticalLineAndHorizontalLineIntersectionCanBeFound)
-{
-    Line line1(Point(4,3), Point(3,3));
-    Line line2(Point(3,4), Point(3,3));
-    EXPECT_EQ(Point(3,3), getIntersection(line1, line2));
-}
-
-TEST(TwoDimensionsHelperTest, DistanceBetweenTwoPointsCanBeCalculated)
-{
-    EXPECT_EQ(10, getDistance(Point(-3,-4), Point(3,4)));
-    EXPECT_EQ(5, getDistance(Point(0,5), Point(0,0)));
-    EXPECT_EQ(5, getDistance(Point(5,0), Point(0,0)));
+    EXPECT_EQ(Point(0,0), getMidpoint(Point(0,0), Point(0,0)));
+    EXPECT_EQ(Point(2,2), getMidpoint(Point(1,1), Point(3,3)));
+    EXPECT_EQ(Point(-450,-900), getMidpoint(Point(100,200), Point(-1000,-2000)));
 }
 
 TEST(TwoDimensionsHelperTest, GetLineWithSameSlopeAndPoint)
@@ -61,9 +46,24 @@ TEST(TwoDimensionsHelperTest, GetLineWithInverseSlopeAndPoint)
 
 TEST(TwoDimensionsHelperTest, DistanceBetweenPointAndLineCanBeCalculated)
 {
-    EXPECT_EQ(2, getDistance(Point(2,2), Line(0,-1,4)));
-    EXPECT_EQ(2, getDistance(Point(2,2), Line(-1,0,4)));
-    EXPECT_EQ(2*pow(2, 0.5), getDistance(Point(2,2), Line(1,1,0)));
+    EXPECT_EQ(2, getDistance(Line(0,-1,4), Point(2,2)));
+    EXPECT_EQ(2, getDistance(Line(-1,0,4), Point(2,2)));
+    EXPECT_EQ(2*pow(2, 0.5), getDistance(Line(1,1,0), Point(2,2)));
+}
+
+TEST(TwoDimensionsHelperTest, LineAndLineIntersectionCanBeFound)
+{
+    Line line1(Point(2,4), Point(3,3));
+    Line line2(Point(4,4), Point(3,3));
+
+    EXPECT_EQ(Point(3,3), getIntersection(line1, line2));
+}
+
+TEST(TwoDimensionsHelperTest, VerticalLineAndHorizontalLineIntersectionCanBeFound)
+{
+    Line line1(Point(4,3), Point(3,3));
+    Line line2(Point(3,4), Point(3,3));
+    EXPECT_EQ(Point(3,3), getIntersection(line1, line2));
 }
 
 TEST(TwoDimensionsHelperTest, PointsInParabolaCanBeConnected)

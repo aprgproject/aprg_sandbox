@@ -254,6 +254,22 @@ TEST(LineTest, LineWithSlopeConstructedByCoefficients)
     EXPECT_EQ(Point(2,3), points[8]);
 }
 
+TEST(LineTest, DISABLED_LineWithExtremeSlopeWithManyPoints)
+{
+    Line line(0.001253,32.4827,-4316.74);
+
+    EXPECT_EQ(LineType::Vertical, line.getType());
+    EXPECT_EQ(0, line.getYIntercept());
+    EXPECT_EQ(85, line.getXIntercept());
+    EXPECT_EQ(INFINITY, line.getSlope());
+    EXPECT_EQ(1, line.getACoefficient());
+    EXPECT_EQ(0, line.getBCoefficient());
+    EXPECT_EQ(-85, line.getCCoefficient());
+
+    Points points(line.getPoints(Point(0,3506), Point(0,3506), 1));
+    ASSERT_EQ(0, points.size());
+}
+
 TEST(LineTest, LineCanBeComparedForEquality)
 {
     EXPECT_EQ(Line(1,2,3), Line(10,20,30));

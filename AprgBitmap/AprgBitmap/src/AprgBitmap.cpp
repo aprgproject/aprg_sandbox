@@ -63,10 +63,12 @@ AprgBitmapSnippet AprgBitmap::getSnippetReadFromFile(BitmapXY const topLeftCorne
         snippet = AprgBitmapSnippet(BitmapXY(startPixelInX, topLeftCorner.getY()), BitmapXY(endPixelInX, bottomRightCorner.getY()), m_configuration);
 
         for(int y=offsetInYForStart; y>=offsetInYForEnd; y--)
-        {            unsigned long long fileOffsetForStart = m_configuration.getPixelArrayAddress()+((unsigned long long)m_configuration.getNumberOfBytesPerRowInFile()*y)+byteOffsetInXForStart;
+        {
+            unsigned long long fileOffsetForStart = m_configuration.getPixelArrayAddress()+((unsigned long long)m_configuration.getNumberOfBytesPerRowInFile()*y)+byteOffsetInXForStart;
             fileReader.moveLocation(fileOffsetForStart);
             fileReader.saveDataToMemoryBuffer(snippet.getPixelDataReference(), numberOfBytesToBeCopiedForX);
-        }    }
+        }
+    }
     return snippet; //RVO takes care of this
 }
 
@@ -94,6 +96,7 @@ void AprgBitmap::setSnippetWriteToFile(AprgBitmapSnippet const& snippet) const
                 streamFile.write(pixelDataPointer, numberOfBytesToBeCopiedForX);
                 snippetIndex += numberOfBytesToBeCopiedForX;
             }
+            streamFile.flush();
         }
     }
 }

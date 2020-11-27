@@ -102,6 +102,11 @@ double Line::getSlope() const
     return m_slope;
 }
 
+double Line::getInverseSlope() const
+{
+    return -m_bCoefficient/m_aCoefficient;
+}
+
 double Line::getACoefficient() const
 {
     return m_aCoefficient;
@@ -175,6 +180,13 @@ void Line::getPointsForHorizontalLine(Points & points, Point const& first, Point
 
 void Line::getPointsForLineWithSlope(Points & points, Point const& first, Point const& second, double const interval) const
 {
+    /*
+     *new way inside lang dapat
+     * Point const& point1(first.getX(), calculateYFromX(first.getX()));
+    Point const& point2(calculateXFromY(first.getY()), first.getY());
+    Point const& point3(second.getX(), calculateYFromX(second.getX()));
+    Point const& point4(calculateXFromY(first.getY()), first.getY());*/
+
     bool isDirectionAscendingForX = first.getX() <= second.getX();
     double lowestXValue = min(min(first.getX(), second.getX()), min(calculateXFromY(first.getY()), calculateXFromY(second.getY())));
     double highestXValue = max(max(first.getX(), second.getX()), max(calculateXFromY(first.getY()), calculateXFromY(second.getY())));

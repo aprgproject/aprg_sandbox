@@ -5,6 +5,7 @@
 #include <functional>
 #include <sstream>
 #include <string>
+
 namespace alba
 {
 
@@ -15,9 +16,11 @@ enum class AlbaRangeType
     Forward,
     Backward
 };
+
 template <typename DataType>
 class AlbaRange
-{public:
+{
+public:
     using TerminationCondition = std::function<bool(DataType,DataType)>;
     using TraverseOperation = std::function<void(DataType)>;
     AlbaRange()
@@ -39,7 +42,8 @@ class AlbaRange
 
     DataType getStartValue() const
     {
-        return m_startValue;    }
+        return m_startValue;
+    }
 
     DataType getEndValue() const
     {
@@ -111,10 +115,12 @@ class AlbaRange
 
 private:
 
-    TerminationCondition getTerminationCondition(AlbaRangeType const rangeType) const    {
+    TerminationCondition getTerminationCondition(AlbaRangeType const rangeType) const
+    {
         TerminationCondition terminationCondition;
         switch(rangeType)
-        {        case AlbaRangeType::Forward:
+        {
+        case AlbaRangeType::Forward:
             terminationCondition = std::less_equal<DataType>();
             break;
         case AlbaRangeType::Backward:
@@ -159,10 +165,12 @@ private:
         {
             rangeType = AlbaRangeType::Forward;
         }
-        else        {
+        else
+        {
             rangeType = AlbaRangeType::Backward;
         }
-        return rangeType;    }
+        return rangeType;
+    }
 
     DataType m_startValue;
     DataType m_endValue;

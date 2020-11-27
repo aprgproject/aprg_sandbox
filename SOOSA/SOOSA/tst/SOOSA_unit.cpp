@@ -10,7 +10,7 @@ using namespace std;
 
 TEST(SoosaTest, SampleTest1)
 {
-    AlbaLocalPathHandler fileToTest(R"(C:\APRG\SOOSA\SOOSA\tst\FilesForTests\TestRotateColored.bmp)");
+    AlbaLocalPathHandler fileToTest(R"(C:\APRG\SOOSA\SOOSA\tst\FilesForTests\TestStraight.bmp)");//TestRotateColored TestStraight
     AlbaLocalPathHandler fileForSoosa(R"(C:\APRG\SOOSA\SOOSA\tst\FilesForTests\TestSoosa.bmp)");
     fileForSoosa.deleteFile();
     fileToTest.copyToNewFile(fileForSoosa.getFullPath());
