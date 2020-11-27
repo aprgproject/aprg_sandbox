@@ -1,16 +1,14 @@
 #include "SOOSA.hpp"
 
 #include <File/AlbaFileReader.hpp>
+#include <FrequencyStatistics.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <String/AlbaStringHelper.hpp>
 #include <User/AlbaUserInterface.hpp>
-#include <Statistics/FrequencyStatistics.hpp>
 
 #include <Debug/AlbaDebug.hpp>
-
 #include <sstream>
 #include <iostream>
-
 //OLD HEADERS
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,14 +19,15 @@
 //#define LOPFLAG 1
 //#define CIRFLAG 1
 
+#define NUMBER_OF_SLICES_IN_FIND_LINE 100
+
+
 #define FILE_PATH_BASIS_HTML APRG_DIR R"(SOOSA2014\basis.html)"
 #define MAXQUESTIONSCOOR 60 //2*30 -> MUST be twice of MAXQUESTIONS
-#define SAMPLESLINETOALLOC 1000
-#define ROBUSTSAMPLESLINE 1000
+#define SAMPLESLINETOALLOC 1000#define ROBUSTSAMPLESLINE 1000
 #define ROBUSTMINSAMPLESLINE 100
 #define ROBUSTSAMPLESLINETOPBOTTOM 500
-#define ROBUSTMINSAMPLESLINETOPBOTTOM 100
-#define PIXELSPERPENLINE 100
+#define ROBUSTMINSAMPLESLINETOPBOTTOM 100#define PIXELSPERPENLINE 100
 #define PIXELSSEARCHSIZE 200//2*PIXELSPERPENLINE -> MUST be twice of PIXELSPERPENLINE
 #define PIXELSCIRCLERADIUSHIGH 16
 #define PIXELSCIRCLERADIUSLOW 10
@@ -59,49 +58,60 @@
 #define INFPRINT(...)  printf(__VA_ARGS__);
 #define CSVPRINT(...) fprintf(m_csvFile, __VA_ARGS__);
 
-
-//gawa struct for x y for points and slope
-//gawa function search to right search to the left
-//chebyshev
-//k-mean cluster algo
-//cache in DataDigital for continuous access
-
-//malloc check
-//getvalue check cache
-
-//put in a function circle loop
-
 using namespace std;
+using namespace alba::TwoDimensionsStatistics;
 
 namespace alba
 {
 
+SOOSA::FrequencyDatabase::FrequencyDatabase(unsigned int numberOfQuestions)
+    : m_numberOfQuestions(numberOfQuestions)
+{
+    clear();
+}
+
+void SOOSA::FrequencyDatabase::clear()
+{
+    for(unsigned int i=0; i<m_numberOfQuestions; i++)
+    {
+        for(unsigned int j=0; j<5; j++)
+        {
+            m_questionToAnswerFrequencyMap[i][j]=0;
+        }    }
+}
+
+void SOOSA::FrequencyDatabase::addAnswer(unsigned int const questionNumber, unsigned int const answer)
+{
+    if(questionNumber<m_numberOfQuestions && answer<=4)
+    {
+        m_questionToAnswerFrequencyMap[questionNumber][answer]++;
+    }
+}
+
+unsigned int SOOSA::FrequencyDatabase::getFrequencyOfAnswer(unsigned int const questionNumber, unsigned int const answer)
+{
+    unsigned int frequency=0;
+    if(questionNumber<m_numberOfQuestions && answer<=4)
+    {
+        frequency = m_questionToAnswerFrequencyMap[questionNumber][answer];
+    }
+    return frequency;
+}
+
 SOOSA::SOOSA(SoosaConfiguration const& configuration)
     : m_configuration(configuration)
+    , m_frequencyDatabase(m_configuration.getNumberOfQuestions())
 {
     m_numberOfRespondents=0;
 }
 
-void SOOSA::clearFrequencyDatabase()
-{
-    for(unsigned int i=0; i<MAXQUESTIONSALL; i++)
-    {
-        for(unsigned int j=0; j<6; j++)
-        {
-            m_questionToAnswerFrequencyMap[i][j]=0;
-        }
-    }
-}
-
 unsigned int SOOSA::getNumberOfAnswers() const
 {
-    return m_questionToAnswersMap.size();
-}
+    return m_questionToAnswersMap.size();}
 
 unsigned int SOOSA::getAnswerToQuestion(unsigned int const questionNumber) const
 {
-    return m_questionToAnswersMap.at(questionNumber);
-}
+    return m_questionToAnswersMap.at(questionNumber);}
 
 string SOOSA::getCsvFileName(string const& path) const
 {
@@ -133,33 +143,25 @@ void SOOSA::setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigne
     m_questionToAnswersMap[m_configuration.getQuestionNumberInColumn(columnNumber, questionOffsetInColumn)] = answer;
 }
 
-void  SOOSA::addToFrequencyDatabase(unsigned int const questionNumber, unsigned int const answer)
-{
-    m_questionToAnswerFrequencyMap[questionNumber][answer]++;
-}
 
 void SOOSA::saveDataToCsvFile(string const& processedFilePath)
-{
-    ofstream outputCsvReportStream(getCsvFileName(m_configuration.getPath()), ofstream::app);
+{    ofstream outputCsvReportStream(getCsvFileName(m_configuration.getPath()), ofstream::app);
     if(m_configuration.getNumberOfQuestions() != m_questionToAnswersMap.size())
     {
-        m_status = SoosaStatus::AlgorithmError;
-    }
+        m_status = SoosaStatus::AlgorithmError;    }
     if(isStatusNoError(m_status))
     {
         outputCsvReportStream<<processedFilePath<<",OK";
         for(unsigned int i=0;i<m_configuration.getNumberOfQuestions();i++)
         {
             outputCsvReportStream<<","<<getAnswerToQuestion(i);
-            if(getAnswerToQuestion(i)<=5 && getAnswerToQuestion(i)>=1){addToFrequencyDatabase(i, getAnswerToQuestion(i)-1);}
+            m_frequencyDatabase.addAnswer(i, getAnswerToQuestion(i)-1);
         }
         outputCsvReportStream<<endl;
-    }
-    else
+    }    else
     {
         outputCsvReportStream<<processedFilePath<<","<<getString(m_status)<<endl;
-    }
-}
+    }}
 
 void SOOSA::saveHeadersToCsvFile()
 {
@@ -203,38 +205,173 @@ void SOOSA::saveOutputHtmlFile(string const& processedFilePath)
             for(unsigned int questionIndex=0; questionIndex<m_configuration.getNumberOfQuestions(); questionIndex++)
             {
                 reportHtmlFileStream<<"<tr>"<<endl;
-                FrequencyStatistics<double>::FrequencySamples samples;
+                FrequencyStatistics::FrequencySamples samples;
                 for(unsigned int answerIndex=0; answerIndex<5; answerIndex++)
                 {
-                    samples[answerIndex+1] = m_questionToAnswerFrequencyMap[questionIndex][answerIndex];
+                    samples[answerIndex+1] = m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, answerIndex);
                 }
-                unsigned int numberOfSamplesForQuestion = FrequencyStatistics<double>::calculateNumberOfSamples(samples);
-                double median = FrequencyStatistics<double>::calculateMedian(samples);
+                unsigned int numberOfSamplesForQuestion = FrequencyStatistics::calculateNumberOfSamples(samples);
+                double median = FrequencyStatistics::calculateMedian(samples);
                 if(questionIndex==m_configuration.getNumberOfQuestions()-1)
                 {
-                    reportHtmlFileStream<<"<td style=\"text-align:left;padding:3px\"><b>"<<m_configuration.getQuestionAt(questionIndex)<<"</b></td>"<<endl;
-                }
+                    reportHtmlFileStream<<"<td style=\"text-align:left;padding:3px\"><b>"<<m_configuration.getQuestionAt(questionIndex)<<"</b></td>"<<endl;                }
                 else
                 {
                     reportHtmlFileStream<<"<td style=\"text-align:left;padding:3px\">"<<m_configuration.getQuestionAt(questionIndex)<<"</td>"<<endl;
                 }
-                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_questionToAnswerFrequencyMap[questionIndex][4],numberOfSamplesForQuestion)<<"</td>"<<endl;
-                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_questionToAnswerFrequencyMap[questionIndex][3],numberOfSamplesForQuestion)<<"</td>"<<endl;
-                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_questionToAnswerFrequencyMap[questionIndex][2],numberOfSamplesForQuestion)<<"</td>"<<endl;
-                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_questionToAnswerFrequencyMap[questionIndex][1],numberOfSamplesForQuestion)<<"</td>"<<endl;
-                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_questionToAnswerFrequencyMap[questionIndex][0],numberOfSamplesForQuestion)<<"</td>"<<endl;
+                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 4),numberOfSamplesForQuestion)<<"</td>"<<endl;
+                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 3),numberOfSamplesForQuestion)<<"</td>"<<endl;
+                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 2),numberOfSamplesForQuestion)<<"</td>"<<endl;
+                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 1),numberOfSamplesForQuestion)<<"</td>"<<endl;
+                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 0),numberOfSamplesForQuestion)<<"</td>"<<endl;
                 reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<numberOfSamplesForQuestion<<"</td>"<<endl;
                 reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<median<<"</td>"<<endl;
-                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_questionToAnswerFrequencyMap[questionIndex][4]+m_questionToAnswerFrequencyMap[questionIndex][3]+m_questionToAnswerFrequencyMap[questionIndex][2],numberOfSamplesForQuestion)<<"</td>"<<endl;
+                reportHtmlFileStream<<"<td style=\"text-align:center;padding:3px\">"<<getPrintableStringForPercentage(m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 4)+m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 3)+m_frequencyDatabase.getFrequencyOfAnswer(questionIndex, 2),numberOfSamplesForQuestion)<<"</td>"<<endl;
                 reportHtmlFileStream<<"</tr>"<<endl;
             }
-        }
-        else
+        }        else
         {
             reportHtmlFileStream<<line<<endl;
         }
     }
 }
+
+Line SOOSA::findLeftLine(AprgBitmapSnippet const& snippet)
+{
+    unsigned int incrementInY(snippet.getDeltaY()/NUMBER_OF_SLICES_IN_FIND_LINE);
+    BitmapRange rangeForX(snippet.getTopLeftCorner().getX(), snippet.getBottomRightCorner().getX(), 1);
+    BitmapRange rangeForY(snippet.getTopLeftCorner().getY(), snippet.getBottomRightCorner().getY(), incrementInY);
+
+    return findVerticalLine(snippet, rangeForX, rangeForY);
+}
+
+Line SOOSA::findRightLine(AprgBitmapSnippet const& snippet)
+{
+    unsigned int incrementInY(snippet.getDeltaY()/NUMBER_OF_SLICES_IN_FIND_LINE);
+    BitmapRange rangeForX(snippet.getBottomRightCorner().getX(), snippet.getTopLeftCorner().getX(), -1);
+    BitmapRange rangeForY(snippet.getTopLeftCorner().getY(), snippet.getBottomRightCorner().getY(), incrementInY);
+
+    return findVerticalLine(snippet, rangeForX, rangeForY);
+}
+
+Line SOOSA::findTopLine(AprgBitmapSnippet const& snippet)
+{
+    unsigned int incrementInX(snippet.getDeltaX()/NUMBER_OF_SLICES_IN_FIND_LINE);
+    BitmapRange rangeForX(snippet.getTopLeftCorner().getX(), snippet.getBottomRightCorner().getX(), incrementInX);
+    BitmapRange rangeForY(snippet.getTopLeftCorner().getY(), snippet.getBottomRightCorner().getY(), 1);
+
+    return findHorizontalLine(snippet, rangeForY, rangeForX);
+}
+
+Line SOOSA::findBottomLine(AprgBitmapSnippet const& snippet)
+{
+    unsigned int incrementInX(snippet.getDeltaY()/NUMBER_OF_SLICES_IN_FIND_LINE);
+    BitmapRange rangeForX(snippet.getTopLeftCorner().getX(), snippet.getBottomRightCorner().getX(), incrementInX);
+    BitmapRange rangeForY(snippet.getBottomRightCorner().getY(), snippet.getTopLeftCorner().getY(), -1);
+
+    return findHorizontalLine(snippet, rangeForY, rangeForX);
+}
+
+Line SOOSA::findVerticalLine(AprgBitmapSnippet const& snippet, BitmapRange const& rangeForX, BitmapRange const& rangeForY)
+{
+    BitmapRange::TerminationCondition conditionForX(rangeForX.getTerminationCondition());
+    BitmapRange::TerminationCondition conditionForY(rangeForY.getTerminationCondition());
+    Samples samples;
+    for(unsigned int y=rangeForY.getStartValue(); conditionForY(y, rangeForY.getEndValue()); y+=rangeForY.getInterval())
+    {
+        bool isBlackEncountered(false);
+        for(unsigned int x=rangeForX.getStartValue(); conditionForX(x, rangeForX.getEndValue()); x+=rangeForX.getInterval())
+        {
+            BitmapXY bitmapPoint(x, y);
+            Sample samplePoint{(double) x, (double) y};
+            if(snippet.isBlackAt(bitmapPoint))
+            {
+                samples.emplace_back(samplePoint);
+                isBlackEncountered=true;
+            }
+            else if(isBlackEncountered)
+            {
+                break;
+            }
+        }
+    }
+    return getLineModel(samples);
+}
+
+Line SOOSA::findHorizontalLine(AprgBitmapSnippet const& snippet, BitmapRange const& rangeForX, BitmapRange const& rangeForY)
+{
+    ALBA_PRINT1(rangeForX.getDisplayableString());
+    ALBA_PRINT1(rangeForY.getDisplayableString());
+    BitmapRange::TerminationCondition conditionForX(rangeForX.getTerminationCondition());
+    BitmapRange::TerminationCondition conditionForY(rangeForY.getTerminationCondition());
+    Samples samples;
+    for(unsigned int x=rangeForX.getStartValue(); conditionForX(x, rangeForX.getEndValue()); x+=rangeForX.getInterval())
+    {
+        bool isBlackEncountered(false);
+        for(unsigned int y=rangeForY.getStartValue(); conditionForY(y, rangeForY.getEndValue()); y+=rangeForY.getInterval())
+        {
+            BitmapXY bitmapPoint(x, y);
+            Sample samplePoint{(double) x, (double) y};
+            if(snippet.isBlackAt(bitmapPoint))
+            {
+                samples.emplace_back(samplePoint);
+                isBlackEncountered=true;
+            }
+            else if(isBlackEncountered)
+            {
+                break;
+            }
+        }
+    }
+    return getLineModel(samples);
+}
+
+Line SOOSA::getLineModel(Samples & samples)
+{
+    int const nonAllowableSquareErrorLimit(4);
+    double const samplesRetainRatio(0.90);
+
+    LineModel lineModel;
+    double maxSquareErrorInSamples(nonAllowableSquareErrorLimit);
+    while (maxSquareErrorInSamples>=nonAllowableSquareErrorLimit && samples.size() > 2)
+    {
+        lineModel = calculateLineModelUsingLeastSquares(samples);
+        sortSamplesBySquareError(samples, lineModel);
+        maxSquareErrorInSamples = calculateSquareError(samples.back(), lineModel);
+        ALBA_PRINT1(maxSquareErrorInSamples);
+        ALBA_PRINT1(samples.size());
+        ALBA_PRINT1(samples.size()*samplesRetainRatio);
+        if(maxSquareErrorInSamples>=nonAllowableSquareErrorLimit)
+        {
+            unsigned int totalSamples(samples.size());
+            samples.erase(samples.begin()+((unsigned int)(totalSamples*samplesRetainRatio)), samples.end());
+        }
+    }
+    return Line(lineModel.aCoefficient, lineModel.bCoefficient, lineModel.cCoefficient);
+}
+
+
+void writeLineInBitmap(AprgBitmap & bitmap, Line const& line)
+{
+    ALBA_PRINT3(line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient());
+
+    BitmapSignedXY topLeft(-1,-100);
+    BitmapSignedXY bottomRight(3195,3967);
+
+    ALBA_PRINT2(topLeft.getDisplayableString(), bottomRight.getDisplayableString());
+    AprgBitmapSnippet snippet(bitmap.getSnippetReadFromFileWithOutOfRangeCoordinates(topLeft.getX(), topLeft.getY(), bottomRight.getX(), bottomRight.getY()));
+    Points points(line.getPoints(Point(topLeft.getX(), topLeft.getY()), Point(bottomRight.getX(), bottomRight.getY()), 1));
+    for (Point point: points)
+    {
+        snippet.setPixelAt(BitmapXY(point.getX(), point.getY()), 0x00EE0000);
+    }
+    bitmap.setSnippetWriteToFile(snippet);
+}
+
+
+
+
+
 
 
 
@@ -255,12 +392,10 @@ void SOOSA::saveOutputHtmlFile(string const& processedFilePath)
 
 void SOOSA::getChebyshevInt(ChebyshevCriterion* in_cc, int* arr, int num)
 {
-    int i;
-    double mean=0, stddev=0;
+    int i;    double mean=0, stddev=0;
     for(i=0; i<num; i++){
         LOPPRINT("  FUNCLOOP:getChebyshevInt[i=%d]->(arr[i]=%d|mean=%lf)\n",i,arr[i],mean);
-        mean=mean+arr[i];
-    }
+        mean=mean+arr[i];    }
     mean=mean/num;
     for(i=0; i<num; i++){
         LOPPRINT("  FUNCLOOP:getChebyshevInt[i=%d]->(arr[i]=%d|stddev=%lf)\n",i,arr[i],stddev);
@@ -1556,14 +1691,15 @@ void SOOSA::processOneFile(string const& filePath)
         gddx=0;
         gddy=0;
         AprgBitmapSnippet snippet(bitmap.getSnippetReadFromFile(BitmapXY(gddx, gddy), BitmapXY(xsearchsize,bitmapHeight-1)));
+
+        writeLineInBitmap(bitmap, findLeftLine(snippet));
+
         numLineSamples = findLineImageFromLeft(snippet, lineSamples, maxLineSamples, createXY(0,0), createXY(0,bitmapHeight-1));
         DBGPRINT("INFO: BlackSamples=%d\n",numLineSamples);
-        numLineSamples = removeOutliersFromLine(lineSamples, tdoublearr, &ccSlope, numLineSamples, 0);
-        DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
+        numLineSamples = removeOutliersFromLine(lineSamples, tdoublearr, &ccSlope, numLineSamples, 0);        DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
         if(ROBUSTMINSAMPLESLINE>numLineSamples)
         {
-            cout<<"ERROR: Error in finding the line. Number of samples is not enough (numLineSamples="<<numLineSamples<<")."<<endl;
-            break;
+            cout<<"ERROR: Error in finding the line. Number of samples is not enough (numLineSamples="<<numLineSamples<<")."<<endl;            break;
         }
         if(getSlope(lineSamples,tdoublearr,numLineSamples, 0)==1)
         {
@@ -1580,14 +1716,15 @@ void SOOSA::processOneFile(string const& filePath)
         gddx=bitmapWidth-1-xsearchsize;
         gddy=0;
         snippet = bitmap.getSnippetReadFromFile(BitmapXY(gddx, gddy), BitmapXY(bitmapWidth-1, bitmapHeight-1));
+
+        writeLineInBitmap(bitmap, findRightLine(snippet));
+
         numLineSamples = findLineImageFromRight(snippet, lineSamples, maxLineSamples, createXY(xsearchsize-1,0),createXY(xsearchsize-1,bitmapHeight-1));
         DBGPRINT("INFO: BlackSamples=%d\n",numLineSamples);
-        numLineSamples = removeOutliersFromLine(lineSamples, tdoublearr, &ccSlope, numLineSamples, 0);
-        DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
+        numLineSamples = removeOutliersFromLine(lineSamples, tdoublearr, &ccSlope, numLineSamples, 0);        DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
         if(ROBUSTMINSAMPLESLINE>numLineSamples)
         {
-            cout<<"ERROR: Error in finding the line. Number of samples is not enough (numLineSamples="<<numLineSamples<<")."<<endl;
-            break;
+            cout<<"ERROR: Error in finding the line. Number of samples is not enough (numLineSamples="<<numLineSamples<<")."<<endl;            break;
         }
         if(getSlope(lineSamples,tdoublearr,numLineSamples, 0)==1)
         {
@@ -1605,14 +1742,15 @@ void SOOSA::processOneFile(string const& filePath)
         gddx=0;
         gddy=0;
         snippet = bitmap.getSnippetReadFromFile(BitmapXY(gddx, gddy), BitmapXY(bitmapWidth-1,ysearchsize));
+
+        writeLineInBitmap(bitmap, findTopLine(snippet));
+
         numLineSamples = findLineImageFromTop(snippet, lineSamples, maxLineSamples, createXY(0,0), createXY(bitmapWidth-1,0));
         DBGPRINT("INFO: BlackPerpendicularSamples=%d\n",numLineSamples);
-        numLineSamples = removeOutliersFromLine(lineSamples, tdoublearr, &ccSlope, numLineSamples, 1);
-        DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
+        numLineSamples = removeOutliersFromLine(lineSamples, tdoublearr, &ccSlope, numLineSamples, 1);        DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
         if(ROBUSTMINSAMPLESLINETOPBOTTOM>numLineSamples)
         {
-            cout<<"ERROR: Error in finding the line. Number of samples is not enough (numLineSamples="<<numLineSamples<<")."<<endl;
-            break;
+            cout<<"ERROR: Error in finding the line. Number of samples is not enough (numLineSamples="<<numLineSamples<<")."<<endl;            break;
         }
         if(getSlope(lineSamples,tdoublearr,numLineSamples, 1)==1)
         {
@@ -1631,14 +1769,14 @@ void SOOSA::processOneFile(string const& filePath)
         gddy=bitmapHeight-1-ysearchsize;
         snippet = bitmap.getSnippetReadFromFile(BitmapXY(gddx, gddy), BitmapXY(bitmapWidth-1,bitmapHeight-1));
 
+        writeLineInBitmap(bitmap, findBottomLine(snippet));
+
         numLineSamples = findLineImageFromBottom(snippet, lineSamples, maxLineSamples, createXY(0,ysearchsize-1),createXY(bitmapWidth-1,ysearchsize-1));
         DBGPRINT("INFO: BlackPerpendicularSamples=%d\n",numLineSamples);
-        numLineSamples = removeOutliersFromLine(lineSamples, tdoublearr, &ccSlope, numLineSamples, 1);
-        DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
+        numLineSamples = removeOutliersFromLine(lineSamples, tdoublearr, &ccSlope, numLineSamples, 1);        DBGPRINT("INFO: SucessfulSamples=%d\n",numLineSamples);
         if(ROBUSTMINSAMPLESLINETOPBOTTOM>numLineSamples)
         {
-            cout<<"ERROR: Error in finding the line. Number of samples is not enough (numLineSamples="<<numLineSamples<<")."<<endl;
-            break;
+            cout<<"ERROR: Error in finding the line. Number of samples is not enough (numLineSamples="<<numLineSamples<<")."<<endl;            break;
         }
         if(getSlope(lineSamples,tdoublearr,numLineSamples, 1)==1)
         {
@@ -1921,15 +2059,12 @@ int SOOSA::process()
 
 
     AlbaLocalPathHandler pathHandler(m_configuration.getPath());
-    clearFrequencyDatabase();
 
     saveHeadersToCsvFile();
-    if(pathHandler.isDirectory())
-    {
+    if(pathHandler.isDirectory())    {
         processDirectory(pathHandler.getFullPath());
     }
-    else
-    {
+    else    {
         processOneFile(pathHandler.getFullPath());
         saveDataToCsvFile(pathHandler.getFullPath());
     }

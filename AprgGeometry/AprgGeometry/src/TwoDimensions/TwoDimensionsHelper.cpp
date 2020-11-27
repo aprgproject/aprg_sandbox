@@ -39,33 +39,12 @@ double twoDimensionsHelper::getDistance(Point const& point, Line const& line)
     return getDistance(point, nearestPoint);
 }
 
-void twoDimensionsHelper::traverseValues(double const startValue, double const endValue, double const interval, function<void(double)> performOperation)
-{
-    bool isDirectionAscending = (startValue <= endValue);
-    double intervalWithSign = (isDirectionAscending) ? interval : -interval;
-    function<bool(double,double)> loopCondition;
-    if(isDirectionAscending)
-    {
-        loopCondition = less_equal<double>();
-    }
-    else
-    {
-        loopCondition = greater_equal<double>();
-    }
-    for(double traverseValue = startValue; loopCondition(traverseValue, endValue); traverseValue+=intervalWithSign)
-    {
-        performOperation(traverseValue);
-    }
-}
-
 Points twoDimensionsHelper::getConnectedPointsUsingALine(Points const& inputPoints, double const interval)
 {
-    Points resultingPoints;
-    if(!inputPoints.empty())
+    Points resultingPoints;    if(!inputPoints.empty())
     {
         Point previousPoint(inputPoints.front());
-        for(Point const& currentPoint: inputPoints)
-        {
+        for(Point const& currentPoint: inputPoints)        {
             if(currentPoint != previousPoint)
             {
                 savePointsFromTwoPointsUsingALineWithoutLastPoint(resultingPoints, previousPoint, currentPoint, interval);
