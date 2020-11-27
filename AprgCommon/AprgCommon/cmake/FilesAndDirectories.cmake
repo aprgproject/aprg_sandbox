@@ -17,14 +17,14 @@ set(APRG_COMMON_MAIN_SOURCES
     ${APRG_COMMON_DIR}/src/File/AlbaFileReader.cpp
     ${APRG_COMMON_DIR}/src/File/AlbaFileReader.hpp
     ${APRG_COMMON_DIR}/src/Macros/AlbaMacros.hpp
+    ${APRG_COMMON_DIR}/src/Math/AlbaMathHelper.cpp
+    ${APRG_COMMON_DIR}/src/Math/AlbaMathHelper.hpp
     ${APRG_COMMON_DIR}/src/Memory/AlbaMemoryBuffer.cpp
     ${APRG_COMMON_DIR}/src/Memory/AlbaMemoryBuffer.hpp
-    ${APRG_COMMON_DIR}/src/Memory/AlbaRaiiafPointer.cpp
-    ${APRG_COMMON_DIR}/src/Memory/AlbaRaiiafPointer.hpp
+    ${APRG_COMMON_DIR}/src/Memory/AlbaRaiiafPointer.cpp    ${APRG_COMMON_DIR}/src/Memory/AlbaRaiiafPointer.hpp
     ${APRG_COMMON_DIR}/src/Optional/AlbaOptional.cpp
     ${APRG_COMMON_DIR}/src/Optional/AlbaOptional.hpp
-    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaLocalPathHandler.cpp
-    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaLocalPathHandler.hpp
+    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaLocalPathHandler.cpp    ${APRG_COMMON_DIR}/src/PathHandlers/AlbaLocalPathHandler.hpp
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaPathHandler.cpp
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaPathHandler.hpp
     ${APRG_COMMON_DIR}/src/PathHandlers/AlbaWebPathHandler.cpp
@@ -66,14 +66,13 @@ set(APRG_COMMON_MAIN_TESTS
     ${APRG_COMMON_DIR}/tst/DebugTests/AlbaDebug_unit.cpp
     ${APRG_COMMON_DIR}/tst/FileTests/AlbaFileReader_unit.cpp
     ${APRG_COMMON_DIR}/tst/MacrosTests/AlbaMacros_unit.cpp
+    ${APRG_COMMON_DIR}/tst/MathTests/AlbaMathHelper_unit.cpp
     ${APRG_COMMON_DIR}/tst/MemoryTests/AlbaMemoryBuffer_unit.cpp
     ${APRG_COMMON_DIR}/tst/MemoryTests/AlbaRaiiafPointer_unit.cpp
-    ${APRG_COMMON_DIR}/tst/OptionalTests/AlbaOptional_unit.cpp
-    ${APRG_COMMON_DIR}/tst/PathHandlerTests/AlbaPathHandler_unit.cpp
+    ${APRG_COMMON_DIR}/tst/OptionalTests/AlbaOptional_unit.cpp    ${APRG_COMMON_DIR}/tst/PathHandlerTests/AlbaPathHandler_unit.cpp
     ${APRG_COMMON_DIR}/tst/PathHandlerTests/AlbaWebPathHandler_unit.cpp
     ${APRG_COMMON_DIR}/tst/RandomizerTests/AlbaRandomizer_unit.cpp
-    ${APRG_COMMON_DIR}/tst/StringTests/AlbaStringHelper_unit.cpp
-    ${APRG_COMMON_DIR}/tst/TimeTests/AlbaDateTime_unit.cpp
+    ${APRG_COMMON_DIR}/tst/StringTests/AlbaStringHelper_unit.cpp    ${APRG_COMMON_DIR}/tst/TimeTests/AlbaDateTime_unit.cpp
     ${APRG_COMMON_DIR}/tst/TimeTests/AlbaDateTimeHelper_unit.cpp
     ${APRG_COMMON_DIR}/tst/UserTests/AlbaDisplayTable_unit.cpp
     ${APRG_COMMON_DIR}/tst/DirectoryConstants.hpp

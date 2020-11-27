@@ -2,14 +2,13 @@
 
 #include <File/AlbaFileReader.hpp>
 #include <FrequencyStatistics.hpp>
+#include <Math/AlbaMathHelper.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <String/AlbaStringHelper.hpp>
 #include <User/AlbaUserInterface.hpp>
-
 #include <Debug/AlbaDebug.hpp>
 
-#include <sstream>
-#include <iostream>
+#include <sstream>#include <iostream>
 
 //OLD HEADERS
 #include <stdio.h>
@@ -21,17 +20,13 @@
 //#define LOPFLAG 1
 //#define CIRFLAG 1
 
-#define NUMBER_OF_SLICES_IN_FIND_LINE 100
-
 
 #define FILE_PATH_BASIS_HTML APRG_DIR R"(SOOSA2014\basis.html)"
 #define MAXQUESTIONSCOOR 60 //2*30 -> MUST be twice of MAXQUESTIONS
-#define SAMPLESLINETOALLOC 1000
-#define ROBUSTSAMPLESLINE 1000
+#define SAMPLESLINETOALLOC 1000#define ROBUSTSAMPLESLINE 1000
 #define ROBUSTMINSAMPLESLINE 100
 #define ROBUSTSAMPLESLINETOPBOTTOM 500
-#define ROBUSTMINSAMPLESLINETOPBOTTOM 100
-#define PIXELSPERPENLINE 100
+#define ROBUSTMINSAMPLESLINETOPBOTTOM 100#define PIXELSPERPENLINE 100
 #define PIXELSSEARCHSIZE 200//2*PIXELSPERPENLINE -> MUST be twice of PIXELSPERPENLINE
 #define PIXELSCIRCLERADIUSHIGH 16
 #define PIXELSCIRCLERADIUSLOW 10
@@ -93,20 +88,18 @@ void SOOSA::FrequencyDatabase::addAnswer(unsigned int const questionNumber, unsi
     }
 }
 
-unsigned int SOOSA::FrequencyDatabase::getFrequencyOfAnswer(unsigned int const questionNumber, unsigned int const answer)
+unsigned int SOOSA::FrequencyDatabase::getFrequencyOfAnswer(unsigned int const questionNumber, unsigned int const answer) const
 {
     unsigned int frequency=0;
     if(questionNumber<m_numberOfQuestions && answer<=4)
     {
-        frequency = m_questionToAnswerFrequencyMap[questionNumber][answer];
+        frequency = m_questionToAnswerFrequencyMap.at(questionNumber).at(answer);
     }
     return frequency;
 }
-
 SOOSA::SOOSA(SoosaConfiguration const& configuration)
     : m_configuration(configuration)
-    , m_frequencyDatabase(m_configuration.getNumberOfQuestions())
-{
+    , m_frequencyDatabase(m_configuration.getNumberOfQuestions()){
     m_numberOfRespondents=0;
 }
 
@@ -151,48 +144,38 @@ void SOOSA::setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigne
 }
 
 
-void SOOSA::saveDataToCsvFile(string const& processedFilePath)
+void SOOSA::saveDataToCsvFile(string const& processedFilePath)  const
 {
     ofstream outputCsvReportStream(getCsvFileName(m_configuration.getPath()), ofstream::app);
-    if(m_configuration.getNumberOfQuestions() != m_questionToAnswersMap.size())
-    {
-        m_status = SoosaStatus::AlgorithmError;
-    }
     if(isStatusNoError(m_status))
     {
-        outputCsvReportStream<<processedFilePath<<",OK";
-        for(unsigned int i=0;i<m_configuration.getNumberOfQuestions();i++)
+        outputCsvReportStream<<processedFilePath<<",OK";        for(unsigned int i=0;i<m_configuration.getNumberOfQuestions();i++)
         {
             outputCsvReportStream<<","<<getAnswerToQuestion(i);
-            m_frequencyDatabase.addAnswer(i, getAnswerToQuestion(i)-1);
         }
         outputCsvReportStream<<endl;
-    }
-    else
+    }    else
     {
         outputCsvReportStream<<processedFilePath<<","<<getString(m_status)<<endl;
     }
 }
 
-void SOOSA::saveHeadersToCsvFile()
+void SOOSA::saveHeadersToCsvFile() const
 {
     ofstream outputCsvReportStream(getCsvFileName(m_configuration.getPath()));
-    outputCsvReportStream << "FILE,STATUS";
-    for(unsigned int i=0; i<m_configuration.getNumberOfQuestions(); i++)
+    outputCsvReportStream << "FILE,STATUS";    for(unsigned int i=0; i<m_configuration.getNumberOfQuestions(); i++)
     {
         outputCsvReportStream<<",Question_"<<i+1;
     }
     outputCsvReportStream<<endl;
 }
 
-void SOOSA::saveOutputHtmlFile(string const& processedFilePath)
+void SOOSA::saveOutputHtmlFile(string const& processedFilePath) const
 {
     cout<<"saveOutputHtmlFile"<<endl;
-
     ifstream htmlBasisFileStream(FILE_PATH_BASIS_HTML);
     AlbaFileReader htmlBasisFileReader(htmlBasisFileStream);
-    ofstream reportHtmlFileStream(getReportHtmlFileName(processedFilePath));
-    reportHtmlFileStream.precision(5);
+    ofstream reportHtmlFileStream(getReportHtmlFileName(processedFilePath));    reportHtmlFileStream.precision(5);
     while(htmlBasisFileReader.isNotFinished())
     {
         string line(htmlBasisFileReader.getLineAndIgnoreWhiteSpaces());
@@ -249,121 +232,101 @@ void SOOSA::saveOutputHtmlFile(string const& processedFilePath)
     }
 }
 
-Line SOOSA::findLeftLine(AprgBitmapSnippet const& snippet)
+Line SOOSA::findLeftLine(AprgBitmapSnippet const& snippet) const
 {
-    unsigned int incrementInY(snippet.getDeltaY()/NUMBER_OF_SLICES_IN_FIND_LINE);
     BitmapRange rangeForX(snippet.getTopLeftCorner().getX(), snippet.getBottomRightCorner().getX(), 1);
-    BitmapRange rangeForY(snippet.getTopLeftCorner().getY(), snippet.getBottomRightCorner().getY(), incrementInY);
+    BitmapRange rangeForY(snippet.getTopLeftCorner().getY(), snippet.getBottomRightCorner().getY(), 1);
 
     return findVerticalLine(snippet, rangeForX, rangeForY);
 }
 
-Line SOOSA::findRightLine(AprgBitmapSnippet const& snippet)
+Line SOOSA::findRightLine(AprgBitmapSnippet const& snippet) const
 {
-    unsigned int incrementInY(snippet.getDeltaY()/NUMBER_OF_SLICES_IN_FIND_LINE);
     BitmapRange rangeForX(snippet.getBottomRightCorner().getX(), snippet.getTopLeftCorner().getX(), -1);
-    BitmapRange rangeForY(snippet.getTopLeftCorner().getY(), snippet.getBottomRightCorner().getY(), incrementInY);
+    BitmapRange rangeForY(snippet.getTopLeftCorner().getY(), snippet.getBottomRightCorner().getY(), 1);
 
     return findVerticalLine(snippet, rangeForX, rangeForY);
 }
 
-Line SOOSA::findTopLine(AprgBitmapSnippet const& snippet)
+Line SOOSA::findTopLine(AprgBitmapSnippet const& snippet) const
 {
-    unsigned int incrementInX(snippet.getDeltaX()/NUMBER_OF_SLICES_IN_FIND_LINE);
-    BitmapRange rangeForX(snippet.getTopLeftCorner().getX(), snippet.getBottomRightCorner().getX(), incrementInX);
+    BitmapRange rangeForX(snippet.getTopLeftCorner().getX(), snippet.getBottomRightCorner().getX(), 1);
     BitmapRange rangeForY(snippet.getTopLeftCorner().getY(), snippet.getBottomRightCorner().getY(), 1);
 
     return findHorizontalLine(snippet, rangeForX, rangeForY);
 }
 
-Line SOOSA::findBottomLine(AprgBitmapSnippet const& snippet)
+Line SOOSA::findBottomLine(AprgBitmapSnippet const& snippet) const
 {
-    unsigned int incrementInX(snippet.getDeltaX()/NUMBER_OF_SLICES_IN_FIND_LINE);
-    BitmapRange rangeForX(snippet.getTopLeftCorner().getX(), snippet.getBottomRightCorner().getX(), incrementInX);
+    BitmapRange rangeForX(snippet.getTopLeftCorner().getX(), snippet.getBottomRightCorner().getX(), 1);
     BitmapRange rangeForY(snippet.getBottomRightCorner().getY(), snippet.getTopLeftCorner().getY(), -1);
 
     return findHorizontalLine(snippet, rangeForX, rangeForY);
 }
 
-Line SOOSA::findVerticalLine(AprgBitmapSnippet const& snippet, BitmapRange const& rangeForX, BitmapRange const& rangeForY)
+Line SOOSA::findVerticalLine(AprgBitmapSnippet const& snippet, BitmapRange const& rangeForX, BitmapRange const& rangeForY) const
 {
-    ALBA_PRINT2(rangeForX.getDisplayableString(), rangeForY.getDisplayableString());
-    AprgBitmap bitmap(snippet.getConfiguration().getPath());
-    AprgBitmapSnippet writeSnippet(bitmap.getSnippetReadFromFile(snippet.getTopLeftCorner(), snippet.getBottomRightCorner()));
-    ALBA_PRINT2(writeSnippet.getTopLeftCorner().getDisplayableString(), writeSnippet.getBottomRightCorner().getDisplayableString());
-
     BitmapRange::TerminationCondition conditionForX(rangeForX.getTerminationCondition());
     BitmapRange::TerminationCondition conditionForY(rangeForY.getTerminationCondition());
     Samples samples;
     for(unsigned int y=rangeForY.getStartValue(); conditionForY(y, rangeForY.getEndValue()); y+=rangeForY.getInterval())
     {
-        bool isBlackEncountered(false);
+        AlbaRange<double> consecutiveBlackPixels;
         for(unsigned int x=rangeForX.getStartValue(); conditionForX(x, rangeForX.getEndValue()); x+=rangeForX.getInterval())
         {
-            BitmapXY bitmapPoint(x, y);
-            Sample samplePoint{(double) x, (double) y};
-            writeSnippet.setPixelAt(bitmapPoint, 0x0000AAAA);
-            if(snippet.isBlackAt(bitmapPoint))
+            if(snippet.isBlackAt(BitmapXY(x, y)))
             {
-                samples.emplace_back(samplePoint);
-                isBlackEncountered=true;
+                if(consecutiveBlackPixels.isEmpty())
+                {
+                    consecutiveBlackPixels.setStartValue((double)x);
+                }
+                consecutiveBlackPixels.setEndValue((double)x);
             }
-            else if(isBlackEncountered)
+            else if(!consecutiveBlackPixels.isEmpty())
             {
-                //break;
+                samples.emplace_back(Sample{consecutiveBlackPixels.getMidpointValue(), (double)y});
+                break;
             }
         }
     }
-
-    bitmap.setSnippetWriteToFile(writeSnippet);
-
     return getLineModel(samples);
 }
 
-Line SOOSA::findHorizontalLine(AprgBitmapSnippet const& snippet, BitmapRange const& rangeForX, BitmapRange const& rangeForY)
+Line SOOSA::findHorizontalLine(AprgBitmapSnippet const& snippet, BitmapRange const& rangeForX, BitmapRange const& rangeForY) const
 {
-    ALBA_PRINT2(rangeForX.getDisplayableString(), rangeForY.getDisplayableString());
-    AprgBitmap bitmap(snippet.getConfiguration().getPath());
-    AprgBitmapSnippet writeSnippet(bitmap.getSnippetReadFromFile(snippet.getTopLeftCorner(), snippet.getBottomRightCorner()));
-    ALBA_PRINT2(writeSnippet.getTopLeftCorner().getDisplayableString(), writeSnippet.getBottomRightCorner().getDisplayableString());
-
     BitmapRange::TerminationCondition conditionForX(rangeForX.getTerminationCondition());
     BitmapRange::TerminationCondition conditionForY(rangeForY.getTerminationCondition());
     Samples samples;
     for(unsigned int x=rangeForX.getStartValue(); conditionForX(x, rangeForX.getEndValue()); x+=rangeForX.getInterval())
     {
-        bool isBlackEncountered(false);
+        AlbaRange<double> consecutiveBlackPixels;
         for(unsigned int y=rangeForY.getStartValue(); conditionForY(y, rangeForY.getEndValue()); y+=rangeForY.getInterval())
         {
-            BitmapXY bitmapPoint(x, y);
-            Sample samplePoint{(double) x, (double) y};
-            writeSnippet.setPixelAt(bitmapPoint, 0x0000AAAA);
-            if(snippet.isBlackAt(bitmapPoint))
+            if(snippet.isBlackAt(BitmapXY(x, y)))
             {
-                samples.emplace_back(samplePoint);
-                isBlackEncountered=true;
+                if(consecutiveBlackPixels.isEmpty())
+                {
+                    consecutiveBlackPixels.setStartValue((double)y);
+                }
+                consecutiveBlackPixels.setEndValue((double)y);
             }
-            else if(isBlackEncountered)
+            else if(!consecutiveBlackPixels.isEmpty())
             {
-                //break;
+                samples.emplace_back(Sample{(double)x, consecutiveBlackPixels.getMidpointValue()});
+                break;
             }
         }
     }
-
-    bitmap.setSnippetWriteToFile(writeSnippet);
-
     return getLineModel(samples);
 }
 
-Line SOOSA::getLineModel(Samples & samples)
+Line SOOSA::getLineModel(Samples & samples) const
 {
     int const nonAllowableSquareErrorLimit(2);
     double const samplesRetainRatio(0.90);
-
     LineModel lineModel;
     double maxSquareErrorInSamples(nonAllowableSquareErrorLimit);
-    while (maxSquareErrorInSamples>=nonAllowableSquareErrorLimit && samples.size() > 2)
-    {
+    while (maxSquareErrorInSamples>=nonAllowableSquareErrorLimit && samples.size() > 2)    {
         lineModel = calculateLineModelUsingLeastSquares(samples);
         sortSamplesBySquareError(samples, lineModel);
         maxSquareErrorInSamples = calculateSquareError(samples.back(), lineModel);
@@ -377,49 +340,55 @@ Line SOOSA::getLineModel(Samples & samples)
 }
 
 
-void writeLineInBitmap(AprgBitmap & bitmap, Line const& line)
+void SOOSA::writeLineInBitmap(AprgBitmap & bitmap, Line const& line) const
 {
     ALBA_PRINT3(line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient());
 
-    BitmapSignedXY left(0,line. calculateYFromX(0));
-    BitmapSignedXY right(bitmap.getConfiguration().getBitmapWidth()-1, line.calculateYFromX(bitmap.getConfiguration().getBitmapWidth()-1));
-    BitmapSignedXY top(line.calculateXFromY(0), 0);
-    BitmapSignedXY bottom(line.calculateXFromY(bitmap.getConfiguration().getBitmapHeight()-1), bitmap.getConfiguration().getBitmapHeight()-1);
+    Point left(0, line. calculateYFromX(0));
+    Point right(bitmap.getConfiguration().getBitmapWidth()-1, line.calculateYFromX(bitmap.getConfiguration().getBitmapWidth()-1));
+    Point top(line.calculateXFromY(0), 0);
+    Point bottom(line.calculateXFromY(bitmap.getConfiguration().getBitmapHeight()-1), bitmap.getConfiguration().getBitmapHeight()-1);
 
     BitmapXY topLeft;
     BitmapXY bottomRight;
     if(bitmap.getConfiguration().isPositionWithinTheBitmap(left.getX(), left.getY()))
     {
-        topLeft.saveMinimumXAndY(BitmapXY((unsigned int)left.getX(), (unsigned int)left.getY()));
-        bottomRight.saveMaximumXAndY(BitmapXY((unsigned int)left.getX(), (unsigned int)left.getY()));
+        topLeft.saveMinimumXAndY(convertPoint(left));
+        bottomRight.saveMaximumXAndY(convertPoint(left));
     }
     if(bitmap.getConfiguration().isPositionWithinTheBitmap(right.getX(), right.getY()))
     {
-        topLeft.saveMinimumXAndY(BitmapXY((unsigned int)right.getX(), (unsigned int)right.getY()));
-        bottomRight.saveMaximumXAndY(BitmapXY((unsigned int)right.getX(), (unsigned int)right.getY()));
+        topLeft.saveMinimumXAndY(convertPoint(right));
+        bottomRight.saveMaximumXAndY(convertPoint(right));
     }
     if(bitmap.getConfiguration().isPositionWithinTheBitmap(top.getX(), top.getY()))
     {
-        topLeft.saveMinimumXAndY(BitmapXY((unsigned int)top.getX(), (unsigned int)top.getY()));
-        bottomRight.saveMaximumXAndY(BitmapXY((unsigned int)top.getX(), (unsigned int)top.getY()));
+        topLeft.saveMinimumXAndY(convertPoint(top));
+        bottomRight.saveMaximumXAndY(convertPoint(top));
     }
     if(bitmap.getConfiguration().isPositionWithinTheBitmap(bottom.getX(), bottom.getY()))
     {
-        topLeft.saveMinimumXAndY(BitmapXY((unsigned int)bottom.getX(), (unsigned int)bottom.getY()));
-        bottomRight.saveMaximumXAndY(BitmapXY((unsigned int)bottom.getX(), (unsigned int)bottom.getY()));
+        topLeft.saveMinimumXAndY(convertPoint(bottom));
+        bottomRight.saveMaximumXAndY(convertPoint(bottom));
     }
 
-    ALBA_PRINT2(topLeft.getDisplayableString(), bottomRight.getDisplayableString());
-    AprgBitmapSnippet snippet(bitmap.getSnippetReadFromFileWithOutOfRangeCoordinates(topLeft.getX(), topLeft.getY(), bottomRight.getX(), bottomRight.getY()));
+    ALBA_PRINT2(topLeft.getDisplayableString(), bottomRight.getDisplayableString());    AprgBitmapSnippet snippet(bitmap.getSnippetReadFromFileWithOutOfRangeCoordinates(topLeft.getX(), topLeft.getY(), bottomRight.getX(), bottomRight.getY()));
     Points points(line.getPoints(Point(topLeft.getX(), topLeft.getY()), Point(bottomRight.getX(), bottomRight.getY()), 1));
     for (Point point: points)
-    {
-        snippet.setPixelAt(BitmapXY(point.getX(), point.getY()), 0x00EE0000);
+    {        snippet.setPixelAt(BitmapXY(point.getX(), point.getY()), 0x00EE0000);
     }
     bitmap.setSnippetWriteToFile(snippet);
 }
 
+BitmapXY SOOSA::convertPoint(Point const& point) const
+{
+    return BitmapXY((unsigned int)round(mathHelper::clampLowerBound(point.getX(), (double)0)), (unsigned int)round(mathHelper::clampLowerBound(point.getY(), (double)0)));
+}
 
+Point SOOSA::convertPoint(BitmapXY const& bitmapXY) const
+{
+    return Point((double)bitmapXY.getX(), (double)bitmapXY.getY());
+}
 
 
 
@@ -444,12 +413,10 @@ void writeLineInBitmap(AprgBitmap & bitmap, Line const& line)
 
 void SOOSA::getChebyshevInt(ChebyshevCriterion* in_cc, int* arr, int num)
 {
-    int i;
-    double mean=0, stddev=0;
+    int i;    double mean=0, stddev=0;
     for(i=0; i<num; i++){
         LOPPRINT("  FUNCLOOP:getChebyshevInt[i=%d]->(arr[i]=%d|mean=%lf)\n",i,arr[i],mean);
-        mean=mean+arr[i];
-    }
+        mean=mean+arr[i];    }
     mean=mean/num;
     for(i=0; i<num; i++){
         LOPPRINT("  FUNCLOOP:getChebyshevInt[i=%d]->(arr[i]=%d|stddev=%lf)\n",i,arr[i],stddev);
@@ -2080,23 +2047,27 @@ void SOOSA::processOneFile(string const& filePath)
         isFinishedSuccessfully=true;
     }
     cout<<"DONE!"<<endl;
-    if(!isFinishedSuccessfully)
+    if(!isFinishedSuccessfully || m_configuration.getNumberOfQuestions() != m_questionToAnswersMap.size())
+    {
+        m_status = SoosaStatus::AlgorithmError;
+    }
+    else
     {
         m_numberOfRespondents++;
-        m_status = SoosaStatus::AlgorithmError;
-        return;
+        for(unsigned int i=0;i<m_configuration.getNumberOfQuestions();i++)
+        {
+            m_frequencyDatabase.addAnswer(i, getAnswerToQuestion(i)-1);
+        }
     }
 }
 
-bool SOOSA::isStatusNoError(SoosaStatus const status)
+bool SOOSA::isStatusNoError(SoosaStatus const status) const
 {
     return status == SoosaStatus::NoError;
 }
-
 void SOOSA::processDirectory(string const& directoryPath)
 {
     cout<<"processDirectory: ["<<directoryPath<<"]"<<endl;
-
     AlbaLocalPathHandler directoryPathToBeProcessed(directoryPath);
     set<string> listOfFiles;
     set<string> listOfDirectories;

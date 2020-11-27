@@ -57,18 +57,16 @@ AprgBitmapSnippet AprgBitmap::getSnippetReadFromFile(BitmapXY const topLeftCorne
         int offsetInYForEnd = m_configuration.getBitmapHeight()-bottomRightCorner.getY()-1;
         int numberOfBytesToBeCopiedForX = m_configuration.getOneRowSizeInBytesFromBytes(byteOffsetInXForStart, byteOffsetInXForEnd);
 
-        int xStartPixel = getXCoordinateWithinTheBitmap((int)m_configuration.convertBytesToPixels(byteOffsetInXForStart));
-        int xEndPixel = getXCoordinateWithinTheBitmap((int)m_configuration.convertBytesToPixels(byteOffsetInXForEnd)+m_configuration.getMaximumNumberOfPixelsBeforeOneByte());
+        int startPixelInX = getXCoordinateWithinTheBitmap((int)m_configuration.convertBytesToPixels(byteOffsetInXForStart));
+        int endPixelInX = getXCoordinateWithinTheBitmap((int)m_configuration.convertBytesToPixels(byteOffsetInXForEnd)+m_configuration.getMaximumNumberOfPixelsBeforeOneByte());
 
-        snippet = AprgBitmapSnippet(BitmapXY(xStartPixel, topLeftCorner.getY()), BitmapXY(xEndPixel, bottomRightCorner.getY()), m_configuration);
+        snippet = AprgBitmapSnippet(BitmapXY(startPixelInX, topLeftCorner.getY()), BitmapXY(endPixelInX, bottomRightCorner.getY()), m_configuration);
 
         for(int y=offsetInYForStart; y>=offsetInYForEnd; y--)
-        {
-            unsigned long long fileOffsetForStart = m_configuration.getPixelArrayAddress()+((unsigned long long)m_configuration.getNumberOfBytesPerRowInFile()*y)+byteOffsetInXForStart;
+        {            unsigned long long fileOffsetForStart = m_configuration.getPixelArrayAddress()+((unsigned long long)m_configuration.getNumberOfBytesPerRowInFile()*y)+byteOffsetInXForStart;
             fileReader.moveLocation(fileOffsetForStart);
             fileReader.saveDataToMemoryBuffer(snippet.getPixelDataReference(), numberOfBytesToBeCopiedForX);
-        }
-    }
+        }    }
     return snippet; //RVO takes care of this
 }
 

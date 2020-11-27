@@ -1,47 +1,76 @@
 #pragma once
 
+#include <Math/AlbaMathHelper.hpp>
+
 #include <functional>
 #include <sstream>
 #include <string>
-
 namespace alba
 {
 
 enum class AlbaRangeType
 {
     Unknown,
+    Stop,
     Forward,
     Backward
 };
-
 template <typename DataType>
 class AlbaRange
-{
-public:
+{public:
     using TerminationCondition = std::function<bool(DataType,DataType)>;
     using TraverseOperation = std::function<void(DataType)>;
     AlbaRange()
         : m_startValue(0)
         , m_endValue(0)
-        , m_rangeType(AlbaRangeType::Unknown)
-        , m_intervalWithSign(0)
+        , m_intervalMagnitude(0)
     {}
 
-    AlbaRange(DataType const startValue, DataType const endValue, DataType const interval)
+    AlbaRange(DataType const startValue, DataType const endValue, DataType const intervalMagnitude)
         : m_startValue(startValue)
         , m_endValue(endValue)
-        , m_rangeType(getRangeTypeFromStartAndEnd(startValue, endValue))
-        , m_intervalWithSign(getIntervalWithSign(interval, m_rangeType))
+        , m_intervalMagnitude(mathHelper::getAbsoluteValue(intervalMagnitude))
     {}
+
+    bool isEmpty() const
+    {
+        return m_startValue==0 && m_endValue==0 && m_intervalMagnitude==0;
+    }
 
     DataType getStartValue() const
     {
-        return m_startValue;
-    }
+        return m_startValue;    }
 
     DataType getEndValue() const
     {
         return m_endValue;
+    }
+
+    AlbaRangeType getRangeType() const
+    {
+        return getRangeTypeFromStartAndEnd(m_startValue, m_endValue);
+    }
+
+    DataType getInterval() const
+    {
+        return getIntervalWithSign(m_intervalMagnitude, getRangeType());
+    }
+
+    DataType getIntervalMagnitude() const
+    {
+        return m_intervalMagnitude;
+    }
+
+    TerminationCondition getTerminationCondition() const
+    {
+        return getTerminationCondition(getRangeType());
+    }
+
+    std::string getDisplayableString() const
+    {
+        std::stringstream ss;
+        ss<<"["<<m_startValue<<" <- "<<getInterval()<<" -> "<<m_endValue<<"]";
+        return ss.str();
     }
 
     DataType getDelta() const
@@ -50,46 +79,42 @@ public:
         return (delta<0) ? delta*-1 : delta;
     }
 
-    DataType getInterval() const
+    DataType getMidpointValue() const
     {
-        return m_intervalWithSign;
+        return (m_startValue+m_endValue)/2;
     }
 
-    AlbaRangeType getRangeType() const
+    void setStartValue(DataType const startValue)
     {
-        return m_rangeType;
+        m_startValue = startValue;
     }
 
-    std::string getDisplayableString() const
+    void setEndValue(DataType const endValue)
     {
-        std::stringstream ss;
-        ss<<"["<<m_startValue<<" <- "<<m_intervalWithSign<<" -> "<<m_endValue<<"]";
-        return ss.str();
+        m_endValue = endValue;
     }
 
-    TerminationCondition getTerminationCondition() const
+    void setIntervalMagnitude(DataType const intervalMagnitude)
     {
-        return getTerminationCondition(m_rangeType);
+        m_intervalMagnitude = getAbsoluteValue(intervalMagnitude);
     }
 
-    void traverse(TraverseOperation traverseOperation)
+    void traverse(TraverseOperation traverseOperation) const
     {
-        TerminationCondition terminationCondition(getTerminationCondition(m_rangeType));
-        for(DataType traverseValue = m_startValue; terminationCondition(traverseValue, m_endValue); traverseValue+=m_intervalWithSign)
+        TerminationCondition terminationCondition(getTerminationCondition());
+        DataType interval(getInterval());
+        for(DataType traverseValue = m_startValue; terminationCondition(traverseValue, m_endValue); traverseValue+=interval)
         {
             traverseOperation(traverseValue);
         }
     }
 
-
 private:
 
-    TerminationCondition getTerminationCondition(AlbaRangeType const rangeType) const
-    {
+    TerminationCondition getTerminationCondition(AlbaRangeType const rangeType) const    {
         TerminationCondition terminationCondition;
         switch(rangeType)
-        {
-        case AlbaRangeType::Forward:
+        {        case AlbaRangeType::Forward:
             terminationCondition = std::less_equal<DataType>();
             break;
         case AlbaRangeType::Backward:
@@ -123,24 +148,25 @@ private:
         return intervalWithSign;
     }
 
-    AlbaRangeType getRangeTypeFromStartAndEnd(DataType const startValue, DataType const endValue)
+    AlbaRangeType getRangeTypeFromStartAndEnd(DataType const startValue, DataType const endValue) const
     {
         AlbaRangeType rangeType(AlbaRangeType::Unknown);
-        if(startValue <= endValue)
+        if(startValue == endValue)
+        {
+            rangeType = AlbaRangeType::Stop;
+        }
+        else if(startValue < endValue)
         {
             rangeType = AlbaRangeType::Forward;
         }
-        else
-        {
+        else        {
             rangeType = AlbaRangeType::Backward;
         }
-        return rangeType;
-    }
+        return rangeType;    }
 
     DataType m_startValue;
     DataType m_endValue;
-    AlbaRangeType m_rangeType;
-    DataType m_intervalWithSign;
+    DataType m_intervalMagnitude;
 };
 
 }

@@ -30,37 +30,36 @@ public:
         FrequencyDatabase(unsigned int numberOfQuestions);
         void clear();
         void addAnswer(unsigned int const questionNumber, unsigned int const answer);
-        unsigned int getFrequencyOfAnswer(unsigned int const questionNumber, unsigned int const answer);
+        unsigned int getFrequencyOfAnswer(unsigned int const questionNumber, unsigned int const answer) const;
     private:
         unsigned int m_numberOfQuestions;
-        std::map<unsigned int, std::array<unsigned int, 5>> m_questionToAnswerFrequencyMap;
-    };
+        std::map<unsigned int, std::array<unsigned int, 5>> m_questionToAnswerFrequencyMap;    };
     using BitmapRange = AlbaRange<int>;
 
-    SOOSA(SoosaConfiguration const& configuration);
-    unsigned int getNumberOfAnswers() const;
+    SOOSA(SoosaConfiguration const& configuration);    unsigned int getNumberOfAnswers() const;
     unsigned int getAnswerToQuestion(unsigned int const questionNumber) const;
 private:
     std::string getCsvFileName(std::string const& path) const;
     std::string getReportHtmlFileName(std::string const& path) const;
     std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
     void setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer);
-    void saveDataToCsvFile(std::string const& processedFilePath);
-    void saveHeadersToCsvFile();
-    void saveOutputHtmlFile(std::string const& processedFilePath);
-    Line findLeftLine(AprgBitmapSnippet const& snippet);
-    Line findRightLine(AprgBitmapSnippet const& snippet);
-    Line findTopLine(AprgBitmapSnippet const& snippet);
-    Line findBottomLine(AprgBitmapSnippet const& snippet);
-    Line findVerticalLine(AprgBitmapSnippet const& snippet, BitmapRange const& range1, BitmapRange const& range2);
-    Line findHorizontalLine(AprgBitmapSnippet const& snippet, BitmapRange const& range1, BitmapRange const& range2);
-    Line getLineModel(TwoDimensionsStatistics::Samples & samples);
+    void saveDataToCsvFile(std::string const& processedFilePath) const;
+    void saveHeadersToCsvFile() const;
+    void saveOutputHtmlFile(std::string const& processedFilePath) const;
+    Line findLeftLine(AprgBitmapSnippet const& snippet) const;
+    Line findRightLine(AprgBitmapSnippet const& snippet) const;
+    Line findTopLine(AprgBitmapSnippet const& snippet) const;
+    Line findBottomLine(AprgBitmapSnippet const& snippet) const;
+    Line findVerticalLine(AprgBitmapSnippet const& snippet, BitmapRange const& range1, BitmapRange const& range2) const;
+    Line findHorizontalLine(AprgBitmapSnippet const& snippet, BitmapRange const& range1, BitmapRange const& range2) const;
+    Line getLineModel(TwoDimensionsStatistics::Samples & samples) const;
+    void writeLineInBitmap(AprgBitmap & bitmap, Line const& line) const;
+    BitmapXY convertPoint(Point const& point) const;
+    Point convertPoint(BitmapXY const& bitmapXY) const;
     SoosaConfiguration m_configuration;
     SoosaStatus m_status;
-    unsigned int m_numberOfRespondents;
-    std::map<unsigned int, unsigned int> m_questionToAnswersMap;
+    unsigned int m_numberOfRespondents;    std::map<unsigned int, unsigned int> m_questionToAnswersMap;
     FrequencyDatabase m_frequencyDatabase;
-
 
 
 
@@ -129,10 +128,9 @@ private:
     int getQuestionsFromLine(AprgBitmapSnippet const& snippet, PairXY* out_questions, int numExpectedQuestions, double* tdoublearr, LineSlopeIntercept tslopeintercept, PairXY tcornerup, PairXY tcornerdown, int barheightsamplepixels);
     void processOneFile(std::string const & fileName);
     void processDirectory(std::string const & directoryPath);
-    bool isStatusNoError(SoosaStatus const status);
+    bool isStatusNoError(SoosaStatus const status) const;
 
 public:
-    int process();
-};
+    int process();};
 
 }
