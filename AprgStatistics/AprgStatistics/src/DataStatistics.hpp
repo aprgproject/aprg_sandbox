@@ -9,11 +9,11 @@
 namespace alba
 {
 
-template <typename DataType, unsigned int dimensions>
+template <unsigned int dimensions>
 class DataStatistics
 {
 public:
-    using Sample = DataSample<DataType, dimensions>;
+    using Sample = DataSample<dimensions>;
     using Samples = std::vector<Sample>;
 
     static Sample calculateSum(Samples const& samples)
@@ -23,7 +23,12 @@ public:
 
     static Sample calculateMean(Samples const& samples)
     {
-        return calculateSum(samples)/samples.size();
+        Sample mean;
+        if(!samples.empty())
+        {
+            mean = calculateSum(samples)/samples.size();
+        }
+        return mean;
     }
 
     static Sample calculateSampleVariance(Samples const& samples)
@@ -46,7 +51,7 @@ public:
         return calculateStandardDeviation(samples, samples.size());
     }
 
-    static DataType calculateDispersionAroundTheCentroid(Samples const& samples)
+    static double calculateDispersionAroundTheCentroid(Samples const& samples)
     {
         Sample dispersionCalculationTemp(calculateSampleStandardDeviation(samples));
         dispersionCalculationTemp = dispersionCalculationTemp.calculateRaiseToPower(2);
@@ -56,14 +61,19 @@ private:
 
     static Sample calculateVariance(Samples const& samples, unsigned int sampleSize)
     {
-        Samples varianceCalculationTemp(samples);
-        Sample mean(calculateMean(samples));
-        for(Sample & sample: varianceCalculationTemp)
+        Sample variance;
+        if(!samples.empty())
         {
-            sample = sample-mean;
-            sample = sample.calculateRaiseToPower(2);
+            Samples varianceCalculationTemp(samples);
+            Sample mean(calculateMean(samples));
+            for(Sample & sample: varianceCalculationTemp)
+            {
+                sample = sample-mean;
+                sample = sample.calculateRaiseToPower(2);
+            }
+            variance = calculateSum(varianceCalculationTemp)/sampleSize;
         }
-        return(calculateSum(varianceCalculationTemp)/sampleSize);
+        return variance;
     }
 
     static Sample calculateStandardDeviation(Samples const& samples, unsigned int sampleSize)
