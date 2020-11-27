@@ -70,3 +70,14 @@ TEST(DataStatisticsTest, StatisticsAreCorrect)
     EXPECT_EQ(expectedPopulationStandardDeviation, populationStandardDeviation);
     EXPECT_DOUBLE_EQ(expectedDispersion, dispersion);
 }
+
+TEST(DataStatisticsTest, DistancesAreCorrect)
+{
+    using LocalStatistics = DataStatistics<3>;
+    using LocalSample = LocalStatistics::Sample;
+
+    EXPECT_EQ(0, LocalStatistics::calculateDistance(LocalSample{}, LocalSample{}));
+    EXPECT_EQ(0, LocalStatistics::calculateDistance(LocalSample{1, 10, 100}, LocalSample{1, 10, 100}));
+    EXPECT_EQ(3, LocalStatistics::calculateDistance(LocalSample{1, 10, 100}, LocalSample{2, 12, 102}));
+    EXPECT_EQ(7, LocalStatistics::calculateDistance(LocalSample{1, 10, 100}, LocalSample{3, 13, 106}));
+}

@@ -36,14 +36,13 @@ public:
         std::map<unsigned int, std::array<unsigned int, 5>> m_questionToAnswerFrequencyMap;
     };
     using BitmapRange = AlbaRange<int>;
+    using VectorOfDoubles = std::vector<double>;
 
     SOOSA(SoosaConfiguration const& configuration);
-    unsigned int getNumberOfAnswers() const;
-    unsigned int getAnswerToQuestion(unsigned int const questionNumber) const;
+    unsigned int getNumberOfAnswers() const;    unsigned int getAnswerToQuestion(unsigned int const questionNumber) const;
 private:
     std::string getCsvFileName(std::string const& path) const;
-    std::string getReportHtmlFileName(std::string const& path) const;
-    std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
+    std::string getReportHtmlFileName(std::string const& path) const;    std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
     void setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer);
     void saveDataToCsvFile(std::string const& processedFilePath) const;
     void saveHeadersToCsvFile() const;
@@ -55,17 +54,19 @@ private:
     Line findVerticalLine(AprgBitmapSnippet const& snippet, BitmapRange const& range) const;
     Line findHorizontalLine(AprgBitmapSnippet const& snippet, BitmapRange const& range) const;
     Line findLeftLineUsingStartingLine(AprgBitmapSnippet const& snippet, Line startingLine) const;
-    Line findRightLineUsingStartingLine(AprgBitmapSnippet const& snippet, Line startingLine) const;\
+    Line findRightLineUsingStartingLine(AprgBitmapSnippet const& snippet, Line startingLine) const;
     Line findVerticalLineUsingStartingLine(AprgBitmapSnippet const& snippet, Line startingLine, BitmapRange const& rangeForX) const;
-    Line getLineModel(TwoDimensionsStatistics::Samples & samples) const;
+    Line getLineModel(TwoDimensionsStatistics::Samples const& samples) const;
+    VectorOfDoubles getAcceptableSquareErrorsUsingKMeans(TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const;
+    VectorOfDoubles getAcceptableSquareErrorsUsingRetainRatio(TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const;
+    void updateSamplesForLineModelingFromSquareErrorToSampleMultimap(TwoDimensionsStatistics::Samples & samplesLineModeling, TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const;
+    void processOneColumnNew(AprgBitmapSnippet const& snippet, Line const& leftLine, Line const& rightLine, unsigned int const columnNumber);
     void writeLineInBitmap(AprgBitmap & bitmap, Line const& line) const;
     BitmapXY convertPoint(Point const& point) const;
-    Point convertPoint(BitmapXY const& bitmapXY) const;
-    SoosaConfiguration m_configuration;
+    Point convertPoint(BitmapXY const& bitmapXY) const;    SoosaConfiguration m_configuration;
     SoosaStatus m_status;
     unsigned int m_numberOfRespondents;
-    std::map<unsigned int, unsigned int> m_questionToAnswersMap;
-    FrequencyDatabase m_frequencyDatabase;
+    std::map<unsigned int, unsigned int> m_questionToAnswersMap;    FrequencyDatabase m_frequencyDatabase;
 
 
 

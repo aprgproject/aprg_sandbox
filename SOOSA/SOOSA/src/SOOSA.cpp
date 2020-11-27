@@ -2,14 +2,13 @@
 
 #include <File/AlbaFileReader.hpp>
 #include <FrequencyStatistics.hpp>
+#include <KMeansClustering.hpp>
 #include <Math/AlbaMathHelper.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <String/AlbaStringHelper.hpp>
-#include <User/AlbaUserInterface.hpp>
+#include <String/AlbaStringHelper.hpp>#include <User/AlbaUserInterface.hpp>
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <Debug/AlbaDebug.hpp>
-
 #include <sstream>
 #include <iostream>
 
@@ -25,15 +24,14 @@
 
 
 #define ALLOWABLE_LINE_DEVIATION 2
-#define RETAIN_RATIO 0.90
+#define MINIMUM_NUMBER_OF_LINE_SAMPLES 10
+#define RETAIN_RATIO_FOR_DEVIATION 0.90
 
 #define FILE_PATH_BASIS_HTML APRG_DIR R"(SOOSA2014\basis.html)"
-#define MAXQUESTIONSCOOR 60 //2*30 -> MUST be twice of MAXQUESTIONS
-#define SAMPLESLINETOALLOC 1000
+#define MAXQUESTIONSCOOR 60 //2*30 -> MUST be twice of MAXQUESTIONS#define SAMPLESLINETOALLOC 1000
 #define ROBUSTSAMPLESLINE 1000
 #define ROBUSTMINSAMPLESLINE 100
-#define ROBUSTSAMPLESLINETOPBOTTOM 500
-#define ROBUSTMINSAMPLESLINETOPBOTTOM 100
+#define ROBUSTSAMPLESLINETOPBOTTOM 500#define ROBUSTMINSAMPLESLINETOPBOTTOM 100
 #define PIXELSPERPENLINE 100
 #define PIXELSSEARCHSIZE 200//2*PIXELSPERPENLINE -> MUST be twice of PIXELSPERPENLINE
 #define PIXELSCIRCLERADIUSHIGH 16
@@ -250,35 +248,26 @@ void SOOSA::saveOutputHtmlFile(string const& processedFilePath) const
 Line SOOSA::findLeftLine(AprgBitmapSnippet const& snippet) const
 {
     BitmapRange rangeForX(snippet.getTopLeftCorner().getX(), snippet.getBottomRightCorner().getX(), 1);
-
     return findVerticalLine(snippet, rangeForX);
 }
-
 Line SOOSA::findRightLine(AprgBitmapSnippet const& snippet) const
 {
     BitmapRange rangeForX(snippet.getBottomRightCorner().getX(), snippet.getTopLeftCorner().getX(), -1);
-
     return findVerticalLine(snippet, rangeForX);
 }
-
 Line SOOSA::findTopLine(AprgBitmapSnippet const& snippet) const
 {
     BitmapRange rangeForY(snippet.getTopLeftCorner().getY(), snippet.getBottomRightCorner().getY(), 1);
-
     return findHorizontalLine(snippet, rangeForY);
 }
-
 Line SOOSA::findBottomLine(AprgBitmapSnippet const& snippet) const
 {
     BitmapRange rangeForY(snippet.getBottomRightCorner().getY(), snippet.getTopLeftCorner().getY(), -1);
-
     return findHorizontalLine(snippet, rangeForY);
 }
-
 Line SOOSA::findVerticalLine(AprgBitmapSnippet const& snippet, BitmapRange const& rangeForX) const
 {
-    BitmapRange::TerminationCondition conditionForX(rangeForX.getTerminationCondition());
-    Samples samples;
+    BitmapRange::TerminationCondition conditionForX(rangeForX.getTerminationCondition());    Samples samples;
     for(unsigned int y=snippet.getTopLeftCorner().getY(); y<=snippet.getBottomRightCorner().getY(); y++)
     {
         AlbaRange<double> consecutiveBlackPixels;
@@ -369,42 +358,89 @@ Line SOOSA::findVerticalLineUsingStartingLine(AprgBitmapSnippet const& snippet, 
     return getLineModel(samples);
 }
 
-Line SOOSA::getLineModel(Samples & samples) const
+Line SOOSA::getLineModel(Samples const & samples) const
 {
     int const nonAllowableSquareErrorLimit(ALLOWABLE_LINE_DEVIATION*ALLOWABLE_LINE_DEVIATION);
-    double const samplesRetainRatio(RETAIN_RATIO);
 
     LineModel lineModel;
     double maxSquareErrorInSamples(nonAllowableSquareErrorLimit);
-    while (maxSquareErrorInSamples>=nonAllowableSquareErrorLimit && samples.size() > 2)
+    Samples samplesLineModeling(samples);
+    while (maxSquareErrorInSamples>=nonAllowableSquareErrorLimit && samplesLineModeling.size() > MINIMUM_NUMBER_OF_LINE_SAMPLES)
     {
-        lineModel = calculateLineModelUsingLeastSquares(samples);
-        sortSamplesBySquareError(samples, lineModel);
-        for(Sample sample:samples)
+        lineModel = calculateLineModelUsingLeastSquares(samplesLineModeling);
+        ValueToSampleMultimap squareErrorToSampleMultimap(getSquareErrorToSampleMultimap(samplesLineModeling, lineModel));
+        VectorOfDoubles acceptableSquareErrors(getAcceptableSquareErrorsUsingRetainRatio(squareErrorToSampleMultimap));
+        if(acceptableSquareErrors.size() > MINIMUM_NUMBER_OF_LINE_SAMPLES)
         {
-            //ALBA_PRINT2(sample.getDisplayableString(), calculateSquareError(sample, lineModel));
+            ValueToSampleMultimap::iterator itForErase = squareErrorToSampleMultimap.find(acceptableSquareErrors.back());
+            squareErrorToSampleMultimap.erase(itForErase, squareErrorToSampleMultimap.end());
+            acceptableSquareErrors.pop_back();
+            updateSamplesForLineModelingFromSquareErrorToSampleMultimap(samplesLineModeling, squareErrorToSampleMultimap);
+            maxSquareErrorInSamples=acceptableSquareErrors.back();
         }
-        ALBA_PRINT1(samples.size());
-        maxSquareErrorInSamples = calculateSquareError(samples.back(), lineModel);
-        if(maxSquareErrorInSamples>=nonAllowableSquareErrorLimit)
+        else
         {
-            unsigned int totalSamples(samples.size());
-            samples.erase(samples.begin()+((unsigned int)(totalSamples*samplesRetainRatio)), samples.end());
+            break;
         }
+        ALBA_PRINT1(samplesLineModeling.size());
     }
     ALBA_PRINT3(lineModel.aCoefficient, lineModel.bCoefficient, lineModel.cCoefficient);
     return Line(lineModel.aCoefficient, lineModel.bCoefficient, lineModel.cCoefficient);
 }
 
+SOOSA::VectorOfDoubles SOOSA::getAcceptableSquareErrorsUsingKMeans(ValueToSampleMultimap const& squareErrorToSampleMultimap) const
+{
+    VectorOfDoubles squareErrors;
+    using LocalKMeans = KMeansClustering<1>;
+    LocalKMeans kMeans;
+    for(ValueToSamplePair const& squareErrorToSamplePair : squareErrorToSampleMultimap)
+    {
+        kMeans.addSample(LocalKMeans::Sample{squareErrorToSamplePair.first});
+    }
+    LocalKMeans::GroupOfSamples groupOfSamples(kMeans.getGroupOfSamplesUsingKMeans(2));
+    transform(groupOfSamples[0].cbegin(), groupOfSamples[0].cend(), back_inserter(squareErrors), [](LocalKMeans::Sample const& sample)
+    {
+        return sample.getValueAt(0);
+    });
+    return squareErrors;
+}
+
+SOOSA::VectorOfDoubles SOOSA::getAcceptableSquareErrorsUsingRetainRatio(ValueToSampleMultimap const& squareErrorToSampleMultimap) const
+{
+    VectorOfDoubles squareErrors;
+    unsigned int retainedSize(RETAIN_RATIO_FOR_DEVIATION*squareErrorToSampleMultimap.size());
+    unsigned int count(0);
+    for(ValueToSamplePair const& squareErrorToSamplePair : squareErrorToSampleMultimap)
+    {
+        squareErrors.emplace_back(squareErrorToSamplePair.first);
+        if(count++ >= retainedSize)
+        {
+            break;
+        }
+    }
+    return squareErrors;
+}
+
+void SOOSA::updateSamplesForLineModelingFromSquareErrorToSampleMultimap(Samples & samplesLineModeling, ValueToSampleMultimap const& squareErrorToSampleMultimap) const
+{
+    samplesLineModeling.clear();
+    transform(squareErrorToSampleMultimap.cbegin(), squareErrorToSampleMultimap.cend(), back_inserter(samplesLineModeling), [](ValueToSamplePair const& squareErrorToSamplePair)
+    {
+        return squareErrorToSamplePair.second;
+    });
+}
+
+void SOOSA::processOneColumnNew(AprgBitmapSnippet const& snippet, Line const& leftLine, Line const& rightLine, unsigned int const columnNumber)
+{
+    Samples questionBarLocationsForLeftLine;
+}
 
 void SOOSA::writeLineInBitmap(AprgBitmap & bitmap, Line const& line) const
 {
-    BitmapXY topLeft(0,0);
-    BitmapXY bottomRight(bitmap.getConfiguration().getBitmapWidth()-1, bitmap.getConfiguration().getBitmapHeight()-1);
+    BitmapXY topLeft(0,0);    BitmapXY bottomRight(bitmap.getConfiguration().getBitmapWidth()-1, bitmap.getConfiguration().getBitmapHeight()-1);
 
     AprgBitmapSnippet snippet(bitmap.getSnippetReadFromFileWithOutOfRangeCoordinates(topLeft.getX(), topLeft.getY(), bottomRight.getX(), bottomRight.getY()));
-    Points points(line.getPoints(Point(topLeft.getX(), topLeft.getY()), Point(bottomRight.getX(), bottomRight.getY()), 1));
-    for (Point point: points)
+    Points points(line.getPoints(Point(topLeft.getX(), topLeft.getY()), Point(bottomRight.getX(), bottomRight.getY()), 1));    for (Point point: points)
     {
         snippet.setPixelAt(BitmapXY(point.getX(), point.getY()), 0x00EE0000);
     }

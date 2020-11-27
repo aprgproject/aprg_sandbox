@@ -69,12 +69,14 @@ double TwoDimensionsStatistics::calculateSquareError(Sample const& sample, LineM
     return pow(lineModel.aCoefficient*sample.getValueAt(0) + lineModel.bCoefficient*sample.getValueAt(1) + lineModel.cCoefficient, 2);
 }
 
-void TwoDimensionsStatistics::sortSamplesBySquareError(Samples & samples, LineModel const& lineModel)
+TwoDimensionsStatistics::ValueToSampleMultimap TwoDimensionsStatistics::getSquareErrorToSampleMultimap(Samples & samples, LineModel const& lineModel)
 {
-    std::sort(samples.begin(), samples.end(),[&](Sample const& sample1, Sample const& sample2)
+    ValueToSampleMultimap squareErrorAndSampleMultimap;
+    for(Sample const& sample : samples)
     {
-        return calculateSquareError(sample1, lineModel) < calculateSquareError(sample2, lineModel);
-    });
+        squareErrorAndSampleMultimap.emplace(calculateSquareError(sample, lineModel), sample);
+    }
+    return squareErrorAndSampleMultimap;
 }
 
 }

@@ -113,14 +113,19 @@ public:
         }
     }
 
+    void clear()
+    {
+        m_startValue=0;
+        m_endValue==0;
+        m_intervalMagnitude==0;
+    }
+
 private:
 
-    TerminationCondition getTerminationCondition(AlbaRangeType const rangeType) const
-    {
+    TerminationCondition getTerminationCondition(AlbaRangeType const rangeType) const    {
         TerminationCondition terminationCondition;
         switch(rangeType)
-        {
-        case AlbaRangeType::Forward:
+        {        case AlbaRangeType::Forward:
             terminationCondition = std::less_equal<DataType>();
             break;
         case AlbaRangeType::Backward:

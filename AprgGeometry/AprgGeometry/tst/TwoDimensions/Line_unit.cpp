@@ -254,14 +254,33 @@ TEST(LineTest, LineWithSlopeConstructedByCoefficients)
     EXPECT_EQ(Point(2,3), points[8]);
 }
 
+TEST(LineTest, PointsAreCorrectForLineWithSteepSlope)
+{
+    Line line(-5,1,0);
+
+    EXPECT_EQ(LineType::WithPositiveSlope, line.getType());
+    EXPECT_EQ(0, line.getYIntercept());
+    EXPECT_EQ(0, line.getXIntercept());
+    EXPECT_EQ(5, line.getSlope());
+    EXPECT_EQ(-5, line.getACoefficient());
+    EXPECT_EQ(1, line.getBCoefficient());
+    EXPECT_EQ(0, line.getCCoefficient());
+
+    Points points(line.getPoints(Point(-2,-2), Point(2,2), 1));
+    ASSERT_EQ(5u, points.size());
+    EXPECT_EQ(Point(-0.4,-2), points[0]);
+    EXPECT_EQ(Point(-0.2,-1), points[1]);
+    EXPECT_EQ(Point(0,0), points[2]);
+    EXPECT_EQ(Point(0.2,1), points[3]);
+    EXPECT_EQ(Point(0.4,2), points[4]);
+}
+
 TEST(LineTest, DISABLED_LineWithExtremeSlopeWithManyPoints)
 {
     Line line(0.001253,32.4827,-4316.74);
-
     EXPECT_EQ(LineType::Vertical, line.getType());
     EXPECT_EQ(0, line.getYIntercept());
-    EXPECT_EQ(85, line.getXIntercept());
-    EXPECT_EQ(INFINITY, line.getSlope());
+    EXPECT_EQ(85, line.getXIntercept());    EXPECT_EQ(INFINITY, line.getSlope());
     EXPECT_EQ(1, line.getACoefficient());
     EXPECT_EQ(0, line.getBCoefficient());
     EXPECT_EQ(-85, line.getCCoefficient());

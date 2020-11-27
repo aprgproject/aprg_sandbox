@@ -24,21 +24,18 @@ Line twoDimensionsHelper::getLineWithSameSlope(Line const& line, Point const& po
     return Line(line.getACoefficient(), line.getBCoefficient(), -1*((line.getACoefficient()*point.getX())+(line.getBCoefficient()*point.getY())));
 }
 
-Line twoDimensionsHelper::getLineWithInverseSlope(Line const& line, Point const& point)
+Line twoDimensionsHelper::getLineWithPerpendicularSlope(Line const& line, Point const& point)
 {
     return Line(line.getBCoefficient(), -line.getACoefficient(), (line.getACoefficient()*point.getY())-(line.getBCoefficient()*point.getX()));
 }
-
 double twoDimensionsHelper::getDistance(Line const& line, Point const& point)
 {
-    Point nearestPoint(getIntersection(line, getLineWithInverseSlope(line, point)));
+    Point nearestPoint(getIntersection(line, getLineWithPerpendicularSlope(line, point)));
     return getDistance(point, nearestPoint);
 }
-
 Point twoDimensionsHelper::getIntersection(Line const& line1, Line const& line2)
 {
-    double xOfIntersection = ((line2.getCCoefficient()*line1.getBCoefficient())-(line1.getCCoefficient()*line2.getBCoefficient()))
-                              /((line1.getACoefficient()*line2.getBCoefficient())-(line2.getACoefficient()*line1.getBCoefficient()));
+    double xOfIntersection = ((line2.getCCoefficient()*line1.getBCoefficient())-(line1.getCCoefficient()*line2.getBCoefficient()))                              /((line1.getACoefficient()*line2.getBCoefficient())-(line2.getACoefficient()*line1.getBCoefficient()));
     double yOfIntersection = ((line2.getCCoefficient()*line1.getACoefficient())-(line1.getCCoefficient()*line2.getACoefficient()))
             /((line1.getBCoefficient()*line2.getACoefficient())-(line2.getBCoefficient()*line1.getACoefficient()));
     return Point(xOfIntersection, yOfIntersection);

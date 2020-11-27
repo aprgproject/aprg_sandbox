@@ -171,16 +171,14 @@ TEST(TwoDimensionsStatisticsTest, LineModelingWithScatteredValue)
     samples.emplace_back(LocalSample{1.83, 74.46});
     LocalLineModel lineModel(TwoDimensionsStatistics::calculateLineModelUsingLeastSquares(samples));
 
-    EXPECT_EQ(-61.27218654211062443, lineModel.aCoefficient);
-    EXPECT_EQ(1, lineModel.bCoefficient);
-    EXPECT_EQ(39.061955918843921154, lineModel.cCoefficient);
+    EXPECT_EQ(1, lineModel.aCoefficient);
+    EXPECT_EQ(-0.016144305895888833025, lineModel.bCoefficient);
+    EXPECT_EQ(-0.64846044526167945232, lineModel.cCoefficient);
 }
 
-TEST(TwoDimensionsStatisticsTest, SquareErrorFromLineModelCanBeCalculatedForInvalidLine)
-{
+TEST(TwoDimensionsStatisticsTest, SquareErrorFromLineModelCanBeCalculatedForInvalidLine){
     using LocalSample = TwoDimensionsStatistics::Sample;
     using LocalLineModel = TwoDimensionsStatistics::LineModel;
-
     LocalLineModel lineModel(0, 0, 0);
 
     EXPECT_EQ(0, TwoDimensionsStatistics::calculateSquareError(LocalSample{5, 3}, lineModel));

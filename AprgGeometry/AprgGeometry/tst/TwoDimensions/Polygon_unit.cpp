@@ -1,13 +1,12 @@
 #include <TwoDimensions/Polygon.hpp>
 #include <TwoDimensions/Quadrilateral.hpp>
+#include <TwoDimensions/Rectangle.hpp>
 #include <TwoDimensions/Triangle.hpp>
 
 #include <gtest/gtest.h>
-
 #include <iostream>
 
-using namespace alba;
-using namespace std;
+using namespace alba;using namespace std;
 
 TEST(PolygonTest, PolygonCanBeCreated)
 {
@@ -60,14 +59,28 @@ TEST(QuadrilateralTest, GetPointsAreCorrect)
     EXPECT_EQ(Point(-1,1), points[7]);
 }
 
-TEST(QuadrilateralTest, DISABLED_PointsInQuadilateralAreCorrectWhenOutOfOrderVerticesAreUsed)
+TEST(RectangleTest, GetPointsAreCorrect)
 {
-    //how can this be done?
-    Quadrilateral quadrilateral(Point(-2,0), Point(2,0), Point(0,2), Point(0,-2));
-    Points points(quadrilateral.getPoints(1));
+    Rectangle retangle(Point(-1,1), Point(1,-1));
+    Points points(retangle.getPoints(1));
 
     ASSERT_EQ(8u, points.size());
-    EXPECT_EQ(Point(-2,0), points[0]);
+    EXPECT_EQ(Point(-1,1), points[0]);
+    EXPECT_EQ(Point(0,1), points[1]);
+    EXPECT_EQ(Point(1,1), points[2]);
+    EXPECT_EQ(Point(1,0), points[3]);
+    EXPECT_EQ(Point(1,-1), points[4]);
+    EXPECT_EQ(Point(0,-1), points[5]);
+    EXPECT_EQ(Point(-1,-1), points[6]);
+    EXPECT_EQ(Point(-1,0), points[7]);
+}
+
+TEST(QuadrilateralTest, DISABLED_PointsInQuadilateralAreCorrectWhenOutOfOrderVerticesAreUsed)
+{
+    //how can this be done?    Quadrilateral quadrilateral(Point(-2,0), Point(2,0), Point(0,2), Point(0,-2));
+    Points points(quadrilateral.getPoints(1));
+
+    ASSERT_EQ(8u, points.size());    EXPECT_EQ(Point(-2,0), points[0]);
     EXPECT_EQ(Point(-1,-1), points[1]);
     EXPECT_EQ(Point(0,-2), points[2]);
     EXPECT_EQ(Point(1,-1), points[3]);

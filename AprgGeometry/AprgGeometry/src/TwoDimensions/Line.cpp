@@ -180,50 +180,36 @@ void Line::getPointsForHorizontalLine(Points & points, Point const& first, Point
 
 void Line::getPointsForLineWithSlope(Points & points, Point const& first, Point const& second, double const interval) const
 {
-    /*
-     *new way inside lang dapat
-     * Point const& point1(first.getX(), calculateYFromX(first.getX()));
-    Point const& point2(calculateXFromY(first.getY()), first.getY());
-    Point const& point3(second.getX(), calculateYFromX(second.getX()));
-    Point const& point4(calculateXFromY(first.getY()), first.getY());*/
-
-    bool isDirectionAscendingForX = first.getX() <= second.getX();
-    double lowestXValue = min(min(first.getX(), second.getX()), min(calculateXFromY(first.getY()), calculateXFromY(second.getY())));
-    double highestXValue = max(max(first.getX(), second.getX()), max(calculateXFromY(first.getY()), calculateXFromY(second.getY())));
-    double startValueOfX = isDirectionAscendingForX ? lowestXValue : highestXValue;
-    double endValueOfX = isDirectionAscendingForX ? highestXValue : lowestXValue;
-
-    bool isDirectionAscendingForY = first.getY() <= second.getY();
-    double lowestYValue = min(min(first.getY(), second.getY()), min(calculateYFromX(first.getX()), calculateYFromX(second.getX())));
-    double highestYValue = max(max(first.getY(), second.getY()), max(calculateYFromX(first.getX()), calculateYFromX(second.getX())));
-    double startValueOfY = isDirectionAscendingForY ? lowestYValue : highestYValue;
-    double endValueOfY = isDirectionAscendingForY ? highestYValue : lowestYValue;
+    Point startingPoint1(first.getX(), calculateYFromX(first.getX()));
+    Point startingPoint2(calculateXFromY(first.getY()), first.getY());
+    Point endPoint1(second.getX(), calculateYFromX(second.getX()));
+    Point endPoint2(calculateXFromY(second.getY()), second.getY());
+    Point startingPoint = (twoDimensionsHelper::getDistance(startingPoint1, second)<twoDimensionsHelper::getDistance(startingPoint2, second)) ? startingPoint1 : startingPoint2;
+    Point endPoint = (twoDimensionsHelper::getDistance(endPoint1, first)<twoDimensionsHelper::getDistance(endPoint2, first)) ? endPoint1 : endPoint2;
+    bool isDirectionAscendingForX = startingPoint.getX() <= endPoint.getX();
 
     Points pointsFromXCoordinate;
-    AlbaRange<double> rangeForX(startValueOfX, endValueOfX, interval);
+    AlbaRange<double> rangeForX(startingPoint.getX(), endPoint.getX(), interval);
     rangeForX.traverse([&](double traverseValueOfX)
     {
-        pointsFromXCoordinate.emplace_back(Point(traverseValueOfX, calculateYFromX(traverseValueOfX)));
-    });
+        pointsFromXCoordinate.emplace_back(Point(traverseValueOfX, calculateYFromX(traverseValueOfX)));    });
 
     Points pointsFromYCoordinate;
-    AlbaRange<double> rangeForY(startValueOfY, endValueOfY, interval);
+    AlbaRange<double> rangeForY(startingPoint.getY(), endPoint.getY(), interval);
     rangeForY.traverse([&](double traverseValueOfY)
     {
-        pointsFromYCoordinate.emplace_back(Point(calculateXFromY(traverseValueOfY), traverseValueOfY));
-    });
+        pointsFromYCoordinate.emplace_back(Point(calculateXFromY(traverseValueOfY), traverseValueOfY));    });
 
     mergePointsFromPointsFromXAndY(points, pointsFromXCoordinate, pointsFromYCoordinate, isDirectionAscendingForX);
 }
 
+
 void Line::mergePointsFromPointsFromXAndY(Points & points, Points const& pointsFromXCoordinate, Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const
 {
-    Points::const_iterator iteratorForX = pointsFromXCoordinate.cbegin();
-    Points::const_iterator iteratorForY = pointsFromYCoordinate.cbegin();
+    Points::const_iterator iteratorForX = pointsFromXCoordinate.cbegin();    Points::const_iterator iteratorForY = pointsFromYCoordinate.cbegin();
     while(iteratorForX != pointsFromXCoordinate.cend() || iteratorForY != pointsFromYCoordinate.cend())
     {
-        if(iteratorForX != pointsFromXCoordinate.cend() && iteratorForY != pointsFromYCoordinate.cend())
-        {
+        if(iteratorForX != pointsFromXCoordinate.cend() && iteratorForY != pointsFromYCoordinate.cend())        {
             if(isDirectionAscendingForX)
             {
                 if(iteratorForX->getX() == iteratorForY->getX())
