@@ -18,6 +18,7 @@ Line getLineWithInverseSlope(Line const& line, Point const& point);
 double getDistance(Point const& point, Line const& line);
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval);
 void savePointsFromTwoPointsUsingALineWithoutLastPoint(Points & points, Point const& previousPoint, Point const& currentPoint, double const interval);
+
 }
 
 }

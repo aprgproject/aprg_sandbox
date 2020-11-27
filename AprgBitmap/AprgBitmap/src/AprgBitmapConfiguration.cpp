@@ -53,6 +53,11 @@ bool AprgBitmapConfiguration::isPositionWithinTheBitmap(BitmapXY const position)
     return position.getX() < m_bitmapWidth && position.getY() < m_bitmapHeight;
 }
 
+bool AprgBitmapConfiguration::isPositionWithinTheBitmap(int x, int y) const
+{
+    return x < (int)m_bitmapWidth && y < (int)m_bitmapHeight && x >= 0 && y >= 0;
+}
+
 CompressedMethodType AprgBitmapConfiguration::getCompressedMethodType() const
 {
     return m_compressionMethodType;

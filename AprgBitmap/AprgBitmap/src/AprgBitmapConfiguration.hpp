@@ -34,6 +34,7 @@ public:
     bool isNumberOfBitsPerPixelValid() const;
     bool isCompressedMethodSupported() const;
     bool isPositionWithinTheBitmap(BitmapXY const position) const;
+    bool isPositionWithinTheBitmap(int x, int y) const;
     CompressedMethodType getCompressedMethodType() const;
     std::string getPath() const;
     unsigned int getPixelArrayAddress() const;

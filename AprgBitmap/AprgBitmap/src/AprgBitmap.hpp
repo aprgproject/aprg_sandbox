@@ -16,7 +16,7 @@ public:
     AprgBitmap(std::string const& path);
 
     AprgBitmapConfiguration getConfiguration() const;
-    AprgBitmapSnippet getSnippetReadFromFileWithOutOfRangeCoordinates(int const outOfRangeTop, int const outOfRangeLeft, int const outOfRangeBottom, int const outOfRangeRight) const;
+    AprgBitmapSnippet getSnippetReadFromFileWithOutOfRangeCoordinates(int outOfRangeTop, int outOfRangeLeft, int outOfRangeBottom, int outOfRangeRight) const;
     AprgBitmapSnippet getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY const center, unsigned int const numberOfBytesToRead) const;
     AprgBitmapSnippet getSnippetReadFromFile(BitmapXY const topLeftCorner, BitmapXY const bottomRightCorner) const;
     void setSnippetWriteToFile(AprgBitmapSnippet const& snippet) const;

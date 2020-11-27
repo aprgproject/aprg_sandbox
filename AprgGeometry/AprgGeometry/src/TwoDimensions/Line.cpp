@@ -3,10 +3,12 @@
 #include <Container/AlbaRange.hpp>
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
 
-#include <algorithm>#include <iterator>
+#include <algorithm>
+#include <iterator>
 #include <set>
 
 using namespace std;
+
 namespace alba
 {
 
@@ -159,7 +161,8 @@ void Line::getPointsForVerticalLine(Points & points, Point const& first, Point c
     range.traverse([&](double traverseValue)
     {
         points.emplace_back(Point(m_xIntercept, traverseValue));
-    });}
+    });
+}
 
 void Line::getPointsForHorizontalLine(Points & points, Point const& first, Point const& second, double const interval) const
 {
@@ -167,10 +170,12 @@ void Line::getPointsForHorizontalLine(Points & points, Point const& first, Point
     range.traverse([&](double traverseValue)
     {
         points.emplace_back(Point(traverseValue, m_yIntercept));
-    });}
+    });
+}
 
 void Line::getPointsForLineWithSlope(Points & points, Point const& first, Point const& second, double const interval) const
-{    bool isDirectionAscendingForX = first.getX() <= second.getX();
+{
+    bool isDirectionAscendingForX = first.getX() <= second.getX();
     double lowestXValue = min(min(first.getX(), second.getX()), min(calculateXFromY(first.getY()), calculateXFromY(second.getY())));
     double highestXValue = max(max(first.getX(), second.getX()), max(calculateXFromY(first.getY()), calculateXFromY(second.getY())));
     double startValueOfX = isDirectionAscendingForX ? lowestXValue : highestXValue;
@@ -195,8 +200,10 @@ void Line::getPointsForLineWithSlope(Points & points, Point const& first, Point 
     {
         pointsFromYCoordinate.emplace_back(Point(calculateXFromY(traverseValueOfY), traverseValueOfY));
     });
+
     mergePointsFromPointsFromXAndY(points, pointsFromXCoordinate, pointsFromYCoordinate, isDirectionAscendingForX);
 }
+
 void Line::mergePointsFromPointsFromXAndY(Points & points, Points const& pointsFromXCoordinate, Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const
 {
     Points::const_iterator iteratorForX = pointsFromXCoordinate.cbegin();

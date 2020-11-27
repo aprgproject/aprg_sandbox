@@ -278,7 +278,7 @@ string AlbaWindowsPathHandler::getLastFormattedErrorMessage() const
             LPCSTR lpMessageString = (LPCSTR)lpMessageBuffer;
             std::string errorMessageFromWindows(lpMessageString, lpMessageString+bufferLength);
             LocalFree(lpMessageBuffer);
-            lastError<<"Error from windows("<<errorCode<<"): ["<<errorMessageFromWindows<<"]"<<endl;
+            lastError<<"Error from windows: ["<<errorMessageFromWindows<<"] ErrorCode:["<<errorCode<<"]"<<endl;
         }
     }
     return lastError.str();

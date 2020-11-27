@@ -4,8 +4,10 @@
 #include <TwoDimensions/Line.hpp>
 #include <TwoDimensions/Point.hpp>
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
+
 #include <algorithm>
 #include <array>
+
 namespace alba
 {
 
@@ -38,10 +40,12 @@ public:
         range.traverse([&](double traverseValueOfX)
         {
             points.push_back(Point(traverseValueOfX, calculateYfromX(traverseValueOfX)));
-        });        return points; //RVO
+        });
+        return points; //RVO
     }
 
-    double calculateYfromX(double const x) const    {
+    double calculateYfromX(double const x) const
+    {
         double valueOfPowerOfX(1);
         double result(0);
         for(double const coefficient : m_coefficients)

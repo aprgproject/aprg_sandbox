@@ -9,9 +9,11 @@
 #include <TwoDimensionsStatistics.hpp>
 
 #include <array>
-#include <fstream>#include <map>
+#include <fstream>
+#include <map>
 #include <string>
 #include <vector>
+
 #define MAXQUESTIONS 30
 #define MAXQUESTIONSALL 60
 
@@ -38,7 +40,8 @@ public:
     SOOSA(SoosaConfiguration const& configuration);
     unsigned int getNumberOfAnswers() const;
     unsigned int getAnswerToQuestion(unsigned int const questionNumber) const;
-private:    std::string getCsvFileName(std::string const& path) const;
+private:
+    std::string getCsvFileName(std::string const& path) const;
     std::string getReportHtmlFileName(std::string const& path) const;
     std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
     void setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer);
@@ -61,11 +64,14 @@ private:    std::string getCsvFileName(std::string const& path) const;
 
 
 
+
 //OLD WAY
 
-    typedef struct DATAXYPAIR{        int _x;
+    typedef struct DATAXYPAIR{
+        int _x;
         int _y;
     }PairXY;
+
     typedef struct CHEBYCHEVCRITERION{
         double mean;
         double stddev;
@@ -84,9 +90,11 @@ private:    std::string getCsvFileName(std::string const& path) const;
 
     int gddx, gddy;
 
+
     void getChebyshevInt(ChebyshevCriterion* in_cc, int* arr, int num);
     void getChebyshevDouble(ChebyshevCriterion* in_cc, double* arr, int num);
-    void getChebyshevFreqIndex(ChebyshevCriterion* in_cc, int* freqarr,int* indexarr, int start, int finish);    inline int checkIfWithinImageBounds(PairXY in_point, int xSize, int ySize);
+    void getChebyshevFreqIndex(ChebyshevCriterion* in_cc, int* freqarr,int* indexarr, int start, int finish);
+    inline int checkIfWithinImageBounds(PairXY in_point, int xSize, int ySize);
     inline int absValInt(int in);
     inline double absValDouble(double in);
     inline double getKFromChebyshev(ChebyshevCriterion cc, double in);

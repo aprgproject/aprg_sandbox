@@ -1,6 +1,8 @@
 #include <SOOSA.hpp>
 #include <SoosaConfiguration.hpp>
 
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
+
 #include <gtest/gtest.h>
 
 using namespace alba;
@@ -8,14 +10,21 @@ using namespace std;
 
 TEST(SoosaTest, SampleTest1)
 {
+    AlbaLocalPathHandler fileToTest(R"(C:\APRG\SOOSA\SOOSA\tst\FilesForTests\TestRotateColored.bmp)");
+    AlbaLocalPathHandler fileForSoosa(R"(C:\APRG\SOOSA\SOOSA\tst\FilesForTests\TestSoosa.bmp)");
+    fileForSoosa.deleteFile();
+    fileToTest.copyToNewFile(fileForSoosa.getFullPath());
+
     SoosaConfiguration configuration;
-    configuration.setPath(R"(C:\APRG\SOOSA\SOOSA\tst\FilesForTests\TestRotateColored.bmp)");
+    configuration.setPath(fileForSoosa.getFullPath());
     configuration.setMainParameters("area", "period", 12.345);
 
-    configuration.addQuestion(1, "01. Patient Admission - promptness of service");    configuration.addQuestion(1, "02. Patient Admission - courtesy of admitting clerks");
+    configuration.addQuestion(1, "01. Patient Admission - promptness of service");
+    configuration.addQuestion(1, "02. Patient Admission - courtesy of admitting clerks");
     configuration.addQuestion(1, "03. Patient Admission - ward policies are well-explained");
     configuration.addQuestion(1, "04. Hospital Environment - cleanliness of surroundings");
-    configuration.addQuestion(1, "05. Hospital Environment - cleanliness of toilet/bathroom");    configuration.addQuestion(1, "06. Hospital Environment - ventilation/air-conditioning");
+    configuration.addQuestion(1, "05. Hospital Environment - cleanliness of toilet/bathroom");
+    configuration.addQuestion(1, "06. Hospital Environment - ventilation/air-conditioning");
     configuration.addQuestion(1, "07. Hospital Environment - lighting");
     configuration.addQuestion(1, "08. Hospital Environment - furniture and fixtures  are in good condition");
     configuration.addQuestion(1, "09. Hospital Environment - appliances  are working properly");

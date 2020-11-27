@@ -32,8 +32,10 @@ include(${APRG_DIR}/AprgGeometry/AprgCmakeInclude/AprgGeometry.cmake)
 
 #Include aprgBitmap, this needs APRG Directory
 include(${APRG_DIR}/AprgBitmap/AprgCmakeInclude/AprgBitmap.cmake)
+
 #Include gTest, this needs APRG Directory
 include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
+
 set(SOURCES
     src/SOOSA.cpp
     src/SOOSA.hpp
@@ -64,7 +66,8 @@ if (TEST_MODE)
     target_link_libraries(${OUTFILE} gtest APRG_COMMON APRG_STATISTICS APRG_GEOMETRY APRG_BITMAP ${CMAKE_THREAD_LIBS_INIT})
     add_test(${OUTFILE} ${OUTFILE})
 else()
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")    set(BUILD_SHARED_LIBRARIES OFF)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    set(BUILD_SHARED_LIBRARIES OFF)
     set(CMAKE_EXE_LINKER_FLAGS "-static")
     add_executable(${OUTFILE} ${SOURCES} ${MAIN_SOURCES})
     include_directories(${INCLUDE_DIRECTORIES})
