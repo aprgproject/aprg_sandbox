@@ -101,50 +101,48 @@ bool BtsLogTime::isStartup() const
     return m_dateTime.getYears()<2010;
 }
 
-int BtsLogTime::getYears() const
+unsigned int BtsLogTime::getYears() const
 {
     return m_dateTime.getYears();
 }
 
-int BtsLogTime::getMonths() const
+unsigned int BtsLogTime::getMonths() const
 {
     return m_dateTime.getMonths();
 }
 
-int BtsLogTime::getDays() const
+unsigned int BtsLogTime::getDays() const
 {
     return m_dateTime.getDays();
 }
 
-int BtsLogTime::getHours() const
+unsigned int BtsLogTime::getHours() const
 {
     return m_dateTime.getHours();
 }
 
-int BtsLogTime::getMinutes() const
+unsigned int BtsLogTime::getMinutes() const
 {
     return m_dateTime.getMinutes();
 }
 
-int BtsLogTime::getSeconds() const
+unsigned int BtsLogTime::getSeconds() const
 {
     return m_dateTime.getSeconds();
 }
 
-int BtsLogTime::getTotalSeconds() const
+unsigned int BtsLogTime::getTotalSeconds() const
 {
     return m_dateTime.getTotalSecondsInHourMinutesSeconds();
 }
 
-int BtsLogTime::getMicroSeconds() const
+unsigned int BtsLogTime::getMicroSeconds() const
 {
     return m_dateTime.getMicroSeconds();
 }
-
 string BtsLogTime::getPrintableString() const
 {
-    return m_dateTime.getPrintableStringFormat1();
-}
+    return m_dateTime.getPrintableStringFormat1();}
 
 string BtsLogTime::getEquivalentStringPcTimeFormat() const
 {

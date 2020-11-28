@@ -32,27 +32,31 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 #Include AprgAlgorithm, this needs APRG Directory
 include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 
-#Include gTest, this needs APRG Directory
-include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
+#Include AprgStatistics, this needs APRG Directory
+include(${APRG_DIR}/AprgStatistics/AprgCmakeInclude/AprgStatistics.cmake)
 
 #Include AprgFileExtractor, this needs APRG Directory
 include(${APRG_DIR}/AprgFileExtractor/AprgCmakeInclude/AprgFileExtractor.cmake)
-
 #Include TcomToolsBackend, this needs APRG Directory
 include(${APRG_DIR}/TcomTools/AprgCmakeInclude/TcomToolsBackend.cmake)
 
+#Include gTest, this needs APRG Directory
+include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
+
 
 set(SOURCES
+    src/BtsLogAnalyzer.cpp
+    src/BtsLogAnalyzer.cpp
     src/PerformanceAnalyzer.cpp
-    src/PerformanceAnalyzer.hpp
+    src/PerformanceAnalyzer.cpp
+    src/UserIdentifiers.cpp
+    src/UserIdentifiers.hpp
 )
 
-set(MAIN_SOURCES
-    src/main.cpp
+set(MAIN_SOURCES    src/main.cpp
 )
 
-set(TESTS
-    tst/PerformanceAnalyzer_unit.cpp
+set(TESTS    tst/PerformanceAnalyzer_unit.cpp
 )
 
 set(INCLUDE_DIRECTORIES

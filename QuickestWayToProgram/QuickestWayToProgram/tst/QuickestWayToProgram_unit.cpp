@@ -18,14 +18,98 @@
 using namespace alba;
 using namespace std;
 
+TEST(SampleTest, MessageIds_test)
+{
+    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
+    AlbaLocalPathHandler pathHandler2(R"(D:\Branches\trunk\wbts_integration\I_Interface\Application_Env\Wn_Env\Bs_Env\Messages\MessageId_TcomDsp.h)");
+    AlbaLocalPathHandler pathHandler3(R"(D:\ZZZ_Logs\PR212221\LRMJairus\MessageHistoryBeforeCorruption.txt)");
+
+
+    ifstream tcomTcomFile(pathHandler.getFullPath());
+    ifstream tcomDspile(pathHandler2.getFullPath());
+    ifstream messageMapFile(pathHandler3.getFullPath());
+
+
+    map<unsigned int, string> messageIds;
+    if(tcomTcomFile.is_open())
+    {
+        AlbaFileReader tcomTcomFileReader(tcomTcomFile);
+        while(tcomTcomFileReader.isNotFinished())
+        {
+            string lineInFile(tcomTcomFileReader.getLineAndIgnoreWhiteSpaces());
+            if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "#define"))
+            {
+                string messageIdString(stringHelper::getStringInBetweenTwoStrings(lineInFile, "(", ")"));
+                bool isTcomBasePrintVisible = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "TC_TCOM_BASE");
+                unsigned int messageId = stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(messageIdString, "0x"));
+                string messageName = stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(stringHelper::getStringInBetweenTwoStrings(lineInFile, "#define", "("));
+                if(messageId>0)
+                {
+                    if(isTcomBasePrintVisible)
+                    {
+                        messageId = 0x6800+messageId;
+                    }
+                    //cout<<"isTcomBasePrintVisible"<<isTcomBasePrintVisible<<" messageId: "<<hex<<messageId<<" messageName: "<<dec<<messageName<<endl;
+                    messageIds.emplace(messageId, messageName);
+                }
+            }
+        }
+    }
+
+    if(tcomDspile.is_open())
+    {
+        AlbaFileReader tcomDspFileReader(tcomDspile);
+        while(tcomDspFileReader.isNotFinished())
+        {
+            string lineInFile(tcomDspFileReader.getLineAndIgnoreWhiteSpaces());
+            if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "#define"))
+            {
+                string messageIdString(stringHelper::getStringInBetweenTwoStrings(lineInFile, "(", ")"));
+                bool isTcomBasePrintVisible = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "TC_DSP_BASE");
+                unsigned int messageId = stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(messageIdString, "0x"));
+                string messageName = stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(stringHelper::getStringInBetweenTwoStrings(lineInFile, "#define", "("));
+                if(messageId>0)
+                {
+                    if(isTcomBasePrintVisible)
+                    {
+                        messageId = 0x5000+messageId;
+                    }
+                    //cout<<"isTcomBasePrintVisible"<<isTcomBasePrintVisible<<" messageId: "<<hex<<messageId<<" messageName: "<<dec<<messageName<<endl;
+                    messageIds.emplace(messageId, messageName);
+                }
+            }
+        }
+    }
+
+    if(messageMapFile.is_open())
+    {
+        AlbaFileReader messageMapFileReader(messageMapFile);
+        while(messageMapFileReader.isNotFinished())
+        {
+            string lineInFile(messageMapFileReader.getLineAndIgnoreWhiteSpaces());
+            unsigned int messageId = stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(lineInFile, "msgid:0x"));
+            unsigned int offset = stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(lineInFile, "off:0x"));
+            unsigned int messageSize = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(lineInFile, "msgsize:"));
+            unsigned int messagePoolCorruptionAddress = 0x3fdb00;
+            int distance = (int)offset+(int)messageSize-(int)messagePoolCorruptionAddress;
+            if(messageIds.find(messageId)!= messageIds.end())
+            {
+                cout<<"distance of the end of the message to corruption: "<<setw(5)<<distance<<", messageId: "<<hex<<messageId<<", messageName: "<<messageIds[messageId] << ", offset+messageSize:0x"<<offset+messageSize<<dec<<endl;
+            }
+            else
+            {
+                //cout<<lineInFile<<endl;
+            }
+        }
+    }
+}
+/*
 bool isLeapYear(unsigned int const year)
 {
-    bool result(true);
-    if (year%4 != 0) result = false;
+    bool result(true);    if (year%4 != 0) result = false;
     else if (year%100 != 0) result = true;
     else if (year%400 != 0) result = false;
-    return result;
-}
+    return result;}
 
 unsigned int getMaximumDaysInAMonth(unsigned int const monthIndex, unsigned int const year)
 {
@@ -70,45 +154,41 @@ TEST(SampleTest, DateTimeAlgorithm)
         numberOfDays+=getMaximumDaysInAMonth(month,1);
     }
 }
-/*
+
 u32 calculateShiftDelayedSfn(u32 const currentSfn, u32 const calculatedSfn)
 {
-    const u32 RADIO_FRAME_CYCLE = 4096;
-    const u32 MAX_FRAME_NUMBER = 4095;
+    const u32 RADIO_FRAME_CYCLE = 4096;    const u32 MAX_FRAME_NUMBER = 4095;
     const u32 MAX_NUM_OF_TTI = 8;
     const u32 SFN_LOW_LIMIT = 12;
     const u32 SFN_HIGH_LIMIT = 220;
 
     const u32 limit = (currentSfn + SFN_LOW_LIMIT) % RADIO_FRAME_CYCLE;
     u32 tempSfn = calculatedSfn;
-    //cout<<"tempSfn"<<tempSfn<<endl;
-    //cout<<"limit"<<limit<<endl;
+    cout<<"tempSfn"<<tempSfn<<endl;
+    cout<<"limit"<<limit<<endl;
     while (tempSfn > limit){
         if (tempSfn < MAX_NUM_OF_TTI){
-            break;
-        }
+            break;        }
         tempSfn = (tempSfn + MAX_NUM_OF_TTI) % RADIO_FRAME_CYCLE;
     }
-    //cout<<"tempSfn"<<tempSfn<<endl;
-    //cout<<"limit"<<limit<<endl;
+    cout<<"tempSfn"<<tempSfn<<endl;
+    cout<<"limit"<<limit<<endl;
     while (tempSfn < limit){
         if (limit > (MAX_FRAME_NUMBER - MAX_NUM_OF_TTI) && tempSfn < MAX_NUM_OF_TTI){
-            //cout<<"condition"<<MAX_FRAME_NUMBER-MAX_NUM_OF_TTI<<endl;
-            //cout<<"tempSfnInside"<<tempSfn<<endl;
+            cout<<"condition"<<MAX_FRAME_NUMBER-MAX_NUM_OF_TTI<<endl;
+            cout<<"tempSfnInside2"<<tempSfn<<endl;
             break;
         }
-        //cout<<"tempSfnInside"<<tempSfn<<endl;
+        cout<<"tempSfnInside"<<tempSfn<<endl;
         tempSfn = (tempSfn + MAX_NUM_OF_TTI) % (RADIO_FRAME_CYCLE);
     }
-    //cout<<"tempSfn"<<tempSfn<<endl;
-    //cout<<"limit"<<limit<<endl;
+    cout<<"tempSfn"<<tempSfn<<endl;
+    cout<<"limit"<<limit<<endl;
     return tempSfn;
 }
-
 u32 calculateShiftDelayedSfnNew(u32 const currentSfn, u32 const calculatedSfn)
 {
-    const u32 RADIO_FRAME_CYCLE = 4096;
-    const u32 MAX_FRAME_NUMBER = 4095;
+    const u32 RADIO_FRAME_CYCLE = 4096;    const u32 MAX_FRAME_NUMBER = 4095;
     const u32 MAX_NUM_OF_TTI = 8;
     const u32 SFN_LOW_LIMIT = 12;
     const u32 SFN_HIGH_LIMIT = 220;
@@ -133,21 +213,19 @@ u32 calculateShiftDelayedSfnNew(u32 const currentSfn, u32 const calculatedSfn)
     return shiftedSfn;
 }
 
-TEST(SampleTest, DISABLED_RlhBug)
+TEST(SampleTest, RlhBug)
 {
     calculateShiftDelayedSfn(4076, 0);
 
 }
 
-TEST(SampleTest, ComparisonOfResultsOfTwoAlgorithms)
+TEST(SampleTest, DISABLED_ComparisonOfResultsOfTwoAlgorithms)
 {
     AlbaLocalPathHandler pathOfNewAlgorithm(R"(D:\userdata\malba\Desktop\Prontos\PR235148\NewResults.csv)");
     AlbaLocalPathHandler pathOfOldAlgorithm(R"(D:\userdata\malba\Desktop\Prontos\PR235148\OldResults.csv)");
-
     ifstream newAlgoResultFile(pathOfNewAlgorithm.getFullPath());
     ifstream oldAlgoResultFile(pathOfOldAlgorithm.getFullPath());
-    AlbaFileReader newAlgoReader(newAlgoResultFile);
-    AlbaFileReader oldAlgoReader(oldAlgoResultFile);
+    AlbaFileReader newAlgoReader(newAlgoResultFile);    AlbaFileReader oldAlgoReader(oldAlgoResultFile);
 
     while(newAlgoReader.isNotFinished() || oldAlgoReader.isNotFinished())
     {
