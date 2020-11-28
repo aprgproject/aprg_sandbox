@@ -25,16 +25,17 @@
 //#define CIRFLAG 1
 
 
-#define ALLOWABLE_LINE_DEVIATION 2
-#define ALLOWABLE_BAR_DEVIATION 6
+#define ALLOWABLE_LINE_DEVIATION_FOR_LINE_MODEL 2
+#define ALLOWABLE_HALF_LINE_WIDTH_DEVIATION 2
+#define ALLOWABLE_HALF_BAR_WIDTH_DEVIATION 4
+#define ALLOWABLE_LINE_WIDTH_DEVIATION ALLOWABLE_HALF_LINE_WIDTH_DEVIATION*2
+#define ALLOWABLE_BAR_WIDTH_DEVIATION ALLOWABLE_HALF_BAR_WIDTH_DEVIATION*2
 #define MINIMUM_NUMBER_OF_LINE_SAMPLES 10
 #define RETAIN_RATIO_FOR_DEVIATION 0.90
 #define MAXIMUM_BAR_WIDTH 500
-
 #define FILE_PATH_BASIS_HTML APRG_DIR R"(SOOSA2014\basis.html)"
 #define MAXQUESTIONSCOOR 60 //2*30 -> MUST be twice of MAXQUESTIONS
-#define SAMPLESLINETOALLOC 1000
-#define ROBUSTSAMPLESLINE 1000
+#define SAMPLESLINETOALLOC 1000#define ROBUSTSAMPLESLINE 1000
 #define ROBUSTMINSAMPLESLINE 100
 #define ROBUSTSAMPLESLINETOPBOTTOM 500
 #define ROBUSTMINSAMPLESLINETOPBOTTOM 100
@@ -370,15 +371,13 @@ Line SOOSA::findVerticalLineUsingStartingLine(AprgBitmapSnippet const& snippet, 
 
 Line SOOSA::getLineModel(TwoDimensionsStatistics::Samples const & samples) const
 {
-    int const nonAllowableSquareErrorLimit(ALLOWABLE_LINE_DEVIATION*ALLOWABLE_LINE_DEVIATION);
+    int const nonAllowableSquareErrorLimit(ALLOWABLE_LINE_DEVIATION_FOR_LINE_MODEL*ALLOWABLE_LINE_DEVIATION_FOR_LINE_MODEL);
 
     TwoDimensionsStatistics::LineModel lineModel;
-    double maxSquareErrorInSamples(nonAllowableSquareErrorLimit);
-    TwoDimensionsStatistics::Samples samplesForLineModeling(samples);
+    double maxSquareErrorInSamples(nonAllowableSquareErrorLimit);    TwoDimensionsStatistics::Samples samplesForLineModeling(samples);
     while (maxSquareErrorInSamples>=nonAllowableSquareErrorLimit && samplesForLineModeling.size() > MINIMUM_NUMBER_OF_LINE_SAMPLES)
     {
-        lineModel = TwoDimensionsStatistics::calculateLineModelUsingLeastSquares(samplesForLineModeling);
-        TwoDimensionsStatistics::ValueToSampleMultimap squareErrorToSampleMultimap(getSquareErrorToSampleMultimap(samplesForLineModeling, lineModel));
+        lineModel = TwoDimensionsStatistics::calculateLineModelUsingLeastSquares(samplesForLineModeling);        TwoDimensionsStatistics::ValueToSampleMultimap squareErrorToSampleMultimap(getSquareErrorToSampleMultimap(samplesForLineModeling, lineModel));
         VectorOfDoubles acceptableSquareErrors(getAcceptableSquareErrorsUsingRetainRatio(squareErrorToSampleMultimap));
         if(acceptableSquareErrors.size() > MINIMUM_NUMBER_OF_LINE_SAMPLES)
         {
@@ -444,87 +443,132 @@ void SOOSA::processOneColumnNew(AprgBitmapSnippet const& snippet, Line const& le
     TwoDimensionsStatistics::Samples questionBarLocationsForLeftLine;
 }
 
-void SOOSA::getQuestionBarsFromLine(AprgBitmapSnippet const& snippet, Line const& line) const
+SOOSA::QuestionBarCoordinates SOOSA::getQuestionBarCoordinatesFromLine(AprgBitmapSnippet const& snippet, Line const& line) const
 {
-    TwoDimensionsStatistics::ValueToSampleMultimap widthToSampleMultimap(getWidthToSampleMultimap(snippet, line));
-    PairOfRangeOfDoubles widthRanges(getLineAndBarWidthRangesUsingKMeans(widthToSampleMultimap));
+    QuestionBarCoordinates questionBarCoordinates;
+    TwoDimensionsStatistics::ValueToSampleUnorderedMultimap widthToSampleUnorderedMultimap(getWidthToSampleUnorderedMultimap(snippet, line));
+    //how to make a class that show points and corresponding width
+    //because unordered multimap does not work
+    //its needs to be sorted by Y
+    //remove ValueToSampleUnorderedMultimap in TwoDimensionsStatistics as well
+
+    LineAndBarWidths widthAverages(getAverageLineAndBarWidthUsingKMeans(widthToSampleUnorderedMultimap));
 
     AprgBitmap bitmap(snippet.getConfiguration().getPath());
     AprgBitmapSnippet snippetToWrite(snippet);
-    for(TwoDimensionsStatistics::ValueToSamplePair const& widthSamplePair : widthToSampleMultimap)
+    bool isPreviousInBar(false);
+    AlbaOptional<Point> start;
+    AlbaOptional<Point> end;
+    for(TwoDimensionsStatistics::ValueToSamplePair const& widthSamplePair : widthToSampleUnorderedMultimap)
     {
-        ALBA_PRINT3(widthRanges.first.getDisplayableString(), widthRanges.second.getDisplayableString(), widthSamplePair.first);
-        ALBA_PRINT2(widthRanges.first.isValueInsideInclusive(widthSamplePair.first), widthRanges.second.isValueInsideInclusive(widthSamplePair.first));
-        if(widthRanges.first.isValueInsideInclusive(widthSamplePair.first))
+        bool isCurrentInBar = isWithinLineDeviation(widthAverages.lineWidth, widthSamplePair.first) ? false : isWithinBarDeviation(widthAverages.barWidth, widthSamplePair.first) ? true : isPreviousInBar;
+        ALBA_PRINT4(widthSamplePair.first, widthSamplePair.second.getDisplayableString(), isCurrentInBar, isPreviousInBar);
+        ALBA_PRINT3(start.hasContent(), end.hasContent(), questionBarCoordinates.size());
+        if(!isPreviousInBar && isCurrentInBar)
         {
-            snippetToWrite.setPixelAt(convertToBitmapXY(widthSamplePair.second), 0x000000EE);
+            start.setValue(convertToPoint(widthSamplePair.second));
         }
-        else if(widthRanges.second.isValueInsideInclusive(widthSamplePair.first))
+        else if(isPreviousInBar && !isCurrentInBar)
         {
-            snippetToWrite.setPixelAt(convertToBitmapXY(widthSamplePair.second), 0x000000EE);
+            end.setValue(convertToPoint(widthSamplePair.second));
         }
+        if(start.hasContent() && end.hasContent())
+        {
+            QuestionBarCoordinate questionBarCoordinate;
+            questionBarCoordinate.first = start.getReference();
+            questionBarCoordinate.second = end.getReference();
+            questionBarCoordinates.emplace_back(questionBarCoordinate);
+            start.clear();
+            end.clear();
+        }
+        isPreviousInBar = isCurrentInBar;
+    }
+    for(QuestionBarCoordinate const& questionBarCoordinate : questionBarCoordinates)
+    {
+        ALBA_PRINT2(questionBarCoordinate.first.getDisplayableString(), questionBarCoordinate.second.getDisplayableString());
+        snippetToWrite.setPixelAt(convertToBitmapXY(questionBarCoordinate.first), 0x000000EE);
+        snippetToWrite.setPixelAt(convertToBitmapXY(questionBarCoordinate.second), 0x00EE0000);
     }
     bitmap.setSnippetWriteToFile(snippetToWrite);
 }
 
-TwoDimensionsStatistics::ValueToSampleMultimap SOOSA::getWidthToSampleMultimap(AprgBitmapSnippet const& snippet, Line const& line) const
+bool SOOSA::isWithinLineDeviation(double const lineWidthAverage, double const currentWidth) const
+{
+    return mathHelper::getAbsoluteValue(lineWidthAverage-currentWidth) <= ALLOWABLE_HALF_LINE_WIDTH_DEVIATION;
+}
+
+bool SOOSA::isWithinBarDeviation(double const barWidthAverage, double const currentWidth) const
+{
+    return mathHelper::getAbsoluteValue(barWidthAverage-currentWidth) <= ALLOWABLE_HALF_BAR_WIDTH_DEVIATION;
+}
+
+TwoDimensionsStatistics::ValueToSampleUnorderedMultimap SOOSA::getWidthToSampleUnorderedMultimap(AprgBitmapSnippet const& snippet, Line const& line) const
 {
     Points nearestBlackPointsFromLine(getNearestBlackPointsFromLine(snippet, line));
-    TwoDimensionsStatistics::ValueToSampleMultimap widthToSampleMultimap;
+    TwoDimensionsStatistics::ValueToSampleUnorderedMultimap widthToSampleUnorderedMultimap;
     for(Point const& point : nearestBlackPointsFromLine)
     {
         double barWidth(getBarWidthFromBlackPoint(snippet, line, point));
-        widthToSampleMultimap.emplace(barWidth, TwoDimensionsStatistics::Sample{point.getX(), point.getY()});
+        widthToSampleUnorderedMultimap.emplace(barWidth, convertToTwoDimensionSample(point));
         ALBA_PRINT2(barWidth, point.getDisplayableString());
     }
-    return widthToSampleMultimap;
+    return widthToSampleUnorderedMultimap;
 }
 
-SOOSA::PairOfRangeOfDoubles SOOSA::getLineAndBarWidthRangesUsingKMeans(TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap) const
+SOOSA::LineAndBarWidths SOOSA::getAverageLineAndBarWidthUsingKMeans(TwoDimensionsStatistics::ValueToSampleUnorderedMultimap const& widthToSampleUnorderedMultimap) const
 {
-    PairOfRangeOfDoubles widthRanges;
+    LineAndBarWidths widthAverages;
     OneDimensionKMeans kMeans;
+    TwoDimensionsStatistics::ValueToSampleMultimap widthToSampleMultimap(getWidthToSampleMultimap(widthToSampleUnorderedMultimap));
     initializeWidthsForKMeans(kMeans, widthToSampleMultimap);
     while(!kMeans.getSamples().empty())
     {
         ALBA_PRINT1(kMeans.getSamples().size());
         OneDimensionKMeans::GroupOfSamples twoGroupsOfSamples(kMeans.getGroupOfSamplesUsingKMeans(2));
-        RangeOfDoubles minMaxFromFirstGroupInTwoGroups(getMinMaxRangeFromKMeansSamples(twoGroupsOfSamples[0]));
-        RangeOfDoubles minMaxFromSecondGroupInTwoGroups(getMinMaxRangeFromKMeansSamples(twoGroupsOfSamples[1]));
-        ALBA_PRINT2(minMaxFromFirstGroupInTwoGroups.getDisplayableString(), minMaxFromSecondGroupInTwoGroups.getDisplayableString());
-        if(minMaxFromFirstGroupInTwoGroups.getDelta() <= ALLOWABLE_LINE_DEVIATION && minMaxFromSecondGroupInTwoGroups.getDelta() <= ALLOWABLE_BAR_DEVIATION)
+        RangeOfDoubles minMaxFromFirstGroup(getMinMaxRangeFromKMeansSamples(twoGroupsOfSamples[0]));
+        RangeOfDoubles minMaxFromSecondGroup(getMinMaxRangeFromKMeansSamples(twoGroupsOfSamples[1]));
+        ALBA_PRINT2(minMaxFromFirstGroup.getDisplayableString(), minMaxFromSecondGroup.getDisplayableString());
+        if(minMaxFromFirstGroup.getDelta() <= ALLOWABLE_LINE_WIDTH_DEVIATION && minMaxFromSecondGroup.getDelta() <= ALLOWABLE_BAR_WIDTH_DEVIATION)
         {
-            widthRanges.first = minMaxFromFirstGroupInTwoGroups;
-            widthRanges.second = minMaxFromSecondGroupInTwoGroups;
+            ALBA_PRINT2(minMaxFromFirstGroup.getMidpointValue(), minMaxFromSecondGroup.getMidpointValue());
+            widthAverages.lineWidth = minMaxFromFirstGroup.getMidpointValue();
+            widthAverages.barWidth = minMaxFromSecondGroup.getMidpointValue();
             break;
         }
-        else
-        {
+        else        {
             removeDeviatedWidthsUsingKMeans(kMeans, widthToSampleMultimap);
         }
     }
-    return widthRanges;
+    ALBA_PRINT2(widthAverages.lineWidth, widthAverages.barWidth);
+    return widthAverages;
+}
+
+TwoDimensionsStatistics::ValueToSampleMultimap SOOSA::getWidthToSampleMultimap(TwoDimensionsStatistics::ValueToSampleUnorderedMultimap const& widthToSampleUnorderedMultimap) const
+{
+    TwoDimensionsStatistics::ValueToSampleMultimap widthToSampleMultimap;
+    for(TwoDimensionsStatistics::ValueToSamplePair const& valueToSamplePair : widthToSampleUnorderedMultimap)
+    {
+        widthToSampleMultimap.emplace(valueToSamplePair);
+    }
+    return widthToSampleMultimap;
 }
 
 void SOOSA::initializeWidthsForKMeans(OneDimensionKMeans & kMeans, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap) const
 {
-    for(TwoDimensionsStatistics::ValueToSamplePair const& widthSamplePair : widthToSampleMultimap)
-    {
+    for(TwoDimensionsStatistics::ValueToSamplePair const& widthSamplePair : widthToSampleMultimap)    {
         kMeans.addSample(OneDimensionKMeans::Sample{widthSamplePair.first});
     }
 }
-
 void SOOSA::removeDeviatedWidthsUsingKMeans(OneDimensionKMeans & kMeans, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap) const
 {
     OneDimensionKMeans::GroupOfSamples groupsOfSamples(kMeans.getGroupOfSamplesUsingKMeans(5));
+    ALBA_PRINT5(groupsOfSamples[0].size(), groupsOfSamples[1].size(), groupsOfSamples[2].size(), groupsOfSamples[3].size(), groupsOfSamples[4].size());
     kMeans.clear();
     set<unsigned int> groupSizes;
-    groupSizes.emplace(groupsOfSamples[0].size());
-    groupSizes.emplace(groupsOfSamples[1].size());
+    groupSizes.emplace(groupsOfSamples[0].size());    groupSizes.emplace(groupsOfSamples[1].size());
     groupSizes.emplace(groupsOfSamples[2].size());
     groupSizes.emplace(groupsOfSamples[3].size());
-    groupSizes.emplace(groupsOfSamples[4].size());
-    auto groupSizeIterator = groupSizes.begin();
+    groupSizes.emplace(groupsOfSamples[4].size());    auto groupSizeIterator = groupSizes.begin();
     groupSizeIterator++;
     unsigned int minimumGroupSize(*groupSizeIterator);
     addWidthToKMeansIfNeeded(kMeans, groupsOfSamples[0], widthToSampleMultimap, minimumGroupSize);
@@ -589,15 +633,13 @@ Point SOOSA::getNearestBlackPointFromLine(AprgBitmapSnippet const& snippet, Line
 {
     Point blackPoint;
     Line perpendicularLine(twoDimensionsHelper::getLineWithPerpendicularSlope(line, point));
-    for(unsigned int deviation=1; deviation<=ALLOWABLE_LINE_DEVIATION; deviation++)
+    for(unsigned int deviation=1; deviation<=ALLOWABLE_HALF_LINE_WIDTH_DEVIATION; deviation++)
     {
         double lowerDeviatedInX = point.getX()-deviation;
-        Point lowerDeviatedPoint(lowerDeviatedInX, perpendicularLine.calculateYFromX(lowerDeviatedInX));
-        if(snippet.isBlackAt(convertToBitmapXY(lowerDeviatedPoint)))
+        Point lowerDeviatedPoint(lowerDeviatedInX, perpendicularLine.calculateYFromX(lowerDeviatedInX));        if(snippet.isBlackAt(convertToBitmapXY(lowerDeviatedPoint)))
         {
             blackPoint = lowerDeviatedPoint;
-            break;
-        }
+            break;        }
         double higherDeviatedInX = point.getX()+deviation;
         Point higherDeviatedPoint(higherDeviatedInX, perpendicularLine.calculateYFromX(higherDeviatedInX));
         if(snippet.isBlackAt(convertToBitmapXY(higherDeviatedPoint)))
@@ -659,17 +701,24 @@ BitmapXY SOOSA::convertToBitmapXY(Point const& point) const
     return BitmapXY((unsigned int)round(mathHelper::clampLowerBound(point.getX(), (double)0)), (unsigned int)round(mathHelper::clampLowerBound(point.getY(), (double)0)));
 }
 
-BitmapXY SOOSA::convertToBitmapXY(TwoDimensionsStatistics::Sample sample) const
+BitmapXY SOOSA::convertToBitmapXY(TwoDimensionsStatistics::Sample const& sample) const
 {
     return BitmapXY((unsigned int)round(mathHelper::clampLowerBound(sample.getValueAt(0), (double)0)), (unsigned int)round(mathHelper::clampLowerBound(sample.getValueAt(1), (double)0)));
 }
-
 Point SOOSA::convertToPoint(BitmapXY const& bitmapXY) const
 {
     return Point((double)bitmapXY.getX(), (double)bitmapXY.getY());
 }
 
+Point SOOSA::convertToPoint(TwoDimensionsStatistics::Sample const& sample) const
+{
+    return Point(sample.getValueAt(0), sample.getValueAt(1));
+}
 
+TwoDimensionsStatistics::Sample SOOSA::convertToTwoDimensionSample(Point const& point) const
+{
+    return TwoDimensionsStatistics::Sample{point.getX(), point.getY()};
+}
 
 
 
@@ -694,12 +743,10 @@ Point SOOSA::convertToPoint(BitmapXY const& bitmapXY) const
 
 void SOOSA::getChebyshevInt(ChebyshevCriterion* in_cc, int* arr, int num)
 {
-    int i;
-    double mean=0, stddev=0;
+    int i;    double mean=0, stddev=0;
     for(i=0; i<num; i++){
         LOPPRINT("  FUNCLOOP:getChebyshevInt[i=%d]->(arr[i]=%d|mean=%lf)\n",i,arr[i],mean);
-        mean=mean+arr[i];
-    }
+        mean=mean+arr[i];    }
     mean=mean/num;
     for(i=0; i<num; i++){
         LOPPRINT("  FUNCLOOP:getChebyshevInt[i=%d]->(arr[i]=%d|stddev=%lf)\n",i,arr[i],stddev);
@@ -1996,23 +2043,20 @@ void SOOSA::processOneFile(string const& filePath)
         leftline.intercept=leftLine.getXIntercept();
         leftline.slope=leftLine.getInverseSlope();
 
-        getQuestionBarsFromLine(globalSnippet, leftLine);
-        ALBA_EXIT;
-
         //Right Line
         cout<<"INFO: Finding right line."<<endl;
-        rightLine = findRightLine(globalSnippet);
-        rightline.intercept=rightLine.getXIntercept();
+        rightLine = findRightLine(globalSnippet);        rightline.intercept=rightLine.getXIntercept();
         rightline.slope=rightLine.getInverseSlope();
+
+        getQuestionBarCoordinatesFromLine(globalSnippet, rightLine);
+        ALBA_EXIT;
 
         //Top Line
         cout<<"INFO: Finding top line."<<endl;
-        topLine = findTopLine(globalSnippet);
-        topline.intercept=topLine.getYIntercept();
+        topLine = findTopLine(globalSnippet);        topline.intercept=topLine.getYIntercept();
         topline.slope=topLine.getSlope();
         ALBA_PRINT2(topline.intercept, topline.slope);
         ALBA_PRINT4(topLine.getXIntercept(), topLine.getYIntercept(), topLine.getSlope(), topLine.getInverseSlope());
-
         //Bottom Line
         cout<<"INFO: Finding bottom line."<<endl;
         bottomLine = findBottomLine(globalSnippet);

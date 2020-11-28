@@ -36,19 +36,22 @@ public:
         unsigned int m_numberOfQuestions;
         std::map<unsigned int, std::array<unsigned int, 5>> m_questionToAnswerFrequencyMap;
     };
+    struct LineAndBarWidths
+    {
+        double lineWidth;
+        double barWidth;
+    };
     using RangeOfInts = AlbaRange<int>;
     using RangeOfDoubles = AlbaRange<double>;
-    using PairOfRangeOfDoubles = std::pair<RangeOfDoubles, RangeOfDoubles>;
     using VectorOfDoubles = std::vector<double>;
-    using QuestionBars = std::vector<AlbaRange<double>>;
+    using QuestionBarCoordinate = std::pair<Point, Point>;
+    using QuestionBarCoordinates = std::vector<QuestionBarCoordinate>;
     using OneDimensionKMeans = KMeansClustering<1>;
 
-    SOOSA(SoosaConfiguration const& configuration);
-    unsigned int getNumberOfAnswers() const;
+    SOOSA(SoosaConfiguration const& configuration);    unsigned int getNumberOfAnswers() const;
     unsigned int getAnswerToQuestion(unsigned int const questionNumber) const;
 private:
-    std::string getCsvFileName(std::string const& path) const;
-    std::string getReportHtmlFileName(std::string const& path) const;
+    std::string getCsvFileName(std::string const& path) const;    std::string getReportHtmlFileName(std::string const& path) const;
     std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
     void setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer);
     void saveDataToCsvFile(std::string const& processedFilePath) const;
@@ -68,26 +71,28 @@ private:
     VectorOfDoubles getAcceptableSquareErrorsUsingRetainRatio(TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const;
     void updateSamplesForLineModelingFromSquareErrorToSampleMultimap(TwoDimensionsStatistics::Samples & samplesLineModeling, TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const;
     void processOneColumnNew(AprgBitmapSnippet const& snippet, Line const& leftLine, Line const& rightLine, unsigned int const columnNumber) const;
-    void getQuestionBarsFromLine(AprgBitmapSnippet const& snippet, Line const& line) const;
-    TwoDimensionsStatistics::ValueToSampleMultimap getWidthToSampleMultimap(AprgBitmapSnippet const& snippet, Line const& line) const;
-    PairOfRangeOfDoubles getLineAndBarWidthRangesUsingKMeans(TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap) const;
+    QuestionBarCoordinates getQuestionBarCoordinatesFromLine(AprgBitmapSnippet const& snippet, Line const& line) const;
+    bool isWithinLineDeviation(double const lineWidthAverage, double const currentWidth) const;
+    bool isWithinBarDeviation(double const barWidthAverage, double const currentWidth) const;
+    TwoDimensionsStatistics::ValueToSampleUnorderedMultimap getWidthToSampleUnorderedMultimap(AprgBitmapSnippet const& snippet, Line const& line) const;
+    LineAndBarWidths getAverageLineAndBarWidthUsingKMeans(TwoDimensionsStatistics::ValueToSampleUnorderedMultimap const& widthToSampleUnorderedMultimap) const;
+    TwoDimensionsStatistics::ValueToSampleMultimap getWidthToSampleMultimap(TwoDimensionsStatistics::ValueToSampleUnorderedMultimap const& widthToSampleUnorderedMultimap) const;
     void initializeWidthsForKMeans(OneDimensionKMeans & kMeans, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap) const;
     void removeDeviatedWidthsUsingKMeans(OneDimensionKMeans & kMeans, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap) const;
-    void addWidthToKMeansIfNeeded(OneDimensionKMeans & kMeans, OneDimensionKMeans::Samples const& groupOfSamples, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap, unsigned int const minimumGroupSize) const;
-    RangeOfDoubles getMinMaxRangeFromKMeansSamples(OneDimensionKMeans::Samples const& samples) const;
+    void addWidthToKMeansIfNeeded(OneDimensionKMeans & kMeans, OneDimensionKMeans::Samples const& groupOfSamples, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap, unsigned int const minimumGroupSize) const;    RangeOfDoubles getMinMaxRangeFromKMeansSamples(OneDimensionKMeans::Samples const& samples) const;
     Points getNearestBlackPointsFromLine(AprgBitmapSnippet const& snippet, Line const& line) const;
     Point getNearestBlackPointFromLine(AprgBitmapSnippet const& snippet, Line const& line, Point const& point) const;
     double getBarWidthFromBlackPoint(AprgBitmapSnippet const& snippet, Line const& line, Point const& blackPoint) const;
     void writeLineInBitmap(AprgBitmap & bitmap, Line const& line) const;
     BitmapXY convertToBitmapXY(Point const& point) const;
-    BitmapXY convertToBitmapXY(TwoDimensionsStatistics::Sample sample) const;
+    BitmapXY convertToBitmapXY(TwoDimensionsStatistics::Sample const& sample) const;
     Point convertToPoint(BitmapXY const& bitmapXY) const;
+    Point convertToPoint(TwoDimensionsStatistics::Sample const& sample) const;
+    TwoDimensionsStatistics::Sample convertToTwoDimensionSample(Point const& point) const;
     SoosaConfiguration m_configuration;
     SoosaStatus m_status;
-    unsigned int m_numberOfRespondents;
-    std::map<unsigned int, unsigned int> m_questionToAnswersMap;
+    unsigned int m_numberOfRespondents;    std::map<unsigned int, unsigned int> m_questionToAnswersMap;
     FrequencyDatabase m_frequencyDatabase;
-
 
 
 
