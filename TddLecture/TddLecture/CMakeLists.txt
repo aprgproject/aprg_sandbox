@@ -4,7 +4,7 @@ project(TddLecture C CXX)
 set(OUTFILE ${PROJECT_NAME})
 
 #Comment out TEST_MODE to build static executable
-set(TEST_MODE "OFF")
+set(TEST_MODE "ON")
 
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)

@@ -19,6 +19,7 @@ set(APRG_COMMON_MAIN_SOURCES
     ${APRG_COMMON_DIR}/src/Macros/AlbaMacros.hpp
     ${APRG_COMMON_DIR}/src/Math/AlbaMathHelper.cpp
     ${APRG_COMMON_DIR}/src/Math/AlbaMathHelper.hpp
+    ${APRG_COMMON_DIR}/src/Math/AlbaMatrix.hpp
     ${APRG_COMMON_DIR}/src/Memory/AlbaMemoryBuffer.cpp
     ${APRG_COMMON_DIR}/src/Memory/AlbaMemoryBuffer.hpp
     ${APRG_COMMON_DIR}/src/Memory/AlbaRaiiafPointer.cpp
@@ -69,6 +70,7 @@ set(APRG_COMMON_MAIN_TESTS
     ${APRG_COMMON_DIR}/tst/FileTests/AlbaFileReader_unit.cpp
     ${APRG_COMMON_DIR}/tst/MacrosTests/AlbaMacros_unit.cpp
     ${APRG_COMMON_DIR}/tst/MathTests/AlbaMathHelper_unit.cpp
+    ${APRG_COMMON_DIR}/tst/MathTests/AlbaMatrix_unit.cpp
     ${APRG_COMMON_DIR}/tst/MemoryTests/AlbaMemoryBuffer_unit.cpp
     ${APRG_COMMON_DIR}/tst/MemoryTests/AlbaRaiiafPointer_unit.cpp
     ${APRG_COMMON_DIR}/tst/OptionalTests/AlbaOptional_unit.cpp

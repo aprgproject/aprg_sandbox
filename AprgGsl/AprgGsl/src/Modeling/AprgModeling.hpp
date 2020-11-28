@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Math/AlbaMatrix.hpp>
+
 #include <string>
 #include <vector>
 
@@ -17,43 +19,37 @@ public:
         double meanSquareError;
         double rootMeanSquareError;
     };
-    using Coefficients = std::vector<double>;
-    using DataBuffer = std::vector<double>;
+    using VectorOfDoubles = std::vector<double>;
+    using MatrixOfDoubles = AlbaMatrix<double>;
     AprgModeling();
     unsigned int getNumberOfSamples() const;
-    Coefficients getCoefficients() const;
-    void clear();
+    MatrixOfDoubles getCoefficients() const;
     void retrieveDataFromFileWithFileFormat1(std::string const& filePath);
     void retrieveDataFromFileWithFileFormat2(std::string const& filePath);
     void saveRetrievedDataToModelingDataRandomly(unsigned int numberOfSamples);
     void saveRetrievedDataToValidationDataRandomly(unsigned int numberOfSamples);
-    void saveAllRetrievedDataToModelingData(unsigned int numberOfSamples);
-    void saveAllRetrievedDataToValidationData(unsigned int numberOfSamples);
+    void saveRetrievedDataToModelingData(unsigned int numberOfSamples);
+    void saveRetrievedDataToValidationData(unsigned int numberOfSamples);
     void printRetrievedData();
     void printModelingData();
     void printValidationData();
     void modelUsingLeastSquares();
-    void modelUsingLeastAbsoluteDeviations();
     ValidationResult validate();
+
 private:
-    void printData(DataBuffer & dataBufferForX, DataBuffer & dataBufferForY);
-    void saveRetrievedDataToDataBufferRandomly(DataBuffer & dataBufferForX, DataBuffer & dataBufferForY, unsigned int numberOfSamples);
-    void saveAllRetrievedDataToDataBuffer(DataBuffer & dataBufferForX, DataBuffer & dataBufferForY, unsigned int numberOfSamples);
+    void copyVectorToMatrix(unsigned int const numberOfColumns, unsigned int const numberOfRows, VectorOfDoubles const& retrievedDataForX, MatrixOfDoubles & matrixOfDoubles);
+    void printData(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY);
+    void saveRetrievedDataToMatrixRandomly(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY, unsigned int numberOfSamples);
+    void saveRetrievedDataToMatrix(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY, unsigned int numberOfSamples);
     void calculateCoefficientsUsingLeastSquares();
-    void calculateCoefficientsUsingLeastAbsoluteDeviations();
-    void clearDataBuffersForModeling();
-    void clearDataBuffersForValidation();
-    void clearRetrievedData();    void clearOtherData();
-    unsigned int getIndexForXData(unsigned int const x, unsigned int const y) const;
     unsigned int getIndex(unsigned int const i, unsigned int const j, unsigned int const numberOfColumns) const;
-    unsigned int m_columnsForX;    unsigned int m_numberOfSamples;
-    Coefficients m_coefficients;
-    DataBuffer m_modelingDataForX;
-    DataBuffer m_modelingDataForY;
-    DataBuffer m_validationDataForX;
-    DataBuffer m_validationDataForY;
-    DataBuffer m_retrievedDataForX;
-    DataBuffer m_retrievedDataForY;
+    MatrixOfDoubles m_coefficients;
+    MatrixOfDoubles m_modelingDataForX;
+    MatrixOfDoubles m_modelingDataForY;
+    MatrixOfDoubles m_validationDataForX;
+    MatrixOfDoubles m_validationDataForY;
+    MatrixOfDoubles m_retrievedDataForX;
+    MatrixOfDoubles m_retrievedDataForY;
 };
 
 }

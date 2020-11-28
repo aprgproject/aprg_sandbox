@@ -1,5 +1,6 @@
 #include "AprgModeling.hpp"
 
+#include <Debug/AlbaDebug.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <Randomizer/AlbaRandomizer.hpp>
@@ -15,30 +16,21 @@ namespace alba
 {
 
 AprgModeling::AprgModeling()
-    : m_columnsForX(0)
-    , m_numberOfSamples(0)
 {}
-
-void AprgModeling::clear()
-{
-    clearOtherData();
-    clearDataBuffersForModeling();
-    clearDataBuffersForValidation();
-    clearRetrievedData();
-}
 
 unsigned int AprgModeling::getNumberOfSamples() const
 {
-    return m_numberOfSamples;
+    return m_retrievedDataForY.getRows();
 }
 
-AprgModeling::Coefficients AprgModeling::getCoefficients() const
+AprgModeling::MatrixOfDoubles AprgModeling::getCoefficients() const
 {
     return m_coefficients;
 }
-
 void AprgModeling::retrieveDataFromFileWithFileFormat1(string const& filePath)
 {
+    VectorOfDoubles retrievedDataForX, retrievedDataForY;
+    unsigned int columnsForX = 0, numberOfSamples = 0;
     ifstream inputFile(filePath);
     AlbaFileReader fileReader(inputFile);
     fileReader.getLineAndIgnoreWhiteSpaces(); // Get Headers
@@ -50,28 +42,35 @@ void AprgModeling::retrieveDataFromFileWithFileFormat1(string const& filePath)
 
         if(!itemsFound.empty())
         {
-            m_columnsForX = max(m_columnsForX, itemsFound.size()-1);
+            columnsForX = max(columnsForX, itemsFound.size()-1);
             stringHelper::strings::const_iterator it(itemsFound.begin());
-            m_retrievedDataForY.emplace_back(stringHelper::convertStringToNumber<double>(*it));
+            retrievedDataForY.emplace_back(stringHelper::convertStringToNumber<double>(*it));
             it++;
             for_each(it, itemsFound.cend(), [&](string const& item)
             {
-                m_retrievedDataForX.emplace_back(stringHelper::convertStringToNumber<double>(item));
+                retrievedDataForX.emplace_back(stringHelper::convertStringToNumber<double>(item));
             });
-            m_numberOfSamples++;
+            numberOfSamples++;
         }
     }
+    ALBA_PRINT1(inputFile.is_open());
+    ALBA_PRINT2(columnsForX, numberOfSamples);
+    copyVectorToMatrix(columnsForX, numberOfSamples, retrievedDataForX, m_retrievedDataForX);
+    copyVectorToMatrix(1, numberOfSamples, retrievedDataForY, m_retrievedDataForY);
 }
 
 void AprgModeling::retrieveDataFromFileWithFileFormat2(string const& filePath)
 {
+    VectorOfDoubles retrievedDataForX, retrievedDataForY;
+    unsigned int columnsForX = 0, numberOfSamples = 0;
+    bool isLineWithYValues(true);
+    VectorOfDoubles reversedCoordinates;
+    unsigned int reversedCoordinatesColumns(0);
+    unsigned int reversedCoordinatesRows(0);
+
     ifstream inputFile(filePath);
     AlbaFileReader fileReader(inputFile);
     fileReader.getLineAndIgnoreWhiteSpaces(); // Get Headers
-    bool isLineWithYValues(true);
-    DataBuffer reversedCoordinates;
-    unsigned int reversedCoordinatesColumns(0);
-    unsigned int reversedCoordinatesRows(0);
     while(fileReader.isNotFinished())
     {
         string lineInFile(fileReader.getLineAndIgnoreWhiteSpaces());
@@ -86,7 +85,7 @@ void AprgModeling::retrieveDataFromFileWithFileFormat2(string const& filePath)
                 it++;
                 for_each(it, itemsFound.cend(), [&](string const& item)
                 {
-                    m_retrievedDataForY.emplace_back(stringHelper::convertStringToNumber<double>(item));
+                    retrievedDataForY.emplace_back(stringHelper::convertStringToNumber<double>(item));
                 });
                 isLineWithYValues=false;
             }
@@ -107,31 +106,33 @@ void AprgModeling::retrieveDataFromFileWithFileFormat2(string const& filePath)
     {
         for(unsigned int j=0; j<reversedCoordinatesRows; j++)
         {
-            m_retrievedDataForX.emplace_back(reversedCoordinates[getIndex(i,j, reversedCoordinatesColumns)]);
+            retrievedDataForX.emplace_back(reversedCoordinates[getIndex(i,j, reversedCoordinatesColumns)]);
         }
     }
-    m_columnsForX = reversedCoordinatesRows;
-    m_numberOfSamples = reversedCoordinatesColumns;
+    columnsForX = reversedCoordinatesRows;
+    numberOfSamples = reversedCoordinatesColumns;
+    copyVectorToMatrix(columnsForX, numberOfSamples, retrievedDataForX, m_retrievedDataForX);
+    copyVectorToMatrix(1, numberOfSamples, retrievedDataForY, m_retrievedDataForY);
 }
 
 void AprgModeling::saveRetrievedDataToModelingDataRandomly(unsigned int numberOfSamples)
 {
-    saveRetrievedDataToDataBufferRandomly(m_modelingDataForX, m_modelingDataForY, numberOfSamples);
+    saveRetrievedDataToMatrixRandomly(m_modelingDataForX, m_modelingDataForY, numberOfSamples);
 }
 
 void AprgModeling::saveRetrievedDataToValidationDataRandomly(unsigned int numberOfSamples)
 {
-    saveRetrievedDataToDataBufferRandomly(m_validationDataForX, m_validationDataForY, numberOfSamples);
+    saveRetrievedDataToMatrixRandomly(m_validationDataForX, m_validationDataForY, numberOfSamples);
 }
 
-void AprgModeling::saveAllRetrievedDataToModelingData(unsigned int numberOfSamples)
+void AprgModeling::saveRetrievedDataToModelingData(unsigned int numberOfSamples)
 {
-    saveAllRetrievedDataToDataBuffer(m_modelingDataForX, m_modelingDataForY, numberOfSamples);
+    saveRetrievedDataToMatrix(m_modelingDataForX, m_modelingDataForY, numberOfSamples);
 }
 
-void AprgModeling::saveAllRetrievedDataToValidationData(unsigned int numberOfSamples)
+void AprgModeling::saveRetrievedDataToValidationData(unsigned int numberOfSamples)
 {
-    saveAllRetrievedDataToDataBuffer(m_validationDataForX, m_validationDataForY, numberOfSamples);
+    saveRetrievedDataToMatrix(m_validationDataForX, m_validationDataForY, numberOfSamples);
 }
 
 void AprgModeling::modelUsingLeastSquares()
@@ -139,23 +140,20 @@ void AprgModeling::modelUsingLeastSquares()
     calculateCoefficientsUsingLeastSquares();
 }
 
-void AprgModeling::modelUsingLeastAbsoluteDeviations()
-{
-    calculateCoefficientsUsingLeastAbsoluteDeviations();
-}
-
 AprgModeling::ValidationResult AprgModeling::validate()
 {
-    ValidationResult result;    vector<double> calculationDataBuffer;
+    ValidationResult result;
+    vector<double> calculationDataBuffer;
 
-    unsigned int dataHeight = m_validationDataForY.size();
-    unsigned int dataWidthForX = m_columnsForX-1;    unsigned int index=0;
+    unsigned int dataHeight = m_validationDataForY.getRows();
+    unsigned int dataWidthForX = m_validationDataForX.getColumns();//why minus 1 lets remove it
+    unsigned int index=0;
     for(unsigned int j=0; j<dataHeight; j++)
     {
         double yPredicted=0;
         for (unsigned int i=0; i < dataWidthForX; i++)
         {
-            yPredicted += m_validationDataForX[index]*m_coefficients[i];
+            yPredicted += m_validationDataForX.get(i, j)*m_coefficients.get(i, 0);
             index++;
         }
         calculationDataBuffer.emplace_back(yPredicted);
@@ -163,7 +161,7 @@ AprgModeling::ValidationResult AprgModeling::validate()
 
     for(unsigned int j=0; j<dataHeight; j++)
     {
-        calculationDataBuffer[j]=m_validationDataForY[j]-calculationDataBuffer[j];
+        calculationDataBuffer[j]=m_validationDataForY.get(0, j)-calculationDataBuffer[j];
     }
 
     for(unsigned int j=0; j<dataHeight; j++)
@@ -189,68 +187,88 @@ AprgModeling::ValidationResult AprgModeling::validate()
 
 void AprgModeling::printRetrievedData()
 {
+    cout<<"RetrievedData:"<<endl;
     printData(m_retrievedDataForX, m_retrievedDataForY);
 }
 
 void AprgModeling::printModelingData()
 {
+    cout<<"ModelingData:"<<endl;
     printData(m_modelingDataForX, m_modelingDataForY);
 }
 
 void AprgModeling::printValidationData()
 {
+    cout<<"ValidationData:"<<endl;
     printData(m_validationDataForX, m_validationDataForY);
 }
 
-void AprgModeling::printData(DataBuffer & dataBufferForX, DataBuffer & dataBufferForY)
+void AprgModeling::copyVectorToMatrix(unsigned int const numberOfColumns, unsigned int const numberOfRows, VectorOfDoubles const& retrievedDataForX, MatrixOfDoubles & matrixOfDoubles)
 {
-    for(unsigned int j=0; j<dataBufferForY.size(); j++)
+    matrixOfDoubles.clearAndResize(numberOfColumns, numberOfRows);
+    unsigned int x=0, y=0;
+    for(double const value : retrievedDataForX)
     {
-        cout<<dataBufferForY[j]<<" || ";
-        for(unsigned int i=0; i<m_columnsForX; i++)
+        matrixOfDoubles.set(x, y, value);
+        x++;
+        if(x>=numberOfColumns)
         {
-            cout<<dataBufferForX[getIndexForXData(i,j)]<<", ";
+            x=0;
+            y++;
+        }
+    }
+}
+
+void AprgModeling::printData(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY)
+{
+    for(unsigned int j=0; j<matrixInY.getRows(); j++)
+    {
+        cout<<matrixInY.get(0, j)<<" || ";
+        for(unsigned int i=0; i<matrixInX.getColumns(); i++)
+        {
+            cout<<matrixInX.get(i, j)<<", ";
         }
         cout<<endl;
     }
 }
 
-void AprgModeling::saveRetrievedDataToDataBufferRandomly(DataBuffer & dataBufferForX, DataBuffer & dataBufferForY, unsigned int numberOfSamples)
+void AprgModeling::saveRetrievedDataToMatrixRandomly(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY, unsigned int numberOfSamples)
 {
+    matrixInX.clearAndResize(m_retrievedDataForX.getColumns(), numberOfSamples);
+    matrixInY.clearAndResize(1, numberOfSamples);
     AlbaRandomizer randomizer;
-    dataBufferForX.clear();
-    dataBufferForY.clear();
     for(unsigned int j=0; j<numberOfSamples; j++)
     {
-        int randomRow(randomizer.getRandomValueInUniformDistribution(0, m_numberOfSamples-1));
-        dataBufferForY.emplace_back(m_retrievedDataForY[randomRow]);
-        for(unsigned int i=0; i<m_columnsForX; i++)
+        unsigned int randomRow((unsigned int)randomizer.getRandomValueInUniformDistribution(0, m_retrievedDataForY.getRows()-1));
+        matrixInY.set(0, j, m_retrievedDataForY.get(0, randomRow));
+        for(unsigned int i=0; i<m_retrievedDataForX.getColumns(); i++)
         {
-            dataBufferForX.emplace_back(m_retrievedDataForX[getIndexForXData(i,randomRow)]);
+            matrixInX.set(i, j, m_retrievedDataForX.get(i, randomRow));
         }
     }
 }
 
-void AprgModeling::saveAllRetrievedDataToDataBuffer(DataBuffer & dataBufferForX, DataBuffer & dataBufferForY, unsigned int numberOfSamples)
+void AprgModeling::saveRetrievedDataToMatrix(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY, unsigned int numberOfSamples)
 {
-    dataBufferForX.clear();
-    dataBufferForY.clear();
+    matrixInX.clearAndResize(m_retrievedDataForX.getColumns(), numberOfSamples);
+    matrixInY.clearAndResize(1, numberOfSamples);
     for(unsigned int j=0; j<numberOfSamples; j++)
     {
-        dataBufferForY.emplace_back(m_retrievedDataForY[j]);
-        for(unsigned int i=0; i<m_columnsForX; i++)
+        matrixInY.set(0, j, m_retrievedDataForY.get(0, j));
+        for(unsigned int i=0; i<m_retrievedDataForX.getColumns(); i++)
         {
-            dataBufferForX.emplace_back(m_retrievedDataForX[getIndexForXData(i,j)]);
+            matrixInX.set(i, j, m_retrievedDataForX.get(i,j));
         }
     }
 }
 
 void AprgModeling::calculateCoefficientsUsingLeastSquares()
 {
-    int dataHeight = m_modelingDataForY.size();
-    int dataWidth = m_columnsForX;    double chisq;
-    int j, i;
+    unsigned int dataHeight = m_modelingDataForY.getRows();
+    unsigned int dataWidth = m_modelingDataForX.getColumns();
+    double chisq;
 
+    ALBA_PRINT2(dataHeight, dataWidth);
     gsl_matrix *xModelingData, *calculatedCovariance;
     gsl_vector *yModelingData, *calculatedCoefficients;
 
@@ -259,27 +277,23 @@ void AprgModeling::calculateCoefficientsUsingLeastSquares()
     calculatedCoefficients = gsl_vector_alloc(dataWidth);
     calculatedCovariance = gsl_matrix_alloc(dataWidth, dataWidth);
 
-    j=0;
-    for(double currentValue:m_modelingDataForY)
+    m_modelingDataForY.traverse([&](unsigned int const x, unsigned int const y, double const value)
     {
-        gsl_vector_set(yModelingData, j, currentValue);
-        j++;
-    }
+        gsl_vector_set(yModelingData, y, value);
+    });
 
-    j=0, i=0;
-    for(double currentValue:m_modelingDataForX)
+    m_modelingDataForX.traverse([&](unsigned int const x, unsigned int const y, double const value)
     {
-        gsl_matrix_set(xModelingData, j, i, currentValue);
-        i++;
-        if(i>=dataWidth) { j++; i=0; }
-    }
+        gsl_matrix_set(xModelingData, y, x, value);
+    });
 
     gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc(dataHeight, dataWidth);
     gsl_multifit_linear(xModelingData, yModelingData, calculatedCoefficients, calculatedCovariance, &chisq, work);
 
-    for(i=0; i<dataWidth; i++)
+    m_coefficients.clearAndResize(dataWidth, 1);
+    for(unsigned int i=0; i<dataWidth; i++)
     {
-        m_coefficients.emplace_back(gsl_vector_get(calculatedCoefficients, i));
+        m_coefficients.set(i, 0, gsl_vector_get(calculatedCoefficients, i));
     }
 
     gsl_multifit_linear_free(work);
@@ -287,83 +301,11 @@ void AprgModeling::calculateCoefficientsUsingLeastSquares()
     gsl_vector_free(calculatedCoefficients);
     gsl_vector_free(yModelingData);
     gsl_matrix_free(xModelingData);
-}
-
-void AprgModeling::calculateCoefficientsUsingLeastAbsoluteDeviations()
-{
-    int dataHeight = m_modelingDataForY.size();
-    int dataWidth = m_columnsForX;    double chisq;
-    int j, i;
-
-    gsl_matrix *xModelingData, *calculatedCovariance;
-    gsl_vector *yModelingData, *calculatedCoefficients;
-
-    xModelingData = gsl_matrix_alloc(dataHeight, dataWidth);
-    yModelingData = gsl_vector_alloc(dataHeight);
-    calculatedCoefficients = gsl_vector_alloc(dataWidth);
-    calculatedCovariance = gsl_matrix_alloc(dataWidth, dataWidth);
-
-    j=0;
-    for(double currentValue:m_modelingDataForY)
-    {
-        gsl_vector_set(yModelingData, j, currentValue);
-        j++;
-    }
-
-    j=0, i=0;
-    for(double currentValue:m_modelingDataForX)
-    {
-        gsl_matrix_set(xModelingData, j, i, currentValue);
-        i++;
-        if(i>=dataWidth) { j++; i=0; }
-    }
-
-    gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc(dataHeight, dataWidth);
-    gsl_multifit_linear(xModelingData, yModelingData, calculatedCoefficients, calculatedCovariance, &chisq, work);
-
-    for(i=0; i<dataWidth; i++)
-    {
-        m_coefficients.emplace_back(gsl_vector_get(calculatedCoefficients, i));
-    }
-
-    gsl_multifit_linear_free(work);
-    gsl_matrix_free(calculatedCovariance);
-    gsl_vector_free(calculatedCoefficients);
-    gsl_vector_free(yModelingData);
-    gsl_matrix_free(xModelingData);
-}
-
-void AprgModeling::clearDataBuffersForModeling()
-{
-    m_modelingDataForX.clear();    m_modelingDataForY.clear();
-}
-
-void AprgModeling::clearDataBuffersForValidation(){
-    m_validationDataForX.clear();
-    m_validationDataForY.clear();
-}
-
-void AprgModeling::clearRetrievedData()
-{
-    m_retrievedDataForX.clear();
-    m_retrievedDataForY.clear();
-}
-
-unsigned int AprgModeling::getIndexForXData(unsigned int const i, unsigned int const j) const
-{
-    return (j*m_columnsForX)+i;
-}
+}\
 
 unsigned int AprgModeling::getIndex(unsigned int const i, unsigned int const j, unsigned int const numberOfColumns) const
 {
     return (j*numberOfColumns)+i;
-}
-
-
-void AprgModeling::clearOtherData()
-{
-    m_columnsForX=0;
-    m_numberOfSamples=0;
 }
 
 }

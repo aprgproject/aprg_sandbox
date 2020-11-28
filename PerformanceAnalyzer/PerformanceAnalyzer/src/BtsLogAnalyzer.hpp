@@ -39,7 +39,8 @@ private:
     void setLogTimeIfNeeded(std::string const& lineInLogs, LogTime& logTime) const;
     double getTotalMicroseconds(tcomToolsBackend::BtsLogTime const& btsLogTime) const;
     DataCollection<unsigned int> m_messageQueueingTime;
-    DataCollection<unsigned int> m_rlhRlSetupLatency;    DataCollection<unsigned int> m_rlhRlDeletionLatency;
+    DataCollection<unsigned int> m_rlhRlSetupLatency;
+    DataCollection<unsigned int> m_rlhRlDeletionLatency;
 };
 
 }

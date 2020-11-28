@@ -27,11 +27,13 @@ void AlbaYearMonthDay::clear()
 
 unsigned int AlbaYearMonthDay::getYears() const
 {
-    return DateTimeBitHelper::concatenateBytes(DateTimeBitHelper::getByteAt<3>(m_yearMonthDay) , DateTimeBitHelper::getByteAt<2>(m_yearMonthDay));}
+    return DateTimeBitHelper::concatenateBytes(DateTimeBitHelper::getByteAt<3>(m_yearMonthDay) , DateTimeBitHelper::getByteAt<2>(m_yearMonthDay));
+}
 
 unsigned int AlbaYearMonthDay::getMonths() const
 {
-    return DateTimeBitHelper::getByteAt<1>(m_yearMonthDay);}
+    return DateTimeBitHelper::getByteAt<1>(m_yearMonthDay);
+}
 
 unsigned int AlbaYearMonthDay::getDays() const
 {
@@ -77,11 +79,13 @@ void AlbaHourMinuteSecond::clear()
 
 unsigned int AlbaHourMinuteSecond::getHours() const
 {
-    return DateTimeBitHelper::getByteAt<2>(m_hourMinuteSecond);}
+    return DateTimeBitHelper::getByteAt<2>(m_hourMinuteSecond);
+}
 
 unsigned int AlbaHourMinuteSecond::getMinutes() const
 {
-    return DateTimeBitHelper::getByteAt<1>(m_hourMinuteSecond);}
+    return DateTimeBitHelper::getByteAt<1>(m_hourMinuteSecond);
+}
 
 unsigned int AlbaHourMinuteSecond::getSeconds() const
 {
@@ -144,11 +148,13 @@ void AlbaDateTime::clear()
 
 bool AlbaDateTime::isEmpty() const
 {
-    return (m_yearMonthDay.getYearMonthDay()|m_hourMinuteSecond.getHourMinuteSecond()|m_microseconds)==0;}
+    return (m_yearMonthDay.getYearMonthDay()|m_hourMinuteSecond.getHourMinuteSecond()|m_microseconds)==0;
+}
 
 unsigned int AlbaDateTime::getYears() const
 {
-    return m_yearMonthDay.getYears();}
+    return m_yearMonthDay.getYears();
+}
 
 unsigned int AlbaDateTime::getMonths() const
 {
@@ -221,10 +227,12 @@ string AlbaDateTime::getPrintableStringFormat2() const
 
 bool AlbaDateTime::operator<(AlbaDateTime const& secondDateTime) const
 {
-    bool result(false);    if(m_sign < secondDateTime.m_sign) result = true;
+    bool result(false);
+    if(m_sign < secondDateTime.m_sign) result = true;
     else if(m_sign > secondDateTime.m_sign) result = false;
     else result = isLessThanInMagnitude(*this, secondDateTime);
-    return result;}
+    return result;
+}
 
 bool AlbaDateTime::operator>(AlbaDateTime const& secondDateTime) const
 {

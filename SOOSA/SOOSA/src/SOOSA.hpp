@@ -48,10 +48,12 @@ public:
     using QuestionBarCoordinates = std::vector<QuestionBarCoordinate>;
     using OneDimensionKMeans = KMeansClustering<1>;
 
-    SOOSA(SoosaConfiguration const& configuration);    unsigned int getNumberOfAnswers() const;
+    SOOSA(SoosaConfiguration const& configuration);
+    unsigned int getNumberOfAnswers() const;
     unsigned int getAnswerToQuestion(unsigned int const questionNumber) const;
 private:
-    std::string getCsvFileName(std::string const& path) const;    std::string getReportHtmlFileName(std::string const& path) const;
+    std::string getCsvFileName(std::string const& path) const;
+    std::string getReportHtmlFileName(std::string const& path) const;
     std::string getPrintableStringForPercentage(double const numerator, double const denominator) const;
     void setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigned int const questionOffsetInColumn, unsigned int const answer);
     void saveDataToCsvFile(std::string const& processedFilePath) const;
@@ -79,7 +81,8 @@ private:
     TwoDimensionsStatistics::ValueToSampleMultimap getWidthToSampleMultimap(TwoDimensionsStatistics::ValueToSampleUnorderedMultimap const& widthToSampleUnorderedMultimap) const;
     void initializeWidthsForKMeans(OneDimensionKMeans & kMeans, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap) const;
     void removeDeviatedWidthsUsingKMeans(OneDimensionKMeans & kMeans, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap) const;
-    void addWidthToKMeansIfNeeded(OneDimensionKMeans & kMeans, OneDimensionKMeans::Samples const& groupOfSamples, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap, unsigned int const minimumGroupSize) const;    RangeOfDoubles getMinMaxRangeFromKMeansSamples(OneDimensionKMeans::Samples const& samples) const;
+    void addWidthToKMeansIfNeeded(OneDimensionKMeans & kMeans, OneDimensionKMeans::Samples const& groupOfSamples, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap, unsigned int const minimumGroupSize) const;
+    RangeOfDoubles getMinMaxRangeFromKMeansSamples(OneDimensionKMeans::Samples const& samples) const;
     Points getNearestBlackPointsFromLine(AprgBitmapSnippet const& snippet, Line const& line) const;
     Point getNearestBlackPointFromLine(AprgBitmapSnippet const& snippet, Line const& line, Point const& point) const;
     double getBarWidthFromBlackPoint(AprgBitmapSnippet const& snippet, Line const& line, Point const& blackPoint) const;
@@ -91,8 +94,10 @@ private:
     TwoDimensionsStatistics::Sample convertToTwoDimensionSample(Point const& point) const;
     SoosaConfiguration m_configuration;
     SoosaStatus m_status;
-    unsigned int m_numberOfRespondents;    std::map<unsigned int, unsigned int> m_questionToAnswersMap;
+    unsigned int m_numberOfRespondents;
+    std::map<unsigned int, unsigned int> m_questionToAnswersMap;
     FrequencyDatabase m_frequencyDatabase;
+
 
 
 
