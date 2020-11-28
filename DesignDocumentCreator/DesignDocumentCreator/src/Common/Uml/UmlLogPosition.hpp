@@ -3,8 +3,11 @@
 namespace DesignDocumentCreator
 {
 
-class UmlConfiguration
+enum class UmlLogPosition
 {
+    right,
+    left,
+    over
 };
 
 }

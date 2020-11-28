@@ -1,29 +1,23 @@
 #include <Common/Components/Components.hpp>
-#include <FeatureSpecificFiles/ComponentsIncludes.hpp>
-
 #include <Common/Components/SampleComponent.hpp>
+#include <FeatureSpecificFiles/ComponentsIncludes.hpp>
 
 using namespace std;
 
-namespace DesignDocumentCreator
-{
+namespace DesignDocumentCreator{
 
 Components::Components()
 {
-#define ADD_COMPONENT(COMPONENT_NAME, COMPONENT_CLASS) m_components[COMPONENT_NAME].reset(new COMPONENT_CLASS(COMPONENT_NAME));
-
-    ADD_COMPONENT(ComponentName::SampleComponent, SampleComponent)
-    #include <FeatureSpecificFiles/AddComponent.hpp>
-
-#undef ADD_COMPONENT
+#define COMPONENT_NAME_MACRO(COMPONENT_NAME) m_components[ComponentName:: COMPONENT_NAME].reset(new COMPONENT_NAME(ComponentName:: COMPONENT_NAME));
+    COMPONENT_NAME_MACRO(SampleComponent)
+    #include <FeatureSpecificFiles/ComponentNameMacro.hpp>
+#undef COMPONENT_NAME_MACRO
 }
 
-Component* Components::getComponentPointer(ComponentName const componentName)
-{
+Component* Components::getComponentPointer(ComponentName const componentName){
     if(isComponentExisting(componentName))
     {
-        return m_components[componentName].get();
-    }
+        return m_components[componentName].get();    }
     return nullptr;
 }
 

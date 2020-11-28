@@ -9,7 +9,10 @@ enum class ComponentName
 {
     EMPTY,
     SampleComponent
-#include <FeatureSpecificFiles/ComponentName.hpp>
+
+#define COMPONENT_NAME_MACRO(COMPONENT_NAME) ,COMPONENT_NAME
+    #include <FeatureSpecificFiles/ComponentNameMacro.hpp>
+#undef COMPONENT_NAME_MACRO
 
 };
 

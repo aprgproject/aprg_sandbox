@@ -3,47 +3,43 @@
 #include <String/AlbaStringHelper.hpp>
 
 using namespace alba;
-using namespace DesignDocumentCreator::UmlConfiguration;
 using namespace std;
 
 namespace DesignDocumentCreator
 {
 
-#define GET_ENUM_STRING(en) \
-    case en: \
-    result = #en;\
-    break;
+#define GET_ENUM_STRING(en) case en: result = #en; break;
 
 std::string StringHelpers::convertToString(ComponentName const componentName)
-{
-    string result;
+{    string result;
     switch(componentName)
     {
-    GET_ENUM_STRING(ComponentName::EMPTY)
-            GET_ENUM_STRING(ComponentName::SampleComponent)
-        #include <FeatureSpecificFiles/ConvertToStringComponentName.hpp>
+#define COMPONENT_NAME_MACRO(COMPONENT_NAME) case ComponentName:: COMPONENT_NAME : result = #COMPONENT_NAME; break;
+    COMPONENT_NAME_MACRO(EMPTY)
+    COMPONENT_NAME_MACRO(SampleComponent)
+    #include <FeatureSpecificFiles/ComponentNameMacro.hpp>
+#undef COMPONENT_NAME_MACRO
     }
-    return stringHelper::getStringAfterThisString(result, "ComponentName::");
+    return result;
 }
 
-std::string StringHelpers::convertToString(MessageName const messageName)
-{
+std::string StringHelpers::convertToString(MessageName const messageName){
     string result;
     switch(messageName)
     {
-    GET_ENUM_STRING(MessageName::EMPTY)
-            GET_ENUM_STRING(MessageName::MESSAGE_SAMPLE)
-        #include <FeatureSpecificFiles/ConvertToStringMessageName.hpp>
+#define MESSAGE_NAME_MACRO(MESSAGE_NAME) case MessageName:: MESSAGE_NAME : result = #MESSAGE_NAME; break;
+    MESSAGE_NAME_MACRO(EMPTY)
+    MESSAGE_NAME_MACRO(MESSAGE_SAMPLE)
+    #include <FeatureSpecificFiles/MessageNameMacro.hpp>
+#undef MESSAGE_NAME_MACRO
     }
-    return stringHelper::getStringAfterThisString(result, "MessageName::");
+    return result;
 }
 
-std::string StringHelpers::convertToString(TimerType const timerType)
-{
+std::string StringHelpers::convertToString(TimerType const timerType){
     string result;
     switch(timerType)
-    {
-    GET_ENUM_STRING(TimerType::EMPTY)
+    {    GET_ENUM_STRING(TimerType::EMPTY)
             GET_ENUM_STRING(TimerType::CELL_TIMER)
             GET_ENUM_STRING(TimerType::DSP_TIMER)
             GET_ENUM_STRING(TimerType::CARRIER_RESOURCE_TIMER)
