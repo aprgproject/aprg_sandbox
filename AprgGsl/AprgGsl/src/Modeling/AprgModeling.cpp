@@ -10,6 +10,7 @@
 #include <iostream>
 
 using namespace std;
+
 namespace alba
 {
 
@@ -18,7 +19,8 @@ AprgModeling::AprgModeling()
     , m_numberOfSamples(0)
 {}
 
-void AprgModeling::clear(){
+void AprgModeling::clear()
+{
     clearOtherData();
     clearDataBuffersForModeling();
     clearDataBuffersForValidation();
@@ -30,14 +32,16 @@ unsigned int AprgModeling::getNumberOfSamples() const
     return m_numberOfSamples;
 }
 
-AprgModeling::Coefficients AprgModeling::getCoefficients() const{
+AprgModeling::Coefficients AprgModeling::getCoefficients() const
+{
     return m_coefficients;
 }
 
 void AprgModeling::retrieveDataFromFileWithFileFormat1(string const& filePath)
 {
     ifstream inputFile(filePath);
-    AlbaFileReader fileReader(inputFile);    fileReader.getLineAndIgnoreWhiteSpaces(); // Get Headers
+    AlbaFileReader fileReader(inputFile);
+    fileReader.getLineAndIgnoreWhiteSpaces(); // Get Headers
     while(fileReader.isNotFinished())
     {
         string lineInFile(fileReader.getLineAndIgnoreWhiteSpaces());
@@ -132,7 +136,8 @@ void AprgModeling::saveAllRetrievedDataToValidationData(unsigned int numberOfSam
 
 void AprgModeling::model()
 {
-    calculateCoefficients();}
+    calculateCoefficients();
+}
 
 AprgModeling::ValidationResult AprgModeling::validate()
 {
@@ -143,22 +148,26 @@ AprgModeling::ValidationResult AprgModeling::validate()
     unsigned int dataWidthForX = m_columnsForX-1;
     unsigned int index=0;
     for(unsigned int j=0; j<dataHeight; j++)
-    {        double yPredicted=0;
+    {
+        double yPredicted=0;
         for (unsigned int i=0; i < dataWidthForX; i++)
         {
             yPredicted += m_validationDataForX[index]*m_coefficients[i];
             index++;
         }
-        calculationDataBuffer.emplace_back(yPredicted);    }
+        calculationDataBuffer.emplace_back(yPredicted);
+    }
 
     for(unsigned int j=0; j<dataHeight; j++)
     {
         calculationDataBuffer[j]=m_validationDataForY[j]-calculationDataBuffer[j];
     }
 
-    for(unsigned int j=0; j<dataHeight; j++)    {
+    for(unsigned int j=0; j<dataHeight; j++)
+    {
         calculationDataBuffer[j] = pow(calculationDataBuffer[j], 2);
     }
+
     double totalSquareError(0);
     for(unsigned int j=0; j<dataHeight; j++)
     {
@@ -239,8 +248,10 @@ void AprgModeling::calculateCoefficients()
     int dataWidth = m_columnsForX;
     double chisq;
     int j, i;
+
     gsl_matrix *xModelingData, *calculatedCovariance;
     gsl_vector *yModelingData, *calculatedCoefficients;
+
     xModelingData = gsl_matrix_alloc(dataHeight, dataWidth);
     yModelingData = gsl_vector_alloc(dataHeight);
     calculatedCoefficients = gsl_vector_alloc(dataWidth);
@@ -250,16 +261,19 @@ void AprgModeling::calculateCoefficients()
     for(double currentValue:m_modelingDataForY)
     {
         gsl_vector_set(yModelingData, j, currentValue);
-        j++;    }
+        j++;
+    }
 
     j=0, i=0;
     for(double currentValue:m_modelingDataForX)
     {
         gsl_matrix_set(xModelingData, j, i, currentValue);
-        i++;        if(i>=dataWidth) { j++; i=0; }
+        i++;
+        if(i>=dataWidth) { j++; i=0; }
     }
 
-    gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc(dataHeight, dataWidth);    gsl_multifit_linear(xModelingData, yModelingData, calculatedCoefficients, calculatedCovariance, &chisq, work);
+    gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc(dataHeight, dataWidth);
+    gsl_multifit_linear(xModelingData, yModelingData, calculatedCoefficients, calculatedCovariance, &chisq, work);
 
     for(i=0; i<dataWidth; i++)
     {

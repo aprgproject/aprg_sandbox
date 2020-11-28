@@ -22,10 +22,12 @@ TEST(SampleTest, DISABLED_TestForDataSet)
     //modeling.printValidationData();
     AprgModeling::ValidationResult result =  modeling.validate();
     cout<<"totalSquareError: "<<std::setprecision(20)<<result.totalSquareError<<endl;
-    cout<<"resultSize: "<<std::setprecision(20)<<result.resultSize<<endl;    cout<<"meanSquareError: "<<std::setprecision(20)<<result.meanSquareError<<endl;
+    cout<<"resultSize: "<<std::setprecision(20)<<result.resultSize<<endl;
+    cout<<"meanSquareError: "<<std::setprecision(20)<<result.meanSquareError<<endl;
     cout<<"rootMeanSquareError: "<<std::setprecision(20)<<result.rootMeanSquareError<<endl;
 
-    AprgModeling::Coefficients coefficients(modeling.getCoefficients());    cout<<"Coefficients:"<<endl;
+    AprgModeling::Coefficients coefficients(modeling.getCoefficients());
+    cout<<"Coefficients:"<<endl;
     unsigned int i=1;
     for(double coefficient: coefficients)
     {

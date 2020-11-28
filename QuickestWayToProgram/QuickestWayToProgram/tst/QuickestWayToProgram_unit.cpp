@@ -106,10 +106,12 @@ TEST(SampleTest, MessageIds_test)
 /*
 bool isLeapYear(unsigned int const year)
 {
-    bool result(true);    if (year%4 != 0) result = false;
+    bool result(true);
+    if (year%4 != 0) result = false;
     else if (year%100 != 0) result = true;
     else if (year%400 != 0) result = false;
-    return result;}
+    return result;
+}
 
 unsigned int getMaximumDaysInAMonth(unsigned int const monthIndex, unsigned int const year)
 {
@@ -157,7 +159,8 @@ TEST(SampleTest, DateTimeAlgorithm)
 
 u32 calculateShiftDelayedSfn(u32 const currentSfn, u32 const calculatedSfn)
 {
-    const u32 RADIO_FRAME_CYCLE = 4096;    const u32 MAX_FRAME_NUMBER = 4095;
+    const u32 RADIO_FRAME_CYCLE = 4096;
+    const u32 MAX_FRAME_NUMBER = 4095;
     const u32 MAX_NUM_OF_TTI = 8;
     const u32 SFN_LOW_LIMIT = 12;
     const u32 SFN_HIGH_LIMIT = 220;
@@ -168,7 +171,8 @@ u32 calculateShiftDelayedSfn(u32 const currentSfn, u32 const calculatedSfn)
     cout<<"limit"<<limit<<endl;
     while (tempSfn > limit){
         if (tempSfn < MAX_NUM_OF_TTI){
-            break;        }
+            break;
+        }
         tempSfn = (tempSfn + MAX_NUM_OF_TTI) % RADIO_FRAME_CYCLE;
     }
     cout<<"tempSfn"<<tempSfn<<endl;
@@ -186,9 +190,11 @@ u32 calculateShiftDelayedSfn(u32 const currentSfn, u32 const calculatedSfn)
     cout<<"limit"<<limit<<endl;
     return tempSfn;
 }
+
 u32 calculateShiftDelayedSfnNew(u32 const currentSfn, u32 const calculatedSfn)
 {
-    const u32 RADIO_FRAME_CYCLE = 4096;    const u32 MAX_FRAME_NUMBER = 4095;
+    const u32 RADIO_FRAME_CYCLE = 4096;
+    const u32 MAX_FRAME_NUMBER = 4095;
     const u32 MAX_NUM_OF_TTI = 8;
     const u32 SFN_LOW_LIMIT = 12;
     const u32 SFN_HIGH_LIMIT = 220;
@@ -223,9 +229,11 @@ TEST(SampleTest, DISABLED_ComparisonOfResultsOfTwoAlgorithms)
 {
     AlbaLocalPathHandler pathOfNewAlgorithm(R"(D:\userdata\malba\Desktop\Prontos\PR235148\NewResults.csv)");
     AlbaLocalPathHandler pathOfOldAlgorithm(R"(D:\userdata\malba\Desktop\Prontos\PR235148\OldResults.csv)");
+
     ifstream newAlgoResultFile(pathOfNewAlgorithm.getFullPath());
     ifstream oldAlgoResultFile(pathOfOldAlgorithm.getFullPath());
-    AlbaFileReader newAlgoReader(newAlgoResultFile);    AlbaFileReader oldAlgoReader(oldAlgoResultFile);
+    AlbaFileReader newAlgoReader(newAlgoResultFile);
+    AlbaFileReader oldAlgoReader(oldAlgoResultFile);
 
     while(newAlgoReader.isNotFinished() || oldAlgoReader.isNotFinished())
     {

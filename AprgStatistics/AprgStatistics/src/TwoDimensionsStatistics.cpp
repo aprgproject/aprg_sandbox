@@ -7,9 +7,11 @@
 
 namespace alba
 {
+
 TwoDimensionsStatistics::LineModel TwoDimensionsStatistics::calculateLineModelUsingLeastSquares(Samples const& samples)
 {
-    bool isDifferenceForXNotZero(false);    bool isDifferenceForYNotZero(false);
+    bool isDifferenceForXNotZero(false);
+    bool isDifferenceForYNotZero(false);
     double xMinusXmeanSquared(0); //Xi-mean(X)
     double yMinusYmeanSquared(0); //Yi-mean(Y)
     double xMinusXmeanTimesYMinusYmean(0);// (Xi-mean(X))*(Yi-mean(Y))

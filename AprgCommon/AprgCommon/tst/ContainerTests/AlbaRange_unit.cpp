@@ -17,6 +17,10 @@ TEST(AlbaRangeTest, TraverseIsNotInfiniteWhenRangeIsEmpty)
     });
 
     EXPECT_TRUE(range.isEmpty());
+    EXPECT_TRUE(range.isValueInsideInclusive(0));
+    EXPECT_FALSE(range.isValueInsideExclusive(0));
+    EXPECT_EQ(0, range.getMinimum());
+    EXPECT_EQ(0, range.getMaximum());
     EXPECT_EQ(0, range.getStartValue());
     EXPECT_EQ(0, range.getEndValue());
     EXPECT_EQ(0, range.getDelta());
@@ -36,6 +40,10 @@ TEST(AlbaRangeTest, ForwardTraversalWorks)
     });
 
     EXPECT_FALSE(range.isEmpty());
+    EXPECT_TRUE(range.isValueInsideInclusive(1));
+    EXPECT_FALSE(range.isValueInsideExclusive(1));
+    EXPECT_EQ(1, range.getMinimum());
+    EXPECT_EQ(10, range.getMaximum());
     EXPECT_EQ(1, range.getStartValue());
     EXPECT_EQ(10, range.getEndValue());
     EXPECT_EQ(9, range.getDelta());
@@ -66,6 +74,10 @@ TEST(AlbaRangeTest, BackwardTraversalWorks)
     });
 
     EXPECT_FALSE(range.isEmpty());
+    EXPECT_TRUE(range.isValueInsideInclusive(-5));
+    EXPECT_FALSE(range.isValueInsideExclusive(-5));
+    EXPECT_EQ(-5, range.getMinimum());
+    EXPECT_EQ(5, range.getMaximum());
     EXPECT_EQ(5, range.getStartValue());
     EXPECT_EQ(-5, range.getEndValue());
     EXPECT_EQ(10, range.getDelta());
@@ -99,6 +111,10 @@ TEST(AlbaRangeTest, RangeCanBeChangedAfterCreation)
     });
 
     EXPECT_FALSE(range.isEmpty());
+    EXPECT_TRUE(range.isValueInsideInclusive(5));
+    EXPECT_FALSE(range.isValueInsideExclusive(5));
+    EXPECT_EQ(-5, range.getMinimum());
+    EXPECT_EQ(5, range.getMaximum());
     EXPECT_EQ(5, range.getStartValue());
     EXPECT_EQ(-5, range.getEndValue());
     EXPECT_EQ(10, range.getDelta());

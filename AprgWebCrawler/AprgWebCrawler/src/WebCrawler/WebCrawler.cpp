@@ -135,10 +135,12 @@ string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const
         title = getStringInBetweenTwoStrings(webLink, R"(www.chia-anime.tv/)", R"(/)");
         break;
     case CrawlMode::DoujinMoe:
-        title = getTitleFromTitleWindow(webLink);        title = getStringAfterThisString(title, "Doujin-moe - ");
+        title = getTitleFromTitleWindow(webLink);
+        title = getStringAfterThisString(title, "Doujin-moe - ");
         break;
     case CrawlMode::Gehen:
-    case CrawlMode::GuroManga:    case CrawlMode::HBrowse:
+    case CrawlMode::GuroManga:
+    case CrawlMode::HBrowse:
     case CrawlMode::Youtube:
         title = getTitleFromTitleWindow(webLink);
         break;

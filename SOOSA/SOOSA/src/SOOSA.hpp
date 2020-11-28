@@ -3,6 +3,7 @@
 #include <AprgBitmap.hpp>
 #include <AprgBitmapSnippet.hpp>
 #include <Container/AlbaRange.hpp>
+#include <KMeansClustering.hpp>
 #include <SoosaConfiguration.hpp>
 #include <SoosaStatus.hpp>
 #include <TwoDimensions/Line.hpp>
@@ -35,9 +36,12 @@ public:
         unsigned int m_numberOfQuestions;
         std::map<unsigned int, std::array<unsigned int, 5>> m_questionToAnswerFrequencyMap;
     };
-    using BitmapRange = AlbaRange<int>;
+    using RangeOfInts = AlbaRange<int>;
+    using RangeOfDoubles = AlbaRange<double>;
+    using PairOfRangeOfDoubles = std::pair<RangeOfDoubles, RangeOfDoubles>;
     using VectorOfDoubles = std::vector<double>;
     using QuestionBars = std::vector<AlbaRange<double>>;
+    using OneDimensionKMeans = KMeansClustering<1>;
 
     SOOSA(SoosaConfiguration const& configuration);
     unsigned int getNumberOfAnswers() const;
@@ -54,23 +58,30 @@ private:
     Line findRightLine(AprgBitmapSnippet const& snippet) const;
     Line findTopLine(AprgBitmapSnippet const& snippet) const;
     Line findBottomLine(AprgBitmapSnippet const& snippet) const;
-    Line findVerticalLine(AprgBitmapSnippet const& snippet, BitmapRange const& range) const;
-    Line findHorizontalLine(AprgBitmapSnippet const& snippet, BitmapRange const& range) const;
+    Line findVerticalLine(AprgBitmapSnippet const& snippet, RangeOfInts const& range) const;
+    Line findHorizontalLine(AprgBitmapSnippet const& snippet, RangeOfInts const& range) const;
     Line findLeftLineUsingStartingLine(AprgBitmapSnippet const& snippet, Line startingLine) const;
     Line findRightLineUsingStartingLine(AprgBitmapSnippet const& snippet, Line startingLine) const;
-    Line findVerticalLineUsingStartingLine(AprgBitmapSnippet const& snippet, Line startingLine, BitmapRange const& rangeForX) const;
+    Line findVerticalLineUsingStartingLine(AprgBitmapSnippet const& snippet, Line startingLine, RangeOfInts const& rangeForX) const;
     Line getLineModel(TwoDimensionsStatistics::Samples const& samples) const;
     VectorOfDoubles getAcceptableSquareErrorsUsingKMeans(TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const;
     VectorOfDoubles getAcceptableSquareErrorsUsingRetainRatio(TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const;
     void updateSamplesForLineModelingFromSquareErrorToSampleMultimap(TwoDimensionsStatistics::Samples & samplesLineModeling, TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const;
     void processOneColumnNew(AprgBitmapSnippet const& snippet, Line const& leftLine, Line const& rightLine, unsigned int const columnNumber) const;
     void getQuestionBarsFromLine(AprgBitmapSnippet const& snippet, Line const& line) const;
+    TwoDimensionsStatistics::ValueToSampleMultimap getWidthToSampleMultimap(AprgBitmapSnippet const& snippet, Line const& line) const;
+    PairOfRangeOfDoubles getLineAndBarWidthRangesUsingKMeans(TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap) const;
+    void initializeWidthsForKMeans(OneDimensionKMeans & kMeans, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap) const;
+    void removeDeviatedWidthsUsingKMeans(OneDimensionKMeans & kMeans, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap) const;
+    void addWidthToKMeansIfNeeded(OneDimensionKMeans & kMeans, OneDimensionKMeans::Samples const& groupOfSamples, TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap, unsigned int const minimumGroupSize) const;
+    RangeOfDoubles getMinMaxRangeFromKMeansSamples(OneDimensionKMeans::Samples const& samples) const;
     Points getNearestBlackPointsFromLine(AprgBitmapSnippet const& snippet, Line const& line) const;
     Point getNearestBlackPointFromLine(AprgBitmapSnippet const& snippet, Line const& line, Point const& point) const;
-    double getBarWidthFromBlackPoint(AprgBitmapSnippet & snippet, Line const& line, Point const& blackPoint) const;
+    double getBarWidthFromBlackPoint(AprgBitmapSnippet const& snippet, Line const& line, Point const& blackPoint) const;
     void writeLineInBitmap(AprgBitmap & bitmap, Line const& line) const;
-    BitmapXY convertPoint(Point const& point) const;
-    Point convertPoint(BitmapXY const& bitmapXY) const;
+    BitmapXY convertToBitmapXY(Point const& point) const;
+    BitmapXY convertToBitmapXY(TwoDimensionsStatistics::Sample sample) const;
+    Point convertToPoint(BitmapXY const& bitmapXY) const;
     SoosaConfiguration m_configuration;
     SoosaStatus m_status;
     unsigned int m_numberOfRespondents;
@@ -151,6 +162,7 @@ private:
 
 public:
     int process();
+    void removeDeviatedWidthsUsingKMeans(TwoDimensionsStatistics::ValueToSampleMultimap const& widthToSampleMultimap, OneDimensionKMeans kMeans) const;
 };
 
 }

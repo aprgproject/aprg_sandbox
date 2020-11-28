@@ -1,7 +1,6 @@
 #include <TwoDimensionsStatistics.hpp>
 
 #include <gtest/gtest.h>
-#include <Debug/AlbaDebug.hpp>
 
 #include <iostream>
 

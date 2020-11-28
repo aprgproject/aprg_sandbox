@@ -40,6 +40,16 @@ public:
         return m_startValue==0 && m_endValue==0 && m_intervalMagnitude==0;
     }
 
+    bool isValueInsideInclusive(DataType const value) const
+    {
+        return getMinimum() <= value && getMaximum() >= value;
+    }
+
+    bool isValueInsideExclusive(DataType const value) const
+    {
+        return getMinimum() < value && getMaximum() > value;
+    }
+
     DataType getStartValue() const
     {
         return m_startValue;
@@ -48,6 +58,16 @@ public:
     DataType getEndValue() const
     {
         return m_endValue;
+    }
+
+    DataType getMinimum() const
+    {
+        return std::min(m_startValue, m_endValue);
+    }
+
+    DataType getMaximum() const
+    {
+        return std::max(m_startValue, m_endValue);
     }
 
     AlbaRangeType getRangeType() const

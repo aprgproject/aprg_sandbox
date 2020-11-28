@@ -35,10 +35,12 @@ TEST(PerformanceAnalyzerTest, ProcessFileForRlSetupDelayInTupc)
     analyzer.processFileForRlSetupDelayInTupcWithSymonKnife(R"(D:\ZZZ_Logs\AmrRel3\SYSLOG_1712_WBTS00_0000_1059_00\Tcom.log)");
 }
 
-TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForMsgQueuingTime2){
+TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForMsgQueuingTime2)
+{
     PerformanceAnalyzer analyzer;
     analyzer.setFileForRawDataDump(R"(D:\ZZZ_Logs\RAN3370\Enable\MsgQueuingTimeRawData_2.txt)");
-    analyzer.processFileForMsgQueuingTime(R"(D:\ZZZ_Logs\RAN3370\Enable\TcomTupc.log)");}
+    analyzer.processFileForMsgQueuingTime(R"(D:\ZZZ_Logs\RAN3370\Enable\TcomTupc.log)");
+}
 
 TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForRlSetupDelayInRlh2)
 {
@@ -95,10 +97,12 @@ TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForRlSetupDelayFromWireshark4)
 TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForTopLogs)
 {
     PerformanceAnalyzer analyzer;
-    analyzer.setFileForRawDataDump(R"(D:\ZZZ_Logs\PR224369_NEWEST\WBTS17vsWBTS18\WBTS18\TOPlogs\ALL\MSM_FSP3CPU.csv)");    analyzer.processFileForTopLogs(R"(D:\ZZZ_Logs\PR224369_NEWEST\WBTS17vsWBTS18\WBTS18\TOPlogs\ALL\MSM_FSP3.log)");
+    analyzer.setFileForRawDataDump(R"(D:\ZZZ_Logs\PR224369_NEWEST\WBTS17vsWBTS18\WBTS18\TOPlogs\ALL\MSM_FSP3CPU.csv)");
+    analyzer.processFileForTopLogs(R"(D:\ZZZ_Logs\PR224369_NEWEST\WBTS17vsWBTS18\WBTS18\TOPlogs\ALL\MSM_FSP3.log)");
 }
 
-TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForTopLogs2){
+TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForTopLogs2)
+{
     PerformanceAnalyzer analyzer;
     analyzer.setFileForRawDataDump(R"(D:\ZZZ_Logs\PR224369_NEWEST\WBTS17vsWBTS18\WBTS18\TOPlogs\ALL\MSM_FSP3graphs.csv)");
     analyzer.processFileForTopLogs(R"(D:\ZZZ_Logs\PR224369_NEWEST\WBTS17vsWBTS18\WBTS18\TOPlogs\ALL\MSM_FSP3.log)");
