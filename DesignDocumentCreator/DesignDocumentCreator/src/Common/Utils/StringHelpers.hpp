@@ -7,8 +7,10 @@
 #include <Common/Uml/UmlLogPosition.hpp>
 
 #include <string>
+
 namespace DesignDocumentCreator
 {
+
 namespace StringHelpers
 {
     std::string convertToString(ComponentName const componentName);
@@ -18,6 +20,7 @@ namespace StringHelpers
     std::string convertToString(UmlLogPosition const position);
     bool isTcomInternalMessage(std::string const& messageName);
     bool isDspMessage(std::string const& messageName);
-    bool isNbapMessage(std::string const& messageName);}
+    bool isNbapMessage(std::string const& messageName);
+}
 
 }

@@ -14,4 +14,5 @@ enum class MessageName
 #undef MESSAGE_NAME_MACRO
 
 };
+
 }

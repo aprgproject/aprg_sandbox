@@ -38,9 +38,11 @@ include(${DesignDocumentCreatorDirectory}/cmake/CNI21985.cmake)
 
 #Assign Sack Directory
 set(SackDirectory "D:/Branches/trunk")
+
 #Sacks
 set(SACKS_DIR_TO_INCLUDE
-    ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp    ${SackDirectory}/wbts_integration/I_Interface/Global_Env/Definitions
+    ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp
+    ${SackDirectory}/wbts_integration/I_Interface/Global_Env/Definitions
     ${SackDirectory}/wbts_integration/I_Interface/Global_Env/Messages
     ${SackDirectory}/wbts_integration/I_Interface/Application_Env
     ${SackDirectory}/wbts_integration/I_Interface/Application_Env/Wn_Env/Bs_Env
@@ -115,9 +117,11 @@ set(SOURCES
     ${TCOM_PRIVATE_SACKS}
     ${BTS_SACKS}
 )
+
 set(MAIN_SOURCES
     src/Common/main.cpp
 )
+
 set(INTERNAL_TESTS
     tst/Common/InternalTests_unit.cpp
 )
@@ -127,16 +131,19 @@ set(TESTS
     ${FEATURE_TESTS}
 )
 
-message(STATUS "TCOM_PRIVATE_SACKS_DIR: ${TCOM_PRIVATE_SACKS_DIR}")message(STATUS "BTS_SACKS_DIR: ${BTS_SACKS_DIR}")
+message(STATUS "TCOM_PRIVATE_SACKS_DIR: ${TCOM_PRIVATE_SACKS_DIR}")
+message(STATUS "BTS_SACKS_DIR: ${BTS_SACKS_DIR}")
 
 set(INCLUDE_DIRECTORIES
     src/
     ${FEATURE_INCLUDE_DIRECTORIES}
     ${SACKS_DIR_TO_INCLUDE}
 )
+
 if (TEST_MODE)
     add_executable(${OUTFILE} ${SOURCES} ${TESTS})
-    include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})    target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
+    include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+    target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
     add_test(${OUTFILE} ${OUTFILE})
 else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")

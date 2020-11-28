@@ -4,7 +4,8 @@
 
 using namespace std;
 
-namespace DesignDocumentCreator{
+namespace DesignDocumentCreator
+{
 
 Components::Components()
 {
@@ -14,10 +15,12 @@ Components::Components()
 #undef COMPONENT_NAME_MACRO
 }
 
-Component* Components::getComponentPointer(ComponentName const componentName){
+Component* Components::getComponentPointer(ComponentName const componentName)
+{
     if(isComponentExisting(componentName))
     {
-        return m_components[componentName].get();    }
+        return m_components[componentName].get();
+    }
     return nullptr;
 }
 
