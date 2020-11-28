@@ -4,15 +4,13 @@ namespace alba
 {
 
 template <typename DataType>
-class DataCollection //implement UTs
+class DataCollection
 {
 public:
-    DataCollection()
-        : m_minimum(0)
+    DataCollection()        : m_minimum(0)
         , m_maximum(0)
         , m_total(0)
-        , m_count(0)
-    {}
+        , m_count(0)    {}
     DataType getMinimum() const
     {
         return m_minimum;

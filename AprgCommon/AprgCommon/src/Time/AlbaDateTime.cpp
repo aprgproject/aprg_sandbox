@@ -20,15 +20,18 @@ AlbaYearMonthDay::AlbaYearMonthDay(unsigned short int const years, unsigned char
     : m_yearMonthDay(convertToYearMonthDayFormat(years, months, days))
 {}
 
+void AlbaYearMonthDay::clear()
+{
+    m_yearMonthDay = 0;
+}
+
 unsigned int AlbaYearMonthDay::getYears() const
 {
-    return DateTimeBitHelper::concatenateBytes(DateTimeBitHelper::getByteAt<3>(m_yearMonthDay) , DateTimeBitHelper::getByteAt<2>(m_yearMonthDay));
-}
+    return DateTimeBitHelper::concatenateBytes(DateTimeBitHelper::getByteAt<3>(m_yearMonthDay) , DateTimeBitHelper::getByteAt<2>(m_yearMonthDay));}
 
 unsigned int AlbaYearMonthDay::getMonths() const
 {
-    return DateTimeBitHelper::getByteAt<1>(m_yearMonthDay);
-}
+    return DateTimeBitHelper::getByteAt<1>(m_yearMonthDay);}
 
 unsigned int AlbaYearMonthDay::getDays() const
 {
@@ -67,15 +70,18 @@ AlbaHourMinuteSecond::AlbaHourMinuteSecond(unsigned char const hours, unsigned c
     : m_hourMinuteSecond(convertToHourMinuteSecondFormat(hours, minutes, seconds))
 {}
 
+void AlbaHourMinuteSecond::clear()
+{
+    m_hourMinuteSecond = 0;
+}
+
 unsigned int AlbaHourMinuteSecond::getHours() const
 {
-    return DateTimeBitHelper::getByteAt<2>(m_hourMinuteSecond);
-}
+    return DateTimeBitHelper::getByteAt<2>(m_hourMinuteSecond);}
 
 unsigned int AlbaHourMinuteSecond::getMinutes() const
 {
-    return DateTimeBitHelper::getByteAt<1>(m_hourMinuteSecond);
-}
+    return DateTimeBitHelper::getByteAt<1>(m_hourMinuteSecond);}
 
 unsigned int AlbaHourMinuteSecond::getSeconds() const
 {
@@ -128,15 +134,21 @@ void AlbaDateTime::setTime(unsigned short int const years, unsigned char const m
     m_microseconds = microseconds;
 }
 
+void AlbaDateTime::clear()
+{
+    m_sign = 0;
+    m_yearMonthDay.clear();
+    m_hourMinuteSecond.clear();
+    m_microseconds = 0;
+}
+
 bool AlbaDateTime::isEmpty() const
 {
-    return (m_yearMonthDay.getYearMonthDay()|m_hourMinuteSecond.getHourMinuteSecond()|m_microseconds)==0;
-}
+    return (m_yearMonthDay.getYearMonthDay()|m_hourMinuteSecond.getHourMinuteSecond()|m_microseconds)==0;}
 
 unsigned int AlbaDateTime::getYears() const
 {
-    return m_yearMonthDay.getYears();
-}
+    return m_yearMonthDay.getYears();}
 
 unsigned int AlbaDateTime::getMonths() const
 {
@@ -197,14 +209,22 @@ string AlbaDateTime::getPrintableStringFormat1() const
     return ss.str();
 }
 
+string AlbaDateTime::getPrintableStringFormat2() const
+{
+    stringstream ss;
+    ss << setfill('0');
+    ss << setw(2) << getHours() << ":";
+    ss << setw(2) << getMinutes() << ":";
+    ss << setw(2) << getSeconds();
+    return ss.str();
+}
+
 bool AlbaDateTime::operator<(AlbaDateTime const& secondDateTime) const
 {
-    bool result(false);
-    if(m_sign < secondDateTime.m_sign) result = true;
+    bool result(false);    if(m_sign < secondDateTime.m_sign) result = true;
     else if(m_sign > secondDateTime.m_sign) result = false;
     else result = isLessThanInMagnitude(*this, secondDateTime);
-    return result;
-}
+    return result;}
 
 bool AlbaDateTime::operator>(AlbaDateTime const& secondDateTime) const
 {

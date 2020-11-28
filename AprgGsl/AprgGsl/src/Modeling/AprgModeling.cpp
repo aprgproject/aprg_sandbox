@@ -134,19 +134,22 @@ void AprgModeling::saveAllRetrievedDataToValidationData(unsigned int numberOfSam
     saveAllRetrievedDataToDataBuffer(m_validationDataForX, m_validationDataForY, numberOfSamples);
 }
 
-void AprgModeling::model()
+void AprgModeling::modelUsingLeastSquares()
 {
-    calculateCoefficients();
+    calculateCoefficientsUsingLeastSquares();
+}
+
+void AprgModeling::modelUsingLeastAbsoluteDeviations()
+{
+    calculateCoefficientsUsingLeastAbsoluteDeviations();
 }
 
 AprgModeling::ValidationResult AprgModeling::validate()
 {
-    ValidationResult result;
-    vector<double> calculationDataBuffer;
+    ValidationResult result;    vector<double> calculationDataBuffer;
 
     unsigned int dataHeight = m_validationDataForY.size();
-    unsigned int dataWidthForX = m_columnsForX-1;
-    unsigned int index=0;
+    unsigned int dataWidthForX = m_columnsForX-1;    unsigned int index=0;
     for(unsigned int j=0; j<dataHeight; j++)
     {
         double yPredicted=0;
@@ -242,11 +245,54 @@ void AprgModeling::saveAllRetrievedDataToDataBuffer(DataBuffer & dataBufferForX,
     }
 }
 
-void AprgModeling::calculateCoefficients()
+void AprgModeling::calculateCoefficientsUsingLeastSquares()
 {
     int dataHeight = m_modelingDataForY.size();
-    int dataWidth = m_columnsForX;
-    double chisq;
+    int dataWidth = m_columnsForX;    double chisq;
+    int j, i;
+
+    gsl_matrix *xModelingData, *calculatedCovariance;
+    gsl_vector *yModelingData, *calculatedCoefficients;
+
+    xModelingData = gsl_matrix_alloc(dataHeight, dataWidth);
+    yModelingData = gsl_vector_alloc(dataHeight);
+    calculatedCoefficients = gsl_vector_alloc(dataWidth);
+    calculatedCovariance = gsl_matrix_alloc(dataWidth, dataWidth);
+
+    j=0;
+    for(double currentValue:m_modelingDataForY)
+    {
+        gsl_vector_set(yModelingData, j, currentValue);
+        j++;
+    }
+
+    j=0, i=0;
+    for(double currentValue:m_modelingDataForX)
+    {
+        gsl_matrix_set(xModelingData, j, i, currentValue);
+        i++;
+        if(i>=dataWidth) { j++; i=0; }
+    }
+
+    gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc(dataHeight, dataWidth);
+    gsl_multifit_linear(xModelingData, yModelingData, calculatedCoefficients, calculatedCovariance, &chisq, work);
+
+    for(i=0; i<dataWidth; i++)
+    {
+        m_coefficients.emplace_back(gsl_vector_get(calculatedCoefficients, i));
+    }
+
+    gsl_multifit_linear_free(work);
+    gsl_matrix_free(calculatedCovariance);
+    gsl_vector_free(calculatedCoefficients);
+    gsl_vector_free(yModelingData);
+    gsl_matrix_free(xModelingData);
+}
+
+void AprgModeling::calculateCoefficientsUsingLeastAbsoluteDeviations()
+{
+    int dataHeight = m_modelingDataForY.size();
+    int dataWidth = m_columnsForX;    double chisq;
     int j, i;
 
     gsl_matrix *xModelingData, *calculatedCovariance;
@@ -289,12 +335,10 @@ void AprgModeling::calculateCoefficients()
 
 void AprgModeling::clearDataBuffersForModeling()
 {
-    m_modelingDataForX.clear();
-    m_modelingDataForY.clear();
+    m_modelingDataForX.clear();    m_modelingDataForY.clear();
 }
 
-void AprgModeling::clearDataBuffersForValidation()
-{
+void AprgModeling::clearDataBuffersForValidation(){
     m_validationDataForX.clear();
     m_validationDataForY.clear();
 }
