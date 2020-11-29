@@ -33,16 +33,14 @@ include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 #Include AprgCMakeHelpers, this needs APRG Directory
 include(${APRG_DIR}/AprgCMakeHelpers/cmake/Macros.cmake)
 
-#RAN3374
-include(${DesignDocumentCreatorDirectory}/cmake/CNI21985.cmake)
+#Feature include
+include(${DesignDocumentCreatorDirectory}/cmake/RAN3374.cmake)
 
 #Assign Sack Directory
 set(SackDirectory "D:/Branches/trunk")
-
 #Sacks
 set(SACKS_DIR_TO_INCLUDE
-    ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp
-    ${SackDirectory}/wbts_integration/I_Interface/Global_Env/Definitions
+    ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp    ${SackDirectory}/wbts_integration/I_Interface/Global_Env/Definitions
     ${SackDirectory}/wbts_integration/I_Interface/Global_Env/Messages
     ${SackDirectory}/wbts_integration/I_Interface/Application_Env
     ${SackDirectory}/wbts_integration/I_Interface/Application_Env/Wn_Env/Bs_Env
@@ -94,14 +92,13 @@ set(COMMON_SOURCES
     src/Common/Messages/Messages.hpp
     src/Common/Messages/MessageWrapper.hpp
     src/Common/Messages/SpecificMessage.hpp
+    src/Common/Messages/WrapMessages.hpp
     src/Common/Sacks/Sacks.hpp
     src/Common/Timers/Timers.cpp
-    src/Common/Timers/Timers.hpp
-    src/Common/Timers/TimerType.hpp
+    src/Common/Timers/Timers.hpp    src/Common/Timers/TimerType.hpp
     src/Common/Uml/UmlArrowConfiguration.cpp
     src/Common/Uml/UmlArrowConfiguration.hpp
-    src/Common/Uml/UmlConfiguration.cpp
-    src/Common/Uml/UmlConfiguration.hpp
+    src/Common/Uml/UmlConfiguration.cpp    src/Common/Uml/UmlConfiguration.hpp
     src/Common/Uml/UmlLogger.cpp
     src/Common/Uml/UmlLogger.hpp
     src/Common/Utils/StringHelpers.cpp
@@ -131,17 +128,12 @@ set(TESTS
     ${FEATURE_TESTS}
 )
 
-message(STATUS "TCOM_PRIVATE_SACKS_DIR: ${TCOM_PRIVATE_SACKS_DIR}")
-message(STATUS "BTS_SACKS_DIR: ${BTS_SACKS_DIR}")
-
 set(INCLUDE_DIRECTORIES
     src/
-    ${FEATURE_INCLUDE_DIRECTORIES}
-    ${SACKS_DIR_TO_INCLUDE}
+    ${FEATURE_INCLUDE_DIRECTORIES}    ${SACKS_DIR_TO_INCLUDE}
 )
 
-if (TEST_MODE)
-    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
+if (TEST_MODE)    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
     include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
     target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
     add_test(${OUTFILE} ${OUTFILE})
