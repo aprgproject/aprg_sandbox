@@ -10,7 +10,7 @@ namespace DesignDocumentCreator
 
 #define GET_ENUM_STRING(en) case en: result = #en; break;
 
-std::string StringHelpers::convertToString(ComponentName const componentName)
+string StringHelpers::convertToString(ComponentName const componentName)
 {
     string result;
     switch(componentName)
@@ -24,7 +24,7 @@ std::string StringHelpers::convertToString(ComponentName const componentName)
     return result;
 }
 
-std::string StringHelpers::convertToString(MessageName const messageName)
+string StringHelpers::convertToString(MessageName const messageName)
 {
     string result;
     switch(messageName)
@@ -38,7 +38,7 @@ std::string StringHelpers::convertToString(MessageName const messageName)
     return result;
 }
 
-std::string StringHelpers::convertToString(TimerType const timerType)
+string StringHelpers::convertToString(TimerType const timerType)
 {
     string result;
     switch(timerType)
@@ -51,29 +51,14 @@ std::string StringHelpers::convertToString(TimerType const timerType)
     return stringHelper::getStringAfterThisString(result, "TimerType::");
 }
 
-std::string StringHelpers::convertToString(UmlLogParticipant const participant)
-{
-    string result;
-    switch(participant)
-    {
-    GET_ENUM_STRING(UmlLogParticipant::actor)
-            GET_ENUM_STRING(UmlLogParticipant::boundary)
-            GET_ENUM_STRING(UmlLogParticipant::control)
-            GET_ENUM_STRING(UmlLogParticipant::entity)
-            GET_ENUM_STRING(UmlLogParticipant::database)
-            GET_ENUM_STRING(UmlLogParticipant::participant)
-    }
-    return stringHelper::getStringAfterThisString(result, "UmlLogParticipant::");
-}
-
-std::string StringHelpers::convertToString(UmlLogPosition const position)
+string StringHelpers::convertToString(UmlPositionType const position)
 {
     string result;
     switch(position)
     {
-    GET_ENUM_STRING(UmlLogPosition::right)
-            GET_ENUM_STRING(UmlLogPosition::left)
-            GET_ENUM_STRING(UmlLogPosition::over)
+    GET_ENUM_STRING(UmlPositionType::right)
+            GET_ENUM_STRING(UmlPositionType::left)
+            GET_ENUM_STRING(UmlPositionType::over)
     }
     return stringHelper::getStringAfterThisString(result, "UmlLogPosition::");
 }

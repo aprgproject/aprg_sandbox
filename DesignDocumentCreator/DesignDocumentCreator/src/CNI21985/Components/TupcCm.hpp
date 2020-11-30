@@ -6,11 +6,11 @@
 namespace DesignDocumentCreator
 {
 
-class TLH : public Component
+class TupcCm : public Component
 {
 public:
-    TLH();
-    TLH(ComponentName const componentName);
+    TupcCm();
+    TupcCm(ComponentName const componentName);
 private:
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);

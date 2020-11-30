@@ -6,11 +6,11 @@
 namespace DesignDocumentCreator
 {
 
-class DMGR : public Component
+class Tcom : public Component
 {
 public:
-    DMGR();
-    DMGR(ComponentName const componentName);
+    Tcom();
+    Tcom(ComponentName const componentName);
 private:
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);

@@ -1,4 +1,4 @@
-#include <RAN3374/Components/TOAM.hpp>
+#include "TupcTbm.hpp"
 
 #include <Common/Utils/StringHelpers.hpp>
 
@@ -9,15 +9,15 @@ using namespace std;
 namespace DesignDocumentCreator
 {
 
-TOAM::TOAM()
+TupcTbm::TupcTbm()
     : m_componentName(ComponentName::EMPTY)
 {}
 
-TOAM::TOAM(ComponentName const componentName)
+TupcTbm::TupcTbm(ComponentName const componentName)
     : m_componentName(componentName)
 {}
 
-void TOAM::handleMessageEvent(GenericMessage const& genericMessage)
+void TupcTbm::handleMessageEvent(GenericMessage const& genericMessage)
 {
     MessageName messageName(genericMessage.getMessageName());
     switch(messageName)
@@ -25,11 +25,11 @@ void TOAM::handleMessageEvent(GenericMessage const& genericMessage)
     case MessageName::TC_LTX_TELECOM_MSG:
         cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;
     default:
-        cout<<"Handle Message, messageName: "<<StringHelpers::convertToString(genericMessage.getMessageName())<<endl;
+        cout<<"Cannot handle message messageName: "<<StringHelpers::convertToString(genericMessage.getMessageName())<<endl;
     }
 }
 
-void TOAM::handleTimerEvent(Timer const& timer)
+void TupcTbm::handleTimerEvent(Timer const& timer)
 {
     cout<<"Handle Timer, timerType: "<<StringHelpers::convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
 }

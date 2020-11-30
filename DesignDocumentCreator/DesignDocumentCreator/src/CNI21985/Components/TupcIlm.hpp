@@ -6,11 +6,11 @@
 namespace DesignDocumentCreator
 {
 
-class GRM : public Component
+class TupcIlm : public Component
 {
 public:
-    GRM();
-    GRM(ComponentName const componentName);
+    TupcIlm();
+    TupcIlm(ComponentName const componentName);
 private:
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);

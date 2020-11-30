@@ -3,7 +3,7 @@
 namespace DesignDocumentCreator
 {
 
-enum class UmlLogPosition
+enum class UmlPositionType
 {
     right,
     left,

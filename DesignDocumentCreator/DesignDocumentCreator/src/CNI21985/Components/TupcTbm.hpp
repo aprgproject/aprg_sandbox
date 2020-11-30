@@ -6,11 +6,11 @@
 namespace DesignDocumentCreator
 {
 
-class TOAM : public Component
+class TupcTbm : public Component
 {
 public:
-    TOAM();
-    TOAM(ComponentName const componentName);
+    TupcTbm();
+    TupcTbm(ComponentName const componentName);
 private:
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);

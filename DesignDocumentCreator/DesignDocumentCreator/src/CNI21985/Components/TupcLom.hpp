@@ -6,11 +6,11 @@
 namespace DesignDocumentCreator
 {
 
-class WRC : public Component
+class TupcLom : public Component
 {
 public:
-    WRC();
-    WRC(ComponentName const componentName);
+    TupcLom();
+    TupcLom(ComponentName const componentName);
 private:
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);
