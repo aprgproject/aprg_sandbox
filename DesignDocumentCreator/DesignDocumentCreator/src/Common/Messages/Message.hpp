@@ -18,11 +18,13 @@ public:
         : m_sender(sender)
         , m_receiver(receiver)
     {}
-    virtual MessageName getMessageName() const;
+    virtual MessageName getMessageName() const
+    {
+        return MessageName::Empty;
+    }
     ComponentName getSender() const
     {
-        return m_sender;
-    }
+        return m_sender;    }
     ComponentName getReceiver() const
     {
         return m_receiver;

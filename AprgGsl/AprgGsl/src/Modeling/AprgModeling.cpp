@@ -281,10 +281,10 @@ void AprgModeling::calculateCoefficientsUsingLeastSquares()
     {
         gsl_vector_set(yModelingData, y, value);
     });
+
     m_modelingDataForX.traverse([&](unsigned int const x, unsigned int const y, double const value)
     {
-        gsl_matrix_set(xModelingData, y, x, value);
-    });
+        gsl_matrix_set(xModelingData, y, x, value);    });
 
     gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc(dataHeight, dataWidth);
     gsl_multifit_linear(xModelingData, yModelingData, calculatedCoefficients, calculatedCovariance, &chisq, work);

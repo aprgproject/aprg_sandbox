@@ -5,10 +5,10 @@
 #include <string>
 
 using namespace std;
+using namespace DesignDocumentCreator::StringHelpers;
 
 namespace DesignDocumentCreator
 {
-
 string UmlArrow::getRedArrow()
 {
     return "-[#red]>";
@@ -42,19 +42,18 @@ string UmlArrow::getLostMessageArrow()
 string UmlArrow::getArrowBaseFromMessageName(string const& messageName)
 {
     string result;
-    if(StringHelpers::isNbapMessage(messageName))
+    if(isNbapMessage(messageName))
     {
         result = getBlackArrow();
     }
-    else if(StringHelpers::isTcomInternalMessage(messageName))
+    else if(isTcomInternalMessage(messageName))
     {
         result = getBlueArrow();
     }
-    else if(StringHelpers::isDspMessage(messageName))
+    else if(isDspMessage(messageName))
     {
         result = getDarkerGreenArrow();
-    }
-    else
+    }    else
     {
         result = getGreenArrow();
     }

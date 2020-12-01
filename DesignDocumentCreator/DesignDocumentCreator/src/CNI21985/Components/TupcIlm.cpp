@@ -9,10 +9,10 @@ using namespace DesignDocumentCreator::StringHelpers;
 
 namespace DesignDocumentCreator
 {
+
 TupcIlm::TupcIlm()
     : m_componentName(ComponentName::Empty)
 {}
-
 TupcIlm::TupcIlm(ComponentName const componentName)
     : m_componentName(componentName)
 {}

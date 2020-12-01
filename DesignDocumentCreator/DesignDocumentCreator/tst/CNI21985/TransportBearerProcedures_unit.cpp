@@ -1,19 +1,13 @@
-#include <Common/Environment.hpp>
-#include <Common/Events/Events.hpp>
-#include <Common/Messages/Messages.hpp>
-#include <Common/Timers/Timers.hpp>
-
 #include <gtest/gtest.h>
 
-using namespace DesignDocumentCreator;
+#include <ModuleTest.hpp>
+#include <MessageFactory.hpp>
+
 using namespace std;
+using namespace DesignDocumentCreator;
+using namespace MessageFactory;
 
-TEST(TransportBearerProcedureTest, OneTransportBearerRegisterForCell)
+TEST_F(ModuleTest, OneTransportBearerRegisterForCell)
 {
-    SpecificStaticMessage<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG> specificStaticMessage;
-    STransportBearerRegisterMsg& payload = specificStaticMessage.getPayloadReference();
-    payload.cellId = 111;
-    payload.numConnections = 1;
-    payload.transactionId = 222;
-
+    sendMessage(ComponentName::Tcom, ComponentName::TupcTbm, createOneTransportBearerRegisterForCell());
 }

@@ -72,13 +72,12 @@ TEST(FileReadTest, ReadFromTestFile_ReadLineWithSizeLimit)
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(2000, fileReader.getLineAndIgnoreWhiteSpaces().length());
-    EXPECT_EQ(2000, fileReader.getLineAndIgnoreWhiteSpaces().length());
-    EXPECT_EQ(1000, fileReader.getLineAndIgnoreWhiteSpaces().length());
+    EXPECT_EQ(2000u, fileReader.getLineAndIgnoreWhiteSpaces().length());
+    EXPECT_EQ(2000u, fileReader.getLineAndIgnoreWhiteSpaces().length());
+    EXPECT_EQ(1000u, fileReader.getLineAndIgnoreWhiteSpaces().length());
     EXPECT_FALSE(fileReader.isNotFinished());
     EXPECT_EQ("", fileReader.getLineAndIgnoreWhiteSpaces());
 }
-
 TEST(FileReadTest, ReadFromTestFile_ReadSingleCharacterFromBinaryFile)
 {
     ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);

@@ -18,13 +18,13 @@ public:
     void const* getConstantBufferPointer() const;
     void clear();
     void clearAndSetNewData(void* bufferPointer, unsigned int size);
-    void* addDataForWritingOutside(unsigned int size);
+    void resize(unsigned int size);
+    void* addDataAndReturnBeginOfAdditionalData(unsigned int size);
     void addData(void* bufferPointer, unsigned int size);
     std::string getDisplayableString() const;
 
 private:
     std::vector<unsigned char> m_buffer;
-    void* m_bufferPointer;
 };
 
 }//namespace alba

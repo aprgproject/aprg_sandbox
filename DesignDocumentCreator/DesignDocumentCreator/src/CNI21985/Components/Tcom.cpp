@@ -9,10 +9,10 @@ using namespace DesignDocumentCreator::StringHelpers;
 
 namespace DesignDocumentCreator
 {
+
 Tcom::Tcom()
     : m_componentName(ComponentName::Empty)
 {}
-
 Tcom::Tcom(ComponentName const componentName)
     : m_componentName(componentName)
 {}
