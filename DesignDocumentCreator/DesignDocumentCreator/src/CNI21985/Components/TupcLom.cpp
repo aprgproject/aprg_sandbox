@@ -5,15 +5,16 @@
 #include <iostream>
 
 using namespace std;
+using namespace DesignDocumentCreator::StringHelpers;
 
 namespace DesignDocumentCreator
 {
-
 TupcLom::TupcLom()
     : m_componentName(ComponentName::Empty)
 {}
 
-TupcLom::TupcLom(ComponentName const componentName)    : m_componentName(componentName)
+TupcLom::TupcLom(ComponentName const componentName)
+    : m_componentName(componentName)
 {}
 
 void TupcLom::handleMessageEvent(GenericMessage const& genericMessage)
@@ -24,12 +25,13 @@ void TupcLom::handleMessageEvent(GenericMessage const& genericMessage)
     //case MessageName::TC_LTX_TELECOM_MSG:
     //    cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;
     default:
-        cout<<"Cannot handle message messageName: "<<StringHelpers::convertToString(genericMessage.getMessageName())<<endl;
-    }}
+        cout<<"No handler for messageName: "<<convertToString(genericMessage.getMessageName())<<endl;
+    }
+}
 
 void TupcLom::handleTimerEvent(Timer const& timer)
 {
-    cout<<"Handle Timer, timerType: "<<StringHelpers::convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
+    cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
 }
 
 }

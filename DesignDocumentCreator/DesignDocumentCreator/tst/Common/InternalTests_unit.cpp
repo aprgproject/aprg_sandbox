@@ -79,7 +79,8 @@ TEST(MessagesTest, SpecificStaticMessageCanBeConvertedToGeneric)
     EXPECT_EQ(MessageName::SampleStaticMessage, genericMessage.getMessageName());
     EXPECT_EQ(ComponentName::SampleComponent, genericMessage.getSender());
     EXPECT_EQ(ComponentName::SampleComponent, genericMessage.getReceiver());
-    EXPECT_EQ(1234, outputPayload.sampleParameter);}
+    EXPECT_EQ(1234, outputPayload.sampleParameter);
+}
 
 TEST(TimerTest, TimersCanBeCreated)
 {
@@ -104,6 +105,7 @@ TEST(EventsTest, MessageEventsCanBeCreated)
     EXPECT_EQ(MessageName::SampleStaticMessage, event.getMessage().getMessageName());
     EXPECT_EQ(5678, outputPayload.sampleParameter);
 }
+
 TEST(EventsTest, TimerEventsCanBeCreated)
 {
     TimerType type(TimerType::CELL_TIMER);
@@ -124,7 +126,8 @@ TEST(ComponentsTest, MessageEventsAreHandledByComponents)
     GenericMessage genericMessage(MessageName::SampleStaticMessage, &payload, sizeof(payload));
     Event event(genericMessage);
 
-    SampleComponent component;    component.pushBackEvent(event);
+    SampleComponent component;
+    component.pushBackEvent(event);
     EXPECT_FALSE(component.isEventQueueEmpty());
     component.handleOneEvent();
     EXPECT_TRUE(component.isEventQueueEmpty());
@@ -158,6 +161,7 @@ TEST(EnvironmentTest, SentMessagesAreReceivedByRecipientComponent)
     GenericMessage genericMessage(MessageName::SampleStaticMessage, &payload, sizeof(payload));
     Component* componentPointer(environment.getComponentReference().getComponentPointer(ComponentName::SampleComponent));
     ASSERT_NE(nullptr, componentPointer);
+
     EXPECT_TRUE(componentPointer->isEventQueueEmpty());
     environment.send(ComponentName::SampleComponent, ComponentName::SampleComponent, genericMessage);
 
@@ -171,6 +175,7 @@ TEST(EnvironmentTest, SentMessagesAreExecutedByRecipientComponent)
     GenericMessage genericMessage(MessageName::SampleStaticMessage, &payload, sizeof(payload));
     Component* componentPointer(environment.getComponentReference().getComponentPointer(ComponentName::SampleComponent));
     ASSERT_NE(nullptr, componentPointer);
+
     EXPECT_TRUE(componentPointer->isEventQueueEmpty());
     environment.send(ComponentName::SampleComponent, ComponentName::SampleComponent, genericMessage);
     environment.execute();

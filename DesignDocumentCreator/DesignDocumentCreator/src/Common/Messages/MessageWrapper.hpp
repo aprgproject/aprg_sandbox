@@ -17,7 +17,8 @@ struct MessageWrapper
 #define WRAP_STATIC_MESSAGE(messageName, sack)                              \
     template <>                                                             \
     struct MessageWrapper<messageName>                                      \
-    {                                                                       \        typedef sack SackType;                                              \
+    {                                                                       \
+        typedef sack SackType;                                              \
         static MessageName getMessageName(){return messageName;}            \
         static std::string getString(){return #messageName;}                \
     };

@@ -277,11 +277,10 @@ void AprgModeling::calculateCoefficientsUsingLeastSquares()
     calculatedCoefficients = gsl_vector_alloc(dataWidth);
     calculatedCovariance = gsl_matrix_alloc(dataWidth, dataWidth);
 
-    m_modelingDataForY.traverse([&](unsigned int const x, unsigned int const y, double const value)
+    m_modelingDataForY.traverse([&](unsigned int const, unsigned int const y, double const value)
     {
         gsl_vector_set(yModelingData, y, value);
     });
-
     m_modelingDataForX.traverse([&](unsigned int const x, unsigned int const y, double const value)
     {
         gsl_matrix_set(xModelingData, y, x, value);

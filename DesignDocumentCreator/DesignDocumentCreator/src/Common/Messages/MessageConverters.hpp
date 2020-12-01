@@ -9,25 +9,16 @@ namespace DesignDocumentCreator
 template<MessageName messageName>
 SpecificStaticMessage<messageName> convertGenericToSpecificStatic(GenericMessage& genericMessage)
 {
-    SpecificStaticMessage<messageName> SpecificStaticMessage;
-    typedef typename SpecificStaticMessage<messageName>::SackType SackType;
-    SackType& payloadReference = SpecificStaticMessage.getPayloadReference();
-    alba::AlbaMemoryBuffer& payloadBufferReference = genericMessage.getPayloadBufferReference();
-    assert(sizeof(SackType) == genericMessage.getPayloadBufferReference().getSize());
-    payloadReference = *reinterpret_cast<SackType*>(payloadBufferReference.getBufferPointer());
-    SpecificStaticMessage.setSender(genericMessage.getSender());
-    SpecificStaticMessage.setReceiver(genericMessage.getReceiver());
-    return SpecificStaticMessage;
+    SpecificStaticMessage<messageName> specificStaticMessage(genericMessage.getPayloadBufferConstReference(), genericMessage.getSender(), genericMessage.getReceiver());
+    return specificStaticMessage;
 }
 
 template<MessageName messageName>
-GenericMessage convertSpecificToGeneric(SpecificStaticMessage<messageName>& SpecificStaticMessage)
+GenericMessage convertSpecificToGeneric(SpecificStaticMessage<messageName>& specificStaticMessage)
 {
     typedef typename SpecificStaticMessage<messageName>::SackType SackType;
-    SackType& payloadReference = SpecificStaticMessage.getPayloadReference();
-    GenericMessage genericMessage(SpecificStaticMessage.getMessageName(), &payloadReference, sizeof(SackType));
-    genericMessage.setSender(SpecificStaticMessage.getSender());
-    genericMessage.setReceiver(SpecificStaticMessage.getReceiver());
+    SackType& payloadReference = specificStaticMessage.getPayloadReference();
+    GenericMessage genericMessage(specificStaticMessage.getMessageName(), &payloadReference, sizeof(SackType), specificStaticMessage.getSender(), specificStaticMessage.getReceiver());
     return genericMessage;
 }
 }

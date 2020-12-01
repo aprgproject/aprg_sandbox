@@ -19,7 +19,8 @@ string StringHelpers::convertToString(ComponentName const componentName)
     COMPONENT_NAME_MACRO(Empty)
     COMPONENT_NAME_MACRO(SampleComponent)
     #include <FeatureSpecificFiles/ComponentNameMacro.hpp>
-#undef COMPONENT_NAME_MACRO    }
+#undef COMPONENT_NAME_MACRO
+    }
     return result;
 }
 
@@ -35,7 +36,8 @@ string StringHelpers::convertToString(MessageName const messageName)
     MESSAGE_NAME_MACRO(SampleDynamicPolymorphicMessage)
     #include <FeatureSpecificFiles/MessageNameMacro.hpp>
 #undef MESSAGE_NAME_MACRO
-    }    return result;
+    }
+    return result;
 }
 
 string StringHelpers::convertToString(TimerType const timerType)

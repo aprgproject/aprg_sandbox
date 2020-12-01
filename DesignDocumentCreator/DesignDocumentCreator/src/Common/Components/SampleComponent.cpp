@@ -13,7 +13,8 @@ SampleComponent::SampleComponent()
     : m_componentName(ComponentName::Empty)
 {}
 
-SampleComponent::SampleComponent(ComponentName const componentName)    : m_componentName(componentName)
+SampleComponent::SampleComponent(ComponentName const componentName)
+    : m_componentName(componentName)
 {}
 
 void SampleComponent::handleMessageEvent(GenericMessage const& genericMessage)

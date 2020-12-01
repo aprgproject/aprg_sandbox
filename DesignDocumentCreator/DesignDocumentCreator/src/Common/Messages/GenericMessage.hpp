@@ -1,55 +1,41 @@
 #pragma once
 
-#include <Common/Components/ComponentName.hpp>
+#include <Common/Messages/Message.hpp>
 #include <Common/Messages/MessageName.hpp>
 #include <Memory/AlbaMemoryBuffer.hpp>
-
 
 namespace DesignDocumentCreator
 {
 
-class GenericMessage
+class GenericMessage : public Message
 {
 public:
-    GenericMessage()
-        : m_messageName(MessageName::Empty)
+    GenericMessage()        : m_messageName(MessageName::Empty)
     {}
     GenericMessage(MessageName const messageName, void* payloadBuffer, unsigned int const payloadSize)
         : m_messageName(messageName)
-        , m_sender(ComponentName::Empty)
-        , m_receiver(ComponentName::Empty)
         , m_payloadBuffer(payloadBuffer, payloadSize)
     {}
-    MessageName getMessageName() const
+    GenericMessage(MessageName const messageName, void* payloadBuffer, unsigned int const payloadSize, ComponentName const sender, ComponentName const receiver)
+        : Message(sender, receiver)
+        , m_messageName(messageName)
+        , m_payloadBuffer(payloadBuffer, payloadSize)
+    {}
+    MessageName getMessageName() const override
     {
         return m_messageName;
-    }
-    ComponentName getSender() const
-    {
-        return m_sender;
-    }
-    ComponentName getReceiver() const
-    {
-        return m_receiver;
     }
     alba::AlbaMemoryBuffer& getPayloadBufferReference()
     {
         return m_payloadBuffer;
     }
-    void setSender(ComponentName const sender)
+    alba::AlbaMemoryBuffer const& getPayloadBufferConstReference()
     {
-        m_sender = sender;
-    }
-    void setReceiver(ComponentName const receiver)
-    {
-        m_receiver = receiver;
+        return m_payloadBuffer;
     }
 
 private:
     MessageName m_messageName;
-    ComponentName m_sender;
-    ComponentName m_receiver;
     alba::AlbaMemoryBuffer m_payloadBuffer;
 };
-
 }
