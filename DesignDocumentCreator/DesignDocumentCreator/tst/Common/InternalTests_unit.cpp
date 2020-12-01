@@ -16,7 +16,8 @@ TEST(MessagesTest, SpecificStaticMessageCanBeCreatedWithPayload)
     StaticMessageSack& payload(specificStaticMessage.getPayloadReference());
     payload.sampleParameter=1234;
 
-    EXPECT_EQ(MessageName::SampleStaticMessage, specificStaticMessage.getMessageName());    EXPECT_EQ(ComponentName::Empty, specificStaticMessage.getSender());
+    EXPECT_EQ(MessageName::SampleStaticMessage, specificStaticMessage.getMessageName());
+    EXPECT_EQ(ComponentName::Empty, specificStaticMessage.getSender());
     EXPECT_EQ(ComponentName::Empty, specificStaticMessage.getReceiver());
     EXPECT_EQ(1234, specificStaticMessage.getPayloadReference().sampleParameter);
 }
@@ -59,21 +60,24 @@ TEST(MessagesTest, GenericMessageCanBeCreatedWithPayload)
     StaticMessageSack outputPayload(*reinterpret_cast<StaticMessageSack*>(genericMessage.getPayloadBufferReference().getBufferPointer()));
 
     EXPECT_EQ(MessageName::SampleStaticMessage, genericMessage.getMessageName());
-    EXPECT_EQ(ComponentName::Empty, genericMessage.getSender());    EXPECT_EQ(ComponentName::Empty, genericMessage.getReceiver());
+    EXPECT_EQ(ComponentName::Empty, genericMessage.getSender());
+    EXPECT_EQ(ComponentName::Empty, genericMessage.getReceiver());
     EXPECT_EQ(5678, outputPayload.sampleParameter);
 }
 
 TEST(MessagesTest, GenericMessageCanBeConvertedToSpecificStatic)
 {
     StaticMessageSack payload;
-    payload.sampleParameter=5678;    GenericMessage genericMessage(MessageName::SampleStaticMessage, &payload, sizeof(payload));
+    payload.sampleParameter=5678;
+    GenericMessage genericMessage(MessageName::SampleStaticMessage, &payload, sizeof(payload));
     genericMessage.setSender(ComponentName::SampleComponent);
     genericMessage.setReceiver(ComponentName::SampleComponent);
 
     SpecificStaticMessage<MessageName::SampleStaticMessage> specificStaticMessage(convertGenericToSpecificStatic<MessageName::SampleStaticMessage>(genericMessage));
 
     EXPECT_EQ(MessageName::SampleStaticMessage, specificStaticMessage.getMessageName());
-    EXPECT_EQ(ComponentName::SampleComponent, specificStaticMessage.getSender());    EXPECT_EQ(ComponentName::SampleComponent, specificStaticMessage.getReceiver());
+    EXPECT_EQ(ComponentName::SampleComponent, specificStaticMessage.getSender());
+    EXPECT_EQ(ComponentName::SampleComponent, specificStaticMessage.getReceiver());
     EXPECT_EQ(5678, specificStaticMessage.getPayloadReference().sampleParameter);
 }
 
@@ -151,7 +155,8 @@ TEST(MessagesTest, SpecificStaticMessageCanBeConvertedToGeneric)
     StaticMessageSack outputPayload(*reinterpret_cast<StaticMessageSack*>(genericMessage.getPayloadBufferReference().getBufferPointer()));
 
     EXPECT_EQ(MessageName::SampleStaticMessage, genericMessage.getMessageName());
-    EXPECT_EQ(ComponentName::SampleComponent, genericMessage.getSender());    EXPECT_EQ(ComponentName::SampleComponent, genericMessage.getReceiver());
+    EXPECT_EQ(ComponentName::SampleComponent, genericMessage.getSender());
+    EXPECT_EQ(ComponentName::SampleComponent, genericMessage.getReceiver());
     EXPECT_EQ(1234, outputPayload.sampleParameter);
 }
 
@@ -199,7 +204,8 @@ TEST(MessagesTest, SpecificDynamicPolymorphicMessageCanBeConvertedToGeneric)
 
 TEST(TimerTest, TimersCanBeCreated)
 {
-    TimerType type(TimerType::CELL_TIMER);    TimerId cellId(11111);
+    TimerType type(TimerType::CELL_TIMER);
+    TimerId cellId(11111);
     Timer timer(type, cellId);
 
     EXPECT_EQ(type, timer.getType());
@@ -215,7 +221,8 @@ TEST(EventsTest, MessageEventsCanBeCreated)
     StaticMessageSack outputPayload(*reinterpret_cast<StaticMessageSack*>(event.getMessage().getPayloadBufferReference().getBufferPointer()));
 
     EXPECT_EQ(EventType::MessageEvent, event.getType());
-    EXPECT_EQ(TimerType::EMPTY, event.getTimer().getType());    EXPECT_EQ(MessageName::SampleStaticMessage, event.getMessage().getMessageName());
+    EXPECT_EQ(TimerType::EMPTY, event.getTimer().getType());
+    EXPECT_EQ(MessageName::SampleStaticMessage, event.getMessage().getMessageName());
     EXPECT_EQ(5678, outputPayload.sampleParameter);
 }
 
@@ -272,11 +279,10 @@ TEST(EnvironmentTest, SentMessagesAreReceivedByRecipientComponent)
     Environment environment;
     StaticMessageSack payload;
     GenericMessage genericMessage(MessageName::SampleStaticMessage, &payload, sizeof(payload));
-    Component* componentPointer(environment.getComponentReference().getComponentPointer(ComponentName::SampleComponent));
+    Component* componentPointer(environment.getComponentsReference().getComponentPointer(ComponentName::SampleComponent));
     ASSERT_NE(nullptr, componentPointer);
 
-    EXPECT_TRUE(componentPointer->isEventQueueEmpty());
-    environment.send(ComponentName::SampleComponent, ComponentName::SampleComponent, genericMessage);
+    EXPECT_TRUE(componentPointer->isEventQueueEmpty());    environment.send(ComponentName::SampleComponent, ComponentName::SampleComponent, genericMessage);
 
     EXPECT_FALSE(componentPointer->isEventQueueEmpty());
 }
@@ -286,11 +292,10 @@ TEST(EnvironmentTest, SentMessagesAreExecutedByRecipientComponent)
     Environment environment;
     StaticMessageSack payload;
     GenericMessage genericMessage(MessageName::SampleStaticMessage, &payload, sizeof(payload));
-    Component* componentPointer(environment.getComponentReference().getComponentPointer(ComponentName::SampleComponent));
+    Component* componentPointer(environment.getComponentsReference().getComponentPointer(ComponentName::SampleComponent));
     ASSERT_NE(nullptr, componentPointer);
 
-    EXPECT_TRUE(componentPointer->isEventQueueEmpty());
-    environment.send(ComponentName::SampleComponent, ComponentName::SampleComponent, genericMessage);
+    EXPECT_TRUE(componentPointer->isEventQueueEmpty());    environment.send(ComponentName::SampleComponent, ComponentName::SampleComponent, genericMessage);
     environment.execute();
 
     EXPECT_TRUE(componentPointer->isEventQueueEmpty());

@@ -9,6 +9,7 @@ using namespace DesignDocumentCreator::StringHelpers;
 
 namespace DesignDocumentCreator
 {
+
 SampleComponent::SampleComponent()
     : m_componentName(ComponentName::Empty)
 {}

@@ -8,6 +8,7 @@ using namespace DesignDocumentCreator::StringHelpers;
 
 namespace DesignDocumentCreator
 {
+
 Environment::Environment()
 {}
 
@@ -16,15 +17,19 @@ void Environment::execute()
     m_components.executePendingEvents();
 }
 
-Components& Environment::getComponentReference()
+Components& Environment::getComponentsReference()
 {
     return m_components;
 }
 
+Component& Environment::getComponentReference(ComponentName const componentName)
+{
+    return m_components.getComponentReference(componentName);
+}
+
 UmlLogger& Environment::getUmlLogger()
 {
-    return m_umlLogger;
-}
+    return m_umlLogger;}
 
 void Environment::send(GenericMessage const& message)
 {
@@ -51,8 +56,9 @@ void Environment::performSend(GenericMessage const& messageToRoute)
     }
     else
     {
+        cout<<"Message: ["<<convertToString(messageName)<<"] is sent from ["<<convertToString(sender)<<"] to ["<<convertToString(receiver)<<"]"<<endl;
         m_umlLogger.logMessage(convertToString(sender), convertToString(receiver), convertToString(messageName));
         receiverComponent->pushBackEvent(Event(messageToRoute));
-    }
-}
+    }}
+
 }

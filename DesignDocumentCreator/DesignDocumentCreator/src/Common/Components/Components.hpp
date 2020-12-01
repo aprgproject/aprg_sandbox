@@ -14,18 +14,19 @@ namespace DesignDocumentCreator
 class Components
 {
 public:
+    using ComponentMap = std::map<ComponentName, std::unique_ptr<Component>>;
     Components();
     Components(Components const& components) = delete;
     Components& operator=(Components const& components) = delete;
     Component* getComponentPointer(ComponentName const componentName);
+    Component& getComponentReference(ComponentName const componentName);
+    ComponentMap& getComponentMapReference();
     bool isComponentExisting(ComponentName const componentName);
     void executePendingEvents();
-
 private:
     void executePendingEventsUsingRoundRobin();
     void executeAllPendingEventsPerComponent();
-    using ComponentMap = std::map<ComponentName, std::unique_ptr<Component>>;
-    ComponentMap m_components;
+    ComponentMap m_componentsMap;
 };
 
 }

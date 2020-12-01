@@ -1,16 +1,28 @@
 #include <Common/Components/Component.hpp>
 
+#include <Common/Utils/StringHelpers.hpp>
+
+#include <algorithm>
 #include <iostream>
+#include <string>
 
 using namespace std;
+using namespace DesignDocumentCreator::StringHelpers;
 
 namespace DesignDocumentCreator
 {
 
+Component::Component()
+    : m_componentName(ComponentName::Empty)
+{}
+
+Component::Component(ComponentName const componentName)
+    : m_componentName(componentName)
+{}
+
 void Component::pushBackEvent(Event const& event)
 {
-    m_eventQueue.push_back(event);
-}
+    m_eventQueue.push_back(event);}
 
 void Component::handleOneEvent()
 {
@@ -29,15 +41,32 @@ void Component::handleAllEvents()
     }
 }
 
-bool Component::isEventQueueEmpty()
+bool Component::isEventQueueEmpty() const
 {
     return m_eventQueue.empty();
 }
 
+GenericMessage Component::peekMessageAtStartOfTheEventQueue() const
+{
+    return GenericMessage(m_eventQueue.front().getMessage());
+}
+
+string Component::getComponentNameString() const
+{
+    return convertToString(m_componentName);
+}
+
+string Component::getQueueAsString() const
+{
+    return accumulate(m_eventQueue.begin(), m_eventQueue.end(), string("Event Queue: "), [](string const& partialResult, Event const& event)
+    {
+        return partialResult+event.getString()+", ";
+    });
+}
+
 void Component::handleEvent(Event const& event)
 {
-    EventType eventType(event.getType());
-    switch(eventType)
+    EventType eventType(event.getType());    switch(eventType)
     {
     case MessageEvent:
         handleMessageEvent(event.getMessage());

@@ -27,7 +27,8 @@ public:
     {}
     GenericMessage(MessageName const messageName, void* payloadBuffer, unsigned int const payloadSize, ComponentName const sender, ComponentName const receiver)
         : Message(sender, receiver)
-        , m_messageName(messageName)        , m_payloadBuffer(payloadBuffer, payloadSize)
+        , m_messageName(messageName)
+        , m_payloadBuffer(payloadBuffer, payloadSize)
     {}
     MessageName getMessageName() const override
     {
@@ -37,11 +38,10 @@ public:
     {
         return m_payloadBuffer;
     }
-    alba::AlbaMemoryBuffer const& getPayloadBufferConstReference()
+    alba::AlbaMemoryBuffer const& getPayloadBufferConstReference() const
     {
         return m_payloadBuffer;
     }
-
 private:
     MessageName m_messageName;
     alba::AlbaMemoryBuffer m_payloadBuffer;

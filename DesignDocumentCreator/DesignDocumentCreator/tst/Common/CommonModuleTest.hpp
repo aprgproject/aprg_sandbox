@@ -15,9 +15,9 @@ public:
     void sendMessage(GenericMessage const& genericMessage);
     void sendMessage(ComponentName const sender, ComponentName const receiver, GenericMessage const& genericMessage);
     void saveUmlLog(std::string const& filePath);
+    Component& activateComponentAsParticipant(ComponentName const componentName);
 private:
     Environment m_environment;
 };
-
 } // namespace DesignDocumentCreator
 

@@ -9,6 +9,7 @@ using namespace DesignDocumentCreator::StringHelpers;
 
 namespace DesignDocumentCreator
 {
+
 string UmlArrow::getRedArrow()
 {
     return "-[#red]>";
@@ -53,7 +54,8 @@ string UmlArrow::getArrowBaseFromMessageName(string const& messageName)
     else if(isDspMessage(messageName))
     {
         result = getDarkerGreenArrow();
-    }    else
+    }
+    else
     {
         result = getGreenArrow();
     }

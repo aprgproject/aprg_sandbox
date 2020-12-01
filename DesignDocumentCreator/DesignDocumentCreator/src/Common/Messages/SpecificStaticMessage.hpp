@@ -15,7 +15,8 @@ public:
     typedef typename SpecificStaticMessageWrapper::MessageStaticSackType SackType;
     SpecificStaticMessage()
     {}
-    SpecificStaticMessage(alba::AlbaMemoryBuffer const& payloadBufferReference, ComponentName const sender, ComponentName const receiver)        : Message(sender, receiver)
+    SpecificStaticMessage(alba::AlbaMemoryBuffer const& payloadBufferReference, ComponentName const sender, ComponentName const receiver)
+        : Message(sender, receiver)
     {
         assert(sizeof(SackType) == payloadBufferReference.getSize());
         m_payload = *reinterpret_cast<SackType const*>(payloadBufferReference.getConstantBufferPointer());

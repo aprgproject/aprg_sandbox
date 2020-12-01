@@ -8,6 +8,7 @@
 
 namespace DesignDocumentCreator
 {
+
 template<MessageName messageName, unsigned int dynamicPayloadItemSize>
 class SpecificDynamicArrayMessage : public Message
 {
@@ -31,7 +32,8 @@ public:
     {
         return m_staticPayload;
     }
-    DynamicPartSackType& getDynamicPayloadReferenceAt(unsigned int position)    {
+    DynamicPartSackType& getDynamicPayloadReferenceAt(unsigned int position)
+    {
         assert(position<dynamicPayloadItemSize);
         return m_dynamicArrayPayload[position];
     }

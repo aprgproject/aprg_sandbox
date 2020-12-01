@@ -100,6 +100,7 @@ void AlbaFileReader::saveDataToMemoryBuffer(AlbaMemoryBuffer& buffer, unsigned i
     char* writer = (char*)buffer.addDataAndReturnBeginOfAdditionalData(numberOfBytesToRead);
     m_stream.read(writer, numberOfBytesToRead);
 }
+
 string AlbaFileReader::getLineAndIgnoreWhiteSpaces()
 {
     while(!m_stream.eof())

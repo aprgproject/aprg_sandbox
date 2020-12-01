@@ -13,14 +13,15 @@ public:
     Environment(Environment const&) = delete;
     void operator=(Environment const&) = delete;
     void execute();
-    Components& getComponentReference();
+    Components& getComponentsReference();
+    Component& getComponentReference(ComponentName const componentName);
     UmlLogger& getUmlLogger();
     void send(GenericMessage const& message);
     void send(ComponentName const sender, ComponentName const receiver, GenericMessage const& message);
-
 private:
     void performSend(GenericMessage const& messageToRoute);
     Components m_components;
     UmlLogger m_umlLogger;
 };
+
 }

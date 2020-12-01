@@ -9,14 +9,14 @@ GenericMessage MessageFactory::createOneTransportBearerRegisterForCell()
 {
     SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG, 1> tbRegisterMessage;
     STransportBearerRegisterMsg& tbRegisterStaticPayload(tbRegisterMessage.getStaticPayloadReference());
-    tbRegisterStaticPayload.cellId = 100001;
+    tbRegisterStaticPayload.transactionId = 100001;
+    tbRegisterStaticPayload.cellId = 100002;
+    tbRegisterStaticPayload.nbccId = 0;
     tbRegisterStaticPayload.numConnections = 1;
-    tbRegisterStaticPayload.transactionId = 100002;
-    STransportBearerLocationData dynamicPayload1(tbRegisterMessage.getDynamicPayloadReferenceAt(0));
+    STransportBearerLocationData& dynamicPayload1(tbRegisterMessage.getDynamicPayloadReferenceAt(0));
     dynamicPayload1.bearerType=EBearerType_ATM;
     dynamicPayload1.transportId=100003;
-    dynamicPayload1.fpLocation.fpId=100004;
-    dynamicPayload1.fpLocation.fpAddress=100005;
+    dynamicPayload1.fpLocation.fpId=100004;    dynamicPayload1.fpLocation.fpAddress=100005;
     dynamicPayload1.fpLocation.messagingAddress=100006;
     dynamicPayload1.messageTypeNumber=100007;
     dynamicPayload1.ulParameters.maxBitRateInIpPayloadLayer=100008;

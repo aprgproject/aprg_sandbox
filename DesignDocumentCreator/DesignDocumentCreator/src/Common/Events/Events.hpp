@@ -3,9 +3,10 @@
 #include <Common/Messages/Messages.hpp>
 #include <Common/Timers/Timers.hpp>
 
+#include <string>
+
 namespace DesignDocumentCreator
 {
-
 enum EventType
 {
     MessageEvent,
@@ -20,10 +21,10 @@ public:
 
     EventType getType() const;
     Timer getTimer() const;
+    std::string getString() const;
     GenericMessage getMessage() const;
 
-private:
-    EventType m_eventType;
+private:    EventType m_eventType;
     Timer m_timer;
     GenericMessage m_message;
 };

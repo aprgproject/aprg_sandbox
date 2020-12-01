@@ -29,7 +29,8 @@ public:
     SackType& getStaticPayloadReference()
     {
         return m_staticPayload;
-    }    DynamicPartSackType& getDynamicPayloadReference()
+    }
+    DynamicPartSackType& getDynamicPayloadReference()
     {
         return m_dynamicPayload;
     }

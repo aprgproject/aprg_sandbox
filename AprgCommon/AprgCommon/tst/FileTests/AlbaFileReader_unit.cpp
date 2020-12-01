@@ -78,6 +78,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadLineWithSizeLimit)
     EXPECT_FALSE(fileReader.isNotFinished());
     EXPECT_EQ("", fileReader.getLineAndIgnoreWhiteSpaces());
 }
+
 TEST(FileReadTest, ReadFromTestFile_ReadSingleCharacterFromBinaryFile)
 {
     ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);

@@ -7,12 +7,9 @@
 namespace DesignDocumentCreator
 {
 
-class MessageVerifier : public ::testing::Test
+namespace MessageVerifier
 {
-public:
-    void verifierSample(GenericMessage const& genericMessage) const;
-
-};
+    void verifierOneTransportBearerRegisterForCell(GenericMessage const& genericMessage);
+}
 
 } // namespace DesignDocumentCreator
-

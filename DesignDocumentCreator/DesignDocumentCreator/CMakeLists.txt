@@ -95,7 +95,8 @@ set(COMMON_SOURCES
     src/Common/Messages/Messages.hpp
     src/Common/Messages/MessageWrapper.hpp
     src/Common/Messages/SpecificDynamicArrayMessage.hpp
-    src/Common/Messages/SpecificDynamicPolymorphicMessage.hpp    src/Common/Messages/SpecificStaticMessage.hpp
+    src/Common/Messages/SpecificDynamicPolymorphicMessage.hpp
+    src/Common/Messages/SpecificStaticMessage.hpp
     src/Common/Messages/WrapMessages.hpp
     src/Common/Sacks/Sacks.hpp
     src/Common/Timers/Timers.cpp
@@ -134,7 +135,8 @@ set(INTERNAL_TESTS
     tst/Common/CommonModuleTest.hpp
 )
 
-set(TESTS    ${INTERNAL_TESTS}
+set(TESTS
+    ${INTERNAL_TESTS}
     ${FEATURE_TESTS}
 )
 
@@ -144,6 +146,7 @@ set(INCLUDE_DIRECTORIES
     ${FEATURE_INCLUDE_DIRECTORIES}
     ${SACKS_DIR_TO_INCLUDE}
 )
+
 if (TEST_MODE)
     add_executable(${OUTFILE} ${SOURCES} ${TESTS})
     include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})

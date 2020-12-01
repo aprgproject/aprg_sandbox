@@ -5,11 +5,9 @@
 namespace DesignDocumentCreator
 {
 
-class ModuleTest
-        : public CommonModuleTest
+class ModuleTest : public CommonModuleTest
 {
 public:
 };
-
 } // namespace DesignDocumentCreator
 

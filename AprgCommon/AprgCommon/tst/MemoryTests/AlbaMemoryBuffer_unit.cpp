@@ -13,7 +13,8 @@ TEST(AlbaMemoryBufferTest, DefaultValuesAreClear)
     EXPECT_EQ(0u, buffer.getSize());
 }
 
-TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeSavedDuringConstructionOfBuffer){
+TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeSavedDuringConstructionOfBuffer)
+{
     int input = 11111111;
     AlbaMemoryBuffer buffer((void*)&input, sizeof(input));
     int output = *reinterpret_cast<int*>(buffer.getBufferPointer());
@@ -23,6 +24,7 @@ TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeSavedDuringConstructionOfBuffer){
     EXPECT_EQ(4u, buffer.getSize());
     EXPECT_EQ(input, output);
 }
+
 TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeSaved)
 {
     AlbaMemoryBuffer buffer;
@@ -35,6 +37,7 @@ TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeSaved)
     EXPECT_EQ(4u, buffer.getSize());
     EXPECT_EQ(input, output);
 }
+
 TEST(AlbaMemoryBufferTest, MemoryBufferCanBeCopied)
 {
     AlbaMemoryBuffer buffer;
@@ -81,7 +84,8 @@ TEST(AlbaMemoryBufferTest, MemoryBufferCanBeResizedToBeSmaller)
 
 TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeClearedAndSavedConsecutively2Times)
 {
-    AlbaMemoryBuffer buffer;    int input = 11111111, input2 = 22222222;
+    AlbaMemoryBuffer buffer;
+    int input = 11111111, input2 = 22222222;
     buffer.clearAndSetNewData((void*)&input, sizeof(input));
     buffer.clearAndSetNewData((void*)&input2, sizeof(input2));
     int output = *reinterpret_cast<int*>(buffer.getBufferPointer());
@@ -91,6 +95,7 @@ TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeClearedAndSavedConsecutively2Times
     EXPECT_EQ(4u, buffer.getSize());
     EXPECT_EQ(input2, output);
 }
+
 TEST(AlbaMemoryBufferTest, StructureCanBeSaved)
 {
     AlbaMemoryBuffer buffer;
@@ -139,7 +144,8 @@ TEST(AlbaMemoryBufferTest, DataForMemoryBufferCanBeWrittenConsecutivelyOutsideTh
     EXPECT_EQ(0x21u, reader[7]);
 }
 
-TEST(AlbaMemoryBufferTest, GetDisplayableStringWorks){
+TEST(AlbaMemoryBufferTest, GetDisplayableStringWorks)
+{
     int input = 0x12345678;
     AlbaMemoryBuffer buffer((void*)&input, sizeof(input));
 

@@ -24,7 +24,8 @@ public:
     }
     ComponentName getSender() const
     {
-        return m_sender;    }
+        return m_sender;
+    }
     ComponentName getReceiver() const
     {
         return m_receiver;

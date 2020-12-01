@@ -13,7 +13,8 @@ TEST(AlbaWindowsTimer, DISABLED_TimerCanBeInitialized)
     EXPECT_EQ(2u, secondsElapsed);
 }
 
-TEST(AlbaWindowsTimer, DISABLED_TimerCanBeRestarted){
+TEST(AlbaWindowsTimer, DISABLED_TimerCanBeRestarted)
+{
     AlbaWindowsTimer timer;
     Sleep(1000);
     timer.resetTimer();

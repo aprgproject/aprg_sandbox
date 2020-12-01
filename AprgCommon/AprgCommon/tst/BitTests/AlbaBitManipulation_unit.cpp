@@ -20,7 +20,8 @@ TEST(AlbaBitManipulationTest, ShiftRightWorks)
     EXPECT_EQ(0xA1u, AlbaBitManipulation<unsigned int>::shiftRight<3>(0xA1000000));
 }
 
-TEST(AlbaBitManipulationTest, Concatenation_ArgumentsSizeLessThanResult){
+TEST(AlbaBitManipulationTest, Concatenation_ArgumentsSizeLessThanResult)
+{
     // Given
     const unsigned char byte1 = 0xA1;
     const unsigned char byte2 = 0xBA;
@@ -32,7 +33,8 @@ TEST(AlbaBitManipulationTest, Concatenation_ArgumentsSizeLessThanResult){
     EXPECT_EQ(0xA1BAu, result);
 }
 
-TEST(AlbaBitManipulationTest, Concatenation_ArgumentsSameSizeAsResult){
+TEST(AlbaBitManipulationTest, Concatenation_ArgumentsSameSizeAsResult)
+{
     // Given
     const unsigned char byte1 = 0xA1;
     const unsigned char byte2 = 0xBA;
@@ -44,7 +46,8 @@ TEST(AlbaBitManipulationTest, Concatenation_ArgumentsSameSizeAsResult){
     EXPECT_EQ(0xA1BAA1BAu, result);
 }
 
-TEST(AlbaBitManipulationTest, BytesAreSuccessfullyObtainedWhenU32IsUsed){
+TEST(AlbaBitManipulationTest, BytesAreSuccessfullyObtainedWhenU32IsUsed)
+{
     // Given
     const unsigned int input = 0x12345678;
 
@@ -57,7 +60,8 @@ TEST(AlbaBitManipulationTest, BytesAreSuccessfullyObtainedWhenU32IsUsed){
     EXPECT_EQ(0x12u, AlbaBitManipulation<unsigned int>::getByteAt<3>(input));
 }
 
-TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU16IsUsed){
+TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU16IsUsed)
+{
     // Given
     const short unsigned int input = 0x1234;
 
@@ -67,7 +71,8 @@ TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU16IsUsed){
     EXPECT_EQ(0x3412u, AlbaBitManipulation<short unsigned int>::swap(input));
 }
 
-TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU32IsUsed){
+TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU32IsUsed)
+{
     // Given
     const unsigned int input = 0x12345678;
 
@@ -77,7 +82,8 @@ TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU32IsUsed){
     EXPECT_EQ(0x78563412u, AlbaBitManipulation<unsigned int>::swap(input));
 }
 
-TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU64IsUsed){
+TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU64IsUsed)
+{
     // Given
     const unsigned long long input = 0x123456789ABCDEF0;
 
@@ -86,6 +92,7 @@ TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU64IsUsed){
     // Then
     EXPECT_EQ(0xF0DEBC9A78563412u, AlbaBitManipulation<unsigned long long>::swap(input));
 }
+
 
 TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForTwoBytes)
 {
@@ -98,7 +105,8 @@ TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForTwoBytes)
     EXPECT_EQ(0x3412u, AlbaBitManipulation<short unsigned int>::swapForTwoBytes(input));
 }
 
-TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForFourBytes){
+TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForFourBytes)
+{
     // Given
     const unsigned int input = 0x12345678;
 
@@ -108,7 +116,8 @@ TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForFourBytes){
     EXPECT_EQ(0x78563412u, AlbaBitManipulation<unsigned int>::swapForFourBytes(input));
 }
 
-TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForEightBytes){
+TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForEightBytes)
+{
     // Given
     const unsigned long long input = 0x123456789ABCDEF0;
 
@@ -118,7 +127,8 @@ TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForEightBytes){
     EXPECT_EQ(0xF0DEBC9A78563412u, AlbaBitManipulation<unsigned long long>::swapForEightBytes(input));
 }
 
-TEST(AlbaBitManipulationTest, GenerationOfOnesIsSuccessful){
+TEST(AlbaBitManipulationTest, GenerationOfOnesIsSuccessful)
+{
     // Given
     const unsigned int input = 2;
 

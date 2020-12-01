@@ -23,7 +23,8 @@ struct DynamicPolymorphicPartSack
     int dynamicPolymorphicParameter;
 };
 
-struct StaticMessageSack{
+struct StaticMessageSack
+{
     int sampleParameter;
 };
 
