@@ -10,8 +10,10 @@ using namespace std;
 
 TEST(TransportBearerProcedureTest, OneTransportBearerRegisterForCell)
 {
-    SpecificMessage<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG> specificMessage;
-    STransportBearerRegisterMsg& payload = specificMessage.getPayloadReference();
-    payload.cellId =
+    SpecificStaticMessage<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG> specificStaticMessage;
+    STransportBearerRegisterMsg& payload = specificStaticMessage.getPayloadReference();
+    payload.cellId = 111;
+    payload.numConnections = 1;
+    payload.transactionId = 222;
 
 }

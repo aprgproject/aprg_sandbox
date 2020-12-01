@@ -10,11 +10,10 @@ namespace DesignDocumentCreator
 {
 
 Tcom::Tcom()
-    : m_componentName(ComponentName::EMPTY)
+    : m_componentName(ComponentName::Empty)
 {}
 
-Tcom::Tcom(ComponentName const componentName)
-    : m_componentName(componentName)
+Tcom::Tcom(ComponentName const componentName)    : m_componentName(componentName)
 {}
 
 void Tcom::handleMessageEvent(GenericMessage const& genericMessage)
@@ -22,12 +21,11 @@ void Tcom::handleMessageEvent(GenericMessage const& genericMessage)
     MessageName messageName(genericMessage.getMessageName());
     switch(messageName)
     {
-    case MessageName::TC_LTX_TELECOM_MSG:
-        cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;
+    //case MessageName::TC_LTX_TELECOM_MSG:
+    //    cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;
     default:
         cout<<"Cannot handle message messageName: "<<StringHelpers::convertToString(genericMessage.getMessageName())<<endl;
-    }
-}
+    }}
 
 void Tcom::handleTimerEvent(Timer const& timer)
 {

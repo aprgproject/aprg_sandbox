@@ -8,24 +8,23 @@ namespace DesignDocumentCreator
 {
 
 template<MessageName messageName>
-class SpecificMessage
+class SpecificStaticMessage
 {
 public:
-    typedef MessageWrapper<messageName> SpecificMessageWrapper;
-    typedef typename SpecificMessageWrapper::SackType SpecificMessageSackType;
-    SpecificMessage()
-        : m_sender(ComponentName::EMPTY)
-        , m_receiver(ComponentName::EMPTY)
+    typedef MessageWrapper<messageName> SpecificStaticMessageWrapper;
+    typedef typename SpecificStaticMessageWrapper::SackType SackType;
+    SpecificStaticMessage()
+        : m_sender(ComponentName::Empty)
+        , m_receiver(ComponentName::Empty)
     {}
     MessageName getMessageName() const
     {
-        return SpecificMessageWrapper::getMessageName();
+        return SpecificStaticMessageWrapper::getMessageName();
     }
-    SpecificMessageSackType& getPayloadReference()
+    SackType& getPayloadReference()
     {
         return m_payload;
-    }
-    ComponentName getSender() const
+    }    ComponentName getSender() const
     {
         return m_sender;
     }
@@ -46,7 +45,7 @@ public:
 private:
     ComponentName m_sender;
     ComponentName m_receiver;
-    SpecificMessageSackType m_payload;
+    SackType m_payload;
 };
 
 }

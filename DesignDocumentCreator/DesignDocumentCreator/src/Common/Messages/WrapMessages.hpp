@@ -6,6 +6,8 @@
 namespace DesignDocumentCreator
 {
 
-WRAP_MESSAGE(MessageName::MESSAGE_SAMPLE, SampleSack)
+WRAP_STATIC_MESSAGE(MessageName::SampleStaticMessage, StaticMessageSack)
+WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::SampleDynamicArrayMessage, DynamicArrayMessageSack, DynamicArrayPartSack)
+WRAP_DYNAMIC_POLYMORPHIC_MESSAGE(MessageName::SampleDynamicPolymorphicMessage, DynamicPolymorphicMessageSack, DynamicPlaceHolderSack)
 
 }

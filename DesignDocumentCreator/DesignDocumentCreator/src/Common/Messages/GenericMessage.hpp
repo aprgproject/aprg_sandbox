@@ -12,15 +12,14 @@ class GenericMessage
 {
 public:
     GenericMessage()
-        : m_messageName(MessageName::EMPTY)
+        : m_messageName(MessageName::Empty)
     {}
     GenericMessage(MessageName const messageName, void* payloadBuffer, unsigned int const payloadSize)
         : m_messageName(messageName)
-        , m_sender(ComponentName::EMPTY)
-        , m_receiver(ComponentName::EMPTY)
+        , m_sender(ComponentName::Empty)
+        , m_receiver(ComponentName::Empty)
         , m_payloadBuffer(payloadBuffer, payloadSize)
     {}
-
     MessageName getMessageName() const
     {
         return m_messageName;

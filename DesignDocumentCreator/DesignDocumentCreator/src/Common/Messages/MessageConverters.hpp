@@ -1,34 +1,33 @@
 #pragma once
 
 #include <Common/Messages/GenericMessage.hpp>
-#include <Common/Messages/SpecificMessage.hpp>
+#include <Common/Messages/SpecificStaticMessage.hpp>
 
 namespace DesignDocumentCreator
 {
 
 template<MessageName messageName>
-SpecificMessage<messageName> convertGenericToSpecific(GenericMessage& genericMessage)
+SpecificStaticMessage<messageName> convertGenericToSpecificStatic(GenericMessage& genericMessage)
 {
-    SpecificMessage<messageName> specificMessage;
-    typedef typename SpecificMessage<messageName>::SpecificMessageSackType SackType;
-    SackType& payloadReference = specificMessage.getPayloadReference();
+    SpecificStaticMessage<messageName> SpecificStaticMessage;
+    typedef typename SpecificStaticMessage<messageName>::SackType SackType;
+    SackType& payloadReference = SpecificStaticMessage.getPayloadReference();
     alba::AlbaMemoryBuffer& payloadBufferReference = genericMessage.getPayloadBufferReference();
     assert(sizeof(SackType) == genericMessage.getPayloadBufferReference().getSize());
     payloadReference = *reinterpret_cast<SackType*>(payloadBufferReference.getBufferPointer());
-    specificMessage.setSender(genericMessage.getSender());
-    specificMessage.setReceiver(genericMessage.getReceiver());
-    return specificMessage;
+    SpecificStaticMessage.setSender(genericMessage.getSender());
+    SpecificStaticMessage.setReceiver(genericMessage.getReceiver());
+    return SpecificStaticMessage;
 }
 
 template<MessageName messageName>
-GenericMessage convertSpecificToGeneric(SpecificMessage<messageName>& specificMessage)
+GenericMessage convertSpecificToGeneric(SpecificStaticMessage<messageName>& SpecificStaticMessage)
 {
-    typedef typename SpecificMessage<messageName>::SpecificMessageSackType SackType;
-    SackType& payloadReference = specificMessage.getPayloadReference();
-    GenericMessage genericMessage(specificMessage.getMessageName(), &payloadReference, sizeof(SackType));
-    genericMessage.setSender(specificMessage.getSender());
-    genericMessage.setReceiver(specificMessage.getReceiver());
+    typedef typename SpecificStaticMessage<messageName>::SackType SackType;
+    SackType& payloadReference = SpecificStaticMessage.getPayloadReference();
+    GenericMessage genericMessage(SpecificStaticMessage.getMessageName(), &payloadReference, sizeof(SackType));
+    genericMessage.setSender(SpecificStaticMessage.getSender());
+    genericMessage.setReceiver(SpecificStaticMessage.getReceiver());
     return genericMessage;
 }
-
 }

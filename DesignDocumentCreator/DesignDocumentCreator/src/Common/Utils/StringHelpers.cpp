@@ -16,11 +16,10 @@ string StringHelpers::convertToString(ComponentName const componentName)
     switch(componentName)
     {
 #define COMPONENT_NAME_MACRO(COMPONENT_NAME) case ComponentName:: COMPONENT_NAME : result = #COMPONENT_NAME; break;
-    COMPONENT_NAME_MACRO(EMPTY)
+    COMPONENT_NAME_MACRO(Empty)
     COMPONENT_NAME_MACRO(SampleComponent)
     #include <FeatureSpecificFiles/ComponentNameMacro.hpp>
-#undef COMPONENT_NAME_MACRO
-    }
+#undef COMPONENT_NAME_MACRO    }
     return result;
 }
 
@@ -30,12 +29,13 @@ string StringHelpers::convertToString(MessageName const messageName)
     switch(messageName)
     {
 #define MESSAGE_NAME_MACRO(MESSAGE_NAME) case MessageName:: MESSAGE_NAME : result = #MESSAGE_NAME; break;
-    MESSAGE_NAME_MACRO(EMPTY)
-    MESSAGE_NAME_MACRO(MESSAGE_SAMPLE)
+    MESSAGE_NAME_MACRO(Empty)
+    MESSAGE_NAME_MACRO(SampleStaticMessage)
+    MESSAGE_NAME_MACRO(SampleDynamicArrayMessage)
+    MESSAGE_NAME_MACRO(SampleDynamicPolymorphicMessage)
     #include <FeatureSpecificFiles/MessageNameMacro.hpp>
 #undef MESSAGE_NAME_MACRO
-    }
-    return result;
+    }    return result;
 }
 
 string StringHelpers::convertToString(TimerType const timerType)
