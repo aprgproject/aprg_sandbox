@@ -1,6 +1,7 @@
 #include "UmlLogger.hpp"
 
 #include <Common/Uml/UmlArrow.hpp>
+#include <Common/Utils/StringHelpers.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 #include <fstream>
@@ -23,6 +24,20 @@ void UmlLogger::logMessage(string const& senderName, string const& receiverName,
 void UmlLogger::addParticipant(UmlParticipant const& participant)
 {
     m_participants.emplace_back(participant);
+}
+
+void UmlLogger::logNoteOnPreviousMessage(std::string const& note)
+{
+    m_umlLogBuffer<<"note right"<<endl;
+    m_umlLogBuffer<<note<<endl;
+    m_umlLogBuffer<<"end note"<<endl;
+}
+
+void UmlLogger::logNoteOnComponent(ComponentName const componentName, std::string const& note)
+{
+    m_umlLogBuffer<<"rnote over "<<StringHelpers::convertToString(componentName)<<" #white"<<endl;
+    m_umlLogBuffer<<note<<endl;
+    m_umlLogBuffer<<"end note"<<endl;
 }
 
 void UmlLogger::saveUmlLogsToFile(string const& filePath)

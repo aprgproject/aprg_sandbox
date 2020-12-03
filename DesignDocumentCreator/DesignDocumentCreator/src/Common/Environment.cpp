@@ -10,26 +10,40 @@ namespace DesignDocumentCreator
 {
 
 Environment::Environment()
-{}
+{
+    m_resetableMembers.createObjectUsingDefaultConstructor();
+}
+
+Environment& Environment::getInstance()
+{
+    static Environment instance;
+    return instance;
+}
+
+void Environment::clear()
+{
+    m_resetableMembers.clear();
+    m_resetableMembers.createObjectUsingDefaultConstructor();
+}
 
 void Environment::execute()
 {
-    m_components.executePendingEvents();
+    m_resetableMembers.getReference().components.executePendingEvents();
 }
 
 Components& Environment::getComponentsReference()
 {
-    return m_components;
-}
-
-Component& Environment::getComponentReference(ComponentName const componentName)
-{
-    return m_components.getComponentReference(componentName);
+    return m_resetableMembers.getReference().components;
 }
 
 UmlLogger& Environment::getUmlLogger()
 {
-    return m_umlLogger;
+    return m_resetableMembers.getReference().umlLogger;
+}
+
+Component* Environment::getComponentPointer(ComponentName const componentName)
+{
+    return getComponentsReference().getComponentPointer(componentName);
 }
 
 void Environment::send(GenericMessage const& message)
@@ -49,16 +63,19 @@ void Environment::performSend(GenericMessage const& messageToRoute)
 {
     ComponentName receiver(messageToRoute.getReceiver());
     ComponentName sender(messageToRoute.getSender());
-    Component* receiverComponent = m_components.getComponentPointer(receiver);
+    string senderNameString(convertToString(sender));
+    string receiverNameString(convertToString(receiver));
+    Component* receiverComponent = getComponentPointer(receiver);
     if(nullptr == receiverComponent)
     {
-        cout<<"["<<convertToString(sender)<<"] sends the message ["<<messageToRoute.getMessageNameInString()<<"] to an invalid receiver ["<<convertToString(receiver)<<"]"<<endl;
+        cout<<"["<<senderNameString<<"] sends the message ["<<messageToRoute.getMessageNameInString()<<"] to an invalid receiver ["<<receiverNameString<<"]"<<endl;
     }
     else
     {
-        cout<<"["<<convertToString(sender)<<"] sends the message ["<<messageToRoute.getMessageNameInString()<<"] to ["<<convertToString(receiver)<<"]"<<endl;
-        m_umlLogger.logMessage(convertToString(sender), convertToString(receiver), messageToRoute.getMessageNameInString());
+        cout<<"["<<senderNameString<<"] sends the message ["<<messageToRoute.getMessageNameInString()<<"] to ["<<receiverNameString<<"]"<<endl;
+        getUmlLogger().logMessage(senderNameString, receiverNameString, messageToRoute.getMessageNameInString());
         receiverComponent->pushBackEvent(Event(messageToRoute));
     }
 }
+
 }

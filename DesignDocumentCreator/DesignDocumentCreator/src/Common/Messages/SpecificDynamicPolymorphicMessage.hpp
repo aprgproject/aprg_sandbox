@@ -24,10 +24,12 @@ public:
     }
     SackType& getStaticPayloadReference()
     {
-        return m_staticPayload;    }
+        return m_staticPayload;
+    }
     DynamicPartSackType& getDynamicPayloadReference()
     {
-        return m_dynamicPayload;    }
+        return m_dynamicPayload;
+    }
     alba::AlbaMemoryBuffer createBuffer() const
     {
         return createBufferFromStaticAndDynamicPart();

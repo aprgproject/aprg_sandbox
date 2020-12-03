@@ -15,19 +15,23 @@ class Component
 public:
     Component(ComponentName const componentName);
     Component(Component const &) = delete;
-    Component& operator=(Component const &) = delete;    void pushBackEvent(Event const& event);
+    Component& operator=(Component const &) = delete;
+    void pushBackEvent(Event const& event);
     void handleOneEvent();
     void handleAllEvents();
     bool isEventQueueEmpty() const;
     GenericMessage peekMessageAtStartOfTheEventQueue() const;
+    ComponentName getComponentName() const;
     std::string getComponentNameInString() const;
     std::string getQueueAsString() const;
 
-protected:    virtual void handleEvent(Event const& event);
+protected:
+    virtual void handleEvent(Event const& event);
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);
     ComponentName m_componentName;
     std::string m_componentNameInString;
     std::deque<Event> m_eventQueue;
 };
+
 }

@@ -1,9 +1,11 @@
 #include <gtest/gtest.h>
 
+#include <Components/Tcom.hpp>
+#include <Components/TupcTbm.hpp>
+#include <Common/Utils/StringHelpers.hpp>
 #include <ModuleTest.hpp>
 #include <MessageFactory.hpp>
 #include <MessageVerifier.hpp>
-#include <Common/Utils/StringHelpers.hpp>
 
 using namespace std;
 using namespace DesignDocumentCreator;
@@ -13,10 +15,10 @@ using namespace StringHelpers;
 
 TEST_F(ModuleTest, OneTransportBearerRegisterForCell)
 {
-    Component& tcom(activateComponentAsParticipant(ComponentName::Tcom));
-    Component& tupcTbm(activateComponentAsParticipant(ComponentName::TupcTbm));
+    Tcom* tcom = dynamic_cast<Tcom*>(activateComponentAsParticipant(ComponentName::Tcom));
+    TupcTbm* tupcTbm = dynamic_cast<TupcTbm*>(activateComponentAsParticipant(ComponentName::TupcTbm));
     sendMessage(ComponentName::Tcom, ComponentName::TupcTbm, createOneTransportBearerRegisterForCell());
-    verifierOneTransportBearerRegisterForCell(tupcTbm.peekMessageAtStartOfTheEventQueue());
+    verifierOneTransportBearerRegisterForCell(tupcTbm->peekMessageAtStartOfTheEventQueue());
 
     saveUmlLog(R"(C:\APRG\DesignDocumentCreator\DesignDocumentCreatorLogs\CNI21985\OneTransportBearerRegisterForCell.txt)");
 }

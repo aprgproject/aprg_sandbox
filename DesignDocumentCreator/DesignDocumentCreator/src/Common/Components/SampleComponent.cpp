@@ -19,7 +19,9 @@ void SampleComponent::handleMessageEvent(GenericMessage const& genericMessage)
     cout<<"Handle Message, messageName: "<<genericMessage.getMessageNameInString()<<endl;
 }
 
-void SampleComponent::handleTimerEvent(Timer const& timer){
+void SampleComponent::handleTimerEvent(Timer const& timer)
+{
     cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
 }
+
 }

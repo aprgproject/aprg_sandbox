@@ -12,13 +12,16 @@ namespace DesignDocumentCreator
 class CommonModuleTest : public ::testing::Test
 {
 public:
+    CommonModuleTest();
+    void SetUp();
     void sendMessage(GenericMessage const& genericMessage);
     void sendMessage(ComponentName const sender, ComponentName const receiver, GenericMessage const& genericMessage);
     void saveUmlLog(std::string const& filePath);
-    Component& activateComponentAsParticipant(ComponentName const componentName);
+    Component* activateComponentAsParticipant(ComponentName const componentName);
 private:
-    Environment m_environment;
+    Environment& m_environment;
 };
+
 
 } // namespace DesignDocumentCreator
 

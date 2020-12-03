@@ -28,7 +28,8 @@ public:
     {}
     alba::AlbaMemoryBuffer& getPayloadBufferReference()
     {
-        return m_payloadBuffer;    }
+        return m_payloadBuffer;
+    }
     alba::AlbaMemoryBuffer const& getPayloadBufferConstReference() const
     {
         return m_payloadBuffer;
@@ -37,4 +38,5 @@ public:
 private:
     alba::AlbaMemoryBuffer m_payloadBuffer;
 };
+
 }

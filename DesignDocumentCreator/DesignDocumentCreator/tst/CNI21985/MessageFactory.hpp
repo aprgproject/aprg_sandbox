@@ -7,6 +7,7 @@ namespace DesignDocumentCreator
 
 namespace MessageFactory
 {
+    GenericMessage createHwConfigurationMessageForRel3BasedFromLogs();
     GenericMessage createOneTransportBearerRegisterForCell();
 }
 

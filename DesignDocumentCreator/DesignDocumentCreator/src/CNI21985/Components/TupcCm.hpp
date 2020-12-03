@@ -11,7 +11,8 @@ class TupcCm : public Component
 public:
     TupcCm(ComponentName const componentName);
 private:
-    virtual void handleMessageEvent(GenericMessage const& genericMessage);    virtual void handleTimerEvent(Timer const& timer);
+    virtual void handleMessageEvent(GenericMessage const& genericMessage);
+    virtual void handleTimerEvent(Timer const& timer);
 };
 
 }

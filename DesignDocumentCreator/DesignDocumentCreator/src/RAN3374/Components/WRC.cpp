@@ -28,8 +28,10 @@ void WRC::handleMessageEvent(GenericMessage const& genericMessage)
         cout<<"Handle Message, messageName: "<<StringHelpers::genericMessage.getMessageNameInString()<<endl;
     }
 }
+
 void WRC::handleTimerEvent(Timer const& timer)
 {
-    cout<<"Handle Timer, timerType: "<<StringHelpers::convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;}
+    cout<<"Handle Timer, timerType: "<<StringHelpers::convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
+}
 
 }

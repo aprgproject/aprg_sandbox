@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Common/Components/ComponentName.hpp>
 #include <Common/Uml/UmlParticipant.hpp>
 
 #include <sstream>
@@ -16,6 +17,8 @@ public:
     UmlLogger();
     void logMessage(std::string const& senderName, std::string const& receiverName, std::string const& messageName);
     void addParticipant(UmlParticipant const& participant);
+    void logNoteOnPreviousMessage(std::string const& note);
+    void logNoteOnComponent(ComponentName const componentName, std::string const& note);
     void saveUmlLogsToFile(std::string const& filePath);
 
 private:

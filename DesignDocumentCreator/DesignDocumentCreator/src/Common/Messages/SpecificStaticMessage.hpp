@@ -24,10 +24,12 @@ public:
     }
     SackType& getPayloadReference()
     {
-        return m_payload;    }
+        return m_payload;
+    }
     alba::AlbaMemoryBuffer createBuffer() const
     {
-        return createBufferFromStaticPayload();    }
+        return createBufferFromStaticPayload();
+    }
 
 private:
     alba::AlbaMemoryBuffer createBufferFromStaticPayload() const

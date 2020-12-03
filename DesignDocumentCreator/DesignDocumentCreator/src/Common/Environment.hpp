@@ -3,26 +3,35 @@
 #include <Common/Components/Components.hpp>
 #include <Common/Uml/UmlLogger.hpp>
 
+#include <optional/AlbaOptional.hpp>
+
 namespace DesignDocumentCreator
 {
 
 class Environment
 {
-public:
+private:
     Environment();
+public:
+    struct ResetableMembers
+    {
+        Components components;
+        UmlLogger umlLogger;
+    };
+    static Environment& getInstance();
     Environment(Environment const&) = delete;
     void operator=(Environment const&) = delete;
+    void clear();
     void execute();
     Components& getComponentsReference();
-    Component& getComponentReference(ComponentName const componentName);
     UmlLogger& getUmlLogger();
+    Component* getComponentPointer(ComponentName const componentName);
     void send(GenericMessage const& message);
     void send(ComponentName const sender, ComponentName const receiver, GenericMessage const& message);
 
 private:
+    alba::AlbaOptional<ResetableMembers> m_resetableMembers;
     void performSend(GenericMessage const& messageToRoute);
-    Components m_components;
-    UmlLogger m_umlLogger;
 };
 
 }

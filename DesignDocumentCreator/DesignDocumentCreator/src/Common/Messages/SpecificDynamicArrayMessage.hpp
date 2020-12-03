@@ -26,10 +26,12 @@ public:
     }
     SackType& getStaticPayloadReference()
     {
-        return m_staticPayload;    }
+        return m_staticPayload;
+    }
     DynamicPartSackType& getDynamicPayloadReferenceAt(unsigned int position)
     {
-        assert(position<dynamicPayloadItemSize);        return m_dynamicArrayPayload[position];
+        assert(position<dynamicPayloadItemSize);
+        return m_dynamicArrayPayload[position];
     }
     alba::AlbaMemoryBuffer createBuffer() const
     {

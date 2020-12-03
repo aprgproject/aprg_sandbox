@@ -19,7 +19,7 @@ typedef struct SAtmHwConfigurationMsgFake
         TNumberOfPresence        numOfWspBoards;
         TNumberOfPresence        numOfFlexiConnections;
         SFspInformation          fspInformation[36]; //fake
-        SFlexiConnectionInfo     flexiConnectionInfo[3];
+        SFlexiConnectionInfo     flexiConnectionInfo[3];//fake
 } SAtmHwConfigurationMsg;
 
 struct TUP_CmConfigurationCmd

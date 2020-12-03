@@ -1,9 +1,12 @@
-/*#include <gtest/gtest.h>
+#include <gtest/gtest.h>
 
+#include <Common/Components/ComponentName.hpp>
+#include <Common/Utils/StringHelpers.hpp>
+#include <Components/Oam.hpp>
+#include <Components/TupcLom.hpp>
 #include <ModuleTest.hpp>
 #include <MessageFactory.hpp>
 #include <MessageVerifier.hpp>
-#include <Common/Utils/StringHelpers.hpp>
 
 using namespace std;
 using namespace DesignDocumentCreator;
@@ -13,10 +16,10 @@ using namespace StringHelpers;
 
 TEST_F(ModuleTest, Startup)
 {
-    Component& oam(activateComponentAsParticipant(ComponentName::Oam));
-    Component& tupcLom(activateComponentAsParticipant(ComponentName::TupcLom));
+    Oam* oam = dynamic_cast<Oam*>(activateComponentAsParticipant(ComponentName::Oam));
+    TupcLom* tupcLom = dynamic_cast<TupcLom*>(activateComponentAsParticipant(ComponentName::TupcLom));
     sendMessage(ComponentName::Oam, ComponentName::TupcLom, createHwConfigurationMessageForRel3BasedFromLogs());
-    verifierOneTransportBearerRegisterForCell(tupcTbm.peekMessageAtStartOfTheEventQueue());
+    tupcLom->handleOneEvent();
 
-    saveUmlLog(R"(C:\APRG\DesignDocumentCreator\DesignDocumentCreatorLogs\CNI21985\OneTransportBearerRegisterForCell.txt)");
-}*/
+    saveUmlLog(R"(C:\APRG\DesignDocumentCreator\DesignDocumentCreatorLogs\CNI21985\Startup.txt)");
+}
