@@ -9,5 +9,6 @@ class ModuleTest : public CommonModuleTest
 {
 public:
 };
+
 } // namespace DesignDocumentCreator
 

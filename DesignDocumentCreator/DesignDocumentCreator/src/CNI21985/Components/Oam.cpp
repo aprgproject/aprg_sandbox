@@ -1,4 +1,4 @@
-#include "TupcCm.hpp"
+#include "Oam.hpp"
 
 #include <Common/Utils/StringHelpers.hpp>
 
@@ -10,14 +10,14 @@ using namespace DesignDocumentCreator::StringHelpers;
 namespace DesignDocumentCreator
 {
 
-TupcCm::TupcCm()
+Oam::Oam()
 {}
 
-TupcCm::TupcCm(ComponentName const componentName)
+Oam::Oam(ComponentName const componentName)
     : Component(componentName)
 {}
 
-void TupcCm::handleMessageEvent(GenericMessage const& genericMessage)
+void Oam::handleMessageEvent(GenericMessage const& genericMessage)
 {
     MessageName messageName(genericMessage.getMessageName());
     switch(messageName)
@@ -29,7 +29,7 @@ void TupcCm::handleMessageEvent(GenericMessage const& genericMessage)
     }
 }
 
-void TupcCm::handleTimerEvent(Timer const& timer)
+void Oam::handleTimerEvent(Timer const& timer)
 {
     cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
 }

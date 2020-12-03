@@ -11,10 +11,11 @@ class TupcLom : public Component
 public:
     TupcLom();
     TupcLom(ComponentName const componentName);
+    void handleHwConfiguration(GenericMessage const& genericMessage);
 private:
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);
-    ComponentName m_componentName;
+    TAaSysComSicad m_oamAddress;
 };
 
 }

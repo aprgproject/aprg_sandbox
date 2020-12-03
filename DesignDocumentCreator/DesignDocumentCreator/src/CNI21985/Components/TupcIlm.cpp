@@ -17,7 +17,8 @@ TupcIlm::TupcIlm(ComponentName const componentName)
     : Component(componentName)
 {}
 
-void TupcIlm::handleMessageEvent(GenericMessage const& genericMessage){
+void TupcIlm::handleMessageEvent(GenericMessage const& genericMessage)
+{
     MessageName messageName(genericMessage.getMessageName());
     switch(messageName)
     {

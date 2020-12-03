@@ -6,6 +6,7 @@ using namespace std;
 
 namespace DesignDocumentCreator
 {
+
 Event::Event(GenericMessage const& message)
     : m_eventType(EventType::MessageEvent)
     , m_message(message)
@@ -43,6 +44,7 @@ string Event::getString() const
 
 GenericMessage Event::getMessage() const
 {
-    return m_message;}
+    return m_message;
+}
 
 }

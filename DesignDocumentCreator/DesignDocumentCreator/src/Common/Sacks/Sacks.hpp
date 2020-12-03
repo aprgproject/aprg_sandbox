@@ -1,5 +1,7 @@
 #pragma once
 
+#include <FeatureSpecificFiles/Sacks.hpp>
+
 namespace DesignDocumentCreator
 {
 
@@ -51,7 +53,5 @@ struct SampleActualDynamicPolymorphicMessageSack
     StaticPartSack staticPart;
     DynamicPolymorphicPartSack dynamicPart;
 };
-
-#include <FeatureSpecificFiles/Sacks.hpp>
 
 }

@@ -7,6 +7,7 @@
 
 namespace DesignDocumentCreator
 {
+
 enum EventType
 {
     MessageEvent,
@@ -24,7 +25,8 @@ public:
     std::string getString() const;
     GenericMessage getMessage() const;
 
-private:    EventType m_eventType;
+private:
+    EventType m_eventType;
     Timer m_timer;
     GenericMessage m_message;
 };

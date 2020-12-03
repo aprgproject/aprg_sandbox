@@ -43,4 +43,5 @@ GenericMessage convertSpecificDynamicPolymorphicToGeneric(SpecificDynamicPolymor
 {
     return GenericMessage(specificDynamicPolymorphicMessage.getMessageName(), specificDynamicPolymorphicMessage.createBuffer(), specificDynamicPolymorphicMessage.getSender(), specificDynamicPolymorphicMessage.getReceiver());
 }
+
 }

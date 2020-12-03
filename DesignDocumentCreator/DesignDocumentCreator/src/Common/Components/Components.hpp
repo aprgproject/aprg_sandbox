@@ -23,6 +23,7 @@ public:
     ComponentMap& getComponentMapReference();
     bool isComponentExisting(ComponentName const componentName);
     void executePendingEvents();
+
 private:
     void executePendingEventsUsingRoundRobin();
     void executeAllPendingEventsPerComponent();

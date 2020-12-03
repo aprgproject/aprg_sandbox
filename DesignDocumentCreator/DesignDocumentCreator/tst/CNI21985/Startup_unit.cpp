@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+/*#include <gtest/gtest.h>
 
 #include <ModuleTest.hpp>
 #include <MessageFactory.hpp>
@@ -11,12 +11,12 @@ using namespace MessageFactory;
 using namespace MessageVerifier;
 using namespace StringHelpers;
 
-TEST_F(ModuleTest, OneTransportBearerRegisterForCell)
+TEST_F(ModuleTest, Startup)
 {
-    Component& tcom(activateComponentAsParticipant(ComponentName::Tcom));
-    Component& tupcTbm(activateComponentAsParticipant(ComponentName::TupcTbm));
-    sendMessage(ComponentName::Tcom, ComponentName::TupcTbm, createOneTransportBearerRegisterForCell());
+    Component& oam(activateComponentAsParticipant(ComponentName::Oam));
+    Component& tupcLom(activateComponentAsParticipant(ComponentName::TupcLom));
+    sendMessage(ComponentName::Oam, ComponentName::TupcLom, createHwConfigurationMessageForRel3BasedFromLogs());
     verifierOneTransportBearerRegisterForCell(tupcTbm.peekMessageAtStartOfTheEventQueue());
 
     saveUmlLog(R"(C:\APRG\DesignDocumentCreator\DesignDocumentCreatorLogs\CNI21985\OneTransportBearerRegisterForCell.txt)");
-}
+}*/

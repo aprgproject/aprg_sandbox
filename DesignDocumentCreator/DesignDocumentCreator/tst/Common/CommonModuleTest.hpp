@@ -19,5 +19,6 @@ public:
 private:
     Environment m_environment;
 };
+
 } // namespace DesignDocumentCreator
 

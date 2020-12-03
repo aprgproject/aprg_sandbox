@@ -14,7 +14,6 @@ public:
 private:
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);
-    ComponentName m_componentName;
 };
 
 }

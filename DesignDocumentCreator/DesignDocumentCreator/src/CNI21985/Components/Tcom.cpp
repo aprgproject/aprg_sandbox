@@ -17,7 +17,8 @@ Tcom::Tcom(ComponentName const componentName)
     : Component(componentName)
 {}
 
-void Tcom::handleMessageEvent(GenericMessage const& genericMessage){
+void Tcom::handleMessageEvent(GenericMessage const& genericMessage)
+{
     MessageName messageName(genericMessage.getMessageName());
     switch(messageName)
     {

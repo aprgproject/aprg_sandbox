@@ -9,6 +9,7 @@
 
 namespace DesignDocumentCreator
 {
+
 class Component
 {
 public:
@@ -31,4 +32,5 @@ protected:
     ComponentName m_componentName;
     std::deque<Event> m_eventQueue;
 };
+
 }

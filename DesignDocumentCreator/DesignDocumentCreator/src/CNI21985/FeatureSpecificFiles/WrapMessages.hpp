@@ -1,4 +1,7 @@
+#pragma once
+
 #include <Common/Messages/MessageWrapper.hpp>
+
 #include <STransportBearerRegisterMsg.h>
 #include <STransportBearerRegisterResponseMsg.h>
 #include <STransportBearerUnregisterMsg.h>
@@ -20,6 +23,9 @@
 
 namespace DesignDocumentCreator
 {
+
+WRAP_STATIC_MESSAGE(MessageName::OAM_ATM_HW_CONFIGURATION_MSG, SAtmHwConfigurationMsgFake)
+WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUP_CmConfigurationCmd_Msg, TUP_CmConfigurationCmd, SFspInformation)
 WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG, STransportBearerRegisterMsg, STransportBearerLocationData)
 WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TC_TRANSPORT_BEARER_REGISTER_RESP_MSG, STransportBearerRegisterResponseMsg, STransportBearerSignallingData)
 WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TC_TRANSPORT_BEARER_UNREGISTER_MSG, STransportBearerUnregisterMsg, TTransportBearerId)

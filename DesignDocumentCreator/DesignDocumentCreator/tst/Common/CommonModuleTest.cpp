@@ -5,7 +5,8 @@ using namespace std;
 using namespace DesignDocumentCreator::StringHelpers;
 using testing::FLAGS_gtest_break_on_failure;
 
-namespace DesignDocumentCreator{
+namespace DesignDocumentCreator
+{
 
 void CommonModuleTest::sendMessage(GenericMessage const& genericMessage)
 {

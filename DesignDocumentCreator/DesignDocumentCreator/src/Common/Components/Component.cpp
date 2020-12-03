@@ -22,7 +22,8 @@ Component::Component(ComponentName const componentName)
 
 void Component::pushBackEvent(Event const& event)
 {
-    m_eventQueue.push_back(event);}
+    m_eventQueue.push_back(event);
+}
 
 void Component::handleOneEvent()
 {
@@ -66,7 +67,8 @@ string Component::getQueueAsString() const
 
 void Component::handleEvent(Event const& event)
 {
-    EventType eventType(event.getType());    switch(eventType)
+    EventType eventType(event.getType());
+    switch(eventType)
     {
     case MessageEvent:
         handleMessageEvent(event.getMessage());

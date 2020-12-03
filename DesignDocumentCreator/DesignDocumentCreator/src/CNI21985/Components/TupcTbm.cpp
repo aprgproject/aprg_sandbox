@@ -17,7 +17,8 @@ TupcTbm::TupcTbm(ComponentName const componentName)
     : Component(componentName)
 {}
 
-void TupcTbm::handleMessageEvent(GenericMessage const& genericMessage){
+void TupcTbm::handleMessageEvent(GenericMessage const& genericMessage)
+{
     MessageName messageName(genericMessage.getMessageName());
     switch(messageName)
     {

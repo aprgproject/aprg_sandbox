@@ -42,6 +42,7 @@ public:
     {
         return m_payloadBuffer;
     }
+
 private:
     MessageName m_messageName;
     alba::AlbaMemoryBuffer m_payloadBuffer;
