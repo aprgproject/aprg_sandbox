@@ -14,25 +14,20 @@ public:
     typedef MessageWrapper<messageName> SpecificStaticMessageWrapper;
     typedef typename SpecificStaticMessageWrapper::MessageStaticSackType SackType;
     SpecificStaticMessage()
+        : Message(SpecificStaticMessageWrapper::getMessageName())
     {}
     SpecificStaticMessage(alba::AlbaMemoryBuffer const& payloadBufferReference, ComponentName const sender, ComponentName const receiver)
-        : Message(sender, receiver)
+        : Message(SpecificStaticMessageWrapper::getMessageName(), sender, receiver)
     {
         assert(sizeof(SackType) == payloadBufferReference.getSize());
         m_payload = *reinterpret_cast<SackType const*>(payloadBufferReference.getConstantBufferPointer());
     }
-    MessageName getMessageName() const override
-    {
-        return SpecificStaticMessageWrapper::getMessageName();
-    }
     SackType& getPayloadReference()
     {
-        return m_payload;
-    }
+        return m_payload;    }
     alba::AlbaMemoryBuffer createBuffer() const
     {
-        return createBufferFromStaticPayload();
-    }
+        return createBufferFromStaticPayload();    }
 
 private:
     alba::AlbaMemoryBuffer createBufferFromStaticPayload() const

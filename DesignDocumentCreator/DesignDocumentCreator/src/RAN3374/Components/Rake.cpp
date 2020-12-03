@@ -25,13 +25,11 @@ void Rake::handleMessageEvent(GenericMessage const& genericMessage)
     case MessageName::TC_LTX_TELECOM_MSG:
         cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;
     default:
-        cout<<"Handle Message, messageName: "<<StringHelpers::convertToString(genericMessage.getMessageName())<<endl;
+        cout<<"Handle Message, messageName: "<<StringHelpers::genericMessage.getMessageNameInString()<<endl;
     }
 }
-
 void Rake::handleTimerEvent(Timer const& timer)
 {
-    cout<<"Handle Timer, timerType: "<<StringHelpers::convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
-}
+    cout<<"Handle Timer, timerType: "<<StringHelpers::convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;}
 
 }

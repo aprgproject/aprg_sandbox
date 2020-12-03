@@ -17,25 +17,19 @@ public:
     typedef typename SpecificDynamicArrayMessageWrapper::MessageDynamicArraySackType SackType;
     typedef typename SpecificDynamicArrayMessageWrapper::DynamicPartSackType DynamicPartSackType;
     SpecificDynamicArrayMessage()
-        :Message()
+        : Message(SpecificDynamicArrayMessageWrapper::getMessageName())
     {}
     SpecificDynamicArrayMessage(alba::AlbaMemoryBuffer const& payloadBufferReference, ComponentName const sender, ComponentName const receiver)
-        : Message(sender, receiver)
+        : Message(SpecificDynamicArrayMessageWrapper::getMessageName(), sender, receiver)
     {
         saveStaticAndDynamicPartFromBuffer(payloadBufferReference);
     }
-    MessageName getMessageName() const override
-    {
-        return SpecificDynamicArrayMessageWrapper::getMessageName();
-    }
     SackType& getStaticPayloadReference()
     {
-        return m_staticPayload;
-    }
+        return m_staticPayload;    }
     DynamicPartSackType& getDynamicPayloadReferenceAt(unsigned int position)
     {
-        assert(position<dynamicPayloadItemSize);
-        return m_dynamicArrayPayload[position];
+        assert(position<dynamicPayloadItemSize);        return m_dynamicArrayPayload[position];
     }
     alba::AlbaMemoryBuffer createBuffer() const
     {

@@ -10,22 +10,16 @@ using namespace DesignDocumentCreator::StringHelpers;
 namespace DesignDocumentCreator
 {
 
-SampleComponent::SampleComponent()
-    : m_componentName(ComponentName::Empty)
-{}
-
 SampleComponent::SampleComponent(ComponentName const componentName)
-    : m_componentName(componentName)
+    : Component(componentName)
 {}
 
 void SampleComponent::handleMessageEvent(GenericMessage const& genericMessage)
 {
-    cout<<"Handle Message, messageName: "<<convertToString(genericMessage.getMessageName())<<endl;
+    cout<<"Handle Message, messageName: "<<genericMessage.getMessageNameInString()<<endl;
 }
 
-void SampleComponent::handleTimerEvent(Timer const& timer)
-{
+void SampleComponent::handleTimerEvent(Timer const& timer){
     cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
 }
-
 }

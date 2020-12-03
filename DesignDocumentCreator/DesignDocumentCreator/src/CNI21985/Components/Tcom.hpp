@@ -9,11 +9,9 @@ namespace DesignDocumentCreator
 class Tcom : public Component
 {
 public:
-    Tcom();
     Tcom(ComponentName const componentName);
 private:
-    virtual void handleMessageEvent(GenericMessage const& genericMessage);
-    virtual void handleTimerEvent(Timer const& timer);
+    virtual void handleMessageEvent(GenericMessage const& genericMessage);    virtual void handleTimerEvent(Timer const& timer);
 };
 
 }

@@ -15,25 +15,19 @@ public:
     typedef typename SpecificDynamicPolymorphicMessageWrapper::MessageDynamicPolymorphicSackType SackType;
     typedef typename SpecificDynamicPolymorphicMessageWrapper::DynamicPlaceHolderSackType DynamicPlaceHolderSackType;
     SpecificDynamicPolymorphicMessage()
-        :Message()
+        : Message(SpecificDynamicPolymorphicMessageWrapper::getMessageName())
     {}
     SpecificDynamicPolymorphicMessage(alba::AlbaMemoryBuffer const& payloadBufferReference, ComponentName const sender, ComponentName const receiver)
-        : Message(sender, receiver)
+        : Message(SpecificDynamicPolymorphicMessageWrapper::getMessageName(), sender, receiver)
     {
         saveStaticAndDynamicPartFromBuffer(payloadBufferReference);
     }
-    MessageName getMessageName() const override
-    {
-        return SpecificDynamicPolymorphicMessageWrapper::getMessageName();
-    }
     SackType& getStaticPayloadReference()
     {
-        return m_staticPayload;
-    }
+        return m_staticPayload;    }
     DynamicPartSackType& getDynamicPayloadReference()
     {
-        return m_dynamicPayload;
-    }
+        return m_dynamicPayload;    }
     alba::AlbaMemoryBuffer createBuffer() const
     {
         return createBufferFromStaticAndDynamicPart();

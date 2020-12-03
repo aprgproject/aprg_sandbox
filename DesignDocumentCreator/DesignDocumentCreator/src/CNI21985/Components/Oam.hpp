@@ -9,11 +9,9 @@ namespace DesignDocumentCreator
 class Oam : public Component
 {
 public:
-    Oam();
     Oam(ComponentName const componentName);
 private:
-    virtual void handleMessageEvent(GenericMessage const& genericMessage);
-    virtual void handleTimerEvent(Timer const& timer);
+    virtual void handleMessageEvent(GenericMessage const& genericMessage);    virtual void handleTimerEvent(Timer const& timer);
 };
 
 }

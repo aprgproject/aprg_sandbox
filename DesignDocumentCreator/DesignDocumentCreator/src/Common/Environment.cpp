@@ -49,18 +49,16 @@ void Environment::performSend(GenericMessage const& messageToRoute)
 {
     ComponentName receiver(messageToRoute.getReceiver());
     ComponentName sender(messageToRoute.getSender());
-    MessageName messageName(messageToRoute.getMessageName());
     Component* receiverComponent = m_components.getComponentPointer(receiver);
     if(nullptr == receiverComponent)
     {
-        cout<<"Message: ["<<convertToString(messageName)<<"] sent to invalid component: ["<<convertToString(receiver)<<"]"<<endl;
+        cout<<"["<<convertToString(sender)<<"] sends the message ["<<messageToRoute.getMessageNameInString()<<"] to an invalid receiver ["<<convertToString(receiver)<<"]"<<endl;
     }
     else
     {
-        cout<<"Message: ["<<convertToString(messageName)<<"] is sent from ["<<convertToString(sender)<<"] to ["<<convertToString(receiver)<<"]"<<endl;
-        m_umlLogger.logMessage(convertToString(sender), convertToString(receiver), convertToString(messageName));
+        cout<<"["<<convertToString(sender)<<"] sends the message ["<<messageToRoute.getMessageNameInString()<<"] to ["<<convertToString(receiver)<<"]"<<endl;
+        m_umlLogger.logMessage(convertToString(sender), convertToString(receiver), messageToRoute.getMessageNameInString());
         receiverComponent->pushBackEvent(Event(messageToRoute));
     }
 }
-
 }
