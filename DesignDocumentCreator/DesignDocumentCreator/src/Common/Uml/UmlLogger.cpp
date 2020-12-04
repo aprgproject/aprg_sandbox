@@ -34,12 +34,14 @@ void UmlLogger::logNoteOnPreviousMessage(std::string const& note)
     logNote(note);
     m_umlLogBuffer<<"end note"<<endl;
 }
+
 void UmlLogger::logNoteOnComponent(ComponentName const componentName, std::string const& note)
 {
     m_umlLogBuffer<<"rnote over "<<StringHelpers::convertToString(componentName)<<" #white"<<endl;
     logNote(note);
     m_umlLogBuffer<<"end note"<<endl;
 }
+
 void UmlLogger::logNoteOnComponents(ComponentNames const componentNames, std::string const& note)
 {
     m_umlLogBuffer<<"rnote over "<<StringHelpers::convertToString(componentNames)<<" #white"<<endl;
@@ -64,10 +66,12 @@ void UmlLogger::logNote(std::string const& note)
 
 void UmlLogger::saveUmlLogsToFile(string const& filePath)
 {
-    AlbaLocalPathHandler pathHandler(filePath);    ofstream outputFile(pathHandler.getFullPath());
+    AlbaLocalPathHandler pathHandler(filePath);
+    ofstream outputFile(pathHandler.getFullPath());
     cout<<"Uml logs saved to file: "<<pathHandler.getFullPath()<<endl;
     if(outputFile.is_open())
-    {        outputFile<<getUmlLogsForStart()<<endl;
+    {
+        outputFile<<getUmlLogsForStart()<<endl;
         outputFile<<m_umlLogBuffer.str()<<endl;
         outputFile<<getUmlLogsForEnd()<<endl;
     }

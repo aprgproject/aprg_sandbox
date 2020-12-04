@@ -108,6 +108,13 @@ public:
         return (m_startValue+m_endValue)/2;
     }
 
+    void set(DataType const startValue, DataType const endValue, DataType const intervalMagnitude)
+    {
+        m_startValue = startValue;
+        m_endValue = endValue;
+        m_intervalMagnitude = mathHelper::getAbsoluteValue(intervalMagnitude);
+    }
+
     void setStartValue(DataType const startValue)
     {
         m_startValue = startValue;

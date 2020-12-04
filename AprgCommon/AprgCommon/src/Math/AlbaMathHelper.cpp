@@ -1,5 +1,7 @@
 #include "AlbaMathHelper.hpp"
 
+#include <cmath>
+
 namespace alba
 {
 
@@ -26,5 +28,15 @@ NumberType mathHelper::clampHigherBound(NumberType const value, NumberType const
 }
 template int mathHelper::clampHigherBound<int>(int const value, int const limit);
 template double mathHelper::clampHigherBound<double>(double const value, double const limit);
+
+double mathHelper::getPi()
+{
+    return 3.14159265358979323846;
+}
+
+double mathHelper::getE()
+{
+    return 2.7182818284590452354;
+}
 
 }//namespace alba

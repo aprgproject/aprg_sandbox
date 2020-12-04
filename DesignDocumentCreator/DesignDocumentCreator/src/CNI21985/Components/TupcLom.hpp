@@ -18,4 +18,5 @@ private:
     virtual void handleOtherEvent(OtherEvent const& otherEvent);
     TAaSysComSicad m_oamAddress;
 };
+
 }

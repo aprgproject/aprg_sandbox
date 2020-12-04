@@ -13,15 +13,14 @@ namespace alba
 {
 
 Line::Line()
-{
-    m_type = LineType::Invalid;
-    m_slope = 0;
-    m_yIntercept = 0;
-    m_xIntercept = 0;
-    m_aCoefficient = 0;
-    m_bCoefficient = 0;
-    m_cCoefficient = 0;
-}
+    : m_type(LineType::Invalid)
+    , m_yIntercept(0)
+    , m_xIntercept(0)
+    , m_aCoefficient(0) //form: a*x + b*y + c
+    , m_bCoefficient(0) //form: a*x + b*y + c
+    , m_cCoefficient(0) //form: a*x + b*y + c
+    , m_slope(0)
+{}
 
 Line::Line(Point const& first, Point const& second)
 {
@@ -198,14 +197,10 @@ void Line::getPointsForLineWithSlope(Points & points, Point const& first, Point 
     minimumXAndY.saveMinimumXAndY(second);
     maximumXAndY.saveMaximumXAndY(first);
     maximumXAndY.saveMaximumXAndY(second);
-    Point point1(first.getX(), calculateYFromX(first.getX()));
-    Point point2(calculateXFromY(first.getY()), first.getY());
-    Point point3(second.getX(), calculateYFromX(second.getX()));
-    Point point4(calculateXFromY(second.getY()), second.getY());
-    twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, point1, minimumXAndY, maximumXAndY);
-    twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, point2, minimumXAndY, maximumXAndY);
-    twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, point3, minimumXAndY, maximumXAndY);
-    twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, point4, minimumXAndY, maximumXAndY);
+    twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, Point(first.getX(), calculateYFromX(first.getX())), minimumXAndY, maximumXAndY);
+    twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, Point(calculateXFromY(first.getY()), first.getY()), minimumXAndY, maximumXAndY);
+    twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, Point(second.getX(), calculateYFromX(second.getX())), minimumXAndY, maximumXAndY);
+    twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, Point(calculateXFromY(second.getY()), second.getY()), minimumXAndY, maximumXAndY);
     if(pointsAtBorder.size()>=2)
     {
         Point startingPoint(twoDimensionsHelper::popNearestPoint(pointsAtBorder, first));
@@ -226,7 +221,14 @@ void Line::getPointsForLineWithSlope(Points & points, Point const& first, Point 
             pointsFromYCoordinate.emplace_back(calculateXFromY(traverseValueOfY), traverseValueOfY);
         });
 
-        mergePointsFromPointsFromXAndY(points, pointsFromXCoordinate, pointsFromYCoordinate, isDirectionAscendingForX);
+        if(isDirectionAscendingForX)
+        {
+            points = twoDimensionsHelper::getMergedPointsInIncreasingX(pointsFromXCoordinate, pointsFromYCoordinate);
+        }
+        else
+        {
+            points = twoDimensionsHelper::getMergedPointsInDecreasingX(pointsFromXCoordinate, pointsFromYCoordinate);
+        }
     }
 }
 

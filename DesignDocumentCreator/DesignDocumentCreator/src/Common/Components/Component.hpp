@@ -30,9 +30,11 @@ public:
     void logNoteOnComponents(ComponentNames const& componentNames, std::string const& note);
 
 protected:
-    virtual void handleEvent(Event const& event);    virtual void handleMessageEvent(GenericMessage const& genericMessage);
+    virtual void handleEvent(Event const& event);
+    virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);
     virtual void handleOtherEvent(OtherEvent const& timer);
+
     ComponentName m_componentName;
     std::string m_componentNameInString;
     std::deque<Event> m_eventQueue;

@@ -22,6 +22,11 @@ void savePointsFromTwoPointsUsingALineWithoutLastPoint(Points & points, Point co
 Point popNearestPoint(Points & points, Point const& point);
 void addPointIfInsideTwoPoints(Points & pointsAtBorder, Point const& point, Point const& minimumXAndY, Point const& maximumXAndY);
 bool isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point const& maximumXAndY);
+Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);//UT
+Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);
+Points getPointsInSortedIncreasingX(Points const& pointsToBeSorted);//UT
+Points getPointsInSortedDecreasingX(Points const& pointsToBeSorted);
+
 
 }
 

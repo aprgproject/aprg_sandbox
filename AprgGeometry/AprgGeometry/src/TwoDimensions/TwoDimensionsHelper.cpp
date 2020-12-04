@@ -1,5 +1,6 @@
 #include "TwoDimensionsHelper.hpp"
 
+#include <algorithm>
 #include <cmath>
 
 using namespace std;
@@ -11,7 +12,7 @@ double twoDimensionsHelper::getDistance(Point const& point1, Point const& point2
 {
     double deltaX = point2.getX() - point1.getX();
     double deltaY = point2.getY() - point1.getY();
-    return pow(pow(deltaX,2)+pow(deltaY,2), 0.5);
+    return pow(pow(deltaX,2) + pow(deltaY,2), 0.5);
 }
 
 Point twoDimensionsHelper::getMidpoint(Point const& point1, Point const& point2)
@@ -103,6 +104,100 @@ void twoDimensionsHelper::addPointIfInsideTwoPoints(Points & pointsAtBorder, Poi
 bool twoDimensionsHelper::isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point const& maximumXAndY)
 {
     return (point.getX() >= minimumXAndY.getX() && point.getY() >= minimumXAndY.getY() && point.getX() <= maximumXAndY.getX() && point.getY() <= maximumXAndY.getY());
+}
+
+Points twoDimensionsHelper::getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged)
+{
+    Points result;
+    Points firstPoints(getPointsInSortedIncreasingX(firstPointsToBeMerged));
+    Points secondPoints(getPointsInSortedIncreasingX(secondPointsToBeMerged));
+    Points::const_iterator iteratorForX = firstPoints.cbegin();
+    Points::const_iterator iteratorForY = secondPoints.cbegin();
+    while(iteratorForX != firstPoints.cend() || iteratorForY != secondPoints.cend())
+    {
+        if(iteratorForX != firstPoints.cend() && iteratorForY != secondPoints.cend())
+        {
+            if(iteratorForX->getX() == iteratorForY->getX())
+            {
+                result.emplace_back(*iteratorForX++);
+                iteratorForY++;
+            }
+            else if(iteratorForX->getX() < iteratorForY->getX())
+            {
+                result.emplace_back(*iteratorForX++);
+            }
+            else
+            {
+                result.emplace_back(*iteratorForY++);
+            }
+        }
+        else if(iteratorForX != firstPoints.cend())
+        {
+            result.emplace_back(*iteratorForX++);
+        }
+        else if(iteratorForY != secondPoints.cend())
+        {
+            result.emplace_back(*iteratorForY++);
+        }
+    }
+    return result;
+}
+
+Points twoDimensionsHelper::getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged)
+{
+    Points result;
+    Points firstPoints(getPointsInSortedDecreasingX(firstPointsToBeMerged));
+    Points secondPoints(getPointsInSortedDecreasingX(secondPointsToBeMerged));
+    Points::const_iterator iteratorForX = firstPoints.cbegin();
+    Points::const_iterator iteratorForY = secondPoints.cbegin();
+    while(iteratorForX != firstPoints.cend() || iteratorForY != secondPoints.cend())
+    {
+        if(iteratorForX != firstPoints.cend() && iteratorForY != secondPoints.cend())
+        {
+            if(iteratorForX->getX() == iteratorForY->getX())
+            {
+                result.emplace_back(*iteratorForX++);
+                iteratorForY++;
+            }
+            else if(iteratorForX->getX() > iteratorForY->getX())
+            {
+                result.emplace_back(*iteratorForX++);
+            }
+            else
+            {
+                result.emplace_back(*iteratorForY++);
+            }
+        }
+        else if(iteratorForX != firstPoints.cend())
+        {
+            result.emplace_back(*iteratorForX++);
+        }
+        else if(iteratorForY != secondPoints.cend())
+        {
+            result.emplace_back(*iteratorForY++);
+        }
+    }
+    return result;
+}
+
+Points twoDimensionsHelper::getPointsInSortedIncreasingX(Points const& pointsToBeSorted)
+{
+    Points result(pointsToBeSorted);
+    stable_sort(result.begin(), result.end(), [](Point const& point1, Point const& point2)
+    {
+        return point1.getX() < point2.getX();
+    });
+    return result;
+}
+
+Points twoDimensionsHelper::getPointsInSortedDecreasingX(Points const& pointsToBeSorted)
+{
+    Points result(pointsToBeSorted);
+    stable_sort(result.begin(), result.end(), [](Point const& point1, Point const& point2)
+    {
+        return point1.getX() > point2.getX();
+    });
+    return result;
 }
 
 

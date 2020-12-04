@@ -3,8 +3,10 @@
 #include <Common/Utils/StringHelpers.hpp>
 
 #include <iostream>
+
 using namespace std;
 using namespace DesignDocumentCreator::StringHelpers;
+
 namespace DesignDocumentCreator
 {
 
@@ -23,10 +25,12 @@ void TupcIlm::handleStartup()
 
 void TupcIlm::handleMessageEvent(GenericMessage const& genericMessage)
 {
-    MessageName messageName(genericMessage.getMessageName());    switch(messageName)
+    MessageName messageName(genericMessage.getMessageName());
+    switch(messageName)
     {
     //case MessageName::TC_LTX_TELECOM_MSG:
-    //    cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;    default:
+    //    cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;
+    default:
         cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<endl;
     }
 }

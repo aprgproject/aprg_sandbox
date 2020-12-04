@@ -23,10 +23,12 @@ void TupcLom::handleStartup()
 
 void TupcLom::handleMessageEvent(GenericMessage const& genericMessage)
 {
-    MessageName messageName(genericMessage.getMessageName());    switch(messageName)
+    MessageName messageName(genericMessage.getMessageName());
+    switch(messageName)
     {
         case MessageName::OAM_ATM_HW_CONFIGURATION_MSG:
-            handleHwConfiguration(genericMessage);        break;
+            handleHwConfiguration(genericMessage);
+        break;
     default:
         cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<endl;
         break;
@@ -46,7 +48,8 @@ void TupcLom::handleHwConfiguration(GenericMessage const& genericMessage)
     environment.getComponentPointer(ComponentName::TupcCm)->pushBackEvent(Event(OtherEvent(OtherEventType::SubProcessStartup)));
 }
 
-void TupcLom::handleTimerEvent(Timer const& timer){
+void TupcLom::handleTimerEvent(Timer const& timer)
+{
     cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
 }
 

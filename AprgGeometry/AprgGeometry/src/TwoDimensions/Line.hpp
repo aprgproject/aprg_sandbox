@@ -43,7 +43,6 @@ private:
     void mergePointsFromPointsFromXAndY(Points & points, Points const& pointsFromXCoordinate, Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const;
     LineType determineLineTypeUsingDeltaXandDeltaY(double const deltaY, double const deltaX) const;
     LineType determineLineTypeUsingCoefficients(double const aCoefficient, double const bCoefficient) const;
-    bool isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point const& maximumXAndY) const;
     LineType m_type;
     double m_yIntercept;
     double m_xIntercept;

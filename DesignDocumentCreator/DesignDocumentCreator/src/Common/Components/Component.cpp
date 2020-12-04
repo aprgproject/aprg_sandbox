@@ -4,10 +4,12 @@
 #include <Common/Uml/UmlLogger.hpp>
 #include <Common/Utils/StringHelpers.hpp>
 
-#include <algorithm>#include <iostream>
+#include <algorithm>
+#include <iostream>
 #include <string>
 
-using namespace std;using namespace DesignDocumentCreator::StringHelpers;
+using namespace std;
+using namespace DesignDocumentCreator::StringHelpers;
 
 namespace DesignDocumentCreator
 {
@@ -87,10 +89,12 @@ void Component::logNoteOnComponents(ComponentNames const& componentNames, string
 
 void Component::handleEvent(Event const& event)
 {
-    EventType eventType(event.getType());    switch(eventType)
+    EventType eventType(event.getType());
+    switch(eventType)
     {
     case EventType::MessageEvent:
-        handleMessageEvent(event.getMessage());        break;
+        handleMessageEvent(event.getMessage());
+        break;
     case EventType::TimerEvent:
         handleTimerEvent(event.getTimer());
         break;

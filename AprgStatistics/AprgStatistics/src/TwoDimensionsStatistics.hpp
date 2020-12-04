@@ -15,7 +15,6 @@ namespace TwoDimensionsStatistics
     using Statistics = DataStatistics<2>;
     using Samples = std::vector<Sample>;
     using ValueToSampleMultimap = std::multimap<double, Sample>;
-    using ValueToSampleUnorderedMultimap = std::unordered_multimap<double, Sample>;
     using ValueToSamplePair = std::pair<double, Sample>;
 
     struct LineModel

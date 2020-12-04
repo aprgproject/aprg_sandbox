@@ -8,7 +8,10 @@ namespace alba
 enum class SoosaStatus
 {
     BitmapError,
-    AlgorithmError,
+    LineNotFoundBecauseNotEnoughSamples,
+    NumberOfQuestionsDoesNotMatchNumberOfAnswers,
+    NumberOfQuestionCoordinatesDoesNotMatchBetweenColumns,
+    ProblemLocatingChoiceInQuestion,
     NoError
 };
 

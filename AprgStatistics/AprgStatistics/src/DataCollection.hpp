@@ -10,6 +10,8 @@ public:
     DataCollection()
         : m_minimum(0)
         , m_maximum(0)
+        , m_theCountForMinimum(0)
+        , m_theCountForMaximum(0)
         , m_total(0)
         , m_count(0)
     {}
@@ -20,6 +22,14 @@ public:
     DataType getMaximum() const
     {
         return m_maximum;
+    }
+    DataType getTheCountForMinimum() const
+    {
+        return m_theCountForMinimum;
+    }
+    DataType getTheCountForMaximum() const
+    {
+        return m_theCountForMaximum;
     }
     DataType getTotal() const
     {
@@ -49,10 +59,12 @@ public:
             if(m_minimum > dataValue)
             {
                 m_minimum = dataValue;
+                m_theCountForMinimum = m_count;
             }
             if(m_maximum < dataValue)
             {
                 m_maximum = dataValue;
+                m_theCountForMaximum = m_count;
             }
         }
         m_total+=dataValue;
@@ -68,6 +80,8 @@ public:
 private:
     DataType m_minimum;
     DataType m_maximum;
+    DataType m_theCountForMinimum;
+    DataType m_theCountForMaximum;
     DataType m_total;
     unsigned int m_count;
 };

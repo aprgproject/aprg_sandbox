@@ -21,10 +21,12 @@ void TupcTbm::handleStartup()
 
 void TupcTbm::handleMessageEvent(GenericMessage const& genericMessage)
 {
-    MessageName messageName(genericMessage.getMessageName());    switch(messageName)
+    MessageName messageName(genericMessage.getMessageName());
+    switch(messageName)
     {
     //case MessageName::TC_LTX_TELECOM_MSG:
-    //    cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;    default:
+    //    cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;
+    default:
         cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<endl;
     }
 }

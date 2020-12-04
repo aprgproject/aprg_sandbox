@@ -15,6 +15,11 @@ AprgBitmapConfiguration AprgBitmap::getConfiguration() const
     return m_configuration;
 }
 
+AprgBitmapSnippet AprgBitmap::getSnippetReadFromFileWholeBitmap() const
+{
+    return getSnippetReadFromFile(BitmapXY(0,0), BitmapXY(m_configuration.getBitmapWidth()-1, m_configuration.getBitmapHeight()-1));
+}
+
 AprgBitmapSnippet AprgBitmap::getSnippetReadFromFileWithOutOfRangeCoordinates(int outOfRangeLeft, int outOfRangeTop, int outOfRangeRight, int outOfRangeBottom) const
 {
     if(outOfRangeLeft > outOfRangeRight)
