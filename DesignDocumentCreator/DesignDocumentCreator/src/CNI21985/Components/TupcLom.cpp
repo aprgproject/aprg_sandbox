@@ -35,15 +35,12 @@ void TupcLom::handleHwConfiguration(GenericMessage const& genericMessage)
     Environment& environment(Environment::getInstance());
     UmlLogger& umlLogger(environment.getUmlLogger());
 
-    cout<<"Handle Message, OAM_ATM_HW_CONFIGURATION_MSG: "<<endl;
     SpecificStaticMessage<MessageName::OAM_ATM_HW_CONFIGURATION_MSG> hwConfigurationMessage(convertGenericToSpecificStatic<MessageName::OAM_ATM_HW_CONFIGURATION_MSG>(genericMessage));
     SAtmHwConfigurationMsgFake& payload(hwConfigurationMessage.getPayloadReference());
-    m_oamAddress = AddressHelper::getAddress(hwConfigurationMessage.getSender());
-    umlLogger.logNoteOnComponent(getComponentName(), R"(TupcLom handles Hw Configuration)");
+    m_oamAddress = AddressHelper::getAddress(hwConfigurationMessage.getSender());    umlLogger.logNoteOnComponent(getComponentName(), R"(TupcLom handles Hw Configuration)");
 }
 
-void TupcLom::handleTimerEvent(Timer const& timer)
-{
+void TupcLom::handleTimerEvent(Timer const& timer){
     cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
 }
 

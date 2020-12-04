@@ -1,12 +1,11 @@
 #pragma once
 
 #include <Common/Events/Events.hpp>
+#include <Common/Events/OtherEvent.hpp>
 #include <Common/Messages/Messages.hpp>
 #include <Common/Timers/Timers.hpp>
-
 #include <deque>
 #include <string>
-
 namespace DesignDocumentCreator
 {
 
@@ -29,9 +28,10 @@ protected:
     virtual void handleEvent(Event const& event);
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);
+    virtual void handleOtherEvent(OtherEvent const& timer);
+
     ComponentName m_componentName;
     std::string m_componentNameInString;
-    std::deque<Event> m_eventQueue;
-};
+    std::deque<Event> m_eventQueue;};
 
 }

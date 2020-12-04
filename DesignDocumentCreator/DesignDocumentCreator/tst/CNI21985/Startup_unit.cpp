@@ -16,10 +16,10 @@ using namespace StringHelpers;
 
 TEST_F(ModuleTest, Startup)
 {
-    Oam* oam = dynamic_cast<Oam*>(activateComponentAsParticipant(ComponentName::Oam));
-    TupcLom* tupcLom = dynamic_cast<TupcLom*>(activateComponentAsParticipant(ComponentName::TupcLom));
+    Oam& oam(*dynamic_cast<Oam*>(activateComponentAsParticipant(ComponentName::Oam)));
+    TupcLom& tupcLom(*dynamic_cast<TupcLom*>(activateComponentAsParticipant(ComponentName::TupcLom)));
     sendMessage(ComponentName::Oam, ComponentName::TupcLom, createHwConfigurationMessageForRel3BasedFromLogs());
-    tupcLom->handleOneEvent();
+    tupcLom.handleOneEvent();
 
     saveUmlLog(R"(C:\APRG\DesignDocumentCreator\DesignDocumentCreatorLogs\CNI21985\Startup.txt)");
 }

@@ -72,23 +72,28 @@ void Component::handleEvent(Event const& event)
     EventType eventType(event.getType());
     switch(eventType)
     {
-    case MessageEvent:
+    case EventType::MessageEvent:
         handleMessageEvent(event.getMessage());
         break;
-    case TimerEvent:
+    case EventType::TimerEvent:
         handleTimerEvent(event.getTimer());
+        break;
+    case EventType::OtherEvent:
+        handleOtherEvent(event.getOtherEvent());
         break;
     }
 }
-
 void Component::handleMessageEvent(GenericMessage const& genericMessage)
 {
-    cout<<"Message event not handled. MessageName: "<<(int)genericMessage.getMessageName()<<endl;
-}
+    cout<<"Message event not handled. MessageName: "<<(int)genericMessage.getMessageName()<<endl;}
 
 void Component::handleTimerEvent(Timer const& timer)
 {
     cout<<"Timer event not handled. Type: "<<(int)timer.getType()<<" Id:"<<(int)timer.getId()<<endl;
 }
 
+void Component::handleOtherEvent(OtherEvent const& otherEvent)
+{
+    cout<<"Timer event not handled. Type: "<<(int)otherEvent.getType()<<endl;
+}
 }
