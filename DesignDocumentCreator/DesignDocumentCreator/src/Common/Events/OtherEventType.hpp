@@ -6,7 +6,8 @@ namespace DesignDocumentCreator
 enum class OtherEventType
 {
     Empty,
-    ProcessStartup
+    MainProcessStartup,
+    SubProcessStartup
 };
 
 }

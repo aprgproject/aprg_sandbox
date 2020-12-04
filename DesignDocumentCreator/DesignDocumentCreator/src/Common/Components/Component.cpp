@@ -1,13 +1,13 @@
-#include <Common/Components/Component.hpp>
+#include "Component.hpp"
 
+#include <Common/Environment.hpp>
+#include <Common/Uml/UmlLogger.hpp>
 #include <Common/Utils/StringHelpers.hpp>
 
-#include <algorithm>
-#include <iostream>
+#include <algorithm>#include <iostream>
 #include <string>
 
-using namespace std;
-using namespace DesignDocumentCreator::StringHelpers;
+using namespace std;using namespace DesignDocumentCreator::StringHelpers;
 
 namespace DesignDocumentCreator
 {
@@ -67,14 +67,30 @@ string Component::getQueueAsString() const
     });
 }
 
+void Component::logNoteOnPreviousMessage(string const& note)
+{
+    UmlLogger& umlLogger(Environment::getInstance().getUmlLogger());
+    umlLogger.logNoteOnPreviousMessage(note);
+}
+
+void Component::logNoteOnComponent(string const& note)
+{
+    UmlLogger& umlLogger(Environment::getInstance().getUmlLogger());
+    umlLogger.logNoteOnComponent(m_componentName, note);
+}
+
+void Component::logNoteOnComponents(ComponentNames const& componentNames, string const& note)
+{
+    UmlLogger& umlLogger(Environment::getInstance().getUmlLogger());
+    umlLogger.logNoteOnComponents(componentNames, note);
+}
+
 void Component::handleEvent(Event const& event)
 {
-    EventType eventType(event.getType());
-    switch(eventType)
+    EventType eventType(event.getType());    switch(eventType)
     {
     case EventType::MessageEvent:
-        handleMessageEvent(event.getMessage());
-        break;
+        handleMessageEvent(event.getMessage());        break;
     case EventType::TimerEvent:
         handleTimerEvent(event.getTimer());
         break;
@@ -98,4 +114,5 @@ void Component::handleOtherEvent(OtherEvent const& otherEvent)
 {
     cout<<"Timer event not handled. Type: "<<(int)otherEvent.getType()<<endl;
 }
+
 }

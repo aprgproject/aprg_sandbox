@@ -31,37 +31,43 @@ void UmlLogger::addParticipant(UmlParticipant const& participant)
 void UmlLogger::logNoteOnPreviousMessage(std::string const& note)
 {
     m_umlLogBuffer<<"note right"<<endl;
-    m_umlLogBuffer<<note<<endl;
+    logNote(note);
     m_umlLogBuffer<<"end note"<<endl;
 }
-
 void UmlLogger::logNoteOnComponent(ComponentName const componentName, std::string const& note)
 {
     m_umlLogBuffer<<"rnote over "<<StringHelpers::convertToString(componentName)<<" #white"<<endl;
-    stringHelper::strings linesInNote;
-    stringHelper::splitLinesToAchieveTargetLength(linesInNote, note, 30);
-    for(string const& line: linesInNote)
-    {
-        m_umlLogBuffer<<line<<endl;
-    }
+    logNote(note);
     m_umlLogBuffer<<"end note"<<endl;
 }
-
 void UmlLogger::logNoteOnComponents(ComponentNames const componentNames, std::string const& note)
 {
     m_umlLogBuffer<<"rnote over "<<StringHelpers::convertToString(componentNames)<<" #white"<<endl;
-    m_umlLogBuffer<<note<<endl;
+    logNote(note);
     m_umlLogBuffer<<"end note"<<endl;
+}
+
+void UmlLogger::logNote(std::string const& note)
+{
+    stringHelper::strings linesInNote;
+    stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters>(linesInNote, note, "\n");
+    stringHelper::strings linesInNoteWithTargetLength;
+    for(string const& lineInNote: linesInNote)
+    {
+        stringHelper::splitLinesToAchieveTargetLength(linesInNoteWithTargetLength, lineInNote, 40);
+    }
+    for(string const& line: linesInNoteWithTargetLength)
+    {
+        m_umlLogBuffer<<line<<endl;
+    }
 }
 
 void UmlLogger::saveUmlLogsToFile(string const& filePath)
 {
-    AlbaLocalPathHandler pathHandler(filePath);
-    ofstream outputFile(pathHandler.getFullPath());
+    AlbaLocalPathHandler pathHandler(filePath);    ofstream outputFile(pathHandler.getFullPath());
     cout<<"Uml logs saved to file: "<<pathHandler.getFullPath()<<endl;
     if(outputFile.is_open())
-    {
-        outputFile<<getUmlLogsForStart()<<endl;
+    {        outputFile<<getUmlLogsForStart()<<endl;
         outputFile<<m_umlLogBuffer.str()<<endl;
         outputFile<<getUmlLogsForEnd()<<endl;
     }

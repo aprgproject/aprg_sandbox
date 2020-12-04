@@ -61,15 +61,14 @@ string StringHelpers::convertToString(OtherEventType const otherEventType)
     switch(otherEventType)
     {
     GET_ENUM_STRING(OtherEventType::Empty)
-            GET_ENUM_STRING(OtherEventType::ProcessStartup)
+            GET_ENUM_STRING(OtherEventType::MainProcessStartup)
+            GET_ENUM_STRING(OtherEventType::SubProcessStartup)
     }
     return stringHelper::getStringAfterThisString(result, "OtherEventType::");
 }
-
 string StringHelpers::convertToString(UmlPositionType const position)
 {
-    string result;
-    switch(position)
+    string result;    switch(position)
     {
     GET_ENUM_STRING(UmlPositionType::right)
             GET_ENUM_STRING(UmlPositionType::left)

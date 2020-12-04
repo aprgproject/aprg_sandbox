@@ -25,10 +25,19 @@ TEST_F(ModuleTest, Startup)
     TupcLom& tupcLom(*dynamic_cast<TupcLom*>(getComponentAndActivateAsParticipant(ComponentName::TupcLom)));
     TupcCm& tupcCm(*dynamic_cast<TupcCm*>(getComponentAndActivateAsParticipant(ComponentName::TupcCm)));
     TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm)));
+
     umlLogger.logNoteOnComponents(ComponentNames{ComponentName::TupcIlm, ComponentName::TupcTbm}, "TUPCexe starts");
-    tupcIlm.pushBackEvent(Event(OtherEvent(OtherEventType::ProcessStartup)));
+
+    tupcIlm.pushBackEvent(Event(OtherEvent(OtherEventType::MainProcessStartup)));
     tupcIlm.handleOneEvent();
+    tupcLom.pushBackEvent(Event(OtherEvent(OtherEventType::MainProcessStartup)));
+    tupcLom.handleOneEvent();
+    tupcCm.pushBackEvent(Event(OtherEvent(OtherEventType::MainProcessStartup)));
+    tupcCm.handleOneEvent();
+    tupcTbm.pushBackEvent(Event(OtherEvent(OtherEventType::MainProcessStartup)));
+    tupcTbm.handleOneEvent();
 
     sendMessage(ComponentName::Oam, ComponentName::TupcLom, createHwConfigurationMessageForRel3BasedFromLogs());
     tupcLom.handleOneEvent();
+    tupcCm.handleOneEvent();
 }
