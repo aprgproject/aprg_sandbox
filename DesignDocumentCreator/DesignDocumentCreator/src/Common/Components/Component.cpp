@@ -83,9 +83,11 @@ void Component::handleEvent(Event const& event)
         break;
     }
 }
+
 void Component::handleMessageEvent(GenericMessage const& genericMessage)
 {
-    cout<<"Message event not handled. MessageName: "<<(int)genericMessage.getMessageName()<<endl;}
+    cout<<"Message event not handled. MessageName: "<<(int)genericMessage.getMessageName()<<endl;
+}
 
 void Component::handleTimerEvent(Timer const& timer)
 {

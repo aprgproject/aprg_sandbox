@@ -13,6 +13,7 @@ public:
 private:
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);
+    virtual void handleOtherEvent(OtherEvent const& otherEvent);
 };
 
 }

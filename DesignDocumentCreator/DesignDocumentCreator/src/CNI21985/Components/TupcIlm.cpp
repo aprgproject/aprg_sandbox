@@ -1,5 +1,6 @@
 #include "TupcIlm.hpp"
 
+#include <Common/Environment.hpp>
 #include <Common/Utils/StringHelpers.hpp>
 
 #include <iostream>
@@ -29,6 +30,22 @@ void TupcIlm::handleMessageEvent(GenericMessage const& genericMessage)
 void TupcIlm::handleTimerEvent(Timer const& timer)
 {
     cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
+}
+
+ void TupcIlm::handleOtherEvent(OtherEvent const& otherEvent)
+{
+    Environment& environment(Environment::getInstance());
+    UmlLogger& umlLogger(environment.getUmlLogger());
+    switch(otherEvent.getType())
+    {
+    case OtherEventType::ProcessStartup:
+        umlLogger.logNoteOnComponent(m_componentName, "TupcIlm starts when its deployed on board 0x1011 (same with legacy Aalman)");
+        break;
+    default:
+        cout<<"No handler for handleOtherEvent "<<endl;
+        break;
+    }
+
 }
 
 }

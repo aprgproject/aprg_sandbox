@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <vector>
 
 namespace DesignDocumentCreator
 {
@@ -14,5 +14,6 @@ enum class ComponentName
 #undef COMPONENT_NAME_MACRO
 
 };
+using ComponentNames = std::vector<ComponentName>;
 
 }

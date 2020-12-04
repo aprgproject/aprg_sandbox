@@ -5,6 +5,7 @@
 #include <Common/Timers/Timers.hpp>
 
 #include <string>
+
 namespace DesignDocumentCreator
 {
 
@@ -15,7 +16,8 @@ enum class EventType
     OtherEvent
 };
 
-class Event{
+class Event
+{
 public:
     Event(GenericMessage const& message);
     Event(Timer const& timer);

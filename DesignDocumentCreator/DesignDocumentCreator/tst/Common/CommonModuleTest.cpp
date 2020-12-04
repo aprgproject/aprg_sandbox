@@ -17,6 +17,11 @@ void CommonModuleTest::SetUp()
     m_environment.clear();
 }
 
+void CommonModuleTest::TearDown()
+{
+    saveUmlLog();
+}
+
 void CommonModuleTest::sendMessage(GenericMessage const& genericMessage)
 {
     m_environment.send(genericMessage);
@@ -27,15 +32,21 @@ void CommonModuleTest::sendMessage(ComponentName const sender, ComponentName con
     m_environment.send(sender, receiver, genericMessage);
 }
 
-void CommonModuleTest::saveUmlLog(string const& filePath)
+Component* CommonModuleTest::getComponentAndActivateAsParticipant(ComponentName const componentName)
 {
-    m_environment.getUmlLogger().saveUmlLogsToFile(filePath);
+    getUmlLogger().addParticipant(UmlParticipant(convertToString(componentName), UmlParticipantType::participant));
+    return m_environment.getComponentPointer(componentName);
 }
 
-Component* CommonModuleTest::activateComponentAsParticipant(ComponentName const componentName)
+void CommonModuleTest::saveUmlLog()
 {
-    m_environment.getUmlLogger().addParticipant(UmlParticipant(convertToString(componentName), UmlParticipantType::participant));
-    return m_environment.getComponentPointer(componentName);
+    const ::testing::TestInfo* const test_info = ::testing::UnitTest::GetInstance()->current_test_info();
+    getUmlLogger().saveUmlLogsToFile(string(LOG_LOCATION)+"/"+test_info->test_case_name()+"_"+test_info->name()+".txt");
+}
+
+UmlLogger& CommonModuleTest::getUmlLogger()
+{
+    return m_environment.getUmlLogger();
 }
 
 }

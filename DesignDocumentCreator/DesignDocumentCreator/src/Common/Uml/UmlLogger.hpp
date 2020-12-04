@@ -19,6 +19,7 @@ public:
     void addParticipant(UmlParticipant const& participant);
     void logNoteOnPreviousMessage(std::string const& note);
     void logNoteOnComponent(ComponentName const componentName, std::string const& note);
+    void logNoteOnComponents(ComponentNames const componentName, std::string const& note);
     void saveUmlLogsToFile(std::string const& filePath);
 
 private:

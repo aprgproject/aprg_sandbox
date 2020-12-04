@@ -15,10 +15,8 @@ using namespace StringHelpers;
 
 TEST_F(ModuleTest, OneTransportBearerRegisterForCell)
 {
-    Tcom& tcom(*dynamic_cast<Tcom*>(activateComponentAsParticipant(ComponentName::Tcom)));
-    TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(activateComponentAsParticipant(ComponentName::TupcTbm)));
+    Tcom& tcom(*dynamic_cast<Tcom*>(getComponentAndActivateAsParticipant(ComponentName::Tcom)));
+    TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm)));
     sendMessage(ComponentName::Tcom, ComponentName::TupcTbm, createOneTransportBearerRegisterForCell());
     verifierOneTransportBearerRegisterForCell(tupcTbm.peekMessageAtStartOfTheEventQueue());
-
-    saveUmlLog(R"(C:\APRG\DesignDocumentCreator\DesignDocumentCreatorLogs\CNI21985\OneTransportBearerRegisterForCell.txt)");
 }

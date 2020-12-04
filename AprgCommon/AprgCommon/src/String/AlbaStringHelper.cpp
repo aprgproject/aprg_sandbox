@@ -212,7 +212,9 @@ void stringHelper::splitLinesToAchieveTargetLength(stringHelper::strings & strin
             int lowerDelta = splittingIndex-lowerTransitionIndex;
             int upperDelta = upperTransitionIndex-splittingIndex;
 
-            if(upperDelta >= 0 && lowerDelta >= 0 && lowerTransitionIndex > previousSplittingIndex)
+            bool isUpperValid(upperDelta >= 0);
+            bool isLowerValid(lowerDelta >= 0 && lowerTransitionIndex != previousSplittingIndex);
+            if(isUpperValid && isLowerValid)
             {
                 if(upperDelta < lowerDelta)
                 {
@@ -223,17 +225,21 @@ void stringHelper::splitLinesToAchieveTargetLength(stringHelper::strings & strin
                     splittingIndex = lowerTransitionIndex;
                 }
             }
-            else if(upperDelta >= 0)
+            else if(isUpperValid)
             {
                 splittingIndex = upperTransitionIndex;
             }
-            else if(lowerDelta >= 0 && lowerTransitionIndex > previousSplittingIndex)
+            else if(isLowerValid)
             {
                 splittingIndex = lowerTransitionIndex;
             }
         }
         strings.emplace_back(mainString.substr(previousSplittingIndex, splittingIndex-previousSplittingIndex));
         previousSplittingIndex = splittingIndex;
+    }
+    if(previousSplittingIndex!=mainStringLength)
+    {
+        strings.emplace_back(mainString.substr(previousSplittingIndex));
     }
 }
 

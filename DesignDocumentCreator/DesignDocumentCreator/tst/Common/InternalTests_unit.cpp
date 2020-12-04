@@ -7,8 +7,10 @@
 #include <Common/Events/OtherEvent.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace DesignDocumentCreator;
 using namespace std;
+
 TEST(MessagesTest, SpecificStaticMessageCanBeCreatedWithPayload)
 {
     SpecificStaticMessage<MessageName::SampleStaticMessage> specificStaticMessage;
@@ -249,9 +251,11 @@ TEST(EventsTest, OtherEventsCanBeCreated)
 
 TEST(ComponentsTest, MessageEventsAreHandledByComponents)
 {
-    StaticMessageSack payload;    payload.sampleParameter=5678;
+    StaticMessageSack payload;
+    payload.sampleParameter=5678;
     GenericMessage genericMessage(MessageName::SampleStaticMessage, &payload, sizeof(payload));
     Event event(genericMessage);
+
     SampleComponent component(ComponentName::SampleComponent);
     component.pushBackEvent(event);
     EXPECT_FALSE(component.isEventQueueEmpty());

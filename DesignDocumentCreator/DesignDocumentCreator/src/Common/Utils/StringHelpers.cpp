@@ -2,6 +2,8 @@
 
 #include <String/AlbaStringHelper.hpp>
 
+#include <algorithm>
+
 using namespace alba;
 using namespace std;
 
@@ -66,12 +68,24 @@ string StringHelpers::convertToString(OtherEventType const otherEventType)
 
 string StringHelpers::convertToString(UmlPositionType const position)
 {
-    string result;    switch(position)
+    string result;
+    switch(position)
     {
     GET_ENUM_STRING(UmlPositionType::right)
-            GET_ENUM_STRING(UmlPositionType::left)            GET_ENUM_STRING(UmlPositionType::over)
+            GET_ENUM_STRING(UmlPositionType::left)
+            GET_ENUM_STRING(UmlPositionType::over)
     }
     return stringHelper::getStringAfterThisString(result, "UmlLogPosition::");
+}
+
+string StringHelpers::convertToString(ComponentNames const componentNames)
+{
+    string result(accumulate(componentNames.cbegin(), componentNames.cend(), string(""), [](string const& partialResult, ComponentName const componentName)
+    {
+        return partialResult+convertToString(componentName)+",";
+    }));
+    result = stringHelper::getStringWithoutCharAtTheEnd(result, ',');
+    return result;
 }
 
 bool StringHelpers::isTcomInternalMessage(string const& messageName)

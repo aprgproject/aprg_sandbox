@@ -73,10 +73,27 @@ TEST(SplitStringTest, SplitLinesToAchieveTargetLengthWithLargeTargetLength)
     }
 }
 
+TEST(SplitStringTest, SplitLinesToAchieveTargetLength_LastLineIsIncluded)
+{
+    string string1("TupcIlm starts when its deployed on board 0x1011 (same with legacy Aalman)");
+    strings expectedStrings {"TupcIlm starts when its deployed", " on board 0x1011 (same with ", "legacy Aalman)"};
+    strings actualStrings;
+    const int targetLength = 30;
+
+    splitLinesToAchieveTargetLength(actualStrings, string1, targetLength);
+
+    EXPECT_EQ(expectedStrings.size(), actualStrings.size());
+    unsigned int size = min(expectedStrings.size(), actualStrings.size());
+    for(unsigned int i=0; i<size; i++)
+    {
+        EXPECT_EQ(expectedStrings[i], actualStrings[i]);
+    }
+}
+
 TEST(SplitStringTest, SplitLinesToAchieveTargetLengthCanBeSplitPerCharacter)
 {
     string string1("   Mark is the no#1      ");
-    strings expectedStrings {" ", " ", " ", "Mark", " ", "is", " ", "the", " ", "no#1", " ", " ", " ", " ", " "};
+    strings expectedStrings {" ", " ", " ", "Mark", " ", "is", " ", "the", " ", "no#1", " ", " ", " ", " ", " ", " "};
     strings actualStrings;
     const int targetLength = 1;
 
