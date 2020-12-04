@@ -3,15 +3,13 @@
 #include <Common/Uml/UmlArrow.hpp>
 #include <Common/Utils/StringHelpers.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <string/AlbaStringHelper.hpp>
+#include <math/AlbaMathHelper.hpp>
 
 #include <fstream>
-#include <iostream>
-#include <string>
+#include <iostream>#include <string>
 
 using namespace std;
 using namespace alba;
-
 namespace DesignDocumentCreator
 {
 
@@ -52,18 +50,17 @@ void UmlLogger::logNoteOnComponents(ComponentNames const componentNames, std::st
 void UmlLogger::logNote(std::string const& note)
 {
     stringHelper::strings linesInNote;
-    stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters>(linesInNote, note, "\n");
     stringHelper::strings linesInNoteWithTargetLength;
+    stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters>(linesInNote, note, "\n");
+    unsigned int optimizedTargetLength(getOptimizedTargetLength(linesInNote));
     for(string const& lineInNote: linesInNote)
     {
-        stringHelper::splitLinesToAchieveTargetLength(linesInNoteWithTargetLength, lineInNote, 40);
+        stringHelper::splitLinesToAchieveTargetLength(linesInNoteWithTargetLength, lineInNote, optimizedTargetLength);
     }
     for(string const& line: linesInNoteWithTargetLength)
-    {
-        m_umlLogBuffer<<line<<endl;
+    {        m_umlLogBuffer<<line<<endl;
     }
 }
-
 void UmlLogger::saveUmlLogsToFile(string const& filePath)
 {
     AlbaLocalPathHandler pathHandler(filePath);
@@ -77,14 +74,32 @@ void UmlLogger::saveUmlLogsToFile(string const& filePath)
     }
 }
 
+unsigned int UmlLogger::getOptimizedTargetLength(stringHelper::strings const& linesInNote)
+{
+    unsigned int targetLengthWithSmallestDifference=20;
+    unsigned int smallestDifference=50;
+    for(unsigned int targetLength=20; targetLength<60; targetLength++)
+    {
+        unsigned int totalDifference(0);
+        for(string const& lineInNote: linesInNote)
+        {
+            totalDifference+=mathHelper::getDifferenceFromGreaterMultiple(targetLength, lineInNote.length());
+        }
+        if(smallestDifference>totalDifference)
+        {
+            smallestDifference = totalDifference;
+            targetLengthWithSmallestDifference = targetLength;
+        }
+    }
+    return targetLengthWithSmallestDifference;
+}
+
 string UmlLogger::getUmlLogsForStart() const
 {
-    stringstream startStream;
-    startStream<<"@startuml"<<endl;
+    stringstream startStream;    startStream<<"@startuml"<<endl;
     startStream<<"hide footbox"<<endl;
     for(UmlParticipant participant : m_participants)
-    {
-        startStream<<participant.getParticipantLog()<<endl;
+    {        startStream<<participant.getParticipantLog()<<endl;
     }
     return startStream.str();
 }

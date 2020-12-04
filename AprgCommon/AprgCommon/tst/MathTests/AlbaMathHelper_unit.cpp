@@ -34,3 +34,12 @@ TEST(AlbaMathHelperTest, HigherBoundCanbeComputed)
     EXPECT_EQ(3, clampHigherBound(4, 3));
     EXPECT_EQ(3, clampHigherBound(5, 3));
 }
+
+TEST(AlbaMathHelperTest, DifferenceFromGreaterMultipleCanBeComputed)
+{
+    EXPECT_EQ(0, getDifferenceFromGreaterMultiple(0, 0));
+    EXPECT_EQ(0, getDifferenceFromGreaterMultiple(10, 10));
+    EXPECT_EQ(0, getDifferenceFromGreaterMultiple(5, 10));
+    EXPECT_EQ(5, getDifferenceFromGreaterMultiple(10, 5));
+    EXPECT_EQ(48, getDifferenceFromGreaterMultiple(57, 2346));
+}

@@ -2,14 +2,13 @@
 
 #include <Common/Components/ComponentName.hpp>
 #include <Common/Uml/UmlParticipant.hpp>
+#include <string/AlbaStringHelper.hpp>
 
 #include <sstream>
-#include <string>
-#include <vector>
+#include <string>#include <vector>
 
 namespace DesignDocumentCreator
 {
-
 class UmlLogger
 {
 public:
@@ -24,10 +23,10 @@ public:
     void saveUmlLogsToFile(std::string const& filePath);
     
 private:
+    unsigned int getOptimizedTargetLength(alba::stringHelper::strings const& linesInNote);
     std::string getUmlLogsForStart() const;
     std::string getUmlLogsForEnd() const;
-    std::stringstream m_umlLogBuffer;
-    UmlParticipants m_participants;
+    std::stringstream m_umlLogBuffer;    UmlParticipants m_participants;
 };
 
 }

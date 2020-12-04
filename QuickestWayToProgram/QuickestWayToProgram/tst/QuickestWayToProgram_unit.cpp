@@ -4,12 +4,11 @@
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <QuickestWayToProgram.hpp>
 #include <String/AlbaStringHelper.hpp>
+#include <Math/AlbaMathHelper.hpp>
 #include <Debug/AlbaDebug.hpp>
 #include <stdio.h>
-
 #include <gtest/gtest.h>
 #include <windows.h>
-
 #include <algorithm>
 #include <iostream>
 #include <map>
@@ -18,12 +17,29 @@
 using namespace alba;
 using namespace std;
 
+
+TEST(SampleTest, SaveGetDifferenceFromGreaterMultipleToCsv)
+{
+    AlbaLocalPathHandler pathHandler(R"(C:\APRG\GetDifferenceFromGreaterMultipleGraph.txt)");
+    ofstream csvFile(pathHandler.getFullPath());
+
+    csvFile<<"size = ["<<endl;
+    for(unsigned int multiple = 0; multiple<20; multiple++)
+    {
+        for(unsigned int number = 0; number<20; number++)
+        {
+            unsigned int size(mathHelper::getDifferenceFromGreaterMultiple(multiple, number)+mathHelper::getNumberOfMultiplesInclusive(multiple, number));
+            csvFile<<size<<" ";
+        }
+        csvFile<<";"<<endl;
+    }
+    csvFile<<"]"<<endl;
+}
+/*
 TEST(SampleTest, MessageIds_test)
 {
-    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
-    AlbaLocalPathHandler pathHandler2(R"(D:\Branches\trunk\wbts_integration\I_Interface\Application_Env\Wn_Env\Bs_Env\Messages\MessageId_TcomDsp.h)");
+    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");    AlbaLocalPathHandler pathHandler2(R"(D:\Branches\trunk\wbts_integration\I_Interface\Application_Env\Wn_Env\Bs_Env\Messages\MessageId_TcomDsp.h)");
     AlbaLocalPathHandler pathHandler3(R"(D:\ZZZ_Logs\PR212221\LRMJairus\MessageHistoryBeforeCorruption.txt)");
-
 
     ifstream tcomTcomFile(pathHandler.getFullPath());
     ifstream tcomDspile(pathHandler2.getFullPath());
@@ -103,14 +119,13 @@ TEST(SampleTest, MessageIds_test)
         }
     }
 }
+*/
 /*
 bool isLeapYear(unsigned int const year)
-{
-    bool result(true);
+{    bool result(true);
     if (year%4 != 0) result = false;
     else if (year%100 != 0) result = true;
-    else if (year%400 != 0) result = false;
-    return result;
+    else if (year%400 != 0) result = false;    return result;
 }
 
 unsigned int getMaximumDaysInAMonth(unsigned int const monthIndex, unsigned int const year)
