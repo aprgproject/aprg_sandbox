@@ -9,9 +9,11 @@
 #include <SoosaConfiguration.hpp>
 #include <TwoDimensions/Line.hpp>
 #include <TwoDimensionsStatistics.hpp>
+
 #include <array>
 #include <deque>
-#include <fstream>#include <map>
+#include <fstream>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -59,10 +61,12 @@ public:
         alba::stringHelper::strings m_errors;
     };
 
-    struct LineAndBarWidths    {
+    struct LineAndBarWidths
+    {
         double lineWidth;
         double barWidth;
     };
+
     using RangeOfInts = AlbaRange<int>;
     using RangeOfDoubles = AlbaRange<double>;
     using VectorOfDoubles = std::vector<double>;

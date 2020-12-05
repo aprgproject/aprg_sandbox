@@ -1,7 +1,5 @@
 #include <KMeansClustering.hpp>
 
-#include <Debug/AlbaDebug.hpp>
-
 #include <gtest/gtest.h>
 
 using namespace alba;

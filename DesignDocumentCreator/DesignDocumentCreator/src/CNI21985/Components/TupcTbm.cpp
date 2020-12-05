@@ -19,10 +19,12 @@ void TupcTbm::handleStartup()
     logNoteOnComponent("TupcTbm **automatically**  starts when TUPCexe starts.");
 }
 
-void TupcTbm::handleMessageEvent(GenericMessage const& genericMessage){
+void TupcTbm::handleMessageEvent(GenericMessage const& genericMessage)
+{
     MessageName messageName(genericMessage.getMessageName());
     switch(messageName)
-    {    //case MessageName::TC_LTX_TELECOM_MSG:
+    {
+    //case MessageName::TC_LTX_TELECOM_MSG:
     //    cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;
     default:
         cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<endl;

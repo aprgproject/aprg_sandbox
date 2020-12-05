@@ -167,10 +167,12 @@ template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithDe
 std::string stringHelper::combineStrings(stringHelper::strings const& listOfStrings, std::string const& delimiters)
 {
     string result = accumulate(listOfStrings.cbegin(), listOfStrings.cend(), string(""), [&delimiters](string const& previousResult, string const& currentString)
-    {        return string(previousResult + currentString + delimiters);
+    {
+        return string(previousResult + currentString + delimiters);
     });
 
-    if(result.size() > delimiters.size())    {
+    if(result.size() > delimiters.size())
+    {
         result = result.substr(0, result.size() - delimiters.size());
     }
     return result;

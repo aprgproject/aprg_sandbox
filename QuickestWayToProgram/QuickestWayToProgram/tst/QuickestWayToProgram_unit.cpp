@@ -7,8 +7,10 @@
 #include <Math/AlbaMathHelper.hpp>
 #include <Debug/AlbaDebug.hpp>
 #include <stdio.h>
+
 #include <gtest/gtest.h>
 #include <windows.h>
+
 #include <algorithm>
 #include <iostream>
 #include <map>
@@ -38,8 +40,10 @@ TEST(SampleTest, SaveGetDifferenceFromGreaterMultipleToCsv)
 /*
 TEST(SampleTest, MessageIds_test)
 {
-    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");    AlbaLocalPathHandler pathHandler2(R"(D:\Branches\trunk\wbts_integration\I_Interface\Application_Env\Wn_Env\Bs_Env\Messages\MessageId_TcomDsp.h)");
+    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
+    AlbaLocalPathHandler pathHandler2(R"(D:\Branches\trunk\wbts_integration\I_Interface\Application_Env\Wn_Env\Bs_Env\Messages\MessageId_TcomDsp.h)");
     AlbaLocalPathHandler pathHandler3(R"(D:\ZZZ_Logs\PR212221\LRMJairus\MessageHistoryBeforeCorruption.txt)");
+
 
     ifstream tcomTcomFile(pathHandler.getFullPath());
     ifstream tcomDspile(pathHandler2.getFullPath());
@@ -122,10 +126,12 @@ TEST(SampleTest, MessageIds_test)
 */
 /*
 bool isLeapYear(unsigned int const year)
-{    bool result(true);
+{
+    bool result(true);
     if (year%4 != 0) result = false;
     else if (year%100 != 0) result = true;
-    else if (year%400 != 0) result = false;    return result;
+    else if (year%400 != 0) result = false;
+    return result;
 }
 
 unsigned int getMaximumDaysInAMonth(unsigned int const monthIndex, unsigned int const year)

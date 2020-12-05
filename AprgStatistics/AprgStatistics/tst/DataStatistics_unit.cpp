@@ -22,13 +22,14 @@ TEST(DataStatisticsTest, StatisticsAreCorrectWhenSamplesAreEmpty)
     LocalSample expectedPopulationStandardDeviation{0, 0, 0};
     double expectedDispersion(0);
 
-    LocalSample sum(LocalStatistics::calculateSum(samples));
-    LocalSample mean(LocalStatistics::calculateMean(samples));
-    LocalSample sampleVariance(LocalStatistics::calculateSampleVariance(samples));
-    LocalSample sampleStandardDeviation(LocalStatistics::calculateSampleStandardDeviation(samples));
-    LocalSample populationVariance(LocalStatistics::calculatePopulationVariance(samples));
-    LocalSample populationStandardDeviation(LocalStatistics::calculatePopulationStandardDeviation(samples));
-    double dispersion(LocalStatistics::calculateDispersionAroundTheCentroid(samples));
+    LocalStatistics localStatistics(samples);
+    LocalSample sum(localStatistics.getSum());
+    LocalSample mean(localStatistics.getMean());
+    LocalSample sampleVariance(localStatistics.getSampleVariance());
+    LocalSample sampleStandardDeviation(localStatistics.getSampleStandardDeviation());
+    LocalSample populationVariance(localStatistics.getPopulationVariance());
+    LocalSample populationStandardDeviation(localStatistics.getPopulationStandardDeviation());
+    double dispersion(localStatistics.getDispersionAroundTheCentroid());
 
     EXPECT_EQ(expectedSum, sum);
     EXPECT_EQ(expectedMean, mean);
@@ -54,13 +55,14 @@ TEST(DataStatisticsTest, StatisticsAreCorrect)
     LocalSample expectedPopulationStandardDeviation{0.81649658092772603446, 8.1649658092772607887, 81.64965809277261144};
     double expectedDispersion(100.50373127401788);
 
-    LocalSample sum(LocalStatistics::calculateSum(samples));
-    LocalSample mean(LocalStatistics::calculateMean(samples));
-    LocalSample sampleVariance(LocalStatistics::calculateSampleVariance(samples));
-    LocalSample sampleStandardDeviation(LocalStatistics::calculateSampleStandardDeviation(samples));
-    LocalSample populationVariance(LocalStatistics::calculatePopulationVariance(samples));
-    LocalSample populationStandardDeviation(LocalStatistics::calculatePopulationStandardDeviation(samples));
-    double dispersion(LocalStatistics::calculateDispersionAroundTheCentroid(samples));
+    LocalStatistics localStatistics(samples);
+    LocalSample sum(localStatistics.getSum());
+    LocalSample mean(localStatistics.getMean());
+    LocalSample sampleVariance(localStatistics.getSampleVariance());
+    LocalSample sampleStandardDeviation(localStatistics.getSampleStandardDeviation());
+    LocalSample populationVariance(localStatistics.getPopulationVariance());
+    LocalSample populationStandardDeviation(localStatistics.getPopulationStandardDeviation());
+    double dispersion(localStatistics.getDispersionAroundTheCentroid());
 
     EXPECT_EQ(expectedSum, sum);
     EXPECT_EQ(expectedMean, mean);
@@ -69,15 +71,4 @@ TEST(DataStatisticsTest, StatisticsAreCorrect)
     EXPECT_EQ(expectedPopulationVariance, populationVariance);
     EXPECT_EQ(expectedPopulationStandardDeviation, populationStandardDeviation);
     EXPECT_DOUBLE_EQ(expectedDispersion, dispersion);
-}
-
-TEST(DataStatisticsTest, DistancesAreCorrect)
-{
-    using LocalStatistics = DataStatistics<3>;
-    using LocalSample = LocalStatistics::Sample;
-
-    EXPECT_EQ(0, LocalStatistics::calculateDistance(LocalSample{}, LocalSample{}));
-    EXPECT_EQ(0, LocalStatistics::calculateDistance(LocalSample{1, 10, 100}, LocalSample{1, 10, 100}));
-    EXPECT_EQ(3, LocalStatistics::calculateDistance(LocalSample{1, 10, 100}, LocalSample{2, 12, 102}));
-    EXPECT_EQ(7, LocalStatistics::calculateDistance(LocalSample{1, 10, 100}, LocalSample{3, 13, 106}));
 }

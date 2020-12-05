@@ -1,10 +1,11 @@
 #pragma once
 
+#include <Optional/AlbaOptional.hpp>
 #include <DataSample.hpp>
+#include <DataStatisticsUtilities.hpp>
 
 #include <algorithm>
 #include <functional>
-#include <vector>
 
 namespace alba
 {
@@ -15,80 +16,147 @@ class DataStatistics
 public:
     using Sample = DataSample<dimensions>;
     using Samples = std::vector<Sample>;
+    using StatisticsUtilities = DataStatisticsUtilities<dimensions>;
+    using SampleOptional = alba::AlbaOptional<Sample>;
+    using DoubleOptional = alba::AlbaOptional<double>;
 
-    static Sample calculateSum(Samples const& samples)
+    DataStatistics(Samples const& samples)
+        : m_samples(samples)
+    {}
+
+    Sample getSum()
     {
-        return (Sample)std::accumulate(samples.begin(), samples.end(), Sample(), std::plus<Sample>());
+        calculateSumIfNeeded();
+        return m_sum.getReference();
     }
 
-    static Sample calculateMean(Samples const& samples)
+    Sample getMean()
     {
-        Sample mean;
-        if(!samples.empty())
+        calculateMeanIfNeeded();
+        return m_mean.getReference();
+    }
+
+    Sample getSampleVariance()
+    {
+        calculateSampleVarianceIfNeeded();
+        return m_sampleVariance.getReference();
+    }
+
+    Sample getSampleStandardDeviation()
+    {
+        calculateSampleStandardDeviationIfNeeded();
+        return m_sampleStandardDeviation.getReference();
+    }
+
+    Sample getPopulationVariance()
+    {
+        calculatePopulationVarianceIfNeeded();
+        return m_populationVariance.getReference();
+    }
+
+    Sample getPopulationStandardDeviation()
+    {
+        calculatePopulationStandardDeviationIfNeeded();
+        return m_populationStandardDeviation.getReference();
+    }
+
+    double getDispersionAroundTheCentroid()
+    {
+        calculateDispersionAroundTheCentroidIfNeeded();
+        return m_dispersionAroundTheCentroid.getReference();
+    }
+
+protected:
+    void calculateSumIfNeeded()
+    {
+        if(!m_sum)
         {
-            mean = calculateSum(samples)/samples.size();
+            m_sum.setValue(StatisticsUtilities::calculateSum(m_samples));
         }
-        return mean;
     }
 
-    static Sample calculateSampleVariance(Samples const& samples)
+    void calculateMeanIfNeeded()
     {
-        return calculateVariance(samples, samples.size()-1);
-    }
-
-    static Sample calculateSampleStandardDeviation(Samples const& samples)
-    {
-        return calculateStandardDeviation(samples, samples.size()-1);
-    }
-
-    static Sample calculatePopulationVariance(Samples const& samples)
-    {
-        return calculateVariance(samples, samples.size());
-    }
-
-    static Sample calculatePopulationStandardDeviation(Samples const& samples)
-    {
-        return calculateStandardDeviation(samples, samples.size());
-    }
-
-    static double calculateDispersionAroundTheCentroid(Samples const& samples)
-    {
-        Sample dispersionCalculationTemp(calculateSampleStandardDeviation(samples));
-        dispersionCalculationTemp = dispersionCalculationTemp.calculateRaiseToPower(2);
-        return pow((double)dispersionCalculationTemp.getSum(), 0.5);
-    }
-
-    static double calculateDistance(Sample const& sample1, Sample const& sample2)
-    {
-        Sample distanceCalculationTemp(sample1-sample2);
-        distanceCalculationTemp = distanceCalculationTemp.calculateRaiseToPower(2);
-        return pow((double)distanceCalculationTemp.getSum(), 0.5);
-    }
-private:
-
-    static Sample calculateVariance(Samples const& samples, unsigned int sampleSize)
-    {
-        Sample variance;
-        if(!samples.empty())
+        if(!m_mean)
         {
-            Samples varianceCalculationTemp(samples);
-            Sample mean(calculateMean(samples));
-            for(Sample & sample: varianceCalculationTemp)
+            calculateSumIfNeeded();
+            unsigned int sampleSize(m_samples.empty() ? 1 : m_samples.size());
+            m_mean.setValue(m_sum.getReference()/sampleSize);
+        }
+    }
+
+    void calculateSampleVarianceIfNeeded()
+    {
+        calculateVarianceIfNeeded(m_sampleVariance, m_samples.size()-1);
+    }
+
+    void calculateSampleStandardDeviationIfNeeded()
+    {
+        calculateStandardDeviationIfNeeded(m_sampleStandardDeviation, m_sampleVariance, m_samples.size()-1);
+    }
+
+    void calculatePopulationVarianceIfNeeded()
+    {
+        calculateVarianceIfNeeded(m_populationVariance, m_samples.size());
+    }
+
+    void calculatePopulationStandardDeviationIfNeeded()
+    {
+        calculateStandardDeviationIfNeeded(m_populationStandardDeviation, m_populationVariance, m_samples.size());
+    }
+
+    void calculateVarianceIfNeeded(SampleOptional & variance, unsigned int sampleSize)
+    {
+        if(!variance)
+        {
+            if(!m_samples.empty())
             {
-                sample = sample-mean;
-                sample = sample.calculateRaiseToPower(2);
+                Samples varianceCalculationTemp(m_samples);
+                calculateMeanIfNeeded();
+                for(Sample & sample: varianceCalculationTemp)
+                {
+                    sample = sample-m_mean.getReference();
+                    sample = sample.calculateRaiseToPower(2);
+                }
+                variance.setValue(StatisticsUtilities::calculateSum(varianceCalculationTemp)/sampleSize);
             }
-            variance = calculateSum(varianceCalculationTemp)/sampleSize;
+            else
+            {
+                variance.setValue(Sample{});
+            }
         }
-        return variance;
     }
 
-    static Sample calculateStandardDeviation(Samples const& samples, unsigned int sampleSize)
+    void calculateStandardDeviationIfNeeded(SampleOptional & standardDeviation, SampleOptional & variance, unsigned int sampleSize)
     {
-        Sample standardDeviation(calculateVariance(samples, sampleSize));
-        standardDeviation = standardDeviation.calculateRaiseToInversePower(2);
-        return standardDeviation;
+        if(!standardDeviation)
+        {
+            calculateVarianceIfNeeded(variance, sampleSize);
+            Sample standardDeviationTemp(variance.getReference());
+            standardDeviationTemp = standardDeviationTemp.calculateRaiseToInversePower(2);
+            standardDeviation.setValue(standardDeviationTemp);
+        }
     }
+
+    void calculateDispersionAroundTheCentroidIfNeeded()
+    {
+        if(!m_dispersionAroundTheCentroid)
+        {
+            calculateSampleStandardDeviationIfNeeded();
+            Sample dispersionCalculationTemp(m_sampleStandardDeviation.getReference());
+            dispersionCalculationTemp = dispersionCalculationTemp.calculateRaiseToPower(2);
+            m_dispersionAroundTheCentroid.setValue(pow((double)dispersionCalculationTemp.getSum(), 0.5));
+        }
+    }
+
+    SampleOptional m_sum;
+    SampleOptional m_mean;
+    SampleOptional m_sampleVariance;
+    SampleOptional m_sampleStandardDeviation;
+    SampleOptional m_populationVariance;
+    SampleOptional m_populationStandardDeviation;
+    DoubleOptional m_dispersionAroundTheCentroid;
+    Samples m_samples;
 };
 
 }

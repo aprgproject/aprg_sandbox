@@ -43,9 +43,11 @@ set(SOURCES
     src/SoosaConfiguration.hpp
     src/SoosaUi.cpp
     src/SoosaUi.hpp
+
 )
 
-set(MAIN_SOURCES    src/main.cpp
+set(MAIN_SOURCES
+    src/main.cpp
 )
 
 set(TESTS

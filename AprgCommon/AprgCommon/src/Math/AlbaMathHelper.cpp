@@ -6,12 +6,28 @@ namespace alba
 {
 
 template <typename NumberType>
+NumberType mathHelper::getAverage(NumberType const value1, NumberType const value2)
+{
+    return (value1+value2)/2;
+}
+template int mathHelper::getAverage<int>(int const value1, int const value2);
+template double mathHelper::getAverage<double>(double const value1, double const value2);
+
+template <typename NumberType>
 NumberType mathHelper::getAbsoluteValue(NumberType const value)
 {
     return (value<0) ? value*-1 : value;
 }
 template int mathHelper::getAbsoluteValue<int>(int const value);
 template double mathHelper::getAbsoluteValue<double>(double const value);
+
+template <typename NumberType>
+NumberType mathHelper::getSign(NumberType const value)
+{
+    return (value<0) ? -1 : 1;
+}
+template int mathHelper::getSign<int>(int const value);
+template double mathHelper::getSign<double>(double const value);
 
 template <typename NumberType>
 NumberType mathHelper::clampLowerBound(NumberType const value, NumberType const limit)
@@ -42,7 +58,7 @@ unsigned int mathHelper::getDifferenceFromGreaterMultiple(unsigned int const mul
 
 unsigned int mathHelper::getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned int const number)
 {
-    unsigned result(0);
+    unsigned int result(0);
     if(multiple>0)
     {
         result = ((number+multiple-1)/multiple);
@@ -50,13 +66,57 @@ unsigned int mathHelper::getNumberOfMultiplesInclusive(unsigned int const multip
     return result;
 }
 
+double mathHelper::calculateCumulativeStandardDistributionApproximation(double const z)
+{
+    return 0.5 * erfc(-z * pow(0.5, 0.5));
+}
+
+double mathHelper::calculateInverseCumulativeStandardDistributionApproximation(double const probability, unsigned int const numberOfIterations)
+{
+    double lowestZ=-10, highestZ=10, z(0);
+    for(unsigned int iterationCount=0; iterationCount<numberOfIterations; iterationCount++)
+    {
+        double middleZ = getAverage<double>(lowestZ, highestZ);
+        double probabilityLowest = calculateCumulativeStandardDistributionApproximation(lowestZ);
+        double probabilityMiddle = calculateCumulativeStandardDistributionApproximation(middleZ);
+        double probabilityHighest = calculateCumulativeStandardDistributionApproximation(highestZ);
+        if(probability==probabilityLowest)
+        {
+            z=lowestZ;
+            break;
+        }
+        else if(probability==probabilityMiddle)
+        {
+            z=middleZ;
+            break;
+        }
+        else if(probability==probabilityHighest)
+        {
+            z=highestZ;
+            break;
+        }
+        else if(probability>probabilityLowest && probability<probabilityMiddle)
+        {
+            highestZ=middleZ;
+            z=getAverage<double>(lowestZ, middleZ);
+        }
+        else if(probability>probabilityMiddle && probability<probabilityHighest)
+        {
+            lowestZ=middleZ;
+            z=getAverage<double>(middleZ, highestZ);
+        }
+    }
+    return z;
+}
 
 double mathHelper::getPi()
 {
-    return 3.14159265358979323846;}
+    return 3.14159265358979323846;
+}
 
 double mathHelper::getE()
 {
-    return 2.7182818284590452354;}
+    return 2.7182818284590452354;
+}
 
 }//namespace alba

@@ -14,6 +14,7 @@ class KMeansClustering
 {
 public:
     using Statistics = DataStatistics<dimensions>;
+    using StatisticsUtilities = DataStatisticsUtilities<dimensions>;
     using Sample = DataSample<dimensions>;
     using Samples = std::vector<Sample>;
     using GroupOfSamples = std::vector<Samples>;
@@ -59,7 +60,7 @@ public:
                 double nearestDistance(0);
                 for(unsigned int groupIndex=0; groupIndex<numberOfGroups; groupIndex++)
                 {
-                    double currentDistance=Statistics::calculateDistance(samplesToGroupPair.first, meanForEachGroup[groupIndex]);
+                    double currentDistance(StatisticsUtilities::calculateDistance(samplesToGroupPair.first, meanForEachGroup[groupIndex]));
                     if(groupIndex==0  || nearestDistance>currentDistance)
                     {
                         nearestGroup = groupIndex;
@@ -105,7 +106,8 @@ private:
         Samples meanForEachGroup;
         for(unsigned int groupIndex=0; groupIndex<groupOfSamples.size(); groupIndex++)
         {
-            meanForEachGroup.emplace_back(Statistics::calculateMean(groupOfSamples[groupIndex]));
+            Statistics statistics(groupOfSamples[groupIndex]);
+            meanForEachGroup.emplace_back(statistics.getMean());
         }
         return meanForEachGroup;
     }

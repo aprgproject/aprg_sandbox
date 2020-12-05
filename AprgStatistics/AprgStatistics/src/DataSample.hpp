@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Container/AlbaContainerHelper.hpp>
+#include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
 #include <array>
@@ -32,6 +33,11 @@ public:
     bool isIndexValid(unsigned int index) const
     {
         return index < dimensions;
+    }
+
+    unsigned int getSize() const
+    {
+        return m_data.size();
     }
 
     double getValueAt(unsigned int index) const
@@ -123,6 +129,14 @@ public:
         return performDataTypeAndConstantFunction(value, std::divides<double>());
     }
 
+    Sample calculateAbsoluteValue() const
+    {
+        return performDataTypeFunction([](double value)->double
+        {
+            return mathHelper::getAbsoluteValue<double>(value);
+        });
+    }
+
     Sample calculateRaiseToPower(double const value) const
     {
         return performDataTypeAndConstantFunction(value, [](double value1, double value2)->double
@@ -138,8 +152,6 @@ public:
             return pow((double)value1, (double)1/value2);
         });
     }
-
-private:
 
     Sample performDataTypeAndDataTypeFunction(Sample const& value, std::function<double(double, double)> binaryFunction) const
     {
@@ -158,6 +170,14 @@ private:
         return result;
     }
 
+    Sample performDataTypeFunction(std::function<double(double)> unaryFunction) const
+    {
+        Sample result;
+        std::transform(m_data.begin(), m_data.cend(), result.m_data.begin(), unaryFunction);
+        return result;
+    }
+
+private:
     BufferType m_data;
 };
 

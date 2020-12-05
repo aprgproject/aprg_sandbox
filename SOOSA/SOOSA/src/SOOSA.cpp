@@ -8,8 +8,10 @@
 #include <User/AlbaUserInterface.hpp>
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
 #include <TwoDimensions/Circle.hpp>
+
 #include <sstream>
 #include <iostream>
+
 #define ALLOWABLE_LINE_DEVIATION_FOR_LINE_MODEL 2
 #define ALLOWABLE_HALF_LINE_WIDTH_DEVIATION 2
 #define ALLOWABLE_HALF_BAR_WIDTH_DEVIATION 4
@@ -119,9 +121,11 @@ bool SOOSA::StatusStatus::isStatusNoError() const
 
 SOOSA::SOOSA(SoosaConfiguration const& configuration)
     : m_configuration(configuration)
-    , m_frequencyDatabase(m_configuration.getNumberOfQuestions()){
+    , m_frequencyDatabase(m_configuration.getNumberOfQuestions())
+{
     m_numberOfRespondents=0;
 }
+
 unsigned int SOOSA::getNumberOfAnswers() const
 {
     return m_questionToAnswersMap.size();
@@ -209,7 +213,8 @@ void SOOSA::saveDataToCsvFile(string const& processedFilePath)  const
     if(StatusStatus::getInstance().isStatusNoError())
     {
         outputCsvReportStream<<processedFilePath<<",OK";
-        for(unsigned int i=0;i<m_configuration.getNumberOfQuestions();i++)        {
+        for(unsigned int i=0;i<m_configuration.getNumberOfQuestions();i++)
+        {
             outputCsvReportStream<<","<<getAnswerToQuestion(i);
         }
         outputCsvReportStream<<endl;
@@ -219,9 +224,11 @@ void SOOSA::saveDataToCsvFile(string const& processedFilePath)  const
         outputCsvReportStream<<processedFilePath<<","<<StatusStatus::getInstance().getSoosaStatus()<<endl;
     }
 }
+
 void SOOSA::saveHeadersToCsvFile() const
 {
-    ofstream outputCsvReportStream(getCsvFileName(m_configuration.getPath()));    outputCsvReportStream << "FILE,STATUS";
+    ofstream outputCsvReportStream(getCsvFileName(m_configuration.getPath()));
+    outputCsvReportStream << "FILE,STATUS";
     for(unsigned int i=0; i<m_configuration.getNumberOfQuestions(); i++)
     {
         outputCsvReportStream<<",Question_"<<i+1;
@@ -297,10 +304,12 @@ void SOOSA::saveFrequencyDatabaseIfNoError()
     if(StatusStatus::getInstance().isStatusNoError())
     {
         m_numberOfRespondents++;
-        for(unsigned int i=0;i<m_configuration.getNumberOfQuestions();i++)        {
+        for(unsigned int i=0;i<m_configuration.getNumberOfQuestions();i++)
+        {
             m_frequencyDatabase.addAnswer(i, getAnswerToQuestion(i)-1);
         }
-    }}
+    }
+}
 
 void SOOSA::processFile(string const& filePath)
 {
@@ -309,9 +318,11 @@ void SOOSA::processFile(string const& filePath)
 
     AprgBitmap bitmap(filePath);
     AprgBitmapSnippet globalSnippet(bitmap.getSnippetReadFromFileWholeBitmap());
+
     Line leftLine, rightLine, topLine, bottomLine, centerLeftLine, centerRightLine;
     leftLine = findLeftLine(globalSnippet);
-    rightLine = findRightLine(globalSnippet);    topLine = findTopLine(globalSnippet);
+    rightLine = findRightLine(globalSnippet);
+    topLine = findTopLine(globalSnippet);
     bottomLine = findBottomLine(globalSnippet);
 
     Point edgePoints[2][3];
@@ -344,9 +355,11 @@ void SOOSA::processFile(string const& filePath)
     }
     saveFrequencyDatabaseIfNoError();
 }
+
 Line SOOSA::findLeftLine(AprgBitmapSnippet const& snippet) const
 {
-    cout<<"findLeftLine"<<endl;    RangeOfInts rangeForX(snippet.getTopLeftCorner().getX(), snippet.getBottomRightCorner().getX(), 1);
+    cout<<"findLeftLine"<<endl;
+    RangeOfInts rangeForX(snippet.getTopLeftCorner().getX(), snippet.getBottomRightCorner().getX(), 1);
     return findVerticalLine(snippet, rangeForX);
 }
 
@@ -499,10 +512,12 @@ Line SOOSA::getLineModel(TwoDimensionsStatistics::Samples const & samples) const
         StatusStatus::getInstance().setError(ss.str());
         cout<<"getLineModel -> Not enough samples: "<<samplesForLineModeling.size()<<endl;
     }
-    return Line(lineModel.aCoefficient, lineModel.bCoefficient, lineModel.cCoefficient);}
+    return Line(lineModel.aCoefficient, lineModel.bCoefficient, lineModel.cCoefficient);
+}
 
 SOOSA::VectorOfDoubles SOOSA::getAcceptableSquareErrorsUsingKMeans(TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const
-{    // not active anymore
+{
+    // not active anymore
     VectorOfDoubles squareErrors;
     OneDimensionKMeans kMeansForSquareErrors;
     for(TwoDimensionsStatistics::ValueToSamplePair const& squareErrorToSamplePair : squareErrorToSampleMultimap)
@@ -559,7 +574,8 @@ void SOOSA::processColumn(AprgBitmapSnippet const& snippet, Line const& leftLine
                 StatusStatus::getInstance().setError(ss.str());
                 cout<<"processColumn -> Problem locating choice in question number: "<<questionIndex+1<<", column number: "<<columnNumber<<endl;
             }
-            setAnswerToQuestionInColumn(columnNumber, questionIndex, answer);        }
+            setAnswerToQuestionInColumn(columnNumber, questionIndex, answer);
+        }
     }
     else
     {
@@ -569,9 +585,11 @@ void SOOSA::processColumn(AprgBitmapSnippet const& snippet, Line const& leftLine
         cout<<"processColumn -> Questions coordinates does not match. Left line: "<<questionBarCoordinatesForLeftLine.size()<<" Right Line: "<<questionBarCoordinatesForRightLine.size()<<" Number of questions in the column: "<<numberQuestionsInColumn<<endl;
     }
 }
+
 unsigned int SOOSA::getAnswerToQuestion(AprgBitmapSnippet const& snippet, QuestionBarCoordinate const& leftCoordinate, QuestionBarCoordinate const& rightCoordinate) const
 {
-    Point leftPoint(twoDimensionsHelper::getMidpoint(leftCoordinate.first, leftCoordinate.second));    Point rightPoint(twoDimensionsHelper::getMidpoint(rightCoordinate.first, rightCoordinate.second));
+    Point leftPoint(twoDimensionsHelper::getMidpoint(leftCoordinate.first, leftCoordinate.second));
+    Point rightPoint(twoDimensionsHelper::getMidpoint(rightCoordinate.first, rightCoordinate.second));
     double leftBarHeight(twoDimensionsHelper::getDistance(leftCoordinate.first, leftCoordinate.second));
     double rightBarHeight(twoDimensionsHelper::getDistance(rightCoordinate.first, rightCoordinate.second));
     double lowestHeightOfQuestion(min(leftBarHeight, rightBarHeight));
@@ -836,7 +854,8 @@ void SOOSA::removeIncorrectBarPointsWithKMeans(TwoDimensionKMeans & barPointKMea
         DataCollection<double> heightCollection;
         saveHeightDetailsFromBarPoints(groupOfGroupOfBarPoints, barHeights, heightCollection);
 
-        OneDimensionStatistics::Sample standardDeviationOfHeight(OneDimensionStatistics::calculateSampleStandardDeviation(barHeights));
+        OneDimensionStatistics barHeightsStatistics(barHeights);
+        OneDimensionStatistics::Sample standardDeviationOfHeight(barHeightsStatistics.getSampleStandardDeviation());
         if(previousStandardDeviationOfHeight.getValueAt(0)<standardDeviationOfHeight.getValueAt(0))
         {
             isBarPointsNeedToBeDecreased = false;

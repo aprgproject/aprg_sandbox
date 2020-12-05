@@ -17,7 +17,8 @@ TwoDimensionsStatistics::LineModel TwoDimensionsStatistics::calculateLineModelUs
     double xMinusXmeanTimesYMinusYmean(0);// (Xi-mean(X))*(Yi-mean(Y))
 
     LineModel lineModel;
-    Sample mean(Statistics::calculateMean(samples));
+    Statistics statistics(samples);
+    Sample mean(statistics.getMean());
     for(Sample const& sample : samples)
     {
         double differenceInMeanInX(sample.getValueAt(0)-mean.getValueAt(0));

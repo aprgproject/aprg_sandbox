@@ -21,10 +21,12 @@ void TupcLom::handleStartup()
     logNoteOnComponent("TupcLom **automatically**  starts when TUPCexe starts.\nThis is same with legacy.");
 }
 
-void TupcLom::handleMessageEvent(GenericMessage const& genericMessage){
+void TupcLom::handleMessageEvent(GenericMessage const& genericMessage)
+{
     MessageName messageName(genericMessage.getMessageName());
     switch(messageName)
-    {        case MessageName::OAM_ATM_HW_CONFIGURATION_MSG:
+    {
+        case MessageName::OAM_ATM_HW_CONFIGURATION_MSG:
             handleHwConfiguration(genericMessage);
         break;
     default:
@@ -42,10 +44,12 @@ void TupcLom::handleHwConfiguration(GenericMessage const& genericMessage)
     logNoteOnPreviousMessage("OAM sends this message to only one TUPC instance.\nThe receiver will be the location of TupcCm.");
     logNoteOnComponent("TupcLom saves hardware configuration.\nThe receiver of this message is the only active TupcLom instance.\nTupcLom saves the address of OAM (sender address).\nTupcLom saves this as the address of TupcIlm as well.");
     m_oamAddress = AddressHelper::getAddress(hwConfigurationMessage.getSender());
-    logNoteOnComponents(ComponentNames{ComponentName::TupcLom, ComponentName::TupcCm}, "TupcLom starts TupcCm on the same location.");    environment.getComponentPointer(ComponentName::TupcCm)->pushBackEvent(Event(OtherEvent(OtherEventType::SubProcessStartup)));
+    logNoteOnComponents(ComponentNames{ComponentName::TupcLom, ComponentName::TupcCm}, "TupcLom starts TupcCm on the same location.");
+    environment.getComponentPointer(ComponentName::TupcCm)->pushBackEvent(Event(OtherEvent(OtherEventType::SubProcessStartup)));
 }
 
-void TupcLom::handleTimerEvent(Timer const& timer){
+void TupcLom::handleTimerEvent(Timer const& timer)
+{
     cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
 }
 
