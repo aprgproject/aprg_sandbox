@@ -57,7 +57,7 @@ public:
 
     Colors getColorTable() const;
 
-    void readBitmapHeaders(std::string const& path);
+    void readBitmap(std::string const& path);
     bool operator==(AprgBitmapConfiguration const& configuration) const;
 
 private:

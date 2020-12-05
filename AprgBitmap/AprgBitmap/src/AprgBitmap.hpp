@@ -25,6 +25,8 @@ public:
     unsigned int getXCoordinateWithinTheBitmap(int const coordinate) const;
     unsigned int getYCoordinateWithinTheBitmap(int const coordinate) const;
     unsigned int getCoordinateWithinRange(int const coordinate, int maxLength) const;
+    BitmapXY getUpLeftCornerPoint() const;
+    BitmapXY getDownRightCornerPoint() const;
 
 private:
     void calculateNewCornersBasedOnCenterAndNumberOfBytes(BitmapXY & topLeftCorner, BitmapXY & bottomRightCorner, BitmapXY const center, unsigned int const numberOfBytes) const;

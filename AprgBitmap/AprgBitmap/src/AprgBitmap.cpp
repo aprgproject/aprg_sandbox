@@ -7,7 +7,7 @@ namespace alba
 
 AprgBitmap::AprgBitmap(string const& path)
 {
-    m_configuration.readBitmapHeaders(path);
+    m_configuration.readBitmap(path);
 }
 
 AprgBitmapConfiguration AprgBitmap::getConfiguration() const
@@ -17,7 +17,7 @@ AprgBitmapConfiguration AprgBitmap::getConfiguration() const
 
 AprgBitmapSnippet AprgBitmap::getSnippetReadFromFileWholeBitmap() const
 {
-    return getSnippetReadFromFile(BitmapXY(0,0), BitmapXY(m_configuration.getBitmapWidth()-1, m_configuration.getBitmapHeight()-1));
+    return getSnippetReadFromFile(getUpLeftCornerPoint(), getDownRightCornerPoint());
 }
 
 AprgBitmapSnippet AprgBitmap::getSnippetReadFromFileWithOutOfRangeCoordinates(int outOfRangeLeft, int outOfRangeTop, int outOfRangeRight, int outOfRangeBottom) const
@@ -55,23 +55,25 @@ AprgBitmapSnippet AprgBitmap::getSnippetReadFromFile(BitmapXY const topLeftCorne
     {
         ifstream inputStream(m_configuration.getPath(), ios::binary);
         AlbaFileReader fileReader(inputStream);
-
-        int byteOffsetInXForStart = (int)m_configuration.convertPixelsToBytesRoundToFloor(topLeftCorner.getX());
-        int byteOffsetInXForEnd = (int)m_configuration.convertPixelsToBytesRoundToFloor(bottomRightCorner.getX());
-        int offsetInYForStart = m_configuration.getBitmapHeight()-topLeftCorner.getY()-1;
-        int offsetInYForEnd = m_configuration.getBitmapHeight()-bottomRightCorner.getY()-1;
-        int numberOfBytesToBeCopiedForX = m_configuration.getOneRowSizeInBytesFromBytes(byteOffsetInXForStart, byteOffsetInXForEnd);
-
-        int startPixelInX = getXCoordinateWithinTheBitmap((int)m_configuration.convertBytesToPixels(byteOffsetInXForStart));
-        int endPixelInX = getXCoordinateWithinTheBitmap((int)m_configuration.convertBytesToPixels(byteOffsetInXForEnd)+m_configuration.getMaximumNumberOfPixelsBeforeOneByte());
-
-        snippet = AprgBitmapSnippet(BitmapXY(startPixelInX, topLeftCorner.getY()), BitmapXY(endPixelInX, bottomRightCorner.getY()), m_configuration);
-
-        for(int y=offsetInYForStart; y>=offsetInYForEnd; y--)
+        if(inputStream.is_open())
         {
-            unsigned long long fileOffsetForStart = m_configuration.getPixelArrayAddress()+((unsigned long long)m_configuration.getNumberOfBytesPerRowInFile()*y)+byteOffsetInXForStart;
-            fileReader.moveLocation(fileOffsetForStart);
-            fileReader.saveDataToMemoryBuffer(snippet.getPixelDataReference(), numberOfBytesToBeCopiedForX);
+            int byteOffsetInXForStart = (int)m_configuration.convertPixelsToBytesRoundToFloor(topLeftCorner.getX());
+            int byteOffsetInXForEnd = (int)m_configuration.convertPixelsToBytesRoundToFloor(bottomRightCorner.getX());
+            int offsetInYForStart = m_configuration.getBitmapHeight()-topLeftCorner.getY()-1;
+            int offsetInYForEnd = m_configuration.getBitmapHeight()-bottomRightCorner.getY()-1;
+            int numberOfBytesToBeCopiedForX = m_configuration.getOneRowSizeInBytesFromBytes(byteOffsetInXForStart, byteOffsetInXForEnd);
+
+            int startPixelInX = getXCoordinateWithinTheBitmap((int)m_configuration.convertBytesToPixels(byteOffsetInXForStart));
+            int endPixelInX = getXCoordinateWithinTheBitmap((int)m_configuration.convertBytesToPixels(byteOffsetInXForEnd)+m_configuration.getMaximumNumberOfPixelsBeforeOneByte());
+
+            snippet = AprgBitmapSnippet(BitmapXY(startPixelInX, topLeftCorner.getY()), BitmapXY(endPixelInX, bottomRightCorner.getY()), m_configuration);
+
+            for(int y=offsetInYForStart; y>=offsetInYForEnd; y--)
+            {
+                unsigned long long fileOffsetForStart = m_configuration.getPixelArrayAddress()+((unsigned long long)m_configuration.getNumberOfBytesPerRowInFile()*y)+byteOffsetInXForStart;
+                fileReader.moveLocation(fileOffsetForStart);
+                fileReader.saveDataToMemoryBuffer(snippet.getPixelDataReference(), numberOfBytesToBeCopiedForX);
+            }
         }
     }
     return snippet; //RVO takes care of this
@@ -84,24 +86,26 @@ void AprgBitmap::setSnippetWriteToFile(AprgBitmapSnippet const& snippet) const
         if(m_configuration.isPositionWithinTheBitmap(snippet.getTopLeftCorner()) && m_configuration.isPositionWithinTheBitmap(snippet.getBottomRightCorner()))
         {
             fstream streamFile(m_configuration.getPath(), fstream::in | fstream::out | fstream::binary);
-
-            int byteOffsetInXForStart = (int)m_configuration.convertPixelsToBytesRoundToFloor(snippet.getTopLeftCorner().getX());
-            int byteOffsetInXForEnd = (int)m_configuration.convertPixelsToBytesRoundToFloor(snippet.getBottomRightCorner().getX());
-            int offsetInYForStart = m_configuration.getBitmapHeight()-snippet.getTopLeftCorner().getY()-1;
-            int offsetInYForEnd = m_configuration.getBitmapHeight()-snippet.getBottomRightCorner().getY()-1;
-            int numberOfBytesToBeCopiedForX = m_configuration.getOneRowSizeInBytesFromBytes(byteOffsetInXForStart, byteOffsetInXForEnd);
-            unsigned int snippetSize = snippet.getPixelDataSize();
-            unsigned int snippetIndex = 0;
-
-            for(int y=offsetInYForStart; y>=offsetInYForEnd && snippetIndex<snippetSize; y--)
+            if(streamFile.is_open())
             {
-                unsigned long long fileOffsetForStart = m_configuration.getPixelArrayAddress()+((unsigned long long)m_configuration.getNumberOfBytesPerRowInFile()*y)+byteOffsetInXForStart;
-                char const* pixelDataPointer = (char const*)snippet.getPixelDataConstReference().getConstantBufferPointer()+snippetIndex;
-                streamFile.seekg(fileOffsetForStart, streamFile.beg);
-                streamFile.write(pixelDataPointer, numberOfBytesToBeCopiedForX);
-                snippetIndex += numberOfBytesToBeCopiedForX;
+                int byteOffsetInXForStart = (int)m_configuration.convertPixelsToBytesRoundToFloor(snippet.getTopLeftCorner().getX());
+                int byteOffsetInXForEnd = (int)m_configuration.convertPixelsToBytesRoundToFloor(snippet.getBottomRightCorner().getX());
+                int offsetInYForStart = m_configuration.getBitmapHeight()-snippet.getTopLeftCorner().getY()-1;
+                int offsetInYForEnd = m_configuration.getBitmapHeight()-snippet.getBottomRightCorner().getY()-1;
+                int numberOfBytesToBeCopiedForX = m_configuration.getOneRowSizeInBytesFromBytes(byteOffsetInXForStart, byteOffsetInXForEnd);
+                unsigned int snippetSize = snippet.getPixelDataSize();
+                unsigned int snippetIndex = 0;
+
+                for(int y=offsetInYForStart; y>=offsetInYForEnd && snippetIndex<snippetSize; y--)
+                {
+                    unsigned long long fileOffsetForStart = m_configuration.getPixelArrayAddress()+((unsigned long long)m_configuration.getNumberOfBytesPerRowInFile()*y)+byteOffsetInXForStart;
+                    char const* pixelDataPointer = (char const*)snippet.getPixelDataConstReference().getConstantBufferPointer()+snippetIndex;
+                    streamFile.seekg(fileOffsetForStart, streamFile.beg);
+                    streamFile.write(pixelDataPointer, numberOfBytesToBeCopiedForX);
+                    snippetIndex += numberOfBytesToBeCopiedForX;
+                }
+                streamFile.flush();
             }
-            streamFile.flush();
         }
     }
 }
@@ -124,6 +128,16 @@ unsigned int AprgBitmap::getYCoordinateWithinTheBitmap(int const coordinate) con
 unsigned int AprgBitmap::getCoordinateWithinRange(int const coordinate, int maxLength) const
 {
     return (coordinate < 0) ? 0 : (coordinate >= maxLength) ? maxLength-1 : coordinate;
+}
+
+BitmapXY AprgBitmap::getUpLeftCornerPoint() const
+{
+    return BitmapXY(0,0);
+}
+
+BitmapXY AprgBitmap::getDownRightCornerPoint() const
+{
+    return BitmapXY(m_configuration.getBitmapWidth()-1, m_configuration.getBitmapHeight()-1);
 }
 
 void AprgBitmap::calculateNewCornersBasedOnCenterAndNumberOfBytes(BitmapXY & topLeftCorner, BitmapXY & bottomRightCorner, BitmapXY const center, unsigned int const numberOfBytes) const

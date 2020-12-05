@@ -363,3 +363,10 @@ TEST(BitmapReadTest, TestForMonochromeBitmapWithOutOfRangeValues)
 
     EXPECT_EQ(0x00000000, snippet.getPixelAt(BitmapXY(99999999, 99999999)));
 }
+TEST(BitmapReadTest, TestForFileThatDoesExist)
+{
+    AprgBitmap bitmap("FileThatDoesNotExist");
+    AprgBitmapSnippet snippet(bitmap.getSnippetReadFromFileWithOutOfRangeCoordinates(-100, -100, 99999999, 99999999));
+    EXPECT_EQ(BitmapXY(0, 0), snippet.getTopLeftCorner());
+    EXPECT_EQ(BitmapXY(0, 0), snippet.getBottomRightCorner());
+}

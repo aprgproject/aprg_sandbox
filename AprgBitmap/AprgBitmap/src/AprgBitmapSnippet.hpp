@@ -3,18 +3,22 @@
 #include <AprgBitmapConfiguration.hpp>
 #include <CommonTypes.hpp>
 
+#include <functional>
+
 namespace alba
 {
 
 class AprgBitmapSnippet
 {
 public:
+    using TraverseFunction = std::function<void(BitmapXY const&, unsigned int const)>;
     AprgBitmapSnippet();
     AprgBitmapSnippet(BitmapXY const topLeftCornerPosition, BitmapXY const bottomRightCornerPosition, AprgBitmapConfiguration const& configuration);
     bool isPositionInside(BitmapXY const position) const;
     AprgBitmapConfiguration getConfiguration() const;
     BitmapXY getTopLeftCorner() const;
     BitmapXY getBottomRightCorner() const;
+    void traverse(TraverseFunction const& traverseFunction) const;
     unsigned int getDeltaX() const;
     unsigned int getDeltaY() const;
     unsigned int getNumberOfPixelsInSnippet() const;

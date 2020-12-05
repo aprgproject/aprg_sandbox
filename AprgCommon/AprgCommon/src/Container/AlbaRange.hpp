@@ -130,7 +130,7 @@ public:
         m_intervalMagnitude = getAbsoluteValue(intervalMagnitude);
     }
 
-    void traverse(TraverseOperation traverseOperation) const
+    void traverse(TraverseOperation const& traverseOperation) const
     {
         TerminationCondition terminationCondition(getTerminationCondition());
         DataType interval(getInterval());

@@ -845,6 +845,7 @@ template unsigned char stringHelper::convertHexStringToNumber<unsigned char>(str
 template <typename NumberType>
 string stringHelper::NumberToStringConverter::convert(NumberType number)
 {
+    string result;
     stringstream temporaryStream;
     if(m_precisionOptional)
     {
@@ -859,22 +860,32 @@ string stringHelper::NumberToStringConverter::convert(NumberType number)
         temporaryStream << setw(m_fieldWidthOptional.getReference());
     }
     temporaryStream << number;
-    return temporaryStream.str();
+    result = temporaryStream.str();
+    if(m_maximumLengthOptional)
+    {
+        result = result.substr(m_maximumLengthOptional.getReference());
+    }
+    return result;
 }
 
-void stringHelper::NumberToStringConverter::setPrecision(int precision)
+void stringHelper::NumberToStringConverter::setPrecision(unsigned int const precision)
 {
     m_precisionOptional.setValue(precision);
 }
 
-void stringHelper::NumberToStringConverter::setFieldWidth(int fieldWidth)
+void stringHelper::NumberToStringConverter::setFieldWidth(unsigned int const fieldWidth)
 {
     m_fieldWidthOptional.setValue(fieldWidth);
 }
 
-void stringHelper::NumberToStringConverter::setFillCharacter(char fillCharacter)
+void stringHelper::NumberToStringConverter::setFillCharacter(char const fillCharacter)
 {
     m_fillCharacterOptional.setValue(fillCharacter);
+}
+
+void stringHelper::NumberToStringConverter::setMaximumLength(unsigned int const maximumLength)
+{
+    m_maximumLengthOptional.setValue(maximumLength);
 }
 
 template string stringHelper::NumberToStringConverter::convert<int>(int number);

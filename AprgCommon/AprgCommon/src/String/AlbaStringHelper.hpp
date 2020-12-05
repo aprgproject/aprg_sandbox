@@ -87,13 +87,15 @@ class NumberToStringConverter
 {
 public:
     template <typename NumberType> std::string convert(NumberType number);
-    void setPrecision(int precision);
-    void setFieldWidth(int fieldWidth);
-    void setFillCharacter(char fillCharacter);
+    void setPrecision(unsigned int const precision);
+    void setFieldWidth(unsigned int const fieldWidth);
+    void setFillCharacter(char const fillCharacter);
+    void setMaximumLength(unsigned int const maximumLength);
 private:
-    alba::AlbaOptional<int> m_precisionOptional;
-    alba::AlbaOptional<int> m_fieldWidthOptional;
+    alba::AlbaOptional<unsigned int> m_precisionOptional;
+    alba::AlbaOptional<unsigned int> m_fieldWidthOptional;
     alba::AlbaOptional<char> m_fillCharacterOptional;
+    alba::AlbaOptional<unsigned int> m_maximumLengthOptional;
 };
 
 inline bool isWhiteSpace(char const c)

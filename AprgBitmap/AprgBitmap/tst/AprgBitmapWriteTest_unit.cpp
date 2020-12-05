@@ -26,3 +26,17 @@ TEST(BitmapWriteTest, TestForWritingBitmap)
     bitmap.setSnippetWriteToFile(snippet);
 
 }
+
+
+TEST(BitmapWriteTest, TestForWritingMissingBitmapFile)
+{
+    AprgBitmap bitmap("FileThatDoesNotExist");
+    ASSERT_FALSE(bitmap.getConfiguration().isValid());
+
+    AprgBitmapSnippet snippet(bitmap.getSnippetReadFromFile(BitmapXY(50, 50), BitmapXY(150, 150)));
+    for(unsigned i=50; i<=150; i++)
+    {
+        snippet.setPixelAt(BitmapXY(i, round((double)100+40*(sin((double)i/10)))), 0x00FF0000);
+    }
+    bitmap.setSnippetWriteToFile(snippet);
+}

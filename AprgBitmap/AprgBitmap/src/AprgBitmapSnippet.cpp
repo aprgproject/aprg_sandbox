@@ -37,6 +37,18 @@ BitmapXY AprgBitmapSnippet::getBottomRightCorner() const
     return m_bottomRightCorner;
 }
 
+void AprgBitmapSnippet::traverse(TraverseFunction const& traverseFunction) const
+{
+    for(unsigned int x=m_topLeftCorner.getX(); x<=m_bottomRightCorner.getX(); x++)
+    {
+        for(unsigned int y=m_topLeftCorner.getY(); y<=m_bottomRightCorner.getY(); y++)
+        {
+            BitmapXY currentPoint(x,y);
+            traverseFunction(currentPoint, getPixelAt(currentPoint));
+        }
+    }
+}
+
 unsigned int AprgBitmapSnippet::getDeltaX() const
 {
     return m_bottomRightCorner.getX() - m_topLeftCorner.getX();

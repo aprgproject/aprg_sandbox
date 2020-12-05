@@ -13,8 +13,8 @@ public:
     using TraverseOperation = std::function<void(Point const&)>;
     Circle();
     Circle(Point const& center, double const radius);
-    bool operator==(Circle const& line) const;
-    bool operator!=(Circle const& line) const;
+    bool operator==(Circle const& circle) const;
+    bool operator!=(Circle const& circle) const;
     Point getCenter() const;
     double getRadius() const;
     double getArea() const;
