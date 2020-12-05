@@ -2,14 +2,13 @@
 
 #include <Common/Messages/MessageWrapper.hpp>
 
+#include <FeatureSpecificFiles/Sacks.hpp>
 #include <STransportBearerRegisterMsg.h>
 #include <STransportBearerRegisterResponseMsg.h>
-#include <STransportBearerUnregisterMsg.h>
-#include <STransportBearerUnregisterResponseMsg.h>
+#include <STransportBearerUnregisterMsg.h>#include <STransportBearerUnregisterResponseMsg.h>
 #include <STransportBearerReallocationPrepareReq.h>
 #include <STransportBearerReallocationPrepareResp.h>
-#include <STransportBearerReallocationCommitReq.h>
-#include <STransportBearerReallocationCommitResp.h>
+#include <STransportBearerReallocationCommitReq.h>#include <STransportBearerReallocationCommitResp.h>
 #include <STransportBearerReallocationCleanupReq.h>
 #include <STransportBearerReallocationCleanupResp.h>
 #include <STransportBearerReallocationCancelReq.h>
@@ -20,14 +19,18 @@
 #include <STransportBearerModificationCommitResp.h>
 #include <STransportBearerModificationPrepareReq.h>
 #include <STransportBearerModificationPrepareResp.h>
+#include <TUP_TransportConnectionSetupReq.h>
+#include <TUP_TransportConnectionSetupResp.h>
+#include <TUP_TransportConnectionReleaseReq.h>
+#include <TUP_TransportConnectionReleaseResp.h>
+#include <TUP_TransportConnectionTransferReq.h>
+#include <TUP_TransportConnectionTransferResp.h>
 
 namespace DesignDocumentCreator
 {
-
 WRAP_STATIC_MESSAGE(MessageName::OAM_ATM_HW_CONFIGURATION_MSG, SAtmHwConfigurationMsgFake)
 WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUP_CmConfigurationCmd_Msg, TUP_CmConfigurationCmd, SFspInformation)
-WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG, STransportBearerRegisterMsg, STransportBearerLocationData)
-WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TC_TRANSPORT_BEARER_REGISTER_RESP_MSG, STransportBearerRegisterResponseMsg, STransportBearerSignallingData)
+WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG, STransportBearerRegisterMsg, STransportBearerLocationData)WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TC_TRANSPORT_BEARER_REGISTER_RESP_MSG, STransportBearerRegisterResponseMsg, STransportBearerSignallingData)
 WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TC_TRANSPORT_BEARER_UNREGISTER_MSG, STransportBearerUnregisterMsg, TTransportBearerId)
 WRAP_STATIC_MESSAGE(MessageName::TC_TRANSPORT_BEARER_UNREGISTER_RESP_MSG, STransportBearerUnregisterResponseMsg)
 WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TC_TRANSPORT_BEARER_REALLOCATION_PREPARE_REQ_MSG, STransportBearerReallocationPrepareReq, STransportBearerReallocationData)
@@ -44,5 +47,14 @@ WRAP_STATIC_MESSAGE(MessageName::TC_TRANSPORT_BEARER_MODIFICATION_COMMIT_REQ_MSG
 WRAP_STATIC_MESSAGE(MessageName::TC_TRANSPORT_BEARER_MODIFICATION_COMMIT_RESP_MSG, STransportBearerModificationCommitResp)
 WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TC_TRANSPORT_BEARER_MODIFICATION_PREPARE_REQ_MSG, STransportBearerModificationPrepareReq, STransportBearerModificationData)
 WRAP_STATIC_MESSAGE(MessageName::TC_TRANSPORT_BEARER_MODIFICATION_PREPARE_RESP_MSG, STransportBearerModificationPrepareResp)
-}
+WRAP_STATIC_MESSAGE(MessageName::TUP_TRANSPORT_CONNECTION_SETUP_REQ_MSG, TUP_TransportConnectionSetupReq)
+WRAP_STATIC_MESSAGE(MessageName::TUP_TRANSPORT_CONNECTION_SETUP_RESP_MSG, TUP_TransportConnectionSetupResp)
+WRAP_STATIC_MESSAGE(MessageName::TUP_TRANSPORT_CONNECTION_RELEASE_REQ_MSG, TUP_TransportConnectionReleaseReq)
+WRAP_STATIC_MESSAGE(MessageName::TUP_TRANSPORT_CONNECTION_RELEASE_RESP_MSG, TUP_TransportConnectionReleaseResp)
+WRAP_STATIC_MESSAGE(MessageName::TUP_TRANSPORT_CONNECTION_TRANSFER_REQ_MSG, TUP_TransportConnectionTransferReq)
+WRAP_STATIC_MESSAGE(MessageName::TUP_TRANSPORT_CONNECTION_TRANSFER_RESP_MSG, TUP_TransportConnectionTransferResp)
+WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUP_CM_BEARER_SETUP_REQ_MSG, SCmBearerSetupReqMsg, STransportBearerLocationData)
+WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUP_CM_BEARER_SETUP_RESP_MSG, SCmBearerSetupRespMsg, STransportBearerSignallingData)
 
+
+}
