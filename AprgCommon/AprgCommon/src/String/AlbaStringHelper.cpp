@@ -164,15 +164,13 @@ template <stringHelper::SplitStringType splitStringType> void stringHelper::spli
 template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters> (stringHelper::strings & listOfStrings, std::string const& mainString, std::string const& delimiter);
 template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithDelimeters> (stringHelper::strings & listOfStrings, std::string const& mainString, std::string const& delimiter);
 
-std::string stringHelper::combineStrings(stringHelper::strings & listOfStrings, std::string const& delimiters)
+std::string stringHelper::combineStrings(stringHelper::strings const& listOfStrings, std::string const& delimiters)
 {
     string result = accumulate(listOfStrings.cbegin(), listOfStrings.cend(), string(""), [&delimiters](string const& previousResult, string const& currentString)
-    {
-        return string(previousResult + currentString + delimiters);
+    {        return string(previousResult + currentString + delimiters);
     });
 
-    if(result.size() > delimiters.size())
-    {
+    if(result.size() > delimiters.size())    {
         result = result.substr(0, result.size() - delimiters.size());
     }
     return result;

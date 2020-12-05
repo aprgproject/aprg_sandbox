@@ -5,14 +5,11 @@
 #include <FrequencyStatistics.hpp>
 #include <Math/AlbaMathHelper.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <String/AlbaStringHelper.hpp>
 #include <User/AlbaUserInterface.hpp>
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
 #include <TwoDimensions/Circle.hpp>
-
 #include <sstream>
 #include <iostream>
-
 #define ALLOWABLE_LINE_DEVIATION_FOR_LINE_MODEL 2
 #define ALLOWABLE_HALF_LINE_WIDTH_DEVIATION 2
 #define ALLOWABLE_HALF_BAR_WIDTH_DEVIATION 4
@@ -81,38 +78,50 @@ double SOOSA::PointAndWidth::getWidth() const
     return m_width;
 }
 
-SOOSA::StatusSingleton::StatusSingleton()
+SOOSA::StatusStatus::StatusStatus()
 {}
 
-SOOSA::StatusSingleton SOOSA::StatusSingleton::getInstance()
+SOOSA::StatusStatus SOOSA::StatusStatus::getInstance()
 {
-    static StatusSingleton instance;
+    static StatusStatus instance;
     return instance;
 }
 
-SoosaStatus SOOSA::StatusSingleton::getSoosaStatus() const
+string SOOSA::StatusStatus::getSoosaStatus() const
 {
-    return m_status;
+    string result;
+    if(!m_errors.empty())
+    {
+        result = stringHelper::combineStrings(m_errors, " ");
+    }
+    else
+    {
+        result = "No errors encountered.";
+    }
+    return result;
 }
 
-void SOOSA::StatusSingleton::setSoosaStatus(SoosaStatus const status)
+void SOOSA::StatusStatus::setError(string const& error)
 {
-    m_status = status;
+    m_errors.emplace_back(error);
 }
 
-bool SOOSA::StatusSingleton::isStatusNoError() const
+void SOOSA::StatusStatus::clearErrors()
 {
-    return m_status == SoosaStatus::NoError;
+    m_errors.clear();
+}
+
+bool SOOSA::StatusStatus::isStatusNoError() const
+{
+    return m_errors.empty();
 }
 
 
 SOOSA::SOOSA(SoosaConfiguration const& configuration)
     : m_configuration(configuration)
-    , m_frequencyDatabase(m_configuration.getNumberOfQuestions())
-{
+    , m_frequencyDatabase(m_configuration.getNumberOfQuestions()){
     m_numberOfRespondents=0;
 }
-
 unsigned int SOOSA::getNumberOfAnswers() const
 {
     return m_questionToAnswersMap.size();
@@ -197,25 +206,22 @@ void SOOSA::setAnswerToQuestionInColumn(unsigned int const columnNumber, unsigne
 void SOOSA::saveDataToCsvFile(string const& processedFilePath)  const
 {
     ofstream outputCsvReportStream(getCsvFileName(m_configuration.getPath()), ofstream::app);
-    if(StatusSingleton::getInstance().isStatusNoError())
+    if(StatusStatus::getInstance().isStatusNoError())
     {
         outputCsvReportStream<<processedFilePath<<",OK";
-        for(unsigned int i=0;i<m_configuration.getNumberOfQuestions();i++)
-        {
+        for(unsigned int i=0;i<m_configuration.getNumberOfQuestions();i++)        {
             outputCsvReportStream<<","<<getAnswerToQuestion(i);
         }
         outputCsvReportStream<<endl;
     }
     else
     {
-        outputCsvReportStream<<processedFilePath<<","<<getString(StatusSingleton::getInstance().getSoosaStatus())<<endl;
+        outputCsvReportStream<<processedFilePath<<","<<StatusStatus::getInstance().getSoosaStatus()<<endl;
     }
 }
-
 void SOOSA::saveHeadersToCsvFile() const
 {
-    ofstream outputCsvReportStream(getCsvFileName(m_configuration.getPath()));
-    outputCsvReportStream << "FILE,STATUS";
+    ofstream outputCsvReportStream(getCsvFileName(m_configuration.getPath()));    outputCsvReportStream << "FILE,STATUS";
     for(unsigned int i=0; i<m_configuration.getNumberOfQuestions(); i++)
     {
         outputCsvReportStream<<",Question_"<<i+1;
@@ -288,28 +294,24 @@ void SOOSA::saveOutputHtmlFile(string const& processedFilePath) const
 
 void SOOSA::saveFrequencyDatabaseIfNoError()
 {
-    if(StatusSingleton::getInstance().isStatusNoError())
+    if(StatusStatus::getInstance().isStatusNoError())
     {
         m_numberOfRespondents++;
-        for(unsigned int i=0;i<m_configuration.getNumberOfQuestions();i++)
-        {
+        for(unsigned int i=0;i<m_configuration.getNumberOfQuestions();i++)        {
             m_frequencyDatabase.addAnswer(i, getAnswerToQuestion(i)-1);
         }
-    }
-}
+    }}
 
 void SOOSA::processFile(string const& filePath)
 {
     cout<<"processFile: ["<<filePath<<"]"<<endl;
-    StatusSingleton::getInstance().setSoosaStatus(SoosaStatus::NoError);
+    StatusStatus::getInstance().clearErrors();
 
     AprgBitmap bitmap(filePath);
     AprgBitmapSnippet globalSnippet(bitmap.getSnippetReadFromFileWholeBitmap());
-
     Line leftLine, rightLine, topLine, bottomLine, centerLeftLine, centerRightLine;
     leftLine = findLeftLine(globalSnippet);
-    rightLine = findRightLine(globalSnippet);
-    topLine = findTopLine(globalSnippet);
+    rightLine = findRightLine(globalSnippet);    topLine = findTopLine(globalSnippet);
     bottomLine = findBottomLine(globalSnippet);
 
     Point edgePoints[2][3];
@@ -336,15 +338,15 @@ void SOOSA::processFile(string const& filePath)
     }
     if(m_configuration.getNumberOfQuestions() != m_questionToAnswersMap.size())
     {
-        StatusSingleton::getInstance().setSoosaStatus(SoosaStatus::NumberOfQuestionsDoesNotMatchNumberOfAnswers);
+        stringstream ss;
+        ss<<"Number of questions does not match the number of answers. Number of questions: "<<m_configuration.getNumberOfQuestions()<<" Number of answers: "<<m_questionToAnswersMap.size()<<".";
+        StatusStatus::getInstance().setError(ss.str());
     }
     saveFrequencyDatabaseIfNoError();
 }
-
 Line SOOSA::findLeftLine(AprgBitmapSnippet const& snippet) const
 {
-    cout<<"findLeftLine"<<endl;
-    RangeOfInts rangeForX(snippet.getTopLeftCorner().getX(), snippet.getBottomRightCorner().getX(), 1);
+    cout<<"findLeftLine"<<endl;    RangeOfInts rangeForX(snippet.getTopLeftCorner().getX(), snippet.getBottomRightCorner().getX(), 1);
     return findVerticalLine(snippet, rangeForX);
 }
 
@@ -492,15 +494,15 @@ Line SOOSA::getLineModel(TwoDimensionsStatistics::Samples const & samples) const
     }
     if(samplesForLineModeling.size() < MINIMUM_NUMBER_OF_LINE_SAMPLES)
     {
-        StatusSingleton::getInstance().setSoosaStatus(SoosaStatus::LineNotFoundBecauseNotEnoughSamples);
+        stringstream ss;
+        ss<<"Line not found because not enough samples. Samples found for line modeling: "<<samplesForLineModeling.size()<<" Minimum number of samples: "<<MINIMUM_NUMBER_OF_LINE_SAMPLES<<".";
+        StatusStatus::getInstance().setError(ss.str());
         cout<<"getLineModel -> Not enough samples: "<<samplesForLineModeling.size()<<endl;
     }
-    return Line(lineModel.aCoefficient, lineModel.bCoefficient, lineModel.cCoefficient);
-}
+    return Line(lineModel.aCoefficient, lineModel.bCoefficient, lineModel.cCoefficient);}
 
 SOOSA::VectorOfDoubles SOOSA::getAcceptableSquareErrorsUsingKMeans(TwoDimensionsStatistics::ValueToSampleMultimap const& squareErrorToSampleMultimap) const
-{
-    // not active anymore
+{    // not active anymore
     VectorOfDoubles squareErrors;
     OneDimensionKMeans kMeansForSquareErrors;
     for(TwoDimensionsStatistics::ValueToSamplePair const& squareErrorToSamplePair : squareErrorToSampleMultimap)
@@ -552,23 +554,24 @@ void SOOSA::processColumn(AprgBitmapSnippet const& snippet, Line const& leftLine
             unsigned int answer(getAnswerToQuestion(snippet, questionBarCoordinatesForLeftLine[questionIndex], questionBarCoordinatesForRightLine[questionIndex]));
             if(answer==0)
             {
-                StatusSingleton::getInstance().setSoosaStatus(SoosaStatus::ProblemLocatingChoiceInQuestion);
+                stringstream ss;
+                ss<<"Problem locating choices in a question. Question number: "<<questionIndex+1<<".";
+                StatusStatus::getInstance().setError(ss.str());
                 cout<<"processColumn -> Problem locating choice in question number: "<<questionIndex+1<<", column number: "<<columnNumber<<endl;
             }
-            setAnswerToQuestionInColumn(columnNumber, questionIndex, answer);
-        }
+            setAnswerToQuestionInColumn(columnNumber, questionIndex, answer);        }
     }
     else
     {
-        StatusSingleton::getInstance().setSoosaStatus(SoosaStatus::NumberOfQuestionCoordinatesDoesNotMatchBetweenColumns);
+        stringstream ss;
+        ss<<"Number of question coordinates does not match between columns. Question bars at left line: "<<questionBarCoordinatesForLeftLine.size()<<"Question bars at right line: "<<questionBarCoordinatesForRightLine.size()<<".";
+        StatusStatus::getInstance().setError(ss.str());
         cout<<"processColumn -> Questions coordinates does not match. Left line: "<<questionBarCoordinatesForLeftLine.size()<<" Right Line: "<<questionBarCoordinatesForRightLine.size()<<" Number of questions in the column: "<<numberQuestionsInColumn<<endl;
     }
 }
-
 unsigned int SOOSA::getAnswerToQuestion(AprgBitmapSnippet const& snippet, QuestionBarCoordinate const& leftCoordinate, QuestionBarCoordinate const& rightCoordinate) const
 {
-    Point leftPoint(twoDimensionsHelper::getMidpoint(leftCoordinate.first, leftCoordinate.second));
-    Point rightPoint(twoDimensionsHelper::getMidpoint(rightCoordinate.first, rightCoordinate.second));
+    Point leftPoint(twoDimensionsHelper::getMidpoint(leftCoordinate.first, leftCoordinate.second));    Point rightPoint(twoDimensionsHelper::getMidpoint(rightCoordinate.first, rightCoordinate.second));
     double leftBarHeight(twoDimensionsHelper::getDistance(leftCoordinate.first, leftCoordinate.second));
     double rightBarHeight(twoDimensionsHelper::getDistance(rightCoordinate.first, rightCoordinate.second));
     double lowestHeightOfQuestion(min(leftBarHeight, rightBarHeight));
