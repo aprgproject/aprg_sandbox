@@ -6,16 +6,12 @@
 #include <algorithm>
 #include <cmath>
 
-#include <Debug/AlbaDebug.hpp>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 AprgGraph::AprgGraph(string const& bitmapPath, BitmapXY const& originInBitmap, BitmapDoubleXY const& magnification)
-    : m_bitmap(bitmapPath)
-    , m_bitmapSnippet(m_bitmap.getSnippetReadFromFileWholeBitmap())
+    : m_bitmap(bitmapPath)    , m_bitmapSnippet(m_bitmap.getSnippetReadFromFileWholeBitmap())
     , m_originInBitmap(originInBitmap)
     , m_magnification(magnification)
     , m_lowestInterval(getLowestInterval())
@@ -128,15 +124,12 @@ void AprgGraph::drawFunctionUsingY(unsigned int const color, FunctionWithDoubles
 void AprgGraph::drawNumberLabel(LabelType const labelType, BitmapXY const& numberPosition, double const number)
 {
     string label(m_numberToStringConverter.convert(number));
-    ALBA_PRINT1(label);
     unsigned int labelCharacterLength = label.length();
     unsigned int widthOfCharacter = 12;
-    unsigned int heightOfCharacter = 20;
-    int startPositionInX=0;
+    unsigned int heightOfCharacter = 20;    int startPositionInX=0;
     int startPositionInY=0;
     if(LabelType::HorizontalLabel == labelType)
-    {
-        startPositionInX = numberPosition.getX() - (label.length()*widthOfCharacter/2);
+    {        startPositionInX = numberPosition.getX() - (label.length()*widthOfCharacter/2);
         startPositionInY = numberPosition.getY();
     }
     else if(LabelType::VerticalLabel == labelType)
