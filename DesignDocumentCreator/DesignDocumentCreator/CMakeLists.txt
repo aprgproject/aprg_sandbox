@@ -34,11 +34,10 @@ include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
 include(${APRG_DIR}/AprgCMakeHelpers/cmake/Macros.cmake)
 
 #Feature include
-include(${DesignDocumentCreatorDirectory}/cmake/ProjectToCopy.cmake)
+include(${DesignDocumentCreatorDirectory}/cmake/RP001481.cmake)
 
 #Assign Sack Directory
 set(SackDirectory "E:/Branches/trunk")
-
 #Sacks
 set(SACKS_DIR_TO_INCLUDE
     ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp

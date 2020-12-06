@@ -7,8 +7,7 @@ namespace DesignDocumentCreator
 
 namespace MessageFactory
 {
-    GenericMessage createMessage1();
+    GenericMessage createMESSAGE_1();
 }
 
 } // namespace DesignDocumentCreator
-

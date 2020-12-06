@@ -24,6 +24,6 @@ TEST_F(ModuleTest, SampleScenario)
     component1.pushBackEvent(Event(OtherEvent(OtherEventType::MainProcessStartup)));
     component1.handleOneEvent();
 
-    sendMessage(ComponentName::Component1, ComponentName::Component1, createMessage1());
+    sendMessage(ComponentName::Component1, ComponentName::Component1, createMESSAGE_1());
     component1.handleOneEvent();
 }

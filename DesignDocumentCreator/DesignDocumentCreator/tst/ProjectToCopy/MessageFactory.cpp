@@ -5,11 +5,10 @@
 namespace DesignDocumentCreator
 {
 
-GenericMessage MessageFactory::createMessage1()
+GenericMessage MessageFactory::createMESSAGE_1()
 {
     SpecificStaticMessage<MessageName::MESSAGE_1> message;
-    Message1Structure& payload(message.getPayloadReference());
-    payload.temporary = 0x0;
+    Message1Structure& payload(message.getPayloadReference());    payload.temporary = 0x0;
     return convertSpecificStaticToGeneric(message);
 }
 

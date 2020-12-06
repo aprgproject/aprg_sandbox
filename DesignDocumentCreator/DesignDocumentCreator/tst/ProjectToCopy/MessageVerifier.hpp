@@ -9,8 +9,7 @@ namespace DesignDocumentCreator
 
 namespace MessageVerifier
 {
-    void verifierMessage1(GenericMessage const& genericMessage);
+    void verifierMESSAGE_1(GenericMessage const& genericMessage);
 }
 
 } // namespace DesignDocumentCreator
-
