@@ -1,25 +1,22 @@
 #include "TwoDimensionsHelper.hpp"
 
+#include <Math/AlbaMathHelper.hpp>
+
 #include <algorithm>
-#include <cmath>
 
 using namespace std;
-
 namespace alba
 {
-
 double twoDimensionsHelper::getDistance(Point const& point1, Point const& point2)
 {
     double deltaX = point2.getX() - point1.getX();
     double deltaY = point2.getY() - point1.getY();
-    return pow(pow(deltaX,2) + pow(deltaY,2), 0.5);
+    return mathHelper::getSquareRootOfXSquaredPlusYSquared<double>(deltaX, deltaY);
 }
 
-Point twoDimensionsHelper::getMidpoint(Point const& point1, Point const& point2)
-{
+Point twoDimensionsHelper::getMidpoint(Point const& point1, Point const& point2){
     return Point((point1.getX()+point2.getX())/2,  (point1.getY()+point2.getY())/2);
 }
-
 Line twoDimensionsHelper::getLineWithSameSlope(Line const& line, Point const& point)
 {
     return Line(line.getACoefficient(), line.getBCoefficient(), -1*((line.getACoefficient()*point.getX())+(line.getBCoefficient()*point.getY())));
