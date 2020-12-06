@@ -51,13 +51,29 @@ public:
         return !(firstXy==secondXy);
     }
 
-    std::string getDisplayableString() const
+    bool operator<(AlbaXY<CoordinateType> const& xy) const // this is added so it can be used in map
     {
-        std::stringstream ss;
-        ss<<"("<<x<<","<<y<<")";
-        return ss.str();
+        bool result(false);
+        if(x < xy.x)
+        {
+            result = true;
+        }
+        else if(x == xy.x)
+        {
+            result = (y < xy.y);
+        }
+        else
+        {
+            result = false;
+        }
+        return result;
     }
 
+    std::string getDisplayableString() const
+    {
+        std::stringstream ss;        ss<<"("<<x<<","<<y<<")";
+        return ss.str();
+    }
     void setXAndY(CoordinateType xValue, CoordinateType yValue)
     {
         x = xValue;

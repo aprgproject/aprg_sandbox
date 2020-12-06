@@ -41,19 +41,17 @@ public:
 
 private:
     std::string getBitmapFilePathOfCharacter(char const character) const;
-    double getLowestInterval();
-    BitmapXY convertToBitmapXY(Point const& geometryPosition);
-    Point convertToPoint(BitmapXY const& bitmapPosition);
-    Point convertToPointInBitmap(Point const& realPosition);
-    BitmapXY convertPointInBitmapToBitmapXY(Point const& bitmapPosition);
+    double getLowestInterval() const;
+    BitmapXY convertRealPointToBitmapXY(Point const& geometryPosition) const;
+    Point convertBitmapXYToRealPoint(BitmapXY const& bitmapPosition) const;
+    Point convertRealPointToBitmapPoint(Point const& realPosition) const;
+    BitmapXY convertBitmapPointToBitmapXY(Point const& bitmapPosition) const;
     AprgBitmap m_bitmap;
     AprgBitmapSnippet m_bitmapSnippet;
-    BitmapXY m_originInBitmap;
-    BitmapDoubleXY m_magnification;
+    BitmapXY m_originInBitmap;    BitmapDoubleXY m_magnification;
     double m_lowestInterval;
     Point m_realUpLeftPoint;
-    Point m_realDownRightPoint;
-    alba::stringHelper::NumberToStringConverter m_numberToStringConverter;
+    Point m_realDownRightPoint;    alba::stringHelper::NumberToStringConverter m_numberToStringConverter;
 };
 
 }

@@ -49,15 +49,27 @@ void AprgBitmapSnippet::traverse(TraverseFunction const& traverseFunction) const
     }
 }
 
+void AprgBitmapSnippet::traverseAndUpdate(TraverseAndUpdateFunction const& traverseAndUpdateFunction)
+{
+    for(unsigned int x=m_topLeftCorner.getX(); x<=m_bottomRightCorner.getX(); x++)
+    {
+        for(unsigned int y=m_topLeftCorner.getY(); y<=m_bottomRightCorner.getY(); y++)
+        {
+            BitmapXY currentPoint(x,y);
+            unsigned int colorToBeUpdated(getPixelAt(currentPoint));
+            traverseAndUpdateFunction(currentPoint, colorToBeUpdated);
+            setPixelAt(currentPoint, colorToBeUpdated);
+        }
+    }
+}
+
 unsigned int AprgBitmapSnippet::getDeltaX() const
 {
-    return m_bottomRightCorner.getX() - m_topLeftCorner.getX();
-}
+    return m_bottomRightCorner.getX() - m_topLeftCorner.getX();}
 
 unsigned int AprgBitmapSnippet::getDeltaY() const
 {
-    return m_bottomRightCorner.getY() - m_topLeftCorner.getY();
-}
+    return m_bottomRightCorner.getY() - m_topLeftCorner.getY();}
 
 unsigned int AprgBitmapSnippet::getNumberOfPixelsInSnippet() const
 {
@@ -108,24 +120,17 @@ unsigned int AprgBitmapSnippet::getColorAt(BitmapXY const position) const
     return m_configuration.getColorUsingPixelValue(getPixelAt(position));
 }
 
-bool AprgBitmapSnippet::isBlackAt(BitmapXY const position) const
+bool AprgBitmapSnippet::isBlackAt(BitmapXY const position) const //this is the only assumption, colors can depend on numberofbits of pixel and color table
 {
     return (m_configuration.getColorUsingPixelValue(getPixelAt(position))==0x00000000);
 }
 
-bool AprgBitmapSnippet::isWhiteAt(BitmapXY const position) const
-{
-    return (m_configuration.getColorUsingPixelValue(getPixelAt(position))==0x00FFFFFF);
-}
-
 void AprgBitmapSnippet::setPixelAt(BitmapXY const position, unsigned int const value)
 {
-    if(isPositionInside(position))
-    {
+    if(isPositionInside(position))    {
         unsigned int index = calculateIndexInPixelData(position);
         unsigned char* writer = (unsigned char *)m_pixelData.getConstantBufferPointer();
-        if(m_configuration.getNumberOfBitsPerPixel() < AlbaBitConstants::BYTE_SIZE_IN_BITS)
-        {
+        if(m_configuration.getNumberOfBitsPerPixel() < AlbaBitConstants::BYTE_SIZE_IN_BITS)        {
             setPixelAtForPixelInAByte(writer, index, position, value);
         }
         else

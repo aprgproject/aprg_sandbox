@@ -12,15 +12,13 @@ namespace alba
 AlbaMemoryBuffer::AlbaMemoryBuffer()
 {}
 
-AlbaMemoryBuffer::AlbaMemoryBuffer(void* bufferPointer, unsigned int size)
+AlbaMemoryBuffer::AlbaMemoryBuffer(void* bufferPointer, unsigned int const size)
 {
     addData(bufferPointer, size);
 }
-
 AlbaMemoryBuffer::operator bool() const
 {
-    return hasContent();
-}
+    return hasContent();}
 
 bool AlbaMemoryBuffer::hasContent() const
 {
@@ -47,33 +45,36 @@ void AlbaMemoryBuffer::clear()
     m_buffer.clear();
 }
 
-void AlbaMemoryBuffer::clearAndSetNewData(void* bufferPointer, unsigned int size)
+void AlbaMemoryBuffer::clearAndSetNewData(void* bufferPointer, unsigned int const size)
 {
     clear();
     addData(bufferPointer, size);
 }
 
-void AlbaMemoryBuffer::resize(unsigned int size)
+void AlbaMemoryBuffer::resize(unsigned int const size)
 {
     m_buffer.resize(size);
 }
 
-void* AlbaMemoryBuffer::addDataAndReturnBeginOfAdditionalData(unsigned int additionalSize)
+void AlbaMemoryBuffer::resize(unsigned int size, unsigned int const initialValue)
+{
+    m_buffer.resize(size, initialValue);
+}
+
+void* AlbaMemoryBuffer::addDataAndReturnBeginOfAdditionalData(unsigned int const additionalSize)
 {
     unsigned int oldSize = getSize();
     m_buffer.resize(oldSize+additionalSize);
     return m_buffer.begin().base()+oldSize;
 }
 
-void AlbaMemoryBuffer::addData(void* bufferPointer, unsigned int additionalSize)
+void AlbaMemoryBuffer::addData(void* bufferPointer, unsigned int const additionalSize)
 {
     unsigned char* bufferPointerByteType = (unsigned char*)bufferPointer;
-    for(unsigned int i=0; i<additionalSize; i++)
-    {
+    for(unsigned int i=0; i<additionalSize; i++)    {
         m_buffer.emplace_back(bufferPointerByteType[i]);
     }
-}
-string AlbaMemoryBuffer::getDisplayableString() const
+}string AlbaMemoryBuffer::getDisplayableString() const
 {
     return containerHelper::getStringFromContentsOfContainerWithNumberFormat(m_buffer, ", ");
 }
