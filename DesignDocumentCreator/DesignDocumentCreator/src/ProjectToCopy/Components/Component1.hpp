@@ -6,13 +6,12 @@
 namespace DesignDocumentCreator
 {
 
-class Oam : public Component
+class Component1 : public Component
 {
 public:
-    Oam(ComponentName const componentName);
+    Component1(ComponentName const componentName);
 private:
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
-    virtual void handleTimerEvent(Timer const& timer);
-};
+    virtual void handleTimerEvent(Timer const& timer);};
 
 }
