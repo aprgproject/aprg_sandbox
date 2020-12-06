@@ -29,4 +29,9 @@ PixelInformation PixelInformationDatabase::getPixelInformation(BitmapXY const& b
     return PixelInformation();
 }
 
+void PixelInformationDatabase::clear()
+{
+    m_pixelsInformationMap.clear();
+}
+
 }
