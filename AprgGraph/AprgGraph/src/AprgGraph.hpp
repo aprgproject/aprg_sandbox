@@ -48,10 +48,12 @@ private:
     BitmapXY convertBitmapPointToBitmapXY(Point const& bitmapPosition) const;
     AprgBitmap m_bitmap;
     AprgBitmapSnippet m_bitmapSnippet;
-    BitmapXY m_originInBitmap;    BitmapDoubleXY m_magnification;
+    BitmapXY m_originInBitmap;
+    BitmapDoubleXY m_magnification;
     double m_lowestInterval;
     Point m_realUpLeftPoint;
-    Point m_realDownRightPoint;    alba::stringHelper::NumberToStringConverter m_numberToStringConverter;
+    Point m_realDownRightPoint;
+    alba::stringHelper::NumberToStringConverter m_numberToStringConverter;
 };
 
 }

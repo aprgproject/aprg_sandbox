@@ -37,10 +37,12 @@ include(${APRG_DIR}/AprgCMakeHelpers/cmake/Macros.cmake)
 include(${DesignDocumentCreatorDirectory}/cmake/ProjectToCopy.cmake)
 
 #Assign Sack Directory
-set(SackDirectory "D:/Branches/trunk")
+set(SackDirectory "E:/Branches/trunk")
+
 #Sacks
 set(SACKS_DIR_TO_INCLUDE
-    ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp    ${SackDirectory}/wbts_integration/I_Interface/Global_Env/Definitions
+    ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp
+    ${SackDirectory}/wbts_integration/I_Interface/Global_Env/Definitions
     ${SackDirectory}/wbts_integration/I_Interface/Global_Env/Messages
     ${SackDirectory}/wbts_integration/I_Interface/Application_Env
     ${SackDirectory}/wbts_integration/I_Interface/Application_Env/Wn_Env/Bs_Env
@@ -108,10 +110,12 @@ set(COMMON_SOURCES
     src/Common/Uml/UmlArrow.hpp
     src/Common/Uml/UmlLogger.cpp
     src/Common/Uml/UmlLogger.hpp
-    src/Common/Uml/UmlParticipant.cpp    src/Common/Uml/UmlParticipant.hpp
+    src/Common/Uml/UmlParticipant.cpp
+    src/Common/Uml/UmlParticipant.hpp
     src/Common/Uml/UmlPositionType.hpp
     src/Common/Utils/StringHelpers.cpp
-    src/Common/Utils/StringHelpers.hpp    src/Common/Environment.cpp
+    src/Common/Utils/StringHelpers.hpp
+    src/Common/Environment.cpp
     src/Common/Environment.hpp
 )
 

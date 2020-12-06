@@ -205,7 +205,7 @@ TEST(MessagesTest, SpecificDynamicPolymorphicMessageCanBeConvertedToGeneric)
 
 TEST(TimerTest, TimersCanBeCreated)
 {
-    TimerType type(TimerType::CELL_TIMER);
+    TimerType type(TimerType::CellTimer);
     TimerId cellId(11111);
     Timer timer(type, cellId);
 
@@ -222,14 +222,14 @@ TEST(EventsTest, MessageEventsCanBeCreated)
     StaticMessageSack outputPayload(*reinterpret_cast<StaticMessageSack*>(event.getMessage().getPayloadBufferReference().getBufferPointer()));
 
     EXPECT_EQ(EventType::MessageEvent, event.getType());
-    EXPECT_EQ(TimerType::EMPTY, event.getTimer().getType());
+    EXPECT_EQ(TimerType::Empty, event.getTimer().getType());
     EXPECT_EQ(MessageName::SampleStaticMessage, event.getMessage().getMessageName());
     EXPECT_EQ(5678, outputPayload.sampleParameter);
 }
 
 TEST(EventsTest, TimerEventsCanBeCreated)
 {
-    TimerType type(TimerType::CELL_TIMER);
+    TimerType type(TimerType::CellTimer);
     TimerId cellId(11111);
     Timer timer(type, cellId);
     Event event(timer);
@@ -265,7 +265,7 @@ TEST(ComponentsTest, MessageEventsAreHandledByComponents)
 
 TEST(ComponentsTest, TimerEventsAreHandledByComponents)
 {
-    TimerType type(TimerType::CELL_TIMER);
+    TimerType type(TimerType::CellTimer);
     TimerId cellId(11111);
     Timer timer(type, cellId);
     Event event(timer);

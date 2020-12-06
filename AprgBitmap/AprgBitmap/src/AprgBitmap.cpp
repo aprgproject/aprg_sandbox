@@ -31,10 +31,12 @@ AprgBitmapSnippet AprgBitmap::createColorFilledSnippetWithSizeOfWholeBitmap(unsi
 
 AprgBitmapSnippet AprgBitmap::getSnippetReadFromFileWholeBitmap() const
 {
-    return getSnippetReadFromFile(getUpLeftCornerPoint(), getDownRightCornerPoint());}
+    return getSnippetReadFromFile(getUpLeftCornerPoint(), getDownRightCornerPoint());
+}
 
 AprgBitmapSnippet AprgBitmap::getSnippetReadFromFileWithOutOfRangeCoordinates(int outOfRangeLeft, int outOfRangeTop, int outOfRangeRight, int outOfRangeBottom) const
-{    if(outOfRangeLeft > outOfRangeRight)
+{
+    if(outOfRangeLeft > outOfRangeRight)
     {
         swap(outOfRangeLeft, outOfRangeRight);
     }
@@ -83,10 +85,12 @@ AprgBitmapSnippet AprgBitmap::getSnippetReadFromFile(BitmapXY const topLeftCorne
 
             for(int y=offsetInYForStart; y>=offsetInYForEnd; y--)
             {
-                unsigned long long fileOffsetForStart = m_configuration.getPixelArrayAddress()+((unsigned long long)m_configuration.getNumberOfBytesPerRowInFile()*y)+byteOffsetInXForStart;                fileReader.moveLocation(fileOffsetForStart);
+                unsigned long long fileOffsetForStart = m_configuration.getPixelArrayAddress()+((unsigned long long)m_configuration.getNumberOfBytesPerRowInFile()*y)+byteOffsetInXForStart;
+                fileReader.moveLocation(fileOffsetForStart);
                 fileReader.saveDataToMemoryBuffer(snippet.getPixelDataReference(), numberOfBytesToBeCopiedForX);
             }
-        }    }
+        }
+    }
     return snippet; //RVO takes care of this
 }
 

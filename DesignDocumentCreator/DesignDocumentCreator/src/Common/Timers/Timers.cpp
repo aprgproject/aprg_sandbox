@@ -4,7 +4,7 @@ namespace DesignDocumentCreator
 {
 
 Timer::Timer()
-    : m_timerType(TimerType::EMPTY)
+    : m_timerType(TimerType::Empty)
     , m_timerId(0)
 {}
 

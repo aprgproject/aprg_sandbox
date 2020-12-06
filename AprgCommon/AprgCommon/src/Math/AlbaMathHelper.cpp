@@ -16,7 +16,8 @@ template double mathHelper::getAverage<double>(double const value1, double const
 
 template <typename NumberType>
 NumberType mathHelper::getAbsoluteValue(NumberType const value)
-{    return (value<0) ? value*-1 : value;
+{
+    return (value<0) ? value*-1 : value;
 }
 template int mathHelper::getAbsoluteValue<int>(int const value);
 template double mathHelper::getAbsoluteValue<double>(double const value);
@@ -41,14 +42,16 @@ template double mathHelper::getSquareRootOfXSquaredPlusYSquaredPlusZSquared<doub
 template <typename NumberType>
 NumberType mathHelper::getSign(NumberType const value)
 {
-    return (value<0) ? -1 : 1;}
+    return (value<0) ? -1 : 1;
+}
 template int mathHelper::getSign<int>(int const value);
 template double mathHelper::getSign<double>(double const value);
 
 
 template <typename NumberType>
 NumberType mathHelper::clampLowerBound(NumberType const value, NumberType const limit)
-{    return (value<limit) ? limit : value;
+{
+    return (value<limit) ? limit : value;
 }
 template int mathHelper::clampLowerBound<int>(int const value, int const limit);
 template double mathHelper::clampLowerBound<double>(double const value, double const limit);
@@ -56,7 +59,8 @@ template double mathHelper::clampLowerBound<double>(double const value, double c
 
 template <typename NumberType>
 NumberType mathHelper::clampHigherBound(NumberType const value, NumberType const limit)
-{    return (value>limit) ? limit : value;
+{
+    return (value>limit) ? limit : value;
 }
 template int mathHelper::clampHigherBound<int>(int const value, int const limit);
 template double mathHelper::clampHigherBound<double>(double const value, double const limit);
@@ -64,10 +68,12 @@ template double mathHelper::clampHigherBound<double>(double const value, double 
 
 unsigned int mathHelper::getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number)
 {
-    unsigned result(0);    if(multiple>0)
+    unsigned result(0);
+    if(multiple>0)
     {
         unsigned int numberOfMultiples(getNumberOfMultiplesInclusive(multiple, number));
-        result = (numberOfMultiples*multiple) - number;    }
+        result = (numberOfMultiples*multiple) - number;
+    }
     return result;
 }
 

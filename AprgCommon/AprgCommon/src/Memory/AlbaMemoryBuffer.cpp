@@ -16,9 +16,11 @@ AlbaMemoryBuffer::AlbaMemoryBuffer(void* bufferPointer, unsigned int const size)
 {
     addData(bufferPointer, size);
 }
+
 AlbaMemoryBuffer::operator bool() const
 {
-    return hasContent();}
+    return hasContent();
+}
 
 bool AlbaMemoryBuffer::hasContent() const
 {
@@ -71,10 +73,12 @@ void* AlbaMemoryBuffer::addDataAndReturnBeginOfAdditionalData(unsigned int const
 void AlbaMemoryBuffer::addData(void* bufferPointer, unsigned int const additionalSize)
 {
     unsigned char* bufferPointerByteType = (unsigned char*)bufferPointer;
-    for(unsigned int i=0; i<additionalSize; i++)    {
+    for(unsigned int i=0; i<additionalSize; i++)
+    {
         m_buffer.emplace_back(bufferPointerByteType[i]);
     }
-}string AlbaMemoryBuffer::getDisplayableString() const
+}
+string AlbaMemoryBuffer::getDisplayableString() const
 {
     return containerHelper::getStringFromContentsOfContainerWithNumberFormat(m_buffer, ", ");
 }

@@ -20,10 +20,12 @@ public:
     AprgBitmapSnippet getSnippetReadFromFileWholeBitmap() const; //implement UT
     AprgBitmapSnippet getSnippetReadFromFileWithOutOfRangeCoordinates(int outOfRangeTop, int outOfRangeLeft, int outOfRangeBottom, int outOfRangeRight) const;
     AprgBitmapSnippet getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY const center, unsigned int const numberOfBytesToRead) const;
-    AprgBitmapSnippet getSnippetReadFromFile(BitmapXY const topLeftCorner, BitmapXY const bottomRightCorner) const;    void setSnippetWriteToFile(AprgBitmapSnippet const& snippet) const;
+    AprgBitmapSnippet getSnippetReadFromFile(BitmapXY const topLeftCorner, BitmapXY const bottomRightCorner) const;
+    void setSnippetWriteToFile(AprgBitmapSnippet const& snippet) const;
     BitmapXY getPointWithinTheBitmap(int const xCoordinate, int const yCoordinate) const;
     unsigned int getXCoordinateWithinTheBitmap(int const coordinate) const;
-    unsigned int getYCoordinateWithinTheBitmap(int const coordinate) const;    unsigned int getCoordinateWithinRange(int const coordinate, int maxLength) const;
+    unsigned int getYCoordinateWithinTheBitmap(int const coordinate) const;
+    unsigned int getCoordinateWithinRange(int const coordinate, int maxLength) const;
     BitmapXY getUpLeftCornerPoint() const;
     BitmapXY getDownRightCornerPoint() const;
 

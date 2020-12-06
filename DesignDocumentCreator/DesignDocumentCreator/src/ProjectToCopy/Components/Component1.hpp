@@ -11,7 +11,10 @@ class Component1 : public Component
 public:
     Component1(ComponentName const componentName);
 private:
-    virtual void handleMessageEvent(GenericMessage const& genericMessage);
-    virtual void handleTimerEvent(Timer const& timer);};
+    void handleMessage1(GenericMessage const& genericMessage);
+    void handleMessageEvent(GenericMessage const& genericMessage) override;
+    void handleTimerEvent(Timer const& timer) override;
+    void handleOtherEvent(OtherEvent const& otherEvent) override;
+};
 
 }

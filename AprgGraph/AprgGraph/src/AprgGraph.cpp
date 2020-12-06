@@ -8,10 +8,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 AprgGraph::AprgGraph(string const& bitmapPath, BitmapXY const& originInBitmap, BitmapDoubleXY const& magnification)
-    : m_bitmap(bitmapPath)    , m_bitmapSnippet(m_bitmap.getSnippetReadFromFileWholeBitmap())
+    : m_bitmap(bitmapPath)
+    , m_bitmapSnippet(m_bitmap.getSnippetReadFromFileWholeBitmap())
     , m_originInBitmap(originInBitmap)
     , m_magnification(magnification)
     , m_lowestInterval(getLowestInterval())
@@ -20,17 +22,20 @@ AprgGraph::AprgGraph(string const& bitmapPath, BitmapXY const& originInBitmap, B
 {
     m_numberToStringConverter.setPrecision(5);
 }
+
 void AprgGraph::drawPoint(Point const& point, unsigned int const color)
 {
     m_bitmapSnippet.setPixelAt(convertRealPointToBitmapXY(point), color);
 }
 
-void AprgGraph::drawDiscontinuousPoints(Points const& points, unsigned int const color){
+void AprgGraph::drawDiscontinuousPoints(Points const& points, unsigned int const color)
+{
     for(Point const& point : points)
     {
         m_bitmapSnippet.setPixelAt(convertRealPointToBitmapXY(point), color);
     }
 }
+
 void AprgGraph::drawContinuousPoints(Points const& points, unsigned int const color)
 {
     Points pointsInBitmap;
@@ -44,9 +49,11 @@ void AprgGraph::drawContinuousPoints(Points const& points, unsigned int const co
         m_bitmapSnippet.setPixelAt(convertBitmapPointToBitmapXY(pointInBitmap), color);
     }
 }
+
 void AprgGraph::drawLine(Line const& line, unsigned int const color)
 {
-    Points points(line.getPoints(m_realUpLeftPoint, m_realDownRightPoint, m_lowestInterval));    drawDiscontinuousPoints(points, color);
+    Points points(line.getPoints(m_realUpLeftPoint, m_realDownRightPoint, m_lowestInterval));
+    drawDiscontinuousPoints(points, color);
 }
 
 void AprgGraph::drawCircle(Circle const& circle, unsigned int const color)
@@ -93,9 +100,11 @@ void AprgGraph::drawGrid(BitmapDoubleXY const& gridInterval)
         drawNumberLabel(LabelType::OriginLabel, convertRealPointToBitmapXY(Point(0, 0)), 0);
     }
 }
+
 void AprgGraph::drawFunctionUsingX(unsigned int const color, FunctionWithDoubles const& functionFromXToY)
 {
-    Points points;    RangeWithDoubles xRange(m_realUpLeftPoint.getX(), m_realDownRightPoint.getX(), m_lowestInterval);
+    Points points;
+    RangeWithDoubles xRange(m_realUpLeftPoint.getX(), m_realDownRightPoint.getX(), m_lowestInterval);
     xRange.traverse([&](double xValue)
     {
         points.emplace_back(xValue, functionFromXToY(xValue));
@@ -119,10 +128,12 @@ void AprgGraph::drawNumberLabel(LabelType const labelType, BitmapXY const& numbe
     string label(m_numberToStringConverter.convert(number));
     unsigned int labelCharacterLength = label.length();
     unsigned int widthOfCharacter = 12;
-    unsigned int heightOfCharacter = 20;    int startPositionInX=0;
+    unsigned int heightOfCharacter = 20;
+    int startPositionInX=0;
     int startPositionInY=0;
     if(LabelType::HorizontalLabel == labelType)
-    {        startPositionInX = numberPosition.getX() - (label.length()*widthOfCharacter/2);
+    {
+        startPositionInX = numberPosition.getX() - (label.length()*widthOfCharacter/2);
         startPositionInY = numberPosition.getY();
     }
     else if(LabelType::VerticalLabel == labelType)
@@ -192,23 +203,27 @@ double AprgGraph::getLowestInterval() const
 BitmapXY AprgGraph::convertRealPointToBitmapXY(Point const& realPosition) const
 {
     unsigned int xPosition = round(((double)realPosition.getX()*m_magnification.getX())+m_originInBitmap.getX());
-    unsigned int yPosition = round(((double)-1*realPosition.getY()*m_magnification.getY())+m_originInBitmap.getY());    return BitmapXY(xPosition, yPosition);
+    unsigned int yPosition = round(((double)-1*realPosition.getY()*m_magnification.getY())+m_originInBitmap.getY());
+    return BitmapXY(xPosition, yPosition);
 }
 
 Point AprgGraph::convertBitmapXYToRealPoint(BitmapXY const& bitmapPosition) const
 {
     double xPosition = ((double)bitmapPosition.getX()-m_originInBitmap.getX())/m_magnification.getX();
-    double yPosition = ((double)bitmapPosition.getY()-m_originInBitmap.getY())/(m_magnification.getY()*-1);    return Point(xPosition, yPosition);
+    double yPosition = ((double)bitmapPosition.getY()-m_originInBitmap.getY())/(m_magnification.getY()*-1);
+    return Point(xPosition, yPosition);
 }
 
 Point AprgGraph::convertRealPointToBitmapPoint(Point const& realPosition) const
 {
     double xPosition = round(((double)realPosition.getX()*m_magnification.getX())+m_originInBitmap.getX());
-    double yPosition = round(((double)-1*realPosition.getY()*m_magnification.getY())+m_originInBitmap.getY());    return Point(xPosition, yPosition);
+    double yPosition = round(((double)-1*realPosition.getY()*m_magnification.getY())+m_originInBitmap.getY());
+    return Point(xPosition, yPosition);
 }
 
 BitmapXY AprgGraph::convertBitmapPointToBitmapXY(Point const& bitmapPosition) const
 {
     return BitmapXY(round(bitmapPosition.getX()), round(bitmapPosition.getY()));
 }
+
 }

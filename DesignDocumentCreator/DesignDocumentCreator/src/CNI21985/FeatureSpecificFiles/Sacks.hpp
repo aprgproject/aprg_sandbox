@@ -32,7 +32,8 @@ typedef struct SAtmHwConfigurationMsgFake
 } SAtmHwConfigurationMsgFake;
 
 struct TUP_CmConfigurationCmd
-{    EControlUnitType       typeOfConfiguration;             ///< Type of configuration
+{
+    EControlUnitType       typeOfConfiguration;             ///< Type of configuration
     TNumberOfPresence      numOfFspInfo;
     SFspInformation        fspInformationData[1];
 };
@@ -57,3 +58,4 @@ typedef struct SCmBearerSetupRespMsg
     TNumberOfPresence                  numConnections;
     STransportBearerSignallingData     tbSignallingData[1];
 } SCmBearerSetupRespMsg;
+

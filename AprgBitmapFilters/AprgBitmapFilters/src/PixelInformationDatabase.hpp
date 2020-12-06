@@ -29,6 +29,7 @@ public:
     void clear();
     PixelInformation getPixelInformation(BitmapXY const& bitmapXY) const;
 private:
-    PixelInformationMap m_pixelsInformationMap; // separate class};
+    PixelInformationMap m_pixelsInformationMap; // separate class
+};
 
 }

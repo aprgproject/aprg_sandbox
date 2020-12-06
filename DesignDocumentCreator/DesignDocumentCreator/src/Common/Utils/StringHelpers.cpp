@@ -47,10 +47,10 @@ string StringHelpers::convertToString(TimerType const timerType)
     string result;
     switch(timerType)
     {
-    GET_ENUM_STRING(TimerType::EMPTY)
-            GET_ENUM_STRING(TimerType::CELL_TIMER)
-            GET_ENUM_STRING(TimerType::DSP_TIMER)
-            GET_ENUM_STRING(TimerType::CARRIER_RESOURCE_TIMER)
+    GET_ENUM_STRING(TimerType::Empty)
+            GET_ENUM_STRING(TimerType::CellTimer)
+            GET_ENUM_STRING(TimerType::DspTimer)
+            GET_ENUM_STRING(TimerType::CarrierResourceTimer)
     }
     return stringHelper::getStringAfterThisString(result, "TimerType::");
 }

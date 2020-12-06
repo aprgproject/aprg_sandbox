@@ -9,10 +9,12 @@ namespace DesignDocumentCreator
 
 void MessageVerifier::verifierMessage1(GenericMessage const& genericMessage)
 {
-    //ASSERT_EQ(MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG, genericMessage.getMessageName());
-    //SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG, 1> tbRegisterMessage(convertGenericToSpecificDynamicArray<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG, 1>(genericMessage));
-    //STransportBearerRegisterMsg& tbRegisterStaticPayload(tbRegisterMessage.getStaticPayloadReference());
-    //EXPECT_EQ(100001, tbRegisterStaticPayload.transactionId);
+    ASSERT_EQ(MessageName::MESSAGE_1, genericMessage.getMessageName());
+
+    SpecificStaticMessage<MessageName::MESSAGE_1> message(convertGenericToSpecificStatic<MessageName::MESSAGE_1>(genericMessage));
+    Message1Structure& payload(message.getPayloadReference());
+
+    EXPECT_EQ(0, payload.temporary);
 }
 
 }

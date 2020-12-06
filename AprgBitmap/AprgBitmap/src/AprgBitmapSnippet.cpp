@@ -65,11 +65,13 @@ void AprgBitmapSnippet::traverseAndUpdate(TraverseAndUpdateFunction const& trave
 
 unsigned int AprgBitmapSnippet::getDeltaX() const
 {
-    return m_bottomRightCorner.getX() - m_topLeftCorner.getX();}
+    return m_bottomRightCorner.getX() - m_topLeftCorner.getX();
+}
 
 unsigned int AprgBitmapSnippet::getDeltaY() const
 {
-    return m_bottomRightCorner.getY() - m_topLeftCorner.getY();}
+    return m_bottomRightCorner.getY() - m_topLeftCorner.getY();
+}
 
 unsigned int AprgBitmapSnippet::getNumberOfPixelsInSnippet() const
 {
@@ -127,10 +129,12 @@ bool AprgBitmapSnippet::isBlackAt(BitmapXY const position) const //this is the o
 
 void AprgBitmapSnippet::setPixelAt(BitmapXY const position, unsigned int const value)
 {
-    if(isPositionInside(position))    {
+    if(isPositionInside(position))
+    {
         unsigned int index = calculateIndexInPixelData(position);
         unsigned char* writer = (unsigned char *)m_pixelData.getConstantBufferPointer();
-        if(m_configuration.getNumberOfBitsPerPixel() < AlbaBitConstants::BYTE_SIZE_IN_BITS)        {
+        if(m_configuration.getNumberOfBitsPerPixel() < AlbaBitConstants::BYTE_SIZE_IN_BITS)
+        {
             setPixelAtForPixelInAByte(writer, index, position, value);
         }
         else

@@ -71,10 +71,12 @@ void UmlLogger::saveUmlLogsToFile(string const& filePath)
     pathHandler.createDirectoriesForNonExisitingDirectories();
     ofstream outputFile(pathHandler.getFullPath());
     cout<<"Uml logs saved to file: "<<pathHandler.getFullPath()<<endl;
-    if(outputFile.is_open())    {
+    if(outputFile.is_open())
+    {
         outputFile<<getUmlLogsForStart()<<endl;
         outputFile<<m_umlLogBuffer.str()<<endl;
-        outputFile<<getUmlLogsForEnd()<<endl;    }
+        outputFile<<getUmlLogsForEnd()<<endl;
+    }
 }
 
 unsigned int UmlLogger::getOptimizedTargetLength(stringHelper::strings const& linesInNote)

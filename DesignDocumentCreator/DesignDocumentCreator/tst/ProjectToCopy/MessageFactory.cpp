@@ -7,10 +7,10 @@ namespace DesignDocumentCreator
 
 GenericMessage MessageFactory::createMessage1()
 {
-    //SpecificStaticMessage<MessageName::OAM_ATM_HW_CONFIGURATION_MSG> hwConfigurationMessage;
-    //SAtmHwConfigurationMsgFake& payload(hwConfigurationMessage.getPayloadReference());
-    //payload.typeOfConfiguration = EControlUnitType_Fcm;
-    //return convertSpecificStaticToGeneric(hwConfigurationMessage);
+    SpecificStaticMessage<MessageName::MESSAGE_1> message;
+    Message1Structure& payload(message.getPayloadReference());
+    payload.temporary = 0x0;
+    return convertSpecificStaticToGeneric(message);
 }
 
 }

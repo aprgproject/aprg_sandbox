@@ -2,11 +2,7 @@
 
 #include <Common/Components/ComponentName.hpp>
 #include <Common/Utils/StringHelpers.hpp>
-#include <Components/Oam.hpp>
-#include <Components/TupcCm.hpp>
-#include <Components/TupcIlm.hpp>
-#include <Components/TupcLom.hpp>
-#include <Components/TupcTbm.hpp>
+#include <Components/Component1.hpp>
 #include <ModuleTest.hpp>
 #include <MessageFactory.hpp>
 #include <MessageVerifier.hpp>
@@ -20,24 +16,14 @@ using namespace StringHelpers;
 TEST_F(ModuleTest, SampleScenario)
 {
     UmlLogger& umlLogger(getUmlLogger());
-    Oam& oam(*dynamic_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam)));
-    TupcIlm& tupcIlm(*dynamic_cast<TupcIlm*>(getComponentAndActivateAsParticipant(ComponentName::TupcIlm)));
-    TupcLom& tupcLom(*dynamic_cast<TupcLom*>(getComponentAndActivateAsParticipant(ComponentName::TupcLom)));
-    TupcCm& tupcCm(*dynamic_cast<TupcCm*>(getComponentAndActivateAsParticipant(ComponentName::TupcCm)));
-    TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm)));
+    Component1& component1(*dynamic_cast<Component1*>(getComponentAndActivateAsParticipant(ComponentName::Component1)));
 
-    umlLogger.logNoteOnComponents(ComponentNames{ComponentName::TupcIlm, ComponentName::TupcTbm}, "TUPCexe starts");
+    umlLogger.logNoteOnComponent(ComponentName::Component1, "Component1 note starts");
+    umlLogger.logNoteOnComponents(ComponentNames{ComponentName::Component1, ComponentName::Component1}, "Component1 note starts");
 
-    tupcIlm.pushBackEvent(Event(OtherEvent(OtherEventType::MainProcessStartup)));
-    tupcIlm.handleOneEvent();
-    tupcLom.pushBackEvent(Event(OtherEvent(OtherEventType::MainProcessStartup)));
-    tupcLom.handleOneEvent();
-    tupcCm.pushBackEvent(Event(OtherEvent(OtherEventType::MainProcessStartup)));
-    tupcCm.handleOneEvent();
-    tupcTbm.pushBackEvent(Event(OtherEvent(OtherEventType::MainProcessStartup)));
-    tupcTbm.handleOneEvent();
+    component1.pushBackEvent(Event(OtherEvent(OtherEventType::MainProcessStartup)));
+    component1.handleOneEvent();
 
-    sendMessage(ComponentName::Oam, ComponentName::TupcLom, createHwConfigurationMessageForRel3BasedFromLogs());
-    tupcLom.handleOneEvent();
-    tupcCm.handleOneEvent();
+    sendMessage(ComponentName::Component1, ComponentName::Component1, createMessage1());
+    component1.handleOneEvent();
 }
