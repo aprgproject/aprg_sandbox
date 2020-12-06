@@ -1,0 +1,1 @@
+COMPONENT_NAME_MACRO(Component1)
