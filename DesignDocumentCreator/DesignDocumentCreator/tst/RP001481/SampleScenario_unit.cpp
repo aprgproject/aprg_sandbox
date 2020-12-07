@@ -7,6 +7,7 @@
 #include <ModuleTest.hpp>
 #include <MessageFactory.hpp>
 #include <MessageVerifier.hpp>
+
 using namespace std;
 using namespace DesignDocumentCreator;
 using namespace MessageFactory;

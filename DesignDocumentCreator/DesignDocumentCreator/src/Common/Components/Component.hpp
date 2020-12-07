@@ -29,6 +29,7 @@ public:
     void logNoteOnPreviousMessage(std::string const& note) const;
     void logNoteOnComponent(std::string const& note) const;
     void logNoteOnComponents(ComponentNames const& componentNames, std::string const& note) const;
+
 protected:
     virtual void handleEvent(Event const& event);
     virtual void handleMessageEvent(GenericMessage const& genericMessage);

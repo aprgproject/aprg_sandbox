@@ -9,6 +9,7 @@
 #include <iterator>
 #include <set>
 #include <vector>
+
 #include <Debug/AlbaDebug.hpp>
 
 using namespace std;
@@ -176,6 +177,7 @@ TAaSysComNid LRM::getMasterTcomNid() const
     logNoteOnComponent("LRM fetches the NidAddress of TCOM from WAM ADDRESS Indication message sent previously.");
     return m_masterTcomNid;
 }
+
 TAaSysComNid LRM::getKeplerAddressWithoutCore(TAaSysComNid const dspAddress) const
 {
     //This is FAKE! Use framework functions instead
@@ -202,7 +204,8 @@ TAaSysComNid LRM::getBoardFromSubrackAddress(TAaSysComSicad const subrackAddress
 
 TPowerGroupId LRM::getPowerGroupId(TAaSysComNid const dspAddress) const
 {
-    //This is FAKE!    TNumberOfItems powerGroupId(0);
+    //This is FAKE!
+    TNumberOfItems powerGroupId(0);
     if(m_dspDatabase.find(dspAddress) != m_dspDatabase.cend())
     {
         powerGroupId = m_dspDatabase.at(dspAddress).dspInfo.powerGroupId;
@@ -227,7 +230,8 @@ TNumberOfItems LRM::getNumberOfK2sInPowerGroup(TPowerGroupId const powerGroupId)
     TNumberOfItems numberOfK2sInPowerGroup(0);
     if(m_powerGroupDatabase.find(powerGroupId) != m_powerGroupDatabase.cend())
     {
-        numberOfK2sInPowerGroup = m_powerGroupDatabase.at(powerGroupId).numberOfK2sInPowerGroup;    }
+        numberOfK2sInPowerGroup = m_powerGroupDatabase.at(powerGroupId).numberOfK2sInPowerGroup;
+    }
     return numberOfK2sInPowerGroup;
 }
 
@@ -256,7 +260,8 @@ TNumberOfItems LRM::getNumberOfK2sInFspForLcg(TAaSysComNid const fspAddress, TLo
         if(dspData.dspInfo.localCellGroupId == lcgId && getFspAddressFromDspAddress(dspData.dspInfo.dspAddress) == fspAddress)
         {
             numberOfK2s++;
-        }    }
+        }
+    }
     return numberOfK2s;
 }
 
@@ -300,7 +305,8 @@ TNumberOfItems LRM::getNumberOfMcdDcdAndMcdCcdPacketsInFsp(TAaSysComNid const fs
         if(getFspAddressFromDspAddress(dspData.dspInfo.dspAddress) == fspAddress && (dspData.mode == EDspMode_Kepler_MCD_DCD || dspData.mode == EDspMode_Kepler_MCD_CCDD))
         {
             numberOfK2PacketsWhichSatisfy++;
-        }    }
+        }
+    }
     return numberOfK2PacketsWhichSatisfy;
 }
 
@@ -314,7 +320,8 @@ TNumberOfItems LRM::getNumberOfMcdCcdPacketsInFspForOtherLcgs(TAaSysComNid const
         if(dspData.dspInfo.localCellGroupId != lcgId && getFspAddressFromDspAddress(dspData.dspInfo.dspAddress) == fspAddress && dspData.mode == EDspMode_Kepler_MCD_CCDD)
         {
             numberOfMcdCcds++;
-        }    }
+        }
+    }
     return numberOfMcdCcds;
 }
 
@@ -433,7 +440,8 @@ void LRM::prioritizeDspAddressesForSelectionMcdCcdD(AddressesVector & dspAddress
         unsigned int numberOfK2InFspForDspAddress2(getNumberOfK2sInFspForLcg(getFspAddressFromDspAddress(dspAddress2), lcgId));
 
         if(numberOfMcdCcdPacketsInFspForDspAddress1 == numberOfMcdCcdPacketsInFspForDspAddress2)
-        {            if(numberOfK2InFspForDspAddress1 == numberOfK2InFspForDspAddress2)
+        {
+            if(numberOfK2InFspForDspAddress1 == numberOfK2InFspForDspAddress2)
             {
                 result = dspAddress1<dspAddress2; //4.  Has the lowest address.
             }
@@ -446,7 +454,8 @@ void LRM::prioritizeDspAddressesForSelectionMcdCcdD(AddressesVector & dspAddress
         {
             result = numberOfMcdCcdPacketsInFspForDspAddress1<numberOfMcdCcdPacketsInFspForDspAddress2;
         }
-        return result;    });
+        return result;
+    });
 }
 
 void LRM::processStartupForAllLcg()
@@ -487,7 +496,8 @@ void LRM::processStartupForOneLcg(TLocalCellGroupId const lcgId)
         log("end alt");
     }
     else
-    {        logNoteOnComponent("LRM performs legacy allocation for REL3.");
+    {
+        logNoteOnComponent("LRM performs legacy allocation for REL3.");
         if(lcgData.lcgInfo.isNbicEnabled==EBoolean_True)
         {
             logNoteOnComponent("LRM performs legacy NBIC allocation for REL3 in RAN3374.");
@@ -598,6 +608,7 @@ void LRM::saveDspInformation(SLrmConfigurationDataInd const& lrmConfigurationDat
         m_dspDatabase[currentDspInfo.dspAddress].dliPoolId = 0;
     }
 }
+
 void LRM::saveLcgInformation(SLrmConfigurationDataInd const& lrmConfigurationData)
 {
     logNoteOnComponent("LRM saves LCG information from TC_LRM_CONFIGURATION_DATA_IND_MSG");
@@ -627,7 +638,8 @@ void LRM::saveLcrInformationInLcg(SLrmConfigurationDataInd const& lrmConfigurati
 
 void LRM::savePowerGroupInformation(SLrmConfigurationDataInd const& lrmConfigurationData)
 {
-    logNoteOnComponent("LRM saves power group information from TC_LRM_CONFIGURATION_DATA_IND_MSG");    for(unsigned int index=0; index<lrmConfigurationData.numOfDsps; index++)
+    logNoteOnComponent("LRM saves power group information from TC_LRM_CONFIGURATION_DATA_IND_MSG");
+    for(unsigned int index=0; index<lrmConfigurationData.numOfDsps; index++)
     {
         SDspInfo const& currentDspInfo(lrmConfigurationData.dspInfo[index]);
         m_powerGroupDatabase[currentDspInfo.powerGroupId].numberOfK2sInPowerGroup++;
@@ -670,14 +682,9 @@ void LRM::handleLrmConfigurationData(GenericMessage const& genericMessage)
     saveDataFromLrmConfigurationDataInd(payload);
     processStartupForAllLcg();
 
-    //send MODE_CHANGE?
-    //check the node    //How to guarantee that no nyquist mode change will happen?
-    //Remake the RAN3374 flow chart
-
 }
 
-void LRM::handleMessageEvent(GenericMessage const& genericMessage)
-{
+void LRM::handleMessageEvent(GenericMessage const& genericMessage){
     MessageName messageName(genericMessage.getMessageName());
     switch(messageName)
     {

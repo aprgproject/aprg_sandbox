@@ -57,7 +57,8 @@ void UmlLogger::logNoteOnComponents(ComponentNames const componentNames, string 
 void UmlLogger::logNote(string const& note)
 {
     stringHelper::strings linesInNote;
-    stringHelper::strings linesInNoteWithTargetLength;    stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters>(linesInNote, note, "\n");
+    stringHelper::strings linesInNoteWithTargetLength;
+    stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters>(linesInNote, note, "\n");
     unsigned int optimizedTargetLength(getOptimizedTargetLength(linesInNote));
     for(string const& lineInNote: linesInNote)
     {

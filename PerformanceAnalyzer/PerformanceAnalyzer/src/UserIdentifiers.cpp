@@ -24,50 +24,34 @@ void UserIdentifiers::saveUserIndentfiers(std::string const& lineInLogs)
 
 bool UserIdentifiers::operator<(UserIdentifiers const& userIdentifiers) const
 {
-    bool result(false);
-    if(m_nbccIdOptional && userIdentifiers.m_nbccIdOptional)
+    bool result(true);
+    unsigned int nbccId1(getNbccId());
+    unsigned int nbccId2(userIdentifiers.getNbccId());
+    unsigned int crnccId1(getCrnccId());
+    unsigned int crnccId2(userIdentifiers.getCrnccId());
+    unsigned int transactionId1(getTransactionId());
+    unsigned int transactionId2(userIdentifiers.getTransactionId());
+    if(nbccId1==nbccId2)
     {
-        result = result || (m_nbccIdOptional.get() < userIdentifiers.m_nbccIdOptional.get());
+        if(crnccId1==crnccId2)
+        {
+            result = transactionId1<transactionId2;
+        }
+        else
+        {
+            result = crnccId1<crnccId2;
+        }
     }
-    else if(m_crnccIdOptional && userIdentifiers.m_crnccIdOptional)
+    else
     {
-        result = result || (m_crnccIdOptional.get() < userIdentifiers.m_crnccIdOptional.get());
-    }
-    else if(m_transactionIdOptional && userIdentifiers.m_transactionIdOptional)
-    {
-        result = result || (m_transactionIdOptional.get() < userIdentifiers.m_transactionIdOptional.get());
+        result = nbccId1<nbccId2;
     }
     return result;
 }
-
-bool UserIdentifiers::operator==(UserIdentifiers const& userIdentifiers) const
-{
-    bool result(false);
-    if(m_nbccIdOptional.hasContent() == userIdentifiers.m_nbccIdOptional.hasContent()
-            && m_crnccIdOptional.hasContent() == userIdentifiers.m_crnccIdOptional.hasContent()
-            && m_transactionIdOptional.hasContent() == userIdentifiers.m_transactionIdOptional.hasContent())
-    {
-        if(m_nbccIdOptional && userIdentifiers.m_nbccIdOptional)
-        {
-            result = result || (m_nbccIdOptional.get() == userIdentifiers.m_nbccIdOptional.get());
-        }
-        if(m_crnccIdOptional && userIdentifiers.m_crnccIdOptional)
-        {
-            result = result || (m_crnccIdOptional.get() == userIdentifiers.m_crnccIdOptional.get());
-        }
-        if(m_transactionIdOptional && userIdentifiers.m_transactionIdOptional)
-        {
-            result = result || (m_transactionIdOptional.get() == userIdentifiers.m_transactionIdOptional.get());
-        }
-    }
-    return result;
-}
-
 
 void UserIdentifiers::saveNbccId(std::string const& lineInLogs)
 {
-    unsigned int nbccid = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(lineInLogs, "nbccid: "));
-    unsigned int nbccId = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(lineInLogs, "nbccId: "));
+    unsigned int nbccid = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(lineInLogs, "nbccid: "));    unsigned int nbccId = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(lineInLogs, "nbccId: "));
     if(nbccid>0)
     {
         m_nbccIdOptional.setValue(nbccid);

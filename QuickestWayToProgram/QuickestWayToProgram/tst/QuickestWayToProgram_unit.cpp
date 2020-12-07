@@ -19,11 +19,154 @@
 using namespace alba;
 using namespace std;
 
+TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
+{
+    AlbaLocalPathHandler pathHandler(R"(D:\userdata\malba\Desktop\StreamPoC\GSM\WG1_5_GSM_v2.json)");
+    ifstream profileStream(pathHandler.getFullPath());
+
+    map<unsigned int, string> ratTypeToAddressMap;
+    if(profileStream.is_open())
+    {
+        AlbaFileReader profileFileReader(profileStream);
+        string startString(R"(					")");
+        string endString(R"(					},)");
+        string axcresblockStartString(R"(				"axcresblock": {)");
+        string axcresblockendString(R"(				},)");
+        unsigned int axcresblockState=0;
+        unsigned int streamState=0;
+        unsigned int currentRp3NodeAddress=0;
+        string currentRatType;
+
+        while(profileFileReader.isNotFinished())
+        {
+             string lineInFile(profileFileReader.getLine());
+             if(lineInFile.substr(0, axcresblockStartString.length()) == axcresblockStartString)
+             {
+                 axcresblockState=1;
+             }
+             else if(lineInFile.substr(0, axcresblockendString.length()) == axcresblockendString)
+             {
+                 axcresblockState=2;
+             }
+
+             if(axcresblockState==1)
+             {
+                 if(lineInFile.substr(0, startString.length()) == startString)
+                 {
+                     streamState=1;
+                 }
+                 else if(lineInFile.substr(0, endString.length()) == endString)
+                 {
+                     streamState=2;
+                 }
+             }
+             if(streamState==1)
+             {
+                 if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, R"("type": ")"))
+                 {
+                     currentRatType = stringHelper::getStringInBetweenTwoStrings(lineInFile, R"("type": ")", R"(")");
+                 }
+                 if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, R"("rp3NodeAddress": )"))
+                 {
+                     currentRp3NodeAddress = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getStringInBetweenTwoStrings(lineInFile, R"("rp3NodeAddress": )", R"(,)"));
+                 }
+             }
+             else if(streamState==2)
+             {
+                 //cout<<currentRp3NodeAddress<<"   "<<currentRatType<<endl;
+                 ratTypeToAddressMap[currentRp3NodeAddress] = currentRatType;
+                 currentRatType="unknown";
+                 currentRp3NodeAddress = 0;
+             }
+        }
+    }
+}
+
+/*
+TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
+{
+    AlbaLocalPathHandler pathHandler(R"(D:\userdata\malba\Desktop\StreamPoC\GSM\WG1_5_GSM_v2.json)");
+    ifstream profileStream(pathHandler.getFullPath());
+
+    map<unsigned int, string> ratTypeToAddressMap;
+    if(profileStream.is_open())
+    {
+        AlbaFileReader profileFileReader(profileStream);
+        string startString(R"(					")");
+        string endString(R"(					},)");
+        string axcresblockStartString(R"(				"axcresblock": {)");
+        string axcresblockendString(R"(				},)");
+        unsigned int axcresblockState=0;
+        unsigned int streamState=0;
+        unsigned int currentRp3NodeAddress=0;
+        string currentRatType;
+
+        while(profileFileReader.isNotFinished())
+        {
+             string lineInFile(profileFileReader.getLine());
+             if(lineInFile.substr(0, axcresblockStartString.length()) == axcresblockStartString)
+             {
+                 axcresblockState=1;
+             }
+             else if(lineInFile.substr(0, axcresblockendString.length()) == axcresblockendString)
+             {
+                 axcresblockState=2;
+             }
+
+             if(axcresblockState==1)
+             {
+                 if(lineInFile.substr(0, startString.length()) == startString)
+                 {
+                     streamState=1;
+                 }
+                 else if(lineInFile.substr(0, endString.length()) == endString)
+                 {
+                     streamState=2;
+                 }
+             }
+             if(streamState==1)
+             {
+                 if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, R"("type": ")"))
+                 {
+                     currentRatType = stringHelper::getStringInBetweenTwoStrings(lineInFile, R"("type": ")", R"(")");
+                 }
+                 if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, R"("rp3NodeAddress": )"))
+                 {
+                     currentRp3NodeAddress = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getStringInBetweenTwoStrings(lineInFile, R"("rp3NodeAddress": )", R"(,)"));
+                 }
+             }
+             else if(streamState==2)
+             {
+                 //cout<<currentRp3NodeAddress<<"   "<<currentRatType<<endl;
+                 ratTypeToAddressMap[currentRp3NodeAddress] = currentRatType;
+                 currentRatType="unknown";
+                 currentRp3NodeAddress = 0;
+             }
+        }
+    }
+    AlbaLocalPathHandler murrkuLogsPathHandler(R"(D:\userdata\malba\Desktop\StreamPoC\GSM\analyzeMurkkuLogs.txt)");
+    ifstream murrkuLogsStream(murrkuLogsPathHandler.getFullPath());
+
+    if(murrkuLogsStream.is_open())
+    {
+        AlbaFileReader murrkuLogsFileReader(murrkuLogsStream);
+        while(murrkuLogsFileReader.isNotFinished())
+        {
+            string lineInFile(murrkuLogsFileReader.getLineAndIgnoreWhiteSpaces());
+            if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, R"(bbBusAddr: )"))
+            {
+                 unsigned int rp3NodeAddress(stringHelper::convertStringToNumber<unsigned int>(stringHelper::getStringInBetweenTwoStrings(lineInFile, R"(bbBusAddr: )", R"( )")));
+                 //cout<<rp3NodeAddress<<endl;
+                 cout<<lineInFile<<"   ["<<ratTypeToAddressMap[rp3NodeAddress]<<"]"<<endl;
+            }
+        }
+    }
+}
+
 
 TEST(SampleTest, SaveGetDifferenceFromGreaterMultipleToCsv)
 {
-    AlbaLocalPathHandler pathHandler(R"(C:\APRG\GetDifferenceFromGreaterMultipleGraph.txt)");
-    ofstream csvFile(pathHandler.getFullPath());
+    AlbaLocalPathHandler pathHandler(R"(C:\APRG\GetDifferenceFromGreaterMultipleGraph.txt)");    ofstream csvFile(pathHandler.getFullPath());
 
     csvFile<<"size = ["<<endl;
     for(unsigned int multiple = 0; multiple<20; multiple++)
@@ -37,11 +180,10 @@ TEST(SampleTest, SaveGetDifferenceFromGreaterMultipleToCsv)
     }
     csvFile<<"]"<<endl;
 }
-/*
+
 TEST(SampleTest, MessageIds_test)
 {
-    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
-    AlbaLocalPathHandler pathHandler2(R"(D:\Branches\trunk\wbts_integration\I_Interface\Application_Env\Wn_Env\Bs_Env\Messages\MessageId_TcomDsp.h)");
+    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");    AlbaLocalPathHandler pathHandler2(R"(D:\Branches\trunk\wbts_integration\I_Interface\Application_Env\Wn_Env\Bs_Env\Messages\MessageId_TcomDsp.h)");
     AlbaLocalPathHandler pathHandler3(R"(D:\ZZZ_Logs\PR212221\LRMJairus\MessageHistoryBeforeCorruption.txt)");
 
 

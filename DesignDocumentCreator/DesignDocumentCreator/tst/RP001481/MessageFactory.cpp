@@ -20,7 +20,8 @@ void MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(SLrm
     payload.dspInfo[0].dspType = EWspType_Kepler2;
     payload.dspInfo[0].localCellGroupId = 1;
     payload.dspInfo[0].powerGroupId = 1;
-    payload.dspInfo[1].dspAddress = 0x1240;    payload.dspInfo[1].isUnitAvailable = EAvailability_Available;
+    payload.dspInfo[1].dspAddress = 0x1240;
+    payload.dspInfo[1].isUnitAvailable = EAvailability_Available;
     payload.dspInfo[1].dspType = EWspType_Kepler2;
     payload.dspInfo[1].localCellGroupId = 1;
     payload.dspInfo[1].powerGroupId = 1;
@@ -94,7 +95,8 @@ void MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWith2
     payload.numOfDsps = 8;
     payload.dspInfo[0].dspAddress = 0x1230;
     payload.dspInfo[0].isUnitAvailable = EAvailability_Available;
-    payload.dspInfo[0].dspType = EWspType_Kepler2;    payload.dspInfo[0].localCellGroupId = 1;
+    payload.dspInfo[0].dspType = EWspType_Kepler2;
+    payload.dspInfo[0].localCellGroupId = 1;
     payload.dspInfo[0].powerGroupId = 1;
     payload.dspInfo[1].dspAddress = 0x1240;
     payload.dspInfo[1].isUnitAvailable = EAvailability_Available;
@@ -137,7 +139,8 @@ void MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWith2
     payload.lcgInfo[0].numOfLcr = 1;
     payload.lcgInfo[0].minNumOfHsRachResourceStepsRes = 1;
     payload.lcgInfo[0].minNumOfHsRachResourceStepsRes = 1;
-    payload.lcgInfo[0].hspaConfigurationType = EHspaConfigurationType_BasicRel4;    payload.lcgInfo[0].isNbicEnabled = EBoolean_True;
+    payload.lcgInfo[0].hspaConfigurationType = EHspaConfigurationType_BasicRel4;
+    payload.lcgInfo[0].isNbicEnabled = EBoolean_True;
     payload.numOfLcrInfo = 1;
     payload.lcrInfo[0].lcrId = 1;
     payload.lcrInfo[0].lcgId = 1;
@@ -185,6 +188,7 @@ void MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWith2
 
     //payload.transportLayerAddress = 0; // why does LRM need this?
 }
+
 void MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWithWrongPowerGroup(SLrmConfigurationDataInd & payload)
 {
     payload.numOfDsps = 4;
@@ -262,6 +266,7 @@ void MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWithW
     payload.delayedLinksInfo[1].numberOfDelayedLinkIndices = 48;
     //payload.transportLayerAddress = 0; // why does LRM need this?
 }
+
 void MessageFactory::saveLrmConfigurationDataPayloadForPrioritizationNumberMcdCcdDInFspForMcdCcdD(SLrmConfigurationDataInd & payload)
 {
     payload.numOfDsps = 6;
@@ -356,6 +361,7 @@ void MessageFactory::saveLrmConfigurationDataPayloadForPrioritizationNumberMcdCc
     payload.delayedLinksInfo[1].numberOfDelayedLinkIndices = 48;
     //payload.transportLayerAddress = 0; // why does LRM need this?
 }
+
 void MessageFactory::saveLrmConfigurationDataPayloadForPrioritizationNumberK2sForMcdCcdD(SLrmConfigurationDataInd & payload)
 {
     payload.numOfDsps = 8;

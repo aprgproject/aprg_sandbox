@@ -63,7 +63,8 @@ public:
         unsigned int neededNumberOfDlis;
     };
 
-    struct PowerGroupData    {
+    struct PowerGroupData
+    {
         PowerGroupData();
         unsigned int numberOfK2sInPowerGroup;
     };

@@ -61,10 +61,10 @@ void BtsLogAnalyzer::saveQueueingTime(string const& lineInLogs, ofstream& messag
         saveMessageQueueingTimeToCsvFile(lineInLogs, messsageQueueingTime, messageQueueingTimeFileStream);
     }
 }
+
 void BtsLogAnalyzer::saveRlhSetupTime(string const& lineInLogs, LogTimePairs& rlSetupLogTimePairs, ofstream& rlSetupTimeFileStream)
 {
-    if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))
-    {
+    if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))    {
         UserIdentifiers userIdentifiers(lineInLogs);
         setFirstLogTimeInPair(lineInLogs, userIdentifiers, rlSetupLogTimePairs);
     }
@@ -72,10 +72,9 @@ void BtsLogAnalyzer::saveRlhSetupTime(string const& lineInLogs, LogTimePairs& rl
     {
         UserIdentifiers userIdentifiers(lineInLogs);
         setSecondLogTimeInPair(lineInLogs, userIdentifiers, rlSetupLogTimePairs);
-        computeLatencyAndUpdateIfLogTimePairIsValid(userIdentifiers, rlSetupLogTimePairs, rlSetupTimeFileStream);
+        computeLatencyAndUpdateIfLogTimePairIsValid(LogType::RlSetup, userIdentifiers, rlSetupLogTimePairs, rlSetupTimeFileStream);
     }
 }
-
 void BtsLogAnalyzer::saveRlhDeletionTime(string const& lineInLogs, LogTimePairs& rlDeletionLogTimePairs, ofstream& rlDeletionTimeFileStream)
 {
     if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlDeletionReq3G)"))
@@ -87,10 +86,9 @@ void BtsLogAnalyzer::saveRlhDeletionTime(string const& lineInLogs, LogTimePairs&
     {
         UserIdentifiers userIdentifiers(lineInLogs);
         setSecondLogTimeInPair(lineInLogs, userIdentifiers, rlDeletionLogTimePairs);
-        computeLatencyAndUpdateIfLogTimePairIsValid(userIdentifiers, rlDeletionLogTimePairs, rlDeletionTimeFileStream);
+        computeLatencyAndUpdateIfLogTimePairIsValid(LogType::RlDeletion, userIdentifiers, rlDeletionLogTimePairs, rlDeletionTimeFileStream);
     }
 }
-
 void BtsLogAnalyzer::setFirstLogTimeInPair(string const& lineInLogs, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs) const
 {
     LogTimePair & logTimePairOfTheUser(logTimePairs[userIdentifiers]);
@@ -103,18 +101,23 @@ void BtsLogAnalyzer::setSecondLogTimeInPair(string const& lineInLogs, UserIdenti
     setLogTimeIfNeeded(lineInLogs, logTimePairOfTheUser.second);
 }
 
-void BtsLogAnalyzer::computeLatencyAndUpdateIfLogTimePairIsValid(UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs, ofstream& csvFileStream)
+void BtsLogAnalyzer::computeLatencyAndUpdateIfLogTimePairIsValid(LogType const logType, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs, ofstream& csvFileStream)
 {
     LogTimePair & logTimePairOfTheUser(logTimePairs[userIdentifiers]);
-    if(logTimePairOfTheUser.first && logTimePairOfTheUser.second && logTimePairOfTheUser.first.getReference().getTotalSeconds() <= logTimePairOfTheUser.second.getReference().getTotalSeconds())
-    {
+    if(logTimePairOfTheUser.first && logTimePairOfTheUser.second && logTimePairOfTheUser.first.getReference().getTotalSeconds() <= logTimePairOfTheUser.second.getReference().getTotalSeconds())    {
         BtsLogTime latency = logTimePairOfTheUser.second.getReference()-logTimePairOfTheUser.first.getReference();
         double latencyInMicroseconds(getTotalMicroseconds(latency));
-        m_rlhRlSetupLatency.addData(latencyInMicroseconds);
+        if(logType == LogType::RlSetup)
+        {
+            m_rlhRlSetupLatency.addData(latencyInMicroseconds);
+        }
+        else if(logType == LogType::RlDeletion)
+        {
+            m_rlhRlDeletionLatency.addData(latencyInMicroseconds);
+        }
         saveUserIndentifierAndLatencyToCsvFile(userIdentifiers, latencyInMicroseconds, csvFileStream);
     }
-    logTimePairs.erase(userIdentifiers);
-}
+    logTimePairs.erase(userIdentifiers);}
 
 void BtsLogAnalyzer::initializeCsvFileStreams(ofstream& messageQueueingTimeFileStream, ofstream& rlSetupTimeFileStream, ofstream& rlDeletionTimeFileStream) const
 {
@@ -149,16 +152,31 @@ void BtsLogAnalyzer::saveUserIndentifierAndLatencyToCsvFile(UserIdentifiers cons
 void BtsLogAnalyzer::setLogTimeIfNeeded(string const& lineInLogs, LogTime& logTime) const
 {
     BtsLogPrint logPrint(lineInLogs);
-    if(!logPrint.getBtsTime().isStartup())
-    {
+    //if(!logPrint.getBtsTime().isStartup())
+    //{
         logTime.setValue(logPrint.getBtsTime());
-    }
+    //}
 }
 
-double BtsLogAnalyzer::getTotalMicroseconds(BtsLogTime const& btsLogTime) const
-{
+double BtsLogAnalyzer::getTotalMicroseconds(BtsLogTime const& btsLogTime) const{
     double result((double)btsLogTime.getMinutes()*1000000*60 + (double)btsLogTime.getSeconds()*1000000 + (double)btsLogTime.getMicroSeconds());
     return result;
+}
+
+void BtsLogAnalyzer::printAllCollectedData() const
+{
+    cout.precision(20);
+    cout<<"Message queueing time minimum: "<<m_messageQueueingTime.getMinimum()<<endl;
+    cout<<"Message queueing time maximum: "<<m_messageQueueingTime.getMaximum()<<endl;
+    cout<<"Message queueing time average: "<<m_messageQueueingTime.getAverage()<<endl;
+
+    cout<<"Rl setup time minimum: "<<m_rlhRlSetupLatency.getMinimum()<<endl;
+    cout<<"Rl setup time maximum: "<<m_rlhRlSetupLatency.getMaximum()<<endl;
+    cout<<"Rl setup time average: "<<m_rlhRlSetupLatency.getAverage()<<endl;
+
+    cout<<"Rl deletion time minimum: "<<m_rlhRlDeletionLatency.getMinimum()<<endl;
+    cout<<"Rl deletion time maximum: "<<m_rlhRlDeletionLatency.getMaximum()<<endl;
+    cout<<"Rl deletion time average: "<<m_rlhRlDeletionLatency.getAverage()<<endl;
 }
 
 }

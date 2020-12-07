@@ -32,7 +32,8 @@ TEST(LrmTest, GetFspAddressWorksAsExpected)
     EXPECT_EQ(0u, lrm.getFspAddressFromDspAddress(0));
 }
 
-TEST(LrmTest, GetKeplerAddressWithoutCorWorksAsExpected){
+TEST(LrmTest, GetKeplerAddressWithoutCorWorksAsExpected)
+{
     LRM lrm(ComponentName::LRM);
 
     EXPECT_EQ(0xA1B0u, lrm.getKeplerAddressWithoutCore(0xA1BA));
@@ -109,7 +110,8 @@ TEST(LrmTest, GetDspAddressesForLcgIdWorksAsExpected)
     LRM::AddressesVector dspAddressForLcg2(lrm.getDspAddressesForLcgId(2));
 
     ASSERT_EQ(4u, dspAddressForLcg1.size());
-    EXPECT_EQ(0x1230u, dspAddressForLcg1[0]);    EXPECT_EQ(0x1240u, dspAddressForLcg1[1]);
+    EXPECT_EQ(0x1230u, dspAddressForLcg1[0]);
+    EXPECT_EQ(0x1240u, dspAddressForLcg1[1]);
     EXPECT_EQ(0x1250u, dspAddressForLcg1[2]);
     EXPECT_EQ(0x1260u, dspAddressForLcg1[3]);
 
@@ -169,6 +171,7 @@ TEST(LrmTest, FindMcdCcdDRemoveUnacceptableOriginalDspMode)
 
     EXPECT_EQ(0x1240u, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
+
 TEST(LrmTest, FindMcdCcdDPrioritizeNumberMcdCcdDInFspForOtherLcg)
 {
     SLrmConfigurationDataInd payload;
@@ -182,6 +185,7 @@ TEST(LrmTest, FindMcdCcdDPrioritizeNumberMcdCcdDInFspForOtherLcg)
 
     EXPECT_EQ(0x1330u, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
+
 TEST(LrmTest, FindMcdCcdDPrioritizeNumberK2s)
 {
     SLrmConfigurationDataInd payload;
@@ -424,3 +428,4 @@ TEST(LrmTest, FindNbicMcdCcdDRemoveConflictDlis)
 
     EXPECT_EQ(0x1330u, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
 }
+

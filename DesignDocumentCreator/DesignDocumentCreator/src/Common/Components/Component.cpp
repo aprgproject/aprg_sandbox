@@ -77,7 +77,8 @@ void Component::log(string const& line) const
 
 void Component::logNoteOnPreviousMessage(string const& note) const
 {
-    UmlLogger& umlLogger(Environment::getInstance().getUmlLogger());    umlLogger.logNoteOnPreviousMessage(note);
+    UmlLogger& umlLogger(Environment::getInstance().getUmlLogger());
+    umlLogger.logNoteOnPreviousMessage(note);
 }
 
 void Component::logNoteOnComponent(string const& note) const
