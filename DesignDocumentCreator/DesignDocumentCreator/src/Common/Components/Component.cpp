@@ -69,19 +69,19 @@ string Component::getQueueAsString() const
     });
 }
 
-void Component::logNoteOnPreviousMessage(string const& note)
+void Component::logNoteOnPreviousMessage(string const& note) const
 {
     UmlLogger& umlLogger(Environment::getInstance().getUmlLogger());
     umlLogger.logNoteOnPreviousMessage(note);
 }
 
-void Component::logNoteOnComponent(string const& note)
+void Component::logNoteOnComponent(string const& note) const
 {
     UmlLogger& umlLogger(Environment::getInstance().getUmlLogger());
     umlLogger.logNoteOnComponent(m_componentName, note);
 }
 
-void Component::logNoteOnComponents(ComponentNames const& componentNames, string const& note)
+void Component::logNoteOnComponents(ComponentNames const& componentNames, string const& note) const
 {
     UmlLogger& umlLogger(Environment::getInstance().getUmlLogger());
     umlLogger.logNoteOnComponents(componentNames, note);

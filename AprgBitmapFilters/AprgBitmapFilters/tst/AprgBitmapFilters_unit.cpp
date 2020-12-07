@@ -23,7 +23,9 @@ TEST(BitmapFilterTest, BitmapFilterFindPen)
     bitmapFilter.saveBlurredNotPenPixelsToCanvas(5);
     bitmapFilter.saveCanvasToBitmapFile();
     outputFile.copyToNewFile(outputFile.getDirectory()+"BitmapNotPenPixels.bmp");
+
     bitmapFilter.clearCanvas();
     bitmapFilter.setPenPixelsToCanvas();
-    bitmapFilter.saveCanvasToBitmapFile();    outputFile.copyToNewFile(outputFile.getDirectory()+"BitmapPenPixels.bmp");
+    bitmapFilter.saveCanvasToBitmapFile();
+    outputFile.copyToNewFile(outputFile.getDirectory()+"BitmapPenPixels.bmp");
 }

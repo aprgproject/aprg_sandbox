@@ -37,7 +37,8 @@ include(${APRG_DIR}/AprgCMakeHelpers/cmake/Macros.cmake)
 include(${DesignDocumentCreatorDirectory}/cmake/RP001481.cmake)
 
 #Assign Sack Directory
-set(SackDirectory "E:/Branches/trunk")
+set(SackDirectory "D:/Branches/trunk")
+
 #Sacks
 set(SACKS_DIR_TO_INCLUDE
     ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp

@@ -25,9 +25,9 @@ public:
     ComponentName getComponentName() const;
     std::string getComponentNameInString() const;
     std::string getQueueAsString() const;
-    void logNoteOnPreviousMessage(std::string const& note);
-    void logNoteOnComponent(std::string const& note);
-    void logNoteOnComponents(ComponentNames const& componentNames, std::string const& note);
+    void logNoteOnPreviousMessage(std::string const& note) const;
+    void logNoteOnComponent(std::string const& note) const;
+    void logNoteOnComponents(ComponentNames const& componentNames, std::string const& note) const;
 
 protected:
     virtual void handleEvent(Event const& event);

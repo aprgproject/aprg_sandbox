@@ -33,7 +33,8 @@ private:
     unsigned int m_similarityLimit;
     AprgBitmap m_bitmap;
     AprgBitmapSnippet const m_originalCanvas;
-    AprgBitmapSnippet m_canvas;    PixelInformationDatabase m_pixelInformationDatabase;
+    AprgBitmapSnippet m_canvas;
+    PixelInformationDatabase m_pixelInformationDatabase;
 };
 
 }

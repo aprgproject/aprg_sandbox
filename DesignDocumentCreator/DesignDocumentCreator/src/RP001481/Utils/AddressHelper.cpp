@@ -13,4 +13,13 @@ TAaSysComSicad AddressHelper::getAddress(ComponentName const componentName)
     return result;
 }
 
+/*unsigned int AddressHelper::calculatePowerGroup(TAaSysComNid nidAddress) //from TOAM's code
+{
+    //old algorithm
+    unsigned int BoardIndex = (nidAddress>>8) & 0xF;
+    unsigned int CpuIndex = (nidAddress>>4) & 0xF;
+    return ((BoardIndex - 2) * 2) + (CpuIndex / 5) + 1;
+}
+*/
+
 }

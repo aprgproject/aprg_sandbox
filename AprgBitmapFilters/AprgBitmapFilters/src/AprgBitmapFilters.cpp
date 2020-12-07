@@ -9,7 +9,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 unsigned int const whiteColor = 0x00FFFFFF;
 
@@ -19,6 +20,7 @@ AprgBitmapFilters::AprgBitmapFilters(string const& path)
     , m_originalCanvas(m_bitmap.getSnippetReadFromFileWholeBitmap())
     , m_canvas(m_bitmap.createColorFilledSnippetWithSizeOfWholeBitmap(whiteColor))
 {}
+
 void AprgBitmapFilters::findPenPixel(double const penSearchRadius)
 {
     m_originalCanvas.traverse([&](BitmapXY const& centerXY, unsigned int const centerColor)
@@ -41,10 +43,12 @@ void AprgBitmapFilters::findPenPixel(double const penSearchRadius)
                     bitmapPointsWithDisimilarColors.emplace_back(bitmapPointInCircle);
                 }
             }
-        });        if(bitmapPointsWithSimilarColors.size() > bitmapPointsWithDisimilarColors.size())
+        });
+        if(bitmapPointsWithSimilarColors.size() > bitmapPointsWithDisimilarColors.size())
         {
             m_pixelInformationDatabase.saveAsPenPoints(bitmapPointsWithDisimilarColors);
-        }        else
+        }
+        else
         {
             m_pixelInformationDatabase.saveAsPenPoints(bitmapPointsWithSimilarColors);
         }
@@ -65,10 +69,12 @@ void AprgBitmapFilters::saveBlurredNotPenPixelsToCanvas(double const blurRadius)
 
 void AprgBitmapFilters::saveNotPenPixelsToCanvas()
 {
-    m_originalCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)    {
+    m_originalCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
+    {
         PixelInformation pixelInformation(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
         if(pixelInformation.type != PixelType::Pen)
-        {            m_canvas.setPixelAt(bitmapPoint, color);
+        {
+            m_canvas.setPixelAt(bitmapPoint, color);
         }
     });
 }
@@ -163,11 +169,13 @@ double AprgBitmapFilters::getBlurWeight(double const distanceFromCenter, double 
 
 unsigned char AprgBitmapFilters::getRed(unsigned int const color) const
 {
-    return (AlbaBitManipulation<unsigned int>::getByteAt<2>(color));}
+    return (AlbaBitManipulation<unsigned int>::getByteAt<2>(color));
+}
 
 unsigned char AprgBitmapFilters::getGreen(unsigned int const color) const
 {
-    return (AlbaBitManipulation<unsigned int>::getByteAt<1>(color));}
+    return (AlbaBitManipulation<unsigned int>::getByteAt<1>(color));
+}
 
 unsigned char AprgBitmapFilters::getBlue(unsigned int const color) const
 {
@@ -183,4 +191,5 @@ BitmapXY AprgBitmapFilters::convertPointToBitmapXY(Point const& pointPosition) c
 {
     return BitmapXY(round(pointPosition.getX()), round(pointPosition.getY()));
 }
+
 }

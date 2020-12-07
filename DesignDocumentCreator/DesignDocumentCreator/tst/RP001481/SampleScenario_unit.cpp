@@ -24,6 +24,6 @@ TEST_F(ModuleTest, SampleScenario)
     toam.pushBackEvent(Event(OtherEvent(OtherEventType::MainProcessStartup)));
     toam.handleOneEvent();
 
-    sendMessage(ComponentName::TOAM, ComponentName::TOAM, createTC_LRM_CONFIGURATION_DATA_IND_MSG());
+    sendMessage(ComponentName::TOAM, ComponentName::TOAM, createLrmConfigurationDataForMoreThan2K2sWithNbic());
     toam.handleOneEvent();
 }

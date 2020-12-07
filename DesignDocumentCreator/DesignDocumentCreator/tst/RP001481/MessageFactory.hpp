@@ -7,7 +7,7 @@ namespace DesignDocumentCreator
 
 namespace MessageFactory
 {
-    GenericMessage createTC_LRM_CONFIGURATION_DATA_IND_MSG();
+    GenericMessage createLrmConfigurationDataForMoreThan2K2sWithNbic();
 }
 
 } // namespace DesignDocumentCreator
