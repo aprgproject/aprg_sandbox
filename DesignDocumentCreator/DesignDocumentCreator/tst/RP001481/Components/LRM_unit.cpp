@@ -26,14 +26,13 @@ TEST(LrmTest, GetFspAddressWorksAsExpected)
 {
     LRM lrm(ComponentName::LRM);
 
-    EXPECT_EQ(0xA1u, lrm.getFspAddress(0xA1BA));
-    EXPECT_EQ(0xA1u, lrm.getFspAddress(0xA100));
-    EXPECT_EQ(0xBAu, lrm.getFspAddress(0xBAA1));
-    EXPECT_EQ(0u, lrm.getFspAddress(0));
+    EXPECT_EQ(0xA1u, lrm.getFspAddressFromDspAddress(0xA1BA));
+    EXPECT_EQ(0xA1u, lrm.getFspAddressFromDspAddress(0xA100));
+    EXPECT_EQ(0xBAu, lrm.getFspAddressFromDspAddress(0xBAA1));
+    EXPECT_EQ(0u, lrm.getFspAddressFromDspAddress(0));
 }
 
-TEST(LrmTest, GetKeplerAddressWithoutCorWorksAsExpected)
-{
+TEST(LrmTest, GetKeplerAddressWithoutCorWorksAsExpected){
     LRM lrm(ComponentName::LRM);
 
     EXPECT_EQ(0xA1B0u, lrm.getKeplerAddressWithoutCore(0xA1BA));
@@ -106,12 +105,11 @@ TEST(LrmTest, GetDspAddressesForLcgIdWorksAsExpected)
 
     lrm.saveDspInformation(payload);
 
-    LRM::DspAddressesVector dspAddressForLcg1(lrm.getDspAddressesForLcgId(1));
-    LRM::DspAddressesVector dspAddressForLcg2(lrm.getDspAddressesForLcgId(2));
+    LRM::AddressesVector dspAddressForLcg1(lrm.getDspAddressesForLcgId(1));
+    LRM::AddressesVector dspAddressForLcg2(lrm.getDspAddressesForLcgId(2));
 
     ASSERT_EQ(4u, dspAddressForLcg1.size());
-    EXPECT_EQ(0x1230u, dspAddressForLcg1[0]);
-    EXPECT_EQ(0x1240u, dspAddressForLcg1[1]);
+    EXPECT_EQ(0x1230u, dspAddressForLcg1[0]);    EXPECT_EQ(0x1240u, dspAddressForLcg1[1]);
     EXPECT_EQ(0x1250u, dspAddressForLcg1[2]);
     EXPECT_EQ(0x1260u, dspAddressForLcg1[3]);
 
@@ -167,11 +165,10 @@ TEST(LrmTest, FindMcdCcdDRemoveUnacceptableOriginalDspMode)
     lrm.saveDspInformation(payload);
     lrm.saveLcgInformation(payload);
     lrm.savePowerGroupInformation(payload);
-    lrm.setDspModeToAddress(0x1230, EDspMode_Kepler_MCD_DCD);
+    lrm.setDspModeInAddress(0x1230, EDspMode_Kepler_MCD_DCD);
 
     EXPECT_EQ(0x1240u, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
-
 TEST(LrmTest, FindMcdCcdDPrioritizeNumberMcdCcdDInFspForOtherLcg)
 {
     SLrmConfigurationDataInd payload;
@@ -181,11 +178,10 @@ TEST(LrmTest, FindMcdCcdDPrioritizeNumberMcdCcdDInFspForOtherLcg)
     lrm.saveDspInformation(payload);
     lrm.saveLcgInformation(payload);
     lrm.savePowerGroupInformation(payload);
-    lrm.setDspModeToAddress(0x1230, EDspMode_Kepler_MCD_CCDD);
+    lrm.setDspModeInAddress(0x1230, EDspMode_Kepler_MCD_CCDD);
 
     EXPECT_EQ(0x1330u, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
-
 TEST(LrmTest, FindMcdCcdDPrioritizeNumberK2s)
 {
     SLrmConfigurationDataInd payload;
@@ -199,23 +195,232 @@ TEST(LrmTest, FindMcdCcdDPrioritizeNumberK2s)
     EXPECT_EQ(0x1250u, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
 
-TEST(LrmTest, FindMcdDcdPrioritizeNumberMcdDcdAndMcdCcdDPackets)
+TEST(LrmTest, SetNumberOfIndicesCanBeDone)
+{
+    DelayedLinkIndices dli;
+
+    dli.setIndices(10);
+    EXPECT_EQ(0u, dli.getNumberOfIndices(0));
+    EXPECT_EQ(10u, dli.getNumberOfIndices(1));
+    EXPECT_EQ(0u, dli.getNumberOfIndices(2));
+    EXPECT_EQ(0u, dli.getNumberOfIndices(3));
+    EXPECT_EQ(0u, dli.getNumberOfIndices(4));
+
+    dli.setIndices(20);
+    EXPECT_EQ(0u, dli.getNumberOfIndices(0));
+    EXPECT_EQ(12u, dli.getNumberOfIndices(1));
+    EXPECT_EQ(8u, dli.getNumberOfIndices(2));
+    EXPECT_EQ(0u, dli.getNumberOfIndices(3));
+    EXPECT_EQ(0u, dli.getNumberOfIndices(4));
+
+    dli.setIndices(40);
+    EXPECT_EQ(0u, dli.getNumberOfIndices(0));
+    EXPECT_EQ(12u, dli.getNumberOfIndices(1));
+    EXPECT_EQ(12u, dli.getNumberOfIndices(2));
+    EXPECT_EQ(12u, dli.getNumberOfIndices(3));
+    EXPECT_EQ(4u, dli.getNumberOfIndices(4));
+
+    dli.setIndices(0);
+    EXPECT_EQ(0u, dli.getNumberOfIndices(0));
+    EXPECT_EQ(0u, dli.getNumberOfIndices(1));
+    EXPECT_EQ(0u, dli.getNumberOfIndices(2));
+    EXPECT_EQ(0u, dli.getNumberOfIndices(3));
+    EXPECT_EQ(0u, dli.getNumberOfIndices(4));
+}
+
+TEST(LrmTest, SetAsAllocatedOrNotCanBeDone)
+{
+    DelayedLinkIndices dli;
+
+    EXPECT_FALSE(dli.isAllocated(0));
+    EXPECT_FALSE(dli.isAllocated(1));
+    EXPECT_FALSE(dli.isAllocated(2));
+    EXPECT_FALSE(dli.isAllocated(3));
+    EXPECT_FALSE(dli.isAllocated(4));
+
+    dli.setPoolAsAllocated(1);
+
+    EXPECT_FALSE(dli.isAllocated(0));
+    EXPECT_TRUE(dli.isAllocated(1));
+    EXPECT_FALSE(dli.isAllocated(2));
+    EXPECT_FALSE(dli.isAllocated(3));
+    EXPECT_FALSE(dli.isAllocated(4));
+
+    dli.setPoolAsAllocated(0);
+    dli.setPoolAsAllocated(2);
+    dli.setPoolAsAllocated(3);
+    dli.setPoolAsAllocated(4);
+
+    EXPECT_TRUE(dli.isAllocated(0));
+    EXPECT_TRUE(dli.isAllocated(1));
+    EXPECT_TRUE(dli.isAllocated(2));
+    EXPECT_TRUE(dli.isAllocated(3));
+    EXPECT_TRUE(dli.isAllocated(4));
+
+    dli.setPoolAsNotAllocated(0);
+    dli.setPoolAsNotAllocated(1);
+    dli.setPoolAsNotAllocated(2);
+    dli.setPoolAsNotAllocated(3);
+    dli.setPoolAsNotAllocated(4);
+
+    EXPECT_FALSE(dli.isAllocated(0));
+    EXPECT_FALSE(dli.isAllocated(1));
+    EXPECT_FALSE(dli.isAllocated(2));
+    EXPECT_FALSE(dli.isAllocated(3));
+    EXPECT_FALSE(dli.isAllocated(4));
+}
+
+TEST(LrmTest, AllocatedDliAreNotIncludedInSelection)
+{
+    DelayedLinkIndices dli;
+
+    dli.setIndices(20);
+    dli.setPoolAsAllocated(1);
+
+    EXPECT_EQ(2u, dli.getAvailablePoolIdForRel4(1));
+}
+
+TEST(LrmTest, IndicesDoesNotFitAreNotIncludedInSelection)
+{
+    DelayedLinkIndices dli;
+
+    dli.setIndices(20);
+    dli.setPoolAsAllocated(1);
+
+    EXPECT_EQ(0u, dli.getAvailablePoolIdForRel4(12));
+}
+
+TEST(LrmTest, LowestNumberOfDlisIsPrioritized)
+{
+    DelayedLinkIndices dli;
+
+    dli.setIndices(20);
+
+    EXPECT_EQ(2u, dli.getAvailablePoolIdForRel4(8));
+}
+
+TEST(LrmTest, LowestDliPoolIsPrioritized)
+{
+    DelayedLinkIndices dli;
+
+    dli.setIndices(48);
+
+    EXPECT_EQ(1u, dli.getAvailablePoolIdForRel4(12));
+}
+
+TEST(LrmTest, hasConflictWithNextAvailablePoolFor2And3WithRXGreaterThan8)
+{
+    DelayedLinkIndices dli;
+    DelayedLinkIndices::PoolIdVector poolIds1;
+    DelayedLinkIndices::PoolIdVector poolIds2;
+    poolIds2.emplace_back(1);
+    poolIds2.emplace_back(4);
+    DelayedLinkIndices::PoolIdVector poolIds3;
+    poolIds3.emplace_back(2);
+    DelayedLinkIndices::PoolIdVector poolIds4;
+    poolIds4.emplace_back(3);
+    dli.setIndices(21);
+
+    EXPECT_FALSE(dli.hasConflictWithNextAvailablePool(poolIds1, 9));
+    EXPECT_FALSE(dli.hasConflictWithNextAvailablePool(poolIds2, 9));
+    EXPECT_TRUE(dli.hasConflictWithNextAvailablePool(poolIds3, 9));
+    EXPECT_TRUE(dli.hasConflictWithNextAvailablePool(poolIds4, 9));
+}
+
+TEST(LrmTest, hasConflictWithNextAvailablePoolFor2And3WithRXEqualTo8)
+{
+    DelayedLinkIndices dli;
+    DelayedLinkIndices::PoolIdVector poolIds1;
+    DelayedLinkIndices::PoolIdVector poolIds2;
+    poolIds2.emplace_back(1);
+    poolIds2.emplace_back(4);
+    DelayedLinkIndices::PoolIdVector poolIds3;
+    poolIds3.emplace_back(2);
+    DelayedLinkIndices::PoolIdVector poolIds4;
+    poolIds4.emplace_back(3);
+    dli.setIndices(20);
+
+    EXPECT_FALSE(dli.hasConflictWithNextAvailablePool(poolIds1, 8));
+    EXPECT_FALSE(dli.hasConflictWithNextAvailablePool(poolIds2, 8));
+    EXPECT_TRUE(dli.hasConflictWithNextAvailablePool(poolIds3, 8));
+    EXPECT_FALSE(dli.hasConflictWithNextAvailablePool(poolIds4, 8));
+}
+
+TEST(LrmTest, hasConflictWithNextAvailablePoolFor1And4)
+{
+    DelayedLinkIndices dli;
+    DelayedLinkIndices::PoolIdVector poolIds1;
+    DelayedLinkIndices::PoolIdVector poolIds2;
+    poolIds2.emplace_back(2);
+    poolIds2.emplace_back(3);
+    DelayedLinkIndices::PoolIdVector poolIds3;
+    poolIds3.emplace_back(1);
+    DelayedLinkIndices::PoolIdVector poolIds4;
+    poolIds4.emplace_back(4);
+    dli.setIndices(48);
+
+    EXPECT_FALSE(dli.hasConflictWithNextAvailablePool(poolIds1, 12));
+    EXPECT_FALSE(dli.hasConflictWithNextAvailablePool(poolIds2, 12));
+    EXPECT_TRUE(dli.hasConflictWithNextAvailablePool(poolIds3, 12));
+    EXPECT_TRUE(dli.hasConflictWithNextAvailablePool(poolIds4, 12));
+}
+
+
+TEST(LrmTest, FindNbicMcdCcd)
 {
     SLrmConfigurationDataInd payload;
-    MessageFactory::saveLrmConfigurationDataPayloadForPrioritizationNumberPacketsForMcdDcd(payload);
+    MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWith2Fsps(payload);
     LRM lrm(ComponentName::LRM);
 
     lrm.saveDspInformation(payload);
     lrm.saveLcgInformation(payload);
     lrm.savePowerGroupInformation(payload);
-    lrm.setDspModeToAddress(0x1230, EDspMode_Kepler_MCD_CCDD);
-    lrm.setDspModeToAddress(0x1240, EDspMode_Kepler_MCD_DCD);
-    lrm.setDspModeToAddress(0x1260, EDspMode_Kepler_MCD_DCD);
-    lrm.setDspModeToAddress(0x1330, EDspMode_Kepler_MCD_DCD);
-    lrm.setDspModeToAddress(0x1340, EDspMode_Kepler_MCD_CCDD);
 
-    EXPECT_EQ(0x1350u, lrm.findLocationOfMcdDcdForStartup(1));
+    EXPECT_EQ(0x1230u, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
 }
 
 
+TEST(LrmTest, FindNbicMcdCcdDRemoveFspsWithPic)
+{
+    SLrmConfigurationDataInd payload;
+    MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWith2Fsps(payload);
+    LRM lrm(ComponentName::LRM);
 
+    lrm.saveDspInformation(payload);
+    lrm.saveLcgInformation(payload);
+    lrm.savePowerGroupInformation(payload);
+    lrm.setDspModeInAddress(0x1230, EDspMode_Kepler_DCD_PIC);
+    lrm.setDspModeInAddress(0x1240, EDspMode_Kepler_DCD_PIC);
+
+    EXPECT_EQ(0x1330u, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
+}
+
+TEST(LrmTest, FindNbicMcdCcdDRemoveFspsWithNbic)
+{
+    SLrmConfigurationDataInd payload;
+    MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWith2Fsps(payload);
+    LRM lrm(ComponentName::LRM);
+
+    lrm.saveDspInformation(payload);
+    lrm.saveLcgInformation(payload);
+    lrm.savePowerGroupInformation(payload);
+    lrm.setAsNbicMcdCcdDInAddress(0x1230);
+    lrm.setAsNbicMcdCcdDInAddress(0x1240);
+
+    EXPECT_EQ(0x1330u, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
+}
+
+TEST(LrmTest, FindNbicMcdCcdDRemoveConflictDlis)
+{
+    SLrmConfigurationDataInd payload;
+    MessageFactory::saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWith2Fsps(payload);
+    LRM lrm(ComponentName::LRM);
+
+    lrm.saveDspInformation(payload);
+    lrm.saveLcgInformation(payload);
+    lrm.savePowerGroupInformation(payload);
+    lrm.saveDliInfo(payload);
+    lrm.setPoolIdInDspAddress(0x1230, 4);
+
+    EXPECT_EQ(0x1330u, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
+}

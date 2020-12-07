@@ -6,15 +6,14 @@
 
 namespace DesignDocumentCreator
 {
+
 namespace MessageFactory
 {
-    GenericMessage createLrmConfigurationDataForMoreThan2K2sWithNbic();
-    void saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(SLrmConfigurationDataInd & payload);
+    GenericMessage createLrmConfigurationDataForMoreThan2K2sWithNbic();    void saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(SLrmConfigurationDataInd & payload);
     void saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWith2Fsps(SLrmConfigurationDataInd & payload);
     void saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbicWithWrongPowerGroup(SLrmConfigurationDataInd & payload);
     void saveLrmConfigurationDataPayloadForPrioritizationNumberMcdCcdDInFspForMcdCcdD(SLrmConfigurationDataInd & payload);
     void saveLrmConfigurationDataPayloadForPrioritizationNumberK2sForMcdCcdD(SLrmConfigurationDataInd & payload);
-    void saveLrmConfigurationDataPayloadForPrioritizationNumberPacketsForMcdDcd(SLrmConfigurationDataInd & payload);
 }
 
 } // namespace DesignDocumentCreator

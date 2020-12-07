@@ -28,32 +28,36 @@ void UmlLogger::addParticipant(UmlParticipant const& participant)
     m_participants.emplace_back(participant);
 }
 
-void UmlLogger::logNoteOnPreviousMessage(std::string const& note)
+void UmlLogger::log(string const& line)
+{
+    m_umlLogBuffer<<line<<endl;
+}
+
+void UmlLogger::logNoteOnPreviousMessage(string const& note)
 {
     m_umlLogBuffer<<"note right"<<endl;
     logNote(note);
     m_umlLogBuffer<<"end note"<<endl;
 }
 
-void UmlLogger::logNoteOnComponent(ComponentName const componentName, std::string const& note)
+void UmlLogger::logNoteOnComponent(ComponentName const componentName, string const& note)
 {
     m_umlLogBuffer<<"rnote over "<<StringHelpers::convertToString(componentName)<<" #white"<<endl;
     logNote(note);
     m_umlLogBuffer<<"end note"<<endl;
 }
 
-void UmlLogger::logNoteOnComponents(ComponentNames const componentNames, std::string const& note)
+void UmlLogger::logNoteOnComponents(ComponentNames const componentNames, string const& note)
 {
     m_umlLogBuffer<<"rnote over "<<StringHelpers::convertToString(componentNames)<<" #white"<<endl;
     logNote(note);
     m_umlLogBuffer<<"end note"<<endl;
 }
 
-void UmlLogger::logNote(std::string const& note)
+void UmlLogger::logNote(string const& note)
 {
     stringHelper::strings linesInNote;
-    stringHelper::strings linesInNoteWithTargetLength;
-    stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters>(linesInNote, note, "\n");
+    stringHelper::strings linesInNoteWithTargetLength;    stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters>(linesInNote, note, "\n");
     unsigned int optimizedTargetLength(getOptimizedTargetLength(linesInNote));
     for(string const& lineInNote: linesInNote)
     {

@@ -69,10 +69,15 @@ string Component::getQueueAsString() const
     });
 }
 
-void Component::logNoteOnPreviousMessage(string const& note) const
+void Component::log(string const& line) const
 {
     UmlLogger& umlLogger(Environment::getInstance().getUmlLogger());
-    umlLogger.logNoteOnPreviousMessage(note);
+    umlLogger.log(line);
+}
+
+void Component::logNoteOnPreviousMessage(string const& note) const
+{
+    UmlLogger& umlLogger(Environment::getInstance().getUmlLogger());    umlLogger.logNoteOnPreviousMessage(note);
 }
 
 void Component::logNoteOnComponent(string const& note) const

@@ -18,10 +18,10 @@ public:
     UmlLogger();
     void logMessage(std::string const& senderName, std::string const& receiverName, std::string const& messageName);
     void addParticipant(UmlParticipant const& participant);
+    void log(std::string const& line);
     void logNoteOnPreviousMessage(std::string const& note);
     void logNoteOnComponent(ComponentName const componentName, std::string const& note);
-    void logNoteOnComponents(ComponentNames const componentName, std::string const& note);
-    void logNote(std::string const& note);
+    void logNoteOnComponents(ComponentNames const componentName, std::string const& note);    void logNote(std::string const& note);
     void saveUmlLogsToFile(std::string const& filePath);
     
 private:
