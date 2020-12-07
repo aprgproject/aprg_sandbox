@@ -15,11 +15,9 @@ namespace DesignDocumentCreator
 class LRM : public Component
 {
 public:
-    const TAaSysComNid INVALID_DSP_ADDRESS=0xFFFF;
 
     struct DspData
-    {
-        DspData();
+    {        DspData();
         SDspInfo dspInfo;
         EDspMode mode;
     };
@@ -54,37 +52,42 @@ public:
     LRM(ComponentName const componentName);
     bool isTcomInThisK2(TAaSysComNid const dspAddress) const;
     TAaSysComNid getMasterTcomNid() const;
-    TNumberOfItems getNumberOfMcdCcdPacketsInFsp(TAaSysComNid const fspNid) const;
+    TAaSysComNid getKeplerAddressWithoutCore(TAaSysComNid const dspAddress) const;
     TAaSysComNid getFspAddress(TAaSysComNid const dspAddress) const;
     TPowerGroupId getPowerGroupId(TAaSysComNid const dspAddress) const;
+    EDspMode getDspMode(TAaSysComNid const dspAddress) const;
     TNumberOfItems getNumberOfK2sInPowerGroup(TPowerGroupId const powerGroupId) const;
-    TNumberOfItems getNumberOfK2sInFsp(TAaSysComNid const fspAddress) const;
+    TNumberOfItems getNumberOfK2sForLcg(TLocalCellGroupId const lcgId) const;
+    TNumberOfItems getNumberOfK2sInFspForLcg(TAaSysComNid const fspAddress, TLocalCellGroupId const lcgId) const;
+    TNumberOfItems getNumberOfMcdDcdAndMcdCcdPacketsInFsp(TAaSysComNid const fspAddress, TLocalCellGroupId const lcgId) const;
+    TNumberOfItems getNumberOfMcdCcdPacketsInFspForOtherLcgs(TAaSysComNid const fspAddress, TLocalCellGroupId const lcgId) const;
     DspAddressesVector getDspAddressesForLcgId(TLocalCellGroupId const lcgId) const;
 
-    TAaSysComNid findLocationOfMcdCcdD(TLocalCellGroupId const lcgId) const;
+    TAaSysComNid findLocationOfMcdDcdForStartup(TLocalCellGroupId const lcgId) const;
+    void removeDspAddressesBasedOnFilterForSelectionMcdDcd(DspAddressesVector & dspAddresses) const;
+    void prioritizeDspAddressesForSelectionMcdDcdForStartup(DspAddressesVector & dspAddresses, TLocalCellGroupId const lcgId) const;
+
+    TAaSysComNid findLocationOfMcdCcdDForLcgId(TLocalCellGroupId const lcgId) const;
     void removeDspAddressesBasedOnFilterForSelectionMcdCcdD(DspAddressesVector & dspAddresses) const;
-    void prioritizeDspAddressesForSelectionMcdCcdD(DspAddressesVector & dspAddresses) const;
+    void prioritizeDspAddressesForSelectionMcdCcdD(DspAddressesVector & dspAddresses, TLocalCellGroupId const lcgId) const;
 
     void processStartupForAllLcg();
     void processStartupForOneLcg(TLocalCellGroupId const lcgId);
-    void allocateMcdCcdD(TAaSysComNid const mcdCcdDAddress);
+    void allocateMcdCcdD();
 
     void setMasterTcomNid(TAaSysComNid const masterTcomNid);
+    void setDspModeToAddress(TAaSysComNid const dspAddress, EDspMode const mode);
     void saveDspInformation(SLrmConfigurationDataInd const& lrmConfigurationData);
     void saveLcgInformation(SLrmConfigurationDataInd const& lrmConfigurationData);
     void savePowerGroupInformation(SLrmConfigurationDataInd const& lrmConfigurationData);
-    void saveFspInformationFromDspInformation(SLrmConfigurationDataInd const& lrmConfigurationData);
 
 private:
-    void handleLrmConfigurationData(GenericMessage const& genericMessage);
-    void handleMessageEvent(GenericMessage const& genericMessage) override;
+    void handleLrmConfigurationData(GenericMessage const& genericMessage);    void handleMessageEvent(GenericMessage const& genericMessage) override;
     void handleTimerEvent(Timer const& timer) override;
     void handleOtherEvent(OtherEvent const& otherEvent) override;
     DspAddressToDspDataMap m_dspDatabase;
     LcgIdToLcgDataMap m_lcgDatabase;
     PowerGroupIdToPowerGroupDataMap m_powerGroupDatabase;
-    FspAddressToFspDataMap m_fspDatabase;
     TAaSysComNid m_masterTcomNid;
 };
-
 }
