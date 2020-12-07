@@ -21,21 +21,7 @@ void TupcLom::handleStartup()
     logNoteOnComponent("TupcLom **automatically**  starts when TUPCexe starts.\nThis is same with legacy.");
 }
 
-void TupcLom::handleMessageEvent(GenericMessage const& genericMessage)
-{
-    MessageName messageName(genericMessage.getMessageName());
-    switch(messageName)
-    {
-        case MessageName::OAM_ATM_HW_CONFIGURATION_MSG:
-            handleHwConfiguration(genericMessage);
-        break;
-    default:
-        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<endl;
-        break;
-    }
-}
-
-void TupcLom::handleHwConfiguration(GenericMessage const& genericMessage)
+void TupcLom::handleHwConfigurationMessage(GenericMessage const& genericMessage)
 {
     Environment & environment(Environment::getInstance());
 
@@ -48,10 +34,28 @@ void TupcLom::handleHwConfiguration(GenericMessage const& genericMessage)
     environment.getComponentPointer(ComponentName::TupcCm)->pushBackEvent(Event(OtherEvent(OtherEventType::SubProcessStartup)));
 }
 
+void TupcLom::handleTcomDeploymentMessage(GenericMessage const& genericMessage)
+{
+    SpecificStaticMessage<MessageName::TC_TCOM_DEPLOYMENT_IND_MSG> message(convertGenericToSpecificStatic<MessageName::TC_TCOM_DEPLOYMENT_IND_MSG>(genericMessage));
+    STcomDeploymentIndMsg const& payload(message.getPayloadReference());
+    //handle rlh address here
+}
+
+void TupcLom::handleMessageEvent(GenericMessage const& genericMessage)
+{
+    MessageName messageName(genericMessage.getMessageName());    switch(messageName)
+    {
+        case MessageName::OAM_ATM_HW_CONFIGURATION_MSG:
+            handleHwConfigurationMessage(genericMessage);
+        break;
+    default:
+        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<endl;        break;
+    }
+}
+
 void TupcLom::handleTimerEvent(Timer const& timer)
 {
-    cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
-}
+    cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;}
 
 void TupcLom::handleOtherEvent(OtherEvent const& otherEvent)
 {

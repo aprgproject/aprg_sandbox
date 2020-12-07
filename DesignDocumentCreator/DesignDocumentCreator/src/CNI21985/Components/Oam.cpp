@@ -14,17 +14,22 @@ Oam::Oam(ComponentName const componentName)
     : Component(componentName)
 {}
 
+void Oam::handleHwConfigurationMessageResponse(GenericMessage const& genericMessage) const
+{
+    //I am not coding OAM. :)
+}
+
 void Oam::handleMessageEvent(GenericMessage const& genericMessage)
 {
     MessageName messageName(genericMessage.getMessageName());
     switch(messageName)
     {
-    //case MessageName::TC_LTX_TELECOM_MSG:
-    //    cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;
+    case MessageName::TC_HW_CONFIGURATION_RESP_MSG:
+        handleHwConfigurationMessageResponse(genericMessage);
+        break;
     default:
         cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<endl;
-    }
-}
+    }}
 
 void Oam::handleTimerEvent(Timer const& timer)
 {

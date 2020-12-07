@@ -115,10 +115,10 @@ private:
         {
             if(numberOfObjectsInCurrentBlock == 0)
             {
+                limitFileStreams();
                 m_blocks.createNewBlockBeforeThisIterator(iteratorAfterBlockToSplit, blockTypeForNewBlocks);
                 newBlockIterator = iteratorAfterBlockToSplit;
-                newBlockIterator--;
-            }
+                newBlockIterator--;            }
             m_blocks.addObjectToBlock(newBlockIterator, objectToSort);
             numberOfObjectsInCurrentBlock++;
             numberOfObjectsInCurrentBlock = (numberOfObjectsInCurrentBlock < static_cast<int>(m_configuration.m_minimumNumberOfObjectsPerBlock)) ? numberOfObjectsInCurrentBlock : 0;
@@ -169,18 +169,10 @@ private:
     }
     void deleteAllFilesInDirectory()
     {
-        AlbaLocalPathHandler directoryPathHandler(m_configuration.m_directoryForBlocks);
-        std::set<std::string> listOfFiles;
-        std::set<std::string> listOfDirectories;
-        directoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
-        for(std::string const& filePath : listOfFiles)
-        {
-            AlbaLocalPathHandler(filePath).deleteFile();
-        }
+        AlbaLocalPathHandler(m_configuration.m_directoryForBlocks).deleteFilesInDirectory();
     }
     void putIndexesWithMultiplesOfNumber(Indexes & indexes, unsigned int number, unsigned int numberOfObjects)
-    {
-        for(unsigned int index=0; index<numberOfObjects; index+=number)
+    {        for(unsigned int index=0; index<numberOfObjects; index+=number)
         {
             indexes.emplace_back(index);
         }

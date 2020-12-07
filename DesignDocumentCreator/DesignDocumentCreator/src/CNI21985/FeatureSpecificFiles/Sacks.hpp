@@ -14,14 +14,16 @@
 #include <TCause.h>
 #include <TMtuSize.h>
 #include <TNbccId.h>
+#include <TNumberOfItems.h>
 #include <TNumberOfPresence.h>
 #include <TTransactionID.h>
+
+#define MAX_NUM_RLH_INSTANCES 8
 
 
 typedef struct SAtmHwConfigurationMsgFake
 {
-    EControlUnitType         typeOfConfiguration;
-    EConditional             tupConfigurationPresent;
+    EControlUnitType         typeOfConfiguration;    EConditional             tupConfigurationPresent;
     STupConfigurationInfo    tupConfigurationInfo;
     STupcBtsParameters       commisioningParameters;
     TMtuSize                 ipMtuSize;
@@ -59,3 +61,9 @@ typedef struct SCmBearerSetupRespMsg
     STransportBearerSignallingData     tbSignallingData[1];
 } SCmBearerSetupRespMsg;
 
+
+typedef struct STcomDeploymentIndMsg
+{
+    TNumberOfItems                      numberOfTcomRlhAddresses;
+    TAaSysComSicad                      tcomRlhAddresses[MAX_NUM_RLH_INSTANCES];
+} STcomDeploymentIndMsg;

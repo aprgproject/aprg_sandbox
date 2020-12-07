@@ -186,4 +186,18 @@ GenericMessage MessageFactory::createOneTransportBearerRegisterForCell()
     return convertSpecificDynamicArrayToGeneric(tbRegisterMessage);
 }
 
+GenericMessage MessageFactory::createTcomHwConfigurationMsg()
+{
+    SpecificStaticMessage<MessageName::TC_HW_CONFIGURATION_MSG> message;
+    //SHwConfigurationMsg& payload(message.getPayloadReference());
+    return convertSpecificStaticToGeneric(message);
+}
+
+GenericMessage MessageFactory::createTcomHwConfigurationResponseMsg()
+{
+    SpecificStaticMessage<MessageName::TC_HW_CONFIGURATION_RESP_MSG> message;
+    //SHwConfigurationResponseMsg& payload(message.getPayloadReference());
+    return convertSpecificStaticToGeneric(message);
+}
+
 }

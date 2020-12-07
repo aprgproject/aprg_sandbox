@@ -48,11 +48,15 @@ bool Component::isEventQueueEmpty() const
 
 GenericMessage Component::peekMessageAtStartOfTheEventQueue() const
 {
-    return GenericMessage(m_eventQueue.front().getMessage());
+    GenericMessage message;
+    if(!isEventQueueEmpty())
+    {
+        message = GenericMessage(m_eventQueue.front().getMessage());
+    }
+    return message;
 }
 
-ComponentName Component::getComponentName() const
-{
+ComponentName Component::getComponentName() const{
     return m_componentName;
 }
 

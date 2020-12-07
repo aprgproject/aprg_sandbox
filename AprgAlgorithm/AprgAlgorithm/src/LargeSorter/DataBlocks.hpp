@@ -86,16 +86,15 @@ public:
     void addObjectToBlock(BlockIterator const& iteratorOfBlock, ObjectToSort const& objectToSort)
     {
         iteratorOfBlock->add(objectToSort);
-        updateCaches(iteratorOfBlock);
+        updateAllCaches(iteratorOfBlock);
     }
     void addObjectToBlockAtTheStart(BlockIterator const& iteratorOfBlock, ObjectToSort const& objectToSort)
     {
         iteratorOfBlock->addAtTheStart(objectToSort);
-        updateCaches(iteratorOfBlock);
+        updateAllCaches(iteratorOfBlock);
     }
     void sortThenDoFunctionThenReleaseAllObjects(std::function<void(ObjectToSort const&)> doFunctionForAllObjects)
-    {
-        for(BlockType& block : m_blocks)
+    {        for(BlockType& block : m_blocks)
         {
             block.sortThenDoFunctionThenRelease(doFunctionForAllObjects);
         }
@@ -114,11 +113,10 @@ public:
         createNewBlockBeforeThisIterator(m_blocks.begin(), DataBlockType::Memory);
         m_mainIterator = m_blocks.begin();
     }
-    void updateCaches(BlockIterator const& iteratorOfBlock)
+    void updateAllCaches(BlockIterator const& iteratorOfBlock)
     {
         switch(iteratorOfBlock->getBlockType())
-        {
-        case DataBlockType::File:
+        {        case DataBlockType::File:
             m_fileStreamOpenedCache.addBlock(iteratorOfBlock->getBlockId(), iteratorOfBlock);
             break;
         case DataBlockType::Memory:

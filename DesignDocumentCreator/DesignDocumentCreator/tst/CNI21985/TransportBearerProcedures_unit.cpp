@@ -18,5 +18,5 @@ TEST_F(ModuleTest, OneTransportBearerRegisterForCell)
     Tcom& tcom(*dynamic_cast<Tcom*>(getComponentAndActivateAsParticipant(ComponentName::Tcom)));
     TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm)));
     sendMessage(ComponentName::Tcom, ComponentName::TupcTbm, createOneTransportBearerRegisterForCell());
-    verifierOneTransportBearerRegisterForCell(tupcTbm.peekMessageAtStartOfTheEventQueue());
+    verifyOneTransportBearerRegisterForCell(tupcTbm.peekMessageAtStartOfTheEventQueue());
 }

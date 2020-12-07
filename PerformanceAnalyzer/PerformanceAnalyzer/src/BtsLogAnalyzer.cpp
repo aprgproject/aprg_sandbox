@@ -7,10 +7,11 @@
 
 #include <BtsLogPrint.hpp>
 
+#include <iostream>
+
 using namespace std;
 using tcomToolsBackend::BtsLogPrint;
-using tcomToolsBackend::BtsLogTime;
-using tcomToolsBackend::BtsLogTimeType;
+using tcomToolsBackend::BtsLogTime;using tcomToolsBackend::BtsLogTimeType;
 
 namespace alba
 {
@@ -166,17 +167,20 @@ double BtsLogAnalyzer::getTotalMicroseconds(BtsLogTime const& btsLogTime) const{
 void BtsLogAnalyzer::printAllCollectedData() const
 {
     cout.precision(20);
-    cout<<"Message queueing time minimum: "<<m_messageQueueingTime.getMinimum()<<endl;
-    cout<<"Message queueing time maximum: "<<m_messageQueueingTime.getMaximum()<<endl;
-    cout<<"Message queueing time average: "<<m_messageQueueingTime.getAverage()<<endl;
+    cout<<"Message queueing time minimum: "<<m_messageQueueingTime.getMinimum() << " ms" << endl;
+    cout<<"Message queueing time maximum: "<<m_messageQueueingTime.getMaximum() << " ms" << endl;
+    cout<<"Message queueing time average: "<<m_messageQueueingTime.getAverage() << " ms" << endl;
+    cout<<"Message queueing time samples: "<<m_messageQueueingTime.getCount()<<endl;
 
-    cout<<"Rl setup time minimum: "<<m_rlhRlSetupLatency.getMinimum()<<endl;
-    cout<<"Rl setup time maximum: "<<m_rlhRlSetupLatency.getMaximum()<<endl;
-    cout<<"Rl setup time average: "<<m_rlhRlSetupLatency.getAverage()<<endl;
+    cout<<"Rl setup time minimum: "<<m_rlhRlSetupLatency.getMinimum()/1000 << " ms" << endl;
+    cout<<"Rl setup time maximum: "<<m_rlhRlSetupLatency.getMaximum()/1000 << " ms" << endl;
+    cout<<"Rl setup time average: "<<m_rlhRlSetupLatency.getAverage()/1000 << " ms" << endl;
+    cout<<"Rl setup time samples: "<<m_rlhRlSetupLatency.getCount()<<endl;
 
-    cout<<"Rl deletion time minimum: "<<m_rlhRlDeletionLatency.getMinimum()<<endl;
-    cout<<"Rl deletion time maximum: "<<m_rlhRlDeletionLatency.getMaximum()<<endl;
-    cout<<"Rl deletion time average: "<<m_rlhRlDeletionLatency.getAverage()<<endl;
+    cout<<"Rl deletion time minimum: "<<m_rlhRlDeletionLatency.getMinimum()/1000 << " ms" << endl;
+    cout<<"Rl deletion time maximum: "<<m_rlhRlDeletionLatency.getMaximum()/1000 << " ms" << endl;
+    cout<<"Rl deletion time average: "<<m_rlhRlDeletionLatency.getAverage()/1000 << " ms" << endl;
+    cout<<"Rl deletion time samples: "<<m_rlhRlDeletionLatency.getCount()<<endl;
 }
 
 }

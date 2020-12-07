@@ -12,11 +12,11 @@ public:
     TupcLom(ComponentName const componentName);
 private:
     void handleStartup();
-    void handleHwConfiguration(GenericMessage const& genericMessage);
+    void handleHwConfigurationMessage(GenericMessage const& genericMessage);
+    void handleTcomDeploymentMessage(GenericMessage const& genericMessage);
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);
-    virtual void handleOtherEvent(OtherEvent const& otherEvent);
-    TAaSysComSicad m_oamAddress;
+    virtual void handleOtherEvent(OtherEvent const& otherEvent);    TAaSysComSicad m_oamAddress;
 };
 
 }

@@ -9,8 +9,9 @@ namespace DesignDocumentCreator
 
 namespace MessageVerifier
 {
-    void verifierOneTransportBearerRegisterForCell(GenericMessage const& genericMessage);
+    void verifyOneTransportBearerRegisterForCell(GenericMessage const& genericMessage);
+    void verifySuccessfulHwConfigurationResponseMessage(GenericMessage const& genericMessage);
+    void verifyTcomDeploymentIndMessage(GenericMessage const& genericMessage);
 }
 
 } // namespace DesignDocumentCreator
-

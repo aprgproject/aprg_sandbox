@@ -116,10 +116,21 @@ bool AlbaWindowsPathHandler::deleteFile()
     return isSuccessful;
 }
 
+void AlbaWindowsPathHandler::deleteFilesInDirectory()
+{
+    set<string> listOfFiles;
+    set<string> listOfDirectories;
+    findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
+    for(string const& file: listOfFiles)
+    {
+        AlbaWindowsPathHandler(file).deleteFile();
+    }
+    reInput();
+}
+
 bool AlbaWindowsPathHandler::copyToNewFile(string const& newFilePath)
 {
-    bool isSuccessful(false);
-    if(isFile())
+    bool isSuccessful(false);    if(isFile())
     {
         isSuccessful = (bool)CopyFile(getFullPath().c_str(), newFilePath.c_str(), 0);
         if(!isSuccessful)
