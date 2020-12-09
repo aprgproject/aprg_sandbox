@@ -118,7 +118,8 @@ private:
                 limitFileStreams();
                 m_blocks.createNewBlockBeforeThisIterator(iteratorAfterBlockToSplit, blockTypeForNewBlocks);
                 newBlockIterator = iteratorAfterBlockToSplit;
-                newBlockIterator--;            }
+                newBlockIterator--;
+            }
             m_blocks.addObjectToBlock(newBlockIterator, objectToSort);
             numberOfObjectsInCurrentBlock++;
             numberOfObjectsInCurrentBlock = (numberOfObjectsInCurrentBlock < static_cast<int>(m_configuration.m_minimumNumberOfObjectsPerBlock)) ? numberOfObjectsInCurrentBlock : 0;
@@ -172,7 +173,8 @@ private:
         AlbaLocalPathHandler(m_configuration.m_directoryForBlocks).deleteFilesInDirectory();
     }
     void putIndexesWithMultiplesOfNumber(Indexes & indexes, unsigned int number, unsigned int numberOfObjects)
-    {        for(unsigned int index=0; index<numberOfObjects; index+=number)
+    {
+        for(unsigned int index=0; index<numberOfObjects; index+=number)
         {
             indexes.emplace_back(index);
         }

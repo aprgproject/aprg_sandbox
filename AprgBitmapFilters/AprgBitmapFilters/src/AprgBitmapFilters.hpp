@@ -9,6 +9,7 @@
 
 namespace alba
 {
+
 class AprgBitmapFilters
 {
 public:
@@ -29,13 +30,15 @@ private:
     unsigned int getBlurredColor(AprgBitmapSnippet const& canvas, BitmapXY const& centerXY, double const blurRadius, BlurCondition const& isIncludedInBlur) const;
     double getBlurWeight(double const distanceFromCenter, double const blurRadius) const;
     unsigned char getRed(unsigned int const color) const;
-    unsigned char getGreen(unsigned int const color) const;    unsigned char getBlue(unsigned int const color) const;
+    unsigned char getGreen(unsigned int const color) const;
+    unsigned char getBlue(unsigned int const color) const;
     Point convertBitmapXYToPoint(BitmapXY const& bitmapPosition) const;
     BitmapXY convertPointToBitmapXY(Point const& pointPosition) const;
     unsigned int m_backgroundColor;
     AprgBitmap m_bitmap;
     AprgBitmapSnippet const m_originalCanvas;
-    AprgBitmapSnippet m_canvas;    PixelInformationDatabase m_pixelInformationDatabase;
+    AprgBitmapSnippet m_canvas;
+    PixelInformationDatabase m_pixelInformationDatabase;
 };
 
 }

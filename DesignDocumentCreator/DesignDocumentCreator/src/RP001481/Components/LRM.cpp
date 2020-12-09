@@ -684,7 +684,8 @@ void LRM::handleLrmConfigurationData(GenericMessage const& genericMessage)
 
 }
 
-void LRM::handleMessageEvent(GenericMessage const& genericMessage){
+void LRM::handleMessageEvent(GenericMessage const& genericMessage)
+{
     MessageName messageName(genericMessage.getMessageName());
     switch(messageName)
     {
@@ -692,7 +693,7 @@ void LRM::handleMessageEvent(GenericMessage const& genericMessage){
         handleLrmConfigurationData(genericMessage);
         break;
     default:
-        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<". Please create one!"<<endl;
+        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
         break;
     }
 }

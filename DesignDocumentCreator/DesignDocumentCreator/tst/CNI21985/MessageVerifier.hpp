@@ -12,6 +12,8 @@ namespace MessageVerifier
     void verifyOneTransportBearerRegisterForCell(GenericMessage const& genericMessage);
     void verifySuccessfulHwConfigurationResponseMessage(GenericMessage const& genericMessage);
     void verifyTcomDeploymentIndMessage(GenericMessage const& genericMessage);
+    void verifyLinkStateResponseMessage(GenericMessage const& genericMessage);
 }
 
 } // namespace DesignDocumentCreator
+

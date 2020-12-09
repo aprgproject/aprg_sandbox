@@ -20,6 +20,7 @@ public:
     void pushBackEvent(Event const& event);
     void handleOneEvent();
     void handleAllEvents();
+    void send(ComponentName const receiver, GenericMessage const& message) const;
     bool isEventQueueEmpty() const;
     GenericMessage peekMessageAtStartOfTheEventQueue() const;
     ComponentName getComponentName() const;

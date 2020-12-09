@@ -11,6 +11,9 @@ namespace MessageFactory
     GenericMessage createOneTransportBearerRegisterForCell();
     GenericMessage createTcomHwConfigurationMsg();
     GenericMessage createTcomHwConfigurationResponseMsg();
+    GenericMessage createLinkStatesMsg();
+    GenericMessage createLinkStatesResponseMsg();
 }
 
 } // namespace DesignDocumentCreator
+

@@ -35,7 +35,7 @@ void Component1::handleMessageEvent(GenericMessage const& genericMessage)
         handleMessage1(genericMessage);
         break;
     default:
-        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<". Please create one!"<<endl;
+        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
         break;
     }
 }

@@ -11,7 +11,8 @@
 
 using namespace std;
 using tcomToolsBackend::BtsLogPrint;
-using tcomToolsBackend::BtsLogTime;using tcomToolsBackend::BtsLogTimeType;
+using tcomToolsBackend::BtsLogTime;
+using tcomToolsBackend::BtsLogTimeType;
 
 namespace alba
 {
@@ -65,7 +66,8 @@ void BtsLogAnalyzer::saveQueueingTime(string const& lineInLogs, ofstream& messag
 
 void BtsLogAnalyzer::saveRlhSetupTime(string const& lineInLogs, LogTimePairs& rlSetupLogTimePairs, ofstream& rlSetupTimeFileStream)
 {
-    if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))    {
+    if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))
+    {
         UserIdentifiers userIdentifiers(lineInLogs);
         setFirstLogTimeInPair(lineInLogs, userIdentifiers, rlSetupLogTimePairs);
     }
@@ -76,6 +78,7 @@ void BtsLogAnalyzer::saveRlhSetupTime(string const& lineInLogs, LogTimePairs& rl
         computeLatencyAndUpdateIfLogTimePairIsValid(LogType::RlSetup, userIdentifiers, rlSetupLogTimePairs, rlSetupTimeFileStream);
     }
 }
+
 void BtsLogAnalyzer::saveRlhDeletionTime(string const& lineInLogs, LogTimePairs& rlDeletionLogTimePairs, ofstream& rlDeletionTimeFileStream)
 {
     if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlDeletionReq3G)"))
@@ -90,6 +93,7 @@ void BtsLogAnalyzer::saveRlhDeletionTime(string const& lineInLogs, LogTimePairs&
         computeLatencyAndUpdateIfLogTimePairIsValid(LogType::RlDeletion, userIdentifiers, rlDeletionLogTimePairs, rlDeletionTimeFileStream);
     }
 }
+
 void BtsLogAnalyzer::setFirstLogTimeInPair(string const& lineInLogs, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs) const
 {
     LogTimePair & logTimePairOfTheUser(logTimePairs[userIdentifiers]);
@@ -105,7 +109,8 @@ void BtsLogAnalyzer::setSecondLogTimeInPair(string const& lineInLogs, UserIdenti
 void BtsLogAnalyzer::computeLatencyAndUpdateIfLogTimePairIsValid(LogType const logType, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs, ofstream& csvFileStream)
 {
     LogTimePair & logTimePairOfTheUser(logTimePairs[userIdentifiers]);
-    if(logTimePairOfTheUser.first && logTimePairOfTheUser.second && logTimePairOfTheUser.first.getReference().getTotalSeconds() <= logTimePairOfTheUser.second.getReference().getTotalSeconds())    {
+    if(logTimePairOfTheUser.first && logTimePairOfTheUser.second && logTimePairOfTheUser.first.getReference().getTotalSeconds() <= logTimePairOfTheUser.second.getReference().getTotalSeconds())
+    {
         BtsLogTime latency = logTimePairOfTheUser.second.getReference()-logTimePairOfTheUser.first.getReference();
         double latencyInMicroseconds(getTotalMicroseconds(latency));
         if(logType == LogType::RlSetup)
@@ -118,7 +123,8 @@ void BtsLogAnalyzer::computeLatencyAndUpdateIfLogTimePairIsValid(LogType const l
         }
         saveUserIndentifierAndLatencyToCsvFile(userIdentifiers, latencyInMicroseconds, csvFileStream);
     }
-    logTimePairs.erase(userIdentifiers);}
+    logTimePairs.erase(userIdentifiers);
+}
 
 void BtsLogAnalyzer::initializeCsvFileStreams(ofstream& messageQueueingTimeFileStream, ofstream& rlSetupTimeFileStream, ofstream& rlDeletionTimeFileStream) const
 {
@@ -159,7 +165,8 @@ void BtsLogAnalyzer::setLogTimeIfNeeded(string const& lineInLogs, LogTime& logTi
     //}
 }
 
-double BtsLogAnalyzer::getTotalMicroseconds(BtsLogTime const& btsLogTime) const{
+double BtsLogAnalyzer::getTotalMicroseconds(BtsLogTime const& btsLogTime) const
+{
     double result((double)btsLogTime.getMinutes()*1000000*60 + (double)btsLogTime.getSeconds()*1000000 + (double)btsLogTime.getMicroSeconds());
     return result;
 }

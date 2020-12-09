@@ -15,7 +15,8 @@ struct UserIdentifiers
     bool operator<(UserIdentifiers const& userIdentifiers) const;
     unsigned int getNbccId() const;
     unsigned int getCrnccId() const;
-    unsigned int getTransactionId() const;private:
+    unsigned int getTransactionId() const;
+private:
     void saveNbccId(std::string const& lineInLogs);
     void saveCrnccId(std::string const& lineInLogs);
     void saveTransactionId(std::string const& lineInLogs);

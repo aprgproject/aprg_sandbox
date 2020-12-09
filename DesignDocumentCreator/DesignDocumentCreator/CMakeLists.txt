@@ -21,8 +21,13 @@ if(WIN32)
     #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
 endif()
 
+
 #Assign Definitions
-add_definitions(-DAPRG_DIR="${APRG_DIR}")
+add_definitions(
+    -DAPRG_DIR="${APRG_DIR}"
+    -DCCS_BIG_ENDIAN
+)
+
 
 #Include aprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
@@ -38,6 +43,8 @@ include(${DesignDocumentCreatorDirectory}/cmake/CNI21985.cmake)
 
 #Assign Sack Directory
 set(SackDirectory "D:/Branches/trunk")
+
+
 #Sacks
 set(SACKS_DIR_TO_INCLUDE
     ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp
@@ -75,6 +82,7 @@ set(SACKS_DIR_TO_INCLUDE
 )
 MACRO_GET_ALL_SOURCES(${SackDirectory}/I_Interface TCOM_PRIVATE_SACKS)
 MACRO_GET_ALL_SOURCES(${SackDirectory}/wbts_integration/I_Interface BTS_SACKS)
+
 
 #Sources
 set(COMMON_SOURCES

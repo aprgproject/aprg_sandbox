@@ -36,7 +36,8 @@ BtsLogSorter::BtsLogSorter(BtsLogSorterConfiguration const& configuration)
 }
 
 double BtsLogSorter::getTotalSizeToBeRead(set<string> listOfFiles)
-{    double totalFileSize(0);
+{
+    double totalFileSize(0);
     for(string const& filePath : listOfFiles)
     {
         AlbaLocalPathHandler filePathHandler(filePath);
@@ -106,7 +107,8 @@ void BtsLogSorter::deleteLogsWithoutPcTime() const
 
 void BtsLogSorter::saveLogsToOutputFile(string const& outputPath)
 {
-    addStartupLogsOnSorterWithPcTime();    if(m_sorterWithPcTime.isEmpty())
+    addStartupLogsOnSorterWithPcTime();
+    if(m_sorterWithPcTime.isEmpty())
     {
         saveLogToOutputFileIfAllHavePcTime(outputPath);
     }
@@ -117,7 +119,8 @@ void BtsLogSorter::saveLogsToOutputFile(string const& outputPath)
     deleteStartupLog();
 }
 
-void BtsLogSorter::saveLogToOutputFileIfAllHavePcTime(string const& outputPath){
+void BtsLogSorter::saveLogToOutputFileIfAllHavePcTime(string const& outputPath)
+{
     cout << "Save log to output file if all have pc time." << endl;
     ofstream outputLogFileStream(outputPath);
     writeLogsWithoutPcTimeToOutputFile(outputLogFileStream);
@@ -133,7 +136,8 @@ void BtsLogSorter::saveLogToOutputFileIfNotAllHavePcTime(string const& outputPat
     deleteLogsWithoutPcTime();
 }
 
-string BtsLogSorter::getPathOfLogWithoutPcTimeBasedFromHardwareAddress(string const& directory, string const& hardwareAddress) const{
+string BtsLogSorter::getPathOfLogWithoutPcTimeBasedFromHardwareAddress(string const& directory, string const& hardwareAddress) const
+{
     string filename = hardwareAddress.empty() ? "NoHardwareAddress" : hardwareAddress;
     return AlbaLocalPathHandler(directory + R"(\)" + filename + R"(.log)").getFullPath();
 }

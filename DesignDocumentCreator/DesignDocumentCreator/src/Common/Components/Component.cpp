@@ -41,6 +41,12 @@ void Component::handleAllEvents()
     }
 }
 
+void Component::send(ComponentName const receiver, GenericMessage const& message) const
+{
+    Environment & environment(Environment::getInstance());
+    environment.send(m_componentName, receiver, message);
+}
+
 bool Component::isEventQueueEmpty() const
 {
     return m_eventQueue.empty();
@@ -56,7 +62,8 @@ GenericMessage Component::peekMessageAtStartOfTheEventQueue() const
     return message;
 }
 
-ComponentName Component::getComponentName() const{
+ComponentName Component::getComponentName() const
+{
     return m_componentName;
 }
 

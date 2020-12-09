@@ -31,7 +31,7 @@ void TupcIlm::handleMessageEvent(GenericMessage const& genericMessage)
     //case MessageName::TC_LTX_TELECOM_MSG:
     //    cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;
     default:
-        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<endl;
+        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
     }
 }
 

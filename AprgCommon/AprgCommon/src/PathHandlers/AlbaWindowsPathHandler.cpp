@@ -130,7 +130,8 @@ void AlbaWindowsPathHandler::deleteFilesInDirectory()
 
 bool AlbaWindowsPathHandler::copyToNewFile(string const& newFilePath)
 {
-    bool isSuccessful(false);    if(isFile())
+    bool isSuccessful(false);
+    if(isFile())
     {
         isSuccessful = (bool)CopyFile(getFullPath().c_str(), newFilePath.c_str(), 0);
         if(!isSuccessful)

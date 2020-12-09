@@ -30,7 +30,8 @@ private:
     void deleteLogsWithoutPcTime() const;
     void saveLogToOutputFileIfAllHavePcTime(std::string const& outputPath);
     void saveLogToOutputFileIfNotAllHavePcTime(std::string const& outputPath);
-    std::string getPathOfLogWithoutPcTimeBasedFromHardwareAddress(std::string const& directory, std::string const& hardwareAddress) const;    void openStartupLogsIfNeeded();
+    std::string getPathOfLogWithoutPcTimeBasedFromHardwareAddress(std::string const& directory, std::string const& hardwareAddress) const;
+    void openStartupLogsIfNeeded();
     void addStartupLogsOnSorterWithPcTime();
     void writeLogsWithoutPcTimeToOutputFile(std::ofstream & outputLogFileStream);
     void separateLogsWithoutPcTimeIntoDifferentAddresses();

@@ -16,7 +16,35 @@ TupcTbm::TupcTbm(ComponentName const componentName)
 
 void TupcTbm::handleStartup()
 {
-    logNoteOnComponent("TupcTbm **automatically**  starts when TUPCexe starts.");
+    logNoteOnComponent("TupcTbm **automatically** starts when TUPCexe starts.");
+}
+
+void TupcTbm::handleTupcTbmConfigurationMsg(GenericMessage const& genericMessage)
+{
+    logNoteOnComponent("TupcTbm saves the address of TupcCm.");
+    SpecificStaticMessage<MessageName::TUPC_TBM_CONFIGURATION_MSG> message(convertGenericToSpecificStatic<MessageName::TUPC_TBM_CONFIGURATION_MSG>(genericMessage));
+    STupcTbmConfigurationMsg const& payload(message.getPayloadReference());
+    m_tupcCmAddress = payload.tupcCmSicad;
+}
+
+void TupcTbm::handleTransportBearerRegisterMsg(GenericMessage const& genericMessage)
+{
+    logNoteOnComponent("TupcTbm saves the address of TupcCm.");
+    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG, 20> message(convertGenericToSpecificDynamicArray<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG, 20>(genericMessage));
+    STransportBearerRegisterMsg const& payload(message.getStaticPayloadReference());
+}
+
+void TupcTbm::sendCmBearerSetupReqBasedOnTbRegisterMsg(STransportBearerRegisterMsg const& tbRegisterMsg) const
+{
+    /*SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARER_SETUP_REQ_MSG, 20> specificMessage;
+    SCmBearerSetupReqMsg & payload(specificMessage.getStaticPayloadReference());
+    payload.transactionId = tbRegisterMsg.transactionId;
+    payload.cellId = tbRegisterMsg.cellId;
+    payload.nbccId = tbRegisterMsg.nbccId;
+    payload.numConnections = tbRegisterMsg.numConnections;
+    for(unsigned int )
+    send(ComponentName::Oam, convertSpecificStaticToGeneric<MessageName::TC_HW_CONFIGURATION_RESP_MSG>(specificMessage));
+    logNoteOnPreviousMessage("TCOM/TOAM sends HW configuration ack to OAM.");*/
 }
 
 void TupcTbm::handleMessageEvent(GenericMessage const& genericMessage)
@@ -24,10 +52,11 @@ void TupcTbm::handleMessageEvent(GenericMessage const& genericMessage)
     MessageName messageName(genericMessage.getMessageName());
     switch(messageName)
     {
-    //case MessageName::TC_LTX_TELECOM_MSG:
-    //    cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;
+    case MessageName::TUPC_TBM_CONFIGURATION_MSG:
+        handleTupcTbmConfigurationMsg(genericMessage);
+        break;
     default:
-        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<endl;
+        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
     }
 }
 

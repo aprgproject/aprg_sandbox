@@ -94,7 +94,8 @@ public:
         updateAllCaches(iteratorOfBlock);
     }
     void sortThenDoFunctionThenReleaseAllObjects(std::function<void(ObjectToSort const&)> doFunctionForAllObjects)
-    {        for(BlockType& block : m_blocks)
+    {
+        for(BlockType& block : m_blocks)
         {
             block.sortThenDoFunctionThenRelease(doFunctionForAllObjects);
         }
@@ -116,7 +117,8 @@ public:
     void updateAllCaches(BlockIterator const& iteratorOfBlock)
     {
         switch(iteratorOfBlock->getBlockType())
-        {        case DataBlockType::File:
+        {
+        case DataBlockType::File:
             m_fileStreamOpenedCache.addBlock(iteratorOfBlock->getBlockId(), iteratorOfBlock);
             break;
         case DataBlockType::Memory:

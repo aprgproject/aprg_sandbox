@@ -6,7 +6,8 @@
 #include <Components/Tcom.hpp>
 #include <Components/TupcCm.hpp>
 #include <Components/TupcIlm.hpp>
-#include <Components/TupcLom.hpp>#include <Components/TupcTbm.hpp>
+#include <Components/TupcLom.hpp>
+#include <Components/TupcTbm.hpp>
 #include <ModuleTest.hpp>
 #include <MessageFactory.hpp>
 #include <MessageVerifier.hpp>
@@ -20,7 +21,8 @@ using namespace StringHelpers;
 TEST_F(ModuleTest, TupcStartup)
 {
     UmlLogger& umlLogger(getUmlLogger());
-    Oam& oam(*dynamic_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam)));    TupcIlm& tupcIlm(*dynamic_cast<TupcIlm*>(getComponentAndActivateAsParticipant(ComponentName::TupcIlm)));
+    Oam& oam(*dynamic_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam)));
+    TupcIlm& tupcIlm(*dynamic_cast<TupcIlm*>(getComponentAndActivateAsParticipant(ComponentName::TupcIlm)));
     TupcLom& tupcLom(*dynamic_cast<TupcLom*>(getComponentAndActivateAsParticipant(ComponentName::TupcLom)));
     TupcCm& tupcCm(*dynamic_cast<TupcCm*>(getComponentAndActivateAsParticipant(ComponentName::TupcCm)));
     TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm)));
@@ -45,7 +47,7 @@ TEST_F(ModuleTest, TupcStartup)
     tupcCm.handleOneEvent();
 }
 
-TEST_F(ModuleTest, TcomReceivesHardwareConfiguration)
+TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringLinkStateUp)
 {
     UmlLogger& umlLogger(getUmlLogger());
     Oam& oam(*dynamic_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam)));
@@ -53,9 +55,9 @@ TEST_F(ModuleTest, TcomReceivesHardwareConfiguration)
     TupcLom& tupcLom(*dynamic_cast<TupcLom*>(getComponentAndActivateAsParticipant(ComponentName::TupcLom)));
     TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm)));
 
-    sendMessage(ComponentName::Oam, ComponentName::Tcom, createTcomHwConfigurationMsg());
+    sendMessage(ComponentName::Oam, ComponentName::Tcom, createLinkStatesMsg());
     tcom.handleOneEvent();
-    verifySuccessfulHwConfigurationResponseMessage(oam.peekMessageAtStartOfTheEventQueue());
+    verifyLinkStateResponseMessage(oam.peekMessageAtStartOfTheEventQueue());
     verifyTcomDeploymentIndMessage(tupcLom.peekMessageAtStartOfTheEventQueue());
 
     oam.handleOneEvent();

@@ -1,3 +1,8 @@
+//make this FirefoxAutomationHelper
+//this should be singleton
+//firefox should start when this class is created
+//-new window should be used in the console
+//ctrl-w to close window
 #include "AutomationHelper.hpp"
 
 #include <File/AlbaFileReader.hpp>
@@ -9,6 +14,7 @@
 #include <fstream>
 #include <iostream>
 
+//include this on cmake
 #define APRG_WEB_CRAWLER_AUTOMATION_CONFIGURATION_FILE APRG_DIR R"(AprgWebCrawler\automationConfiguration.txt)"
 
 using namespace alba;
@@ -113,6 +119,7 @@ void AutomationHelper::openMozillaFirefoxExecutableManually(string const& webPat
     system(firefoxCommand.c_str());
 }
 
+//use tabs instead of clicks
 void AutomationHelper::saveWebPageManuallyUsingMozillaFirefox(string const& webPath)
 {
     AlbaWebPathHandler webPathHandler(webPath);

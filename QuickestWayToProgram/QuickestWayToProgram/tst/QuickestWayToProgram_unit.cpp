@@ -166,7 +166,8 @@ TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
 
 TEST(SampleTest, SaveGetDifferenceFromGreaterMultipleToCsv)
 {
-    AlbaLocalPathHandler pathHandler(R"(C:\APRG\GetDifferenceFromGreaterMultipleGraph.txt)");    ofstream csvFile(pathHandler.getFullPath());
+    AlbaLocalPathHandler pathHandler(R"(C:\APRG\GetDifferenceFromGreaterMultipleGraph.txt)");
+    ofstream csvFile(pathHandler.getFullPath());
 
     csvFile<<"size = ["<<endl;
     for(unsigned int multiple = 0; multiple<20; multiple++)
@@ -183,7 +184,8 @@ TEST(SampleTest, SaveGetDifferenceFromGreaterMultipleToCsv)
 
 TEST(SampleTest, MessageIds_test)
 {
-    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");    AlbaLocalPathHandler pathHandler2(R"(D:\Branches\trunk\wbts_integration\I_Interface\Application_Env\Wn_Env\Bs_Env\Messages\MessageId_TcomDsp.h)");
+    AlbaLocalPathHandler pathHandler(R"(D:\Branches\trunk\I_Interface\Private\SC_TCOM\Messages\MessageId_TcomTcom.sig)");
+    AlbaLocalPathHandler pathHandler2(R"(D:\Branches\trunk\wbts_integration\I_Interface\Application_Env\Wn_Env\Bs_Env\Messages\MessageId_TcomDsp.h)");
     AlbaLocalPathHandler pathHandler3(R"(D:\ZZZ_Logs\PR212221\LRMJairus\MessageHistoryBeforeCorruption.txt)");
 
 

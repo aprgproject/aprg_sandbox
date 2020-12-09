@@ -200,4 +200,23 @@ GenericMessage MessageFactory::createTcomHwConfigurationResponseMsg()
     return convertSpecificStaticToGeneric(message);
 }
 
+GenericMessage MessageFactory::createLinkStatesMsg()
+{
+    SpecificStaticMessage<MessageName::TC_LINK_STATES_MSG> message;
+    SLinkStatesMsg& payload(message.getPayloadReference());
+    payload.cnbapLinkState = ELinkState_InService;
+    STtpSignalingLinkStates& signalingLinkState(payload.ttpSignalingLinkStates[0]);
+    signalingLinkState.dnbapLinkState = ELinkState_InService;
+    signalingLinkState.aal2SignalingLinkState = ELinkState_InService;
+    return convertSpecificStaticToGeneric(message);
+}
+
+GenericMessage MessageFactory::createLinkStatesResponseMsg()
+{
+    SpecificStaticMessage<MessageName::TC_LINK_STATES_RESP_MSG> message;
+    //SLinkStatesResponseMsg& payload(message.getPayloadReference());
+    return convertSpecificStaticToGeneric(message);
+}
+
+
 }

@@ -6,7 +6,8 @@
 #include <oam_tcom.h>
 #include <STransportBearerRegisterMsg.h>
 #include <STransportBearerRegisterResponseMsg.h>
-#include <STransportBearerUnregisterMsg.h>#include <STransportBearerUnregisterResponseMsg.h>
+#include <STransportBearerUnregisterMsg.h>
+#include <STransportBearerUnregisterResponseMsg.h>
 #include <STransportBearerReallocationPrepareReq.h>
 #include <STransportBearerReallocationPrepareResp.h>
 #include <STransportBearerReallocationCommitReq.h>
@@ -57,11 +58,17 @@ WRAP_STATIC_MESSAGE(MessageName::TUP_TRANSPORT_CONNECTION_RELEASE_REQ_MSG, TUP_T
 WRAP_STATIC_MESSAGE(MessageName::TUP_TRANSPORT_CONNECTION_RELEASE_RESP_MSG, TUP_TransportConnectionReleaseResp)
 WRAP_STATIC_MESSAGE(MessageName::TUP_TRANSPORT_CONNECTION_TRANSFER_REQ_MSG, TUP_TransportConnectionTransferReq)
 WRAP_STATIC_MESSAGE(MessageName::TUP_TRANSPORT_CONNECTION_TRANSFER_RESP_MSG, TUP_TransportConnectionTransferResp)
-WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUP_CM_BEARER_SETUP_REQ_MSG, SCmBearerSetupReqMsg, STransportBearerLocationData)
-WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUP_CM_BEARER_SETUP_RESP_MSG, SCmBearerSetupRespMsg, STransportBearerSignallingData)
 WRAP_STATIC_MESSAGE(MessageName::TC_HW_CONFIGURATION_MSG, SHwConfigurationMsg)
 WRAP_STATIC_MESSAGE(MessageName::TC_HW_CONFIGURATION_RESP_MSG, SHwConfigurationResponseMsg)
 WRAP_STATIC_MESSAGE(MessageName::TC_HW_CONFIGURATION_CHANGE_MSG, SHwConfigurationChangeMsg)
 WRAP_STATIC_MESSAGE(MessageName::TC_TCOM_DEPLOYMENT_IND_MSG, STcomDeploymentIndMsg)
+WRAP_STATIC_MESSAGE(MessageName::TC_LINK_STATES_MSG, SLinkStatesMsg)
+WRAP_STATIC_MESSAGE(MessageName::TC_LINK_STATES_RESP_MSG, SLinkStatesResponseMsg)
+WRAP_STATIC_MESSAGE(MessageName::TUPC_TBM_CONFIGURATION_MSG, STupcTbmConfigurationMsg)
+WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUP_CM_BEARER_SETUP_REQ_MSG, SCmBearerSetupReqMsg, STransportBearerLocationData)
+WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUP_CM_BEARER_SETUP_RESP_MSG, SCmBearerSetupRespMsg, STransportBearerSignallingData)
+
+
 
 }
+

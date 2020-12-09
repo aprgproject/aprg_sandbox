@@ -14,7 +14,12 @@ Oam::Oam(ComponentName const componentName)
     : Component(componentName)
 {}
 
-void Oam::handleHwConfigurationMessageResponse(GenericMessage const& genericMessage) const
+void Oam::handleHwConfigurationMessageResponse(GenericMessage const&) const
+{
+    //I am not coding OAM. :)
+}
+
+void Oam::handleLinkStatesResponse(GenericMessage const&) const
 {
     //I am not coding OAM. :)
 }
@@ -27,9 +32,13 @@ void Oam::handleMessageEvent(GenericMessage const& genericMessage)
     case MessageName::TC_HW_CONFIGURATION_RESP_MSG:
         handleHwConfigurationMessageResponse(genericMessage);
         break;
+    case MessageName::TC_LINK_STATES_RESP_MSG:
+        handleLinkStatesResponse(genericMessage);
+        break;
     default:
-        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<endl;
-    }}
+        cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
+    }
+}
 
 void Oam::handleTimerEvent(Timer const& timer)
 {

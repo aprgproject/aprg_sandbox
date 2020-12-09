@@ -51,7 +51,8 @@ bool UserIdentifiers::operator<(UserIdentifiers const& userIdentifiers) const
 
 void UserIdentifiers::saveNbccId(std::string const& lineInLogs)
 {
-    unsigned int nbccid = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(lineInLogs, "nbccid: "));    unsigned int nbccId = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(lineInLogs, "nbccId: "));
+    unsigned int nbccid = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(lineInLogs, "nbccid: "));
+    unsigned int nbccId = stringHelper::convertStringToNumber<unsigned int>(stringHelper::getNumberAfterThisString(lineInLogs, "nbccId: "));
     if(nbccid>0)
     {
         m_nbccIdOptional.setValue(nbccid);

@@ -44,7 +44,8 @@ public:
         return (m_count==0) ? 0 : m_total/m_count;
     }
     double getAverageWithDoubleFormat() const
-    {        return (double)m_total/m_count;
+    {
+        return (double)m_total/m_count;
     }
     void addData(DataType dataValue)
     {

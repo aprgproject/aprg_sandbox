@@ -3,6 +3,7 @@
 #include <EControlUnitType.h>
 #include <EConditional.h>
 #include <EResponseCond.h>
+#include <STCWamAddressInd.h>
 #include <STransportBearerLocationData.h>
 #include <STransportBearerSignallingData.h>
 #include <SFlexiConnectionInfo.h>
@@ -23,7 +24,8 @@
 
 typedef struct SAtmHwConfigurationMsgFake
 {
-    EControlUnitType         typeOfConfiguration;    EConditional             tupConfigurationPresent;
+    EControlUnitType         typeOfConfiguration;
+    EConditional             tupConfigurationPresent;
     STupConfigurationInfo    tupConfigurationInfo;
     STupcBtsParameters       commisioningParameters;
     TMtuSize                 ipMtuSize;
@@ -42,7 +44,6 @@ struct TUP_CmConfigurationCmd
 
 typedef struct SCmBearerSetupReqMsg
 {
-    TAaSysComSicad                     conmanAddress;
     TTransactionID                     transactionId;
     TCellId                            cellId;
     TNbccId                            nbccId;
@@ -62,8 +63,28 @@ typedef struct SCmBearerSetupRespMsg
 } SCmBearerSetupRespMsg;
 
 
+struct STCWamAddressIndNew
+{
+    MESSAGEHEADER(msgHeader)
+    EBoolean        isSbts;
+    TAaSysComSicad  oamSubscriberSicad;
+    TAaSysComSicad  lmsSicad;
+    TAaSysComSicad  tupcCmSicad; //changed name
+    TAaSysComSicad  cnbapTupcIlmSicad; //changed name
+    TAaSysComSicad  dnbapTupcIlmSicad; //changed name
+    TNumberOfItems  numOfTcomInstances;
+    STcomInstance   tcomInstances[MAX_NUM_OF_CONTROL_UNITS];
+};
+typedef struct STCWamAddressIndNew STCWamAddressIndNew;
+
+
 typedef struct STcomDeploymentIndMsg
 {
-    TNumberOfItems                      numberOfTcomRlhAddresses;
-    TAaSysComSicad                      tcomRlhAddresses[MAX_NUM_RLH_INSTANCES];
+    STCWamAddressIndNew                    wamAddressInd;
 } STcomDeploymentIndMsg;
+
+typedef struct STupcTbmConfigurationMsg
+{
+    TAaSysComSicad                    tupcCmSicad;
+} STupcTbmConfigurationMsg;
+
