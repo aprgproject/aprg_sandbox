@@ -7,25 +7,38 @@
 using namespace alba;
 using namespace std;
 
-#define APRG_BITMAP_FILTERS_SAMPLE_BITMAP APRG_DIR R"(AprgBitmapFilters\AprgBitmapFilters\tst\Bitmaps\sample.bmp)"
-#define APRG_BITMAP_FILTERS_OUTPUT_BITMAP APRG_DIR R"(AprgBitmapFilters\AprgBitmapFilters\tst\Bitmaps\output.bmp)"
+#define APRG_BITMAP_FILTERS_BITMAP_DIRECTORY APRG_DIR R"(AprgBitmapFilters\AprgBitmapFilters\tst\Bitmaps\)"
 
-TEST(BitmapFilterTest, BitmapFilterFindPen)
+TEST(BitmapFilterTest, DISABLED_FindPenAndNonPen)
 {
-    AlbaLocalPathHandler sampleFile(APRG_BITMAP_FILTERS_SAMPLE_BITMAP);
-    AlbaLocalPathHandler outputFile(APRG_BITMAP_FILTERS_OUTPUT_BITMAP);
-    outputFile.deleteFile();
-    sampleFile.copyToNewFile(outputFile.getFullPath());
+    AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
+    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory()+"sample.bmp");
+    AlbaLocalPathHandler temporaryFile(bitmapDirectory.getDirectory()+"temporary.bmp");
+    temporaryFile.deleteFile();
+    sampleFile.copyToNewFile(temporaryFile.getFullPath());
 
-    AprgBitmapFilters bitmapFilter(outputFile.getFullPath());
-    bitmapFilter.setSimilarityLimit(0x10);
-    bitmapFilter.findPenPixel(4);
-    bitmapFilter.saveBlurredNotPenPixelsToCanvas(5);
+    AprgBitmapFilters bitmapFilter(temporaryFile.getFullPath());
+    bitmapFilter.findPenPixel(3, 0x30);
+    bitmapFilter.saveBlurredNonPenPixelsToCanvas(5, 0x40);
     bitmapFilter.saveCanvasToBitmapFile();
-    outputFile.copyToNewFile(outputFile.getDirectory()+"BitmapNotPenPixels.bmp");
+    temporaryFile.copyToNewFile(temporaryFile.getDirectory()+"BitmapNonPenPixels.bmp");
 
     bitmapFilter.clearCanvas();
     bitmapFilter.setPenPixelsToCanvas();
     bitmapFilter.saveCanvasToBitmapFile();
-    outputFile.copyToNewFile(outputFile.getDirectory()+"BitmapPenPixels.bmp");
+    temporaryFile.copyToNewFile(temporaryFile.getDirectory()+"BitmapPenPixels.bmp");
+}
+
+TEST(BitmapFilterTest, FillNonPenGaps)
+{
+    AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
+    AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory()+"BitmapNonPenPixels.bmp");
+    AlbaLocalPathHandler temporaryFile(bitmapDirectory.getDirectory()+"temporary.bmp");
+    temporaryFile.deleteFile();
+    sampleFile.copyToNewFile(temporaryFile.getFullPath());
+
+    AprgBitmapFilters bitmapFilter(temporaryFile.getFullPath());
+    bitmapFilter.saveFilledGapsUsingBlurToCanvas(2);
+    bitmapFilter.saveCanvasToBitmapFile();
+    temporaryFile.copyToNewFile(temporaryFile.getDirectory()+"BitmapNonPenPixelsFilled.bmp");
 }

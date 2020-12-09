@@ -5,36 +5,37 @@
 #include <PixelInformationDatabase.hpp>
 #include <TwoDimensions/Point.hpp>
 
+#include <functional>
+
 namespace alba
 {
-
 class AprgBitmapFilters
 {
 public:
+    using BlurCondition = std::function<bool(unsigned int,unsigned int,BitmapXY)>;
 
     AprgBitmapFilters(std::string const& path);
-    void findPenPixel(double const penSearchRadius);
-    void saveBlurredNotPenPixelsToCanvas(double const blurRadius);
-    void saveNotPenPixelsToCanvas();
+    bool isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) const;
+    void findPenPixel(double const penSearchRadius, unsigned int const similarityColorLimit);
+    void saveBlurredNonPenPixelsToCanvas(double const blurRadius, unsigned int const similarityColorLimit);
+    void saveFilledGapsUsingBlurToCanvas(double const blurRadius);
+    void saveNonPenPixelsToCanvas();
     void setPenPixelsToCanvas();
     void clearCanvas();
     void saveCanvasToBitmapFile();
-    void setSimilarityLimit(unsigned int const limit);
-    bool isSimilar(unsigned int const color1, unsigned int const color2) const;
+    void setBackgroundColor(unsigned int const backgroundColor);
 
 private:
-    unsigned int getBlurredColor(BitmapXY const& centerXY, double const blurRadius) const;
+    unsigned int getBlurredColor(AprgBitmapSnippet const& canvas, BitmapXY const& centerXY, double const blurRadius, BlurCondition const& isIncludedInBlur) const;
     double getBlurWeight(double const distanceFromCenter, double const blurRadius) const;
     unsigned char getRed(unsigned int const color) const;
-    unsigned char getGreen(unsigned int const color) const;
-    unsigned char getBlue(unsigned int const color) const;
+    unsigned char getGreen(unsigned int const color) const;    unsigned char getBlue(unsigned int const color) const;
     Point convertBitmapXYToPoint(BitmapXY const& bitmapPosition) const;
     BitmapXY convertPointToBitmapXY(Point const& pointPosition) const;
-    unsigned int m_similarityLimit;
+    unsigned int m_backgroundColor;
     AprgBitmap m_bitmap;
     AprgBitmapSnippet const m_originalCanvas;
-    AprgBitmapSnippet m_canvas;
-    PixelInformationDatabase m_pixelInformationDatabase;
+    AprgBitmapSnippet m_canvas;    PixelInformationDatabase m_pixelInformationDatabase;
 };
 
 }
