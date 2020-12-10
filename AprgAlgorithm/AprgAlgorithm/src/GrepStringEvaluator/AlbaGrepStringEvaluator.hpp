@@ -1,6 +1,10 @@
 #pragma once
 
+#include <GrepStringEvaluator/AlbaGrepStringEvaluatorPerformOperations.hpp> //this needs to be before ExpressionEvaluator
+#include <ExpressionEvaluator/ExpressionEvaluator.hpp>
+#include <GrepStringEvaluator/AlbaGrepStringOperatorType.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.hpp>
+#include <GrepStringEvaluator/AlbaGrepStringToken.hpp>
 
 #include <functional>
 #include <stack>
@@ -12,33 +16,33 @@ namespace alba
 
 class AlbaGrepStringEvaluator
 {
-    typedef std::stack <AlbaGrepStringEvaluatorTerm> StackOfTerms;
-    typedef std::vector <AlbaGrepStringEvaluatorTerm> VectorOfTerms;
+    using VectorOfTokens = std::vector<AlbaGrepStringToken>;
+    using InfixEvaluator = ExpressionEvaluator::ExpressionInfixEvaluator<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
+    using PostfixEvaluator = ExpressionEvaluator::ExpressionPostfixEvaluator<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
+    using EvaluatorTerm = ExpressionEvaluator::ExpressionEvaluatorTerm<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
+    using EvaluatorConverter = ExpressionEvaluator::ExpressionEvaluatorConverter<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>;
+
 public:
     AlbaGrepStringEvaluator(std::string const& condition);
-    bool evaluate(std::string const& stringToEvaluate) const;
+    bool evaluate(std::string const& stringToEvaluate);
     bool isInvalid() const;
     std::string getErrorMessage() const;
 private:
-    void extractTerms(std::string const& condition);
-    void extractTermsWhileOnString(bool& isOnString, std::string & stringToBuild, char const& currentCharacter);
-    void extractTermsWhileNotOnString(bool& isOnString, char const& currentCharacter, int& parenthesisCount);
-    void convertToPostFix();
+    void performFindForTermsInEvaluator();
+    void extractTokens(std::string const& condition);
+    void extractTokensWhileOnString(bool& isOnString, std::string & stringToBuild, char const& currentCharacter);
+    void extractTokensWhileNotOnString(bool& isOnString, char const& currentCharacter, int& parenthesisCount);
+    void generateExpressionEvaluatorPostfix();
     bool isEvaluationPossible() const;
-    void transferStackContentsToVector(
-            StackOfTerms& stackOfTerms,
-            VectorOfTerms& vectorOfTerms,
-            std::function<bool(StackOfTerms&)> loopCondition);
     void addOperator(char const currentCharacter);
     void addParenthesis(char const currentCharacter, int& parenthesisCount);
     bool isOperator(char const character) const;
     bool isParenthesis(char const character) const;
-    bool performBiDirectionalOperation(AlbaGrepStringEvaluatorTermType const termType, bool const inputValue1, bool const inputValue2) const;
-    bool performPrefixOperation(AlbaGrepStringEvaluatorTermType const termType, bool const inputValue) const;
     void setErrorMessage(std::string const& errorMessage);
     bool m_isEvaluatorInvalid;
     std::string m_errorMessage;
-    VectorOfTerms m_terms;
+    VectorOfTokens m_tokens;
+    PostfixEvaluator m_postfixEvaluator;
 };
 
 }

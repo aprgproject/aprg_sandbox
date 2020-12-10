@@ -1,11 +1,11 @@
 #include "AlbaGrepStringEvaluator.hpp"
 
+#include <GrepStringEvaluator/AlbaGrepStringSingletionForString.hpp>
 #include <String/AlbaStringHelper.hpp>
 
 #include <algorithm>
 
 using namespace std;
-using alba::stringHelper::isStringFoundInsideTheOtherStringCaseSensitive;
 
 namespace alba
 {
@@ -14,49 +14,22 @@ AlbaGrepStringEvaluator::AlbaGrepStringEvaluator(string const& condition)
     : m_isEvaluatorInvalid(false)
     , m_errorMessage()
 {
-    extractTerms(condition);
-    convertToPostFix();
+    extractTokens(condition);
+    generateExpressionEvaluatorPostfix();
+
     if(!isEvaluationPossible())
     {
         setErrorMessage("Evaluation is not possible (Logic error).");
     }
 }
 
-bool AlbaGrepStringEvaluator::evaluate(string const& stringToEvaluate) const
+bool AlbaGrepStringEvaluator::evaluate(string const& stringToEvaluate)
 {
     if(m_isEvaluatorInvalid){return false;}
-
-    bool result(false);
-    string evaluateStringWithCapitalLetters(alba::stringHelper::getStringWithCapitalLetters(stringToEvaluate));
-    stack <bool> resultsStack;
-
-    for (AlbaGrepStringEvaluatorTerm const& term : m_terms)
-    {
-        if(term.isString())
-        {
-            resultsStack.push(isStringFoundInsideTheOtherStringCaseSensitive(evaluateStringWithCapitalLetters, term.getString()));
-        }
-        else if(term.isPrefixOperation())
-        {
-            bool inputValue = resultsStack.top();
-            resultsStack.pop();
-            resultsStack.push(performPrefixOperation(term.getTermType(), inputValue));
-        }
-        else if(term.isBiDirectionalOperation())
-        {
-            bool inputValue1 = resultsStack.top();
-            resultsStack.pop();
-            bool inputValue2 = resultsStack.top();
-            resultsStack.pop();
-            resultsStack.push(performBiDirectionalOperation(term.getTermType(), inputValue1, inputValue2));
-        }
-    }
-
-    if(!resultsStack.empty())
-    {
-        result = resultsStack.top();
-    }
-    return result;
+    AlbaGrepStringSingletionForString& singletionForStringToFind(AlbaGrepStringSingletionForString::getInstance());
+    singletionForStringToFind.setString(stringToEvaluate);
+    performFindForTermsInEvaluator();
+    return m_postfixEvaluator.evaluate().getResult();
 }
 
 bool AlbaGrepStringEvaluator::isInvalid() const
@@ -69,9 +42,21 @@ string AlbaGrepStringEvaluator::getErrorMessage() const
     return m_errorMessage;
 }
 
-void AlbaGrepStringEvaluator::extractTerms(string const& condition)
+void AlbaGrepStringEvaluator::performFindForTermsInEvaluator()
 {
-    m_terms.emplace_back(AlbaGrepStringEvaluatorTermType::Dummy);
+    PostfixEvaluator::Terms& terms(m_postfixEvaluator.getTermsReference());
+    for (EvaluatorTerm& term : terms)
+    {
+        if(!term.isOperator())
+        {
+            term.getReferenceOfValue().performFindOperationAndSaveResult();
+        }
+    }
+}
+
+void AlbaGrepStringEvaluator::extractTokens(string const& condition)
+{
+    m_tokens.emplace_back();
     bool isOnString(false);
     int parenthesisCount(0);
     string stringToBuild;
@@ -79,18 +64,18 @@ void AlbaGrepStringEvaluator::extractTerms(string const& condition)
     {
         if(isOnString)
         {
-            extractTermsWhileOnString(isOnString, stringToBuild, currentCharacter);
+            extractTokensWhileOnString(isOnString, stringToBuild, currentCharacter);
         }
         else
         {
-            extractTermsWhileNotOnString(isOnString, currentCharacter, parenthesisCount);
+            extractTokensWhileNotOnString(isOnString, currentCharacter, parenthesisCount);
         }
         if(m_isEvaluatorInvalid){return;}
     }
 
-    m_terms.erase(remove_if(m_terms.begin(), m_terms.end(), [](AlbaGrepStringEvaluatorTerm const& term){return term.isToBeIgnored();}), m_terms.end());
+    m_tokens.erase(remove_if(m_tokens.begin(), m_tokens.end(), [](AlbaGrepStringToken const& token){return token.isToBeIgnored();}), m_tokens.end());
 
-    if(m_terms.size() == 0)
+    if(m_tokens.size() == 0)
     {
         setErrorMessage("There are no contents");
     }
@@ -104,11 +89,11 @@ void AlbaGrepStringEvaluator::extractTerms(string const& condition)
     }
 }
 
-void AlbaGrepStringEvaluator::extractTermsWhileOnString(bool& isOnString, string & stringToBuild, char const& currentCharacter)
+void AlbaGrepStringEvaluator::extractTokensWhileOnString(bool& isOnString, string & stringToBuild, char const& currentCharacter)
 {
     if(']' == currentCharacter)
     {
-        m_terms.emplace_back(AlbaGrepStringEvaluatorTermType::String, stringToBuild);
+        m_tokens.emplace_back(stringToBuild);
         stringToBuild.clear();
         isOnString = false;
     }
@@ -118,7 +103,7 @@ void AlbaGrepStringEvaluator::extractTermsWhileOnString(bool& isOnString, string
     }
 }
 
-void AlbaGrepStringEvaluator::extractTermsWhileNotOnString(bool& isOnString, char const& currentCharacter, int& parenthesisCount)
+void AlbaGrepStringEvaluator::extractTokensWhileNotOnString(bool& isOnString, char const& currentCharacter, int& parenthesisCount)
 {
     if('[' == currentCharacter)
     {
@@ -134,155 +119,111 @@ void AlbaGrepStringEvaluator::extractTermsWhileNotOnString(bool& isOnString, cha
     }
 }
 
-void AlbaGrepStringEvaluator::convertToPostFix()
+void AlbaGrepStringEvaluator::generateExpressionEvaluatorPostfix()
 {
-    StackOfTerms operatorStack;
-    VectorOfTerms termsInPostFixOrder;
+    InfixEvaluator infixEvaluator;
 
-    for (AlbaGrepStringEvaluatorTerm const& term : m_terms)
+    for (AlbaGrepStringToken const& token : m_tokens)
     {
-        if (term.isOperator())
+        if(token.isOperator())
         {
-            transferStackContentsToVector(operatorStack, termsInPostFixOrder, [term](StackOfTerms& stackOfTerms)
+            if(token.isPrefixOperation())
             {
-                return term.getPriorityScore() <= stackOfTerms.top().getPriorityScore();
-            });
-            operatorStack.push(term);
-        }
-        else if (term.isOpeningParenthesis())
-        {
-            operatorStack.push(term);
-        }
-        else if (term.isClosingParenthesis())
-        {
-            transferStackContentsToVector(operatorStack, termsInPostFixOrder, [term](StackOfTerms& stackOfTerms)
+                infixEvaluator.addTerm(InfixEvaluator::Term(token.getOperatorType(), EvaluatorTerm::OperatorSyntaxType::PrefixUnary, token.getOperatorPriority()));
+            }
+            else if(token.isBiDirectionalOperation())
             {
-                return !stackOfTerms.top().isOpeningParenthesis();
-            });
-            if(!operatorStack.empty()) operatorStack.pop();
+                infixEvaluator.addTerm(InfixEvaluator::Term(token.getOperatorType(), EvaluatorTerm::OperatorSyntaxType::Binary, token.getOperatorPriority()));
+            }
+            else if(token.isOpeningParenthesis())
+            {
+                infixEvaluator.addTerm(InfixEvaluator::Term(token.getOperatorType(), EvaluatorTerm::OperatorSyntaxType::StartGroup, token.getOperatorPriority()));
+            }
+            else if(token.isClosingParenthesis())
+            {
+                infixEvaluator.addTerm(InfixEvaluator::Term(token.getOperatorType(), EvaluatorTerm::OperatorSyntaxType::EndGroup, token.getOperatorPriority()));
+            }
         }
-        else
+        else if(token.isString())
         {
-            termsInPostFixOrder.push_back(term);
+            infixEvaluator.addTerm(InfixEvaluator::Term(AlbaGrepStringEvaluatorTerm(token.getStringToFind())));
         }
     }
-    transferStackContentsToVector(operatorStack, termsInPostFixOrder, [](StackOfTerms&){return true;});
-
-    m_terms.resize(termsInPostFixOrder.size());
-    copy(termsInPostFixOrder.begin(), termsInPostFixOrder.end(), m_terms.begin());
+    m_postfixEvaluator = EvaluatorConverter::convertInfixToPostfix(infixEvaluator);
 }
 
 bool AlbaGrepStringEvaluator::isEvaluationPossible() const
 {
-    int resultStackSize(0);
-    for (AlbaGrepStringEvaluatorTerm const& term : m_terms)
-    {
-        if(term.isString())
-        {
-            resultStackSize++;
-        }
-        else if(term.isPrefixOperation())
-        {
-            if(resultStackSize<=0)
-            {
-                return false;
-            }
-        }
-        else if(term.isBiDirectionalOperation())
-        {
-            resultStackSize--;
-            if(resultStackSize<=0)
-            {
-                return false;
-            }
-        }
-    }
-    if(resultStackSize!=1)
-    {
-        return false;
-    }
-    return true;
-}
-
-void AlbaGrepStringEvaluator::transferStackContentsToVector(
-        StackOfTerms& stackOfTerms,
-        VectorOfTerms& vectorOfTerms,
-        function<bool(StackOfTerms&)> loopCondition)
-{
-    while (!stackOfTerms.empty() && loopCondition(stackOfTerms))
-    {
-        vectorOfTerms.push_back(stackOfTerms.top());
-        stackOfTerms.pop();
-    }
+    return m_postfixEvaluator.isEvaluationPossible();
 }
 
 void AlbaGrepStringEvaluator::addOperator(char const currentCharacter)
 {
     bool invalidOperator(false);
-    AlbaGrepStringEvaluatorTerm & previousTerm(m_terms.back());
+    AlbaGrepStringToken & previousToken(m_tokens.back());
     char const characterToCheck = ('~' == currentCharacter) ? '!' : currentCharacter;
 
-    switch(previousTerm.getTermType())
+    switch(previousToken.getOperatorType())
     {
-    case AlbaGrepStringEvaluatorTermType::AndOperator:
+    case AlbaGrepStringOperatorType::AndOperator:
         switch(characterToCheck)
         {
-        case '&': previousTerm.appendToString(characterToCheck); break;
-        case '!': m_terms.emplace_back(AlbaGrepStringEvaluatorTermType::NotOperator, string("")+characterToCheck); break;
+        case '&': previousToken.appendToString(characterToCheck); break;
+        case '!': m_tokens.emplace_back(AlbaGrepStringOperatorType::NotOperator, string("")+characterToCheck); break;
         default: invalidOperator = true; break;
         }
         break;
-    case AlbaGrepStringEvaluatorTermType::NotOperator:
+    case AlbaGrepStringOperatorType::NotOperator:
         switch(characterToCheck)
         {
         case '^':
-            previousTerm.appendToString(characterToCheck);
-            previousTerm.setType(AlbaGrepStringEvaluatorTermType::XnorOperator);
+            previousToken.appendToString(characterToCheck);
+            previousToken.setOperatorType(AlbaGrepStringOperatorType::XnorOperator);
             break;
-        case '!': previousTerm.setType(AlbaGrepStringEvaluatorTermType::IgnoreOperator); break;
+        case '!': previousToken.setOperatorType(AlbaGrepStringOperatorType::IgnoreOperator); break;
         default: invalidOperator = true; break;
         }
         break;
-    case AlbaGrepStringEvaluatorTermType::OrOperator:
+    case AlbaGrepStringOperatorType::OrOperator:
         switch(characterToCheck)
         {
-        case '|': previousTerm.appendToString(characterToCheck); break;
-        case '!': m_terms.emplace_back(AlbaGrepStringEvaluatorTermType::NotOperator, string("")+characterToCheck); break;
+        case '|': previousToken.appendToString(characterToCheck); break;
+        case '!': m_tokens.emplace_back(AlbaGrepStringOperatorType::NotOperator, string("")+characterToCheck); break;
         default: invalidOperator = true; break;
         }
         break;
-    case AlbaGrepStringEvaluatorTermType::XorOperator:
+    case AlbaGrepStringOperatorType::XorOperator:
         switch(characterToCheck)
         {
         case '!':
-            previousTerm.appendToString(characterToCheck);
-            previousTerm.setType(AlbaGrepStringEvaluatorTermType::XnorOperator);
+            previousToken.appendToString(characterToCheck);
+            previousToken.setOperatorType(AlbaGrepStringOperatorType::XnorOperator);
             break;
         default: invalidOperator = true; break;
         }
         break;
-    case AlbaGrepStringEvaluatorTermType::XnorOperator:
+    case AlbaGrepStringOperatorType::XnorOperator:
         switch(characterToCheck)
         {
-        case '!': m_terms.emplace_back(AlbaGrepStringEvaluatorTermType::NotOperator, string("")+characterToCheck); break;
+        case '!': m_tokens.emplace_back(AlbaGrepStringOperatorType::NotOperator, string("")+characterToCheck); break;
         default: invalidOperator = true; break;
         }
         break;
     default:
         switch(characterToCheck)
         {
-        case '!': m_terms.emplace_back(AlbaGrepStringEvaluatorTermType::NotOperator, string("")+characterToCheck); break;
-        case '&': m_terms.emplace_back(AlbaGrepStringEvaluatorTermType::AndOperator, string("")+characterToCheck); break;
-        case '|': m_terms.emplace_back(AlbaGrepStringEvaluatorTermType::OrOperator, string("")+characterToCheck); break;
-        case '^': m_terms.emplace_back(AlbaGrepStringEvaluatorTermType::XorOperator, string("")+characterToCheck); break;
+        case '!': m_tokens.emplace_back(AlbaGrepStringOperatorType::NotOperator, string("")+characterToCheck); break;
+        case '&': m_tokens.emplace_back(AlbaGrepStringOperatorType::AndOperator, string("")+characterToCheck); break;
+        case '|': m_tokens.emplace_back(AlbaGrepStringOperatorType::OrOperator, string("")+characterToCheck); break;
+        case '^': m_tokens.emplace_back(AlbaGrepStringOperatorType::XorOperator, string("")+characterToCheck); break;
         default: break;
         }
         break;
     }
     if(invalidOperator)
     {
-        previousTerm.appendToString(characterToCheck);
-        setErrorMessage("Invalid operator : [" + previousTerm.getString() + "]");
+        previousToken.appendToString(characterToCheck);
+        setErrorMessage("Invalid operator : [" + previousToken.getStringToFind() + "]");
     }
 }
 
@@ -291,11 +232,11 @@ void AlbaGrepStringEvaluator::addParenthesis(char const currentCharacter, int& p
     switch(currentCharacter)
     {
     case '(':
-        m_terms.emplace_back(AlbaGrepStringEvaluatorTermType::OpeningParenthesis);
+        m_tokens.emplace_back(AlbaGrepStringOperatorType::OpeningParenthesis);
         parenthesisCount++;
         break;
     case ')':
-        m_terms.emplace_back(AlbaGrepStringEvaluatorTermType::ClosingParenthesis);
+        m_tokens.emplace_back(AlbaGrepStringOperatorType::ClosingParenthesis);
         parenthesisCount--;
         break;
     default:
@@ -311,48 +252,6 @@ bool AlbaGrepStringEvaluator::isOperator(char const character) const
 bool AlbaGrepStringEvaluator::isParenthesis(char const character) const
 {
     return '(' == character || ')' == character;
-}
-
-bool AlbaGrepStringEvaluator::performBiDirectionalOperation(
-        AlbaGrepStringEvaluatorTermType const termType,
-        bool const inputValue1,
-        bool const inputValue2) const
-{
-    bool outputValue(false);
-    switch (termType)
-    {
-    case AlbaGrepStringEvaluatorTermType::AndOperator:
-        outputValue = inputValue1 && inputValue2;
-        break;
-    case AlbaGrepStringEvaluatorTermType::OrOperator:
-        outputValue = inputValue1 || inputValue2;
-        break;
-    case AlbaGrepStringEvaluatorTermType::XorOperator:
-        outputValue = (inputValue1 && (!inputValue2)) || ((!inputValue1) && inputValue2);
-        break;
-    case AlbaGrepStringEvaluatorTermType::XnorOperator:
-        outputValue = ((!inputValue1) && (!inputValue2)) || (inputValue1 && inputValue2);
-        break;
-    default:
-        break;
-    }
-    return outputValue;
-}
-
-bool AlbaGrepStringEvaluator::performPrefixOperation(
-        AlbaGrepStringEvaluatorTermType const termType,
-        bool const inputValue) const
-{
-    bool outputValue(false);
-    switch (termType)
-    {
-    case AlbaGrepStringEvaluatorTermType::NotOperator:
-        outputValue = !inputValue;
-        break;
-    default:
-        break;
-    }
-    return outputValue;
 }
 
 void AlbaGrepStringEvaluator::setErrorMessage(string const& errorMessage)
