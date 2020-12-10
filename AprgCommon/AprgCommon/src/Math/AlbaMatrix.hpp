@@ -84,15 +84,13 @@ public:
 private:
     unsigned int getMatrixIndex(unsigned int const x, unsigned int const y) const
     {
-        return (y*m_numberOfColumns)+x;
+        return getMatrixIndex(x, y, m_numberOfColumns);
     }
     unsigned int getMatrixIndex(unsigned int const x, unsigned int const y, unsigned int const numberOfColumns) const
-    {
-        return (y*numberOfColumns)+x;
+    {        return (y*numberOfColumns)+x;
     }
     unsigned int m_numberOfColumns;
-    unsigned int m_numberOfRows;
-    unsigned int m_size;
+    unsigned int m_numberOfRows;    unsigned int m_size;
     MatrixData m_matrixData;
 };
 
