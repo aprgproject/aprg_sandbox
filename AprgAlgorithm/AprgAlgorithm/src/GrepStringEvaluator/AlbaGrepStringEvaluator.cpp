@@ -25,18 +25,20 @@ AlbaGrepStringEvaluator::AlbaGrepStringEvaluator(string const& condition)
 
 bool AlbaGrepStringEvaluator::evaluate(string const& stringToEvaluate)
 {
-    if(m_isEvaluatorInvalid){return false;}
-    AlbaGrepStringSingletionForString& singletionForStringToFind(AlbaGrepStringSingletionForString::getInstance());
-    singletionForStringToFind.setString(stringToEvaluate);
-    performFindForTermsInEvaluator();
-    return m_postfixEvaluator.evaluate().getResult();
+    bool result(false);
+    if(!isInvalid())
+    {
+        AlbaGrepStringSingletionForString& singletionForStringToFind(AlbaGrepStringSingletionForString::getInstance());
+        singletionForStringToFind.setString(stringToEvaluate);
+        performFindForTermsInEvaluator();
+        result = m_postfixEvaluator.evaluate().getResult();
+    }
+    return result;
 }
 
-bool AlbaGrepStringEvaluator::isInvalid() const
-{
+bool AlbaGrepStringEvaluator::isInvalid() const{
     return m_isEvaluatorInvalid;
 }
-
 string AlbaGrepStringEvaluator::getErrorMessage() const
 {
     return m_errorMessage;
