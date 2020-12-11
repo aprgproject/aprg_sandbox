@@ -1,4 +1,4 @@
-#include "Tcom.hpp"
+#include "Toam.hpp"
 
 #include <Common/Environment.hpp>
 #include <Common/Utils/StringHelpers.hpp>
@@ -11,30 +11,31 @@ using namespace DesignDocumentCreator::StringHelpers;
 namespace DesignDocumentCreator
 {
 
-void Tcom::HwConfiguration::saveConfiguration(SHwConfigurationMsg const&)
+void Toam::HwConfiguration::saveConfiguration(SHwConfigurationMsg const&)
 {
     //this is fake
 }
 
-STCWamAddressIndNew Tcom::HwConfiguration::generateWamAddressInd() const
+STCWamAddressIndNew Toam::HwConfiguration::generateWamAddressInd() const
 {
     //this is fake
     return STCWamAddressIndNew();
 }
 
-Tcom::Tcom(ComponentName const componentName)
+Toam::Toam(ComponentName const componentName)
     : Component(componentName)
 {}
 
-void Tcom::handleHwConfigurationMessage(GenericMessage const& genericMessage)
+void Toam::handleHwConfigurationMessage(GenericMessage const& genericMessage)
 {
     logNoteOnPreviousMessage("TCOM/TOAM receives hardware cofiguration from OAM.");
     SpecificStaticMessage<MessageName::TC_HW_CONFIGURATION_MSG> message(convertGenericToSpecificStatic<MessageName::TC_HW_CONFIGURATION_MSG>(genericMessage));
     SHwConfigurationMsg const& payload(message.getPayloadReference());
-    saveConfiguration(payload);    sendHwConfigurationResponseAck();
+    saveConfiguration(payload);
+    sendHwConfigurationResponseAck();
 }
 
-void Tcom::handleLinkStatesMessage(GenericMessage const& genericMessage) const
+void Toam::handleLinkStatesMessage(GenericMessage const& genericMessage) const
 {
     logNoteOnPreviousMessage("TCOM/TOAM receives status of NBAP links from OAM.");
     SpecificStaticMessage<MessageName::TC_LINK_STATES_MSG> message(convertGenericToSpecificStatic<MessageName::TC_LINK_STATES_MSG>(genericMessage));
@@ -44,21 +45,23 @@ void Tcom::handleLinkStatesMessage(GenericMessage const& genericMessage) const
     log("end alt");
 }
 
-void Tcom::sendHwConfigurationResponseAck() const{
+void Toam::sendHwConfigurationResponseAck() const
+{
     SpecificStaticMessage<MessageName::TC_HW_CONFIGURATION_RESP_MSG> specificMessage;
     SHwConfigurationResponseMsg & payload(specificMessage.getPayloadReference());
-    payload.status = EStatus_NoError;    send(ComponentName::Oam, convertSpecificStaticToGeneric<MessageName::TC_HW_CONFIGURATION_RESP_MSG>(specificMessage));
+    payload.status = EStatus_NoError;
+    send(ComponentName::Oam, convertSpecificStaticToGeneric<MessageName::TC_HW_CONFIGURATION_RESP_MSG>(specificMessage));
     logNoteOnPreviousMessage("TCOM/TOAM sends HW configuration ack to OAM.");
 }
 
-void Tcom::sendsLinkStatesResponse() const
+void Toam::sendsLinkStatesResponse() const
 {
     SpecificStaticMessage<MessageName::TC_LINK_STATES_RESP_MSG> specificMessage;
     send(ComponentName::Oam, convertSpecificStaticToGeneric<MessageName::TC_LINK_STATES_RESP_MSG>(specificMessage));
     logNoteOnPreviousMessage("TCOM/TOAM sends Link states response to OAM.");
 }
 
-void Tcom::sendsTcomDeploymentInd() const
+void Toam::sendsTcomDeploymentInd() const
 {
     SpecificStaticMessage<MessageName::TC_TCOM_DEPLOYMENT_IND_MSG> specificMessage;
     STcomDeploymentIndMsg & payload(specificMessage.getPayloadReference());
@@ -68,11 +71,13 @@ void Tcom::sendsTcomDeploymentInd() const
     logNoteOnPreviousMessage("TCOM/TOAM sends TCOM deployment message with wamAddressInd structure to TupcLom.");
 }
 
-void Tcom::saveConfiguration(SHwConfigurationMsg const& hwConfigurationMsg){
+void Toam::saveConfiguration(SHwConfigurationMsg const& hwConfigurationMsg)
+{
     logNoteOnComponent("TCOM saves hardware configuration.");
     m_configuration.saveConfiguration(hwConfigurationMsg);
 }
-void Tcom::handleMessageEvent(GenericMessage const& genericMessage)
+
+void Toam::handleMessageEvent(GenericMessage const& genericMessage)
 {
     MessageName messageName(genericMessage.getMessageName());
     switch(messageName)
@@ -88,7 +93,7 @@ void Tcom::handleMessageEvent(GenericMessage const& genericMessage)
     }
 }
 
-void Tcom::handleTimerEvent(Timer const& timer)
+void Toam::handleTimerEvent(Timer const& timer)
 {
     cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;
 }

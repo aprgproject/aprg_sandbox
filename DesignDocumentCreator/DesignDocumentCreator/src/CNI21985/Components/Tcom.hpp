@@ -7,7 +7,7 @@
 namespace DesignDocumentCreator
 {
 
-class Tcom : public Component
+class Toam : public Component
 {
     class HwConfiguration
     {
@@ -17,7 +17,7 @@ class Tcom : public Component
         STCWamAddressIndNew generateWamAddressInd() const;
     };
 public:
-    Tcom(ComponentName const componentName);
+    Toam(ComponentName const componentName);
 private:
     void handleHwConfigurationMessage(GenericMessage const& genericMessage);
     void handleLinkStatesMessage(GenericMessage const& genericMessage) const;

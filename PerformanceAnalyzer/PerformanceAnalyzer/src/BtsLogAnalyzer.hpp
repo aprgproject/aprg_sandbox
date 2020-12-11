@@ -8,10 +8,12 @@
 #include <UserIdentifiers.hpp>
 
 #include <fstream>
-#include <map>#include <string>
+#include <map>
+#include <string>
 
 namespace alba
 {
+
 class BtsLogAnalyzer
 {
 
@@ -71,7 +73,8 @@ public:
 
     BtsLogAnalyzer();
     void clear();
-    void processFileWithSortedPrints(std::string const& pathOfBtsLog);    void printAllCollectedData() const;
+    void processFileWithSortedPrints(std::string const& pathOfBtsLog);
+    void printAllCollectedData() const;
 
 private:
     void saveDspCapacityInformationForR3(std::string const& lineInLogs);
@@ -92,7 +95,8 @@ private:
     void saveAdditionalPrintsRlSetup(std::string const& lineInLogs, LogTimePairs& rlSetupLogTimePairs);
     void setFirstLogTimeInPair(std::string const& lineInLogs, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs) const;
     void setSecondLogTimeInPair(std::string const& lineInLogs, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs) const;
-    void computeLatencyAndUpdateIfLogTimePairIsValid(LogType const logType, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs, std::ofstream& csvFileStream);    void initializeCsvFileStreams(std::ofstream& messageQueueingTimeFileStream, std::ofstream& rlSetupTimeFileStream, std::ofstream& rlDeletionTimeFileStream) const;
+    void computeLatencyAndUpdateIfLogTimePairIsValid(LogType const logType, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs, std::ofstream& csvFileStream);
+    void initializeCsvFileStreams(std::ofstream& messageQueueingTimeFileStream, std::ofstream& rlSetupTimeFileStream, std::ofstream& rlDeletionTimeFileStream) const;
     void setPrecisionOfFileStreams(std::ofstream& messageQueueingTimeFileStream, std::ofstream& rlSetupTimeFileStream, std::ofstream& rlDeletionTimeFileStream) const;
     void saveHeadersOnCsvFiles(std::ofstream& messageQueueingTimeFileStream, std::ofstream& rlSetupTimeFileStream, std::ofstream& rlDeletionTimeFileStream) const;
     void saveMessageQueueingTimeToCsvFile(std::string const& lineInLogs, unsigned int const messageQueueingTime, std::ofstream& csvFileStream) const;

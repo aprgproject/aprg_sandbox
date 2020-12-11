@@ -51,7 +51,8 @@ void TupcLom::handleTcomDeploymentMessage(GenericMessage const& genericMessage)
     logNoteOnComponent("TupcLom determines TupcTbm instances based from RLH instances from TC_TCOM_DEPLOYMENT_IND_MSG");
     AddressHelper::TAaSysComNids rlhNids(AddressHelper::getRlhNids(payload.wamAddressInd));
     for(TAaSysComNid const rlhNid : rlhNids)
-    {        TAaSysComSicad tupcTbmAddress(AddressHelper::createSicad(rlhNid, AddressHelper::getTask(ComponentName::TupcTbm)));
+    {
+        TAaSysComSicad tupcTbmAddress(AddressHelper::createSicad(rlhNid, AddressHelper::getTask(ComponentName::TupcTbm)));
         sendTupcTbmConfigurationMsg(tupcTbmAddress);
     }
 }
@@ -60,9 +61,11 @@ void TupcLom::sendTupcTbmConfigurationMsg(TAaSysComSicad const ) const
 {
     SpecificStaticMessage<MessageName::TUPC_TBM_CONFIGURATION_MSG> specificMessage;
     STupcTbmConfigurationMsg & payload(specificMessage.getPayloadReference());
-    payload.tupcCmSicad = m_tupcCmAddress;    send(ComponentName::TupcTbm, convertSpecificStaticToGeneric<MessageName::TUPC_TBM_CONFIGURATION_MSG>(specificMessage));
+    payload.tupcCmSicad = m_tupcCmAddress;
+    send(ComponentName::TupcTbm, convertSpecificStaticToGeneric<MessageName::TUPC_TBM_CONFIGURATION_MSG>(specificMessage));
     logNoteOnPreviousMessage("TupcLom sends TUPC_TBM_CONFIGURATION_MSG to TupcTbm.");
 }
+
 void TupcLom::handleMessageEvent(GenericMessage const& genericMessage)
 {
     MessageName messageName(genericMessage.getMessageName());

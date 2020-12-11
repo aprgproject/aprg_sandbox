@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <Components/Tcom.hpp>
+#include <Components/Toam.hpp>
 #include <Components/TupcTbm.hpp>
 #include <Common/Utils/StringHelpers.hpp>
 #include <ModuleTest.hpp>
@@ -15,12 +15,12 @@ using namespace StringHelpers;
 
 TEST_F(ModuleTest, OneTransportBearerRegisterForCell)
 {
-    Tcom& tcom(*dynamic_cast<Tcom*>(getComponentAndActivateAsParticipant(ComponentName::Tcom)));
+    Toam& tcom(*dynamic_cast<Toam*>(getComponentAndActivateAsParticipant(ComponentName::Toam)));
     TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm)));
 
-    sendMessage(ComponentName::Tcom, ComponentName::TupcTbm, createOneTransportBearerRegisterForCell());
+    sendMessage(ComponentName::Toam, ComponentName::TupcTbm, createOneTransportBearerRegisterForCell());
     verifyOneTransportBearerRegisterForCell(tupcTbm.peekMessageAtStartOfTheEventQueue());
 
-    sendMessage(ComponentName::Tcom, ComponentName::TupcTbm, createOneTransportBearerRegisterForCell());
+    sendMessage(ComponentName::Toam, ComponentName::TupcTbm, createOneTransportBearerRegisterForCell());
     verifyOneTransportBearerRegisterForCell(tupcTbm.peekMessageAtStartOfTheEventQueue());
 }

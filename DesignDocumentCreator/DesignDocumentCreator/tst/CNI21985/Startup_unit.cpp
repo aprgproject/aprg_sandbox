@@ -3,7 +3,7 @@
 #include <Common/Components/ComponentName.hpp>
 #include <Common/Utils/StringHelpers.hpp>
 #include <Components/Oam.hpp>
-#include <Components/Tcom.hpp>
+#include <Components/Toam.hpp>
 #include <Components/TupcCm.hpp>
 #include <Components/TupcIlm.hpp>
 #include <Components/TupcLom.hpp>
@@ -51,11 +51,11 @@ TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringLinkStateUp)
 {
     UmlLogger& umlLogger(getUmlLogger());
     Oam& oam(*dynamic_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam)));
-    Tcom& tcom(*dynamic_cast<Tcom*>(getComponentAndActivateAsParticipant(ComponentName::Tcom)));
+    Toam& tcom(*dynamic_cast<Toam*>(getComponentAndActivateAsParticipant(ComponentName::Toam)));
     TupcLom& tupcLom(*dynamic_cast<TupcLom*>(getComponentAndActivateAsParticipant(ComponentName::TupcLom)));
     TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm)));
 
-    sendMessage(ComponentName::Oam, ComponentName::Tcom, createLinkStatesMsg());
+    sendMessage(ComponentName::Oam, ComponentName::Toam, createLinkStatesMsg());
     tcom.handleOneEvent();
     verifyLinkStateResponseMessage(oam.peekMessageAtStartOfTheEventQueue());
     verifyTcomDeploymentIndMessage(tupcLom.peekMessageAtStartOfTheEventQueue());
