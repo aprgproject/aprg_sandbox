@@ -6,10 +6,12 @@
 #include <Components/TcomToam.hpp>
 #include <Components/TupcCm.hpp>
 #include <Components/TupcIlm.hpp>
-#include <Components/TupcLom.hpp>#include <Components/TupcTbm.hpp>
+#include <Components/TupcLom.hpp>
+#include <Components/TupcTbm.hpp>
 #include <ModuleTest.hpp>
 #include <MessageFactory.hpp>
 #include <MessageVerifier.hpp>
+
 using namespace std;
 using namespace DesignDocumentCreator;
 using namespace MessageFactory;
@@ -57,8 +59,10 @@ TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringLinkStateUp)
     tcom.handleOneEvent();
     verifyLinkStateResponseMessage(oam.peekMessageAtStartOfTheEventQueue());
     verifyTcomDeploymentIndMessage(tupcLom.peekMessageAtStartOfTheEventQueue());
+
     oam.handleOneEvent();
 
     tupcLom.handleOneEvent();
+
     tupcTbm.handleOneEvent();
 }

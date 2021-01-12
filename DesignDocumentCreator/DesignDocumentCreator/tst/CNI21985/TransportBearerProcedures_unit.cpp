@@ -3,10 +3,12 @@
 #include <Components/TcomToam.hpp>
 #include <Components/TupcTbm.hpp>
 #include <Common/Utils/StringHelpers.hpp>
-#include <ModuleTest.hpp>#include <MessageFactory.hpp>
+#include <ModuleTest.hpp>
+#include <MessageFactory.hpp>
 #include <MessageVerifier.hpp>
 
-using namespace std;using namespace DesignDocumentCreator;
+using namespace std;
+using namespace DesignDocumentCreator;
 using namespace MessageFactory;
 using namespace MessageVerifier;
 using namespace StringHelpers;
