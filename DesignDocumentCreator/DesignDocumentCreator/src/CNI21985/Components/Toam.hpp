@@ -7,25 +7,22 @@
 namespace DesignDocumentCreator
 {
 
-class Toam : public Component
+class TcomToam : public Component
 {
     class HwConfiguration
-    {
-    public:
+    {    public:
         //this is fake
         void saveConfiguration(SHwConfigurationMsg const& hwConfigurationMsg);
         STCWamAddressIndNew generateWamAddressInd() const;
     };
 public:
-    Toam(ComponentName const componentName);
+    TcomToam(ComponentName const componentName);
 private:
     void handleHwConfigurationMessage(GenericMessage const& genericMessage);
-    void handleLinkStatesMessage(GenericMessage const& genericMessage) const;
-    void sendHwConfigurationResponseAck() const;
+    void handleLinkStatesMessage(GenericMessage const& genericMessage) const;    void sendHwConfigurationResponseAck() const;
     void sendsLinkStatesResponse() const;
     void sendsTcomDeploymentInd() const;
     void saveConfiguration(SHwConfigurationMsg const& hwConfigurationMsg);
-
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
     virtual void handleTimerEvent(Timer const& timer);
     HwConfiguration m_configuration;

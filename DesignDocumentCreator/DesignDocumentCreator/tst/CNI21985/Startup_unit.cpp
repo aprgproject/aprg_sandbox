@@ -3,15 +3,13 @@
 #include <Common/Components/ComponentName.hpp>
 #include <Common/Utils/StringHelpers.hpp>
 #include <Components/Oam.hpp>
-#include <Components/Toam.hpp>
+#include <Components/TcomToam.hpp>
 #include <Components/TupcCm.hpp>
 #include <Components/TupcIlm.hpp>
-#include <Components/TupcLom.hpp>
-#include <Components/TupcTbm.hpp>
+#include <Components/TupcLom.hpp>#include <Components/TupcTbm.hpp>
 #include <ModuleTest.hpp>
 #include <MessageFactory.hpp>
 #include <MessageVerifier.hpp>
-
 using namespace std;
 using namespace DesignDocumentCreator;
 using namespace MessageFactory;
@@ -51,18 +49,16 @@ TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringLinkStateUp)
 {
     UmlLogger& umlLogger(getUmlLogger());
     Oam& oam(*dynamic_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam)));
-    Toam& tcom(*dynamic_cast<Toam*>(getComponentAndActivateAsParticipant(ComponentName::Toam)));
+    TcomToam& tcom(*dynamic_cast<TcomToam*>(getComponentAndActivateAsParticipant(ComponentName::TcomToam)));
     TupcLom& tupcLom(*dynamic_cast<TupcLom*>(getComponentAndActivateAsParticipant(ComponentName::TupcLom)));
     TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm)));
 
-    sendMessage(ComponentName::Oam, ComponentName::Toam, createLinkStatesMsg());
+    sendMessage(ComponentName::Oam, ComponentName::TcomToam, createLinkStatesMsg());
     tcom.handleOneEvent();
     verifyLinkStateResponseMessage(oam.peekMessageAtStartOfTheEventQueue());
     verifyTcomDeploymentIndMessage(tupcLom.peekMessageAtStartOfTheEventQueue());
-
     oam.handleOneEvent();
 
     tupcLom.handleOneEvent();
-
     tupcTbm.handleOneEvent();
 }
