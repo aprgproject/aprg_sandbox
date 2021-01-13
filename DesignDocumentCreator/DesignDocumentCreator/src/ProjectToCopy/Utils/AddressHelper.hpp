@@ -6,9 +6,8 @@
 namespace DesignDocumentCreator
 {
 
-namespace AddressHelper
+namespace FakeFrameworkHelpers
 {
    TAaSysComSicad getAddress(ComponentName const componentName);
 }
-
 }

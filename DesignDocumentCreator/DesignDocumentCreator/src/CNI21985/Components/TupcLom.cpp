@@ -2,13 +2,11 @@
 
 #include <Common/Environment.hpp>
 #include <Common/Utils/StringHelpers.hpp>
-#include <utils/AddressHelper.hpp>
+#include <utils/FakeFrameworkHelpers.hpp>
 
 #include <iostream>
-
 using namespace std;
 using namespace DesignDocumentCreator::StringHelpers;
-
 namespace DesignDocumentCreator
 {
 
@@ -37,30 +35,27 @@ void TupcLom::saveAddresses(GenericMessage const& genericMessage)
                        "The receiver of this message is the address of TupcCm and this address will be the only active TupcLom instance and TupcCm instance.\n"
                        "The sender of this message is the address of OAM and this as the address of TupcIlm as well.\n");
     SpecificStaticMessage<MessageName::OAM_ATM_HW_CONFIGURATION_MSG> hwConfigurationMessage(convertGenericToSpecificStatic<MessageName::OAM_ATM_HW_CONFIGURATION_MSG>(genericMessage));
-    TAaSysComSicad senderSicad(AddressHelper::getAddress(hwConfigurationMessage.getSender()));
-    TAaSysComSicad receiverSicad(AddressHelper::getAddress(hwConfigurationMessage.getReceiver()));
+    TAaSysComSicad senderSicad(FakeFrameworkHelpers::getAddress(hwConfigurationMessage.getSender()));
+    TAaSysComSicad receiverSicad(FakeFrameworkHelpers::getAddress(hwConfigurationMessage.getReceiver()));
     m_oamAddress =  senderSicad;
-    m_tupcIlmAddress = AddressHelper::createSicad(AddressHelper::getNid(senderSicad), AddressHelper::getTask(ComponentName::TupcIlm));
-    m_tupcCmAddress = AddressHelper::createSicad(AddressHelper::getNid(receiverSicad), AddressHelper::getTask(ComponentName::TupcCm));
+    m_tupcIlmAddress = FakeFrameworkHelpers::createSicad(FakeFrameworkHelpers::getNid(senderSicad), FakeFrameworkHelpers::getTask(ComponentName::TupcIlm));
+    m_tupcCmAddress = FakeFrameworkHelpers::createSicad(FakeFrameworkHelpers::getNid(receiverSicad), FakeFrameworkHelpers::getTask(ComponentName::TupcCm));
 }
 
-void TupcLom::handleTcomDeploymentMessage(GenericMessage const& genericMessage)
-{
+void TupcLom::handleTcomDeploymentMessage(GenericMessage const& genericMessage){
     SpecificStaticMessage<MessageName::TC_TCOM_DEPLOYMENT_IND_MSG> message(convertGenericToSpecificStatic<MessageName::TC_TCOM_DEPLOYMENT_IND_MSG>(genericMessage));
     STcomDeploymentIndMsg const& payload(message.getPayloadReference());
     logNoteOnComponent("TupcLom determines TupcTbm instances based from RLH instances from TC_TCOM_DEPLOYMENT_IND_MSG");
-    AddressHelper::TAaSysComNids rlhNids(AddressHelper::getRlhNids(payload.wamAddressInd));
+    FakeFrameworkHelpers::TAaSysComNids rlhNids(FakeFrameworkHelpers::getRlhNids(payload.wamAddressInd));
     for(TAaSysComNid const rlhNid : rlhNids)
     {
-        TAaSysComSicad tupcTbmAddress(AddressHelper::createSicad(rlhNid, AddressHelper::getTask(ComponentName::TupcTbm)));
+        TAaSysComSicad tupcTbmAddress(FakeFrameworkHelpers::createSicad(rlhNid, FakeFrameworkHelpers::getTask(ComponentName::TupcTbm)));
         sendTupcTbmConfigurationMsg(tupcTbmAddress);
     }
 }
-
 void TupcLom::sendTupcTbmConfigurationMsg(TAaSysComSicad const ) const
 {
-    SpecificStaticMessage<MessageName::TUPC_TBM_CONFIGURATION_MSG> specificMessage;
-    STupcTbmConfigurationMsg & payload(specificMessage.getPayloadReference());
+    SpecificStaticMessage<MessageName::TUPC_TBM_CONFIGURATION_MSG> specificMessage;    STupcTbmConfigurationMsg & payload(specificMessage.getPayloadReference());
     payload.tupcCmSicad = m_tupcCmAddress;
     send(ComponentName::TupcTbm, convertSpecificStaticToGeneric<MessageName::TUPC_TBM_CONFIGURATION_MSG>(specificMessage));
     logNoteOnPreviousMessage("TupcLom sends TUPC_TBM_CONFIGURATION_MSG to TupcTbm.");

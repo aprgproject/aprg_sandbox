@@ -47,15 +47,13 @@ string UmlArrow::getArrowBaseFromMessageName(string const& messageName)
     {
         result = getBlackArrow();
     }
-    else if(isTcomInternalMessage(messageName))
+    else if(isTcomMessage(messageName))
     {
         result = getBlueArrow();
-    }
-    else if(isDspMessage(messageName))
+    }    else if(isDspMessage(messageName))
     {
         result = getDarkerGreenArrow();
-    }
-    else
+    }    else
     {
         result = getGreenArrow();
     }

@@ -9,14 +9,12 @@
 namespace DesignDocumentCreator
 {
 
-namespace AddressHelper
+namespace FakeFrameworkHelpers
 {
     using TAaSysComNids = std::vector<TAaSysComNid>;
-    TAaSysComSicad getAddress(ComponentName const componentName);
-    TTask getTask(ComponentName const componentName);
+    TAaSysComSicad getAddress(ComponentName const componentName);    TTask getTask(ComponentName const componentName);
     TAaSysComNids getRlhNids(STCWamAddressIndNew const& wamAddressInd);
     TAaSysComSicad createSicad(TAaSysComNid const nid, TTask const taskId);
-    TAaSysComSicad getNid(TAaSysComSicad const sicad);
-}
+    TAaSysComSicad getNid(TAaSysComSicad const sicad);}
 
 }

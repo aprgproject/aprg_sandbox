@@ -19,9 +19,8 @@ namespace StringHelpers
     std::string convertToString(UmlPositionType const position);
     std::string convertToString(OtherEventType const otherEventType);
     std::string convertToString(ComponentNames const componentNames);
-    bool isTcomInternalMessage(std::string const& messageName);
+    bool isTcomMessage(std::string const& messageName);
     bool isDspMessage(std::string const& messageName);
     bool isNbapMessage(std::string const& messageName);
 }
-
 }

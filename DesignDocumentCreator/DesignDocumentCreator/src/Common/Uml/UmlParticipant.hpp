@@ -18,13 +18,13 @@ enum class UmlParticipantType
 class UmlParticipant
 {
 public:
-    UmlParticipant(std::string const& name, UmlParticipantType const type);
+    UmlParticipant(UmlParticipantType const type, std::string const& name, std::string const& alias);
     std::string getParticipantLog() const;
     std::string getParticipantTypeString() const;
 private:
-    std::string m_name;
     UmlParticipantType m_type;
+    std::string m_name;
+    std::string m_alias;
 };
-
 
 }

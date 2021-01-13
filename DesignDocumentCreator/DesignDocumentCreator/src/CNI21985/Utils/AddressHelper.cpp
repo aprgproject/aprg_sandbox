@@ -1,17 +1,15 @@
-#include "AddressHelper.hpp"
+#include "FakeFrameworkHelpers.hpp"
 
 namespace DesignDocumentCreator
 {
 
-TAaSysComSicad AddressHelper::getAddress(ComponentName const componentName)
+TAaSysComSicad FakeFrameworkHelpers::getAddress(ComponentName const componentName)
 {
     //this is fake, use framework function
-    TAaSysComSicad result=0;
-    if(componentName == ComponentName::TupcTbm)
+    TAaSysComSicad result=0;    if(componentName == ComponentName::TupcTbm)
     {
         TTask const TASK_TUPC_TBM = 0x1000;
-        result = createSicad(0x100, TASK_TUPC_TBM);
-    }
+        result = createSicad(0x100, TASK_TUPC_TBM);    }
     else if(componentName == ComponentName::TupcCm)
     {
         TTask const TASK_TUPC_CM = 0x2000;
@@ -25,15 +23,13 @@ TAaSysComSicad AddressHelper::getAddress(ComponentName const componentName)
     return result;
 }
 
-TTask AddressHelper::getTask(ComponentName const componentName)
+TTask FakeFrameworkHelpers::getTask(ComponentName const componentName)
 {
     //this is fake, use framework function
-    TTask result=0;
-    if(componentName == ComponentName::TupcTbm)
+    TTask result=0;    if(componentName == ComponentName::TupcTbm)
     {
         TTask const TASK_TUPC_TBM = 0x1000;
-        result = TASK_TUPC_TBM;
-    }
+        result = TASK_TUPC_TBM;    }
     else if(componentName == ComponentName::TupcCm)
     {
         TTask const TASK_TUPC_CM = 0x2000;
@@ -47,23 +43,22 @@ TTask AddressHelper::getTask(ComponentName const componentName)
     return result;
 }
 
-AddressHelper::TAaSysComNids AddressHelper::getRlhNids(STCWamAddressIndNew const&)
+FakeFrameworkHelpers::TAaSysComNids FakeFrameworkHelpers::getRlhNids(STCWamAddressIndNew const&)
 {
     //this is fake, use framework function
     return TAaSysComNids{0x120d};
 }
 
-TAaSysComSicad AddressHelper::createSicad(TAaSysComNid const nid, TTask const taskId)
+TAaSysComSicad FakeFrameworkHelpers::createSicad(TAaSysComNid const nid, TTask const taskId)
 {
     //this is fake, use framework function
     return nid<<16 | taskId;
 }
 
-TAaSysComSicad AddressHelper::getNid(TAaSysComSicad const sicad)
+TAaSysComSicad FakeFrameworkHelpers::getNid(TAaSysComSicad const sicad)
 {
     //this is fake, use framework function
-    return sicad>>16;
-}
+    return sicad>>16;}
 
 
 }

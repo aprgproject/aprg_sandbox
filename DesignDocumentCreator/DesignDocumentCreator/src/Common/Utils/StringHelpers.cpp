@@ -89,15 +89,13 @@ string StringHelpers::convertToString(ComponentNames const componentNames)
     return result;
 }
 
-bool StringHelpers::isTcomInternalMessage(string const& messageName)
+bool StringHelpers::isTcomMessage(string const& messageName)
 {
     return stringHelper::isEqualWithLowestCommonLength(messageName, "TC_");
 }
-
 bool StringHelpers::isDspMessage(string const& messageName)
 {
-    return stringHelper::isEqualWithLowestCommonLength(messageName, "BB_");
-}
+    return stringHelper::isEqualWithLowestCommonLength(messageName, "BB_");}
 
 bool StringHelpers::isNbapMessage(string const& messageName)
 {
