@@ -10,4 +10,5 @@ namespace FakeFrameworkHelpers
 {
    TAaSysComSicad getAddress(ComponentName const componentName);
 }
+
 }

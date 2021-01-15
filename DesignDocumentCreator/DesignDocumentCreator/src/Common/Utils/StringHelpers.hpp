@@ -23,4 +23,5 @@ namespace StringHelpers
     bool isDspMessage(std::string const& messageName);
     bool isNbapMessage(std::string const& messageName);
 }
+
 }

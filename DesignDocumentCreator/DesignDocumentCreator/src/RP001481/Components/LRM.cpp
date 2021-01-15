@@ -5,9 +5,11 @@
 #include <Utils/FakeFrameworkHelpers.hpp>
 
 #include <algorithm>
-#include <iostream>#include <iterator>
+#include <iostream>
+#include <iterator>
 #include <set>
 #include <vector>
+
 #include <Debug/AlbaDebug.hpp>
 
 using namespace std;
@@ -158,10 +160,12 @@ LRM::LRM(ComponentName const componentName)
     , m_masterTcomNid(FakeFrameworkHelpers::INVALID_DSP_ADDRESS)
 {}
 
-bool LRM::isRel4() const{
+bool LRM::isRel4() const
+{
     //This is FAKE! This should be based on WAM address indication.
     return true;
 }
+
 bool LRM::isTcomInThisK2(TAaSysComNid const dspAddress) const
 {
     //This is FAKE!
@@ -374,10 +378,12 @@ TAaSysComNid LRM::findLocationOfMcdCcdDWithNbicForLcgId(TLocalCellGroupId const 
     TAaSysComNid nbicMcdCcdAddress(FakeFrameworkHelpers::INVALID_DSP_ADDRESS);
     AddressesVector fspAddresses(getFspAddressesForLcgId(lcgId));
     removeFspAddressInConflictWithDli(fspAddresses, lcgId);
-    if(!fspAddresses.empty())    {
+    if(!fspAddresses.empty())
+    {
         AddressesVector dspAddresses(getDspAddressesForFspAddressAndLcgId(fspAddresses, lcgId));
         removeDspAddressesBasedOnFilterForSelectionMcdCcdD(dspAddresses);
-        prioritizeDspAddressesForSelectionMcdCcdD(dspAddresses, lcgId);        if(!dspAddresses.empty())
+        prioritizeDspAddressesForSelectionMcdCcdD(dspAddresses, lcgId);
+        if(!dspAddresses.empty())
         {
             nbicMcdCcdAddress = dspAddresses.front();
         }
@@ -390,10 +396,12 @@ TAaSysComNid LRM::findLocationOfMcdCcdDForLcgId(TLocalCellGroupId const lcgId) c
     TAaSysComNid mcdCcdAddress(FakeFrameworkHelpers::INVALID_DSP_ADDRESS);
     AddressesVector dspAddresses(getDspAddressesForLcgId(lcgId));
     removeDspAddressesBasedOnFilterForSelectionMcdCcdD(dspAddresses);
-    prioritizeDspAddressesForSelectionMcdCcdD(dspAddresses, lcgId);    if(!dspAddresses.empty())
+    prioritizeDspAddressesForSelectionMcdCcdD(dspAddresses, lcgId);
+    if(!dspAddresses.empty())
     {
         mcdCcdAddress = dspAddresses.front();
-    }    return mcdCcdAddress;
+    }
+    return mcdCcdAddress;
 }
 
 void LRM::removeFspAddressInConflictWithDli(AddressesVector & fspAddresses, TLocalCellGroupId const lcgId) const
@@ -515,7 +523,8 @@ void LRM::allocateMcdCcdD(TLocalCellGroupId const lcgId)
     if(mcdCcdDAddress != FakeFrameworkHelpers::INVALID_DSP_ADDRESS)
     {
         setDspModeInAddress(mcdCcdDAddress, EDspMode_Kepler_MCD_CCDD);
-    }}
+    }
+}
 
 void LRM::allocateMcdCcdDWithNbic(TLocalCellGroupId const lcgId)
 {
@@ -524,10 +533,12 @@ void LRM::allocateMcdCcdDWithNbic(TLocalCellGroupId const lcgId)
     if(nbicMcdCcdDAddress != FakeFrameworkHelpers::INVALID_DSP_ADDRESS)
     {
         unsigned int dliPoolId(getAvailableDliInAddress(getFspAddressFromDspAddress(nbicMcdCcdDAddress), lcgId)); //use save it
-        setAsNbicMcdCcdDInAddress(nbicMcdCcdDAddress);        setPoolIdInDspAddress(nbicMcdCcdDAddress, dliPoolId);
+        setAsNbicMcdCcdDInAddress(nbicMcdCcdDAddress);
+        setPoolIdInDspAddress(nbicMcdCcdDAddress, dliPoolId);
     }
     else
-    {        allocateMcdCcdD(lcgId);
+    {
+        allocateMcdCcdD(lcgId);
     }
 }
 

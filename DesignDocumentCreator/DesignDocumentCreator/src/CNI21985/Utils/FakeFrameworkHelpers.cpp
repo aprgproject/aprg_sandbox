@@ -6,10 +6,12 @@ namespace DesignDocumentCreator
 TAaSysComSicad FakeFrameworkHelpers::getAddress(ComponentName const componentName)
 {
     //this is fake, use framework function
-    TAaSysComSicad result=0;    if(componentName == ComponentName::TupcTbm)
+    TAaSysComSicad result=0;
+    if(componentName == ComponentName::TupcTbm)
     {
         TTask const TASK_TUPC_TBM = 0x1000;
-        result = createSicad(0x100, TASK_TUPC_TBM);    }
+        result = createSicad(0x100, TASK_TUPC_TBM);
+    }
     else if(componentName == ComponentName::TupcCm)
     {
         TTask const TASK_TUPC_CM = 0x2000;
@@ -26,10 +28,12 @@ TAaSysComSicad FakeFrameworkHelpers::getAddress(ComponentName const componentNam
 TTask FakeFrameworkHelpers::getTask(ComponentName const componentName)
 {
     //this is fake, use framework function
-    TTask result=0;    if(componentName == ComponentName::TupcTbm)
+    TTask result=0;
+    if(componentName == ComponentName::TupcTbm)
     {
         TTask const TASK_TUPC_TBM = 0x1000;
-        result = TASK_TUPC_TBM;    }
+        result = TASK_TUPC_TBM;
+    }
     else if(componentName == ComponentName::TupcCm)
     {
         TTask const TASK_TUPC_CM = 0x2000;
@@ -58,7 +62,8 @@ TAaSysComSicad FakeFrameworkHelpers::createSicad(TAaSysComNid const nid, TTask c
 TAaSysComSicad FakeFrameworkHelpers::getNid(TAaSysComSicad const sicad)
 {
     //this is fake, use framework function
-    return sicad>>16;}
+    return sicad>>16;
+}
 
 
 }

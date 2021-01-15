@@ -5,8 +5,10 @@
 #include <utils/FakeFrameworkHelpers.hpp>
 
 #include <iostream>
+
 using namespace std;
 using namespace DesignDocumentCreator::StringHelpers;
+
 namespace DesignDocumentCreator
 {
 
@@ -42,7 +44,8 @@ void TupcLom::saveAddresses(GenericMessage const& genericMessage)
     m_tupcCmAddress = FakeFrameworkHelpers::createSicad(FakeFrameworkHelpers::getNid(receiverSicad), FakeFrameworkHelpers::getTask(ComponentName::TupcCm));
 }
 
-void TupcLom::handleTcomDeploymentMessage(GenericMessage const& genericMessage){
+void TupcLom::handleTcomDeploymentMessage(GenericMessage const& genericMessage)
+{
     SpecificStaticMessage<MessageName::TC_TCOM_DEPLOYMENT_IND_MSG> message(convertGenericToSpecificStatic<MessageName::TC_TCOM_DEPLOYMENT_IND_MSG>(genericMessage));
     STcomDeploymentIndMsg const& payload(message.getPayloadReference());
     logNoteOnComponent("TupcLom determines TupcTbm instances based from RLH instances from TC_TCOM_DEPLOYMENT_IND_MSG");
@@ -53,9 +56,11 @@ void TupcLom::handleTcomDeploymentMessage(GenericMessage const& genericMessage){
         sendTupcTbmConfigurationMsg(tupcTbmAddress);
     }
 }
+
 void TupcLom::sendTupcTbmConfigurationMsg(TAaSysComSicad const ) const
 {
-    SpecificStaticMessage<MessageName::TUPC_TBM_CONFIGURATION_MSG> specificMessage;    STupcTbmConfigurationMsg & payload(specificMessage.getPayloadReference());
+    SpecificStaticMessage<MessageName::TUPC_TBM_CONFIGURATION_MSG> specificMessage;
+    STupcTbmConfigurationMsg & payload(specificMessage.getPayloadReference());
     payload.tupcCmSicad = m_tupcCmAddress;
     send(ComponentName::TupcTbm, convertSpecificStaticToGeneric<MessageName::TUPC_TBM_CONFIGURATION_MSG>(specificMessage));
     logNoteOnPreviousMessage("TupcLom sends TUPC_TBM_CONFIGURATION_MSG to TupcTbm.");
