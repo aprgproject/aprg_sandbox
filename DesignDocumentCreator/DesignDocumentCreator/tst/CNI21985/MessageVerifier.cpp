@@ -10,21 +10,19 @@ namespace DesignDocumentCreator
 void MessageVerifier::verifyOneTransportBearerRegisterForCell(GenericMessage const& genericMessage)
 {
     ASSERT_EQ(MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG, genericMessage.getMessageName());
-    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG, 1> tbRegisterMessage(convertGenericToSpecificDynamicArray<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG, 1>(genericMessage));
+    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG> tbRegisterMessage(convertGenericToSpecificDynamicArray<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG>(genericMessage));
     STransportBearerRegisterMsg& tbRegisterStaticPayload(tbRegisterMessage.getStaticPayloadReference());
     EXPECT_EQ(100001, tbRegisterStaticPayload.transactionId);
     EXPECT_EQ(100002, tbRegisterStaticPayload.cellId);
     EXPECT_EQ(0, tbRegisterStaticPayload.nbccId);
     ASSERT_EQ(1, tbRegisterStaticPayload.numConnections);
-    STransportBearerLocationData& dynamicPayload1(tbRegisterMessage.getDynamicPayloadReferenceAt(0));
+    STransportBearerLocationData& dynamicPayload1(tbRegisterMessage.getAndCreateDynamicPayloadReferenceAt(0));
     EXPECT_EQ(EBearerType_ATM, dynamicPayload1.bearerType);
     EXPECT_EQ(100003, dynamicPayload1.transportId);
-    EXPECT_EQ(100004, dynamicPayload1.fpLocation.fpId);
-    EXPECT_EQ(100005, dynamicPayload1.fpLocation.fpAddress);
+    EXPECT_EQ(100004, dynamicPayload1.fpLocation.fpId);    EXPECT_EQ(100005, dynamicPayload1.fpLocation.fpAddress);
     EXPECT_EQ(100006, dynamicPayload1.fpLocation.messagingAddress);
     EXPECT_EQ(100007, dynamicPayload1.messageTypeNumber);
-    EXPECT_EQ(100008, dynamicPayload1.ulParameters.maxBitRateInIpPayloadLayer);
-    EXPECT_EQ(100009, dynamicPayload1.ulParameters.averageBitRateInIpPayloadLayer);
+    EXPECT_EQ(100008, dynamicPayload1.ulParameters.maxBitRateInIpPayloadLayer);    EXPECT_EQ(100009, dynamicPayload1.ulParameters.averageBitRateInIpPayloadLayer);
     EXPECT_EQ(100010, dynamicPayload1.ulParameters.maxSizeOfIpPayloadInOneIpPacket);
     EXPECT_EQ(100011, dynamicPayload1.ulParameters.averageSizeOfIpPayloadInOneIpPacket);
     EXPECT_EQ(EIEPresentType_IEPresentTrue, dynamicPayload1.ulParameters.vlanIdInfo.iePresent);

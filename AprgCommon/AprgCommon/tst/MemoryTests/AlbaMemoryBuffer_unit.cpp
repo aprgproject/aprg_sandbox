@@ -62,14 +62,12 @@ TEST(AlbaMemoryBufferTest, MemoryBufferCanBeResizedToBeLarger)
 
     EXPECT_TRUE(buffer);
     EXPECT_TRUE(buffer.hasContent());
-    EXPECT_EQ(8, buffer.getSize());
+    EXPECT_EQ(8u, buffer.getSize());
     EXPECT_EQ(input, output);
 }
-
 TEST(AlbaMemoryBufferTest, MemoryBufferCanBeResizedToBeSmaller)
 {
-    AlbaMemoryBuffer buffer;
-    int input = 0x12345678;
+    AlbaMemoryBuffer buffer;    int input = 0x12345678;
     buffer.addData((void*)&input, sizeof(input));
     buffer.resize(3);
     char* bufferPointer = reinterpret_cast<char*>(buffer.getBufferPointer());

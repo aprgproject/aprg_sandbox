@@ -50,19 +50,17 @@ TEST(AlbaMathHelperTest, HigherBoundCanBeComputed)
 
 TEST(AlbaMathHelperTest, DifferenceFromGreaterMultipleCanBeComputed)
 {
-    EXPECT_EQ(0, getDifferenceFromGreaterMultiple(0, 0));
-    EXPECT_EQ(0, getDifferenceFromGreaterMultiple(10, 10));
-    EXPECT_EQ(0, getDifferenceFromGreaterMultiple(5, 10));
-    EXPECT_EQ(5, getDifferenceFromGreaterMultiple(10, 5));
-    EXPECT_EQ(48, getDifferenceFromGreaterMultiple(57, 2346));
+    EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(0, 0));
+    EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(10, 10));
+    EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(5, 10));
+    EXPECT_EQ(5u, getDifferenceFromGreaterMultiple(10, 5));
+    EXPECT_EQ(48u, getDifferenceFromGreaterMultiple(57, 2346));
 }
 
-TEST(AlbaMathHelperTest, CumulativeStandardDistributionApproximationCanBeComputed)
-{
+TEST(AlbaMathHelperTest, CumulativeStandardDistributionApproximationCanBeComputed){
     //comparing with Z table, http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/standardnormaltable.pdf
     EXPECT_EQ(0.5, calculateCumulativeStandardDistributionApproximation(0));
-    EXPECT_EQ(0.86433393905361732834, calculateCumulativeStandardDistributionApproximation(1.1));
-    EXPECT_EQ(0.0081975359245961311461, calculateCumulativeStandardDistributionApproximation(-2.4));
+    EXPECT_EQ(0.86433393905361732834, calculateCumulativeStandardDistributionApproximation(1.1));    EXPECT_EQ(0.0081975359245961311461, calculateCumulativeStandardDistributionApproximation(-2.4));
     EXPECT_EQ(0.99996696335237056363, calculateCumulativeStandardDistributionApproximation(3.99));
     EXPECT_EQ(3.3036647629402369943e-005, calculateCumulativeStandardDistributionApproximation(-3.99));
 }

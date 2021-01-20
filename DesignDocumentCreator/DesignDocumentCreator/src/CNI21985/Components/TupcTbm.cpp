@@ -30,21 +30,19 @@ void TupcTbm::handleTupcTbmConfigurationMsg(GenericMessage const& genericMessage
 void TupcTbm::handleTransportBearerRegisterMsg(GenericMessage const& genericMessage)
 {
     logNoteOnComponent("TupcTbm saves the address of TupcCm.");
-    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG, 20> message(convertGenericToSpecificDynamicArray<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG, 20>(genericMessage));
+    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG> message(convertGenericToSpecificDynamicArray<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG>(genericMessage));
     STransportBearerRegisterMsg const& payload(message.getStaticPayloadReference());
 }
 
 void TupcTbm::sendCmBearerSetupReqBasedOnTbRegisterMsg(STransportBearerRegisterMsg const& tbRegisterMsg) const
 {
-    /*SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARER_SETUP_REQ_MSG, 20> specificMessage;
+    /*SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARER_SETUP_REQ_MSG> specificMessage;
     SCmBearerSetupReqMsg & payload(specificMessage.getStaticPayloadReference());
     payload.transactionId = tbRegisterMsg.transactionId;
-    payload.cellId = tbRegisterMsg.cellId;
-    payload.nbccId = tbRegisterMsg.nbccId;
+    payload.cellId = tbRegisterMsg.cellId;    payload.nbccId = tbRegisterMsg.nbccId;
     payload.numConnections = tbRegisterMsg.numConnections;
     for(unsigned int )
-    send(ComponentName::Oam, convertSpecificStaticToGeneric<MessageName::TC_HW_CONFIGURATION_RESP_MSG>(specificMessage));
-    logNoteOnPreviousMessage("TCOM/TOAM sends HW configuration ack to OAM.");*/
+    send(ComponentName::Oam, convertSpecificStaticToGeneric<MessageName::TC_HW_CONFIGURATION_RESP_MSG>(specificMessage));    logNoteOnPreviousMessage("TCOM/TOAM sends HW configuration ack to OAM.");*/
 }
 
 void TupcTbm::handleMessageEvent(GenericMessage const& genericMessage)

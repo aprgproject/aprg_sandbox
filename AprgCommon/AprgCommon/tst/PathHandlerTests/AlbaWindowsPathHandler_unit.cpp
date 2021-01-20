@@ -288,22 +288,19 @@ TEST(WindowsPathTest, FullPathWithDirectory_FindFileAndDirectoryOneDepth)
     set<string> listOfFiles;
     set<string> listOfDirectory;
     pathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectory);
-    ASSERT_EQ(5, listOfFiles.size());
+    ASSERT_EQ(5u, listOfFiles.size());
     auto itFiles = listOfFiles.begin();
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File1.log)", *(itFiles++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File2.txt)", *(itFiles++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File3)", *(itFiles++));
+    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File2.txt)", *(itFiles++));    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File3)", *(itFiles++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File4.mp3)", *(itFiles++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File5.avi)", *(itFiles++));
-    ASSERT_EQ(6, listOfDirectory.size());
+    ASSERT_EQ(6u, listOfDirectory.size());
     auto itDirectories = listOfDirectory.begin();
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1\)", *(itDirectories++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR2\)", *(itDirectories++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR3\)", *(itDirectories++));
+    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR2\)", *(itDirectories++));    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR3\)", *(itDirectories++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR4\)", *(itDirectories++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR5\)", *(itDirectories++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR6\)", *(itDirectories++));
-}
+    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR6\)", *(itDirectories++));}
 
 TEST(WindowsPathTest, FullPathWithDirectory_FindFileAndDirectoryMultipleDepthTwo)
 {
@@ -314,27 +311,23 @@ TEST(WindowsPathTest, FullPathWithDirectory_FindFileAndDirectoryMultipleDepthTwo
     set<string> listOfFiles;
     set<string> listOfDirectory;
     pathHandler.findFilesAndDirectoriesMultipleDepth("*.*", listOfFiles, listOfDirectory, 2);
-    ASSERT_EQ(10, listOfFiles.size());
+    ASSERT_EQ(10u, listOfFiles.size());
     auto itFiles = listOfFiles.begin();
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1\File1.log)", *(itFiles++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR2\File2.txt)", *(itFiles++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR3\File3)", *(itFiles++));
+    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR2\File2.txt)", *(itFiles++));    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR3\File3)", *(itFiles++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR4\File4.mp3)", *(itFiles++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR5\File5.avi)", *(itFiles++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File1.log)", *(itFiles++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File2.txt)", *(itFiles++));
+    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File1.log)", *(itFiles++));    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File2.txt)", *(itFiles++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File3)", *(itFiles++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File4.mp3)", *(itFiles++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File5.avi)", *(itFiles++));
-    ASSERT_EQ(7, listOfDirectory.size());
+    ASSERT_EQ(7u, listOfDirectory.size());
     auto itDirectories = listOfDirectory.begin();
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1\)", *(itDirectories++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR2\)", *(itDirectories++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR3\)", *(itDirectories++));
+    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR2\)", *(itDirectories++));    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR3\)", *(itDirectories++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR4\)", *(itDirectories++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR5\)", *(itDirectories++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR6\)", *(itDirectories++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR6\SUBDIR1\)", *(itDirectories++));
+    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR6\)", *(itDirectories++));    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR6\SUBDIR1\)", *(itDirectories++));
 }
 
 TEST(WindowsPathTest, FullPathWithDirectory_FindFileAndDirectoryUnlimitedDepth)
@@ -346,28 +339,24 @@ TEST(WindowsPathTest, FullPathWithDirectory_FindFileAndDirectoryUnlimitedDepth)
     set<string> listOfFiles;
     set<string> listOfDirectory;
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectory);
-    ASSERT_EQ(11, listOfFiles.size());
+    ASSERT_EQ(11u, listOfFiles.size());
     auto itFiles = listOfFiles.begin();
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1\File1.log)", *(itFiles++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR2\File2.txt)", *(itFiles++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR3\File3)", *(itFiles++));
+    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR2\File2.txt)", *(itFiles++));    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR3\File3)", *(itFiles++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR4\File4.mp3)", *(itFiles++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR5\File5.avi)", *(itFiles++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR6\SUBDIR1\File6.jpg)", *(itFiles++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File1.log)", *(itFiles++));
+    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR6\SUBDIR1\File6.jpg)", *(itFiles++));    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File1.log)", *(itFiles++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File2.txt)", *(itFiles++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File3)", *(itFiles++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File4.mp3)", *(itFiles++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File5.avi)", *(itFiles++));
-    ASSERT_EQ(7, listOfDirectory.size());
+    ASSERT_EQ(7u, listOfDirectory.size());
     auto itDirectories = listOfDirectory.begin();
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1\)", *(itDirectories++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR2\)", *(itDirectories++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR3\)", *(itDirectories++));
+    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR2\)", *(itDirectories++));    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR3\)", *(itDirectories++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR4\)", *(itDirectories++));
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR5\)", *(itDirectories++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR6\)", *(itDirectories++));
-    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR6\SUBDIR1\)", *(itDirectories++));
+    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR6\)", *(itDirectories++));    EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR6\SUBDIR1\)", *(itDirectories++));
 }
 
 TEST(WindowsPathTest, FullPathWithDirectory_FindFileAndDirectoryUnlimitedDepthWithWildCard)
@@ -379,18 +368,16 @@ TEST(WindowsPathTest, FullPathWithDirectory_FindFileAndDirectoryUnlimitedDepthWi
     set<string> listOfFiles;
     set<string> listOfDirectory;
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.log", listOfFiles, listOfDirectory);
-    ASSERT_EQ(1, listOfFiles.size());
+    ASSERT_EQ(1u, listOfFiles.size());
     auto itFiles = listOfFiles.begin();
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File1.log)", *(itFiles++));
-    ASSERT_EQ(listOfDirectory.size(), 0);
+    ASSERT_EQ(0u, listOfDirectory.size());
 }
 
-TEST(WindowsPathTest, FileSizeTest_FileIsNotExisting)
-{
+TEST(WindowsPathTest, FileSizeTest_FileIsNotExisting){
     AlbaWindowsPathHandler pathHandler("This path does not exist");
 
-    EXPECT_EQ(PathType::File, pathHandler.getPathType());
-    ASSERT_FALSE(pathHandler.isFoundInLocalSystem());
+    EXPECT_EQ(PathType::File, pathHandler.getPathType());    ASSERT_FALSE(pathHandler.isFoundInLocalSystem());
     EXPECT_DOUBLE_EQ(0, pathHandler.getFileSizeEstimate());
 }
 

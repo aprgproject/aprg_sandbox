@@ -35,14 +35,21 @@ void TcomToam::handleHwConfigurationMessage(GenericMessage const& genericMessage
     sendHwConfigurationResponseAck();
 }
 
-void TcomToam::handleLinkStatesMessage(GenericMessage const& genericMessage) const
+void TcomToam::handleHwConfigurationChangeMessage(GenericMessage const& genericMessage) const
 {
     logNoteOnPreviousMessage("TCOM/TOAM receives status of NBAP links from OAM.");
-    SpecificStaticMessage<MessageName::TC_LINK_STATES_MSG> message(convertGenericToSpecificStatic<MessageName::TC_LINK_STATES_MSG>(genericMessage));
-    sendsLinkStatesResponse();
-    log("alt if all links are up and previously some links were down");
+    SpecificStaticMessage<MessageName::TC_HW_CONFIGURATION_CHANGE_MSG> message(convertGenericToSpecificStatic<MessageName::TC_HW_CONFIGURATION_CHANGE_MSG>(genericMessage));
+    log("alt if all links are up");
     sendsTcomDeploymentInd();
     log("end alt");
+}
+
+void TcomToam::handleLinkStatesMessage(GenericMessage const& genericMessage) const
+{
+    logNoteOnPreviousMessage("TCOM/TOAM receives status of NBAP links from OAM.");    SpecificStaticMessage<MessageName::TC_LINK_STATES_MSG> message(convertGenericToSpecificStatic<MessageName::TC_LINK_STATES_MSG>(genericMessage));
+    sendsLinkStatesResponse();
+    log("alt if all links are up and previously some links were down");
+    sendsTcomDeploymentInd();    log("end alt");
 }
 
 void TcomToam::sendHwConfigurationResponseAck() const
@@ -85,14 +92,15 @@ void TcomToam::handleMessageEvent(GenericMessage const& genericMessage)
     case MessageName::TC_HW_CONFIGURATION_MSG:
         handleHwConfigurationMessage(genericMessage);
         break;
+    case MessageName::TC_HW_CONFIGURATION_CHANGE_MSG:
+        handleHwConfigurationChangeMessage(genericMessage);
+        break;
     case MessageName::TC_LINK_STATES_MSG:
         handleLinkStatesMessage(genericMessage);
-        break;
-    default:
+        break;    default:
         cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
     }
 }
-
 void TcomToam::handleTimerEvent(Timer const& timer)
 {
     cout<<"Handle Timer, timerType: "<<convertToString(timer.getType())<<" timerId:"<<(int)timer.getId()<<endl;

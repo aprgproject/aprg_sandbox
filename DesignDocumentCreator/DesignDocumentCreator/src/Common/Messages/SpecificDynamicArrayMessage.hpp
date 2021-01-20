@@ -4,20 +4,18 @@
 #include <Common/Messages/Message.hpp>
 #include <Common/Messages/MessageWrapper.hpp>
 
-#include <array>
+#include <vector>
 
 namespace DesignDocumentCreator
 {
 
-template<MessageName messageName, unsigned int dynamicPayloadItemSize>
+template<MessageName messageName>
 class SpecificDynamicArrayMessage : public Message
 {
-public:
-    typedef MessageWrapper<messageName> SpecificDynamicArrayMessageWrapper;
+public:    typedef MessageWrapper<messageName> SpecificDynamicArrayMessageWrapper;
     typedef typename SpecificDynamicArrayMessageWrapper::MessageDynamicArraySackType SackType;
     typedef typename SpecificDynamicArrayMessageWrapper::DynamicPartSackType DynamicPartSackType;
-    SpecificDynamicArrayMessage()
-        : Message(SpecificDynamicArrayMessageWrapper::getMessageName())
+    SpecificDynamicArrayMessage()        : Message(SpecificDynamicArrayMessageWrapper::getMessageName())
     {}
     SpecificDynamicArrayMessage(alba::AlbaMemoryBuffer const& payloadBufferReference, ComponentName const sender, ComponentName const receiver)
         : Message(SpecificDynamicArrayMessageWrapper::getMessageName(), sender, receiver)
@@ -28,56 +26,49 @@ public:
     {
         return m_staticPayload;
     }
-    DynamicPartSackType& getDynamicPayloadReferenceAt(unsigned int position)
+    DynamicPartSackType& addDynamicPart(DynamicPartSackType const& dynamicPart)
     {
-        assert(position<dynamicPayloadItemSize);
+        m_dynamicArrayPayload.emplace_back(dynamicPart);
+    }
+    DynamicPartSackType& getAndCreateDynamicPayloadReferenceAt(unsigned int const position)
+    {
+        if(position+1>m_dynamicArrayPayload.size())
+        {
+            m_dynamicArrayPayload.resize(position+1);
+        }
         return m_dynamicArrayPayload[position];
     }
-    alba::AlbaMemoryBuffer createBuffer() const
-    {
+    alba::AlbaMemoryBuffer createBuffer() const    {
         return createBufferFromStaticAndDynamicPart();
     }
 
 private:
     void saveStaticAndDynamicPartFromBuffer(alba::AlbaMemoryBuffer const& payloadBufferReference)
     {
-        alba::AlbaMemoryBuffer readingBuffer(payloadBufferReference);
-        unsigned int maxSizeForReading(std::max(std::max(calculateSize(), payloadBufferReference.getSize()), sizeof(SackType)));
-        readingBuffer.resize(maxSizeForReading);
-        unsigned char* readingBufferPointer(reinterpret_cast<unsigned char*>(readingBuffer.getBufferPointer()));
-        m_staticPayload = *reinterpret_cast<SackType*>(readingBufferPointer);
-        readingBufferPointer+=calculateOffsetDynamicPart();
-        DynamicPartSackType* copyPointer = reinterpret_cast<DynamicPartSackType*>(readingBufferPointer);
-        for(DynamicPartSackType & dynamicArrayContent : m_dynamicArrayPayload)
+        unsigned char const*  readingBufferPointer(reinterpret_cast<unsigned char const*>(payloadBufferReference.getConstantBufferPointer()));
+        m_staticPayload = *reinterpret_cast<SackType const*>(readingBufferPointer);
+        DynamicPartSackType const*  copyPointerStart=reinterpret_cast<DynamicPartSackType const*>(readingBufferPointer+calculateOffsetForDynamicPart());
+        DynamicPartSackType const* const copyPointerEnd=reinterpret_cast<DynamicPartSackType const*>(readingBufferPointer+payloadBufferReference.getSize());
+        for(DynamicPartSackType const* copyPointer=copyPointerStart; copyPointer<copyPointerEnd; copyPointer++)
         {
-            dynamicArrayContent = *copyPointer;
-            copyPointer++;
+            m_dynamicArrayPayload.emplace_back(*copyPointer);
         }
     }
     alba::AlbaMemoryBuffer createBufferFromStaticAndDynamicPart() const
     {
-        SackType payload(m_staticPayload);
-        alba::AlbaMemoryBuffer buffer(&payload, calculateSize());
-        unsigned char* writingBufferPointer(reinterpret_cast<unsigned char*>(buffer.getBufferPointer()));
-        writingBufferPointer+=calculateOffsetDynamicPart();
-        DynamicPartSackType* copyPointer = reinterpret_cast<DynamicPartSackType*>(writingBufferPointer);
+        alba::AlbaMemoryBuffer buffer(&m_staticPayload, calculateOffsetForDynamicPart());
         for(DynamicPartSackType const& dynamicArrayContent : m_dynamicArrayPayload)
         {
-            *copyPointer = dynamicArrayContent;
-            copyPointer++;
+            buffer.addData(&dynamicArrayContent,  sizeof(DynamicPartSackType));
         }
         return buffer;
     }
-    unsigned int calculateOffsetDynamicPart() const
+    unsigned int calculateOffsetForDynamicPart() const
     {
         return sizeof(SackType)+((int)-1*sizeof(DynamicPartSackType));
     }
-    unsigned int calculateSize() const
-    {
-        return sizeof(SackType)+(((int)dynamicPayloadItemSize-1)*sizeof(DynamicPartSackType));
-    }
     SackType m_staticPayload;
-    std::array<DynamicPartSackType, dynamicPayloadItemSize> m_dynamicArrayPayload;
+    std::vector<DynamicPartSackType> m_dynamicArrayPayload;
 };
 
 }

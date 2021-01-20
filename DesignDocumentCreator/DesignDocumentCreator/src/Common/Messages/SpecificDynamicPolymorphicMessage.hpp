@@ -38,34 +38,21 @@ public:
 private:
     void saveStaticAndDynamicPartFromBuffer(alba::AlbaMemoryBuffer const& payloadBufferReference)
     {
-        alba::AlbaMemoryBuffer readingBuffer(payloadBufferReference);
-        unsigned int maxSizeForReading(std::max(std::max(calculateSize(), payloadBufferReference.getSize()), sizeof(SackType)));
-        readingBuffer.resize(maxSizeForReading);
-        unsigned char* readingBufferPointer(reinterpret_cast<unsigned char*>(readingBuffer.getBufferPointer()));
-        m_staticPayload = *reinterpret_cast<SackType*>(readingBufferPointer);
-        readingBufferPointer+=calculateOffsetDynamicPart();
-        m_dynamicPayload = *reinterpret_cast<DynamicPartSackType*>(readingBufferPointer);
+        unsigned char const*  readingBufferPointer(reinterpret_cast<unsigned char const*>(payloadBufferReference.getConstantBufferPointer()));
+        m_staticPayload = *reinterpret_cast<SackType const*>(readingBufferPointer);
+        m_dynamicPayload = *reinterpret_cast<DynamicPartSackType const*>(readingBufferPointer+calculateOffsetForDynamicPart());
     }
     alba::AlbaMemoryBuffer createBufferFromStaticAndDynamicPart() const
     {
-        SackType payload(m_staticPayload);
-        alba::AlbaMemoryBuffer buffer(&payload, calculateSize());
-        unsigned char* writingBufferPointer(reinterpret_cast<unsigned char*>(buffer.getBufferPointer()));
-        writingBufferPointer+=calculateOffsetDynamicPart();
-        DynamicPartSackType* copyPointer = reinterpret_cast<DynamicPartSackType*>(writingBufferPointer);
-        *copyPointer = m_dynamicPayload;
+        alba::AlbaMemoryBuffer buffer(&m_staticPayload, calculateOffsetForDynamicPart());
+        buffer.addData(&m_dynamicPayload,  sizeof(DynamicPartSackType));
         return buffer;
     }
-    unsigned int calculateOffsetDynamicPart() const
+    unsigned int calculateOffsetForDynamicPart() const
     {
         return sizeof(SackType)-sizeof(DynamicPlaceHolderSackType);
-    }
-    unsigned int calculateSize() const
-    {
-        return sizeof(SackType)-sizeof(DynamicPlaceHolderSackType)+sizeof(DynamicPartSackType);
     }
     SackType m_staticPayload;
     DynamicPartSackType m_dynamicPayload;
 };
-
 }

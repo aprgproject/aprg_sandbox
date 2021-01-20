@@ -19,14 +19,91 @@
 using namespace alba;
 using namespace std;
 
+
+TEST(SampleTest, ConstTest)
+{
+    #define GLO_NULL 1
+    void * pointer= (void*)GLO_NULL;
+    if(pointer==(void*)GLO_NULL)
+    {
+        cout<<"GLO NULL works! "<<endl;
+    }
+    if(pointer==nullptr)
+    {
+        cout<<"nullptr works! "<<endl;
+    }
+}
+
+
+/*
+class UglyDataType
+{
+    public:
+    unsigned int * uglyPointer; // this is allocated at some point
+};
+void function1(UglyDataType input)
+{
+    input.uglyPointer = nullptr; // this will compile
+}
+void function2(UglyDataType const input) //Since its mandatory to put const for all parameters we will notice the compiler error.
+{
+    input.uglyPointer = nullptr; // this will not compile
+}
+
+
+TEST(SampleTest, ConstTest)
+{
+    UglyDataType input;
+    function2(input);
+}
+
+
+
+class SampleClass
+{
+public:
+    SampleClass(unsigned int const sampleParameter)
+        : m_sampleParameter(sampleParameter)
+    {}
+    unsigned int getSampleParameter() const
+    {
+        return m_sampleParameter;
+    }
+private:
+    unsigned int m_sampleParameter;
+};
+
+using SampleClasses = std::vector<SampleClass>;
+
+template <typename T, typename ContainerT, class OperationT>
+T sumSample(ContainerT const& container, OperationT const& operation)
+{
+    return std::accumulate(container.begin(), container.end(), T(),
+                           [&operation](T sum, typename ContainerT::value_type const& content)
+                           {
+                                return sum + (content.*operation)();
+    });
+//                           boost::bind(std::plus<T>(), 1, boost::bind(operation, 2)));
+    //return std::accumulate(container.begin(), container.end(), T(),
+                            //std::bind(std::plus<T>(), 1, std::bind(static_cast<typename T()>(OperationT::operation), 2)));
+}
+
+TEST(SampleTest, BindingToClassMethod)
+{
+    SampleClasses sampleContainer;
+    sampleContainer.emplace_back(1);
+    sampleContainer.emplace_back(2);
+    sampleContainer.emplace_back(3);
+
+    EXPECT_EQ(6, sumSample<unsigned int>(sampleContainer, &SampleClass::getSampleParameter));
+}
+
 TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
 {
-    AlbaLocalPathHandler pathHandler(R"(D:\userdata\malba\Desktop\StreamPoC\GSM\WG1_5_GSM_v2.json)");
-    ifstream profileStream(pathHandler.getFullPath());
+    AlbaLocalPathHandler pathHandler(R"(D:\userdata\malba\Desktop\StreamPoC\GSM\WG1_5_GSM_v2.json)");    ifstream profileStream(pathHandler.getFullPath());
 
     map<unsigned int, string> ratTypeToAddressMap;
-    if(profileStream.is_open())
-    {
+    if(profileStream.is_open())    {
         AlbaFileReader profileFileReader(profileStream);
         string startString(R"(					")");
         string endString(R"(					},)");
@@ -82,15 +159,13 @@ TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
     }
 }
 
-/*
+
 TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
 {
-    AlbaLocalPathHandler pathHandler(R"(D:\userdata\malba\Desktop\StreamPoC\GSM\WG1_5_GSM_v2.json)");
-    ifstream profileStream(pathHandler.getFullPath());
+    AlbaLocalPathHandler pathHandler(R"(D:\userdata\malba\Desktop\StreamPoC\GSM\WG1_5_GSM_v2.json)");    ifstream profileStream(pathHandler.getFullPath());
 
     map<unsigned int, string> ratTypeToAddressMap;
-    if(profileStream.is_open())
-    {
+    if(profileStream.is_open())    {
         AlbaFileReader profileFileReader(profileStream);
         string startString(R"(					")");
         string endString(R"(					},)");

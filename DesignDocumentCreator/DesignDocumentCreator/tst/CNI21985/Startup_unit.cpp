@@ -66,3 +66,20 @@ TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringLinkStateUp)
 
     tupcTbm.handleOneEvent();
 }
+
+TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringHwAvailableOrAddition)
+{
+    UmlLogger& umlLogger(getUmlLogger());
+    Oam& oam(*dynamic_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam)));
+    TcomToam& tcom(*dynamic_cast<TcomToam*>(getComponentAndActivateAsParticipant(ComponentName::TcomToam)));
+    TupcLom& tupcLom(*dynamic_cast<TupcLom*>(getComponentAndActivateAsParticipant(ComponentName::TupcLom)));
+    TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm)));
+
+    sendMessage(ComponentName::Oam, ComponentName::TcomToam, createTcomHwConfigurationChangeMsg());
+    tcom.handleOneEvent();
+    verifyTcomDeploymentIndMessage(tupcLom.peekMessageAtStartOfTheEventQueue());
+
+    tupcLom.handleOneEvent();
+
+    tupcTbm.handleOneEvent();
+}

@@ -1,15 +1,13 @@
 #include "CommonModuleTest.hpp"
 
 #include <Common/Utils/StringHelpers.hpp>
-#include <Uml/UmlHelpers.hpp>
+#include <FeatureSpecificFiles/Uml/UmlHelpers.hpp>
 
 using namespace std;
-using namespace DesignDocumentCreator::StringHelpers;
-using testing::FLAGS_gtest_break_on_failure;
+using namespace DesignDocumentCreator::StringHelpers;using testing::FLAGS_gtest_break_on_failure;
 
 namespace DesignDocumentCreator
 {
-
 CommonModuleTest::CommonModuleTest()
     : m_environment(Environment::getInstance())
 {}

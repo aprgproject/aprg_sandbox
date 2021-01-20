@@ -62,13 +62,13 @@ TEST(AlbaMacros, CaseEnumStringLiteral)
             {
             ALBA_MACROS_CASE_ENUM_STRING(SampleEnumClass::Type1)
                     ALBA_MACROS_CASE_ENUM_STRING(SampleEnumClass::Type2)
+                    default:
+                return "default";
             }
         }
-    };
-    SampleEnumClass enumValue1 = SampleEnumClass::Type1;
+    };    SampleEnumClass enumValue1 = SampleEnumClass::Type1;
     SampleEnumClass enumValue2 = SampleEnumClass::Type2;
 
-    SampleClass sampleObject;
-    EXPECT_EQ("SampleEnumClass::Type1", sampleObject.getString(enumValue1));
+    SampleClass sampleObject;    EXPECT_EQ("SampleEnumClass::Type1", sampleObject.getString(enumValue1));
     EXPECT_EQ("SampleEnumClass::Type2", sampleObject.getString(enumValue2));
 }
