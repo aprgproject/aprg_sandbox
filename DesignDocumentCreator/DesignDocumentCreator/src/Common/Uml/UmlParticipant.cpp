@@ -21,10 +21,12 @@ string UmlParticipant::getParticipantLog() const
     return getParticipantTypeString() + " " + m_name + R"( as ")" + m_alias + R"(")";
 }
 
-string UmlParticipant::getParticipantTypeString() const{
+string UmlParticipant::getParticipantTypeString() const
+{
         string result;
         switch(m_type)
-        {#define GET_ENUM_STRING(en) case en: result = #en; break;
+        {
+#define GET_ENUM_STRING(en) case en: result = #en; break;
         GET_ENUM_STRING(UmlParticipantType::actor)
                 GET_ENUM_STRING(UmlParticipantType::boundary)
                 GET_ENUM_STRING(UmlParticipantType::control)

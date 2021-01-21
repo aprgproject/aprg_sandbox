@@ -14,13 +14,13 @@ using namespace std;
 TEST(MessagesTest, SpecificStaticMessageCanBeCreatedWithPayload)
 {
     SpecificStaticMessage<MessageName::SampleStaticMessage> specificStaticMessage;
-    StaticMessageSack& payload(specificStaticMessage.getPayloadReference());
+    StaticMessageSack& payload(specificStaticMessage.getStaticPayloadReference());
     payload.sampleParameter=1234;
 
     EXPECT_EQ(MessageName::SampleStaticMessage, specificStaticMessage.getMessageName());
     EXPECT_EQ(ComponentName::Empty, specificStaticMessage.getSender());
     EXPECT_EQ(ComponentName::Empty, specificStaticMessage.getReceiver());
-    EXPECT_EQ(1234, specificStaticMessage.getPayloadReference().sampleParameter);
+    EXPECT_EQ(1234, specificStaticMessage.getStaticPayloadReference().sampleParameter);
 }
 
 TEST(MessagesTest, SpecificDynamicArrayMessageCanBeCreatedWithPayload)
@@ -28,19 +28,22 @@ TEST(MessagesTest, SpecificDynamicArrayMessageCanBeCreatedWithPayload)
     SpecificDynamicArrayMessage<MessageName::SampleDynamicArrayMessage> specificDynamicArrayMessage;
     DynamicArrayMessageSack& staticPayload(specificDynamicArrayMessage.getStaticPayloadReference());
     staticPayload.staticPart.sampleStaticParameter=1234;
-    DynamicArrayPartSack& dynamicFirstContentPayload(specificDynamicArrayMessage.getAndCreateDynamicPayloadReferenceAt(0));
+    DynamicArrayPartSack& dynamicFirstContentPayload(specificDynamicArrayMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(0));
     dynamicFirstContentPayload.dynamicArrayParameter=5678;
 
-    EXPECT_EQ(MessageName::SampleDynamicArrayMessage, specificDynamicArrayMessage.getMessageName());    EXPECT_EQ(ComponentName::Empty, specificDynamicArrayMessage.getSender());
+    EXPECT_EQ(MessageName::SampleDynamicArrayMessage, specificDynamicArrayMessage.getMessageName());
+    EXPECT_EQ(ComponentName::Empty, specificDynamicArrayMessage.getSender());
     EXPECT_EQ(ComponentName::Empty, specificDynamicArrayMessage.getReceiver());
     EXPECT_EQ(1234, specificDynamicArrayMessage.getStaticPayloadReference().staticPart.sampleStaticParameter);
-    EXPECT_EQ(5678, specificDynamicArrayMessage.getAndCreateDynamicPayloadReferenceAt(0).dynamicArrayParameter);
+    EXPECT_EQ(5678, specificDynamicArrayMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(0).dynamicArrayParameter);
 }
 
-TEST(MessagesTest, SpecificDynamicPolymorphicMessageCanBeCreatedWithPayload){
+TEST(MessagesTest, SpecificDynamicPolymorphicMessageCanBeCreatedWithPayload)
+{
     SpecificDynamicPolymorphicMessage<MessageName::SampleDynamicPolymorphicMessage, DynamicPolymorphicPartSack> specificDynamicPolymorphicMessage;
     DynamicPolymorphicMessageSack& staticPayload(specificDynamicPolymorphicMessage.getStaticPayloadReference());
-    staticPayload.staticPart.sampleStaticParameter=1234;    DynamicPolymorphicPartSack& dynamicFirstContentPayload(specificDynamicPolymorphicMessage.getDynamicPayloadReference());
+    staticPayload.staticPart.sampleStaticParameter=1234;
+    DynamicPolymorphicPartSack& dynamicFirstContentPayload(specificDynamicPolymorphicMessage.getDynamicPayloadReference());
     dynamicFirstContentPayload.dynamicPolymorphicParameter=5678;
 
     EXPECT_EQ(MessageName::SampleDynamicPolymorphicMessage, specificDynamicPolymorphicMessage.getMessageName());
@@ -76,7 +79,7 @@ TEST(MessagesTest, GenericMessageCanBeConvertedToSpecificStatic)
     EXPECT_EQ(MessageName::SampleStaticMessage, specificStaticMessage.getMessageName());
     EXPECT_EQ(ComponentName::SampleComponent, specificStaticMessage.getSender());
     EXPECT_EQ(ComponentName::SampleComponent, specificStaticMessage.getReceiver());
-    EXPECT_EQ(5678, specificStaticMessage.getPayloadReference().sampleParameter);
+    EXPECT_EQ(5678, specificStaticMessage.getStaticPayloadReference().sampleParameter);
 }
 
 TEST(MessagesTest, GenericMessageCanBeConvertedToSpecificDynamicArrayToSmallerSpecificMessage)
@@ -96,14 +99,16 @@ TEST(MessagesTest, GenericMessageCanBeConvertedToSpecificDynamicArrayToSmallerSp
     EXPECT_EQ(ComponentName::SampleComponent, specificDynamicArrayMessage.getSender());
     EXPECT_EQ(ComponentName::SampleComponent, specificDynamicArrayMessage.getReceiver());
     EXPECT_EQ(1010, specificDynamicArrayMessage.getStaticPayloadReference().staticPart.sampleStaticParameter);
-    EXPECT_EQ(1111, specificDynamicArrayMessage.getAndCreateDynamicPayloadReferenceAt(0).dynamicArrayParameter);
-    EXPECT_EQ(2222, specificDynamicArrayMessage.getAndCreateDynamicPayloadReferenceAt(1).dynamicArrayParameter);
+    EXPECT_EQ(1111, specificDynamicArrayMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(0).dynamicArrayParameter);
+    EXPECT_EQ(2222, specificDynamicArrayMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(1).dynamicArrayParameter);
 }
 
-TEST(MessagesTest, GenericMessageCanBeConvertedToSpecificDynamicArrayToLargerSpecificMessage){
+TEST(MessagesTest, GenericMessageCanBeConvertedToSpecificDynamicArrayToLargerSpecificMessage)
+{
     SampleActualDynamicArrayMessageSack payload;
     payload.staticPart.sampleStaticParameter=1010;
-    payload.dynamicPart[0].dynamicArrayParameter=1111;    payload.dynamicPart[1].dynamicArrayParameter=2222;
+    payload.dynamicPart[0].dynamicArrayParameter=1111;
+    payload.dynamicPart[1].dynamicArrayParameter=2222;
     payload.dynamicPart[9].dynamicArrayParameter=3333;
     GenericMessage genericMessage(MessageName::SampleDynamicArrayMessage, &payload, sizeof(payload));
     genericMessage.setSender(ComponentName::SampleComponent);
@@ -115,16 +120,18 @@ TEST(MessagesTest, GenericMessageCanBeConvertedToSpecificDynamicArrayToLargerSpe
     EXPECT_EQ(ComponentName::SampleComponent, specificDynamicArrayMessage.getSender());
     EXPECT_EQ(ComponentName::SampleComponent, specificDynamicArrayMessage.getReceiver());
     EXPECT_EQ(1010, specificDynamicArrayMessage.getStaticPayloadReference().staticPart.sampleStaticParameter);
-    EXPECT_EQ(1111, specificDynamicArrayMessage.getAndCreateDynamicPayloadReferenceAt(0).dynamicArrayParameter);
-    EXPECT_EQ(2222, specificDynamicArrayMessage.getAndCreateDynamicPayloadReferenceAt(1).dynamicArrayParameter);
-    EXPECT_EQ(3333, specificDynamicArrayMessage.getAndCreateDynamicPayloadReferenceAt(9).dynamicArrayParameter);
-    specificDynamicArrayMessage.getAndCreateDynamicPayloadReferenceAt(10).dynamicArrayParameter = 4444;
+    EXPECT_EQ(1111, specificDynamicArrayMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(0).dynamicArrayParameter);
+    EXPECT_EQ(2222, specificDynamicArrayMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(1).dynamicArrayParameter);
+    EXPECT_EQ(3333, specificDynamicArrayMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(9).dynamicArrayParameter);
+    specificDynamicArrayMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(10).dynamicArrayParameter = 4444;
 }
 
-TEST(MessagesTest, GenericMessageCanBeConvertedToSpecificDynamicPolymorphic){
+TEST(MessagesTest, GenericMessageCanBeConvertedToSpecificDynamicPolymorphic)
+{
     SampleActualDynamicPolymorphicMessageSack payload;
     payload.staticPart.sampleStaticParameter=0x12345678;
-    payload.dynamicPart.dynamicPolymorphicParameter=0x11111111;    GenericMessage genericMessage(MessageName::SampleDynamicPolymorphicMessage, &payload, sizeof(payload));
+    payload.dynamicPart.dynamicPolymorphicParameter=0x11111111;
+    GenericMessage genericMessage(MessageName::SampleDynamicPolymorphicMessage, &payload, sizeof(payload));
     genericMessage.setSender(ComponentName::SampleComponent);
     genericMessage.setReceiver(ComponentName::SampleComponent);
 
@@ -140,12 +147,12 @@ TEST(MessagesTest, GenericMessageCanBeConvertedToSpecificDynamicPolymorphic){
 TEST(MessagesTest, SpecificStaticMessageCanBeConvertedToGeneric)
 {
     SpecificStaticMessage<MessageName::SampleStaticMessage> specificStaticMessage;
-    StaticMessageSack& payload(specificStaticMessage.getPayloadReference());
+    StaticMessageSack& payload(specificStaticMessage.getStaticPayloadReference());
     payload.sampleParameter=1234;
     specificStaticMessage.setSender(ComponentName::SampleComponent);
     specificStaticMessage.setReceiver(ComponentName::SampleComponent);
 
-    GenericMessage genericMessage(convertSpecificStaticToGeneric<MessageName::SampleStaticMessage>(specificStaticMessage));
+    GenericMessage genericMessage(convertSpecificStaticToGeneric(specificStaticMessage));
     StaticMessageSack outputPayload(*reinterpret_cast<StaticMessageSack*>(genericMessage.getPayloadBufferReference().getBufferPointer()));
 
     EXPECT_EQ(MessageName::SampleStaticMessage, genericMessage.getMessageName());
@@ -159,18 +166,20 @@ TEST(MessagesTest, SpecificDynamicArrayMessageCanBeConvertedToGeneric)
     SpecificDynamicArrayMessage<MessageName::SampleDynamicArrayMessage> specificDynamicArrayMessage;
     DynamicArrayMessageSack& staticPayload(specificDynamicArrayMessage.getStaticPayloadReference());
     staticPayload.staticPart.sampleStaticParameter=1234;
-    DynamicArrayPartSack& dynamicFirstContentPayload(specificDynamicArrayMessage.getAndCreateDynamicPayloadReferenceAt(0));
+    DynamicArrayPartSack& dynamicFirstContentPayload(specificDynamicArrayMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(0));
     dynamicFirstContentPayload.dynamicArrayParameter=5678;
     specificDynamicArrayMessage.setSender(ComponentName::SampleComponent);
     specificDynamicArrayMessage.setReceiver(ComponentName::SampleComponent);
 
-    GenericMessage genericMessage(convertSpecificDynamicArrayToGeneric<MessageName::SampleDynamicArrayMessage>(specificDynamicArrayMessage));
+    GenericMessage genericMessage(convertSpecificDynamicArrayToGeneric(specificDynamicArrayMessage));
 
     SampleActualDynamicArrayMessageSack const& messagePayload(*reinterpret_cast<SampleActualDynamicArrayMessageSack const*>(genericMessage.getPayloadBufferConstReference().getConstantBufferPointer()));
-    DynamicArrayPartSack const& dynamicPayload(messagePayload.dynamicPart[0]);    EXPECT_EQ(MessageName::SampleDynamicArrayMessage, genericMessage.getMessageName());
+    DynamicArrayPartSack const& dynamicPayload(messagePayload.dynamicPart[0]);
+    EXPECT_EQ(MessageName::SampleDynamicArrayMessage, genericMessage.getMessageName());
     EXPECT_EQ(ComponentName::SampleComponent, genericMessage.getSender());
     EXPECT_EQ(ComponentName::SampleComponent, genericMessage.getReceiver());
-    EXPECT_EQ(1234, messagePayload.staticPart.sampleStaticParameter);    EXPECT_EQ(5678, dynamicPayload.dynamicArrayParameter);
+    EXPECT_EQ(1234, messagePayload.staticPart.sampleStaticParameter);
+    EXPECT_EQ(5678, dynamicPayload.dynamicArrayParameter);
 }
 
 TEST(MessagesTest, SpecificDynamicPolymorphicMessageCanBeConvertedToGeneric)
@@ -183,7 +192,7 @@ TEST(MessagesTest, SpecificDynamicPolymorphicMessageCanBeConvertedToGeneric)
     specificDynamicPolymorphicMessage.setSender(ComponentName::SampleComponent);
     specificDynamicPolymorphicMessage.setReceiver(ComponentName::SampleComponent);
 
-    GenericMessage genericMessage(convertSpecificDynamicPolymorphicToGeneric<MessageName::SampleDynamicPolymorphicMessage, DynamicPolymorphicPartSack>(specificDynamicPolymorphicMessage));
+    GenericMessage genericMessage(convertSpecificDynamicPolymorphicToGeneric(specificDynamicPolymorphicMessage));
 
     SampleActualDynamicPolymorphicMessageSack const& messagePayload(*reinterpret_cast<SampleActualDynamicPolymorphicMessageSack const*>(genericMessage.getPayloadBufferConstReference().getConstantBufferPointer()));
     DynamicPolymorphicPartSack const& dynamicPayload(messagePayload.dynamicPart);

@@ -22,6 +22,8 @@
 #include <STransportBearerModificationCommitResp.h>
 #include <STransportBearerModificationPrepareReq.h>
 #include <STransportBearerModificationPrepareResp.h>
+#include <STransportBearerSetupMsg.h>
+#include <STransportBearerReleaseMsg.h>
 #include <TUP_TransportConnectionSetupReq.h>
 #include <TUP_TransportConnectionSetupResp.h>
 #include <TUP_TransportConnectionReleaseReq.h>
@@ -52,6 +54,8 @@ WRAP_STATIC_MESSAGE(MessageName::TC_TRANSPORT_BEARER_MODIFICATION_COMMIT_REQ_MSG
 WRAP_STATIC_MESSAGE(MessageName::TC_TRANSPORT_BEARER_MODIFICATION_COMMIT_RESP_MSG, STransportBearerModificationCommitResp)
 WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TC_TRANSPORT_BEARER_MODIFICATION_PREPARE_REQ_MSG, STransportBearerModificationPrepareReq, STransportBearerModificationData)
 WRAP_STATIC_MESSAGE(MessageName::TC_TRANSPORT_BEARER_MODIFICATION_PREPARE_RESP_MSG, STransportBearerModificationPrepareResp)
+WRAP_STATIC_MESSAGE(MessageName::TC_TRANSPORT_BEARER_SETUP_MSG, STransportBearerSetupMsg)
+WRAP_STATIC_MESSAGE(MessageName::TC_TRANSPORT_BEARER_RELEASE_MSG, STransportBearerReleaseMsg)
 WRAP_STATIC_MESSAGE(MessageName::TUP_TRANSPORT_CONNECTION_SETUP_REQ_MSG, TUP_TransportConnectionSetupReq)
 WRAP_STATIC_MESSAGE(MessageName::TUP_TRANSPORT_CONNECTION_SETUP_RESP_MSG, TUP_TransportConnectionSetupResp)
 WRAP_STATIC_MESSAGE(MessageName::TUP_TRANSPORT_CONNECTION_RELEASE_REQ_MSG, TUP_TransportConnectionReleaseReq)
@@ -65,9 +69,12 @@ WRAP_STATIC_MESSAGE(MessageName::TC_TCOM_DEPLOYMENT_IND_MSG, STcomDeploymentIndM
 WRAP_STATIC_MESSAGE(MessageName::TC_LINK_STATES_MSG, SLinkStatesMsg)
 WRAP_STATIC_MESSAGE(MessageName::TC_LINK_STATES_RESP_MSG, SLinkStatesResponseMsg)
 WRAP_STATIC_MESSAGE(MessageName::TUPC_TBM_CONFIGURATION_MSG, STupcTbmConfigurationMsg)
-WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUP_CM_BEARER_SETUP_REQ_MSG, SCmBearerSetupReqMsg, STransportBearerLocationData)
-WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUP_CM_BEARER_SETUP_RESP_MSG, SCmBearerSetupRespMsg, STransportBearerSignallingData)
-
+WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUP_CM_BEARERS_SETUP_REQ_MSG, SCmBearersSetupReqMsg, SCmBearersSetupReqDynamicPart)
+WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUP_CM_BEARERS_SETUP_RESP_MSG, SCmBearersSetupRespMsg, SCmBearersSetupRespDynamicPart)
+WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUP_CM_BEARERS_RELEASE_REQ_MSG, SCmBearersReleaseReqMsg, SCmBearersReleaseReqDynamicPart)
+WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUP_CM_BEARERS_RELEASE_RESP_MSG, SCmBearersReleaseRespMsg, SCmBearersReleaseRespDynamicPart)
+WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUP_CM_BEARERS_MODIFY_REQ_MSG, SCmBearersModifyReqMsg, SCmBearersModifyReqDynamicPart)
+WRAP_STATIC_MESSAGE(MessageName::TUP_CM_BEARERS_MODIFY_RESP_MSG, SCmBearersModifyRespMsg)
 
 
 }

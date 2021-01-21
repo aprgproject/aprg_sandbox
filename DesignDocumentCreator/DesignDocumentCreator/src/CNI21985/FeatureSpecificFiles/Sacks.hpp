@@ -18,12 +18,15 @@
 #include <TNumberOfItems.h>
 #include <TNumberOfPresence.h>
 #include <TTransactionID.h>
+#include <EUnregisterType.h>
+#include <ETransportBearerCause.h>
 
 #define MAX_NUM_RLH_INSTANCES 8
 
 
 typedef struct SAtmHwConfigurationMsgFake
 {
+    MESSAGEHEADER(msgHeader)
     EControlUnitType         typeOfConfiguration;
     EConditional             tupConfigurationPresent;
     STupConfigurationInfo    tupConfigurationInfo;
@@ -37,30 +40,124 @@ typedef struct SAtmHwConfigurationMsgFake
 
 struct TUP_CmConfigurationCmd
 {
+    MESSAGEHEADER(msgHeader)
     EControlUnitType       typeOfConfiguration;             ///< Type of configuration
     TNumberOfPresence      numOfFspInfo;
     SFspInformation        fspInformationData[1];
 };
 
-typedef struct SCmBearerSetupReqMsg
+struct SCmBearersSetupReqDynamicPart
 {
+    EBearerType                 bearerType;
+    u32                         transportId;
+    SFpLocation                 fpLocation;
+    u32                         messageTypeNumber;
+    SIpPayloadParameters        ulParameters;
+    SIpPayloadParameters        oldUlParameters;
+    STransportEndPointVer2      rncEndPoint;
+    TDsField                    dsField;
+};
+
+typedef struct SCmBearersSetupReqMsg
+{
+    MESSAGEHEADER(msgHeader)
     TTransactionID                     transactionId;
     TCellId                            cellId;
     TNbccId                            nbccId;
     TNumberOfPresence                  numConnections;
-    STransportBearerLocationData       tbLocationData[1];
-} SCmBearerSetupReqMsg;
+    SCmBearersSetupReqDynamicPart       dynamicPart[1];
+} SCmBearersSetupReqMsg;
 
-typedef struct SCmBearerSetupRespMsg
+struct SCmBearersSetupRespDynamicPart
 {
+    EBearerType                  bearerType;
+    u32                          transportId;
+    TTransportBearerId           transportBearerId;
+    STransportEndPointVer2       btsEndPoint;
+    STransportEndPoint           ftmIpta;
+    STransportEndPoint           dspIpta;
+    TAaSysComSicad               fpSicAddress;
+    TTransportIdentifier         localPort;
+    STransportEndPoint           remoteAddress;
+    TFpId                        fpId;
+};
+
+typedef struct SCmBearersSetupRespMsg
+{
+    MESSAGEHEADER(msgHeader)
     TTransactionID                     transactionId;
     EResponseCond                      response;
     TCause                             cause;
     TCellId                            cellId;
     TNbccId                            nbccId;
     TNumberOfPresence                  numConnections;
-    STransportBearerSignallingData     tbSignallingData[1];
-} SCmBearerSetupRespMsg;
+    SCmBearersSetupRespDynamicPart  dynamicPart[1];
+} SCmBearersSetupRespMsg;
+
+struct SCmBearersReleaseReqDynamicPart
+{
+    TTransportBearerId               transportBearerId;
+};
+
+typedef struct SCmBearersReleaseReqMsg
+{
+    MESSAGEHEADER(msgHeader)
+    TTransactionID                  transactionId;
+    EBoolean                        immediateRelease;
+    EBoolean                        skipDspConnectionRelease;
+    EUnregisterType                 unregisterType;
+    TCellId                         cellId;
+    TNbccId                         nbccId;
+    TNumberOfPresence               numConnections;
+    SCmBearersReleaseReqDynamicPart              dynamicPart[1];
+} SCmBearersReleaseReqMsg;
+
+struct SCmBearersReleaseRespDynamicPart
+{
+    TAaSysComSicad            fpSicAddress;
+    TTransportIdentifier      localPort;
+};
+
+typedef struct SCmBearersReleaseRespMsg
+{
+    MESSAGEHEADER(msgHeader)
+    TNumberOfPresence               numConnections;
+    SCmBearersReleaseRespDynamicPart              dynamicPart[1];
+} SCmBearersReleaseRespMsg;
+
+struct SCmBearersModifyReqDynamicPart
+{
+    TTransportBearerId      transportBearerId;
+    SIpPayloadParameters    ulParameters;
+};
+
+typedef enum ETransportBearerModificationTransactionType
+{
+    ETransportBearerModificationTransactionType_Prepare            = 0,
+    ETransportBearerModificationTransactionType_Commit             = 1,
+    ETransportBearerModificationTransactionType_Cancel             = 2
+} ETransportBearerModificationTransactionType;
+
+typedef struct SCmBearersModifyReqMsg
+{
+    MESSAGEHEADER(msgHeader)
+    TTransactionID                              transactionId;
+    TCellId                                     cellId;
+    TNbccId                                     nbccId;
+    ETransportBearerModificationTransactionType transactionType;
+    TNumberOfPresence                           numConnections;
+    SCmBearersModifyReqDynamicPart              dynamicPart[1];
+} SCmBearersModifyReqMsg;
+
+typedef struct SCmBearersModifyRespMsg
+{
+    MESSAGEHEADER(msgHeader)
+    TTransactionID           transactionId;
+    TCellId                  cellId;
+    TNbccId                  nbccId;
+    EResponseCond            response;
+    ETransportBearerCause    cause;
+} SCmBearersModifyRespMsg;
 
 
 struct STCWamAddressIndNew
@@ -77,14 +174,15 @@ struct STCWamAddressIndNew
 };
 typedef struct STCWamAddressIndNew STCWamAddressIndNew;
 
-
 typedef struct STcomDeploymentIndMsg
 {
+    MESSAGEHEADER(msgHeader)
     STCWamAddressIndNew                    wamAddressInd;
 } STcomDeploymentIndMsg;
 
 typedef struct STupcTbmConfigurationMsg
 {
+    MESSAGEHEADER(msgHeader)
     TAaSysComSicad                    tupcCmSicad;
 } STupcTbmConfigurationMsg;
 

@@ -21,7 +21,7 @@ void Component1::handleMessage1(GenericMessage const& genericMessage)
     Environment & environment(Environment::getInstance());
 
     SpecificStaticMessage<MessageName::MESSAGE_1> message(convertGenericToSpecificStatic<MessageName::MESSAGE_1>(genericMessage));
-    Message1Structure& payload(message.getPayloadReference());
+    Message1Structure& payload(message.getStaticPayloadReference());
     logNoteOnPreviousMessage("Message 1 description.");
     logNoteOnComponent("Component1 will do something.");
 }

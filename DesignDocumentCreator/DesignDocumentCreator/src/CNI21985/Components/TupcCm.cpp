@@ -16,12 +16,109 @@ TupcCm::TupcCm(ComponentName const componentName)
 
 void TupcCm::handleTupcExeStartup()
 {
-    logNoteOnComponent("TupcCm is **not_automatically**  started when TUPCexe starts.\nThis is same with legacy Conman.");
+    logNoteOnComponent("TUPC/CM is **not_automatically**  started when TUPCexe starts.\nThis is same with legacy Conman.");
 }
 
 void TupcCm::handleTupcCmStartup()
 {
-    logNoteOnComponent("TupcCm is **started**.");
+    logNoteOnComponent("TUPC/CM is **started**.");
+}
+
+void TupcCm::handleCmBearersSetupReqMsg(GenericMessage const& genericMessage)
+{
+    logNoteOnComponent("TUPC/CM saves this information and allocates port for the connections");
+    performErqEcfMessagingToTransport();
+    sendCmBearersSetupRespBasedCmBearersSetupReq(genericMessage);
+}
+
+void TupcCm::handleCmBearersReleaseReqMsg(GenericMessage const& genericMessage)
+{
+    performRelRlcMessagingToTransport();
+    sendCmBearersReleaseRespBasedCmBearersReleaseReq(genericMessage);
+}
+
+void TupcCm::handleCmBearersModifyReqMsg(GenericMessage const& genericMessage)
+{
+    logNoteOnComponent("TUPC/CM uses legacy logic in TUPC Conman to determine if MOD is needed to be sent transport based from transactionType and change in bit rate.");
+    log("alt if MOD needs to be sent");
+    performModMoaMessagingToTransport();
+    log("end alt");
+    sendCmBearersModifyRespBasedCmBearersModifyReq(genericMessage);
+}
+
+void TupcCm::performErqEcfMessagingToTransport()
+{
+    logNoteOnComponents(ComponentNames{ComponentName::TupcCm, ComponentName::Trsw}, "TUPC/CM handles IPCS messaging to Transport (ERQ/ECF). \nPlease see Note 1");
+}
+
+void TupcCm::performRelRlcMessagingToTransport()
+{
+    logNoteOnComponents(ComponentNames{ComponentName::TupcCm, ComponentName::Trsw}, "TUPC/CM handles IPCS messaging to Transport (REL/RLC). \nPlease see Note 1");
+}
+
+void TupcCm::performModMoaMessagingToTransport()
+{
+    logNoteOnComponents(ComponentNames{ComponentName::TupcCm, ComponentName::Trsw}, "TUPC/CM handles IPCS messaging to Transport (MOD/MOA). \nPlease see Note 1");
+}
+
+void TupcCm::sendCmBearersSetupRespBasedCmBearersSetupReq(GenericMessage const& genericMessage) const
+{
+    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_SETUP_RESP_MSG> specificMessage;
+    SCmBearersSetupRespMsg & payload(specificMessage.getStaticPayloadReference());
+    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_SETUP_REQ_MSG> cmBearersSetupReqMessage(convertGenericToSpecificDynamicArray<MessageName::TUP_CM_BEARERS_SETUP_REQ_MSG>(genericMessage));
+    SCmBearersSetupReqMsg const& cmBearersSetupReqPayload(cmBearersSetupReqMessage.getStaticPayloadReference());
+    payload.transactionId = cmBearersSetupReqPayload.transactionId;
+    payload.cellId = cmBearersSetupReqPayload.cellId;
+    payload.nbccId = cmBearersSetupReqPayload.nbccId;
+    payload.numConnections = cmBearersSetupReqPayload.numConnections;
+    for(unsigned int connection = 0; connection<cmBearersSetupReqPayload.numConnections; connection++)
+    {
+        SCmBearersSetupRespDynamicPart payloadDynamicPart;
+        SCmBearersSetupReqDynamicPart& cmBearersSetupReqDynamicPartPayload(cmBearersSetupReqMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(connection));
+        payloadDynamicPart.bearerType = cmBearersSetupReqDynamicPartPayload.bearerType;
+        payloadDynamicPart.transportId = cmBearersSetupReqDynamicPartPayload.transportId;
+        //payloadDynamicPart.transportBearerId = <<missing>>
+        //payloadDynamicPart.btsEndPoint = <<missing>>
+        //payloadDynamicPart.ftmIpta = <<missing>>
+        //payloadDynamicPart.dspIpta = <<missing>>
+        specificMessage.addDynamicPart(payloadDynamicPart);
+    }
+    send(ComponentName::TupcTbm, convertSpecificDynamicArrayToGeneric(specificMessage));
+    logNoteOnPreviousMessage("TUPC/CM responds TUP_CM_BEARERS_SETUP_RESP_MSG to TUPC/TBM.");
+}
+
+void TupcCm::sendCmBearersReleaseRespBasedCmBearersReleaseReq(GenericMessage const& genericMessage) const
+{
+    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_RELEASE_RESP_MSG> specificMessage;
+    SCmBearersReleaseRespMsg & payload(specificMessage.getStaticPayloadReference());
+    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_RELEASE_REQ_MSG> cmBearersReleaseReqMessage(convertGenericToSpecificDynamicArray<MessageName::TUP_CM_BEARERS_RELEASE_REQ_MSG>(genericMessage));
+    SCmBearersReleaseReqMsg const& cmBearersReleaseReqPayload(cmBearersReleaseReqMessage.getStaticPayloadReference());
+    payload.numConnections = cmBearersReleaseReqPayload.numConnections;
+    for(unsigned int connection = 0; connection<cmBearersReleaseReqPayload.numConnections; connection++)
+    {
+        SCmBearersReleaseRespDynamicPart payloadDynamicPart;
+        SCmBearersReleaseReqDynamicPart& cmBearersReleaseReqDynamicPartPayload(cmBearersReleaseReqMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(connection));
+        //payloadDynamicPart.fpSicAddress = <<missing>>
+        //payloadDynamicPart.localPort = <<missing>>
+        specificMessage.addDynamicPart(payloadDynamicPart);
+    }
+    send(ComponentName::TupcTbm, convertSpecificDynamicArrayToGeneric(specificMessage));
+    logNoteOnPreviousMessage("TUPC/CM responds TUP_CM_BEARERS_RELEASE_RESP_MSG to TUPC/TBM.");
+}
+
+void TupcCm::sendCmBearersModifyRespBasedCmBearersModifyReq(GenericMessage const& genericMessage) const
+{
+    SpecificStaticMessage<MessageName::TUP_CM_BEARERS_MODIFY_RESP_MSG> specificMessage;
+    SCmBearersModifyRespMsg & payload(specificMessage.getStaticPayloadReference());
+    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_MODIFY_REQ_MSG> cmBearersModifyReqMessage(convertGenericToSpecificDynamicArray<MessageName::TUP_CM_BEARERS_MODIFY_REQ_MSG>(genericMessage));
+    SCmBearersModifyReqMsg const& cmBearersModifyReqPayload(cmBearersModifyReqMessage.getStaticPayloadReference());
+    payload.transactionId = cmBearersModifyReqPayload.transactionId;
+    payload.cellId = cmBearersModifyReqPayload.cellId;
+    payload.nbccId = cmBearersModifyReqPayload.nbccId;
+    //payload.response how about this
+    //payload.cause how about this
+    send(ComponentName::TupcTbm, convertSpecificStaticToGeneric(specificMessage));
+    logNoteOnPreviousMessage("TUPC/CM responds TUP_CM_BEARERS_MODIFY_RESP_MSG to TUPC/TBM.");
 }
 
 void TupcCm::handleMessageEvent(GenericMessage const& genericMessage)
@@ -29,8 +126,15 @@ void TupcCm::handleMessageEvent(GenericMessage const& genericMessage)
     MessageName messageName(genericMessage.getMessageName());
     switch(messageName)
     {
-    //case MessageName::TC_LTX_TELECOM_MSG:
-    //    cout<<"Handle Message, TC_LTX_TELECOM_MSG: "<<endl;
+    case MessageName::TUP_CM_BEARERS_SETUP_REQ_MSG:
+        handleCmBearersSetupReqMsg(genericMessage);
+        break;
+    case MessageName::TUP_CM_BEARERS_RELEASE_REQ_MSG:
+        handleCmBearersReleaseReqMsg(genericMessage);
+        break;
+    case MessageName::TUP_CM_BEARERS_MODIFY_REQ_MSG:
+        handleCmBearersModifyReqMsg(genericMessage);
+        break;
     default:
         cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
     }

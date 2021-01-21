@@ -8,7 +8,7 @@ namespace DesignDocumentCreator
 GenericMessage MessageFactory::createLrmConfigurationDataForMoreThan2K2sWithNbic()
 {
     SpecificStaticMessage<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG> message;
-    saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(message.getPayloadReference());
+    saveLrmConfigurationDataPayloadForMoreThan2K2sWithNbic(message.getStaticPayloadReference());
     return convertSpecificStaticToGeneric(message);
 }
 

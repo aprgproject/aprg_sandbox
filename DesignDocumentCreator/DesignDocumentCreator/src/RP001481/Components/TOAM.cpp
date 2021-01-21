@@ -21,7 +21,7 @@ void TOAM::handleMessage1(GenericMessage const& genericMessage)
     Environment & environment(Environment::getInstance());
 
     SpecificStaticMessage<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG> message(convertGenericToSpecificStatic<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG>(genericMessage));
-    SLrmConfigurationDataInd& payload(message.getPayloadReference());
+    SLrmConfigurationDataInd& payload(message.getStaticPayloadReference());
     logNoteOnPreviousMessage("Message 1 description.");
     logNoteOnComponent("TOAM will do something.");
 }

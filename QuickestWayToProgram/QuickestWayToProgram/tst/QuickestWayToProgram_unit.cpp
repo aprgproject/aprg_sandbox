@@ -100,10 +100,12 @@ TEST(SampleTest, BindingToClassMethod)
 
 TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
 {
-    AlbaLocalPathHandler pathHandler(R"(D:\userdata\malba\Desktop\StreamPoC\GSM\WG1_5_GSM_v2.json)");    ifstream profileStream(pathHandler.getFullPath());
+    AlbaLocalPathHandler pathHandler(R"(D:\userdata\malba\Desktop\StreamPoC\GSM\WG1_5_GSM_v2.json)");
+    ifstream profileStream(pathHandler.getFullPath());
 
     map<unsigned int, string> ratTypeToAddressMap;
-    if(profileStream.is_open())    {
+    if(profileStream.is_open())
+    {
         AlbaFileReader profileFileReader(profileStream);
         string startString(R"(					")");
         string endString(R"(					},)");
@@ -162,10 +164,12 @@ TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
 
 TEST(SampleTest, CompareProfileToLogsInStreamRoutingPoC)
 {
-    AlbaLocalPathHandler pathHandler(R"(D:\userdata\malba\Desktop\StreamPoC\GSM\WG1_5_GSM_v2.json)");    ifstream profileStream(pathHandler.getFullPath());
+    AlbaLocalPathHandler pathHandler(R"(D:\userdata\malba\Desktop\StreamPoC\GSM\WG1_5_GSM_v2.json)");
+    ifstream profileStream(pathHandler.getFullPath());
 
     map<unsigned int, string> ratTypeToAddressMap;
-    if(profileStream.is_open())    {
+    if(profileStream.is_open())
+    {
         AlbaFileReader profileFileReader(profileStream);
         string startString(R"(					")");
         string endString(R"(					},)");

@@ -52,19 +52,23 @@ void BtsLogAnalyzer::processFileWithSortedPrints(std::string const& pathOfBtsSor
     initializeDataDumpOfAllDspsForR3();
 
     AlbaFileReader fileReader(inputLogFileStream);
-    LogTimePairs rlSetupLogTimePairs;    LogTimePairs rlDeletionLogTimePairs;
+    LogTimePairs rlSetupLogTimePairs;
+    LogTimePairs rlDeletionLogTimePairs;
     while(fileReader.isNotFinished())
     {
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());        saveQueueingTime(lineInLogs, messageQueueingTimeFileStream);
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        saveQueueingTime(lineInLogs, messageQueueingTimeFileStream);
         saveRlhSetupTime(lineInLogs, rlSetupLogTimePairs, rlSetupTimeFileStream);
         saveRlhDeletionTime(lineInLogs, rlDeletionLogTimePairs, rlDeletionTimeFileStream);
         saveAdditionalPrintsRlSetup(lineInLogs, rlSetupLogTimePairs);
         //saveDspCapacityInformationForR3(lineInLogs);
     }
 }
+
 void BtsLogAnalyzer::saveDspCapacityInformationForR3(string const& lineInLogs)
 {
-    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "printDspCapacityInd(): 0x"))    {
+    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "printDspCapacityInd(): 0x"))
+    {
         BtsLogPrint logPrint(lineInLogs);
         stringHelper::strings dspCapacitiesPerDsp;
         stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, lineInLogs, " ");
@@ -75,9 +79,11 @@ void BtsLogAnalyzer::saveDspCapacityInformationForR3(string const& lineInLogs)
         }
     }
 }
+
 void BtsLogAnalyzer::saveDspCapacityInformationOfOneDspForR3(string const& dspCapacityOfOneDsp, unsigned int const boardId, BtsLogPrint const& logPrint)
 {
-    unsigned int state=0;    string temp;
+    unsigned int state=0;
+    string temp;
     DspData dspData;
     dspData.boardId=boardId;
     for(char const character: dspCapacityOfOneDsp)
@@ -451,10 +457,12 @@ void BtsLogAnalyzer::saveDspCapacityInformationOfOneDspForR3BeforeCni1738(string
 
 void BtsLogAnalyzer::saveDspCapacityInformationForR2(string const& lineInLogs)
 {
-    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "INF/TCOM/LRM/Rep, |0x"))    {
+    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "INF/TCOM/LRM/Rep, |0x"))
+    {
         BtsLogPrint logPrint(lineInLogs);
         stringHelper::strings dspCapacitiesPerDsp;
-        string logsAfterLrmPrint(stringHelper::getStringAfterThisString(lineInLogs, "INF/TCOM/LRM/Rep"));        stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, logsAfterLrmPrint, "(");
+        string logsAfterLrmPrint(stringHelper::getStringAfterThisString(lineInLogs, "INF/TCOM/LRM/Rep"));
+        stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, logsAfterLrmPrint, "(");
         unsigned int boardId(stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getStringInBetweenTwoStrings(lineInLogs, ",0x", "-")));
         for(string const& dspCapacityOfOneDsp : dspCapacitiesPerDsp)
         {
@@ -467,10 +475,12 @@ void BtsLogAnalyzer::saveDspCapacityInformationOfOneDspForR2(string const& dspCa
 {
     unsigned int state=0;
     string temp;
-    DspData dspData;    dspData.boardId=boardId;
+    DspData dspData;
+    dspData.boardId=boardId;
     for(char const character: dspCapacityOfOneDsp)
     {
-        ALBA_PRINT2(character, state);        if(state==0)
+        ALBA_PRINT2(character, state);
+        if(state==0)
         {
             if(character == ':')
             {
@@ -628,10 +638,12 @@ void BtsLogAnalyzer::initializeDataDumpOfAllDspsForR3()
     initializeSaveAllUsersAndCfsDump();
 }
 
-void BtsLogAnalyzer::initializeDataDumpOfAllDspsForR2(){
+void BtsLogAnalyzer::initializeDataDumpOfAllDspsForR2()
+{
     /*initializeDataDumpOfOneDsp("1230");
     initializeDataDumpOfOneDsp("1240");
-    initializeDataDumpOfOneDsp("1250");    initializeDataDumpOfOneDsp("1260");
+    initializeDataDumpOfOneDsp("1250");
+    initializeDataDumpOfOneDsp("1260");
     initializeDataDumpOfOneDsp("1270");
     initializeDataDumpOfOneDsp("1280");
     initializeDataDumpOfOneDsp("1290");
@@ -684,10 +696,12 @@ void BtsLogAnalyzer::initializeSaveAllUsersAndCfsDump()
 
 void BtsLogAnalyzer::saveDataDumpOfOneDsp(string const& fileName, DspData const& dspData, BtsLogPrint const& logPrint)
 {
-    AlbaLocalPathHandler dspDataPathHandler(m_btsLogPathHandler.getDirectory()+fileName+".csv");    ofstream dspDataFileStream(dspDataPathHandler.getFullPath(), std::ios::ate|std::ios::app);
+    AlbaLocalPathHandler dspDataPathHandler(m_btsLogPathHandler.getDirectory()+fileName+".csv");
+    ofstream dspDataFileStream(dspDataPathHandler.getFullPath(), std::ios::ate|std::ios::app);
     dspDataFileStream<<logPrint.getBtsTime().getEquivalentStringBtsTimeFormat()<<",";
     dspDataFileStream<<dspData.availableUlCEs<<","<<dspData.availableDlCEs<<",";
-    dspDataFileStream<<dspData.rakeState<<","<<dspData.rachHand<<","<<dspData.rakeLoad<<",";    dspDataFileStream<<dspData.hsupaCFs<<","<<dspData.hsRachCFs<<",";
+    dspDataFileStream<<dspData.rakeState<<","<<dspData.rachHand<<","<<dspData.rakeLoad<<",";
+    dspDataFileStream<<dspData.hsupaCFs<<","<<dspData.hsRachCFs<<",";
     dspDataFileStream<<dspData.hsupaUsers<<","<<dspData.nbrOfEnhHsupaUsers<<","<<dspData.dchUsers<<",";
     dspDataFileStream<<endl;
 }
@@ -696,7 +710,8 @@ void BtsLogAnalyzer::saveTotalUsersAndCfs(BtsLogPrint const& logPrint)
 {
     AlbaLocalPathHandler dspDataPathHandler(m_btsLogPathHandler.getDirectory()+"TotalUsersAndCfs.csv");
     ofstream totalCfsFileStream(dspDataPathHandler.getFullPath(), std::ios::ate|std::ios::app);
-    unsigned int totalCfs(0);    unsigned int totalR99Users(0);
+    unsigned int totalCfs(0);
+    unsigned int totalR99Users(0);
     unsigned int totalHsupaUsers(0);
     for(DspDataPair const& dspDataPair : m_maxDspDataMap)
     {
@@ -705,7 +720,8 @@ void BtsLogAnalyzer::saveTotalUsersAndCfs(BtsLogPrint const& logPrint)
         totalHsupaUsers+=dspDataPair.second.hsupaUsers;
     }
     totalCfsFileStream<<logPrint.getBtsTime().getEquivalentStringBtsTimeFormat()<<",";
-    totalCfsFileStream<<totalCfs<<",";    totalCfsFileStream<<totalR99Users<<",";
+    totalCfsFileStream<<totalCfs<<",";
+    totalCfsFileStream<<totalR99Users<<",";
     totalCfsFileStream<<totalHsupaUsers<<",";
     totalCfsFileStream<<endl;
 }
@@ -730,11 +746,13 @@ void BtsLogAnalyzer::saveAllUsersAndCfs(BtsLogPrint const& logPrint)
 
 void BtsLogAnalyzer::saveDspInformation(unsigned int const dspAddress, DspData const& dspData)
 {
-    m_maxDspDataMap[dspAddress] = dspData;}
+    m_maxDspDataMap[dspAddress] = dspData;
+}
 
 void BtsLogAnalyzer::saveMaxDspInformation(DspData const& dspData)
 {
-    if(dspData.availableUlCEs < m_maxDspData.availableUlCEs)    {
+    if(dspData.availableUlCEs < m_maxDspData.availableUlCEs)
+    {
         m_maxDspData.availableUlCEs = dspData.availableUlCEs;
     }
     if(dspData.availableDlCEs < m_maxDspData.availableDlCEs)

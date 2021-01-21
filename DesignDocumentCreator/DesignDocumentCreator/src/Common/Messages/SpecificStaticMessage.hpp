@@ -22,7 +22,7 @@ public:
         assert(sizeof(SackType) == payloadBufferReference.getSize());
         m_payload = *reinterpret_cast<SackType const*>(payloadBufferReference.getConstantBufferPointer());
     }
-    SackType& getPayloadReference()
+    SackType& getStaticPayloadReference()
     {
         return m_payload;
     }
@@ -34,8 +34,7 @@ public:
 private:
     alba::AlbaMemoryBuffer createBufferFromStaticPayload() const
     {
-        SackType payload(m_payload);
-        return alba::AlbaMemoryBuffer(&payload, sizeof(payload));
+        return alba::AlbaMemoryBuffer(&m_payload, sizeof(m_payload));
     }
     SackType m_payload;
 };

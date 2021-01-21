@@ -3,9 +3,10 @@
 namespace DesignDocumentCreator
 {
 
+//this are FAKES, use framework function
+
 TAaSysComSicad FakeFrameworkHelpers::getAddress(ComponentName const componentName)
 {
-    //this is fake, use framework function
     TAaSysComSicad result=0;
     if(componentName == ComponentName::TupcTbm)
     {
@@ -27,7 +28,6 @@ TAaSysComSicad FakeFrameworkHelpers::getAddress(ComponentName const componentNam
 
 TTask FakeFrameworkHelpers::getTask(ComponentName const componentName)
 {
-    //this is fake, use framework function
     TTask result=0;
     if(componentName == ComponentName::TupcTbm)
     {
@@ -49,19 +49,16 @@ TTask FakeFrameworkHelpers::getTask(ComponentName const componentName)
 
 FakeFrameworkHelpers::TAaSysComNids FakeFrameworkHelpers::getRlhNids(STCWamAddressIndNew const&)
 {
-    //this is fake, use framework function
     return TAaSysComNids{0x120d};
 }
 
 TAaSysComSicad FakeFrameworkHelpers::createSicad(TAaSysComNid const nid, TTask const taskId)
 {
-    //this is fake, use framework function
     return nid<<16 | taskId;
 }
 
 TAaSysComSicad FakeFrameworkHelpers::getNid(TAaSysComSicad const sicad)
 {
-    //this is fake, use framework function
     return sicad>>16;
 }
 

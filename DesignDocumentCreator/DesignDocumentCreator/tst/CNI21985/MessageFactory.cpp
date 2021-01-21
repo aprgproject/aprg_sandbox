@@ -8,7 +8,7 @@ namespace DesignDocumentCreator
 GenericMessage MessageFactory::createHwConfigurationMessageForRel3BasedFromLogs()
 {
     SpecificStaticMessage<MessageName::OAM_ATM_HW_CONFIGURATION_MSG> hwConfigurationMessage;
-    SAtmHwConfigurationMsgFake& payload(hwConfigurationMessage.getPayloadReference());
+    SAtmHwConfigurationMsgFake& payload(hwConfigurationMessage.getStaticPayloadReference());
     payload.typeOfConfiguration = EControlUnitType_Fcm;
     payload.tupConfigurationPresent = EConditional_Present;
     payload.tupConfigurationInfo.ipAddress = 0xc0a8ff10;
@@ -158,13 +158,15 @@ GenericMessage MessageFactory::createOneTransportBearerRegisterForCell()
     tbRegisterStaticPayload.cellId = 100002;
     tbRegisterStaticPayload.nbccId = 0;
     tbRegisterStaticPayload.numConnections = 1;
-    STransportBearerLocationData& dynamicPayload1(tbRegisterMessage.getAndCreateDynamicPayloadReferenceAt(0));
+    STransportBearerLocationData& dynamicPayload1(tbRegisterMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(0));
     dynamicPayload1.bearerType=EBearerType_ATM;
     dynamicPayload1.transportId=100003;
-    dynamicPayload1.fpLocation.fpId=100004;    dynamicPayload1.fpLocation.fpAddress=100005;
+    dynamicPayload1.fpLocation.fpId=100004;
+    dynamicPayload1.fpLocation.fpAddress=100005;
     dynamicPayload1.fpLocation.messagingAddress=100006;
     dynamicPayload1.messageTypeNumber=100007;
-    dynamicPayload1.ulParameters.maxBitRateInIpPayloadLayer=100008;    dynamicPayload1.ulParameters.averageBitRateInIpPayloadLayer=100009;
+    dynamicPayload1.ulParameters.maxBitRateInIpPayloadLayer=100008;
+    dynamicPayload1.ulParameters.averageBitRateInIpPayloadLayer=100009;
     dynamicPayload1.ulParameters.maxSizeOfIpPayloadInOneIpPacket=100010;
     dynamicPayload1.ulParameters.averageSizeOfIpPayloadInOneIpPacket=100011;
     dynamicPayload1.ulParameters.vlanIdInfo.iePresent=EIEPresentType_IEPresentTrue;
@@ -184,40 +186,97 @@ GenericMessage MessageFactory::createOneTransportBearerRegisterForCell()
     return convertSpecificDynamicArrayToGeneric(tbRegisterMessage);
 }
 
+GenericMessage MessageFactory::createOneTransportBearerUnregisterForCell()
+{
+    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_UNREGISTER_MSG> tbUnregisterMessage;
+    STransportBearerUnregisterMsg& tbUnregisterStaticPayload(tbUnregisterMessage.getStaticPayloadReference());
+    tbUnregisterStaticPayload.transactionId = 100001;
+    tbUnregisterStaticPayload.immediateRelease = EBoolean_True;
+    tbUnregisterStaticPayload.skipDspConnectionRelease = EBoolean_True;
+    tbUnregisterStaticPayload.unregisterType = EUnregisterType_TransportBearer;
+    tbUnregisterStaticPayload.cellId = 100005;
+    tbUnregisterStaticPayload.nbccId = 100006;
+    tbUnregisterStaticPayload.numConnections = 1;
+    TTransportBearerId& dynamicPayload1(tbUnregisterMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(0));
+    dynamicPayload1=100007;
+    return convertSpecificDynamicArrayToGeneric(tbUnregisterMessage);
+}
+
+GenericMessage MessageFactory::createOneTransportBearerModificationPrepareForUser()
+{
+    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_MODIFICATION_PREPARE_REQ_MSG> tbModificationPrepareMessage;
+    STransportBearerModificationPrepareReq& tbModificationPreparePayload(tbModificationPrepareMessage.getStaticPayloadReference());
+    tbModificationPreparePayload.transactionId = 100001;
+    tbModificationPreparePayload.cellId = 100002;
+    tbModificationPreparePayload.nbccId = 100003;
+    tbModificationPreparePayload.numConnections = 1;
+    STransportBearerModificationData& dynamicPayload1(tbModificationPrepareMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(0));
+    dynamicPayload1.transportBearerId=100004;
+    dynamicPayload1.ulParameters.maxBitRateInIpPayloadLayer=100005;
+    dynamicPayload1.ulParameters.averageBitRateInIpPayloadLayer=100006;
+    dynamicPayload1.ulParameters.maxSizeOfIpPayloadInOneIpPacket=100007;
+    dynamicPayload1.ulParameters.averageSizeOfIpPayloadInOneIpPacket=100008;
+    dynamicPayload1.ulParameters.vlanIdInfo.iePresent=EIEPresentType_IEPresentTrue;
+    dynamicPayload1.ulParameters.vlanIdInfo.vlanId=100009;
+    return convertSpecificDynamicArrayToGeneric(tbModificationPrepareMessage);
+}
+
+GenericMessage MessageFactory::createOneTransportBearerModificationCommitForUser()
+{
+    SpecificStaticMessage<MessageName::TC_TRANSPORT_BEARER_MODIFICATION_COMMIT_REQ_MSG> tbModificationCommitMessage;
+    STransportBearerModificationCommitReq& tbModificationCommitPayload(tbModificationCommitMessage.getStaticPayloadReference());
+    tbModificationCommitPayload.transactionId = 100001;
+    tbModificationCommitPayload.cellId = 100002;
+    tbModificationCommitPayload.nbccId = 100003;
+    return convertSpecificStaticToGeneric(tbModificationCommitMessage);
+}
+
+GenericMessage MessageFactory::createOneTransportBearerModificationCancelForUser()
+{
+    SpecificStaticMessage<MessageName::TC_TRANSPORT_BEARER_MODIFICATION_CANCEL_REQ_MSG> tbModificationCancelMessage;
+    STransportBearerModificationCancelReq& tbModificationCancelPayload(tbModificationCancelMessage.getStaticPayloadReference());
+    tbModificationCancelPayload.transactionId = 100001;
+    tbModificationCancelPayload.cellId = 100002;
+    tbModificationCancelPayload.nbccId = 100003;
+    return convertSpecificStaticToGeneric(tbModificationCancelMessage);
+}
+
 GenericMessage MessageFactory::createTcomHwConfigurationMsg()
 {
     SpecificStaticMessage<MessageName::TC_HW_CONFIGURATION_MSG> message;
-    //SHwConfigurationMsg& payload(message.getPayloadReference());
+    //SHwConfigurationMsg& payload(message.getStaticPayloadReference());
     return convertSpecificStaticToGeneric(message);
 }
 
 GenericMessage MessageFactory::createTcomHwConfigurationResponseMsg()
 {
     SpecificStaticMessage<MessageName::TC_HW_CONFIGURATION_RESP_MSG> message;
-    //SHwConfigurationResponseMsg& payload(message.getPayloadReference());
+    //SHwConfigurationResponseMsg& payload(message.getStaticPayloadReference());
     return convertSpecificStaticToGeneric(message);
 }
 
 GenericMessage MessageFactory::createTcomHwConfigurationChangeMsg()
 {
     SpecificStaticMessage<MessageName::TC_HW_CONFIGURATION_CHANGE_MSG> message;
-    //SHwConfigurationMsg& payload(message.getPayloadReference());
+    //SHwConfigurationMsg& payload(message.getStaticPayloadReference());
     return convertSpecificStaticToGeneric(message);
 }
 
 GenericMessage MessageFactory::createLinkStatesMsg()
 {
-    SpecificStaticMessage<MessageName::TC_LINK_STATES_MSG> message;    SLinkStatesMsg& payload(message.getPayloadReference());
+    SpecificStaticMessage<MessageName::TC_LINK_STATES_MSG> message;
+    SLinkStatesMsg& payload(message.getStaticPayloadReference());
     payload.cnbapLinkState = ELinkState_InService;
     STtpSignalingLinkStates& signalingLinkState(payload.ttpSignalingLinkStates[0]);
-    signalingLinkState.dnbapLinkState = ELinkState_InService;    signalingLinkState.aal2SignalingLinkState = ELinkState_InService;
+    signalingLinkState.dnbapLinkState = ELinkState_InService;
+    signalingLinkState.aal2SignalingLinkState = ELinkState_InService;
     return convertSpecificStaticToGeneric(message);
 }
 
 GenericMessage MessageFactory::createLinkStatesResponseMsg()
 {
     SpecificStaticMessage<MessageName::TC_LINK_STATES_RESP_MSG> message;
-    //SLinkStatesResponseMsg& payload(message.getPayloadReference());
+    //SLinkStatesResponseMsg& payload(message.getStaticPayloadReference());
     return convertSpecificStaticToGeneric(message);
 }
 

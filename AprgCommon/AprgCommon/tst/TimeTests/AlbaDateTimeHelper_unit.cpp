@@ -200,7 +200,8 @@ TEST(AlbaDateTimeHelperTest, RetrieveAndRemoveMinutesFromTotalSeconds)
     EXPECT_EQ(59u, totalSeconds);
 }
 
-TEST(AlbaDateTimeHelperTest, ValuesCannotReorganizedIfNoOverflow){
+TEST(AlbaDateTimeHelperTest, ValuesCannotReorganizedIfNoOverflow)
+{
     unsigned int days=0,seconds=0,microSeconds=0;
     reorganizeOverflowValues(days, seconds, microSeconds);
     EXPECT_EQ(0u, days);
@@ -208,7 +209,8 @@ TEST(AlbaDateTimeHelperTest, ValuesCannotReorganizedIfNoOverflow){
     EXPECT_EQ(0u, microSeconds);
 }
 
-TEST(AlbaDateTimeHelperTest, ValuesCanBeReorganizedIfThereIsOverflow){
+TEST(AlbaDateTimeHelperTest, ValuesCanBeReorganizedIfThereIsOverflow)
+{
     unsigned int days=99999999,seconds=99999999,microSeconds=99999999;
     reorganizeOverflowValues(days, seconds, microSeconds);
     EXPECT_EQ(100001156u, days);
@@ -216,10 +218,12 @@ TEST(AlbaDateTimeHelperTest, ValuesCanBeReorganizedIfThereIsOverflow){
     EXPECT_EQ(999999u, microSeconds);
 }
 
-TEST(AlbaDateTimeHelperTest, ValuesCannotReorganizedIfNoUnderflow){
+TEST(AlbaDateTimeHelperTest, ValuesCannotReorganizedIfNoUnderflow)
+{
     int days=0,seconds=0,microSeconds=0;
     reorganizeUnderflowValues(days, seconds, microSeconds);
-    EXPECT_EQ(0, days);    EXPECT_EQ(0, seconds);
+    EXPECT_EQ(0, days);
+    EXPECT_EQ(0, seconds);
     EXPECT_EQ(0, microSeconds);
 }
 

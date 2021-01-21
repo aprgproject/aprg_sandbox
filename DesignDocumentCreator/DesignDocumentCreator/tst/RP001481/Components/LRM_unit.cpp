@@ -6,9 +6,11 @@
 
 using namespace std;
 using namespace DesignDocumentCreator;
+
 TEST(LrmTest, MasterTcomNidIsInvalidByDefault)
 {
     LRM lrm(ComponentName::LRM);
+
     EXPECT_EQ(FakeFrameworkHelpers::INVALID_DSP_ADDRESS, lrm.getMasterTcomNid());
 }
 

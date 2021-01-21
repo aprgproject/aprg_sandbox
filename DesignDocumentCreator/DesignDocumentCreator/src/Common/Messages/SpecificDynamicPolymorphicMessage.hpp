@@ -55,4 +55,5 @@ private:
     SackType m_staticPayload;
     DynamicPartSackType m_dynamicPayload;
 };
+
 }

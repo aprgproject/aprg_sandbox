@@ -12,7 +12,7 @@ void MessageVerifier::verifierTC_LRM_CONFIGURATION_DATA_IND_MSG(GenericMessage c
     ASSERT_EQ(MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG, genericMessage.getMessageName());
 
     SpecificStaticMessage<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG> message(convertGenericToSpecificStatic<MessageName::TC_LRM_CONFIGURATION_DATA_IND_MSG>(genericMessage));
-    SLrmConfigurationDataInd& payload(message.getPayloadReference());
+    SLrmConfigurationDataInd& payload(message.getStaticPayloadReference());
 
     EXPECT_EQ(0u, payload.numOfDsps);
 }

@@ -16,9 +16,11 @@ AlbaMemoryBuffer::AlbaMemoryBuffer(void const* bufferPointer, unsigned int const
 {
     addData(bufferPointer, size);
 }
+
 AlbaMemoryBuffer::operator bool() const
 {
-    return hasContent();}
+    return hasContent();
+}
 
 bool AlbaMemoryBuffer::hasContent() const
 {
@@ -80,7 +82,8 @@ void AlbaMemoryBuffer::addData(void const* bufferPointer, unsigned int const add
 
 string AlbaMemoryBuffer::getDisplayableString() const
 {
-    return containerHelper::getStringFromContentsOfContainerWithNumberFormat(m_buffer, ", ");}
+    return containerHelper::getStringFromContentsOfContainerWithNumberFormat(m_buffer, ", ");
+}
 
 
 }//namespace alba

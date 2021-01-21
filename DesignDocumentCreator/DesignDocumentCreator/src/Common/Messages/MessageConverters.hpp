@@ -20,10 +20,12 @@ SpecificDynamicArrayMessage<messageName> convertGenericToSpecificDynamicArray(Ge
     return SpecificDynamicArrayMessage<messageName>(genericMessage.getPayloadBufferConstReference(), genericMessage.getSender(), genericMessage.getReceiver());
 }
 
-template<MessageName messageName, typename DynamicPartSackType>SpecificDynamicPolymorphicMessage<messageName, DynamicPartSackType> convertGenericToSpecificDynamicPolymorphic(GenericMessage const& genericMessage)
+template<MessageName messageName, typename DynamicPartSackType>
+SpecificDynamicPolymorphicMessage<messageName, DynamicPartSackType> convertGenericToSpecificDynamicPolymorphic(GenericMessage const& genericMessage)
 {
     return SpecificDynamicPolymorphicMessage<messageName, DynamicPartSackType>(genericMessage.getPayloadBufferConstReference(), genericMessage.getSender(), genericMessage.getReceiver());
 }
+
 template<MessageName messageName>
 GenericMessage convertSpecificStaticToGeneric(SpecificStaticMessage<messageName> const& specificStaticMessage)
 {
@@ -35,9 +37,11 @@ GenericMessage convertSpecificDynamicArrayToGeneric(SpecificDynamicArrayMessage<
 {
     return GenericMessage(specificDynamicArrayMessage.getMessageName(), specificDynamicArrayMessage.createBuffer(), specificDynamicArrayMessage.getSender(), specificDynamicArrayMessage.getReceiver());
 }
+
 template<MessageName messageName, typename DynamicPartSackType>
 GenericMessage convertSpecificDynamicPolymorphicToGeneric(SpecificDynamicPolymorphicMessage<messageName, DynamicPartSackType> const& specificDynamicPolymorphicMessage)
-{    return GenericMessage(specificDynamicPolymorphicMessage.getMessageName(), specificDynamicPolymorphicMessage.createBuffer(), specificDynamicPolymorphicMessage.getSender(), specificDynamicPolymorphicMessage.getReceiver());
+{
+    return GenericMessage(specificDynamicPolymorphicMessage.getMessageName(), specificDynamicPolymorphicMessage.createBuffer(), specificDynamicPolymorphicMessage.getSender(), specificDynamicPolymorphicMessage.getReceiver());
 }
 
 }
