@@ -59,14 +59,14 @@ set(APRG_COMMON_WINDOWS_SOURCES
     ${APRG_COMMON_DIR}/src/Time/AlbaWindowsTimer.hpp
     ${APRG_COMMON_DIR}/src/User/AlbaWindowsUserAutomation.cpp
     ${APRG_COMMON_DIR}/src/User/AlbaWindowsUserAutomation.hpp
+    ${APRG_COMMON_DIR}/src/Windows/AlbaWindowsHelper.cpp
+    ${APRG_COMMON_DIR}/src/Windows/AlbaWindowsHelper.hpp
 )
 
-set(APRG_COMMON_MAIN_TESTS
-    ${APRG_COMMON_DIR}/tst/BitTests/AlbaBitManipulation_unit.cpp
+set(APRG_COMMON_MAIN_TESTS    ${APRG_COMMON_DIR}/tst/BitTests/AlbaBitManipulation_unit.cpp
     ${APRG_COMMON_DIR}/tst/ContainerTests/AlbaContainerHelper_unit.cpp
     ${APRG_COMMON_DIR}/tst/ContainerTests/AlbaRange_unit.cpp
-    ${APRG_COMMON_DIR}/tst/ContainerTests/AlbaXY_unit.cpp
-    ${APRG_COMMON_DIR}/tst/DebugTests/AlbaDebug_unit.cpp
+    ${APRG_COMMON_DIR}/tst/ContainerTests/AlbaXY_unit.cpp    ${APRG_COMMON_DIR}/tst/DebugTests/AlbaDebug_unit.cpp
     ${APRG_COMMON_DIR}/tst/FileTests/AlbaFileReader_unit.cpp
     ${APRG_COMMON_DIR}/tst/MacrosTests/AlbaMacros_unit.cpp
     ${APRG_COMMON_DIR}/tst/MathTests/AlbaMathHelper_unit.cpp

@@ -17,18 +17,22 @@ class AlbaWindowsUserAutomation
 {
 public:
     typedef std::function<void(INPUT&)> InputFunction;
-    bool isLetterPressed (char letter) const;
+    bool isLetterPressed(char const letter) const;
     std::string getStringFromClipboard() const;
+    void setStringToClipboard(std::string const& clipBoardText) const;
     MousePosition getMousePosition() const;
-    void setMousePosition(MousePosition position) const;
+    void setMousePosition(MousePosition const& position) const;
     void doLeftClick() const;
     void doRightClick() const;
     void typeString(std::string const& stringToType) const;
-    void typeCharacter(char character) const;
-    unsigned int convertToVirtualKey(char character) const;
+    void typeCharacter(char const character) const;
+    std::string getClassNameOfForegroundWindow() const;
+    void setForegroundWindowWithClassName(std::string const& windowName) const;
+    void setForegroundWindowWithWindowName(std::string const& windowName) const;
 private:
+    unsigned int convertToVirtualKey(char const character) const;
+    void setForegroundWindowWithWindowHandle(HWND const windowHandle) const;
     void doOperation(InputFunction inputFunction) const;
     static constexpr unsigned int REALISTIC_DELAY_IN_MILLISECONDS=500;
 };
-
 }

@@ -49,10 +49,8 @@ private:
             ListOfPaths& listOfFiles,
             ListOfPaths& listOfDirectories,
             int depth) const;
-    std::string getLastFormattedErrorMessage() const;
     std::string m_driveOrRoot;
     bool m_foundInLocalSystem;
-    bool m_relativePath;
-};
+    bool m_relativePath;};
 
 }//namespace alba
