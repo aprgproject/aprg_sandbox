@@ -13,11 +13,12 @@ public:
     Dsp(ComponentName const componentName);
     void handleTransportSetupReq(GenericMessage const& );
     void handleTransportReleaseReq(GenericMessage const& );
+    void handleTransportTransferReq(GenericMessage const& );
     void sendTransportSetupResp() const;
     void sendTransportReleaseResp() const;
+    void sendTransportTransferResp() const;
 private:
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
-    virtual void handleTimerEvent(Timer const& timer);
-};
+    virtual void handleTimerEvent(Timer const& timer);};
 
 }

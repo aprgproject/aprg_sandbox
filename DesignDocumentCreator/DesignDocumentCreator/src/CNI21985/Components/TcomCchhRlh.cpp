@@ -20,13 +20,9 @@ void TcomCchhRlh::handleMessageEvent(GenericMessage const& genericMessage)
     MessageName messageName(genericMessage.getMessageName());
     switch(messageName)
     {
-    //case MessageName::TC_LINK_STATES_MSG:
-    //    handleLinkStatesMessage(genericMessage);
-    //    break;
     default:
         cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
-    }
-}
+    }}
 
 void TcomCchhRlh::handleTimerEvent(Timer const& timer)
 {

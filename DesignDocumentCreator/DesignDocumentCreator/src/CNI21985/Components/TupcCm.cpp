@@ -39,13 +39,24 @@ void TupcCm::handleCmBearersReleaseReqMsg(GenericMessage const& genericMessage)
 
 void TupcCm::handleCmBearersModifyReqMsg(GenericMessage const& genericMessage)
 {
-    logNoteOnComponent("TUPC/CM uses legacy logic in TUPC Conman to determine if MOD is needed to be sent transport based from transactionType and change in bit rate.");
-    log("alt if MOD needs to be sent");
-    performModMoaMessagingToTransport();
-    log("end alt");
+    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_MODIFY_REQ_MSG> cmBearersModifyReqMessage(convertGenericToSpecificDynamicArray<MessageName::TUP_CM_BEARERS_MODIFY_REQ_MSG>(genericMessage));
+    SCmBearersModifyReqMsg const& cmBearersModifyReqPayload(cmBearersModifyReqMessage.getStaticPayloadReference());
+
+    if(cmBearersModifyReqPayload.transactionType==ECmBearersModifyTransactionType_ModificationPrepare ||
+            cmBearersModifyReqPayload.transactionType==ECmBearersModifyTransactionType_ModificationCommit ||
+            cmBearersModifyReqPayload.transactionType==ECmBearersModifyTransactionType_ModificationCancel)
+    {
+        logNoteOnComponent("TUPC/CM uses legacy logic in TUPC Conman to determine if MOD is needed to be sent transport based from transactionType and change in bit rate.");
+        log("alt if MOD needs to be sent");
+        performModMoaMessagingToTransport();
+        log("end alt");
+    }
+    else
+    {
+        performModMoaMessagingToTransport();
+    }
     sendCmBearersModifyRespBasedCmBearersModifyReq(genericMessage);
 }
-
 void TupcCm::performErqEcfMessagingToTransport()
 {
     logNoteOnComponents(ComponentNames{ComponentName::TupcCm, ComponentName::Trsw}, "TUPC/CM handles IPCS messaging to Transport (ERQ/ECF). \nPlease see Note 1");

@@ -18,11 +18,10 @@ public:
     void TearDown() override;
     void sendMessage(GenericMessage const& genericMessage);
     void sendMessage(ComponentName const sender, ComponentName const receiver, GenericMessage const& genericMessage);
-    Component* getComponentAndActivateAsParticipant(ComponentName const componentName);
+    Component* getComponentAndActivateAsParticipant(ComponentName const componentName, std::string const& umlAlias);
     void saveUmlLog();
     UmlLogger& getUmlLogger();
-private:
-    Environment& m_environment;
+private:    Environment& m_environment;
 };
 
 

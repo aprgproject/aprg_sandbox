@@ -21,14 +21,13 @@ using namespace StringHelpers;
 TEST_F(ModuleTest, TupcStartup)
 {
     UmlLogger& umlLogger(getUmlLogger());
-    Oam& oam(*dynamic_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam)));
-    TupcIlm& tupcIlm(*dynamic_cast<TupcIlm*>(getComponentAndActivateAsParticipant(ComponentName::TupcIlm)));
-    TupcLom& tupcLom(*dynamic_cast<TupcLom*>(getComponentAndActivateAsParticipant(ComponentName::TupcLom)));
-    TupcCm& tupcCm(*dynamic_cast<TupcCm*>(getComponentAndActivateAsParticipant(ComponentName::TupcCm)));
-    TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm)));
+    Oam& oam(*dynamic_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam, "OAM")));
+    TupcIlm& tupcIlm(*dynamic_cast<TupcIlm*>(getComponentAndActivateAsParticipant(ComponentName::TupcIlm, "TUPC/ILM")));
+    TupcLom& tupcLom(*dynamic_cast<TupcLom*>(getComponentAndActivateAsParticipant(ComponentName::TupcLom, "TUPC/LOM")));
+    TupcCm& tupcCm(*dynamic_cast<TupcCm*>(getComponentAndActivateAsParticipant(ComponentName::TupcCm, "TUPC/CM")));
+    TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm, "TUPC/TBM")));
 
     umlLogger.logNoteOnComponents(ComponentNames{ComponentName::TupcIlm, ComponentName::TupcTbm}, "TUPCexe starts");
-
     tupcIlm.pushBackEvent(Event(OtherEvent(OtherEventType::MainProcessStartup)));
     tupcIlm.handleOneEvent();
 
@@ -50,14 +49,13 @@ TEST_F(ModuleTest, TupcStartup)
 TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringLinkStateUp)
 {
     UmlLogger& umlLogger(getUmlLogger());
-    Oam& oam(*dynamic_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam)));
-    TcomToam& tcomToam(*dynamic_cast<TcomToam*>(getComponentAndActivateAsParticipant(ComponentName::TcomToam)));
-    TupcLom& tupcLom(*dynamic_cast<TupcLom*>(getComponentAndActivateAsParticipant(ComponentName::TupcLom)));
-    TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm)));
+    Oam& oam(*dynamic_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam, "OAM")));
+    TcomToam& tcomToam(*dynamic_cast<TcomToam*>(getComponentAndActivateAsParticipant(ComponentName::TcomToam, "TCOM/TOAM")));
+    TupcLom& tupcLom(*dynamic_cast<TupcLom*>(getComponentAndActivateAsParticipant(ComponentName::TupcLom, "TUPC/LOM")));
+    TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm, "TUPC/TBM")));
 
     sendMessage(ComponentName::Oam, ComponentName::TcomToam, createLinkStatesMsg());
-    tcomToam.handleOneEvent();
-    verifyLinkStateResponseMessage(oam.peekMessageAtStartOfTheEventQueue());
+    tcomToam.handleOneEvent();    verifyLinkStateResponseMessage(oam.peekMessageAtStartOfTheEventQueue());
     verifyTcomDeploymentIndMessage(tupcLom.peekMessageAtStartOfTheEventQueue());
 
     oam.handleOneEvent();
@@ -70,14 +68,13 @@ TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringLinkStateUp)
 TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringHwAvailableOrAddition)
 {
     UmlLogger& umlLogger(getUmlLogger());
-    Oam& oam(*dynamic_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam)));
-    TcomToam& tcomToam(*dynamic_cast<TcomToam*>(getComponentAndActivateAsParticipant(ComponentName::TcomToam)));
-    TupcLom& tupcLom(*dynamic_cast<TupcLom*>(getComponentAndActivateAsParticipant(ComponentName::TupcLom)));
-    TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm)));
+    Oam& oam(*dynamic_cast<Oam*>(getComponentAndActivateAsParticipant(ComponentName::Oam, "OAM")));
+    TcomToam& tcomToam(*dynamic_cast<TcomToam*>(getComponentAndActivateAsParticipant(ComponentName::TcomToam, "TCOM/TOAM")));
+    TupcLom& tupcLom(*dynamic_cast<TupcLom*>(getComponentAndActivateAsParticipant(ComponentName::TupcLom, "TUPC/LOM")));
+    TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm, "TUPC/TBM")));
 
     sendMessage(ComponentName::Oam, ComponentName::TcomToam, createTcomHwConfigurationChangeMsg());
-    tcomToam.handleOneEvent();
-    verifyTcomDeploymentIndMessage(tupcLom.peekMessageAtStartOfTheEventQueue());
+    tcomToam.handleOneEvent();    verifyTcomDeploymentIndMessage(tupcLom.peekMessageAtStartOfTheEventQueue());
 
     tupcLom.handleOneEvent();
 

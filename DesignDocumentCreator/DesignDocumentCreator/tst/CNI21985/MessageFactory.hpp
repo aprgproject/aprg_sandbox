@@ -13,10 +13,14 @@ namespace MessageFactory
     GenericMessage createOneTransportBearerModificationPrepareForUser();
     GenericMessage createOneTransportBearerModificationCommitForUser();
     GenericMessage createOneTransportBearerModificationCancelForUser();
+    GenericMessage createOneTransportBearerReallocationPrepareForUser();
+    GenericMessage createOneTransportBearerReallocationCommitForUser();
+    GenericMessage createOneTransportBearerReallocationCleanupForUser();
+    GenericMessage createOneTransportBearerReallocationCancelForUser();
+    GenericMessage createOneTransportBearerCmUpdateReleaseFromTransport();
     GenericMessage createTcomHwConfigurationMsg();
     GenericMessage createTcomHwConfigurationResponseMsg();
-    GenericMessage createTcomHwConfigurationChangeMsg();
-    GenericMessage createLinkStatesMsg();
+    GenericMessage createTcomHwConfigurationChangeMsg();    GenericMessage createLinkStatesMsg();
     GenericMessage createLinkStatesResponseMsg();
 }
 

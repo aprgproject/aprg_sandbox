@@ -27,10 +27,15 @@ void Dsp::handleTransportReleaseReq(GenericMessage const& )
     sendTransportReleaseResp();
 }
 
+void Dsp::handleTransportTransferReq(GenericMessage const& )
+{
+    //I am not coding DSP. :)
+    sendTransportTransferResp();
+}
+
 void Dsp::sendTransportSetupResp() const
 {
-    SpecificStaticMessage<MessageName::TUP_TRANSPORT_CONNECTION_SETUP_RESP_MSG> specificMessage;
-    send(ComponentName::TupcTbm, convertSpecificStaticToGeneric(specificMessage));
+    SpecificStaticMessage<MessageName::TUP_TRANSPORT_CONNECTION_SETUP_RESP_MSG> specificMessage;    send(ComponentName::TupcTbm, convertSpecificStaticToGeneric(specificMessage));
     logNoteOnPreviousMessage("DSP sends TUP_TRANSPORT_CONNECTION_SETUP_RESP_MSG to TUPC/TBM.");
 }
 
@@ -41,10 +46,16 @@ void Dsp::sendTransportReleaseResp() const
     logNoteOnPreviousMessage("DSP sends TUP_TRANSPORT_CONNECTION_RELEASE_RESP_MSG to TUPC/TBM.");
 }
 
+void Dsp::sendTransportTransferResp() const
+{
+    SpecificStaticMessage<MessageName::TUP_TRANSPORT_CONNECTION_TRANSFER_RESP_MSG> specificMessage;
+    send(ComponentName::TupcTbm, convertSpecificStaticToGeneric(specificMessage));
+    logNoteOnPreviousMessage("DSP sends TUP_TRANSPORT_CONNECTION_TRANSFER_RESP_MSG to TUPC/TBM.");
+}
+
 void Dsp::handleMessageEvent(GenericMessage const& genericMessage)
 {
-    MessageName messageName(genericMessage.getMessageName());
-    switch(messageName)
+    MessageName messageName(genericMessage.getMessageName());    switch(messageName)
     {
     case MessageName::TUP_TRANSPORT_CONNECTION_SETUP_REQ_MSG:
         handleTransportSetupReq(genericMessage);
@@ -52,10 +63,12 @@ void Dsp::handleMessageEvent(GenericMessage const& genericMessage)
     case MessageName::TUP_TRANSPORT_CONNECTION_RELEASE_REQ_MSG:
         handleTransportReleaseReq(genericMessage);
         break;
+    case MessageName::TUP_TRANSPORT_CONNECTION_TRANSFER_REQ_MSG:
+        handleTransportTransferReq(genericMessage);
+        break;
     default:
         cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
-    }
-}
+    }}
 
 void Dsp::handleTimerEvent(Timer const& timer)
 {

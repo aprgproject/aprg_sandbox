@@ -241,10 +241,69 @@ GenericMessage MessageFactory::createOneTransportBearerModificationCancelForUser
     return convertSpecificStaticToGeneric(tbModificationCancelMessage);
 }
 
+GenericMessage MessageFactory::createOneTransportBearerReallocationPrepareForUser()
+{
+    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_REALLOCATION_PREPARE_REQ_MSG> tbReallocationPrepareMessage;
+    STransportBearerReallocationPrepareReq& tbReallocationPreparePayload(tbReallocationPrepareMessage.getStaticPayloadReference());
+    tbReallocationPreparePayload.transactionId = 100001;
+    tbReallocationPreparePayload.cellId = 100002;
+    tbReallocationPreparePayload.nbccId = 100003;
+    tbReallocationPreparePayload.numConnections = 1;
+    STransportBearerReallocationData& dynamicPayload1(tbReallocationPrepareMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(0));
+    dynamicPayload1.transportBearerId=100004;
+    dynamicPayload1.newFpLocation.fpId=100005;
+    dynamicPayload1.newFpLocation.fpAddress=100006;
+    dynamicPayload1.newFpLocation.messagingAddress=100007;
+    dynamicPayload1.dataDuplication=EBoolean_True;
+    return convertSpecificDynamicArrayToGeneric(tbReallocationPrepareMessage);
+}
+
+GenericMessage MessageFactory::createOneTransportBearerReallocationCommitForUser()
+{
+    SpecificStaticMessage<MessageName::TC_TRANSPORT_BEARER_REALLOCATION_COMMIT_REQ_MSG> tbReallocationCommitMessage;
+    STransportBearerReallocationCommitReq& tbReallocationCommitPayload(tbReallocationCommitMessage.getStaticPayloadReference());
+    tbReallocationCommitPayload.transactionId = 100001;
+    tbReallocationCommitPayload.cellId = 100002;
+    tbReallocationCommitPayload.nbccId = 100003;
+    return convertSpecificStaticToGeneric(tbReallocationCommitMessage);
+}
+
+GenericMessage MessageFactory::createOneTransportBearerReallocationCleanupForUser()
+{
+    SpecificStaticMessage<MessageName::TC_TRANSPORT_BEARER_REALLOCATION_CLEANUP_REQ_MSG> tbReallocationCleanupMessage;
+    STransportBearerReallocationCleanupReq& tbReallocationCleanupPayload(tbReallocationCleanupMessage.getStaticPayloadReference());
+    tbReallocationCleanupPayload.transactionId = 100001;
+    tbReallocationCleanupPayload.cellId = 100002;
+    tbReallocationCleanupPayload.nbccId = 100003;
+    return convertSpecificStaticToGeneric(tbReallocationCleanupMessage);
+}
+
+GenericMessage MessageFactory::createOneTransportBearerReallocationCancelForUser()
+{
+    SpecificStaticMessage<MessageName::TC_TRANSPORT_BEARER_REALLOCATION_CANCEL_REQ_MSG> tbReallocationCancelMessage;
+    STransportBearerReallocationCancelReq& tbReallocationCancelPayload(tbReallocationCancelMessage.getStaticPayloadReference());
+    tbReallocationCancelPayload.transactionId = 100001;
+    tbReallocationCancelPayload.cellId = 100002;
+    tbReallocationCancelPayload.nbccId = 100003;
+    return convertSpecificStaticToGeneric(tbReallocationCancelMessage);
+}
+
+GenericMessage MessageFactory::createOneTransportBearerCmUpdateReleaseFromTransport()
+{
+    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_UPDATE_IND_MSG> cmUpdateMessage;
+    SCmBearersUpdateIndMsg& cmUpdatePayload(cmUpdateMessage.getStaticPayloadReference());
+    cmUpdatePayload.transactionType = ECmBearersUpdateTransactionType_ReleasedFromTransport;
+    cmUpdatePayload.numConnections = 1;
+    SCmBearersUpdateIndDynamicPart& dynamicPayload1(cmUpdateMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(0));
+    dynamicPayload1.transportBearerId=100004;
+    dynamicPayload1.fpSicAddress=100005;
+    dynamicPayload1.localPort=100006;
+    return convertSpecificDynamicArrayToGeneric(cmUpdateMessage);
+}
+
 GenericMessage MessageFactory::createTcomHwConfigurationMsg()
 {
-    SpecificStaticMessage<MessageName::TC_HW_CONFIGURATION_MSG> message;
-    //SHwConfigurationMsg& payload(message.getStaticPayloadReference());
+    SpecificStaticMessage<MessageName::TC_HW_CONFIGURATION_MSG> message;    //SHwConfigurationMsg& payload(message.getStaticPayloadReference());
     return convertSpecificStaticToGeneric(message);
 }
 
