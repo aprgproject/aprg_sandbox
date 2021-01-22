@@ -387,14 +387,13 @@ bool WebCrawler::isWebLinksValid() const
     });
 }
 
-void WebCrawler::setCrawlMode(CrawlMode mode)
+void WebCrawler::setCrawlMode(CrawlMode const mode)
 {
     m_mode = mode;
 }
 
-void WebCrawler::setCrawlState(CrawlState state)
+void WebCrawler::setCrawlState(CrawlState const state)
 {
     m_state = state;
 }
-
 }

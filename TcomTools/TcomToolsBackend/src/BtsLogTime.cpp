@@ -141,15 +141,19 @@ unsigned int BtsLogTime::getMicroSeconds() const
     return m_dateTime.getMicroSeconds();
 }
 
+void BtsLogTime::clearMicroSeconds()
+{
+    m_dateTime.clearMicroSeconds();
+}
+
+
 string BtsLogTime::getPrintableString() const
 {
-    return m_dateTime.getPrintableStringFormat1();
-}
+    return m_dateTime.getPrintableStringFormat1();}
 
 string BtsLogTime::getEquivalentStringPcTimeFormat() const
 {
-    stringstream ss;
-    ss << setw(2) << setfill('0') << getDays() << ".";
+    stringstream ss;    ss << setw(2) << setfill('0') << getDays() << ".";
     ss << setw(2) << setfill('0') << getMonths() << " ";
     ss << setw(2) << setfill('0') << getHours() << ":";
     ss << setw(2) << setfill('0') << getMinutes() << ":";

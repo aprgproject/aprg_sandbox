@@ -40,15 +40,15 @@ include(${APRG_DIR}/AprgCMakeHelpers/cmake/Macros.cmake)
 
 #Feature include
 include(${DesignDocumentCreatorDirectory}/cmake/CNI21985.cmake)
+include(${DesignDocumentCreatorDirectory}/cmake/RP001749.cmake)
+add_definitions(-DLOG_LOCATION="${APRG_DIR}/DesignDocumentCreator/DesignDocumentCreatorLogs/RP001749")
 
 #Assign Sack Directory
 set(SackDirectory "D:/Branches/trunk")
 
-
 #Sacks
 set(SACKS_DIR_TO_INCLUDE
-    ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp
-    ${SackDirectory}/wbts_integration/I_Interface/Global_Env/Definitions
+    ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp    ${SackDirectory}/wbts_integration/I_Interface/Global_Env/Definitions
     ${SackDirectory}/wbts_integration/I_Interface/Global_Env/Messages
     ${SackDirectory}/wbts_integration/I_Interface/Application_Env
     ${SackDirectory}/wbts_integration/I_Interface/Application_Env/Wn_Env/Bs_Env

@@ -1,11 +1,8 @@
-#include <CrawlHelpers/AutomationHelper.hpp>
 #include <UserInterface.hpp>
 #include <WebCrawler.hpp>
-
 #include <iostream>
 
 #define APRG_CRAWLER_TEMPORARY_FILE_PATH APRG_DIR R"(AprgWebCrawler\TemporaryFile)"
-
 using namespace aprgWebCrawler;
 using namespace std;
 

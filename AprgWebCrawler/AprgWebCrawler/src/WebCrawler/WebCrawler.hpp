@@ -44,31 +44,28 @@ public:
     bool isOnCurrentDownloadFinishedCrawlState() const;
 
     void saveMemoryCard() const;
-    void saveStateToMemoryCard(CrawlState state);
+    void saveStateToMemoryCard(CrawlState const state);
     void loadMemoryCard();
 
     void printStatus() const;
-
 private:
     std::string getTitleFromTitleWindow(std::string const& webLink) const;
     bool isModeUnrecognized() const;
     bool isWebLinksEmpty() const;
     bool isWebLinksValid() const;
-    void setCrawlMode(CrawlMode mode);
-    void setCrawlState(CrawlState state);
+    void setCrawlMode(CrawlMode const mode);
+    void setCrawlState(CrawlState const state);
 
     CrawlMode convertStringToCrawlerMode(std::string const& modeString) const;
     CrawlMode convertWebLinkToCrawlerMode(std::string const& webLink) const;
     CrawlState convertStringToCrawlerState(std::string const& stateString) const;
-    std::string convertCrawlerModeToString(CrawlMode mode) const;
-    std::string convertCrawlerStateToString(CrawlState state) const;
+    std::string convertCrawlerModeToString(CrawlMode const mode) const;
+    std::string convertCrawlerStateToString(CrawlState const state) const;
 
     CrawlMode m_mode;
-    CrawlState m_state;
-    std::string m_temporaryFilePath;
+    CrawlState m_state;    std::string m_temporaryFilePath;
     alba::AlbaLocalPathHandler m_downloadDirectoryPathHandler;
     alba::AlbaLocalPathHandler m_memoryCardPathHandler;
-    WebLinks m_webLinks;
-};
+    WebLinks m_webLinks;};
 
 }

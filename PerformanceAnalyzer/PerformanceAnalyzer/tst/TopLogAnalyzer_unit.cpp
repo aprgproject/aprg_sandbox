@@ -10,8 +10,7 @@ namespace alba
 TEST(TopLogAnalyzerTest, DISABLED_ProcessTopLogFromStabi)
 {
     TopLogAnalyzer analyzer;
-    analyzer.processTopLog(R"(D:\ZZZ_Logs\111_REL2\WAM10_TOPlog.log)");
+    analyzer.processTopLog(R"(F:\Logs\111_MainBasisPet\SBTS17REL4\12102017\putty_TOP_ABIA.log)");
 }
-
 
 }

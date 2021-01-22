@@ -39,14 +39,13 @@ enum class SplitStringType
 template <SplitStringType splitStringType> void splitToStrings(strings & listOfStrings, std::string const& mainString,  std::string const& delimiters);
 std::string combineStrings(strings const& strings, std::string const& delimiters);
 void splitLinesToAchieveTargetLength(stringHelper::strings & listOfStrings, std::string const& mainString, unsigned int const targetLength);
+void splitToStringsUsingASeriesOfDelimeters(strings & listOfStrings, std::string const& mainString,  std::string const& seriesOfDelimiters);
 
 std::string getStringWithCapitalLetters(std::string const& mainString);
-std::string getStringWithLowerCaseLetters(std::string const& mainString);
-std::string getStringWithUrlDecodedString(std::string const& mainString);
+std::string getStringWithLowerCaseLetters(std::string const& mainString);std::string getStringWithUrlDecodedString(std::string const& mainString);
 std::string getStringThatContainsWhiteSpaceIndention(std::string const& mainString);
 std::string getStringWithoutStartingAndTrailingCharacters(std::string const& mainString, std::string const& characters);
-std::string getStringWithoutStartingAndTrailingWhiteSpace(std::string const& mainString);
-std::string getStringWithoutWhiteSpace(std::string const& mainString);
+std::string getStringWithoutStartingAndTrailingWhiteSpace(std::string const& mainString);std::string getStringWithoutWhiteSpace(std::string const& mainString);
 std::string getStringWithoutRedundantWhiteSpace(std::string const& mainString);
 std::string getStringWithoutQuotations(std::string const& mainString);
 std::string getStringWithoutCharAtTheStartAndEnd(std::string const& mainString, char const char1);

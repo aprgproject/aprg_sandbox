@@ -136,14 +136,13 @@ bool stringHelper::transformReplaceStringIfFound(string& mainString, string cons
     return found;
 }
 
+
 template <stringHelper::SplitStringType splitStringType> void stringHelper::splitToStrings(stringHelper::strings & listOfStrings, std::string const& mainString, std::string const& delimiters)
 {
-    int startingIndex(0);
-    int delimiterIndex = mainString.find_first_of(delimiters);
+    int startingIndex(0);    int delimiterIndex = mainString.find_first_of(delimiters);
     int delimeterLength = 1;
     int mainStringLength = mainString.length();
-    while(isNotNpos(delimiterIndex))
-    {
+    while(isNotNpos(delimiterIndex))    {
         if(startingIndex != delimiterIndex)
         {
             listOfStrings.emplace_back(mainString.substr(startingIndex, delimiterIndex-startingIndex));
@@ -243,14 +242,36 @@ void stringHelper::splitLinesToAchieveTargetLength(stringHelper::strings & strin
     }
 }
 
+void stringHelper::splitToStringsUsingASeriesOfDelimeters(stringHelper::strings & listOfStrings, std::string const& mainString, std::string const& seriesOfDelimiters)
+{
+    if(!seriesOfDelimiters.empty())
+    {
+        int startingIndex(0);
+        int delimeterLength = 1;
+        int mainStringLength = mainString.length();
+        int delimiterIndex = mainString.find_first_of(seriesOfDelimiters.front());
+        for(string::const_iterator delimeterIterator=seriesOfDelimiters.begin(); delimeterIterator!=seriesOfDelimiters.end() && isNotNpos(delimiterIndex) ; delimeterIterator++)
+        {
+            if(startingIndex != delimiterIndex)
+            {
+                listOfStrings.emplace_back(mainString.substr(startingIndex, delimiterIndex-startingIndex));
+            }
+            startingIndex = delimiterIndex + delimeterLength;
+            delimiterIndex = mainString.find_first_of(*delimeterIterator, startingIndex);
+        }
+        if(startingIndex != mainStringLength)
+        {
+            listOfStrings.emplace_back(mainString.substr(startingIndex, mainStringLength-startingIndex));
+        }
+    }
+}
+
 string stringHelper::getStringWithCapitalLetters(string const& mainString)
 {
-    string result;
-    result.resize(mainString.length());
+    string result;    result.resize(mainString.length());
     transform(mainString.begin(), mainString.end(), result.begin(), ::toupper);
     return result;
 }
-
 string stringHelper::getStringWithLowerCaseLetters(string const& mainString)
 {
     string result;
