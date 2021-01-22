@@ -30,7 +30,8 @@ void TupcIlm::handleMessageEvent(GenericMessage const& genericMessage)
     {
     default:
         cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
-    }}
+    }
+}
 
 void TupcIlm::handleTimerEvent(Timer const& timer)
 {

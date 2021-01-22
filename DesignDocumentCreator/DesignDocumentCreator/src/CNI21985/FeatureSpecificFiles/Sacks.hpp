@@ -74,7 +74,8 @@ typedef struct STupcTbmConfigurationMsg
 
 struct SCmBearersSetupReqDynamicPart
 {
-    EBearerType                 bearerType;    u32                         transportId;
+    EBearerType                 bearerType;
+    u32                         transportId;
     SFpLocation                 fpLocation;
     u32                         messageTypeNumber;
     SIpPayloadParameters        ulParameters;
@@ -93,7 +94,8 @@ typedef struct SCmBearersSetupReqMsg
     SCmBearersSetupReqDynamicPart      dynamicPart[1];
 } SCmBearersSetupReqMsg;
 
-struct SCmBearersSetupRespDynamicPart{
+struct SCmBearersSetupRespDynamicPart
+{
     EBearerType                  bearerType;
     u32                          transportId;
     TTransportBearerId           transportBearerId;
@@ -118,7 +120,8 @@ typedef struct SCmBearersSetupRespMsg
     SCmBearersSetupRespDynamicPart     dynamicPart[1];
 } SCmBearersSetupRespMsg;
 
-struct SCmBearersReleaseReqDynamicPart{
+struct SCmBearersReleaseReqDynamicPart
+{
     TTransportBearerId               transportBearerId;
 };
 
@@ -135,7 +138,8 @@ typedef struct SCmBearersReleaseReqMsg
     SCmBearersReleaseReqDynamicPart  dynamicPart[1];
 } SCmBearersReleaseReqMsg;
 
-struct SCmBearersReleaseRespDynamicPart{
+struct SCmBearersReleaseRespDynamicPart
+{
     TAaSysComSicad            fpSicAddress;
     TTransportIdentifier      localPort;
 };
@@ -159,18 +163,21 @@ typedef enum ECmBearersModifyTransactionType
 
 struct SCmBearersModifyReqDynamicPart
 {
-    TTransportBearerId      transportBearerId;    SIpPayloadParameters    ulParameters;
+    TTransportBearerId      transportBearerId;
+    SIpPayloadParameters    ulParameters;
 };
 
 typedef struct SCmBearersModifyReqMsg
 {
-    MESSAGEHEADER(msgHeader)    TTransactionID                              transactionId;
+    MESSAGEHEADER(msgHeader)
+    TTransactionID                              transactionId;
     TCellId                                     cellId;
     TNbccId                                     nbccId;
     ECmBearersModifyTransactionType             transactionType;
     TNumberOfPresence                           numConnections;
     SCmBearersModifyReqDynamicPart              dynamicPart[1];
 } SCmBearersModifyReqMsg;
+
 typedef struct SCmBearersModifyRespMsg
 {
     MESSAGEHEADER(msgHeader)

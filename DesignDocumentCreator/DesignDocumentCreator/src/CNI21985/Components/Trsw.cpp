@@ -22,7 +22,8 @@ void Trsw::handleMessageEvent(GenericMessage const& genericMessage)
     {
     default:
         cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
-    }}
+    }
+}
 
 void Trsw::handleTimerEvent(Timer const& timer)
 {

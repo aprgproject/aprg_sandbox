@@ -35,7 +35,8 @@ void Dsp::handleTransportTransferReq(GenericMessage const& )
 
 void Dsp::sendTransportSetupResp() const
 {
-    SpecificStaticMessage<MessageName::TUP_TRANSPORT_CONNECTION_SETUP_RESP_MSG> specificMessage;    send(ComponentName::TupcTbm, convertSpecificStaticToGeneric(specificMessage));
+    SpecificStaticMessage<MessageName::TUP_TRANSPORT_CONNECTION_SETUP_RESP_MSG> specificMessage;
+    send(ComponentName::TupcTbm, convertSpecificStaticToGeneric(specificMessage));
     logNoteOnPreviousMessage("DSP sends TUP_TRANSPORT_CONNECTION_SETUP_RESP_MSG to TUPC/TBM.");
 }
 
@@ -55,7 +56,8 @@ void Dsp::sendTransportTransferResp() const
 
 void Dsp::handleMessageEvent(GenericMessage const& genericMessage)
 {
-    MessageName messageName(genericMessage.getMessageName());    switch(messageName)
+    MessageName messageName(genericMessage.getMessageName());
+    switch(messageName)
     {
     case MessageName::TUP_TRANSPORT_CONNECTION_SETUP_REQ_MSG:
         handleTransportSetupReq(genericMessage);
@@ -68,7 +70,8 @@ void Dsp::handleMessageEvent(GenericMessage const& genericMessage)
         break;
     default:
         cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
-    }}
+    }
+}
 
 void Dsp::handleTimerEvent(Timer const& timer)
 {

@@ -290,7 +290,7 @@ GenericMessage MessageFactory::createOneTransportBearerReallocationCancelForUser
 
 GenericMessage MessageFactory::createOneTransportBearerCmUpdateReleaseFromTransport()
 {
-    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_UPDATE_IND_MSG> cmUpdateMessage;
+    SpecificDynamicArrayMessage<MessageName::TUPC_CM_BEARERS_UPDATE_IND_MSG> cmUpdateMessage;
     SCmBearersUpdateIndMsg& cmUpdatePayload(cmUpdateMessage.getStaticPayloadReference());
     cmUpdatePayload.transactionType = ECmBearersUpdateTransactionType_ReleasedFromTransport;
     cmUpdatePayload.numConnections = 1;
@@ -303,7 +303,8 @@ GenericMessage MessageFactory::createOneTransportBearerCmUpdateReleaseFromTransp
 
 GenericMessage MessageFactory::createTcomHwConfigurationMsg()
 {
-    SpecificStaticMessage<MessageName::TC_HW_CONFIGURATION_MSG> message;    //SHwConfigurationMsg& payload(message.getStaticPayloadReference());
+    SpecificStaticMessage<MessageName::TC_HW_CONFIGURATION_MSG> message;
+    //SHwConfigurationMsg& payload(message.getStaticPayloadReference());
     return convertSpecificStaticToGeneric(message);
 }
 

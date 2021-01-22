@@ -20,6 +20,7 @@ TEST_F(ModuleTest, SampleScenario)
 
     umlLogger.logNoteOnComponent(ComponentName::Component1, "Component1 note starts");
     umlLogger.logNoteOnComponents(ComponentNames{ComponentName::Component1, ComponentName::Component1}, "Component1 note starts");
+
     component1.pushBackEvent(Event(OtherEvent(OtherEventType::MainProcessStartup)));
     component1.handleOneEvent();
 

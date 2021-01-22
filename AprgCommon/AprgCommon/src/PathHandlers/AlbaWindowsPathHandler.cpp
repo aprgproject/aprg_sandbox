@@ -4,9 +4,11 @@
 #include <Windows/AlbaWindowsHelper.hpp>
 
 #include <windows.h>
+
 #include <functional>
 #include <iostream>
-#include <sstream>#include <string>
+#include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -56,9 +58,11 @@ double AlbaWindowsPathHandler::getFileSizeEstimate()
     }
     return fileSizeEstimate;
 }
+
 bool AlbaWindowsPathHandler::isFoundInLocalSystem() const
 {
-    return m_foundInLocalSystem;}
+    return m_foundInLocalSystem;
+}
 
 bool AlbaWindowsPathHandler::isRelativePath() const
 {
@@ -78,9 +82,11 @@ void AlbaWindowsPathHandler::setPathToDetectedLocalPath()
         cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<endl;
     }
 }
+
 void AlbaWindowsPathHandler::createDirectoriesForNonExisitingDirectories() const
 {
-    string fullPath(getFullPath());    int index = 0, length = fullPath.length();
+    string fullPath(getFullPath());
+    int index = 0, length = fullPath.length();
     while(index < length)
     {
         int indexWithSlashCharacter = fullPath.find_first_of(m_slashCharacterString, index);
@@ -107,10 +113,12 @@ bool AlbaWindowsPathHandler::deleteFile()
             cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<endl;
         }
         reInput();
-    }    return isSuccessful;
+    }
+    return isSuccessful;
 }
 
-void AlbaWindowsPathHandler::deleteFilesInDirectory(){
+void AlbaWindowsPathHandler::deleteFilesInDirectory()
+{
     set<string> listOfFiles;
     set<string> listOfDirectories;
     findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
@@ -133,10 +141,12 @@ bool AlbaWindowsPathHandler::copyToNewFile(string const& newFilePath)
             cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<endl;
         }
         reInput();
-    }    return isSuccessful;
+    }
+    return isSuccessful;
 }
 
-bool AlbaWindowsPathHandler::renameFile(string const& newFileName){
+bool AlbaWindowsPathHandler::renameFile(string const& newFileName)
+{
     bool isSuccessful(false);
     if(isFile())
     {
@@ -148,10 +158,12 @@ bool AlbaWindowsPathHandler::renameFile(string const& newFileName){
             cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<endl;
         }
         input(newPath);
-    }    return isSuccessful;
+    }
+    return isSuccessful;
 }
 
-bool AlbaWindowsPathHandler::renameImmediateDirectory(string const& newDirectoryName){
+bool AlbaWindowsPathHandler::renameImmediateDirectory(string const& newDirectoryName)
+{
     bool isSuccessful(false);
     if(isDirectory())
     {
@@ -165,10 +177,12 @@ bool AlbaWindowsPathHandler::renameImmediateDirectory(string const& newDirectory
             cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<endl;
         }
         input(newPathHandler.getFullPath());
-    }    return isSuccessful;
+    }
+    return isSuccessful;
 }
 
-void AlbaWindowsPathHandler::findFilesAndDirectoriesOneDepth(        string const& wildCardSearch,
+void AlbaWindowsPathHandler::findFilesAndDirectoriesOneDepth(
+        string const& wildCardSearch,
         set<string>& listOfFiles,
         set<string>& listOfDirectories) const
 {

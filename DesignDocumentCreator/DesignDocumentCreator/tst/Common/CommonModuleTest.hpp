@@ -21,7 +21,8 @@ public:
     Component* getComponentAndActivateAsParticipant(ComponentName const componentName, std::string const& umlAlias);
     void saveUmlLog();
     UmlLogger& getUmlLogger();
-private:    Environment& m_environment;
+private:
+    Environment& m_environment;
 };
 
 

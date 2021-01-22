@@ -32,7 +32,8 @@ void TupcTbm::handleTransportBearerRegisterMsg(GenericMessage const& genericMess
     logNoteOnComponent("TCOM informs TUPC/TBM on the same board (for exception please refer to Exc 1)");
     logNoteOnComponent("TUPC/TBM saves information in TB register message.");
     log("alt if all transport bearers are ATM");
-    sendTransportBearerRegisterResp();    log("end alt");
+    sendTransportBearerRegisterResp();
+    log("end alt");
     sendCmBearersSetupReqBasedOnTbRegisterMsg(genericMessage);
 }
 
@@ -236,9 +237,10 @@ void TupcTbm::sendTransportBearerReallocationCleanupResp() const
 
 void TupcTbm::sendCmBearersSetupReqBasedOnTbRegisterMsg(GenericMessage const& tbRegisterGenericMessage) const
 {
-    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_SETUP_REQ_MSG> specificMessage;
+    SpecificDynamicArrayMessage<MessageName::TUPC_CM_BEARERS_SETUP_REQ_MSG> specificMessage;
     SCmBearersSetupReqMsg & payload(specificMessage.getStaticPayloadReference());
-    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG> tbRegisterMessage(convertGenericToSpecificDynamicArray<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG>(tbRegisterGenericMessage));    STransportBearerRegisterMsg const& tbRegisterPayloadMsg(tbRegisterMessage.getStaticPayloadReference());
+    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG> tbRegisterMessage(convertGenericToSpecificDynamicArray<MessageName::TC_TRANSPORT_BEARER_REGISTER_MSG>(tbRegisterGenericMessage));
+    STransportBearerRegisterMsg const& tbRegisterPayloadMsg(tbRegisterMessage.getStaticPayloadReference());
     payload.transactionId = tbRegisterPayloadMsg.transactionId;
     payload.cellId = tbRegisterPayloadMsg.cellId;
     payload.nbccId = tbRegisterPayloadMsg.nbccId;
@@ -258,14 +260,15 @@ void TupcTbm::sendCmBearersSetupReqBasedOnTbRegisterMsg(GenericMessage const& tb
         specificMessage.addDynamicPart(payloadDynamicPart);
     }
     send(ComponentName::TupcCm, convertSpecificDynamicArrayToGeneric(specificMessage));
-    logNoteOnPreviousMessage("TUPC/TBM sends TUP_CM_BEARERS_SETUP_REQ_MSG to TUPC/CM.");
+    logNoteOnPreviousMessage("TUPC/TBM sends TUPC_CM_BEARERS_SETUP_REQ_MSG to TUPC/CM.");
 }
 
 void TupcTbm::sendCmBearersReleaseReqBasedOnTbUnregisterMsg(GenericMessage const& tbUnregisterGenericMessage) const
 {
-    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_RELEASE_REQ_MSG> specificMessage;
+    SpecificDynamicArrayMessage<MessageName::TUPC_CM_BEARERS_RELEASE_REQ_MSG> specificMessage;
     SCmBearersReleaseReqMsg & payload(specificMessage.getStaticPayloadReference());
-    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_UNREGISTER_MSG> tbUnregisterMessage(convertGenericToSpecificDynamicArray<MessageName::TC_TRANSPORT_BEARER_UNREGISTER_MSG>(tbUnregisterGenericMessage));    STransportBearerUnregisterMsg const& tbUnregisterPayloadMsg(tbUnregisterMessage.getStaticPayloadReference());
+    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_UNREGISTER_MSG> tbUnregisterMessage(convertGenericToSpecificDynamicArray<MessageName::TC_TRANSPORT_BEARER_UNREGISTER_MSG>(tbUnregisterGenericMessage));
+    STransportBearerUnregisterMsg const& tbUnregisterPayloadMsg(tbUnregisterMessage.getStaticPayloadReference());
     payload.transactionId = tbUnregisterPayloadMsg.transactionId;
     payload.immediateRelease = tbUnregisterPayloadMsg.immediateRelease;
     payload.skipDspConnectionRelease = tbUnregisterPayloadMsg.skipDspConnectionRelease;
@@ -281,14 +284,15 @@ void TupcTbm::sendCmBearersReleaseReqBasedOnTbUnregisterMsg(GenericMessage const
         specificMessage.addDynamicPart(payloadDynamicPart);
     }
     send(ComponentName::TupcCm, convertSpecificDynamicArrayToGeneric(specificMessage));
-    logNoteOnPreviousMessage("TUPC/TBM sends TUP_CM_BEARERS_RELEASE_REQ_MSG to TUPC/CM.");
+    logNoteOnPreviousMessage("TUPC/TBM sends TUPC_CM_BEARERS_RELEASE_REQ_MSG to TUPC/CM.");
 }
 
 void TupcTbm::sendCmBearersModifyReqBasedOnTbModificationPrepareReqMsg(GenericMessage const& tbModificationPrepareGenericMessage) const
 {
-    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_MODIFY_REQ_MSG> specificMessage;
+    SpecificDynamicArrayMessage<MessageName::TUPC_CM_BEARERS_MODIFY_REQ_MSG> specificMessage;
     SCmBearersModifyReqMsg & payload(specificMessage.getStaticPayloadReference());
-    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_MODIFICATION_PREPARE_REQ_MSG> tbModificationPrepareMessage(convertGenericToSpecificDynamicArray<MessageName::TC_TRANSPORT_BEARER_MODIFICATION_PREPARE_REQ_MSG>(tbModificationPrepareGenericMessage));    STransportBearerModificationPrepareReq const& tbModificationPreparePayloadMsg(tbModificationPrepareMessage.getStaticPayloadReference());
+    SpecificDynamicArrayMessage<MessageName::TC_TRANSPORT_BEARER_MODIFICATION_PREPARE_REQ_MSG> tbModificationPrepareMessage(convertGenericToSpecificDynamicArray<MessageName::TC_TRANSPORT_BEARER_MODIFICATION_PREPARE_REQ_MSG>(tbModificationPrepareGenericMessage));
+    STransportBearerModificationPrepareReq const& tbModificationPreparePayloadMsg(tbModificationPrepareMessage.getStaticPayloadReference());
     payload.transactionId = tbModificationPreparePayloadMsg.transactionId;
     payload.cellId = tbModificationPreparePayloadMsg.cellId;
     payload.nbccId = tbModificationPreparePayloadMsg.nbccId;
@@ -297,20 +301,22 @@ void TupcTbm::sendCmBearersModifyReqBasedOnTbModificationPrepareReqMsg(GenericMe
     payload.transactionType = ECmBearersModifyTransactionType_ModificationPrepare;
     for(unsigned int connection = 0; connection<tbModificationPreparePayloadMsg.numConnections; connection++)
     {
-        SCmBearersModifyReqDynamicPart payloadDynamicPart;        STransportBearerModificationData& tbModificationPrepareDynamicPayload(tbModificationPrepareMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(connection));
+        SCmBearersModifyReqDynamicPart payloadDynamicPart;
+        STransportBearerModificationData& tbModificationPrepareDynamicPayload(tbModificationPrepareMessage.getDynamicPayloadReferenceAtAndCreateIfNeeded(connection));
         payloadDynamicPart.transportBearerId = tbModificationPrepareDynamicPayload.transportBearerId;
         payloadDynamicPart.ulParameters = tbModificationPrepareDynamicPayload.ulParameters;
         specificMessage.addDynamicPart(payloadDynamicPart);
     }
     send(ComponentName::TupcCm, convertSpecificDynamicArrayToGeneric(specificMessage));
-    logNoteOnPreviousMessage("TUPC/TBM sends TUP_CM_BEARERS_MODIFY_REQ_MSG to TUPC/CM.");
+    logNoteOnPreviousMessage("TUPC/TBM sends TUPC_CM_BEARERS_MODIFY_REQ_MSG to TUPC/CM.");
 }
 
 void TupcTbm::sendCmBearersModifyReqBasedOnTbModificationCommitReqMsg(GenericMessage const& tbModificationCommitGenericMessage) const
 {
-    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_MODIFY_REQ_MSG> specificMessage;
+    SpecificDynamicArrayMessage<MessageName::TUPC_CM_BEARERS_MODIFY_REQ_MSG> specificMessage;
     SCmBearersModifyReqMsg & payload(specificMessage.getStaticPayloadReference());
-    SpecificStaticMessage<MessageName::TC_TRANSPORT_BEARER_MODIFICATION_COMMIT_REQ_MSG> tbModificationCommitMessage(convertGenericToSpecificStatic<MessageName::TC_TRANSPORT_BEARER_MODIFICATION_COMMIT_REQ_MSG>(tbModificationCommitGenericMessage));    STransportBearerModificationCommitReq const& tbModificationCommitPayloadMsg(tbModificationCommitMessage.getStaticPayloadReference());
+    SpecificStaticMessage<MessageName::TC_TRANSPORT_BEARER_MODIFICATION_COMMIT_REQ_MSG> tbModificationCommitMessage(convertGenericToSpecificStatic<MessageName::TC_TRANSPORT_BEARER_MODIFICATION_COMMIT_REQ_MSG>(tbModificationCommitGenericMessage));
+    STransportBearerModificationCommitReq const& tbModificationCommitPayloadMsg(tbModificationCommitMessage.getStaticPayloadReference());
     payload.transactionId = tbModificationCommitPayloadMsg.transactionId;
     payload.cellId = tbModificationCommitPayloadMsg.cellId;
     payload.nbccId = tbModificationCommitPayloadMsg.nbccId;
@@ -318,14 +324,15 @@ void TupcTbm::sendCmBearersModifyReqBasedOnTbModificationCommitReqMsg(GenericMes
     logNoteOnComponent("TUPC/TBM uses transport bearer modification type as **ECmBearersModifyTransactionType_ModificationCommit**");
     payload.transactionType = ECmBearersModifyTransactionType_ModificationCommit;
     send(ComponentName::TupcCm, convertSpecificDynamicArrayToGeneric(specificMessage));
-    logNoteOnPreviousMessage("TUPC/TBM sends TUP_CM_BEARERS_MODIFY_REQ_MSG to TUPC/CM.");
+    logNoteOnPreviousMessage("TUPC/TBM sends TUPC_CM_BEARERS_MODIFY_REQ_MSG to TUPC/CM.");
 }
 
 void TupcTbm::sendCmBearersModifyReqBasedOnTbModificationCancelReqMsg(GenericMessage const& tbModificationCancelGenericMessage) const
 {
-    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_MODIFY_REQ_MSG> specificMessage;
+    SpecificDynamicArrayMessage<MessageName::TUPC_CM_BEARERS_MODIFY_REQ_MSG> specificMessage;
     SCmBearersModifyReqMsg & payload(specificMessage.getStaticPayloadReference());
-    SpecificStaticMessage<MessageName::TC_TRANSPORT_BEARER_MODIFICATION_CANCEL_REQ_MSG> tbModificationCancelMessage(convertGenericToSpecificStatic<MessageName::TC_TRANSPORT_BEARER_MODIFICATION_CANCEL_REQ_MSG>(tbModificationCancelGenericMessage));    STransportBearerModificationCancelReq const& tbModificationCancelPayloadMsg(tbModificationCancelMessage.getStaticPayloadReference());
+    SpecificStaticMessage<MessageName::TC_TRANSPORT_BEARER_MODIFICATION_CANCEL_REQ_MSG> tbModificationCancelMessage(convertGenericToSpecificStatic<MessageName::TC_TRANSPORT_BEARER_MODIFICATION_CANCEL_REQ_MSG>(tbModificationCancelGenericMessage));
+    STransportBearerModificationCancelReq const& tbModificationCancelPayloadMsg(tbModificationCancelMessage.getStaticPayloadReference());
     payload.transactionId = tbModificationCancelPayloadMsg.transactionId;
     payload.cellId = tbModificationCancelPayloadMsg.cellId;
     payload.nbccId = tbModificationCancelPayloadMsg.nbccId;
@@ -333,12 +340,12 @@ void TupcTbm::sendCmBearersModifyReqBasedOnTbModificationCancelReqMsg(GenericMes
     logNoteOnComponent("TUPC/TBM uses transport bearer modification type as **ECmBearersModifyTransactionType_ModificationCancel**");
     payload.transactionType = ECmBearersModifyTransactionType_ModificationCancel;
     send(ComponentName::TupcCm, convertSpecificDynamicArrayToGeneric(specificMessage));
-    logNoteOnPreviousMessage("TUPC/TBM sends TUP_CM_BEARERS_MODIFY_REQ_MSG to TUPC/CM.");
+    logNoteOnPreviousMessage("TUPC/TBM sends TUPC_CM_BEARERS_MODIFY_REQ_MSG to TUPC/CM.");
 }
 
 void TupcTbm::sendCmBearersModifyReqBasedOnReallocationCommitReqMsg(GenericMessage const& tbReallocationCommitGenericMessage) const
 {
-    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_MODIFY_REQ_MSG> specificMessage;
+    SpecificDynamicArrayMessage<MessageName::TUPC_CM_BEARERS_MODIFY_REQ_MSG> specificMessage;
     SCmBearersModifyReqMsg & payload(specificMessage.getStaticPayloadReference());
     SpecificStaticMessage<MessageName::TC_TRANSPORT_BEARER_REALLOCATION_COMMIT_REQ_MSG> tbReallocationCommitMessage(convertGenericToSpecificStatic<MessageName::TC_TRANSPORT_BEARER_REALLOCATION_COMMIT_REQ_MSG>(tbReallocationCommitGenericMessage));
     STransportBearerReallocationCommitReq const& tbReallocationCommitPayloadMsg(tbReallocationCommitMessage.getStaticPayloadReference());
@@ -349,12 +356,12 @@ void TupcTbm::sendCmBearersModifyReqBasedOnReallocationCommitReqMsg(GenericMessa
     logNoteOnComponent("TUPC/TBM uses transport bearer modification type as **ECmBearersModifyTransactionType_ReallocationCommit**");
     payload.transactionType = ECmBearersModifyTransactionType_ReallocationCommit;
     send(ComponentName::TupcCm, convertSpecificDynamicArrayToGeneric(specificMessage));
-    logNoteOnPreviousMessage("TUPC/TBM sends TUP_CM_BEARERS_MODIFY_REQ_MSG to TUPC/CM.");
+    logNoteOnPreviousMessage("TUPC/TBM sends TUPC_CM_BEARERS_MODIFY_REQ_MSG to TUPC/CM.");
 }
 
 void TupcTbm::sendTransportConnectionSetupReqsBasedOnCmBearersSetupResp(GenericMessage const& cmBearerGenericMessage) const
 {
-    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_SETUP_RESP_MSG> cmBearerMessage(convertGenericToSpecificDynamicArray<MessageName::TUP_CM_BEARERS_SETUP_RESP_MSG>(cmBearerGenericMessage));
+    SpecificDynamicArrayMessage<MessageName::TUPC_CM_BEARERS_SETUP_RESP_MSG> cmBearerMessage(convertGenericToSpecificDynamicArray<MessageName::TUPC_CM_BEARERS_SETUP_RESP_MSG>(cmBearerGenericMessage));
     SCmBearersSetupRespMsg const& cmBearerMsg(cmBearerMessage.getStaticPayloadReference());
     log("loop For all transport bearers in the procedure");
     for(unsigned int connection = 0; connection<cmBearerMsg.numConnections; connection++)
@@ -374,7 +381,7 @@ void TupcTbm::sendTransportConnectionSetupReqsBasedOnCmBearersSetupResp(GenericM
 
 void TupcTbm::sendTransportConnectionReleaseReqsBasedOnCmBearersReleaseResp(GenericMessage const& cmBearerGenericMessage) const
 {
-    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_RELEASE_RESP_MSG> cmBearerMessage(convertGenericToSpecificDynamicArray<MessageName::TUP_CM_BEARERS_RELEASE_RESP_MSG>(cmBearerGenericMessage));
+    SpecificDynamicArrayMessage<MessageName::TUPC_CM_BEARERS_RELEASE_RESP_MSG> cmBearerMessage(convertGenericToSpecificDynamicArray<MessageName::TUPC_CM_BEARERS_RELEASE_RESP_MSG>(cmBearerGenericMessage));
     SCmBearersReleaseRespMsg const& cmBearerMsg(cmBearerMessage.getStaticPayloadReference());
     log("loop For all transport bearers in the procedure");
     for(unsigned int connection = 0; connection<cmBearerMsg.numConnections; connection++)
@@ -392,7 +399,7 @@ void TupcTbm::sendTransportConnectionReleaseReqsBasedOnCmBearersReleaseResp(Gene
 
 void TupcTbm::sendTransportConnectionReleaseReqsBasedOnCmBearersUpdateInd(GenericMessage const& cmBearerGenericMessage) const
 {
-    SpecificDynamicArrayMessage<MessageName::TUP_CM_BEARERS_UPDATE_IND_MSG> cmBearerMessage(convertGenericToSpecificDynamicArray<MessageName::TUP_CM_BEARERS_UPDATE_IND_MSG>(cmBearerGenericMessage));
+    SpecificDynamicArrayMessage<MessageName::TUPC_CM_BEARERS_UPDATE_IND_MSG> cmBearerMessage(convertGenericToSpecificDynamicArray<MessageName::TUPC_CM_BEARERS_UPDATE_IND_MSG>(cmBearerGenericMessage));
     SCmBearersUpdateIndMsg const& cmBearerMsg(cmBearerMessage.getStaticPayloadReference());
     log("loop For all transport bearers in the procedure");
     for(unsigned int connection = 0; connection<cmBearerMsg.numConnections; connection++)
@@ -450,7 +457,8 @@ void TupcTbm::sendTransportConnectionTransferReqsBasedOnReallocationPrepareReqMs
 
 void TupcTbm::handleMessageEvent(GenericMessage const& genericMessage)
 {
-    MessageName messageName(genericMessage.getMessageName());    switch(messageName)
+    MessageName messageName(genericMessage.getMessageName());
+    switch(messageName)
     {
     case MessageName::TUPC_TBM_CONFIGURATION_MSG:
         handleTupcTbmConfigurationMsg(genericMessage);
@@ -463,7 +471,8 @@ void TupcTbm::handleMessageEvent(GenericMessage const& genericMessage)
         break;
     case MessageName::TC_TRANSPORT_BEARER_MODIFICATION_PREPARE_REQ_MSG:
         handleTransportBearerModificationPrepareReqMsg(genericMessage);
-        break;    case MessageName::TC_TRANSPORT_BEARER_MODIFICATION_COMMIT_REQ_MSG:
+        break;
+    case MessageName::TC_TRANSPORT_BEARER_MODIFICATION_COMMIT_REQ_MSG:
         handleTransportBearerModificationCommitReqMsg(genericMessage);
         break;
     case MessageName::TC_TRANSPORT_BEARER_MODIFICATION_CANCEL_REQ_MSG:
@@ -481,16 +490,16 @@ void TupcTbm::handleMessageEvent(GenericMessage const& genericMessage)
     case MessageName::TC_TRANSPORT_BEARER_REALLOCATION_CLEANUP_REQ_MSG:
         handleTransportBearerReallocationCleanupReqMsg(genericMessage);
         break;
-    case MessageName::TUP_CM_BEARERS_SETUP_RESP_MSG:
+    case MessageName::TUPC_CM_BEARERS_SETUP_RESP_MSG:
         handleCmBearersSetupResp(genericMessage);
         break;
-    case MessageName::TUP_CM_BEARERS_RELEASE_RESP_MSG:
+    case MessageName::TUPC_CM_BEARERS_RELEASE_RESP_MSG:
         handleCmBearersReleaseResp(genericMessage);
         break;
-    case MessageName::TUP_CM_BEARERS_MODIFY_RESP_MSG:
+    case MessageName::TUPC_CM_BEARERS_MODIFY_RESP_MSG:
         handleCmBearersModifyResp(genericMessage);
         break;
-    case MessageName::TUP_CM_BEARERS_UPDATE_IND_MSG:
+    case MessageName::TUPC_CM_BEARERS_UPDATE_IND_MSG:
         handleCmBearersUpdateInd(genericMessage);
         break;
     case MessageName::TUP_TRANSPORT_CONNECTION_SETUP_RESP_MSG:
@@ -504,7 +513,8 @@ void TupcTbm::handleMessageEvent(GenericMessage const& genericMessage)
         break;
     default:
         cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
-    }}
+    }
+}
 
 void TupcTbm::handleTimerEvent(Timer const& timer)
 {

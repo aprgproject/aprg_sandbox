@@ -28,6 +28,7 @@ TEST_F(ModuleTest, TupcStartup)
     TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm, "TUPC/TBM")));
 
     umlLogger.logNoteOnComponents(ComponentNames{ComponentName::TupcIlm, ComponentName::TupcTbm}, "TUPCexe starts");
+
     tupcIlm.pushBackEvent(Event(OtherEvent(OtherEventType::MainProcessStartup)));
     tupcIlm.handleOneEvent();
 
@@ -55,7 +56,8 @@ TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringLinkStateUp)
     TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm, "TUPC/TBM")));
 
     sendMessage(ComponentName::Oam, ComponentName::TcomToam, createLinkStatesMsg());
-    tcomToam.handleOneEvent();    verifyLinkStateResponseMessage(oam.peekMessageAtStartOfTheEventQueue());
+    tcomToam.handleOneEvent();
+    verifyLinkStateResponseMessage(oam.peekMessageAtStartOfTheEventQueue());
     verifyTcomDeploymentIndMessage(tupcLom.peekMessageAtStartOfTheEventQueue());
 
     oam.handleOneEvent();
@@ -74,7 +76,8 @@ TEST_F(ModuleTest, TupcReceivesTcomDeploymentFromTcomDuringHwAvailableOrAddition
     TupcTbm& tupcTbm(*dynamic_cast<TupcTbm*>(getComponentAndActivateAsParticipant(ComponentName::TupcTbm, "TUPC/TBM")));
 
     sendMessage(ComponentName::Oam, ComponentName::TcomToam, createTcomHwConfigurationChangeMsg());
-    tcomToam.handleOneEvent();    verifyTcomDeploymentIndMessage(tupcLom.peekMessageAtStartOfTheEventQueue());
+    tcomToam.handleOneEvent();
+    verifyTcomDeploymentIndMessage(tupcLom.peekMessageAtStartOfTheEventQueue());
 
     tupcLom.handleOneEvent();
 

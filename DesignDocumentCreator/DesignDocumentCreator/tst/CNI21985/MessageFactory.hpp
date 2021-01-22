@@ -20,7 +20,8 @@ namespace MessageFactory
     GenericMessage createOneTransportBearerCmUpdateReleaseFromTransport();
     GenericMessage createTcomHwConfigurationMsg();
     GenericMessage createTcomHwConfigurationResponseMsg();
-    GenericMessage createTcomHwConfigurationChangeMsg();    GenericMessage createLinkStatesMsg();
+    GenericMessage createTcomHwConfigurationChangeMsg();
+    GenericMessage createLinkStatesMsg();
     GenericMessage createLinkStatesResponseMsg();
 }
 

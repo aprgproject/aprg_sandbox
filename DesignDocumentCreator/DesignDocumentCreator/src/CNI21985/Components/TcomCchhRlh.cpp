@@ -22,7 +22,8 @@ void TcomCchhRlh::handleMessageEvent(GenericMessage const& genericMessage)
     {
     default:
         cout<<"No handler for messageName: "<<genericMessage.getMessageNameInString()<<" in component: "<<getComponentNameInString()<<endl;
-    }}
+    }
+}
 
 void TcomCchhRlh::handleTimerEvent(Timer const& timer)
 {

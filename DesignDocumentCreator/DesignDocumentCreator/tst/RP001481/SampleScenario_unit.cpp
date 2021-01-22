@@ -21,4 +21,5 @@ TEST_F(ModuleTest, SampleScenario)
     LRM& lrm(*dynamic_cast<LRM*>(getComponentAndActivateAsParticipant(ComponentName::LRM, "LRM")));
 
     sendMessage(ComponentName::TOAM, ComponentName::LRM, createLrmConfigurationDataForMoreThan2K2sWithNbic());
-    lrm.handleOneEvent();}
+    lrm.handleOneEvent();
+}

@@ -19,6 +19,7 @@ public:
     void sendTransportTransferResp() const;
 private:
     virtual void handleMessageEvent(GenericMessage const& genericMessage);
-    virtual void handleTimerEvent(Timer const& timer);};
+    virtual void handleTimerEvent(Timer const& timer);
+};
 
 }

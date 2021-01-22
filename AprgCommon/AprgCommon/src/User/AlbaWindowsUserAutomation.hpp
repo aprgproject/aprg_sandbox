@@ -35,4 +35,5 @@ private:
     void doOperation(InputFunction inputFunction) const;
     static constexpr unsigned int REALISTIC_DELAY_IN_MILLISECONDS=500;
 };
+
 }
