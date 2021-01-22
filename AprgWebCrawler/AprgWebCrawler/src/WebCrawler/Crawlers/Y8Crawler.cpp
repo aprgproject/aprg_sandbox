@@ -22,7 +22,7 @@ Y8Crawler::Y8Crawler(WebCrawler & webCrawler)
 void Y8Crawler::crawl()
 {
     cout << "Y8Crawler::crawl" << endl;
-    for(int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks();)
+    for(unsigned int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks();)
     {
         if(!isStringFoundInsideTheOtherStringCaseSensitive(m_webCrawler.getWebLinkAtIndex(webLinkIndex), R"(/games/)"))
         {
@@ -45,7 +45,7 @@ void Y8Crawler::crawl()
     }
 }
 
-void Y8Crawler::crawl(int webLinkIndex)
+void Y8Crawler::crawl(unsigned int const webLinkIndex)
 {
     while(!m_webCrawler.isOnInvalidCrawlState())
     {
@@ -67,12 +67,12 @@ void Y8Crawler::crawl(int webLinkIndex)
     }
 }
 
-void Y8Crawler::addWebLinksIfFound(int webLinkIndex)
+void Y8Crawler::addWebLinksIfFound(unsigned int const webLinkIndex)
 {
     AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
     cout << "Y8Crawler::addWebLinksIfFound" << webLinkPathHandler.getFullPath() << endl;
     AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
-    downloadFileAsText(webLinkPathHandler, downloadPathHandler);
+    downloadFileWithDefaultSettings(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
@@ -113,7 +113,7 @@ void Y8Crawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
 {
     clearLinks();
     AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
-    downloadFileAsText(webLinkPathHandler, downloadPathHandler);
+    downloadFileWithDefaultSettings(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {

@@ -18,7 +18,7 @@ public:
     void crawl();
 
 private:
-    void crawl(int webLinkIndex);
+    void crawl(unsigned int const webLinkIndex);
     bool checkIfGoogleImagesLink(alba::AlbaWebPathHandler const& webLinkPathHandler);
     void retrieveLinks(alba::AlbaWebPathHandler const& webLinkPathHandler);
     bool checkLinks();
@@ -30,7 +30,6 @@ private:
     CrawlConfiguration m_configuration;
     std::string m_linkForVideo;
     std::string m_localPathForCurrentVideo;
-    AutomatedFirefoxBrowser m_automatedFirefoxBrowser;
 };
 
 }

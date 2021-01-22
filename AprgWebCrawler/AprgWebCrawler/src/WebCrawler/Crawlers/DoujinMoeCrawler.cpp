@@ -22,7 +22,7 @@ DoujinMoeCrawler::DoujinMoeCrawler(WebCrawler & webCrawler)
 void DoujinMoeCrawler::crawl()
 {
     cout << "DoujinMoeCrawler::crawl" << endl;
-    for(int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks();)
+    for(unsigned int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks();)
     {
         crawl(webLinkIndex);
         if(!m_innerLinks.empty())
@@ -45,7 +45,7 @@ void DoujinMoeCrawler::crawl()
     }
 }
 
-void DoujinMoeCrawler::crawl(int webLinkIndex)
+void DoujinMoeCrawler::crawl(unsigned int const webLinkIndex)
 {
     while(!m_webCrawler.isOnInvalidCrawlState())
     {
@@ -76,7 +76,7 @@ void DoujinMoeCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandle
 {
     clearLinks();
     AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
-    downloadFileAsText(webLinkPathHandler, downloadPathHandler);
+    downloadFileWithDefaultSettings(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {

@@ -22,13 +22,13 @@ ChiaAnimeCrawler::ChiaAnimeCrawler(WebCrawler & webCrawler)
 void ChiaAnimeCrawler::crawl()
 {
     cout << "ChiaAnimeCrawler::crawl" << endl;
-    for(int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks(); webLinkIndex++)
+    for(unsigned int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks(); webLinkIndex++)
     {
         crawl(webLinkIndex);
     }
 }
 
-void ChiaAnimeCrawler::crawl(int webLinkIndex)
+void ChiaAnimeCrawler::crawl(unsigned int const webLinkIndex)
 {
     while(!m_webCrawler.isOnInvalidCrawlState())
     {
@@ -54,7 +54,7 @@ void ChiaAnimeCrawler::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandle
 {
     clearLinks();
     AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
-    downloadFileAsText(webLinkPathHandler, downloadPathHandler);
+    downloadFileWithDefaultSettings(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
@@ -88,7 +88,7 @@ string ChiaAnimeCrawler::getVideoLink(AlbaWebPathHandler const& webLinkPathHandl
     AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
     AlbaWebPathHandler downloadPagePathHandler(webLinkPathHandler);
     downloadPagePathHandler.gotoLink(linkToDownloadPage);
-    downloadFileAsText(downloadPagePathHandler, downloadPathHandler);
+    downloadFileWithDefaultSettings(downloadPagePathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
@@ -154,7 +154,7 @@ void ChiaAnimeCrawler::downloadVideo(AlbaWebPathHandler const& webLinkPathHandle
     m_webCrawler.saveStateToMemoryCard(CrawlState::CurrentDownloadIsFinished);
 }
 
-void ChiaAnimeCrawler::gotoNextLink(AlbaWebPathHandler const& webLinkPathHandler, int webLinkIndex)
+void ChiaAnimeCrawler::gotoNextLink(AlbaWebPathHandler const& webLinkPathHandler, unsigned int const webLinkIndex)
 {
     if(m_linkForNextHtml.empty())
     {

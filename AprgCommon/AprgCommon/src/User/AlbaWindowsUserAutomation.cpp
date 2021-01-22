@@ -61,7 +61,7 @@ void AlbaWindowsUserAutomation::setMousePosition(MousePosition const& position) 
     float ratioInX = position.getX() * ( 65535.0f / screenWidth  );
     float ratioInY = position.getY() * ( 65535.0f / screenHeight );
 
-    doOperation([&](INPUT& input)
+    doOperationWithRealisticDelay([&](INPUT& input)
     {
         input.type = INPUT_MOUSE;
         input.mi.dwFlags = MOUSEEVENTF_MOVE|MOUSEEVENTF_ABSOLUTE;
@@ -72,12 +72,12 @@ void AlbaWindowsUserAutomation::setMousePosition(MousePosition const& position) 
 
 void AlbaWindowsUserAutomation::doLeftClick() const
 {
-    doOperation([](INPUT& input)
+    doOperationWithRealisticDelay([](INPUT& input)
     {
         input.type = INPUT_MOUSE;
         input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
     });
-    doOperation([](INPUT& input)
+    doOperationWithRealisticDelay([](INPUT& input)
     {
         input.type = INPUT_MOUSE;
         input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
@@ -86,15 +86,63 @@ void AlbaWindowsUserAutomation::doLeftClick() const
 
 void AlbaWindowsUserAutomation::doRightClick() const
 {
-    doOperation([](INPUT& input)
+    doOperationWithRealisticDelay([](INPUT& input)
     {
         input.type = INPUT_MOUSE;
         input.mi.dwFlags = MOUSEEVENTF_RIGHTDOWN;
     });
-    doOperation([](INPUT& input)
+    doOperationWithRealisticDelay([](INPUT& input)
     {
         input.type = INPUT_MOUSE;
         input.mi.dwFlags = MOUSEEVENTF_RIGHTUP;
+    });
+}
+
+void AlbaWindowsUserAutomation::pressDownKey(unsigned int const key) const
+{
+    doOperation([&](INPUT& input)
+    {
+        input.type = INPUT_KEYBOARD;
+        input.ki.wScan = 0;
+        input.ki.time = 0;
+        input.ki.dwExtraInfo = 0;
+        input.ki.wVk = (WORD)key;
+        input.ki.dwFlags = 0;
+    });
+}
+
+void AlbaWindowsUserAutomation::pressUpKey(unsigned int const key) const
+{
+    doOperation([&](INPUT& input)
+    {
+        input.type = INPUT_KEYBOARD;
+        input.ki.wScan = 0;
+        input.ki.time = 0;
+        input.ki.dwExtraInfo = 0;
+        input.ki.wVk = (WORD)key;
+        input.ki.dwFlags = KEYEVENTF_KEYUP;
+    });
+}
+
+void AlbaWindowsUserAutomation::typeCharacter(char const character) const
+{
+    doOperationWithRealisticDelay([&](INPUT& input)
+    {
+        input.type = INPUT_KEYBOARD;
+        input.ki.wScan = 0;
+        input.ki.time = 0;
+        input.ki.dwExtraInfo = 0;
+        input.ki.wVk = (WORD)convertToVirtualKey(character);
+        input.ki.dwFlags = 0;
+    });
+    doOperationWithRealisticDelay([&](INPUT& input)
+    {
+        input.type = INPUT_KEYBOARD;
+        input.ki.wScan = 0;
+        input.ki.time = 0;
+        input.ki.dwExtraInfo = 0;
+        input.ki.wVk = (WORD)convertToVirtualKey(character);
+        input.ki.dwFlags = KEYEVENTF_KEYUP;
     });
 }
 
@@ -104,28 +152,6 @@ void AlbaWindowsUserAutomation::typeString(string const& stringToType) const
     {
         typeCharacter(character);
     }
-}
-
-void AlbaWindowsUserAutomation::typeCharacter(char const character) const
-{
-    doOperation([&](INPUT& input)
-    {
-        input.type = INPUT_KEYBOARD;
-        input.ki.wScan = 0;
-        input.ki.time = 0;
-        input.ki.dwExtraInfo = 0;
-        input.ki.wVk = convertToVirtualKey(character);
-        input.ki.dwFlags = 0;
-    });
-    doOperation([&](INPUT& input)
-    {
-        input.type = INPUT_KEYBOARD;
-        input.ki.wScan = 0;
-        input.ki.time = 0;
-        input.ki.dwExtraInfo = 0;
-        input.ki.wVk = convertToVirtualKey(character);
-        input.ki.dwFlags = KEYEVENTF_KEYUP;
-    });
 }
 
 string AlbaWindowsUserAutomation::getClassNameOfForegroundWindow() const
@@ -138,13 +164,14 @@ string AlbaWindowsUserAutomation::getClassNameOfForegroundWindow() const
 
 void AlbaWindowsUserAutomation::setForegroundWindowWithClassName(std::string const& className) const
 {
+    Sleep(2000);
     int const LENGTH = 1000;
     char classNameTemp[LENGTH];
     GetClassName (GetForegroundWindow(), classNameTemp, LENGTH);
     cout<<"ClassName:["<<classNameTemp<<"]"<<endl;
-    cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<endl;
 
     HWND windowHandle = FindWindowEx(nullptr, nullptr, className.c_str(), nullptr);
+    cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<endl;
     setForegroundWindowWithWindowHandle(windowHandle);
 }
 
@@ -152,6 +179,16 @@ void AlbaWindowsUserAutomation::setForegroundWindowWithWindowName(std::string co
 {
     HWND windowHandle = FindWindowEx(nullptr, nullptr, nullptr, windowName.c_str());
     setForegroundWindowWithWindowHandle(windowHandle);
+}
+
+void AlbaWindowsUserAutomation::sleepWithRealisticDelay() const
+{
+    Sleep(REALISTIC_DELAY_IN_MILLISECONDS);
+}
+
+void AlbaWindowsUserAutomation::sleep(unsigned int const milliseconds) const
+{
+    Sleep(milliseconds);
 }
 
 unsigned int AlbaWindowsUserAutomation::convertToVirtualKey(char const character) const
@@ -173,7 +210,14 @@ void AlbaWindowsUserAutomation::setForegroundWindowWithWindowHandle(HWND const w
     bool isSuccessful(false);
     if(windowHandle != nullptr)
     {
-        isSuccessful = (bool)SetForegroundWindow(windowHandle);
+        isSuccessful = (bool)SetWindowPos(windowHandle,       // handle to window
+                    HWND_TOPMOST,  // placement-order handle
+                    0,     // horizontal position
+                    0,      // vertical position
+                    0,  // width
+                    0, // height
+                    SWP_SHOWWINDOW|SWP_NOSIZE|SWP_NOMOVE// window-positioning options
+                    );
     }
     if(!isSuccessful)
     {
@@ -182,13 +226,17 @@ void AlbaWindowsUserAutomation::setForegroundWindowWithWindowHandle(HWND const w
     }
 }
 
-void AlbaWindowsUserAutomation::doOperation(AlbaWindowsUserAutomation::InputFunction inputFunction) const
+void AlbaWindowsUserAutomation::doOperation(AlbaWindowsUserAutomation::InputFunction const& inputFunction) const
 {
     INPUT input;
     memset(&input, 0, sizeof(INPUT));
     inputFunction(input);
     SendInput(1, &input, sizeof(INPUT));
-    Sleep(REALISTIC_DELAY_IN_MILLISECONDS);
 }
 
+void AlbaWindowsUserAutomation::doOperationWithRealisticDelay(AlbaWindowsUserAutomation::InputFunction const& inputFunction) const
+{
+    doOperation(inputFunction);
+    sleepWithRealisticDelay();
+}
 }

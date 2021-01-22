@@ -17,12 +17,12 @@ public:
     void crawl();
 
 private:
-    void crawl(int webLinkIndex);
+    void crawl(unsigned int const webLinkIndex);
     void retrieveLinks(alba::AlbaWebPathHandler const& webLinkPathHandler);
     std::string getVideoLink(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& linkToDownloadPage) const;
     bool checkLinks();
     void downloadVideo(alba::AlbaWebPathHandler const& webLinkPathHandler);
-    void gotoNextLink(alba::AlbaWebPathHandler const& webLinkPathHandler, int webLinkIndex);
+    void gotoNextLink(alba::AlbaWebPathHandler const& webLinkPathHandler, unsigned int const webLinkIndex);
     void clearLinks();
     bool areLinksInvalid() const;
     void printLinks() const;

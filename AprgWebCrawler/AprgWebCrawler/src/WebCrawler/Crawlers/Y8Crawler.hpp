@@ -17,8 +17,8 @@ public:
     void crawl();
 
 private:
-    void crawl(int webLinkIndex);
-    void addWebLinksIfFound(int webLinkIndex);
+    void crawl(unsigned int const webLinkIndex);
+    void addWebLinksIfFound(unsigned int const webLinkIndex);
     void retrieveLinks(alba::AlbaWebPathHandler const& webLinkPathHandler);
     bool checkLinks();
     void downloadFile(alba::AlbaWebPathHandler const& webLinkPathHandler);

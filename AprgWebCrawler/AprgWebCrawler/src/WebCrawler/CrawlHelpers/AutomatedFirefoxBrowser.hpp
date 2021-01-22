@@ -10,23 +10,26 @@ namespace aprgWebCrawler
 class AutomatedFirefoxBrowser
 {
 public:
-    AutomatedFirefoxBrowser();
-    void openMozillaFirefoxExecutableManually(std::string const& webPath);
-    void saveWebPageManuallyUsingMozillaFirefox(std::string const& webPath);
-    std::string getRedirectedLinkUsingMozillaFirefoxAndFdm(std::string const& webPath);    void downloadLinkUsingMozillaFirefoxAndFdm(std::string const& webPath);
+    static AutomatedFirefoxBrowser& getInstance();
+    void downloadFileWithDefaultSettings(std::string const& webPath, std::string const& downloadLocalPath) const;
+    void createNewTab() const;
+    void closeTab() const;
+    void openWebPathOnCurrentTab(std::string const& webPath) const;
+    void saveCurrentTab(std::string const& downloadLocalPath) const;
+    void saveBinaryFile(std::string const& downloadLocalPath) const;
+    void doLeftClickAt(alba::MousePosition const& position) const;
+    void sleep(unsigned int const milliseconds) const;
 private:
+    AutomatedFirefoxBrowser();
+    void openFirefox() const;
     void readConfigurationFile();
+    void pressControlAndLetter(unsigned int const letter) const;
+    void pressAltAndLetter(unsigned int const letter) const;
+    void focusOnLocationBar() const;
+    void triggerSave() const;
+    void triggerPaste() const;
     std::string m_firefoxExecutablePath;
-    alba::MousePosition m_firefoxFilePosition;
-    alba::MousePosition m_firefoxSavePagePosition;
-    alba::MousePosition m_firefoxCloseButtonPosition;
-    alba::MousePosition m_firefoxCloseSecondTabButtonPosition;
-    alba::MousePosition m_fdmUrlBarPosition;
-    alba::MousePosition m_fdmUrlCopyPosition;
-    alba::MousePosition m_fdmCloseDownloadWindowPosition;
-    int m_timeoutForOpeningFirefox;
-    int m_timeoutForLoadingFirefox;
-    int m_timeoutForWaitingResponseFromFirefox;
+    alba::AlbaWindowsUserAutomation m_userAutomation;
 };
 
 }

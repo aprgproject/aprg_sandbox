@@ -23,13 +23,13 @@ OneDownloadPerPageCrawler::OneDownloadPerPageCrawler(WebCrawler & webCrawler)
 void OneDownloadPerPageCrawler::crawl()
 {
     cout << "OneDownloadPerPageCrawler::crawl" << endl;
-    for(int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks(); webLinkIndex++)
+    for(unsigned int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks(); webLinkIndex++)
     {
         crawl(webLinkIndex);
     }
 }
 
-void OneDownloadPerPageCrawler::crawl(int webLinkIndex)
+void OneDownloadPerPageCrawler::crawl(unsigned int const webLinkIndex)
 {
     while(!m_webCrawler.isOnInvalidCrawlState())
     {
@@ -133,7 +133,7 @@ void OneDownloadPerPageCrawler::downloadFile(AlbaWebPathHandler const& webLinkPa
     }
 }
 
-void OneDownloadPerPageCrawler::gotoNextLink(AlbaWebPathHandler const& webLinkPathHandler, int webLinkIndex)
+void OneDownloadPerPageCrawler::gotoNextLink(AlbaWebPathHandler const& webLinkPathHandler, unsigned int const webLinkIndex)
 {
     if(m_linkForNextHtml.empty())
     {

@@ -24,16 +24,21 @@ public:
     void setMousePosition(MousePosition const& position) const;
     void doLeftClick() const;
     void doRightClick() const;
-    void typeString(std::string const& stringToType) const;
+    void pressDownKey(unsigned int const key) const;
+    void pressUpKey(unsigned int const key) const;
     void typeCharacter(char const character) const;
+    void typeString(std::string const& stringToType) const;
     std::string getClassNameOfForegroundWindow() const;
-    void setForegroundWindowWithClassName(std::string const& windowName) const;
+    void setForegroundWindowWithClassName(std::string const& className) const;
     void setForegroundWindowWithWindowName(std::string const& windowName) const;
+    void sleepWithRealisticDelay() const;
+    void sleep(unsigned int const milliseconds) const;
 private:
     unsigned int convertToVirtualKey(char const character) const;
     void setForegroundWindowWithWindowHandle(HWND const windowHandle) const;
-    void doOperation(InputFunction inputFunction) const;
-    static constexpr unsigned int REALISTIC_DELAY_IN_MILLISECONDS=500;
+    void doOperation(InputFunction const& inputFunction) const;
+    void doOperationWithRealisticDelay(AlbaWindowsUserAutomation::InputFunction const& inputFunction) const;
+    static constexpr unsigned int REALISTIC_DELAY_IN_MILLISECONDS=2000;
 };
 
 }

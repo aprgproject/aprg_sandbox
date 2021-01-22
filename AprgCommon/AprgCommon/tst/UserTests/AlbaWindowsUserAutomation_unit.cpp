@@ -18,7 +18,17 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_SetMouseTest)
     }
 }
 
-TEST(AlbaWindowsUserAutomationTest, DISABLED_KeyPressSmallLetterTest)
+TEST(AlbaWindowsUserAutomationTest, DISABLED_KeyPressDownAndUpSmallLetterTest)
+{
+#define VK_CONTROL 0x11
+    AlbaWindowsUserAutomation userAutomation;
+    userAutomation.pressDownKey(VK_CONTROL);
+    userAutomation.pressDownKey('A');
+    userAutomation.pressUpKey(VK_CONTROL);
+    userAutomation.pressUpKey('A');
+}
+
+TEST(AlbaWindowsUserAutomationTest, DISABLED_TypeSmallLetterTest)
 {
     AlbaWindowsUserAutomation userAutomation;
     for(char c='a'; c<='z'; c++)
@@ -27,7 +37,7 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_KeyPressSmallLetterTest)
     }
 }
 
-TEST(AlbaWindowsUserAutomationTest, DISABLED_KeyPressCapitalLetterTest)
+TEST(AlbaWindowsUserAutomationTest, DISABLED_TypeCapitalLetterTest)
 {
     AlbaWindowsUserAutomation userAutomation;
     for(char c='A'; c<='Z'; c++)
@@ -36,7 +46,7 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_KeyPressCapitalLetterTest)
     }
 }
 
-TEST(AlbaWindowsUserAutomationTest, DISABLED_KeyPressNumberTest)
+TEST(AlbaWindowsUserAutomationTest, DISABLED_TypeNumberTest)
 {
     AlbaWindowsUserAutomation userAutomation;
     for(char c='0'; c<='9'; c++)
@@ -45,7 +55,7 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_KeyPressNumberTest)
     }
 }
 
-TEST(AlbaWindowsUserAutomationTest, DISABLED_KeyPressOtherCharacterTest)
+TEST(AlbaWindowsUserAutomationTest, DISABLED_TypeString)
 {
     AlbaWindowsUserAutomation userAutomation;
     userAutomation.typeString(R"(.......)");

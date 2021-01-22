@@ -15,8 +15,8 @@ namespace alba
 AprgBitmapFilters::AprgBitmapFilters(string const& path)
     : m_backgroundColor(0x00FFFFFF)
     , m_bitmap(path)
-    , m_originalCanvas(m_bitmap.getSnippetReadFromFileWholeBitmap())
-    , m_canvas(m_bitmap.createColorFilledSnippetWithSizeOfWholeBitmap(m_backgroundColor))
+    , m_inputCanvas(m_bitmap.getSnippetReadFromFileWholeBitmap())
+    , m_outputCanvas(m_bitmap.createColorFilledSnippetWithSizeOfWholeBitmap(m_backgroundColor))
 {}
 
 bool AprgBitmapFilters::isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) const //RGB algo
@@ -37,7 +37,7 @@ bool AprgBitmapFilters::isSimilar(unsigned int const color1, unsigned int const 
 
 void AprgBitmapFilters::findPenPixel(double const penSearchRadius, unsigned int const similarityColorLimit)
 {
-    m_originalCanvas.traverse([&](BitmapXY const& centerXY, unsigned int const centerColor)
+    m_inputCanvas.traverse([&](BitmapXY const& centerXY, unsigned int const centerColor)
     {
         Circle circle(convertBitmapXYToPoint(centerXY), penSearchRadius);
         BitmapXYs bitmapPointsWithSimilarColors;
@@ -45,9 +45,9 @@ void AprgBitmapFilters::findPenPixel(double const penSearchRadius, unsigned int 
         circle.traverseArea(1, [&](Point const& point)
         {
             BitmapXY pointInCircle(convertPointToBitmapXY(point));
-            if(m_originalCanvas.isPositionInside(pointInCircle))
+            if(m_inputCanvas.isPositionInside(pointInCircle))
             {
-                unsigned int const currentColor(m_originalCanvas.getColorAt(pointInCircle));
+                unsigned int const currentColor(m_inputCanvas.getColorAt(pointInCircle));
                 if(isSimilar(centerColor, currentColor, similarityColorLimit))
                 {
                     bitmapPointsWithSimilarColors.emplace_back(pointInCircle);
@@ -69,14 +69,14 @@ void AprgBitmapFilters::findPenPixel(double const penSearchRadius, unsigned int 
     });
 }
 
-void AprgBitmapFilters::saveBlurredNonPenPixelsToCanvas(double const blurRadius, unsigned int const similarityColorLimit)
+void AprgBitmapFilters::setBlurredNonPenPixelsToOutputCanvas(double const blurRadius, unsigned int const similarityColorLimit)
 {
-    m_originalCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const)
+    m_inputCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const)
     {
         PixelInformation pixelInformation(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
         if(pixelInformation.type != PixelType::Pen)
         {
-            m_canvas.setPixelAt(bitmapPoint, getBlurredColor(m_originalCanvas, bitmapPoint, blurRadius,[&](unsigned int centerColor, unsigned int currentColor, BitmapXY pointInCircle)
+            m_outputCanvas.setPixelAt(bitmapPoint, getBlurredColor(m_inputCanvas, bitmapPoint, blurRadius,[&](unsigned int centerColor, unsigned int currentColor, BitmapXY pointInCircle)
             {
                 PixelInformation pointInCirclePixelInformation(m_pixelInformationDatabase.getPixelInformation(pointInCircle));
                 return isSimilar(centerColor, currentColor, similarityColorLimit) && currentColor!=m_backgroundColor && pointInCirclePixelInformation.type != PixelType::Pen;
@@ -85,10 +85,10 @@ void AprgBitmapFilters::saveBlurredNonPenPixelsToCanvas(double const blurRadius,
     });
 }
 
-void AprgBitmapFilters::saveFilledGapsUsingBlurToCanvas(double const blurRadius)
+void AprgBitmapFilters::setBlankGapsUsingBlurToOutputCanvas(double const blurRadius)
 {
     AprgBitmapSnippet canvas1(m_bitmap.createColorFilledSnippetWithSizeOfWholeBitmap(m_backgroundColor));
-    m_originalCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
+    m_inputCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
     {
         canvas1.setPixelAt(bitmapPoint, color);
     });
@@ -116,41 +116,46 @@ void AprgBitmapFilters::saveFilledGapsUsingBlurToCanvas(double const blurRadius)
         });
         canvas1=canvas2;
     }
-    m_canvas=canvas1;
+    m_outputCanvas=canvas1;
 }
 
-void AprgBitmapFilters::saveNonPenPixelsToCanvas()
+void AprgBitmapFilters::setNonPenPixelsToOutputCanvas()
 {
-    m_originalCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
+    m_inputCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
     {
         PixelInformation pixelInformation(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
         if(pixelInformation.type != PixelType::Pen)
         {
-            m_canvas.setPixelAt(bitmapPoint, color);
+            m_outputCanvas.setPixelAt(bitmapPoint, color);
         }
     });
 }
 
-void AprgBitmapFilters::setPenPixelsToCanvas()
+void AprgBitmapFilters::setPenPixelsToOutputCanvas()
 {
-    m_originalCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
+    m_inputCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
     {
         PixelInformation pixelInformation(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
         if(pixelInformation.type == PixelType::Pen)
         {
-            m_canvas.setPixelAt(bitmapPoint, color);
+            m_outputCanvas.setPixelAt(bitmapPoint, color);
         }
     });
 }
 
-void AprgBitmapFilters::clearCanvas()
+void AprgBitmapFilters::clearOutputCanvas()
 {
-    m_canvas = m_bitmap.createColorFilledSnippetWithSizeOfWholeBitmap(m_backgroundColor);
+    m_outputCanvas = m_bitmap.createColorFilledSnippetWithSizeOfWholeBitmap(m_backgroundColor);
 }
 
-void AprgBitmapFilters::saveCanvasToBitmapFile()
+void AprgBitmapFilters::copyOutputCanvasToInputCanvas()
 {
-    m_bitmap.setSnippetWriteToFile(m_canvas);
+    m_inputCanvas = m_outputCanvas;
+}
+
+void AprgBitmapFilters::saveOutputCanvasToBitmapFile()
+{
+    m_bitmap.setSnippetWriteToFile(m_outputCanvas);
 }
 
 void AprgBitmapFilters::setBackgroundColor(unsigned int const backgroundColor)

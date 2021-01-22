@@ -18,12 +18,13 @@ public:
     AprgBitmapFilters(std::string const& path);
     bool isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) const;
     void findPenPixel(double const penSearchRadius, unsigned int const similarityColorLimit);
-    void saveBlurredNonPenPixelsToCanvas(double const blurRadius, unsigned int const similarityColorLimit);
-    void saveFilledGapsUsingBlurToCanvas(double const blurRadius);
-    void saveNonPenPixelsToCanvas();
-    void setPenPixelsToCanvas();
-    void clearCanvas();
-    void saveCanvasToBitmapFile();
+    void setBlurredNonPenPixelsToOutputCanvas(double const blurRadius, unsigned int const similarityColorLimit);
+    void setBlankGapsUsingBlurToOutputCanvas(double const blurRadius);
+    void setNonPenPixelsToOutputCanvas();
+    void setPenPixelsToOutputCanvas();
+    void clearOutputCanvas();
+    void copyOutputCanvasToInputCanvas();
+    void saveOutputCanvasToBitmapFile();
     void setBackgroundColor(unsigned int const backgroundColor);
 
 private:
@@ -36,8 +37,8 @@ private:
     BitmapXY convertPointToBitmapXY(Point const& pointPosition) const;
     unsigned int m_backgroundColor;
     AprgBitmap m_bitmap;
-    AprgBitmapSnippet const m_originalCanvas;
-    AprgBitmapSnippet m_canvas;
+    AprgBitmapSnippet m_inputCanvas;
+    AprgBitmapSnippet m_outputCanvas;
     PixelInformationDatabase m_pixelInformationDatabase;
 };
 

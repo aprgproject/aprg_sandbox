@@ -193,10 +193,12 @@ void AlbaDateTime::clearMicroSeconds()
 
 unsigned int AlbaDateTime::getTotalDaysInYearMonthDays() const
 {
-    unsigned int years(getYears());    int monthIndex(getMonths()-1);
+    unsigned int years(getYears());
+    int monthIndex(getMonths()-1);
     unsigned int days(getDays());
     return dateTimeHelper::getTotalDays(years, monthIndex, days);
 }
+
 unsigned int AlbaDateTime::getTotalSecondsInHourMinutesSeconds() const
 {
     return dateTimeHelper::getTotalSeconds(getHours(), getMinutes(), getSeconds());

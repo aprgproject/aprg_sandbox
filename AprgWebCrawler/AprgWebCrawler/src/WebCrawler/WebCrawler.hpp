@@ -32,7 +32,7 @@ public:
     std::string getTemporaryFilePath() const;
     void setTemporaryFilePath(std::string const& temporaryFilePath);
 
-    int getNumberOfWebLinks();
+    unsigned int getNumberOfWebLinks();
     std::string getWebLinkAtIndex(int index);
     void addWebLink(std::string const& webLink);
     void modifyWebLink(std::string const& webLink, int index);
@@ -48,8 +48,8 @@ public:
     void loadMemoryCard();
 
     void printStatus() const;
+
 private:
-    std::string getTitleFromTitleWindow(std::string const& webLink) const;
     bool isModeUnrecognized() const;
     bool isWebLinksEmpty() const;
     bool isWebLinksValid() const;
@@ -63,9 +63,11 @@ private:
     std::string convertCrawlerStateToString(CrawlState const state) const;
 
     CrawlMode m_mode;
-    CrawlState m_state;    std::string m_temporaryFilePath;
+    CrawlState m_state;
+    std::string m_temporaryFilePath;
     alba::AlbaLocalPathHandler m_downloadDirectoryPathHandler;
     alba::AlbaLocalPathHandler m_memoryCardPathHandler;
-    WebLinks m_webLinks;};
+    WebLinks m_webLinks;
+};
 
 }

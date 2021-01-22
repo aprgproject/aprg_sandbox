@@ -18,7 +18,7 @@ public:
     void crawl();
 
 private:
-    void crawl(int webLinkIndex);
+    void crawl(unsigned int const webLinkIndex);
     void retrieveLinks(alba::AlbaWebPathHandler const& webLinkPathHandler);
     std::string getVideoLink(alba::AlbaWebPathHandler const& webLinkPathHandler, std::string const& linkToDownloadPage) const;
     bool checkLinks();

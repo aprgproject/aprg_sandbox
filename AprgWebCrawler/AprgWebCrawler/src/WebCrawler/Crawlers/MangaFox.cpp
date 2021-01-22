@@ -37,7 +37,7 @@ void OneDownloadPerPageCrawler::retrieveLinksForMangaFoxSaveInVolumeAndChapter(A
 void OneDownloadPerPageCrawler::retrieveNextLinkAndImageLinkForMangaFox(AlbaWebPathHandler const& webLinkPathHandler)
 {
     AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getDownloadDirectory() + R"(\temp.html)");
-    downloadFileAsText(webLinkPathHandler, downloadPathHandler);
+    downloadFileWithDefaultSettings(webLinkPathHandler, downloadPathHandler);
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {

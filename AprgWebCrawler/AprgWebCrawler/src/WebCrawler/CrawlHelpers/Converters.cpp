@@ -165,10 +165,12 @@ CrawlState WebCrawler::convertStringToCrawlerState(string const& stateString) co
 string WebCrawler::convertCrawlerModeToString(CrawlMode const mode) const
 {
     switch(mode)
-    {    GET_ENUM_STRING(CrawlMode::Empty)
+    {
+    GET_ENUM_STRING(CrawlMode::Empty)
             GET_ENUM_STRING(CrawlMode::Unknown)
             GET_ENUM_STRING(CrawlMode::ChiaAnime)
-            GET_ENUM_STRING(CrawlMode::DoujinMoe)            GET_ENUM_STRING(CrawlMode::Gehen)
+            GET_ENUM_STRING(CrawlMode::DoujinMoe)
+            GET_ENUM_STRING(CrawlMode::Gehen)
             GET_ENUM_STRING(CrawlMode::GuroManga)
             GET_ENUM_STRING(CrawlMode::HBrowse)
             GET_ENUM_STRING(CrawlMode::H2Read)
@@ -185,10 +187,12 @@ string WebCrawler::convertCrawlerModeToString(CrawlMode const mode) const
 string WebCrawler::convertCrawlerStateToString(CrawlState const state) const
 {
     switch(state)
-    {    GET_ENUM_STRING(CrawlState::Empty)
+    {
+    GET_ENUM_STRING(CrawlState::Empty)
             GET_ENUM_STRING(CrawlState::Unknown)
             GET_ENUM_STRING(CrawlState::Active)
-            GET_ENUM_STRING(CrawlState::CurrentDownloadIsFinished)            GET_ENUM_STRING(CrawlState::DownloadedFileIsInvalid)
+            GET_ENUM_STRING(CrawlState::CurrentDownloadIsFinished)
+            GET_ENUM_STRING(CrawlState::DownloadedFileIsInvalid)
             GET_ENUM_STRING(CrawlState::DownloadedFileSizeIsLessThanExpected)
             GET_ENUM_STRING(CrawlState::DownloadFailsAndRetryIsNeeded)
             GET_ENUM_STRING(CrawlState::LinksAreInvalid)

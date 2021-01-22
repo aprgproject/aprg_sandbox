@@ -1,6 +1,7 @@
 #include "WebCrawler.hpp"
 
 #include <CrawlHelpers/Downloaders.hpp>
+#include <CrawlHelpers/AutomatedFirefoxBrowser.hpp>
 #include <Crawlers/ChiaAnimeCrawler.hpp>
 #include <Crawlers/DoujinMoeCrawler.hpp>
 #include <Crawlers/OneDownloadPerPageCrawler.hpp>
@@ -12,6 +13,8 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+
+#include <Debug/AlbaDebug.hpp>
 
 using namespace alba;
 using namespace alba::stringHelper;
@@ -41,6 +44,7 @@ WebCrawler::WebCrawler(string const& workingDirectory, string const& webLink, st
     , m_downloadDirectoryPathHandler(workingDirectory + R"(\)" + getNewDirectoryNameFromWeblink(webLink) + R"(\)")
     , m_memoryCardPathHandler(m_downloadDirectoryPathHandler.getFullPath() + R"(\MemoryCard.txt)")
 {
+    ALBA_PRINT1(m_memoryCardPathHandler.getFullPath());
     m_webLinks.push_back(webLink);
     m_memoryCardPathHandler.createDirectoriesForNonExisitingDirectories();
     saveMemoryCard();
@@ -135,14 +139,13 @@ string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const
         title = getStringInBetweenTwoStrings(webLink, R"(www.chia-anime.tv/)", R"(/)");
         break;
     case CrawlMode::DoujinMoe:
-        title = getTitleFromTitleWindow(webLink);
-        title = getStringAfterThisString(title, "Doujin-moe - ");
+        title = getStringAndReplaceNonAlphanumericCharactersToUnderScore(webLink);
         break;
     case CrawlMode::Gehen:
     case CrawlMode::GuroManga:
     case CrawlMode::HBrowse:
     case CrawlMode::Youtube:
-        title = getTitleFromTitleWindow(webLink);
+        title = getStringAndReplaceNonAlphanumericCharactersToUnderScore(webLink);
         break;
     case CrawlMode::H2Read:
         title = getStringInBetweenTwoStrings(webLink, R"(2read.com/)", R"(/)");
@@ -171,7 +174,7 @@ string WebCrawler::getNewDirectoryNameFromWeblink(string const& webLink) const
     return title;
 }
 
-int WebCrawler::getNumberOfWebLinks()
+unsigned int WebCrawler::getNumberOfWebLinks()
 {
     return m_webLinks.size();
 }
@@ -341,33 +344,6 @@ void WebCrawler::printStatus() const
     }
 }
 
-string WebCrawler::getTitleFromTitleWindow(string const& webLink) const
-{
-    string title;
-    AlbaWebPathHandler webLinkPathHandler(webLink);
-    AlbaLocalPathHandler downloadPathHandler(getTemporaryFilePath());
-    downloadFileAsText(webLinkPathHandler, downloadPathHandler);
-    ifstream htmlFileStream(downloadPathHandler.getFullPath());
-    if(!htmlFileStream.is_open())
-    {
-        cout << "Cannot open html file." << endl;
-        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
-    }
-    else
-    {
-        AlbaFileReader htmlFileReader(htmlFileStream);
-        while (htmlFileReader.isNotFinished())
-        {
-            string lineInHtmlFile(htmlFileReader.getLine());
-            if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(<title>)"))
-            {
-                title = getStringInBetweenTwoStrings(lineInHtmlFile, R"(<title>)", R"(</title>)");
-            }
-        }
-    }
-    return title;
-}
-
 bool WebCrawler::isModeUnrecognized() const
 {
     return CrawlMode::Unknown == m_mode;
@@ -396,4 +372,5 @@ void WebCrawler::setCrawlState(CrawlState const state)
 {
     m_state = state;
 }
+
 }

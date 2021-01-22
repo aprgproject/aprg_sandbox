@@ -1,14 +1,13 @@
 #include "Downloaders.hpp"
 
 #include <CrawlConfiguration/CrawlConfiguration.hpp>
+#include <CrawlHelpers/AutomatedFirefoxBrowser.hpp>
 #include <CurlInterface.hpp>
 
 #include <windows.h>
 
 #include <iostream>
 #include <string>
-
-#define PHANTOM_BIN_PATH APRG_DIR R"(PhantomJs\PhantomJs\bin\)"
 
 using namespace alba;
 using namespace curl::CurlInterface;
@@ -40,22 +39,21 @@ bool Downloaders::downloadBinaryFile(
     }
     return isSuccessful;
 }
-
-bool Downloaders::downloadFileAsText(
+/*
+bool Downloaders::downloadFileWithDefaultSettings(
         AlbaWebPathHandler const& fileToDownloadWebPathHandler,
         AlbaLocalPathHandler const& downloadPathHandler)
 {
     return downloadUntilSuccessful<DownloadType::LowSpeedLimit, DownloadType::MozillaFireFox>(fileToDownloadWebPathHandler, downloadPathHandler);
 }
+*/
 
-void Downloaders::downloadFileUsingPhantomJs(
+bool Downloaders::downloadFileWithDefaultSettings(
         AlbaWebPathHandler const& fileToDownloadWebPathHandler,
         AlbaLocalPathHandler const& downloadPathHandler)
 {
-    AlbaLocalPathHandler const phantomJsFolder(PHANTOM_BIN_PATH);
-    string const command(phantomJsFolder.getFullPath()+"phantomjs.exe "+phantomJsFolder.getFullPath()+R"(loadPage.js ")"+fileToDownloadWebPathHandler.getFullPath()+R"(" ")"+downloadPathHandler.getFullPath()+R"(")");
-    cout<<command<<endl;
-    system(command.c_str());
+    AutomatedFirefoxBrowser::getInstance().downloadFileWithDefaultSettings(fileToDownloadWebPathHandler.getFullPath(), downloadPathHandler.getFullPath());
+    return true;
 }
 
 }

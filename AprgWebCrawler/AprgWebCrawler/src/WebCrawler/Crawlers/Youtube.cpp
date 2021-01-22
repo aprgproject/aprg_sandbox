@@ -24,40 +24,35 @@ Youtube::Youtube(WebCrawler & webCrawler)
 void Youtube::crawl()
 {
     cout << "Youtube::crawl" << endl;
-    for(int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks();)
+    for(unsigned int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks();)
     {
         crawl(webLinkIndex);
         if(m_webCrawler.isOnCurrentDownloadFinishedCrawlState())
         {
             m_webCrawler.removeWebLink(webLinkIndex);
             m_webCrawler.saveMemoryCard();
-            webLinkIndex=0;
         }
         else
         {
             m_webCrawler.addWebLink(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
-            m_webCrawler.removeWebLink(webLinkIndex);
+            m_webCrawler.removeWebLink(webLinkIndex); //fix interface
             m_webCrawler.saveMemoryCard();
-            webLinkIndex=0;
         }
+        webLinkIndex=0;
     }
 }
 
-void Youtube::crawl(int webLinkIndex)
+void Youtube::crawl(unsigned int const webLinkIndex)
 {
     m_webCrawler.saveStateToMemoryCard(CrawlState::Active);
     AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
-    if(checkIfYoutubeLink(webLinkPathHandler))
+    if(isYoutubeLink(webLinkPathHandler))
     {
-        retrieveLinks(webLinkPathHandler);
-        if(checkLinks())
-        {
-            downloadFile(webLinkPathHandler);
-        }
+        downloadFile(webLinkPathHandler);
     }
 }
 
-bool Youtube::checkIfYoutubeLink(AlbaWebPathHandler const& webLinkPathHandler)
+bool Youtube::isYoutubeLink(AlbaWebPathHandler const& webLinkPathHandler)
 {
     bool result(true);
     if(!isStringFoundInsideTheOtherStringNotCaseSensitive(webLinkPathHandler.getFullPath(), "youtube"))
@@ -69,83 +64,25 @@ bool Youtube::checkIfYoutubeLink(AlbaWebPathHandler const& webLinkPathHandler)
     return result;
 }
 
-void Youtube::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
+void Youtube::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
 {
-    clearLinks();
+    AutomatedFirefoxBrowser& firefoxBrowser(AutomatedFirefoxBrowser::getInstance());
+
     string ssYoutubeLink(webLinkPathHandler.getFullPath());
     stringHelper::transformReplaceStringIfFound(ssYoutubeLink, "youtube", "ssyoutube");
     AlbaWebPathHandler ssYoutubeLinkPathHandler(ssYoutubeLink);
-    AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getTemporaryFilePath());
-    downloadPathHandler.deleteFile();
-    m_automatedFirefoxBrowser.saveWebPageManuallyUsingMozillaFirefox(ssYoutubeLinkPathHandler.getFullPath());
-    ifstream htmlFileStream(downloadPathHandler.getFullPath());
-    if(!htmlFileStream.is_open())
-    {        cout << "Cannot open html file." << endl;
-        cout << "File to read:" << downloadPathHandler.getFullPath() << endl;
-    }
-    else    {
-        AlbaFileReader htmlFileReader(htmlFileStream);
-        int isDownloadFound(false);
-        while (htmlFileReader.isNotFinished())
-        {
-            string lineInHtmlFile(htmlFileReader.getLine());
-            if(isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(Download)"))
-            {
-                isDownloadFound=true;
-            }
-            else if(isDownloadFound && isStringFoundInsideTheOtherStringCaseSensitive(lineInHtmlFile, R"(http:/)"))
-            {
-                m_linkForVideo = getStringWithoutOpeningClosingOperators(lineInHtmlFile, '<', '>');
-                string fileName(getStringWithUrlDecodedString(getStringInBetweenTwoStrings(lineInHtmlFile, R"(title=")", R"(>)")));
-                m_localPathForCurrentVideo = m_webCrawler.getDownloadDirectory() + R"(\Video\)" + fileName;
-                break;
-            }
-        }
-    }
-}
 
-bool Youtube::checkLinks()
-{
-    bool result(true);
-    if(areLinksInvalid())
-    {
-        cout << "Links are invalid. Retrying to retrieve links" << endl;
-        printLinks();
-        m_webCrawler.saveStateToMemoryCard(CrawlState::LinksAreInvalid);
-        result = false;
-    }
-    return result;
-}
+    firefoxBrowser.createNewTab();
+    firefoxBrowser.openWebPathOnCurrentTab(ssYoutubeLinkPathHandler.getFullPath());
+    AlbaLocalPathHandler localPathOfDownload(m_webCrawler.getDownloadDirectory());
 
-void Youtube::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
-{
-    AlbaWebPathHandler videoWebPathHandler(webLinkPathHandler);
-    videoWebPathHandler.gotoLink(m_linkForVideo);
-    AlbaLocalPathHandler temporaryPath(m_webCrawler.getTemporaryFilePath());
-    AlbaLocalPathHandler::ListOfPaths files;
-    AlbaLocalPathHandler::ListOfPaths directories;
-    temporaryPath.input(temporaryPath.getDirectory());
-    temporaryPath.findFilesAndDirectoriesOneDepth("*.*", files, directories);
-    unsigned int initialNumberOfFiles(files.size());
-    m_automatedFirefoxBrowser.downloadLinkUsingMozillaFirefoxAndFdm(videoWebPathHandler.getFullPath());
-    temporaryPath.findFilesAndDirectoriesOneDepth("*.*", files, directories);
-    if(initialNumberOfFiles+1 == files.size())
-    {        cout << "Waiting for download to finish" << endl;
-        bool isNotFinished(true);
-        while(isNotFinished)
-        {            files.clear();
-            directories.clear();
-            temporaryPath.findFilesAndDirectoriesOneDepth("*.fdminc", files, directories);
-            cout<<"\risNotFinished:"<<isNotFinished<<" numberOfIncompleteFiles:"<<files.size();
-            isNotFinished = !files.empty();
-            Sleep(10000);
-        }
-        m_webCrawler.saveStateToMemoryCard(CrawlState::CurrentDownloadIsFinished);
-    }
-    else
-    {
-        m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadFailsAndRetryIsNeeded);
-    }
+    firefoxBrowser.doLeftClickAt(MousePosition(952, 506));
+    firefoxBrowser.sleep(10000);
+
+    firefoxBrowser.saveBinaryFile(localPathOfDownload.getDirectory());
+    firefoxBrowser.closeTab();
+    //m_webCrawler.saveStateToMemoryCard(CrawlState::CurrentDownloadIsFinished);
+    //m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadFailsAndRetryIsNeeded);
 }
 
 void Youtube::clearLinks()

@@ -7,6 +7,7 @@
 
 #include <File/AlbaFileReader.hpp>
 #include <PathHandlers/AlbaWebPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <String/AlbaStringHelper.hpp>
 
 #include <windows.h>
@@ -14,7 +15,12 @@
 #include <fstream>
 #include <iostream>
 
-//include this on cmake
+
+#include <Debug/AlbaDebug.hpp>
+
+#define VK_CONTROL 0x11
+#define VK_MENU 0x12
+#define VK_RETURN 0x0D
 
 using namespace alba;
 using namespace std;
@@ -23,9 +29,89 @@ using namespace stringHelper;
 namespace aprgWebCrawler
 {
 
+AutomatedFirefoxBrowser& AutomatedFirefoxBrowser::getInstance()
+{
+    static AutomatedFirefoxBrowser instance;
+    return instance;
+}
+
+void AutomatedFirefoxBrowser::downloadFileWithDefaultSettings(string const& webPath, string const& downloadLocalPath) const
+{
+    ALBA_PRINT2(webPath, downloadLocalPath);
+    createNewTab();
+    openWebPathOnCurrentTab(webPath);
+    saveCurrentTab(downloadLocalPath);
+    closeTab();
+}
+
+void AutomatedFirefoxBrowser::createNewTab() const
+{
+    pressControlAndLetter('T');
+}
+
+void AutomatedFirefoxBrowser::closeTab() const
+{
+    pressControlAndLetter('W');
+}
+
+void AutomatedFirefoxBrowser::openWebPathOnCurrentTab(string const& webPath) const
+{
+    focusOnLocationBar();
+    m_userAutomation.setStringToClipboard(webPath);
+    triggerPaste();
+    m_userAutomation.typeCharacter(VK_RETURN);
+    m_userAutomation.sleep(30000);
+}
+
+void AutomatedFirefoxBrowser::saveCurrentTab(string const& downloadLocalPath) const
+{
+    AlbaLocalPathHandler downloadLocalPathHandler(downloadLocalPath);
+    triggerSave();
+    m_userAutomation.setStringToClipboard(downloadLocalPathHandler.getFile());
+    triggerPaste();
+    focusOnLocationBar();
+    m_userAutomation.setStringToClipboard(downloadLocalPathHandler.getDirectory());
+    triggerPaste();
+    m_userAutomation.typeCharacter(VK_RETURN);
+    pressAltAndLetter('S');
+    m_userAutomation.typeCharacter('Y');
+}
+
+void AutomatedFirefoxBrowser::saveBinaryFile(string const& downloadLocalPath) const
+{
+    AlbaLocalPathHandler downloadLocalPathHandler(downloadLocalPath);
+    m_userAutomation.typeCharacter(VK_RETURN);
+    focusOnLocationBar();
+    m_userAutomation.setStringToClipboard(downloadLocalPathHandler.getDirectory());
+    triggerPaste();
+    m_userAutomation.typeCharacter(VK_RETURN);
+    pressAltAndLetter('S');
+    m_userAutomation.typeCharacter('Y');
+}
+
+void AutomatedFirefoxBrowser::doLeftClickAt(MousePosition const& position) const
+{
+    m_userAutomation.setMousePosition(position);
+    m_userAutomation.doLeftClick();
+}
+
+void AutomatedFirefoxBrowser::sleep(unsigned int const milliseconds) const
+{
+    m_userAutomation.sleep(milliseconds);
+}
+
 AutomatedFirefoxBrowser::AutomatedFirefoxBrowser()
 {
     readConfigurationFile();
+    openFirefox();
+}
+
+void AutomatedFirefoxBrowser::openFirefox() const
+{
+    string firefoxCommand(string("start ")+m_firefoxExecutablePath);
+    cout << firefoxCommand << endl;
+    system(firefoxCommand.c_str());
+    m_userAutomation.sleep(10000);
 }
 
 void AutomatedFirefoxBrowser::readConfigurationFile()
@@ -41,97 +127,37 @@ void AutomatedFirefoxBrowser::readConfigurationFile()
     }
 }
 
-void AutomatedFirefoxBrowser::openMozillaFirefoxExecutableManually(string const& webPath)
+void AutomatedFirefoxBrowser::pressControlAndLetter(unsigned int const letter) const
 {
-    AlbaWebPathHandler webPathHandler(webPath);
-    string firefoxCommand(string("start ")+m_firefoxExecutablePath+R"( ")"+webPathHandler.getFullPath()+R"(")");
-    cout << firefoxCommand << endl;
-    system(firefoxCommand.c_str());
+    m_userAutomation.pressDownKey(VK_CONTROL);
+    m_userAutomation.pressDownKey(letter);
+    m_userAutomation.sleepWithRealisticDelay();
+    m_userAutomation.pressUpKey(letter);
+    m_userAutomation.pressUpKey(VK_CONTROL);
 }
 
-//use tabs instead of clicks
-void AutomatedFirefoxBrowser::saveWebPageManuallyUsingMozillaFirefox(string const& webPath)
+void AutomatedFirefoxBrowser::pressAltAndLetter(unsigned int const letter) const
 {
-    AlbaWebPathHandler webPathHandler(webPath);
-    AlbaWindowsUserAutomation userAutomation;
-    cout<<"Open Firefox"<<endl;
-    openMozillaFirefoxExecutableManually(webPathHandler.getFullPath());
-
-    cout<<"Wait"<<endl;
-    Sleep(m_timeoutForLoadingFirefox);
-
-    cout<<"Click file"<<endl;
-    userAutomation.setMousePosition(m_firefoxFilePosition);
-    userAutomation.doLeftClick();
-    cout<<"Click save page as"<<endl;
-    userAutomation.setMousePosition(m_firefoxSavePagePosition);
-    userAutomation.doLeftClick();
-
-    cout<<"Wait"<<endl;
-    Sleep(m_timeoutForWaitingResponseFromFirefox);
-
-    cout<<"Type name"<<endl;
-    userAutomation.typeString(R"(temp.html)");
-    cout<<"Enter"<<endl;
-    userAutomation.typeCharacter(0x0D);
-
-    cout<<"Wait"<<endl;
-    Sleep(m_timeoutForWaitingResponseFromFirefox);
-
-    cout<<"Close firefox"<<endl;
-    userAutomation.setMousePosition(m_firefoxCloseSecondTabButtonPosition);
-    userAutomation.doLeftClick();
+    m_userAutomation.pressDownKey(VK_MENU);
+    m_userAutomation.pressDownKey(letter);
+    m_userAutomation.sleepWithRealisticDelay();
+    m_userAutomation.pressUpKey(letter);
+    m_userAutomation.pressUpKey(VK_MENU);
 }
 
-string AutomatedFirefoxBrowser::getRedirectedLinkUsingMozillaFirefoxAndFdm(string const& webPath)
+void AutomatedFirefoxBrowser::focusOnLocationBar() const
 {
-    AlbaWebPathHandler webPathHandler(webPath);
-    AlbaWindowsUserAutomation userAutomation;
-    cout<<"Open Firefox"<<endl;
-    openMozillaFirefoxExecutableManually(webPathHandler.getFullPath());
-
-    cout<<"Wait"<<endl;
-    Sleep(m_timeoutForLoadingFirefox);
-
-    cout<<"Right click address bar"<<endl;
-    userAutomation.setMousePosition(m_fdmUrlBarPosition);
-    userAutomation.doRightClick();
-    cout<<"Copy"<<endl;
-    userAutomation.setMousePosition(m_fdmUrlCopyPosition);
-    userAutomation.doLeftClick();
-    cout<<"Close FDM"<<endl;
-    userAutomation.setMousePosition(m_fdmCloseDownloadWindowPosition);
-    userAutomation.doLeftClick();
-
-    cout<<"Wait"<<endl;
-    Sleep(m_timeoutForWaitingResponseFromFirefox);
-
-    cout<<"Close firefox"<<endl;
-    userAutomation.setMousePosition(m_firefoxCloseSecondTabButtonPosition);
-    userAutomation.doLeftClick();
-
-    return userAutomation.getStringFromClipboard();
+    pressControlAndLetter('L');
 }
 
-void AutomatedFirefoxBrowser::downloadLinkUsingMozillaFirefoxAndFdm(string const& webPath)
+void AutomatedFirefoxBrowser::triggerSave() const
 {
-    AlbaWebPathHandler webPathHandler(webPath);
-    AlbaWindowsUserAutomation userAutomation;
-    cout<<"Open Firefox"<<endl;
-    openMozillaFirefoxExecutableManually(webPathHandler.getFullPath());
+    pressControlAndLetter('S');
+}
 
-    cout<<"Wait"<<endl;
-    Sleep(m_timeoutForLoadingFirefox);
-
-    cout<<"Enter"<<endl;
-    userAutomation.typeCharacter(0x0D);
-
-    cout<<"Wait"<<endl;
-    Sleep(m_timeoutForWaitingResponseFromFirefox);
-
-    cout<<"Close firefox"<<endl;
-    userAutomation.setMousePosition(m_firefoxCloseSecondTabButtonPosition);
-    userAutomation.doLeftClick();
+void AutomatedFirefoxBrowser::triggerPaste() const
+{
+    pressControlAndLetter('V');
 }
 
 }

@@ -55,10 +55,12 @@ void BtsLogAnalyzer::processFileWithSortedPrints(std::string const& pathOfBtsSor
     //initializeDataDumpOfAllDspsForR3();
 
     AlbaFileReader fileReader(inputLogFileStream);
-    LogTimePairs rlSetupLogTimePairs;    LogTimePairs rlDeletionLogTimePairs;
+    LogTimePairs rlSetupLogTimePairs;
+    LogTimePairs rlDeletionLogTimePairs;
     while(fileReader.isNotFinished())
     {
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());        saveQueueingTime(lineInLogs, messageQueueingTimeFileStream);
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        saveQueueingTime(lineInLogs, messageQueueingTimeFileStream);
         saveRlhSetupTime(lineInLogs, rlSetupLogTimePairs, rlSetupTimeFileStream);
         saveRlhDeletionTime(lineInLogs, rlDeletionLogTimePairs, rlDeletionTimeFileStream);
         saveAdditionalPrintsRlSetup(lineInLogs, rlSetupLogTimePairs);
@@ -66,9 +68,11 @@ void BtsLogAnalyzer::processFileWithSortedPrints(std::string const& pathOfBtsSor
         //saveDspCapacityInformationForR3(lineInLogs);
     }
 }
+
 void BtsLogAnalyzer::saveDspCapacityInformationForR3(string const& lineInLogs)
 {
-    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "printDspCapacityInd(): 0x"))    {
+    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "printDspCapacityInd(): 0x"))
+    {
         BtsLogPrint logPrint(lineInLogs);
         stringHelper::strings dspCapacitiesPerDsp;
         stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, lineInLogs, " ");
@@ -826,10 +830,12 @@ void BtsLogAnalyzer::saveRlSetupPerSecond(string const& lineInLogs, ofstream& rl
 
 void BtsLogAnalyzer::saveRlhSetupTime(string const& lineInLogs, LogTimePairs& rlSetupLogTimePairs, ofstream& rlSetupTimeFileStream)
 {
-    if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))    {
+    if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))
+    {
         UserIdentifiers userIdentifiers(lineInLogs);
         setFirstLogTimeInPair(lineInLogs, userIdentifiers, rlSetupLogTimePairs);
-    }    else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(RLH_CTRL_RlSetupResp3G)"))
+    }
+    else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(RLH_CTRL_RlSetupResp3G)"))
     {
         UserIdentifiers userIdentifiers(lineInLogs);
         setSecondLogTimeInPair(lineInLogs, userIdentifiers, rlSetupLogTimePairs);

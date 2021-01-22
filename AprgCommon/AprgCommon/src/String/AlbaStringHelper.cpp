@@ -139,10 +139,12 @@ bool stringHelper::transformReplaceStringIfFound(string& mainString, string cons
 
 template <stringHelper::SplitStringType splitStringType> void stringHelper::splitToStrings(stringHelper::strings & listOfStrings, std::string const& mainString, std::string const& delimiters)
 {
-    int startingIndex(0);    int delimiterIndex = mainString.find_first_of(delimiters);
+    int startingIndex(0);
+    int delimiterIndex = mainString.find_first_of(delimiters);
     int delimeterLength = 1;
     int mainStringLength = mainString.length();
-    while(isNotNpos(delimiterIndex))    {
+    while(isNotNpos(delimiterIndex))
+    {
         if(startingIndex != delimiterIndex)
         {
             listOfStrings.emplace_back(mainString.substr(startingIndex, delimiterIndex-startingIndex));
@@ -268,10 +270,12 @@ void stringHelper::splitToStringsUsingASeriesOfDelimeters(stringHelper::strings 
 
 string stringHelper::getStringWithCapitalLetters(string const& mainString)
 {
-    string result;    result.resize(mainString.length());
+    string result;
+    result.resize(mainString.length());
     transform(mainString.begin(), mainString.end(), result.begin(), ::toupper);
     return result;
 }
+
 string stringHelper::getStringWithLowerCaseLetters(string const& mainString)
 {
     string result;

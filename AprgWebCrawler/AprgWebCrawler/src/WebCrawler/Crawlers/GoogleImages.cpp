@@ -24,7 +24,7 @@ GoogleImages::GoogleImages(WebCrawler & webCrawler)
 void GoogleImages::crawl()
 {
     cout << "GoogleImages::crawl" << endl;
-    for(int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks();)
+    for(unsigned int webLinkIndex=0; webLinkIndex<m_webCrawler.getNumberOfWebLinks();)
     {
         crawl(webLinkIndex);
         if(m_webCrawler.isOnCurrentDownloadFinishedCrawlState())
@@ -43,7 +43,7 @@ void GoogleImages::crawl()
     }
 }
 
-void GoogleImages::crawl(int webLinkIndex)
+void GoogleImages::crawl(unsigned int const webLinkIndex)
 {
     m_webCrawler.saveStateToMemoryCard(CrawlState::Active);
     AlbaWebPathHandler webLinkPathHandler(m_webCrawler.getWebLinkAtIndex(webLinkIndex));
@@ -77,7 +77,7 @@ void GoogleImages::retrieveLinks(AlbaWebPathHandler const& webLinkPathHandler)
     AlbaWebPathHandler ssGoogleImagesLinkPathHandler(ssGoogleImagesLink);
     AlbaLocalPathHandler downloadPathHandler(m_webCrawler.getTemporaryFilePath());
     downloadPathHandler.deleteFile();
-    m_automatedFirefoxBrowser.saveWebPageManuallyUsingMozillaFirefox(ssGoogleImagesLinkPathHandler.getFullPath());
+    AutomatedFirefoxBrowser::getInstance().downloadFileWithDefaultSettings(ssGoogleImagesLinkPathHandler.getFullPath(), downloadPathHandler.getFullPath());
     ifstream htmlFileStream(downloadPathHandler.getFullPath());
     if(!htmlFileStream.is_open())
     {
@@ -129,7 +129,7 @@ void GoogleImages::downloadFile(AlbaWebPathHandler const& webLinkPathHandler)
     temporaryPath.input(temporaryPath.getDirectory());
     temporaryPath.findFilesAndDirectoriesOneDepth("*.*", files, directories);
     unsigned int initialNumberOfFiles(files.size());
-    m_automatedFirefoxBrowser.downloadLinkUsingMozillaFirefoxAndFdm(videoWebPathHandler.getFullPath());
+    //AutomatedFirefoxBrowser::getInstance().downloadLinkUsingMozillaFirefoxAndFdm(videoWebPathHandler.getFullPath());
     temporaryPath.findFilesAndDirectoriesOneDepth("*.*", files, directories);
     if(initialNumberOfFiles+1 == files.size())
     {

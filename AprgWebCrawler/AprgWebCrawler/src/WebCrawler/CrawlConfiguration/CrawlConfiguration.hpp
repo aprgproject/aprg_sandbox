@@ -20,10 +20,12 @@ public:
     CrawlConfiguration(CrawlMode const mode);
     bool isFileToBeDownloadUntilSuccessful() const;
     int getNumberOfRetries() const;
-    double getMinimumFileSize() const;    DownloadLowSpeedLimitConfigurationOptional getDownloadLowSpeedLimitConfigurationOptional() const;
+    double getMinimumFileSize() const;
+    DownloadLowSpeedLimitConfigurationOptional getDownloadLowSpeedLimitConfigurationOptional() const;
 
 private:
-    bool m_isFileToBeDownloadUntilSuccessful;    int m_numberOfRetries;
+    bool m_isFileToBeDownloadUntilSuccessful;
+    int m_numberOfRetries;
     double m_minimumFileSize;
     DownloadLowSpeedLimitConfigurationOptional m_lowSpeedLimitOptional;
 };
