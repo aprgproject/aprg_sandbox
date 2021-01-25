@@ -1,33 +1,43 @@
+#pragma once
 
-#ifndef DMEASTIMERSTACK_HPP
-#define DMEASTIMERSTACK_HPP
-
-#include <TMeasurementID.h>
-#include <TAaSysComSicad.h>
 #include <EFaultId.h>
 #include <SDedMeasInitReq3G.h>
-#include <TNbccId.h>
 #include <SRLChangeDSPInd_Ver2.h>
-#include <SRLPrepareChangeInd.h>
-#include <SRLDeletionInd.h>
 #include <SRLCommitChangeInd_Ver2.h>
+#include <SRLDeletionInd.h>
+#include <SRLPrepareChangeInd.h>
 #include <SRLReconfCommitInd.h>
+#include <TAaSysComSicad.h>
+#include <TMeasurementID.h>
+#include <TNbccId.h>
 #include <TNodeBCommunicationContextId.h>
 
-//----------------------- INCLUDED FILES --------------------------------------
-//----------------------- EXTERNAL DEFINITIONS --------------------------------
+#include <map>
 
-extern const char* DMEASTIMERSTACK_VERSION;
+namespace DMeas
+{
 
-typedef u32 TimeCounter;
+#define TIMER_INVALID_ITERATOR 0xFFFFFFFF
 
-//----------------------- COMMON DEFINITIONS ----------------------------------
-
-
-namespace DMeas {
-
+using TimeCounter=u32;
+class MeasurementContainer;
 
 extern TSfn currSfn;
+
+enum class TimerType
+{
+    FreeTimer       = 42,
+    MeasurementInit,
+    MeasurementPeriod,    ChangeDSPInd,
+    PrepareChangeInd,
+    ReconfCommitInd,
+    SlaveMeasurementInit,    RlDeletion,
+    CommitUserTransfer,
+    NbccRecovery,
+    ExpiryLock,
+    DefinitelyRemoveUser,
+    Test
+} ;
 
 typedef struct
 {
@@ -37,154 +47,92 @@ typedef struct
     EFaultId faultId;
 } TMeasurementTimer;
 
-
-namespace TimerType
-{
-typedef enum
-{
-    FreeTimer       = 42,
-    MeasurementInit,
-    MeasurementPeriod,
-    ChangeDSPInd,
-    PrepareChangeInd,
-    ReconfCommitInd,
-    SlaveMeasurementInit,
-    RlDeletion,
-    CommitUserTransfer,
-    NbccRecovery,
-    ExpiryLock,
-    DefinitelyRemoveUser,
-    Test
-} Value;
-}
-
-
-class MeasurementContainer;
-typedef struct SNBCCRecovery
+struct SNBCCRecovery
 {
     SDedMeasInitReq3G*   msg;
     TNbccId 	        nodeBCommunicationContextId;
-}SNBCCRecovery;
+};
 
-
-
-typedef struct
+struct TimerData
 {
-    TimerType::Value timerType;
+    TimeCounter timerValue;
+    TimerType timerType;
     union Value
     {
         TMeasurementTimer  measurement;
-        SRLChangeDSPInd_Ver2          changeDSPInd;
-        SRLPrepareChangeInd           prepareChangeInd;
+        SRLChangeDSPInd_Ver2 changeDSPInd;
+        SRLPrepareChangeInd prepareChangeInd;
         SRLReconfCommitInd reconfCommitInd;
-        SRLDeletionInd     rlDeletion;
+        SRLDeletionInd  rlDeletion;
         SRLCommitChangeInd_Ver2       commitUserTransfer;
         SNBCCRecovery      nbccRecovery;
         unsigned int       testNbr;
         TNodeBCommunicationContextId  nbccid;
     } value;
-
-} TimerData;
-
-#define MAX_NBR_OF_NBCC_IN_WAM 10//remove this
-
-#ifdef REL4
-#define TIMER_TABLE_MAX_NBR_OF_ELEMENTS 7*10*MAX_NBR_OF_NBCC_IN_WAM
-#else
-#define TIMER_TABLE_MAX_NBR_OF_ELEMENTS 10*MAX_NBR_OF_NBCC_IN_WAM // PR 30590ES09P: increased value
-#endif
+};
 
 class TimerStack
 {
-private:
 
-    TimeCounter timeCounter;
-    TimeCounter timeOffsetToSFN;
-    typedef struct
-    {
-        TimeCounter first;
-        TimerData   second;
-    } TimerTable;
+public:
+    using TimerIndex=u32;
+    using TimerTable=std::map<TimerIndex, TimerData>;
+    using TimerTablePair=std::pair<TimerIndex const, TimerData>;
+    using TimerTableConstIterator=TimerTable::const_iterator;
 
-    TimerTable  timers[ TIMER_TABLE_MAX_NBR_OF_ELEMENTS ];
-
-    u32 ARRAY_timers_high_mark;
-
-    u32 ARRAY_timers_max_index;
-
-public: // datatypes and variables
-
-    typedef u32   TimerIterator;
-    
-    EBoolean      mayIPrint();
-    static TimerIterator timerTableNbrOfElements;
-
-    TimeCounter     ARRAY_timers_first    ( TimerIterator iter);
-    TimerData     * ARRAY_timers_second   ( TimerIterator iter);
-    TimerData     * timersFindNbccRecovery( TNodeBCommunicationContextId nbccId, TimerIterator &iter);
-
-private: // methods
-
-    TimeCounter     timeFromStart;
-    u32  nthFib;
-
-    static const int fibs[6];
-
-    inline
-    int  ARRAY_timers_empty    ( void );
-    TimerIterator   ARRAY_timers_insert   ( TimeCounter timeValue,
-           TimerData timerData );
-    TimerIterator   ARRAY_timers_find     ( TimeCounter );
-    TimerIterator   ARRAY_timers_begin    ( void );
-
-    inline
-    TimerIterator   ARRAY_timers_end      ( void );
-
-    EBoolean        ARRAY_timers_erase    ( TimerIterator & iter );
-    void ARRAY_timers_clear    ( void );
-    TimerIterator   ARRAY_timers_next     ( TimerIterator elem );
-    void trigExpired ( TimerIterator expired );
-    EBoolean        refresh ( const TSfn            newSFN );
-
-public: // methods
+    static TimeCounter s_timerCounter;
 
     TimerStack();
-
     ~TimerStack();
-    EBoolean trigExpiredAndRemove(TimerIterator &timerIter);
 
-    EBoolean        preRefresh( const TSfn newSfn );
-    EBoolean        insert  ( const TSfn     expirationTime,
-        const TimerData         & timerData );
-    EBoolean        insert      ( TimeCounter           expirationTime,
-            const TimerData     & timerData,
-            TimerIterator       & timerIterator );
-    EBoolean insertMeasurement(DMeas::TimerType::Value const timerType,
+    EBoolean mayIPrint();
+    TimeCounter ARRAY_timers_first (TimerIndex timerIndex);
+    TimerData* ARRAY_timers_second (TimerIndex timerIndex);
+    TimerData* timersFindNbccRecovery(TNodeBCommunicationContextId nbccId, TimerIndex & timerIndex);
+    EBoolean trigExpiredAndRemove(TimerIndex & timerIndex);
+    EBoolean preRefresh(TSfn const newSfn);
+    EBoolean insert(TSfn const expirationTime, TimerData const& timerData);
+    EBoolean insert(TimeCounter expirationTime, TimerData const& timerData, TimerIndex& timerIndex);
+    EBoolean insertMeasurement(TimerType const timerType,
          TimeCounter const timeAdvance,
          TMeasurementID const measurementId,
          TUserId const userId,
-         TimerIterator & itr,
+         TimerIndex & timerIndex,
          TAaSysComSicad const timedOutSicad = 0,
          EFaultId const faultId = EFaultId_NoResponseAl);
-    EBoolean renewMeasurement(TimerIterator& timerIter, TimeCounter const timeAdvance);
-    EBoolean remove(TimerIterator & timerIter);
-    void initIterator(TimerIterator & iter);
-    EBoolean isValidIterator(TimerIterator const& iter);
+    EBoolean renewMeasurement(TimerIndex& timerIndex, TimeCounter const timeAdvance);
+    EBoolean remove(TimerIndex & timerIndex);
+    void initIterator(TimerIndex & timerIndex);
+    EBoolean isValidIterator(TimerIndex const& timerIndex);
     void clearUserTimers(TNodeBCommunicationContextId const nBCCId);
+    void removeTimerPrint(TimerType const timerType, TNodeBCommunicationContextId const nBCCId);
+    void dump(TimerIndex begin, TimerIndex end);
+    void dump(void);
 
-    void removeTimerPrint(TimerType::Value const timerType, TNodeBCommunicationContextId const nBCCId);
 
-    void dump (TimerIterator begin, TimerIterator end);
+private:
 
-    void dump (void);
+    inline int ARRAY_timers_empty(void);
+    TimerIndex ARRAY_timers_insert(TimeCounter timerValue, TimerData const& timerData);
+    TimerIndex ARRAY_timers_find(TimeCounter);
+    TimerIndex ARRAY_timers_begin(void);
+
+    inline TimerIndex ARRAY_timers_end(void);
+    EBoolean ARRAY_timers_erase(TimerIndex & timerIndex);
+    void ARRAY_timers_clear(void);
+    TimerIndex ARRAY_timers_next (TimerIndex timerIndex);
+    void trigExpired(TimerIndex timerIndex);
+    EBoolean refresh(TSfn const newSFN);
 
 #ifdef MEASURE_DEDICATED_MT_TEST
-
     void clear (void);
+#endif
 
-#endif /* MEASURE_DEDICATED_MT_TEST */
-
+    TimeCounter timeCounter;
+    TimeCounter timeOffsetToSFN;
+    TimerTable m_timers;
+    TimeCounter     timeFromStart;
+    u32  nthFib;
+    static const int fibs[6];
 };
-} // namespace DMeas
-/*****************************************************************************/
-#endif /* DMEASTIMERSTACK_HPP */
+}
