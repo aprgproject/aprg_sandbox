@@ -139,32 +139,30 @@ bool stringHelper::transformReplaceStringIfFound(string& mainString, string cons
 
 template <stringHelper::SplitStringType splitStringType> void stringHelper::splitToStrings(stringHelper::strings & listOfStrings, std::string const& mainString, std::string const& delimiters)
 {
-    int startingIndex(0);
+    int startingIndexOfFind(0);
     int delimiterIndex = mainString.find_first_of(delimiters);
     int delimeterLength = 1;
     int mainStringLength = mainString.length();
     while(isNotNpos(delimiterIndex))
     {
-        if(startingIndex != delimiterIndex)
+        if(startingIndexOfFind != delimiterIndex)
         {
-            listOfStrings.emplace_back(mainString.substr(startingIndex, delimiterIndex-startingIndex));
+            listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, delimiterIndex-startingIndexOfFind));
         }
         if(SplitStringType::WithDelimeters == splitStringType)
         {
             listOfStrings.emplace_back(mainString.substr(delimiterIndex, delimeterLength));
         }
-        startingIndex = delimiterIndex + delimeterLength;
-        delimiterIndex = mainString.find_first_of(delimiters, startingIndex);
+        startingIndexOfFind = delimiterIndex + delimeterLength;
+        delimiterIndex = mainString.find_first_of(delimiters, startingIndexOfFind);
     }
-    if(startingIndex != mainStringLength)
+    if(startingIndexOfFind != mainStringLength)
     {
-        listOfStrings.emplace_back(mainString.substr(startingIndex, mainStringLength-startingIndex));
+        listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, mainStringLength-startingIndexOfFind));
     }
 }
-
 template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters> (stringHelper::strings & listOfStrings, std::string const& mainString, std::string const& delimiter);
 template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithDelimeters> (stringHelper::strings & listOfStrings, std::string const& mainString, std::string const& delimiter);
-
 std::string stringHelper::combineStrings(stringHelper::strings const& listOfStrings, std::string const& delimiters)
 {
     string result = accumulate(listOfStrings.cbegin(), listOfStrings.cend(), string(""), [&delimiters](string const& previousResult, string const& currentString)
@@ -244,34 +242,35 @@ void stringHelper::splitLinesToAchieveTargetLength(stringHelper::strings & strin
     }
 }
 
-void stringHelper::splitToStringsUsingASeriesOfDelimeters(stringHelper::strings & listOfStrings, std::string const& mainString, std::string const& seriesOfDelimiters)
+void stringHelper::splitToStringsUsingASeriesOfDelimeters(strings & listOfStrings, string const& mainString, strings const& seriesOfDelimiters)
 {
     if(!seriesOfDelimiters.empty())
     {
-        int startingIndex(0);
-        int delimeterLength = 1;
+        int startingIndexOfFind(0);
         int mainStringLength = mainString.length();
         int delimiterIndex = mainString.find_first_of(seriesOfDelimiters.front());
-        for(string::const_iterator delimeterIterator=seriesOfDelimiters.begin(); delimeterIterator!=seriesOfDelimiters.end() && isNotNpos(delimiterIndex) ; delimeterIterator++)
+        for(string const& delimeter : seriesOfDelimiters)
         {
-            if(startingIndex != delimiterIndex)
+            delimiterIndex = mainString.find(delimeter, startingIndexOfFind);
+            if(isNpos(delimiterIndex))
             {
-                listOfStrings.emplace_back(mainString.substr(startingIndex, delimiterIndex-startingIndex));
+                break;
             }
-            startingIndex = delimiterIndex + delimeterLength;
-            delimiterIndex = mainString.find_first_of(*delimeterIterator, startingIndex);
+            if(startingIndexOfFind != delimiterIndex)
+            {
+                listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, delimiterIndex-startingIndexOfFind));
+            }
+            startingIndexOfFind = delimiterIndex + delimeter.length();
         }
-        if(startingIndex != mainStringLength)
+        if(startingIndexOfFind != mainStringLength)
         {
-            listOfStrings.emplace_back(mainString.substr(startingIndex, mainStringLength-startingIndex));
+            listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, mainStringLength-startingIndexOfFind));
         }
     }
 }
-
 string stringHelper::getStringWithCapitalLetters(string const& mainString)
 {
-    string result;
-    result.resize(mainString.length());
+    string result;    result.resize(mainString.length());
     transform(mainString.begin(), mainString.end(), result.begin(), ::toupper);
     return result;
 }

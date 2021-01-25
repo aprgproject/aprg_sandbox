@@ -107,14 +107,28 @@ TEST(SplitStringTest, SplitLinesToAchieveTargetLengthCanBeSplitPerCharacter)
     }
 }
 
+TEST(SplitStringTest, SplitBySeriesOfDelimeters)
+{
+    string string1(R"(TLH_DEBUG_PRINT("Creating new licence entry in DB for featureCode: %d.", featureCode);)");
+    strings delimeters{R"((")", R"(",)", ");"};
+    strings expectedStrings{"TLH_DEBUG_PRINT", R"(Creating new licence entry in DB for featureCode: %d.)", " featureCode"};
+    strings actualStrings;
+    splitToStringsUsingASeriesOfDelimeters(actualStrings, string1, delimeters);
+
+    EXPECT_EQ(expectedStrings.size(), actualStrings.size());
+    unsigned int size = min(expectedStrings.size(), actualStrings.size());
+    for(unsigned int i=0; i<size; i++)
+    {
+        EXPECT_EQ(expectedStrings[i], actualStrings[i]);
+    }
+}
+
 TEST(CombineStringTest, CombinedStringsWithComma)
 {
-    strings stringsToCombine {"Mark", "is", "the", "no#1", "guy", "in", "the", "world.", "Mark", "is", "also", "the", "nicest", "guy."};
-    string expectedString("Mark,is,the,no#1,guy,in,the,world.,Mark,is,also,the,nicest,guy.");
+    strings stringsToCombine {"Mark", "is", "the", "no#1", "guy", "in", "the", "world.", "Mark", "is", "also", "the", "nicest", "guy."};    string expectedString("Mark,is,the,no#1,guy,in,the,world.,Mark,is,also,the,nicest,guy.");
     string actualString(combineStrings(stringsToCombine, ","));
 
-    EXPECT_EQ(expectedString, actualString);
-}
+    EXPECT_EQ(expectedString, actualString);}
 
 TEST(UniqueIdTest, GenerateUniqueId)
 {
