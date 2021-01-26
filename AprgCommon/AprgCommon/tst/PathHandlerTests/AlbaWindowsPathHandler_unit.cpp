@@ -12,25 +12,22 @@ using namespace alba;
 TEST(WindowsPathTest, FullPathWithOnlyDirectoryGiven_WindowsStyleInput)
 {
     AlbaWindowsPathHandler pathHandler(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\)");
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\)", pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
-    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
-    EXPECT_TRUE(pathHandler.getExtension().empty());
+    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());    EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
 }
 
 TEST(WindowsPathTest, FullPathWithOnlyDirectoryGiven_JumbledSlashes)
 {
     AlbaWindowsPathHandler pathHandler(APRG_DIR_SIMPLFIED R"(////AprgCommon\\\\/AprgCommon/tst\FilesForTests\)");
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\)", pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
-    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
-    EXPECT_TRUE(pathHandler.getExtension().empty());
+    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());    EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
 }
-
 TEST(WindowsPathTest, FullPathWithOnlyDirectoryGiven_WithNumbersAndSpecialCharacters)
 {
     AlbaWindowsPathHandler pathHandler(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\AprgCommon\tst\)");
@@ -97,69 +94,61 @@ TEST(WindowsPathTest, FullPathWithDirectoryAndFileNoFileExtensionGiven_WithNumbe
 TEST(WindowsPathTest, FullPathWithDirectoryAndFile_DoublePeriodInPath)
 {
     AlbaWindowsPathHandler pathHandler(APRG_DIR_SIMPLFIED R"(\..\dir\file.txt)");
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(R"(C:\dir\)", pathHandler.getDirectory());
     EXPECT_EQ("file.txt", pathHandler.getFile());
-    EXPECT_EQ("file", pathHandler.getFilenameOnly());
-    EXPECT_EQ("txt", pathHandler.getExtension());
+    EXPECT_EQ("file", pathHandler.getFilenameOnly());    EXPECT_EQ("txt", pathHandler.getExtension());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
 
     pathHandler.input(APRG_DIR_SIMPLFIED R"(\dir\..\..\file.txt)");
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(R"(C:\)", pathHandler.getDirectory());
     EXPECT_EQ("file.txt", pathHandler.getFile());
-    EXPECT_EQ("file", pathHandler.getFilenameOnly());
-    EXPECT_EQ("txt", pathHandler.getExtension());
+    EXPECT_EQ("file", pathHandler.getFilenameOnly());    EXPECT_EQ("txt", pathHandler.getExtension());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
 
     pathHandler.input(APRG_DIR_SIMPLFIED R"(\dir\..\dir2\dir3\..\file.txt)");
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(pathHandler.getDirectory(), APRG_DIR_SIMPLFIED R"(\dir2\)");
     EXPECT_EQ(pathHandler.getFile(), "file.txt");
-    EXPECT_EQ(pathHandler.getFilenameOnly(), "file");
-    EXPECT_EQ(pathHandler.getExtension(), "txt");
+    EXPECT_EQ(pathHandler.getFilenameOnly(), "file");    EXPECT_EQ(pathHandler.getExtension(), "txt");
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
 }
 
 TEST(WindowsPathTest, FullPathWithDirectoryAndFile_ActualLocalDirectory)
 {
     AlbaWindowsPathHandler pathHandler(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\File1.log)");
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\)", pathHandler.getDirectory());
     EXPECT_EQ("File1.log", pathHandler.getFile());
-    EXPECT_EQ("File1", pathHandler.getFilenameOnly());
-    EXPECT_EQ("log", pathHandler.getExtension());
+    EXPECT_EQ("File1", pathHandler.getFilenameOnly());    EXPECT_EQ("log", pathHandler.getExtension());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 
     pathHandler.input(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\thisFileDoesNotExist.txt)");
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\)", pathHandler.getDirectory());
     EXPECT_EQ("thisFileDoesNotExist.txt", pathHandler.getFile());
-    EXPECT_EQ("thisFileDoesNotExist", pathHandler.getFilenameOnly());
-    EXPECT_EQ("txt", pathHandler.getExtension());
+    EXPECT_EQ("thisFileDoesNotExist", pathHandler.getFilenameOnly());    EXPECT_EQ("txt", pathHandler.getExtension());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
     EXPECT_FALSE(pathHandler.isFoundInLocalSystem());
 
     pathHandler.input(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests)");
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\)", pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
-    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
-    EXPECT_TRUE(pathHandler.getExtension().empty());
+    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());    EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 
     pathHandler.input(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\)");
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\)", pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
-    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
-    EXPECT_TRUE(pathHandler.getExtension().empty());
+    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());    EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 }
-
 TEST(WindowsPathTest, ReInputFileThatIsToBeDeleted_ActualLocalDirectory)
 {
     string const pathOfFileToBeDeleted(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\FileToBeDeleted.log)");
@@ -167,25 +156,22 @@ TEST(WindowsPathTest, ReInputFileThatIsToBeDeleted_ActualLocalDirectory)
     fileToBeDeleted.close();
 
     AlbaWindowsPathHandler pathHandler(pathOfFileToBeDeleted);
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\)", pathHandler.getDirectory());
     EXPECT_EQ("FileToBeDeleted.log", pathHandler.getFile());
-    EXPECT_EQ("FileToBeDeleted", pathHandler.getFilenameOnly());
-    EXPECT_EQ("log", pathHandler.getExtension());
+    EXPECT_EQ("FileToBeDeleted", pathHandler.getFilenameOnly());    EXPECT_EQ("log", pathHandler.getExtension());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 
     EXPECT_TRUE(pathHandler.deleteFile());
 
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\)", pathHandler.getDirectory());
     EXPECT_EQ("FileToBeDeleted.log", pathHandler.getFile());
-    EXPECT_EQ("FileToBeDeleted", pathHandler.getFilenameOnly());
-    EXPECT_EQ("log", pathHandler.getExtension());
+    EXPECT_EQ("FileToBeDeleted", pathHandler.getFilenameOnly());    EXPECT_EQ("log", pathHandler.getExtension());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
     EXPECT_FALSE(pathHandler.isFoundInLocalSystem());
 }
-
 TEST(WindowsPathTest, ReInputFileThatIsToBeRenamed_ActualLocalDirectory)
 {
     string const pathOfFileToBeRenamed(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\FileToBeRenamed.log)");
@@ -193,24 +179,21 @@ TEST(WindowsPathTest, ReInputFileThatIsToBeRenamed_ActualLocalDirectory)
     fileToBeDeleted.close();
 
     AlbaWindowsPathHandler pathHandler(pathOfFileToBeRenamed);
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\)", pathHandler.getDirectory());
     EXPECT_EQ("FileToBeRenamed.log", pathHandler.getFile());
-    EXPECT_EQ("FileToBeRenamed", pathHandler.getFilenameOnly());
-    EXPECT_EQ("log", pathHandler.getExtension());
+    EXPECT_EQ("FileToBeRenamed", pathHandler.getFilenameOnly());    EXPECT_EQ("log", pathHandler.getExtension());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 
     EXPECT_TRUE(pathHandler.renameFile("RenamedFile.txt"));
 
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\)", pathHandler.getDirectory());
     EXPECT_EQ("RenamedFile.txt", pathHandler.getFile());
-    EXPECT_EQ("RenamedFile", pathHandler.getFilenameOnly());
-    EXPECT_EQ("txt", pathHandler.getExtension());
+    EXPECT_EQ("RenamedFile", pathHandler.getFilenameOnly());    EXPECT_EQ("txt", pathHandler.getExtension());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
-
     EXPECT_TRUE(pathHandler.deleteFile());
 }
 
@@ -222,25 +205,22 @@ TEST(WindowsPathTest, FileIsCopiedToNewFile_ActualLocalDirectory)
     fileToBeDeleted.close();
 
     AlbaWindowsPathHandler pathHandler(pathOfFileToBeCopied);
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\)", pathHandler.getDirectory());
     EXPECT_EQ("FileToBeCopied.log", pathHandler.getFile());
-    EXPECT_EQ("FileToBeCopied", pathHandler.getFilenameOnly());
-    EXPECT_EQ("log", pathHandler.getExtension());
+    EXPECT_EQ("FileToBeCopied", pathHandler.getFilenameOnly());    EXPECT_EQ("log", pathHandler.getExtension());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 
     EXPECT_TRUE(pathHandler.copyToNewFile(pathHandler.getDirectory()+pathOfCopiedFile));
 
     AlbaWindowsPathHandler pathHandlerOfCopiedFile(pathHandler.getDirectory()+pathOfCopiedFile);
-    EXPECT_EQ("C", pathHandlerOfCopiedFile.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandlerOfCopiedFile.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\)", pathHandlerOfCopiedFile.getDirectory());
     EXPECT_EQ("CopiedFile.log", pathHandlerOfCopiedFile.getFile());
-    EXPECT_EQ("CopiedFile", pathHandlerOfCopiedFile.getFilenameOnly());
-    EXPECT_EQ("log", pathHandlerOfCopiedFile.getExtension());
+    EXPECT_EQ("CopiedFile", pathHandlerOfCopiedFile.getFilenameOnly());    EXPECT_EQ("log", pathHandlerOfCopiedFile.getExtension());
     EXPECT_EQ(PathType::File, pathHandlerOfCopiedFile.getPathType());
     EXPECT_TRUE(pathHandlerOfCopiedFile.isFoundInLocalSystem());
-
     EXPECT_TRUE(pathHandler.deleteFile());
     EXPECT_TRUE(pathHandlerOfCopiedFile.deleteFile());
 }
@@ -250,35 +230,31 @@ TEST(WindowsPathTest, ReInputDirectoryThatIsToBeRenamed_ActualLocalDirectory)
     string const pathOfDirectoryToBeRenamed(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1)");
 
     AlbaWindowsPathHandler pathHandler(pathOfDirectoryToBeRenamed);
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1\)",  pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
-    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
-    EXPECT_TRUE(pathHandler.getExtension().empty());
+    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());    EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 
     EXPECT_TRUE(pathHandler.renameImmediateDirectory("RenamedDirectory"));
 
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\RenamedDirectory\)", pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
-    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
-    EXPECT_TRUE(pathHandler.getExtension().empty());
+    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());    EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 
     EXPECT_TRUE(pathHandler.renameImmediateDirectory("DIR1"));
 
-    EXPECT_EQ("C", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(APRG_DIR_DRIVE, pathHandler.getDriveOrRoot());
     EXPECT_EQ(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\DIR1\)", pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
-    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
-    EXPECT_TRUE(pathHandler.getExtension().empty());
+    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());    EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
     EXPECT_TRUE(pathHandler.isFoundInLocalSystem());
 }
-
 TEST(WindowsPathTest, FullPathWithDirectory_FindFileAndDirectoryOneDepth)
 {
     AlbaWindowsPathHandler pathHandler(APRG_DIR_SIMPLFIED R"(\AprgCommon\AprgCommon\tst\FilesForTests\DirectoryTest\)");

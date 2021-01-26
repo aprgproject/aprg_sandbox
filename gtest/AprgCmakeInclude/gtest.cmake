@@ -21,5 +21,5 @@ add_library(gtest
     ${GOOGLE_TEST_DIR}/src/gtest-all.cc
     ${GOOGLE_TEST_DIR}/src/gtest_main.cc
     )
-enable_testing(true)
 
+enable_testing(true)

@@ -604,15 +604,13 @@ struct _RTL_CRITICAL_SECTION;
     || GTEST_OS_QNX || GTEST_OS_FREEBSD || GTEST_OS_NACL)
 #endif  // GTEST_HAS_PTHREAD
 
-#if GTEST_HAS_PTHREAD
+#if GTEST_HAS_PTHREAD && !GTEST_OS_WINDOWS_MINGW
 // gtest-port.h guarantees to #include <pthread.h> when GTEST_HAS_PTHREAD is
 // true.
 # include <pthread.h>  // NOLINT
-
 // For timespec and nanosleep, used below.
 # include <time.h>  // NOLINT
 #endif
-
 // Determines if hash_map/hash_set are available.
 // Only used for testing against those containers.
 #if !defined(GTEST_HAS_HASH_MAP_)
@@ -1441,15 +1439,13 @@ void SetInjectableArgvs(const ::std::vector<testing::internal::string>*
 
 // Defines synchronization primitives.
 #if GTEST_IS_THREADSAFE
-# if GTEST_HAS_PTHREAD
+# if GTEST_HAS_PTHREAD && !GTEST_OS_WINDOWS_MINGW
 // Sleeps for (roughly) n milliseconds.  This function is only for testing
 // Google Test's own constructs.  Don't use it in user tests, either
-// directly or indirectly.
-inline void SleepMilliseconds(int n) {
+// directly or indirectly.inline void SleepMilliseconds(int n) {
   const timespec time = {
     0,                  // 0 seconds.
-    n * 1000L * 1000L,  // And n ms.
-  };
+    n * 1000L * 1000L,  // And n ms.  };
   nanosleep(&time, NULL);
 }
 # endif  // GTEST_HAS_PTHREAD
@@ -1458,15 +1454,13 @@ inline void SleepMilliseconds(int n) {
 // Notification has already been imported into the namespace.
 // Nothing to do here.
 
-# elif GTEST_HAS_PTHREAD
+# elif GTEST_HAS_PTHREAD && !GTEST_OS_WINDOWS_MINGW
 // Allows a controller thread to pause execution of newly created
 // threads until notified.  Instances of this class must be created
-// and destroyed in the controller thread.
-//
+// and destroyed in the controller thread.//
 // This class is only for testing Google Test's own constructs. Do not
 // use it in user tests, either directly or indirectly.
-class Notification {
- public:
+class Notification { public:
   Notification() : notified_(false) {
     GTEST_CHECK_POSIX_SUCCESS_(pthread_mutex_init(&mutex_, NULL));
   }
@@ -1918,15 +1912,13 @@ class ThreadLocal : public ThreadLocalBase {
   GTEST_DISALLOW_COPY_AND_ASSIGN_(ThreadLocal);
 };
 
-# elif GTEST_HAS_PTHREAD
+# elif GTEST_HAS_PTHREAD && !GTEST_OS_WINDOWS_MINGW
 
 // MutexBase and Mutex implement mutex on pthreads-based platforms.
-class MutexBase {
- public:
+class MutexBase { public:
   // Acquires this mutex.
   void Lock() {
-    GTEST_CHECK_POSIX_SUCCESS_(pthread_mutex_lock(&mutex_));
-    owner_ = pthread_self();
+    GTEST_CHECK_POSIX_SUCCESS_(pthread_mutex_lock(&mutex_));    owner_ = pthread_self();
     has_owner_ = true;
   }
 
