@@ -26,7 +26,7 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 
 #Include gTest, this needs APRG Directory
-include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
+include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 
 #Add files and directories
 include(${APRG_PROCESS_FILES_DIR}/cmake/FilesAndDirectories.cmake)

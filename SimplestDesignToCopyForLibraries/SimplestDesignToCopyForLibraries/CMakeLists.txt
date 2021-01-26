@@ -26,7 +26,7 @@ add_definitions(-DAPRG_DIR="${APRG_DIR}")
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
 #Include gTest, this needs APRG Directory
-include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
+include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 
 #Add files and directories
 include(${SIMPLEST_DESIGN_TO_COPY_DIR}/cmake/FilesAndDirectories.cmake)

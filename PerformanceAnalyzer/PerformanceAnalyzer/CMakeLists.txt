@@ -42,7 +42,7 @@ include(${APRG_DIR}/AprgFileExtractor/AprgCmakeInclude/AprgFileExtractor.cmake)
 include(${APRG_DIR}/TcomTools/AprgCmakeInclude/TcomToolsBackend.cmake)
 
 #Include gTest, this needs APRG Directory
-include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
+include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 
 
 set(SOURCES

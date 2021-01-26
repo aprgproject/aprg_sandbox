@@ -161,8 +161,10 @@ template <stringHelper::SplitStringType splitStringType> void stringHelper::spli
         listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, mainStringLength-startingIndexOfFind));
     }
 }
+
 template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters> (stringHelper::strings & listOfStrings, std::string const& mainString, std::string const& delimiter);
 template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithDelimeters> (stringHelper::strings & listOfStrings, std::string const& mainString, std::string const& delimiter);
+
 std::string stringHelper::combineStrings(stringHelper::strings const& listOfStrings, std::string const& delimiters)
 {
     string result = accumulate(listOfStrings.cbegin(), listOfStrings.cend(), string(""), [&delimiters](string const& previousResult, string const& currentString)
@@ -268,9 +270,11 @@ void stringHelper::splitToStringsUsingASeriesOfDelimeters(strings & listOfString
         }
     }
 }
+
 string stringHelper::getStringWithCapitalLetters(string const& mainString)
 {
-    string result;    result.resize(mainString.length());
+    string result;
+    result.resize(mainString.length());
     transform(mainString.begin(), mainString.end(), result.begin(), ::toupper);
     return result;
 }

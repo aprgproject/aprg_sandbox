@@ -53,3 +53,4 @@ TEST(TimerStackTest, InsertThenExpireAndRemoveTheTimer)
     EXPECT_EQ(0, timerStack.ARRAY_timers_first(firstTimerIndex));
     ASSERT_NE(nullptr, actualTimerDataPtr);
 }
+

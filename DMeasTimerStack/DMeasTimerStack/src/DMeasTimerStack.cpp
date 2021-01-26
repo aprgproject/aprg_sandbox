@@ -188,9 +188,11 @@ TimerStack::TimerIndex TimerStack::ARRAY_timers_next(TimerStack::TimerIndex time
     }
     return ARRAY_timers_end();
 }
+
 TSfn        currSfn;
 
-TimerStack::TimerStack(){
+TimerStack::TimerStack()
+{
     MTSPRINTF("DMEAS: TimerStack constructed\n");
     DMeas::currSfn  = 0;
     timeCounter     = 0;
@@ -218,7 +220,8 @@ void TimerStack::trigExpired(TimerIndex timerIndex)
     TimerType timerType = timerData->timerType;
     timerData->timerType = TimerType::ExpiryLock;
 
-    switch( timerType )    {
+    switch( timerType )
+    {
     case TimerType::MeasurementPeriod:
     case TimerType::MeasurementInit:
     case TimerType::SlaveMeasurementInit:
@@ -227,10 +230,12 @@ void TimerStack::trigExpired(TimerIndex timerIndex)
                    timerIndex,
                    timeCounter,
                    timerData->value.measurement.measurementId,
-                   timerData->value.measurement.userId,                   timerType,
+                   timerData->value.measurement.userId,
+                   timerType,
                    timerData->value.measurement.sicadToWait);
         MTPRINTF("*******************************************\n");
-        //g_MeasContainer.timerExpired(timerType, timerData->value.measurement);        break;
+        //g_MeasContainer.timerExpired(timerType, timerData->value.measurement);
+        break;
     case TimerType::ReconfCommitInd:
         MTPRINTF("*******************************************\n");
         DM_DBG_LOW(
@@ -238,7 +243,8 @@ void TimerStack::trigExpired(TimerIndex timerIndex)
                     timerIndex,
                     timeCounter);
         MTPRINTF("*******************************************\n");
-        //g_RLTable.proceedReconfigCommit( &timerData->value.reconfCommitInd );        break;
+        //g_RLTable.proceedReconfigCommit( &timerData->value.reconfCommitInd );
+        break;
     case TimerType::ChangeDSPInd:
         MTPRINTF("*******************************************\n");
         DM_DBG_LOW(
@@ -246,7 +252,8 @@ void TimerStack::trigExpired(TimerIndex timerIndex)
                     timerIndex,
                     timeCounter);
         MTPRINTF("*******************************************\n");
-        //g_RLTable.timeToChangeDSP( &timerData->value.changeDSPInd );        break;
+        //g_RLTable.timeToChangeDSP( &timerData->value.changeDSPInd );
+        break;
     case TimerType::PrepareChangeInd:
         MTPRINTF("*******************************************\n");
         DM_DBG_LOW(
@@ -254,7 +261,8 @@ void TimerStack::trigExpired(TimerIndex timerIndex)
                     timerIndex,
                     timeCounter);
         MTPRINTF("*******************************************\n");
-        //g_RLTable.userTransferTimer( timerData->value.prepareChangeInd.userId );        break;
+        //g_RLTable.userTransferTimer( timerData->value.prepareChangeInd.userId );
+        break;
     case TimerType::RlDeletion:
         MTPRINTF("*******************************************\n");
         DM_DBG_LOW(
@@ -262,7 +270,8 @@ void TimerStack::trigExpired(TimerIndex timerIndex)
                     timerIndex,
                     timeCounter);
         MTPRINTF("*******************************************\n");
-        //g_RLTable.proceedRlDeletion( &timerData->value.rlDeletion);        break;
+        //g_RLTable.proceedRlDeletion( &timerData->value.rlDeletion);
+        break;
     case TimerType::CommitUserTransfer:
         MTPRINTF("*******************************************\n");
         DM_DBG_LOW(
@@ -270,7 +279,8 @@ void TimerStack::trigExpired(TimerIndex timerIndex)
                     timerIndex,
                     timeCounter);
         MTPRINTF("*******************************************\n");
-        //g_RLTable.proceedCommitUserTransfer( &timerData->value.commitUserTransfer);        break;
+        //g_RLTable.proceedCommitUserTransfer( &timerData->value.commitUserTransfer);
+        break;
 
     case TimerType::NbccRecovery:
         MTPRINTF("*******************************************\n");
@@ -290,8 +300,10 @@ void TimerStack::trigExpired(TimerIndex timerIndex)
                     timerIndex,
                     timeCounter,
                     timerData->value.nbccid);
+
         //g_RLTable.removeDeletedUser(timerData->value.nbccid);
         break;
+
     default:
         DM_WRN_HIGH( "Unknown timer type expired: %d", timerType );
         break;
@@ -306,6 +318,7 @@ EBoolean TimerStack::preRefresh(TSfn const newSfn)
 {
     TSfn tmpSfn;
     EBoolean retVal = EBoolean_False;
+
     if ( DMeas::currSfn < newSfn )
     {
         for ( tmpSfn = DMeas::currSfn + 1 ; tmpSfn <= newSfn ; tmpSfn++ )
@@ -313,7 +326,8 @@ EBoolean TimerStack::preRefresh(TSfn const newSfn)
             retVal = refresh(tmpSfn);
         }
     }
-    else if ( DMeas::currSfn > newSfn )    {
+    else if ( DMeas::currSfn > newSfn )
+    {
         for ( tmpSfn = DMeas::currSfn + 1 ; ((tmpSfn <= newSfn) || (tmpSfn <= MAX_SFN_CYCLE_LEN)) ; tmpSfn++ )
         {
             retVal = refresh(tmpSfn);
@@ -328,13 +342,15 @@ EBoolean TimerStack::preRefresh(TSfn const newSfn)
                 retVal = refresh(tmpSfn);
             }
         }
-    }    else
+    }
+    else
     {
 
 #ifndef MEASURE_DEDICATED_MT_TEST
         (timeFromStart += 20) %= 30000;
         if (EBoolean_True == mayIPrint())
-        {            DM_DBG_LOW("TimerStack.preRefresh: DMeas::currSfn[%u] == newSfn[%u], this should not happen %d.", DMeas::currSfn, newSfn, timeFromStart);
+        {
+            DM_DBG_LOW("TimerStack.preRefresh: DMeas::currSfn[%u] == newSfn[%u], this should not happen %d.", DMeas::currSfn, newSfn, timeFromStart);
         }
 #endif
         retVal = refresh(newSfn);
@@ -346,9 +362,11 @@ EBoolean TimerStack::preRefresh(TSfn const newSfn)
 EBoolean TimerStack::refresh( const TSfn newSfn )
 {
     EBoolean timersTrigged = EBoolean_False;
+
     if( DMeas::currSfn == newSfn ) {
         return timersTrigged;
     }
+
     if( DMeas::currSfn > newSfn )
     {
         timeOffsetToSFN += MAX_SFN_CYCLE_LEN + 1;
@@ -369,7 +387,8 @@ EBoolean TimerStack::refresh( const TSfn newSfn )
         TimerIndex expiredItem = ARRAY_timers_find( timeToExpire );
 
         if( expiredItem != ARRAY_timers_end() )
-        {            timersTrigged = EBoolean_True;
+        {
+            timersTrigged = EBoolean_True;
             MTPRINTF("_____________________________________________________[%u]\n\n",timeToExpire);
             do {
                 trigExpired( expiredItem );
@@ -377,9 +396,11 @@ EBoolean TimerStack::refresh( const TSfn newSfn )
                 TimerIndex itemToBeDeleted  = expiredItem;
 
                 expiredItem = ARRAY_timers_next( expiredItem );
+
                 remove( itemToBeDeleted );
 
-            }            while( expiredItem != ARRAY_timers_end() );
+            }
+            while( expiredItem != ARRAY_timers_end() );
 
             MTPRINTF("_________________________________________________________\n\n");
         }
@@ -426,10 +447,12 @@ EBoolean TimerStack::insertMeasurement(
         TimerIndex & timerIndex,
         TAaSysComSicad const sicadToWait,
         EFaultId const faultId)
-{    TimerData timerData;
+{
+    TimerData timerData;
     timerData.timerType = timerType;
     timerData.value.measurement.measurementId = measurementId;
-    timerData.value.measurement.userId = userId;    timerData.value.measurement.sicadToWait = sicadToWait;
+    timerData.value.measurement.userId = userId;
+    timerData.value.measurement.sicadToWait = sicadToWait;
     timerData.value.measurement.faultId = faultId;
 
     DM_DBG_LOW("[%u]InsertMeasurement: %d timeAdvance: %u ( nbccId: %d / type: %u ), sicad: %#X",
@@ -442,9 +465,11 @@ EBoolean TimerStack::insertMeasurement(
 EBoolean TimerStack::mayIPrint()
 {
     EBoolean ret = EBoolean_False;
+
     if (!nthFib)
     {
-        nthFib = (nthFib + 1) % 6;        ret = EBoolean_True;
+        nthFib = (nthFib + 1) % 6;
+        ret = EBoolean_True;
     }
     else
     {
@@ -466,7 +491,8 @@ EBoolean TimerStack::insert(TimeCounter timerValue, TimerData const& timerData, 
     DM_DBG_LOW( "timerValue: %u (before realSfn handling!)", timerValue);
 
     if( TimerType::ChangeDSPInd    != timerData.timerType
-            && TimerType::ReconfCommitInd != timerData.timerType            && TimerType::CommitUserTransfer != timerData.timerType )
+            && TimerType::ReconfCommitInd != timerData.timerType
+            && TimerType::CommitUserTransfer != timerData.timerType )
     {
         if( realSfn != DMeas::currSfn )
         {
@@ -478,13 +504,15 @@ EBoolean TimerStack::insert(TimeCounter timerValue, TimerData const& timerData, 
                 timerValue += ( realSfn - DMeas::currSfn );
             }
             else
-            {                //realSfn has rolled over but currSfn has not, add MAX_SFN_CYCLE_LEN to realSfn before subtraction
+            {
+                //realSfn has rolled over but currSfn has not, add MAX_SFN_CYCLE_LEN to realSfn before subtraction
                 //-> amount of pending API_SFN_MSG's in DMeas msg buffer: (realSfn+MAX_SFN_CYCLE_LEN) - DMeas::currSfn,
                 //Take the difference into account to get the real timeout
                 timerValue += ( (realSfn+MAX_SFN_CYCLE_LEN) - DMeas::currSfn );
             }
         }
     }
+
     if( TimerType::PrepareChangeInd == timerData.timerType )
     {
         timerValue +=  + timeOffsetToSFN;
@@ -525,7 +553,8 @@ EBoolean TimerStack::renewMeasurement(TimerIndex & timerIndex, TimeCounter const
             initIterator(timerIndex);
 
             DM_DBG_LOW(
-                        "[%u]RenewMeasurement: %d timeAdvance: %u ( nbccId: = %d )",                        timeCounter,
+                        "[%u]RenewMeasurement: %d timeAdvance: %u ( nbccId: = %d )",
+                        timeCounter,
                         timerData.value.measurement.measurementId,
                         timeAdvance,
                         timerData.value.measurement.userId);
@@ -538,10 +567,12 @@ EBoolean TimerStack::renewMeasurement(TimerIndex & timerIndex, TimeCounter const
                          timerData.value.measurement.measurementId, timeCounter, timeAdvance, timerIndex,
                          timerData.value.measurement.userId );
         }
-    }    else
+    }
+    else
     {
         DM_WRN_HIGH( "RenewMeasurement timeCounter: %u, timeAdvance: %u Invalid Iterator", timeCounter, timeAdvance );
     }
+
     return EBoolean_False;
 }
 
@@ -558,16 +589,19 @@ EBoolean TimerStack::remove(TimerIndex& timerIndex)
 
             return retStatus;
         }
+
         if ( TimerType::ExpiryLock != timerData->timerType )
         {
             MTPRINTF("TimerStack::remove(): Timer to be removed by ARRAY_timers_erase, iter: %u\n", timerIndex);
             retStatus = ARRAY_timers_erase(timerIndex);
         }
         else
-        {            DM_DBG_LOW( "Cannot remove timer, which has already expired" );
+        {
+            DM_DBG_LOW( "Cannot remove timer, which has already expired" );
         }
     }
-    else    {
+    else
+    {
         /* 22.11.07: Print changed to debug print because of unnecessary warnings in udp log */
         DM_DBG_LOW( "TimerS: No timer to be removed.");
     }
@@ -594,7 +628,8 @@ void TimerStack::clearUserTimers(TNodeBCommunicationContextId const nBCCId)
             if(nullptr != data)
             {
                 if( data->timerType != TimerType::FreeTimer )
-                {                    if( ( data->timerType == TimerType::ChangeDSPInd  &&  data->value.changeDSPInd.userId == nBCCId )
+                {
+                    if( ( data->timerType == TimerType::ChangeDSPInd  &&  data->value.changeDSPInd.userId == nBCCId )
                             ||
                             ( data->timerType == TimerType::ReconfCommitInd  &&  data->value.reconfCommitInd.userId == nBCCId )
                             ||
@@ -605,10 +640,12 @@ void TimerStack::clearUserTimers(TNodeBCommunicationContextId const nBCCId)
                         data->timerType=TimerType::FreeTimer;
                         if( ARRAY_timers_empty() )
                         {
-                            return;                        }
+                            return;
+                        }
                     }
                 }
-            }        }
+            }
+        }
     }
 }
 
@@ -616,10 +653,12 @@ void TimerStack::clearUserTimers(TNodeBCommunicationContextId const nBCCId)
 void TimerStack::removeTimerPrint(TimerType const timerType, TNodeBCommunicationContextId const nBCCId)
 {
     if ( TimerType::ChangeDSPInd == timerType)
-    {        DM_DBG_LOW(
+    {
+        DM_DBG_LOW(
                     "Removed timer for nbccId: %u, timer type: ChangeDSP",
                     nBCCId);
-    }    else if ( TimerType::ReconfCommitInd == timerType)
+    }
+    else if ( TimerType::ReconfCommitInd == timerType)
     {
         DM_DBG_LOW(
                     "Removed timer for nbccId: %u, timer type: ReconfCommit",
@@ -659,7 +698,8 @@ TimerData* TimerStack::timersFindNbccRecovery(TNodeBCommunicationContextId nbccI
                     timerIndex = traversingIndex;
                     return data;
                 }
-            }        }
+            }
+        }
     }
     MTPRINTF("TimerStack::timersFindNbccRecovery: nbccId: %u  !!!! iter not found ",nbccId);
     return nullptr;
@@ -680,10 +720,12 @@ void TimerStack::dump(TimerIndex begin, TimerIndex end)
             switch(timerData->timerType)
             {
             case DMeas::TimerType::FreeTimer:
-                timerTypeStr = "FREE      ";                break;
+                timerTypeStr = "FREE      ";
+                break;
             case DMeas::TimerType::MeasurementInit:
                 timerTypeStr = "MeasInit  ";
-                break;            case DMeas::TimerType::MeasurementPeriod:
+                break;
+            case DMeas::TimerType::MeasurementPeriod:
                 timerTypeStr = "MeasPeriod";
                 break;
             case DMeas::TimerType::ChangeDSPInd:
@@ -726,8 +768,10 @@ void TimerStack::clear(
         void )
 {
     MTPRINTF("======================== TIMERSTACK - CLEAR =====================\n");
+
     ARRAY_timers_clear(); // 18108EO09P
 }
+
 #endif /* MEASURE_DEDICATED_MT_TEST */
 
 } // namespace DMeas

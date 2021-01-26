@@ -87,7 +87,8 @@ private:
     void saveDspCapacityInformationOfOneDspForR2(std::string const& dspCapacityOfOneDsp, unsigned int const boardId, tcomToolsBackend::BtsLogPrint const& logPrint);
     void initializeDataDumpOfAllDspsForR3();
     void initializeDataDumpOfAllDspsForR2();
-    void initializeDataDumpOfOneDsp(std::string const& dspAddress);    void initializeTotalUsersAndCfsDump();
+    void initializeDataDumpOfOneDsp(std::string const& dspAddress);
+    void initializeTotalUsersAndCfsDump();
     void initializeSaveAllUsersAndCfsDump();
     void saveDataDumpOfOneDsp(std::string const& fileName, DspData const& dspData, tcomToolsBackend::BtsLogPrint const& logPrint);
     void saveTotalUsersAndCfs(tcomToolsBackend::BtsLogPrint const& logPrint);
@@ -110,7 +111,8 @@ private:
     double getTotalMicroseconds(LogTimePair const& logTimePairOfTheUser) const;
     double getTotalMicroseconds(tcomToolsBackend::BtsLogTime const& btsLogTime) const;
     DataCollection<double> m_messageQueueingTime;
-    DataCollection<double> m_rlhRlSetupLatency;    DataCollection<double> m_rlhRlDeletionLatency;
+    DataCollection<double> m_rlhRlSetupLatency;
+    DataCollection<double> m_rlhRlDeletionLatency;
     AlbaLocalPathHandler m_btsLogPathHandler;
     DspData m_maxDspData;
     DspDataMap m_dspDataMap;

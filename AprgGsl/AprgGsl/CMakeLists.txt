@@ -29,7 +29,7 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 
 #Include gTest, this needs APRG Directory
-include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
+include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 
 #Include gsl, this needs APRG Directory
 include(${APRG_DIR}/gsl1.8/AprgCmakeInclude/Gsl.cmake)

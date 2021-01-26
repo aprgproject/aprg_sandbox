@@ -34,7 +34,7 @@ include(${APRG_DIR}/AprgGeometry/AprgCmakeInclude/AprgGeometry.cmake)
 include(${APRG_DIR}/AprgBitmap/AprgCmakeInclude/AprgBitmap.cmake)
 
 #Include gTest, this needs APRG Directory
-include(${APRG_DIR}/gtest-1.7.0/AprgCmakeInclude/gtest.cmake)
+include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 
 set(SOURCES
     src/SOOSA.cpp
