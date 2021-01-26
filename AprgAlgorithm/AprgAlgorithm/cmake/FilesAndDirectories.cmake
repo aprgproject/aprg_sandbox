@@ -1,49 +1,30 @@
-set(APRG_ALGORITHM_INCLUDE_DIRECTORIES
+include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
+include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
+
+set(APRG_ALGORITHM_SOURCE_DIRECTORY
     ${APRG_ALGORITHM_DIR}/src
 )
 
+set(APRG_ALGORITHM_TEST_DIRECTORY
+    ${APRG_ALGORITHM_DIR}/tst
+)
+
+set(APRG_ALGORITHM_INCLUDE_DIRECTORIES
+    ${APRG_ALGORITHM_SOURCE_DIRECTORY}
+)
+
 set(APRG_ALGORITHM_TEST_INCLUDE_DIRECTORIES
-    ${APRG_COMMON_DIR}/tst
+    ${APRG_ALGORITHM_TEST_DIRECTORY}
 )
 
-set(APRG_ALGORITHM_SOURCES
-    ${APRG_ALGORITHM_DIR}/src/BinarySearch/BinarySearch.hpp
-    ${APRG_ALGORITHM_DIR}/src/ExpressionEvaluator/ExpressionEvaluator.hpp
-    ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluator.cpp
-    ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluator.hpp
-    ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluatorPerformOperations.cpp
-    ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluatorPerformOperations.hpp
-    ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.cpp
-    ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.hpp
-    ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringOperatorType.hpp
-    ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringSingletionForString.cpp
-    ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringSingletionForString.hpp
-    ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringToken.cpp
-    ${APRG_ALGORITHM_DIR}/src/GrepStringEvaluator/AlbaGrepStringToken.hpp
-    ${APRG_ALGORITHM_DIR}/src/LargeSorter/AlbaLargeSorter.hpp
-    ${APRG_ALGORITHM_DIR}/src/LargeSorter/DataBlockCache.hpp
-    ${APRG_ALGORITHM_DIR}/src/LargeSorter/AlbaLargeSorterConfiguration.hpp
-    ${APRG_ALGORITHM_DIR}/src/LargeSorter/AlbaLargeSorterTypes.hpp
-    ${APRG_ALGORITHM_DIR}/src/LargeSorter/DataBlock.hpp
-    ${APRG_ALGORITHM_DIR}/src/LargeSorter/DataBlockFileHandler.hpp
-    ${APRG_ALGORITHM_DIR}/src/LargeSorter/DataBlockMemoryHandler.hpp
-    ${APRG_ALGORITHM_DIR}/src/LargeSorter/DataBlocks.hpp
-    ${APRG_ALGORITHM_DIR}/src/QuineMcCluskey/QuineMcCluskey.cpp
-    ${APRG_ALGORITHM_DIR}/src/QuineMcCluskey/QuineMcCluskey.hpp
-    ${APRG_ALGORITHM_DIR}/src/UnionFind/UnionFind.hpp
-)
+PRINT_STATUS("Looking for SRC directories in: [${APRG_ALGORITHM_SOURCE_DIRECTORY}]")
+GET_SUB_DIRECTORY_LIST(APRG_ALGORITHM_SOURCE_DIRECTORY_LIST ${APRG_ALGORITHM_SOURCE_DIRECTORY})
+GET_SOURCE_FILES_FROM_DIRECTORIES(APRG_ALGORITHM_SOURCES APRG_ALGORITHM_SOURCE_DIRECTORY_LIST)
 
-set(APRG_ALGORITHM_TESTS
-    ${APRG_ALGORITHM_DIR}/tst/AlbaGrepStringEvaluator_unit.cpp
-    ${APRG_ALGORITHM_DIR}/tst/AlbaLargeSorter_unit.cpp
-    ${APRG_ALGORITHM_DIR}/tst/AlbaLargeSorterProfiling_unit.cpp
-    ${APRG_ALGORITHM_DIR}/tst/BinarySearch_unit.cpp
-    ${APRG_ALGORITHM_DIR}/tst/ExpressionEvaluator_unit.cpp
-    ${APRG_ALGORITHM_DIR}/tst/QuineMcCluskey_unit.cpp
-    ${APRG_ALGORITHM_DIR}/tst/UnionFind_unit.cpp
-)
+PRINT_STATUS("Looking for TST directories in: [${APRG_ALGORITHM_TEST_DIRECTORY}]")
+GET_SUB_DIRECTORY_LIST(APRG_ALGORITHM_TEST_DIRECTORY_LIST ${APRG_ALGORITHM_TEST_DIRECTORY})
+GET_SOURCE_FILES_FROM_DIRECTORIES(APRG_ALGORITHM_TESTS APRG_ALGORITHM_TEST_DIRECTORY_LIST)
 
 set(APRG_ALGORITHM_SOURCES_AND_TESTS
     ${APRG_ALGORITHM_SOURCES}
-    ${APRG_ALGORITHM_TESTS}
-)
+    ${APRG_ALGORITHM_TESTS})

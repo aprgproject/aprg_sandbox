@@ -304,11 +304,10 @@ TEST(LineTest, LineWithExtremeSlopeWithManyPoints)
     EXPECT_EQ(-868.451, line.getCCoefficient());
 
     Points points(line.getPoints(Point(0,0), Point(3194,3966), 1));
-    ASSERT_EQ(4659, points.size());
+    ASSERT_EQ(4659u, points.size());
 }
 
-TEST(LineTest, LineCanBeComparedForEquality)
-{
+TEST(LineTest, LineCanBeComparedForEquality){
     EXPECT_EQ(Line(1,2,3), Line(10,20,30));
     EXPECT_NE(Line(1,2,3), Line(2,3,4));
 }

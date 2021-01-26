@@ -1,6 +1,5 @@
-for(SomeDetailsHere)
-    while(SomeAdditionalDetailsHere)
-         while(SomeAdditionalDetailsHere)
-         }
-    }
-}
+typedef enum {
+MyEnum_Value0  = 0,
+MyEnum_Value2  = 2,
+MyEnum_Value5  = 5
+} MyEnum;

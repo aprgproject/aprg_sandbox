@@ -1,40 +1,30 @@
-set(APRG_STATISTICS_INCLUDE_DIRECTORIES
+include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
+include(${APRG_DIR}/AprgCMakeHelpers/PrintMacros.cmake)
+
+set(APRG_STATISTICS_SOURCE_DIRECTORY
     ${APRG_STATISTICS_DIR}/src
 )
 
-set(APRG_STATISTICS_TEST_INCLUDE_DIRECTORIES
+set(APRG_STATISTICS_TEST_DIRECTORY
     ${APRG_STATISTICS_DIR}/tst
 )
 
-set(APRG_STATISTICS_SOURCES
-    ${APRG_STATISTICS_DIR}/src/DataCollection.hpp
-    ${APRG_STATISTICS_DIR}/src/DataSample.hpp
-    ${APRG_STATISTICS_DIR}/src/DataStatistics.hpp
-    ${APRG_STATISTICS_DIR}/src/DataStatisticsUtilities.hpp
-    ${APRG_STATISTICS_DIR}/src/FrequencyStatistics.cpp
-    ${APRG_STATISTICS_DIR}/src/FrequencyStatistics.hpp
-    ${APRG_STATISTICS_DIR}/src/KMeansClustering.cpp
-    ${APRG_STATISTICS_DIR}/src/KMeansClustering.hpp
-    ${APRG_STATISTICS_DIR}/src/OutlierStatistics.hpp
-    ${APRG_STATISTICS_DIR}/src/OneDimensionsStatistics.cpp
-    ${APRG_STATISTICS_DIR}/src/OneDimensionsStatistics.hpp
-    ${APRG_STATISTICS_DIR}/src/TwoDimensionsStatistics.cpp
-    ${APRG_STATISTICS_DIR}/src/TwoDimensionsStatistics.hpp
+set(APRG_STATISTICS_INCLUDE_DIRECTORIES
+    ${APRG_STATISTICS_SOURCE_DIRECTORY}
 )
 
-set(APRG_STATISTICS_TESTS
-    ${APRG_STATISTICS_DIR}/tst/DataCollection_unit.cpp
-    ${APRG_STATISTICS_DIR}/tst/DataSample_unit.cpp
-    ${APRG_STATISTICS_DIR}/tst/DataStatistics_unit.cpp
-    ${APRG_STATISTICS_DIR}/tst/DataStatisticsUtilities_unit.cpp
-    ${APRG_STATISTICS_DIR}/tst/FrequencyStatistics_unit.cpp
-    ${APRG_STATISTICS_DIR}/tst/KMeansClustering_unit.cpp
-    ${APRG_STATISTICS_DIR}/tst/OneDimensionsStatistics_unit.cpp
-    ${APRG_STATISTICS_DIR}/tst/OutlierStatistics_unit.cpp
-    ${APRG_STATISTICS_DIR}/tst/TwoDimensionsStatistics_unit.cpp
+set(APRG_STATISTICS_TEST_INCLUDE_DIRECTORIES
+    ${APRG_STATISTICS_TEST_DIRECTORY}
 )
+
+PRINT_STATUS("Looking for SRC directories in: [${APRG_STATISTICS_SOURCE_DIRECTORY}]")
+GET_SUB_DIRECTORY_LIST(APRG_STATISTICS_SOURCE_DIRECTORY_LIST ${APRG_STATISTICS_SOURCE_DIRECTORY})
+GET_SOURCE_FILES_FROM_DIRECTORIES(APRG_STATISTICS_SOURCES APRG_STATISTICS_SOURCE_DIRECTORY_LIST)
+
+PRINT_STATUS("Looking for TST directories in: [${APRG_STATISTICS_TEST_DIRECTORY}]")
+GET_SUB_DIRECTORY_LIST(APRG_STATISTICS_TEST_DIRECTORY_LIST ${APRG_STATISTICS_TEST_DIRECTORY})
+GET_SOURCE_FILES_FROM_DIRECTORIES(APRG_STATISTICS_TESTS APRG_STATISTICS_TEST_DIRECTORY_LIST)
 
 set(APRG_STATISTICS_SOURCES_AND_TESTS
     ${APRG_STATISTICS_SOURCES}
-    ${APRG_STATISTICS_TESTS}
-)
+    ${APRG_STATISTICS_TESTS})
