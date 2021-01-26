@@ -7,16 +7,13 @@
 
 #include <iostream>
 
-#include <Debug/AlbaDebug.hpp>
-
+using namespace alba::stringHelper;
 using namespace std;
 using tcomToolsBackend::BtsLogPrint;
-using tcomToolsBackend::BtsLogTime;
-using tcomToolsBackend::BtsLogTimeType;
+using tcomToolsBackend::BtsLogTime;using tcomToolsBackend::BtsLogTimeType;
 
 namespace alba
 {
-
 BtsLogAnalyzer::PrintsAvailable::PrintsAvailable()
     : hasBB_2_RL_SETUP_REQ_MSG(false)
     , hasBB_2_RL_SETUP_ACK_MSG(false)
@@ -40,599 +37,213 @@ void BtsLogAnalyzer::processFileWithSortedPrints(std::string const& pathOfBtsSor
     clear();
 
     m_btsLogPathHandler.input(pathOfBtsSortedLog);
-    AlbaLocalPathHandler messageQueueingTimeFilePathHandler(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_MessageQueueingTime.csv");
-    AlbaLocalPathHandler rlSetupTimeFilePathHandler(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_RlSetupTime.csv");
-    AlbaLocalPathHandler rlDeletionTimeFilePathHandler(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_RlDeletionTime.csv");
-    AlbaLocalPathHandler rlSetupPerSecond(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_RlSetupPerSecond.csv");
-
     ifstream inputLogFileStream(m_btsLogPathHandler.getFullPath());
-    ofstream messageQueueingTimeFileStream(messageQueueingTimeFilePathHandler.getFullPath());
-    ofstream rlSetupTimeFileStream(rlSetupTimeFilePathHandler.getFullPath());
-    ofstream rlDeletionTimeFileStream(rlDeletionTimeFilePathHandler.getFullPath());
-    ofstream rlSetupPerSecondFileStream(rlSetupPerSecond.getFullPath());
-    initializeCsvFileStreams(messageQueueingTimeFileStream, rlSetupTimeFileStream, rlDeletionTimeFileStream);
-    rlSetupPerSecondFileStream<<"Time,Number Of RL setup in a second"<<endl;
-    //initializeDataDumpOfAllDspsForR3();
+    initializeMessageQueueingTimeFileStream();
+    initializeRlSetupTimeFileStream();
+    initializeRlSetupPerSecondFileStream();
+    initializeRlDeletionTimeFileStream();
+    initializeRlSetupPerSecondFileStream();
+    initializeDataDumpOfAllDspsForR3();
 
     AlbaFileReader fileReader(inputLogFileStream);
-    LogTimePairs rlSetupLogTimePairs;
-    LogTimePairs rlDeletionLogTimePairs;
+    LogTimePairs rlSetupLogTimePairs;    LogTimePairs rlDeletionLogTimePairs;
     while(fileReader.isNotFinished())
     {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
-        saveQueueingTime(lineInLogs, messageQueueingTimeFileStream);
-        saveRlhSetupTime(lineInLogs, rlSetupLogTimePairs, rlSetupTimeFileStream);
-        saveRlhDeletionTime(lineInLogs, rlDeletionLogTimePairs, rlDeletionTimeFileStream);
+        saveQueueingTime(lineInLogs);
+        saveRlhSetupTime(lineInLogs, rlSetupLogTimePairs);
+        saveRlhDeletionTime(lineInLogs, rlDeletionLogTimePairs);
         saveAdditionalPrintsRlSetup(lineInLogs, rlSetupLogTimePairs);
-        saveRlSetupPerSecond(lineInLogs, rlSetupPerSecondFileStream);
-        //saveDspCapacityInformationForR3(lineInLogs);
+        saveRlSetupPerSecond(lineInLogs);
+        saveDspCapacityInformationForR3(lineInLogs);
     }
+}
+
+void BtsLogAnalyzer::initializeMessageQueueingTimeFileStream()
+{
+    AlbaLocalPathHandler messageQueueingTimeFilePathHandler(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_MessageQueueingTime.csv");
+    messageQueueingTimeFileStreamOptional.createObjectUsingDefaultConstructor();
+    ofstream& messageQueueingTimeFileStream(messageQueueingTimeFileStreamOptional.getReference());
+    messageQueueingTimeFileStream.open(messageQueueingTimeFilePathHandler.getFullPath());
+    messageQueueingTimeFileStream.precision(20);
+    messageQueueingTimeFileStream<<"QueueingTime,LogPrint"<<endl;
+}
+
+void BtsLogAnalyzer::initializeRlSetupTimeFileStream()
+{
+    AlbaLocalPathHandler rlSetupTimeFilePathHandler(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_RlSetupTime.csv");
+    rlSetupTimeFileStreamOptional.createObjectUsingDefaultConstructor();
+    ofstream& rlSetupTimeFileStream(rlSetupTimeFileStreamOptional.getReference());
+    rlSetupTimeFileStream.open(rlSetupTimeFilePathHandler.getFullPath());
+    rlSetupTimeFileStream.precision(20);
+    rlSetupTimeFileStream<<"CrnccId,NbccId,TransactionId,Latency(microseconds),BB_2_RL_SETUP_REQ_MSG,BB_2_RL_SETUP_ACK_MSG,TC_TRANSPORT_BEARER_REGISTER_MSG,TC_TRANSPORT_BEARER_REGISTER_RESP_MSG"<<endl;
+}
+
+void BtsLogAnalyzer::initializeRlDeletionTimeFileStream()
+{
+    AlbaLocalPathHandler rlDeletionTimeFilePathHandler(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_RlDeletionTime.csv");
+    rlDeletionTimeFileStreamOptional.createObjectUsingDefaultConstructor();
+    ofstream& rlDeletionTimeFileStream(rlDeletionTimeFileStreamOptional.getReference());
+    rlDeletionTimeFileStream.open(rlDeletionTimeFilePathHandler.getFullPath());
+    rlDeletionTimeFileStream.precision(20);
+    rlDeletionTimeFileStream<<"CrnccId,NbccId,TransactionId,Latency(microseconds),BB_2_RL_SETUP_REQ_MSG,BB_2_RL_SETUP_ACK_MSG,TC_TRANSPORT_BEARER_REGISTER_MSG,TC_TRANSPORT_BEARER_REGISTER_RESP_MSG"<<endl;
+}
+
+void BtsLogAnalyzer::initializeRlSetupPerSecondFileStream()
+{
+    AlbaLocalPathHandler rlSetupPerSecondFilePathHandler(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_RlSetupPerSecond.csv");
+    rlSetupPerSecondFileStreamOptional.createObjectUsingDefaultConstructor();
+    ofstream& rlSetupPerSecondFileStream(rlSetupPerSecondFileStreamOptional.getReference());
+    rlSetupPerSecondFileStream.open(rlSetupPerSecondFilePathHandler.getFullPath());
+    rlSetupPerSecondFileStream.precision(20);
+    rlSetupPerSecondFileStream<<"Time,Number Of RL setup in a second"<<endl;
 }
 
 void BtsLogAnalyzer::saveDspCapacityInformationForR3(string const& lineInLogs)
 {
-    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "printDspCapacityInd(): 0x"))
+    if(isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "printDspCapacityInd(): 0x"))
     {
         BtsLogPrint logPrint(lineInLogs);
-        stringHelper::strings dspCapacitiesPerDsp;
-        stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, lineInLogs, " ");
-        unsigned int boardId(stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getStringInBetweenTwoStrings(lineInLogs, "0x", " ")));
+        strings dspCapacitiesPerDsp;
+        splitToStrings<SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, lineInLogs, " ");
+        unsigned int boardId(convertHexStringToNumber<unsigned int>(getStringInBetweenTwoStrings(lineInLogs, "0x", " ")));
         for(string const& dspCapacityOfOneDsp : dspCapacitiesPerDsp)
         {
-            saveDspCapacityInformationOfOneDspForR3BeforeCni1738(dspCapacityOfOneDsp, boardId, logPrint);
+            saveDspCapacityInformationOfOneDspForR3(dspCapacityOfOneDsp, boardId, logPrint);
         }
     }
 }
-
 void BtsLogAnalyzer::saveDspCapacityInformationOfOneDspForR3(string const& dspCapacityOfOneDsp, unsigned int const boardId, BtsLogPrint const& logPrint)
 {
-    unsigned int state=0;
-    string temp;
+    bool isDspDataFilled(false);
     DspData dspData;
     dspData.boardId=boardId;
-    for(char const character: dspCapacityOfOneDsp)
+    strings delimetersBeforeCni1738{"{", "}", ":", "/", "[", ",", ",", ",", "]", "[", ",", ",", "]"};
+    strings delimetersAfterCni1738{"{", "}", ":", "/", "[", ",", ",", ",", ",", "]", "[", ",", ",", "]"};
+    strings valuesWithBeforeCni1738;
+    strings valuesWithAfterCni1738;
+    splitToStringsUsingASeriesOfDelimeters(valuesWithBeforeCni1738, dspCapacityOfOneDsp, delimetersBeforeCni1738);
+    splitToStringsUsingASeriesOfDelimeters(valuesWithAfterCni1738, dspCapacityOfOneDsp, delimetersAfterCni1738);
+
+    if(valuesWithBeforeCni1738.size()==11)
     {
-        if(state==0)
-        {
-            if(character == '{')
-            {
-                state=1;
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==1)
-        {
-            if(character == '}')
-            {
-                state=2;
-                dspData.lcgId = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==2)
-        {
-            if(character == ':')
-            {
-                state=3;
-                dspData.cpuId = stringHelper::convertHexStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else if(character == 'x')
-            {
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==3)
-        {
-            if(character == '/')
-            {
-                state=4;
-                dspData.availableUlCEs = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==4)
-        {
-            if(character == '[')
-            {
-                state=5;
-                dspData.availableDlCEs = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==5)
-        {
-            if(character == ',')
-            {
-                state=6;
-                dspData.rakeState = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==6)
-        {
-            if(character == ',')
-            {
-                state=7;
-                dspData.rachHand = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==7)
-        {
-            if(character == ',')
-            {
-                state=8;
-                dspData.rakeLoad = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==8)
-        {
-            if(character == ',')
-            {
-                state=9;
-                dspData.hsupaCFs = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==9)
-        {
-            if(character == ']')
-            {
-                state=10;
-                dspData.hsRachCFs = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==10)
-        {
-            if(character == ',')
-            {
-                state=11;
-                dspData.hsupaUsers = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else if(character == '[')
-            {
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==11)
-        {
-            if(character == ',')
-            {
-                state=12;
-                dspData.nbrOfEnhHsupaUsers = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==12)
-        {
-            if(character == ']')
-            {
-                dspData.dchUsers = stringHelper::convertStringToNumber<unsigned int>(temp);
-                state=13;
-            }
-        }
+        strings & values(valuesWithBeforeCni1738);
+        dspData.lcgId = convertStringToNumber<unsigned int>(values[0]);
+        dspData.cpuId = convertHexStringToNumber<unsigned int>(values[1]);
+        dspData.availableUlCEs = convertStringToNumber<unsigned int>(values[2]);
+        dspData.availableDlCEs = convertStringToNumber<unsigned int>(values[3]);
+        dspData.rakeState = convertStringToNumber<unsigned int>(values[4]);
+        dspData.rachHand = convertStringToNumber<unsigned int>(values[5]);
+        dspData.rakeLoad = convertStringToNumber<unsigned int>(values[6]);
+        dspData.hsupaCFs = convertStringToNumber<unsigned int>(values[7]);
+        dspData.hsupaUsers = convertStringToNumber<unsigned int>(values[8]);
+        dspData.nbrOfEnhHsupaUsers = convertStringToNumber<unsigned int>(values[9]);
+        dspData.dchUsers = convertStringToNumber<unsigned int>(values[10]);
+        isDspDataFilled=true;
     }
-    if(state==13)
+    if(valuesWithAfterCni1738.size()==12)
+    {
+        strings & values(valuesWithAfterCni1738);
+        dspData.lcgId = convertStringToNumber<unsigned int>(values[0]);
+        dspData.cpuId = convertHexStringToNumber<unsigned int>(values[1]);
+        dspData.availableUlCEs = convertStringToNumber<unsigned int>(values[2]);
+        dspData.availableDlCEs = convertStringToNumber<unsigned int>(values[3]);
+        dspData.rakeState = convertStringToNumber<unsigned int>(values[4]);
+        dspData.rachHand = convertStringToNumber<unsigned int>(values[5]);
+        dspData.rakeLoad = convertStringToNumber<unsigned int>(values[6]);
+        dspData.hsupaCFs = convertStringToNumber<unsigned int>(values[7]);
+        dspData.hsRachCFs = convertStringToNumber<unsigned int>(values[8]);
+        dspData.hsupaUsers = convertStringToNumber<unsigned int>(values[9]);
+        dspData.nbrOfEnhHsupaUsers = convertStringToNumber<unsigned int>(values[10]);
+        dspData.dchUsers = convertStringToNumber<unsigned int>(values[11]);
+        isDspDataFilled=true;
+    }
+    if(isDspDataFilled)
     {
         unsigned int dspAddress = (dspData.boardId<<8) | dspData.cpuId;
         stringstream ss;
         ss<<std::hex<<dspAddress;
         //saveDataDumpOfOneDsp(ss.str(), dspData, logPrint);
         saveDspInformation(dspAddress, dspData);
-        //saveMaxDspInformation(dspData);
         saveTotalUsersAndCfs(logPrint);
         saveAllUsersAndCfs(logPrint);
-        saveDataDumpOfOneDsp("MaxDspInfo", m_maxDspData, logPrint);
+        //saveMaxDspInformation(dspData);
+        //saveDataDumpOfOneDsp("MaxDspInfo", m_maxDspData, logPrint);
     }
 }
 
-void BtsLogAnalyzer::saveDspCapacityInformationOfOneDspForR3BeforeCni1738(string const& dspCapacityOfOneDsp, unsigned int const boardId, BtsLogPrint const& logPrint)
-{
-    unsigned int state=0;
-    string temp;
-    DspData dspData;
-    dspData.boardId=boardId;
-    for(char const character: dspCapacityOfOneDsp)
-    {
-        if(state==0)
-        {
-            if(character == '{')
-            {
-                state=1;
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==1)
-        {
-            if(character == '}')
-            {
-                state=2;
-                dspData.lcgId = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==2)
-        {
-            if(character == ':')
-            {
-                state=3;
-                dspData.cpuId = stringHelper::convertHexStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else if(character == 'x')
-            {
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==3)
-        {
-            if(character == '/')
-            {
-                state=4;
-                dspData.availableUlCEs = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==4)
-        {
-            if(character == '[')
-            {
-                state=5;
-                dspData.availableDlCEs = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==5)
-        {
-            if(character == ',')
-            {
-                state=6;
-                dspData.rakeState = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==6)
-        {
-            if(character == ',')
-            {
-                state=7;
-                dspData.rachHand = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==7)
-        {
-            if(character == ',')
-            {
-                state=8;
-                dspData.rakeLoad = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==8)
-        {
-            if(character == ']')
-            {
-                state=9;
-                dspData.hsupaCFs = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==9)
-        {
-            if(character == ',')
-            {
-                state=10;
-                dspData.hsupaUsers = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else if(character == '[')
-            {
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==10)
-        {
-            if(character == ',')
-            {
-                state=11;
-                dspData.nbrOfEnhHsupaUsers = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==11)
-        {
-            if(character == ']')
-            {
-                dspData.dchUsers = stringHelper::convertStringToNumber<unsigned int>(temp);
-                state=12;
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-    }
-    if(state==12)
-    {
-        unsigned int dspAddress = (dspData.boardId<<8) | dspData.cpuId;
-        stringstream ss;
-        ss<<std::hex<<dspAddress;
-        //saveDataDumpOfOneDsp(ss.str(), dspData, logPrint);
-        saveDspInformation(dspAddress, dspData);
-        //saveMaxDspInformation(dspData);
-        saveTotalUsersAndCfs(logPrint);
-        saveAllUsersAndCfs(logPrint);
-        saveDataDumpOfOneDsp("MaxDspInfo", m_maxDspData, logPrint);
-    }
-}
 
 void BtsLogAnalyzer::saveDspCapacityInformationForR2(string const& lineInLogs)
 {
-    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "INF/TCOM/LRM/Rep, |0x"))
+    if(isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "INF/TCOM/LRM/Rep, |0x"))
     {
         BtsLogPrint logPrint(lineInLogs);
-        stringHelper::strings dspCapacitiesPerDsp;
-        string logsAfterLrmPrint(stringHelper::getStringAfterThisString(lineInLogs, "INF/TCOM/LRM/Rep"));
-        stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, logsAfterLrmPrint, "(");
-        unsigned int boardId(stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getStringInBetweenTwoStrings(lineInLogs, ",0x", "-")));
+        strings dspCapacitiesPerDsp;
+        string logsAfterLrmPrint(getStringAfterThisString(lineInLogs, "INF/TCOM/LRM/Rep"));
+        splitToStrings<SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, logsAfterLrmPrint, "(");
+        unsigned int boardId(convertHexStringToNumber<unsigned int>(getStringInBetweenTwoStrings(lineInLogs, ",0x", "-")));
         for(string const& dspCapacityOfOneDsp : dspCapacitiesPerDsp)
         {
-            saveDspCapacityInformationOfOneDspForR2(dspCapacityOfOneDsp, boardId, logPrint);
-        }
+            saveDspCapacityInformationOfOneDspForR2(dspCapacityOfOneDsp, boardId, logPrint);        }
     }
 }
 
 void BtsLogAnalyzer::saveDspCapacityInformationOfOneDspForR2(string const& dspCapacityOfOneDsp, unsigned int const boardId, BtsLogPrint const& logPrint)
 {
-    unsigned int state=0;
-    string temp;
+    bool isDspDataFilled(false);
     DspData dspData;
     dspData.boardId=boardId;
-    for(char const character: dspCapacityOfOneDsp)
+    strings delimetersBeforeCni1738{":", "/", "[", ",", ",", ",", ",", ",", "]"};
+    strings delimetersAfterCni1738{":", "/", "[", ",", ",", ",", ",", ",", ",", "]"};
+    strings valuesWithBeforeCni1738;
+    strings valuesWithAfterCni1738;
+    splitToStringsUsingASeriesOfDelimeters(valuesWithBeforeCni1738, dspCapacityOfOneDsp, delimetersBeforeCni1738);
+    splitToStringsUsingASeriesOfDelimeters(valuesWithAfterCni1738, dspCapacityOfOneDsp, delimetersAfterCni1738);
+
+    if(valuesWithBeforeCni1738.size()==9)
     {
-        ALBA_PRINT2(character, state);
-        if(state==0)
-        {
-            if(character == ':')
-            {
-                state=1;
-                dspData.cpuId = stringHelper::convertHexStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==1)
-        {
-            if(character == '/')
-            {
-                state=2;
-                dspData.availableDlCEs = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==2)
-        {
-            if(character == '[')
-            {
-                state=3;
-                dspData.availableUlCEs = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==3)
-        {
-            if(character == ',')
-            {
-                state=4;
-                dspData.rakeState = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==4)
-        {
-            if(character == ',')
-            {
-                state=5;
-                dspData.rachHand = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==5)
-        {
-            if(character == ',')
-            {
-                state=6;
-                dspData.rakeLoad = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==6)
-        {
-            if(character == ',')
-            {
-                state=7;
-                dspData.hsupaCFs = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==7)
-        {
-            if(character == ',')
-            {
-                state=8;
-                dspData.hsupaUsers = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==8)
-        {
-            if(character == ',')
-            {
-                state=9;
-                dspData.dchUsers = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
-        else if(state==9)
-        {
-            if(character == ']')
-            {
-                state=10;
-                dspData.hsRachCFs = stringHelper::convertStringToNumber<unsigned int>(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp+=character;
-            }
-        }
+        strings & values(valuesWithBeforeCni1738);
+        dspData.cpuId = convertHexStringToNumber<unsigned int>(values[0]);
+        dspData.availableDlCEs = convertStringToNumber<unsigned int>(values[1]);
+        dspData.availableUlCEs = convertStringToNumber<unsigned int>(values[2]);
+        dspData.rakeState = convertStringToNumber<unsigned int>(values[3]);
+        dspData.rachHand = convertStringToNumber<unsigned int>(values[4]);
+        dspData.rakeLoad = convertStringToNumber<unsigned int>(values[5]);
+        dspData.hsupaCFs = convertStringToNumber<unsigned int>(values[6]);
+        dspData.hsupaUsers = convertStringToNumber<unsigned int>(values[7]);
+        dspData.dchUsers = convertStringToNumber<unsigned int>(values[8]);
+        isDspDataFilled=true;
     }
-    ALBA_PRINT0("saveDspCapacityInformationOfOneDspForR2 end");
-    if(state==10)
+    if(valuesWithAfterCni1738.size()==10)
+    {
+        strings & values(valuesWithAfterCni1738);
+        dspData.cpuId = convertHexStringToNumber<unsigned int>(values[0]);
+        dspData.availableDlCEs = convertStringToNumber<unsigned int>(values[1]);
+        dspData.availableUlCEs = convertStringToNumber<unsigned int>(values[2]);
+        dspData.rakeState = convertStringToNumber<unsigned int>(values[3]);
+        dspData.rachHand = convertStringToNumber<unsigned int>(values[4]);
+        dspData.rakeLoad = convertStringToNumber<unsigned int>(values[5]);
+        dspData.hsupaCFs = convertStringToNumber<unsigned int>(values[6]);
+        dspData.hsupaUsers = convertStringToNumber<unsigned int>(values[7]);
+        dspData.dchUsers = convertStringToNumber<unsigned int>(values[8]);
+        dspData.hsRachCFs = convertStringToNumber<unsigned int>(values[9]);
+        isDspDataFilled=true;
+    }
+    if(isDspDataFilled)
     {
         unsigned int dspAddress = (dspData.boardId<<8) | dspData.cpuId;
         stringstream ss;
         ss<<std::hex<<dspAddress;
         //saveDataDumpOfOneDsp(ss.str(), dspData, logPrint);
         saveDspInformation(dspAddress, dspData);
-        //saveMaxDspInformation(dspData);
         saveTotalUsersAndCfs(logPrint);
-        saveDataDumpOfOneDsp("MaxDspInfo", m_maxDspData, logPrint);
+        //saveMaxDspInformation(dspData);
+        //saveDataDumpOfOneDsp("MaxDspInfo", m_maxDspData, logPrint);
     }
 }
-
 void BtsLogAnalyzer::initializeDataDumpOfAllDspsForR3()
 {
-    /*initializeDataDumpOfOneDsp("1230");
-    initializeDataDumpOfOneDsp("1240");
+    /*initializeDataDumpOfOneDsp("1230");    initializeDataDumpOfOneDsp("1240");
     initializeDataDumpOfOneDsp("1250");
     initializeDataDumpOfOneDsp("1260");
     initializeDataDumpOfOneDsp("1270");
@@ -696,14 +307,13 @@ void BtsLogAnalyzer::initializeSaveAllUsersAndCfsDump()
 {
     AlbaLocalPathHandler totalUsersAndCfsFileHandler(m_btsLogPathHandler.getDirectory()+"SaveAllUsersAndCfs.csv");
     ofstream totalUsersAndCfsFileStream(totalUsersAndCfsFileHandler.getFullPath());
+    totalUsersAndCfsFileStream<<"Time,Address,hsupaCFs,totalCfs,dchUsers,hsupaUsers"<<endl;
 }
 
-void BtsLogAnalyzer::saveDataDumpOfOneDsp(string const& fileName, DspData const& dspData, BtsLogPrint const& logPrint)
-{
+void BtsLogAnalyzer::saveDataDumpOfOneDsp(string const& fileName, DspData const& dspData, BtsLogPrint const& logPrint){
     AlbaLocalPathHandler dspDataPathHandler(m_btsLogPathHandler.getDirectory()+fileName+".csv");
     ofstream dspDataFileStream(dspDataPathHandler.getFullPath(), std::ios::ate|std::ios::app);
-    dspDataFileStream<<logPrint.getBtsTime().getEquivalentStringBtsTimeFormat()<<",";
-    dspDataFileStream<<dspData.availableUlCEs<<","<<dspData.availableDlCEs<<",";
+    dspDataFileStream<<logPrint.getBtsTime().getEquivalentStringBtsTimeFormat()<<",";    dspDataFileStream<<dspData.availableUlCEs<<","<<dspData.availableDlCEs<<",";
     dspDataFileStream<<dspData.rakeState<<","<<dspData.rachHand<<","<<dspData.rakeLoad<<",";
     dspDataFileStream<<dspData.hsupaCFs<<","<<dspData.hsRachCFs<<",";
     dspDataFileStream<<dspData.hsupaUsers<<","<<dspData.nbrOfEnhHsupaUsers<<","<<dspData.dchUsers<<",";
@@ -717,15 +327,13 @@ void BtsLogAnalyzer::saveTotalUsersAndCfs(BtsLogPrint const& logPrint)
     unsigned int totalCfs(0);
     unsigned int totalR99Users(0);
     unsigned int totalHsupaUsers(0);
-    for(DspDataPair const& dspDataPair : m_maxDspDataMap)
+    for(DspDataPair const& dspDataPair : m_dspDataMap)
     {
         totalCfs+=dspDataPair.second.hsupaCFs;
-        totalR99Users+=dspDataPair.second.dchUsers;
-        totalHsupaUsers+=dspDataPair.second.hsupaUsers;
+        totalR99Users+=dspDataPair.second.dchUsers;        totalHsupaUsers+=dspDataPair.second.hsupaUsers;
     }
     totalCfsFileStream<<logPrint.getBtsTime().getEquivalentStringBtsTimeFormat()<<",";
-    totalCfsFileStream<<totalCfs<<",";
-    totalCfsFileStream<<totalR99Users<<",";
+    totalCfsFileStream<<totalCfs<<",";    totalCfsFileStream<<totalR99Users<<",";
     totalCfsFileStream<<totalHsupaUsers<<",";
     totalCfsFileStream<<endl;
 }
@@ -733,32 +341,30 @@ void BtsLogAnalyzer::saveTotalUsersAndCfs(BtsLogPrint const& logPrint)
 void BtsLogAnalyzer::saveAllUsersAndCfs(BtsLogPrint const& logPrint)
 {
     AlbaLocalPathHandler dspDataPathHandler(m_btsLogPathHandler.getDirectory()+"SaveAllUsersAndCfs.csv");
-    ofstream totalCfsFileStream(dspDataPathHandler.getFullPath(), std::ios::ate|std::ios::app);
-    totalCfsFileStream<<logPrint.getBtsTime().getEquivalentStringBtsTimeFormat()<<",";
+    ofstream totalUsersAndCfsFileStream(dspDataPathHandler.getFullPath(), std::ios::ate|std::ios::app);
+    totalUsersAndCfsFileStream<<logPrint.getBtsTime().getEquivalentStringBtsTimeFormat()<<",";
     unsigned int totalCfs(0);
-    for(DspDataPair const& dspDataPair : m_maxDspDataMap)
+    for(DspDataPair const& dspDataPair : m_dspDataMap)
     {
         totalCfs+=dspDataPair.second.hsupaCFs;
-        totalCfsFileStream<<hex<<dspDataPair.first<<",";
-        totalCfsFileStream<<dec<<dspDataPair.second.hsupaCFs<<",";
-        totalCfsFileStream<<totalCfs<<",";
-        totalCfsFileStream<<dspDataPair.second.dchUsers<<",";
-        totalCfsFileStream<<dspDataPair.second.hsupaUsers<<",";
+        totalUsersAndCfsFileStream<<hex<<dspDataPair.first<<",";
+        totalUsersAndCfsFileStream<<dec<<dspDataPair.second.hsupaCFs<<",";
+        totalUsersAndCfsFileStream<<totalCfs<<",";
+        totalUsersAndCfsFileStream<<dspDataPair.second.dchUsers<<",";
+        totalUsersAndCfsFileStream<<dspDataPair.second.hsupaUsers<<",";
     }
-    totalCfsFileStream<<endl;
+    totalUsersAndCfsFileStream<<endl;
 }
 
 void BtsLogAnalyzer::saveDspInformation(unsigned int const dspAddress, DspData const& dspData)
 {
-    m_maxDspDataMap[dspAddress] = dspData;
+    m_dspDataMap[dspAddress] = dspData;
 }
 
-void BtsLogAnalyzer::saveMaxDspInformation(DspData const& dspData)
-{
+void BtsLogAnalyzer::saveMaxDspInformation(DspData const& dspData){
     if(dspData.availableUlCEs < m_maxDspData.availableUlCEs)
     {
-        m_maxDspData.availableUlCEs = dspData.availableUlCEs;
-    }
+        m_maxDspData.availableUlCEs = dspData.availableUlCEs;    }
     if(dspData.availableDlCEs < m_maxDspData.availableDlCEs)
     {
         m_maxDspData.availableDlCEs = dspData.availableDlCEs;
@@ -793,101 +399,95 @@ void BtsLogAnalyzer::saveMaxDspInformation(DspData const& dspData)
     }
 }
 
-
-
-void BtsLogAnalyzer::saveQueueingTime(string const& lineInLogs, ofstream& messageQueueingTimeFileStream)
+void BtsLogAnalyzer::saveQueueingTime(string const& lineInLogs)
 {
-    if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "MSG TIME, start queuing time"))
+    if(isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "MSG TIME, start queuing time"))
     {
-        unsigned int messsageQueueingTime(stringHelper::convertStringToNumber<int>(stringHelper::getNumberAfterThisString(lineInLogs, "msgQueuingTime: ")));
+        unsigned int messsageQueueingTime(convertStringToNumber<int>(getNumberAfterThisString(lineInLogs, "msgQueuingTime: ")));
         m_messageQueueingTime.addData(messsageQueueingTime);
-        saveMessageQueueingTimeToCsvFile(lineInLogs, messsageQueueingTime, messageQueueingTimeFileStream);
+        saveMessageQueueingTimeToCsvFile(lineInLogs, messsageQueueingTime);
     }
 }
 
-void BtsLogAnalyzer::saveRlSetupPerSecond(string const& lineInLogs, ofstream& rlSetupPerSecondFileStream)
+void BtsLogAnalyzer::saveRlSetupPerSecond(string const& lineInLogs)
 {
     static BtsLogTime savedSecond;
     static unsigned int numberOfUsersInSecond=0;
-    if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))
+    if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))
     {
         BtsLogTime currentLogTime;
-        BtsLogPrint logPrint(lineInLogs);
-        currentLogTime = logPrint.getBtsTime();
+        BtsLogPrint logPrint(lineInLogs);        currentLogTime = logPrint.getBtsTime();
         currentLogTime.clearMicroSeconds();
         if(savedSecond == currentLogTime)
-        {
-            numberOfUsersInSecond++;
+        {            numberOfUsersInSecond++;
         }
         else
         {
-            rlSetupPerSecondFileStream<<savedSecond.getEquivalentStringBtsTimeFormat()<<","<<numberOfUsersInSecond<<endl;
+            if(rlSetupPerSecondFileStreamOptional.hasContent())
+            {
+                ofstream& rlSetupPerSecondFileStream(rlSetupPerSecondFileStreamOptional.getReference());
+                rlSetupPerSecondFileStream<<savedSecond.getEquivalentStringBtsTimeFormat()<<","<<numberOfUsersInSecond<<endl;
+            }
             savedSecond=currentLogTime;
             numberOfUsersInSecond=0;
-        }
-    }
+        }    }
 }
 
-void BtsLogAnalyzer::saveRlhSetupTime(string const& lineInLogs, LogTimePairs& rlSetupLogTimePairs, ofstream& rlSetupTimeFileStream)
+void BtsLogAnalyzer::saveRlhSetupTime(string const& lineInLogs, LogTimePairs& rlSetupLogTimePairs)
 {
-    if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))
+    if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlSetupReq3G)"))
     {
         UserIdentifiers userIdentifiers(lineInLogs);
         setFirstLogTimeInPair(lineInLogs, userIdentifiers, rlSetupLogTimePairs);
     }
-    else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(RLH_CTRL_RlSetupResp3G)"))
+    else if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(RLH_CTRL_RlSetupResp3G)"))
     {
         UserIdentifiers userIdentifiers(lineInLogs);
         setSecondLogTimeInPair(lineInLogs, userIdentifiers, rlSetupLogTimePairs);
-        computeLatencyAndUpdateIfLogTimePairIsValid(LogType::RlSetup, userIdentifiers, rlSetupLogTimePairs, rlSetupTimeFileStream);
+        computeRlSetupLatencyAndUpdateIfLogTimePairIsValid(userIdentifiers, rlSetupLogTimePairs);
         m_rlSetupPrintsAvailableMap.erase(userIdentifiers);
     }
 }
 
-void BtsLogAnalyzer::saveRlhDeletionTime(string const& lineInLogs, LogTimePairs& rlDeletionLogTimePairs, ofstream& rlDeletionTimeFileStream)
+void BtsLogAnalyzer::saveRlhDeletionTime(string const& lineInLogs, LogTimePairs& rlDeletionLogTimePairs)
 {
-    if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlDeletionReq3G)"))
+    if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(CTRL_RLH_RlDeletionReq3G)"))
     {
         UserIdentifiers userIdentifiers(lineInLogs);
         setFirstLogTimeInPair(lineInLogs, userIdentifiers, rlDeletionLogTimePairs);
     }
-    else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(RLH_CTRL_RlDeletionResp3G)"))
+    else if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(RLH_CTRL_RlDeletionResp3G)"))
     {
         UserIdentifiers userIdentifiers(lineInLogs);
         setSecondLogTimeInPair(lineInLogs, userIdentifiers, rlDeletionLogTimePairs);
-        computeLatencyAndUpdateIfLogTimePairIsValid(LogType::RlDeletion, userIdentifiers, rlDeletionLogTimePairs, rlDeletionTimeFileStream);
-        rlDeletionTimeFileStream<<endl;
+        computeRLDeletionLatencyAndUpdateIfLogTimePairIsValid(userIdentifiers, rlDeletionLogTimePairs);
     }
 }
-
 void BtsLogAnalyzer::saveAdditionalPrintsRlSetup(string const& lineInLogs, LogTimePairs& rlSetupLogTimePairs)
 {
-    UserIdentifiers userIdentifiers(lineInLogs);
-    LogTimePair & logTimePairOfTheUser(rlSetupLogTimePairs[userIdentifiers]);
+    UserIdentifiers userIdentifiers(lineInLogs);    LogTimePair & logTimePairOfTheUser(rlSetupLogTimePairs[userIdentifiers]);
     PrintsAvailable & printsAvailableForTheUser(m_rlSetupPrintsAvailableMap[userIdentifiers]);
     if(logTimePairOfTheUser.first)
     {
-        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(BB_2_RL_SETUP_REQ_MSG)"))
+        if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(BB_2_RL_SETUP_REQ_MSG)"))
         {
             printsAvailableForTheUser.hasBB_2_RL_SETUP_REQ_MSG=true;
         }
-        else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(BB_2_RL_SETUP_ACK_MSG)"))
+        else if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(BB_2_RL_SETUP_ACK_MSG)"))
         {
             printsAvailableForTheUser.hasBB_2_RL_SETUP_ACK_MSG=true;
         }
-        else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_TRANSPORT_BEARER_REGISTER_MSG)"))
+        else if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_TRANSPORT_BEARER_REGISTER_MSG)"))
         {
             printsAvailableForTheUser.hasTC_TRANSPORT_BEARER_REGISTER_MSG=true;
         }
-        else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_TRANSPORT_BEARER_REGISTER_RESP_MSG)"))
+        else if(isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(TC_TRANSPORT_BEARER_REGISTER_RESP_MSG)"))
         {
             printsAvailableForTheUser.hasTC_TRANSPORT_BEARER_REGISTER_RESP_MSG=true;
-        }
-    }
+        }    }
 }
 
-void BtsLogAnalyzer::setFirstLogTimeInPair(string const& lineInLogs, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs) const
-{
+void BtsLogAnalyzer::setFirstLogTimeInPair(string const& lineInLogs, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs) const{
     LogTimePair & logTimePairOfTheUser(logTimePairs[userIdentifiers]);
     setLogTimeIfNeeded(lineInLogs, logTimePairOfTheUser.first);
 }
@@ -898,63 +498,56 @@ void BtsLogAnalyzer::setSecondLogTimeInPair(string const& lineInLogs, UserIdenti
     setLogTimeIfNeeded(lineInLogs, logTimePairOfTheUser.second);
 }
 
-void BtsLogAnalyzer::computeLatencyAndUpdateIfLogTimePairIsValid(LogType const logType, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs, ofstream& csvFileStream)
+void BtsLogAnalyzer::computeRlSetupLatencyAndUpdateIfLogTimePairIsValid(UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs)
 {
     LogTimePair & logTimePairOfTheUser(logTimePairs[userIdentifiers]);
     if(logTimePairOfTheUser.first && logTimePairOfTheUser.second && logTimePairOfTheUser.first.getReference().getTotalSeconds() <= logTimePairOfTheUser.second.getReference().getTotalSeconds())
     {
-        BtsLogTime latency = logTimePairOfTheUser.second.getReference()-logTimePairOfTheUser.first.getReference();
-        double latencyInMicroseconds(getTotalMicroseconds(latency));
-        if(logType == LogType::RlSetup)
+        double latencyInMicroseconds(getTotalMicroseconds(logTimePairOfTheUser));
+        m_rlhRlSetupLatency.addData(latencyInMicroseconds);
+        if(rlSetupTimeFileStreamOptional.hasContent())
         {
-            m_rlhRlSetupLatency.addData(latencyInMicroseconds);
-            saveUserIndentifierAndLatencyToCsvFile(userIdentifiers, latencyInMicroseconds, csvFileStream);
-            savePrintsAvailableToCsvFile(userIdentifiers, csvFileStream);
-            csvFileStream<<endl;
-        }
-        else if(logType == LogType::RlDeletion)
-        {
-            m_rlhRlDeletionLatency.addData(latencyInMicroseconds);
-            saveUserIndentifierAndLatencyToCsvFile(userIdentifiers, latencyInMicroseconds, csvFileStream);
-            csvFileStream<<endl;
+            ofstream& rlSetupTimeFileStream(rlSetupTimeFileStreamOptional.getReference());
+            saveUserIndentifierAndLatencyToCsvFile(userIdentifiers, latencyInMicroseconds, rlSetupTimeFileStream);
+            savePrintsAvailableToCsvFile(userIdentifiers, rlSetupTimeFileStream);
+            rlSetupTimeFileStream<<endl;
         }
     }
     logTimePairs.erase(userIdentifiers);
 }
 
-void BtsLogAnalyzer::initializeCsvFileStreams(ofstream& messageQueueingTimeFileStream, ofstream& rlSetupTimeFileStream, ofstream& rlDeletionTimeFileStream) const
+void BtsLogAnalyzer::computeRLDeletionLatencyAndUpdateIfLogTimePairIsValid(UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs)
 {
-    setPrecisionOfFileStreams(messageQueueingTimeFileStream, rlSetupTimeFileStream, rlDeletionTimeFileStream);
-    saveHeadersOnCsvFiles(messageQueueingTimeFileStream, rlSetupTimeFileStream, rlDeletionTimeFileStream);
+    LogTimePair & logTimePairOfTheUser(logTimePairs[userIdentifiers]);
+    if(logTimePairOfTheUser.first && logTimePairOfTheUser.second && logTimePairOfTheUser.first.getReference().getTotalSeconds() <= logTimePairOfTheUser.second.getReference().getTotalSeconds())
+    {
+        double latencyInMicroseconds(getTotalMicroseconds(logTimePairOfTheUser));
+        m_rlhRlDeletionLatency.addData(latencyInMicroseconds);
+        if(rlDeletionTimeFileStreamOptional.hasContent())
+        {
+            ofstream& rlDeletionTimeFileStream(rlDeletionTimeFileStreamOptional.getReference());
+            saveUserIndentifierAndLatencyToCsvFile(userIdentifiers, latencyInMicroseconds, rlDeletionTimeFileStream);
+            rlDeletionTimeFileStream<<endl;
+        }
+    }
+    logTimePairs.erase(userIdentifiers);
 }
 
-void BtsLogAnalyzer::setPrecisionOfFileStreams(ofstream& messageQueueingTimeFileStream, ofstream& rlSetupTimeFileStream, ofstream& rlDeletionTimeFileStream) const
+void BtsLogAnalyzer::saveMessageQueueingTimeToCsvFile(string const& lineInLogs, unsigned int const messageQueueingTime) const
 {
-    messageQueueingTimeFileStream.precision(20);
-    rlSetupTimeFileStream.precision(20);
-    rlDeletionTimeFileStream.precision(20);
-}
-
-void BtsLogAnalyzer::saveHeadersOnCsvFiles(ofstream& messageQueueingTimeFileStream, ofstream& rlSetupTimeFileStream, ofstream& rlDeletionTimeFileStream) const
-{
-    messageQueueingTimeFileStream<<"QueueingTime,LogPrint"<<endl;
-    rlSetupTimeFileStream<<"CrnccId,NbccId,TransactionId,Latency(microseconds),BB_2_RL_SETUP_REQ_MSG,BB_2_RL_SETUP_ACK_MSG,TC_TRANSPORT_BEARER_REGISTER_MSG,TC_TRANSPORT_BEARER_REGISTER_RESP_MSG"<<endl;
-    rlDeletionTimeFileStream<<"CrnccId,NbccId,TransactionId,Latency(microseconds),BB_2_RL_SETUP_REQ_MSG,BB_2_RL_SETUP_ACK_MSG,TC_TRANSPORT_BEARER_REGISTER_MSG,TC_TRANSPORT_BEARER_REGISTER_RESP_MSG"<<endl;
-}
-
-void BtsLogAnalyzer::saveMessageQueueingTimeToCsvFile(string const& lineInLogs, unsigned int const messageQueueingTime, ofstream& csvFileStream) const
-{
-    csvFileStream<<messageQueueingTime<<","<<lineInLogs<<endl;
+    if(messageQueueingTimeFileStreamOptional.hasContent())
+    {
+        ofstream& messageQueueingTimeFileStream(messageQueueingTimeFileStreamOptional.getReference());
+        messageQueueingTimeFileStream<<messageQueueingTime<<","<<lineInLogs<<endl;
+    }
 }
 
 void BtsLogAnalyzer::saveUserIndentifierAndLatencyToCsvFile(UserIdentifiers const& userIdentifiers, double const latencyInMicroseconds, ofstream& csvFileStream) const
 {
-    csvFileStream<<userIdentifiers.getCrnccId()<<","<<userIdentifiers.getNbccId()<<","<<userIdentifiers.getTransactionId()<<","<<latencyInMicroseconds<<",";
-}
+    csvFileStream<<userIdentifiers.getCrnccId()<<","<<userIdentifiers.getNbccId()<<","<<userIdentifiers.getTransactionId()<<","<<latencyInMicroseconds<<",";}
 
 void BtsLogAnalyzer::savePrintsAvailableToCsvFile(UserIdentifiers const& userIdentifiers, ofstream& csvFileStream)
-{
-    PrintsAvailable & printsAvailable(m_rlSetupPrintsAvailableMap[userIdentifiers]);
+{    PrintsAvailable & printsAvailable(m_rlSetupPrintsAvailableMap[userIdentifiers]);
     csvFileStream<<printsAvailable.hasBB_2_RL_SETUP_REQ_MSG<<","<<printsAvailable.hasBB_2_RL_SETUP_ACK_MSG<<","<<printsAvailable.hasTC_TRANSPORT_BEARER_REGISTER_MSG<<","<<printsAvailable.hasTC_TRANSPORT_BEARER_REGISTER_RESP_MSG<<",";
 }
 
@@ -963,18 +556,22 @@ void BtsLogAnalyzer::setLogTimeIfNeeded(string const& lineInLogs, LogTime& logTi
     BtsLogPrint logPrint(lineInLogs);
     //if(!logPrint.getBtsTime().isStartup())
     //{
-        logTime.setValue(logPrint.getBtsTime());
+    logTime.setValue(logPrint.getBtsTime());
     //}
+}
+
+double BtsLogAnalyzer::getTotalMicroseconds(LogTimePair const& logTimePairOfTheUser) const
+{
+    BtsLogTime latency = logTimePairOfTheUser.second.getReference()-logTimePairOfTheUser.first.getReference();
+    return getTotalMicroseconds(latency);
 }
 
 double BtsLogAnalyzer::getTotalMicroseconds(BtsLogTime const& btsLogTime) const
 {
-    double result((double)btsLogTime.getMinutes()*1000000*60 + (double)btsLogTime.getSeconds()*1000000 + (double)btsLogTime.getMicroSeconds());
-    return result;
+    double result((double)btsLogTime.getMinutes()*1000000*60 + (double)btsLogTime.getSeconds()*1000000 + (double)btsLogTime.getMicroSeconds());    return result;
 }
 
-void BtsLogAnalyzer::printAllCollectedData() const
-{
+void BtsLogAnalyzer::printAllCollectedData() const{
     cout.precision(20);
     cout<<"Message queueing time minimum: "<<m_messageQueueingTime.getMinimum() << " ms" << endl;
     cout<<"Message queueing time maximum: "<<m_messageQueueingTime.getMaximum() << " ms" << endl;

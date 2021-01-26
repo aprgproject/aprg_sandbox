@@ -77,44 +77,49 @@ public:
     void printAllCollectedData() const;
 
 private:
+    void initializeMessageQueueingTimeFileStream();
+    void initializeRlSetupTimeFileStream();
+    void initializeRlDeletionTimeFileStream();
+    void initializeRlSetupPerSecondFileStream();
     void saveDspCapacityInformationForR3(std::string const& lineInLogs);
     void saveDspCapacityInformationOfOneDspForR3(std::string const& dspCapacityOfOneDsp, unsigned int const boardId, tcomToolsBackend::BtsLogPrint const& logPrint);
     void saveDspCapacityInformationForR2(std::string const& lineInLogs);
     void saveDspCapacityInformationOfOneDspForR2(std::string const& dspCapacityOfOneDsp, unsigned int const boardId, tcomToolsBackend::BtsLogPrint const& logPrint);
-    void saveDspCapacityInformationOfOneDspForR3BeforeCni1738(std::string const& dspCapacityOfOneDsp, unsigned int const boardId, tcomToolsBackend::BtsLogPrint const& logPrint);
     void initializeDataDumpOfAllDspsForR3();
     void initializeDataDumpOfAllDspsForR2();
-    void initializeDataDumpOfOneDsp(std::string const& dspAddress);
-    void initializeTotalUsersAndCfsDump();
+    void initializeDataDumpOfOneDsp(std::string const& dspAddress);    void initializeTotalUsersAndCfsDump();
     void initializeSaveAllUsersAndCfsDump();
     void saveDataDumpOfOneDsp(std::string const& fileName, DspData const& dspData, tcomToolsBackend::BtsLogPrint const& logPrint);
     void saveTotalUsersAndCfs(tcomToolsBackend::BtsLogPrint const& logPrint);
     void saveAllUsersAndCfs(tcomToolsBackend::BtsLogPrint const& logPrint);
     void saveDspInformation(unsigned int const dspAddress, DspData const& dspData);
     void saveMaxDspInformation(DspData const& dspData);
-    void saveQueueingTime(std::string const& lineInLogs, std::ofstream& messageQueueingTimeFileStream);
-    void saveRlSetupPerSecond(std::string const& lineInLogs, std::ofstream& rlSetupPerSecondFileStream);
-    void saveRlhSetupTime(std::string const& lineInLogs, LogTimePairs& rlSetupLogTimePairs, std::ofstream& rlSetupTimeFileStream);
-    void saveRlhDeletionTime(std::string const& lineInLogs, LogTimePairs& rlDeletionLogTimePairs, std::ofstream& rlDeletionTimeFileStream);
+    void saveQueueingTime(std::string const& lineInLogs);
+    void saveRlSetupPerSecond(std::string const& lineInLogs);
+    void saveRlhSetupTime(std::string const& lineInLogs, LogTimePairs& rlSetupLogTimePairs);
+    void saveRlhDeletionTime(std::string const& lineInLogs, LogTimePairs& rlDeletionLogTimePairs);
     void saveAdditionalPrintsRlSetup(std::string const& lineInLogs, LogTimePairs& rlSetupLogTimePairs);
     void setFirstLogTimeInPair(std::string const& lineInLogs, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs) const;
     void setSecondLogTimeInPair(std::string const& lineInLogs, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs) const;
-    void computeLatencyAndUpdateIfLogTimePairIsValid(LogType const logType, UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs, std::ofstream& csvFileStream);
-    void initializeCsvFileStreams(std::ofstream& messageQueueingTimeFileStream, std::ofstream& rlSetupTimeFileStream, std::ofstream& rlDeletionTimeFileStream) const;
-    void setPrecisionOfFileStreams(std::ofstream& messageQueueingTimeFileStream, std::ofstream& rlSetupTimeFileStream, std::ofstream& rlDeletionTimeFileStream) const;
-    void saveHeadersOnCsvFiles(std::ofstream& messageQueueingTimeFileStream, std::ofstream& rlSetupTimeFileStream, std::ofstream& rlDeletionTimeFileStream) const;
-    void saveMessageQueueingTimeToCsvFile(std::string const& lineInLogs, unsigned int const messageQueueingTime, std::ofstream& csvFileStream) const;
+    void computeRlSetupLatencyAndUpdateIfLogTimePairIsValid(UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs);
+    void computeRLDeletionLatencyAndUpdateIfLogTimePairIsValid(UserIdentifiers const& userIdentifiers, LogTimePairs& logTimePairs);
+    void saveMessageQueueingTimeToCsvFile(std::string const& lineInLogs, unsigned int const messageQueueingTime) const;
     void saveUserIndentifierAndLatencyToCsvFile(UserIdentifiers const& userIdentifiers, double const latencyInMicroseconds, std::ofstream& csvFileStream) const;
     void savePrintsAvailableToCsvFile(UserIdentifiers const& userIdentifiers, std::ofstream& csvFileStream);
     void setLogTimeIfNeeded(std::string const& lineInLogs, LogTime& logTime) const;
+    double getTotalMicroseconds(LogTimePair const& logTimePairOfTheUser) const;
     double getTotalMicroseconds(tcomToolsBackend::BtsLogTime const& btsLogTime) const;
     DataCollection<double> m_messageQueueingTime;
-    DataCollection<double> m_rlhRlSetupLatency;
-    DataCollection<double> m_rlhRlDeletionLatency;
+    DataCollection<double> m_rlhRlSetupLatency;    DataCollection<double> m_rlhRlDeletionLatency;
     AlbaLocalPathHandler m_btsLogPathHandler;
     DspData m_maxDspData;
-    DspDataMap m_maxDspDataMap;
+    DspDataMap m_dspDataMap;
     PrintsAvailableMap m_rlSetupPrintsAvailableMap;
+    AlbaOptional<std::ofstream> messageQueueingTimeFileStreamOptional;
+    AlbaOptional<std::ofstream> rlSetupTimeFileStreamOptional;
+    AlbaOptional<std::ofstream> rlDeletionTimeFileStreamOptional;
+    AlbaOptional<std::ofstream> rlSetupPerSecondFileStreamOptional;
+
 };
 
 }
