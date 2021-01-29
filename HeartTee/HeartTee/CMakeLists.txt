@@ -8,14 +8,13 @@ set(TEST_MODE "OFF")
 
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
+set(HEART_TEE_DIR ${APRG_DIR}/HeartTee/HeartTee/)
 
 #Assign Flags do not include -mwindows to make a console build
-set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99")
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11")
+set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99")set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11")
 if(WIN32)
     #add -mwindows for windows GUI, do not add for console build
-    #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mwindows")
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
+    #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mwindows")    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
 endif()
 
 #Assign Definitions
@@ -24,44 +23,24 @@ add_definitions(-DAPRG_DIR="${APRG_DIR}")
 #Include gTest, this needs APRG Directory
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 
-set(SOURCES
-    src/HeartTee/HeartTee.cpp
-    src/HeartTee/HeartTee.hpp
-    #mocks/SerialPortMock.hpp #removethis
-    src/SerialPort/SerialPort.cpp
-    src/SerialPort/SerialPort.hpp
-    src/SqlConnect/SqlConnect.cpp
-    src/SqlConnect/SqlConnect.hpp
-    src/Fourier/Fourier.cpp
-    src/Fourier/Fourier.hpp
-)
+#Add files and directories
+include(${HEART_TEE_DIR}/cmake/FilesAndDirectories.cmake)
 
-set(MAIN_SOURCES
-    src/main.cpp
-)
-
-set(TESTS
-    tst/HeartTee_unit.cpp
-)
-
-set(INCLUDE_DIRECTORIES
-    #mocks/#removethis
+set(SPECIAL_INCLUDE_DIRECTORIES
     src/HeartTee
     src/SerialPort
-    src/SqlConnect
-    src/Fourier
+    src/SqlConnect    src/Fourier
 )
 
 if (TEST_MODE)
-    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
-    include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+    add_executable(${OUTFILE} ${HEART_TEE_SOURCES_AND_TESTS})
+    include_directories(${HEART_TEE_INCLUDE_DIRECTORIES} ${HEART_TEE_TEST_INCLUDE_DIRECTORIES} ${SPECIAL_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
     target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT} mysqlclient)
     add_test(${OUTFILE} ${OUTFILE})
-else()
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+else()    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
     set(BUILD_SHARED_LIBRARIES OFF)
     #set(CMAKE_EXE_LINKER_FLAGS "-static")
-    add_executable(${OUTFILE} ${SOURCES} ${MAIN_SOURCES})
-    include_directories(${INCLUDE_DIRECTORIES})
+    add_executable(${OUTFILE} ${HEART_TEE_SOURCES} ${HEART_TEE_MAIN_SOURCES})
+    include_directories(${HEART_TEE_INCLUDE_DIRECTORIES} ${SPECIAL_INCLUDE_DIRECTORIES})
     target_link_libraries(${OUTFILE} mysqlclient)
 endif()
