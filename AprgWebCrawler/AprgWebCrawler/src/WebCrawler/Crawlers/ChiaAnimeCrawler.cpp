@@ -1,8 +1,7 @@
-#include <Crawlers/ChiaAnimeCrawler.hpp>
-
-#include <CrawlHelpers/Downloaders.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
+#include <WebCrawler/CrawlHelpers/Downloaders.hpp>
+#include <WebCrawler/Crawlers/ChiaAnimeCrawler.hpp>
 
 #include <iostream>
 

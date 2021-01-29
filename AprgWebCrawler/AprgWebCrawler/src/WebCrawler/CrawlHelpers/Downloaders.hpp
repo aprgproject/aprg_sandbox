@@ -1,8 +1,8 @@
 #pragma once
 
-#include <CrawlMode.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <PathHandlers/AlbaWebPathHandler.hpp>
+#include <WebCrawler/CrawlMode.hpp>
 
 namespace aprgWebCrawler
 {

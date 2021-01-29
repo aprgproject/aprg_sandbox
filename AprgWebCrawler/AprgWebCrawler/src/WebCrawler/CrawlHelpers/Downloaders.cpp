@@ -1,8 +1,8 @@
 #include "Downloaders.hpp"
 
-#include <CrawlConfiguration/CrawlConfiguration.hpp>
-#include <CrawlHelpers/AutomatedFirefoxBrowser.hpp>
 #include <CurlInterface.hpp>
+#include <WebCrawler/CrawlConfiguration/CrawlConfiguration.hpp>
+#include <WebCrawler/CrawlHelpers/AutomatedFirefoxBrowser.hpp>
 
 #include <windows.h>
 

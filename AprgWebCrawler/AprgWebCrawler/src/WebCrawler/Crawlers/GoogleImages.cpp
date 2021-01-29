@@ -1,8 +1,7 @@
-#include <Crawlers/GoogleImages.hpp>
-
-#include <CrawlHelpers/Downloaders.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
+#include <WebCrawler/Crawlers/GoogleImages.hpp>
+#include <WebCrawler/CrawlHelpers/Downloaders.hpp>
 
 #include <windows.h>
 

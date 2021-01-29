@@ -5,7 +5,7 @@ set(OUTFILE ${PROJECT_NAME})
 
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
-set(BtsLogAnalyzer_DIR ${APRG_DIR}/BtsLogAnalyzer/BtsLogAnalyzer/)
+set(BTS_LOG_ANALYZER_DIR ${APRG_DIR}/BtsLogAnalyzer/BtsLogAnalyzer/)
 
 #Assign Flags
 set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99")
@@ -25,22 +25,16 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 #Include gTest, this needs APRG Directory
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 
-set(SOURCES
-    #src/main.cpp
-    ${APRG_DIR}/TcomTools/TcomToolsBackend/src/BtsLogPrint.cpp
-    ${APRG_DIR}/TcomTools/TcomToolsBackend/src/BtsLogPrint.hpp
-    ${APRG_DIR}/TcomTools/TcomToolsBackend/src/BtsLogTime.cpp
-    ${APRG_DIR}/TcomTools/TcomToolsBackend/src/BtsLogTime.hpp
-    src/BtsLogAnalyzer.cpp
-    src/BtsLogAnalyzer.hpp
-    tst/BtsLogAnalyzer_unit.cpp
-)
+#Include AprgAlgorithm, this needs APRG Directory
+include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 
-add_executable(${OUTFILE} ${SOURCES})
-include_directories(
-    ${APRG_DIR}/TcomTools/TcomToolsBackend/src/
-    src/
-    ${GTEST_INCLUDE_DIRS}
-)
-target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON)
+#Include TcomToolsBackend, this needs APRG Directory
+include(${APRG_DIR}/TcomTools/AprgCmakeInclude/TcomToolsBackend.cmake)
+
+#Add files and directories
+include(${BTS_LOG_ANALYZER_DIR}/cmake/FilesAndDirectories.cmake)
+
+add_executable(${OUTFILE} ${BTS_LOG_ANALYZER_SOURCES_AND_TESTS})
+include_directories(${BTS_LOG_ANALYZER_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+target_link_libraries(${OUTFILE} TCOM_TOOLS_BACKEND APRG_ALGORITHM gtest ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON )
 add_test(${OUTFILE} ${OUTFILE})

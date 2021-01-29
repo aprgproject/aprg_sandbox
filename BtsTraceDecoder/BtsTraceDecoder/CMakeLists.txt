@@ -8,6 +8,7 @@ set(TEST_MODE "ON")
 
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
+set(BTS_TRACE_DECODER_DIR ${APRG_DIR}/BtsTraceDecoder/BtsTraceDecoder/)
 
 #Assign Flags do not include -mwindows to make a console build
 set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99")
@@ -27,34 +28,19 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 #Include gTest, this needs APRG Directory
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 
-set(SOURCES
-    src/BtsTraceDecoder.cpp
-    src/BtsTraceDecoder.hpp
-    src/SymbolTableFileType.hpp
-)
-
-set(MAIN_SOURCES
-    src/main.cpp
-)
-
-set(TESTS
-    tst/BtsTraceDecoder_unit.cpp
-)
-
-set(INCLUDE_DIRECTORIES
-    src/
-)
+#Add files and directories
+include(${BTS_TRACE_DECODER_DIR}/cmake/FilesAndDirectories.cmake)
 
 if (TEST_MODE)
-    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
-    include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+    add_executable(${OUTFILE} ${BTS_TRACE_DECODER_SOURCES_AND_TESTS})
+    include_directories(${BTS_TRACE_DECODER_INCLUDE_DIRECTORIES} ${BTS_TRACE_DECODER_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
     target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
     add_test(${OUTFILE} ${OUTFILE})
 else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
     set(BUILD_SHARED_LIBRARIES OFF)
     set(CMAKE_EXE_LINKER_FLAGS "-static")
-    add_executable(${OUTFILE} ${SOURCES} ${MAIN_SOURCES})
-    include_directories(${INCLUDE_DIRECTORIES})
+    add_executable(${OUTFILE} ${BTS_TRACE_DECODER_SOURCES} ${BTS_TRACE_DECODER_MAIN_SOURCES})
+    include_directories(${BTS_TRACE_DECODER_INCLUDE_DIRECTORIES})
     target_link_libraries(${OUTFILE} APRG_COMMON)
 endif()

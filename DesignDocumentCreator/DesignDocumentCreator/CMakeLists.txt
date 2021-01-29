@@ -8,6 +8,7 @@ set(TEST_MODE "ON")
 
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
+set(DD_CREATOR_DIR ${APRG_DIR}/DesignDocumentCreator/DesignDocumentCreator/)
 
 #Assign DesignDocumentCreatorDirectory
 set(DesignDocumentCreatorDirectory ${CMAKE_CURRENT_SOURCE_DIR})
@@ -21,13 +22,11 @@ if(WIN32)
     #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
 endif()
 
-
 #Assign Definitions
 add_definitions(
     -DAPRG_DIR="${APRG_DIR}"
     -DCCS_BIG_ENDIAN
 )
-
 
 #Include aprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
@@ -36,18 +35,19 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 
 #Include AprgCMakeHelpers, this needs APRG Directory
-include(${APRG_DIR}/AprgCMakeHelpers/cmake/Macros.cmake)
+include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
+
+#Add files and directories
+include(${DD_CREATOR_DIR}/cmake/CommonFilesAndDirectories.cmake)
 
 #Feature include
-include(${DesignDocumentCreatorDirectory}/cmake/CNI21985.cmake)
-include(${DesignDocumentCreatorDirectory}/cmake/RP001749.cmake)
+set(FEATURE_FOLDER "CNI21985")
+include(${DD_CREATOR_DIR}/cmake/FeatureFilesAndDirectories.cmake)
 add_definitions(-DLOG_LOCATION="${APRG_DIR}/DesignDocumentCreator/DesignDocumentCreatorLogs/RP001749")
 
 #Assign Sack Directory
-set(SackDirectory "D:/Branches/trunk")
+set(SackDirectory "D:/Branches/SubsystemFrameworkImprovement/subsystemTemplate")
 
-
-#Sacks
 set(SACKS_DIR_TO_INCLUDE
     ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp
     ${SackDirectory}/wbts_integration/I_Interface/Global_Env/Definitions
@@ -82,92 +82,25 @@ set(SACKS_DIR_TO_INCLUDE
     ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/UPHWAPI_ENV/DSPHWAPI_ENV/FARADAY_ENV/Definitions
     ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/Definitions
 )
-MACRO_GET_ALL_SOURCES(${SackDirectory}/I_Interface TCOM_PRIVATE_SACKS)
-MACRO_GET_ALL_SOURCES(${SackDirectory}/wbts_integration/I_Interface BTS_SACKS)
 
+set(TCOM_PRIVATE_SACK_DIRECTORY ${SackDirectory}/I_Interface)
+PRINT_STATUS("Looking for TCOM_PRIVATE_SACKS directories in: [${TCOM_PRIVATE_SACK_DIRECTORY}]")
+GET_SUB_DIRECTORY_LIST(TCOM_PRIVATE_SACK_DIRECTORY_LIST ${TCOM_PRIVATE_SACK_DIRECTORY})
+GET_SOURCE_FILES_FROM_DIRECTORIES(TCOM_PRIVATE_SACKS TCOM_PRIVATE_SACK_DIRECTORY_LIST)
 
-#Sources
-set(COMMON_SOURCES
-    src/Common/Components/Component.cpp
-    src/Common/Components/Component.hpp
-    src/Common/Components/ComponentName.hpp
-    src/Common/Components/Components.cpp
-    src/Common/Components/Components.hpp
-    src/Common/Components/SampleComponent.cpp
-    src/Common/Components/SampleComponent.hpp
-    src/Common/Events/Events.cpp
-    src/Common/Events/Events.hpp
-    src/Common/Events/OtherEvent.cpp
-    src/Common/Events/OtherEvent.hpp
-    src/Common/Events/OtherEventType.hpp
-    src/Common/Events/Events.hpp
-    src/Common/Messages/Message.hpp
-    src/Common/Messages/GenericMessage.hpp
-    src/Common/Messages/MessageConverters.hpp
-    src/Common/Messages/MessageName.hpp
-    src/Common/Messages/Messages.hpp
-    src/Common/Messages/MessageWrapper.hpp
-    src/Common/Messages/SpecificDynamicArrayMessage.hpp
-    src/Common/Messages/SpecificDynamicPolymorphicMessage.hpp
-    src/Common/Messages/SpecificStaticMessage.hpp
-    src/Common/Messages/WrapMessages.hpp
-    src/Common/Sacks/Sacks.hpp
-    src/Common/Timers/Timers.cpp
-    src/Common/Timers/Timers.hpp
-    src/Common/Timers/TimerType.hpp
-    src/Common/Uml/UmlArrow.cpp
-    src/Common/Uml/UmlArrow.hpp
-    src/Common/Uml/UmlLogger.cpp
-    src/Common/Uml/UmlLogger.hpp
-    src/Common/Uml/UmlParticipant.cpp
-    src/Common/Uml/UmlParticipant.hpp
-    src/Common/Uml/UmlPositionType.hpp
-    src/Common/Utils/StringHelpers.cpp
-    src/Common/Utils/StringHelpers.hpp
-    src/Common/Environment.cpp
-    src/Common/Environment.hpp
-)
+set(BTS_SACK_DIRECTORY ${SackDirectory}/wbts_integration/I_Interface)
+PRINT_STATUS("Looking for BTS_SACKS directories in: [${BTS_SACK_DIRECTORY}]")
+GET_SUB_DIRECTORY_LIST(BTS_SACK_DIRECTORY_LIST ${BTS_SACK_DIRECTORY})
+GET_SOURCE_FILES_FROM_DIRECTORIES(BTS_SACKS BTS_SACK_DIRECTORY_LIST)
 
-#Collecting files and directories
-set(SOURCES
-    ${COMMON_SOURCES}
-    ${FEATURE_SOURCES}
-    ${TCOM_PRIVATE_SACKS}
-    ${BTS_SACKS}
-)
+set(DD_CREATOR_INCLUDE_DIRECTORIES ${DD_CREATOR_DIR}/src ${DD_CREATOR_DIR}/tst)
 
-set(MAIN_SOURCES
-    src/Common/main.cpp
-)
-
-set(INTERNAL_TESTS
-    tst/Common/InternalTests_unit.cpp
-    tst/Common/CommonModuleTest.cpp
-    tst/Common/CommonModuleTest.hpp
-)
-
-set(TESTS
-    ${INTERNAL_TESTS}
-    ${FEATURE_TESTS}
-)
-
-set(INCLUDE_DIRECTORIES
-    src/
-    tst/
+add_executable(${OUTFILE} ${DD_CREATOR_COMMON_SOURCES_AND_TESTS} ${FEATURE_SOURCES_AND_TESTS} ${TCOM_PRIVATE_SACKS} ${BTS_SACKS})
+include_directories(
     ${FEATURE_INCLUDE_DIRECTORIES}
+    ${DD_CREATOR_INCLUDE_DIRECTORIES}
     ${SACKS_DIR_TO_INCLUDE}
+    ${GTEST_INCLUDE_DIRS}
 )
-
-if (TEST_MODE)
-    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
-    include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-    target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
-    add_test(${OUTFILE} ${OUTFILE})
-else()
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
-    set(BUILD_SHARED_LIBRARIES OFF)
-    set(CMAKE_EXE_LINKER_FLAGS "-static")
-    add_executable(${OUTFILE} ${SOURCES} ${MAIN_SOURCES})
-    include_directories(${INCLUDE_DIRECTORIES})
-    target_link_libraries(${OUTFILE} APRG_COMMON)
-endif()
+target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
+add_test(${OUTFILE} ${OUTFILE})

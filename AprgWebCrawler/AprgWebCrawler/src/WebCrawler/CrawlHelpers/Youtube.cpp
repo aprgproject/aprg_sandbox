@@ -1,8 +1,7 @@
-#include "WebCrawler.hpp"
-
-#include <CrawlConfiguration/CrawlConfiguration.hpp>
-#include <File/AlbaFileReader.hpp>
+/*#include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
+#include <WebCrawler/CrawlConfiguration/CrawlConfiguration.hpp>
+#include <WebCrawler/WebCrawler.hpp>
 
 #include <fstream>
 #include <iostream>
@@ -122,3 +121,4 @@ LinksForYoutube WebCrawler::getLinkForYoutube(AlbaWebPathHandler const& webLinkP
 }
 
 }
+*/

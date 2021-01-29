@@ -5,6 +5,7 @@ set(OUTFILE ${PROJECT_NAME})
 
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
+set(TCOM_TOOLS_BACKEND_DIR ${APRG_DIR}/TcomTools/TcomToolsBackend/)
 
 #Assign Flags
 set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99")
@@ -27,8 +28,8 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 #Include AprgAlgorithm, this needs APRG Directory
 include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 
-#Include TcomToolsBackend, this needs APRG Directory
-include(${APRG_DIR}/TcomTools/AprgCmakeInclude/TcomToolsBackend.cmake)
+#Add files and directories
+include(${TCOM_TOOLS_BACKEND_DIR}/cmake/FilesAndDirectories.cmake)
 
 add_executable(${OUTFILE} ${TCOM_TOOLS_BACKEND_SOURCES_AND_TESTS})
 include_directories(${TCOM_TOOLS_BACKEND_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})

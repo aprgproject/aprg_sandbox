@@ -5,6 +5,7 @@ set(OUTFILE ${PROJECT_NAME})
 
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
+set(APRG_WEB_CRAWLER_DIR ${APRG_DIR}/AprgWebCrawler/AprgWebCrawler/)
 
 #Assign Flags do not include -mwindows to make a console build
 set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99")
@@ -29,51 +30,16 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 #Include curlCpp, this needs APRG Directory
 include(${APRG_DIR}/CurlCpp/AprgCmakeInclude/CurlCpp.cmake)
 
-set(SOURCES
-    src/UserInterface/UserInterface.cpp
-    src/UserInterface/UserInterface.hpp
-    src/main.cpp
-    src/WebCrawler/CrawlConfiguration/CrawlConfiguration.cpp
-    src/WebCrawler/CrawlConfiguration/CrawlConfiguration.hpp
-    src/WebCrawler/Crawlers/ChiaAnimeCrawler.cpp
-    src/WebCrawler/Crawlers/ChiaAnimeCrawler.hpp
-    src/WebCrawler/Crawlers/DoujinMoeCrawler.cpp
-    src/WebCrawler/Crawlers/DoujinMoeCrawler.hpp
-    src/WebCrawler/Crawlers/Gehen.cpp
-    src/WebCrawler/Crawlers/GoogleImages.cpp
-    src/WebCrawler/Crawlers/GoogleImages.hpp
-    src/WebCrawler/Crawlers/GuroManga.cpp
-    src/WebCrawler/Crawlers/HBrowse.cpp
-    src/WebCrawler/Crawlers/H2Read.cpp
-    src/WebCrawler/Crawlers/MangaFox.cpp
-    src/WebCrawler/Crawlers/MangaHere.cpp
-    src/WebCrawler/Crawlers/MangaPark.cpp
-    src/WebCrawler/Crawlers/OneDownloadPerPageCrawler.cpp
-    src/WebCrawler/Crawlers/OneDownloadPerPageCrawler.hpp
-    src/WebCrawler/Crawlers/Y8Crawler.cpp
-    src/WebCrawler/Crawlers/Y8Crawler.hpp
-    src/WebCrawler/Crawlers/Youtube.cpp
-    src/WebCrawler/Crawlers/Youtube.hpp
-    src/WebCrawler/CrawlHelpers/AutomatedFirefoxBrowser.cpp
-    src/WebCrawler/CrawlHelpers/AutomatedFirefoxBrowser.hpp
-    src/WebCrawler/CrawlHelpers/Converters.cpp
-    src/WebCrawler/CrawlHelpers/Downloaders.cpp
-    src/WebCrawler/CrawlHelpers/Downloaders.hpp
-    src/WebCrawler/CrawlMode.hpp
-    src/WebCrawler/CrawlState.hpp
-    src/WebCrawler/WebCrawler.cpp
-    src/WebCrawler/WebCrawler.hpp
-)
+#Add files and directories
+include(${APRG_WEB_CRAWLER_DIR}/cmake/FilesAndDirectories.cmake)
 
 set(INCLUDE_DIRECTORIES
-    src/
-    src/UserInterface
-    src/WebCrawler
+    ${APRG_WEB_CRAWLER_INCLUDE_DIRECTORIES}
 )
 
 set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 set(BUILD_SHARED_LIBRARIES OFF)
 set(CMAKE_EXE_LINKER_FLAGS "-static")
-add_executable(${OUTFILE} ${SOURCES})
-include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+add_executable(${OUTFILE} ${APRG_WEB_CRAWLER_SOURCES})
+include_directories(${APRG_WEB_CRAWLER_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
 target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON CURL_CPP)

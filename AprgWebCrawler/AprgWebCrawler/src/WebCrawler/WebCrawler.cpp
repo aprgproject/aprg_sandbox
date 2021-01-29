@@ -1,14 +1,14 @@
 #include "WebCrawler.hpp"
 
-#include <CrawlHelpers/Downloaders.hpp>
-#include <CrawlHelpers/AutomatedFirefoxBrowser.hpp>
-#include <Crawlers/ChiaAnimeCrawler.hpp>
-#include <Crawlers/DoujinMoeCrawler.hpp>
-#include <Crawlers/OneDownloadPerPageCrawler.hpp>
-#include <Crawlers/Y8Crawler.hpp>
-#include <Crawlers/Youtube.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
+#include <WebCrawler/Crawlers/ChiaAnimeCrawler.hpp>
+#include <WebCrawler/Crawlers/DoujinMoeCrawler.hpp>
+#include <WebCrawler/Crawlers/OneDownloadPerPageCrawler.hpp>
+#include <WebCrawler/Crawlers/Y8Crawler.hpp>
+#include <WebCrawler/Crawlers/Youtube.hpp>
+#include <WebCrawler/CrawlHelpers/Downloaders.hpp>
+#include <WebCrawler/CrawlHelpers/AutomatedFirefoxBrowser.hpp>
 
 #include <algorithm>
 #include <fstream>

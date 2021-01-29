@@ -39,10 +39,6 @@ include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 #Add files and directories
 include(${APRG_FILE_EXTRACTOR_DIR}/cmake/FilesAndDirectories.cmake)
 
-set(MAIN_SOURCES
-    ${APRG_FILE_EXTRACTOR_DIR}/src/main.cpp
-)
-
 if (TEST_MODE)
     add_executable(${OUTFILE} ${APRG_FILE_EXTRACTOR_SOURCES_AND_TESTS})
     include_directories(${APRG_FILE_EXTRACTOR_INCLUDE_DIRECTORIES} ${APRG_FILE_EXTRACTOR_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
@@ -52,7 +48,7 @@ else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
     set(BUILD_SHARED_LIBRARIES OFF)
     set(CMAKE_EXE_LINKER_FLAGS "-static")
-    add_executable(${OUTFILE} ${APRG_FILE_EXTRACTOR_SOURCES} ${MAIN_SOURCES})
+    add_executable(${OUTFILE} ${APRG_FILE_EXTRACTOR_SOURCES} ${APRG_FILE_EXTRACTOR_MAIN_SOURCES})
     include_directories(${APRG_FILE_EXTRACTOR_INCLUDE_DIRECTORIES})
     target_link_libraries(${OUTFILE} APRG_COMMON APRG_ALGORITHM)
 endif()

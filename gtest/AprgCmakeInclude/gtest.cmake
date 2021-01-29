@@ -23,3 +23,4 @@ add_library(gtest
     )
 
 enable_testing(true)
+

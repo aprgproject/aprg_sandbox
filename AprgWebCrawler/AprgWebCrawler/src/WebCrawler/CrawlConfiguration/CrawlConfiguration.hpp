@@ -1,8 +1,7 @@
 #pragma once
 
-#include "CrawlMode.hpp"
-
 #include <Optional/AlbaOptional.hpp>
+#include <WebCrawler/CrawlMode.hpp>
 
 namespace aprgWebCrawler
 {

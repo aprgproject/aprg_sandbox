@@ -1,8 +1,7 @@
-#include <Crawlers/OneDownloadPerPageCrawler.hpp>
-
-#include <CrawlHelpers/Downloaders.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
+#include <WebCrawler/Crawlers/OneDownloadPerPageCrawler.hpp>
+#include <WebCrawler/CrawlHelpers/Downloaders.hpp>
 
 #include <iostream>
 

@@ -3,7 +3,7 @@
 #include <File/AlbaFileReader.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <WebCrawler.hpp>
+#include <WebCrawler/WebCrawler.hpp>
 
 #include <windows.h>
 

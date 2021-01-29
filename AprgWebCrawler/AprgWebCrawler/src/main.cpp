@@ -1,12 +1,12 @@
-#include <UserInterface.hpp>
-#include <WebCrawler.hpp>
+#include <UserInterface/UserInterface.hpp>
+#include <WebCrawler/WebCrawler.hpp>
 
 #include <iostream>
 
 using namespace aprgWebCrawler;
 using namespace std;
 
-int main(int argc, char** argv)
+int main(int , char** )
 {
     //UI
     //UserInterface userInterface;

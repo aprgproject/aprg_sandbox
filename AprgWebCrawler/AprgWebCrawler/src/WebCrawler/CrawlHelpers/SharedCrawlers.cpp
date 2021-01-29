@@ -1,8 +1,7 @@
-#include "WebCrawler.hpp"
-
-#include <CrawlConfiguration/CrawlConfiguration.hpp>
-#include <File/AlbaFileReader.hpp>
+/*#include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
+#include <WebCrawler/CrawlConfiguration/CrawlConfiguration.hpp>
+#include <WebCrawler/WebCrawler.hpp>
 
 #include <iostream>
 
@@ -77,4 +76,4 @@ void WebCrawler::crawlOneHtmlAndOneFileToDownload(string& webLink)
     }
 }
 
-}
+}*/

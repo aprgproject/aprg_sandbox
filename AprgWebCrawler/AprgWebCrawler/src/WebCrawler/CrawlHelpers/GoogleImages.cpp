@@ -1,7 +1,6 @@
-#include "WebCrawler.hpp"
-
-#include <File/AlbaFileReader.hpp>
+/*#include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
+#include <WebCrawler/WebCrawler.hpp>
 
 #include <deque>
 #include <fstream>
@@ -101,3 +100,4 @@ void WebCrawler::downloadGoogleImages() const
 }
 
 }
+*/

@@ -35,7 +35,7 @@ TEST(AprgFileExtractorTest, ListOfFilesFromZipFileAreCorrectlyRetrieved)
     set<string> files;
     fileExtractor.copyRelativeFilePathsFromCompressedFile(PATH_OF_SAMPLE_ZIP_1, files);
 
-    ASSERT_EQ(11, files.size());
+    ASSERT_EQ(11u, files.size());
     auto fileIterator = files.begin();
     EXPECT_EQ(R"(DirectoryTest\DIR1\File1.log)", *fileIterator++);
     EXPECT_EQ(R"(DirectoryTest\DIR2\File2.txt)", *fileIterator++);

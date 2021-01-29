@@ -8,6 +8,7 @@ set(TEST_MODE "ON")
 
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
+set(DMEAS_TIMER_STACK_DIR ${APRG_DIR}/DMeasTimerStack/DMeasTimerStack/)
 
 #Assign Flags do not include -mwindows to make a console build
 set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99")
@@ -28,10 +29,13 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 
 #Include AprgCMakeHelpers, this needs APRG Directory
-include(${APRG_DIR}/AprgCMakeHelpers/cmake/Macros.cmake)
+include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
+
+#Add files and directories
+include(${DMEAS_TIMER_STACK_DIR}/cmake/FilesAndDirectories.cmake)
 
 #Assign Sack Directory
-set(SackDirectory "D:/Branches/trunk")
+set(SackDirectory "D:/Branches/SubsystemFrameworkImprovement/subsystemTemplate")
 
 set(SACKS_DIR_TO_INCLUDE
     ${SackDirectory}/I_Interface/Private/SC_TCOM/Temp
@@ -67,39 +71,27 @@ set(SACKS_DIR_TO_INCLUDE
     ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/UPHWAPI_ENV/DSPHWAPI_ENV/FARADAY_ENV/Definitions
     ${SackDirectory}/wbts_integration/I_Interface/Platform_Env/Definitions
 )
-MACRO_GET_ALL_SOURCES(${SackDirectory}/I_Interface TCOM_PRIVATE_SACKS)
-MACRO_GET_ALL_SOURCES(${SackDirectory}/wbts_integration/I_Interface BTS_SACKS)
 
-set(SOURCES
-    src/DMeasTimerStack.cpp
-    src/DMeasTimerStack.hpp
-    ${TCOM_PRIVATE_SACKS}
-    ${BTS_SACKS}
-)
+set(TCOM_PRIVATE_SACK_DIRECTORY ${SackDirectory}/I_Interface)
+PRINT_STATUS("Looking for TCOM_PRIVATE_SACKS directories in: [${TCOM_PRIVATE_SACK_DIRECTORY}]")
+GET_SUB_DIRECTORY_LIST(TCOM_PRIVATE_SACK_DIRECTORY_LIST ${TCOM_PRIVATE_SACK_DIRECTORY})
+GET_SOURCE_FILES_FROM_DIRECTORIES(TCOM_PRIVATE_SACKS TCOM_PRIVATE_SACK_DIRECTORY_LIST)
 
-set(MAIN_SOURCES
-    src/main.cpp
-)
-
-set(TESTS
-    tst/DMeasTimerStack_unit.cpp
-)
-
-set(INCLUDE_DIRECTORIES
-    src/
-    ${SACKS_DIR_TO_INCLUDE}
-)
+set(BTS_SACK_DIRECTORY ${SackDirectory}/wbts_integration/I_Interface)
+PRINT_STATUS("Looking for BTS_SACKS directories in: [${BTS_SACK_DIRECTORY}]")
+GET_SUB_DIRECTORY_LIST(BTS_SACK_DIRECTORY_LIST ${BTS_SACK_DIRECTORY})
+GET_SOURCE_FILES_FROM_DIRECTORIES(BTS_SACKS BTS_SACK_DIRECTORY_LIST)
 
 if (TEST_MODE)
-    add_executable(${OUTFILE} ${SOURCES} ${TESTS})
-    include_directories(${INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+    add_executable(${OUTFILE} ${DMEAS_TIMER_STACK_SOURCES_AND_TESTS} ${TCOM_PRIVATE_SACKS} ${BTS_SACKS})
+    include_directories(${DMEAS_TIMER_STACK_INCLUDE_DIRECTORIES} ${DMEAS_TIMER_STACK_TEST_INCLUDE_DIRECTORIES} ${SACKS_DIR_TO_INCLUDE} ${GTEST_INCLUDE_DIRS})
     target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
     add_test(${OUTFILE} ${OUTFILE})
 else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
     set(BUILD_SHARED_LIBRARIES OFF)
     set(CMAKE_EXE_LINKER_FLAGS "-static")
-    add_executable(${OUTFILE} ${SOURCES} ${MAIN_SOURCES})
-    include_directories(${INCLUDE_DIRECTORIES})
+    add_executable(${OUTFILE} ${DMEAS_TIMER_STACK_SOURCES} ${DMEAS_TIMER_STACK_MAIN_SOURCES} ${TCOM_PRIVATE_SACKS} ${BTS_SACKS})
+    include_directories(${DMEAS_TIMER_STACK_INCLUDE_DIRECTORIES} ${SACKS_DIR_TO_INCLUDE})
     target_link_libraries(${OUTFILE} APRG_COMMON)
 endif()
