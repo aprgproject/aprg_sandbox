@@ -35,6 +35,6 @@ include(${APRG_DIR}/TcomTools/AprgCmakeInclude/TcomToolsBackend.cmake)
 include(${BTS_LOG_ANALYZER_DIR}/cmake/FilesAndDirectories.cmake)
 
 add_executable(${OUTFILE} ${BTS_LOG_ANALYZER_SOURCES_AND_TESTS})
-include_directories(${BTS_LOG_ANALYZER_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+include_directories(${BTS_LOG_ANALYZER_INCLUDE_DIRECTORIES} ${BTS_LOG_ANALYZER_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
 target_link_libraries(${OUTFILE} TCOM_TOOLS_BACKEND APRG_ALGORITHM gtest ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON)
 add_test(${OUTFILE} ${OUTFILE})
