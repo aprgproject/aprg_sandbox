@@ -33,14 +33,19 @@ public:
     void changeConfigurationToThreeFspFourLcgEvenDistribution();
     void changeConfigurationToFourFspTwoLcgEvenDistribution();
     void changeConfigurationToFourFspThreeLcgEvenDistribution();
+    void changeConfigurationToFourFspFourLcgEvenDistribution();
+    void changeConfigurationToFiveFspTwoLcgEvenDistribution();
+    void changeConfigurationToFiveFspThreeLcgEvenDistribution();
+    void changeConfigurationToFiveFspFourLcgEvenDistribution();
+    void changeConfigurationToSixFspTwoLcgEvenDistribution();
+    void changeConfigurationToSixFspThreeLcgEvenDistribution();
+    void changeConfigurationToSixFspFourLcgEvenDistribution();
     unsigned int getTcomFspAddress() const;
     unsigned int getSharedLcgId() const;
-    void printDspAllocations(unsigned int const printFlags=0);
-private:
+    void printDspAllocations(unsigned int const printFlags=0);private:
     void addFsp(unsigned int const fspAddress);
     void addDsp(unsigned int const dspAddress);
-    void setLcgIdOfDsps(LcgIds const& lcgIds);
-    NyquistType computeNyquistTypeBasedOnDspAddress(unsigned int const dspAddress) const;
+    void setLcgIdOfDsps(LcgIds const& lcgIds);    NyquistType computeNyquistTypeBasedOnDspAddress(unsigned int const dspAddress) const;
     SmType getSmTypeBasedOnAddress(unsigned int const fspAddress) const;
     unsigned int m_sharedLcgId;
     unsigned int m_tcomFspAddress;

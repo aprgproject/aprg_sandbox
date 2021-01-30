@@ -148,24 +148,114 @@ void HardwareConfiguration::changeConfigurationToFourFspTwoLcgEvenDistribution()
 void HardwareConfiguration::changeConfigurationToFourFspThreeLcgEvenDistribution()
 {
     clear();
+    m_sharedLcgId=3;
+    m_tcomFspAddress=TCOM_FSP_ADDRESS;
+    addFsp(0x1200);
+    addFsp(0x1300);    addFsp(0x1400);
+    addFsp(0x2200);
+    setLcgIdOfDsps(LcgIds{2,2,1,1,2,3,1,2,2,1,1,3,2,2,1,1,2,3,3,3,3,3,3,3});
+}
+
+void HardwareConfiguration::changeConfigurationToFourFspFourLcgEvenDistribution()
+{
+    clear();
+    m_sharedLcgId=0;
+    m_tcomFspAddress=TCOM_FSP_ADDRESS;
+    addFsp(0x1200);
+    addFsp(0x1300);
+    addFsp(0x1400);
+    addFsp(0x2200);
+    setLcgIdOfDsps(LcgIds{1,1,2,2,3,3,1,1,2,2,3,3,1,1,2,2,3,3,4,4,4,4,4,4});
+}
+
+void HardwareConfiguration::changeConfigurationToFiveFspTwoLcgEvenDistribution()
+{
+    clear();
+    m_sharedLcgId=2;    m_tcomFspAddress=TCOM_FSP_ADDRESS;
+    addFsp(0x1200);
+    addFsp(0x1300);
+    addFsp(0x1400);
+    addFsp(0x2200);
+    addFsp(0x2300);
+    setLcgIdOfDsps(LcgIds{1,1,1,2,1,1,1,2,1,1,1,2,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2});
+}
+
+void HardwareConfiguration::changeConfigurationToFiveFspThreeLcgEvenDistribution()
+{
+    clear();
     m_sharedLcgId=2;
     m_tcomFspAddress=TCOM_FSP_ADDRESS;
     addFsp(0x1200);
     addFsp(0x1300);
     addFsp(0x1400);
     addFsp(0x2200);
-    setLcgIdOfDsps(LcgIds{2,2,1,1,2,3,1,2,2,1,1,3,2,2,1,1,2,3,3,3,3,3,3,3});
+    addFsp(0x2300);
+    setLcgIdOfDsps(LcgIds{1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,3,3,3,2,3,3,3,2,3,3,3,3});
 }
+
+void HardwareConfiguration::changeConfigurationToFiveFspFourLcgEvenDistribution()
+{
+    clear();
+    m_sharedLcgId=1;
+    m_tcomFspAddress=TCOM_FSP_ADDRESS;
+    addFsp(0x1200);
+    addFsp(0x1300);
+    addFsp(0x1400);
+    addFsp(0x2200);
+    addFsp(0x2300);
+    setLcgIdOfDsps(LcgIds{3,3,4,4,1,1,3,3,4,4,3,1,4,3,3,4,4,1,2,2,1,1,2,2,2,1,2,2,2,1});
+}
+
+void HardwareConfiguration::changeConfigurationToSixFspTwoLcgEvenDistribution()
+{
+    clear();
+    m_sharedLcgId=0;
+    m_tcomFspAddress=TCOM_FSP_ADDRESS;
+    addFsp(0x1200);
+    addFsp(0x1300);
+    addFsp(0x1400);
+    addFsp(0x2200);
+    addFsp(0x2300);
+    addFsp(0x2400);
+    setLcgIdOfDsps(LcgIds{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2});
+}
+
+void HardwareConfiguration::changeConfigurationToSixFspThreeLcgEvenDistribution()
+{
+    clear();
+    m_sharedLcgId=2;
+    m_tcomFspAddress=TCOM_FSP_ADDRESS;
+    addFsp(0x1200);
+    addFsp(0x1300);
+    addFsp(0x1400);
+    addFsp(0x2200);
+    addFsp(0x2300);
+    addFsp(0x2400);
+    setLcgIdOfDsps(LcgIds{1,1,2,2,1,1,2,2,1,1,1,2,1,1,1,2,1,1,3,3,2,2,3,3,2,2,3,3,3,2,3,3,3,2,3,3});
+}
+
+void HardwareConfiguration::changeConfigurationToSixFspFourLcgEvenDistribution()
+{
+    clear();
+    m_sharedLcgId=0;
+    m_tcomFspAddress=TCOM_FSP_ADDRESS;
+    addFsp(0x1200);
+    addFsp(0x1300);
+    addFsp(0x1400);
+    addFsp(0x2200);
+    addFsp(0x2300);
+    addFsp(0x2400);
+    setLcgIdOfDsps(LcgIds{2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,4,3,3,4,4,3,3,4,4,3,3,4,4,3,3,4,4,3});
+}
+
 
 unsigned int HardwareConfiguration::getTcomFspAddress() const
 {
-    return m_tcomFspAddress;
-}
+    return m_tcomFspAddress;}
 
 unsigned int HardwareConfiguration::getSharedLcgId() const
 {
-    return m_sharedLcgId;
-}
+    return m_sharedLcgId;}
 
 void HardwareConfiguration::printDspAllocations(unsigned int const printFlags)
 {
