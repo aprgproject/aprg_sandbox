@@ -5,27 +5,19 @@ set(OUTFILE ${PROJECT_NAME})
 
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
-set(APRG_WEB_CRAWLER_DIR ${APRG_DIR}/AprgWebCrawler/AprgWebCrawler/)
+set(APRG_WEB_CRAWLER_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-#Assign Flags do not include -mwindows to make a console build
-set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99")
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11")
-if(WIN32)
-    #add -mwindows for windows GUI, do not add for console build
-    #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mwindows")
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
-endif()
+#Assign Flags
+include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
 
 #Assign Definitions
-add_definitions(-DAPRG_DIR="${APRG_DIR}")
+include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
 add_definitions(-DAPRG_WEB_CRAWLER_CONFIGURATION_FILE="${APRG_DIR}AprgWebCrawler/Configuration/configuration.txt")
 add_definitions(-DAPRG_WEB_CRAWLER_AUTOMATION_CONFIGURATION_FILE="${APRG_DIR}AprgWebCrawler/Configuration/firefoxConfiguration.txt")
-add_definitions(-DAPRG_CRAWLER_TEST_DIRECTORY="${APRG_DIR}AprgWebCrawler/TestDirectory")
-add_definitions(-DAPRG_CRAWLER_TEST_TEMPORARY_FILE_PATH="${APRG_DIR}AprgWebCrawler/TemporaryFile/temp.txt")
+add_definitions(-DAPRG_CRAWLER_TEST_DIRECTORY="${APRG_DIR}AprgWebCrawler/TestDirectory")add_definitions(-DAPRG_CRAWLER_TEST_TEMPORARY_FILE_PATH="${APRG_DIR}AprgWebCrawler/TemporaryFile/temp.txt")
 add_definitions(-DAPRG_WEB_CRAWLER_FIX_BATCH_FILE="${APRG_DIR}AprgWebCrawler/fixDirectoryNames.bat")
 
-#Include AprgCommon, this needs APRG Directory
-include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
+#Include AprgCommon, this needs APRG Directoryinclude(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
 #Include CurlCpp, this needs APRG Directory
 include(${APRG_DIR}/CurlCpp/AprgCmakeInclude/CurlCpp.cmake)

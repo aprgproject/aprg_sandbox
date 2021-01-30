@@ -8,26 +8,18 @@ set(TEST_MODE "ON")
 
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
-set(SIMPLEST_DESIGN_TO_COPY_FOR_PROGRAMS_DIR ${APRG_DIR}/SimplestDesignToCopyForPrograms/SimplestDesignToCopyForPrograms/)
+set(SIMPLEST_DESIGN_TO_COPY_FOR_PROGRAMS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-#Assign Flags do not include -mwindows to make a console build
-set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99")
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11")
-if(WIN32)
-    #add -mwindows for windows GUI, do not add for console build
-    #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mwindows")
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
-endif()
+#Assign Flags
+include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
 
 #Assign Definitions
-add_definitions(-DAPRG_DIR="${APRG_DIR}")
+include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
 
 #Include gtest, this needs APRG Directory
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
-
 #Include AprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
-
 #Add files and directories
 include(${SIMPLEST_DESIGN_TO_COPY_FOR_PROGRAMS_DIR}/cmake/FilesAndDirectories.cmake)
 
