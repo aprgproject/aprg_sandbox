@@ -55,10 +55,12 @@ public:
     SelectionDspResult allocatePicForLcgIdAccordingToMark(unsigned int const lcgId);
 
 private:
-    //MCD    SelectionDspResult selectFspForEmptyDspForMcd(unsigned int const lcgId) const;
+    //MCD
+    SelectionDspResult selectFspForEmptyDspForMcd(unsigned int const lcgId) const;
     void sortFspBasedPriorityForMcdSelection(FspAddresses& fspAddresses, unsigned int const lcgId) const;
     unsigned int getPriorityBasedOnNAndTnCountForFspMcdSelection(Fsp const& fsp, unsigned int const lcgId) const;
-    SelectionDspResult selectNonEmptyDspToClearForMcd(unsigned int const lcgId) const;    void removeNotNeededFspsForMcd(FspAddresses& fspAddresses, unsigned int const lcgId) const;
+    SelectionDspResult selectNonEmptyDspToClearForMcd(unsigned int const lcgId) const;
+    void removeNotNeededFspsForMcd(FspAddresses& fspAddresses, unsigned int const lcgId) const;
 
     //CCD+MCD
     FspAddresses selectFspsForCcdMcd(unsigned int const lcgId) const;
@@ -123,7 +125,8 @@ private:
     bool canAFreeDliBeAllocatedInFsp(DliPools const& freeDliPools, unsigned int const fspAddress, unsigned int const lcgId) const;
 
     void changeModeForCcdAndUpdateDspDetails(SelectionDspResultForCcdAndMcd const& selectionDspResultForCcdAndMcd);
-    void changeModeForMcdAndUpdateDspDetails(SelectionDspResultForCcdAndMcd const& selectionDspResultForCcdAndMcd);    void changeModeAndUpdateDspDetails(SelectionDspResult const& selectionDspResult, DspMode const dspMode);
+    void changeModeForMcdAndUpdateDspDetails(SelectionDspResultForCcdAndMcd const& selectionDspResultForCcdAndMcd);
+    void changeModeAndUpdateDspDetails(SelectionDspResult const& selectionDspResult, DspMode const dspMode);
     void changeMode(Dsp& dspToChange, DspMode const dspMode);
     void setDliIfNeeded(Dsp& dspToChange, DspMode const dspMode, bool const isNbic, unsigned int const dliPool);
     void setAsNbicIfNeeded(Dsp& dspToChange, DspMode const dspMode, bool const isNbic);
@@ -133,7 +136,9 @@ private:
 
     std::map<unsigned int, bool> m_lcgToValidPicPools;
     bool m_isHibernationCommissioned;
-    HardwareConfiguration& m_hardwareConfigurationReference;    AddressToDspMap& m_addressToDspMap;
+    HardwareConfiguration& m_hardwareConfigurationReference;
+    AddressToDspMap& m_addressToDspMap;
     AddressToFspMap& m_addressToFspMap;
 };
+
 }

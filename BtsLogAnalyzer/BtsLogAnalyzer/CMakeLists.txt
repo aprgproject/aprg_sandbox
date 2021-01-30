@@ -8,10 +8,12 @@ set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(BTS_LOG_ANALYZER_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Assign Flags
-set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99")set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11")
+set(CMAKE_C_FLAGS "-Wall -Wextra -pedantic --coverage -std=c99")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic --coverage -std=c++11")
 if(WIN32)
     #add -mwindows for windows GUI, do not add for console build
-    #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mwindows")    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
+    #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mwindows")
+    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
 endif()
 
 #Assign Definitions

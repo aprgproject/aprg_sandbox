@@ -151,7 +151,8 @@ void HardwareConfiguration::changeConfigurationToFourFspThreeLcgEvenDistribution
     m_sharedLcgId=3;
     m_tcomFspAddress=TCOM_FSP_ADDRESS;
     addFsp(0x1200);
-    addFsp(0x1300);    addFsp(0x1400);
+    addFsp(0x1300);
+    addFsp(0x1400);
     addFsp(0x2200);
     setLcgIdOfDsps(LcgIds{2,2,1,1,2,3,1,2,2,1,1,3,2,2,1,1,2,3,3,3,3,3,3,3});
 }
@@ -171,7 +172,8 @@ void HardwareConfiguration::changeConfigurationToFourFspFourLcgEvenDistribution(
 void HardwareConfiguration::changeConfigurationToFiveFspTwoLcgEvenDistribution()
 {
     clear();
-    m_sharedLcgId=2;    m_tcomFspAddress=TCOM_FSP_ADDRESS;
+    m_sharedLcgId=2;
+    m_tcomFspAddress=TCOM_FSP_ADDRESS;
     addFsp(0x1200);
     addFsp(0x1300);
     addFsp(0x1400);
@@ -251,11 +253,13 @@ void HardwareConfiguration::changeConfigurationToSixFspFourLcgEvenDistribution()
 
 unsigned int HardwareConfiguration::getTcomFspAddress() const
 {
-    return m_tcomFspAddress;}
+    return m_tcomFspAddress;
+}
 
 unsigned int HardwareConfiguration::getSharedLcgId() const
 {
-    return m_sharedLcgId;}
+    return m_sharedLcgId;
+}
 
 void HardwareConfiguration::printDspAllocations(unsigned int const printFlags)
 {
