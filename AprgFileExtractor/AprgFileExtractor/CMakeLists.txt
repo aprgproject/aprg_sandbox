@@ -27,7 +27,7 @@ if(WIN32)
     add_definitions(-DPATH_OF_7Z_TEMP_FILE="${APRG_DIR}AprgFileExtractor/7z32/TempFile.txt")
 endif()
 
-#Include gTest, this needs APRG Directory
+#Include gtest, this needs APRG Directory
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 
 #Include AprgCommon, this needs APRG Directory

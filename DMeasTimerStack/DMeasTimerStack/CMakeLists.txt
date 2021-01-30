@@ -22,11 +22,11 @@ endif()
 #Assign Definitions
 add_definitions(-DAPRG_DIR="${APRG_DIR}")
 
-#Include aprgCommon, this needs APRG Directory
-include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
-
-#Include gTest, this needs APRG Directory
+#Include gtest, this needs APRG Directory
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
+
+#Include AprgCommon, this needs APRG Directory
+include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
 #Include AprgCMakeHelpers, this needs APRG Directory
 include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
@@ -85,7 +85,7 @@ GET_SOURCE_FILES_FROM_DIRECTORIES(BTS_SACKS BTS_SACK_DIRECTORY_LIST)
 if (TEST_MODE)
     add_executable(${OUTFILE} ${DMEAS_TIMER_STACK_SOURCES_AND_TESTS} ${TCOM_PRIVATE_SACKS} ${BTS_SACKS})
     include_directories(${DMEAS_TIMER_STACK_INCLUDE_DIRECTORIES} ${DMEAS_TIMER_STACK_TEST_INCLUDE_DIRECTORIES} ${SACKS_DIR_TO_INCLUDE} ${GTEST_INCLUDE_DIRS})
-    target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
+    target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest)
     add_test(${OUTFILE} ${OUTFILE})
 else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")

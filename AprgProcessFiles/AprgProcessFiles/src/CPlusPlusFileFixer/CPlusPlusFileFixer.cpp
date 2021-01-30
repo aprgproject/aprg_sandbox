@@ -121,7 +121,7 @@ void CPlusPlusFileFixer::notifyIfIostreamHeaderExistInProductionCode(string cons
 {
     AlbaLocalPathHandler filePathHandler(path);
     bool isIostreamFound = (std::find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("iostream")) != m_headerListFromAngleBrackets.end());
-    bool isCpp = filePathHandler.getExtension() == "cpp";
+    //bool isCpp = filePathHandler.getExtension() == "cpp";
     bool isUnitTest = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(filePathHandler.getFile(), "_unit.cpp");
     if(isIostreamFound && !isUnitTest)// && !isCpp) // !isUnitTest)
     {

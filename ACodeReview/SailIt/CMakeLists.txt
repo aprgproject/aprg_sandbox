@@ -18,7 +18,7 @@ endif()
 #Assign Definitions
 add_definitions(-DAPRG_DIR="${APRG_DIR}")
 
-#Include gTest, this needs APRG Directory
+#Include gtest, this needs APRG Directory
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 
 #Include AprgCommon, this needs APRG Directory

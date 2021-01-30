@@ -26,10 +26,10 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(CMAKE_PREFIX_PATH /opt/local ${CMAKE_PREFIX_PATH})
 endif()
 
-#Include aprgCommon, this needs APRG Directory
+#Include AprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
-#Include curl library, this needs APRG Directory
+#Include curl, this needs APRG Directory
 include(${APRG_DIR}/curl-7.38.0/AprgCmakeInclude/curl.cmake)
 
 #Include CURL_CPP_SOURCES
@@ -41,5 +41,5 @@ set(CURL_CPP_TESTS
 
 add_executable(${OUTFILE} ${CURL_CPP_SOURCES} ${CURL_CPP_TESTS})
 include_directories(${CURL_CPP_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} APRG_COMMON CURL_LIB wsock32 ws2_32)
+target_link_libraries(${OUTFILE} CURL_LIB wsock32 ws2_32 APRG_COMMON)
 add_test(${OUTFILE} ${OUTFILE})

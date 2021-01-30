@@ -23,7 +23,7 @@ if(WIN32)
     add_definitions(-DOS_WINDOWS="WIN32")
 endif()
 
-#Include gTest, this needs APRG Directory
+#Include gtest, this needs APRG Directory
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 #You can also add it as add subdirectory
 #add_subdirectory(${APRG_DIR}/gtest/AprgCmakeInclude gtest)

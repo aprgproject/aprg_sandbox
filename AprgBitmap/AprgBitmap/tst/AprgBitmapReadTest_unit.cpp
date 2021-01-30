@@ -21,7 +21,7 @@ TEST(BitmapReadTest, TestForMonochromeBitmap)
     ASSERT_TRUE(bitmap.getConfiguration().isCompressedMethodSupported());
 
     Colors colors(bitmap.getConfiguration().getColorTable());
-    ASSERT_EQ(2, colors.size());
+    ASSERT_EQ(2u, colors.size());
     EXPECT_EQ(0x00000000, colors[0]);
     EXPECT_EQ(0x00FFFFFF, colors[1]);
     EXPECT_EQ(0x00000000, bitmap.getConfiguration().getColorUsingPixelValue(0));
@@ -89,7 +89,7 @@ TEST(BitmapReadTest, TestFor16ColorBitmap)
     ASSERT_TRUE(bitmap.getConfiguration().isCompressedMethodSupported());
 
     Colors colors(bitmap.getConfiguration().getColorTable());
-    ASSERT_EQ(16, colors.size());
+    ASSERT_EQ(16u, colors.size());
     EXPECT_EQ(0x00000000, colors[0]);
     EXPECT_EQ(0x00808080, colors[7]);
     EXPECT_EQ(0x00C0C0C0, colors[8]);
@@ -163,7 +163,7 @@ TEST(BitmapReadTest, TestFor256ColorBitmap)
     ASSERT_TRUE(bitmap.getConfiguration().isCompressedMethodSupported());
 
     Colors colors(bitmap.getConfiguration().getColorTable());
-    ASSERT_EQ(256, colors.size());
+    ASSERT_EQ(256u, colors.size());
     EXPECT_EQ(0x00000000, colors[0x00]);
     EXPECT_EQ(0x00604040, colors[0x53]);
     EXPECT_EQ(0x00A0C0C0, colors[0xF5]);
@@ -239,7 +239,7 @@ TEST(BitmapReadTest, TestFor24BitBitmap)
     ASSERT_TRUE(bitmap.getConfiguration().isCompressedMethodSupported());
 
     Colors colors(bitmap.getConfiguration().getColorTable());
-    ASSERT_EQ(0, colors.size());
+    ASSERT_EQ(0u, colors.size());
     EXPECT_EQ(0xA1BA0000, bitmap.getConfiguration().getColorUsingPixelValue(0xA1BA0000));
     EXPECT_EQ(0xFFFFFFFF, bitmap.getConfiguration().getColorUsingPixelValue(0xFFFFFFFF));
 
@@ -329,7 +329,7 @@ TEST(BitmapReadTest, TestFor32BitBitmap)
     ASSERT_TRUE(bitmap.getConfiguration().isCompressedMethodSupported());
 
     Colors colors(bitmap.getConfiguration().getColorTable());
-    ASSERT_EQ(0, colors.size());
+    ASSERT_EQ(0u, colors.size());
     EXPECT_EQ(0xA1BA0000, bitmap.getConfiguration().getColorUsingPixelValue(0xA1BA0000));
     EXPECT_EQ(0xFFFFFFFF, bitmap.getConfiguration().getColorUsingPixelValue(0xFFFFFFFF));
 
@@ -351,7 +351,7 @@ TEST(BitmapReadTest, TestForMonochromeBitmapWithOutOfRangeValues)
     ASSERT_TRUE(bitmap.getConfiguration().isCompressedMethodSupported());
 
     Colors colors(bitmap.getConfiguration().getColorTable());
-    ASSERT_EQ(2, colors.size());
+    ASSERT_EQ(2u, colors.size());
     EXPECT_EQ(0x00000000, colors[0]);
     EXPECT_EQ(0x00FFFFFF, colors[1]);
     EXPECT_EQ(0x00000000, bitmap.getConfiguration().getColorUsingPixelValue(0));

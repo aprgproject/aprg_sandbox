@@ -19,11 +19,11 @@ endif()
 #Assign Definitions
 add_definitions(-DAPRG_DIR="${APRG_DIR}")
 
-#Include aprgCommon, this needs APRG Directory
-include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
-
-#Include gTest, this needs APRG Directory
+#Include gtest, this needs APRG Directory
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
+
+#Include AprgCommon, this needs APRG Directory
+include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
 #Include AprgAlgorithm, this needs APRG Directory
 include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
@@ -36,5 +36,5 @@ include(${BTS_LOG_ANALYZER_DIR}/cmake/FilesAndDirectories.cmake)
 
 add_executable(${OUTFILE} ${BTS_LOG_ANALYZER_SOURCES_AND_TESTS})
 include_directories(${BTS_LOG_ANALYZER_INCLUDE_DIRECTORIES} ${BTS_LOG_ANALYZER_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} TCOM_TOOLS_BACKEND APRG_ALGORITHM gtest ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON)
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} TCOM_TOOLS_BACKEND APRG_ALGORITHM APRG_COMMON gtest)
 add_test(${OUTFILE} ${OUTFILE})

@@ -22,11 +22,11 @@ endif()
 #Assign Definitions
 add_definitions(-DAPRG_DIR="${APRG_DIR}")
 
-#Include aprgCommon, this needs APRG Directory
-include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
-
-#Include gTest, this needs APRG Directory
+#Include gtest, this needs APRG Directory
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
+
+#Include AprgCommon, this needs APRG Directory
+include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
 #Add files and directories
 include(${BTS_TRACE_DECODER_DIR}/cmake/FilesAndDirectories.cmake)
@@ -34,7 +34,7 @@ include(${BTS_TRACE_DECODER_DIR}/cmake/FilesAndDirectories.cmake)
 if (TEST_MODE)
     add_executable(${OUTFILE} ${BTS_TRACE_DECODER_SOURCES_AND_TESTS})
     include_directories(${BTS_TRACE_DECODER_INCLUDE_DIRECTORIES} ${BTS_TRACE_DECODER_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-    target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
+    target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest)
     add_test(${OUTFILE} ${OUTFILE})
 else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")

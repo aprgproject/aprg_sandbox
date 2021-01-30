@@ -1,4 +1,4 @@
-#include <SimplestDesignToCopy.hpp>
+#include <BtsTraceDecoder.hpp>
 
 using namespace alba;
 

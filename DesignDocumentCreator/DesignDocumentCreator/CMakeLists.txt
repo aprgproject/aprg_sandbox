@@ -28,11 +28,11 @@ add_definitions(
     -DCCS_BIG_ENDIAN
 )
 
-#Include aprgCommon, this needs APRG Directory
-include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
-
-#Include gTest, this needs APRG Directory
+#Include gtest, this needs APRG Directory
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
+
+#Include AprgCommon, this needs APRG Directory
+include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
 #Include AprgCMakeHelpers, this needs APRG Directory
 include(${APRG_DIR}/AprgCMakeHelpers/FileAndDirectoryMacros.cmake)
@@ -102,5 +102,5 @@ include_directories(
     ${SACKS_DIR_TO_INCLUDE}
     ${GTEST_INCLUDE_DIRS}
 )
-target_link_libraries(${OUTFILE} gtest APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest)
 add_test(${OUTFILE} ${OUTFILE})

@@ -24,10 +24,10 @@ add_definitions(-DAPRG_CRAWLER_TEST_DIRECTORY="${APRG_DIR}AprgWebCrawler/TestDir
 add_definitions(-DAPRG_CRAWLER_TEST_TEMPORARY_FILE_PATH="${APRG_DIR}AprgWebCrawler/TemporaryFile/temp.txt")
 add_definitions(-DAPRG_WEB_CRAWLER_FIX_BATCH_FILE="${APRG_DIR}AprgWebCrawler/fixDirectoryNames.bat")
 
-#Include aprgCommon, this needs APRG Directory
+#Include AprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
-#Include curlCpp, this needs APRG Directory
+#Include CurlCpp, this needs APRG Directory
 include(${APRG_DIR}/CurlCpp/AprgCmakeInclude/CurlCpp.cmake)
 
 #Add files and directories
@@ -42,4 +42,4 @@ set(BUILD_SHARED_LIBRARIES OFF)
 set(CMAKE_EXE_LINKER_FLAGS "-static")
 add_executable(${OUTFILE} ${APRG_WEB_CRAWLER_SOURCES})
 include_directories(${APRG_WEB_CRAWLER_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON CURL_CPP)
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} CURL_CPP APRG_COMMON)

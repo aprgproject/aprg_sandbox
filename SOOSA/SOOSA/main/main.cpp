@@ -1,4 +1,4 @@
-#include <SimplestDesignToCopy.hpp>
+#include <SOOSA.hpp>
 
 using namespace alba;
 

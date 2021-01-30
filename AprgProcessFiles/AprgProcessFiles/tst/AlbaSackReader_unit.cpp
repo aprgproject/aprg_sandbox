@@ -31,7 +31,7 @@ TEST(AlbaSackReaderTest, ClassesAreRecognized)
     sackReader.process();
     AlbaSackReaderType myClass = sackReader.getType("myClass");
     AlbaSackReaderType::Parameters myClassParameters = myClass.getParameters();
-    ASSERT_EQ(2, myClassParameters.size());
+    ASSERT_EQ(2u, myClassParameters.size());
     EXPECT_EQ("unsigned long int", myClassParameters[0].getTypeName());
     EXPECT_EQ("integerParameter", myClassParameters[0].getParameterName());
     EXPECT_EQ("double", myClassParameters[1].getTypeName());
@@ -49,7 +49,7 @@ TEST(AlbaSackReaderTest, ClassesAreRecognizedInForwardDeclaration)
     sackReader.process();
     AlbaSackReaderType myClass = sackReader.getType("myClass");
     AlbaSackReaderType::Parameters myClassParameters = myClass.getParameters();
-    ASSERT_EQ(0, myClassParameters.size());
+    ASSERT_EQ(0u, myClassParameters.size());
 }
 
 TEST(AlbaSackReaderTest, TypedefAreRecognized)
@@ -67,11 +67,11 @@ TEST(AlbaSackReaderTest, TypedefAreRecognized)
     AlbaSackReaderType type2 = sackReader.getType("type2");
     AlbaSackReaderType::Parameters type2Parameters = type2.getParameters();
     AlbaSackReaderType::TypeNames type2OtherTypes = type2.getOtherTypes();
-    ASSERT_EQ(0, type1Parameters.size());
-    ASSERT_EQ(1, type1OtherTypes.size());
+    ASSERT_EQ(0u, type1Parameters.size());
+    ASSERT_EQ(1u, type1OtherTypes.size());
     EXPECT_EQ("type2", *(type1OtherTypes.begin()));
-    ASSERT_EQ(0, type2Parameters.size());
-    ASSERT_EQ(1, type2OtherTypes.size());
+    ASSERT_EQ(0u, type2Parameters.size());
+    ASSERT_EQ(1u, type2OtherTypes.size());
     EXPECT_EQ("type1", *(type2OtherTypes.begin()));
 }
 
@@ -90,11 +90,11 @@ TEST(AlbaSackReaderTest, TypedefArrayAreRecognized)
     AlbaSackReaderType type2 = sackReader.getType("type2[5]");
     AlbaSackReaderType::Parameters type2Parameters = type2.getParameters();
     AlbaSackReaderType::TypeNames type2OtherTypes = type2.getOtherTypes();
-    ASSERT_EQ(0, type1Parameters.size());
-    ASSERT_EQ(1, type1OtherTypes.size());
+    ASSERT_EQ(0u, type1Parameters.size());
+    ASSERT_EQ(1u, type1OtherTypes.size());
     EXPECT_EQ("type2[5]", *(type1OtherTypes.begin()));
-    ASSERT_EQ(0, type2Parameters.size());
-    ASSERT_EQ(1, type2OtherTypes.size());
+    ASSERT_EQ(0u, type2Parameters.size());
+    ASSERT_EQ(1u, type2OtherTypes.size());
     EXPECT_EQ("type1", *(type2OtherTypes.begin()));
 }
 
@@ -110,8 +110,8 @@ TEST(AlbaSackReaderTest, TypedefWithStructAreRecognized)
     AlbaSackReaderType type2 = sackReader.getType("type2");
     AlbaSackReaderType::Parameters type2Parameters = type2.getParameters();
     AlbaSackReaderType::TypeNames type2OtherTypes = type2.getOtherTypes();
-    ASSERT_EQ(0, type2Parameters.size());
-    ASSERT_EQ(0, type2OtherTypes.size());
+    ASSERT_EQ(0u, type2Parameters.size());
+    ASSERT_EQ(0u, type2OtherTypes.size());
 }
 
 TEST(AlbaSackReaderTest, TypedefWithStructWithParametersAreRecognized)
@@ -131,12 +131,12 @@ TEST(AlbaSackReaderTest, TypedefWithStructWithParametersAreRecognized)
     AlbaSackReaderType myClass = sackReader.getType("myStruct2");
     AlbaSackReaderType::Parameters myClassParameters = myClass.getParameters();
     AlbaSackReaderType::TypeNames myClassOtherTypes = myClass.getOtherTypes();
-    ASSERT_EQ(2, myClassParameters.size());
+    ASSERT_EQ(2u, myClassParameters.size());
     EXPECT_EQ("unsigned long int", myClassParameters[0].getTypeName());
     EXPECT_EQ("integerParameter", myClassParameters[0].getParameterName());
     EXPECT_EQ("double", myClassParameters[1].getTypeName());
     EXPECT_EQ("doubleParameter", myClassParameters[1].getParameterName());
-    ASSERT_EQ(0, myClassOtherTypes.size());
+    ASSERT_EQ(0u, myClassOtherTypes.size());
 }
 
 TEST(AlbaSackReaderTest, TypedefWithSingleStructWithParametersAreRecognized)
@@ -156,12 +156,12 @@ TEST(AlbaSackReaderTest, TypedefWithSingleStructWithParametersAreRecognized)
     AlbaSackReaderType myClass = sackReader.getType("myStruct1");
     AlbaSackReaderType::Parameters myClassParameters = myClass.getParameters();
     AlbaSackReaderType::TypeNames myClassOtherTypes = myClass.getOtherTypes();
-    ASSERT_EQ(2, myClassParameters.size());
+    ASSERT_EQ(2u, myClassParameters.size());
     EXPECT_EQ("unsigned long int", myClassParameters[0].getTypeName());
     EXPECT_EQ("integerParameter", myClassParameters[0].getParameterName());
     EXPECT_EQ("double", myClassParameters[1].getTypeName());
     EXPECT_EQ("doubleParameter", myClassParameters[1].getParameterName());
-    ASSERT_EQ(0, myClassOtherTypes.size());
+    ASSERT_EQ(0u, myClassOtherTypes.size());
     EXPECT_FALSE(myClass.isUnion());
 }
 
@@ -182,12 +182,12 @@ TEST(AlbaSackReaderTest, TypedefWithUnionWithParametersAreRecognized)
     AlbaSackReaderType myClass = sackReader.getType("myUnion2");
     AlbaSackReaderType::Parameters myClassParameters = myClass.getParameters();
     AlbaSackReaderType::TypeNames myClassOtherTypes = myClass.getOtherTypes();
-    ASSERT_EQ(2, myClassParameters.size());
+    ASSERT_EQ(2u, myClassParameters.size());
     EXPECT_EQ("unsigned long int", myClassParameters[0].getTypeName());
     EXPECT_EQ("integerParameter", myClassParameters[0].getParameterName());
     EXPECT_EQ("double", myClassParameters[1].getTypeName());
     EXPECT_EQ("doubleParameter", myClassParameters[1].getParameterName());
-    ASSERT_EQ(0, myClassOtherTypes.size());
+    ASSERT_EQ(0u, myClassOtherTypes.size());
     EXPECT_TRUE(myClass.isUnion());
 }
 
@@ -207,5 +207,5 @@ TEST(AlbaSackReaderTest, TypedefWithEnumAreRecognized)
     sackReader.process();
     AlbaSackReaderType myClass = sackReader.getType("MyEnum");
     AlbaSackReaderType::Parameters myClassParameters = myClass.getParameters();
-    ASSERT_EQ(0, myClassParameters.size());
+    ASSERT_EQ(0u, myClassParameters.size());
 }
