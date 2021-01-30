@@ -265,10 +265,12 @@ void HardwareConfiguration::changeConfigurationToSharedLcgWithOneDspInMsm()
 }
 
 unsigned int HardwareConfiguration::getTcomFspAddress() const
-{    return m_tcomFspAddress;
+{
+    return m_tcomFspAddress;
 }
 
-unsigned int HardwareConfiguration::getSharedLcgId() const{
+unsigned int HardwareConfiguration::getSharedLcgId() const
+{
     return m_sharedLcgId;
 }
 
