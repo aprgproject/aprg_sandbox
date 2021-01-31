@@ -1,11 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
-project(SimplestDesignToCopyForLibraries C CXX)
+project(SackReader C CXX)
 
 set(OUTFILE ${PROJECT_NAME})
-
 #Comment out TEST_MODE to build static executable
 set(TEST_MODE "ON")
-
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(SACK_READER_DIR ${CMAKE_CURRENT_SOURCE_DIR})
