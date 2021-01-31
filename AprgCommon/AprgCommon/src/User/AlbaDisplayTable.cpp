@@ -93,6 +93,11 @@ DisplayTableCell& DisplayTableRow::getCellReference(unsigned int columnIndex)
     return m_cells[columnIndex];
 }
 
+DisplayTableCell const& DisplayTableRow::getCellConstReference(unsigned int columnIndex) const
+{
+    return m_cells[columnIndex];
+}
+
 void DisplayTableRow::addCell(string const & text)
 {
     m_cells.emplace_back(getNumberOfColumns(), text);
@@ -144,6 +149,11 @@ DisplayTableRow& DisplayTable::getRowReference(unsigned int rowIndex)
 DisplayTableCell& DisplayTable::getCellReference(unsigned int rowIndex, unsigned int columnIndex)
 {
     return m_rows[rowIndex].getCellReference(columnIndex);
+}
+
+DisplayTableCell const& DisplayTable::getCellConstReference(unsigned int rowIndex, unsigned int columnIndex) const
+{
+    return m_rows[rowIndex].getCellConstReference(columnIndex);
 }
 
 void DisplayTable::addRow()

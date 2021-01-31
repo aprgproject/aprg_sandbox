@@ -105,6 +105,11 @@ bool stringHelper::isWhiteSpace(string const& mainString)
     return std::all_of(mainString.begin(), mainString.end(), [](char const character){ return isWhiteSpace(character);});
 }
 
+bool stringHelper::isNewline(string const& mainString)
+{
+    return std::all_of(mainString.begin(), mainString.end(), [](char const character){ return isNewline(character);});
+}
+
 bool stringHelper::isIdentifier(string const& mainString)
 {
     bool isIdentifier(false);
@@ -276,6 +281,22 @@ string stringHelper::getStringWithCapitalLetters(string const& mainString)
     string result;
     result.resize(mainString.length());
     transform(mainString.begin(), mainString.end(), result.begin(), ::toupper);
+    return result;
+}
+
+string stringHelper::getStringWithFirstLetterCapital(string const& mainString) //test
+{
+    string result;
+    result = mainString;
+    unsigned int resultLength = result.length();
+    for (unsigned int i = 0; i < resultLength; ++i)
+    {
+        if(isLetter(result[i]))
+        {
+            result[i] = ::toupper(result[i]);
+            break;
+        }
+    }
     return result;
 }
 

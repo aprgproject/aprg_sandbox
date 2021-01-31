@@ -27,6 +27,7 @@ bool isEqualNotCaseSensitive(std::string const& mainString, std::string const& s
 bool isEqualWithLowestCommonLength(std::string const& string1, std::string const& string2);
 bool isNumber(std::string const& mainString);
 bool isWhiteSpace(std::string const& mainString);
+bool isNewline(std::string const& mainString);
 bool isIdentifier(std::string const& mainString);
 bool isOneWord(std::string const& mainString);
 
@@ -42,6 +43,7 @@ void splitLinesToAchieveTargetLength(stringHelper::strings & listOfStrings, std:
 void splitToStringsUsingASeriesOfDelimeters(strings & listOfStrings, std::string const& mainString, strings const& seriesOfDelimiters);
 
 std::string getStringWithCapitalLetters(std::string const& mainString);
+std::string getStringWithFirstLetterCapital(std::string const& mainString);
 std::string getStringWithLowerCaseLetters(std::string const& mainString);
 std::string getStringWithUrlDecodedString(std::string const& mainString);
 std::string getStringThatContainsWhiteSpaceIndention(std::string const& mainString);
@@ -102,6 +104,11 @@ private:
 inline bool isWhiteSpace(char const c)
 {
     return (' '==c || '\t'==c || '\n'==c || '\r'==c);
+}
+
+inline bool isNewline(char const c)
+{
+    return ('\n'==c || '\r'==c);
 }
 
 inline bool isNotNpos(int const index)

@@ -54,6 +54,7 @@ public:
 
     Cells& getCellsReference();
     DisplayTableCell& getCellReference(unsigned int columnIndex);
+    DisplayTableCell const& getCellConstReference(unsigned int columnIndex) const;
     void addCell(std::string const& text);
     void addCell(std::string const & text, DisplayTableCellMode const horizontalMode, DisplayTableCellMode const verticalMode);
 
@@ -75,6 +76,7 @@ public:
     DisplayTableRow& getLastRow();
     DisplayTableRow& getRowReference(unsigned int rowIndex);
     DisplayTableCell& getCellReference(unsigned int rowIndex, unsigned int columnIndex);
+    DisplayTableCell const& getCellConstReference(unsigned int rowIndex, unsigned int columnIndex) const;
 
     void addRow();
     void setBorders(std::string const& horizontalBorder, std::string const& verticalBorder);

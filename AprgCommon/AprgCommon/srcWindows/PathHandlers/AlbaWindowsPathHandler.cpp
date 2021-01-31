@@ -141,7 +141,8 @@ bool AlbaWindowsPathHandler::deleteDirectoryWithoutFilesAndDirectories()
 
 void AlbaWindowsPathHandler::deleteFilesInDirectory()
 {
-    set<string> listOfFiles;    set<string> listOfDirectories;
+    set<string> listOfFiles;
+    set<string> listOfDirectories;
     findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& file: listOfFiles)
     {
@@ -153,7 +154,8 @@ void AlbaWindowsPathHandler::deleteFilesInDirectory()
 void AlbaWindowsPathHandler::deleteDirectoryWithFilesAndDirectories()
 {
     set<string> listOfFiles;
-    set<string> listOfDirectories;    findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
+    set<string> listOfDirectories;
+    findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& file: listOfFiles)
     {
         AlbaWindowsPathHandler(file).deleteFile();
@@ -169,10 +171,12 @@ void AlbaWindowsPathHandler::deleteDirectoryWithFilesAndDirectories()
 
 bool AlbaWindowsPathHandler::copyToNewFile(string const& newFilePath)
 {
-    bool isSuccessful(false);    if(isFile())
+    bool isSuccessful(false);
+    if(isFile())
     {
         isSuccessful = (bool)CopyFile(getFullPath().c_str(), newFilePath.c_str(), 0);
-        if(!isSuccessful)        {
+        if(!isSuccessful)
+        {
             cout<<"Error in AlbaWindowsPathHandler::CopyFile() path:["<<getFullPath()<<"] newFilePath:["<<newFilePath<<"]"<<endl;
             cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<endl;
         }
@@ -183,9 +187,11 @@ bool AlbaWindowsPathHandler::copyToNewFile(string const& newFilePath)
     }
     return isSuccessful;
 }
+
 bool AlbaWindowsPathHandler::renameFile(string const& newFileName)
 {
-    bool isSuccessful(false);    if(isFile())
+    bool isSuccessful(false);
+    if(isFile())
     {
         string newPath(m_directory+newFileName);
         isSuccessful = (bool)MoveFile(getFullPath().c_str(), newPath.c_str());
@@ -201,9 +207,11 @@ bool AlbaWindowsPathHandler::renameFile(string const& newFileName)
     }
     return isSuccessful;
 }
+
 bool AlbaWindowsPathHandler::renameImmediateDirectory(string const& newDirectoryName)
 {
-    bool isSuccessful(false);    if(isDirectory())
+    bool isSuccessful(false);
+    if(isDirectory())
     {
         AlbaWindowsPathHandler newPathHandler(getFullPath());
         newPathHandler.goUp();
@@ -221,9 +229,11 @@ bool AlbaWindowsPathHandler::renameImmediateDirectory(string const& newDirectory
     }
     return isSuccessful;
 }
+
 void AlbaWindowsPathHandler::findFilesAndDirectoriesOneDepth(
         string const& wildCardSearch,
-        set<string>& listOfFiles,        set<string>& listOfDirectories) const
+        set<string>& listOfFiles,
+        set<string>& listOfDirectories) const
 {
     findFilesAndDirectoriesWithDepth(m_directory, wildCardSearch, listOfFiles, listOfDirectories, 1);
 }
