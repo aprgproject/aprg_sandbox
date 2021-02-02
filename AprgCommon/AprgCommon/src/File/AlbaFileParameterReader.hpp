@@ -1,8 +1,9 @@
 #pragma once
 
 #include <fstream>
-#include <vector>
 #include <map>
+#include <string>
+#include <vector>
 
 namespace alba
 {
@@ -19,30 +20,19 @@ private:
     std::istream& m_stream;
 };
 
-AlbaFileParameterReader::AlbaFileParameterReader(std::istream& stream) : m_stream(stream){}
-
-template<typename TypeToRetrieve> TypeToRetrieve AlbaFileParameterReader::readData() const
+template<typename TypeToRetrieve>
+TypeToRetrieve AlbaFileParameterReader::readData() const
 {
-    TypeToRetrieve data;
+    TypeToRetrieve data{};
     m_stream >> data;
     return data;
 }
 
 template <>
-std::string AlbaFileParameterReader::readData<std::string>() const
-{
-    std::string data;
-    bool isExisting(false);
-    m_stream >> isExisting;
-    if(isExisting)
-    {
-        while(m_stream.peek()=='\r' || m_stream.peek()=='\n') { m_stream.ignore(1); }
-        std::getline(m_stream, data);
-    }
-    return data;
-}
+std::string AlbaFileParameterReader::readData<std::string>() const;
 
-template<typename TypeToRetrieve> void AlbaFileParameterReader::readData(std::vector<TypeToRetrieve> & vectorOfData) const
+template<typename TypeToRetrieve>
+void AlbaFileParameterReader::readData(std::vector<TypeToRetrieve> & vectorOfData) const
 {
     unsigned int size;
     m_stream >> size;
@@ -52,7 +42,8 @@ template<typename TypeToRetrieve> void AlbaFileParameterReader::readData(std::ve
     }
 }
 
-template<typename TypeToRetrieve1, typename TypeToRetrieve2> void AlbaFileParameterReader::readData(std::map<TypeToRetrieve1, TypeToRetrieve2> & mapOfData) const
+template<typename TypeToRetrieve1, typename TypeToRetrieve2>
+void AlbaFileParameterReader::readData(std::map<TypeToRetrieve1, TypeToRetrieve2> & mapOfData) const
 {
     unsigned int size;
     m_stream >> size;

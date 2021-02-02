@@ -6,11 +6,12 @@ using namespace alba;
 using namespace alba::FakeStateMachine;
 using namespace std;
 
-void verifyResultsOfAction(State const initialState, Action const actionToBePerformed, State const expectedState, string const& output)
+void verifyResultsOfAction(State const initialState, Action const actionToBePerformed, State const expectedState, string const& expectedOutput)
 {
-    SampleStateMachine stateMachine(State::StateWithNoValue);
-    EXPECT_EQ(State::StateWithNoValue, stateMachine.getState());
-    EXPECT_TRUE(stateMachine.getOutput().empty());
+    SampleStateMachine stateMachine(initialState);
+    stateMachine.processInput(actionToBePerformed);
+    EXPECT_EQ(expectedState, stateMachine.getState());
+    EXPECT_EQ(expectedOutput, stateMachine.getOutput());
 }
 
 TEST(SampleStateMachineTest, InitialValuesAreCorrect)

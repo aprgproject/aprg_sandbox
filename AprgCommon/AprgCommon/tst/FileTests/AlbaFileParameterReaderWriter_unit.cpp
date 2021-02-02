@@ -9,6 +9,20 @@
 using namespace alba;
 using namespace std;
 
+TEST(ReaderWriterParameterTest, EmptyFileTest)
+{
+    ifstream readTestFile(APRG_COMMON_EMPTY_TEST_FILE);
+    ASSERT_TRUE(readTestFile.is_open());
+
+    AlbaFileParameterReader reader(readTestFile);
+    ASSERT_TRUE(readTestFile.good());
+    ASSERT_FALSE(readTestFile.eof());
+    EXPECT_EQ(0u, reader.readData<unsigned int>());
+    EXPECT_EQ(0, reader.readData<int>());
+    EXPECT_EQ(0, reader.readData<double>());
+    EXPECT_TRUE(reader.readData<string>().empty());
+}
+
 TEST(ReaderWriterParameterTest, SingleParameterTest)
 {
     ofstream writeTestFile(APRG_COMMON_TEST_FILE_TO_READ_WRITE);

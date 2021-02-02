@@ -32,7 +32,7 @@ public:
         : m_stateIdentifier(initialState)
     {}
 
-    virtual void processInput(InputType const& input)
+    virtual void processInput(InputType const&)
     {
         // This should not be accessed
         assert(false);
