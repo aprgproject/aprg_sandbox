@@ -7,33 +7,29 @@
 namespace alba
 {
 
-template <typename StateIdentifierType, typename InputType, typename OutputType> class AlbaBaseStateMachine
+template <typename StateIdentifierType, typename InputType> class AlbaBaseStateMachine
 {
 public:
     AlbaBaseStateMachine(StateIdentifierType const initialState)
-        : m_stateIdentifier(initialState)
+        : m_state(initialState)
     {}
+
     virtual void processInput(InputType const&)
     {
-        // This should not be accessed        assert(false);
-    }
-
-    OutputType getOutput() const
-    {
-        return m_currentOutput;
+        // This should not be accessed
+        assert(false);
     }
 
     StateIdentifierType getState() const
     {
-        return m_stateIdentifier;
+        return m_state;
     }
 protected:
-    void gotoState(StateIdentifierType const newState)
+    virtual void gotoState(StateIdentifierType const newState)
     {
-        m_stateIdentifier = newState;
+        m_state = newState;
     }
-    StateIdentifierType m_stateIdentifier;
-    OutputType m_currentOutput;
+    StateIdentifierType m_state;
 };
 
 }//namespace alba

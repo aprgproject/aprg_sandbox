@@ -26,9 +26,10 @@ enum class Action
     MultiplyBy2
 };
 
-using BaseSampleStateMachine = AlbaBaseStateMachine<State, Action, std::string>;
+using BaseSampleStateMachine = AlbaBaseStateMachine<State, Action>;
 class SampleStateMachine : public BaseSampleStateMachine
-{public:
+{
+public:
     SampleStateMachine(State const stateIdentifier);
     void processInput(Action const& action);
 private:
@@ -37,8 +38,8 @@ private:
     void processState2(Action const& action);
     void processState3(Action const& action);
     void processState4(Action const& action);
-    void saveActionToOutput(Action const& action);
 };
+
 }
 
 }//namespace alba
