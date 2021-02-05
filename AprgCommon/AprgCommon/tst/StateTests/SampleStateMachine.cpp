@@ -43,111 +43,106 @@ void SampleStateMachine::processStateWithNoValue(Action const& action)
     switch(action)
     {
     case Action::InitializeTo1:
-        gotoState(State::State1);
+        saveNextState(State::State1);
         break;
     case Action::Increase:
-        gotoState(State::StateWithNoValue);
+        saveNextState(State::StateWithNoValue);
         break;
     case Action::Decrease:
-        gotoState(State::StateWithNoValue);
+        saveNextState(State::StateWithNoValue);
         break;
     case Action::NoAction:
-        gotoState(State::StateWithNoValue);
+        saveNextState(State::StateWithNoValue);
         break;
     case Action::MultiplyBy2:
-        gotoState(State::StateWithNoValue);
+        saveNextState(State::StateWithNoValue);
         break;
     }
 }
-
 void SampleStateMachine::processState1(Action const& action)
 {
     switch(action)
     {
     case Action::InitializeTo1:
-        gotoState(State::State1);
+        saveNextState(State::State1);
         break;
     case Action::Increase:
-        gotoState(State::State2);
+        saveNextState(State::State2);
         break;
     case Action::Decrease:
-        gotoState(State::StateWithNoValue);
+        saveNextState(State::StateWithNoValue);
         break;
     case Action::NoAction:
-        gotoState(State::State1);
+        saveNextState(State::State1);
         break;
     case Action::MultiplyBy2:
-        gotoState(State::State2);
+        saveNextState(State::State2);
         break;
     }
 }
-
 void SampleStateMachine::processState2(Action const& action)
 {
     switch(action)
     {
     case Action::InitializeTo1:
-        gotoState(State::State1);
+        saveNextState(State::State1);
         break;
     case Action::Increase:
-        gotoState(State::State3);
+        saveNextState(State::State3);
         break;
     case Action::Decrease:
-        gotoState(State::State1);
+        saveNextState(State::State1);
         break;
     case Action::NoAction:
-        gotoState(State::State2);
+        saveNextState(State::State2);
         break;
     case Action::MultiplyBy2:
-        gotoState(State::State4);
+        saveNextState(State::State4);
         break;
     }
 }
-
 void SampleStateMachine::processState3(Action const& action)
 {
     switch(action)
     {
     case Action::InitializeTo1:
-        gotoState(State::State1);
+        saveNextState(State::State1);
         break;
     case Action::Increase:
-        gotoState(State::State4);
+        saveNextState(State::State4);
         break;
     case Action::Decrease:
-        gotoState(State::State2);
+        saveNextState(State::State2);
         break;
     case Action::NoAction:
-        gotoState(State::State3);
+        saveNextState(State::State3);
         break;
     case Action::MultiplyBy2:
-        gotoState(State::StateWithNoValue);
+        saveNextState(State::StateWithNoValue);
         break;
     }
 }
-
 void SampleStateMachine::processState4(Action const& action)
 {
     switch(action)
     {
     case Action::InitializeTo1:
-        gotoState(State::State1);
+        saveNextState(State::State1);
         break;
     case Action::Increase:
-        gotoState(State::StateWithNoValue);
+        saveNextState(State::StateWithNoValue);
         break;
     case Action::Decrease:
-        gotoState(State::State3);
+        saveNextState(State::State3);
         break;
     case Action::NoAction:
-        gotoState(State::State4);
+        saveNextState(State::State4);
         break;
     case Action::MultiplyBy2:
-        gotoState(State::StateWithNoValue);
+        saveNextState(State::StateWithNoValue);
         break;
     }
 }
-
 }
 
 
