@@ -211,6 +211,7 @@ TEST(ConvertCaseFromStringTest, ConvertToLowerCaseLettersUsingAllLettersWithSpec
 
     EXPECT_EQ(lowerCaseLetters, getStringWithLowerCaseLetters(testString));
 }
+
 TEST(ConvertUrlFromStringTest, DecodeUrlString)
 {
     string testString("https%3A%2F%2Fmywebsite%2Fdocs%2Fenglish%2Fsite%2Fmybook.do%3Frequest_type");

@@ -50,7 +50,8 @@ std::string getStringThatContainsWhiteSpaceIndention(std::string const& mainStri
 std::string getStringWithoutStartingAndTrailingCharacters(std::string const& mainString, std::string const& characters);
 std::string getStringWithoutStartingAndTrailingWhiteSpace(std::string const& mainString);
 std::string getStringWithoutWhiteSpace(std::string const& mainString);
-std::string getStringWithoutRedundantWhiteSpace(std::string const& mainString);std::string getStringWithoutQuotations(std::string const& mainString);
+std::string getStringWithoutRedundantWhiteSpace(std::string const& mainString);
+std::string getStringWithoutQuotations(std::string const& mainString);
 std::string getStringWithoutCharAtTheStartAndEnd(std::string const& mainString, char const char1);
 std::string getStringWithoutCharAtTheStart(std::string const& mainString, char const char1);
 std::string getStringWithoutCharAtTheEnd(std::string const& mainString, char const char1);

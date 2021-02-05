@@ -299,6 +299,7 @@ string stringHelper::getStringWithFirstNonWhiteSpaceCharacterToCapital(string co
     }
     return result;
 }
+
 string stringHelper::getStringWithLowerCaseLetters(string const& mainString)
 {
     string result;
