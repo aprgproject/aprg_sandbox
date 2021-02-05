@@ -284,22 +284,19 @@ string stringHelper::getStringWithCapitalLetters(string const& mainString)
     return result;
 }
 
-string stringHelper::getStringWithFirstLetterCapital(string const& mainString) //test
+string stringHelper::getStringWithFirstNonWhiteSpaceCharacterToCapital(string const& mainString)
 {
     string result;
-    result = mainString;
-    unsigned int resultLength = result.length();
+    result = mainString;    unsigned int resultLength = result.length();
     for (unsigned int i = 0; i < resultLength; ++i)
     {
-        if(isLetter(result[i]))
+        if(!isWhiteSpace(result[i]))
         {
             result[i] = ::toupper(result[i]);
-            break;
-        }
+            break;        }
     }
     return result;
 }
-
 string stringHelper::getStringWithLowerCaseLetters(string const& mainString)
 {
     string result;
