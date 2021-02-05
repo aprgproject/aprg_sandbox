@@ -206,11 +206,11 @@ TEST(ConvertCaseFromStringTest, ConvertToFirstNonWhiteSpaceCharacterToCapitalWit
 
 TEST(ConvertCaseFromStringTest, ConvertToLowerCaseLettersUsingAllLettersWithSpecialCharacters)
 {
-    string testString("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz");    string lowerCaseLetters("1234567890!@#$%^&*( )abcdefghijklmnopqrstuvwxyz");
+    string testString("1234567890!@#$%^&*( )AbCDEFghIjKlMnopQRstUvWxYz");
+    string lowerCaseLetters("1234567890!@#$%^&*( )abcdefghijklmnopqrstuvwxyz");
 
     EXPECT_EQ(lowerCaseLetters, getStringWithLowerCaseLetters(testString));
 }
-
 TEST(ConvertUrlFromStringTest, DecodeUrlString)
 {
     string testString("https%3A%2F%2Fmywebsite%2Fdocs%2Fenglish%2Fsite%2Fmybook.do%3Frequest_type");
