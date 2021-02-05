@@ -28,7 +28,8 @@ protected:
     virtual void saveNextState(StateIdentifierType const newState)
     {
         m_state = newState;
-    }    StateIdentifierType m_state;
+    }
+    StateIdentifierType m_state;
 };
 
 }//namespace alba
