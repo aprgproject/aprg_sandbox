@@ -23,7 +23,8 @@ private:
     std::string executeCropStep(TcomToolsConfiguration const& configuration, std::string const& inputPath) const;
     std::string cropFile(TcomToolsConfiguration const& configuration, std::string const& inputPath, double foundLocation) const;
     LocationsInFile getLocationsInFile(TcomToolsConfiguration const& configuration, double foundLocation) const;
-    double getLocationOfPriotizedPrint(TcomToolsConfiguration const& configuration, std::string const& inputPath) const;\
+    double getLocationOfPriotizedPrint(TcomToolsConfiguration const& configuration, std::string const& inputPath) const;
+    std::string getTempFileFor7zBasedOnLogSorter(TcomToolsConfiguration const& configuration) const;
 };
 
 }

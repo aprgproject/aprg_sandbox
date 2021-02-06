@@ -40,14 +40,18 @@ AprgFileExtractor::AprgFileExtractor(string const& condition)
     , m_pathOf7zTempFile(AlbaLocalPathHandler(PATH_OF_7Z_TEMP_FILE).getFullPath())
 {}
 
+AprgFileExtractor::AprgFileExtractor(string const& condition, string const& pathOf7zExecutable, string const& pathOf7zTempFile)
+    : m_grepEvaluator(condition)
+    , m_pathOf7zExecutable(pathOf7zExecutable)
+    , m_pathOf7zTempFile(pathOf7zTempFile)
+{}
+
 void AprgFileExtractor::extractAllRelevantFiles(string const& pathOfFileOrDirectory)
 {
-    AlbaLocalPathHandler fileOrDirectoryPathHandler(pathOfFileOrDirectory);
-    if(!fileOrDirectoryPathHandler.isFoundInLocalSystem())
+    AlbaLocalPathHandler fileOrDirectoryPathHandler(pathOfFileOrDirectory);    if(!fileOrDirectoryPathHandler.isFoundInLocalSystem())
     {
         cout << "extractAllRelevantFiles: File or directory not found in local system." << endl;
-    }
-    if(fileOrDirectoryPathHandler.isDirectory())
+    }    if(fileOrDirectoryPathHandler.isDirectory())
     {
         extractAllRelevantFilesInThisDirectory(fileOrDirectoryPathHandler.getFullPath());
     }
