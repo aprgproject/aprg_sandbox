@@ -2,6 +2,9 @@
 
 #include <File/AlbaFileReader.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <Time/AlbaDateTime.hpp>
+#include <Time/AlbaLocalTimeHelper.hpp>
+#include <String/AlbaStringHelper.hpp>
 
 #include <iostream>
 #include <map>
@@ -26,13 +29,15 @@ namespace tcomToolsBackend
 
 BtsLogSorter::BtsLogSorter(BtsLogSorterConfiguration const& configuration)
     : m_evaluator(configuration.m_condition)
-    , m_sorterWithPcTime(configuration.m_configurationWithPcTime)
-    , m_sorterWithoutPcTime(configuration.m_configurationWithoutPcTime)
-    , m_directoryOfLogsWithoutPcTime(configuration.m_pathOfLogsWithoutPcTime)
-    , m_pathOfStartupLog(configuration.m_pathOfStartupLog)
+    , m_pathOfAllTempFiles(configuration.m_pathOfTempFiles)
+    , m_pathOfCurrentTempFiles(configuration.m_pathOfTempFiles +R"(\)" + stringHelper::getRandomAlphaNumericString(30))
+    , m_sorterWithPcTime(AlbaLargeSorterConfiguration(configuration.m_configurationWithPcTime, m_pathOfCurrentTempFiles+R"(\BlocksWithPcTime\)"))
+    , m_sorterWithoutPcTime(AlbaLargeSorterConfiguration(configuration.m_configurationWithoutPcTime, m_pathOfCurrentTempFiles+R"(\BlocksWithoutPcTime\)"))
+    , m_directoryOfLogsWithoutPcTime(m_pathOfCurrentTempFiles+R"(\LogsWithoutPcTime\)")
+    , m_pathOfStartupLog(m_pathOfCurrentTempFiles+R"(\StartupLog\Startup.log)")
 {
-    deleteStartupLog();
-    deleteLogsWithoutPcTime();
+    deleteTempFilesAndDirectoriesOfOneDayOld();
+    createTempDirectories();
 }
 
 double BtsLogSorter::getTotalSizeToBeRead(set<string> listOfFiles)
@@ -93,6 +98,32 @@ void BtsLogSorter::processFile(string const& filePath)
         ProgressCounters::totalSizeReadForCombine = previousTotalSize + fileReader.getCurrentLocation();
     }
     ProgressCounters::totalSizeReadForCombine = previousTotalSize + filePathHandler.getFileSizeEstimate();
+}
+
+void BtsLogSorter::createTempDirectories() const
+{
+    AlbaLocalPathHandler(m_directoryOfLogsWithoutPcTime).createDirectoriesForNonExisitingDirectories();
+    AlbaLocalPathHandler(m_pathOfStartupLog).createDirectoriesForNonExisitingDirectories();
+}
+
+void BtsLogSorter::deleteTempFilesAndDirectoriesOfOneDayOld() const
+{
+    AlbaLocalPathHandler tempFileAndDirectoryPathHandler(m_pathOfAllTempFiles);
+    ListOfPaths listOfFiles;
+    ListOfPaths listOfDirectories;
+    tempFileAndDirectoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
+    AlbaDateTime currentTime(AlbaLocalTimeHelper().getCurrentDateTime());
+    AlbaDateTime oneDay(0,0,1,0,0,0,0);
+    for(string const& directoryPath : listOfDirectories)
+    {
+        AlbaLocalPathHandler temporaryDirectoryPathHandler(directoryPath);
+        AlbaDateTime fileCreationTime(temporaryDirectoryPathHandler.getFileCreationTime());
+        AlbaDateTime difference = currentTime-fileCreationTime;
+        if(difference > oneDay)
+        {
+            temporaryDirectoryPathHandler.deleteDirectoryWithFilesAndDirectories();
+        }
+    }
 }
 
 void BtsLogSorter::deleteStartupLog() const

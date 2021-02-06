@@ -13,7 +13,7 @@ TEST(AlbaDateTimeTest, EmptyDateTimeCanBeCreated)
 
     EXPECT_TRUE(timeSample.isEmpty());
     EXPECT_EQ(0u, timeSample.getYears());
-    EXPECT_EQ(0u, timeSample.getMonths());
+    EXPECT_EQ(1u, timeSample.getMonths());
     EXPECT_EQ(0u, timeSample.getDays());
     EXPECT_EQ(0u, timeSample.getHours());
     EXPECT_EQ(0u, timeSample.getMinutes());
@@ -21,7 +21,7 @@ TEST(AlbaDateTimeTest, EmptyDateTimeCanBeCreated)
     EXPECT_EQ(0u, timeSample.getMicroSeconds());
     EXPECT_EQ(0u, timeSample.getTotalDaysInYearMonthDays());
     EXPECT_EQ(0u, timeSample.getTotalSecondsInHourMinutesSeconds());
-    EXPECT_EQ(" 1 * 0000-00-00 00:00:00.000000", timeSample.getPrintableStringFormat1());
+    EXPECT_EQ(" 1 * 0000-01-00 00:00:00.000000", timeSample.getPrintableStringFormat1());
 }
 
 TEST(AlbaDateTimeTest, DateTimeCanBeCreatedWithParameters)
@@ -192,12 +192,22 @@ TEST(AlbaDateTimeTest, SubtractionOperatorWithUnderflowValues)
     EXPECT_EQ(expectedAnswer, actualAnswer);
 }
 
-TEST(AlbaDateTimeTest, SubtractionOperatorWitNegativeResult)
+TEST(AlbaDateTimeTest, SubtractionOperatorWithNegativeResult)
 {
     AlbaDateTime timeSample1(0000,00,00,00,00,00,000001);
     AlbaDateTime timeSample2(2000,01,01,00,00,00,000000);
     AlbaDateTime expectedAnswer(1999,12,31,23,59,59,999999);
     expectedAnswer.negate();
+
+    AlbaDateTime actualAnswer = timeSample1 - timeSample2;
+    EXPECT_EQ(expectedAnswer, actualAnswer);
+}
+
+TEST(AlbaDateTimeTest, SubtractionOperatorWorksInRealScenario)
+{
+    AlbaDateTime timeSample1(2018,9,30,9,55,50,110000);
+    AlbaDateTime timeSample2(2018,9,30,9,55,42,91000);
+    AlbaDateTime expectedAnswer(0000,0,0,00,00,8,19000);
 
     AlbaDateTime actualAnswer = timeSample1 - timeSample2;
     EXPECT_EQ(expectedAnswer, actualAnswer);

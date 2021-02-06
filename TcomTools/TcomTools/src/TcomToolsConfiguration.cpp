@@ -237,17 +237,9 @@ void TcomToolsConfiguration::loadConfigurationFromFile()
         {
             cropSize = stringHelper::convertStringToNumber<double>(afterColon);;
         }
-        else if("btsLogSorterConfiguration.m_pathOfLogsWithoutPcTime" == beforeColon)
+        else if("btsLogSorterConfiguration.m_pathOfTempFiles" == beforeColon)
         {
-            btsLogSorterConfiguration.m_pathOfLogsWithoutPcTime = afterColon;
-        }
-        else if("btsLogSorterConfiguration.m_pathOfStartupLog" == beforeColon)
-        {
-            btsLogSorterConfiguration.m_pathOfStartupLog = afterColon;
-        }
-        else if("btsLogSorterConfiguration.m_configurationWithPcTime.m_directoryForBlocks" == beforeColon)
-        {
-            btsLogSorterConfiguration.m_configurationWithPcTime.m_directoryForBlocks = afterColon;
+            btsLogSorterConfiguration.m_pathOfTempFiles = afterColon;
         }
         else if("btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock" == beforeColon)
         {
@@ -268,10 +260,6 @@ void TcomToolsConfiguration::loadConfigurationFromFile()
         else if("btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams" == beforeColon)
         {
             btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams = stringHelper::convertStringToNumber<int>(afterColon);
-        }
-        else if("btsLogSorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks" == beforeColon)
-        {
-            btsLogSorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks = afterColon;
         }
         else if("btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock" == beforeColon)
         {
@@ -339,14 +327,11 @@ void TcomToolsConfiguration::saveConfigurationToFile() const
     outputFileStream << "extractGrepCondition:" << extractGrepCondition<< endl;
     outputFileStream << "acceptedFilesGrepCondition:" << acceptedFilesGrepCondition<< endl;
     outputFileStream << "otherGrepCondition:" << otherGrepCondition << endl;
-    outputFileStream << "btsLogSorterConfiguration.m_pathOfLogsWithoutPcTime:" << btsLogSorterConfiguration.m_pathOfLogsWithoutPcTime << endl;
-    outputFileStream << "btsLogSorterConfiguration.m_pathOfStartupLog:" << btsLogSorterConfiguration.m_pathOfStartupLog << endl;
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_directoryForBlocks:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_directoryForBlocks << endl;
+    outputFileStream << "btsLogSorterConfiguration.m_pathOfTempFiles:" << btsLogSorterConfiguration.m_pathOfTempFiles << endl;
     outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock << endl;
     outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock << endl;
     outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory << endl;
     outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams << endl;
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks << endl;
     outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock << endl;
     outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock << endl;
     outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory << endl;

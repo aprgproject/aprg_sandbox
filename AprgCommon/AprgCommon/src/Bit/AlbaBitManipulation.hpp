@@ -75,9 +75,11 @@ public:
 
     template <unsigned char size>
     static constexpr DataTypeToManipulate swapWithBytes(DataTypeToManipulate const)
-    {        static_assert(size != size, "The swapWithSize with this size or type is not supported. Please add a specialization.");
+    {
+        static_assert(size != size, "The swapWithSize with this size or type is not supported. Please add a specialization.");
         return 0;
     }
+
     static constexpr DataTypeToManipulate swap(DataTypeToManipulate const value)
     {
         return swapWithBytes<sizeof(DataTypeToManipulate)>(value);
@@ -125,8 +127,10 @@ private:
     }
 };
 
+
 template <>
-template <>constexpr short unsigned int AlbaBitManipulation<short unsigned int>::swapWithBytes<2>(short unsigned int const value)
+template <>
+constexpr short unsigned int AlbaBitManipulation<short unsigned int>::swapWithBytes<2>(short unsigned int const value)
 {
     return concatenateBytes(getByteAt<0>(value), getByteAt<1>(value));
 }

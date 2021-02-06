@@ -26,6 +26,6 @@ include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 include(${TCOM_TOOLS_BACKEND_DIR}/cmake/FilesAndDirectories.cmake)
 
 add_executable(${OUTFILE} ${TCOM_TOOLS_BACKEND_SOURCES_AND_TESTS})
-include_directories(${TCOM_TOOLS_BACKEND_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
+include_directories(${TCOM_TOOLS_BACKEND_INCLUDE_DIRECTORIES} ${TCOM_TOOLS_BACKEND_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
 target_link_libraries(${OUTFILE} gtest ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON APRG_ALGORITHM)
 add_test(${OUTFILE} ${OUTFILE})

@@ -10,7 +10,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = TcomTools
 TEMPLATE = app
-CONFIG += staticlib
+CONFIG += static
+
+QMAKE_CFLAGS += -static -static-libgcc -static-libstdc++
+QMAKE_CXXFLAGS += -static -static-libgcc -static-libstdc++
 
 SOURCES += \
 src/main.cpp\
@@ -39,7 +42,9 @@ src/TcomToolsConfiguration.cpp\
 ../../AprgCommon/AprgCommon/src/String/AlbaStringHelper.cpp\
 ../../AprgCommon/AprgCommon/src/Time/AlbaDateTime.cpp\
 ../../AprgCommon/AprgCommon/src/Time/AlbaDateTimeHelper.cpp\
+../../AprgCommon/AprgCommon/src/Time/AlbaLocalTimeHelper.cpp\
 ../../AprgCommon/AprgCommon/srcWindows/PathHandlers/AlbaWindowsPathHandler.cpp\
+../../AprgCommon/AprgCommon/srcWindows/Time/AlbaWindowsTimeHelper.cpp\
 ../../AprgCommon/AprgCommon/srcWindows/Windows/AlbaWindowsHelper.cpp\
 ../../AprgFileExtractor/AprgFileExtractor/src/AprgFileExtractor.cpp
 
@@ -73,7 +78,9 @@ src/TcomToolsConfiguration.hpp\
 ../../AprgCommon/AprgCommon/src/Time/AlbaDateTime.hpp\
 ../../AprgCommon/AprgCommon/src/Time/AlbaDateTimeHelper.hpp\
 ../../AprgCommon/AprgCommon/src/Time/AlbaDateTimeConstants.hpp\
+../../AprgCommon/AprgCommon/src/Time/AlbaLocalTimeHelper.hpp\
 ../../AprgCommon/AprgCommon/srcWindows/PathHandlers/AlbaWindowsPathHandler.hpp\
+../../AprgCommon/AprgCommon/srcWindows/Time/AlbaWindowsTimeHelper.hpp\
 ../../AprgCommon/AprgCommon/srcWindows/Windows/AlbaWindowsHelper.hpp\
 ../../AprgFileExtractor/AprgFileExtractor/src/AprgFileExtractor.hpp
 
@@ -89,7 +96,7 @@ src\
 
 
 win32 {
-     QMAKE_LFLAGS += -Wl,-subsystem,windows
+     QMAKE_LFLAGS += -Wl,-subsystem,windows -static -static-libgcc -static-libstdc++
 }
 
 message(APRG_DIR=\\\"$$PWD/../../\\\")
@@ -99,5 +106,6 @@ DEFINES += APRG_DIR=\\\"$$PWD/../../\\\"
 DEFINES += PATH_OF_7Z_EXECUTABLE=\\\"$$PWD/../../AprgFileExtractor/7z32/7z.exe\\\"
 DEFINES += PATH_OF_7Z_TEMP_FILE=\\\"$$PWD/../../AprgFileExtractor/7z32/TempFile.txt\\\"
 DEFINES += OS_WINDOWS=\\\"WIN32\\\"
+DEFINES += STATIC
 
 CONFIG += c++11 console

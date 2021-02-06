@@ -1,9 +1,8 @@
 #include <BtsLogSorter.hpp>
+#include <BtsLogSorterTest.hpp>
 #include <File/AlbaFileReader.hpp>
 
 #include <gtest/gtest.h>
-
-#include <Debug/AlbaDebug.hpp>
 
 namespace alba
 {
@@ -20,27 +19,6 @@ namespace ProgressCounters
 using namespace alba;
 using namespace tcomToolsBackend;
 using namespace std;
-
-struct BtsLogSorterTest : public testing::Test
-{
-    BtsLogSorterTest()
-    {
-        m_configuration.m_condition = R"( ([syslog]&&[.log]) || [ccns.log] || [tcom.log] || (([startup]||[runtime]||[system])&&[.log]) || ([UDP]&&([.log]||[.txt])) )";
-        m_configuration.m_configurationWithPcTime.m_directoryForBlocks = APRG_DIR R"(TcomTools\TcomToolsBackend\tst\TempFiles\WithPcTimeBlocks)";
-        m_configuration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock = 10000;
-        m_configuration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock = 100000;
-        m_configuration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory = 200000;
-        m_configuration.m_configurationWithPcTime.m_maximumFileStreams = 70;
-        m_configuration.m_configurationWithoutPcTime.m_directoryForBlocks = APRG_DIR R"(TcomTools\TcomToolsBackend\tst\TempFiles\WithoutPcTimeBlocks)";
-        m_configuration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock = 10000;
-        m_configuration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock = 100000;
-        m_configuration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory = 200000;
-        m_configuration.m_configurationWithoutPcTime.m_maximumFileStreams = 70;
-        m_configuration.m_pathOfLogsWithoutPcTime = APRG_DIR R"(TcomTools\TcomToolsBackend\tst\TempFiles\LogsWithoutPcTime)";
-        m_configuration.m_pathOfStartupLog = APRG_DIR R"(TcomTools\TcomToolsBackend\tst\TempFiles\StartupLog\Startup.log)";
-    }
-    BtsLogSorterConfiguration m_configuration;
-};
 
 TEST_F(BtsLogSorterTest, DISABLED_PerformanceTest)
 {

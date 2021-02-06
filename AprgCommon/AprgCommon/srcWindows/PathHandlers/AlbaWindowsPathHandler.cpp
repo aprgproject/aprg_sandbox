@@ -1,6 +1,7 @@
 #include "AlbaWindowsPathHandler.hpp"
 
 #include <String/AlbaStringHelper.hpp>
+#include <Time/AlbaWindowsTimeHelper.hpp>
 #include <Windows/AlbaWindowsHelper.hpp>
 
 #include <windows.h>
@@ -57,6 +58,24 @@ double AlbaWindowsPathHandler::getFileSizeEstimate()
         cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<endl;
     }
     return fileSizeEstimate;
+}
+
+AlbaDateTime AlbaWindowsPathHandler::getFileCreationTime()
+{
+    AlbaDateTime fileCreationTime;
+    WIN32_FILE_ATTRIBUTE_DATA attributeData;
+    if (GetFileAttributesEx(getFullPath().c_str(), GetFileExInfoStandard, &attributeData))
+    {
+        SYSTEMTIME fileCreationTimeInSystemTime;
+        FileTimeToSystemTime(&(attributeData.ftCreationTime), &fileCreationTimeInSystemTime);
+        fileCreationTime = AlbaWindowsTimeHelper().convertSystemTimeToAlbaDateTime(fileCreationTimeInSystemTime);
+    }
+    else
+    {
+        cout<<"Error in AlbaWindowsPathHandler::getFileCreationTime() path:"<<getFullPath()<<endl;
+        cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<endl;
+    }
+    return fileCreationTime;
 }
 
 bool AlbaWindowsPathHandler::isFoundInLocalSystem() const

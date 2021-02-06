@@ -30,7 +30,11 @@ public:
         , m_fileStreamOpenedCache()
         , m_blocks(m_configuration, m_memoryCache, m_fileStreamOpenedCache)
     {
-        deleteAllFilesInDirectory();
+        createTempDirectories();
+    }
+    ~AlbaLargeSorter()
+    {
+        deleteTempFilesAndDirectories();
     }
     bool isEmpty() const
     {
@@ -168,9 +172,17 @@ private:
             iteratorOfBlockToReleaseFile->releaseFileStream();
         }
     }
-    void deleteAllFilesInDirectory()
+    void createTempDirectories()
     {
-        AlbaLocalPathHandler(m_configuration.m_directoryForBlocks).deleteFilesInDirectory();
+        AlbaLocalPathHandler(m_configuration.m_directoryForBlocks).createDirectoriesForNonExisitingDirectories();
+    }
+    void deleteTempFilesAndDirectories()
+    {
+        AlbaLocalPathHandler temporaryLocalDirectory(m_configuration.m_directoryForBlocks);
+        if(temporaryLocalDirectory.isFoundInLocalSystem())
+        {
+            temporaryLocalDirectory.deleteDirectoryWithFilesAndDirectories();
+        }
     }
     void putIndexesWithMultiplesOfNumber(Indexes & indexes, unsigned int number, unsigned int numberOfObjects)
     {

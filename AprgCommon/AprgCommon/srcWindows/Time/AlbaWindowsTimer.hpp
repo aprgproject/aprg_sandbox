@@ -11,6 +11,7 @@ public:
     AlbaWindowsTimer();
     void resetTimer();
     void stopTimer();
+    void sleep(unsigned int const milliSeconds);
 
     unsigned int getElapsedTimeInMilliseconds() const;
     unsigned int getElapsedTimeInSeconds() const;

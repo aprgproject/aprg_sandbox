@@ -9,7 +9,6 @@ AlbaWindowsTimer::AlbaWindowsTimer()
 {
     resetTimer();
 }
-
 void AlbaWindowsTimer::resetTimer()
 {
     GetSystemTime(&m_time1);
@@ -19,6 +18,11 @@ void AlbaWindowsTimer::resetTimer()
 void AlbaWindowsTimer::stopTimer()
 {
     GetSystemTime(&m_time2);
+}
+
+void AlbaWindowsTimer::sleep(unsigned int const milliSeconds)
+{
+    Sleep(milliSeconds);
 }
 
 unsigned int AlbaWindowsTimer::getElapsedTimeInMilliseconds() const

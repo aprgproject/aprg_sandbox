@@ -26,6 +26,8 @@ public:
     double getTotalSizeToBeRead(std::set<std::string> listOfFiles);
 
 private:
+    void createTempDirectories() const;
+    void deleteTempFilesAndDirectoriesOfOneDayOld() const;
     void deleteStartupLog() const;
     void deleteLogsWithoutPcTime() const;
     void saveLogToOutputFileIfAllHavePcTime(std::string const& outputPath);
@@ -42,6 +44,8 @@ private:
     void writeLastPrint(std::ofstream & outputLogFileStream);
     void deleteFilesInDirectory(std::string const& directoryOfLogs) const;
     alba::AlbaGrepStringEvaluator m_evaluator;
+    std::string m_pathOfAllTempFiles;
+    std::string m_pathOfCurrentTempFiles;
     alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithPcTime;
     alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithoutPcTime;
     std::string m_directoryOfLogsWithoutPcTime;

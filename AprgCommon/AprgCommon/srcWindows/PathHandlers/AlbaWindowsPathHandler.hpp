@@ -2,6 +2,7 @@
 
 #include <PathHandlers/AlbaPathHandler.hpp>
 #include <PathHandlers/PathContantsAndTypes.hpp>
+#include <Time/AlbaDateTime.hpp>
 
 #include <functional>
 #include <string>
@@ -18,6 +19,7 @@ public:
     void clear() override;
     std::string getDriveOrRoot() const;
     double getFileSizeEstimate();
+    AlbaDateTime getFileCreationTime();
     bool isFoundInLocalSystem() const;
     bool isRelativePath() const;
     void setPathToDetectedLocalPath();

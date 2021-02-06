@@ -13,15 +13,15 @@ class AlbaYearMonthDay
 {
 public:
     AlbaYearMonthDay();
-    AlbaYearMonthDay(unsigned short int const years, unsigned char const months, unsigned char const days);
+    AlbaYearMonthDay(unsigned short int const years, unsigned char const monthIndex, unsigned char const days);
     void clear();
     unsigned int getYears() const;
-    unsigned int getMonths() const;
+    unsigned int getMonthIndex() const;
     unsigned int getDays() const;
     unsigned int getYearMonthDay() const;
     void setTime(unsigned int const totalDays);
-    void setTime(unsigned short int const years, unsigned char const months, unsigned char const days);
-    unsigned int convertToYearMonthDayFormat(unsigned short int const years, unsigned char const months, unsigned char const days) const;
+    void setTime(unsigned short int const years, unsigned char const monthIndex, unsigned char const days);
+    unsigned int convertToYearMonthDayFormat(unsigned short int const years, unsigned char const monthIndex, unsigned char const days) const;
 private:
     unsigned int m_yearMonthDay;
 };
@@ -77,6 +77,7 @@ private:
     AlbaDateTime executeAddOrSubtract(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
     AlbaDateTime addDateTimeMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
     AlbaDateTime subtractDateTimeMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
+    unsigned char convertMonthToCorrectMonthIndex(unsigned char const month);
     int m_sign;
     AlbaYearMonthDay m_yearMonthDay;
     AlbaHourMinuteSecond m_hourMinuteSecond;

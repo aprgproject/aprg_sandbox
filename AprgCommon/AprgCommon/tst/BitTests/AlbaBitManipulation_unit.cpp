@@ -49,8 +49,10 @@ TEST(AlbaBitManipulationTest, ConcatenationBytes_ArgumentsSizeLessThanResult)
     // Given
     const unsigned char byte1 = 0xA1;
     const unsigned char byte2 = 0xBA;
+
     // When
     unsigned int result = AlbaBitManipulation<unsigned int>::concatenateBytes(byte1, byte2);
+
     // Then
     EXPECT_EQ(0xA1BAu, result);
 }
@@ -58,10 +60,12 @@ TEST(AlbaBitManipulationTest, ConcatenationBytes_ArgumentsSizeLessThanResult)
 TEST(AlbaBitManipulationTest, ConcatenationBytes_ArgumentsSameSizeAsResult)
 {
     // Given
-    const unsigned char byte1 = 0xA1;    const unsigned char byte2 = 0xBA;
+    const unsigned char byte1 = 0xA1;
+    const unsigned char byte2 = 0xBA;
 
     // When
     unsigned int result = AlbaBitManipulation<unsigned int>::concatenateBytes(byte1, byte2, byte1, byte2);
+
     // Then
     EXPECT_EQ(0xA1BAA1BAu, result);
 }
@@ -94,9 +98,11 @@ TEST(AlbaBitManipulationTest, ConcatenationNibbles_ArgumentsSameSizeAsResult)
 
 TEST(AlbaBitManipulationTest, BytesAreSuccessfullyObtainedWhenU32IsUsed)
 {
-    // Given    const unsigned int input = 0x12345678;
+    // Given
+    const unsigned int input = 0x12345678;
 
     // When
+
     // Then
     EXPECT_EQ(0x78u, AlbaBitManipulation<unsigned int>::getByteAt<0>(input));
     EXPECT_EQ(0x56u, AlbaBitManipulation<unsigned int>::getByteAt<1>(input));
@@ -124,9 +130,11 @@ TEST(AlbaBitManipulationTest, NibblesAreSuccessfullyObtainedWhenU32IsUsed)
 
 TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU16IsUsed)
 {
-    // Given    const short unsigned int input = 0x1234;
+    // Given
+    const short unsigned int input = 0x1234;
 
     // When
+
     // Then
     EXPECT_EQ(0x3412u, AlbaBitManipulation<short unsigned int>::swap(input));
 }

@@ -155,10 +155,12 @@ TEST(SampleTest, MessageIdCounter)
 
 TEST(SampleTest, ConstTest)
 {
-    #define GLO_NULL 1    void * pointer= (void*)GLO_NULL;
+    #define GLO_NULL 1
+    void * pointer= (void*)GLO_NULL;
     if(pointer==(void*)GLO_NULL)
     {
-        cout<<"GLO NULL works! "<<endl;    }
+        cout<<"GLO NULL works! "<<endl;
+    }
     if(pointer==nullptr)
     {
         cout<<"nullptr works! "<<endl;
@@ -169,10 +171,12 @@ TEST(SampleTest, ConstTest)
 
 class UglyDataType
 {
-    public:    unsigned int * uglyPointer; // this is allocated at some point
+    public:
+    unsigned int * uglyPointer; // this is allocated at some point
 };
 void function1(UglyDataType input)
-{    input.uglyPointer = nullptr; // this will compile
+{
+    input.uglyPointer = nullptr; // this will compile
 }
 void function2(UglyDataType const input) //Since its mandatory to put const for all parameters we will notice the compiler error.
 {
