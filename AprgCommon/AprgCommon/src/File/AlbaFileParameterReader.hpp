@@ -2,9 +2,9 @@
 
 #include <fstream>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
-
 namespace alba
 {
 
@@ -14,10 +14,10 @@ public:
     explicit AlbaFileParameterReader(std::istream& stream);
     template<typename TypeToRetrieve> TypeToRetrieve readData() const;
     template<typename TypeToRetrieve> void readData(std::vector<TypeToRetrieve> & vectorOfData) const;
+    template<typename TypeToRetrieve> void readData(std::set<TypeToRetrieve> & setOfData) const;
     template<typename TypeToRetrieve1, typename TypeToRetrieve2> void readData(std::map<TypeToRetrieve1, TypeToRetrieve2> & mapOfData) const
 ;
-private:
-    std::istream& m_stream;
+private:    std::istream& m_stream;
 };
 
 template<typename TypeToRetrieve>
@@ -42,10 +42,20 @@ void AlbaFileParameterReader::readData(std::vector<TypeToRetrieve> & vectorOfDat
     }
 }
 
-template<typename TypeToRetrieve1, typename TypeToRetrieve2>
-void AlbaFileParameterReader::readData(std::map<TypeToRetrieve1, TypeToRetrieve2> & mapOfData) const
+template<typename TypeToRetrieve>
+void AlbaFileParameterReader::readData(std::set<TypeToRetrieve> & setOfData) const //test
 {
     unsigned int size;
+    m_stream >> size;
+    for(unsigned int i=0; i<size; i++)
+    {
+        setOfData.emplace(readData<TypeToRetrieve>());
+    }
+}
+
+template<typename TypeToRetrieve1, typename TypeToRetrieve2>
+void AlbaFileParameterReader::readData(std::map<TypeToRetrieve1, TypeToRetrieve2> & mapOfData) const
+{    unsigned int size;
     m_stream >> size;
     for(unsigned int i=0; i<size; i++)
     {
