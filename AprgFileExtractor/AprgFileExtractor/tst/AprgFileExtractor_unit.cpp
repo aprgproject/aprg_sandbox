@@ -127,6 +127,26 @@ TEST(AprgFileExtractorTest, FilesAreExtractedSuccessfullyWhenSatisyingTheConditi
     EXPECT_TRUE(filePathHandler.isFoundInLocalSystem());
 }
 
+TEST(AprgFileExtractorTest, FilesAreExtractedSuccessfullyWhenSatisyingTheConditionWhen7zPathHasSpaces)
+{
+    AprgFileExtractor fileExtractor("[.log]", APRG_DIR R"(AprgFileExtractor\7z32 With Space\7z. With Space.exe)", APRG_DIR R"(AprgFileExtractor\7z32 With Space\tempFile.txt)");
+    AlbaLocalPathHandler filePathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\DirectoryTest\DIR1\File1.log)");
+    filePathHandler.deleteFile();
+    filePathHandler.reInput();
+    ASSERT_FALSE(filePathHandler.isFoundInLocalSystem());
+    filePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\DirectoryTest\File1.log)");
+    filePathHandler.deleteFile();
+    filePathHandler.reInput();
+    ASSERT_FALSE(filePathHandler.isFoundInLocalSystem());
+
+    fileExtractor.extractAllRelevantFiles(PATH_OF_SAMPLE_ZIP_1);
+
+    filePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\DirectoryTest\DIR1\File1.log)");
+    EXPECT_TRUE(filePathHandler.isFoundInLocalSystem());
+    filePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\DirectoryTest\File1.log)");
+    EXPECT_TRUE(filePathHandler.isFoundInLocalSystem());
+}
+
 TEST(AprgFileExtractorTest, FilesAreExtractedRecursivelyWhenSatisyingTheCondition)
 {
     AprgFileExtractor fileExtractor("[DirectoryTest]");

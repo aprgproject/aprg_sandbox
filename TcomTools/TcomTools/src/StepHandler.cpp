@@ -74,10 +74,12 @@ string StepHandler::executeExtractStep(TcomToolsConfiguration const& configurati
                 configuration.locationOf7zExecutable,
                 tempFileFor7zPathHandler.getFullPath());
     AlbaLocalPathHandler pathHandler(inputPath);
-    string outputPath(inputPath);    if(pathHandler.isDirectory())
+    string outputPath(inputPath);
+    if(pathHandler.isDirectory())
     {
         fileExtractor.extractAllRelevantFiles(pathHandler.getFullPath());
-    }    else if(fileExtractor.isRecognizedCompressedFile(pathHandler.getExtension()))
+    }
+    else if(fileExtractor.isRecognizedCompressedFile(pathHandler.getExtension()))
     {
         fileExtractor.extractAllRelevantFiles(pathHandler.getFullPath());
         pathHandler.input(pathHandler.getDirectory() + R"(\)" + pathHandler.getFilenameOnly());
