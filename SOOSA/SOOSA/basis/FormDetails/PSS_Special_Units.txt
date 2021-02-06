@@ -1,0 +1,15 @@
+PATIENT SATISFACTION SURVEY (For Special Units)
+NEW_COLUMN
+01. Hospital Environment - cleanliness of the area
+02. Hospital Environment - ventilation/air-conditioning
+03. Hospital Environment - lighting
+04. Nursing Care - promptness of service
+05. Nursing Care - quality of patient care
+06. Nursing Care - courtesy in dealing with patients/watchers
+07. Medical Care - promptness of service
+08. Medical Care - quality of care and treatment
+09. Medical Care - courtesy in dealing with patients
+10. Pharmacy - availability of medicines and medical supplies
+11. Pharmacy - promptness of  service
+12. Pharmacy - courtesy of staff
+13. Overall assessment of the hospital

@@ -1,0 +1,53 @@
+isExtractStepOn:0
+isCombineAndSortStepOn:0
+isGrepStepOn:0
+isCropStepOn:0
+isGrepTcomEnabled:0
+isGrepErrEnabled:0
+isGrepErrWrnTcomEnabled:0
+isGrepBtsStatusEnabled:0
+isGrepRecoveryEnabled:0
+isGrepAllocationEnabled:0
+isGrepFaultEnabled:0
+isGrepLrmEnabled:0
+isGrepGrmEnabled:0
+isGrepToamEnabled:0
+isGrepTupcEnabled:0
+isGrepRlhEnabled:0
+isGrepCchhEnabled:0
+isGrepCchhSdlEnabled:0
+isGrepHschEnabled:0
+isGrepDmgrEnabled:0
+grepConditionForTcom:[/TCOM]
+grepConditionForErr:[ERR/]
+grepConditionForErrWrn:([ERR/] || [WRN/]) && !([Received TC_RLH_COUNTER_SAMPLE_REPORT_IND_MSG] || [Signaling counters: peak MCU load%] || [Signalling load counters: current period MCU load%:])
+grepConditionForBtsStatus:[HW_CONF] || [printHwConf] || [BTS is]
+grepConditionForRecovery:[link_states] || [reconfcell] || [reconf_cell] || [HW_CONF] || [printHwConf] || [DspDevice]
+grepConditionForAllocation: [TCOM/LRM/rep] || [INF/TCOM/LRM, 0x] || [printDsp]
+grepConditionForFault:[EfaultId_] || [faultId:]
+grepConditionForLrm:[TCOM/LRM]
+grepConditionForGrm:[TCOM/G]
+grepConditionForToam:[TCOM/TOAM]
+grepConditionForTupc:[/TUP] || [Conman]
+grepConditionForRlh:[TCOM/R]
+grepConditionForCchh:[TCOM/CCHH]
+grepConditionForCchhSdl:(([CCHH] || [HSCTRL] || [CCHCTRL]) && [TCOM/Logger]) || [TCOM/CH]
+grepConditionForHsch:[TCOM/HSCH]
+grepConditionForDmgr:[TCOM/DMGR]
+inputFileOrDirectory:D:\W\ZZZ_Useless_Logs\FZPDeployment\2016-01-10\sorted.log
+extractGrepCondition:!([ProcessCpu] || [ProcessMemory]) && ([LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [pm_] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles])
+acceptedFilesGrepCondition: [ccns.log] || [tcom.log] || [system.log] || [UDP] || (([SYSLOG_] || [startup] || [runtime]|| [pm_] || [CPU]) && [.log])
+otherGrepCondition:
+prioritizedLogPrint:cropSize:100
+btsLogSorterConfiguration.m_pathOfLogsWithoutPcTime:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\LogsWithoutPcTime
+btsLogSorterConfiguration.m_pathOfStartupLog:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\StartupLog\Startup.log
+btsLogSorterConfiguration.m_configurationWithPcTime.m_directoryForBlocks:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\WithPcTimeBlocks
+btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock:10000
+btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock:100000
+btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory:500000
+btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams:100
+btsLogSorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks:C:\APRG\TcomTools\TcomToolsBackend\tst\TempFiles\WithoutPcTimeBlocks
+btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock:10000
+btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock:100000
+btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory:500000
+btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams:100

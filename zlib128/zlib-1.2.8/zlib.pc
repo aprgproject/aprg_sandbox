@@ -1,0 +1,13 @@
+prefix=C:/Program Files/CURLCPP
+exec_prefix=C:/Program Files/CURLCPP
+libdir=C:/Program Files/CURLCPP/lib
+sharedlibdir=C:/Program Files/CURLCPP/lib
+includedir=C:/Program Files/CURLCPP/include
+
+Name: zlib
+Description: zlib compression library
+Version: 
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}

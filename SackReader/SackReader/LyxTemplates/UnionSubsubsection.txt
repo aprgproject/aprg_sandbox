@@ -1,0 +1,16 @@
+\begin_layout Subsubsection
+LYX_TABLE_UNION_NAME_REPLACE
+\end_layout
+
+\begin_layout Standard
+:
+\end_layout
+
+\begin_layout Standard
+Path: LYX_TABLE_UNION_PATH_REPLACE
+\end_layout
+
+LYX_TABLE_REPLACE
+
+
+
