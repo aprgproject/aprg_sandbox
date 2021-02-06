@@ -5,6 +5,7 @@
 #include <set>
 #include <string>
 #include <vector>
+
 namespace alba
 {
 
@@ -17,7 +18,8 @@ public:
     template<typename TypeToWrite> void writeData(std::set<TypeToWrite> const& setOfData) const;
     template<typename TypeToWrite1, typename TypeToWrite2> void writeData(std::map<TypeToWrite1, TypeToWrite2> const& mapOfData) const;
 
-private:    std::ostream& m_stream;
+private:
+    std::ostream& m_stream;
 };
 
 template<typename TypeToRetrieve>
@@ -51,7 +53,8 @@ void AlbaFileParameterWriter::writeData(std::set<TypeToWrite> const& setOfData) 
 
 template<typename TypeToWrite1, typename TypeToWrite2>
 void AlbaFileParameterWriter::writeData(std::map<TypeToWrite1, TypeToWrite2> const& mapOfData) const
-{    m_stream << mapOfData.size() << std::endl;
+{
+    m_stream << mapOfData.size() << std::endl;
     for(std::pair<TypeToWrite1, TypeToWrite2> const& dataPair : mapOfData)
     {
         writeData<TypeToWrite1>(dataPair.first);

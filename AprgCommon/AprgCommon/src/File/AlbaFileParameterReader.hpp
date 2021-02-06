@@ -5,6 +5,7 @@
 #include <set>
 #include <string>
 #include <vector>
+
 namespace alba
 {
 
@@ -17,7 +18,8 @@ public:
     template<typename TypeToRetrieve> void readData(std::set<TypeToRetrieve> & setOfData) const;
     template<typename TypeToRetrieve1, typename TypeToRetrieve2> void readData(std::map<TypeToRetrieve1, TypeToRetrieve2> & mapOfData) const
 ;
-private:    std::istream& m_stream;
+private:
+    std::istream& m_stream;
 };
 
 template<typename TypeToRetrieve>
@@ -55,7 +57,8 @@ void AlbaFileParameterReader::readData(std::set<TypeToRetrieve> & setOfData) con
 
 template<typename TypeToRetrieve1, typename TypeToRetrieve2>
 void AlbaFileParameterReader::readData(std::map<TypeToRetrieve1, TypeToRetrieve2> & mapOfData) const
-{    unsigned int size;
+{
+    unsigned int size;
     m_stream >> size;
     for(unsigned int i=0; i<size; i++)
     {
