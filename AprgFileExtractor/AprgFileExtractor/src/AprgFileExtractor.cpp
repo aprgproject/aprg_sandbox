@@ -9,16 +9,12 @@
 #include <fstream>
 #include <iostream>
 
-#include <Debug/AlbaDebug.hpp>
-
 #ifndef PATH_OF_7Z_EXECUTABLE
     static_assert(false, "PATH_OF_7Z_EXECUTABLE is not set in cmake");
 #endif
-
 #ifndef PATH_OF_7Z_TEMP_FILE
     static_assert(false, "PATH_OF_7Z_TEMP_FILE is not set in cmake");
 #endif
-
 using namespace std;
 
 namespace alba
@@ -68,20 +64,16 @@ void AprgFileExtractor::extractAllRelevantFiles(string const& pathOfFileOrDirect
 void AprgFileExtractor::copyRelativeFilePathsFromCompressedFile(string const& filePathOfCompressedFile, set<string>& files) const
 {
     AlbaLocalPathHandler filePathHandler(filePathOfCompressedFile);
-    string command = string(R"(")") + m_pathOf7zExecutable + R"( l -slt ")"
+    string command = string(R"(cmd /S /C "")") + m_pathOf7zExecutable + R"(" l -slt ")"
             + filePathHandler.getFullPath() + R"(" > ")"
             + m_pathOf7zTempFile + R"("")";
-    ALBA_PRINT1(command);
     system(command.c_str());
-    ALBA_PRINT1(command);
 
     ifstream tempFile(m_pathOf7zTempFile);
-    string path;
-    AlbaFileReader fileReader(tempFile);
+    string path;    AlbaFileReader fileReader(tempFile);
     while(fileReader.isNotFinished())
     {
-        string lineInFile(fileReader.getLine());
-        if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "Path = "))
+        string lineInFile(fileReader.getLine());        if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile, "Path = "))
         {
             path = stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(stringHelper::getStringAfterThisString(lineInFile, "Path = "));
         }
@@ -99,34 +91,28 @@ string AprgFileExtractor::extractAll(string const& filePathOfCompressedFile) con
 {
     AlbaLocalPathHandler compressedFilePathHandler(filePathOfCompressedFile);
     AlbaLocalPathHandler outputPathHandler(compressedFilePathHandler.getDirectory() + R"(\)" + compressedFilePathHandler.getFilenameOnly() + R"(\)");
-    string command = string(R"(")") + m_pathOf7zExecutable + R"( e -y -o ")"
+    string command = string(R"(cmd /S /C "")") + m_pathOf7zExecutable + R"(" e -y -o")"
             + outputPathHandler.getDirectory() + R"(" ")"
             + compressedFilePathHandler.getFullPath() + R"(" > nul ")";
-    ALBA_PRINT1(command);
     system(command.c_str());
-    ALBA_PRINT1(command);
     cout<<"extractAll: "<<outputPathHandler.getImmediateDirectoryName()<<R"(\)"<<endl;
     return outputPathHandler.getFullPath();
 }
-
 string AprgFileExtractor::extractOneFile(string const& filePathOfCompressedFile, string const& relativePathOfFile) const
 {
     AlbaLocalPathHandler compressedFilePathHandler(filePathOfCompressedFile);
     AlbaLocalPathHandler outputPathHandler(compressedFilePathHandler.getDirectory() + R"(\)" + compressedFilePathHandler.getFilenameOnly() + R"(\)" + relativePathOfFile);
-    string command = m_pathOf7zExecutable + R"( e -y -o")"
+    string command = string(R"(cmd /S /C "")") + m_pathOf7zExecutable + R"(" e -y -o")"
             + outputPathHandler.getDirectory() + R"(" ")"
             + compressedFilePathHandler.getFullPath() + R"(" ")"
-            + relativePathOfFile + R"(" > nul)";
+            + relativePathOfFile + R"(" > nul ")";
     system(command.c_str());
-    ALBA_PRINT1(command);
     cout<<"extractOneFile: "<<outputPathHandler.getFile()<<endl;
     return outputPathHandler.getFullPath();
 }
-
 bool AprgFileExtractor::isRecognizedCompressedFile(string const& extension) const
 {
-    return stringHelper::isEqualNotCaseSensitive("zip", extension) ||
-            stringHelper::isEqualNotCaseSensitive("tar", extension) ||
+    return stringHelper::isEqualNotCaseSensitive("zip", extension) ||            stringHelper::isEqualNotCaseSensitive("tar", extension) ||
             stringHelper::isEqualNotCaseSensitive("7z", extension) ||
             stringHelper::isEqualNotCaseSensitive("xz", extension);
 }
