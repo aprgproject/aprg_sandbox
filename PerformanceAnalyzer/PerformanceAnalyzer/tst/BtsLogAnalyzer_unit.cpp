@@ -10,9 +10,8 @@ namespace alba
 TEST(BtsLogAnalyzerTest, ProcessFileWithSortedPrints)
 {
     BtsLogAnalyzer analyzer;
-    analyzer.processFileWithSortedPrints(R"(D:\ZZZ_Logs\B1P7\PETofKnife3\Tcom.log)");
+    analyzer.processFileWithSortedPrints(R"(H:\Logs\111_MessagePoolExhaustion\MessagePoolExhaustionDueToPerformance\WBTS18\logs\msgQueuingTime.log)");
     analyzer.printAllCollectedData();
 }
-
 
 }

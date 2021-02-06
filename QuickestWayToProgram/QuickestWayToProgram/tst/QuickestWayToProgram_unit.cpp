@@ -20,14 +20,145 @@ using namespace alba;
 using namespace std;
 
 
+TEST(SampleTest, CounterOfCounts)
+{
+    AlbaLocalPathHandler pathHandler(R"(H:\Logs\111_MessagePoolExhaustion\09_09_2018\TC_2_LRM_RL_SETUP_REQ_MSG_queue.log)");
+    ifstream queueLogStream(pathHandler.getFullPath());
+
+    map<int, string> highestJumpsQueueLengths;
+    map<int, string> highestJumpsMsgQueueingTimes;
+    map<int, string> highestJumpsMsgPoolUsages;
+
+    int previousQueueLength(0);
+    int previousMsgQueueingTime(0);
+    int previousMsgPoolUsage(0);
+
+    if(queueLogStream.is_open())
+    {
+        AlbaFileReader queueLogFileReader(queueLogStream);
+
+        while(queueLogFileReader.isNotFinished())
+        {
+            string lineInFile(queueLogFileReader.getLineAndIgnoreWhiteSpaces());
+            int queueLength(stringHelper::convertStringToNumber<int>(stringHelper::getNumberAfterThisString(lineInFile, R"(queueLength: )")));
+            int msgQueueingTime(stringHelper::convertStringToNumber<int>(stringHelper::getNumberAfterThisString(lineInFile, R"(msgQueueingTime: )")));
+            int msgPoolUsage(stringHelper::convertStringToNumber<int>(stringHelper::getHexNumberAfterThisString(lineInFile, R"(msgPoolUsage: )")));
+
+            highestJumpsQueueLengths.emplace(queueLength-previousQueueLength, lineInFile);
+            highestJumpsMsgQueueingTimes.emplace(msgQueueingTime-previousMsgQueueingTime, lineInFile);
+            highestJumpsMsgPoolUsages.emplace(msgPoolUsage-previousMsgPoolUsage, lineInFile);
+
+            previousQueueLength = queueLength;
+            previousMsgQueueingTime = msgQueueingTime;
+            previousMsgPoolUsage = msgPoolUsage;
+
+            if(highestJumpsQueueLengths.size() > 20)
+            {
+                highestJumpsQueueLengths.erase(highestJumpsQueueLengths.begin());
+            }
+
+            if(highestJumpsMsgQueueingTimes.size() > 20)
+            {
+                highestJumpsMsgQueueingTimes.erase(highestJumpsMsgQueueingTimes.begin());
+            }
+
+            if(highestJumpsMsgPoolUsages.size() > 20)
+            {
+                highestJumpsMsgPoolUsages.erase(highestJumpsMsgPoolUsages.begin());
+            }
+
+        }
+    }
+    cout<<"highestQueueLengths"<<endl;
+    for(pair<int, string> const& printPair: highestJumpsQueueLengths)
+    {
+        cout<<"queueLengthJump: "<<printPair.first<<" Print: ["<<printPair.second<<"]"<<endl;
+    }
+    cout<<"highestMsgQueueingTimes"<<endl;
+    for(pair<int, string> const& printPair: highestJumpsMsgQueueingTimes)
+    {
+        cout<<"msgQueueingTimeJump: "<<printPair.first<<" Print: ["<<printPair.second<<"]"<<endl;
+    }
+    cout<<"highestMsgPoolUsages"<<endl;
+    for(pair<int, string> const& printPair: highestJumpsMsgPoolUsages)
+    {
+        cout<<"msgPoolUsageJump: "<<printPair.first<<" Print: ["<<printPair.second<<"]"<<endl;
+    }
+}
+
+/*
+
+TEST(SampleTest, MessageIdCounter)
+{
+    AlbaLocalPathHandler pathHandler(R"(H:\Logs\111_MessagePoolExhaustion\09_09_2018\TC_2_LRM_RL_SETUP_REQ_MSG_queue.log)");
+    ifstream queueLogStream(pathHandler.getFullPath());
+
+    map<unsigned int, unsigned int> lastMsgRcvdToCount;
+    map<unsigned int, unsigned int> lastMsgSentToCount;
+    map<unsigned int, unsigned int> lastInternalMsgToCount;
+    map<unsigned int, string> highestMsgQueueingTime;
+    map<unsigned int, string> highestQueueLength;
+
+    if(queueLogStream.is_open())
+    {
+        AlbaFileReader queueLogFileReader(queueLogStream);
+
+        while(queueLogFileReader.isNotFinished())
+        {
+            string lineInFile(queueLogFileReader.getLineAndIgnoreWhiteSpaces());
+            unsigned int lastMsgRcvd(stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(lineInFile, R"(lastMsgRcvd: 0x)")));
+            unsigned int lastMsgSent(stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(lineInFile, R"(lastMsgSent: 0x)")));
+            unsigned int lastInternalMsg(stringHelper::convertHexStringToNumber<unsigned int>(stringHelper::getHexNumberAfterThisString(lineInFile, R"(lastInternalMsg: 0x)")));
+            if(lastMsgRcvdToCount.find(lastMsgRcvd) != lastMsgRcvdToCount.cend())
+            {
+                lastMsgRcvdToCount[lastMsgRcvd]++;
+            }
+            else
+            {
+                lastMsgRcvdToCount[lastMsgRcvd]=1;
+            }
+            if(lastMsgSentToCount.find(lastMsgSent) != lastMsgSentToCount.cend())
+            {
+                lastMsgSentToCount[lastMsgSent]++;
+            }
+            else
+            {
+                lastMsgSentToCount[lastMsgSent]=1;
+            }
+            if(lastInternalMsgToCount.find(lastInternalMsg) != lastInternalMsgToCount.cend())
+            {
+                lastInternalMsgToCount[lastInternalMsg]++;
+            }
+            else
+            {
+                lastInternalMsgToCount[lastInternalMsg]=1;
+            }
+        }
+    }
+    cout<<"lastMsgRcvdToCount"<<endl;
+    for(pair<unsigned int, unsigned int> const& printPair: lastMsgRcvdToCount)
+    {
+        cout<<"MessageId: "<<hex<<printPair.first<<" Count: "<<dec<<printPair.second<<endl;
+    }
+    cout<<"lastMsgSentToCount"<<endl;
+    for(pair<unsigned int, unsigned int> const& printPair: lastMsgSentToCount)
+    {
+        cout<<"MessageId: "<<hex<<printPair.first<<" Count: "<<dec<<printPair.second<<endl;
+    }
+    cout<<"lastInternalMsgToCount"<<endl;
+    for(pair<unsigned int, unsigned int> const& printPair: lastInternalMsgToCount)
+    {
+        cout<<"MessageId: "<<hex<<printPair.first<<" Count: "<<dec<<printPair.second<<endl;
+    }
+}
+
+
 TEST(SampleTest, ConstTest)
 {
-    #define GLO_NULL 1
-    void * pointer= (void*)GLO_NULL;
+    #define GLO_NULL 1    void * pointer= (void*)GLO_NULL;
     if(pointer==(void*)GLO_NULL)
     {
-        cout<<"GLO NULL works! "<<endl;
-    }
+        cout<<"GLO NULL works! "<<endl;    }
     if(pointer==nullptr)
     {
         cout<<"nullptr works! "<<endl;
@@ -35,15 +166,13 @@ TEST(SampleTest, ConstTest)
 }
 
 
-/*
+
 class UglyDataType
 {
-    public:
-    unsigned int * uglyPointer; // this is allocated at some point
+    public:    unsigned int * uglyPointer; // this is allocated at some point
 };
 void function1(UglyDataType input)
-{
-    input.uglyPointer = nullptr; // this will compile
+{    input.uglyPointer = nullptr; // this will compile
 }
 void function2(UglyDataType const input) //Since its mandatory to put const for all parameters we will notice the compiler error.
 {

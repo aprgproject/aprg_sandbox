@@ -60,14 +60,12 @@ void AlbaYearMonthDay::setTime(unsigned short int const years, unsigned char con
 
 unsigned int AlbaYearMonthDay::convertToYearMonthDayFormat(unsigned short int const years, unsigned char const months, unsigned char const days) const
 {
-    return DateTimeBitHelper::shiftLeft<2>(years) | DateTimeBitHelper::shiftLeft<1>(months) | days;
+    return DateTimeBitHelper::shiftBytesToTheLeft<2>(years) | DateTimeBitHelper::shiftBytesToTheLeft<1>(months) | days;
 }
-
 
 AlbaHourMinuteSecond::AlbaHourMinuteSecond()
     : m_hourMinuteSecond(0)
 {}
-
 AlbaHourMinuteSecond::AlbaHourMinuteSecond(unsigned char const hours, unsigned char const minutes, unsigned char const seconds)
     : m_hourMinuteSecond(convertToHourMinuteSecondFormat(hours, minutes, seconds))
 {}
@@ -112,14 +110,12 @@ void AlbaHourMinuteSecond::setTime(unsigned char const hours, unsigned char cons
 
 unsigned int AlbaHourMinuteSecond::convertToHourMinuteSecondFormat(unsigned char const hours, unsigned char const minutes, unsigned char const seconds) const
 {
-    return DateTimeBitHelper::shiftLeft<2>(hours) | DateTimeBitHelper::shiftLeft<1>(minutes) | seconds;
+    return DateTimeBitHelper::shiftBytesToTheLeft<2>(hours) | DateTimeBitHelper::shiftBytesToTheLeft<1>(minutes) | seconds;
 }
-
 
 AlbaDateTime::AlbaDateTime()
     : m_sign(1)
-    , m_yearMonthDay()
-    , m_hourMinuteSecond()
+    , m_yearMonthDay()    , m_hourMinuteSecond()
     , m_microseconds(0)
 {}
 
