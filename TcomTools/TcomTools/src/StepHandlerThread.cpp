@@ -9,11 +9,11 @@ using namespace std;
 namespace tcomToolsGui
 {
 
-StepHandlerThread::StepHandlerThread(QObject *parent)
-    : QThread(parent)
+StepHandlerThread::StepHandlerThread(TcomToolsConfiguration & configuration)
+    : QThread(nullptr)
     , m_mutex()
     , m_condition()
-    , m_configuration()
+    , m_configuration(configuration)
     , m_state(ThreadState::Inactive)
 {}
 
@@ -26,11 +26,10 @@ StepHandlerThread::~StepHandlerThread()
     wait();
 }
 
-void StepHandlerThread::execute(TcomToolsConfiguration const& configuration)
+void StepHandlerThread::execute()
 {
     m_mutex.lock();
     m_state = ThreadState::Active;
-    m_configuration = configuration;
     m_mutex.unlock();
     m_condition.wakeOne();
 }

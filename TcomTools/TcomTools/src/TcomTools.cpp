@@ -25,6 +25,7 @@ TcomTools::TcomTools(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::TcomTools)
     , m_configuration()
+    , m_stepHandlerThread(m_configuration)
 {
     ui->setupUi(this);
     updateGuiUsingConfiguration();
@@ -94,7 +95,7 @@ void TcomTools::on_execute_clicked()
 {
     ui->execute->setEnabled(false);
     m_progressBarThread.startUpdatingProgressBar();
-    m_stepHandlerThread.execute(m_configuration);
+    m_stepHandlerThread.execute();
 }
 
 void TcomTools::on_actionOpenFile_triggered()

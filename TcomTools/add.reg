@@ -3,10 +3,10 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\Directory\shell\TcomTools]
 
 [HKEY_CLASSES_ROOT\Directory\shell\TcomTools\command]
-@="\"C:\\APRG\\TcomTools\\TcomTools.exe\" \"%1\\\""
+@="\"C:\\APRG\\TcomTools\\FinalForInstallers\\TcomTools\\TcomTools.exe\" \"%1\\\""
 
 [HKEY_CLASSES_ROOT\*\shell\TcomTools]
 
 [HKEY_CLASSES_ROOT\*\shell\TcomTools\command]
-@="\"C:\\APRG\\TcomTools\\TcomTools.exe\" \"%1\""
+@="\"C:\\APRG\\TcomTools\\FinalForInstallers\\TcomTools\\TcomTools.exe\" \"%1\""
 

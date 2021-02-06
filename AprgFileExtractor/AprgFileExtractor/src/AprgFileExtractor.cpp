@@ -9,6 +9,8 @@
 #include <fstream>
 #include <iostream>
 
+#include <Debug/AlbaDebug.hpp>
+
 #ifndef PATH_OF_7Z_EXECUTABLE
     static_assert(false, "PATH_OF_7Z_EXECUTABLE is not set in cmake");
 #endif
@@ -48,10 +50,12 @@ AprgFileExtractor::AprgFileExtractor(string const& condition, string const& path
 
 void AprgFileExtractor::extractAllRelevantFiles(string const& pathOfFileOrDirectory)
 {
-    AlbaLocalPathHandler fileOrDirectoryPathHandler(pathOfFileOrDirectory);    if(!fileOrDirectoryPathHandler.isFoundInLocalSystem())
+    AlbaLocalPathHandler fileOrDirectoryPathHandler(pathOfFileOrDirectory);
+    if(!fileOrDirectoryPathHandler.isFoundInLocalSystem())
     {
         cout << "extractAllRelevantFiles: File or directory not found in local system." << endl;
-    }    if(fileOrDirectoryPathHandler.isDirectory())
+    }
+    if(fileOrDirectoryPathHandler.isDirectory())
     {
         extractAllRelevantFilesInThisDirectory(fileOrDirectoryPathHandler.getFullPath());
     }
@@ -64,10 +68,12 @@ void AprgFileExtractor::extractAllRelevantFiles(string const& pathOfFileOrDirect
 void AprgFileExtractor::copyRelativeFilePathsFromCompressedFile(string const& filePathOfCompressedFile, set<string>& files) const
 {
     AlbaLocalPathHandler filePathHandler(filePathOfCompressedFile);
-    string command = m_pathOf7zExecutable + R"( l -slt ")"
+    string command = string(R"(")") + m_pathOf7zExecutable + R"( l -slt ")"
             + filePathHandler.getFullPath() + R"(" > ")"
-            + m_pathOf7zTempFile + R"(")";
+            + m_pathOf7zTempFile + R"("")";
+    ALBA_PRINT1(command);
     system(command.c_str());
+    ALBA_PRINT1(command);
 
     ifstream tempFile(m_pathOf7zTempFile);
     string path;
@@ -93,10 +99,12 @@ string AprgFileExtractor::extractAll(string const& filePathOfCompressedFile) con
 {
     AlbaLocalPathHandler compressedFilePathHandler(filePathOfCompressedFile);
     AlbaLocalPathHandler outputPathHandler(compressedFilePathHandler.getDirectory() + R"(\)" + compressedFilePathHandler.getFilenameOnly() + R"(\)");
-    string command = m_pathOf7zExecutable + R"( e -y -o")"
+    string command = string(R"(")") + m_pathOf7zExecutable + R"( e -y -o ")"
             + outputPathHandler.getDirectory() + R"(" ")"
-            + compressedFilePathHandler.getFullPath() + R"(" > nul)";
+            + compressedFilePathHandler.getFullPath() + R"(" > nul ")";
+    ALBA_PRINT1(command);
     system(command.c_str());
+    ALBA_PRINT1(command);
     cout<<"extractAll: "<<outputPathHandler.getImmediateDirectoryName()<<R"(\)"<<endl;
     return outputPathHandler.getFullPath();
 }
@@ -110,6 +118,7 @@ string AprgFileExtractor::extractOneFile(string const& filePathOfCompressedFile,
             + compressedFilePathHandler.getFullPath() + R"(" ")"
             + relativePathOfFile + R"(" > nul)";
     system(command.c_str());
+    ALBA_PRINT1(command);
     cout<<"extractOneFile: "<<outputPathHandler.getFile()<<endl;
     return outputPathHandler.getFullPath();
 }

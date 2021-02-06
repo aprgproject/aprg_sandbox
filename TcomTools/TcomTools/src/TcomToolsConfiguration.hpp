@@ -7,6 +7,7 @@
 
 namespace tcomToolsGui
 {
+
 struct TcomToolsConfiguration
 {
     TcomToolsConfiguration();
@@ -15,10 +16,12 @@ struct TcomToolsConfiguration
     void determineVariousLocationsBasedOnCurrentLocation();
     void loadConfigurationFromFile();
     void saveConfigurationToFile() const;
-    bool isExtractStepOn;    bool isCombineAndSortStepOn;
+    bool isExtractStepOn;
+    bool isCombineAndSortStepOn;
     bool isGrepStepOn;
     bool isCropStepOn;
-    bool isGrepTcomEnabled;    bool isGrepErrEnabled;
+    bool isGrepTcomEnabled;
+    bool isGrepErrEnabled;
     bool isGrepErrWrnNoSpamEnabled;
     bool isGrepBtsStatusEnabled;
     bool isGrepRecoveryEnabled;

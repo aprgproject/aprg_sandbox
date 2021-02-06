@@ -5,8 +5,11 @@
 #include <String/AlbaStringHelper.hpp>
 
 #include <fstream>
+#include <iostream>
+
 using namespace alba;
 using namespace std;
+
 namespace tcomToolsGui
 {
 
@@ -71,13 +74,18 @@ void TcomToolsConfiguration::determineVariousLocationsBasedOnCurrentLocation()
     configurationFileLocation = configurationFilePathHandler.getFullPath();
 
     AlbaLocalPathHandler temporaryFilePathHandler(currentLocalPathHandler.getDirectory()+R"(\temporaryFiles\)");
+    temporaryFilePathHandler.input(temporaryFilePathHandler.getDriveOrRoot()+R"(:\Temp\)");
     btsLogSorterConfiguration.m_pathOfTempFiles = temporaryFilePathHandler.getFullPath();
     temporaryFilePathHandler.createDirectoriesForNonExisitingDirectories();
 
+    cout<<"locationOf7zExecutable: ["<<locationOf7zExecutable<<"]"<<endl;
+    cout<<"configurationFileLocation: ["<<configurationFileLocation<<"]"<<endl;
+    cout<<"btsLogSorterConfiguration.m_pathOfTempFiles: ["<<btsLogSorterConfiguration.m_pathOfTempFiles<<"]"<<endl;
 }
+
 void TcomToolsConfiguration::loadConfigurationFromFile()
 {
-    std::ifstream inputFileStream(configurationFileLocation);
+    ifstream inputFileStream(configurationFileLocation);
     if(inputFileStream.is_open())
     {
         AlbaFileReader fileReader(inputFileStream);
@@ -302,13 +310,15 @@ void TcomToolsConfiguration::loadConfigurationFromFile()
 
 void TcomToolsConfiguration::saveConfigurationToFile() const
 {
-    std::ofstream outputFileStream(configurationFileLocation);
+    ofstream outputFileStream(configurationFileLocation);
     outputFileStream << "isExtractStepOn:" << static_cast<int>(isExtractStepOn) << endl;
     outputFileStream << "isCombineAndSortStepOn:" << static_cast<int>(isCombineAndSortStepOn) << endl;
-    outputFileStream << "isGrepStepOn:" << static_cast<int>(isGrepStepOn) << endl;    outputFileStream << "isCropStepOn:" << static_cast<int>(isCropStepOn) << endl;
+    outputFileStream << "isGrepStepOn:" << static_cast<int>(isGrepStepOn) << endl;
+    outputFileStream << "isCropStepOn:" << static_cast<int>(isCropStepOn) << endl;
     outputFileStream << "isGrepTcomEnabled:" << static_cast<int>(isGrepTcomEnabled) << endl;
     outputFileStream << "isGrepErrEnabled:" << static_cast<int>(isGrepErrEnabled) << endl;
-    outputFileStream << "isGrepErrWrnTcomEnabled:" << static_cast<int>(isGrepErrWrnNoSpamEnabled) << endl;    outputFileStream << "isGrepBtsStatusEnabled:" << static_cast<int>(isGrepBtsStatusEnabled) << endl;
+    outputFileStream << "isGrepErrWrnTcomEnabled:" << static_cast<int>(isGrepErrWrnNoSpamEnabled) << endl;
+    outputFileStream << "isGrepBtsStatusEnabled:" << static_cast<int>(isGrepBtsStatusEnabled) << endl;
     outputFileStream << "isGrepRecoveryEnabled:" << static_cast<int>(isGrepRecoveryEnabled) << endl;
     outputFileStream << "isGrepAllocationEnabled:" << static_cast<int>(isGrepAllocationEnabled) << endl;
     outputFileStream << "isGrepFaultEnabled:" << static_cast<int>(isGrepFaultEnabled) << endl;
@@ -343,10 +353,12 @@ void TcomToolsConfiguration::saveConfigurationToFile() const
     outputFileStream << "otherGrepCondition:" << otherGrepCondition << endl;
     outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock << endl;
     outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock << endl;
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory << endl;    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams << endl;
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory << endl;
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams << endl;
     outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock << endl;
     outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock << endl;
-    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory << endl;    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams << endl;
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory << endl;
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams:" << btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams << endl;
 }
 
 string TcomToolsConfiguration::getGrepCondition() const

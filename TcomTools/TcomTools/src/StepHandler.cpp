@@ -66,13 +66,21 @@ void StepHandler::execute(TcomToolsConfiguration const& configuration) const
 string StepHandler::executeExtractStep(TcomToolsConfiguration const& configuration, string const& inputPath) const
 {
     cout<<" (Extract) start | Input path: "<<inputPath<<endl;
-    AprgFileExtractor fileExtractor(configuration.extractGrepCondition, configuration.locationOf7zExecutable, getTempFileFor7zBasedOnLogSorter(configuration));
+    AlbaLocalPathHandler tempFileFor7zPathHandler(getTempFileFor7zBasedOnLogSorter(configuration));
+    tempFileFor7zPathHandler.createDirectoriesForNonExisitingDirectories();
+    cout<<" (Extract) tempFileFor7z: "<<tempFileFor7zPathHandler.getFullPath()<<endl;
+    AprgFileExtractor fileExtractor(
+                configuration.extractGrepCondition,
+                string(R"(")")+configuration.locationOf7zExecutable+R"(")",
+                tempFileFor7zPathHandler.getFullPath());
     AlbaLocalPathHandler pathHandler(inputPath);
     string outputPath(inputPath);
-    if(pathHandler.isDirectory())    {
+    if(pathHandler.isDirectory())
+    {
         fileExtractor.extractAllRelevantFiles(pathHandler.getFullPath());
     }
-    else if(fileExtractor.isRecognizedCompressedFile(pathHandler.getExtension()))    {
+    else if(fileExtractor.isRecognizedCompressedFile(pathHandler.getExtension()))
+    {
         fileExtractor.extractAllRelevantFiles(pathHandler.getFullPath());
         pathHandler.input(pathHandler.getDirectory() + R"(\)" + pathHandler.getFilenameOnly());
         outputPath = pathHandler.getFullPath();
@@ -236,10 +244,12 @@ string StepHandler::getTempFileFor7zBasedOnLogSorter(TcomToolsConfiguration cons
 
 StepHandler::LocationsInFile StepHandler::getLocationsInFile(TcomToolsConfiguration const& configuration, double foundLocation) const
 {
-    LocationsInFile locations;    double outputSize = 1000000 * configuration.cropSize;
+    LocationsInFile locations;
+    double outputSize = 1000000 * configuration.cropSize;
     double startingLocation = foundLocation - (outputSize/2);
     locations.startLocation = (startingLocation<0) ? 0 : startingLocation;
-    locations.endLocation = startingLocation + outputSize;    return locations;
+    locations.endLocation = startingLocation + outputSize;
+    return locations;
 }
 
 }

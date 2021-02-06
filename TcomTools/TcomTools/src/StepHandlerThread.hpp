@@ -22,9 +22,9 @@ class StepHandlerThread : public QThread
         Inactive
     };
 public:
-    StepHandlerThread(QObject *parent = 0);
+    StepHandlerThread(TcomToolsConfiguration & configuration);
     ~StepHandlerThread();
-    void execute(TcomToolsConfiguration const& configuration);
+    void execute();
 signals:
     void executionDone();
 protected:
@@ -32,7 +32,7 @@ protected:
 private:
     QMutex m_mutex;
     QWaitCondition m_condition;
-    TcomToolsConfiguration m_configuration;
+    TcomToolsConfiguration & m_configuration;
     ThreadState m_state;
 };
 
