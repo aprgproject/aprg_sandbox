@@ -27,7 +27,6 @@ src/TcomToolsConfiguration.cpp\
 ../../AprgAlgorithm/AprgAlgorithm/src/GrepStringEvaluator/AlbaGrepStringEvaluator.cpp\
 ../../AprgAlgorithm/AprgAlgorithm/src/GrepStringEvaluator/AlbaGrepStringEvaluatorPerformOperations.cpp\
 ../../AprgAlgorithm/AprgAlgorithm/src/GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.cpp\
-../../AprgAlgorithm/AprgAlgorithm/src/GrepStringEvaluator/AlbaGrepStringSingletionForString.cpp\
 ../../AprgAlgorithm/AprgAlgorithm/src/GrepStringEvaluator/AlbaGrepStringToken.cpp\
 ../../AprgCommon/AprgCommon/src/File/AlbaFileParameterReader.cpp\
 ../../AprgCommon/AprgCommon/src/File/AlbaFileParameterWriter.cpp\
@@ -61,7 +60,6 @@ src/TcomToolsConfiguration.hpp\
 ../../AprgAlgorithm/AprgAlgorithm/src/GrepStringEvaluator/AlbaGrepStringEvaluatorPerformOperations.hpp\
 ../../AprgAlgorithm/AprgAlgorithm/src/GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.hpp\
 ../../AprgAlgorithm/AprgAlgorithm/src/GrepStringEvaluator/AlbaGrepStringOperatorType.hpp\
-../../AprgAlgorithm/AprgAlgorithm/src/GrepStringEvaluator/AlbaGrepStringSingletionForString.hpp\
 ../../AprgAlgorithm/AprgAlgorithm/src/GrepStringEvaluator/AlbaGrepStringToken.hpp\
 ../../AprgCommon/AprgCommon/src/File/AlbaFileParameterReader.hpp\
 ../../AprgCommon/AprgCommon/src/File/AlbaFileParameterWriter.hpp\

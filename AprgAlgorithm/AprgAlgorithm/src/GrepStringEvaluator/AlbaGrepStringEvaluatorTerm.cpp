@@ -1,6 +1,5 @@
 #include "AlbaGrepStringEvaluatorTerm.hpp"
 
-#include <GrepStringEvaluator/AlbaGrepStringSingletionForString.hpp>
 #include <String/AlbaStringHelper.hpp>
 
 using namespace std;
@@ -8,30 +7,43 @@ using namespace std;
 namespace alba
 {
 
+string AlbaGrepStringEvaluatorTerm::s_mainString;
+
+void AlbaGrepStringEvaluatorTerm::setMainString(std::string const& mainString)
+{
+    s_mainString = stringHelper::getStringWithCapitalLetters(mainString);
+}
+
 AlbaGrepStringEvaluatorTerm::AlbaGrepStringEvaluatorTerm()
-    : m_stringToFind()
-    , m_result(false)
+    : m_type(AlbaGrepStringEvaluatorTermType::Unknown)
+    , m_savedResult(false)
+    , m_stringToFind()
 {}
 
 AlbaGrepStringEvaluatorTerm::AlbaGrepStringEvaluatorTerm(string const& stringToFind)
-    : m_stringToFind(stringToFind)
-    , m_result(false)
+    : m_type(AlbaGrepStringEvaluatorTermType::StringToFind)
+    , m_savedResult(false)
+    , m_stringToFind(stringToFind)
 {}
 
 AlbaGrepStringEvaluatorTerm::AlbaGrepStringEvaluatorTerm(bool const result)
-    : m_stringToFind()
-    , m_result(result)
+    : m_type(AlbaGrepStringEvaluatorTermType::BooleanResult)
+    , m_savedResult(result)
+    , m_stringToFind()
 {}
 
 bool AlbaGrepStringEvaluatorTerm::getResult() const
 {
-    return m_result;
-}
-
-void AlbaGrepStringEvaluatorTerm::performFindOperationAndSaveResult()
-{
-    AlbaGrepStringSingletionForString const& singletionForString(AlbaGrepStringSingletionForString::getInstance());
-    m_result = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(singletionForString.getString(), m_stringToFind);
+    bool result(false);
+    if(AlbaGrepStringEvaluatorTermType::BooleanResult == m_type)
+    {
+        result = m_savedResult;
+    }
+    else if(AlbaGrepStringEvaluatorTermType::StringToFind == m_type)
+    {
+        result = stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(s_mainString, m_stringToFind);
+    }
+    return result;
 }
 
 }

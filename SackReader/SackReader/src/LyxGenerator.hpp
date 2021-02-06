@@ -6,7 +6,8 @@
 #include <fstream>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 class LyxGenerator
 {
@@ -16,7 +17,8 @@ public:
 
 private:
     void saveSubsection(std::string const& subsectionName, std::ofstream & lyxOutputFileStream) const;
-    void saveMessageDefinitions(std::ofstream & lyxOutputFileStream);    void saveStructureDefinitions(std::ofstream & lyxOutputFileStream);
+    void saveMessageDefinitions(std::ofstream & lyxOutputFileStream);
+    void saveStructureDefinitions(std::ofstream & lyxOutputFileStream);
     void saveEnumDefinitions(std::ofstream & lyxOutputFileStream);
     void saveUnionDefinitions(std::ofstream & lyxOutputFileStream);
     void saveConstantDefinitions(std::ofstream & lyxOutputFileStream);
@@ -47,4 +49,5 @@ private:
     std::ofstream m_logStream;
     Database const& m_database;
 };
+
 }

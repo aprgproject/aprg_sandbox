@@ -1,6 +1,5 @@
 #include "AlbaGrepStringEvaluator.hpp"
 
-#include <GrepStringEvaluator/AlbaGrepStringSingletionForString.hpp>
 #include <String/AlbaStringHelper.hpp>
 
 #include <algorithm>
@@ -28,9 +27,7 @@ bool AlbaGrepStringEvaluator::evaluate(string const& stringToEvaluate)
     bool result(false);
     if(!isInvalid())
     {
-        AlbaGrepStringSingletionForString& singletionForStringToFind(AlbaGrepStringSingletionForString::getInstance());
-        singletionForStringToFind.setString(stringToEvaluate);
-        performFindForTermsInEvaluator();
+        AlbaGrepStringEvaluatorTerm::setMainString(stringToEvaluate);
         result = m_postfixEvaluator.evaluate().getResult();
     }
     return result;
@@ -44,18 +41,6 @@ bool AlbaGrepStringEvaluator::isInvalid() const
 string AlbaGrepStringEvaluator::getErrorMessage() const
 {
     return m_errorMessage;
-}
-
-void AlbaGrepStringEvaluator::performFindForTermsInEvaluator()
-{
-    PostfixEvaluator::Terms& terms(m_postfixEvaluator.getTermsReference());
-    for (EvaluatorTerm& term : terms)
-    {
-        if(!term.isOperator())
-        {
-            term.getReferenceOfValue().performFindOperationAndSaveResult();
-        }
-    }
 }
 
 void AlbaGrepStringEvaluator::extractTokens(string const& condition)

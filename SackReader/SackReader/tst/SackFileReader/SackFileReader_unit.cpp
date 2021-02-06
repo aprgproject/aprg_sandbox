@@ -61,7 +61,8 @@ TEST(SackFileReaderTest, CommentInStructure)
     details = database.getStructureParameterDetails("STestModelSetupReqMsg", "testPattern");
     EXPECT_EQ("testPattern", details.name);
     EXPECT_EQ("ECdmaTestDataPattern", details.type);
-    EXPECT_FALSE(details.isAnArray);    //EXPECT_EQ("indicates what kind of testdata is generated to test channels", details.description); //TooHard
+    EXPECT_FALSE(details.isAnArray);
+    //EXPECT_EQ("indicates what kind of testdata is generated to test channels", details.description); //TooHard
 }
 
 TEST(SackFileReaderTest, MessageOamAtmSigFile)
@@ -105,7 +106,8 @@ TEST(SackFileReaderTest, OamTupcStructures)
     details = database.getStructureParameterDetails("SAtmHwConfigurationMsg", "dynamicData");
     EXPECT_EQ("dynamicData", details.name);
     EXPECT_EQ("TDynamicData", details.type);
-    EXPECT_TRUE(details.isAnArray);    EXPECT_EQ("1", details.arraySize);
+    EXPECT_TRUE(details.isAnArray);
+    EXPECT_EQ("1", details.arraySize);
     EXPECT_EQ("", details.description);
 }
 
@@ -124,13 +126,15 @@ TEST(SackFileReaderTest, OamTcomStructures)
     details = database.getStructureParameterDetails("SHwConfigurationMsg", "btsSwVersion");
     EXPECT_EQ("btsSwVersion", details.name);
     EXPECT_EQ("TDynamicData", details.type);
-    EXPECT_TRUE(details.isAnArray);    EXPECT_EQ("1", details.arraySize);
+    EXPECT_TRUE(details.isAnArray);
+    EXPECT_EQ("1", details.arraySize);
     EXPECT_EQ("", details.description);
 
     details = database.getStructureParameterDetails("SCellInformationInd", "dssDspAddress");
     EXPECT_EQ("dssDspAddress", details.name);
     EXPECT_EQ("TAaSysComSicad", details.type);
-    EXPECT_FALSE(details.isAnArray);    EXPECT_EQ("", details.description);
+    EXPECT_FALSE(details.isAnArray);
+    EXPECT_EQ("", details.description);
 }
 
 TEST(SackFileReaderTest, SWamUnit)
@@ -148,7 +152,8 @@ TEST(SackFileReaderTest, SWamUnit)
     details = database.getStructureParameterDetails("SWamUnit", "numOfFspUnits");
     EXPECT_EQ("numOfFspUnits", details.name);
     EXPECT_EQ("u8", details.type);
-    EXPECT_FALSE(details.isAnArray);    EXPECT_EQ("Number of FSP units in System Module. Valid only for EControlUnitType_Fcm2 from Extension System Module in TC_HW_CONFIGURATION_CHANGE_MSG.", details.description);
+    EXPECT_FALSE(details.isAnArray);
+    EXPECT_EQ("Number of FSP units in System Module. Valid only for EControlUnitType_Fcm2 from Extension System Module in TC_HW_CONFIGURATION_CHANGE_MSG.", details.description);
 }
 
 TEST(SackFileReaderTest, EHspaMapping)

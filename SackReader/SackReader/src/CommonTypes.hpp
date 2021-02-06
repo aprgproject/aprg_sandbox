@@ -18,7 +18,8 @@ enum class IfsDefinitionType
 
 struct ConstantDetails
 {
-    std::string name;    std::string value;
+    std::string name;
+    std::string value;
     std::string description;
     std::string descriptionFromUser;
     std::string path;

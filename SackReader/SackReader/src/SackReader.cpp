@@ -8,10 +8,6 @@
 
 #include <fstream>
 
-
-#include <Debug/AlbaDebug.hpp>
-
-
 using namespace alba::stringHelper;
 using namespace std;
 
@@ -24,6 +20,7 @@ SackReader::SackReader(string const& path, string const& pathOfLog)
 {
     m_path = AlbaLocalPathHandler(path).getFullPath();
 }
+
 string SackReader::getFileFullPath(string const& fileName) const
 {
     return m_database.getFileFullPath(fileName);
@@ -60,6 +57,7 @@ void SackReader::readAndMarkFilesNecessaryForIfs()
         readAndMarkTypeAsNeededInIfsRecursively(typeName);
     }
 }
+
 void SackReader::saveDatabaseToFile(string const& path)
 {
     m_database.saveDatabaseToFile(path);
@@ -135,6 +133,7 @@ void SackReader::loadDescriptionToAdd(string const& path)
         }
     }
 }
+
 void SackReader::performHacks()
 {
     //This should be hacked because syscom defines causes a different definition.
@@ -185,7 +184,8 @@ void SackReader::generateLyxDocument(string const& ifsTemplatePath, string const
 void SackReader::readAndMarkTypeAsNeededInIfsRecursively(string const& typeName)
 {
     if(!m_database.doesThisFullDetailedStructureExists(typeName) &&
-            !m_database.doesThisUnionExists(typeName) &&            !m_database.doesThisEnumExists(typeName) &&
+            !m_database.doesThisUnionExists(typeName) &&
+            !m_database.doesThisEnumExists(typeName) &&
             !m_database.doesThisTypedefExists(typeName))
     {
         readFileUsingTypeName(typeName);
@@ -199,7 +199,8 @@ void SackReader::readAndMarkTypeAsNeededInIfsRecursively(string const& typeName)
 void SackReader::markStructureAsNeededForIfsRecursively(string const& structureName)
 {
     if(m_database.doesThisStructureExists(structureName))
-    {        m_database.structureNameToStructureDetailsMap[structureName].isUsedInIfs=true;
+    {
+        m_database.structureNameToStructureDetailsMap[structureName].isUsedInIfs=true;
         StructureDetails structureDetails(m_database.getStructureDetails(structureName));
         for(string const& parameterName : structureDetails.parametersWithCorrectOrder)
         {
@@ -216,7 +217,8 @@ void SackReader::markStructureAsNeededForIfsRecursively(string const& structureN
 void SackReader::markUnionAsNeededForIfsRecursively(string const& unionName)
 {
     if(m_database.doesThisUnionExists(unionName))
-    {        m_database.unionNameToUnionDetailsMap[unionName].isUsedInIfs=true;
+    {
+        m_database.unionNameToUnionDetailsMap[unionName].isUsedInIfs=true;
         UnionDetails unionDetails(m_database.getUnionDetails(unionName));
         for(string const& parameterName : unionDetails.parametersWithCorrectOrder)
         {
@@ -233,7 +235,8 @@ void SackReader::markUnionAsNeededForIfsRecursively(string const& unionName)
 void SackReader::markEnumAsNeededForIfsRecursively(string const& enumName)
 {
     if(m_database.doesThisEnumExists(enumName))
-    {        m_database.enumNameToEnumDetailsMap[enumName].isUsedInIfs=true;
+    {
+        m_database.enumNameToEnumDetailsMap[enumName].isUsedInIfs=true;
         EnumDetails::ParameterMap const& parameters(m_database.enumNameToEnumDetailsMap[enumName].parameters);
         for(EnumDetails::ParameterPair pair : parameters)
         {
@@ -245,7 +248,8 @@ void SackReader::markEnumAsNeededForIfsRecursively(string const& enumName)
 void SackReader::markTypedefAsNeededForIfsRecursively(string const& typedefName)
 {
     if(m_database.doesThisTypedefExists(typedefName))
-    {        m_database.typedefNameToTypedefDetailsMap[typedefName].isUsedInIfs=true;
+    {
+        m_database.typedefNameToTypedefDetailsMap[typedefName].isUsedInIfs=true;
     }
 }
 
@@ -271,7 +275,8 @@ void SackReader::readOamTcomTupcMessageFiles()
     readFileUsingTypeFileName("MessageId_OamPmService.h");
     readFileUsingTypeFileName("Oam_Atm.h");
     readFileUsingTypeFileName("oam_tcom.h");
-    readFileUsingTypeFileName("Oam_Tcom_TestModelService.h");    readFileUsingTypeFileName("Oam_Tcom_LoopTestService.h");
+    readFileUsingTypeFileName("Oam_Tcom_TestModelService.h");
+    readFileUsingTypeFileName("Oam_Tcom_LoopTestService.h");
     readFileUsingTypeFileName("tassu_ttm.h");
     readFileUsingTypeFileName("SFaultInd.h");
     readFileUsingTypeFileName("SModeChangeReq.h");
@@ -281,7 +286,8 @@ void SackReader::readOamTcomTupcMessageFiles()
     readFileUsingTypeFileName("StoreCountersInd.h");
 }
 
-void SackReader::readConstantFiles(){
+void SackReader::readConstantFiles()
+{
     readFileUsingTypeFileName("IfAaSysComGw_Defs.h");
     readFileUsingTypeFileName("DBtsomTcomConstants.h");
     readFileUsingTypeFileName("DOpenIUBCommonDefs.h");

@@ -7,9 +7,6 @@
 #include <fstream>
 
 
-#include <Debug/AlbaDebug.hpp>
-
-
 using namespace alba::stringHelper;
 using namespace std;
 
@@ -25,7 +22,8 @@ LyxGenerator::LyxGenerator(std::string const& pathOfLog, Database const& databas
 
 void LyxGenerator::generateLyxDocument(string const& ifsTemplatePath, string const& finalDocumentPath)
 {
-    ifstream lyxDocumentTemplate(ifsTemplatePath);    ofstream lyxFinalDocumentStream(finalDocumentPath);
+    ifstream lyxDocumentTemplate(ifsTemplatePath);
+    ofstream lyxFinalDocumentStream(finalDocumentPath);
     AlbaFileReader lyxDocumentTemplateReader(lyxDocumentTemplate);
 
     bool isInsideGeneratedCode(false);
@@ -534,7 +532,8 @@ void LyxGenerator::generateStructureForDisplayTablesIfNeeded(string const& struc
             ParameterDetails parameterDetails = m_database.getStructureParameterDetails(structureName, parameterName);
             displayTable.addRow();
             displayTable.getLastRow().addCell(smallTextModifier+indentionInType+" "+parameterDetails.name);
-            string finalType(parameterDetails.type);            if(parameterDetails.isAnArray)
+            string finalType(parameterDetails.type);
+            if(parameterDetails.isAnArray)
             {
                 finalType = finalType+" ["+parameterDetails.arraySize+"]";
             }
@@ -637,7 +636,8 @@ void LyxGenerator::generateTypedefForDisplayTablesIfNeeded(TypedefDetails const&
 string LyxGenerator::getDescriptionString(string const& printIdentifier, string const& description, string const& descriptionFromUser)
 {
     string sackDescription(getStringWithFirstNonWhiteSpaceCharacterToCapital(getStringWithoutStartingAndTrailingWhiteSpace(description)));
-    string userDescription(getStringWithFirstNonWhiteSpaceCharacterToCapital(getStringWithoutStartingAndTrailingWhiteSpace(descriptionFromUser)));    string finalDescription;
+    string userDescription(getStringWithFirstNonWhiteSpaceCharacterToCapital(getStringWithoutStartingAndTrailingWhiteSpace(descriptionFromUser)));
+    string finalDescription;
     if(!userDescription.empty())
     {
         if(sackDescription!=userDescription)
@@ -645,7 +645,8 @@ string LyxGenerator::getDescriptionString(string const& printIdentifier, string 
             m_logStream<<"The description needs to be aligned with sack. "<<printIdentifier<<" sackDescription: ["<<sackDescription<<"] userDescription: ["<<userDescription<<"]"<<endl;
         }
         finalDescription = userDescription;
-    }    else
+    }
+    else
     {
         finalDescription = sackDescription;
     }

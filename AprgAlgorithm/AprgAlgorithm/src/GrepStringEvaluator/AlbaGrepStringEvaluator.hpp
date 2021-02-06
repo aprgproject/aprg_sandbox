@@ -28,7 +28,6 @@ public:
     bool isInvalid() const;
     std::string getErrorMessage() const;
 private:
-    void performFindForTermsInEvaluator();
     void extractTokens(std::string const& condition);
     void extractTokensWhileOnString(bool& isOnString, std::string & stringToBuild, char const& currentCharacter);
     void extractTokensWhileNotOnString(bool& isOnString, char const& currentCharacter, int& parenthesisCount);

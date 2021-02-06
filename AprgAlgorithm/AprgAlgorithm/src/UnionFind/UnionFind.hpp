@@ -17,13 +17,13 @@ public:
     void connect(ObjectType const& object1, ObjectType const& object2)
     {
         bool isObject1LowerThanObject2(object1<object2);
-        ObjectType objectTemp1(isObject1LowerThanObject2 ? object1 : object2);
-        ObjectType objectTemp2(isObject1LowerThanObject2 ? object2 : object1);
+        ObjectType lowerValueObject(isObject1LowerThanObject2 ? object1 : object2);
+        ObjectType higherValueObject(isObject1LowerThanObject2 ? object2 : object1);
         initializeToConnectionMapIfNeeded(object1);
         initializeToConnectionMapIfNeeded(object2);
-        ObjectType root(getRoot(objectTemp1));
-        m_connectionMap[objectTemp1] = root;
-        m_connectionMap[objectTemp2] = root;
+        ObjectType root(getRoot(lowerValueObject));
+        m_connectionMap[lowerValueObject] = root;
+        m_connectionMap[higherValueObject] = root;
     }
     bool isConnected(ObjectType const& object1, ObjectType const& object2) const
     {

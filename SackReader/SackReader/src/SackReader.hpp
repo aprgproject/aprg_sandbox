@@ -17,7 +17,8 @@ public:
     SackReader(std::string const& path, std::string const& pathOfLog);
     std::string getFileFullPath(std::string const& fileName) const;
     void gatherAllFiles();
-    void readFilesNeededForIfs();    void readAndMarkFilesNecessaryForIfs();
+    void readFilesNeededForIfs();
+    void readAndMarkFilesNecessaryForIfs();
     void saveDatabaseToFile(std::string const& path);
     void loadDatabaseFromFile(std::string const& path);
     void loadMessagesToGenerate(std::string const& path);
@@ -45,4 +46,5 @@ private:
     std::string m_pathOfLog;
     Database m_database;
 };
+
 }

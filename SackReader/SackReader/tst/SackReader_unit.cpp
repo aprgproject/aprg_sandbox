@@ -14,11 +14,13 @@ TEST(SackReaderTest, CheckAllFiles)
     sackReader.gatherAllFiles();
     EXPECT_EQ(R"(C:\APRG\SackReader\SackReader\SampleFiles\oam_tcom.h)", sackReader.getFileFullPath("oam_tcom.h"));
 }
+
 TEST(RealTest, UpdateTrunkFiles)
 {
     SackReader sackReader(R"(D:\Branches\trunk\wbts_integration\I_Interface)", R"(D:\Specifications\OAM-TCOM-IFS\SackReaderExecution.txt)");
 
     //sackReader.loadDatabaseFromFile(R"(C:\APRG\SackReader\SackReader\TempFiles\Database_07_11_2018.txt)");
+
     sackReader.gatherAllFiles();
     sackReader.readFilesNeededForIfs();
     sackReader.loadMessagesToGenerate(R"(D:\Specifications\OAM-TCOM-IFS\MessagesToGenerate.txt)");
@@ -30,3 +32,4 @@ TEST(RealTest, UpdateTrunkFiles)
 
     sackReader.saveDatabaseToFile(R"(C:\APRG\SackReader\SackReader\TempFiles\Database_07_24_2018.txt)");
 }
+

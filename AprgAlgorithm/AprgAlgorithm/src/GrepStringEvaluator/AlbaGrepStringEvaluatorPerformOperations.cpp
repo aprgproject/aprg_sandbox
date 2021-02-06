@@ -46,7 +46,7 @@ AlbaGrepStringEvaluatorTerm performBinaryOperation(AlbaGrepStringEvaluatorTerm c
     default:
         break;
     }
-    return outputValue;
+    return AlbaGrepStringEvaluatorTerm(outputValue);
 }
 
 }

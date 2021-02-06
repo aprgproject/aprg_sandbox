@@ -91,7 +91,8 @@ StructureDetails Database::getStructureDetails(string const& structureName) cons
 ParameterDetails Database::getStructureParameterDetails(string const& structureName, string const& parameterName) const
 {
     ParameterDetails result;
-    if(doesThisStructureAndParameterExists(structureName, parameterName))    {
+    if(doesThisStructureAndParameterExists(structureName, parameterName))
+    {
         result = structureNameToStructureDetailsMap.at(structureName).parameters.at(parameterName);
     }
     return result;
