@@ -12,14 +12,15 @@
   !define MUI_FILE "TcomTools"
   !define MUI_VERSION ""
   !define MUI_BRANDINGTEXT "TcomTools Version 1.0"
+
+  !define MUI_ICON "Images\APRG.ico"
+
   CRCCheck On
   
-;--------------------------------
-;General
+;--------------------------------;General
 
   ;Name and file
-  Name "TcomTools"
-  OutFile "TcomToolsInstaller.exe"
+  Name "TcomTools"  OutFile "TcomToolsInstaller.exe"
 
   ;Default installation folder
   InstallDir "$PROGRAMFILES\${MUI_PRODUCT}"
@@ -71,16 +72,15 @@ Section "TcomTools files" TcomToolsFilesSection
  
   ;create start-menu items
   CreateDirectory "$SMPROGRAMS\${MUI_PRODUCT}"
+  CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}\${MUI_PRODUCT}.lnk" "$INSTDIR\${MUI_PRODUCT}\${MUI_FILE}.exe" "" "$INSTDIR\${MUI_PRODUCT}\${MUI_FILE}.exe" 0
+  CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}\configuration.lnk" "$INSTDIR\configuration\configuration.txt" "" "$INSTDIR\configuration\configuration.txt" 0
   CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
-  CreateShortCut "$SMPROGRAMS\${MUI_PRODUCT}\${MUI_PRODUCT}.lnk" "$INSTDIR\${MUI_FILE}.exe" "" "$INSTDIR\${MUI_FILE}.exe" 0
  
   ;write uninstall information to the registry
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}" "DisplayName" "${MUI_PRODUCT} (remove only)"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}" "UninstallString" "$INSTDIR\Uninstall.exe"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}" "DisplayName" "${MUI_PRODUCT} (remove only)"  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${MUI_PRODUCT}" "UninstallString" "$INSTDIR\Uninstall.exe"
   
   ;Right click
-  WriteRegStr HKCR "Directory\shell\${MUI_PRODUCT}" "" ""
-  WriteRegStr HKCR "Directory\shell\${MUI_PRODUCT}\command" "" ""
+  WriteRegStr HKCR "Directory\shell\${MUI_PRODUCT}" "" ""  WriteRegStr HKCR "Directory\shell\${MUI_PRODUCT}\command" "" ""
   WriteRegStr HKCR "Directory\shell\${MUI_PRODUCT}\command" "" "$\"$INSTDIR\${MUI_PRODUCT}\${MUI_FILE}.exe$\" $\"%1\$\""
   WriteRegStr HKCR "*\shell\${MUI_PRODUCT}" "" ""
   WriteRegStr HKCR "*\shell\${MUI_PRODUCT}\command" "" ""
