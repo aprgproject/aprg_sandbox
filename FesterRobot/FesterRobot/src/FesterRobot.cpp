@@ -39,17 +39,18 @@ void FesterRobot::run()
         {
             cout<<"Starting robot duties."<<endl;
             setupFesterEnvironmentInMatlab();
+            fester('perf_rake_ilpc_gsm:1M_FixedGsm','300a');
+
             for(int filterBitInteger=63; filterBitInteger>0; )
             {
                 updateExcelFile(filterBitInteger);
+                m_outputStream<<"FREQUENCIES BIT: ["<<std::hex<<filterBitInteger<<std::dec<<"]"<<endl;
                 runFesterFunctionInMatlab();
                 if(!m_retryCurrentFrequencies)
-                {
-                    filterBitInteger--;
+                {                    filterBitInteger--;
                 }
             }
-            break;
-        }
+            break;        }
         m_userAutomation.sleep(POLLING_DELAY_TO_WAIT_FOR_START);
     }
     m_userAutomation.setMousePosition(MousePosition(ORIGIN));
