@@ -30,6 +30,7 @@ However, you should not rely on this last behavior; for more information, see th
 void AlbaWindowsUserAutomation::setStringToClipboard(std::string const& clipBoardText) const{
     HANDLE hData;
     char *pointerData = NULL;//pointer to allow char copying
+
     hData = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE,clipBoardText.length() + 1);//get handle to memory to hold phrase
     pointerData = (char*)GlobalLock(hData);//get pointer from handle
     memcpy(pointerData,clipBoardText.c_str(),clipBoardText.length() + 1);//copy over the phrase
@@ -53,7 +54,8 @@ string AlbaWindowsUserAutomation::getStringFromClipboard() const
 }
 MousePosition AlbaWindowsUserAutomation::getMousePosition() const
 {
-    MousePosition position;    POINT mouse;
+    MousePosition position;
+    POINT mouse;
     GetCursorPos(&mouse);
     return MousePosition(mouse.x, mouse.y);
 }
@@ -137,7 +139,8 @@ void AlbaWindowsUserAutomation::doRightClick() const
     doOperationWithRealisticDelay([](INPUT& input)    {
         input.type = INPUT_MOUSE;
         input.mi.dwFlags = MOUSEEVENTF_RIGHTDOWN;
-    });    doOperationWithRealisticDelay([](INPUT& input)
+    });
+    doOperationWithRealisticDelay([](INPUT& input)
     {
         input.type = INPUT_MOUSE;
         input.mi.dwFlags = MOUSEEVENTF_RIGHTUP;
@@ -215,6 +218,7 @@ string AlbaWindowsUserAutomation::getClassNameOfForegroundWindow() const
     GetClassName (GetForegroundWindow(), className, LENGTH);
     return string(className);
 }
+
 void AlbaWindowsUserAutomation::setForegroundWindowWithClassName(std::string const& className) const
 {
     Sleep(2000);
@@ -277,6 +281,7 @@ void AlbaWindowsUserAutomation::setForegroundWindowWithWindowHandle(HWND const w
         cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<endl;
     }
 }
+
 void AlbaWindowsUserAutomation::doOperation(AlbaWindowsUserAutomation::InputFunction const& inputFunction) const
 {
     INPUT input;

@@ -81,7 +81,8 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_IsLetterPressedTest)
 TEST(AlbaWindowsUserAutomationTest, DISABLED_ShowMousePosition){
     AlbaWindowsUserAutomation userAutomation;
     while(1)
-    {        MousePosition position(userAutomation.getMousePosition());
+    {
+        MousePosition position(userAutomation.getMousePosition());
         cout<<"X: "<<position.getX()<<" Y: "<<position.getY()<<endl;
         if(0==position.getX() && 0==position.getY())
         {

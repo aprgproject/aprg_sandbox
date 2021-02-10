@@ -3,23 +3,17 @@
 #include <User/AlbaLocalUserAutomation.hpp>
 #include <String/AlbaStringHelper.hpp>
 
-
 #include <iostream>
 #include <sstream>
 
-
-
-#include <Debug/AlbaDebug.hpp>
-
 #define POLLING_DELAY_TO_WAIT_FOR_START 1000
-#define EXCEL_CELL_COORDINATES1 1378,438
-#define EXCEL_CELL_COORDINATES2 1378,466
-#define MATLAB_COMMAND_WINDOW_COORDINATES 220,135
-#define MATLAB_TITLE_BAR_COORDINATES 385,13
+#define EXCEL_CELL_COORDINATES1 1256,437
+#define EXCEL_CELL_COORDINATES2 1256,466
+#define MATLAB_COMMAND_WINDOW_COORDINATES 190,160
+#define MATLAB_TITLE_BAR_COORDINATES 375,14
 #define ORIGIN 0,0
 
 using namespace std;
-
 namespace alba
 {
 
@@ -39,18 +33,17 @@ void FesterRobot::run()
         {
             cout<<"Starting robot duties."<<endl;
             setupFesterEnvironmentInMatlab();
-            fester('perf_rake_ilpc_gsm:1M_FixedGsm','300a');
 
             for(int filterBitInteger=63; filterBitInteger>0; )
             {
-                updateExcelFile(filterBitInteger);
+                updateExcelFile(static_cast<unsigned int>(filterBitInteger));
                 m_outputStream<<"FREQUENCIES BIT: ["<<std::hex<<filterBitInteger<<std::dec<<"]"<<endl;
                 runFesterFunctionInMatlab();
-                if(!m_retryCurrentFrequencies)
-                {                    filterBitInteger--;
+                if(!m_retryCurrentFrequencies)                {                    filterBitInteger--;
                 }
             }
-            break;        }
+            break;
+        }
         m_userAutomation.sleep(POLLING_DELAY_TO_WAIT_FOR_START);
     }
     m_userAutomation.setMousePosition(MousePosition(ORIGIN));
@@ -72,11 +65,10 @@ void FesterRobot::setupFesterEnvironmentInMatlab()
     m_userAutomation.setStringToClipboard("clc");
     m_userAutomation.typeControlAndLetterSimultaneously('V');
     m_userAutomation.typeCharacter(VK_RETURN);
-    m_userAutomation.setStringToClipboard(R"(run('D:\Branches\Fester\Fester\Fester_scp.m'))");
+    m_userAutomation.setStringToClipboard(R"(run('C:\Users\malba\Desktop\DSS\Fester\Fester_scp.m'))");
     m_userAutomation.typeControlAndLetterSimultaneously('V');
     m_userAutomation.typeCharacter(VK_RETURN);
-    m_userAutomation.setStringToClipboard(R"(format long g)");
-    m_userAutomation.typeControlAndLetterSimultaneously('V');
+    m_userAutomation.setStringToClipboard(R"(format long g)");    m_userAutomation.typeControlAndLetterSimultaneously('V');
     m_userAutomation.typeCharacter(VK_RETURN);
 }
 
@@ -140,10 +132,10 @@ bool FesterRobot::isRunningFinishedInClipboardData(string const& clipboardData) 
                         stringHelper::getStringAfterThisString(
                             stringHelper::getStringInBetweenTwoStrings(clipboardData, "freqBand", "filCoef"), "="))));
     string frequenciesStringForExcel(getFrequenciesStringForExcel());
-    ALBA_PRINT2(freqBandStringInLog, frequenciesStringForExcel);
+    cout<<"freqBandStringInLog: ["<<freqBandStringInLog<<"]"<<endl;
+    cout<<"frequenciesStringForExcel: ["<<frequenciesStringForExcel<<"]"<<endl;
     return freqBandStringInLog == frequenciesStringForExcel;
 }
-
 string FesterRobot::getClipboardFormattedData() const
 {
     string clipboardData(m_userAutomation.getStringFromClipboard());
