@@ -78,7 +78,8 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_IsLetterPressedTest)
     }
 }
 
-TEST(AlbaWindowsUserAutomationTest, DISABLED_ShowMousePosition){
+TEST(AlbaWindowsUserAutomationTest, DISABLED_ShowMousePosition)
+{
     AlbaWindowsUserAutomation userAutomation;
     while(1)
     {

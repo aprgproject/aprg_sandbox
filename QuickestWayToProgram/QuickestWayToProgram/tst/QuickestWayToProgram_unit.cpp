@@ -20,6 +20,25 @@ using namespace alba;
 using namespace std;
 
 
+
+TEST(SampleTest, NSAPCloudPrinting)
+{
+    u8 mark[4];
+    TTransportLayerAddress nsap{
+        0x35, 0x00, 0x01, 0x0A,
+        0x48, 0xED, 0x8D, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00};
+    CommonClassLib::CNsapHelper::convertNsapToIPv4(nsap, mark);
+
+    for(int i=0; i<4; i++)
+    {
+        cout<<"mark["<<i<<"]: "<<std::dec<<(int)mark[i]<<endl;
+    }
+}
+
+/*
 TEST(SampleTest, Shit)
 {
     u32 m_bitContainerForAllocations=1;
@@ -47,13 +66,15 @@ TEST(SampleTest, Shit)
     }
 }
 
-/*
+
 TEST(SampleTest, CounterOfCounts)
 {
-    AlbaLocalPathHandler pathHandler(R"(H:\Logs\111_MessagePoolExhaustion\09_09_2018\TC_2_LRM_RL_SETUP_REQ_MSG_queue.log)");    ifstream queueLogStream(pathHandler.getFullPath());
+    AlbaLocalPathHandler pathHandler(R"(H:\Logs\111_MessagePoolExhaustion\09_09_2018\TC_2_LRM_RL_SETUP_REQ_MSG_queue.log)");
+    ifstream queueLogStream(pathHandler.getFullPath());
 
     map<int, string> highestJumpsQueueLengths;
-    map<int, string> highestJumpsMsgQueueingTimes;    map<int, string> highestJumpsMsgPoolUsages;
+    map<int, string> highestJumpsMsgQueueingTimes;
+    map<int, string> highestJumpsMsgPoolUsages;
 
     int previousQueueLength(0);
     int previousMsgQueueingTime(0);
@@ -114,10 +135,12 @@ TEST(SampleTest, CounterOfCounts)
 
 TEST(SampleTest, MessageIdCounter)
 {
-    AlbaLocalPathHandler pathHandler(R"(H:\Logs\111_MessagePoolExhaustion\09_09_2018\TC_2_LRM_RL_SETUP_REQ_MSG_queue.log)");    ifstream queueLogStream(pathHandler.getFullPath());
+    AlbaLocalPathHandler pathHandler(R"(H:\Logs\111_MessagePoolExhaustion\09_09_2018\TC_2_LRM_RL_SETUP_REQ_MSG_queue.log)");
+    ifstream queueLogStream(pathHandler.getFullPath());
 
     map<unsigned int, unsigned int> lastMsgRcvdToCount;
-    map<unsigned int, unsigned int> lastMsgSentToCount;    map<unsigned int, unsigned int> lastInternalMsgToCount;
+    map<unsigned int, unsigned int> lastMsgSentToCount;
+    map<unsigned int, unsigned int> lastInternalMsgToCount;
     map<unsigned int, string> highestMsgQueueingTime;
     map<unsigned int, string> highestQueueLength;
 

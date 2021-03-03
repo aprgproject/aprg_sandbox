@@ -14,6 +14,7 @@
 #define ORIGIN 0,0
 
 using namespace std;
+
 namespace alba
 {
 
@@ -39,7 +40,9 @@ void FesterRobot::run()
                 updateExcelFile(static_cast<unsigned int>(filterBitInteger));
                 m_outputStream<<"FREQUENCIES BIT: ["<<std::hex<<filterBitInteger<<std::dec<<"]"<<endl;
                 runFesterFunctionInMatlab();
-                if(!m_retryCurrentFrequencies)                {                    filterBitInteger--;
+                if(!m_retryCurrentFrequencies)
+                {
+                    filterBitInteger--;
                 }
             }
             break;
@@ -68,7 +71,8 @@ void FesterRobot::setupFesterEnvironmentInMatlab()
     m_userAutomation.setStringToClipboard(R"(run('C:\Users\malba\Desktop\DSS\Fester\Fester_scp.m'))");
     m_userAutomation.typeControlAndLetterSimultaneously('V');
     m_userAutomation.typeCharacter(VK_RETURN);
-    m_userAutomation.setStringToClipboard(R"(format long g)");    m_userAutomation.typeControlAndLetterSimultaneously('V');
+    m_userAutomation.setStringToClipboard(R"(format long g)");
+    m_userAutomation.typeControlAndLetterSimultaneously('V');
     m_userAutomation.typeCharacter(VK_RETURN);
 }
 
@@ -136,6 +140,7 @@ bool FesterRobot::isRunningFinishedInClipboardData(string const& clipboardData) 
     cout<<"frequenciesStringForExcel: ["<<frequenciesStringForExcel<<"]"<<endl;
     return freqBandStringInLog == frequenciesStringForExcel;
 }
+
 string FesterRobot::getClipboardFormattedData() const
 {
     string clipboardData(m_userAutomation.getStringFromClipboard());

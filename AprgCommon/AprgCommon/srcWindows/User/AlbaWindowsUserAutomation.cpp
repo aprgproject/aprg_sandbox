@@ -27,7 +27,8 @@ However, you should not rely on this last behavior; for more information, see th
 */
 }
 
-void AlbaWindowsUserAutomation::setStringToClipboard(std::string const& clipBoardText) const{
+void AlbaWindowsUserAutomation::setStringToClipboard(std::string const& clipBoardText) const
+{
     HANDLE hData;
     char *pointerData = NULL;//pointer to allow char copying
 
@@ -52,6 +53,7 @@ string AlbaWindowsUserAutomation::getStringFromClipboard() const
     }
     return stringInClipboard;
 }
+
 MousePosition AlbaWindowsUserAutomation::getMousePosition() const
 {
     MousePosition position;
@@ -136,7 +138,8 @@ void AlbaWindowsUserAutomation::doRightClickAt(MousePosition const& position) co
 
 void AlbaWindowsUserAutomation::doRightClick() const
 {
-    doOperationWithRealisticDelay([](INPUT& input)    {
+    doOperationWithRealisticDelay([](INPUT& input)
+    {
         input.type = INPUT_MOUSE;
         input.mi.dwFlags = MOUSEEVENTF_RIGHTDOWN;
     });
@@ -214,7 +217,8 @@ void AlbaWindowsUserAutomation::typeControlAndLetterSimultaneously(unsigned int 
 
 string AlbaWindowsUserAutomation::getClassNameOfForegroundWindow() const
 {
-    int const LENGTH = 1000;    char className[LENGTH];
+    int const LENGTH = 1000;
+    char className[LENGTH];
     GetClassName (GetForegroundWindow(), className, LENGTH);
     return string(className);
 }
@@ -277,7 +281,8 @@ void AlbaWindowsUserAutomation::setForegroundWindowWithWindowHandle(HWND const w
                                           );
     }
     if(!isSuccessful)
-    {        cout<<"Error in AlbaWindowsUserAutomation::setActiveWindow()"<<endl;
+    {
+        cout<<"Error in AlbaWindowsUserAutomation::setActiveWindow()"<<endl;
         cout<<AlbaWindowsHelper::getLastFormattedErrorMessage()<<endl;
     }
 }
