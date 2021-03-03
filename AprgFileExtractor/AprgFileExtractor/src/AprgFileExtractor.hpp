@@ -25,10 +25,9 @@ private:
     void extractAllRelevantFilesInThisCompressedFile(std::string const& filePathOfCompressedFile);
     void extractAllFilesRecursively(std::string const& filePathOfCompressedFile);
     void extractAllRelevantFilesRecursively(std::string const& filePathOfCompressedFile);
-    bool isTheExtensionXz(std::string const& extension) const;
+    bool isTheExtensionXzOrGzOrTar(std::string const& extension) const;
     AlbaGrepStringEvaluator m_grepEvaluator;
     std::string m_pathOf7zExecutable;
-    std::string m_pathOf7zTempFile;
-};
+    std::string m_pathOf7zTempFile;};
 
 }

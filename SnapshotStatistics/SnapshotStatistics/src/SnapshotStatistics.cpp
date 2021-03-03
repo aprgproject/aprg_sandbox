@@ -105,16 +105,30 @@ void SnapshotStatistics::fetchStatisticsForSnapshot()
     }
 }
 
-void SnapshotStatistics::saveStatisticsForSnapshot(string const& outputPath)
+void SnapshotStatistics::fetchStatisticsForMemory()
+{
+    for(FileNameToSnapshotNameToFileSizePair const& firstPair : m_fileNameToSnapshotNameToMemorySize)
+    {
+        for(SnapshotNameToFileSizePair const& secondPair : firstPair.second)
+        {
+            string wildcardName(getWildcardNameIfFileGroupsIsFound(firstPair.first));
+            if(wildcardName.empty())
+            {
+                wildcardName = firstPair.first;
+            }
+            m_wildcardNameToSampleSizesMap[wildcardName].emplace_back(secondPair.second);
+        }
+    }
+}
+
+void SnapshotStatistics::saveStatisticsToFile(string const& outputPath)
 {
     ofstream outputStream(outputPath);
     outputStream.precision(20);
-    outputStream<<",Samples of sizes (in bytes)"<<endl;
-    for(WildcardNameToSampleSizesPair const& firstPair : m_wildcardNameToSampleSizesMap)
+    outputStream<<",Samples of sizes (in bytes)"<<endl;    for(WildcardNameToSampleSizesPair const& firstPair : m_wildcardNameToSampleSizesMap)
     {
         outputStream<<firstPair.first;
-        for(double const& size : firstPair.second)
-        {
+        for(double const& size : firstPair.second)        {
             outputStream<<","<<size;
         }
         outputStream<<endl;
@@ -160,15 +174,13 @@ void SnapshotStatistics::processMemory(string const& memoryFilePath, string cons
         }
         else if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInFile," ."))
         {
-            relativeFilePath = ".";
+            relativeFilePath = "***TotalSize***";
             fileSizeInString = stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(
                         stringHelper::getStringBeforeThisString(lineInFile, " ."));
-            fileSizeInBytes=convertFileSizeToDouble(fileSizeInString);
-            addStatisticForMemory(relativeFilePath, snapshotName, fileSizeInBytes);
+            fileSizeInBytes=convertFileSizeToDouble(fileSizeInString);            addStatisticForMemory(relativeFilePath, snapshotName, fileSizeInBytes);
         }
     }
 }
-
 double SnapshotStatistics::convertFileSizeToDouble(string const& fileSizeInString) const
 {
     double fileSizeInBytes(stringHelper::convertStringToNumber<double>(fileSizeInString));
@@ -190,15 +202,13 @@ void SnapshotStatistics::addStatisticForMemory(string const& fileName, string co
     m_snapshotNames.emplace(snapshotName);
 }
 
-void SnapshotStatistics::saveStatisticsForMemory(string const& outputPath)
+void SnapshotStatistics::saveSizesForMemory(string const& outputPath)
 {
     ofstream outputStream(outputPath);
-    outputStream.precision(20);
-    outputStream<<",Sizes (in bytes)"<<endl;
+    outputStream.precision(20);    outputStream<<",Sizes (in bytes)"<<endl;
     for(string const& snapshotName : m_snapshotNames)
     {
-        outputStream<<","<<snapshotName;
-    }
+        outputStream<<","<<snapshotName;    }
     outputStream<<endl;
     for(FileNameToSnapshotNameToFileSizePair const& firstPair : m_fileNameToSnapshotNameToMemorySize)
     {
@@ -1044,7 +1054,46 @@ void SnapshotStatistics::initializeFileGroups()
         return stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, "xohDump") &&
                 stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, ".bin");
     });
+    m_fileGroups.emplace_back("commissioning_*.jpg", [](string const& fileName)->bool
+    {
+        return stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, "commissioning_") &&
+                stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, ".jpg");
+    });
+    m_fileGroups.emplace_back("CDNL_BTSC_*.xml", [](string const& fileName)->bool
+    {
+        return stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, "CDNL_BTSC_") &&
+                stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, ".xml");
+    });
+    m_fileGroups.emplace_back("FlexiBTSProperties_*.xml", [](string const& fileName)->bool
+    {
+        return stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, "FlexiBTSProperties_") &&
+                stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, ".xml");
+    });
+    m_fileGroups.emplace_back("*FCMD-ROM-BW_*.BIN", [](string const& fileName)->bool
+    {
+        return stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, "FCMD-ROM-BW_") &&
+                stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, ".BIN");
+    });
+    m_fileGroups.emplace_back("*TCOM_*.txz", [](string const& fileName)->bool
+    {
+        return stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, "TCOM_") &&
+                stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, ".txz");
+    });
+    m_fileGroups.emplace_back("*TUPC_*.tgz", [](string const& fileName)->bool
+    {
+        return stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, "TUPC_") &&
+                stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, ".tgz");
+    });
+    m_fileGroups.emplace_back("*fmRules_*.tgz", [](string const& fileName)->bool
+    {
+        return stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, "fmRules_") &&
+                stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, ".tgz");
+    });
+    m_fileGroups.emplace_back("licences/*.XML", [](string const& fileName)->bool
+    {
+        return stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, "licences/") &&
+                stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, ".XML");
+    });
 }
-
 
 }
