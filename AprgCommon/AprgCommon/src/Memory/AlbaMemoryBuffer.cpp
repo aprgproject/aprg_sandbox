@@ -12,16 +12,14 @@ namespace alba
 AlbaMemoryBuffer::AlbaMemoryBuffer()
 {}
 
-AlbaMemoryBuffer::AlbaMemoryBuffer(void const* bufferPointer, unsigned int const size)
+AlbaMemoryBuffer::AlbaMemoryBuffer(void const* sourcePointer, unsigned int const size)
 {
-    addData(bufferPointer, size);
+    addData(sourcePointer, size);
 }
 
-AlbaMemoryBuffer::operator bool() const
-{
+AlbaMemoryBuffer::operator bool() const{
     return hasContent();
 }
-
 bool AlbaMemoryBuffer::hasContent() const
 {
     return m_buffer.size()>0;
@@ -63,27 +61,21 @@ void AlbaMemoryBuffer::resize(unsigned int size, unsigned int const initialValue
     m_buffer.resize(size, initialValue);
 }
 
-void* AlbaMemoryBuffer::addDataAndReturnBeginOfAdditionalData(unsigned int const additionalSize)
+void* AlbaMemoryBuffer::resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(unsigned int const additionalSize)
 {
-    unsigned int oldSize = getSize();
+    unsigned int oldSize = m_buffer.size();
     m_buffer.resize(oldSize+additionalSize);
     return m_buffer.begin().base()+oldSize;
 }
 
-void AlbaMemoryBuffer::addData(void const* bufferPointer, unsigned int const additionalSize)
+void AlbaMemoryBuffer::addData(void const* sourcePointer, unsigned int const additionalSize)
 {
-    unsigned char const* copyPointerStart = (unsigned char const*)bufferPointer;
-    unsigned char const* copyPointerEnd = copyPointerStart+additionalSize;
-    for(unsigned char const* copyPointer = copyPointerStart; copyPointer<copyPointerEnd; copyPointer++)
-    {
-        m_buffer.emplace_back(*copyPointer);
-    }
+    void* destinationVoidPointer = resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(additionalSize);
+    memcpy(destinationVoidPointer, sourcePointer, additionalSize);
 }
 
-string AlbaMemoryBuffer::getDisplayableString() const
-{
+string AlbaMemoryBuffer::getDisplayableString() const{
     return containerHelper::getStringFromContentsOfContainerWithNumberFormat(m_buffer, ", ");
 }
-
 
 }//namespace alba

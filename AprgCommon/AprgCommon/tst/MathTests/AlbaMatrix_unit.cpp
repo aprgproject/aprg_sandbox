@@ -4,17 +4,17 @@
 
 #include <iostream>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 TEST(AlbaMatrixTest, AlbaMatrixCanBeCreatedByDefaultConstructor)
 {
     AlbaMatrix<unsigned int> matrix;
-
     EXPECT_EQ(0u, matrix.getColumns());
     EXPECT_EQ(0u, matrix.getRows());
 }
-
 TEST(AlbaMatrixTest, AlbaMatrixCanBeCreated)
 {
     AlbaMatrix<unsigned int> matrix(2,3);
@@ -108,3 +108,4 @@ TEST(AlbaMatrixTest, MatrixCanBeTransposed)
     EXPECT_EQ(6u, matrix.get(2,1));
 }
 
+}

@@ -4,18 +4,18 @@
 
 #include <iostream>
 
-using namespace alba;
 using namespace std;
 using namespace alba::dateTimeHelper;
 
+namespace alba
+{
+
 TEST(AlbaDateTimeHelperTest, LeapYearsCanBeDetermined)
 {
-    EXPECT_FALSE(isLeapYear(3));
-    EXPECT_TRUE(isLeapYear(4));
+    EXPECT_FALSE(isLeapYear(3));    EXPECT_TRUE(isLeapYear(4));
     EXPECT_FALSE(isLeapYear(5));
     EXPECT_FALSE(isLeapYear(99));
-    EXPECT_FALSE(isLeapYear(100));
-    EXPECT_FALSE(isLeapYear(101));
+    EXPECT_FALSE(isLeapYear(100));    EXPECT_FALSE(isLeapYear(101));
     EXPECT_FALSE(isLeapYear(399));
     EXPECT_TRUE(isLeapYear(400));
     EXPECT_FALSE(isLeapYear(401));
@@ -234,4 +234,6 @@ TEST(AlbaDateTimeHelperTest, ValuesCanBeReorganizedIfThereIsUnderflow)
     EXPECT_EQ(99998841, days);
     EXPECT_EQ(51101, seconds);
     EXPECT_EQ(1, microSeconds);
+}
+
 }

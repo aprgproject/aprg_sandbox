@@ -2,17 +2,17 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 TEST(AlbaTableDisplay, TableCanOutputProvideText)
 {
-    DisplayTable table;
-    table.addRow();
+    DisplayTable table;    table.addRow();
     table.getLastRow().addCell("Test");
     EXPECT_EQ("Test\n", table.drawOutput());
-    cout<<table.drawOutput();
-}
+    cout<<table.drawOutput();}
 
 TEST(AlbaTableDisplay, TableCanOutputTextWithBorders)
 {
@@ -59,4 +59,6 @@ TEST(AlbaTableDisplay, CellWithAlignmentCanBeAdded)
     table.getLastRow().addCell("J", DisplayTableCellMode::justify, DisplayTableCellMode::center);
     EXPECT_EQ("12345\n  C  \nL    \n    R\n  J  \n", table.drawOutput());
     cout<<table.drawOutput();
+}
+
 }

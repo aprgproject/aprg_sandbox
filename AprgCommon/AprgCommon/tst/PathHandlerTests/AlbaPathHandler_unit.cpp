@@ -6,16 +6,16 @@
 #include <string>
 
 using namespace std;
-using namespace alba;
+
+namespace alba
+{
 
 TEST(PathTest, FullPathWithDirectoryAndFileGiven)
 {
-    AlbaPathHandler pathHandler(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", R"(\)");
-    EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\)", pathHandler.getDirectory());
+    AlbaPathHandler pathHandler(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\76543.txt)", R"(\)");    EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\Aprg1111Common\tst\)", pathHandler.getDirectory());
     EXPECT_EQ("76543.txt", pathHandler.getFile());
     EXPECT_EQ("76543", pathHandler.getFilenameOnly());
-    EXPECT_EQ("txt", pathHandler.getExtension());
-    EXPECT_EQ(PathType::File, pathHandler.getPathType());
+    EXPECT_EQ("txt", pathHandler.getExtension());    EXPECT_EQ(PathType::File, pathHandler.getPathType());
     EXPECT_EQ("tst", pathHandler.getImmediateDirectoryName());
 }
 
@@ -67,4 +67,6 @@ TEST(PathTest, GoUpUntilLastFolder)
     pathHandler.goUp();
     EXPECT_EQ(R"(APRG_DRIVE:\)", pathHandler.getFullPath());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
+}
+
 }

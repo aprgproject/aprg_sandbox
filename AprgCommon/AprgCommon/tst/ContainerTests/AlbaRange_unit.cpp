@@ -4,17 +4,17 @@
 
 #include <vector>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 TEST(AlbaRangeTest, TraverseIsNotInfiniteWhenRangeIsEmpty)
 {
-    AlbaRange<int> range;
-    vector<int> traversedValues;
+    AlbaRange<int> range;    vector<int> traversedValues;
     range.traverse([&](int const traverseValue)
     {
-        traversedValues.emplace_back(traverseValue);
-    });
+        traversedValues.emplace_back(traverseValue);    });
 
     EXPECT_TRUE(range.isEmpty());
     EXPECT_TRUE(range.isValueInsideInclusive(0));
@@ -176,4 +176,6 @@ TEST(AlbaRangeTest, ValuesCanBeSet)
     EXPECT_EQ(8, traversedValues[7]);
     EXPECT_EQ(9, traversedValues[8]);
     EXPECT_EQ(10, traversedValues[9]);
+}
+
 }

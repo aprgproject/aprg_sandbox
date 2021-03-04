@@ -2,17 +2,17 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 TEST(AlbaMemoryBufferTest, DefaultValuesAreClear)
 {
-    AlbaMemoryBuffer buffer;
-    EXPECT_FALSE(buffer);
+    AlbaMemoryBuffer buffer;    EXPECT_FALSE(buffer);
     EXPECT_FALSE(buffer.hasContent());
     EXPECT_EQ(0u, buffer.getSize());
 }
-
 TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeSavedDuringConstructionOfBuffer)
 {
     int input = 11111111;
@@ -126,16 +126,14 @@ TEST(AlbaMemoryBufferTest, DataForMemoryBufferCanBeWrittenConsecutivelyOutsideTh
     AlbaMemoryBuffer buffer;
     unsigned char inputBuffer1[] = {0x12, 0x34, 0x56, 0x78};
     unsigned char inputBuffer2[] = {0x87, 0x65, 0x43, 0x21};
-    memcpy(buffer.addDataAndReturnBeginOfAdditionalData(4), inputBuffer1, 4);
-    memcpy(buffer.addDataAndReturnBeginOfAdditionalData(4), inputBuffer2, 4);
+    memcpy(buffer.resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(4), inputBuffer1, 4);
+    memcpy(buffer.resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(4), inputBuffer2, 4);
 
     EXPECT_TRUE(buffer);
-    EXPECT_TRUE(buffer.hasContent());
-    EXPECT_EQ(8u, buffer.getSize());
+    EXPECT_TRUE(buffer.hasContent());    EXPECT_EQ(8u, buffer.getSize());
 
     unsigned char* reader = reinterpret_cast<unsigned char*>(buffer.getBufferPointer());
-    EXPECT_EQ(0x12u, reader[0]);
-    EXPECT_EQ(0x34u, reader[1]);
+    EXPECT_EQ(0x12u, reader[0]);    EXPECT_EQ(0x34u, reader[1]);
     EXPECT_EQ(0x56u, reader[2]);
     EXPECT_EQ(0x78u, reader[3]);
     EXPECT_EQ(0x87u, reader[4]);
@@ -153,4 +151,6 @@ TEST(AlbaMemoryBufferTest, GetDisplayableStringWorks)
     EXPECT_TRUE(buffer.hasContent());
     EXPECT_EQ(4u, buffer.getSize());
     EXPECT_FALSE(buffer.getDisplayableString().empty());
+}
+
 }

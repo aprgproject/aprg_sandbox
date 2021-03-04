@@ -4,18 +4,18 @@
 
 #include <iostream>
 
-using namespace alba;
-using namespace std;
 using namespace alba::mathHelper;
+using namespace std;
+
+namespace alba
+{
 
 TEST(AlbaMathHelperTest, AverageOfTwoNumbersCanBeComputed)
 {
-    EXPECT_EQ(0, getAverage(-10,10));
-    EXPECT_EQ(55, getAverage(10,100));
+    EXPECT_EQ(0, getAverage(-10,10));    EXPECT_EQ(55, getAverage(10,100));
 }
 
-TEST(AlbaMathHelperTest, AbsoluteValueCanBeComputed)
-{
+TEST(AlbaMathHelperTest, AbsoluteValueCanBeComputed){
     EXPECT_EQ(1, getAbsoluteValue(1));
     EXPECT_EQ(1, getAbsoluteValue(-1));
     EXPECT_EQ(0, getAbsoluteValue(0));
@@ -74,4 +74,6 @@ TEST(AlbaMathHelperTest, InverseCumulativeStandardDistributionApproximationCanBe
     EXPECT_EQ(-2.4003314971923828125, calculateInverseCumulativeStandardDistributionApproximation(0.00819, 20));
     EXPECT_EQ(3.9444065093994140625, calculateInverseCumulativeStandardDistributionApproximation(0.99996, 20));
     EXPECT_EQ(0, calculateInverseCumulativeStandardDistributionApproximation(3.3036, 20));
+}
+
 }

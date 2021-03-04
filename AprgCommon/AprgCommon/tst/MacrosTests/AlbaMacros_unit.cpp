@@ -4,13 +4,14 @@
 
 using namespace std;
 
+namespace alba
+{
+
 TEST(AlbaMacroArgumentCounter, IntegerTest)
 {
-    EXPECT_EQ(1, ALBA_MACROS_COUNT_ARGS(1));
-    EXPECT_EQ(3, ALBA_MACROS_COUNT_ARGS(8237, 23458, 28749));
+    EXPECT_EQ(1, ALBA_MACROS_COUNT_ARGS(1));    EXPECT_EQ(3, ALBA_MACROS_COUNT_ARGS(8237, 23458, 28749));
     EXPECT_EQ(4, ALBA_MACROS_COUNT_ARGS(0x1, 0x2, 0x3, 0x4));
 }
-
 TEST(AlbaMacroArgumentCounter, VariableTest)
 {
     int i1=1, i2=2, i3=3;
@@ -73,4 +74,6 @@ TEST(AlbaMacros, CaseEnumStringLiteral)
     SampleClass sampleObject;
     EXPECT_EQ("SampleEnumClass::Type1", sampleObject.getString(enumValue1));
     EXPECT_EQ("SampleEnumClass::Type2", sampleObject.getString(enumValue2));
+}
+
 }

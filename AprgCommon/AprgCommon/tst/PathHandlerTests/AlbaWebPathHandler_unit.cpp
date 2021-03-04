@@ -6,16 +6,16 @@
 #include <string>
 
 using namespace std;
-using namespace alba;
+
+namespace alba
+{
 
 TEST(WebPathTest, DirectoryWithColonAndFileGivenAndNoProtocol)
 {
-    AlbaWebPathHandler pathHandler(R"(\\::://directory!@#$%12345\\\\/\\\\/file.txt)");
-    EXPECT_FALSE(pathHandler.hasProtocol());
+    AlbaWebPathHandler pathHandler(R"(\\::://directory!@#$%12345\\\\/\\\\/file.txt)");    EXPECT_FALSE(pathHandler.hasProtocol());
     EXPECT_TRUE(pathHandler.getProtocol().empty());
     EXPECT_EQ(R"(\\::://directory!@#$%12345/file.txt)", pathHandler.getFullPath());
-    EXPECT_EQ(R"(\\::://directory!@#$%12345/)", pathHandler.getDirectory());
-    EXPECT_EQ("file.txt", pathHandler.getFile());
+    EXPECT_EQ(R"(\\::://directory!@#$%12345/)", pathHandler.getDirectory());    EXPECT_EQ("file.txt", pathHandler.getFile());
     EXPECT_EQ("file", pathHandler.getFilenameOnly());
     EXPECT_EQ("txt", pathHandler.getExtension());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
@@ -89,4 +89,6 @@ TEST(WebPathTest, ProtocolCanBeChanged)
     EXPECT_EQ("r049", pathHandler.getFilenameOnly());
     EXPECT_EQ("jpg", pathHandler.getExtension());
     EXPECT_EQ(PathType::File, pathHandler.getPathType());
+}
+
 }

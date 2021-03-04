@@ -97,14 +97,12 @@ template unsigned int AlbaFileReader::getData<unsigned int, 8>();
 
 void AlbaFileReader::saveDataToMemoryBuffer(AlbaMemoryBuffer& buffer, unsigned int numberOfBytesToRead)
 {
-    char* writer = (char*)buffer.addDataAndReturnBeginOfAdditionalData(numberOfBytesToRead);
+    char* writer = (char*)buffer.resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(numberOfBytesToRead);
     m_stream.read(writer, numberOfBytesToRead);
 }
-
 string AlbaFileReader::getLineAndIgnoreWhiteSpaces()
 {
-    while(!m_stream.eof())
-    {
+    while(!m_stream.eof())    {
         m_stream.clear();
         m_stream.getline(m_characterBuffer, m_bufferSize);
         string result(m_characterBuffer);

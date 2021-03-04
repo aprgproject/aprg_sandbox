@@ -5,17 +5,17 @@
 #include <iostream>
 #include <vector>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 TEST(AlbaRandomizer, RandomUniformValuesAreWithinLimits)
 {
-    AlbaRandomizer randomizer;
-    int const minimumRandomValue(0);
+    AlbaRandomizer randomizer;    int const minimumRandomValue(0);
     int const maximumRandomValue(9);
     for(int i=0; i<1000; i++)
-    {
-        int random(randomizer.getRandomValueInUniformDistribution(minimumRandomValue, maximumRandomValue));
+    {        int random(randomizer.getRandomValueInUniformDistribution(minimumRandomValue, maximumRandomValue));
         bool isWithinLimits = random>=minimumRandomValue && random<=maximumRandomValue;
         EXPECT_TRUE(isWithinLimits);
     }
@@ -48,4 +48,6 @@ TEST(AlbaRandomizer, RandomValuesAreUniformlyDistributed)
 
     int deviation(maximumHits-minimumHits);
     EXPECT_LE(deviation, allowedDeviation);
+}
+
 }
