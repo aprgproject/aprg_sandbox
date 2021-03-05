@@ -31,3 +31,28 @@ TNbccId getNbccIdFromCrnccId(TCRNCCommunicationContextId const crnccId)
 {
     return CrnccIdMapping::get(crnccId);
 }
+
+
+/*
+std::map<TCRNCCommunicationContextId, TNbccId> CrnccIdMapping::m_crnccIdMapping;
+
+void CrnccIdMapping::set(TCRNCCommunicationContextId const crnccId, TNbccId const nbccId)
+{
+    m_crnccIdMapping[crnccId] = nbccId;
+}
+
+TNbccId CrnccIdMapping::get(TCRNCCommunicationContextId const crnccId)
+{
+    return  m_crnccIdMapping[crnccId];
+}
+
+void setCrnccIdMapping(TCRNCCommunicationContextId const crnccId, TNbccId const nbccId)
+{
+    CrnccIdMapping::set(crnccId, nbccId);
+}
+
+TNbccId getNbccIdFromCrnccId(TCRNCCommunicationContextId const crnccId)
+{
+    return CrnccIdMapping::get(crnccId);
+}
+*/
