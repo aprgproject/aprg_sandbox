@@ -8,14 +8,27 @@
 using namespace alba;
 using namespace std;
 
-TEST(AlbaWindowsUserAutomationTest, DISABLED_SetMouseTest)
+TEST(AlbaWindowsUserAutomationTest, DeleteThisTestDontGoToSleepSetMouseTest)
 {
     AlbaWindowsUserAutomation userAutomation;
-    for(int x=0; x<50; x++)
+    for(int x=0; x<300; x+=10)
     {
         MousePosition position{x,x};
         userAutomation.setMousePosition(position);
+        userAutomation.sleep(10000);
+        if(x==290)
+        {
+            x=0;
+        }
     }
+}
+
+TEST(AlbaWindowsUserAutomationTest, DISABLED_SetMouseTest)
+{
+    AlbaWindowsUserAutomation userAutomation;    for(int x=0; x<50; x++)
+    {
+        MousePosition position{x,x};
+        userAutomation.setMousePosition(position);    }
 }
 
 TEST(AlbaWindowsUserAutomationTest, DISABLED_KeyPressDownAndUpSmallLetterTest)
