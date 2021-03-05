@@ -125,10 +125,12 @@ void SnapshotStatistics::saveStatisticsToFile(string const& outputPath)
 {
     ofstream outputStream(outputPath);
     outputStream.precision(20);
-    outputStream<<",Samples of sizes (in bytes)"<<endl;    for(WildcardNameToSampleSizesPair const& firstPair : m_wildcardNameToSampleSizesMap)
+    outputStream<<",Samples of sizes (in bytes)"<<endl;
+    for(WildcardNameToSampleSizesPair const& firstPair : m_wildcardNameToSampleSizesMap)
     {
         outputStream<<firstPair.first;
-        for(double const& size : firstPair.second)        {
+        for(double const& size : firstPair.second)
+        {
             outputStream<<","<<size;
         }
         outputStream<<endl;
@@ -177,10 +179,12 @@ void SnapshotStatistics::processMemory(string const& memoryFilePath, string cons
             relativeFilePath = "***TotalSize***";
             fileSizeInString = stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(
                         stringHelper::getStringBeforeThisString(lineInFile, " ."));
-            fileSizeInBytes=convertFileSizeToDouble(fileSizeInString);            addStatisticForMemory(relativeFilePath, snapshotName, fileSizeInBytes);
+            fileSizeInBytes=convertFileSizeToDouble(fileSizeInString);
+            addStatisticForMemory(relativeFilePath, snapshotName, fileSizeInBytes);
         }
     }
 }
+
 double SnapshotStatistics::convertFileSizeToDouble(string const& fileSizeInString) const
 {
     double fileSizeInBytes(stringHelper::convertStringToNumber<double>(fileSizeInString));
@@ -205,10 +209,12 @@ void SnapshotStatistics::addStatisticForMemory(string const& fileName, string co
 void SnapshotStatistics::saveSizesForMemory(string const& outputPath)
 {
     ofstream outputStream(outputPath);
-    outputStream.precision(20);    outputStream<<",Sizes (in bytes)"<<endl;
+    outputStream.precision(20);
+    outputStream<<",Sizes (in bytes)"<<endl;
     for(string const& snapshotName : m_snapshotNames)
     {
-        outputStream<<","<<snapshotName;    }
+        outputStream<<","<<snapshotName;
+    }
     outputStream<<endl;
     for(FileNameToSnapshotNameToFileSizePair const& firstPair : m_fileNameToSnapshotNameToMemorySize)
     {
@@ -1095,5 +1101,6 @@ void SnapshotStatistics::initializeFileGroups()
                 stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(fileName, ".XML");
     });
 }
+
 
 }

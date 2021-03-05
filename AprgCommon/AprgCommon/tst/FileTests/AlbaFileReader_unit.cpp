@@ -12,10 +12,12 @@ namespace alba
 
 TEST(FileReadTest, ReadFromTestFile_ReadLineUsingVariousCharacters)
 {
-    ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);    ASSERT_TRUE(testFile.is_open());
+    ofstream testFile(APRG_COMMON_TEST_FILE_TO_READ);
+    ASSERT_TRUE(testFile.is_open());
     testFile << "1         " << endl;
     testFile << "12        " << endl;
-    testFile << "123       " << endl;    testFile << "1234      " << endl;
+    testFile << "123       " << endl;
+    testFile << "1234      " << endl;
     testFile << "12345     " << endl;
     testFile << "123456    " << endl;
     testFile << "1234567   " << endl;

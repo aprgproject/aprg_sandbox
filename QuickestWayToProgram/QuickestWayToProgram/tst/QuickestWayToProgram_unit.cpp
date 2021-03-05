@@ -21,6 +21,235 @@ using namespace std;
 
 
 
+TEST(SampleTest, FormatPrints)
+{
+    AlbaLocalPathHandler pathHandler(R"(C:\ZZZ_Logs\PR400441\LF_DSS_OFF\WholeLogsToAnalyze_NoTimeStamp.log)");
+    ofstream formattedLogStream(R"(C:\ZZZ_Logs\PR400441\LF_DSS_OFF\WholeLogsToAnalyze_Sorted.log)");
+    ifstream logStream(pathHandler.getFullPath());
+
+    set<string> uniqueAndSortedStrings;
+    if(logStream.is_open())
+    {
+        AlbaFileReader logFileReader(logStream);
+
+        while(logFileReader.isNotFinished())
+        {
+            string lineInFile(logFileReader.getLineAndIgnoreWhiteSpaces());
+            uniqueAndSortedStrings.emplace(lineInFile);
+        }
+    }
+    for(string const& stringInStrings : uniqueAndSortedStrings)
+    {
+        formattedLogStream << stringInStrings << endl;
+    }
+}
+
+
+/*
+
+void saveMaxLengthString(string & finalPrint, unsigned int & maxLength, string const& samplePrint)
+{
+    if(samplePrint.length() > maxLength)
+    {
+        finalPrint = samplePrint;
+        maxLength = samplePrint.length();
+    }
+}
+
+TEST(SampleTest, FormatPrints)
+{
+    AlbaLocalPathHandler pathHandler(R"(C:\ZZZ_Logs\PR400441\SF_DSS_ON\WholeLogsToAnalyze.log)");
+    ofstream formattedLogStream(R"(C:\ZZZ_Logs\PR400441\SF_DSS_ON\WholeLogsToAnalyze_NoTimeStamp.log)");
+    ifstream logStream(pathHandler.getFullPath());
+
+    if(logStream.is_open())
+    {
+        AlbaFileReader logFileReader(logStream);
+
+        while(logFileReader.isNotFinished())
+        {
+            string lineInFile(logFileReader.getLineAndIgnoreWhiteSpaces());
+            string debugPrint = stringHelper::getStringAfterThisString(lineInFile, "DBG/");
+            string infoPrint = stringHelper::getStringAfterThisString(lineInFile, "INF/");
+            string warningPrint = stringHelper::getStringAfterThisString(lineInFile, "WRN/");
+            string errorPrint = stringHelper::getStringAfterThisString(lineInFile, "ERR/");
+            string vipPrint = stringHelper::getStringAfterThisString(lineInFile, "VIP/");
+            unsigned int maxLength=0;
+            string finalPrint;
+            saveMaxLengthString(finalPrint, maxLength, debugPrint);
+            saveMaxLengthString(finalPrint, maxLength, infoPrint);
+            saveMaxLengthString(finalPrint, maxLength, warningPrint);
+            saveMaxLengthString(finalPrint, maxLength, errorPrint);
+            saveMaxLengthString(finalPrint, maxLength, vipPrint);
+            if(!stringHelper::isWhiteSpace(finalPrint))
+            {
+                formattedLogStream << finalPrint << endl;
+            }
+        }
+    }
+}
+
+struct ThreeLogs
+{
+    string originalLog;
+    string log1Log;
+    string log2Log;
+};
+
+string getNearestLine(vector<string> const& lines, string const& lineInOriginal)
+{
+    string nearestLine;
+    int lowestDiff=0xFFFFFFF;
+    for(string const& line : lines)
+    {
+        int diffInOriginalAndLine = static_cast<int>(stringHelper::getLevenshteinDistance(lineInOriginal, line));
+        if(lowestDiff>diffInOriginalAndLine)
+        {
+            nearestLine = line;
+            lowestDiff=diffInOriginalAndLine;
+        }
+    }
+    return nearestLine;
+}
+
+TEST(SampleTest, LogComparePrints)
+{
+    AlbaLocalPathHandler originalPathHandler(R"(C:\ZZZ_Logs\PR400441\LF_DSS_ON\24518_formatted.log)");
+    ifstream originalLogStream(originalPathHandler.getFullPath());
+    AlbaLocalPathHandler log1PathHandler(R"(C:\ZZZ_Logs\PR400441\LF_DSS_OFF\24518_formatted.log)");
+    ifstream log1LogStream(log1PathHandler.getFullPath());
+    AlbaLocalPathHandler log2LcgPathHandler(R"(C:\ZZZ_Logs\PR400441\SF_DSS_ON\24518_formatted.log)");
+    ifstream log2LcgLogStream(log2LcgPathHandler.getFullPath());
+    ofstream resultsLogStream(R"(C:\ZZZ_Logs\PR381361\Compare\Results.log)");
+
+    vector<string> linesInOriginal;
+    vector<string> linesInLog1;
+    vector<string> linesInLog2;
+    map<int, ThreeLogs> scoreToLogsMap;
+
+    if(originalLogStream.is_open() && log1LogStream.is_open() && log2LcgLogStream.is_open())
+    {
+        AlbaFileReader originalLogFileReader(originalLogStream);
+        AlbaFileReader log1LogFileReader(log1LogStream);
+        AlbaFileReader log2LcgLogFileReader(log2LcgLogStream);
+
+        while(originalLogFileReader.isNotFinished())
+        {
+            string lineInOriginal(originalLogFileReader.getLineAndIgnoreWhiteSpaces());
+            linesInOriginal.emplace_back(lineInOriginal);
+        }
+        while(log1LogFileReader.isNotFinished())
+        {
+            string lineInLog1(log1LogFileReader.getLineAndIgnoreWhiteSpaces());
+            linesInLog1.emplace_back(lineInLog1);
+        }
+        while(log2LcgLogFileReader.isNotFinished())
+        {
+            string lineInLog2(log2LcgLogFileReader.getLineAndIgnoreWhiteSpaces());
+            linesInLog2.emplace_back(lineInLog2);
+        }
+    }
+
+    unsigned int lineCount=0;
+    unsigned int totalLines = linesInOriginal.size();
+    for(string const& lineInOriginal : linesInOriginal)
+    {
+        cout<<"Percentage: "<<(lineCount*100/totalLines)<<" lineCount: "<<lineCount<<" totalLines: "<<totalLines<<endl;
+        cout << "Original:  [" << lineInOriginal << "]" << endl;
+
+        string nearestLineInLog2 = getNearestLine(linesInLog2, lineInOriginal);
+        cout << "Log2:      [" << nearestLineInLog2 << "]" << endl;
+        if(!nearestLineInLog2.empty())
+        {
+            int diffInOriginalAndNearestLog2 = static_cast<int>(stringHelper::getLevenshteinDistance(lineInOriginal, nearestLineInLog2));
+            if(diffInOriginalAndNearestLog2 <= 30)
+            {
+                cout << "diffInOriginalAndLog2:    [" << diffInOriginalAndNearestLog2 << "]" << endl;
+                string nearestLineInLog1 = getNearestLine(linesInLog1, lineInOriginal);
+                cout << "Log1:      [" << nearestLineInLog1 << "]" << endl;
+                if(!nearestLineInLog1.empty())
+                {
+                    int diffInOriginalAndNearestLog1 = static_cast<int>(stringHelper::getLevenshteinDistance(lineInOriginal, nearestLineInLog1));
+                    int finalScore = diffInOriginalAndNearestLog2+diffInOriginalAndNearestLog1;
+                    cout << "Score:     [" << finalScore << "]" << endl;
+                    scoreToLogsMap.emplace(finalScore, ThreeLogs{lineInOriginal, nearestLineInLog1, nearestLineInLog2});
+                }
+            }
+
+        }
+        lineCount++;
+    }
+
+    using ThreeLogMapType = map<int, ThreeLogs>;
+    using ThreeLogPairType = pair<int, ThreeLogs>;
+    for(ThreeLogMapType::reverse_iterator iterator = scoreToLogsMap.rbegin(); iterator!= scoreToLogsMap.rend(); iterator++)
+    {
+        ThreeLogPairType const& scoreToLogPair = *iterator;
+        cout << "Score:     [" << scoreToLogPair.first << "]" << endl;
+        cout << "Original:  [" << scoreToLogPair.second.originalLog << "]" << endl;
+        cout << "Log1:      [" << scoreToLogPair.second.log1Log << "]" << endl;
+        cout << "Log2:      [" << scoreToLogPair.second.log2Log << "]" << endl;
+        resultsLogStream << "Score:     [" << scoreToLogPair.first << "]" << endl;
+        resultsLogStream << "Original:  [" << scoreToLogPair.second.originalLog << "]" << endl;
+        resultsLogStream << "Log1: [" << scoreToLogPair.second.log1Log << "]" << endl;
+        resultsLogStream << "Log2:    [" << scoreToLogPair.second.log2Log << "]" << endl;
+    }
+}
+
+
+void saveMaxLengthString(string & finalPrint, unsigned int & maxLength, string const& samplePrint)
+{
+    if(samplePrint.length() > maxLength)
+    {
+        finalPrint = samplePrint;
+        maxLength = samplePrint.length();
+    }
+}
+
+TEST(SampleTest, FormatPrints)
+{
+    AlbaLocalPathHandler pathHandler(R"(C:\ZZZ_Logs\PR400441\LF_DSS_OFF\24518.log)");
+    ofstream formattedLogStream(R"(C:\ZZZ_Logs\PR400441\LF_DSS_OFF\24518_formatted.log)");
+    ifstream logStream(pathHandler.getFullPath());
+
+    if(logStream.is_open())
+    {
+        AlbaFileReader logFileReader(logStream);
+
+        while(logFileReader.isNotFinished())
+        {
+            string lineInFile(logFileReader.getLineAndIgnoreWhiteSpaces());
+            string debugPrint = stringHelper::getStringAfterThisString(lineInFile, "DBG/");
+            string infoPrint = stringHelper::getStringAfterThisString(lineInFile, "INF/");
+            string warningPrint = stringHelper::getStringAfterThisString(lineInFile, "WRN/");
+            string errorPrint = stringHelper::getStringAfterThisString(lineInFile, "ERR/");
+            string vipPrint = stringHelper::getStringAfterThisString(lineInFile, "VIP/");
+            unsigned int maxLength=0;
+            string finalPrint;
+            saveMaxLengthString(finalPrint, maxLength, debugPrint);
+            saveMaxLengthString(finalPrint, maxLength, infoPrint);
+            saveMaxLengthString(finalPrint, maxLength, warningPrint);
+            saveMaxLengthString(finalPrint, maxLength, errorPrint);
+            saveMaxLengthString(finalPrint, maxLength, vipPrint);
+            formattedLogStream << finalPrint << endl;
+        }
+    }
+}
+
+TEST(SampleTest, LrmDirectoriesToFind)
+{
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler pathHandler(R"(D:\SFI3NotCorrupted\tcom-SystemFrameworkImprovement3-grm\C_Application\SC_TCOM\CP_GRM\tst)");
+    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
+    for(string const& directory: directories)
+    {
+        cout<<directory<<endl;
+    }
+}
+
+
 TEST(SampleTest, NSAPCloudPrinting)
 {
     u8 mark[4];
@@ -38,7 +267,6 @@ TEST(SampleTest, NSAPCloudPrinting)
     }
 }
 
-/*
 TEST(SampleTest, Shit)
 {
     u32 m_bitContainerForAllocations=1;

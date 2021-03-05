@@ -11,10 +11,12 @@ namespace alba
 
 TEST(AlbaRangeTest, TraverseIsNotInfiniteWhenRangeIsEmpty)
 {
-    AlbaRange<int> range;    vector<int> traversedValues;
+    AlbaRange<int> range;
+    vector<int> traversedValues;
     range.traverse([&](int const traverseValue)
     {
-        traversedValues.emplace_back(traverseValue);    });
+        traversedValues.emplace_back(traverseValue);
+    });
 
     EXPECT_TRUE(range.isEmpty());
     EXPECT_TRUE(range.isValueInsideInclusive(0));

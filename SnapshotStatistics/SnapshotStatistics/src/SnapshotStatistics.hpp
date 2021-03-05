@@ -32,15 +32,18 @@ public:
     void saveStatisticsToFile(std::string const& outputPath);
     std::string getWildcardNameIfFileGroupsIsFound(std::string const& fileName) const;
     void processSnapshot(std::string const& snapshotPath);
+
     void processMemory(std::string const& ramFilePath, std::string const& snapshotName);
     double convertFileSizeToDouble(std::string const& fileSizeInString) const;
     void addStatisticForMemory(std::string const& fileName, std::string const& snapshotName, double const fileSize);
     void saveSizesForMemory(std::string const& outputPath);
 
     void initializeFileGroups();
+
 private:
     AprgFileExtractor m_fileExtractor;
-    FileNameToSnapshotNameToFileSizeMap m_fileNameToSnapshotNameToFileSize;    FileNameToSnapshotNameToFileSizeMap m_fileNameToSnapshotNameToMemorySize;
+    FileNameToSnapshotNameToFileSizeMap m_fileNameToSnapshotNameToFileSize;
+    FileNameToSnapshotNameToFileSizeMap m_fileNameToSnapshotNameToMemorySize;
     std::set<std::string> m_snapshotNames;
     std::vector<FileGroup> m_fileGroups;
     WildcardNameToSampleSizesMap m_wildcardNameToSampleSizesMap;

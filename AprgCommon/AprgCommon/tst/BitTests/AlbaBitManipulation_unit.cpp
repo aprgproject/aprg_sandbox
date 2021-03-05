@@ -6,10 +6,12 @@ namespace alba
 {
 
 TEST(AlbaBitManipulationTest, ShiftBytesToTheLeftWorks)
-{    EXPECT_EQ(0xA1u, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<0>(0xA1));
+{
+    EXPECT_EQ(0xA1u, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<0>(0xA1));
     EXPECT_EQ(0xA100u, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<1>(0xA1));
     EXPECT_EQ(0xA10000u, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<2>(0xA1));
-    EXPECT_EQ(0xA1000000u, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<3>(0xA1));}
+    EXPECT_EQ(0xA1000000u, AlbaBitManipulation<unsigned int>::shiftBytesToTheLeft<3>(0xA1));
+}
 
 TEST(AlbaBitManipulationTest, ShiftBytesToTheRightWorks)
 {

@@ -12,10 +12,12 @@ namespace alba
 
 TEST(AlbaMathHelperTest, AverageOfTwoNumbersCanBeComputed)
 {
-    EXPECT_EQ(0, getAverage(-10,10));    EXPECT_EQ(55, getAverage(10,100));
+    EXPECT_EQ(0, getAverage(-10,10));
+    EXPECT_EQ(55, getAverage(10,100));
 }
 
-TEST(AlbaMathHelperTest, AbsoluteValueCanBeComputed){
+TEST(AlbaMathHelperTest, AbsoluteValueCanBeComputed)
+{
     EXPECT_EQ(1, getAbsoluteValue(1));
     EXPECT_EQ(1, getAbsoluteValue(-1));
     EXPECT_EQ(0, getAbsoluteValue(0));

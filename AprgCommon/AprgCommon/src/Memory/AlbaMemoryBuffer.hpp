@@ -13,7 +13,8 @@ public:
     AlbaMemoryBuffer(void const* sourcePointer, unsigned int const size);
     operator bool() const;
     bool hasContent() const;
-    unsigned int getSize() const;    void* getBufferPointer();
+    unsigned int getSize() const;
+    void* getBufferPointer();
     void const* getConstantBufferPointer() const;
     void clear();
     void clearAndSetNewData(void* sourcePointer, unsigned int const size);
@@ -22,7 +23,9 @@ public:
     void* resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(unsigned int const size);
     void addData(void const* bufferPointer, unsigned int const size);
     std::string getDisplayableString() const;
+
 private:
     std::vector<unsigned char> m_buffer;
 };
+
 }//namespace alba

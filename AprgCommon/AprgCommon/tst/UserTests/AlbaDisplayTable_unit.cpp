@@ -9,10 +9,12 @@ namespace alba
 
 TEST(AlbaTableDisplay, TableCanOutputProvideText)
 {
-    DisplayTable table;    table.addRow();
+    DisplayTable table;
+    table.addRow();
     table.getLastRow().addCell("Test");
     EXPECT_EQ("Test\n", table.drawOutput());
-    cout<<table.drawOutput();}
+    cout<<table.drawOutput();
+}
 
 TEST(AlbaTableDisplay, TableCanOutputTextWithBorders)
 {

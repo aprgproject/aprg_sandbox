@@ -14,10 +14,12 @@ public:
     UnionFindUsingMap()
     {}
 
-    void connect(ObjectType const& object1, ObjectType const& object2)    {
+    void connect(ObjectType const& object1, ObjectType const& object2)
+    {
         bool isObject1LowerThanObject2(object1<object2);
         ObjectType lowerValueObject(isObject1LowerThanObject2 ? object1 : object2);
-        ObjectType higherValueObject(isObject1LowerThanObject2 ? object2 : object1);        initializeToConnectionMapIfNeeded(object1);
+        ObjectType higherValueObject(isObject1LowerThanObject2 ? object2 : object1);
+        initializeToConnectionMapIfNeeded(object1);
         initializeToConnectionMapIfNeeded(object2);
         ObjectType root(getRoot(lowerValueObject));
         m_connectionMap[lowerValueObject] = root;
