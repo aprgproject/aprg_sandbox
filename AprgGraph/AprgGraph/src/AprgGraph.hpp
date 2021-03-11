@@ -46,14 +46,16 @@ private:
     Point convertBitmapXYToRealPoint(BitmapXY const& bitmapPosition) const;
     Point convertRealPointToBitmapPoint(Point const& realPosition) const;
     BitmapXY convertBitmapPointToBitmapXY(Point const& bitmapPosition) const;
+    unsigned int convertRealXCoordinateToBitmapXCoordinate(double const xCoordinate) const;
+    unsigned int convertRealYCoordinateToBitmapYCoordinate(double const yCoordinate) const;
+    double convertBitmapXCoordinateToRealXCoordinate(double const xCoordinate) const;
+    double convertBitmapYCoordinateToRealYCoordinate(double const yCoordinate) const;
     AprgBitmap m_bitmap;
     AprgBitmapSnippet m_bitmapSnippet;
-    BitmapXY m_originInBitmap;
-    BitmapDoubleXY m_magnification;
+    BitmapXY m_originInBitmap;    BitmapDoubleXY m_magnification;
     double m_lowestInterval;
     Point m_realUpLeftPoint;
-    Point m_realDownRightPoint;
-    alba::stringHelper::NumberToStringConverter m_numberToStringConverter;
+    Point m_realDownRightPoint;    alba::stringHelper::NumberToStringConverter m_numberToStringConverter;
 };
 
 }
