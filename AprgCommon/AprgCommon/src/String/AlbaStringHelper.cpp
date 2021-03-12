@@ -7,6 +7,7 @@
 #include <cctype>
 #include <functional>
 #include <iomanip>
+#include <numeric>
 #include <set>
 #include <sstream>
 #include <typeinfo>
@@ -27,7 +28,8 @@ unsigned int stringHelper::getLevenshteinDistance(string const& mainString, stri
     unsigned int i = 0;
     generate(previous.begin(), previous.end(), [&] {return i++; });
 
-    for (i = 0; i < mainStringLength; ++i)    {
+    for (i = 0; i < mainStringLength; ++i)
+    {
         current[0] = i + 1;
 
         for (unsigned int j = 0; j < string2Length; ++j)
@@ -35,9 +37,11 @@ unsigned int stringHelper::getLevenshteinDistance(string const& mainString, stri
             unsigned int cost = mainString[i] == string2[j] ? 0 : 1;
             current[j + 1] = min(min(current[j] + 1, previous[j + 1] + 1), previous[j] + cost);
         }
+
         current.swap(previous);
     }
-    return previous[string2Length];}
+    return previous[string2Length];
+}
 
 unsigned int stringHelper::generateUniqueId(string const& mainString)
 {
@@ -68,14 +72,17 @@ string stringHelper::getRandomAlphaNumericString(unsigned int const length)
     });
     return result;
 }
+
 bool stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(string const& mainString, string const& string2)
 {
     return isNotNpos(static_cast<int>(mainString.find(string2)));
 }
 
-bool stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(string const& mainString, string const& string2){
+bool stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(string const& mainString, string const& string2)
+{
     return isStringFoundInsideTheOtherStringCaseSensitive(getStringWithCapitalLetters(mainString), getStringWithCapitalLetters(string2));
 }
+
 bool stringHelper::isEqualNotCaseSensitive(string const& mainString, string const& string2)
 {
     return getStringWithCapitalLetters(mainString) == getStringWithCapitalLetters(string2);
@@ -137,10 +144,12 @@ bool stringHelper::transformReplaceStringIfFound(string& mainString, string cons
     while(isNotNpos(static_cast<int>(index)))
     {
         found = true;
-        mainString.replace(index, toReplaceLength, replaceWith);        index = mainString.find(toReplace, index + replaceWithLength);
+        mainString.replace(index, toReplaceLength, replaceWith);
+        index = mainString.find(toReplace, index + replaceWithLength);
     }
     return found;
 }
+
 
 template <stringHelper::SplitStringType splitStringType> void stringHelper::splitToStrings(stringHelper::strings & listOfStrings, std::string const& mainString, std::string const& delimiters)
 {
@@ -151,10 +160,12 @@ template <stringHelper::SplitStringType splitStringType> void stringHelper::spli
     while(isNotNpos(static_cast<int>(delimiterIndex)))
     {
         if(startingIndexOfFind != delimiterIndex)
-        {            listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, delimiterIndex-startingIndexOfFind));
+        {
+            listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, delimiterIndex-startingIndexOfFind));
         }
         if(SplitStringType::WithDelimeters == splitStringType)
-        {            listOfStrings.emplace_back(mainString.substr(delimiterIndex, delimeterLength));
+        {
+            listOfStrings.emplace_back(mainString.substr(delimiterIndex, delimeterLength));
         }
         startingIndexOfFind = delimiterIndex + delimeterLength;
         delimiterIndex = mainString.find_first_of(delimiters, startingIndexOfFind);
@@ -217,10 +228,12 @@ void stringHelper::splitLinesToAchieveTargetLength(stringHelper::strings & strin
             int upperDelta = static_cast<int>(upperTransitionIndex-splittingIndex);
 
             bool isUpperValid(upperDelta >= 0);
-            bool isLowerValid(lowerDelta >= 0 && lowerTransitionIndex != previousSplittingIndex);            if(isUpperValid && isLowerValid)
+            bool isLowerValid(lowerDelta >= 0 && lowerTransitionIndex != previousSplittingIndex);
+            if(isUpperValid && isLowerValid)
             {
                 if(upperDelta < lowerDelta)
-                {                    splittingIndex = upperTransitionIndex;
+                {
+                    splittingIndex = upperTransitionIndex;
                 }
                 else
                 {
@@ -258,10 +271,12 @@ void stringHelper::splitToStringsUsingASeriesOfDelimeters(strings & listOfString
             if(isNpos(static_cast<int>(delimiterIndex)))
             {
                 break;
-            }            if(startingIndexOfFind != delimiterIndex)
+            }
+            if(startingIndexOfFind != delimiterIndex)
             {
                 listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, delimiterIndex-startingIndexOfFind));
-            }            startingIndexOfFind = delimiterIndex + delimeter.length();
+            }
+            startingIndexOfFind = delimiterIndex + delimeter.length();
         }
         if(startingIndexOfFind != mainStringLength)
         {
@@ -290,10 +305,12 @@ string stringHelper::getStringWithFirstNonWhiteSpaceCharacterToCapital(string co
             result[i] = static_cast<char>(::toupper(result[i]));
             break;
         }
-    }    return result;
+    }
+    return result;
 }
 
-string stringHelper::getStringWithLowerCaseLetters(string const& mainString){
+string stringHelper::getStringWithLowerCaseLetters(string const& mainString)
+{
     string result;
     result.resize(mainString.length());
     transform(mainString.begin(), mainString.end(), result.begin(), ::tolower);
@@ -312,10 +329,12 @@ string stringHelper::getStringWithUrlDecodedString(string const& mainString)
                 isHexDigit(mainString[index + 2]))
         {
             result += convertHexStringToNumber<char>(mainString.substr(index + 1, 2));
-            index += 3;        }
+            index += 3;
+        }
         else
         {
-            result += mainString[index++];        }
+            result += mainString[index++];
+        }
     }
     return result;
 }
@@ -327,7 +346,8 @@ string stringHelper::getStringThatContainsWhiteSpaceIndention(string const& main
     if(isNotNpos(static_cast<int>(firstIndexOfNotOfCharacters)))
     {
         result = mainString.substr(0, firstIndexOfNotOfCharacters);
-    }    return result;
+    }
+    return result;
 }
 
 string stringHelper::getStringWithoutStartingAndTrailingCharacters(string const& mainString, string const& characters)
@@ -341,10 +361,12 @@ string stringHelper::getStringWithoutStartingAndTrailingCharacters(string const&
         if(isNotNpos(static_cast<int>(lastIndexOfOfNotOfCharacters)))
         {
             result.erase(lastIndexOfOfNotOfCharacters+1);
-        }    }
+        }
+    }
     else
     {
-        result.clear();    }
+        result.clear();
+    }
     return result;
 }
 
@@ -359,10 +381,12 @@ string stringHelper::getStringWithoutWhiteSpace(string const& mainString)
     unsigned int index = 0, length = mainString.length();
     while(index < length)
     {
-        if(!isWhiteSpace(mainString[index]))        {
+        if(!isWhiteSpace(mainString[index]))
+        {
             result+=mainString[index];
         }
-        index++;    }
+        index++;
+    }
     return result;
 }
 
@@ -378,7 +402,8 @@ string stringHelper::getStringWithoutRedundantWhiteSpace(string const& mainStrin
         index = (isNotNpos(static_cast<int>(indexWhiteSpace))) ? indexWhiteSpace : length;
         result += (!result.empty()) ? " " : "";
         result += mainString.substr(indexNotWhiteSpace, index-indexNotWhiteSpace);
-    }    return result;
+    }
+    return result;
 }
 
 string stringHelper::getStringWithoutQuotations(string const& mainString)
@@ -386,9 +411,11 @@ string stringHelper::getStringWithoutQuotations(string const& mainString)
     unsigned int length = mainString.length();
     if(length>2 && mainString[0] == '\"' && mainString[length-1] == '\"')
     {
-        return mainString.substr(1, length-2);    }
+        return mainString.substr(1, length-2);
+    }
     return mainString;
 }
+
 string stringHelper::getStringWithoutCharAtTheStartAndEnd(string const& mainString, char const char1)
 {
     return getStringWithoutCharAtTheStart(getStringWithoutCharAtTheEnd(mainString, char1), char1);
@@ -415,6 +442,7 @@ string stringHelper::getStringWithoutOpeningClosingOperators(string const& mainS
     unsigned int end = (length <= 0) ? 0 : (mainString[length-1] == closingOperator) ? length-1 : length;
     return mainString.substr(start, end-start);
 }
+
 void stringHelper::copyBeforeStringAndAfterString(
         string const& mainString,
         string const& stringToSearch,
@@ -440,7 +468,8 @@ string stringHelper::getStringBeforeThisString(string const& mainString, string 
     if(isNotNpos(static_cast<int>(firstIndexOfFirstString)))
     {
         result = mainString.substr(0, firstIndexOfFirstString);
-    }    return result;
+    }
+    return result;
 }
 
 string stringHelper::getStringAfterThisString(string const& mainString, string const& stringToSearch, unsigned int const indexToStart)
@@ -466,7 +495,8 @@ string stringHelper::getStringInBetweenTwoStrings(string const& mainString, stri
         if(isNotNpos(static_cast<int>(firstIndexOfSecondString)))
         {
             result = mainString.substr(lastIndexOfFirstString, firstIndexOfSecondString-lastIndexOfFirstString);
-        }    }
+        }
+    }
     return result;
 }
 
@@ -477,10 +507,12 @@ string stringHelper::getStringBeforeThisCharacters(string const& mainString, str
     if(isNotNpos(static_cast<int>(firstIndexOfNotOfCharacters)))
     {
         result = mainString.substr(indexToStart, firstIndexOfNotOfCharacters-indexToStart);
-    }    return result;
+    }
+    return result;
 }
 
-string stringHelper::getStringByRepeatingUntilDesiredLength(std::string const& stringToRepeat, unsigned int desiredLength){
+string stringHelper::getStringByRepeatingUntilDesiredLength(std::string const& stringToRepeat, unsigned int desiredLength)
+{
     string result;
     if(!stringToRepeat.empty())
     {
@@ -524,7 +556,8 @@ string stringHelper::getNumberAfterThisString(string const& mainString, string c
         unsigned int lastIndexOfNumber;
         for(lastIndexOfNumber = lastIndexOfFirstString; stringHelper::isNumber(mainString[lastIndexOfNumber]); ++lastIndexOfNumber);
         result = mainString.substr(lastIndexOfFirstString, lastIndexOfNumber-lastIndexOfFirstString);
-    }    return result;
+    }
+    return result;
 }
 
 string stringHelper::getHexNumberAfterThisString(string const& mainString, string const& stringToSearch)
@@ -544,10 +577,12 @@ string stringHelper::getHexNumberAfterThisString(string const& mainString, strin
 string stringHelper::getStringWithJustifyAlignment(string const& mainString, unsigned int const length)
 {
     string result;
-    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));    string noWhiteSpace(getStringWithoutWhiteSpace(mainString));
+    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
+    string noWhiteSpace(getStringWithoutWhiteSpace(mainString));
     if(mainString.empty())
     {
-        string gap(length, ' ');        result = gap;
+        string gap(length, ' ');
+        result = gap;
     }
     else if(noRedundantWhiteSpace.length()>=length)
     {
@@ -589,10 +624,12 @@ string stringHelper::getStringWithJustifyAlignment(string const& mainString, uns
 string stringHelper::getStringWithCenterAlignment(string const& mainString, unsigned int const length)
 {
     string result;
-    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));    if(mainString.empty())
+    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
+    if(mainString.empty())
     {
         string gap(length, ' ');
-        result = gap;    }
+        result = gap;
+    }
     else if(noRedundantWhiteSpace.length()>=length)
     {
         result = noRedundantWhiteSpace;
@@ -610,10 +647,12 @@ string stringHelper::getStringWithCenterAlignment(string const& mainString, unsi
 string stringHelper::getStringWithRightAlignment(string const& mainString, unsigned int const length)
 {
     string result;
-    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));    if(mainString.empty())
+    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
+    if(mainString.empty())
     {
         string gap(length, ' ');
-        result = gap;    }
+        result = gap;
+    }
     else if(noRedundantWhiteSpace.length()>=length)
     {
         result = noRedundantWhiteSpace;
@@ -630,10 +669,12 @@ string stringHelper::getStringWithRightAlignment(string const& mainString, unsig
 string stringHelper::getStringWithLeftAlignment(string const& mainString, unsigned int const length)
 {
     string result;
-    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));    if(mainString.empty())
+    string noRedundantWhiteSpace(getStringWithoutRedundantWhiteSpace(mainString));
+    if(mainString.empty())
     {
         string gap(length, ' ');
-        result = gap;    }
+        result = gap;
+    }
     else if(noRedundantWhiteSpace.length()>=length)
     {
         result = noRedundantWhiteSpace;
@@ -654,7 +695,8 @@ string stringHelper::getCorrectPathWithoutUrlParameters(string const& path)
     if(stringHelper::isNotNpos(static_cast<int>(indexOfQuestionMark)))
     {
             correctPathWithoutUrlParameters = path.substr(0, indexOfQuestionMark);
-    }    return correctPathWithoutUrlParameters;
+    }
+    return correctPathWithoutUrlParameters;
 }
 
 string stringHelper::getUrlParameters(string const& path)
@@ -664,10 +706,12 @@ string stringHelper::getUrlParameters(string const& path)
     if(stringHelper::isNotNpos(static_cast<int>(indexOfQuestionMark)))
     {
             urlParameters = path.substr(indexOfQuestionMark);
-    }    return urlParameters;
+    }
+    return urlParameters;
 }
 
-string stringHelper::getCorrectPathWithReplacedSlashCharacters(string const& path, string const& slashCharacterString){
+string stringHelper::getCorrectPathWithReplacedSlashCharacters(string const& path, string const& slashCharacterString)
+{
     bool isSlashDetected = false;
     string correctPath = accumulate(path.cbegin(), path.cend(), string(""),
                                          [&isSlashDetected, slashCharacterString]
@@ -702,10 +746,12 @@ string stringHelper::getCorrectPathWithoutDoublePeriod(string const& mainString,
             if(isNotNpos(static_cast<int>(indexOfNearestSlash)))
             {
                 isDirectoryChanged = true;
-                correctPath.erase(indexOfNearestSlash, indexOfDoublePeriod+3-indexOfNearestSlash);            }
+                correctPath.erase(indexOfNearestSlash, indexOfDoublePeriod+3-indexOfNearestSlash);
+            }
         }
     }
-    return correctPath;}
+    return correctPath;
+}
 
 string stringHelper::getStringBeforeDoublePeriod(string const& mainString, string const& slashCharacterString)
 {
@@ -713,7 +759,8 @@ string stringHelper::getStringBeforeDoublePeriod(string const& mainString, strin
     if(isNotNpos(static_cast<int>(indexOfLastDoublePeriod)))
     {
         return mainString.substr(indexOfLastDoublePeriod+3);
-    }    return mainString;
+    }
+    return mainString;
 }
 
 string stringHelper::getImmediateDirectoryName(string const& mainString, string const& slashCharacterString)
@@ -726,10 +773,12 @@ string stringHelper::getImmediateDirectoryName(string const& mainString, string 
         if(isNpos(static_cast<int>(indexOfLastSlashString)))
         {
             break;
-        }        result = mainString.substr(indexOfLastSlashString+1, indexLastCharacterToSearch-indexOfLastSlashString);
+        }
+        result = mainString.substr(indexOfLastSlashString+1, indexLastCharacterToSearch-indexOfLastSlashString);
         indexLastCharacterToSearch = indexOfLastSlashString-1;
     }
-    return result;}
+    return result;
+}
 
 template<char slashCharacter>
 string stringHelper::getCorrectPathWithReplacedSlashCharacters(string const& path)
@@ -805,10 +854,12 @@ NumberType stringHelper::convertStringToNumber(string const& stringToConvert)
                 value = value + ((static_cast<NumberType>(currentCharacter - '0')) / static_cast<NumberType>(decimalPlacesInPowersOfTen));
                 decimalPlacesInPowersOfTen*=10;
             }
-        }        else if(currentCharacter == '-' && isNumberNotYetEncountered)
+        }
+        else if(currentCharacter == '-' && isNumberNotYetEncountered)
         {
             negative *= -1;
-        }        else if(currentCharacter == '.')
+        }
+        else if(currentCharacter == '.')
         {
             isPeriodNotYetEncountered = false;
         }
@@ -816,9 +867,11 @@ NumberType stringHelper::convertStringToNumber(string const& stringToConvert)
     return value*static_cast<NumberType>(negative);
 }
 
-template int stringHelper::convertStringToNumber<int>(string const& stringToConvert);template unsigned int stringHelper::convertStringToNumber<unsigned int>(string const& stringToConvert);
+template int stringHelper::convertStringToNumber<int>(string const& stringToConvert);
+template unsigned int stringHelper::convertStringToNumber<unsigned int>(string const& stringToConvert);
 template float stringHelper::convertStringToNumber<float>(string const& stringToConvert);
 template double stringHelper::convertStringToNumber<double>(string const& stringToConvert);
+
 template <typename NumberType>
 NumberType stringHelper::convertHexStringToNumber(string const& stringToConvert)
 {
@@ -841,10 +894,12 @@ NumberType stringHelper::convertHexStringToNumber(string const& stringToConvert)
                 value += static_cast<NumberType>(currentCharacter - 'a' + 10);
             }
         }
-    }    return value;
+    }
+    return value;
 }
 
-template char stringHelper::convertHexStringToNumber<char>(string const& stringToConvert);template int stringHelper::convertHexStringToNumber<int>(string const& stringToConvert);
+template char stringHelper::convertHexStringToNumber<char>(string const& stringToConvert);
+template int stringHelper::convertHexStringToNumber<int>(string const& stringToConvert);
 template unsigned int stringHelper::convertHexStringToNumber<unsigned int>(string const& stringToConvert);
 template unsigned char stringHelper::convertHexStringToNumber<unsigned char>(string const& stringToConvert);
 
@@ -883,9 +938,11 @@ void stringHelper::NumberToStringConverter::setFieldWidth(int const fieldWidth)
 {
     m_fieldWidthOptional.setValue(fieldWidth);
 }
+
 void stringHelper::NumberToStringConverter::setFillCharacter(char const fillCharacter)
 {
-    m_fillCharacterOptional.setValue(fillCharacter);}
+    m_fillCharacterOptional.setValue(fillCharacter);
+}
 
 void stringHelper::NumberToStringConverter::setMaximumLength(unsigned int const maximumLength)
 {

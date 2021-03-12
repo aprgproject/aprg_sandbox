@@ -6,6 +6,7 @@
 
 namespace alba
 {
+
 class PidSimulator
 {
 public:

@@ -2,13 +2,13 @@
 
 #include <Time/AlbaDateTime.hpp>
 
-#include <windows.h>
+#include <ctime>
 
 namespace alba
 {
 
 void sleep(unsigned int const milliSeconds);
 AlbaDateTime getCurrentDateTime();
-AlbaDateTime convertSystemTimeToAlbaDateTime(SYSTEMTIME const& systemTime);
+AlbaDateTime convertSystemTimeToAlbaDateTime(struct timespec const& timeSpec);
 
 }//namespace alba

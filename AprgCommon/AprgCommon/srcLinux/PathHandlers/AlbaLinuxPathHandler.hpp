@@ -10,16 +10,15 @@
 namespace alba
 {
 
-class AlbaWindowsPathHandler: public AlbaPathHandler
+class AlbaLinuxPathHandler: public AlbaPathHandler
 {
 public:
     typedef std::set<std::string> ListOfPaths;
-    AlbaWindowsPathHandler(PathInitialValueSource const initialValueSource);
-    AlbaWindowsPathHandler(std::string const& path);
-    virtual ~AlbaWindowsPathHandler();
+    AlbaLinuxPathHandler(PathInitialValueSource const initialValueSource);
+    AlbaLinuxPathHandler(std::string const& path);
+    virtual ~AlbaLinuxPathHandler();
 
     void clear() override;
-    std::string getDriveOrRoot() const;
     double getFileSizeEstimate();
     AlbaDateTime getFileCreationTime();
     bool isFoundInLocalSystem() const;
@@ -48,14 +47,14 @@ public:
             ListOfPaths& listOfDirectories) const;
 private:
     void save(std::string const& path) override;
-    void setDriveOrRoot();
     void findFilesAndDirectoriesWithDepth(
             std::string const& currentDirectory,
             std::string const& wildCardSearch,
             ListOfPaths& listOfFiles,
             ListOfPaths& listOfDirectories,
             int depth) const;
-    std::string m_driveOrRoot;
+    bool isPathADirectory(std::string const& fileOrDirectoryName) const;
+    bool canBeLocated(std::string const& fileOrDirectoryName) const;
     bool m_foundInLocalSystem;
     bool m_relativePath;
 };

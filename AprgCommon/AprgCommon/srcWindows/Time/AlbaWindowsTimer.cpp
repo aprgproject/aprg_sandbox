@@ -1,6 +1,7 @@
 #include "AlbaWindowsTimer.hpp"
 
 #include <Time/AlbaDateTimeConstants.hpp>
+#include <Time/AlbaWindowsTimeHelper.hpp>
 
 namespace alba
 {
@@ -22,13 +23,12 @@ void AlbaWindowsTimer::stopTimer()
 
 void AlbaWindowsTimer::sleep(unsigned int const milliSeconds)
 {
-    Sleep(milliSeconds);
+    alba::sleep(milliSeconds);
 }
 
 unsigned int AlbaWindowsTimer::getElapsedTimeInMilliseconds() const
 {
-    unsigned int difference;
-    difference = (m_time2.wHour - m_time1.wHour)*AlbaDateTimeConstants::NUMBER_OF_MILLISECONDS_IN_AN_HOUR;
+    unsigned int difference = (m_time2.wHour - m_time1.wHour)*AlbaDateTimeConstants::NUMBER_OF_MILLISECONDS_IN_AN_HOUR;
     difference = difference + (m_time2.wMinute - m_time1.wMinute)*AlbaDateTimeConstants::NUMBER_OF_MILLISECONDS_IN_A_MINUTE;
     difference = difference + (m_time2.wSecond - m_time1.wSecond)*AlbaDateTimeConstants::NUMBER_OF_MILLISECONDS_IN_A_SECOND;
     difference = difference + (m_time2.wMilliseconds - m_time1.wMilliseconds);
@@ -37,8 +37,7 @@ unsigned int AlbaWindowsTimer::getElapsedTimeInMilliseconds() const
 
 unsigned int AlbaWindowsTimer::getElapsedTimeInSeconds() const
 {
-    unsigned int difference;
-    difference = (m_time2.wHour - m_time1.wHour)*AlbaDateTimeConstants::NUMBER_OF_SECONDS_IN_AN_HOUR;
+    unsigned int difference = (m_time2.wHour - m_time1.wHour)*AlbaDateTimeConstants::NUMBER_OF_SECONDS_IN_AN_HOUR;
     difference = difference + (m_time2.wMinute - m_time1.wMinute)*AlbaDateTimeConstants::NUMBER_OF_SECONDS_IN_A_MINUTE;
     difference = difference + (m_time2.wSecond - m_time1.wSecond);
     return difference;
@@ -46,17 +45,14 @@ unsigned int AlbaWindowsTimer::getElapsedTimeInSeconds() const
 
 unsigned int AlbaWindowsTimer::getElapsedTimeInMinutes() const
 {
-    unsigned int difference;
-    difference = (m_time2.wHour - m_time1.wHour)*AlbaDateTimeConstants::NUMBER_OF_MINUTES_IN_AN_HOUR;
+    unsigned int difference = (m_time2.wHour - m_time1.wHour)*AlbaDateTimeConstants::NUMBER_OF_MINUTES_IN_AN_HOUR;
     difference = difference + (m_time2.wMinute - m_time1.wMinute);
     return difference;
 }
 
 unsigned int AlbaWindowsTimer::getElapsedTimeInHours() const
 {
-    unsigned int difference;
-    difference = (m_time2.wHour - m_time1.wHour);
-    return difference;
+    return m_time2.wHour - m_time1.wHour;
 }
 
 }//namespace alba

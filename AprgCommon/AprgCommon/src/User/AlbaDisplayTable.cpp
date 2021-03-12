@@ -2,6 +2,8 @@
 
 #include <String/AlbaStringHelper.hpp>
 
+#include <algorithm>
+
 using namespace std;
 
 namespace alba
@@ -204,7 +206,7 @@ void DisplayTable::calculateLengthPerColumn()
         {
             if(row.isAlign())
             {
-                m_calculatedLengthPerColumn[column] = std::max(m_calculatedLengthPerColumn[column], cell.getText().size());
+                m_calculatedLengthPerColumn[column] = std::max(m_calculatedLengthPerColumn[column], static_cast<unsigned int>(cell.getText().size()));
             }
             column++;
         }

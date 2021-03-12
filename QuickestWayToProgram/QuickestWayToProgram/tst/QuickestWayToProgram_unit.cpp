@@ -39,10 +39,12 @@ TEST(SampleTest, LrmDirectoriesToFind)
 
 TEST(SampleTest, FormatPrints)
 {
-    AlbaLocalPathHandler pathHandler(R"(C:\ZZZ_Logs\PR400441\LF_DSS_OFF\WholeLogsToAnalyze_NoTimeStamp.log)");    ofstream formattedLogStream(R"(C:\ZZZ_Logs\PR400441\LF_DSS_OFF\WholeLogsToAnalyze_Sorted.log)");
+    AlbaLocalPathHandler pathHandler(R"(C:\ZZZ_Logs\PR400441\LF_DSS_OFF\WholeLogsToAnalyze_NoTimeStamp.log)");
+    ofstream formattedLogStream(R"(C:\ZZZ_Logs\PR400441\LF_DSS_OFF\WholeLogsToAnalyze_Sorted.log)");
     ifstream logStream(pathHandler.getFullPath());
 
-    set<string> uniqueAndSortedStrings;    if(logStream.is_open())
+    set<string> uniqueAndSortedStrings;
+    if(logStream.is_open())
     {
         AlbaFileReader logFileReader(logStream);
 
@@ -60,10 +62,12 @@ TEST(SampleTest, FormatPrints)
 
 void saveMaxLengthString(string & finalPrint, unsigned int & maxLength, string const& samplePrint)
 {
-    if(samplePrint.length() > maxLength)    {
+    if(samplePrint.length() > maxLength)
+    {
         finalPrint = samplePrint;
         maxLength = samplePrint.length();
-    }}
+    }
+}
 
 TEST(SampleTest, FormatPrints)
 {

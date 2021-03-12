@@ -3,8 +3,8 @@
 #include <Bit/AlbaBitManipulation.hpp>
 #include <String/AlbaStringHelper.hpp>
 
-#include <algorithm>
 #include <fstream>
+#include <numeric>
 #include <string>
 
 using namespace std;

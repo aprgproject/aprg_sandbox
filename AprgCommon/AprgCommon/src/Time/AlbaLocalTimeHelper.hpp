@@ -2,17 +2,12 @@
 
 #ifdef OS_WINDOWS
 #include <Time/AlbaWindowsTimeHelper.hpp>
-#else
-static_assert(false, "WINDOWS is only the supported OS yet.");
 #endif
 
-namespace alba
-{
-
-#ifdef OS_WINDOWS
-class AlbaLocalTimeHelper: public AlbaWindowsTimeHelper
+#ifdef OS_LINUX
+#include <Time/AlbaLinuxTimeHelper.hpp>
 #endif
-{
-};
 
-}//namespace alba
+#if !defined(OS_WINDOWS) && !defined(OS_LINUX)
+static_assert(false, "WINDOWS and LINUX are the only supported OS yet.");
+#endif

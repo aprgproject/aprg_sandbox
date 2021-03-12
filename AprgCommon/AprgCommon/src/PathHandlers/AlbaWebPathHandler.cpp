@@ -17,6 +17,9 @@ AlbaWebPathHandler::AlbaWebPathHandler(string const& path)
     save(path);
 }
 
+AlbaWebPathHandler::~AlbaWebPathHandler()
+{}
+
 void AlbaWebPathHandler::clear()
 {
     AlbaPathHandler::clear();

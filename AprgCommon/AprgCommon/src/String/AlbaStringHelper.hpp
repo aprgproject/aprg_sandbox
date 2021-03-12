@@ -34,7 +34,8 @@ bool isOneWord(std::string const& mainString);
 void fetchArgumentsToStringInMain(strings & argumentsInMain, int const argc, char const * const argv[]);
 bool transformReplaceStringIfFound(std::string & mainString, std::string const& toReplace, std::string const& replaceWith);
 enum class SplitStringType
-{    WithDelimeters,
+{
+    WithDelimeters,
     WithoutDelimeters
 };
 template <SplitStringType splitStringType> void splitToStrings(strings & listOfStrings, std::string const& mainString, std::string const& delimiters);
@@ -42,10 +43,12 @@ std::string combineStrings(strings const& strings, std::string const& delimiters
 void splitLinesToAchieveTargetLength(strings & listOfStrings, std::string const& mainString, unsigned int const targetLength);
 void splitToStringsUsingASeriesOfDelimeters(strings & listOfStrings, std::string const& mainString, strings const& seriesOfDelimiters);
 
-std::string getStringWithCapitalLetters(std::string const& mainString);std::string getStringWithFirstNonWhiteSpaceCharacterToCapital(std::string const& mainString);
+std::string getStringWithCapitalLetters(std::string const& mainString);
+std::string getStringWithFirstNonWhiteSpaceCharacterToCapital(std::string const& mainString);
 std::string getStringWithLowerCaseLetters(std::string const& mainString);
 std::string getStringWithUrlDecodedString(std::string const& mainString);
-std::string getStringThatContainsWhiteSpaceIndention(std::string const& mainString);std::string getStringWithoutStartingAndTrailingCharacters(std::string const& mainString, std::string const& characters);
+std::string getStringThatContainsWhiteSpaceIndention(std::string const& mainString);
+std::string getStringWithoutStartingAndTrailingCharacters(std::string const& mainString, std::string const& characters);
 std::string getStringWithoutStartingAndTrailingWhiteSpace(std::string const& mainString);
 std::string getStringWithoutWhiteSpace(std::string const& mainString);
 std::string getStringWithoutRedundantWhiteSpace(std::string const& mainString);
@@ -70,10 +73,12 @@ std::string getStringWithRightAlignment(std::string const& mainString, unsigned 
 std::string getStringWithLeftAlignment(std::string const& mainString, unsigned int const length);
 
 std::string getCorrectPathWithoutUrlParameters(std::string const& path);
-std::string getUrlParameters(std::string const& path);std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path, std::string const& slashCharacterString);
+std::string getUrlParameters(std::string const& path);
+std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path, std::string const& slashCharacterString);
 std::string getCorrectPathWithoutDoublePeriod(std::string const& mainString, std::string const& slashCharacterString);
 std::string getStringBeforeDoublePeriod(std::string const& mainString, std::string const& slashCharacterString);
-std::string getImmediateDirectoryName(std::string const& mainString, std::string const& slashCharacterString);template<char slashCharacterString> std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path);
+std::string getImmediateDirectoryName(std::string const& mainString, std::string const& slashCharacterString);
+template<char slashCharacterString> std::string getCorrectPathWithReplacedSlashCharacters(std::string const& path);
 template<char slashCharacterString> std::string getCorrectPathWithoutDoublePeriod(std::string const& path);
 template<char slashCharacterString> std::string getStringBeforeDoublePeriod(std::string const& path);
 template<char slashCharacterString> std::string getImmediateDirectoryName(std::string const& path);
@@ -96,9 +101,11 @@ private:
     alba::AlbaOptional<char> m_fillCharacterOptional;
     alba::AlbaOptional<unsigned int> m_maximumLengthOptional;
 };
+
 inline bool isWhiteSpace(char const c)
 {
-    return (' '==c || '\t'==c || '\n'==c || '\r'==c);}
+    return (' '==c || '\t'==c || '\n'==c || '\r'==c);
+}
 
 inline bool isNewline(char const c)
 {
@@ -116,9 +123,11 @@ inline bool isNpos(int const index)
     return static_cast<int>(std::string::npos) == index;
 }
 
-inline bool isValidIndex(int const index, int const stringLength){
+inline bool isValidIndex(int const index, int const stringLength)
+{
     return  isNotNpos(index) && 0 <= index  && stringLength >= index;
 }
+
 inline bool isCapitalLetter(char const c)
 {
     return ('A'<=c && 'Z'>=c) ;
@@ -169,7 +178,8 @@ inline bool isNotEmptyLine(std::string const& mainString)
     return isNotNpos(static_cast<int>(mainString.find_first_not_of(WHITESPACE_STRING)));
 }
 
-inline bool isPeriodOrDoublePeriod(std::string const& mainString){
+inline bool isPeriodOrDoublePeriod(std::string const& mainString)
+{
     return ("."==mainString)||(".."==mainString);
 }
 
@@ -179,4 +189,5 @@ inline bool isLessThanStringLength(std::string const& mainString, int const inde
 }
 
 } //namespace stringHelper
+
 }//namespace alba

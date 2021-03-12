@@ -31,6 +31,9 @@ AlbaWindowsPathHandler::AlbaWindowsPathHandler(string const& path)
     save(path);
 }
 
+~AlbaWindowsPathHandler::AlbaWindowsPathHandler()
+{}
+
 void AlbaWindowsPathHandler::clear()
 {
     AlbaPathHandler::clear();
@@ -68,7 +71,7 @@ AlbaDateTime AlbaWindowsPathHandler::getFileCreationTime()
     {
         SYSTEMTIME fileCreationTimeInSystemTime;
         FileTimeToSystemTime(&(attributeData.ftCreationTime), &fileCreationTimeInSystemTime);
-        fileCreationTime = AlbaWindowsTimeHelper().convertSystemTimeToAlbaDateTime(fileCreationTimeInSystemTime);
+        fileCreationTime = convertSystemTimeToAlbaDateTime(fileCreationTimeInSystemTime);
     }
     else
     {

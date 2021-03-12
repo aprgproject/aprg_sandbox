@@ -3,19 +3,19 @@
 namespace alba
 {
 
-void AlbaWindowsTimeHelper::sleep(unsigned int const milliSeconds)
+void sleep(unsigned int const milliSeconds)
 {
     Sleep(milliSeconds);
 }
 
-AlbaDateTime AlbaWindowsTimeHelper::getCurrentDateTime()
+AlbaDateTime getCurrentDateTime()
 {
     SYSTEMTIME currentTime;
     GetSystemTime(&currentTime);
     return convertSystemTimeToAlbaDateTime(currentTime);
 }
 
-AlbaDateTime AlbaWindowsTimeHelper::convertSystemTimeToAlbaDateTime(SYSTEMTIME const& systemTime)
+AlbaDateTime convertSystemTimeToAlbaDateTime(SYSTEMTIME const& systemTime)
 {
     return AlbaDateTime(systemTime.wYear,
                         systemTime.wMonth,

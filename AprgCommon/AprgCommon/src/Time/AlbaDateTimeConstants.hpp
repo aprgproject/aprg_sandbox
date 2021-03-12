@@ -6,6 +6,9 @@ namespace alba
 namespace AlbaDateTimeConstants
 {
 
+unsigned int const NUMBER_OF_NANOSECONDS_IN_A_MICROSECOND = 1000;
+
+unsigned int const NUMBER_OF_MICROSECONDS_IN_A_MILLISECOND = 1000;
 unsigned int const NUMBER_OF_MICROSECONDS_IN_A_SECOND = 1000000;
 
 unsigned int const NUMBER_OF_MILLISECONDS_IN_A_SECOND = 1000;

@@ -1,8 +1,8 @@
 #include "AlbaRandomizer.hpp"
 
-#include <math.h>
+#include <Time/AlbaLinuxTimeHelper.hpp>
 
-#include <windows.h>
+#include <cmath>
 
 namespace alba
 {
@@ -14,9 +14,7 @@ AlbaRandomizer::AlbaRandomizer()
 
 void AlbaRandomizer::resetRandomSeed()
 {
-    SYSTEMTIME time;
-    GetSystemTime(&time);
-    srand(time.wMilliseconds);
+    srand(getCurrentDateTime().getMicroSeconds());
 }
 
 int AlbaRandomizer::getRandomValueInUniformDistribution(int const first, int const second) const
@@ -25,8 +23,8 @@ int AlbaRandomizer::getRandomValueInUniformDistribution(int const first, int con
     int maximum = (first>second) ? first : second;
     int numberOfRandomValues(maximum-minimum+1);
 
-    double randomRealValue((double)rand()*numberOfRandomValues/(RAND_MAX+1));
-    return minimum+floor(randomRealValue);
+    double randomRealValue(static_cast<double>(rand())*numberOfRandomValues/(static_cast<double>(RAND_MAX)+1));
+    return static_cast<int>(minimum+floor(randomRealValue));
 }
 
 }//namespace alba

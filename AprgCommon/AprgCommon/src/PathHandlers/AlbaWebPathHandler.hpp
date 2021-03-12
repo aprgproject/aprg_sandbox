@@ -11,6 +11,8 @@ class AlbaWebPathHandler: public AlbaPathHandler
 {
 public:
     AlbaWebPathHandler(std::string const& path);
+    virtual ~AlbaWebPathHandler() override;
+
     void clear() override;
     std::string getFullPath() const override;
     std::string getDirectory() const override;

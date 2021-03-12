@@ -1,6 +1,7 @@
 #include <DirectoryConstants.hpp>
 #include <File/AlbaFileParameterReader.hpp>
 #include <File/AlbaFileParameterWriter.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 #include <gtest/gtest.h>
 
@@ -13,7 +14,8 @@ namespace alba
 
 TEST(ReaderWriterParameterTest, EmptyFileTest)
 {
-    ifstream readTestFile(APRG_COMMON_EMPTY_TEST_FILE);
+    AlbaLocalPathHandler emptyFilePathHandler(APRG_COMMON_EMPTY_TEST_FILE);
+    ifstream readTestFile(emptyFilePathHandler.getFullPath());
     ASSERT_TRUE(readTestFile.is_open());
 
     AlbaFileParameterReader reader(readTestFile);

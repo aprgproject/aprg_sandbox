@@ -12,6 +12,8 @@ class AlbaPathHandler
 public:
     explicit AlbaPathHandler(std::string const& slashCharacterString);
     explicit AlbaPathHandler(std::string const& path, std::string const& slashCharacterString);
+    virtual ~AlbaPathHandler();
+
     virtual void clear();
     virtual std::string getFullPath() const;
     virtual std::string getDirectory() const;
