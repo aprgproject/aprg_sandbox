@@ -19,10 +19,9 @@ int main(int argc, char * argv[])
     argumentsInMain.emplace_back("numberOfSamplesOfInputInOnePeriod=100");
     argumentsInMain.emplace_back("addedOffsetOfInput=5");
     argumentsInMain.emplace_back("targetInPidCalculation=6");
-    argumentsInMain.emplace_back("inputType=triangle");
+    argumentsInMain.emplace_back("inputType=random");
 
     PidSimulator simulator(argumentsInMain);
     simulator.generateInput();
-
     simulator.calculateAndGenerateOutputImage();
 }

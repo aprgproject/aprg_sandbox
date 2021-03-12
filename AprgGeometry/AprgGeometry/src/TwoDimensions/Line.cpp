@@ -4,13 +4,12 @@
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <algorithm>
+#include <cmath>
 #include <iterator>
 #include <set>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 Line::Line()
     : m_type(LineType::Invalid)
@@ -38,15 +37,13 @@ Line::Line(Point const& first, Point const& second)
         m_cCoefficient = first.getY()*deltaX;
         break;
     case LineType::Vertical:
-        m_slope = INFINITY;
+        m_slope = static_cast<double>(INFINITY);
         m_yIntercept = 0;
         m_xIntercept = first.getX();
-        m_aCoefficient = deltaY;
-        m_bCoefficient = 0;
+        m_aCoefficient = deltaY;        m_bCoefficient = 0;
         m_cCoefficient = -first.getX()*deltaY;
         break;
-    default:
-        m_slope = deltaY/deltaX;
+    default:        m_slope = deltaY/deltaX;
         m_yIntercept = first.getY() - ((deltaY/deltaX)*first.getX());
         m_xIntercept = -1*m_yIntercept/m_slope;
         m_aCoefficient = deltaY;
@@ -70,15 +67,13 @@ Line::Line(double const aCoefficient, double const bCoefficient, double const cC
         m_xIntercept = 0;
         break;
     case LineType::Vertical:
-        m_slope = INFINITY;
+        m_slope = static_cast<double>(INFINITY);
         m_yIntercept = 0;
         m_xIntercept = -cCoefficient/aCoefficient;
-        break;
-    default:
+        break;    default:
         m_slope = -aCoefficient/bCoefficient;
         m_yIntercept = -cCoefficient/bCoefficient;
-        m_xIntercept = -cCoefficient/aCoefficient;
-        break;
+        m_xIntercept = -cCoefficient/aCoefficient;        break;
     }
 }
 
