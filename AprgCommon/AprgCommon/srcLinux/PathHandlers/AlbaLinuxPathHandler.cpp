@@ -334,16 +334,17 @@ void AlbaLinuxPathHandler::findFilesAndDirectoriesWithDepth(
 void AlbaLinuxPathHandler::save(string const& path)
 {
     string correctPath(stringHelper::getCorrectPathWithoutDoublePeriod(
-                           stringHelper::getCorrectPathWithReplacedSlashCharacters(
-                               path, m_slashCharacterString), m_slashCharacterString));
+                           stringHelper::getStringWithoutCharAtTheEnd(
+                               stringHelper::getCorrectPathWithReplacedSlashCharacters(
+                                   path , m_slashCharacterString)
+                               , m_slashCharacterString[0])
+                       , m_slashCharacterString));
     bool isLastCharacterNotSlash(correctPath[correctPath.length()-1] != m_slashCharacterString[0]);
     if(isPathADirectory(correctPath) && isLastCharacterNotSlash)
-    {
-        correctPath = stringHelper::getCorrectPathWithoutDoublePeriod(correctPath + m_slashCharacterString, m_slashCharacterString);
+    {        correctPath = stringHelper::getCorrectPathWithoutDoublePeriod(correctPath + m_slashCharacterString, m_slashCharacterString);
     }
     setExtensionFromPath(correctPath);
-    setDirectoryAndFileFromPath(correctPath);
-    setFileType();
+    setDirectoryAndFileFromPath(correctPath);    setFileType();
     m_foundInLocalSystem = canBeLocated(correctPath);
 }
 

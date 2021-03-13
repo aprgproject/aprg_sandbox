@@ -5,22 +5,16 @@
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 #include <cmath>
-
-
-#include <Debug/AlbaDebug.hpp>
-
-#define PID_RESULTS_DEFAULT_FILE APRG_DIR R"(PidSimulator\Results\Default24Bit.bmp)"
-#define PID_RESULTS_DIR APRG_DIR R"(PidSimulator\Results\)"
+#include <iostream>
 
 using namespace alba::mathHelper;
+using namespace std;
 
 namespace alba
 {
-
 PidSimulator::PidSimulator(stringHelper::strings const& argumentsInMain)
     : m_conf(argumentsInMain)
 {}
-
 double PidSimulator::calculatePid(double const input, double const target)
 {
     //https://en.wikipedia.org/wiki/PID_controller
@@ -102,125 +96,104 @@ void PidSimulator::generateStepUpForInput()
     for(unsigned int j = 0; j < m_conf.numberOfLoopsOfPeriodicInput; j++)
     {
         //minimum
-        unsigned int partOfSamples = m_conf.numberOfSamplesOfInputInOnePeriod/4;
+        unsigned int partOfSamples = m_conf.numberOfSamplesOfInputInOnePeriod/2;
         for (unsigned int i = 0; i < partOfSamples; i++)
         {
             m_input.emplace_back(m_conf.addedOffsetOfInput);
         }
 
-        //slope up
-        partOfSamples = m_conf.numberOfSamplesOfInputInOnePeriod/2;
-        double angle = (getPi()/2.0)*3.0;
-        unsigned int amp = ((m_conf.amplitudeOfInput-m_conf.addedOffsetOfInput) / 2);
-        unsigned int tOffset = amp + m_conf.addedOffsetOfInput;
+        //maximum
         for (unsigned int i = 0; i < partOfSamples; i++)
         {
-            m_input.emplace_back((amp * sin(angle)) + tOffset);
-            angle += (2 * getPi()) / m_conf.numberOfSamplesOfInputInOnePeriod;
+            m_input.emplace_back(m_conf.amplitudeOfInput+m_conf.addedOffsetOfInput);
         }
-
-        //flat max
-        partOfSamples = m_conf.numberOfSamplesOfInputInOnePeriod/4;
-        for (unsigned int i = 0; i < partOfSamples; i++)
-        {
-            m_input.emplace_back(m_conf.amplitudeOfInput);
-        }
-
     }
 }
-
 void PidSimulator::generateStepDownForInput()
 {
     for(unsigned int j = 0; j < m_conf.numberOfLoopsOfPeriodicInput; j++)
     {
-        //flat max
-        unsigned int partOfSamples = m_conf.numberOfSamplesOfInputInOnePeriod/4;
+        //maximum
+        unsigned int partOfSamples = m_conf.numberOfSamplesOfInputInOnePeriod/2;
         for (unsigned int i = 0; i < partOfSamples; i++)
         {
-            m_input.emplace_back(m_conf.amplitudeOfInput);
-        }
-
-        //slope down
-        partOfSamples = m_conf.numberOfSamplesOfInputInOnePeriod/2;
-        double angle = (getPi()/4.0)*2.0;
-        unsigned int amp = ((m_conf.amplitudeOfInput-m_conf.addedOffsetOfInput) / 2);
-        unsigned int tOffset = amp + m_conf.addedOffsetOfInput;
-        for (unsigned int i = 0; i < partOfSamples; i++)
-        {
-            m_input.emplace_back((amp * sin(angle)) + tOffset);
-            angle += (2 * getPi()) / m_conf.numberOfSamplesOfInputInOnePeriod;
+            m_input.emplace_back(m_conf.amplitudeOfInput+m_conf.addedOffsetOfInput);
         }
 
         //minimum
-        partOfSamples = m_conf.numberOfSamplesOfInputInOnePeriod/4;
         for (unsigned int i = 0; i < partOfSamples; i++)
         {
             m_input.emplace_back(m_conf.addedOffsetOfInput);
         }
+
     }
 }
 
 void PidSimulator::generateRandomForInput()
 {
+    m_randomizer.resetRandomSeed();
     for(unsigned int j = 0; j < m_conf.numberOfLoopsOfPeriodicInput; j++)
     {
         for (unsigned int i = 0; i < m_conf.numberOfSamplesOfInputInOnePeriod; i++)
         {
-            m_input.emplace_back((rand() % m_conf.amplitudeOfInput) + m_conf.addedOffsetOfInput);
+            m_input.emplace_back(m_randomizer.getRandomValueInUniformDistribution(0, m_conf.amplitudeOfInput) + m_conf.addedOffsetOfInput);
         }
     }
 }
-
 void PidSimulator::calculateAndGenerateOutputImage()
 {
-    int index = 0;
-    int xRightMax=0, xLeftMax=0, yBottomMax=0, yTopMax=0;
-
-    Points inputSeries;
-    Points outputSeries;
+    int index = 0, xRightMax=0, xLeftMax=0, yBottomMax=0, yTopMax=0;
+    Points inputSeries, outputSeries;
     for(double const inputSample : m_input)
     {
-        double pidOutput(calculatePid(inputSample, m_conf.targetInPidCalculation));
-        inputSeries.emplace_back(static_cast<double>(index), inputSample);
+        double pidOutput(calculatePid(inputSample, m_conf.targetInPidCalculation));        inputSeries.emplace_back(static_cast<double>(index), inputSample);
         updateMaxPoints(static_cast<int>(index), static_cast<int>(inputSample), xLeftMax, xRightMax, yBottomMax, yTopMax);
         outputSeries.emplace_back(static_cast<double>(index), pidOutput);
         updateMaxPoints(static_cast<int>(index), static_cast<int>(pidOutput), xLeftMax, xRightMax, yBottomMax, yTopMax);
         index++;
     }
 
-    ALBA_PRINT4(xLeftMax, xRightMax, yBottomMax, yTopMax);
+    updateAllMaxWithBuffer(xLeftMax, xRightMax, yBottomMax, yTopMax);
+    cout << "max list:[" << xLeftMax << ", " << xRightMax << ", " << yBottomMax << ", " << yTopMax << "]" << endl;
 
-    updateMaxWithBuffer(xLeftMax, xRightMax);
-    updateMaxWithBuffer(yBottomMax, yTopMax);
+    AlbaLocalPathHandler detectedPath(PathInitialValueSource::DetectedLocalPath);
+    AlbaLocalPathHandler defaultFile(detectedPath.getDirectory() + R"(Default24Bit.bmp)");
+    cout << "defaultFile:[" << defaultFile.getFullPath() << "]" << endl;
+    if(defaultFile.isFoundInLocalSystem())
+    {
+        AlbaLocalPathHandler graphOutputFile(defaultFile.getDirectory() + R"(\graph.bmp)");
+        cout << "graphOutputFile:[" << graphOutputFile.getFullPath() << "]" << endl;
+        graphOutputFile.deleteFile();
+        defaultFile.copyToNewFile(graphOutputFile.getFullPath());
 
-    ALBA_PRINT4(xLeftMax, xRightMax, yBottomMax, yTopMax);
+        AprgBitmap bitmap(graphOutputFile.getFullPath());
+        AprgBitmapConfiguration configuration(bitmap.getConfiguration());
+        calculateMagnificationAndOffset(xLeftMax, xRightMax, yBottomMax, yTopMax, configuration.getBitmapWidth(), configuration.getBitmapHeight());
+        cout << "offset:[" << m_xOffsetToGraph << ", " << m_yOffsetToGraph << "] magnification:[" << m_xMagnificationToGraph << ", " << m_yMagnificationToGraph << "]" << endl;
 
-    AlbaLocalPathHandler defaultFile(PID_RESULTS_DEFAULT_FILE);
-    AlbaLocalPathHandler graphOutputFile(PID_RESULTS_DIR R"(\Test.bmp)");
-    graphOutputFile.deleteFile();
-    defaultFile.copyToNewFile(graphOutputFile.getFullPath());
+        AprgGraph graph(graphOutputFile.getFullPath(), BitmapXY(m_xOffsetToGraph, m_yOffsetToGraph), BitmapDoubleXY(m_xMagnificationToGraph, m_yMagnificationToGraph));
+        graph.drawGrid(BitmapDoubleXY(m_xGridInterval, m_yGridInterval));
+        graph.drawContinuousPoints(inputSeries, 0x000000FF);
+        graph.drawContinuousPoints(outputSeries, 0x0000FF00);
 
-    AprgBitmap bitmap(graphOutputFile.getFullPath());
-    AprgBitmapConfiguration configuration(bitmap.getConfiguration());
-    calculateMagnificationAndOffset(xLeftMax, xRightMax, yBottomMax, yTopMax, configuration.getBitmapWidth(), configuration.getBitmapHeight());
-
-    ALBA_PRINT4(m_xOffsetToGraph, m_yOffsetToGraph, m_xMagnificationToGraph, m_yMagnificationToGraph);
-
-    ALBA_PRINT2(inputSeries.size(), outputSeries.size());
-    AprgGraph graph(graphOutputFile.getFullPath(), BitmapXY(m_xOffsetToGraph, m_yOffsetToGraph), BitmapDoubleXY(m_xMagnificationToGraph, m_yMagnificationToGraph));
-    graph.drawGrid(BitmapDoubleXY(m_xGridInterval, m_yGridInterval));
-    graph.drawContinuousPoints(inputSeries, 0x000000FF);
-    graph.drawContinuousPoints(outputSeries, 0x0000FF00);
-
-    graph.saveChangesToBitmapFile();
+        graph.saveChangesToBitmapFile();
+    }
+    else
+    {
+        cout << "The default bitmap file was not found. The default file location:  [" << defaultFile.getFullPath() << "]" << endl;
+    }
 }
 
-void PidSimulator::updateMaxWithBuffer(int& lowerValue, int& higherValue)
+void PidSimulator::updateAllMaxWithBuffer(int& xLeftMax, int& xRightMax, int& yBottomMax, int& yTopMax)
 {
+    updateMaxWithBuffer(xLeftMax, xRightMax);
+    updateMaxWithBuffer(yBottomMax, yTopMax);
+}
+
+void PidSimulator::updateMaxWithBuffer(int& lowerValue, int& higherValue){
     const double hardBuffer = 5;
     int difference = higherValue - lowerValue;
-    double increase = static_cast<double>(difference)*0.1;
-    if(increase<hardBuffer)
+    double increase = static_cast<double>(difference)*0.1;    if(increase<hardBuffer)
     {
         increase = hardBuffer;
     }
@@ -258,16 +231,12 @@ void PidSimulator::calculateMagnificationAndOffset(
     }
     m_xGridInterval = static_cast<double>(pow(10, 2+round(log10(1/m_xMagnificationToGraph))));
     m_yGridInterval = static_cast<double>(pow(10, 2+round(log10(1/m_yMagnificationToGraph))));
-    ALBA_PRINT2(m_xGridInterval, m_xMagnificationToGraph);
-    ALBA_PRINT2(m_yGridInterval, m_yMagnificationToGraph);
 }
 
-void PidSimulator::updateMaxPoints(
-        int const xCoordinate,
+void PidSimulator::updateMaxPoints(        int const xCoordinate,
         int const yCoordinate,
         int & xLeftMax,
-        int & xRightMax,
-        int & yBottomMax,
+        int & xRightMax,        int & yBottomMax,
         int & yTopMax)
 {
     updateRightMax(xRightMax, xCoordinate);
