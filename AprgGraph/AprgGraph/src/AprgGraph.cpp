@@ -194,18 +194,24 @@ string AprgGraph::getBitmapFilePathOfCharacter(char const character) const
     }
     filename+=".bmp";
 
+#ifdef APRG_RELEASE
     //This is based on detectedPath (for release builds), there should be a common file for this (on pathhandlers maybe?)
     AlbaLocalPathHandler detectedPath(PathInitialValueSource::DetectedLocalPath);
     AlbaLocalPathHandler bitmapCharacterFile(detectedPath.getDirectory() + R"(BitmapCharacters/)"+filename);
     return bitmapCharacterFile.getFullPath();
+#endif
 
+#ifdef APRG_DEBUG
     //This is based on APRG (for debug builds), there should be a common for this (on pathhandlers maybe?)
-    //return  AlbaLocalPathHandler(string(APRG_DIR)+"/AprgGraph/BitmapCharacters/"+filename).getFullPath();
+    return  AlbaLocalPathHandler(string(APRG_DIR)+"/AprgGraph/BitmapCharacters/"+filename).getFullPath();
+#endif
 }
 
-double AprgGraph::getLowestInterval() const{
+double AprgGraph::getLowestInterval() const
+{
     return min(1/m_magnification.getX(), 1/m_magnification.getY());
 }
+
 BitmapXY AprgGraph::convertRealPointToBitmapXY(Point const& realPosition) const
 {
     unsigned int xPosition = convertRealXCoordinateToBitmapXCoordinate(realPosition.getX());

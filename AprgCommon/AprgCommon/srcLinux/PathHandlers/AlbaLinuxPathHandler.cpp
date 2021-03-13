@@ -341,10 +341,12 @@ void AlbaLinuxPathHandler::save(string const& path)
                        , m_slashCharacterString));
     bool isLastCharacterNotSlash(correctPath[correctPath.length()-1] != m_slashCharacterString[0]);
     if(isPathADirectory(correctPath) && isLastCharacterNotSlash)
-    {        correctPath = stringHelper::getCorrectPathWithoutDoublePeriod(correctPath + m_slashCharacterString, m_slashCharacterString);
+    {
+        correctPath = stringHelper::getCorrectPathWithoutDoublePeriod(correctPath + m_slashCharacterString, m_slashCharacterString);
     }
     setExtensionFromPath(correctPath);
-    setDirectoryAndFileFromPath(correctPath);    setFileType();
+    setDirectoryAndFileFromPath(correctPath);
+    setFileType();
     m_foundInLocalSystem = canBeLocated(correctPath);
 }
 

@@ -4,13 +4,16 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 PidSimulatorConfiguration::PidSimulatorConfiguration(stringHelper::strings const& argumentsInMain)
-    : numberOfLoopsOfPeriodicInput(0)    , amplitudeOfInput(0)
-    , numberOfSamplesOfInputInOnePeriod(0)
-    , addedOffsetOfInput(0)
+    : numberOfLoopsOfPeriodicInputDemand(0)
+    , amplitudeOfInputDemand(0)
+    , numberOfSamplesOfInputDemandInOnePeriod(0)
+    , addedOffsetOfInputDemand(0)
     , targetInPidCalculation(0)
+    , maxCellTxPower(0)
     , kp(0)
     , ki(0)
     , kd(0)
@@ -25,18 +28,23 @@ void PidSimulatorConfiguration::saveArgumentValues(StringToStringMap & arguments
     kp = stringHelper::convertStringToNumber<double>(argumentsToValuesMap["kp"]);
     ki = stringHelper::convertStringToNumber<double>(argumentsToValuesMap["ki"]);
     kd = stringHelper::convertStringToNumber<double>(argumentsToValuesMap["kd"]);
-    numberOfLoopsOfPeriodicInput = stringHelper::convertStringToNumber<unsigned int>(argumentsToValuesMap["numberOfLoopsOfPeriodicInput"]);
-    amplitudeOfInput = stringHelper::convertStringToNumber<unsigned int>(argumentsToValuesMap["amplitudeOfInput"]);
-    numberOfSamplesOfInputInOnePeriod = stringHelper::convertStringToNumber<unsigned int>(argumentsToValuesMap["numberOfSamplesOfInputInOnePeriod"]);    addedOffsetOfInput = stringHelper::convertStringToNumber<int>(argumentsToValuesMap["addedOffsetOfInput"]);
+    numberOfLoopsOfPeriodicInputDemand = stringHelper::convertStringToNumber<unsigned int>(argumentsToValuesMap["numberOfLoopsOfPeriodicInputDemand"]);
+    amplitudeOfInputDemand = stringHelper::convertStringToNumber<unsigned int>(argumentsToValuesMap["amplitudeOfInputDemand"]);
+    numberOfSamplesOfInputDemandInOnePeriod = stringHelper::convertStringToNumber<unsigned int>(argumentsToValuesMap["numberOfSamplesOfInputDemandInOnePeriod"]);
+    addedOffsetOfInputDemand = stringHelper::convertStringToNumber<int>(argumentsToValuesMap["addedOffsetOfInputDemand"]);
     targetInPidCalculation = stringHelper::convertStringToNumber<double>(argumentsToValuesMap["targetInPidCalculation"]);
+    maxCellTxPower = stringHelper::convertStringToNumber<double>(argumentsToValuesMap["maxCellTxPower"]);
     inputType = argumentsToValuesMap["inputType"];
+    machsModelType = argumentsToValuesMap["machsModelType"];
     print();
 }
 
-void PidSimulatorConfiguration::processArgumentsWithEqualDelimeter(StringToStringMap & argumentsToValuesMap, stringHelper::strings const& argumentsInMain){
+void PidSimulatorConfiguration::processArgumentsWithEqualDelimeter(StringToStringMap & argumentsToValuesMap, stringHelper::strings const& argumentsInMain)
+{
     for(string const& argumentInMain : argumentsInMain)
     {
-        processOneArgumentWithEqualDelimeter(argumentsToValuesMap, argumentInMain);    }
+        processOneArgumentWithEqualDelimeter(argumentsToValuesMap, argumentInMain);
+    }
 }
 
 void PidSimulatorConfiguration::processOneArgumentWithEqualDelimeter(StringToStringMap & argumentsToValuesMap, string const& argument)
@@ -52,12 +60,15 @@ void PidSimulatorConfiguration::print() const
     cout << "kp:[" << kp << "]" << endl;
     cout << "ki:[" << ki << "]" << endl;
     cout << "kd:[" << kd << "]" << endl;
-    cout << "numberOfLoopsOfPeriodicInput:[" << numberOfLoopsOfPeriodicInput << "]" << endl;
-    cout << "amplitudeOfInput:[" << amplitudeOfInput << "]" << endl;
-    cout << "numberOfSamplesOfInputInOnePeriod:[" << numberOfSamplesOfInputInOnePeriod << "]" << endl;
-    cout << "addedOffsetOfInput:[" << addedOffsetOfInput << "]" << endl;
+    cout << "numberOfLoopsOfPeriodicInputDemand:[" << numberOfLoopsOfPeriodicInputDemand << "]" << endl;
+    cout << "amplitudeOfInputDemand:[" << amplitudeOfInputDemand << "]" << endl;
+    cout << "numberOfSamplesOfInputDemandInOnePeriod:[" << numberOfSamplesOfInputDemandInOnePeriod << "]" << endl;
+    cout << "addedOffsetOfInputDemand:[" << addedOffsetOfInputDemand << "]" << endl;
     cout << "targetInPidCalculation:[" << targetInPidCalculation << "]" << endl;
+    cout << "maxCellTxPower:[" << maxCellTxPower << "]" << endl;
     cout << "inputType:[" << inputType << "]" << endl;
+    cout << "machsModelType:[" << machsModelType << "]" << endl;
+
 }
 
 }

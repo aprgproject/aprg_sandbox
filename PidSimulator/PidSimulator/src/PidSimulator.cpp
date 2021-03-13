@@ -4,6 +4,7 @@
 #include <Math/AlbaMathHelper.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 
@@ -12,9 +13,11 @@ using namespace std;
 
 namespace alba
 {
+
 PidSimulator::PidSimulator(stringHelper::strings const& argumentsInMain)
     : m_conf(argumentsInMain)
 {}
+
 double PidSimulator::calculatePid(double const input, double const target)
 {
     //https://en.wikipedia.org/wiki/PID_controller
@@ -61,69 +64,70 @@ void PidSimulator::generateInput()
 
 void PidSimulator::generateTriangleWavesForInput()
 {
-    for(unsigned int j = 0; j < m_conf.numberOfLoopsOfPeriodicInput; j++)
+    for(unsigned int j = 0; j < m_conf.numberOfLoopsOfPeriodicInputDemand; j++)
     {
         //go up
-        unsigned int partOfSamples = m_conf.numberOfSamplesOfInputInOnePeriod/2;
-        double slope = static_cast<double>(m_conf.amplitudeOfInput)/partOfSamples;
+        unsigned int partOfSamples = m_conf.numberOfSamplesOfInputDemandInOnePeriod/2;
+        double slope = static_cast<double>(m_conf.amplitudeOfInputDemand)/partOfSamples;
         for (unsigned int i = 0; i < partOfSamples; i++)
         {
-            m_input.emplace_back((slope*i) + m_conf.addedOffsetOfInput);
+            m_inputSample.emplace_back((slope*i) + m_conf.addedOffsetOfInputDemand);
         }
         //go down
         for (unsigned int i = 0; i < partOfSamples; i++)
         {
-            m_input.emplace_back(m_conf.amplitudeOfInput -(slope*i) + m_conf.addedOffsetOfInput);
+            m_inputSample.emplace_back(m_conf.amplitudeOfInputDemand -(slope*i) + m_conf.addedOffsetOfInputDemand);
         }
     }
 }
 
 void PidSimulator::generateSineWavesForInput()
 {
-    for(unsigned int j = 0; j < m_conf.numberOfLoopsOfPeriodicInput; j++)
+    for(unsigned int j = 0; j < m_conf.numberOfLoopsOfPeriodicInputDemand; j++)
     {
         double angle = 0.0;
-        for (unsigned int i = 0; i < m_conf.numberOfSamplesOfInputInOnePeriod; i++)
+        for (unsigned int i = 0; i < m_conf.numberOfSamplesOfInputDemandInOnePeriod; i++)
         {
-            m_input.emplace_back((m_conf.amplitudeOfInput * sin(angle)) + m_conf.addedOffsetOfInput);
-            angle += (2 * getPi()) / m_conf.numberOfSamplesOfInputInOnePeriod;
+            m_inputSample.emplace_back((m_conf.amplitudeOfInputDemand * sin(angle)) + m_conf.addedOffsetOfInputDemand);
+            angle += (2 * getPi()) / m_conf.numberOfSamplesOfInputDemandInOnePeriod;
         }
     }
 }
 
 void PidSimulator::generateStepUpForInput()
 {
-    for(unsigned int j = 0; j < m_conf.numberOfLoopsOfPeriodicInput; j++)
+    for(unsigned int j = 0; j < m_conf.numberOfLoopsOfPeriodicInputDemand; j++)
     {
         //minimum
-        unsigned int partOfSamples = m_conf.numberOfSamplesOfInputInOnePeriod/2;
+        unsigned int partOfSamples = m_conf.numberOfSamplesOfInputDemandInOnePeriod/2;
         for (unsigned int i = 0; i < partOfSamples; i++)
         {
-            m_input.emplace_back(m_conf.addedOffsetOfInput);
+            m_inputSample.emplace_back(m_conf.addedOffsetOfInputDemand);
         }
 
         //maximum
         for (unsigned int i = 0; i < partOfSamples; i++)
         {
-            m_input.emplace_back(m_conf.amplitudeOfInput+m_conf.addedOffsetOfInput);
+            m_inputSample.emplace_back(m_conf.amplitudeOfInputDemand+m_conf.addedOffsetOfInputDemand);
         }
     }
 }
+
 void PidSimulator::generateStepDownForInput()
 {
-    for(unsigned int j = 0; j < m_conf.numberOfLoopsOfPeriodicInput; j++)
+    for(unsigned int j = 0; j < m_conf.numberOfLoopsOfPeriodicInputDemand; j++)
     {
         //maximum
-        unsigned int partOfSamples = m_conf.numberOfSamplesOfInputInOnePeriod/2;
+        unsigned int partOfSamples = m_conf.numberOfSamplesOfInputDemandInOnePeriod/2;
         for (unsigned int i = 0; i < partOfSamples; i++)
         {
-            m_input.emplace_back(m_conf.amplitudeOfInput+m_conf.addedOffsetOfInput);
+            m_inputSample.emplace_back(m_conf.amplitudeOfInputDemand+m_conf.addedOffsetOfInputDemand);
         }
 
         //minimum
         for (unsigned int i = 0; i < partOfSamples; i++)
         {
-            m_input.emplace_back(m_conf.addedOffsetOfInput);
+            m_inputSample.emplace_back(m_conf.addedOffsetOfInputDemand);
         }
 
     }
@@ -132,24 +136,64 @@ void PidSimulator::generateStepDownForInput()
 void PidSimulator::generateRandomForInput()
 {
     m_randomizer.resetRandomSeed();
-    for(unsigned int j = 0; j < m_conf.numberOfLoopsOfPeriodicInput; j++)
+    for(unsigned int j = 0; j < m_conf.numberOfLoopsOfPeriodicInputDemand; j++)
     {
-        for (unsigned int i = 0; i < m_conf.numberOfSamplesOfInputInOnePeriod; i++)
+        for (unsigned int i = 0; i < m_conf.numberOfSamplesOfInputDemandInOnePeriod; i++)
         {
-            m_input.emplace_back(m_randomizer.getRandomValueInUniformDistribution(0, m_conf.amplitudeOfInput) + m_conf.addedOffsetOfInput);
+            m_inputSample.emplace_back(m_randomizer.getRandomValueInUniformDistribution(0, m_conf.amplitudeOfInputDemand) + m_conf.addedOffsetOfInputDemand);
         }
     }
 }
+
+double PidSimulator::computeFromMachsModel(double const inputDemandSample, double const psuedoMaxTxPower, double & adjustedDemand)
+{
+    double result(0);
+    if("MachsModel1" == m_conf.machsModelType)
+    {
+        result = computeFromMachsModel1(inputDemandSample, psuedoMaxTxPower, adjustedDemand);
+    }
+    else if("MachsModel2" == m_conf.machsModelType)
+    {
+        result = computeFromMachsModel2(inputDemandSample, psuedoMaxTxPower, adjustedDemand);
+    }
+    return result;
+}
+
+double PidSimulator::computeFromMachsModel1(double const inputDemandSample, double const psuedoMaxTxPower, double & adjustedDemand)
+{
+    double newDemand = inputDemandSample+adjustedDemand;
+    double machsOutput = min(psuedoMaxTxPower, newDemand);
+    adjustedDemand = max(newDemand-psuedoMaxTxPower, static_cast<double>(0));
+    return machsOutput;
+}
+
+double PidSimulator::computeFromMachsModel2(double const inputDemandSample, double const psuedoMaxTxPower, double & adjustedDemand)
+{
+    adjustedDemand=0;
+    return min(psuedoMaxTxPower, inputDemandSample);
+}
+
 void PidSimulator::calculateAndGenerateOutputImage()
 {
     int index = 0, xRightMax=0, xLeftMax=0, yBottomMax=0, yTopMax=0;
-    Points inputSeries, outputSeries;
-    for(double const inputSample : m_input)
+    double tcomReceivedPowerFromMachs = m_conf.maxCellTxPower, adjustedDemand = 0;
+    Points targetSeries, inputDemandSeries, pseudoMaxTxPowerSeries, tcomReceivedPowerFromMachsSeries, adjustedDemandSeries;
+    for(double const inputDemandSample : m_inputSample)
     {
-        double pidOutput(calculatePid(inputSample, m_conf.targetInPidCalculation));        inputSeries.emplace_back(static_cast<double>(index), inputSample);
-        updateMaxPoints(static_cast<int>(index), static_cast<int>(inputSample), xLeftMax, xRightMax, yBottomMax, yTopMax);
-        outputSeries.emplace_back(static_cast<double>(index), pidOutput);
-        updateMaxPoints(static_cast<int>(index), static_cast<int>(pidOutput), xLeftMax, xRightMax, yBottomMax, yTopMax);
+        double pidOutput(calculatePid(tcomReceivedPowerFromMachs, m_conf.targetInPidCalculation));
+        double psuedoMaxTxPower = min(pidOutput, m_conf.maxCellTxPower);
+        targetSeries.emplace_back(static_cast<double>(index), m_conf.targetInPidCalculation);
+        inputDemandSeries.emplace_back(static_cast<double>(index), inputDemandSample);
+        pseudoMaxTxPowerSeries.emplace_back(static_cast<double>(index), psuedoMaxTxPower);
+        tcomReceivedPowerFromMachsSeries.emplace_back(static_cast<double>(index), tcomReceivedPowerFromMachs);
+        adjustedDemandSeries.emplace_back(static_cast<double>(index), adjustedDemand);
+        updateMaxPoints(static_cast<int>(index), static_cast<int>(m_conf.targetInPidCalculation), xLeftMax, xRightMax, yBottomMax, yTopMax);
+        updateMaxPoints(static_cast<int>(index), static_cast<int>(inputDemandSample), xLeftMax, xRightMax, yBottomMax, yTopMax);
+        updateMaxPoints(static_cast<int>(index), static_cast<int>(psuedoMaxTxPower), xLeftMax, xRightMax, yBottomMax, yTopMax);
+        updateMaxPoints(static_cast<int>(index), static_cast<int>(psuedoMaxTxPower), xLeftMax, xRightMax, yBottomMax, yTopMax);
+        updateMaxPoints(static_cast<int>(index), static_cast<int>(tcomReceivedPowerFromMachs), xLeftMax, xRightMax, yBottomMax, yTopMax);
+        updateMaxPoints(static_cast<int>(index), static_cast<int>(adjustedDemand), xLeftMax, xRightMax, yBottomMax, yTopMax);
+        tcomReceivedPowerFromMachs = computeFromMachsModel(inputDemandSample, psuedoMaxTxPower, adjustedDemand);
         index++;
     }
 
@@ -173,8 +217,11 @@ void PidSimulator::calculateAndGenerateOutputImage()
 
         AprgGraph graph(graphOutputFile.getFullPath(), BitmapXY(m_xOffsetToGraph, m_yOffsetToGraph), BitmapDoubleXY(m_xMagnificationToGraph, m_yMagnificationToGraph));
         graph.drawGrid(BitmapDoubleXY(m_xGridInterval, m_yGridInterval));
-        graph.drawContinuousPoints(inputSeries, 0x000000FF);
-        graph.drawContinuousPoints(outputSeries, 0x0000FF00);
+        graph.drawContinuousPoints(targetSeries, 0x00444444);
+        graph.drawContinuousPoints(inputDemandSeries, 0x000000FF);
+        graph.drawContinuousPoints(pseudoMaxTxPowerSeries, 0x0000FF00);
+        graph.drawContinuousPoints(tcomReceivedPowerFromMachsSeries, 0x00FF0000);
+        graph.drawContinuousPoints(adjustedDemandSeries, 0x00008888);
 
         graph.saveChangesToBitmapFile();
     }
@@ -190,10 +237,12 @@ void PidSimulator::updateAllMaxWithBuffer(int& xLeftMax, int& xRightMax, int& yB
     updateMaxWithBuffer(yBottomMax, yTopMax);
 }
 
-void PidSimulator::updateMaxWithBuffer(int& lowerValue, int& higherValue){
+void PidSimulator::updateMaxWithBuffer(int& lowerValue, int& higherValue)
+{
     const double hardBuffer = 5;
     int difference = higherValue - lowerValue;
-    double increase = static_cast<double>(difference)*0.1;    if(increase<hardBuffer)
+    double increase = static_cast<double>(difference)*0.1;
+    if(increase<hardBuffer)
     {
         increase = hardBuffer;
     }
@@ -233,10 +282,12 @@ void PidSimulator::calculateMagnificationAndOffset(
     m_yGridInterval = static_cast<double>(pow(10, 2+round(log10(1/m_yMagnificationToGraph))));
 }
 
-void PidSimulator::updateMaxPoints(        int const xCoordinate,
+void PidSimulator::updateMaxPoints(
+        int const xCoordinate,
         int const yCoordinate,
         int & xLeftMax,
-        int & xRightMax,        int & yBottomMax,
+        int & xRightMax,
+        int & yBottomMax,
         int & yTopMax)
 {
     updateRightMax(xRightMax, xCoordinate);

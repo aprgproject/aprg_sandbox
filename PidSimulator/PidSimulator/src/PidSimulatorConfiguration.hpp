@@ -15,14 +15,17 @@ struct PidSimulatorConfiguration
     void processArgumentsWithEqualDelimeter(StringToStringMap & argumentsToValuesMap, stringHelper::strings const& argumentsInMain);
     void processOneArgumentWithEqualDelimeter(StringToStringMap & argumentsToValuesMap, std::string const& argument);
     void print() const;
-    unsigned int numberOfLoopsOfPeriodicInput;
-    unsigned int amplitudeOfInput;
-    unsigned int numberOfSamplesOfInputInOnePeriod;
-    int addedOffsetOfInput;
+    unsigned int numberOfLoopsOfPeriodicInputDemand;
+    unsigned int amplitudeOfInputDemand;
+    unsigned int numberOfSamplesOfInputDemandInOnePeriod;
+    int addedOffsetOfInputDemand;
     double targetInPidCalculation;
+    double maxCellTxPower;
     double kp;
     double ki;
     double kd;
     std::string inputType;
+    std::string machsModelType;
 };
+
 }

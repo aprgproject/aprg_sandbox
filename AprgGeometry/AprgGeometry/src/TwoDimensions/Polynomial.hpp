@@ -25,9 +25,11 @@ public:
         std::copy(coefficients.begin(), coefficients.begin()+limit, m_coefficients.begin());
         saveFirstDerivativeCoefficients();
     }
+
     Line getTangentLineAt(double const x) const
     {
-        double slope = getSlopeAt(x);        double y = calculateYfromX(x);
+        double slope = getSlopeAt(x);
+        double y = calculateYfromX(x);
         return Line(Point(x, y), Point(x+1, y+slope));
     }
 

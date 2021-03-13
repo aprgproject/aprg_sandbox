@@ -23,9 +23,11 @@ public:
         unsigned int limit = std::min(numberOfVertices, static_cast<unsigned int>(vertices.size()));
         std::copy(vertices.begin(), vertices.begin()+limit, m_vertices.begin());
     }
+
     Lines getLines() const
     {
-        Lines line;        unsigned int size = m_vertices.size();
+        Lines line;
+        unsigned int size = m_vertices.size();
         for(int i=0; i<size; i++)
         {
             if(i==size-1)
