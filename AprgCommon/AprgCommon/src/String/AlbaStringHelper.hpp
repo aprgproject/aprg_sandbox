@@ -33,10 +33,12 @@ bool isOneWord(std::string const& mainString);
 bool isWildcardMatch(std::string const& mainString, std::string const& wildcard, unsigned int const mainStringIndex=0, unsigned int const wildcardIndex=0);
 
 void fetchArgumentsToStringInMain(strings & argumentsInMain, int const argc, char const * const argv[]);
-bool transformReplaceStringIfFound(std::string & mainString, std::string const& toReplace, std::string const& replaceWith);enum class SplitStringType
+bool transformReplaceStringIfFound(std::string & mainString, std::string const& toReplace, std::string const& replaceWith);
+enum class SplitStringType
 {
     WithDelimeters,
-    WithoutDelimeters};
+    WithoutDelimeters
+};
 template <SplitStringType splitStringType> void splitToStrings(strings & listOfStrings, std::string const& mainString, std::string const& delimiters);
 std::string combineStrings(strings const& strings, std::string const& delimiters);
 void splitLinesToAchieveTargetLength(strings & listOfStrings, std::string const& mainString, unsigned int const targetLength);

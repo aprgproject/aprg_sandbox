@@ -8,8 +8,10 @@
 
 #include <functional>
 #include <string>
+
 namespace alba
 {
+
 class AlbaLinuxPathHandler: public AlbaPathHandler
 {
 public:
@@ -48,7 +50,8 @@ public:
 
 private:
     void save(std::string const& path) override;
-    void findFilesAndDirectoriesWithDepth(            std::string const& currentDirectory,
+    void findFilesAndDirectoriesWithDepth(
+            std::string const& currentDirectory,
             std::string const& wildCardSearch,
             ListOfPaths& listOfFiles,
             ListOfPaths& listOfDirectories,
@@ -61,9 +64,10 @@ private:
             std::set<std::string>& listOfDirectories,
             int depth) const;
     bool isPathADirectory(std::string const& fileOrDirectoryName) const;
-    bool canBeLocated(std::string const& fileOrDirectoryName) const;
-    bool isSlashNeededAtTheEnd(std::string const& correctPath, std::string const& path);
+    bool canBeLocated(std::string const& fullPath) const;
+    bool isSlashNeededAtTheEnd(std::string const& correctPath, std::string const& path) const;
     bool m_foundInLocalSystem;
     bool m_relativePath;
 };
+
 }//namespace alba

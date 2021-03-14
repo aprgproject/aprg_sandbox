@@ -55,6 +55,8 @@ private:
             ListOfPaths& listOfFiles,
             ListOfPaths& listOfDirectories,
             int depth) const;
+    bool canBeLocated(std::string const& fullPath) const;
+    bool isSlashNeededAtTheEnd(std::string const& correctPath, std::string const& path) const;
     std::string m_driveOrRoot;
     bool m_foundInLocalSystem;
     bool m_relativePath;

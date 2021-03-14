@@ -24,10 +24,12 @@ TEST(FileReadTest, ReadFromTestFile_SetAndGetBufferSizeWorks)
 
 TEST(FileReadTest, ReadFromTestFile_ReadLineUsingVariousCharacters)
 {
-    AlbaLocalPathHandler commonTestFileToRead(APRG_COMMON_TEST_FILE_TO_READ);    ofstream testFile(commonTestFileToRead.getFullPath());
+    AlbaLocalPathHandler commonTestFileToRead(APRG_COMMON_TEST_FILE_TO_READ);
+    ofstream testFile(commonTestFileToRead.getFullPath());
     ASSERT_TRUE(testFile.is_open());
     testFile << "1         " << endl;
-    testFile << "12        " << endl;    testFile << "123       " << endl;
+    testFile << "12        " << endl;
+    testFile << "123       " << endl;
     testFile << "1234      " << endl;
     testFile << "12345     " << endl;
     testFile << "123456    " << endl;
@@ -124,10 +126,12 @@ TEST(FileReadTest, ReadFromTestFile_ReadSingleCharacterFromBinaryFile)
 #endif
     EXPECT_TRUE(fileReader.isNotFinished());
     EXPECT_EQ(fileReader.getCharacter(), 0);
-    EXPECT_FALSE(fileReader.isNotFinished());}
+    EXPECT_FALSE(fileReader.isNotFinished());
+}
 
 TEST(FileReadTest, ReadFromTestFile_ReadMultipleCharacters)
-{    AlbaLocalPathHandler commonTestFileToRead(APRG_COMMON_TEST_FILE_TO_READ);
+{
+    AlbaLocalPathHandler commonTestFileToRead(APRG_COMMON_TEST_FILE_TO_READ);
     ofstream testFile(commonTestFileToRead.getFullPath());
     ASSERT_TRUE(testFile.is_open());
     testFile << "123!@# \t\n";
@@ -201,11 +205,13 @@ TEST(FileReadTest, ReadFromTestFile_RequestToReadMultipleCharactersThatIsTheBeyo
 
 TEST(FileReadTest, ReadFromTestFile_ReadTwoByteNumbers)
 {
-    AlbaLocalPathHandler commonTestFileToRead(APRG_COMMON_TEST_FILE_TO_READ);    ofstream testFile(commonTestFileToRead.getFullPath());
+    AlbaLocalPathHandler commonTestFileToRead(APRG_COMMON_TEST_FILE_TO_READ);
+    ofstream testFile(commonTestFileToRead.getFullPath());
     ASSERT_TRUE(testFile.is_open());
     testFile.put(0x01);
     testFile.put(0x23);
-    testFile.put(0x45);    testFile.put(0x67);
+    testFile.put(0x45);
+    testFile.put(0x67);
     testFile.put(static_cast<char>(0xA1));
     testFile.put(static_cast<char>(0xBA));
     testFile.close();

@@ -20,9 +20,11 @@ AlbaFileReader::AlbaFileReader(ifstream& stream)
 }
 
 bool AlbaFileReader::isNotFinished()
-{    //return (!m_stream.eof()) && (m_stream.peek()!=EOF);
+{
+    //return (!m_stream.eof()) && (m_stream.peek()!=EOF);
     return !m_stream.eof();
 }
+
 char AlbaFileReader::getCharacter()
 {
     char tempChar(0);
@@ -43,9 +45,11 @@ char* AlbaFileReader::getCharacters(unsigned int& numberOfCharacters)
     return getCharacterBufferPointer();
 }
 template <typename NumberType>
-NumberType AlbaFileReader::getTwoByteData(){
+NumberType AlbaFileReader::getTwoByteData()
+{
     return getData<NumberType, 2>();
 }
+
 template <typename NumberType>
 NumberType AlbaFileReader::getFourByteData()
 {
@@ -91,9 +95,11 @@ NumberType AlbaFileReader::getData()
     });
     return result;
 }
+
 template unsigned int AlbaFileReader::getTwoByteData<unsigned int>();
 template unsigned int AlbaFileReader::getFourByteData<unsigned int>();
-template unsigned long long AlbaFileReader::getEightByteData<unsigned long long>();template unsigned int AlbaFileReader::getTwoByteSwappedData<unsigned int>();
+template unsigned long long AlbaFileReader::getEightByteData<unsigned long long>();
+template unsigned int AlbaFileReader::getTwoByteSwappedData<unsigned int>();
 template unsigned int AlbaFileReader::getFourByteSwappedData<unsigned int>();
 template unsigned long long AlbaFileReader::getEightByteSwappedData<unsigned long long>();
 template unsigned int AlbaFileReader::getData<unsigned int, 2>();
@@ -105,6 +111,7 @@ void AlbaFileReader::saveDataToMemoryBuffer(AlbaMemoryBuffer& buffer, unsigned i
     char* writer = static_cast<char*>(buffer.resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(numberOfBytesToRead));
     m_stream.read(writer, numberOfBytesToRead);
 }
+
 string AlbaFileReader::getLineAndIgnoreWhiteSpaces()
 {
     while(!m_stream.eof())
@@ -114,10 +121,12 @@ string AlbaFileReader::getLineAndIgnoreWhiteSpaces()
         string result(getCharacterBufferPointer());
         result = stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(result);
         if(""!=result){ return result; }
-    }    return "";
+    }
+    return "";
 }
 
-string AlbaFileReader::getLine(){
+string AlbaFileReader::getLine()
+{
     if(!m_stream.eof())
     {
         m_stream.clear();
@@ -126,9 +135,11 @@ string AlbaFileReader::getLine(){
     }
     return "";
 }
+
 double AlbaFileReader::getCurrentLocation() const
 {
-    double location = m_stream.tellg();    return location;
+    double location = m_stream.tellg();
+    return location;
 }
 
 double AlbaFileReader::getFileSize() const

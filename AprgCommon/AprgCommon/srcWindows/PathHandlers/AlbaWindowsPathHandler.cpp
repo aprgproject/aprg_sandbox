@@ -317,18 +317,16 @@ void AlbaWindowsPathHandler::save(string const& path)
     string correctPath(stringHelper::getCorrectPathWithoutDoublePeriod(
                            stringHelper::getCorrectPathWithReplacedSlashCharacters(
                                path, m_slashCharacterString), m_slashCharacterString));
-    DWORD attributes = GetFileAttributes(correctPath.c_str());
-    bool isDirectoryInWindows(attributes == FILE_ATTRIBUTE_DIRECTORY);
-    bool isLastCharacterNotSlash(correctPath[correctPath.length()-1] != m_slashCharacterString[0]);
-    if(isDirectoryInWindows && isLastCharacterNotSlash)
+    if(isSlashNeededAtTheEnd(correctPath, path))
     {
         correctPath = stringHelper::getCorrectPathWithoutDoublePeriod(correctPath + m_slashCharacterString, m_slashCharacterString);
     }
+
     setExtensionFromPath(correctPath);
     setDirectoryAndFileFromPath(correctPath);
     setDriveOrRoot();
     setFileType();
-    m_foundInLocalSystem = INVALID_FILE_ATTRIBUTES != attributes;
+    m_foundInLocalSystem = canBeLocated(correctPath);
 }
 
 void AlbaWindowsPathHandler::setDriveOrRoot()
@@ -339,6 +337,40 @@ void AlbaWindowsPathHandler::setDriveOrRoot()
         m_driveOrRoot = stringHelper::getStringWithCapitalLetters(m_directory.substr(0,index));
     }
     m_relativePath = m_driveOrRoot.empty();
+}
+
+bool AlbaWindowsPathHandler::canBeLocated(string const& fullPath) const
+{
+    DWORD attributes = GetFileAttributes(fullPath.c_str());
+    return INVALID_FILE_ATTRIBUTES != attributes;
+}
+
+bool AlbaWindowsPathHandler::isSlashNeededAtTheEnd(string const& correctPath, string const& path) const
+{
+    bool result(false);
+    bool isCorrectPathLastCharacterIsNotSlash(correctPath[correctPath.length()-1] != m_slashCharacterString[0]);
+    if(isCorrectPathLastCharacterIsNotSlash)
+    {
+        DWORD attributes = GetFileAttributes(correctPath.c_str());
+        bool isFoundInWindows(INVALID_FILE_ATTRIBUTES != attributes);
+        if(isFoundInWindows)
+        {
+            bool isDirectoryInWindows(attributes & FILE_ATTRIBUTE_DIRECTORY);
+            if(isDirectoryInWindows)
+            {
+                result=true;
+            }
+        }
+        else
+        {
+            bool isPathLastCharacterIsSlash(path[path.length()-1] == m_slashCharacterString[0]);
+            if(isPathLastCharacterIsSlash)
+            {
+                result=true;
+            }
+        }
+    }
+    return result;
 }
 
 }//namespace alba

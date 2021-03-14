@@ -13,10 +13,12 @@ AlbaWindowsTimer::AlbaWindowsTimer()
 
 void AlbaWindowsTimer::resetTimer()
 {
-    GetSystemTime(&m_time1);    m_time2 = m_time1;
+    GetSystemTime(&m_time1);
+    m_time2 = m_time1;
 }
 
-void AlbaWindowsTimer::stopTimer(){
+void AlbaWindowsTimer::stopTimer()
+{
     GetSystemTime(&m_time2);
 }
 

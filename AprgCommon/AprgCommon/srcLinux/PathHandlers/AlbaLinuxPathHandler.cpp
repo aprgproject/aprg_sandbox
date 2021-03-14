@@ -6,20 +6,24 @@
 
 #include <fcntl.h>
 #include <unistd.h>
-#include <sys/sendfile.h>#include <sys/types.h>
+#include <sys/sendfile.h>
+#include <sys/types.h>
 #include <sys/stat.h>
 
-#include <cstdio>#include <ctime>
+#include <cstdio>
+#include <ctime>
 #include <iostream>
 #include <string>
 
 using namespace alba::AlbaLinuxHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 AlbaLinuxPathHandler::AlbaLinuxPathHandler(PathInitialValueSource const initialValueSource)
-    : AlbaPathHandler(R"(/)"){
+    : AlbaPathHandler(R"(/)")
+{
     if(PathInitialValueSource::DetectedLocalPath == initialValueSource)
     {
         setPathToDetectedLocalPath();
@@ -57,9 +61,11 @@ double AlbaLinuxPathHandler::getFileSizeEstimate()
     }
     return fileSize;
 }
+
 AlbaDateTime AlbaLinuxPathHandler::getFileCreationTime()
 {
-    struct stat fileStatus;    AlbaDateTime fileCreationTime;
+    struct stat fileStatus;
+    AlbaDateTime fileCreationTime;
     if(0 == stat(getFullPath().c_str(), &fileStatus))
     {
         struct timespec timeSpec;
@@ -73,9 +79,11 @@ AlbaDateTime AlbaLinuxPathHandler::getFileCreationTime()
     }
     return fileCreationTime;
 }
+
 bool AlbaLinuxPathHandler::isFoundInLocalSystem() const
 {
-    return m_foundInLocalSystem;}
+    return m_foundInLocalSystem;
+}
 
 bool AlbaLinuxPathHandler::isRelativePath() const
 {
@@ -98,9 +106,11 @@ void AlbaLinuxPathHandler::setPathToDetectedLocalPath()
     detectedLocalPath[length] = '\0';
     input(string(detectedLocalPath));
 }
+
 void AlbaLinuxPathHandler::createDirectoriesForNonExisitingDirectories() const
 {
-    string fullPath(getFullPath());    unsigned int index = 0, length = static_cast<unsigned int>(fullPath.length());
+    string fullPath(getFullPath());
+    unsigned int index = 0, length = static_cast<unsigned int>(fullPath.length());
     while(index < length)
     {
         unsigned int indexWithSlashCharacter = static_cast<unsigned int>(fullPath.find_first_of(m_slashCharacterString, index));
@@ -216,10 +226,12 @@ bool AlbaLinuxPathHandler::copyToNewFile(string const& newFilePath)
            <<"] 'stat' errno value:["<<errno<<"] error message:["<<getErrorMessage(errno)<<"]"<<endl;
     }
     close (readFileDescriptor);
-    return isSuccessful;}
+    return isSuccessful;
+}
 
 bool AlbaLinuxPathHandler::renameFile(string const& newFileName)
-{    bool isSuccessful(false);
+{
+    bool isSuccessful(false);
     if(isFile())
     {
         string newPath(m_directory+newFileName);
@@ -350,7 +362,8 @@ void AlbaLinuxPathHandler::loopAllFilesAndDirectoriesInDirectoryStream(
     while(directoryPointer != nullptr);
 }
 
-void AlbaLinuxPathHandler::save(string const& path){
+void AlbaLinuxPathHandler::save(string const& path)
+{
     string correctPath(stringHelper::getCorrectPathWithoutDoublePeriod(
                            stringHelper::getStringWithoutCharAtTheEnd(
                                stringHelper::getCorrectPathWithReplacedSlashCharacters(
@@ -360,10 +373,12 @@ void AlbaLinuxPathHandler::save(string const& path){
     if(isSlashNeededAtTheEnd(correctPath, path))
     {
         correctPath = stringHelper::getCorrectPathWithoutDoublePeriod(correctPath + m_slashCharacterString, m_slashCharacterString);
-    }    setExtensionFromPath(correctPath);
+    }
+    setExtensionFromPath(correctPath);
     setDirectoryAndFileFromPath(correctPath);
     setFileType();
-    m_foundInLocalSystem = canBeLocated(correctPath);}
+    m_foundInLocalSystem = canBeLocated(correctPath);
+}
 
 bool AlbaLinuxPathHandler::isPathADirectory(string const& fileOrDirectoryName) const
 {
@@ -381,14 +396,16 @@ bool AlbaLinuxPathHandler::isPathADirectory(string const& fileOrDirectoryName) c
                <<"] 'stat' errno value:["<<errno<<"] error message:["<<getErrorMessage(errno)<<"]"<<endl;
         }
     }
-    return result;}
-
-bool AlbaLinuxPathHandler::canBeLocated(string const& fileOrDirectoryName) const
-{    struct stat statBuffer;
-    return stat(fileOrDirectoryName.c_str(), &statBuffer)==0;
+    return result;
 }
 
-bool AlbaLinuxPathHandler::isSlashNeededAtTheEnd(string const& correctPath, string const& path)
+bool AlbaLinuxPathHandler::canBeLocated(string const& fullPath) const
+{
+    struct stat statBuffer;
+    return stat(fullPath.c_str(), &statBuffer)==0;
+}
+
+bool AlbaLinuxPathHandler::isSlashNeededAtTheEnd(string const& correctPath, string const& path) const
 {
     bool result = false;
     if(canBeLocated(correctPath))
