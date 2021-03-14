@@ -147,30 +147,29 @@ TEST(AlbaMemoryBufferTest, SettingAndRetrievingPrimitiveObjectWorks)
 {
     AlbaMemoryBuffer buffer;
     int input = 0x12345678;
+
     buffer.saveObject<int>(input);
     int& output(buffer.retrieveObject<int>());
+
     EXPECT_EQ(input, output);
 }
-
 TEST(AlbaMemoryBufferTest, SettingAndRetrievingDynamicSizeObjectWorks)
 {
-    AlbaMemoryBuffer buffer;
-    struct SampleDynamicClass
+    AlbaMemoryBuffer buffer;    struct SampleDynamicClass
     {
         vector<int> integers;
     };
     SampleDynamicClass dynamicInput;
+
     dynamicInput.integers.emplace_back(11);
     dynamicInput.integers.emplace_back(22);
-    dynamicInput.integers.emplace_back(33);
-    dynamicInput.integers.emplace_back(44);
+    dynamicInput.integers.emplace_back(33);    dynamicInput.integers.emplace_back(44);
     buffer.saveObject<SampleDynamicClass>(dynamicInput);
     SampleDynamicClass& output(buffer.retrieveObject<SampleDynamicClass>());
+
     ASSERT_EQ(4, output.integers.size());
     EXPECT_EQ(11, output.integers[0]);
-    EXPECT_EQ(22, output.integers[1]);
-    EXPECT_EQ(33, output.integers[2]);
+    EXPECT_EQ(22, output.integers[1]);    EXPECT_EQ(33, output.integers[2]);
     EXPECT_EQ(44, output.integers[3]);
 }
-
 }
