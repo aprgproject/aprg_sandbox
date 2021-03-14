@@ -4,14 +4,13 @@
 
 #include <fstream>
 #include <string>
+#include <vector>
 
 namespace alba
 {
-
 class AlbaFileReader
 {
-public:
-    explicit AlbaFileReader(std::ifstream& stream);
+public:    explicit AlbaFileReader(std::ifstream& stream);
     bool isNotFinished();
     char getCharacter();
     char* getCharacters(unsigned int& numberOfCharacters);
@@ -28,13 +27,13 @@ public:
     double getCurrentLocation() const;
     double getFileSize() const;
     void moveToTheBeginning() const;
-    void moveLocation(unsigned long long location) const;
-    void setMaxBufferSize(unsigned int bufferSize);
+    void moveLocation(unsigned long long const location) const;
+    void setMaxBufferSize(unsigned int const bufferSize);
+    unsigned int getMaxBufferSize() const;
 private:
-    static const unsigned int MAX_BUFFER_SIZE = 10001;
-    unsigned int m_bufferSize = MAX_BUFFER_SIZE;
-    char m_characterBuffer[MAX_BUFFER_SIZE];
+    char* getCharacterBufferPointer();
+    static constexpr unsigned int INITIAL_MAX_BUFFER_SIZE = 10000;
+    std::vector<char> m_characterBuffer;
     std::ifstream& m_stream;
 };
-
 }//namespace alba

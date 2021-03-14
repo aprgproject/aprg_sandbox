@@ -4,12 +4,12 @@
 #include <PathHandlers/PathContantsAndTypes.hpp>
 #include <Time/AlbaDateTime.hpp>
 
+#include <dirent.h>
+
 #include <functional>
 #include <string>
-
 namespace alba
 {
-
 class AlbaLinuxPathHandler: public AlbaPathHandler
 {
 public:
@@ -45,18 +45,25 @@ public:
             std::string const& wildCardSearch,
             ListOfPaths& listOfFiles,
             ListOfPaths& listOfDirectories) const;
+
 private:
     void save(std::string const& path) override;
-    void findFilesAndDirectoriesWithDepth(
-            std::string const& currentDirectory,
+    void findFilesAndDirectoriesWithDepth(            std::string const& currentDirectory,
             std::string const& wildCardSearch,
             ListOfPaths& listOfFiles,
             ListOfPaths& listOfDirectories,
             int depth) const;
+    void loopAllFilesAndDirectoriesInDirectoryStream(
+            DIR *directoryStream,
+            std::string const& currentDirectory,
+            std::string const& wildCardSearch,
+            std::set<std::string>& listOfFiles,
+            std::set<std::string>& listOfDirectories,
+            int depth) const;
     bool isPathADirectory(std::string const& fileOrDirectoryName) const;
     bool canBeLocated(std::string const& fileOrDirectoryName) const;
+    bool isSlashNeededAtTheEnd(std::string const& correctPath, std::string const& path);
     bool m_foundInLocalSystem;
     bool m_relativePath;
 };
-
 }//namespace alba

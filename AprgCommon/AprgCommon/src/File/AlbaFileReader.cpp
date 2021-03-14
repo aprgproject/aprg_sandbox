@@ -12,14 +12,17 @@ using namespace std;
 namespace alba
 {
 
-AlbaFileReader::AlbaFileReader(ifstream& stream) : m_stream(stream){}
-
-bool AlbaFileReader::isNotFinished()
+AlbaFileReader::AlbaFileReader(ifstream& stream)
+    : m_characterBuffer()
+    , m_stream(stream)
 {
-    //return (!m_stream.eof()) && (m_stream.peek()!=EOF);
-    return !m_stream.eof();
+    setMaxBufferSize(INITIAL_MAX_BUFFER_SIZE);
 }
 
+bool AlbaFileReader::isNotFinished()
+{    //return (!m_stream.eof()) && (m_stream.peek()!=EOF);
+    return !m_stream.eof();
+}
 char AlbaFileReader::getCharacter()
 {
     char tempChar(0);
@@ -29,16 +32,20 @@ char AlbaFileReader::getCharacter()
 
 char* AlbaFileReader::getCharacters(unsigned int& numberOfCharacters)
 {
-    m_stream.read(m_characterBuffer, numberOfCharacters);
-    numberOfCharacters = m_stream.gcount();
-    return (char*)m_characterBuffer;
+    unsigned int bufferSize = static_cast<unsigned int>(m_characterBuffer.size());
+    if(bufferSize<=numberOfCharacters)
+    {
+        numberOfCharacters=bufferSize-1;
+    }
+    m_stream.read(getCharacterBufferPointer(), numberOfCharacters);
+    numberOfCharacters = static_cast<unsigned int>(m_stream.gcount());
+    m_characterBuffer[numberOfCharacters] = '\0';
+    return getCharacterBufferPointer();
 }
 template <typename NumberType>
-NumberType AlbaFileReader::getTwoByteData()
-{
+NumberType AlbaFileReader::getTwoByteData(){
     return getData<NumberType, 2>();
 }
-
 template <typename NumberType>
 NumberType AlbaFileReader::getFourByteData()
 {
@@ -74,21 +81,19 @@ template <typename NumberType, unsigned int numberOfBytesToRead>
 NumberType AlbaFileReader::getData()
 {
     NumberType result(0);
-    m_stream.read(m_characterBuffer, numberOfBytesToRead);
-    unsigned int numberOfCharacters = m_stream.gcount();
-    result = accumulate(m_characterBuffer, m_characterBuffer+numberOfCharacters, 0ull, [&](NumberType partialSum, NumberType newValue)
+    m_stream.read(getCharacterBufferPointer(), numberOfBytesToRead);
+    unsigned int numberOfCharacters = static_cast<unsigned int>(m_stream.gcount());
+    result = accumulate(m_characterBuffer.cbegin(), m_characterBuffer.cbegin()+numberOfCharacters, static_cast<NumberType>(0u), [&](NumberType partialSum, NumberType newValue)
     {
-        partialSum = (NumberType)partialSum << 8;
+        partialSum = static_cast<NumberType>(partialSum << 8);
         partialSum |= (0xFF & newValue);
-        return (NumberType)partialSum;
+        return partialSum;
     });
     return result;
 }
-
 template unsigned int AlbaFileReader::getTwoByteData<unsigned int>();
 template unsigned int AlbaFileReader::getFourByteData<unsigned int>();
-template unsigned long long AlbaFileReader::getEightByteData<unsigned long long>();
-template unsigned int AlbaFileReader::getTwoByteSwappedData<unsigned int>();
+template unsigned long long AlbaFileReader::getEightByteData<unsigned long long>();template unsigned int AlbaFileReader::getTwoByteSwappedData<unsigned int>();
 template unsigned int AlbaFileReader::getFourByteSwappedData<unsigned int>();
 template unsigned long long AlbaFileReader::getEightByteSwappedData<unsigned long long>();
 template unsigned int AlbaFileReader::getData<unsigned int, 2>();
@@ -97,38 +102,33 @@ template unsigned int AlbaFileReader::getData<unsigned int, 8>();
 
 void AlbaFileReader::saveDataToMemoryBuffer(AlbaMemoryBuffer& buffer, unsigned int numberOfBytesToRead)
 {
-    char* writer = (char*)buffer.resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(numberOfBytesToRead);
+    char* writer = static_cast<char*>(buffer.resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(numberOfBytesToRead));
     m_stream.read(writer, numberOfBytesToRead);
 }
-
 string AlbaFileReader::getLineAndIgnoreWhiteSpaces()
 {
     while(!m_stream.eof())
     {
         m_stream.clear();
-        m_stream.getline(m_characterBuffer, m_bufferSize);
-        string result(m_characterBuffer);
+        m_stream.getline(getCharacterBufferPointer(), static_cast<unsigned int>(m_characterBuffer.size()));
+        string result(getCharacterBufferPointer());
         result = stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(result);
         if(""!=result){ return result; }
-    }
-    return "";
+    }    return "";
 }
 
-string AlbaFileReader::getLine()
-{
+string AlbaFileReader::getLine(){
     if(!m_stream.eof())
     {
         m_stream.clear();
-        m_stream.getline (m_characterBuffer, m_bufferSize);
-        return string(m_characterBuffer);
+        m_stream.getline(getCharacterBufferPointer(), static_cast<unsigned int>(m_characterBuffer.size()));
+        return string(getCharacterBufferPointer());
     }
     return "";
 }
-
 double AlbaFileReader::getCurrentLocation() const
 {
-    double location = m_stream.tellg();
-    return location;
+    double location = m_stream.tellg();    return location;
 }
 
 double AlbaFileReader::getFileSize() const
@@ -144,17 +144,32 @@ void AlbaFileReader::moveToTheBeginning() const
     m_stream.seekg(0, m_stream.beg);
 }
 
-void AlbaFileReader::moveLocation(unsigned long long location) const
+void AlbaFileReader::moveLocation(unsigned long long const location) const
 {
-    m_stream.seekg(location, m_stream.beg);
+    m_stream.seekg(static_cast<long>(location), m_stream.beg);
 }
 
-void AlbaFileReader::setMaxBufferSize(unsigned int bufferSize)
+void AlbaFileReader::setMaxBufferSize(unsigned int const bufferSize)
 {
-    if(bufferSize+1 < MAX_BUFFER_SIZE && bufferSize > 0)
+    //This is ensuring that buffer always contains one.
+    //1) This is for "front()".
+    //2) This is for null terminator.
+    m_characterBuffer.resize(bufferSize+1);
+}
+
+unsigned int AlbaFileReader::getMaxBufferSize() const
+{
+    unsigned int bufferSize = static_cast<unsigned int>(m_characterBuffer.size());
+    if(bufferSize>0)
     {
-        m_bufferSize = bufferSize+1;
+        bufferSize--;
     }
+    return bufferSize;
+}
+
+char* AlbaFileReader::getCharacterBufferPointer()
+{
+    return &(m_characterBuffer.front());
 }
 
 }//namespace alba

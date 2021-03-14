@@ -1,28 +1,25 @@
 #include "AlbaLinuxPathHandler.hpp"
 
+#include <Linux/AlbaLinuxHelper.hpp>
 #include <String/AlbaStringHelper.hpp>
 #include <Time/AlbaLinuxTimeHelper.hpp>
 
-#include <dirent.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <sys/sendfile.h>
-#include <sys/types.h>
+#include <sys/sendfile.h>#include <sys/types.h>
 #include <sys/stat.h>
 
-#include <cstdio>
-#include <ctime>
+#include <cstdio>#include <ctime>
 #include <iostream>
 #include <string>
 
+using namespace alba::AlbaLinuxHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 AlbaLinuxPathHandler::AlbaLinuxPathHandler(PathInitialValueSource const initialValueSource)
-    : AlbaPathHandler(R"(/)")
-{
+    : AlbaPathHandler(R"(/)"){
     if(PathInitialValueSource::DetectedLocalPath == initialValueSource)
     {
         setPathToDetectedLocalPath();
@@ -55,15 +52,14 @@ double AlbaLinuxPathHandler::getFileSizeEstimate()
     }
     else
     {
-        cout<<"Error in AlbaLinuxPathHandler::getFileSizeEstimate() path:["<<getFullPath()<<"] 'stat' errno value:["<<errno<<"]"<<endl;
+        cout<<"Error in AlbaLinuxPathHandler::getFileSizeEstimate() path:["<<getFullPath()
+           <<"] 'stat' errno value:["<<errno<<"] error message:["<<getErrorMessage(errno)<<"]"<<endl;
     }
     return fileSize;
 }
-
 AlbaDateTime AlbaLinuxPathHandler::getFileCreationTime()
 {
-    struct stat fileStatus;
-    AlbaDateTime fileCreationTime;
+    struct stat fileStatus;    AlbaDateTime fileCreationTime;
     if(0 == stat(getFullPath().c_str(), &fileStatus))
     {
         struct timespec timeSpec;
@@ -72,15 +68,14 @@ AlbaDateTime AlbaLinuxPathHandler::getFileCreationTime()
     }
     else
     {
-        cout<<"Error in AlbaLinuxPathHandler::getFileCreationTime() path:["<<getFullPath()<<"] 'stat' errno value:["<<errno<<"]"<<endl;
+        cout<<"Error in AlbaLinuxPathHandler::getFileCreationTime() path:["<<getFullPath()
+           <<"] 'stat' errno value:["<<errno<<"] error message:["<<getErrorMessage(errno)<<"]"<<endl;
     }
     return fileCreationTime;
 }
-
 bool AlbaLinuxPathHandler::isFoundInLocalSystem() const
 {
-    return m_foundInLocalSystem;
-}
+    return m_foundInLocalSystem;}
 
 bool AlbaLinuxPathHandler::isRelativePath() const
 {
@@ -94,15 +89,18 @@ void AlbaLinuxPathHandler::setPathToDetectedLocalPath()
     char argument[MAX_ARGUMENT_LENGTH];
     char detectedLocalPath[MAX_PATH];
 
-    sprintf( argument, "/proc/%d/exe", getpid() );
-    readlink(argument, detectedLocalPath, MAX_PATH);
+    snprintf(argument, MAX_ARGUMENT_LENGTH, "/proc/%d/exe", getpid());
+    unsigned int length = readlink(argument, detectedLocalPath, MAX_PATH);
+    if(length<=0)
+    {
+        length=1;
+    }
+    detectedLocalPath[length] = '\0';
     input(string(detectedLocalPath));
 }
-
 void AlbaLinuxPathHandler::createDirectoriesForNonExisitingDirectories() const
 {
-    string fullPath(getFullPath());
-    unsigned int index = 0, length = static_cast<unsigned int>(fullPath.length());
+    string fullPath(getFullPath());    unsigned int index = 0, length = static_cast<unsigned int>(fullPath.length());
     while(index < length)
     {
         unsigned int indexWithSlashCharacter = static_cast<unsigned int>(fullPath.find_first_of(m_slashCharacterString, index));
@@ -214,15 +212,14 @@ bool AlbaLinuxPathHandler::copyToNewFile(string const& newFilePath)
     }
     else
     {
-        cout<<"Error in AlbaLinuxPathHandler::copyToNewFile() path:["<<getFullPath()<<"] 'stat' errno value:["<<errno<<"]"<<endl;
+        cout<<"Error in AlbaLinuxPathHandler::copyToNewFile() path:["<<getFullPath()
+           <<"] 'stat' errno value:["<<errno<<"] error message:["<<getErrorMessage(errno)<<"]"<<endl;
     }
     close (readFileDescriptor);
-    return isSuccessful;
-}
+    return isSuccessful;}
 
 bool AlbaLinuxPathHandler::renameFile(string const& newFileName)
-{
-    bool isSuccessful(false);
+{    bool isSuccessful(false);
     if(isFile())
     {
         string newPath(m_directory+newFileName);
@@ -298,57 +295,75 @@ void AlbaLinuxPathHandler::findFilesAndDirectoriesWithDepth(
     depth -= (depth>0) ? 1 : 0;
 
     DIR *directoryStream;
-    struct dirent *directoryPointer;
 
     directoryStream  = opendir(currentDirectory.c_str());
-    if(directoryStream == nullptr)
+    if(directoryStream != nullptr)
     {
-        cout<<"Error in AlbaLinuxPathHandler::findFilesAndDirectoriesWithDepth() currentDirectory:["<<currentDirectory<<"] 'opendir' errno value:["<<errno<<"]"<<endl;
+        loopAllFilesAndDirectoriesInDirectoryStream(directoryStream, currentDirectory, wildCardSearch, listOfFiles, listOfDirectories, depth);
     }
-
-    do
+    else
     {
-        directoryPointer = readdir(directoryStream);
-        if(directoryPointer == nullptr)
-        {
-            cout<<"Error in AlbaLinuxPathHandler::findFilesAndDirectoriesWithDepth() currentDirectory:["<<currentDirectory<<"] 'readdir' errno value:["<<errno<<"]"<<endl;
-        }
-        else
-        {
-            string fileOrDirectoryName(directoryPointer->d_name);
-            if(isPathADirectory(fileOrDirectoryName))
-            {
-                listOfDirectories.emplace(fileOrDirectoryName);
-                findFilesAndDirectoriesWithDepth(fileOrDirectoryName, wildCardSearch, listOfFiles, listOfDirectories, depth);
-            }
-            else
-            {
-                listOfFiles.emplace(fileOrDirectoryName);
-            }
-        }
+        cout<<"Error in AlbaLinuxPathHandler::findFilesAndDirectoriesWithDepth() currentDirectory:["<<currentDirectory
+           <<"] 'opendir' errno value:["<<errno<<"] error message:["<<getErrorMessage(errno)<<"]"<<endl;
     }
-    while(directoryPointer != nullptr);
     closedir(directoryStream);
 }
 
-void AlbaLinuxPathHandler::save(string const& path)
+void AlbaLinuxPathHandler::loopAllFilesAndDirectoriesInDirectoryStream(
+        DIR *directoryStream,
+        string const& currentDirectory,
+        string const& wildCardSearch,
+        set<string>& listOfFiles,
+        set<string>& listOfDirectories,
+        int depth) const
 {
+    struct dirent *directoryPointer;
+    do
+    {
+        directoryPointer = readdir(directoryStream);
+        if(directoryPointer != nullptr)
+        {
+            string immediateFileOrDirectoryName(directoryPointer->d_name);
+            bool canProceedBasedOnWildcard = wildCardSearch.empty() || "*.*" == wildCardSearch || stringHelper::isWildcardMatch(immediateFileOrDirectoryName, wildCardSearch);
+            bool isTheNameNotComposedOfPeriods = "." != immediateFileOrDirectoryName && ".." != immediateFileOrDirectoryName;
+            if(isTheNameNotComposedOfPeriods && canProceedBasedOnWildcard)
+            {
+                string fullFileOrDirectoryName(currentDirectory+immediateFileOrDirectoryName);
+                if(isPathADirectory(fullFileOrDirectoryName))
+                {
+                    string fullFileOrDirectoryNameWithSlash(fullFileOrDirectoryName+"/");
+                    listOfDirectories.emplace(fullFileOrDirectoryNameWithSlash);
+                    findFilesAndDirectoriesWithDepth(fullFileOrDirectoryNameWithSlash, wildCardSearch, listOfFiles, listOfDirectories, depth);
+                }
+                else
+                {
+                    listOfFiles.emplace(fullFileOrDirectoryName);
+                }
+            }
+        }
+        else
+        {
+            cout<<"Error in AlbaLinuxPathHandler::findFilesAndDirectoriesWithDepth() currentDirectory:["<<currentDirectory
+               <<"] 'readdir' errno value:["<<errno<<"] error message:["<<getErrorMessage(errno)<<"]"<<endl;
+        }
+    }
+    while(directoryPointer != nullptr);
+}
+
+void AlbaLinuxPathHandler::save(string const& path){
     string correctPath(stringHelper::getCorrectPathWithoutDoublePeriod(
                            stringHelper::getStringWithoutCharAtTheEnd(
                                stringHelper::getCorrectPathWithReplacedSlashCharacters(
                                    path , m_slashCharacterString)
                                , m_slashCharacterString[0])
                        , m_slashCharacterString));
-    bool isLastCharacterNotSlash(correctPath[correctPath.length()-1] != m_slashCharacterString[0]);
-    if(isPathADirectory(correctPath) && isLastCharacterNotSlash)
+    if(isSlashNeededAtTheEnd(correctPath, path))
     {
         correctPath = stringHelper::getCorrectPathWithoutDoublePeriod(correctPath + m_slashCharacterString, m_slashCharacterString);
-    }
-    setExtensionFromPath(correctPath);
+    }    setExtensionFromPath(correctPath);
     setDirectoryAndFileFromPath(correctPath);
     setFileType();
-    m_foundInLocalSystem = canBeLocated(correctPath);
-}
+    m_foundInLocalSystem = canBeLocated(correctPath);}
 
 bool AlbaLinuxPathHandler::isPathADirectory(string const& fileOrDirectoryName) const
 {
@@ -362,16 +377,36 @@ bool AlbaLinuxPathHandler::isPathADirectory(string const& fileOrDirectoryName) c
         }
         else
         {
-            cout<<"Error in AlbaLinuxPathHandler::isPathADirectory() path:["<<getFullPath()<<"] 'stat' errno value:["<<errno<<"]"<<endl;
+            cout<<"Error in AlbaLinuxPathHandler::isPathADirectory() path:["<<getFullPath()
+               <<"] 'stat' errno value:["<<errno<<"] error message:["<<getErrorMessage(errno)<<"]"<<endl;
+        }
+    }
+    return result;}
+
+bool AlbaLinuxPathHandler::canBeLocated(string const& fileOrDirectoryName) const
+{    struct stat statBuffer;
+    return stat(fileOrDirectoryName.c_str(), &statBuffer)==0;
+}
+
+bool AlbaLinuxPathHandler::isSlashNeededAtTheEnd(string const& correctPath, string const& path)
+{
+    bool result = false;
+    if(canBeLocated(correctPath))
+    {
+        if(isPathADirectory(correctPath))
+        {
+            result=true;
+        }
+    }
+    else
+    {
+        bool isLastCharacterSlash(path[path.length()-1] == m_slashCharacterString[0]);
+        if(isLastCharacterSlash)
+        {
+            result=true;
         }
     }
     return result;
-}
-
-bool AlbaLinuxPathHandler::canBeLocated(string const& fileOrDirectoryName) const
-{
-    struct stat statBuffer;
-    return stat(fileOrDirectoryName.c_str(), &statBuffer)==0;
 }
 
 }//namespace alba
