@@ -2,14 +2,11 @@
 
 #include <Container/AlbaContainerHelper.hpp>
 
-#include <cstring>
 #include <memory>
 
 using namespace std;
-
 namespace alba
 {
-
 AlbaMemoryBuffer::AlbaMemoryBuffer()
 {}
 

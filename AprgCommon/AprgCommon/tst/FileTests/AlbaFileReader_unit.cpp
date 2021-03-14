@@ -11,15 +11,24 @@ using namespace std;
 namespace alba
 {
 
-TEST(FileReadTest, ReadFromTestFile_SetAndGetBufferSizeWorks)
+TEST(FileReadTest, ReadFromTestFile_ConstructorsWorks)
 {
     ifstream inputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
     ASSERT_TRUE(inputTestFile.is_open());
 
+    AlbaFileReader fileReader1(inputTestFile);
+    EXPECT_EQ(10000, fileReader1.getMaxBufferSize());
+    AlbaFileReader fileReader2(inputTestFile, 200);
+    EXPECT_EQ(200, fileReader2.getMaxBufferSize());
+}
+
+TEST(FileReadTest, ReadFromTestFile_SetAndGetBufferSizeWorks)
+{
+    ifstream inputTestFile(APRG_COMMON_TEST_FILE_TO_READ);    ASSERT_TRUE(inputTestFile.is_open());
+
     AlbaFileReader fileReader(inputTestFile);
     EXPECT_EQ(10000, fileReader.getMaxBufferSize());
-    fileReader.setMaxBufferSize(200);
-    EXPECT_EQ(200, fileReader.getMaxBufferSize());
+    fileReader.setMaxBufferSize(200);    EXPECT_EQ(200, fileReader.getMaxBufferSize());
 }
 
 TEST(FileReadTest, ReadFromTestFile_ReadLineUsingVariousCharacters)

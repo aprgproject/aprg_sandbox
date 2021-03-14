@@ -1,11 +1,10 @@
 #pragma once
 
+#include <cstring>
 #include <string>
 #include <vector>
-
 namespace alba
 {
-
 class AlbaMemoryBuffer
 {
 public:
@@ -23,9 +22,21 @@ public:
     void* resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(unsigned int const size);
     void addData(void const* bufferPointer, unsigned int const size);
     std::string getDisplayableString() const;
+    template <typename ObjectType> void saveObject(ObjectType const& object)
+    {
+        unsigned int objectSize = sizeof(object);
+        resize(objectSize);
+        void const* sourcePointer = static_cast<void const*>(&object);
+        void * destinationVoidPointer = getBufferPointer();
+        memcpy(destinationVoidPointer, sourcePointer, objectSize);
+    }
+    template <typename ObjectType> ObjectType& retrieveObject()
+    {
+        ObjectType * objectTypePointer = reinterpret_cast<ObjectType *>(getBufferPointer());
+        return *objectTypePointer;
+    }
 
 private:
-    std::vector<unsigned char> m_buffer;
-};
+    std::vector<unsigned char> m_buffer;};
 
 }//namespace alba
