@@ -32,11 +32,9 @@ public:
     }
     template <typename ObjectType> ObjectType& retrieveObject()
     {
-        ObjectType * objectTypePointer = reinterpret_cast<ObjectType *>(getBufferPointer());
-        return *objectTypePointer;
+        return *reinterpret_cast<ObjectType *>(getBufferPointer());
     }
 
-private:
-    std::vector<unsigned char> m_buffer;};
+private:    std::vector<unsigned char> m_buffer;};
 
 }//namespace alba
