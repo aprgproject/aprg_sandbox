@@ -4,11 +4,10 @@ using namespace std;
 
 namespace alba
 {
-
+/*
 bool AlbaLinuxUserAutomation::isLetterPressed(char const letter) const
 {
-    return false;
-}
+    return false;}
 
 void AlbaLinuxUserAutomation::setStringToClipboard(std::string const& clipBoardText) const
 {
@@ -119,4 +118,5 @@ unsigned int AlbaLinuxUserAutomation::convertToVirtualKey(char const character) 
 {
     return 0;
 }
+*/
 }

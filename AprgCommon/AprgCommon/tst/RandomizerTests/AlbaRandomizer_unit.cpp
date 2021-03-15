@@ -30,16 +30,15 @@ TEST(AlbaRandomizer, RandomValuesAreUniformlyDistributed)
     int const maximumRandomValue(9);
     int numberOfRandomValues(maximumRandomValue-minimumRandomValue+1);
     int const iterations(10000);
-    int const allowedDeviation(iterations*0.1);
-    vector<int> hitsForEachValue(numberOfRandomValues, 0);
+    int const allowedDeviation(static_cast<int>(iterations*0.1));
+    vector<int> hitsForEachValue(static_cast<unsigned long>(numberOfRandomValues), 0);
     for(int i=0; i<iterations; i++)
     {
         int random(randomizer.getRandomValueInUniformDistribution(minimumRandomValue, maximumRandomValue));
-        hitsForEachValue[random]++;
+        hitsForEachValue[static_cast<unsigned long>(random)]++;
     }
 
     ASSERT_FALSE(hitsForEachValue.empty());
-
     int minimumHits=hitsForEachValue.front();
     int maximumHits=hitsForEachValue.front();
     for(int hits : hitsForEachValue)

@@ -9,27 +9,23 @@ using namespace std;
 namespace alba
 {
 
-DisplayTableCell::DisplayTableCell(unsigned int columnIndex)
-    : m_columnIndex(columnIndex)
-    , m_textToDisplay("")
+DisplayTableCell::DisplayTableCell()
+    : m_textToDisplay("")
     , m_horizontalMode(DisplayTableCellMode::center)
     , m_verticalMode(DisplayTableCellMode::center)
 {}
 
-DisplayTableCell::DisplayTableCell(unsigned int columnIndex, string const& text)
-    : m_columnIndex(columnIndex)
-    , m_textToDisplay(text)
+DisplayTableCell::DisplayTableCell(string const& text)
+    : m_textToDisplay(text)
     , m_horizontalMode(DisplayTableCellMode::center)
     , m_verticalMode(DisplayTableCellMode::center)
 {}
 
-DisplayTableCell::DisplayTableCell(unsigned int columnIndex, string const& text, DisplayTableCellMode const horizontalMode, DisplayTableCellMode const verticalMode)
-    : m_columnIndex(columnIndex)
-    , m_textToDisplay(text)
+DisplayTableCell::DisplayTableCell(string const& text, DisplayTableCellMode const horizontalMode, DisplayTableCellMode const verticalMode)
+    : m_textToDisplay(text)
     , m_horizontalMode(horizontalMode)
     , m_verticalMode(verticalMode)
 {}
-
 string DisplayTableCell::getText() const
 {
     return m_textToDisplay;
@@ -60,13 +56,11 @@ void DisplayTableCell::setVerticalMode(DisplayTableCellMode const mode)
     m_verticalMode = mode;
 }
 
-DisplayTableRow::DisplayTableRow(unsigned int rowIndex)
-    : m_rowIndex(rowIndex)
-    , m_rowMode(DisplayTableRowMode::align)
+DisplayTableRow::DisplayTableRow()
+    : m_rowMode(DisplayTableRowMode::align)
 {}
 
-bool DisplayTableRow::isAlign() const
-{
+bool DisplayTableRow::isAlign() const{
     return DisplayTableRowMode::align == m_rowMode;
 }
 
@@ -102,16 +96,15 @@ DisplayTableCell const& DisplayTableRow::getCellConstReference(unsigned int colu
 
 void DisplayTableRow::addCell(string const & text)
 {
-    m_cells.emplace_back(getNumberOfColumns(), text);
+    m_cells.emplace_back(text);
 }
 
 void DisplayTableRow::addCell(string const & text, DisplayTableCellMode const horizontalMode, DisplayTableCellMode const verticalMode)
 {
-    m_cells.emplace_back(getNumberOfColumns(), text, horizontalMode, verticalMode);
+    m_cells.emplace_back(text, horizontalMode, verticalMode);
 }
 
-DisplayTable::DisplayTable()
-{}
+DisplayTable::DisplayTable(){}
 
 unsigned int DisplayTable::getTotalRows() const
 {
@@ -160,11 +153,10 @@ DisplayTableCell const& DisplayTable::getCellConstReference(unsigned int rowInde
 
 void DisplayTable::addRow()
 {
-    m_rows.emplace_back(getTotalRows());
+    m_rows.emplace_back();
 }
 
-void DisplayTable::setBorders(string const& horizontalBorder, string const& verticalBorder)
-{
+void DisplayTable::setBorders(string const& horizontalBorder, string const& verticalBorder){
     m_horizontalBorder = horizontalBorder;
     m_verticalBorder = verticalBorder;
 }

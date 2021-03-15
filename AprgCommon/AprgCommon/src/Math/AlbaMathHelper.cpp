@@ -3,14 +3,23 @@
 #include <algorithm>
 #include <cmath>
 
+using namespace std;
+
 namespace alba
 {
 
 template <typename NumberType>
+bool mathHelper::isConsideredEqual(NumberType const value1, NumberType const value2)
+{
+    constexpr double tolerance(0.00000000001);
+    double scaledDifference(getAbsoluteValue(value1 - value2)/max(value1, value2));
+    return scaledDifference < tolerance;
+}
+
+template <typename NumberType>
 NumberType mathHelper::getDistance(NumberType const value1, NumberType const value2)
 {
-    std::pair<NumberType, NumberType> minMaxPair = std::minmax(value1, value2);
-    return minMaxPair.second-minMaxPair.first;
+    std::pair<NumberType, NumberType> minMaxPair = std::minmax(value1, value2);    return minMaxPair.second-minMaxPair.first;
 }
 template unsigned int mathHelper::getDistance<unsigned int>(unsigned int const value1, unsigned int const value2);
 
@@ -111,21 +120,20 @@ double mathHelper::calculateInverseCumulativeStandardDistributionApproximation(d
         double probabilityLowest = calculateCumulativeStandardDistributionApproximation(lowestZ);
         double probabilityMiddle = calculateCumulativeStandardDistributionApproximation(middleZ);
         double probabilityHighest = calculateCumulativeStandardDistributionApproximation(highestZ);
-        if(probability==probabilityLowest)
+        if(isConsideredEqual(probability, probabilityLowest))
         {
             z=lowestZ;
             break;
         }
-        else if(probability==probabilityMiddle)
+        else if(isConsideredEqual(probability, probabilityMiddle))
         {
             z=middleZ;
             break;
         }
-        else if(probability==probabilityHighest)
+        else if(isConsideredEqual(probability, probabilityHighest))
         {
             z=highestZ;
-            break;
-        }
+            break;        }
         else if(probability>probabilityLowest && probability<probabilityMiddle)
         {
             highestZ=middleZ;

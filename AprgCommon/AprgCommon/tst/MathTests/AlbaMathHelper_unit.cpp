@@ -62,20 +62,20 @@ TEST(AlbaMathHelperTest, DifferenceFromGreaterMultipleCanBeComputed)
 TEST(AlbaMathHelperTest, CumulativeStandardDistributionApproximationCanBeComputed)
 {
     //comparing with Z table, http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/standardnormaltable.pdf
-    EXPECT_EQ(0.5, calculateCumulativeStandardDistributionApproximation(0));
-    EXPECT_EQ(0.86433393905361732834, calculateCumulativeStandardDistributionApproximation(1.1));
-    EXPECT_EQ(0.0081975359245961311461, calculateCumulativeStandardDistributionApproximation(-2.4));
-    EXPECT_EQ(0.99996696335237056363, calculateCumulativeStandardDistributionApproximation(3.99));
-    EXPECT_EQ(3.3036647629402369943e-005, calculateCumulativeStandardDistributionApproximation(-3.99));
+    EXPECT_DOUBLE_EQ(0.5, calculateCumulativeStandardDistributionApproximation(0));
+    EXPECT_DOUBLE_EQ(0.86433393905361732834, calculateCumulativeStandardDistributionApproximation(1.1));
+    EXPECT_DOUBLE_EQ(0.0081975359245961311461, calculateCumulativeStandardDistributionApproximation(-2.4));
+    EXPECT_DOUBLE_EQ(0.99996696335237056363, calculateCumulativeStandardDistributionApproximation(3.99));
+    EXPECT_DOUBLE_EQ(3.3036647629402369943e-005, calculateCumulativeStandardDistributionApproximation(-3.99));
 }
 
 TEST(AlbaMathHelperTest, InverseCumulativeStandardDistributionApproximationCanBeComputed)
 {
-    EXPECT_EQ(0, calculateInverseCumulativeStandardDistributionApproximation(0.5, 20));
-    EXPECT_EQ(1.0999774932861328125, calculateInverseCumulativeStandardDistributionApproximation(0.86433, 20));
-    EXPECT_EQ(-2.4003314971923828125, calculateInverseCumulativeStandardDistributionApproximation(0.00819, 20));
-    EXPECT_EQ(3.9444065093994140625, calculateInverseCumulativeStandardDistributionApproximation(0.99996, 20));
-    EXPECT_EQ(0, calculateInverseCumulativeStandardDistributionApproximation(3.3036, 20));
+    EXPECT_DOUBLE_EQ(0, calculateInverseCumulativeStandardDistributionApproximation(0.5, 20));
+    EXPECT_DOUBLE_EQ(1.0999774932861328125, calculateInverseCumulativeStandardDistributionApproximation(0.86433, 20));
+    EXPECT_DOUBLE_EQ(-2.4003314971923828125, calculateInverseCumulativeStandardDistributionApproximation(0.00819, 20));
+    EXPECT_DOUBLE_EQ(3.9444065093994140625, calculateInverseCumulativeStandardDistributionApproximation(0.99996, 20));
+    EXPECT_DOUBLE_EQ(0, calculateInverseCumulativeStandardDistributionApproximation(3.3036, 20));
 }
 
 }

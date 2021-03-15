@@ -30,7 +30,7 @@ AlbaDateTime convertSystemTimeToAlbaDateTime(struct timespec const& timeSpec)
                 static_cast<unsigned char>(timeInformation->tm_hour),
                 static_cast<unsigned char>(timeInformation->tm_min),
                 static_cast<unsigned char>(timeInformation->tm_sec),
-                static_cast<unsigned int>(timeSpec.tv_nsec/AlbaDateTimeConstants::NUMBER_OF_NANOSECONDS_IN_A_MICROSECOND));
+                static_cast<unsigned int>(static_cast<double>(timeSpec.tv_nsec)/AlbaDateTimeConstants::NUMBER_OF_NANOSECONDS_IN_A_MICROSECOND));
 }
 
 }//namespace alba

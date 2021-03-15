@@ -98,11 +98,10 @@ void AlbaLinuxPathHandler::setPathToDetectedLocalPath()
     char detectedLocalPath[MAX_PATH];
 
     snprintf(argument, MAX_ARGUMENT_LENGTH, "/proc/%d/exe", getpid());
-    unsigned int length = readlink(argument, detectedLocalPath, MAX_PATH);
+    unsigned int length = static_cast<unsigned int>(readlink(argument, detectedLocalPath, MAX_PATH));
     if(length<=0)
     {
-        length=1;
-    }
+        length=1;    }
     detectedLocalPath[length] = '\0';
     input(string(detectedLocalPath));
 }

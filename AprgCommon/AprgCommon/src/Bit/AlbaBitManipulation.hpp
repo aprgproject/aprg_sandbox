@@ -35,39 +35,38 @@ public:
     static constexpr DataTypeToManipulate shiftBytesToTheLeft(ArgumentType const value)
     {
         static_assert(sizeof(DataTypeToManipulate) > shiftValue, "shiftBytesToTheLeft: sizeof(DataTypeToManipulate) size is greater than shift value");
-        return ((DataTypeToManipulate)value << shiftValue*AlbaBitConstants::BYTE_SIZE_IN_BITS);
+        return static_cast<DataTypeToManipulate>(static_cast<DataTypeToManipulate>(value) << shiftValue*AlbaBitConstants::BYTE_SIZE_IN_BITS);
     }
 
     template <unsigned char shiftValue, typename ArgumentType>
     static constexpr DataTypeToManipulate shiftBytesToTheRight(ArgumentType const value)
     {
         static_assert(sizeof(DataTypeToManipulate) > shiftValue, "shiftBytesToTheRight: sizeof(DataTypeToManipulate) size is greater than shift value");
-        return ((DataTypeToManipulate)value >> shiftValue*AlbaBitConstants::BYTE_SIZE_IN_BITS);
+        return (static_cast<DataTypeToManipulate>(value) >> shiftValue*AlbaBitConstants::BYTE_SIZE_IN_BITS);
     }
 
     template <unsigned char shiftValue, typename ArgumentType>
     static constexpr DataTypeToManipulate shiftNibblesToTheLeft(ArgumentType const value)
     {
         static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::NUMBER_OF_NIBBLES_IN_BYTE > shiftValue, "shiftNibblesToTheLeft: sizeof(DataTypeToManipulate) size is greater than shift value");
-        return ((DataTypeToManipulate)value << shiftValue*AlbaBitConstants::NIBBLE_SIZE_IN_BITS);
+        return (static_cast<DataTypeToManipulate>(value) << shiftValue*AlbaBitConstants::NIBBLE_SIZE_IN_BITS);
     }
 
     template <unsigned char shiftValue, typename ArgumentType>
     static constexpr DataTypeToManipulate shiftNibblesToTheRight(ArgumentType const value)
     {
         static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::NUMBER_OF_NIBBLES_IN_BYTE > shiftValue, "shiftNibblesToTheRight: sizeof(DataTypeToManipulate) size is greater than shift value");
-        return ((DataTypeToManipulate)value >> shiftValue*AlbaBitConstants::NIBBLE_SIZE_IN_BITS);
+        return (static_cast<DataTypeToManipulate>(value) >> shiftValue*AlbaBitConstants::NIBBLE_SIZE_IN_BITS);
     }
 
     template <unsigned char position>
     static constexpr unsigned char getByteAt(DataTypeToManipulate const value)
     {
         static_assert(sizeof(DataTypeToManipulate) > position, "getByteAt: position is greater than DataTypeToManipulate size");
-        return shiftBytesToTheRight<position>(value);
+        return static_cast<unsigned char>(shiftBytesToTheRight<position>(value));
     }
 
-    template <unsigned char position>
-    static constexpr unsigned char getNibbleAt(DataTypeToManipulate const value)
+    template <unsigned char position>    static constexpr unsigned char getNibbleAt(DataTypeToManipulate const value)
     {
         static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::NUMBER_OF_NIBBLES_IN_BYTE > position, "getNibbleAt: position is greater than two times DataTypeToManipulate size");
         return shiftNibblesToTheRight<position>(value) & AlbaBitConstants::NIBBLE_MASK;
@@ -102,11 +101,10 @@ public:
 
     static constexpr DataTypeToManipulate generateOnesWithNumberOfBits(unsigned int numberOfOnes)
     {
-        return (DataTypeToManipulate)(round(pow((double)2, (double)numberOfOnes))-1);
+        return static_cast<DataTypeToManipulate>(round(pow(static_cast<double>(2), static_cast<double>(numberOfOnes)))-1);
     }
 
-    static constexpr DataTypeToManipulate getAllBitsAsserted()
-    {
+    static constexpr DataTypeToManipulate getAllBitsAsserted()    {
         static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate), "The swapWithSize with this size or type is not supported. Please add a specialization.");
         return 0;
     }

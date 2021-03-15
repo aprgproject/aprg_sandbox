@@ -237,31 +237,29 @@ void dateTimeHelper::reorganizeUnderflowValues(int & totalDays, int & totalSecon
 {
     if(totalMicroSeconds<0)
     {
-        unsigned int neededSeconds = (unsigned int)(ceil(((double)-1*totalMicroSeconds)/NUMBER_OF_MICROSECONDS_IN_A_SECOND));
+        unsigned int neededSeconds = static_cast<unsigned int>((ceil((static_cast<double>(-1)*totalMicroSeconds)/NUMBER_OF_MICROSECONDS_IN_A_SECOND)));
         totalSeconds-=neededSeconds;
         totalMicroSeconds+=neededSeconds*NUMBER_OF_MICROSECONDS_IN_A_SECOND;
     }
     if(totalSeconds<0)
     {
-        unsigned int neededDays = (unsigned int)(ceil(((double)-1*totalSeconds)/NUMBER_OF_SECONDS_IN_A_DAY));
+        unsigned int neededDays = static_cast<unsigned int>((ceil((static_cast<double>(-1)*totalSeconds)/NUMBER_OF_SECONDS_IN_A_DAY)));
         totalDays-=neededDays;
         totalSeconds+=neededDays*NUMBER_OF_SECONDS_IN_A_DAY;
-    }
-}
+    }}
 
 unsigned int dateTimeHelper::retrieveAndRemoveYearsFromTotalDays(unsigned int & remainingDays)
 {
     unsigned int years(remainingDays/NUMBER_OF_DAYS_IN_NON_LEAP_YEAR);
-    int remainingDaysTemp = remainingDays-getNumberOfDaysBeforeThisYear(years);
+    int remainingDaysTemp = static_cast<int>(remainingDays)-static_cast<int>(getNumberOfDaysBeforeThisYear(years));
     while(remainingDaysTemp<=0 && years>0)
     {
         years--;
         remainingDaysTemp += getNumberOfDaysInAYear(years);
     }
-    remainingDays=remainingDaysTemp;
+    remainingDays=static_cast<unsigned int>(remainingDaysTemp);
     return years;
 }
-
 unsigned int dateTimeHelper::retrieveAndRemoveMonthsFromTotalDays(unsigned int & remainingDays, unsigned int const year)
 {
     unsigned int monthIndex(getMonthFromNumberOfDays(remainingDays, year));

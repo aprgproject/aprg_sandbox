@@ -50,11 +50,12 @@ void AlbaYearMonthDay::setTime(unsigned int const totalDays)
     unsigned int remainingDays(totalDays);
     unsigned int years(dateTimeHelper::retrieveAndRemoveYearsFromTotalDays(remainingDays));
     unsigned int monthIndex(dateTimeHelper::retrieveAndRemoveMonthsFromTotalDays(remainingDays, years));
-    setTime(years, monthIndex, remainingDays);
+    setTime(static_cast<unsigned short int>(years),
+            static_cast<unsigned char>(monthIndex),
+            static_cast<unsigned char>(remainingDays));
 }
 
-void AlbaYearMonthDay::setTime(unsigned short int const years, unsigned char const monthIndex, unsigned char const days)
-{
+void AlbaYearMonthDay::setTime(unsigned short int const years, unsigned char const monthIndex, unsigned char const days){
     m_yearMonthDay = convertToYearMonthDayFormat(years, monthIndex, days);
 }
 
@@ -102,11 +103,12 @@ void AlbaHourMinuteSecond::setTime(unsigned int const totalSeconds)
     unsigned int remainingSeconds(totalSeconds);
     unsigned int hours(dateTimeHelper::retrieveAndRemoveHoursFromTotalSeconds(remainingSeconds));
     unsigned int minutes(dateTimeHelper::retrieveAndRemoveMinutesFromTotalSeconds(remainingSeconds));
-    setTime(hours, minutes, remainingSeconds);
+    setTime(static_cast<unsigned char>(hours),
+            static_cast<unsigned char>(minutes),
+            static_cast<unsigned char>(remainingSeconds));
 }
 
-void AlbaHourMinuteSecond::setTime(unsigned char const hours, unsigned char const minutes, unsigned char const seconds)
-{
+void AlbaHourMinuteSecond::setTime(unsigned char const hours, unsigned char const minutes, unsigned char const seconds){
     m_hourMinuteSecond = convertToHourMinuteSecondFormat(hours, minutes, seconds);
 }
 
@@ -194,13 +196,12 @@ void AlbaDateTime::clearMicroSeconds()
 unsigned int AlbaDateTime::getTotalDaysInYearMonthDays() const
 {
     unsigned int years(getYears());
-    int monthIndex(getMonths()-1);
+    int monthIndex(static_cast<int>(getMonths())-1);
     unsigned int days(getDays());
-    return dateTimeHelper::getTotalDays(years, monthIndex, days);
+    return dateTimeHelper::getTotalDays(years, static_cast<unsigned int>(monthIndex), days);
 }
 
-unsigned int AlbaDateTime::getTotalSecondsInHourMinutesSeconds() const
-{
+unsigned int AlbaDateTime::getTotalSecondsInHourMinutesSeconds() const{
     return dateTimeHelper::getTotalSeconds(getHours(), getMinutes(), getSeconds());
 }
 
@@ -352,17 +353,16 @@ AlbaDateTime AlbaDateTime::addDateTimeMagnitude(AlbaDateTime const& firstDateTim
 AlbaDateTime AlbaDateTime::subtractDateTimeMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const
 {
     AlbaDateTime result;
-    int totalDays((int)firstDateTime.getTotalDaysInYearMonthDays() - (int)secondDateTime.getTotalDaysInYearMonthDays());
-    int totalSeconds((int)firstDateTime.getTotalSecondsInHourMinutesSeconds() - (int)secondDateTime.getTotalSecondsInHourMinutesSeconds());
-    int totalMicroSeconds((int)firstDateTime.getMicroSeconds() - (int)secondDateTime.getMicroSeconds());
+    int totalDays(static_cast<int>(firstDateTime.getTotalDaysInYearMonthDays()) - static_cast<int>(secondDateTime.getTotalDaysInYearMonthDays()));
+    int totalSeconds(static_cast<int>(firstDateTime.getTotalSecondsInHourMinutesSeconds()) - static_cast<int>(secondDateTime.getTotalSecondsInHourMinutesSeconds()));
+    int totalMicroSeconds(static_cast<int>(firstDateTime.getMicroSeconds()) - static_cast<int>(secondDateTime.getMicroSeconds()));
 
     dateTimeHelper::reorganizeUnderflowValues(totalDays, totalSeconds, totalMicroSeconds);
-    result.m_yearMonthDay.setTime(totalDays);
-    result.m_hourMinuteSecond.setTime(totalSeconds);
-    result.m_microseconds = totalMicroSeconds;
+    result.m_yearMonthDay.setTime(static_cast<unsigned int>(totalDays));
+    result.m_hourMinuteSecond.setTime(static_cast<unsigned int>(totalSeconds));
+    result.m_microseconds = static_cast<unsigned int>(totalMicroSeconds);
     return result;
 }
-
 unsigned char AlbaDateTime::convertMonthToCorrectMonthIndex(unsigned char const month)
 {
     unsigned char result=0;

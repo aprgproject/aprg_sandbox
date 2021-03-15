@@ -24,23 +24,22 @@ public:
 
     template <typename Type> Type get()
     {
-        return *((Type*)m_voidPointer);
+        return *(static_cast<Type*>(m_voidPointer));
     }
 
     template <typename Type> Type& getReference()
     {
-        return *((Type*)m_voidPointer);
+        return *(static_cast<Type*>(m_voidPointer));
     }
 
     template <typename Type> void deAllocate()
     {
         if(m_hasContent)
         {
-            delete((Type*)m_voidPointer);
+            delete(static_cast<Type*>(m_voidPointer));
             m_hasContent = false;
         }
     }
-
     template <typename Type> void setAndAllocateNewContent(Type const& reference)
     {
         assert(!m_hasContent);

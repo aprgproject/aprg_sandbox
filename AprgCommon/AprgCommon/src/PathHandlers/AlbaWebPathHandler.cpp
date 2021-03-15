@@ -46,14 +46,13 @@ bool AlbaWebPathHandler::hasProtocol() const
 string AlbaWebPathHandler::getProtocol() const
 {
     string protocol;
-    int index = m_protocolWithSymbols.find_first_of(R"(:/\)");
-    if (stringHelper::isNotNpos(index) && m_protocolWithSymbols[index]==':')
+    int index = static_cast<int>(m_protocolWithSymbols.find_first_of(R"(:/\)"));
+    if (stringHelper::isNotNpos(index) && m_protocolWithSymbols[static_cast<string::size_type>(index)]==':')
     {
-        protocol = stringHelper::getStringWithLowerCaseLetters(m_protocolWithSymbols.substr(0,index));
+        protocol = stringHelper::getStringWithLowerCaseLetters(m_protocolWithSymbols.substr(0,static_cast<string::size_type>(index)));
     }
     return protocol;
 }
-
 void AlbaWebPathHandler::gotoLink(string const& newPath)
 {
     AlbaWebPathHandler newPathHandler(newPath);
@@ -70,12 +69,11 @@ void AlbaWebPathHandler::gotoLink(string const& newPath)
 void AlbaWebPathHandler::setProtocolWithSymbols(string const& protocolWithSymbols)
 {
     m_protocolWithSymbols = protocolWithSymbols;
-    int index = protocolWithSymbols.find_first_of(R"(:/\)");
-    if (stringHelper::isNotNpos(index) && protocolWithSymbols[index]==':')
+    int index = static_cast<int>(protocolWithSymbols.find_first_of(R"(:/\)"));
+    if (stringHelper::isNotNpos(index) && protocolWithSymbols[static_cast<string::size_type>(index)]==':')
     {
         m_hasProtocol = true;
-    }
-}
+    }}
 
 void AlbaWebPathHandler::save(string const& path)
 {
@@ -93,16 +91,15 @@ void AlbaWebPathHandler::save(string const& path)
 
 void AlbaWebPathHandler::splitPathToBeforeAndAfterProtocol(string const& path, string & protocolWithSymbols, string & pathAfterProtocol)
 {
-    int indexBeforeProtocol = path.find("://");
-    int indexBeforeSlash = path.find_first_of(m_slashCharacterString);
+    int indexBeforeProtocol = static_cast<int>(path.find("://"));
+    int indexBeforeSlash = static_cast<int>(path.find_first_of(m_slashCharacterString));
     if(stringHelper::isNotNpos(indexBeforeProtocol) && stringHelper::isNotNpos(indexBeforeSlash) && indexBeforeProtocol < indexBeforeSlash)
     {
-        protocolWithSymbols = path.substr(0,indexBeforeProtocol+3);
-        pathAfterProtocol = path.substr(indexBeforeProtocol+3);
+        protocolWithSymbols = path.substr(0,static_cast<string::size_type>(indexBeforeProtocol+3));
+        pathAfterProtocol = path.substr(static_cast<string::size_type>(indexBeforeProtocol+3));
     }
     else
-    {
-        protocolWithSymbols.clear();
+    {        protocolWithSymbols.clear();
         pathAfterProtocol = path;
     }
 }

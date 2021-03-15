@@ -18,11 +18,10 @@ public:
     void clear();
     void clearAndSetNewData(void* sourcePointer, unsigned int const size);
     void resize(unsigned int const size);
-    void resize(unsigned int const size, unsigned int const initialValue);
+    void resize(unsigned int const size, unsigned char const initialValue);
     void* resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(unsigned int const size);
     void addData(void const* bufferPointer, unsigned int const size);
-    std::string getDisplayableString() const;
-    template <typename ObjectType> void saveObject(ObjectType const& object)
+    std::string getDisplayableString() const;    template <typename ObjectType> void saveObject(ObjectType const& object)
     {
         unsigned int objectSize = sizeof(object);
         resize(objectSize);
