@@ -1,0 +1,12 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\Directory\shell\WcdmaTools]
+
+[HKEY_CLASSES_ROOT\Directory\shell\WcdmaTools\command]
+@="\"C:\\APRG\\WcdmaTools\\FinalForInstallers\\WcdmaTools\\WcdmaTools.exe\" \"%1\\\""
+
+[HKEY_CLASSES_ROOT\*\shell\WcdmaTools]
+
+[HKEY_CLASSES_ROOT\*\shell\WcdmaTools\command]
+@="\"C:\\APRG\\WcdmaTools\\FinalForInstallers\\WcdmaTools\\WcdmaTools.exe\" \"%1\""
+

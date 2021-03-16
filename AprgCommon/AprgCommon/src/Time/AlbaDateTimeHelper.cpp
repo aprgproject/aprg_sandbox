@@ -246,7 +246,8 @@ void dateTimeHelper::reorganizeUnderflowValues(int & totalDays, int & totalSecon
         unsigned int neededDays = static_cast<unsigned int>((ceil((static_cast<double>(-1)*totalSeconds)/NUMBER_OF_SECONDS_IN_A_DAY)));
         totalDays-=neededDays;
         totalSeconds+=neededDays*NUMBER_OF_SECONDS_IN_A_DAY;
-    }}
+    }
+}
 
 unsigned int dateTimeHelper::retrieveAndRemoveYearsFromTotalDays(unsigned int & remainingDays)
 {
@@ -260,6 +261,7 @@ unsigned int dateTimeHelper::retrieveAndRemoveYearsFromTotalDays(unsigned int & 
     remainingDays=static_cast<unsigned int>(remainingDaysTemp);
     return years;
 }
+
 unsigned int dateTimeHelper::retrieveAndRemoveMonthsFromTotalDays(unsigned int & remainingDays, unsigned int const year)
 {
     unsigned int monthIndex(getMonthFromNumberOfDays(remainingDays, year));

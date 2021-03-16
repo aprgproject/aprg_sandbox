@@ -5,8 +5,10 @@
 #include <memory>
 
 using namespace std;
+
 namespace alba
 {
+
 AlbaMemoryBuffer::AlbaMemoryBuffer()
 {}
 
@@ -60,6 +62,7 @@ void AlbaMemoryBuffer::resize(unsigned int size, unsigned char const initialValu
 {
     m_buffer.resize(size, initialValue);
 }
+
 void* AlbaMemoryBuffer::resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(unsigned int const additionalSize)
 {
     unsigned int oldSize = m_buffer.size();

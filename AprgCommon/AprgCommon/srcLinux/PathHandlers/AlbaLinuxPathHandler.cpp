@@ -101,7 +101,8 @@ void AlbaLinuxPathHandler::setPathToDetectedLocalPath()
     unsigned int length = static_cast<unsigned int>(readlink(argument, detectedLocalPath, MAX_PATH));
     if(length<=0)
     {
-        length=1;    }
+        length=1;
+    }
     detectedLocalPath[length] = '\0';
     input(string(detectedLocalPath));
 }

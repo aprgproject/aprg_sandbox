@@ -55,7 +55,8 @@ void AlbaYearMonthDay::setTime(unsigned int const totalDays)
             static_cast<unsigned char>(remainingDays));
 }
 
-void AlbaYearMonthDay::setTime(unsigned short int const years, unsigned char const monthIndex, unsigned char const days){
+void AlbaYearMonthDay::setTime(unsigned short int const years, unsigned char const monthIndex, unsigned char const days)
+{
     m_yearMonthDay = convertToYearMonthDayFormat(years, monthIndex, days);
 }
 
@@ -108,7 +109,8 @@ void AlbaHourMinuteSecond::setTime(unsigned int const totalSeconds)
             static_cast<unsigned char>(remainingSeconds));
 }
 
-void AlbaHourMinuteSecond::setTime(unsigned char const hours, unsigned char const minutes, unsigned char const seconds){
+void AlbaHourMinuteSecond::setTime(unsigned char const hours, unsigned char const minutes, unsigned char const seconds)
+{
     m_hourMinuteSecond = convertToHourMinuteSecondFormat(hours, minutes, seconds);
 }
 
@@ -201,7 +203,8 @@ unsigned int AlbaDateTime::getTotalDaysInYearMonthDays() const
     return dateTimeHelper::getTotalDays(years, static_cast<unsigned int>(monthIndex), days);
 }
 
-unsigned int AlbaDateTime::getTotalSecondsInHourMinutesSeconds() const{
+unsigned int AlbaDateTime::getTotalSecondsInHourMinutesSeconds() const
+{
     return dateTimeHelper::getTotalSeconds(getHours(), getMinutes(), getSeconds());
 }
 
@@ -363,6 +366,7 @@ AlbaDateTime AlbaDateTime::subtractDateTimeMagnitude(AlbaDateTime const& firstDa
     result.m_microseconds = static_cast<unsigned int>(totalMicroSeconds);
     return result;
 }
+
 unsigned char AlbaDateTime::convertMonthToCorrectMonthIndex(unsigned char const month)
 {
     unsigned char result=0;

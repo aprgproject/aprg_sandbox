@@ -26,6 +26,7 @@ DisplayTableCell::DisplayTableCell(string const& text, DisplayTableCellMode cons
     , m_horizontalMode(horizontalMode)
     , m_verticalMode(verticalMode)
 {}
+
 string DisplayTableCell::getText() const
 {
     return m_textToDisplay;
@@ -60,7 +61,8 @@ DisplayTableRow::DisplayTableRow()
     : m_rowMode(DisplayTableRowMode::align)
 {}
 
-bool DisplayTableRow::isAlign() const{
+bool DisplayTableRow::isAlign() const
+{
     return DisplayTableRowMode::align == m_rowMode;
 }
 
@@ -104,7 +106,8 @@ void DisplayTableRow::addCell(string const & text, DisplayTableCellMode const ho
     m_cells.emplace_back(text, horizontalMode, verticalMode);
 }
 
-DisplayTable::DisplayTable(){}
+DisplayTable::DisplayTable()
+{}
 
 unsigned int DisplayTable::getTotalRows() const
 {
@@ -156,7 +159,8 @@ void DisplayTable::addRow()
     m_rows.emplace_back();
 }
 
-void DisplayTable::setBorders(string const& horizontalBorder, string const& verticalBorder){
+void DisplayTable::setBorders(string const& horizontalBorder, string const& verticalBorder)
+{
     m_horizontalBorder = horizontalBorder;
     m_verticalBorder = verticalBorder;
 }

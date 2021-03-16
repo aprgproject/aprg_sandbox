@@ -19,7 +19,8 @@ bool mathHelper::isConsideredEqual(NumberType const value1, NumberType const val
 template <typename NumberType>
 NumberType mathHelper::getDistance(NumberType const value1, NumberType const value2)
 {
-    std::pair<NumberType, NumberType> minMaxPair = std::minmax(value1, value2);    return minMaxPair.second-minMaxPair.first;
+    std::pair<NumberType, NumberType> minMaxPair = std::minmax(value1, value2);
+    return minMaxPair.second-minMaxPair.first;
 }
 template unsigned int mathHelper::getDistance<unsigned int>(unsigned int const value1, unsigned int const value2);
 
@@ -133,7 +134,8 @@ double mathHelper::calculateInverseCumulativeStandardDistributionApproximation(d
         else if(isConsideredEqual(probability, probabilityHighest))
         {
             z=highestZ;
-            break;        }
+            break;
+        }
         else if(probability>probabilityLowest && probability<probabilityMiddle)
         {
             highestZ=middleZ;

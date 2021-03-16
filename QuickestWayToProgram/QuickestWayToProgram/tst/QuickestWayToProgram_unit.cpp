@@ -28,10 +28,12 @@ TEST(SampleTest, LrmDirectoriesToFind)
     AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\SystemFrameworkImprovement3\tcom-SystemFrameworkImprovement3-lrm\C_Application\SC_TCOM\CP_LRM\tst)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
 
-    for(string const& directory: directories)    {
+    for(string const& directory: directories)
+    {
         cout<<directory<<endl;
     }
 }
+
 
 /*
 

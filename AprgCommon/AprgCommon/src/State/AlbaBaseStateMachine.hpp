@@ -19,7 +19,8 @@ public:
 
     virtual void processInput(InputType const&)
     {
-        // This should not be accessed        assert(false);
+        // This should not be accessed
+        assert(false);
     }
 
     StateIdentifierType getState() const

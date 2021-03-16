@@ -9,7 +9,8 @@ namespace mathHelper
 template <typename NumberType> bool isConsideredEqual(NumberType const value1, NumberType const value2);
 template <typename NumberType> NumberType getDistance(NumberType const value1, NumberType const value2);
 template <typename NumberType> NumberType getAverage(NumberType const value1, NumberType const value2);
-template <typename NumberType> NumberType getAbsoluteValue(NumberType const value);template <typename NumberType> NumberType getSquareRootOfXSquaredPlusYSquared(NumberType const x, NumberType const y);
+template <typename NumberType> NumberType getAbsoluteValue(NumberType const value);
+template <typename NumberType> NumberType getSquareRootOfXSquaredPlusYSquared(NumberType const x, NumberType const y);
 template <typename NumberType> NumberType getSquareRootOfXSquaredPlusYSquaredPlusZSquared(NumberType const x, NumberType const y, NumberType const z);
 template <typename NumberType> NumberType getSign(NumberType const value);
 template <typename NumberType> NumberType clampLowerBound(NumberType const value, NumberType const limit);

@@ -21,7 +21,8 @@ public:
     virtual ~AlbaLinuxPathHandler() override;
 
     void clear() override;
-    double getFileSizeEstimate();    AlbaDateTime getFileCreationTime();
+    double getFileSizeEstimate();
+    AlbaDateTime getFileCreationTime();
     bool isFoundInLocalSystem() const;
     bool isRelativePath() const;
     void setPathToDetectedLocalPath();

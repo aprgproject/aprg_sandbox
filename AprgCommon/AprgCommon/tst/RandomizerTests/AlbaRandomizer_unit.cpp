@@ -39,6 +39,7 @@ TEST(AlbaRandomizer, RandomValuesAreUniformlyDistributed)
     }
 
     ASSERT_FALSE(hitsForEachValue.empty());
+
     int minimumHits=hitsForEachValue.front();
     int maximumHits=hitsForEachValue.front();
     for(int hits : hitsForEachValue)

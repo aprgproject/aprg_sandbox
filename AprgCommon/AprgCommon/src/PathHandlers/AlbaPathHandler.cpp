@@ -62,6 +62,7 @@ void AlbaPathHandler::goUp()
         input(directoryWithoutSlash.substr(0, static_cast<string::size_type>(indexOfSlash+1)));
     }
 }
+
 string AlbaPathHandler::getImmediateDirectoryName() const
 {
     return stringHelper::getImmediateDirectoryName(m_directory, m_slashCharacterString);
@@ -81,6 +82,7 @@ string AlbaPathHandler::getFilenameOnly() const
     }
     return m_file;
 }
+
 string AlbaPathHandler::getExtension() const
 {
     return m_extension;
@@ -132,7 +134,8 @@ void AlbaPathHandler::setDirectoryAndFileFromPath(string const& path)
         m_file = path.substr(static_cast<string::size_type>(indexOfSlash+1));
     }
     else
-    {        m_directory = "";
+    {
+        m_directory = "";
         m_file = path;
     }
 }

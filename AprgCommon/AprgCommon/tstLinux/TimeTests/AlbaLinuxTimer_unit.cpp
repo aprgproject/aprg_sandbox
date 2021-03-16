@@ -9,7 +9,8 @@ using namespace alba;
 TEST(AlbaLinuxTimer, DISABLED_TimerCanBeInitialized)
 {
     AlbaLinuxTimer timer;
-    usleep(2000000);    timer.stopTimer();
+    usleep(2000000);
+    timer.stopTimer();
     unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();
     EXPECT_EQ(2u, secondsElapsed);
 }
@@ -17,7 +18,8 @@ TEST(AlbaLinuxTimer, DISABLED_TimerCanBeInitialized)
 TEST(AlbaLinuxTimer, DISABLED_TimerCanBeRestarted)
 {
     AlbaLinuxTimer timer;
-    usleep(1000000);    timer.resetTimer();
+    usleep(1000000);
+    timer.resetTimer();
     usleep(1000000);
     timer.stopTimer();
     unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();

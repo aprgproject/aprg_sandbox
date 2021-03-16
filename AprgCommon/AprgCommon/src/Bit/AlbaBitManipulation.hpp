@@ -66,7 +66,8 @@ public:
         return static_cast<unsigned char>(shiftBytesToTheRight<position>(value));
     }
 
-    template <unsigned char position>    static constexpr unsigned char getNibbleAt(DataTypeToManipulate const value)
+    template <unsigned char position>
+    static constexpr unsigned char getNibbleAt(DataTypeToManipulate const value)
     {
         static_assert(sizeof(DataTypeToManipulate)*AlbaBitConstants::NUMBER_OF_NIBBLES_IN_BYTE > position, "getNibbleAt: position is greater than two times DataTypeToManipulate size");
         return shiftNibblesToTheRight<position>(value) & AlbaBitConstants::NIBBLE_MASK;
@@ -104,7 +105,8 @@ public:
         return static_cast<DataTypeToManipulate>(round(pow(static_cast<double>(2), static_cast<double>(numberOfOnes)))-1);
     }
 
-    static constexpr DataTypeToManipulate getAllBitsAsserted()    {
+    static constexpr DataTypeToManipulate getAllBitsAsserted()
+    {
         static_assert(sizeof(DataTypeToManipulate) != sizeof(DataTypeToManipulate), "The swapWithSize with this size or type is not supported. Please add a specialization.");
         return 0;
     }

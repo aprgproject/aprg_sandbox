@@ -7,7 +7,8 @@ namespace alba
 /*
 bool AlbaLinuxUserAutomation::isLetterPressed(char const letter) const
 {
-    return false;}
+    return false;
+}
 
 void AlbaLinuxUserAutomation::setStringToClipboard(std::string const& clipBoardText) const
 {

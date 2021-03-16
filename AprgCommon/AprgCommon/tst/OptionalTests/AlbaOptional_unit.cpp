@@ -18,6 +18,7 @@ TEST(OptionalTest, OptionalCanBeContructedByConstructorWithContentTypeTest)
     EXPECT_EQ(1111, static_cast<int>(integerOptional1));
     EXPECT_EQ(1111, integerOptional1.get());
 }
+
 TEST(OptionalTest, OptionalSetValueTest)
 {
     // Given
@@ -40,6 +41,7 @@ TEST(OptionalTest, OptionalSetValueTest)
     EXPECT_EQ(222222, static_cast<int>(integerOptional1));
     EXPECT_EQ(222222, integerOptional1.get());
 }
+
 TEST(OptionalTest, OptionalGetReferenceTest)
 {
     // Given
@@ -70,7 +72,8 @@ TEST(OptionalTest, OptionalReferenceCanBeContructedByContructorWithContentTypeTe
     EXPECT_EQ(3333, static_cast<int>(integerOptional2));
     EXPECT_EQ(3333, integerOptional2.get());
 
-    // When    integerOptional2.setValue(4444);
+    // When
+    integerOptional2.setValue(4444);
 
     // Then
     EXPECT_EQ(4444, integerOptional2.get());
@@ -92,7 +95,8 @@ TEST(OptionalTest, OptionalReferenceSetReferenceTest)
     EXPECT_EQ(4444, static_cast<int>(integerOptional2));
     EXPECT_EQ(4444, integerOptional1.get());
 
-    // When    integerOptional2.setValue(5555);
+    // When
+    integerOptional2.setValue(5555);
 
     // Then
     EXPECT_EQ(5555, integerOptional2.get());
@@ -113,7 +117,8 @@ TEST(OptionalTest, OptionalCanBeConstructedByDefaultTest)
     EXPECT_TRUE(static_cast<bool>(integerOptional));
 }
 
-TEST(OptionalTest, OptionalCanBeCopiedTest){
+TEST(OptionalTest, OptionalCanBeCopiedTest)
+{
     // Given
     AlbaOptional<int> integerOptional1(1111);
     AlbaOptional<int> integerOptional2(integerOptional1);
@@ -125,6 +130,7 @@ TEST(OptionalTest, OptionalCanBeCopiedTest){
     EXPECT_EQ(1111, static_cast<int>(integerOptional2));
     EXPECT_EQ(1111, integerOptional2.get());
 }
+
 TEST(OptionalTest, OptionalReferenceCanBeCopiedTest)
 {
     // Given
@@ -143,6 +149,7 @@ TEST(OptionalTest, OptionalReferenceCanBeCopiedTest)
     EXPECT_EQ(2222, static_cast<int>(integerOptional3));
     EXPECT_EQ(2222, integerOptional3.get());
 }
+
 TEST(OptionalTest, OptionalCanBeAssignedTest)
 {
     // Given
@@ -158,6 +165,7 @@ TEST(OptionalTest, OptionalCanBeAssignedTest)
     EXPECT_EQ(1111, static_cast<int>(integerOptional2));
     EXPECT_EQ(1111, integerOptional2.get());
 }
+
 TEST(OptionalTest, OptionalReferenceCanBeAssignedTest)
 {
     // Given
@@ -177,6 +185,7 @@ TEST(OptionalTest, OptionalReferenceCanBeAssignedTest)
     EXPECT_EQ(2222, static_cast<int>(integerOptional3));
     EXPECT_EQ(2222, integerOptional3.get());
 }
+
 TEST(OptionalTest, OptionalCanBeClearedTest)
 {
     // Given
@@ -194,7 +203,8 @@ TEST(OptionalTest, OptionalCanBeClearedTest)
     EXPECT_FALSE(static_cast<bool>(integerOptional2));
 }
 
-TEST(OptionalTest, OptionalCanBeMovedByMoveAssignmentOperatorTest){
+TEST(OptionalTest, OptionalCanBeMovedByMoveAssignmentOperatorTest)
+{
     // Given
     AlbaOptional<int> integerOptional1(1111);
     AlbaOptional<int> integerOptional2;
@@ -209,6 +219,7 @@ TEST(OptionalTest, OptionalCanBeMovedByMoveAssignmentOperatorTest){
     EXPECT_TRUE(static_cast<bool>(integerOptional2));
     EXPECT_EQ(1111, integerOptional2.get());
 }
+
 TEST(OptionalTest, OptionalCanBeMovedByMoveContructorTest)
 {
     // Given
@@ -223,5 +234,6 @@ TEST(OptionalTest, OptionalCanBeMovedByMoveContructorTest)
     EXPECT_TRUE(static_cast<bool>(integerOptional2));
     EXPECT_EQ(1111, integerOptional2.get());
 }
+
 }
 

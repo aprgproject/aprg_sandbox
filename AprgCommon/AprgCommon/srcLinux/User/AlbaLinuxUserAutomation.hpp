@@ -14,7 +14,8 @@ class AlbaLinuxUserAutomation
     /*
 public:
     bool isLetterPressed(char const letter) const;
-    std::string getStringFromClipboard() const;    void setStringToClipboard(std::string const& clipBoardText) const;
+    std::string getStringFromClipboard() const;
+    void setStringToClipboard(std::string const& clipBoardText) const;
     MousePosition getMousePosition() const;
     void setMousePosition(MousePosition const& position) const;
     void doLeftClick() const;

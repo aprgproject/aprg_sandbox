@@ -1,6 +1,7 @@
 #include <RttAnalyzer.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba;
 using namespace std;
 

@@ -29,7 +29,8 @@ public:
     DisplayTableCell(std::string const& text, DisplayTableCellMode const horizontalMode, DisplayTableCellMode const verticalMode);
 
     std::string getText() const;
-    DisplayTableCellMode getHorizontalMode() const;    DisplayTableCellMode getVerticalMode() const;
+    DisplayTableCellMode getHorizontalMode() const;
+    DisplayTableCellMode getVerticalMode() const;
 
     void setText(std::string const& text);
     void setHorizontalMode(DisplayTableCellMode const mode);
@@ -37,7 +38,8 @@ public:
 private:
     std::string m_textToDisplay;
     DisplayTableCellMode m_horizontalMode;
-    DisplayTableCellMode m_verticalMode;};
+    DisplayTableCellMode m_verticalMode;
+};
 
 using Cells = std::vector<DisplayTableCell>;
 
@@ -48,6 +50,7 @@ public:
     bool isAlign() const;
     unsigned int getNumberOfColumns() const;
     unsigned int getCharacters() const;
+
     Cells& getCellsReference();
     DisplayTableCell& getCellReference(unsigned int columnIndex);
     DisplayTableCell const& getCellConstReference(unsigned int columnIndex) const;
@@ -58,6 +61,7 @@ private:
     DisplayTableRowMode m_rowMode;
     Cells m_cells;
 };
+
 class DisplayTable
 {
 public:

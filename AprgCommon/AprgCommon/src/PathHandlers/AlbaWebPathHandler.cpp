@@ -53,6 +53,7 @@ string AlbaWebPathHandler::getProtocol() const
     }
     return protocol;
 }
+
 void AlbaWebPathHandler::gotoLink(string const& newPath)
 {
     AlbaWebPathHandler newPathHandler(newPath);
@@ -73,7 +74,8 @@ void AlbaWebPathHandler::setProtocolWithSymbols(string const& protocolWithSymbol
     if (stringHelper::isNotNpos(index) && protocolWithSymbols[static_cast<string::size_type>(index)]==':')
     {
         m_hasProtocol = true;
-    }}
+    }
+}
 
 void AlbaWebPathHandler::save(string const& path)
 {
@@ -99,7 +101,8 @@ void AlbaWebPathHandler::splitPathToBeforeAndAfterProtocol(string const& path, s
         pathAfterProtocol = path.substr(static_cast<string::size_type>(indexBeforeProtocol+3));
     }
     else
-    {        protocolWithSymbols.clear();
+    {
+        protocolWithSymbols.clear();
         pathAfterProtocol = path;
     }
 }

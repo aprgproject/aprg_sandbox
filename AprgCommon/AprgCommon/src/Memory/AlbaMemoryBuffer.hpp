@@ -3,8 +3,10 @@
 #include <cstring>
 #include <string>
 #include <vector>
+
 namespace alba
 {
+
 class AlbaMemoryBuffer
 {
 public:
@@ -21,7 +23,8 @@ public:
     void resize(unsigned int const size, unsigned char const initialValue);
     void* resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(unsigned int const size);
     void addData(void const* bufferPointer, unsigned int const size);
-    std::string getDisplayableString() const;    template <typename ObjectType> void saveObject(ObjectType const& object)
+    std::string getDisplayableString() const;
+    template <typename ObjectType> void saveObject(ObjectType const& object)
     {
         unsigned int objectSize = sizeof(object);
         resize(objectSize);
@@ -34,6 +37,8 @@ public:
         return *reinterpret_cast<ObjectType *>(getBufferPointer());
     }
 
-private:    std::vector<unsigned char> m_buffer;};
+private:
+    std::vector<unsigned char> m_buffer;
+};
 
 }//namespace alba

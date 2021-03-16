@@ -40,6 +40,7 @@ public:
             m_hasContent = false;
         }
     }
+
     template <typename Type> void setAndAllocateNewContent(Type const& reference)
     {
         assert(!m_hasContent);
