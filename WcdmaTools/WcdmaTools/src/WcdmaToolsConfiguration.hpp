@@ -55,10 +55,10 @@ struct WcdmaToolsConfiguration
     std::string inputFileOrDirectory;
     std::string extractGrepCondition;
     std::string acceptedFilesGrepCondition;
+    std::string filterGrepCondition;
     std::string otherGrepCondition;
     std::string prioritizedLogPrint;
-    double cropSize;
-    wcdmaToolsBackend::BtsLogSorterConfiguration btsLogSorterConfiguration;
+    double cropSize;    wcdmaToolsBackend::BtsLogSorterConfiguration btsLogSorterConfiguration;
     std::string configurationFileLocation;
     std::string locationOf7zExecutable;
 };

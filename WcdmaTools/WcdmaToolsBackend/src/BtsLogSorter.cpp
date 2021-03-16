@@ -28,11 +28,11 @@ namespace wcdmaToolsBackend
 {
 
 BtsLogSorter::BtsLogSorter(BtsLogSorterConfiguration const& configuration)
-    : m_evaluator(configuration.m_condition)
+    : m_acceptedFilesGrepEvaluator(configuration.m_acceptedFilesGrepCondition)
+    , m_filterGrepEvaluator(configuration.m_filterGrepCondition)
     , m_pathOfAllTempFiles(configuration.m_pathOfTempFiles)
     , m_pathOfCurrentTempFiles(configuration.m_pathOfTempFiles +R"(\)" + stringHelper::getRandomAlphaNumericString(30))
-    , m_sorterWithPcTime(AlbaLargeSorterConfiguration(configuration.m_configurationWithPcTime, m_pathOfCurrentTempFiles+R"(\BlocksWithPcTime\)"))
-    , m_sorterWithoutPcTime(AlbaLargeSorterConfiguration(configuration.m_configurationWithoutPcTime, m_pathOfCurrentTempFiles+R"(\BlocksWithoutPcTime\)"))
+    , m_sorterWithPcTime(AlbaLargeSorterConfiguration(configuration.m_configurationWithPcTime, m_pathOfCurrentTempFiles+R"(\BlocksWithPcTime\)"))    , m_sorterWithoutPcTime(AlbaLargeSorterConfiguration(configuration.m_configurationWithoutPcTime, m_pathOfCurrentTempFiles+R"(\BlocksWithoutPcTime\)"))
     , m_directoryOfLogsWithoutPcTime(m_pathOfCurrentTempFiles+R"(\LogsWithoutPcTime\)")
     , m_pathOfStartupLog(m_pathOfCurrentTempFiles+R"(\StartupLog\Startup.log)")
 {
@@ -46,28 +46,26 @@ double BtsLogSorter::getTotalSizeToBeRead(set<string> listOfFiles)
     for(string const& filePath : listOfFiles)
     {
         AlbaLocalPathHandler filePathHandler(filePath);
-        if(m_evaluator.evaluate(filePathHandler.getFile()))
+        if(m_acceptedFilesGrepEvaluator.evaluate(filePathHandler.getFile()))
         {
             totalFileSize += filePathHandler.getFileSizeEstimate();
-        }
-    }
+        }    }
     return totalFileSize;
 }
 
 void BtsLogSorter::processDirectory(string const& directoryPath)
 {
+    cout<<"processDirectory: "<<directoryPath<<endl;
     set<string> listOfFiles;
     set<string> listOfDirectories;
-    AlbaLocalPathHandler(directoryPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
-    ProgressCounters::totalSizeToBeReadForCombine = getTotalSizeToBeRead(listOfFiles);
+    AlbaLocalPathHandler(directoryPath).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);    ProgressCounters::totalSizeToBeReadForCombine = getTotalSizeToBeRead(listOfFiles);
     for(string const& filePath : listOfFiles)
     {
         AlbaLocalPathHandler filePathHandler(filePath);
-        if(m_evaluator.evaluate(filePathHandler.getFile()))
+        if(m_acceptedFilesGrepEvaluator.evaluate(filePathHandler.getFile()))
         {
             processFile(filePathHandler.getFullPath());
-        }
-    }
+        }    }
 }
 
 void BtsLogSorter::processFile(string const& filePath)
@@ -81,29 +79,37 @@ void BtsLogSorter::processFile(string const& filePath)
     AlbaFileReader fileReader(inputLogFileStream);
     while(fileReader.isNotFinished())
     {
-        BtsLogPrint logPrint(filePathHandler.getFile(), fileReader.getLineAndIgnoreWhiteSpaces());
-        m_foundHardwareAddresses.emplace(logPrint.getHardwareAddress());
-        if(logPrint.getPcTime().isEmpty())
+        string lineInFile(fileReader.getLineAndIgnoreWhiteSpaces());
+        if(m_filterGrepEvaluator.evaluate(lineInFile))
         {
-            m_sorterWithoutPcTime.add(logPrint);
-        }
-        else if(logPrint.getBtsTime().isStartup())
-        {
-            m_startupLogStreamOptional.getReference() << logPrint <<endl;
-        }
-        else
-        {
-            m_sorterWithPcTime.add(logPrint);
+            processLineInFile(filePathHandler.getFile(), lineInFile);
         }
         ProgressCounters::totalSizeReadForCombine = previousTotalSize + fileReader.getCurrentLocation();
     }
     ProgressCounters::totalSizeReadForCombine = previousTotalSize + filePathHandler.getFileSizeEstimate();
 }
 
+void BtsLogSorter::processLineInFile(string const& filename, string const& lineInFile)
+{
+    BtsLogPrint logPrint(filename, lineInFile);
+    m_foundHardwareAddresses.emplace(logPrint.getHardwareAddress());
+    if(logPrint.getPcTime().isEmpty())
+    {
+        m_sorterWithoutPcTime.add(logPrint);
+    }
+    else if(logPrint.getBtsTime().isStartup())
+    {
+        m_startupLogStreamOptional.getReference() << logPrint <<endl;
+    }
+    else
+    {
+        m_sorterWithPcTime.add(logPrint);
+    }
+}
+
 void BtsLogSorter::createTempDirectories() const
 {
-    AlbaLocalPathHandler(m_directoryOfLogsWithoutPcTime).createDirectoriesForNonExisitingDirectories();
-    AlbaLocalPathHandler(m_pathOfStartupLog).createDirectoriesForNonExisitingDirectories();
+    AlbaLocalPathHandler(m_directoryOfLogsWithoutPcTime).createDirectoriesForNonExisitingDirectories();    AlbaLocalPathHandler(m_pathOfStartupLog).createDirectoriesForNonExisitingDirectories();
 }
 
 void BtsLogSorter::deleteTempFilesAndDirectoriesOfOneDayOld() const
@@ -112,11 +118,10 @@ void BtsLogSorter::deleteTempFilesAndDirectoriesOfOneDayOld() const
     ListOfPaths listOfFiles;
     ListOfPaths listOfDirectories;
     tempFileAndDirectoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
-    AlbaDateTime currentTime(AlbaLocalTimeHelper().getCurrentDateTime());
+    AlbaDateTime currentTime(getCurrentDateTime());
     AlbaDateTime oneDay(0,0,1,0,0,0,0);
     for(string const& directoryPath : listOfDirectories)
-    {
-        AlbaLocalPathHandler temporaryDirectoryPathHandler(directoryPath);
+    {        AlbaLocalPathHandler temporaryDirectoryPathHandler(directoryPath);
         AlbaDateTime fileCreationTime(temporaryDirectoryPathHandler.getFileCreationTime());
         AlbaDateTime difference = currentTime-fileCreationTime;
         if(difference > oneDay)

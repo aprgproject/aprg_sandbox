@@ -74,10 +74,10 @@ void WcdmaTools::updateGuiUsingConfiguration()
     ui->inputFileAndFolder->setText(QString::fromStdString(m_configuration.inputFileOrDirectory));
     ui->extractCondition->setText(QString::fromStdString(m_configuration.extractGrepCondition));
     ui->acceptedFilesCondition->setText(QString::fromStdString(m_configuration.acceptedFilesGrepCondition));
+    ui->filterCondition->setText(QString::fromStdString(m_configuration.filterGrepCondition));
     ui->other->setText(QString::fromStdString(m_configuration.otherGrepCondition));
     ui->prioritizedLogPrint->setText(QString::fromStdString(m_configuration.prioritizedLogPrint));
-    ui->cropSize->setText(QString::fromStdString(converter.convert(m_configuration.cropSize)));
-}
+    ui->cropSize->setText(QString::fromStdString(converter.convert(m_configuration.cropSize)));}
 
 void WcdmaTools::updateProgressBar()
 {
@@ -245,10 +245,14 @@ void WcdmaTools::on_acceptedFilesCondition_editingFinished()
     m_configuration.acceptedFilesGrepCondition = ui->acceptedFilesCondition->text().toStdString();
 }
 
+void WcdmaTools::on_filterCondition_editingFinished()
+{
+    m_configuration.filterGrepCondition = ui->filterCondition->text().toStdString();
+}
+
 void WcdmaTools::on_other_editingFinished()
 {
-    m_configuration.otherGrepCondition = ui->other->text().toStdString();
-}
+    m_configuration.otherGrepCondition = ui->other->text().toStdString();}
 
 void WcdmaTools::on_prioritizedLogPrint_editingFinished()
 {

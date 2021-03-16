@@ -126,21 +126,18 @@ public:
     ContentType& getReference()
     {
         assert(m_hasContent); //we will not allow mistakes
-        if(m_hasContent)
-        {
-            return *(m_contentPointer.get());
-        }
-        else
-        {
-            m_contentPointer.reset(new ContentType);
-            return *(m_contentPointer.get());
-        }
+        return *(m_contentPointer.get());
+    }
+
+    ContentType const& getConstReference() const
+    {
+        assert(m_hasContent); //we will not allow mistakes
+        return *(m_contentPointer.get());
     }
 
 private:
     bool m_hasContent;
-    std::unique_ptr<ContentType> m_contentPointer;
-};
+    std::unique_ptr<ContentType> m_contentPointer;};
 
 template <typename ContentType> class AlbaOptional<ContentType &>
 {
