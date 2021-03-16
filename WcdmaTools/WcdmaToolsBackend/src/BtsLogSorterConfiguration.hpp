@@ -14,6 +14,7 @@ struct BtsLogSorterConfiguration
     std::string m_filterGrepCondition;
     std::string m_pathOfTempFiles;
     alba::AlbaLargeSorterConfiguration m_configurationWithPcTime;
-    alba::AlbaLargeSorterConfiguration m_configurationWithoutPcTime;};
+    alba::AlbaLargeSorterConfiguration m_configurationWithoutPcTime;
+};
 
 }

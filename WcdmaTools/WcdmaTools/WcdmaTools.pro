@@ -109,3 +109,8 @@ DEFINES += OS_WINDOWS=\\\"WIN32\\\"
 DEFINES += STATIC
 
 CONFIG += c++11 console
+
+RESOURCES += \
+    resources.qrc
+
+RC_FILE = icon/resource.rc

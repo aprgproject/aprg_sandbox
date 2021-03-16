@@ -10,7 +10,8 @@ namespace wcdmaToolsGui
 {
 
 struct WcdmaToolsConfiguration
-{    using NameToValueMap = std::unordered_map<std::string, std::string>;
+{
+    using NameToValueMap = std::unordered_map<std::string, std::string>;
     WcdmaToolsConfiguration();
     void loadDefaultConfigurationFile();
     void saveToConfigurationFile() const;
@@ -34,7 +35,8 @@ struct WcdmaToolsConfiguration
     bool isGrepBtsStatusEnabled;
     bool isGrepRecoveryEnabled;
     bool isGrepAllocationEnabled;
-    bool isGrepFaultEnabled;    bool isGrepLrmEnabled;
+    bool isGrepFaultEnabled;
+    bool isGrepLrmEnabled;
     bool isGrepGrmEnabled;
     bool isGrepToamEnabled;
     bool isGrepTupcEnabled;
@@ -57,7 +59,8 @@ struct WcdmaToolsConfiguration
     std::string grepConditionForBtsStatus;
     std::string grepConditionForRecovery;
     std::string grepConditionForAllocation;
-    std::string grepConditionForFault;    std::string grepConditionForLrm;
+    std::string grepConditionForFault;
+    std::string grepConditionForLrm;
     std::string grepConditionForGrm;
     std::string grepConditionForToam;
     std::string grepConditionForTupc;
@@ -80,7 +83,8 @@ struct WcdmaToolsConfiguration
     std::string filterGrepCondition;
     std::string otherGrepCondition;
     std::string prioritizedLogCondition;
-    double cropSize;    wcdmaToolsBackend::BtsLogSorterConfiguration btsLogSorterConfiguration;
+    double cropSize;
+    wcdmaToolsBackend::BtsLogSorterConfiguration btsLogSorterConfiguration;
     std::string configurationFileLocation;
     std::string defaultConfigurationFileLocation;
     std::string locationOf7zExecutable;

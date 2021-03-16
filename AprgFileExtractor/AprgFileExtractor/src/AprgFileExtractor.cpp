@@ -154,7 +154,8 @@ void AprgFileExtractor::extractAllRelevantFilesInThisCompressedFile(string const
         }
     }
     else
-    {        extractAllRelevantFilesRecursively(filePathOfCompressedFile);
+    {
+        extractAllRelevantFilesRecursively(filePathOfCompressedFile);
     }
 }
 

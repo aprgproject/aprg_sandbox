@@ -77,7 +77,8 @@ void RttAnalyzer::processLine(std::string const& line)
     }
     else if(isStringFoundInsideTheOtherStringNotCaseSensitive(line, "(Cx8)") && isStringFoundInsideTheOtherStringNotCaseSensitive(line, "PN Pos"))
     {
-        strings titles;        splitToStrings<SplitStringType::WithoutDelimeters>(titles, line, "|");
+        strings titles;
+        splitToStrings<SplitStringType::WithoutDelimeters>(titles, line, "|");
         processTitles(titles);
     }
     else if(isStringFoundInsideTheOtherStringNotCaseSensitive(line, "|"))
@@ -103,7 +104,8 @@ void RttAnalyzer::processTitles(strings const& titles)
     unsigned int index=0;
     for(string const& title : titles)
     {
-        if(isStringFoundInsideTheOtherStringNotCaseSensitive(title, "(cx8)") && !m_cx8IndexOptional.hasContent())        {
+        if(isStringFoundInsideTheOtherStringNotCaseSensitive(title, "(cx8)") && !m_cx8IndexOptional.hasContent())
+        {
             ALBA_PRINT2("processTitles", index);
             m_cx8IndexOptional.setValue(index);
             break;
@@ -124,7 +126,8 @@ void RttAnalyzer::processTitles(strings const& titles)
         }
         else if(isStringFoundInsideTheOtherStringNotCaseSensitive(title, "PN Pos") && !m_pnPosIndexOptional.hasContent())
         {
-            m_pnPosIndexOptional.setValue(index);        }
+            m_pnPosIndexOptional.setValue(index);
+        }
         index++;
     }
 }
@@ -158,7 +161,8 @@ void RttAnalyzer::processValues(string const& dateTime, strings const& values)
     if(m_cx8IndexOptional.hasContent() && m_pnPosIndexOptional.hasContent())
     {
         if(m_cx8IndexOptional.getReference()<values.size() && m_pnPosIndexOptional.getReference()<values.size() && m_posNumber<6)
-        {            rttDetails.multiplePos[m_posNumber] = convertStringToNumber<unsigned int>(values[m_cx8IndexOptional.getReference()]);
+        {
+            rttDetails.multiplePos[m_posNumber] = convertStringToNumber<unsigned int>(values[m_cx8IndexOptional.getReference()]);
             if(m_posNumber==0)
             {
                 rttDetails.pnPos = convertStringToNumber<unsigned int>(values[m_pnPosIndexOptional.getReference()]);
@@ -193,7 +197,8 @@ void RttAnalyzer::saveAllRttDetails(ofstream & collectedRttDetails) const
 
     for(RttDetails const& rttDetails : m_allRttDetails)
     {
-        collectedRttDetails << rttDetails.dateTime << ", ";        unsigned int minPos(rttDetails.multiplePos[0]), maxPos(rttDetails.multiplePos[0]), totalPos(0);
+        collectedRttDetails << rttDetails.dateTime << ", ";
+        unsigned int minPos(rttDetails.multiplePos[0]), maxPos(rttDetails.multiplePos[0]), totalPos(0);
         int differentWithPos[6];
         int minDifferencePos, maxDifferencePos;
         for(unsigned int index=0; index<6; index++)

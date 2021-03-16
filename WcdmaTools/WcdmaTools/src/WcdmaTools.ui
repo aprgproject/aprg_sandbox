@@ -10,7 +10,8 @@
     <height>777</height>
    </rect>
   </property>
-  <property name="sizePolicy">   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -28,7 +29,8 @@
       <height>790</height>
      </rect>
     </property>
-    <layout class="QFormLayout" name="formLayout_3">     <property name="fieldGrowthPolicy">
+    <layout class="QFormLayout" name="formLayout_3">
+     <property name="fieldGrowthPolicy">
       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
      </property>
      <item row="0" column="0" colspan="2">
@@ -45,7 +47,8 @@
           <property name="readOnly">
            <bool>false</bool>
           </property>
-         </widget>        </item>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label">
           <property name="text">
@@ -64,7 +67,8 @@
          <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
-        </font>       </property>
+        </font>
+       </property>
        <property name="text">
         <string>Step 1: Extract recursively</string>
        </property>
@@ -95,7 +99,8 @@
          </layout>
         </item>
        </layout>
-      </widget>     </item>
+      </widget>
+     </item>
      <item row="3" column="0">
       <widget class="QCheckBox" name="combineAndSortStepCheckBox">
        <property name="font">
@@ -104,7 +109,8 @@
          <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
-        </font>       </property>
+        </font>
+       </property>
        <property name="text">
         <string>Step 2: Combine and sort all logs</string>
        </property>
@@ -161,7 +167,8 @@
           </item>
          </layout>
         </item>
-       </layout>      </widget>
+       </layout>
+      </widget>
      </item>
      <item row="5" column="0">
       <widget class="QCheckBox" name="grepStepCheckBox">
@@ -171,7 +178,8 @@
          <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
-        </font>       </property>
+        </font>
+       </property>
        <property name="text">
         <string>Step 3: Grep by relevance</string>
        </property>
@@ -180,7 +188,8 @@
      <item row="7" column="0" colspan="2">
       <widget class="QGroupBox" name="groupBox_4">
        <property name="title">
-        <string>Grep</string>       </property>
+        <string>Grep</string>
+       </property>
        <layout class="QFormLayout" name="formLayout_2">
         <property name="fieldGrowthPolicy">
          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
@@ -387,7 +396,8 @@
             </item>
            </layout>
           </item>
-          <item>           <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
              <widget class="QLabel" name="label_9">
               <property name="text">
@@ -403,7 +413,8 @@
              </widget>
             </item>
            </layout>
-          </item>         </layout>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -411,7 +422,8 @@
      <item row="8" column="0">
       <widget class="QCheckBox" name="cropStepCheckBox">
        <property name="font">
-        <font>         <family>Century Gothic</family>
+        <font>
+         <family>Century Gothic</family>
          <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
@@ -425,7 +437,8 @@
      <item row="10" column="0" colspan="2">
       <widget class="QGroupBox" name="groupBox_5">
        <property name="title">
-        <string>Crop</string>       </property>
+        <string>Crop</string>
+       </property>
        <layout class="QFormLayout" name="formLayout_4">
         <property name="fieldGrowthPolicy">
          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
@@ -447,7 +460,8 @@
             <property name="text">
              <string>Crop size(MB):</string>
             </property>
-           </widget>          </item>
+           </widget>
+          </item>
           <item>
            <widget class="QLineEdit" name="cropSizeTextBox">
             <property name="enabled">
@@ -456,7 +470,8 @@
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
               <horstretch>0</horstretch>
-              <verstretch>0</verstretch>             </sizepolicy>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
             <property name="minimumSize">
              <size>
@@ -474,7 +489,8 @@
      <item row="12" column="0" colspan="2">
       <layout class="QHBoxLayout" name="horizontalLayout_6">
        <item>
-        <spacer name="horizontalSpacer">         <property name="orientation">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
@@ -493,7 +509,8 @@
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_2">         <property name="orientation">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
@@ -509,7 +526,8 @@
      <item row="11" column="0" colspan="2">
       <widget class="QProgressBar" name="progressBar">
        <property name="value">
-        <number>24</number>       </property>
+        <number>24</number>
+       </property>
       </widget>
      </item>
     </layout>
@@ -523,7 +541,8 @@
      <width>706</width>
      <height>21</height>
     </rect>
-   </property>   <widget class="QMenu" name="menuFile">
+   </property>
+   <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
@@ -543,7 +562,8 @@
     <property name="title">
      <string>About</string>
     </property>
-    <addaction name="actionAboutAprg"/>   </widget>
+    <addaction name="actionAboutAprg"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuAbout"/>
   </widget>

@@ -69,7 +69,8 @@ public:
         return numberOfObjectsInMemory;
     }
     ObjectToSort getLowestObject() const
-    {        return m_lowestValue;
+    {
+        return m_lowestValue;
     }
     bool isFileStreamOpened() const
     {
@@ -81,7 +82,8 @@ public:
         return isOpened;
     }
     void add(ObjectToSort const& objectToSort)
-    {        switch(m_blockType)
+    {
+        switch(m_blockType)
         {
         case DataBlockType::Empty:
             createMemoryHandlerIfNeeded();

@@ -11,16 +11,14 @@
 #include <iostream>
 #include <string>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 namespace alba
 {
 namespace ProgressCounters
 {
 extern int grepProcessProgress;
 extern int cropProcessProgress;
-extern int numberOfStepsEnabled;extern void resetProgressCounters();
+extern int numberOfStepsEnabled;
+extern void resetProgressCounters();
 }
 }
 
@@ -109,7 +107,8 @@ string StepHandler::executeCombineAndSortStep(WcdmaToolsConfiguration const& con
         sorterConfiguration.m_filterGrepCondition = configuration.filterGrepCondition;
         wcdmaToolsBackend::BtsLogSorter btsLogSorter(sorterConfiguration);
         btsLogSorter.processDirectory(pathHandler.getDirectory());
-        pathHandler.goUp();        pathHandler.input(pathHandler.getDirectory() + R"(\)" + configuration.getSortedFileName());
+        pathHandler.goUp();
+        pathHandler.input(pathHandler.getDirectory() + R"(\)" + configuration.getSortedFileName());
         outputPath = pathHandler.getFullPath();
         btsLogSorter.saveLogsToOutputFile(outputPath);
     }
@@ -152,7 +151,8 @@ string StepHandler::grepFile(WcdmaToolsConfiguration const& configuration, strin
     ofstream outputFileStream(pathHandler.getFullPath());
     AlbaFileReader fileReader(inputFileStream);
     double sizeOfFile = fileReader.getFileSize();
-    while(fileReader.isNotFinished())    {
+    while(fileReader.isNotFinished())
+    {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         if(grepEvaluator.evaluate(lineInLogs))
         {
@@ -161,7 +161,8 @@ string StepHandler::grepFile(WcdmaToolsConfiguration const& configuration, strin
         ProgressCounters::grepProcessProgress = fileReader.getCurrentLocation()*100/sizeOfFile;
     }
     ProgressCounters::grepProcessProgress = 100;
-    return pathHandler.getFullPath();}
+    return pathHandler.getFullPath();
+}
 
 string StepHandler::executeCropStep(WcdmaToolsConfiguration const& configuration, string const& inputPath) const
 {
@@ -184,7 +185,8 @@ string StepHandler::executeCropStep(WcdmaToolsConfiguration const& configuration
     {
         cout<<"Crop step did not proceed. Current path: "<<pathHandler.getFullPath()<<endl;
     }
-    cout<<" (Crop) done | Output path: "<<outputPath<<endl;    return outputPath;
+    cout<<" (Crop) done | Output path: "<<outputPath<<endl;
+    return outputPath;
 }
 
 string StepHandler::cropFile(WcdmaToolsConfiguration const& configuration, string const& inputPath, double foundLocation) const
@@ -205,7 +207,8 @@ string StepHandler::cropFile(WcdmaToolsConfiguration const& configuration, strin
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         double currentLocation = fileReader.getCurrentLocation();
         if(currentLocation < locations.endLocation)
-        {            outputFileStream << lineInLogs << endl;
+        {
+            outputFileStream << lineInLogs << endl;
         }
         else
         {
@@ -235,7 +238,8 @@ double StepHandler::getLocationOfPriotizedPrint(WcdmaToolsConfiguration const& c
             break;
         }
         ProgressCounters::cropProcessProgress = fileReader.getCurrentLocation()*50/sizeOfFile;
-    }    ProgressCounters::cropProcessProgress = 50;
+    }
+    ProgressCounters::cropProcessProgress = 50;
     return foundLocation;
 }
 
@@ -251,7 +255,6 @@ StepHandler::LocationsInFile StepHandler::getLocationsInFile(WcdmaToolsConfigura
     double startingLocation = foundLocation - (outputSize/2);
     locations.startLocation = (startingLocation<0) ? 0 : startingLocation;
     locations.endLocation = locations.startLocation + outputSize;
-    ALBA_PRINT4(locations.startLocation, locations.endLocation, outputSize, foundLocation);
     return locations;
 }
 

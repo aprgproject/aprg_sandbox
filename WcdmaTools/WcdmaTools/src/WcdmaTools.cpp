@@ -6,15 +6,14 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
-
-
-#include <Debug/AlbaDebug.hpp>
+#include <QPixmap>
 
 using namespace alba;
 using namespace std;
 
 namespace alba
 {
+
 namespace ProgressCounters
 {
 extern int getOverAllProgress();
@@ -29,29 +28,21 @@ WcdmaTools::WcdmaTools(QWidget *parent)
     , m_configuration()
     , m_stepHandlerThread(m_configuration)
 {
-    ALBA_PRINT0("WcdmaTools1");
     ui->setupUi(this);
-    ALBA_PRINT0("WcdmaTools2");
     updateGuiUsingConfiguration();
-    ALBA_PRINT0("WcdmaTools3");
     ProgressCounters::resetProgressCounters();
-    ALBA_PRINT0("WcdmaTools4");
     updateProgressBar();
-    ALBA_PRINT0("WcdmaTools5");
     connect(&m_stepHandlerThread, SIGNAL(executionDone()), this, SLOT(onExecutionIsFinished()));
-    ALBA_PRINT0("WcdmaTools6");
     connect(&m_progressBarThread, SIGNAL(triggerUpdateProgressBar()), this, SLOT(updateProgressBar()));
-    ALBA_PRINT0("WcdmaTools7");
     m_stepHandlerThread.start();
-    ALBA_PRINT0("WcdmaTools8");
     m_progressBarThread.start();
-    ALBA_PRINT0("WcdmaTools9");
 }
 
 WcdmaTools::~WcdmaTools()
 {
     delete ui;
 }
+
 void WcdmaTools::setInputFileOrDirectory(string const& inputFileOrDirectory)
 {
     m_configuration.inputFileOrDirectory = inputFileOrDirectory;
@@ -155,7 +146,8 @@ void WcdmaTools::on_executeButton_clicked()
 
 void WcdmaTools::on_actionOpenFile_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), QString::fromStdString(AlbaLocalPathHandler(m_configuration.inputFileOrDirectory).getFullPath()), tr("All Files (*)"));    AlbaLocalPathHandler pathHandler(fileName.toStdString());
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), QString::fromStdString(AlbaLocalPathHandler(m_configuration.inputFileOrDirectory).getFullPath()), tr("All Files (*)"));
+    AlbaLocalPathHandler pathHandler(fileName.toStdString());
     if(!pathHandler.isEmpty())
     {
         m_configuration.inputFileOrDirectory = pathHandler.getFullPath();
@@ -165,7 +157,8 @@ void WcdmaTools::on_actionOpenFile_triggered()
 
 void WcdmaTools::on_actionOpenFolder_triggered()
 {
-    QString directory = QFileDialog::getExistingDirectory(this, tr("Open folder"), QString::fromStdString(AlbaLocalPathHandler(m_configuration.inputFileOrDirectory).getDirectory()), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);    AlbaLocalPathHandler pathHandler(directory.toStdString());
+    QString directory = QFileDialog::getExistingDirectory(this, tr("Open folder"), QString::fromStdString(AlbaLocalPathHandler(m_configuration.inputFileOrDirectory).getDirectory()), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    AlbaLocalPathHandler pathHandler(directory.toStdString());
     if(!pathHandler.isEmpty())
     {
         m_configuration.inputFileOrDirectory = pathHandler.getFullPath();
@@ -181,11 +174,19 @@ void WcdmaTools::on_actionReset_to_default_triggered()
 
 void WcdmaTools::on_actionAboutAprg_triggered()
 {
-    QMessageBox::about(this, tr("About Menu"), tr("Insert sample text here"));
+    QMessageBox about;
+    about.setWindowTitle("About APRG");
+    //about.setInformativeText("APRG is created by Mark Earvin Alba");
+    about.setIconPixmap(QPixmap(":/resources/resources/About.png"));
+    //about.setStandardButtons(QMessageBox::Ok);
+    //about.setDefaultButton(QMessageBox::Ok);
+    about.show();
+    about.exec();
 }
 
 void WcdmaTools::on_actionQuit_triggered()
-{    exit(0); //think of something else, I don't like "exit".
+{
+    exit(0); //think of something else, I don't like "exit".
 }
 
 void WcdmaTools::on_extractStepCheckBox_toggled(bool checked)
@@ -380,7 +381,8 @@ void WcdmaTools::on_filterConditionTextBox_editingFinished()
 
 void WcdmaTools::on_otherTextBox_editingFinished()
 {
-    m_configuration.otherGrepCondition = ui->otherTextBox->text().toStdString();    updateGrepFinalCondition();
+    m_configuration.otherGrepCondition = ui->otherTextBox->text().toStdString();
+    updateGrepFinalCondition();
 }
 
 void WcdmaTools::on_prioritizedLogConditionTextBox_editingFinished()

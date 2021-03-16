@@ -12,7 +12,8 @@ isGrepAllocationEnabled:0
 isGrepFaultEnabled:0
 isGrepLrmEnabled:0
 isGrepGrmEnabled:0
-isGrepToamEnabled:0isGrepTupcEnabled:0
+isGrepToamEnabled:0
+isGrepTupcEnabled:0
 isGrepRlhEnabled:0
 isGrepCchhEnabled:0
 isGrepBchsenderEnabled:0
@@ -39,7 +40,8 @@ grepConditionForToam:[TCOM/TOAM]
 grepConditionForTupc:[/TUP] || [Conman]
 grepConditionForRlh:[TCOM/R]
 grepConditionForCchh:[TCOM/CCHH]
-grepConditionForBchsender:(([CCHH] || [HSCTRL] || [CCHCTRL]) && [TCOM/Logger]) || [TCOM/CH]grepConditionForHsch:[TCOM/HSCH]
+grepConditionForBchsender:(([CCHH] || [HSCTRL] || [CCHCTRL]) && [TCOM/Logger]) || [TCOM/CH]
+grepConditionForHsch:[TCOM/HSCH]
 grepConditionForDmgr:[TCOM/DMGR]
 grepConditionForCodec:[/CODEC/]
 grepConditionForLtcom:[/CODEC/]
@@ -57,7 +59,8 @@ otherGrepCondition:
 prioritizedLogCondition:[<2017-05-08T04:40:19.147013Z>]
 cropSize:100
 btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock:10000
-btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock:100000btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory:500000
+btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock:100000
+btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory:500000
 btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams:100
 btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock:10000
 btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock:100000

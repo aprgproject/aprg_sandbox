@@ -7,20 +7,18 @@
 #include <fstream>
 #include <iostream>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace alba;
 using namespace std;
 
-constexpr char* orOperator = " || ";
+char const*const orOperator = " || ";
 
 namespace wcdmaToolsGui
 {
 
 WcdmaToolsConfiguration::WcdmaToolsConfiguration()
     : isExtractStepOn(false)
-    , isCombineAndSortStepOn(false)    , isGrepStepOn(false)
+    , isCombineAndSortStepOn(false)
+    , isGrepStepOn(false)
     , isCropStepOn(false)
     , isFilterSubStepOn(false)
     , isGrepTcomEnabled(false)
@@ -29,7 +27,8 @@ WcdmaToolsConfiguration::WcdmaToolsConfiguration()
     , isGrepBtsStatusEnabled(false)
     , isGrepRecoveryEnabled(false)
     , isGrepAllocationEnabled(false)
-    , isGrepFaultEnabled(false)    , isGrepLrmEnabled(false)
+    , isGrepFaultEnabled(false)
+    , isGrepLrmEnabled(false)
     , isGrepGrmEnabled(false)
     , isGrepToamEnabled(false)
     , isGrepTupcEnabled(false)
@@ -52,7 +51,8 @@ WcdmaToolsConfiguration::WcdmaToolsConfiguration()
     , grepConditionForBtsStatus()
     , grepConditionForRecovery()
     , grepConditionForAllocation()
-    , grepConditionForFault()    , grepConditionForLrm()
+    , grepConditionForFault()
+    , grepConditionForLrm()
     , grepConditionForGrm()
     , grepConditionForToam()
     , grepConditionForTupc()
@@ -75,12 +75,10 @@ WcdmaToolsConfiguration::WcdmaToolsConfiguration()
     , filterGrepCondition()
     , otherGrepCondition()
     , prioritizedLogCondition()
-    , cropSize(0){
-    ALBA_PRINT0("WcdmaToolsConfiguration()1");
+    , cropSize(0)
+{
     determineVariousLocationsBasedOnCurrentLocation();
-    ALBA_PRINT0("WcdmaToolsConfiguration()2");
     loadConfigurationFromFile(configurationFileLocation);
-    ALBA_PRINT0("WcdmaToolsConfiguration()3");
 }
 
 void WcdmaToolsConfiguration::loadDefaultConfigurationFile()
@@ -126,7 +124,8 @@ void WcdmaToolsConfiguration::saveToConfigurationFile() const
     outputFileStream << "grepConditionForBtsStatus:" << grepConditionForBtsStatus << endl;
     outputFileStream << "grepConditionForRecovery:" << grepConditionForRecovery << endl;
     outputFileStream << "grepConditionForAllocation:" << grepConditionForAllocation << endl;
-    outputFileStream << "grepConditionForFault:" << grepConditionForFault << endl;    outputFileStream << "grepConditionForLrm:" << grepConditionForLrm << endl;
+    outputFileStream << "grepConditionForFault:" << grepConditionForFault << endl;
+    outputFileStream << "grepConditionForLrm:" << grepConditionForLrm << endl;
     outputFileStream << "grepConditionForGrm:" << grepConditionForGrm << endl;
     outputFileStream << "grepConditionForToam:" << grepConditionForToam << endl;
     outputFileStream << "grepConditionForTupc:" << grepConditionForTupc << endl;
@@ -149,7 +148,8 @@ void WcdmaToolsConfiguration::saveToConfigurationFile() const
     outputFileStream << "filterGrepCondition:" << filterGrepCondition<< endl;
     outputFileStream << "otherGrepCondition:" << otherGrepCondition << endl;
     outputFileStream << "prioritizedLogCondition:" << prioritizedLogCondition<< endl;
-    outputFileStream << "cropSize:" << cropSize << endl;    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock << endl;
+    outputFileStream << "cropSize:" << cropSize << endl;
+    outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock << endl;
     outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock << endl;
     outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory << endl;
     outputFileStream << "btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams:" << btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams << endl;
@@ -199,7 +199,8 @@ string WcdmaToolsConfiguration::getGrepCondition() const
 
 string WcdmaToolsConfiguration::getGrepFileName() const
 {
-    string fileName;    addGrepIntoFileName(fileName, isGrepTcomEnabled, "Tcom");
+    string fileName;
+    addGrepIntoFileName(fileName, isGrepTcomEnabled, "Tcom");
     addGrepIntoFileName(fileName, isGrepErrEnabled, "Err");
     addGrepIntoFileName(fileName, isGrepErrWrnNoSpamEnabled, "ErrWrn");
     addGrepIntoFileName(fileName, isGrepBtsStatusEnabled, "BtsStatus");
@@ -266,13 +267,9 @@ void WcdmaToolsConfiguration::determineVariousLocationsBasedOnCurrentLocation()
 
 void WcdmaToolsConfiguration::loadConfigurationFromFile(string const& filePath)
 {
-    ALBA_PRINT0("loadConfigurationFromFile()1");
     NameToValueMap nameToValueMap;
-    ALBA_PRINT0("loadConfigurationFromFile()2");
     copyNamesAndValuesFromFile(nameToValueMap, filePath);
-    ALBA_PRINT0("loadConfigurationFromFile()3");
     loadNamesAndValues(nameToValueMap);
-    ALBA_PRINT0("loadConfigurationFromFile()4");
 }
 
 void WcdmaToolsConfiguration::copyNamesAndValuesFromFile(NameToValueMap & nameToValueMap, string const& filePath)
