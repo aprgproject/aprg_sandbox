@@ -80,3 +80,23 @@ TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime)
 
     EXPECT_EQ(5, lines);
 }
+
+TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreFiltered)
+{
+    m_configuration.m_isFilterGrepOn = true;
+    m_configuration.m_filterGrepCondition = "[TCOM/NC]";
+    BtsLogSorter btsLogSorter(m_configuration);
+    btsLogSorter.processFile(APRG_DIR R"(WcdmaTools\WcdmaToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreFiltered\input.log)");
+    btsLogSorter.saveLogsToOutputFile(APRG_DIR R"(WcdmaTools\WcdmaToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreFiltered\output.log)");
+
+    int lines=0;
+    ifstream inputLogFileStream(APRG_DIR R"(WcdmaTools\WcdmaToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreFiltered\output.log)");
+    AlbaFileReader fileReader(inputLogFileStream);
+    while(fileReader.isNotFinished())
+    {
+        cout<<fileReader.getLineAndIgnoreWhiteSpaces()<<endl;
+        lines++;
+    }
+
+    EXPECT_EQ(4, lines);
+}

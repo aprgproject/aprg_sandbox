@@ -30,6 +30,7 @@ public:
     }
 
 private:
-    MemoryContainer m_DataBlockMemoryContainer;};
+    MemoryContainer m_DataBlockMemoryContainer;
+};
 
 }//namespace alba

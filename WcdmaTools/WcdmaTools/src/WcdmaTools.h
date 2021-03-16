@@ -2,13 +2,14 @@
 
 #include <ProgressBarThread.hpp>
 #include <QMainWindow>
+#include <QLineEdit>
 #include <StepHandlerThread.hpp>
 #include <WcdmaToolsConfiguration.hpp>
 
-namespace Ui {
+namespace Ui
+{
 class WcdmaTools;
 }
-
 class WcdmaTools : public QMainWindow
 {
     Q_OBJECT
@@ -20,39 +21,53 @@ public:
 
 private slots:
     void updateProgressBar();
+    void updateFilterConditionTextBox(bool const isFilterSubStepOn);
+    void setReadOnlyForLineEdit(QLineEdit* lineEdit, bool const isReadOnly);
+    void updateGrepFinalCondition();
     void onExecutionIsFinished();
-    void on_execute_clicked();
+    void on_executeButton_clicked();
     void on_actionOpenFile_triggered();
     void on_actionOpenFolder_triggered();
+    void on_actionReset_to_default_triggered();
     void on_actionAboutAprg_triggered();
     void on_actionQuit_triggered();
-    void on_extractStep_toggled(bool checked);
-    void on_combineAndSortStep_toggled(bool checked);
-    void on_grepStep_toggled(bool checked);
-    void on_cropStep_toggled(bool checked);
-    void on_allocation_toggled(bool checked);
-    void on_btsStatus_toggled(bool checked);
-    void on_cchh_toggled(bool checked);
-    void on_cchhSdl_toggled(bool checked);
-    void on_dmgr_toggled(bool checked);
-    void on_err_toggled(bool checked);
-    void on_errWrnNoSpam_toggled(bool checked);
-    void on_fault_toggled(bool checked);
-    void on_grm_toggled(bool checked);
-    void on_hsch_toggled(bool checked);
-    void on_lrm_toggled(bool checked);
-    void on_recovery_toggled(bool checked);
-    void on_rlh_toggled(bool checked);
-    void on_tcom_toggled(bool checked);
-    void on_toam_toggled(bool checked);
-    void on_tupc_toggled(bool checked);
-    void on_inputFileAndFolder_editingFinished();
-    void on_extractCondition_editingFinished();
-    void on_acceptedFilesCondition_editingFinished();
-    void on_filterCondition_editingFinished();
-    void on_other_editingFinished();
-    void on_prioritizedLogPrint_editingFinished();
-    void on_cropSize_editingFinished();
+    void on_extractStepCheckBox_toggled(bool checked);
+    void on_combineAndSortStepCheckBox_toggled(bool checked);
+    void on_grepStepCheckBox_toggled(bool checked);
+    void on_cropStepCheckBox_toggled(bool checked);
+    void on_filterSubStepCheckBox_toggled(bool checked);
+    void on_allocationCheckBox_toggled(bool checked);
+    void on_btsStatusCheckBox_toggled(bool checked);
+    void on_cchhCheckBox_toggled(bool checked);
+    void on_bchsenderCheckBox_toggled(bool checked);
+    void on_dmgrCheckBox_toggled(bool checked);
+    void on_codecCheckBox_toggled(bool checked);
+    void on_ltcomCheckBox_toggled(bool checked);
+    void on_lomCheckBox_toggled(bool checked);
+    void on_rakeCheckBox_toggled(bool checked);
+    void on_picCheckBox_toggled(bool checked);
+    void on_hsdpaCheckBox_toggled(bool checked);
+    void on_hstupCheckBox_toggled(bool checked);
+    void on_hsupal2CheckBox_toggled(bool checked);
+    void on_errCheckBox_toggled(bool checked);
+    void on_errWrnNoSpamCheckBox_toggled(bool checked);
+    void on_faultCheckBox_toggled(bool checked);
+    void on_grmCheckBox_toggled(bool checked);
+    void on_hschCheckBox_toggled(bool checked);
+    void on_lrmCheckBox_toggled(bool checked);
+    void on_recoveryCheckBox_toggled(bool checked);
+    void on_rlhCheckBox_toggled(bool checked);
+    void on_tcomCheckBox_toggled(bool checked);
+    void on_toamCheckBox_toggled(bool checked);
+    void on_tupcCheckBox_toggled(bool checked);
+    void on_inputFileAndFolderTextBox_editingFinished();
+    void on_extractConditionTextBox_editingFinished();
+    void on_acceptedFilesConditionTextBox_editingFinished();
+    void on_filterConditionTextBox_editingFinished();
+    void on_otherTextBox_editingFinished();
+    void on_prioritizedLogConditionTextBox_editingFinished();
+    void on_cropSizeTextBox_editingFinished();
+
 private:
     void updateGuiUsingConfiguration();
     Ui::WcdmaTools *ui;

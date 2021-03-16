@@ -10,7 +10,8 @@
     <height>777</height>
    </rect>
   </property>
-  <property name="sizePolicy">   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -28,7 +29,8 @@
       <height>790</height>
      </rect>
     </property>
-    <layout class="QFormLayout" name="formLayout_3">     <property name="fieldGrowthPolicy">
+    <layout class="QFormLayout" name="formLayout_3">
+     <property name="fieldGrowthPolicy">
       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
      </property>
      <item row="0" column="0" colspan="2">
@@ -38,11 +40,10 @@
        </property>
        <layout class="QFormLayout" name="formLayout">
         <item row="0" column="1">
-         <widget class="QLineEdit" name="inputFileAndFolder">
+         <widget class="QLineEdit" name="inputFileAndFolderTextBox">
           <property name="enabled">
            <bool>true</bool>
-          </property>
-          <property name="readOnly">
+          </property>          <property name="readOnly">
            <bool>false</bool>
           </property>
          </widget>
@@ -58,11 +59,10 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QCheckBox" name="extractStep">
+      <widget class="QCheckBox" name="extractStepCheckBox">
        <property name="font">
         <font>
-         <family>Century Gothic</family>
-         <pointsize>10</pointsize>
+         <family>Century Gothic</family>         <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -90,21 +90,19 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="extractCondition"/>
+             <widget class="QLineEdit" name="extractConditionTextBox"/>
             </item>
            </layout>
-          </item>
-         </layout>
+          </item>         </layout>
         </item>
        </layout>
       </widget>
      </item>
      <item row="3" column="0">
-      <widget class="QCheckBox" name="combineAndSortStep">
+      <widget class="QCheckBox" name="combineAndSortStepCheckBox">
        <property name="font">
         <font>
-         <family>Century Gothic</family>
-         <pointsize>10</pointsize>
+         <family>Century Gothic</family>         <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -132,14 +130,13 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="acceptedFilesCondition"/>
+             <widget class="QLineEdit" name="acceptedFilesConditionTextBox"/>
             </item>
            </layout>
-          </item>
-          <item>
+          </item>          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
-             <widget class="QCheckBox" name="filterSubStep">
+             <widget class="QCheckBox" name="filterSubStepCheckBox">
               <property name="font">
                <font>
                 <weight>75</weight>
@@ -159,20 +156,20 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="filterCondition"/>
+             <widget class="QLineEdit" name="filterConditionTextBox"/>
             </item>
            </layout>
           </item>
          </layout>
         </item>
-       </layout>      </widget>
+       </layout>
+      </widget>
      </item>
      <item row="5" column="0">
-      <widget class="QCheckBox" name="grepStep">
+      <widget class="QCheckBox" name="grepStepCheckBox">
        <property name="font">
         <font>
-         <family>Century Gothic</family>
-         <pointsize>10</pointsize>
+         <family>Century Gothic</family>         <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -185,7 +182,8 @@
      <item row="7" column="0" colspan="2">
       <widget class="QGroupBox" name="groupBox_4">
        <property name="title">
-        <string>Grep</string>       </property>
+        <string>Grep</string>
+       </property>
        <layout class="QFormLayout" name="formLayout_2">
         <property name="fieldGrowthPolicy">
          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
@@ -195,14 +193,14 @@
           <item>
            <layout class="QGridLayout" name="gridLayout_2">
             <item row="7" column="1">
-             <widget class="QCheckBox" name="ltcom">
+             <widget class="QCheckBox" name="ltcomCheckBox">
               <property name="text">
                <string>LTCOM prints</string>
               </property>
              </widget>
             </item>
             <item row="7" column="0">
-             <widget class="QCheckBox" name="codec">
+             <widget class="QCheckBox" name="codecCheckBox">
               <property name="text">
                <string>CODEC prints</string>
               </property>
@@ -223,154 +221,154 @@
              </widget>
             </item>
             <item row="4" column="3">
-             <widget class="QCheckBox" name="hsch">
+             <widget class="QCheckBox" name="hschCheckBox">
               <property name="text">
                <string>HSCH prints</string>
               </property>
              </widget>
             </item>
             <item row="2" column="2">
-             <widget class="QCheckBox" name="grm">
+             <widget class="QCheckBox" name="grmCheckBox">
               <property name="text">
                <string>GRM prints</string>
               </property>
              </widget>
             </item>
             <item row="5" column="3">
-             <widget class="QCheckBox" name="dmgr">
+             <widget class="QCheckBox" name="dmgrCheckBox">
               <property name="text">
                <string>DMGR prints</string>
               </property>
              </widget>
             </item>
             <item row="3" column="3">
-             <widget class="QCheckBox" name="cchhSdl">
+             <widget class="QCheckBox" name="bchsenderCheckBox">
               <property name="text">
-               <string>TCOM/CH</string>
+               <string>BCH sender prints</string>
               </property>
              </widget>
             </item>
             <item row="3" column="2">
-             <widget class="QCheckBox" name="toam">
+             <widget class="QCheckBox" name="toamCheckBox">
               <property name="text">
                <string>TOAM prints</string>
               </property>
              </widget>
             </item>
             <item row="7" column="2">
-             <widget class="QCheckBox" name="lom">
+             <widget class="QCheckBox" name="lomCheckBox">
               <property name="text">
                <string>LOM prints</string>
               </property>
              </widget>
             </item>
             <item row="3" column="0">
-             <widget class="QCheckBox" name="err">
+             <widget class="QCheckBox" name="errCheckBox">
               <property name="text">
                <string>ERR/</string>
               </property>
              </widget>
             </item>
             <item row="4" column="0">
-             <widget class="QCheckBox" name="errWrnNoSpam">
+             <widget class="QCheckBox" name="errWrnNoSpamCheckBox">
               <property name="text">
                <string>ERR/, WRN/ (no spam)</string>
               </property>
              </widget>
             </item>
             <item row="2" column="0">
-             <widget class="QCheckBox" name="tcom">
+             <widget class="QCheckBox" name="tcomCheckBox">
               <property name="text">
                <string>/TCOM/</string>
               </property>
              </widget>
             </item>
             <item row="5" column="0">
-             <widget class="QCheckBox" name="btsStatus">
+             <widget class="QCheckBox" name="btsStatusCheckBox">
               <property name="text">
                <string>BTS Status</string>
               </property>
              </widget>
             </item>
             <item row="3" column="1">
-             <widget class="QCheckBox" name="allocation">
+             <widget class="QCheckBox" name="allocationCheckBox">
               <property name="text">
                <string>Allocation prints (DspCapa, etc)</string>
               </property>
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QCheckBox" name="recovery">
+             <widget class="QCheckBox" name="recoveryCheckBox">
               <property name="text">
                <string>Recovery prints (Links, HW_CONF)</string>
               </property>
              </widget>
             </item>
             <item row="2" column="3">
-             <widget class="QCheckBox" name="cchh">
+             <widget class="QCheckBox" name="cchhCheckBox">
               <property name="text">
-               <string>TCOM/CCHH</string>
+               <string>CCHH prints</string>
               </property>
              </widget>
             </item>
             <item row="4" column="2">
-             <widget class="QCheckBox" name="tupc">
+             <widget class="QCheckBox" name="tupcCheckBox">
               <property name="text">
                <string>TUPC prints</string>
               </property>
              </widget>
             </item>
             <item row="5" column="2">
-             <widget class="QCheckBox" name="rlh">
+             <widget class="QCheckBox" name="rlhCheckBox">
               <property name="text">
                <string>RLH prints</string>
               </property>
              </widget>
             </item>
             <item row="5" column="1">
-             <widget class="QCheckBox" name="lrm">
+             <widget class="QCheckBox" name="lrmCheckBox">
               <property name="text">
                <string>LRM prints</string>
               </property>
              </widget>
             </item>
             <item row="4" column="1">
-             <widget class="QCheckBox" name="fault">
+             <widget class="QCheckBox" name="faultCheckBox">
               <property name="text">
                <string>faultId:, EfaultId_</string>
               </property>
              </widget>
             </item>
             <item row="8" column="0">
-             <widget class="QCheckBox" name="pic">
+             <widget class="QCheckBox" name="picCheckBox">
               <property name="text">
                <string>PIC prints</string>
               </property>
              </widget>
             </item>
             <item row="8" column="3">
-             <widget class="QCheckBox" name="hsupal2">
+             <widget class="QCheckBox" name="hsupal2CheckBox">
               <property name="text">
                <string>HSUPA L2 prints</string>
               </property>
              </widget>
             </item>
             <item row="7" column="3">
-             <widget class="QCheckBox" name="rake">
+             <widget class="QCheckBox" name="rakeCheckBox">
               <property name="text">
                <string>RAKE prints</string>
               </property>
              </widget>
             </item>
             <item row="8" column="1">
-             <widget class="QCheckBox" name="hsdpal2">
+             <widget class="QCheckBox" name="hsdpaCheckBox">
               <property name="text">
-               <string>HSDPA L2 prints</string>
+               <string>HSDPA prints</string>
               </property>
              </widget>
             </item>
             <item row="8" column="2">
-             <widget class="QCheckBox" name="hstup">
+             <widget class="QCheckBox" name="hstupCheckBox">
               <property name="text">
                <string>HsTUP prints</string>
               </property>
@@ -388,11 +386,12 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="other"/>
+             <widget class="QLineEdit" name="otherTextBox"/>
             </item>
            </layout>
           </item>
-          <item>           <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
              <widget class="QLabel" name="label_9">
               <property name="text">
@@ -401,22 +400,24 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="grepFinalCondition">
+             <widget class="QLineEdit" name="grepFinalConditionTextBox">
               <property name="readOnly">
                <bool>true</bool>
               </property>
              </widget>
             </item>
            </layout>
-          </item>         </layout>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
      </item>
      <item row="8" column="0">
-      <widget class="QCheckBox" name="cropStep">
+      <widget class="QCheckBox" name="cropStepCheckBox">
        <property name="font">
-        <font>         <family>Century Gothic</family>
+        <font>
+         <family>Century Gothic</family>
          <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
@@ -430,7 +431,8 @@
      <item row="10" column="0" colspan="2">
       <widget class="QGroupBox" name="groupBox_5">
        <property name="title">
-        <string>Crop</string>       </property>
+        <string>Crop</string>
+       </property>
        <layout class="QFormLayout" name="formLayout_4">
         <property name="fieldGrowthPolicy">
          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
@@ -440,26 +442,24 @@
           <item>
            <widget class="QLabel" name="label_2">
             <property name="text">
-             <string>Prioritized log print: </string>
+             <string>Prioritized log condition: </string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="prioritizedLogPrint"/>
+           <widget class="QLineEdit" name="prioritizedLogConditionTextBox"/>
           </item>
           <item>
-           <widget class="QLabel" name="label_4">
-            <property name="text">
+           <widget class="QLabel" name="label_4">            <property name="text">
              <string>Crop size(MB):</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="cropSize">
+           <widget class="QLineEdit" name="cropSizeTextBox">
             <property name="enabled">
              <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
+            </property>            <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
@@ -481,7 +481,8 @@
      <item row="12" column="0" colspan="2">
       <layout class="QHBoxLayout" name="horizontalLayout_6">
        <item>
-        <spacer name="horizontalSpacer">         <property name="orientation">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
@@ -493,11 +494,10 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="execute">
+        <widget class="QPushButton" name="executeButton">
          <property name="text">
           <string>Execute!</string>
-         </property>
-        </widget>
+         </property>        </widget>
        </item>
        <item>
         <spacer name="horizontalSpacer_2">
@@ -517,7 +517,8 @@
      <item row="11" column="0" colspan="2">
       <widget class="QProgressBar" name="progressBar">
        <property name="value">
-        <number>24</number>       </property>
+        <number>24</number>
+       </property>
       </widget>
      </item>
     </layout>
@@ -531,7 +532,8 @@
      <width>706</width>
      <height>21</height>
     </rect>
-   </property>   <widget class="QMenu" name="menuFile">
+   </property>
+   <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
@@ -544,10 +546,10 @@
     </widget>
     <addaction name="menuOpen"/>
     <addaction name="separator"/>
+    <addaction name="actionReset_to_default"/>
     <addaction name="actionQuit"/>
    </widget>
-   <widget class="QMenu" name="menuAbout">
-    <property name="title">
+   <widget class="QMenu" name="menuAbout">    <property name="title">
      <string>About</string>
     </property>
     <addaction name="actionAboutAprg"/>
@@ -576,8 +578,12 @@
     <string>About APRG</string>
    </property>
   </action>
+  <action name="actionReset_to_default">
+   <property name="text">
+    <string>Reset to default</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
- <connections/>
+ <resources/> <connections/>
 </ui>

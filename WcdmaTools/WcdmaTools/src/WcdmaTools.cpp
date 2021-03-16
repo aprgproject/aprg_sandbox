@@ -7,9 +7,11 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+
+#include <Debug/AlbaDebug.hpp>
+
 using namespace alba;
 using namespace std;
-
 namespace alba
 {
 
@@ -27,77 +29,129 @@ WcdmaTools::WcdmaTools(QWidget *parent)
     , m_configuration()
     , m_stepHandlerThread(m_configuration)
 {
+    ALBA_PRINT0("WcdmaTools1");
     ui->setupUi(this);
+    ALBA_PRINT0("WcdmaTools2");
     updateGuiUsingConfiguration();
+    ALBA_PRINT0("WcdmaTools3");
     ProgressCounters::resetProgressCounters();
+    ALBA_PRINT0("WcdmaTools4");
     updateProgressBar();
+    ALBA_PRINT0("WcdmaTools5");
     connect(&m_stepHandlerThread, SIGNAL(executionDone()), this, SLOT(onExecutionIsFinished()));
+    ALBA_PRINT0("WcdmaTools6");
     connect(&m_progressBarThread, SIGNAL(triggerUpdateProgressBar()), this, SLOT(updateProgressBar()));
+    ALBA_PRINT0("WcdmaTools7");
     m_stepHandlerThread.start();
+    ALBA_PRINT0("WcdmaTools8");
     m_progressBarThread.start();
+    ALBA_PRINT0("WcdmaTools9");
 }
 
-WcdmaTools::~WcdmaTools()
-{
+WcdmaTools::~WcdmaTools(){
     delete ui;
 }
 
 void WcdmaTools::setInputFileOrDirectory(string const& inputFileOrDirectory)
 {
     m_configuration.inputFileOrDirectory = inputFileOrDirectory;
-    ui->inputFileAndFolder->setText(QString::fromStdString(inputFileOrDirectory));
+    ui->inputFileAndFolderTextBox->setText(QString::fromStdString(inputFileOrDirectory));
 }
 
 void WcdmaTools::updateGuiUsingConfiguration()
 {
     stringHelper::NumberToStringConverter converter;
-    ui->extractStep->setChecked(m_configuration.isExtractStepOn);
-    ui->combineAndSortStep->setChecked(m_configuration.isCombineAndSortStepOn);
-    ui->grepStep->setChecked(m_configuration.isGrepStepOn);
-    ui->cropStep->setChecked(m_configuration.isCropStepOn);
-    ui->tcom->setChecked(m_configuration.isGrepTcomEnabled);
-    ui->err->setChecked(m_configuration.isGrepErrEnabled);
-    ui->errWrnNoSpam->setChecked(m_configuration.isGrepErrWrnNoSpamEnabled);
-    ui->btsStatus->setChecked(m_configuration.isGrepBtsStatusEnabled);
-    ui->recovery->setChecked(m_configuration.isGrepRecoveryEnabled);
-    ui->allocation->setChecked(m_configuration.isGrepAllocationEnabled);
-    ui->fault->setChecked(m_configuration.isGrepFaultEnabled);
-    ui->lrm->setChecked(m_configuration.isGrepLrmEnabled);
-    ui->grm->setChecked(m_configuration.isGrepGrmEnabled);
-    ui->toam->setChecked(m_configuration.isGrepToamEnabled);
-    ui->tupc->setChecked(m_configuration.isGrepTupcEnabled);
-    ui->rlh->setChecked(m_configuration.isGrepRlhEnabled);
-    ui->cchh->setChecked(m_configuration.isGrepCchhEnabled);
-    ui->cchhSdl->setChecked(m_configuration.isGrepCchhSdlEnabled);
-    ui->hsch->setChecked(m_configuration.isGrepHschEnabled);
-    ui->dmgr->setChecked(m_configuration.isGrepDmgrEnabled);
-    ui->inputFileAndFolder->setText(QString::fromStdString(m_configuration.inputFileOrDirectory));
-    ui->extractCondition->setText(QString::fromStdString(m_configuration.extractGrepCondition));
-    ui->acceptedFilesCondition->setText(QString::fromStdString(m_configuration.acceptedFilesGrepCondition));
-    ui->filterCondition->setText(QString::fromStdString(m_configuration.filterGrepCondition));
-    ui->other->setText(QString::fromStdString(m_configuration.otherGrepCondition));
-    ui->prioritizedLogPrint->setText(QString::fromStdString(m_configuration.prioritizedLogPrint));
-    ui->cropSize->setText(QString::fromStdString(converter.convert(m_configuration.cropSize)));}
+    ui->extractStepCheckBox->setChecked(m_configuration.isExtractStepOn);
+    ui->combineAndSortStepCheckBox->setChecked(m_configuration.isCombineAndSortStepOn);
+    ui->grepStepCheckBox->setChecked(m_configuration.isGrepStepOn);
+    ui->cropStepCheckBox->setChecked(m_configuration.isCropStepOn);
+    ui->filterSubStepCheckBox->setChecked(m_configuration.isFilterSubStepOn);
+    ui->tcomCheckBox->setChecked(m_configuration.isGrepTcomEnabled);
+    ui->errCheckBox->setChecked(m_configuration.isGrepErrEnabled);
+    ui->errWrnNoSpamCheckBox->setChecked(m_configuration.isGrepErrWrnNoSpamEnabled);
+    ui->btsStatusCheckBox->setChecked(m_configuration.isGrepBtsStatusEnabled);
+    ui->recoveryCheckBox->setChecked(m_configuration.isGrepRecoveryEnabled);
+    ui->allocationCheckBox->setChecked(m_configuration.isGrepAllocationEnabled);
+    ui->faultCheckBox->setChecked(m_configuration.isGrepFaultEnabled);
+    ui->lrmCheckBox->setChecked(m_configuration.isGrepLrmEnabled);
+    ui->grmCheckBox->setChecked(m_configuration.isGrepGrmEnabled);
+    ui->toamCheckBox->setChecked(m_configuration.isGrepToamEnabled);
+    ui->tupcCheckBox->setChecked(m_configuration.isGrepTupcEnabled);
+    ui->rlhCheckBox->setChecked(m_configuration.isGrepRlhEnabled);
+    ui->cchhCheckBox->setChecked(m_configuration.isGrepCchhEnabled);
+    ui->bchsenderCheckBox->setChecked(m_configuration.isGrepBchsenderEnabled);
+    ui->hschCheckBox->setChecked(m_configuration.isGrepHschEnabled);
+    ui->dmgrCheckBox->setChecked(m_configuration.isGrepDmgrEnabled);
+    ui->codecCheckBox->setChecked(m_configuration.isGrepCodecEnabled);
+    ui->ltcomCheckBox->setChecked(m_configuration.isGrepLtcomEnabled);
+    ui->lomCheckBox->setChecked(m_configuration.isGrepLomEnabled);
+    ui->rakeCheckBox->setChecked(m_configuration.isGrepRakeEnabled);
+    ui->picCheckBox->setChecked(m_configuration.isGrepPicEnabled);
+    ui->hsdpaCheckBox->setChecked(m_configuration.isGrepHsdpaEnabled);
+    ui->hstupCheckBox->setChecked(m_configuration.isGrepHsTupEnabled);
+    ui->hsupal2CheckBox->setChecked(m_configuration.isGrepHsupaL2Enabled);
+    ui->inputFileAndFolderTextBox->setText(QString::fromStdString(m_configuration.inputFileOrDirectory));
+    ui->extractConditionTextBox->setText(QString::fromStdString(m_configuration.extractGrepCondition));
+    ui->acceptedFilesConditionTextBox->setText(QString::fromStdString(m_configuration.acceptedFilesGrepCondition));
+    ui->filterConditionTextBox->setText(QString::fromStdString(m_configuration.filterGrepCondition));
+    ui->otherTextBox->setText(QString::fromStdString(m_configuration.otherGrepCondition));
+    ui->prioritizedLogConditionTextBox->setText(QString::fromStdString(m_configuration.prioritizedLogCondition));
+    ui->cropSizeTextBox->setText(QString::fromStdString(converter.convert(m_configuration.cropSize)));
+    updateFilterConditionTextBox(m_configuration.isFilterSubStepOn);
+    setReadOnlyForLineEdit(ui->grepFinalConditionTextBox, true);
+    updateGrepFinalCondition();
+}
 
 void WcdmaTools::updateProgressBar()
 {
     ui->progressBar->setValue(ProgressCounters::getOverAllProgress());
 }
 
+void WcdmaTools::updateFilterConditionTextBox(bool const isFilterSubStepOn)
+{
+    bool isReadOnly = !isFilterSubStepOn;
+    ui->filterConditionTextBox->setReadOnly(isReadOnly);
+    if(isReadOnly)
+    {
+        ui->filterConditionTextBox->setText(QString::fromStdString(""));
+    }
+    setReadOnlyForLineEdit(ui->filterConditionTextBox, isReadOnly);
+}
+
+void WcdmaTools::setReadOnlyForLineEdit(QLineEdit* lineEdit, bool const isReadOnly)
+{
+    if(isReadOnly)
+    {
+        QPalette palette;
+        palette.setColor(QPalette::Base,Qt::lightGray);
+        palette.setColor(QPalette::Text,Qt::black);
+        lineEdit->setPalette(palette);
+    }
+    else
+    {
+        lineEdit->setPalette(QApplication::palette(this));
+    }
+}
+
+void WcdmaTools::updateGrepFinalCondition()
+{
+    ui->grepFinalConditionTextBox->setText(QString::fromStdString(m_configuration.getGrepCondition()));
+}
+
 void WcdmaTools::onExecutionIsFinished()
 {
     m_progressBarThread.stopUpdatingProgressBar();
     ui->progressBar->setValue(100);
-    ui->execute->setEnabled(true);
+    ui->executeButton->setEnabled(true);
 }
 
-void WcdmaTools::on_execute_clicked()
+void WcdmaTools::on_executeButton_clicked()
 {
-    ui->execute->setEnabled(false);
+    ui->executeButton->setEnabled(false);
+    m_configuration.saveToConfigurationFile();
     m_progressBarThread.startUpdatingProgressBar();
     m_stepHandlerThread.execute();
 }
-
 void WcdmaTools::on_actionOpenFile_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), QString::fromStdString(AlbaLocalPathHandler(m_configuration.inputFileOrDirectory).getFullPath()), tr("All Files (*)"));
@@ -105,10 +159,9 @@ void WcdmaTools::on_actionOpenFile_triggered()
     if(!pathHandler.isEmpty())
     {
         m_configuration.inputFileOrDirectory = pathHandler.getFullPath();
-        ui->inputFileAndFolder->setText(QString::fromStdString(pathHandler.getFullPath()));
+        ui->inputFileAndFolderTextBox->setText(QString::fromStdString(pathHandler.getFullPath()));
     }
 }
-
 void WcdmaTools::on_actionOpenFolder_triggered()
 {
     QString directory = QFileDialog::getExistingDirectory(this, tr("Open folder"), QString::fromStdString(AlbaLocalPathHandler(m_configuration.inputFileOrDirectory).getDirectory()), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
@@ -116,150 +169,227 @@ void WcdmaTools::on_actionOpenFolder_triggered()
     if(!pathHandler.isEmpty())
     {
         m_configuration.inputFileOrDirectory = pathHandler.getFullPath();
-        ui->inputFileAndFolder->setText(QString::fromStdString(pathHandler.getFullPath()));
+        ui->inputFileAndFolderTextBox->setText(QString::fromStdString(pathHandler.getFullPath()));
     }
+}
+
+void WcdmaTools::on_actionReset_to_default_triggered()
+{
+    m_configuration.loadDefaultConfigurationFile();
+    updateGuiUsingConfiguration();
 }
 
 void WcdmaTools::on_actionAboutAprg_triggered()
 {
-    QMessageBox::about(this, tr("About Menu"), tr("Insert sample text here"));
-}
+    QMessageBox::about(this, tr("About Menu"), tr("Insert sample text here"));}
 
 void WcdmaTools::on_actionQuit_triggered()
 {
     exit(0); //think of something else, I don't like "exit".
 }
 
-void WcdmaTools::on_extractStep_toggled(bool checked)
+void WcdmaTools::on_extractStepCheckBox_toggled(bool checked)
 {
     m_configuration.isExtractStepOn = checked;
 }
 
-void WcdmaTools::on_combineAndSortStep_toggled(bool checked)
+void WcdmaTools::on_combineAndSortStepCheckBox_toggled(bool checked)
 {
     m_configuration.isCombineAndSortStepOn = checked;
 }
 
-void WcdmaTools::on_grepStep_toggled(bool checked)
+void WcdmaTools::on_grepStepCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepStepOn = checked;
 }
 
-void WcdmaTools::on_cropStep_toggled(bool checked)
+void WcdmaTools::on_cropStepCheckBox_toggled(bool checked)
 {
     m_configuration.isCropStepOn = checked;
 }
 
-void WcdmaTools::on_allocation_toggled(bool checked)
+void WcdmaTools::on_filterSubStepCheckBox_toggled(bool checked)
+{
+    m_configuration.isFilterSubStepOn = checked;
+    updateFilterConditionTextBox(m_configuration.isFilterSubStepOn);
+}
+
+void WcdmaTools::on_allocationCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepAllocationEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_btsStatus_toggled(bool checked)
+void WcdmaTools::on_btsStatusCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepBtsStatusEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_cchh_toggled(bool checked)
+void WcdmaTools::on_cchhCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepCchhEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_cchhSdl_toggled(bool checked)
+void WcdmaTools::on_bchsenderCheckBox_toggled(bool checked)
 {
-    m_configuration.isGrepCchhSdlEnabled = checked;
+    m_configuration.isGrepBchsenderEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_dmgr_toggled(bool checked)
+void WcdmaTools::on_dmgrCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepDmgrEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_err_toggled(bool checked)
+void WcdmaTools::on_codecCheckBox_toggled(bool checked)
+{
+    m_configuration.isGrepCodecEnabled = checked;
+    updateGrepFinalCondition();
+}
+
+void WcdmaTools::on_ltcomCheckBox_toggled(bool checked)
+{
+    m_configuration.isGrepLtcomEnabled = checked;
+    updateGrepFinalCondition();
+}
+
+void WcdmaTools::on_lomCheckBox_toggled(bool checked)
+{
+    m_configuration.isGrepLomEnabled = checked;
+    updateGrepFinalCondition();
+}
+
+void WcdmaTools::on_rakeCheckBox_toggled(bool checked)
+{
+    m_configuration.isGrepRakeEnabled = checked;
+    updateGrepFinalCondition();
+}
+
+void WcdmaTools::on_picCheckBox_toggled(bool checked)
+{
+    m_configuration.isGrepPicEnabled = checked;
+    updateGrepFinalCondition();
+}
+
+void WcdmaTools::on_hsdpaCheckBox_toggled(bool checked)
+{
+    m_configuration.isGrepHsdpaEnabled = checked;
+    updateGrepFinalCondition();
+}
+
+void WcdmaTools::on_hstupCheckBox_toggled(bool checked)
+{
+    m_configuration.isGrepHsTupEnabled = checked;
+    updateGrepFinalCondition();
+}
+
+void WcdmaTools::on_hsupal2CheckBox_toggled(bool checked)
+{
+    m_configuration.isGrepHsupaL2Enabled = checked;
+    updateGrepFinalCondition();
+}
+
+void WcdmaTools::on_errCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepErrEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_errWrnNoSpam_toggled(bool checked)
+void WcdmaTools::on_errWrnNoSpamCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepErrWrnNoSpamEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_fault_toggled(bool checked)
+void WcdmaTools::on_faultCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepFaultEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_grm_toggled(bool checked)
+void WcdmaTools::on_grmCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepGrmEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_hsch_toggled(bool checked)
+void WcdmaTools::on_hschCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepHschEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_lrm_toggled(bool checked)
+void WcdmaTools::on_lrmCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepLrmEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_recovery_toggled(bool checked)
+void WcdmaTools::on_recoveryCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepRecoveryEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_rlh_toggled(bool checked)
+void WcdmaTools::on_rlhCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepRlhEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_tcom_toggled(bool checked)
+void WcdmaTools::on_tcomCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepTcomEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_toam_toggled(bool checked)
+void WcdmaTools::on_toamCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepToamEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_tupc_toggled(bool checked)
+void WcdmaTools::on_tupcCheckBox_toggled(bool checked)
 {
     m_configuration.isGrepTupcEnabled = checked;
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_inputFileAndFolder_editingFinished()
+void WcdmaTools::on_inputFileAndFolderTextBox_editingFinished()
 {
-    m_configuration.inputFileOrDirectory = ui->inputFileAndFolder->text().toStdString();
+    m_configuration.inputFileOrDirectory = ui->inputFileAndFolderTextBox->text().toStdString();
 }
 
-void WcdmaTools::on_extractCondition_editingFinished()
+void WcdmaTools::on_extractConditionTextBox_editingFinished()
 {
-    m_configuration.extractGrepCondition = ui->extractCondition->text().toStdString();
+    m_configuration.extractGrepCondition = ui->extractConditionTextBox->text().toStdString();
 }
 
-void WcdmaTools::on_acceptedFilesCondition_editingFinished()
+void WcdmaTools::on_acceptedFilesConditionTextBox_editingFinished()
 {
-    m_configuration.acceptedFilesGrepCondition = ui->acceptedFilesCondition->text().toStdString();
+    m_configuration.acceptedFilesGrepCondition = ui->acceptedFilesConditionTextBox->text().toStdString();
 }
 
-void WcdmaTools::on_filterCondition_editingFinished()
+void WcdmaTools::on_filterConditionTextBox_editingFinished()
 {
-    m_configuration.filterGrepCondition = ui->filterCondition->text().toStdString();
+    m_configuration.filterGrepCondition = ui->filterConditionTextBox->text().toStdString();
 }
 
-void WcdmaTools::on_other_editingFinished()
+void WcdmaTools::on_otherTextBox_editingFinished()
 {
-    m_configuration.otherGrepCondition = ui->other->text().toStdString();}
-
-void WcdmaTools::on_prioritizedLogPrint_editingFinished()
-{
-    m_configuration.prioritizedLogPrint = ui->prioritizedLogPrint->text().toStdString();
+    m_configuration.otherGrepCondition = ui->otherTextBox->text().toStdString();
+    updateGrepFinalCondition();
 }
 
-void WcdmaTools::on_cropSize_editingFinished()
+void WcdmaTools::on_prioritizedLogConditionTextBox_editingFinished()
 {
-    m_configuration.cropSize = stringHelper::convertStringToNumber<double>(ui->cropSize->text().toStdString());
+    m_configuration.prioritizedLogCondition = ui->prioritizedLogConditionTextBox->text().toStdString();
+}
+
+void WcdmaTools::on_cropSizeTextBox_editingFinished()
+{
+    m_configuration.cropSize = stringHelper::convertStringToNumber<double>(ui->cropSizeTextBox->text().toStdString());
 }
