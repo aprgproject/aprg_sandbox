@@ -1,28 +1,29 @@
-isExtractStepOn:0
-isCombineAndSortStepOn:0
-isGrepStepOn:0
+isExtractStepOn:1
+isCombineAndSortStepOn:1
+isGrepStepOn:1
 isCropStepOn:1
 isFilterSubStepOn:1
 isGrepTcomEnabled:1
-isGrepErrEnabled:1
-isGrepErrWrnNoSpamEnabled:1
-isGrepBtsStatusEnabled:1
+isGrepErrEnabled:0
+isGrepErrWrnTcomEnabled:0
+isGrepBtsStatusEnabled:0
 isGrepRecoveryEnabled:0
 isGrepAllocationEnabled:0
 isGrepFaultEnabled:0
 isGrepLrmEnabled:0
 isGrepGrmEnabled:0
-isGrepToamEnabled:0isGrepTupcEnabled:0
+isGrepToamEnabled:0
+isGrepTupcEnabled:0
 isGrepRlhEnabled:0
 isGrepCchhEnabled:0
 isGrepBchsenderEnabled:0
 isGrepHschEnabled:0
 isGrepDmgrEnabled:0
-isGrepCodecEnabled:1
+isGrepCodecEnabled:0
 isGrepLtcomEnabled:0
 isGrepLomEnabled:0
 isGrepRakeEnabled:0
-isGrepPicEnabled:1
+isGrepPicEnabled:0
 isGrepHsdpaEnabled:0
 isGrepHsTupEnabled:0
 isGrepHsupaL2Enabled:0
@@ -39,7 +40,8 @@ grepConditionForToam:[TCOM/TOAM]
 grepConditionForTupc:[/TUP] || [Conman]
 grepConditionForRlh:[TCOM/R]
 grepConditionForCchh:[TCOM/CCHH]
-grepConditionForBchsender:(([CCHH] || [HSCTRL] || [CCHCTRL]) && [TCOM/Logger]) || [TCOM/CH]grepConditionForHsch:[TCOM/HSCH]
+grepConditionForBchsender:(([CCHH] || [HSCTRL] || [CCHCTRL]) && [TCOM/Logger]) || [TCOM/CH]
+grepConditionForHsch:[TCOM/HSCH]
 grepConditionForDmgr:[TCOM/DMGR]
 grepConditionForCodec:[/CODEC/]
 grepConditionForLtcom:[/CODEC/]
@@ -49,15 +51,16 @@ grepConditionForPic:[/CODEC/]
 grepConditionForHsdpa:[/CODEC/]
 grepConditionForHsTup:[/CODEC/]
 grepConditionForHsupaL2:[/CODEC/]
-inputFileOrDirectory:C:\Users\detectivemark7\Desktop\Delete\TcomTupc.log
+inputFileOrDirectory:D:\W\ZZZ_Useless_Logs\FZPDeployment\2016-01-10\sorted.log
 extractGrepCondition:([LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [pm_] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles] || [SMOD]) && !([ProcessCpu] || [ProcessMemory])
 acceptedFilesGrepCondition: [ccns.log] || [tcom.log] || [system.log] || (([SYSLOG_] || [startup] || [runtime]|| [pm_] || [CPU]) && [.log]) || ([UDP] && ![.tar]) || ([SMOD] && ![.tar])
 filterGrepCondition:
 otherGrepCondition:
-prioritizedLogCondition:[<2017-05-08T04:40:19.147013Z>]
+prioritizedLogCondition:
 cropSize:100
 btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock:10000
-btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock:100000btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory:500000
+btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock:100000
+btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory:500000
 btsLogSorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams:100
 btsLogSorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock:10000
 btsLogSorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock:100000

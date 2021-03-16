@@ -12,9 +12,9 @@
 
 using namespace alba;
 using namespace std;
+
 namespace alba
 {
-
 namespace ProgressCounters
 {
 extern int getOverAllProgress();
@@ -48,10 +48,10 @@ WcdmaTools::WcdmaTools(QWidget *parent)
     ALBA_PRINT0("WcdmaTools9");
 }
 
-WcdmaTools::~WcdmaTools(){
+WcdmaTools::~WcdmaTools()
+{
     delete ui;
 }
-
 void WcdmaTools::setInputFileOrDirectory(string const& inputFileOrDirectory)
 {
     m_configuration.inputFileOrDirectory = inputFileOrDirectory;
@@ -152,20 +152,20 @@ void WcdmaTools::on_executeButton_clicked()
     m_progressBarThread.startUpdatingProgressBar();
     m_stepHandlerThread.execute();
 }
+
 void WcdmaTools::on_actionOpenFile_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), QString::fromStdString(AlbaLocalPathHandler(m_configuration.inputFileOrDirectory).getFullPath()), tr("All Files (*)"));
-    AlbaLocalPathHandler pathHandler(fileName.toStdString());
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), QString::fromStdString(AlbaLocalPathHandler(m_configuration.inputFileOrDirectory).getFullPath()), tr("All Files (*)"));    AlbaLocalPathHandler pathHandler(fileName.toStdString());
     if(!pathHandler.isEmpty())
     {
         m_configuration.inputFileOrDirectory = pathHandler.getFullPath();
         ui->inputFileAndFolderTextBox->setText(QString::fromStdString(pathHandler.getFullPath()));
     }
 }
+
 void WcdmaTools::on_actionOpenFolder_triggered()
 {
-    QString directory = QFileDialog::getExistingDirectory(this, tr("Open folder"), QString::fromStdString(AlbaLocalPathHandler(m_configuration.inputFileOrDirectory).getDirectory()), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-    AlbaLocalPathHandler pathHandler(directory.toStdString());
+    QString directory = QFileDialog::getExistingDirectory(this, tr("Open folder"), QString::fromStdString(AlbaLocalPathHandler(m_configuration.inputFileOrDirectory).getDirectory()), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);    AlbaLocalPathHandler pathHandler(directory.toStdString());
     if(!pathHandler.isEmpty())
     {
         m_configuration.inputFileOrDirectory = pathHandler.getFullPath();
@@ -181,11 +181,11 @@ void WcdmaTools::on_actionReset_to_default_triggered()
 
 void WcdmaTools::on_actionAboutAprg_triggered()
 {
-    QMessageBox::about(this, tr("About Menu"), tr("Insert sample text here"));}
+    QMessageBox::about(this, tr("About Menu"), tr("Insert sample text here"));
+}
 
 void WcdmaTools::on_actionQuit_triggered()
-{
-    exit(0); //think of something else, I don't like "exit".
+{    exit(0); //think of something else, I don't like "exit".
 }
 
 void WcdmaTools::on_extractStepCheckBox_toggled(bool checked)
@@ -380,8 +380,7 @@ void WcdmaTools::on_filterConditionTextBox_editingFinished()
 
 void WcdmaTools::on_otherTextBox_editingFinished()
 {
-    m_configuration.otherGrepCondition = ui->otherTextBox->text().toStdString();
-    updateGrepFinalCondition();
+    m_configuration.otherGrepCondition = ui->otherTextBox->text().toStdString();    updateGrepFinalCondition();
 }
 
 void WcdmaTools::on_prioritizedLogConditionTextBox_editingFinished()

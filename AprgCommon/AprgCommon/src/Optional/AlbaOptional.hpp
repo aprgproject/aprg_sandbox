@@ -137,8 +137,7 @@ public:
 
 private:
     bool m_hasContent;
-    std::unique_ptr<ContentType> m_contentPointer;
-};
+    std::unique_ptr<ContentType> m_contentPointer;};
 
 template <typename ContentType> class AlbaOptional<ContentType &>
 {

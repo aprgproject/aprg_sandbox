@@ -16,11 +16,11 @@
 
 namespace alba
 {
-namespace ProgressCounters{
+namespace ProgressCounters
+{
 extern int grepProcessProgress;
 extern int cropProcessProgress;
-extern int numberOfStepsEnabled;
-extern void resetProgressCounters();
+extern int numberOfStepsEnabled;extern void resetProgressCounters();
 }
 }
 
@@ -109,8 +109,7 @@ string StepHandler::executeCombineAndSortStep(WcdmaToolsConfiguration const& con
         sorterConfiguration.m_filterGrepCondition = configuration.filterGrepCondition;
         wcdmaToolsBackend::BtsLogSorter btsLogSorter(sorterConfiguration);
         btsLogSorter.processDirectory(pathHandler.getDirectory());
-        pathHandler.goUp();
-        pathHandler.input(pathHandler.getDirectory() + R"(\)" + configuration.getSortedFileName());
+        pathHandler.goUp();        pathHandler.input(pathHandler.getDirectory() + R"(\)" + configuration.getSortedFileName());
         outputPath = pathHandler.getFullPath();
         btsLogSorter.saveLogsToOutputFile(outputPath);
     }
@@ -149,20 +148,20 @@ string StepHandler::grepFile(WcdmaToolsConfiguration const& configuration, strin
     AlbaGrepStringEvaluator grepEvaluator(configuration.getGrepCondition());
     AlbaLocalPathHandler pathHandler(inputPath);
     ifstream inputFileStream(pathHandler.getFullPath());
-    pathHandler.input(pathHandler.getDirectory() + R"(\)" + configuration.getGrepFileName());    ofstream outputFileStream(pathHandler.getFullPath());
+    pathHandler.input(pathHandler.getDirectory() + R"(\)" + configuration.getGrepFileName());
+    ofstream outputFileStream(pathHandler.getFullPath());
     AlbaFileReader fileReader(inputFileStream);
     double sizeOfFile = fileReader.getFileSize();
-    while(fileReader.isNotFinished())
-    {
+    while(fileReader.isNotFinished())    {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         if(grepEvaluator.evaluate(lineInLogs))
         {
             outputFileStream << lineInLogs << endl;
-        }        ProgressCounters::grepProcessProgress = fileReader.getCurrentLocation()*100/sizeOfFile;
+        }
+        ProgressCounters::grepProcessProgress = fileReader.getCurrentLocation()*100/sizeOfFile;
     }
     ProgressCounters::grepProcessProgress = 100;
-    return pathHandler.getFullPath();
-}
+    return pathHandler.getFullPath();}
 
 string StepHandler::executeCropStep(WcdmaToolsConfiguration const& configuration, string const& inputPath) const
 {
@@ -181,11 +180,11 @@ string StepHandler::executeCropStep(WcdmaToolsConfiguration const& configuration
             cout<<"Crop step did not proceed. Prioritized log print not found: "<<configuration.prioritizedLogCondition<<endl;
         }
     }
-    else    {
+    else
+    {
         cout<<"Crop step did not proceed. Current path: "<<pathHandler.getFullPath()<<endl;
     }
-    cout<<" (Crop) done | Output path: "<<outputPath<<endl;
-    return outputPath;
+    cout<<" (Crop) done | Output path: "<<outputPath<<endl;    return outputPath;
 }
 
 string StepHandler::cropFile(WcdmaToolsConfiguration const& configuration, string const& inputPath, double foundLocation) const
@@ -202,11 +201,11 @@ string StepHandler::cropFile(WcdmaToolsConfiguration const& configuration, strin
 
     double locationDifference = locations.endLocation-locations.startLocation;
     while(fileReader.isNotFinished())
-    {        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+    {
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         double currentLocation = fileReader.getCurrentLocation();
         if(currentLocation < locations.endLocation)
-        {
-            outputFileStream << lineInLogs << endl;
+        {            outputFileStream << lineInLogs << endl;
         }
         else
         {
@@ -232,11 +231,11 @@ double StepHandler::getLocationOfPriotizedPrint(WcdmaToolsConfiguration const& c
         if(evaluatorForPrioritizedPrint.evaluate(lineInLogs))
         {
             cout<<"Found prioritized log print in input file. Log print: "<<lineInLogs<<endl;
-            foundLocation = fileReader.getCurrentLocation();            break;
+            foundLocation = fileReader.getCurrentLocation();
+            break;
         }
         ProgressCounters::cropProcessProgress = fileReader.getCurrentLocation()*50/sizeOfFile;
-    }
-    ProgressCounters::cropProcessProgress = 50;
+    }    ProgressCounters::cropProcessProgress = 50;
     return foundLocation;
 }
 
@@ -255,4 +254,5 @@ StepHandler::LocationsInFile StepHandler::getLocationsInFile(WcdmaToolsConfigura
     ALBA_PRINT4(locations.startLocation, locations.endLocation, outputSize, foundLocation);
     return locations;
 }
+
 }
