@@ -8,10 +8,12 @@ isGrepErrEnabled:0
 isGrepErrWrnNoSpamEnabled:0
 isGrepBtsStatusEnabled:0
 isGrepRecoveryEnabled:0
-isGrepAllocationEnabled:0isGrepFaultEnabled:0
+isGrepAllocationEnabled:0
+isGrepFaultEnabled:0
 isGrepLrmEnabled:0
 isGrepGrmEnabled:0
-isGrepToamEnabled:0isGrepTupcEnabled:0
+isGrepToamEnabled:0
+isGrepTupcEnabled:0
 isGrepRlhEnabled:0
 isGrepCchhEnabled:0
 isGrepBchsenderEnabled:0
@@ -52,7 +54,8 @@ grepConditionForHsupaL2:[/HSUPAL2]
 inputFileOrDirectory:C:\Users\detectivemark7\Desktop\Delete\TcomTupc.log
 extractGrepCondition:([LRM] || [alarm] || [UDP] || [CPU] || [syslog] || [ccns] || [tcom] || [startup] || [runtime] || [system] || [pm_] || [radparam] || ([bts]&&([.log]||[.zip]||[.tar])) || [snapshot] || ([tech]&&[report]) || [BTSLogFiles] || [SMOD]) && !([ProcessCpu] || [ProcessMemory])
 acceptedFilesGrepCondition: [ccns.log] || [tcom.log] || [system.log] || (([SYSLOG_] || [startup] || [runtime]|| [pm_] || [CPU]) && [.log]) || ([UDP] && ![.tar]) || ([SMOD] && ![.tar])
-filterGrepCondition:otherGrepCondition:
+filterGrepCondition:
+otherGrepCondition:
 prioritizedLogCondition:
 cropSize:100
 btsLogSorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock:10000
