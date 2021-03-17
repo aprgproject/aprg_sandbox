@@ -17,9 +17,9 @@ TEST(FileReadTest, ReadFromTestFile_ConstructorsWorks)
     ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader1(inputTestFile);
-    EXPECT_EQ(10000, fileReader1.getMaxBufferSize());
+    EXPECT_EQ(10000u, fileReader1.getMaxBufferSize());
     AlbaFileReader fileReader2(inputTestFile, 200);
-    EXPECT_EQ(200, fileReader2.getMaxBufferSize());
+    EXPECT_EQ(200u, fileReader2.getMaxBufferSize());
 }
 
 TEST(FileReadTest, ReadFromTestFile_SetAndGetBufferSizeWorks)
@@ -28,9 +28,9 @@ TEST(FileReadTest, ReadFromTestFile_SetAndGetBufferSizeWorks)
     ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
-    EXPECT_EQ(10000, fileReader.getMaxBufferSize());
+    EXPECT_EQ(10000u, fileReader.getMaxBufferSize());
     fileReader.setMaxBufferSize(200);
-    EXPECT_EQ(200, fileReader.getMaxBufferSize());
+    EXPECT_EQ(200u, fileReader.getMaxBufferSize());
 }
 
 TEST(FileReadTest, ReadFromTestFile_ReadLineUsingVariousCharacters)
@@ -155,7 +155,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadMultipleCharacters)
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    unsigned int numberOfCharacters=3;
+    unsigned int numberOfCharacters=3u;
     char* charPointer;
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ("123", string(charPointer, numberOfCharacters));
@@ -180,7 +180,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadMultipleCharacters)
     EXPECT_TRUE(fileReader.isNotFinished());
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ("", string(charPointer, numberOfCharacters));
-    EXPECT_EQ(0, numberOfCharacters);
+    EXPECT_EQ(0u, numberOfCharacters);
 #endif
     EXPECT_FALSE(fileReader.isNotFinished());
 }
@@ -210,7 +210,7 @@ TEST(FileReadTest, ReadFromTestFile_RequestToReadMultipleCharactersThatIsTheBeyo
     numberOfCharacters=20000;
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ("45", string(charPointer, numberOfCharacters));
-    EXPECT_EQ(2, numberOfCharacters);
+    EXPECT_EQ(2u, numberOfCharacters);
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 

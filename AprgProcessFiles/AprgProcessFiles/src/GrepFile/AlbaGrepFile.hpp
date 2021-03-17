@@ -1,26 +1,29 @@
 #pragma once
 
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <Optional/AlbaOptional.hpp>
 
-#include <fstream>
+#include <functional>
 #include <string>
 
 namespace alba
 {
 
-class AlbaCombineAndGrepFiles
+class AlbaGrepFile
 {
 public:
-    AlbaCombineAndGrepFiles(std::string const& outputFilePath, std::string const& fileCondition, std::string const& lineCondition);
-    void processDirectory(std::string const& path);
-    void processFile(std::string const& path);
+    using UpdateFunctionWithPercentage = std::function<void(double)>;
 
+    AlbaGrepFile(std::string const& lineCondition);
+    AlbaGrepFile(std::string const& lineCondition, UpdateFunctionWithPercentage const& function);
+    bool isOutputFileWritten() const;
+    void processFile(std::string const& inputFilePath, std::string const& outputFilePath);
+    AlbaGrepStringEvaluator& getGrepEvaluator();
 private:
-    AlbaLocalPathHandler m_pathHandler;
-    std::ofstream m_outputFileStream;
-    AlbaGrepStringEvaluator m_fileEvaluator;
-    AlbaGrepStringEvaluator m_lineEvaluator;
+    void updateAfterOneIteration(double const percentage);
+    bool m_isOutputFileWritten;
+    AlbaGrepStringEvaluator m_lineGrepEvaluator;
+    AlbaOptional<UpdateFunctionWithPercentage const&> m_updateFunctionAfterOneIterationOptional;
 };
 
 }

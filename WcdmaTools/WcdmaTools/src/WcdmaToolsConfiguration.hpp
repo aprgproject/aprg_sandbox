@@ -18,6 +18,7 @@ struct WcdmaToolsConfiguration
     std::string getGrepCondition() const;
     std::string getGrepFileName() const;
     std::string getSortedFileName() const;
+    std::string getCropFileName() const;
     void determineVariousLocationsBasedOnCurrentLocation();
     void loadConfigurationFromFile(std::string const& filePath);
     void copyNamesAndValuesFromFile(NameToValueMap & nameToValueMap, std::string const& filePath);

@@ -81,7 +81,7 @@ void WcdmaTools::updateGuiUsingConfiguration()
     ui->hsdpaCheckBox->setChecked(m_configuration.isGrepHsdpaEnabled);
     ui->hstupCheckBox->setChecked(m_configuration.isGrepHsTupEnabled);
     ui->hsupal2CheckBox->setChecked(m_configuration.isGrepHsupaL2Enabled);
-    ui->inputFileAndFolderTextBox->setText(QString::fromStdString(m_configuration.inputFileOrDirectory));
+    //ui->inputFileAndFolderTextBox->setText(QString::fromStdString(m_configuration.inputFileOrDirectory));
     ui->extractConditionTextBox->setText(QString::fromStdString(m_configuration.extractGrepCondition));
     ui->acceptedFilesConditionTextBox->setText(QString::fromStdString(m_configuration.acceptedFilesGrepCondition));
     ui->filterConditionTextBox->setText(QString::fromStdString(m_configuration.filterGrepCondition));

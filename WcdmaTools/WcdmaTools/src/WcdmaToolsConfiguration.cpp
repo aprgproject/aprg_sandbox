@@ -199,7 +199,7 @@ string WcdmaToolsConfiguration::getGrepCondition() const
 
 string WcdmaToolsConfiguration::getGrepFileName() const
 {
-    string fileName;
+    string fileName("grepped");
     addGrepIntoFileName(fileName, isGrepTcomEnabled, "Tcom");
     addGrepIntoFileName(fileName, isGrepErrEnabled, "Err");
     addGrepIntoFileName(fileName, isGrepErrWrnNoSpamEnabled, "ErrWrn");
@@ -234,6 +234,15 @@ string WcdmaToolsConfiguration::getSortedFileName() const
 {
     string fileName("sorted");
     fileName += stringHelper::getStringWithoutCharAtTheStartAndEnd(stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(filterGrepCondition), '_');
+    fileName = fileName.substr(0, 50); //think of a better way to limit filename size
+    fileName += ".log";
+    return fileName;
+}
+
+string WcdmaToolsConfiguration::getCropFileName() const
+{
+    string fileName("cropped");
+    fileName += stringHelper::getStringWithoutCharAtTheStartAndEnd(stringHelper::getStringAndReplaceNonAlphanumericCharactersToUnderScore(prioritizedLogCondition), '_');
     fileName = fileName.substr(0, 50); //think of a better way to limit filename size
     fileName += ".log";
     return fileName;

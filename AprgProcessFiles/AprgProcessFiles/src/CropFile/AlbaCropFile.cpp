@@ -1,49 +1,142 @@
-#include "AlbaCombineAndGrepFiles.hpp"
+#include "AlbaCropFile.hpp"
 
 #include <File/AlbaFileReader.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
+#include <fstream>
 #include <iostream>
-#include <set>
 
 using namespace std;
 
 namespace alba
 {
 
-AlbaCombineAndGrepFiles::AlbaCombineAndGrepFiles(string const& outputFilePath, string const& fileCondition, string const& lineCondition)
-    : m_pathHandler(outputFilePath)
-    , m_outputFileStream(m_pathHandler.getFullPath())
-    , m_fileEvaluator(fileCondition)
-    , m_lineEvaluator(lineCondition)
+AlbaCropFile::AlbaCropFile(string const& prioritizedLineCondition, double const cropSize)
+    : m_isOutputFileWritten(false)
+    , m_cropSize(cropSize)
+    , m_prioritizedLineEvaluator(prioritizedLineCondition)
+    , m_updateFunctionAfterOneIterationOptional()
 {}
 
-void AlbaCombineAndGrepFiles::processDirectory(string const& path)
+AlbaCropFile::AlbaCropFile(string const& prioritizedLineCondition, double const cropSize, UpdateFunctionWithPercentage const& updateFunctionAfterOneIteration)
+    : m_isOutputFileWritten(false)
+    , m_cropSize(cropSize)
+    , m_prioritizedLineEvaluator(prioritizedLineCondition)
+    , m_updateFunctionAfterOneIterationOptional(updateFunctionAfterOneIteration)
+{}
+
+bool AlbaCropFile::isOutputFileWritten() const
 {
-    set<string> listOfFiles;
-    set<string> listOfDirectories;
-    AlbaLocalPathHandler(path).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
-    for(string const& filePath : listOfFiles)
+    return m_isOutputFileWritten;
+}
+
+void AlbaCropFile::processFile(string const& inputFilePath, string const& outputFilePath)
+{
+    m_isOutputFileWritten = false;
+    AlbaLocalPathHandler inputPathHandler(inputFilePath);
+    AlbaLocalPathHandler outputPathHandler(outputFilePath);
+
+    double foundLocation(getLocationOfPrioritizedPrint(inputPathHandler.getFullPath()));
+    if(foundLocation>=0)
     {
-        processFile(filePath);
+        performCropForFile(inputPathHandler.getFullPath(), outputPathHandler.getFullPath(), foundLocation);
+    }
+    else
+    {
+        cout<<"CropFile: Crop process did not proceed. Prioritized line not found."<<endl;
+    }
+    updateAfterOneIteration(100);
+}
+
+double AlbaCropFile::getLocationOfPrioritizedPrint(string const& inputFilePath)
+{
+    double foundLocation(-1);
+    double currentLocation(-1);
+    ifstream inputFileStream(inputFilePath);
+    AlbaFileReader fileReader(inputFileStream);
+    double sizeOfFile = fileReader.getFileSize();
+    while(fileReader.isNotFinished())
+    {
+        currentLocation = fileReader.getCurrentLocation();
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        if(m_prioritizedLineEvaluator.evaluate(lineInLogs))
+        {
+            cout<<"CropFile: Found the prioritized line in input file. Line: "<<lineInLogs<<endl;
+            foundLocation = currentLocation;
+            break;
+        }
+        if(fileReader.isNotFinished())
+        {
+            updateAfterOneIteration(fileReader.getCurrentLocation()*50/sizeOfFile);
+        }
+    }
+    return foundLocation;
+}
+
+void AlbaCropFile::performCropForFile(string const& inputFilePath, string const& outputFilePath, double const foundLocation)
+{
+    ifstream inputFileStream(inputFilePath);
+    ofstream outputFileStream(outputFilePath);
+
+    AlbaFileReader fileReader(inputFileStream);
+    LocationsInFile locations(getLocationsInFile(foundLocation, fileReader.getFileSize()));
+    inputFileStream.clear();
+    fileReader.moveLocation(locations.startLocation);
+
+    double locationDifference = locations.endLocation-locations.startLocation;
+    while(fileReader.isNotFinished())
+    {
+        double currentLocation = fileReader.getCurrentLocation();
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        if(currentLocation < locations.endLocation)
+        {
+            m_isOutputFileWritten = true;
+            outputFileStream << lineInLogs << endl;
+        }
+        else
+        {
+            break;
+        }
+        if(fileReader.isNotFinished())
+        {
+            updateAfterOneIteration(50 + (currentLocation-locations.startLocation)*50/locationDifference);
+        }
     }
 }
 
-void AlbaCombineAndGrepFiles::processFile(string const& path)
+AlbaCropFile::LocationsInFile AlbaCropFile::getLocationsInFile(double const foundLocation, double const fileSize) const
 {
-    AlbaLocalPathHandler filePathHandler(path);
-    if(m_fileEvaluator.evaluate(filePathHandler.getFile()))
+    LocationsInFile locations;
+    locations.startLocation = foundLocation - (m_cropSize/2);
+    locations.endLocation = foundLocation + (m_cropSize/2);
+    double overFlowOnTheRight = locations.endLocation - fileSize;
+    double overFlowOnTheLeft = -locations.startLocation;
+    if(overFlowOnTheRight>0 || overFlowOnTheLeft>0)
     {
-        cout<<"ProcessFile: "<<path<<endl;
-        ifstream inputLogFileStream(filePathHandler.getFullPath());
-        AlbaFileReader fileReader(inputLogFileStream);
-        while(fileReader.isNotFinished())
+        if(overFlowOnTheRight<0 && overFlowOnTheRight+overFlowOnTheLeft<=0)
         {
-            string line(fileReader.getLineAndIgnoreWhiteSpaces());
-            if(m_lineEvaluator.evaluate(line))
-            {
-                m_outputFileStream<<filePathHandler.getFullPath()<<" ||| "<<line<<endl;
-            }
+            locations.startLocation += overFlowOnTheLeft;
+            locations.endLocation += overFlowOnTheLeft;
         }
+        else if(overFlowOnTheLeft<0 && overFlowOnTheRight+overFlowOnTheLeft<=0)
+        {
+            locations.startLocation -= overFlowOnTheRight;
+            locations.endLocation -= overFlowOnTheRight;
+        }
+        else
+        {
+            locations.startLocation = 0;
+            locations.endLocation = fileSize;
+        }
+    }
+    return locations;
+}
+
+void AlbaCropFile::updateAfterOneIteration(double const percentage)
+{
+    if(m_updateFunctionAfterOneIterationOptional)
+    {
+        m_updateFunctionAfterOneIterationOptional.get()(percentage);
     }
 }
 

@@ -2,9 +2,6 @@
 
 #include <gtest/gtest.h>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace std;
 
 namespace alba
@@ -187,7 +184,7 @@ TEST(AlbaMemoryBufferTest, SettingAndRetrievingDynamicSizeObjectWorks)
     buffer.saveObject<SampleDynamicClass>(dynamicInput);
     SampleDynamicClass& output(buffer.retrieveObject<SampleDynamicClass>());
 
-    ASSERT_EQ(4, output.integers.size());
+    ASSERT_EQ(4u, output.integers.size());
     EXPECT_EQ(11, output.integers[0]);
     EXPECT_EQ(22, output.integers[1]);
     EXPECT_EQ(33, output.integers[2]);

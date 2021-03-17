@@ -1,49 +1,67 @@
-#include "AlbaCombineAndGrepFiles.hpp"
+#include "AlbaGrepFile.hpp"
 
 #include <File/AlbaFileReader.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
-#include <iostream>
-#include <set>
+#include <fstream>
 
 using namespace std;
 
 namespace alba
 {
 
-AlbaCombineAndGrepFiles::AlbaCombineAndGrepFiles(string const& outputFilePath, string const& fileCondition, string const& lineCondition)
-    : m_pathHandler(outputFilePath)
-    , m_outputFileStream(m_pathHandler.getFullPath())
-    , m_fileEvaluator(fileCondition)
-    , m_lineEvaluator(lineCondition)
+AlbaGrepFile::AlbaGrepFile(string const& lineCondition)
+    : m_isOutputFileWritten(false)
+    , m_lineGrepEvaluator(lineCondition)
+    , m_updateFunctionAfterOneIterationOptional()
 {}
 
-void AlbaCombineAndGrepFiles::processDirectory(string const& path)
+AlbaGrepFile::AlbaGrepFile(string const& lineCondition, UpdateFunctionWithPercentage const& function)
+    : m_isOutputFileWritten(false)
+    , m_lineGrepEvaluator(lineCondition)
+    , m_updateFunctionAfterOneIterationOptional(function)
+{}
+
+bool AlbaGrepFile::isOutputFileWritten() const
 {
-    set<string> listOfFiles;
-    set<string> listOfDirectories;
-    AlbaLocalPathHandler(path).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
-    for(string const& filePath : listOfFiles)
-    {
-        processFile(filePath);
-    }
+    return m_isOutputFileWritten;
 }
 
-void AlbaCombineAndGrepFiles::processFile(string const& path)
+void AlbaGrepFile::processFile(string const& inputFilePath, string const& outputFilePath)
 {
-    AlbaLocalPathHandler filePathHandler(path);
-    if(m_fileEvaluator.evaluate(filePathHandler.getFile()))
+    m_isOutputFileWritten=false;
+    AlbaLocalPathHandler inputPathHandler(inputFilePath);
+    AlbaLocalPathHandler outputPathHandler(outputFilePath);
+    ifstream inputFileStream(inputPathHandler.getFullPath());
+    ofstream outputFileStream(outputPathHandler.getFullPath());
+    AlbaFileReader fileReader(inputFileStream);
+    double sizeOfFile = fileReader.getFileSize();
+    while(fileReader.isNotFinished())
     {
-        cout<<"ProcessFile: "<<path<<endl;
-        ifstream inputLogFileStream(filePathHandler.getFullPath());
-        AlbaFileReader fileReader(inputLogFileStream);
-        while(fileReader.isNotFinished())
+        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        if(m_lineGrepEvaluator.evaluate(lineInLogs))
         {
-            string line(fileReader.getLineAndIgnoreWhiteSpaces());
-            if(m_lineEvaluator.evaluate(line))
-            {
-                m_outputFileStream<<filePathHandler.getFullPath()<<" ||| "<<line<<endl;
-            }
+            m_isOutputFileWritten=true;
+            outputFileStream << lineInLogs << endl;
         }
+        if(fileReader.isNotFinished())
+        {
+            updateAfterOneIteration(fileReader.getCurrentLocation()*100/sizeOfFile);
+        }
+    }
+    updateAfterOneIteration(100);
+}
+
+AlbaGrepStringEvaluator& AlbaGrepFile::getGrepEvaluator()
+{
+    return m_lineGrepEvaluator;
+}
+
+void AlbaGrepFile::updateAfterOneIteration(double const percentage)
+{
+    if(m_updateFunctionAfterOneIterationOptional)
+    {
+        m_updateFunctionAfterOneIterationOptional.get()(percentage);
     }
 }
 

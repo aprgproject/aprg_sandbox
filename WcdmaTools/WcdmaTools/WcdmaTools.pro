@@ -46,7 +46,9 @@ src/WcdmaToolsConfiguration.cpp\
 ../../AprgCommon/AprgCommon/srcWindows/PathHandlers/AlbaWindowsPathHandler.cpp\
 ../../AprgCommon/AprgCommon/srcWindows/Time/AlbaWindowsTimeHelper.cpp\
 ../../AprgCommon/AprgCommon/srcWindows/Windows/AlbaWindowsHelper.cpp\
-../../AprgFileExtractor/AprgFileExtractor/src/AprgFileExtractor.cpp
+../../AprgFileExtractor/AprgFileExtractor/src/AprgFileExtractor.cpp\
+../../AprgProcessFiles/AprgProcessFiles/src/CropFile/AlbaCropFile.cpp\
+../../AprgProcessFiles/AprgProcessFiles/src/GrepFile/AlbaGrepFile.cpp
 
 HEADERS += \
 src/ProgressCounters.hpp\
@@ -82,17 +84,20 @@ src/WcdmaToolsConfiguration.hpp\
 ../../AprgCommon/AprgCommon/srcWindows/PathHandlers/AlbaWindowsPathHandler.hpp\
 ../../AprgCommon/AprgCommon/srcWindows/Time/AlbaWindowsTimeHelper.hpp\
 ../../AprgCommon/AprgCommon/srcWindows/Windows/AlbaWindowsHelper.hpp\
-../../AprgFileExtractor/AprgFileExtractor/src/AprgFileExtractor.hpp
+../../AprgFileExtractor/AprgFileExtractor/src/AprgFileExtractor.hpp\
+../../AprgProcessFiles/AprgProcessFiles/src/CropFile/AlbaCropFile.hpp\
+../../AprgProcessFiles/AprgProcessFiles/src/GrepFile/AlbaGrepFile.hpp
 
 FORMS += src/WcdmaTools.ui
 
 QMAKE_INCDIR += \
 src\
 ../WcdmaToolsBackend/src\
-../../AprgFileExtractor/AprgFileExtractor/src\
 ../../AprgAlgorithm/AprgAlgorithm/src\
 ../../AprgCommon/AprgCommon/src\
-../../AprgCommon/AprgCommon/srcWindows
+../../AprgCommon/AprgCommon/srcWindows\
+../../AprgFileExtractor/AprgFileExtractor/src\
+../../AprgProcessFiles/AprgProcessFiles/src
 
 
 win32 {

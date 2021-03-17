@@ -1,26 +1,38 @@
 #pragma once
 
+#include <Optional/AlbaOptional.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
-#include <fstream>
+#include <functional>
 #include <string>
 
 namespace alba
 {
 
-class AlbaCombineAndGrepFiles
+class AlbaCropFile
 {
 public:
-    AlbaCombineAndGrepFiles(std::string const& outputFilePath, std::string const& fileCondition, std::string const& lineCondition);
-    void processDirectory(std::string const& path);
-    void processFile(std::string const& path);
+    struct LocationsInFile
+    {
+        double startLocation;
+        double endLocation;
+    };
+    using UpdateFunctionWithPercentage = std::function<void(double)>;
+
+    AlbaCropFile(std::string const& prioritizedLineCondition, double const cropSize);
+    AlbaCropFile(std::string const& prioritizedLineCondition, double const cropSize, UpdateFunctionWithPercentage const& updateFunctionAfterOneIteration);
+    bool isOutputFileWritten() const;
+    void processFile( std::string const& inputFilePath, std::string const& outputFilePath);
 
 private:
-    AlbaLocalPathHandler m_pathHandler;
-    std::ofstream m_outputFileStream;
-    AlbaGrepStringEvaluator m_fileEvaluator;
-    AlbaGrepStringEvaluator m_lineEvaluator;
+    double getLocationOfPrioritizedPrint(std::string const& inputFilePath);
+    void performCropForFile(std::string const& inputFilePath, std::string const& outputFilePath, double const foundLocation);
+    LocationsInFile getLocationsInFile(double const foundLocation, double const fileSize) const;
+    void updateAfterOneIteration(double const percentage);
+    bool m_isOutputFileWritten;
+    double m_cropSize;
+    AlbaGrepStringEvaluator m_prioritizedLineEvaluator;
+    AlbaOptional<UpdateFunctionWithPercentage const&> m_updateFunctionAfterOneIterationOptional;
 };
 
 }
