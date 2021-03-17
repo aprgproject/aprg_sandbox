@@ -6,9 +6,10 @@
 #include <sstream>
 #include <string>
 
+using namespace alba::mathHelper;
+
 namespace alba
 {
-
 enum class AlbaRangeType
 {
     Unknown,
@@ -32,11 +33,10 @@ public:
     AlbaRange(DataType const startValue, DataType const endValue, DataType const intervalMagnitude)
         : m_startValue(startValue)
         , m_endValue(endValue)
-        , m_intervalMagnitude(mathHelper::getAbsoluteValue(intervalMagnitude))
+        , m_intervalMagnitude(getAbsoluteValue(intervalMagnitude))
     {}
 
-    bool isEmpty() const
-    {
+    bool isEmpty() const    {
         return m_startValue==0 && m_endValue==0 && m_intervalMagnitude==0;
     }
 
@@ -112,11 +112,10 @@ public:
     {
         m_startValue = startValue;
         m_endValue = endValue;
-        m_intervalMagnitude = mathHelper::getAbsoluteValue(intervalMagnitude);
+        m_intervalMagnitude = getAbsoluteValue(intervalMagnitude);
     }
 
-    void setStartValue(DataType const startValue)
-    {
+    void setStartValue(DataType const startValue)    {
         m_startValue = startValue;
     }
 

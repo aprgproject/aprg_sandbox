@@ -36,7 +36,7 @@ namespace alba
 #define ALBA_PRINT3(...) cout << "ALBA_PRINT3:" << Z_ALBA_PRIVATE_GET_STRING_PRINT3(__VA_ARGS__) << endl
 #define ALBA_PRINT4(...) cout << "ALBA_PRINT4:" << Z_ALBA_PRIVATE_GET_STRING_PRINT4(__VA_ARGS__) << endl
 #define ALBA_PRINT5(...) cout << "ALBA_PRINT5:" << Z_ALBA_PRIVATE_GET_STRING_PRINT5(__VA_ARGS__) << endl
-#define ALBA_PRINT6(...) cout << "ALBA_PRINT5:" << Z_ALBA_PRIVATE_GET_STRING_PRINT6(__VA_ARGS__) << endl
+#define ALBA_PRINT6(...) cout << "ALBA_PRINT6:" << Z_ALBA_PRIVATE_GET_STRING_PRINT6(__VA_ARGS__) << endl
 
 
 }//namespace alba

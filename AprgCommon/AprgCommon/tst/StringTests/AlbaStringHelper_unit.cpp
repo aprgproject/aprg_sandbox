@@ -633,15 +633,14 @@ TEST(ConvertFromStringTest, ConvertStringToIntegerWithNumbersOnly)
 
 TEST(ConvertFromStringTest, ConvertStringToIntegerWithNumbersAndLettersAndSpecialCharacters)
 {
-    EXPECT_DOUBLE_EQ(12345, convertStringToNumber<int>("1a2l3b4a5"));
-    EXPECT_DOUBLE_EQ(123456789, convertStringToNumber<int>("12345.6789"));
-    EXPECT_DOUBLE_EQ(-67890, convertStringToNumber<int>("a&-.6$7*8(9)0"));
-    EXPECT_DOUBLE_EQ(67890, convertStringToNumber<int>("$@!-a-a6.78)9(0"));
-    EXPECT_DOUBLE_EQ(67890, convertStringToNumber<int>(")(*&^%$--6(*&.^%7-89(*&^%0"));
+    EXPECT_EQ(12345, convertStringToNumber<int>("1a2l3b4a5"));
+    EXPECT_EQ(12345, convertStringToNumber<int>("12345.6789"));
+    EXPECT_EQ(0, convertStringToNumber<int>("a&-.6$7*8(9)0"));
+    EXPECT_EQ(6, convertStringToNumber<int>("$@!-a-a6.78)9(0"));
+    EXPECT_EQ(6, convertStringToNumber<int>(")(*&^%$--6(*&.^%7-89(*&^%0"));
 }
 
-TEST(ConvertFromStringTest, ConvertStringToDoubleWithNumbersOnly)
-{
+TEST(ConvertFromStringTest, ConvertStringToDoubleWithNumbersOnly){
     EXPECT_DOUBLE_EQ(12345.6789, convertStringToNumber<double>("12345.6789"));
     EXPECT_DOUBLE_EQ(-67890.1111, convertStringToNumber<double>("-67890.1111"));
     EXPECT_DOUBLE_EQ(67890.12345, convertStringToNumber<double>("--67890.12345"));

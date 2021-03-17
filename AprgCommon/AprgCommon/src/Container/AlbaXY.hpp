@@ -1,11 +1,14 @@
 #pragma once
 
+#include <Math/AlbaMathHelper.hpp>
+
 #include <sstream>
 #include <string>
 
+using namespace alba::mathHelper;
+
 namespace alba
 {
-
 template <typename CoordinateType>
 class AlbaXY
 {
@@ -42,11 +45,10 @@ public:
 
     bool operator==(AlbaXY<CoordinateType> const& xy) const
     {
-        return (x == xy.x) && (y == xy.y);
+        return isConsideredEqual(x, xy.x) && isConsideredEqual(y, xy.y);
     }
 
-    bool operator!=(AlbaXY<CoordinateType> const& secondXy) const
-    {
+    bool operator!=(AlbaXY<CoordinateType> const& secondXy) const    {
         AlbaXY<CoordinateType> const& firstXy(*this);
         return !(firstXy==secondXy);
     }
