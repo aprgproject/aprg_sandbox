@@ -2,11 +2,11 @@
 
 #include <Container/AlbaRange.hpp>
 #include <Math/AlbaMathHelper.hpp>
-#include <TwoDimensions/Line.hpp>
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <cmath>
 
+using namespace alba::mathHelper;
 using namespace std;
 
 namespace alba
@@ -26,7 +26,7 @@ Circle::Circle(Point const& center, double const radius)
 
 bool Circle::operator==(Circle const& circle) const
 {
-    return (m_center == circle.m_center) && (m_radius == circle.m_radius);
+    return (m_center == circle.m_center) && isConsideredEqual(m_radius, circle.m_radius);
 }
 
 bool Circle::operator!=(Circle const& circle) const
@@ -46,12 +46,12 @@ double Circle::getRadius() const
 
 double Circle::getArea() const
 {
-    return mathHelper::getPi()*m_radiusSquared;
+    return getPi()*m_radiusSquared;
 }
 
 double Circle::getCircumference() const
 {
-    return mathHelper::getPi()*2*m_radius;
+    return getPi()*2*m_radius;
 }
 
 bool Circle::isInside(Point const& point) const

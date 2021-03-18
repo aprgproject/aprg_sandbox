@@ -7,18 +7,22 @@
 namespace alba
 {
 
-class Circle
+class Ellipse
 {
 public:
     using TraverseOperation = std::function<void(Point const&)>;
-    Circle();
-    Circle(Point const& center, double const radius);
-    bool operator==(Circle const& circle) const;
-    bool operator!=(Circle const& circle) const;
+    Ellipse();
+    Ellipse(Point const& center, double const aCoefficient, double const bCoefficient); // ((x-center.x)^2/aCoefficient^2) + ((y-center.y)^2/bCoefficient^2) = 1
+    bool operator==(Ellipse const& ellipse) const;
+    bool operator!=(Ellipse const& ellipse) const;
     Point getCenter() const;
-    double getRadius() const;
+    double getAValue() const;
+    double getBValue() const;
+    double getCValue() const;
+    double getEccentricity() const;
+    double getSemiLactusRectum() const;
     double getArea() const;
-    double getCircumference() const;
+    //double getCircumference() const;
     bool isInside(Point const& point) const;
     Points getPointsForCircumference(double const interval) const;
     void traverseArea(double const interval, TraverseOperation const& traverseOperation);
@@ -31,10 +35,10 @@ private:
     Points getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const;
     Points getPointsInTraversingX(double const signOfX, double const signOfY, double const interval) const;
     Point m_center;
-    double m_radius;
-    double m_radiusSquared;
+    double m_aValue;
+    double m_bValue;
 };
 
-using Circles = std::vector<Circle>;
+using Ellipses = std::vector<Ellipse>;
 
 }

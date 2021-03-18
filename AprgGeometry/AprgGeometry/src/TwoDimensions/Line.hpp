@@ -21,7 +21,7 @@ class Line
 public:
     Line();
     Line(Point const& first, Point const& second);
-    Line(double const aCoefficient, double const bCoefficient, double const cCoefficient);
+    Line(double const aCoefficient, double const bCoefficient, double const cCoefficient); //ax+by+c=0
     bool operator==(Line const& line) const;
     bool operator!=(Line const& line) const;
     LineType getType() const;
@@ -44,11 +44,11 @@ private:
     LineType determineLineTypeUsingDeltaXandDeltaY(double const deltaY, double const deltaX) const;
     LineType determineLineTypeUsingCoefficients(double const aCoefficient, double const bCoefficient) const;
     LineType m_type;
-    double m_yIntercept;
-    double m_xIntercept;
-    double m_aCoefficient; //form: a*x + b*y + c
-    double m_bCoefficient; //form: a*x + b*y + c
-    double m_cCoefficient; //form: a*x + b*y + c
+    double m_yIntercept; //form: a*(x-x0) + b*(y-y0) = 0
+    double m_xIntercept; //form: a*(x-x0) + b*(y-y0) = 0
+    double m_aCoefficient; //form: a*x + b*y + c = 0
+    double m_bCoefficient; //form: a*x + b*y + c = 0
+    double m_cCoefficient; //form: a*x + b*y + c = 0
     double m_slope;
 };
 

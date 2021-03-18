@@ -9,6 +9,7 @@ using namespace alba::mathHelper;
 
 namespace alba
 {
+
 template <typename CoordinateType>
 class AlbaXY
 {
@@ -48,7 +49,8 @@ public:
         return isConsideredEqual(x, xy.x) && isConsideredEqual(y, xy.y);
     }
 
-    bool operator!=(AlbaXY<CoordinateType> const& secondXy) const    {
+    bool operator!=(AlbaXY<CoordinateType> const& secondXy) const
+    {
         AlbaXY<CoordinateType> const& firstXy(*this);
         return !(firstXy==secondXy);
     }

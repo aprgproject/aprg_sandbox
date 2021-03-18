@@ -640,7 +640,8 @@ TEST(ConvertFromStringTest, ConvertStringToIntegerWithNumbersAndLettersAndSpecia
     EXPECT_EQ(6, convertStringToNumber<int>(")(*&^%$--6(*&.^%7-89(*&^%0"));
 }
 
-TEST(ConvertFromStringTest, ConvertStringToDoubleWithNumbersOnly){
+TEST(ConvertFromStringTest, ConvertStringToDoubleWithNumbersOnly)
+{
     EXPECT_DOUBLE_EQ(12345.6789, convertStringToNumber<double>("12345.6789"));
     EXPECT_DOUBLE_EQ(-67890.1111, convertStringToNumber<double>("-67890.1111"));
     EXPECT_DOUBLE_EQ(67890.12345, convertStringToNumber<double>("--67890.12345"));

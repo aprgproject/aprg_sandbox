@@ -21,7 +21,7 @@ TEST(CircleTest, EmptyCircle)
     ASSERT_TRUE(points.empty());
 }
 
-TEST(CircleTest, UnitCircleWithRadius)
+TEST(CircleTest, CircleAtOriginWithRadius)
 {
     Circle circle(Point(0,0), 3);
 

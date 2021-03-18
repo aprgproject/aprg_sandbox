@@ -876,7 +876,8 @@ NumberType stringHelper::convertStringToNumber(string const& stringToConvert)
 {
     bool isNumberNotYetEncountered(true);
     bool isPeriodNotYetEncountered(true);
-    int negative(1);    int decimalPlacesInPowersOfTen(10);
+    int negative(1);
+    int decimalPlacesInPowersOfTen(10);
     NumberType value(0);
     for (char const currentCharacter : stringToConvert)
     {
@@ -885,7 +886,8 @@ NumberType stringHelper::convertStringToNumber(string const& stringToConvert)
             if(isPeriodNotYetEncountered) // consider "if constexpr"
             {
                 value = (value * 10) + static_cast<NumberType>(currentCharacter - '0');
-                isNumberNotYetEncountered=false;            }
+                isNumberNotYetEncountered=false;
+            }
             else
             {
                 value = value + ((static_cast<NumberType>(currentCharacter - '0')) / static_cast<NumberType>(decimalPlacesInPowersOfTen));

@@ -1,4 +1,4 @@
-#include "Line.hpp"
+#include "Plane.hpp"
 
 #include <Container/AlbaRange.hpp>
 #include <Math/AlbaMathHelper.hpp>
@@ -14,33 +14,30 @@ using namespace std;
 namespace alba
 {
 
-Line::Line()
-    : m_type(LineType::Invalid)
+Plane::Plane()
+    : m_type(PlaneType::Invalid)
     , m_yIntercept(0)
     , m_xIntercept(0)
     , m_aCoefficient(0) //form: a*x + b*y + c
     , m_bCoefficient(0) //form: a*x + b*y + c
     , m_cCoefficient(0) //form: a*x + b*y + c
-    , m_slope(0)
 {}
 
-Line::Line(Point const& first, Point const& second)
+Plane::Plane(Point const& first, Point const& second)
 {
     double deltaY = second.getY() - first.getY();
     double deltaX = second.getX() - first.getX();
-    m_type = determineLineTypeUsingDeltaXandDeltaY(deltaY, deltaX);
+    m_type = determinePlaneTypeUsingDeltaXandDeltaY(deltaY, deltaX);
     switch(m_type)
     {
-    case LineType::Horizontal:
-        m_slope = 0;
+    case PlaneType::Horizontal:
         m_yIntercept = first.getY();
         m_xIntercept = 0;
         m_aCoefficient = 0;
         m_bCoefficient = -deltaX;
         m_cCoefficient = first.getY()*deltaX;
         break;
-    case LineType::Vertical:
-        m_slope = static_cast<double>(INFINITY);
+    case PlaneType::Vertical:
         m_yIntercept = 0;
         m_xIntercept = first.getX();
         m_aCoefficient = deltaY;
@@ -48,9 +45,8 @@ Line::Line(Point const& first, Point const& second)
         m_cCoefficient = -first.getX()*deltaY;
         break;
     default:
-        m_slope = deltaY/deltaX;
         m_yIntercept = first.getY() - ((deltaY/deltaX)*first.getX());
-        m_xIntercept = -1*m_yIntercept/m_slope;
+        m_xIntercept = -1*m_yIntercept;
         m_aCoefficient = deltaY;
         m_bCoefficient = -deltaX;
         m_cCoefficient = (first.getY()*deltaX)-(first.getX()*deltaY);
@@ -58,104 +54,95 @@ Line::Line(Point const& first, Point const& second)
     }
 }
 
-Line::Line(double const aCoefficient, double const bCoefficient, double const cCoefficient)
+Plane::Plane(double const aCoefficient, double const bCoefficient, double const cCoefficient)
 {
     m_aCoefficient = aCoefficient;
     m_bCoefficient = bCoefficient;
     m_cCoefficient = cCoefficient;
-    m_type = determineLineTypeUsingCoefficients(aCoefficient, bCoefficient);
+    m_type = determinePlaneTypeUsingCoefficients(aCoefficient, bCoefficient);
     switch(m_type)
     {
-    case LineType::Horizontal:
-        m_slope = 0;
+    case PlaneType::Horizontal:
         m_yIntercept = -cCoefficient/bCoefficient;
         m_xIntercept = 0;
         break;
-    case LineType::Vertical:
-        m_slope = static_cast<double>(INFINITY);
+    case PlaneType::Vertical:
         m_yIntercept = 0;
         m_xIntercept = -cCoefficient/aCoefficient;
         break;
     default:
-        m_slope = -aCoefficient/bCoefficient;
         m_yIntercept = -cCoefficient/bCoefficient;
         m_xIntercept = -cCoefficient/aCoefficient;
         break;
     }
 }
 
-bool Line::operator==(Line const& line) const
+bool Plane::operator==(Plane const& line) const
 {
     return (m_type == line.m_type)
-            && isConsideredEqual(m_slope, line.m_slope)
             && isConsideredEqual(m_yIntercept, line.m_yIntercept)
             && isConsideredEqual(m_xIntercept, line.m_xIntercept);
 }
 
-bool Line::operator!=(Line const& line) const
+bool Plane::operator!=(Plane const& line) const
 {
     return !((*this)==line);
 }
 
-LineType Line::getType() const
+PlaneType Plane::getType() const
 {
     return m_type;
 }
 
-double Line::getYIntercept() const
+double Plane::getYIntercept() const
 {
     return m_yIntercept;
 }
 
-double Line::getXIntercept() const
+double Plane::getXIntercept() const
 {
     return m_xIntercept;
 }
 
-double Line::getSlope() const
-{
-    return m_slope;
-}
-
-double Line::getInverseSlope() const
+double Plane::getInverseSlope() const
 {
     return -m_bCoefficient/m_aCoefficient;
 }
 
-double Line::getACoefficient() const
+double Plane::getACoefficient() const
 {
     return m_aCoefficient;
 }
 
-double Line::getBCoefficient() const
+double Plane::getBCoefficient() const
 {
     return m_bCoefficient;
 }
 
-double Line::getCCoefficient() const
+double Plane::getCCoefficient() const
 {
     return m_cCoefficient;
 }
 
-Points Line::getPoints(Point const& first, Point const& second, double const interval) const
+Points Plane::getPoints(Point const& first, Point const& second, double const interval) const
 {
     Points points;
-    if(m_type == LineType::Vertical)
+    if(m_type == PlaneType::Vertical)
     {
-        getPointsForVerticalLine(points, first, second, interval);
+        getPointsForVerticalPlane(points, first, second, interval);
     }
-    else if(m_type == LineType::Horizontal)
+    else if(m_type == PlaneType::Horizontal)
     {
-        getPointsForHorizontalLine(points, first, second, interval);
+        getPointsForHorizontalPlane(points, first, second, interval);
     }
-    else if(m_type == LineType::WithPositiveSlope || m_type == LineType::WithNegativeSlope)
+    else if(m_type == PlaneType::WithPositiveSlope || m_type == PlaneType::WithNegativeSlope)
     {
-        getPointsForLineWithSlope(points, first, second, interval);
+        getPointsForPlaneWithSlope(points, first, second, interval);
     }
     return points; //RVO
 }
 
-Points Line::getPointsWithoutLastPoint(Point const& first, Point const& second, double const interval) const
+Points Plane::getPointsWithoutLastPoint(Point const& first, Point const& second, double const interval) const
 {
     Points pointsWithoutLastPoint(getPoints(first, second, interval));
     if(!pointsWithoutLastPoint.empty())
@@ -165,17 +152,17 @@ Points Line::getPointsWithoutLastPoint(Point const& first, Point const& second, 
     return pointsWithoutLastPoint; //RVO
 }
 
-double Line::calculateYFromX(double const x) const
+double Plane::calculateYFromX(double const x) const
 {
-    return (x*m_slope) + m_yIntercept; //y=mx+b
+    return (x) + m_yIntercept; //y=mx+b
 }
 
-double Line::calculateXFromY(double const y) const
+double Plane::calculateXFromY(double const y) const
 {
-    return (y/m_slope) + m_xIntercept; //x=y/m+a
+    return (y) + m_xIntercept; //x=y/m+a
 }
 
-void Line::getPointsForVerticalLine(Points & points, Point const& first, Point const& second, double const interval) const
+void Plane::getPointsForVerticalPlane(Points & points, Point const& first, Point const& second, double const interval) const
 {
     AlbaRange<double> range(first.getY(), second.getY(), interval);
     range.traverse([&](double traverseValue)
@@ -184,7 +171,7 @@ void Line::getPointsForVerticalLine(Points & points, Point const& first, Point c
     });
 }
 
-void Line::getPointsForHorizontalLine(Points & points, Point const& first, Point const& second, double const interval) const
+void Plane::getPointsForHorizontalPlane(Points & points, Point const& first, Point const& second, double const interval) const
 {
     AlbaRange<double> range(first.getX(), second.getX(), interval);
     range.traverse([&](double traverseValue)
@@ -193,7 +180,7 @@ void Line::getPointsForHorizontalLine(Points & points, Point const& first, Point
     });
 }
 
-void Line::getPointsForLineWithSlope(Points & points, Point const& first, Point const& second, double const interval) const
+void Plane::getPointsForPlaneWithSlope(Points & points, Point const& first, Point const& second, double const interval) const
 {
     Point minimumXAndY;
     Point maximumXAndY;
@@ -238,7 +225,7 @@ void Line::getPointsForLineWithSlope(Points & points, Point const& first, Point 
 }
 
 
-void Line::mergePointsFromPointsFromXAndY(Points & points, Points const& pointsFromXCoordinate, Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const
+void Plane::mergePointsFromPointsFromXAndY(Points & points, Points const& pointsFromXCoordinate, Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const
 {
     Points::const_iterator iteratorForX = pointsFromXCoordinate.cbegin();
     Points::const_iterator iteratorForY = pointsFromYCoordinate.cbegin();
@@ -290,58 +277,58 @@ void Line::mergePointsFromPointsFromXAndY(Points & points, Points const& pointsF
     }
 }
 
-LineType Line::determineLineTypeUsingDeltaXandDeltaY(double const deltaY, double const deltaX) const
+PlaneType Plane::determinePlaneTypeUsingDeltaXandDeltaY(double const deltaY, double const deltaX) const
 {
     bool isNegativeDeltaY = (deltaY<0);
     bool isNegativeDeltaX = (deltaX<0);
-    LineType lineType(LineType::Invalid);
+    PlaneType lineType(PlaneType::Invalid);
     if(isConsideredEqual(deltaY, 0.0) && isConsideredEqual(deltaX, 0.0))
     {
-        lineType = LineType::Invalid;
+        lineType = PlaneType::Invalid;
     }
     else if(isConsideredEqual(deltaY, 0.0))
     {
-        lineType = LineType::Horizontal;
+        lineType = PlaneType::Horizontal;
     }
     else if(isConsideredEqual(deltaX, 0.0))
     {
-        lineType = LineType::Vertical;
+        lineType = PlaneType::Vertical;
     }
     else if(isNegativeDeltaY == isNegativeDeltaX)
     {
-        lineType = LineType::WithPositiveSlope;
+        lineType = PlaneType::WithPositiveSlope;
     }
     else
     {
-        lineType = LineType::WithNegativeSlope;
+        lineType = PlaneType::WithNegativeSlope;
     }
     return lineType;
 }
 
-LineType Line::determineLineTypeUsingCoefficients(double const aCoefficient, double const bCoefficient) const
+PlaneType Plane::determinePlaneTypeUsingCoefficients(double const aCoefficient, double const bCoefficient) const
 {
     bool isNegativeA = (aCoefficient<0);
     bool isNegativeB = (bCoefficient<0);
-    LineType lineType(LineType::Invalid);
+    PlaneType lineType(PlaneType::Invalid);
     if(isConsideredEqual(aCoefficient, 0.0) && isConsideredEqual(bCoefficient, 0.0))
     {
-        lineType = LineType::Invalid;
+        lineType = PlaneType::Invalid;
     }
     else if(isConsideredEqual(aCoefficient, 0.0))
     {
-        lineType = LineType::Horizontal;
+        lineType = PlaneType::Horizontal;
     }
     else if(isConsideredEqual(bCoefficient, 0.0))
     {
-        lineType = LineType::Vertical;
+        lineType = PlaneType::Vertical;
     }
     else if(isNegativeA == isNegativeB)
     {
-        lineType = LineType::WithNegativeSlope;
+        lineType = PlaneType::WithNegativeSlope;
     }
     else
     {
-        lineType = LineType::WithPositiveSlope;
+        lineType = PlaneType::WithPositiveSlope;
     }
     return lineType;
 }

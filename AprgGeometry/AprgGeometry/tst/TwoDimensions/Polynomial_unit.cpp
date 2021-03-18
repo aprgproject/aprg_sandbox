@@ -56,26 +56,3 @@ TEST(ParabolaTest, GetSlopeIsCorrect)
     EXPECT_EQ(22, parabola.getSlopeAt(10));
     EXPECT_EQ(202, parabola.getSlopeAt(100));
 }
-
-TEST(ParabolaTest, GetTangentLineIsCorrect)
-{
-    Parabola parabola{1,2,3};
-    Line expectedLine1(parabola.getTangentLineAt(-1));
-    Line expectedLine2(parabola.getTangentLineAt(0));
-    Line expectedLine3(parabola.getTangentLineAt(1));
-
-    EXPECT_EQ(LineType::Horizontal, expectedLine1.getType());
-    EXPECT_EQ(2, expectedLine1.getYIntercept());
-    EXPECT_EQ(0, expectedLine1.getXIntercept());
-    EXPECT_EQ(0, expectedLine1.getSlope());
-
-    EXPECT_EQ(LineType::WithPositiveSlope, expectedLine2.getType());
-    EXPECT_EQ(3, expectedLine2.getYIntercept());
-    EXPECT_EQ(-1.5, expectedLine2.getXIntercept());
-    EXPECT_EQ(2, expectedLine2.getSlope());
-
-    EXPECT_EQ(LineType::WithPositiveSlope, expectedLine3.getType());
-    EXPECT_EQ(2, expectedLine3.getYIntercept());
-    EXPECT_EQ(-0.5, expectedLine3.getXIntercept());
-    EXPECT_EQ(4, expectedLine3.getSlope());
-}

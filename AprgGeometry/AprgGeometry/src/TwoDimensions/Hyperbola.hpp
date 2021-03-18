@@ -7,21 +7,21 @@
 namespace alba
 {
 
-class Circle
+class Hyperbola
 {
 public:
     using TraverseOperation = std::function<void(Point const&)>;
-    Circle();
-    Circle(Point const& center, double const radius);
-    bool operator==(Circle const& circle) const;
-    bool operator!=(Circle const& circle) const;
+    Hyperbola();
+    Hyperbola(Point const& center, double const aCoefficient, double const bCoefficient); // ((x-center.x)^2/aCoefficient^2) + ((y-center.y)^2/bCoefficient^2) = 1
+    bool operator==(Hyperbola const& ellipse) const;
+    bool operator!=(Hyperbola const& ellipse) const;
     Point getCenter() const;
-    double getRadius() const;
-    double getArea() const;
-    double getCircumference() const;
-    bool isInside(Point const& point) const;
-    Points getPointsForCircumference(double const interval) const;
-    void traverseArea(double const interval, TraverseOperation const& traverseOperation);
+    double getAValue() const;
+    double getBValue() const;
+    double getCValue() const;
+    double getEccentricity() const;
+    double getSemiLactusRectum() const;
+    Points getPointsForShape(double const interval) const;
     double calculateYFromX(double const x, double const signOfRoot) const;
     double calculateXFromY(double const y, double const signOfRoot) const;
     double calculateYFromXWithoutCenter(double const x, double const signOfRoot) const;
@@ -31,10 +31,10 @@ private:
     Points getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const;
     Points getPointsInTraversingX(double const signOfX, double const signOfY, double const interval) const;
     Point m_center;
-    double m_radius;
-    double m_radiusSquared;
+    double m_aValue;
+    double m_bValue;
 };
 
-using Circles = std::vector<Circle>;
+using Hyperbolas = std::vector<Hyperbola>;
 
 }

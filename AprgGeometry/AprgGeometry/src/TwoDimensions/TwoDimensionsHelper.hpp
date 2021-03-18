@@ -1,7 +1,11 @@
 #pragma once
 
+#include <TwoDimensions/Circle.hpp>
+#include <TwoDimensions/Ellipse.hpp>
+#include <TwoDimensions/Hyperbola.hpp>
 #include <TwoDimensions/Line.hpp>
 #include <TwoDimensions/Point.hpp>
+#include <TwoDimensions/Polynomial.hpp>
 
 #include <functional>
 
@@ -26,7 +30,17 @@ Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points 
 Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);
 Points getPointsInSortedIncreasingX(Points const& pointsToBeSorted);//UT
 Points getPointsInSortedDecreasingX(Points const& pointsToBeSorted);
+Line getTangentLineAt(Circle const& circle, Point const& point);
+Line getTangentLineAt(Ellipse const& ellipse, Point const& point);
+Line getTangentLineAt(Hyperbola const& hyperbola, Point const& point);
 
+template<unsigned int numberOfCoefficients>
+Line getPolynomialTangentLineAt(Polynomial<numberOfCoefficients> polynomial, double const x)
+{
+    double slope = polynomial.getSlopeAt(x);
+    double y = polynomial.calculateYfromX(x);
+    return Line(Point(x, y), Point(x+1, y+slope));
+}
 
 }
 

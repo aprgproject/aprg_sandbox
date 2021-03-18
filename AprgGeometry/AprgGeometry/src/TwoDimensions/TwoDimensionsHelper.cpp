@@ -3,7 +3,9 @@
 #include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
+#include <cmath>
 
+using namespace alba::mathHelper;
 using namespace std;
 
 namespace alba
@@ -13,7 +15,7 @@ double twoDimensionsHelper::getDistance(Point const& point1, Point const& point2
 {
     double deltaX = point2.getX() - point1.getX();
     double deltaY = point2.getY() - point1.getY();
-    return mathHelper::getSquareRootOfXSquaredPlusYSquared<double>(deltaX, deltaY);
+    return getSquareRootOfXSquaredPlusYSquared<double>(deltaX, deltaY);
 }
 
 Point twoDimensionsHelper::getMidpoint(Point const& point1, Point const& point2)
@@ -118,7 +120,7 @@ Points twoDimensionsHelper::getMergedPointsInIncreasingX(Points const& firstPoin
     {
         if(iteratorForX != firstPoints.cend() && iteratorForY != secondPoints.cend())
         {
-            if(iteratorForX->getX() == iteratorForY->getX())
+            if(isConsideredEqual(iteratorForX->getX(), iteratorForY->getX()))
             {
                 result.emplace_back(*iteratorForX++);
                 iteratorForY++;
@@ -155,7 +157,7 @@ Points twoDimensionsHelper::getMergedPointsInDecreasingX(Points const& firstPoin
     {
         if(iteratorForX != firstPoints.cend() && iteratorForY != secondPoints.cend())
         {
-            if(iteratorForX->getX() == iteratorForY->getX())
+            if(isConsideredEqual(iteratorForX->getX(), iteratorForY->getX()))
             {
                 result.emplace_back(*iteratorForX++);
                 iteratorForY++;
@@ -201,5 +203,19 @@ Points twoDimensionsHelper::getPointsInSortedDecreasingX(Points const& pointsToB
     return result;
 }
 
+Line twoDimensionsHelper::getTangentLineAt(Circle const& circle, Point const& point)
+{
+    return Line(point.getX(), point.getY(), -pow(circle.getRadius(), 2));
+}
+
+Line twoDimensionsHelper::getTangentLineAt(Ellipse const& ellipse, Point const& point)
+{
+    return Line(point.getX()/pow(ellipse.getAValue(), 2), point.getY()/pow(ellipse.getBValue(), 2), -1);
+}
+
+Line twoDimensionsHelper::getTangentLineAt(Hyperbola const& hyperbola, Point const& point)
+{
+    return Line(point.getX()/pow(hyperbola.getAValue(), 2), -point.getY()/pow(hyperbola.getBValue(), 2), -1);
+}
 
 }

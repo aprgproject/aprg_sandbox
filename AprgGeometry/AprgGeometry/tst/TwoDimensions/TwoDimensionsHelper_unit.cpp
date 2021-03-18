@@ -76,8 +76,8 @@ TEST(TwoDimensionsHelperTest, PointsInParabolaCanBeConnected)
     EXPECT_EQ(Point(-2,3), connectedPoints[0]);
     EXPECT_EQ(Point(-1,2), connectedPoints[1]);
     EXPECT_EQ(Point(0,3), connectedPoints[2]);
-    EXPECT_EQ(Point((double)1/3,4), connectedPoints[3]);
-    EXPECT_EQ(Point((double)2/3,5), connectedPoints[4]);
+    EXPECT_EQ(Point(static_cast<double>(1)/3,4), connectedPoints[3]);
+    EXPECT_EQ(Point(static_cast<double>(2)/3,5), connectedPoints[4]);
     EXPECT_EQ(Point(1,6), connectedPoints[5]);
     EXPECT_EQ(Point(1.2,7), connectedPoints[6]);
     EXPECT_EQ(Point(1.4,8), connectedPoints[7]);
@@ -146,6 +146,29 @@ TEST(TwoDimensionsHelperTest, IsInsideTwoPointsWorks)
     EXPECT_TRUE(isInsideTwoPoints(Point(1,1), minimumXAndY, maximumXAndY));
     EXPECT_FALSE(isInsideTwoPoints(Point(2,2), minimumXAndY, maximumXAndY));
     EXPECT_FALSE(isInsideTwoPoints(Point(3,3), minimumXAndY, maximumXAndY));
+}
+
+TEST(TwoDimensionsHelperTest, GetTangentLineIsCorrect)
+{
+    Parabola parabola{1,2,3};
+    Line expectedLine1(getPolynomialTangentLineAt(parabola, -1));
+    Line expectedLine2(getPolynomialTangentLineAt(parabola, 0));
+    Line expectedLine3(getPolynomialTangentLineAt(parabola, 1));
+
+    EXPECT_EQ(LineType::Horizontal, expectedLine1.getType());
+    EXPECT_EQ(2, expectedLine1.getYIntercept());
+    EXPECT_EQ(0, expectedLine1.getXIntercept());
+    EXPECT_EQ(0, expectedLine1.getSlope());
+
+    EXPECT_EQ(LineType::WithPositiveSlope, expectedLine2.getType());
+    EXPECT_EQ(3, expectedLine2.getYIntercept());
+    EXPECT_EQ(-1.5, expectedLine2.getXIntercept());
+    EXPECT_EQ(2, expectedLine2.getSlope());
+
+    EXPECT_EQ(LineType::WithPositiveSlope, expectedLine3.getType());
+    EXPECT_EQ(2, expectedLine3.getYIntercept());
+    EXPECT_EQ(-0.5, expectedLine3.getXIntercept());
+    EXPECT_EQ(4, expectedLine3.getSlope());
 }
 
 

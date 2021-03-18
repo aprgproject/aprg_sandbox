@@ -136,7 +136,8 @@ template double clampHigherBound<double>(double const value, double const limit)
 unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number)
 {
     unsigned result(0);
-    if(multiple>0)    {
+    if(multiple>0)
+    {
         unsigned int numberOfMultiples(getNumberOfMultiplesInclusive(multiple, number));
         result = (numberOfMultiples*multiple) - number;
     }
@@ -151,7 +152,8 @@ double calculateCumulativeStandardDistributionApproximation(double const z)
 double calculateInverseCumulativeStandardDistributionApproximation(double const probability, unsigned int const numberOfIterations)
 {
     double lowestZ=-10, highestZ=10, z(0);
-    for(unsigned int iterationCount=0; iterationCount<numberOfIterations; iterationCount++)    {
+    for(unsigned int iterationCount=0; iterationCount<numberOfIterations; iterationCount++)
+    {
         double middleZ = getAverage<double>(lowestZ, highestZ);
         double probabilityLowest = calculateCumulativeStandardDistributionApproximation(lowestZ);
         double probabilityMiddle = calculateCumulativeStandardDistributionApproximation(middleZ);
