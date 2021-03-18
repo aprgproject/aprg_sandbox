@@ -23,13 +23,13 @@ TEST(SampleTest, BitmapGraph24Bits)
     graph.drawGrid(BitmapDoubleXY((double)1000/3, (double)1000/9));
     graph.drawLine(Line(1,1,1), 0x00FF0000);
     graph.drawCircle(Circle(Point(0,0), 100), 0x000000FF);
+    graph.drawEllipse(Ellipse(Point(0,0), 300, 200), 0x0000FFFF);
+    graph.drawHyperbola(Hyperbola(Point(0,0), 200, 150), 0x0000FFFF);
     graph.drawFunctionUsingX(0x00FF00FF, [](double xValue)->double
     {
-        return 100*sin(xValue/100);
-    });
+        return 100*sin(xValue/100);    });
     graph.drawFunctionUsingY(0x00FF00FF, [](double yValue)->double
     {
-        return 100*sin(yValue/100);
-    });
+        return 100*sin(yValue/100);    });
     graph.saveChangesToBitmapFile();
 }

@@ -5,12 +5,12 @@
 #include <Container/AlbaRange.hpp>
 #include <String/AlbaStringHelper.hpp>
 #include <TwoDimensions/Circle.hpp>
+#include <TwoDimensions/Ellipse.hpp>
+#include <TwoDimensions/Hyperbola.hpp>
 #include <TwoDimensions/Line.hpp>
 #include <TwoDimensions/Point.hpp>
-
 #include <functional>
 #include <string>
-
 namespace alba
 {
 
@@ -32,13 +32,13 @@ public:
     void drawContinuousPoints(Points const& points, unsigned int const color);
     void drawLine(Line const& line, unsigned int const color);
     void drawCircle(Circle const& circle, unsigned int const color);
+    void drawEllipse(Ellipse const& ellipse, unsigned int const color);
+    void drawHyperbola(Hyperbola const& hyperbola, unsigned int const color);
     void drawGrid(BitmapDoubleXY const& gridInterval);
     void drawFunctionUsingX(unsigned int const color, FunctionWithDoubles const& functionFromXToY);
-    void drawFunctionUsingY(unsigned int const color, FunctionWithDoubles const& functionFromYToX);
-    void drawNumberLabel(LabelType const labelType, BitmapXY const& numberPosition, double const number);
+    void drawFunctionUsingY(unsigned int const color, FunctionWithDoubles const& functionFromYToX);    void drawNumberLabel(LabelType const labelType, BitmapXY const& numberPosition, double const number);
     void drawCharacter(BitmapXY const& upLeftPoint, char const character, unsigned int const colorToWrite);
     void saveChangesToBitmapFile();
-
 private:
     std::string getBitmapFilePathOfCharacter(char const character) const;
     double getLowestInterval() const;

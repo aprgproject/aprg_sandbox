@@ -63,13 +63,23 @@ void AprgGraph::drawCircle(Circle const& circle, unsigned int const color)
     drawDiscontinuousPoints(points, color);
 }
 
+void AprgGraph::drawEllipse(Ellipse const& ellipse, unsigned int const color)
+{
+    Points points(ellipse.getPointsForCircumference(m_lowestInterval));
+    drawDiscontinuousPoints(points, color);
+}
+
+void AprgGraph::drawHyperbola(Hyperbola const& hyperbola, unsigned int const color)
+{
+    Points points(hyperbola.getPointsForShape(m_lowestInterval));
+    drawDiscontinuousPoints(points, color);
+}
+
 void AprgGraph::drawGrid(BitmapDoubleXY const& gridInterval)
 {
-    if(0!=gridInterval.getX() && 0!=gridInterval.getY())
-    {
+    if(0!=gridInterval.getX() && 0!=gridInterval.getY())    {
         const unsigned int gridColor(0x00BBBBBB);
         const unsigned int mainColor(0x00000000);
-
         for(double x=gridInterval.getX(); x<=m_realDownRightPoint.getX(); x+=gridInterval.getX())
         {
             Points gridLine{Point(x, m_realUpLeftPoint.getY()), Point(x, m_realDownRightPoint.getY())};
