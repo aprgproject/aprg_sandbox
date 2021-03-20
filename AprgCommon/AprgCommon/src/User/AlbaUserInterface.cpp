@@ -2,14 +2,12 @@
 
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <User/AlbaDisplayTable.hpp>
+#include <User/DisplayTable.hpp>
 
 #include <iostream>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 string AlbaUserInterface::getUserInput()
 {
