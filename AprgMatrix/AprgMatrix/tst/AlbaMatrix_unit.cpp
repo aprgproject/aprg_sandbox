@@ -1,6 +1,7 @@
 #include <AlbaMatrix.hpp>
 
 #include <gtest/gtest.h>
+
 #include <iostream>
 
 using namespace std;
@@ -342,6 +343,25 @@ TEST(AlbaMatrixTest, MatrixTransformToReducedEchelonForm)
     EXPECT_DOUBLE_EQ(0.0, inputMatrix.get(2,3));
     EXPECT_DOUBLE_EQ(0.0, inputMatrix.get(3,3));
     EXPECT_DOUBLE_EQ(0.0, inputMatrix.get(4,3));
+}
+
+TEST(AlbaMatrixTest, InverseOfMatrixCanBeComputed)
+{
+    AlbaMatrix<double> inputMatrix(3,3);
+    inputMatrix.set({1.0,1.0,1.0,
+                     0.0,2.0,3.0,
+                     5.0,5.0,1});
+    inputMatrix.invert();
+
+    EXPECT_DOUBLE_EQ(1.625, inputMatrix.get(0,0));
+    EXPECT_DOUBLE_EQ(-0.5, inputMatrix.get(1,0));
+    EXPECT_DOUBLE_EQ(-0.125, inputMatrix.get(2,0));
+    EXPECT_DOUBLE_EQ(-1.875, inputMatrix.get(0,1));
+    EXPECT_DOUBLE_EQ(0.5, inputMatrix.get(1,1));
+    EXPECT_DOUBLE_EQ(0.375, inputMatrix.get(2,1));
+    EXPECT_DOUBLE_EQ(1.25, inputMatrix.get(0,2));
+    EXPECT_DOUBLE_EQ(0.0, inputMatrix.get(1,2));
+    EXPECT_DOUBLE_EQ(-0.25, inputMatrix.get(2,2));
 }
 
 }

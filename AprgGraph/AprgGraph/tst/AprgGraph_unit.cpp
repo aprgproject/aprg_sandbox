@@ -30,6 +30,7 @@ TEST(SampleTest, BitmapGraph24Bits)
         return 100*sin(xValue/100);    });
     graph.drawFunctionUsingY(0x00FF00FF, [](double yValue)->double
     {
-        return 100*sin(yValue/100);    });
+        return 100*sin(yValue/100);
+    });
     graph.saveChangesToBitmapFile();
 }

@@ -11,6 +11,7 @@
 #include <TwoDimensions/Point.hpp>
 #include <functional>
 #include <string>
+
 namespace alba
 {
 
@@ -39,6 +40,7 @@ public:
     void drawFunctionUsingY(unsigned int const color, FunctionWithDoubles const& functionFromYToX);    void drawNumberLabel(LabelType const labelType, BitmapXY const& numberPosition, double const number);
     void drawCharacter(BitmapXY const& upLeftPoint, char const character, unsigned int const colorToWrite);
     void saveChangesToBitmapFile();
+
 private:
     std::string getBitmapFilePathOfCharacter(char const character) const;
     double getLowestInterval() const;

@@ -80,6 +80,7 @@ void AprgGraph::drawGrid(BitmapDoubleXY const& gridInterval)
     if(0!=gridInterval.getX() && 0!=gridInterval.getY())    {
         const unsigned int gridColor(0x00BBBBBB);
         const unsigned int mainColor(0x00000000);
+
         for(double x=gridInterval.getX(); x<=m_realDownRightPoint.getX(); x+=gridInterval.getX())
         {
             Points gridLine{Point(x, m_realUpLeftPoint.getY()), Point(x, m_realDownRightPoint.getY())};

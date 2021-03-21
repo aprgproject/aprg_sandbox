@@ -7,7 +7,8 @@
 #include <iostream>
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 string AlbaUserInterface::getUserInput()
 {
