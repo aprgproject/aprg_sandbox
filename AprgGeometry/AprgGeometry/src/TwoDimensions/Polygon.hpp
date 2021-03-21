@@ -10,10 +10,12 @@
 namespace alba
 {
 
+namespace TwoDimensions
+{
+
 template<unsigned int numberOfVertices>
 class Polygon
-{
-public:
+{public:
     Polygon()
     {}
 
@@ -67,4 +69,5 @@ private:
     std::array<Point, numberOfVertices> m_vertices;
 };
 
+}
 }

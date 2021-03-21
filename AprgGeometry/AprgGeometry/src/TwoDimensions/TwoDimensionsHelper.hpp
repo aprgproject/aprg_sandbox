@@ -12,9 +12,11 @@
 namespace alba
 {
 
-namespace twoDimensionsHelper
+namespace TwoDimensions
 {
 
+namespace twoDimensionsHelper
+{
 double getDistance(Point const& point1, Point const& point2);
 Point getMidpoint(Point const& point1, Point const& point2);
 Line getLineWithSameSlope(Line const& line, Point const& point);
@@ -40,6 +42,8 @@ Line getPolynomialTangentLineAt(Polynomial<numberOfCoefficients> polynomial, dou
     double slope = polynomial.getSlopeAt(x);
     double y = polynomial.calculateYfromX(x);
     return Line(Point(x, y), Point(x+1, y+slope));
+}
+
 }
 
 }

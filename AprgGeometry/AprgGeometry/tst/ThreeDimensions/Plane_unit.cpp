@@ -4,9 +4,9 @@
 
 #include <cmath>
 
-using namespace alba;
+using namespace alba::ThreeDimensions;
+using namespace alba::TwoDimensions;
 using namespace std;
-
 
 TEST(PlaneTest, EmptyPlane)
 {

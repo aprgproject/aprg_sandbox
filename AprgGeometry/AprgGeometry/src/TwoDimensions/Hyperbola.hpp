@@ -7,10 +7,12 @@
 namespace alba
 {
 
+namespace TwoDimensions
+{
+
 class Hyperbola
 {
-public:
-    using TraverseOperation = std::function<void(Point const&)>;
+public:    using TraverseOperation = std::function<void(Point const&)>;
     Hyperbola();
     Hyperbola(Point const& center, double const aCoefficient, double const bCoefficient); // ((x-center.x)^2/aCoefficient^2) + ((y-center.y)^2/bCoefficient^2) = 1
     bool operator==(Hyperbola const& ellipse) const;
@@ -37,4 +39,5 @@ private:
 
 using Hyperbolas = std::vector<Hyperbola>;
 
+}
 }

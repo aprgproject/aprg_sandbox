@@ -5,13 +5,10 @@
 
 #include <gtest/gtest.h>
 
-#include <iostream>
-
-using namespace alba;
+using namespace alba::TwoDimensions;
 using namespace std;
 
-TEST(PolygonTest, PolygonCanBeCreated)
-{
+TEST(PolygonTest, PolygonCanBeCreated){
     Polygon<3> polygon{Point(1,1), Point(2,3), Point(0,17)};
 }
 

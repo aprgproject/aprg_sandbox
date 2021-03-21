@@ -5,9 +5,8 @@
 
 #include <cmath>
 
-using namespace alba;
+using namespace alba::TwoDimensions;
 using namespace std;
-
 
 TEST(HyperbolaTest, EmptyHyperbola)
 {

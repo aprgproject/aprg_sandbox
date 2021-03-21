@@ -19,11 +19,10 @@ public:
         , y(0)
     {}
 
-    AlbaXY(CoordinateType xValue, CoordinateType yValue)
+    AlbaXY(CoordinateType const& xValue, CoordinateType const& yValue)
         : x(xValue)
         , y(yValue)
     {}
-
     bool isEmpty() const
     {
         return x==0 && y==0;
@@ -80,22 +79,21 @@ public:
         return ss.str();
     }
 
-    void setXAndY(CoordinateType xValue, CoordinateType yValue)
+    void setXAndY(CoordinateType const& xValue, CoordinateType const& yValue)
     {
         x = xValue;
         y = yValue;
     }
 
-    void setX(CoordinateType xValue)
+    void setX(CoordinateType const& xValue)
     {
         x = xValue;
     }
 
-    void setY(CoordinateType yValue)
+    void setY(CoordinateType const& yValue)
     {
         y = yValue;
     }
-
     void saveMinimumXAndY(AlbaXY const xy)
     {
         if(x > xy.x)

@@ -7,10 +7,12 @@
 namespace alba
 {
 
+namespace TwoDimensions
+{
+
 enum class LineType
 {
-    Horizontal,
-    Vertical,
+    Horizontal,    Vertical,
     WithPositiveSlope,
     WithNegativeSlope,
     Invalid
@@ -54,4 +56,5 @@ private:
 
 using Lines = std::vector<Line>;
 
+}
 }

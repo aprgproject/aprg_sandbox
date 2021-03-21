@@ -7,10 +7,12 @@
 namespace alba
 {
 
+namespace TwoDimensions
+{
+
 class Circle
 {
-public:
-    using TraverseOperation = std::function<void(Point const&)>;
+public:    using TraverseOperation = std::function<void(Point const&)>;
     Circle();
     Circle(Point const& center, double const radius);
     bool operator==(Circle const& circle) const;
@@ -37,4 +39,5 @@ private:
 
 using Circles = std::vector<Circle>;
 
+}
 }

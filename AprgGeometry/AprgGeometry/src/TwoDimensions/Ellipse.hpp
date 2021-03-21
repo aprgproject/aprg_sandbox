@@ -7,10 +7,12 @@
 namespace alba
 {
 
+namespace TwoDimensions
+{
+
 class Ellipse
 {
-public:
-    using TraverseOperation = std::function<void(Point const&)>;
+public:    using TraverseOperation = std::function<void(Point const&)>;
     Ellipse();
     Ellipse(Point const& center, double const aCoefficient, double const bCoefficient); // ((x-center.x)^2/aCoefficient^2) + ((y-center.y)^2/bCoefficient^2) = 1
     bool operator==(Ellipse const& ellipse) const;
@@ -41,4 +43,5 @@ private:
 
 using Ellipses = std::vector<Ellipse>;
 
+}
 }

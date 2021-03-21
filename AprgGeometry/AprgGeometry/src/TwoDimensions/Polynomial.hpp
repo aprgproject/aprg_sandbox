@@ -9,10 +9,12 @@
 namespace alba
 {
 
+namespace TwoDimensions
+{
+
 template<unsigned int numberOfCoefficients>
 class Polynomial
-{
-public:
+{public:
     Polynomial()
     {}
 
@@ -72,4 +74,5 @@ private:
     std::array<double, numberOfCoefficients-1> m_coefficientsOfFirstDerivative; //form is c0 + c1*x + c2*x2....
 };
 
+}
 }

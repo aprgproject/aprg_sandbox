@@ -6,10 +6,13 @@
 #include <Container/AlbaRange.hpp>
 
 #include <cassert>
-#include <functional>#include <sstream>
+#include <functional>
+#include <sstream>
 #include <vector>
 
 //this is done, but refactor this code, extract till you drop! -> maybe create a helper function
+//next stop determinants vectors vector spaces
+//This is based on "Introductory Linear Algebra with Applications"
 
 namespace alba
 {
@@ -62,8 +65,7 @@ public:
     }
     void set(unsigned int const x, unsigned int const y, DataType const& value)
     {
-        assert((x < m_numberOfColumns) && (y < m_numberOfRows));
-        m_matrixData[getMatrixIndex(x, y)] = value;
+        assert((x < m_numberOfColumns) && (y < m_numberOfRows));        m_matrixData[getMatrixIndex(x, y)] = value;
     }
     void set(std::initializer_list<DataType> dataSampleValues)
     {
@@ -79,8 +81,7 @@ public:
     }
     void interchangeRows(unsigned int const y1, unsigned int const y2)
     {
-        assert((y1 < m_numberOfRows) && (y2 < m_numberOfRows));
-        for(unsigned int x=0; x<m_numberOfColumns; x++)
+        assert((y1 < m_numberOfRows) && (y2 < m_numberOfRows));        for(unsigned int x=0; x<m_numberOfColumns; x++)
         {
             std::swap(m_matrixData[getMatrixIndex(x, y1)], m_matrixData[getMatrixIndex(x, y2)]);
         }
@@ -95,14 +96,16 @@ public:
         assert((yInput < m_numberOfRows) && (yOutput < m_numberOfRows));
         traverseWithUnaryOperationForDifferentRows(yInput, yOutput, [&](DataType const& input)
         {
-            return input*multiplierForInput;        });
+            return input*multiplierForInput;
+        });
     }
     void subtractRowsWithMultiplier(unsigned int const yInput1, unsigned int const yInput2, DataType const& multiplierForInput2, unsigned int const yOutput)
     {
         assert((yInput1 < m_numberOfRows) && (yInput2 < m_numberOfRows) && (yOutput < m_numberOfRows));
         traverseWithBinaryOperationForDifferentRows(yInput1, yInput2, yOutput, [&](DataType const& input1, DataType const& input2)
         {
-            return input1-(input2*multiplierForInput2);        });
+            return input1-(input2*multiplierForInput2);
+        });
     }
     void transpose()
     {
@@ -119,10 +122,10 @@ public:
     }
     void invert()
     {
+        assert((m_numberOfColumns == m_numberOfRows));
         unsigned int newColumns = m_numberOfColumns*2;
         AlbaMatrix tempMatrix(newColumns, m_numberOfRows);
-        MatrixIndexRange yRange(0, m_numberOfRows-1, 1);
-        MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
+        MatrixIndexRange yRange(0, m_numberOfRows-1, 1);        MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
         iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
         {
             tempMatrix.m_matrixData[getMatrixIndex(x, y, newColumns)] = m_matrixData.at(getMatrixIndex(x, y));
@@ -138,16 +141,35 @@ public:
             m_matrixData[getMatrixIndex(x, y)] = tempMatrix.m_matrixData.at(getMatrixIndex(m_numberOfColumns+x, y, newColumns));
         });
     }
+    bool isIdentityMatrix() const
+    {
+        bool isIdentityMatrix(m_numberOfColumns==m_numberOfRows);
+        for(unsigned int y=0; isIdentityMatrix && y<m_numberOfRows; y++)
+        {
+            for(unsigned int x=0; isIdentityMatrix && x<m_numberOfColumns; x++)
+            {
+                if(x==y)
+                {
+                    isIdentityMatrix = isIdentityMatrix && m_matrixData.at(getMatrixIndex(x, y)) == 1;
+                }
+                else
+                {
+                    isIdentityMatrix = isIdentityMatrix && m_matrixData.at(getMatrixIndex(x, y)) == 0;
+                }
+            }
+        }
+        return isIdentityMatrix;
+    }
     bool isReducedRowEchelonForm() const
     {
         return areRowsWithAllZeroInTheBottom() && areLeadingEntriesInReducedRowEchelonForm();
     }
     void transformToReducedEchelonForm()
     {
+        //gauss jordan reduction
         unsigned int yWithLeadingEntry = 0;
         for(unsigned int x=0; x<m_numberOfColumns; x++)
-        {
-            for(unsigned int y=yWithLeadingEntry; y<m_numberOfRows; y++)
+        {            for(unsigned int y=yWithLeadingEntry; y<m_numberOfRows; y++)
             {
                 if(!mathHelper::isConsideredEqual(m_matrixData.at(getMatrixIndex(x, y)), static_cast<DataType>(0)))
                 {
@@ -181,8 +203,7 @@ public:
     {
         assert((m_numberOfColumns == secondMatrix.m_numberOfColumns) && (m_numberOfRows == secondMatrix.m_numberOfRows));
         AlbaMatrix result(m_numberOfColumns, m_numberOfRows);
-        traverseWithBinaryOperationWithSameDimensions(*this, secondMatrix, result, std::minus<DataType>());
-        return result;
+        traverseWithBinaryOperationWithSameDimensions(*this, secondMatrix, result, std::minus<DataType>());        return result;
     }
     AlbaMatrix operator*(DataType const& scalarMultiplier) const //scalar multiplication
     {
@@ -203,11 +224,11 @@ public:
     bool operator==(AlbaMatrix const& secondMatrix) const
     {
         if(m_numberOfColumns != secondMatrix.m_numberOfColumns)
-        {            return false;
-        }
-        else if(m_numberOfRows != secondMatrix.m_numberOfRows)
         {
             return false;
+        }
+        else if(m_numberOfRows != secondMatrix.m_numberOfRows)
+        {            return false;
         }
         else if(m_matrixData != secondMatrix.m_matrixData)
         {
@@ -237,11 +258,11 @@ private:
         });
     }
     void traverseWithUnaryOperationWithSameDimensions(
-            AlbaMatrix const& inputMatrix,            AlbaMatrix & resultMatrix,
+            AlbaMatrix const& inputMatrix,
+            AlbaMatrix & resultMatrix,
             UnaryFunction const& unaryFunction) const
     {
-        assert((inputMatrix.m_numberOfColumns == resultMatrix.m_numberOfColumns) &&
-               (inputMatrix.m_numberOfRows == resultMatrix.m_numberOfRows));
+        assert((inputMatrix.m_numberOfColumns == resultMatrix.m_numberOfColumns) &&               (inputMatrix.m_numberOfRows == resultMatrix.m_numberOfRows));
         MatrixIndexRange yRange(0, m_numberOfRows-1, 1);
         MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
         iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
@@ -251,18 +272,19 @@ private:
         });
     }
     void traverseWithBinaryOperationForDifferentRows(
-            unsigned int const yInput1,            unsigned int const yInput2,
+            unsigned int const yInput1,
+            unsigned int const yInput2,
             unsigned int const yOutput,
             BinaryFunction const& binaryFunction)
     {
         assert((yInput1 < m_numberOfRows) && (yInput2 < m_numberOfRows) && (yOutput < m_numberOfRows));
         for(unsigned int x=0; x<m_numberOfColumns; x++)
         {
-            m_matrixData[getMatrixIndex(x, yOutput)]                    = binaryFunction(m_matrixData.at(getMatrixIndex(x, yInput1)),
+            m_matrixData[getMatrixIndex(x, yOutput)]
+                    = binaryFunction(m_matrixData.at(getMatrixIndex(x, yInput1)),
                                      m_matrixData.at(getMatrixIndex(x, yInput2)));
         }
-    }
-    void traverseWithUnaryOperationForDifferentRows(
+    }    void traverseWithUnaryOperationForDifferentRows(
             unsigned int const yInput,
             unsigned int const yOutput,
             UnaryFunction const& unaryFunction)
@@ -270,11 +292,11 @@ private:
         assert((yInput < m_numberOfRows) && (yOutput < m_numberOfRows));
         for(unsigned int x=0; x<m_numberOfColumns; x++)
         {
-            m_matrixData[getMatrixIndex(x, yOutput)]                    = unaryFunction(m_matrixData.at(getMatrixIndex(x, yInput)));
+            m_matrixData[getMatrixIndex(x, yOutput)]
+                    = unaryFunction(m_matrixData.at(getMatrixIndex(x, yInput)));
         }
     }
-    bool areRowsWithAllZeroInTheBottom() const
-    {
+    bool areRowsWithAllZeroInTheBottom() const    {
         bool isRowWithNonZeroEncountered(false);
         for(unsigned int yPlusOne=m_numberOfRows; yPlusOne>0; yPlusOne--)
         {
@@ -371,4 +393,4 @@ private:
     MatrixData m_matrixData;
 };
 
-}//namespace alba
+}//namespace alba
