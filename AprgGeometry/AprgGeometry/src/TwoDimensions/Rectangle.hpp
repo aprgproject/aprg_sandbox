@@ -10,7 +10,8 @@ namespace TwoDimensions
 
 class Rectangle : public Quadrilateral
 {
-public:    Rectangle();
+public:
+    Rectangle();
     Rectangle(Point const& topLeft, Point const& bottomRight);
 
 };

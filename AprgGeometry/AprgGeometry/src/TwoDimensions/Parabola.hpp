@@ -10,7 +10,8 @@ namespace TwoDimensions
 
 using ParabolaPolynomialParent = Polynomial<3>;
 
-class Parabola : public ParabolaPolynomialParent{
+class Parabola : public ParabolaPolynomialParent
+{
 public:
     //vertex focus directrix?
     Parabola();

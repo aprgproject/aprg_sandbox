@@ -7,6 +7,7 @@
 using namespace alba::TwoDimensions;
 using namespace std;
 
+
 TEST(CircleTest, EmptyCircle)
 {
     Circle circle;

@@ -1,23 +1,21 @@
-#include <TwoDimensions/TwoDimensionsHelper.hpp>
-
-#include <TwoDimensions/Parabola.hpp>
+#include <ThreeDimensions/ThreeDimensionsHelper.hpp>
 
 #include <gtest/gtest.h>
 
 #include <cmath>
 
-using namespace alba::TwoDimensions;
-using namespace alba::TwoDimensions::twoDimensionsHelper;
+using namespace alba::ThreeDimensions;
+using namespace alba::ThreeDimensions::threeDimensionsHelper;
 using namespace std;
-
-TEST(TwoDimensionsHelperTest, MidpointBetweenTwoPointsCanBeCalculated)
+/*
+TEST(ThreeDimensionsHelperTest, MidpointBetweenTwoPointsCanBeCalculated)
 {
     EXPECT_EQ(Point(0,0), getMidpoint(Point(0,0), Point(0,0)));
     EXPECT_EQ(Point(2,2), getMidpoint(Point(1,1), Point(3,3)));
     EXPECT_EQ(Point(-450,-900), getMidpoint(Point(100,200), Point(-1000,-2000)));
 }
 
-TEST(TwoDimensionsHelperTest, GetLineWithSameSlopeAndPoint)
+TEST(ThreeDimensionsHelperTest, GetLineWithSameSlopeAndPoint)
 {
     Line lineInput(Point(0,0), Point(-1,1));
     Line expectedLine(getLineWithSameSlope(lineInput, Point(2,2)));
@@ -30,7 +28,7 @@ TEST(TwoDimensionsHelperTest, GetLineWithSameSlopeAndPoint)
     EXPECT_EQ(-4, expectedLine.getCCoefficient());
 }
 
-TEST(TwoDimensionsHelperTest, GetLineWithInverseSlopeAndPoint)
+TEST(ThreeDimensionsHelperTest, GetLineWithInverseSlopeAndPoint)
 {
     Line lineInput(Point(0,0), Point(1,1));
     Line expectedLine(getLineWithPerpendicularSlope(lineInput, Point(2,2)));
@@ -43,14 +41,14 @@ TEST(TwoDimensionsHelperTest, GetLineWithInverseSlopeAndPoint)
     EXPECT_EQ(4, expectedLine.getCCoefficient());
 }
 
-TEST(TwoDimensionsHelperTest, DistanceBetweenPointAndLineCanBeCalculated)
+TEST(ThreeDimensionsHelperTest, DistanceBetweenPointAndLineCanBeCalculated)
 {
     EXPECT_EQ(2, getDistance(Line(0,-1,4), Point(2,2)));
     EXPECT_EQ(2, getDistance(Line(-1,0,4), Point(2,2)));
     EXPECT_EQ(2*pow(2, 0.5), getDistance(Line(1,1,0), Point(2,2)));
 }
 
-TEST(TwoDimensionsHelperTest, LineAndLineIntersectionCanBeFound)
+TEST(ThreeDimensionsHelperTest, LineAndLineIntersectionCanBeFound)
 {
     Line line1(Point(2,4), Point(3,3));
     Line line2(Point(4,4), Point(3,3));
@@ -58,14 +56,14 @@ TEST(TwoDimensionsHelperTest, LineAndLineIntersectionCanBeFound)
     EXPECT_EQ(Point(3,3), getIntersection(line1, line2));
 }
 
-TEST(TwoDimensionsHelperTest, VerticalLineAndHorizontalLineIntersectionCanBeFound)
+TEST(ThreeDimensionsHelperTest, VerticalLineAndHorizontalLineIntersectionCanBeFound)
 {
     Line line1(Point(4,3), Point(3,3));
     Line line2(Point(3,4), Point(3,3));
     EXPECT_EQ(Point(3,3), getIntersection(line1, line2));
 }
 
-TEST(TwoDimensionsHelperTest, PointsInParabolaCanBeConnected)
+TEST(ThreeDimensionsHelperTest, PointsInParabolaCanBeConnected)
 {
     Parabola parabola{1,2,3};
     Points parabolaPoints(parabola.getPoints(-2, 2, 1));
@@ -85,7 +83,7 @@ TEST(TwoDimensionsHelperTest, PointsInParabolaCanBeConnected)
     EXPECT_EQ(Point(2,11), connectedPoints[10]);
 }
 
-TEST(TwoDimensionsHelperTest, GetPointsFromTwoPointsUsingALineWithoutLastPointCanBeDone)
+TEST(ThreeDimensionsHelperTest, GetPointsFromTwoPointsUsingALineWithoutLastPointCanBeDone)
 {
     Points pointsWithoutLastPoint;
     savePointsFromTwoPointsUsingALineWithoutLastPoint(pointsWithoutLastPoint, Point(0,0), Point(-5,-5), 1);
@@ -98,7 +96,7 @@ TEST(TwoDimensionsHelperTest, GetPointsFromTwoPointsUsingALineWithoutLastPointCa
     EXPECT_EQ(Point(-4,-4), pointsWithoutLastPoint[4]);
 }
 
-TEST(TwoDimensionsHelperTest, PopNearestPointWorks)
+TEST(ThreeDimensionsHelperTest, PopNearestPointWorks)
 {
     Points points;
     points.emplace_back(4,4);
@@ -114,7 +112,7 @@ TEST(TwoDimensionsHelperTest, PopNearestPointWorks)
     EXPECT_EQ(Point(0,0), popNearestPoint(points, Point(0,0)));
 }
 
-TEST(TwoDimensionsHelperTest, AddPointIfInsideTwoPointsWorks)
+TEST(ThreeDimensionsHelperTest, AddPointIfInsideTwoPointsWorks)
 {
     Points points;
     Point minimumXAndY(-1,-1);
@@ -133,7 +131,7 @@ TEST(TwoDimensionsHelperTest, AddPointIfInsideTwoPointsWorks)
     EXPECT_EQ(Point(1,1), points[2]);
 }
 
-TEST(TwoDimensionsHelperTest, IsInsideTwoPointsWorks)
+TEST(ThreeDimensionsHelperTest, IsInsideTwoPointsWorks)
 {
     Points points;
     Point minimumXAndY(-1,-1);
@@ -147,7 +145,7 @@ TEST(TwoDimensionsHelperTest, IsInsideTwoPointsWorks)
     EXPECT_FALSE(isInsideTwoPoints(Point(3,3), minimumXAndY, maximumXAndY));
 }
 
-TEST(TwoDimensionsHelperTest, GetTangentLineIsCorrect)
+TEST(ThreeDimensionsHelperTest, GetTangentLineIsCorrect)
 {
     Parabola parabola{1,2,3};
     Line expectedLine1(getPolynomialTangentLineAt(parabola, -1));
@@ -169,5 +167,5 @@ TEST(TwoDimensionsHelperTest, GetTangentLineIsCorrect)
     EXPECT_EQ(-0.5, expectedLine3.getXIntercept());
     EXPECT_EQ(4, expectedLine3.getSlope());
 }
-
+*/
 

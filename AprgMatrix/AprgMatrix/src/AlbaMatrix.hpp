@@ -65,7 +65,8 @@ public:
     }
     void set(unsigned int const x, unsigned int const y, DataType const& value)
     {
-        assert((x < m_numberOfColumns) && (y < m_numberOfRows));        m_matrixData[getMatrixIndex(x, y)] = value;
+        assert((x < m_numberOfColumns) && (y < m_numberOfRows));
+        m_matrixData[getMatrixIndex(x, y)] = value;
     }
     void set(std::initializer_list<DataType> dataSampleValues)
     {
@@ -81,7 +82,8 @@ public:
     }
     void interchangeRows(unsigned int const y1, unsigned int const y2)
     {
-        assert((y1 < m_numberOfRows) && (y2 < m_numberOfRows));        for(unsigned int x=0; x<m_numberOfColumns; x++)
+        assert((y1 < m_numberOfRows) && (y2 < m_numberOfRows));
+        for(unsigned int x=0; x<m_numberOfColumns; x++)
         {
             std::swap(m_matrixData[getMatrixIndex(x, y1)], m_matrixData[getMatrixIndex(x, y2)]);
         }
@@ -125,7 +127,8 @@ public:
         assert((m_numberOfColumns == m_numberOfRows));
         unsigned int newColumns = m_numberOfColumns*2;
         AlbaMatrix tempMatrix(newColumns, m_numberOfRows);
-        MatrixIndexRange yRange(0, m_numberOfRows-1, 1);        MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
+        MatrixIndexRange yRange(0, m_numberOfRows-1, 1);
+        MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
         iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
         {
             tempMatrix.m_matrixData[getMatrixIndex(x, y, newColumns)] = m_matrixData.at(getMatrixIndex(x, y));
@@ -169,7 +172,8 @@ public:
         //gauss jordan reduction
         unsigned int yWithLeadingEntry = 0;
         for(unsigned int x=0; x<m_numberOfColumns; x++)
-        {            for(unsigned int y=yWithLeadingEntry; y<m_numberOfRows; y++)
+        {
+            for(unsigned int y=yWithLeadingEntry; y<m_numberOfRows; y++)
             {
                 if(!mathHelper::isConsideredEqual(m_matrixData.at(getMatrixIndex(x, y)), static_cast<DataType>(0)))
                 {
@@ -203,7 +207,8 @@ public:
     {
         assert((m_numberOfColumns == secondMatrix.m_numberOfColumns) && (m_numberOfRows == secondMatrix.m_numberOfRows));
         AlbaMatrix result(m_numberOfColumns, m_numberOfRows);
-        traverseWithBinaryOperationWithSameDimensions(*this, secondMatrix, result, std::minus<DataType>());        return result;
+        traverseWithBinaryOperationWithSameDimensions(*this, secondMatrix, result, std::minus<DataType>());
+        return result;
     }
     AlbaMatrix operator*(DataType const& scalarMultiplier) const //scalar multiplication
     {
@@ -228,7 +233,8 @@ public:
             return false;
         }
         else if(m_numberOfRows != secondMatrix.m_numberOfRows)
-        {            return false;
+        {
+            return false;
         }
         else if(m_matrixData != secondMatrix.m_matrixData)
         {
@@ -262,7 +268,8 @@ private:
             AlbaMatrix & resultMatrix,
             UnaryFunction const& unaryFunction) const
     {
-        assert((inputMatrix.m_numberOfColumns == resultMatrix.m_numberOfColumns) &&               (inputMatrix.m_numberOfRows == resultMatrix.m_numberOfRows));
+        assert((inputMatrix.m_numberOfColumns == resultMatrix.m_numberOfColumns) &&
+               (inputMatrix.m_numberOfRows == resultMatrix.m_numberOfRows));
         MatrixIndexRange yRange(0, m_numberOfRows-1, 1);
         MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
         iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
@@ -284,7 +291,8 @@ private:
                     = binaryFunction(m_matrixData.at(getMatrixIndex(x, yInput1)),
                                      m_matrixData.at(getMatrixIndex(x, yInput2)));
         }
-    }    void traverseWithUnaryOperationForDifferentRows(
+    }
+    void traverseWithUnaryOperationForDifferentRows(
             unsigned int const yInput,
             unsigned int const yOutput,
             UnaryFunction const& unaryFunction)
@@ -296,7 +304,8 @@ private:
                     = unaryFunction(m_matrixData.at(getMatrixIndex(x, yInput)));
         }
     }
-    bool areRowsWithAllZeroInTheBottom() const    {
+    bool areRowsWithAllZeroInTheBottom() const
+    {
         bool isRowWithNonZeroEncountered(false);
         for(unsigned int yPlusOne=m_numberOfRows; yPlusOne>0; yPlusOne--)
         {

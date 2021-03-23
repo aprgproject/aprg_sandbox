@@ -1,23 +1,19 @@
 #pragma once
 
-#include <TwoDimensions/Circle.hpp>
-#include <TwoDimensions/Ellipse.hpp>
-#include <TwoDimensions/Hyperbola.hpp>
-#include <TwoDimensions/Line.hpp>
-#include <TwoDimensions/Point.hpp>
-#include <TwoDimensions/Polynomial.hpp>
+#include <ThreeDimensions/Line.hpp>
+#include <ThreeDimensions/Point.hpp>
 
 #include <functional>
 
 namespace alba
 {
 
-namespace TwoDimensions
+namespace ThreeDimensions
 {
 
-namespace twoDimensionsHelper
+namespace threeDimensionsHelper
 {
-
+/*
 double getDistance(Point const& point1, Point const& point2);
 Point getMidpoint(Point const& point1, Point const& point2);
 Line getLineWithSameSlope(Line const& line, Point const& point);
@@ -43,7 +39,7 @@ Line getPolynomialTangentLineAt(Polynomial<numberOfCoefficients> polynomial, dou
     double slope = polynomial.getSlopeAt(x);
     double y = polynomial.calculateYfromX(x);
     return Line(Point(x, y), Point(x+1, y+slope));
-}
+}*/
 
 }
 

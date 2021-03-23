@@ -12,6 +12,7 @@
 
 #include <functional>
 #include <string>
+
 namespace alba
 {
 
@@ -51,7 +52,8 @@ private:
     BitmapXY convertBitmapPointToBitmapXY(TwoDimensions::Point const& bitmapPosition) const;
     unsigned int convertRealXCoordinateToBitmapXCoordinate(double const xCoordinate) const;
     unsigned int convertRealYCoordinateToBitmapYCoordinate(double const yCoordinate) const;
-    double convertBitmapXCoordinateToRealXCoordinate(double const xCoordinate) const;    double convertBitmapYCoordinateToRealYCoordinate(double const yCoordinate) const;
+    double convertBitmapXCoordinateToRealXCoordinate(double const xCoordinate) const;
+    double convertBitmapYCoordinateToRealYCoordinate(double const yCoordinate) const;
     AprgBitmap m_bitmap;
     AprgBitmapSnippet m_bitmapSnippet;
     BitmapXY m_originInBitmap;
@@ -61,4 +63,5 @@ private:
     TwoDimensions::Point m_realDownRightPoint;
     alba::stringHelper::NumberToStringConverter m_numberToStringConverter;
 };
+
 }

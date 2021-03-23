@@ -14,7 +14,8 @@ namespace TwoDimensions
 
 template<unsigned int numberOfCoefficients>
 class Polynomial
-{public:
+{
+public:
     Polynomial()
     {}
 

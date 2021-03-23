@@ -11,12 +11,14 @@
 using namespace std;
 namespace alba
 {
+
 namespace TwoDimensions
 {
 
 Line::Line()
     : m_type(LineType::Invalid)
-    , m_yIntercept(0)    , m_xIntercept(0)
+    , m_yIntercept(0)
+    , m_xIntercept(0)
     , m_aCoefficient(0) //form: a*x + b*y + c
     , m_bCoefficient(0) //form: a*x + b*y + c
     , m_cCoefficient(0) //form: a*x + b*y + c
@@ -101,18 +103,17 @@ LineType Line::getType() const
     return m_type;
 }
 
-double Line::getYIntercept() const
-{
-    return m_yIntercept;
-}
-
 double Line::getXIntercept() const
 {
     return m_xIntercept;
 }
 
-double Line::getSlope() const
+double Line::getYIntercept() const
 {
+    return m_yIntercept;
+}
+
+double Line::getSlope() const{
     return m_slope;
 }
 

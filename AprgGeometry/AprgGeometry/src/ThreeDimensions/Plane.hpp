@@ -14,7 +14,8 @@ namespace ThreeDimensions
 
 enum class PlaneType
 {
-    Horizontal,    Vertical,
+    Horizontal,
+    Vertical,
     WithPositiveSlope,
     WithNegativeSlope,
     Invalid
@@ -27,7 +28,8 @@ public:
     Plane(TwoDimensions::Point const& first, TwoDimensions::Point const& second);
     Plane(double const aCoefficient, double const bCoefficient, double const cCoefficient); //ax+by+c=0
     bool operator==(Plane const& line) const;
-    bool operator!=(Plane const& line) const;    PlaneType getType() const;
+    bool operator!=(Plane const& line) const;
+    PlaneType getType() const;
     double getXIntercept() const;
     double getYIntercept() const;
     double getInverseSlope() const;
@@ -45,7 +47,8 @@ private:
     void mergePointsFromPointsFromXAndY(TwoDimensions::Points & points, TwoDimensions::Points const& pointsFromXCoordinate, TwoDimensions::Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const;
     PlaneType determinePlaneTypeUsingDeltaXandDeltaY(double const deltaY, double const deltaX) const;
     PlaneType determinePlaneTypeUsingCoefficients(double const aCoefficient, double const bCoefficient) const;
-    PlaneType m_type;    double m_xIntercept; //form: a*(x-x0) + b*(y-y0) + c*(z-z0) = 0
+    PlaneType m_type;
+    double m_xIntercept; //form: a*(x-x0) + b*(y-y0) + c*(z-z0) = 0
     double m_yIntercept; //form: a*(x-x0) + b*(y-y0) + c*(z-z0) = 0
     double m_zIntercept; //form: a*(x-x0) + b*(y-y0) + c*(z-z0) = 0
     double m_aCoefficient; //form: a*x + b*y + c*z + d = 0

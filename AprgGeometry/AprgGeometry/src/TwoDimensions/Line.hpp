@@ -12,7 +12,8 @@ namespace TwoDimensions
 
 enum class LineType
 {
-    Horizontal,    Vertical,
+    Horizontal,
+    Vertical,
     WithPositiveSlope,
     WithNegativeSlope,
     Invalid

@@ -8,10 +8,10 @@ using namespace alba::ThreeDimensions;
 using namespace alba::TwoDimensions;
 using namespace std;
 
+/*
 TEST(PlaneTest, EmptyPlane)
 {
     Plane line;
-
     EXPECT_EQ(PlaneType::Invalid, line.getType());
     EXPECT_EQ(0, line.getACoefficient());
     EXPECT_EQ(0, line.getBCoefficient());
@@ -300,3 +300,4 @@ TEST(PlaneTest, PlaneCanBeComparedForEquality)
     EXPECT_EQ(Plane(1,2,3), Plane(10,20,30));
     EXPECT_NE(Plane(1,2,3), Plane(2,3,4));
 }
+*/

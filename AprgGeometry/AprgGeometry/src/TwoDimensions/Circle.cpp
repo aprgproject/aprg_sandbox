@@ -17,7 +17,8 @@ namespace TwoDimensions
 
 Circle::Circle()
     : m_center()
-    , m_radius(0)    , m_radiusSquared(0)
+    , m_radius(0)
+    , m_radiusSquared(0)
 {}
 
 Circle::Circle(Point const& center, double const radius)

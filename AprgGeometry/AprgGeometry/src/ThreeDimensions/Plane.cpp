@@ -12,12 +12,14 @@ using namespace std;
 using namespace alba::TwoDimensions;
 namespace alba
 {
+
 namespace ThreeDimensions
 {
 
 Plane::Plane()
     : m_type(PlaneType::Invalid)
-    , m_yIntercept(0)    , m_xIntercept(0)
+    , m_yIntercept(0)
+    , m_xIntercept(0)
     , m_aCoefficient(0) //form: a*x + b*y + c
     , m_bCoefficient(0) //form: a*x + b*y + c
     , m_cCoefficient(0) //form: a*x + b*y + c
@@ -199,7 +201,8 @@ void Plane::getPointsForPlaneWithSlope(Points & points, Point const& first, Poin
         Point endPoint(TwoDimensions::twoDimensionsHelper::popNearestPoint(pointsAtBorder, second));
         bool isDirectionAscendingForX = startingPoint.getX() <= endPoint.getX();
 
-        Points pointsFromXCoordinate;        AlbaRange<double> rangeForX(startingPoint.getX(), endPoint.getX(), interval);
+        Points pointsFromXCoordinate;
+        AlbaRange<double> rangeForX(startingPoint.getX(), endPoint.getX(), interval);
         rangeForX.traverse([&](double traverseValueOfX)
         {
             pointsFromXCoordinate.emplace_back(traverseValueOfX, calculateYFromX(traverseValueOfX));
@@ -222,6 +225,7 @@ void Plane::getPointsForPlaneWithSlope(Points & points, Point const& first, Poin
         }
     }
 }
+
 
 void Plane::mergePointsFromPointsFromXAndY(Points & points, Points const& pointsFromXCoordinate, Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const
 {

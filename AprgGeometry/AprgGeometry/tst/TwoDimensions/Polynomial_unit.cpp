@@ -6,7 +6,8 @@
 using namespace alba::TwoDimensions;
 using namespace std;
 
-TEST(PolynomialTest, PolynomialCanBeCreated){
+TEST(PolynomialTest, PolynomialCanBeCreated)
+{
     Polynomial<3> polynomial{3,2,1};
 }
 

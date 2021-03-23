@@ -95,7 +95,8 @@ NumberType getSquareRootOfXSquaredPlusYSquared(NumberType const x, NumberType co
 {
     return static_cast<NumberType>(pow(pow(x, 2)+pow(y, 2), 0.5));
 }
-template int getSquareRootOfXSquaredPlusYSquared<int>(int const x, int const y);template double getSquareRootOfXSquaredPlusYSquared<double>(double const x, double const y);
+template int getSquareRootOfXSquaredPlusYSquared<int>(int const x, int const y);
+template double getSquareRootOfXSquaredPlusYSquared<double>(double const x, double const y);
 
 
 //getSquareRootOfXSquaredPlusYSquaredPlusZSquared

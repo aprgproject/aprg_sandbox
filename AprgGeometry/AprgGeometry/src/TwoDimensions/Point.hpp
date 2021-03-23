@@ -8,9 +8,11 @@ namespace alba{
 
 namespace TwoDimensions
 {
+
 using PointParent = AlbaXY<double>;
 
-class Point : public PointParent{
+class Point : public PointParent
+{
 public:
     Point();
     Point(double const xValue, double const yValue);

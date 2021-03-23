@@ -15,7 +15,8 @@ namespace TwoDimensions
 
 template<unsigned int numberOfVertices>
 class Polygon
-{public:
+{
+public:
     Polygon()
     {}
 

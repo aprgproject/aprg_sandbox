@@ -8,6 +8,7 @@
 using namespace alba::TwoDimensions;
 using namespace std;
 
+
 TEST(HyperbolaTest, EmptyHyperbola)
 {
     Hyperbola hyperbola;

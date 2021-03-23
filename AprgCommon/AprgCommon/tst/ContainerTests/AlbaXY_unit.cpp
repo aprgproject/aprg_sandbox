@@ -28,7 +28,8 @@ TEST(AlbaXYTest,  ValuesCanBeSetAfterConstruction)
     EXPECT_EQ(AlbaXY<int>(10,20), xy);
 
     xy.setX(23);
-    xy.setY(45);    EXPECT_EQ(AlbaXY<int>(23,45), xy);
+    xy.setY(45);
+    EXPECT_EQ(AlbaXY<int>(23,45), xy);
 }
 
 TEST(AlbaXYTest, XYCanBeCompared)

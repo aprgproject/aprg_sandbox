@@ -23,6 +23,7 @@ public:
         : x(xValue)
         , y(yValue)
     {}
+
     bool isEmpty() const
     {
         return x==0 && y==0;
@@ -94,6 +95,7 @@ public:
     {
         y = yValue;
     }
+
     void saveMinimumXAndY(AlbaXY const xy)
     {
         if(x > xy.x)

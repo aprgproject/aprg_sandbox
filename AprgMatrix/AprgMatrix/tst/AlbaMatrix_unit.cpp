@@ -41,7 +41,8 @@ TEST(AlbaMatrixTest, ValueCanSavedInTheMatrix)
 {
     AlbaMatrix<unsigned int> inputMatrix(2,3);
     inputMatrix.set(0,0,1);
-    inputMatrix.set(1,0,2);    inputMatrix.set(0,1,3);
+    inputMatrix.set(1,0,2);
+    inputMatrix.set(0,1,3);
     inputMatrix.set(1,1,4);
     inputMatrix.set(0,2,5);
     inputMatrix.set(1,2,6);
@@ -56,7 +57,8 @@ TEST(AlbaMatrixTest, ValueCanSavedInTheMatrix)
 
 TEST(AlbaMatrixTest, ValuesCanSavedInTheMatrix)
 {
-    AlbaMatrix<unsigned int> inputMatrix(2,3);    inputMatrix.set({1,2,
+    AlbaMatrix<unsigned int> inputMatrix(2,3);
+    inputMatrix.set({1,2,
                      3,4,
                      5,6});
 
@@ -87,7 +89,8 @@ TEST(AlbaMatrixTest, MatrixCanBeTraversedAndCopied)
 
 TEST(AlbaMatrixTest, MatrixCanBeCheckedIfEqual)
 {
-    AlbaMatrix<unsigned int> inputMatrix(2,3);    AlbaMatrix<unsigned int> outputMatrix(2,3);
+    AlbaMatrix<unsigned int> inputMatrix(2,3);
+    AlbaMatrix<unsigned int> outputMatrix(2,3);
     inputMatrix.set({1,2,
                      3,4,
                      5,6});
@@ -127,7 +130,8 @@ TEST(AlbaMatrixTest, MatrixCanBeTransposed)
 
 TEST(AlbaMatrixTest, MatrixCanBeAdded)
 {
-    AlbaMatrix<unsigned int> inputMatrix1(2,3);    inputMatrix1.set({1,2,
+    AlbaMatrix<unsigned int> inputMatrix1(2,3);
+    inputMatrix1.set({1,2,
                       3,4,
                       5,6});
     AlbaMatrix<unsigned int> outputMatrix(inputMatrix1+inputMatrix1);
@@ -142,7 +146,8 @@ TEST(AlbaMatrixTest, MatrixCanBeAdded)
 
 TEST(AlbaMatrixTest, MatrixCanBeSubtracted)
 {
-    AlbaMatrix<unsigned int> inputMatrix1(2,3);    AlbaMatrix<unsigned int> inputMatrix2(2,3);
+    AlbaMatrix<unsigned int> inputMatrix1(2,3);
+    AlbaMatrix<unsigned int> inputMatrix2(2,3);
     inputMatrix1.set({100,200,
                       300,400,
                       500,600});
@@ -216,7 +221,8 @@ TEST(AlbaMatrixTest, MatrixCanBeCheckedIfItsIdentityMatrix)
 
 TEST(AlbaMatrixTest, MatrixCanBeCheckedIfItsInReducedRowEchelonForm)
 {
-    AlbaMatrix<unsigned int> inputMatrix1(4,3);    AlbaMatrix<unsigned int> inputMatrix2(5,3);
+    AlbaMatrix<unsigned int> inputMatrix1(4,3);
+    AlbaMatrix<unsigned int> inputMatrix2(5,3);
     AlbaMatrix<unsigned int> inputMatrix3(5,5);
     inputMatrix1.set({1,0,0,4,
                       0,1,0,5,
@@ -372,7 +378,8 @@ TEST(AlbaMatrixTest, InverseOfMatrixCanBeComputed)
     multipliedMatrix.transformToReducedEchelonForm();
 
     EXPECT_DOUBLE_EQ(1.625, inputMatrix.get(0,0));
-    EXPECT_DOUBLE_EQ(-0.5, inputMatrix.get(1,0));    EXPECT_DOUBLE_EQ(-0.125, inputMatrix.get(2,0));
+    EXPECT_DOUBLE_EQ(-0.5, inputMatrix.get(1,0));
+    EXPECT_DOUBLE_EQ(-0.125, inputMatrix.get(2,0));
     EXPECT_DOUBLE_EQ(-1.875, inputMatrix.get(0,1));
     EXPECT_DOUBLE_EQ(0.5, inputMatrix.get(1,1));
     EXPECT_DOUBLE_EQ(0.375, inputMatrix.get(2,1));

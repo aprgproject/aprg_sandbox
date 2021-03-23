@@ -1,4 +1,4 @@
-#include "TwoDimensionsHelper.hpp"
+#include "ThreeDimensionsHelper.hpp"
 
 #include <Math/AlbaMathHelper.hpp>
 
@@ -11,12 +11,12 @@ using namespace std;
 namespace alba
 {
 
-namespace TwoDimensions
+namespace ThreeDimensions
 {
 
 namespace twoDimensionsHelper
 {
-
+/*
 double getDistance(Point const& point1, Point const& point2)
 {
     double deltaX = point2.getX() - point1.getX();
@@ -223,6 +223,7 @@ Line getTangentLineAt(Hyperbola const& hyperbola, Point const& point)
 {
     return Line(point.getX()/pow(hyperbola.getAValue(), 2), -point.getY()/pow(hyperbola.getBValue(), 2), -1);
 }
+*/
 
 }
 }

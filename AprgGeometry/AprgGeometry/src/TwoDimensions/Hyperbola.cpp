@@ -17,7 +17,8 @@ namespace TwoDimensions
 
 Hyperbola::Hyperbola()
     : m_center()
-    , m_aValue(0)    , m_bValue(0)
+    , m_aValue(0)
+    , m_bValue(0)
 {}
 
 Hyperbola::Hyperbola(Point const& center, double const aCoefficient, double const bCoefficient)

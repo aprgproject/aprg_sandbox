@@ -12,6 +12,7 @@ using namespace alba::TwoDimensions;
 
 namespace alba
 {
+
 AprgGraph::AprgGraph(string const& bitmapPath, BitmapXY const& originInBitmap, BitmapDoubleXY const& magnification)
     : m_bitmap(bitmapPath)
     , m_bitmapSnippet(m_bitmap.getSnippetReadFromFileWholeBitmap())
@@ -82,6 +83,7 @@ void AprgGraph::drawGrid(BitmapDoubleXY const& gridInterval)
     {
         const unsigned int gridColor(0x00BBBBBB);
         const unsigned int mainColor(0x00000000);
+
         for(double x=gridInterval.getX(); x<=m_realDownRightPoint.getX(); x+=gridInterval.getX())
         {
             Points gridLine{Point(x, m_realUpLeftPoint.getY()), Point(x, m_realDownRightPoint.getY())};

@@ -12,7 +12,8 @@ namespace TwoDimensions
 
 class Circle
 {
-public:    using TraverseOperation = std::function<void(Point const&)>;
+public:
+    using TraverseOperation = std::function<void(Point const&)>;
     Circle();
     Circle(Point const& center, double const radius);
     bool operator==(Circle const& circle) const;
