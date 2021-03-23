@@ -7,14 +7,11 @@
 #include <algorithm>
 #include <cmath>
 #include <iterator>
-#include <set>
 
 using namespace std;
 using namespace alba::TwoDimensions;
-
 namespace alba
 {
-
 namespace ThreeDimensions
 {
 
