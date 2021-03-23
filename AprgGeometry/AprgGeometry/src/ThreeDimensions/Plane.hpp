@@ -4,6 +4,7 @@
 #include <ThreeDimensions/Point.hpp>
 
 #include <vector>
+
 //Think about this
 
 namespace alba
@@ -36,7 +37,8 @@ private:
     AlbaOptional<double> m_zIntercept; //form: a*(x-x0) + b*(y-y0) + c*(z-z0) = 0
     double m_aCoefficient; //form: a*x + b*y + c*z + d = 0
     double m_bCoefficient; //form: a*x + b*y + c*z + d = 0
-    double m_cCoefficient; //form: a*x + b*y + c*z + d = 0    double m_dCoefficient; //form: a*x + b*y + c*z + d = 0
+    double m_cCoefficient; //form: a*x + b*y + c*z + d = 0
+    double m_dCoefficient; //form: a*x + b*y + c*z + d = 0
 };
 
 using Planes = std::vector<Plane>;

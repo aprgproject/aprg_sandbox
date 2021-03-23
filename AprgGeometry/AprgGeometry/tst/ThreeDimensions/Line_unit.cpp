@@ -27,7 +27,8 @@ TEST(ThreeDimensionsLineTest, EmptyLine)
     EXPECT_FALSE(line.calculateZFromY(1));
 }
 
-TEST(ThreeDimensionsLineTest, InvalidLine){
+TEST(ThreeDimensionsLineTest, InvalidLine)
+{
     Line line(Point(3,3,3), Point(3,3,3));
 
     EXPECT_TRUE(line.isInvalid());
@@ -45,7 +46,8 @@ TEST(ThreeDimensionsLineTest, InvalidLine){
     EXPECT_FALSE(line.calculateZFromY(1));
 }
 
-TEST(ThreeDimensionsLineTest, HorizontalLine){
+TEST(ThreeDimensionsLineTest, HorizontalLine)
+{
     Line line(Point(-2,3,4), Point(2,3,-4));
 
     EXPECT_FALSE(line.isInvalid());
@@ -63,7 +65,8 @@ TEST(ThreeDimensionsLineTest, HorizontalLine){
     EXPECT_FALSE(line.calculateZFromY(1));
 }
 
-TEST(ThreeDimensionsLineTest, VerticalLine){
+TEST(ThreeDimensionsLineTest, VerticalLine)
+{
     Line line(Point(2,-3, 6), Point(2,3, -6));
 
     EXPECT_FALSE(line.isInvalid());
@@ -81,7 +84,8 @@ TEST(ThreeDimensionsLineTest, VerticalLine){
     ASSERT_TRUE(line.calculateZFromY(1)); EXPECT_EQ(-2, line.calculateZFromY(1).getConstReference());
 }
 
-TEST(ThreeDimensionsLineTest, ParallelWithZAxis){
+TEST(ThreeDimensionsLineTest, ParallelWithZAxis)
+{
     Line line(Point(-2,4,6), Point(2,-4,6));
 
     EXPECT_FALSE(line.isInvalid());
@@ -99,7 +103,8 @@ TEST(ThreeDimensionsLineTest, ParallelWithZAxis){
     EXPECT_FALSE(line.calculateZFromY(1));
 }
 
-TEST(ThreeDimensionsLineTest, LineWithSlope){
+TEST(ThreeDimensionsLineTest, LineWithSlope)
+{
     Line line(Point(-2,-4,-8), Point(2,4,8));
 
     EXPECT_FALSE(line.isInvalid());
@@ -117,7 +122,8 @@ TEST(ThreeDimensionsLineTest, LineWithSlope){
     ASSERT_TRUE(line.calculateZFromY(1)); EXPECT_EQ(2, line.calculateZFromY(1).getConstReference());
 }
 
-/*//Think about this
+/*
+//Think about this
 TEST(ThreeDimensionsLineTest, LineCanBeComparedForEquality)
 {
     EXPECT_EQ(Line(1,2,3), Line(10,20,30));

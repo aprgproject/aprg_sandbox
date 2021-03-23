@@ -40,7 +40,8 @@ public:
 
 private:
     AlbaOptional<double> calculateInitialValueFrom2Coordinates(
-            double const coordinateWithIntecept,            double const coordinate1,
+            double const coordinateWithIntecept,
+            double const coordinate1,
             double const coordinate2,
             double const coefficientWithInitialValue,
             double const coefficient1,
@@ -52,7 +53,8 @@ private:
     AlbaOptional<double> m_zInitialValue; //form: (x-x0)/a = (y-y0)/b = (z-z0)/c
     double m_aCoefficient; //form: (x-x0)/a = (y-y0)/b = (z-z0)/c
     double m_bCoefficient; //form: (x-x0)/a = (y-y0)/b = (z-z0)/c
-    double m_cCoefficient; //form: (x-x0)/a = (y-y0)/b = (z-z0)/c};
+    double m_cCoefficient; //form: (x-x0)/a = (y-y0)/b = (z-z0)/c
+};
 
 using Lines = std::vector<Line>;
 

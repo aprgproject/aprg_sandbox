@@ -6,13 +6,10 @@
 
 #include <cmath>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
+
 namespace ThreeDimensions
 {
 
@@ -39,13 +36,10 @@ Plane::Plane(Point const& first, Point const& second, Point const& third)
     matrixForSolution.set({first.getX(), first.getY(), first.getZ(), 1,
                            second.getX(), second.getY(), second.getZ(), 1,
                            third.getX(), third.getY(), third.getZ(), 1});
-    ALBA_PRINT1(matrixForSolution.getString());
     matrixForSolution.transformToReducedEchelonForm();
-    ALBA_PRINT1(matrixForSolution.getString());
     if(matrixForSolution.isReducedRowEchelonForm())
     {
-        for(unsigned int x=0; x<3; x++)
-        {
+        for(unsigned int x=0; x<3; x++)        {
             for(unsigned int y=x; y<3; y++)
             {
                 if(!isConsideredEqual(matrixForSolution.get(x,y), 0.0))
@@ -101,7 +95,8 @@ bool Plane::operator!=(Plane const& plane) const
     return !((*this)==plane);
 }
 
-double Plane::getACoefficient() const{
+double Plane::getACoefficient() const
+{
     return m_aCoefficient;
 }
 

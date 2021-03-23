@@ -9,6 +9,7 @@ namespace alba
 
 namespace TwoDimensions
 {
+
 using PointParent = AlbaXY<double>;
 
 class Point : public PointParent

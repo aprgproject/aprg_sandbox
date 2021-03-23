@@ -55,7 +55,8 @@ TEST(PlaneTest, HorizontalPlane)
     Points points(plane.getPoints(Point(-2,10), Point(2,-10), 1));
     ASSERT_EQ(5u, points.size());
     EXPECT_EQ(Point(-2,3), points[0]);
-    EXPECT_EQ(Point(-1,3), points[1]);    EXPECT_EQ(Point(0,3), points[2]);
+    EXPECT_EQ(Point(-1,3), points[1]);
+    EXPECT_EQ(Point(0,3), points[2]);
     EXPECT_EQ(Point(1,3), points[3]);
     EXPECT_EQ(Point(2,3), points[4]);
 }
@@ -74,7 +75,8 @@ TEST(PlaneTest, VerticalPlane)
     Points points(plane.getPoints(Point(10,-3), Point(-10,3), 1));
     ASSERT_EQ(7u, points.size());
     EXPECT_EQ(Point(2,-3), points[0]);
-    EXPECT_EQ(Point(2,-2), points[1]);    EXPECT_EQ(Point(2,-1), points[2]);
+    EXPECT_EQ(Point(2,-2), points[1]);
+    EXPECT_EQ(Point(2,-1), points[2]);
     EXPECT_EQ(Point(2,0), points[3]);
     EXPECT_EQ(Point(2,1), points[4]);
     EXPECT_EQ(Point(2,2), points[5]);
@@ -95,7 +97,8 @@ TEST(PlaneTest, PlaneWithSlope)
     Points points(plane.getPoints(Point(-2,-3), Point(2,3), 1));
     ASSERT_EQ(9u, points.size());
     EXPECT_EQ(Point(-2,-3), points[0]);
-    EXPECT_EQ(Point(-1.33333333333333333,-2), points[1]);    EXPECT_EQ(Point(-1,-1.5), points[2]);
+    EXPECT_EQ(Point(-1.33333333333333333,-2), points[1]);
+    EXPECT_EQ(Point(-1,-1.5), points[2]);
     EXPECT_EQ(Point(-0.66666666666666666,-1), points[3]);
     EXPECT_EQ(Point(0,0), points[4]);
     EXPECT_EQ(Point(0.66666666666666666,1), points[5]);
@@ -118,7 +121,8 @@ TEST(PlaneTest, HorizontalPlaneWithPointsReversed)
     Points points(plane.getPoints(Point(2,10), Point(-2,-10), 1));
     ASSERT_EQ(5u, points.size());
     EXPECT_EQ(Point(2,3), points[0]);
-    EXPECT_EQ(Point(1,3), points[1]);    EXPECT_EQ(Point(0,3), points[2]);
+    EXPECT_EQ(Point(1,3), points[1]);
+    EXPECT_EQ(Point(0,3), points[2]);
     EXPECT_EQ(Point(-1,3), points[3]);
     EXPECT_EQ(Point(-2,3), points[4]);
 }
@@ -137,7 +141,8 @@ TEST(PlaneTest, VerticalPlaneWithPointsReversed)
     Points points(plane.getPoints(Point(10,3), Point(-10,-3), 1));
     ASSERT_EQ(7u, points.size());
     EXPECT_EQ(Point(2,3), points[0]);
-    EXPECT_EQ(Point(2,2), points[1]);    EXPECT_EQ(Point(2,1), points[2]);
+    EXPECT_EQ(Point(2,2), points[1]);
+    EXPECT_EQ(Point(2,1), points[2]);
     EXPECT_EQ(Point(2,0), points[3]);
     EXPECT_EQ(Point(2,-1), points[4]);
     EXPECT_EQ(Point(2,-2), points[5]);
@@ -158,7 +163,8 @@ TEST(PlaneTest, PlaneWithSlopeWithPointsReversed)
     Points points(plane.getPoints(Point(2,3), Point(-2,-3), 1));
     ASSERT_EQ(9u, points.size());
     EXPECT_EQ(Point(2,3), points[0]);
-    EXPECT_EQ(Point(1.33333333333333333,2), points[1]);    EXPECT_EQ(Point(1,1.5), points[2]);
+    EXPECT_EQ(Point(1.33333333333333333,2), points[1]);
+    EXPECT_EQ(Point(1,1.5), points[2]);
     EXPECT_EQ(Point(0.66666666666666666,1), points[3]);
     EXPECT_EQ(Point(0,0), points[4]);
     EXPECT_EQ(Point(-0.66666666666666666,-1), points[5]);
@@ -181,7 +187,8 @@ TEST(PlaneTest, PlaneWithNegativeSlope)
     Points points(plane.getPoints(Point(2,0), Point(0,2), 1));
     ASSERT_EQ(3u, points.size());
     EXPECT_EQ(Point(2,0), points[0]);
-    EXPECT_EQ(Point(1,1), points[1]);    EXPECT_EQ(Point(0,2), points[2]);
+    EXPECT_EQ(Point(1,1), points[1]);
+    EXPECT_EQ(Point(0,2), points[2]);
 }
 
 TEST(PlaneTest, InvalidPlaneConstructedByCoefficients)
@@ -208,7 +215,8 @@ TEST(PlaneTest, HorizontalPlaneConstructedByCoefficients)
     Points points(plane.getPoints(Point(-2,10), Point(2,-10), 1));
     ASSERT_EQ(5u, points.size());
     EXPECT_EQ(Point(-2,3), points[0]);
-    EXPECT_EQ(Point(-1,3), points[1]);    EXPECT_EQ(Point(0,3), points[2]);
+    EXPECT_EQ(Point(-1,3), points[1]);
+    EXPECT_EQ(Point(0,3), points[2]);
     EXPECT_EQ(Point(1,3), points[3]);
     EXPECT_EQ(Point(2,3), points[4]);
 }
@@ -227,7 +235,8 @@ TEST(PlaneTest, VerticalPlaneConstructedByCoefficients)
     Points points(plane.getPoints(Point(10,-3), Point(-10,3), 1));
     ASSERT_EQ(7u, points.size());
     EXPECT_EQ(Point(2,-3), points[0]);
-    EXPECT_EQ(Point(2,-2), points[1]);    EXPECT_EQ(Point(2,-1), points[2]);
+    EXPECT_EQ(Point(2,-2), points[1]);
+    EXPECT_EQ(Point(2,-1), points[2]);
     EXPECT_EQ(Point(2,0), points[3]);
     EXPECT_EQ(Point(2,1), points[4]);
     EXPECT_EQ(Point(2,2), points[5]);
@@ -248,7 +257,8 @@ TEST(PlaneTest, PlaneWithSlopeConstructedByCoefficients)
     Points points(plane.getPoints(Point(-2,-3), Point(2,3), 1));
     ASSERT_EQ(9u, points.size());
     EXPECT_EQ(Point(-2,-3), points[0]);
-    EXPECT_EQ(Point(-1.33333333333333333,-2), points[1]);    EXPECT_EQ(Point(-1,-1.5), points[2]);
+    EXPECT_EQ(Point(-1.33333333333333333,-2), points[1]);
+    EXPECT_EQ(Point(-1,-1.5), points[2]);
     EXPECT_EQ(Point(-0.66666666666666666,-1), points[3]);
     EXPECT_EQ(Point(0,0), points[4]);
     EXPECT_EQ(Point(0.66666666666666666,1), points[5]);
@@ -271,7 +281,8 @@ TEST(PlaneTest, PointsAreCorrectForPlaneWithSteepSlope)
     Points points(plane.getPoints(Point(-2,-2), Point(2,2), 1));
     ASSERT_EQ(5u, points.size());
     EXPECT_EQ(Point(-0.4,-2), points[0]);
-    EXPECT_EQ(Point(-0.2,-1), points[1]);    EXPECT_EQ(Point(0,0), points[2]);
+    EXPECT_EQ(Point(-0.2,-1), points[1]);
+    EXPECT_EQ(Point(0,0), points[2]);
     EXPECT_EQ(Point(0.2,1), points[3]);
     EXPECT_EQ(Point(0.4,2), points[4]);
 }
@@ -290,6 +301,7 @@ TEST(PlaneTest, PlaneWithExtremeSlopeWithManyPoints)
     Points points(plane.getPoints(Point(0,0), Point(3194,3966), 1));
     ASSERT_EQ(4659u, points.size());
 }
+
 TEST(PlaneTest, PlaneCanBeComparedForEquality)
 {
     EXPECT_EQ(Plane(1,2,3), Plane(10,20,30));

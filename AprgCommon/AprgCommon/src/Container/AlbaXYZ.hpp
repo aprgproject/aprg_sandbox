@@ -50,6 +50,7 @@ public:
     {
         return x*y*z;
     }
+
     bool operator==(AlbaXYZ<CoordinateType> const& xyz) const
     {
         return isConsideredEqual(x, xyz.x) && isConsideredEqual(y, xyz.y) && isConsideredEqual(z, xyz.z);

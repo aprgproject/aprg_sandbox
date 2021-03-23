@@ -28,6 +28,7 @@ TEST(AlbaXYZTest,  ValuesCanBeSetAfterConstruction)
     AlbaXYZ<int> xyz(-5,5,10);
     xyz.setXAndYAndZ(10,20,30);
     EXPECT_EQ(AlbaXYZ<int>(10,20,30), xyz);
+
     xyz.setX(23);
     xyz.setY(45);
     xyz.setZ(68);

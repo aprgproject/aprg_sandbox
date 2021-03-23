@@ -8,6 +8,7 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -32,7 +33,8 @@ Line::Line(Point const& first, Point const& second)
     , m_cCoefficient(0)
 {
     double deltaX = second.getX() - first.getX();
-    double deltaY = second.getY() - first.getY();    double deltaZ = second.getZ() - first.getZ();
+    double deltaY = second.getY() - first.getY();
+    double deltaZ = second.getZ() - first.getZ();
     double sign=1;
     vector<double> deltas = {deltaX, deltaY, deltaZ};
     unsigned int negativeNumbers = std::count_if(deltas.cbegin(), deltas.cend(), [&](double const delta)
@@ -102,6 +104,7 @@ AlbaOptional<double> Line::getZInitialValue() const
 {
     return m_zInitialValue;
 }
+
 double Line::getACoefficient() const
 {
     return m_aCoefficient;
@@ -146,6 +149,7 @@ AlbaOptional<double> Line::calculateZFromY(double const y) const
 {
     return calculateOtherCoordinate(m_zInitialValue, m_cCoefficient, m_yInitialValue, m_bCoefficient, y);
 }
+
 AlbaOptional<double> Line::calculateInitialValueFrom2Coordinates(
         double const coordinateWithInitialValue,
         double const coordinate1,
@@ -162,7 +166,8 @@ AlbaOptional<double> Line::calculateInitialValueFrom2Coordinates(
         resultInitialValue.setValue(getAverage(initialValue1.getConstReference(), initialValue2.getConstReference()));
     }
     else if(initialValue1)
-    {        resultInitialValue.setValue(initialValue1.getConstReference());
+    {
+        resultInitialValue.setValue(initialValue1.getConstReference());
     }
     else if(initialValue2)
     {
@@ -207,4 +212,5 @@ AlbaOptional<double> Line::calculateOtherCoordinate(AlbaOptional<double> const& 
     return result;
 }
 
-}}
+}
+}

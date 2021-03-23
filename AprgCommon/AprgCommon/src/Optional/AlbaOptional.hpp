@@ -6,6 +6,7 @@
 
 namespace alba
 {
+
 template <typename ContentType> class AlbaOptional
 {
 public:
@@ -147,7 +148,8 @@ public:
 
 private:
     bool m_hasContent;
-    std::unique_ptr<ContentType> m_contentPointer;};
+    std::unique_ptr<ContentType> m_contentPointer;
+};
 
 template <typename ContentType> class AlbaOptional<ContentType &>
 {
@@ -236,7 +238,8 @@ public:
 
 private:
     inline bool isContentPointerValid() const
-    {        return m_contentPointer != nullptr;
+    {
+        return m_contentPointer != nullptr;
     }
 
     bool m_hasContent;
