@@ -2,10 +2,10 @@
 
 #include <cassert>
 #include <memory>
+#include <ostream>
 
 namespace alba
 {
-
 template <typename ContentType> class AlbaOptional
 {
 public:
@@ -135,10 +135,19 @@ public:
         return *(m_contentPointer.get());
     }
 
+    friend std::ostream & operator<<(std::ostream & out, AlbaOptional<ContentType> const& optional)
+    {
+        out << "hasContent: " << optional.m_hasContent;
+        if(optional.m_hasContent)
+        {
+            out << " value: " << optional.getConstReference();
+        }
+        return out;
+    }
+
 private:
     bool m_hasContent;
-    std::unique_ptr<ContentType> m_contentPointer;
-};
+    std::unique_ptr<ContentType> m_contentPointer;};
 
 template <typename ContentType> class AlbaOptional<ContentType &>
 {
@@ -215,10 +224,19 @@ public:
         return m_empty;
     }
 
+    friend std::ostream & operator<<(std::ostream & out, AlbaOptional<ContentType> const& optional)
+    {
+        out << "hasContent: " << optional.m_hasContent;
+        if(optional.m_hasContent)
+        {
+            out << " value: " << optional.get();
+        }
+        return out;
+    }
+
 private:
     inline bool isContentPointerValid() const
-    {
-        return m_contentPointer != nullptr;
+    {        return m_contentPointer != nullptr;
     }
 
     bool m_hasContent;

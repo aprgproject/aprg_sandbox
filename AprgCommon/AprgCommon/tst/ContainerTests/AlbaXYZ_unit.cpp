@@ -15,18 +15,19 @@ TEST(AlbaXYZTest, DefaultValuesAreZero)
     EXPECT_EQ(0, xyz.getZ());
 }
 
-TEST(AlbaXYZTest, ValuesAreSetAtConstruction){
+TEST(AlbaXYZTest, ValuesAreSetAtConstruction)
+{
     AlbaXYZ<int> xyz(-5,5,10);
     EXPECT_EQ(-5, xyz.getX());
     EXPECT_EQ(5, xyz.getY());
     EXPECT_EQ(10, xyz.getZ());
 }
 
-TEST(AlbaXYZTest,  ValuesCanBeSetAfterConstruction){
+TEST(AlbaXYZTest,  ValuesCanBeSetAfterConstruction)
+{
     AlbaXYZ<int> xyz(-5,5,10);
     xyz.setXAndYAndZ(10,20,30);
     EXPECT_EQ(AlbaXYZ<int>(10,20,30), xyz);
-
     xyz.setX(23);
     xyz.setY(45);
     xyz.setZ(68);

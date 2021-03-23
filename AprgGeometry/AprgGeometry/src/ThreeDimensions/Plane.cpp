@@ -1,118 +1,107 @@
 #include "Plane.hpp"
 
+#include <AlbaMatrix.hpp>
 #include <Container/AlbaRange.hpp>
 #include <Math/AlbaMathHelper.hpp>
-#include <TwoDimensions/TwoDimensionsHelper.hpp>
 
-#include <algorithm>
 #include <cmath>
-#include <iterator>
+
+
+#include <Debug/AlbaDebug.hpp>
 
 using namespace std;
-using namespace alba::TwoDimensions;
+
 namespace alba
 {
-
 namespace ThreeDimensions
 {
 
 Plane::Plane()
-    : m_type(PlaneType::Invalid)
-    , m_yIntercept(0)
-    , m_xIntercept(0)
-    , m_aCoefficient(0) //form: a*x + b*y + c
-    , m_bCoefficient(0) //form: a*x + b*y + c
-    , m_cCoefficient(0) //form: a*x + b*y + c
+    : m_xIntercept()
+    , m_yIntercept()
+    , m_zIntercept()
+    , m_aCoefficient(0)
+    , m_bCoefficient(0)
+    , m_cCoefficient(0)
+    , m_dCoefficient(0)
 {}
 
-Plane::Plane(Point const& first, Point const& second)
+Plane::Plane(Point const& first, Point const& second, Point const& third)
+    : m_xIntercept()
+    , m_yIntercept()
+    , m_zIntercept()
+    , m_aCoefficient(0)
+    , m_bCoefficient(0)
+    , m_cCoefficient(0)
+    , m_dCoefficient(0)
 {
-    double deltaY = second.getY() - first.getY();
-    double deltaX = second.getX() - first.getX();
-    m_type = determinePlaneTypeUsingDeltaXandDeltaY(deltaY, deltaX);
-    switch(m_type)
+    AlbaMatrix<double> matrixForSolution(4,3);
+    matrixForSolution.set({first.getX(), first.getY(), first.getZ(), 1,
+                           second.getX(), second.getY(), second.getZ(), 1,
+                           third.getX(), third.getY(), third.getZ(), 1});
+    ALBA_PRINT1(matrixForSolution.getString());
+    matrixForSolution.transformToReducedEchelonForm();
+    ALBA_PRINT1(matrixForSolution.getString());
+    if(matrixForSolution.isReducedRowEchelonForm())
     {
-    case PlaneType::Horizontal:
-        m_yIntercept = first.getY();
-        m_xIntercept = 0;
-        m_aCoefficient = 0;
-        m_bCoefficient = -deltaX;
-        m_cCoefficient = first.getY()*deltaX;
-        break;
-    case PlaneType::Vertical:
-        m_yIntercept = 0;
-        m_xIntercept = first.getX();
-        m_aCoefficient = deltaY;
-        m_bCoefficient = 0;
-        m_cCoefficient = -first.getX()*deltaY;
-        break;
-    default:
-        m_yIntercept = first.getY() - ((deltaY/deltaX)*first.getX());
-        m_xIntercept = -1*m_yIntercept;
-        m_aCoefficient = deltaY;
-        m_bCoefficient = -deltaX;
-        m_cCoefficient = (first.getY()*deltaX)-(first.getX()*deltaY);
-        break;
+        for(unsigned int x=0; x<3; x++)
+        {
+            for(unsigned int y=x; y<3; y++)
+            {
+                if(!isConsideredEqual(matrixForSolution.get(x,y), 0.0))
+                {
+                    if(x==0)
+                    {
+                        m_aCoefficient = matrixForSolution.get(x,y);
+                    }
+                    else if(x==1)
+                    {
+                        m_bCoefficient = matrixForSolution.get(x,y);
+                    }
+                    else if(x==2)
+                    {
+                        m_cCoefficient = matrixForSolution.get(x,y);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    m_dCoefficient = -(m_aCoefficient*first.getX())-(m_bCoefficient*first.getY())-(m_cCoefficient*first.getZ());
+    if(!isConsideredEqual(m_aCoefficient, 0.0))
+    {
+        m_xIntercept.setValue(-m_dCoefficient/m_aCoefficient);
+    }
+    if(!isConsideredEqual(m_bCoefficient, 0.0))
+    {
+        m_yIntercept.setValue(-m_dCoefficient/m_bCoefficient);
+    }
+    if(!isConsideredEqual(m_cCoefficient, 0.0))
+    {
+        m_zIntercept.setValue(-m_dCoefficient/m_cCoefficient);
     }
 }
 
-Plane::Plane(double const aCoefficient, double const bCoefficient, double const cCoefficient)
+bool Plane::operator==(Plane const& plane) const
 {
-    m_aCoefficient = aCoefficient;
-    m_bCoefficient = bCoefficient;
-    m_cCoefficient = cCoefficient;
-    m_type = determinePlaneTypeUsingCoefficients(aCoefficient, bCoefficient);
-    switch(m_type)
-    {
-    case PlaneType::Horizontal:
-        m_yIntercept = -cCoefficient/bCoefficient;
-        m_xIntercept = 0;
-        break;
-    case PlaneType::Vertical:
-        m_yIntercept = 0;
-        m_xIntercept = -cCoefficient/aCoefficient;
-        break;
-    default:
-        m_yIntercept = -cCoefficient/bCoefficient;
-        m_xIntercept = -cCoefficient/aCoefficient;
-        break;
-    }
+    return isConsideredEqual(m_aCoefficient, plane.m_aCoefficient)
+            && isConsideredEqual(m_bCoefficient, plane.m_bCoefficient)
+            && isConsideredEqual(m_cCoefficient, plane.m_cCoefficient)
+            && isConsideredEqual(m_dCoefficient, plane.m_dCoefficient)
+            && (static_cast<bool>(m_xIntercept) == static_cast<bool>(plane.m_xIntercept))
+            && isConsideredEqual(m_xIntercept.getConstReference(), plane.m_xIntercept.getConstReference())
+            && (static_cast<bool>(m_yIntercept) == static_cast<bool>(plane.m_yIntercept))
+            && isConsideredEqual(m_yIntercept.getConstReference(), plane.m_yIntercept.getConstReference())
+            && (static_cast<bool>(m_zIntercept) == static_cast<bool>(plane.m_zIntercept))
+            && isConsideredEqual(m_zIntercept.getConstReference(), plane.m_zIntercept.getConstReference());
 }
 
-bool Plane::operator==(Plane const& line) const
+bool Plane::operator!=(Plane const& plane) const
 {
-    return (m_type == line.m_type)
-            && isConsideredEqual(m_yIntercept, line.m_yIntercept)
-            && isConsideredEqual(m_xIntercept, line.m_xIntercept);
+    return !((*this)==plane);
 }
 
-bool Plane::operator!=(Plane const& line) const
-{
-    return !((*this)==line);
-}
-
-PlaneType Plane::getType() const
-{
-    return m_type;
-}
-
-double Plane::getYIntercept() const
-{
-    return m_yIntercept;
-}
-
-double Plane::getXIntercept() const
-{
-    return m_xIntercept;
-}
-
-double Plane::getInverseSlope() const
-{
-    return -m_bCoefficient/m_aCoefficient;
-}
-
-double Plane::getACoefficient() const
-{
+double Plane::getACoefficient() const{
     return m_aCoefficient;
 }
 
@@ -126,214 +115,56 @@ double Plane::getCCoefficient() const
     return m_cCoefficient;
 }
 
-Points Plane::getPoints(Point const& first, Point const& second, double const interval) const
+double Plane::getDCoefficient() const
 {
-    Points points;
-    if(m_type == PlaneType::Vertical)
-    {
-        getPointsForVerticalPlane(points, first, second, interval);
-    }
-    else if(m_type == PlaneType::Horizontal)
-    {
-        getPointsForHorizontalPlane(points, first, second, interval);
-    }
-    else if(m_type == PlaneType::WithPositiveSlope || m_type == PlaneType::WithNegativeSlope)
-    {
-        getPointsForPlaneWithSlope(points, first, second, interval);
-    }
-    return points; //RVO
+    return m_dCoefficient;
 }
 
-Points Plane::getPointsWithoutLastPoint(Point const& first, Point const& second, double const interval) const
+AlbaOptional<double> Plane::getXIntercept() const
 {
-    Points pointsWithoutLastPoint(getPoints(first, second, interval));
-    if(!pointsWithoutLastPoint.empty())
-    {
-        pointsWithoutLastPoint.pop_back();
-    }
-    return pointsWithoutLastPoint; //RVO
+    return m_xIntercept;
 }
 
-double Plane::calculateYFromX(double const x) const
+AlbaOptional<double> Plane::getYIntercept() const
 {
-    return (x) + m_yIntercept; //y=mx+b
+    return m_yIntercept;
 }
 
-double Plane::calculateXFromY(double const y) const
+AlbaOptional<double> Plane::getZIntercept() const
 {
-    return (y) + m_xIntercept; //x=y/m+a
+    return m_zIntercept;
 }
 
-void Plane::getPointsForVerticalPlane(Points & points, Point const& first, Point const& second, double const interval) const
+AlbaOptional<double> Plane::calculateXFromYAndZ(double const y, double const z) const
 {
-    AlbaRange<double> range(first.getY(), second.getY(), interval);
-    range.traverse([&](double traverseValue)
+    AlbaOptional<double> result;
+    if(!isConsideredEqual(m_aCoefficient, 0.0))
     {
-        points.emplace_back(m_xIntercept, traverseValue);
-    });
+        result.setValue((m_dCoefficient-(m_bCoefficient*y)-(m_cCoefficient*z))/m_aCoefficient);
+    }
+    return result;
 }
 
-void Plane::getPointsForHorizontalPlane(Points & points, Point const& first, Point const& second, double const interval) const
+AlbaOptional<double> Plane::calculateYFromXAndZ(double const x, double const z) const
 {
-    AlbaRange<double> range(first.getX(), second.getX(), interval);
-    range.traverse([&](double traverseValue)
+    AlbaOptional<double> result;
+    if(!isConsideredEqual(m_bCoefficient, 0.0))
     {
-        points.emplace_back(traverseValue, m_yIntercept);
-    });
+        result.setValue((m_dCoefficient-(m_aCoefficient*x)-(m_cCoefficient*z))/m_bCoefficient);
+    }
+    return result;
 }
 
-void Plane::getPointsForPlaneWithSlope(Points & points, Point const& first, Point const& second, double const interval) const
+AlbaOptional<double> Plane::calculateZFromXAndY(double const x, double const y) const
 {
-    Point minimumXAndY;
-    Point maximumXAndY;
-    Points pointsAtBorder;
-    minimumXAndY.saveMinimumXAndY(first);
-    minimumXAndY.saveMinimumXAndY(second);
-    maximumXAndY.saveMaximumXAndY(first);
-    maximumXAndY.saveMaximumXAndY(second);
-    TwoDimensions::twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, Point(first.getX(), calculateYFromX(first.getX())), minimumXAndY, maximumXAndY);
-    TwoDimensions::twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, Point(calculateXFromY(first.getY()), first.getY()), minimumXAndY, maximumXAndY);
-    TwoDimensions::twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, Point(second.getX(), calculateYFromX(second.getX())), minimumXAndY, maximumXAndY);
-    TwoDimensions::twoDimensionsHelper::addPointIfInsideTwoPoints(pointsAtBorder, Point(calculateXFromY(second.getY()), second.getY()), minimumXAndY, maximumXAndY);
-    if(pointsAtBorder.size()>=2)
+    AlbaOptional<double> result;
+    if(!isConsideredEqual(m_cCoefficient, 0.0))
     {
-        Point startingPoint(TwoDimensions::twoDimensionsHelper::popNearestPoint(pointsAtBorder, first));
-        Point endPoint(TwoDimensions::twoDimensionsHelper::popNearestPoint(pointsAtBorder, second));
-        bool isDirectionAscendingForX = startingPoint.getX() <= endPoint.getX();
-
-        Points pointsFromXCoordinate;
-        AlbaRange<double> rangeForX(startingPoint.getX(), endPoint.getX(), interval);
-        rangeForX.traverse([&](double traverseValueOfX)
-        {
-            pointsFromXCoordinate.emplace_back(traverseValueOfX, calculateYFromX(traverseValueOfX));
-        });
-
-        Points pointsFromYCoordinate;
-        AlbaRange<double> rangeForY(startingPoint.getY(), endPoint.getY(), interval);
-        rangeForY.traverse([&](double traverseValueOfY)
-        {
-            pointsFromYCoordinate.emplace_back(calculateXFromY(traverseValueOfY), traverseValueOfY);
-        });
-
-        if(isDirectionAscendingForX)
-        {
-            points = TwoDimensions::twoDimensionsHelper::getMergedPointsInIncreasingX(pointsFromXCoordinate, pointsFromYCoordinate);
-        }
-        else
-        {
-            points = TwoDimensions::twoDimensionsHelper::getMergedPointsInDecreasingX(pointsFromXCoordinate, pointsFromYCoordinate);
-        }
+        result.setValue((m_dCoefficient-(m_aCoefficient*x)-(m_bCoefficient*y))/m_cCoefficient);
     }
+    return result;
 }
 
-
-void Plane::mergePointsFromPointsFromXAndY(Points & points, Points const& pointsFromXCoordinate, Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const
-{
-    Points::const_iterator iteratorForX = pointsFromXCoordinate.cbegin();
-    Points::const_iterator iteratorForY = pointsFromYCoordinate.cbegin();
-    while(iteratorForX != pointsFromXCoordinate.cend() || iteratorForY != pointsFromYCoordinate.cend())
-    {
-        if(iteratorForX != pointsFromXCoordinate.cend() && iteratorForY != pointsFromYCoordinate.cend())
-        {
-            if(isDirectionAscendingForX)
-            {
-                if(isConsideredEqual(iteratorForX->getX(), iteratorForY->getX()))
-                {
-                    points.emplace_back(*iteratorForX++);
-                    iteratorForY++;
-                }
-                else if(iteratorForX->getX() < iteratorForY->getX())
-                {
-                    points.emplace_back(*iteratorForX++);
-                }
-                else
-                {
-                    points.emplace_back(*iteratorForY++);
-                }
-            }
-            else
-            {
-                if(isConsideredEqual(iteratorForX->getX(), iteratorForY->getX()))
-                {
-                    points.emplace_back(*iteratorForX++);
-                    iteratorForY++;
-                }
-                else if(iteratorForX->getX() > iteratorForY->getX())
-                {
-                    points.emplace_back(*iteratorForX++);
-                }
-                else
-                {
-                    points.emplace_back(*iteratorForY++);
-                }
-            }
-        }
-        else if(iteratorForX != pointsFromXCoordinate.cend())
-        {
-            points.emplace_back(*iteratorForX++);
-        }
-        else if(iteratorForY != pointsFromYCoordinate.cend())
-        {
-            points.emplace_back(*iteratorForY++);
-        }
-    }
-}
-
-PlaneType Plane::determinePlaneTypeUsingDeltaXandDeltaY(double const deltaY, double const deltaX) const
-{
-    bool isNegativeDeltaY = (deltaY<0);
-    bool isNegativeDeltaX = (deltaX<0);
-    PlaneType lineType(PlaneType::Invalid);
-    if(isConsideredEqual(deltaY, 0.0) && isConsideredEqual(deltaX, 0.0))
-    {
-        lineType = PlaneType::Invalid;
-    }
-    else if(isConsideredEqual(deltaY, 0.0))
-    {
-        lineType = PlaneType::Horizontal;
-    }
-    else if(isConsideredEqual(deltaX, 0.0))
-    {
-        lineType = PlaneType::Vertical;
-    }
-    else if(isNegativeDeltaY == isNegativeDeltaX)
-    {
-        lineType = PlaneType::WithPositiveSlope;
-    }
-    else
-    {
-        lineType = PlaneType::WithNegativeSlope;
-    }
-    return lineType;
-}
-
-PlaneType Plane::determinePlaneTypeUsingCoefficients(double const aCoefficient, double const bCoefficient) const
-{
-    bool isNegativeA = (aCoefficient<0);
-    bool isNegativeB = (bCoefficient<0);
-    PlaneType lineType(PlaneType::Invalid);
-    if(isConsideredEqual(aCoefficient, 0.0) && isConsideredEqual(bCoefficient, 0.0))
-    {
-        lineType = PlaneType::Invalid;
-    }
-    else if(isConsideredEqual(aCoefficient, 0.0))
-    {
-        lineType = PlaneType::Horizontal;
-    }
-    else if(isConsideredEqual(bCoefficient, 0.0))
-    {
-        lineType = PlaneType::Vertical;
-    }
-    else if(isNegativeA == isNegativeB)
-    {
-        lineType = PlaneType::WithNegativeSlope;
-    }
-    else
-    {
-        lineType = PlaneType::WithPositiveSlope;
-    }
-    return lineType;
-}
 
 }
 }

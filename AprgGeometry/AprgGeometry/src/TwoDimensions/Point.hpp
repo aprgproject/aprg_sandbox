@@ -4,11 +4,11 @@
 
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace TwoDimensions
 {
-
 using PointParent = AlbaXY<double>;
 
 class Point : public PointParent

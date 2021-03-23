@@ -2,15 +2,12 @@
 
 #include <Container/AlbaRange.hpp>
 #include <Math/AlbaMathHelper.hpp>
-#include <ThreeDimensions/ThreeDimensionsHelper.hpp>
 
 #include <algorithm>
 #include <cmath>
-#include <iterator>
 
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 
@@ -27,10 +24,15 @@ Line::Line()
 {}
 
 Line::Line(Point const& first, Point const& second)
+    : m_xInitialValue()
+    , m_yInitialValue()
+    , m_zInitialValue()
+    , m_aCoefficient(0)
+    , m_bCoefficient(0)
+    , m_cCoefficient(0)
 {
     double deltaX = second.getX() - first.getX();
-    double deltaY = second.getY() - first.getY();
-    double deltaZ = second.getZ() - first.getZ();
+    double deltaY = second.getY() - first.getY();    double deltaZ = second.getZ() - first.getZ();
     double sign=1;
     vector<double> deltas = {deltaX, deltaY, deltaZ};
     unsigned int negativeNumbers = std::count_if(deltas.cbegin(), deltas.cend(), [&](double const delta)
@@ -86,21 +88,20 @@ bool Line::operator!=(Line const& line) const
     return !((*this)==line);
 }
 
-alba::AlbaOptional<double> Line::getXInitialValue() const
+AlbaOptional<double> Line::getXInitialValue() const
 {
     return m_xInitialValue;
 }
 
-alba::AlbaOptional<double> Line::getYInitialValue() const
+AlbaOptional<double> Line::getYInitialValue() const
 {
     return m_yInitialValue;
 }
 
-alba::AlbaOptional<double> Line::getZInitialValue() const
+AlbaOptional<double> Line::getZInitialValue() const
 {
     return m_zInitialValue;
 }
-
 double Line::getACoefficient() const
 {
     return m_aCoefficient;
@@ -116,36 +117,35 @@ double Line::getCCoefficient() const
     return m_cCoefficient;
 }
 
-double Line::calculateXFromY(double const y) const
+AlbaOptional<double> Line::calculateXFromY(double const y) const
 {
     return calculateOtherCoordinate(m_xInitialValue, m_aCoefficient, m_yInitialValue, m_bCoefficient, y);
 }
 
-double Line::calculateXFromZ(double const z) const
+AlbaOptional<double> Line::calculateXFromZ(double const z) const
 {
     return calculateOtherCoordinate(m_xInitialValue, m_aCoefficient, m_zInitialValue, m_cCoefficient, z);
 }
 
-double Line::calculateYFromX(double const x) const
+AlbaOptional<double> Line::calculateYFromX(double const x) const
 {
     return calculateOtherCoordinate(m_yInitialValue, m_bCoefficient, m_xInitialValue, m_aCoefficient, x);
 }
 
-double Line::calculateYFromZ(double const z) const
+AlbaOptional<double> Line::calculateYFromZ(double const z) const
 {
     return calculateOtherCoordinate(m_yInitialValue, m_bCoefficient, m_zInitialValue, m_cCoefficient, z);
 }
 
-double Line::calculateZFromX(double const x) const
+AlbaOptional<double> Line::calculateZFromX(double const x) const
 {
     return calculateOtherCoordinate(m_zInitialValue, m_cCoefficient, m_xInitialValue, m_aCoefficient, x);
 }
 
-double Line::calculateZFromY(double const y) const
+AlbaOptional<double> Line::calculateZFromY(double const y) const
 {
     return calculateOtherCoordinate(m_zInitialValue, m_cCoefficient, m_yInitialValue, m_bCoefficient, y);
 }
-
 AlbaOptional<double> Line::calculateInitialValueFrom2Coordinates(
         double const coordinateWithInitialValue,
         double const coordinate1,
@@ -159,11 +159,10 @@ AlbaOptional<double> Line::calculateInitialValueFrom2Coordinates(
     AlbaOptional<double> initialValue2(calculateInitialValue(coordinateWithInitialValue, coordinate2, coefficientWithInitialValue, coefficient2));
     if(initialValue1 && initialValue2)
     {
-        resultInitialValue.setValue(mathHelper::getAverage(initialValue1.getConstReference(), initialValue2.getConstReference()));
+        resultInitialValue.setValue(getAverage(initialValue1.getConstReference(), initialValue2.getConstReference()));
     }
     else if(initialValue1)
-    {
-        resultInitialValue.setValue(initialValue1.getConstReference());
+    {        resultInitialValue.setValue(initialValue1.getConstReference());
     }
     else if(initialValue2)
     {
@@ -182,29 +181,30 @@ AlbaOptional<double> Line::calculateInitialValue(double const coordinate1, doubl
     return resultInitialValue;
 }
 
-double Line::calculateOtherCoordinate(AlbaOptional<double> const& initialValue1, double const coefficient1, AlbaOptional<double> const& initialValue2, double const coefficient2, double const coordinate2) const
+AlbaOptional<double> Line::calculateOtherCoordinate(AlbaOptional<double> const& initialValue1, double const coefficient1, AlbaOptional<double> const& initialValue2, double const coefficient2, double const coordinate2) const
 {
-    double result(0);
+    AlbaOptional<double> result;
+    double valueFromCoordinate1(0);
     double valueFromCoordinate2(coordinate2);
+    bool isValueValid(false);
     if(initialValue1)
     {
-        result += initialValue1.getConstReference();
+        valueFromCoordinate1 = initialValue1.getConstReference();
     }
     if(initialValue2)
     {
         valueFromCoordinate2 -= initialValue2.getConstReference();
     }
-    if(!isConsideredEqual(coefficient2, 0.0))
+    if(!isConsideredEqual(coefficient1, 0.0) && !isConsideredEqual(coefficient2, 0.0))
     {
         valueFromCoordinate2 = valueFromCoordinate2/coefficient2*coefficient1;
+        isValueValid = true;
     }
-    else
+    if(isValueValid)
     {
-        valueFromCoordinate2 = 0.0;
+        result.setValue(valueFromCoordinate1+valueFromCoordinate2);
     }
-    result += valueFromCoordinate2;
-    return  result;
+    return result;
 }
 
-}
-}
+}}

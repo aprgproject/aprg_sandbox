@@ -56,11 +56,10 @@ double Hyperbola::getBValue() const
 
 double Hyperbola::getCValue() const
 {
-    return mathHelper::getSquareRootOfXSquaredPlusYSquared(m_aValue, m_bValue);
+    return getSquareRootOfXSquaredPlusYSquared(m_aValue, m_bValue);
 }
 
-double Hyperbola::getEccentricity() const
-{
+double Hyperbola::getEccentricity() const{
     return pow(1 + (pow(m_bValue, 2)/pow(m_aValue, 2)), 0.5);
 }
 

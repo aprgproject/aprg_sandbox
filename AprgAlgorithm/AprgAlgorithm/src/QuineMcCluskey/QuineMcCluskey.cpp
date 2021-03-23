@@ -1,9 +1,8 @@
 #include "QuineMcCluskey.hpp"
 
-#include <User/AlbaDisplayTable.hpp>
+#include <User/DisplayTable.hpp>
 
 #include <sstream>
-
 using namespace std;
 
 namespace alba
