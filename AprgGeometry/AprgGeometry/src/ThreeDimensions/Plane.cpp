@@ -8,7 +8,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace ThreeDimensions
 {
@@ -39,7 +40,8 @@ Plane::Plane(Point const& first, Point const& second, Point const& third)
     matrixForSolution.transformToReducedEchelonForm();
     if(matrixForSolution.isReducedRowEchelonForm())
     {
-        for(unsigned int x=0; x<3; x++)        {
+        for(unsigned int x=0; x<3; x++)
+        {
             for(unsigned int y=x; y<3; y++)
             {
                 if(!isConsideredEqual(matrixForSolution.get(x,y), 0.0))
