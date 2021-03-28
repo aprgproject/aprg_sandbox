@@ -42,6 +42,18 @@ macro(GET_SOURCE_FILES_FROM_DIRECTORIES outputSourceList sourceDirectory)
     endforeach()
 endmacro()
 
+# Subdirectory source groups creator
+macro(GET_HEADER_FILES_FROM_DIRECTORIES outputSourceList sourceDirectory)
+    foreach(directory ${${sourceDirectory}})
+        #PRINT_STATUS("Adding source group ${directory}")
+        file(GLOB files ${directory}/*.hpp ${directory}/*.h)
+        foreach(filename ${files})
+            list(APPEND ${outputSourceList} ${filename})
+            #PRINT_STATUS("Adding file: ${filename}")
+        endforeach()
+    endforeach()
+endmacro()
+
 macro(GET_FILE_EXTENSION result target release)
     if(DEFINED target)
         if(${target} MATCHES "HOST")
