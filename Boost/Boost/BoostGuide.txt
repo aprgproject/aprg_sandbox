@@ -33,24 +33,26 @@ Installing boost libraries for GCC (MinGW) on Windows APRG
 ---> b2 --build-dir="xxxxx\APRG\Boost\Boost\boost\build" --prefix="xxxxx\APRG\Boost\Boost\boost" toolset=gcc install
 
 -> create boost libraries using bjam
-1) Header-Only Libraries
+1) Open Command Prompt and go to "APRG\Boost\Boost\boost".
+2) Header-Only Libraries
 ---> The first thing many people want to know is, “how do I build Boost?” The good news is that often, there's nothing to build.
 ---> Most Boost libraries are header-only: they consist entirely of header files containing templates and inline functions, and require no separately-compiled library binaries or special treatment when linking.
-2) Libraries that needs to built
+3) Libraries that needs to built
 ---> The "-show-libraries" flag will display a list of libraries that can be built. For example:
 -----> bjam --show-libraries
-3) Create and install
+4) Create and install
 ---> create and install the library using bjam by a flag "-with-NameOfLibrary" during install command. For example:
 -----> bjam install --prefix=xxxxx\APRG\Boost\Boost\boost --with-locale --with-system --with-date_time --with-random link=static runtime-link=shared threading=multi toolset=gcc
 ---> The libraries will be generated on "APRG\Boost\Boost\boost\lib" folder
+5) Add library on boost cmake
+---> Open "APRG\Boost\Boost\cmake\IncludeBoost.cmake" and add library during searching for boost.
+-----> Edit this line: "find_package(Boost COMPONENTS system locale filestream iostreams)"
 
 -> Project setup
-1) Add include folder, i.e. C:\Program Files\boost\include\boost-1_59.
----> "APRG\Boost\Boost\cmake\IncludeBoost.cmake" should contain:
+1) Add include folder, i.e. C:\Program Files\boost\include\boost-1_59.---> "APRG\Boost\Boost\cmake\IncludeBoost.cmake" should contain:
 -----> set(BOOST_INCLUDEDIR    ${BOOST_DIR}/)
 2) Add linker folder, i.e. C:\Program Files\boost\lib..
----> "APRG\Boost\Boost\cmake\IncludeBoost.cmake" should contain:
------> set(BOOST_LIBRARYDIR    ${BOOST_DIR}/boost/lib)
+---> "APRG\Boost\Boost\cmake\IncludeBoost.cmake" should contain:-----> set(BOOST_LIBRARYDIR    ${BOOST_DIR}/boost/lib)
 3) Run cmake and double check that required libraries are linked properly (no error messages)
 
 
