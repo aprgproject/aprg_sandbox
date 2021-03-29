@@ -147,7 +147,7 @@ TEST(TwoDimensionsHelperTest, IsInsideTwoPointsWorks)
     EXPECT_FALSE(isInsideTwoPoints(Point(3,3), minimumXAndY, maximumXAndY));
 }
 
-TEST(TwoDimensionsHelperTest, GetTangentLineIsCorrect)
+TEST(TwoDimensionsHelperTest, GetTangentLineForPolynomialIsCorrect)
 {
     Parabola parabola{1,2,3};
     Line expectedLine1(getPolynomialTangentLineAt(parabola, -1));
@@ -168,6 +168,28 @@ TEST(TwoDimensionsHelperTest, GetTangentLineIsCorrect)
     EXPECT_EQ(2, expectedLine3.getYIntercept());
     EXPECT_EQ(-0.5, expectedLine3.getXIntercept());
     EXPECT_EQ(4, expectedLine3.getSlope());
+}
+
+TEST(TwoDimensionsHelperTest, GetTangentLineForCircleIsCorrect)
+{
+    Circle circle(Point(1,2), 3);
+    Line expectedLine1(getTangentLineAt(circle, Point(1,5)));
+    Line expectedLine2(getTangentLineAt(circle, Point(4,2)));
+    Line expectedLine3(getTangentLineAt(circle, Point(2.5,3.5)));
+
+    EXPECT_EQ(LineType::Horizontal, expectedLine1.getType());
+    EXPECT_EQ(5, expectedLine1.getYIntercept());
+    EXPECT_EQ(0, expectedLine1.getXIntercept());
+    EXPECT_EQ(0, expectedLine1.getSlope());
+
+    EXPECT_EQ(LineType::Vertical, expectedLine2.getType());
+    EXPECT_EQ(0, expectedLine2.getYIntercept());
+    EXPECT_EQ(4, expectedLine2.getXIntercept());
+
+    EXPECT_EQ(LineType::WithNegativeSlope, expectedLine3.getType());
+    EXPECT_DOUBLE_EQ(7.2426406871192865, expectedLine3.getYIntercept());
+    EXPECT_DOUBLE_EQ(7.2426406871192865, expectedLine3.getXIntercept());
+    EXPECT_DOUBLE_EQ(-1, expectedLine3.getSlope());
 }
 
 

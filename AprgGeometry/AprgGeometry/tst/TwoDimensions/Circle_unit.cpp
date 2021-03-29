@@ -54,6 +54,12 @@ TEST(CircleTest, CircleAtOriginWithRadius)
     EXPECT_EQ(Point(2.8284271247461902909,-1), points[19]);
 }
 
+TEST(CircleTest, GetNearestPointAtCircumference)
+{
+    Circle circle(Point(1,2), 3);
+    EXPECT_EQ(Point(3.4,3.8), circle.getNearestPointInCircumference(Point(5,5)));
+}
+
 TEST(CircleTest, AreaTraversalIsCorrect)
 {
     //traversal

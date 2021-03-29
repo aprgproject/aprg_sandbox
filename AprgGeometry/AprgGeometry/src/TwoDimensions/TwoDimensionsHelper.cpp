@@ -211,9 +211,13 @@ Points getPointsInSortedDecreasingX(Points const& pointsToBeSorted)
 
 Line getTangentLineAt(Circle const& circle, Point const& point)
 {
-    return Line(point.getX(), point.getY(), -pow(circle.getRadius(), 2));
+    Point nearestPoint(circle.getNearestPointInCircumference(point));
+    Point center(circle.getCenter());
+    Point deltaNearestPoint(nearestPoint.getX()-center.getX(), nearestPoint.getY()-center.getY());
+    return Line(deltaNearestPoint.getY(), -1*deltaNearestPoint.getX(), nearestPoint);
 }
 
+//fix and test this
 Line getTangentLineAt(Ellipse const& ellipse, Point const& point)
 {
     return Line(point.getX()/pow(ellipse.getAValue(), 2), point.getY()/pow(ellipse.getBValue(), 2), -1);

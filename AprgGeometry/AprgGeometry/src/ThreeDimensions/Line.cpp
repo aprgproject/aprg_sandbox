@@ -16,21 +16,32 @@ namespace ThreeDimensions
 {
 
 Line::Line()
-    : m_xInitialValue()
-    , m_yInitialValue()
-    , m_zInitialValue()
-    , m_aCoefficient(0)
+    : m_aCoefficient(0)
     , m_bCoefficient(0)
     , m_cCoefficient(0)
+    , m_xInitialValue(0)
+    , m_yInitialValue(0)
+    , m_zInitialValue(0)
 {}
 
+void Line::calculateAndSaveInitialValuesIfPossible(Point const& first)
+{
+    if(!isSumOfCoefficientsZero())
+    {
+        double minimizedMultiplierForInitialValue = -1*(first.getX() + first.getY() + first.getZ())/(m_aCoefficient + m_bCoefficient + m_cCoefficient);
+        m_xInitialValue = first.getX() + minimizedMultiplierForInitialValue*m_aCoefficient;
+        m_yInitialValue = first.getY() + minimizedMultiplierForInitialValue*m_bCoefficient;
+        m_zInitialValue = first.getZ() + minimizedMultiplierForInitialValue*m_cCoefficient;
+    }
+}
+
 Line::Line(Point const& first, Point const& second)
-    : m_xInitialValue()
-    , m_yInitialValue()
-    , m_zInitialValue()
-    , m_aCoefficient(0)
+    : m_aCoefficient(0)
     , m_bCoefficient(0)
     , m_cCoefficient(0)
+    , m_xInitialValue(0)
+    , m_yInitialValue(0)
+    , m_zInitialValue(0)
 {
     double deltaX = second.getX() - first.getX();
     double deltaY = second.getY() - first.getY();
@@ -48,28 +59,40 @@ Line::Line(Point const& first, Point const& second)
     m_aCoefficient = deltaX*sign;
     m_bCoefficient = deltaY*sign;
     m_cCoefficient = deltaZ*sign;
-    m_xInitialValue = calculateInitialValueFrom2Coordinates(first.getX(), first.getY(), first.getZ(), m_aCoefficient, m_bCoefficient, m_cCoefficient);
-    m_yInitialValue = calculateInitialValueFrom2Coordinates(first.getY(), first.getX(), first.getZ(), m_bCoefficient, m_aCoefficient, m_cCoefficient);
-    m_zInitialValue = calculateInitialValueFrom2Coordinates(first.getZ(), first.getX(), first.getY(), m_cCoefficient, m_aCoefficient, m_bCoefficient);
+    calculateAndSaveInitialValuesIfPossible(first);
 }
 
-Line::Line(double const xInitialValue,
-           double const yInitialValue,
-           double const zInitialValue,
-           double const aCoefficient,
+Line::Line(double const aCoefficient,
            double const bCoefficient,
-           double const cCoefficient)
-    : m_xInitialValue(xInitialValue)
-    , m_yInitialValue(yInitialValue)
-    , m_zInitialValue(zInitialValue)
-    , m_aCoefficient(aCoefficient)
+           double const cCoefficient,
+           Point const& point)
+    : m_aCoefficient(aCoefficient)
     , m_bCoefficient(bCoefficient)
     , m_cCoefficient(cCoefficient)
+    , m_xInitialValue(0)
+    , m_yInitialValue(0)
+    , m_zInitialValue(0)
+{
+    calculateAndSaveInitialValuesIfPossible(point);
+}
+
+Line::Line(double const aCoefficient,
+           double const bCoefficient,
+           double const cCoefficient,
+           double const xInitialValue,
+           double const yInitialValue,
+           double const zInitialValue)
+    : m_aCoefficient(aCoefficient)
+    , m_bCoefficient(bCoefficient)
+    , m_cCoefficient(cCoefficient)
+    , m_xInitialValue(xInitialValue)
+    , m_yInitialValue(yInitialValue)
+    , m_zInitialValue(zInitialValue)
 {}
 
 bool Line::isInvalid() const
 {
-    return isConsideredEqual(m_aCoefficient, 0.0) && isConsideredEqual(m_bCoefficient, 0.0) && isConsideredEqual(m_cCoefficient, 0.0);
+    return isSumOfCoefficientsZero();
 }
 
 bool Line::operator==(Line const& line) const
@@ -77,12 +100,9 @@ bool Line::operator==(Line const& line) const
     return isConsideredEqual(m_aCoefficient, line.m_aCoefficient)
             && isConsideredEqual(m_bCoefficient, line.m_bCoefficient)
             && isConsideredEqual(m_cCoefficient, line.m_cCoefficient)
-            && (static_cast<bool>(m_xInitialValue) == static_cast<bool>(line.m_xInitialValue))
-            && isConsideredEqual(m_xInitialValue.getConstReference(), line.m_xInitialValue.getConstReference())
-            && (static_cast<bool>(m_yInitialValue) == static_cast<bool>(line.m_yInitialValue))
-            && isConsideredEqual(m_yInitialValue.getConstReference(), line.m_yInitialValue.getConstReference())
-            && (static_cast<bool>(m_zInitialValue) == static_cast<bool>(line.m_zInitialValue))
-            && isConsideredEqual(m_zInitialValue.getConstReference(), line.m_zInitialValue.getConstReference());
+            && isConsideredEqual(m_xInitialValue, line.m_xInitialValue)
+            && isConsideredEqual(m_yInitialValue, line.m_yInitialValue)
+            && isConsideredEqual(m_zInitialValue, line.m_zInitialValue);
 }
 
 bool Line::operator!=(Line const& line) const
@@ -90,17 +110,17 @@ bool Line::operator!=(Line const& line) const
     return !((*this)==line);
 }
 
-AlbaOptional<double> Line::getXInitialValue() const
+double Line::getXInitialValue() const
 {
     return m_xInitialValue;
 }
 
-AlbaOptional<double> Line::getYInitialValue() const
+double Line::getYInitialValue() const
 {
     return m_yInitialValue;
 }
 
-AlbaOptional<double> Line::getZInitialValue() const
+double Line::getZInitialValue() const
 {
     return m_zInitialValue;
 }
@@ -150,66 +170,19 @@ AlbaOptional<double> Line::calculateZFromY(double const y) const
     return calculateOtherCoordinate(m_zInitialValue, m_cCoefficient, m_yInitialValue, m_bCoefficient, y);
 }
 
-AlbaOptional<double> Line::calculateInitialValueFrom2Coordinates(
-        double const coordinateWithInitialValue,
-        double const coordinate1,
-        double const coordinate2,
-        double const coefficientWithInitialValue,
-        double const coefficient1,
-        double const coefficient2) const
-{
-    AlbaOptional<double> resultInitialValue;
-    AlbaOptional<double> initialValue1(calculateInitialValue(coordinateWithInitialValue, coordinate1, coefficientWithInitialValue, coefficient1));
-    AlbaOptional<double> initialValue2(calculateInitialValue(coordinateWithInitialValue, coordinate2, coefficientWithInitialValue, coefficient2));
-    if(initialValue1 && initialValue2)
-    {
-        resultInitialValue.setValue(getAverage(initialValue1.getConstReference(), initialValue2.getConstReference()));
-    }
-    else if(initialValue1)
-    {
-        resultInitialValue.setValue(initialValue1.getConstReference());
-    }
-    else if(initialValue2)
-    {
-        resultInitialValue.setValue(initialValue2.getConstReference());
-    }
-    return resultInitialValue;
-}
-
-AlbaOptional<double> Line::calculateInitialValue(double const coordinate1, double const coordinate2, double const coefficient1, double const coefficient2) const
-{
-    AlbaOptional<double> resultInitialValue;
-    if(!isConsideredEqual(coefficient2, 0.0))
-    {
-        resultInitialValue.setValue(coordinate1 - coordinate2*coefficient1/coefficient2);
-    }
-    return resultInitialValue;
-}
-
-AlbaOptional<double> Line::calculateOtherCoordinate(AlbaOptional<double> const& initialValue1, double const coefficient1, AlbaOptional<double> const& initialValue2, double const coefficient2, double const coordinate2) const
+AlbaOptional<double> Line::calculateOtherCoordinate(double const& initialValue1, double const coefficient1, double const& initialValue2, double const coefficient2, double const coordinate2) const
 {
     AlbaOptional<double> result;
-    double valueFromCoordinate1(0);
-    double valueFromCoordinate2(coordinate2);
-    bool isValueValid(false);
-    if(initialValue1)
+    if(!isConsideredEqual(coefficient2, 0.0))
     {
-        valueFromCoordinate1 = initialValue1.getConstReference();
-    }
-    if(initialValue2)
-    {
-        valueFromCoordinate2 -= initialValue2.getConstReference();
-    }
-    if(!isConsideredEqual(coefficient1, 0.0) && !isConsideredEqual(coefficient2, 0.0))
-    {
-        valueFromCoordinate2 = valueFromCoordinate2/coefficient2*coefficient1;
-        isValueValid = true;
-    }
-    if(isValueValid)
-    {
-        result.setValue(valueFromCoordinate1+valueFromCoordinate2);
+        result.setValue( ((coordinate2-initialValue2)/coefficient2*coefficient1) + initialValue1 );
     }
     return result;
+}
+
+bool Line::isSumOfCoefficientsZero() const
+{
+    return isConsideredEqual(m_aCoefficient+m_bCoefficient+m_cCoefficient, 0.0);
 }
 
 }

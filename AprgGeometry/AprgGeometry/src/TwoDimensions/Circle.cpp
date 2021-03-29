@@ -98,24 +98,57 @@ void Circle::traverseArea(double const interval, TraverseOperation const& traver
     }
 }
 
-double Circle::calculateYFromX(double const x, double const signOfRoot) const
+AlbaOptional<double> Circle::calculateYFromX(double const x, double const signOfRoot) const
 {
-    return pow(m_radiusSquared - pow(x-m_center.getX(), 2), 0.5)*signOfRoot + m_center.getY();
+    AlbaOptional<double> result;
+    double discriminant = m_radiusSquared - pow(x-m_center.getX(), 2);
+    if(discriminant > 0)
+    {
+        result.setValue(pow(discriminant, 0.5)*signOfRoot + m_center.getY());
+    }
+    return result;
 }
 
-double Circle::calculateXFromY(double const y, double const signOfRoot) const
+AlbaOptional<double> Circle::calculateXFromY(double const y, double const signOfRoot) const
 {
-    return pow(m_radiusSquared - pow(y-m_center.getY(), 2), 0.5)*signOfRoot + m_center.getX();
+    AlbaOptional<double> result;
+    double discriminant = m_radiusSquared - pow(y-m_center.getY(), 2);
+    if(discriminant > 0)
+    {
+        result.setValue(pow(discriminant, 0.5)*signOfRoot + m_center.getX());
+    }
+    return result;
 }
 
-double Circle::calculateYFromXWithoutCenter(double const x, double const signOfRoot) const
+AlbaOptional<double> Circle::calculateYFromXWithoutCenter(double const x, double const signOfRoot) const
 {
-    return pow(m_radiusSquared - pow(x, 2), 0.5)*signOfRoot;
+    AlbaOptional<double> result;
+    double discriminant = m_radiusSquared - pow(x, 2);
+    if(discriminant > 0)
+    {
+        result.setValue(pow(discriminant, 0.5)*signOfRoot);
+    }
+    return result;
 }
 
-double Circle::calculateXFromYWithoutCenter(double const y, double const signOfRoot) const
+AlbaOptional<double> Circle::calculateXFromYWithoutCenter(double const y, double const signOfRoot) const
 {
-    return pow(m_radiusSquared - pow(y, 2), 0.5)*signOfRoot;
+    AlbaOptional<double> result;
+    double discriminant = m_radiusSquared - pow(y, 2);
+    if(discriminant > 0)
+    {
+        result.setValue(pow(discriminant, 0.5)*signOfRoot);
+    }
+    return result;
+}
+
+Point Circle::getNearestPointInCircumference(Point const& point) const
+{
+    Point deltaPoint(point.getX()-m_center.getX(), point.getY()-m_center.getY());
+    double angle = atan(deltaPoint.getY()/deltaPoint.getX());
+    double nearestDeltaPointX = cos(angle) * m_radius * getSign(deltaPoint.getX());
+    double nearestDeltaPointY = sin(angle) * m_radius * getSign(deltaPoint.getY());
+    return Point(m_center.getX()+nearestDeltaPointX, m_center.getY()+nearestDeltaPointY);
 }
 
 Points Circle::getPointsInTraversingXAndY(double const signOfX, double const signOfY, double const interval) const
@@ -148,7 +181,11 @@ Points Circle::getPointsInTraversingY(double const signOfX, double const signOfY
     AlbaRange<double> yRange(m_center.getY(), m_center.getY()+(m_radius*signOfY), interval);
     yRange.traverse([&](double const yValue)
     {
-        result.emplace_back(calculateXFromY(yValue, signOfX), yValue);
+        AlbaOptional<double> xCoordinate = calculateXFromY(yValue, signOfX);
+        if(xCoordinate.hasContent())
+        {
+            result.emplace_back(xCoordinate.getConstReference(), yValue);
+        }
     });
     return result;
 }
@@ -159,7 +196,11 @@ Points Circle::getPointsInTraversingX(double const signOfX, double const signOfY
     AlbaRange<double> xRange(m_center.getX(), m_center.getX()+(m_radius*signOfX), interval);
     xRange.traverse([&](double const xValue)
     {
-        result.emplace_back(xValue, calculateYFromX(xValue, signOfY));
+        AlbaOptional<double> yCoordinate = calculateYFromX(xValue, signOfY);
+        if(yCoordinate.hasContent())
+        {
+            result.emplace_back(xValue, yCoordinate.getConstReference());
+        }
     });
     return result;
 }

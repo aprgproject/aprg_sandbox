@@ -11,15 +11,21 @@ namespace alba
 namespace ThreeDimensions
 {
 
+//implement tests
+
 namespace threeDimensionsHelper
 {
-/*
+using Coefficients = AlbaXYZ<double>;
+
+Point getIntersection(Line const& line1, Line const& line2);
+Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients const coefficients2);
+Line getLineWithSameSlope(Line const& line, Point const& point);
 double getDistance(Point const& point1, Point const& point2);
 Point getMidpoint(Point const& point1, Point const& point2);
-Line getLineWithSameSlope(Line const& line, Point const& point);
+
+/*
 Line getLineWithPerpendicularSlope(Line const& line, Point const& point);
 double getDistance(Line const& line, Point const& point);
-Point getIntersection(Line const& line1, Line const& line2);
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval);
 void savePointsFromTwoPointsUsingALineWithoutLastPoint(Points & points, Point const& previousPoint, Point const& currentPoint, double const interval);
 Point popNearestPoint(Points & points, Point const& point);

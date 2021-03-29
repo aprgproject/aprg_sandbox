@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cassert>
 
 using namespace alba::mathHelper;
 using namespace std;
@@ -14,30 +15,81 @@ namespace alba
 namespace ThreeDimensions
 {
 
-namespace twoDimensionsHelper
+namespace threeDimensionsHelper
 {
-/*
-double getDistance(Point const& point1, Point const& point2)
+
+//Internal functions
+
+double calculateMultiplierForIntersection(
+        double const firstCoordinateCoefficient1,
+        double const firstCoordinateCoefficient2,
+        double const secondCoordinateCoefficient1,
+        double const secondCoordinateCoefficient2,
+        double const firstCoordinateInitialValue1,
+        double const firstCoordinateInitialValue2,
+        double const secondCoordinateInitialValue1,
+        double const secondCoordinateInitialValue2)
 {
-    double deltaX = point2.getX() - point1.getX();
-    double deltaY = point2.getY() - point1.getY();
-    return getSquareRootOfXSquaredPlusYSquared<double>(deltaX, deltaY);
+    double denominator = (firstCoordinateCoefficient2*secondCoordinateCoefficient1) - (firstCoordinateCoefficient1*secondCoordinateCoefficient2);
+    double numerator = ((firstCoordinateInitialValue1-firstCoordinateInitialValue2)*secondCoordinateCoefficient1)
+            - ((secondCoordinateInitialValue1-secondCoordinateInitialValue2)*firstCoordinateCoefficient1);
+    return numerator / denominator;
 }
 
-Point getMidpoint(Point const& point1, Point const& point2)
+double calculateCrossProductTerm(
+        double const firstCoordinateCoefficient1,
+        double const firstCoordinateCoefficient2,
+        double const secondCoordinateCoefficient1,
+        double const secondCoordinateCoefficient2)
 {
-    return Point((point1.getX()+point2.getX())/2,  (point1.getY()+point2.getY())/2);
+    return (firstCoordinateCoefficient1*secondCoordinateCoefficient2)-(secondCoordinateCoefficient1*firstCoordinateCoefficient2);
+}
+
+
+//external functions
+
+Point getIntersection(Line const& line1, Line const& line2)
+{
+    double multiplier1 = calculateMultiplierForIntersection(line1.getACoefficient(), line2.getACoefficient(), line1.getBCoefficient(), line2.getBCoefficient(), line1.getXInitialValue(), line2.getXInitialValue(), line1.getYInitialValue(), line2.getYInitialValue());
+    double multiplier2 = calculateMultiplierForIntersection(line1.getACoefficient(), line2.getACoefficient(), line1.getCCoefficient(), line2.getCCoefficient(), line1.getXInitialValue(), line2.getXInitialValue(), line1.getZInitialValue(), line2.getZInitialValue());
+    double multiplier3 = calculateMultiplierForIntersection(line1.getCCoefficient(), line2.getCCoefficient(), line1.getACoefficient(), line2.getACoefficient(), line1.getZInitialValue(), line2.getZInitialValue(), line1.getXInitialValue(), line2.getXInitialValue());
+    assert(isConsideredEqual(multiplier1, multiplier2));
+    assert(isConsideredEqual(multiplier1, multiplier3));
+    assert(isConsideredEqual(multiplier2, multiplier3));
+    return Point(
+                line1.getXInitialValue()+(multiplier1*line1.getACoefficient()),
+                line1.getYInitialValue()+(multiplier1*line1.getBCoefficient()),
+                line1.getZInitialValue()+(multiplier1*line1.getCCoefficient()));
+}
+
+Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients const coefficients2)
+{
+    return Coefficients(
+                calculateCrossProductTerm(coefficients1.getY(), coefficients2.getY(), coefficients1.getZ(), coefficients2.getZ()),
+                calculateCrossProductTerm(coefficients1.getZ(), coefficients2.getZ(), coefficients1.getX(), coefficients2.getX()),
+                calculateCrossProductTerm(coefficients1.getX(), coefficients2.getX(), coefficients1.getY(), coefficients2.getY())
+                );
 }
 
 Line getLineWithSameSlope(Line const& line, Point const& point)
 {
-    return Line(line.getACoefficient(), line.getBCoefficient(), -1*((line.getACoefficient()*point.getX())+(line.getBCoefficient()*point.getY())));
+    return Line(line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient(), point);
 }
 
-Line getLineWithPerpendicularSlope(Line const& line, Point const& point)
+double getDistance(Point const& point1, Point const& point2)
 {
-    return Line(line.getBCoefficient(), -line.getACoefficient(), (line.getACoefficient()*point.getY())-(line.getBCoefficient()*point.getX()));
+    double deltaX = point2.getX() - point1.getX();
+    double deltaY = point2.getY() - point1.getY();
+    double deltaZ = point2.getZ() - point1.getZ();
+    return getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>(deltaX, deltaY, deltaZ);
 }
+
+Point getMidpoint(Point const& point1, Point const& point2)
+{
+    return Point((point1.getX()+point2.getX())/2, (point1.getY()+point2.getY())/2, (point1.getZ()+point2.getZ())/2);
+}
+
+/*
 
 double getDistance(Line const& line, Point const& point)
 {
@@ -45,13 +97,10 @@ double getDistance(Line const& line, Point const& point)
     return getDistance(point, nearestPoint);
 }
 
-Point getIntersection(Line const& line1, Line const& line2)
+Line getLineWithPerpendicularSlope(Line const& line, Point const& point)
 {
-    double xOfIntersection = ((line2.getCCoefficient()*line1.getBCoefficient())-(line1.getCCoefficient()*line2.getBCoefficient()))
-                              /((line1.getACoefficient()*line2.getBCoefficient())-(line2.getACoefficient()*line1.getBCoefficient()));
-    double yOfIntersection = ((line2.getCCoefficient()*line1.getACoefficient())-(line1.getCCoefficient()*line2.getACoefficient()))
-            /((line1.getBCoefficient()*line2.getACoefficient())-(line2.getBCoefficient()*line1.getACoefficient()));
-    return Point(xOfIntersection, yOfIntersection);
+    Coefficients perpendicularCoefficients(getCrossProduct());
+    return Line(line.getBCoefficient(), -line.getACoefficient(), (line.getACoefficient()*point.getY())-(line.getBCoefficient()*point.getX()));
 }
 
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval)

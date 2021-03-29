@@ -7,6 +7,15 @@
 using namespace alba::ThreeDimensions;
 using namespace alba::ThreeDimensions::threeDimensionsHelper;
 using namespace std;
+
+TEST(ThreeDimensionsHelperTest, LineAndLineIntersectionCanBeFound)
+{
+    Line line1(Point(2,4,6), Point(3,3,3));
+    Line line2(Point(4,4,4), Point(3,3,3));
+
+    EXPECT_EQ(Point(3,3,3), getIntersection(line1, line2));
+}
+
 /*
 TEST(ThreeDimensionsHelperTest, MidpointBetweenTwoPointsCanBeCalculated)
 {

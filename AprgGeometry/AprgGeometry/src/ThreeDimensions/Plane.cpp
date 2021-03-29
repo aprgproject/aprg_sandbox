@@ -3,9 +3,11 @@
 #include <AlbaMatrix.hpp>
 #include <Container/AlbaRange.hpp>
 #include <Math/AlbaMathHelper.hpp>
+#include <ThreeDimensions/ThreeDimensionsHelper.hpp>
 
 #include <cmath>
 
+using namespace alba::ThreeDimensions::threeDimensionsHelper;
 using namespace std;
 
 namespace alba
@@ -15,54 +17,31 @@ namespace ThreeDimensions
 {
 
 Plane::Plane()
-    : m_xIntercept()
-    , m_yIntercept()
-    , m_zIntercept()
-    , m_aCoefficient(0)
+    : m_aCoefficient(0)
     , m_bCoefficient(0)
     , m_cCoefficient(0)
     , m_dCoefficient(0)
+    , m_xIntercept()
+    , m_yIntercept()
+    , m_zIntercept()
 {}
 
 Plane::Plane(Point const& first, Point const& second, Point const& third)
-    : m_xIntercept()
-    , m_yIntercept()
-    , m_zIntercept()
-    , m_aCoefficient(0)
+    : m_aCoefficient(0)
     , m_bCoefficient(0)
     , m_cCoefficient(0)
     , m_dCoefficient(0)
+    , m_xIntercept()
+    , m_yIntercept()
+    , m_zIntercept()
 {
-    AlbaMatrix<double> matrixForSolution(4,3);
-    matrixForSolution.set({first.getX(), first.getY(), first.getZ(), 1,
-                           second.getX(), second.getY(), second.getZ(), 1,
-                           third.getX(), third.getY(), third.getZ(), 1});
-    matrixForSolution.transformToReducedEchelonForm();
-    if(matrixForSolution.isReducedRowEchelonForm())
-    {
-        for(unsigned int x=0; x<3; x++)
-        {
-            for(unsigned int y=x; y<3; y++)
-            {
-                if(!isConsideredEqual(matrixForSolution.get(x,y), 0.0))
-                {
-                    if(x==0)
-                    {
-                        m_aCoefficient = matrixForSolution.get(x,y);
-                    }
-                    else if(x==1)
-                    {
-                        m_bCoefficient = matrixForSolution.get(x,y);
-                    }
-                    else if(x==2)
-                    {
-                        m_cCoefficient = matrixForSolution.get(x,y);
-                    }
-                    break;
-                }
-            }
-        }
-    }
+    Coefficients perpendicularCoefficients(
+                getCrossProduct(
+                    Coefficients(first.getX()-second.getX(), first.getY()-second.getY(), first.getZ()-second.getZ()),
+                    Coefficients(first.getX()-third.getX(), first.getY()-third.getY(), first.getZ()-third.getZ())));
+    m_aCoefficient = perpendicularCoefficients.getX();
+    m_bCoefficient = perpendicularCoefficients.getY();
+    m_cCoefficient = perpendicularCoefficients.getZ();
     m_dCoefficient = -(m_aCoefficient*first.getX())-(m_bCoefficient*first.getY())-(m_cCoefficient*first.getZ());
     if(!isConsideredEqual(m_aCoefficient, 0.0))
     {

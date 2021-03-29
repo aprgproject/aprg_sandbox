@@ -49,10 +49,12 @@ Installing boost libraries for GCC (MinGW) on Windows APRG
 -----> Edit this line: "find_package(Boost COMPONENTS system locale filestream iostreams)"
 
 -> Project setup
-1) Add include folder, i.e. C:\Program Files\boost\include\boost-1_59.---> "APRG\Boost\Boost\cmake\IncludeBoost.cmake" should contain:
+1) Add include folder, i.e. C:\Program Files\boost\include\boost-1_59.
+---> "APRG\Boost\Boost\cmake\IncludeBoost.cmake" should contain:
 -----> set(BOOST_INCLUDEDIR    ${BOOST_DIR}/)
 2) Add linker folder, i.e. C:\Program Files\boost\lib..
----> "APRG\Boost\Boost\cmake\IncludeBoost.cmake" should contain:-----> set(BOOST_LIBRARYDIR    ${BOOST_DIR}/boost/lib)
+---> "APRG\Boost\Boost\cmake\IncludeBoost.cmake" should contain:
+-----> set(BOOST_LIBRARYDIR    ${BOOST_DIR}/boost/lib)
 3) Run cmake and double check that required libraries are linked properly (no error messages)
 
 
