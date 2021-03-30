@@ -45,17 +45,77 @@ double calculateCrossProductTerm(
     return (firstCoordinateCoefficient1*secondCoordinateCoefficient2)-(secondCoordinateCoefficient1*firstCoordinateCoefficient2);
 }
 
+bool isCoordinateValuesInLineEqual(
+        double const coordinateValueToCompare,
+        AlbaOptional<double> const& coordinateOptionalToCompare1,
+        double const coordinate2Value,
+        double const coordinate2InitialValue,
+        AlbaOptional<double> const& coordinateOptionalToCompare2,
+        double const coordinate3Value,
+        double const coordinate3InitialValue)
+{
+    bool result(false);
+    if(coordinateOptionalToCompare1.hasContent())
+    {
+        result = isConsideredEqual(coordinateValueToCompare, coordinateOptionalToCompare1.getConstReference());
+    }
+    else if(coordinateOptionalToCompare2.hasContent())
+    {
+        result = isConsideredEqual(coordinateValueToCompare, coordinateOptionalToCompare2.getConstReference());
+    }
+    else
+    {
+        result = isConsideredEqual(coordinate2Value, coordinate2InitialValue)
+                && isConsideredEqual(coordinate3Value, coordinate3InitialValue);
+    }
+    return result;
+}
+
+bool isCoordinateValuesInPlaneEqual(
+        double const coordinateValueToCompare,
+        AlbaOptional<double> const& coordinateOptionalToCompare)
+{
+    bool result(false);
+    if(coordinateOptionalToCompare.hasContent())
+    {
+        result = isConsideredEqual(coordinateValueToCompare, coordinateOptionalToCompare.getConstReference());
+    }
+    else
+    {
+        result = true;
+    }
+    return result;
+}
 
 //external functions
 
+bool isPointInLine(Point const& point, Line const& line)
+{
+    return isCoordinateValuesInLineEqual(point.getX(), line.calculateXFromY(point.getY()), point.getY(), line.getYInitialValue(), line.calculateXFromZ(point.getZ()), point.getZ(), line.getZInitialValue())
+            && isCoordinateValuesInLineEqual(point.getY(), line.calculateYFromX(point.getX()), point.getX(), line.getXInitialValue(), line.calculateYFromZ(point.getZ()), point.getZ(), line.getZInitialValue())
+            && isCoordinateValuesInLineEqual(point.getZ(), line.calculateZFromX(point.getX()), point.getX(), line.getXInitialValue(), line.calculateZFromY(point.getY()), point.getY(), line.getYInitialValue());
+}
+
+bool isPointInPlane(Point const& point, Plane const& plane)
+{
+    return isCoordinateValuesInPlaneEqual(point.getX(), plane.calculateXFromYAndZ(point.getY(), point.getZ()))
+            && isCoordinateValuesInPlaneEqual(point.getY(), plane.calculateYFromXAndZ(point.getX(), point.getZ()))
+            && isCoordinateValuesInPlaneEqual(point.getZ(), plane.calculateZFromXAndY(point.getX(), point.getY()));
+}
+
+bool isLineInPlane(Line const& line, Plane const& plane)
+{
+    Point point1(line.getXInitialValue(), line.getYInitialValue(), line.getZInitialValue());
+    Point point2(line.getXInitialValue()+line.getACoefficient(), line.getYInitialValue()+line.getBCoefficient(), line.getZInitialValue()+line.getCCoefficient());
+    return isPointInPlane(point1, plane) && isPointInPlane(point2, plane);
+}
+
 Point getIntersection(Line const& line1, Line const& line2)
 {
-    double multiplier1 = calculateMultiplierForIntersection(line1.getACoefficient(), line2.getACoefficient(), line1.getBCoefficient(), line2.getBCoefficient(), line1.getXInitialValue(), line2.getXInitialValue(), line1.getYInitialValue(), line2.getYInitialValue());
-    double multiplier2 = calculateMultiplierForIntersection(line1.getACoefficient(), line2.getACoefficient(), line1.getCCoefficient(), line2.getCCoefficient(), line1.getXInitialValue(), line2.getXInitialValue(), line1.getZInitialValue(), line2.getZInitialValue());
+    double multiplier1 = calculateMultiplierForIntersection(line1.getACoefficient(), line2.getACoefficient(), line1.getBCoefficient(), line2.getBCoefficient(), line1.getXInitialValue(), line2.getXInitialValue(), line1.getYInitialValue(), line2.getYInitialValue());    double multiplier2 = calculateMultiplierForIntersection(line1.getACoefficient(), line2.getACoefficient(), line1.getCCoefficient(), line2.getCCoefficient(), line1.getXInitialValue(), line2.getXInitialValue(), line1.getZInitialValue(), line2.getZInitialValue());
     double multiplier3 = calculateMultiplierForIntersection(line1.getCCoefficient(), line2.getCCoefficient(), line1.getACoefficient(), line2.getACoefficient(), line1.getZInitialValue(), line2.getZInitialValue(), line1.getXInitialValue(), line2.getXInitialValue());
     assert(isConsideredEqual(multiplier1, multiplier2));
-    assert(isConsideredEqual(multiplier1, multiplier3));
-    assert(isConsideredEqual(multiplier2, multiplier3));
+    assert(isConsideredEqual(multiplier1, multiplier3));    assert(isConsideredEqual(multiplier2, multiplier3));
     return Point(
                 line1.getXInitialValue()+(multiplier1*line1.getACoefficient()),
                 line1.getYInitialValue()+(multiplier1*line1.getBCoefficient()),

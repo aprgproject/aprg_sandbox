@@ -17,13 +17,16 @@ namespace TwoDimensions
 namespace twoDimensionsHelper
 {
 
-double getDistance(Point const& point1, Point const& point2)
+bool isPointInLine(Point const& point, Line const& line)
 {
-    double deltaX = point2.getX() - point1.getX();
-    double deltaY = point2.getY() - point1.getY();
-    return getSquareRootOfXSquaredPlusYSquared<double>(deltaX, deltaY);
+    return isConsideredEqual(point.getY(), line.calculateYFromX(point.getX()));
 }
 
+double getDistance(Point const& point1, Point const& point2)
+{
+    double deltaX = point2.getX() - point1.getX();    double deltaY = point2.getY() - point1.getY();
+    return getSquareRootOfXSquaredPlusYSquared<double>(deltaX, deltaY);
+}
 Point getMidpoint(Point const& point1, Point const& point2)
 {
     return Point((point1.getX()+point2.getX())/2,  (point1.getY()+point2.getY())/2);

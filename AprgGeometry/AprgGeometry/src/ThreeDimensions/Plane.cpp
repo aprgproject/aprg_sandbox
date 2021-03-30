@@ -116,31 +116,28 @@ AlbaOptional<double> Plane::calculateXFromYAndZ(double const y, double const z) 
     AlbaOptional<double> result;
     if(!isConsideredEqual(m_aCoefficient, 0.0))
     {
-        result.setValue((m_dCoefficient-(m_bCoefficient*y)-(m_cCoefficient*z))/m_aCoefficient);
+        result.setValue((-m_dCoefficient-(m_bCoefficient*y)-(m_cCoefficient*z))/m_aCoefficient);
     }
     return result;
 }
-
 AlbaOptional<double> Plane::calculateYFromXAndZ(double const x, double const z) const
 {
     AlbaOptional<double> result;
     if(!isConsideredEqual(m_bCoefficient, 0.0))
     {
-        result.setValue((m_dCoefficient-(m_aCoefficient*x)-(m_cCoefficient*z))/m_bCoefficient);
+        result.setValue((-m_dCoefficient-(m_aCoefficient*x)-(m_cCoefficient*z))/m_bCoefficient);
     }
     return result;
 }
-
 AlbaOptional<double> Plane::calculateZFromXAndY(double const x, double const y) const
 {
     AlbaOptional<double> result;
     if(!isConsideredEqual(m_cCoefficient, 0.0))
     {
-        result.setValue((m_dCoefficient-(m_aCoefficient*x)-(m_bCoefficient*y))/m_cCoefficient);
+        result.setValue((-m_dCoefficient-(m_aCoefficient*x)-(m_bCoefficient*y))/m_cCoefficient);
     }
     return result;
 }
-
 
 }
 }
