@@ -6,6 +6,7 @@
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <gtest/gtest.h>
+
 #include <cmath>
 
 using namespace alba::TwoDimensions;
@@ -34,7 +35,7 @@ TEST(AprgGeometryTwoDimensionsTest, DISABLED_CircleAtOriginWithRadius)
     gp << endl;
 }
 
-TEST(HyperbolaTest, DISABLED_HyperbolaAtOriginWithRadius)
+TEST(AprgGeometryTwoDimensionsTest, DISABLED_HyperbolaAtOriginWithRadius)
 {
     Gnuplot gp;
     gp << "plot ";
@@ -44,7 +45,7 @@ TEST(HyperbolaTest, DISABLED_HyperbolaAtOriginWithRadius)
     gp << endl;
 }
 
-TEST(AprgGeometryTwoDimensionsTest, SampleCircle)
+TEST(AprgGeometryTwoDimensionsTest, DISABLED_SampleCircle)
 {
     Gnuplot gp;
     gp << "plot ";
@@ -63,3 +64,4 @@ TEST(AprgGeometryTwoDimensionsTest, SampleCircle)
     graphPoints(gp, pointsLine3, "Line3");
     gp << endl;
 }
+

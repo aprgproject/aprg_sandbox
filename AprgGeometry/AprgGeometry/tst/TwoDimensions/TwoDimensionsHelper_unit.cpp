@@ -23,9 +23,11 @@ TEST(TwoDimensionsHelperTest, PointCanBeCheckedIfItsOnLine)
 
 TEST(TwoDimensionsHelperTest, MidpointBetweenTwoPointsCanBeCalculated)
 {
-    EXPECT_EQ(Point(0,0), getMidpoint(Point(0,0), Point(0,0)));    EXPECT_EQ(Point(2,2), getMidpoint(Point(1,1), Point(3,3)));
+    EXPECT_EQ(Point(0,0), getMidpoint(Point(0,0), Point(0,0)));
+    EXPECT_EQ(Point(2,2), getMidpoint(Point(1,1), Point(3,3)));
     EXPECT_EQ(Point(-450,-900), getMidpoint(Point(100,200), Point(-1000,-2000)));
 }
+
 TEST(TwoDimensionsHelperTest, GetLineWithSameSlopeAndPoint)
 {
     Line lineInput(Point(0,0), Point(-1,1));
@@ -164,19 +166,19 @@ TEST(TwoDimensionsHelperTest, GetTangentLineForPolynomialIsCorrect)
     Line expectedLine3(getPolynomialTangentLineAt(parabola, 1));
 
     EXPECT_EQ(LineType::Horizontal, expectedLine1.getType());
-    EXPECT_EQ(2, expectedLine1.getYIntercept());
-    EXPECT_EQ(0, expectedLine1.getXIntercept());
-    EXPECT_EQ(0, expectedLine1.getSlope());
+    EXPECT_DOUBLE_EQ(2, expectedLine1.getYIntercept());
+    EXPECT_DOUBLE_EQ(0, expectedLine1.getXIntercept());
+    EXPECT_DOUBLE_EQ(0, expectedLine1.getSlope());
 
     EXPECT_EQ(LineType::WithPositiveSlope, expectedLine2.getType());
-    EXPECT_EQ(3, expectedLine2.getYIntercept());
-    EXPECT_EQ(-1.5, expectedLine2.getXIntercept());
-    EXPECT_EQ(2, expectedLine2.getSlope());
+    EXPECT_DOUBLE_EQ(3, expectedLine2.getYIntercept());
+    EXPECT_DOUBLE_EQ(-1.5, expectedLine2.getXIntercept());
+    EXPECT_DOUBLE_EQ(2, expectedLine2.getSlope());
 
     EXPECT_EQ(LineType::WithPositiveSlope, expectedLine3.getType());
-    EXPECT_EQ(2, expectedLine3.getYIntercept());
-    EXPECT_EQ(-0.5, expectedLine3.getXIntercept());
-    EXPECT_EQ(4, expectedLine3.getSlope());
+    EXPECT_DOUBLE_EQ(2, expectedLine3.getYIntercept());
+    EXPECT_DOUBLE_EQ(-0.5, expectedLine3.getXIntercept());
+    EXPECT_DOUBLE_EQ(4, expectedLine3.getSlope());
 }
 
 TEST(TwoDimensionsHelperTest, GetTangentLineForCircleIsCorrect)
@@ -187,13 +189,13 @@ TEST(TwoDimensionsHelperTest, GetTangentLineForCircleIsCorrect)
     Line expectedLine3(getTangentLineAt(circle, Point(2.5,3.5)));
 
     EXPECT_EQ(LineType::Horizontal, expectedLine1.getType());
-    EXPECT_EQ(5, expectedLine1.getYIntercept());
-    EXPECT_EQ(0, expectedLine1.getXIntercept());
-    EXPECT_EQ(0, expectedLine1.getSlope());
+    EXPECT_DOUBLE_EQ(5, expectedLine1.getYIntercept());
+    EXPECT_DOUBLE_EQ(0, expectedLine1.getXIntercept());
+    EXPECT_DOUBLE_EQ(0, expectedLine1.getSlope());
 
     EXPECT_EQ(LineType::Vertical, expectedLine2.getType());
-    EXPECT_EQ(0, expectedLine2.getYIntercept());
-    EXPECT_EQ(4, expectedLine2.getXIntercept());
+    EXPECT_DOUBLE_EQ(0, expectedLine2.getYIntercept());
+    EXPECT_DOUBLE_EQ(4, expectedLine2.getXIntercept());
 
     EXPECT_EQ(LineType::WithNegativeSlope, expectedLine3.getType());
     EXPECT_DOUBLE_EQ(7.2426406871192865, expectedLine3.getYIntercept());

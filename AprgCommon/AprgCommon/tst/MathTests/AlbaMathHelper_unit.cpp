@@ -15,8 +15,9 @@ TEST(AlbaMathHelperTest, DoubleTypesCanBeConsideredEqual)
     EXPECT_TRUE(isConsideredEqual(static_cast<double>(1)/3,static_cast<double>(1)/3));
     EXPECT_FALSE(isConsideredEqual(static_cast<double>(1)/3,static_cast<double>(1)/3+0.1));
     EXPECT_TRUE(isConsideredEqual(static_cast<double>(1)/3,static_cast<double>(1)/3+0.000000000001));
-    EXPECT_TRUE(isConsideredEqual(static_cast<double>(0),0.000000000001));
-    EXPECT_TRUE(isConsideredEqual(0.000000000001,0.000000000000000000000001));
+    EXPECT_FALSE(isConsideredEqual(static_cast<double>(0),0.000000000001));
+    EXPECT_FALSE(isConsideredEqual(0.000000000001,0.000000000000000000000001));
+    EXPECT_TRUE(isConsideredEqual(0.000000000000000000000001,0.000000000000000000000001));
 }
 
 TEST(AlbaMathHelperTest, IntegerTypesCanBeConsideredEqual)

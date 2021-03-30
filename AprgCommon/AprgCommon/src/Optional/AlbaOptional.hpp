@@ -226,7 +226,7 @@ public:
         return m_empty;
     }
 
-    friend std::ostream & operator<<(std::ostream & out, AlbaOptional<ContentType> const& optional)
+    friend std::ostream & operator<<(std::ostream & out, AlbaOptional<ContentType&> const& optional)
     {
         out << "hasContent: " << optional.m_hasContent;
         if(optional.m_hasContent)

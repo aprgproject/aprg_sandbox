@@ -120,6 +120,7 @@ AlbaOptional<double> Plane::calculateXFromYAndZ(double const y, double const z) 
     }
     return result;
 }
+
 AlbaOptional<double> Plane::calculateYFromXAndZ(double const x, double const z) const
 {
     AlbaOptional<double> result;
@@ -129,6 +130,7 @@ AlbaOptional<double> Plane::calculateYFromXAndZ(double const x, double const z) 
     }
     return result;
 }
+
 AlbaOptional<double> Plane::calculateZFromXAndY(double const x, double const y) const
 {
     AlbaOptional<double> result;
@@ -138,6 +140,7 @@ AlbaOptional<double> Plane::calculateZFromXAndY(double const x, double const y) 
     }
     return result;
 }
+
 
 }
 }
