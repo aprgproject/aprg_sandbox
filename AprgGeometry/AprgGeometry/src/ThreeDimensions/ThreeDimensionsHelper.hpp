@@ -27,8 +27,8 @@ Line getLineWithSameSlope(Line const& line, Point const& point);
 double getDistance(Point const& point1, Point const& point2);
 Point getMidpoint(Point const& point1, Point const& point2);
 Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2);
-}
 
 }
 
+}
 }
