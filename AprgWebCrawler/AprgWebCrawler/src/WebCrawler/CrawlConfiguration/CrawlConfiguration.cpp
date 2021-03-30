@@ -23,24 +23,25 @@ CrawlConfiguration::CrawlConfiguration(CrawlMode const mode)
     case CrawlMode::DoujinMoe:
     case CrawlMode::GuroManga:
     case CrawlMode::HBrowse:
-    case CrawlMode::H2Read:
     case CrawlMode::Mangafox:
     case CrawlMode::MangafoxWithVolume:
-    case CrawlMode::Mangahere:
-    case CrawlMode::MangaPark:
+    case CrawlMode::Mangahere:    case CrawlMode::MangaPark:
     case CrawlMode::Y8:
         m_isFileToBeDownloadUntilSuccessful=true;
         m_numberOfRetries = 0;
         m_minimumFileSize = 1000;
         break;
+    case CrawlMode::H2Read:
+        m_isFileToBeDownloadUntilSuccessful=false;
+        m_numberOfRetries = 0;
+        m_minimumFileSize = 1000;
+        break;
     case CrawlMode::Youtube:
         m_isFileToBeDownloadUntilSuccessful=true;
-        m_numberOfRetries = 0;
-        m_minimumFileSize = 1000000;
+        m_numberOfRetries = 0;        m_minimumFileSize = 1000000;
         break;
     case CrawlMode::Empty:
-    case CrawlMode::Unknown:
-        break;
+    case CrawlMode::Unknown:        break;
     }
 }
 
