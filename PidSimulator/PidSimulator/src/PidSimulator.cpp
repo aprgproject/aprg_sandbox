@@ -9,14 +9,13 @@
 #include <iostream>
 
 using namespace alba::mathHelper;
+using namespace alba::TwoDimensions;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 PidSimulator::PidSimulator(stringHelper::strings const& argumentsInMain)
-    : m_conf(argumentsInMain)
-{}
+    : m_conf(argumentsInMain){}
 
 double PidSimulator::calculatePid(double const input, double const target)
 {
@@ -221,15 +220,13 @@ void PidSimulator::calculateAndGenerateOutputImage()
         graph.drawContinuousPoints(inputDemandSeries, 0x000000FF);
         graph.drawContinuousPoints(pseudoMaxTxPowerSeries, 0x0000FF00);
         graph.drawContinuousPoints(tcomReceivedPowerFromMachsSeries, 0x00FF0000);
-        graph.drawContinuousPoints(adjustedDemandSeries, 0x00008888);
+        //graph.drawContinuousPoints(adjustedDemandSeries, 0x00008888);
 
         graph.saveChangesToBitmapFile();
-    }
-    else
+    }    else
     {
         cout << "The default bitmap file was not found. The default file location:  [" << defaultFile.getFullPath() << "]" << endl;
-    }
-}
+    }}
 
 void PidSimulator::updateAllMaxWithBuffer(int& xLeftMax, int& xRightMax, int& yBottomMax, int& yTopMax)
 {
