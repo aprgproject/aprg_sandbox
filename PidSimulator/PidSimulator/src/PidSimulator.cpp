@@ -12,10 +12,12 @@ using namespace alba::mathHelper;
 using namespace alba::TwoDimensions;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 PidSimulator::PidSimulator(stringHelper::strings const& argumentsInMain)
-    : m_conf(argumentsInMain){}
+    : m_conf(argumentsInMain)
+{}
 
 double PidSimulator::calculatePid(double const input, double const target)
 {
@@ -191,7 +193,7 @@ void PidSimulator::calculateAndGenerateOutputImage()
         updateMaxPoints(static_cast<int>(index), static_cast<int>(psuedoMaxTxPower), xLeftMax, xRightMax, yBottomMax, yTopMax);
         updateMaxPoints(static_cast<int>(index), static_cast<int>(psuedoMaxTxPower), xLeftMax, xRightMax, yBottomMax, yTopMax);
         updateMaxPoints(static_cast<int>(index), static_cast<int>(tcomReceivedPowerFromMachs), xLeftMax, xRightMax, yBottomMax, yTopMax);
-        updateMaxPoints(static_cast<int>(index), static_cast<int>(adjustedDemand), xLeftMax, xRightMax, yBottomMax, yTopMax);
+        //Remove adjusted demand //updateMaxPoints(static_cast<int>(index), static_cast<int>(adjustedDemand), xLeftMax, xRightMax, yBottomMax, yTopMax);
         tcomReceivedPowerFromMachs = computeFromMachsModel(inputDemandSample, psuedoMaxTxPower, adjustedDemand);
         index++;
     }
@@ -220,13 +222,15 @@ void PidSimulator::calculateAndGenerateOutputImage()
         graph.drawContinuousPoints(inputDemandSeries, 0x000000FF);
         graph.drawContinuousPoints(pseudoMaxTxPowerSeries, 0x0000FF00);
         graph.drawContinuousPoints(tcomReceivedPowerFromMachsSeries, 0x00FF0000);
-        //graph.drawContinuousPoints(adjustedDemandSeries, 0x00008888);
+        //Remove adjusted demand //graph.drawContinuousPoints(adjustedDemandSeries, 0x00008888);
 
         graph.saveChangesToBitmapFile();
-    }    else
+    }
+    else
     {
         cout << "The default bitmap file was not found. The default file location:  [" << defaultFile.getFullPath() << "]" << endl;
-    }}
+    }
+}
 
 void PidSimulator::updateAllMaxWithBuffer(int& xLeftMax, int& xRightMax, int& yBottomMax, int& yTopMax)
 {

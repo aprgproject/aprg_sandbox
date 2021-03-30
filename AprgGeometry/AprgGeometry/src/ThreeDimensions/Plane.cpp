@@ -1,6 +1,5 @@
 #include "Plane.hpp"
 
-#include <AlbaMatrix.hpp>
 #include <Container/AlbaRange.hpp>
 #include <Math/AlbaMathHelper.hpp>
 #include <ThreeDimensions/ThreeDimensionsHelper.hpp>

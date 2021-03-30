@@ -160,21 +160,3 @@ TEST(AprgFileExtractorTest, FilesAreExtractedRecursivelyWhenSatisyingTheConditio
     filePathHandler.input(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest2\DirectoryTest2\DirectoryTest2\DirectoryTest2.txt)");
     EXPECT_TRUE(filePathHandler.isFoundInLocalSystem());
 }
-
-TEST(DeleteThisTest, DeleteThisTest)
-{
-    AprgFileExtractor fileExtractor("[.]");
-    AlbaLocalPathHandler::ListOfPaths files;
-    AlbaLocalPathHandler::ListOfPaths directories;
-    AlbaLocalPathHandler pathHandler(R"(C:\ZZZ_SCT_Logs\trunk_fsmr3@120334)");
-    pathHandler.findFilesAndDirectoriesOneDepth("*.*", files, directories);
-
-    for(string const& file: files)
-    {
-        AlbaLocalPathHandler filePath(file);
-        if(filePath.getExtension() == "zip")
-        {
-            fileExtractor.extractAll(filePath.getFullPath());
-        }
-    }
-}

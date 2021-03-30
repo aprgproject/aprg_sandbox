@@ -30,3 +30,5 @@ Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2);
 }
 
 }
+
+}

@@ -21,6 +21,27 @@ using namespace std;
 
 
 
+TEST(SampleTest, ExtractFilesRecursively)
+{
+    AprgFileExtractor fileExtractor("[.]");
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler pathHandler(R"(C:\ZZZ_SCT_Logs\trunk_fsmr3@120334)");
+    pathHandler.findFilesAndDirectoriesOneDepth("*.*", files, directories);
+
+    for(string const& file: files)
+    {
+        AlbaLocalPathHandler filePath(file);
+        if(filePath.getExtension() == "zip")
+        {
+            fileExtractor.extractAll(filePath.getFullPath());
+        }
+    }
+}
+
+
+/*
+
 TEST(SampleTest, LrmDirectoriesToFind)
 {
     AlbaLocalPathHandler::ListOfPaths files;
@@ -33,9 +54,6 @@ TEST(SampleTest, LrmDirectoriesToFind)
         cout<<directory<<endl;
     }
 }
-
-
-/*
 
 TEST(SampleTest, FormatPrints)
 {
