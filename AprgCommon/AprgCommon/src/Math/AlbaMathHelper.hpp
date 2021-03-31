@@ -20,7 +20,8 @@ double calculateCumulativeStandardDistributionApproximation(double const value);
 double calculateInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
 double getPi();
 double getE();
+double convertDegreesToRadians(double const valueInDegrees);
+double convertRadiansToDegrees(double const valueInRadians);
 
 }//namespace mathHelper
-
 }//namespace alba
