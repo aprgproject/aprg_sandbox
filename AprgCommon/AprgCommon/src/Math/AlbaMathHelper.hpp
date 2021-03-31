@@ -24,4 +24,5 @@ double convertDegreesToRadians(double const valueInDegrees);
 double convertRadiansToDegrees(double const valueInRadians);
 
 }//namespace mathHelper
+
 }//namespace alba

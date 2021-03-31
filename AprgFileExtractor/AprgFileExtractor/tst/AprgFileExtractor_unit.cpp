@@ -80,7 +80,7 @@ TEST(AprgFileExtractorTest, AllFilesAreExtractedSuccessfully)
         ASSERT_FALSE(filePathHandler.isFoundInLocalSystem());
     }
 
-    string outputDirectoryPath = fileExtractor.extractAll(PATH_OF_SAMPLE_ZIP_1);
+    string outputDirectoryPath = fileExtractor.extractOnceForAllFiles(PATH_OF_SAMPLE_ZIP_1);
 
     EXPECT_EQ(directoryPathHandler.getFullPath(), outputDirectoryPath);
     AlbaLocalPathHandler outputFilePathHandler(APRG_DIR R"(AprgFileExtractor\AprgFileExtractor\tst\FilesForTests\DirectoryTest\DIR1\File1.log)");

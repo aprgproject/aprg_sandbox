@@ -49,9 +49,11 @@ public:
     void saveImportantLink(std::string const& link) const;
 
     void printStatus() const;
+
 private:
     bool isModeUnrecognized() const;
-    bool isWebLinksEmpty() const;    bool isWebLinksValid() const;
+    bool isWebLinksEmpty() const;
+    bool isWebLinksValid() const;
     void setCrawlMode(CrawlMode const mode);
     void setCrawlState(CrawlState const state);
 
@@ -69,4 +71,5 @@ private:
     alba::AlbaLocalPathHandler m_importantLinksPathHandler;
     WebLinks m_webLinks;
 };
+
 }

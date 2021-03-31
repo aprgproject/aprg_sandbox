@@ -11,8 +11,10 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
+
 namespace TwoDimensions
 {
 
@@ -139,10 +141,12 @@ AlbaOptional<double> Circle::calculateXFromYWithoutCenter(double const y, double
     if(discriminant >= 0)
     {
         result.setValue(pow(discriminant, 0.5)*signOfRoot);
-    }    return result;
+    }
+    return result;
 }
 
-Point Circle::getNearestPointInCircumference(Point const& point) const{
+Point Circle::getNearestPointInCircumference(Point const& point) const
+{
     Point deltaPoint(point.getX()-m_center.getX(), point.getY()-m_center.getY());
     double angle = atan(deltaPoint.getY()/deltaPoint.getX());
     double nearestDeltaPointX = cos(angle) * m_radius * getSign(deltaPoint.getX());

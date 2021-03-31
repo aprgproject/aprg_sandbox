@@ -33,9 +33,11 @@ WebCrawler::WebCrawler(string const& downloadDirectory, string const& temporaryF
     , m_importantLinksPathHandler(downloadDirectory + R"(\ImportantLinks.txt)")
 {
     if (m_memoryCardPathHandler.isFoundInLocalSystem() && m_memoryCardPathHandler.isFile())
-    {        loadMemoryCard();
+    {
+        loadMemoryCard();
     }
 }
+
 WebCrawler::WebCrawler(string const& workingDirectory, string const& webLink, string const& temporaryFilePath)
     : m_mode(convertWebLinkToCrawlerMode(webLink))
     , m_state(CrawlState::Unknown)
@@ -45,10 +47,12 @@ WebCrawler::WebCrawler(string const& workingDirectory, string const& webLink, st
     , m_importantLinksPathHandler(m_downloadDirectoryPathHandler.getFullPath() + R"(\ImportantLinks.txt)")
 {
     ALBA_PRINT1(m_memoryCardPathHandler.getFullPath());
-    m_webLinks.push_back(webLink);    m_memoryCardPathHandler.createDirectoriesForNonExisitingDirectories();
+    m_webLinks.push_back(webLink);
+    m_memoryCardPathHandler.createDirectoriesForNonExisitingDirectories();
     saveMemoryCard();
     m_downloadDirectoryPathHandler.reInput();
-    m_memoryCardPathHandler.reInput();}
+    m_memoryCardPathHandler.reInput();
+}
 
 void WebCrawler::crawl()
 {
@@ -312,10 +316,12 @@ void WebCrawler::saveImportantLink(string const& link) const
 
 void WebCrawler::printStatus() const
 {
-    if(!m_downloadDirectoryPathHandler.isFoundInLocalSystem())    {
+    if(!m_downloadDirectoryPathHandler.isFoundInLocalSystem())
+    {
         cout << "Working directory: ["<< m_downloadDirectoryPathHandler.getFullPath() << "] is not found" << endl;
     }
-    else if(!m_downloadDirectoryPathHandler.isDirectory())    {
+    else if(!m_downloadDirectoryPathHandler.isDirectory())
+    {
         cout << "Working directory: ["<< m_downloadDirectoryPathHandler.getFullPath() << "] is not a directory" << endl;
     }
     else if(!m_memoryCardPathHandler.isFoundInLocalSystem())

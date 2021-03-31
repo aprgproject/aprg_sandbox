@@ -91,7 +91,7 @@ void AprgFileExtractor::copyRelativeFilePathsFromCompressedFile(string const& fi
     }
 }
 
-string AprgFileExtractor::extractAll(string const& filePathOfCompressedFile) const
+string AprgFileExtractor::extractOnceForAllFiles(string const& filePathOfCompressedFile) const
 {
     AlbaLocalPathHandler compressedFilePathHandler(filePathOfCompressedFile);
     AlbaLocalPathHandler outputPathHandler(compressedFilePathHandler.getDirectory() + R"(\)" + compressedFilePathHandler.getFilenameOnly() + R"(\)");
@@ -148,7 +148,7 @@ void AprgFileExtractor::extractAllRelevantFilesInThisCompressedFile(string const
     AlbaLocalPathHandler compressedFilePathHandler(filePathOfCompressedFile);
     if(isTheExtensionXzOrGzOrTar(compressedFilePathHandler.getExtension()))
     {
-        if(m_grepEvaluator.evaluate(compressedFilePathHandler.getFile())) // this is a needless check because if there is a zip file, we need to extract it
+        if(m_grepEvaluator.evaluate(compressedFilePathHandler.getFile()))
         {
             extractAllFilesRecursively(filePathOfCompressedFile);
         }
@@ -161,7 +161,7 @@ void AprgFileExtractor::extractAllRelevantFilesInThisCompressedFile(string const
 
 void AprgFileExtractor::extractAllFilesRecursively(string const& filePathOfCompressedFile)
 {
-    AlbaLocalPathHandler extractedPathHandler(extractAll(filePathOfCompressedFile));
+    AlbaLocalPathHandler extractedPathHandler(extractOnceForAllFiles(filePathOfCompressedFile));
     extractAllRelevantFilesInThisDirectory(extractedPathHandler.getFullPath());
 }
 

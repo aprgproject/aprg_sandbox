@@ -10,10 +10,12 @@
 using namespace alba::TwoDimensions;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 AprgBitmapFilters::AprgBitmapFilters(string const& path)
-    : m_backgroundColor(0x00FFFFFF)    , m_bitmap(path)
+    : m_backgroundColor(0x00FFFFFF)
+    , m_bitmap(path)
     , m_inputCanvas(m_bitmap.getSnippetReadFromFileWholeBitmap())
     , m_outputCanvas(m_bitmap.createColorFilledSnippetWithSizeOfWholeBitmap(m_backgroundColor))
 {}

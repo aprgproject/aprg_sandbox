@@ -17,7 +17,7 @@ public:
     AprgFileExtractor(std::string const& condition, std::string const& pathOf7zExecutable, std::string const& pathOf7zTempFile);
     void extractAllRelevantFiles(std::string const& pathOfFileOrDirectory);
     void copyRelativeFilePathsFromCompressedFile(std::string const& filePathOfCompressedFile, SetOfFilePaths& files) const;
-    std::string extractAll(std::string const& filePathOfCompressedFile) const;
+    std::string extractOnceForAllFiles(std::string const& filePathOfCompressedFile) const;
     std::string extractOneFile(std::string const& filePathOfCompressedFile, std::string const& relativePathOfFile) const;
     bool isRecognizedCompressedFile(std::string const& extension) const;
 private:

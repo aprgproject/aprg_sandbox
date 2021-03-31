@@ -128,10 +128,12 @@ void OneDownloadPerPageCrawler::downloadFile(AlbaWebPathHandler const& webLinkPa
         {
             cout << "Download file size is less than " << m_configuration.getMinimumFileSize() << ". FileSize = " << downloadPathHandler.getFileSizeEstimate() << " Invalid file. Retrying from the start" << endl;
             m_webCrawler.saveStateToMemoryCard(CrawlState::DownloadedFileSizeIsLessThanExpected);
-        }        else
+        }
+        else
         {
             m_webCrawler.saveStateToMemoryCard(CrawlState::CurrentDownloadIsFinished);
-        }    }
+        }
+    }
 }
 
 void OneDownloadPerPageCrawler::gotoNextLink(AlbaWebPathHandler const& webLinkPathHandler, unsigned int const webLinkIndex)

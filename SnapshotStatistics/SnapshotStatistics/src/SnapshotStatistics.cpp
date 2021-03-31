@@ -41,9 +41,9 @@ void SnapshotStatistics::extractFilesInSnapshot(string const& snapshotPath)
 {
     cout<<"processFileOrDirectory snapshotPath: "<<snapshotPath<<endl;
     AlbaLocalPathHandler snapshotPathHandler(snapshotPath);
-    m_fileExtractor.extractAll(snapshotPathHandler.getFullPath());
+    m_fileExtractor.extractOnceForAllFiles(snapshotPathHandler.getFullPath());
     snapshotPathHandler.input(getSnapshotDirectory(snapshotPathHandler.getFullPath()) + R"(\BTSLogFiles.zip)");
-    m_fileExtractor.extractAll(snapshotPathHandler.getFullPath());
+    m_fileExtractor.extractOnceForAllFiles(snapshotPathHandler.getFullPath());
 }
 
 void SnapshotStatistics::fetchFileSizesForSnapshot(string const& snapshotPath)

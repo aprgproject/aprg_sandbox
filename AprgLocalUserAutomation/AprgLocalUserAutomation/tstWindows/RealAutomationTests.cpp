@@ -16,10 +16,12 @@ TEST(RealAutomationTest, NormalizeAudioForMp3Files) //DISABLED_
     AlbaLocalPathHandler mp3FilesPathHandler(R"(N:\MUSIC\AnimeSongs2)");
 
     while(1)
-    {        if(userAutomation.isLetterPressed('s'))  //s for start
+    {
+        if(userAutomation.isLetterPressed('s'))  //s for start
         {
             ListOfPaths filePaths;
-            ListOfPaths directoryPaths;            mp3FilesPathHandler.findFilesAndDirectoriesOneDepth("*.*", filePaths, directoryPaths);
+            ListOfPaths directoryPaths;
+            mp3FilesPathHandler.findFilesAndDirectoriesOneDepth("*.*", filePaths, directoryPaths);
 
             for(string const& filePath : filePaths)
             {
@@ -28,10 +30,12 @@ TEST(RealAutomationTest, NormalizeAudioForMp3Files) //DISABLED_
                 if(filePathHandler.getExtension() == "mp3" && filePathHandler.getFileSizeEstimate() < 100000000) //100MB
                 {
                     //close previous file
-                    userAutomation.typeControlAndLetterSimultaneously('W');                    userAutomation.typeKey(VK_RIGHT);
+                    userAutomation.typeControlAndLetterSimultaneously('W');
+                    userAutomation.typeKey(VK_RIGHT);
                     userAutomation.typeKey(VK_RETURN);
 
-                    //open file                    userAutomation.typeControlAndLetterSimultaneously('O');
+                    //open file
+                    userAutomation.typeControlAndLetterSimultaneously('O');
                     userAutomation.sleep(1000);
 
                     //paste file name
@@ -46,8 +50,10 @@ TEST(RealAutomationTest, NormalizeAudioForMp3Files) //DISABLED_
 
                     //select all track
                     userAutomation.typeControlAndLetterSimultaneously('A');
+
                     //click effect
                     userAutomation.doDoubleLeftClickAt(MousePosition(344,33));
+
                     //click normalization
                     userAutomation.doDoubleLeftClickAt(MousePosition(433, 443));
 
@@ -58,10 +64,12 @@ TEST(RealAutomationTest, NormalizeAudioForMp3Files) //DISABLED_
                     userAutomation.sleep(20000);
 
                     //export
-                    userAutomation.pressDownKey(VK_CONTROL);                    userAutomation.pressDownKey(VK_SHIFT);
+                    userAutomation.pressDownKey(VK_CONTROL);
+                    userAutomation.pressDownKey(VK_SHIFT);
                     userAutomation.pressDownKey('E');
                     userAutomation.sleepWithRealisticDelay();
-                    userAutomation.pressUpKey('E');                    userAutomation.pressUpKey(VK_SHIFT);
+                    userAutomation.pressUpKey('E');
+                    userAutomation.pressUpKey(VK_SHIFT);
                     userAutomation.pressUpKey(VK_CONTROL);
 
                     //type enter key
@@ -75,10 +83,12 @@ TEST(RealAutomationTest, NormalizeAudioForMp3Files) //DISABLED_
                     userAutomation.sleep(20000);
 
                     //close file
-                    userAutomation.typeControlAndLetterSimultaneously('W');                    userAutomation.typeKey(VK_RIGHT);
+                    userAutomation.typeControlAndLetterSimultaneously('W');
+                    userAutomation.typeKey(VK_RIGHT);
                     userAutomation.typeKey(VK_RETURN);
 
-                    //break;                }
+                    //break;
+                }
                 else
                 {
                     ALBA_PRINT2(filePath, filePathHandler.getFileSizeEstimate());

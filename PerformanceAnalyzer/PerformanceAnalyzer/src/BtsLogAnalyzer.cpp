@@ -61,9 +61,11 @@ void BtsLogAnalyzer::processFileWithSortedPrints(std::string const& pathOfBtsSor
         saveDspCapacityInformationInGrm(lineInLogs);
     }
 }
+
 void BtsLogAnalyzer::initializeMessageQueueingTimeFileStream()
 {
-    AlbaLocalPathHandler messageQueueingTimeFilePathHandler(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_MessageQueueingTime.csv");    messageQueueingTimeFileStreamOptional.createObjectUsingDefaultConstructor();
+    AlbaLocalPathHandler messageQueueingTimeFilePathHandler(m_btsLogPathHandler.getDirectory()+m_btsLogPathHandler.getFilenameOnly()+"_MessageQueueingTime.csv");
+    messageQueueingTimeFileStreamOptional.createObjectUsingDefaultConstructor();
     ofstream& messageQueueingTimeFileStream(messageQueueingTimeFileStreamOptional.getReference());
     messageQueueingTimeFileStream.open(messageQueueingTimeFilePathHandler.getFullPath());
     messageQueueingTimeFileStream.precision(20);
@@ -158,7 +160,8 @@ void BtsLogAnalyzer::saveDspCapacityInformationInLrmForR3(string const& lineInLo
 {
     if(isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "printDspCapacityInd(): 0x"))
     {
-        BtsLogPrint logPrint(lineInLogs);        strings dspCapacitiesPerDsp;
+        BtsLogPrint logPrint(lineInLogs);
+        strings dspCapacitiesPerDsp;
         splitToStrings<SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, lineInLogs, " ");
         unsigned int boardId(convertHexStringToNumber<unsigned int>(getStringInBetweenTwoStrings(lineInLogs, "0x", " ")));
         for(string const& dspCapacityOfOneDsp : dspCapacitiesPerDsp)
@@ -171,10 +174,12 @@ void BtsLogAnalyzer::saveDspCapacityInformationInLrmForR3(string const& lineInLo
 void BtsLogAnalyzer::saveDspCapacityInformationInLrmOfOneDspForR3(string const& dspCapacityOfOneDsp, unsigned int const boardId, BtsLogPrint const& logPrint)
 {
     bool isDspDataFilled(false);
-    DspData dspData;    dspData.boardId=boardId;
+    DspData dspData;
+    dspData.boardId=boardId;
     strings delimetersBeforeCni1738{"{", "}", ":", "/", "[", ",", ",", ",", "]", "[", ",", ",", "]"};
     strings delimetersAfterCni1738{"{", "}", ":", "/", "[", ",", ",", ",", ",", "]", "[", ",", ",", "]"};
-    strings valuesWithBeforeCni1738;    strings valuesWithAfterCni1738;
+    strings valuesWithBeforeCni1738;
+    strings valuesWithAfterCni1738;
     splitToStringsUsingASeriesOfDelimeters(valuesWithBeforeCni1738, dspCapacityOfOneDsp, delimetersBeforeCni1738);
     splitToStringsUsingASeriesOfDelimeters(valuesWithAfterCni1738, dspCapacityOfOneDsp, delimetersAfterCni1738);
 
@@ -229,7 +234,8 @@ void BtsLogAnalyzer::saveDspCapacityInformationInLrmOfOneDspForR3(string const& 
 void BtsLogAnalyzer::saveDspCapacityInformationInLrmForR2(string const& lineInLogs)
 {
     if(isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "INF/TCOM/LRM/Rep, |0x"))
-    {        BtsLogPrint logPrint(lineInLogs);
+    {
+        BtsLogPrint logPrint(lineInLogs);
         strings dspCapacitiesPerDsp;
         string logsAfterLrmPrint(getStringAfterThisString(lineInLogs, "INF/TCOM/LRM/Rep"));
         splitToStrings<SplitStringType::WithoutDelimeters>(dspCapacitiesPerDsp, logsAfterLrmPrint, "(");
@@ -244,10 +250,12 @@ void BtsLogAnalyzer::saveDspCapacityInformationInLrmForR2(string const& lineInLo
 void BtsLogAnalyzer::saveDspCapacityInformationInLrmOfOneDspForR2(string const& dspCapacityOfOneDsp, unsigned int const boardId, BtsLogPrint const& logPrint)
 {
     bool isDspDataFilled(false);
-    DspData dspData;    dspData.boardId=boardId;
+    DspData dspData;
+    dspData.boardId=boardId;
     strings delimetersBeforeCni1738{":", "/", "[", ",", ",", ",", ",", ",", "]"};
     strings delimetersAfterCni1738{":", "/", "[", ",", ",", ",", ",", ",", ",", "]"};
-    strings valuesWithBeforeCni1738;    strings valuesWithAfterCni1738;
+    strings valuesWithBeforeCni1738;
+    strings valuesWithAfterCni1738;
     splitToStringsUsingASeriesOfDelimeters(valuesWithBeforeCni1738, dspCapacityOfOneDsp, delimetersBeforeCni1738);
     splitToStringsUsingASeriesOfDelimeters(valuesWithAfterCni1738, dspCapacityOfOneDsp, delimetersAfterCni1738);
 
@@ -602,10 +610,12 @@ void BtsLogAnalyzer::computeRLDeletionLatencyAndUpdateIfLogTimePairIsValid(UserI
 void BtsLogAnalyzer::saveMessageQueueingTimeToCsvFile(string const& lineInLogs, unsigned int const messageQueueingTime)
 {
     if(messageQueueingTimeFileStreamOptional.hasContent())
-    {        ofstream& messageQueueingTimeFileStream(messageQueueingTimeFileStreamOptional.getReference());
+    {
+        ofstream& messageQueueingTimeFileStream(messageQueueingTimeFileStreamOptional.getReference());
         messageQueueingTimeFileStream<<messageQueueingTime<<","<<lineInLogs<<endl;
     }
 }
+
 void BtsLogAnalyzer::saveUserIndentifierAndLatencyToCsvFile(UserIdentifiers const& userIdentifiers, double const latencyInMicroseconds, ofstream& csvFileStream) const
 {
     csvFileStream<<userIdentifiers.getCrnccId()<<","<<userIdentifiers.getNbccId()<<","<<userIdentifiers.getTransactionId()<<","<<latencyInMicroseconds<<",";
@@ -631,9 +641,11 @@ double BtsLogAnalyzer::getTotalMicroseconds(LogTimePair const& logTimePairOfTheU
     BtsLogTime latency = logTimePairOfTheUser.second.getConstReference()-logTimePairOfTheUser.first.getConstReference();
     return getTotalMicroseconds(latency);
 }
+
 double BtsLogAnalyzer::getTotalMicroseconds(BtsLogTime const& btsLogTime) const
 {
-    double result((double)btsLogTime.getMinutes()*1000000*60 + (double)btsLogTime.getSeconds()*1000000 + (double)btsLogTime.getMicroSeconds());    return result;
+    double result((double)btsLogTime.getMinutes()*1000000*60 + (double)btsLogTime.getSeconds()*1000000 + (double)btsLogTime.getMicroSeconds());
+    return result;
 }
 
 void BtsLogAnalyzer::printAllCollectedData() const

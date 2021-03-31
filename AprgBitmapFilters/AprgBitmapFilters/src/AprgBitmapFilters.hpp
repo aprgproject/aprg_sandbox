@@ -37,7 +37,9 @@ private:
     BitmapXY convertPointToBitmapXY(TwoDimensions::Point const& pointPosition) const;
     unsigned int m_backgroundColor;
     AprgBitmap m_bitmap;
-    AprgBitmapSnippet m_inputCanvas;    AprgBitmapSnippet m_outputCanvas;
+    AprgBitmapSnippet m_inputCanvas;
+    AprgBitmapSnippet m_outputCanvas;
     PixelInformationDatabase m_pixelInformationDatabase;
 };
+
 }
