@@ -7,68 +7,66 @@ using namespace std;
 namespace alba
 {
 
-TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForMsgQueuingTime)
+TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForMsgQueueingTime)
 {
     PerformanceAnalyzer analyzer;
-    analyzer.setFileForRawDataDump(R"(D:\ZZZ_Logs\AmrRel3\SYSLOG_1712_WBTS00_0000_1059_00\MsgQueuingTimeRawData_1.txt)");
-    analyzer.processFileForMsgQueuingTime(R"(D:\ZZZ_Logs\111_STABI_AmrRel3\OldCanBeDeleted\SYSLOG_1712_WBTS00_0000_1059_00\Tcom.log)");
+    analyzer.setFileForRawDataDump(R"(C:\ZZZ_Logs\PR407148\RAN3451_OFF\MsgQueueingTimeRawData_1.txt)");
+    analyzer.processFileForMsgQueueingTime(R"(C:\ZZZ_Logs\PR407148\RAN3451_OFF\sortedTCOM.log)");
 }
 
 TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForRlSetupDelayInRlh)
 {
     PerformanceAnalyzer analyzer;
-    analyzer.setFileForRawDataDump(R"(D:\ZZZ_Logs\AmrRel3\SYSLOG_1712_WBTS00_0000_1059_00\RlSetupRlhDelayRawData_1.csv)");
-    analyzer.processFileForRlSetupDelayInRlh(R"(D:\ZZZ_Logs\AmrRel3\SYSLOG_1712_WBTS00_0000_1059_00\Tcom.log)");
+    analyzer.setFileForRawDataDump(R"(C:\ZZZ_Logs\PR407148\RAN3451_OFF\RlSetupRlhDelayRawData_1.csv)");
+    analyzer.processFileForRlSetupDelayInRlh(R"(C:\ZZZ_Logs\PR407148\RAN3451_OFF\sortedTCOM.log)");
 }
 
 TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForRlDeletionDelayInRlh)
 {
     PerformanceAnalyzer analyzer;
-    analyzer.setFileForRawDataDump(R"(D:\ZZZ_Logs\AmrRel3\SYSLOG_1712_WBTS00_0000_1059_00\RlDeletionRlhDelayRawData_1.csv)");
-    analyzer.processFileForRlDeletionDelayInRlh(R"(D:\ZZZ_Logs\AmrRel3\SYSLOG_1712_WBTS00_0000_1059_00\Tcom.log)");
+    analyzer.setFileForRawDataDump(R"(C:\ZZZ_Logs\PR407148\RAN3451_OFF\RlDeletionRlhDelayRawData_1.csv)");
+    analyzer.processFileForRlDeletionDelayInRlh(R"(C:\ZZZ_Logs\PR407148\RAN3451_OFF\sortedTCOM.log)");
 }
 
 TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForRlSetupDelayInTupc)
 {
     PerformanceAnalyzer analyzer;
-    analyzer.setFileForRawDataDump(R"(D:\ZZZ_Logs\AmrRel3\SYSLOG_1712_WBTS00_0000_1059_00\TupcRawDataComplete_1.csv)");
-    analyzer.processFileForRlSetupDelayInTupcWithSymonKnife(R"(D:\ZZZ_Logs\AmrRel3\SYSLOG_1712_WBTS00_0000_1059_00\Tcom.log)");
+    analyzer.setFileForRawDataDump(R"(C:\ZZZ_Logs\PR407148\RAN3451_OFF\TupcRawDataComplete_1.csv)");
+    analyzer.processFileForRlSetupDelayInTupcWithSymonKnife(R"(C:\ZZZ_Logs\PR407148\RAN3451_OFF\sortedTCOM.log)");
 }
 
-TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForMsgQueuingTime2)
+TEST(PerformanceAnalyzerTest, ProcessFileForMsgQueueingTime2)
 {
     PerformanceAnalyzer analyzer;
-    analyzer.setFileForRawDataDump(R"(D:\ZZZ_Logs\RAN3370\Enable\MsgQueuingTimeRawData_2.txt)");
-    analyzer.processFileForMsgQueuingTime(R"(D:\ZZZ_Logs\RAN3370\Enable\TcomTupc.log)");
+    analyzer.setFileForRawDataDump(R"(C:\ZZZ_Logs\PR407148\RAN3451_ON\ALL\MsgQueueingTimeRawData_2.txt)");
+    analyzer.processFileForMsgQueueingTime(R"(C:\ZZZ_Logs\PR407148\RAN3451_ON\ALL\sortedTCOM.log)");
 }
 
-TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForRlSetupDelayInRlh2)
+TEST(PerformanceAnalyzerTest, ProcessFileForRlSetupDelayInRlh2)
 {
     PerformanceAnalyzer analyzer;
-    analyzer.setFileForRawDataDump(R"(D:\ZZZ_Logs\RAN3370\Enable\RlSetupRlhDelayRawData_2.csv)");
-    analyzer.processFileForRlSetupDelayInRlh(R"(D:\ZZZ_Logs\RAN3370\Enable\TcomTupc.log)");
+    analyzer.setFileForRawDataDump(R"(C:\ZZZ_Logs\PR407148\RAN3451_ON\ALL\RlSetupRlhDelayRawData_2.csv)");
+    analyzer.processFileForRlSetupDelayInRlh(R"(C:\ZZZ_Logs\PR407148\RAN3451_ON\ALL\sortedTCOM.log)");
 }
 
-TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForRlDeletionDelayInRlh2)
+TEST(PerformanceAnalyzerTest, ProcessFileForRlDeletionDelayInRlh2)
 {
     PerformanceAnalyzer analyzer;
-    analyzer.setFileForRawDataDump(R"(D:\ZZZ_Logs\RAN3370\Enable\RlDeletionRlhDelayRawData_2.csv)");
-    analyzer.processFileForRlDeletionDelayInRlh(R"(D:\ZZZ_Logs\RAN3370\Enable\TcomTupc.log)");
+    analyzer.setFileForRawDataDump(R"(C:\ZZZ_Logs\PR407148\RAN3451_ON\ALL\RlDeletionRlhDelayRawData_2.csv)");
+    analyzer.processFileForRlDeletionDelayInRlh(R"(C:\ZZZ_Logs\PR407148\RAN3451_ON\ALL\sortedTCOM.log)");
 }
 
-TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForRlSetupDelayInTupc2)
+TEST(PerformanceAnalyzerTest, ProcessFileForRlSetupDelayInTupc2)
 {
     PerformanceAnalyzer analyzer;
-    analyzer.setFileForRawDataDump(R"(D:\ZZZ_Logs\PR224369_NEWEST\DegradationFound\WBTS17\TupcRawDataComplete_2.csv)");
-    analyzer.processFileForRlSetupDelayInTupcWithSymonKnife(R"(D:\ZZZ_Logs\PR224369_NEWEST\DegradationFound\WBTS17\TcomTupc.log)");
+    analyzer.setFileForRawDataDump(R"(C:\ZZZ_Logs\PR407148\RAN3451_ON\ALL\TupcRawDataComplete_2.csv)");
+    analyzer.processFileForRlSetupDelayInTupcWithSymonKnife(R"(C:\ZZZ_Logs\PR407148\RAN3451_ON\ALL\sortedTCOM.log)");
 }
-
 
 
 TEST(PerformanceAnalyzerTest, DISABLED_ProcessFileForRlSetupDelayFromWireshark1)
 {
-    PerformanceAnalyzer analyzer;
-    analyzer.setFileForRawDataDump(R"(D:\ZZZ_Logs\RAN3321Degradation\Knives\Wireshark\WBTS00_0000_2_T1\ALL\wiresharkcapture1.csv)");
+    PerformanceAnalyzer analyzer;    analyzer.setFileForRawDataDump(R"(D:\ZZZ_Logs\RAN3321Degradation\Knives\Wireshark\WBTS00_0000_2_T1\ALL\wiresharkcapture1.csv)");
     analyzer.processFileForFtmFcmWireshark(R"(D:\ZZZ_Logs\RAN3321Degradation\Knives\Wireshark\WBTS00_0000_2_T1\ALL\zzz_wireshark1.txt)");
 }
 

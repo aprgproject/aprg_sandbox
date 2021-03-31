@@ -112,30 +112,24 @@ PerformanceAnalyzer::PerformanceAnalyzer()
     AlbaLocalPathHandler pathHandler(R"(C:\temp\BtsSorter\)");
     pathHandler.createDirectoriesForNonExisitingDirectories();
     m_sorterConfiguration.m_condition = R"( ([syslog]&&[.log]) || [ccns.log] || [tcom.log] || (([startup]||[runtime]||[system])&&[.log]) || ([UDP]&&([.log]||[.txt])) )";
-    m_sorterConfiguration.m_pathOfLogsWithoutPcTime = pathHandler.getFullPath() + R"(LogsWithoutPcTime\)";
-    AlbaLocalPathHandler(m_sorterConfiguration.m_pathOfLogsWithoutPcTime).createDirectoriesForNonExisitingDirectories();
-    m_sorterConfiguration.m_pathOfStartupLog = pathHandler.getFullPath() + R"(Startup.log)";
+    m_sorterConfiguration.m_pathOfTempFiles = pathHandler.getFullPath();
+    pathHandler.createDirectoriesForNonExisitingDirectories();
     m_sorterConfiguration.m_configurationWithPcTime.m_directoryForBlocks = pathHandler.getFullPath() + R"(WithPcTimeBlocks\)";
     AlbaLocalPathHandler(m_sorterConfiguration.m_configurationWithPcTime.m_directoryForBlocks).createDirectoriesForNonExisitingDirectories();
-    m_sorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock = 10000;
-    m_sorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock = 100000;
+    m_sorterConfiguration.m_configurationWithPcTime.m_minimumNumberOfObjectsPerBlock = 10000;    m_sorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsPerBlock = 100000;
     m_sorterConfiguration.m_configurationWithPcTime.m_maximumNumberOfObjectsInMemory = 200000;
     m_sorterConfiguration.m_configurationWithPcTime.m_maximumFileStreams = 50;
-    m_sorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks = pathHandler.getFullPath() + R"(WithoutPcTimeBlocks\)";
-    AlbaLocalPathHandler(m_sorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks).createDirectoriesForNonExisitingDirectories();
+    m_sorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks = pathHandler.getFullPath() + R"(WithoutPcTimeBlocks\)";    AlbaLocalPathHandler(m_sorterConfiguration.m_configurationWithoutPcTime.m_directoryForBlocks).createDirectoriesForNonExisitingDirectories();
     m_sorterConfiguration.m_configurationWithoutPcTime.m_minimumNumberOfObjectsPerBlock = 1000;
     m_sorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsPerBlock = 100000;
     m_sorterConfiguration.m_configurationWithoutPcTime.m_maximumNumberOfObjectsInMemory = 200000;
     m_sorterConfiguration.m_configurationWithoutPcTime.m_maximumFileStreams = 70;
-
 }
 
-string PerformanceAnalyzer::extract(string const& inputPath) const
-{
+string PerformanceAnalyzer::extract(string const& inputPath) const{
     cout<<" (Extract) start | Input path: "<<inputPath<<endl;
     AprgFileExtractor fileExtractor(m_extractGrepCondition);
-    AlbaLocalPathHandler pathHandler(inputPath);
-    string outputPath(inputPath);
+    AlbaLocalPathHandler pathHandler(inputPath);    string outputPath(inputPath);
     if(pathHandler.isDirectory())
     {
         fileExtractor.extractAllRelevantFiles(pathHandler.getFullPath());
@@ -206,37 +200,33 @@ void PerformanceAnalyzer::logStringInRawDataFile(string const& line)
     }
 }
 
-void PerformanceAnalyzer::processFileForMsgQueuingTime(string const& filePath)
+void PerformanceAnalyzer::processFileForMsgQueueingTime(string const& filePath)
 {
     AlbaLocalPathHandler filePathHandler(filePath);
     cout<<"processFile: "<<filePathHandler.getFullPath()<<endl;
-
     ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
-    int totalMsgQueuingTime = 0;
-    int highestMsgQueuingTime = 0;
+    int totalMsgQueueingTime = 0;
+    int highestMsgQueueingTime = 0;
     int numberOfInstances=0;
 
-    while(fileReader.isNotFinished())
-    {
+    while(fileReader.isNotFinished())    {
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
         if(stringHelper::isStringFoundInsideTheOtherStringCaseSensitive(lineInLogs, "MSG TIME, start queuing time"))
         {
-            int msgQueuingTime = stringHelper::convertStringToNumber<int>(stringHelper::getNumberAfterThisString(lineInLogs, "msgQueuingTime: "));
-            totalMsgQueuingTime += msgQueuingTime;
-            highestMsgQueuingTime = std::max(msgQueuingTime, highestMsgQueuingTime);
+            int msgQueueingTime = stringHelper::convertStringToNumber<int>(stringHelper::getNumberAfterThisString(lineInLogs, "msgQueuingTime: "));
+            totalMsgQueueingTime += msgQueueingTime;
+            highestMsgQueueingTime = std::max(msgQueueingTime, highestMsgQueueingTime);
             logLineInRawDataFile(lineInLogs);
             numberOfInstances++;
         }
     }
-    cout<<"TotalMsgQueuingTime: "<<totalMsgQueuingTime<<" highestMsgQueuingTime: "<<highestMsgQueuingTime<<" AverageMsgQueuingTime: "<<((double)totalMsgQueuingTime)/numberOfInstances<<" numberOfPrints: "<<numberOfInstances<<endl;
+    cout<<"TotalMsgQueueingTime: "<<totalMsgQueueingTime<<" highestMsgQueueingTime: "<<highestMsgQueueingTime<<" AverageMsgQueueingTime: "<<((double)totalMsgQueueingTime)/numberOfInstances<<" numberOfPrints: "<<numberOfInstances<<endl;
 }
-
 
 void PerformanceAnalyzer::processFileForRlSetupDelayInRlh(string const& filePath)
 {
-    AlbaLocalPathHandler filePathHandler(filePath);
-    ifstream inputLogFileStream(filePath);
+    AlbaLocalPathHandler filePathHandler(filePath);    ifstream inputLogFileStream(filePath);
     AlbaFileReader fileReader(inputLogFileStream);
 
     cout<<"processFile: "<<filePathHandler.getFullPath() << " isOpen: " << inputLogFileStream.is_open() << " fileReader: " << fileReader.isNotFinished() <<endl;
@@ -414,24 +404,22 @@ void PerformanceAnalyzer::processFileForRlSetupDelayInTupcWithSymonKnife(string 
             {
                 return false;
             }
-            bool isCorrect = (rlhRlSetupRequestOptional.getReference()<rlhTbRegisterTimeOptional.getReference()) &&
-                    (rlhTbRegisterTimeOptional.getReference()<tupcTbRegisterTimeOptional.getReference()) &&
-                    //(tupcTbRegisterTimeOptional.getReference()<tupcFirstTransportConnectionSetupOptional.getReference()) &&
-                    (tupcTbRegisterTimeOptional.getReference()<tupcFirstErqSentOptional.getReference()) &&
-                    (tupcFirstErqSentOptional.getReference()<tupcLastEcfReceivedOptional.getReference()) &&
-                    (tupcLastEcfReceivedOptional.getReference()<tupcFirstTransportConnectionSetupOptional.getReference()) &&
-                    (tupcFirstTransportConnectionSetupOptional.getReference()<tupcLastTransportConnectionSetupResponseOptional.getReference()) &&
-                    (tupcLastTransportConnectionSetupResponseOptional.getReference()<tupcTbRegisterResponseTimeOptional.getReference()) &&
-                    (tupcTbRegisterResponseTimeOptional.getReference()<rlhTbRegisterResponseTimeOptional.getReference()) &&
-                    (rlhTbRegisterResponseTimeOptional.getReference()<rlhRlSetupResponseOptional.getReference());
+            bool isCorrect = (rlhRlSetupRequestOptional.getConstReference()<rlhTbRegisterTimeOptional.getConstReference()) &&
+                    (rlhTbRegisterTimeOptional.getConstReference()<tupcTbRegisterTimeOptional.getConstReference()) &&
+                    //(tupcTbRegisterTimeOptional.getConstReference()<tupcFirstTransportConnectionSetupOptional.getConstReference()) &&
+                    (tupcTbRegisterTimeOptional.getConstReference()<tupcFirstErqSentOptional.getConstReference()) &&
+                    (tupcFirstErqSentOptional.getConstReference()<tupcLastEcfReceivedOptional.getConstReference()) &&
+                    (tupcLastEcfReceivedOptional.getConstReference()<tupcFirstTransportConnectionSetupOptional.getConstReference()) &&
+                    (tupcFirstTransportConnectionSetupOptional.getConstReference()<tupcLastTransportConnectionSetupResponseOptional.getConstReference()) &&
+                    (tupcLastTransportConnectionSetupResponseOptional.getConstReference()<tupcTbRegisterResponseTimeOptional.getConstReference()) &&
+                    (tupcTbRegisterResponseTimeOptional.getConstReference()<rlhTbRegisterResponseTimeOptional.getConstReference()) &&
+                    (rlhTbRegisterResponseTimeOptional.getConstReference()<rlhRlSetupResponseOptional.getConstReference());
 
             return isCorrect;
-        }
-    };
+        }    };
 
     std::map<UniqueUserId, BtsLogDelay> btsLogDelays;
-    std::map<UniqueUserId, TupcDelaysData> tupcLogDelays;
-    UniqueUserId tupcRegisterRequestTupcUserId;
+    std::map<UniqueUserId, TupcDelaysData> tupcLogDelays;    UniqueUserId tupcRegisterRequestTupcUserId;
     BtsLogPrint ecfLogPrint;
 
     while(fileReader.isNotFinished())
@@ -646,19 +634,17 @@ void PerformanceAnalyzer::processFileForRlSetupDelayInTupcWithSymonKnifeForFtm(s
             {
                 return false;
             }
-            bool isCorrect = (rlhRlSetupRequestOptional.getReference()<tupcTbRegisterTimeOptional.getReference()) &&
-                    (tupcTbRegisterTimeOptional.getReference()<tupcFirstErqSentOptional.getReference()) &&
-                    (tupcFirstErqSentOptional.getReference()<tupcLastEcfReceivedOptional.getReference()) &&
-                    (tupcLastEcfReceivedOptional.getReference()<tupcFirstTransportConnectionSetupOptional.getReference()) &&
-                    (tupcFirstTransportConnectionSetupOptional.getReference()<rlhRlSetupResponseOptional.getReference());
+            bool isCorrect = (rlhRlSetupRequestOptional.getConstReference()<tupcTbRegisterTimeOptional.getConstReference()) &&
+                    (tupcTbRegisterTimeOptional.getConstReference()<tupcFirstErqSentOptional.getConstReference()) &&
+                    (tupcFirstErqSentOptional.getConstReference()<tupcLastEcfReceivedOptional.getConstReference()) &&
+                    (tupcLastEcfReceivedOptional.getConstReference()<tupcFirstTransportConnectionSetupOptional.getConstReference()) &&
+                    (tupcFirstTransportConnectionSetupOptional.getConstReference()<rlhRlSetupResponseOptional.getConstReference());
 
             return isCorrect;
-        }
-    };
+        }    };
 
     std::map<UniqueUserId, BtsLogDelay> btsLogDelays;
-    std::map<UniqueUserId, TupcDelaysData> tupcLogDelays;
-    UniqueUserId tupcRegisterRequestTupcUserId;
+    std::map<UniqueUserId, TupcDelaysData> tupcLogDelays;    UniqueUserId tupcRegisterRequestTupcUserId;
     BtsLogPrint ecfLogPrint;
 
     while(fileReader.isNotFinished())

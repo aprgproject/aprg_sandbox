@@ -1,27 +1,92 @@
+#include <AprgFileExtractor.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <NsapHelper.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <QuickestWayToProgram.hpp>
 #include <String/AlbaStringHelper.hpp>
 #include <Math/AlbaMathHelper.hpp>
 #include <Debug/AlbaDebug.hpp>
 #include <stdio.h>
 
+
 #include <gtest/gtest.h>
 #include <windows.h>
-
 #include <algorithm>
 #include <iostream>
 #include <map>
 #include <string>
+#include <iterator>
 
 using namespace alba;
 using namespace std;
 
+namespace alba
+{
+
+namespace ProgressCounters
+{
+int numberOfFilesToBeAnalyzedForExtraction;
+int numberOfFilesAnalyzedForExtraction;
+}
+
+}
 
 
-TEST(SampleTest, ExtractFilesRecursively)
+TEST(SampleTest, CBeginTest)
+{
+    int foo[] = {10,20,30,40,50};
+    std::vector<int> bar;
+
+    // iterate foo: inserting into bar
+    for (auto it = std::cbegin(foo); it!=std::cend(foo); ++it)
+      bar.push_back(*it);
+
+    // iterate bar: print contents:
+    std::cout << "bar contains:";
+    for (auto it = std::cbegin(bar); it!=std::cend(bar); ++it)
+      std::cout << ' ' << *it;
+    std::cout << '\n';
+}
+
+/*
+
+TEST(SampleTest, CopyFilesAtTheCorrectDirectoryForSCT)
+{
+    AprgFileExtractor fileExtractor("[.]");
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;    AlbaLocalPathHandler pathHandler(R"(C:\ZZZ_SCT_Logs\trunk_fsmr3@120334)");
+    pathHandler.findFilesAndDirectoriesOneDepth("*.*", files, directories);
+
+    for(string const& directory: directories)
+    {
+        ALBA_PRINT1(directory);
+        AlbaLocalPathHandler::ListOfPaths filesInDirectoriesInFirstDepth;
+        AlbaLocalPathHandler::ListOfPaths directoriesInDirectoriesInFirstDepth;
+        AlbaLocalPathHandler directoryInFirstDepthPathHandler(directory);
+        directoryInFirstDepthPathHandler.findFilesAndDirectoriesOneDepth("*.*", filesInDirectoriesInFirstDepth, directoriesInDirectoriesInFirstDepth);
+        for(string const& directoryInSecondDepth: directoriesInDirectoriesInFirstDepth)
+        {
+            ALBA_PRINT1(directoryInSecondDepth);
+            AlbaLocalPathHandler::ListOfPaths filesInDirectoriesInSecondDepth;
+            AlbaLocalPathHandler::ListOfPaths directoriesInDirectoriesInSecondDepth;
+            AlbaLocalPathHandler directoryInSecondDepthPathHandler(directoryInSecondDepth);
+            directoryInSecondDepthPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", filesInDirectoriesInSecondDepth, directoriesInDirectoriesInSecondDepth);
+            AlbaLocalPathHandler correctedDirectoryPathHandler(string("")+R"(C:\ZZZ_SCT_Logs\trunk_fsmr3@120334_fixed\)"+directoryInSecondDepthPathHandler.getImmediateDirectoryName()+R"(\)");
+            for(string const& file: filesInDirectoriesInSecondDepth)
+            {
+                AlbaLocalPathHandler filePathHandler(file);
+                string correctedDirectory = filePathHandler.getFullPath();
+                stringHelper::transformReplaceStringIfFound(correctedDirectory, directoryInSecondDepth, correctedDirectoryPathHandler.getFullPath());
+                AlbaLocalPathHandler correctedDirectoryFilePathHandler(correctedDirectory);
+                correctedDirectoryFilePathHandler.createDirectoriesForNonExisitingDirectories();
+                filePathHandler.copyToNewFile(correctedDirectoryFilePathHandler.getFullPath());
+                ALBA_PRINT3(filePathHandler.getFullPath(), correctedDirectoryPathHandler.getFullPath(), correctedDirectoryFilePathHandler.getFullPath());
+            }
+        }
+    }
+}
+
+TEST(SampleTest, ExtractAllFilesRecursivelyAtSctOneDepth)
 {
     AprgFileExtractor fileExtractor("[.]");
     AlbaLocalPathHandler::ListOfPaths files;
@@ -29,26 +94,46 @@ TEST(SampleTest, ExtractFilesRecursively)
     AlbaLocalPathHandler pathHandler(R"(C:\ZZZ_SCT_Logs\trunk_fsmr3@120334)");
     pathHandler.findFilesAndDirectoriesOneDepth("*.*", files, directories);
 
-    for(string const& file: files)
+    for(string const& directory: directories)
     {
-        AlbaLocalPathHandler filePath(file);
-        if(filePath.getExtension() == "zip")
+        AlbaLocalPathHandler::ListOfPaths filesInDirectoriesInFirstDepth;
+        AlbaLocalPathHandler::ListOfPaths directoriesInDirectoriesInFirstDepth;
+        AlbaLocalPathHandler directoryInFirstDepthPathHandler(directory);
+        directoryInFirstDepthPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", filesInDirectoriesInFirstDepth, directoriesInDirectoriesInFirstDepth);
+        for(string const& file: filesInDirectoriesInFirstDepth)
         {
-            fileExtractor.extractAll(filePath.getFullPath());
+            AlbaLocalPathHandler filePath(file);
+            if(filePath.getExtension() == "zip")
+            {
+                fileExtractor.extractAll(filePath.getFullPath());
+            }
         }
     }
 }
 
 
-/*
+TEST(SampleTest, ExtractFilesRecursivelyForSctOneDepth)
+{
+    AprgFileExtractor fileExtractor("[.]");
+    AlbaLocalPathHandler::ListOfPaths files;    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler pathHandler(R"(C:\ZZZ_SCT_Logs\trunk_fsmr3@120334)");
+    pathHandler.findFilesAndDirectoriesOneDepth("*.*", files, directories);
+
+    for(string const& file: files)
+    {
+        AlbaLocalPathHandler filePath(file);        if(filePath.getExtension() == "zip")
+        {
+            fileExtractor.extractAll(filePath.getFullPath());
+        }    }
+}
+
+
 
 TEST(SampleTest, LrmDirectoriesToFind)
-{
-    AlbaLocalPathHandler::ListOfPaths files;
+{    AlbaLocalPathHandler::ListOfPaths files;
     AlbaLocalPathHandler::ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\SystemFrameworkImprovement3\tcom-SystemFrameworkImprovement3-lrm\C_Application\SC_TCOM\CP_LRM\tst)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
-
     for(string const& directory: directories)
     {
         cout<<directory<<endl;

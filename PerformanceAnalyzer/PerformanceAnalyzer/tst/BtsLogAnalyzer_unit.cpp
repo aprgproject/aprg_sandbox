@@ -7,12 +7,11 @@ using namespace std;
 namespace alba
 {
 
-TEST(BtsLogAnalyzerTest, ProcessFileWithSortedPrints)
+TEST(BtsLogAnalyzerTest, DISABLED_ProcessFileWithSortedPrints)
 {
     BtsLogAnalyzer analyzer;
-    analyzer.processFileWithSortedPrints(R"(H:\Logs\111_MessagePoolExhaustion\MessagePoolExhaustionDueToPerformance\WBTS18\logs\msgQueuingTime.log)");
+    analyzer.processFileWithSortedPrints(R"(H:\Logs\111_MessagePoolExhaustion\MessagePoolExhaustionDueToPerformance\WBTS18\logs\msgQueueingTime.log)");
     analyzer.printAllCollectedData();
 }
-
 
 }
