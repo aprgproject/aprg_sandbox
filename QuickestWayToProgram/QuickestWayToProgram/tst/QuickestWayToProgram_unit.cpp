@@ -31,15 +31,20 @@ int numberOfFilesAnalyzedForExtraction;
 
 }
 
-
 TEST(SampleTest, CBeginTest)
 {
-    int foo[] = {10,20,30,40,50};
-    std::vector<int> bar;
+    bool printThis(true);
+    printf("%d", printThis);
+}
+
+/*
+ *
+TEST(SampleTest, CBeginTest)
+{
+    int foo[] = {10,20,30,40,50};    std::vector<int> bar;
 
     // iterate foo: inserting into bar
-    for (auto it = std::cbegin(foo); it!=std::cend(foo); ++it)
-      bar.push_back(*it);
+    for (auto it = std::cbegin(foo); it!=std::cend(foo); ++it)      bar.push_back(*it);
 
     // iterate bar: print contents:
     std::cout << "bar contains:";
@@ -48,15 +53,12 @@ TEST(SampleTest, CBeginTest)
     std::cout << '\n';
 }
 
-/*
 
 TEST(SampleTest, CopyFilesAtTheCorrectDirectoryForSCT)
-{
-    AprgFileExtractor fileExtractor("[.]");
+{    AprgFileExtractor fileExtractor("[.]");
     AlbaLocalPathHandler::ListOfPaths files;
     AlbaLocalPathHandler::ListOfPaths directories;    AlbaLocalPathHandler pathHandler(R"(C:\ZZZ_SCT_Logs\trunk_fsmr3@120334)");
     pathHandler.findFilesAndDirectoriesOneDepth("*.*", files, directories);
-
     for(string const& directory: directories)
     {
         ALBA_PRINT1(directory);
