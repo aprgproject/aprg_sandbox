@@ -33,13 +33,11 @@ private:
     unsigned char getRed(unsigned int const color) const;
     unsigned char getGreen(unsigned int const color) const;
     unsigned char getBlue(unsigned int const color) const;
-    Point convertBitmapXYToPoint(BitmapXY const& bitmapPosition) const;
-    BitmapXY convertPointToBitmapXY(Point const& pointPosition) const;
+    TwoDimensions::Point convertBitmapXYToPoint(BitmapXY const& bitmapPosition) const;
+    BitmapXY convertPointToBitmapXY(TwoDimensions::Point const& pointPosition) const;
     unsigned int m_backgroundColor;
     AprgBitmap m_bitmap;
-    AprgBitmapSnippet m_inputCanvas;
-    AprgBitmapSnippet m_outputCanvas;
+    AprgBitmapSnippet m_inputCanvas;    AprgBitmapSnippet m_outputCanvas;
     PixelInformationDatabase m_pixelInformationDatabase;
 };
-
 }
