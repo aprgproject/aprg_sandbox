@@ -44,23 +44,20 @@ TEST(SampleTest, ExtractFilesAndCopyLogsForSctTests)
     inputDirectoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", files, directories);
 
     // extract all relevant files at zip files on depth one
-    for(string const& file: files)
+    /*for(string const& file: files)
     {
         AlbaLocalPathHandler filePath(file);
-        if(filePath.getExtension() == "zip")
-        {
+        if(filePath.getExtension() == "zip")        {
             ALBA_PRINT1(filePath.getFullPath());
             fileExtractor.extractAllRelevantFiles(filePath.getFullPath());
         }
-    }
+    }*/
 
     //copy to correct directory
-    files.clear();
-    directories.clear();
+    files.clear();    directories.clear();
     inputDirectoryPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
     for(string const& file: files)
-    {
-        string newFilePath(file);
+    {        string newFilePath(file);
         stringHelper::transformReplaceStringIfFound(newFilePath, inputDirectoryPathHandler.getFullPath(), "");
         newFilePath = stringHelper::getStringAfterThisString(stringHelper::getStringAfterThisString(newFilePath, R"(\)"), R"(\)");
         if(!newFilePath.empty())
