@@ -30,13 +30,13 @@ namespace alba
 
 #define ALBA_PRECISION(parameter) cout.precision(parameter)
 #define ALBA_EXIT exit(0)
-#define ALBA_PRINT0(parameter) cout << "ALBA_PRINT0:" << parameter << endl
-#define ALBA_PRINT1(...) cout << "ALBA_PRINT1:" << Z_ALBA_PRIVATE_GET_STRING_PRINT1(__VA_ARGS__) << endl
-#define ALBA_PRINT2(...) cout << "ALBA_PRINT2:" << Z_ALBA_PRIVATE_GET_STRING_PRINT2(__VA_ARGS__) << endl
-#define ALBA_PRINT3(...) cout << "ALBA_PRINT3:" << Z_ALBA_PRIVATE_GET_STRING_PRINT3(__VA_ARGS__) << endl
-#define ALBA_PRINT4(...) cout << "ALBA_PRINT4:" << Z_ALBA_PRIVATE_GET_STRING_PRINT4(__VA_ARGS__) << endl
-#define ALBA_PRINT5(...) cout << "ALBA_PRINT5:" << Z_ALBA_PRIVATE_GET_STRING_PRINT5(__VA_ARGS__) << endl
-#define ALBA_PRINT6(...) cout << "ALBA_PRINT6:" << Z_ALBA_PRIVATE_GET_STRING_PRINT6(__VA_ARGS__) << endl
+#define ALBA_PRINT0(parameter) cout << "ALBA_PRINT0 in " << __FUNCTION__ << "(...):" << parameter << endl
+#define ALBA_PRINT1(...) cout << "ALBA_PRINT1 in " << __FUNCTION__ << "(...): " << Z_ALBA_PRIVATE_GET_STRING_PRINT1(__VA_ARGS__) << endl
+#define ALBA_PRINT2(...) cout << "ALBA_PRINT2 in " << __FUNCTION__ << "(...): " << Z_ALBA_PRIVATE_GET_STRING_PRINT2(__VA_ARGS__) << endl
+#define ALBA_PRINT3(...) cout << "ALBA_PRINT3 in " << __FUNCTION__ << "(...): " << Z_ALBA_PRIVATE_GET_STRING_PRINT3(__VA_ARGS__) << endl
+#define ALBA_PRINT4(...) cout << "ALBA_PRINT4 in " << __FUNCTION__ << "(...): " << Z_ALBA_PRIVATE_GET_STRING_PRINT4(__VA_ARGS__) << endl
+#define ALBA_PRINT5(...) cout << "ALBA_PRINT5 in " << __FUNCTION__ << "(...): " << Z_ALBA_PRIVATE_GET_STRING_PRINT5(__VA_ARGS__) << endl
+#define ALBA_PRINT6(...) cout << "ALBA_PRINT6 in " << __FUNCTION__ << "(...): " << Z_ALBA_PRIVATE_GET_STRING_PRINT6(__VA_ARGS__) << endl
 
 
 }//namespace alba
