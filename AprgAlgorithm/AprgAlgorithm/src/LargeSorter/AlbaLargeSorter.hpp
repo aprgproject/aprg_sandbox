@@ -81,15 +81,13 @@ private:
             splitToSmallestBlocks(blockIterator, DataBlockType::Memory);
         }
     }
-    /*
+
     //nth element implementation
     void splitToSmallestBlocks(BlockIterator const & blockIterator, DataBlockType const blockTypeForNewBlocks)
-    {
-        BlockIterator iteratorAfterBlockToSplit(blockIterator);
+    {        BlockIterator iteratorAfterBlockToSplit(blockIterator);
         iteratorAfterBlockToSplit++;
         unsigned int index=0, indexOfIndexes=0;
         BlockIterator newBlockIterator(iteratorAfterBlockToSplit);
-
         Indexes indexes;
         putIndexesWithMultiplesOfNumber(indexes, m_configuration.m_minimumNumberOfObjectsPerBlock, blockIterator->getNumberOfObjects());
 
@@ -107,16 +105,15 @@ private:
         });
         m_blocks.deleteBlock(blockIterator);
     }
-    */
 
+    //sort implementation: comment this out because sort theoretically takes more time
+    /*
     void splitToSmallestBlocks(BlockIterator const & blockIterator, DataBlockType const blockTypeForNewBlocks)
     {
-        BlockIterator iteratorAfterBlockToSplit(blockIterator);
-        iteratorAfterBlockToSplit++;
+        BlockIterator iteratorAfterBlockToSplit(blockIterator);        iteratorAfterBlockToSplit++;
         int numberOfObjectsInCurrentBlock=0;
         BlockIterator newBlockIterator(iteratorAfterBlockToSplit);
-        blockIterator->sortThenDoFunctionThenRelease([&](ObjectToSort const& objectToSort)
-        {
+        blockIterator->sortThenDoFunctionThenRelease([&](ObjectToSort const& objectToSort)        {
             if(numberOfObjectsInCurrentBlock == 0)
             {
                 limitFileStreams();
@@ -129,15 +126,13 @@ private:
             numberOfObjectsInCurrentBlock = (numberOfObjectsInCurrentBlock < static_cast<int>(m_configuration.m_minimumNumberOfObjectsPerBlock)) ? numberOfObjectsInCurrentBlock : 0;
         });
         m_blocks.deleteBlock(blockIterator);
-    }
+    }*/
 
     void limitMemoryConsumption()
-    {
-        unsigned int totalMemoryConsumption = calculateTotalMemoryConsumption();
+    {        unsigned int totalMemoryConsumption = calculateTotalMemoryConsumption();
         transferMemoryBlocksToFileIfNeeded(totalMemoryConsumption);
     }
-    unsigned int calculateTotalMemoryConsumption()
-    {
+    unsigned int calculateTotalMemoryConsumption()    {
         BlockCacheContainer const & memoryLimitCache(m_memoryCache.getContainerReference());
         unsigned int totalMemoryConsumption  =
                 accumulate(memoryLimitCache.cbegin(), memoryLimitCache.cend(), 0, [](unsigned int memoryConsumption, BlockCacheEntry const& blockCacheEntry)
@@ -181,15 +176,13 @@ private:
         AlbaLocalPathHandler temporaryLocalDirectory(m_configuration.m_directoryForBlocks);
         if(temporaryLocalDirectory.isFoundInLocalSystem())
         {
-            temporaryLocalDirectory.deleteDirectoryWithFilesAndDirectories();
+            temporaryLocalDirectory.deleteInnerFilesAndDirectories();
         }
     }
-    void putIndexesWithMultiplesOfNumber(Indexes & indexes, unsigned int number, unsigned int numberOfObjects)
-    {
+    void putIndexesWithMultiplesOfNumber(Indexes & indexes, unsigned int number, unsigned int numberOfObjects)    {
         for(unsigned int index=0; index<numberOfObjects; index+=number)
         {
-            indexes.emplace_back(index);
-        }
+            indexes.emplace_back(index);        }
     }
     unsigned long long m_size;
     AlbaLargeSorterConfiguration const m_configuration;

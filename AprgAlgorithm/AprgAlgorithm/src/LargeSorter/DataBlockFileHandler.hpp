@@ -34,15 +34,15 @@ public:
     {
         if(!m_fileOptional)
         {
-            m_path = AlbaLocalPathHandler(path).getFullPath();
+            AlbaLocalPathHandler filePathHandler(path);
+            //filePathHandler.createDirectoriesForNonExisitingDirectories(); //is this needed?
+            m_path = filePathHandler.getFullPath();
             m_fileOptional.createObjectUsingDefaultConstructor();
             std::ofstream & fileStream (m_fileOptional.getReference());
-            fileStream.open(m_path, std::ios::ate|std::ios::app);
-            assert(!fileStream.fail());
+            fileStream.open(m_path, std::ios::ate|std::ios::app);            assert(!fileStream.fail());
         }
     }
-    void add(ObjectToSort const& objectToSort)
-    {
+    void add(ObjectToSort const& objectToSort)    {
         m_fileOptional.getReference()<<objectToSort<<std::endl;
     }
     void releaseFileStream()
