@@ -24,19 +24,19 @@ bool isLineInPlane(Line const& line, Plane const& plane);
 
 double getDistance(Point const& point1, Point const& point2);
 double getDistance(Line const& line, Point const& point);
-Point getMidpoint(Point const& point1, Point const& point2);
 
 Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients const coefficients2);
 
-Line getLineWithSameSlope(Line const& line, Point const& point);
-
+Point getMidpoint(Point const& point1, Point const& point2);
 Point getPointOfIntersectionOfTwoLines(Line const& line1, Line const& line2);
-Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2);
 Point getPointOfIntersectionOfAPlaneAndALine(Plane const& plane, Line const& line);
+
+Line getLineWithSameSlope(Line const& line, Point const& point);
+Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2);
+
 Plane getPerpendicularPlaneOfALineAndUsingAPointInThePlane(Line const& line, Point const& pointInPerpendicularPlane);
 
 }
-
 }
 
 }
