@@ -12,25 +12,25 @@ namespace alba
 
 TEST(AlbaMathHelperTest, DoubleTypesCanBeConsideredEqual)
 {
-    EXPECT_TRUE(isConsideredEqual(static_cast<double>(1)/3,static_cast<double>(1)/3));
-    EXPECT_FALSE(isConsideredEqual(static_cast<double>(1)/3,static_cast<double>(1)/3+0.1));
-    EXPECT_TRUE(isConsideredEqual(static_cast<double>(1)/3,static_cast<double>(1)/3+0.000000000001));
-    EXPECT_FALSE(isConsideredEqual(static_cast<double>(0),0.000000000001));
-    EXPECT_FALSE(isConsideredEqual(0.000000000001,0.000000000000000000000001));
-    EXPECT_TRUE(isConsideredEqual(0.000000000000000000000001,0.000000000000000000000001));
+    EXPECT_TRUE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3));
+    EXPECT_FALSE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3+0.1));
+    EXPECT_TRUE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3+1E-13));
+    EXPECT_TRUE(isAlmostEqual(1E-12,1E-12));
+    EXPECT_TRUE(isAlmostEqual(static_cast<double>(0),1E-12));
+    EXPECT_TRUE(isAlmostEqual(static_cast<double>(0),1E-24));
+    EXPECT_TRUE(isAlmostEqual(1E-12,1E-24));
+    EXPECT_TRUE(isAlmostEqual(1E-24,1E-24));
 }
 
 TEST(AlbaMathHelperTest, IntegerTypesCanBeConsideredEqual)
 {
-    EXPECT_TRUE(isConsideredEqual(static_cast<int>(100), static_cast<int>(100)));
+    EXPECT_TRUE(isAlmostEqual(static_cast<int>(100), static_cast<int>(100)));
 }
 
-TEST(AlbaMathHelperTest, DistanceOfTwoNumbersCanBeComputed)
-{
+TEST(AlbaMathHelperTest, DistanceOfTwoNumbersCanBeComputed){
     EXPECT_EQ(90, getDistance(-100,-10));
     EXPECT_EQ(20, getDistance(10,-10));
-    EXPECT_EQ(20, getDistance(-10,10));
-    EXPECT_EQ(90, getDistance(10,100));
+    EXPECT_EQ(20, getDistance(-10,10));    EXPECT_EQ(90, getDistance(10,100));
 }
 
 TEST(AlbaMathHelperTest, AverageOfTwoNumbersCanBeComputed)

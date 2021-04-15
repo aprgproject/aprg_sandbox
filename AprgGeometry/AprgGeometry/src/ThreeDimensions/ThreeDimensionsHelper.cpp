@@ -57,36 +57,32 @@ bool isCoordinateValuesInLineEqual(
     bool result(false);
     if(coordinateOptionalToCompare1.hasContent())
     {
-        result = isConsideredEqual(coordinateValueToCompare, coordinateOptionalToCompare1.getConstReference());
+        result = isAlmostEqual(coordinateValueToCompare, coordinateOptionalToCompare1.getConstReference());
     }
     else if(coordinateOptionalToCompare2.hasContent())
     {
-        result = isConsideredEqual(coordinateValueToCompare, coordinateOptionalToCompare2.getConstReference());
+        result = isAlmostEqual(coordinateValueToCompare, coordinateOptionalToCompare2.getConstReference());
     }
     else
     {
-        result = isConsideredEqual(coordinate2Value, coordinate2InitialValue)
-                && isConsideredEqual(coordinate3Value, coordinate3InitialValue);
+        result = isAlmostEqual(coordinate2Value, coordinate2InitialValue)
+                && isAlmostEqual(coordinate3Value, coordinate3InitialValue);
     }
     return result;
 }
-
 bool isCoordinateValuesInPlaneEqual(
         double const coordinateValueToCompare,
-        AlbaOptional<double> const& coordinateOptionalToCompare)
-{
+        AlbaOptional<double> const& coordinateOptionalToCompare){
     bool result(false);
     if(coordinateOptionalToCompare.hasContent())
     {
-        result = isConsideredEqual(coordinateValueToCompare, coordinateOptionalToCompare.getConstReference());
+        result = isAlmostEqual(coordinateValueToCompare, coordinateOptionalToCompare.getConstReference());
     }
     else
-    {
-        result = true;
+    {        result = true;
     }
     return result;
 }
-
 double getCoordinateinLineIntersection(
         double const coefficientOfCommonCoordinate1,
         double const coefficientOfCommonCoordinate2,
@@ -128,17 +124,15 @@ Point getIntersection(Line const& line1, Line const& line2)
     double multiplier1 = calculateMultiplierForIntersection(line1.getACoefficient(), line2.getACoefficient(), line1.getBCoefficient(), line2.getBCoefficient(), line1.getXInitialValue(), line2.getXInitialValue(), line1.getYInitialValue(), line2.getYInitialValue());
     double multiplier2 = calculateMultiplierForIntersection(line1.getACoefficient(), line2.getACoefficient(), line1.getCCoefficient(), line2.getCCoefficient(), line1.getXInitialValue(), line2.getXInitialValue(), line1.getZInitialValue(), line2.getZInitialValue());
     double multiplier3 = calculateMultiplierForIntersection(line1.getCCoefficient(), line2.getCCoefficient(), line1.getACoefficient(), line2.getACoefficient(), line1.getZInitialValue(), line2.getZInitialValue(), line1.getXInitialValue(), line2.getXInitialValue());
-    assert(isConsideredEqual(multiplier1, multiplier2));
-    assert(isConsideredEqual(multiplier1, multiplier3));
-    assert(isConsideredEqual(multiplier2, multiplier3));
+    assert(isAlmostEqual(multiplier1, multiplier2));
+    assert(isAlmostEqual(multiplier1, multiplier3));
+    assert(isAlmostEqual(multiplier2, multiplier3));
     return Point(
                 line1.getXInitialValue()+(multiplier1*line1.getACoefficient()),
-                line1.getYInitialValue()+(multiplier1*line1.getBCoefficient()),
-                line1.getZInitialValue()+(multiplier1*line1.getCCoefficient()));
+                line1.getYInitialValue()+(multiplier1*line1.getBCoefficient()),                line1.getZInitialValue()+(multiplier1*line1.getCCoefficient()));
 }
 
-Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients const coefficients2)
-{
+Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients const coefficients2){
     return Coefficients(
                 calculateCrossProductTerm(coefficients1.getY(), coefficients2.getY(), coefficients1.getZ(), coefficients2.getZ()),
                 calculateCrossProductTerm(coefficients1.getZ(), coefficients2.getZ(), coefficients1.getX(), coefficients2.getX()),

@@ -42,39 +42,36 @@ Plane::Plane(Point const& first, Point const& second, Point const& third)
     m_bCoefficient = perpendicularCoefficients.getY();
     m_cCoefficient = perpendicularCoefficients.getZ();
     m_dCoefficient = -(m_aCoefficient*first.getX())-(m_bCoefficient*first.getY())-(m_cCoefficient*first.getZ());
-    if(!isConsideredEqual(m_aCoefficient, 0.0))
+    if(!isAlmostEqual(m_aCoefficient, 0.0))
     {
         m_xIntercept.setValue(-m_dCoefficient/m_aCoefficient);
     }
-    if(!isConsideredEqual(m_bCoefficient, 0.0))
+    if(!isAlmostEqual(m_bCoefficient, 0.0))
     {
         m_yIntercept.setValue(-m_dCoefficient/m_bCoefficient);
     }
-    if(!isConsideredEqual(m_cCoefficient, 0.0))
+    if(!isAlmostEqual(m_cCoefficient, 0.0))
     {
         m_zIntercept.setValue(-m_dCoefficient/m_cCoefficient);
-    }
-}
+    }}
 
 bool Plane::operator==(Plane const& plane) const
 {
-    return isConsideredEqual(m_aCoefficient, plane.m_aCoefficient)
-            && isConsideredEqual(m_bCoefficient, plane.m_bCoefficient)
-            && isConsideredEqual(m_cCoefficient, plane.m_cCoefficient)
-            && isConsideredEqual(m_dCoefficient, plane.m_dCoefficient)
+    return isAlmostEqual(m_aCoefficient, plane.m_aCoefficient)
+            && isAlmostEqual(m_bCoefficient, plane.m_bCoefficient)
+            && isAlmostEqual(m_cCoefficient, plane.m_cCoefficient)
+            && isAlmostEqual(m_dCoefficient, plane.m_dCoefficient)
             && (static_cast<bool>(m_xIntercept) == static_cast<bool>(plane.m_xIntercept))
-            && isConsideredEqual(m_xIntercept.getConstReference(), plane.m_xIntercept.getConstReference())
+            && isAlmostEqual(m_xIntercept.getConstReference(), plane.m_xIntercept.getConstReference())
             && (static_cast<bool>(m_yIntercept) == static_cast<bool>(plane.m_yIntercept))
-            && isConsideredEqual(m_yIntercept.getConstReference(), plane.m_yIntercept.getConstReference())
+            && isAlmostEqual(m_yIntercept.getConstReference(), plane.m_yIntercept.getConstReference())
             && (static_cast<bool>(m_zIntercept) == static_cast<bool>(plane.m_zIntercept))
-            && isConsideredEqual(m_zIntercept.getConstReference(), plane.m_zIntercept.getConstReference());
+            && isAlmostEqual(m_zIntercept.getConstReference(), plane.m_zIntercept.getConstReference());
 }
 
-bool Plane::operator!=(Plane const& plane) const
-{
+bool Plane::operator!=(Plane const& plane) const{
     return !((*this)==plane);
 }
-
 double Plane::getACoefficient() const
 {
     return m_aCoefficient;
@@ -113,33 +110,29 @@ AlbaOptional<double> Plane::getZIntercept() const
 AlbaOptional<double> Plane::calculateXFromYAndZ(double const y, double const z) const
 {
     AlbaOptional<double> result;
-    if(!isConsideredEqual(m_aCoefficient, 0.0))
+    if(!isAlmostEqual(m_aCoefficient, 0.0))
     {
         result.setValue((-m_dCoefficient-(m_bCoefficient*y)-(m_cCoefficient*z))/m_aCoefficient);
-    }
-    return result;
+    }    return result;
 }
 
 AlbaOptional<double> Plane::calculateYFromXAndZ(double const x, double const z) const
 {
     AlbaOptional<double> result;
-    if(!isConsideredEqual(m_bCoefficient, 0.0))
+    if(!isAlmostEqual(m_bCoefficient, 0.0))
     {
         result.setValue((-m_dCoefficient-(m_aCoefficient*x)-(m_cCoefficient*z))/m_bCoefficient);
-    }
-    return result;
+    }    return result;
 }
 
 AlbaOptional<double> Plane::calculateZFromXAndY(double const x, double const y) const
 {
     AlbaOptional<double> result;
-    if(!isConsideredEqual(m_cCoefficient, 0.0))
+    if(!isAlmostEqual(m_cCoefficient, 0.0))
     {
         result.setValue((-m_dCoefficient-(m_aCoefficient*x)-(m_bCoefficient*y))/m_cCoefficient);
-    }
-    return result;
+    }    return result;
 }
-
 
 }
 }

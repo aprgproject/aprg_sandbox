@@ -46,15 +46,13 @@ public:
 
     bool operator==(AlbaXY<CoordinateType> const& xy) const
     {
-        return isConsideredEqual(x, xy.x) && isConsideredEqual(y, xy.y);
+        return isAlmostEqual(x, xy.x) && isAlmostEqual(y, xy.y);
     }
 
-    bool operator!=(AlbaXY<CoordinateType> const& secondXy) const
-    {
+    bool operator!=(AlbaXY<CoordinateType> const& secondXy) const    {
         AlbaXY<CoordinateType> const& firstXy(*this);
         return !(firstXy==secondXy);
     }
-
     bool operator<(AlbaXY<CoordinateType> const& xy) const // this is added so it can be used in map
     {
         bool result(false);

@@ -27,23 +27,21 @@ Hyperbola::Hyperbola(Point const& center, double const aCoefficient, double cons
     , m_bValue(bCoefficient)
 {}
 
-bool Hyperbola::operator==(Hyperbola const& ellipse) const
+bool Hyperbola::operator==(Hyperbola const& hyperbola) const
 {
-    return (m_center == ellipse.m_center)
-            && isConsideredEqual(m_aValue, ellipse.m_aValue)
-            && isConsideredEqual(m_bValue, ellipse.m_bValue);
+    return (m_center == hyperbola.m_center)
+            && isAlmostEqual(m_aValue, hyperbola.m_aValue)
+            && isAlmostEqual(m_bValue, hyperbola.m_bValue);
 }
 
-bool Hyperbola::operator!=(Hyperbola const& ellipse) const
+bool Hyperbola::operator!=(Hyperbola const& hyperbola) const
 {
-    return !((*this)==ellipse);
+    return !((*this)==hyperbola);
 }
 
-Point Hyperbola::getCenter() const
-{
+Point Hyperbola::getCenter() const{
     return m_center;
 }
-
 double Hyperbola::getAValue() const
 {
     return m_aValue;

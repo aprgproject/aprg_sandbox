@@ -97,19 +97,17 @@ bool Line::isInvalid() const
 
 bool Line::operator==(Line const& line) const
 {
-    return isConsideredEqual(m_aCoefficient, line.m_aCoefficient)
-            && isConsideredEqual(m_bCoefficient, line.m_bCoefficient)
-            && isConsideredEqual(m_cCoefficient, line.m_cCoefficient)
-            && isConsideredEqual(m_xInitialValue, line.m_xInitialValue)
-            && isConsideredEqual(m_yInitialValue, line.m_yInitialValue)
-            && isConsideredEqual(m_zInitialValue, line.m_zInitialValue);
+    return isAlmostEqual(m_aCoefficient, line.m_aCoefficient)
+            && isAlmostEqual(m_bCoefficient, line.m_bCoefficient)
+            && isAlmostEqual(m_cCoefficient, line.m_cCoefficient)
+            && isAlmostEqual(m_xInitialValue, line.m_xInitialValue)
+            && isAlmostEqual(m_yInitialValue, line.m_yInitialValue)
+            && isAlmostEqual(m_zInitialValue, line.m_zInitialValue);
 }
 
-bool Line::operator!=(Line const& line) const
-{
+bool Line::operator!=(Line const& line) const{
     return !((*this)==line);
 }
-
 double Line::getXInitialValue() const
 {
     return m_xInitialValue;
@@ -173,17 +171,15 @@ AlbaOptional<double> Line::calculateZFromY(double const y) const
 AlbaOptional<double> Line::calculateOtherCoordinate(double const& initialValue1, double const coefficient1, double const& initialValue2, double const coefficient2, double const coordinate2) const
 {
     AlbaOptional<double> result;
-    if(!isConsideredEqual(coefficient2, 0.0))
+    if(!isAlmostEqual(coefficient2, 0.0))
     {
         result.setValue( ((coordinate2-initialValue2)/coefficient2*coefficient1) + initialValue1 );
-    }
-    return result;
+    }    return result;
 }
 
 bool Line::isSumOfCoefficientsZero() const
 {
-    return isConsideredEqual(m_aCoefficient+m_bCoefficient+m_cCoefficient, 0.0);
+    return isAlmostEqual(m_aCoefficient+m_bCoefficient+m_cCoefficient, 0.0);
 }
 
-}
-}
+}}

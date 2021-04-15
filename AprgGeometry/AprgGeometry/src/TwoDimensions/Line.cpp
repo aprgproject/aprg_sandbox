@@ -83,16 +83,14 @@ Line::Line(double const aCoefficient, double const bCoefficient, Point const& po
 bool Line::operator==(Line const& line) const
 {
     return (m_type == line.m_type)
-            && isConsideredEqual(m_slope, line.m_slope)
-            && isConsideredEqual(m_yIntercept, line.m_yIntercept)
-            && isConsideredEqual(m_xIntercept, line.m_xIntercept);
+            && isAlmostEqual(m_slope, line.m_slope)
+            && isAlmostEqual(m_yIntercept, line.m_yIntercept)
+            && isAlmostEqual(m_xIntercept, line.m_xIntercept);
 }
 
-bool Line::operator!=(Line const& line) const
-{
+bool Line::operator!=(Line const& line) const{
     return !((*this)==line);
 }
-
 LineType Line::getType() const
 {
     return m_type;
@@ -276,15 +274,13 @@ void Line::mergePointsFromPointsFromXAndY(Points & points, Points const& pointsF
         {
             if(isDirectionAscendingForX)
             {
-                if(isConsideredEqual(iteratorForX->getX(), iteratorForY->getX()))
+                if(isAlmostEqual(iteratorForX->getX(), iteratorForY->getX()))
                 {
                     points.emplace_back(*iteratorForX++);
-                    iteratorForY++;
-                }
+                    iteratorForY++;                }
                 else if(iteratorForX->getX() < iteratorForY->getX())
                 {
-                    points.emplace_back(*iteratorForX++);
-                }
+                    points.emplace_back(*iteratorForX++);                }
                 else
                 {
                     points.emplace_back(*iteratorForY++);
@@ -292,15 +288,13 @@ void Line::mergePointsFromPointsFromXAndY(Points & points, Points const& pointsF
             }
             else
             {
-                if(isConsideredEqual(iteratorForX->getX(), iteratorForY->getX()))
+                if(isAlmostEqual(iteratorForX->getX(), iteratorForY->getX()))
                 {
                     points.emplace_back(*iteratorForX++);
-                    iteratorForY++;
-                }
+                    iteratorForY++;                }
                 else if(iteratorForX->getX() > iteratorForY->getX())
                 {
-                    points.emplace_back(*iteratorForX++);
-                }
+                    points.emplace_back(*iteratorForX++);                }
                 else
                 {
                     points.emplace_back(*iteratorForY++);
@@ -323,23 +317,21 @@ LineType Line::determineLineTypeUsingDeltaXandDeltaY(double const deltaY, double
     bool isNegativeDeltaY = (deltaY<0);
     bool isNegativeDeltaX = (deltaX<0);
     LineType lineType(LineType::Invalid);
-    if(isConsideredEqual(deltaY, 0.0) && isConsideredEqual(deltaX, 0.0))
+    if(isAlmostEqual(deltaY, 0.0) && isAlmostEqual(deltaX, 0.0))
     {
         lineType = LineType::Invalid;
     }
-    else if(isConsideredEqual(deltaY, 0.0))
+    else if(isAlmostEqual(deltaY, 0.0))
     {
         lineType = LineType::Horizontal;
     }
-    else if(isConsideredEqual(deltaX, 0.0))
+    else if(isAlmostEqual(deltaX, 0.0))
     {
         lineType = LineType::Vertical;
-    }
-    else if(isNegativeDeltaY == isNegativeDeltaX)
+    }    else if(isNegativeDeltaY == isNegativeDeltaX)
     {
         lineType = LineType::WithPositiveSlope;
-    }
-    else
+    }    else
     {
         lineType = LineType::WithNegativeSlope;
     }
@@ -351,23 +343,21 @@ LineType Line::determineLineTypeUsingCoefficients(double const aCoefficient, dou
     bool isNegativeA = (aCoefficient<0);
     bool isNegativeB = (bCoefficient<0);
     LineType lineType(LineType::Invalid);
-    if(isConsideredEqual(aCoefficient, 0.0) && isConsideredEqual(bCoefficient, 0.0))
+    if(isAlmostEqual(aCoefficient, 0.0) && isAlmostEqual(bCoefficient, 0.0))
     {
         lineType = LineType::Invalid;
     }
-    else if(isConsideredEqual(aCoefficient, 0.0))
+    else if(isAlmostEqual(aCoefficient, 0.0))
     {
         lineType = LineType::Horizontal;
     }
-    else if(isConsideredEqual(bCoefficient, 0.0))
+    else if(isAlmostEqual(bCoefficient, 0.0))
     {
         lineType = LineType::Vertical;
-    }
-    else if(isNegativeA == isNegativeB)
+    }    else if(isNegativeA == isNegativeB)
     {
         lineType = LineType::WithNegativeSlope;
-    }
-    else
+    }    else
     {
         lineType = LineType::WithPositiveSlope;
     }

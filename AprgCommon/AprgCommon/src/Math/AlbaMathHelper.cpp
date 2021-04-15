@@ -26,36 +26,43 @@ unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned
 
 
 
-//isConsideredEqual
+//isAlmostEqual
 template <typename NumberType>
-bool isConsideredEqual(NumberType const value1, NumberType const value2)
+bool isAlmostEqual(NumberType const value1, NumberType const value2)
 {
-    constexpr double tolerance(0.00000000001);
-    double absoluteMinValue = min(getAbsoluteValue(value1), getAbsoluteValue(value2));
-    double scale = absoluteMinValue < tolerance ? 1 : absoluteMinValue;
-    double scaledDifference(getAbsoluteValue(value1 - value2)/scale);
-    return scaledDifference < tolerance;
+    constexpr double differenceTolerance(1E-12);
+    return getAbsoluteValue(value1-value2) <= differenceTolerance;
 }
 
-template bool isConsideredEqual<double>(double const value1, double const value2);
+//Commented out: This implementation is not practical when value is equal to zero
+/*
+template <typename NumberType>
+bool isAlmostEqual(NumberType const value1, NumberType const value2)
+{
+    constexpr double absoluteScaledDifferenceTolerance(1E-12);
+    double absoluteMaxValue = max(getAbsoluteValue(value1), getAbsoluteValue(value2));
+    double difference = getAbsoluteValue(value1-value2);
+    return difference <= absoluteMaxValue*absoluteScaledDifferenceTolerance;
+}
+*/
+
+template bool isAlmostEqual<double>(double const value1, double const value2);
 
 template <>
-bool isConsideredEqual<int>(int const value1, int const value2)
+bool isAlmostEqual<int>(int const value1, int const value2)
 {
     return value1==value2;
 }
 
 template <>
-bool isConsideredEqual<unsigned int>(unsigned int const value1, unsigned int const value2)
+bool isAlmostEqual<unsigned int>(unsigned int const value1, unsigned int const value2)
 {
     return value1==value2;
 }
-
 
 //getDistance
 template <typename NumberType>
-NumberType getDistance(NumberType const value1, NumberType const value2)
-{
+NumberType getDistance(NumberType const value1, NumberType const value2){
     std::pair<NumberType, NumberType> minMaxPair = std::minmax(value1, value2);
     return minMaxPair.second-minMaxPair.first;
 }
@@ -165,25 +172,23 @@ double calculateInverseCumulativeStandardDistributionApproximation(double const 
         double probabilityLowest = calculateCumulativeStandardDistributionApproximation(lowestZ);
         double probabilityMiddle = calculateCumulativeStandardDistributionApproximation(middleZ);
         double probabilityHighest = calculateCumulativeStandardDistributionApproximation(highestZ);
-        if(isConsideredEqual(probability, probabilityLowest))
+        if(isAlmostEqual(probability, probabilityLowest))
         {
             z=lowestZ;
             break;
         }
-        else if(isConsideredEqual(probability, probabilityMiddle))
+        else if(isAlmostEqual(probability, probabilityMiddle))
         {
             z=middleZ;
             break;
         }
-        else if(isConsideredEqual(probability, probabilityHighest))
+        else if(isAlmostEqual(probability, probabilityHighest))
         {
             z=highestZ;
-            break;
-        }
+            break;        }
         else if(probability>probabilityLowest && probability<probabilityMiddle)
         {
-            highestZ=middleZ;
-            z=getAverage<double>(lowestZ, middleZ);
+            highestZ=middleZ;            z=getAverage<double>(lowestZ, middleZ);
         }
         else if(probability>probabilityMiddle && probability<probabilityHighest)
         {

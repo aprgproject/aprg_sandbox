@@ -23,14 +23,12 @@ Angle::Angle(AngleInputType const angleInputType, double const angleValue)
 
 bool Angle::operator==(Angle const& angle) const
 {
-    return isConsideredEqual(m_angleValueInDegrees, angle.m_angleValueInDegrees);
+    return isAlmostEqual(m_angleValueInDegrees, angle.m_angleValueInDegrees);
 }
 
-bool Angle::operator!=(Angle const& angle) const
-{
+bool Angle::operator!=(Angle const& angle) const{
     return !((*this)==angle);
 }
-
 double Angle::getDegrees() const
 {
     return m_angleValueInDegrees;

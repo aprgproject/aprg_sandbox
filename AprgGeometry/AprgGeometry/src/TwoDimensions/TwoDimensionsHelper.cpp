@@ -19,15 +19,13 @@ namespace twoDimensionsHelper
 
 bool isPointInLine(Point const& point, Line const& line)
 {
-    return isConsideredEqual(point.getY(), line.calculateYFromX(point.getX()));
+    return isAlmostEqual(point.getY(), line.calculateYFromX(point.getX()));
 }
 
-double getDistance(Point const& point1, Point const& point2)
-{
+double getDistance(Point const& point1, Point const& point2){
     double deltaX = point2.getX() - point1.getX();
     double deltaY = point2.getY() - point1.getY();
-    return getSquareRootOfXSquaredPlusYSquared<double>(deltaX, deltaY);
-}
+    return getSquareRootOfXSquaredPlusYSquared<double>(deltaX, deltaY);}
 
 Point getMidpoint(Point const& point1, Point const& point2)
 {
@@ -131,15 +129,13 @@ Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points 
     {
         if(iteratorForX != firstPoints.cend() && iteratorForY != secondPoints.cend())
         {
-            if(isConsideredEqual(iteratorForX->getX(), iteratorForY->getX()))
+            if(isAlmostEqual(iteratorForX->getX(), iteratorForY->getX()))
             {
                 result.emplace_back(*iteratorForX++);
-                iteratorForY++;
-            }
+                iteratorForY++;            }
             else if(iteratorForX->getX() < iteratorForY->getX())
             {
-                result.emplace_back(*iteratorForX++);
-            }
+                result.emplace_back(*iteratorForX++);            }
             else
             {
                 result.emplace_back(*iteratorForY++);
@@ -168,15 +164,13 @@ Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points 
     {
         if(iteratorForX != firstPoints.cend() && iteratorForY != secondPoints.cend())
         {
-            if(isConsideredEqual(iteratorForX->getX(), iteratorForY->getX()))
+            if(isAlmostEqual(iteratorForX->getX(), iteratorForY->getX()))
             {
                 result.emplace_back(*iteratorForX++);
-                iteratorForY++;
-            }
+                iteratorForY++;            }
             else if(iteratorForX->getX() > iteratorForY->getX())
             {
-                result.emplace_back(*iteratorForX++);
-            }
+                result.emplace_back(*iteratorForX++);            }
             else
             {
                 result.emplace_back(*iteratorForY++);

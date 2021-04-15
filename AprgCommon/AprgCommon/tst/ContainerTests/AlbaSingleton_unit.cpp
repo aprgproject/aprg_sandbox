@@ -23,13 +23,13 @@ size_t SingletonExample::numberOfConstructorExecutions = 0;
 
 TEST(SingletonTest, ConstructorIsCalledOnlyOnceAndOnlyWhenFirstGetInstanceIsCalled)
 {
-    EXPECT_EQ(0, SingletonExample::numberOfConstructorExecutions);
+    EXPECT_EQ(0u, SingletonExample::numberOfConstructorExecutions);
 
     SingletonExample::getInstance();
-    EXPECT_EQ(1, SingletonExample::numberOfConstructorExecutions);
+    EXPECT_EQ(1u, SingletonExample::numberOfConstructorExecutions);
 
     SingletonExample::getInstance();
-    EXPECT_EQ(1, SingletonExample::numberOfConstructorExecutions);
+    EXPECT_EQ(1u, SingletonExample::numberOfConstructorExecutions);
 }
 
 }
