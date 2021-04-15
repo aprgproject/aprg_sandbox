@@ -5,8 +5,13 @@
 
 #include <cmath>
 
-using namespace alba::TwoDimensions;
 using namespace std;
+
+namespace alba
+{
+
+namespace TwoDimensions
+{
 
 
 TEST(EllipseTest, EmptyEllipse)
@@ -62,4 +67,6 @@ TEST(EllipseTest, AreaTraversalIsCorrect)
     //traversal
 }
 
+}
 
+}

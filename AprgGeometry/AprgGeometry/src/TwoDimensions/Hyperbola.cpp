@@ -39,9 +39,11 @@ bool Hyperbola::operator!=(Hyperbola const& hyperbola) const
     return !((*this)==hyperbola);
 }
 
-Point Hyperbola::getCenter() const{
+Point Hyperbola::getCenter() const
+{
     return m_center;
 }
+
 double Hyperbola::getAValue() const
 {
     return m_aValue;

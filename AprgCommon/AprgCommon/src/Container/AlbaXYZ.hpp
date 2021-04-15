@@ -56,10 +56,12 @@ public:
         return isAlmostEqual(x, xyz.x) && isAlmostEqual(y, xyz.y) && isAlmostEqual(z, xyz.z);
     }
 
-    bool operator!=(AlbaXYZ<CoordinateType> const& secondXyz) const    {
+    bool operator!=(AlbaXYZ<CoordinateType> const& secondXyz) const
+    {
         AlbaXYZ<CoordinateType> const& firstXyz(*this);
         return !(firstXyz==secondXyz);
     }
+
     bool operator<(AlbaXYZ<CoordinateType> const& xyz) const // this is added so it can be used in map
     {
         bool result(false);
@@ -87,6 +89,26 @@ public:
             result = false;
         }
         return result;
+    }
+
+    AlbaXYZ<CoordinateType> operator+(AlbaXYZ<CoordinateType> const& secondXyz) const
+    {
+        return AlbaXYZ<CoordinateType>(x+secondXyz.x, y+secondXyz.y, z+secondXyz.z);
+    }
+
+    AlbaXYZ<CoordinateType> operator-(AlbaXYZ<CoordinateType> const& secondXyz) const
+    {
+        return AlbaXYZ<CoordinateType>(x-secondXyz.x, y-secondXyz.y, z-secondXyz.z);
+    }
+
+    AlbaXYZ<CoordinateType> operator+() const
+    {
+        return *this;
+    }
+
+    AlbaXYZ<CoordinateType> operator-() const
+    {
+        return AlbaXYZ<CoordinateType>(-x, -y, -z);
     }
 
     std::string getDisplayableString() const

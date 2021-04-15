@@ -2,6 +2,7 @@
 
 #include <TwoDimensions/Point.hpp>
 
+#include <string>
 #include <vector>
 
 namespace alba
@@ -40,6 +41,8 @@ public:
     Points getPointsWithoutLastPoint(Point const& first, Point const& second, double const interval) const;
     double calculateYFromX(double const x) const;
     double calculateXFromY(double const y) const;
+
+    std::string getDisplayableString() const;
 
 private:
     void setLineParametersBasedOnDeltas(double const deltaX, double const deltaY, Point const& point);

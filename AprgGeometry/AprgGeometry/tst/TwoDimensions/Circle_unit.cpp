@@ -4,9 +4,13 @@
 
 #include <cmath>
 
-using namespace alba::TwoDimensions;
 using namespace std;
 
+namespace alba
+{
+
+namespace TwoDimensions
+{
 
 TEST(CircleTest, EmptyCircle)
 {
@@ -65,4 +69,6 @@ TEST(CircleTest, AreaTraversalIsCorrect)
     //traversal
 }
 
+}
 
+}

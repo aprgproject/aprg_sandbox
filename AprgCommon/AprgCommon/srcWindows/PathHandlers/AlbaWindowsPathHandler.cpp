@@ -176,10 +176,12 @@ void AlbaWindowsPathHandler::deleteFilesInDirectory()
 void AlbaWindowsPathHandler::deleteInnerFilesAndDirectories()
 {
     set<string> listOfFiles;
-    set<string> listOfDirectories;    findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
+    set<string> listOfDirectories;
+    findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& file: listOfFiles)
     {
-        AlbaWindowsPathHandler(file).deleteFile();    }
+        AlbaWindowsPathHandler(file).deleteFile();
+    }
     set<string>::reverse_iterator reverseIterator;
     for (reverseIterator=listOfDirectories.rbegin(); reverseIterator != listOfDirectories.rend(); ++reverseIterator)
     {
@@ -194,9 +196,11 @@ void AlbaWindowsPathHandler::deleteDirectoryWithFilesAndDirectories()
     deleteDirectoryWithoutFilesAndDirectories();
     reInput();
 }
+
 bool AlbaWindowsPathHandler::copyToNewFile(string const& newFilePath)
 {
-    bool isSuccessful(false);    if(isFile())
+    bool isSuccessful(false);
+    if(isFile())
     {
         isSuccessful = (bool)CopyFile(getFullPath().c_str(), newFilePath.c_str(), 0);
         if(!isSuccessful)

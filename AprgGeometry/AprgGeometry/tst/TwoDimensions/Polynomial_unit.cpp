@@ -3,8 +3,13 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba::TwoDimensions;
 using namespace std;
+
+namespace alba
+{
+
+namespace TwoDimensions
+{
 
 TEST(PolynomialTest, PolynomialCanBeCreated)
 {
@@ -53,4 +58,8 @@ TEST(ParabolaTest, GetSlopeIsCorrect)
     EXPECT_EQ(4, parabola.getSlopeAt(1));
     EXPECT_EQ(22, parabola.getSlopeAt(10));
     EXPECT_EQ(202, parabola.getSlopeAt(100));
+}
+
+}
+
 }

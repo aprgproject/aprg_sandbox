@@ -16,6 +16,7 @@ class Point : public PointParent
 {
 public:
     Point();
+    Point(PointParent const& pointParent);
     Point(double const xValue, double const yValue);
 };
 

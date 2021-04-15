@@ -4,8 +4,13 @@
 
 #include <cmath>
 
-using namespace alba::ThreeDimensions;
 using namespace std;
+
+namespace alba
+{
+
+namespace ThreeDimensions
+{
 
 TEST(PlaneTest, EmptyPlane)
 {
@@ -85,4 +90,8 @@ TEST(PlaneTest, PlaneWithConstantX)
     ASSERT_TRUE(plane.calculateXFromYAndZ(1.0, 1.0)); EXPECT_EQ(0, plane.calculateXFromYAndZ(1.0, 1.0).getConstReference());
     EXPECT_FALSE(plane.calculateYFromXAndZ(1.0, 1.0));
     EXPECT_FALSE(plane.calculateZFromXAndY(1.0, 1.0));
+}
+
+}
+
 }

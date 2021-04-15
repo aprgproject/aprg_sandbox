@@ -4,9 +4,13 @@
 
 #include <cmath>
 
-using namespace alba::ThreeDimensions;
 using namespace std;
 
+namespace alba
+{
+
+namespace ThreeDimensions
+{
 
 TEST(ThreeDimensionsLineTest, EmptyLine)
 {
@@ -141,6 +145,25 @@ TEST(ThreeDimensionsLineTest, LineWithSlopeSet)
     ASSERT_TRUE(line.calculateZFromY(1)); EXPECT_EQ(2.5, line.calculateZFromY(1).getConstReference());
 }
 
+TEST(ThreeDimensionsLineTest, LineWithSumOfCoefficientsEqualToZero)
+{
+    Line line(-2, 1, 1, Point(1,0,0));
+
+    EXPECT_FALSE(line.isInvalid());
+    EXPECT_EQ(-2, line.getACoefficient());
+    EXPECT_EQ(1, line.getBCoefficient());
+    EXPECT_EQ(1, line.getCCoefficient());
+    EXPECT_EQ(1, line.getXInitialValue());
+    EXPECT_EQ(0, line.getYInitialValue());
+    EXPECT_EQ(0, line.getZInitialValue());
+    ASSERT_TRUE(line.calculateXFromY(1)); EXPECT_EQ(-1, line.calculateXFromY(1).getConstReference());
+    ASSERT_TRUE(line.calculateXFromZ(1)); EXPECT_EQ(-1, line.calculateXFromZ(1).getConstReference());
+    ASSERT_TRUE(line.calculateYFromX(1)); EXPECT_EQ(0, line.calculateYFromX(1).getConstReference());
+    ASSERT_TRUE(line.calculateYFromZ(1)); EXPECT_EQ(1, line.calculateYFromZ(1).getConstReference());
+    ASSERT_TRUE(line.calculateZFromX(1)); EXPECT_EQ(0, line.calculateZFromX(1).getConstReference());
+    ASSERT_TRUE(line.calculateZFromY(1)); EXPECT_EQ(1, line.calculateZFromY(1).getConstReference());
+}
+
 /*
 //Think about this
 TEST(ThreeDimensionsLineTest, LineCanBeComparedForEquality)
@@ -149,4 +172,8 @@ TEST(ThreeDimensionsLineTest, LineCanBeComparedForEquality)
     EXPECT_NE(Line(1,2,3), Line(2,3,4));
 }
 */
+
+}
+
+}
 

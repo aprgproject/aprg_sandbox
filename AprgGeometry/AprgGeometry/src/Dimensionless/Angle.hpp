@@ -3,7 +3,7 @@
 namespace alba
 {
 
-namespace TwoDimensions
+namespace Dimensionless
 {
 
 enum class AngleInputType

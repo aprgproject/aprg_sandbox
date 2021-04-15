@@ -101,12 +101,12 @@ TEST(AprgGeometryThreeDimensionsTest, DISABLED_SamplePlane)
 
 TEST(AprgGeometryThreeDimensionsTest, LineOfIntersectionOfTwoPlanes)
 {
-    Point point1OfPlane1(1,1,1);
-    Point point2OfPlane1(-2,2,2);
-    Point point3OfPlane1(2,3,-1);
-    Point point1OfPlane2(5,-5,1);
-    Point point2OfPlane2(-1,-4,2);
-    Point point3OfPlane2(-5,-3,3);
+    Point point1OfPlane1(1,0,0);
+    Point point2OfPlane1(0,1,0);
+    Point point3OfPlane1(0,0,1);
+    Point point1OfPlane2(0,0,0);
+    Point point2OfPlane2(1,1,1);
+    Point point3OfPlane2(0,1,1);
     Plane plane1(point1OfPlane1, point2OfPlane1, point3OfPlane1);
     Plane plane2(point1OfPlane2, point2OfPlane2, point3OfPlane2);
     Line lineOfIntersection(getLineOfIntersectionOfTwoPlanes(plane1, plane2));
@@ -115,9 +115,9 @@ TEST(AprgGeometryThreeDimensionsTest, LineOfIntersectionOfTwoPlanes)
     Points pointsOfPlane1;
     Points pointsOfPlane2;
     Points pointsOfLineOfIntersection;
-    for(double x=-10; x<10; x+=1)
+    for(double x=-5; x<5; x+=1)
     {
-        for(double z=-10; z<10; z+=1)
+        for(double z=-5; z<5; z+=1)
         {
             pointsOfPlane1.emplace_back(x, plane1.calculateYFromXAndZ(x, z), z);
             pointsOfPlane2.emplace_back(x, plane2.calculateYFromXAndZ(x, z), z);

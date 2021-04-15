@@ -41,6 +41,26 @@ TEST(AlbaXYTest, XYCanBeCompared)
     EXPECT_NE(AlbaXY<int>(5,5), xy);
 }
 
+TEST(AlbaXYTest, XYCanBeAdded)
+{
+    EXPECT_EQ(AlbaXY<int>(4,-2), (AlbaXY<int>(1,2)+AlbaXY<int>(3,-4)));
+}
+
+TEST(AlbaXYTest, XYCanBeSubtracted)
+{
+    EXPECT_EQ(AlbaXY<int>(-2,6), (AlbaXY<int>(1,2)-AlbaXY<int>(3,-4)));
+}
+
+TEST(AlbaXYTest, XYCanHavePlusSign)
+{
+    EXPECT_EQ(AlbaXY<int>(1,2), +AlbaXY<int>(1,2));
+}
+
+TEST(AlbaXYTest, XYCanBeNegated)
+{
+    EXPECT_EQ(AlbaXY<int>(-1,-2), -AlbaXY<int>(1,2));
+}
+
 TEST(AlbaXYTest, XTimesYCanBeComputed)
 {
     AlbaXY<int> xy(-5,5);

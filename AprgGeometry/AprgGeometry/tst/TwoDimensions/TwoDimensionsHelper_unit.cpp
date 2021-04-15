@@ -6,9 +6,14 @@
 
 #include <cmath>
 
-using namespace alba::TwoDimensions;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
+
+namespace alba
+{
+
+namespace TwoDimensions
+{
 
 
 TEST(TwoDimensionsHelperTest, PointCanBeCheckedIfItsOnLine)
@@ -203,4 +208,6 @@ TEST(TwoDimensionsHelperTest, GetTangentLineForCircleIsCorrect)
     EXPECT_DOUBLE_EQ(-1, expectedLine3.getSlope());
 }
 
+}
 
+}

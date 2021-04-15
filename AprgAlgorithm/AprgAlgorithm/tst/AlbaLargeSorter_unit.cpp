@@ -4,10 +4,12 @@
 
 #include <gtest/gtest.h>
 
-#include <algorithm>#include <iostream>
+#include <algorithm>
+#include <iostream>
 #include <set>
 #include <string>
 #include <vector>
+
 using namespace alba;
 using namespace std;
 
@@ -15,9 +17,11 @@ using namespace std;
 #define ALBA_LARGE_SORTER_BLOCK_DIR APRG_DIR R"(AprgAlgorithm\AprgAlgorithm\tst\FilesForTests\LargeSorterTest\blocks\)"
 
 class TestObject
-{public:
+{
+public:
     TestObject()
     {}
+
     TestObject(int valueInteger, double valueDouble, char valueCharacter, string valueString)
         : m_valueInteger(valueInteger)
         , m_valueDouble(valueDouble)
@@ -363,10 +367,12 @@ TEST(AlbaLargeSorterTest, PrimitiveDataTypesForBlocksAreCreatedWhenBlocksWhenMem
     EXPECT_EQ(9, integerInFile);
     int expectedValue=0;
     largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)
-    {        EXPECT_EQ(expectedValue++, actualValue);
+    {
+        EXPECT_EQ(expectedValue++, actualValue);
     });
     EXPECT_EQ(10, expectedValue);
 }
+
 TEST(AlbaLargeSorterTest, FilesForBlocksAreDeletedAfterFileForBlocksAreCreated)
 {
     AlbaLocalPathHandler directoryPathHandler(ALBA_LARGE_SORTER_BLOCK_DIR);
@@ -384,10 +390,12 @@ TEST(AlbaLargeSorterTest, FilesForBlocksAreDeletedAfterFileForBlocksAreCreated)
 
     for(int inputValue=0; inputValue<200; inputValue++)
     {
-        largeSorter.add(inputValue);    }
+        largeSorter.add(inputValue);
+    }
 
     int expectedValue=0;
-    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)    {
+    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)
+    {
         EXPECT_EQ(expectedValue++, actualValue);
     });
     EXPECT_EQ(200, expectedValue);
@@ -424,10 +432,12 @@ TEST(AlbaLargeSorterTest, ObjectsAreSortedWhenBlocksAreCreated)
     largeSorter.add(TestObject(4, 4.04, 'd', "fourthString"));
     largeSorter.add(TestObject(5, 5.05, 'e', "fifthString"));
     largeSorter.add(TestObject(8, 8.08, 'h', "eighthString"));
-    largeSorter.add(TestObject(2, 2.02, 'b', "secondString"));    largeSorter.add(TestObject(13, 13.13, 'm', "thirteenthString"));
+    largeSorter.add(TestObject(2, 2.02, 'b', "secondString"));
+    largeSorter.add(TestObject(13, 13.13, 'm', "thirteenthString"));
     largeSorter.add(TestObject(7, 7.07, 'g', "seventhString"));
     largeSorter.add(TestObject(6, 6.06, 'f', "sixthString"));
-    largeSorter.add(TestObject(9, 9.09, 'i', "ninthString"));    largeSorter.add(TestObject(1, 1.01, 'a', "firstString"));
+    largeSorter.add(TestObject(9, 9.09, 'i', "ninthString"));
+    largeSorter.add(TestObject(1, 1.01, 'a', "firstString"));
     largeSorter.add(TestObject(14, 14.14, 'n', "fourteenthString"));
     largeSorter.add(TestObject(12, 12.12, 'l', "twelvethString"));
     largeSorter.add(TestObject(10, 10.10, 'j', "tenthString"));
@@ -467,10 +477,12 @@ TEST(AlbaLargeSorterTest, ObjectsAreStableSortedWhenDuplicateValuesAreExisting)
     AlbaLargeSorter<TestObject> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 100));
     largeSorter.add(TestObject(1, 1.01, 'a', "firstString"));
     largeSorter.add(TestObject(2, 5.05, 'e', "fifthString"));
-    largeSorter.add(TestObject(3, 8.08, 'h', "eighthString"));    largeSorter.add(TestObject(2, 6.06, 'f', "sixthString"));
+    largeSorter.add(TestObject(3, 8.08, 'h', "eighthString"));
+    largeSorter.add(TestObject(2, 6.06, 'f', "sixthString"));
     largeSorter.add(TestObject(1, 2.02, 'b', "secondString"));
     largeSorter.add(TestObject(3, 9.09, 'i', "ninthString"));
-    largeSorter.add(TestObject(2, 7.07, 'g', "seventhString"));    largeSorter.add(TestObject(3, 10.10, 'j', "tenthString"));
+    largeSorter.add(TestObject(2, 7.07, 'g', "seventhString"));
+    largeSorter.add(TestObject(3, 10.10, 'j', "tenthString"));
     largeSorter.add(TestObject(1, 3.03, 'c', "thirdString"));
     largeSorter.add(TestObject(3, 11.11, 'k', "eleventhString"));
     largeSorter.add(TestObject(3, 12.12, 'l', "twelvethString"));
@@ -497,7 +509,8 @@ TEST(AlbaLargeSorterTest, ObjectsAreStableSortedWhenDuplicateValuesAreExisting)
         case 11: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(8.08, testObject.m_valueDouble); EXPECT_EQ('h', testObject.m_valueCharacter); EXPECT_EQ("eighthString", testObject.m_valueString); break;
         case 12: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(12.12, testObject.m_valueDouble); EXPECT_EQ('l', testObject.m_valueCharacter); EXPECT_EQ("twelvethString", testObject.m_valueString); break;
         case 13: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(13.13, testObject.m_valueDouble); EXPECT_EQ('m', testObject.m_valueCharacter); EXPECT_EQ("thirteenthString", testObject.m_valueString); break;
-        case 14: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(14.14, testObject.m_valueDouble); EXPECT_EQ('n', testObject.m_valueCharacter); EXPECT_EQ("fourteenthString", testObject.m_valueString); break;        case 15: EXPECT_EQ(4, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(15.15, testObject.m_valueDouble); EXPECT_EQ('o', testObject.m_valueCharacter); EXPECT_EQ("fifteenthString", testObject.m_valueString); break;
+        case 14: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(14.14, testObject.m_valueDouble); EXPECT_EQ('n', testObject.m_valueCharacter); EXPECT_EQ("fourteenthString", testObject.m_valueString); break;
+        case 15: EXPECT_EQ(4, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(15.15, testObject.m_valueDouble); EXPECT_EQ('o', testObject.m_valueCharacter); EXPECT_EQ("fifteenthString", testObject.m_valueString); break;
         default: break;
         }
         expectedValue++;
@@ -510,10 +523,12 @@ TEST(AlbaLargeSorterTest, ObjectsAreSortedWhenUsingRandomShuffle)
     vector<TestObject> objectsToShuffle;
     objectsToShuffle.emplace_back(1, 1.01, 'a', "firstString");
     objectsToShuffle.emplace_back(2, 2.02, 'b', "secondString");
-    objectsToShuffle.emplace_back(3, 3.03, 'c', "thirdString");    objectsToShuffle.emplace_back(4, 4.04, 'd', "fourthString");
+    objectsToShuffle.emplace_back(3, 3.03, 'c', "thirdString");
+    objectsToShuffle.emplace_back(4, 4.04, 'd', "fourthString");
     objectsToShuffle.emplace_back(5, 5.05, 'e', "fifthString");
     objectsToShuffle.emplace_back(6, 6.06, 'f', "sixthString");
-    objectsToShuffle.emplace_back(7, 7.07, 'g', "seventhString");    objectsToShuffle.emplace_back(8, 8.08, 'h', "eighthString");
+    objectsToShuffle.emplace_back(7, 7.07, 'g', "seventhString");
+    objectsToShuffle.emplace_back(8, 8.08, 'h', "eighthString");
     objectsToShuffle.emplace_back(9, 9.09, 'i', "ninthString");
     objectsToShuffle.emplace_back(10, 10.10, 'j', "tenthString");
     objectsToShuffle.emplace_back(11, 11.11, 'k', "eleventhString");
@@ -556,10 +571,12 @@ TEST(AlbaLargeSorterTest, ObjectsAreSortedWhenUsingRandomShuffle)
     EXPECT_EQ(16, expectedValue);
 }
 
-TEST(AlbaLargeSorterTest, DISABLED_FileStreamAreLimitedByMaximumFileStreams){
+TEST(AlbaLargeSorterTest, DISABLED_FileStreamAreLimitedByMaximumFileStreams)
+{
     AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 0, 1, 0, 200));
     vector<int> integersToShuffle;
-    for(int inputValue=0; inputValue<1000; inputValue++)    {
+    for(int inputValue=0; inputValue<1000; inputValue++)
+    {
         integersToShuffle.emplace_back(inputValue);
     }
     random_shuffle(integersToShuffle.begin(), integersToShuffle.end());

@@ -10,7 +10,7 @@ using namespace std;
 namespace alba
 {
 
-namespace TwoDimensions
+namespace Dimensionless
 {
 
 Angle::Angle()
@@ -26,9 +26,11 @@ bool Angle::operator==(Angle const& angle) const
     return isAlmostEqual(m_angleValueInDegrees, angle.m_angleValueInDegrees);
 }
 
-bool Angle::operator!=(Angle const& angle) const{
+bool Angle::operator!=(Angle const& angle) const
+{
     return !((*this)==angle);
 }
+
 double Angle::getDegrees() const
 {
     return m_angleValueInDegrees;

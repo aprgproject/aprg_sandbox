@@ -22,10 +22,18 @@ bool isPointInLine(Point const& point, Line const& line)
     return isAlmostEqual(point.getY(), line.calculateYFromX(point.getX()));
 }
 
-double getDistance(Point const& point1, Point const& point2){
+double getDistance(Point const& point1, Point const& point2)
+{
     double deltaX = point2.getX() - point1.getX();
     double deltaY = point2.getY() - point1.getY();
-    return getSquareRootOfXSquaredPlusYSquared<double>(deltaX, deltaY);}
+    return getSquareRootOfXSquaredPlusYSquared<double>(deltaX, deltaY);
+}
+
+double getDistance(Line const& line, Point const& point)
+{
+    Point nearestPoint(getIntersection(line, getLineWithPerpendicularSlope(line, point)));
+    return getDistance(point, nearestPoint);
+}
 
 Point getMidpoint(Point const& point1, Point const& point2)
 {
@@ -40,12 +48,6 @@ Line getLineWithSameSlope(Line const& line, Point const& point)
 Line getLineWithPerpendicularSlope(Line const& line, Point const& point)
 {
     return Line(line.getBCoefficient(), -line.getACoefficient(), (line.getACoefficient()*point.getY())-(line.getBCoefficient()*point.getX()));
-}
-
-double getDistance(Line const& line, Point const& point)
-{
-    Point nearestPoint(getIntersection(line, getLineWithPerpendicularSlope(line, point)));
-    return getDistance(point, nearestPoint);
 }
 
 Point getIntersection(Line const& line1, Line const& line2)
@@ -132,10 +134,12 @@ Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points 
             if(isAlmostEqual(iteratorForX->getX(), iteratorForY->getX()))
             {
                 result.emplace_back(*iteratorForX++);
-                iteratorForY++;            }
+                iteratorForY++;
+            }
             else if(iteratorForX->getX() < iteratorForY->getX())
             {
-                result.emplace_back(*iteratorForX++);            }
+                result.emplace_back(*iteratorForX++);
+            }
             else
             {
                 result.emplace_back(*iteratorForY++);
@@ -167,10 +171,12 @@ Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points 
             if(isAlmostEqual(iteratorForX->getX(), iteratorForY->getX()))
             {
                 result.emplace_back(*iteratorForX++);
-                iteratorForY++;            }
+                iteratorForY++;
+            }
             else if(iteratorForX->getX() > iteratorForY->getX())
             {
-                result.emplace_back(*iteratorForX++);            }
+                result.emplace_back(*iteratorForX++);
+            }
             else
             {
                 result.emplace_back(*iteratorForY++);

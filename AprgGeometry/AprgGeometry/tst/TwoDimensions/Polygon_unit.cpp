@@ -5,8 +5,13 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba::TwoDimensions;
 using namespace std;
+
+namespace alba
+{
+
+namespace TwoDimensions
+{
 
 TEST(PolygonTest, PolygonCanBeCreated)
 {
@@ -90,4 +95,8 @@ TEST(QuadrilateralTest, DISABLED_PointsInQuadilateralAreCorrectWhenOutOfOrderVer
     EXPECT_EQ(Point(1,1), points[5]);
     EXPECT_EQ(Point(0,2), points[6]);
     EXPECT_EQ(Point(-1,1), points[7]);
+}
+
+}
+
 }

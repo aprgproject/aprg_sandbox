@@ -84,10 +84,12 @@ void WcdmaTools::updateGuiUsingConfiguration()
     //ui->inputFileAndFolderTextBox->setText(QString::fromStdString(m_configuration.inputFileOrDirectory)); // this is not needed because main gives the location
     ui->extractConditionTextBox->setText(QString::fromStdString(m_configuration.extractGrepCondition));
     ui->acceptedFilesConditionTextBox->setText(QString::fromStdString(m_configuration.acceptedFilesGrepCondition));
-    ui->filterConditionTextBox->setText(QString::fromStdString(m_configuration.filterGrepCondition));    ui->otherTextBox->setText(QString::fromStdString(m_configuration.otherGrepCondition));
+    ui->filterConditionTextBox->setText(QString::fromStdString(m_configuration.filterGrepCondition));
+    ui->otherTextBox->setText(QString::fromStdString(m_configuration.otherGrepCondition));
     ui->prioritizedLogConditionTextBox->setText(QString::fromStdString(m_configuration.prioritizedLogCondition));
     ui->cropSizeTextBox->setText(QString::fromStdString(converter.convert(m_configuration.cropSize)));
-    updateFilterConditionTextBox(m_configuration.isFilterSubStepOn);    setReadOnlyForLineEdit(ui->grepFinalConditionTextBox, true);
+    updateFilterConditionTextBox(m_configuration.isFilterSubStepOn);
+    setReadOnlyForLineEdit(ui->grepFinalConditionTextBox, true);
     updateGrepFinalCondition();
 }
 
@@ -107,9 +109,11 @@ void WcdmaTools::updateFilterConditionTextBox(bool const isFilterSubStepOn)
     }
     setReadOnlyForLineEdit(ui->filterConditionTextBox, isReadOnly);
 }
+
 void WcdmaTools::setReadOnlyForLineEdit(QLineEdit* lineEdit, bool const isReadOnly)
 {
-    if(isReadOnly)    {
+    if(isReadOnly)
+    {
         QPalette palette;
         palette.setColor(QPalette::Base,Qt::lightGray);
         palette.setColor(QPalette::Text,Qt::black);

@@ -34,9 +34,11 @@ bool Ellipse::operator==(Ellipse const& ellipse) const
             && isAlmostEqual(m_bValue, ellipse.m_bValue);
 }
 
-bool Ellipse::operator!=(Ellipse const& ellipse) const{
+bool Ellipse::operator!=(Ellipse const& ellipse) const
+{
     return !((*this)==ellipse);
 }
+
 Point Ellipse::getCenter() const
 {
     return m_center;

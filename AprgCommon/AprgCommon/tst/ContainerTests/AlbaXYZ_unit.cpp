@@ -45,7 +45,27 @@ TEST(AlbaXYZTest, XYZCanBeCompared)
     EXPECT_NE(AlbaXYZ<int>(5,5,10), xyz);
 }
 
-TEST(AlbaXYZTest, XTimesYCanBeComputed)
+TEST(AlbaXYZTest, XYZCanBeAdded)
+{
+    EXPECT_EQ(AlbaXYZ<int>(5,-3,-3), (AlbaXYZ<int>(1,2,3)+AlbaXYZ<int>(4,-5,-6)));
+}
+
+TEST(AlbaXYZTest, XYZCanBeSubtracted)
+{
+    EXPECT_EQ(AlbaXYZ<int>(-3,7,9), (AlbaXYZ<int>(1,2,3)-AlbaXYZ<int>(4,-5,-6)));
+}
+
+TEST(AlbaXYZTest, XYZCanHavePlusSign)
+{
+    EXPECT_EQ(AlbaXYZ<int>(1,2,3), +AlbaXYZ<int>(1,2,3));
+}
+
+TEST(AlbaXYZTest, XYZCanBeNegated)
+{
+    EXPECT_EQ(AlbaXYZ<int>(-1,-2,-3), -AlbaXYZ<int>(1,2,3));
+}
+
+TEST(AlbaXYZTest, XTimesYTimesZCanBeComputed)
 {
     AlbaXYZ<int> xyz(-5,5,10);
     EXPECT_EQ(-250, xyz.getXTimesYTimesZ());

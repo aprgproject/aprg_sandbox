@@ -16,6 +16,11 @@ class Plane
 public:
     Plane();
     Plane(Point const& first, Point const& second, Point const& third);
+    Plane(
+            double const aCoefficient,
+            double const bCoefficient,
+            double const cCoefficient,
+            Point const& pointInPlane);
     bool operator==(Plane const& plane) const;
     bool operator!=(Plane const& plane) const;
     double getACoefficient() const;
@@ -29,7 +34,11 @@ public:
     AlbaOptional<double> calculateYFromXAndZ(double const x, double const z) const;
     AlbaOptional<double> calculateZFromXAndY(double const x, double const y) const;
 
+    std::string getDisplayableString() const;
+
 private:
+    void calculateDCoefficientUsingCoefficientsABCAndAPoint(Point const& first);
+    void setXYZIntercepts();
     double m_aCoefficient; //form: a*x + b*y + c*z + d = 0
     double m_bCoefficient; //form: a*x + b*y + c*z + d = 0
     double m_cCoefficient; //form: a*x + b*y + c*z + d = 0

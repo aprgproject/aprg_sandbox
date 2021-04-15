@@ -60,9 +60,11 @@ bool isAlmostEqual<unsigned int>(unsigned int const value1, unsigned int const v
     return value1==value2;
 }
 
+
 //getDistance
 template <typename NumberType>
-NumberType getDistance(NumberType const value1, NumberType const value2){
+NumberType getDistance(NumberType const value1, NumberType const value2)
+{
     std::pair<NumberType, NumberType> minMaxPair = std::minmax(value1, value2);
     return minMaxPair.second-minMaxPair.first;
 }
@@ -70,7 +72,7 @@ template unsigned int getDistance<unsigned int>(unsigned int const value1, unsig
 template int getDistance<int>(int const value1, int const value2);
 
 
-//getAverage
+//getAverage 2 parameters
 template <typename NumberType>
 NumberType getAverage(NumberType const value1, NumberType const value2)
 {
@@ -79,6 +81,16 @@ NumberType getAverage(NumberType const value1, NumberType const value2)
 template unsigned int getAverage<unsigned int>(unsigned int const value1, unsigned int const value2);
 template int getAverage<int>(int const value1, int const value2);
 template double getAverage<double>(double const value1, double const value2);
+
+//getAverage 3 parameters
+template <typename NumberType>
+NumberType getAverage(NumberType const value1, NumberType const value2, NumberType const value3)
+{
+    return (value1+value2+value3)/3;
+}
+template unsigned int getAverage<unsigned int>(unsigned int const value1, unsigned int const value2, unsigned int const value3);
+template int getAverage<int>(int const value1, int const value2, int const value3);
+template double getAverage<double>(double const value1, double const value2, double const value3);
 
 
 //getAbsoluteValue
@@ -185,10 +197,12 @@ double calculateInverseCumulativeStandardDistributionApproximation(double const 
         else if(isAlmostEqual(probability, probabilityHighest))
         {
             z=highestZ;
-            break;        }
+            break;
+        }
         else if(probability>probabilityLowest && probability<probabilityMiddle)
         {
-            highestZ=middleZ;            z=getAverage<double>(lowestZ, middleZ);
+            highestZ=middleZ;
+            z=getAverage<double>(lowestZ, middleZ);
         }
         else if(probability>probabilityMiddle && probability<probabilityHighest)
         {

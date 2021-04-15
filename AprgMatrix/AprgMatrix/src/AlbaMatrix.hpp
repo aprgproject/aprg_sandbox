@@ -184,10 +184,12 @@ public:
                         if(yToZero != yWithLeadingEntry && !mathHelper::isAlmostEqual(m_matrixData.at(getMatrixIndex(x, yToZero)), static_cast<DataType>(0)))
                         {
                             subtractRowsWithMultiplier(
-                                        yToZero,                                        yWithLeadingEntry,
+                                        yToZero,
+                                        yWithLeadingEntry,
                                         m_matrixData.at(getMatrixIndex(x, yToZero))/m_matrixData.at(getMatrixIndex(x, yWithLeadingEntry)),
                                         yToZero);
-                        }                    }
+                        }
+                    }
                     yWithLeadingEntry++;
                     break;
                 }
@@ -314,10 +316,12 @@ private:
                 if(isRowWithAllZero && !mathHelper::isAlmostEqual(m_matrixData.at(getMatrixIndex(x, y)), static_cast<DataType>(0)))
                 {
                     isRowWithAllZero = false;
-                    break;                }
+                    break;
+                }
             }
             if(!isRowWithNonZeroEncountered)
-            {                isRowWithNonZeroEncountered = !isRowWithAllZero;
+            {
+                isRowWithNonZeroEncountered = !isRowWithAllZero;
             }
             if(isRowWithNonZeroEncountered && isRowWithAllZero)
             {
@@ -344,10 +348,12 @@ private:
                             if(yZeroCheck!=y && !mathHelper::isAlmostEqual(m_matrixData.at(getMatrixIndex(x, yZeroCheck)), static_cast<DataType>(0)))
                             {
                                 //4. If a column contains a leading entry of some row, then all other entries in that column are zero
-                                return false;                            }
+                                return false;
+                            }
                         }
                     }
-                    else                    {
+                    else
+                    {
                         //3. If rows i and i+1 are two successive rows that do not consist entirely of zeros, then the leading entry of row i+1 is to the right of the leading entry of row i.
                         return false;
                     }

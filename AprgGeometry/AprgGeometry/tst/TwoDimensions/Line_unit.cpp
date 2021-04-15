@@ -4,9 +4,13 @@
 
 #include <cmath>
 
-using namespace alba::TwoDimensions;
 using namespace std;
 
+namespace alba
+{
+
+namespace TwoDimensions
+{
 
 TEST(TwoDimensionsLineTest, EmptyLine)
 {
@@ -311,4 +315,8 @@ TEST(TwoDimensionsLineTest, LineCanBeComparedForEquality)
 {
     EXPECT_EQ(Line(1,2,3), Line(10,20,30));
     EXPECT_NE(Line(1,2,3), Line(2,3,4));
+}
+
+}
+
 }

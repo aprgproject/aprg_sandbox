@@ -24,17 +24,6 @@ Line::Line()
     , m_zInitialValue(0)
 {}
 
-void Line::calculateAndSaveInitialValuesIfPossible(Point const& first)
-{
-    if(!isSumOfCoefficientsZero())
-    {
-        double minimizedMultiplierForInitialValue = -1*(first.getX() + first.getY() + first.getZ())/(m_aCoefficient + m_bCoefficient + m_cCoefficient);
-        m_xInitialValue = first.getX() + minimizedMultiplierForInitialValue*m_aCoefficient;
-        m_yInitialValue = first.getY() + minimizedMultiplierForInitialValue*m_bCoefficient;
-        m_zInitialValue = first.getZ() + minimizedMultiplierForInitialValue*m_cCoefficient;
-    }
-}
-
 Line::Line(Point const& first, Point const& second)
     : m_aCoefficient(0)
     , m_bCoefficient(0)
@@ -92,7 +81,7 @@ Line::Line(double const aCoefficient,
 
 bool Line::isInvalid() const
 {
-    return isSumOfCoefficientsZero();
+    return areAllCoefficientsZero();
 }
 
 bool Line::operator==(Line const& line) const
@@ -105,9 +94,11 @@ bool Line::operator==(Line const& line) const
             && isAlmostEqual(m_zInitialValue, line.m_zInitialValue);
 }
 
-bool Line::operator!=(Line const& line) const{
+bool Line::operator!=(Line const& line) const
+{
     return !((*this)==line);
 }
+
 double Line::getXInitialValue() const
 {
     return m_xInitialValue;
@@ -168,18 +159,51 @@ AlbaOptional<double> Line::calculateZFromY(double const y) const
     return calculateOtherCoordinate(m_zInitialValue, m_cCoefficient, m_yInitialValue, m_bCoefficient, y);
 }
 
+string Line::getDisplayableString() const
+{
+    std::stringstream ss;
+    ss << "(x-" << m_xInitialValue << ")/" << m_aCoefficient << " = (y-" << m_yInitialValue << ")/" << m_bCoefficient << " = (z-" << m_zInitialValue << ")/" << m_cCoefficient;
+    return ss.str();
+}
+
+void Line::calculateAndSaveInitialValuesIfPossible(Point const& first)
+{
+    if(!isInvalid())
+    {
+        double minimizedMultiplierForInitialValue=0;
+        if(!isAlmostEqual(m_aCoefficient+m_bCoefficient+m_cCoefficient, 0.0))
+        {
+            //k is minimizedMultiplierForInitialValue
+            //x1+ak + y1+bk + z1+ck = 0
+            //-(x1+y1+z1)/(a+b+c) = k
+            minimizedMultiplierForInitialValue = -1*(first.getX() + first.getY() + first.getZ())/(m_aCoefficient + m_bCoefficient + m_cCoefficient);
+        }
+        else
+        {
+            //x1/a1 = k (so that initial value = 0)
+            //get average of all of x and y and z
+            minimizedMultiplierForInitialValue = round(-1*getAverage(first.getX()/m_aCoefficient, first.getY()/m_bCoefficient, first.getZ()/m_cCoefficient));
+        }
+        m_xInitialValue = first.getX() + minimizedMultiplierForInitialValue*m_aCoefficient;
+        m_yInitialValue = first.getY() + minimizedMultiplierForInitialValue*m_bCoefficient;
+        m_zInitialValue = first.getZ() + minimizedMultiplierForInitialValue*m_cCoefficient;
+    }
+}
+
 AlbaOptional<double> Line::calculateOtherCoordinate(double const& initialValue1, double const coefficient1, double const& initialValue2, double const coefficient2, double const coordinate2) const
 {
     AlbaOptional<double> result;
     if(!isAlmostEqual(coefficient2, 0.0))
     {
         result.setValue( ((coordinate2-initialValue2)/coefficient2*coefficient1) + initialValue1 );
-    }    return result;
+    }
+    return result;
 }
 
-bool Line::isSumOfCoefficientsZero() const
+bool Line::areAllCoefficientsZero() const
 {
-    return isAlmostEqual(m_aCoefficient+m_bCoefficient+m_cCoefficient, 0.0);
+    return isAlmostEqual(m_aCoefficient, 0.0) && isAlmostEqual(m_cCoefficient, 0.0) && isAlmostEqual(m_cCoefficient, 0.0);
 }
 
-}}
+}
+}

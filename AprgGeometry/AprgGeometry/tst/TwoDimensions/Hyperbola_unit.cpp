@@ -5,9 +5,13 @@
 
 #include <cmath>
 
-using namespace alba::TwoDimensions;
 using namespace std;
 
+namespace alba
+{
+
+namespace TwoDimensions
+{
 
 TEST(HyperbolaTest, EmptyHyperbola)
 {
@@ -66,4 +70,6 @@ TEST(HyperbolaTest, AreaTraversalIsCorrect)
     //traversal
 }
 
+}
 
+}
