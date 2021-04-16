@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Dimensionless/Angle.hpp>
 #include <TwoDimensions/Circle.hpp>
 #include <TwoDimensions/Ellipse.hpp>
 #include <TwoDimensions/Hyperbola.hpp>
@@ -20,13 +21,17 @@ namespace twoDimensionsHelper
 
 bool isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point const& maximumXAndY);
 bool isPointInLine(Point const& point, Line const& line);
+bool areLinesParallel(Line const& line1, Line const& line2);
+bool areLinesPerpendicular(Line const& line1, Line const& line2);
 
 double getDistance(Point const& point1, Point const& point2);
 double getDistance(Line const& line, Point const& point);
 
-Point getIntersection(Line const& line1, Line const& line2);
+Point getIntersectionOfTwoLines(Line const& line1, Line const& line2);
 Point getMidpoint(Point const& point1, Point const& point2);
 Point popNearestPoint(Points & points, Point const& point);
+
+Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval);
 Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);//UT
@@ -39,9 +44,11 @@ Line getLineWithPerpendicularSlope(Line const& line, Point const& point);
 Line getTangentLineAt(Circle const& circle, Point const& point);
 Line getTangentLineAt(Ellipse const& ellipse, Point const& point);
 Line getTangentLineAt(Hyperbola const& hyperbola, Point const& point);
+
 template<unsigned int numberOfCoefficients>
 Line getPolynomialTangentLineAt(Polynomial<numberOfCoefficients> polynomial, double const x)
-{    double slope = polynomial.getSlopeAt(x);
+{
+    double slope = polynomial.getSlopeAt(x);
     double y = polynomial.calculateYfromX(x);
     return Line(Point(x, y), Point(x+1, y+slope));
 }
@@ -52,4 +59,5 @@ void savePointsFromTwoPointsUsingALineWithoutLastPoint(Points & points, Point co
 }
 
 }
+
 }

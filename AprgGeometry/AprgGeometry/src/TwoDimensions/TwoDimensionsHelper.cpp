@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cmath>
 
+using namespace alba::Dimensionless;
 using namespace alba::mathHelper;
 using namespace std;
 
@@ -24,23 +25,40 @@ bool isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point cons
 
 bool isPointInLine(Point const& point, Line const& line)
 {
-    return isAlmostEqual(point.getY(), line.calculateYFromX(point.getX()));}
+    return isAlmostEqual(point.getY(), line.calculateYFromX(point.getX()));
+}
+
+bool areLinesParallel(Line const& line1, Line const& line2)
+{
+    return (line1.getType()==LineType::Horizontal && line2.getType()==LineType::Horizontal) ||
+            (line1.getType()==LineType::Vertical && line2.getType()==LineType::Vertical) ||
+            (isAlmostEqual(line1.getSlope(), line2.getSlope()));
+}
+
+bool areLinesPerpendicular(Line const& line1, Line const& line2)
+{
+    return (line1.getType()==LineType::Horizontal && line2.getType()==LineType::Vertical) ||
+            (line1.getType()==LineType::Vertical && line2.getType()==LineType::Horizontal) ||
+            (isAlmostEqual(line1.getSlope(), line2.getInverseSlope()));
+}
 
 double getDistance(Point const& point1, Point const& point2)
 {
-    double deltaX = point2.getX() - point1.getX();    double deltaY = point2.getY() - point1.getY();
+    double deltaX = point2.getX() - point1.getX();
+    double deltaY = point2.getY() - point1.getY();
     return getSquareRootOfXSquaredPlusYSquared<double>(deltaX, deltaY);
 }
 
 double getDistance(Line const& line, Point const& point)
 {
-    Point nearestPoint(getIntersection(line, getLineWithPerpendicularSlope(line, point)));
+    Point nearestPoint(getIntersectionOfTwoLines(line, getLineWithPerpendicularSlope(line, point)));
     return getDistance(point, nearestPoint);
 }
 
-Point getIntersection(Line const& line1, Line const& line2)
+Point getIntersectionOfTwoLines(Line const& line1, Line const& line2)
 {
-    double xOfIntersection = ((line2.getCCoefficient()*line1.getBCoefficient())-(line1.getCCoefficient()*line2.getBCoefficient()))                              /((line1.getACoefficient()*line2.getBCoefficient())-(line2.getACoefficient()*line1.getBCoefficient()));
+    double xOfIntersection = ((line2.getCCoefficient()*line1.getBCoefficient())-(line1.getCCoefficient()*line2.getBCoefficient()))
+                              /((line1.getACoefficient()*line2.getBCoefficient())-(line2.getACoefficient()*line1.getBCoefficient()));
     double yOfIntersection = ((line2.getCCoefficient()*line1.getACoefficient())-(line1.getCCoefficient()*line2.getACoefficient()))
             /((line1.getBCoefficient()*line2.getACoefficient())-(line2.getBCoefficient()*line1.getACoefficient()));
     return Point(xOfIntersection, yOfIntersection);
@@ -53,10 +71,12 @@ Point getMidpoint(Point const& point1, Point const& point2)
 
 Point popNearestPoint(Points & points, Point const& point)
 {
-    Point result;    if(!points.empty())
+    Point result;
+    if(!points.empty())
     {
         double nearestDistance=getDistance(points[0], point);
-        Points::iterator nearestPointIterator = points.begin();        for(Points::iterator it = points.begin(); it != points.end(); it++)
+        Points::iterator nearestPointIterator = points.begin();
+        for(Points::iterator it = points.begin(); it != points.end(); it++)
         {
             double currentDistance(getDistance(*it, point));
             if(nearestDistance>currentDistance)
@@ -69,6 +89,30 @@ Point popNearestPoint(Points & points, Point const& point)
         points.erase(nearestPointIterator);
     }
     return result;
+}
+
+Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
+{
+    Angle angle;
+    if(areLinesParallel(line1, line2))
+    {
+        angle = Angle(AngleInputType::Degrees, 180);
+    }
+    else if(areLinesPerpendicular(line1, line2))
+    {
+        angle = Angle(AngleInputType::Degrees, 90);
+    }
+    else
+    {
+        //from tan theta = (m2-m1)/(1+m2m1)
+        double delta1xTimesDelta2y = line1.getAUnitIncreaseInX()*line2.getAUnitIncreaseInY();
+        double delta2xTimesDelta1y = line2.getAUnitIncreaseInX()*line1.getAUnitIncreaseInY();
+
+        angle = Angle(AngleInputType::Radians,
+                      atan(
+                          getAbsoluteValue((delta1xTimesDelta2y-delta2xTimesDelta1y)/(delta1xTimesDelta2y+delta2xTimesDelta1y))));
+    }
+    return angle;
 }
 
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval)
@@ -92,10 +136,12 @@ Points getConnectedPointsUsingALine(Points const& inputPoints, double const inte
 
 Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged)
 {
-    Points result;    Points firstPoints(getPointsInSortedIncreasingX(firstPointsToBeMerged));
+    Points result;
+    Points firstPoints(getPointsInSortedIncreasingX(firstPointsToBeMerged));
     Points secondPoints(getPointsInSortedIncreasingX(secondPointsToBeMerged));
     Points::const_iterator iteratorForX = firstPoints.cbegin();
-    Points::const_iterator iteratorForY = secondPoints.cbegin();    while(iteratorForX != firstPoints.cend() || iteratorForY != secondPoints.cend())
+    Points::const_iterator iteratorForY = secondPoints.cbegin();
+    while(iteratorForX != firstPoints.cend() || iteratorForY != secondPoints.cend())
     {
         if(iteratorForX != firstPoints.cend() && iteratorForY != secondPoints.cend())
         {
@@ -194,10 +240,12 @@ Line getLineWithPerpendicularSlope(Line const& line, Point const& point)
 
 Line getTangentLineAt(Circle const& circle, Point const& point)
 {
-    Point nearestPoint(circle.getNearestPointInCircumference(point));    Point center(circle.getCenter());
+    Point nearestPoint(circle.getNearestPointInCircumference(point));
+    Point center(circle.getCenter());
     Point deltaNearestPoint(nearestPoint.getX()-center.getX(), nearestPoint.getY()-center.getY());
     return Line(deltaNearestPoint.getY(), -1*deltaNearestPoint.getX(), nearestPoint);
 }
+
 //fix and test this
 Line getTangentLineAt(Ellipse const& ellipse, Point const& point)
 {

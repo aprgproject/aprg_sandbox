@@ -37,6 +37,8 @@ public:
     double getACoefficient() const;
     double getBCoefficient() const;
     double getCCoefficient() const;
+    double getAUnitIncreaseInX() const;
+    double getAUnitIncreaseInY() const;
     Points getPoints(Point const& first, Point const& second, double const interval) const;
     Points getPointsWithoutLastPoint(Point const& first, Point const& second, double const interval) const;
     double calculateYFromX(double const x) const;
@@ -44,8 +46,10 @@ public:
 
     std::string getDisplayableString() const;
 
+
 private:
     void setLineParametersBasedOnDeltas(double const deltaX, double const deltaY, Point const& point);
+    void setLineParametersBasedOnCoefficients(double const bCoefficient, double const cCoefficient, double const aCoefficient);
     void getPointsForVerticalLine(Points & points, Point const& first, Point const& second, double const interval) const;
     void getPointsForHorizontalLine(Points & points, Point const& first, Point const& second, double const interval) const;
     void getPointsForLineWithSlope(Points & points, Point const& first, Point const& second, double const interval) const;

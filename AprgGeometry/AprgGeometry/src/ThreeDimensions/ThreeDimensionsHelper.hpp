@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Dimensionless/Angle.hpp>
 #include <ThreeDimensions/Line.hpp>
 #include <ThreeDimensions/Plane.hpp>
 #include <ThreeDimensions/Point.hpp>
@@ -25,11 +26,16 @@ bool isLineInPlane(Line const& line, Plane const& plane);
 double getDistance(Point const& point1, Point const& point2);
 double getDistance(Line const& line, Point const& point);
 
-Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients const coefficients2);
+bool areLinesParallel(Line const& line1, Line const& line2);
+
+Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 
 Point getMidpoint(Point const& point1, Point const& point2);
 Point getPointOfIntersectionOfTwoLines(Line const& line1, Line const& line2);
 Point getPointOfIntersectionOfAPlaneAndALine(Plane const& plane, Line const& line);
+
+double getDotProduct(Coefficients const coefficients1, Coefficients const coefficients2);
+Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients const coefficients2);
 
 Line getLineWithSameSlope(Line const& line, Point const& point);
 Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2);
@@ -37,6 +43,7 @@ Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2);
 Plane getPerpendicularPlaneOfALineAndUsingAPointInThePlane(Line const& line, Point const& pointInPerpendicularPlane);
 
 }
+
 }
 
 }

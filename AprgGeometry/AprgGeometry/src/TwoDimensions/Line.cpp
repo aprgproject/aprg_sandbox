@@ -42,28 +42,7 @@ Line::Line(Point const& first, Point const& second)
 
 Line::Line(double const aCoefficient, double const bCoefficient, double const cCoefficient)
 {
-    m_aCoefficient = aCoefficient;
-    m_bCoefficient = bCoefficient;
-    m_cCoefficient = cCoefficient;
-    m_type = determineLineTypeUsingCoefficients(aCoefficient, bCoefficient);
-    switch(m_type)
-    {
-    case LineType::Horizontal:
-        m_slope = 0;
-        m_yIntercept = -cCoefficient/bCoefficient;
-        m_xIntercept = 0;
-        break;
-    case LineType::Vertical:
-        m_slope = static_cast<double>(INFINITY);
-        m_yIntercept = 0;
-        m_xIntercept = -cCoefficient/aCoefficient;
-        break;
-    default:
-        m_slope = -aCoefficient/bCoefficient;
-        m_yIntercept = -cCoefficient/bCoefficient;
-        m_xIntercept = -cCoefficient/aCoefficient;
-        break;
-    }
+    setLineParametersBasedOnCoefficients(bCoefficient, cCoefficient, aCoefficient);
 }
 
 Line::Line(double const aCoefficient, double const bCoefficient, Point const& point)
@@ -115,7 +94,12 @@ double Line::getSlope() const
 
 double Line::getInverseSlope() const
 {
-    return -m_bCoefficient/m_aCoefficient;
+    double inverseSlope = 0;
+    if(m_type != LineType::Invalid)
+    {
+        inverseSlope = m_bCoefficient/m_aCoefficient;
+    }
+    return inverseSlope;
 }
 
 double Line::getACoefficient() const
@@ -131,6 +115,16 @@ double Line::getBCoefficient() const
 double Line::getCCoefficient() const
 {
     return m_cCoefficient;
+}
+
+double Line::getAUnitIncreaseInX() const
+{
+    return m_bCoefficient;
+}
+
+double Line::getAUnitIncreaseInY() const
+{
+    return -m_aCoefficient;
 }
 
 Points Line::getPoints(Point const& first, Point const& second, double const interval) const
@@ -183,6 +177,14 @@ void Line::setLineParametersBasedOnDeltas(double const deltaX, double const delt
     m_type = determineLineTypeUsingDeltaXandDeltaY(deltaY, deltaX);
     switch(m_type)
     {
+    case LineType::Invalid:
+        m_slope = 0;
+        m_yIntercept = 0;
+        m_xIntercept = 0;
+        m_aCoefficient = 0;
+        m_bCoefficient = 0;
+        m_cCoefficient = 0;
+        break;
     case LineType::Horizontal:
         m_slope = 0;
         m_yIntercept = point.getY();
@@ -206,6 +208,37 @@ void Line::setLineParametersBasedOnDeltas(double const deltaX, double const delt
         m_aCoefficient = deltaY;
         m_bCoefficient = -deltaX;
         m_cCoefficient = (point.getY()*deltaX)-(point.getX()*deltaY);
+        break;
+    }
+}
+
+void Line::setLineParametersBasedOnCoefficients(double const bCoefficient, double const cCoefficient, double const aCoefficient)
+{
+    m_aCoefficient = aCoefficient;
+    m_bCoefficient = bCoefficient;
+    m_cCoefficient = cCoefficient;
+    m_type = determineLineTypeUsingCoefficients(aCoefficient, bCoefficient);
+    switch(m_type)
+    {
+    case LineType::Invalid:
+        m_slope = 0;
+        m_yIntercept = 0;
+        m_xIntercept = 0;
+        break;
+    case LineType::Horizontal:
+        m_slope = 0;
+        m_yIntercept = -cCoefficient/bCoefficient;
+        m_xIntercept = 0;
+        break;
+    case LineType::Vertical:
+        m_slope = static_cast<double>(INFINITY);
+        m_yIntercept = 0;
+        m_xIntercept = -cCoefficient/aCoefficient;
+        break;
+    default:
+        m_slope = -aCoefficient/bCoefficient;
+        m_yIntercept = -cCoefficient/bCoefficient;
+        m_xIntercept = -cCoefficient/aCoefficient;
         break;
     }
 }
