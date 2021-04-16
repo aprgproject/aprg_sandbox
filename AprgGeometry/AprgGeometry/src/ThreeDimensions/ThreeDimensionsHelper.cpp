@@ -235,7 +235,8 @@ Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
         smallerAngle = Angle(AngleUnitType::Degrees, 0);
     }
     else
-    {        //from cos theta = (dotproduct of coefficients v1 and v2)/(magnitude of v1 * magnitude of v2)
+    {
+        //from cos theta = (dotproduct of coefficients v1 and v2)/(magnitude of v1 * magnitude of v2)
         Coefficients c1(line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient());
         Coefficients c2(line2.getACoefficient(), line2.getBCoefficient(), line2.getCCoefficient());
         double numeratorPart = getDotProduct(c1, c2);
@@ -254,9 +255,11 @@ Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 
 double getDotProduct(Coefficients const coefficients1, Coefficients const coefficients2)
 {
-    return coefficients1.getX()*coefficients2.getX()+            coefficients1.getY()*coefficients2.getY()+
+    return coefficients1.getX()*coefficients2.getX()+
+            coefficients1.getY()*coefficients2.getY()+
             coefficients1.getZ()*coefficients2.getZ();
 }
+
 Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients const coefficients2)
 {
     return Coefficients(

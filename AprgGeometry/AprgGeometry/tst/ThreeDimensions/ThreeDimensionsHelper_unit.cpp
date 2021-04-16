@@ -175,10 +175,12 @@ TEST(TwoDimensionsHelperTest, GetLargerAngleBetweenTwoLinesWorksCorrectly)
 
 TEST(ThreeDimensionsHelperTest, GetCrossProductWorksCorrectly)
 {
-    Coefficients input1(1,2,3);    Coefficients input2(4,5,6);
+    Coefficients input1(1,2,3);
+    Coefficients input2(4,5,6);
     Coefficients expectedCoefficients(getCrossProduct(input1, input2));
 
-    EXPECT_EQ(-3, expectedCoefficients.getX());    EXPECT_EQ(6, expectedCoefficients.getY());
+    EXPECT_EQ(-3, expectedCoefficients.getX());
+    EXPECT_EQ(6, expectedCoefficients.getY());
     EXPECT_EQ(-3, expectedCoefficients.getZ());
 }
 

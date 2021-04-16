@@ -106,10 +106,12 @@ TEST(TwoDimensionsHelperTest, GetLargerAngleBetweenTwoLinesWorksCorrectly)
 
 TEST(TwoDimensionsHelperTest, PointsInParabolaCanBeConnected)
 {
-    Parabola parabola{1,2,3};    Points parabolaPoints(parabola.getPoints(-2, 2, 1));
+    Parabola parabola{1,2,3};
+    Points parabolaPoints(parabola.getPoints(-2, 2, 1));
     Points connectedPoints(getConnectedPointsUsingALine(parabolaPoints, 1));
 
-    ASSERT_EQ(11u, connectedPoints.size());    EXPECT_EQ(Point(-2,3), connectedPoints[0]);
+    ASSERT_EQ(11u, connectedPoints.size());
+    EXPECT_EQ(Point(-2,3), connectedPoints[0]);
     EXPECT_EQ(Point(-1,2), connectedPoints[1]);
     EXPECT_EQ(Point(0,3), connectedPoints[2]);
     EXPECT_EQ(Point(static_cast<double>(1)/3,4), connectedPoints[3]);
