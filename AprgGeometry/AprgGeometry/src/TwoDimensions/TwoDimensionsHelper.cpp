@@ -55,14 +55,21 @@ double getDistance(Line const& line, Point const& point)
     return getDistance(point, nearestPoint);
 }
 
+double getConsineOfAngleUsing2Deltas(double const deltaX1, double const deltaY1, double const deltaX2, double const deltaY2)
+{
+    double numeratorPart = (deltaX1*deltaX2) + (deltaY1*deltaY2);
+    double denominatorPart = getSquareRootOfXSquaredPlusYSquared(deltaX1, deltaY1) *
+            getSquareRootOfXSquaredPlusYSquared(deltaX2, deltaY2);
+    return numeratorPart/denominatorPart;
+}
+
 Point getIntersectionOfTwoLines(Line const& line1, Line const& line2)
 {
     double xOfIntersection = ((line2.getCCoefficient()*line1.getBCoefficient())-(line1.getCCoefficient()*line2.getBCoefficient()))
-                              /((line1.getACoefficient()*line2.getBCoefficient())-(line2.getACoefficient()*line1.getBCoefficient()));
+            /((line1.getACoefficient()*line2.getBCoefficient())-(line2.getACoefficient()*line1.getBCoefficient()));
     double yOfIntersection = ((line2.getCCoefficient()*line1.getACoefficient())-(line1.getCCoefficient()*line2.getACoefficient()))
             /((line1.getBCoefficient()*line2.getACoefficient())-(line2.getBCoefficient()*line1.getACoefficient()));
-    return Point(xOfIntersection, yOfIntersection);
-}
+    return Point(xOfIntersection, yOfIntersection);}
 
 Point getMidpoint(Point const& point1, Point const& point2)
 {
@@ -91,10 +98,16 @@ Point popNearestPoint(Points & points, Point const& point)
     return result;
 }
 
+Angle getTheInnerAngleUsingThreePointsBAC(Point const& pointA, Point const& pointB, Point const& pointC)
+{
+    Point deltaBA(pointB-pointA);
+    Point deltaCA(pointC-pointA);
+    return Angle(AngleUnitType::Radians, acos(getConsineOfAngleUsing2Deltas(deltaBA.getX(), deltaBA.getY(), deltaCA.getX(), deltaCA.getY())));
+}
+
 Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
-    Angle angle;
-    if(areLinesParallel(line1, line2))
+    Angle angle;    if(areLinesParallel(line1, line2))
     {
         angle = Angle(AngleUnitType::Degrees, 0);
     }
@@ -104,17 +117,18 @@ Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
     }
     else
     {
-        //from tan theta = (m2-m1)/(1+m2m1)
-        double delta1xTimesDelta2y = line1.getAUnitIncreaseInX()*line2.getAUnitIncreaseInY();
-        double delta2xTimesDelta1y = line2.getAUnitIncreaseInX()*line1.getAUnitIncreaseInY();
-
-        angle = Angle(AngleUnitType::Radians,
-                      atan(
-                          getAbsoluteValue((delta1xTimesDelta2y-delta2xTimesDelta1y)/(delta1xTimesDelta2y+delta2xTimesDelta1y))));
+        //absolute value is used to ensure lower angle
+        return Angle(AngleUnitType::Radians,
+                     acos(
+                         getAbsoluteValue(
+                             getConsineOfAngleUsing2Deltas(
+                                 line1.getAUnitIncreaseInX(),
+                                 line1.getAUnitIncreaseInY(),
+                                 line2.getAUnitIncreaseInX(),
+                                 line2.getAUnitIncreaseInY()))));
     }
     return angle;
 }
-
 Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
     Angle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));

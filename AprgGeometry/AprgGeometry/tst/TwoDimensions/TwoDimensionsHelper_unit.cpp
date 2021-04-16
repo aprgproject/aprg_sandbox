@@ -52,10 +52,14 @@ TEST(TwoDimensionsHelperTest, DistanceBetweenPointAndLineCanBeCalculated)
     EXPECT_EQ(2*pow(2, 0.5), getDistance(Line(1,1,0), Point(2,2)));
 }
 
+TEST(TwoDimensionsHelperTest, GetConsineOfAngleUsing2DeltasWorksCorrectly)
+{
+    EXPECT_EQ(1, getConsineOfAngleUsing2Deltas(2,4,8,16));
+}
+
 TEST(TwoDimensionsHelperTest, LineAndLineIntersectionCanBeFound)
 {
-    Line line1(Point(2,4), Point(3,3));
-    Line line2(Point(4,4), Point(3,3));
+    Line line1(Point(2,4), Point(3,3));    Line line2(Point(4,4), Point(3,3));
 
     EXPECT_EQ(Point(3,3), getIntersectionOfTwoLines(line1, line2));
 }
@@ -90,10 +94,16 @@ TEST(TwoDimensionsHelperTest, PopNearestPointWorks)
     EXPECT_EQ(Point(0,0), popNearestPoint(points, Point(0,0)));
 }
 
+TEST(TwoDimensionsHelperTest, GetTheInnerAngleUsingThreePointsBACWorksCorrectly)
+{
+    EXPECT_EQ(0, getTheInnerAngleUsingThreePointsBAC(Point(0,0), Point(0,1), Point(0,1)).getDegrees());
+    EXPECT_EQ(90, getTheInnerAngleUsingThreePointsBAC(Point(0,0), Point(0,1), Point(1,0)).getDegrees());
+    EXPECT_DOUBLE_EQ(45, getTheInnerAngleUsingThreePointsBAC(Point(0,0), Point(0,1), Point(1,1)).getDegrees());
+}
+
 TEST(TwoDimensionsHelperTest, GetSmallerAngleBetweenTwoLinesWorksCorrectly)
 {
-    EXPECT_EQ(0, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(0,1))).getDegrees());
-    EXPECT_EQ(90, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,0))).getDegrees());
+    EXPECT_EQ(0, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(0,1))).getDegrees());    EXPECT_EQ(90, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,0))).getDegrees());
     EXPECT_DOUBLE_EQ(45, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,1))).getDegrees());
 }
 

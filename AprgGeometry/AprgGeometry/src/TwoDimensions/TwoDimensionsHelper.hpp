@@ -26,14 +26,15 @@ bool areLinesPerpendicular(Line const& line1, Line const& line2);
 
 double getDistance(Point const& point1, Point const& point2);
 double getDistance(Line const& line, Point const& point);
+double getConsineOfAngleUsing2Deltas(double const deltaX1, double const deltaY1, double const deltaX2, double const deltaY2);
 
 Point getIntersectionOfTwoLines(Line const& line1, Line const& line2);
 Point getMidpoint(Point const& point1, Point const& point2);
 Point popNearestPoint(Points & points, Point const& point);
 
+Dimensionless::Angle getTheInnerAngleUsingThreePointsBAC(Point const& pointA, Point const& pointB, Point const& pointC);
 Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 Dimensionless::Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
-
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval);
 Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);//UT
 Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);

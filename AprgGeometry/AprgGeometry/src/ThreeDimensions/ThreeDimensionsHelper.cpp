@@ -194,10 +194,18 @@ double getDistance(Line const& line, Point const& point)
     return getDistance(point, nearestPoint);
 }
 
+double getConsineOfAngleUsing2Deltas(Coefficients const& c1, Coefficients const& c2)
+{
+    //from cos theta = (dotproduct of coefficients v1 and v2)/(magnitude of v1 * magnitude of v2)
+    double numeratorPart = getDotProduct(c1, c2);
+    double denominatorPart = getSquareRootOfXSquaredPlusYSquaredPlusZSquared(c1.getX(), c1.getY(), c1.getZ()) *
+            getSquareRootOfXSquaredPlusYSquaredPlusZSquared(c2.getX(), c2.getY(), c2.getZ());
+    return numeratorPart/denominatorPart;
+}
+
 Point getMidpoint(Point const& point1, Point const& point2)
 {
-    return Point((point1.getX()+point2.getX())/2, (point1.getY()+point2.getY())/2, (point1.getZ()+point2.getZ())/2);
-}
+    return Point((point1.getX()+point2.getX())/2, (point1.getY()+point2.getY())/2, (point1.getZ()+point2.getZ())/2);}
 
 Point getPointOfIntersectionOfTwoLines(Line const& line1, Line const& line2)
 {
@@ -227,26 +235,31 @@ Point getPointOfIntersectionOfAPlaneAndALine(Plane const& plane, Line const& lin
             - Point(multiplier*line.getACoefficient(), multiplier*line.getBCoefficient(), multiplier*line.getCCoefficient());
 }
 
+Angle getTheInnerAngleUsingThreePointsBAC(Point const& pointA, Point const& pointB, Point const& pointC)
+{
+    Point deltaBA(pointB-pointA);
+    Point deltaCA(pointC-pointA);
+    Coefficients c1(deltaBA.getX(), deltaBA.getY(), deltaBA.getZ());
+    Coefficients c2(deltaCA.getX(), deltaCA.getY(), deltaCA.getZ());
+    return Angle(AngleUnitType::Radians, acos(getConsineOfAngleUsing2Deltas(c1,c2)));
+}
+
 Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
-    Angle smallerAngle;
-    if(areLinesParallel(line1, line2))
+    Angle smallerAngle;    if(areLinesParallel(line1, line2))
     {
         smallerAngle = Angle(AngleUnitType::Degrees, 0);
     }
     else
     {
+        //absolute value is used to ensure lower angle
         //from cos theta = (dotproduct of coefficients v1 and v2)/(magnitude of v1 * magnitude of v2)
         Coefficients c1(line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient());
         Coefficients c2(line2.getACoefficient(), line2.getBCoefficient(), line2.getCCoefficient());
-        double numeratorPart = getDotProduct(c1, c2);
-        double denominatorPart = getSquareRootOfXSquaredPlusYSquaredPlusZSquared(c1.getX(), c1.getY(), c1.getZ()) *
-                getSquareRootOfXSquaredPlusYSquaredPlusZSquared(c2.getX(), c2.getY(), c2.getZ());
-        smallerAngle = Angle(AngleUnitType::Radians, acos(getAbsoluteValue(numeratorPart/denominatorPart)));
+        smallerAngle = Angle(AngleUnitType::Radians, acos(getAbsoluteValue(getConsineOfAngleUsing2Deltas(c1,c2))));
     }
     return smallerAngle;
 }
-
 Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
     Angle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));
