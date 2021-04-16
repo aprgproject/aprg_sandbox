@@ -123,15 +123,22 @@ TEST(ThreeDimensionsHelperTest, LineCanBeCheckedIfItsOnPlaneWithSlope)
     EXPECT_FALSE(isLineInPlane(lineNotOnPlane, plane));
 }
 
+TEST(ThreeDimensionsHelperTest, LineCanBeCheckedIfItsParallel)
+{
+    EXPECT_TRUE(areLinesParallel(Line(Point(5,5,1), Point(5,5,2)), Line(Point(6,6,78), Point(6,6,108))));
+    EXPECT_FALSE(areLinesParallel(Line(Point(5,5,1), Point(5,5,2)), Line(Point(6,78,6), Point(6,108,6))));
+
+    EXPECT_TRUE(areLinesParallel(Line(Point(0,0,0), Point(1,1,1)), Line(Point(5,0,0), Point(6,1,1))));
+    EXPECT_FALSE(areLinesParallel(Line(Point(0,0,0), Point(1,1,1)), Line(Point(5,0,0), Point(6,1,7))));
+}
+
 TEST(ThreeDimensionsHelperTest, DistanceBetween2PointsCanBeCalculated)
 {
-    EXPECT_EQ(pow(3, 0.5), getDistance(Point(0,0,0), Point(1,1,1)));
-}
+    EXPECT_EQ(pow(3, 0.5), getDistance(Point(0,0,0), Point(1,1,1)));}
 
 TEST(ThreeDimensionsHelperTest, DistanceBetweenPointAndLineCanBeCalculated)
 {
-    EXPECT_EQ(1, getDistance(Line(Point(0,0,0), Point(1,0,0)), Point(0,0,1)));
-}
+    EXPECT_EQ(1, getDistance(Line(Point(0,0,0), Point(1,0,0)), Point(0,0,1)));}
 
 TEST(ThreeDimensionsHelperTest, MidpointBetweenTwoPointsCanBeCalculated)
 {
