@@ -229,31 +229,34 @@ Point getPointOfIntersectionOfAPlaneAndALine(Plane const& plane, Line const& lin
 
 Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
-    Angle angle;
+    Angle smallerAngle;
     if(areLinesParallel(line1, line2))
     {
-        angle = Angle(AngleInputType::Degrees, 180);
+        smallerAngle = Angle(AngleUnitType::Degrees, 0);
     }
     else
-    {
-        //from cos theta = (dotproduct of coefficients v1 and v2)/(magnitude of v1 * magnitude of v2)
+    {        //from cos theta = (dotproduct of coefficients v1 and v2)/(magnitude of v1 * magnitude of v2)
         Coefficients c1(line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient());
         Coefficients c2(line2.getACoefficient(), line2.getBCoefficient(), line2.getCCoefficient());
         double numeratorPart = getDotProduct(c1, c2);
         double denominatorPart = getSquareRootOfXSquaredPlusYSquaredPlusZSquared(c1.getX(), c1.getY(), c1.getZ()) *
                 getSquareRootOfXSquaredPlusYSquaredPlusZSquared(c2.getX(), c2.getY(), c2.getZ());
-        angle = Angle(AngleInputType::Radians, acos(getAbsoluteValue(numeratorPart/denominatorPart)));
+        smallerAngle = Angle(AngleUnitType::Radians, acos(getAbsoluteValue(numeratorPart/denominatorPart)));
     }
-    return angle;
+    return smallerAngle;
+}
+
+Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
+{
+    Angle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));
+    return Angle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
 }
 
 double getDotProduct(Coefficients const coefficients1, Coefficients const coefficients2)
 {
-    return coefficients1.getX()*coefficients2.getX()+
-            coefficients1.getY()*coefficients2.getY()+
+    return coefficients1.getX()*coefficients2.getX()+            coefficients1.getY()*coefficients2.getY()+
             coefficients1.getZ()*coefficients2.getZ();
 }
-
 Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients const coefficients2)
 {
     return Coefficients(

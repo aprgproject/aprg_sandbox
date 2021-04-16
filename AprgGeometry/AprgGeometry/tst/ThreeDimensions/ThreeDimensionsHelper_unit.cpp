@@ -159,21 +159,26 @@ TEST(ThreeDimensionsHelperTest, GetPointOfIntersectionOfAPlaneAndALineWorksCorre
     EXPECT_EQ(static_cast<double>(1)/3, expectedPoint.getZ());
 }
 
-TEST(TwoDimensionsHelperTest, GetAngleBetweenTwoLinesWorksCorrectly)
+TEST(TwoDimensionsHelperTest, GetSmallerAngleBetweenTwoLinesWorksCorrectly)
 {
-    EXPECT_EQ(180, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0,0), Point(0,0,1)), Line(Point(0,0,0), Point(0,0,1))).getDegrees());
+    EXPECT_EQ(0, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0,0), Point(0,0,1)), Line(Point(0,0,0), Point(0,0,1))).getDegrees());
     EXPECT_EQ(90, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0,0), Point(0,0,1)), Line(Point(0,0,0), Point(0,1,0))).getDegrees());
     EXPECT_DOUBLE_EQ(45, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0,0), Point(0,0,1)), Line(Point(0,0,0), Point(0,1,1))).getDegrees());
 }
 
+TEST(TwoDimensionsHelperTest, GetLargerAngleBetweenTwoLinesWorksCorrectly)
+{
+    EXPECT_EQ(180, getTheLargerAngleBetweenTwoLines(Line(Point(0,0,0), Point(0,0,1)), Line(Point(0,0,0), Point(0,0,1))).getDegrees());
+    EXPECT_EQ(90, getTheLargerAngleBetweenTwoLines(Line(Point(0,0,0), Point(0,0,1)), Line(Point(0,0,0), Point(0,1,0))).getDegrees());
+    EXPECT_DOUBLE_EQ(135, getTheLargerAngleBetweenTwoLines(Line(Point(0,0,0), Point(0,0,1)), Line(Point(0,0,0), Point(0,1,1))).getDegrees());
+}
+
 TEST(ThreeDimensionsHelperTest, GetCrossProductWorksCorrectly)
 {
-    Coefficients input1(1,2,3);
-    Coefficients input2(4,5,6);
+    Coefficients input1(1,2,3);    Coefficients input2(4,5,6);
     Coefficients expectedCoefficients(getCrossProduct(input1, input2));
 
-    EXPECT_EQ(-3, expectedCoefficients.getX());
-    EXPECT_EQ(6, expectedCoefficients.getY());
+    EXPECT_EQ(-3, expectedCoefficients.getX());    EXPECT_EQ(6, expectedCoefficients.getY());
     EXPECT_EQ(-3, expectedCoefficients.getZ());
 }
 

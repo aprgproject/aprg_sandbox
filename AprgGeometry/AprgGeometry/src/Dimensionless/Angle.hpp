@@ -6,27 +6,24 @@ namespace alba
 namespace Dimensionless
 {
 
-enum class AngleInputType
+enum class AngleUnitType
 {
     Radians,
-    Degrees
-};
+    Degrees};
 
 class Angle
 {
 public:
     Angle();
-    Angle(AngleInputType const angleInputType, double const angleValue);
+    Angle(AngleUnitType const angleInputType, double const angleValue);
     bool operator==(Angle const& angle) const;
     bool operator!=(Angle const& angle) const;
-    double getDegrees() const;
-    double getRadians() const;
+    double getDegrees() const;    double getRadians() const;
 
 private:
-    double calculateAngleValueInDegrees(AngleInputType const angleInputType, double const angleValue) const;
+    double calculateAngleValueInDegrees(AngleUnitType const angleInputType, double const angleValue) const;
     double calculateAngleValueInDegreesNearestToZero(double const angleValue) const;
     double m_angleValueInDegrees;
 };
-
 }
 }

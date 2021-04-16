@@ -90,21 +90,26 @@ TEST(TwoDimensionsHelperTest, PopNearestPointWorks)
     EXPECT_EQ(Point(0,0), popNearestPoint(points, Point(0,0)));
 }
 
-TEST(TwoDimensionsHelperTest, GetAngleBetweenTwoLinesWorksCorrectly)
+TEST(TwoDimensionsHelperTest, GetSmallerAngleBetweenTwoLinesWorksCorrectly)
 {
-    EXPECT_EQ(180, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(0,1))).getDegrees());
+    EXPECT_EQ(0, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(0,1))).getDegrees());
     EXPECT_EQ(90, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,0))).getDegrees());
     EXPECT_DOUBLE_EQ(45, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,1))).getDegrees());
 }
 
+TEST(TwoDimensionsHelperTest, GetLargerAngleBetweenTwoLinesWorksCorrectly)
+{
+    EXPECT_EQ(180, getTheLargerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(0,1))).getDegrees());
+    EXPECT_EQ(90, getTheLargerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,0))).getDegrees());
+    EXPECT_DOUBLE_EQ(135, getTheLargerAngleBetweenTwoLines(Line(Point(0,0), Point(0,1)), Line(Point(0,0), Point(1,1))).getDegrees());
+}
+
 TEST(TwoDimensionsHelperTest, PointsInParabolaCanBeConnected)
 {
-    Parabola parabola{1,2,3};
-    Points parabolaPoints(parabola.getPoints(-2, 2, 1));
+    Parabola parabola{1,2,3};    Points parabolaPoints(parabola.getPoints(-2, 2, 1));
     Points connectedPoints(getConnectedPointsUsingALine(parabolaPoints, 1));
 
-    ASSERT_EQ(11u, connectedPoints.size());
-    EXPECT_EQ(Point(-2,3), connectedPoints[0]);
+    ASSERT_EQ(11u, connectedPoints.size());    EXPECT_EQ(Point(-2,3), connectedPoints[0]);
     EXPECT_EQ(Point(-1,2), connectedPoints[1]);
     EXPECT_EQ(Point(0,3), connectedPoints[2]);
     EXPECT_EQ(Point(static_cast<double>(1)/3,4), connectedPoints[3]);

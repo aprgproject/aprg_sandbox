@@ -24,25 +24,22 @@ TEST(TwoDimensionsLineTest, EmptyAngle)
 
 TEST(TwoDimensionsLineTest, ConstructionUsingDegreesWorks)
 {
-    Angle angle(AngleInputType::Degrees, 45);
+    Angle angle(AngleUnitType::Degrees, 45);
     EXPECT_DOUBLE_EQ(45, angle.getDegrees());
     EXPECT_DOUBLE_EQ(getPi()/4, angle.getRadians());
 }
-
 TEST(TwoDimensionsLineTest, ConstructionUsingRadiansWorks)
 {
-    Angle angle(AngleInputType::Radians, getPi()/4);
+    Angle angle(AngleUnitType::Radians, getPi()/4);
     EXPECT_DOUBLE_EQ(45, angle.getDegrees());
     EXPECT_DOUBLE_EQ(getPi()/4, angle.getRadians());
 }
-
 TEST(TwoDimensionsLineTest, ConstructionWithMoreThanOneRevolutionWorks)
 {
-    Angle angle(AngleInputType::Radians, getPi()*11.75);
+    Angle angle(AngleUnitType::Radians, getPi()*11.75);
     EXPECT_DOUBLE_EQ(-45, angle.getDegrees());
     EXPECT_DOUBLE_EQ(-getPi()/4, angle.getRadians());
 }
-
 }
 
 }

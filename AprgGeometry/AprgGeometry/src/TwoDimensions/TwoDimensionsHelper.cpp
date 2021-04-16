@@ -96,33 +96,35 @@ Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
     Angle angle;
     if(areLinesParallel(line1, line2))
     {
-        angle = Angle(AngleInputType::Degrees, 180);
+        angle = Angle(AngleUnitType::Degrees, 0);
     }
     else if(areLinesPerpendicular(line1, line2))
     {
-        angle = Angle(AngleInputType::Degrees, 90);
+        angle = Angle(AngleUnitType::Degrees, 90);
     }
     else
-    {
-        //from tan theta = (m2-m1)/(1+m2m1)
+    {        //from tan theta = (m2-m1)/(1+m2m1)
         double delta1xTimesDelta2y = line1.getAUnitIncreaseInX()*line2.getAUnitIncreaseInY();
         double delta2xTimesDelta1y = line2.getAUnitIncreaseInX()*line1.getAUnitIncreaseInY();
 
-        angle = Angle(AngleInputType::Radians,
+        angle = Angle(AngleUnitType::Radians,
                       atan(
                           getAbsoluteValue((delta1xTimesDelta2y-delta2xTimesDelta1y)/(delta1xTimesDelta2y+delta2xTimesDelta1y))));
-    }
-    return angle;
+    }    return angle;
+}
+
+Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
+{
+    Angle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));
+    return Angle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
 }
 
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval)
 {
-    Points resultingPoints;
-    if(!inputPoints.empty())
+    Points resultingPoints;    if(!inputPoints.empty())
     {
         Point previousPoint(inputPoints.front());
-        for(Point const& currentPoint: inputPoints)
-        {
+        for(Point const& currentPoint: inputPoints)        {
             if(currentPoint != previousPoint)
             {
                 savePointsFromTwoPointsUsingALineWithoutLastPoint(resultingPoints, previousPoint, currentPoint, interval);
