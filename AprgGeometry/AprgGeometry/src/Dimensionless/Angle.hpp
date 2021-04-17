@@ -1,11 +1,11 @@
 #pragma once
 
+#include <vector>
+
 namespace alba
 {
-
 namespace Dimensionless
 {
-
 enum class AngleUnitType
 {
     Radians,
@@ -31,6 +31,8 @@ private:
     double calculateAngleValueInDegreesNearestToZero(double const angleValue) const;
     double m_angleValueInDegrees;
 };
+
+using Angles = std::vector<Angle>;
 
 }
 }
