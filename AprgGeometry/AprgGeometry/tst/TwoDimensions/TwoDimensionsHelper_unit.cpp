@@ -40,15 +40,19 @@ TEST(TwoDimensionsHelperTest, PointCanBeCheckedIfItsOnLine)
     EXPECT_FALSE(isPointInLine(pointNotOnLine, line));
 }
 
+TEST(TwoDimensionsHelperTest, IsCongruentWorksForTriangles)
+{
+    EXPECT_TRUE(isCongruent(Triangle(Point(0,0), Point(0,1), Point(1,0)), Triangle(Point(7,8), Point(7,10), Point(9,8))));
+    EXPECT_FALSE(isCongruent(Triangle(Point(0,0), Point(0,1), Point(1,0)), Triangle(Point(0,0), Point(0,1), Point(2,0))));
+}
+
 TEST(TwoDimensionsHelperTest, DistanceBetween2PointsCanBeCalculated)
 {
-    EXPECT_EQ(pow(2, 0.5), getDistance(Point(0,0), Point(1,1)));
-}
+    EXPECT_EQ(pow(2, 0.5), getDistance(Point(0,0), Point(1,1)));}
 
 TEST(TwoDimensionsHelperTest, DistanceBetweenPointAndLineCanBeCalculated)
 {
-    EXPECT_EQ(2, getDistance(Line(0,-1,4), Point(2,2)));
-    EXPECT_EQ(2, getDistance(Line(-1,0,4), Point(2,2)));
+    EXPECT_EQ(2, getDistance(Line(0,-1,4), Point(2,2)));    EXPECT_EQ(2, getDistance(Line(-1,0,4), Point(2,2)));
     EXPECT_EQ(2*pow(2, 0.5), getDistance(Line(1,1,0), Point(2,2)));
 }
 
