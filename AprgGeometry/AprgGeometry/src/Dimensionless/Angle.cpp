@@ -31,6 +31,11 @@ bool Angle::operator!=(Angle const& angle) const
     return !((*this)==angle);
 }
 
+bool Angle::operator<(Angle const& angle) const
+{
+    return m_angleValueInDegrees<angle.m_angleValueInDegrees;
+}
+
 Angle Angle::operator+(Angle const& secondAngle) const
 {
     return Angle(AngleUnitType::Degrees, m_angleValueInDegrees+secondAngle.m_angleValueInDegrees);

@@ -134,7 +134,8 @@ TEST(ThreeDimensionsHelperTest, LineCanBeCheckedIfItsParallel)
 
 TEST(ThreeDimensionsHelperTest, DistanceBetween2PointsCanBeCalculated)
 {
-    EXPECT_EQ(pow(3, 0.5), getDistance(Point(0,0,0), Point(1,1,1)));}
+    EXPECT_EQ(pow(3, 0.5), getDistance(Point(0,0,0), Point(1,1,1)));
+}
 
 TEST(ThreeDimensionsHelperTest, DistanceBetweenPointAndLineCanBeCalculated)
 {
@@ -150,7 +151,8 @@ TEST(ThreeDimensionsHelperTest, GetConsineOfAngleUsing2DeltasWorksCorrectly)
 
 TEST(ThreeDimensionsHelperTest, MidpointBetweenTwoPointsCanBeCalculated)
 {
-    EXPECT_EQ(Point(0,0,0), getMidpoint(Point(0,0,0), Point(0,0,0)));    EXPECT_EQ(Point(2,2,2), getMidpoint(Point(1,1,1), Point(3,3,3)));
+    EXPECT_EQ(Point(0,0,0), getMidpoint(Point(0,0,0), Point(0,0,0)));
+    EXPECT_EQ(Point(2,2,2), getMidpoint(Point(1,1,1), Point(3,3,3)));
     EXPECT_EQ(Point(-450,-900,-1350), getMidpoint(Point(100,200,300), Point(-1000,-2000,-3000)));
 }
 
@@ -182,7 +184,8 @@ TEST(TwoDimensionsHelperTest, GetTheInnerAngleUsingThreePointsBACWorksCorrectly)
 
 TEST(TwoDimensionsHelperTest, GetSmallerAngleBetweenTwoLinesWorksCorrectly)
 {
-    EXPECT_EQ(0, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0,0), Point(0,0,1)), Line(Point(0,0,0), Point(0,0,1))).getDegrees());    EXPECT_EQ(90, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0,0), Point(0,0,1)), Line(Point(0,0,0), Point(0,1,0))).getDegrees());
+    EXPECT_EQ(0, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0,0), Point(0,0,1)), Line(Point(0,0,0), Point(0,0,1))).getDegrees());
+    EXPECT_EQ(90, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0,0), Point(0,0,1)), Line(Point(0,0,0), Point(0,1,0))).getDegrees());
     EXPECT_DOUBLE_EQ(45, getTheSmallerAngleBetweenTwoLines(Line(Point(0,0,0), Point(0,0,1)), Line(Point(0,0,0), Point(0,1,1))).getDegrees());
 }
 

@@ -205,7 +205,8 @@ double getConsineOfAngleUsing2Deltas(Coefficients const& c1, Coefficients const&
 
 Point getMidpoint(Point const& point1, Point const& point2)
 {
-    return Point((point1.getX()+point2.getX())/2, (point1.getY()+point2.getY())/2, (point1.getZ()+point2.getZ())/2);}
+    return Point((point1.getX()+point2.getX())/2, (point1.getY()+point2.getY())/2, (point1.getZ()+point2.getZ())/2);
+}
 
 Point getPointOfIntersectionOfTwoLines(Line const& line1, Line const& line2)
 {
@@ -246,7 +247,8 @@ Angle getTheInnerAngleUsingThreePointsBAC(Point const& pointA, Point const& poin
 
 Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
-    Angle smallerAngle;    if(areLinesParallel(line1, line2))
+    Angle smallerAngle;
+    if(areLinesParallel(line1, line2))
     {
         smallerAngle = Angle(AngleUnitType::Degrees, 0);
     }
@@ -260,6 +262,7 @@ Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
     }
     return smallerAngle;
 }
+
 Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
     Angle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));

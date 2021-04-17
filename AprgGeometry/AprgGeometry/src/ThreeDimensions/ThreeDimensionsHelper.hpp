@@ -32,6 +32,7 @@ bool areLinesParallel(Line const& line1, Line const& line2);
 Dimensionless::Angle getTheInnerAngleUsingThreePointsBAC(Point const& pointA, Point const& pointB, Point const& pointC);
 Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 Dimensionless::Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
+
 Point getMidpoint(Point const& point1, Point const& point2);
 Point getPointOfIntersectionOfTwoLines(Line const& line1, Line const& line2);
 Point getPointOfIntersectionOfAPlaneAndALine(Plane const& plane, Line const& line);

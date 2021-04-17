@@ -7,6 +7,7 @@
 #include <TwoDimensions/Line.hpp>
 #include <TwoDimensions/Point.hpp>
 #include <TwoDimensions/Polynomial.hpp>
+#include <TwoDimensions/Triangle.hpp>
 
 #include <functional>
 
@@ -21,6 +22,7 @@ namespace twoDimensionsHelper
 
 bool isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point const& maximumXAndY);
 bool isPointInLine(Point const& point, Line const& line);
+bool isCongruent(Triangle const& triangle1, Triangle const& triangle2);
 bool areLinesParallel(Line const& line1, Line const& line2);
 bool areLinesPerpendicular(Line const& line1, Line const& line2);
 
@@ -35,6 +37,7 @@ Point popNearestPoint(Points & points, Point const& point);
 Dimensionless::Angle getTheInnerAngleUsingThreePointsBAC(Point const& pointA, Point const& pointB, Point const& pointC);
 Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 Dimensionless::Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
+
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval);
 Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);//UT
 Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);

@@ -35,6 +35,17 @@ bool areLinesParallel(Line const& line1, Line const& line2)
             (isAlmostEqual(line1.getSlope(), line2.getSlope()));
 }
 
+bool isCongruent(Triangle const& triangle1, Triangle const& triangle2)
+{
+    Dimensionless::Angles anglesInTriangle1(triangle1.getAnglesAtVertices());
+    Dimensionless::Angles anglesInTriangle2(triangle2.getAnglesAtVertices());
+    sort(anglesInTriangle1.begin(), anglesInTriangle1.end());
+    sort(anglesInTriangle2.begin(), anglesInTriangle2.end());
+    return (anglesInTriangle1[0]==anglesInTriangle2[0]) &&
+            (anglesInTriangle1[1]==anglesInTriangle2[1]) &&
+            (anglesInTriangle1[2]==anglesInTriangle2[2]);
+}
+
 bool areLinesPerpendicular(Line const& line1, Line const& line2)
 {
     return (line1.getType()==LineType::Horizontal && line2.getType()==LineType::Vertical) ||
@@ -69,7 +80,8 @@ Point getIntersectionOfTwoLines(Line const& line1, Line const& line2)
             /((line1.getACoefficient()*line2.getBCoefficient())-(line2.getACoefficient()*line1.getBCoefficient()));
     double yOfIntersection = ((line2.getCCoefficient()*line1.getACoefficient())-(line1.getCCoefficient()*line2.getACoefficient()))
             /((line1.getBCoefficient()*line2.getACoefficient())-(line2.getBCoefficient()*line1.getACoefficient()));
-    return Point(xOfIntersection, yOfIntersection);}
+    return Point(xOfIntersection, yOfIntersection);
+}
 
 Point getMidpoint(Point const& point1, Point const& point2)
 {
@@ -107,7 +119,8 @@ Angle getTheInnerAngleUsingThreePointsBAC(Point const& pointA, Point const& poin
 
 Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
-    Angle angle;    if(areLinesParallel(line1, line2))
+    Angle angle;
+    if(areLinesParallel(line1, line2))
     {
         angle = Angle(AngleUnitType::Degrees, 0);
     }
@@ -129,6 +142,7 @@ Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
     }
     return angle;
 }
+
 Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 {
     Angle smallerAngle(getTheSmallerAngleBetweenTwoLines(line1, line2));

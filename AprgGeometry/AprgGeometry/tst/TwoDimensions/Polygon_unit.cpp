@@ -1,17 +1,20 @@
 #include <Dimensionless/Angle.hpp>
 #include <TwoDimensions/Polygon.hpp>
 #include <TwoDimensions/Quadrilateral.hpp>
-#include <TwoDimensions/Rectangle.hpp>#include <TwoDimensions/Triangle.hpp>
+#include <TwoDimensions/Rectangle.hpp>
+#include <TwoDimensions/Triangle.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::Dimensionless;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace TwoDimensions
 {
+
 TEST(PolygonTest, PolygonCanBeCreated)
 {
     Polygon<3> polygon{Point(1,1), Point(2,3), Point(0,17)};
@@ -55,11 +58,13 @@ TEST(TriangleTest, GetAnglesAreCorrect)
 
 TEST(TriangleTest, QuadilateralCanBeCreated)
 {
-    Quadrilateral quadrilateral(Point(1,1), Point(2,3), Point(0,17), Point(-100, 4));}
+    Quadrilateral quadrilateral(Point(1,1), Point(2,3), Point(0,17), Point(-100, 4));
+}
 
 TEST(QuadrilateralTest, GetPointsAreCorrect)
 {
-    Quadrilateral quadrilateral(Point(-2,0), Point(0,-2), Point(2,0), Point(0,2));    Points points(quadrilateral.getPoints(1));
+    Quadrilateral quadrilateral(Point(-2,0), Point(0,-2), Point(2,0), Point(0,2));
+    Points points(quadrilateral.getPoints(1));
 
     ASSERT_EQ(8u, points.size());
     EXPECT_EQ(Point(-2,0), points[0]);
