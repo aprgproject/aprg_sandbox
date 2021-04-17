@@ -18,7 +18,7 @@ Angle::Angle()
 {}
 
 Angle::Angle(AngleUnitType const angleInputType, double const angleValue)
-    : m_angleValueInDegrees(calculateAngleValueInDegreesNearestToZero(calculateAngleValueInDegrees(angleInputType, angleValue)))
+    : m_angleValueInDegrees(calculateAngleValueInDegrees(angleInputType, angleValue))
 {}
 
 bool Angle::operator==(Angle const& angle) const
@@ -56,6 +56,18 @@ Angle Angle::operator-() const
     return Angle(AngleUnitType::Degrees, -m_angleValueInDegrees);
 }
 
+Angle& Angle::operator+=(Angle const& secondAngle)
+{
+    m_angleValueInDegrees += secondAngle.m_angleValueInDegrees;
+    return *this;
+}
+
+Angle& Angle::operator-=(Angle const& secondAngle)
+{
+    m_angleValueInDegrees -= secondAngle.m_angleValueInDegrees;
+    return *this;
+}
+
 double Angle::getDegrees() const
 {
     return m_angleValueInDegrees;
@@ -64,6 +76,12 @@ double Angle::getDegrees() const
 double Angle::getRadians() const
 {
     return convertDegreesToRadians(m_angleValueInDegrees);
+}
+
+void Angle::setAngleValueInDegreesNearestToZero()
+{
+    double nearestPositiveAngleValueInDegrees(fmod(m_angleValueInDegrees, 360));
+    m_angleValueInDegrees = nearestPositiveAngleValueInDegrees<=180 ? nearestPositiveAngleValueInDegrees : nearestPositiveAngleValueInDegrees-360;
 }
 
 double Angle::calculateAngleValueInDegrees(AngleUnitType const angleInputType, double const angleValue) const
@@ -78,13 +96,6 @@ double Angle::calculateAngleValueInDegrees(AngleUnitType const angleInputType, d
         angleValueInDegrees = convertRadiansToDegrees(angleValue);
     }
     return angleValueInDegrees;
-}
-
-double Angle::calculateAngleValueInDegreesNearestToZero(double const angleValue) const
-{
-    double nearestPositiveAngleValueInDegrees(fmod(angleValue, 360));
-    double nearestAngleValueInDegrees = nearestPositiveAngleValueInDegrees<=180 ? nearestPositiveAngleValueInDegrees : nearestPositiveAngleValueInDegrees-360;
-    return nearestAngleValueInDegrees;
 }
 
 }

@@ -48,12 +48,19 @@ TEST(TwoDimensionsHelperTest, IsCongruentWorksForTriangles)
 
 TEST(TwoDimensionsHelperTest, DistanceBetween2PointsCanBeCalculated)
 {
-    EXPECT_EQ(pow(2, 0.5), getDistance(Point(0,0), Point(1,1)));}
+    EXPECT_EQ(pow(2, 0.5), getDistance(Point(0,0), Point(1,1)));
+}
 
 TEST(TwoDimensionsHelperTest, DistanceBetweenPointAndLineCanBeCalculated)
 {
-    EXPECT_EQ(2, getDistance(Line(0,-1,4), Point(2,2)));    EXPECT_EQ(2, getDistance(Line(-1,0,4), Point(2,2)));
+    EXPECT_EQ(2, getDistance(Line(0,-1,4), Point(2,2)));
+    EXPECT_EQ(2, getDistance(Line(-1,0,4), Point(2,2)));
     EXPECT_EQ(2*pow(2, 0.5), getDistance(Line(1,1,0), Point(2,2)));
+}
+
+TEST(TwoDimensionsHelperTest, GetConsineOfAngleUsing1DeltaWorksCorrectly)
+{
+    EXPECT_EQ(0.8, getConsineOfAngleUsing1Delta(3,4));
 }
 
 TEST(TwoDimensionsHelperTest, GetConsineOfAngleUsing2DeltasWorksCorrectly)
@@ -99,6 +106,24 @@ TEST(TwoDimensionsHelperTest, PopNearestPointWorks)
     EXPECT_EQ(Point(0,0), popNearestPoint(points, Point(0,0)));
 }
 
+TEST(TwoDimensionsHelperTest, GetQuadrantOfAPointWorksCorrectly)
+{
+    EXPECT_EQ(Quadrant::I, getQuadrantOfAPoint(Point(0,0)));
+    EXPECT_EQ(Quadrant::I, getQuadrantOfAPoint(Point(1,1)));
+    EXPECT_EQ(Quadrant::II, getQuadrantOfAPoint(Point(-1,1)));
+    EXPECT_EQ(Quadrant::III, getQuadrantOfAPoint(Point(-1,-1)));
+    EXPECT_EQ(Quadrant::IV, getQuadrantOfAPoint(Point(1,-1)));
+}
+
+TEST(TwoDimensionsHelperTest, GetAngleBasedOnAPointAndOriginWorksCorrectly)
+{
+    EXPECT_EQ(0, getAngleBasedOnAPointAndOrigin(Point(0,0)).getDegrees());
+    EXPECT_DOUBLE_EQ(45, getAngleBasedOnAPointAndOrigin(Point(1,1)).getDegrees());
+    EXPECT_DOUBLE_EQ(135, getAngleBasedOnAPointAndOrigin(Point(-1,1)).getDegrees());
+    EXPECT_DOUBLE_EQ(225, getAngleBasedOnAPointAndOrigin(Point(-1,-1)).getDegrees());
+    EXPECT_DOUBLE_EQ(315, getAngleBasedOnAPointAndOrigin(Point(1,-1)).getDegrees());
+}
+
 TEST(TwoDimensionsHelperTest, GetTheInnerAngleUsingThreePointsBACWorksCorrectly)
 {
     EXPECT_EQ(0, getTheInnerAngleUsingThreePointsBAC(Point(0,0), Point(0,1), Point(0,1)).getDegrees());
@@ -138,6 +163,22 @@ TEST(TwoDimensionsHelperTest, PointsInParabolaCanBeConnected)
     EXPECT_EQ(Point(1.6,9), connectedPoints[8]);
     EXPECT_EQ(Point(1.8,10), connectedPoints[9]);
     EXPECT_EQ(Point(2,11), connectedPoints[10]);
+}
+
+TEST(TwoDimensionsHelperTest, GetConvexHullPointsUsingGrahamScanWorksCorrectly)
+{
+    Points inputPoints{{-7,8},{-4,6},{2,6},{6,4},{8,6},{7,-2},{4,-6},{8,-7},{0,0},
+                       {3,-2},{6,-10},{0,-6},{-9,-5},{-8,-2},{-8,0},{-10,3},{-2,2},{-10,4}};
+    Points convexHullPoints(getConvexHullPointsUsingGrahamScan(inputPoints));
+
+    ASSERT_EQ(7u, convexHullPoints.size());
+    EXPECT_EQ(Point(-9,-5), convexHullPoints[0]);
+    EXPECT_EQ(Point(-10,3), convexHullPoints[1]);
+    EXPECT_EQ(Point(-10,4), convexHullPoints[2]);
+    EXPECT_EQ(Point(-7,8), convexHullPoints[3]);
+    EXPECT_EQ(Point(8,6), convexHullPoints[4]);
+    EXPECT_EQ(Point(8,-7), convexHullPoints[5]);
+    EXPECT_EQ(Point(6,-10), convexHullPoints[6]);
 }
 
 TEST(TwoDimensionsHelperTest, GetLineWithSameSlopeAndPoint)

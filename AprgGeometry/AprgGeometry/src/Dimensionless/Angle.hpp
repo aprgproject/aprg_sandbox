@@ -26,12 +26,14 @@ public:
     Angle operator-(Angle const& secondAngle) const;
     Angle operator+() const;
     Angle operator-() const;
+    Angle& operator+=(Angle const& secondAngle);
+    Angle& operator-=(Angle const& secondAngle);
     double getDegrees() const;
     double getRadians() const;
+    void setAngleValueInDegreesNearestToZero();
 
 private:
     double calculateAngleValueInDegrees(AngleUnitType const angleInputType, double const angleValue) const;
-    double calculateAngleValueInDegreesNearestToZero(double const angleValue) const;
     double m_angleValueInDegrees;
 };
 

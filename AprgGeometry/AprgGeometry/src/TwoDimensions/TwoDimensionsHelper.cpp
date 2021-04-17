@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <stack>
 
 using namespace alba::Dimensionless;
 using namespace alba::mathHelper;
@@ -18,6 +19,11 @@ namespace TwoDimensions
 namespace twoDimensionsHelper
 {
 
+bool isOrigin(Point const& point)
+{
+    return point.getX()==0 && point.getY()==0;
+}
+
 bool isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point const& maximumXAndY)
 {
     return (point.getX() >= minimumXAndY.getX() && point.getY() >= minimumXAndY.getY() && point.getX() <= maximumXAndY.getX() && point.getY() <= maximumXAndY.getY());
@@ -30,10 +36,12 @@ bool isPointInLine(Point const& point, Line const& line)
 
 bool isCongruent(Triangle const& triangle1, Triangle const& triangle2)
 {
-    Dimensionless::Angles anglesInTriangle1(triangle1.getAnglesAtVertices());    Dimensionless::Angles anglesInTriangle2(triangle2.getAnglesAtVertices());
+    Dimensionless::Angles anglesInTriangle1(triangle1.getAnglesAtVertices());
+    Dimensionless::Angles anglesInTriangle2(triangle2.getAnglesAtVertices());
     sort(anglesInTriangle1.begin(), anglesInTriangle1.end());
     sort(anglesInTriangle2.begin(), anglesInTriangle2.end());
-    return (anglesInTriangle1[0]==anglesInTriangle2[0]) &&            (anglesInTriangle1[1]==anglesInTriangle2[1]) &&
+    return (anglesInTriangle1[0]==anglesInTriangle2[0]) &&
+            (anglesInTriangle1[1]==anglesInTriangle2[1]) &&
             (anglesInTriangle1[2]==anglesInTriangle2[2]);
 }
 
@@ -46,9 +54,11 @@ bool areLinesParallel(Line const& line1, Line const& line2)
 
 bool areLinesPerpendicular(Line const& line1, Line const& line2)
 {
-    return (line1.getType()==LineType::Horizontal && line2.getType()==LineType::Vertical) ||            (line1.getType()==LineType::Vertical && line2.getType()==LineType::Horizontal) ||
+    return (line1.getType()==LineType::Horizontal && line2.getType()==LineType::Vertical) ||
+            (line1.getType()==LineType::Vertical && line2.getType()==LineType::Horizontal) ||
             (isAlmostEqual(line1.getSlope(), line2.getInverseSlope()));
 }
+
 double getDistance(Point const& point1, Point const& point2)
 {
     double deltaX = point2.getX() - point1.getX();
@@ -62,7 +72,15 @@ double getDistance(Line const& line, Point const& point)
     return getDistance(point, nearestPoint);
 }
 
-double getConsineOfAngleUsing2Deltas(double const deltaX1, double const deltaY1, double const deltaX2, double const deltaY2)
+double getCosineOfAngleUsing1Delta(double const deltaX1, double const deltaY1)
+{
+    //cos theta = opposite/hypotenuse
+    double opposite = deltaY1;
+    double hypotenuse = getSquareRootOfXSquaredPlusYSquared(deltaX1, deltaY1);
+    return opposite/hypotenuse;
+}
+
+double getCosineOfAngleUsing2Deltas(double const deltaX1, double const deltaY1, double const deltaX2, double const deltaY2)
 {
     double numeratorPart = (deltaX1*deltaX2) + (deltaY1*deltaY2);
     double denominatorPart = getSquareRootOfXSquaredPlusYSquared(deltaX1, deltaY1) *
@@ -106,11 +124,79 @@ Point popNearestPoint(Points & points, Point const& point)
     return result;
 }
 
+Quadrant getQuadrantOfAPoint(Point const& point)
+{
+    Quadrant result(Quadrant::I);
+    double signOfX = getSign(point.getX());
+    double signOfY = getSign(point.getY());
+    if(signOfX==1)
+    {
+        if(signOfY==1)
+        {
+            result = Quadrant::I;
+        }
+        else
+        {
+            result = Quadrant::IV;
+        }
+    }
+    else
+    {
+        if(signOfY==1)
+        {
+            result = Quadrant::II;
+        }
+        else
+        {
+            result = Quadrant::III;
+        }
+    }
+    return result;
+}
+
+RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c)
+{
+    RotationDirection result(RotationDirection::None);
+    int area = (b.getX() - a.getX()) * (c.getY() - a.getY()) - (b.getY() - a.getY()) * (c.getX() - a.getX());
+    if (area > 0)
+    {
+        result = RotationDirection::CounterClockWise;
+    }
+    else if (area < 0)
+    {
+        result = RotationDirection::ClockWise;
+    }
+    return result;
+}
+
+Angle getAngleBasedOnAPointAndOrigin(Point const& point)
+{
+    Angle angle;
+    if(!isOrigin(point))
+    {
+        Quadrant quadrant(getQuadrantOfAPoint(point));
+        angle = Angle(AngleUnitType::Radians, acos(getAbsoluteValue(getCosineOfAngleUsing1Delta(point.getX(), point.getY()))));
+        if(Quadrant::IV == quadrant)
+        {
+            angle += Angle(AngleUnitType::Degrees, 270);
+        }
+        else if(Quadrant::III == quadrant)
+        {
+            angle += Angle(AngleUnitType::Degrees, 180);
+        }
+        else if(Quadrant::II == quadrant)
+        {
+            angle += Angle(AngleUnitType::Degrees, 90);
+        }
+    }
+    return angle;
+}
+
 Angle getTheInnerAngleUsingThreePointsBAC(Point const& pointA, Point const& pointB, Point const& pointC)
 {
     Point deltaBA(pointB-pointA);
     Point deltaCA(pointC-pointA);
-    return Angle(AngleUnitType::Radians, acos(getConsineOfAngleUsing2Deltas(deltaBA.getX(), deltaBA.getY(), deltaCA.getX(), deltaCA.getY())));
+    return Angle(AngleUnitType::Radians, acos(getCosineOfAngleUsing2Deltas(deltaBA.getX(), deltaBA.getY(), deltaCA.getX(), deltaCA.getY())));
 }
 
 Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
@@ -130,7 +216,7 @@ Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
         return Angle(AngleUnitType::Radians,
                      acos(
                          getAbsoluteValue(
-                             getConsineOfAngleUsing2Deltas(
+                             getCosineOfAngleUsing2Deltas(
                                  line1.getAUnitIncreaseInX(),
                                  line1.getAUnitIncreaseInY(),
                                  line2.getAUnitIncreaseInX(),
@@ -256,6 +342,58 @@ Points getPointsInSortedDecreasingX(Points const& pointsToBeSorted)
         return point1.getX() > point2.getX();
     });
     return result;
+}
+
+Points getConvexHullPointsUsingGrahamScan(Points const& points)
+{
+    unsigned int size = points.size();
+    assert(size >= 3);
+    Points tempPoints(points);
+    auto minmaxResult = minmax_element(tempPoints.begin(), tempPoints.end(), [](Point const& point1, Point const& point2)
+    {
+            return point1.getY() < point2.getY();
+});
+    swap(tempPoints.front(), *minmaxResult.first);
+
+    Point& firstPointAndMinimumY(tempPoints.front());
+    sort(tempPoints.begin()+1, tempPoints.end(), [&](Point const& point1, Point const& point2)
+    {
+        bool result;
+        RotationDirection direction = getRotationDirectionTraversing3Points(firstPointAndMinimumY, point1, point2);
+        if (RotationDirection::None == direction)
+        {
+            result = getDistance(firstPointAndMinimumY, point1) < getDistance(firstPointAndMinimumY, point2);
+        }
+        else
+        {
+            result = RotationDirection::CounterClockWise == direction;
+        }
+        return result;
+    });
+
+    stack<Point> convertHullPoints;
+    convertHullPoints.push(tempPoints[0]);
+    convertHullPoints.push(tempPoints[1]);
+    for (unsigned int i = 2; i < size; i++)
+    {
+        Point top = convertHullPoints.top();
+        convertHullPoints.pop();
+        while (!convertHullPoints.empty() &&
+               RotationDirection::CounterClockWise != getRotationDirectionTraversing3Points(convertHullPoints.top(), top, tempPoints[i]))
+        {
+            top = convertHullPoints.top();
+            convertHullPoints.pop();
+        }
+        convertHullPoints.push(top);
+        convertHullPoints.push(tempPoints[i]);
+    }
+    Points results;
+    while(!convertHullPoints.empty())
+    {
+        results.emplace_back(convertHullPoints.top());
+        convertHullPoints.pop();
+    }
+    return results;
 }
 
 Line getLineWithSameSlope(Line const& line, Point const& point)

@@ -194,7 +194,7 @@ double getDistance(Line const& line, Point const& point)
     return getDistance(point, nearestPoint);
 }
 
-double getConsineOfAngleUsing2Deltas(Coefficients const& c1, Coefficients const& c2)
+double getCosineOfAngleUsing2Deltas(Coefficients const& c1, Coefficients const& c2)
 {
     //from cos theta = (dotproduct of coefficients v1 and v2)/(magnitude of v1 * magnitude of v2)
     double numeratorPart = getDotProduct(c1, c2);
@@ -242,7 +242,7 @@ Angle getTheInnerAngleUsingThreePointsBAC(Point const& pointA, Point const& poin
     Point deltaCA(pointC-pointA);
     Coefficients c1(deltaBA.getX(), deltaBA.getY(), deltaBA.getZ());
     Coefficients c2(deltaCA.getX(), deltaCA.getY(), deltaCA.getZ());
-    return Angle(AngleUnitType::Radians, acos(getConsineOfAngleUsing2Deltas(c1,c2)));
+    return Angle(AngleUnitType::Radians, acos(getCosineOfAngleUsing2Deltas(c1,c2)));
 }
 
 Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
@@ -258,7 +258,7 @@ Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2)
         //from cos theta = (dotproduct of coefficients v1 and v2)/(magnitude of v1 * magnitude of v2)
         Coefficients c1(line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient());
         Coefficients c2(line2.getACoefficient(), line2.getBCoefficient(), line2.getCCoefficient());
-        smallerAngle = Angle(AngleUnitType::Radians, acos(getAbsoluteValue(getConsineOfAngleUsing2Deltas(c1,c2))));
+        smallerAngle = Angle(AngleUnitType::Radians, acos(getAbsoluteValue(getCosineOfAngleUsing2Deltas(c1,c2))));
     }
     return smallerAngle;
 }

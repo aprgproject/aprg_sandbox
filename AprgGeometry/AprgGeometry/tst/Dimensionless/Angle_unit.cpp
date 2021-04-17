@@ -36,9 +36,11 @@ TEST(TwoDimensionsLineTest, ConstructionUsingRadiansWorks)
     EXPECT_DOUBLE_EQ(getPi()/4, angle.getRadians());
 }
 
-TEST(TwoDimensionsLineTest, ConstructionWithMoreThanOneRevolutionWorks)
+TEST(TwoDimensionsLineTest, SettingNearZeroWithMoreThanOneRevolutionWorks)
 {
     Angle angle(AngleUnitType::Radians, getPi()*11.75);
+    angle.setAngleValueInDegreesNearestToZero();
+
     EXPECT_DOUBLE_EQ(-45, angle.getDegrees());
     EXPECT_DOUBLE_EQ(-getPi()/4, angle.getRadians());
 }
