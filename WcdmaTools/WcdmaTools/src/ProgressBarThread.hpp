@@ -1,15 +1,12 @@
 #pragma once
 
 #include <Optional/AlbaOptional.hpp>
-#include <WcdmaToolsConfiguration.hpp>
 
 #include <QMutex>
-#include <QThread>
-#include <QWaitCondition>
+#include <QThread>#include <QWaitCondition>
 
 namespace wcdmaToolsGui
 {
-
 class QImage;
 
 class ProgressBarThread : public QThread
