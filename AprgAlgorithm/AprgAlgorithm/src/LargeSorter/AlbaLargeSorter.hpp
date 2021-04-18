@@ -82,14 +82,13 @@ private:
         }
     }
 
-    //nth element implementation
+    //nth element implementation // comment this out because nth element is not stable
+    /*
     void splitToSmallestBlocks(BlockIterator const & blockIterator, DataBlockType const blockTypeForNewBlocks)
     {
-        BlockIterator iteratorAfterBlockToSplit(blockIterator);
-        iteratorAfterBlockToSplit++;
+        BlockIterator iteratorAfterBlockToSplit(blockIterator);        iteratorAfterBlockToSplit++;
         unsigned int index=0, indexOfIndexes=0;
         BlockIterator newBlockIterator(iteratorAfterBlockToSplit);
-
         Indexes indexes;
         putIndexesWithMultiplesOfNumber(indexes, m_configuration.m_minimumNumberOfObjectsPerBlock, blockIterator->getNumberOfObjects());
 
@@ -107,17 +106,16 @@ private:
         });
         m_blocks.deleteBlock(blockIterator);
     }
+    */
 
-    //sort implementation: comment this out because sort theoretically takes more time
-    /*
+    //sort implementation: sort theoretically takes more time
+
     void splitToSmallestBlocks(BlockIterator const & blockIterator, DataBlockType const blockTypeForNewBlocks)
     {
-        BlockIterator iteratorAfterBlockToSplit(blockIterator);
-        iteratorAfterBlockToSplit++;
+        BlockIterator iteratorAfterBlockToSplit(blockIterator);        iteratorAfterBlockToSplit++;
         int numberOfObjectsInCurrentBlock=0;
         BlockIterator newBlockIterator(iteratorAfterBlockToSplit);
-        blockIterator->sortThenDoFunctionThenRelease([&](ObjectToSort const& objectToSort)
-        {
+        blockIterator->sortThenDoFunctionThenRelease([&](ObjectToSort const& objectToSort)        {
             if(numberOfObjectsInCurrentBlock == 0)
             {
                 limitFileStreams();
@@ -130,15 +128,13 @@ private:
             numberOfObjectsInCurrentBlock = (numberOfObjectsInCurrentBlock < static_cast<int>(m_configuration.m_minimumNumberOfObjectsPerBlock)) ? numberOfObjectsInCurrentBlock : 0;
         });
         m_blocks.deleteBlock(blockIterator);
-    }*/
+    }
 
     void limitMemoryConsumption()
-    {
-        unsigned int totalMemoryConsumption = calculateTotalMemoryConsumption();
+    {        unsigned int totalMemoryConsumption = calculateTotalMemoryConsumption();
         transferMemoryBlocksToFileIfNeeded(totalMemoryConsumption);
     }
-    unsigned int calculateTotalMemoryConsumption()
-    {
+    unsigned int calculateTotalMemoryConsumption()    {
         BlockCacheContainer const & memoryLimitCache(m_memoryCache.getContainerReference());
         unsigned int totalMemoryConsumption  =
                 accumulate(memoryLimitCache.cbegin(), memoryLimitCache.cend(), 0, [](unsigned int memoryConsumption, BlockCacheEntry const& blockCacheEntry)

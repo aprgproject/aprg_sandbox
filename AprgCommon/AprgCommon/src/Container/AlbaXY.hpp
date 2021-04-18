@@ -93,13 +93,23 @@ public:
         return AlbaXY<CoordinateType>(-x, -y);
     }
 
-    std::string getDisplayableString() const
+    AlbaXY<CoordinateType>& operator+=(AlbaXY<CoordinateType> const& secondXy)
     {
-        std::stringstream ss;
-        ss<<"("<<x<<","<<y<<")";
-        return ss.str();
+        x+=secondXy.x; y+=secondXy.y;
+        return *this;
     }
 
+    AlbaXY<CoordinateType>& operator-=(AlbaXY<CoordinateType> const& secondXy)
+    {
+        x+=secondXy.x; y+=secondXy.y;
+        return *this;
+    }
+
+    std::string getDisplayableString() const
+    {
+        std::stringstream ss;        ss<<"("<<x<<","<<y<<")";
+        return ss.str();
+    }
     void setXAndY(CoordinateType const& xValue, CoordinateType const& yValue)
     {
         x = xValue;

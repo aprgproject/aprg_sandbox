@@ -16,14 +16,20 @@ namespace alba
 namespace TwoDimensions
 {
 
+TEST(TwoDimensionsHelperTest, IsOriginWorksCorrectly)
+{
+    EXPECT_FALSE(isOrigin(Point(-3,-3)));
+    EXPECT_FALSE(isOrigin(Point(5,0)));
+    EXPECT_FALSE(isOrigin(Point(0,10)));
+    EXPECT_TRUE(isOrigin(Point(0,0)));
+}
+
 TEST(TwoDimensionsHelperTest, IsInsideTwoPointsWorks)
 {
-    Points points;
-    Point minimumXAndY(-1,-1);
+    Points points;    Point minimumXAndY(-1,-1);
     Point maximumXAndY(1,1);
     EXPECT_FALSE(isInsideTwoPoints(Point(-3,-3), minimumXAndY, maximumXAndY));
-    EXPECT_FALSE(isInsideTwoPoints(Point(-2,-2), minimumXAndY, maximumXAndY));
-    EXPECT_TRUE(isInsideTwoPoints(Point(-1,-1), minimumXAndY, maximumXAndY));
+    EXPECT_FALSE(isInsideTwoPoints(Point(-2,-2), minimumXAndY, maximumXAndY));    EXPECT_TRUE(isInsideTwoPoints(Point(-1,-1), minimumXAndY, maximumXAndY));
     EXPECT_TRUE(isInsideTwoPoints(Point(0,0), minimumXAndY, maximumXAndY));
     EXPECT_TRUE(isInsideTwoPoints(Point(1,1), minimumXAndY, maximumXAndY));
     EXPECT_FALSE(isInsideTwoPoints(Point(2,2), minimumXAndY, maximumXAndY));
