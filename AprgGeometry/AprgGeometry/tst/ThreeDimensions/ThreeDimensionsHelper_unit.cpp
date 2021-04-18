@@ -149,10 +149,12 @@ TEST(ThreeDimensionsHelperTest, GetConsineOfAngleUsing2DeltasWorksCorrectly)
     EXPECT_EQ(1, getCosineOfAngleUsing2Deltas(c1, c2));
 }
 
-TEST(ThreeDimensionsHelperTest, MidpointBetweenTwoPointsCanBeCalculated){
+TEST(ThreeDimensionsHelperTest, MidpointBetweenTwoPointsCanBeCalculated)
+{
     EXPECT_EQ(Point(0,0,0), getMidpoint(Point(0,0,0), Point(0,0,0)));
     EXPECT_EQ(Point(2,2,2), getMidpoint(Point(1,1,1), Point(3,3,3)));
-    EXPECT_EQ(Point(-450,-900,-1350), getMidpoint(Point(100,200,300), Point(-1000,-2000,-3000)));}
+    EXPECT_EQ(Point(-450,-900,-1350), getMidpoint(Point(100,200,300), Point(-1000,-2000,-3000)));
+}
 
 TEST(ThreeDimensionsHelperTest, GetPointOfIntersectionOfTwoLinesWorksCorrectly)
 {
@@ -173,11 +175,11 @@ TEST(ThreeDimensionsHelperTest, GetPointOfIntersectionOfAPlaneAndALineWorksCorre
     EXPECT_EQ(static_cast<double>(1)/3, expectedPoint.getZ());
 }
 
-TEST(TwoDimensionsHelperTest, GetTheInnerAngleUsingThreePointsBACWorksCorrectly)
+TEST(TwoDimensionsHelperTest, getTheInnerAngleUsingThreePointsWorksCorrectly)
 {
-    EXPECT_EQ(0, getTheInnerAngleUsingThreePointsBAC(Point(0,0,0), Point(0,0,1), Point(0,0,1)).getDegrees());
-    EXPECT_EQ(90, getTheInnerAngleUsingThreePointsBAC(Point(0,0,0), Point(0,0,1), Point(0,1,0)).getDegrees());
-    EXPECT_DOUBLE_EQ(45, getTheInnerAngleUsingThreePointsBAC(Point(0,0,0), Point(0,0,1), Point(0,1,1)).getDegrees());
+    EXPECT_EQ(0, getTheInnerAngleUsingThreePoints(Point(0,0,0), Point(0,0,1), Point(0,0,1)).getDegrees());
+    EXPECT_EQ(90, getTheInnerAngleUsingThreePoints(Point(0,0,0), Point(0,0,1), Point(0,1,0)).getDegrees());
+    EXPECT_DOUBLE_EQ(45, getTheInnerAngleUsingThreePoints(Point(0,0,0), Point(0,0,1), Point(0,1,1)).getDegrees());
 }
 
 TEST(TwoDimensionsHelperTest, GetSmallerAngleBetweenTwoLinesWorksCorrectly)

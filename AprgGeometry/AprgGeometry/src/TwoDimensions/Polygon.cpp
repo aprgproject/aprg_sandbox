@@ -24,25 +24,31 @@ template<unsigned int numberOfVertices>
 Lines Polygon<numberOfVertices>::getLines() const
 {
     Lines lines;
-    int size = static_cast<int>(m_vertices.size());
-    for(int i=0; i<size-1; i++)
+    int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
+    for(int i=0; i<sizeMinusOne; i++)
     {
         lines.emplace_back(m_vertices[i], m_vertices[i+1]);
     }
-    lines.emplace_back(m_vertices[size-1], m_vertices[0]);
+    lines.emplace_back(m_vertices[sizeMinusOne], m_vertices[0]);
     return lines; //RVO
+}
+
+template<unsigned int numberOfVertices>
+Points Polygon<numberOfVertices>::getVertices() const
+{
+    return Points(cbegin(m_vertices), cend(m_vertices));
 }
 
 template<unsigned int numberOfVertices>
 Points Polygon<numberOfVertices>::getPoints(double const interval) const
 {
     Points points;
-    int size = static_cast<int>(m_vertices.size());
-    for(int i=0; i<size-1; i++)
+    int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
+    for(int i=0; i<sizeMinusOne; i++)
     {
         getPointsFromVerticesWithoutLastPoint(points, interval, i, i+1);
     }
-    getPointsFromVerticesWithoutLastPoint(points, interval, size-1, 0);
+    getPointsFromVerticesWithoutLastPoint(points, interval, sizeMinusOne, 0);
     return points; //RVO
 }
 
@@ -50,13 +56,13 @@ template<unsigned int numberOfVertices>
 Dimensionless::Angles Polygon<numberOfVertices>::getAnglesAtVertices() const
 {
     Dimensionless::Angles anglesAtVertices;
-    int size = static_cast<int>(m_vertices.size());
-    anglesAtVertices.emplace_back(twoDimensionsHelper::getTheInnerAngleUsingThreePointsBAC(m_vertices[0], m_vertices[1], m_vertices[size-1]));
-    for(int i=1; i<size-1; i++)
+    int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
+    anglesAtVertices.emplace_back(twoDimensionsHelper::getTheInnerAngleUsingThreePoints(m_vertices[0], m_vertices[sizeMinusOne], m_vertices[1]));
+    for(int i=1; i<sizeMinusOne; i++)
     {
-        anglesAtVertices.emplace_back(twoDimensionsHelper::getTheInnerAngleUsingThreePointsBAC(m_vertices[i], m_vertices[i-1], m_vertices[i+1]));
+        anglesAtVertices.emplace_back(twoDimensionsHelper::getTheInnerAngleUsingThreePoints(m_vertices[i], m_vertices[i-1], m_vertices[i+1]));
     }
-    anglesAtVertices.emplace_back(twoDimensionsHelper::getTheInnerAngleUsingThreePointsBAC(m_vertices[size-1], m_vertices[0], m_vertices[size-2]));
+    anglesAtVertices.emplace_back(twoDimensionsHelper::getTheInnerAngleUsingThreePoints(m_vertices[sizeMinusOne], m_vertices[sizeMinusOne-1], m_vertices[0]));
     return anglesAtVertices; //RVO
 }
 

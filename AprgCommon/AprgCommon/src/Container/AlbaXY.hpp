@@ -107,9 +107,11 @@ public:
 
     std::string getDisplayableString() const
     {
-        std::stringstream ss;        ss<<"("<<x<<","<<y<<")";
+        std::stringstream ss;
+        ss<<"("<<x<<","<<y<<")";
         return ss.str();
     }
+
     void setXAndY(CoordinateType const& xValue, CoordinateType const& yValue)
     {
         x = xValue;

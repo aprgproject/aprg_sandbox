@@ -26,10 +26,12 @@ TEST(TwoDimensionsHelperTest, IsOriginWorksCorrectly)
 
 TEST(TwoDimensionsHelperTest, IsInsideTwoPointsWorks)
 {
-    Points points;    Point minimumXAndY(-1,-1);
+    Points points;
+    Point minimumXAndY(-1,-1);
     Point maximumXAndY(1,1);
     EXPECT_FALSE(isInsideTwoPoints(Point(-3,-3), minimumXAndY, maximumXAndY));
-    EXPECT_FALSE(isInsideTwoPoints(Point(-2,-2), minimumXAndY, maximumXAndY));    EXPECT_TRUE(isInsideTwoPoints(Point(-1,-1), minimumXAndY, maximumXAndY));
+    EXPECT_FALSE(isInsideTwoPoints(Point(-2,-2), minimumXAndY, maximumXAndY));
+    EXPECT_TRUE(isInsideTwoPoints(Point(-1,-1), minimumXAndY, maximumXAndY));
     EXPECT_TRUE(isInsideTwoPoints(Point(0,0), minimumXAndY, maximumXAndY));
     EXPECT_TRUE(isInsideTwoPoints(Point(1,1), minimumXAndY, maximumXAndY));
     EXPECT_FALSE(isInsideTwoPoints(Point(2,2), minimumXAndY, maximumXAndY));
@@ -74,9 +76,16 @@ TEST(TwoDimensionsHelperTest, GetConsineOfAngleUsing2DeltasWorksCorrectly)
     EXPECT_EQ(1, getCosineOfAngleUsing2Deltas(2,4,8,16));
 }
 
-TEST(TwoDimensionsHelperTest, LineAndLineIntersectionCanBeFound){
+TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForTriangle)
+{
+    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
+    EXPECT_EQ(8, getArea<3>(triangle));
+}
+TEST(TwoDimensionsHelperTest, LineAndLineIntersectionCanBeFound)
+{
     Line line1(Point(2,4), Point(3,3));
     Line line2(Point(4,4), Point(3,3));
+
     EXPECT_EQ(Point(3,3), getIntersectionOfTwoLines(line1, line2));
 }
 
@@ -128,11 +137,11 @@ TEST(TwoDimensionsHelperTest, GetAngleBasedOnAPointAndOriginWorksCorrectly)
     EXPECT_DOUBLE_EQ(315, getAngleBasedOnAPointAndOrigin(Point(1,-1)).getDegrees());
 }
 
-TEST(TwoDimensionsHelperTest, GetTheInnerAngleUsingThreePointsBACWorksCorrectly)
+TEST(TwoDimensionsHelperTest, getTheInnerAngleUsingThreePointsWorksCorrectly)
 {
-    EXPECT_EQ(0, getTheInnerAngleUsingThreePointsBAC(Point(0,0), Point(0,1), Point(0,1)).getDegrees());
-    EXPECT_EQ(90, getTheInnerAngleUsingThreePointsBAC(Point(0,0), Point(0,1), Point(1,0)).getDegrees());
-    EXPECT_DOUBLE_EQ(45, getTheInnerAngleUsingThreePointsBAC(Point(0,0), Point(0,1), Point(1,1)).getDegrees());
+    EXPECT_EQ(0, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(0,1)).getDegrees());
+    EXPECT_EQ(90, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,0)).getDegrees());
+    EXPECT_DOUBLE_EQ(45, getTheInnerAngleUsingThreePoints(Point(0,0), Point(0,1), Point(1,1)).getDegrees());
 }
 
 TEST(TwoDimensionsHelperTest, GetSmallerAngleBetweenTwoLinesWorksCorrectly)

@@ -236,7 +236,7 @@ Point getPointOfIntersectionOfAPlaneAndALine(Plane const& plane, Line const& lin
             - Point(multiplier*line.getACoefficient(), multiplier*line.getBCoefficient(), multiplier*line.getCCoefficient());
 }
 
-Angle getTheInnerAngleUsingThreePointsBAC(Point const& pointA, Point const& pointB, Point const& pointC)
+Angle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC)
 {
     Point deltaBA(pointB-pointA);
     Point deltaCA(pointC-pointA);

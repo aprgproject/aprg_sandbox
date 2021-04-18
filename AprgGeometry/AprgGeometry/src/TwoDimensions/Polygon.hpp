@@ -21,6 +21,7 @@ public:
     Polygon(std::initializer_list<Point> vertices);
 
     Lines getLines() const;
+    Points getVertices() const;
     Points getPoints(double const interval) const;
 
     Dimensionless::Angles getAnglesAtVertices() const;

@@ -364,10 +364,12 @@ TEST(AlbaLargeSorterTest, PrimitiveDataTypesForBlocksAreCreatedWhenBlocksWhenMem
     EXPECT_EQ(8, integerInFile);
     ASSERT_TRUE(inputTestFile3.is_open());
     inputTestFile3>>integerInFile;
-    EXPECT_EQ(9, integerInFile);    int expectedValue=0;
+    EXPECT_EQ(9, integerInFile);
+    int expectedValue=0;
     largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)
     {
-        EXPECT_EQ(expectedValue++, actualValue);    });
+        EXPECT_EQ(expectedValue++, actualValue);
+    });
     EXPECT_EQ(10, expectedValue);
 }
 
@@ -507,10 +509,12 @@ TEST(AlbaLargeSorterTest, ObjectsAreStableSortedWhenDuplicateValuesAreExisting)
         case 11: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(11.11, testObject.m_valueDouble); EXPECT_EQ('k', testObject.m_valueCharacter); EXPECT_EQ("eleventhString", testObject.m_valueString); break;
         case 12: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(12.12, testObject.m_valueDouble); EXPECT_EQ('l', testObject.m_valueCharacter); EXPECT_EQ("twelvethString", testObject.m_valueString); break;
         case 13: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(13.13, testObject.m_valueDouble); EXPECT_EQ('m', testObject.m_valueCharacter); EXPECT_EQ("thirteenthString", testObject.m_valueString); break;
-        case 14: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(14.14, testObject.m_valueDouble); EXPECT_EQ('n', testObject.m_valueCharacter); EXPECT_EQ("fourteenthString", testObject.m_valueString); break;        case 15: EXPECT_EQ(4, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(15.15, testObject.m_valueDouble); EXPECT_EQ('o', testObject.m_valueCharacter); EXPECT_EQ("fifteenthString", testObject.m_valueString); break;
+        case 14: EXPECT_EQ(3, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(14.14, testObject.m_valueDouble); EXPECT_EQ('n', testObject.m_valueCharacter); EXPECT_EQ("fourteenthString", testObject.m_valueString); break;
+        case 15: EXPECT_EQ(4, testObject.m_valueInteger); EXPECT_DOUBLE_EQ(15.15, testObject.m_valueDouble); EXPECT_EQ('o', testObject.m_valueCharacter); EXPECT_EQ("fifteenthString", testObject.m_valueString); break;
         default: break;
         }
-        expectedValue++;    });
+        expectedValue++;
+    });
     EXPECT_EQ(16, expectedValue);
 }
 

@@ -88,6 +88,26 @@ double getCosineOfAngleUsing2Deltas(double const deltaX1, double const deltaY1, 
     return numeratorPart/denominatorPart;
 }
 
+template<unsigned int numberOfVertices>
+double getArea(Polygon<numberOfVertices> const& polygon)
+{
+    //shoelace formula
+    //https://en.wikipedia.org/wiki/Shoelace_formula
+    //check also: https://en.wikipedia.org/wiki/Green%27s_theorem
+    double area(0);
+    Points const& vertices(polygon.getVertices());
+    int sizeMinusOne = static_cast<int>(vertices.size())-1;
+    for(int i=0; i<sizeMinusOne; i++)
+    {
+        area += (vertices[i].getX()*vertices[i+1].getY()) - (vertices[i+1].getX()*vertices[i].getY());
+
+    }
+    area += (vertices[0].getX()*vertices[sizeMinusOne].getY()) - (vertices[sizeMinusOne].getX()*vertices[0].getY());
+    area = getAbsoluteValue(area)/2;
+    return area;
+}
+template double getArea<3>(Polygon<3> const& polygon);
+
 Point getIntersectionOfTwoLines(Line const& line1, Line const& line2)
 {
     double xOfIntersection = ((line2.getCCoefficient()*line1.getBCoefficient())-(line1.getCCoefficient()*line2.getBCoefficient()))
@@ -192,10 +212,10 @@ Angle getAngleBasedOnAPointAndOrigin(Point const& point)
     return angle;
 }
 
-Angle getTheInnerAngleUsingThreePointsBAC(Point const& pointA, Point const& pointB, Point const& pointC)
+Angle getTheInnerAngleUsingThreePoints(Point const& commonPoint, Point const& firstPoint, Point const& secondPoint)
 {
-    Point deltaBA(pointB-pointA);
-    Point deltaCA(pointC-pointA);
+    Point deltaBA(firstPoint-commonPoint);
+    Point deltaCA(secondPoint-commonPoint);
     return Angle(AngleUnitType::Radians, acos(getCosineOfAngleUsing2Deltas(deltaBA.getX(), deltaBA.getY(), deltaCA.getX(), deltaCA.getY())));
 }
 

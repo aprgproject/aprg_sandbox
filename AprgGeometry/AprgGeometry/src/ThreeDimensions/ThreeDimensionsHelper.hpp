@@ -29,7 +29,7 @@ double getCosineOfAngleUsing2Deltas(Coefficients const& c1, Coefficients const& 
 
 bool areLinesParallel(Line const& line1, Line const& line2);
 
-Dimensionless::Angle getTheInnerAngleUsingThreePointsBAC(Point const& pointA, Point const& pointB, Point const& pointC);
+Dimensionless::Angle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC);
 Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 Dimensionless::Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 

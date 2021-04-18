@@ -125,9 +125,11 @@ public:
 
     std::string getDisplayableString() const
     {
-        std::stringstream ss;        ss<<"("<<x<<","<<y<<","<<z<<")";
+        std::stringstream ss;
+        ss<<"("<<x<<","<<y<<","<<z<<")";
         return ss.str();
     }
+
     void setXAndYAndZ(CoordinateType const& xValue, CoordinateType const& yValue, CoordinateType const& zValue)
     {
         x = xValue;
