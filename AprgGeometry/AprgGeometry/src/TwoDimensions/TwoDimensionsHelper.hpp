@@ -31,16 +31,14 @@ bool areLinesPerpendicular(Line const& line1, Line const& line2);
 
 double getDistance(Point const& point1, Point const& point2);
 double getDistance(Line const& line, Point const& point);
-double getConsineOfAngleUsing1Delta(double const deltaX1, double const deltaY1);
-double getConsineOfAngleUsing2Deltas(double const deltaX1, double const deltaY1, double const deltaX2, double const deltaY2);
+double getCosineOfAngleUsing1Delta(double const deltaX1, double const deltaY1);
+double getCosineOfAngleUsing2Deltas(double const deltaX1, double const deltaY1, double const deltaX2, double const deltaY2);
 
 Point getIntersectionOfTwoLines(Line const& line1, Line const& line2);
-Point getMidpoint(Point const& point1, Point const& point2);
-Point popNearestPoint(Points & points, Point const& point);
+Point getMidpoint(Point const& point1, Point const& point2);Point popNearestPoint(Points & points, Point const& point);
 
 Quadrant getQuadrantOfAPoint(Point const& point);
 RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c);
-
 Dimensionless::Angle getAngleBasedOnAPointAndOrigin(Point const& point);
 Dimensionless::Angle getTheInnerAngleUsingThreePointsBAC(Point const& pointA, Point const& pointB, Point const& pointC);
 Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);

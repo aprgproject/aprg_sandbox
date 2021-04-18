@@ -60,19 +60,17 @@ TEST(TwoDimensionsHelperTest, DistanceBetweenPointAndLineCanBeCalculated)
 
 TEST(TwoDimensionsHelperTest, GetConsineOfAngleUsing1DeltaWorksCorrectly)
 {
-    EXPECT_EQ(0.8, getConsineOfAngleUsing1Delta(3,4));
+    EXPECT_EQ(0.8, getCosineOfAngleUsing1Delta(3,4));
 }
 
 TEST(TwoDimensionsHelperTest, GetConsineOfAngleUsing2DeltasWorksCorrectly)
 {
-    EXPECT_EQ(1, getConsineOfAngleUsing2Deltas(2,4,8,16));
+    EXPECT_EQ(1, getCosineOfAngleUsing2Deltas(2,4,8,16));
 }
 
-TEST(TwoDimensionsHelperTest, LineAndLineIntersectionCanBeFound)
-{
+TEST(TwoDimensionsHelperTest, LineAndLineIntersectionCanBeFound){
     Line line1(Point(2,4), Point(3,3));
     Line line2(Point(4,4), Point(3,3));
-
     EXPECT_EQ(Point(3,3), getIntersectionOfTwoLines(line1, line2));
 }
 

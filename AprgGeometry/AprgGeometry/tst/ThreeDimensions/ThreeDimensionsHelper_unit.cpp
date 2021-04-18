@@ -146,15 +146,13 @@ TEST(ThreeDimensionsHelperTest, GetConsineOfAngleUsing2DeltasWorksCorrectly)
 {
     Coefficients c1(2, 4, 8);
     Coefficients c2(16, 32, 64);
-    EXPECT_EQ(1, getConsineOfAngleUsing2Deltas(c1, c2));
+    EXPECT_EQ(1, getCosineOfAngleUsing2Deltas(c1, c2));
 }
 
-TEST(ThreeDimensionsHelperTest, MidpointBetweenTwoPointsCanBeCalculated)
-{
+TEST(ThreeDimensionsHelperTest, MidpointBetweenTwoPointsCanBeCalculated){
     EXPECT_EQ(Point(0,0,0), getMidpoint(Point(0,0,0), Point(0,0,0)));
     EXPECT_EQ(Point(2,2,2), getMidpoint(Point(1,1,1), Point(3,3,3)));
-    EXPECT_EQ(Point(-450,-900,-1350), getMidpoint(Point(100,200,300), Point(-1000,-2000,-3000)));
-}
+    EXPECT_EQ(Point(-450,-900,-1350), getMidpoint(Point(100,200,300), Point(-1000,-2000,-3000)));}
 
 TEST(ThreeDimensionsHelperTest, GetPointOfIntersectionOfTwoLinesWorksCorrectly)
 {
