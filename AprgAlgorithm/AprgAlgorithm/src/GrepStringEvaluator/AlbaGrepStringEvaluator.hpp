@@ -27,21 +27,20 @@ public:
     bool evaluate(std::string const& stringToEvaluate);
     bool isInvalid() const;
     std::string getErrorMessage() const;
+
 private:
     void extractTokens(std::string const& condition);
-    void extractTokensWhileOnString(bool& isOnString, std::string & stringToBuild, char const& currentCharacter);
-    void extractTokensWhileNotOnString(bool& isOnString, char const& currentCharacter, int& parenthesisCount);
+    void extractTokensWhileOnString(bool& isOnString, std::string & stringToBuild, char const& currentCharacter);    void extractTokensWhileNotOnString(bool& isOnString, char const& currentCharacter, int& parenthesisCount);
     void generateExpressionEvaluatorPostfix();
     bool isEvaluationPossible() const;
     void addOperator(char const currentCharacter);
     void addParenthesis(char const currentCharacter, int& parenthesisCount);
+    char convertTildeToExclamationPointIfNeeded(char const character);
     bool isOperator(char const character) const;
     bool isParenthesis(char const character) const;
-    void setErrorMessage(std::string const& errorMessage);
-    bool m_isEvaluatorInvalid;
+    void setErrorMessage(std::string const& errorMessage);    bool m_isEvaluatorInvalid;
     std::string m_errorMessage;
     VectorOfTokens m_tokens;
-    PostfixEvaluator m_postfixEvaluator;
-};
+    PostfixEvaluator m_postfixEvaluator;};
 
 }

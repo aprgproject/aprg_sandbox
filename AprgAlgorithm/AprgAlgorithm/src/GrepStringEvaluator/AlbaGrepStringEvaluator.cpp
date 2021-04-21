@@ -146,80 +146,75 @@ bool AlbaGrepStringEvaluator::isEvaluationPossible() const
     return m_postfixEvaluator.isEvaluationPossible();
 }
 
-void AlbaGrepStringEvaluator::addOperator(char const currentCharacter)
+void AlbaGrepStringEvaluator::addOperator(char const characterOperator)
 {
     bool invalidOperator(false);
     AlbaGrepStringToken & previousToken(m_tokens.back());
-    char const characterToCheck = ('~' == currentCharacter) ? '!' : currentCharacter;
+    char const currentCharacter = convertTildeToExclamationPointIfNeeded(characterOperator);
 
     switch(previousToken.getOperatorType())
     {
     case AlbaGrepStringOperatorType::AndOperator:
-        switch(characterToCheck)
+        switch(currentCharacter)
         {
-        case '&': previousToken.appendToString(characterToCheck); break;
-        case '!': m_tokens.emplace_back(AlbaGrepStringOperatorType::NotOperator, string("")+characterToCheck); break;
+        case '&': previousToken.appendToString(currentCharacter); break;
+        case '!': m_tokens.emplace_back(AlbaGrepStringOperatorType::NotOperator, string("")+currentCharacter); break;
         default: invalidOperator = true; break;
         }
         break;
     case AlbaGrepStringOperatorType::NotOperator:
-        switch(characterToCheck)
+        switch(currentCharacter)
         {
         case '^':
-            previousToken.appendToString(characterToCheck);
+            previousToken.appendToString(currentCharacter);
             previousToken.setOperatorType(AlbaGrepStringOperatorType::XnorOperator);
             break;
-        case '!': previousToken.setOperatorType(AlbaGrepStringOperatorType::IgnoreOperator); break;
-        default: invalidOperator = true; break;
+        case '!': previousToken.setOperatorType(AlbaGrepStringOperatorType::IgnoreOperator); break;        default: invalidOperator = true; break;
         }
         break;
     case AlbaGrepStringOperatorType::OrOperator:
-        switch(characterToCheck)
+        switch(currentCharacter)
         {
-        case '|': previousToken.appendToString(characterToCheck); break;
-        case '!': m_tokens.emplace_back(AlbaGrepStringOperatorType::NotOperator, string("")+characterToCheck); break;
+        case '|': previousToken.appendToString(currentCharacter); break;
+        case '!': m_tokens.emplace_back(AlbaGrepStringOperatorType::NotOperator, string("")+currentCharacter); break;
         default: invalidOperator = true; break;
         }
         break;
     case AlbaGrepStringOperatorType::XorOperator:
-        switch(characterToCheck)
+        switch(currentCharacter)
         {
         case '!':
-            previousToken.appendToString(characterToCheck);
+            previousToken.appendToString(currentCharacter);
             previousToken.setOperatorType(AlbaGrepStringOperatorType::XnorOperator);
             break;
-        default: invalidOperator = true; break;
-        }
+        default: invalidOperator = true; break;        }
         break;
     case AlbaGrepStringOperatorType::XnorOperator:
-        switch(characterToCheck)
+        switch(currentCharacter)
         {
-        case '!': m_tokens.emplace_back(AlbaGrepStringOperatorType::NotOperator, string("")+characterToCheck); break;
+        case '!': m_tokens.emplace_back(AlbaGrepStringOperatorType::NotOperator, string("")+currentCharacter); break;
         default: invalidOperator = true; break;
         }
         break;
     default:
-        switch(characterToCheck)
+        switch(currentCharacter)
         {
-        case '!': m_tokens.emplace_back(AlbaGrepStringOperatorType::NotOperator, string("")+characterToCheck); break;
-        case '&': m_tokens.emplace_back(AlbaGrepStringOperatorType::AndOperator, string("")+characterToCheck); break;
-        case '|': m_tokens.emplace_back(AlbaGrepStringOperatorType::OrOperator, string("")+characterToCheck); break;
-        case '^': m_tokens.emplace_back(AlbaGrepStringOperatorType::XorOperator, string("")+characterToCheck); break;
+        case '!': m_tokens.emplace_back(AlbaGrepStringOperatorType::NotOperator, string("")+currentCharacter); break;
+        case '&': m_tokens.emplace_back(AlbaGrepStringOperatorType::AndOperator, string("")+currentCharacter); break;
+        case '|': m_tokens.emplace_back(AlbaGrepStringOperatorType::OrOperator, string("")+currentCharacter); break;
+        case '^': m_tokens.emplace_back(AlbaGrepStringOperatorType::XorOperator, string("")+currentCharacter); break;
         default: break;
         }
-        break;
-    }
+        break;    }
     if(invalidOperator)
     {
-        previousToken.appendToString(characterToCheck);
+        previousToken.appendToString(currentCharacter);
         setErrorMessage("Invalid operator : [" + previousToken.getStringToFind() + "]");
     }
 }
-
 void AlbaGrepStringEvaluator::addParenthesis(char const currentCharacter, int& parenthesisCount)
 {
-    switch(currentCharacter)
-    {
+    switch(currentCharacter)    {
     case '(':
         m_tokens.emplace_back(AlbaGrepStringOperatorType::OpeningParenthesis);
         parenthesisCount++;
@@ -233,15 +228,18 @@ void AlbaGrepStringEvaluator::addParenthesis(char const currentCharacter, int& p
     }
 }
 
+char AlbaGrepStringEvaluator::convertTildeToExclamationPointIfNeeded(char const character)
+{
+    return ('~' == character) ? '!' : character;
+}
+
 bool AlbaGrepStringEvaluator::isOperator(char const character) const
 {
-    return '!' == character || '~' == character || '&' == character || '|' == character || '^' == character;
-}
+    return '!' == character || '~' == character || '&' == character || '|' == character || '^' == character;}
 
 bool AlbaGrepStringEvaluator::isParenthesis(char const character) const
 {
-    return '(' == character || ')' == character;
-}
+    return '(' == character || ')' == character;}
 
 void AlbaGrepStringEvaluator::setErrorMessage(string const& errorMessage)
 {
