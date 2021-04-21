@@ -38,6 +38,7 @@ template<unsigned int numberOfVertices> double getArea(Polygon<numberOfVertices>
 
 Point getIntersectionOfTwoLines(Line const& line1, Line const& line2);
 Point getMidpoint(Point const& point1, Point const& point2);
+Point getPointAlongALineWithDistanceFromAPoint(Line const& line, Point const& referencePoint, double const distance, bool const isIncreasedOnX);
 Point popNearestPoint(Points & points, Point const& point);
 
 Quadrant getQuadrantOfAPoint(Point const& point);

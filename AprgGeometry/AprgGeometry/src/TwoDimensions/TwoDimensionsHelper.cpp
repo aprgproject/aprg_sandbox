@@ -122,6 +122,22 @@ Point getMidpoint(Point const& point1, Point const& point2)
     return Point((point1.getX()+point2.getX())/2,  (point1.getY()+point2.getY())/2);
 }
 
+Point getPointAlongALineWithDistanceFromAPoint(Line const& line, Point const& referencePoint, double const distance, bool const isIncreasedOnX)
+{
+    double commonRatioWithDistance = getSquareRootOfXSquaredPlusYSquared(line.getACoefficient(), line.getBCoefficient());
+    // delta x = a*D / (a2+b2)^0.5
+    // delta y = b*D / (a2+b2)^0.5
+    double deltaX = line.getACoefficient()*distance/commonRatioWithDistance;
+    double deltaY = -line.getBCoefficient()*distance/commonRatioWithDistance;
+    if((isIncreasedOnX && deltaX<0) || (!isIncreasedOnX && deltaX>0))
+    {
+        deltaX *= -1;
+        deltaY *= -1;
+    }
+    Point delta(deltaX, deltaY);
+    return referencePoint + delta;
+}
+
 Point popNearestPoint(Points & points, Point const& point)
 {
     Point result;

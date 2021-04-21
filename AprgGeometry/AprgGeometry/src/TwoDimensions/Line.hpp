@@ -54,17 +54,20 @@ private:
     void setInterceptsBasedOnSavedCoefficients();
     void getPointsForVerticalLine(Points & points, Point const& first, Point const& second, double const interval) const;
     void getPointsForHorizontalLine(Points & points, Point const& first, Point const& second, double const interval) const;
-    void getPointsForLineWithSlope(Points & points, Point const& first, Point const& second, double const interval) const;    void mergePointsFromPointsFromXAndY(Points & points, Points const& pointsFromXCoordinate, Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const;
+    void getPointsForLineWithSlope(Points & points, Point const& first, Point const& second, double const interval) const;
+    void mergePointsFromPointsFromXAndY(Points & points, Points const& pointsFromXCoordinate, Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const;
     LineType determineLineTypeUsingDeltaXandDeltaY(double const deltaY, double const deltaX) const;
     LineType determineLineTypeUsingCoefficients(double const aCoefficient, double const bCoefficient) const;
     LineType m_type;
     double m_aCoefficient; //form: a*x + b*y + c = 0
     double m_bCoefficient; //form: a*x + b*y + c = 0
     double m_cCoefficient; //form: a*x + b*y + c = 0
-    double m_yIntercept; //form: a*(x-x0) + b*(y-y0) = 0
     double m_xIntercept; //form: a*(x-x0) + b*(y-y0) = 0
+    double m_yIntercept; //form: a*(x-x0) + b*(y-y0) = 0
     double m_slope;
 };
+
 using Lines = std::vector<Line>;
 
-}}
+}
+}

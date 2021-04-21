@@ -103,6 +103,14 @@ TEST(TwoDimensionsHelperTest, MidpointBetweenTwoPointsCanBeCalculated)
     EXPECT_EQ(Point(-450,-900), getMidpoint(Point(100,200), Point(-1000,-2000)));
 }
 
+TEST(TwoDimensionsHelperTest, GetPointAlongALineWithDistanceFromAPointWorksCorrectly)
+{
+    EXPECT_EQ(Point(2,2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(1,1)), Point(1,1), sqrt(2), true));
+    EXPECT_EQ(Point(2,-2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(1,-1)), Point(1,-1), sqrt(2), true));
+    EXPECT_EQ(Point(-2,2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(-1,1)), Point(-1,1), sqrt(2), false));
+    EXPECT_EQ(Point(-2,-2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(-1,-1)), Point(-1,-1), sqrt(2), false));
+}
+
 TEST(TwoDimensionsHelperTest, PopNearestPointWorks)
 {
     Points points;
@@ -241,9 +249,11 @@ TEST(TwoDimensionsHelperTest, GetTangentLineForCircleIsCorrect)
     EXPECT_DOUBLE_EQ(7.2426406871192821, expectedLine3.getXIntercept());
     EXPECT_DOUBLE_EQ(-1, expectedLine3.getSlope());
 }
+
 TEST(TwoDimensionsHelperTest, GetTangentLineForPolynomialIsCorrect)
 {
-    Parabola parabola{1,2,3};    Line expectedLine1(getPolynomialTangentLineAt(parabola, -1));
+    Parabola parabola{1,2,3};
+    Line expectedLine1(getPolynomialTangentLineAt(parabola, -1));
     Line expectedLine2(getPolynomialTangentLineAt(parabola, 0));
     Line expectedLine3(getPolynomialTangentLineAt(parabola, 1));
 

@@ -31,6 +31,7 @@ double calculateMultiplierForIntersection(
         double const secondCoordinateInitialValue1,
         double const secondCoordinateInitialValue2)
 {
+    //put math here
     double denominator = (firstCoordinateCoefficient2*secondCoordinateCoefficient1) - (firstCoordinateCoefficient1*secondCoordinateCoefficient2);
     double numerator = ((firstCoordinateInitialValue1-firstCoordinateInitialValue2)*secondCoordinateCoefficient1)
             - ((secondCoordinateInitialValue1-secondCoordinateInitialValue2)*firstCoordinateCoefficient1);
