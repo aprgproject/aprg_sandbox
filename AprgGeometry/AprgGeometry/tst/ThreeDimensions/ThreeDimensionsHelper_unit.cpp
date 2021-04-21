@@ -234,16 +234,25 @@ TEST(ThreeDimensionsHelperTest, GetLineOfIntersectionOfTwoPlaneWorksCorrectly)
     EXPECT_EQ(0, expectedLine.getZInitialValue());
 }
 
+TEST(ThreeDimensionsHelperTest, GetPlaneWithContainsALineAndAPointWorksCorrectly)
+{
+    Plane expectedPlane(getPlaneWithContainsALineAndAPoint(Line(Point(0,0,0), Point(1,1,1)), Point(1,0,0)));
+
+    EXPECT_EQ(0, expectedPlane.getACoefficient());
+    EXPECT_EQ(1, expectedPlane.getBCoefficient());
+    EXPECT_EQ(-1, expectedPlane.getCCoefficient());
+    EXPECT_EQ(0, expectedPlane.getDCoefficient());
+}
+
 TEST(ThreeDimensionsHelperTest, GetPerpendicularPlaneWithALineAndAPointWorksCorrectly)
 {
-    Plane expectedLine(getPerpendicularPlaneOfALineAndUsingAPointInThePlane(Line(Point(0,0,0), Point(1,1,1)), Point(1,0,0)));
+    Plane expectedPlane(getPerpendicularPlaneOfALineAndUsingAPointInThePlane(Line(Point(0,0,0), Point(1,1,1)), Point(1,0,0)));
 
-    EXPECT_EQ(1, expectedLine.getACoefficient());
-    EXPECT_EQ(1, expectedLine.getBCoefficient());
-    EXPECT_EQ(1, expectedLine.getCCoefficient());
-    EXPECT_EQ(-1, expectedLine.getDCoefficient());
+    EXPECT_EQ(1, expectedPlane.getACoefficient());
+    EXPECT_EQ(1, expectedPlane.getBCoefficient());
+    EXPECT_EQ(1, expectedPlane.getCCoefficient());
+    EXPECT_EQ(-1, expectedPlane.getDCoefficient());
 }
 
 }
-
 }

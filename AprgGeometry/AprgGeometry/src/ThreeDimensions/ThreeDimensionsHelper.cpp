@@ -307,10 +307,16 @@ Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2)
     return Line(point1, point2);
 }
 
+Plane getPlaneWithContainsALineAndAPoint(Line const& line, Point const& point)
+{
+    Point point1InLine(line.getXInitialValue(), line.getYInitialValue(), line.getZInitialValue());
+    Point point2InLine(point1InLine+Point(line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient()));
+    return Plane(point, point1InLine, point2InLine);
+}
+
 Plane getPerpendicularPlaneOfALineAndUsingAPointInThePlane(Line const& line, Point const& pointInPerpendicularPlane)
 {
-    return Plane(line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient(), pointInPerpendicularPlane);
-}
+    return Plane(line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient(), pointInPerpendicularPlane);}
 
 }
 }

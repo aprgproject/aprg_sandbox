@@ -43,10 +43,10 @@ Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients cons
 Line getLineWithSameSlope(Line const& line, Point const& point);
 Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2);
 
+Plane getPlaneWithContainsALineAndAPoint(Line const& line, Point const& point);
 Plane getPerpendicularPlaneOfALineAndUsingAPointInThePlane(Line const& line, Point const& pointInPerpendicularPlane);
 
 }
-
 }
 
 }
