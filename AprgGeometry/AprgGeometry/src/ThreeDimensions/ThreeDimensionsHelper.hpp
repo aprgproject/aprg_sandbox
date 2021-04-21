@@ -25,10 +25,10 @@ bool isLineInPlane(Line const& line, Plane const& plane);
 
 double getDistance(Point const& point1, Point const& point2);
 double getDistance(Line const& line, Point const& point);
+//double getDistance(Line const& line1, Line const& line2); //implement this
 double getCosineOfAngleUsing2Deltas(Coefficients const& c1, Coefficients const& c2);
 
 bool areLinesParallel(Line const& line1, Line const& line2);
-
 Dimensionless::Angle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC);
 Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 Dimensionless::Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
@@ -44,9 +44,11 @@ Line getLineWithSameSlope(Line const& line, Point const& point);
 Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2);
 
 Plane getPlaneWithContainsALineAndAPoint(Line const& line, Point const& point);
+Plane getPlaneWithTwoIntersectingLines(Line const& line1, Line const& line2);
 Plane getPerpendicularPlaneOfALineAndUsingAPointInThePlane(Line const& line, Point const& pointInPerpendicularPlane);
 
 }
+
 }
 
 }

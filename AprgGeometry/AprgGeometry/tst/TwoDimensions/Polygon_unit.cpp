@@ -25,10 +25,30 @@ TEST(TriangleTest, TriangleCanBeCreated)
     Triangle triangle(Point(1,1), Point(2,3), Point(0,17));
 }
 
+TEST(TriangleTest, GetLengthOfSidesAreCorrect)
+{
+    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
+    array<double, 3> lengthOfSides(triangle.getLengthOfSides());
+
+    EXPECT_DOUBLE_EQ(4, lengthOfSides[0]);
+    EXPECT_DOUBLE_EQ(5.6568542494923806, lengthOfSides[1]);
+    EXPECT_DOUBLE_EQ(4, lengthOfSides[2]);
+}
+
+TEST(TriangleTest, GetAnglesAreCorrect)
+{
+    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
+    Angles angles(triangle.getAnglesAtVertices());
+
+    ASSERT_EQ(3u, angles.size());
+    EXPECT_DOUBLE_EQ(90, angles[0].getDegrees());
+    EXPECT_DOUBLE_EQ(45, angles[1].getDegrees());
+    EXPECT_DOUBLE_EQ(45, angles[2].getDegrees());
+}
+
 TEST(TriangleTest, GetPointsAreCorrect)
 {
-    Triangle triangle(Point(0,0), Point(3,3), Point(0,6));
-    Points points(triangle.getPoints(1));
+    Triangle triangle(Point(0,0), Point(3,3), Point(0,6));    Points points(triangle.getPoints(1));
 
     ASSERT_EQ(12u, points.size());
     EXPECT_EQ(Point(0,0), points[0]);
@@ -45,21 +65,9 @@ TEST(TriangleTest, GetPointsAreCorrect)
     EXPECT_EQ(Point(0,1), points[11]);
 }
 
-TEST(TriangleTest, GetAnglesAreCorrect)
-{
-    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
-    Angles angles(triangle.getAnglesAtVertices());
-
-    ASSERT_EQ(3u, angles.size());
-    EXPECT_DOUBLE_EQ(90, angles[0].getDegrees());
-    EXPECT_DOUBLE_EQ(45, angles[1].getDegrees());
-    EXPECT_DOUBLE_EQ(45, angles[2].getDegrees());
-}
-
 TEST(TriangleTest, QuadilateralCanBeCreated)
 {
-    Quadrilateral quadrilateral(Point(1,1), Point(2,3), Point(0,17), Point(-100, 4));
-}
+    Quadrilateral quadrilateral(Point(1,1), Point(2,3), Point(0,17), Point(-100, 4));}
 
 TEST(QuadrilateralTest, GetPointsAreCorrect)
 {

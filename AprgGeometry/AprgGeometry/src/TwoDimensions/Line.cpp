@@ -21,21 +21,15 @@ Line::Line()
     , m_aCoefficient(0)
     , m_bCoefficient(0)
     , m_cCoefficient(0)
-    , m_xIntercept(0)
-    , m_yIntercept(0)
 {}
 
-Line::Line(Point const& first, Point const& second)
-    : m_type(LineType::Invalid)
+Line::Line(Point const& first, Point const& second)    : m_type(LineType::Invalid)
     , m_aCoefficient(0)
     , m_bCoefficient(0)
     , m_cCoefficient(0)
-    , m_xIntercept(0)
-    , m_yIntercept(0)
 {
     double deltaY = second.getY() - first.getY();
-    double deltaX = second.getX() - first.getX();
-    setLineParametersBasedOnDeltas(deltaX, deltaY, first);
+    double deltaX = second.getX() - first.getX();    setLineParametersBasedOnDeltas(deltaX, deltaY, first);
 }
 
 Line::Line(double const aCoefficient, double const bCoefficient, double const cCoefficient)
@@ -43,23 +37,17 @@ Line::Line(double const aCoefficient, double const bCoefficient, double const cC
     , m_aCoefficient(0)
     , m_bCoefficient(0)
     , m_cCoefficient(0)
-    , m_xIntercept(0)
-    , m_yIntercept(0)
 {
     setLineParametersBasedOnCoefficients(aCoefficient, bCoefficient, cCoefficient);
 }
-
 Line::Line(double const aCoefficient, double const bCoefficient, Point const& point)
     : m_type(LineType::Invalid)
     , m_aCoefficient(0)
     , m_bCoefficient(0)
     , m_cCoefficient(0)
-    , m_xIntercept(0)
-    , m_yIntercept(0)
 {
     double deltaX = aCoefficient;
-    double deltaY = bCoefficient;
-    setLineParametersBasedOnDeltas(deltaX, deltaY, point);
+    double deltaY = bCoefficient;    setLineParametersBasedOnDeltas(deltaX, deltaY, point);
 }
 
 bool Line::operator==(Line const& line) const
@@ -84,16 +72,15 @@ LineType Line::getType() const
 
 double Line::getXIntercept() const
 {
-    return m_xIntercept;
+    return -m_cCoefficient/m_aCoefficient;
 }
 
 double Line::getYIntercept() const
 {
-    return m_yIntercept;
+    return -m_cCoefficient/m_bCoefficient;;
 }
 
-double Line::getSlope() const
-{
+double Line::getSlope() const{
     return -m_aCoefficient/m_bCoefficient;
 }
 
@@ -176,20 +163,16 @@ void Line::setLineParametersBasedOnDeltas(double const deltaX, double const delt
 {
     m_type = determineLineTypeUsingDeltaXandDeltaY(deltaY, deltaX);
     setCoefficientsUsingLineTypeAndDeltaXandDeltaYAndAPoint(deltaY, deltaX, point);
-    setInterceptsBasedOnSavedCoefficients();
 }
 
-void Line::setLineParametersBasedOnCoefficients(double const aCoefficient, double const bCoefficient, double const cCoefficient)
-{
+void Line::setLineParametersBasedOnCoefficients(double const aCoefficient, double const bCoefficient, double const cCoefficient){
     m_type = determineLineTypeUsingCoefficients(aCoefficient, bCoefficient);
     m_aCoefficient = aCoefficient;
     m_bCoefficient = bCoefficient;
     m_cCoefficient = cCoefficient;
-    setInterceptsBasedOnSavedCoefficients();
 }
 
-void Line::setCoefficientsUsingLineTypeAndDeltaXandDeltaYAndAPoint(double const deltaY, double const deltaX, Point const& point)
-{
+void Line::setCoefficientsUsingLineTypeAndDeltaXandDeltaYAndAPoint(double const deltaY, double const deltaX, Point const& point){
     switch(m_type)
     {
     case LineType::Invalid:
@@ -216,47 +199,25 @@ void Line::setCoefficientsUsingLineTypeAndDeltaXandDeltaYAndAPoint(double const 
 
 }
 
-void Line::setInterceptsBasedOnSavedCoefficients()
-{
-    switch(m_type)
-    {
-    case LineType::Invalid:
-        m_xIntercept = 0;
-        m_yIntercept = 0;
-        break;
-    case LineType::Horizontal:
-        m_xIntercept = 0;
-        m_yIntercept = -m_cCoefficient/m_bCoefficient;
-        break;
-    case LineType::Vertical:
-        m_xIntercept = -m_cCoefficient/m_aCoefficient;
-        m_yIntercept = 0;
-        break;
-    default:
-        m_xIntercept = -m_cCoefficient/m_aCoefficient;
-        m_yIntercept = -m_cCoefficient/m_bCoefficient;
-        break;
-    }
-}
-
 void Line::getPointsForVerticalLine(Points & points, Point const& first, Point const& second, double const interval) const
 {
     AlbaRange<double> range(first.getY(), second.getY(), interval);
+    double xIntercept(getXIntercept());
     range.traverse([&](double traverseValue)
     {
-        points.emplace_back(m_xIntercept, traverseValue);
+        points.emplace_back(xIntercept, traverseValue);
     });
 }
 
 void Line::getPointsForHorizontalLine(Points & points, Point const& first, Point const& second, double const interval) const
 {
     AlbaRange<double> range(first.getX(), second.getX(), interval);
+    double yIntercept(getYIntercept());
     range.traverse([&](double traverseValue)
     {
-        points.emplace_back(traverseValue, m_yIntercept);
+        points.emplace_back(traverseValue, yIntercept);
     });
 }
-
 void Line::getPointsForLineWithSlope(Points & points, Point const& first, Point const& second, double const interval) const
 {
     Point minimumXAndY;

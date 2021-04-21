@@ -32,10 +32,10 @@ bool areLinesPerpendicular(Line const& line1, Line const& line2);
 
 double getDistance(Point const& point1, Point const& point2);
 double getDistance(Line const& line, Point const& point);
+double getDistance(Line const& line1, Line const& line2);
 double getCosineOfAngleUsing1Delta(double const deltaX1, double const deltaY1);
 double getCosineOfAngleUsing2Deltas(double const deltaX1, double const deltaY1, double const deltaX2, double const deltaY2);
 template<unsigned int numberOfVertices> double getArea(Polygon<numberOfVertices> const& polygon);
-
 Point getIntersectionOfTwoLines(Line const& line1, Line const& line2);
 Point getMidpoint(Point const& point1, Point const& point2);
 Point getPointAlongALineWithDistanceFromAPoint(Line const& line, Point const& referencePoint, double const distance, bool const isIncreasedOnX);

@@ -72,10 +72,22 @@ double getDistance(Line const& line, Point const& point)
     return getDistance(point, nearestPoint);
 }
 
+double getDistance(Line const& line1, Line const& line2)
+{
+    double distance(0);
+    if(!areLinesParallel(line1, line2))
+    {
+        Line perpendicularLine(getLineWithPerpendicularSlope(line1, Point(0,0)));
+        Point pointOfIntersectionInLine1(getIntersectionOfTwoLines(perpendicularLine, line1));
+        Point pointOfIntersectionInLine2(getIntersectionOfTwoLines(perpendicularLine, line2));
+        distance = getDistance(pointOfIntersectionInLine1, pointOfIntersectionInLine2);
+    }
+    return distance;
+}
+
 double getCosineOfAngleUsing1Delta(double const deltaX1, double const deltaY1)
 {
-    //cos theta = opposite/hypotenuse
-    double opposite = deltaY1;
+    //cos theta = opposite/hypotenuse    double opposite = deltaY1;
     double hypotenuse = getSquareRootOfXSquaredPlusYSquared(deltaX1, deltaY1);
     return opposite/hypotenuse;
 }
