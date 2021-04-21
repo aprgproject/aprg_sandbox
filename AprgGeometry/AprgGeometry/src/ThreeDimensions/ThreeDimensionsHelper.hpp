@@ -25,7 +25,7 @@ bool isLineInPlane(Line const& line, Plane const& plane);
 
 double getDistance(Point const& point1, Point const& point2);
 double getDistance(Line const& line, Point const& point);
-//double getDistance(Line const& line1, Line const& line2); //implement this
+//double getDistance(Line const& line1, Line const& line2);
 double getCosineOfAngleUsing2Deltas(Coefficients const& c1, Coefficients const& c2);
 
 bool areLinesParallel(Line const& line1, Line const& line2);

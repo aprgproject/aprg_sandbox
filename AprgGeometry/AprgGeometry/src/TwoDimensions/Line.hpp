@@ -34,7 +34,8 @@ public:
     double getYIntercept() const; //form: a*(x-x0) + b*(y-y0) = 0
     double getSlope() const;
     double getInverseSlope() const;
-    double getACoefficient() const;    double getBCoefficient() const;
+    double getACoefficient() const;
+    double getBCoefficient() const;
     double getCCoefficient() const;
     double getAUnitIncreaseInX() const;
     double getAUnitIncreaseInY() const;
@@ -52,7 +53,8 @@ private:
     void setCoefficientsUsingLineTypeAndDeltaXandDeltaYAndAPoint(double const deltaY, double const deltaX, Point const& point);
     void getPointsForVerticalLine(Points & points, Point const& first, Point const& second, double const interval) const;
     void getPointsForHorizontalLine(Points & points, Point const& first, Point const& second, double const interval) const;
-    void getPointsForLineWithSlope(Points & points, Point const& first, Point const& second, double const interval) const;    void mergePointsFromPointsFromXAndY(Points & points, Points const& pointsFromXCoordinate, Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const;
+    void getPointsForLineWithSlope(Points & points, Point const& first, Point const& second, double const interval) const;
+    void mergePointsFromPointsFromXAndY(Points & points, Points const& pointsFromXCoordinate, Points const& pointsFromYCoordinate, bool const isDirectionAscendingForX) const;
     LineType determineLineTypeUsingDeltaXandDeltaY(double const deltaY, double const deltaX) const;
     LineType determineLineTypeUsingCoefficients(double const aCoefficient, double const bCoefficient) const;
     LineType m_type;
@@ -62,5 +64,6 @@ private:
 };
 
 using Lines = std::vector<Line>;
+
 }
 }

@@ -7,6 +7,7 @@ using namespace std;
 
 namespace alba
 {
+
 namespace TwoDimensions
 {
 
@@ -54,7 +55,8 @@ array<double, numberOfVertices> Polygon<numberOfVertices>::getLengthOfSides() co
     return lengthOfSides; //RVO
 }
 
-template<unsigned int numberOfVertices>Dimensionless::Angles Polygon<numberOfVertices>::getAnglesAtVertices() const
+template<unsigned int numberOfVertices>
+Dimensionless::Angles Polygon<numberOfVertices>::getAnglesAtVertices() const
 {
     Dimensionless::Angles anglesAtVertices;
     int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
@@ -82,7 +84,8 @@ Points Polygon<numberOfVertices>::getPoints(double const interval) const
 
 template<unsigned int numberOfVertices>
 void Polygon<numberOfVertices>::getPointsFromVerticesWithoutLastPoint(Points & points, double const interval, unsigned int vertexIndex1, unsigned int vertexIndex2) const
-{    Point const & firstPoint(m_vertices[vertexIndex1]);
+{
+    Point const & firstPoint(m_vertices[vertexIndex1]);
     Point const & secondPoint(m_vertices[vertexIndex2]);
     Line line(firstPoint, secondPoint);
     Points pointsFromCurrentLine(line.getPointsWithoutLastPoint(firstPoint, secondPoint, interval));

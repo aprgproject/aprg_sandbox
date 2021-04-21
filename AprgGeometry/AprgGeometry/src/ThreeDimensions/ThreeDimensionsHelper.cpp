@@ -195,10 +195,30 @@ double getDistance(Line const& line, Point const& point)
     return getDistance(point, nearestPoint);
 }
 
+/*double getDistance(Line const& line1, Line const& line2)
+{
+    Coefficients line1InitialValues(line1.getXInitialValue(), line1.getYInitialValue(), line1.getZInitialValue());
+    Coefficients line2InitialValues(line2.getXInitialValue(), line2.getYInitialValue(), line2.getZInitialValue());
+
+    Coefficients directionVector1(line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient());
+    Coefficients directionVector2(line2.getACoefficient(), line2.getBCoefficient(), line2.getCCoefficient());
+
+    ALBA_PRINT3(directionVector1.getX(), directionVector1.getY(), directionVector1.getZ());
+    ALBA_PRINT3(directionVector2.getX(), directionVector2.getY(), directionVector2.getZ());
+    Coefficients perpendicularDirectionVector(getCrossProduct(directionVector1, directionVector2));
+
+    Coefficients deltaOfInitialValues(line1InitialValues-line2InitialValues);
+
+    ALBA_PRINT3(deltaOfInitialValues.getX(), deltaOfInitialValues.getY(), deltaOfInitialValues.getZ());
+    ALBA_PRINT3(perpendicularDirectionVector.getX(), perpendicularDirectionVector.getY(), perpendicularDirectionVector.getZ());
+    // d = n dot (r1-r2)/magnitude of n
+    return getDotProduct(perpendicularDirectionVector, deltaOfInitialValues)/
+            getSquareRootOfXSquaredPlusYSquaredPlusZSquared(perpendicularDirectionVector.getX(), perpendicularDirectionVector.getY(), perpendicularDirectionVector.getZ());
+}*/
+
 double getCosineOfAngleUsing2Deltas(Coefficients const& c1, Coefficients const& c2)
 {
-    //from cos theta = (dotproduct of coefficients v1 and v2)/(magnitude of v1 * magnitude of v2)
-    double numeratorPart = getDotProduct(c1, c2);
+    //from cos theta = (dotproduct of coefficients v1 and v2)/(magnitude of v1 * magnitude of v2)    double numeratorPart = getDotProduct(c1, c2);
     double denominatorPart = getSquareRootOfXSquaredPlusYSquaredPlusZSquared(c1.getX(), c1.getY(), c1.getZ()) *
             getSquareRootOfXSquaredPlusYSquaredPlusZSquared(c2.getX(), c2.getY(), c2.getZ());
     return numeratorPart/denominatorPart;
@@ -212,15 +232,14 @@ Point getMidpoint(Point const& point1, Point const& point2)
 Point getPointOfIntersectionOfTwoLines(Line const& line1, Line const& line2)
 {
     double multiplier1 = calculateMultiplierForIntersection(line1.getACoefficient(), line2.getACoefficient(), line1.getBCoefficient(), line2.getBCoefficient(), line1.getXInitialValue(), line2.getXInitialValue(), line1.getYInitialValue(), line2.getYInitialValue());
-    double multiplier2 = calculateMultiplierForIntersection(line1.getACoefficient(), line2.getACoefficient(), line1.getCCoefficient(), line2.getCCoefficient(), line1.getXInitialValue(), line2.getXInitialValue(), line1.getZInitialValue(), line2.getZInitialValue());
-    double multiplier3 = calculateMultiplierForIntersection(line1.getCCoefficient(), line2.getCCoefficient(), line1.getACoefficient(), line2.getACoefficient(), line1.getZInitialValue(), line2.getZInitialValue(), line1.getXInitialValue(), line2.getXInitialValue());
-    assert(isAlmostEqual(multiplier1, multiplier2));
-    assert(isAlmostEqual(multiplier1, multiplier3));
-    assert(isAlmostEqual(multiplier2, multiplier3));
+    //double multiplier2 = calculateMultiplierForIntersection(line1.getACoefficient(), line2.getACoefficient(), line1.getCCoefficient(), line2.getCCoefficient(), line1.getXInitialValue(), line2.getXInitialValue(), line1.getZInitialValue(), line2.getZInitialValue());
+    //double multiplier3 = calculateMultiplierForIntersection(line1.getCCoefficient(), line2.getCCoefficient(), line1.getACoefficient(), line2.getACoefficient(), line1.getZInitialValue(), line2.getZInitialValue(), line1.getXInitialValue(), line2.getXInitialValue());
+    //assert(isAlmostEqual(multiplier1, multiplier2));
+    //assert(isAlmostEqual(multiplier1, multiplier3));
+    //assert(isAlmostEqual(multiplier2, multiplier3));
     return Point(Point(line1.getXInitialValue(), line1.getYInitialValue(), line1.getZInitialValue())
                  + Point(multiplier1*line1.getACoefficient(), multiplier1*line1.getBCoefficient(), multiplier1*line1.getCCoefficient()));
 }
-
 Point getPointOfIntersectionOfAPlaneAndALine(Plane const& plane, Line const& line)
 {
     assert(!isLineInPlane(line, plane));
@@ -328,4 +347,5 @@ Plane getPerpendicularPlaneOfALineAndUsingAPointInThePlane(Line const& line, Poi
 }
 
 }
-}}
+}
+}

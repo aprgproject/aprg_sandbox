@@ -142,10 +142,14 @@ TEST(ThreeDimensionsHelperTest, DistanceBetweenPointAndLineCanBeCalculated)
     EXPECT_EQ(1, getDistance(Line(Point(0,0,0), Point(1,0,0)), Point(0,0,1)));
 }
 
+/*TEST(ThreeDimensionsHelperTest, DistanceBetween2LinesCanBeCalculated)
+{
+    EXPECT_EQ(5, getDistance(Line(Point(0,0,0), Point(1,0,0)), Line(Point(0,5,0), Point(1,5,0))));
+}*/
+
 TEST(ThreeDimensionsHelperTest, GetConsineOfAngleUsing2DeltasWorksCorrectly)
 {
-    Coefficients c1(2, 4, 8);
-    Coefficients c2(16, 32, 64);
+    Coefficients c1(2, 4, 8);    Coefficients c2(16, 32, 64);
     EXPECT_EQ(1, getCosineOfAngleUsing2Deltas(c1, c2));
 }
 
@@ -257,6 +261,7 @@ TEST(ThreeDimensionsHelperTest, GetPlaneWithTwoIntersectingLinesWorksCorrectly)
 TEST(ThreeDimensionsHelperTest, GetPerpendicularPlaneWithALineAndAPointWorksCorrectly)
 {
     Plane expectedPlane(getPerpendicularPlaneOfALineAndUsingAPointInThePlane(Line(Point(0,0,0), Point(1,1,1)), Point(1,0,0)));
+
     EXPECT_EQ(1, expectedPlane.getACoefficient());
     EXPECT_EQ(1, expectedPlane.getBCoefficient());
     EXPECT_EQ(1, expectedPlane.getCCoefficient());

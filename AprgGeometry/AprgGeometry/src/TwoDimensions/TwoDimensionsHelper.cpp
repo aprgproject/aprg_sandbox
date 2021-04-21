@@ -87,7 +87,8 @@ double getDistance(Line const& line1, Line const& line2)
 
 double getCosineOfAngleUsing1Delta(double const deltaX1, double const deltaY1)
 {
-    //cos theta = opposite/hypotenuse    double opposite = deltaY1;
+    //cos theta = opposite/hypotenuse
+    double opposite = deltaY1;
     double hypotenuse = getSquareRootOfXSquaredPlusYSquared(deltaX1, deltaY1);
     return opposite/hypotenuse;
 }

@@ -244,7 +244,8 @@ TEST(TwoDimensionsHelperTest, GetTangentLineForCircleIsCorrect)
     EXPECT_DOUBLE_EQ(-INFINITY, expectedLine2.getYIntercept());
     EXPECT_DOUBLE_EQ(4, expectedLine2.getXIntercept());
 
-    EXPECT_EQ(LineType::WithNegativeSlope, expectedLine3.getType());    EXPECT_DOUBLE_EQ(7.2426406871192821, expectedLine3.getYIntercept());
+    EXPECT_EQ(LineType::WithNegativeSlope, expectedLine3.getType());
+    EXPECT_DOUBLE_EQ(7.2426406871192821, expectedLine3.getYIntercept());
     EXPECT_DOUBLE_EQ(7.2426406871192821, expectedLine3.getXIntercept());
     EXPECT_DOUBLE_EQ(-1, expectedLine3.getSlope());
 }
@@ -261,7 +262,8 @@ TEST(TwoDimensionsHelperTest, GetTangentLineForPolynomialIsCorrect)
     EXPECT_DOUBLE_EQ(-INFINITY, expectedLine1.getXIntercept());
     EXPECT_DOUBLE_EQ(0, expectedLine1.getSlope());
 
-    EXPECT_EQ(LineType::WithPositiveSlope, expectedLine2.getType());    EXPECT_DOUBLE_EQ(3, expectedLine2.getYIntercept());
+    EXPECT_EQ(LineType::WithPositiveSlope, expectedLine2.getType());
+    EXPECT_DOUBLE_EQ(3, expectedLine2.getYIntercept());
     EXPECT_DOUBLE_EQ(-1.5, expectedLine2.getXIntercept());
     EXPECT_DOUBLE_EQ(2, expectedLine2.getSlope());
 
