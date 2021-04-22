@@ -10,15 +10,13 @@ using namespace std;
 
 TEST(SoosaTest, SampleTest1)
 {
-    AlbaLocalPathHandler fileToTest(R"(C:\APRG\SOOSA\SOOSA\tst\FilesForTests\TestRotateColored.bmp)");//TestRotateColored TestStraight
-    AlbaLocalPathHandler fileForSoosa(R"(C:\APRG\SOOSA\SOOSA\tst\FilesForTests\TestSoosa.bmp)");
+    AlbaLocalPathHandler fileToTest(APRG_DIR R"(SOOSA\SOOSA\tst\FilesForTests\TestSoosaBasicScenario.bmp)");
+    AlbaLocalPathHandler fileForSoosa(APRG_DIR R"(SOOSA\SOOSA\tst\FilesForTests\TestSoosa.bmp)");
     fileForSoosa.deleteFile();
     fileToTest.copyToNewFile(fileForSoosa.getFullPath());
-
     SoosaConfiguration configuration;
     configuration.setPath(fileForSoosa.getFullPath());
     configuration.setMainParameters("area", "period", 12.345);
-
     configuration.addQuestion(1, "01. Patient Admission - promptness of service");
     configuration.addQuestion(1, "02. Patient Admission - courtesy of admitting clerks");
     configuration.addQuestion(1, "03. Patient Admission - ward policies are well-explained");

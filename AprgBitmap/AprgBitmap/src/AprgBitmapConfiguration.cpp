@@ -11,13 +11,32 @@ namespace alba
 {
 
 AprgBitmapConfiguration::AprgBitmapConfiguration()
+    : m_fileSize(0)
+    , m_pixelArrayAddress(0)
+    , m_sizeOfHeader(0)
+    , m_bitmapWidth(0)
+    , m_bitmapHeight(0)
+    , m_numberOfColorPlanes(0)
+    , m_numberOfBitsPerPixel(8)
+    , m_compressionMethodType(CompressedMethodType::Unknown)
+    , m_imageSize(0)
+    , m_bitmapSize(0)
+    , m_horizontalResolutionPixelInAMeter(0)
+    , m_verticalResolutionPixelInAMeter(0)
+    , m_numberOfColors(0)
+    , m_numberImportantOfColors(0)
+    , m_numberOfBytesForDataInRow(0)
+    , m_paddingForRowMemoryAlignment(0)
+    , m_numberOfBytesPerRowInFile(0)
+    , m_bitMaskForValue(0)
+    , m_path()
+    , m_signature()
+    , m_colors()
 {}
 
-bool AprgBitmapConfiguration::isValid() const
-{
+bool AprgBitmapConfiguration::isValid() const{
     return isSignatureValid() && isHeaderValid() && isNumberOfColorPlanesValid() && isNumberOfBitsPerPixelValid();
 }
-
 bool AprgBitmapConfiguration::isSignatureValid() const
 {
     return (m_signature == "BM");
@@ -98,14 +117,42 @@ unsigned int AprgBitmapConfiguration::getBitMaskForValue() const
     return m_bitMaskForValue;
 }
 
+BitmapXY AprgBitmapConfiguration::getPointWithinTheBitmap(int const xCoordinate, int const yCoordinate) const
+{
+    return BitmapXY(getXCoordinateWithinTheBitmap(xCoordinate), getYCoordinateWithinTheBitmap(yCoordinate));
+}
+
+unsigned int AprgBitmapConfiguration::getXCoordinateWithinTheBitmap(int const coordinate) const
+{
+    return getCoordinateWithinRange(coordinate, m_bitmapWidth);
+}
+
+unsigned int AprgBitmapConfiguration::getYCoordinateWithinTheBitmap(int const coordinate) const
+{
+    return getCoordinateWithinRange(coordinate, m_bitmapHeight);
+}
+
+unsigned int AprgBitmapConfiguration::getCoordinateWithinRange(int const coordinate, int maxLength) const
+{
+    return (coordinate < 0 || maxLength <= 0) ? 0 : (coordinate >= maxLength) ? maxLength-1 : coordinate;
+}
+
+BitmapXY AprgBitmapConfiguration::getUpLeftCornerPoint() const
+{
+    return BitmapXY(0,0);
+}
+
+BitmapXY AprgBitmapConfiguration::getDownRightCornerPoint() const
+{
+    return BitmapXY(m_bitmapWidth-1, m_bitmapHeight-1);
+}
+
 unsigned int AprgBitmapConfiguration::getColorUsingPixelValue(unsigned int pixelValue) const
 {
-    unsigned int color(0);
-    switch(m_numberOfBitsPerPixel)
+    unsigned int color(0);    switch(m_numberOfBitsPerPixel)
     {
     case 1:
-    case 2:
-    case 4:
+    case 2:    case 4:
     case 8:
         if(pixelValue<m_colors.size())
         {

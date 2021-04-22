@@ -15,26 +15,133 @@ AprgBitmapSnippet::AprgBitmapSnippet(BitmapXY const topLeftCornerPosition, Bitma
     : m_topLeftCorner(topLeftCornerPosition)
     , m_bottomRightCorner(bottomRightCornerPosition)
     , m_configuration(configuration)
-{}
-
-AprgBitmapConfiguration AprgBitmapSnippet::getConfiguration() const
 {
-    return m_configuration;
+    loadPixelDataFromFileInConfiguration();
 }
 
-bool AprgBitmapSnippet::isPositionInside(BitmapXY const position) const
+AprgBitmapConfiguration AprgBitmapSnippet::getConfiguration() const
+{    return m_configuration;
+}
+
+bool AprgBitmapSnippet::isPositionInsideTheSnippet(BitmapXY const position) const
 {
     return m_topLeftCorner.getX() <= position.getX() && m_topLeftCorner.getY() <= position.getY() && m_bottomRightCorner.getX() >= position.getX() && m_bottomRightCorner.getY() >= position.getY();
 }
-
 BitmapXY AprgBitmapSnippet::getTopLeftCorner() const
 {
-    return m_topLeftCorner;
-}
+    return m_topLeftCorner;}
 
 BitmapXY AprgBitmapSnippet::getBottomRightCorner() const
 {
     return m_bottomRightCorner;
+}
+
+unsigned int AprgBitmapSnippet::getDeltaX() const
+{
+    return m_bottomRightCorner.getX() - m_topLeftCorner.getX();}
+
+unsigned int AprgBitmapSnippet::getDeltaY() const
+{    return m_bottomRightCorner.getY() - m_topLeftCorner.getY();
+}
+
+unsigned int AprgBitmapSnippet::getNumberOfPixelsInSnippet() const
+{
+    return getDeltaX()*getDeltaY();
+}
+
+unsigned int AprgBitmapSnippet::getPixelDataSize() const
+{
+    return m_pixelData.getSize();
+}
+
+void AprgBitmapSnippet::clear()
+{
+    m_pixelData.clear();
+}
+
+void AprgBitmapSnippet::clearAndPutOneColorOnWholeSnippet(unsigned char const colorByte)
+{
+    clear();
+
+    int byteOffsetInXForStart = (int)m_configuration.convertPixelsToBytesRoundToFloor(m_topLeftCorner.getX());
+    int byteOffsetInXForEnd = (int)m_configuration.convertPixelsToBytesRoundToFloor(m_bottomRightCorner.getX());
+    int numberOfBytesToBeCopiedForX = m_configuration.getOneRowSizeInBytesFromBytes(byteOffsetInXForStart, byteOffsetInXForEnd);
+    int yDifference = m_bottomRightCorner.getY()-m_topLeftCorner.getY()+1;
+    m_pixelData.resize(numberOfBytesToBeCopiedForX*yDifference, colorByte);
+}
+
+void AprgBitmapSnippet::loadPixelDataFromFileInConfiguration()
+{
+    if(m_configuration.isPositionWithinTheBitmap(m_topLeftCorner) && m_configuration.isPositionWithinTheBitmap(m_bottomRightCorner))
+    {
+        ifstream inputStream(m_configuration.getPath(), ios::binary);
+        AlbaFileReader fileReader(inputStream);
+        if(inputStream.is_open())
+        {
+            int byteOffsetInXForStart = (int)m_configuration.convertPixelsToBytesRoundToFloor(m_topLeftCorner.getX());
+            int byteOffsetInXForEnd = (int)m_configuration.convertPixelsToBytesRoundToFloor(m_bottomRightCorner.getX());
+            int offsetInYForStart = m_configuration.getBitmapHeight()-m_topLeftCorner.getY()-1;
+            int offsetInYForEnd = m_configuration.getBitmapHeight()-m_bottomRightCorner.getY()-1;
+            int numberOfBytesToBeCopiedForX = m_configuration.getOneRowSizeInBytesFromBytes(byteOffsetInXForStart, byteOffsetInXForEnd);
+
+            for(int y=offsetInYForStart; y>=offsetInYForEnd; y--)
+            {
+                unsigned long long fileOffsetForStart = m_configuration.getPixelArrayAddress()+((unsigned long long)m_configuration.getNumberOfBytesPerRowInFile()*y)+byteOffsetInXForStart;
+                fileReader.moveLocation(fileOffsetForStart);
+                fileReader.saveDataToMemoryBuffer(m_pixelData, numberOfBytesToBeCopiedForX);
+            }
+        }
+    }
+}
+
+PixelData& AprgBitmapSnippet::getPixelDataReference()
+{
+    return m_pixelData;}
+
+PixelData const& AprgBitmapSnippet::getPixelDataConstReference() const
+{
+    return m_pixelData;}
+
+unsigned int AprgBitmapSnippet::getPixelAt(BitmapXY const position) const
+{
+    unsigned int result(0);
+    if(isPositionInsideTheSnippet(position))
+    {
+        unsigned int index = calculateIndexInPixelData(position);
+        unsigned char const* reader = (unsigned char const*)m_pixelData.getConstantBufferPointer();        if(m_configuration.getNumberOfBitsPerPixel() < AlbaBitConstants::BYTE_SIZE_IN_BITS)
+        {
+            result = getPixelAtForPixelInAByte(reader, index, position);
+        }        else
+        {
+            result = getPixelAtForMultipleBytePixels(reader, index);
+        }
+    }
+    return result;
+}
+
+unsigned int AprgBitmapSnippet::getColorAt(BitmapXY const position) const
+{
+    return m_configuration.getColorUsingPixelValue(getPixelAt(position));
+}
+
+bool AprgBitmapSnippet::isBlackAt(BitmapXY const position) const //this is the only assumption, colors can depend on numberofbits of pixel and color table
+{
+    return (m_configuration.getColorUsingPixelValue(getPixelAt(position))==0x00000000);
+}
+
+void AprgBitmapSnippet::setPixelAt(BitmapXY const position, unsigned int const value)
+{
+    if(isPositionInsideTheSnippet(position))
+    {
+        unsigned int index = calculateIndexInPixelData(position);
+        unsigned char* writer = (unsigned char *)m_pixelData.getConstantBufferPointer();        if(m_configuration.getNumberOfBitsPerPixel() < AlbaBitConstants::BYTE_SIZE_IN_BITS)
+        {
+            setPixelAtForPixelInAByte(writer, index, position, value);
+        }        else
+        {
+            setPixelAtForMultipleBytePixels(writer, index, value);
+        }
+    }
 }
 
 void AprgBitmapSnippet::traverse(TraverseFunction const& traverseFunction) const
@@ -63,95 +170,12 @@ void AprgBitmapSnippet::traverseAndUpdate(TraverseAndUpdateFunction const& trave
     }
 }
 
-unsigned int AprgBitmapSnippet::getDeltaX() const
-{
-    return m_bottomRightCorner.getX() - m_topLeftCorner.getX();
-}
-
-unsigned int AprgBitmapSnippet::getDeltaY() const
-{
-    return m_bottomRightCorner.getY() - m_topLeftCorner.getY();
-}
-
-unsigned int AprgBitmapSnippet::getNumberOfPixelsInSnippet() const
-{
-    return getDeltaX()*getDeltaY();
-}
-
-unsigned int AprgBitmapSnippet::getPixelDataSize() const
-{
-    return m_pixelData.getSize();
-}
-
-void AprgBitmapSnippet::clear()
-{
-    m_pixelData.clear();
-}
-
-PixelData& AprgBitmapSnippet::getPixelDataReference()
-{
-    return m_pixelData;
-}
-
-PixelData const& AprgBitmapSnippet::getPixelDataConstReference() const
-{
-    return m_pixelData;
-}
-
-unsigned int AprgBitmapSnippet::getPixelAt(BitmapXY const position) const
-{
-    unsigned int result(0);
-    if(isPositionInside(position))
-    {
-        unsigned int index = calculateIndexInPixelData(position);
-        unsigned char const* reader = (unsigned char const*)m_pixelData.getConstantBufferPointer();
-        if(m_configuration.getNumberOfBitsPerPixel() < AlbaBitConstants::BYTE_SIZE_IN_BITS)
-        {
-            result = getPixelAtForPixelInAByte(reader, index, position);
-        }
-        else
-        {
-            result = getPixelAtForMultipleBytePixels(reader, index);
-        }
-    }
-    return result;
-}
-
-unsigned int AprgBitmapSnippet::getColorAt(BitmapXY const position) const
-{
-    return m_configuration.getColorUsingPixelValue(getPixelAt(position));
-}
-
-bool AprgBitmapSnippet::isBlackAt(BitmapXY const position) const //this is the only assumption, colors can depend on numberofbits of pixel and color table
-{
-    return (m_configuration.getColorUsingPixelValue(getPixelAt(position))==0x00000000);
-}
-
-void AprgBitmapSnippet::setPixelAt(BitmapXY const position, unsigned int const value)
-{
-    if(isPositionInside(position))
-    {
-        unsigned int index = calculateIndexInPixelData(position);
-        unsigned char* writer = (unsigned char *)m_pixelData.getConstantBufferPointer();
-        if(m_configuration.getNumberOfBitsPerPixel() < AlbaBitConstants::BYTE_SIZE_IN_BITS)
-        {
-            setPixelAtForPixelInAByte(writer, index, position, value);
-        }
-        else
-        {
-            setPixelAtForMultipleBytePixels(writer, index, value);
-        }
-    }
-}
-
 unsigned int AprgBitmapSnippet::calculateShiftValue(BitmapXY const position) const
 {
-    unsigned int numberOfPixelsInOneByte = m_configuration.getNumberOfPixelsForOneByte();
-    unsigned int numberOfBitsPerPixel = m_configuration.getNumberOfBitsPerPixel();
+    unsigned int numberOfPixelsInOneByte = m_configuration.getNumberOfPixelsForOneByte();    unsigned int numberOfBitsPerPixel = m_configuration.getNumberOfBitsPerPixel();
     unsigned int positionRemainder = position.getX()%numberOfPixelsInOneByte;
     unsigned int loopAround = numberOfPixelsInOneByte-positionRemainder-1;
-    return numberOfBitsPerPixel*loopAround;
-}
+    return numberOfBitsPerPixel*loopAround;}
 
 unsigned int AprgBitmapSnippet::calculateIndexInPixelData(BitmapXY const position) const
 {

@@ -28,43 +28,28 @@ public:
 
     typedef std::vector<std::vector<T> > AudioBuffer;
 
-    /** Constructor */
     AprgAudio();
 
-    /** Loads an audio file from a given file path.
-     * @Returns true if the file was successfully loaded
-     */
     bool load (std::string filePath);
 
-    /** Saves an audio file to a given file path.
-     * @Returns true if the file was successfully saved
-     */
     bool save (std::string filePath, AprgAudioFormat format = AprgAudioFormat::Wave);
 
-    /** @Returns the sample rate */
-    uint32_t getSampleRate() const;
+    unsigned int getSampleRate() const;
 
-    /** @Returns the number of audio channels in the buffer */
     int getNumChannels() const;
 
-    /** @Returns true if the audio file is mono */
     bool isMono() const;
 
-    /** @Returns true if the audio file is stereo */
     bool isStereo() const;
 
-    /** @Returns the bit depth of each sample */
     int getBitDepth() const;
 
-    /** @Returns the number of samples per channel */
     int getNumSamplesPerChannel() const;
 
-    /** @Returns the length in seconds of the audio file based on the number of samples and sample rate */
-    double getLengthInSeconds() const;
+    /** @Returns the length in seconds of the audio file based on the number of samples and sample rate */    double getLengthInSeconds() const;
 
     /** Prints a summary of the audio file to the console */
     void printSummary() const;
-
 
     /** Set the audio buffer for this AprgAudio by copying samples from another buffer.
      * @Returns true if the buffer was copied successfully.
@@ -88,15 +73,13 @@ public:
     void setBitDepth (int numBitsPerSample);
 
     /** Sets the sample rate for the audio file. If you use the save() function, this sample rate will be used */
-    void setSampleRate (uint32_t newSampleRate);
+    void setSampleRate (unsigned int newSampleRate);
 
     /** A vector of vectors holding the audio samples for the AprgAudio. You can
-     * access the samples by channel and then by sample index, i.e:
-     *
+     * access the samples by channel and then by sample index, i.e:     *
      *      samples[channel][sampleIndex]
      */
     AudioBuffer samples;
-
 private:
 
     enum class Endianness
@@ -105,39 +88,37 @@ private:
         BigEndian
     };
 
-    AprgAudioFormat determineAprgAudioFormat (std::vector<uint8_t>& fileData);
-    bool decodeWaveFile (std::vector<uint8_t>& fileData);
-    bool decodeAiffFile (std::vector<uint8_t>& fileData);
+    AprgAudioFormat determineAprgAudioFormat (std::vector<unsigned char>& fileData);
+    bool decodeWaveFile (std::vector<unsigned char>& fileData);
+    bool decodeAiffFile (std::vector<unsigned char>& fileData);
 
     bool saveToWaveFile (std::string filePath);
     bool saveToAiffFile (std::string filePath);
-
     void clearAudioBuffer();
 
-    int32_t fourBytesToInt (std::vector<uint8_t>& source, int startIndex, Endianness endianness = Endianness::LittleEndian);
-    int16_t twoBytesToInt (std::vector<uint8_t>& source, int startIndex, Endianness endianness = Endianness::LittleEndian);
-    int getIndexOfString (std::vector<uint8_t>& source, std::string s);
+    int32_t fourBytesToInt (std::vector<unsigned char>& source, int startIndex, Endianness endianness = Endianness::LittleEndian);
+    int16_t twoBytesToInt (std::vector<unsigned char>& source, int startIndex, Endianness endianness = Endianness::LittleEndian);
+    int getIndexOfString (std::vector<unsigned char>& source, std::string s);
 
     T sixteenBitIntToSample (int16_t sample);
     int16_t sampleToSixteenBitInt (T sample);
 
-    uint8_t sampleToSingleByte (T sample);
-    T singleByteToSample (uint8_t sample);
+    unsigned char sampleToSingleByte (T sample);
+    T singleByteToSample (unsigned char sample);
 
-    uint32_t getAiffSampleRate (std::vector<uint8_t>& fileData, int sampleRateStartIndex);
-    bool tenByteMatch (std::vector<uint8_t>& v1, int startIndex1, std::vector<uint8_t>& v2, int startIndex2);
-    void addSampleRateToAiffData (std::vector<uint8_t>& fileData, uint32_t sampleRate);
+    unsigned int getAiffSampleRate (std::vector<unsigned char>& fileData, int sampleRateStartIndex);
+    bool tenByteMatch (std::vector<unsigned char>& v1, int startIndex1, std::vector<unsigned char>& v2, int startIndex2);
+    void addSampleRateToAiffData (std::vector<unsigned char>& fileData, unsigned int sampleRate);
     T clamp (T v1, T minValue, T maxValue);
 
-    void addStringToFileData (std::vector<uint8_t>& fileData, std::string s);
-    void addInt32ToFileData (std::vector<uint8_t>& fileData, int32_t i, Endianness endianness = Endianness::LittleEndian);
-    void addInt16ToFileData (std::vector<uint8_t>& fileData, int16_t i, Endianness endianness = Endianness::LittleEndian);
+    void addStringToFileData (std::vector<unsigned char>& fileData, std::string s);
+    void addInt32ToFileData (std::vector<unsigned char>& fileData, int32_t i, Endianness endianness = Endianness::LittleEndian);
+    void addInt16ToFileData (std::vector<unsigned char>& fileData, int16_t i, Endianness endianness = Endianness::LittleEndian);
 
-    bool writeDataToFile (std::vector<uint8_t>& fileData, std::string filePath);
+    bool writeDataToFile (std::vector<unsigned char>& fileData, std::string filePath);
 
     AprgAudioFormat audioFileFormat;
-    uint32_t sampleRate;
+    unsigned int sampleRate;
     int bitDepth;
 };
-
 }
