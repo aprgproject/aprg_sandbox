@@ -2,8 +2,6 @@
 
 #include <gtest/gtest.h>
 
-#include <iostream>
-
 using namespace std;
 using namespace alba::dateTimeHelper;
 

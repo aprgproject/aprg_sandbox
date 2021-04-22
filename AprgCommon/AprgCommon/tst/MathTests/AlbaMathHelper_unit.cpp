@@ -2,8 +2,6 @@
 
 #include <gtest/gtest.h>
 
-#include <iostream>
-
 using namespace alba::mathHelper;
 using namespace std;
 

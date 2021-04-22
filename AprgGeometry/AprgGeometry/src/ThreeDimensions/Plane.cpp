@@ -20,9 +20,6 @@ Plane::Plane()
     , m_bCoefficient(0)
     , m_cCoefficient(0)
     , m_dCoefficient(0)
-    , m_xIntercept()
-    , m_yIntercept()
-    , m_zIntercept()
 {}
 
 Plane::Plane(Point const& first, Point const& second, Point const& third)
@@ -30,9 +27,6 @@ Plane::Plane(Point const& first, Point const& second, Point const& third)
     , m_bCoefficient(0)
     , m_cCoefficient(0)
     , m_dCoefficient(0)
-    , m_xIntercept()
-    , m_yIntercept()
-    , m_zIntercept()
 {
     Coefficients perpendicularCoefficients(
                 getCrossProduct(
@@ -42,7 +36,6 @@ Plane::Plane(Point const& first, Point const& second, Point const& third)
     m_bCoefficient = perpendicularCoefficients.getY();
     m_cCoefficient = perpendicularCoefficients.getZ();
     calculateDCoefficientUsingCoefficientsABCAndAPoint(first);
-    setXYZIntercepts();
 }
 
 Plane::Plane(
@@ -54,26 +47,27 @@ Plane::Plane(
     , m_bCoefficient(bCoefficient)
     , m_cCoefficient(cCoefficient)
     , m_dCoefficient(0)
-    , m_xIntercept()
-    , m_yIntercept()
-    , m_zIntercept()
 {
     calculateDCoefficientUsingCoefficientsABCAndAPoint(pointInPlane);
-    setXYZIntercepts();
 }
+
+Plane::Plane(
+        double const aCoefficient,
+        double const bCoefficient,
+        double const cCoefficient,
+        double const dCoefficient)
+    : m_aCoefficient(aCoefficient)
+    , m_bCoefficient(bCoefficient)
+    , m_cCoefficient(cCoefficient)
+    , m_dCoefficient(dCoefficient)
+{}
 
 bool Plane::operator==(Plane const& plane) const
 {
     return isAlmostEqual(m_aCoefficient, plane.m_aCoefficient)
             && isAlmostEqual(m_bCoefficient, plane.m_bCoefficient)
             && isAlmostEqual(m_cCoefficient, plane.m_cCoefficient)
-            && isAlmostEqual(m_dCoefficient, plane.m_dCoefficient)
-            && (static_cast<bool>(m_xIntercept) == static_cast<bool>(plane.m_xIntercept))
-            && isAlmostEqual(m_xIntercept.getConstReference(), plane.m_xIntercept.getConstReference())
-            && (static_cast<bool>(m_yIntercept) == static_cast<bool>(plane.m_yIntercept))
-            && isAlmostEqual(m_yIntercept.getConstReference(), plane.m_yIntercept.getConstReference())
-            && (static_cast<bool>(m_zIntercept) == static_cast<bool>(plane.m_zIntercept))
-            && isAlmostEqual(m_zIntercept.getConstReference(), plane.m_zIntercept.getConstReference());
+            && isAlmostEqual(m_dCoefficient, plane.m_dCoefficient);
 }
 
 bool Plane::operator!=(Plane const& plane) const
@@ -103,17 +97,32 @@ double Plane::getDCoefficient() const
 
 AlbaOptional<double> Plane::getXIntercept() const
 {
-    return m_xIntercept;
+    AlbaOptional<double> xIntercept;
+    if(!isAlmostEqual(m_aCoefficient, 0.0))
+    {
+        xIntercept.setValue(-m_dCoefficient/m_aCoefficient);
+    }
+    return xIntercept;
 }
 
 AlbaOptional<double> Plane::getYIntercept() const
 {
-    return m_yIntercept;
+    AlbaOptional<double> yIntercept;
+    if(!isAlmostEqual(m_bCoefficient, 0.0))
+    {
+        yIntercept.setValue(-m_dCoefficient/m_bCoefficient);
+    }
+    return yIntercept;
 }
 
 AlbaOptional<double> Plane::getZIntercept() const
 {
-    return m_zIntercept;
+    AlbaOptional<double> zIntercept;
+    if(!isAlmostEqual(m_cCoefficient, 0.0))
+    {
+        zIntercept.setValue(-m_dCoefficient/m_cCoefficient);
+    }
+    return zIntercept;
 }
 
 AlbaOptional<double> Plane::calculateXFromYAndZ(double const y, double const z) const
@@ -156,22 +165,6 @@ string Plane::getDisplayableString() const
 void Plane::calculateDCoefficientUsingCoefficientsABCAndAPoint(Point const& first)
 {
     m_dCoefficient = -(m_aCoefficient*first.getX())-(m_bCoefficient*first.getY())-(m_cCoefficient*first.getZ());
-}
-
-void Plane::setXYZIntercepts()
-{
-    if(!isAlmostEqual(m_aCoefficient, 0.0))
-    {
-        m_xIntercept.setValue(-m_dCoefficient/m_aCoefficient);
-    }
-    if(!isAlmostEqual(m_bCoefficient, 0.0))
-    {
-        m_yIntercept.setValue(-m_dCoefficient/m_bCoefficient);
-    }
-    if(!isAlmostEqual(m_cCoefficient, 0.0))
-    {
-        m_zIntercept.setValue(-m_dCoefficient/m_cCoefficient);
-    }
 }
 
 

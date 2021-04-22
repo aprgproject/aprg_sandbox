@@ -132,6 +132,12 @@ TEST(ThreeDimensionsHelperTest, LineCanBeCheckedIfItsParallel)
     EXPECT_FALSE(areLinesParallel(Line(Point(0,0,0), Point(1,1,1)), Line(Point(5,0,0), Point(6,1,7))));
 }
 
+TEST(ThreeDimensionsHelperTest, PlaneCanBeCheckedIfItsParallel)
+{
+    EXPECT_TRUE(arePlanesParallel(Plane(Point(1,1,5), Point(-1,1,5), Point(-1,-1,5)), Plane(Point(1,1,20), Point(-1,1,20), Point(-1,-1,20))));
+    EXPECT_FALSE(arePlanesParallel(Plane(Point(1,1,5), Point(-1,1,5), Point(-1,-1,20)), Plane(Point(1,1,20), Point(-1,1,20), Point(-1,-1,20))));
+}
+
 TEST(ThreeDimensionsHelperTest, DistanceBetween2PointsCanBeCalculated)
 {
     EXPECT_EQ(pow(3, 0.5), getDistance(Point(0,0,0), Point(1,1,1)));
@@ -142,14 +148,21 @@ TEST(ThreeDimensionsHelperTest, DistanceBetweenPointAndLineCanBeCalculated)
     EXPECT_EQ(1, getDistance(Line(Point(0,0,0), Point(1,0,0)), Point(0,0,1)));
 }
 
-/*TEST(ThreeDimensionsHelperTest, DistanceBetween2LinesCanBeCalculated)
+TEST(ThreeDimensionsHelperTest, DistanceBetween2LinesCanBeCalculated)
 {
     EXPECT_EQ(5, getDistance(Line(Point(0,0,0), Point(1,0,0)), Line(Point(0,5,0), Point(1,5,0))));
-}*/
+    EXPECT_EQ(8, getDistance(Line(Point(0,0,2), Point(1,1,2)), Line(Point(0,0,10), Point(-1,-1,10))));
+}
+
+TEST(ThreeDimensionsHelperTest, DistanceBetween2PlanesCanBeCalculated)
+{
+    EXPECT_EQ(15, getDistance(Plane(Point(1,1,5), Point(-1,1,5), Point(-1,-1,5)), Plane(Point(1,1,20), Point(-1,1,20), Point(-1,-1,20))));
+}
 
 TEST(ThreeDimensionsHelperTest, GetConsineOfAngleUsing2DeltasWorksCorrectly)
 {
-    Coefficients c1(2, 4, 8);    Coefficients c2(16, 32, 64);
+    Coefficients c1(2, 4, 8);
+    Coefficients c2(16, 32, 64);
     EXPECT_EQ(1, getCosineOfAngleUsing2Deltas(c1, c2));
 }
 
