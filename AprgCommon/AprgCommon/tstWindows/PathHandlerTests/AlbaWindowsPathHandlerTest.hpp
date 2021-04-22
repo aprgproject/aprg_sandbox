@@ -10,7 +10,7 @@ struct AlbaWindowsPathHandlerTest : public testing::Test
     AlbaWindowsPathHandlerTest();
     std::string convertToSimplestPath(std::string const& path);
     std::string getDriveOfAprgDir();
-    std::string driveOfAprgDir;
+    std::string pathOfAprgDirectory;
 };
 
 }
