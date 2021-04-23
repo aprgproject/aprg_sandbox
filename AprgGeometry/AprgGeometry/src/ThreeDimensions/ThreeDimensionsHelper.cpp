@@ -379,10 +379,17 @@ Plane getPlaneWithTwoIntersectingLines(Line const& line1, Line const& line2)
     return Plane(pointOfIntersection, pointInLine1, pointInLine2);
 }
 
+Plane getPlaneOfTwoDifferentLinesWithSameSlope(Line const& line1, Line const& line2)
+{
+    Point pointInLine1(line1.getXInitialValue(), line1.getYInitialValue(), line1.getZInitialValue());
+    Point secondPointInLine1(pointInLine1+Point(line1.getACoefficient(), line1.getBCoefficient(), line1.getCCoefficient()));
+    Point pointInLine2(line2.getXInitialValue(), line2.getYInitialValue(), line2.getZInitialValue());
+    return Plane(pointInLine1, secondPointInLine1, pointInLine2);
+}
+
 Plane getPerpendicularPlaneOfALineAndUsingAPointInThePlane(Line const& line, Point const& pointInPerpendicularPlane)
 {
-    return Plane(line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient(), pointInPerpendicularPlane);
-}
+    return Plane(line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient(), pointInPerpendicularPlane);}
 
 }
 }

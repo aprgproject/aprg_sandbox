@@ -54,10 +54,10 @@ Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2);
 
 Plane getPlaneWithContainsALineAndAPoint(Line const& line, Point const& point);
 Plane getPlaneWithTwoIntersectingLines(Line const& line1, Line const& line2);
+Plane getPlaneOfTwoDifferentLinesWithSameSlope(Line const& line1, Line const& line2);
 Plane getPerpendicularPlaneOfALineAndUsingAPointInThePlane(Line const& line, Point const& pointInPerpendicularPlane);
 
 }
-
 }
 
 }
