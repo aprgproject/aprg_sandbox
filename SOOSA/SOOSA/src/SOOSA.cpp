@@ -29,10 +29,12 @@
 using namespace alba::TwoDimensions;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 SOOSA::FrequencyDatabase::FrequencyDatabase(unsigned int numberOfQuestions)
-    : m_numberOfQuestions(numberOfQuestions){
+    : m_numberOfQuestions(numberOfQuestions)
+{
     clear();
 }
 
@@ -331,9 +333,11 @@ void SOOSA::processFile(string const& filePath)
     edgePoints[1][2] = twoDimensionsHelper::getIntersectionOfTwoLines(rightLine, bottomLine);
     edgePoints[0][1] = twoDimensionsHelper::getMidpoint(edgePoints[0][0], edgePoints[0][2]);
     edgePoints[1][1] = twoDimensionsHelper::getMidpoint(edgePoints[1][0], edgePoints[1][2]);
+
     if(m_configuration.getNumberOfColumns()==2)
     {
-        cout<<"Number of columns = 2"<<endl;        Line centerLine(edgePoints[0][1], edgePoints[1][1]);
+        cout<<"Number of columns = 2"<<endl;
+        Line centerLine(edgePoints[0][1], edgePoints[1][1]);
         centerLeftLine = findRightLineUsingStartingLine(globalSnippet, centerLine);
         centerRightLine = findLeftLineUsingStartingLine(globalSnippet, centerLine);
         processColumn(globalSnippet, leftLine, centerLeftLine, 1);
@@ -450,10 +454,12 @@ Line SOOSA::findRightLineUsingStartingLine(AprgBitmapSnippet const& snippet, Lin
 Line SOOSA::findVerticalLineUsingStartingLine(AprgBitmapSnippet const& snippet, Line const& startingLine, RangeOfInts const& rangeForX) const
 {
     RangeOfInts::TerminationCondition conditionForX(rangeForX.getTerminationCondition());
-    TwoDimensionsStatistics::Samples samples;    for(unsigned int y=snippet.getTopLeftCorner().getY(); y<=snippet.getBottomRightCorner().getY(); y++)
+    TwoDimensionsStatistics::Samples samples;
+    for(unsigned int y=snippet.getTopLeftCorner().getY(); y<=snippet.getBottomRightCorner().getY(); y++)
     {
         AlbaRange<double> consecutiveBlackPixels;
-        double xInLine = round(startingLine.calculateXFromY(y));        for(int x=(int)xInLine; conditionForX(x, rangeForX.getEndValue()); x+=rangeForX.getInterval())
+        double xInLine = round(startingLine.calculateXFromY(y));
+        for(int x=(int)xInLine; conditionForX(x, rangeForX.getEndValue()); x+=rangeForX.getInterval())
         {
             if(snippet.isBlackAt(BitmapXY(x, y)))
             {

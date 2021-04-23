@@ -20,16 +20,19 @@ AprgBitmapSnippet::AprgBitmapSnippet(BitmapXY const topLeftCornerPosition, Bitma
 }
 
 AprgBitmapConfiguration AprgBitmapSnippet::getConfiguration() const
-{    return m_configuration;
+{
+    return m_configuration;
 }
 
 bool AprgBitmapSnippet::isPositionInsideTheSnippet(BitmapXY const position) const
 {
     return m_topLeftCorner.getX() <= position.getX() && m_topLeftCorner.getY() <= position.getY() && m_bottomRightCorner.getX() >= position.getX() && m_bottomRightCorner.getY() >= position.getY();
 }
+
 BitmapXY AprgBitmapSnippet::getTopLeftCorner() const
 {
-    return m_topLeftCorner;}
+    return m_topLeftCorner;
+}
 
 BitmapXY AprgBitmapSnippet::getBottomRightCorner() const
 {
@@ -38,10 +41,12 @@ BitmapXY AprgBitmapSnippet::getBottomRightCorner() const
 
 unsigned int AprgBitmapSnippet::getDeltaX() const
 {
-    return m_bottomRightCorner.getX() - m_topLeftCorner.getX();}
+    return m_bottomRightCorner.getX() - m_topLeftCorner.getX();
+}
 
 unsigned int AprgBitmapSnippet::getDeltaY() const
-{    return m_bottomRightCorner.getY() - m_topLeftCorner.getY();
+{
+    return m_bottomRightCorner.getY() - m_topLeftCorner.getY();
 }
 
 unsigned int AprgBitmapSnippet::getNumberOfPixelsInSnippet() const
@@ -96,11 +101,13 @@ void AprgBitmapSnippet::loadPixelDataFromFileInConfiguration()
 
 PixelData& AprgBitmapSnippet::getPixelDataReference()
 {
-    return m_pixelData;}
+    return m_pixelData;
+}
 
 PixelData const& AprgBitmapSnippet::getPixelDataConstReference() const
 {
-    return m_pixelData;}
+    return m_pixelData;
+}
 
 unsigned int AprgBitmapSnippet::getPixelAt(BitmapXY const position) const
 {
@@ -108,10 +115,12 @@ unsigned int AprgBitmapSnippet::getPixelAt(BitmapXY const position) const
     if(isPositionInsideTheSnippet(position))
     {
         unsigned int index = calculateIndexInPixelData(position);
-        unsigned char const* reader = (unsigned char const*)m_pixelData.getConstantBufferPointer();        if(m_configuration.getNumberOfBitsPerPixel() < AlbaBitConstants::BYTE_SIZE_IN_BITS)
+        unsigned char const* reader = (unsigned char const*)m_pixelData.getConstantBufferPointer();
+        if(m_configuration.getNumberOfBitsPerPixel() < AlbaBitConstants::BYTE_SIZE_IN_BITS)
         {
             result = getPixelAtForPixelInAByte(reader, index, position);
-        }        else
+        }
+        else
         {
             result = getPixelAtForMultipleBytePixels(reader, index);
         }
@@ -134,10 +143,12 @@ void AprgBitmapSnippet::setPixelAt(BitmapXY const position, unsigned int const v
     if(isPositionInsideTheSnippet(position))
     {
         unsigned int index = calculateIndexInPixelData(position);
-        unsigned char* writer = (unsigned char *)m_pixelData.getConstantBufferPointer();        if(m_configuration.getNumberOfBitsPerPixel() < AlbaBitConstants::BYTE_SIZE_IN_BITS)
+        unsigned char* writer = (unsigned char *)m_pixelData.getConstantBufferPointer();
+        if(m_configuration.getNumberOfBitsPerPixel() < AlbaBitConstants::BYTE_SIZE_IN_BITS)
         {
             setPixelAtForPixelInAByte(writer, index, position, value);
-        }        else
+        }
+        else
         {
             setPixelAtForMultipleBytePixels(writer, index, value);
         }
@@ -172,10 +183,12 @@ void AprgBitmapSnippet::traverseAndUpdate(TraverseAndUpdateFunction const& trave
 
 unsigned int AprgBitmapSnippet::calculateShiftValue(BitmapXY const position) const
 {
-    unsigned int numberOfPixelsInOneByte = m_configuration.getNumberOfPixelsForOneByte();    unsigned int numberOfBitsPerPixel = m_configuration.getNumberOfBitsPerPixel();
+    unsigned int numberOfPixelsInOneByte = m_configuration.getNumberOfPixelsForOneByte();
+    unsigned int numberOfBitsPerPixel = m_configuration.getNumberOfBitsPerPixel();
     unsigned int positionRemainder = position.getX()%numberOfPixelsInOneByte;
     unsigned int loopAround = numberOfPixelsInOneByte-positionRemainder-1;
-    return numberOfBitsPerPixel*loopAround;}
+    return numberOfBitsPerPixel*loopAround;
+}
 
 unsigned int AprgBitmapSnippet::calculateIndexInPixelData(BitmapXY const position) const
 {

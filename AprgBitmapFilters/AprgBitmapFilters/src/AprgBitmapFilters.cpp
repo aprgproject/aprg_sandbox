@@ -7,6 +7,7 @@
 
 using namespace alba::TwoDimensions;
 using namespace std;
+
 namespace alba
 {
 
@@ -17,10 +18,12 @@ AprgBitmapFilters::AprgBitmapFilters(string const& path)
     , m_outputCanvas(m_bitmap.createColorFilledSnippetWithSizeOfWholeBitmap(m_backgroundColorByte))
 {}
 
-bool AprgBitmapFilters::isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) const //RGB algo{
+bool AprgBitmapFilters::isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) const //RGB algo
+{
     bool isRedDifferenceBeyondLimit(mathHelper::getAbsoluteValue<int>((int)getRed(color1)-(int)getRed(color2))>(int)similarityColorLimit);
     bool isGreenDifferenceBeyondLimit(mathHelper::getAbsoluteValue<int>((int)getGreen(color1)-(int)getGreen(color2))>(int)similarityColorLimit);
-    bool isBlueDifferenceBeyondLimit(mathHelper::getAbsoluteValue<int>((int)getBlue(color1)-(int)getBlue(color2))>(int)similarityColorLimit);    return  !(isRedDifferenceBeyondLimit || isGreenDifferenceBeyondLimit || isBlueDifferenceBeyondLimit);
+    bool isBlueDifferenceBeyondLimit(mathHelper::getAbsoluteValue<int>((int)getBlue(color1)-(int)getBlue(color2))>(int)similarityColorLimit);
+    return  !(isRedDifferenceBeyondLimit || isGreenDifferenceBeyondLimit || isBlueDifferenceBeyondLimit);
 }
 
 /*
@@ -44,10 +47,12 @@ void AprgBitmapFilters::findPenPixel(double const penSearchRadius, unsigned int 
             if(m_inputCanvas.isPositionInsideTheSnippet(pointInCircle))
             {
                 unsigned int const currentColor(m_inputCanvas.getColorAt(pointInCircle));
-                if(isSimilar(centerColor, currentColor, similarityColorLimit))                {
+                if(isSimilar(centerColor, currentColor, similarityColorLimit))
+                {
                     bitmapPointsWithSimilarColors.emplace_back(pointInCircle);
                 }
-                else                {
+                else
+                {
                     bitmapPointsWithDisimilarColors.emplace_back(pointInCircle);
                 }
             }
@@ -76,14 +81,16 @@ void AprgBitmapFilters::setBlurredNonPenPixelsToOutputCanvas(double const blurRa
                 return isSimilar(centerColor, currentColor, similarityColorLimit) && currentColor!=m_backgroundColorByte && pointInCirclePixelInformation.type != PixelType::Pen;
             }));
         }
-    });}
+    });
+}
 
 void AprgBitmapFilters::setBlankGapsUsingBlurToOutputCanvas(double const blurRadius)
 {
     AprgBitmapSnippet canvas1(m_bitmap.createColorFilledSnippetWithSizeOfWholeBitmap(m_backgroundColorByte));
     m_inputCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
     {
-        canvas1.setPixelAt(bitmapPoint, color);    });
+        canvas1.setPixelAt(bitmapPoint, color);
+    });
 
     unsigned int numberOfPixelsWithChangedColor(1);
     while(numberOfPixelsWithChangedColor!=0)
@@ -102,10 +109,12 @@ void AprgBitmapFilters::setBlankGapsUsingBlurToOutputCanvas(double const blurRad
                 if(m_backgroundColorByte != newColor)
                 {
                     numberOfPixelsWithChangedColor++;
-                }            }
+                }
+            }
             canvas2.setPixelAt(bitmapPoint, newColor);
         });
-        canvas1=canvas2;    }
+        canvas1=canvas2;
+    }
     m_outputCanvas=canvas1;
 }
 
@@ -138,9 +147,11 @@ void AprgBitmapFilters::clearOutputCanvas()
     m_outputCanvas = m_bitmap.createColorFilledSnippetWithSizeOfWholeBitmap(m_backgroundColorByte);
 }
 
-void AprgBitmapFilters::copyOutputCanvasToInputCanvas(){
+void AprgBitmapFilters::copyOutputCanvasToInputCanvas()
+{
     m_inputCanvas = m_outputCanvas;
 }
+
 void AprgBitmapFilters::saveOutputCanvasToBitmapFile()
 {
     m_bitmap.setSnippetWriteToFile(m_outputCanvas);
@@ -151,10 +162,12 @@ void AprgBitmapFilters::setBackgroundColor(unsigned int const backgroundColor)
     m_backgroundColorByte = backgroundColor;
 }
 
-unsigned int AprgBitmapFilters::getBlurredColor(AprgBitmapSnippet const& canvas, BitmapXY const& centerXY, double const blurRadius, BlurCondition const& isIncludedInBlur) const{
+unsigned int AprgBitmapFilters::getBlurredColor(AprgBitmapSnippet const& canvas, BitmapXY const& centerXY, double const blurRadius, BlurCondition const& isIncludedInBlur) const
+{
     unsigned int const centerColor(canvas.getColorAt(centerXY));
     double totalBlurredColorRed(0);
-    double totalBlurredColorGreen(0);    double totalBlurredColorBlue(0);
+    double totalBlurredColorGreen(0);
+    double totalBlurredColorBlue(0);
     double totalBlurWeight(0);
     bool isChanged(false);
     Circle circle(convertBitmapXYToPoint(centerXY), blurRadius);
@@ -164,10 +177,12 @@ unsigned int AprgBitmapFilters::getBlurredColor(AprgBitmapSnippet const& canvas,
         if(canvas.isPositionInsideTheSnippet(pointInCircle))
         {
             unsigned int const currentColor(canvas.getColorAt(pointInCircle));
-            if(isIncludedInBlur(centerColor, currentColor, pointInCircle))            {
+            if(isIncludedInBlur(centerColor, currentColor, pointInCircle))
+            {
                 isChanged=true;
                 double distanceFromCenter(twoDimensionsHelper::getDistance(convertBitmapXYToPoint(centerXY), convertBitmapXYToPoint(pointInCircle)));
-                double blurWeight(getBlurWeight(distanceFromCenter, blurRadius));                totalBlurredColorRed+=blurWeight*getRed(currentColor);
+                double blurWeight(getBlurWeight(distanceFromCenter, blurRadius));
+                totalBlurredColorRed+=blurWeight*getRed(currentColor);
                 totalBlurredColorGreen+=blurWeight*getGreen(currentColor);
                 totalBlurredColorBlue+=blurWeight*getBlue(currentColor);
                 totalBlurWeight+=blurWeight;
@@ -177,9 +192,11 @@ unsigned int AprgBitmapFilters::getBlurredColor(AprgBitmapSnippet const& canvas,
     unsigned int blurredColor(m_backgroundColorByte);
     if(isChanged)
     {
-        blurredColor = AlbaBitManipulation<unsigned int>::concatenateBytes((unsigned char)(totalBlurredColorRed/totalBlurWeight), (unsigned char)(totalBlurredColorGreen/totalBlurWeight), (unsigned char)(totalBlurredColorBlue/totalBlurWeight));    }
+        blurredColor = AlbaBitManipulation<unsigned int>::concatenateBytes((unsigned char)(totalBlurredColorRed/totalBlurWeight), (unsigned char)(totalBlurredColorGreen/totalBlurWeight), (unsigned char)(totalBlurredColorBlue/totalBlurWeight));
+    }
     return blurredColor;
 }
+
 double AprgBitmapFilters::getBlurWeight(double const distanceFromCenter, double const blurRadius) const
 {
     return (blurRadius-distanceFromCenter+1)/(blurRadius+1);

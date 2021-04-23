@@ -11,7 +11,8 @@ AlbaWindowsPathHandlerTest::AlbaWindowsPathHandlerTest()
     : pathOfAprgDirectory(APRG_DIR)
 {}
 
-string AlbaWindowsPathHandlerTest::convertToSimplestPath(string const& path){
+string AlbaWindowsPathHandlerTest::convertToSimplestPath(string const& path)
+{
     return stringHelper::getCorrectPathWithoutDoublePeriod<'\\'>(stringHelper::getCorrectPathWithReplacedSlashCharacters<'\\'>(path));
 }
 

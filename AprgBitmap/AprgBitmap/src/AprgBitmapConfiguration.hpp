@@ -38,7 +38,8 @@ public:
 
     CompressedMethodType getCompressedMethodType() const;
     std::string getPath() const;
-    unsigned int getPixelArrayAddress() const;    unsigned int getBitmapWidth() const;
+    unsigned int getPixelArrayAddress() const;
+    unsigned int getBitmapWidth() const;
     unsigned int getBitmapHeight() const;
     unsigned int getNumberOfBitsPerPixel() const;
     unsigned int getNumberOfBytesPerRowInFile() const;
@@ -53,10 +54,12 @@ public:
 
     unsigned int getColorUsingPixelValue(unsigned int pixelValue) const;
     unsigned int convertPixelsToBytesRoundToFloor(unsigned int pixels) const;
-    unsigned int convertPixelsToBytesRoundToCeil(unsigned int pixels) const;    unsigned int convertBytesToPixels(unsigned int bytes) const;
+    unsigned int convertPixelsToBytesRoundToCeil(unsigned int pixels) const;
+    unsigned int convertBytesToPixels(unsigned int bytes) const;
     unsigned int getNumberOfPixelsForOneByte() const;
     unsigned int getMaximumNumberOfPixelsBeforeOneByte() const;
-    unsigned int getMinimumNumberOfBytesForOnePixel() const;    unsigned int estimateSquareSideInPixels(unsigned int const numberOfBytesToRead) const;
+    unsigned int getMinimumNumberOfBytesForOnePixel() const;
+    unsigned int estimateSquareSideInPixels(unsigned int const numberOfBytesToRead) const;
     unsigned int getOneRowSizeInBytesFromPixels(unsigned int const leftPixelInclusive, unsigned int const rightPixelInclusive) const;
     unsigned int getOneRowSizeInBytesFromBytes(unsigned int const leftByteInclusive, unsigned int const rightByteInclusive) const;
 

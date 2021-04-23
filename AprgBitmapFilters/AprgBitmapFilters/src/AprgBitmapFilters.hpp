@@ -38,7 +38,8 @@ private:
     unsigned char m_backgroundColorByte;
     AprgBitmap m_bitmap;
     AprgBitmapSnippet m_inputCanvas;
-    AprgBitmapSnippet m_outputCanvas;    PixelInformationDatabase m_pixelInformationDatabase;
+    AprgBitmapSnippet m_outputCanvas;
+    PixelInformationDatabase m_pixelInformationDatabase;
 };
 
 }
