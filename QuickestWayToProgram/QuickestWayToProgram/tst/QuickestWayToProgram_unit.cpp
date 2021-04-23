@@ -33,34 +33,44 @@ int numberOfFilesAnalyzedForExtraction;
 
 }
 
+TEST(SampleTest, TuesdayChecklistVideos)
+{
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler pathHandler(R"(N:\Downloads\TuesdayChecklist)");
+    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
+    for(string const& file: files)
+    {
+        cout<<file<<endl;
+    }
+}
+
+/*
 
 TEST(SampleTest, ExtractFilesAndCopyLogsForSctTests)
 {
-    AprgFileExtractor fileExtractor("[.]");
-    AlbaLocalPathHandler::ListOfPaths files;
+    AprgFileExtractor fileExtractor("[.]");    AlbaLocalPathHandler::ListOfPaths files;
     AlbaLocalPathHandler::ListOfPaths directories;
     AlbaLocalPathHandler inputDirectoryPathHandler(R"(C:\ZZZ_SCT_Logs\trunk_fsmr3@120334)");
     AlbaLocalPathHandler outputDirectoryPathHandler(R"(C:\ZZZ_SCT_Logs\trunk_fsmr3@120334_fixed)");
     inputDirectoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", files, directories);
 
     // extract all relevant files at zip files on depth one
-    /*for(string const& file: files)
+    for(string const& file: files)
     {
         AlbaLocalPathHandler filePath(file);
-        if(filePath.getExtension() == "zip")
-        {
+        if(filePath.getExtension() == "zip")        {
             ALBA_PRINT1(filePath.getFullPath());
             fileExtractor.extractAllRelevantFiles(filePath.getFullPath());
         }
-    }*/
+    }
 
     //copy to correct directory
-    files.clear();
-    directories.clear();
+    files.clear();    directories.clear();
     inputDirectoryPathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
     for(string const& file: files)
-    {
-        string newFilePath(file);
+    {        string newFilePath(file);
         stringHelper::transformReplaceStringIfFound(newFilePath, inputDirectoryPathHandler.getFullPath(), "");
         newFilePath = stringHelper::getStringAfterThisString(stringHelper::getStringAfterThisString(newFilePath, R"(\)"), R"(\)");
         if(!newFilePath.empty())
@@ -72,17 +82,12 @@ TEST(SampleTest, ExtractFilesAndCopyLogsForSctTests)
     }
 }
 
-/*
- *
-
 TEST(SampleTest, BoolPrintTest)
 {
-    bool printThis(true);
-    printf("%d", printThis);
+    bool printThis(true);    printf("%d", printThis);
 }
 
-TEST(SampleTest, CBeginTest)
-{
+TEST(SampleTest, CBeginTest){
     int foo[] = {10,20,30,40,50};
     std::vector<int> bar;
 
@@ -97,15 +102,11 @@ TEST(SampleTest, CBeginTest)
     std::cout << '\n';
 }
 
-
-
 TEST(SampleTest, LrmDirectoriesToFind)
 {
-    AlbaLocalPathHandler::ListOfPaths files;
-    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler::ListOfPaths files;    AlbaLocalPathHandler::ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\SystemFrameworkImprovement3\tcom-SystemFrameworkImprovement3-lrm\C_Application\SC_TCOM\CP_LRM\tst)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
-
     for(string const& directory: directories)
     {
         cout<<directory<<endl;
