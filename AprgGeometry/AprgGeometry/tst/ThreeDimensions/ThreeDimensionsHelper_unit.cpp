@@ -213,14 +213,26 @@ TEST(TwoDimensionsHelperTest, GetLargerAngleBetweenTwoLinesWorksCorrectly)
     EXPECT_DOUBLE_EQ(135, getTheLargerAngleBetweenTwoLines(Line(Point(0,0,0), Point(0,0,1)), Line(Point(0,0,0), Point(0,1,1))).getDegrees());
 }
 
+TEST(TwoDimensionsHelperTest, GetTheSmallerDihedralAngleBetweenTwoPlanesWorksCorrectly)
+{
+    EXPECT_EQ(0, getTheSmallerDihedralAngleBetweenTwoPlanes(Plane(Point(0,0,0), Point(1,0,0), Point(1,1,0)), Plane(Point(0,0,0), Point(1,0,0), Point(1,1,0))).getDegrees());
+    EXPECT_EQ(90, getTheSmallerDihedralAngleBetweenTwoPlanes(Plane(Point(0,0,0), Point(1,0,0), Point(1,1,0)), Plane(Point(0,0,0), Point(0,0,1), Point(1,0,1))).getDegrees());
+    EXPECT_DOUBLE_EQ(45, getTheSmallerDihedralAngleBetweenTwoPlanes(Plane(Point(0,0,0), Point(1,0,0), Point(1,1,0)), Plane(Point(0,0,0), Point(0,1,1), Point(1,1,1))).getDegrees());
+}
+
+TEST(TwoDimensionsHelperTest, GetTheLargerDihedralAngleBetweenTwoPlanesWorksCorrectly)
+{
+    EXPECT_EQ(180, getTheLargerDihedralAngleBetweenTwoPlanes(Plane(Point(0,0,0), Point(1,0,0), Point(1,1,0)), Plane(Point(0,0,0), Point(1,0,0), Point(1,1,0))).getDegrees());
+    EXPECT_EQ(90, getTheLargerDihedralAngleBetweenTwoPlanes(Plane(Point(0,0,0), Point(1,0,0), Point(1,1,0)), Plane(Point(0,0,0), Point(0,0,1), Point(1,0,1))).getDegrees());
+    EXPECT_DOUBLE_EQ(135, getTheLargerDihedralAngleBetweenTwoPlanes(Plane(Point(0,0,0), Point(1,0,0), Point(1,1,0)), Plane(Point(0,0,0), Point(0,1,1), Point(1,1,1))).getDegrees());
+}
+
 TEST(ThreeDimensionsHelperTest, GetCrossProductWorksCorrectly)
 {
-    Coefficients input1(1,2,3);
-    Coefficients input2(4,5,6);
+    Coefficients input1(1,2,3);    Coefficients input2(4,5,6);
     Coefficients expectedCoefficients(getCrossProduct(input1, input2));
 
-    EXPECT_EQ(-3, expectedCoefficients.getX());
-    EXPECT_EQ(6, expectedCoefficients.getY());
+    EXPECT_EQ(-3, expectedCoefficients.getX());    EXPECT_EQ(6, expectedCoefficients.getY());
     EXPECT_EQ(-3, expectedCoefficients.getZ());
 }
 
@@ -251,14 +263,26 @@ TEST(ThreeDimensionsHelperTest, GetLineOfIntersectionOfTwoPlaneWorksCorrectly)
     EXPECT_EQ(0, expectedLine.getZInitialValue());
 }
 
+TEST(ThreeDimensionsHelperTest, GetProjectedLineInPlaneOfASkewedPlaneAndLineWorksCorrectly)
+{
+    Plane planeInput(Point(1,0,0), Point(0,1,0), Point(0,0,1));
+    Line lineInput(Point(0,0,0), Point(1,2,4));
+    Line expectedLine(getProjectedLineInPlaneOfASkewedPlaneAndLine(planeInput, lineInput));
+
+    EXPECT_EQ(4, expectedLine.getACoefficient());
+    EXPECT_EQ(1, expectedLine.getBCoefficient());
+    EXPECT_EQ(-5, expectedLine.getCCoefficient());
+    EXPECT_DOUBLE_EQ(0.14285714285714285, expectedLine.getXInitialValue());
+    EXPECT_DOUBLE_EQ(0.2857142857142857, expectedLine.getYInitialValue());
+    EXPECT_DOUBLE_EQ(0.5714285714285714, expectedLine.getZInitialValue());
+}
+
 TEST(ThreeDimensionsHelperTest, GetPlaneWithContainsALineAndAPointWorksCorrectly)
 {
     Plane expectedPlane(getPlaneWithContainsALineAndAPoint(Line(Point(0,0,0), Point(1,1,1)), Point(1,0,0)));
-
     EXPECT_EQ(0, expectedPlane.getACoefficient());
     EXPECT_EQ(1, expectedPlane.getBCoefficient());
-    EXPECT_EQ(-1, expectedPlane.getCCoefficient());
-    EXPECT_EQ(0, expectedPlane.getDCoefficient());
+    EXPECT_EQ(-1, expectedPlane.getCCoefficient());    EXPECT_EQ(0, expectedPlane.getDCoefficient());
 }
 
 TEST(ThreeDimensionsHelperTest, GetPlaneWithTwoIntersectingLinesWorksCorrectly)

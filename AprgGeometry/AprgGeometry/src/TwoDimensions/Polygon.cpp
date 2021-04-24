@@ -25,16 +25,53 @@ Polygon<numberOfVertices>::Polygon(std::initializer_list<Point> vertices)
 }
 
 template<unsigned int numberOfVertices>
+bool Polygon<numberOfVertices>::isEquilateral() const
+{
+    Distances lengthOfSides(getLengthOfSides());
+    return adjacent_find(lengthOfSides.cbegin(), lengthOfSides.cend(), [](double const length1, double const length2)
+    {
+        return !isAlmostEqual(length1, length2);
+    }) == lengthOfSides.cend();
+}
+
+template<unsigned int numberOfVertices>
+bool Polygon<numberOfVertices>::isEquiangular() const
+{
+    Angles anglesAtVertices(getAnglesAtVertices());
+    return adjacent_find(anglesAtVertices.cbegin(), anglesAtVertices.cend(), [](Angle const& angle1, Angle const& angle2)
+    {
+        return !isAlmostEqual(angle1.getDegrees(), angle2.getDegrees());
+    }) == anglesAtVertices.cend();
+}
+
+template<unsigned int numberOfVertices>
+bool Polygon<numberOfVertices>::isRegular() const
+{
+    return isEquilateral() && isEquiangular();
+}
+
+template<unsigned int numberOfVertices>
 Lines Polygon<numberOfVertices>::getLines() const
 {
-    Lines lines;
+    Lines lines;    int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
+    for(int i=0; i<sizeMinusOne; i++)
+    {
+        lines.emplace_back(m_vertices[i], m_vertices[i+1]);    }
+    lines.emplace_back(m_vertices[sizeMinusOne], m_vertices[0]);
+    return lines; //RVO
+}
+
+template<unsigned int numberOfVertices>
+typename Polygon<numberOfVertices>::Distances Polygon<numberOfVertices>::getLengthOfSides() const
+{
+    Distances lengthOfSides;
     int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
     for(int i=0; i<sizeMinusOne; i++)
     {
-        lines.emplace_back(m_vertices[i], m_vertices[i+1]);
+        lengthOfSides[i] = getDistance(m_vertices[i], m_vertices[i+1]);
     }
-    lines.emplace_back(m_vertices[sizeMinusOne], m_vertices[0]);
-    return lines; //RVO
+    lengthOfSides[sizeMinusOne] = getDistance(m_vertices[sizeMinusOne], m_vertices[0]);
+    return lengthOfSides; //RVO
 }
 
 template<unsigned int numberOfVertices>
@@ -44,27 +81,12 @@ Points Polygon<numberOfVertices>::getVertices() const
 }
 
 template<unsigned int numberOfVertices>
-array<double, numberOfVertices> Polygon<numberOfVertices>::getLengthOfSides() const
-{
-    array<double, numberOfVertices> lengthOfSides;
-    int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
-    for(int i=0; i<sizeMinusOne; i++)
-    {
-        lengthOfSides[i]=getDistance(m_vertices[i], m_vertices[i+1]);
-    }
-    lengthOfSides[sizeMinusOne]=getDistance(m_vertices[sizeMinusOne], m_vertices[0]);
-    return lengthOfSides; //RVO
-}
-
-template<unsigned int numberOfVertices>
 Angles Polygon<numberOfVertices>::getAnglesAtVertices() const
 {
-    Angles anglesAtVertices;
-    int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
+    Angles anglesAtVertices;    int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
     anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices[0], m_vertices[sizeMinusOne], m_vertices[1]));
     for(int i=1; i<sizeMinusOne; i++)
-    {
-        anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices[i], m_vertices[i-1], m_vertices[i+1]));
+    {        anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices[i], m_vertices[i-1], m_vertices[i+1]));
     }
     anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices[sizeMinusOne], m_vertices[sizeMinusOne-1], m_vertices[0]));
     return anglesAtVertices; //RVO

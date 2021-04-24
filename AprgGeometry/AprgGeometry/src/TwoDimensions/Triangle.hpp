@@ -15,8 +15,8 @@ class Triangle : public TrianglePolygonParent
 public:
     Triangle();
     Triangle(Point const& first, Point const& second, Point const& third);
-
+    bool isIsoceles() const;
+    bool isRightTriangle() const;
 };
 
-}
-}
+}}

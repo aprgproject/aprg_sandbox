@@ -37,26 +37,23 @@ double getCosineOfAngleUsing1Delta(double const deltaX1, double const deltaY1);
 double getCosineOfAngleUsing2Deltas(double const deltaX1, double const deltaY1, double const deltaX2, double const deltaY2);
 template<unsigned int numberOfVertices> double getArea(Polygon<numberOfVertices> const& polygon);
 
-Point getIntersectionOfTwoLines(Line const& line1, Line const& line2);
-Point getMidpoint(Point const& point1, Point const& point2);
-Point getPointAlongALineWithDistanceFromAPoint(Line const& line, Point const& referencePoint, double const distance, bool const isIncreasedOnX);
-Point popNearestPoint(Points & points, Point const& point);
-
 Quadrant getQuadrantOfAPoint(Point const& point);
 RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c);
-
 Dimensionless::Angle getAngleBasedOnAPointAndOrigin(Point const& point);
 Dimensionless::Angle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC);
 Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 Dimensionless::Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 
+Point getIntersectionOfTwoLines(Line const& line1, Line const& line2);
+Point getMidpoint(Point const& point1, Point const& point2);
+Point getPointAlongALineWithDistanceFromAPoint(Line const& line, Point const& referencePoint, double const distance, bool const isIncreasedOnX);
+Point popNearestPoint(Points & points, Point const& point);
+
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval);
 Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);//UT
-Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);
-Points getPointsInSortedIncreasingX(Points const& pointsToBeSorted);//UT
+Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);Points getPointsInSortedIncreasingX(Points const& pointsToBeSorted);//UT
 Points getPointsInSortedDecreasingX(Points const& pointsToBeSorted);
 Points getConvexHullPointsUsingGrahamScan(Points const& points);
-
 Line getLineWithSameSlope(Line const& line, Point const& point);
 Line getLineWithPerpendicularSlope(Line const& line, Point const& point);
 Line getTangentLineAt(Circle const& circle, Point const& point);

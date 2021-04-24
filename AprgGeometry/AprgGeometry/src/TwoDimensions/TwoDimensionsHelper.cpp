@@ -1,14 +1,13 @@
 #include "TwoDimensionsHelper.hpp"
 
 #include <Math/AlbaMathHelper.hpp>
+#include <TwoDimensions/Rectangle.hpp>
 
 #include <algorithm>
-#include <cmath>
-#include <stack>
+#include <cmath>#include <stack>
 
 using namespace alba::Dimensionless;
-using namespace alba::mathHelper;
-using namespace std;
+using namespace alba::mathHelper;using namespace std;
 
 namespace alba
 {
@@ -56,15 +55,13 @@ bool areLinesPerpendicular(Line const& line1, Line const& line2)
 {
     return (line1.getType()==LineType::Horizontal && line2.getType()==LineType::Vertical) ||
             (line1.getType()==LineType::Vertical && line2.getType()==LineType::Horizontal) ||
-            (isAlmostEqual(line1.getSlope(), line2.getInverseSlope()));
+            (isAlmostEqual(line1.getSlope(), line2.getPerpendicularSlope()));
 }
 
-double getDistance(Point const& point1, Point const& point2)
-{
+double getDistance(Point const& point1, Point const& point2){
     double deltaX = point2.getX() - point1.getX();
     double deltaY = point2.getY() - point1.getY();
-    return getSquareRootOfXSquaredPlusYSquared<double>(deltaX, deltaY);
-}
+    return getSquareRootOfXSquaredPlusYSquared<double>(deltaX, deltaY);}
 
 double getDistance(Line const& line, Point const& point)
 {
@@ -120,67 +117,14 @@ double getArea(Polygon<numberOfVertices> const& polygon)
     return area;
 }
 template double getArea<3>(Polygon<3> const& polygon);
-
-Point getIntersectionOfTwoLines(Line const& line1, Line const& line2)
-{
-    double xOfIntersection = ((line2.getCCoefficient()*line1.getBCoefficient())-(line1.getCCoefficient()*line2.getBCoefficient()))
-            /((line1.getACoefficient()*line2.getBCoefficient())-(line2.getACoefficient()*line1.getBCoefficient()));
-    double yOfIntersection = ((line2.getCCoefficient()*line1.getACoefficient())-(line1.getCCoefficient()*line2.getACoefficient()))
-            /((line1.getBCoefficient()*line2.getACoefficient())-(line2.getBCoefficient()*line1.getACoefficient()));
-    return Point(xOfIntersection, yOfIntersection);
-}
-
-Point getMidpoint(Point const& point1, Point const& point2)
-{
-    return Point((point1.getX()+point2.getX())/2,  (point1.getY()+point2.getY())/2);
-}
-
-Point getPointAlongALineWithDistanceFromAPoint(Line const& line, Point const& referencePoint, double const distance, bool const isIncreasedOnX)
-{
-    double commonRatioWithDistance = getSquareRootOfXSquaredPlusYSquared(line.getACoefficient(), line.getBCoefficient());
-    // delta x = a*D / (a2+b2)^0.5
-    // delta y = b*D / (a2+b2)^0.5
-    double deltaX = line.getACoefficient()*distance/commonRatioWithDistance;
-    double deltaY = -line.getBCoefficient()*distance/commonRatioWithDistance;
-    if((isIncreasedOnX && deltaX<0) || (!isIncreasedOnX && deltaX>0))
-    {
-        deltaX *= -1;
-        deltaY *= -1;
-    }
-    Point delta(deltaX, deltaY);
-    return referencePoint + delta;
-}
-
-Point popNearestPoint(Points & points, Point const& point)
-{
-    Point result;
-    if(!points.empty())
-    {
-        double nearestDistance=getDistance(points[0], point);
-        Points::iterator nearestPointIterator = points.begin();
-        for(Points::iterator it = points.begin(); it != points.end(); it++)
-        {
-            double currentDistance(getDistance(*it, point));
-            if(nearestDistance>currentDistance)
-            {
-                nearestDistance = currentDistance;
-                nearestPointIterator = it;
-            }
-        }
-        result = *nearestPointIterator;
-        points.erase(nearestPointIterator);
-    }
-    return result;
-}
+template double getArea<4>(Polygon<4> const& polygon);
 
 Quadrant getQuadrantOfAPoint(Point const& point)
 {
-    Quadrant result(Quadrant::I);
-    double signOfX = getSign(point.getX());
+    Quadrant result(Quadrant::I);    double signOfX = getSign(point.getX());
     double signOfY = getSign(point.getY());
     if(signOfX==1)
-    {
-        if(signOfY==1)
+    {        if(signOfY==1)
         {
             result = Quadrant::I;
         }
@@ -280,14 +224,64 @@ Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
     return Angle(AngleUnitType::Degrees, 180-smallerAngle.getDegrees());
 }
 
+Point getIntersectionOfTwoLines(Line const& line1, Line const& line2)
+{
+    double xOfIntersection = ((line2.getCCoefficient()*line1.getBCoefficient())-(line1.getCCoefficient()*line2.getBCoefficient()))
+            /((line1.getACoefficient()*line2.getBCoefficient())-(line2.getACoefficient()*line1.getBCoefficient()));
+    double yOfIntersection = ((line2.getCCoefficient()*line1.getACoefficient())-(line1.getCCoefficient()*line2.getACoefficient()))
+            /((line1.getBCoefficient()*line2.getACoefficient())-(line2.getBCoefficient()*line1.getACoefficient()));
+    return Point(xOfIntersection, yOfIntersection);
+}
+
+Point getMidpoint(Point const& point1, Point const& point2)
+{
+    return Point((point1.getX()+point2.getX())/2,  (point1.getY()+point2.getY())/2);
+}
+
+Point getPointAlongALineWithDistanceFromAPoint(Line const& line, Point const& referencePoint, double const distance, bool const isIncreasedOnX)
+{
+    double commonRatioWithDistance = getSquareRootOfXSquaredPlusYSquared(line.getACoefficient(), line.getBCoefficient());
+    // delta x = a*D / (a2+b2)^0.5
+    // delta y = b*D / (a2+b2)^0.5
+    double deltaX = line.getACoefficient()*distance/commonRatioWithDistance;
+    double deltaY = -line.getBCoefficient()*distance/commonRatioWithDistance;
+    if((isIncreasedOnX && deltaX<0) || (!isIncreasedOnX && deltaX>0))
+    {
+        deltaX *= -1;
+        deltaY *= -1;
+    }
+    Point delta(deltaX, deltaY);
+    return referencePoint + delta;
+}
+
+Point popNearestPoint(Points & points, Point const& point)
+{
+    Point result;
+    if(!points.empty())
+    {
+        double nearestDistance=getDistance(points[0], point);
+        Points::iterator nearestPointIterator = points.begin();
+        for(Points::iterator it = points.begin(); it != points.end(); it++)
+        {
+            double currentDistance(getDistance(*it, point));
+            if(nearestDistance>currentDistance)
+            {
+                nearestDistance = currentDistance;
+                nearestPointIterator = it;
+            }
+        }
+        result = *nearestPointIterator;
+        points.erase(nearestPointIterator);
+    }
+    return result;
+}
+
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval)
 {
-    Points resultingPoints;
-    if(!inputPoints.empty())
+    Points resultingPoints;    if(!inputPoints.empty())
     {
         Point previousPoint(inputPoints.front());
-        for(Point const& currentPoint: inputPoints)
-        {
+        for(Point const& currentPoint: inputPoints)        {
             if(currentPoint != previousPoint)
             {
                 savePointsFromTwoPointsUsingALineWithoutLastPoint(resultingPoints, previousPoint, currentPoint, interval);

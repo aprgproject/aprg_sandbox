@@ -53,14 +53,59 @@ TEST(TriangleTest, GetSumOfAnglesIsCorrect)
     EXPECT_DOUBLE_EQ(180, triangle.getSumOfAngles().getDegrees());
 }
 
+TEST(TriangleTest, IsEquilateralWorksCorrectly)
+{
+    Triangle regularTriangle(Point(1,0), Point(-1,0), Point(0,sqrt(3)));
+    Triangle nonRegularTriangle(Point(0,0), Point(0,4), Point(4,0));
+
+    EXPECT_TRUE(regularTriangle.isEquilateral());
+    EXPECT_FALSE(nonRegularTriangle.isEquilateral());
+}
+
+TEST(TriangleTest, IsEquiangularWorksCorrect)
+{
+    Triangle regularTriangle(Point(1,0), Point(-1,0), Point(0,sqrt(3)));
+    Triangle nonRegularTriangle(Point(0,0), Point(0,4), Point(4,0));
+
+    EXPECT_TRUE(regularTriangle.isEquiangular());
+    EXPECT_FALSE(nonRegularTriangle.isEquiangular());
+}
+
+TEST(TriangleTest, IsRegularWorksCorrect)
+{
+    Triangle regularTriangle(Point(1,0), Point(-1,0), Point(0,sqrt(3)));
+    Triangle nonRegularTriangle(Point(0,0), Point(0,4), Point(4,0));
+
+    EXPECT_TRUE(regularTriangle.isRegular());
+    EXPECT_FALSE(nonRegularTriangle.isRegular());
+}
+
+TEST(TriangleTest, IsIsocelesWorksCorrect)
+{
+    Triangle regularTriangle(Point(1,0), Point(-1,0), Point(0,sqrt(3)));
+    Triangle isocelesTriangle(Point(0,0), Point(0,4), Point(4,0));
+    Triangle nonIsocelesTriangle(Point(0,0), Point(0,4), Point(5,0));
+
+    EXPECT_TRUE(regularTriangle.isIsoceles());
+    EXPECT_TRUE(isocelesTriangle.isIsoceles());
+    EXPECT_FALSE(nonIsocelesTriangle.isIsoceles());
+}
+
+TEST(TriangleTest, IsRightTriangleWorksCorrect)
+{
+    Triangle regularTriangle(Point(1,0), Point(-1,0), Point(0,sqrt(3)));
+    Triangle rightTriangle(Point(0,0), Point(0,4), Point(4,0));
+
+    EXPECT_FALSE(regularTriangle.isRightTriangle());
+    EXPECT_TRUE(rightTriangle.isRightTriangle());
+}
+
 TEST(TriangleTest, GetPointsAreCorrect)
 {
-    Triangle triangle(Point(0,0), Point(3,3), Point(0,6));
-    Points points(triangle.getPoints(1));
+    Triangle triangle(Point(0,0), Point(3,3), Point(0,6));    Points points(triangle.getPoints(1));
 
     ASSERT_EQ(12u, points.size());
-    EXPECT_EQ(Point(0,0), points[0]);
-    EXPECT_EQ(Point(1,1), points[1]);
+    EXPECT_EQ(Point(0,0), points[0]);    EXPECT_EQ(Point(1,1), points[1]);
     EXPECT_EQ(Point(2,2), points[2]);
     EXPECT_EQ(Point(3,3), points[3]);
     EXPECT_EQ(Point(2,4), points[4]);
