@@ -39,14 +39,14 @@ bool areCoefficientsRatiosParallel(CoefficientRatios const& coefficientRatios);
 Dimensionless::Angle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC);
 Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 Dimensionless::Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
+Dimensionless::Angle getTheSmallerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2);
+Dimensionless::Angle getTheLargerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2);
 
 Point getMidpoint(Point const& point1, Point const& point2);
-Point getPointOfIntersectionOfTwoLines(Line const& line1, Line const& line2);
-Point getPointOfIntersectionOfAPlaneAndALine(Plane const& plane, Line const& line);
+Point getPointOfIntersectionOfTwoLines(Line const& line1, Line const& line2);Point getPointOfIntersectionOfAPlaneAndALine(Plane const& plane, Line const& line);
 
 double getDotProduct(Coefficients const coefficients1, Coefficients const coefficients2);
 Coefficients getCrossProduct(Coefficients const coefficients1, Coefficients const coefficients2);
-
 CoefficientRatios getRatioOfEachCoefficient(Coefficients const& first, Coefficients const& second);
 
 Line getLineWithSameSlope(Line const& line, Point const& point);
