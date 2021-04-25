@@ -17,14 +17,22 @@ using namespace std;
 namespace alba
 {
 
+wstring stringHelper::convertStringToWideString(string const& stringInput)
+{
+    return wstring(stringInput.begin(), stringInput.end());
+}
+
+string stringHelper::convertWideStringToString(wstring const& wstringInput)
+{
+    return string(wstringInput.begin(), wstringInput.end());
+}
+
 unsigned int stringHelper::getLevenshteinDistance(string const& mainString, string const& string2)
 {
-    unsigned int mainStringLength = static_cast<unsigned int>(mainString.size());
-    unsigned int string2Length = static_cast<unsigned int>(string2.size());
+    unsigned int mainStringLength = static_cast<unsigned int>(mainString.size());    unsigned int string2Length = static_cast<unsigned int>(string2.size());
 
     vector<unsigned int> current(string2Length + 1);
     vector<unsigned int> previous(string2Length + 1);
-
     unsigned int i = 0;
     generate(previous.begin(), previous.end(), [&] {return i++; });
 
@@ -66,15 +74,13 @@ string stringHelper::getRandomAlphaNumericString(unsigned int const length)
     int alphaNumericCharMapIndexMax = static_cast<int>(ALPHA_NUMERIC_CHAR_MAP.length())-1;
     string result;
     result.reserve(length);
-    std::generate_n(std::back_inserter(result), length, [&]()
+    generate_n(back_inserter(result), length, [&]()
     {
         return ALPHA_NUMERIC_CHAR_MAP[static_cast<unsigned int>(randomizer.getRandomValueInUniformDistribution(0, alphaNumericCharMapIndexMax))];
-    });
-    return result;
+    });    return result;
 }
 
-bool stringHelper::isWildcardMatch(string const& mainString, string const& wildcard, unsigned int const mainStringIndex, unsigned int const wildcardIndex)
-{
+bool stringHelper::isWildcardMatch(string const& mainString, string const& wildcard, unsigned int const mainStringIndex, unsigned int const wildcardIndex){
     bool result(false);
     bool isMainStringDone = mainStringIndex >= mainString.size();
     bool isWildcardDone = wildcardIndex >= wildcard.size();
@@ -138,25 +144,23 @@ bool stringHelper::isEqualWithLowestCommonLength(string const& string1, string c
 
 bool stringHelper::isNumber(string const& mainString)
 {
-    return std::any_of(mainString.begin(), mainString.end(), [](char const character){ return isNumber(character);});
+    return any_of(mainString.begin(), mainString.end(), [](char const character){ return isNumber(character);});
 }
 
 bool stringHelper::isWhiteSpace(string const& mainString)
 {
-    return std::all_of(mainString.begin(), mainString.end(), [](char const character){ return isWhiteSpace(character);});
+    return all_of(mainString.begin(), mainString.end(), [](char const character){ return isWhiteSpace(character);});
 }
 
 bool stringHelper::isNewline(string const& mainString)
 {
-    return std::all_of(mainString.begin(), mainString.end(), [](char const character){ return isNewline(character);});
+    return all_of(mainString.begin(), mainString.end(), [](char const character){ return isNewline(character);});
 }
 
-bool stringHelper::isIdentifier(string const& mainString)
-{
+bool stringHelper::isIdentifier(string const& mainString){
     bool isIdentifier(false);
     if(!mainString.empty())
-    {
-        char firstCharacter = mainString[0];
+    {        char firstCharacter = mainString[0];
         isIdentifier = isLetter(firstCharacter) || isUnderscore(firstCharacter);
     }
     return isIdentifier;
@@ -164,15 +168,13 @@ bool stringHelper::isIdentifier(string const& mainString)
 
 bool stringHelper::isOneWord(string const& mainString)
 {
-    return (!mainString.empty()) && std::none_of(mainString.begin(), mainString.end(), [](char const character){ return isWhiteSpace(character);});
+    return (!mainString.empty()) && none_of(mainString.begin(), mainString.end(), [](char const character){ return isWhiteSpace(character);});
 }
 
-void stringHelper::fetchArgumentsToStringInMain(strings & argumentsInMain, int const argc, char const * const argv[])
-{
+void stringHelper::fetchArgumentsToStringInMain(strings & argumentsInMain, int const argc, char const * const argv[]){
     for (int argumentIndex=0; argumentIndex<argc; argumentIndex++)
     {
-        argumentsInMain.emplace_back(argv[argumentIndex]);
-    }
+        argumentsInMain.emplace_back(argv[argumentIndex]);    }
 }
 
 bool stringHelper::transformReplaceStringIfFound(string& mainString, string const& toReplace, string const& replaceWith)
@@ -191,15 +193,13 @@ bool stringHelper::transformReplaceStringIfFound(string& mainString, string cons
 }
 
 
-template <stringHelper::SplitStringType splitStringType> void stringHelper::splitToStrings(stringHelper::strings & listOfStrings, std::string const& mainString, std::string const& delimiters)
+template <stringHelper::SplitStringType splitStringType> void stringHelper::splitToStrings(stringHelper::strings & listOfStrings, string const& mainString, string const& delimiters)
 {
     unsigned int startingIndexOfFind(0);
-    unsigned int delimiterIndex = mainString.find_first_of(delimiters);
-    unsigned int delimeterLength = 1;
+    unsigned int delimiterIndex = mainString.find_first_of(delimiters);    unsigned int delimeterLength = 1;
     unsigned int mainStringLength = mainString.length();
     while(isNotNpos(static_cast<int>(delimiterIndex)))
-    {
-        if(startingIndexOfFind != delimiterIndex)
+    {        if(startingIndexOfFind != delimiterIndex)
         {
             listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, delimiterIndex-startingIndexOfFind));
         }
@@ -216,32 +216,28 @@ template <stringHelper::SplitStringType splitStringType> void stringHelper::spli
     }
 }
 
-template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters> (stringHelper::strings & listOfStrings, std::string const& mainString, std::string const& delimiter);
-template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithDelimeters> (stringHelper::strings & listOfStrings, std::string const& mainString, std::string const& delimiter);
+template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithoutDelimeters> (stringHelper::strings & listOfStrings, string const& mainString, string const& delimiter);
+template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithDelimeters> (stringHelper::strings & listOfStrings, string const& mainString, string const& delimiter);
 
-std::string stringHelper::combineStrings(stringHelper::strings const& listOfStrings, std::string const& delimiters)
+string stringHelper::combineStrings(stringHelper::strings const& listOfStrings, string const& delimiters)
 {
     string result = accumulate(listOfStrings.cbegin(), listOfStrings.cend(), string(""), [&delimiters](string const& previousResult, string const& currentString)
-    {
-            return string(previousResult + currentString + delimiters);
+    {            return string(previousResult + currentString + delimiters);
 });
 
-    if(result.size() > delimiters.size())
-    {
+    if(result.size() > delimiters.size())    {
         result = result.substr(0, result.size() - delimiters.size());
     }
     return result;
 }
 
-void stringHelper::splitLinesToAchieveTargetLength(stringHelper::strings & strings, std::string const& mainString, unsigned int const targetLength)
+void stringHelper::splitLinesToAchieveTargetLength(stringHelper::strings & strings, string const& mainString, unsigned int const targetLength)
 {
     set<unsigned int> transitionIndexes;
-    unsigned int mainStringLength = mainString.length();
-    bool isPreviousCharacterAWhitespace(false);
+    unsigned int mainStringLength = mainString.length();    bool isPreviousCharacterAWhitespace(false);
     transitionIndexes.emplace(0);
     for(unsigned int i = 0; i < mainStringLength; i++)
-    {
-        char currentCharacter = mainString[i];
+    {        char currentCharacter = mainString[i];
         if(isPreviousCharacterAWhitespace && !isWhiteSpace(currentCharacter))
         {
             transitionIndexes.emplace(i-1);
@@ -551,15 +547,13 @@ string stringHelper::getStringBeforeThisCharacters(string const& mainString, str
     return result;
 }
 
-string stringHelper::getStringByRepeatingUntilDesiredLength(std::string const& stringToRepeat, unsigned int desiredLength)
+string stringHelper::getStringByRepeatingUntilDesiredLength(string const& stringToRepeat, unsigned int desiredLength)
 {
     string result;
-    if(!stringToRepeat.empty())
-    {
+    if(!stringToRepeat.empty())    {
         unsigned int stringToRepeatLength = stringToRepeat.length();
         for(unsigned int index=0; index<=desiredLength; index += stringToRepeatLength)
-        {
-            result += stringToRepeat;
+        {            result += stringToRepeat;
         }
         result = result.substr(0, desiredLength);
     }

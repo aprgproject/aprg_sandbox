@@ -57,10 +57,9 @@ private:
             ListOfPaths& listOfDirectories,
             int depth) const;
     bool canBeLocated(std::string const& fullPath) const;
-    bool isSlashNeededAtTheEnd(std::string const& correctPath, std::string const& path) const;
+    bool isSlashNeededAtTheEnd(std::string const& correctedPath, std::string const& originalPath) const;
     std::string m_driveOrRoot;
     bool m_foundInLocalSystem;
-    bool m_relativePath;
-};
+    bool m_relativePath;};
 
 }//namespace alba
