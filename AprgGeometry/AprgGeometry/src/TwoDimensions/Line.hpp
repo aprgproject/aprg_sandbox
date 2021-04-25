@@ -33,15 +33,13 @@ public:
     double getXIntercept() const; //form: a*(x-x0) + b*(y-y0) = 0
     double getYIntercept() const; //form: a*(x-x0) + b*(y-y0) = 0
     double getSlope() const;
-    double getInverseSlope() const;
+    double getPerpendicularSlope() const;
     double getACoefficient() const;
     double getBCoefficient() const;
-    double getCCoefficient() const;
-    double getAUnitIncreaseInX() const;
+    double getCCoefficient() const;    double getAUnitIncreaseInX() const;
     double getAUnitIncreaseInY() const;
     Points getPoints(Point const& first, Point const& second, double const interval) const;
-    Points getPointsWithoutLastPoint(Point const& first, Point const& second, double const interval) const;
-    double calculateYFromX(double const x) const;
+    Points getPointsWithoutLastPoint(Point const& first, Point const& second, double const interval) const;    double calculateYFromX(double const x) const;
     double calculateXFromY(double const y) const;
 
     std::string getDisplayableString() const;
