@@ -53,10 +53,12 @@ bool Polygon<numberOfVertices>::isRegular() const
 template<unsigned int numberOfVertices>
 Lines Polygon<numberOfVertices>::getLines() const
 {
-    Lines lines;    int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
+    Lines lines;
+    int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
     for(int i=0; i<sizeMinusOne; i++)
     {
-        lines.emplace_back(m_vertices[i], m_vertices[i+1]);    }
+        lines.emplace_back(m_vertices[i], m_vertices[i+1]);
+    }
     lines.emplace_back(m_vertices[sizeMinusOne], m_vertices[0]);
     return lines; //RVO
 }
@@ -83,10 +85,12 @@ Points Polygon<numberOfVertices>::getVertices() const
 template<unsigned int numberOfVertices>
 Angles Polygon<numberOfVertices>::getAnglesAtVertices() const
 {
-    Angles anglesAtVertices;    int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
+    Angles anglesAtVertices;
+    int sizeMinusOne = static_cast<int>(m_vertices.size())-1;
     anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices[0], m_vertices[sizeMinusOne], m_vertices[1]));
     for(int i=1; i<sizeMinusOne; i++)
-    {        anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices[i], m_vertices[i-1], m_vertices[i+1]));
+    {
+        anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices[i], m_vertices[i-1], m_vertices[i+1]));
     }
     anglesAtVertices.emplace_back(getTheInnerAngleUsingThreePoints(m_vertices[sizeMinusOne], m_vertices[sizeMinusOne-1], m_vertices[0]));
     return anglesAtVertices; //RVO

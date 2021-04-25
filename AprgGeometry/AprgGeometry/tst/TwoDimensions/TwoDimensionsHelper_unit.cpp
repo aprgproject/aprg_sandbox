@@ -4,9 +4,11 @@
 #include <TwoDimensions/Rectangle.hpp>
 
 #include <gtest/gtest.h>
+
 #include <cmath>
 
-using namespace alba::Dimensionless;using namespace alba::TwoDimensions::twoDimensionsHelper;
+using namespace alba::Dimensionless;
+using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
 
 namespace alba
@@ -89,10 +91,12 @@ TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForRectangle)
 
 TEST(TwoDimensionsHelperTest, LineAndLineIntersectionCanBeFound)
 {
-    Line line1(Point(2,4), Point(3,3));    Line line2(Point(4,4), Point(3,3));
+    Line line1(Point(2,4), Point(3,3));
+    Line line2(Point(4,4), Point(3,3));
 
     EXPECT_EQ(Point(3,3), getIntersectionOfTwoLines(line1, line2));
 }
+
 TEST(TwoDimensionsHelperTest, VerticalLineAndHorizontalLineIntersectionCanBeFound)
 {
     Line line1(Point(4,3), Point(3,3));

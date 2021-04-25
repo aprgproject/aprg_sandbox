@@ -19,4 +19,5 @@ public:
     bool isRightTriangle() const;
 };
 
-}}
+}
+}

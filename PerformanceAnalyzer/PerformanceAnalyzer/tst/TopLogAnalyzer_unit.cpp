@@ -10,7 +10,8 @@ namespace alba
 TEST(TopLogAnalyzerTest, ProcessTopLogFromStabi)
 {
     TopLogAnalyzer analyzer;
-    analyzer.processTopLog(R"(C:\ZZZ_Logs\0000_Stabi\0005_RealTestingNewFw\combined\topoutput.txt)");
+    analyzer.processTopLog(R"(C:\Users\malba\Desktop\FrameworkLogs\SctStabiTest\0007_RealTestingNewFw3Times\allTopLogs_fw.txt)");
 }
+
 
 }

@@ -277,10 +277,12 @@ CoefficientRatios getRatioOfEachCoefficient(Coefficients const& first, Coefficie
     return CoefficientRatios(AlbaRatio(first.getX(), second.getX()), AlbaRatio(first.getY(), second.getY()), AlbaRatio(first.getZ(), second.getZ()));
 }
 
-Angle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC){
+Angle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC)
+{
     Point deltaBA(pointB-pointA);
     Point deltaCA(pointC-pointA);
-    Coefficients c1(deltaBA.getX(), deltaBA.getY(), deltaBA.getZ());    Coefficients c2(deltaCA.getX(), deltaCA.getY(), deltaCA.getZ());
+    Coefficients c1(deltaBA.getX(), deltaBA.getY(), deltaBA.getZ());
+    Coefficients c2(deltaCA.getX(), deltaCA.getY(), deltaCA.getZ());
     return Angle(AngleUnitType::Radians, acos(getCosineOfAngleUsing2Deltas(c1,c2)));
 }
 
@@ -310,10 +312,12 @@ Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2)
 
 Angle getTheSmallerDihedralAngleBetweenTwoPlanes(Plane const& plane1, Plane const& plane2)
 {
-    Angle smallerAngle;    if(arePlanesParallel(plane1, plane2))
+    Angle smallerAngle;
+    if(arePlanesParallel(plane1, plane2))
     {
         smallerAngle = Angle(AngleUnitType::Degrees, 0);
-    }    else
+    }
+    else
     {
         Coefficients c1(plane1.getACoefficient(), plane1.getBCoefficient(), plane1.getCCoefficient());
         Coefficients c2(plane2.getACoefficient(), plane2.getBCoefficient(), plane2.getCCoefficient());
@@ -363,10 +367,12 @@ Point getPointOfIntersectionOfAPlaneAndALine(Plane const& plane, Line const& lin
 
 Line getLineWithSameSlope(Line const& line, Point const& point)
 {
-    return Line(line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient(), point);}
+    return Line(line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient(), point);
+}
 
 Line getLineOfIntersectionOfTwoPlanes(Plane const& plane1, Plane const& plane2)
-{    Coefficients perpendicularCoefficients(
+{
+    Coefficients perpendicularCoefficients(
                 getCrossProduct(Coefficients(plane1.getACoefficient(), plane1.getBCoefficient(), plane1.getCCoefficient()),
                                 Coefficients(plane2.getACoefficient(), plane2.getBCoefficient(), plane2.getCCoefficient())));
     double yCoordinateIntersection = getCoordinateinLineIntersection(plane1.getACoefficient(), plane2.getACoefficient(), plane1.getBCoefficient(), plane2.getBCoefficient(), plane1.getDCoefficient(), plane2.getDCoefficient());
@@ -392,9 +398,11 @@ Line getProjectedLineInPlaneOfASkewedPlaneAndLine(Plane const& plane, Line const
 
 Plane getPlaneWithContainsALineAndAPoint(Line const& line, Point const& point)
 {
-    Point point1InLine(line.getXInitialValue(), line.getYInitialValue(), line.getZInitialValue());    Point point2InLine(point1InLine+Point(line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient()));
+    Point point1InLine(line.getXInitialValue(), line.getYInitialValue(), line.getZInitialValue());
+    Point point2InLine(point1InLine+Point(line.getACoefficient(), line.getBCoefficient(), line.getCCoefficient()));
     return Plane(point, point1InLine, point2InLine);
 }
+
 Plane getPlaneWithTwoIntersectingLines(Line const& line1, Line const& line2)
 {
     Point pointOfIntersection(getPointOfIntersectionOfTwoLines(line1, line2));

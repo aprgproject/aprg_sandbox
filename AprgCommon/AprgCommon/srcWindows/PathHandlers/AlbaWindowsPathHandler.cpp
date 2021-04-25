@@ -4,6 +4,7 @@
 #include <Time/AlbaWindowsTimeHelper.hpp>
 #include <Windows/AlbaWindowsHelper.hpp>
 
+#include <winbase.h>
 #include <windows.h>
 
 #include <functional>
@@ -51,7 +52,9 @@ double AlbaWindowsPathHandler::getFileSizeEstimate()
 {
     double fileSizeEstimate(0);
     WIN32_FILE_ATTRIBUTE_DATA attributeData;
-    if (GetFileAttributesEx(getFullPath().c_str(), GetFileExInfoStandard, &attributeData))
+    string fullPath(getFullPath());
+    wstring wideStringFullPath(fullPath.begin(), fullPath.end());
+    if (GetFileAttributesExW(wideStringFullPath.c_str(), GetFileExInfoStandard, &attributeData))
     {
         fileSizeEstimate = (double)attributeData.nFileSizeHigh * 0x100000000 + attributeData.nFileSizeLow;
     }
@@ -67,7 +70,9 @@ AlbaDateTime AlbaWindowsPathHandler::getFileCreationTime()
 {
     AlbaDateTime fileCreationTime;
     WIN32_FILE_ATTRIBUTE_DATA attributeData;
-    if (GetFileAttributesEx(getFullPath().c_str(), GetFileExInfoStandard, &attributeData))
+    string fullPath(getFullPath());
+    wstring wideStringFullPath(fullPath.begin(), fullPath.end());
+    if (GetFileAttributesExW(wideStringFullPath.c_str(), GetFileExInfoStandard, &attributeData))
     {
         SYSTEMTIME fileCreationTimeInSystemTime;
         FileTimeToSystemTime(&(attributeData.ftCreationTime), &fileCreationTimeInSystemTime);
@@ -202,7 +207,10 @@ bool AlbaWindowsPathHandler::copyToNewFile(string const& newFilePath)
     bool isSuccessful(false);
     if(isFile())
     {
-        isSuccessful = (bool)CopyFile(getFullPath().c_str(), newFilePath.c_str(), 0);
+        string previousFullPath(getFullPath());
+        wstring wideStringPreviousPath(previousFullPath.begin(), previousFullPath.end());
+        wstring wideStringNewPath(newFilePath.begin(), newFilePath.end());
+        isSuccessful = (bool)CopyFileW(wideStringPreviousPath.c_str(), wideStringNewPath.c_str(), 0);
         if(!isSuccessful)
         {
             cout<<"Error in AlbaWindowsPathHandler::CopyFile() path:["<<getFullPath()<<"] newFilePath:["<<newFilePath<<"]"<<endl;
