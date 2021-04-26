@@ -22,11 +22,10 @@ endif()
 
 find_package(Subversion)
 if(SUBVERSION_FOUND)
-  Subversion_WC_INFO(${PROJECT_SOURCE_DIR} SvnProject)
-  message("Code revision is ${SvnProject_WC_REVISION}")
-  set(COMMON_DEFINITIONS ${COMMON_DEFINITIONS} -DAPRG_CODE_REVISION="${SvnProject_WC_REVISION}")
+    Subversion_WC_INFO(${PROJECT_SOURCE_DIR} SvnProject)
+    message("Code revision is ${SvnProject_WC_REVISION}")
+    set(COMMON_DEFINITIONS ${COMMON_DEFINITIONS} -DAPRG_CODE_REVISION="${SvnProject_WC_REVISION}")
 endif()
 
 message("COMMON_DEFINITIONS are: [${COMMON_DEFINITIONS}]")
-
 add_definitions(${COMMON_DEFINITIONS})
