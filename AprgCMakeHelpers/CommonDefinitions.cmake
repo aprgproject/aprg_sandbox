@@ -29,4 +29,4 @@ endif()
 
 message("COMMON_DEFINITIONS are: [${COMMON_DEFINITIONS}]")
 
-add_definitions(COMMON_DEFINITIONS)
+add_definitions(${COMMON_DEFINITIONS})
