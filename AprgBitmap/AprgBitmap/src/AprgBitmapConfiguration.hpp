@@ -66,15 +66,12 @@ public:
     Colors getColorTable() const;
 
     void readBitmap(std::string const& path);
-    bool operator==(AprgBitmapConfiguration const& configuration) const;
 
 private:
-    void readBitmapFileHeader(AlbaFileReader& fileReader);
-    void readDibHeader(AlbaFileReader& fileReader);
+    void readBitmapFileHeader(AlbaFileReader& fileReader);    void readDibHeader(AlbaFileReader& fileReader);
     void readColors(AlbaFileReader& fileReader);
     void calculateOtherValuesAfterReading();
-    CompressedMethodType determineCompressedMethodType(unsigned int compressedMethodValue) const;
-    unsigned int m_fileSize;
+    CompressedMethodType determineCompressedMethodType(unsigned int compressedMethodValue) const;    unsigned int m_fileSize;
     unsigned int m_pixelArrayAddress;
     unsigned int m_sizeOfHeader;
     unsigned int m_bitmapWidth;
@@ -96,5 +93,7 @@ private:
     std::string m_signature;
     Colors m_colors;
 };
+
+bool areBitmapConfigurationsCompatibleForChangingPixelData(AprgBitmapConfiguration const& configuration1, AprgBitmapConfiguration const& configuration2);
 
 }

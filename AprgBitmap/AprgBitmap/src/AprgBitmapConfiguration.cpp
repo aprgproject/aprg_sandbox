@@ -331,11 +331,12 @@ CompressedMethodType AprgBitmapConfiguration::determineCompressedMethodType(unsi
     return compressedMethodType;
 }
 
-bool AprgBitmapConfiguration::operator==(AprgBitmapConfiguration const& configuration) const
+bool areBitmapConfigurationsCompatibleForChangingPixelData(AprgBitmapConfiguration const& configuration1, AprgBitmapConfiguration const& configuration2)
 {
-    return m_path==configuration.m_path;
+    return configuration1.getNumberOfBitsPerPixel() == configuration2.getNumberOfBitsPerPixel() &&
+            configuration1.getBitmapHeight() == configuration2.getBitmapHeight() &&
+            configuration1.getBitmapWidth() == configuration2.getBitmapWidth();
 }
-
 
 
 }
