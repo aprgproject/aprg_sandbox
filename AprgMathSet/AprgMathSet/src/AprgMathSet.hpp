@@ -75,14 +75,51 @@ std::string getGeneratedRosterString(GenerateFunction const& generateFunction) c
     return std::string("{... ")+descriptionStream.str()+" ...}";
 }
 
+bool isASubsetOf(AprgMathSet const& mathSet2, GenerateFunction const& generateFunction) const
+{
+    bool result(true);
+    generateFunction([&](ElementType const& element)
+    {
+        if(contains(element) && mathSet2.doesNotContain(element))
+        {
+            result = false;
+        }
+    });
+    return result;
+}
+
+bool isASupersetOf(AprgMathSet const& mathSet2, GenerateFunction const& generateFunction) const
+{
+    bool result(true);
+    generateFunction([&](ElementType const& element)
+    {
+        if(mathSet2.contains(element) && doesNotContain(element))
+        {
+            result = false;
+        }
+    });
+    return result;
+}
+
+bool isDisjointWith(AprgMathSet const& mathSet2, GenerateFunction const& generateFunction) const
+{
+    bool result(true);
+    generateFunction([&](ElementType const& element)
+    {
+        if(contains(element) && mathSet2.contains(element))
+        {
+            result = false;
+        }
+    });
+    return result;
+}
+
 AprgMathSet getUnionWith(AprgMathSet const& mathSet2) const
 {
-    Rule ruleToBeInTheNewSet  = [&](ElementType const& elementToCheck) -> bool
-    {
+    Rule ruleToBeInTheNewSet  = [&](ElementType const& elementToCheck) -> bool    {
         return m_ruleToBeInTheSet(elementToCheck) || mathSet2.m_ruleToBeInTheSet(elementToCheck);
     };
-    return AprgMathSet(getDescription() + " union " + mathSet2.getDescription(), ruleToBeInTheNewSet);
-}
+    return AprgMathSet(getDescription() + " union " + mathSet2.getDescription(), ruleToBeInTheNewSet);}
 
 AprgMathSet getIntersectionWith(AprgMathSet const& mathSet2) const
 {
