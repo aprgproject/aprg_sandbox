@@ -339,4 +339,5 @@ bool areBitmapConfigurationsCompatibleForChangingPixelData(AprgBitmapConfigurati
 }
 
 
+
 }

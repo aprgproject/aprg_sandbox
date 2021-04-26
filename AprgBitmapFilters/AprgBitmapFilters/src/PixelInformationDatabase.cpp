@@ -5,8 +5,10 @@ using namespace std;
 namespace alba
 {
 
+
 PixelInformation::PixelInformation()
-    :type(PixelType::Unknown)
+    : type(PixelType::Unknown)
+    , label(INITIAL_LABEL_VALUE)
 {}
 
 PixelInformationDatabase::PixelInformationDatabase()
@@ -27,6 +29,11 @@ PixelInformation PixelInformationDatabase::getPixelInformation(BitmapXY const& b
         return m_pixelsInformationMap.at(bitmapXY);
     }
     return PixelInformation();
+}
+
+PixelInformation & PixelInformationDatabase::getPixelInformationReferenceAndCreateIfNeeded(BitmapXY const& bitmapXY)
+{
+    return m_pixelsInformationMap[bitmapXY];
 }
 
 void PixelInformationDatabase::clear()
