@@ -19,5 +19,6 @@ int main(int argc, char *argv[])
         w.setInputFileOrDirectory(alba::stringHelper::getStringWithoutCharAtTheEnd(string(argv[1]), '"'));
     }
     w.show();
+
     return a.exec();
 }

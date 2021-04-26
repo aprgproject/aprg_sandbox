@@ -95,7 +95,8 @@ double Line::getPerpendicularSlope() const
 }
 double Line::getACoefficient() const
 {
-    return m_aCoefficient;}
+    return m_aCoefficient;
+}
 
 double Line::getBCoefficient() const
 {

@@ -33,6 +33,7 @@ unsigned int stringHelper::getLevenshteinDistance(string const& mainString, stri
 
     vector<unsigned int> current(string2Length + 1);
     vector<unsigned int> previous(string2Length + 1);
+
     unsigned int i = 0;
     generate(previous.begin(), previous.end(), [&] {return i++; });
 
@@ -80,7 +81,8 @@ string stringHelper::getRandomAlphaNumericString(unsigned int const length)
     });    return result;
 }
 
-bool stringHelper::isWildcardMatch(string const& mainString, string const& wildcard, unsigned int const mainStringIndex, unsigned int const wildcardIndex){
+bool stringHelper::isWildcardMatch(string const& mainString, string const& wildcard, unsigned int const mainStringIndex, unsigned int const wildcardIndex)
+{
     bool result(false);
     bool isMainStringDone = mainStringIndex >= mainString.size();
     bool isWildcardDone = wildcardIndex >= wildcard.size();
@@ -160,7 +162,8 @@ bool stringHelper::isNewline(string const& mainString)
 bool stringHelper::isIdentifier(string const& mainString){
     bool isIdentifier(false);
     if(!mainString.empty())
-    {        char firstCharacter = mainString[0];
+    {
+        char firstCharacter = mainString[0];
         isIdentifier = isLetter(firstCharacter) || isUnderscore(firstCharacter);
     }
     return isIdentifier;
@@ -174,7 +177,8 @@ bool stringHelper::isOneWord(string const& mainString)
 void stringHelper::fetchArgumentsToStringInMain(strings & argumentsInMain, int const argc, char const * const argv[]){
     for (int argumentIndex=0; argumentIndex<argc; argumentIndex++)
     {
-        argumentsInMain.emplace_back(argv[argumentIndex]);    }
+        argumentsInMain.emplace_back(argv[argumentIndex]);
+    }
 }
 
 bool stringHelper::transformReplaceStringIfFound(string& mainString, string const& toReplace, string const& replaceWith)
@@ -199,7 +203,8 @@ template <stringHelper::SplitStringType splitStringType> void stringHelper::spli
     unsigned int delimiterIndex = mainString.find_first_of(delimiters);    unsigned int delimeterLength = 1;
     unsigned int mainStringLength = mainString.length();
     while(isNotNpos(static_cast<int>(delimiterIndex)))
-    {        if(startingIndexOfFind != delimiterIndex)
+    {
+        if(startingIndexOfFind != delimiterIndex)
         {
             listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, delimiterIndex-startingIndexOfFind));
         }
@@ -225,7 +230,8 @@ string stringHelper::combineStrings(stringHelper::strings const& listOfStrings, 
     {            return string(previousResult + currentString + delimiters);
 });
 
-    if(result.size() > delimiters.size())    {
+    if(result.size() > delimiters.size())
+    {
         result = result.substr(0, result.size() - delimiters.size());
     }
     return result;
@@ -237,7 +243,8 @@ void stringHelper::splitLinesToAchieveTargetLength(stringHelper::strings & strin
     unsigned int mainStringLength = mainString.length();    bool isPreviousCharacterAWhitespace(false);
     transitionIndexes.emplace(0);
     for(unsigned int i = 0; i < mainStringLength; i++)
-    {        char currentCharacter = mainString[i];
+    {
+        char currentCharacter = mainString[i];
         if(isPreviousCharacterAWhitespace && !isWhiteSpace(currentCharacter))
         {
             transitionIndexes.emplace(i-1);
@@ -553,7 +560,8 @@ string stringHelper::getStringByRepeatingUntilDesiredLength(string const& string
     if(!stringToRepeat.empty())    {
         unsigned int stringToRepeatLength = stringToRepeat.length();
         for(unsigned int index=0; index<=desiredLength; index += stringToRepeatLength)
-        {            result += stringToRepeat;
+        {
+            result += stringToRepeat;
         }
         result = result.substr(0, desiredLength);
     }

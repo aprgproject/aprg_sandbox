@@ -104,11 +104,9 @@ win32 {
      QMAKE_LFLAGS += -Wl,-subsystem,windows -static -static-libgcc -static-libstdc++
 }
 
-message(APRG_DIR=\\\"$$PWD/../../\\\")
 
 DEFINES -= UNICODE
-DEFINES += APRG_DIR=\\\"$$PWD/../../\\\"
-DEFINES += PATH_OF_7Z_EXECUTABLE=\\\"$$PWD/../../AprgFileExtractor/7z32/7z.exe\\\"
+DEFINES += APRG_DIR=\\\"$$PWD/../../\\\"DEFINES += PATH_OF_7Z_EXECUTABLE=\\\"$$PWD/../../AprgFileExtractor/7z32/7z.exe\\\"
 DEFINES += PATH_OF_7Z_TEMP_FILE=\\\"$$PWD/../../AprgFileExtractor/7z32/TempFile.txt\\\"
 DEFINES += OS_WINDOWS=\\\"WIN32\\\"
 DEFINES += STATIC
@@ -117,4 +115,7 @@ DEFINES += "APRG_CODE_VERSION=\"\\\"$$system(svnversion -n)\\\"\""
 CONFIG += c++11 console
 RESOURCES += \
     resources.qrc
+
 RC_FILE = icon/resource.rc
+
+message($$DEFINES)
