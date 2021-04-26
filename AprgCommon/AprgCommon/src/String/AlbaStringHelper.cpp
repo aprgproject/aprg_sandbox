@@ -29,7 +29,8 @@ string stringHelper::convertWideStringToString(wstring const& wstringInput)
 
 unsigned int stringHelper::getLevenshteinDistance(string const& mainString, string const& string2)
 {
-    unsigned int mainStringLength = static_cast<unsigned int>(mainString.size());    unsigned int string2Length = static_cast<unsigned int>(string2.size());
+    unsigned int mainStringLength = static_cast<unsigned int>(mainString.size());
+    unsigned int string2Length = static_cast<unsigned int>(string2.size());
 
     vector<unsigned int> current(string2Length + 1);
     vector<unsigned int> previous(string2Length + 1);
@@ -78,7 +79,8 @@ string stringHelper::getRandomAlphaNumericString(unsigned int const length)
     generate_n(back_inserter(result), length, [&]()
     {
         return ALPHA_NUMERIC_CHAR_MAP[static_cast<unsigned int>(randomizer.getRandomValueInUniformDistribution(0, alphaNumericCharMapIndexMax))];
-    });    return result;
+    });
+    return result;
 }
 
 bool stringHelper::isWildcardMatch(string const& mainString, string const& wildcard, unsigned int const mainStringIndex, unsigned int const wildcardIndex)
@@ -159,7 +161,8 @@ bool stringHelper::isNewline(string const& mainString)
     return all_of(mainString.begin(), mainString.end(), [](char const character){ return isNewline(character);});
 }
 
-bool stringHelper::isIdentifier(string const& mainString){
+bool stringHelper::isIdentifier(string const& mainString)
+{
     bool isIdentifier(false);
     if(!mainString.empty())
     {
@@ -174,7 +177,8 @@ bool stringHelper::isOneWord(string const& mainString)
     return (!mainString.empty()) && none_of(mainString.begin(), mainString.end(), [](char const character){ return isWhiteSpace(character);});
 }
 
-void stringHelper::fetchArgumentsToStringInMain(strings & argumentsInMain, int const argc, char const * const argv[]){
+void stringHelper::fetchArgumentsToStringInMain(strings & argumentsInMain, int const argc, char const * const argv[])
+{
     for (int argumentIndex=0; argumentIndex<argc; argumentIndex++)
     {
         argumentsInMain.emplace_back(argv[argumentIndex]);
@@ -200,7 +204,8 @@ bool stringHelper::transformReplaceStringIfFound(string& mainString, string cons
 template <stringHelper::SplitStringType splitStringType> void stringHelper::splitToStrings(stringHelper::strings & listOfStrings, string const& mainString, string const& delimiters)
 {
     unsigned int startingIndexOfFind(0);
-    unsigned int delimiterIndex = mainString.find_first_of(delimiters);    unsigned int delimeterLength = 1;
+    unsigned int delimiterIndex = mainString.find_first_of(delimiters);
+    unsigned int delimeterLength = 1;
     unsigned int mainStringLength = mainString.length();
     while(isNotNpos(static_cast<int>(delimiterIndex)))
     {
@@ -227,7 +232,8 @@ template void stringHelper::splitToStrings<stringHelper::SplitStringType::WithDe
 string stringHelper::combineStrings(stringHelper::strings const& listOfStrings, string const& delimiters)
 {
     string result = accumulate(listOfStrings.cbegin(), listOfStrings.cend(), string(""), [&delimiters](string const& previousResult, string const& currentString)
-    {            return string(previousResult + currentString + delimiters);
+    {
+            return string(previousResult + currentString + delimiters);
 });
 
     if(result.size() > delimiters.size())
@@ -240,7 +246,8 @@ string stringHelper::combineStrings(stringHelper::strings const& listOfStrings, 
 void stringHelper::splitLinesToAchieveTargetLength(stringHelper::strings & strings, string const& mainString, unsigned int const targetLength)
 {
     set<unsigned int> transitionIndexes;
-    unsigned int mainStringLength = mainString.length();    bool isPreviousCharacterAWhitespace(false);
+    unsigned int mainStringLength = mainString.length();
+    bool isPreviousCharacterAWhitespace(false);
     transitionIndexes.emplace(0);
     for(unsigned int i = 0; i < mainStringLength; i++)
     {
@@ -557,7 +564,8 @@ string stringHelper::getStringBeforeThisCharacters(string const& mainString, str
 string stringHelper::getStringByRepeatingUntilDesiredLength(string const& stringToRepeat, unsigned int desiredLength)
 {
     string result;
-    if(!stringToRepeat.empty())    {
+    if(!stringToRepeat.empty())
+    {
         unsigned int stringToRepeatLength = stringToRepeat.length();
         for(unsigned int index=0; index<=desiredLength; index += stringToRepeatLength)
         {

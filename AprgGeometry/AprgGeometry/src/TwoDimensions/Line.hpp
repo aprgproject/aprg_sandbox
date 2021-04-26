@@ -36,7 +36,8 @@ public:
     double getPerpendicularSlope() const;
     double getACoefficient() const;
     double getBCoefficient() const;
-    double getCCoefficient() const;    double getAUnitIncreaseInX() const;
+    double getCCoefficient() const;
+    double getAUnitIncreaseInX() const;
     double getAUnitIncreaseInY() const;
     Points getPoints(Point const& first, Point const& second, double const interval) const;
     Points getPointsWithoutLastPoint(Point const& first, Point const& second, double const interval) const;

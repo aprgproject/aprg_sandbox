@@ -93,6 +93,7 @@ double Line::getPerpendicularSlope() const
 {
     return m_bCoefficient/m_aCoefficient;
 }
+
 double Line::getACoefficient() const
 {
     return m_aCoefficient;

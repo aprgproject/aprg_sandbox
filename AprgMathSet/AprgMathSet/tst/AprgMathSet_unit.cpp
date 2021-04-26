@@ -152,16 +152,42 @@ TEST(SampleTest, IsDisjointWithWorks)
     EXPECT_FALSE(mathSet3.isDisjointWith(mathSet1, generateFunction));
 }
 
+TEST(SampleTest, GetComplementWorks)
+{
+    AprgMathSet<unsigned int> mathSet("set of even numbers", [](unsigned int const& elementToCheck)
+    {
+        return elementToCheck % 2 == 0;
+    });
+
+    AprgMathSet<unsigned int> complementSet(mathSet.getComplement());
+
+    EXPECT_FALSE(complementSet.contains(2));
+    EXPECT_TRUE(complementSet.contains(5));
+    EXPECT_TRUE(complementSet.doesNotContain(4));
+    EXPECT_FALSE(complementSet.doesNotContain(7));
+    EXPECT_EQ("{complement of {set of even numbers}}", complementSet.getDescription());
+    EXPECT_EQ("{... 1, 3, 5, 7, 9 ...}", complementSet.getGeneratedRosterString(
+                  [&](AprgMathSet<unsigned int>::VoidElementFunction elementFunction)
+    {
+                  for(unsigned int i=0; i<=10; i++)
+                  {
+                      elementFunction(i);
+                  }
+              }));
+}
+
 TEST(SampleTest, GetUnionWithWorks)
 {
-    AprgMathSet<unsigned int> mathSet1({1,2,3});    AprgMathSet<unsigned int> mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
+    AprgMathSet<unsigned int> mathSet1({1,2,3});
+    AprgMathSet<unsigned int> mathSet2("set of even numbers", [](unsigned int const& elementToCheck)
     {
         return elementToCheck % 2 == 0;
     });
 
     AprgMathSet<unsigned int> unionSet(mathSet1.getUnionWith(mathSet2));
 
-    EXPECT_TRUE(unionSet.contains(2));    EXPECT_FALSE(unionSet.contains(5));
+    EXPECT_TRUE(unionSet.contains(2));
+    EXPECT_FALSE(unionSet.contains(5));
     EXPECT_TRUE(unionSet.doesNotContain(7));
     EXPECT_FALSE(unionSet.doesNotContain(4));
     EXPECT_EQ("{{1, 2, 3} union {set of even numbers}}", unionSet.getDescription());
@@ -259,7 +285,8 @@ TEST(SampleTest, GetCartesianWorks)
             AprgMathSet<unsigned int>::VoidElementFunction elementFunction)
     {
         for(unsigned int i=0; i<=10; i++)
-        {            elementFunction(i);
+        {
+            elementFunction(i);
         }
     };
 
@@ -267,9 +294,11 @@ TEST(SampleTest, GetCartesianWorks)
             AprgMathSet<unsigned int>::VoidElementFunction elementFunction)
     {
         for(char c='a'; c<='z'; c++)
-        {            elementFunction(c);
+        {
+            elementFunction(c);
         }
     };
+
     AprgMathSet<pair<unsigned int, char>> cartesianProduct(getCarterisianProduct(mathSet1, mathSet2, generateFunction1, generateFunction2));
 
     EXPECT_TRUE(cartesianProduct.contains(pair<unsigned int, char>(1,'y')));

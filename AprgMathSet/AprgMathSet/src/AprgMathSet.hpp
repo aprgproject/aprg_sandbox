@@ -114,12 +114,23 @@ bool isDisjointWith(AprgMathSet const& mathSet2, GenerateFunction const& generat
     return result;
 }
 
+AprgMathSet getComplement() const
+{
+    Rule ruleToBeInTheNewSet  = [&](ElementType const& elementToCheck) -> bool
+    {
+        return !m_ruleToBeInTheSet(elementToCheck);
+    };
+    return AprgMathSet(std::string("complement of ")+getDescription(), ruleToBeInTheNewSet);
+}
+
 AprgMathSet getUnionWith(AprgMathSet const& mathSet2) const
 {
-    Rule ruleToBeInTheNewSet  = [&](ElementType const& elementToCheck) -> bool    {
+    Rule ruleToBeInTheNewSet  = [&](ElementType const& elementToCheck) -> bool
+    {
         return m_ruleToBeInTheSet(elementToCheck) || mathSet2.m_ruleToBeInTheSet(elementToCheck);
     };
-    return AprgMathSet(getDescription() + " union " + mathSet2.getDescription(), ruleToBeInTheNewSet);}
+    return AprgMathSet(getDescription() + " union " + mathSet2.getDescription(), ruleToBeInTheNewSet);
+}
 
 AprgMathSet getIntersectionWith(AprgMathSet const& mathSet2) const
 {

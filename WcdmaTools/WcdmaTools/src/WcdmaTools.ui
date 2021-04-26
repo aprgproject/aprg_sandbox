@@ -14,7 +14,8 @@
    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
-   </sizepolicy>  </property>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>WcdmaTools</string>
   </property>
@@ -552,13 +553,15 @@
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">    <rect>
+   <property name="geometry">
+    <rect>
      <x>0</x>
      <y>0</y>
      <width>702</width>
      <height>21</height>
     </rect>
-   </property>   <widget class="QMenu" name="menuFile">
+   </property>
+   <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
