@@ -41,16 +41,12 @@ public:
     void setPenPixelsToOutputCanvas();
     void setColoredPixelsForDifferentLabelsIntoOutputCanvas();
 
-
-
 private:
     unsigned int analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(
-            UnionFindForLabels & unionFindForLabels,
-            BitmapXY const & neighborPoint);
+            UnionFindForLabels & unionFindForLabels,            BitmapXY const & neighborPoint);
     unsigned int analyzeNeighborPointForConnectedComponentsTwoPassAneReturnLabel(
             BitmapXY const & neighborPoint);
-    void updateUnionFindForLabels(UnionFindForLabels& unionFindForLabels, unsigned int const smallestLabel, unsigned int const neighbor1Label, unsigned int const neighbor2Label) const;
-    void analyzeFourConnectivityNeighborPointsForConnectedComponentsOneComponentAtATime(
+    void updateUnionFindForLabels(UnionFindForLabels& unionFindForLabels, unsigned int const smallestLabel, unsigned int const neighbor1Label, unsigned int const neighbor2Label) const;    void analyzeFourConnectivityNeighborPointsForConnectedComponentsOneComponentAtATime(
             std::deque<BitmapXY> & pointsInQueue,
             BitmapXY const & poppedPoint,
             unsigned int const currentLabel);
@@ -60,19 +56,15 @@ private:
             unsigned int const currentLabel);
     TwoDimensions::Point convertBitmapXYToPoint(BitmapXY const& bitmapPosition) const;
     BitmapXY convertPointToBitmapXY(TwoDimensions::Point const& pointPosition) const;
+
     unsigned int getBlurredColor(AprgBitmapSnippet const& canvas, BitmapXY const& centerXY, double const blurRadius, BlurCondition const& isIncludedInBlur) const;
     double getBlurWeight(double const distanceFromCenter, double const blurRadius) const;
-    unsigned char getRed(unsigned int const color) const;
-    unsigned char getGreen(unsigned int const color) const;
-    unsigned char getBlue(unsigned int const color) const;
 
-    void setLabelToColorMapForStableRun(std::map<unsigned int, unsigned int>& labelToColorMap);
+    void setLabelToColorMapForStableRun(std::map<unsigned int, unsigned int>& labelToColorMap) const;
 
     unsigned int m_backgroundColor;
-    AprgBitmap m_bitmap;
-    AprgBitmapSnippet m_inputCanvas;
+    AprgBitmap m_bitmap;    AprgBitmapSnippet m_inputCanvas;
     AprgBitmapSnippet m_outputCanvas;
     PixelInformationDatabase m_pixelInformationDatabase;
 };
-
 }

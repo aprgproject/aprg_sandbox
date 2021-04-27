@@ -1,18 +1,16 @@
 #include "AprgBitmapFilters.hpp"
 
-#include <Bit/AlbaBitManipulation.hpp>
+#include <AprgColorUtilities.hpp>
 #include <Math/AlbaMathHelper.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <Randomizer/AlbaRandomizer.hpp>
-#include <TwoDimensions/Circle.hpp>
+#include <Randomizer/AlbaRandomizer.hpp>#include <TwoDimensions/Circle.hpp>
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
 
+using namespace alba::ColorUtilities;
 using namespace alba::TwoDimensions;
 using namespace std;
-
 namespace alba
 {
-
 AprgBitmapFilters::AprgBitmapFilters(string const& path)
     : m_backgroundColor(0xFFFFFF)
     , m_bitmap(path)
@@ -22,16 +20,14 @@ AprgBitmapFilters::AprgBitmapFilters(string const& path)
 
 bool AprgBitmapFilters::isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) const //RGB algo
 {
-    bool isRedDifferenceBeyondLimit(mathHelper::getAbsoluteValue<int>((int)getRed(color1)-(int)getRed(color2))>(int)similarityColorLimit);
-    bool isGreenDifferenceBeyondLimit(mathHelper::getAbsoluteValue<int>((int)getGreen(color1)-(int)getGreen(color2))>(int)similarityColorLimit);
-    bool isBlueDifferenceBeyondLimit(mathHelper::getAbsoluteValue<int>((int)getBlue(color1)-(int)getBlue(color2))>(int)similarityColorLimit);
+    bool isRedDifferenceBeyondLimit(mathHelper::getAbsoluteValue<int>((int)extractRed(color1)-(int)extractRed(color2))>(int)similarityColorLimit);
+    bool isGreenDifferenceBeyondLimit(mathHelper::getAbsoluteValue<int>((int)extractGreen(color1)-(int)extractGreen(color2))>(int)similarityColorLimit);
+    bool isBlueDifferenceBeyondLimit(mathHelper::getAbsoluteValue<int>((int)extractBlue(color1)-(int)extractBlue(color2))>(int)similarityColorLimit);
     return  !(isRedDifferenceBeyondLimit || isGreenDifferenceBeyondLimit || isBlueDifferenceBeyondLimit);
 }
-
 /*
 bool AprgBitmapFilters::isSimilar(unsigned int const color1, unsigned int const color2) const//Pythagorean algo
-{
-    double colorDifferenceAcrossDifferentColors(mathHelper::getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>((double)getRed(color1)-(double)getRed(color2), (double)getGreen(color1)-(double)getGreen(color2), (double)getBlue(color1)-(double)getBlue(color2)));
+{    double colorDifferenceAcrossDifferentColors(mathHelper::getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>((double)getRed(color1)-(double)getRed(color2), (double)getGreen(color1)-(double)getGreen(color2), (double)getBlue(color1)-(double)getBlue(color2)));
     return colorDifferenceAcrossDifferentColors < m_similarityColorLimit;
 }
 */
@@ -275,15 +271,13 @@ void AprgBitmapFilters::setBlankGapsUsingBlurToOutputCanvas(double const blurRad
             unsigned int newColor(color);
             if(m_backgroundColor == color)
             {
-                newColor = getBlurredColor(canvas1, bitmapPoint, blurRadius,[&](unsigned int , unsigned int currentColor, BitmapXY )
+                newColor = getBlurredColor(canvas1, bitmapPoint, blurRadius, [&](unsigned int , unsigned int currentColor, BitmapXY )
                 {
                     return m_backgroundColor!=currentColor;
-                });
-                if(m_backgroundColor != newColor)
+                });                if(m_backgroundColor != newColor)
                 {
                     numberOfPixelsWithChangedColor++;
-                }
-            }
+                }            }
             canvas2.setPixelAt(bitmapPoint, newColor);
         });
         canvas1=canvas2;
@@ -469,51 +463,35 @@ unsigned int AprgBitmapFilters::getBlurredColor(AprgBitmapSnippet const& canvas,
                 isChanged=true;
                 double distanceFromCenter(twoDimensionsHelper::getDistance(convertBitmapXYToPoint(centerXY), convertBitmapXYToPoint(pointInCircle)));
                 double blurWeight(getBlurWeight(distanceFromCenter, blurRadius));
-                totalBlurredColorRed+=blurWeight*getRed(currentColor);
-                totalBlurredColorGreen+=blurWeight*getGreen(currentColor);
-                totalBlurredColorBlue+=blurWeight*getBlue(currentColor);
+                totalBlurredColorRed+=blurWeight*extractRed(currentColor);
+                totalBlurredColorGreen+=blurWeight*extractGreen(currentColor);
+                totalBlurredColorBlue+=blurWeight*extractBlue(currentColor);
                 totalBlurWeight+=blurWeight;
             }
-        }
-    });
+        }    });
     unsigned int blurredColor(m_backgroundColor);
     if(isChanged)
     {
-        blurredColor = AlbaBitManipulation<unsigned int>::concatenateBytes((unsigned char)(totalBlurredColorRed/totalBlurWeight), (unsigned char)(totalBlurredColorGreen/totalBlurWeight), (unsigned char)(totalBlurredColorBlue/totalBlurWeight));
+        blurredColor = combineRgbColor(
+                    static_cast<unsigned char>(totalBlurredColorRed/totalBlurWeight),
+                    static_cast<unsigned char>(totalBlurredColorGreen/totalBlurWeight),
+                    static_cast<unsigned char>(totalBlurredColorBlue/totalBlurWeight));
     }
     return blurredColor;
 }
-
 double AprgBitmapFilters::getBlurWeight(double const distanceFromCenter, double const blurRadius) const
 {
     return (blurRadius-distanceFromCenter+1)/(blurRadius+1);
 }
 
-unsigned char AprgBitmapFilters::getRed(unsigned int const color) const
-{
-    return (AlbaBitManipulation<unsigned int>::getByteAt<2>(color));
-}
-
-unsigned char AprgBitmapFilters::getGreen(unsigned int const color) const
-{
-    return (AlbaBitManipulation<unsigned int>::getByteAt<1>(color));
-}
-
-unsigned char AprgBitmapFilters::getBlue(unsigned int const color) const
-{
-    return (AlbaBitManipulation<unsigned int>::getByteAt<0>(color));
-}
-
-void AprgBitmapFilters::setLabelToColorMapForStableRun(map<unsigned int, unsigned int> & labelToColorMap)
+void AprgBitmapFilters::setLabelToColorMapForStableRun(map<unsigned int, unsigned int> & labelToColorMap) const
 {
     labelToColorMap[1]=0xff;
     labelToColorMap[2]=0xff00;
-    labelToColorMap[3]=0xff0000;
-    labelToColorMap[4]=0xffff;
+    labelToColorMap[3]=0xff0000;    labelToColorMap[4]=0xffff;
     labelToColorMap[5]=0xffff00;
     labelToColorMap[6]=0x9c2e00;
-    labelToColorMap[7]=0xca6600;
-    labelToColorMap[8]=0x346400;
+    labelToColorMap[7]=0xca6600;    labelToColorMap[8]=0x346400;
     labelToColorMap[9]=0xf23d4d;
     labelToColorMap[10]=0xd983ab;
     labelToColorMap[11]=0xe43400;
