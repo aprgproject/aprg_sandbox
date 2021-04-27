@@ -52,7 +52,8 @@ TEST(SampleTest, RenameFiles)
 
 TEST(SampleTest, TuesdayChecklistVideos)
 {
-    AlbaLocalPathHandler::ListOfPaths files;    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(N:\Downloads\TuesdayChecklist)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
 
@@ -64,10 +65,12 @@ TEST(SampleTest, TuesdayChecklistVideos)
 
 TEST(SampleTest, ExtractFilesAndCopyLogsForSctTests)
 {
-    AprgFileExtractor fileExtractor("[.]");    AlbaLocalPathHandler::ListOfPaths files;
+    AprgFileExtractor fileExtractor("[.]");
+    AlbaLocalPathHandler::ListOfPaths files;
     AlbaLocalPathHandler::ListOfPaths directories;
     AlbaLocalPathHandler inputDirectoryPathHandler(R"(C:\ZZZ_SCT_Logs\trunk_fsmr3@120334)");
-    AlbaLocalPathHandler outputDirectoryPathHandler(R"(C:\ZZZ_SCT_Logs\trunk_fsmr3@120334_fixed)");    inputDirectoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", files, directories);
+    AlbaLocalPathHandler outputDirectoryPathHandler(R"(C:\ZZZ_SCT_Logs\trunk_fsmr3@120334_fixed)");
+    inputDirectoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", files, directories);
 
     // extract all relevant files at zip files on depth one
     for(string const& file: files)

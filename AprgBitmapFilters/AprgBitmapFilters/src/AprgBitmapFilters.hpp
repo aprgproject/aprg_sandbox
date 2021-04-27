@@ -43,10 +43,12 @@ public:
 
 private:
     unsigned int analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(
-            UnionFindForLabels & unionFindForLabels,            BitmapXY const & neighborPoint);
+            UnionFindForLabels & unionFindForLabels,
+            BitmapXY const & neighborPoint);
     unsigned int analyzeNeighborPointForConnectedComponentsTwoPassAneReturnLabel(
             BitmapXY const & neighborPoint);
-    void updateUnionFindForLabels(UnionFindForLabels& unionFindForLabels, unsigned int const smallestLabel, unsigned int const neighbor1Label, unsigned int const neighbor2Label) const;    void analyzeFourConnectivityNeighborPointsForConnectedComponentsOneComponentAtATime(
+    void updateUnionFindForLabels(UnionFindForLabels& unionFindForLabels, unsigned int const smallestLabel, unsigned int const neighbor1Label, unsigned int const neighbor2Label) const;
+    void analyzeFourConnectivityNeighborPointsForConnectedComponentsOneComponentAtATime(
             std::deque<BitmapXY> & pointsInQueue,
             BitmapXY const & poppedPoint,
             unsigned int const currentLabel);
@@ -63,8 +65,10 @@ private:
     void setLabelToColorMapForStableRun(std::map<unsigned int, unsigned int>& labelToColorMap) const;
 
     unsigned int m_backgroundColor;
-    AprgBitmap m_bitmap;    AprgBitmapSnippet m_inputCanvas;
+    AprgBitmap m_bitmap;
+    AprgBitmapSnippet m_inputCanvas;
     AprgBitmapSnippet m_outputCanvas;
     PixelInformationDatabase m_pixelInformationDatabase;
 };
+
 }
