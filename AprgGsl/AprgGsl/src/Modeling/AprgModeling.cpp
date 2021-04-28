@@ -282,37 +282,21 @@ void AprgModeling::calculateCoefficientsUsingLeastSquares()
     calculatedCoefficients = gsl_vector_alloc(dataWidth);
     calculatedCovariance = gsl_matrix_alloc(dataWidth, dataWidth);
 
-    unsigned int numberOfRowsMatrixDataForY(m_modelingDataForY.getRows());
-    unsigned int numberOfColumnsMatrixDataForY(m_modelingDataForY.getColumns());
-    MatrixOfDoubles::MatrixData modelingMatrixDataForY(m_modelingDataForY.getMatrixData());
-    for(unsigned int y=0; y<numberOfRowsMatrixDataForY; y++)
+    m_modelingDataForY.traverseThroughYAndThenX([&](unsigned int const, unsigned int const y, double const value)
     {
-        for(unsigned int x=1; x<numberOfColumnsMatrixDataForY; x++)
-        {
-            double value(modelingMatrixDataForY.at(m_modelingDataForY.getMatrixIndex(x, y)));
-            gsl_vector_set(yModelingData, y, value);
-        }
-    }
+        gsl_vector_set(yModelingData, y, value);
+    });
 
-    unsigned int numberOfRowsMatrixDataForX(m_modelingDataForX.getRows());
-    unsigned int numberOfColumnsMatrixDataForX(m_modelingDataForX.getColumns());
-    MatrixOfDoubles::MatrixData modelingMatrixDataForX(m_modelingDataForX.getMatrixData());
-    for(unsigned int y=0; y<numberOfRowsMatrixDataForX; y++)
+    m_modelingDataForX.traverseThroughYAndThenX([&](unsigned int const x, unsigned int const y, double const value)
     {
-        for(unsigned int x=1; x<numberOfColumnsMatrixDataForX; x++)
-        {
-            double value(modelingMatrixDataForX.at(m_modelingDataForX.getMatrixIndex(x, y)));
-            gsl_matrix_set(xModelingData, y, x, value);
-        }
-    }
+        gsl_matrix_set(xModelingData, y, x, value);
+    });
 
     gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc(dataHeight, dataWidth);
     gsl_multifit_linear(xModelingData, yModelingData, calculatedCoefficients, calculatedCovariance, &chisq, work);
-
     m_coefficients.clearAndResize(dataWidth, 1);
     for(unsigned int i=0; i<dataWidth; i++)
-    {
-        m_coefficients.set(i, 0, gsl_vector_get(calculatedCoefficients, i));
+    {        m_coefficients.set(i, 0, gsl_vector_get(calculatedCoefficients, i));
     }
 
     gsl_multifit_linear_free(work);
