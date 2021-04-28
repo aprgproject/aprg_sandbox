@@ -16,10 +16,12 @@ struct ColorPercentagesData
     double deltaMaxMinPercentage;
 };
 
-struct HueSaturationLightnessData{
+struct HueSaturationLightnessData
+{
     double hueDegrees;
     double saturationLightnessDecimal;
-    double lightnessDecimal;};
+    double lightnessDecimal;
+};
 
 struct HueSaturationValueData
 {
@@ -45,6 +47,7 @@ double calculateSaturationColorIntensityDecimal(unsigned int const color);
 
 HueSaturationLightnessData createHueSaturationLightnessData(double const hueDegrees, double const saturationLightnessDecimal, double const lightnessDecimal);
 HueSaturationValueData createHueSaturationValueData(double const hueDegrees, double const saturationValueDecimal, double const valueDecimalOfColorMax);
+
 unsigned int combineRgbToColor(unsigned char const red, unsigned char const green, unsigned char const blue);
 
 unsigned int convertChromaColorDataToColor(ChromaColorData const& chromaColorData);
@@ -62,4 +65,5 @@ unsigned char extractMaxForOneColor(unsigned int const color);
 unsigned char extractMinForOneColor(unsigned int const color);
 
 }
+
 }

@@ -25,6 +25,9 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 #Include AprgAlgorithm, this needs APRG Directory
 include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 
+#Include AprgMatrix, this needs APRG Directory
+include(${APRG_DIR}/AprgMatrix/AprgCmakeInclude/AprgMatrix.cmake)
+
 #Include Gsl, this needs APRG Directory
 include(${APRG_DIR}/gsl1.8/AprgCmakeInclude/Gsl.cmake)
 

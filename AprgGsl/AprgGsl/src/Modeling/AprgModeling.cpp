@@ -1,6 +1,5 @@
 #include "AprgModeling.hpp"
 
-#include <Debug/AlbaDebug.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <Randomizer/AlbaRandomizer.hpp>
@@ -27,6 +26,7 @@ AprgModeling::MatrixOfDoubles AprgModeling::getCoefficients() const
 {
     return m_coefficients;
 }
+
 void AprgModeling::retrieveDataFromFileWithFileFormat1(string const& filePath)
 {
     VectorOfDoubles retrievedDataForX, retrievedDataForY;
@@ -53,10 +53,7 @@ void AprgModeling::retrieveDataFromFileWithFileFormat1(string const& filePath)
             numberOfSamples++;
         }
     }
-    ALBA_PRINT1(inputFile.is_open());
-    ALBA_PRINT2(columnsForX, numberOfSamples);
-    copyVectorToMatrix(columnsForX, numberOfSamples, retrievedDataForX, m_retrievedDataForX);
-    copyVectorToMatrix(1, numberOfSamples, retrievedDataForY, m_retrievedDataForY);
+    saveRetrievedDataForXAndY(columnsForX, numberOfSamples, retrievedDataForX, retrievedDataForY);
 }
 
 void AprgModeling::retrieveDataFromFileWithFileFormat2(string const& filePath)
@@ -111,7 +108,16 @@ void AprgModeling::retrieveDataFromFileWithFileFormat2(string const& filePath)
     }
     columnsForX = reversedCoordinatesRows;
     numberOfSamples = reversedCoordinatesColumns;
-    copyVectorToMatrix(columnsForX, numberOfSamples, retrievedDataForX, m_retrievedDataForX);
+    saveRetrievedDataForXAndY(columnsForX, numberOfSamples, retrievedDataForX, retrievedDataForY);
+}
+
+void AprgModeling::saveRetrievedDataForXAndY(
+        unsigned int numberOfIndicators,
+        unsigned int numberOfSamples,
+        VectorOfDoubles const& retrievedDataForX,
+        VectorOfDoubles const& retrievedDataForY)
+{
+    copyVectorToMatrix(numberOfIndicators, numberOfSamples, retrievedDataForX, m_retrievedDataForX);
     copyVectorToMatrix(1, numberOfSamples, retrievedDataForY, m_retrievedDataForY);
 }
 
@@ -203,6 +209,19 @@ void AprgModeling::printValidationData()
     printData(m_validationDataForX, m_validationDataForY);
 }
 
+void AprgModeling::printData(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY)
+{
+    for(unsigned int j=0; j<matrixInY.getRows(); j++)
+    {
+        cout<<matrixInY.get(0, j)<<" <- ";
+        for(unsigned int i=0; i<matrixInX.getColumns(); i++)
+        {
+            cout<<matrixInX.get(i, j)<<", ";
+        }
+        cout<<endl;
+    }
+}
+
 void AprgModeling::copyVectorToMatrix(unsigned int const numberOfColumns, unsigned int const numberOfRows, VectorOfDoubles const& retrievedDataForX, MatrixOfDoubles & matrixOfDoubles)
 {
     matrixOfDoubles.clearAndResize(numberOfColumns, numberOfRows);
@@ -216,19 +235,6 @@ void AprgModeling::copyVectorToMatrix(unsigned int const numberOfColumns, unsign
             x=0;
             y++;
         }
-    }
-}
-
-void AprgModeling::printData(MatrixOfDoubles & matrixInX, MatrixOfDoubles & matrixInY)
-{
-    for(unsigned int j=0; j<matrixInY.getRows(); j++)
-    {
-        cout<<matrixInY.get(0, j)<<" || ";
-        for(unsigned int i=0; i<matrixInX.getColumns(); i++)
-        {
-            cout<<matrixInX.get(i, j)<<", ";
-        }
-        cout<<endl;
     }
 }
 
@@ -268,7 +274,6 @@ void AprgModeling::calculateCoefficientsUsingLeastSquares()
     unsigned int dataWidth = m_modelingDataForX.getColumns();
     double chisq;
 
-    ALBA_PRINT2(dataHeight, dataWidth);
     gsl_matrix *xModelingData, *calculatedCovariance;
     gsl_vector *yModelingData, *calculatedCoefficients;
 
@@ -277,15 +282,29 @@ void AprgModeling::calculateCoefficientsUsingLeastSquares()
     calculatedCoefficients = gsl_vector_alloc(dataWidth);
     calculatedCovariance = gsl_matrix_alloc(dataWidth, dataWidth);
 
-    m_modelingDataForY.traverse([&](unsigned int const, unsigned int const y, double const value)
+    unsigned int numberOfRowsMatrixDataForY(m_modelingDataForY.getRows());
+    unsigned int numberOfColumnsMatrixDataForY(m_modelingDataForY.getColumns());
+    MatrixOfDoubles::MatrixData modelingMatrixDataForY(m_modelingDataForY.getMatrixData());
+    for(unsigned int y=0; y<numberOfRowsMatrixDataForY; y++)
     {
-        gsl_vector_set(yModelingData, y, value);
-    });
+        for(unsigned int x=1; x<numberOfColumnsMatrixDataForY; x++)
+        {
+            double value(modelingMatrixDataForY.at(m_modelingDataForY.getMatrixIndex(x, y)));
+            gsl_vector_set(yModelingData, y, value);
+        }
+    }
 
-    m_modelingDataForX.traverse([&](unsigned int const x, unsigned int const y, double const value)
+    unsigned int numberOfRowsMatrixDataForX(m_modelingDataForX.getRows());
+    unsigned int numberOfColumnsMatrixDataForX(m_modelingDataForX.getColumns());
+    MatrixOfDoubles::MatrixData modelingMatrixDataForX(m_modelingDataForX.getMatrixData());
+    for(unsigned int y=0; y<numberOfRowsMatrixDataForX; y++)
     {
-        gsl_matrix_set(xModelingData, y, x, value);
-    });
+        for(unsigned int x=1; x<numberOfColumnsMatrixDataForX; x++)
+        {
+            double value(modelingMatrixDataForX.at(m_modelingDataForX.getMatrixIndex(x, y)));
+            gsl_matrix_set(xModelingData, y, x, value);
+        }
+    }
 
     gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc(dataHeight, dataWidth);
     gsl_multifit_linear(xModelingData, yModelingData, calculatedCoefficients, calculatedCovariance, &chisq, work);
@@ -301,7 +320,7 @@ void AprgModeling::calculateCoefficientsUsingLeastSquares()
     gsl_vector_free(calculatedCoefficients);
     gsl_vector_free(yModelingData);
     gsl_matrix_free(xModelingData);
-}\
+}
 
 unsigned int AprgModeling::getIndex(unsigned int const i, unsigned int const j, unsigned int const numberOfColumns) const
 {

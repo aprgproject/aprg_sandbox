@@ -30,7 +30,7 @@ TEST(SampleTest, TestForDataSet)
 
     AprgModeling::MatrixOfDoubles coefficients(modeling.getCoefficients());
     cout<<"Coefficients:"<<endl;
-    coefficients.traverse([&](unsigned int const x, unsigned int const, double const value)
+    coefficients.traverseThroughYAndThenX([&](unsigned int const x, unsigned int const, double const value)
     {
         cout<<"["<<x+1<<" -> "<<std::setprecision(20)<<value<<"],"<<endl;
     });
@@ -55,7 +55,7 @@ TEST(SampleTest, DISABLED_TestForDataSet3_FileFormat2)
 
     AprgModeling::MatrixOfDoubles coefficients(modeling.getCoefficients());
     cout<<"Coefficients:"<<endl;
-    coefficients.traverse([&](unsigned int const x, unsigned int const, double const value)
+    coefficients.traverseThroughYAndThenX([&](unsigned int const x, unsigned int const, double const value)
     {
         cout<<"["<<x+1<<" -> "<<std::setprecision(20)<<value<<"],"<<endl;
     });

@@ -41,6 +41,9 @@ public:
     void setPenPixelsToOutputCanvas();
     void setColoredPixelsForDifferentLabelsIntoOutputCanvas();
 
+    void gatherAndSaveColorDataAndStatistics();
+    void convertToAnimeColor(std::string const& fileName);
+
 private:
     unsigned int analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(
             UnionFindForLabels & unionFindForLabels,

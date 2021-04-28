@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Math/AlbaMatrix.hpp>
+#include <AlbaMatrix.hpp>
 
 #include <string>
 #include <vector>
@@ -26,6 +26,11 @@ public:
     MatrixOfDoubles getCoefficients() const;
     void retrieveDataFromFileWithFileFormat1(std::string const& filePath);
     void retrieveDataFromFileWithFileFormat2(std::string const& filePath);
+    void saveRetrievedDataForXAndY(
+            unsigned int numberOfIndicators,
+            unsigned int numberOfSamples,
+            VectorOfDoubles const& retrievedDataForX,
+            VectorOfDoubles const& retrievedDataForY);
     void saveRetrievedDataToModelingDataRandomly(unsigned int numberOfSamples);
     void saveRetrievedDataToValidationDataRandomly(unsigned int numberOfSamples);
     void saveRetrievedDataToModelingData(unsigned int numberOfSamples);

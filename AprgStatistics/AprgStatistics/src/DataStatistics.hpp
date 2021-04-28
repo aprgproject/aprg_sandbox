@@ -20,9 +20,23 @@ public:
     using SampleOptional = alba::AlbaOptional<Sample>;
     using DoubleOptional = alba::AlbaOptional<double>;
 
+    DataStatistics()
+    {}
+
     DataStatistics(Samples const& samples)
         : m_samples(samples)
     {}
+
+    void clearPreviousCalculations()
+    {
+        m_sum.clear();
+        m_mean.clear();
+        m_sampleVariance.clear();
+        m_sampleStandardDeviation.clear();
+        m_populationVariance.clear();
+        m_populationStandardDeviation.clear();
+        m_dispersionAroundTheCentroid.clear();
+    }
 
     Sample getSum()
     {
@@ -156,7 +170,7 @@ protected:
     SampleOptional m_populationVariance;
     SampleOptional m_populationStandardDeviation;
     DoubleOptional m_dispersionAroundTheCentroid;
-    Samples m_samples;
+    Samples const& m_samples;
 };
 
 }

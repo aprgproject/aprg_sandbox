@@ -20,12 +20,14 @@ namespace alba
 template <typename DataType>
 class AlbaMatrix
 {
+public:
     using MatrixData = std::vector<DataType>;
     using BinaryFunction = std::function<DataType(DataType const&, DataType const&)>;
     using UnaryFunction = std::function<DataType(DataType const&)>;
     using LoopFunction = std::function<void(unsigned int const x, unsigned int const y)>;
+    using LoopWithValueFunction = std::function<void(unsigned int const x, unsigned int const y,DataType const& value)>;
     using MatrixIndexRange = AlbaRange<unsigned int>;
-public:
+
     AlbaMatrix()
         : m_numberOfColumns(0) // can we make this as template parameter?
         , m_numberOfRows(0)
@@ -42,6 +44,10 @@ public:
     unsigned int getRows() const
     {
         return m_numberOfRows;
+    }
+    MatrixData getMatrixData() const
+    {
+        return m_matrixData;
     }
     DataType get(unsigned int const x, unsigned int const y) const
     {
@@ -242,6 +248,34 @@ public:
         }
         return true;
     }
+    void traverseThroughYAndThenX(LoopWithValueFunction loopWithValueFunction) const
+    {
+        for(unsigned int y=0; y<m_numberOfRows; y++)
+        {
+            for(unsigned int x=1; x<m_numberOfColumns; x++)
+            {
+                loopWithValueFunction(x, y, m_matrixData.at(getMatrixIndex(x, y)));
+            }
+        }
+    }
+    void traverseThroughXAndThenY(LoopWithValueFunction loopWithValueFunction) const
+    {
+        for(unsigned int x=1; x<m_numberOfColumns; x++)
+        {
+            for(unsigned int y=0; y<m_numberOfRows; y++)
+            {
+                loopWithValueFunction(x, y, m_matrixData.at(getMatrixIndex(x, y)));
+            }
+        }
+    }
+    unsigned int getMatrixIndex(unsigned int const x, unsigned int const y) const
+    {
+        return getMatrixIndex(x, y, m_numberOfColumns);
+    }
+    unsigned int getMatrixIndex(unsigned int const x, unsigned int const y, unsigned int const numberOfColumns) const
+    {
+        return (y*numberOfColumns)+x;
+    }
 
 private:
     void traverseWithBinaryOperationWithSameDimensions(
@@ -388,14 +422,6 @@ private:
                 loopFunction(xValue, yValue);
             });
         });
-    }
-    unsigned int getMatrixIndex(unsigned int const x, unsigned int const y) const
-    {
-        return getMatrixIndex(x, y, m_numberOfColumns);
-    }
-    unsigned int getMatrixIndex(unsigned int const x, unsigned int const y, unsigned int const numberOfColumns) const
-    {
-        return (y*numberOfColumns)+x;
     }
     unsigned int m_numberOfColumns;
     unsigned int m_numberOfRows;

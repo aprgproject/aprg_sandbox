@@ -9,6 +9,18 @@ using namespace std;
 
 #define APRG_BITMAP_FILTERS_BITMAP_DIRECTORY APRG_DIR R"(AprgBitmapFilters\AprgBitmapFilters\tst\Bitmaps\)"
 
+TEST(BitmapFilterTest, GatherAndSaveStatisticsWorks)
+{
+    AprgBitmapFilters bitmapFilter(R"(N:\Branches\APRG\AprgBitmapFilters\AprgBitmapFilters\tst\NonAnimeBitmaps\GilmoreGirls.bmp)");
+    bitmapFilter.gatherAndSaveColorDataAndStatistics();
+}
+
+TEST(BitmapFilterTest, DISABLED_ConvertToAnimeColorWorks)
+{
+    AprgBitmapFilters bitmapFilter(R"(N:\Branches\APRG\AprgBitmapFilters\AprgBitmapFilters\tst\NonAnimeBitmaps\Foals.bmp)");
+    bitmapFilter.convertToAnimeColor("AnimeOutput.bmp");
+}
+
 TEST(BitmapFilterTest, DISABLED_CclTestOneComponentAtATime)
 {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);

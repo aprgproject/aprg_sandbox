@@ -2,9 +2,6 @@
 
 #include <gtest/gtest.h>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace alba;
 using namespace alba::ColorUtilities;
 using namespace std;
@@ -26,9 +23,12 @@ TEST(ColorUtilitiesTest, CalculateHueDegreesWorks)
     double hueDegrees1(calculateHueDegrees(calculateColorPercentagesData(0x0)));
     double hueDegrees2(calculateHueDegrees(calculateColorPercentagesData(0xFFFFFF)));
     double hueDegrees3(calculateHueDegrees(calculateColorPercentagesData(0x83A96E)));
+    double hueDegrees4(calculateHueDegrees(calculateColorPercentagesData(0x660003)));
 
     EXPECT_DOUBLE_EQ(0, hueDegrees1);
-    EXPECT_DOUBLE_EQ(0, hueDegrees2);    EXPECT_DOUBLE_EQ(98.644067796610187315, hueDegrees3);
+    EXPECT_DOUBLE_EQ(0, hueDegrees2);
+    EXPECT_DOUBLE_EQ(98.644067796610187315, hueDegrees3);
+    EXPECT_DOUBLE_EQ(358.2352941176470722, hueDegrees4);
 }
 
 TEST(ColorUtilitiesTest, CalculateColorIntensityDecimalWorks)
@@ -73,16 +73,16 @@ TEST(ColorUtilitiesTest, CalculateSaturationColorIntensityDecimalWorks)
     EXPECT_DOUBLE_EQ(0, saturationColorIntensityDecimal1);
     EXPECT_DOUBLE_EQ(0, saturationColorIntensityDecimal2);
     EXPECT_DOUBLE_EQ(0.26701570680628272658, saturationColorIntensityDecimal3);
-    ALBA_PRECISION(20);
-    ALBA_PRINT1(saturationColorIntensityDecimal3);
 }
 
 TEST(ColorUtilitiesTest, CreateHueSaturationLightnessDataWorks)
 {
     HueSaturationLightnessData hslData(createHueSaturationLightnessData(1.1, 2.2, 3.3));
+
     EXPECT_DOUBLE_EQ(1.1, hslData.hueDegrees);
     EXPECT_DOUBLE_EQ(2.2, hslData.saturationLightnessDecimal);
-    EXPECT_DOUBLE_EQ(3.3, hslData.lightnessDecimal);}
+    EXPECT_DOUBLE_EQ(3.3, hslData.lightnessDecimal);
+}
 
 TEST(ColorUtilitiesTest, CreateHueSaturationValueDataWorks)
 {
@@ -109,7 +109,8 @@ TEST(ColorUtilitiesTest, ConvertColorToHueSaturationLightnessDataWorks)
     HueSaturationLightnessData hslData3(convertColorToHueSaturationLightnessData(0xA7E6ABu));
 
     EXPECT_DOUBLE_EQ(0, hslData1.hueDegrees);
-    EXPECT_DOUBLE_EQ(0, hslData1.saturationLightnessDecimal);    EXPECT_DOUBLE_EQ(0, hslData1.lightnessDecimal);
+    EXPECT_DOUBLE_EQ(0, hslData1.saturationLightnessDecimal);
+    EXPECT_DOUBLE_EQ(0, hslData1.lightnessDecimal);
     EXPECT_DOUBLE_EQ(0, hslData2.hueDegrees);
     EXPECT_DOUBLE_EQ(0, hslData2.saturationLightnessDecimal);
     EXPECT_DOUBLE_EQ(1, hslData2.lightnessDecimal);
@@ -118,13 +119,15 @@ TEST(ColorUtilitiesTest, ConvertColorToHueSaturationLightnessDataWorks)
     EXPECT_DOUBLE_EQ(0.77843137254901961786, hslData3.lightnessDecimal);
 }
 
-TEST(ColorUtilitiesTest, ConvertColorToHueSaturationValueDataWorks){
+TEST(ColorUtilitiesTest, ConvertColorToHueSaturationValueDataWorks)
+{
     HueSaturationValueData hsvData1(convertColorToHueSaturationValueData(0x0));
     HueSaturationValueData hsvData2(convertColorToHueSaturationValueData(0xFFFFFF));
     HueSaturationValueData hsvData3(convertColorToHueSaturationValueData(0xA7E6ABu));
 
     EXPECT_DOUBLE_EQ(0, hsvData1.hueDegrees);
-    EXPECT_DOUBLE_EQ(0, hsvData1.saturationValueDecimal);    EXPECT_DOUBLE_EQ(0, hsvData1.valueDecimalOfColorMax);
+    EXPECT_DOUBLE_EQ(0, hsvData1.saturationValueDecimal);
+    EXPECT_DOUBLE_EQ(0, hsvData1.valueDecimalOfColorMax);
     EXPECT_DOUBLE_EQ(0, hsvData2.hueDegrees);
     EXPECT_DOUBLE_EQ(0, hsvData2.saturationValueDecimal);
     EXPECT_DOUBLE_EQ(1, hsvData2.valueDecimalOfColorMax);
@@ -133,13 +136,15 @@ TEST(ColorUtilitiesTest, ConvertColorToHueSaturationValueDataWorks){
     EXPECT_DOUBLE_EQ(0.90196078431372550543, hsvData3.valueDecimalOfColorMax);
 }
 
-TEST(ColorUtilitiesTest, ConvertHueSaturationLightnessDataToColorWorks){
+TEST(ColorUtilitiesTest, ConvertHueSaturationLightnessDataToColorWorks)
+{
     HueSaturationLightnessData hslData1(createHueSaturationLightnessData(0, 0, 0));
     HueSaturationLightnessData hslData2(createHueSaturationLightnessData(360, 1, 1));
     HueSaturationLightnessData hslData3(createHueSaturationLightnessData(123.80952380952379599, 0.55752212389380539914, 0.77843137254901961786));
 
     EXPECT_EQ(0x0u, convertHueSaturationLightnessDataToColor(hslData1));
-    EXPECT_EQ(0xFFFFFFu, convertHueSaturationLightnessDataToColor(hslData2));    EXPECT_EQ(0xA7E6ABu, convertHueSaturationLightnessDataToColor(hslData3));
+    EXPECT_EQ(0xFFFFFFu, convertHueSaturationLightnessDataToColor(hslData2));
+    EXPECT_EQ(0xA7E6ABu, convertHueSaturationLightnessDataToColor(hslData3));
 }
 
 TEST(ColorUtilitiesTest, ConvertHueSaturationValueDataToColorWorks)
@@ -197,9 +202,11 @@ TEST(ColorUtilitiesTest, ConvertHsvDataToHslDataWorks)
 
 TEST(ColorUtilitiesTest, ExtractRedWorks)
 {
-    EXPECT_EQ(0xFFu, extractRed(0xFFFFFF));    EXPECT_EQ(0x0u, extractRed(0x0));
+    EXPECT_EQ(0xFFu, extractRed(0xFFFFFF));
+    EXPECT_EQ(0x0u, extractRed(0x0));
     EXPECT_EQ(0x32u, extractRed(0x32CD32));
 }
+
 TEST(ColorUtilitiesTest, ExtractGreenWorks)
 {
     EXPECT_EQ(0xFFu, extractGreen(0xFFFFFF));
