@@ -146,7 +146,9 @@ BitmapXY AprgBitmapConfiguration::getUpLeftCornerPoint() const
 
 BitmapXY AprgBitmapConfiguration::getDownRightCornerPoint() const
 {
-    return BitmapXY(m_bitmapWidth-1, m_bitmapHeight-1);
+    unsigned int maxX = m_bitmapWidth==0 ? 0 : m_bitmapWidth-1;
+    unsigned int maxY = m_bitmapHeight==0 ? 0 : m_bitmapHeight-1;
+    return BitmapXY(maxX, maxY);
 }
 
 unsigned int AprgBitmapConfiguration::getColorUsingPixelValue(unsigned int pixelValue) const

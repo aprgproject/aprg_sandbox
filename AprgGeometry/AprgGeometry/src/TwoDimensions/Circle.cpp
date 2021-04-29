@@ -76,7 +76,7 @@ Points Circle::getPointsForCircumference(double const interval) const
     return result;
 }
 
-void Circle::traverseArea(double const interval, TraverseOperation const& traverseOperation)
+void Circle::traverseArea(double const interval, TraverseOperation const& traverseOperation) const
 {
     for(unsigned int y=0; y<=m_radius; y+=interval)
     {
@@ -149,6 +149,13 @@ Point Circle::getNearestPointInCircumference(Point const& point) const
     double nearestDeltaPointX = cos(angle) * m_radius * getSign(deltaPoint.getX());
     double nearestDeltaPointY = sin(angle) * m_radius * getSign(deltaPoint.getY());
     return Point(m_center.getX()+nearestDeltaPointX, m_center.getY()+nearestDeltaPointY);
+}
+
+string Circle::getDisplayableString() const
+{
+    std::stringstream ss;
+    ss << "(center: " << m_center.getDisplayableString() << " radius: " << m_radius << ")";
+    return ss.str();
 }
 
 Points Circle::getPointsInTraversingXAndY(double const signOfX, double const signOfY, double const interval) const

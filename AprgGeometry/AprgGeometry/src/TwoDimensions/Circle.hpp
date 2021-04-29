@@ -25,12 +25,15 @@ public:
     double getCircumference() const;
     bool isInside(Point const& point) const;
     Points getPointsForCircumference(double const interval) const;
-    void traverseArea(double const interval, TraverseOperation const& traverseOperation);
+    void traverseArea(double const interval, TraverseOperation const& traverseOperation) const;
     AlbaOptional<double> calculateYFromX(double const x, double const signOfRoot) const;
     AlbaOptional<double> calculateXFromY(double const y, double const signOfRoot) const;
     AlbaOptional<double> calculateYFromXWithoutCenter(double const x, double const signOfRoot) const;
     AlbaOptional<double> calculateXFromYWithoutCenter(double const y, double const signOfRoot) const;
     Point getNearestPointInCircumference(Point const& pointNotCircumference) const;
+
+    std::string getDisplayableString() const;
+
 private:
     Points getPointsInTraversingXAndY(double const signOfX, double const signOfY, double const interval) const;
     Points getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const;

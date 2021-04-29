@@ -4,8 +4,10 @@
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <QuickestWayToProgram.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <Math/AlbaMathHelper.hpp>#include <Debug/AlbaDebug.hpp>
+#include <Math/AlbaMathHelper.hpp>
+#include <Debug/AlbaDebug.hpp>
 #include <stdio.h>
+
 
 #include <gtest/gtest.h>
 #include <windows.h>
@@ -363,9 +365,11 @@ TEST(SampleTest, FindLongAndShortLogStrings)
 
 TEST(SampleTest, TuesdayChecklistVideos)
 {
-    AlbaLocalPathHandler::ListOfPaths files;    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(N:\Downloads\TuesdayChecklist)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
     for(string const& file: files)
     {
         cout<<file<<endl;

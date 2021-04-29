@@ -7,8 +7,8 @@ namespace alba
 
 
 PixelInformation::PixelInformation()
-    : type(PixelType::Unknown)
-    , label(INITIAL_LABEL_VALUE)
+    : label(INITIAL_LABEL_VALUE)
+    , isPenPixel(false)
 {}
 
 PixelInformationDatabase::PixelInformationDatabase()
@@ -18,8 +18,14 @@ void PixelInformationDatabase::saveAsPenPoints(BitmapXYs const& bitmapPoints)
 {
     for(BitmapXY const& bitmapPoint : bitmapPoints)
     {
-        m_pixelsInformationMap[bitmapPoint].type = PixelType::Pen;
+        m_pixelsInformationMap[bitmapPoint].isPenPixel = true;
+        m_penPixels.emplace(bitmapPoint);
     }
+}
+
+void PixelInformationDatabase::clear()
+{
+    m_pixelsInformationMap.clear();
 }
 
 PixelInformation PixelInformationDatabase::getPixelInformation(BitmapXY const& bitmapXY) const
@@ -36,9 +42,20 @@ PixelInformation & PixelInformationDatabase::getPixelInformationReferenceAndCrea
     return m_pixelsInformationMap[bitmapXY];
 }
 
-void PixelInformationDatabase::clear()
+PixelInformationDatabase::PixelSet const & PixelInformationDatabase::getPenPixelsConstReference() const
 {
-    m_pixelsInformationMap.clear();
+    return m_penPixels;
 }
+
+TwoDimensions::Circles & PixelInformationDatabase::getPenCirclesReference()
+{
+    return m_penCircles;
+}
+
+TwoDimensions::Circles const & PixelInformationDatabase::getPenCirclesConstReference() const
+{
+    return m_penCircles;
+}
+
 
 }

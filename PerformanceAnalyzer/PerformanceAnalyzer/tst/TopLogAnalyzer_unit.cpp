@@ -16,7 +16,8 @@ TEST(TopLogAnalyzerTest, DISABLED_ProcessTopLogFromStabi)
 TEST(TopLogAnalyzerTest, DISABLED_ProcessTopLogFromStabi2)
 {
     TopLogAnalyzer analyzer;
-    analyzer.processTopLog(R"(D:\Logs\111_MainBasisPet\SBTS17REL4\12102017\putty_TOP_ASIAright.log)");}
+    analyzer.processTopLog(R"(D:\Logs\111_MainBasisPet\SBTS17REL4\12102017\putty_TOP_ASIAright.log)");
+}
 
 
 }

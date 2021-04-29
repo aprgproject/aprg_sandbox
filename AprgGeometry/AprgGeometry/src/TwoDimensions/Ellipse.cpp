@@ -106,7 +106,7 @@ Points Ellipse::getPointsForCircumference(double const interval) const
     return result;
 }
 
-void Ellipse::traverseArea(double const interval, TraverseOperation const& traverseOperation)
+void Ellipse::traverseArea(double const interval, TraverseOperation const& traverseOperation) const
 {
     for(unsigned int y=0; y<=m_bValue; y+=interval)
     {
@@ -146,6 +146,13 @@ double Ellipse::calculateYFromXWithoutCenter(double const x, double const signOf
 double Ellipse::calculateXFromYWithoutCenter(double const y, double const signOfRoot) const
 {
     return pow(1 - pow(y/m_bValue, 2), 0.5)*signOfRoot*m_aValue;
+}
+
+string Ellipse::getDisplayableString() const
+{
+    std::stringstream ss;
+    ss << "(center: " << m_center.getDisplayableString() << " a: " << m_aValue << " b: " << m_bValue << ")";
+    return ss.str();
 }
 
 Points Ellipse::getPointsInTraversingXAndY(double const signOfX, double const signOfY, double const interval) const

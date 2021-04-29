@@ -28,21 +28,25 @@ public:
     void copyOutputCanvasToInputCanvas();
 
     void determinePenPixels(double const penSearchRadius, unsigned int const similarityColorLimit);
+    void determinePenCircles(unsigned int const similarityColorLimit, double const acceptablePenPercentage);
+
+    void drawPenCirclesToOutputCanvas();
+    void drawBlankGapsUsingBlurInOutputCanvas(double const blurRadius);
+    void drawBlurredNonPenPixelsToOutputCanvas(double const blurRadius, unsigned int const similarityColorLimit);
+    void drawNonPenPixelsToOutputCanvas();
+    void drawPenPixelsToOutputCanvas();
+
     void getConnectedComponentsOneComponentAtATime();
     void getConnectedComponentsTwoPass();
 
-    void saveOutputCanvasToCurrentBitmapFile() const;
-    void saveOutputCanvasIntoDifferentFile(std::string const& filename);
+    void saveOutputCanvasIntoCurrentBitmapFile() const;
+    void saveOutputCanvasIntoFileInTheSameDirectory(std::string const& filename);
+    void saveOutputCanvasIntoFileWithFullFilePath(std::string const& fullFilePath);
 
     void setBackgroundColor(unsigned int const backgroundColor);
-    void setBlankGapsUsingBlurToOutputCanvas(double const blurRadius);
-    void setBlurredNonPenPixelsToOutputCanvas(double const blurRadius, unsigned int const similarityColorLimit);
-    void setNonPenPixelsToOutputCanvas();
-    void setPenPixelsToOutputCanvas();
-    void setColoredPixelsForDifferentLabelsIntoOutputCanvas();
 
     void gatherAndSaveColorDataAndStatistics();
-    void convertToAnimeColor(std::string const& fileName);
+    void drawToAnimeColorToOutputCanvas();
 
 private:
     unsigned int analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(
@@ -64,8 +68,6 @@ private:
 
     unsigned int getBlurredColor(AprgBitmapSnippet const& canvas, BitmapXY const& centerXY, double const blurRadius, BlurCondition const& isIncludedInBlur) const;
     double getBlurWeight(double const distanceFromCenter, double const blurRadius) const;
-
-    void setLabelToColorMapForStableRun(std::map<unsigned int, unsigned int>& labelToColorMap) const;
 
     unsigned int m_backgroundColor;
     AprgBitmap m_bitmap;
