@@ -113,19 +113,17 @@ stringHelper::strings TopLogAnalyzer::getProcessNamesForCpuReport()
     {
         bool result(false);
         bool isTcomTupcOnFirstProcess(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "TCOM") ||
-                                      stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "Conman_EU") ||
-                                      stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "Aalman_EU"));
+                                      stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "Conman") ||
+                                      stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "Aalman"));
         bool isTcomTupcOnSecondProcess(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "TCOM") ||
-                                       stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "Conman_EU") ||
-                                       stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "Aalman_EU"));
+                                       stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "Conman") ||
+                                       stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "Aalman"));
         double firstProcessCpuBasis(0);
         double secondProcessCpuBasis(0);
-        if(m_processToCpuMemCollectionMap.find(firstProcessName) != m_processToCpuMemCollectionMap.end())
-        {
+        if(m_processToCpuMemCollectionMap.find(firstProcessName) != m_processToCpuMemCollectionMap.end())        {
             firstProcessCpuBasis = m_processToCpuMemCollectionMap.at(firstProcessName).cpu.getAverage();
         }
-        if(m_processToCpuMemCollectionMap.find(secondProcessName) != m_processToCpuMemCollectionMap.end())
-        {
+        if(m_processToCpuMemCollectionMap.find(secondProcessName) != m_processToCpuMemCollectionMap.end())        {
             secondProcessCpuBasis = m_processToCpuMemCollectionMap.at(secondProcessName).cpu.getAverage();
         }
 
@@ -202,19 +200,17 @@ stringHelper::strings TopLogAnalyzer::getProcessNamesForMemReport()
     {
         bool result(false);
         bool isTcomTupcOnFirstProcess(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "TCOM") ||
-                                      stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "Conman_EU") ||
-                                      stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "Aalman_EU"));
+                                      stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "Conman") ||
+                                      stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(firstProcessName, "Aalman"));
         bool isTcomTupcOnSecondProcess(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "TCOM") ||
-                                       stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "Conman_EU") ||
-                                       stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "Aalman_EU"));
+                                       stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "Conman") ||
+                                       stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(secondProcessName, "Aalman"));
         double firstProcessMemBasis(0);
         double secondProcessMemBasis(0);
-        if(m_processToCpuMemCollectionMap.find(firstProcessName) != m_processToCpuMemCollectionMap.end())
-        {
+        if(m_processToCpuMemCollectionMap.find(firstProcessName) != m_processToCpuMemCollectionMap.end())        {
             firstProcessMemBasis = m_processToCpuMemCollectionMap.at(firstProcessName).mem.getAverage();
         }
-        if(m_processToCpuMemCollectionMap.find(secondProcessName) != m_processToCpuMemCollectionMap.end())
-        {
+        if(m_processToCpuMemCollectionMap.find(secondProcessName) != m_processToCpuMemCollectionMap.end())        {
             secondProcessMemBasis = m_processToCpuMemCollectionMap.at(secondProcessName).mem.getAverage();
         }
 
