@@ -2,13 +2,10 @@
 #include <File/AlbaFileReader.hpp>
 #include <NsapHelper.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <QuickestWayToProgram.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <Math/AlbaMathHelper.hpp>
-#include <Debug/AlbaDebug.hpp>
+#include <Math/AlbaMathHelper.hpp>#include <Debug/AlbaDebug.hpp>
 #include <stdio.h>
-
 
 #include <gtest/gtest.h>
 #include <windows.h>
@@ -50,13 +47,325 @@ TEST(SampleTest, RenameFiles)
 
 /*
 
-TEST(SampleTest, TuesdayChecklistVideos)
+TEST(SampleTest, FindSourceFilesToAdjust_FileList)
 {
     AlbaLocalPathHandler::ListOfPaths files;
     AlbaLocalPathHandler::ListOfPaths directories;
-    AlbaLocalPathHandler pathHandler(R"(N:\Downloads\TuesdayChecklist)");
+    AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\trunk\SBTS\tcom\C_Application\SC_TCOM)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
 
+    ifstream listFileStream(R"(C:\Branches\CP\trunk\diffs\filelist.txt)");
+
+    if(listFileStream.is_open())
+    {
+        AlbaFileReader listFileReader(listFileStream);
+        while(listFileReader.isNotFinished())
+        {
+            string filePath(listFileReader.getLineAndIgnoreWhiteSpaces());
+            AlbaLocalPathHandler filePathHandler(filePath);
+            string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
+            if((extensionInCapitals=="C" || extensionInCapitals=="CPP" || extensionInCapitals=="H" || extensionInCapitals=="HPP") &&
+                    !(
+                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_LINUX")
+
+                        ))
+            {
+                ifstream logStream(filePath);
+                if(logStream.is_open())
+                {
+                    AlbaFileReader logFileReader(logStream);
+                    while(logFileReader.isNotFinished())
+                    {
+                        string lineInFile(logFileReader.getLineAndIgnoreWhiteSpaces());
+                        string stringToAnalyze(lineInFile);
+                        if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze, "createSicad"))
+                        {
+                            ALBA_PRINT1(filePath);
+                            ALBA_PRINT1(stringToAnalyze);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*
+
+TEST(SampleTest, FindSourceFilesToAdjust_FileList)
+{
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\trunk\SBTS\tcom\C_Application\SC_TCOM)");
+    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
+    ifstream listFileStream(R"(C:\Branches\CP\trunk\diffs\filelist.txt)");
+
+    if(listFileStream.is_open())
+    {
+        AlbaFileReader listFileReader(listFileStream);
+        while(listFileReader.isNotFinished())
+        {
+            string filePath(listFileReader.getLineAndIgnoreWhiteSpaces());
+            AlbaLocalPathHandler filePathHandler(filePath);
+            string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
+            if((extensionInCapitals=="C" || extensionInCapitals=="CPP") &&
+                    !(
+                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_MEAS") ||
+                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_LINUX") ||
+                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_TOAM")
+
+                        ))
+            {
+                AlbaLocalPathHandler headerFileWithH(filePathHandler.getDirectory()+filePathHandler.getFilenameOnly()+".h");
+                AlbaLocalPathHandler headerFileWithHpp(filePathHandler.getDirectory()+filePathHandler.getFilenameOnly()+".hpp");
+                string headerIncludeWithH = string(R"(#include ")") + filePathHandler.getFilenameOnly() + string(R"(.h")");
+                string headerIncludeWithHpp = string(R"(#include ")") + filePathHandler.getFilenameOnly() + string(R"(.hpp")");
+                bool isHeaderFileWithH = headerFileWithH.isFoundInLocalSystem();
+                bool isHeaderFileWithHpp = headerFileWithHpp.isFoundInLocalSystem();
+
+                if(isHeaderFileWithH || isHeaderFileWithHpp)
+                        // && stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), R"(CP_DMGR\src\messages\MessageHandler)"))
+                {
+                    ifstream logStream(filePath);
+                    if(logStream.is_open())
+                    {
+                        bool isHeaderIncludeWithQuotationsFound(false);
+                        AlbaFileReader logFileReader(logStream);
+                        while(logFileReader.isNotFinished())
+                        {
+                            string lineInFile(logFileReader.getLineAndIgnoreWhiteSpaces());
+                            string stringToAnalyze(lineInFile);
+                            if(isHeaderFileWithH && stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze, headerIncludeWithH))
+                            {
+                                isHeaderIncludeWithQuotationsFound = true;
+                                break;
+                            }
+                            if(isHeaderFileWithHpp && stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze, headerIncludeWithHpp))
+                            {
+                                isHeaderIncludeWithQuotationsFound = true;
+                                break;
+                            }
+                            //ALBA_PRINT3(stringToAnalyze, isHeaderFileWithH, headerIncludeWithH);
+                            //ALBA_PRINT3(stringToAnalyze, isHeaderFileWithHpp, headerIncludeWithHpp);
+                        }
+                        if(isHeaderIncludeWithQuotationsFound==false)
+                        {
+                            ALBA_PRINT1(filePathHandler.getFullPath());
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TEST(SampleTest, FindHeaderFilesToAdjust_FileList)
+{
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\trunk\SBTS\tcom\C_Application\SC_TCOM)");
+    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
+    ifstream listFileStream(R"(C:\Branches\CP\trunk\diffs\filelist.txt)");
+
+    if(listFileStream.is_open())
+    {
+        AlbaFileReader listFileReader(listFileStream);
+        while(listFileReader.isNotFinished())
+        {
+            string filePath(listFileReader.getLineAndIgnoreWhiteSpaces());
+            AlbaLocalPathHandler filePathHandler(filePath);
+            string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
+            if((extensionInCapitals=="H" || extensionInCapitals=="HPP") &&
+                    !(
+                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_MEAS") ||
+                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_LINUX") ||
+                        stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_TOAM")
+
+                        ))
+            {
+                ifstream logStream(filePath);
+                if(logStream.is_open())
+                {
+                    bool isPragmaOnceFound(false);
+                    AlbaFileReader logFileReader(logStream);
+                    while(logFileReader.isNotFinished())
+                    {
+                        string lineInFile(logFileReader.getLineAndIgnoreWhiteSpaces());
+                        string stringToAnalyze(lineInFile);
+                        if(stringToAnalyze == "#pragma once")
+                        {
+                            //ALBA_PRINT1(filePathHandler.getFullPath());
+                            //ALBA_PRINT1(stringToAnalyze);
+                            isPragmaOnceFound = true;
+                            break;
+                        }
+                    }
+                    if(isPragmaOnceFound==false)
+                    {
+                        ALBA_PRINT1(filePathHandler.getFullPath());
+                    }
+                }
+            }
+        }
+    }
+}
+
+TEST(SampleTest, FindSourceFilesToAdjust_FromDirectory)
+{
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\trunk\SBTS\tcom\C_Application\SC_TCOM)");
+    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
+    for(string const& file: files)
+    {
+        AlbaLocalPathHandler filePathHandler(file);
+        string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
+        if((extensionInCapitals=="H" || extensionInCapitals=="HPP") &&
+                !(
+                    stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_MEAS") ||
+                    stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_LINUX") ||
+                    stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_TOAM")
+
+                    ))
+        {
+            ifstream logStream(file);
+            if(logStream.is_open())
+            {
+                AlbaFileReader logFileReader(logStream);
+                while(logFileReader.isNotFinished())
+                {
+                    string lineInFile(logFileReader.getLineAndIgnoreWhiteSpaces());
+                    string stringToAnalyze(lineInFile);
+                    if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze, "using namespace fw") ||
+                            stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze, "using fw::")
+                            )
+                    {
+                        ALBA_PRINT1(filePathHandler.getFullPath());
+                        ALBA_PRINT1(lineInFile);
+                        cout<<endl;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+TEST(SampleTest, FindSourceFilesToAdjust_FromDirectory)
+{
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\trunk\SBTS\tcom\C_Application\SC_TCOM)");
+    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
+    for(string const& file: files)
+    {
+        AlbaLocalPathHandler filePathHandler(file);
+        string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
+        if((extensionInCapitals=="C" || extensionInCapitals=="CPP") &&
+                !(
+                    stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_MEAS") ||
+                    stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_LINUX") ||
+                    stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFullPath(), "CP_TOAM")
+
+                    ))
+        {
+            ifstream logStream(file);
+            if(logStream.is_open())
+            {
+                AlbaFileReader logFileReader(logStream);
+                while(logFileReader.isNotFinished())
+                {
+                    string lineInFile(logFileReader.getLineAndIgnoreWhiteSpaces());
+                    string stringToAnalyze(lineInFile);
+                    stringHelper::transformReplaceStringIfFound(stringToAnalyze, "using namespace fw", "");
+                    stringHelper::transformReplaceStringIfFound(stringToAnalyze, "using fw", "");
+                    stringHelper::transformReplaceStringIfFound(stringToAnalyze, "fw::flush", "");
+                    stringHelper::transformReplaceStringIfFound(stringToAnalyze, "fw::MessageBackend", "");
+                    stringHelper::transformReplaceStringIfFound(stringToAnalyze, "fw::MessageFactory", "");
+                    stringHelper::transformReplaceStringIfFound(stringToAnalyze, "fw::MessageLogger", "");
+                    stringHelper::transformReplaceStringIfFound(stringToAnalyze, "fw::StlFileReader", "");
+                    stringHelper::transformReplaceStringIfFound(stringToAnalyze, "fw::ObjectManager", "");
+                    stringHelper::transformReplaceStringIfFound(stringToAnalyze, "using CommonLogger = fw::", "");
+                    if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(stringToAnalyze, "fw::"))
+                    {
+                        ALBA_PRINT1(filePathHandler.getFullPath());
+                        ALBA_PRINT1(lineInFile);
+                        cout<<endl;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+TEST(SampleTest, FindNearEmptyFiles)
+{
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler pathHandler(R"(C:\Branches\CP\trunk\SBTS\tcom\C_Application\SC_TCOM)");
+    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
+    for(string const& file: files)
+    {
+        AlbaLocalPathHandler filePathHandler(file);
+        string extensionInCapitals(stringHelper::getStringWithCapitalLetters(filePathHandler.getExtension()));
+        if(extensionInCapitals=="TXT" ||
+                extensionInCapitals=="CMAKE" ||
+                extensionInCapitals=="C" ||
+                extensionInCapitals=="CPP" ||
+                extensionInCapitals=="H" ||
+                extensionInCapitals=="HPP")
+        {
+            if(!stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFile(), "CMakeLists.txt") &&
+                    !stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(filePathHandler.getFile(), "_cppc_sup") &&
+                    filePathHandler.getFileSizeEstimate() < 50)
+            {
+                ALBA_PRINT1(filePathHandler.getFullPath());
+            }
+        }
+    }
+}
+
+TEST(SampleTest, FindLongAndShortLogStrings)
+{
+    AlbaLocalPathHandler::ListOfPaths files;
+    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler pathHandler(R"(C:\Users\malba\Desktop\Delete\FrameworkLogLengthAnalysis\DMGR_MT_LOGS)");
+    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
+
+    for(string const& file: files)
+    {
+        ifstream logStream(file);
+        if(logStream.is_open())
+        {
+            AlbaFileReader logFileReader(logStream);
+            while(logFileReader.isNotFinished())
+            {
+                string lineInFile(logFileReader.getLineAndIgnoreWhiteSpaces());
+                unsigned int length(lineInFile.length());
+                if(length >= 200)
+                {
+                    cout << "Line might be long. Length:[" << length << "] [" << lineInFile << "]" << endl;
+                }
+                if(length <= 40 && length > 0)
+                {
+                    cout << "Line might be short. Length: " << length << " [" << lineInFile << "]" << endl;
+                }
+            }
+        }
+    }
+}
+
+TEST(SampleTest, TuesdayChecklistVideos)
+{
+    AlbaLocalPathHandler::ListOfPaths files;    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler pathHandler(R"(N:\Downloads\TuesdayChecklist)");
+    pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
     for(string const& file: files)
     {
         cout<<file<<endl;

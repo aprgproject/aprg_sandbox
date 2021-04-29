@@ -13,11 +13,10 @@ TEST(TopLogAnalyzerTest, DISABLED_ProcessTopLogFromStabi)
     analyzer.processTopLog(R"(C:\Users\malba\Desktop\FrameworkLogs\SctStabiTest\0007_RealTestingNewFw3Times\allTopLogs_fw.txt)");
 }
 
-TEST(TopLogAnalyzerTest, ProcessTopLogFromStabi2)
+TEST(TopLogAnalyzerTest, DISABLED_ProcessTopLogFromStabi2)
 {
     TopLogAnalyzer analyzer;
-    analyzer.processTopLog(R"(D:\Logs\111_MainBasisPet\SBTS17REL4\12102017\putty_TOP_ASIAright.log)");
-}
+    analyzer.processTopLog(R"(D:\Logs\111_MainBasisPet\SBTS17REL4\12102017\putty_TOP_ASIAright.log)");}
 
 
 }
