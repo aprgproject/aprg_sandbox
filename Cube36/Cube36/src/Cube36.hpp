@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fstream>
 #include <vector>
 #include <set>
 
@@ -9,18 +10,18 @@ namespace alba
 class Pieces
 {
 public:
-    Pieces(int numberOfColors, int maximumHeight);
-    bool isPieceAvailable(int height, int color);
-    void setPieceAsUnavailable(int height, int color);
-    void setPieceAsAvailable(int height, int color);
-    int getNextColorWithHeight(int height, int startingColor) const;
-    void printPieces() const;
-    int getNumberOfColors() const;
+    Pieces(unsigned int numberOfColors, unsigned int maximumHeight);
+    bool isPieceAvailable(unsigned int height, unsigned int color) const;
+    void setPieceAsUnavailable(unsigned int height, unsigned int color);
+    void setPieceAsAvailable(unsigned int height, unsigned int color);
+    unsigned int getNextColorWithHeight(unsigned int height, unsigned int startingColor) const;
+    unsigned int getNumberOfColors() const;
+    unsigned int getMaximumHeight() const;
 
 private:
-    int getPiecesIndex(int heightIndex, int colorIndex) const;
-    int m_numberOfColors;
-    int m_maximumHeight;
+    unsigned int getPiecesIndex(unsigned int heightIndex, unsigned int colorIndex) const;
+    unsigned int m_numberOfColors;
+    unsigned int m_maximumHeight;
     std::vector<bool> m_availablePieces;
 };
 
@@ -28,28 +29,34 @@ private:
 class Board
 {
 public:
-    Board(int rows, int columns);
-    void solve(int row, int column);
-    int getHeightAt(int rowIndex, int columnIndex) const;
-    int getColorAt(int rowIndex, int columnIndex) const;
-    bool setNextColorAtIndex(int rowIndex, int columnIndex);
-    bool isColorUniqueAtIndex(int rowIndex, int columnIndex) const;
-    bool isColorUniqueAtRow(int rowIndex) const;
-    bool isColorUniqueAtColumn(int columnIndex) const;
-    void setColorAt(int color, int rowIndex, int columnIndex);
-    void printColorsOfWorkingBoard() const;
-    void printColorsOfFinalBoard() const;
-    void clearColorStartingAt(int startingRow, int startingColumn);
+    Board(unsigned int rows, unsigned int columns, unsigned int numberOfColors, unsigned int maximumHeight);
+    void setHeightBoard(std::initializer_list<unsigned int> heightBoard);
+    void solve();
+    unsigned int getHeightAt(unsigned int rowIndex, unsigned int columnIndex) const;
+    unsigned int getColorAt(unsigned int rowIndex, unsigned int columnIndex) const;
+    bool setNextColorAtIndex(unsigned int rowIndex, unsigned int columnIndex);
+    bool isColorUniqueAtIndex(unsigned int rowIndex, unsigned int columnIndex) const;
+    bool isColorUniqueAtRow(unsigned int rowIndex) const;
+    bool isColorUniqueAtColumn(unsigned int columnIndex) const;
+    void setColorAt(unsigned int color, unsigned int rowIndex, unsigned int columnIndex);
+    void printColorsBoardAndPieces(
+            std::ostream& printStream,
+            std::vector<unsigned int> const& colorBoard,
+            Pieces const& pieces);
+    void printColorsOfFinalBoard();
+    void clearColorStartingAt(unsigned int startingRow, unsigned int startingColumn);
+    unsigned int getBoardSize() const;
 
 private:
-    int getBoardIndex(int rowIndex, int columnIndex) const;
-    bool isColorUnique(std::set<int> const& colors, int color) const;
-    int m_rows;
-    int m_columns;
-    std::vector<int> m_heightBoard;
-    std::vector<int> m_colorBoard;
-    std::vector<int> m_colorBoardFinal;
+    unsigned int getBoardIndex(unsigned int rowIndex, unsigned int columnIndex) const;
+    bool isColorUnique(std::set<unsigned int> const& colors, unsigned int color) const;
+    unsigned int m_rows;
+    unsigned int m_columns;
+    std::vector<unsigned int> m_heightBoard;
+    std::vector<unsigned int> m_colorBoard;
+    std::vector<unsigned int> m_colorBoardFinal;
     Pieces m_pieces;
+    std::ofstream m_printStream;
 };
 
 }

@@ -1,23 +1,33 @@
 #include "Cube36.hpp"
 
+#include <algorithm>
 #include <iostream>
-#include <windows.h>
+
+
+#include <Debug/AlbaDebug.hpp>
+#define ALBA_TEMP_PRINT0(parameter) m_printStream << "ALBA_TEMP_PRINT0 in " << __FUNCTION__ << "(...): " << parameter << endl
+#define ALBA_TEMP_PRINT1(...) m_printStream << "ALBA_TEMP_PRINT1 in " << __FUNCTION__ << "(...): " << Z_ALBA_PRIVATE_GET_STRING_PRINT1(__VA_ARGS__) << endl
+#define ALBA_TEMP_PRINT2(...) m_printStream << "ALBA_TEMP_PRINT2 in " << __FUNCTION__ << "(...): " << Z_ALBA_PRIVATE_GET_STRING_PRINT2(__VA_ARGS__) << endl
+#define ALBA_TEMP_PRINT3(...) m_printStream << "ALBA_TEMP_PRINT3 in " << __FUNCTION__ << "(...): " << Z_ALBA_PRIVATE_GET_STRING_PRINT3(__VA_ARGS__) << endl
+#define ALBA_TEMP_PRINT4(...) m_printStream << "ALBA_TEMP_PRINT4 in " << __FUNCTION__ << "(...): " << Z_ALBA_PRIVATE_GET_STRING_PRINT4(__VA_ARGS__) << endl
+#define ALBA_TEMP_PRINT5(...) m_printStream << "ALBA_TEMP_PRINT5 in " << __FUNCTION__ << "(...): " << Z_ALBA_PRIVATE_GET_STRING_PRINT5(__VA_ARGS__) << endl
+#define ALBA_TEMP_PRINT6(...) m_printStream << "ALBA_TEMP_PRINT6 in " << __FUNCTION__ << "(...): " << Z_ALBA_PRIVATE_GET_STRING_PRINT6(__VA_ARGS__) << endl
 
 using namespace std;
 
 namespace alba
 {
 
-Pieces::Pieces(int numberOfColors, int maximumHeight)
+Pieces::Pieces(unsigned int numberOfColors, unsigned int maximumHeight)
     : m_numberOfColors(numberOfColors)
     , m_maximumHeight(maximumHeight)
     , m_availablePieces(numberOfColors*maximumHeight, true)
 {}
 
-int Pieces::getNextColorWithHeight(int height, int startingColor) const
+unsigned int Pieces::getNextColorWithHeight(unsigned int height, unsigned int startingColor) const
 {
-    int heightIndex=(height-1)*m_numberOfColors;
-    for(int colorIndex=startingColor-1; colorIndex<m_numberOfColors; colorIndex++)
+    unsigned int heightIndex=(height-1)*m_numberOfColors;
+    for(unsigned int colorIndex=startingColor-1; colorIndex<m_numberOfColors; colorIndex++)
     {
         if(m_availablePieces[heightIndex+colorIndex])
         {
@@ -27,31 +37,22 @@ int Pieces::getNextColorWithHeight(int height, int startingColor) const
     return 0;
 }
 
-
-int Pieces::getNumberOfColors() const
+unsigned int Pieces::getNumberOfColors() const
 {
     return m_numberOfColors;
 }
 
-void Pieces::printPieces() const
+unsigned int Pieces::getMaximumHeight() const
 {
-    cout<<"Pieces:"<<endl;
-    for(int heightIndex=0; heightIndex<m_maximumHeight; heightIndex++)
-    {
-        for(int colorIndex=0; colorIndex<m_numberOfColors; colorIndex++)
-        {
-            cout<<m_availablePieces[getPiecesIndex(colorIndex, heightIndex)];
-        }
-        cout<<endl;
-    }
+    return m_maximumHeight;
 }
 
-bool Pieces::isPieceAvailable(int height, int color)
+bool Pieces::isPieceAvailable(unsigned int height, unsigned int color) const
 {
-    return m_availablePieces[getPiecesIndex(height-1, color-1)];
+    return m_availablePieces.at(getPiecesIndex(height-1, color-1));
 }
 
-void Pieces::setPieceAsUnavailable(int height, int color)
+void Pieces::setPieceAsUnavailable(unsigned int height, unsigned int color)
 {
     if(color>0)
     {
@@ -59,7 +60,7 @@ void Pieces::setPieceAsUnavailable(int height, int color)
     }
 }
 
-void Pieces::setPieceAsAvailable(int height, int color)
+void Pieces::setPieceAsAvailable(unsigned int height, unsigned int color)
 {
     if(color>0)
     {
@@ -67,71 +68,114 @@ void Pieces::setPieceAsAvailable(int height, int color)
     }
 }
 
-int Pieces::getPiecesIndex(int heightIndex, int colorIndex) const
+unsigned int Pieces::getPiecesIndex(unsigned int heightIndex, unsigned int colorIndex) const
 {
     return (heightIndex*m_numberOfColors)+colorIndex;
 }
 
 
 
-Board::Board(int rows, int columns)
+Board::Board(unsigned int rows, unsigned int columns, unsigned int numberOfColors, unsigned int maximumHeight)
     : m_rows(rows)
     , m_columns(columns)
-    , m_heightBoard{1,2,5,4,6,3, 5,3,6,1,4,2, 4,6,3,5,2,1, 2,1,4,3,5,6, 3,5,2,6,1,4, 6,4,1,2,3,5}
-    , m_colorBoard(rows*columns, 0)
-    , m_colorBoardFinal(rows*columns, 0)
-    , m_pieces(6,6)
+    , m_heightBoard(getBoardSize(), 0)
+    , m_colorBoard(getBoardSize(), 0)
+    , m_colorBoardFinal(getBoardSize(), 0)
+    , m_pieces(numberOfColors, maximumHeight)
+    , m_printStream(R"(N:\cube36logs.txt)")
 {}
 
-void Board::solve(int row, int column)
+void Board::setHeightBoard(std::initializer_list<unsigned int> heightBoard)
 {
-    static bool isFinished(false);
-    cout<<"solve row:"<<row<<" column:"<<column<<endl;
-    printColorsOfWorkingBoard();
-    int height = getHeightAt(row, column);
-    int nextRow=row,nextColumn=column;
-    nextRow++;
-    if(nextRow>=m_rows)
+    unsigned int boardSize = getBoardSize();
+    unsigned int sizeToCopy = min(heightBoard.size(), boardSize);
+    copy(heightBoard.begin(), heightBoard.begin()+sizeToCopy, m_heightBoard.begin());
+}
+
+void Board::solve()
+{
+    std::vector<unsigned int> nearestBoard(36,0);
+    unsigned int maxNearestScore=0;
+    Pieces nearestPieces(6,6);
+    unsigned int printCounter=0;
+    for(unsigned int column=0; column<m_columns; )
     {
-        nextColumn++;
-        nextRow=0;
-    }
-    if(nextColumn<m_columns)
-    {
-        for(int color=1; color<=m_pieces.getNumberOfColors(); color++)
+        for(unsigned int row=0; row<m_rows; )
         {
-            m_pieces.setPieceAsAvailable(height,  getColorAt(row, column));
-            if(m_pieces.isPieceAvailable(height, color))
+            unsigned int nearestScore=(column*m_rows)+row;
+            ALBA_TEMP_PRINT2(nearestScore, maxNearestScore);
+            if(nearestScore>maxNearestScore)
             {
-                setColorAt(color, row, column);
-                if(isColorUniqueAtIndex(row, column))
+                maxNearestScore=nearestScore;
+                nearestBoard=m_colorBoard;
+                nearestPieces=m_pieces;
+            }
+            printColorsBoardAndPieces(m_printStream, m_colorBoard, m_pieces);
+            printColorsBoardAndPieces(m_printStream, nearestBoard, nearestPieces);
+            printColorsBoardAndPieces(cout, m_colorBoard, m_pieces);
+            printColorsBoardAndPieces(cout, nearestBoard, nearestPieces);
+
+
+
+            bool isWrongConfiguration(true);
+            unsigned int height = getHeightAt(row, column);
+            unsigned int color = getColorAt(row, column);
+            color++;
+            ALBA_TEMP_PRINT4(row, column, height, color);
+            for(;color<=m_pieces.getNumberOfColors(); color++)
+            {
+                ALBA_TEMP_PRINT3(m_pieces.isPieceAvailable(height, color), height, color);
+                if(m_pieces.isPieceAvailable(height, color))
                 {
-                    m_pieces.setPieceAsUnavailable(height, color);
-                    solve(nextRow, nextColumn);
-                    if(isFinished)
+                    setColorAt(color, row, column);
+                    ALBA_TEMP_PRINT3(isColorUniqueAtIndex(row, column), row, column);
+                    if(isColorUniqueAtIndex(row, column))
                     {
-                        return;
+                        m_pieces.setPieceAsUnavailable(height, color);
+                        isWrongConfiguration=false;
+                        break;
                     }
+                }
+            }
+            if(isWrongConfiguration)
+            {
+                ALBA_TEMP_PRINT5(isWrongConfiguration, row, column, height, color);
+                m_pieces.setPieceAsAvailable(getHeightAt(row, column), getColorAt(row, column));
+                ALBA_TEMP_PRINT4(row, column, getHeightAt(row, column), getColorAt(row, column));
+                setColorAt(0, row, column);
+                if(row>0)
+                {
+                    row--;
+                }
+                else
+                {
+                    row=m_rows-1;
+                    column--;
+                }
+                m_pieces.setPieceAsAvailable(getHeightAt(row, column), getColorAt(row, column));
+                ALBA_TEMP_PRINT4(row, column, getHeightAt(row, column), getColorAt(row, column));
+            }
+            else
+            {
+                row++;
+                if(row>=m_rows)
+                {
+                    column++;
                 }
             }
         }
     }
-    else
-    {
-        isFinished=true;
-    }
-    m_pieces.setPieceAsAvailable(height,  getColorAt(row, column));
-    setColorAt(0, row, column);
+    printColorsBoardAndPieces(cout, nearestBoard, nearestPieces);
 }
 
-bool Board::setNextColorAtIndex(int rowIndex, int columnIndex)
+bool Board::setNextColorAtIndex(unsigned int rowIndex, unsigned int columnIndex)
 {
-    int color = getColorAt(rowIndex, columnIndex);
-    int height = getHeightAt(rowIndex, columnIndex);
+    unsigned int color = getColorAt(rowIndex, columnIndex);
+    unsigned int height = getHeightAt(rowIndex, columnIndex);
     m_pieces.setPieceAsAvailable(height, color);
     while(1)
     {
-        int nextColor = m_pieces.getNextColorWithHeight(height, color+1);
+        unsigned int nextColor = m_pieces.getNextColorWithHeight(height, color+1);
         if(nextColor==0)
         {
             return false;
@@ -147,27 +191,32 @@ bool Board::setNextColorAtIndex(int rowIndex, int columnIndex)
     return false;
 }
 
-int Board::getHeightAt(int rowIndex, int columnIndex) const
+unsigned int Board::getBoardSize() const
+{
+    return m_rows*m_columns;
+}
+
+unsigned int Board::getHeightAt(unsigned int rowIndex, unsigned int columnIndex) const
 {
     return m_heightBoard[getBoardIndex(rowIndex, columnIndex)];
 }
 
-int Board::getColorAt(int rowIndex, int columnIndex) const
+unsigned int Board::getColorAt(unsigned int rowIndex, unsigned int columnIndex) const
 {
     return m_colorBoard[getBoardIndex(rowIndex, columnIndex)];
 }
 
-bool Board::isColorUniqueAtIndex(int rowIndex, int columnIndex) const
+bool Board::isColorUniqueAtIndex(unsigned int rowIndex, unsigned int columnIndex) const
 {
     return isColorUniqueAtRow(rowIndex) && isColorUniqueAtColumn(columnIndex);
 }
 
-bool Board::isColorUniqueAtRow(int rowIndex) const
+bool Board::isColorUniqueAtRow(unsigned int rowIndex) const
 {
-    set<int> uniqueColors;
-    for(int columnIndex=0; columnIndex<m_columns; columnIndex++)
+    set<unsigned int> uniqueColors;
+    for(unsigned int columnIndex=0; columnIndex<m_columns; columnIndex++)
     {
-        int color(m_colorBoard[getBoardIndex(rowIndex, columnIndex)]);
+        unsigned int color(m_colorBoard[getBoardIndex(rowIndex, columnIndex)]);
         if(isColorUnique(uniqueColors, color))
         {
             uniqueColors.emplace(color);
@@ -180,12 +229,12 @@ bool Board::isColorUniqueAtRow(int rowIndex) const
     return true;
 }
 
-bool Board::isColorUniqueAtColumn(int columnIndex) const
+bool Board::isColorUniqueAtColumn(unsigned int columnIndex) const
 {
-    set<int> uniqueColors;
-    for(int rowIndex=0; rowIndex<m_rows; rowIndex++)
+    set<unsigned int> uniqueColors;
+    for(unsigned int rowIndex=0; rowIndex<m_rows; rowIndex++)
     {
-        int color(m_colorBoard[getBoardIndex(rowIndex, columnIndex)]);
+        unsigned int color(m_colorBoard[getBoardIndex(rowIndex, columnIndex)]);
         if(isColorUnique(uniqueColors, color))
         {
             uniqueColors.emplace(color);
@@ -198,57 +247,71 @@ bool Board::isColorUniqueAtColumn(int columnIndex) const
     return true;
 }
 
-void Board::setColorAt(int color, int rowIndex, int columnIndex)
+void Board::setColorAt(unsigned int color, unsigned int rowIndex, unsigned int columnIndex)
 {
     m_colorBoard[getBoardIndex(rowIndex, columnIndex)] = color;
 }
 
-void Board::printColorsOfWorkingBoard() const
+void Board::printColorsBoardAndPieces(
+        std::ostream& printStream,
+        std::vector<unsigned int> const& colorBoard,
+        Pieces const& pieces)
 {
-    cout<<"Board:"<<endl;
-    for(int columnIndex=0; columnIndex<m_columns; columnIndex++)
+    printStream<<"[Color Board] [Height Board] [Pieces]"<<endl;
+    for(unsigned int i=0; i<6; i++)
     {
-        for(int rowIndex=0; rowIndex<m_rows; rowIndex++)
+        for(unsigned int j=0; j<6; j++)
         {
-            cout<<m_colorBoard[getBoardIndex(rowIndex, columnIndex)];
+            printStream<<colorBoard[getBoardIndex(j, i)];
         }
-        cout<<endl;
+        printStream<<"        ";
+        for(unsigned int j=0; j<6; j++)
+        {
+            printStream<<m_heightBoard[getBoardIndex(j, i)];
+        }
+        printStream<<"        ";
+        for(unsigned int j=0; j<6; j++)
+        {
+            printStream<<static_cast<unsigned int>(pieces.isPieceAvailable(j+1, i+1));
+        }
+        printStream<<endl;
+    }
+    printStream<<endl;
+}
+
+void Board::printColorsOfFinalBoard()
+{
+    m_printStream<<"FinalBoard:"<<endl;
+    for(unsigned int columnIndex=0; columnIndex<m_columns; columnIndex++)
+    {
+        for(unsigned int rowIndex=0; rowIndex<m_rows; rowIndex++)
+        {
+            m_printStream<<m_colorBoardFinal[getBoardIndex(rowIndex, columnIndex)];
+        }
+        m_printStream<<endl;
     }
 }
 
-void Board::printColorsOfFinalBoard() const
+void Board::clearColorStartingAt(unsigned int startingRow, unsigned int startingColumn)
 {
-    cout<<"FinalBoard:"<<endl;
-    for(int columnIndex=0; columnIndex<m_columns; columnIndex++)
+    for(unsigned int columnIndex=startingColumn; columnIndex<m_columns; columnIndex++)
     {
-        for(int rowIndex=0; rowIndex<m_rows; rowIndex++)
+        for(unsigned int rowIndex=startingRow; rowIndex<m_rows; rowIndex++)
         {
-            cout<<m_colorBoardFinal[getBoardIndex(rowIndex, columnIndex)];
-        }
-        cout<<endl;
-    }
-}
-
-void Board::clearColorStartingAt(int startingRow, int startingColumn)
-{
-    for(int columnIndex=startingColumn; columnIndex<m_columns; columnIndex++)
-    {
-        for(int rowIndex=startingRow; rowIndex<m_rows; rowIndex++)
-        {
-            int color = getColorAt(rowIndex, columnIndex);
-            int height = getHeightAt(rowIndex, columnIndex);
+            unsigned int color = getColorAt(rowIndex, columnIndex);
+            unsigned int height = getHeightAt(rowIndex, columnIndex);
             m_pieces.setPieceAsAvailable(height, color);
             m_colorBoard[getBoardIndex(rowIndex, columnIndex)]=0;
         }
     }
 }
 
-int Board::getBoardIndex(int rowIndex, int columnIndex) const
+unsigned int Board::getBoardIndex(unsigned int rowIndex, unsigned int columnIndex) const
 {
     return (columnIndex*m_rows)+rowIndex;
 }
 
-bool Board::isColorUnique(set<int> const& uniqueColors, int color) const
+bool Board::isColorUnique(set<unsigned int> const& uniqueColors, unsigned int color) const
 {
     if(color != 0)
     {
