@@ -2,6 +2,9 @@
 
 #include <Math/AlbaMathHelper.hpp>
 
+#include <cmath>
+
+
 using namespace alba::mathHelper;
 
 namespace alba
@@ -58,16 +61,40 @@ int AlbaNumber::getInteger() const
         int const& dataReference(m_data.intData);
         result = dataReference;
     }
+    else if(m_type==Type::Fraction)
+    {
+        FractionData const& dataReference(m_data.fractionData);
+        result = static_cast<int>(dataReference.numerator/dataReference.denominator);
+    }
+    else if(m_type==Type::Double)
+    {
+        double const& dataReference(m_data.doubleData);
+        result = static_cast<int>(dataReference);
+    }
     return result;
 }
 
 AlbaNumber::FractionData AlbaNumber::getFractionData() const
 {
     FractionData result{0, 0};
-    if(m_type==Type::Fraction)
+    if(m_type==Type::Integer)
+    {
+        int const& dataReference(m_data.intData);
+        result.numerator = dataReference;
+        result.denominator = 1u;
+    }
+    else if(m_type==Type::Fraction)
     {
         FractionData const& dataReference(m_data.fractionData);
         result = dataReference;
+    }
+    else if(m_type==Type::Double)
+    {
+        //this is costly avoid this
+        double const& dataReference(m_data.doubleData);
+        FractionDetails bestFractionDetails(getBestFractionDetailsForDoubleValue(dataReference));
+        result.denominator = bestFractionDetails.denominator;
+        result.numerator = bestFractionDetails.sign * bestFractionDetails.numerator;
     }
     return result;
 }
@@ -75,7 +102,17 @@ AlbaNumber::FractionData AlbaNumber::getFractionData() const
 double AlbaNumber::getDouble() const
 {
     double result(0);
-    if(m_type==Type::Double)
+    if(m_type==Type::Integer)
+    {
+        int const& dataReference(m_data.intData);
+        result = static_cast<double>(dataReference);
+    }
+    else if(m_type==Type::Fraction)
+    {
+        FractionData const& dataReference(m_data.fractionData);
+        result = static_cast<double>(static_cast<double>(dataReference.numerator)/dataReference.denominator);
+    }
+    else if(m_type==Type::Double)
     {
         double const& dataReference(m_data.doubleData);
         result = dataReference;

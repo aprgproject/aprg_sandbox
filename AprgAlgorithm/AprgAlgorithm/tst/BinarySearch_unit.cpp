@@ -11,10 +11,12 @@ namespace alba
 
 TEST(BinarySearchTest, BinarySearchCanBeCreatedUsingDefaultConstructor)
 {
-    BinarySearch<unsigned int> binarySearch;    EXPECT_EQ(0u, binarySearch.getHighestValue());
+    BinarySearch<unsigned int> binarySearch;
+    EXPECT_EQ(0u, binarySearch.getHighestValue());
     EXPECT_EQ(0u, binarySearch.getMiddleValue());
     EXPECT_EQ(0u, binarySearch.getLowestValue());
 }
+
 TEST(BinarySearchTest, HighLowMiddleValuesCanFetchedInOneItem)
 {
     BinarySearch<unsigned int> binarySearch;

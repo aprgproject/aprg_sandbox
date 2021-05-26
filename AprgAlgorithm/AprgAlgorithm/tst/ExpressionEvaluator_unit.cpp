@@ -21,9 +21,11 @@ namespace alba
 
 namespace ExpressionEvaluator
 {
+
 int performUnaryOperation(string const& operatorString, int const value)
 {
-    int result(0);    if(operatorString == "~")
+    int result(0);
+    if(operatorString == "~")
     {
         result = ~value;
     }
@@ -57,9 +59,11 @@ using InfixEvaluatorForTest = ExpressionInfixEvaluator<int, string>;
 using PostfixEvaluatorForTest = ExpressionPostfixEvaluator<int, string>;
 using EvaluatorConverterForTest = ExpressionEvaluatorConverter<int, string>;
 
+
 TEST(ExpressionInfixEvaluatorTest, DoesNotCrashWhenValueAreEmpty)
 {
-    InfixEvaluatorForTest evaluator;    evaluator.evaluate();
+    InfixEvaluatorForTest evaluator;
+    evaluator.evaluate();
 }
 
 TEST(ExpressionInfixEvaluatorTest, SingleValueIsEvaluatedCorrectly)

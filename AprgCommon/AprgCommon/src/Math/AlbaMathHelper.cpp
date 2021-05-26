@@ -14,10 +14,12 @@ namespace mathHelper
 
 //internal functions
 
-unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned int const number){
+unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned int const number)
+{
     unsigned int result(0);
     if(multiple>0)
-    {        result = ((number+multiple-1)/multiple);
+    {
+        result = ((number+multiple-1)/multiple);
     }
     return result;
 }
@@ -25,21 +27,23 @@ unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned
 //end of internal functions
 
 
-bool isDivisible(unsigned int const largerValue, unsigned int const smallerValue)
+bool isDivisible(unsigned int const dividend, unsigned int const divisor)
 {
     bool result(false);
-    if(largerValue>=smallerValue)
+    if(divisor != 0)
     {
-        result = (largerValue % smallerValue)==0;
+        result = (dividend % divisor)==0;
     }
     return result;
 }
 
 //isAlmostEqual
-template <typename NumberType>bool isAlmostEqual(NumberType const value1, NumberType const value2)
+template <typename NumberType>
+bool isAlmostEqual(NumberType const value1, NumberType const value2)
 {
     constexpr double differenceTolerance(1E-12);
-    return getAbsoluteValue(value1-value2) <= differenceTolerance;}
+    return getAbsoluteValue(value1-value2) <= differenceTolerance;
+}
 
 //Commented out: This implementation is not practical when value is equal to zero
 /*
@@ -196,6 +200,25 @@ FractionDetails getFractionDetailsInLowestForm(int const numerator, int const de
     return result;
 }
 
+FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue)
+{
+    constexpr double tolerance(1E-3);
+    FractionDetails result;
+    result.sign = getSign(doubleValue);
+    double absoluteValueOfDouble = getAbsoluteValue(doubleValue);
+    result.numerator = static_cast<int>(absoluteValueOfDouble);
+    result.denominator = 1;
+    double fractionalPart = getFractionalPartInDouble(absoluteValueOfDouble);
+    if(fractionalPart>tolerance)
+    {
+        double nextDoubleValueInIteration = 1/fractionalPart;
+        FractionDetails partialResult = getBestFractionDetailsForDoubleValue(nextDoubleValueInIteration);
+        result.numerator = (result.numerator * partialResult.numerator) + (partialResult.denominator);
+        result.denominator = partialResult.numerator;
+    }
+    return result;
+}
+
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber)
 {
     unsigned int result(0);
@@ -234,11 +257,23 @@ unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int
 
 unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number)
 {
-    unsigned result(0);    if(multiple>0)
+    unsigned result(0);
+    if(multiple>0)
     {
         unsigned int numberOfMultiples(getNumberOfMultiplesInclusive(multiple, number));
-        result = (numberOfMultiples*multiple) - number;    }
+        result = (numberOfMultiples*multiple) - number;
+    }
     return result;
+}
+
+int getIntegerPartInDouble(double const doubleValue)
+{
+    return static_cast<int>(doubleValue);
+}
+
+double getFractionalPartInDouble(double const doubleValue)
+{
+    return doubleValue-getIntegerPartInDouble(doubleValue);
 }
 
 double calculateCumulativeStandardDistributionApproximation(double const z)

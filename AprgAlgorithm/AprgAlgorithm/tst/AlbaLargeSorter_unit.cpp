@@ -20,10 +20,12 @@ namespace alba
 
 class TestObject
 {
-public:    TestObject()
+public:
+    TestObject()
     {}
 
-    TestObject(int valueInteger, double valueDouble, char valueCharacter, string valueString)        : m_valueInteger(valueInteger)
+    TestObject(int valueInteger, double valueDouble, char valueCharacter, string valueString)
+        : m_valueInteger(valueInteger)
         , m_valueDouble(valueDouble)
         , m_valueCharacter(valueCharacter)
         , m_valueString(valueString)

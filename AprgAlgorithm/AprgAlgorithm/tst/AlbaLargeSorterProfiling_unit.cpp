@@ -19,10 +19,12 @@ namespace alba
 
 TEST(AlbaLargeSorterPriofileTest, DISABLED_FirstTest)
 {
-    unsigned int stringSize(200);    AlbaLargeSorterConfiguration sorterConfiguration;
+    unsigned int stringSize(200);
+    AlbaLargeSorterConfiguration sorterConfiguration;
     sorterConfiguration.m_directoryForBlocks = ALBA_LARGE_SORTER_BLOCK_DIR;
     sorterConfiguration.m_minimumNumberOfObjectsPerBlock = 1000;
-    sorterConfiguration.m_maximumNumberOfObjectsPerBlock = 10000;    sorterConfiguration.m_maximumNumberOfObjectsInMemory = 100000;
+    sorterConfiguration.m_maximumNumberOfObjectsPerBlock = 10000;
+    sorterConfiguration.m_maximumNumberOfObjectsInMemory = 100000;
     sorterConfiguration.m_maximumFileStreams = 10;
 
     //AlbaUserInterface ui;

@@ -10,6 +10,8 @@ namespace alba
 
 TEST(AlbaMathHelperTest, IsDivisibleWorksAsExpected)
 {
+    EXPECT_FALSE(isDivisible(0u, 0u));
+    EXPECT_TRUE(isDivisible(0u, 1u));
     EXPECT_TRUE(isDivisible(1u, 1u));
     EXPECT_FALSE(isDivisible(1u, 5u));
     EXPECT_TRUE(isDivisible(5u, 1u));
@@ -19,10 +21,12 @@ TEST(AlbaMathHelperTest, IsDivisibleWorksAsExpected)
 
 TEST(AlbaMathHelperTest, DoubleTypesCanBeConsideredEqual)
 {
-    EXPECT_TRUE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3));    EXPECT_FALSE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3+0.1));
+    EXPECT_TRUE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3));
+    EXPECT_FALSE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3+0.1));
     EXPECT_TRUE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3+1E-13));
     EXPECT_TRUE(isAlmostEqual(1E-12,1E-12));
-    EXPECT_TRUE(isAlmostEqual(static_cast<double>(0),1E-12));    EXPECT_TRUE(isAlmostEqual(static_cast<double>(0),1E-24));
+    EXPECT_TRUE(isAlmostEqual(static_cast<double>(0),1E-12));
+    EXPECT_TRUE(isAlmostEqual(static_cast<double>(0),1E-24));
     EXPECT_TRUE(isAlmostEqual(1E-12,1E-24));
     EXPECT_TRUE(isAlmostEqual(1E-24,1E-24));
 }
@@ -125,6 +129,39 @@ TEST(AlbaMathHelperTest, FractionDetailsInLowestFormCanBeComputed)
     EXPECT_EQ(4u, fractionDetails5.denominator);
 }
 
+TEST(AlbaMathHelperTest, BestFractionDetailsForDoubleValueCanBeComputed)
+{
+    FractionDetails fractionDetails1(getBestFractionDetailsForDoubleValue(0));
+    EXPECT_EQ(1, fractionDetails1.sign);
+    EXPECT_EQ(0u, fractionDetails1.numerator);
+    EXPECT_EQ(1u, fractionDetails1.denominator);
+
+    FractionDetails fractionDetails2(getBestFractionDetailsForDoubleValue(1));
+    EXPECT_EQ(1, fractionDetails2.sign);
+    EXPECT_EQ(1u, fractionDetails2.numerator);
+    EXPECT_EQ(1u, fractionDetails2.denominator);
+
+    FractionDetails fractionDetails3(getBestFractionDetailsForDoubleValue(-1));
+    EXPECT_EQ(-1, fractionDetails3.sign);
+    EXPECT_EQ(1u, fractionDetails3.numerator);
+    EXPECT_EQ(1u, fractionDetails3.denominator);
+
+    FractionDetails fractionDetails4(getBestFractionDetailsForDoubleValue(-234));
+    EXPECT_EQ(-1, fractionDetails4.sign);
+    EXPECT_EQ(234u, fractionDetails4.numerator);
+    EXPECT_EQ(1u, fractionDetails4.denominator);
+
+    FractionDetails fractionDetails5(getBestFractionDetailsForDoubleValue(0.3333333333333333333));
+    EXPECT_EQ(1, fractionDetails5.sign);
+    EXPECT_EQ(1u, fractionDetails5.numerator);
+    EXPECT_EQ(3u, fractionDetails5.denominator);
+
+    FractionDetails fractionDetails6(getBestFractionDetailsForDoubleValue(-78.787878787878787878));
+    EXPECT_EQ(-1, fractionDetails6.sign);
+    EXPECT_EQ(2600u, fractionDetails6.numerator);
+    EXPECT_EQ(33u, fractionDetails6.denominator);
+}
+
 TEST(AlbaMathHelperTest, GreatestCommonFactorCanBeComputed)
 {
     EXPECT_EQ(0u, getGreatestCommonFactor(0, 0));
@@ -143,10 +180,32 @@ TEST(AlbaMathHelperTest, LeastCommonMultipleCanBeComputed)
 
 TEST(AlbaMathHelperTest, DifferenceFromGreaterMultipleCanBeComputed)
 {
-    EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(0, 0));    EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(10, 10));
+    EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(0, 0));
+    EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(10, 10));
     EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(5, 10));
     EXPECT_EQ(5u, getDifferenceFromGreaterMultiple(10, 5));
-    EXPECT_EQ(48u, getDifferenceFromGreaterMultiple(57, 2346));}
+    EXPECT_EQ(48u, getDifferenceFromGreaterMultiple(57, 2346));
+}
+
+TEST(AlbaMathHelperTest, IntegerPartInDoubleCanBeComputed)
+{
+    EXPECT_EQ(0, getIntegerPartInDouble(0));
+    EXPECT_EQ(1, getIntegerPartInDouble(1));
+    EXPECT_EQ(1, getIntegerPartInDouble(1.5));
+    EXPECT_EQ(-1, getIntegerPartInDouble(-1.5));
+    EXPECT_EQ(652, getIntegerPartInDouble(652.426542));
+    EXPECT_EQ(-347, getIntegerPartInDouble(-347.51514));
+}
+
+TEST(AlbaMathHelperTest, FractionalPartInDoubleCanBeComputed)
+{
+    EXPECT_DOUBLE_EQ(0, getFractionalPartInDouble(0));
+    EXPECT_DOUBLE_EQ(0, getFractionalPartInDouble(1));
+    EXPECT_DOUBLE_EQ(0.5, getFractionalPartInDouble(1.5));
+    EXPECT_DOUBLE_EQ(-0.5, getFractionalPartInDouble(-1.5));
+    EXPECT_DOUBLE_EQ(0.15625, getFractionalPartInDouble(652.15625));
+    EXPECT_DOUBLE_EQ(-0.125, getFractionalPartInDouble(-347.125));
+}
 
 TEST(AlbaMathHelperTest, CumulativeStandardDistributionApproximationCanBeComputed)
 {
