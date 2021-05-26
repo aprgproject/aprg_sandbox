@@ -10,14 +10,14 @@ namespace alba
 
 namespace mathHelper
 {
+
+
 //internal functions
 
-unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned int const number)
-{
+unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned int const number){
     unsigned int result(0);
     if(multiple>0)
-    {
-        result = ((number+multiple-1)/multiple);
+    {        result = ((number+multiple-1)/multiple);
     }
     return result;
 }
@@ -25,14 +25,21 @@ unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned
 //end of internal functions
 
 
+bool isDivisible(unsigned int const largerValue, unsigned int const smallerValue)
+{
+    bool result(false);
+    if(largerValue>=smallerValue)
+    {
+        result = (largerValue % smallerValue)==0;
+    }
+    return result;
+}
 
 //isAlmostEqual
-template <typename NumberType>
-bool isAlmostEqual(NumberType const value1, NumberType const value2)
+template <typename NumberType>bool isAlmostEqual(NumberType const value1, NumberType const value2)
 {
     constexpr double differenceTolerance(1E-12);
-    return getAbsoluteValue(value1-value2) <= differenceTolerance;
-}
+    return getAbsoluteValue(value1-value2) <= differenceTolerance;}
 
 //Commented out: This implementation is not practical when value is equal to zero
 /*
@@ -168,15 +175,69 @@ NumberType clampHigherBound(NumberType const value, NumberType const limit)
 template int clampHigherBound<int>(int const value, int const limit);
 template double clampHigherBound<double>(double const value, double const limit);
 
+FractionDetails getFractionDetailsInLowestForm(int const numerator, int const denominator)
+{
+    FractionDetails result{0, 0, 0};
+    unsigned int unsignedNumerator = mathHelper::getAbsoluteValue(numerator);
+    unsigned int unsignedDenominator = mathHelper::getAbsoluteValue(denominator);
+    unsigned int greatestCommonFactor = mathHelper::getGreatestCommonFactor(unsignedNumerator, unsignedDenominator);
+    if(greatestCommonFactor==0)
+    {
+        result.sign = mathHelper::getSign(numerator*denominator);
+        result.numerator = unsignedNumerator;
+        result.denominator = unsignedDenominator;
+    }
+    else
+    {
+        result.sign = mathHelper::getSign(numerator*denominator);
+        result.numerator = unsignedNumerator/greatestCommonFactor;
+        result.denominator = unsignedDenominator/greatestCommonFactor;
+    }
+    return result;
+}
+
+unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber)
+{
+    unsigned int result(0);
+    if(firstNumber==0)
+    {
+        result = secondNumber;
+    }
+    else if(secondNumber==0)
+    {
+        result = firstNumber;
+    }
+    else if(firstNumber==secondNumber)
+    {
+        result = firstNumber;
+    }
+    else if(firstNumber>secondNumber)
+    {
+        result = getGreatestCommonFactor(firstNumber-secondNumber, secondNumber);
+    }
+    else
+    {
+        result = getGreatestCommonFactor(secondNumber, secondNumber-firstNumber);
+    }
+    return result;
+}
+
+unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber)
+{
+    unsigned int result(0);
+    if(firstNumber!=0 && secondNumber!=0)
+    {
+        result = firstNumber*secondNumber/getGreatestCommonFactor(firstNumber, secondNumber);
+    }
+    return result;
+}
 
 unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number)
 {
-    unsigned result(0);
-    if(multiple>0)
+    unsigned result(0);    if(multiple>0)
     {
         unsigned int numberOfMultiples(getNumberOfMultiplesInclusive(multiple, number));
-        result = (numberOfMultiples*multiple) - number;
-    }
+        result = (numberOfMultiples*multiple) - number;    }
     return result;
 }
 
