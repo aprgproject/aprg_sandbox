@@ -1,12 +1,11 @@
 #pragma once
 
+#include <algorithm>
 #include <functional>
 #include <stack>
 #include <vector>
-
 namespace alba
 {
-
 namespace ExpressionEvaluator
 {
 
@@ -37,14 +36,19 @@ public:
         , m_operatorSyntaxType(OperatorSyntaxType::Unknown)
         , m_operatorPriority(0)
     {}
-    ExpressionEvaluatorTerm(OperatorTemplateType const& operatorValue, OperatorSyntaxType const& operatorSyntaxValue)
+    ExpressionEvaluatorTerm(OperatorSyntaxType const& operatorSyntaxValue)
         : m_termType(TermType::Operator)
         , m_value()
-        , m_operator(operatorValue)
+        , m_operator()
         , m_operatorSyntaxType(operatorSyntaxValue)
         , m_operatorPriority(0)
     {}
-    ExpressionEvaluatorTerm(OperatorTemplateType const& operatorValue, OperatorSyntaxType const& operatorSyntaxValue, unsigned int const operatorPriority)
+    ExpressionEvaluatorTerm(OperatorTemplateType const& operatorValue, OperatorSyntaxType const& operatorSyntaxValue)
+        : m_termType(TermType::Operator)
+        , m_value()        , m_operator(operatorValue)
+        , m_operatorSyntaxType(operatorSyntaxValue)
+        , m_operatorPriority(0)
+    {}    ExpressionEvaluatorTerm(OperatorTemplateType const& operatorValue, OperatorSyntaxType const& operatorSyntaxValue, unsigned int const operatorPriority)
         : m_termType(TermType::Operator)
         , m_value()
         , m_operator(operatorValue)
@@ -296,62 +300,124 @@ public:
     using InfixEvaluator = ExpressionInfixEvaluator<ValueTemplateType, OperatorTemplateType>;
     using Term = ExpressionEvaluatorTerm<ValueTemplateType, OperatorTemplateType>;
     using Terms = std::vector<Term>;
-    using TermsStack = std::stack<Term>;
+    using TermStack = std::stack<Term>;
+    using TermsStack = std::stack<Terms>;
 
     static PostfixEvaluator convertInfixToPostfix(InfixEvaluator const& infixEvaluator)
-    {
-        PostfixEvaluator postfixEvaluator;
+    {        PostfixEvaluator postfixEvaluator;
         Terms const& termsInInfix(infixEvaluator.m_terms);
         Terms & termsInPostfix(postfixEvaluator.m_terms);
-        TermsStack operatorStack;
+        TermStack operatorStack;
         for(Term const& term : termsInInfix)
         {
-            if (term.isStartGroupOperator())
-            {
+            if (term.isStartGroupOperator())            {
                 operatorStack.push(term);
             }
             else if (term.isEndGroupOperator())
             {
-                transferTermsStackToTerms(operatorStack, termsInPostfix, [term](TermsStack& termsStack)
+                transferTermStackToTerms(operatorStack, termsInPostfix, [term](TermStack& termStack)
                 {
-                    return !termsStack.top().isStartGroupOperator();
+                    return !termStack.top().isStartGroupOperator();
                 });
                 if(!operatorStack.empty()) operatorStack.pop();
             }
             else if (term.isOperator())
             {
-                transferTermsStackToTerms(operatorStack, termsInPostfix, [term](TermsStack& termsStack)
+                transferTermStackToTerms(operatorStack, termsInPostfix, [term](TermStack& termStack)
                 {
-                    return term.getOperatorPriority() <= termsStack.top().getOperatorPriority() && !termsStack.top().isStartGroupOperator();
+                    return term.getOperatorPriority() <= termStack.top().getOperatorPriority() && !termStack.top().isStartGroupOperator();
                 });
                 operatorStack.push(term);
-            }
-            else
+            }            else
             {
                 termsInPostfix.push_back(term);
             }
         }
-        transferTermsStackToTerms(operatorStack, termsInPostfix, [](TermsStack&)
+        transferTermStackToTerms(operatorStack, termsInPostfix, [](TermStack&)
         {
             return true;
         });
         return postfixEvaluator;
     }
-    //convertPostfixToInfix
-private:
-    static void transferTermsStackToTerms(
-            TermsStack& termsStack,
-            Terms& terms,
-            std::function<bool(TermsStack&)> loopCondition)
+    static InfixEvaluator convertPostfixToInfix(PostfixEvaluator const& postfixEvaluator)
     {
-        while (!termsStack.empty() && loopCondition(termsStack))
+        InfixEvaluator infixEvaluator;
+        Terms const& termsInPostfix(postfixEvaluator.m_terms);
+        Terms & termsInInfix(infixEvaluator.m_terms);
+        TermsStack expressionsStack;
+        for(Term const& term : termsInPostfix)
         {
-            terms.push_back(termsStack.top());
+            if (term.isValue())
+            {
+                expressionsStack.push({term});
+            }
+            else if (term.isOperator())
+            {
+                if(term.isPrefixUnaryOperator())
+                {
+                    Terms expressionOperand = popTermsStackAndReturnTopValue(expressionsStack);
+                    Terms newExpression;
+                    newExpression.emplace_back(term);
+                    copyTermsAndPutGroupOperatorsIfNeeded(expressionOperand, newExpression);
+                    expressionsStack.push(newExpression);
+                }
+                else if(term.isBinaryOperator())
+                {
+                    Terms expressionOperand1 = popTermsStackAndReturnTopValue(expressionsStack);
+                    Terms expressionOperand2 = popTermsStackAndReturnTopValue(expressionsStack);
+                    Terms newExpression;
+                    copyTermsAndPutGroupOperatorsIfNeeded(expressionOperand1, newExpression);
+                    newExpression.emplace_back(term);
+                    copyTermsAndPutGroupOperatorsIfNeeded(expressionOperand2, newExpression);
+                    expressionsStack.push(newExpression);
+                }
+            }
+        }
+        if(!expressionsStack.empty())
+        {
+            Terms finalExpression=expressionsStack.top();
+            std::copy(finalExpression.cbegin(), finalExpression.cend(), std::back_inserter(termsInInfix));
+        }
+        return infixEvaluator;
+    }
+private:
+    static void transferTermStackToTerms(
+            TermStack& termStack,
+            Terms& terms,
+            std::function<bool(TermStack&)> loopCondition)
+    {
+        while (!termStack.empty() && loopCondition(termStack))
+        {
+            terms.push_back(termStack.top());
+            termStack.pop();
+        }
+    }
+    static Terms popTermsStackAndReturnTopValue(TermsStack& termsStack)
+    {
+        Terms terms;
+        if(!termsStack.empty())
+        {
+            terms = termsStack.top();
             termsStack.pop();
+        }
+        return terms;
+    }
+    static void copyTermsAndPutGroupOperatorsIfNeeded(
+            Terms const& inputTerms,
+            Terms & outputTerms)
+    {
+        bool areGroupOperatorsNeeded = inputTerms.size() > 1;
+        if(areGroupOperatorsNeeded)
+        {
+            outputTerms.emplace_back(Term::OperatorSyntaxType::StartGroup);
+        }
+        std::copy(inputTerms.cbegin(), inputTerms.cend(), std::back_inserter(outputTerms));
+        if(areGroupOperatorsNeeded)
+        {
+            outputTerms.emplace_back(Term::OperatorSyntaxType::EndGroup);
         }
     }
 };
 
 }
-
 }

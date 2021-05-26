@@ -4,17 +4,17 @@
 
 #include <iostream>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 TEST(UnionFindTest, UnionFindCanBeCreated)
 {
-    UnionFindUsingMap<unsigned int> unionFind;
-}
+    UnionFindUsingMap<unsigned int> unionFind;}
 
 TEST(UnionFindTest, UnionFindUnsignedIntegerTest)
-{
-    UnionFindUsingMap<unsigned int> unionFind;
+{    UnionFindUsingMap<unsigned int> unionFind;
     unionFind.connect(4, 3);
     unionFind.connect(3, 8);
     unionFind.connect(6, 5);
@@ -32,3 +32,4 @@ TEST(UnionFindTest, UnionFindUnsignedIntegerTest)
     EXPECT_TRUE(unionFind.isConnected(5,6));
 }
 
+}

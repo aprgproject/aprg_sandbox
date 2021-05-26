@@ -4,15 +4,14 @@
 
 #include <string>
 
-using namespace alba;
+namespace alba
+{
 
 TEST(AlbaGrepStringEvaluatorTest, FalseIsReturnedWhenconditionIsEmpty)
-{
-    AlbaGrepStringEvaluator evaluator("");
+{    AlbaGrepStringEvaluator evaluator("");
     EXPECT_TRUE(evaluator.isInvalid());
     EXPECT_FALSE(evaluator.evaluate("TestString"));
 }
-
 TEST(AlbaGrepStringEvaluatorTest, FalseIsReturnedWhenThereAreNoConvertedTerms)
 {
     AlbaGrepStringEvaluator evaluator("TestString");
@@ -266,3 +265,5 @@ TEST(AlbaGrepStringEvaluatorTest, EvaluatorIsInvalidWhenNumberOfOpeningAndClosin
 }
 
 /// parenthesis incomplete
+
+}

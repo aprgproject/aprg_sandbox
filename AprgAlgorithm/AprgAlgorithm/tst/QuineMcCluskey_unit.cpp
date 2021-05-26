@@ -8,17 +8,17 @@
 
 #include <iostream>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 TEST(QuineMcCluskeyTest, ImplicantEquivalentStringTest)
 {
-    Implicant implicant;
-    implicant.addMinterm(8);
+    Implicant implicant;    implicant.addMinterm(8);
     implicant.addMinterm(10);
     implicant.addMinterm(12);
-    implicant.addMinterm(14);
-    EXPECT_EQ("00001--0", implicant.getEquivalentString(8));
+    implicant.addMinterm(14);    EXPECT_EQ("00001--0", implicant.getEquivalentString(8));
 }
 
 TEST(QuineMcCluskeyTest, ImplicantCompatibilityTest)
@@ -276,4 +276,6 @@ TEST(QuineMcCluskeyTest, DISABLED_AnalyzeResultsFromFile)
     cout<<"quineMcCluskey.getAllFinalImplicants();"<<endl;
     Implicants finalImplicants(quineMcCluskey.getAllFinalImplicants());
     cout<<quineMcCluskey.getOutputTable(finalImplicants);
+}
+
 }

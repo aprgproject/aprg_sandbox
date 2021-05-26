@@ -2,17 +2,28 @@
 
 #include <string>
 
-using namespace std;
-
 namespace alba
 {
 namespace ExpressionEvaluator
 {
+int performUnaryOperation(std::string const& operatorString, int const value);
+int performBinaryOperation(int const value1, std::string const& operatorString, int const value2);
+}
+}
 
+#include <ExpressionEvaluator/ExpressionEvaluator.hpp>
+
+
+using namespace std;
+
+namespace alba
+{
+
+namespace ExpressionEvaluator
+{
 int performUnaryOperation(string const& operatorString, int const value)
 {
-    int result(0);
-    if(operatorString == "~")
+    int result(0);    if(operatorString == "~")
     {
         result = ~value;
     }
@@ -41,22 +52,14 @@ int performBinaryOperation(int const value1, string const& operatorString, int c
     return result;
 }
 
-}
-}
 
-#include <ExpressionEvaluator/ExpressionEvaluator.hpp>
-
-using namespace alba;
-using namespace alba::ExpressionEvaluator;
 using InfixEvaluatorForTest = ExpressionInfixEvaluator<int, string>;
 using PostfixEvaluatorForTest = ExpressionPostfixEvaluator<int, string>;
 using EvaluatorConverterForTest = ExpressionEvaluatorConverter<int, string>;
 
-
 TEST(ExpressionInfixEvaluatorTest, DoesNotCrashWhenValueAreEmpty)
 {
-    InfixEvaluatorForTest evaluator;
-    evaluator.evaluate();
+    InfixEvaluatorForTest evaluator;    evaluator.evaluate();
 }
 
 TEST(ExpressionInfixEvaluatorTest, SingleValueIsEvaluatedCorrectly)
@@ -322,3 +325,43 @@ TEST(ExpressionEvaluatorConverterTest, InfixToPostfixConvertionWorksForComplicat
     EXPECT_EQ(101u, postfixEvaluator.evaluate());
 }
 
+TEST(ExpressionEvaluatorConverterTest, PostfixInfixToConvertionWorks)
+{
+    PostfixEvaluatorForTest postfixEvaluator;
+    postfixEvaluator.addTerm(InfixEvaluatorForTest::Term(1u));
+    postfixEvaluator.addTerm(InfixEvaluatorForTest::Term(2u));
+    postfixEvaluator.addTerm(InfixEvaluatorForTest::Term(3u));
+    postfixEvaluator.addTerm(InfixEvaluatorForTest::Term("+", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary));
+    postfixEvaluator.addTerm(InfixEvaluatorForTest::Term(4u));
+    postfixEvaluator.addTerm(InfixEvaluatorForTest::Term(5u));
+    postfixEvaluator.addTerm(InfixEvaluatorForTest::Term("*", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary));
+    postfixEvaluator.addTerm(InfixEvaluatorForTest::Term("*", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary));
+    postfixEvaluator.addTerm(InfixEvaluatorForTest::Term("+", InfixEvaluatorForTest::Term::OperatorSyntaxType::Binary));
+
+    EvaluatorConverterForTest evaluatorConverter;
+    InfixEvaluatorForTest infixEvaluator(evaluatorConverter.convertPostfixToInfix(postfixEvaluator));
+    InfixEvaluatorForTest::Terms terms(infixEvaluator.getTerms());
+
+    //((5*4)*(3+2))+1
+    ASSERT_EQ(15u, terms.size());
+    EXPECT_TRUE(terms[0].isStartGroupOperator());
+    EXPECT_TRUE(terms[1].isStartGroupOperator());
+    EXPECT_EQ(5u, terms[2].getValue());
+    EXPECT_EQ("*", terms[3].getOperator());
+    EXPECT_EQ(4u, terms[4].getValue());
+    EXPECT_TRUE(terms[5].isEndGroupOperator());
+    EXPECT_EQ("*", terms[6].getOperator());
+    EXPECT_TRUE(terms[7].isStartGroupOperator());
+    EXPECT_EQ(3u, terms[8].getValue());
+    EXPECT_EQ("+", terms[9].getOperator());
+    EXPECT_EQ(2u, terms[10].getValue());
+    EXPECT_TRUE(terms[11].isEndGroupOperator());
+    EXPECT_TRUE(terms[12].isEndGroupOperator());
+    EXPECT_EQ("+", terms[13].getOperator());
+    EXPECT_EQ(1u, terms[14].getValue());
+    EXPECT_EQ(101u, postfixEvaluator.evaluate());
+}
+
+}
+
+}
