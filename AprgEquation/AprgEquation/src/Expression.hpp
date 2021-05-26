@@ -1,20 +1,23 @@
 #pragma once
 
+#include <BaseTerm.hpp>
+
+#include <memory>
+#include <vector>
+
 namespace alba
 {
-
 namespace equation
 {
 
-class Expression
+class Expression : public BaseTerm
 {
 public:
     Expression();
 
 private:
-    int m_sample;
+    std::vector<std::unique_ptr<BaseTerm>> m_terms;
 };
 
 }
-
 }

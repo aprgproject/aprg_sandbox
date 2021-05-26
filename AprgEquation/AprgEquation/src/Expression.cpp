@@ -7,10 +7,7 @@ namespace equation
 {
 
 Expression::Expression()
-{
-    m_sample = 0;
-}
+{}
 
 }
-
 }
