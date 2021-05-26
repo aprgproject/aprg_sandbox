@@ -40,15 +40,13 @@ class TermChecker
 public:
     explicit TermChecker(TermCheckerType const termCheckerType);
     explicit TermChecker(Term const& term);
-    explicit TermChecker(std::initializer_list<Term> const initializerList);
+    explicit TermChecker(std::initializer_list<Term> const& initializerList);
 
     operator Term() const;
-    friend ostream& operator<<(ostream & out, TermChecker const& termChecker);
-    bool operator==(Term const& term) const;
+    friend ostream& operator<<(ostream & out, TermChecker const& termChecker);    bool operator==(Term const& term) const;
     friend bool operator==(Term const& term, TermChecker const& termChecker);
     bool operator!=(Term const& term) const;
     friend bool operator!=(Term const& term, TermChecker const& termChecker);
-
     bool isCorrect(Term const& termToCheck) const;
     TermCheckerType getTermCheckerType() const;
     Term getTerm() const;
