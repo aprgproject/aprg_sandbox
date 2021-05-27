@@ -1,13 +1,13 @@
 #include "Term.hpp"
 
+#include <Utilities.hpp>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
-
 Term::Term()
     : m_type(TermType::Unknown)
 {}
@@ -19,19 +19,27 @@ Term::Term(Constant const& constant)
     constantDataReference = constant;
 }
 
-Term::Term(Variable const& variable)
-    : m_type(TermType::Variable)
+Term::Term(std::string const& variableOrOperator)
+    : m_type(TermType::Unknown)
 {
-    Variable & variableDataReference = m_data.acquire<Variable>();
-    variableDataReference = variable;
+    if(isOperator(variableOrOperator))
+    {
+        m_type=TermType::Operator;
+        Operator & operatorDataReference = m_data.acquire<Operator>();
+        operatorDataReference = Operator(variableOrOperator);
+    }
+    else
+    {
+        m_type=TermType::Variable;
+        Variable & variableDataReference = m_data.acquire<Variable>();
+        variableDataReference = Variable(variableOrOperator);
+    }
 }
 
-Term::Term(Monomial const& monomial)
-    : m_type(TermType::Monomial)
+Term::Term(Monomial const& monomial)    : m_type(TermType::Monomial)
 {
     Monomial & monomialDataReference = m_data.acquire<Monomial>();
-    monomialDataReference = monomial;
-}
+    monomialDataReference = monomial;}
 
 Term::Term(Polynomial const& polynomial)
     : m_type(TermType::Polynomial)
@@ -55,15 +63,18 @@ Variable & Term::getVariableReference()
     return m_data.acquire<Variable>();
 }
 
+Operator & Term::getOperatorReference()
+{
+    return m_data.acquire<Operator>();
+}
+
 Monomial & Term::getMonomialReference()
 {
-    return m_data.acquire<Monomial>();
-}
+    return m_data.acquire<Monomial>();}
 
 Polynomial & Term::getPolynomialReference()
 {
-    return m_data.acquire<Polynomial>();
-}
+    return m_data.acquire<Polynomial>();}
 
 }
 
