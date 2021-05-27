@@ -46,14 +46,32 @@ TEST(TermTest, TermsAsVariablesWorkAsExpected)
     EXPECT_EQ("power", variable3.getVariableReference().getVariableName());
 }
 
+TEST(TermTest, TermsAsOperatorsWorkAsExpected)
+{
+    Term variable1("+");
+    Term variable2("-");
+    Term variable3("*");
+    Term variable4("/");
+
+    EXPECT_EQ(TermType::Operator, variable1.getTermType());
+    EXPECT_EQ("+", variable1.getOperatorReference().getOperatorString());
+
+    EXPECT_EQ(TermType::Operator, variable2.getTermType());
+    EXPECT_EQ("-", variable2.getOperatorReference().getOperatorString());
+
+    EXPECT_EQ(TermType::Operator, variable3.getTermType());
+    EXPECT_EQ("*", variable3.getOperatorReference().getOperatorString());
+
+    EXPECT_EQ(TermType::Operator, variable4.getTermType());
+    EXPECT_EQ("/", variable4.getOperatorReference().getOperatorString());
+}
+
 TEST(TermTest, TermsAsMonomialsWorkAsExpected)
 {
-    Term monomial1(Monomial(3, {}));
-    Term monomial2(Monomial(1.5, {{"distance", 3.75}}));
+    Term monomial1(Monomial(3, {}));    Term monomial2(Monomial(1.5, {{"distance", 3.75}}));
     Term monomial3(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));
 
-    EXPECT_EQ(TermType::Monomial, monomial1.getTermType());
-    EXPECT_DOUBLE_EQ(3, monomial1.getMonomialReference().getConstantConstReference().getDouble());
+    EXPECT_EQ(TermType::Monomial, monomial1.getTermType());    EXPECT_DOUBLE_EQ(3, monomial1.getMonomialReference().getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomial1.getMonomialReference().getVariablesToExponentsMapConstReference());
     ASSERT_TRUE(variableMap1.empty());
 
