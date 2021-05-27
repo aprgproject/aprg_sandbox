@@ -4,16 +4,16 @@
 
 #include <iostream>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 using LocalSample = OneDimensionsStatistics::Sample;
 using LocalSamples = OneDimensionsStatistics::Samples;
-
 TEST(OneDimensionsStatisticsTest, MinMaxValuesCanFetched)
 {
-    LocalSamples samples;
-    samples.emplace_back(LocalSample{-100});
+    LocalSamples samples;    samples.emplace_back(LocalSample{-100});
     samples.emplace_back(LocalSample{-10});
     samples.emplace_back(LocalSample{-1});
     samples.emplace_back(LocalSample{1});
@@ -23,4 +23,6 @@ TEST(OneDimensionsStatisticsTest, MinMaxValuesCanFetched)
 
     EXPECT_EQ(-100, minMax.first);
     EXPECT_EQ(100, minMax.second);
+}
+
 }

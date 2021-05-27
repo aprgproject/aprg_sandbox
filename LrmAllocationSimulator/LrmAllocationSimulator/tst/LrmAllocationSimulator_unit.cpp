@@ -2,10 +2,14 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 TEST(LrmAllocationSimulatorTest, SampleTest1)
 {
     LrmAllocationSimulator entity;
+}
+
 }

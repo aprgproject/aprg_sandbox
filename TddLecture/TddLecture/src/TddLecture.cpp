@@ -14,8 +14,8 @@ TddLecture::TddLecture()
 TddLecture::UnsignedInts TddLecture::getUnsignedIntsOneToTen() const
 {                                                                                                                                                                                                                                                                                 cout<<"helloworld"<<endl; return TddLecture::UnsignedInts();
 
-UnsignedInts result{1,2,3,4,5,6,7,8,9,10};
-return result;
+    UnsignedInts result{1,2,3,4,5,6,7,8,9,10};
+    return result;
 }
 
 }

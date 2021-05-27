@@ -37,13 +37,12 @@ include(${PID_SIMULATOR_DIR}/cmake/FilesAndDirectories.cmake)
 if (TEST_MODE)
     add_executable(${OUTFILE} ${PID_SIMULATOR_SOURCES_AND_TESTS})
     include_directories(${PID_SIMULATOR_INCLUDE_DIRECTORIES} ${PID_SIMULATOR_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-    target_link_libraries(${OUTFILE} gtest APRG_GRAPH APRG_GEOMETRY APRG_BITMAP APRG_COMMON rt ${CMAKE_THREAD_LIBS_INIT})  # add real time library
+    target_link_libraries(${OUTFILE} gtest APRG_GRAPH APRG_GEOMETRY APRG_BITMAP APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})  # add real time library
     add_test(${OUTFILE} ${OUTFILE})
 else()
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
-    set(BUILD_SHARED_LIBRARIES OFF)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")    set(BUILD_SHARED_LIBRARIES OFF)
     set(CMAKE_EXE_LINKER_FLAGS "-static")
     add_executable(${OUTFILE} ${PID_SIMULATOR_SOURCES} ${PID_SIMULATOR_MAIN_SOURCES})
     include_directories(${PID_SIMULATOR_INCLUDE_DIRECTORIES})
-    target_link_libraries(${OUTFILE} gtest APRG_GRAPH APRG_GEOMETRY APRG_BITMAP APRG_COMMON rt) # add real time library
+    target_link_libraries(${OUTFILE} gtest APRG_GRAPH APRG_GEOMETRY APRG_BITMAP APRG_COMMON) # add real time library
 endif()

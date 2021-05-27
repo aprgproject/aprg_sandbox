@@ -4,17 +4,17 @@
 
 #include <fstream>
 
-using namespace tcomToolsBackend;
 using namespace std;
+
+namespace tcomToolsBackend
+{
 
 TEST(BtsLogTimeTest, DefaultConstructorIsEmpty)
 {
-    BtsLogTime logTime;
-    EXPECT_TRUE(logTime.isEmpty());
+    BtsLogTime logTime;    EXPECT_TRUE(logTime.isEmpty());
 }
 
-TEST(BtsLogTimeTest, ClearingMakesItEmpty)
-{
+TEST(BtsLogTimeTest, ClearingMakesItEmpty){
     BtsLogTime logTime(BtsLogTimeType::BtsTimeStamp, "2015-08-20T18:14:51.565172Z");
     EXPECT_FALSE(logTime.isEmpty());
     logTime.clear();
@@ -232,4 +232,6 @@ TEST(BtsLogTimeTest, TheDataCanBeSavedToAndRetrieveFromFile)
         inputStream>>testLogTime;
     }
     EXPECT_EQ(sampleLogTime, testLogTime);
+}
+
 }

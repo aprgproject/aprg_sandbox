@@ -2,17 +2,17 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba;
 using namespace alba::FakeStateMachine;
 using namespace std;
 
+namespace alba
+{
+
 void verifyResultsOfAction(State const initialState, Action const actionToBePerformed, State const expectedState)
 {
-    SampleStateMachine stateMachine(initialState);
-    stateMachine.processInput(actionToBePerformed);
+    SampleStateMachine stateMachine(initialState);    stateMachine.processInput(actionToBePerformed);
     EXPECT_EQ(expectedState, stateMachine.getState());
 }
-
 TEST(SampleStateMachineTest, InitialValuesAreCorrect)
 {
     SampleStateMachine stateMachine(State::StateWithNoValue);
@@ -62,4 +62,6 @@ TEST(SampleStateMachineTest, MultiplyBy2Works)
     verifyResultsOfAction(State::State2, Action::MultiplyBy2, State::State4);
     verifyResultsOfAction(State::State3, Action::MultiplyBy2, State::StateWithNoValue);
     verifyResultsOfAction(State::State4, Action::MultiplyBy2, State::StateWithNoValue);
+}
+
 }

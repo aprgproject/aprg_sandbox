@@ -18,27 +18,20 @@
 #include <string>
 #include <iterator>
 
-using namespace alba;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace ProgressCounters
-{
-int numberOfFilesToBeAnalyzedForExtraction;
+{int numberOfFilesToBeAnalyzedForExtraction;
 int numberOfFilesAnalyzedForExtraction;
-}
-
 }
 
 TEST(SampleTest, RenameFiles)
 {
-    AlbaLocalPathHandler::ListOfPaths files;
-    AlbaLocalPathHandler::ListOfPaths directories;
+    AlbaLocalPathHandler::ListOfPaths files;    AlbaLocalPathHandler::ListOfPaths directories;
     AlbaLocalPathHandler pathHandler(R"(N:\MUSIC\111_DoAutomationHere)");
     pathHandler.findFilesAndDirectoriesUnlimitedDepth("*.*", files, directories);
-
     for(string const& file: files)
     {
         AlbaLocalPathHandler filePathHandler(file);
@@ -1814,3 +1807,6 @@ TEST(SampleTest, FindThoseIpAddresses)
     }
 }
 */
+
+
+}

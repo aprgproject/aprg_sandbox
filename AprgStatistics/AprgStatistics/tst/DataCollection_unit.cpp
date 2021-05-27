@@ -4,17 +4,17 @@
 
 #include <iostream>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 using DataCollectionOfDoubles = DataCollection<double>;
 
-TEST(DataCollectionTest, CollectionDataAreCorrect)
-{
+TEST(DataCollectionTest, CollectionDataAreCorrect){
     DataCollectionOfDoubles collection;
     collection.addData(-100);
-    collection.addData(-10);
-    collection.addData(-1);
+    collection.addData(-10);    collection.addData(-1);
     collection.addData(1);
     collection.addData(10);
     collection.addData(70);
@@ -26,4 +26,6 @@ TEST(DataCollectionTest, CollectionDataAreCorrect)
     EXPECT_EQ(7u, collection.getCount());
     EXPECT_EQ(10, collection.getAverage());
     EXPECT_EQ(10, collection.getAverageWithDoubleFormat());
+}
+
 }

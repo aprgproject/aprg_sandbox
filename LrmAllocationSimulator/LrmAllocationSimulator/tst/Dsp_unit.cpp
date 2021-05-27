@@ -2,17 +2,17 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 TEST(DspTest, DspDetailsCanAssignedCorrectlyAtDefaultConstruction)
 {
-    Dsp dsp;
-    EXPECT_EQ(0u, dsp.getAddress());
+    Dsp dsp;    EXPECT_EQ(0u, dsp.getAddress());
     EXPECT_EQ(0u, dsp.getFspAddress());
     EXPECT_EQ(0u, dsp.getLcgId());
-    EXPECT_EQ(0u, dsp.getNumberOfDchUsers());
-    EXPECT_EQ(0u, dsp.getNumberOfHsupaCfs());
+    EXPECT_EQ(0u, dsp.getNumberOfDchUsers());    EXPECT_EQ(0u, dsp.getNumberOfHsupaCfs());
     EXPECT_EQ(0u, dsp.getNumberOfPreservedHsupaCfs());
     EXPECT_EQ(0u, dsp.getNumberOfDynamicallyAllocatedHsupaCfs());
     EXPECT_EQ(0u, dsp.getNumberOfHsRachCfs());
@@ -51,4 +51,6 @@ TEST(DspTest, DspDetailsCanAssignedCorrectlyAtConstruction)
     EXPECT_EQ(NyquistType::TurboNyquist, dsp.getNyquistType());
     EXPECT_FALSE(dsp.isEmpty());
     EXPECT_TRUE(dsp.hasEmergencyCalls());
+}
+
 }

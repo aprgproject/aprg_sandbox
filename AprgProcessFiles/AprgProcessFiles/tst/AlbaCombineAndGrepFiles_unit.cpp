@@ -4,10 +4,12 @@
 
 #include <string>
 
-using namespace alba;
+namespace alba
+{
 
 TEST(AlbaCombineAndGrepFilesTest, TestFilesToBeGrep)
-{
-    AlbaCombineAndGrepFiles CombineAndGrepFilesObject(R"(D:\W\trunk\C_Application\I_Interface.log)", R"([])", R"([ServiceInterface])");
+{    AlbaCombineAndGrepFiles CombineAndGrepFilesObject(R"(D:\W\trunk\C_Application\I_Interface.log)", R"([])", R"([ServiceInterface])");
     CombineAndGrepFilesObject.processDirectory(R"(D:\W\trunk\C_Application\SC_TCOM)");
+}
+
 }

@@ -2,17 +2,16 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba;
 using namespace std;
 
+namespace alba
+{
 
 TEST(DatabaseTest, InitialContentsAreEmpty)
-{
-    Database database;
+{    Database database;
     EXPECT_TRUE(database.fileToPathMap.empty());
     EXPECT_TRUE(database.constantNameToConstantDetailsMap.empty());
-    EXPECT_TRUE(database.messageNameToMessageDetailsMap.empty());
-    EXPECT_TRUE(database.structureNameToStructureDetailsMap.empty());
+    EXPECT_TRUE(database.messageNameToMessageDetailsMap.empty());    EXPECT_TRUE(database.structureNameToStructureDetailsMap.empty());
     EXPECT_TRUE(database.enumNameToEnumDetailsMap.empty());
     EXPECT_TRUE(database.messagesToGenerate.empty());
 }
@@ -69,4 +68,4 @@ TEST(DatabaseTest, SaveAndLoadFile)
     //EXPECT_EQ("ThisIsAMessage", *loadedDatabase.messagesToGenerate.begin());
 }
 
-
+}

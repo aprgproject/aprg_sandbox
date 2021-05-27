@@ -2,17 +2,17 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 TEST(HardwareConfigurationTest, OneFspOneLcgEvenDistribution)
 {
-    HardwareConfiguration hardwareConfiguration;
-    hardwareConfiguration.changeConfigurationToOneFspOneLcgEvenDistribution();
+    HardwareConfiguration hardwareConfiguration;    hardwareConfiguration.changeConfigurationToOneFspOneLcgEvenDistribution();
     AddressToDspMap& addressToDspMap(hardwareConfiguration.getAddressToDspMapReference());
     AddressToFspMap& addressToFspMap(hardwareConfiguration.getAddressToFspMapReference());
-    Dsp& dspIn1230(addressToDspMap.at(0x1230));
-    Dsp& dspIn1240(addressToDspMap.at(0x1240));
+    Dsp& dspIn1230(addressToDspMap.at(0x1230));    Dsp& dspIn1240(addressToDspMap.at(0x1240));
     Fsp& fspIn1200(addressToFspMap.at(0x1200));
 
     EXPECT_EQ(0x1230u, dspIn1230.getAddress());
@@ -132,4 +132,6 @@ TEST(HardwareConfigurationTest, TwoFspTwoLcgEvenDistribution)
     EXPECT_TRUE(fspIn1200.isMasterTcom());
     EXPECT_EQ(0x1300u, fspIn1300.getAddress());
     EXPECT_FALSE(fspIn1300.isMasterTcom());
+}
+
 }

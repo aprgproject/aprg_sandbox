@@ -2,17 +2,17 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 TEST(DataSampleTest, DataSampleWithDefaultConstructorIsZero)
 {
-    DataSample<5> dataSample;
-    EXPECT_EQ(0u, dataSample.getValueAt(0));
+    DataSample<5> dataSample;    EXPECT_EQ(0u, dataSample.getValueAt(0));
     EXPECT_EQ(0u, dataSample.getValueAt(1));
     EXPECT_EQ(0u, dataSample.getValueAt(2));
-    EXPECT_EQ(0u, dataSample.getValueAt(3));
-    EXPECT_EQ(0u, dataSample.getValueAt(4));
+    EXPECT_EQ(0u, dataSample.getValueAt(3));    EXPECT_EQ(0u, dataSample.getValueAt(4));
 }
 
 TEST(DataSampleTest, DataSampleWithInitializerListIsCorrectlyInitialized)
@@ -96,4 +96,6 @@ TEST(DataSampleTest, DataSamplesCanBeAddedWithSingleValue)
     EXPECT_EQ(31u, actualResult.getValueAt(2));
     EXPECT_EQ(41u, actualResult.getValueAt(3));
     EXPECT_EQ(51u, actualResult.getValueAt(4));
+}
+
 }

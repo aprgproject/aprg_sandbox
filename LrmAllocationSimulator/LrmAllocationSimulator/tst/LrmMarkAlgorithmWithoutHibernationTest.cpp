@@ -2,17 +2,17 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 TEST(LrmMarkAlgorithmWithoutHibernationTest, McdAllocation_MasterTcomIsPrioritizedForNyquist)
 {
-    HardwareConfiguration hardwareConfiguration;
-    Lrm lrm(hardwareConfiguration);
+    HardwareConfiguration hardwareConfiguration;    Lrm lrm(hardwareConfiguration);
 
     hardwareConfiguration.changeConfigurationToOneFspOneLcgEvenDistribution();
     lrm.setHibernationCommissioned(false);
-
     SelectionDspResult selectionResult(lrm.allocateMcdForLcgIdAccordingToMark(1));
 
     hardwareConfiguration.printDspAllocations();
@@ -1395,4 +1395,6 @@ TEST(LrmMarkAlgorithmWithoutHibernationTest, FourLcgSixFspFourCcdNbicMcdPic)
     ASSERT_FALSE(resultPicLcg2.isSelectionSuccessful);
     ASSERT_FALSE(resultPicLcg3.isSelectionSuccessful);
     ASSERT_FALSE(resultPicLcg4.isSelectionSuccessful);
+}
+
 }

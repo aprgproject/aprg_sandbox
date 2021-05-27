@@ -7,17 +7,17 @@
 #include <fstream>
 #include <string>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 TEST(CPlusPlusFileFixerTest, ActualRun)
 {
-    CPlusPlusFileFixer fixer;
-    fixer.processDirectory(R"(C:\APRG_CLEAN_COPY\)");
+    CPlusPlusFileFixer fixer;    fixer.processDirectory(R"(C:\APRG_CLEAN_COPY\)");
     //fixer.processDirectory(R"(C:\APRG\TcomTools\)");
     //fixer.processFile(R"(C:\APRG\AprgCommon\AprgCommon\tst\AlbaStringHelper_unit.cpp)");
 }
-
 TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersTest)
 {
     CPlusPlusFileFixer fixer;
@@ -136,4 +136,6 @@ TEST(CPlusPlusFileFixerTest, DISABLED_TwoCascadingLoopsDetection)
     testFile.close();
 
     fixer.processFile(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
+}
+
 }

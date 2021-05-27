@@ -26,17 +26,17 @@
 
 #include <Debug/AlbaDebug.hpp>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 unsigned int swap4(unsigned int temp)
 {
-    return alba::AlbaBitManipulation<unsigned int>::swapForFourBytes(temp);
-    //return temp;
+    return alba::AlbaBitManipulation<unsigned int>::swapForFourBytes(temp);    //return temp;
 }
 
-TEST(SampleTest, SampleTest1)
-{
+TEST(SampleTest, SampleTest1){
     u8 dynamicPayload[10000] = {//0x50, 0xAC, 0x09, 0xF8, 0x12, 0x34, 0x02, 0x2A, 0x12, 0x0D, 0x01, 0x6B, 0x12, 0x0D, 0x01, 0x6B,
                                 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0xD5, 0x80, 0x00, 0x00, 0x00,
                                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xF0, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x03,
@@ -728,4 +728,6 @@ TEST(SampleTest, SampleTest2)
                 + (sizeof(SAddiEdchRlMappingInfo)*swap4(rlSetupReqPointer->numOfAddiEdchRlMappingInfo));
 
     */
+}
+
 }

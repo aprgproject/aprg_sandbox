@@ -4,15 +4,14 @@
 
 #include <unistd.h>
 
-using namespace alba;
+namespace alba
+{
 
 TEST(AlbaLinuxTimer, DISABLED_TimerCanBeInitialized)
-{
-    AlbaLinuxTimer timer;
+{    AlbaLinuxTimer timer;
     usleep(2000000);
     timer.stopTimer();
-    unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();
-    EXPECT_EQ(2u, secondsElapsed);
+    unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();    EXPECT_EQ(2u, secondsElapsed);
 }
 
 TEST(AlbaLinuxTimer, DISABLED_TimerCanBeRestarted)
@@ -24,4 +23,6 @@ TEST(AlbaLinuxTimer, DISABLED_TimerCanBeRestarted)
     timer.stopTimer();
     unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();
     EXPECT_EQ(1u, secondsElapsed);
+}
+
 }

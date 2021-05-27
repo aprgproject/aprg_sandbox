@@ -4,17 +4,17 @@
 
 #include <iostream>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 using LocalSample = TwoDimensionsStatistics::Sample;
 using LocalSamples = TwoDimensionsStatistics::Samples;
-using LocalLineModel = TwoDimensionsStatistics::LineModel;
-using LocalValueToSampleMultimap = TwoDimensionsStatistics::ValueToSampleMultimap;
+using LocalLineModel = TwoDimensionsStatistics::LineModel;using LocalValueToSampleMultimap = TwoDimensionsStatistics::ValueToSampleMultimap;
 using LocalValueToSamplePair = TwoDimensionsStatistics::ValueToSamplePair;
 
-TEST(TwoDimensionsStatisticsTest, SameValuesOfXAndYForLineModeling)
-{
+TEST(TwoDimensionsStatisticsTest, SameValuesOfXAndYForLineModeling){
     LocalSamples samples;
     samples.emplace_back(LocalSample{5,3});
     samples.emplace_back(LocalSample{5,3});
@@ -283,4 +283,6 @@ TEST(TwoDimensionsStatisticsTest, SamplesCanBeSortedBySquareErrorFromLineModelFo
     EXPECT_EQ((LocalSample{1.80, 72.19}), it++->second);
     EXPECT_EQ((LocalSample{1.47, 52.21}), it++->second);
     EXPECT_EQ((LocalSample{1.83, 74.46}), it++->second);
+}
+
 }

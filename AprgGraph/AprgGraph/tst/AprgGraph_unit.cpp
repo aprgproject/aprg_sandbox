@@ -6,20 +6,19 @@
 
 #include <cmath>
 
-using namespace alba;
 using namespace alba::TwoDimensions;
 using namespace std;
-
 #define APRG_GRAPH_24_BIT_DEFAULT_FILE APRG_DIR R"(AprgGraph\AprgGraph\tst\Bitmaps\Default24Bit.bmp)"
 #define APRG_GRAPH_24_BIT_GRAPH_OUTPUT_FILE APRG_DIR R"(AprgGraph\AprgGraph\tst\Bitmaps\GraphOutput.bmp)"
 
+namespace alba
+{
+
 TEST(SampleTest, BitmapGraph24Bits)
 {
-    AlbaLocalPathHandler defaultFile(APRG_GRAPH_24_BIT_DEFAULT_FILE);
-    AlbaLocalPathHandler graphOutputFile(APRG_GRAPH_24_BIT_GRAPH_OUTPUT_FILE);
+    AlbaLocalPathHandler defaultFile(APRG_GRAPH_24_BIT_DEFAULT_FILE);    AlbaLocalPathHandler graphOutputFile(APRG_GRAPH_24_BIT_GRAPH_OUTPUT_FILE);
     graphOutputFile.deleteFile();
     defaultFile.copyToNewFile(graphOutputFile.getFullPath());
-
     AprgGraph graph(graphOutputFile.getFullPath(), BitmapXY(800,450), BitmapDoubleXY(1, 1));
     graph.drawGrid(BitmapDoubleXY((double)1000/3, (double)1000/9));
     graph.drawLine(Line(1,1,1), 0x00FF0000);
@@ -35,4 +34,6 @@ TEST(SampleTest, BitmapGraph24Bits)
         return 100*sin(yValue/100);
     });
     graph.saveChangesToBitmapFile();
+}
+
 }

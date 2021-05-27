@@ -4,15 +4,13 @@ project(StringReplacer C CXX)
 set(OUTFILE ${PROJECT_NAME})
 
 #Comment out TEST_MODE to build static executable
-set(TEST_MODE "ON")
+#set(TEST_MODE "ON")
 
 #Assign APRG Directory
-set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
-set(STRING_REPLACER_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)set(STRING_REPLACER_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Assign Flags
 include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
-
 #Assign Definitions
 include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
 

@@ -2,16 +2,16 @@
 
 #include <gtest/gtest.h>
 
-using namespace alba;
 using namespace std;
+
+namespace alba
+{
 
 TEST(SampleTest, ConvertPlmnIdToMccMncFirstNibbleOfPlmnId)
 {
-    MccMncPair mccMncPair(convertPlmnIdToMccMnc(0x100000));
-    EXPECT_EQ(10, mccMncPair.mcc);
+    MccMncPair mccMncPair(convertPlmnIdToMccMnc(0x100000));    EXPECT_EQ(10, mccMncPair.mcc);
     EXPECT_EQ(0, mccMncPair.mnc);
 }
-
 TEST(SampleTest, ConvertPlmnIdToMccMncFirstTwoNibblesOfPlmnId)
 {
     MccMncPair mccMncPair(convertPlmnIdToMccMnc(0x120000));
@@ -54,3 +54,4 @@ TEST(SampleTest, ConvertPlmnIdToMccMncWithFillerDigit)
     EXPECT_EQ(65, mccMncPair.mnc);
 }
 
+}

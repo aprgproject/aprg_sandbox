@@ -19,16 +19,14 @@ AprgGraph::AprgGraph(string const& bitmapPath, BitmapXY const& originInBitmap, B
     , m_originInBitmap(originInBitmap)
     , m_magnification(magnification)
     , m_lowestInterval(getLowestInterval())
-    , m_realUpLeftPoint(convertBitmapXYToRealPoint(m_bitmap.getUpLeftCornerPoint()))
-    , m_realDownRightPoint(convertBitmapXYToRealPoint(m_bitmap.getDownRightCornerPoint()))
+    , m_realUpLeftPoint(convertBitmapXYToRealPoint(m_bitmap.getConfiguration().getUpLeftCornerPoint()))
+    , m_realDownRightPoint(convertBitmapXYToRealPoint(m_bitmap.getConfiguration().getDownRightCornerPoint()))
 {
     m_numberToStringConverter.setPrecision(5);
 }
-
 void AprgGraph::drawPoint(Point const& point, unsigned int const color)
 {
-    m_bitmapSnippet.setPixelAt(convertRealPointToBitmapXY(point), color);
-}
+    m_bitmapSnippet.setPixelAt(convertRealPointToBitmapXY(point), color);}
 
 void AprgGraph::drawDiscontinuousPoints(Points const& points, unsigned int const color)
 {
@@ -257,20 +255,18 @@ BitmapXY AprgGraph::convertBitmapPointToBitmapXY(Point const& bitmapPosition) co
 unsigned int AprgGraph::convertRealXCoordinateToBitmapXCoordinate(double const xCoordinate) const
 {
     int calculatedXCoordinate = static_cast<int>(round((xCoordinate*m_magnification.getX())+m_originInBitmap.getX()));
-    return m_bitmap.getXCoordinateWithinTheBitmap(calculatedXCoordinate);
+    return m_bitmap.getConfiguration().getXCoordinateWithinTheBitmap(calculatedXCoordinate);
 }
 
 unsigned int AprgGraph::convertRealYCoordinateToBitmapYCoordinate(double const yCoordinate) const
 {
     int calculatedYCoordinate = static_cast<int>(round((-1*yCoordinate*m_magnification.getY())+m_originInBitmap.getY()));
-    return m_bitmap.getYCoordinateWithinTheBitmap(calculatedYCoordinate);
+    return m_bitmap.getConfiguration().getYCoordinateWithinTheBitmap(calculatedYCoordinate);
 }
 
-double AprgGraph::convertBitmapXCoordinateToRealXCoordinate(double const xCoordinate) const
-{
+double AprgGraph::convertBitmapXCoordinateToRealXCoordinate(double const xCoordinate) const{
     return (xCoordinate-m_originInBitmap.getX())/m_magnification.getX();
 }
-
 double AprgGraph::convertBitmapYCoordinateToRealYCoordinate(double const yCoordinate) const
 {
     return (yCoordinate-m_originInBitmap.getY())/(m_magnification.getY()*-1);
