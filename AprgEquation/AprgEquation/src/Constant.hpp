@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BaseTerm.hpp>
+#include <BaseTermData.hpp>
 #include <Math/AlbaNumber.hpp>
 
 namespace alba
@@ -9,7 +9,7 @@ namespace alba
 namespace equation
 {
 
-class Constant : public BaseTerm
+class Constant : public BaseTermData
 {
 public:
     Constant();

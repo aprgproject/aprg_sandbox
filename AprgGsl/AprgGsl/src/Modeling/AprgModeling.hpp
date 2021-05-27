@@ -10,10 +10,12 @@ namespace alba
 
 class AprgModeling
 {
-public:    struct ValidationResult
+public:
+    struct ValidationResult
     {
         double totalSquareError;
-        double resultSize;        double meanSquareError;
+        double resultSize;
+        double meanSquareError;
         double rootMeanSquareError;
     };
     using VectorOfDoubles = std::vector<double>;

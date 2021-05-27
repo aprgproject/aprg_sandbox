@@ -8,11 +8,11 @@ namespace alba
 namespace equation
 {
 
-class BaseTerm : public VariantDataType
+class BaseTermData : public VariantDataType
 {
 public:
-    BaseTerm();
-    virtual ~BaseTerm();
+    BaseTermData();
+    virtual ~BaseTermData();
 
 private:
 

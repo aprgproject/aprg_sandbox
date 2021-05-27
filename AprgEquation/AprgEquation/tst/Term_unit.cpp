@@ -68,10 +68,12 @@ TEST(TermTest, TermsAsOperatorsWorkAsExpected)
 
 TEST(TermTest, TermsAsMonomialsWorkAsExpected)
 {
-    Term monomial1(Monomial(3, {}));    Term monomial2(Monomial(1.5, {{"distance", 3.75}}));
+    Term monomial1(Monomial(3, {}));
+    Term monomial2(Monomial(1.5, {{"distance", 3.75}}));
     Term monomial3(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));
 
-    EXPECT_EQ(TermType::Monomial, monomial1.getTermType());    EXPECT_DOUBLE_EQ(3, monomial1.getMonomialReference().getConstantConstReference().getDouble());
+    EXPECT_EQ(TermType::Monomial, monomial1.getTermType());
+    EXPECT_DOUBLE_EQ(3, monomial1.getMonomialReference().getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomial1.getMonomialReference().getVariablesToExponentsMapConstReference());
     ASSERT_TRUE(variableMap1.empty());
 

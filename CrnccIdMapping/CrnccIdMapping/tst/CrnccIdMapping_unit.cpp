@@ -12,10 +12,12 @@ namespace alba
 
 TEST(SampleTest, PerformanceAccessTestWithRandomValues)
 {
-    constexpr unsigned int initialSize=2500;    constexpr unsigned int accessIterations=1000000;
+    constexpr unsigned int initialSize=2500;
+    constexpr unsigned int accessIterations=1000000;
 
     AlbaRandomizer randomizer;
-    vector<unsigned int> crnccIds;    for(unsigned int currentSize=0; currentSize<initialSize; currentSize++)
+    vector<unsigned int> crnccIds;
+    for(unsigned int currentSize=0; currentSize<initialSize; currentSize++)
     {
         TCRNCCommunicationContextId crnccId = randomizer.getRandomValueInUniformDistribution(1,65536);
         TNbccId nbccId = randomizer.getRandomValueInUniformDistribution(1,2500);

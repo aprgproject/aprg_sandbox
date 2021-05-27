@@ -10,9 +10,11 @@ namespace alba
 
 void verifyResultsOfAction(State const initialState, Action const actionToBePerformed, State const expectedState)
 {
-    SampleStateMachine stateMachine(initialState);    stateMachine.processInput(actionToBePerformed);
+    SampleStateMachine stateMachine(initialState);
+    stateMachine.processInput(actionToBePerformed);
     EXPECT_EQ(expectedState, stateMachine.getState());
 }
+
 TEST(SampleStateMachineTest, InitialValuesAreCorrect)
 {
     SampleStateMachine stateMachine(State::StateWithNoValue);

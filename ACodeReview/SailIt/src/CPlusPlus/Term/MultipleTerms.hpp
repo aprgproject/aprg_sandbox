@@ -17,7 +17,8 @@ public:
     explicit MultipleTerms(initializer_list<Term> const& initializerList);
     bool isEqualToAnyOfTheTerms(Term const& termToCompare) const;
 
-private:    vector<Term> m_terms;
+private:
+    vector<Term> m_terms;
 };
 
 }// namespace codeReview

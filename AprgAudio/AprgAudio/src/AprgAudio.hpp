@@ -10,10 +10,12 @@ namespace alba
 {
 
 /** The different types of audio file, plus some other types to
- * indicate a failure to load a file, or that one hasn't been * loaded yet
+ * indicate a failure to load a file, or that one hasn't been
+ * loaded yet
  */
 
-enum class AprgAudioFormat{
+enum class AprgAudioFormat
+{
     Error,
     NotLoaded,
     Wave,

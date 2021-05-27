@@ -11,9 +11,11 @@ namespace alba
 
 using LocalSample = OneDimensionsStatistics::Sample;
 using LocalSamples = OneDimensionsStatistics::Samples;
+
 TEST(OneDimensionsStatisticsTest, MinMaxValuesCanFetched)
 {
-    LocalSamples samples;    samples.emplace_back(LocalSample{-100});
+    LocalSamples samples;
+    samples.emplace_back(LocalSample{-100});
     samples.emplace_back(LocalSample{-10});
     samples.emplace_back(LocalSample{-1});
     samples.emplace_back(LocalSample{1});

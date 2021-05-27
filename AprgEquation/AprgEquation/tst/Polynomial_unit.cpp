@@ -31,6 +31,7 @@ TEST(PolynomialTest, PolynomialsAreConstructedCorrectly)
     EXPECT_EQ(4, variableMap2.at("z").getDouble());
 
 }
+
 }
 
 }

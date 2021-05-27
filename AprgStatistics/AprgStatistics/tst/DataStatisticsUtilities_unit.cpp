@@ -11,10 +11,12 @@ namespace alba
 
 TEST(DataStatisticsUtilitiesTest, SumAreCorrect)
 {
-    using LocalStatisticsUtilities = DataStatisticsUtilities<3>;    using LocalSamples = LocalStatisticsUtilities::Samples;
+    using LocalStatisticsUtilities = DataStatisticsUtilities<3>;
+    using LocalSamples = LocalStatisticsUtilities::Samples;
     using LocalSample = LocalStatisticsUtilities::Sample;
 
-    LocalSamples samples1;    LocalSamples samples2{LocalSample{1, 10, 100}, LocalSample{2, 20, 200}, LocalSample{3, 30, 300}};
+    LocalSamples samples1;
+    LocalSamples samples2{LocalSample{1, 10, 100}, LocalSample{2, 20, 200}, LocalSample{3, 30, 300}};
     LocalSample expectedSum1{0, 0, 0};
     LocalSample expectedSum2{6, 60, 600};
 

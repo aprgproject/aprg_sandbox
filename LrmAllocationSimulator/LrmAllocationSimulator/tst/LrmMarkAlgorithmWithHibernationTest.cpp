@@ -9,10 +9,12 @@ namespace alba
 
 TEST(LrmMarkAlgorithmWithHibenationTest, TwoLcgTwoFspTwoCcdMcd)
 {
-    HardwareConfiguration hardwareConfiguration;    Lrm lrm(hardwareConfiguration);
+    HardwareConfiguration hardwareConfiguration;
+    Lrm lrm(hardwareConfiguration);
 
     hardwareConfiguration.changeConfigurationToTwoFspTwoLcgEvenDistribution();
-    lrm.setHibernationCommissioned(true);    lrm.setNumberOfUnallocatedPicPoolsPerLcg(1, 1);
+    lrm.setHibernationCommissioned(true);
+    lrm.setNumberOfUnallocatedPicPoolsPerLcg(1, 1);
     lrm.setNumberOfUnallocatedPicPoolsPerLcg(2, 1);
 
     SelectionDspResultForCcdAndMcd resultCcdMcdLcg1(lrm.allocateCcdMcdForLcgIdAccordingToMark(1));

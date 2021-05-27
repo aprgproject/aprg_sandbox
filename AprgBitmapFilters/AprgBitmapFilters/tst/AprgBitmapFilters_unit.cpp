@@ -12,10 +12,12 @@ namespace alba
 {
 
 TEST(BitmapFilterTest, DISABLED_AnimizeTest)
-{    AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
+{
+    AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
     AlbaLocalPathHandler inputDirectory(bitmapDirectory.getDirectory()+R"(AnimizeTests\input\)");
     ListOfPaths inputSubDirectories;
-    ListOfPaths inputFiles;    inputDirectory.findFilesAndDirectoriesOneDepth("*.*", inputFiles, inputSubDirectories);
+    ListOfPaths inputFiles;
+    inputDirectory.findFilesAndDirectoriesOneDepth("*.*", inputFiles, inputSubDirectories);
 
     for(string const& inputFile : inputFiles)
     {

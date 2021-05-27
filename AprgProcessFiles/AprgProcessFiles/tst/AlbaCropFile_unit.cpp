@@ -14,10 +14,12 @@ namespace alba
 
 TEST(AlbaCropFileTest, NoOutputIsWrittenWhenInputIsNonExisting)
 {
-    AlbaCropFile cropFile("[.]", 100);    EXPECT_FALSE(cropFile.isOutputFileWritten());
+    AlbaCropFile cropFile("[.]", 100);
+    EXPECT_FALSE(cropFile.isOutputFileWritten());
     cropFile.processFile(APRG_PROCESS_FILES_NON_EXISTING_FILE, APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     EXPECT_FALSE(cropFile.isOutputFileWritten());
 }
+
 TEST(AlbaCropFileTest, CropUpdatesWorksAsExpected)
 {
     ofstream testFile(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);

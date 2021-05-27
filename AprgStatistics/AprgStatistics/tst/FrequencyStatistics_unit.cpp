@@ -12,9 +12,11 @@ namespace alba
 TEST(FrequencyStatisticsTest, SamplesAreEmpty)
 {
     FrequencyStatistics::FrequencySamples samples;
+
     FrequencyStatistics::MultipleValues modes(FrequencyStatistics::calculateMode(samples));
     EXPECT_EQ(0u, FrequencyStatistics::calculateNumberOfSamples(samples));
-    EXPECT_EQ(0u, FrequencyStatistics::calculateSum(samples));    EXPECT_EQ(0u, FrequencyStatistics::calculateMean(samples));
+    EXPECT_EQ(0u, FrequencyStatistics::calculateSum(samples));
+    EXPECT_EQ(0u, FrequencyStatistics::calculateMean(samples));
     EXPECT_EQ(0u, FrequencyStatistics::calculateMedian(samples));
     ASSERT_EQ(0u, modes.size());
 }
@@ -49,10 +51,12 @@ TEST(FrequencyStatisticsTest, SingleSamplePerValueWithOddNumberOfValues)
     EXPECT_EQ(9, modes[8]);
 }
 
-TEST(FrequencyStatisticsTest, SingleSamplePerValueWithEvenNumberOfValues){
+TEST(FrequencyStatisticsTest, SingleSamplePerValueWithEvenNumberOfValues)
+{
     FrequencyStatistics::FrequencySamples samples;
     samples[1] = 1;
-    samples[2] = 1;    samples[3] = 1;
+    samples[2] = 1;
+    samples[3] = 1;
     samples[4] = 1;
     samples[5] = 1;
     samples[6] = 1;
@@ -79,10 +83,12 @@ TEST(FrequencyStatisticsTest, SingleSamplePerValueWithEvenNumberOfValues){
     EXPECT_EQ(10, modes[9]);
 }
 
-TEST(FrequencyStatisticsTest, MulipleSamplesPerValue){
+TEST(FrequencyStatisticsTest, MulipleSamplesPerValue)
+{
     FrequencyStatistics::FrequencySamples samples;
     samples[1] = 7;
-    samples[2] = 1;    samples[3] = 6;
+    samples[2] = 1;
+    samples[3] = 6;
     samples[4] = 11;
     samples[5] = 5;
 
@@ -95,10 +101,12 @@ TEST(FrequencyStatisticsTest, MulipleSamplesPerValue){
     EXPECT_EQ(4, modes[0]);
 }
 
-TEST(FrequencyStatisticsTest, MulipleSamplesWithEmptyValues){
+TEST(FrequencyStatisticsTest, MulipleSamplesWithEmptyValues)
+{
     FrequencyStatistics::FrequencySamples samples;
     samples[9] = 0;
-    samples[10] = 7;    samples[15] = 0;
+    samples[10] = 7;
+    samples[15] = 0;
     samples[20] = 8;
     samples[23] = 0;
     samples[27] = 0;

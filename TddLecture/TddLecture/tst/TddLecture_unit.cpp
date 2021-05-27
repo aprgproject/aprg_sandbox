@@ -9,7 +9,8 @@ namespace alba
 
 TEST(SampleTest, DISABLED_SampleTest1)
 {
-    TddLecture entity;}
+    TddLecture entity;
+}
 
 TEST(SampleTest, SampleTest1)
 {

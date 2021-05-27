@@ -11,10 +11,12 @@ namespace alba
 
 TEST(DataStatisticsTest, StatisticsAreCorrectWhenSamplesAreEmpty)
 {
-    using LocalStatistics = DataStatistics<3>;    using LocalSamples = LocalStatistics::Samples;
+    using LocalStatistics = DataStatistics<3>;
+    using LocalSamples = LocalStatistics::Samples;
     using LocalSample = LocalStatistics::Sample;
     LocalSample expectedSum{0, 0, 0};
-    LocalSample expectedMean{0, 0, 0};    LocalSample expectedSampleVariance{0, 0, 0};
+    LocalSample expectedMean{0, 0, 0};
+    LocalSample expectedSampleVariance{0, 0, 0};
     LocalSample expectedSampleStandardDeviation{0, 0, 0};
     LocalSample expectedPopulationVariance{0, 0, 0};
     LocalSample expectedPopulationStandardDeviation{0, 0, 0};

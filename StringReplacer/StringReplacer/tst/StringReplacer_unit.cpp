@@ -9,9 +9,11 @@ namespace alba
 
 TEST(PrintReplacerTest, ReplaceCStylePrintWithCPlusPlusStylePrint)
 {
-    StringReplacer replacer;    string result(replacer.gethCPlusPlusStylePrintFromC(R"(TLH_DEBUG_PRINT("Creating new licence entry in DB for featureCode: %d.", featureCode);)"));
+    StringReplacer replacer;
+    string result(replacer.gethCPlusPlusStylePrintFromC(R"(TLH_DEBUG_PRINT("Creating new licence entry in DB for featureCode: %d.", featureCode);)"));
     EXPECT_EQ(R"(debug() << "Creating new licence entry in DB for featureCode: " << featureCode << "." << flush();)",  result);
 }
+
 TEST(PrintReplacerTest, ReplaceCStylePrintWithCPlusPlusStylePrintWithPercentWithNumber)
 {
     StringReplacer replacer;

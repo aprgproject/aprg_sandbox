@@ -4,10 +4,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
+
 Term::Term()
     : m_type(TermType::Unknown)
 {}
@@ -36,10 +38,12 @@ Term::Term(std::string const& variableOrOperator)
     }
 }
 
-Term::Term(Monomial const& monomial)    : m_type(TermType::Monomial)
+Term::Term(Monomial const& monomial)
+    : m_type(TermType::Monomial)
 {
     Monomial & monomialDataReference = m_data.acquire<Monomial>();
-    monomialDataReference = monomial;}
+    monomialDataReference = monomial;
+}
 
 Term::Term(Polynomial const& polynomial)
     : m_type(TermType::Polynomial)
@@ -70,11 +74,13 @@ Operator & Term::getOperatorReference()
 
 Monomial & Term::getMonomialReference()
 {
-    return m_data.acquire<Monomial>();}
+    return m_data.acquire<Monomial>();
+}
 
 Polynomial & Term::getPolynomialReference()
 {
-    return m_data.acquire<Polynomial>();}
+    return m_data.acquire<Polynomial>();
+}
 
 }
 

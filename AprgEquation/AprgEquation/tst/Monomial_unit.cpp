@@ -20,9 +20,11 @@ TEST(MonomialTest, MonomialsAreConstructedCorrectly)
 
     EXPECT_EQ(-54, monomial2.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap(monomial2.getVariablesToExponentsMapConstReference());
-    ASSERT_EQ(2u, variableMap.size());    EXPECT_EQ(6, variableMap.at("x").getDouble());
+    ASSERT_EQ(2u, variableMap.size());
+    EXPECT_EQ(6, variableMap.at("x").getDouble());
     EXPECT_EQ(-1.25, variableMap.at("y").getDouble());
 }
+
 TEST(MonomialTest, SettingANewConstantWorks)
 {
     Monomial monomial;

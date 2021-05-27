@@ -9,10 +9,12 @@ namespace alba
 
 using LocalKMeans = KMeansClustering<2>;
 using LocalSamples = LocalKMeans::Samples;
-using LocalSample = LocalKMeans::Sample;using LocalGroupOfSamples = LocalKMeans::GroupOfSamples;
+using LocalSample = LocalKMeans::Sample;
+using LocalGroupOfSamples = LocalKMeans::GroupOfSamples;
 
 TEST(KMeansClusteringTestTwoDimensions, KMeansObjectCanbeCreated)
-{    LocalKMeans kMeans;
+{
+    LocalKMeans kMeans;
 }
 
 TEST(KMeansClusteringTestTwoDimensions, DataSampleCanBeAdded)

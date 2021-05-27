@@ -20,10 +20,12 @@ public:
     BinarySearch(std::initializer_list<ObjectType> const& initialObjects)
         : m_indexOfLowest{0}
         , m_indexOfHighest{0}
-    {        add(initialObjects);
+    {
+        add(initialObjects);
     }
     ObjectType findNearestValue(ObjectType const& value)
-    {        while(m_indexOfHighest - m_indexOfLowest > 2)
+    {
+        while(m_indexOfHighest - m_indexOfLowest > 2)
         {
             findValueForOneIteration(value);
         }
@@ -65,10 +67,12 @@ public:
     void add(std::initializer_list<ObjectType> const& initialObjects)
     {
         for(ObjectType const& object : initialObjects)
-        {            add(object);
+        {
+            add(object);
         }
     }
-    void add(ObjectType const& value)    {
+    void add(ObjectType const& value)
+    {
         m_objects.insert(std::upper_bound(m_objects.begin(), m_objects.end(), value), value);
         updateIndexes();
     }

@@ -9,10 +9,12 @@ namespace alba
 
 TEST(SackFileReaderTest, Constants)
 {
-    Database database;    SackFileReader sackFileReader(database);
+    Database database;
+    SackFileReader sackFileReader(database);
     sackFileReader.readFile(R"(C:\APRG\SackReader\SackReader\SampleFiles\DOpenIUBCommonDefs.h)");
 
-    ConstantDetails details(database.getConstantDetails("MAX_NR_OF_CODES"));    EXPECT_EQ("3GPP 10 Nokia 2.", details.description);
+    ConstantDetails details(database.getConstantDetails("MAX_NR_OF_CODES"));
+    EXPECT_EQ("3GPP 10 Nokia 2.", details.description);
     EXPECT_EQ("2", details.value);
 
     details = (database.getConstantDetails("MAX_NUM_OF_DELAYED_LINKS_INFO"));

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BaseTerm.hpp>
+#include <BaseTermData.hpp>
 #include <Math/AlbaNumber.hpp>
 
 #include <map>
@@ -13,7 +13,7 @@ namespace alba
 namespace equation
 {
 
-class Monomial : public BaseTerm
+class Monomial : public BaseTermData
 {
 public:
     using VariablesToExponentsMap = std::map<std::string, AlbaNumber>;

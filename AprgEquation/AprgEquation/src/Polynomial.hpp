@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BaseTerm.hpp>
+#include <BaseTermData.hpp>
 #include <Monomial.hpp>
 
 namespace alba
@@ -9,7 +9,7 @@ namespace alba
 namespace equation
 {
 
-class Polynomial : public BaseTerm
+class Polynomial : public BaseTermData
 {
 public:
     Polynomial();

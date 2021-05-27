@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BaseTerm.hpp>
+#include <BaseTermData.hpp>
 
 #include <string>
 
@@ -10,7 +10,7 @@ namespace alba
 namespace equation
 {
 
-class Operator : public BaseTerm
+class Operator : public BaseTermData
 {
 public:
     Operator();

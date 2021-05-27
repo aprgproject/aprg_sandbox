@@ -13,10 +13,12 @@ namespace alba
 
 /*
 TEST(SampleTest, DISABLED_SampleTest1)
-{    unsigned char buffer[100];
+{
+    unsigned char buffer[100];
     SerialPort serialPort;
     serialPort.openSerial();
-    while(serialPort.getFd() >= 0)    {
+    while(serialPort.getFd() >= 0)
+    {
         serialPort.readSerial(buffer, sizeof(buffer));
         cout<<"Bytes read: "<<<std::dec<<serialPort.getBytesRead();
         for(int i=0; i<serialPort.getBytesRead(); i++)

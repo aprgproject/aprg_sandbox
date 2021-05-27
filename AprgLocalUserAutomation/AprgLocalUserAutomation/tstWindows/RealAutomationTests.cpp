@@ -15,9 +15,11 @@ TEST(RealAutomationTest, DISABLED_NormalizeAudioForMp3Files) //DISABLED_
 {
     AlbaWindowsUserAutomation userAutomation;
     AlbaLocalPathHandler mp3FilesPathHandler(R"(N:\MUSIC\111_DoAutomationHere)");
+
     while(1)
     {
-        if(userAutomation.isLetterPressed('s'))  //s for start        {
+        if(userAutomation.isLetterPressed('s'))  //s for start
+        {
             ListOfPaths filePaths;
             ListOfPaths directoryPaths;
             mp3FilesPathHandler.findFilesAndDirectoriesOneDepth("*.*", filePaths, directoryPaths);

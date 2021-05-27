@@ -11,10 +11,12 @@ namespace alba
 
 using LocalSample = TwoDimensionsStatistics::Sample;
 using LocalSamples = TwoDimensionsStatistics::Samples;
-using LocalLineModel = TwoDimensionsStatistics::LineModel;using LocalValueToSampleMultimap = TwoDimensionsStatistics::ValueToSampleMultimap;
+using LocalLineModel = TwoDimensionsStatistics::LineModel;
+using LocalValueToSampleMultimap = TwoDimensionsStatistics::ValueToSampleMultimap;
 using LocalValueToSamplePair = TwoDimensionsStatistics::ValueToSamplePair;
 
-TEST(TwoDimensionsStatisticsTest, SameValuesOfXAndYForLineModeling){
+TEST(TwoDimensionsStatisticsTest, SameValuesOfXAndYForLineModeling)
+{
     LocalSamples samples;
     samples.emplace_back(LocalSample{5,3});
     samples.emplace_back(LocalSample{5,3});

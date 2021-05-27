@@ -13,10 +13,12 @@ namespace wcdmaToolsBackend
 
 TEST(BtsLogPrintTest, DefaultConstructorIsEmpty)
 {
-    BtsLogPrint logPrint;    EXPECT_TRUE(logPrint.isEmpty());
+    BtsLogPrint logPrint;
+    EXPECT_TRUE(logPrint.isEmpty());
 }
 
-TEST(BtsLogPrintTest, ClearingMakesItEmpty){
+TEST(BtsLogPrintTest, ClearingMakesItEmpty)
+{
     BtsLogPrint logPrint("000312 23.09 12:06:04.213  [192.168.255.1]  b5 FSP-120D-1-TCOMexe <2015-09-23T09:06:04.156235Z> BE6 DBG/TCOM/CH, TC_TOAM_POWERLEVEL_REPORT_NOTIFICATION_MSG from 0x120D0156, size: 20 cellId: 1996, averagePowerRxLevel: 65");
     EXPECT_FALSE(logPrint.isEmpty());
     logPrint.clear();

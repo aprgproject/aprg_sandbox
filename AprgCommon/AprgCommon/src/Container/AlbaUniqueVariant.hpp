@@ -85,9 +85,11 @@ public:
     //do not make non assignable //VariantDataType& operator=(VariantDataType const& v) = delete;
     virtual ~VariantDataType(){}
 };
+
 // Purpose: A compile-time checking unique variant class
 template <class... Types>
-class UniqueVariant{
+class UniqueVariant
+{
 
 typedef typename detail::CheckIfDerive<VariantDataType, Types...>::next CheckIfAllClassesDerive;
 typedef typename detail::MaxSizeType<Types...>::type MaxSizeClass;

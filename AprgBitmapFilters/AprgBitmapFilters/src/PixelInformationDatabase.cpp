@@ -10,10 +10,12 @@ PixelInformation::PixelInformation()
     , label(INITIAL_LABEL_VALUE)
 {}
 
-PixelInformationDatabase::PixelInformationDatabase(){}
+PixelInformationDatabase::PixelInformationDatabase()
+{}
 
 void PixelInformationDatabase::saveAsPenPoints(BitmapXYs const& bitmapPoints)
-{    for(BitmapXY const& bitmapPoint : bitmapPoints)
+{
+    for(BitmapXY const& bitmapPoint : bitmapPoints)
     {
         m_pixelsInformationMap[bitmapPoint].isPenPixel = true;
         m_penPixels.emplace(bitmapPoint);

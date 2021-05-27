@@ -9,9 +9,11 @@ namespace alba
 
 TEST(LrmDssWcdmaLteLoadMonitoringTest, ConsecutiveLowerLoadStateCountIsInitiallyZero)
 {
-    //Given    LrmDssWcdmaLteLoadMonitoring loadMonitoring;
+    //Given
+    LrmDssWcdmaLteLoadMonitoring loadMonitoring;
 
     //When
+
     //Then
     EXPECT_EQ(0u, loadMonitoring.getConsecutiveLowerLoadStateCount());
 }
