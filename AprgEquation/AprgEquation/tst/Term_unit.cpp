@@ -1,12 +1,12 @@
 #include <Term.hpp>
 
+#include <Utilities.hpp>
+
 #include <gtest/gtest.h>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace equation
 {
 
@@ -141,6 +141,30 @@ TEST(TermTest, TermsAsPolynomialsWorkAsExpected)
     Monomial::VariableWithExponents const& variable3_2(*variableMap3It);
     EXPECT_EQ("power", variable3_2.first);
     EXPECT_DOUBLE_EQ(4.5, variable3_2.second.getDouble());
+}
+
+TEST(TermTest, TermsAsExpressionsWorkAsExpected)
+{
+    Term expression1(Expression{});
+    Term expression2(createExpression(Terms{Term(5), Term("+"), Term("interest")}));
+
+    //For expression1
+    EXPECT_EQ(TermType::Expression, expression1.getTermType());
+    ASSERT_TRUE(expression1.getExpressionConstReference().getWrappedTermsConstReference().getBaseTermPointersConstReference().empty());
+
+    //For expression2
+    EXPECT_EQ(TermType::Expression, expression2.getTermType());
+    WrappedTerms::BaseTermPointers & baseTermPointersToVerify(expression2.getExpressionReference().getWrappedTermsReference().getBaseTermPointersReference());
+    ASSERT_EQ(3u, baseTermPointersToVerify.size());
+    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify[0].get()));
+    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify[1].get()));
+    Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify[2].get()));
+    EXPECT_EQ(TermType::Constant, term1.getTermType());
+    EXPECT_DOUBLE_EQ(5, term1.getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_EQ(TermType::Operator, term2.getTermType());
+    EXPECT_EQ("+", term2.getOperatorConstReference().getOperatorString());
+    EXPECT_EQ(TermType::Variable, term3.getTermType());
+    EXPECT_EQ("interest", term3.getVariableConstReference().getVariableName());
 }
 
 }

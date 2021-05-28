@@ -1,4 +1,4 @@
-#include <BaseTermData.hpp>
+#include <BaseTerm.hpp>
 
 #include <gtest/gtest.h>
 
@@ -10,10 +10,11 @@ namespace alba
 namespace equation
 {
 
-TEST(BaseTermDataTest, ConstructionWorks)
+TEST(BaseTermTest, ConstructionWorks)
 {
-    BaseTermData();
+    BaseTerm();
 }
 
 }
+
 }

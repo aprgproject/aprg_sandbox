@@ -10,11 +10,10 @@ namespace alba
 namespace equation
 {
 
-TEST(SampleTest, SampleTest1)
+TEST(SampleTest, ConstructionWorks)
 {
-    Expression entity;
+    Expression();
 }
 
 }
-
 }
