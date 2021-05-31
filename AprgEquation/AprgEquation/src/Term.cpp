@@ -6,7 +6,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -39,7 +40,8 @@ Term::Term(Term const& term)
     case TermType::Polynomial:
         m_baseDataTermPointer.reset(new Polynomial(term.getPolynomialConstReference()));
         break;
-    case TermType::Expression:
+    case TermType::ExpressionWithSingleTerm:
+    case TermType::ExpressionWithMutipleTerms:
         m_baseDataTermPointer.reset(new Expression(term.getExpressionConstReference()));
         break;
     }
@@ -77,13 +79,14 @@ Term::Term(Polynomial const& polynomial)
 {}
 
 Term::Term(Expression const& expression)
-    : m_type(TermType::Expression)
+    : m_type(expression.getTermTypeForExpression())
     , m_baseDataTermPointer(new Expression(expression))
 {}
 
 TermType Term::getTermType() const
 {
-    return m_type;}
+    return m_type;
+}
 
 Constant & Term::getConstantReference()
 {
@@ -117,7 +120,7 @@ Polynomial & Term::getPolynomialReference()
 
 Expression & Term::getExpressionReference()
 {
-    assert(m_type==TermType::Expression);
+    assert((m_type==TermType::ExpressionWithSingleTerm || m_type==TermType::ExpressionWithMutipleTerms));
     return *dynamic_cast<Expression*>(m_baseDataTermPointer.get());
 }
 
@@ -153,7 +156,7 @@ Polynomial const& Term::getPolynomialConstReference() const
 
 Expression const& Term::getExpressionConstReference() const
 {
-    assert(m_type==TermType::Expression);
+    assert((m_type==TermType::ExpressionWithSingleTerm || m_type==TermType::ExpressionWithMutipleTerms));
     return *dynamic_cast<Expression const * const>(m_baseDataTermPointer.get());
 }
 

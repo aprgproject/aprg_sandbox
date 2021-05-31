@@ -20,6 +20,16 @@ TEST(UtilitiesTest, IsOperatorWorksCorrectly)
     EXPECT_FALSE(isOperator("add"));
 }
 
+TEST(UtilitiesTest, IsOperatorForMultipleTermsWorksCorrectly)
+{
+    EXPECT_FALSE(isOperatorForMultipleTerms(""));
+    EXPECT_TRUE(isOperatorForMultipleTerms("+"));
+    EXPECT_TRUE(isOperatorForMultipleTerms("-"));
+    EXPECT_FALSE(isOperatorForMultipleTerms("*"));
+    EXPECT_FALSE(isOperatorForMultipleTerms("/"));
+    EXPECT_FALSE(isOperatorForMultipleTerms("add"));
+}
+
 TEST(UtilitiesTest, WrappingTermsWorksCorrectly)
 {
     WrappedTerms wrappedTerms;

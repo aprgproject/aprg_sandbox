@@ -16,6 +16,11 @@ bool isOperator(string const& variableOrOperator)
             "/" == variableOrOperator;
 }
 
+bool isOperatorForMultipleTerms(string const& variableOrOperator)
+{
+    return "+" == variableOrOperator || "-" == variableOrOperator;
+}
+
 void wrapTerms(WrappedTerms & wrappedTerms, Terms const& terms)
 {
     WrappedTerms::BaseTermPointers & baseTermPointers(wrappedTerms.getBaseTermPointersReference());

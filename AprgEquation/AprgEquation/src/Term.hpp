@@ -4,27 +4,21 @@
 #include <Constant.hpp>
 #include <Expression.hpp>
 #include <Math/AlbaNumber.hpp>
-#include <Monomial.hpp>#include <Operator.hpp>
+#include <Monomial.hpp>
+#include <Operator.hpp>
 #include <Polynomial.hpp>
+#include <TermType.hpp>
 #include <Variable.hpp>
 
 #include <memory>
 #include <string>
 #include <vector>
+
 namespace alba
 {
+
 namespace equation
 {
-
-enum class TermType
-{
-    Empty,
-    Constant,
-    Variable,
-    Operator,    Monomial,
-    Polynomial,
-    Expression
-};
 
 class Term : public BaseTerm
 {

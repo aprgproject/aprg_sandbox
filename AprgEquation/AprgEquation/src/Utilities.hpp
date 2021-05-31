@@ -6,16 +6,19 @@
 
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
 
 bool isOperator(std::string const& variableOrOperator);
+bool isOperatorForMultipleTerms(std::string const& variableOrOperator);
 void wrapTerms(WrappedTerms & wrappedTerms, Terms const& terms);
 Terms unwrapTermsAndReturnTerms(WrappedTerms const& wrappedTerms);
 Expression createExpression(Terms const& terms);
 Terms getTermsInAnExpression(Expression const& expression);
 
 }
+
 }

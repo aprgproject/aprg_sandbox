@@ -5,8 +5,10 @@
 #include <gtest/gtest.h>
 
 using namespace std;
+
 namespace alba
 {
+
 namespace equation
 {
 
@@ -149,11 +151,11 @@ TEST(TermTest, TermsAsExpressionsWorkAsExpected)
     Term expression2(createExpression(Terms{Term(5), Term("+"), Term("interest")}));
 
     //For expression1
-    EXPECT_EQ(TermType::Expression, expression1.getTermType());
+    EXPECT_EQ(TermType::ExpressionWithSingleTerm, expression1.getTermType());
     ASSERT_TRUE(expression1.getExpressionConstReference().getWrappedTermsConstReference().getBaseTermPointersConstReference().empty());
 
     //For expression2
-    EXPECT_EQ(TermType::Expression, expression2.getTermType());
+    EXPECT_EQ(TermType::ExpressionWithMutipleTerms, expression2.getTermType());
     WrappedTerms::BaseTermPointers & baseTermPointersToVerify(expression2.getExpressionReference().getWrappedTermsReference().getBaseTermPointersReference());
     ASSERT_EQ(3u, baseTermPointersToVerify.size());
     Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify[0].get()));
