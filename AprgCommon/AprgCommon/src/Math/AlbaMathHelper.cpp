@@ -27,24 +27,12 @@ unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned
 //end of internal functions
 
 
-bool isDivisible(unsigned int const dividend, unsigned int const divisor)
-{
-    bool result(false);
-    if(divisor != 0)
-    {
-        result = (dividend % divisor)==0;
-    }
-    return result;
-}
-
 //isAlmostEqual
 template <typename NumberType>
-bool isAlmostEqual(NumberType const value1, NumberType const value2)
-{
+bool isAlmostEqual(NumberType const value1, NumberType const value2){
     constexpr double differenceTolerance(1E-12);
     return getAbsoluteValue(value1-value2) <= differenceTolerance;
 }
-
 //Commented out: This implementation is not practical when value is equal to zero
 /*
 template <typename NumberType>
@@ -179,14 +167,39 @@ NumberType clampHigherBound(NumberType const value, NumberType const limit)
 template int clampHigherBound<int>(int const value, int const limit);
 template double clampHigherBound<double>(double const value, double const limit);
 
+
+
+bool isDivisible(unsigned int const dividend, unsigned int const divisor)
+{
+    bool result(false);
+    if(divisor != 0)
+    {
+        result = (dividend % divisor)==0;
+    }
+    return result;
+}
+
+double getPi()
+{
+    return 3.14159265358979323846;
+}
+
+double getE()
+{
+    return 2.7182818284590452354;
+}
+
+int getRaiseToPowerForIntegers(int const base, unsigned int exponent)
+{
+    return static_cast<int>(ceil(pow(base, exponent)));
+}
+
 FractionDetails getFractionDetailsInLowestForm(int const numerator, int const denominator)
 {
-    FractionDetails result{0, 0, 0};
-    unsigned int unsignedNumerator = mathHelper::getAbsoluteValue(numerator);
+    FractionDetails result{0, 0, 0};    unsigned int unsignedNumerator = mathHelper::getAbsoluteValue(numerator);
     unsigned int unsignedDenominator = mathHelper::getAbsoluteValue(denominator);
     unsigned int greatestCommonFactor = mathHelper::getGreatestCommonFactor(unsignedNumerator, unsignedDenominator);
-    if(greatestCommonFactor==0)
-    {
+    if(greatestCommonFactor==0)    {
         result.sign = mathHelper::getSign(numerator*denominator);
         result.numerator = unsignedNumerator;
         result.denominator = unsignedDenominator;
@@ -202,27 +215,29 @@ FractionDetails getFractionDetailsInLowestForm(int const numerator, int const de
 
 FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue)
 {
+    static unsigned int numberOfIterations=0; //numberOfIterations dictates the accuracy of fraction
+    numberOfIterations++;
     constexpr double tolerance(1E-3);
     FractionDetails result;
-    result.sign = getSign(doubleValue);
-    double absoluteValueOfDouble = getAbsoluteValue(doubleValue);
+    result.sign = getSign(doubleValue);    double absoluteValueOfDouble = getAbsoluteValue(doubleValue);
     result.numerator = static_cast<int>(absoluteValueOfDouble);
     result.denominator = 1;
     double fractionalPart = getFractionalPartInDouble(absoluteValueOfDouble);
-    if(fractionalPart>tolerance)
+    if(fractionalPart>tolerance && numberOfIterations<=10)
     {
         double nextDoubleValueInIteration = 1/fractionalPart;
-        FractionDetails partialResult = getBestFractionDetailsForDoubleValue(nextDoubleValueInIteration);
-        result.numerator = (result.numerator * partialResult.numerator) + (partialResult.denominator);
+        FractionDetails partialResult = getBestFractionDetailsForDoubleValue(nextDoubleValueInIteration);        result.numerator = (result.numerator * partialResult.numerator) + (partialResult.denominator);
         result.denominator = partialResult.numerator;
+    }
+    else
+    {
+        numberOfIterations=0;
     }
     return result;
 }
-
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber)
 {
-    unsigned int result(0);
-    if(firstNumber==0)
+    unsigned int result(0);    if(firstNumber==0)
     {
         result = secondNumber;
     }
@@ -327,16 +342,6 @@ double convertDegreesToRadians(double const valueInDegrees)
 double convertRadiansToDegrees(double const valueInRadians)
 {
     return valueInRadians/getPi()*180;
-}
-
-double getPi()
-{
-    return 3.14159265358979323846;
-}
-
-double getE()
-{
-    return 2.7182818284590452354;
 }
 
 }//namespace mathHelper
