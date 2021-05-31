@@ -27,19 +27,28 @@ public:
     Term(Term const& term);
     Term(Constant const& constant);
     Term(std::string const& variableOrOperator);
+    Term(Variable const& variable);
+    Term(Operator const& operatorTerm);
     Term(Monomial const& monomial);
     Term(Polynomial const& polynomial);
     Term(Expression const& expression);
+    Term & operator=(Term const& term);
+    void resetBaseDataTermPointerBasedFromTerm(Term const& term);
 
     TermType getTermType() const;
+    bool isConstant() const;
+    bool isVariable() const;
+    bool isOperator() const;
+    bool isMonomial() const;
+    bool isPolynomial() const;
+    bool isExpressionWithSingleTerm() const;
+    bool isExpressionWithMutipleTerms() const;
 
     Constant & getConstantReference();
-    Variable & getVariableReference();
-    Operator & getOperatorReference();
+    Variable & getVariableReference();    Operator & getOperatorReference();
     Monomial & getMonomialReference();
     Polynomial & getPolynomialReference();
     Expression & getExpressionReference();
-
     Constant const& getConstantConstReference() const;
     Variable const& getVariableConstReference() const;
     Operator const& getOperatorConstReference() const;

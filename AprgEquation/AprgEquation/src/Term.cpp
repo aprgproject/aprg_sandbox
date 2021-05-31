@@ -21,6 +21,63 @@ Term::Term(Term const& term)
     : m_type(term.getTermType())
     , m_baseDataTermPointer(nullptr)
 {
+    resetBaseDataTermPointerBasedFromTerm(term);
+}
+
+Term::Term(Constant const& constant)    : m_type(TermType::Constant)
+    , m_baseDataTermPointer(new Constant(constant))
+{}
+Term::Term(string const& variableOrOperator)
+    : m_type(TermType::Empty)
+    , m_baseDataTermPointer(nullptr)
+{
+    if(equation::isOperator(variableOrOperator))
+    {
+        m_type=TermType::Operator;
+        m_baseDataTermPointer.reset(new Operator(variableOrOperator));    }
+    else
+    {
+        m_type=TermType::Variable;        m_baseDataTermPointer.reset(new Variable(variableOrOperator));
+    }
+}
+
+Term::Term(Variable const& variable)
+    : m_type(TermType::Variable)
+    , m_baseDataTermPointer(nullptr)
+{
+    m_baseDataTermPointer.reset(new Variable(variable));
+}
+
+Term::Term(Operator const& operatorTerm)
+    : m_type(TermType::Operator)
+    , m_baseDataTermPointer(nullptr)
+{
+    m_baseDataTermPointer.reset(new Operator(operatorTerm));
+}
+
+Term::Term(Monomial const& monomial)
+    : m_type(TermType::Monomial)
+    , m_baseDataTermPointer(new Monomial(monomial)){}
+
+Term::Term(Polynomial const& polynomial)
+    : m_type(TermType::Polynomial)    , m_baseDataTermPointer(new Polynomial(polynomial))
+{}
+
+Term::Term(Expression const& expression)
+    : m_type(expression.getTermTypeForExpression())
+    , m_baseDataTermPointer(new Expression(expression))
+{}
+
+Term& Term::operator=(Term const& term)
+{
+    m_type = term.getTermType();
+    m_baseDataTermPointer.reset(nullptr);
+    resetBaseDataTermPointerBasedFromTerm(term);
+    return *this;
+}
+
+void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
+{
     switch(term.getTermType())
     {
     case TermType::Empty:
@@ -47,55 +104,52 @@ Term::Term(Term const& term)
     }
 }
 
-Term::Term(Constant const& constant)
-    : m_type(TermType::Constant)
-    , m_baseDataTermPointer(new Constant(constant))
-{}
-
-Term::Term(string const& variableOrOperator)
-    : m_type(TermType::Empty)
-    , m_baseDataTermPointer(nullptr)
-{
-    if(isOperator(variableOrOperator))
-    {
-        m_type=TermType::Operator;
-        m_baseDataTermPointer.reset(new Operator(variableOrOperator));
-    }
-    else
-    {
-        m_type=TermType::Variable;
-        m_baseDataTermPointer.reset(new Variable(variableOrOperator));
-    }
-}
-
-Term::Term(Monomial const& monomial)
-    : m_type(TermType::Monomial)
-    , m_baseDataTermPointer(new Monomial(monomial))
-{}
-
-Term::Term(Polynomial const& polynomial)
-    : m_type(TermType::Polynomial)
-    , m_baseDataTermPointer(new Polynomial(polynomial))
-{}
-
-Term::Term(Expression const& expression)
-    : m_type(expression.getTermTypeForExpression())
-    , m_baseDataTermPointer(new Expression(expression))
-{}
-
 TermType Term::getTermType() const
 {
     return m_type;
 }
 
-Constant & Term::getConstantReference()
+bool Term::isConstant() const
 {
-    assert(m_type==TermType::Constant);
-    return *dynamic_cast<Constant*>(m_baseDataTermPointer.get());
+    return TermType::Constant == m_type;
 }
 
-Variable & Term::getVariableReference()
+bool Term::isVariable() const
 {
+    return TermType::Variable == m_type;
+}
+
+bool Term::isOperator() const
+{
+    return TermType::Operator == m_type;
+}
+
+bool Term::isMonomial() const
+{
+    return TermType::Monomial == m_type;
+}
+
+bool Term::isPolynomial() const
+{
+    return TermType::Polynomial == m_type;
+}
+
+bool Term::isExpressionWithSingleTerm() const
+{
+    return TermType::ExpressionWithSingleTerm == m_type;
+}
+
+bool Term::isExpressionWithMutipleTerms() const
+{
+    return TermType::ExpressionWithMutipleTerms == m_type;
+}
+
+Constant & Term::getConstantReference()
+{
+    assert(m_type==TermType::Constant);    return *dynamic_cast<Constant*>(m_baseDataTermPointer.get());
+}
+
+Variable & Term::getVariableReference(){
     assert(m_type==TermType::Variable);
     return *dynamic_cast<Variable*>(m_baseDataTermPointer.get());
 }
