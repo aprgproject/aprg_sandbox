@@ -36,6 +36,9 @@ public:
     FractionData getFractionData() const;
     double getDouble() const;
 
+    bool operator==(AlbaNumber const& second) const;
+    bool operator!=(AlbaNumber const& second) const;
+    bool operator<(AlbaNumber const& second) const;
     AlbaNumber operator+() const;
     AlbaNumber operator-() const;
     AlbaNumber operator+(AlbaNumber const& second) const;
@@ -60,10 +63,12 @@ public:
     AlbaNumber operator^(double const doubleValue) const;
 
 private:
-    void convertToIntegerIfNeeded();    AlbaNumber addBothIntegersAndReturnNumber(int const signedValue1, int const signedValue2) const;
+    void convertToIntegerIfNeeded();
+    AlbaNumber addBothIntegersAndReturnNumber(int const signedValue1, int const signedValue2) const;
     AlbaNumber addBothFractionsAndReturnNumber(FractionData const& fractionData1, FractionData const& fractionData2) const;
     AlbaNumber addBothDoubleAndReturnNumber(double const doubleValue1, double const doubleValue2) const;
-    AlbaNumber addIntegerAndFractionAndReturnNumber(int const signedValue, FractionData const& fractionData) const;    AlbaNumber addIntegerAndDoubleAndReturnNumber(int const signedValue, double const doubleValue) const;
+    AlbaNumber addIntegerAndFractionAndReturnNumber(int const signedValue, FractionData const& fractionData) const;
+    AlbaNumber addIntegerAndDoubleAndReturnNumber(int const signedValue, double const doubleValue) const;
     AlbaNumber addFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const;
     AlbaNumber multiplyBothIntegersAndReturnNumber(int const signedValue1, int const signedValue2) const;
     AlbaNumber multiplyBothFractionsAndReturnNumber(FractionData const& fractionData1, FractionData const& fractionData2) const;
@@ -77,6 +82,7 @@ private:
     AlbaNumber raisePowerOfFractionsAndIntegerAndReturnNumber(FractionData const& baseFractionData, int const exponent) const;
 
     Type m_type;
-    NumberUnionData m_data;};
+    NumberUnionData m_data;
+};
 
 }

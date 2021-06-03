@@ -4,8 +4,10 @@
 #include <Math/AlbaNumber.hpp>
 
 #include <string>
+
 namespace alba
 {
+
 namespace equation
 {
 
@@ -24,9 +26,11 @@ public:
     AlbaNumber performOperation(AlbaNumber const& number1, AlbaNumber const& number2) const;
 
     void setOperatorString(std::string const& operatingString);
+
 private:
     std::string m_operatingString;
 };
+
 }
 
 }

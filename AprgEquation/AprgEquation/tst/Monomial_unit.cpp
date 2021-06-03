@@ -34,7 +34,8 @@ TEST(MonomialTest, SettingANewConstantWorks)
     EXPECT_DOUBLE_EQ(512, monomial.getConstantConstReference().getDouble());
 }
 
-TEST(MonomialTest, SettingANewVariableWithExponentWorks){
+TEST(MonomialTest, SettingANewVariableWithExponentWorks)
+{
     Monomial monomial;
     ASSERT_TRUE(monomial.getVariablesToExponentsMapConstReference().empty());
 
@@ -44,7 +45,8 @@ TEST(MonomialTest, SettingANewVariableWithExponentWorks){
     EXPECT_DOUBLE_EQ(62, variableMap.at("i").getDouble());
 }
 
-TEST(MonomialTest, SettingASetOfNewVariablesWithExponentWorks){
+TEST(MonomialTest, SettingASetOfNewVariablesWithExponentWorks)
+{
     Monomial monomial;
     ASSERT_TRUE(monomial.getVariablesToExponentsMapConstReference().empty());
 
@@ -56,4 +58,5 @@ TEST(MonomialTest, SettingASetOfNewVariablesWithExponentWorks){
 }
 
 }
+
 }

@@ -10,10 +10,12 @@ namespace alba
 
 TEST(AlbaMathHelperTest, DoubleTypesCanBeConsideredEqual)
 {
-    EXPECT_TRUE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3));    EXPECT_FALSE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3+0.1));
+    EXPECT_TRUE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3));
+    EXPECT_FALSE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3+0.1));
     EXPECT_TRUE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3+1E-13));
     EXPECT_TRUE(isAlmostEqual(1E-12,1E-12));
-    EXPECT_TRUE(isAlmostEqual(static_cast<double>(0),1E-12));    EXPECT_TRUE(isAlmostEqual(static_cast<double>(0),1E-24));
+    EXPECT_TRUE(isAlmostEqual(static_cast<double>(0),1E-12));
+    EXPECT_TRUE(isAlmostEqual(static_cast<double>(0),1E-24));
     EXPECT_TRUE(isAlmostEqual(1E-12,1E-24));
     EXPECT_TRUE(isAlmostEqual(1E-24,1E-24));
 }
@@ -120,9 +122,11 @@ TEST(AlbaMathHelperTest, GetRaiseToPowerForIntegersWorksAsExpected)
 
 TEST(AlbaMathHelperTest, FractionDetailsInLowestFormCanBeComputed)
 {
-    FractionDetails fractionDetails1(getFractionDetailsInLowestForm(0, 0));    EXPECT_EQ(1, fractionDetails1.sign);
+    FractionDetails fractionDetails1(getFractionDetailsInLowestForm(0, 0));
+    EXPECT_EQ(1, fractionDetails1.sign);
     EXPECT_EQ(0u, fractionDetails1.numerator);
     EXPECT_EQ(0u, fractionDetails1.denominator);
+
     FractionDetails fractionDetails2(getFractionDetailsInLowestForm(1, 1));
     EXPECT_EQ(1, fractionDetails2.sign);
     EXPECT_EQ(1u, fractionDetails2.numerator);

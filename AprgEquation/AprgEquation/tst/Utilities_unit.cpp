@@ -20,18 +20,22 @@ TEST(UtilitiesTest, IsOperatorWorksCorrectly)
     EXPECT_TRUE(isOperator("^"));
     EXPECT_FALSE(isOperator("add"));
 }
+
 TEST(UtilitiesTest, IsOperatorForMultipleTermsWorksCorrectly)
 {
-    EXPECT_FALSE(isOperatorForMultipleTerms(""));    EXPECT_TRUE(isOperatorForMultipleTerms("+"));
+    EXPECT_FALSE(isOperatorForMultipleTerms(""));
+    EXPECT_TRUE(isOperatorForMultipleTerms("+"));
     EXPECT_TRUE(isOperatorForMultipleTerms("-"));
     EXPECT_FALSE(isOperatorForMultipleTerms("*"));
     EXPECT_FALSE(isOperatorForMultipleTerms("/"));
     EXPECT_FALSE(isOperatorForMultipleTerms("^"));
     EXPECT_FALSE(isOperatorForMultipleTerms("add"));
 }
+
 TEST(UtilitiesTest, WrappingTermsWorksCorrectly)
 {
     WrappedTerms wrappedTerms;
+
     wrapTerms(wrappedTerms, Terms{Term(5), Term("+"), Term("interest")});
 
     WrappedTerms::BaseTermPointers & baseTermPointersToVerify(wrappedTerms.getBaseTermPointersReference());
@@ -41,10 +45,12 @@ TEST(UtilitiesTest, WrappingTermsWorksCorrectly)
     Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
     EXPECT_EQ(TermType::Constant, term1.getTermType());
     EXPECT_DOUBLE_EQ(5, term1.getConstantConstReference().getNumberConstReference().getDouble());
-    EXPECT_EQ(TermType::Operator, term2.getTermType());    EXPECT_EQ("+", term2.getOperatorConstReference().getOperatorString());
+    EXPECT_EQ(TermType::Operator, term2.getTermType());
+    EXPECT_EQ("+", term2.getOperatorConstReference().getOperatorString());
     EXPECT_EQ(TermType::Variable, term3.getTermType());
     EXPECT_EQ("interest", term3.getVariableConstReference().getVariableName());
 }
+
 TEST(UtilitiesTest, UnwrappingTermsWorksCorrectly)
 {
     WrappedTerms wrappedTerms;
@@ -61,7 +67,8 @@ TEST(UtilitiesTest, UnwrappingTermsWorksCorrectly)
     EXPECT_EQ("count", termsToVerify.at(2).getVariableConstReference().getVariableName());
 }
 
-TEST(UtilitiesTest, CreateExpressionWorksCorrectly){
+TEST(UtilitiesTest, CreateExpressionWorksCorrectly)
+{
     Expression expressionToTest(createExpression(Terms{Term(7.625), Term("-"), Term("compoundinterest")}));
 
     WrappedTerms::BaseTermPointers & baseTermPointersToVerify(expressionToTest.getWrappedTermsReference().getBaseTermPointersReference());
@@ -71,10 +78,12 @@ TEST(UtilitiesTest, CreateExpressionWorksCorrectly){
     Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
     EXPECT_EQ(TermType::Constant, term1.getTermType());
     EXPECT_DOUBLE_EQ(7.625, term1.getConstantConstReference().getNumberConstReference().getDouble());
-    EXPECT_EQ(TermType::Operator, term2.getTermType());    EXPECT_EQ("-", term2.getOperatorConstReference().getOperatorString());
+    EXPECT_EQ(TermType::Operator, term2.getTermType());
+    EXPECT_EQ("-", term2.getOperatorConstReference().getOperatorString());
     EXPECT_EQ(TermType::Variable, term3.getTermType());
     EXPECT_EQ("compoundinterest", term3.getVariableConstReference().getVariableName());
 }
+
 TEST(UtilitiesTest, GetTermsInAnExpressionWorksCorrectly)
 {
     Expression expression(createExpression(Terms{Term(-54654.25), Term("+"), Term("x"), Term("*"), Term("y")}));
@@ -95,4 +104,5 @@ TEST(UtilitiesTest, GetTermsInAnExpressionWorksCorrectly)
 }
 
 }
+
 }

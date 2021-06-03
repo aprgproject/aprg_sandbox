@@ -67,13 +67,15 @@ TEST(AlbaNumberTest, GetFractionDataWorksAsExpected)
     EXPECT_EQ(4901u, fractionData4.denominator);
     AlbaNumber::FractionData fractionData5(number5.getFractionData());
     EXPECT_EQ(4541566, fractionData5.numerator);
-    EXPECT_EQ(995, fractionData5.denominator);
+    EXPECT_EQ(995u, fractionData5.denominator);
 }
 
-TEST(AlbaNumberTest, GetDoubleWorksAsExpected){
+TEST(AlbaNumberTest, GetDoubleWorksAsExpected)
+{
     AlbaNumber number1;
     AlbaNumber number2(-81237);
-    AlbaNumber number3(34095093u);    AlbaNumber number4(-87408, -9802);
+    AlbaNumber number3(34095093u);
+    AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(4564.38794);
 
     EXPECT_DOUBLE_EQ(0, number1.getDouble());
@@ -81,6 +83,59 @@ TEST(AlbaNumberTest, GetDoubleWorksAsExpected){
     EXPECT_DOUBLE_EQ(34095093, number3.getDouble());
     EXPECT_DOUBLE_EQ(8.9173638033054488, number4.getDouble());
     EXPECT_DOUBLE_EQ(4564.38794, number5.getDouble());
+}
+
+TEST(AlbaNumberTest, EqualityWorksAsExpected)
+{
+    AlbaNumber number1;
+    AlbaNumber number2(-81237);
+    AlbaNumber number3(-81237);
+    AlbaNumber number4(static_cast<double>(1)/3);
+    AlbaNumber number5(1, 3);
+
+    EXPECT_TRUE(number1==number1);
+    EXPECT_TRUE(number2==number2);
+    EXPECT_TRUE(number3==number3);
+    EXPECT_TRUE(number4==number4);
+    EXPECT_TRUE(number5==number5);
+    EXPECT_FALSE(number1==number2);
+    EXPECT_TRUE(number2==number3);
+    EXPECT_FALSE(number3==number4);
+    EXPECT_TRUE(number4==number5);
+}
+
+TEST(AlbaNumberTest, InequalityWorksAsExpected)
+{
+    AlbaNumber number1;
+    AlbaNumber number2(-81237);
+    AlbaNumber number3(-81237);
+    AlbaNumber number4(static_cast<double>(1)/3);
+    AlbaNumber number5(1, 3);
+
+    EXPECT_FALSE(number1!=number1);
+    EXPECT_FALSE(number2!=number2);
+    EXPECT_FALSE(number3!=number3);
+    EXPECT_FALSE(number4!=number4);
+    EXPECT_FALSE(number5!=number5);
+    EXPECT_TRUE(number1!=number2);
+    EXPECT_FALSE(number2!=number3);
+    EXPECT_TRUE(number3!=number4);
+    EXPECT_FALSE(number4!=number5);
+}
+
+TEST(AlbaNumberTest, LessThanWorksAsExpected)
+{
+    AlbaNumber number1;
+    AlbaNumber number2(1, 3);
+    AlbaNumber number3(0.5);
+
+    EXPECT_FALSE(number1<number1);
+    EXPECT_FALSE(number2<number2);
+    EXPECT_FALSE(number3<number3);
+    EXPECT_TRUE(number1<number2);
+    EXPECT_TRUE(number2<number3);
+    EXPECT_FALSE(number2<number1);
+    EXPECT_FALSE(number3<number2);
 }
 
 TEST(AlbaNumberTest, UnaryPlusWorksOnDifferentTypes)

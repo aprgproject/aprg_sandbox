@@ -73,7 +73,8 @@ AlbaNumber Operator::performOperation(AlbaNumber const& number1, AlbaNumber cons
 
 void Operator::setOperatorString(string const& operatingString)
 {
-    m_operatingString = operatingString;}
+    m_operatingString = operatingString;
+}
 
 }
 
