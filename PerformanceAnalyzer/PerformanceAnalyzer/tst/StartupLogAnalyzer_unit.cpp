@@ -17,9 +17,10 @@ TEST(StartupLogAnalyzerTest, ProcessFileWithSortedPrints)
     //analyzer.processFileWithSortedPrints(R"(C:\ZZZ_Logs\SlowOnAir\2019-12-03_12-03-27_TEST-STATE__Site_reset\sortedWTS_TCOM.log)");
     //analyzer.saveDataToCsv(R"(C:\ZZZ_Logs\SlowOnAir\statistics.csv)");
 
-    analyzer.processFileWithSortedPrints(R"(C:\ZZZ_Logs\PR494935\greppedTcomWTS.log)");
-    analyzer.saveDataToCsv(R"(C:\ZZZ_Logs\PR494935\statistics.csv)");
+    analyzer.processFileWithSortedPrints(R"(C:\ZZZ_Logs\StartupTime\ALL1\sortedTCOM_WTS.log)");
+    analyzer.processFileWithSortedPrints(R"(C:\ZZZ_Logs\StartupTime\ALL2\sortedTCOM_WTS.log)");
+    analyzer.processFileWithSortedPrints(R"(C:\ZZZ_Logs\StartupTime\ALL3\sortedTCOM_WTS.log)");
+    analyzer.saveDataToCsv(R"(C:\ZZZ_Logs\StartupTime\statistics.csv)");
 }
-
 
 }
