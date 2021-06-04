@@ -14,16 +14,15 @@ WrappedTerms::WrappedTerms()
 WrappedTerms::~WrappedTerms()
 {}
 
-WrappedTerms::BaseTermPointers & WrappedTerms::getBaseTermPointersReference()
+BaseTermSharedPointers & WrappedTerms::getBaseTermPointersReference()
 {
     return m_baseTermPointers;
 }
 
-WrappedTerms::BaseTermPointers const& WrappedTerms::getBaseTermPointersConstReference() const
+BaseTermSharedPointers const& WrappedTerms::getBaseTermPointersConstReference() const
 {
     return m_baseTermPointers;
 }
-
 
 }
 

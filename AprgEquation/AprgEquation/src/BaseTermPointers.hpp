@@ -1,0 +1,19 @@
+#pragma once
+
+#include <BaseTerm.hpp>
+
+#include <memory>
+#include <vector>
+
+namespace alba
+{
+
+namespace equation
+{
+
+using BaseTermSharedPointer = std::shared_ptr<BaseTerm>;
+using BaseTermSharedPointers = std::vector<BaseTermSharedPointer>;
+
+}
+
+}
