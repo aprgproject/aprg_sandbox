@@ -21,9 +21,11 @@ TEST(TermsSimplificatorTest, ConstantOperatorConstantPatternCanBeSimplified)
     ASSERT_EQ(TermType::Constant, termsToVerify.at(0).getTermType());
     EXPECT_DOUBLE_EQ(7, termsToVerify.at(0).getConstantConstReference().getNumberConstReference().getDouble());
 }
+
 TEST(TermsSimplificatorTest, ConstantAddVariablePatternCanBeSimplified)
 {
     TermsSimplificator simplificator(Terms{Term(5), Term("+"), Term("x")});
+
     simplificator.simplify();
 
     Terms termsToVerify(simplificator.getTermsConstReference());
@@ -31,10 +33,12 @@ TEST(TermsSimplificatorTest, ConstantAddVariablePatternCanBeSimplified)
     ASSERT_EQ(TermType::Polynomial, termsToVerify.at(0).getTermType());
     Monomials const& monomials(termsToVerify.at(0).getPolynomialConstReference().getMonomialsConstReference());
     ASSERT_EQ(2u, monomials.size());
-    EXPECT_DOUBLE_EQ(5, monomials.at(0).getConstantConstReference().getDouble());    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    EXPECT_DOUBLE_EQ(5, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
     ASSERT_TRUE(variableMap1.empty());
     EXPECT_DOUBLE_EQ(1, monomials.at(1).getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());    ASSERT_EQ(1u, variableMap2.size());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
     EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
 }
 
@@ -49,10 +53,12 @@ TEST(TermsSimplificatorTest, ConstantSubtractVariablePatternCanBeSimplified)
     ASSERT_EQ(TermType::Polynomial, termsToVerify.at(0).getTermType());
     Monomials const& monomials(termsToVerify.at(0).getPolynomialConstReference().getMonomialsConstReference());
     ASSERT_EQ(2u, monomials.size());
-    EXPECT_DOUBLE_EQ(5, monomials.at(0).getConstantConstReference().getDouble());    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    EXPECT_DOUBLE_EQ(5, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
     ASSERT_TRUE(variableMap1.empty());
     EXPECT_DOUBLE_EQ(-1, monomials.at(1).getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());    ASSERT_EQ(1u, variableMap2.size());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
     EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
 }
 
@@ -67,9 +73,11 @@ TEST(TermsSimplificatorTest, ConstantMultiplyVariablePatternCanBeSimplified)
     ASSERT_EQ(TermType::Monomial, termsToVerify.at(0).getTermType());
     Monomial const& monomial(termsToVerify.at(0).getMonomialConstReference());
     EXPECT_DOUBLE_EQ(5, monomial.getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());    ASSERT_EQ(1u, variableMap.size());
+    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap.size());
     EXPECT_DOUBLE_EQ(1, variableMap.at("x").getDouble());
 }
+
 TEST(TermsSimplificatorTest, ConstantDivideVariablePatternCanBeSimplified)
 {
     TermsSimplificator simplificator(Terms{Term(5), Term("/"), Term("x")});
@@ -81,9 +89,11 @@ TEST(TermsSimplificatorTest, ConstantDivideVariablePatternCanBeSimplified)
     ASSERT_EQ(TermType::Monomial, termsToVerify.at(0).getTermType());
     Monomial const& monomial(termsToVerify.at(0).getMonomialConstReference());
     EXPECT_DOUBLE_EQ(5, monomial.getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());    ASSERT_EQ(1u, variableMap.size());
+    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap.size());
     EXPECT_DOUBLE_EQ(-1, variableMap.at("x").getDouble());
 }
+
 TEST(TermsSimplificatorTest, ConstantRaiseToPowerVariablePatternCanBeSimplified)
 {
     TermsSimplificator simplificator(Terms{Term(5), Term("^"), Term("x")});
@@ -105,9 +115,11 @@ TEST(TermsSimplificatorTest, ConstantRaiseToPowerVariablePatternCanBeSimplified)
     ASSERT_EQ(TermType::Variable, term3.getTermType());
     EXPECT_EQ("x", term3.getVariableConstReference().getVariableName());
 }
+
 TEST(TermsSimplificatorTest, VariableAddConstantPatternCanBeSimplified)
 {
     TermsSimplificator simplificator(Terms{Term("y"), Term("+"), Term(4)});
+
     simplificator.simplify();
 
     Terms termsToVerify(simplificator.getTermsConstReference());
@@ -115,10 +127,12 @@ TEST(TermsSimplificatorTest, VariableAddConstantPatternCanBeSimplified)
     ASSERT_EQ(TermType::Polynomial, termsToVerify.at(0).getTermType());
     Monomials const& monomials(termsToVerify.at(0).getPolynomialConstReference().getMonomialsConstReference());
     ASSERT_EQ(2u, monomials.size());
-    EXPECT_DOUBLE_EQ(1, monomials.at(0).getConstantConstReference().getDouble());    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    EXPECT_DOUBLE_EQ(1, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1u, variableMap1.size());
     EXPECT_DOUBLE_EQ(1, variableMap1.at("y").getDouble());
-    EXPECT_DOUBLE_EQ(4, monomials.at(1).getConstantConstReference().getDouble());    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    EXPECT_DOUBLE_EQ(4, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
     ASSERT_TRUE(variableMap2.empty());
 }
 
@@ -133,10 +147,12 @@ TEST(TermsSimplificatorTest, VariableSubtractConstantPatternCanBeSimplified)
     ASSERT_EQ(TermType::Polynomial, termsToVerify.at(0).getTermType());
     Monomials const& monomials(termsToVerify.at(0).getPolynomialConstReference().getMonomialsConstReference());
     ASSERT_EQ(2u, monomials.size());
-    EXPECT_DOUBLE_EQ(1, monomials.at(0).getConstantConstReference().getDouble());    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    EXPECT_DOUBLE_EQ(1, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1u, variableMap1.size());
     EXPECT_DOUBLE_EQ(1, variableMap1.at("y").getDouble());
-    EXPECT_DOUBLE_EQ(-4, monomials.at(1).getConstantConstReference().getDouble());    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    EXPECT_DOUBLE_EQ(-4, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
     ASSERT_TRUE(variableMap2.empty());
 }
 
@@ -151,9 +167,11 @@ TEST(TermsSimplificatorTest, VariableMultiplyConstantPatternCanBeSimplified)
     ASSERT_EQ(TermType::Monomial, termsToVerify.at(0).getTermType());
     Monomial const& monomial(termsToVerify.at(0).getMonomialConstReference());
     EXPECT_DOUBLE_EQ(4, monomial.getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());    ASSERT_EQ(1u, variableMap.size());
+    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap.size());
     EXPECT_DOUBLE_EQ(1, variableMap.at("y").getDouble());
 }
+
 TEST(TermsSimplificatorTest, VariableDivideConstantPatternCanBeSimplified)
 {
     TermsSimplificator simplificator(Terms{Term("y"), Term("/"), Term(4)});
@@ -165,9 +183,11 @@ TEST(TermsSimplificatorTest, VariableDivideConstantPatternCanBeSimplified)
     ASSERT_EQ(TermType::Monomial, termsToVerify.at(0).getTermType());
     Monomial const& monomial(termsToVerify.at(0).getMonomialConstReference());
     EXPECT_DOUBLE_EQ(0.25, monomial.getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());    ASSERT_EQ(1u, variableMap.size());
+    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap.size());
     EXPECT_DOUBLE_EQ(1, variableMap.at("y").getDouble());
 }
+
 TEST(TermsSimplificatorTest, VariableRaiseToPowerConstantPatternCanBeSimplified)
 {
     TermsSimplificator simplificator(Terms{Term("y"), Term("^"), Term(4)});
@@ -179,7 +199,8 @@ TEST(TermsSimplificatorTest, VariableRaiseToPowerConstantPatternCanBeSimplified)
     ASSERT_EQ(TermType::Monomial, termsToVerify.at(0).getTermType());
     Monomial const& monomial(termsToVerify.at(0).getMonomialConstReference());
     EXPECT_DOUBLE_EQ(1, monomial.getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());    ASSERT_EQ(1u, variableMap.size());
+    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap.size());
     EXPECT_DOUBLE_EQ(4, variableMap.at("y").getDouble());
 }
 
@@ -737,6 +758,205 @@ TEST(TermsSimplificatorTest, VariableRaiseToPowerMonomialPatternWithDifferentMon
     Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1u, variableMap.size());
     EXPECT_DOUBLE_EQ(1, variableMap.at("y").getDouble());
+}
+
+TEST(TermsSimplificatorTest, MonomialAddMonomialPatternWithSameMonomialCanBeSimplified)
+{
+    TermsSimplificator simplificator(Terms{Monomial(8, {{"x", 2}}), Term("+"), Monomial(4, {{"x", 2}})});
+
+    simplificator.simplify();
+
+    Terms termsToVerify(simplificator.getTermsConstReference());
+    ASSERT_EQ(1u, termsToVerify.size());
+    ASSERT_EQ(TermType::Monomial, termsToVerify.at(0).getTermType());
+    Monomial const& monomial(termsToVerify.at(0).getMonomialConstReference());
+    EXPECT_DOUBLE_EQ(12, monomial.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap.size());
+    EXPECT_DOUBLE_EQ(2, variableMap.at("x").getDouble());
+}
+
+TEST(TermsSimplificatorTest, MonomialSubtractMonomialPatternWithSameMonomialCanBeSimplified)
+{
+    TermsSimplificator simplificator(Terms{Monomial(8, {{"x", 2}}), Term("-"), Monomial(4, {{"x", 2}})});
+
+    simplificator.simplify();
+
+    Terms termsToVerify(simplificator.getTermsConstReference());
+    ASSERT_EQ(1u, termsToVerify.size());
+    ASSERT_EQ(TermType::Monomial, termsToVerify.at(0).getTermType());
+    Monomial const& monomial(termsToVerify.at(0).getMonomialConstReference());
+    EXPECT_DOUBLE_EQ(4, monomial.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap.size());
+    EXPECT_DOUBLE_EQ(2, variableMap.at("x").getDouble());
+}
+
+TEST(TermsSimplificatorTest, MonomialMultiplyMonomialPatternWithSameMonomialCanBeSimplified)
+{
+    TermsSimplificator simplificator(Terms{Monomial(8, {{"x", 2}}), Term("*"), Monomial(4, {{"x", 2}})});
+
+    simplificator.simplify();
+
+    Terms termsToVerify(simplificator.getTermsConstReference());
+    ASSERT_EQ(1u, termsToVerify.size());
+    ASSERT_EQ(TermType::Monomial, termsToVerify.at(0).getTermType());
+    Monomial const& monomial(termsToVerify.at(0).getMonomialConstReference());
+    EXPECT_DOUBLE_EQ(32, monomial.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap.size());
+    EXPECT_DOUBLE_EQ(4, variableMap.at("x").getDouble());
+}
+
+TEST(TermsSimplificatorTest, MonomialDivideMonomialPatternWithSameMonomialCanBeSimplified)
+{
+    TermsSimplificator simplificator(Terms{Monomial(8, {{"x", 2}}), Term("/"), Monomial(4, {{"x", 2}})});
+
+    simplificator.simplify();
+
+    Terms termsToVerify(simplificator.getTermsConstReference());
+    ASSERT_EQ(1u, termsToVerify.size());
+    ASSERT_EQ(TermType::Constant, termsToVerify.at(0).getTermType());
+    EXPECT_DOUBLE_EQ(2, termsToVerify.at(0).getConstantConstReference().getNumberConstReference().getDouble());
+}
+
+TEST(TermsSimplificatorTest, MonomialRaiseToPowerMonomialPatternWithSameMonomialCanBeSimplified)
+{
+    TermsSimplificator simplificator(Terms{Monomial(8, {{"x", 2}}), Term("^"), Monomial(4, {{"x", 2}})});
+
+    simplificator.simplify();
+
+    Terms termsToVerify(simplificator.getTermsConstReference());
+    ASSERT_EQ(1u, termsToVerify.size());
+    ASSERT_EQ(TermType::ExpressionWithSingleTerm, termsToVerify.at(0).getTermType());
+    WrappedTerms::BaseTermPointers const& baseTermPointersToVerify(termsToVerify.at(0).getExpressionConstReference().getWrappedTermsConstReference().getBaseTermPointersConstReference());
+    ASSERT_EQ(3u, baseTermPointersToVerify.size());
+    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
+    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
+    Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
+    ASSERT_EQ(TermType::Monomial, term1.getTermType());
+    Monomial const& monomial1(term1.getMonomialConstReference());
+    EXPECT_DOUBLE_EQ(8, monomial1.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomial1.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap1.size());
+    EXPECT_DOUBLE_EQ(2, variableMap1.at("x").getDouble());
+    ASSERT_EQ(TermType::Operator, term2.getTermType());
+    EXPECT_EQ("^", term2.getOperatorConstReference().getOperatorString());
+    ASSERT_EQ(TermType::Monomial, term3.getTermType());
+    Monomial const& monomial2(term3.getMonomialConstReference());
+    EXPECT_DOUBLE_EQ(4, monomial2.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomial2.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(2, variableMap2.at("x").getDouble());
+}
+
+TEST(TermsSimplificatorTest, MonomialAddMonomialPatternWithDifferentMonomialCanBeSimplified)
+{
+    TermsSimplificator simplificator(Terms{Monomial(8, {{"x", 2}}), Term("+"), Monomial(4, {{"x", 1}, {"y", 1}})});
+
+    simplificator.simplify();
+
+    Terms termsToVerify(simplificator.getTermsConstReference());
+    ASSERT_EQ(1u, termsToVerify.size());
+    ASSERT_EQ(TermType::Polynomial, termsToVerify.at(0).getTermType());
+    Monomials const& monomials(termsToVerify.at(0).getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());
+    EXPECT_DOUBLE_EQ(8, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap1.size());
+    EXPECT_DOUBLE_EQ(2, variableMap1.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(4, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(2u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("y").getDouble());
+}
+
+TEST(TermsSimplificatorTest, MonomialSubtractMonomialPatternWithDifferentMonomialCanBeSimplified)
+{
+    TermsSimplificator simplificator(Terms{Monomial(8, {{"x", 2}}), Term("-"), Monomial(4, {{"x", 1}, {"y", 1}})});
+
+    simplificator.simplify();
+
+    Terms termsToVerify(simplificator.getTermsConstReference());
+    ASSERT_EQ(1u, termsToVerify.size());
+    ASSERT_EQ(TermType::Polynomial, termsToVerify.at(0).getTermType());
+    Monomials const& monomials(termsToVerify.at(0).getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());
+    EXPECT_DOUBLE_EQ(8, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap1.size());
+    EXPECT_DOUBLE_EQ(2, variableMap1.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(-4, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(2u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("y").getDouble());
+}
+
+TEST(TermsSimplificatorTest, MonomialMultiplyMonomialPatternWithDifferentMonomialCanBeSimplified)
+{
+    TermsSimplificator simplificator(Terms{Monomial(8, {{"x", 2}}), Term("*"), Monomial(4, {{"x", 1}, {"y", 1}})});
+
+    simplificator.simplify();
+
+    Terms termsToVerify(simplificator.getTermsConstReference());
+    ASSERT_EQ(1u, termsToVerify.size());
+    ASSERT_EQ(TermType::Monomial, termsToVerify.at(0).getTermType());
+    Monomial const& monomial(termsToVerify.at(0).getMonomialConstReference());
+    EXPECT_DOUBLE_EQ(32, monomial.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(2u, variableMap.size());
+    EXPECT_DOUBLE_EQ(3, variableMap.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(1, variableMap.at("y").getDouble());
+}
+
+TEST(TermsSimplificatorTest, MonomialDivideMonomialPatternWithDifferentMonomialCanBeSimplified)
+{
+    TermsSimplificator simplificator(Terms{Monomial(8, {{"x", 2}}), Term("/"), Monomial(4, {{"x", 1}, {"y", 1}})});
+
+    simplificator.simplify();
+
+    Terms termsToVerify(simplificator.getTermsConstReference());
+    ASSERT_EQ(1u, termsToVerify.size());
+    ASSERT_EQ(TermType::Monomial, termsToVerify.at(0).getTermType());
+    Monomial const& monomial(termsToVerify.at(0).getMonomialConstReference());
+    EXPECT_DOUBLE_EQ(2, monomial.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(2u, variableMap.size());
+    EXPECT_DOUBLE_EQ(1, variableMap.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(-1, variableMap.at("y").getDouble());
+}
+
+TEST(TermsSimplificatorTest, MonomialRaiseToPowerMonomialPatternWithDifferentMonomialCanBeSimplified)
+{
+    TermsSimplificator simplificator(Terms{Monomial(8, {{"x", 2}}), Term("^"), Monomial(4, {{"x", 1}, {"y", 1}})});
+
+    simplificator.simplify();
+
+    Terms termsToVerify(simplificator.getTermsConstReference());
+    ASSERT_EQ(1u, termsToVerify.size());
+    ASSERT_EQ(TermType::ExpressionWithSingleTerm, termsToVerify.at(0).getTermType());
+    WrappedTerms::BaseTermPointers const& baseTermPointersToVerify(termsToVerify.at(0).getExpressionConstReference().getWrappedTermsConstReference().getBaseTermPointersConstReference());
+    ASSERT_EQ(3u, baseTermPointersToVerify.size());
+    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
+    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
+    Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
+    ASSERT_EQ(TermType::Monomial, term1.getTermType());
+    Monomial const& monomial1(term1.getMonomialConstReference());
+    EXPECT_DOUBLE_EQ(8, monomial1.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomial1.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap1.size());
+    EXPECT_DOUBLE_EQ(2, variableMap1.at("x").getDouble());
+    ASSERT_EQ(TermType::Operator, term2.getTermType());
+    EXPECT_EQ("^", term2.getOperatorConstReference().getOperatorString());
+    ASSERT_EQ(TermType::Monomial, term3.getTermType());
+    Monomial const& monomial2(term3.getMonomialConstReference());
+    EXPECT_DOUBLE_EQ(4, monomial2.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomial2.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(2u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("y").getDouble());
 }
 
 }

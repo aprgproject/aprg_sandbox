@@ -32,9 +32,11 @@ TEST(MonomialTest, MonomialsAreConstructedCorrectly)
     EXPECT_DOUBLE_EQ(-7, variableMap2.at("i").getDouble());
 }
 
-TEST(MonomialTest, SettingANewConstantWorks){
+TEST(MonomialTest, SettingANewConstantWorks)
+{
     Monomial monomial;
     EXPECT_DOUBLE_EQ(0, monomial.getConstantConstReference().getDouble());
+
     monomial.setConstant(512);
     EXPECT_DOUBLE_EQ(512, monomial.getConstantConstReference().getDouble());
 }

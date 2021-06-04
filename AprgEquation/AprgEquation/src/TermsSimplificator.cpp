@@ -93,11 +93,17 @@ AlbaOptional<Term> TermsSimplificator::getNewTermFromThreeTerms(
     {
         result = combineVariableOperatorMonomial(term1.getVariableConstReference(), term2.getOperatorConstReference(), term3.getMonomialConstReference());
     }
+    else if(term1.isMonomial() && term2.isOperator() && term3.isMonomial())
+    {
+        result = combineMonomialOperatorMonomial(term1.getMonomialConstReference(), term2.getOperatorConstReference(), term3.getMonomialConstReference());
+    }
     return result;
 }
+
 AlbaOptional<Term> TermsSimplificator::combineConstantOperatorConstant(
         Constant const& constant1,
-        Operator const& operatorTerm,        Constant const& constant2) const
+        Operator const& operatorTerm,
+        Constant const& constant2) const
 {
     return AlbaOptional<Term>(Term(operatorTerm.performOperation(constant1.getNumberConstReference(), constant2.getNumberConstReference())));
 }
@@ -115,16 +121,19 @@ AlbaOptional<Term> TermsSimplificator::combineConstantOperatorVariable(
                                  Monomial(1, {{variable.getVariableName(), 1}})
                              }));
     }
-    else if(operatorTerm.isSubtraction())    {
+    else if(operatorTerm.isSubtraction())
+    {
         result.setValue(Term(Polynomial{
                                  Monomial(constant.getNumberConstReference(), {}),
                                  Monomial(-1, {{variable.getVariableName(), 1}})
                              }));
     }
-    else if(operatorTerm.isMultiplication())    {
+    else if(operatorTerm.isMultiplication())
+    {
         result.setValue(Term(Monomial(constant.getNumberConstReference(), {{variable.getVariableName(), 1}})));
     }
-    else if(operatorTerm.isDivision())    {
+    else if(operatorTerm.isDivision())
+    {
         result.setValue(Term(Monomial(constant.getNumberConstReference(), {{variable.getVariableName(), -1}})));
     }
     else if(operatorTerm.isRaiseToPower())
@@ -146,13 +155,15 @@ AlbaOptional<Term> TermsSimplificator::combineVariableOperatorConstant(
                                  Monomial(1, {{variable.getVariableName(), 1}}),
                                  Monomial(constant.getNumberConstReference(), {})
                              }));
-    }    else if(operatorTerm.isSubtraction())
+    }
+    else if(operatorTerm.isSubtraction())
     {
         result.setValue(Term(Polynomial{
                                  Monomial(1, {{variable.getVariableName(), 1}}),
                                  Monomial(constant.getNumberConstReference()*-1, {})
                              }));
-    }    else if(operatorTerm.isMultiplication())
+    }
+    else if(operatorTerm.isMultiplication())
     {
         result.setValue(Term(Monomial(constant.getNumberConstReference(), {{variable.getVariableName(), 1}})));
     }
@@ -508,11 +519,104 @@ AlbaOptional<Term> TermsSimplificator::combineVariableOperatorMonomialDifferentM
     return result;
 }
 
+AlbaOptional<Term> TermsSimplificator::combineMonomialOperatorMonomial(
+        Monomial const& monomial1,
+        Operator const& operatorTerm,
+        Monomial const& monomial2) const
+{
+    AlbaOptional<Term> result;
+    if(canBeAddedOrSubtracted(monomial1, monomial2))
+    {
+        result = combineMonomialOperatorMonomialSameMonomial(monomial1, operatorTerm, monomial2);
+    }
+    else
+    {
+        result = combineMonomialOperatorMonomialDifferentMonomial(monomial1, operatorTerm, monomial2);
+    }
+    return result;
+}
+
+AlbaOptional<Term> TermsSimplificator::combineMonomialOperatorMonomialSameMonomial(
+        Monomial const& monomial1,
+        Operator const& operatorTerm,
+        Monomial const& monomial2) const
+{
+    AlbaOptional<Term> result;
+    if(operatorTerm.isAddition())
+    {
+        result.setValue(Term(Monomial(monomial1.getConstantConstReference()+monomial2.getConstantConstReference(), monomial1.getVariablesToExponentsMapConstReference())));
+    }
+    else if(operatorTerm.isSubtraction())
+    {
+        result.setValue(Term(Monomial(monomial1.getConstantConstReference()-monomial2.getConstantConstReference(), monomial1.getVariablesToExponentsMapConstReference())));
+    }
+    else if(operatorTerm.isMultiplication())
+    {
+        Monomial::VariablesToExponentsMap variablesMap(monomial1.getVariablesToExponentsMapConstReference());
+        performChangeForVariables(variablesMap, [](string const &, AlbaNumber & exponent)
+        {
+            exponent=exponent*2;
+        });
+        result.setValue(Term(Monomial(monomial1.getConstantConstReference()*monomial2.getConstantConstReference(), variablesMap)));
+    }
+    else if(operatorTerm.isDivision())
+    {
+        result.setValue(Term(monomial1.getConstantConstReference()/monomial2.getConstantConstReference()));
+    }
+    else if(operatorTerm.isRaiseToPower())
+    {
+        result.setValue(Term(createExpression(Terms{Term(monomial1), Term(operatorTerm), Term(monomial2)})));
+    }
+    return result;
+}
+
+AlbaOptional<Term> TermsSimplificator::combineMonomialOperatorMonomialDifferentMonomial(
+        Monomial const& monomial1,
+        Operator const& operatorTerm,
+        Monomial const& monomial2) const
+{
+    AlbaOptional<Term> result;
+    if(operatorTerm.isAddition())
+    {
+        result.setValue(Term(Polynomial{monomial1, monomial2}));
+    }
+    else if(operatorTerm.isSubtraction())
+    {
+        result.setValue(Term(Polynomial{
+                                 monomial1,
+                                 Monomial(monomial2.getConstantConstReference()*-1, monomial2.getVariablesToExponentsMapConstReference())
+                             }));
+    }
+    else if(operatorTerm.isMultiplication())
+    {
+        Monomial::VariablesToExponentsMap newVariablesMap(
+                    combineVariableExponentMapByMultiplication(
+                        monomial1.getVariablesToExponentsMapConstReference(),
+                        monomial2.getVariablesToExponentsMapConstReference()));
+        result.setValue(Term(Monomial(monomial1.getConstantConstReference()*monomial2.getConstantConstReference(), newVariablesMap)));
+    }
+    else if(operatorTerm.isDivision())
+    {
+        Monomial::VariablesToExponentsMap newVariablesMap(
+                    combineVariableExponentMapByDivision(
+                        monomial1.getVariablesToExponentsMapConstReference(),
+                        monomial2.getVariablesToExponentsMapConstReference()));
+        result.setValue(Term(Monomial(monomial1.getConstantConstReference()/monomial2.getConstantConstReference(), newVariablesMap)));
+    }
+    else if(operatorTerm.isRaiseToPower())
+    {
+        result.setValue(Term(createExpression(Terms{Term(monomial1), Term(operatorTerm), Term(monomial2)})));
+    }
+    return result;
+}
+
 void TermsSimplificator::eraseTermsInclusive(
         unsigned int const firstIndex,
-        unsigned int const secondIndex){
+        unsigned int const secondIndex)
+{
     m_terms.erase(m_terms.cbegin()+firstIndex, m_terms.cbegin()+secondIndex+1);
 }
+
 void TermsSimplificator::insertTerm(
         unsigned int const index,
         Term const& term)

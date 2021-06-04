@@ -31,6 +31,7 @@ TEST(TermTest, TermsAsConstantsWorkAsExpected)
     ASSERT_EQ(TermType::Constant, constant4.getTermType());
     EXPECT_DOUBLE_EQ(-34.8767, constant4.getConstantReference().getNumberConstReference().getDouble());
 }
+
 TEST(TermTest, TermsAsVariablesWorkAsExpected)
 {
     Term variable1("");
@@ -46,9 +47,11 @@ TEST(TermTest, TermsAsVariablesWorkAsExpected)
     ASSERT_EQ(TermType::Variable, variable3.getTermType());
     EXPECT_EQ("power", variable3.getVariableReference().getVariableName());
 }
+
 TEST(TermTest, TermsAsOperatorsWorkAsExpected)
 {
-    Term variable1("+");    Term variable2("-");
+    Term variable1("+");
+    Term variable2("-");
     Term variable3("*");
     Term variable4("/");
 
@@ -64,6 +67,7 @@ TEST(TermTest, TermsAsOperatorsWorkAsExpected)
     ASSERT_EQ(TermType::Operator, variable4.getTermType());
     EXPECT_EQ("/", variable4.getOperatorReference().getOperatorString());
 }
+
 TEST(TermTest, TermsAsMonomialsWorkAsExpected)
 {
     Term monomial1(Monomial(3, {}));
@@ -96,9 +100,11 @@ TEST(TermTest, TermsAsMonomialsWorkAsExpected)
     EXPECT_EQ("power", variable3_2.first);
     EXPECT_DOUBLE_EQ(4.5, variable3_2.second.getDouble());
 }
+
 TEST(TermTest, TermsAsPolynomialsWorkAsExpected)
 {
-    Term polynomial1(Polynomial{});    Term polynomial2(Polynomial({Monomial(3, {})}));
+    Term polynomial1(Polynomial{});
+    Term polynomial2(Polynomial({Monomial(3, {})}));
     Term polynomial3(Polynomial({Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})}));
 
     //For polynomial1
@@ -110,7 +116,8 @@ TEST(TermTest, TermsAsPolynomialsWorkAsExpected)
     ASSERT_EQ(TermType::Polynomial, polynomial2.getTermType());
     Monomials const& monomials2(polynomial2.getPolynomialReference().getMonomialsConstReference());
     ASSERT_EQ(1u, monomials2.size());
-    Monomial const& monomial2(monomials2.front());    EXPECT_DOUBLE_EQ(3, monomial2.getConstantConstReference().getDouble());
+    Monomial const& monomial2(monomials2.front());
+    EXPECT_DOUBLE_EQ(3, monomial2.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap2(monomial2.getVariablesToExponentsMapConstReference());
     ASSERT_TRUE(variableMap2.empty());
 
@@ -118,9 +125,11 @@ TEST(TermTest, TermsAsPolynomialsWorkAsExpected)
     ASSERT_EQ(TermType::Polynomial, polynomial3.getTermType());
     Monomials const& monomials3(polynomial3.getPolynomialReference().getMonomialsConstReference());
     ASSERT_EQ(2u, monomials3.size());
+
     Monomial const& monomial3_1(monomials3.front());
     EXPECT_DOUBLE_EQ(3, monomial3_1.getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMap3_1(monomial3_1.getVariablesToExponentsMapConstReference());    ASSERT_TRUE(variableMap3_1.empty());
+    Monomial::VariablesToExponentsMap const& variableMap3_1(monomial3_1.getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap3_1.empty());
 
     Monomial const& monomial3_2(monomials3.back());
     EXPECT_DOUBLE_EQ(-1.5, monomial3_2.getConstantConstReference().getDouble());
@@ -135,6 +144,7 @@ TEST(TermTest, TermsAsPolynomialsWorkAsExpected)
     EXPECT_EQ("power", variable3_2.first);
     EXPECT_DOUBLE_EQ(4.5, variable3_2.second.getDouble());
 }
+
 TEST(TermTest, TermsAsExpressionsWorkAsExpected)
 {
     Term expression1(Expression{});
@@ -158,6 +168,7 @@ TEST(TermTest, TermsAsExpressionsWorkAsExpected)
     ASSERT_EQ(TermType::Variable, term3.getTermType());
     EXPECT_EQ("interest", term3.getVariableConstReference().getVariableName());
 }
+
 }
 
 }

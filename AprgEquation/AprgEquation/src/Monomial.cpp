@@ -39,10 +39,12 @@ Monomial::VariablesToExponentsMap const& Monomial::getVariablesToExponentsMapCon
 
 void Monomial::setConstant(AlbaNumber const& constant)
 {
-    m_constant = constant;}
+    m_constant = constant;
+}
 
 void Monomial::setVariableWtihExponent(
-        string const& variable,        AlbaNumber const& exponent)
+        string const& variable,
+        AlbaNumber const& exponent)
 {
     m_variablesToExponentsMap[variable]=exponent;
 }
@@ -52,7 +54,9 @@ void Monomial::setVariablesWithExponents(initializer_list<VariableExponentPair> 
     for(VariableExponentPair const& variableExponentsPair : variablesWithExponents)
     {
         setVariableWtihExponent(variableExponentsPair.first, variableExponentsPair.second);
-    }}
+    }
+}
+
 
 
 }

@@ -56,9 +56,11 @@ TEST(ExpressionTest, GetWrappedTermsReferenceWorksCorrectly)
     ASSERT_EQ(TermType::Variable, term3.getTermType());
     EXPECT_EQ("interest", term3.getVariableConstReference().getVariableName());
 }
+
 TEST(ExpressionTest, GetWrappedTermsConstReferenceWorksCorrectly)
 {
     Expression expression(createExpression(Terms{Term(6), Term("*"), Term("force")}));
+
     WrappedTerms::BaseTermPointers const& baseTermPointersToVerify(expression.getWrappedTermsConstReference().getBaseTermPointersConstReference());
 
     ASSERT_EQ(3u, baseTermPointersToVerify.size());
@@ -72,6 +74,7 @@ TEST(ExpressionTest, GetWrappedTermsConstReferenceWorksCorrectly)
     ASSERT_EQ(TermType::Variable, term3.getTermType());
     EXPECT_EQ("force", term3.getVariableConstReference().getVariableName());
 }
+
 }
 
 }

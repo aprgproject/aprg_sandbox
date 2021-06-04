@@ -80,12 +80,26 @@ public:
             Variable const& variable,
             Operator const& operatorTerm,
             Monomial const& monomial) const;
+    AlbaOptional<Term> combineMonomialOperatorMonomial(
+            Monomial const& monomial1,
+            Operator const& operatorTerm,
+            Monomial const& monomial2) const;
+    AlbaOptional<Term> combineMonomialOperatorMonomialSameMonomial(
+            Monomial const& monomial1,
+            Operator const& operatorTerm,
+            Monomial const& monomial2) const;
+    AlbaOptional<Term> combineMonomialOperatorMonomialDifferentMonomial(
+            Monomial const& monomial1,
+            Operator const& operatorTerm,
+            Monomial const& monomial2) const;
 
     void eraseTermsInclusive(
-            unsigned int const firstIndex,            unsigned int const secondIndex);
+            unsigned int const firstIndex,
+            unsigned int const secondIndex);
     void insertTerm(
             unsigned int const index,
             Term const& term);
+
 
 private:
     Terms m_terms;
