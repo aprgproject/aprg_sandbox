@@ -3,17 +3,16 @@
 #include <Math/AlbaMathHelper.hpp>
 
 #include <cmath>
-
+#include <sstream>
 
 using namespace alba::mathHelper;
+using namespace std;
 
 namespace alba
 {
-
 AlbaNumber::AlbaNumber()
     : m_type(Type::Integer)
-{
-    int& intDataReference(m_data.intData);
+{    int& intDataReference(m_data.intData);
     intDataReference = 0;
 }
 
@@ -48,101 +47,12 @@ AlbaNumber::AlbaNumber(double const doubleValue)
     doubleDataReference = doubleValue;
 }
 
-bool AlbaNumber::isIntegerType() const
-{
-    return m_type==Type::Integer;
-}
-
-bool AlbaNumber::isFractionType() const
-{
-    return m_type==Type::Fraction;
-}
-
-bool AlbaNumber::isDoubleType() const
-{
-    return m_type==Type::Double;
-}
-
-AlbaNumber::Type AlbaNumber::getType() const
-{
-    return m_type;
-}
-
-int AlbaNumber::getInteger() const
-{
-    int result(0);
-    if(m_type==Type::Integer)
-    {
-        int const& dataReference(m_data.intData);
-        result = dataReference;
-    }
-    else if(m_type==Type::Fraction)
-    {
-        FractionData const& dataReference(m_data.fractionData);
-        result = static_cast<int>(dataReference.numerator/dataReference.denominator);
-    }
-    else if(m_type==Type::Double)
-    {
-        double const& dataReference(m_data.doubleData);
-        result = static_cast<int>(dataReference);
-    }
-    return result;
-}
-
-AlbaNumber::FractionData AlbaNumber::getFractionData() const
-{
-    FractionData result{0, 0};
-    if(m_type==Type::Integer)
-    {
-        int const& dataReference(m_data.intData);
-        result.numerator = dataReference;
-        result.denominator = 1u;
-    }
-    else if(m_type==Type::Fraction)
-    {
-        FractionData const& dataReference(m_data.fractionData);
-        result = dataReference;
-    }
-    else if(m_type==Type::Double)
-    {
-        //this is costly avoid this
-        double const& dataReference(m_data.doubleData);
-        FractionDetails bestFractionDetails(getBestFractionDetailsForDoubleValue(dataReference));
-        result.denominator = bestFractionDetails.denominator;
-        result.numerator = bestFractionDetails.sign * bestFractionDetails.numerator;
-    }
-    return result;
-}
-
-double AlbaNumber::getDouble() const
-{
-    double result(0);
-    if(m_type==Type::Integer)
-    {
-        int const& dataReference(m_data.intData);
-        result = static_cast<double>(dataReference);
-    }
-    else if(m_type==Type::Fraction)
-    {
-        FractionData const& dataReference(m_data.fractionData);
-        result = static_cast<double>(static_cast<double>(dataReference.numerator)/dataReference.denominator);
-    }
-    else if(m_type==Type::Double)
-    {
-        double const& dataReference(m_data.doubleData);
-        result = dataReference;
-    }
-    return result;
-}
-
 bool AlbaNumber::operator==(AlbaNumber const& second) const
 {
-    return isAlmostEqual(getDouble(), second.getDouble());
-}
+    return isAlmostEqual(getDouble(), second.getDouble());}
 
 bool AlbaNumber::operator!=(AlbaNumber const& second) const
-{
-    AlbaNumber const& first(*this);
+{    AlbaNumber const& first(*this);
     return !(first==second);
 }
 
@@ -493,14 +403,119 @@ AlbaNumber AlbaNumber::operator^(double const doubleValue) const
     return operator^(AlbaNumber(doubleValue));
 }
 
+bool AlbaNumber::isIntegerType() const
+{
+    return m_type==Type::Integer;
+}
+
+bool AlbaNumber::isFractionType() const
+{
+    return m_type==Type::Fraction;
+}
+
+bool AlbaNumber::isDoubleType() const
+{
+    return m_type==Type::Double;
+}
+
+AlbaNumber::Type AlbaNumber::getType() const
+{
+    return m_type;
+}
+
+int AlbaNumber::getInteger() const
+{
+    int result(0);
+    if(m_type==Type::Integer)
+    {
+        int const& dataReference(m_data.intData);
+        result = dataReference;
+    }
+    else if(m_type==Type::Fraction)
+    {
+        FractionData const& dataReference(m_data.fractionData);
+        result = static_cast<int>(dataReference.numerator/dataReference.denominator);
+    }
+    else if(m_type==Type::Double)
+    {
+        double const& dataReference(m_data.doubleData);
+        result = static_cast<int>(dataReference);
+    }
+    return result;
+}
+
+AlbaNumber::FractionData AlbaNumber::getFractionData() const
+{
+    FractionData result{0, 0};
+    if(m_type==Type::Integer)
+    {
+        int const& dataReference(m_data.intData);
+        result.numerator = dataReference;
+        result.denominator = 1u;
+    }
+    else if(m_type==Type::Fraction)
+    {
+        FractionData const& dataReference(m_data.fractionData);
+        result = dataReference;
+    }
+    else if(m_type==Type::Double)
+    {
+        //this is costly avoid this
+        double const& dataReference(m_data.doubleData);
+        FractionDetails bestFractionDetails(getBestFractionDetailsForDoubleValue(dataReference));
+        result.denominator = bestFractionDetails.denominator;
+        result.numerator = bestFractionDetails.sign * bestFractionDetails.numerator;
+    }
+    return result;
+}
+
+double AlbaNumber::getDouble() const
+{
+    double result(0);
+    if(m_type==Type::Integer)
+    {
+        int const& dataReference(m_data.intData);
+        result = static_cast<double>(dataReference);
+    }
+    else if(m_type==Type::Fraction)
+    {
+        FractionData const& dataReference(m_data.fractionData);
+        result = static_cast<double>(static_cast<double>(dataReference.numerator)/dataReference.denominator);
+    }
+    else if(m_type==Type::Double)
+    {
+        double const& dataReference(m_data.doubleData);
+        result = dataReference;
+    }
+    return result;
+}
+
+std::string AlbaNumber::getDisplayableString() const
+{
+    stringstream result;
+    if(m_type==Type::Integer)
+    {
+        result << getInteger();
+    }
+    else if(m_type==Type::Fraction)
+    {
+        FractionData fractionData(getFractionData());
+        result << "(" << fractionData.numerator << "/" << fractionData.denominator << ")";
+    }
+    else if(m_type==Type::Double)
+    {
+        result.precision(10);
+        result << getDouble();
+    }
+    return result.str();
+}
+
 void AlbaNumber::convertToIntegerIfNeeded()
 {
-    if(m_type == Type::Fraction)
-    {
+    if(m_type == Type::Fraction)    {
         FractionData& fractionDataReference(m_data.fractionData);
         if(isDivisible(getAbsoluteValue(fractionDataReference.numerator), fractionDataReference.denominator))
-        {
-            *this = AlbaNumber(static_cast<int>(fractionDataReference.numerator/fractionDataReference.denominator));
+        {            *this = AlbaNumber(static_cast<int>(fractionDataReference.numerator/fractionDataReference.denominator));
         }
     }
 }
