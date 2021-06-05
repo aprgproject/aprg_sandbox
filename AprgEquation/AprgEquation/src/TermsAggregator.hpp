@@ -9,13 +9,12 @@ namespace alba
 namespace equation
 {
 
-class TermsSimplificator
+class TermsAggregator
 {
 public:
-    TermsSimplificator(Terms const& terms);
+    TermsAggregator(Terms const& terms);
 
     Terms const& getTermsConstReference() const;
-
     void buildExpressionFromTerms();
     void simplifyTerms();
 
