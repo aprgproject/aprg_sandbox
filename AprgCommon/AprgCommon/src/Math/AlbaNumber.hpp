@@ -31,14 +31,16 @@ public:
     AlbaNumber(int const numerator, unsigned int const denominator);
     AlbaNumber(double const doubleValue);
 
+    bool isIntegerType() const;
+    bool isFractionType() const;
+    bool isDoubleType() const;
+
     Type getType() const;
     int getInteger() const;
-    FractionData getFractionData() const;
-    double getDouble() const;
+    FractionData getFractionData() const;    double getDouble() const;
 
     bool operator==(AlbaNumber const& second) const;
-    bool operator!=(AlbaNumber const& second) const;
-    bool operator<(AlbaNumber const& second) const;
+    bool operator!=(AlbaNumber const& second) const;    bool operator<(AlbaNumber const& second) const;
     AlbaNumber operator+() const;
     AlbaNumber operator-() const;
     AlbaNumber operator+(AlbaNumber const& second) const;

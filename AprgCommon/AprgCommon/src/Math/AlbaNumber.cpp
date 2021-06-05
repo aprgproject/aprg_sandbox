@@ -48,15 +48,28 @@ AlbaNumber::AlbaNumber(double const doubleValue)
     doubleDataReference = doubleValue;
 }
 
+bool AlbaNumber::isIntegerType() const
+{
+    return m_type==Type::Integer;
+}
+
+bool AlbaNumber::isFractionType() const
+{
+    return m_type==Type::Fraction;
+}
+
+bool AlbaNumber::isDoubleType() const
+{
+    return m_type==Type::Double;
+}
+
 AlbaNumber::Type AlbaNumber::getType() const
 {
-    return m_type;
-}
+    return m_type;}
 
 int AlbaNumber::getInteger() const
 {
-    int result(0);
-    if(m_type==Type::Integer)
+    int result(0);    if(m_type==Type::Integer)
     {
         int const& dataReference(m_data.intData);
         result = dataReference;
