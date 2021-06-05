@@ -22,6 +22,12 @@ bool canBeAddedOrSubtracted(Monomial const& monomial, Variable const& variable);
 Term createTerm(BaseTermUniquePointer const& baseTerm);
 BaseTermUniquePointer createBaseTermUniquePointer(Term const& term);
 
+Term convertMonomialToSimplestTerm(Monomial const& monomial);
+Monomial addSameMonomials(Monomial const& monomial1, Monomial const& monomial2);
+Monomial subtractSameMonomials(Monomial const& monomial1, Monomial const& monomial2);
+Monomial multiplyMonomials(Monomial const& monomial1, Monomial const& monomial2);
+Monomial divideMonomials(Monomial const& monomial1, Monomial const& monomial2);
+Monomial::VariablesToExponentsMap removeZeroExponents(Monomial::VariablesToExponentsMap const& variablesMap);
 void performChangeForVariables(
         Monomial::VariablesToExponentsMap & variablesMap,
         Monomial::ChangeExponentsForVariableFunction const& changeVariablesFunction);

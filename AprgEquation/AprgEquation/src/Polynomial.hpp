@@ -22,10 +22,14 @@ public:
     void addMonomial(Monomial const& monomial);
     void addPolynomial(Polynomial const& polynomial);
     void multiplyByNumber(AlbaNumber const& number);
+    void multiplyByMonomial(Monomial const& monomial);
+    void multiplyByPolynomial(Polynomial const& polynomial);
+    void divideByMonomial(Monomial const& monomial);
 
 private:
     Monomials m_monomials;
 };
+
 }
 
 }

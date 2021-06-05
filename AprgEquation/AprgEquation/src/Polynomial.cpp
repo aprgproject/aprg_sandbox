@@ -4,10 +4,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
+
 Polynomial::Polynomial()
 {}
 
@@ -60,6 +62,35 @@ void Polynomial::multiplyByNumber(AlbaNumber const& number)
     for(Monomial & monomial : m_monomials)
     {
         monomial.setConstant(monomial.getConstantConstReference()*number);
+    }
+}
+
+void Polynomial::multiplyByMonomial(Monomial const& monomial)
+{
+    for(Monomial & monomialInternal : m_monomials)
+    {
+        monomialInternal = multiplyMonomials(monomialInternal, monomial);
+    }
+}
+
+void Polynomial::multiplyByPolynomial(Polynomial const& polynomial)
+{
+    Monomials monomialsCopy(m_monomials);
+    m_monomials.clear();
+    for(Monomial const& monomial2 : polynomial.getMonomialsConstReference())
+    {
+        for(Monomial const& monomial1 : monomialsCopy)
+        {
+            addMonomial(multiplyMonomials(monomial1, monomial2));
+        }
+    }
+}
+
+void Polynomial::divideByMonomial(Monomial const& monomial)
+{
+    for(Monomial & monomialInternal : m_monomials)
+    {
+        monomialInternal = divideMonomials(monomialInternal, monomial);
     }
 }
 

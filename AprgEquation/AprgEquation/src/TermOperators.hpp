@@ -115,4 +115,5 @@ Term operator^(Polynomial const& polynomial, Monomial const& monomial);
 Term operator^(Polynomial const& polynomial1, Polynomial const& polynomial2);
 
 }
+
 }

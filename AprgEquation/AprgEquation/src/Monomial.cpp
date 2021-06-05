@@ -22,9 +22,31 @@ Monomial::Monomial(AlbaNumber const& constant, VariablesToExponentsMap const& va
     , m_variablesToExponentsMap(variablesWithExponents)
 {}
 
+bool Monomial::isZero() const
+{
+    return m_constant == 0;
+}
+
 bool Monomial::isConstantOnly() const
 {
     return m_variablesToExponentsMap.empty();
+}
+
+bool Monomial::isVariableOnly() const
+{
+    return m_constant == 1 &&
+            m_variablesToExponentsMap.size() == 1 &&
+            (m_variablesToExponentsMap.cbegin())->second == 1;
+}
+
+string Monomial::getFirstVariableName() const
+{
+    string variableName;
+    if(!m_variablesToExponentsMap.empty())
+    {
+        variableName = (m_variablesToExponentsMap.cbegin())->first;
+    }
+    return variableName;
 }
 
 AlbaNumber const& Monomial::getConstantConstReference() const
