@@ -26,6 +26,8 @@ public:
     Monomial(AlbaNumber const& constant, std::initializer_list<VariableExponentPair> const& variablesWithExponents);
     Monomial(AlbaNumber const& constant, VariablesToExponentsMap const& variablesWithExponents);
 
+    bool isConstantOnly() const;
+
     AlbaNumber const& getConstantConstReference() const;
     VariablesToExponentsMap & getVariablesToExponentsMapReference();
     VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;

@@ -32,6 +32,17 @@ TEST(MonomialTest, MonomialsAreConstructedCorrectly)
     EXPECT_DOUBLE_EQ(-7, variableMap2.at("i").getDouble());
 }
 
+TEST(MonomialTest, IsConstantOnlyFunctionWorks)
+{
+    Monomial monomial1;
+    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial3(23, {});
+
+    EXPECT_TRUE(monomial1.isConstantOnly());
+    EXPECT_FALSE(monomial2.isConstantOnly());
+    EXPECT_TRUE(monomial3.isConstantOnly());
+}
+
 TEST(MonomialTest, SettingANewConstantWorks)
 {
     Monomial monomial;

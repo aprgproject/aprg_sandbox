@@ -1,4 +1,5 @@
 #include "BaseTerm.hpp"
+
 namespace alba
 {
 

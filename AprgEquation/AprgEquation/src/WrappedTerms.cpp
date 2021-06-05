@@ -1,7 +1,5 @@
 #include "WrappedTerms.hpp"
 
-#include <Term.hpp>
-
 namespace alba
 {
 
@@ -23,6 +21,7 @@ BaseTermSharedPointers const& WrappedTerms::getBaseTermPointersConstReference() 
 {
     return m_baseTermPointers;
 }
+
 
 }
 

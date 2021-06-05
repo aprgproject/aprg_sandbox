@@ -16,6 +16,7 @@ public:
     Polynomial(Monomials const& monomials);
     Polynomial(std::initializer_list<Monomial> const& monomials);
 
+    Monomials & getMonomialsReference();
     Monomials const& getMonomialsConstReference() const;
 
 private:

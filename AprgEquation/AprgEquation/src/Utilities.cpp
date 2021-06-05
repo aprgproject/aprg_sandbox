@@ -54,6 +54,18 @@ bool canBeAddedOrSubtracted(Monomial const& monomial, Variable const& variable)
     return result;
 }
 
+Term createTerm(BaseTermUniquePointer const& baseTerm)
+{
+    Term* termPointer = dynamic_cast<Term*>(baseTerm.get());
+    return *termPointer;
+}
+
+BaseTermUniquePointer createBaseTermUniquePointer(Term const& term)
+{
+    BaseTermUniquePointer baseTerm(new Term(term));
+    return move(baseTerm);
+}
+
 void performChangeForVariables(
         Monomial::VariablesToExponentsMap & variablesMap,
         Monomial::ChangeExponentsForVariableFunction const& changeVariablesFunction)
@@ -101,7 +113,8 @@ void wrapTerms(WrappedTerms & wrappedTerms, Terms const& terms)
     BaseTermSharedPointers & baseTermPointers(wrappedTerms.getBaseTermPointersReference());
     for(Term const& term : terms)
     {
-        baseTermPointers.emplace_back(new Term(term));    }
+        baseTermPointers.emplace_back(new Term(term));
+    }
 }
 
 Terms unwrapTermsAndReturnTerms(WrappedTerms const& wrappedTerms)
@@ -111,9 +124,11 @@ Terms unwrapTermsAndReturnTerms(WrappedTerms const& wrappedTerms)
     for(BaseTermSharedPointer const& baseTermPointer : baseTermPointers)
     {
         Term const& term(*dynamic_cast<Term const * const>(baseTermPointer.get()));
-        result.emplace_back(term);    }
+        result.emplace_back(term);
+    }
     return result;
 }
+
 Expression createExpression(Terms const& terms)
 {
     Expression result;

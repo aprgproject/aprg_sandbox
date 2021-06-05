@@ -20,6 +20,11 @@ Polynomial::Polynomial(initializer_list<Monomial> const& monomials)
     copy(monomials.begin(), monomials.end(), back_inserter(m_monomials));
 }
 
+Monomials & Polynomial::getMonomialsReference()
+{
+    return m_monomials;
+}
+
 Monomials const& Polynomial::getMonomialsConstReference() const
 {
     return m_monomials;

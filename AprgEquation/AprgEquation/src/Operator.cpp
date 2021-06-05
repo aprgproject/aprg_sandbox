@@ -45,32 +45,6 @@ string Operator::getOperatorString() const
     return m_operatingString;
 }
 
-AlbaNumber Operator::performOperation(AlbaNumber const& number1, AlbaNumber const& number2) const
-{
-    AlbaNumber result;
-    if(isAddition())
-    {
-        result = number1 + number2;
-    }
-    else if(isSubtraction())
-    {
-        result = number1 - number2;
-    }
-    else if(isMultiplication())
-    {
-        result = number1 * number2;
-    }
-    else if(isDivision())
-    {
-        result = number1 / number2;
-    }
-    else if(isRaiseToPower())
-    {
-        result = number1 ^ number2;
-    }
-    return result;
-}
-
 void Operator::setOperatorString(string const& operatingString)
 {
     m_operatingString = operatingString;

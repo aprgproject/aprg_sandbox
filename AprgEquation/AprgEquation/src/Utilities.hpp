@@ -1,5 +1,6 @@
 #pragma once
 
+#include <BaseTermPointers.hpp>
 #include <Expression.hpp>
 #include <Term.hpp>
 #include <WrappedTerms.hpp>
@@ -17,6 +18,10 @@ bool isOperatorForMultipleTerms(std::string const& variableOrOperator);
 
 bool canBeAddedOrSubtracted(Monomial const& monomial1, Monomial const& monomial2);
 bool canBeAddedOrSubtracted(Monomial const& monomial, Variable const& variable);
+
+Term createTerm(BaseTermUniquePointer const& baseTerm);
+BaseTermUniquePointer createBaseTermUniquePointer(Term const& term);
+
 void performChangeForVariables(
         Monomial::VariablesToExponentsMap & variablesMap,
         Monomial::ChangeExponentsForVariableFunction const& changeVariablesFunction);
@@ -29,6 +34,7 @@ Monomial::VariablesToExponentsMap combineVariableExponentMapByDivision(
 
 void wrapTerms(WrappedTerms & wrappedTerms, Terms const& terms);
 Terms unwrapTermsAndReturnTerms(WrappedTerms const& wrappedTerms);
+
 Expression createExpression(Terms const& terms);
 Terms getTermsInAnExpression(Expression const& expression);
 

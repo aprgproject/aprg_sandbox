@@ -22,6 +22,11 @@ Monomial::Monomial(AlbaNumber const& constant, VariablesToExponentsMap const& va
     , m_variablesToExponentsMap(variablesWithExponents)
 {}
 
+bool Monomial::isConstantOnly() const
+{
+    return m_variablesToExponentsMap.empty();
+}
+
 AlbaNumber const& Monomial::getConstantConstReference() const
 {
     return m_constant;

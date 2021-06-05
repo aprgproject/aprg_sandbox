@@ -28,23 +28,6 @@ TEST(OperatorTest, SettingANewOperatingStringWorks)
     EXPECT_EQ("multiply", operatorForTest.getOperatorString());
 }
 
-TEST(OperatorTest, PerformOperationWorks)
-{
-    Operator nullOperator;
-    Operator addOperator("+");
-    Operator subtractOperator("-");
-    Operator multiplyOperator("*");
-    Operator divideOperator("/");
-    Operator raiseToPowerOperator("^");
-
-    EXPECT_DOUBLE_EQ(0, nullOperator.performOperation(10, 2).getDouble());
-    EXPECT_DOUBLE_EQ(12, addOperator.performOperation(10, 2).getDouble());
-    EXPECT_DOUBLE_EQ(8, subtractOperator.performOperation(10, 2).getDouble());
-    EXPECT_DOUBLE_EQ(20, multiplyOperator.performOperation(10, 2).getDouble());
-    EXPECT_DOUBLE_EQ(5, divideOperator.performOperation(10, 2).getDouble());
-    EXPECT_DOUBLE_EQ(100, raiseToPowerOperator.performOperation(10, 2).getDouble());
-}
-
 TEST(OperatorTest, IsAdditionWorksAsExpected)
 {
     Operator nullOperator;
