@@ -153,14 +153,28 @@ TEST(TermOperatorsTest, BinaryPlusOperator_ConstantAddMonomialWithDifferentMonom
     EXPECT_DOUBLE_EQ(4, variableMap2.at("y").getDouble());
 }
 
-TEST(TermOperatorsTest, BinaryPlusOperator_VariableAddConstantOperationWorks)
+TEST(TermOperatorsTest, BinaryPlusOperator_ConstantAddPolynomialOperationWorks)
 {
-    Term term(Variable("y") + Constant(4));
+    Term term(Constant(10) + Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})});
 
     ASSERT_EQ(TermType::Polynomial, term.getTermType());
     Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
     ASSERT_EQ(2u, monomials.size());
-    EXPECT_DOUBLE_EQ(1, monomials.at(0).getConstantConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(15, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(1, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+}
+
+TEST(TermOperatorsTest, BinaryPlusOperator_VariableAddConstantOperationWorks)
+{
+    Term term(Variable("y") + Constant(4));
+    ASSERT_EQ(TermType::Polynomial, term.getTermType());
+    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());    EXPECT_DOUBLE_EQ(1, monomials.at(0).getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1u, variableMap1.size());
     EXPECT_DOUBLE_EQ(1, variableMap1.at("y").getDouble());
@@ -210,14 +224,28 @@ TEST(TermOperatorsTest, BinaryPlusOperator_VariableAddMonomialWithDifferentMonom
     EXPECT_DOUBLE_EQ(1, variableMap2.at("y").getDouble());
 }
 
+TEST(TermOperatorsTest, BinaryPlusOperator_VariableAddPolynomialOperationWorks)
+{
+    Term term(Variable("x") + Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})});
+
+    ASSERT_EQ(TermType::Polynomial, term.getTermType());
+    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());
+    EXPECT_DOUBLE_EQ(5, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(2, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+}
+
 TEST(TermOperatorsTest, BinaryPlusOperator_MonomialAddConstantWithSameMonomialConstantOperationWorks)
 {
     Term term(Monomial(8, {}) + Constant(2));
-
     ASSERT_EQ(TermType::Constant, term.getTermType());
     EXPECT_DOUBLE_EQ(10, term.getConstantConstReference().getNumberConstReference().getDouble());
 }
-
 TEST(TermOperatorsTest, BinaryPlusOperator_MonomialAddConstantWithDifferentMonomialConstantOperationWorks)
 {
     Term term(Monomial(6, {{"x", 2}, {"y", 4}}) + Constant(4));
@@ -294,14 +322,92 @@ TEST(TermOperatorsTest, BinaryPlusOperator_MonomialAddMonomialWithDifferentMonom
     EXPECT_DOUBLE_EQ(1, variableMap2.at("y").getDouble());
 }
 
+TEST(TermOperatorsTest, BinaryPlusOperator_MonomialAddPolynomialOperationWorks)
+{
+    Term term(Monomial(3, {{"x", 1}}) + Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})});
+
+    ASSERT_EQ(TermType::Polynomial, term.getTermType());
+    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());
+    EXPECT_DOUBLE_EQ(5, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(4, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+}
+
+TEST(TermOperatorsTest, BinaryPlusOperator_PolynomialAddConstantOperationWorks)
+{
+    Term term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})} + Constant(10));
+
+    ASSERT_EQ(TermType::Polynomial, term.getTermType());
+    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());
+    EXPECT_DOUBLE_EQ(15, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(1, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+}
+
+TEST(TermOperatorsTest, BinaryPlusOperator_PolynomialAddVariableOperationWorks)
+{
+    Term term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})} + Variable("x"));
+
+    ASSERT_EQ(TermType::Polynomial, term.getTermType());
+    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());
+    EXPECT_DOUBLE_EQ(5, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(2, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+}
+
+TEST(TermOperatorsTest, BinaryPlusOperator_PolynomialAddMonomialOperationWorks)
+{
+    Term term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})} + Monomial(3, {{"x", 1}}));
+
+    ASSERT_EQ(TermType::Polynomial, term.getTermType());
+    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());
+    EXPECT_DOUBLE_EQ(5, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(4, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+}
+
+TEST(TermOperatorsTest, BinaryPlusOperator_PolynomialAddPolynomialOperationWorks)
+{
+    Term term(Polynomial{Monomial(5, {}), Monomial(2, {{"x", 1}})} + Polynomial{Monomial(15, {}), Monomial(4, {{"x", 1}})});
+
+    ASSERT_EQ(TermType::Polynomial, term.getTermType());
+    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());
+    EXPECT_DOUBLE_EQ(20, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(6, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+}
+
 TEST(TermOperatorsTest, BinaryMinusOperator_ConstantSubtractConstantOperationWorks)
 {
     Term term(Constant(6) - Constant(2));
-
     ASSERT_EQ(TermType::Constant, term.getTermType());
     EXPECT_DOUBLE_EQ(4, term.getConstantConstReference().getNumberConstReference().getDouble());
 }
-
 TEST(TermOperatorsTest, BinaryMinusOperator_ConstantSubtractVariableOperationWorks)
 {
     Term term(Constant(5) - Variable("x"));
@@ -343,14 +449,28 @@ TEST(TermOperatorsTest, BinaryMinusOperator_ConstantSubtractMonomialWithDifferen
     EXPECT_DOUBLE_EQ(4, variableMap2.at("y").getDouble());
 }
 
-TEST(TermOperatorsTest, BinaryMinusOperator_VariableSubtractConstantOperationWorks)
+TEST(TermOperatorsTest, BinaryMinusOperator_ConstantSubtractPolynomialOperationWorks)
 {
-    Term term(Variable("y") - Constant(4));
+    Term term(Constant(10) - Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})});
 
     ASSERT_EQ(TermType::Polynomial, term.getTermType());
     Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
     ASSERT_EQ(2u, monomials.size());
-    EXPECT_DOUBLE_EQ(1, monomials.at(0).getConstantConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(5, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(-1, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+}
+
+TEST(TermOperatorsTest, BinaryMinusOperator_VariableSubtractConstantOperationWorks)
+{
+    Term term(Variable("y") - Constant(4));
+    ASSERT_EQ(TermType::Polynomial, term.getTermType());
+    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());    EXPECT_DOUBLE_EQ(1, monomials.at(0).getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1u, variableMap1.size());
     EXPECT_DOUBLE_EQ(1, variableMap1.at("y").getDouble());
@@ -396,14 +516,28 @@ TEST(TermOperatorsTest, BinaryMinusOperator_VariableSubtractMonomialWithDifferen
     EXPECT_DOUBLE_EQ(1, variableMap2.at("y").getDouble());
 }
 
+TEST(TermOperatorsTest, BinaryMinusOperator_VariableSubtractPolynomialOperationWorks)
+{
+    Term term(Variable("x") - Polynomial{Monomial(5, {}), Monomial(4, {{"x", 1}})});
+
+    ASSERT_EQ(TermType::Polynomial, term.getTermType());
+    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());
+    EXPECT_DOUBLE_EQ(-5, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(-3, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+}
+
 TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractConstantWithSameMonomialConstantOperationWorks)
 {
     Term term(Monomial(8, {}) - Constant(2));
-
     ASSERT_EQ(TermType::Constant, term.getTermType());
     EXPECT_DOUBLE_EQ(6, term.getConstantConstReference().getNumberConstReference().getDouble());
 }
-
 TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractConstantWithDifferentMonomialConstantOperationWorks)
 {
     Term term(Monomial(6, {{"x", 2}, {"y", 4}}) - Constant(4));
@@ -480,14 +614,92 @@ TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractMonomialWithDifferen
     EXPECT_DOUBLE_EQ(1, variableMap2.at("y").getDouble());
 }
 
+TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractPolynomialOperationWorks)
+{
+    Term term(Monomial(3, {{"x", 1}}) - Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})});
+
+    ASSERT_EQ(TermType::Polynomial, term.getTermType());
+    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());
+    EXPECT_DOUBLE_EQ(-5, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(2, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+}
+
+TEST(TermOperatorsTest, BinaryMinusOperator_PolynomialSubtractConstantOperationWorks)
+{
+    Term term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})} - Constant(10));
+
+    ASSERT_EQ(TermType::Polynomial, term.getTermType());
+    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());
+    EXPECT_DOUBLE_EQ(-5, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(1, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+}
+
+TEST(TermOperatorsTest, BinaryMinusOperator_PolynomialSubtractVariableOperationWorks)
+{
+    Term term(Polynomial{Monomial(5, {}), Monomial(7, {{"x", 1}})} - Variable("x"));
+
+    ASSERT_EQ(TermType::Polynomial, term.getTermType());
+    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());
+    EXPECT_DOUBLE_EQ(5, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(6, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+}
+
+TEST(TermOperatorsTest, BinaryMinusOperator_PolynomialSubtractMonomialOperationWorks)
+{
+    Term term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})} - Monomial(3, {{"x", 1}}));
+
+    ASSERT_EQ(TermType::Polynomial, term.getTermType());
+    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());
+    EXPECT_DOUBLE_EQ(5, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(-2, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+}
+
+TEST(TermOperatorsTest, BinaryMinusOperator_PolynomialSubtractPolynomialOperationWorks)
+{
+    Term term(Polynomial{Monomial(5, {}), Monomial(2, {{"x", 1}})} - Polynomial{Monomial(15, {}), Monomial(4, {{"x", 1}})});
+
+    ASSERT_EQ(TermType::Polynomial, term.getTermType());
+    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(2u, monomials.size());
+    EXPECT_DOUBLE_EQ(-10, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(-2, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(1u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+}
+
 TEST(TermOperatorsTest, BinaryMultiplyOperator_ConstantMultiplyConstantOperationWorks)
 {
     Term term(Constant(6) * Constant(2));
-
     ASSERT_EQ(TermType::Constant, term.getTermType());
     EXPECT_DOUBLE_EQ(12, term.getConstantConstReference().getNumberConstReference().getDouble());
 }
-
 TEST(TermOperatorsTest, BinaryMultiplyOperator_ConstantMultiplyVariableOperationWorks)
 {
     Term term(Constant(5) * Variable("x"));

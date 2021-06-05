@@ -19,10 +19,13 @@ public:
     Monomials & getMonomialsReference();
     Monomials const& getMonomialsConstReference() const;
 
+    void addMonomial(Monomial const& monomial);
+    void addPolynomial(Polynomial const& polynomial);
+    void multiplyByNumber(AlbaNumber const& number);
+
 private:
     Monomials m_monomials;
 };
-
 }
 
 }
