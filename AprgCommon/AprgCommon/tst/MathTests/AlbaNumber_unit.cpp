@@ -517,4 +517,19 @@ TEST(AlbaNumberTest, RaisePowerWorksOnTypesStartingFromDouble)
     EXPECT_DOUBLE_EQ(236.67911563383956, number4.getDouble());
 }
 
+TEST(AlbaNumberTest, GetDisplayableStringWorks)
+{
+    AlbaNumber number1;
+    AlbaNumber number2(3484);
+    AlbaNumber number3(-1561);
+    AlbaNumber number4(-415, 41745);
+    AlbaNumber number5(-85.45631);
+
+    EXPECT_EQ("0", number1.getDisplayableString());
+    EXPECT_EQ("3484", number2.getDisplayableString());
+    EXPECT_EQ("-1561", number3.getDisplayableString());
+    EXPECT_EQ("(-83/8349)", number4.getDisplayableString());
+    EXPECT_EQ("-85.45631", number5.getDisplayableString());
+}
+
 }

@@ -122,10 +122,12 @@ bool Term::operator==(Term const& second) const
 
 bool Term::isConstant() const
 {
-    return TermType::Constant == m_type;}
+    return TermType::Constant == m_type;
+}
 
 bool Term::isVariable() const
-{    return TermType::Variable == m_type;
+{
+    return TermType::Variable == m_type;
 }
 
 bool Term::isOperator() const
@@ -178,75 +180,9 @@ bool Term::isTheValueOne() const
     return result;
 }
 
-string Term::getDisplayableString() const
-{
-    string result;
-    if(m_type==TermType::Constant)
-    {
-        result = getConstantConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Variable)
-    {
-        result = getVariableConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Operator)
-    {
-        result = getOperatorConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Monomial)
-    {
-        result = getMonomialConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Polynomial)
-    {
-        result = getPolynomialConstReference().getDisplayableString();
-    }
-    else if(m_type==TermType::Expression)
-    {
-        result = getExpressionConstReference().getDisplayableString();
-    }
-    return result;
-}
-
 TermType Term::getTermType() const
 {
     return m_type;
-}
-
-Constant & Term::getConstantReference()
-{
-    assert(m_type==TermType::Constant);
-    return *dynamic_cast<Constant*>(m_baseDataTermPointer.get());
-}
-
-Variable & Term::getVariableReference()
-{
-    assert(m_type==TermType::Variable);
-    return *dynamic_cast<Variable*>(m_baseDataTermPointer.get());
-}
-
-Operator & Term::getOperatorReference()
-{
-    assert(m_type==TermType::Operator);
-    return *dynamic_cast<Operator*>(m_baseDataTermPointer.get());
-}
-
-Monomial & Term::getMonomialReference()
-{
-    assert(m_type==TermType::Monomial);
-    return *dynamic_cast<Monomial*>(m_baseDataTermPointer.get());
-}
-
-Polynomial & Term::getPolynomialReference()
-{
-    assert(m_type==TermType::Polynomial);
-    return *dynamic_cast<Polynomial*>(m_baseDataTermPointer.get());
-}
-
-Expression & Term::getExpressionReference()
-{
-    assert((m_type==TermType::Expression));
-    return *dynamic_cast<Expression*>(m_baseDataTermPointer.get());
 }
 
 Constant const& Term::getConstantConstReference() const
@@ -283,6 +219,72 @@ Expression const& Term::getExpressionConstReference() const
 {
     assert((m_type==TermType::Expression));
     return *dynamic_cast<Expression const * const>(m_baseDataTermPointer.get());
+}
+
+string Term::getDisplayableString() const
+{
+    string result;
+    if(m_type==TermType::Constant)
+    {
+        result = getConstantConstReference().getDisplayableString();
+    }
+    else if(m_type==TermType::Variable)
+    {
+        result = getVariableConstReference().getDisplayableString();
+    }
+    else if(m_type==TermType::Operator)
+    {
+        result = getOperatorConstReference().getDisplayableString();
+    }
+    else if(m_type==TermType::Monomial)
+    {
+        result = getMonomialConstReference().getDisplayableString();
+    }
+    else if(m_type==TermType::Polynomial)
+    {
+        result = getPolynomialConstReference().getDisplayableString();
+    }
+    else if(m_type==TermType::Expression)
+    {
+        result = getExpressionConstReference().getDisplayableString();
+    }
+    return result;
+}
+
+Constant & Term::getConstantReference()
+{
+    assert(m_type==TermType::Constant);
+    return *dynamic_cast<Constant*>(m_baseDataTermPointer.get());
+}
+
+Variable & Term::getVariableReference()
+{
+    assert(m_type==TermType::Variable);
+    return *dynamic_cast<Variable*>(m_baseDataTermPointer.get());
+}
+
+Operator & Term::getOperatorReference()
+{
+    assert(m_type==TermType::Operator);
+    return *dynamic_cast<Operator*>(m_baseDataTermPointer.get());
+}
+
+Monomial & Term::getMonomialReference()
+{
+    assert(m_type==TermType::Monomial);
+    return *dynamic_cast<Monomial*>(m_baseDataTermPointer.get());
+}
+
+Polynomial & Term::getPolynomialReference()
+{
+    assert(m_type==TermType::Polynomial);
+    return *dynamic_cast<Polynomial*>(m_baseDataTermPointer.get());
+}
+
+Expression & Term::getExpressionReference()
+{
+    assert((m_type==TermType::Expression));
+    return *dynamic_cast<Expression*>(m_baseDataTermPointer.get());
 }
 
 void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)

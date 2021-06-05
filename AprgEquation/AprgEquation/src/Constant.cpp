@@ -46,9 +46,11 @@ string Constant::getDisplayableString() const
     return m_constantValue.getDisplayableString();
 }
 
-void Constant::setNumber(AlbaNumber const& constantValue){
+void Constant::setNumber(AlbaNumber const& constantValue)
+{
     m_constantValue = constantValue;
 }
+
 }
 
 }

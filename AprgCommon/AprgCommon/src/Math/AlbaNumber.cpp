@@ -494,7 +494,7 @@ double AlbaNumber::getDouble() const
     return result;
 }
 
-std::string AlbaNumber::getDisplayableString() const
+string AlbaNumber::getDisplayableString() const
 {
     stringstream result;
     if(m_type==Type::Integer)

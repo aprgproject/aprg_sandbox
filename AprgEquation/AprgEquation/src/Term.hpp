@@ -37,15 +37,23 @@ public:
     bool operator==(Term const& second) const;
     bool isConstant() const;
     bool isVariable() const;
-    bool isOperator() const;    bool isMonomial() const;
+    bool isOperator() const;
+    bool isMonomial() const;
     bool isPolynomial() const;
     bool isExpression() const;
-    bool isValueTerm() const;    bool isValueTermButNotAnExpression() const;
+    bool isValueTerm() const;
+    bool isValueTermButNotAnExpression() const;
     bool isTheValueZero() const;
     bool isTheValueOne() const;
 
-    std::string getDisplayableString() const;
     TermType getTermType() const;
+    Constant const& getConstantConstReference() const;
+    Variable const& getVariableConstReference() const;
+    Operator const& getOperatorConstReference() const;
+    Monomial const& getMonomialConstReference() const;
+    Polynomial const& getPolynomialConstReference() const;
+    Expression const& getExpressionConstReference() const;
+    std::string getDisplayableString() const;
 
     Constant & getConstantReference();
     Variable & getVariableReference();
@@ -54,19 +62,14 @@ public:
     Polynomial & getPolynomialReference();
     Expression & getExpressionReference();
 
-    Constant const& getConstantConstReference() const;
-    Variable const& getVariableConstReference() const;
-    Operator const& getOperatorConstReference() const;
-    Monomial const& getMonomialConstReference() const;
-    Polynomial const& getPolynomialConstReference() const;
-    Expression const& getExpressionConstReference() const;
-
 private:
     void resetBaseDataTermPointerBasedFromTerm(Term const& term);
     TermType m_type;
     std::unique_ptr<BaseTermData> m_baseDataTermPointer;
 };
+
 using Terms = std::vector<Term>;
 
 }
+
 }

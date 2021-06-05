@@ -35,7 +35,8 @@ TEST(OperatorTest, EqualityOperatorWorks)
 
 TEST(OperatorTest, IsAdditionWorksAsExpected)
 {
-    Operator nullOperator;    Operator addOperator("+");
+    Operator nullOperator;
+    Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
@@ -43,14 +44,16 @@ TEST(OperatorTest, IsAdditionWorksAsExpected)
     Operator invalidOperator("invalid");
 
     EXPECT_FALSE(nullOperator.isAddition());
-    EXPECT_TRUE(addOperator.isAddition());    EXPECT_FALSE(subtractOperator.isAddition());
+    EXPECT_TRUE(addOperator.isAddition());
+    EXPECT_FALSE(subtractOperator.isAddition());
     EXPECT_FALSE(multiplyOperator.isAddition());
     EXPECT_FALSE(divideOperator.isAddition());
     EXPECT_FALSE(raiseToPowerOperator.isAddition());
     EXPECT_FALSE(invalidOperator.isAddition());
 }
 
-TEST(OperatorTest, IsSubtractionWorksAsExpected){
+TEST(OperatorTest, IsSubtractionWorksAsExpected)
+{
     Operator nullOperator;
     Operator addOperator("+");
     Operator subtractOperator("-");
@@ -60,14 +63,16 @@ TEST(OperatorTest, IsSubtractionWorksAsExpected){
     Operator invalidOperator("invalid");
 
     EXPECT_FALSE(nullOperator.isSubtraction());
-    EXPECT_FALSE(addOperator.isSubtraction());    EXPECT_TRUE(subtractOperator.isSubtraction());
+    EXPECT_FALSE(addOperator.isSubtraction());
+    EXPECT_TRUE(subtractOperator.isSubtraction());
     EXPECT_FALSE(multiplyOperator.isSubtraction());
     EXPECT_FALSE(divideOperator.isSubtraction());
     EXPECT_FALSE(raiseToPowerOperator.isSubtraction());
     EXPECT_FALSE(invalidOperator.isSubtraction());
 }
 
-TEST(OperatorTest, IsMultiplicationWorksAsExpected){
+TEST(OperatorTest, IsMultiplicationWorksAsExpected)
+{
     Operator nullOperator;
     Operator addOperator("+");
     Operator subtractOperator("-");
@@ -77,14 +82,16 @@ TEST(OperatorTest, IsMultiplicationWorksAsExpected){
     Operator invalidOperator("invalid");
 
     EXPECT_FALSE(nullOperator.isMultiplication());
-    EXPECT_FALSE(addOperator.isMultiplication());    EXPECT_FALSE(subtractOperator.isMultiplication());
+    EXPECT_FALSE(addOperator.isMultiplication());
+    EXPECT_FALSE(subtractOperator.isMultiplication());
     EXPECT_TRUE(multiplyOperator.isMultiplication());
     EXPECT_FALSE(divideOperator.isMultiplication());
     EXPECT_FALSE(raiseToPowerOperator.isMultiplication());
     EXPECT_FALSE(invalidOperator.isMultiplication());
 }
 
-TEST(OperatorTest, IsDivisionWorksAsExpected){
+TEST(OperatorTest, IsDivisionWorksAsExpected)
+{
     Operator nullOperator;
     Operator addOperator("+");
     Operator subtractOperator("-");
@@ -94,14 +101,16 @@ TEST(OperatorTest, IsDivisionWorksAsExpected){
     Operator invalidOperator("invalid");
 
     EXPECT_FALSE(nullOperator.isDivision());
-    EXPECT_FALSE(addOperator.isDivision());    EXPECT_FALSE(subtractOperator.isDivision());
+    EXPECT_FALSE(addOperator.isDivision());
+    EXPECT_FALSE(subtractOperator.isDivision());
     EXPECT_FALSE(multiplyOperator.isDivision());
     EXPECT_TRUE(divideOperator.isDivision());
     EXPECT_FALSE(raiseToPowerOperator.isDivision());
     EXPECT_FALSE(invalidOperator.isDivision());
 }
 
-TEST(OperatorTest, IsRaiseToPowerWorksAsExpected){
+TEST(OperatorTest, IsRaiseToPowerWorksAsExpected)
+{
     Operator nullOperator;
     Operator addOperator("+");
     Operator subtractOperator("-");
@@ -111,7 +120,8 @@ TEST(OperatorTest, IsRaiseToPowerWorksAsExpected){
     Operator invalidOperator("invalid");
 
     EXPECT_FALSE(nullOperator.isRaiseToPower());
-    EXPECT_FALSE(addOperator.isRaiseToPower());    EXPECT_FALSE(subtractOperator.isRaiseToPower());
+    EXPECT_FALSE(addOperator.isRaiseToPower());
+    EXPECT_FALSE(subtractOperator.isRaiseToPower());
     EXPECT_FALSE(multiplyOperator.isRaiseToPower());
     EXPECT_FALSE(divideOperator.isRaiseToPower());
     EXPECT_TRUE(raiseToPowerOperator.isRaiseToPower());

@@ -32,9 +32,11 @@ public:
     std::string getDisplayableString() const;
 
     void setOperatorString(std::string const& operatingString);
+
 private:
     std::string m_operatingString;
 };
+
 }
 
 }

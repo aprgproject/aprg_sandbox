@@ -27,9 +27,11 @@ public:
     std::string getDisplayableString() const;
 
     void setNumber(AlbaNumber const& constantValue);
+
 private:
     AlbaNumber m_constantValue;
 };
+
 }
 
 }

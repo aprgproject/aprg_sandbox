@@ -2,15 +2,14 @@
 
 #include <gtest/gtest.h>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
+
 TEST(PolynomialTest, PolynomialsAreConstructedCorrectly)
 {
     Polynomial polynomial1;
@@ -51,7 +50,8 @@ TEST(PolynomialTest, EqualityOperatorWorks)
 TEST(PolynomialTest, IsZeroWorks)
 {
     Polynomial polynomial1;
-    Polynomial polynomial2({Monomial(6, {})});    Polynomial polynomial3({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
+    Polynomial polynomial2({Monomial(6, {})});
+    Polynomial polynomial3({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
 
     EXPECT_TRUE(polynomial1.isZero());
     EXPECT_FALSE(polynomial2.isZero());
@@ -61,7 +61,8 @@ TEST(PolynomialTest, IsZeroWorks)
 TEST(PolynomialTest, IsOneMonomialWorks)
 {
     Polynomial polynomial1;
-    Polynomial polynomial2({Monomial(6, {})});    Polynomial polynomial3({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
+    Polynomial polynomial2({Monomial(6, {})});
+    Polynomial polynomial3({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
 
     EXPECT_FALSE(polynomial1.isOneMonomial());
     EXPECT_TRUE(polynomial2.isOneMonomial());
@@ -71,10 +72,12 @@ TEST(PolynomialTest, IsOneMonomialWorks)
 TEST(PolynomialTest, GetFirstMonomialWorks)
 {
     Polynomial polynomial1;
-    Polynomial polynomial2({Monomial(6, {})});    Polynomial polynomial3({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
+    Polynomial polynomial2({Monomial(6, {})});
+    Polynomial polynomial3({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
 
     Monomial monomial1(polynomial1.getFirstMonomial());
-    Monomial monomial2(polynomial2.getFirstMonomial());    Monomial monomial3(polynomial3.getFirstMonomial());
+    Monomial monomial2(polynomial2.getFirstMonomial());
+    Monomial monomial3(polynomial3.getFirstMonomial());
 
     EXPECT_DOUBLE_EQ(0, monomial1.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomial1.getVariablesToExponentsMapConstReference());
@@ -105,9 +108,11 @@ TEST(PolynomialTest, SimplifyWorks)
     Polynomial polynomial1{Monomial(0, {{"x", 1}}), Monomial(0, {{"x", 1}})};
     Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-6, {})};
+
     polynomial1.simplify();
     polynomial2.simplify();
     polynomial3.simplify();
+
     Monomials const& monomials1(polynomial1.getMonomialsConstReference());
     ASSERT_TRUE(monomials1.empty());
 
@@ -200,7 +205,6 @@ TEST(PolynomialTest, MultiplyPolynomialWorks)
                    Monomial(18, {{"y", 8}}),
                    Monomial(27, {{"x", 4}, {"y", 8}})
                }), polynomial3);
-    ALBA_PRINT1(polynomial3.getDisplayableString());
 }
 
 TEST(PolynomialTest, DivideMonomialWorks)

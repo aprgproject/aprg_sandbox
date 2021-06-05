@@ -56,10 +56,12 @@ TEST(ConstantTest, GetDisplayableStringWorks)
 
 TEST(ConstantTest, SettingANewNumberWorks)
 {
-    Constant constant(3484);    EXPECT_DOUBLE_EQ(3484, constant.getNumberConstReference().getDouble());
+    Constant constant(3484);
+    EXPECT_DOUBLE_EQ(3484, constant.getNumberConstReference().getDouble());
 
     constant.setNumber(4521);
-    EXPECT_DOUBLE_EQ(4521, constant.getNumberConstReference().getDouble());}
+    EXPECT_DOUBLE_EQ(4521, constant.getNumberConstReference().getDouble());
+}
 
 }
 
