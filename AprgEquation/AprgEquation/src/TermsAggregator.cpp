@@ -5,7 +5,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -60,7 +61,8 @@ void TermsAggregator::simplifyTerms()
 AlbaOptional<unsigned int> TermsAggregator::getNextOperatorIndexToPerform() const
 {
     AlbaOptional<unsigned int> operatorIndexOptional;
-    multimap<unsigned int, unsigned int> operatorLevelToIndexMap;    for(unsigned int i=0; i<m_terms.size(); i++)
+    multimap<unsigned int, unsigned int> operatorLevelToIndexMap;
+    for(unsigned int i=0; i<m_terms.size(); i++)
     {
         Term const& term(m_terms[i]);
         if(term.isOperator())
@@ -79,7 +81,8 @@ AlbaOptional<unsigned int> TermsAggregator::getNextOperatorIndexToPerform() cons
 bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigned int const index)
 {
     bool isSimplified(false);
-    if(index>0 && index+1 < m_terms.size())    {
+    if(index>0 && index+1 < m_terms.size())
+    {
         Term const& term1(m_terms[index-1]);
         Term const& term2(m_terms[index]);
         Term const& term3(m_terms[index+1]);
@@ -119,11 +122,12 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
 bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned int const index)
 {
     bool isSimplified(false);
-    if(index>0 && index+1 < m_terms.size())    {
+    if(index>0 && index+1 < m_terms.size())
+    {
         Term const& term1(m_terms[index]);
         Term const& term2(m_terms[index+1]);
         if(term1.isOperator() && term2.isValueTerm() &&
-                OperatorLevel::AdditionAndSubtraction == term2.getOperatorConstReference().getOperatorLevel())
+                OperatorLevel::AdditionAndSubtraction == term1.getOperatorConstReference().getOperatorLevel())
         {
             Expression newExpression;
             Operator const& operatorTerm(term1.getOperatorConstReference());
@@ -147,7 +151,8 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
 bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int const index)
 {
     bool isSimplified(false);
-    if(index>0 && index+1 < m_terms.size())    {
+    if(index>0 && index+1 < m_terms.size())
+    {
         Term const& term1(m_terms[index-1]);
         Term const& term2(m_terms[index]);
         Term const& term3(m_terms[index+1]);
@@ -165,13 +170,14 @@ bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int 
 bool TermsAggregator::simplifyUnaryOperationAndReturnIfSimplified(unsigned int const index)
 {
     bool isSimplified(false);
-    if(index>0 && index+1 < m_terms.size())    {
+    if(index>0 && index+1 < m_terms.size())
+    {
         Term const& term1(m_terms[index]);
         Term const& term2(m_terms[index+1]);
         if(term1.isOperator() && term2.isValueTerm() &&
-                OperatorLevel::AdditionAndSubtraction == term2.getOperatorConstReference().getOperatorLevel())
+                OperatorLevel::AdditionAndSubtraction == term1.getOperatorConstReference().getOperatorLevel())
         {
-            Term newTerm = performOperation(term2.getOperatorConstReference(), term1);
+            Term newTerm = performOperation(term1.getOperatorConstReference(), term1);
             eraseTermsInclusive(index, index+1);
             insertTerm(index, newTerm);
             isSimplified=true;
@@ -190,7 +196,8 @@ void TermsAggregator::eraseTermsInclusive(
 void TermsAggregator::insertTerm(
         unsigned int const index,
         Term const& term)
-{    m_terms.emplace(m_terms.cbegin()+index, term);
+{
+    m_terms.emplace(m_terms.cbegin()+index, term);
 }
 
 }

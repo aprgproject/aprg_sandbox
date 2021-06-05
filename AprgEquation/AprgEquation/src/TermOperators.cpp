@@ -634,7 +634,9 @@ Term operator*(Monomial const& monomial, Variable const& variable)
 
 Term operator*(Monomial const& monomial1, Monomial const& monomial2)
 {
-    return Term(multiplyMonomials(monomial1, monomial2));
+    Monomial newMonomial(monomial1);
+    newMonomial.multiplyMonomial(monomial2);
+    return convertMonomialToSimplestTerm(newMonomial);
 }
 
 Term operator*(Monomial const& monomial, Polynomial const& polynomial)
@@ -728,12 +730,9 @@ Term operator/(Constant const& constant, Monomial const& monomial)
     }
     else
     {
-        Monomial::VariablesToExponentsMap variablesMap(monomial.getVariablesToExponentsMapConstReference());
-        performChangeForVariables(variablesMap, [&constant](string const &, AlbaNumber & exponent)
-        {
-            exponent=exponent*-1;
-        });
-        return convertMonomialToSimplestTerm(Monomial(constant.getNumberConstReference()/monomial.getConstantConstReference(), variablesMap));
+        Monomial newMonomial(createMonomialConstant(constant.getNumberConstReference()));
+        newMonomial.divideMonomial(monomial);
+        return convertMonomialToSimplestTerm(newMonomial);
     }
 }
 
@@ -772,14 +771,9 @@ Term operator/(Variable const& variable, Monomial const& monomial)
     }
     else
     {
-        string variableName(variable.getVariableName());
-        Monomial::VariablesToExponentsMap variablesMap(monomial.getVariablesToExponentsMapConstReference());
-        performChangeForVariables(variablesMap, [](string const &, AlbaNumber & exponent)
-        {
-            exponent=exponent*-1;
-        });
-        variablesMap[variableName]=variablesMap[variableName]+1;
-        return convertMonomialToSimplestTerm(Monomial(AlbaNumber(1)/monomial.getConstantConstReference(), variablesMap));
+        Monomial newMonomial(createMonomialVariable(variable.getVariableName()));
+        newMonomial.divideMonomial(monomial);
+        return convertMonomialToSimplestTerm(newMonomial);
     }
 }
 
@@ -826,7 +820,9 @@ Term operator/(Monomial const& monomial, Variable const& variable)
 
 Term operator/(Monomial const& monomial1, Monomial const& monomial2)
 {
-    return convertMonomialToSimplestTerm(divideMonomials(monomial1, monomial2));
+    Monomial newMonomial(monomial1);
+    newMonomial.divideMonomial(monomial2);
+    return convertMonomialToSimplestTerm(newMonomial);
 }
 
 Term operator/(Monomial const& monomial, Polynomial const& polynomial)
@@ -963,12 +959,9 @@ Term operator^(Monomial const& monomial, Constant const& constant)
     }
     else
     {
-        Monomial::VariablesToExponentsMap variablesMap(monomial.getVariablesToExponentsMapConstReference());
-        performChangeForVariables(variablesMap, [&constant](string const &, AlbaNumber & exponent)
-        {
-            exponent=exponent*constant.getNumberConstReference();
-        });
-        return convertMonomialToSimplestTerm(Monomial(monomial.getConstantConstReference()^constant.getNumberConstReference(), variablesMap));
+        Monomial newMonomial(monomial);
+        newMonomial.raiseToPowerByNumber(constant.getNumberConstReference());
+        return convertMonomialToSimplestTerm(newMonomial);
     }
 }
 

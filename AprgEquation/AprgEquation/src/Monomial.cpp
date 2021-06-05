@@ -86,6 +86,93 @@ Monomial::VariablesToExponentsMap const& Monomial::getVariablesToExponentsMapCon
     return m_variablesToExponentsMap;
 }
 
+void Monomial::simplify()
+{
+    removeZeroExponents();
+}
+
+void Monomial::removeZeroExponents()
+{
+    VariablesToExponentsMap oldVariableMap(m_variablesToExponentsMap);
+    m_variablesToExponentsMap.clear();
+    for(VariableExponentPair const& variableExponentPair : oldVariableMap)
+    {
+        if(variableExponentPair.second != 0)
+        {
+            m_variablesToExponentsMap.emplace(variableExponentPair.first, variableExponentPair.second);
+        }
+    }
+}
+
+void Monomial::multiplyByNumber(AlbaNumber const& number)
+{
+    m_constant = m_constant * number;
+}
+
+void Monomial::raiseToPowerByNumber(AlbaNumber const& number)
+{
+    m_constant = m_constant ^ number;
+    for(VariablesToExponentsMapIterator it = m_variablesToExponentsMap.begin();
+        it != m_variablesToExponentsMap.end();
+        it++)
+    {
+        AlbaNumber & exponent(it->second);
+        exponent=exponent*number;
+    }
+}
+
+void Monomial::multiplyMonomial(Monomial const& monomial)
+{
+    VariablesToExponentsMap newVariablesMap(
+                combineVariableExponentMapByMultiplication(
+                    m_variablesToExponentsMap,
+                    monomial.m_variablesToExponentsMap));
+    m_constant = m_constant * monomial.m_constant;
+    m_variablesToExponentsMap = newVariablesMap;
+}
+
+void Monomial::divideMonomial(Monomial const& monomial)
+{
+    VariablesToExponentsMap newVariablesMap(
+                combineVariableExponentMapByDivision(
+                    m_variablesToExponentsMap,
+                    monomial.m_variablesToExponentsMap));
+    m_constant = m_constant / monomial.m_constant;
+    m_variablesToExponentsMap = newVariablesMap;
+}
+
+Monomial::VariablesToExponentsMap Monomial::combineVariableExponentMapByMultiplication(
+        VariablesToExponentsMap const& variablesMap1,
+        VariablesToExponentsMap const& variablesMap2)
+{
+    VariablesToExponentsMap newVariableMap;
+    for(VariableExponentPair const variableExponentPair : variablesMap1)
+    {
+        newVariableMap[variableExponentPair.first] = newVariableMap[variableExponentPair.first] + variableExponentPair.second;
+    }
+    for(VariableExponentPair const variableExponentPair : variablesMap2)
+    {
+        newVariableMap[variableExponentPair.first] = newVariableMap[variableExponentPair.first] + variableExponentPair.second;
+    }
+    return newVariableMap;
+}
+
+Monomial::VariablesToExponentsMap Monomial::combineVariableExponentMapByDivision(
+        VariablesToExponentsMap const& variablesMap1,
+        VariablesToExponentsMap const& variablesMap2)
+{
+    VariablesToExponentsMap newVariableMap;
+    for(VariableExponentPair const variableExponentPair : variablesMap1)
+    {
+        newVariableMap[variableExponentPair.first] = newVariableMap[variableExponentPair.first] + variableExponentPair.second;
+    }
+    for(VariableExponentPair const variableExponentPair : variablesMap2)
+    {
+        newVariableMap[variableExponentPair.first] = newVariableMap[variableExponentPair.first] - variableExponentPair.second;
+    }
+    return newVariableMap;
+}
+
 void Monomial::setConstant(AlbaNumber const& constant)
 {
     m_constant = constant;

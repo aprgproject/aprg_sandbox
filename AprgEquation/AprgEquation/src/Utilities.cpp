@@ -6,10 +6,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
+
 bool isOperator(string const& variableOrOperator)
 {
     return "+" == variableOrOperator ||
@@ -115,129 +117,46 @@ Term convertExpressionToSimplestTerm(Expression const& expression)
 
 Term convertPolynomialToSimplestTerm(Polynomial const& polynomial)
 {
-    Polynomial simplifiedPolynomial(createSimplifiedPolynomial(polynomial));
-    Term newTerm(simplifiedPolynomial);
-    if(simplifiedPolynomial.isZero())
+    Polynomial newPolynomial(polynomial);
+    newPolynomial.simplify();
+    Term newTerm;
+    if(newPolynomial.isZero())
     {
         newTerm = Term(Constant(0));
     }
-    else if(simplifiedPolynomial.isOneMonomial())
+    else if(newPolynomial.isOneMonomial())
     {
-        newTerm = convertMonomialToSimplestTerm(simplifiedPolynomial.getFirstMonomial());
+        newTerm = convertMonomialToSimplestTerm(newPolynomial.getFirstMonomial());
+    }
+    else
+    {
+        newTerm = Term(newPolynomial);
     }
     return newTerm;
-}
-
-Polynomial createSimplifiedPolynomial(Polynomial const& polynomial)
-{
-    Polynomial simplifiedPolynomial;
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
-    {
-        if(!monomial.isZero())
-        {
-            simplifiedPolynomial.addMonomial(monomial);
-        }
-    }
-    return simplifiedPolynomial;
 }
 
 Term convertMonomialToSimplestTerm(Monomial const& monomial)
 {
-    Monomial simplifiedMonomial(createSimplifiedMonomial(monomial));
-    Term newTerm(simplifiedMonomial);
-    if(simplifiedMonomial.isZero())
+    Monomial newMonomial(monomial);
+    newMonomial.simplify();
+    Term newTerm(newMonomial);
+    if(newMonomial.isZero())
     {
         newTerm = Term(Constant(0));
     }
-    else if(simplifiedMonomial.isConstantOnly())
+    else if(newMonomial.isConstantOnly())
     {
-        newTerm = Term(simplifiedMonomial.getConstantConstReference());
+        newTerm = Term(newMonomial.getConstantConstReference());
     }
-    else if(simplifiedMonomial.isVariableOnly())
+    else if(newMonomial.isVariableOnly())
     {
-        newTerm = Term(simplifiedMonomial.getFirstVariableName());
+        newTerm = Term(newMonomial.getFirstVariableName());
+    }
+    else
+    {
+        newTerm = Term(newMonomial);
     }
     return newTerm;
-}
-
-Monomial createSimplifiedMonomial(Monomial const& monomial)
-{
-    return Monomial(
-                monomial.getConstantConstReference(),
-                createVariableMapAndRemoveZeroExponents(monomial.getVariablesToExponentsMapConstReference()));
-}
-
-Monomial multiplyMonomials(Monomial const& monomial1, Monomial const& monomial2)
-{
-    Monomial::VariablesToExponentsMap newVariablesMap(
-                combineVariableExponentMapByMultiplication(
-                    monomial1.getVariablesToExponentsMapConstReference(),
-                    monomial2.getVariablesToExponentsMapConstReference()));
-    return Monomial(monomial1.getConstantConstReference()*monomial2.getConstantConstReference(), newVariablesMap);
-}
-
-Monomial divideMonomials(Monomial const& monomial1, Monomial const& monomial2)
-{
-    Monomial::VariablesToExponentsMap newVariablesMap(
-                combineVariableExponentMapByDivision(
-                    monomial1.getVariablesToExponentsMapConstReference(),
-                    monomial2.getVariablesToExponentsMapConstReference()));
-    return Monomial(monomial1.getConstantConstReference()/monomial2.getConstantConstReference(), newVariablesMap);
-}
-
-Monomial::VariablesToExponentsMap createVariableMapAndRemoveZeroExponents(Monomial::VariablesToExponentsMap const& variablesMap)
-{
-    Monomial::VariablesToExponentsMap newVariableMap;
-    for(Monomial::VariableExponentPair const variableExponentPair : variablesMap)
-    {
-        if(variableExponentPair.second != 0)
-        {
-            newVariableMap.emplace(variableExponentPair.first, variableExponentPair.second);
-        }
-    }
-    return newVariableMap;
-}
-
-void performChangeForVariables(
-        Monomial::VariablesToExponentsMap & variablesMap,
-        Monomial::ChangeExponentsForVariableFunction const& changeVariablesFunction)
-{
-    for(Monomial::VariablesToExponentsMap::iterator it=variablesMap.begin(); it!=variablesMap.end(); it++)
-    {
-        changeVariablesFunction(it->first, it->second);
-    }
-}
-
-Monomial::VariablesToExponentsMap combineVariableExponentMapByMultiplication(
-        Monomial::VariablesToExponentsMap const& variablesMap1,
-        Monomial::VariablesToExponentsMap const& variablesMap2)
-{
-    Monomial::VariablesToExponentsMap newVariableMap;
-    for(Monomial::VariableExponentPair const variableExponentPair : variablesMap1)
-    {
-        newVariableMap[variableExponentPair.first] = newVariableMap[variableExponentPair.first] + variableExponentPair.second;
-    }
-    for(Monomial::VariableExponentPair const variableExponentPair : variablesMap2)
-    {
-        newVariableMap[variableExponentPair.first] = newVariableMap[variableExponentPair.first] + variableExponentPair.second;
-    }
-    return newVariableMap;
-}
-
-Monomial::VariablesToExponentsMap combineVariableExponentMapByDivision(
-        Monomial::VariablesToExponentsMap const& variablesMap1,
-        Monomial::VariablesToExponentsMap const& variablesMap2)
-{
-    Monomial::VariablesToExponentsMap newVariableMap;
-    for(Monomial::VariableExponentPair const variableExponentPair : variablesMap1)
-    {
-        newVariableMap[variableExponentPair.first] = newVariableMap[variableExponentPair.first] + variableExponentPair.second;
-    }
-    for(Monomial::VariableExponentPair const variableExponentPair : variablesMap2)
-    {
-        newVariableMap[variableExponentPair.first] = newVariableMap[variableExponentPair.first] - variableExponentPair.second;
-    }
-    return newVariableMap;
 }
 
 BaseTermSharedPointer createBaseTermSharedPointer(BaseTermSharedPointer const& baseTerm)
@@ -259,17 +178,28 @@ BaseTermSharedPointer createBaseTermSharedPointerFromTermReference(Term& term)
     return BaseTermSharedPointer(dynamic_cast<BaseTerm*>(&term));
 }
 
+Monomial createMonomialConstant(AlbaNumber const& number)
+{
+    return Monomial(number, {});
+}
+
+Monomial createMonomialVariable(string const& variableName)
+{
+    return Monomial(1, {{variableName, 1}});
+}
+
 Expression createExpression(Terms const& terms)
 {
     Expression result;
     TermsAggregator aggregator(terms);
     aggregator.buildExpressionFromTerms();
-    Terms const& simplifiedTerms(aggregator.getTermsConstReference());
-    if(simplifiedTerms.size() == 1)
+    Terms const& builtTerms(aggregator.getTermsConstReference());
+    if(builtTerms.size() == 1)
     {
-        result = convertTermToExpression(simplifiedTerms.at(0));
+        result = convertTermToExpression(builtTerms.at(0));
     }
-    return result;}
+    return result;
+}
 
 Expression createSimplifiedExpression(Terms const& terms)
 {
@@ -281,10 +211,12 @@ Expression createSimplifiedExpression(Terms const& terms)
     {
         result = convertTermToExpression(simplifiedTerms.at(0));
     }
-    return result;}
+    return result;
+}
 
 Expression convertTermToExpression(Term const& term)
-{    Expression result;
+{
+    Expression result;
     if(term.isExpression())
     {
         result=term.getExpressionConstReference();

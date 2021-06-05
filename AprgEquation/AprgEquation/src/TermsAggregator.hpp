@@ -15,6 +15,7 @@ public:
     TermsAggregator(Terms const& terms);
 
     Terms const& getTermsConstReference() const;
+
     void buildExpressionFromTerms();
     void simplifyTerms();
 

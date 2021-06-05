@@ -18,6 +18,7 @@ class Monomial : public BaseTermData
 {
 public:
     using VariablesToExponentsMap = std::map<std::string, AlbaNumber>;
+    using VariablesToExponentsMapIterator = VariablesToExponentsMap::iterator;
     using VariableExponentPair = std::pair<std::string, AlbaNumber>;
     using VariableExponentReferencePair = std::pair<std::string & , AlbaNumber &>;
     using ChangeExponentsForVariableFunction = std::function<void(std::string const&, AlbaNumber&)>;
@@ -25,6 +26,13 @@ public:
     Monomial();
     Monomial(AlbaNumber const& constant, std::initializer_list<VariableExponentPair> const& variablesWithExponents);
     Monomial(AlbaNumber const& constant, VariablesToExponentsMap const& variablesWithExponents);
+
+    static VariablesToExponentsMap combineVariableExponentMapByMultiplication(
+            VariablesToExponentsMap const& variablesMap1,
+            VariablesToExponentsMap const& variablesMap2);
+    static VariablesToExponentsMap combineVariableExponentMapByDivision(
+            VariablesToExponentsMap const& variablesMap1,
+            VariablesToExponentsMap const& variablesMap2);
 
     bool operator==(Monomial const& second) const;
 
@@ -37,6 +45,15 @@ public:
     AlbaNumber const& getConstantConstReference() const;
     VariablesToExponentsMap & getVariablesToExponentsMapReference();
     VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;
+
+    void simplify();
+    void removeZeroExponents();
+
+    void multiplyByNumber(AlbaNumber const& number);
+    void raiseToPowerByNumber(AlbaNumber const& number);
+    void multiplyMonomial(Monomial const& monomial);
+    void divideMonomial(Monomial const& monomial);
+
 
     void setConstant(AlbaNumber const& constant);
     void setVariableWtihExponent(

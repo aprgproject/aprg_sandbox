@@ -94,6 +94,19 @@ Monomials const& Polynomial::getMonomialsConstReference() const
     return m_monomials;
 }
 
+void Polynomial::simplify()
+{
+    Monomials oldMonomials(m_monomials);
+    m_monomials.clear();
+    for(Monomial const& monomial : oldMonomials)
+    {
+        if(!monomial.isZero())
+        {
+            addMonomial(monomial);
+        }
+    }
+}
+
 void Polynomial::addMonomial(Monomial const& monomial)
 {
     bool isFoundInPolynomial(false);
@@ -131,7 +144,7 @@ void Polynomial::multiplyByMonomial(Monomial const& monomial)
 {
     for(Monomial & monomialInternal : m_monomials)
     {
-        monomialInternal = multiplyMonomials(monomialInternal, monomial);
+        monomialInternal.multiplyMonomial(monomial);
     }
 }
 
@@ -143,7 +156,9 @@ void Polynomial::multiplyByPolynomial(Polynomial const& polynomial)
     {
         for(Monomial const& monomial1 : monomialsCopy)
         {
-            addMonomial(multiplyMonomials(monomial1, monomial2));
+            Monomial newMonomial(monomial1);
+            newMonomial.multiplyMonomial(monomial2);
+            addMonomial(newMonomial);
         }
     }
 }
@@ -152,7 +167,7 @@ void Polynomial::divideByMonomial(Monomial const& monomial)
 {
     for(Monomial & monomialInternal : m_monomials)
     {
-        monomialInternal = divideMonomials(monomialInternal, monomial);
+        monomialInternal.divideMonomial(monomial);
     }
 }
 

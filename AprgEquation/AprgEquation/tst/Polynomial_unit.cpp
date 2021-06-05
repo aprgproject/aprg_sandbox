@@ -92,6 +92,30 @@ TEST(PolynomialTest, GetFirstMonomialWorksCorrectly)
     ASSERT_TRUE(variableMap3.empty());
 }
 
+TEST(PolynomialTest, SimplifyWorksCorrectly)
+{
+    Polynomial polynomial1{Monomial(0, {{"x", 1}}), Monomial(0, {{"x", 1}})};
+    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial3{Monomial(6, {}), Monomial(-6, {})};
+
+    polynomial1.simplify();
+    polynomial2.simplify();
+    polynomial3.simplify();
+
+    Monomials const& monomials1(polynomial1.getMonomialsConstReference());
+    ASSERT_TRUE(monomials1.empty());
+
+    Monomials const& monomials2(polynomial2.getMonomialsConstReference());
+    ASSERT_EQ(1u, monomials2.size());
+    EXPECT_DOUBLE_EQ(6, monomials2.at(0).getConstantConstReference().getDouble());
+    ASSERT_TRUE(monomials2.at(0).getVariablesToExponentsMapConstReference().empty());
+
+    Monomials const& monomials3(polynomial3.getMonomialsConstReference());
+    ASSERT_EQ(1u, monomials3.size());
+    EXPECT_DOUBLE_EQ(0, monomials3.at(0).getConstantConstReference().getDouble());
+    ASSERT_TRUE(monomials3.at(0).getVariablesToExponentsMapConstReference().empty());
+}
+
 }
 
 }
