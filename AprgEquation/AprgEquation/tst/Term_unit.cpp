@@ -154,22 +154,20 @@ TEST(TermTest, TermsAsExpressionsWorkAsExpected)
     ASSERT_EQ(TermType::Expression, expressionTerm1.getTermType());
     Expression const& expression1(expressionTerm1.getExpressionConstReference());
     EXPECT_EQ(OperatorLevel::Unknown, expression1.getCommonOperatorLevel());
-    TermsWithPriorityAndAssociation::TermsWithDetails termsToVerify(expression1.getTerms().getTermsWithDetails());
-    ASSERT_TRUE(termsToVerify.empty());
+    TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify1(expression1.getTerms().getTermsWithDetails());
+    ASSERT_TRUE(termsToVerify1.empty());
 
     //For expression2
     ASSERT_EQ(TermType::Expression, expressionTerm2.getTermType());
     Expression const& expression2(expressionTerm2.getExpressionConstReference());
     EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, expression2.getCommonOperatorLevel());
-    TermsWithPriorityAndAssociation::TermsWithDetails termsToVerify2(expression2.getTerms().getTermsWithDetails());
+    TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify2(expression2.getTerms().getTermsWithDetails());
     ASSERT_EQ(2u, termsToVerify2.size());
     EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Positive, termsToVerify2.at(0).association);
-    Term const& termToVerify1 = *dynamic_cast<Term const*const>(termsToVerify2.at(0).baseTermSharedPointer.get());
-    EXPECT_EQ(Term(5), termToVerify1);
+    Term const& termToVerify1 = *dynamic_cast<Term const*const>(termsToVerify2.at(0).baseTermSharedPointer.get());    EXPECT_EQ(Term(5), termToVerify1);
     EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Positive, termsToVerify2.at(1).association);
     Term const& termToVerify2 = *dynamic_cast<Term const*const>(termsToVerify2.at(1).baseTermSharedPointer.get());
-    EXPECT_EQ(Term("interest"), termToVerify2);
-}
+    EXPECT_EQ(Term("interest"), termToVerify2);}
 
 TEST(TermTest, EqualityOperatorWorks)
 {

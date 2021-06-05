@@ -35,17 +35,12 @@ public:
 
     Term & operator=(Term const& term);
     bool operator==(Term const& second) const;
-
-    void resetBaseDataTermPointerBasedFromTerm(Term const& term);
-
     bool isConstant() const;
     bool isVariable() const;
-    bool isOperator() const;
-    bool isMonomial() const;
+    bool isOperator() const;    bool isMonomial() const;
     bool isPolynomial() const;
     bool isExpression() const;
-    bool isValueTerm() const;
-    bool isValueTermButNotAnExpression() const;
+    bool isValueTerm() const;    bool isValueTermButNotAnExpression() const;
     bool isTheValueZero() const;
     bool isTheValueOne() const;
 
@@ -67,12 +62,11 @@ public:
     Expression const& getExpressionConstReference() const;
 
 private:
+    void resetBaseDataTermPointerBasedFromTerm(Term const& term);
     TermType m_type;
     std::unique_ptr<BaseTermData> m_baseDataTermPointer;
 };
-
 using Terms = std::vector<Term>;
 
 }
-
 }

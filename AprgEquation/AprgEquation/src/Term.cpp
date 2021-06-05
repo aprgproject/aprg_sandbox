@@ -120,41 +120,12 @@ bool Term::operator==(Term const& second) const
     return result;
 }
 
-void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
-{
-    switch(term.getTermType())
-    {
-    case TermType::Empty:
-        break;
-    case TermType::Constant:
-        m_baseDataTermPointer.reset(new Constant(term.getConstantConstReference()));
-        break;
-    case TermType::Variable:
-        m_baseDataTermPointer.reset(new Variable(term.getVariableConstReference()));
-        break;
-    case TermType::Operator:
-        m_baseDataTermPointer.reset(new Operator(term.getOperatorConstReference()));
-        break;
-    case TermType::Monomial:
-        m_baseDataTermPointer.reset(new Monomial(term.getMonomialConstReference()));
-        break;
-    case TermType::Polynomial:
-        m_baseDataTermPointer.reset(new Polynomial(term.getPolynomialConstReference()));
-        break;
-    case TermType::Expression:
-        m_baseDataTermPointer.reset(new Expression(term.getExpressionConstReference()));
-        break;
-    }
-}
-
 bool Term::isConstant() const
 {
-    return TermType::Constant == m_type;
-}
+    return TermType::Constant == m_type;}
 
 bool Term::isVariable() const
-{
-    return TermType::Variable == m_type;
+{    return TermType::Variable == m_type;
 }
 
 bool Term::isOperator() const
@@ -312,6 +283,33 @@ Expression const& Term::getExpressionConstReference() const
 {
     assert((m_type==TermType::Expression));
     return *dynamic_cast<Expression const * const>(m_baseDataTermPointer.get());
+}
+
+void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
+{
+    switch(term.getTermType())
+    {
+    case TermType::Empty:
+        break;
+    case TermType::Constant:
+        m_baseDataTermPointer.reset(new Constant(term.getConstantConstReference()));
+        break;
+    case TermType::Variable:
+        m_baseDataTermPointer.reset(new Variable(term.getVariableConstReference()));
+        break;
+    case TermType::Operator:
+        m_baseDataTermPointer.reset(new Operator(term.getOperatorConstReference()));
+        break;
+    case TermType::Monomial:
+        m_baseDataTermPointer.reset(new Monomial(term.getMonomialConstReference()));
+        break;
+    case TermType::Polynomial:
+        m_baseDataTermPointer.reset(new Polynomial(term.getPolynomialConstReference()));
+        break;
+    case TermType::Expression:
+        m_baseDataTermPointer.reset(new Expression(term.getExpressionConstReference()));
+        break;
+    }
 }
 
 

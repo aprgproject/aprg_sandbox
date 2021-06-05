@@ -40,34 +40,26 @@ public:
     bool isConstantOnly() const;
     bool isVariableOnly() const;
 
-    std::string getDisplayableString() const;
     std::string getFirstVariableName() const;
     AlbaNumber const& getConstantConstReference() const;
-    VariablesToExponentsMap & getVariablesToExponentsMapReference();
     VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;
+    std::string getDisplayableString() const;
 
     void simplify();
-    void removeZeroExponents();
-
-    void multiplyByNumber(AlbaNumber const& number);
-    void raiseToPowerByNumber(AlbaNumber const& number);
+    void multiplyNumber(AlbaNumber const& number);
+    void raiseToPowerNumber(AlbaNumber const& number);
     void multiplyMonomial(Monomial const& monomial);
     void divideMonomial(Monomial const& monomial);
-
-
     void setConstant(AlbaNumber const& constant);
-    void setVariableWtihExponent(
-            std::string const& variable,
-            AlbaNumber const& exponent);
     void setVariablesWithExponents(std::initializer_list<VariableExponentPair> const& variablesWithExponents);
+    void putVariableWithExponent(std::string const& variable, AlbaNumber const& exponent);
 
 private:
+    void removeZeroExponents();
     AlbaNumber m_constant;
     VariablesToExponentsMap m_variablesToExponentsMap;
 };
-
 using Monomials=std::vector<Monomial>;
 
 }
-
 }

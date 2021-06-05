@@ -39,14 +39,27 @@ TEST(ConstantTest, EqualityOperatorWorks)
     EXPECT_TRUE(constant2==constant4);
 }
 
+TEST(ConstantTest, GetDisplayableStringWorks)
+{
+    Constant constant1;
+    Constant constant2(3484);
+    Constant constant3(-1561);
+    Constant constant4(-415, 41745);
+    Constant constant5(-85.45631);
+
+    EXPECT_EQ("0", constant1.getDisplayableString());
+    EXPECT_EQ("3484", constant2.getDisplayableString());
+    EXPECT_EQ("-1561", constant3.getDisplayableString());
+    EXPECT_EQ("(-83/8349)", constant4.getDisplayableString());
+    EXPECT_EQ("-85.45631", constant5.getDisplayableString());
+}
+
 TEST(ConstantTest, SettingANewNumberWorks)
 {
-    Constant constant(3484);
-    EXPECT_DOUBLE_EQ(3484, constant.getNumberConstReference().getDouble());
+    Constant constant(3484);    EXPECT_DOUBLE_EQ(3484, constant.getNumberConstReference().getDouble());
 
     constant.setNumber(4521);
-    EXPECT_DOUBLE_EQ(4521, constant.getNumberConstReference().getDouble());
-}
+    EXPECT_DOUBLE_EQ(4521, constant.getNumberConstReference().getDouble());}
 
 }
 
