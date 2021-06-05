@@ -45,15 +45,45 @@ bool Operator::isRaiseToPower() const
     return "^" == m_operatingString;
 }
 
+string Operator::getDisplayableString() const
+{
+    return m_operatingString;
+}
+
 string Operator::getOperatorString() const
 {
     return m_operatingString;
 }
 
+OperatorLevel Operator::getOperatorLevel() const
+{
+    OperatorLevel result(OperatorLevel::Unknown);
+    if(isAddition())
+    {
+        result = OperatorLevel::AdditionAndSubtraction;
+    }
+    else if(isSubtraction())
+    {
+        result = OperatorLevel::AdditionAndSubtraction;
+    }
+    else if(isMultiplication())
+    {
+        result = OperatorLevel::MultiplicationAndDivision;
+    }
+    else if(isDivision())
+    {
+        result = OperatorLevel::MultiplicationAndDivision;
+    }
+    else if(isRaiseToPower())
+    {
+        result = OperatorLevel::RaiseToPower;
+    }
+    return result;
+}
+
 void Operator::setOperatorString(string const& operatingString)
 {
-    m_operatingString = operatingString;
-}
+    m_operatingString = operatingString;}
 
 }
 

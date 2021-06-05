@@ -176,26 +176,12 @@ Monomial::VariablesToExponentsMap combineVariableExponentMapByDivision(
     return newVariableMap;
 }
 
-/*Term createTerm(BaseTermUniquePointer const& baseTerm)
-{
-    Term* termPointer = dynamic_cast<Term*>(baseTerm.get());
-    return *termPointer;
-}
-
-BaseTermUniquePointer createBaseTermUniquePointer(Term const& term)
-{
-    BaseTermUniquePointer baseTerm(new Term(term));
-    return move(baseTerm);
-}*/
-
 void wrapTerms(WrappedTerms & wrappedTerms, Terms const& terms)
 {
-    BaseTermSharedPointers & baseTermPointers(wrappedTerms.getBaseTermPointersReference());
-    for(Term const& term : terms)
+    BaseTermSharedPointers & baseTermPointers(wrappedTerms.getBaseTermPointersReference());    for(Term const& term : terms)
     {
         baseTermPointers.emplace_back(new Term(term));
-    }
-}
+    }}
 
 Terms unwrapTermsAndReturnTerms(WrappedTerms const& wrappedTerms)
 {

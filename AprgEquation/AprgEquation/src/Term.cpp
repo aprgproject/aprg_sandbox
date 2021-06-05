@@ -3,12 +3,11 @@
 #include <Utilities.hpp>
 
 #include <cassert>
+#include <string>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace equation
 {
 
@@ -146,19 +145,12 @@ void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
     }
 }
 
-TermType Term::getTermType() const
-{
-    return m_type;
-}
-
 bool Term::isConstant() const
 {
-    return TermType::Constant == m_type;
-}
+    return TermType::Constant == m_type;}
 
 bool Term::isVariable() const
-{
-    return TermType::Variable == m_type;
+{    return TermType::Variable == m_type;
 }
 
 bool Term::isOperator() const
@@ -181,14 +173,47 @@ bool Term::isExpression() const
     return TermType::Expression == m_type;
 }
 
-Constant & Term::getConstantReference()
+string Term::getDisplayableString() const
 {
-    assert(m_type==TermType::Constant);
-    return *dynamic_cast<Constant*>(m_baseDataTermPointer.get());
+    string result;
+    if(m_type==TermType::Constant)
+    {
+        result = getConstantConstReference().getDisplayableString();
+    }
+    else if(m_type==TermType::Variable)
+    {
+        result = getVariableConstReference().getDisplayableString();
+    }
+    else if(m_type==TermType::Operator)
+    {
+        result = getOperatorConstReference().getDisplayableString();
+    }
+    else if(m_type==TermType::Monomial)
+    {
+        result = getMonomialConstReference().getDisplayableString();
+    }
+    else if(m_type==TermType::Polynomial)
+    {
+        result = getPolynomialConstReference().getDisplayableString();
+    }
+    else if(m_type==TermType::Expression)
+    {
+        result = getExpressionConstReference().getDisplayableString();
+    }
+    return result;
 }
 
-Variable & Term::getVariableReference()
+TermType Term::getTermType() const
 {
+    return m_type;
+}
+
+Constant & Term::getConstantReference()
+{
+    assert(m_type==TermType::Constant);    return *dynamic_cast<Constant*>(m_baseDataTermPointer.get());
+}
+
+Variable & Term::getVariableReference(){
     assert(m_type==TermType::Variable);
     return *dynamic_cast<Variable*>(m_baseDataTermPointer.get());
 }

@@ -32,14 +32,13 @@ public:
     bool isConstantOnly() const;
     bool isVariableOnly() const;
 
+    std::string getDisplayableString() const;
     std::string getFirstVariableName() const;
     AlbaNumber const& getConstantConstReference() const;
-    VariablesToExponentsMap & getVariablesToExponentsMapReference();
-    VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;
+    VariablesToExponentsMap & getVariablesToExponentsMapReference();    VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;
 
     void setConstant(AlbaNumber const& constant);
-    void setVariableWtihExponent(
-            std::string const& variable,
+    void setVariableWtihExponent(            std::string const& variable,
             AlbaNumber const& exponent);
     void setVariablesWithExponents(std::initializer_list<VariableExponentPair> const& variablesWithExponents);
 

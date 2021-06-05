@@ -38,21 +38,20 @@ public:
 
     void resetBaseDataTermPointerBasedFromTerm(Term const& term);
 
-    TermType getTermType() const;
     bool isConstant() const;
     bool isVariable() const;
-    bool isOperator() const;
-    bool isMonomial() const;
+    bool isOperator() const;    bool isMonomial() const;
     bool isPolynomial() const;
     bool isExpression() const;
 
+    std::string getDisplayableString() const;
+    TermType getTermType() const;
+
     Constant & getConstantReference();
     Variable & getVariableReference();
-    Operator & getOperatorReference();
-    Monomial & getMonomialReference();
+    Operator & getOperatorReference();    Monomial & getMonomialReference();
     Polynomial & getPolynomialReference();
     Expression & getExpressionReference();
-
     Constant const& getConstantConstReference() const;
     Variable const& getVariableConstReference() const;
     Operator const& getOperatorConstReference() const;

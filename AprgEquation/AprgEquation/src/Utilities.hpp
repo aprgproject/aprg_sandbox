@@ -35,15 +35,10 @@ Monomial::VariablesToExponentsMap combineVariableExponentMapByDivision(
         Monomial::VariablesToExponentsMap const& variablesMap1,
         Monomial::VariablesToExponentsMap const& variablesMap2);
 
-//Term createTerm(BaseTermUniquePointer const& baseTerm);
-//BaseTermUniquePointer createBaseTermUniquePointer(Term const& term);
-
 void wrapTerms(WrappedTerms & wrappedTerms, Terms const& terms);
 Terms unwrapTermsAndReturnTerms(WrappedTerms const& wrappedTerms);
-
 Expression createExpression(Terms const& terms);
 Terms getTermsInAnExpression(Expression const& expression);
-
 }
 
 }

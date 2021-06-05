@@ -2,12 +2,11 @@
 
 #include <BaseTermData.hpp>
 #include <Math/AlbaNumber.hpp>
+#include <OperatorLevel.hpp>
 
 #include <string>
-
 namespace alba
 {
-
 namespace equation
 {
 
@@ -25,14 +24,14 @@ public:
     bool isDivision() const;
     bool isRaiseToPower() const;
 
+    std::string getDisplayableString() const;
     std::string getOperatorString() const;
+    OperatorLevel getOperatorLevel() const;
 
     void setOperatorString(std::string const& operatingString);
-
 private:
     std::string m_operatingString;
 };
-
 }
 
 }

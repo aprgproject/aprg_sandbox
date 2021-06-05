@@ -1,14 +1,17 @@
 #include "Expression.hpp"
 
+#include <Optional/AlbaOptional.hpp>
 #include <Term.hpp>
 #include <Utilities.hpp>
 
+#include <sstream>
+
+using namespace std;
+
 namespace alba
 {
-
 namespace equation
 {
-
 Expression::Expression()
 {}
 
@@ -38,14 +41,57 @@ bool Expression::operator==(Expression const& second) const
     return result;
 }
 
+string Expression::getDisplayableString() const
+{
+    stringstream result;
+    for(BaseTermSharedPointer const& sharedPointer : m_wrappedTerms.getBaseTermPointersConstReference())
+    {
+        Term const& term = *dynamic_cast<Term const*const>(sharedPointer.get());
+        result << term.getDisplayableString();
+    }
+    return result.str();
+}
+
+OperatorLevel Expression::getCommonOperatorLevel() const
+{
+    OperatorLevel result(OperatorLevel::Unknown);
+    bool isOperatorFound(false);
+    for(BaseTermSharedPointer const& sharedPointer : m_wrappedTerms.getBaseTermPointersConstReference())
+    {
+        Term const& term = *dynamic_cast<Term const*const>(sharedPointer.get());
+        if(term.isOperator())
+        {
+            Operator const& operatorTerm(term.getOperatorConstReference());
+            if(isOperatorFound)
+            {
+                if(result != operatorTerm.getOperatorLevel())
+                {
+                    result = OperatorLevel::Unknown;
+                    break;
+                }
+            }
+            else
+            {
+                result = operatorTerm.getOperatorLevel();
+                isOperatorFound = true;
+            }
+        }
+    }
+    return result;
+}
+
 WrappedTerms & Expression::getWrappedTermsReference()
 {
-    return m_wrappedTerms;
-}
+    return m_wrappedTerms;}
 
 WrappedTerms const& Expression::getWrappedTermsConstReference() const
 {
     return m_wrappedTerms;
+}
+
+void Expression::simplify()
+{
+
 }
 
 }
