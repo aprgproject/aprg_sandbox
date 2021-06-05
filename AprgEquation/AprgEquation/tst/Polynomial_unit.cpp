@@ -29,7 +29,51 @@ TEST(PolynomialTest, PolynomialsAreConstructedCorrectly)
     EXPECT_DOUBLE_EQ(2, variableMap2.at("x").getDouble());
     EXPECT_DOUBLE_EQ(3, variableMap2.at("y").getDouble());
     EXPECT_DOUBLE_EQ(4, variableMap2.at("z").getDouble());
+}
 
+TEST(PolynomialTest, IsZeroWorksCorrectly)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2({Monomial(6, {})});
+    Polynomial polynomial3({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
+
+    EXPECT_TRUE(polynomial1.isZero());
+    EXPECT_FALSE(polynomial2.isZero());
+    EXPECT_FALSE(polynomial3.isZero());
+}
+
+TEST(PolynomialTest, IsOneMonomialWorksCorrectly)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2({Monomial(6, {})});
+    Polynomial polynomial3({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
+
+    EXPECT_FALSE(polynomial1.isOneMonomial());
+    EXPECT_TRUE(polynomial2.isOneMonomial());
+    EXPECT_FALSE(polynomial3.isOneMonomial());
+}
+
+TEST(PolynomialTest, GetFirstMonomialWorksCorrectly)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2({Monomial(6, {})});
+    Polynomial polynomial3({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
+
+    Monomial monomial1(polynomial1.getFirstMonomial());
+    Monomial monomial2(polynomial2.getFirstMonomial());
+    Monomial monomial3(polynomial3.getFirstMonomial());
+
+    EXPECT_DOUBLE_EQ(0, monomial1.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomial1.getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+
+    EXPECT_DOUBLE_EQ(6, monomial2.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomial2.getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap2.empty());
+
+    EXPECT_DOUBLE_EQ(6, monomial3.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap3(monomial3.getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap3.empty());
 }
 
 }

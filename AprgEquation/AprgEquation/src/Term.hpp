@@ -41,16 +41,13 @@ public:
     bool isOperator() const;
     bool isMonomial() const;
     bool isPolynomial() const;
-    bool isExpressionWithSingleTerm() const;
-    bool isExpressionWithMutipleTerms() const;
+    bool isExpression() const;
 
     Constant & getConstantReference();
-    Variable & getVariableReference();
-    Operator & getOperatorReference();
+    Variable & getVariableReference();    Operator & getOperatorReference();
     Monomial & getMonomialReference();
     Polynomial & getPolynomialReference();
     Expression & getExpressionReference();
-
     Constant const& getConstantConstReference() const;
     Variable const& getVariableConstReference() const;
     Operator const& getOperatorConstReference() const;

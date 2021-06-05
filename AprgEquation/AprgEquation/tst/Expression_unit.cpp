@@ -17,36 +17,12 @@ TEST(ExpressionTest, ConstructionWorks)
     Expression();
 }
 
-TEST(ExpressionTest, IsMultipleTermsExpressionWorksCorrectly)
-{
-    Expression expression1(createExpression(Terms{}));
-    Expression expression2(createExpression(Terms{Term(7.625), Term("-"), Term("compoundinterest")}));
-    Expression expression3(createExpression(Terms{Term(expression2)}));
-
-    EXPECT_FALSE(expression1.isMultipleTermsExpression());
-    EXPECT_TRUE(expression2.isMultipleTermsExpression());
-    EXPECT_TRUE(expression3.isMultipleTermsExpression());
-}
-
-TEST(ExpressionTest, GetTermTypeForExpressionWorksCorrectly)
-{
-    Expression expression1(createExpression(Terms{}));
-    Expression expression2(createExpression(Terms{Term(7.625), Term("-"), Term("compoundinterest")}));
-    Expression expression3(createExpression(Terms{Term(expression2)}));
-
-    EXPECT_EQ(TermType::ExpressionWithSingleTerm, expression1.getTermTypeForExpression());
-    EXPECT_EQ(TermType::ExpressionWithMutipleTerms, expression2.getTermTypeForExpression());
-    EXPECT_EQ(TermType::ExpressionWithMutipleTerms, expression3.getTermTypeForExpression());
-}
-
 TEST(ExpressionTest, GetWrappedTermsReferenceWorksCorrectly)
 {
     Expression expression(createExpression(Terms{Term(5), Term("+"), Term("interest")}));
-
     BaseTermSharedPointers & baseTermPointersToVerify(expression.getWrappedTermsReference().getBaseTermPointersReference());
 
-    ASSERT_EQ(3u, baseTermPointersToVerify.size());
-    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
+    ASSERT_EQ(3u, baseTermPointersToVerify.size());    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
     Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
     Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
     ASSERT_EQ(TermType::Constant, term1.getTermType());

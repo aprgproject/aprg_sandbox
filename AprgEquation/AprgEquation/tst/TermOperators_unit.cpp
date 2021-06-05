@@ -531,21 +531,19 @@ TEST(TermOperatorsTest, BinaryMinusOperator_VariableSubtractPolynomialOperationW
     ASSERT_EQ(TermType::Polynomial, term.getTermType());
     Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
     ASSERT_EQ(2u, monomials.size());
-    EXPECT_DOUBLE_EQ(-5, monomials.at(0).getConstantConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(-3, monomials.at(0).getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
-    ASSERT_TRUE(variableMap1.empty());
-    EXPECT_DOUBLE_EQ(-3, monomials.at(1).getConstantConstReference().getDouble());
+    ASSERT_EQ(1u, variableMap1.size());
+    EXPECT_DOUBLE_EQ(1, variableMap1.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(-5, monomials.at(1).getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
-    ASSERT_EQ(1u, variableMap2.size());
-    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+    ASSERT_TRUE(variableMap2.empty());
 }
 
-TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractConstantWithSameMonomialConstantOperationWorks)
-{
+TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractConstantWithSameMonomialConstantOperationWorks){
     Term term(Monomial(8, {}) - Constant(2));
 
-    ASSERT_EQ(TermType::Constant, term.getTermType());
-    EXPECT_DOUBLE_EQ(6, term.getConstantConstReference().getNumberConstReference().getDouble());
+    ASSERT_EQ(TermType::Constant, term.getTermType());    EXPECT_DOUBLE_EQ(6, term.getConstantConstReference().getNumberConstReference().getDouble());
 }
 
 TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractConstantWithDifferentMonomialConstantOperationWorks)
@@ -594,14 +592,20 @@ TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractVariableWithDifferen
     EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
 }
 
+TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractMonomialThatResultsInZeroOperationWorks)
+{
+    Term term(Monomial(4, {{"x", 2}}) - Monomial(4, {{"x", 2}}));
+
+    ASSERT_EQ(TermType::Constant, term.getTermType());
+    EXPECT_DOUBLE_EQ(0, term.getConstantConstReference().getNumberConstReference().getDouble());
+}
+
 TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractMonomialWithSameMonomialOperationWorks)
 {
     Term term(Monomial(8, {{"x", 2}}) - Monomial(4, {{"x", 2}}));
-
     ASSERT_EQ(TermType::Monomial, term.getTermType());
     Monomial const& monomial(term.getMonomialConstReference());
-    EXPECT_DOUBLE_EQ(4, monomial.getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
+    EXPECT_DOUBLE_EQ(4, monomial.getConstantConstReference().getDouble());    Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1u, variableMap.size());
     EXPECT_DOUBLE_EQ(2, variableMap.at("x").getDouble());
 }
@@ -631,21 +635,19 @@ TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractPolynomialOperationW
     ASSERT_EQ(TermType::Polynomial, term.getTermType());
     Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
     ASSERT_EQ(2u, monomials.size());
-    EXPECT_DOUBLE_EQ(-5, monomials.at(0).getConstantConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(2, monomials.at(0).getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
-    ASSERT_TRUE(variableMap1.empty());
-    EXPECT_DOUBLE_EQ(2, monomials.at(1).getConstantConstReference().getDouble());
+    ASSERT_EQ(1u, variableMap1.size());
+    EXPECT_DOUBLE_EQ(1, variableMap1.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(-5, monomials.at(1).getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
-    ASSERT_EQ(1u, variableMap2.size());
-    EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
+    ASSERT_TRUE(variableMap2.empty());
 }
 
-TEST(TermOperatorsTest, BinaryMinusOperator_PolynomialSubtractConstantOperationWorks)
-{
+TEST(TermOperatorsTest, BinaryMinusOperator_PolynomialSubtractConstantOperationWorks){
     Term term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})} - Constant(10));
 
-    ASSERT_EQ(TermType::Polynomial, term.getTermType());
-    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(TermType::Polynomial, term.getTermType());    Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
     ASSERT_EQ(2u, monomials.size());
     EXPECT_DOUBLE_EQ(-5, monomials.at(0).getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
@@ -688,14 +690,20 @@ TEST(TermOperatorsTest, BinaryMinusOperator_PolynomialSubtractMonomialOperationW
     EXPECT_DOUBLE_EQ(1, variableMap2.at("x").getDouble());
 }
 
+TEST(TermOperatorsTest, BinaryMinusOperator_PolynomialSubtractPolynomialThatResultsInZeroOperationWorks)
+{
+    Term term(Polynomial{Monomial(5, {}), Monomial(2, {{"x", 1}})} - Polynomial{Monomial(5, {}), Monomial(2, {{"x", 1}})});
+
+    ASSERT_EQ(TermType::Constant, term.getTermType());
+    EXPECT_DOUBLE_EQ(0, term.getConstantConstReference().getNumberConstReference().getDouble());
+}
+
 TEST(TermOperatorsTest, BinaryMinusOperator_PolynomialSubtractPolynomialOperationWorks)
 {
     Term term(Polynomial{Monomial(5, {}), Monomial(2, {{"x", 1}})} - Polynomial{Monomial(15, {}), Monomial(4, {{"x", 1}})});
-
     ASSERT_EQ(TermType::Polynomial, term.getTermType());
     Monomials const& monomials(term.getPolynomialConstReference().getMonomialsConstReference());
-    ASSERT_EQ(2u, monomials.size());
-    EXPECT_DOUBLE_EQ(-10, monomials.at(0).getConstantConstReference().getDouble());
+    ASSERT_EQ(2u, monomials.size());    EXPECT_DOUBLE_EQ(-10, monomials.at(0).getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
     ASSERT_TRUE(variableMap1.empty());
     EXPECT_DOUBLE_EQ(-2, monomials.at(1).getConstantConstReference().getDouble());
@@ -1142,15 +1150,13 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ConstantRaiseToPowerVariableO
 {
     Term term(Constant(5) ^ Variable("x"));
 
-    ASSERT_EQ(TermType::ExpressionWithSingleTerm, term.getTermType());
+    ASSERT_EQ(TermType::Expression, term.getTermType());
     BaseTermSharedPointers const& baseTermPointersToVerify(term.getExpressionConstReference().getWrappedTermsConstReference().getBaseTermPointersConstReference());
     ASSERT_EQ(3u, baseTermPointersToVerify.size());
-    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
-    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
+    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
     Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
     ASSERT_EQ(TermType::Constant, term1.getTermType());
-    EXPECT_DOUBLE_EQ(5, term1.getConstantConstReference().getNumberConstReference().getDouble());
-    ASSERT_EQ(TermType::Operator, term2.getTermType());
+    EXPECT_DOUBLE_EQ(5, term1.getConstantConstReference().getNumberConstReference().getDouble());    ASSERT_EQ(TermType::Operator, term2.getTermType());
     EXPECT_EQ("^", term2.getOperatorConstReference().getOperatorString());
     ASSERT_EQ(TermType::Variable, term3.getTermType());
     EXPECT_EQ("x", term3.getVariableConstReference().getVariableName());
@@ -1168,15 +1174,13 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ConstantRaiseToPowerMonomialW
 {
     Term term(Constant(4) ^ Monomial(6, {{"x", 2}}));
 
-    ASSERT_EQ(TermType::ExpressionWithSingleTerm, term.getTermType());
+    ASSERT_EQ(TermType::Expression, term.getTermType());
     BaseTermSharedPointers const& baseTermPointersToVerify(term.getExpressionConstReference().getWrappedTermsConstReference().getBaseTermPointersConstReference());
     ASSERT_EQ(3u, baseTermPointersToVerify.size());
-    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
-    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
+    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
     Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
     ASSERT_EQ(TermType::Constant, term1.getTermType());
-    EXPECT_DOUBLE_EQ(4, term1.getConstantConstReference().getNumberConstReference().getDouble());
-    ASSERT_EQ(TermType::Operator, term2.getTermType());
+    EXPECT_DOUBLE_EQ(4, term1.getConstantConstReference().getNumberConstReference().getDouble());    ASSERT_EQ(TermType::Operator, term2.getTermType());
     EXPECT_EQ("^", term2.getOperatorConstReference().getOperatorString());
     ASSERT_EQ(TermType::Monomial, term3.getTermType());
     Monomial const& monomial(term3.getMonomialConstReference());
@@ -1202,15 +1206,13 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_VariableRaiseToPowerVariableW
 {
     Term term(Variable("i") ^ Variable("i"));
 
-    ASSERT_EQ(TermType::ExpressionWithSingleTerm, term.getTermType());
+    ASSERT_EQ(TermType::Expression, term.getTermType());
     BaseTermSharedPointers const& baseTermPointersToVerify(term.getExpressionConstReference().getWrappedTermsConstReference().getBaseTermPointersConstReference());
     ASSERT_EQ(3u, baseTermPointersToVerify.size());
-    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
-    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
+    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
     Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
     ASSERT_EQ(TermType::Variable, term1.getTermType());
-    EXPECT_EQ("i", term1.getVariableConstReference().getVariableName());
-    ASSERT_EQ(TermType::Operator, term2.getTermType());
+    EXPECT_EQ("i", term1.getVariableConstReference().getVariableName());    ASSERT_EQ(TermType::Operator, term2.getTermType());
     EXPECT_EQ("^", term2.getOperatorConstReference().getOperatorString());
     ASSERT_EQ(TermType::Variable, term3.getTermType());
     EXPECT_EQ("i", term3.getVariableConstReference().getVariableName());
@@ -1220,15 +1222,13 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_VariableRaiseToPowerMonomialW
 {
     Term term(Variable("x") ^ Monomial(7, {{"x", 1}}));
 
-    ASSERT_EQ(TermType::ExpressionWithSingleTerm, term.getTermType());
+    ASSERT_EQ(TermType::Expression, term.getTermType());
     BaseTermSharedPointers const& baseTermPointersToVerify(term.getExpressionConstReference().getWrappedTermsConstReference().getBaseTermPointersConstReference());
     ASSERT_EQ(3u, baseTermPointersToVerify.size());
-    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
-    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
+    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
     Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
     ASSERT_EQ(TermType::Variable, term1.getTermType());
-    EXPECT_EQ("x", term1.getVariableConstReference().getVariableName());
-    ASSERT_EQ(TermType::Operator, term2.getTermType());
+    EXPECT_EQ("x", term1.getVariableConstReference().getVariableName());    ASSERT_EQ(TermType::Operator, term2.getTermType());
     EXPECT_EQ("^", term2.getOperatorConstReference().getOperatorString());
     ASSERT_EQ(TermType::Monomial, term3.getTermType());
     Monomial const& monomial(term3.getMonomialConstReference());
@@ -1242,15 +1242,13 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_VariableRaiseToPowerMonomialW
 {
     Term term(Variable("x") ^ Monomial(7, {{"y", 1}}));
 
-    ASSERT_EQ(TermType::ExpressionWithSingleTerm, term.getTermType());
+    ASSERT_EQ(TermType::Expression, term.getTermType());
     BaseTermSharedPointers const& baseTermPointersToVerify(term.getExpressionConstReference().getWrappedTermsConstReference().getBaseTermPointersConstReference());
     ASSERT_EQ(3u, baseTermPointersToVerify.size());
-    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
-    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
+    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
     Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
     ASSERT_EQ(TermType::Variable, term1.getTermType());
-    EXPECT_EQ("x", term1.getVariableConstReference().getVariableName());
-    ASSERT_EQ(TermType::Operator, term2.getTermType());
+    EXPECT_EQ("x", term1.getVariableConstReference().getVariableName());    ASSERT_EQ(TermType::Operator, term2.getTermType());
     EXPECT_EQ("^", term2.getOperatorConstReference().getOperatorString());
     ASSERT_EQ(TermType::Monomial, term3.getTermType());
     Monomial const& monomial(term3.getMonomialConstReference());
@@ -1285,15 +1283,13 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_MonomialRaiseToPowerVariableW
 {
     Term term(Monomial(7, {{"x", 1}}) ^ Variable("x"));
 
-    ASSERT_EQ(TermType::ExpressionWithSingleTerm, term.getTermType());
+    ASSERT_EQ(TermType::Expression, term.getTermType());
     BaseTermSharedPointers const& baseTermPointersToVerify(term.getExpressionConstReference().getWrappedTermsConstReference().getBaseTermPointersConstReference());
     ASSERT_EQ(3u, baseTermPointersToVerify.size());
-    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
-    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
+    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
     Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
     ASSERT_EQ(TermType::Monomial, term1.getTermType());
-    Monomial const& monomial(term1.getMonomialConstReference());
-    EXPECT_DOUBLE_EQ(7, monomial.getConstantConstReference().getDouble());
+    Monomial const& monomial(term1.getMonomialConstReference());    EXPECT_DOUBLE_EQ(7, monomial.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1u, variableMap.size());
     EXPECT_DOUBLE_EQ(1, variableMap.at("x").getDouble());
@@ -1307,15 +1303,13 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_MonomialRaiseToPowerVariableW
 {
     Term term(Monomial(7, {{"y", 1}}) ^ Variable("x"));
 
-    ASSERT_EQ(TermType::ExpressionWithSingleTerm, term.getTermType());
+    ASSERT_EQ(TermType::Expression, term.getTermType());
     BaseTermSharedPointers const& baseTermPointersToVerify(term.getExpressionConstReference().getWrappedTermsConstReference().getBaseTermPointersConstReference());
     ASSERT_EQ(3u, baseTermPointersToVerify.size());
-    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
-    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
+    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
     Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
     ASSERT_EQ(TermType::Monomial, term1.getTermType());
-    Monomial const& monomial(term1.getMonomialConstReference());
-    EXPECT_DOUBLE_EQ(7, monomial.getConstantConstReference().getDouble());
+    Monomial const& monomial(term1.getMonomialConstReference());    EXPECT_DOUBLE_EQ(7, monomial.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1u, variableMap.size());
     EXPECT_DOUBLE_EQ(1, variableMap.at("y").getDouble());
@@ -1329,15 +1323,13 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_MonomialRaiseToPowerMonomialW
 {
     Term term(Monomial(8, {{"x", 2}}) ^ Monomial(4, {{"x", 2}}));
 
-    ASSERT_EQ(TermType::ExpressionWithSingleTerm, term.getTermType());
+    ASSERT_EQ(TermType::Expression, term.getTermType());
     BaseTermSharedPointers const& baseTermPointersToVerify(term.getExpressionConstReference().getWrappedTermsConstReference().getBaseTermPointersConstReference());
     ASSERT_EQ(3u, baseTermPointersToVerify.size());
-    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
-    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
+    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
     Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
     ASSERT_EQ(TermType::Monomial, term1.getTermType());
-    Monomial const& monomial1(term1.getMonomialConstReference());
-    EXPECT_DOUBLE_EQ(8, monomial1.getConstantConstReference().getDouble());
+    Monomial const& monomial1(term1.getMonomialConstReference());    EXPECT_DOUBLE_EQ(8, monomial1.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomial1.getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1u, variableMap1.size());
     EXPECT_DOUBLE_EQ(2, variableMap1.at("x").getDouble());
@@ -1355,15 +1347,13 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_MonomialRaiseToPowerMonomialW
 {
     Term term(Monomial(8, {{"x", 2}}) ^ Monomial(4, {{"x", 1}, {"y", 1}}));
 
-    ASSERT_EQ(TermType::ExpressionWithSingleTerm, term.getTermType());
+    ASSERT_EQ(TermType::Expression, term.getTermType());
     BaseTermSharedPointers const& baseTermPointersToVerify(term.getExpressionConstReference().getWrappedTermsConstReference().getBaseTermPointersConstReference());
     ASSERT_EQ(3u, baseTermPointersToVerify.size());
-    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
-    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
+    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
     Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
     ASSERT_EQ(TermType::Monomial, term1.getTermType());
-    Monomial const& monomial1(term1.getMonomialConstReference());
-    EXPECT_DOUBLE_EQ(8, monomial1.getConstantConstReference().getDouble());
+    Monomial const& monomial1(term1.getMonomialConstReference());    EXPECT_DOUBLE_EQ(8, monomial1.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomial1.getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1u, variableMap1.size());
     EXPECT_DOUBLE_EQ(2, variableMap1.at("x").getDouble());

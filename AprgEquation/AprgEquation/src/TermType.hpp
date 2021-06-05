@@ -14,10 +14,8 @@ enum class TermType
     Operator,
     Monomial,
     Polynomial,
-    ExpressionWithSingleTerm,
-    ExpressionWithMutipleTerms
+    Expression
 };
 
 }
-
 }

@@ -16,13 +16,16 @@ public:
     Polynomial(Monomials const& monomials);
     Polynomial(std::initializer_list<Monomial> const& monomials);
 
+    bool isZero() const;
+    bool isOneMonomial() const;
+
+    Monomial getFirstMonomial() const;
+
     Monomials & getMonomialsReference();
     Monomials const& getMonomialsConstReference() const;
-
     void addMonomial(Monomial const& monomial);
     void addPolynomial(Polynomial const& polynomial);
-    void multiplyByNumber(AlbaNumber const& number);
-    void multiplyByMonomial(Monomial const& monomial);
+    void multiplyByNumber(AlbaNumber const& number);    void multiplyByMonomial(Monomial const& monomial);
     void multiplyByPolynomial(Polynomial const& polynomial);
     void divideByMonomial(Monomial const& monomial);
 

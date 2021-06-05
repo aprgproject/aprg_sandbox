@@ -22,15 +22,33 @@ Polynomial::Polynomial(initializer_list<Monomial> const& monomials)
     copy(monomials.begin(), monomials.end(), back_inserter(m_monomials));
 }
 
+bool Polynomial::isZero() const
+{
+    return m_monomials.empty();
+}
+
+bool Polynomial::isOneMonomial() const
+{
+    return m_monomials.size() == 1;
+}
+
+Monomial Polynomial::getFirstMonomial() const
+{
+    Monomial result;
+    if(!m_monomials.empty())
+    {
+        result = m_monomials.front();
+    }
+    return result;
+}
+
 Monomials & Polynomial::getMonomialsReference()
 {
-    return m_monomials;
-}
+    return m_monomials;}
 
 Monomials const& Polynomial::getMonomialsConstReference() const
 {
-    return m_monomials;
-}
+    return m_monomials;}
 
 void Polynomial::addMonomial(Monomial const& monomial)
 {

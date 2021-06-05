@@ -151,19 +151,17 @@ TEST(TermTest, TermsAsExpressionsWorkAsExpected)
     Term expression2(createExpression(Terms{Term(5), Term("+"), Term("interest")}));
 
     //For expression1
-    ASSERT_EQ(TermType::ExpressionWithSingleTerm, expression1.getTermType());
+    ASSERT_EQ(TermType::Expression, expression1.getTermType());
     ASSERT_TRUE(expression1.getExpressionConstReference().getWrappedTermsConstReference().getBaseTermPointersConstReference().empty());
 
     //For expression2
-    ASSERT_EQ(TermType::ExpressionWithMutipleTerms, expression2.getTermType());
+    ASSERT_EQ(TermType::Expression, expression2.getTermType());
     BaseTermSharedPointers const& baseTermPointersToVerify(expression2.getExpressionConstReference().getWrappedTermsConstReference().getBaseTermPointersConstReference());
     ASSERT_EQ(3u, baseTermPointersToVerify.size());
-    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
-    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
+    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
     Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
     ASSERT_EQ(TermType::Constant, term1.getTermType());
-    EXPECT_DOUBLE_EQ(5, term1.getConstantConstReference().getNumberConstReference().getDouble());
-    ASSERT_EQ(TermType::Operator, term2.getTermType());
+    EXPECT_DOUBLE_EQ(5, term1.getConstantConstReference().getNumberConstReference().getDouble());    ASSERT_EQ(TermType::Operator, term2.getTermType());
     EXPECT_EQ("+", term2.getOperatorConstReference().getOperatorString());
     ASSERT_EQ(TermType::Variable, term3.getTermType());
     EXPECT_EQ("interest", term3.getVariableConstReference().getVariableName());

@@ -59,29 +59,27 @@ Term performOperation(
     Term newTerm;\
     if(term.isConstant())\
 {\
-    newTerm = operation term.getMonomialConstReference();\
+    newTerm = operation(term.getConstantConstReference());\
 }\
     else if(term.isVariable())\
 {\
-    newTerm = operation term.getMonomialConstReference();\
+    newTerm = operation(term.getVariableConstReference());\
 }\
     else if(term.isMonomial())\
 {\
-    newTerm = operation term.getMonomialConstReference();\
+    newTerm = operation(term.getMonomialConstReference());\
 }\
     else if(term.isPolynomial())\
 {\
-    newTerm = operation term.getPolynomialConstReference();\
+    newTerm = operation(term.getPolynomialConstReference());\
 }\
-    return term;
+    return newTerm;
 
 #define TERM_BINARY_OPERATION_MACRO(operation) \
-    Term newTerm;\
-    if(term1.isConstant())\
+    Term newTerm;\    if(term1.isConstant())\
 {\
     if(term2.isConstant())\
-{\
-    newTerm = term1.getConstantConstReference() operation term2.getConstantConstReference();\
+{\    newTerm = term1.getConstantConstReference() operation term2.getConstantConstReference();\
 }\
     else if(term2.isVariable())\
 {\
