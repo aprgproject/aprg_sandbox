@@ -25,6 +25,20 @@ TEST(ConstantTest, ConstantsAreConstructedCorrectly)
     EXPECT_DOUBLE_EQ(-85.45631, constant5.getNumberConstReference().getDouble());
 }
 
+TEST(ConstantTest, EqualityOperatorWorks)
+{
+    Constant constant1;
+    Constant constant2(3484);
+    Constant constant3(-1561);
+    Constant constant4(3484);
+
+    EXPECT_TRUE(constant1==constant1);
+    EXPECT_FALSE(constant1==constant2);
+    EXPECT_TRUE(constant2==constant2);
+    EXPECT_FALSE(constant2==constant3);
+    EXPECT_TRUE(constant2==constant4);
+}
+
 TEST(ConstantTest, SettingANewNumberWorks)
 {
     Constant constant(3484);

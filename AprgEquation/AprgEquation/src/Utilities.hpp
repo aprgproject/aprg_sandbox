@@ -27,7 +27,8 @@ Monomial divideMonomials(Monomial const& monomial1, Monomial const& monomial2);
 Monomial::VariablesToExponentsMap createVariableMapAndRemoveZeroExponents(Monomial::VariablesToExponentsMap const& variablesMap);
 void performChangeForVariables(
         Monomial::VariablesToExponentsMap & variablesMap,
-        Monomial::ChangeExponentsForVariableFunction const& changeVariablesFunction);Monomial::VariablesToExponentsMap combineVariableExponentMapByMultiplication(
+        Monomial::ChangeExponentsForVariableFunction const& changeVariablesFunction);
+Monomial::VariablesToExponentsMap combineVariableExponentMapByMultiplication(
         Monomial::VariablesToExponentsMap const& variablesMap1,
         Monomial::VariablesToExponentsMap const& variablesMap2);
 Monomial::VariablesToExponentsMap combineVariableExponentMapByDivision(
@@ -39,8 +40,10 @@ Monomial::VariablesToExponentsMap combineVariableExponentMapByDivision(
 
 void wrapTerms(WrappedTerms & wrappedTerms, Terms const& terms);
 Terms unwrapTermsAndReturnTerms(WrappedTerms const& wrappedTerms);
+
 Expression createExpression(Terms const& terms);
 Terms getTermsInAnExpression(Expression const& expression);
+
 }
 
 }

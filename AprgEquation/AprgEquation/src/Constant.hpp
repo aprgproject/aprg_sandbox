@@ -19,6 +19,8 @@ public:
     Constant(int const numerator, unsigned int const denominator);
     Constant(double const doubleValue);
 
+    bool operator==(Constant const& second) const;
+
     AlbaNumber const& getNumberConstReference() const;
 
     void setNumber(AlbaNumber const& constantValue);

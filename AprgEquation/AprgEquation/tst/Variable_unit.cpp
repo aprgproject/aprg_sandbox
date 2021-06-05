@@ -12,20 +12,34 @@ namespace equation
 
 TEST(VariableTest, VariablesAreConstructedCorrectly)
 {
-    Variable operator1;
-    Variable operator2("time");
+    Variable variable1;
+    Variable variable2("time");
 
-    EXPECT_EQ("", operator1.getVariableName());
-    EXPECT_EQ("time", operator2.getVariableName());
+    EXPECT_EQ("", variable1.getVariableName());
+    EXPECT_EQ("time", variable2.getVariableName());
+}
+
+TEST(VariableTest, EqualityVariableWorks)
+{
+    Variable variable1;
+    Variable variable2("x");
+    Variable variable3("power");
+    Variable variable4("x");
+
+    EXPECT_TRUE(variable1==variable1);
+    EXPECT_FALSE(variable1==variable2);
+    EXPECT_TRUE(variable2==variable2);
+    EXPECT_FALSE(variable2==variable3);
+    EXPECT_TRUE(variable2==variable4);
 }
 
 TEST(VariableTest, SettingANewVariableNameWorks)
 {
-    Variable operatorForTest;
-    EXPECT_EQ("", operatorForTest.getVariableName());
+    Variable variableForTest;
+    EXPECT_EQ("", variableForTest.getVariableName());
 
-    operatorForTest.setVariableName("omega");
-    EXPECT_EQ("omega", operatorForTest.getVariableName());
+    variableForTest.setVariableName("omega");
+    EXPECT_EQ("omega", variableForTest.getVariableName());
 }
 
 }

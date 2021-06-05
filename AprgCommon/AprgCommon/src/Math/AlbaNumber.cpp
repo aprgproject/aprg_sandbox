@@ -65,11 +65,13 @@ bool AlbaNumber::isDoubleType() const
 
 AlbaNumber::Type AlbaNumber::getType() const
 {
-    return m_type;}
+    return m_type;
+}
 
 int AlbaNumber::getInteger() const
 {
-    int result(0);    if(m_type==Type::Integer)
+    int result(0);
+    if(m_type==Type::Integer)
     {
         int const& dataReference(m_data.intData);
         result = dataReference;

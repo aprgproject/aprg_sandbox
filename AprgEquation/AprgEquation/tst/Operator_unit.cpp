@@ -19,6 +19,20 @@ TEST(OperatorTest, OperatorsAreConstructedCorrectly)
     EXPECT_EQ("test", operator2.getOperatorString());
 }
 
+TEST(OperatorTest, EqualityOperatorWorks)
+{
+    Operator operator1;
+    Operator operator2("+");
+    Operator operator3("-");
+    Operator operator4("+");
+
+    EXPECT_TRUE(operator1==operator1);
+    EXPECT_FALSE(operator1==operator2);
+    EXPECT_TRUE(operator2==operator2);
+    EXPECT_FALSE(operator2==operator3);
+    EXPECT_TRUE(operator2==operator4);
+}
+
 TEST(OperatorTest, SettingANewOperatingStringWorks)
 {
     Operator operatorForTest;

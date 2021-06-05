@@ -31,6 +31,22 @@ TEST(PolynomialTest, PolynomialsAreConstructedCorrectly)
     EXPECT_DOUBLE_EQ(4, variableMap2.at("z").getDouble());
 }
 
+TEST(PolynomialTest, EqualityOperatorWorks)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
+    Polynomial polynomial3({Monomial(6, {}), Monomial(68, {{"x", 2}, {"y", 3}, {"z", 4}})});
+    Polynomial polynomial4({Monomial(6, {})});
+    Polynomial polynomial5({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
+
+    EXPECT_TRUE(polynomial1==polynomial1);
+    EXPECT_FALSE(polynomial1==polynomial2);
+    EXPECT_TRUE(polynomial2==polynomial2);
+    EXPECT_FALSE(polynomial2==polynomial3);
+    EXPECT_FALSE(polynomial2==polynomial4);
+    EXPECT_TRUE(polynomial2==polynomial5);
+}
+
 TEST(PolynomialTest, IsZeroWorksCorrectly)
 {
     Polynomial polynomial1;

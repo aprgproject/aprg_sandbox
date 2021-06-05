@@ -76,10 +76,12 @@ Term performOperation(
     return newTerm;
 
 #define TERM_BINARY_OPERATION_MACRO(operation) \
-    Term newTerm;\    if(term1.isConstant())\
+    Term newTerm;\
+    if(term1.isConstant())\
 {\
     if(term2.isConstant())\
-{\    newTerm = term1.getConstantConstReference() operation term2.getConstantConstReference();\
+{\
+    newTerm = term1.getConstantConstReference() operation term2.getConstantConstReference();\
 }\
     else if(term2.isVariable())\
 {\

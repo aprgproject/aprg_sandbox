@@ -15,6 +15,11 @@ Variable::Variable(string const& variableName)
     : m_variableName(variableName)
 {}
 
+bool Variable::operator==(Variable const& second) const
+{
+    return m_variableName == second.m_variableName;
+}
+
 string Variable::getVariableName() const
 {
     return m_variableName;

@@ -16,6 +16,8 @@ public:
     Polynomial(Monomials const& monomials);
     Polynomial(std::initializer_list<Monomial> const& monomials);
 
+    bool operator==(Polynomial const& second) const;
+
     bool isZero() const;
     bool isOneMonomial() const;
 
@@ -23,9 +25,11 @@ public:
 
     Monomials & getMonomialsReference();
     Monomials const& getMonomialsConstReference() const;
+
     void addMonomial(Monomial const& monomial);
     void addPolynomial(Polynomial const& polynomial);
-    void multiplyByNumber(AlbaNumber const& number);    void multiplyByMonomial(Monomial const& monomial);
+    void multiplyByNumber(AlbaNumber const& number);
+    void multiplyByMonomial(Monomial const& monomial);
     void multiplyByPolynomial(Polynomial const& polynomial);
     void divideByMonomial(Monomial const& monomial);
 

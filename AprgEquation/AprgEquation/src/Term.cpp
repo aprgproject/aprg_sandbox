@@ -73,11 +73,50 @@ Term::Term(Expression const& expression)
     : m_type(TermType::Expression)
     , m_baseDataTermPointer(new Expression(expression))
 {}
+
 Term& Term::operator=(Term const& term)
 {
-    m_type = term.getTermType();    m_baseDataTermPointer.reset(nullptr);
+    m_type = term.getTermType();
+    m_baseDataTermPointer.reset(nullptr);
     resetBaseDataTermPointerBasedFromTerm(term);
     return *this;
+}
+
+bool Term::operator==(Term const& second) const
+{
+    bool result(false);
+    if(m_type==second.m_type)
+    {
+        if(m_type==TermType::Empty)
+        {
+            result=true;
+        }
+        else if(m_type==TermType::Constant)
+        {
+            result = getConstantConstReference()==second.getConstantConstReference();
+        }
+        else if(m_type==TermType::Variable)
+        {
+            result = getVariableConstReference()==second.getVariableConstReference();
+        }
+        else if(m_type==TermType::Operator)
+        {
+            result = getOperatorConstReference()==second.getOperatorConstReference();
+        }
+        else if(m_type==TermType::Monomial)
+        {
+            result = getMonomialConstReference()==second.getMonomialConstReference();
+        }
+        else if(m_type==TermType::Polynomial)
+        {
+            result = getPolynomialConstReference()==second.getPolynomialConstReference();
+        }
+        else if(m_type==TermType::Expression)
+        {
+            result = getExpressionConstReference()==second.getExpressionConstReference();
+        }
+    }
+    return result;
 }
 
 void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
@@ -104,10 +143,12 @@ void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
     case TermType::Expression:
         m_baseDataTermPointer.reset(new Expression(term.getExpressionConstReference()));
         break;
-    }}
+    }
+}
 
 TermType Term::getTermType() const
-{    return m_type;
+{
+    return m_type;
 }
 
 bool Term::isConstant() const
@@ -142,10 +183,12 @@ bool Term::isExpression() const
 
 Constant & Term::getConstantReference()
 {
-    assert(m_type==TermType::Constant);    return *dynamic_cast<Constant*>(m_baseDataTermPointer.get());
+    assert(m_type==TermType::Constant);
+    return *dynamic_cast<Constant*>(m_baseDataTermPointer.get());
 }
 
-Variable & Term::getVariableReference(){
+Variable & Term::getVariableReference()
+{
     assert(m_type==TermType::Variable);
     return *dynamic_cast<Variable*>(m_baseDataTermPointer.get());
 }
@@ -173,9 +216,11 @@ Expression & Term::getExpressionReference()
     assert((m_type==TermType::Expression));
     return *dynamic_cast<Expression*>(m_baseDataTermPointer.get());
 }
+
 Constant const& Term::getConstantConstReference() const
 {
-    assert(m_type==TermType::Constant);    return *dynamic_cast<Constant const * const>(m_baseDataTermPointer.get());
+    assert(m_type==TermType::Constant);
+    return *dynamic_cast<Constant const * const>(m_baseDataTermPointer.get());
 }
 
 Variable const& Term::getVariableConstReference() const
@@ -207,6 +252,7 @@ Expression const& Term::getExpressionConstReference() const
     assert((m_type==TermType::Expression));
     return *dynamic_cast<Expression const * const>(m_baseDataTermPointer.get());
 }
+
 
 }
 

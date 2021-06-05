@@ -21,10 +21,12 @@ bool isOperator(string const& variableOrOperator)
 
 bool canBeAddedOrSubtracted(Monomial const& monomial1, Monomial const& monomial2)
 {
-    Monomial::VariablesToExponentsMap const& variablesMap1(monomial1.getVariablesToExponentsMapConstReference());    Monomial::VariablesToExponentsMap const& variablesMap2(monomial2.getVariablesToExponentsMapConstReference());
+    Monomial::VariablesToExponentsMap const& variablesMap1(monomial1.getVariablesToExponentsMapConstReference());
+    Monomial::VariablesToExponentsMap const& variablesMap2(monomial2.getVariablesToExponentsMapConstReference());
     bool result(false);
     if(variablesMap1.size() == variablesMap2.size())
-    {        using MapConstIterator=Monomial::VariablesToExponentsMap::const_iterator;
+    {
+        using MapConstIterator=Monomial::VariablesToExponentsMap::const_iterator;
         using MismatchResultType=pair<MapConstIterator, MapConstIterator>;
         MismatchResultType mismatchResult = mismatch(variablesMap1.cbegin(), variablesMap1.end(), variablesMap2.cbegin());
         result = mismatchResult.first == variablesMap1.cend();
@@ -103,10 +105,12 @@ Monomial createSimplifiedMonomial(Monomial const& monomial)
 
 Monomial multiplyMonomials(Monomial const& monomial1, Monomial const& monomial2)
 {
-    Monomial::VariablesToExponentsMap newVariablesMap(                combineVariableExponentMapByMultiplication(
+    Monomial::VariablesToExponentsMap newVariablesMap(
+                combineVariableExponentMapByMultiplication(
                     monomial1.getVariablesToExponentsMapConstReference(),
                     monomial2.getVariablesToExponentsMapConstReference()));
-    return Monomial(monomial1.getConstantConstReference()*monomial2.getConstantConstReference(), newVariablesMap);}
+    return Monomial(monomial1.getConstantConstReference()*monomial2.getConstantConstReference(), newVariablesMap);
+}
 
 Monomial divideMonomials(Monomial const& monomial1, Monomial const& monomial2)
 {
@@ -120,10 +124,12 @@ Monomial divideMonomials(Monomial const& monomial1, Monomial const& monomial2)
 Monomial::VariablesToExponentsMap createVariableMapAndRemoveZeroExponents(Monomial::VariablesToExponentsMap const& variablesMap)
 {
     Monomial::VariablesToExponentsMap newVariableMap;
-    for(Monomial::VariableExponentPair const variableExponentPair : variablesMap)    {
+    for(Monomial::VariableExponentPair const variableExponentPair : variablesMap)
+    {
         if(variableExponentPair.second != 0)
         {
-            newVariableMap.emplace(variableExponentPair.first, variableExponentPair.second);        }
+            newVariableMap.emplace(variableExponentPair.first, variableExponentPair.second);
+        }
     }
     return newVariableMap;
 }
@@ -154,10 +160,12 @@ Monomial::VariablesToExponentsMap combineVariableExponentMapByMultiplication(
     return newVariableMap;
 }
 
-Monomial::VariablesToExponentsMap combineVariableExponentMapByDivision(        Monomial::VariablesToExponentsMap const& variablesMap1,
+Monomial::VariablesToExponentsMap combineVariableExponentMapByDivision(
+        Monomial::VariablesToExponentsMap const& variablesMap1,
         Monomial::VariablesToExponentsMap const& variablesMap2)
 {
-    Monomial::VariablesToExponentsMap newVariableMap;    for(Monomial::VariableExponentPair const variableExponentPair : variablesMap1)
+    Monomial::VariablesToExponentsMap newVariableMap;
+    for(Monomial::VariableExponentPair const variableExponentPair : variablesMap1)
     {
         newVariableMap[variableExponentPair.first] = newVariableMap[variableExponentPair.first] + variableExponentPair.second;
     }
@@ -182,10 +190,12 @@ BaseTermUniquePointer createBaseTermUniquePointer(Term const& term)
 
 void wrapTerms(WrappedTerms & wrappedTerms, Terms const& terms)
 {
-    BaseTermSharedPointers & baseTermPointers(wrappedTerms.getBaseTermPointersReference());    for(Term const& term : terms)
+    BaseTermSharedPointers & baseTermPointers(wrappedTerms.getBaseTermPointersReference());
+    for(Term const& term : terms)
     {
         baseTermPointers.emplace_back(new Term(term));
-    }}
+    }
+}
 
 Terms unwrapTermsAndReturnTerms(WrappedTerms const& wrappedTerms)
 {

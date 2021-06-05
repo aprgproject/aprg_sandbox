@@ -32,6 +32,22 @@ TEST(MonomialTest, MonomialsAreConstructedCorrectly)
     EXPECT_DOUBLE_EQ(-7, variableMap2.at("i").getDouble());
 }
 
+TEST(MonomialTest, EqualityOperatorWorks)
+{
+    Monomial monomial1;
+    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial3(-234, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial4(-54, {{"x", 6}});
+    Monomial monomial5(-54, {{"x", 6}, {"y", -1.25}});
+
+    EXPECT_TRUE(monomial1==monomial1);
+    EXPECT_FALSE(monomial1==monomial2);
+    EXPECT_TRUE(monomial2==monomial2);
+    EXPECT_FALSE(monomial2==monomial3);
+    EXPECT_FALSE(monomial2==monomial4);
+    EXPECT_TRUE(monomial2==monomial5);
+}
+
 TEST(MonomialTest, IsZeroFunctionWorks)
 {
     Monomial monomial1;
@@ -47,10 +63,12 @@ TEST(MonomialTest, IsZeroFunctionWorks)
 
 TEST(MonomialTest, IsConstantOnlyFunctionWorks)
 {
-    Monomial monomial1;    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial1;
+    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
     Monomial monomial3(23, {});
 
-    EXPECT_TRUE(monomial1.isConstantOnly());    EXPECT_FALSE(monomial2.isConstantOnly());
+    EXPECT_TRUE(monomial1.isConstantOnly());
+    EXPECT_FALSE(monomial2.isConstantOnly());
     EXPECT_TRUE(monomial3.isConstantOnly());
 }
 
@@ -92,10 +110,12 @@ TEST(MonomialTest, GetFirstVariableNameFunctionWorks)
 
 TEST(MonomialTest, SettingANewConstantWorks)
 {
-    Monomial monomial;    EXPECT_DOUBLE_EQ(0, monomial.getConstantConstReference().getDouble());
+    Monomial monomial;
+    EXPECT_DOUBLE_EQ(0, monomial.getConstantConstReference().getDouble());
 
     monomial.setConstant(512);
-    EXPECT_DOUBLE_EQ(512, monomial.getConstantConstReference().getDouble());}
+    EXPECT_DOUBLE_EQ(512, monomial.getConstantConstReference().getDouble());
+}
 
 TEST(MonomialTest, SettingANewVariableWithExponentWorks)
 {

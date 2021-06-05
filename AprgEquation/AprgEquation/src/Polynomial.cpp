@@ -22,6 +22,21 @@ Polynomial::Polynomial(initializer_list<Monomial> const& monomials)
     copy(monomials.begin(), monomials.end(), back_inserter(m_monomials));
 }
 
+bool Polynomial::operator==(Polynomial const& second) const
+{
+    Monomials const& monomials1(m_monomials);
+    Monomials const& monomials2(second.m_monomials);
+    bool result(false);
+    if(monomials1.size() == monomials2.size())
+    {
+        using MonomialsIterator=Monomials::const_iterator;
+        using MismatchResultType=pair<MonomialsIterator, MonomialsIterator>;
+        MismatchResultType mismatchResult = mismatch(monomials1.cbegin(), monomials1.end(), monomials2.cbegin());
+        result = mismatchResult.first == monomials1.cend();
+    }
+    return result;
+}
+
 bool Polynomial::isZero() const
 {
     return m_monomials.empty();
@@ -44,11 +59,13 @@ Monomial Polynomial::getFirstMonomial() const
 
 Monomials & Polynomial::getMonomialsReference()
 {
-    return m_monomials;}
+    return m_monomials;
+}
 
 Monomials const& Polynomial::getMonomialsConstReference() const
 {
-    return m_monomials;}
+    return m_monomials;
+}
 
 void Polynomial::addMonomial(Monomial const& monomial)
 {

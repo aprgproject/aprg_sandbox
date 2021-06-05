@@ -23,10 +23,12 @@ TEST(UtilitiesTest, IsOperatorWorksCorrectly)
 
 TEST(UtilitiesTest, CanBeAddedOrSubtractedForBothMonomialsWorksCorrectly)
 {
-    Monomial monomial1;    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial1;
+    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
     Monomial monomial3(100, {{"x", 6}, {"y", -1.25}});
     Monomial monomial4(100, {{"x", 5}, {"y", -1}});
     Monomial monomial5(645, {{"i", 20}, {"y", 30}});
+
     EXPECT_TRUE(canBeAddedOrSubtracted(monomial1, monomial1));
     EXPECT_TRUE(canBeAddedOrSubtracted(monomial2, monomial2));
     EXPECT_TRUE(canBeAddedOrSubtracted(monomial3, monomial3));
@@ -179,9 +181,11 @@ TEST(UtilitiesTest, PerformChangeForVariablesWorksCorrectly)
 {
     Monomial::VariablesToExponentsMap variablesToExponents{{"x", 1}, {"y", 2}, {"z", 3}};
 
-    performChangeForVariables(variablesToExponents, [](string const &, AlbaNumber & exponent)    {
+    performChangeForVariables(variablesToExponents, [](string const &, AlbaNumber & exponent)
+    {
         exponent=exponent*3;
     });
+
     ASSERT_EQ(3u, variablesToExponents.size());
     EXPECT_DOUBLE_EQ(3, variablesToExponents.at("x").getDouble());
     EXPECT_DOUBLE_EQ(6, variablesToExponents.at("y").getDouble());
@@ -227,9 +231,11 @@ TEST(UtilitiesTest, CombineVariableExponentMapByDivisionWorksCorrectly)
 TEST(UtilitiesTest, WrappingTermsWorksCorrectly)
 {
     WrappedTerms wrappedTerms;
+
     wrapTerms(wrappedTerms, Terms{Term(5), Term("+"), Term("interest")});
 
-    BaseTermSharedPointers & baseTermPointersToVerify(wrappedTerms.getBaseTermPointersReference());    ASSERT_EQ(3u, baseTermPointersToVerify.size());
+    BaseTermSharedPointers & baseTermPointersToVerify(wrappedTerms.getBaseTermPointersReference());
+    ASSERT_EQ(3u, baseTermPointersToVerify.size());
     Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
     Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
     Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));

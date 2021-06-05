@@ -37,10 +37,12 @@ public:
 
     Type getType() const;
     int getInteger() const;
-    FractionData getFractionData() const;    double getDouble() const;
+    FractionData getFractionData() const;
+    double getDouble() const;
 
     bool operator==(AlbaNumber const& second) const;
-    bool operator!=(AlbaNumber const& second) const;    bool operator<(AlbaNumber const& second) const;
+    bool operator!=(AlbaNumber const& second) const;
+    bool operator<(AlbaNumber const& second) const;
     AlbaNumber operator+() const;
     AlbaNumber operator-() const;
     AlbaNumber operator+(AlbaNumber const& second) const;

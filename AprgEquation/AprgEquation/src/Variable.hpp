@@ -16,6 +16,8 @@ public:
     Variable();
     Variable(std::string const& variableName);
 
+    bool operator==(Variable const& second) const;
+
     std::string getVariableName() const;
 
     void setVariableName(std::string const& variableName);

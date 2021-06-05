@@ -22,6 +22,11 @@ Monomial::Monomial(AlbaNumber const& constant, VariablesToExponentsMap const& va
     , m_variablesToExponentsMap(variablesWithExponents)
 {}
 
+bool Monomial::operator==(Monomial const& second) const
+{
+    return m_constant == second.m_constant && m_variablesToExponentsMap == second.m_variablesToExponentsMap;
+}
+
 bool Monomial::isZero() const
 {
     return m_constant == 0;

@@ -8,10 +8,12 @@ namespace alba
 TEST(AlbaNumberTest, ConstructionWorksAsExpected)
 {
     AlbaNumber number1;
-    AlbaNumber number2(-81237);    AlbaNumber number3(34095093u);
+    AlbaNumber number2(-81237);
+    AlbaNumber number3(34095093u);
     AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(-100, 10);
     AlbaNumber number6(4564.38794);
+
     EXPECT_EQ(AlbaNumber::Type::Integer, number1.getType());
     EXPECT_EQ(0, number1.getInteger());
     EXPECT_EQ(AlbaNumber::Type::Integer, number2.getType());
@@ -81,12 +83,14 @@ TEST(AlbaNumberTest, IsDoubleTypeWorksAsExpected)
 
 TEST(AlbaNumberTest, GetIntegerWorksAsExpected)
 {
-    AlbaNumber number1;    AlbaNumber number2(-81237);
+    AlbaNumber number1;
+    AlbaNumber number2(-81237);
     AlbaNumber number3(34095093u);
     AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(4564.38794);
 
-    EXPECT_EQ(0, number1.getInteger());    EXPECT_EQ(-81237, number2.getInteger());
+    EXPECT_EQ(0, number1.getInteger());
+    EXPECT_EQ(-81237, number2.getInteger());
     EXPECT_EQ(34095093, number3.getInteger());
     EXPECT_EQ(8, number4.getInteger());
     EXPECT_EQ(4564, number5.getInteger());

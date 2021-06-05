@@ -26,6 +26,8 @@ public:
     Monomial(AlbaNumber const& constant, std::initializer_list<VariableExponentPair> const& variablesWithExponents);
     Monomial(AlbaNumber const& constant, VariablesToExponentsMap const& variablesWithExponents);
 
+    bool operator==(Monomial const& second) const;
+
     bool isZero() const;
     bool isConstantOnly() const;
     bool isVariableOnly() const;

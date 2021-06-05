@@ -17,6 +17,8 @@ public:
     Operator();
     Operator(std::string const& operatingString);
 
+    bool operator==(Operator const& second) const;
+
     bool isAddition() const;
     bool isSubtraction() const;
     bool isMultiplication() const;
@@ -26,9 +28,11 @@ public:
     std::string getOperatorString() const;
 
     void setOperatorString(std::string const& operatingString);
+
 private:
     std::string m_operatingString;
 };
+
 }
 
 }
