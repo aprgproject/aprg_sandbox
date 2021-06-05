@@ -228,75 +228,49 @@ TEST(UtilitiesTest, CombineVariableExponentMapByDivisionWorksCorrectly)
     EXPECT_DOUBLE_EQ(-5, variableMapToVerify2.at("z").getDouble());
 }
 
-TEST(UtilitiesTest, WrappingTermsWorksCorrectly)
-{
-    WrappedTerms wrappedTerms;
-
-    wrapTerms(wrappedTerms, Terms{Term(5), Term("+"), Term("interest")});
-
-    BaseTermSharedPointers & baseTermPointersToVerify(wrappedTerms.getBaseTermPointersReference());
-    ASSERT_EQ(3u, baseTermPointersToVerify.size());
-    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
-    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
-    Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
-    ASSERT_EQ(TermType::Constant, term1.getTermType());
-    EXPECT_DOUBLE_EQ(5, term1.getConstantConstReference().getNumberConstReference().getDouble());
-    ASSERT_EQ(TermType::Operator, term2.getTermType());
-    EXPECT_EQ("+", term2.getOperatorConstReference().getOperatorString());
-    ASSERT_EQ(TermType::Variable, term3.getTermType());
-    EXPECT_EQ("interest", term3.getVariableConstReference().getVariableName());
-}
-
-TEST(UtilitiesTest, UnwrappingTermsWorksCorrectly)
-{
-    WrappedTerms wrappedTerms;
-    wrapTerms(wrappedTerms, Terms{Term(-5), Term("-"), Term("count")});
-
-    Terms termsToVerify(unwrapTermsAndReturnTerms(wrappedTerms));
-
-    ASSERT_EQ(3u, termsToVerify.size());
-    ASSERT_EQ(TermType::Constant, termsToVerify.at(0).getTermType());
-    EXPECT_DOUBLE_EQ(-5, termsToVerify.at(0).getConstantConstReference().getNumberConstReference().getDouble());
-    ASSERT_EQ(TermType::Operator, termsToVerify.at(1).getTermType());
-    EXPECT_EQ("-", termsToVerify.at(1).getOperatorConstReference().getOperatorString());
-    ASSERT_EQ(TermType::Variable, termsToVerify.at(2).getTermType());
-    EXPECT_EQ("count", termsToVerify.at(2).getVariableConstReference().getVariableName());
-}
-
 TEST(UtilitiesTest, CreateExpressionWorksCorrectly)
 {
-    Expression expressionToTest(createExpression(Terms{Term(7.625), Term("-"), Term("compoundinterest")}));
+    Expression expressionToTest(createExpression(Terms{Term(10), Term("/"), Term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})})}));
 
-    BaseTermSharedPointers & baseTermPointersToVerify(expressionToTest.getWrappedTermsReference().getBaseTermPointersReference());
-    ASSERT_EQ(3u, baseTermPointersToVerify.size());
-    Term term1(*dynamic_cast<Term*>(baseTermPointersToVerify.at(0).get()));
-    Term term2(*dynamic_cast<Term*>(baseTermPointersToVerify.at(1).get()));
-    Term term3(*dynamic_cast<Term*>(baseTermPointersToVerify.at(2).get()));
-    ASSERT_EQ(TermType::Constant, term1.getTermType());
-    EXPECT_DOUBLE_EQ(7.625, term1.getConstantConstReference().getNumberConstReference().getDouble());
-    ASSERT_EQ(TermType::Operator, term2.getTermType());
-    EXPECT_EQ("-", term2.getOperatorConstReference().getOperatorString());
-    ASSERT_EQ(TermType::Variable, term3.getTermType());
-    EXPECT_EQ("compoundinterest", term3.getVariableConstReference().getVariableName());
+    TermsWithPriorityAndAssociation::TermsWithDetails termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
+
+    EXPECT_EQ(OperatorLevel::MultiplicationAndDivision, expressionToTest.getCommonOperatorLevel());
+    ASSERT_EQ(2u, termsToVerify.size());
+    EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Positive, termsToVerify.at(0).association);
+    Term const& termToVerify1 = *dynamic_cast<Term const*const>(termsToVerify.at(0).baseTermSharedPointer.get());
+    EXPECT_EQ(Term(10), termToVerify1);
+    EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Negative, termsToVerify.at(1).association);
+    Term const& termToVerify2 = *dynamic_cast<Term const*const>(termsToVerify.at(1).baseTermSharedPointer.get());
+    EXPECT_EQ(Term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}), termToVerify2);
 }
 
-TEST(UtilitiesTest, GetTermsInAnExpressionWorksCorrectly)
+TEST(UtilitiesTest, CreateExpressionDoesNotSimplify)
 {
-    Expression expression(createExpression(Terms{Term(-54654.25), Term("+"), Term("x"), Term("*"), Term("y")}));
+    Expression expressionToTest(createExpression(Terms{Term(7.625), Term("+"), Term(2.375)}));
 
-    Terms termsToVerify(getTermsInAnExpression(expression));
+    TermsWithPriorityAndAssociation::TermsWithDetails termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
 
-    ASSERT_EQ(5u, termsToVerify.size());
-    ASSERT_EQ(TermType::Constant, termsToVerify.at(0).getTermType());
-    EXPECT_DOUBLE_EQ(-54654.25, termsToVerify.at(0).getConstantConstReference().getNumberConstReference().getDouble());
-    ASSERT_EQ(TermType::Operator, termsToVerify.at(1).getTermType());
-    EXPECT_EQ("+", termsToVerify.at(1).getOperatorConstReference().getOperatorString());
-    ASSERT_EQ(TermType::Variable, termsToVerify.at(2).getTermType());
-    EXPECT_EQ("x", termsToVerify.at(2).getVariableConstReference().getVariableName());
-    ASSERT_EQ(TermType::Operator, termsToVerify.at(3).getTermType());
-    EXPECT_EQ("*", termsToVerify.at(3).getOperatorConstReference().getOperatorString());
-    ASSERT_EQ(TermType::Variable, termsToVerify.at(4).getTermType());
-    EXPECT_EQ("y", termsToVerify.at(4).getVariableConstReference().getVariableName());
+    EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, expressionToTest.getCommonOperatorLevel());
+    ASSERT_EQ(2u, termsToVerify.size());
+    EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Positive, termsToVerify.at(0).association);
+    Term const& termToVerify1 = *dynamic_cast<Term const*const>(termsToVerify.at(0).baseTermSharedPointer.get());
+    EXPECT_EQ(Term(7.625), termToVerify1);
+    EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Positive, termsToVerify.at(1).association);
+    Term const& termToVerify2 = *dynamic_cast<Term const*const>(termsToVerify.at(1).baseTermSharedPointer.get());
+    EXPECT_EQ(Term(2.375), termToVerify2);
+}
+
+TEST(UtilitiesTest, CreateSimplifiedExpressionWorksCorrectly)
+{
+    Expression expressionToTest(createSimplifiedExpression(Terms{Term(7.625), Term("+"), Term(2.375)}));
+
+    TermsWithPriorityAndAssociation::TermsWithDetails termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
+
+    EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
+    ASSERT_EQ(1u, termsToVerify.size());
+    EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Positive, termsToVerify.at(0).association);
+    Term const& termToVerify1 = *dynamic_cast<Term const*const>(termsToVerify.at(0).baseTermSharedPointer.get());
+    EXPECT_EQ(Term(10), termToVerify1);
 }
 
 }

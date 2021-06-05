@@ -3,7 +3,6 @@
 #include <BaseTermPointers.hpp>
 #include <Expression.hpp>
 #include <Term.hpp>
-#include <WrappedTerms.hpp>
 
 #include <string>
 
@@ -16,6 +15,11 @@ namespace equation
 bool isOperator(std::string const& variableOrOperator);
 bool canBeAddedOrSubtracted(Monomial const& monomial1, Monomial const& monomial2);
 bool canBeAddedOrSubtracted(Monomial const& monomial, Variable const& variable);
+
+unsigned int getOperatorLevelValue(OperatorLevel const operatorLevel);
+unsigned int getTermPriorityValue(Term const& term);
+
+Term convertExpressionToSimplestTerm(Expression const& expression);
 
 Term convertPolynomialToSimplestTerm(Polynomial const& polynomial);
 Polynomial createSimplifiedPolynomial(Polynomial const& polynomial);
@@ -35,10 +39,14 @@ Monomial::VariablesToExponentsMap combineVariableExponentMapByDivision(
         Monomial::VariablesToExponentsMap const& variablesMap1,
         Monomial::VariablesToExponentsMap const& variablesMap2);
 
-void wrapTerms(WrappedTerms & wrappedTerms, Terms const& terms);
-Terms unwrapTermsAndReturnTerms(WrappedTerms const& wrappedTerms);
+BaseTermSharedPointer createBaseTermSharedPointer(BaseTermSharedPointer const& baseTerm);
+BaseTermSharedPointer createBaseTermSharedPointerFromTerm(Term const& term);
+BaseTermSharedPointer createBaseTermSharedPointerFromTermReference(Term& term);
+
 Expression createExpression(Terms const& terms);
-Terms getTermsInAnExpression(Expression const& expression);
+Expression convertTermToExpression(Term const& term);
+Expression createSimplifiedExpression(Terms const& terms);
+
 }
 
 }

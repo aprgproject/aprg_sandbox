@@ -14,7 +14,7 @@ TEST(TermsSimplificatorTest, ThreeTermsCanBeSimplified)
 {
     TermsSimplificator simplificator(Terms{Term(5), Term("+"), Term(2)});
 
-    simplificator.simplify();
+    simplificator.simplifyTerms();
 
     Terms termsToVerify(simplificator.getTermsConstReference());
     ASSERT_EQ(1u, termsToVerify.size());

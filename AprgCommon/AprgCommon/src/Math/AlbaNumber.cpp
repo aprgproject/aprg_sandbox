@@ -10,9 +10,11 @@ using namespace std;
 
 namespace alba
 {
+
 AlbaNumber::AlbaNumber()
     : m_type(Type::Integer)
-{    int& intDataReference(m_data.intData);
+{
+    int& intDataReference(m_data.intData);
     intDataReference = 0;
 }
 
@@ -49,10 +51,12 @@ AlbaNumber::AlbaNumber(double const doubleValue)
 
 bool AlbaNumber::operator==(AlbaNumber const& second) const
 {
-    return isAlmostEqual(getDouble(), second.getDouble());}
+    return isAlmostEqual(getDouble(), second.getDouble());
+}
 
 bool AlbaNumber::operator!=(AlbaNumber const& second) const
-{    AlbaNumber const& first(*this);
+{
+    AlbaNumber const& first(*this);
     return !(first==second);
 }
 
@@ -512,10 +516,12 @@ std::string AlbaNumber::getDisplayableString() const
 
 void AlbaNumber::convertToIntegerIfNeeded()
 {
-    if(m_type == Type::Fraction)    {
+    if(m_type == Type::Fraction)
+    {
         FractionData& fractionDataReference(m_data.fractionData);
         if(isDivisible(getAbsoluteValue(fractionDataReference.numerator), fractionDataReference.denominator))
-        {            *this = AlbaNumber(static_cast<int>(fractionDataReference.numerator/fractionDataReference.denominator));
+        {
+            *this = AlbaNumber(static_cast<int>(fractionDataReference.numerator/fractionDataReference.denominator));
         }
     }
 }

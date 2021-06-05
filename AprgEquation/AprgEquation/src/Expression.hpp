@@ -1,33 +1,49 @@
 #pragma once
 
 #include <BaseTermData.hpp>
+#include <BaseTermPointers.hpp>
 #include <OperatorLevel.hpp>
+#include <TermsWithPriorityAndAssociation.hpp>
 #include <TermType.hpp>
-#include <WrappedTerms.hpp>
 
 #include <string>
 
 namespace alba
 {
+
 namespace equation
 {
+
 class Expression : public BaseTermData
 {
 public:
     Expression();
+    Expression(BaseTermSharedPointer const& sharedPointer);
     ~Expression();
 
     bool operator==(Expression const& second) const;
-    std::string getDisplayableString() const;
-    OperatorLevel getCommonOperatorLevel() const;
+    bool containsOnlyOneTerm() const;
 
-    WrappedTerms & getWrappedTermsReference();
-    WrappedTerms const& getWrappedTermsConstReference() const;
+    OperatorLevel getCommonOperatorLevel() const;
+    unsigned int getNumberOfTerms() const;
+    std::string getDisplayableString() const;
+
+    BaseTermSharedPointer const& getFirstTermConstReference() const;
+    TermsWithPriorityAndAssociation const& getTerms() const;
+
+    void clearAndSetTerm(BaseTermSharedPointer const& sharedPointer);
+    void addTerm(BaseTermSharedPointer const& sharedPointer);
+    void subtractTerm(BaseTermSharedPointer const& sharedPointer);
+    void multiplyTerm(BaseTermSharedPointer const& sharedPointer);
+    void divideTerm(BaseTermSharedPointer const& sharedPointer);
+    void raiseToPowerTerm(BaseTermSharedPointer const& sharedPointer);
 
     void simplify();
 private:
-    WrappedTerms m_wrappedTerms;
+    OperatorLevel m_commonOperatorLevel;
+    TermsWithPriorityAndAssociation m_termsWithPriorityAndAssociation;
 };
+
 }
 
 }

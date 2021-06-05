@@ -1,6 +1,11 @@
 #include "Utilities.hpp"
 
+#include <TermsSimplificator.hpp>
+
 #include <algorithm>
+
+
+#include <Debug/AlbaDebug.hpp>
 
 using namespace std;
 
@@ -47,6 +52,70 @@ bool canBeAddedOrSubtracted(Monomial const& monomial, Variable const& variable)
         }
     }
     return result;
+}
+
+unsigned int getOperatorLevelValue(OperatorLevel const operatorLevel)
+{
+    unsigned int result(0);
+    switch(operatorLevel)
+    {
+    case OperatorLevel::Unknown:
+        result=0;
+        break;
+    case OperatorLevel::AdditionAndSubtraction:
+        result=1;
+        break;
+    case OperatorLevel::MultiplicationAndDivision:
+        result=2;
+        break;
+    case OperatorLevel::RaiseToPower:
+        result=3;
+        break;
+    }
+    return result;
+}
+
+unsigned int getTermPriorityValue(Term const& term)
+{
+    unsigned int result(0);
+    if(term.isExpression())
+    {
+        result=1;
+    }
+    else if(term.isPolynomial())
+    {
+        result=2;
+    }
+    else if(term.isMonomial())
+    {
+        result=3;
+    }
+    else if(term.isOperator())
+    {
+        result=4;
+    }
+    else if(term.isVariable())
+    {
+        result=5;
+    }
+    else if(term.isConstant())
+    {
+        result=6;
+    }
+    return result;
+}
+
+Term convertExpressionToSimplestTerm(Expression const& expression)
+{
+    Expression newExpression(expression);
+    newExpression.simplify();
+    Term newTerm(newExpression);
+    if(newExpression.containsOnlyOneTerm())
+    {
+        Term const& term = *dynamic_cast<Term const*const>(newExpression.getFirstTermConstReference().get());
+        newTerm = term;
+    }
+    return newTerm;
 }
 
 Term convertPolynomialToSimplestTerm(Polynomial const& polynomial)
@@ -176,35 +245,83 @@ Monomial::VariablesToExponentsMap combineVariableExponentMapByDivision(
     return newVariableMap;
 }
 
-void wrapTerms(WrappedTerms & wrappedTerms, Terms const& terms)
+BaseTermSharedPointer createBaseTermSharedPointer(BaseTermSharedPointer const& baseTerm)
 {
-    BaseTermSharedPointers & baseTermPointers(wrappedTerms.getBaseTermPointersReference());    for(Term const& term : terms)
-    {
-        baseTermPointers.emplace_back(new Term(term));
-    }}
+    return BaseTermSharedPointer(
+                dynamic_cast<BaseTerm*>(
+                    new Term(*dynamic_cast<Term*>(baseTerm.get()))));
+}
 
-Terms unwrapTermsAndReturnTerms(WrappedTerms const& wrappedTerms)
+BaseTermSharedPointer createBaseTermSharedPointerFromTerm(Term const& term)
 {
-    BaseTermSharedPointers const& baseTermPointers(wrappedTerms.getBaseTermPointersConstReference());
-    Terms result;
-    for(BaseTermSharedPointer const& baseTermPointer : baseTermPointers)
-    {
-        Term const& term(*dynamic_cast<Term const * const>(baseTermPointer.get()));
-        result.emplace_back(term);
-    }
-    return result;
+    return BaseTermSharedPointer(
+                dynamic_cast<BaseTerm*>(
+                    new Term(term)));
+}
+
+BaseTermSharedPointer createBaseTermSharedPointerFromTermReference(Term& term)
+{
+    return BaseTermSharedPointer(dynamic_cast<BaseTerm*>(&term));
 }
 
 Expression createExpression(Terms const& terms)
 {
     Expression result;
-    wrapTerms(result.getWrappedTermsReference(), terms);
+    ALBA_PRINT1(terms.size());
+    for(Term const& term : terms)
+    {
+        ALBA_PRINT2(getTermPriorityValue(term), term.getDisplayableString());
+    }
+    TermsSimplificator simplificator(terms);
+    simplificator.buildExpressionFromTerms();
+    Terms const& simplifiedTerms(simplificator.getTermsConstReference());
+    ALBA_PRINT1(simplifiedTerms.size());
+    for(Term const& simplifiedTerm : simplifiedTerms)
+    {
+        ALBA_PRINT2(getTermPriorityValue(simplifiedTerm), simplifiedTerm.getDisplayableString());
+    }
+    if(!simplifiedTerms.empty())
+    {
+        result = convertTermToExpression(simplifiedTerms.at(0));
+    }
     return result;
 }
 
-Terms getTermsInAnExpression(Expression const& expression)
+Expression createSimplifiedExpression(Terms const& terms)
 {
-    return unwrapTermsAndReturnTerms(expression.getWrappedTermsConstReference());
+    Expression result;
+    ALBA_PRINT1(terms.size());
+    for(Term const& term : terms)
+    {
+        ALBA_PRINT2(getTermPriorityValue(term), term.getDisplayableString());
+    }
+    TermsSimplificator simplificator(terms);
+    simplificator.simplifyTerms();
+    Terms const& simplifiedTerms(simplificator.getTermsConstReference());
+    ALBA_PRINT1(simplifiedTerms.size());
+    for(Term const& simplifiedTerm : simplifiedTerms)
+    {
+        ALBA_PRINT2(getTermPriorityValue(simplifiedTerm), simplifiedTerm.getDisplayableString());
+    }
+    if(!simplifiedTerms.empty())
+    {
+        result = convertTermToExpression(simplifiedTerms.at(0));
+    }
+    return result;
+}
+
+Expression convertTermToExpression(Term const& term)
+{
+    Expression result;
+    if(term.isExpression())
+    {
+        result=term.getExpressionConstReference();
+    }
+    else
+    {
+        result=Expression(createBaseTermSharedPointerFromTerm(term));
+    }
+    return result;
 }
 
 }

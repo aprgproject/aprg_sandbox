@@ -6,10 +6,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
+
 Polynomial::Polynomial()
 {}
 
@@ -74,10 +76,12 @@ string Polynomial::getDisplayableString() const
 
 Monomial Polynomial::getFirstMonomial() const
 {
-    Monomial result;    if(!m_monomials.empty())
+    Monomial result;
+    if(!m_monomials.empty())
     {
         result = m_monomials.front();
-    }    return result;
+    }
+    return result;
 }
 
 Monomials & Polynomial::getMonomialsReference()

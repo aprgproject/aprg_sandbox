@@ -27,11 +27,13 @@ string Variable::getDisplayableString() const
 
 string Variable::getVariableName() const
 {
-    return m_variableName;}
+    return m_variableName;
+}
 
 void Variable::setVariableName(string const& variableName)
 {
-    m_variableName = variableName;}
+    m_variableName = variableName;
+}
 
 }
 

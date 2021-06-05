@@ -16,14 +16,16 @@ public:
 
     Terms const& getTermsConstReference() const;
 
-    void simplify();
-    void simplify(unsigned int const index);
-    void simplifyThreeTerms(unsigned int const index);
+    void buildExpressionFromTerms();
+    void simplifyTerms();
 
-    AlbaOptional<Term> getNewTermFromThreeTerms(
-            Term const& term1,
-            Term const& term2,
-            Term const& term3) const;
+private:
+    AlbaOptional<unsigned int> getNextOperatorIndexToPerform() const;
+
+    bool buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigned int const index);
+    bool buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned int const index);
+    bool simplifyBinaryOperationAndReturnIfSimplified(unsigned int const index);
+    bool simplifyUnaryOperationAndReturnIfSimplified(unsigned int const index);
 
     void eraseTermsInclusive(
             unsigned int const firstIndex,
@@ -32,8 +34,6 @@ public:
             unsigned int const index,
             Term const& term);
 
-
-private:
     Terms m_terms;
 };
 

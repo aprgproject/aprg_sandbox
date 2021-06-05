@@ -43,11 +43,13 @@ string Constant::getDisplayableString() const
 
 AlbaNumber const& Constant::getNumberConstReference() const
 {
-    return m_constantValue;}
+    return m_constantValue;
+}
 
 void Constant::setNumber(AlbaNumber const& constantValue)
 {
-    m_constantValue = constantValue;}
+    m_constantValue = constantValue;
+}
 
 }
 

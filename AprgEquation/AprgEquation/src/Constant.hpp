@@ -7,8 +7,10 @@
 
 namespace alba
 {
+
 namespace equation
 {
+
 class Constant : public BaseTermData
 {
 public:
@@ -25,9 +27,11 @@ public:
     AlbaNumber const& getNumberConstReference() const;
 
     void setNumber(AlbaNumber const& constantValue);
+
 private:
     AlbaNumber m_constantValue;
 };
+
 }
 
 }

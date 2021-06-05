@@ -4,10 +4,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
+
 Monomial::Monomial()
 {}
 
@@ -61,10 +63,12 @@ string Monomial::getDisplayableString() const
 
 string Monomial::getFirstVariableName() const
 {
-    string variableName;    if(!m_variablesToExponentsMap.empty())
+    string variableName;
+    if(!m_variablesToExponentsMap.empty())
     {
         variableName = (m_variablesToExponentsMap.cbegin())->first;
-    }    return variableName;
+    }
+    return variableName;
 }
 
 AlbaNumber const& Monomial::getConstantConstReference() const
