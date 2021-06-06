@@ -9,7 +9,8 @@
 #include <functional>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -21,6 +22,7 @@ public:
     Expression();
     Expression(BaseTerm const& baseTerm);
     ~Expression();
+
     bool operator==(Expression const& second) const;
     bool operator!=(Expression const& second) const;
     bool operator<(Expression const& second) const;
@@ -31,21 +33,26 @@ public:
     OperatorLevel getCommonOperatorLevel() const;
     BaseTerm const& getFirstTermConstReference() const;
     TermsWithPriorityAndAssociation const& getTerms() const;
-    TermsWithPriorityAndAssociation getTermsThatSatisfiesCondition(
+    TermsWithPriorityAndAssociation getTermsWithDetailsThatSatisfiesCondition(
             ConditionFunctionForTermsWithDetails const& conditionFunction) const;
     std::string getDisplayableString() const;
     std::string getDebugString() const;
+
     void simplify();
-    void saveTerm(BaseTerm const& baseTerm);
+    void simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify);
+
     void addTerm(BaseTerm const& baseTerm);
     void subtractTerm(BaseTerm const& baseTerm);
     void multiplyTerm(BaseTerm const& baseTerm);
     void divideTerm(BaseTerm const& baseTerm);
     void raiseToPowerTerm(BaseTerm const& baseTerm);
+
     void set(OperatorLevel const operatorLevel, TermsWithPriorityAndAssociation termsWithPriorityAndAssociation);
+    void setTerm(BaseTerm const& baseTerm);
     void setCommonOperatorLevel(OperatorLevel const operatorLevel);
     void reverseTheAssociationOfTheTerms();
     void clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm);
+
 private:
     void simplifyAndCopyTerms(
             TermsWithPriorityAndAssociation::TermsWithDetails & termsToUpdate,
@@ -77,7 +84,8 @@ private:
             TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine);
     void putCombinedTerm(BaseTerm const& combinedBaseTerm);
     void putTermsWithDetails(TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSave);
-    void addTermForNonEmptyTerms(BaseTerm const& baseTerm);    void subtractTermForNonEmptyTerms(BaseTerm const& baseTerm);
+    void addTermForNonEmptyTerms(BaseTerm const& baseTerm);
+    void subtractTermForNonEmptyTerms(BaseTerm const& baseTerm);
     void multiplyTermForNonEmptyTerms(BaseTerm const& baseTerm);
     void divideTermForNonEmptyTerms(BaseTerm const& baseTerm);
     void raiseToPowerTermForNonEmptyTerms(BaseTerm const& baseTerm);
@@ -90,17 +98,25 @@ private:
     void putTermsWithAssociation(
             TermsWithPriorityAndAssociation const& termsWithAssociation,
             TermsWithPriorityAndAssociation::AssociationType const overallAssociation);
-    bool mergeForAdditionAndSubtraction(
+
+    void accumulateTermsForAdditionAndSubtractionForTermsWithExpressions(
+            BaseTerm & combinedBaseTerm,
+            TermsWithPriorityAndAssociation::TermsWithDetails const& termsWithExpressions);
+    bool mergeForAdditionAndSubtractionAndReturnIfMerged(
             TermsWithPriorityAndAssociation::TermWithDetails & termExpressionWithDetails1,
-            TermsWithPriorityAndAssociation::TermWithDetails & termExpressionWithDetails2);    bool canBeMergedForAdditionAndSubtraction(
+            TermsWithPriorityAndAssociation::TermWithDetails & termExpressionWithDetails2);
+    bool canBeMergedForAdditionAndSubtraction(
             Expression const& uniqueExpression1,
             Expression const& uniqueExpression2,
             BaseTerm const& mergeTerm1,
             BaseTerm const& mergeTerm2) const;
+    Expression getUniqueExpressionForAdditionOrSubtractionMergeChecking(Expression const& expression);
+    void accumulateMergeTermForAdditionOrSubtractionMergeChecking(BaseTerm & combinedBaseTerm, Expression const& expression);
 
     OperatorLevel m_commonOperatorLevel;
     TermsWithPriorityAndAssociation m_termsWithPriorityAndAssociation;
 };
+
 }
 
 }

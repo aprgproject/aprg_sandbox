@@ -3,6 +3,7 @@
 #include <BaseTermPointers.hpp>
 
 #include <functional>
+#include <list>
 #include <vector>
 
 namespace alba
@@ -32,7 +33,9 @@ public:
         void clear();
         BaseTermSharedPointer baseTermSharedPointer;
         AssociationType association;
-    };    using TermsWithDetails=std::vector<TermWithDetails>;
+    };
+    using TermsWithDetails=std::vector<TermWithDetails>;
+    using ListOfTermsWithDetails=std::list<TermWithDetails>;
     using TermsWithDetailsFunction = std::function<void(TermWithDetails const&)>;
 
     TermsWithPriorityAndAssociation();

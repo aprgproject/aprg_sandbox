@@ -5,6 +5,10 @@
 #include <TermsAggregator.hpp>
 
 #include <algorithm>
+
+
+#include <Debug/AlbaDebug.hpp>
+
 using namespace std;
 using AssociationType=alba::equation::TermsWithPriorityAndAssociation::AssociationType;
 using TermWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermWithDetails;
@@ -46,7 +50,7 @@ bool canBeMergedByAdditionOrSubtraction(Term const& term1, Term const& term2)
     }
     if(term1.isVariable() && term2.isMonomial())
     {
-        result = canBeMergedByAdditionOrSubtraction(term1.getVariableConstReference(), term2.getMonomialConstReference());
+        result = canBeMergedByAdditionOrSubtraction(term2.getMonomialConstReference(), term1.getVariableConstReference());
     }
     return result;
 }
@@ -55,7 +59,8 @@ bool canBeMergedByAdditionOrSubtraction(Monomial const& monomial1, Monomial cons
 {
     Monomial::VariablesToExponentsMap const& variablesMap1(monomial1.getVariablesToExponentsMapConstReference());
     Monomial::VariablesToExponentsMap const& variablesMap2(monomial2.getVariablesToExponentsMapConstReference());
-    bool result(false);    if(variablesMap1.size() == variablesMap2.size())
+    bool result(false);
+    if(variablesMap1.size() == variablesMap2.size())
     {
         using MapConstIterator=Monomial::VariablesToExponentsMap::const_iterator;
         using MismatchResultType=pair<MapConstIterator, MapConstIterator>;
@@ -68,7 +73,8 @@ bool canBeMergedByAdditionOrSubtraction(Monomial const& monomial1, Monomial cons
 bool canBeMergedByAdditionOrSubtraction(Monomial const& monomial, Variable const& variable)
 {
     Monomial::VariablesToExponentsMap const& variablesMap(monomial.getVariablesToExponentsMapConstReference());
-    string variableName(variable.getVariableName());    bool result(false);
+    string variableName(variable.getVariableName());
+    bool result(false);
     if(variablesMap.size() == 1)
     {
         if(variablesMap.find(variableName) != variablesMap.cend())
@@ -84,57 +90,10 @@ bool canBeMergedByAdditionOrSubtraction(Variable const& variable1, Variable cons
     return variable1.getVariableName() == variable2.getDisplayableString();
 }
 
-Expression getUniqueExpressionForAdditionOrSubtractionMergeChecking(Expression const& expression)
-{
-    Expression result;
-    if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
-    {
-        TermsWithPriorityAndAssociation uniqueExpressions(
-                    expression.getTermsThatSatisfiesCondition(
-                        [](TermWithDetails const& termWithDetails) -> bool {
-                        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-                        return termWithDetails.hasNegativeAssociation() || term.isExpression();
-                    }));
-        result.set(OperatorLevel::MultiplicationAndDivision, uniqueExpressions);
-    }
-    else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
-    {
-        result = expression;
-    }
-    result.simplify();
-    return result;
-}
-
-Term getMergeTermForAdditionOrSubtractionMergeChecking(Expression const& expression)
-{
-    Term result;
-    if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
-    {
-        TermsWithPriorityAndAssociation termsToBeMerged(
-                    expression.getTermsThatSatisfiesCondition(
-                        [](TermWithDetails const& termWithDetails) -> bool {
-                        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-                        return !(termWithDetails.hasNegativeAssociation() || term.isExpression());
-                    }));
-        if(termsToBeMerged.isEmpty())
-        {
-            result = Term(1);
-        }
-        else if(termsToBeMerged.getSize() == 1)
-        {
-            result = getTermConstReferenceFromBaseTerm(termsToBeMerged.getFirstTermConstReference());
-        }
-    }
-    else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
-    {
-        result = Term(1);
-    }
-    return result;
-}
-
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term)
 {
-    return term.isEmpty() || term.isTheValueZero();}
+    return term.isEmpty() || term.isTheValueZero();
+}
 
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term)
 {
@@ -291,6 +250,28 @@ string getFirstStringIfNegativeAssociation(
     return result;
 }
 
+string getString(TermWithDetails const termWithDetails)
+{
+    return string("[")+termWithDetails.baseTermSharedPointer->getDisplayableString()
+            +"]["+getEnumShortString(termWithDetails.association)+"]";
+}
+
+string getEnumShortString(TermType const termType)
+{
+    switch(termType)
+    {
+    ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Empty, "Empty")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Constant, "Constant")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Variable, "Variable")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Operator, "Operator")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Monomial, "Monomial")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Polynomial, "Polynomial")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Expression, "Expression")
+            default:
+        return "default";
+    }
+}
+
 string getEnumShortString(AssociationType const association)
 {
     switch(association)
@@ -351,6 +332,7 @@ Expression createOrCopyExpressionFromATerm(Term const& term)
     }
     return result;
 }
+
 Expression createExpressionIfPossible(Terms const& terms)
 {
     Expression result;

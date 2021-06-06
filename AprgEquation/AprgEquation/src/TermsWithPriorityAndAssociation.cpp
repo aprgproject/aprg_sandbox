@@ -74,6 +74,7 @@ void TermsWithPriorityAndAssociation::TermWithDetails::clear()
 
 TermsWithPriorityAndAssociation::TermsWithPriorityAndAssociation()
 {}
+
 TermsWithPriorityAndAssociation::~TermsWithPriorityAndAssociation()
 {}
 

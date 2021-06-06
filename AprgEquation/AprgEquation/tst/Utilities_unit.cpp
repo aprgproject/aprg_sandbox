@@ -27,7 +27,8 @@ TEST(UtilitiesTest, IsOperatorWorks)
 TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForBothMonomialsWorks)
 {
     Monomial monomial1;
-    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});    Monomial monomial3(100, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial3(100, {{"x", 6}, {"y", -1.25}});
     Monomial monomial4(100, {{"x", 5}, {"y", -1}});
     Monomial monomial5(645, {{"i", 20}, {"y", 30}});
 
@@ -45,7 +46,8 @@ TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForBothMonomialsWorks)
 TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForMonomialAndVariableWorks)
 {
     Monomial monomial1;
-    Monomial monomial2(12, {{"x", 1}});    Monomial monomial3(34, {{"x", 1.25}});
+    Monomial monomial2(12, {{"x", 1}});
+    Monomial monomial3(34, {{"x", 1.25}});
     Monomial monomial4(56, {{"x", 1}, {"y", 1}});
     Variable variable("x");
 
@@ -55,7 +57,8 @@ TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForMonomialAndVariableWork
     EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(monomial4, variable));
 }
 
-TEST(UtilitiesTest, GetOperatorLevelValueWorks){
+TEST(UtilitiesTest, GetOperatorLevelValueWorks)
+{
     EXPECT_EQ(0u, getOperatorLevelInversePriority(OperatorLevel::Unknown));
     EXPECT_EQ(3u, getOperatorLevelInversePriority(OperatorLevel::AdditionAndSubtraction));
     EXPECT_EQ(2u, getOperatorLevelInversePriority(OperatorLevel::MultiplicationAndDivision));
