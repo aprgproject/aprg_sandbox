@@ -4,9 +4,9 @@
 #include <Utilities.hpp>
 
 using namespace std;
+
 namespace alba
 {
-
 namespace equation
 {
 
@@ -196,15 +196,14 @@ void accumulateAndDoOperationOnTermDetails(
         OperatorLevel const operatorLevel,
         TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails)
 {
-    BaseTerm const& baseTerm(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
+    Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
     switch(operatorLevel)
     {
-    case OperatorLevel::AdditionAndSubtraction:    {
+    case OperatorLevel::AdditionAndSubtraction:
+    {
         if(termWithDetails.hasPositiveAssociation())
         {
-            partialResultTerm = performAddition(partialResultTerm, term);
-        }
+            partialResultTerm = performAddition(partialResultTerm, term);        }
         else if(termWithDetails.hasNegativeAssociation())
         {
             partialResultTerm = performSubtraction(partialResultTerm, term);

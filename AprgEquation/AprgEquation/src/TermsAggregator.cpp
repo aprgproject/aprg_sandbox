@@ -5,11 +5,11 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
-
 TermsAggregator::TermsAggregator(Terms const& terms)
     : m_terms(terms)
 {}
@@ -35,11 +35,11 @@ void TermsAggregator::buildExpressionFromTerms()
                 continueToSimplify = buildExpressionWithUnaryOperationAndReturnIfBuilt(nextOperatorIndex);
             }
         }
-    }}
+    }
+}
 
 void TermsAggregator::simplifyTerms()
-{
-    bool continueToSimplify(true);
+{    bool continueToSimplify(true);
     while(continueToSimplify)
     {
         AlbaOptional<unsigned int> nextOperatorIndexOptional(getNextOperatorIndexToPerform());
@@ -89,11 +89,11 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
             Expression newExpression(createExpressionFromTermAndSimplifyIfNeeded(term1));
             Operator const& operatorTerm(term2.getOperatorConstReference());
             if(operatorTerm.isAddition())
-            {                newExpression.addTerm(getBaseTermConstReferenceFromTerm(term3));
+            {
+                newExpression.addTerm(getBaseTermConstReferenceFromTerm(term3));
             }
             else if(operatorTerm.isSubtraction())
-            {
-                newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(term3));
+            {                newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(term3));
             }
             else if(operatorTerm.isMultiplication())
             {

@@ -6,10 +6,12 @@
 #include <algorithm>
 
 using namespace std;
+using AssociationType=alba::equation::TermsWithPriorityAndAssociation::AssociationType;
+using TermWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermWithDetails;
+using TermsWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermsWithDetails;
 
 namespace alba
 {
-
 namespace equation
 {
 
@@ -104,15 +106,14 @@ unsigned int getTermPriorityValue(Term const& term)
 }
 
 string getOperatingString(
-        TermsWithPriorityAndAssociation::AssociationType const association,
-        OperatorLevel const operatorLevel)
+        OperatorLevel const operatorLevel,
+        AssociationType const association)
 {
     string result;
-    if(TermsWithPriorityAndAssociation::AssociationType::Positive == association)
+    if(AssociationType::Positive == association)
     {
         switch(operatorLevel)
-        {
-        case OperatorLevel::AdditionAndSubtraction:
+        {        case OperatorLevel::AdditionAndSubtraction:
             result = "+";
             break;
         case OperatorLevel::MultiplicationAndDivision:
@@ -125,11 +126,10 @@ string getOperatingString(
             break;
         }
     }
-    else if(TermsWithPriorityAndAssociation::AssociationType::Negative == association)
+    else if(AssociationType::Negative == association)
     {
         switch(operatorLevel)
-        {
-        case OperatorLevel::AdditionAndSubtraction:
+        {        case OperatorLevel::AdditionAndSubtraction:
             result = "-";
             break;
         case OperatorLevel::MultiplicationAndDivision:
@@ -142,10 +142,28 @@ string getOperatingString(
     return result;
 }
 
+string getFirstStringIfNegativeAssociation(
+        OperatorLevel const operatorLevel,
+        AssociationType const association)
+{
+    string result;
+    if(AssociationType::Negative == association)
+    {
+        if(OperatorLevel::AdditionAndSubtraction == operatorLevel)
+        {
+            result = "-";
+        }
+        else if(OperatorLevel::MultiplicationAndDivision == operatorLevel)
+        {
+            result = "1/";
+        }
+    }
+    return result;
+}
+
 Monomial createMonomialConstant(AlbaNumber const& number)
 {
-    return Monomial(number, {});
-}
+    return Monomial(number, {});}
 
 Monomial createMonomialVariable(string const& variableName)
 {
@@ -164,11 +182,11 @@ Expression createExpressionFromTermAndSimplifyIfNeeded(Term const& term)
     Expression result;
     if(term.isExpression())
     {
-        result=term.getExpressionConstReference();    }
+        result=term.getExpressionConstReference();
+    }
     else
     {
-        result=Expression(getBaseTermConstReferenceFromTerm(term));
-    }
+        result=Expression(getBaseTermConstReferenceFromTerm(term));    }
     return result;
 }
 
@@ -184,10 +202,10 @@ Expression createExpressionIfPossible(Terms const& terms)
     }
     return result;
 }
+
 Expression createSimplifiedExpressionIfPossible(Terms const& terms)
 {
-    Expression result;
-    TermsAggregator aggregator(terms);
+    Expression result;    TermsAggregator aggregator(terms);
     aggregator.simplifyTerms();
     Terms const& simplifiedTerms(aggregator.getTermsConstReference());
     if(simplifiedTerms.size() == 1)
@@ -196,10 +214,10 @@ Expression createSimplifiedExpressionIfPossible(Terms const& terms)
     }
     return result;
 }
+
 Term convertExpressionToSimplestTerm(Expression const& expression)
 {
-    Expression newExpression(expression);
-    newExpression.simplify();
+    Expression newExpression(expression);    newExpression.simplify();
     Term newTerm(newExpression);
     if(newExpression.containsNoTerms())
     {
@@ -209,11 +227,11 @@ Term convertExpressionToSimplestTerm(Expression const& expression)
     {
         Term const& term = dynamic_cast<Term const&>(newExpression.getFirstTermConstReference());
         newTerm = term;
-    }    return newTerm;
+    }
+    return newTerm;
 }
 
-Term convertPolynomialToSimplestTerm(Polynomial const& polynomial)
-{
+Term convertPolynomialToSimplestTerm(Polynomial const& polynomial){
     Polynomial newPolynomial(polynomial);
     newPolynomial.simplify();
     Term newTerm;
@@ -270,19 +288,33 @@ BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& ter
                         new Term(term))));
 }
 
+BaseTermSharedPointer getSharedPointerFromTermReference(Term & term)
+{
+    return move(BaseTermSharedPointer(dynamic_cast<BaseTerm*>(&term)));
+}
+
+Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm)
+{
+    return dynamic_cast<Term const&>(baseTerm);
+}
+
+Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
+{
+    return dynamic_cast<Term const&>(*sharedPointer.get());
+}
+
+Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm)
+{
+    return dynamic_cast<Term &>(baseTerm);
+}
+
 Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer)
 {
     return *dynamic_cast<Term*>(sharedPointer.get());
 }
 
-Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
-{
-    return *dynamic_cast<Term const*const>(sharedPointer.get());
-}
-
-BaseTermSharedPointer getSharedPointerFromTermReference(Term & term)
-{
-    return move(BaseTermSharedPointer(dynamic_cast<BaseTerm*>(&term)));
+BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term){
+    return dynamic_cast<BaseTerm const&>(term);
 }
 
 BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
@@ -290,23 +322,8 @@ BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer
     return dynamic_cast<BaseTerm const&>(*sharedPointer.get());
 }
 
-BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term)
-{
-    return dynamic_cast<BaseTerm const&>(term);
-}
-
-Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm){
-    return dynamic_cast<Term const&>(baseTerm);
-}
-
-BaseTerm & getBaseTermReferenceFromTerm(Term & term)
-{
+BaseTerm & getBaseTermReferenceFromTerm(Term & term){
     return dynamic_cast<BaseTerm &>(term);
-}
-
-Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm)
-{
-    return dynamic_cast<Term &>(baseTerm);
 }
 
 }

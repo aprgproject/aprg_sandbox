@@ -9,9 +9,9 @@ using TermsWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermsWit
 
 namespace alba
 {
+
 namespace equation
 {
-
 TEST(UtilitiesTest, IsOperatorWorks)
 {
     EXPECT_FALSE(isOperator(""));
@@ -108,21 +108,20 @@ TEST(UtilitiesTest, CreateExpressionFromTermAndSimplifyIfNeededWorks)
     EXPECT_EQ(expression1, expressionToVerify1);
     EXPECT_EQ(expression2, expressionToVerify2);
 }
+
 TEST(UtilitiesTest, CreateExpressionWorks)
 {
     Expression expressionToTest(createExpressionIfPossible(Terms{Term(10), Term("/"), Term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})})}));
-
     EXPECT_EQ(OperatorLevel::MultiplicationAndDivision, expressionToTest.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
     ASSERT_EQ(2u, termsToVerify.size());
     EXPECT_EQ(AssociationType::Positive, termsToVerify.at(0).association);
-    Term const& termToVerify1(getTermConstReferenceFromBaseTerm(getBaseTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer)));
+    Term const& termToVerify1(getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
     EXPECT_EQ(Term(10), termToVerify1);
     EXPECT_EQ(AssociationType::Negative, termsToVerify.at(1).association);
-    Term const& termToVerify2(getTermConstReferenceFromBaseTerm(getBaseTermConstReferenceFromSharedPointer(termsToVerify.at(1).baseTermSharedPointer)));
+    Term const& termToVerify2(getTermConstReferenceFromSharedPointer(termsToVerify.at(1).baseTermSharedPointer));
     EXPECT_EQ(Term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}), termToVerify2);
 }
-
 TEST(UtilitiesTest, CreateExpressionDoesNotSimplifyExpressionInAExpression)
 {
     Term expressionTerm(Expression(getBaseTermConstReferenceFromTerm(Term(88))));
@@ -134,27 +133,24 @@ TEST(UtilitiesTest, CreateExpressionDoesNotSimplifyExpressionInAExpression)
     TermsWithDetails const& termsToVerify1(expressionToTest1.getTerms().getTermsWithDetails());
     ASSERT_EQ(1u, termsToVerify1.size());
     EXPECT_EQ(AssociationType::Positive, termsToVerify1.at(0).association);
-    Term const& termToVerify1(getTermConstReferenceFromBaseTerm(getBaseTermConstReferenceFromSharedPointer(termsToVerify1.at(0).baseTermSharedPointer)));
+    Term const& termToVerify1(getTermConstReferenceFromSharedPointer(termsToVerify1.at(0).baseTermSharedPointer));
 
     ASSERT_TRUE(termToVerify1.isExpression());
-    Expression expressionToTest2(termToVerify1.getExpressionConstReference());
-    EXPECT_EQ(OperatorLevel::Unknown, expressionToTest2.getCommonOperatorLevel());
+    Expression expressionToTest2(termToVerify1.getExpressionConstReference());    EXPECT_EQ(OperatorLevel::Unknown, expressionToTest2.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify2(expressionToTest2.getTerms().getTermsWithDetails());
     ASSERT_EQ(1u, termsToVerify2.size());
     EXPECT_EQ(AssociationType::Positive, termsToVerify2.at(0).association);
-    Term const& termToVerify2(getTermConstReferenceFromBaseTerm(getBaseTermConstReferenceFromSharedPointer(termsToVerify2.at(0).baseTermSharedPointer)));
+    Term const& termToVerify2(getTermConstReferenceFromSharedPointer(termsToVerify2.at(0).baseTermSharedPointer));
 
     ASSERT_TRUE(termToVerify2.isExpression());
-    Expression expressionToTest3(termToVerify2.getExpressionConstReference());
-    EXPECT_EQ(OperatorLevel::Unknown, expressionToTest3.getCommonOperatorLevel());
+    Expression expressionToTest3(termToVerify2.getExpressionConstReference());    EXPECT_EQ(OperatorLevel::Unknown, expressionToTest3.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify3(expressionToTest3.getTerms().getTermsWithDetails());
     ASSERT_EQ(1u, termsToVerify3.size());
     EXPECT_EQ(AssociationType::Positive, termsToVerify3.at(0).association);
-    Term const& termToVerify3(getTermConstReferenceFromBaseTerm(getBaseTermConstReferenceFromSharedPointer(termsToVerify3.at(0).baseTermSharedPointer)));
+    Term const& termToVerify3(getTermConstReferenceFromSharedPointer(termsToVerify3.at(0).baseTermSharedPointer));
 
     ASSERT_TRUE(termToVerify3.isConstant());
-    EXPECT_EQ(Constant(88), termToVerify3.getConstantConstReference());
-}
+    EXPECT_EQ(Constant(88), termToVerify3.getConstantConstReference());}
 
 TEST(UtilitiesTest, CreateExpressionDoesNotSimplify)
 {
@@ -164,35 +160,35 @@ TEST(UtilitiesTest, CreateExpressionDoesNotSimplify)
     TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
     ASSERT_EQ(2u, termsToVerify.size());
     EXPECT_EQ(AssociationType::Positive, termsToVerify.at(0).association);
-    Term const& termToVerify1(getTermConstReferenceFromBaseTerm(getBaseTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer)));
+    Term const& termToVerify1(getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
     EXPECT_EQ(Term(7.625), termToVerify1);
     EXPECT_EQ(AssociationType::Positive, termsToVerify.at(1).association);
-    Term const& termToVerify2(getTermConstReferenceFromBaseTerm(getBaseTermConstReferenceFromSharedPointer(termsToVerify.at(1).baseTermSharedPointer)));
+    Term const& termToVerify2(getTermConstReferenceFromSharedPointer(termsToVerify.at(1).baseTermSharedPointer));
     EXPECT_EQ(Term(2.375), termToVerify2);
 }
+
 TEST(UtilitiesTest, CreateExpressionReturnsEmptyIfListOfTermsAreWrong)
 {
     Expression expressionToTest(createExpressionIfPossible(Terms{Term(7.625), Term("+"), Term("/"), Term(2.375)}));
-
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
     ASSERT_TRUE(termsToVerify.empty());
 }
+
 TEST(UtilitiesTest, CreateSimplifiedExpressionWorks)
 {
     Expression expressionToTest(createSimplifiedExpressionIfPossible(Terms{Term(7.625), Term("+"), Term(2.375)}));
-
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
     ASSERT_EQ(1u, termsToVerify.size());
     EXPECT_EQ(AssociationType::Positive, termsToVerify.at(0).association);
-    Term const& termToVerify1(getTermConstReferenceFromBaseTerm(getBaseTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer)));
+    Term const& termToVerify1(getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
     EXPECT_EQ(Term(10), termToVerify1);
 }
+
 TEST(UtilitiesTest, CreateSimplifiedExpressionReturnsEmptyIfListOfTermsAreWrong)
 {
     Expression expressionToTest(createSimplifiedExpressionIfPossible(Terms{Term("+"), Term("+"), Term("+")}));
-
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
     ASSERT_TRUE(termsToVerify.empty());
@@ -205,11 +201,11 @@ TEST(UtilitiesTest, ConvertExpressionToSimplestTermWorks)
     Term expressionInExpressionInExpressionTerm(Expression(getBaseTermConstReferenceFromTerm(expressionInExpressionTerm)));
     Term termToVerify1(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{})));
     Term termToVerify2(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{Term(88)})));
-    Term termToVerify3(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{expressionTerm})));    Term termToVerify4(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{expressionInExpressionTerm})));
+    Term termToVerify3(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{expressionTerm})));
+    Term termToVerify4(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{expressionInExpressionTerm})));
     Term termToVerify5(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{expressionInExpressionInExpressionTerm})));
 
-    ASSERT_EQ(TermType::Empty, termToVerify1.getTermType());
-    ASSERT_EQ(TermType::Constant, termToVerify2.getTermType());
+    ASSERT_EQ(TermType::Empty, termToVerify1.getTermType());    ASSERT_EQ(TermType::Constant, termToVerify2.getTermType());
     EXPECT_DOUBLE_EQ(88, termToVerify2.getConstantConstReference().getNumberConstReference().getDouble());
     ASSERT_EQ(TermType::Constant, termToVerify3.getTermType());
     EXPECT_DOUBLE_EQ(88, termToVerify3.getConstantConstReference().getNumberConstReference().getDouble());
@@ -256,37 +252,18 @@ TEST(UtilitiesTest, CreateNewTermAndReturnSharedPointerWorks)
 
     BaseTermSharedPointer sharedPointerToVerify(createNewTermAndReturnSharedPointer(sharedPointer));
 
-    Term const& termToVerify(getTermConstReferenceFromBaseTerm(getBaseTermConstReferenceFromSharedPointer(sharedPointerToVerify)));
+    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));
     EXPECT_EQ(Term(9652), termToVerify);
     EXPECT_EQ(1, sharedPointerToVerify.use_count());
 }
+
 TEST(UtilitiesTest, CopyAndCreateNewTermAndReturnSharedPointerWorks)
 {
     BaseTermSharedPointer sharedPointerToVerify(copyAndCreateNewTermAndReturnSharedPointer(Term(6415)));
 
-    Term const& termToVerify(getTermConstReferenceFromBaseTerm(getBaseTermConstReferenceFromSharedPointer(sharedPointerToVerify)));
+    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));
     EXPECT_EQ(Term(6415), termToVerify);
     EXPECT_EQ(1, sharedPointerToVerify.use_count());
-}
-TEST(UtilitiesTest, GetTermReferenceFromSharedPointerWorks)
-{
-    BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9652)));
-
-    Term & termToChange(getTermReferenceFromSharedPointer(sharedPointer));
-    termToChange.getConstantReference().setNumber(763);
-
-    Term const& termToVerify(getTermConstReferenceFromBaseTerm(getBaseTermConstReferenceFromSharedPointer(sharedPointer)));
-    EXPECT_EQ(Term(763), termToVerify);
-    EXPECT_EQ(1, sharedPointer.use_count());
-}
-TEST(UtilitiesTest, GetTermConstReferenceFromSharedPointerWorks)
-{
-    BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9541)));
-
-    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointer));
-
-    EXPECT_EQ(Term(9541), termToVerify);
-    EXPECT_EQ(1, sharedPointer.use_count());
 }
 
 TEST(UtilitiesTest, GetSharedPointerFromTermReferenceWorks)
@@ -301,26 +278,6 @@ TEST(UtilitiesTest, GetSharedPointerFromTermReferenceWorks)
     EXPECT_EQ(1, sharedPointer.use_count());
 }
 
-TEST(UtilitiesTest, GetBaseTermConstReferenceFromSharedPointerWorks)
-{
-    BaseTermSharedPointer sharedPointer(copyAndCreateNewTermAndReturnSharedPointer(Term(6415)));
-
-    BaseTerm const& baseTerm(getBaseTermConstReferenceFromSharedPointer(sharedPointer));
-
-    Term const& termToVerify(dynamic_cast<Term const&>(baseTerm));
-    EXPECT_EQ(Term(6415), termToVerify);
-}
-
-TEST(UtilitiesTest, GetBaseTermConstReferenceWorks)
-{
-    Term originalTerm(7896);
-
-    BaseTerm const& baseTerm(getBaseTermConstReferenceFromTerm(originalTerm));
-
-    Term const& termToVerify(dynamic_cast<Term const&>(baseTerm));
-    EXPECT_EQ(Term(7896), termToVerify);
-}
-
 TEST(UtilitiesTest, GetTermConstReferenceFromBaseTermWorks)
 {
     Term originalTerm(7896);
@@ -330,15 +287,13 @@ TEST(UtilitiesTest, GetTermConstReferenceFromBaseTermWorks)
     EXPECT_EQ(Term(7896), termToVerify);
 }
 
-TEST(UtilitiesTest, GetBaseTermReferenceFromTermWorks)
+TEST(UtilitiesTest, GetTermConstReferenceFromSharedPointerWorks)
 {
-    Term originalTerm(7896);
+    BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9541)));
+    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointer));
 
-    BaseTerm & baseTerm(getBaseTermReferenceFromTerm(originalTerm));
-    Term & termToVerify(dynamic_cast<Term &>(baseTerm));
-    originalTerm = Term(854);
-
-    EXPECT_EQ(Term(854), termToVerify);
+    EXPECT_EQ(Term(9541), termToVerify);
+    EXPECT_EQ(1, sharedPointer.use_count());
 }
 
 TEST(UtilitiesTest, GetTermReferenceFromBaseTermWorks)
@@ -346,6 +301,48 @@ TEST(UtilitiesTest, GetTermReferenceFromBaseTermWorks)
     Term originalTerm(7896);
 
     Term & termToVerify(getTermReferenceFromBaseTerm(dynamic_cast<BaseTerm &>(originalTerm)));
+    originalTerm = Term(854);
+
+    EXPECT_EQ(Term(854), termToVerify);
+}
+
+TEST(UtilitiesTest, GetTermReferenceFromSharedPointerWorks)
+{
+    BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9652)));
+
+    Term & termToChange(getTermReferenceFromSharedPointer(sharedPointer));
+    termToChange.getConstantReference().setNumber(763);
+
+    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointer));
+    EXPECT_EQ(Term(763), termToVerify);
+    EXPECT_EQ(1, sharedPointer.use_count());
+}
+
+TEST(UtilitiesTest, GetBaseTermConstReferenceFromTermWorks)
+{
+    Term originalTerm(7896);
+    BaseTerm const& baseTerm(getBaseTermConstReferenceFromTerm(originalTerm));
+
+    Term const& termToVerify(dynamic_cast<Term const&>(baseTerm));
+    EXPECT_EQ(Term(7896), termToVerify);
+}
+
+TEST(UtilitiesTest, GetBaseTermConstReferenceFromSharedPointerWorks)
+{
+    BaseTermSharedPointer sharedPointer(copyAndCreateNewTermAndReturnSharedPointer(Term(6415)));
+
+    BaseTerm const& baseTerm(getBaseTermConstReferenceFromSharedPointer(sharedPointer));
+
+    Term const& termToVerify(dynamic_cast<Term const&>(baseTerm));
+    EXPECT_EQ(Term(6415), termToVerify);
+    EXPECT_EQ(1, sharedPointer.use_count());
+}
+
+TEST(UtilitiesTest, GetBaseTermReferenceFromTermWorks){
+    Term originalTerm(7896);
+
+    BaseTerm & baseTerm(getBaseTermReferenceFromTerm(originalTerm));
+    Term & termToVerify(dynamic_cast<Term &>(baseTerm));
     originalTerm = Term(854);
 
     EXPECT_EQ(Term(854), termToVerify);
