@@ -172,7 +172,8 @@ TEST(TermTest, TermsAsExpressionsWorkAsExpected)
 
 TEST(TermTest, EqualityOperatorWorks)
 {
-    Term term1;    Term term2(Constant(5));
+    Term term1;
+    Term term2(Constant(5));
     Term term3(Constant(10));
     Term term4(Variable("length"));
     Term term5(Constant(5));
@@ -337,50 +338,82 @@ TEST(TermTest, IsValueTermButNotAnExpressionWorks)
     EXPECT_FALSE(term7.isValueTermButNotAnExpression());
 }
 
-TEST(TermTest, IsTheValueZeroWorks)
-{
-    Term term1;
-    Term term2(1);
-    Term term3(Variable("length"));
-    Term term4(Operator("+"));
-    Term term5(Monomial(1, {}));
-    Term term6(Polynomial{});
-    Term term7(Expression{});
-    Term term8(Constant(0));
-
-    EXPECT_FALSE(term1.isTheValueZero());
-    EXPECT_FALSE(term2.isTheValueZero());
-    EXPECT_FALSE(term3.isTheValueZero());
-    EXPECT_FALSE(term4.isTheValueZero());
-    EXPECT_FALSE(term5.isTheValueZero());
-    EXPECT_FALSE(term6.isTheValueZero());
-    EXPECT_FALSE(term7.isTheValueZero());
-    EXPECT_TRUE(term8.isTheValueZero());
-}
-
-TEST(TermTest, IsTheValueOneWorks)
+TEST(TermTest, IsEmptyWorks)
 {
     Term term1;
     Term term2(Constant(0));
-    Term term3(Variable("length"));
-    Term term4(Operator("+"));
-    Term term5(Monomial(1, {}));
-    Term term6(Polynomial{});
-    Term term7(Expression{});
-    Term term8(1);
+    Term term3(1);
+    Term term4(Variable("length"));
+    Term term5(Operator("+"));
+    Term term6(Monomial(0, {}));
+    Term term7(Monomial(1, {}));
+    Term term8(Polynomial{});
+    Term term9(Polynomial{Monomial(1, {})});
+    Term term10(Expression{});
+
+    EXPECT_TRUE(term1.isEmpty());
+    EXPECT_FALSE(term2.isEmpty());
+    EXPECT_FALSE(term3.isEmpty());
+    EXPECT_FALSE(term4.isEmpty());
+    EXPECT_FALSE(term5.isEmpty());
+    EXPECT_FALSE(term6.isEmpty());
+    EXPECT_FALSE(term7.isEmpty());
+    EXPECT_FALSE(term8.isEmpty());
+    EXPECT_FALSE(term9.isEmpty());
+    EXPECT_TRUE(term10.isEmpty());
+}
+
+TEST(TermTest, IsTheValueZeroWorks)
+{
+    Term term1;
+    Term term2(Constant(0));
+    Term term3(1);
+    Term term4(Variable("length"));
+    Term term5(Operator("+"));
+    Term term6(Monomial(0, {}));
+    Term term7(Monomial(1, {}));
+    Term term8(Polynomial{});
+    Term term9(Polynomial{Monomial(1, {})});
+    Term term10(Expression{});
+
+    EXPECT_FALSE(term1.isTheValueZero());
+    EXPECT_TRUE(term2.isTheValueZero());
+    EXPECT_FALSE(term3.isTheValueZero());
+    EXPECT_FALSE(term4.isTheValueZero());
+    EXPECT_FALSE(term5.isTheValueZero());
+    EXPECT_TRUE(term6.isTheValueZero());
+    EXPECT_FALSE(term7.isTheValueZero());
+    EXPECT_TRUE(term8.isTheValueZero());
+    EXPECT_FALSE(term9.isTheValueZero());
+    EXPECT_FALSE(term9.isTheValueZero());
+    EXPECT_FALSE(term10.isTheValueZero());
+}
+
+TEST(TermTest, IsTheValueOneWorks){
+    Term term1;
+    Term term2(Constant(0));
+    Term term3(1);
+    Term term4(Variable("length"));
+    Term term5(Operator("+"));
+    Term term6(Monomial(0, {}));
+    Term term7(Monomial(1, {}));
+    Term term8(Polynomial{});
+    Term term9(Polynomial{Monomial(1, {})});
+    Term term10(Expression{});
 
     EXPECT_FALSE(term1.isTheValueOne());
     EXPECT_FALSE(term2.isTheValueOne());
-    EXPECT_FALSE(term3.isTheValueOne());
+    EXPECT_TRUE(term3.isTheValueOne());
     EXPECT_FALSE(term4.isTheValueOne());
     EXPECT_FALSE(term5.isTheValueOne());
     EXPECT_FALSE(term6.isTheValueOne());
-    EXPECT_FALSE(term7.isTheValueOne());
-    EXPECT_TRUE(term8.isTheValueOne());
+    EXPECT_TRUE(term7.isTheValueOne());
+    EXPECT_FALSE(term8.isTheValueOne());
+    EXPECT_TRUE(term9.isTheValueOne());
+    EXPECT_FALSE(term10.isTheValueOne());
 }
 
-TEST(TermTest, GetTermTypeWorks)
-{
+TEST(TermTest, GetTermTypeWorks){
     Term term1;
     Term term2(Constant(0));
     Term term3(Variable("length"));
@@ -406,17 +439,15 @@ TEST(TermTest, GetDisplayableStringWorks)
     Term term4(Operator("+"));
     Term term5(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));
     Term term6(Polynomial({Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})}));
-    Term term7(createExpressionIfPossible(Terms{Term(5), Term("+"), Term("interest")}));
+    //Term term7(createExpressionIfPossible(Terms{Term(5), Term("+"), Term("interest")}));
 
     EXPECT_TRUE(term1.getDisplayableString().empty());
-    EXPECT_EQ("0", term2.getDisplayableString());
-    EXPECT_EQ("length", term3.getDisplayableString());
+    EXPECT_EQ("0", term2.getDisplayableString());    EXPECT_EQ("length", term3.getDisplayableString());
     EXPECT_EQ("+", term4.getDisplayableString());
     EXPECT_EQ("-1.5|distance^-3.75||power^4.5|", term5.getDisplayableString());
     EXPECT_EQ("(3 + -1.5|distance^-3.75||power^4.5|)", term6.getDisplayableString());
-    EXPECT_EQ("(5+interest)", term7.getDisplayableString());
+    //EXPECT_EQ("(<+->||5+interest)", term7.getDisplayableString());
 }
 
 }
-
 }

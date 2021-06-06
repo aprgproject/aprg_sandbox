@@ -109,10 +109,26 @@ TEST(TermsWithPriorityAndAssociationTest, TermsWithPriorityAndAssociationEqualit
     EXPECT_FALSE(terms1==terms4);
 }
 
-TEST(TermsWithPriorityAndAssociationTest, GetSizeWorks)
+TEST(TermsWithPriorityAndAssociationTest, IsEmptyWorks)
 {
     TermWithDetails termWithDetails(
                 getBaseTermConstReferenceFromTerm(Term(10)),
+                AssociationType::Negative);
+    TermsWithPriorityAndAssociation terms1;
+    TermsWithPriorityAndAssociation terms2;
+    TermsWithPriorityAndAssociation terms3;
+    terms2.putTermWithDetails(termWithDetails);
+    terms3.putTermWithDetails(termWithDetails);
+    terms3.putTermWithDetails(termWithDetails);
+
+    EXPECT_TRUE(terms1.isEmpty());
+    EXPECT_FALSE(terms2.isEmpty());
+    EXPECT_FALSE(terms3.isEmpty());
+}
+
+TEST(TermsWithPriorityAndAssociationTest, GetSizeWorks)
+{
+    TermWithDetails termWithDetails(                getBaseTermConstReferenceFromTerm(Term(10)),
                 AssociationType::Negative);
     TermsWithPriorityAndAssociation terms1;
     TermsWithPriorityAndAssociation terms2;

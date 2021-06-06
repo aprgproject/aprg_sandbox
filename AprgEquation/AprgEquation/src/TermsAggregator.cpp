@@ -10,6 +10,7 @@ namespace alba
 
 namespace equation
 {
+
 TermsAggregator::TermsAggregator(Terms const& terms)
     : m_terms(terms)
 {}
@@ -39,7 +40,8 @@ void TermsAggregator::buildExpressionFromTerms()
 }
 
 void TermsAggregator::simplifyTerms()
-{    bool continueToSimplify(true);
+{
+    bool continueToSimplify(true);
     while(continueToSimplify)
     {
         AlbaOptional<unsigned int> nextOperatorIndexOptional(getNextOperatorIndexToPerform());
@@ -86,14 +88,14 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
         Term const& term3(m_terms[index+1]);
         if(term1.isValueTerm() && term2.isOperator() && term3.isValueTerm())
         {
-            Expression newExpression(createExpressionFromTermAndSimplifyIfNeeded(term1));
+            Expression newExpression(createOrCopyExpressionFromATerm(term1));
             Operator const& operatorTerm(term2.getOperatorConstReference());
             if(operatorTerm.isAddition())
-            {
-                newExpression.addTerm(getBaseTermConstReferenceFromTerm(term3));
+            {                newExpression.addTerm(getBaseTermConstReferenceFromTerm(term3));
             }
             else if(operatorTerm.isSubtraction())
-            {                newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(term3));
+            {
+                newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(term3));
             }
             else if(operatorTerm.isMultiplication())
             {

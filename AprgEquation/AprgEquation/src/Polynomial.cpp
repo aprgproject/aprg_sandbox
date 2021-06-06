@@ -39,10 +39,14 @@ bool Polynomial::operator==(Polynomial const& second) const
     return result;
 }
 
+bool Polynomial::isOne() const
+{
+    return isOneMonomial() && getFirstMonomial().isOne();
+}
+
 bool Polynomial::isZero() const
 {
-    return m_monomials.empty();
-}
+    return m_monomials.empty();}
 
 bool Polynomial::isOneMonomial() const
 {

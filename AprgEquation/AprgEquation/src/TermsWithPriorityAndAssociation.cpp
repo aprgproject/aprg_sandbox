@@ -12,6 +12,7 @@ namespace alba
 
 namespace equation
 {
+
 TermsWithPriorityAndAssociation::TermWithDetails::TermWithDetails(
         BaseTerm const& baseTerm,
         TermsWithPriorityAndAssociation::AssociationType const associationParameter)
@@ -33,7 +34,8 @@ bool TermsWithPriorityAndAssociation::TermWithDetails::operator==(TermWithDetail
 
 bool TermsWithPriorityAndAssociation::TermWithDetails::hasPositiveAssociation() const
 {
-    return AssociationType::Positive == association;}
+    return AssociationType::Positive == association;
+}
 
 bool TermsWithPriorityAndAssociation::TermWithDetails::hasNegativeAssociation() const
 {
@@ -72,13 +74,18 @@ bool TermsWithPriorityAndAssociation::operator==(TermsWithPriorityAndAssociation
         using MismatchResultType=pair<TermsWithDetailsIterator, TermsWithDetailsIterator>;
         MismatchResultType mismatchResult = mismatch(terms1.cbegin(), terms1.end(), terms2.cbegin());
         result = mismatchResult.first == terms1.cend();
-    }    return result;
+    }
+    return result;
+}
+
+bool TermsWithPriorityAndAssociation::isEmpty() const
+{
+    return m_termsWithDetails.empty();
 }
 
 unsigned int TermsWithPriorityAndAssociation::getSize() const
 {
-    return m_termsWithDetails.size();
-}
+    return m_termsWithDetails.size();}
 
 BaseTerm const& TermsWithPriorityAndAssociation::getFirstTermConstReference() const
 {

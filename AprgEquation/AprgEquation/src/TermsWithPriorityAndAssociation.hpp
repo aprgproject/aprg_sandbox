@@ -37,10 +37,10 @@ public:
     ~TermsWithPriorityAndAssociation();
 
     bool operator==(TermsWithPriorityAndAssociation const& second) const;
+    bool isEmpty() const;
 
     unsigned int getSize() const;
-    BaseTerm const& getFirstTermConstReference() const;
-    TermsWithDetails const& getTermsWithDetails() const;
+    BaseTerm const& getFirstTermConstReference() const;    TermsWithDetails const& getTermsWithDetails() const;
 
     void clear();
     void putTermWithDetails(TermWithDetails const& termWithDetails);

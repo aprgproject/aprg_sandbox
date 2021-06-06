@@ -7,6 +7,7 @@ using namespace std;
 
 namespace alba
 {
+
 namespace equation
 {
 
@@ -203,7 +204,8 @@ void accumulateAndDoOperationOnTermDetails(
     {
         if(termWithDetails.hasPositiveAssociation())
         {
-            partialResultTerm = performAddition(partialResultTerm, term);        }
+            partialResultTerm = performAddition(partialResultTerm, term);
+        }
         else if(termWithDetails.hasNegativeAssociation())
         {
             partialResultTerm = performSubtraction(partialResultTerm, term);

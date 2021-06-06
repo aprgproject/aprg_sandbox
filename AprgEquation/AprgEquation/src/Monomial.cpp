@@ -61,10 +61,14 @@ bool Monomial::operator==(Monomial const& second) const
     return m_constant == second.m_constant && m_variablesToExponentsMap == second.m_variablesToExponentsMap;
 }
 
+bool Monomial::isOne() const
+{
+    return m_constant == 1 && isConstantOnly();
+}
+
 bool Monomial::isZero() const
 {
-    return m_constant == 0;
-}
+    return m_constant == 0;}
 
 bool Monomial::isConstantOnly() const
 {

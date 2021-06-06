@@ -120,18 +120,13 @@ bool Term::operator==(Term const& second) const
     return result;
 }
 
-bool Term::isEmpty() const
-{
-    return TermType::Empty == m_type;
-}
-
 bool Term::isConstant() const
 {
-    return TermType::Constant == m_type;
-}
+    return TermType::Constant == m_type;}
 
 bool Term::isVariable() const
-{    return TermType::Variable == m_type;
+{
+    return TermType::Variable == m_type;
 }
 
 bool Term::isOperator() const
@@ -164,26 +159,54 @@ bool Term::isValueTermButNotAnExpression() const
     return isConstant() || isVariable() || isMonomial() || isPolynomial();
 }
 
+bool Term::isEmpty() const
+{
+    bool result(false);
+    if(m_type==TermType::Empty)
+    {
+        result = true;
+    }
+    else if(m_type==TermType::Expression)
+    {
+        result = getExpressionConstReference().isEmpty();
+    }
+    return result;
+}
+
 bool Term::isTheValueZero() const
 {
     bool result(false);
-    if(isConstant())
+    if(m_type==TermType::Constant)
     {
-        result=getConstantConstReference()==0;
+        result = getConstantConstReference()==0;
+    }
+    else if(m_type==TermType::Monomial)
+    {
+        result = getMonomialConstReference().isZero();
+    }
+    else if(m_type==TermType::Polynomial)
+    {
+        result = getPolynomialConstReference().isZero();
     }
     return result;
 }
-
 bool Term::isTheValueOne() const
 {
     bool result(false);
-    if(isConstant())
+    if(m_type==TermType::Constant)
     {
-        result=getConstantConstReference()==1;
+        result = getConstantConstReference()==1;
+    }
+    else if(m_type==TermType::Monomial)
+    {
+        result = getMonomialConstReference().isOne();
+    }
+    else if(m_type==TermType::Polynomial)
+    {
+        result = getPolynomialConstReference().isOne();
     }
     return result;
 }
-
 TermType Term::getTermType() const
 {
     return m_type;

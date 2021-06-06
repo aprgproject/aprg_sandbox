@@ -1,8 +1,8 @@
 #include "Utilities.hpp"
 
+#include <Macros/AlbaMacros.hpp>
 #include <TermsAggregator.hpp>
 #include <TermsWithPriorityAndAssociation.hpp>
-
 #include <algorithm>
 
 using namespace std;
@@ -12,6 +12,7 @@ using TermsWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermsWit
 
 namespace alba
 {
+
 namespace equation
 {
 
@@ -54,10 +55,19 @@ bool canBeAddedOrSubtracted(Monomial const& monomial, Variable const& variable)
     return result;
 }
 
+bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term)
+{
+    return term.isEmpty() || term.isTheValueZero();
+}
+
+bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term)
+{
+    return term.isEmpty() || term.isTheValueOne();
+}
+
 unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel)
 {
-    unsigned int result(0);
-    switch(operatorLevel)
+    unsigned int result(0);    switch(operatorLevel)
     {
     case OperatorLevel::Unknown:
         result=0;
@@ -113,7 +123,8 @@ string getOperatingString(
     if(AssociationType::Positive == association)
     {
         switch(operatorLevel)
-        {        case OperatorLevel::AdditionAndSubtraction:
+        {
+        case OperatorLevel::AdditionAndSubtraction:
             result = "+";
             break;
         case OperatorLevel::MultiplicationAndDivision:
@@ -129,7 +140,8 @@ string getOperatingString(
     else if(AssociationType::Negative == association)
     {
         switch(operatorLevel)
-        {        case OperatorLevel::AdditionAndSubtraction:
+        {
+        case OperatorLevel::AdditionAndSubtraction:
             result = "-";
             break;
         case OperatorLevel::MultiplicationAndDivision:
@@ -161,6 +173,30 @@ string getFirstStringIfNegativeAssociation(
     return result;
 }
 
+string getEnumShortString(AssociationType const association)
+{
+    switch(association)
+    {
+    ALBA_MACROS_CASE_ENUM_SHORT_STRING(AssociationType::Positive, "<POS>")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(AssociationType::Negative, "<NEG>")
+            default:
+        return "default";
+    }
+}
+
+string getEnumShortString(OperatorLevel const operatorLevel)
+{
+    switch(operatorLevel)
+    {
+    ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::Unknown, "<?>")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::AdditionAndSubtraction, "<+->")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::MultiplicationAndDivision, "<*/>")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::RaiseToPower, "<^>")
+            default:
+        return "default";
+    }
+}
+
 Monomial createMonomialConstant(AlbaNumber const& number)
 {
     return Monomial(number, {});}
@@ -170,23 +206,26 @@ Monomial createMonomialVariable(string const& variableName)
     return Monomial(1, {{variableName, 1}});
 }
 
-Expression createExpressionFromTerm(Term const& term)
+Expression createExpressionInAnExpression(Expression const& expression)
 {
-    Expression result;
-    result=Expression(getBaseTermConstReferenceFromTerm(term));
-    return result;
+    return Expression(getBaseTermConstReferenceFromTerm(Term(expression)));
 }
 
-Expression createExpressionFromTermAndSimplifyIfNeeded(Term const& term)
+Expression createAndWrapExpressionFromATerm(Term const& term)
+{
+    return Expression(getBaseTermConstReferenceFromTerm(term));
+}
+
+Expression createOrCopyExpressionFromATerm(Term const& term)
 {
     Expression result;
     if(term.isExpression())
-    {
-        result=term.getExpressionConstReference();
+    {        result=term.getExpressionConstReference();
     }
     else
     {
-        result=Expression(getBaseTermConstReferenceFromTerm(term));    }
+        result=Expression(getBaseTermConstReferenceFromTerm(term));
+    }
     return result;
 }
 
@@ -198,32 +237,32 @@ Expression createExpressionIfPossible(Terms const& terms)
     Terms const& builtTerms(aggregator.getTermsConstReference());
     if(builtTerms.size() == 1)
     {
-        result = createExpressionFromTermAndSimplifyIfNeeded(builtTerms.at(0));
+        result = createOrCopyExpressionFromATerm(builtTerms.at(0));
     }
     return result;
 }
-
 Expression createSimplifiedExpressionIfPossible(Terms const& terms)
 {
-    Expression result;    TermsAggregator aggregator(terms);
+    Expression result;
+    TermsAggregator aggregator(terms);
     aggregator.simplifyTerms();
     Terms const& simplifiedTerms(aggregator.getTermsConstReference());
     if(simplifiedTerms.size() == 1)
     {
-        result = createExpressionFromTermAndSimplifyIfNeeded(simplifiedTerms.at(0));
+        result = createOrCopyExpressionFromATerm(simplifiedTerms.at(0));
     }
     return result;
 }
 
-Term convertExpressionToSimplestTerm(Expression const& expression)
+Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression)
 {
-    Expression newExpression(expression);    newExpression.simplify();
+    Expression newExpression(expression);
+    newExpression.simplify();
     Term newTerm(newExpression);
-    if(newExpression.containsNoTerms())
+    if(newExpression.isEmpty())
     {
         newTerm = Term();
-    }
-    else if(newExpression.containsOnlyOneTerm())
+    }    else if(newExpression.containsOnlyOneTerm())
     {
         Term const& term = dynamic_cast<Term const&>(newExpression.getFirstTermConstReference());
         newTerm = term;
@@ -231,30 +270,28 @@ Term convertExpressionToSimplestTerm(Expression const& expression)
     return newTerm;
 }
 
-Term convertPolynomialToSimplestTerm(Polynomial const& polynomial){
+Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial)
+{
     Polynomial newPolynomial(polynomial);
-    newPolynomial.simplify();
-    Term newTerm;
+    newPolynomial.simplify();    Term newTerm;
     if(newPolynomial.isZero())
     {
         newTerm = Term(Constant(0));
     }
     else if(newPolynomial.isOneMonomial())
     {
-        newTerm = convertMonomialToSimplestTerm(newPolynomial.getFirstMonomial());
+        newTerm = simplifyAndConvertMonomialToSimplestTerm(newPolynomial.getFirstMonomial());
     }
     else
-    {
-        newTerm = Term(newPolynomial);
+    {        newTerm = Term(newPolynomial);
     }
     return newTerm;
 }
 
-Term convertMonomialToSimplestTerm(Monomial const& monomial)
+Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial)
 {
     Monomial newMonomial(monomial);
-    newMonomial.simplify();
-    Term newTerm(newMonomial);
+    newMonomial.simplify();    Term newTerm(newMonomial);
     if(newMonomial.isZero())
     {
         newTerm = Term(Constant(0));
@@ -313,7 +350,8 @@ Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer)
     return *dynamic_cast<Term*>(sharedPointer.get());
 }
 
-BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term){
+BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term)
+{
     return dynamic_cast<BaseTerm const&>(term);
 }
 
@@ -322,7 +360,8 @@ BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer
     return dynamic_cast<BaseTerm const&>(*sharedPointer.get());
 }
 
-BaseTerm & getBaseTermReferenceFromTerm(Term & term){
+BaseTerm & getBaseTermReferenceFromTerm(Term & term)
+{
     return dynamic_cast<BaseTerm &>(term);
 }
 
