@@ -162,38 +162,34 @@ void Expression::simplify()
             ALBA_PRINT1(onlyValueTermsNonExpressions.size());
         }
     }
-    Term newTermCombinedNonExpressions;
+    Term newTermForCombiningNonExpressions;
     bool isFirst(true);
     for(TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails : onlyValueTermsNonExpressions)
-    {
-        Term const& term = *dynamic_cast<Term const*const>(termWithDetails.baseTermSharedPointer.get());
+    {        Term const& term = *dynamic_cast<Term const*const>(termWithDetails.baseTermSharedPointer.get());
         ALBA_PRINT2(isFirst, term.getDisplayableString());
         if((OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel &&  term.isTheValueZero()) ||
-                (OperatorLevel::MultiplicationAndDivision == m_commonOperatorLevel &&  term.isTheValueOne()) ||
-                (OperatorLevel::RaiseToPower == m_commonOperatorLevel &&  term.isTheValueOne()))
+                (OperatorLevel::MultiplicationAndDivision == m_commonOperatorLevel &&  term.isTheValueOne()) ||                (OperatorLevel::RaiseToPower == m_commonOperatorLevel &&  term.isTheValueOne()))
         {
             continue;
         }
         else if(isFirst)
         {
-            newTermCombinedNonExpressions = term;
+            newTermForCombiningNonExpressions = term;
             isFirst=false;
         }
         else
         {
-            performBinaryOperationWithTermDetails(newTermCombinedNonExpressions, m_commonOperatorLevel, termWithDetails);
+            performBinaryOperationWithTermDetails(newTermForCombiningNonExpressions, m_commonOperatorLevel, termWithDetails);
         }
     }
     m_termsWithPriorityAndAssociation.clear();
-    m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(copyAndCreateNewTermAndReturnSharedPointer(newTermCombinedNonExpressions));
+    m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(copyAndCreateNewTermAndReturnSharedPointer(newTermForCombiningNonExpressions));
     for(TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails : onlySimplifiedExpressions)
     {
-        Term const& term = *dynamic_cast<Term const*const>(termWithDetails.baseTermSharedPointer.get());
-        ALBA_PRINT1(term.getDisplayableString());
+        Term const& term = *dynamic_cast<Term const*const>(termWithDetails.baseTermSharedPointer.get());        ALBA_PRINT1(term.getDisplayableString());
         m_termsWithPriorityAndAssociation.putTermWithDetails(termWithDetails);
     }
 }
-
 void Expression::clearAndSetTerm(BaseTermSharedPointer const& sharedPointer){
     m_termsWithPriorityAndAssociation.clear();
     m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
