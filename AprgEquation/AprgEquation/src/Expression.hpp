@@ -18,30 +18,31 @@ class Expression : public BaseTermData
 {
 public:
     Expression();
-    Expression(BaseTermSharedPointer const& sharedPointer);
+    Expression(BaseTerm const& baseTerm);
     ~Expression();
 
     bool operator==(Expression const& second) const;
     bool containsOnlyOneTerm() const;
 
     OperatorLevel getCommonOperatorLevel() const;
-    BaseTermSharedPointer const& getFirstTermConstReference() const;
+    BaseTerm const& getFirstTermConstReference() const;
     TermsWithPriorityAndAssociation const& getTerms() const;
     std::string getDisplayableString() const;
+
     void simplify();
-    void clearAndSetTerm(BaseTermSharedPointer const& sharedPointer);
-    void addTerm(BaseTermSharedPointer const& sharedPointer);
-    void subtractTerm(BaseTermSharedPointer const& sharedPointer);
-    void multiplyTerm(BaseTermSharedPointer const& sharedPointer);
-    void divideTerm(BaseTermSharedPointer const& sharedPointer);
-    void raiseToPowerTerm(BaseTermSharedPointer const& sharedPointer);
+    void clearAndSetTerm(BaseTerm const& baseTerm);
+    void addTerm(BaseTerm const& baseTerm);
+    void subtractTerm(BaseTerm const& baseTerm);
+    void multiplyTerm(BaseTerm const& baseTerm);
+    void divideTerm(BaseTerm const& baseTerm);
+    void raiseToPowerTerm(BaseTerm const& baseTerm);
     void setCommonOperatorLevel(OperatorLevel const operatorLevel);
     void reverseTheAssociationOfTheTerms();
 
 private:
-    OperatorLevel m_commonOperatorLevel;    TermsWithPriorityAndAssociation m_termsWithPriorityAndAssociation;
+    OperatorLevel m_commonOperatorLevel;
+    TermsWithPriorityAndAssociation m_termsWithPriorityAndAssociation;
 };
 
 }
-
 }

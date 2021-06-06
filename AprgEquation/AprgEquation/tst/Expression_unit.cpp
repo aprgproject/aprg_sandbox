@@ -9,19 +9,18 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
-
 TEST(ExpressionTest, ConstructionWorks)
 {
     Expression expression1;
-    Expression expression2(copyAndCreateNewTermAndReturnSharedPointer(Term(12)));
+    Expression expression2(getBaseTermConstReferenceFromTerm(Term(12)));
 
     EXPECT_EQ(OperatorLevel::Unknown, expression1.getCommonOperatorLevel());
-    TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify1(expression1.getTerms().getTermsWithDetails());
-    ASSERT_TRUE(termsToVerify1.empty());
+    TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify1(expression1.getTerms().getTermsWithDetails());    ASSERT_TRUE(termsToVerify1.empty());
     EXPECT_EQ(OperatorLevel::Unknown, expression2.getCommonOperatorLevel());
     TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify2(expression2.getTerms().getTermsWithDetails());
     ASSERT_EQ(1u, termsToVerify2.size());
@@ -30,11 +29,11 @@ TEST(ExpressionTest, ConstructionWorks)
     EXPECT_EQ(Term(12), termToVerify);
 }
 
-TEST(ExpressionTest, EqualityOperatorWorks){
+TEST(ExpressionTest, EqualityOperatorWorks)
+{
     Expression expression1;
     Expression expression2(createExpressionIfPossible(Terms{Term(5), Term("+"), Term(createExpressionIfPossible(Terms{Term(5), Term("+"), Term("interest")}))}));
-    Expression expression3(createExpressionIfPossible(Terms{Term(6), Term("+"), Term("interest")}));
-    Expression expression4(createExpressionIfPossible(Terms{Term(5)}));
+    Expression expression3(createExpressionIfPossible(Terms{Term(6), Term("+"), Term("interest")}));    Expression expression4(createExpressionIfPossible(Terms{Term(5)}));
     Expression expression5(createExpressionIfPossible(Terms{Term(5), Term("+"), Term(createExpressionIfPossible(Terms{Term(5), Term("+")}))}));
     Expression expression6(createExpressionIfPossible(Terms{Term(5), Term("+"), Term(createExpressionIfPossible(Terms{Term(5), Term("+"), Term("interest")}))}));
 
@@ -82,12 +81,11 @@ TEST(ExpressionTest, GetFirstTermConstReferenceWorks)
     Expression expression1(createExpressionIfPossible(Terms{Term(5412)}));
     Expression expression2(createExpressionIfPossible(Terms{Term(695), Term("+"), Term("interest")}));
 
-    EXPECT_EQ(Term(5412), getTermConstReferenceFromSharedPointer(expression1.getFirstTermConstReference()));
-    EXPECT_EQ(Term(695), getTermConstReferenceFromSharedPointer(expression2.getFirstTermConstReference()));
+    EXPECT_EQ(Term(5412), getTermConstReferenceFromBaseTerm(expression1.getFirstTermConstReference()));
+    EXPECT_EQ(Term(695), getTermConstReferenceFromBaseTerm(expression2.getFirstTermConstReference()));
 }
 
-TEST(ExpressionTest, GetTermsWorks)
-{
+TEST(ExpressionTest, GetTermsWorks){
     Expression expression(createExpressionIfPossible(Terms{Term(695), Term("-"), Term("interest"), Term("+"), Term("debt")}));
 
     TermsWithPriorityAndAssociation terms(expression.getTerms());
@@ -106,11 +104,10 @@ TEST(ExpressionTest, GetDisplayableStringWorks)
     Expression expression1;
     Expression expression2(createExpressionIfPossible(Terms{Term(695), Term("-"), Term("interest"), Term("+"), Term("debt")}));
     Expression expression3;
-    expression3.divideTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(96)));
+    expression3.divideTerm(getBaseTermConstReferenceFromTerm(Term(96)));
     Expression expression4(createExpressionIfPossible(Terms{Term(expression2), Term("^"), Term("cash")}));
 
-    EXPECT_EQ("()", expression1.getDisplayableString());
-    EXPECT_EQ("(695-interest+debt)", expression2.getDisplayableString());
+    EXPECT_EQ("()", expression1.getDisplayableString());    EXPECT_EQ("(695-interest+debt)", expression2.getDisplayableString());
     EXPECT_EQ("(1/96)", expression3.getDisplayableString());
     EXPECT_EQ("((695-interest+debt)^cash)", expression4.getDisplayableString());
 }
@@ -126,13 +123,12 @@ TEST(ExpressionTest, AddTermWorks)
     Expression expressionToExpect2(createExpressionIfPossible(Terms{Term(695), Term("+"), Term("interest"), Term("+"), Term(42)}));
     Expression expressionToExpect3(createExpressionIfPossible(Terms{expressionInMultiplication, Term("+"), Term(42)}));
 
-    expression1.addTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(42)));
-    expression2.addTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(42)));
-    expression3.addTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(42)));
+    expression1.addTerm(getBaseTermConstReferenceFromTerm(Term(42)));
+    expression2.addTerm(getBaseTermConstReferenceFromTerm(Term(42)));
+    expression3.addTerm(getBaseTermConstReferenceFromTerm(Term(42)));
 
     EXPECT_EQ(expressionToExpect1, expression1);
-    EXPECT_EQ(expressionToExpect2, expression2);
-    EXPECT_EQ(expressionToExpect3, expression3);
+    EXPECT_EQ(expressionToExpect2, expression2);    EXPECT_EQ(expressionToExpect3, expression3);
 }
 
 TEST(ExpressionTest, SubtractTermWorks)
@@ -147,13 +143,12 @@ TEST(ExpressionTest, SubtractTermWorks)
     Expression expressionToExpect2(createExpressionIfPossible(Terms{Term(695), Term("+"), Term("interest"), Term("-"), Term(42)}));
     Expression expressionToExpect3(createExpressionIfPossible(Terms{expressionInMultiplication, Term("-"), Term(42)}));
 
-    expression1.subtractTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(42)));
-    expression2.subtractTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(42)));
-    expression3.subtractTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(42)));
+    expression1.subtractTerm(getBaseTermConstReferenceFromTerm(Term(42)));
+    expression2.subtractTerm(getBaseTermConstReferenceFromTerm(Term(42)));
+    expression3.subtractTerm(getBaseTermConstReferenceFromTerm(Term(42)));
 
     EXPECT_EQ(expressionToExpect1, expression1);
-    EXPECT_EQ(expressionToExpect2, expression2);
-    EXPECT_EQ(expressionToExpect3, expression3);
+    EXPECT_EQ(expressionToExpect2, expression2);    EXPECT_EQ(expressionToExpect3, expression3);
 }
 
 TEST(ExpressionTest, MultiplyTermWorks)
@@ -167,13 +162,12 @@ TEST(ExpressionTest, MultiplyTermWorks)
     Expression expressionToExpect2(createExpressionIfPossible(Terms{Term(695), Term("*"), Term("interest"), Term("*"), Term(42)}));
     Expression expressionToExpect3(createExpressionIfPossible(Terms{expressionInExponent, Term("*"), Term(42)}));
 
-    expression1.multiplyTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(42)));
-    expression2.multiplyTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(42)));
-    expression3.multiplyTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(42)));
+    expression1.multiplyTerm(getBaseTermConstReferenceFromTerm(Term(42)));
+    expression2.multiplyTerm(getBaseTermConstReferenceFromTerm(Term(42)));
+    expression3.multiplyTerm(getBaseTermConstReferenceFromTerm(Term(42)));
 
     EXPECT_EQ(expressionToExpect1, expression1);
-    EXPECT_EQ(expressionToExpect2, expression2);
-    EXPECT_EQ(expressionToExpect3, expression3);
+    EXPECT_EQ(expressionToExpect2, expression2);    EXPECT_EQ(expressionToExpect3, expression3);
 }
 
 TEST(ExpressionTest, DivideTermWorks)
@@ -188,13 +182,12 @@ TEST(ExpressionTest, DivideTermWorks)
     Expression expressionToExpect2(createExpressionIfPossible(Terms{Term(695), Term("*"), Term("interest"), Term("/"), Term(42)}));
     Expression expressionToExpect3(createExpressionIfPossible(Terms{expressionInExponent, Term("/"), Term(42)}));
 
-    expression1.divideTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(42)));
-    expression2.divideTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(42)));
-    expression3.divideTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(42)));
+    expression1.divideTerm(getBaseTermConstReferenceFromTerm(Term(42)));
+    expression2.divideTerm(getBaseTermConstReferenceFromTerm(Term(42)));
+    expression3.divideTerm(getBaseTermConstReferenceFromTerm(Term(42)));
 
     EXPECT_EQ(expressionToExpect1, expression1);
-    EXPECT_EQ(expressionToExpect2, expression2);
-    EXPECT_EQ(expressionToExpect3, expression3);
+    EXPECT_EQ(expressionToExpect2, expression2);    EXPECT_EQ(expressionToExpect3, expression3);
 }
 
 TEST(ExpressionTest, RaiseToPowerTermWorks)
@@ -208,13 +201,12 @@ TEST(ExpressionTest, RaiseToPowerTermWorks)
     Expression expressionToExpect2(createExpressionIfPossible(Terms{Term(695), Term("^"), Term("interest"), Term("^"), Term(42)}));
     Expression expressionToExpect3(createExpressionIfPossible(Terms{expressionInExponent, Term("^"), Term(42)}));
 
-    expression1.raiseToPowerTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(42)));
-    expression2.raiseToPowerTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(42)));
-    expression3.raiseToPowerTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(42)));
+    expression1.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(Term(42)));
+    expression2.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(Term(42)));
+    expression3.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(Term(42)));
 
     EXPECT_EQ(expressionToExpect1, expression1);
-    EXPECT_EQ(expressionToExpect2, expression2);
-    EXPECT_EQ(expressionToExpect3, expression3);
+    EXPECT_EQ(expressionToExpect2, expression2);    EXPECT_EQ(expressionToExpect3, expression3);
 }
 
 TEST(ExpressionTest, SetCommonOperatorLevelWorks)
@@ -241,11 +233,10 @@ TEST(ExpressionTest, ReverseTheAssociationOfTheTermsWorks)
     Expression expression2(createExpressionIfPossible(Terms{Term(695)}));
     Expression expressionToExpect1;
     Expression expressionToExpect2;
-    expressionToExpect2.subtractTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(695)));
+    expressionToExpect2.subtractTerm(getBaseTermConstReferenceFromTerm(Term(695)));
     expressionToExpect2.setCommonOperatorLevel(OperatorLevel::Unknown);
 
-    expression1.reverseTheAssociationOfTheTerms();
-    expression2.reverseTheAssociationOfTheTerms();
+    expression1.reverseTheAssociationOfTheTerms();    expression2.reverseTheAssociationOfTheTerms();
 
     EXPECT_EQ(expressionToExpect1, expression1);
     EXPECT_EQ(expressionToExpect2, expression2);

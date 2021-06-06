@@ -28,6 +28,7 @@ void accumulateAndDoOperationOnTermDetails(
         Term & partialResultTerm,
         OperatorLevel const operatorLevel,
         TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails);
+
 }
 
 }

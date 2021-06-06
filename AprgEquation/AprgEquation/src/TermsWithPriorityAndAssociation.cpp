@@ -10,18 +10,18 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
 
 TermsWithPriorityAndAssociation::TermWithDetails::TermWithDetails(
-        BaseTermSharedPointer const& baseTermSharedPointerParameter,
+        BaseTerm const& baseTerm,
         TermsWithPriorityAndAssociation::AssociationType const associationParameter)
-    : baseTermSharedPointer(baseTermSharedPointerParameter)
+    : baseTermSharedPointer(copyAndCreateNewTermAndReturnSharedPointer(getTermConstReferenceFromBaseTerm(baseTerm)))
     , association(associationParameter)
 {}
-
 TermsWithPriorityAndAssociation::TermWithDetails::TermWithDetails(TermWithDetails const& termWithDetails)
     : baseTermSharedPointer(createNewTermAndReturnSharedPointer(termWithDetails.baseTermSharedPointer))
     , association(termWithDetails.association)
@@ -73,11 +73,11 @@ bool TermsWithPriorityAndAssociation::operator==(TermsWithPriorityAndAssociation
     ALBA_PRINT2(terms1.size(), terms2.size());
     if(terms1.size() == terms2.size())
     {
-        using TermsWithDetailsIterator=TermsWithDetails::const_iterator;        using MismatchResultType=pair<TermsWithDetailsIterator, TermsWithDetailsIterator>;
+        using TermsWithDetailsIterator=TermsWithDetails::const_iterator;
+        using MismatchResultType=pair<TermsWithDetailsIterator, TermsWithDetailsIterator>;
         MismatchResultType mismatchResult = mismatch(terms1.cbegin(), terms1.end(), terms2.cbegin());
         result = mismatchResult.first == terms1.cend();
-    }
-    return result;
+    }    return result;
 }
 
 unsigned int TermsWithPriorityAndAssociation::getSize() const
@@ -85,13 +85,12 @@ unsigned int TermsWithPriorityAndAssociation::getSize() const
     return m_termsWithDetails.size();
 }
 
-BaseTermSharedPointer const& TermsWithPriorityAndAssociation::getFirstTermConstReference() const
+BaseTerm const& TermsWithPriorityAndAssociation::getFirstTermConstReference() const
 {
-    return m_termsWithDetails.front().baseTermSharedPointer;
+    return getBaseTermConstReferenceFromSharedPointer(m_termsWithDetails.front().baseTermSharedPointer);
 }
 
-TermsWithPriorityAndAssociation::TermsWithDetails const& TermsWithPriorityAndAssociation::getTermsWithDetails() const
-{
+TermsWithPriorityAndAssociation::TermsWithDetails const& TermsWithPriorityAndAssociation::getTermsWithDetails() const{
     return m_termsWithDetails;
 }
 
@@ -102,21 +101,20 @@ void TermsWithPriorityAndAssociation::clear()
 
 void TermsWithPriorityAndAssociation::putTermWithDetails(TermWithDetails const& termWithDetails)
 {
-    m_termsWithDetails.emplace_back(createNewTermAndReturnSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);
+    m_termsWithDetails.emplace_back(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);
 }
 
-void TermsWithPriorityAndAssociation::putTermWithPositiveAssociation(BaseTermSharedPointer const& baseTermSharedPointer)
+void TermsWithPriorityAndAssociation::putTermWithPositiveAssociation(BaseTerm const& baseTerm)
 {
-    m_termsWithDetails.emplace_back(createNewTermAndReturnSharedPointer(baseTermSharedPointer), AssociationType::Positive);
+    m_termsWithDetails.emplace_back(baseTerm, AssociationType::Positive);
 }
 
-void TermsWithPriorityAndAssociation::putTermWithNegativeAssociation(BaseTermSharedPointer const& baseTermSharedPointer)
+void TermsWithPriorityAndAssociation::putTermWithNegativeAssociation(BaseTerm const& baseTerm)
 {
-    m_termsWithDetails.emplace_back(createNewTermAndReturnSharedPointer(baseTermSharedPointer), AssociationType::Negative);
+    m_termsWithDetails.emplace_back(baseTerm, AssociationType::Negative);
 }
 
-void TermsWithPriorityAndAssociation::reverseTheAssociationOfTheTerms()
-{
+void TermsWithPriorityAndAssociation::reverseTheAssociationOfTheTerms(){
     for(TermWithDetails & termWithDetails : m_termsWithDetails)
     {
         if(termWithDetails.hasPositiveAssociation())

@@ -194,11 +194,11 @@ Term performRaiseToPower(Term const& term1, Term const& term2)
 void accumulateAndDoOperationOnTermDetails(
         Term & partialResultTerm,
         OperatorLevel const operatorLevel,
-        TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails){
+        TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails)
+{
     Term const& term = *dynamic_cast<Term const*const>(termWithDetails.baseTermSharedPointer.get());
     switch(operatorLevel)
-    {
-    case OperatorLevel::AdditionAndSubtraction:
+    {    case OperatorLevel::AdditionAndSubtraction:
     {
         if(termWithDetails.hasPositiveAssociation())
         {

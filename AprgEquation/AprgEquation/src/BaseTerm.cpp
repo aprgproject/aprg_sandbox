@@ -4,9 +4,9 @@ using namespace std;
 
 namespace alba
 {
+
 namespace equation
 {
-
 BaseTerm::BaseTerm()
 {}
 

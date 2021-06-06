@@ -4,9 +4,9 @@
 
 namespace alba
 {
+
 namespace equation
 {
-
 class BaseTerm
 {
 public:
@@ -18,6 +18,7 @@ public:
 private:
 
 };
+
 }
 
 }

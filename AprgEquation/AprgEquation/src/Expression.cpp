@@ -22,14 +22,13 @@ Expression::Expression()
     : m_commonOperatorLevel(OperatorLevel::Unknown)
 {}
 
-Expression::Expression(BaseTermSharedPointer const& sharedPointer)
+Expression::Expression(BaseTerm const& baseTerm)
     : m_commonOperatorLevel(OperatorLevel::Unknown)
 {
-    m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
+    m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(baseTerm);
 }
 
-Expression::~Expression()
-{}
+Expression::~Expression(){}
 
 bool Expression::operator==(Expression const& second) const
 {
@@ -37,22 +36,24 @@ bool Expression::operator==(Expression const& second) const
     return m_commonOperatorLevel == second.m_commonOperatorLevel
             && m_termsWithPriorityAndAssociation==second.m_termsWithPriorityAndAssociation;
 }
+
 bool Expression::containsOnlyOneTerm() const
 {
     return 1 == m_termsWithPriorityAndAssociation.getSize();
 }
 
-OperatorLevel Expression::getCommonOperatorLevel() const{
+OperatorLevel Expression::getCommonOperatorLevel() const
+{
     return m_commonOperatorLevel;
 }
 
-BaseTermSharedPointer const& Expression::getFirstTermConstReference() const
+BaseTerm const& Expression::getFirstTermConstReference() const
 {
-    return m_termsWithPriorityAndAssociation.getFirstTermConstReference();}
+    return m_termsWithPriorityAndAssociation.getFirstTermConstReference();
+}
 
 TermsWithPriorityAndAssociation const& Expression::getTerms() const
-{
-    return m_termsWithPriorityAndAssociation;
+{    return m_termsWithPriorityAndAssociation;
 }
 
 string Expression::getDisplayableString() const
@@ -88,10 +89,10 @@ string Expression::getDisplayableString() const
     result << ")";
     return result.str();
 }
+
 void Expression::simplify()
 {
-    TermsWithPriorityAndAssociation::TermsWithDetails onlySimplifiedExpressions;
-    TermsWithPriorityAndAssociation::TermsWithDetails onlyValueTermsNonExpressions;
+    TermsWithPriorityAndAssociation::TermsWithDetails onlySimplifiedExpressions;    TermsWithPriorityAndAssociation::TermsWithDetails onlyValueTermsNonExpressions;
     TermsWithPriorityAndAssociation::TermsWithDetails inputTerms(
                 m_termsWithPriorityAndAssociation.getTermsWithDetails());
     for(TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails : inputTerms)
@@ -104,18 +105,17 @@ void Expression::simplify()
             expression.simplify();
             if(expression.containsOnlyOneTerm())
             {
-                Term const& oneTermInExpression = *dynamic_cast<Term const*const>(expression.getFirstTermConstReference().get());
+                Term const& oneTermInExpression = dynamic_cast<Term const&>(expression.getFirstTermConstReference());
                 if(oneTermInExpression.isExpression())
                 {
-                    onlySimplifiedExpressions.emplace_back(copyAndCreateNewTermAndReturnSharedPointer(oneTermInExpression), termWithDetails.association);
+                    onlySimplifiedExpressions.emplace_back(getBaseTermConstReferenceFromTerm(oneTermInExpression), termWithDetails.association);
                 }
                 else if(term.isValueTermButNotAnExpression())
                 {
-                    onlyValueTermsNonExpressions.emplace_back(copyAndCreateNewTermAndReturnSharedPointer(oneTermInExpression), termWithDetails.association);
+                    onlyValueTermsNonExpressions.emplace_back(getBaseTermConstReferenceFromTerm(oneTermInExpression), termWithDetails.association);
                 }
             }
-            else if(expression.getCommonOperatorLevel() == m_commonOperatorLevel)
-            {
+            else if(expression.getCommonOperatorLevel() == m_commonOperatorLevel)            {
                 TermsWithPriorityAndAssociation::TermsWithDetails const& termsInSubExpression(
                             m_termsWithPriorityAndAssociation.getTermsWithDetails());
                 for(TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetailsInSubExpression : termsInSubExpression)
@@ -123,33 +123,33 @@ void Expression::simplify()
                     Term const& termInSubExpression = *dynamic_cast<Term const*const>(termWithDetailsInSubExpression.baseTermSharedPointer.get());
                     if(termInSubExpression.isExpression())
                     {
-                        onlySimplifiedExpressions.emplace_back(copyAndCreateNewTermAndReturnSharedPointer(termInSubExpression), termWithDetailsInSubExpression.association);
+                        onlySimplifiedExpressions.emplace_back(getBaseTermConstReferenceFromTerm(termInSubExpression), termWithDetailsInSubExpression.association);
                     }
                     else if(termInSubExpression.isValueTermButNotAnExpression())
                     {
-                        onlyValueTermsNonExpressions.emplace_back(copyAndCreateNewTermAndReturnSharedPointer(termInSubExpression), termWithDetailsInSubExpression.association);
+                        onlyValueTermsNonExpressions.emplace_back(getBaseTermConstReferenceFromTerm(termInSubExpression), termWithDetailsInSubExpression.association);
                     }
                 }
             }
             else
             {
-                onlySimplifiedExpressions.emplace_back(copyAndCreateNewTermAndReturnSharedPointer(term), termWithDetails.association);
+                onlySimplifiedExpressions.emplace_back(getBaseTermConstReferenceFromTerm(term), termWithDetails.association);
             }
         }
         else if(term.isValueTermButNotAnExpression())
         {
-            onlyValueTermsNonExpressions.emplace_back(copyAndCreateNewTermAndReturnSharedPointer(term), termWithDetails.association);
+            onlyValueTermsNonExpressions.emplace_back(getBaseTermConstReferenceFromTerm(term), termWithDetails.association);
             ALBA_PRINT1(onlyValueTermsNonExpressions.size());
         }
     }
     Term newTermForCombiningNonExpressions;
     bool isFirst(true);
     for(TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails : onlyValueTermsNonExpressions)
-    {        Term const& term = *dynamic_cast<Term const*const>(termWithDetails.baseTermSharedPointer.get());
+    {
+        Term const& term = *dynamic_cast<Term const*const>(termWithDetails.baseTermSharedPointer.get());
         ALBA_PRINT2(isFirst, term.getDisplayableString());
         if((OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel &&  term.isTheValueZero()) ||
-                (OperatorLevel::MultiplicationAndDivision == m_commonOperatorLevel &&  term.isTheValueOne()) ||
-                (OperatorLevel::RaiseToPower == m_commonOperatorLevel &&  term.isTheValueOne()))
+                (OperatorLevel::MultiplicationAndDivision == m_commonOperatorLevel &&  term.isTheValueOne()) ||                (OperatorLevel::RaiseToPower == m_commonOperatorLevel &&  term.isTheValueOne()))
         {
             continue;
         }
@@ -163,125 +163,126 @@ void Expression::simplify()
             accumulateAndDoOperationOnTermDetails(newTermForCombiningNonExpressions, m_commonOperatorLevel, termWithDetails);
         }
     }
-    m_termsWithPriorityAndAssociation.clear();    m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(copyAndCreateNewTermAndReturnSharedPointer(newTermForCombiningNonExpressions));
+    m_termsWithPriorityAndAssociation.clear();
+    m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(getBaseTermConstReferenceFromTerm(newTermForCombiningNonExpressions));
     for(TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails : onlySimplifiedExpressions)
     {
-        Term const& term = *dynamic_cast<Term const*const>(termWithDetails.baseTermSharedPointer.get());        ALBA_PRINT1(term.getDisplayableString());
+        Term const& term = *dynamic_cast<Term const*const>(termWithDetails.baseTermSharedPointer.get());
+        ALBA_PRINT1(term.getDisplayableString());
         m_termsWithPriorityAndAssociation.putTermWithDetails(termWithDetails);
     }
 }
 
-void Expression::clearAndSetTerm(BaseTermSharedPointer const& sharedPointer)
+void Expression::clearAndSetTerm(BaseTerm const& baseTerm)
 {
     m_termsWithPriorityAndAssociation.clear();
-    m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
+    m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(baseTerm);
     m_commonOperatorLevel = OperatorLevel::Unknown;
 }
 
-void Expression::addTerm(BaseTermSharedPointer const& sharedPointer)
+void Expression::addTerm(BaseTerm const& baseTerm)
 {
     switch(m_commonOperatorLevel)
-    {
-    case OperatorLevel::Unknown:
+    {    case OperatorLevel::Unknown:
         m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
     case OperatorLevel::AdditionAndSubtraction:
     {
-        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);        break;
+        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(baseTerm);
+        break;
     }
     case OperatorLevel::MultiplicationAndDivision:
     case OperatorLevel::RaiseToPower:
     {
-        clearAndSetTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(Expression(*this))));
+        clearAndSetTerm(getBaseTermConstReferenceFromTerm(Term(Expression(*this))));
         m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
-        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
+        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(baseTerm);
         break;
     }
     }
 }
 
-void Expression::subtractTerm(BaseTermSharedPointer const& sharedPointer)
+void Expression::subtractTerm(BaseTerm const& baseTerm)
 {
     switch(m_commonOperatorLevel)
-    {
-    case OperatorLevel::Unknown:
+    {    case OperatorLevel::Unknown:
         m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
     case OperatorLevel::AdditionAndSubtraction:
     {
-        m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(sharedPointer);        break;
+        m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(baseTerm);
+        break;
     }
     case OperatorLevel::MultiplicationAndDivision:
     case OperatorLevel::RaiseToPower:
     {
-        clearAndSetTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(Expression(*this))));
+        clearAndSetTerm(getBaseTermConstReferenceFromTerm(Term(Expression(*this))));
         m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
-        m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(sharedPointer);
+        m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(baseTerm);
         break;
     }
     }
 }
 
-void Expression::multiplyTerm(BaseTermSharedPointer const& sharedPointer)
+void Expression::multiplyTerm(BaseTerm const& baseTerm)
 {
     switch(m_commonOperatorLevel)
-    {
-    case OperatorLevel::Unknown:
+    {    case OperatorLevel::Unknown:
         m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
     case OperatorLevel::MultiplicationAndDivision:
     {
-        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);        break;
+        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(baseTerm);
+        break;
     }
     case OperatorLevel::AdditionAndSubtraction:
     case OperatorLevel::RaiseToPower:
     {
-        clearAndSetTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(Expression(*this))));
+        clearAndSetTerm(getBaseTermConstReferenceFromTerm(Term(Expression(*this))));
         m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
-        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
+        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(baseTerm);
         break;
     }
     }
 }
 
-void Expression::divideTerm(BaseTermSharedPointer const& sharedPointer)
+void Expression::divideTerm(BaseTerm const& baseTerm)
 {
     switch(m_commonOperatorLevel)
-    {
-    case OperatorLevel::Unknown:
+    {    case OperatorLevel::Unknown:
         m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
     case OperatorLevel::MultiplicationAndDivision:
     {
-        m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(sharedPointer);        break;
+        m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(baseTerm);
+        break;
     }
     case OperatorLevel::AdditionAndSubtraction:
     case OperatorLevel::RaiseToPower:
     {
-        clearAndSetTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(Expression(*this))));
+        clearAndSetTerm(getBaseTermConstReferenceFromTerm(Term(Expression(*this))));
         m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
-        m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(sharedPointer);
+        m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(baseTerm);
         break;
     }
     }
 }
 
-void Expression::raiseToPowerTerm(BaseTermSharedPointer const& sharedPointer)
+void Expression::raiseToPowerTerm(BaseTerm const& baseTerm)
 {
     switch(m_commonOperatorLevel)
-    {
-    case OperatorLevel::Unknown:
+    {    case OperatorLevel::Unknown:
         m_commonOperatorLevel = OperatorLevel::RaiseToPower;
     case OperatorLevel::RaiseToPower:
     {
-        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);        break;
+        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(baseTerm);
+        break;
     }
     case OperatorLevel::AdditionAndSubtraction:
     case OperatorLevel::MultiplicationAndDivision:
     {
-        clearAndSetTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(Expression(*this))));
+        clearAndSetTerm(getBaseTermConstReferenceFromTerm(Term(Expression(*this))));
         m_commonOperatorLevel = OperatorLevel::RaiseToPower;
-        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
+        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(baseTerm);
         break;
     }
-    }
-}
+    }}
 
 void Expression::setCommonOperatorLevel(OperatorLevel const operatorLevel)
 {

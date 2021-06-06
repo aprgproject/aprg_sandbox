@@ -112,11 +112,10 @@ Term operator+(Constant const& constant, Polynomial const& polynomial)
 
 Term operator+(Constant const& constant, Expression const& expression)
 {
-    Expression newExpression(copyAndCreateNewTermAndReturnSharedPointer(Term(constant)));
-    newExpression.addTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(expression)));
+    Expression newExpression(getBaseTermConstReferenceFromTerm(Term(constant)));
+    newExpression.addTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
-
 Term operator+(Variable const& variable, Constant const& constant)
 {
     return convertPolynomialToSimplestTerm(

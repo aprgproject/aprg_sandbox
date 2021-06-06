@@ -4,10 +4,10 @@
 #include <TermsWithPriorityAndAssociation.hpp>
 
 #include <algorithm>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
@@ -54,11 +54,11 @@ bool canBeAddedOrSubtracted(Monomial const& monomial, Variable const& variable)
 unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel)
 {
     unsigned int result(0);
-    switch(operatorLevel)    {
+    switch(operatorLevel)
+    {
     case OperatorLevel::Unknown:
         result=0;
-        break;
-    case OperatorLevel::AdditionAndSubtraction:
+        break;    case OperatorLevel::AdditionAndSubtraction:
         result=3;
         break;
     case OperatorLevel::MultiplicationAndDivision:
@@ -68,11 +68,11 @@ unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel)
         result=1;
         break;
     }
-    return result;}
+    return result;
+}
 
 unsigned int getTermPriorityValue(Term const& term)
-{
-    unsigned int result(0);
+{    unsigned int result(0);
     if(term.isExpression())
     {
         result=1;
@@ -141,11 +141,11 @@ string getOperatingString(
 
 Monomial createMonomialConstant(AlbaNumber const& number)
 {
-    return Monomial(number, {});}
+    return Monomial(number, {});
+}
 
 Monomial createMonomialVariable(string const& variableName)
-{
-    return Monomial(1, {{variableName, 1}});
+{    return Monomial(1, {{variableName, 1}});
 }
 
 Expression createExpressionFromTerm(Term const& term)
@@ -157,11 +157,10 @@ Expression createExpressionFromTerm(Term const& term)
     }
     else
     {
-        result=Expression(copyAndCreateNewTermAndReturnSharedPointer(term));
+        result=Expression(getBaseTermConstReferenceFromTerm(term));
     }
     return result;
 }
-
 Expression createExpressionIfPossible(Terms const& terms)
 {
     Expression result;
@@ -195,11 +194,10 @@ Term convertExpressionToSimplestTerm(Expression const& expression)
     Term newTerm(newExpression);
     if(newExpression.containsOnlyOneTerm())
     {
-        Term const& term = *dynamic_cast<Term const*const>(newExpression.getFirstTermConstReference().get());
+        Term const& term = dynamic_cast<Term const&>(newExpression.getFirstTermConstReference());
         newTerm = term;
     }
-    return newTerm;
-}
+    return newTerm;}
 
 Term convertPolynomialToSimplestTerm(Polynomial const& polynomial)
 {
@@ -269,18 +267,23 @@ Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& 
     return *dynamic_cast<Term const*const>(sharedPointer.get());
 }
 
-BaseTermSharedPointer getSharedPointerFromTermReference(Term & term){
+BaseTermSharedPointer getSharedPointerFromTermReference(Term & term)
+{
     return move(BaseTermSharedPointer(dynamic_cast<BaseTerm*>(&term)));
 }
-
 BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term)
 {
     return dynamic_cast<BaseTerm const&>(term);
 }
 
-Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& term)
+BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
 {
-    return dynamic_cast<Term const&>(term);
+    return dynamic_cast<BaseTerm const&>(*sharedPointer.get());
+}
+
+Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm)
+{
+    return dynamic_cast<Term const&>(baseTerm);
 }
 
 }

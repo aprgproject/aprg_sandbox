@@ -9,24 +9,24 @@ using AssociationType=alba::equation::TermsWithPriorityAndAssociation::Associati
 
 namespace alba
 {
+
 namespace equation
 {
-
 TEST(PerformOperationTest, PerformOperationUnaryOperationWorks)
 {
     Term termToVerify1(performOperation(Operator("+"), Term(215)));
     Term termToVerify2(performOperation(Operator("-"), Term(215)));
+
     EXPECT_EQ(Term(215), termToVerify1);
     EXPECT_EQ(Term(-215), termToVerify2);
 }
-
 TEST(PerformOperationTest, PerformOperationBinaryOperationWorks)
 {
     Term termToVerify1(performOperation(Operator("+"), Term(25), Term(2)));
-    Term termToVerify2(performOperation(Operator("-"), Term(25), Term(2)));    Term termToVerify3(performOperation(Operator("*"), Term(25), Term(2)));
+    Term termToVerify2(performOperation(Operator("-"), Term(25), Term(2)));
+    Term termToVerify3(performOperation(Operator("*"), Term(25), Term(2)));
     Term termToVerify4(performOperation(Operator("/"), Term(25), Term(2)));
     Term termToVerify5(performOperation(Operator("^"), Term(25), Term(2)));
-
     EXPECT_EQ(Term(27), termToVerify1);
     EXPECT_EQ(Term(23), termToVerify2);
     EXPECT_EQ(Term(50), termToVerify3);
@@ -38,12 +38,11 @@ TEST(PerformOperationTest, AccumulateAndDoOperationOnTermDetailsWorks)
 {
     Term newTerm1(45);
     Term newTerm2(45);
-    TermWithDetails termWithDetails1(copyAndCreateNewTermAndReturnSharedPointer(Term(25)), AssociationType::Positive);
-    TermWithDetails termWithDetails2(copyAndCreateNewTermAndReturnSharedPointer(Term(25)), AssociationType::Negative);
+    TermWithDetails termWithDetails1(getBaseTermConstReferenceFromTerm(Term(25)), AssociationType::Positive);
+    TermWithDetails termWithDetails2(getBaseTermConstReferenceFromTerm(Term(25)), AssociationType::Negative);
 
     accumulateAndDoOperationOnTermDetails(newTerm1, OperatorLevel::AdditionAndSubtraction, termWithDetails1);
     accumulateAndDoOperationOnTermDetails(newTerm2, OperatorLevel::AdditionAndSubtraction, termWithDetails2);
-
     EXPECT_EQ(Term(70), newTerm1);
     EXPECT_EQ(Term(20), newTerm2);
 }

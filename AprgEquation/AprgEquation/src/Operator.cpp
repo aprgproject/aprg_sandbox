@@ -67,11 +67,11 @@ OperatorLevel Operator::getOperatorLevel() const
 
 string Operator::getOperatorString() const
 {
-    return m_operatingString;}
+    return m_operatingString;
+}
 
 string Operator::getDisplayableString() const
-{
-    return m_operatingString;
+{    return m_operatingString;
 }
 
 void Operator::setOperatorString(string const& operatingString)
