@@ -82,7 +82,8 @@ bool Monomial::operator<(Monomial const& second) const
 
 bool Monomial::isOne() const
 {
-    return m_constant == 1 && isConstantOnly();}
+    return m_constant == 1 && isConstantOnly();
+}
 
 bool Monomial::isZero() const
 {

@@ -24,41 +24,38 @@ TEST(UtilitiesTest, IsOperatorWorks)
     EXPECT_FALSE(isOperator("add"));
 }
 
-TEST(UtilitiesTest, CanBeAddedOrSubtractedForBothMonomialsWorks)
+TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForBothMonomialsWorks)
 {
     Monomial monomial1;
-    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
-    Monomial monomial3(100, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});    Monomial monomial3(100, {{"x", 6}, {"y", -1.25}});
     Monomial monomial4(100, {{"x", 5}, {"y", -1}});
     Monomial monomial5(645, {{"i", 20}, {"y", 30}});
 
-    EXPECT_TRUE(canBeAddedOrSubtracted(monomial1, monomial1));
-    EXPECT_TRUE(canBeAddedOrSubtracted(monomial2, monomial2));
-    EXPECT_TRUE(canBeAddedOrSubtracted(monomial3, monomial3));
-    EXPECT_TRUE(canBeAddedOrSubtracted(monomial4, monomial4));
-    EXPECT_TRUE(canBeAddedOrSubtracted(monomial5, monomial5));
-    EXPECT_FALSE(canBeAddedOrSubtracted(monomial1, monomial2));
-    EXPECT_TRUE(canBeAddedOrSubtracted(monomial2, monomial3));
-    EXPECT_FALSE(canBeAddedOrSubtracted(monomial2, monomial4));
-    EXPECT_FALSE(canBeAddedOrSubtracted(monomial2, monomial5));
+    EXPECT_TRUE(canBeMergedByAdditionOrSubtraction(monomial1, monomial1));
+    EXPECT_TRUE(canBeMergedByAdditionOrSubtraction(monomial2, monomial2));
+    EXPECT_TRUE(canBeMergedByAdditionOrSubtraction(monomial3, monomial3));
+    EXPECT_TRUE(canBeMergedByAdditionOrSubtraction(monomial4, monomial4));
+    EXPECT_TRUE(canBeMergedByAdditionOrSubtraction(monomial5, monomial5));
+    EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(monomial1, monomial2));
+    EXPECT_TRUE(canBeMergedByAdditionOrSubtraction(monomial2, monomial3));
+    EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(monomial2, monomial4));
+    EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(monomial2, monomial5));
 }
 
-TEST(UtilitiesTest, CanBeAddedOrSubtractedForMonomialAndVariableWorks)
+TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForMonomialAndVariableWorks)
 {
     Monomial monomial1;
-    Monomial monomial2(12, {{"x", 1}});
-    Monomial monomial3(34, {{"x", 1.25}});
+    Monomial monomial2(12, {{"x", 1}});    Monomial monomial3(34, {{"x", 1.25}});
     Monomial monomial4(56, {{"x", 1}, {"y", 1}});
     Variable variable("x");
 
-    EXPECT_FALSE(canBeAddedOrSubtracted(monomial1, variable));
-    EXPECT_TRUE(canBeAddedOrSubtracted(monomial2, variable));
-    EXPECT_FALSE(canBeAddedOrSubtracted(monomial3, variable));
-    EXPECT_FALSE(canBeAddedOrSubtracted(monomial4, variable));
+    EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(monomial1, variable));
+    EXPECT_TRUE(canBeMergedByAdditionOrSubtraction(monomial2, variable));
+    EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(monomial3, variable));
+    EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(monomial4, variable));
 }
 
-TEST(UtilitiesTest, GetOperatorLevelValueWorks)
-{
+TEST(UtilitiesTest, GetOperatorLevelValueWorks){
     EXPECT_EQ(0u, getOperatorLevelInversePriority(OperatorLevel::Unknown));
     EXPECT_EQ(3u, getOperatorLevelInversePriority(OperatorLevel::AdditionAndSubtraction));
     EXPECT_EQ(2u, getOperatorLevelInversePriority(OperatorLevel::MultiplicationAndDivision));
@@ -75,7 +72,8 @@ TEST(UtilitiesTest, GetTermPriorityValueWorks)
     EXPECT_EQ(6u, getTermTypePriorityValue(TermType::Expression));
 }
 
-TEST(UtilitiesTest, CreateMonomialConstantWorks){
+TEST(UtilitiesTest, CreateMonomialConstantWorks)
+{
     EXPECT_EQ(Monomial(5648, {}), createMonomialConstant(5648));
 }
 

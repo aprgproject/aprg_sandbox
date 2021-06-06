@@ -57,7 +57,8 @@ TEST(OperatorTest, LessThanOperatorWorks)
 
 TEST(OperatorTest, IsAdditionWorksAsExpected)
 {
-    Operator nullOperator;    Operator addOperator("+");
+    Operator nullOperator;
+    Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");

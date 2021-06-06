@@ -22,6 +22,7 @@ public:
 
     std::string getVariableName() const;
     std::string getDisplayableString() const;
+
     void setVariableName(std::string const& variableName);
 
 private:

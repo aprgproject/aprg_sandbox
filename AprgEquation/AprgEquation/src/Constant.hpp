@@ -27,6 +27,7 @@ public:
 
     AlbaNumber const& getNumberConstReference() const;
     std::string getDisplayableString() const;
+
     void setNumber(AlbaNumber const& constantValue);
 
 private:

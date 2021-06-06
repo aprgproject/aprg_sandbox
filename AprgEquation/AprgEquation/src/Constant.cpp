@@ -48,7 +48,8 @@ bool Constant::operator<(Constant const& second) const
 
 AlbaNumber const& Constant::getNumberConstReference() const
 {
-    return m_constantValue;}
+    return m_constantValue;
+}
 
 string Constant::getDisplayableString() const
 {

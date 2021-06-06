@@ -84,7 +84,8 @@ Term performOperation(
     Term newTerm;\
     if(term1.isConstant())\
 {\
-    if(term2.isConstant())\{\
+    if(term2.isConstant())\
+{\
     newTerm = term1.getConstantConstReference() operation term2.getConstantConstReference();\
 }\
     else if(term2.isVariable())\
@@ -110,7 +111,8 @@ Term performOperation(
 {\
     newTerm = term1.getVariableConstReference() operation term2.getConstantConstReference();\
 }\
-    else if(term2.isVariable())\{\
+    else if(term2.isVariable())\
+{\
     newTerm = term1.getVariableConstReference() operation term2.getVariableConstReference();\
 }\
     else if(term2.isMonomial())\
@@ -132,7 +134,8 @@ Term performOperation(
 {\
     newTerm = term1.getMonomialConstReference() operation term2.getConstantConstReference();\
 }\
-    else if(term2.isVariable())\{\
+    else if(term2.isVariable())\
+{\
     newTerm = term1.getMonomialConstReference() operation term2.getVariableConstReference();\
 }\
     else if(term2.isMonomial())\
@@ -154,7 +157,8 @@ Term performOperation(
 {\
     newTerm = term1.getPolynomialConstReference() operation term2.getConstantConstReference();\
 }\
-    else if(term2.isVariable())\{\
+    else if(term2.isVariable())\
+{\
     newTerm = term1.getPolynomialConstReference() operation term2.getVariableConstReference();\
 }\
     else if(term2.isMonomial())\
@@ -198,7 +202,8 @@ Term performOperation(
 
 Term performUnaryPlus(Term const& term)
 {
-    TERM_UNARY_OPERATION_MACRO(+)}
+    TERM_UNARY_OPERATION_MACRO(+)
+}
 
 Term performUnaryMinus(Term const& term)
 {

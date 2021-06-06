@@ -89,7 +89,8 @@ TEST(TermsWithPriorityAndAssociationTest, LessThanOperatorWorks)
 
 TEST(TermsWithPriorityAndAssociationTest, HasPositiveAssociationWorks)
 {
-    TermWithDetails termWithDetails1(                getBaseTermConstReferenceFromTerm(Term(10)),
+    TermWithDetails termWithDetails1(
+                getBaseTermConstReferenceFromTerm(Term(10)),
                 AssociationType::Positive);
     TermWithDetails termWithDetails2(
                 getBaseTermConstReferenceFromTerm(Term(10)),
@@ -125,7 +126,8 @@ TEST(TermsWithPriorityAndAssociationTest, GetAssociationPriorityWorks)
     EXPECT_EQ(2u, termWithDetails2.getAssociationPriority());
 }
 
-TEST(TermsWithPriorityAndAssociationTest, TermsWithPriorityAndAssociationEqualityOperatorWorks){
+TEST(TermsWithPriorityAndAssociationTest, TermsWithPriorityAndAssociationEqualityOperatorWorks)
+{
     TermWithDetails termWithDetails1(
                 getBaseTermConstReferenceFromTerm(Term(10)),
                 AssociationType::Negative);
@@ -206,7 +208,8 @@ TEST(TermsWithPriorityAndAssociationTest, TermsWithPriorityAndAssociationLessTha
 
 TEST(TermsWithPriorityAndAssociationTest, IsEmptyWorks)
 {
-    TermWithDetails termWithDetails(                getBaseTermConstReferenceFromTerm(Term(10)),
+    TermWithDetails termWithDetails(
+                getBaseTermConstReferenceFromTerm(Term(10)),
                 AssociationType::Negative);
     TermsWithPriorityAndAssociation terms1;
     TermsWithPriorityAndAssociation terms2;

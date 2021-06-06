@@ -24,6 +24,7 @@ public:
     bool isOne() const;
     bool isZero() const;
     bool isOneMonomial() const;
+
     Monomial getFirstMonomial() const;
     Monomials const& getMonomialsConstReference() const;
     std::string getDisplayableString() const;

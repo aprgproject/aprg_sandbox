@@ -72,7 +72,8 @@ bool Polynomial::operator<(Polynomial const& second) const
 
 bool Polynomial::isOne() const
 {
-    return isOneMonomial() && getFirstMonomial().isOne();}
+    return isOneMonomial() && getFirstMonomial().isOne();
+}
 
 bool Polynomial::isZero() const
 {
@@ -142,11 +143,10 @@ void Polynomial::addMonomial(Monomial const& monomial)
     bool isFoundInPolynomial(false);
     for(Monomial & monomialInternal : m_monomials)
     {
-        if(canBeAddedOrSubtracted(monomialInternal, monomial))
+        if(canBeMergedByAdditionOrSubtraction(monomialInternal, monomial))
         {
             isFoundInPolynomial=true;
-            monomialInternal.setConstant(monomialInternal.getConstantConstReference() + monomial.getConstantConstReference());
-        }
+            monomialInternal.setConstant(monomialInternal.getConstantConstReference() + monomial.getConstantConstReference());        }
     }
     if(!isFoundInPolynomial)
     {

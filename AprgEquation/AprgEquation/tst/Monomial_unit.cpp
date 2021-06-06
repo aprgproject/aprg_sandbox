@@ -116,7 +116,8 @@ TEST(MonomialTest, LessThanOperatorWorks)
 
 TEST(MonomialTest, IsZeroFunctionWorks)
 {
-    Monomial monomial1;    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial1;
+    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
     Monomial monomial3(0, {{"x", 6}, {"y", -1.25}});
     Monomial monomial4(23, {});
 

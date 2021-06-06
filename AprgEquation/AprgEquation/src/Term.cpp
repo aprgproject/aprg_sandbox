@@ -168,7 +168,8 @@ bool Term::operator<(Term const& second) const
 
 bool Term::isConstant() const
 {
-    return TermType::Constant == m_type;}
+    return TermType::Constant == m_type;
+}
 
 bool Term::isVariable() const
 {
@@ -325,6 +326,7 @@ string Term::getDisplayableString() const
     }
     return result;
 }
+
 Constant & Term::getConstantReference()
 {
     assert(m_type==TermType::Constant);

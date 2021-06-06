@@ -32,7 +32,8 @@ bool Variable::operator<(Variable const& second) const
 
 string Variable::getDisplayableString() const
 {
-    return m_variableName;}
+    return m_variableName;
+}
 
 string Variable::getVariableName() const
 {

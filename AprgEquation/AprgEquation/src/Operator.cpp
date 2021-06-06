@@ -34,7 +34,8 @@ bool Operator::operator<(Operator const& second) const
 
 bool Operator::isAddition() const
 {
-    return "+" == m_operatingString;}
+    return "+" == m_operatingString;
+}
 
 bool Operator::isSubtraction() const
 {

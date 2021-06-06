@@ -39,7 +39,8 @@ public:
     bool operator<(Monomial const& second) const;
     bool isOne() const;
     bool isZero() const;
-    bool isConstantOnly() const;    bool isVariableOnly() const;
+    bool isConstantOnly() const;
+    bool isVariableOnly() const;
 
     std::string getFirstVariableName() const;
     AlbaNumber const& getConstantConstReference() const;

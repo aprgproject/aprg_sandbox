@@ -1,11 +1,10 @@
 #include "Utilities.hpp"
 
 #include <Macros/AlbaMacros.hpp>
+#include <TermOperators.hpp>
 #include <TermsAggregator.hpp>
-#include <TermsWithPriorityAndAssociation.hpp>
 
 #include <algorithm>
-
 using namespace std;
 using AssociationType=alba::equation::TermsWithPriorityAndAssociation::AssociationType;
 using TermWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermWithDetails;
@@ -26,12 +25,37 @@ bool isOperator(string const& variableOrOperator)
             "^" == variableOrOperator;
 }
 
-bool canBeAddedOrSubtracted(Monomial const& monomial1, Monomial const& monomial2)
+bool canBeMergedByAdditionOrSubtraction(Term const& term1, Term const& term2)
+{
+    bool result(false);
+    if(term1.isConstant() && term2.isConstant())
+    {
+        result = true;
+    }
+    if(term1.isVariable() && term2.isVariable())
+    {
+        result = canBeMergedByAdditionOrSubtraction(term1.getVariableConstReference(), term2.getVariableConstReference());
+    }
+    if(term1.isMonomial() && term2.isMonomial())
+    {
+        result = canBeMergedByAdditionOrSubtraction(term1.getMonomialConstReference(), term2.getMonomialConstReference());
+    }
+    if(term1.isMonomial() && term2.isVariable())
+    {
+        result = canBeMergedByAdditionOrSubtraction(term1.getMonomialConstReference(), term2.getVariableConstReference());
+    }
+    if(term1.isVariable() && term2.isMonomial())
+    {
+        result = canBeMergedByAdditionOrSubtraction(term1.getVariableConstReference(), term2.getMonomialConstReference());
+    }
+    return result;
+}
+
+bool canBeMergedByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2)
 {
     Monomial::VariablesToExponentsMap const& variablesMap1(monomial1.getVariablesToExponentsMapConstReference());
     Monomial::VariablesToExponentsMap const& variablesMap2(monomial2.getVariablesToExponentsMapConstReference());
-    bool result(false);
-    if(variablesMap1.size() == variablesMap2.size())
+    bool result(false);    if(variablesMap1.size() == variablesMap2.size())
     {
         using MapConstIterator=Monomial::VariablesToExponentsMap::const_iterator;
         using MismatchResultType=pair<MapConstIterator, MapConstIterator>;
@@ -41,11 +65,10 @@ bool canBeAddedOrSubtracted(Monomial const& monomial1, Monomial const& monomial2
     return result;
 }
 
-bool canBeAddedOrSubtracted(Monomial const& monomial, Variable const& variable)
+bool canBeMergedByAdditionOrSubtraction(Monomial const& monomial, Variable const& variable)
 {
     Monomial::VariablesToExponentsMap const& variablesMap(monomial.getVariablesToExponentsMapConstReference());
-    string variableName(variable.getVariableName());
-    bool result(false);
+    string variableName(variable.getVariableName());    bool result(false);
     if(variablesMap.size() == 1)
     {
         if(variablesMap.find(variableName) != variablesMap.cend())
@@ -56,10 +79,62 @@ bool canBeAddedOrSubtracted(Monomial const& monomial, Variable const& variable)
     return result;
 }
 
+bool canBeMergedByAdditionOrSubtraction(Variable const& variable1, Variable const& variable2)
+{
+    return variable1.getVariableName() == variable2.getDisplayableString();
+}
+
+Expression getUniqueExpressionForAdditionOrSubtractionMergeChecking(Expression const& expression)
+{
+    Expression result;
+    if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
+    {
+        TermsWithPriorityAndAssociation uniqueExpressions(
+                    expression.getTermsThatSatisfiesCondition(
+                        [](TermWithDetails const& termWithDetails) -> bool {
+                        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+                        return termWithDetails.hasNegativeAssociation() || term.isExpression();
+                    }));
+        result.set(OperatorLevel::MultiplicationAndDivision, uniqueExpressions);
+    }
+    else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
+    {
+        result = expression;
+    }
+    result.simplify();
+    return result;
+}
+
+Term getMergeTermForAdditionOrSubtractionMergeChecking(Expression const& expression)
+{
+    Term result;
+    if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
+    {
+        TermsWithPriorityAndAssociation termsToBeMerged(
+                    expression.getTermsThatSatisfiesCondition(
+                        [](TermWithDetails const& termWithDetails) -> bool {
+                        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+                        return !(termWithDetails.hasNegativeAssociation() || term.isExpression());
+                    }));
+        if(termsToBeMerged.isEmpty())
+        {
+            result = Term(1);
+        }
+        else if(termsToBeMerged.getSize() == 1)
+        {
+            result = getTermConstReferenceFromBaseTerm(termsToBeMerged.getFirstTermConstReference());
+        }
+    }
+    else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
+    {
+        result = Term(1);
+    }
+    return result;
+}
+
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term)
 {
-    return term.isEmpty() || term.isTheValueZero();
-}
+    return term.isEmpty() || term.isTheValueZero();}
 
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term)
 {
@@ -109,7 +184,8 @@ unsigned int getAssociationPriority(AssociationType const association)
 
 unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel)
 {
-    unsigned int result(0);    switch(operatorLevel)
+    unsigned int result(0);
+    switch(operatorLevel)
     {
     case OperatorLevel::Unknown:
         result=0;
@@ -153,7 +229,8 @@ unsigned int getTermTypePriorityValue(TermType const termType)
     else if(TermType::Expression == termType)
     {
         result=6;
-    }    return result;
+    }
+    return result;
 }
 
 string getOperatingString(
@@ -261,17 +338,19 @@ Expression createAndWrapExpressionFromATerm(Term const& term)
 Expression createOrCopyExpressionFromATerm(Term const& term)
 {
     Expression result;
-    if(term.isExpression())
+    if(!term.isEmpty())
     {
-        result=term.getExpressionConstReference();
-    }
-    else
-    {
-        result=Expression(getBaseTermConstReferenceFromTerm(term));
+        if(term.isExpression())
+        {
+            result=term.getExpressionConstReference();
+        }
+        else
+        {
+            result=Expression(getBaseTermConstReferenceFromTerm(term));
+        }
     }
     return result;
 }
-
 Expression createExpressionIfPossible(Terms const& terms)
 {
     Expression result;
@@ -326,7 +405,8 @@ Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial)
     newPolynomial.simplify();
     Term newTerm;
     if(newPolynomial.isZero())
-    {        newTerm = Term(Constant(0));
+    {
+        newTerm = Term(Constant(0));
     }
     else if(newPolynomial.isOneMonomial())
     {

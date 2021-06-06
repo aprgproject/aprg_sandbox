@@ -63,7 +63,8 @@ TEST(ConstantTest, LessThanOperatorWorks)
 
 TEST(ConstantTest, GetDisplayableStringWorks)
 {
-    Constant constant1;    Constant constant2(3484);
+    Constant constant1;
+    Constant constant2(3484);
     Constant constant3(-1561);
     Constant constant4(-415, 41745);
     Constant constant5(-85.45631);

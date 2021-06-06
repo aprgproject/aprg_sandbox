@@ -10,6 +10,7 @@ namespace alba
 
 namespace equation
 {
+
 TermsWithPriorityAndAssociation::TermWithDetails::TermWithDetails(
         BaseTerm const& baseTerm,
         TermsWithPriorityAndAssociation::AssociationType const associationParameter)
@@ -52,7 +53,8 @@ bool TermsWithPriorityAndAssociation::TermWithDetails::operator<(TermWithDetails
 
 bool TermsWithPriorityAndAssociation::TermWithDetails::hasPositiveAssociation() const
 {
-    return AssociationType::Positive == association;}
+    return AssociationType::Positive == association;
+}
 
 bool TermsWithPriorityAndAssociation::TermWithDetails::hasNegativeAssociation() const
 {
@@ -64,8 +66,14 @@ unsigned int TermsWithPriorityAndAssociation::TermWithDetails::getAssociationPri
     return equation::getAssociationPriority(association);
 }
 
-TermsWithPriorityAndAssociation::TermsWithPriorityAndAssociation(){}
+void TermsWithPriorityAndAssociation::TermWithDetails::clear()
+{
+    baseTermSharedPointer.reset();
+    association=AssociationType::Positive;
+}
 
+TermsWithPriorityAndAssociation::TermsWithPriorityAndAssociation()
+{}
 TermsWithPriorityAndAssociation::~TermsWithPriorityAndAssociation()
 {}
 
@@ -117,7 +125,8 @@ bool TermsWithPriorityAndAssociation::operator<(TermsWithPriorityAndAssociation 
 
 bool TermsWithPriorityAndAssociation::isEmpty() const
 {
-    return m_termsWithDetails.empty();}
+    return m_termsWithDetails.empty();
+}
 
 unsigned int TermsWithPriorityAndAssociation::getSize() const
 {

@@ -4,13 +4,16 @@
 
 #include <gtest/gtest.h>
 
+
+#include <Debug/AlbaDebug.hpp>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
+
 TEST(ExpressionTest, ConstructionWorks)
 {
     Expression expression1;
@@ -82,7 +85,8 @@ TEST(ExpressionTest, LessThanOperatorWorks)
 
 TEST(ExpressionTest, IsEmptyWorks)
 {
-    Expression expression1;    Expression expression2(createExpressionIfPossible(Terms{Term(5)}));
+    Expression expression1;
+    Expression expression2(createExpressionIfPossible(Terms{Term(5)}));
     Expression expression3(createExpressionIfPossible(Terms{Term(6), Term("+"), Term("interest")}));
 
     EXPECT_TRUE(expression1.isEmpty());
@@ -160,7 +164,8 @@ TEST(ExpressionTest, GetDisplayableStringWorks)
 }
 
 TEST(ExpressionTest, SimplifyWorksOnSingleTermExpression)
-{    Term expressionTerm(createExpressionIfPossible(Terms{Term("x"), Term("^"), Term("x")}));
+{
+    Term expressionTerm(createExpressionIfPossible(Terms{Term("x"), Term("^"), Term("x")}));
     Term expressionInExpressionTerm(createExpressionInAnExpression(expressionTerm));
     Term expressionInExpressionInExpressionTerm(createExpressionInAnExpression(expressionInExpressionTerm));
     Expression expression(createExpressionIfPossible(Terms{expressionInExpressionInExpressionTerm}));
@@ -182,20 +187,40 @@ TEST(ExpressionTest, SimplifyWorksOnContinuousSingleTermExpression)
     EXPECT_EQ(createExpressionIfPossible(Terms{Term(967)}), expression);
 }
 
+TEST(ExpressionTest, SimplifyWorksOnNullExpressions)
+{
+    Expression nullExpression(createExpressionInAnExpression(Expression()));
+    Expression expression(createExpressionIfPossible(Terms{nullExpression, Term("+"), nullExpression, Term("+"), nullExpression}));
+
+    expression.simplify();
+
+    Expression expressionToExpect;
+    EXPECT_EQ(expressionToExpect, expression);
+}
+
+TEST(ExpressionTest, SimplifyWorksOnZeroSubtractingConstant)
+{
+    Expression expression(createExpressionIfPossible(Terms{Term(Constant(0)), Term("-"), Term(200), Term("-"), Term(50)}));
+
+    expression.simplify();
+
+    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(-250)}));
+    EXPECT_EQ(expressionToExpect, expression);
+}
+
 TEST(ExpressionTest, SimplifyWorksOnAddingAndSubtractingConstants)
 {
     Expression expression(createExpressionIfPossible(Terms{Term(100), Term("+"), Term(200), Term("-"), Term(50)}));
     expression.simplify();
 
     Expression expressionToExpect(createExpressionIfPossible(Terms{Term(250)}));
-    expressionToExpect.setCommonOperatorLevel(OperatorLevel::AdditionAndSubtraction);
     EXPECT_EQ(expressionToExpect, expression);
 }
-
 TEST(ExpressionTest, SimplifyWorksOnAddingAndSubtractingConstantsMonomialPolynomial)
 {
     Expression expression(
-                createExpressionIfPossible(                    Terms{
+                createExpressionIfPossible(
+                    Terms{
                         Term(Monomial(43, {{"x", 2}, {"y", 3}})),
                         Term("+"),
                         Term(159),
@@ -217,14 +242,13 @@ TEST(ExpressionTest, SimplifyWorksOnAddingAndSubtractingConstantsMonomialPolynom
                             Monomial(410, {}),
                             Monomial(-56, {{"x", 3}})
                         })}));
-    expressionToExpect.setCommonOperatorLevel(OperatorLevel::AdditionAndSubtraction);
     EXPECT_EQ(expressionToExpect, expression);
 }
-
 TEST(ExpressionTest, SimplifyWorksOnAddingAndSubtractingConstantsWithExpressionInBetween)
 {
     Expression expression(
-                createExpressionIfPossible(                    Terms{
+                createExpressionIfPossible(
+                    Terms{
                         Term(500),
                         Term("+"),
                         Term("y"),
@@ -242,17 +266,63 @@ TEST(ExpressionTest, SimplifyWorksOnAddingAndSubtractingConstantsWithExpressionI
     EXPECT_EQ(expressionToExpect, expression);
 }
 
-TEST(ExpressionTest, SimplifyWorksOnMultiplyingAndDividingConstants)
+TEST(ExpressionTest, SimplifyWorksOnAddingAndSubtractingZerosWithExpressionInBetween)
 {
-    Expression expression(createExpressionIfPossible(Terms{Term(100), Term("*"), Term(200), Term("/"), Term(50)}));
+    Expression expression(
+                createExpressionIfPossible(
+                    Terms{
+                        Term(Constant(0)),
+                        Term("+"),
+                        Term("y"),
+                        Term("^"),
+                        Term("y"),
+                        Term("-"),
+                        Term(Constant(0))
+                    }));
 
     expression.simplify();
 
-    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(400)}));
-    expressionToExpect.setCommonOperatorLevel(OperatorLevel::MultiplicationAndDivision);
+    Expression expressionToExpect(createExpressionIfPossible(Terms{Term("y"), Term("^"), Term("y")}));
     EXPECT_EQ(expressionToExpect, expression);
 }
 
+TEST(ExpressionTest, SimplifyWorksOnAddingAndSubtractingRaiseToPowerExpressions)
+{
+    Expression expression(
+                createExpressionIfPossible(
+                    Terms{
+                        Term("5"),
+                        Term("*"),
+                        Term("y"),
+                        Term("^"),
+                        Term("y"),
+                        Term("+"),
+                        Term("y"),
+                        Term("^"),
+                        Term("y"),
+                        Term("-"),
+                        Term("3"),
+                        Term("*"),
+                        Term("y"),
+                        Term("^"),
+                        Term("y"),
+                    }));
+
+    expression.simplify();
+
+    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(Constant(0))}));
+    ALBA_PRINT2(expressionToExpect.getDebugString(), expression.getDebugString());
+    EXPECT_EQ(expressionToExpect, expression);
+}
+
+TEST(ExpressionTest, SimplifyWorksOnMultiplyingAndDividingConstants)
+{
+    Expression expression(createExpressionIfPossible(Terms{Term(100), Term("*"), Term(200), Term("/"), Term(50)}));
+    expression.simplify();
+
+    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(400)}));
+    EXPECT_EQ(expressionToExpect, expression);
+}
 TEST(ExpressionTest, SaveTermWorks)
 {
     Expression expression1(createExpressionIfPossible(Terms{Term(695), Term("*"), Term("interest")}));
@@ -271,7 +341,8 @@ TEST(ExpressionTest, SaveTermWorks)
     EXPECT_EQ(expressionToExpect3, expression3);
 }
 
-TEST(ExpressionTest, AddTermUsingNullExpressionWorks){
+TEST(ExpressionTest, AddTermUsingNullExpressionWorks)
+{
     Expression expression1;
     Expression expression2(createExpressionIfPossible(Terms{Term(695), Term("+"), Term("interest")}));
     Expression expression3(createExpressionIfPossible(Terms{Term(695), Term("*"), Term("interest")}));
@@ -370,7 +441,8 @@ TEST(ExpressionTest, AddTermUsingExpressionWithDifferentOperationLevelWorks)
 }
 
 TEST(ExpressionTest, SubtractTermUsingNullExpressionWorks)
-{    Expression expression1;
+{
+    Expression expression1;
     Expression expression2(createExpressionIfPossible(Terms{Term(695), Term("+"), Term("interest")}));
     Expression expression3(createExpressionIfPossible(Terms{Term(695), Term("*"), Term("interest")}));
 
@@ -473,7 +545,8 @@ TEST(ExpressionTest, SubtractTermUsingExpressionWithDifferentOperationLevelWorks
 }
 
 TEST(ExpressionTest, MultiplyTermUsingNullExpressionWorks)
-{    Expression expression1;
+{
+    Expression expression1;
     Expression expression2(createExpressionIfPossible(Terms{Term(695), Term("*"), Term("interest")}));
     Expression expression3(createExpressionIfPossible(Terms{Term(695), Term("+"), Term("interest")}));
 
@@ -571,7 +644,8 @@ TEST(ExpressionTest, MultiplyTermUsingExpressionWithDifferentOperationLevelWorks
 }
 
 TEST(ExpressionTest, DivideTermUsingNullExpressionWorks)
-{    Expression expression1;
+{
+    Expression expression1;
     Expression expression2(createExpressionIfPossible(Terms{Term(695), Term("/"), Term("interest")}));
     Expression expression3(createExpressionIfPossible(Terms{Term(695), Term("-"), Term("interest")}));
 
@@ -674,7 +748,8 @@ TEST(ExpressionTest, DivideTermUsingExpressionWithDifferentOperationLevelWorks)
 }
 
 TEST(ExpressionTest, RaiseToPowerTermWorks)
-{    Expression expression1;
+{
+    Expression expression1;
     Expression expression2(createExpressionIfPossible(Terms{Term(695), Term("^"), Term("interest")}));
     Expression expression3(createExpressionIfPossible(Terms{Term(695), Term("+"), Term("interest")}));
     Expression expressionInExponent(createExpressionIfPossible(Terms{Term(695), Term("+"), Term("interest")}));
@@ -791,7 +866,8 @@ TEST(ExpressionTest, RaiseToPowerTermUsingExpressionWithDifferentOperationLevelW
 }
 
 TEST(ExpressionTest, SetCommonOperatorLevelWorks)
-{    Expression expression1;
+{
+    Expression expression1;
     Expression expression2;
     Expression expression3;
     Expression expression4;

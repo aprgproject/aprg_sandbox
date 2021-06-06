@@ -221,7 +221,8 @@ TEST(TermTest, LessThanOperatorWorks)
 
 TEST(TermTest, IsConstantWorks)
 {
-    Term term1;    Term term2(1);
+    Term term1;
+    Term term2(1);
     Term term3(Variable("length"));
     Term term4(Operator("+"));
     Term term5(Monomial(1, {}));
