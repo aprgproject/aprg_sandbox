@@ -4,10 +4,11 @@
 
 #include <gtest/gtest.h>
 
+#include <Debug/AlbaDebug.hpp>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
@@ -57,11 +58,11 @@ TEST(ExpressionTest, IsEmptyWorks)
     EXPECT_FALSE(expression3.isEmpty());
 }
 
-TEST(ExpressionTest, ContainsOnlyOneTermWorks){
+TEST(ExpressionTest, ContainsOnlyOneTermWorks)
+{
     Expression expression1;
     Expression expression2(createExpressionIfPossible(Terms{Term(5)}));
     Expression expression3(createExpressionIfPossible(Terms{Term(6), Term("+"), Term("interest")}));
-
     EXPECT_FALSE(expression1.containsOnlyOneTerm());
     EXPECT_TRUE(expression2.containsOnlyOneTerm());
     EXPECT_FALSE(expression3.containsOnlyOneTerm());
@@ -133,9 +134,9 @@ TEST(ExpressionTest, SimplifyWorksOnSingleTermExpression)
     Expression expression(createExpressionIfPossible(Terms{expressionInExpressionInExpressionTerm}));
 
     expression.simplify();
+
     EXPECT_EQ(expressionTerm, expression);
 }
-
 TEST(ExpressionTest, SimplifyWorksOnContinuousSingleTermExpression)
 {
     Term expressionTerm(createAndWrapExpressionFromATerm(Term(967)));
@@ -143,10 +144,13 @@ TEST(ExpressionTest, SimplifyWorksOnContinuousSingleTermExpression)
     Term expressionInExpressionInExpressionTerm(createExpressionInAnExpression(expressionInExpressionTerm));
     Expression expression(createExpressionIfPossible(Terms{expressionInExpressionInExpressionTerm}));
 
+    ALBA_PRINT1(expression.getDisplayableString());
     expression.simplify();
+
+    ALBA_PRINT1(createExpressionIfPossible(Terms{Term(967)}).getDisplayableString());
+    ALBA_PRINT1(expression.getDisplayableString());
     EXPECT_EQ(createExpressionIfPossible(Terms{Term(967)}), expression);
 }
-
 TEST(ExpressionTest, ClearAndSetTermWorks)
 {
     Expression expression1;
@@ -567,16 +571,17 @@ TEST(ExpressionTest, DivideTermUsingExpressionWithDifferentOperationLevelWorks)
 
 TEST(ExpressionTest, RaiseToPowerTermWorks)
 {
-    Expression expression1;    Expression expression2(createExpressionIfPossible(Terms{Term(695), Term("^"), Term("interest")}));
+    Expression expression1;
+    Expression expression2(createExpressionIfPossible(Terms{Term(695), Term("^"), Term("interest")}));
     Expression expression3(createExpressionIfPossible(Terms{Term(695), Term("+"), Term("interest")}));
     Expression expressionInExponent(createExpressionIfPossible(Terms{Term(695), Term("+"), Term("interest")}));
     Expression expressionToExpect1(createExpressionIfPossible(Terms{Term(42)}));
     Expression expressionToExpect2(createExpressionIfPossible(Terms{Term(695), Term("^"), Term("interest"), Term("^"), Term(42)}));
     Expression expressionToExpect3(createExpressionIfPossible(Terms{expressionInExponent, Term("^"), Term(42)}));
+
     expression1.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(Term(42)));
     expression2.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(Term(42)));
     expression3.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(Term(42)));
-
     EXPECT_EQ(expressionToExpect1, expression1);
     EXPECT_EQ(expressionToExpect2, expression2);
     EXPECT_EQ(expressionToExpect3, expression3);
@@ -683,10 +688,10 @@ TEST(ExpressionTest, RaiseToPowerTermUsingExpressionWithDifferentOperationLevelW
 
 TEST(ExpressionTest, SetCommonOperatorLevelWorks)
 {
-    Expression expression1;    Expression expression2;
+    Expression expression1;
+    Expression expression2;
     Expression expression3;
     Expression expression4;
-
     expression1.setCommonOperatorLevel(OperatorLevel::Unknown);
     expression2.setCommonOperatorLevel(OperatorLevel::AdditionAndSubtraction);
     expression3.setCommonOperatorLevel(OperatorLevel::MultiplicationAndDivision);
@@ -718,4 +723,5 @@ TEST(ExpressionTest, ReverseTheAssociationOfTheTermsWorks)
 }
 
 }
+
 }

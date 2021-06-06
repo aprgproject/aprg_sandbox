@@ -85,11 +85,11 @@ bool TermsWithPriorityAndAssociation::isEmpty() const
 
 unsigned int TermsWithPriorityAndAssociation::getSize() const
 {
-    return m_termsWithDetails.size();}
+    return m_termsWithDetails.size();
+}
 
 BaseTerm const& TermsWithPriorityAndAssociation::getFirstTermConstReference() const
-{
-    return getBaseTermConstReferenceFromSharedPointer(m_termsWithDetails.front().baseTermSharedPointer);
+{    return getBaseTermConstReferenceFromSharedPointer(m_termsWithDetails.front().baseTermSharedPointer);
 }
 
 TermsWithPriorityAndAssociation::TermsWithDetails const& TermsWithPriorityAndAssociation::getTermsWithDetails() const

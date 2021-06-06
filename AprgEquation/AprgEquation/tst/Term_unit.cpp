@@ -389,11 +389,11 @@ TEST(TermTest, IsTheValueZeroWorks)
     EXPECT_FALSE(term10.isTheValueZero());
 }
 
-TEST(TermTest, IsTheValueOneWorks){
+TEST(TermTest, IsTheValueOneWorks)
+{
     Term term1;
     Term term2(Constant(0));
-    Term term3(1);
-    Term term4(Variable("length"));
+    Term term3(1);    Term term4(Variable("length"));
     Term term5(Operator("+"));
     Term term6(Monomial(0, {}));
     Term term7(Monomial(1, {}));
@@ -413,11 +413,11 @@ TEST(TermTest, IsTheValueOneWorks){
     EXPECT_FALSE(term10.isTheValueOne());
 }
 
-TEST(TermTest, GetTermTypeWorks){
+TEST(TermTest, GetTermTypeWorks)
+{
     Term term1;
     Term term2(Constant(0));
-    Term term3(Variable("length"));
-    Term term4(Operator("+"));
+    Term term3(Variable("length"));    Term term4(Operator("+"));
     Term term5(Monomial(1, {}));
     Term term6(Polynomial{});
     Term term7(Expression{});
@@ -442,12 +442,13 @@ TEST(TermTest, GetDisplayableStringWorks)
     //Term term7(createExpressionIfPossible(Terms{Term(5), Term("+"), Term("interest")}));
 
     EXPECT_TRUE(term1.getDisplayableString().empty());
-    EXPECT_EQ("0", term2.getDisplayableString());    EXPECT_EQ("length", term3.getDisplayableString());
+    EXPECT_EQ("0", term2.getDisplayableString());
+    EXPECT_EQ("length", term3.getDisplayableString());
     EXPECT_EQ("+", term4.getDisplayableString());
     EXPECT_EQ("-1.5|distance^-3.75||power^4.5|", term5.getDisplayableString());
-    EXPECT_EQ("(3 + -1.5|distance^-3.75||power^4.5|)", term6.getDisplayableString());
-    //EXPECT_EQ("(<+->||5+interest)", term7.getDisplayableString());
+    EXPECT_EQ("(3 + -1.5|distance^-3.75||power^4.5|)", term6.getDisplayableString());    //EXPECT_EQ("(<+->||5+interest)", term7.getDisplayableString());
 }
 
 }
+
 }

@@ -40,11 +40,11 @@ public:
     bool isEmpty() const;
 
     unsigned int getSize() const;
-    BaseTerm const& getFirstTermConstReference() const;    TermsWithDetails const& getTermsWithDetails() const;
+    BaseTerm const& getFirstTermConstReference() const;
+    TermsWithDetails const& getTermsWithDetails() const;
 
     void clear();
-    void putTermWithDetails(TermWithDetails const& termWithDetails);
-    void putTermWithPositiveAssociation(BaseTerm const& baseTerm);
+    void putTermWithDetails(TermWithDetails const& termWithDetails);    void putTermWithPositiveAssociation(BaseTerm const& baseTerm);
     void putTermWithNegativeAssociation(BaseTerm const& baseTerm);
     void reverseTheAssociationOfTheTerms();
 

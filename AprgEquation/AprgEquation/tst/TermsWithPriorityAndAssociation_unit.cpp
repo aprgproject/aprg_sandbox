@@ -128,11 +128,11 @@ TEST(TermsWithPriorityAndAssociationTest, IsEmptyWorks)
 
 TEST(TermsWithPriorityAndAssociationTest, GetSizeWorks)
 {
-    TermWithDetails termWithDetails(                getBaseTermConstReferenceFromTerm(Term(10)),
+    TermWithDetails termWithDetails(
+                getBaseTermConstReferenceFromTerm(Term(10)),
                 AssociationType::Negative);
     TermsWithPriorityAndAssociation terms1;
-    TermsWithPriorityAndAssociation terms2;
-    TermsWithPriorityAndAssociation terms3;
+    TermsWithPriorityAndAssociation terms2;    TermsWithPriorityAndAssociation terms3;
     terms2.putTermWithDetails(termWithDetails);
     terms3.putTermWithDetails(termWithDetails);
     terms3.putTermWithDetails(termWithDetails);

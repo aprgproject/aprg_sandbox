@@ -122,11 +122,11 @@ bool Term::operator==(Term const& second) const
 
 bool Term::isConstant() const
 {
-    return TermType::Constant == m_type;}
+    return TermType::Constant == m_type;
+}
 
 bool Term::isVariable() const
-{
-    return TermType::Variable == m_type;
+{    return TermType::Variable == m_type;
 }
 
 bool Term::isOperator() const
@@ -190,10 +190,10 @@ bool Term::isTheValueZero() const
     }
     return result;
 }
+
 bool Term::isTheValueOne() const
 {
-    bool result(false);
-    if(m_type==TermType::Constant)
+    bool result(false);    if(m_type==TermType::Constant)
     {
         result = getConstantConstReference()==1;
     }
@@ -207,10 +207,10 @@ bool Term::isTheValueOne() const
     }
     return result;
 }
+
 TermType Term::getTermType() const
 {
-    return m_type;
-}
+    return m_type;}
 
 Constant const& Term::getConstantConstReference() const
 {

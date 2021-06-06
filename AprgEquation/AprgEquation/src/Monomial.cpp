@@ -68,11 +68,11 @@ bool Monomial::isOne() const
 
 bool Monomial::isZero() const
 {
-    return m_constant == 0;}
+    return m_constant == 0;
+}
 
 bool Monomial::isConstantOnly() const
-{
-    return m_variablesToExponentsMap.empty();
+{    return m_variablesToExponentsMap.empty();
 }
 
 bool Monomial::isVariableOnly() const

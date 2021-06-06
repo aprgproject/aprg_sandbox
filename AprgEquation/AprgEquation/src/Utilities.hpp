@@ -20,10 +20,10 @@ bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
 
 unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
 unsigned int getTermPriorityValue(Term const& term);
+
 std::string getOperatingString(
         OperatorLevel const operatorLevel,
-        TermsWithPriorityAndAssociation::AssociationType const association);
-std::string getFirstStringIfNegativeAssociation(
+        TermsWithPriorityAndAssociation::AssociationType const association);std::string getFirstStringIfNegativeAssociation(
         OperatorLevel const operatorLevel,
         TermsWithPriorityAndAssociation::AssociationType const association);
 std::string getEnumShortString(TermsWithPriorityAndAssociation::AssociationType const association);
@@ -42,11 +42,11 @@ Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial);
 Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial);
 
 BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer);
-BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
+BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);
+BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
 Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
 Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
-Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);
-Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
+Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
 BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term);
 BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
 BaseTerm & getBaseTermReferenceFromTerm(Term & term);
