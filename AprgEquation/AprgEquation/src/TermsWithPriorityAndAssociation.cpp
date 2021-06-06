@@ -21,29 +21,26 @@ TermsWithPriorityAndAssociation::TermWithDetails::TermWithDetails(
 {}
 
 TermsWithPriorityAndAssociation::TermWithDetails::TermWithDetails(TermWithDetails const& termWithDetails)
-    : baseTermSharedPointer(createBaseTermSharedPointer(termWithDetails.baseTermSharedPointer))
+    : baseTermSharedPointer(createNewTermAndReturnSharedPointer(termWithDetails.baseTermSharedPointer))
     , association(termWithDetails.association)
 {}
-
 bool TermsWithPriorityAndAssociation::TermWithDetails::operator==(TermWithDetails const& second) const
 {
     Term const& term1 = *dynamic_cast<Term const*const>(baseTermSharedPointer.get());
     Term const& term2 = *dynamic_cast<Term const*const>(second.baseTermSharedPointer.get());
-    return term1 == term2;
+    return term1 == term2 && association == second.association;
 }
 
-bool TermsWithPriorityAndAssociation::TermWithDetails::hasPositiveAssociation() const
-{
+bool TermsWithPriorityAndAssociation::TermWithDetails::hasPositiveAssociation() const{
     return AssociationType::Positive == association;
 }
 
 bool TermsWithPriorityAndAssociation::TermWithDetails::hasNegativeAssociation() const
 {
-    return AssociationType::Positive == association;
+    return AssociationType::Negative == association;
 }
 
-unsigned int TermsWithPriorityAndAssociation::TermWithDetails::getAssociationPriority() const
-{
+unsigned int TermsWithPriorityAndAssociation::TermWithDetails::getAssociationPriority() const{
     unsigned int result(0);
     switch(association)
     {
@@ -100,27 +97,18 @@ void TermsWithPriorityAndAssociation::clear()
 
 void TermsWithPriorityAndAssociation::putTermWithDetails(TermWithDetails const& termWithDetails)
 {
-    m_termsWithDetails.emplace_back(createBaseTermSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);
+    m_termsWithDetails.emplace_back(createNewTermAndReturnSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);
 }
 
 void TermsWithPriorityAndAssociation::putTermWithPositiveAssociation(BaseTermSharedPointer const& baseTermSharedPointer)
 {
-    m_termsWithDetails.emplace_back(createBaseTermSharedPointer(baseTermSharedPointer), AssociationType::Positive);
+    m_termsWithDetails.emplace_back(createNewTermAndReturnSharedPointer(baseTermSharedPointer), AssociationType::Positive);
 }
 
 void TermsWithPriorityAndAssociation::putTermWithNegativeAssociation(BaseTermSharedPointer const& baseTermSharedPointer)
 {
-    m_termsWithDetails.emplace_back(createBaseTermSharedPointer(baseTermSharedPointer), AssociationType::Negative);
+    m_termsWithDetails.emplace_back(createNewTermAndReturnSharedPointer(baseTermSharedPointer), AssociationType::Negative);
 }
-
-void TermsWithPriorityAndAssociation::performFunctionOnAllTerms(TermsWithDetailsFunction const& functionToPerform) const
-{
-    for(TermWithDetails const& termWithDetails : m_termsWithDetails)
-    {
-        functionToPerform(termWithDetails);
-    }
-}
-
 
 
 }

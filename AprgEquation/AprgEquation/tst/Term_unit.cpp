@@ -148,11 +148,10 @@ TEST(TermTest, TermsAsPolynomialsWorkAsExpected)
 TEST(TermTest, TermsAsExpressionsWorkAsExpected)
 {
     Term expressionTerm1(Expression{});
-    Term expressionTerm2(createExpression(Terms{Term(5), Term("+"), Term("interest")}));
+    Term expressionTerm2(createExpressionIfPossible(Terms{Term(5), Term("+"), Term("interest")}));
 
     //For expression1
-    ASSERT_EQ(TermType::Expression, expressionTerm1.getTermType());
-    Expression const& expression1(expressionTerm1.getExpressionConstReference());
+    ASSERT_EQ(TermType::Expression, expressionTerm1.getTermType());    Expression const& expression1(expressionTerm1.getExpressionConstReference());
     EXPECT_EQ(OperatorLevel::Unknown, expression1.getCommonOperatorLevel());
     TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify1(expression1.getTerms().getTermsWithDetails());
     ASSERT_TRUE(termsToVerify1.empty());
@@ -190,11 +189,10 @@ TEST(TermTest, EqualityOperatorWorks)
 TEST(TermTest, IsConstantWorks)
 {
     Term term1;
-    Term term2(Constant(1));
+    Term term2(1);
     Term term3(Variable("length"));
     Term term4(Operator("+"));
-    Term term5(Monomial(1, {}));
-    Term term6(Polynomial{});
+    Term term5(Monomial(1, {}));    Term term6(Polynomial{});
     Term term7(Expression{});
 
     EXPECT_FALSE(term1.isConstant());
@@ -209,11 +207,10 @@ TEST(TermTest, IsConstantWorks)
 TEST(TermTest, IsVariableWorks)
 {
     Term term1;
-    Term term2(Constant(1));
+    Term term2(1);
     Term term3(Variable("length"));
     Term term4(Operator("+"));
-    Term term5(Monomial(1, {}));
-    Term term6(Polynomial{});
+    Term term5(Monomial(1, {}));    Term term6(Polynomial{});
     Term term7(Expression{});
 
     EXPECT_FALSE(term1.isVariable());
@@ -228,11 +225,10 @@ TEST(TermTest, IsVariableWorks)
 TEST(TermTest, IsOperatorWorks)
 {
     Term term1;
-    Term term2(Constant(1));
+    Term term2(1);
     Term term3(Variable("length"));
     Term term4(Operator("+"));
-    Term term5(Monomial(1, {}));
-    Term term6(Polynomial{});
+    Term term5(Monomial(1, {}));    Term term6(Polynomial{});
     Term term7(Expression{});
 
     EXPECT_FALSE(term1.isOperator());
@@ -247,11 +243,10 @@ TEST(TermTest, IsOperatorWorks)
 TEST(TermTest, IsMonomialWorks)
 {
     Term term1;
-    Term term2(Constant(1));
+    Term term2(1);
     Term term3(Variable("length"));
     Term term4(Operator("+"));
-    Term term5(Monomial(1, {}));
-    Term term6(Polynomial{});
+    Term term5(Monomial(1, {}));    Term term6(Polynomial{});
     Term term7(Expression{});
 
     EXPECT_FALSE(term1.isMonomial());
@@ -266,11 +261,10 @@ TEST(TermTest, IsMonomialWorks)
 TEST(TermTest, IsPolynomialWorks)
 {
     Term term1;
-    Term term2(Constant(1));
+    Term term2(1);
     Term term3(Variable("length"));
     Term term4(Operator("+"));
-    Term term5(Monomial(1, {}));
-    Term term6(Polynomial{});
+    Term term5(Monomial(1, {}));    Term term6(Polynomial{});
     Term term7(Expression{});
 
     EXPECT_FALSE(term1.isPolynomial());
@@ -285,11 +279,10 @@ TEST(TermTest, IsPolynomialWorks)
 TEST(TermTest, IsExpressionWorks)
 {
     Term term1;
-    Term term2(Constant(1));
+    Term term2(1);
     Term term3(Variable("length"));
     Term term4(Operator("+"));
-    Term term5(Monomial(1, {}));
-    Term term6(Polynomial{});
+    Term term5(Monomial(1, {}));    Term term6(Polynomial{});
     Term term7(Expression{});
 
     EXPECT_FALSE(term1.isExpression());
@@ -304,11 +297,10 @@ TEST(TermTest, IsExpressionWorks)
 TEST(TermTest, IsValueTermWorks)
 {
     Term term1;
-    Term term2(Constant(1));
+    Term term2(1);
     Term term3(Variable("length"));
     Term term4(Operator("+"));
-    Term term5(Monomial(1, {}));
-    Term term6(Polynomial{});
+    Term term5(Monomial(1, {}));    Term term6(Polynomial{});
     Term term7(Expression{});
 
     EXPECT_FALSE(term1.isValueTerm());
@@ -323,11 +315,10 @@ TEST(TermTest, IsValueTermWorks)
 TEST(TermTest, IsValueTermButNotAnExpressionWorks)
 {
     Term term1;
-    Term term2(Constant(1));
+    Term term2(1);
     Term term3(Variable("length"));
     Term term4(Operator("+"));
-    Term term5(Monomial(1, {}));
-    Term term6(Polynomial{});
+    Term term5(Monomial(1, {}));    Term term6(Polynomial{});
     Term term7(Expression{});
 
     EXPECT_FALSE(term1.isValueTermButNotAnExpression());
@@ -342,11 +333,10 @@ TEST(TermTest, IsValueTermButNotAnExpressionWorks)
 TEST(TermTest, IsTheValueZeroWorks)
 {
     Term term1;
-    Term term2(Constant(1));
+    Term term2(1);
     Term term3(Variable("length"));
     Term term4(Operator("+"));
-    Term term5(Monomial(1, {}));
-    Term term6(Polynomial{});
+    Term term5(Monomial(1, {}));    Term term6(Polynomial{});
     Term term7(Expression{});
     Term term8(Constant(0));
 
@@ -369,11 +359,10 @@ TEST(TermTest, IsTheValueOneWorks)
     Term term5(Monomial(1, {}));
     Term term6(Polynomial{});
     Term term7(Expression{});
-    Term term8(Constant(1));
+    Term term8(1);
 
     EXPECT_FALSE(term1.isTheValueOne());
-    EXPECT_FALSE(term2.isTheValueOne());
-    EXPECT_FALSE(term3.isTheValueOne());
+    EXPECT_FALSE(term2.isTheValueOne());    EXPECT_FALSE(term3.isTheValueOne());
     EXPECT_FALSE(term4.isTheValueOne());
     EXPECT_FALSE(term5.isTheValueOne());
     EXPECT_FALSE(term6.isTheValueOne());
@@ -408,11 +397,10 @@ TEST(TermTest, GetDisplayableStringWorks)
     Term term4(Operator("+"));
     Term term5(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));
     Term term6(Polynomial({Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})}));
-    Term term7(createExpression(Terms{Term(5), Term("+"), Term("interest")}));
+    Term term7(createExpressionIfPossible(Terms{Term(5), Term("+"), Term("interest")}));
 
     EXPECT_TRUE(term1.getDisplayableString().empty());
-    EXPECT_EQ("0", term2.getDisplayableString());
-    EXPECT_EQ("length", term3.getDisplayableString());
+    EXPECT_EQ("0", term2.getDisplayableString());    EXPECT_EQ("length", term3.getDisplayableString());
     EXPECT_EQ("+", term4.getDisplayableString());
     EXPECT_EQ("-1.5|distance^-3.75||power^4.5|", term5.getDisplayableString());
     EXPECT_EQ("(3 + -1.5|distance^-3.75||power^4.5|)", term6.getDisplayableString());

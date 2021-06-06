@@ -51,11 +51,10 @@ public:
     void multiplyMonomial(Monomial const& monomial);
     void divideMonomial(Monomial const& monomial);
     void setConstant(AlbaNumber const& constant);
-    void setVariablesWithExponents(std::initializer_list<VariableExponentPair> const& variablesWithExponents);
+    void putVariablesWithExponents(std::initializer_list<VariableExponentPair> const& variablesWithExponents);
     void putVariableWithExponent(std::string const& variable, AlbaNumber const& exponent);
 
-private:
-    void removeZeroExponents();
+private:    void removeZeroExponents();
     AlbaNumber m_constant;
     VariablesToExponentsMap m_variablesToExponentsMap;
 };

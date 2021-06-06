@@ -18,11 +18,10 @@ public:
 
     bool operator==(Variable const& second) const;
 
-    std::string getDisplayableString() const;
     std::string getVariableName() const;
+    std::string getDisplayableString() const;
 
     void setVariableName(std::string const& variableName);
-
 private:
     std::string m_variableName;
 };

@@ -102,10 +102,59 @@ unsigned int getTermPriorityValue(Term const& term)
     return result;
 }
 
+Monomial createMonomialConstant(AlbaNumber const& number)
+{
+    return Monomial(number, {});
+}
+
+Monomial createMonomialVariable(string const& variableName)
+{
+    return Monomial(1, {{variableName, 1}});
+}
+
+Expression createExpressionFromTerm(Term const& term)
+{
+    Expression result;
+    if(term.isExpression())
+    {
+        result=term.getExpressionConstReference();
+    }
+    else
+    {
+        result=Expression(copyAndCreateNewTermAndReturnSharedPointer(term));
+    }
+    return result;
+}
+
+Expression createExpressionIfPossible(Terms const& terms)
+{
+    Expression result;
+    TermsAggregator aggregator(terms);
+    aggregator.buildExpressionFromTerms();
+    Terms const& builtTerms(aggregator.getTermsConstReference());
+    if(builtTerms.size() == 1)
+    {
+        result = createExpressionFromTerm(builtTerms.at(0));
+    }
+    return result;
+}
+
+Expression createSimplifiedExpressionIfPossible(Terms const& terms)
+{
+    Expression result;
+    TermsAggregator aggregator(terms);
+    aggregator.simplifyTerms();
+    Terms const& simplifiedTerms(aggregator.getTermsConstReference());
+    if(simplifiedTerms.size() == 1)
+    {
+        result = createExpressionFromTerm(simplifiedTerms.at(0));
+    }
+    return result;
+}
+
 Term convertExpressionToSimplestTerm(Expression const& expression)
 {
-    Expression newExpression(expression);
-    newExpression.simplify();
+    Expression newExpression(expression);    newExpression.simplify();
     Term newTerm(newExpression);
     if(newExpression.containsOnlyOneTerm())
     {
@@ -159,75 +208,34 @@ Term convertMonomialToSimplestTerm(Monomial const& monomial)
     return newTerm;
 }
 
-BaseTermSharedPointer createBaseTermSharedPointer(BaseTermSharedPointer const& baseTerm)
+BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer)
 {
-    return BaseTermSharedPointer(
-                dynamic_cast<BaseTerm*>(
-                    new Term(*dynamic_cast<Term*>(baseTerm.get()))));
+    return move(BaseTermSharedPointer(
+                    dynamic_cast<BaseTerm*>(
+                        new Term(*dynamic_cast<Term*>(sharedPointer.get())))));
 }
 
-BaseTermSharedPointer createBaseTermSharedPointerFromTerm(Term const& term)
+BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term)
 {
-    return BaseTermSharedPointer(
-                dynamic_cast<BaseTerm*>(
-                    new Term(term)));
+    return move(BaseTermSharedPointer(
+                    dynamic_cast<BaseTerm*>(
+                        new Term(term))));
 }
 
-BaseTermSharedPointer createBaseTermSharedPointerFromTermReference(Term& term)
+Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer)
 {
-    return BaseTermSharedPointer(dynamic_cast<BaseTerm*>(&term));
+    return *dynamic_cast<Term*>(sharedPointer.get());
 }
 
-Monomial createMonomialConstant(AlbaNumber const& number)
+Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
 {
-    return Monomial(number, {});
+    return *dynamic_cast<Term*>(sharedPointer.get());
 }
 
-Monomial createMonomialVariable(string const& variableName)
+BaseTermSharedPointer getSharedPointerFromTermReference(Term & term)
 {
-    return Monomial(1, {{variableName, 1}});
-}
-
-Expression createExpression(Terms const& terms)
-{
-    Expression result;
-    TermsAggregator aggregator(terms);
-    aggregator.buildExpressionFromTerms();
-    Terms const& builtTerms(aggregator.getTermsConstReference());
-    if(builtTerms.size() == 1)
-    {
-        result = convertTermToExpression(builtTerms.at(0));
-    }
-    return result;
-}
-
-Expression createSimplifiedExpression(Terms const& terms)
-{
-    Expression result;
-    TermsAggregator aggregator(terms);
-    aggregator.simplifyTerms();
-    Terms const& simplifiedTerms(aggregator.getTermsConstReference());
-    if(simplifiedTerms.size() == 1)
-    {
-        result = convertTermToExpression(simplifiedTerms.at(0));
-    }
-    return result;
-}
-
-Expression convertTermToExpression(Term const& term)
-{
-    Expression result;
-    if(term.isExpression())
-    {
-        result=term.getExpressionConstReference();
-    }
-    else
-    {
-        result=Expression(createBaseTermSharedPointerFromTerm(term));
-    }
-    return result;
+    return move(BaseTermSharedPointer(dynamic_cast<BaseTerm*>(&term)));
 }
 
 }
-
 }

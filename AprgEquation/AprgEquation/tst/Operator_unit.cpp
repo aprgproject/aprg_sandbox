@@ -185,11 +185,10 @@ TEST(OperatorTest, GetOperatorStringValueAsExpected)
     EXPECT_EQ("invalid", invalidOperator.getOperatorString());
 }
 
-TEST(OperatorTest, GetDisplayableStringValueAsExpected)
+TEST(OperatorTest, GetDisplayableStringWorks)
 {
     Operator nullOperator;
-    Operator addOperator("+");
-    Operator subtractOperator("-");
+    Operator addOperator("+");    Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
     Operator raiseToPowerOperator("^");

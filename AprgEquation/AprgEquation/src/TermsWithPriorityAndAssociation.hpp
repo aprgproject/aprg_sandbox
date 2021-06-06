@@ -43,14 +43,12 @@ public:
     TermsWithDetails const& getTermsWithDetails() const;
 
     void clear();
-    void putTermWithDetails(TermWithDetails const& termtWithDetails);
+    void putTermWithDetails(TermWithDetails const& termWithDetails);
     void putTermWithPositiveAssociation(BaseTermSharedPointer const& baseTermSharedPointer);
     void putTermWithNegativeAssociation(BaseTermSharedPointer const& baseTermSharedPointer);
-    void performFunctionOnAllTerms(TermsWithDetailsFunction const& functionToPerform) const;
 
 private:
-    TermsWithDetails m_termsWithDetails;
-};
+    TermsWithDetails m_termsWithDetails;};
 
 }
 

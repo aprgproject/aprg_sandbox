@@ -19,21 +19,21 @@ bool canBeAddedOrSubtracted(Monomial const& monomial, Variable const& variable);
 unsigned int getOperatorLevelValue(OperatorLevel const operatorLevel);
 unsigned int getTermPriorityValue(Term const& term);
 
+Monomial createMonomialConstant(AlbaNumber const& number);
+Monomial createMonomialVariable(std::string const& variableName);
+Expression createExpressionIfPossible(Terms const& terms);
+Expression createExpressionFromTerm(Term const& term);
+Expression createSimplifiedExpressionIfPossible(Terms const& terms);
+
 Term convertExpressionToSimplestTerm(Expression const& expression);
 Term convertPolynomialToSimplestTerm(Polynomial const& polynomial);
 Term convertMonomialToSimplestTerm(Monomial const& monomial);
 
-BaseTermSharedPointer createBaseTermSharedPointer(BaseTermSharedPointer const& baseTerm);
-BaseTermSharedPointer createBaseTermSharedPointerFromTerm(Term const& term);
-BaseTermSharedPointer createBaseTermSharedPointerFromTermReference(Term& term);
-
-Monomial createMonomialConstant(AlbaNumber const& number);
-Monomial createMonomialVariable(std::string const& variableName);
-
-Expression createExpression(Terms const& terms);
-Expression convertTermToExpression(Term const& term);
-Expression createSimplifiedExpression(Terms const& terms);
+BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer);
+BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);
+Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
+Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
+BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
 
 }
-
 }

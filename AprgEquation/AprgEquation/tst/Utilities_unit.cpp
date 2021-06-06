@@ -54,6 +54,118 @@ TEST(UtilitiesTest, CanBeAddedOrSubtractedForMonomialAndVariableWorks)
     EXPECT_FALSE(canBeAddedOrSubtracted(monomial4, variable));
 }
 
+TEST(UtilitiesTest, GetOperatorLevelValueWorks)
+{
+    EXPECT_EQ(0u, getOperatorLevelValue(OperatorLevel::Unknown));
+    EXPECT_EQ(1u, getOperatorLevelValue(OperatorLevel::AdditionAndSubtraction));
+    EXPECT_EQ(2u, getOperatorLevelValue(OperatorLevel::MultiplicationAndDivision));
+    EXPECT_EQ(3u, getOperatorLevelValue(OperatorLevel::RaiseToPower));
+}
+
+TEST(UtilitiesTest, GetTermPriorityValueWorks)
+{
+    EXPECT_EQ(6u, getTermPriorityValue(Term(1)));
+    EXPECT_EQ(5u, getTermPriorityValue(Term(Variable("length"))));
+    EXPECT_EQ(4u, getTermPriorityValue(Term(Operator("+"))));
+    EXPECT_EQ(3u, getTermPriorityValue(Term(Monomial(1, {}))));
+    EXPECT_EQ(2u, getTermPriorityValue(Term(Polynomial{})));
+    EXPECT_EQ(1u, getTermPriorityValue(Term(Expression{})));
+}
+
+TEST(UtilitiesTest, CreateMonomialConstantWorks)
+{
+    EXPECT_EQ(Monomial(5648, {}), createMonomialConstant(5648));
+}
+
+TEST(UtilitiesTest, CreateMonomialVariableWorks)
+{
+    EXPECT_EQ(Monomial(1, {{"weight", 1}}), createMonomialVariable("weight"));
+}
+
+TEST(UtilitiesTest, CreateExpressionFromTermWorks)
+{
+    Expression expression1(createExpressionIfPossible(Terms{Term(254)}));
+    Expression expression2(createExpressionIfPossible(Terms{Term(4752)}));
+
+    Expression expressionToVerify1(createExpressionFromTerm(Term(expression1)));
+    Expression expressionToVerify2(createExpressionFromTerm(Term(4752)));
+
+    EXPECT_EQ(expression1, expressionToVerify1);
+    EXPECT_EQ(expression2, expressionToVerify2);
+}
+
+TEST(UtilitiesTest, CreateExpressionWorks)
+{
+    Expression expressionToTest(createExpressionIfPossible(Terms{Term(10), Term("/"), Term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})})}));
+
+    EXPECT_EQ(OperatorLevel::MultiplicationAndDivision, expressionToTest.getCommonOperatorLevel());
+    TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());    ASSERT_EQ(2u, termsToVerify.size());
+    EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Positive, termsToVerify.at(0).association);
+    Term const& termToVerify1 = *dynamic_cast<Term const*const>(termsToVerify.at(0).baseTermSharedPointer.get());
+    EXPECT_EQ(Term(10), termToVerify1);
+    EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Negative, termsToVerify.at(1).association);
+    Term const& termToVerify2 = *dynamic_cast<Term const*const>(termsToVerify.at(1).baseTermSharedPointer.get());
+    EXPECT_EQ(Term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}), termToVerify2);
+}
+
+TEST(UtilitiesTest, CreateExpressionDoesNotSimplify)
+{
+    Expression expressionToTest(createExpressionIfPossible(Terms{Term(7.625), Term("+"), Term(2.375)}));
+
+    EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, expressionToTest.getCommonOperatorLevel());
+    TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());    ASSERT_EQ(2u, termsToVerify.size());
+    EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Positive, termsToVerify.at(0).association);
+    Term const& termToVerify1 = *dynamic_cast<Term const*const>(termsToVerify.at(0).baseTermSharedPointer.get());
+    EXPECT_EQ(Term(7.625), termToVerify1);
+    EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Positive, termsToVerify.at(1).association);
+    Term const& termToVerify2 = *dynamic_cast<Term const*const>(termsToVerify.at(1).baseTermSharedPointer.get());
+    EXPECT_EQ(Term(2.375), termToVerify2);
+}
+
+TEST(UtilitiesTest, CreateExpressionReturnsEmptyIfListOfTermsAreWrong)
+{
+    Expression expressionToTest(createExpressionIfPossible(Terms{Term(7.625), Term("+"), Term("/"), Term(2.375)}));
+
+    EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
+    TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());    ASSERT_TRUE(termsToVerify.empty());
+}
+
+TEST(UtilitiesTest, CreateSimplifiedExpressionWorks)
+{
+    Expression expressionToTest(createSimplifiedExpressionIfPossible(Terms{Term(7.625), Term("+"), Term(2.375)}));
+
+    EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
+    TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());    ASSERT_EQ(1u, termsToVerify.size());
+    EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Positive, termsToVerify.at(0).association);
+    Term const& termToVerify1 = *dynamic_cast<Term const*const>(termsToVerify.at(0).baseTermSharedPointer.get());
+    EXPECT_EQ(Term(10), termToVerify1);
+}
+
+TEST(UtilitiesTest, CreateSimplifiedExpressionReturnsEmptyIfListOfTermsAreWrong)
+{
+    Expression expressionToTest(createSimplifiedExpressionIfPossible(Terms{Term("+"), Term("+"), Term("+")}));
+
+    EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
+    TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
+    ASSERT_TRUE(termsToVerify.empty());
+}
+
+TEST(UtilitiesTest, ConvertExpressionToSimplestTermWorks)
+{
+    Term termToVerify1(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{})));
+    Term termToVerify2(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{Term(88)})));
+    Term termToVerify3(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{termToVerify2})));
+    Term termToVerify4(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{termToVerify3})));
+
+    ASSERT_EQ(TermType::Empty, termToVerify1.getTermType());
+    ASSERT_EQ(TermType::Constant, termToVerify2.getTermType());
+    EXPECT_DOUBLE_EQ(88, termToVerify2.getConstantConstReference().getNumberConstReference().getDouble());
+    ASSERT_EQ(TermType::Constant, termToVerify3.getTermType());
+    EXPECT_DOUBLE_EQ(88, termToVerify3.getConstantConstReference().getNumberConstReference().getDouble());
+    ASSERT_EQ(TermType::Constant, termToVerify4.getTermType());
+    EXPECT_DOUBLE_EQ(88, termToVerify4.getConstantConstReference().getNumberConstReference().getDouble());
+}
+
 TEST(UtilitiesTest, ConvertPolynomialToSimplestTermWorks)
 {
     Term termToVerify1(convertPolynomialToSimplestTerm(Polynomial{}));
@@ -85,64 +197,57 @@ TEST(UtilitiesTest, ConvertMonomialToSimplestTermWorks)
     EXPECT_DOUBLE_EQ(10, termToVerify4.getConstantConstReference().getNumberConstReference().getDouble());
 }
 
-TEST(UtilitiesTest, CreateExpressionWorks)
+TEST(UtilitiesTest, CreateNewTermAndReturnSharedPointerWorks)
 {
-    Expression expressionToTest(createExpression(Terms{Term(10), Term("/"), Term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})})}));
+    BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9652)));
 
-    EXPECT_EQ(OperatorLevel::MultiplicationAndDivision, expressionToTest.getCommonOperatorLevel());
-    TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
-    ASSERT_EQ(2u, termsToVerify.size());
-    EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Positive, termsToVerify.at(0).association);
-    Term const& termToVerify1 = *dynamic_cast<Term const*const>(termsToVerify.at(0).baseTermSharedPointer.get());
-    EXPECT_EQ(Term(10), termToVerify1);
-    EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Negative, termsToVerify.at(1).association);
-    Term const& termToVerify2 = *dynamic_cast<Term const*const>(termsToVerify.at(1).baseTermSharedPointer.get());
-    EXPECT_EQ(Term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}), termToVerify2);
+    BaseTermSharedPointer sharedPointerToVerify(createNewTermAndReturnSharedPointer(sharedPointer));
+
+    Term const& termToVerify = *dynamic_cast<Term const*const>(sharedPointerToVerify.get());
+    EXPECT_EQ(Term(9652), termToVerify);
+    EXPECT_EQ(1, sharedPointerToVerify.use_count());
 }
 
-TEST(UtilitiesTest, CreateExpressionDoesNotSimplify)
+TEST(UtilitiesTest, CopyAndCreateNewTermAndReturnSharedPointerWorks)
 {
-    Expression expressionToTest(createExpression(Terms{Term(7.625), Term("+"), Term(2.375)}));
+    BaseTermSharedPointer sharedPointerToVerify(copyAndCreateNewTermAndReturnSharedPointer(Term(6415)));
 
-    EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, expressionToTest.getCommonOperatorLevel());
-    TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
-    ASSERT_EQ(2u, termsToVerify.size());
-    EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Positive, termsToVerify.at(0).association);
-    Term const& termToVerify1 = *dynamic_cast<Term const*const>(termsToVerify.at(0).baseTermSharedPointer.get());
-    EXPECT_EQ(Term(7.625), termToVerify1);
-    EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Positive, termsToVerify.at(1).association);
-    Term const& termToVerify2 = *dynamic_cast<Term const*const>(termsToVerify.at(1).baseTermSharedPointer.get());
-    EXPECT_EQ(Term(2.375), termToVerify2);
+    Term const& termToVerify = *dynamic_cast<Term const*const>(sharedPointerToVerify.get());
+    EXPECT_EQ(Term(6415), termToVerify);
+    EXPECT_EQ(1, sharedPointerToVerify.use_count());
 }
 
-TEST(UtilitiesTest, CreateExpressionReturnsEmptyIfListOfTermsAreWrong)
+TEST(UtilitiesTest, GetTermReferenceFromSharedPointerWorks)
 {
-    Expression expressionToTest(createExpression(Terms{Term(7.625), Term("+"), Term("/"), Term(2.375)}));
+    BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9652)));
 
-    EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
-    TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
-    ASSERT_TRUE(termsToVerify.empty());
+    Term & termToChange(getTermReferenceFromSharedPointer(sharedPointer));
+    termToChange.getConstantReference().setNumber(763);
+
+    Term const& termToVerify = *dynamic_cast<Term const*const>(sharedPointer.get());
+    EXPECT_EQ(Term(763), termToVerify);
+    EXPECT_EQ(1, sharedPointer.use_count());
 }
 
-TEST(UtilitiesTest, CreateSimplifiedExpressionWorks)
+TEST(UtilitiesTest, GetTermConstReferenceFromSharedPointerWorks)
 {
-    Expression expressionToTest(createSimplifiedExpression(Terms{Term(7.625), Term("+"), Term(2.375)}));
+    BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9541)));
 
-    EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
-    TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
-    ASSERT_EQ(1u, termsToVerify.size());
-    EXPECT_EQ(TermsWithPriorityAndAssociation::AssociationType::Positive, termsToVerify.at(0).association);
-    Term const& termToVerify1 = *dynamic_cast<Term const*const>(termsToVerify.at(0).baseTermSharedPointer.get());
-    EXPECT_EQ(Term(10), termToVerify1);
+    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointer));
+    EXPECT_EQ(Term(9541), termToVerify);
+    EXPECT_EQ(1, sharedPointer.use_count());
 }
 
-TEST(UtilitiesTest, CreateSimplifiedExpressionReturnsEmptyIfListOfTermsAreWrong)
+TEST(UtilitiesTest, GetSharedPointerFromTermReferenceWorks)
 {
-    Expression expressionToTest(createExpression(Terms{Term(7.625), Term("+"), Term("/"), Term(2.375)}));
+    Term termToVerify(7896);
 
-    EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
-    TermsWithPriorityAndAssociation::TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
-    ASSERT_TRUE(termsToVerify.empty());
+    BaseTermSharedPointer sharedPointer(getSharedPointerFromTermReference(termToVerify));
+    Term & termToChange = *dynamic_cast<Term*>(sharedPointer.get());
+    termToChange.getConstantReference().setNumber(1459);
+
+    EXPECT_EQ(Term(1459), termToVerify);
+    EXPECT_EQ(1, sharedPointer.use_count());
 }
 
 }

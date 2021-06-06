@@ -2,10 +2,10 @@
 
 #include <Term.hpp>
 #include <Operator.hpp>
+#include <TermsWithPriorityAndAssociation.hpp>
 
 namespace alba
 {
-
 namespace equation
 {
 
@@ -23,7 +23,10 @@ Term performSubtraction(Term const& term1, Term const& term2);
 Term performMultiplication(Term const& term1, Term const& term2);
 Term performDivision(Term const& term1, Term const& term2);
 Term performRaiseToPower(Term const& term1, Term const& term2);
+void performBinaryOperationWithTermDetails(
+        Term & partialResultTerm,
+        OperatorLevel const operatorLevel,
+        TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails);
 
 }
-
 }
