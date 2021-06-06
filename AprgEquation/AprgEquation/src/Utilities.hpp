@@ -18,12 +18,13 @@ bool canBeAddedOrSubtracted(Monomial const& monomial, Variable const& variable);
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
 
+unsigned int getOperatorPriority(std::string const& operatorString);
+unsigned int getAssociationPriority(TermsWithPriorityAndAssociation::AssociationType const association);
 unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
-unsigned int getTermPriorityValue(Term const& term);
+unsigned int getTermTypePriorityValue(TermType const termType);
 
 std::string getOperatingString(
-        OperatorLevel const operatorLevel,
-        TermsWithPriorityAndAssociation::AssociationType const association);
+        OperatorLevel const operatorLevel,        TermsWithPriorityAndAssociation::AssociationType const association);
 std::string getFirstStringIfNegativeAssociation(
         OperatorLevel const operatorLevel,
         TermsWithPriorityAndAssociation::AssociationType const association);
@@ -42,10 +43,10 @@ Term convertExpressionToSimplestTerm(Expression const& expression);
 Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression);
 Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial);
 Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial);
+
 BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer);
 BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);
-BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
-Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
+BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
 Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
 Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);
 Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);

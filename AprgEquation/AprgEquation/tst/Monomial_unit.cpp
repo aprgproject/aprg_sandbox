@@ -84,10 +84,39 @@ TEST(MonomialTest, EqualityOperatorWorks)
     EXPECT_TRUE(monomial2==monomial5);
 }
 
-TEST(MonomialTest, IsZeroFunctionWorks)
+TEST(MonomialTest, InequalityOperatorWorks)
 {
     Monomial monomial1;
     Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial3(-234, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial4(-54, {{"x", 6}});
+    Monomial monomial5(-54, {{"x", 6}, {"y", -1.25}});
+
+    EXPECT_FALSE(monomial1!=monomial1);
+    EXPECT_TRUE(monomial1!=monomial2);
+    EXPECT_FALSE(monomial2!=monomial2);
+    EXPECT_TRUE(monomial2!=monomial3);
+    EXPECT_TRUE(monomial2!=monomial4);
+    EXPECT_FALSE(monomial2!=monomial5);
+}
+
+TEST(MonomialTest, LessThanOperatorWorks)
+{
+    EXPECT_FALSE(Monomial() < Monomial());
+    EXPECT_FALSE(Monomial(54, {{"x", 6}}) < Monomial(54, {{"x", 6}}));
+    EXPECT_FALSE(Monomial(54, {{"x", 6}}) < Monomial(53, {{"x", 6}}));
+    EXPECT_TRUE(Monomial(54, {{"x", 6}}) < Monomial(55, {{"x", 6}}));
+    EXPECT_FALSE(Monomial(54, {{"x", 6}}) < Monomial(54, {}));
+    EXPECT_TRUE(Monomial(54, {{"x", 6}}) < Monomial(54, {{"x", 6}, {"y", 6}}));
+    EXPECT_FALSE(Monomial(54, {{"x", 6}}) < Monomial(54, {{"x", 5}}));
+    EXPECT_TRUE(Monomial(54, {{"x", 6}}) < Monomial(54, {{"x", 7}}));
+    EXPECT_FALSE(Monomial(54, {{"x", 6}}) < Monomial(54, {{"w", 6}}));
+    EXPECT_TRUE(Monomial(54, {{"x", 6}}) < Monomial(54, {{"y", 6}}));
+}
+
+TEST(MonomialTest, IsZeroFunctionWorks)
+{
+    Monomial monomial1;    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
     Monomial monomial3(0, {{"x", 6}, {"y", -1.25}});
     Monomial monomial4(23, {});
 

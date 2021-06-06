@@ -13,11 +13,10 @@ namespace equation
 TEST(PolynomialTest, PolynomialsAreConstructedCorrectly)
 {
     Polynomial polynomial1;
-    Polynomial polynomial2({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
+    Polynomial polynomial2{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
     Monomials const& monomials1(polynomial1.getMonomialsConstReference());
     ASSERT_TRUE(monomials1.empty());
-
     Monomials const& monomials2(polynomial2.getMonomialsConstReference());
     ASSERT_EQ(2u, monomials2.size());
     EXPECT_DOUBLE_EQ(6, monomials2.at(0).getConstantConstReference().getDouble());
@@ -34,50 +33,61 @@ TEST(PolynomialTest, PolynomialsAreConstructedCorrectly)
 TEST(PolynomialTest, EqualityOperatorWorks)
 {
     Polynomial polynomial1;
-    Polynomial polynomial2({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
-    Polynomial polynomial3({Monomial(6, {}), Monomial(68, {{"x", 2}, {"y", 3}, {"z", 4}})});
-    Polynomial polynomial4({Monomial(6, {})});
-    Polynomial polynomial5({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
+    Polynomial polynomial2{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+    Polynomial polynomial3{Monomial(6, {}), Monomial(68, {{"x", 2}, {"y", 3}, {"z", 4}})};
+    Polynomial polynomial4{Monomial(6, {})};
+    Polynomial polynomial5{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
     EXPECT_TRUE(polynomial1==polynomial1);
-    EXPECT_FALSE(polynomial1==polynomial2);
-    EXPECT_TRUE(polynomial2==polynomial2);
+    EXPECT_FALSE(polynomial1==polynomial2);    EXPECT_TRUE(polynomial2==polynomial2);
     EXPECT_FALSE(polynomial2==polynomial3);
     EXPECT_FALSE(polynomial2==polynomial4);
     EXPECT_TRUE(polynomial2==polynomial5);
 }
 
+TEST(PolynomialTest, LessThanOperatorWorks)
+{
+    EXPECT_FALSE(Polynomial() < Polynomial());
+    EXPECT_FALSE(Polynomial({Monomial(6, {}), Monomial(7, {{"x", 2}, {"y", 3}})})
+                 < Polynomial({Monomial(6, {}), Monomial(7, {{"x", 2}, {"y", 3}})}));
+    EXPECT_FALSE(Polynomial({Monomial(6, {}), Monomial(7, {{"x", 2}, {"y", 3}})})
+                 < Polynomial({Monomial(6, {})}));
+    EXPECT_TRUE(Polynomial({Monomial(6, {}), Monomial(7, {{"x", 2}, {"y", 3}})})
+                 < Polynomial({Monomial(6, {}), Monomial(8, {{"x", 1}}), Monomial(7, {{"x", 2}, {"y", 3}})}));
+    EXPECT_FALSE(Polynomial({Monomial(6, {}), Monomial(7, {{"x", 2}, {"y", 3}})})
+                 < Polynomial({Monomial(6, {}), Monomial(6, {{"x", 2}, {"y", 3}})}));
+    EXPECT_TRUE(Polynomial({Monomial(6, {}), Monomial(7, {{"x", 2}, {"y", 3}})})
+                 < Polynomial({Monomial(6, {}), Monomial(8, {{"x", 2}, {"y", 3}})}));
+}
+
 TEST(PolynomialTest, IsZeroWorks)
 {
     Polynomial polynomial1;
-    Polynomial polynomial2({Monomial(6, {})});
-    Polynomial polynomial3({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
+    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
     EXPECT_TRUE(polynomial1.isZero());
-    EXPECT_FALSE(polynomial2.isZero());
-    EXPECT_FALSE(polynomial3.isZero());
+    EXPECT_FALSE(polynomial2.isZero());    EXPECT_FALSE(polynomial3.isZero());
 }
 
 TEST(PolynomialTest, IsOneMonomialWorks)
 {
     Polynomial polynomial1;
-    Polynomial polynomial2({Monomial(6, {})});
-    Polynomial polynomial3({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
+    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
     EXPECT_FALSE(polynomial1.isOneMonomial());
-    EXPECT_TRUE(polynomial2.isOneMonomial());
-    EXPECT_FALSE(polynomial3.isOneMonomial());
+    EXPECT_TRUE(polynomial2.isOneMonomial());    EXPECT_FALSE(polynomial3.isOneMonomial());
 }
 
 TEST(PolynomialTest, GetFirstMonomialWorks)
 {
     Polynomial polynomial1;
-    Polynomial polynomial2({Monomial(6, {})});
-    Polynomial polynomial3({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
+    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
     Monomial monomial1(polynomial1.getFirstMonomial());
-    Monomial monomial2(polynomial2.getFirstMonomial());
-    Monomial monomial3(polynomial3.getFirstMonomial());
+    Monomial monomial2(polynomial2.getFirstMonomial());    Monomial monomial3(polynomial3.getFirstMonomial());
 
     EXPECT_DOUBLE_EQ(0, monomial1.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomial1.getVariablesToExponentsMapConstReference());
@@ -95,12 +105,11 @@ TEST(PolynomialTest, GetFirstMonomialWorks)
 TEST(PolynomialTest, GetDisplayableStringWorks)
 {
     Polynomial polynomial1;
-    Polynomial polynomial2({Monomial(6, {})});
-    Polynomial polynomial3({Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
+    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
     EXPECT_EQ("(EmptyPolynomial)", polynomial1.getDisplayableString());
-    EXPECT_EQ("(6)", polynomial2.getDisplayableString());
-    EXPECT_EQ("(6 + -7|x^2||y^3||z^4|)", polynomial3.getDisplayableString());
+    EXPECT_EQ("(6)", polynomial2.getDisplayableString());    EXPECT_EQ("(6 + -7|x^2||y^3||z^4|)", polynomial3.getDisplayableString());
 }
 
 TEST(PolynomialTest, SimplifyWorks)

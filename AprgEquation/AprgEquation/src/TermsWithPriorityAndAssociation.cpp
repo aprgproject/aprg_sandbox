@@ -5,11 +5,11 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
-
 TermsWithPriorityAndAssociation::TermWithDetails::TermWithDetails(
         BaseTerm const& baseTerm,
         TermsWithPriorityAndAssociation::AssociationType const associationParameter)
@@ -29,10 +29,30 @@ bool TermsWithPriorityAndAssociation::TermWithDetails::operator==(TermWithDetail
     return term1 == term2 && association == second.association;
 }
 
+bool TermsWithPriorityAndAssociation::TermWithDetails::operator!=(TermWithDetails const& second) const
+{
+    return !(operator==(second));
+}
+
+bool TermsWithPriorityAndAssociation::TermWithDetails::operator<(TermWithDetails const& second) const
+{
+    bool result(false);
+    if(association == second.association)
+    {
+        Term const& term1(getTermConstReferenceFromSharedPointer(baseTermSharedPointer));
+        Term const& term2(getTermConstReferenceFromSharedPointer(second.baseTermSharedPointer));
+        result = term1 < term2;
+    }
+    else
+    {
+        result = getAssociationPriority() < second.getAssociationPriority();
+    }
+    return result;
+}
+
 bool TermsWithPriorityAndAssociation::TermWithDetails::hasPositiveAssociation() const
 {
-    return AssociationType::Positive == association;
-}
+    return AssociationType::Positive == association;}
 
 bool TermsWithPriorityAndAssociation::TermWithDetails::hasNegativeAssociation() const
 {
@@ -41,21 +61,10 @@ bool TermsWithPriorityAndAssociation::TermWithDetails::hasNegativeAssociation() 
 
 unsigned int TermsWithPriorityAndAssociation::TermWithDetails::getAssociationPriority() const
 {
-    unsigned int result(0);
-    switch(association)
-    {
-    case AssociationType::Negative:
-        result=0;
-        break;
-    case AssociationType::Positive:
-        result=1;
-        break;
-    }
-    return result;
+    return equation::getAssociationPriority(association);
 }
 
-TermsWithPriorityAndAssociation::TermsWithPriorityAndAssociation()
-{}
+TermsWithPriorityAndAssociation::TermsWithPriorityAndAssociation(){}
 
 TermsWithPriorityAndAssociation::~TermsWithPriorityAndAssociation()
 {}
@@ -75,10 +84,40 @@ bool TermsWithPriorityAndAssociation::operator==(TermsWithPriorityAndAssociation
     return result;
 }
 
+bool TermsWithPriorityAndAssociation::operator!=(TermsWithPriorityAndAssociation const& second) const
+{
+    return !(operator==(second));
+}
+
+bool TermsWithPriorityAndAssociation::operator<(TermsWithPriorityAndAssociation const& second) const
+{
+    TermsWithDetails const& terms1(m_termsWithDetails);
+    TermsWithDetails const& terms2(second.m_termsWithDetails);
+    bool result(false);
+    if(terms1.size() == terms2.size())
+    {
+        unsigned int size = terms1.size();
+        for(unsigned int i = 0; i < size; i++)
+        {
+            TermWithDetails const& termWithDetails1(terms1.at(i));
+            TermWithDetails const& termWithDetails2(terms2.at(i));
+            if(termWithDetails1 != termWithDetails2)
+            {
+                result = termWithDetails1<termWithDetails2;
+                break;
+            }
+        }
+    }
+    else
+    {
+        result =  terms1.size() < terms2.size();
+    }
+    return result;
+}
+
 bool TermsWithPriorityAndAssociation::isEmpty() const
 {
-    return m_termsWithDetails.empty();
-}
+    return m_termsWithDetails.empty();}
 
 unsigned int TermsWithPriorityAndAssociation::getSize() const
 {

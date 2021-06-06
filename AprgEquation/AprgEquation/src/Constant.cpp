@@ -36,10 +36,19 @@ bool Constant::operator==(Constant const& second) const
    return  m_constantValue == second.m_constantValue;
 }
 
+bool Constant::operator!=(Constant const& second) const
+{
+   return  m_constantValue != second.m_constantValue;
+}
+
+bool Constant::operator<(Constant const& second) const
+{
+    return m_constantValue < second.m_constantValue;
+}
+
 AlbaNumber const& Constant::getNumberConstReference() const
 {
-    return m_constantValue;
-}
+    return m_constantValue;}
 
 string Constant::getDisplayableString() const
 {

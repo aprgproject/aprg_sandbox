@@ -33,10 +33,31 @@ TEST(OperatorTest, EqualityOperatorWorks)
     EXPECT_TRUE(operator2==operator4);
 }
 
+TEST(OperatorTest, InequalityOperatorWorks)
+{
+    Operator operator1;
+    Operator operator2("+");
+    Operator operator3("-");
+    Operator operator4("+");
+
+    EXPECT_FALSE(operator1!=operator1);
+    EXPECT_TRUE(operator1!=operator2);
+    EXPECT_FALSE(operator2!=operator2);
+    EXPECT_TRUE(operator2!=operator3);
+    EXPECT_FALSE(operator2!=operator4);
+}
+
+TEST(OperatorTest, LessThanOperatorWorks)
+{
+    EXPECT_FALSE(Operator() < Operator());
+    EXPECT_FALSE(Operator("*") < Operator("*"));
+    EXPECT_FALSE(Operator("*") < Operator("+"));
+    EXPECT_TRUE(Operator("*") < Operator("/"));
+}
+
 TEST(OperatorTest, IsAdditionWorksAsExpected)
 {
-    Operator nullOperator;
-    Operator addOperator("+");
+    Operator nullOperator;    Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");

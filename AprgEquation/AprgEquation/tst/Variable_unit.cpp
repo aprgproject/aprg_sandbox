@@ -33,10 +33,31 @@ TEST(VariableTest, EqualityVariableWorks)
     EXPECT_TRUE(variable2==variable4);
 }
 
-TEST(VariableTest, GetDisplayableStringWorks)
+TEST(VariableTest, InequalityVariableWorks)
 {
     Variable variable1;
-    Variable variable2("time");
+    Variable variable2("x");
+    Variable variable3("power");
+    Variable variable4("x");
+
+    EXPECT_FALSE(variable1!=variable1);
+    EXPECT_TRUE(variable1!=variable2);
+    EXPECT_FALSE(variable2!=variable2);
+    EXPECT_TRUE(variable2!=variable3);
+    EXPECT_FALSE(variable2!=variable4);
+}
+
+TEST(VariableTest, LessThanOperatorWorks)
+{
+    EXPECT_FALSE(Variable() < Variable());
+    EXPECT_FALSE(Variable("x") < Variable("x"));
+    EXPECT_FALSE(Variable("x") < Variable("w"));
+    EXPECT_TRUE(Variable("x") < Variable("y"));
+}
+
+TEST(VariableTest, GetDisplayableStringWorks)
+{
+    Variable variable1;    Variable variable2("time");
 
     EXPECT_EQ("", variable1.getDisplayableString());
     EXPECT_EQ("time", variable2.getDisplayableString());

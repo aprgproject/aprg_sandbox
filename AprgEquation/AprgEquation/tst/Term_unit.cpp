@@ -186,10 +186,42 @@ TEST(TermTest, EqualityOperatorWorks)
     EXPECT_TRUE(term2==term5);
 }
 
-TEST(TermTest, IsConstantWorks)
+TEST(TermTest, InequalityOperatorWorks)
 {
     Term term1;
-    Term term2(1);
+    Term term2(Constant(5));
+    Term term3(Constant(10));
+    Term term4(Variable("length"));
+    Term term5(Constant(5));
+
+    EXPECT_FALSE(term1!=term1);
+    EXPECT_TRUE(term1!=term2);
+    EXPECT_FALSE(term2!=term2);
+    EXPECT_TRUE(term2!=term3);
+    EXPECT_TRUE(term2!=term4);
+    EXPECT_FALSE(term2!=term5);
+}
+
+TEST(TermTest, LessThanOperatorWorks)
+{
+    Term term1;
+    Term term2(Constant(10));
+    Term term3(Constant(9));
+    Term term4(Constant(11));
+    Term term5(Operator("+"));
+    Term term6(Variable("length"));
+
+    EXPECT_FALSE(term1<term1);
+    EXPECT_FALSE(term2<term2);
+    EXPECT_FALSE(term2<term3);
+    EXPECT_TRUE(term2<term4);
+    EXPECT_FALSE(term2<term5);
+    EXPECT_TRUE(term2<term6);
+}
+
+TEST(TermTest, IsConstantWorks)
+{
+    Term term1;    Term term2(1);
     Term term3(Variable("length"));
     Term term4(Operator("+"));
     Term term5(Monomial(1, {}));

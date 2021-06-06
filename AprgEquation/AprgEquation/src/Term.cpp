@@ -120,10 +120,55 @@ bool Term::operator==(Term const& second) const
     return result;
 }
 
+bool Term::operator!=(Term const& second) const
+{
+    return !(operator==(second));
+}
+
+bool Term::operator<(Term const& second) const
+{
+    bool result(false);
+    if(m_type == second.m_type)
+    {
+        if(m_type==TermType::Empty)
+        {
+            result=false;
+        }
+        else if(m_type==TermType::Constant)
+        {
+            result = getConstantConstReference() < second.getConstantConstReference();
+        }
+        else if(m_type==TermType::Variable)
+        {
+            result = getVariableConstReference() < second.getVariableConstReference();
+        }
+        else if(m_type==TermType::Operator)
+        {
+            result = getOperatorConstReference() < second.getOperatorConstReference();
+        }
+        else if(m_type==TermType::Monomial)
+        {
+            result = getMonomialConstReference() < second.getMonomialConstReference();
+        }
+        else if(m_type==TermType::Polynomial)
+        {
+            result = getPolynomialConstReference() < second.getPolynomialConstReference();
+        }
+        else if(m_type==TermType::Expression)
+        {
+            result = getExpressionConstReference() < second.getExpressionConstReference();
+        }
+    }
+    else
+    {
+        result = getTermTypePriorityValue(m_type) < getTermTypePriorityValue(second.m_type);
+    }
+    return result;
+}
+
 bool Term::isConstant() const
 {
-    return TermType::Constant == m_type;
-}
+    return TermType::Constant == m_type;}
 
 bool Term::isVariable() const
 {
@@ -276,11 +321,10 @@ string Term::getDisplayableString() const
     }
     else if(m_type==TermType::Expression)
     {
-        result = getExpressionConstReference().getDisplayableString();
+        result = getExpressionConstReference().getDebugString();
     }
     return result;
 }
-
 Constant & Term::getConstantReference()
 {
     assert(m_type==TermType::Constant);

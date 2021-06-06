@@ -17,10 +17,11 @@ public:
     Variable(std::string const& variableName);
 
     bool operator==(Variable const& second) const;
+    bool operator!=(Variable const& second) const;
+    bool operator<(Variable const& second) const;
 
     std::string getVariableName() const;
     std::string getDisplayableString() const;
-
     void setVariableName(std::string const& variableName);
 
 private:

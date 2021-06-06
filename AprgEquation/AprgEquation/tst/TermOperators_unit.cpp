@@ -980,6 +980,90 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_PolynomialRaiseToPowerPolynom
                        })), term);
 }
 
+TEST(TermOperatorsTest, ValueIsZeroWhenSubtractingSameConstant)
+{
+    Term term(Constant(24) - Constant(24));
+
+    EXPECT_EQ(Term(Constant(0)), term);
+}
+
+TEST(TermOperatorsTest, ValueIsZeroWhenSubtractingSameVariable)
+{
+    Term term(Variable("power") - Variable("power"));
+
+    EXPECT_EQ(Term(Constant(0)), term);
+}
+
+TEST(TermOperatorsTest, ValueIsZeroWhenSubtractingSameMonomial)
+{
+    Term term(Monomial(15, {{"x", 4}}) - Monomial(15, {{"x", 4}}));
+
+    EXPECT_EQ(Term(Constant(0)), term);
+}
+
+TEST(TermOperatorsTest, ValueIsZeroWhenSubtractingSamePolynomial)
+{
+    Term term(Polynomial{Monomial(5, {}), Monomial(6, {{"x", 7}})} - Polynomial{Monomial(5, {}), Monomial(6, {{"x", 7}})});
+
+    EXPECT_EQ(Term(Constant(0)), term);
+}
+
+TEST(TermOperatorsTest, ValueIsZeroWhenMultiplyingZeroToConstant)
+{
+    Term term(Constant(0) * Constant(24));
+
+    EXPECT_EQ(Term(Constant(0)), term);
+}
+
+TEST(TermOperatorsTest, ValueIsZeroWhenMultiplyingZeroToVariable)
+{
+    Term term(Constant(0) * Variable("power"));
+
+    EXPECT_EQ(Term(Constant(0)), term);
+}
+
+TEST(TermOperatorsTest, ValueIsZeroWhenMultiplyingZeroToMonomial)
+{
+    Term term(Constant(0) * Monomial(15, {{"x", 4}}));
+
+    EXPECT_EQ(Term(Constant(0)), term);
+}
+
+TEST(TermOperatorsTest, ValueIsZeroWhenMultiplyingZeroToPolynomial)
+{
+    Term term(Constant(0) * Polynomial{Monomial(5, {}), Monomial(6, {{"x", 7}})});
+
+    EXPECT_EQ(Term(Constant(0)), term);
+}
+
+TEST(TermOperatorsTest, ValueIsSameWhenMultiplyingOneToConstant)
+{
+    Term term(Constant(1) * Constant(24));
+
+    EXPECT_EQ(Term(24), term);
+}
+
+TEST(TermOperatorsTest, ValueIsSameWhenMultiplyingOneToVariable)
+{
+    Term term(Constant(1) * Variable("power"));
+
+    EXPECT_EQ(Term(Variable("power")), term);
+}
+
+TEST(TermOperatorsTest, ValueIsSameWhenMultiplyingOneToMonomial)
+{
+    Term term(Constant(1) * Monomial(15, {{"x", 4}}));
+
+    EXPECT_EQ(Term(Monomial(15, {{"x", 4}})), term);
+}
+
+TEST(TermOperatorsTest, ValueIsSameWhenMultiplyingOneToPolynomial)
+{
+    Term term(Constant(1) * Polynomial{Monomial(5, {}), Monomial(6, {{"x", 7}})});
+
+    EXPECT_EQ(Term(Polynomial{Monomial(5, {}), Monomial(6, {{"x", 7}})}), term);
+}
+
 }
 
 }

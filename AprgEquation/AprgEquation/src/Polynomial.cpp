@@ -39,10 +39,40 @@ bool Polynomial::operator==(Polynomial const& second) const
     return result;
 }
 
+bool Polynomial::operator!=(Polynomial const& second) const
+{
+    return !(operator==(second));
+}
+
+bool Polynomial::operator<(Polynomial const& second) const
+{
+    Monomials const& monomials1(m_monomials);
+    Monomials const& monomials2(second.m_monomials);
+    bool result(false);
+    if(monomials1.size() == monomials2.size())
+    {
+        unsigned int size = monomials1.size();
+        for(unsigned int i = 0; i < size; i++)
+        {
+            Monomial const& monomial1(monomials1.at(i));
+            Monomial const& monomial2(monomials2.at(i));
+            if(monomial1 != monomial2)
+            {
+                result = monomial1<monomial2;
+                break;
+            }
+        }
+    }
+    else
+    {
+        result =  monomials1.size() < monomials2.size();
+    }
+    return result;
+}
+
 bool Polynomial::isOne() const
 {
-    return isOneMonomial() && getFirstMonomial().isOne();
-}
+    return isOneMonomial() && getFirstMonomial().isOne();}
 
 bool Polynomial::isZero() const
 {

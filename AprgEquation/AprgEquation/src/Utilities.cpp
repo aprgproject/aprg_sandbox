@@ -66,10 +66,50 @@ bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term)
     return term.isEmpty() || term.isTheValueOne();
 }
 
-unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel)
+unsigned int getOperatorPriority(std::string const& operatorString)
+{
+    unsigned int result=0;
+    if("+" == operatorString)
+    {
+        result=1;
+    }
+    else if("-" == operatorString)
+    {
+        result=2;
+    }
+    else if("*" == operatorString)
+    {
+        result=3;
+    }
+    else if("/" == operatorString)
+    {
+        result=4;
+    }
+    else if("^" == operatorString)
+    {
+        result=5;
+    }
+    return result;
+}
+
+unsigned int getAssociationPriority(AssociationType const association)
 {
     unsigned int result(0);
-    switch(operatorLevel)
+    switch(association)
+    {
+    case AssociationType::Positive:
+        result=1;
+        break;
+    case AssociationType::Negative:
+        result=2;
+        break;
+    }
+    return result;
+}
+
+unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel)
+{
+    unsigned int result(0);    switch(operatorLevel)
     {
     case OperatorLevel::Unknown:
         result=0;
@@ -87,34 +127,33 @@ unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel)
     return result;
 }
 
-unsigned int getTermPriorityValue(Term const& term)
+unsigned int getTermTypePriorityValue(TermType const termType)
 {
     unsigned int result(0);
-    if(term.isExpression())
+    if(TermType::Operator == termType)
     {
         result=1;
     }
-    else if(term.isPolynomial())
+    else if(TermType::Constant == termType)
     {
         result=2;
     }
-    else if(term.isMonomial())
+    else if(TermType::Variable == termType)
     {
         result=3;
     }
-    else if(term.isOperator())
+    else if(TermType::Monomial == termType)
     {
         result=4;
     }
-    else if(term.isVariable())
+    else if(TermType::Polynomial == termType)
     {
         result=5;
     }
-    else if(term.isConstant())
+    else if(TermType::Expression == termType)
     {
         result=6;
-    }
-    return result;
+    }    return result;
 }
 
 string getOperatingString(
@@ -283,11 +322,11 @@ Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression)
 
 Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial)
 {
-    Polynomial newPolynomial(polynomial);    newPolynomial.simplify();
+    Polynomial newPolynomial(polynomial);
+    newPolynomial.simplify();
     Term newTerm;
     if(newPolynomial.isZero())
-    {
-        newTerm = Term(Constant(0));
+    {        newTerm = Term(Constant(0));
     }
     else if(newPolynomial.isOneMonomial())
     {

@@ -24,10 +24,11 @@ public:
         TermWithDetails(BaseTerm const& baseTerm, AssociationType const associationParameter);
         TermWithDetails(TermWithDetails const& termWithDetails);
         bool operator==(TermWithDetails const& second) const;
+        bool operator!=(TermWithDetails const& second) const;
+        bool operator<(TermWithDetails const& second) const;
         bool hasPositiveAssociation() const;
         bool hasNegativeAssociation() const;
-        unsigned int getAssociationPriority() const;
-        BaseTermSharedPointer baseTermSharedPointer;
+        unsigned int getAssociationPriority() const;        BaseTermSharedPointer baseTermSharedPointer;
         AssociationType association;
     };
     using TermsWithDetails=std::vector<TermWithDetails>;
@@ -37,10 +38,11 @@ public:
     ~TermsWithPriorityAndAssociation();
 
     bool operator==(TermsWithPriorityAndAssociation const& second) const;
+    bool operator!=(TermsWithPriorityAndAssociation const& second) const;
+    bool operator<(TermsWithPriorityAndAssociation const& second) const;
     bool isEmpty() const;
 
-    unsigned int getSize() const;
-    BaseTerm const& getFirstTermConstReference() const;
+    unsigned int getSize() const;    BaseTerm const& getFirstTermConstReference() const;
     TermsWithDetails const& getTermsWithDetails() const;
 
     void clear();

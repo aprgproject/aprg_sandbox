@@ -39,10 +39,31 @@ TEST(ConstantTest, EqualityOperatorWorks)
     EXPECT_TRUE(constant2==constant4);
 }
 
-TEST(ConstantTest, GetDisplayableStringWorks)
+TEST(ConstantTest, InequalityOperatorWorks)
 {
     Constant constant1;
     Constant constant2(3484);
+    Constant constant3(-1561);
+    Constant constant4(3484);
+
+    EXPECT_FALSE(constant1!=constant1);
+    EXPECT_TRUE(constant1!=constant2);
+    EXPECT_FALSE(constant2!=constant2);
+    EXPECT_TRUE(constant2!=constant3);
+    EXPECT_FALSE(constant2!=constant4);
+}
+
+TEST(ConstantTest, LessThanOperatorWorks)
+{
+    EXPECT_FALSE(Constant() < Constant());
+    EXPECT_FALSE(Constant(34) < Constant(34));
+    EXPECT_FALSE(Constant(34) < Constant(33));
+    EXPECT_TRUE(Constant(34) < Constant(35));
+}
+
+TEST(ConstantTest, GetDisplayableStringWorks)
+{
+    Constant constant1;    Constant constant2(3484);
     Constant constant3(-1561);
     Constant constant4(-415, 41745);
     Constant constant5(-85.45631);
