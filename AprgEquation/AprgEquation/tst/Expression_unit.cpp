@@ -307,15 +307,13 @@ TEST(ExpressionTest, SimplifyWorksOnAddingAndSubtractingRaiseToPowerExpressions)
                     Terms{
                         Term(5), Term("*"), Term("y"), Term("^"), Term("y"),
                         Term("+"), Term("y"), Term("^"), Term("y"),
-                        Term("-"), Term(3), Term("*"), Term("y"), Term("^"), Term("y"),
+                        Term("-"), Term(3), Term("*"), Term("y"), Term("^"), Term("y")
                     }));
 
     expression.simplify();
-
     Expression subExpression(createExpressionIfPossible(Terms{Term("y"), Term("^"), Term("y")}));
     Expression expressionToExpect(createExpressionIfPossible(Terms{Term(3), Term("*"), Term(subExpression)}));
-    EXPECT_EQ(expressionToExpect, expression);
-}
+    EXPECT_EQ(expressionToExpect, expression);}
 
 TEST(ExpressionTest, SimplifyWorksOnAddingAndSubtractingMultipleRaiseToPowerExpressions)
 {
@@ -340,23 +338,40 @@ TEST(ExpressionTest, SimplifyWorksOnAddingAndSubtractingMultipleRaiseToPowerExpr
     EXPECT_EQ(expressionToExpect, expression);
 }
 
-TEST(ExpressionTest, SimplifyWorksOnAddingAndSubtractingRaiseToPowerExpressionsThatCannotBeAdded)
+TEST(ExpressionTest, SimplifyWorksOnAddingAndSubtractingNonSortedRaiseToPowerExpressions)
 {
     Expression expression(
                 createExpressionIfPossible(
                     Terms{
-                        Term(10), Term("*"), Term("y"), Term("^"), Term("y"),
-                        Term("+"), Term("x"), Term("*"), Term("y"), Term("^"), Term("y"),
-                        Term("-"), Term(8), Term("*"), Term("y"), Term("^"), Term("y"),
-                        Term("-"), Term(6), Term("*"), Term("x"), Term("*"), Term("y"), Term("^"), Term("y"),
+                        Term(100), Term("*"), Term("y"), Term("^"), Term("y"), Term("*"), Term("x"), Term("^"), Term("x"),
+                        Term("-"), Term(10), Term("*"), Term("x"), Term("^"), Term("x"), Term("*"), Term("y"), Term("^"), Term("y")
                     }));
 
     expression.simplify();
 
+    Expression subExpression1(createExpressionIfPossible(Terms{Term("x"), Term("^"), Term("x")}));
+    Expression subExpression2(createExpressionIfPossible(Terms{Term("y"), Term("^"), Term("y")}));
+    Expression subExpression3(createExpressionIfPossible(Terms{Term(subExpression1), Term("*"), Term(subExpression2)}));
+    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(90), Term("*"), Term(subExpression3)}));
+    ALBA_PRINT1(expressionToExpect.getDebugString());
+    ALBA_PRINT1(expression.getDebugString());
+    EXPECT_EQ(expressionToExpect, expression);
+}
+
+TEST(ExpressionTest, SimplifyWorksOnAddingAndSubtractingRaiseToPowerExpressionsThatCannotBeAdded)
+{
+    Expression expression(                createExpressionIfPossible(
+                    Terms{
+                        Term(10), Term("*"), Term("y"), Term("^"), Term("y"),
+                        Term("+"), Term("x"), Term("*"), Term("y"), Term("^"), Term("y"),
+                        Term("-"), Term(8), Term("*"), Term("y"), Term("^"), Term("y"),
+                        Term("-"), Term(6), Term("*"), Term("x"), Term("*"), Term("y"), Term("^"), Term("y")
+                    }));
+
+    expression.simplify();
     Expression subExpression1(createExpressionIfPossible(Terms{Term("y"), Term("^"), Term("y")}));
     Expression subExpression2(createExpressionIfPossible(Terms{Term(2), Term("*"), Term(subExpression1)}));
-    Expression subExpression3(createExpressionIfPossible(Terms{Term(Monomial(-5, {{"x", 1}})), Term("*"), Term(subExpression1)}));
-    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(subExpression2), Term("+"), Term(subExpression3)}));
+    Expression subExpression3(createExpressionIfPossible(Terms{Term(Monomial(-5, {{"x", 1}})), Term("*"), Term(subExpression1)}));    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(subExpression2), Term("+"), Term(subExpression3)}));
     EXPECT_EQ(expressionToExpect, expression);
 }
 
@@ -370,16 +385,40 @@ TEST(ExpressionTest, SimplifyWorksOnMultiplyingAndDividingConstants)
     EXPECT_EQ(expressionToExpect, expression);
 }
 
-TEST(ExpressionTest, SaveTermWorks)
+TEST(ExpressionTest, SortWorks)
+{
+    Expression expression(
+                createExpressionIfPossible(
+                    Terms{
+                        Term("-"), Term(2),
+                        Term("-"), Term(3),
+                        Term("+"), Term(4),
+                        Term("+"), Term(5),
+                        Term("-"), Term(Polynomial{Monomial(100, {}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(10, {})})
+                    }));
+
+    expression.sort();
+
+    Expression expressionToExpect(
+                createExpressionIfPossible(
+                    Terms{
+                        Term("+"), Term(4),
+                        Term("+"), Term(5),
+                        Term("-"), Term(2),
+                        Term("-"), Term(3),
+                        Term("-"), Term(Polynomial{Monomial(10, {}), Monomial(100, {}), Monomial(9, {{"x", 8}}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}})})
+                    }));
+    EXPECT_EQ(expressionToExpect, expression);
+}
+
+TEST(ExpressionTest, SetTermWorks)
 {
     Expression expression1(createExpressionIfPossible(Terms{Term(695), Term("*"), Term("interest")}));
     Expression expression2(createExpressionIfPossible(Terms{Term(695), Term("*"), Term("interest")}));
     Expression expression3(createExpressionIfPossible(Terms{Term(695), Term("*"), Term("interest")}));
-
     expression1.setTerm(Term());
     expression2.setTerm(Term(87));
     expression3.setTerm(Term(createExpressionIfPossible(Terms{Term(78), Term("+"), Term("energy")})));
-
     Expression expressionToExpect1(createExpressionIfPossible(Terms{Term()}));
     Expression expressionToExpect2(createExpressionIfPossible(Terms{Term(87)}));
     Expression expressionToExpect3(createExpressionIfPossible(Terms{Term(78), Term("+"), Term("energy")}));

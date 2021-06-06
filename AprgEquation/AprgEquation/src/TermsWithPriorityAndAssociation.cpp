@@ -3,14 +3,14 @@
 #include <Term.hpp>
 #include <Utilities.hpp>
 
+#include <algorithm>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
-
 TermsWithPriorityAndAssociation::TermWithDetails::TermWithDetails(
         BaseTerm const& baseTerm,
         TermsWithPriorityAndAssociation::AssociationType const associationParameter)
@@ -149,15 +149,23 @@ void TermsWithPriorityAndAssociation::clear()
     m_termsWithDetails.clear();
 }
 
+void TermsWithPriorityAndAssociation::sort()
+{
+    for(TermWithDetails & termWithDetails : m_termsWithDetails)
+    {
+        Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        term.sort();
+    }
+    stable_sort(m_termsWithDetails.begin(), m_termsWithDetails.end());
+}
+
 void TermsWithPriorityAndAssociation::putTermWithDetails(TermWithDetails const& termWithDetails)
 {
-    m_termsWithDetails.emplace_back(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);
-}
+    m_termsWithDetails.emplace_back(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);}
 
 void TermsWithPriorityAndAssociation::putTermWithPositiveAssociation(BaseTerm const& baseTerm)
 {
-    m_termsWithDetails.emplace_back(baseTerm, AssociationType::Positive);
-}
+    m_termsWithDetails.emplace_back(baseTerm, AssociationType::Positive);}
 
 void TermsWithPriorityAndAssociation::putTermWithNegativeAssociation(BaseTerm const& baseTerm)
 {

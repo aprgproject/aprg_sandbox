@@ -39,14 +39,12 @@ public:
     std::string getDebugString() const;
 
     void simplify();
-    void simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify);
+    void sort();
 
     void addTerm(BaseTerm const& baseTerm);
-    void subtractTerm(BaseTerm const& baseTerm);
-    void multiplyTerm(BaseTerm const& baseTerm);
+    void subtractTerm(BaseTerm const& baseTerm);    void multiplyTerm(BaseTerm const& baseTerm);
     void divideTerm(BaseTerm const& baseTerm);
     void raiseToPowerTerm(BaseTerm const& baseTerm);
-
     void set(OperatorLevel const operatorLevel, TermsWithPriorityAndAssociation termsWithPriorityAndAssociation);
     void setTerm(BaseTerm const& baseTerm);
     void setCommonOperatorLevel(OperatorLevel const operatorLevel);
@@ -54,14 +52,13 @@ public:
     void clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm);
 
 private:
+    void simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify);
     void simplifyAndCopyTerms(
             TermsWithPriorityAndAssociation::TermsWithDetails & termsToUpdate,
-            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSegregate);
-    void simplifyAndCopyTermsFromAnExpression(
+            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSegregate);    void simplifyAndCopyTermsFromAnExpression(
             TermsWithPriorityAndAssociation::TermsWithDetails & termsToUpdate,
             Expression const& expression,
-            TermsWithPriorityAndAssociation::AssociationType const association);
-    void processTermsBaseOnOperatorLevel(
+            TermsWithPriorityAndAssociation::AssociationType const association);    void processTermsBaseOnOperatorLevel(
             TermsWithPriorityAndAssociation::TermsWithDetails const& termsToProcess);
     void processAndSaveTermsForAdditionAndSubtraction(
             TermsWithPriorityAndAssociation::TermsWithDetails const& termsToProcess);
@@ -73,14 +70,16 @@ private:
             TermsWithPriorityAndAssociation::TermsWithDetails & termsWithNonExpressions,
             TermsWithPriorityAndAssociation::TermsWithDetails & termsWithExpressions,
             TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSegregate);
+    void segregateNumeratorAndDenominatorForMultiplicationAndDivision(
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsForNumerator,
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsForDenominator,
+            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSegregate);
     void accumulateTermsForAdditionAndSubtraction(
             BaseTerm & combinedBaseTerm,
-            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine);
-    void accumulateTermsForMultiplicationAndDivision(
+            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine);    void accumulateTermsForMultiplicationAndDivision(
             BaseTerm & combinedBaseTerm,
             TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine);
-    void accumulateTermsForRaiseToPower(
-            BaseTerm & combinedBaseTerm,
+    void accumulateTermsForRaiseToPower(            BaseTerm & combinedBaseTerm,
             TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine);
     void putCombinedTerm(BaseTerm const& combinedBaseTerm);
     void putTermsWithDetails(TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSave);

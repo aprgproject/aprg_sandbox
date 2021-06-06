@@ -30,13 +30,12 @@ public:
     std::string getDisplayableString() const;
 
     void simplify();
+    void sort();
     void addMonomial(Monomial const& monomial);
     void addPolynomial(Polynomial const& polynomial);
-    void multiplyNumber(AlbaNumber const& number);
-    void multiplyMonomial(Monomial const& monomial);
+    void multiplyNumber(AlbaNumber const& number);    void multiplyMonomial(Monomial const& monomial);
     void multiplyPolynomial(Polynomial const& polynomial);
     void divideMonomial(Monomial const& monomial);
-
 private:
     Monomials m_monomials;
 };

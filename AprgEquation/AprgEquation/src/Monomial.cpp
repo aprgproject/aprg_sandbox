@@ -69,21 +69,28 @@ bool Monomial::operator!=(Monomial const& second) const
 bool Monomial::operator<(Monomial const& second) const
 {
     bool result(false);
-    if(m_constant == second.m_constant)
-    {
-        result = m_variablesToExponentsMap < second.m_variablesToExponentsMap;
-    }
-    else
+    if(m_variablesToExponentsMap == second.m_variablesToExponentsMap)
     {
         result = m_constant < second.m_constant;
     }
+    else
+    {
+        AlbaNumber degree1(getDegree());
+        AlbaNumber degree2(second.getDegree());
+        if(degree1 == degree2)
+        {
+            result = m_variablesToExponentsMap < second.m_variablesToExponentsMap;
+        }
+        else
+        {
+            result = degree1 < degree2;
+        }
+    }
     return result;
 }
-
 bool Monomial::isOne() const
 {
-    return m_constant == 1 && isConstantOnly();
-}
+    return m_constant == 1 && isConstantOnly();}
 
 bool Monomial::isZero() const
 {
@@ -122,14 +129,22 @@ Monomial::VariablesToExponentsMap const& Monomial::getVariablesToExponentsMapCon
     return m_variablesToExponentsMap;
 }
 
+AlbaNumber Monomial::getDegree() const
+{
+    AlbaNumber degree;
+    for(VariableExponentPair const& variableExponentPair : m_variablesToExponentsMap)
+    {
+        degree = degree+variableExponentPair.second;
+    }
+    return degree;
+}
+
 string Monomial::getDisplayableString() const
 {
-    stringstream result;
-    result << m_constant.getDisplayableString();
+    stringstream result;    result << m_constant.getDisplayableString();
     for(VariableExponentPair const& variableExponentsPair : m_variablesToExponentsMap)
     {
-        result << "|"
-               << variableExponentsPair.first
+        result << "|"               << variableExponentsPair.first
                << "^"
                << variableExponentsPair.second.getDisplayableString()
                << "|";
