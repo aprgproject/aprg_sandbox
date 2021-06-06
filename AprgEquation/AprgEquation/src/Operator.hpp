@@ -32,7 +32,8 @@ public:
 
     void setOperatorString(std::string const& operatingString);
 
-private:    std::string m_operatingString;
+private:
+    std::string m_operatingString;
 };
 
 }

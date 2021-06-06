@@ -116,6 +116,7 @@ Term operator+(Constant const& constant, Expression const& expression)
     newExpression.addTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
+
 Term operator+(Variable const& variable, Constant const& constant)
 {
     return convertPolynomialToSimplestTerm(

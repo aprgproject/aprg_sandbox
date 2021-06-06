@@ -5,13 +5,9 @@
 
 #include <algorithm>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
@@ -22,6 +18,7 @@ TermsWithPriorityAndAssociation::TermWithDetails::TermWithDetails(
     : baseTermSharedPointer(copyAndCreateNewTermAndReturnSharedPointer(getTermConstReferenceFromBaseTerm(baseTerm)))
     , association(associationParameter)
 {}
+
 TermsWithPriorityAndAssociation::TermWithDetails::TermWithDetails(TermWithDetails const& termWithDetails)
     : baseTermSharedPointer(createNewTermAndReturnSharedPointer(termWithDetails.baseTermSharedPointer))
     , association(termWithDetails.association)
@@ -29,11 +26,10 @@ TermsWithPriorityAndAssociation::TermWithDetails::TermWithDetails(TermWithDetail
 
 bool TermsWithPriorityAndAssociation::TermWithDetails::operator==(TermWithDetails const& second) const
 {
-    Term const& term1 = *dynamic_cast<Term const*const>(baseTermSharedPointer.get());
-    Term const& term2 = *dynamic_cast<Term const*const>(second.baseTermSharedPointer.get());
+    Term const& term1(getTermConstReferenceFromBaseTerm(getBaseTermConstReferenceFromSharedPointer(baseTermSharedPointer)));
+    Term const& term2(getTermConstReferenceFromBaseTerm(getBaseTermConstReferenceFromSharedPointer(second.baseTermSharedPointer)));
     return term1 == term2 && association == second.association;
 }
-
 bool TermsWithPriorityAndAssociation::TermWithDetails::hasPositiveAssociation() const
 {
     return AssociationType::Positive == association;
@@ -70,14 +66,13 @@ bool TermsWithPriorityAndAssociation::operator==(TermsWithPriorityAndAssociation
     TermsWithDetails const& terms1(m_termsWithDetails);
     TermsWithDetails const& terms2(second.m_termsWithDetails);
     bool result(false);
-    ALBA_PRINT2(terms1.size(), terms2.size());
     if(terms1.size() == terms2.size())
     {
-        using TermsWithDetailsIterator=TermsWithDetails::const_iterator;
-        using MismatchResultType=pair<TermsWithDetailsIterator, TermsWithDetailsIterator>;
+        using TermsWithDetailsIterator=TermsWithDetails::const_iterator;        using MismatchResultType=pair<TermsWithDetailsIterator, TermsWithDetailsIterator>;
         MismatchResultType mismatchResult = mismatch(terms1.cbegin(), terms1.end(), terms2.cbegin());
         result = mismatchResult.first == terms1.cend();
-    }    return result;
+    }
+    return result;
 }
 
 unsigned int TermsWithPriorityAndAssociation::getSize() const
@@ -90,7 +85,8 @@ BaseTerm const& TermsWithPriorityAndAssociation::getFirstTermConstReference() co
     return getBaseTermConstReferenceFromSharedPointer(m_termsWithDetails.front().baseTermSharedPointer);
 }
 
-TermsWithPriorityAndAssociation::TermsWithDetails const& TermsWithPriorityAndAssociation::getTermsWithDetails() const{
+TermsWithPriorityAndAssociation::TermsWithDetails const& TermsWithPriorityAndAssociation::getTermsWithDetails() const
+{
     return m_termsWithDetails;
 }
 
@@ -114,7 +110,8 @@ void TermsWithPriorityAndAssociation::putTermWithNegativeAssociation(BaseTerm co
     m_termsWithDetails.emplace_back(baseTerm, AssociationType::Negative);
 }
 
-void TermsWithPriorityAndAssociation::reverseTheAssociationOfTheTerms(){
+void TermsWithPriorityAndAssociation::reverseTheAssociationOfTheTerms()
+{
     for(TermWithDetails & termWithDetails : m_termsWithDetails)
     {
         if(termWithDetails.hasPositiveAssociation())

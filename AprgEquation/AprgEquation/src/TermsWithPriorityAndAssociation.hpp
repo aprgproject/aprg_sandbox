@@ -24,7 +24,8 @@ public:
         TermWithDetails(BaseTerm const& baseTerm, AssociationType const associationParameter);
         TermWithDetails(TermWithDetails const& termWithDetails);
         bool operator==(TermWithDetails const& second) const;
-        bool hasPositiveAssociation() const;        bool hasNegativeAssociation() const;
+        bool hasPositiveAssociation() const;
+        bool hasNegativeAssociation() const;
         unsigned int getAssociationPriority() const;
         BaseTermSharedPointer baseTermSharedPointer;
         AssociationType association;
@@ -52,4 +53,5 @@ private:
 };
 
 }
+
 }

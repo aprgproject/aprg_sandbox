@@ -12,6 +12,7 @@ namespace alba
 
 namespace equation
 {
+
 TEST(PerformOperationTest, PerformOperationUnaryOperationWorks)
 {
     Term termToVerify1(performOperation(Operator("+"), Term(215)));
@@ -20,6 +21,7 @@ TEST(PerformOperationTest, PerformOperationUnaryOperationWorks)
     EXPECT_EQ(Term(215), termToVerify1);
     EXPECT_EQ(Term(-215), termToVerify2);
 }
+
 TEST(PerformOperationTest, PerformOperationBinaryOperationWorks)
 {
     Term termToVerify1(performOperation(Operator("+"), Term(25), Term(2)));
@@ -27,6 +29,7 @@ TEST(PerformOperationTest, PerformOperationBinaryOperationWorks)
     Term termToVerify3(performOperation(Operator("*"), Term(25), Term(2)));
     Term termToVerify4(performOperation(Operator("/"), Term(25), Term(2)));
     Term termToVerify5(performOperation(Operator("^"), Term(25), Term(2)));
+
     EXPECT_EQ(Term(27), termToVerify1);
     EXPECT_EQ(Term(23), termToVerify2);
     EXPECT_EQ(Term(50), termToVerify3);
@@ -43,6 +46,7 @@ TEST(PerformOperationTest, AccumulateAndDoOperationOnTermDetailsWorks)
 
     accumulateAndDoOperationOnTermDetails(newTerm1, OperatorLevel::AdditionAndSubtraction, termWithDetails1);
     accumulateAndDoOperationOnTermDetails(newTerm2, OperatorLevel::AdditionAndSubtraction, termWithDetails2);
+
     EXPECT_EQ(Term(70), newTerm1);
     EXPECT_EQ(Term(20), newTerm2);
 }

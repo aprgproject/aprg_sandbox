@@ -1,9 +1,9 @@
 #include "PerformOperation.hpp"
 
 #include <TermOperators.hpp>
+#include <Utilities.hpp>
 
 using namespace std;
-
 namespace alba
 {
 
@@ -196,10 +196,11 @@ void accumulateAndDoOperationOnTermDetails(
         OperatorLevel const operatorLevel,
         TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails)
 {
-    Term const& term = *dynamic_cast<Term const*const>(termWithDetails.baseTermSharedPointer.get());
+    BaseTerm const& baseTerm(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
     switch(operatorLevel)
-    {    case OperatorLevel::AdditionAndSubtraction:
     {
+    case OperatorLevel::AdditionAndSubtraction:    {
         if(termWithDetails.hasPositiveAssociation())
         {
             partialResultTerm = performAddition(partialResultTerm, term);

@@ -7,7 +7,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -58,7 +59,8 @@ unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel)
     {
     case OperatorLevel::Unknown:
         result=0;
-        break;    case OperatorLevel::AdditionAndSubtraction:
+        break;
+    case OperatorLevel::AdditionAndSubtraction:
         result=3;
         break;
     case OperatorLevel::MultiplicationAndDivision:
@@ -72,7 +74,8 @@ unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel)
 }
 
 unsigned int getTermPriorityValue(Term const& term)
-{    unsigned int result(0);
+{
+    unsigned int result(0);
     if(term.isExpression())
     {
         result=1;
@@ -145,22 +148,30 @@ Monomial createMonomialConstant(AlbaNumber const& number)
 }
 
 Monomial createMonomialVariable(string const& variableName)
-{    return Monomial(1, {{variableName, 1}});
+{
+    return Monomial(1, {{variableName, 1}});
 }
 
 Expression createExpressionFromTerm(Term const& term)
 {
     Expression result;
+    result=Expression(getBaseTermConstReferenceFromTerm(term));
+    return result;
+}
+
+Expression createExpressionFromTermAndSimplifyIfNeeded(Term const& term)
+{
+    Expression result;
     if(term.isExpression())
     {
-        result=term.getExpressionConstReference();
-    }
+        result=term.getExpressionConstReference();    }
     else
     {
         result=Expression(getBaseTermConstReferenceFromTerm(term));
     }
     return result;
 }
+
 Expression createExpressionIfPossible(Terms const& terms)
 {
     Expression result;
@@ -169,11 +180,10 @@ Expression createExpressionIfPossible(Terms const& terms)
     Terms const& builtTerms(aggregator.getTermsConstReference());
     if(builtTerms.size() == 1)
     {
-        result = createExpressionFromTerm(builtTerms.at(0));
+        result = createExpressionFromTermAndSimplifyIfNeeded(builtTerms.at(0));
     }
     return result;
 }
-
 Expression createSimplifiedExpressionIfPossible(Terms const& terms)
 {
     Expression result;
@@ -182,22 +192,25 @@ Expression createSimplifiedExpressionIfPossible(Terms const& terms)
     Terms const& simplifiedTerms(aggregator.getTermsConstReference());
     if(simplifiedTerms.size() == 1)
     {
-        result = createExpressionFromTerm(simplifiedTerms.at(0));
+        result = createExpressionFromTermAndSimplifyIfNeeded(simplifiedTerms.at(0));
     }
     return result;
 }
-
 Term convertExpressionToSimplestTerm(Expression const& expression)
 {
     Expression newExpression(expression);
     newExpression.simplify();
     Term newTerm(newExpression);
-    if(newExpression.containsOnlyOneTerm())
+    if(newExpression.containsNoTerms())
+    {
+        newTerm = Term();
+    }
+    else if(newExpression.containsOnlyOneTerm())
     {
         Term const& term = dynamic_cast<Term const&>(newExpression.getFirstTermConstReference());
         newTerm = term;
-    }
-    return newTerm;}
+    }    return newTerm;
+}
 
 Term convertPolynomialToSimplestTerm(Polynomial const& polynomial)
 {
@@ -271,19 +284,29 @@ BaseTermSharedPointer getSharedPointerFromTermReference(Term & term)
 {
     return move(BaseTermSharedPointer(dynamic_cast<BaseTerm*>(&term)));
 }
-BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term)
-{
-    return dynamic_cast<BaseTerm const&>(term);
-}
 
 BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
 {
     return dynamic_cast<BaseTerm const&>(*sharedPointer.get());
 }
 
-Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm)
+BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term)
 {
+    return dynamic_cast<BaseTerm const&>(term);
+}
+
+Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm){
     return dynamic_cast<Term const&>(baseTerm);
+}
+
+BaseTerm & getBaseTermReferenceFromTerm(Term & term)
+{
+    return dynamic_cast<BaseTerm &>(term);
+}
+
+Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm)
+{
+    return dynamic_cast<Term &>(baseTerm);
 }
 
 }

@@ -3,16 +3,13 @@
 #include <PerformOperation.hpp>
 #include <Utilities.hpp>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
+
 TermsAggregator::TermsAggregator(Terms const& terms)
     : m_terms(terms)
 {}
@@ -29,24 +26,20 @@ void TermsAggregator::buildExpressionFromTerms()
     {
         AlbaOptional<unsigned int> nextOperatorIndexOptional(getNextOperatorIndexToPerform());
         continueToSimplify = nextOperatorIndexOptional.hasContent();
-        //ALBA_PRINT1(continueToSimplify);
         if(nextOperatorIndexOptional.hasContent())
         {
             unsigned int nextOperatorIndex = nextOperatorIndexOptional.get();
-            //ALBA_PRINT3(m_terms.at(nextOperatorIndex).getDisplayableString(), continueToSimplify, nextOperatorIndex);
             continueToSimplify = buildExpressionWithBinaryOperationAndReturnIfBuilt(nextOperatorIndex);
-            //ALBA_PRINT3("daan1", continueToSimplify, nextOperatorIndex);
             if(!continueToSimplify)
             {
                 continueToSimplify = buildExpressionWithUnaryOperationAndReturnIfBuilt(nextOperatorIndex);
-                //ALBA_PRINT3("daan2", continueToSimplify, nextOperatorIndex);
             }
         }
-    }
-}
+    }}
 
 void TermsAggregator::simplifyTerms()
-{    bool continueToSimplify(true);
+{
+    bool continueToSimplify(true);
     while(continueToSimplify)
     {
         AlbaOptional<unsigned int> nextOperatorIndexOptional(getNextOperatorIndexToPerform());
@@ -84,7 +77,8 @@ AlbaOptional<unsigned int> TermsAggregator::getNextOperatorIndexToPerform() cons
 }
 
 bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigned int const index)
-{    bool isSimplified(false);
+{
+    bool isSimplified(false);
     if(index>0 && index+1 < m_terms.size())
     {
         Term const& term1(m_terms[index-1]);
@@ -92,11 +86,10 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
         Term const& term3(m_terms[index+1]);
         if(term1.isValueTerm() && term2.isOperator() && term3.isValueTerm())
         {
-            Expression newExpression(createExpressionFromTerm(term1));
+            Expression newExpression(createExpressionFromTermAndSimplifyIfNeeded(term1));
             Operator const& operatorTerm(term2.getOperatorConstReference());
             if(operatorTerm.isAddition())
-            {
-                newExpression.addTerm(getBaseTermConstReferenceFromTerm(term3));
+            {                newExpression.addTerm(getBaseTermConstReferenceFromTerm(term3));
             }
             else if(operatorTerm.isSubtraction())
             {
@@ -115,7 +108,8 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
                 newExpression.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(term3));
             }
             Term newTerm(newExpression);
-            eraseTermsInclusive(index-1, index+1);            insertTerm(index-1, newTerm);
+            eraseTermsInclusive(index-1, index+1);
+            insertTerm(index-1, newTerm);
             isSimplified=true;
         }
     }
@@ -143,7 +137,8 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
                 newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(term2));
             }
             Term newTerm(newExpression);
-            eraseTermsInclusive(index, index+1);            insertTerm(index, newTerm);
+            eraseTermsInclusive(index, index+1);
+            insertTerm(index, newTerm);
             isSimplified=true;
         }
     }

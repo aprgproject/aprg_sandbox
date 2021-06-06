@@ -153,7 +153,8 @@ TEST(OperatorTest, GetOperatorStringValueAsExpected)
     Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
-    Operator divideOperator("/");    Operator raiseToPowerOperator("^");
+    Operator divideOperator("/");
+    Operator raiseToPowerOperator("^");
     Operator invalidOperator("invalid");
 
     EXPECT_TRUE(nullOperator.getOperatorString().empty());

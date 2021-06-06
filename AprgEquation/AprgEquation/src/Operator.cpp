@@ -71,7 +71,8 @@ string Operator::getOperatorString() const
 }
 
 string Operator::getDisplayableString() const
-{    return m_operatingString;
+{
+    return m_operatingString;
 }
 
 void Operator::setOperatorString(string const& operatingString)
