@@ -3,10 +3,12 @@
 #include <PerformOperation.hpp>
 #include <Utilities.hpp>
 
+
+#include <Debug/AlbaDebug.hpp>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
@@ -27,17 +29,20 @@ void TermsAggregator::buildExpressionFromTerms()
     {
         AlbaOptional<unsigned int> nextOperatorIndexOptional(getNextOperatorIndexToPerform());
         continueToSimplify = nextOperatorIndexOptional.hasContent();
+        //ALBA_PRINT1(continueToSimplify);
         if(nextOperatorIndexOptional.hasContent())
         {
             unsigned int nextOperatorIndex = nextOperatorIndexOptional.get();
+            //ALBA_PRINT3(m_terms.at(nextOperatorIndex).getDisplayableString(), continueToSimplify, nextOperatorIndex);
             continueToSimplify = buildExpressionWithBinaryOperationAndReturnIfBuilt(nextOperatorIndex);
+            //ALBA_PRINT3("daan1", continueToSimplify, nextOperatorIndex);
             if(!continueToSimplify)
             {
                 continueToSimplify = buildExpressionWithUnaryOperationAndReturnIfBuilt(nextOperatorIndex);
+                //ALBA_PRINT3("daan2", continueToSimplify, nextOperatorIndex);
             }
         }
-    }
-}
+    }}
 
 void TermsAggregator::simplifyTerms()
 {
@@ -67,16 +72,15 @@ AlbaOptional<unsigned int> TermsAggregator::getNextOperatorIndexToPerform() cons
         Term const& term(m_terms[i]);
         if(term.isOperator())
         {
-            operatorLevelToIndexMap.emplace(term.getOperatorConstReference().getOperatorLevelValue(), i);
+            operatorLevelToIndexMap.emplace(getOperatorLevelInversePriority(term.getOperatorConstReference().getOperatorLevel()), i);
         }
     }
     if(!operatorLevelToIndexMap.empty())
     {
-        pair<unsigned int, unsigned int> operatorLevelToIndexPair(*operatorLevelToIndexMap.rbegin());
+        pair<unsigned int, unsigned int> operatorLevelToIndexPair(*operatorLevelToIndexMap.begin());
         operatorIndexOptional.setValue(operatorLevelToIndexPair.second);
     }
-    return operatorIndexOptional;
-}
+    return operatorIndexOptional;}
 
 bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigned int const index)
 {
@@ -111,7 +115,8 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
                 newExpression.raiseToPowerTerm(copyAndCreateNewTermAndReturnSharedPointer(term3));
             }
             Term newTerm(newExpression);
-            eraseTermsInclusive(index-1, index+1);            insertTerm(index-1, newTerm);
+            eraseTermsInclusive(index-1, index+1);
+            insertTerm(index-1, newTerm);
             isSimplified=true;
         }
     }
@@ -139,7 +144,8 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
                 newExpression.subtractTerm(copyAndCreateNewTermAndReturnSharedPointer(term2));
             }
             Term newTerm(newExpression);
-            eraseTermsInclusive(index, index+1);            insertTerm(index, newTerm);
+            eraseTermsInclusive(index, index+1);
+            insertTerm(index, newTerm);
             isSimplified=true;
         }
     }

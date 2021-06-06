@@ -15,6 +15,13 @@ TEST(BaseTermTest, ConstructionWorks)
     BaseTerm();
 }
 
+TEST(BaseTermTest, GetDisplayableStringWorks)
+{
+    BaseTerm baseTerm;
+
+    EXPECT_EQ("[BaseTerm]", baseTerm.getDisplayableString());
+}
+
 }
 
 }

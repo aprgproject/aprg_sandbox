@@ -65,15 +65,9 @@ OperatorLevel Operator::getOperatorLevel() const
     return result;
 }
 
-unsigned int Operator::getOperatorLevelValue() const
-{
-    return equation::getOperatorLevelValue(getOperatorLevel());
-}
-
 string Operator::getOperatorString() const
 {
-    return m_operatingString;
-}
+    return m_operatingString;}
 
 string Operator::getDisplayableString() const
 {

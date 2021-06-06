@@ -53,11 +53,10 @@ public:
     Monomial const& getMonomialConstReference() const;
     Polynomial const& getPolynomialConstReference() const;
     Expression const& getExpressionConstReference() const;
-    std::string getDisplayableString() const;
+    std::string getDisplayableString() const override;
 
     Constant & getConstantReference();
-    Variable & getVariableReference();
-    Operator & getOperatorReference();
+    Variable & getVariableReference();    Operator & getOperatorReference();
     Monomial & getMonomialReference();
     Polynomial & getPolynomialReference();
     Expression & getExpressionReference();

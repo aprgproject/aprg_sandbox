@@ -1,9 +1,9 @@
 #include "Utilities.hpp"
 
 #include <TermsAggregator.hpp>
+#include <TermsWithPriorityAndAssociation.hpp>
 
 #include <algorithm>
-
 using namespace std;
 
 namespace alba
@@ -51,26 +51,24 @@ bool canBeAddedOrSubtracted(Monomial const& monomial, Variable const& variable)
     return result;
 }
 
-unsigned int getOperatorLevelValue(OperatorLevel const operatorLevel)
+unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel)
 {
     unsigned int result(0);
-    switch(operatorLevel)
-    {
+    switch(operatorLevel)    {
     case OperatorLevel::Unknown:
         result=0;
         break;
     case OperatorLevel::AdditionAndSubtraction:
-        result=1;
+        result=3;
         break;
     case OperatorLevel::MultiplicationAndDivision:
         result=2;
         break;
     case OperatorLevel::RaiseToPower:
-        result=3;
+        result=1;
         break;
     }
-    return result;
-}
+    return result;}
 
 unsigned int getTermPriorityValue(Term const& term)
 {
@@ -102,10 +100,48 @@ unsigned int getTermPriorityValue(Term const& term)
     return result;
 }
 
+string getOperatingString(
+        TermsWithPriorityAndAssociation::AssociationType const association,
+        OperatorLevel const operatorLevel)
+{
+    string result;
+    if(TermsWithPriorityAndAssociation::AssociationType::Positive == association)
+    {
+        switch(operatorLevel)
+        {
+        case OperatorLevel::AdditionAndSubtraction:
+            result = "+";
+            break;
+        case OperatorLevel::MultiplicationAndDivision:
+            result = "*";
+            break;
+        case OperatorLevel::RaiseToPower:
+            result = "^";
+            break;
+        default:
+            break;
+        }
+    }
+    else if(TermsWithPriorityAndAssociation::AssociationType::Negative == association)
+    {
+        switch(operatorLevel)
+        {
+        case OperatorLevel::AdditionAndSubtraction:
+            result = "-";
+            break;
+        case OperatorLevel::MultiplicationAndDivision:
+            result = "/";
+            break;
+        default:
+            break;
+        }
+    }
+    return result;
+}
+
 Monomial createMonomialConstant(AlbaNumber const& number)
 {
-    return Monomial(number, {});
-}
+    return Monomial(number, {});}
 
 Monomial createMonomialVariable(string const& variableName)
 {
@@ -154,7 +190,8 @@ Expression createSimplifiedExpressionIfPossible(Terms const& terms)
 
 Term convertExpressionToSimplestTerm(Expression const& expression)
 {
-    Expression newExpression(expression);    newExpression.simplify();
+    Expression newExpression(expression);
+    newExpression.simplify();
     Term newTerm(newExpression);
     if(newExpression.containsOnlyOneTerm())
     {
@@ -229,13 +266,23 @@ Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer)
 
 Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
 {
-    return *dynamic_cast<Term*>(sharedPointer.get());
+    return *dynamic_cast<Term const*const>(sharedPointer.get());
 }
 
-BaseTermSharedPointer getSharedPointerFromTermReference(Term & term)
-{
+BaseTermSharedPointer getSharedPointerFromTermReference(Term & term){
     return move(BaseTermSharedPointer(dynamic_cast<BaseTerm*>(&term)));
 }
 
+BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term)
+{
+    return dynamic_cast<BaseTerm const&>(term);
 }
+
+Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& term)
+{
+    return dynamic_cast<Term const&>(term);
+}
+
+}
+
 }

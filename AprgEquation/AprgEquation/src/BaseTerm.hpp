@@ -1,8 +1,9 @@
 #pragma once
 
+#include <string>
+
 namespace alba
 {
-
 namespace equation
 {
 
@@ -12,10 +13,11 @@ public:
     BaseTerm();
     virtual ~BaseTerm();
 
+    virtual std::string getDisplayableString() const;
+
 private:
 
 };
-
 }
 
 }

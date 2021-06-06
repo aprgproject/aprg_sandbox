@@ -147,29 +147,9 @@ TEST(OperatorTest, GetOperatorLevelAsExpected)
     EXPECT_EQ(OperatorLevel::Unknown, invalidOperator.getOperatorLevel());
 }
 
-TEST(OperatorTest, GetOperatorLevelValueAsExpected)
-{
-    Operator nullOperator;
-    Operator addOperator("+");
-    Operator subtractOperator("-");
-    Operator multiplyOperator("*");
-    Operator divideOperator("/");
-    Operator raiseToPowerOperator("^");
-    Operator invalidOperator("invalid");
-
-    EXPECT_EQ(0u, nullOperator.getOperatorLevelValue());
-    EXPECT_EQ(1u, addOperator.getOperatorLevelValue());
-    EXPECT_EQ(1u, subtractOperator.getOperatorLevelValue());
-    EXPECT_EQ(2u, multiplyOperator.getOperatorLevelValue());
-    EXPECT_EQ(2u, divideOperator.getOperatorLevelValue());
-    EXPECT_EQ(3u, raiseToPowerOperator.getOperatorLevelValue());
-    EXPECT_EQ(0u, invalidOperator.getOperatorLevelValue());
-}
-
 TEST(OperatorTest, GetOperatorStringValueAsExpected)
 {
-    Operator nullOperator;
-    Operator addOperator("+");
+    Operator nullOperator;    Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
@@ -188,7 +168,8 @@ TEST(OperatorTest, GetOperatorStringValueAsExpected)
 TEST(OperatorTest, GetDisplayableStringWorks)
 {
     Operator nullOperator;
-    Operator addOperator("+");    Operator subtractOperator("-");
+    Operator addOperator("+");
+    Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
     Operator raiseToPowerOperator("^");

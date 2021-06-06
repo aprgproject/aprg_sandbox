@@ -25,21 +25,22 @@ public:
     bool containsOnlyOneTerm() const;
 
     OperatorLevel getCommonOperatorLevel() const;
-    unsigned int getNumberOfTerms() const;
     BaseTermSharedPointer const& getFirstTermConstReference() const;
     TermsWithPriorityAndAssociation const& getTerms() const;
     std::string getDisplayableString() const;
-
     void simplify();
     void clearAndSetTerm(BaseTermSharedPointer const& sharedPointer);
     void addTerm(BaseTermSharedPointer const& sharedPointer);
-    void subtractTerm(BaseTermSharedPointer const& sharedPointer);    void multiplyTerm(BaseTermSharedPointer const& sharedPointer);
+    void subtractTerm(BaseTermSharedPointer const& sharedPointer);
+    void multiplyTerm(BaseTermSharedPointer const& sharedPointer);
     void divideTerm(BaseTermSharedPointer const& sharedPointer);
     void raiseToPowerTerm(BaseTermSharedPointer const& sharedPointer);
+    void setCommonOperatorLevel(OperatorLevel const operatorLevel);
+    void reverseTheAssociationOfTheTerms();
 
 private:
-    OperatorLevel m_commonOperatorLevel;
-    TermsWithPriorityAndAssociation m_termsWithPriorityAndAssociation;};
+    OperatorLevel m_commonOperatorLevel;    TermsWithPriorityAndAssociation m_termsWithPriorityAndAssociation;
+};
 
 }
 

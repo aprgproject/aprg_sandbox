@@ -19,7 +19,8 @@ Monomial::Monomial(AlbaNumber const& constant, initializer_list<VariableExponent
     putVariablesWithExponents(variablesWithExponents);
 }
 
-Monomial::Monomial(AlbaNumber const& constant, VariablesToExponentsMap const& variablesWithExponents)    : m_constant(constant)
+Monomial::Monomial(AlbaNumber const& constant, VariablesToExponentsMap const& variablesWithExponents)
+    : m_constant(constant)
     , m_variablesToExponentsMap(variablesWithExponents)
 {}
 
@@ -162,7 +163,8 @@ void Monomial::setConstant(AlbaNumber const& constant)
 void Monomial::putVariablesWithExponents(initializer_list<VariableExponentPair> const& variablesWithExponents)
 {
     for(VariableExponentPair const& variableExponentsPair : variablesWithExponents)
-    {        putVariableWithExponent(variableExponentsPair.first, variableExponentsPair.second);
+    {
+        putVariableWithExponent(variableExponentsPair.first, variableExponentsPair.second);
     }
 }
 

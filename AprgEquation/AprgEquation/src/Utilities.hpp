@@ -16,13 +16,16 @@ bool isOperator(std::string const& variableOrOperator);
 bool canBeAddedOrSubtracted(Monomial const& monomial1, Monomial const& monomial2);
 bool canBeAddedOrSubtracted(Monomial const& monomial, Variable const& variable);
 
-unsigned int getOperatorLevelValue(OperatorLevel const operatorLevel);
+unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
 unsigned int getTermPriorityValue(Term const& term);
+
+std::string getOperatingString(
+        TermsWithPriorityAndAssociation::AssociationType const association,
+        OperatorLevel const operatorLevel);
 
 Monomial createMonomialConstant(AlbaNumber const& number);
 Monomial createMonomialVariable(std::string const& variableName);
-Expression createExpressionIfPossible(Terms const& terms);
-Expression createExpressionFromTerm(Term const& term);
+Expression createExpressionIfPossible(Terms const& terms);Expression createExpressionFromTerm(Term const& term);
 Expression createSimplifiedExpressionIfPossible(Terms const& terms);
 
 Term convertExpressionToSimplestTerm(Expression const& expression);
@@ -34,6 +37,8 @@ BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& ter
 Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
 Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
 BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
+BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term);
+Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& term);
 
 }
 }

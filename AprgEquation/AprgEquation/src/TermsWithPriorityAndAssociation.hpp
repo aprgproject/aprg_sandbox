@@ -46,6 +46,7 @@ public:
     void putTermWithDetails(TermWithDetails const& termWithDetails);
     void putTermWithPositiveAssociation(BaseTermSharedPointer const& baseTermSharedPointer);
     void putTermWithNegativeAssociation(BaseTermSharedPointer const& baseTermSharedPointer);
+    void reverseTheAssociationOfTheTerms();
 
 private:
     TermsWithDetails m_termsWithDetails;};

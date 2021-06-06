@@ -12,7 +12,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -32,29 +33,22 @@ Expression::~Expression()
 
 bool Expression::operator==(Expression const& second) const
 {
+    ALBA_PRINT2(static_cast<int>(m_commonOperatorLevel), static_cast<int>(second.m_commonOperatorLevel));
     return m_commonOperatorLevel == second.m_commonOperatorLevel
             && m_termsWithPriorityAndAssociation==second.m_termsWithPriorityAndAssociation;
 }
-
 bool Expression::containsOnlyOneTerm() const
 {
-    return getNumberOfTerms()==1;
+    return 1 == m_termsWithPriorityAndAssociation.getSize();
 }
 
-OperatorLevel Expression::getCommonOperatorLevel() const
-{
+OperatorLevel Expression::getCommonOperatorLevel() const{
     return m_commonOperatorLevel;
-}
-
-unsigned int Expression::getNumberOfTerms() const
-{
-    return m_termsWithPriorityAndAssociation.getSize();
 }
 
 BaseTermSharedPointer const& Expression::getFirstTermConstReference() const
 {
-    return m_termsWithPriorityAndAssociation.getFirstTermConstReference();
-}
+    return m_termsWithPriorityAndAssociation.getFirstTermConstReference();}
 
 TermsWithPriorityAndAssociation const& Expression::getTerms() const
 {
@@ -63,51 +57,37 @@ TermsWithPriorityAndAssociation const& Expression::getTerms() const
 
 string Expression::getDisplayableString() const
 {
-    bool isFirst(true);    stringstream result;
+    bool isFirst(true);
+    stringstream result;
     TermsWithPriorityAndAssociation::TermsWithDetails const& termsWithDetails(m_termsWithPriorityAndAssociation.getTermsWithDetails());
+    result << "(";
     for(TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails : termsWithDetails)
     {
         Term const& term = *dynamic_cast<Term const*const>(termWithDetails.baseTermSharedPointer.get());
-        if(!isFirst)
+        if(isFirst)
         {
-            if(termWithDetails.hasPositiveAssociation())
+            if(termWithDetails.hasNegativeAssociation())
             {
-                switch(m_commonOperatorLevel)
+                if(OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel)
                 {
-                case OperatorLevel::AdditionAndSubtraction:
-                    result << "+";
-                    break;
-                case OperatorLevel::MultiplicationAndDivision:
-                    result << "*";
-                    break;
-                case OperatorLevel::RaiseToPower:
-                    result << "^";
-                    break;
-                default:
-                    break;
-                }
-            }
-            else if(termWithDetails.hasNegativeAssociation())
-            {
-                switch(m_commonOperatorLevel)
-                {
-                case OperatorLevel::AdditionAndSubtraction:
                     result << "-";
-                    break;
-                case OperatorLevel::MultiplicationAndDivision:
-                    result << "/";
-                    break;
-                default:
-                    break;
+                }
+                else if(OperatorLevel::MultiplicationAndDivision == m_commonOperatorLevel)
+                {
+                    result << "1/";
                 }
             }
+            isFirst=false;
         }
-        isFirst=false;
+        else
+        {
+            result << getOperatingString(termWithDetails.association, m_commonOperatorLevel);
+        }
         result << term.getDisplayableString();
     }
+    result << ")";
     return result.str();
 }
-
 void Expression::simplify()
 {
     TermsWithPriorityAndAssociation::TermsWithDetails onlySimplifiedExpressions;
@@ -168,7 +148,8 @@ void Expression::simplify()
     {        Term const& term = *dynamic_cast<Term const*const>(termWithDetails.baseTermSharedPointer.get());
         ALBA_PRINT2(isFirst, term.getDisplayableString());
         if((OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel &&  term.isTheValueZero()) ||
-                (OperatorLevel::MultiplicationAndDivision == m_commonOperatorLevel &&  term.isTheValueOne()) ||                (OperatorLevel::RaiseToPower == m_commonOperatorLevel &&  term.isTheValueOne()))
+                (OperatorLevel::MultiplicationAndDivision == m_commonOperatorLevel &&  term.isTheValueOne()) ||
+                (OperatorLevel::RaiseToPower == m_commonOperatorLevel &&  term.isTheValueOne()))
         {
             continue;
         }
@@ -179,18 +160,19 @@ void Expression::simplify()
         }
         else
         {
-            performBinaryOperationWithTermDetails(newTermForCombiningNonExpressions, m_commonOperatorLevel, termWithDetails);
+            accumulateAndDoOperationOnTermDetails(newTermForCombiningNonExpressions, m_commonOperatorLevel, termWithDetails);
         }
     }
-    m_termsWithPriorityAndAssociation.clear();
-    m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(copyAndCreateNewTermAndReturnSharedPointer(newTermForCombiningNonExpressions));
+    m_termsWithPriorityAndAssociation.clear();    m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(copyAndCreateNewTermAndReturnSharedPointer(newTermForCombiningNonExpressions));
     for(TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails : onlySimplifiedExpressions)
     {
         Term const& term = *dynamic_cast<Term const*const>(termWithDetails.baseTermSharedPointer.get());        ALBA_PRINT1(term.getDisplayableString());
         m_termsWithPriorityAndAssociation.putTermWithDetails(termWithDetails);
     }
 }
-void Expression::clearAndSetTerm(BaseTermSharedPointer const& sharedPointer){
+
+void Expression::clearAndSetTerm(BaseTermSharedPointer const& sharedPointer)
+{
     m_termsWithPriorityAndAssociation.clear();
     m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
     m_commonOperatorLevel = OperatorLevel::Unknown;
@@ -201,15 +183,10 @@ void Expression::addTerm(BaseTermSharedPointer const& sharedPointer)
     switch(m_commonOperatorLevel)
     {
     case OperatorLevel::Unknown:
-    {
         m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
-        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
-        break;
-    }
     case OperatorLevel::AdditionAndSubtraction:
     {
-        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
-        break;
+        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);        break;
     }
     case OperatorLevel::MultiplicationAndDivision:
     case OperatorLevel::RaiseToPower:
@@ -217,7 +194,8 @@ void Expression::addTerm(BaseTermSharedPointer const& sharedPointer)
         clearAndSetTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(Expression(*this))));
         m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
         m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
-        break;    }
+        break;
+    }
     }
 }
 
@@ -226,15 +204,10 @@ void Expression::subtractTerm(BaseTermSharedPointer const& sharedPointer)
     switch(m_commonOperatorLevel)
     {
     case OperatorLevel::Unknown:
-    {
         m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
-        m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(sharedPointer);
-        break;
-    }
     case OperatorLevel::AdditionAndSubtraction:
     {
-        m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(sharedPointer);
-        break;
+        m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(sharedPointer);        break;
     }
     case OperatorLevel::MultiplicationAndDivision:
     case OperatorLevel::RaiseToPower:
@@ -242,7 +215,8 @@ void Expression::subtractTerm(BaseTermSharedPointer const& sharedPointer)
         clearAndSetTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(Expression(*this))));
         m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
         m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(sharedPointer);
-        break;    }
+        break;
+    }
     }
 }
 
@@ -251,15 +225,10 @@ void Expression::multiplyTerm(BaseTermSharedPointer const& sharedPointer)
     switch(m_commonOperatorLevel)
     {
     case OperatorLevel::Unknown:
-    {
         m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
-        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
-        break;
-    }
     case OperatorLevel::MultiplicationAndDivision:
     {
-        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
-        break;
+        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);        break;
     }
     case OperatorLevel::AdditionAndSubtraction:
     case OperatorLevel::RaiseToPower:
@@ -267,7 +236,8 @@ void Expression::multiplyTerm(BaseTermSharedPointer const& sharedPointer)
         clearAndSetTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(Expression(*this))));
         m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
         m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
-        break;    }
+        break;
+    }
     }
 }
 
@@ -276,15 +246,10 @@ void Expression::divideTerm(BaseTermSharedPointer const& sharedPointer)
     switch(m_commonOperatorLevel)
     {
     case OperatorLevel::Unknown:
-    {
         m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
-        m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(sharedPointer);
-        break;
-    }
     case OperatorLevel::MultiplicationAndDivision:
     {
-        m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(sharedPointer);
-        break;
+        m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(sharedPointer);        break;
     }
     case OperatorLevel::AdditionAndSubtraction:
     case OperatorLevel::RaiseToPower:
@@ -292,7 +257,8 @@ void Expression::divideTerm(BaseTermSharedPointer const& sharedPointer)
         clearAndSetTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(Expression(*this))));
         m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
         m_termsWithPriorityAndAssociation.putTermWithNegativeAssociation(sharedPointer);
-        break;    }
+        break;
+    }
     }
 }
 
@@ -301,15 +267,10 @@ void Expression::raiseToPowerTerm(BaseTermSharedPointer const& sharedPointer)
     switch(m_commonOperatorLevel)
     {
     case OperatorLevel::Unknown:
-    {
         m_commonOperatorLevel = OperatorLevel::RaiseToPower;
-        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
-        break;
-    }
     case OperatorLevel::RaiseToPower:
     {
-        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
-        break;
+        m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);        break;
     }
     case OperatorLevel::AdditionAndSubtraction:
     case OperatorLevel::MultiplicationAndDivision:
@@ -317,9 +278,21 @@ void Expression::raiseToPowerTerm(BaseTermSharedPointer const& sharedPointer)
         clearAndSetTerm(copyAndCreateNewTermAndReturnSharedPointer(Term(Expression(*this))));
         m_commonOperatorLevel = OperatorLevel::RaiseToPower;
         m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(sharedPointer);
-        break;    }
+        break;
+    }
     }
 }
+
+void Expression::setCommonOperatorLevel(OperatorLevel const operatorLevel)
+{
+    m_commonOperatorLevel = operatorLevel;
+}
+
+void Expression::reverseTheAssociationOfTheTerms()
+{
+    m_termsWithPriorityAndAssociation.reverseTheAssociationOfTheTerms();
+}
+
 
 }
 

@@ -1,9 +1,7 @@
 #include <TermOperators.hpp>
-
 #include <Utilities.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
 namespace alba
@@ -579,7 +577,8 @@ TEST(TermOperatorsTest, BinaryDivideOperator_ConstantDividePolynomialOperationWo
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Constant(10),
-                           Operator("/"),                           Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}
+                           Operator("/"),
+                           Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}
                        })), term);
 }
 
@@ -625,7 +624,8 @@ TEST(TermOperatorsTest, BinaryDivideOperator_VariableDividePolynomialOperationWo
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Variable("x"),
-                           Operator("/"),                           Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}
+                           Operator("/"),
+                           Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}
                        })), term);
 }
 
@@ -678,7 +678,8 @@ TEST(TermOperatorsTest, BinaryDivideOperator_MonomialDividePolynomialOperationWo
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Monomial(8, {{"x", 2}}),
-                           Operator("/"),                           Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}
+                           Operator("/"),
+                           Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}
                        })), term);
 }
 
@@ -710,7 +711,8 @@ TEST(TermOperatorsTest, BinaryDivideOperator_PolynomialDividePolynomialOperation
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Polynomial{Monomial(2, {}), Monomial(3, {{"x", 4}})},
-                           Operator("/"),                           Polynomial{Monomial(5, {}), Monomial(6, {{"x", 7}})}
+                           Operator("/"),
+                           Polynomial{Monomial(5, {}), Monomial(6, {{"x", 7}})}
                        })), term);
 }
 
@@ -728,7 +730,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ConstantRaiseToPowerVariableO
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Constant(5),
-                           Operator("^"),                           Variable("x")
+                           Operator("^"),
+                           Variable("x")
                        })), term);
 }
 
@@ -746,7 +749,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ConstantRaiseToPowerMonomialW
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Constant(4),
-                           Operator("^"),                           Monomial(6, {{"x", 2}})
+                           Operator("^"),
+                           Monomial(6, {{"x", 2}})
                        })), term);
 }
 
@@ -757,7 +761,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ConstantRaiseToPowerPolynomia
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Constant(10),
-                           Operator("^"),                           Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}
+                           Operator("^"),
+                           Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}
                        })), term);
 }
 
@@ -775,7 +780,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_VariableRaiseToPowerVariableW
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Variable("i"),
-                           Operator("^"),                           Variable("i")
+                           Operator("^"),
+                           Variable("i")
                        })), term);
 }
 
@@ -786,7 +792,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_VariableRaiseToPowerVariableW
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Variable("i"),
-                           Operator("^"),                           Variable("j")
+                           Operator("^"),
+                           Variable("j")
                        })), term);
 }
 
@@ -797,7 +804,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_VariableRaiseToPowerMonomialW
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Variable("x"),
-                           Operator("^"),                           Monomial(7, {{"x", 1}})
+                           Operator("^"),
+                           Monomial(7, {{"x", 1}})
                        })), term);
 }
 
@@ -808,7 +816,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_VariableRaiseToPowerMonomialW
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Variable("x"),
-                           Operator("^"),                           Monomial(7, {{"y", 1}})
+                           Operator("^"),
+                           Monomial(7, {{"y", 1}})
                        })), term);
 }
 
@@ -819,7 +828,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_VariableRaiseToPowerPolynomia
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Variable("x"),
-                           Operator("^"),                           Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}
+                           Operator("^"),
+                           Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}
                        })), term);
 }
 
@@ -844,7 +854,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_MonomialRaiseToPowerVariableW
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Monomial(7, {{"x", 1}}),
-                           Operator("^"),                           Variable("x")
+                           Operator("^"),
+                           Variable("x")
                        })), term);
 }
 
@@ -855,7 +866,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_MonomialRaiseToPowerVariableW
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Monomial(7, {{"y", 1}}),
-                           Operator("^"),                           Variable("x")
+                           Operator("^"),
+                           Variable("x")
                        })), term);
 }
 
@@ -866,7 +878,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_MonomialRaiseToPowerMonomialW
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Monomial(8, {{"x", 2}}),
-                           Operator("^"),                           Monomial(4, {{"x", 2}})
+                           Operator("^"),
+                           Monomial(4, {{"x", 2}})
                        })), term);
 }
 
@@ -877,7 +890,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_MonomialRaiseToPowerMonomialW
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Monomial(8, {{"x", 2}}),
-                           Operator("^"),                           Monomial(4, {{"x", 1}, {"y", 1}})
+                           Operator("^"),
+                           Monomial(4, {{"x", 1}, {"y", 1}})
                        })), term);
 }
 
@@ -888,7 +902,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_MonomialRaiseToPowerPolynomia
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Monomial(8, {{"x", 2}}),
-                           Operator("^"),                           Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}
+                           Operator("^"),
+                           Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}
                        })), term);
 }
 
@@ -918,7 +933,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_PolynomialRaiseToPowerNegativ
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Constant(1),
-                           Operator("/"),                           Polynomial{
+                           Operator("/"),
+                           Polynomial{
                                Monomial(125, {}),
                                Monomial(75, {{"x", 1}}),
                                Monomial(15, {{"x", 2}}),
@@ -934,7 +950,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_PolynomialRaiseToPowerVariabl
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})},
-                           Operator("^"),                           Variable("x")
+                           Operator("^"),
+                           Variable("x")
                        })), term);
 }
 
@@ -945,7 +962,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_PolynomialRaiseToPowerMonomia
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})},
-                           Operator("^"),                           Monomial(8, {{"x", 2}})
+                           Operator("^"),
+                           Monomial(8, {{"x", 2}})
                        })), term);
 }
 
@@ -956,7 +974,8 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_PolynomialRaiseToPowerPolynom
     EXPECT_EQ(Term(createExpressionIfPossible(
                        Terms{
                            Polynomial{Monomial(2, {}), Monomial(3, {{"x", 4}})},
-                           Operator("^"),                           Polynomial{Monomial(5, {}), Monomial(6, {{"x", 7}})}
+                           Operator("^"),
+                           Polynomial{Monomial(5, {}), Monomial(6, {{"x", 7}})}
                        })), term);
 }
 
