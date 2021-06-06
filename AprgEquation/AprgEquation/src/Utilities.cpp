@@ -6,7 +6,8 @@
 
 #include <algorithm>
 
-using namespace std;using AssociationType=alba::equation::TermsWithPriorityAndAssociation::AssociationType;
+using namespace std;
+using AssociationType=alba::equation::TermsWithPriorityAndAssociation::AssociationType;
 using TermWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermWithDetails;
 using TermsWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermsWithDetails;
 
@@ -71,7 +72,8 @@ unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel)
     switch(operatorLevel)
     {
     case OperatorLevel::Unknown:
-        result=0;        break;
+        result=0;
+        break;
     case OperatorLevel::AdditionAndSubtraction:
         result=3;
         break;
@@ -203,7 +205,8 @@ Monomial createMonomialConstant(AlbaNumber const& number)
 }
 
 Monomial createMonomialVariable(string const& variableName)
-{    return Monomial(1, {{variableName, 1}});
+{
+    return Monomial(1, {{variableName, 1}});
 }
 
 Expression createExpressionInAnExpression(Expression const& expression)
@@ -224,7 +227,8 @@ Expression createOrCopyExpressionFromATerm(Term const& term)
         result=term.getExpressionConstReference();
     }
     else
-    {        result=Expression(getBaseTermConstReferenceFromTerm(term));
+    {
+        result=Expression(getBaseTermConstReferenceFromTerm(term));
     }
     return result;
 }
@@ -244,7 +248,8 @@ Expression createExpressionIfPossible(Terms const& terms)
 
 Expression createSimplifiedExpressionIfPossible(Terms const& terms)
 {
-    Expression result;    TermsAggregator aggregator(terms);
+    Expression result;
+    TermsAggregator aggregator(terms);
     aggregator.simplifyTerms();
     Terms const& simplifiedTerms(aggregator.getTermsConstReference());
     if(simplifiedTerms.size() == 1)
@@ -254,30 +259,36 @@ Expression createSimplifiedExpressionIfPossible(Terms const& terms)
     return result;
 }
 
+Term convertExpressionToSimplestTerm(Expression const& expression)
+{
+    Term newTerm(expression);
+    if(expression.isEmpty())
+    {
+        newTerm = Term();
+    }
+    else if(expression.containsOnlyOneTerm())
+    {
+        Term const& term = dynamic_cast<Term const&>(expression.getFirstTermConstReference());
+        newTerm = term;
+    }
+    return newTerm;
+}
+
 Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression)
 {
     Expression newExpression(expression);
     newExpression.simplify();
-    Term newTerm(newExpression);
-    if(newExpression.isEmpty())
-    {
-        newTerm = Term();
-    }
-    else if(newExpression.containsOnlyOneTerm())
-    {
-        Term const& term = dynamic_cast<Term const&>(newExpression.getFirstTermConstReference());
-        newTerm = term;    }
-    return newTerm;
+    return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial)
 {
-    Polynomial newPolynomial(polynomial);
-    newPolynomial.simplify();
+    Polynomial newPolynomial(polynomial);    newPolynomial.simplify();
     Term newTerm;
     if(newPolynomial.isZero())
     {
-        newTerm = Term(Constant(0));    }
+        newTerm = Term(Constant(0));
+    }
     else if(newPolynomial.isOneMonomial())
     {
         newTerm = simplifyAndConvertMonomialToSimplestTerm(newPolynomial.getFirstMonomial());
@@ -288,6 +299,7 @@ Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial)
     }
     return newTerm;
 }
+
 Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial)
 {
     Monomial newMonomial(monomial);
@@ -295,7 +307,8 @@ Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial)
     Term newTerm(newMonomial);
     if(newMonomial.isZero())
     {
-        newTerm = Term(Constant(0));    }
+        newTerm = Term(Constant(0));
+    }
     else if(newMonomial.isConstantOnly())
     {
         newTerm = Term(newMonomial.getConstantConstReference());

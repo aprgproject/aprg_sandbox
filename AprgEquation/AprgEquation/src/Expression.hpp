@@ -29,6 +29,7 @@ public:
     BaseTerm const& getFirstTermConstReference() const;
     TermsWithPriorityAndAssociation const& getTerms() const;
     std::string getDisplayableString() const;
+
     void simplify();
     void clearAndSetTerm(BaseTerm const& baseTerm);
     void addTerm(BaseTerm const& baseTerm);
@@ -56,25 +57,30 @@ private:
             Expression const& expression,
             TermsWithPriorityAndAssociation::AssociationType const association);
     void combineTermAndSave(
-            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine);
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsToCombine);
     void combineTermAndSaveBaseOnOperatorLevel(
             BaseTerm & combinedBaseTerm,
-            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine);
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsToCombine);
+    void processAndSaveTermsForAdditionAndSubtraction(
+            BaseTerm & combinedBaseTerm,
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsToCombine);
+    void sortTermsForAdditionAndSubtraction(
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsToCombine);
     void accumulateTermsForAdditionAndSubtraction(
             BaseTerm & combinedBaseTerm,
-            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine);
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsToCombine);
     void accumulateTermsForMultiplicationAndDivision(
             BaseTerm & combinedBaseTerm,
-            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine);
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsToCombine);
     void accumulateTermsForRaiseToPower(
             BaseTerm & combinedBaseTerm,
-            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine);
-    void savedCombineTerm(BaseTerm const& combinedBaseTerm);
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsToCombine);
+    void saveCombinedTerm(BaseTerm const& combinedBaseTerm);
     void saveTerms(TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSave);
 
-    OperatorLevel m_commonOperatorLevel;
-    TermsWithPriorityAndAssociation m_termsWithPriorityAndAssociation;
+    OperatorLevel m_commonOperatorLevel;    TermsWithPriorityAndAssociation m_termsWithPriorityAndAssociation;
 };
+
 }
 
 }

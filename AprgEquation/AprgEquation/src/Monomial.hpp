@@ -42,7 +42,8 @@ public:
 
     std::string getFirstVariableName() const;
     AlbaNumber const& getConstantConstReference() const;
-    VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;    std::string getDisplayableString() const;
+    VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;
+    std::string getDisplayableString() const;
 
     void simplify();
     void multiplyNumber(AlbaNumber const& number);

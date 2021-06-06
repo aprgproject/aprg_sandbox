@@ -5,10 +5,8 @@
 #include <Term.hpp>
 #include <Utilities.hpp>
 
+#include <algorithm>
 #include <sstream>
-
-
-#include <Debug/AlbaDebug.hpp>
 
 using namespace std;
 using AssociationType=alba::equation::TermsWithPriorityAndAssociation::AssociationType;
@@ -48,6 +46,7 @@ bool Expression::containsOnlyOneTerm() const
 {
     return 1 == m_termsWithPriorityAndAssociation.getSize();
 }
+
 OperatorLevel Expression::getCommonOperatorLevel() const
 {
     return m_commonOperatorLevel;
@@ -68,47 +67,34 @@ string Expression::getDisplayableString() const
     bool isFirst(true);
     stringstream result;
     TermsWithDetails const& termsWithDetails(m_termsWithPriorityAndAssociation.getTermsWithDetails());
-    result << "[" << getEnumShortString(m_commonOperatorLevel) << "||";
+    result << "( " << getEnumShortString(m_commonOperatorLevel) << "||";
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
-        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        if(isFirst)
+        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));        if(isFirst)
         {
             result << getFirstStringIfNegativeAssociation(m_commonOperatorLevel, termWithDetails.association);
-            isFirst=false;        }
+            isFirst=false;
+        }
         else
         {
             result << getOperatingString(m_commonOperatorLevel, termWithDetails.association);
         }
         result << getEnumShortString(termWithDetails.association) << term.getDisplayableString();
     }
-    result << "]";
+    result << " )";
     return result.str();
 }
-
 void Expression::simplify()
 {
     TermsWithDetails termsToUpdate;
-    for(TermWithDetails const& termWithDetails : termsToUpdate)
-    {
-        ALBA_PRINT3("daan1", termWithDetails.baseTermSharedPointer->getDisplayableString(), termWithDetails.hasPositiveAssociation());
-    }
     simplifyAndCopyTerms(termsToUpdate, m_termsWithPriorityAndAssociation.getTermsWithDetails());
-    for(TermWithDetails const& termWithDetails : termsToUpdate)
-    {
-        ALBA_PRINT3("daan2", termWithDetails.baseTermSharedPointer->getDisplayableString(), termWithDetails.hasPositiveAssociation());
-    }
     m_termsWithPriorityAndAssociation.clear();
     combineTermAndSave(termsToUpdate);
-    for(TermWithDetails const& termWithDetails : termsToUpdate)
-    {
-        ALBA_PRINT3("daan3", termWithDetails.baseTermSharedPointer->getDisplayableString(), termWithDetails.hasPositiveAssociation());
-    }
 }
 
-void Expression::clearAndSetTerm(BaseTerm const& baseTerm)
-{
-    m_termsWithPriorityAndAssociation.clear();    m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(baseTerm);
+void Expression::clearAndSetTerm(BaseTerm const& baseTerm){
+    m_termsWithPriorityAndAssociation.clear();
+    m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(baseTerm);
     m_commonOperatorLevel = OperatorLevel::Unknown;
 }
 
@@ -286,6 +272,7 @@ void Expression::setCommonOperatorLevel(OperatorLevel const operatorLevel)
 {
     m_commonOperatorLevel = operatorLevel;
 }
+
 void Expression::reverseTheAssociationOfTheTerms()
 {
     m_termsWithPriorityAndAssociation.reverseTheAssociationOfTheTerms();
@@ -345,12 +332,12 @@ void Expression::putTermsWithAssociation(TermsWithPriorityAndAssociation const& 
 
 void Expression::simplifyAndCopyTerms(
         TermsWithDetails & termsToUpdate,
-        TermsWithDetails const& termsToSegregate)
+        TermsWithDetails const& termsToCheck)
 {
-    for(TermWithDetails const& termWithDetails : termsToSegregate)
-    {        BaseTerm const& baseTerm(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
-        if(term.isExpression())
+    for(TermWithDetails const& termWithDetails : termsToCheck)
+    {
+        BaseTerm const& baseTerm(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));        if(term.isExpression())
         {
             Expression expression(term.getExpressionConstReference());
             expression.simplify();
@@ -372,7 +359,8 @@ void Expression::simplifyAndCopyTermsFromAnExpression(
     if(expression.containsOnlyOneTerm() || OperatorLevel::Unknown == m_commonOperatorLevel || expressionOperatorLevel == m_commonOperatorLevel)
     {
         if(OperatorLevel::Unknown == m_commonOperatorLevel)
-        {            m_commonOperatorLevel = expression.getCommonOperatorLevel();
+        {
+            m_commonOperatorLevel = expression.getCommonOperatorLevel();
         }
         TermsWithPriorityAndAssociation termsWithAssociation(expression.getTerms());
         if(AssociationType::Negative == association)
@@ -387,30 +375,27 @@ void Expression::simplifyAndCopyTermsFromAnExpression(
     }
 }
 
-void Expression::combineTermAndSave(TermsWithDetails const& termsToCombine)
+void Expression::combineTermAndSave(TermsWithDetails & termsToCombine)
 {
     Term combinedTerm;
     combineTermAndSaveBaseOnOperatorLevel(getBaseTermReferenceFromTerm(combinedTerm), termsToCombine);
-    savedCombineTerm(getBaseTermReferenceFromTerm(combinedTerm));
+    saveCombinedTerm(getBaseTermReferenceFromTerm(combinedTerm));
 }
 
-void Expression::combineTermAndSaveBaseOnOperatorLevel(BaseTerm & combinedBaseTerm, TermsWithDetails const& termsToCombine)
+void Expression::combineTermAndSaveBaseOnOperatorLevel(BaseTerm & combinedBaseTerm, TermsWithDetails & termsToCombine)
 {
-    ALBA_PRINT1(((int)m_commonOperatorLevel));
     switch(m_commonOperatorLevel)
     {
-    case OperatorLevel::Unknown:
-    {
+    case OperatorLevel::Unknown:    {
         saveTerms(termsToCombine);
         break;
     }
     case OperatorLevel::AdditionAndSubtraction:
     {
-        accumulateTermsForAdditionAndSubtraction(combinedBaseTerm, termsToCombine);
+        processAndSaveTermsForAdditionAndSubtraction(combinedBaseTerm, termsToCombine);
         break;
     }
-    case OperatorLevel::MultiplicationAndDivision:
-    {
+    case OperatorLevel::MultiplicationAndDivision:    {
         accumulateTermsForMultiplicationAndDivision(combinedBaseTerm, termsToCombine);
         break;
     }
@@ -420,16 +405,35 @@ void Expression::combineTermAndSaveBaseOnOperatorLevel(BaseTerm & combinedBaseTe
         break;
     }
     }
-    ALBA_PRINT1(getDisplayableString());
+}
+
+void Expression::processAndSaveTermsForAdditionAndSubtraction(
+        BaseTerm & combinedBaseTerm,
+        TermsWithDetails & termsToCombine)
+{
+    sortTermsForAdditionAndSubtraction(termsToCombine);
+    accumulateTermsForAdditionAndSubtraction(combinedBaseTerm, termsToCombine);
+}
+
+void Expression::sortTermsForAdditionAndSubtraction(
+        TermsWithDetails & termsToSort)
+{
+    stable_sort(termsToSort.begin(), termsToSort.end(), [](
+                TermWithDetails const& termWithDetails1,
+                TermWithDetails const& termWithDetails2)
+    {
+        Term const& term1(getTermConstReferenceFromSharedPointer(termWithDetails1.baseTermSharedPointer));
+        Term const& term2(getTermConstReferenceFromSharedPointer(termWithDetails2.baseTermSharedPointer));
+        return term1.isValueTermButNotAnExpression() > term2.isValueTermButNotAnExpression();
+    });
 }
 
 void Expression::accumulateTermsForAdditionAndSubtraction(
         BaseTerm & combinedBaseTerm,
-        TermsWithDetails const& termsToCombine)
+        TermsWithDetails & termsToCombine)
 {
     Term & combinedTerm(getTermReferenceFromBaseTerm(combinedBaseTerm));
-    bool isFirst(true);
-    for(TermWithDetails const& termWithDetails : termsToCombine)
+    bool isFirst(true);    for(TermWithDetails const& termWithDetails : termsToCombine)
     {
         Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         if(willHaveNoEffectOnAdditionOrSubtraction(term))
@@ -450,11 +454,10 @@ void Expression::accumulateTermsForAdditionAndSubtraction(
 
 void Expression::accumulateTermsForMultiplicationAndDivision(
         BaseTerm & combinedBaseTerm,
-        TermsWithDetails const& termsToCombine)
+        TermsWithDetails & termsToCombine)
 {
     Term & combinedTerm(getTermReferenceFromBaseTerm(combinedBaseTerm));
-    bool isFirst(true);
-    for(TermWithDetails const& termWithDetails : termsToCombine)
+    bool isFirst(true);    for(TermWithDetails const& termWithDetails : termsToCombine)
     {
         Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
@@ -475,17 +478,17 @@ void Expression::accumulateTermsForMultiplicationAndDivision(
 
 void Expression::accumulateTermsForRaiseToPower(
         BaseTerm & combinedBaseTerm,
-        TermsWithDetails const& termsToCombine)
+        TermsWithDetails & termsToCombine)
 {
     Term & combinedTerm(getTermReferenceFromBaseTerm(combinedBaseTerm));
-    bool isFirst(true);
-    for(TermWithDetails const& termWithDetails : termsToCombine)
+    bool isFirst(true);    for(TermWithDetails const& termWithDetails : termsToCombine)
     {
         Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
         {
             continue;
-        }        else if(isFirst)
+        }
+        else if(isFirst)
         {
             combinedTerm = term;
             isFirst=false;
@@ -497,11 +500,10 @@ void Expression::accumulateTermsForRaiseToPower(
     }
 }
 
-void Expression::savedCombineTerm(BaseTerm const& combinedBaseTerm)
+void Expression::saveCombinedTerm(BaseTerm const& combinedBaseTerm)
 {
     Term const& combinedTerm(getTermConstReferenceFromBaseTerm(combinedBaseTerm));
-    if(combinedTerm.isExpression())
-    {
+    if(combinedTerm.isExpression())    {
         for(TermWithDetails const& termWithDetails : combinedTerm.getExpressionConstReference().getTerms().getTermsWithDetails())
         {
             m_termsWithPriorityAndAssociation.putTermWithDetails(termWithDetails);

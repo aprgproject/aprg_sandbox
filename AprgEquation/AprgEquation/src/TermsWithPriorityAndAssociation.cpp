@@ -3,12 +3,9 @@
 #include <Term.hpp>
 #include <Utilities.hpp>
 
-#include <algorithm>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
@@ -89,7 +86,8 @@ unsigned int TermsWithPriorityAndAssociation::getSize() const
 }
 
 BaseTerm const& TermsWithPriorityAndAssociation::getFirstTermConstReference() const
-{    return getBaseTermConstReferenceFromSharedPointer(m_termsWithDetails.front().baseTermSharedPointer);
+{
+    return getBaseTermConstReferenceFromSharedPointer(m_termsWithDetails.front().baseTermSharedPointer);
 }
 
 TermsWithPriorityAndAssociation::TermsWithDetails const& TermsWithPriorityAndAssociation::getTermsWithDetails() const

@@ -23,7 +23,8 @@ unsigned int getTermPriorityValue(Term const& term);
 
 std::string getOperatingString(
         OperatorLevel const operatorLevel,
-        TermsWithPriorityAndAssociation::AssociationType const association);std::string getFirstStringIfNegativeAssociation(
+        TermsWithPriorityAndAssociation::AssociationType const association);
+std::string getFirstStringIfNegativeAssociation(
         OperatorLevel const operatorLevel,
         TermsWithPriorityAndAssociation::AssociationType const association);
 std::string getEnumShortString(TermsWithPriorityAndAssociation::AssociationType const association);
@@ -37,16 +38,17 @@ Expression createOrCopyExpressionFromATerm(Term const& term);
 Expression createExpressionIfPossible(Terms const& terms);
 Expression createSimplifiedExpressionIfPossible(Terms const& terms);
 
+Term convertExpressionToSimplestTerm(Expression const& expression);
 Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression);
 Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial);
 Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial);
-
 BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer);
 BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);
 BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
 Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
 Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
-Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
+Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);
+Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
 BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term);
 BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
 BaseTerm & getBaseTermReferenceFromTerm(Term & term);

@@ -26,6 +26,7 @@ public:
     Monomial getFirstMonomial() const;
     Monomials const& getMonomialsConstReference() const;
     std::string getDisplayableString() const;
+
     void simplify();
     void addMonomial(Monomial const& monomial);
     void addPolynomial(Polynomial const& polynomial);

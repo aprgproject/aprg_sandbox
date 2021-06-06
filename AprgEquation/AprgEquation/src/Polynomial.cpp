@@ -50,7 +50,8 @@ bool Polynomial::isZero() const
 }
 
 bool Polynomial::isOneMonomial() const
-{    return m_monomials.size() == 1;
+{
+    return m_monomials.size() == 1;
 }
 
 Monomial Polynomial::getFirstMonomial() const

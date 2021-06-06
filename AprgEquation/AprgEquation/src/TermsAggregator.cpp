@@ -95,7 +95,8 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
                 newExpression.addTerm(getBaseTermConstReferenceFromTerm(term3));
             }
             else if(operatorTerm.isSubtraction())
-            {                newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(term3));
+            {
+                newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(term3));
             }
             else if(operatorTerm.isMultiplication())
             {

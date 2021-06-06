@@ -393,7 +393,8 @@ TEST(TermTest, IsTheValueOneWorks)
 {
     Term term1;
     Term term2(Constant(0));
-    Term term3(1);    Term term4(Variable("length"));
+    Term term3(1);
+    Term term4(Variable("length"));
     Term term5(Operator("+"));
     Term term6(Monomial(0, {}));
     Term term7(Monomial(1, {}));
@@ -417,7 +418,8 @@ TEST(TermTest, GetTermTypeWorks)
 {
     Term term1;
     Term term2(Constant(0));
-    Term term3(Variable("length"));    Term term4(Operator("+"));
+    Term term3(Variable("length"));
+    Term term4(Operator("+"));
     Term term5(Monomial(1, {}));
     Term term6(Polynomial{});
     Term term7(Expression{});
@@ -446,7 +448,8 @@ TEST(TermTest, GetDisplayableStringWorks)
     EXPECT_EQ("length", term3.getDisplayableString());
     EXPECT_EQ("+", term4.getDisplayableString());
     EXPECT_EQ("-1.5|distance^-3.75||power^4.5|", term5.getDisplayableString());
-    EXPECT_EQ("(3 + -1.5|distance^-3.75||power^4.5|)", term6.getDisplayableString());    //EXPECT_EQ("(<+->||5+interest)", term7.getDisplayableString());
+    EXPECT_EQ("(3 + -1.5|distance^-3.75||power^4.5|)", term6.getDisplayableString());
+    //EXPECT_EQ("(<+->||5+interest)", term7.getDisplayableString());
 }
 
 }
