@@ -39,6 +39,7 @@ std::string getEnumShortString(OperatorLevel const operatorLevel);
 
 Monomial createMonomialConstant(AlbaNumber const& number);
 Monomial createMonomialVariable(std::string const& variableName);
+Polynomial createPolynomialIfPossible(Term const& term);
 Expression createExpressionInAnExpression(Expression const& expression);
 Expression createAndWrapExpressionFromATerm(Term const& term);
 Expression createOrCopyExpressionFromATerm(Term const& term);

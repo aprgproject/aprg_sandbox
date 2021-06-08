@@ -2,15 +2,14 @@
 
 #include <gtest/gtest.h>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
+
 TEST(PolynomialTest, PolynomialsAreConstructedCorrectly)
 {
     Polynomial polynomial1;
@@ -124,10 +123,12 @@ TEST(PolynomialTest, SimplifyWorks)
     Polynomial polynomial1{Monomial(0, {{"x", 1}}), Monomial(0, {{"x", 1}})};
     Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-6, {})};
+    Polynomial polynomial4{Monomial(-6, {{"y", 0}, {"z", 0}})};
 
     polynomial1.simplify();
     polynomial2.simplify();
     polynomial3.simplify();
+    polynomial4.simplify();
 
     Monomials const& monomials1(polynomial1.getMonomialsConstReference());
     ASSERT_TRUE(monomials1.empty());
@@ -141,6 +142,11 @@ TEST(PolynomialTest, SimplifyWorks)
     ASSERT_EQ(1u, monomials3.size());
     EXPECT_DOUBLE_EQ(0, monomials3.at(0).getConstantConstReference().getDouble());
     ASSERT_TRUE(monomials3.at(0).getVariablesToExponentsMapConstReference().empty());
+
+    Monomials const& monomials4(polynomial4.getMonomialsConstReference());
+    ASSERT_EQ(1u, monomials4.size());
+    EXPECT_DOUBLE_EQ(-6, monomials4.at(0).getConstantConstReference().getDouble());
+    ASSERT_TRUE(monomials4.at(0).getVariablesToExponentsMapConstReference().empty());
 }
 
 TEST(PolynomialTest, SortWorks)
@@ -157,10 +163,12 @@ TEST(PolynomialTest, SortWorks)
 
 TEST(PolynomialTest, AddMonomialWorks)
 {
-    Polynomial polynomial1;    Polynomial polynomial2{Monomial(1, {})};
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(1, {})};
     Polynomial polynomial3{Monomial(2, {}), Monomial(3, {{"x", 4}})};
 
-    polynomial1.addMonomial(Monomial(5, {{"x", 4}}));    polynomial2.addMonomial(Monomial(5, {{"x", 4}}));
+    polynomial1.addMonomial(Monomial(5, {{"x", 4}}));
+    polynomial2.addMonomial(Monomial(5, {{"x", 4}}));
     polynomial3.addMonomial(Monomial(5, {{"x", 4}}));
 
     EXPECT_EQ(Polynomial{Monomial(5, {{"x", 4}})}, polynomial1);
@@ -196,6 +204,21 @@ TEST(PolynomialTest, MultiplyNumberWorks)
     EXPECT_EQ(Polynomial(), polynomial1);
     EXPECT_EQ((Polynomial{Monomial(5, {})}), polynomial2);
     EXPECT_EQ((Polynomial{Monomial(10, {}), Monomial(15, {{"x", 4}})}), polynomial3);
+}
+
+TEST(PolynomialTest, DivideNumberWorks)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(5, {})};
+    Polynomial polynomial3{Monomial(10, {}), Monomial(15, {{"x", 4}})};
+
+    polynomial1.divideNumber(5);
+    polynomial2.divideNumber(5);
+    polynomial3.divideNumber(5);
+
+    EXPECT_EQ(Polynomial(), polynomial1);
+    EXPECT_EQ((Polynomial{Monomial(1, {})}), polynomial2);
+    EXPECT_EQ((Polynomial{Monomial(2, {}), Monomial(3, {{"x", 4}})}), polynomial3);
 }
 
 TEST(PolynomialTest, MultiplyMonomialWorks)

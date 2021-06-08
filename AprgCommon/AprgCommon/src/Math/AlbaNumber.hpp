@@ -36,6 +36,7 @@ public:
     bool operator==(AlbaNumber const& second) const;
     bool operator!=(AlbaNumber const& second) const;
     bool operator<(AlbaNumber const& second) const;
+    bool operator>(AlbaNumber const& second) const;
     AlbaNumber operator+() const;
     AlbaNumber operator-() const;
     AlbaNumber operator+(AlbaNumber const& second) const;

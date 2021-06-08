@@ -65,6 +65,11 @@ bool AlbaNumber::operator<(AlbaNumber const& second) const
     return getDouble() < second.getDouble();
 }
 
+bool AlbaNumber::operator>(AlbaNumber const& second) const
+{
+    return getDouble() > second.getDouble();
+}
+
 AlbaNumber AlbaNumber::operator+() const
 {
     return *this;

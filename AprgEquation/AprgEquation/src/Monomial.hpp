@@ -48,10 +48,12 @@ public:
     AlbaNumber getDegree() const;
     std::string getDisplayableString() const;
 
-    void simplify();    void multiplyNumber(AlbaNumber const& number);
+    void simplify();
+    void multiplyNumber(AlbaNumber const& number);
     void raiseToPowerNumber(AlbaNumber const& number);
     void multiplyMonomial(Monomial const& monomial);
-    void divideMonomial(Monomial const& monomial);    void setConstant(AlbaNumber const& constant);
+    void divideMonomial(Monomial const& monomial);
+    void setConstant(AlbaNumber const& constant);
     void putVariablesWithExponents(std::initializer_list<VariableExponentPair> const& variablesWithExponents);
     void putVariableWithExponent(std::string const& variable, AlbaNumber const& exponent);
 

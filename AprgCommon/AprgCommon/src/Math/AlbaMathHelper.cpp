@@ -253,6 +253,10 @@ unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned in
     {
         result = firstNumber;
     }
+    else if(firstNumber==1 || secondNumber==1)
+    {
+        result = 1;
+    }
     else if(firstNumber==secondNumber)
     {
         result = firstNumber;

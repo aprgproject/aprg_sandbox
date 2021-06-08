@@ -116,10 +116,12 @@ TEST(MonomialTest, LessThanOperatorWorks)
     EXPECT_TRUE(Monomial(54, {{"x", 6}}) < Monomial(54, {{"x", 3}, {"y", 4}}));
 }
 
-TEST(MonomialTest, IsZeroFunctionWorks){
+TEST(MonomialTest, IsZeroFunctionWorks)
+{
     Monomial monomial1;
     Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
-    Monomial monomial3(0, {{"x", 6}, {"y", -1.25}});    Monomial monomial4(23, {});
+    Monomial monomial3(0, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial4(23, {});
 
     EXPECT_TRUE(monomial1.isZero());
     EXPECT_FALSE(monomial2.isZero());

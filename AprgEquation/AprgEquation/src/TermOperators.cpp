@@ -915,7 +915,7 @@ Term operator/(Monomial const& monomial, Expression const& expression)
 Term operator/(Polynomial const& polynomial, Constant const& constant)
 {
     Polynomial newPolynomial(polynomial);
-    newPolynomial.multiplyNumber(AlbaNumber(1)/constant.getNumberConstReference());
+    newPolynomial.divideNumber(constant.getNumberConstReference());
     return simplifyAndConvertPolynomialToSimplestTerm(newPolynomial);
 }
 

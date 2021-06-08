@@ -184,6 +184,10 @@ TEST(AlbaMathHelperTest, BestFractionDetailsForDoubleValueCanBeComputed)
 TEST(AlbaMathHelperTest, GreatestCommonFactorCanBeComputed)
 {
     EXPECT_EQ(0u, getGreatestCommonFactor(0, 0));
+    EXPECT_EQ(8u, getGreatestCommonFactor(0, 8));
+    EXPECT_EQ(8u, getGreatestCommonFactor(8, 0));
+    EXPECT_EQ(1u, getGreatestCommonFactor(1, 8));
+    EXPECT_EQ(1u, getGreatestCommonFactor(8, 1));
     EXPECT_EQ(1u, getGreatestCommonFactor(1, 1));
     EXPECT_EQ(16u, getGreatestCommonFactor(16, 32));
     EXPECT_EQ(14u, getGreatestCommonFactor(98, 56));

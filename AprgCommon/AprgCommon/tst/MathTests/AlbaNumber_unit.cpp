@@ -189,6 +189,21 @@ TEST(AlbaNumberTest, LessThanWorksAsExpected)
     EXPECT_FALSE(number3<number2);
 }
 
+TEST(AlbaNumberTest, GreaterThanWorksAsExpected)
+{
+    AlbaNumber number1;
+    AlbaNumber number2(1, 3);
+    AlbaNumber number3(0.5);
+
+    EXPECT_FALSE(number1>number1);
+    EXPECT_FALSE(number2>number2);
+    EXPECT_FALSE(number3>number3);
+    EXPECT_FALSE(number1>number2);
+    EXPECT_FALSE(number2>number3);
+    EXPECT_TRUE(number2>number1);
+    EXPECT_TRUE(number3>number2);
+}
+
 TEST(AlbaNumberTest, UnaryPlusWorksOnDifferentTypes)
 {
     AlbaNumber number1 = +AlbaNumber();

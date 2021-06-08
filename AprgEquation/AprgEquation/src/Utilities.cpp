@@ -6,9 +6,6 @@
 
 #include <algorithm>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace std;
 using AssociationType=alba::equation::TermsWithPriorityAndAssociation::AssociationType;
 using TermWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermWithDetails;
@@ -304,6 +301,28 @@ Monomial createMonomialConstant(AlbaNumber const& number)
 Monomial createMonomialVariable(string const& variableName)
 {
     return Monomial(1, {{variableName, 1}});
+}
+
+Polynomial createPolynomialIfPossible(Term const& term)
+{
+    Polynomial result;
+    if(term.isConstant())
+    {
+        result = Polynomial{createMonomialConstant(term.getConstantConstReference().getNumberConstReference())};
+    }
+    else if(term.isVariable())
+    {
+        result = Polynomial{createMonomialVariable(term.getVariableConstReference().getVariableName())};
+    }
+    else if(term.isMonomial())
+    {
+        result = Polynomial{term.getMonomialConstReference()};
+    }
+    else if(term.isPolynomial())
+    {
+        result = term.getPolynomialConstReference();
+    }
+    return result;
 }
 
 Expression createExpressionInAnExpression(Expression const& expression)

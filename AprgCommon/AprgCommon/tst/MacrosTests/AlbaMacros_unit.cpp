@@ -78,4 +78,31 @@ TEST(AlbaMacros, CaseEnumStringLiteral)
     EXPECT_EQ("SampleEnumClass::Type2", sampleObject.getString(enumValue2));
 }
 
+TEST(AlbaMacros, CaseEnumShortStringLiteral)
+{
+    enum class SampleEnumClass
+    {
+        Type1,
+        Type2
+    };
+    struct SampleClass
+    {
+        string getString(SampleEnumClass const enumValue)
+        {
+            switch(enumValue)
+            {
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(SampleEnumClass::Type1, "Type1")
+                    ALBA_MACROS_CASE_ENUM_SHORT_STRING(SampleEnumClass::Type2, "Type2")
+                    default:
+                return "default";
+            }
+        }
+    };
+    SampleEnumClass enumValue1 = SampleEnumClass::Type1;
+    SampleEnumClass enumValue2 = SampleEnumClass::Type2;
+
+    SampleClass sampleObject;
+    EXPECT_EQ("Type1", sampleObject.getString(enumValue1));
+    EXPECT_EQ("Type2", sampleObject.getString(enumValue2));
+}
 }
