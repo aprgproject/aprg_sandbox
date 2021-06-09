@@ -156,37 +156,31 @@ TEST(PolynomialTest, SimplifyWorks)
     ASSERT_TRUE(monomials2.at(0).getVariablesToExponentsMapConstReference().empty());
 
     Monomials const& monomials3(polynomial3.getMonomialsConstReference());
-    ASSERT_EQ(1u, monomials3.size());
-    EXPECT_DOUBLE_EQ(0, monomials3.at(0).getConstantConstReference().getDouble());
-    ASSERT_TRUE(monomials3.at(0).getVariablesToExponentsMapConstReference().empty());
+    ASSERT_TRUE(monomials3.empty());
 
     Monomials const& monomials4(polynomial4.getMonomialsConstReference());
-    ASSERT_EQ(1u, monomials4.size());
-    EXPECT_DOUBLE_EQ(-6, monomials4.at(0).getConstantConstReference().getDouble());
+    ASSERT_EQ(1u, monomials4.size());    EXPECT_DOUBLE_EQ(-6, monomials4.at(0).getConstantConstReference().getDouble());
     ASSERT_TRUE(monomials4.at(0).getVariablesToExponentsMapConstReference().empty());
 }
-
 TEST(PolynomialTest, SortWorks)
 {
     Polynomial polynomial1;
     Polynomial polynomial2{Monomial(100, {}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(10, {})};
     Polynomial polynomial3{Monomial(1, {{"y", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 3}})};
 
-    polynomial1.sort();
-    polynomial2.sort();
-    polynomial3.sort();
+    polynomial1.sortMonomialsWithInversePriority();
+    polynomial2.sortMonomialsWithInversePriority();
+    polynomial3.sortMonomialsWithInversePriority();
 
     EXPECT_EQ(Polynomial(), polynomial1);
-    EXPECT_EQ((Polynomial{Monomial(10, {}), Monomial(100, {}), Monomial(9, {{"x", 8}}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}})}), polynomial2);
-    EXPECT_EQ((Polynomial{Monomial(1, {{"y", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 3}})}), polynomial3);
+    EXPECT_EQ((Polynomial{Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(100, {}), Monomial(10, {})}), polynomial2);
+    EXPECT_EQ((Polynomial{Monomial(5, {{"x", 3}}), Monomial(1, {{"x", 2}, {"y", 1}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"y", 3}})}), polynomial3);
 }
 
-TEST(PolynomialTest, AddMonomialWorks)
-{
+TEST(PolynomialTest, AddMonomialWorks){
     Polynomial polynomial1;
     Polynomial polynomial2{Monomial(1, {})};
     Polynomial polynomial3{Monomial(2, {}), Monomial(3, {{"x", 4}})};
-
     polynomial1.addMonomial(Monomial(5, {{"x", 4}}));
     polynomial2.addMonomial(Monomial(5, {{"x", 4}}));
     polynomial3.addMonomial(Monomial(5, {{"x", 4}}));

@@ -502,15 +502,13 @@ TEST(TermTest, SortWorks)
     Term expectTerm1;
     Term expectTerm2(Polynomial{});
     Term expectTerm3(Expression{});
-    Term expectTerm4(Polynomial{Monomial(10, {}), Monomial(100, {}), Monomial(9, {{"x", 8}}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}})});
+    Term expectTerm4(Polynomial{Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(100, {}), Monomial(10, {})});
     Term expectTerm5(createExpressionIfPossible(Terms{Term(1), Term("+"), Term(4), Term("+"), Term(5), Term("-"), Term(2), Term("-"), Term(3)}));
     EXPECT_EQ(expectTerm1, term1);
-    EXPECT_EQ(expectTerm2, term2);
-    EXPECT_EQ(expectTerm3, term3);
+    EXPECT_EQ(expectTerm2, term2);    EXPECT_EQ(expectTerm3, term3);
     EXPECT_EQ(expectTerm4, term4);
     EXPECT_EQ(expectTerm5, term5);
 }
-
 }
 
 }

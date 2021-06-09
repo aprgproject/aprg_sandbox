@@ -2,12 +2,13 @@
 
 #include <Math/AlbaMathHelper.hpp>
 
+
+#include <Debug/AlbaDebug.hpp>
+
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace equation
 {
 
@@ -28,24 +29,62 @@ Polynomial const& PolynomialOverPolynomial::getDenominator() const
     return m_denominator;
 }
 
+PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::simplifyAndDivide()
+{
+    simplify();
+    sortNumeratorAndDenominator();
+    return divide();
+}
+
 void PolynomialOverPolynomial::simplify()
 {
-    convertFractionCoefficientsToInteger();
-    removeGcfOnCoefficients();
+    convertFractionCoefficientsToInteger();    removeGcfOnCoefficients();
     convertNegativeExponentsToPositive();
     removeCommonVariableExponents();
     m_numerator.simplify();
     m_denominator.simplify();
 }
 
+void PolynomialOverPolynomial::sortNumeratorAndDenominator()
+{
+    m_numerator.sortMonomialsWithInversePriority();
+    m_denominator.sortMonomialsWithInversePriority();
+}
+
+PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide() const
+{
+    Polynomial currentQuotient;
+    Polynomial currentRemainder(m_numerator);
+    while(!currentRemainder.isZero())
+    {
+        Monomial const& dividendMonomial(currentRemainder.getFirstMonomial());
+        Monomial const& divisorMonomial(m_denominator.getFirstMonomial());
+        Monomial currentQuotientMonomial(dividendMonomial);
+        currentQuotientMonomial.divideMonomial(divisorMonomial);
+        if(currentQuotientMonomial.hasNegativeExponents())
+        {
+            break;
+        }
+        else
+        {
+            currentQuotient.addMonomial(currentQuotientMonomial);
+            Polynomial polynomialToSubtract(m_denominator);
+            polynomialToSubtract.multiplyMonomial(currentQuotientMonomial);
+            polynomialToSubtract.multiplyNumber(-1);
+            currentRemainder.addPolynomial(polynomialToSubtract);
+            currentQuotient.simplifyAndSort();
+            currentRemainder.simplifyAndSort();
+        }
+    }
+    return QuotientAndRemainder{currentQuotient, currentRemainder};
+}
+
 unsigned int PolynomialOverPolynomial::getLcmForDenominatorCoefficients(Polynomial const& polynomial)
 {
-    unsigned int lcm(1);
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    unsigned int lcm(1);    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
         AlbaNumber const& coefficient(monomial.getConstantConstReference());
-        if(coefficient.isFractionType())
-        {
+        if(coefficient.isFractionType())        {
             AlbaNumber::FractionData fractionData(coefficient.getFractionData());
             lcm = getLeastCommonMultiple(lcm, fractionData.denominator);
         }

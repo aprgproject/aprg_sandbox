@@ -367,14 +367,12 @@ void Term::sort()
 {
     if(isPolynomial())
     {
-        getPolynomialReference().sort();
+        getPolynomialReference().sortMonomialsWithInversePriority();
     }
     else if(isExpression())
-    {
-        getExpressionReference().sort();
+    {        getExpressionReference().sort();
     }
 }
-
 void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
 {
     switch(term.getTermType())

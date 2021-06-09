@@ -29,20 +29,20 @@ public:
     Monomials const& getMonomialsConstReference() const;
     std::string getDisplayableString() const;
 
+    void simplifyAndSort();
     void simplify();
-    void sort();
+    void sortMonomialsWithInversePriority();
     void addMonomial(Monomial const& monomial);
     void addPolynomial(Polynomial const& polynomial);
-    void multiplyNumber(AlbaNumber const& number);
-    void divideNumber(AlbaNumber const& number);
+    void multiplyNumber(AlbaNumber const& number);    void divideNumber(AlbaNumber const& number);
     void multiplyMonomial(Monomial const& monomial);
     void multiplyPolynomial(Polynomial const& polynomial);
     void divideMonomial(Monomial const& monomial);
 
 private:
+    void simplifyFurtherIfNeeded(Polynomial const& beforeSimplify, Polynomial const& afterSimplify);
     Monomials m_monomials;
 };
-
 }
 
 }

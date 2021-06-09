@@ -5,14 +5,15 @@
 #include <algorithm>
 #include <sstream>
 
+
+#include <Debug/AlbaDebug.hpp>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
-
 Polynomial::Polynomial()
 {}
 
@@ -126,31 +127,40 @@ string Polynomial::getDisplayableString() const
     return result.str();
 }
 
+void Polynomial::simplifyAndSort()
+{
+    simplify();
+    sortMonomialsWithInversePriority();
+}
+
 void Polynomial::simplify()
 {
+    Polynomial beforeSimplify(*this);
     Monomials oldMonomials(m_monomials);
     m_monomials.clear();
-    for(Monomial & monomial : oldMonomials)
-    {
+    for(Monomial & monomial : oldMonomials)    {
         monomial.simplify();
         if(!monomial.isZero())
         {
             addMonomial(monomial);
         }
     }
+    Polynomial afterSimplify(*this);
+    simplifyFurtherIfNeeded(beforeSimplify, afterSimplify);
 }
 
-void Polynomial::sort()
+void Polynomial::sortMonomialsWithInversePriority()
 {
-    stable_sort(m_monomials.begin(), m_monomials.end());
+    stable_sort(m_monomials.begin(), m_monomials.end(), [](Monomial const& monomial1, Monomial const& monomial2)
+    {
+        return monomial2 < monomial1;
+    });
 }
 
-void Polynomial::addMonomial(Monomial const& monomial)
-{
+void Polynomial::addMonomial(Monomial const& monomial){
     bool isFoundInPolynomial(false);
     for(Monomial & monomialInternal : m_monomials)
-    {
-        if(canBeMergedByAdditionOrSubtraction(monomialInternal, monomial))
+    {        if(canBeMergedByAdditionOrSubtraction(monomialInternal, monomial))
         {
             isFoundInPolynomial=true;
             monomialInternal.setConstant(monomialInternal.getConstantConstReference() + monomial.getConstantConstReference());
@@ -214,6 +224,14 @@ void Polynomial::divideMonomial(Monomial const& monomial)
     for(Monomial & monomialInternal : m_monomials)
     {
         monomialInternal.divideMonomial(monomial);
+    }
+}
+
+void Polynomial::simplifyFurtherIfNeeded(Polynomial const& beforeSimplify, Polynomial const& afterSimplify)
+{
+    if(beforeSimplify != afterSimplify)
+    {
+        simplify();
     }
 }
 
