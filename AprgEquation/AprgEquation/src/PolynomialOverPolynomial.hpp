@@ -25,10 +25,11 @@ private:
     void convertFractionCoefficientsToInteger();
     void removeGcfOnCoefficients();
     void convertNegativeExponentsToPositive();
+    void removeCommonVariableExponents();
+    Monomial getMonomialCommonVariablesExponentsInPolynomial(Monomials const& monomials) const;
     Polynomial m_numerator;
     Polynomial m_denominator;
 };
-
 }
 
 }

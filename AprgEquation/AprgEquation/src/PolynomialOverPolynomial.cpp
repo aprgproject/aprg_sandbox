@@ -2,12 +2,13 @@
 
 #include <Math/AlbaMathHelper.hpp>
 
+
+#include <Debug/AlbaDebug.hpp>
+
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace equation
 {
 
@@ -33,14 +34,13 @@ void PolynomialOverPolynomial::simplify()
     convertFractionCoefficientsToInteger();
     removeGcfOnCoefficients();
     convertNegativeExponentsToPositive();
+    removeCommonVariableExponents();
     m_numerator.simplify();
     m_denominator.simplify();
 }
-
 unsigned int PolynomialOverPolynomial::getLcmForDenominatorCoefficients(Polynomial const& polynomial)
 {
-    unsigned int lcm(1);
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    unsigned int lcm(1);    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
         AlbaNumber const& coefficient(monomial.getConstantConstReference());
         if(coefficient.isFractionType())
@@ -129,6 +129,39 @@ void PolynomialOverPolynomial::convertNegativeExponentsToPositive()
     m_numerator.multiplyMonomial(monomialExponentDenominator);
     m_denominator.multiplyMonomial(monomialExponentNumerator);
     m_denominator.multiplyMonomial(monomialExponentDenominator);
+}
+
+void PolynomialOverPolynomial::removeCommonVariableExponents()
+{
+    Monomial commonMonomialInNumerator(getMonomialCommonVariablesExponentsInPolynomial(m_numerator.getMonomialsConstReference()));
+    Monomial commonMonomialInDenominator(getMonomialCommonVariablesExponentsInPolynomial(m_denominator.getMonomialsConstReference()));
+    Monomial commonMonomial(getMonomialCommonVariablesExponentsInPolynomial(Monomials{commonMonomialInNumerator, commonMonomialInDenominator}));
+
+    ALBA_PRINT1(commonMonomialInNumerator.getDisplayableString());
+    ALBA_PRINT1(commonMonomialInDenominator.getDisplayableString());
+    ALBA_PRINT1(commonMonomial.getDisplayableString());
+
+    m_numerator.divideMonomial(commonMonomial);
+    m_denominator.divideMonomial(commonMonomial);
+}
+
+Monomial PolynomialOverPolynomial::getMonomialCommonVariablesExponentsInPolynomial(Monomials const& monomials) const
+{
+    Monomial intersectionMonomial(1, {});
+    bool isFirst(true);
+    for(Monomial const& monomial : monomials)
+    {
+        if(isFirst)
+        {
+            intersectionMonomial = monomial;
+            isFirst=false;
+        }
+        else
+        {
+            intersectionMonomial.saveIntersectionOfVariableExponentsMap(monomial);
+        }
+    }
+    return intersectionMonomial;
 }
 
 
