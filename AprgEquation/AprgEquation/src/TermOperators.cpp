@@ -773,14 +773,12 @@ Term operator*(Expression const& expression, Polynomial const& polynomial)
 Term operator*(Expression const& expression1, Expression const& expression2)
 {
     Expression newExpression(expression1);
-    newExpression.multiplyTerm(getBaseTermConstReferenceFromTerm(Term(expression2)));
+    newExpression.multiplyExpression(expression2);
     return convertExpressionToSimplestTerm(newExpression);
 }
-
 Term operator*(Term const& term1, Term const& term2)
 {
-    return performMultiplication(term1, term2);
-}
+    return performMultiplication(term1, term2);}
 
 
 //Divsion: a / b
