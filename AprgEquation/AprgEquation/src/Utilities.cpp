@@ -247,7 +247,17 @@ string getFirstStringIfNegativeAssociation(
     return result;
 }
 
-string getString(TermWithDetails const termWithDetails)
+string getString(TermsWithDetails const& termsWithDetails)
+{
+    string result;
+    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    {
+        result += getString(termWithDetails);
+    }
+    return result;
+}
+
+string getString(TermWithDetails const& termWithDetails)
 {
     return string("[")+termWithDetails.baseTermSharedPointer->getDisplayableString()
             +"]["+getEnumShortString(termWithDetails.association)+"]";

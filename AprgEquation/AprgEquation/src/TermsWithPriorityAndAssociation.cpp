@@ -87,10 +87,16 @@ bool TermsWithPriorityAndAssociation::operator==(TermsWithPriorityAndAssociation
     bool result(false);
     if(terms1.size() == terms2.size())
     {
-        using TermsWithDetailsIterator=TermsWithDetails::const_iterator;
-        using MismatchResultType=pair<TermsWithDetailsIterator, TermsWithDetailsIterator>;
-        MismatchResultType mismatchResult = mismatch(terms1.cbegin(), terms1.end(), terms2.cbegin());
-        result = mismatchResult.first == terms1.cend();
+        result=true;
+        unsigned int commonSize = terms1.size();
+        for(unsigned int i=0; i<commonSize; i++)
+        {
+            if(terms1.at(i) != terms2.at(i))
+            {
+                result=false;
+                break;
+            }
+        }
     }
     return result;
 }

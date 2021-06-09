@@ -737,8 +737,8 @@ Term operator*(Polynomial const& polynomial1, Polynomial const& polynomial2)
 
 Term operator*(Polynomial const& polynomial, Expression const& expression)
 {
-    Expression newExpression(getBaseTermConstReferenceFromTerm(Term(polynomial)));
-    newExpression.multiplyTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    Expression newExpression(expression);
+    newExpression.multiplyPolynomialFirst(polynomial);
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -766,7 +766,7 @@ Term operator*(Expression const& expression, Monomial const& monomial)
 Term operator*(Expression const& expression, Polynomial const& polynomial)
 {
     Expression newExpression(expression);
-    newExpression.multiplyTerm(getBaseTermConstReferenceFromTerm(Term(polynomial)));
+    newExpression.multiplyPolynomialSecond(polynomial);
     return convertExpressionToSimplestTerm(newExpression);
 }
 

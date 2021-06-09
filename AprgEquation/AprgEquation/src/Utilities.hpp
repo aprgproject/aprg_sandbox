@@ -32,7 +32,9 @@ std::string getFirstStringIfNegativeAssociation(
         OperatorLevel const operatorLevel,
         TermsWithPriorityAndAssociation::AssociationType const association);
 std::string getString(
-        TermsWithPriorityAndAssociation::TermWithDetails const termWithDetails);
+        TermsWithPriorityAndAssociation::TermsWithDetails const& termsWithDetails);
+std::string getString(
+        TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails);
 std::string getEnumShortString(TermType const termType);
 std::string getEnumShortString(TermsWithPriorityAndAssociation::AssociationType const association);
 std::string getEnumShortString(OperatorLevel const operatorLevel);

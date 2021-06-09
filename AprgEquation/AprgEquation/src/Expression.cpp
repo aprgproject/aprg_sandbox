@@ -217,6 +217,118 @@ void Expression::multiplyTerm(BaseTerm const& baseTerm)
     }
 }
 
+void Expression::multiplyPolynomialFirst(Polynomial const& polynomial)
+{
+    if(OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel)
+    {
+        TermsWithDetails termsWithDetails(m_termsWithPriorityAndAssociation.getTermsWithDetails());
+        clear();
+        for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+        {
+            for(TermWithDetails const& termWithDetails : termsWithDetails)
+            {
+                multiplyThenAddTermIfTrueAndSubtractIfFalse(
+                            createOrCopyExpressionFromATerm(Term(monomial)),
+                            getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer),
+                            termWithDetails.hasPositiveAssociation());
+            }
+        }
+    }
+    else
+    {
+        Term termExpression(*this);
+        clear();
+        for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+        {
+            Expression monomialExpression(createExpressionIfPossible(Terms{monomial}));
+            monomialExpression.multiplyTerm(getBaseTermConstReferenceFromTerm(termExpression));
+            addTerm(Term(monomialExpression));
+        }
+
+    }
+}
+
+void Expression::multiplyPolynomialSecond(Polynomial const& polynomial)
+{
+    if(OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel)
+    {
+        TermsWithDetails termsWithDetails(m_termsWithPriorityAndAssociation.getTermsWithDetails());
+        clear();
+        for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+        {
+            for(TermWithDetails const& termWithDetails : termsWithDetails)
+            {
+                multiplyThenAddTermIfTrueAndSubtractIfFalse(
+                            createOrCopyExpressionFromATerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer)),
+                            getBaseTermConstReferenceFromTerm(Term(monomial)),
+                            termWithDetails.hasPositiveAssociation());
+            }
+        }
+    }
+    else
+    {
+        Expression expressionCopy(*this);
+        clear();
+        for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+        {
+            Expression expressionTerm(expressionCopy);
+            expressionTerm.multiplyTerm(getBaseTermConstReferenceFromTerm(Term(monomial)));
+            addTerm(Term(expressionTerm));
+        }
+    }
+}
+
+void Expression::multiplyExpression(Expression const& expression)
+{
+    if(OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel
+            && OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
+    {
+        TermsWithDetails termsWithDetails1(m_termsWithPriorityAndAssociation.getTermsWithDetails());
+        TermsWithDetails termsWithDetails2(expression.getTerms().getTermsWithDetails());
+        clear();
+        for(TermWithDetails const& termWithDetails1 : termsWithDetails1)
+        {
+            for(TermWithDetails const& termWithDetails2 : termsWithDetails2)
+            {
+                Term const& term1(getTermConstReferenceFromSharedPointer(termWithDetails1.baseTermSharedPointer));
+                Term const& term2(getTermConstReferenceFromSharedPointer(termWithDetails2.baseTermSharedPointer));
+                multiplyThenAddTermIfTrueAndSubtractIfFalse(
+                            createOrCopyExpressionFromATerm(term1),
+                            getBaseTermConstReferenceFromTerm(term2),
+                            termWithDetails1.association == termWithDetails2.association);
+            }
+        }
+    }
+    else if(OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel)
+    {
+        TermsWithDetails termsWithDetails(m_termsWithPriorityAndAssociation.getTermsWithDetails());
+        clear();
+        for(TermWithDetails const& termWithDetails : termsWithDetails)
+        {
+            multiplyThenAddTermIfTrueAndSubtractIfFalse(
+                        createOrCopyExpressionFromATerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer)),
+                        getBaseTermConstReferenceFromTerm(Term(expression)),
+                        termWithDetails.hasPositiveAssociation());
+        }
+    }
+    else if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
+    {
+        Expression expressionCopy(*this);
+        clear();
+        for(TermWithDetails const& termWithDetails : expression.getTerms().getTermsWithDetails())
+        {
+            multiplyThenAddTermIfTrueAndSubtractIfFalse(
+                        expressionCopy,
+                        getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer),
+                        termWithDetails.hasPositiveAssociation());
+        }
+    }
+    else
+    {
+        multiplyTerm(Term(expression));
+    }
+}
+
 void Expression::divideTerm(BaseTerm const& baseTerm)
 {
     if(!willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(
@@ -272,11 +384,16 @@ void Expression::reverseTheAssociationOfTheTerms()
     m_termsWithPriorityAndAssociation.reverseTheAssociationOfTheTerms();
 }
 
-void Expression::clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm)
+void Expression::clear()
 {
     m_termsWithPriorityAndAssociation.clear();
-    m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(baseTerm);
     m_commonOperatorLevel = OperatorLevel::Unknown;
+}
+
+void Expression::clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm)
+{
+    clear();
+    m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(baseTerm);
 }
 
 void Expression::simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify)
@@ -893,6 +1010,23 @@ void Expression::removeSameTermsInNumeratorAndDenominatorForMultiplicationAndDiv
     if(expressionsForNumerator.empty() && expressionsForDenominator.empty() && areSomeTermsCancelled)
     {
         expressionsForNumerator.emplace_back(getBaseTermConstReferenceFromTerm(Term(1)), AssociationType::Positive);
+    }
+}
+
+void Expression::multiplyThenAddTermIfTrueAndSubtractIfFalse(
+        Expression const& multiplicand,
+        BaseTerm const& term,
+        bool const isAdd)
+{
+    Expression expressionToAddOrSubtract(multiplicand);
+    expressionToAddOrSubtract.multiplyTerm(getTermConstReferenceFromBaseTerm(term));
+    if(isAdd)
+    {
+        addTerm(Term(expressionToAddOrSubtract));
+    }
+    else
+    {
+        subtractTerm(Term(expressionToAddOrSubtract));
     }
 }
 

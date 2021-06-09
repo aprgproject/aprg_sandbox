@@ -3,6 +3,7 @@
 #include <BaseTermData.hpp>
 #include <BaseTermPointers.hpp>
 #include <OperatorLevel.hpp>
+#include <Polynomial.hpp>
 #include <TermsWithPriorityAndAssociation.hpp>
 #include <TermType.hpp>
 
@@ -46,11 +47,15 @@ public:
     void multiplyTerm(BaseTerm const& baseTerm);
     void divideTerm(BaseTerm const& baseTerm);
     void raiseToPowerTerm(BaseTerm const& baseTerm);
+    void multiplyPolynomialFirst(Polynomial const& polynomial);
+    void multiplyPolynomialSecond(Polynomial const& polynomial);
+    void multiplyExpression(Expression const& expression);
 
     void set(OperatorLevel const operatorLevel, TermsWithPriorityAndAssociation termsWithPriorityAndAssociation);
     void setTerm(BaseTerm const& baseTerm);
     void setCommonOperatorLevel(OperatorLevel const operatorLevel);
     void reverseTheAssociationOfTheTerms();
+    void clear();
     void clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm);
 
 private:
@@ -119,6 +124,10 @@ private:
     void removeSameTermsInNumeratorAndDenominatorForMultiplicationAndDivision(
             TermsWithPriorityAndAssociation::TermsWithDetails & expressionsForNumerator,
             TermsWithPriorityAndAssociation::TermsWithDetails & expressionsForDenominator);
+    void multiplyThenAddTermIfTrueAndSubtractIfFalse(
+            Expression const& multiplicand,
+            BaseTerm const& term,
+            bool const isAdd);
     OperatorLevel m_commonOperatorLevel;
     TermsWithPriorityAndAssociation m_termsWithPriorityAndAssociation;
 };

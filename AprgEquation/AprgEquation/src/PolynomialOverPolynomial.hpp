@@ -30,6 +30,7 @@ private:
     Polynomial m_numerator;
     Polynomial m_denominator;
 };
+
 }
 
 }
