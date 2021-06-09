@@ -62,15 +62,32 @@ TEST(PolynomialTest, LessThanOperatorWorks)
                  < Polynomial({Monomial(6, {}), Monomial(8, {{"x", 2}, {"y", 3}})}));
 }
 
+TEST(PolynomialTest, IsOneWorks)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+    Polynomial polynomial4{Monomial(1, {{"x", 2}})};
+    Polynomial polynomial5{Monomial(1, {})};
+
+    EXPECT_FALSE(polynomial1.isOne());
+    EXPECT_FALSE(polynomial2.isOne());
+    EXPECT_FALSE(polynomial3.isOne());
+    EXPECT_FALSE(polynomial4.isOne());
+    EXPECT_TRUE(polynomial5.isOne());
+}
+
 TEST(PolynomialTest, IsZeroWorks)
 {
     Polynomial polynomial1;
     Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+    Polynomial polynomial4{Monomial(0, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
     EXPECT_TRUE(polynomial1.isZero());
     EXPECT_FALSE(polynomial2.isZero());
     EXPECT_FALSE(polynomial3.isZero());
+    EXPECT_FALSE(polynomial4.isZero());
 }
 
 TEST(PolynomialTest, IsOneMonomialWorks)

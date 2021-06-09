@@ -92,23 +92,23 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
             Operator const& operatorTerm(term2.getOperatorConstReference());
             if(operatorTerm.isAddition())
             {
-                newExpression.addTerm(getBaseTermConstReferenceFromTerm(term3));
+                newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(term3));
             }
             else if(operatorTerm.isSubtraction())
             {
-                newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(term3));
+                newExpression.putTermWithSubtraction(getBaseTermConstReferenceFromTerm(term3));
             }
             else if(operatorTerm.isMultiplication())
             {
-                newExpression.multiplyTerm(getBaseTermConstReferenceFromTerm(term3));
+                newExpression.putTermWithMultiplication(getBaseTermConstReferenceFromTerm(term3));
             }
             else if(operatorTerm.isDivision())
             {
-                newExpression.divideTerm(getBaseTermConstReferenceFromTerm(term3));
+                newExpression.putTermWithDivision(getBaseTermConstReferenceFromTerm(term3));
             }
             else if(operatorTerm.isRaiseToPower())
             {
-                newExpression.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(term3));
+                newExpression.putTermWithRaiseToPower(getBaseTermConstReferenceFromTerm(term3));
             }
             Term newTerm(newExpression);
             eraseTermsInclusive(index-1, index+1);
@@ -133,11 +133,11 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
             Operator const& operatorTerm(term1.getOperatorConstReference());
             if(operatorTerm.isAddition())
             {
-                newExpression.addTerm(getBaseTermConstReferenceFromTerm(term2));
+                newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(term2));
             }
             else if(operatorTerm.isSubtraction())
             {
-                newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(term2));
+                newExpression.putTermWithSubtraction(getBaseTermConstReferenceFromTerm(term2));
             }
             Term newTerm(newExpression);
             eraseTermsInclusive(index, index+1);

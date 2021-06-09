@@ -21,7 +21,6 @@ public:
     bool operator==(Operator const& second) const;
     bool operator!=(Operator const& second) const;
     bool operator<(Operator const& second) const;
-
     bool isAddition() const;
     bool isSubtraction() const;
     bool isMultiplication() const;

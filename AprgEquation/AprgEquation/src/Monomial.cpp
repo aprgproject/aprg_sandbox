@@ -112,16 +112,6 @@ bool Monomial::isVariableOnly() const
             (m_variablesToExponentsMap.cbegin())->second == 1;
 }
 
-string Monomial::getFirstVariableName() const
-{
-    string variableName;
-    if(!m_variablesToExponentsMap.empty())
-    {
-        variableName = (m_variablesToExponentsMap.cbegin())->first;
-    }
-    return variableName;
-}
-
 AlbaNumber const& Monomial::getConstantConstReference() const
 {
     return m_constant;
@@ -130,6 +120,16 @@ AlbaNumber const& Monomial::getConstantConstReference() const
 Monomial::VariablesToExponentsMap const& Monomial::getVariablesToExponentsMapConstReference() const
 {
     return m_variablesToExponentsMap;
+}
+
+string Monomial::getFirstVariableName() const
+{
+    string variableName;
+    if(!m_variablesToExponentsMap.empty())
+    {
+        variableName = (m_variablesToExponentsMap.cbegin())->first;
+    }
+    return variableName;
 }
 
 AlbaNumber Monomial::getDegree() const

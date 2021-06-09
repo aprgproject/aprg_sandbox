@@ -24,6 +24,20 @@ TEST(UtilitiesTest, IsOperatorWorks)
     EXPECT_FALSE(isOperator("add"));
 }
 
+TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForTermsWorks)
+{
+    EXPECT_TRUE(canBeMergedByAdditionOrSubtraction(Term(73), Term(84)));
+    EXPECT_TRUE(canBeMergedByAdditionOrSubtraction(Term(Variable("x")), Term(Variable("x"))));
+    EXPECT_TRUE(canBeMergedByAdditionOrSubtraction(Term(Monomial(96, {{"x", 1}})), Term(Monomial(96, {{"x", 1}}))));
+    EXPECT_TRUE(canBeMergedByAdditionOrSubtraction(Term(Monomial(96, {{"x", 1}})), Term(Variable("x"))));
+    EXPECT_TRUE(canBeMergedByAdditionOrSubtraction(Term(Variable("x")), Term(Monomial(96, {{"x", 1}}))));
+    EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(Term(Variable("x")), Term(Variable("y"))));
+    EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(Term(Monomial(96, {{"x", 1}})), Term(Monomial(96, {{"x", 5}}))));
+    EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(Term(Monomial(96, {{"a", 1}})), Term(Variable("x"))));
+    EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(Term(Variable("x")), Term(Monomial(96, {{"a", 1}}))));
+    EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(Term(Expression()), Term(Expression())));
+}
+
 TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForBothMonomialsWorks)
 {
     Monomial monomial1;
@@ -57,7 +71,56 @@ TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForMonomialAndVariableWork
     EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(monomial4, variable));
 }
 
+TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForBothVariablesWorks)
+{
+    EXPECT_TRUE(canBeMergedByAdditionOrSubtraction(Variable("x"), Variable("x")));
+    EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(Variable("x"), Variable("w")));
+    EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(Variable("w"), Variable("x")));
+}
+
+TEST(UtilitiesTest, WillHaveNoEffectOnAdditionOrSubtractionWorks)
+{
+    EXPECT_TRUE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term()));
+    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term(Constant(0))));
+    EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(15)));
+    EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Variable("x"))));
+    EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Monomial(96, {{"x", 1}}))));
+    EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Polynomial{Monomial(96, {{"x", 1}})})));
+    EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(createExpressionIfPossible(Terms{Term(254)}))));
+    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term(Expression())));
+}
+
+TEST(UtilitiesTest, WillHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPowerWorks)
+{
+    EXPECT_TRUE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term()));
+    EXPECT_FALSE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(Constant(0))));
+    EXPECT_FALSE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(15)));
+    EXPECT_TRUE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(1)));
+    EXPECT_FALSE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(Variable("x"))));
+    EXPECT_FALSE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(Monomial(96, {{"x", 1}}))));
+    EXPECT_TRUE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(Monomial(1, {}))));
+    EXPECT_FALSE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(Polynomial{Monomial(96, {{"x", 1}})})));
+    EXPECT_FALSE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(createExpressionIfPossible(Terms{Term(254)}))));
+    EXPECT_TRUE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(Expression())));
+}
+
 TEST(UtilitiesTest, GetOperatorLevelValueWorks)
+{
+    EXPECT_EQ(1u, getOperatorPriority("+"));
+    EXPECT_EQ(2u, getOperatorPriority("-"));
+    EXPECT_EQ(3u, getOperatorPriority("*"));
+    EXPECT_EQ(4u, getOperatorPriority("/"));
+    EXPECT_EQ(5u, getOperatorPriority("^"));
+    EXPECT_EQ(0u, getOperatorPriority("operator"));
+}
+
+TEST(UtilitiesTest, GetAssociationPriorityWorks)
+{
+    EXPECT_EQ(1u, getAssociationPriority(AssociationType::Positive));
+    EXPECT_EQ(2u, getAssociationPriority(AssociationType::Negative));
+}
+
+TEST(UtilitiesTest, GetOperatorLevelInversePriorityWorks)
 {
     EXPECT_EQ(0u, getOperatorLevelInversePriority(OperatorLevel::Unknown));
     EXPECT_EQ(3u, getOperatorLevelInversePriority(OperatorLevel::AdditionAndSubtraction));
@@ -83,6 +146,14 @@ TEST(UtilitiesTest, CreateMonomialConstantWorks)
 TEST(UtilitiesTest, CreateMonomialVariableWorks)
 {
     EXPECT_EQ(Monomial(1, {{"weight", 1}}), createMonomialVariable("weight"));
+}
+
+TEST(UtilitiesTest, CreatePolynomialIfPossibleWorks)
+{
+    EXPECT_EQ((Polynomial{Monomial(97, {})}), createPolynomialIfPossible(Term(97)));
+    EXPECT_EQ((Polynomial{Monomial(1, {{"weight", 1}})}), createPolynomialIfPossible(Term("weight")));
+    EXPECT_EQ((Polynomial{Monomial(24, {{"i", 5}})}), createPolynomialIfPossible(Term(Monomial(24, {{"i", 5}}))));
+    EXPECT_EQ((Polynomial{Monomial(39, {{"r", 7}})}), createPolynomialIfPossible(Term(Polynomial{Monomial(39, {{"r", 7}})})));
 }
 
 TEST(UtilitiesTest, CreateExpressionInExpressionWorks)
@@ -213,6 +284,15 @@ TEST(UtilitiesTest, CreateSimplifiedExpressionIfPossibleReturnsEmptyIfListOfTerm
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
     ASSERT_TRUE(termsToVerify.empty());
+}
+
+TEST(UtilitiesTest, ConvertExpressionToSimplestTermWorks)
+{
+    Term termToVerify1(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{})));
+    Term termToVerify2(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{Term(156)})));
+
+    ASSERT_EQ(Term(), termToVerify1);
+    ASSERT_EQ(Term(156), termToVerify2);
 }
 
 TEST(UtilitiesTest, SimplifyAndConvertExpressionToSimplestTermWorks)

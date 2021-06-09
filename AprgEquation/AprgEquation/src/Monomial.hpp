@@ -42,9 +42,9 @@ public:
     bool isConstantOnly() const;
     bool isVariableOnly() const;
 
-    std::string getFirstVariableName() const;
     AlbaNumber const& getConstantConstReference() const;
     VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;
+    std::string getFirstVariableName() const;
     AlbaNumber getDegree() const;
     AlbaNumber getExponentForVariable(std::string const& variableName) const;
     std::string getDisplayableString() const;

@@ -219,6 +219,31 @@ TEST(TermTest, LessThanOperatorWorks)
     EXPECT_TRUE(term2<term6);
 }
 
+TEST(TermTest, IsEmptyWorks)
+{
+    Term term1;
+    Term term2(Constant(0));
+    Term term3(1);
+    Term term4(Variable("length"));
+    Term term5(Operator("+"));
+    Term term6(Monomial(0, {}));
+    Term term7(Monomial(1, {}));
+    Term term8(Polynomial{});
+    Term term9(Polynomial{Monomial(1, {})});
+    Term term10(Expression{});
+
+    EXPECT_TRUE(term1.isEmpty());
+    EXPECT_FALSE(term2.isEmpty());
+    EXPECT_FALSE(term3.isEmpty());
+    EXPECT_FALSE(term4.isEmpty());
+    EXPECT_FALSE(term5.isEmpty());
+    EXPECT_FALSE(term6.isEmpty());
+    EXPECT_FALSE(term7.isEmpty());
+    EXPECT_FALSE(term8.isEmpty());
+    EXPECT_FALSE(term9.isEmpty());
+    EXPECT_TRUE(term10.isEmpty());
+}
+
 TEST(TermTest, IsConstantWorks)
 {
     Term term1;
@@ -369,31 +394,6 @@ TEST(TermTest, IsValueTermButNotAnExpressionWorks)
     EXPECT_TRUE(term5.isValueTermButNotAnExpression());
     EXPECT_TRUE(term6.isValueTermButNotAnExpression());
     EXPECT_FALSE(term7.isValueTermButNotAnExpression());
-}
-
-TEST(TermTest, IsEmptyWorks)
-{
-    Term term1;
-    Term term2(Constant(0));
-    Term term3(1);
-    Term term4(Variable("length"));
-    Term term5(Operator("+"));
-    Term term6(Monomial(0, {}));
-    Term term7(Monomial(1, {}));
-    Term term8(Polynomial{});
-    Term term9(Polynomial{Monomial(1, {})});
-    Term term10(Expression{});
-
-    EXPECT_TRUE(term1.isEmpty());
-    EXPECT_FALSE(term2.isEmpty());
-    EXPECT_FALSE(term3.isEmpty());
-    EXPECT_FALSE(term4.isEmpty());
-    EXPECT_FALSE(term5.isEmpty());
-    EXPECT_FALSE(term6.isEmpty());
-    EXPECT_FALSE(term7.isEmpty());
-    EXPECT_FALSE(term8.isEmpty());
-    EXPECT_FALSE(term9.isEmpty());
-    EXPECT_TRUE(term10.isEmpty());
 }
 
 TEST(TermTest, IsTheValueZeroWorks)

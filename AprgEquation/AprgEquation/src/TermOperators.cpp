@@ -124,7 +124,7 @@ Term operator+(Constant const& constant, Polynomial const& polynomial)
 Term operator+(Constant const& constant, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(constant)));
-    newExpression.addTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -180,7 +180,7 @@ Term operator+(Variable const& variable, Polynomial const& polynomial)
 Term operator+(Variable const& variable, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(variable)));
-    newExpression.addTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -241,7 +241,7 @@ Term operator+(Monomial const& monomial, Polynomial const& polynomial)
 Term operator+(Monomial const& monomial, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(monomial)));
-    newExpression.addTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -276,42 +276,42 @@ Term operator+(Polynomial const& polynomial1, Polynomial const& polynomial2)
 Term operator+(Polynomial const& polynomial, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(polynomial)));
-    newExpression.addTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator+(Expression const& expression, Constant const& constant)
 {
     Expression newExpression(expression);
-    newExpression.addTerm(getBaseTermConstReferenceFromTerm(Term(constant)));
+    newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(Term(constant)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator+(Expression const& expression, Variable const& variable)
 {
     Expression newExpression(expression);
-    newExpression.addTerm(getBaseTermConstReferenceFromTerm(Term(variable)));
+    newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(Term(variable)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator+(Expression const& expression, Monomial const& monomial)
 {
     Expression newExpression(expression);
-    newExpression.addTerm(getBaseTermConstReferenceFromTerm(Term(monomial)));
+    newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(Term(monomial)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator+(Expression const& expression, Polynomial const& polynomial)
 {
     Expression newExpression(expression);
-    newExpression.addTerm(getBaseTermConstReferenceFromTerm(Term(polynomial)));
+    newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(Term(polynomial)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator+(Expression const& expression1, Expression const& expression2)
 {
     Expression newExpression(expression1);
-    newExpression.addTerm(getBaseTermConstReferenceFromTerm(Term(expression2)));
+    newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(Term(expression2)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -365,7 +365,7 @@ Term operator-(Constant const& constant, Polynomial const& polynomial)
 Term operator-(Constant const& constant, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(constant)));
-    newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithSubtraction(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -422,7 +422,7 @@ Term operator-(Variable const& variable, Polynomial const& polynomial)
 Term operator-(Variable const& variable, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(variable)));
-    newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithSubtraction(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -489,7 +489,7 @@ Term operator-(Monomial const& monomial, Polynomial const& polynomial)
 Term operator-(Monomial const& monomial, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(monomial)));
-    newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithSubtraction(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -526,42 +526,42 @@ Term operator-(Polynomial const& polynomial1, Polynomial const& polynomial2)
 Term operator-(Polynomial const& polynomial, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(polynomial)));
-    newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithSubtraction(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator-(Expression const& expression, Constant const& constant)
 {
     Expression newExpression(expression);
-    newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(Term(constant)));
+    newExpression.putTermWithSubtraction(getBaseTermConstReferenceFromTerm(Term(constant)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator-(Expression const& expression, Variable const& variable)
 {
     Expression newExpression(expression);
-    newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(Term(variable)));
+    newExpression.putTermWithSubtraction(getBaseTermConstReferenceFromTerm(Term(variable)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator-(Expression const& expression, Monomial const& monomial)
 {
     Expression newExpression(expression);
-    newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(Term(monomial)));
+    newExpression.putTermWithSubtraction(getBaseTermConstReferenceFromTerm(Term(monomial)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator-(Expression const& expression, Polynomial const& polynomial)
 {
     Expression newExpression(expression);
-    newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(Term(polynomial)));
+    newExpression.putTermWithSubtraction(getBaseTermConstReferenceFromTerm(Term(polynomial)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator-(Expression const& expression1, Expression const& expression2)
 {
     Expression newExpression(expression1);
-    newExpression.subtractTerm(getBaseTermConstReferenceFromTerm(Term(expression2)));
+    newExpression.putTermWithSubtraction(getBaseTermConstReferenceFromTerm(Term(expression2)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -608,7 +608,7 @@ Term operator*(Constant const& constant, Polynomial const& polynomial)
 Term operator*(Constant const& constant, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(constant)));
-    newExpression.multiplyTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithMultiplication(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -653,7 +653,7 @@ Term operator*(Variable const& variable, Polynomial const& polynomial)
 Term operator*(Variable const& variable, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(variable)));
-    newExpression.multiplyTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithMultiplication(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -703,7 +703,7 @@ Term operator*(Monomial const& monomial, Polynomial const& polynomial)
 Term operator*(Monomial const& monomial, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(monomial)));
-    newExpression.multiplyTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithMultiplication(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -738,47 +738,49 @@ Term operator*(Polynomial const& polynomial1, Polynomial const& polynomial2)
 Term operator*(Polynomial const& polynomial, Expression const& expression)
 {
     Expression newExpression(expression);
-    newExpression.multiplyPolynomialFirst(polynomial);
+    newExpression.putPolynomialFirstWithMultiplication(polynomial);
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator*(Expression const& expression, Constant const& constant)
 {
     Expression newExpression(expression);
-    newExpression.multiplyTerm(getBaseTermConstReferenceFromTerm(Term(constant)));
+    newExpression.putTermWithMultiplication(getBaseTermConstReferenceFromTerm(Term(constant)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator*(Expression const& expression, Variable const& variable)
 {
     Expression newExpression(expression);
-    newExpression.multiplyTerm(getBaseTermConstReferenceFromTerm(Term(variable)));
+    newExpression.putTermWithMultiplication(getBaseTermConstReferenceFromTerm(Term(variable)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator*(Expression const& expression, Monomial const& monomial)
 {
     Expression newExpression(expression);
-    newExpression.multiplyTerm(getBaseTermConstReferenceFromTerm(Term(monomial)));
+    newExpression.putTermWithMultiplication(getBaseTermConstReferenceFromTerm(Term(monomial)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator*(Expression const& expression, Polynomial const& polynomial)
 {
     Expression newExpression(expression);
-    newExpression.multiplyPolynomialSecond(polynomial);
+    newExpression.putPolynomialSecondWithMultiplication(polynomial);
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator*(Expression const& expression1, Expression const& expression2)
 {
     Expression newExpression(expression1);
-    newExpression.multiplyExpression(expression2);
+    newExpression.putExpressionWithMultiplication(expression2);
     return convertExpressionToSimplestTerm(newExpression);
 }
+
 Term operator*(Term const& term1, Term const& term2)
 {
-    return performMultiplication(term1, term2);}
+    return performMultiplication(term1, term2);
+}
 
 
 //Divsion: a / b
@@ -815,7 +817,7 @@ Term operator/(Constant const& constant, Polynomial const& polynomial)
 Term operator/(Constant const& constant, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(constant)));
-    newExpression.divideTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithDivision(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -858,7 +860,7 @@ Term operator/(Variable const& variable, Polynomial const& polynomial)
 Term operator/(Variable const& variable, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(variable)));
-    newExpression.divideTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithDivision(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -906,7 +908,7 @@ Term operator/(Monomial const& monomial, Polynomial const& polynomial)
 Term operator/(Monomial const& monomial, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(monomial)));
-    newExpression.divideTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithDivision(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -939,42 +941,42 @@ Term operator/(Polynomial const& polynomial1, Polynomial const& polynomial2)
 Term operator/(Polynomial const& polynomial, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(polynomial)));
-    newExpression.divideTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithDivision(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator/(Expression const& expression, Constant const& constant)
 {
     Expression newExpression(expression);
-    newExpression.divideTerm(getBaseTermConstReferenceFromTerm(Term(constant)));
+    newExpression.putTermWithDivision(getBaseTermConstReferenceFromTerm(Term(constant)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator/(Expression const& expression, Variable const& variable)
 {
     Expression newExpression(expression);
-    newExpression.divideTerm(getBaseTermConstReferenceFromTerm(Term(variable)));
+    newExpression.putTermWithDivision(getBaseTermConstReferenceFromTerm(Term(variable)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator/(Expression const& expression, Monomial const& monomial)
 {
     Expression newExpression(expression);
-    newExpression.divideTerm(getBaseTermConstReferenceFromTerm(Term(monomial)));
+    newExpression.putTermWithDivision(getBaseTermConstReferenceFromTerm(Term(monomial)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator/(Expression const& expression, Polynomial const& polynomial)
 {
     Expression newExpression(expression);
-    newExpression.divideTerm(getBaseTermConstReferenceFromTerm(Term(polynomial)));
+    newExpression.putTermWithDivision(getBaseTermConstReferenceFromTerm(Term(polynomial)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator/(Expression const& expression1, Expression const& expression2)
 {
     Expression newExpression(expression1);
-    newExpression.divideTerm(getBaseTermConstReferenceFromTerm(Term(expression2)));
+    newExpression.putTermWithDivision(getBaseTermConstReferenceFromTerm(Term(expression2)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -1016,7 +1018,7 @@ Term operator^(Constant const& constant, Polynomial const& polynomial)
 Term operator^(Constant const& constant, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(constant)));
-    newExpression.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithRaiseToPower(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -1043,7 +1045,7 @@ Term operator^(Variable const& variable, Polynomial const& polynomial)
 Term operator^(Variable const& variable, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(variable)));
-    newExpression.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithRaiseToPower(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -1079,7 +1081,7 @@ Term operator^(Monomial const& monomial, Polynomial const& polynomial)
 Term operator^(Monomial const& monomial, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(monomial)));
-    newExpression.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithRaiseToPower(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
@@ -1137,42 +1139,42 @@ Term operator^(Polynomial const& polynomial1, Polynomial const& polynomial2)
 Term operator^(Polynomial const& polynomial, Expression const& expression)
 {
     Expression newExpression(getBaseTermConstReferenceFromTerm(Term(polynomial)));
-    newExpression.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(Term(expression)));
+    newExpression.putTermWithRaiseToPower(getBaseTermConstReferenceFromTerm(Term(expression)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator^(Expression const& expression, Constant const& constant)
 {
     Expression newExpression(expression);
-    newExpression.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(Term(constant)));
+    newExpression.putTermWithRaiseToPower(getBaseTermConstReferenceFromTerm(Term(constant)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator^(Expression const& expression, Variable const& variable)
 {
     Expression newExpression(expression);
-    newExpression.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(Term(variable)));
+    newExpression.putTermWithRaiseToPower(getBaseTermConstReferenceFromTerm(Term(variable)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator^(Expression const& expression, Monomial const& monomial)
 {
     Expression newExpression(expression);
-    newExpression.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(Term(monomial)));
+    newExpression.putTermWithRaiseToPower(getBaseTermConstReferenceFromTerm(Term(monomial)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator^(Expression const& expression, Polynomial const& polynomial)
 {
     Expression newExpression(expression);
-    newExpression.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(Term(polynomial)));
+    newExpression.putTermWithRaiseToPower(getBaseTermConstReferenceFromTerm(Term(polynomial)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term operator^(Expression const& expression1, Expression const& expression2)
 {
     Expression newExpression(expression1);
-    newExpression.raiseToPowerTerm(getBaseTermConstReferenceFromTerm(Term(expression2)));
+    newExpression.putTermWithRaiseToPower(getBaseTermConstReferenceFromTerm(Term(expression2)));
     return convertExpressionToSimplestTerm(newExpression);
 }
 
