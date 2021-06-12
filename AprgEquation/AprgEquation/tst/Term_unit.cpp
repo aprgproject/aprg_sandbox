@@ -511,6 +511,32 @@ TEST(TermTest, SortWorks)
     EXPECT_EQ(expectTerm5, term5);
 }
 
+TEST(TermTest, SubstituteVariablesToValuesWorks)
+{
+    Term term1;
+    Term term2("x");
+    Term term3(Monomial(7, {{"x", 3}}));
+    Term term4(Polynomial{Monomial(1, {{"y", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 3}})});
+    Term term5(createExpressionIfPossible(Terms{Term("x"), Term("^"), Term("y")}));
+
+    term1.substituteVariablesToValues({{"x", 2}, {"y", 5}});
+    term2.substituteVariablesToValues({{"x", 2}, {"y", 5}});
+    term3.substituteVariablesToValues({{"x", 2}, {"y", 5}});
+    term4.substituteVariablesToValues({{"x", 2}, {"y", 5}});
+    term5.substituteVariablesToValues({{"x", 2}, {"y", 5}});
+
+    Term expectTerm1;
+    Term expectTerm2(2);
+    Term expectTerm3(Monomial(56, {}));
+    Term expectTerm4(Polynomial{Monomial(125, {}), Monomial(50, {}), Monomial(20, {}), Monomial(40, {})});
+    Term expectTerm5(createExpressionIfPossible(Terms{Term(2), Term("^"), Term(5)}));
+    EXPECT_EQ(expectTerm1, term1);
+    EXPECT_EQ(expectTerm2, term2);
+    EXPECT_EQ(expectTerm3, term3);
+    EXPECT_EQ(expectTerm4, term4);
+    EXPECT_EQ(expectTerm5, term5);
+}
+
 }
 
 }

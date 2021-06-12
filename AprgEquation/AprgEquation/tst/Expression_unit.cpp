@@ -1465,6 +1465,24 @@ TEST(ExpressionTest, SortWorks)
     EXPECT_EQ(expressionToExpect, expression);
 }
 
+TEST(ExpressionTest, SubstituteVariablesToValuesWorks)
+{
+    Expression expression1;
+    Expression expression2(createExpressionIfPossible(Terms{Term("x"), Term("^"), Term("y")}));
+
+    expression1.substituteVariablesToValues({{"x", 2}, {"y", 5}});
+    expression2.substituteVariablesToValues({{"x", 2}, {"y", 5}});
+
+    Expression expressionToExpect1;
+    Expression expressionToExpect2(
+                createExpressionIfPossible(
+                    Terms{
+                        Term(2), Term("^"), Term(5)
+                    }));
+    EXPECT_EQ(expressionToExpect1, expression1);
+    EXPECT_EQ(expressionToExpect2, expression2);
+}
+
 }
 
 }

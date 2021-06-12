@@ -135,17 +135,15 @@ void Polynomial::simplifyAndSort()
 void Polynomial::simplify()
 {
     Polynomial beforeSimplify(*this);
-    Monomials oldMonomials(m_monomials);
+    Monomials previousMonomials(m_monomials);
     m_monomials.clear();
-    for(Monomial & monomial : oldMonomials)
+    for(Monomial & monomial : previousMonomials)
     {
         monomial.simplify();
-        if(!monomial.isZero())
-        {
+        if(!monomial.isZero())        {
             addMonomial(monomial);
         }
-    }
-    Polynomial afterSimplify(*this);
+    }    Polynomial afterSimplify(*this);
     simplifyFurtherIfNeeded(beforeSimplify, afterSimplify);
 }
 
@@ -157,14 +155,20 @@ void Polynomial::sortMonomialsWithInversePriority()
     });
 }
 
+void Polynomial::substituteVariablesToValues(VariablesToValuesMap const& variableValueMap)
+{
+    for(Monomial & monomial : m_monomials)
+    {
+        monomial.substituteVariablesToValues(variableValueMap);
+    }
+}
+
 void Polynomial::addMonomial(Monomial const& monomial)
 {
-    bool isFoundInPolynomial(false);
-    for(Monomial & monomialInternal : m_monomials)
+    bool isFoundInPolynomial(false);    for(Monomial & monomialInternal : m_monomials)
     {
         if(canBeMergedByAdditionOrSubtraction(monomialInternal, monomial))
-        {
-            isFoundInPolynomial=true;
+        {            isFoundInPolynomial=true;
             monomialInternal.setConstant(monomialInternal.getConstantConstReference() + monomial.getConstantConstReference());
         }
     }

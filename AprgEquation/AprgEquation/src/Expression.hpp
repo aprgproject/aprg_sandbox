@@ -6,13 +6,12 @@
 #include <Polynomial.hpp>
 #include <TermsWithPriorityAndAssociation.hpp>
 #include <TermType.hpp>
+#include <VariablesToValuesTypes.hpp>
 
 #include <functional>
 #include <string>
-
 namespace alba
 {
-
 namespace equation
 {
 
@@ -57,13 +56,12 @@ public:
 
     void simplify();
     void sort();
+    void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
 
 private:
-
     //simplify functions
     void simplifyAndCopyTerms(
-            TermsWithPriorityAndAssociation::TermsWithDetails & termsToUpdate,
-            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSegregate);
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsToUpdate,            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSegregate);
     void simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
             TermsWithPriorityAndAssociation::TermsWithDetails & termsToUpdate,
             Expression const& expression,
@@ -152,14 +150,12 @@ private:
     void removeSameTermsInNumeratorAndDenominatorForMultiplicationAndDivision(
             TermsWithPriorityAndAssociation::TermsWithDetails & expressionsForNumerator,
             TermsWithPriorityAndAssociation::TermsWithDetails & expressionsForDenominator) const;
-    void multiplyThenAddTermIfTrueAndSubtractIfFalse(
+    void multiplyThenPutTermAsAddIfTrueAndAsSubtractIfFalse(
             Expression const& multiplicand,
             BaseTerm const& multiplier,
-            bool const isAdd);
-    OperatorLevel m_commonOperatorLevel;
+            bool const isAdd);    OperatorLevel m_commonOperatorLevel;
     TermsWithPriorityAndAssociation m_termsWithPriorityAndAssociation;
 };
-
 }
 
 }
