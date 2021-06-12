@@ -2,13 +2,12 @@
 
 #include <Math/AlbaMathHelper.hpp>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
+
 namespace equation
 {
 
@@ -38,7 +37,8 @@ PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::simplif
 
 void PolynomialOverPolynomial::simplify()
 {
-    convertFractionCoefficientsToInteger();    removeGcfOnCoefficients();
+    convertFractionCoefficientsToInteger();
+    removeGcfOnCoefficients();
     convertNegativeExponentsToPositive();
     removeCommonVariableExponents();
     m_numerator.simplify();
@@ -81,10 +81,12 @@ PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide(
 
 unsigned int PolynomialOverPolynomial::getLcmForDenominatorCoefficients(Polynomial const& polynomial)
 {
-    unsigned int lcm(1);    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    unsigned int lcm(1);
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
         AlbaNumber const& coefficient(monomial.getConstantConstReference());
-        if(coefficient.isFractionType())        {
+        if(coefficient.isFractionType())
+        {
             AlbaNumber::FractionData fractionData(coefficient.getFractionData());
             lcm = getLeastCommonMultiple(lcm, fractionData.denominator);
         }

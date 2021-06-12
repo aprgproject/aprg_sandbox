@@ -10,15 +10,14 @@
 #include <algorithm>
 #include <sstream>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace std;
 using AssociationType=alba::equation::TermsWithPriorityAndAssociation::AssociationType;
-using TermWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermWithDetails;using TermsWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermsWithDetails;
+using TermWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermWithDetails;
+using TermsWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermsWithDetails;
 using ListOfTermsWithDetails=alba::equation::TermsWithPriorityAndAssociation::ListOfTermsWithDetails;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -399,10 +398,12 @@ void Expression::sort()
 
 void Expression::simplifyAndCopyTerms(
         TermsWithDetails & termsToUpdate,
-        TermsWithDetails const& termsToCheck){
+        TermsWithDetails const& termsToCheck)
+{
     for(TermWithDetails const& termWithDetails : termsToCheck)
     {
-        BaseTerm const& baseTerm(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));        Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
+        BaseTerm const& baseTerm(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
         if(term.isExpression())
         {
             Expression expression(term.getExpressionConstReference());
@@ -652,10 +653,12 @@ void Expression::accumulateTermsForRaiseToPower(
 
 void Expression::segregateNonExpressionsAndExpressions(
         TermsWithDetails & termsWithNonExpressions,
-        TermsWithDetails & termsWithExpressions,        TermsWithDetails const& termsToSegregate) const
+        TermsWithDetails & termsWithExpressions,
+        TermsWithDetails const& termsToSegregate) const
 {
     for(TermWithDetails const& termToSegregate : termsToSegregate)
-    {        Term const& term(getTermConstReferenceFromSharedPointer(termToSegregate.baseTermSharedPointer));
+    {
+        Term const& term(getTermConstReferenceFromSharedPointer(termToSegregate.baseTermSharedPointer));
         if(term.isExpression())
         {
             termsWithExpressions.emplace_back(termToSegregate);

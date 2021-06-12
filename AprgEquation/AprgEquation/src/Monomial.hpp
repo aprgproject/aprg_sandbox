@@ -44,10 +44,12 @@ public:
     bool hasNegativeExponents() const;
 
     AlbaNumber const& getConstantConstReference() const;
-    VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;    std::string getFirstVariableName() const;
+    VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;
+    std::string getFirstVariableName() const;
     AlbaNumber getDegree() const;
     AlbaNumber getExponentForVariable(std::string const& variableName) const;
     std::string getDisplayableString() const;
+
     void simplify();
     void multiplyNumber(AlbaNumber const& number);
     void raiseToPowerNumber(AlbaNumber const& number);

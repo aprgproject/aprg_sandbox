@@ -72,7 +72,9 @@ Term operator-(Polynomial const& polynomial)
 
 Term operator-(Expression const& expression)
 {
-    return Term(expression*-1);
+    Expression newExpression(expression);
+    newExpression.putTermWithMultiplication(getBaseTermConstReferenceFromTerm(Term(-1)));
+    return Term(newExpression);
 }
 
 Term operator-(Term const& term)

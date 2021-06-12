@@ -62,10 +62,12 @@ private:
 
     //simplify functions
     void simplifyAndCopyTerms(
-            TermsWithPriorityAndAssociation::TermsWithDetails & termsToUpdate,            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSegregate);
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsToUpdate,
+            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSegregate);
     void simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
             TermsWithPriorityAndAssociation::TermsWithDetails & termsToUpdate,
-            Expression const& expression,            TermsWithPriorityAndAssociation::AssociationType const association);
+            Expression const& expression,
+            TermsWithPriorityAndAssociation::AssociationType const association);
     void simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify);
 
     //process functions
@@ -91,10 +93,12 @@ private:
 
     //segregate functions
     void segregateNonExpressionsAndExpressions(
-            TermsWithPriorityAndAssociation::TermsWithDetails & termsWithNonExpressions,            TermsWithPriorityAndAssociation::TermsWithDetails & termsWithExpressions,
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsWithNonExpressions,
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsWithExpressions,
             TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSegregate) const;
     void segregateNumeratorAndDenominatorForMultiplicationAndDivision(
-            TermsWithPriorityAndAssociation::TermsWithDetails & termsForNumerator,            TermsWithPriorityAndAssociation::TermsWithDetails & termsForDenominator,
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsForNumerator,
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsForDenominator,
             TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSegregate) const;
 
     //put functions

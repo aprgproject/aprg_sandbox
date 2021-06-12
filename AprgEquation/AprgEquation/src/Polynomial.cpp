@@ -5,15 +5,14 @@
 #include <algorithm>
 #include <sstream>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
+
 Polynomial::Polynomial()
 {}
 
@@ -138,7 +137,8 @@ void Polynomial::simplify()
     Polynomial beforeSimplify(*this);
     Monomials oldMonomials(m_monomials);
     m_monomials.clear();
-    for(Monomial & monomial : oldMonomials)    {
+    for(Monomial & monomial : oldMonomials)
+    {
         monomial.simplify();
         if(!monomial.isZero())
         {
@@ -157,10 +157,12 @@ void Polynomial::sortMonomialsWithInversePriority()
     });
 }
 
-void Polynomial::addMonomial(Monomial const& monomial){
+void Polynomial::addMonomial(Monomial const& monomial)
+{
     bool isFoundInPolynomial(false);
     for(Monomial & monomialInternal : m_monomials)
-    {        if(canBeMergedByAdditionOrSubtraction(monomialInternal, monomial))
+    {
+        if(canBeMergedByAdditionOrSubtraction(monomialInternal, monomial))
         {
             isFoundInPolynomial=true;
             monomialInternal.setConstant(monomialInternal.getConstantConstReference() + monomial.getConstantConstReference());
