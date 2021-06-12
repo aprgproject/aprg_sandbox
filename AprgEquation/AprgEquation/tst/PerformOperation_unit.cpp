@@ -4,8 +4,7 @@
 #include <gtest/gtest.h>
 
 using namespace std;
-using TermWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermWithDetails;
-using AssociationType=alba::equation::TermsWithPriorityAndAssociation::AssociationType;
+using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
 
 namespace alba
 {
@@ -41,8 +40,8 @@ TEST(PerformOperationTest, AccumulateAndDoOperationOnTermDetailsWorks)
 {
     Term newTerm1(45);
     Term newTerm2(45);
-    TermWithDetails termWithDetails1(getBaseTermConstReferenceFromTerm(Term(25)), AssociationType::Positive);
-    TermWithDetails termWithDetails2(getBaseTermConstReferenceFromTerm(Term(25)), AssociationType::Negative);
+    TermWithDetails termWithDetails1(getBaseTermConstReferenceFromTerm(Term(25)), TermAssociationType::Positive);
+    TermWithDetails termWithDetails2(getBaseTermConstReferenceFromTerm(Term(25)), TermAssociationType::Negative);
 
     accumulateAndDoOperationOnTermDetails(newTerm1, OperatorLevel::AdditionAndSubtraction, termWithDetails1);
     accumulateAndDoOperationOnTermDetails(newTerm2, OperatorLevel::AdditionAndSubtraction, termWithDetails2);

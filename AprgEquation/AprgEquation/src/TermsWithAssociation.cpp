@@ -1,4 +1,4 @@
-#include "TermsWithPriorityAndAssociation.hpp"
+#include "TermsWithAssociation.hpp"
 
 #include <Term.hpp>
 #include <Utilities.hpp>
@@ -13,31 +13,31 @@ namespace alba
 namespace equation
 {
 
-TermsWithPriorityAndAssociation::TermWithDetails::TermWithDetails(
+TermsWithAssociation::TermWithDetails::TermWithDetails(
         BaseTerm const& baseTerm,
-        TermsWithPriorityAndAssociation::AssociationType const associationParameter)
+        TermAssociationType const associationParameter)
     : baseTermSharedPointer(copyAndCreateNewTermAndReturnSharedPointer(getTermConstReferenceFromBaseTerm(baseTerm)))
     , association(associationParameter)
 {}
 
-TermsWithPriorityAndAssociation::TermWithDetails::TermWithDetails(TermWithDetails const& termWithDetails)
+TermsWithAssociation::TermWithDetails::TermWithDetails(TermWithDetails const& termWithDetails)
     : baseTermSharedPointer(createNewTermAndReturnSharedPointer(termWithDetails.baseTermSharedPointer))
     , association(termWithDetails.association)
 {}
 
-bool TermsWithPriorityAndAssociation::TermWithDetails::operator==(TermWithDetails const& second) const
+bool TermsWithAssociation::TermWithDetails::operator==(TermWithDetails const& second) const
 {
     Term const& term1(getTermConstReferenceFromSharedPointer(baseTermSharedPointer));
     Term const& term2(getTermConstReferenceFromSharedPointer(second.baseTermSharedPointer));
     return term1 == term2 && association == second.association;
 }
 
-bool TermsWithPriorityAndAssociation::TermWithDetails::operator!=(TermWithDetails const& second) const
+bool TermsWithAssociation::TermWithDetails::operator!=(TermWithDetails const& second) const
 {
     return !(operator==(second));
 }
 
-bool TermsWithPriorityAndAssociation::TermWithDetails::operator<(TermWithDetails const& second) const
+bool TermsWithAssociation::TermWithDetails::operator<(TermWithDetails const& second) const
 {
     bool result(false);
     if(association == second.association)
@@ -53,34 +53,34 @@ bool TermsWithPriorityAndAssociation::TermWithDetails::operator<(TermWithDetails
     return result;
 }
 
-bool TermsWithPriorityAndAssociation::TermWithDetails::hasPositiveAssociation() const
+bool TermsWithAssociation::TermWithDetails::hasPositiveAssociation() const
 {
-    return AssociationType::Positive == association;
+    return TermAssociationType::Positive == association;
 }
 
-bool TermsWithPriorityAndAssociation::TermWithDetails::hasNegativeAssociation() const
+bool TermsWithAssociation::TermWithDetails::hasNegativeAssociation() const
 {
-    return AssociationType::Negative == association;
+    return TermAssociationType::Negative == association;
 }
 
-unsigned int TermsWithPriorityAndAssociation::TermWithDetails::getAssociationPriority() const
+unsigned int TermsWithAssociation::TermWithDetails::getAssociationPriority() const
 {
     return equation::getAssociationPriority(association);
 }
 
-void TermsWithPriorityAndAssociation::TermWithDetails::clear()
+void TermsWithAssociation::TermWithDetails::clear()
 {
     baseTermSharedPointer.reset();
-    association=AssociationType::Positive;
+    association=TermAssociationType::Positive;
 }
 
-TermsWithPriorityAndAssociation::TermsWithPriorityAndAssociation()
+TermsWithAssociation::TermsWithAssociation()
 {}
 
-TermsWithPriorityAndAssociation::~TermsWithPriorityAndAssociation()
+TermsWithAssociation::~TermsWithAssociation()
 {}
 
-bool TermsWithPriorityAndAssociation::operator==(TermsWithPriorityAndAssociation const& second) const
+bool TermsWithAssociation::operator==(TermsWithAssociation const& second) const
 {
     TermsWithDetails const& terms1(m_termsWithDetails);
     TermsWithDetails const& terms2(second.m_termsWithDetails);
@@ -101,12 +101,12 @@ bool TermsWithPriorityAndAssociation::operator==(TermsWithPriorityAndAssociation
     return result;
 }
 
-bool TermsWithPriorityAndAssociation::operator!=(TermsWithPriorityAndAssociation const& second) const
+bool TermsWithAssociation::operator!=(TermsWithAssociation const& second) const
 {
     return !(operator==(second));
 }
 
-bool TermsWithPriorityAndAssociation::operator<(TermsWithPriorityAndAssociation const& second) const
+bool TermsWithAssociation::operator<(TermsWithAssociation const& second) const
 {
     TermsWithDetails const& terms1(m_termsWithDetails);
     TermsWithDetails const& terms2(second.m_termsWithDetails);
@@ -132,32 +132,32 @@ bool TermsWithPriorityAndAssociation::operator<(TermsWithPriorityAndAssociation 
     return result;
 }
 
-bool TermsWithPriorityAndAssociation::isEmpty() const
+bool TermsWithAssociation::isEmpty() const
 {
     return m_termsWithDetails.empty();
 }
 
-unsigned int TermsWithPriorityAndAssociation::getSize() const
+unsigned int TermsWithAssociation::getSize() const
 {
     return m_termsWithDetails.size();
 }
 
-BaseTerm const& TermsWithPriorityAndAssociation::getFirstTermConstReference() const
+BaseTerm const& TermsWithAssociation::getFirstTermConstReference() const
 {
     return getBaseTermConstReferenceFromSharedPointer(m_termsWithDetails.front().baseTermSharedPointer);
 }
 
-TermsWithPriorityAndAssociation::TermsWithDetails const& TermsWithPriorityAndAssociation::getTermsWithDetails() const
+TermsWithAssociation::TermsWithDetails const& TermsWithAssociation::getTermsWithDetails() const
 {
     return m_termsWithDetails;
 }
 
-void TermsWithPriorityAndAssociation::clear()
+void TermsWithAssociation::clear()
 {
     m_termsWithDetails.clear();
 }
 
-void TermsWithPriorityAndAssociation::sort()
+void TermsWithAssociation::sort()
 {
     for(TermWithDetails & termWithDetails : m_termsWithDetails)
     {
@@ -167,7 +167,7 @@ void TermsWithPriorityAndAssociation::sort()
     stable_sort(m_termsWithDetails.begin(), m_termsWithDetails.end());
 }
 
-void TermsWithPriorityAndAssociation::substituteVariablesToValues(VariablesToValuesMap const& variableValueMap)
+void TermsWithAssociation::substituteVariablesToValues(VariablesToValuesMap const& variableValueMap)
 {
     for(TermWithDetails & termWithDetails : m_termsWithDetails)
     {
@@ -176,30 +176,32 @@ void TermsWithPriorityAndAssociation::substituteVariablesToValues(VariablesToVal
     }
 }
 
-void TermsWithPriorityAndAssociation::putTermWithDetails(TermWithDetails const& termWithDetails)
+void TermsWithAssociation::putTermWithDetails(TermWithDetails const& termWithDetails)
 {
-    m_termsWithDetails.emplace_back(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);}
-
-void TermsWithPriorityAndAssociation::putTermWithPositiveAssociation(BaseTerm const& baseTerm)
-{
-    m_termsWithDetails.emplace_back(baseTerm, AssociationType::Positive);}
-
-void TermsWithPriorityAndAssociation::putTermWithNegativeAssociation(BaseTerm const& baseTerm)
-{
-    m_termsWithDetails.emplace_back(baseTerm, AssociationType::Negative);
+    m_termsWithDetails.emplace_back(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);
 }
 
-void TermsWithPriorityAndAssociation::reverseTheAssociationOfTheTerms()
+void TermsWithAssociation::putTermWithPositiveAssociation(BaseTerm const& baseTerm)
+{
+    m_termsWithDetails.emplace_back(baseTerm, TermAssociationType::Positive);
+}
+
+void TermsWithAssociation::putTermWithNegativeAssociation(BaseTerm const& baseTerm)
+{
+    m_termsWithDetails.emplace_back(baseTerm, TermAssociationType::Negative);
+}
+
+void TermsWithAssociation::reverseTheAssociationOfTheTerms()
 {
     for(TermWithDetails & termWithDetails : m_termsWithDetails)
     {
         if(termWithDetails.hasPositiveAssociation())
         {
-            termWithDetails.association = AssociationType::Negative;
+            termWithDetails.association = TermAssociationType::Negative;
         }
         else if(termWithDetails.hasNegativeAssociation())
         {
-            termWithDetails.association = AssociationType::Positive;
+            termWithDetails.association = TermAssociationType::Positive;
         }
     }
 }

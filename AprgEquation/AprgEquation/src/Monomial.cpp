@@ -4,9 +4,11 @@
 
 #include <set>
 #include <sstream>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -207,11 +209,13 @@ void Monomial::substituteVariablesToValues(VariablesToValuesMap const& variableV
 
 void Monomial::multiplyNumber(AlbaNumber const& number)
 {
-    m_constant = m_constant * number;}
+    m_constant = m_constant * number;
+}
 
 void Monomial::raiseToPowerNumber(AlbaNumber const& number)
 {
-    m_constant = m_constant ^ number;    for(VariablesToExponentsMapIterator it = m_variablesToExponentsMap.begin();
+    m_constant = m_constant ^ number;
+    for(VariablesToExponentsMapIterator it = m_variablesToExponentsMap.begin();
         it != m_variablesToExponentsMap.end();
         it++)
     {

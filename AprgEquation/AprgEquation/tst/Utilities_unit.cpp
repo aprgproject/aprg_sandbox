@@ -3,9 +3,8 @@
 #include <gtest/gtest.h>
 
 using namespace std;
-using AssociationType=alba::equation::TermsWithPriorityAndAssociation::AssociationType;
-using TermWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermWithDetails;
-using TermsWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermsWithDetails;
+using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
+using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
@@ -116,8 +115,8 @@ TEST(UtilitiesTest, GetOperatorLevelValueWorks)
 
 TEST(UtilitiesTest, GetAssociationPriorityWorks)
 {
-    EXPECT_EQ(1u, getAssociationPriority(AssociationType::Positive));
-    EXPECT_EQ(2u, getAssociationPriority(AssociationType::Negative));
+    EXPECT_EQ(1u, getAssociationPriority(TermAssociationType::Positive));
+    EXPECT_EQ(2u, getAssociationPriority(TermAssociationType::Negative));
 }
 
 TEST(UtilitiesTest, GetOperatorLevelInversePriorityWorks)
@@ -202,10 +201,10 @@ TEST(UtilitiesTest, CreateExpressionIfPossibleWorks)
     EXPECT_EQ(OperatorLevel::MultiplicationAndDivision, expressionToTest.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
     ASSERT_EQ(2u, termsToVerify.size());
-    EXPECT_EQ(AssociationType::Positive, termsToVerify.at(0).association);
+    EXPECT_EQ(TermAssociationType::Positive, termsToVerify.at(0).association);
     Term const& termToVerify1(getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
     EXPECT_EQ(Term(10), termToVerify1);
-    EXPECT_EQ(AssociationType::Negative, termsToVerify.at(1).association);
+    EXPECT_EQ(TermAssociationType::Negative, termsToVerify.at(1).association);
     Term const& termToVerify2(getTermConstReferenceFromSharedPointer(termsToVerify.at(1).baseTermSharedPointer));
     EXPECT_EQ(Term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}), termToVerify2);
 }
@@ -221,21 +220,21 @@ TEST(UtilitiesTest, CreateExpressionIfPossibleDoesNotSimplifyExpressionInAExpres
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest1.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify1(expressionToTest1.getTerms().getTermsWithDetails());
     ASSERT_EQ(1u, termsToVerify1.size());
-    EXPECT_EQ(AssociationType::Positive, termsToVerify1.at(0).association);
+    EXPECT_EQ(TermAssociationType::Positive, termsToVerify1.at(0).association);
     Term const& termToVerify1(getTermConstReferenceFromSharedPointer(termsToVerify1.at(0).baseTermSharedPointer));
     ASSERT_TRUE(termToVerify1.isExpression());
     Expression expressionToTest2(termToVerify1.getExpressionConstReference());
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest2.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify2(expressionToTest2.getTerms().getTermsWithDetails());
     ASSERT_EQ(1u, termsToVerify2.size());
-    EXPECT_EQ(AssociationType::Positive, termsToVerify2.at(0).association);
+    EXPECT_EQ(TermAssociationType::Positive, termsToVerify2.at(0).association);
     Term const& termToVerify2(getTermConstReferenceFromSharedPointer(termsToVerify2.at(0).baseTermSharedPointer));
     ASSERT_TRUE(termToVerify2.isExpression());
     Expression expressionToTest3(termToVerify2.getExpressionConstReference());
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest3.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify3(expressionToTest3.getTerms().getTermsWithDetails());
     ASSERT_EQ(1u, termsToVerify3.size());
-    EXPECT_EQ(AssociationType::Positive, termsToVerify3.at(0).association);
+    EXPECT_EQ(TermAssociationType::Positive, termsToVerify3.at(0).association);
     Term const& termToVerify3(getTermConstReferenceFromSharedPointer(termsToVerify3.at(0).baseTermSharedPointer));
     ASSERT_TRUE(termToVerify3.isConstant());
     EXPECT_EQ(Constant(88), termToVerify3.getConstantConstReference());
@@ -248,10 +247,10 @@ TEST(UtilitiesTest, CreateExpressionIfPossibleDoesNotSimplify)
     EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, expressionToTest.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
     ASSERT_EQ(2u, termsToVerify.size());
-    EXPECT_EQ(AssociationType::Positive, termsToVerify.at(0).association);
+    EXPECT_EQ(TermAssociationType::Positive, termsToVerify.at(0).association);
     Term const& termToVerify1(getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
     EXPECT_EQ(Term(7.625), termToVerify1);
-    EXPECT_EQ(AssociationType::Positive, termsToVerify.at(1).association);
+    EXPECT_EQ(TermAssociationType::Positive, termsToVerify.at(1).association);
     Term const& termToVerify2(getTermConstReferenceFromSharedPointer(termsToVerify.at(1).baseTermSharedPointer));
     EXPECT_EQ(Term(2.375), termToVerify2);
 }
@@ -272,7 +271,7 @@ TEST(UtilitiesTest, CreateSimplifiedExpressionIfPossibleWorks)
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify(expressionToTest.getTerms().getTermsWithDetails());
     ASSERT_EQ(1u, termsToVerify.size());
-    EXPECT_EQ(AssociationType::Positive, termsToVerify.at(0).association);
+    EXPECT_EQ(TermAssociationType::Positive, termsToVerify.at(0).association);
     Term const& termToVerify1(getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
     EXPECT_EQ(Term(10), termToVerify1);
 }

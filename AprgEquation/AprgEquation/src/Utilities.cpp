@@ -7,9 +7,8 @@
 #include <algorithm>
 
 using namespace std;
-using AssociationType=alba::equation::TermsWithPriorityAndAssociation::AssociationType;
-using TermWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermWithDetails;
-using TermsWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermsWithDetails;
+using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
+using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
@@ -123,15 +122,15 @@ unsigned int getOperatorPriority(std::string const& operatorString)
     return result;
 }
 
-unsigned int getAssociationPriority(AssociationType const association)
+unsigned int getAssociationPriority(TermAssociationType const association)
 {
     unsigned int result(0);
     switch(association)
     {
-    case AssociationType::Positive:
+    case TermAssociationType::Positive:
         result=1;
         break;
-    case AssociationType::Negative:
+    case TermAssociationType::Negative:
         result=2;
         break;
     }
@@ -191,10 +190,10 @@ unsigned int getTermTypePriorityValue(TermType const termType)
 
 string getOperatingString(
         OperatorLevel const operatorLevel,
-        AssociationType const association)
+        TermAssociationType const association)
 {
     string result;
-    if(AssociationType::Positive == association)
+    if(TermAssociationType::Positive == association)
     {
         switch(operatorLevel)
         {
@@ -211,7 +210,7 @@ string getOperatingString(
             break;
         }
     }
-    else if(AssociationType::Negative == association)
+    else if(TermAssociationType::Negative == association)
     {
         switch(operatorLevel)
         {
@@ -230,10 +229,10 @@ string getOperatingString(
 
 string getFirstStringIfNegativeAssociation(
         OperatorLevel const operatorLevel,
-        AssociationType const association)
+        TermAssociationType const association)
 {
     string result;
-    if(AssociationType::Negative == association)
+    if(TermAssociationType::Negative == association)
     {
         if(OperatorLevel::AdditionAndSubtraction == operatorLevel)
         {
@@ -279,12 +278,12 @@ string getEnumShortString(TermType const termType)
     }
 }
 
-string getEnumShortString(AssociationType const association)
+string getEnumShortString(TermAssociationType const association)
 {
     switch(association)
     {
-    ALBA_MACROS_CASE_ENUM_SHORT_STRING(AssociationType::Positive, "<POS>")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(AssociationType::Negative, "<NEG>")
+    ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermAssociationType::Positive, "<POS>")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermAssociationType::Negative, "<NEG>")
             default:
         return "default";
     }

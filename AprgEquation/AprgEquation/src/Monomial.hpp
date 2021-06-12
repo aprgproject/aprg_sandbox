@@ -5,10 +5,12 @@
 #include <VariablesToValuesTypes.hpp>
 
 #include <functional>
-#include <map>#include <string>
+#include <map>
+#include <string>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -53,10 +55,12 @@ public:
     void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
     void multiplyNumber(AlbaNumber const& number);
     void raiseToPowerNumber(AlbaNumber const& number);
-    void multiplyMonomial(Monomial const& monomial);    void divideMonomial(Monomial const& monomial);
+    void multiplyMonomial(Monomial const& monomial);
+    void divideMonomial(Monomial const& monomial);
     void setConstant(AlbaNumber const& constant);
     void putVariablesWithExponents(std::initializer_list<VariableExponentPair> const& variablesWithExponents);
-    void putVariablesWithExponents(VariablesToExponentsMap const& variablesWithExponents);    void putVariableWithExponent(std::string const& variable, AlbaNumber const& exponent);
+    void putVariablesWithExponents(VariablesToExponentsMap const& variablesWithExponents);
+    void putVariableWithExponent(std::string const& variable, AlbaNumber const& exponent);
     void saveIntersectionOfVariableExponentsMap(Monomial const& monomial);
 
 private:

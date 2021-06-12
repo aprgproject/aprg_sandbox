@@ -321,10 +321,12 @@ TEST(MonomialTest, SubstituteVariablesToValuesWorks)
 
 TEST(MonomialTest, MultiplyNumberWorks)
 {
-    Monomial monomial1(16, {{"x", 5}});    Monomial monomial2(20, {{"x", 7}});
+    Monomial monomial1(16, {{"x", 5}});
+    Monomial monomial2(20, {{"x", 7}});
 
     monomial1.multiplyNumber(3);
     monomial2.multiplyNumber(5);
+
     EXPECT_DOUBLE_EQ(48, monomial1.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomial1.getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1u, variableMap1.size());

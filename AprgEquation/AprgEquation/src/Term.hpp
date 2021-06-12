@@ -69,9 +69,11 @@ public:
     void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
 
 private:
-    void resetBaseDataTermPointerBasedFromTerm(Term const& term);    TermType m_type;
+    void resetBaseDataTermPointerBasedFromTerm(Term const& term);
+    TermType m_type;
     std::unique_ptr<BaseTermData> m_baseDataTermPointer;
 };
+
 using Terms = std::vector<Term>;
 
 }

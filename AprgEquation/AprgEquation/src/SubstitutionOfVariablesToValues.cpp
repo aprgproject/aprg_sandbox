@@ -1,9 +1,8 @@
 #include "SubstitutionOfVariablesToValues.hpp"
 
 using namespace std;
-using AssociationType=alba::equation::TermsWithPriorityAndAssociation::AssociationType;
-using TermWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermWithDetails;
-using TermsWithDetails=alba::equation::TermsWithPriorityAndAssociation::TermsWithDetails;
+using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
+using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {

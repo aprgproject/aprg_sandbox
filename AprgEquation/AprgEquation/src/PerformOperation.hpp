@@ -2,7 +2,7 @@
 
 #include <Term.hpp>
 #include <Operator.hpp>
-#include <TermsWithPriorityAndAssociation.hpp>
+#include <TermsWithAssociation.hpp>
 
 namespace alba
 {
@@ -27,7 +27,7 @@ Term performRaiseToPower(Term const& term1, Term const& term2);
 void accumulateAndDoOperationOnTermDetails(
         Term & partialResultTerm,
         OperatorLevel const operatorLevel,
-        TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails);
+        TermsWithAssociation::TermWithDetails const& termWithDetails);
 
 }
 

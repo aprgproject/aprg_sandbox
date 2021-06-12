@@ -238,7 +238,7 @@ Term performRaiseToPower(Term const& term1, Term const& term2)
 void accumulateAndDoOperationOnTermDetails(
         Term & partialResultTerm,
         OperatorLevel const operatorLevel,
-        TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails)
+        TermsWithAssociation::TermWithDetails const& termWithDetails)
 {
     Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
     switch(operatorLevel)

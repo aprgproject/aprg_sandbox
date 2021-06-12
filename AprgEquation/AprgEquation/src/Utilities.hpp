@@ -21,22 +21,22 @@ bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
 
 unsigned int getOperatorPriority(std::string const& operatorString);
-unsigned int getAssociationPriority(TermsWithPriorityAndAssociation::AssociationType const association);
+unsigned int getAssociationPriority(TermAssociationType const association);
 unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
 unsigned int getTermTypePriorityValue(TermType const termType);
 
 std::string getOperatingString(
         OperatorLevel const operatorLevel,
-        TermsWithPriorityAndAssociation::AssociationType const association);
+        TermAssociationType const association);
 std::string getFirstStringIfNegativeAssociation(
         OperatorLevel const operatorLevel,
-        TermsWithPriorityAndAssociation::AssociationType const association);
+        TermAssociationType const association);
 std::string getString(
-        TermsWithPriorityAndAssociation::TermsWithDetails const& termsWithDetails);
+        TermsWithAssociation::TermsWithDetails const& termsWithDetails);
 std::string getString(
-        TermsWithPriorityAndAssociation::TermWithDetails const& termWithDetails);
+        TermsWithAssociation::TermWithDetails const& termWithDetails);
 std::string getEnumShortString(TermType const termType);
-std::string getEnumShortString(TermsWithPriorityAndAssociation::AssociationType const association);
+std::string getEnumShortString(TermAssociationType const association);
 std::string getEnumShortString(OperatorLevel const operatorLevel);
 
 Monomial createMonomialConstant(AlbaNumber const& number);
