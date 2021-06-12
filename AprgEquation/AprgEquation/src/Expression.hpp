@@ -60,25 +60,12 @@ public:
 
 private:
 
-    //accumulate functions
-    void accumulateTermsForAdditionAndSubtraction(
-            BaseTerm & combinedBaseTerm,
-            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine) const;
-    void accumulateTermsForMultiplicationAndDivision(
-            BaseTerm & combinedBaseTerm,
-            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine) const;
-    void accumulateTermsForRaiseToPower(
-            BaseTerm & combinedBaseTerm,
-            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine) const;
-
     //simplify functions
     void simplifyAndCopyTerms(
-            TermsWithPriorityAndAssociation::TermsWithDetails & termsToUpdate,
-            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSegregate);
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsToUpdate,            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSegregate);
     void simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
             TermsWithPriorityAndAssociation::TermsWithDetails & termsToUpdate,
-            Expression const& expression,
-            TermsWithPriorityAndAssociation::AssociationType const association);
+            Expression const& expression,            TermsWithPriorityAndAssociation::AssociationType const association);
     void simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify);
 
     //process functions
@@ -91,14 +78,23 @@ private:
     void processAndSaveTermsForRaiseToPower(
             TermsWithPriorityAndAssociation::TermsWithDetails const& termsToProcess);
 
+    //accumulate functions
+    void accumulateTermsForAdditionAndSubtraction(
+            BaseTerm & combinedBaseTerm,
+            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine) const;
+    void accumulateTermsForMultiplicationAndDivision(
+            BaseTerm & combinedBaseTerm,
+            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine) const;
+    void accumulateTermsForRaiseToPower(
+            BaseTerm & combinedBaseTerm,
+            TermsWithPriorityAndAssociation::TermsWithDetails const& termsToCombine) const;
+
     //segregate functions
     void segregateNonExpressionsAndExpressions(
-            TermsWithPriorityAndAssociation::TermsWithDetails & termsWithNonExpressions,
-            TermsWithPriorityAndAssociation::TermsWithDetails & termsWithExpressions,
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsWithNonExpressions,            TermsWithPriorityAndAssociation::TermsWithDetails & termsWithExpressions,
             TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSegregate) const;
     void segregateNumeratorAndDenominatorForMultiplicationAndDivision(
-            TermsWithPriorityAndAssociation::TermsWithDetails & termsForNumerator,
-            TermsWithPriorityAndAssociation::TermsWithDetails & termsForDenominator,
+            TermsWithPriorityAndAssociation::TermsWithDetails & termsForNumerator,            TermsWithPriorityAndAssociation::TermsWithDetails & termsForDenominator,
             TermsWithPriorityAndAssociation::TermsWithDetails const& termsToSegregate) const;
 
     //put functions
