@@ -46,14 +46,14 @@ TEST(AlbaMathHelperTest, AbsoluteValueCanBeComputed)
     EXPECT_EQ(0, getAbsoluteValue(0));
     EXPECT_EQ(0.5, getAbsoluteValue(0.5));
     EXPECT_EQ(0.5, getAbsoluteValue(-0.5));
+    EXPECT_EQ(AlbaNumber(1, 3), getAbsoluteValue(AlbaNumber(1, 3)));
+    EXPECT_EQ(AlbaNumber(1, 3), getAbsoluteValue(AlbaNumber(-1, 3)));
 }
 
-TEST(AlbaMathHelperTest, SquareRootOfXSquaredPlusYSquaredCanBeComputed)
-{
+TEST(AlbaMathHelperTest, SquareRootOfXSquaredPlusYSquaredCanBeComputed){
     EXPECT_EQ(5, getSquareRootOfXSquaredPlusYSquared(3,4));
     EXPECT_EQ(13, getSquareRootOfXSquaredPlusYSquared(5,-12));
-    EXPECT_EQ(25, getSquareRootOfXSquaredPlusYSquared(-7,24));
-    EXPECT_EQ(17, getSquareRootOfXSquaredPlusYSquared(-8,-15));
+    EXPECT_EQ(25, getSquareRootOfXSquaredPlusYSquared(-7,24));    EXPECT_EQ(17, getSquareRootOfXSquaredPlusYSquared(-8,-15));
 }
 
 TEST(AlbaMathHelperTest, SquareRootOfXSquaredPlusYSquaredPlusZSquaredCanBeComputed)
@@ -70,14 +70,14 @@ TEST(AlbaMathHelperTest, SignCanBeFetched)
     EXPECT_EQ(-1, getSign(-10));
     EXPECT_EQ(1, getSign(0));
     EXPECT_EQ(1, getSign(10));
+    EXPECT_EQ(AlbaNumber(1), getSign(AlbaNumber(1, 3)));
+    EXPECT_EQ(AlbaNumber(-1), getSign(AlbaNumber(-1, 3)));
 }
 
-TEST(AlbaMathHelperTest, LowerBoundCanBeComputed)
-{
+TEST(AlbaMathHelperTest, LowerBoundCanBeComputed){
     EXPECT_EQ(3, clampLowerBound(1, 3));
     EXPECT_EQ(3, clampLowerBound(2, 3));
-    EXPECT_EQ(3, clampLowerBound(3, 3));
-    EXPECT_EQ(4, clampLowerBound(4, 3));
+    EXPECT_EQ(3, clampLowerBound(3, 3));    EXPECT_EQ(4, clampLowerBound(4, 3));
     EXPECT_EQ(5, clampLowerBound(5, 3));
 }
 
@@ -90,26 +90,103 @@ TEST(AlbaMathHelperTest, HigherBoundCanBeComputed)
     EXPECT_EQ(3, clampHigherBound(5, 3));
 }
 
+TEST(AlbaMathHelperTest, CanConvertedToIntegerAsExpected)
+{
+    EXPECT_TRUE(canConvertedToInteger(0));
+    EXPECT_TRUE(canConvertedToInteger(1));
+    EXPECT_TRUE(canConvertedToInteger(2));
+    EXPECT_FALSE(canConvertedToInteger(3.00000001));
+    EXPECT_TRUE(canConvertedToInteger(3.0000000000001));
+}
+
 TEST(AlbaMathHelperTest, IsDivisibleWorksAsExpected)
 {
-    EXPECT_FALSE(isDivisible(0u, 0u));
-    EXPECT_TRUE(isDivisible(0u, 1u));
+    EXPECT_FALSE(isDivisible(0u, 0u));    EXPECT_TRUE(isDivisible(0u, 1u));
     EXPECT_TRUE(isDivisible(1u, 1u));
     EXPECT_FALSE(isDivisible(1u, 5u));
-    EXPECT_TRUE(isDivisible(5u, 1u));
-    EXPECT_TRUE(isDivisible(256u, 16u));
+    EXPECT_TRUE(isDivisible(5u, 1u));    EXPECT_TRUE(isDivisible(256u, 16u));
     EXPECT_FALSE(isDivisible(256u, 17u));
+}
+
+TEST(AlbaMathHelperTest, IsPerfectSquareForUnsignedIntWorksAsExpected)
+{
+    EXPECT_TRUE(isPerfectSquare(0u));
+    EXPECT_TRUE(isPerfectSquare(1u));
+    EXPECT_FALSE(isPerfectSquare(3u));
+    EXPECT_TRUE(isPerfectSquare(4u));
+    EXPECT_TRUE(isPerfectSquare(100u));
+    EXPECT_FALSE(isPerfectSquare(101u));
+}
+
+TEST(AlbaMathHelperTest, IsPerfectSquareForAlbaNumberWorksAsExpected)
+{
+    EXPECT_TRUE(isPerfectSquare(AlbaNumber(0)));
+    EXPECT_TRUE(isPerfectSquare(AlbaNumber(1)));
+    EXPECT_FALSE(isPerfectSquare(AlbaNumber(3)));
+    EXPECT_TRUE(isPerfectSquare(AlbaNumber(4)));
+    EXPECT_TRUE(isPerfectSquare(AlbaNumber(100)));
+    EXPECT_FALSE(isPerfectSquare(AlbaNumber(101)));
+    EXPECT_TRUE(isPerfectSquare(AlbaNumber(100, 36)));
+    EXPECT_FALSE(isPerfectSquare(AlbaNumber(100, 37)));
+}
+
+TEST(AlbaMathHelperTest, IsPerfectCubeForUnsignedIntWorksAsExpected)
+{
+    EXPECT_TRUE(isPerfectCube(0u));
+    EXPECT_TRUE(isPerfectCube(1u));
+    EXPECT_FALSE(isPerfectSquare(8u));
+    EXPECT_TRUE(isPerfectSquare(9u));
+    EXPECT_TRUE(isPerfectCube(1000u));
+    EXPECT_FALSE(isPerfectCube(1001u));
+}
+
+TEST(AlbaMathHelperTest, IsPerfectCubeForAlbaNumberWorksAsExpected)
+{
+    EXPECT_TRUE(isPerfectCube(AlbaNumber(0)));
+    EXPECT_TRUE(isPerfectCube(AlbaNumber(1)));
+    EXPECT_FALSE(isPerfectSquare(AlbaNumber(8)));
+    EXPECT_TRUE(isPerfectSquare(AlbaNumber(9)));
+    EXPECT_TRUE(isPerfectCube(AlbaNumber(1000)));
+    EXPECT_FALSE(isPerfectCube(AlbaNumber(1001)));
+    EXPECT_TRUE(isPerfectCube(AlbaNumber(1000, 27)));
+    EXPECT_FALSE(isPerfectCube(AlbaNumber(1000, 26)));
+}
+
+TEST(AlbaMathHelperTest, IsPerfectNthPowerForUnsignedIntWorksAsExpected)
+{
+    EXPECT_TRUE(isPerfectNthPower(0u, 0u));
+    EXPECT_TRUE(isPerfectNthPower(1u, 1u));
+    EXPECT_FALSE(isPerfectNthPower(100u, 0u));
+    EXPECT_TRUE(isPerfectNthPower(100u, 1u));
+    EXPECT_TRUE(isPerfectNthPower(100u, 2u));
+    EXPECT_FALSE(isPerfectNthPower(101u, 2u));
+    EXPECT_TRUE(isPerfectNthPower(1000u, 3u));
+    EXPECT_FALSE(isPerfectNthPower(1001u, 3u));
+}
+
+TEST(AlbaMathHelperTest, IsPerfectNthPowerForAlbaNumberWorksAsExpected)
+{
+    EXPECT_TRUE(isPerfectNthPower(AlbaNumber(0u), 0u));
+    EXPECT_TRUE(isPerfectNthPower(AlbaNumber(1), 1u));
+    EXPECT_FALSE(isPerfectNthPower(AlbaNumber(100), 0u));
+    EXPECT_TRUE(isPerfectNthPower(AlbaNumber(100), 1u));
+    EXPECT_TRUE(isPerfectNthPower(AlbaNumber(100), 2u));
+    EXPECT_FALSE(isPerfectNthPower(AlbaNumber(101), 2u));
+    EXPECT_TRUE(isPerfectNthPower(AlbaNumber(100, 36), 2u));
+    EXPECT_FALSE(isPerfectNthPower(AlbaNumber(100, 37), 2u));
+    EXPECT_TRUE(isPerfectNthPower(AlbaNumber(1000), 3u));
+    EXPECT_FALSE(isPerfectNthPower(AlbaNumber(1001), 3u));
+    EXPECT_TRUE(isPerfectNthPower(AlbaNumber(1000, 27), 3u));
+    EXPECT_FALSE(isPerfectNthPower(AlbaNumber(1001, 26), 3u));
 }
 
 TEST(AlbaMathHelperTest, GetPiWorksAsExpected)
 {
-    EXPECT_DOUBLE_EQ(3.14159265358979323846, getPi());
-}
+    EXPECT_DOUBLE_EQ(3.14159265358979323846, getPi());}
 
 TEST(AlbaMathHelperTest, GetEWorksAsExpected)
 {
-    EXPECT_DOUBLE_EQ(2.7182818284590452354, getE());
-}
+    EXPECT_DOUBLE_EQ(2.7182818284590452354, getE());}
 
 TEST(AlbaMathHelperTest, GetRaiseToPowerForIntegersWorksAsExpected)
 {
@@ -193,14 +270,22 @@ TEST(AlbaMathHelperTest, GreatestCommonFactorCanBeComputed)
     EXPECT_EQ(14u, getGreatestCommonFactor(98, 56));
 }
 
+TEST(AlbaMathHelperTest, GreatestCommonFactorWithAlbaNumberCanBeComputed)
+{
+    EXPECT_EQ(AlbaNumber(0), getGreatestCommonFactor(AlbaNumber(0), AlbaNumber(0)));
+    EXPECT_EQ(AlbaNumber(1), getGreatestCommonFactor(AlbaNumber(1), AlbaNumber(1)));
+    EXPECT_EQ(AlbaNumber(1, 12), getGreatestCommonFactor(AlbaNumber(1, 6), AlbaNumber(1, 4)));
+    EXPECT_EQ(AlbaNumber(1), getGreatestCommonFactor(AlbaNumber(0.33), AlbaNumber(1, 4)));
+    EXPECT_EQ(AlbaNumber(1, 4), getGreatestCommonFactor(AlbaNumber(5), AlbaNumber(1, 4)));
+    EXPECT_EQ(AlbaNumber(3), getGreatestCommonFactor(AlbaNumber(6), AlbaNumber(9)));
+}
+
 TEST(AlbaMathHelperTest, LeastCommonMultipleCanBeComputed)
 {
-    EXPECT_EQ(0u, getLeastCommonMultiple(0, 0));
-    EXPECT_EQ(1u, getLeastCommonMultiple(1, 1));
+    EXPECT_EQ(0u, getLeastCommonMultiple(0, 0));    EXPECT_EQ(1u, getLeastCommonMultiple(1, 1));
     EXPECT_EQ(256u, getLeastCommonMultiple(8, 256));
     EXPECT_EQ(60u, getLeastCommonMultiple(15, 20));
 }
-
 TEST(AlbaMathHelperTest, DifferenceFromGreaterMultipleCanBeComputed)
 {
     EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(0, 0));
@@ -220,14 +305,22 @@ TEST(AlbaMathHelperTest, IntegerPartInDoubleCanBeComputed)
     EXPECT_EQ(-347, getIntegerPartInDouble(-347.51514));
 }
 
+TEST(AlbaMathHelperTest, IntegerAfterRoundingDoubleValueCanBeComputed)
+{
+    EXPECT_EQ(0, getIntegerAfterRoundingDoubleValue(0));
+    EXPECT_EQ(1, getIntegerAfterRoundingDoubleValue(1));
+    EXPECT_EQ(2, getIntegerAfterRoundingDoubleValue(1.5));
+    EXPECT_EQ(-2, getIntegerAfterRoundingDoubleValue(-1.5));
+    EXPECT_EQ(652, getIntegerAfterRoundingDoubleValue(652.426542));
+    EXPECT_EQ(-348, getIntegerAfterRoundingDoubleValue(-347.51514));
+}
+
 TEST(AlbaMathHelperTest, FractionalPartInDoubleCanBeComputed)
 {
-    EXPECT_DOUBLE_EQ(0, getFractionalPartInDouble(0));
-    EXPECT_DOUBLE_EQ(0, getFractionalPartInDouble(1));
+    EXPECT_DOUBLE_EQ(0, getFractionalPartInDouble(0));    EXPECT_DOUBLE_EQ(0, getFractionalPartInDouble(1));
     EXPECT_DOUBLE_EQ(0.5, getFractionalPartInDouble(1.5));
     EXPECT_DOUBLE_EQ(-0.5, getFractionalPartInDouble(-1.5));
-    EXPECT_DOUBLE_EQ(0.15625, getFractionalPartInDouble(652.15625));
-    EXPECT_DOUBLE_EQ(-0.125, getFractionalPartInDouble(-347.125));
+    EXPECT_DOUBLE_EQ(0.15625, getFractionalPartInDouble(652.15625));    EXPECT_DOUBLE_EQ(-0.125, getFractionalPartInDouble(-347.125));
 }
 
 TEST(AlbaMathHelperTest, CumulativeStandardDistributionApproximationCanBeComputed)

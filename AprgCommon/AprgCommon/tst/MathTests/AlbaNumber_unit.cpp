@@ -189,29 +189,55 @@ TEST(AlbaNumberTest, LessThanWorksAsExpected)
     EXPECT_FALSE(number3<number2);
 }
 
-TEST(AlbaNumberTest, GreaterThanWorksAsExpected)
+TEST(AlbaNumberTest, LessThanOrEqualWorksAsExpected)
 {
     AlbaNumber number1;
     AlbaNumber number2(1, 3);
     AlbaNumber number3(0.5);
 
+    EXPECT_TRUE(number1<=number1);
+    EXPECT_TRUE(number2<=number2);
+    EXPECT_TRUE(number3<=number3);
+    EXPECT_TRUE(number1<=number2);
+    EXPECT_TRUE(number2<=number3);
+    EXPECT_FALSE(number2<=number1);
+    EXPECT_FALSE(number3<=number2);
+}
+
+TEST(AlbaNumberTest, GreaterThanWorksAsExpected)
+{
+    AlbaNumber number1;    AlbaNumber number2(1, 3);
+    AlbaNumber number3(0.5);
+
     EXPECT_FALSE(number1>number1);
     EXPECT_FALSE(number2>number2);
-    EXPECT_FALSE(number3>number3);
-    EXPECT_FALSE(number1>number2);
+    EXPECT_FALSE(number3>number3);    EXPECT_FALSE(number1>number2);
     EXPECT_FALSE(number2>number3);
     EXPECT_TRUE(number2>number1);
     EXPECT_TRUE(number3>number2);
 }
 
+TEST(AlbaNumberTest, GreaterThanOrEqualWorksAsExpected)
+{
+    AlbaNumber number1;
+    AlbaNumber number2(1, 3);
+    AlbaNumber number3(0.5);
+
+    EXPECT_TRUE(number1>=number1);
+    EXPECT_TRUE(number2>=number2);
+    EXPECT_TRUE(number3>=number3);
+    EXPECT_FALSE(number1>=number2);
+    EXPECT_FALSE(number2>=number3);
+    EXPECT_TRUE(number2>=number1);
+    EXPECT_TRUE(number3>=number2);
+}
+
 TEST(AlbaNumberTest, UnaryPlusWorksOnDifferentTypes)
 {
-    AlbaNumber number1 = +AlbaNumber();
-    AlbaNumber number2 = +AlbaNumber(-81237);
+    AlbaNumber number1 = +AlbaNumber();    AlbaNumber number2 = +AlbaNumber(-81237);
     AlbaNumber number3 = +AlbaNumber(34095093u);
     AlbaNumber number4 = +AlbaNumber(-87408, -9802);
     AlbaNumber number5 = +AlbaNumber(4564.38794);
-
     EXPECT_EQ(AlbaNumber::Type::Integer, number1.getType());
     EXPECT_EQ(0, number1.getInteger());
     EXPECT_EQ(AlbaNumber::Type::Integer, number2.getType());
@@ -412,20 +438,18 @@ TEST(AlbaNumberTest, MultiplyWorksOnTypesStartingFromDouble)
     AlbaNumber number3 = AlbaNumber(10.5) * AlbaNumber(10, 7);
     AlbaNumber number4 = AlbaNumber(10.5) * 23.24897;
 
-    EXPECT_EQ(AlbaNumber::Type::Double, number1.getType());
-    EXPECT_DOUBLE_EQ(0, number1.getDouble());
+    EXPECT_EQ(AlbaNumber::Type::Integer, number1.getType());
+    EXPECT_EQ(0, number1.getInteger());
     EXPECT_EQ(AlbaNumber::Type::Double, number2.getType());
     EXPECT_DOUBLE_EQ(52.5, number2.getDouble());
-    EXPECT_EQ(AlbaNumber::Type::Double, number3.getType());
-    EXPECT_DOUBLE_EQ(15, number3.getDouble());
+    EXPECT_EQ(AlbaNumber::Type::Integer, number3.getType());
+    EXPECT_EQ(15, number3.getInteger());
     EXPECT_EQ(AlbaNumber::Type::Double, number4.getType());
     EXPECT_DOUBLE_EQ(244.11418499999999, number4.getDouble());
 }
-
 TEST(AlbaNumberTest, DivideWorksOnTypesStartingFromInteger)
 {
-    AlbaNumber number1 = AlbaNumber() / AlbaNumber(1);
-    AlbaNumber number2 = AlbaNumber(100) / 10;
+    AlbaNumber number1 = AlbaNumber() / AlbaNumber(1);    AlbaNumber number2 = AlbaNumber(100) / 10;
     AlbaNumber number3 = AlbaNumber(100) / AlbaNumber(11, 3);
     AlbaNumber number4 = AlbaNumber(100) / 23.24897;
 

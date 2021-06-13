@@ -96,24 +96,23 @@ template double getAverage<double>(double const value1, double const value2, dou
 
 //getAbsoluteValue
 template <typename NumberType>
-NumberType getAbsoluteValue(NumberType const value)
+NumberType getAbsoluteValue(NumberType const& value)
 {
     return (value<0) ? value*-1 : value;
 }
-template int getAbsoluteValue<int>(int const value);
-template double getAbsoluteValue<double>(double const value);
+template int getAbsoluteValue<int>(int const& value);
+template double getAbsoluteValue<double>(double const& value);
+template AlbaNumber getAbsoluteValue<AlbaNumber>(AlbaNumber const& value);
 
 template <>
-unsigned int getAbsoluteValue<unsigned int>(unsigned int const value)
+unsigned int getAbsoluteValue<unsigned int>(unsigned int const& value)
 {
     return value;
 }
 
-
 //getXSquaredPlusYSquared
 template <typename NumberType>
-NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y)
-{
+NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y){
     return static_cast<NumberType>(pow(x, 2)+pow(y, 2));
 }
 template int getXSquaredPlusYSquared<int>(int const x, int const y);
@@ -142,20 +141,19 @@ template double getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>(double c
 
 //getSign
 template <typename NumberType>
-NumberType getSign(NumberType const value)
+NumberType getSign(NumberType const& value)
 {
     return (value<0) ? -1 : 1;
 }
-template int getSign<int>(int const value);
-template double getSign<double>(double const value);
+template int getSign<int>(int const& value);
+template double getSign<double>(double const& value);
+template AlbaNumber getSign<AlbaNumber>(AlbaNumber const& value);
 
 
-//clampLowerBound
-template <typename NumberType>
+//clampLowerBoundtemplate <typename NumberType>
 NumberType clampLowerBound(NumberType const value, NumberType const limit)
 {
-    return (value<limit) ? limit : value;
-}
+    return (value<limit) ? limit : value;}
 template int clampLowerBound<int>(int const value, int const limit);
 template double clampLowerBound<double>(double const value, double const limit);
 
@@ -170,26 +168,75 @@ template int clampHigherBound<int>(int const value, int const limit);
 template double clampHigherBound<double>(double const value, double const limit);
 
 
+//isPerfectSquare
+template <typename NumberType>
+bool isPerfectSquare(NumberType const& value)
+{
+    return isPerfectNthPower(value, 2);
+}
+template bool isPerfectSquare<unsigned int>(unsigned int const& value);
+template bool isPerfectSquare<AlbaNumber>(AlbaNumber const& value);
+
+
+//isPerfectCube
+template <typename NumberType>
+bool isPerfectCube(NumberType const& value)
+{
+    return isPerfectNthPower(value, 3);
+}
+template bool isPerfectCube<unsigned int>(unsigned int const& value);
+template bool isPerfectCube<AlbaNumber>(AlbaNumber const& value);
+
+
+bool canConvertedToInteger(double const realValue)
+{
+    return isAlmostEqual<double>(realValue, round(realValue));
+}
 
 bool isDivisible(unsigned int const dividend, unsigned int const divisor)
 {
-    bool result(false);
-    if(divisor != 0)
+    bool result(false);    if(divisor != 0)
     {
         result = (dividend % divisor)==0;
     }
     return result;
 }
 
+bool isPerfectNthPower(
+        unsigned int const value,
+        unsigned int const nthPower)
+{
+    double valueRaiseToTheReciprocal = pow(value, static_cast<double>(1)/nthPower);
+    return canConvertedToInteger(valueRaiseToTheReciprocal);
+}
+
+bool isPerfectNthPower(
+        AlbaNumber const& number,
+        unsigned int const nthPower)
+{
+    bool result(false);
+    if(number.isIntegerType())
+    {
+        int integerValue(number.getInteger());
+        result = integerValue >= 0 && isPerfectNthPower(static_cast<unsigned int>(integerValue), nthPower);
+    }
+    else if(number.isFractionType())
+    {
+        AlbaNumber::FractionData fractionData(number.getFractionData());
+        result = fractionData.numerator >= 0
+                && isPerfectNthPower(static_cast<unsigned int>(getAbsoluteValue(fractionData.numerator)), nthPower)
+                && isPerfectNthPower(fractionData.denominator, nthPower);
+    }
+    return result;
+}
+
 double getPi()
 {
-    return 3.14159265358979323846;
-}
+    return 3.14159265358979323846;}
 
 double getE()
 {
-    return 2.7182818284590452354;
-}
+    return 2.7182818284590452354;}
 
 int getRaiseToPowerForIntegers(int const base, unsigned int exponent)
 {
@@ -272,14 +319,32 @@ unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned in
     return result;
 }
 
-unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber)
+AlbaNumber getGreatestCommonFactor(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber)
 {
-    unsigned int result(0);
-    if(firstNumber!=0 && secondNumber!=0)
+    AlbaNumber result(0);
+    if(firstNumber.isDoubleType() || secondNumber.isDoubleType())
     {
-        result = firstNumber*secondNumber/getGreatestCommonFactor(firstNumber, secondNumber);
+        result=1;
+    }
+    else
+    {
+        AlbaNumber::FractionData firstFractionData(firstNumber.getFractionData());
+        AlbaNumber::FractionData secondFractionData(secondNumber.getFractionData());
+        unsigned int lcmDenominator = getLeastCommonMultiple(firstFractionData.denominator, secondFractionData.denominator);
+        unsigned int firstNumerator = static_cast<unsigned int>(getAbsoluteValue(firstFractionData.numerator))*lcmDenominator/firstFractionData.denominator;
+        unsigned int secondNumerator = static_cast<unsigned int>(getAbsoluteValue(secondFractionData.numerator))*lcmDenominator/secondFractionData.denominator;
+        unsigned int gcfNumerator = getGreatestCommonFactor(firstNumerator, secondNumerator);
+        result = AlbaNumber(gcfNumerator, lcmDenominator);
     }
     return result;
+}
+
+unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber)
+{
+    unsigned int result(0);    if(firstNumber!=0 && secondNumber!=0)
+    {
+        result = firstNumber*secondNumber/getGreatestCommonFactor(firstNumber, secondNumber);
+    }    return result;
 }
 
 unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number)
@@ -293,15 +358,18 @@ unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsig
     return result;
 }
 
+int getIntegerAfterRoundingDoubleValue(double const doubleValue)
+{
+    return static_cast<int>(round(doubleValue));
+}
+
 int getIntegerPartInDouble(double const doubleValue)
 {
-    return static_cast<int>(doubleValue);
-}
+    return static_cast<int>(doubleValue);}
 
 double getFractionalPartInDouble(double const doubleValue)
 {
-    return doubleValue-getIntegerPartInDouble(doubleValue);
-}
+    return doubleValue-getIntegerPartInDouble(doubleValue);}
 
 double calculateCumulativeStandardDistributionApproximation(double const z)
 {
