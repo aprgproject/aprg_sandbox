@@ -150,8 +150,14 @@ void PolynomialOverPolynomial::removeCommonMonomialOnAllMonomialsInNumeratorAndD
     Monomial commonMonomial(getCommonMonomialInMonomials(numeratorAndDenominatorMonomials));
     m_numerator.divideMonomial(commonMonomial);
     m_denominator.divideMonomial(commonMonomial);
-}
+    if(getCommonSignInMonomials(m_numerator.getMonomialsConstReference()) == -1
+            || getCommonSignInMonomials(m_denominator.getMonomialsConstReference()) == -1)
+    {
+        m_numerator.divideMonomial(createMonomialFromConstant(-1));
+        m_denominator.divideMonomial(createMonomialFromConstant(-1));
+    }
 
 }
 
+}
 }

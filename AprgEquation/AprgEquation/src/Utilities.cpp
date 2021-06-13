@@ -626,22 +626,16 @@ Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials){
 
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials)
 {
-    unsigned positiveSign(0);
-    unsigned negativeSign(0);
+    unsigned int negativeSignCount(0);
     for(Monomial const& monomial : monomials)
     {
-        if(monomial.getConstantConstReference() >= AlbaNumber(0))
+        if(monomial.getConstantConstReference() < AlbaNumber(0))
         {
-            positiveSign++;
-        }
-        else
-        {
-            negativeSign++;
+            negativeSignCount++;
         }
     }
-    return (positiveSign >= negativeSign) ? 1 : -1;
+    return (negativeSignCount == monomials.size()) ? -1 : 1;
 }
 
 }
-
 }
