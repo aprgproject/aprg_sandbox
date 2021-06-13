@@ -61,7 +61,7 @@ public:
     void putVariablesWithExponents(std::initializer_list<VariableExponentPair> const& variablesWithExponents);
     void putVariablesWithExponents(VariablesToExponentsMap const& variablesWithExponents);
     void putVariableWithExponent(std::string const& variable, AlbaNumber const& exponent);
-    void saveIntersectionOfVariableExponentsMap(Monomial const& monomial);
+    void compareMonomialsAndSaveMinimumExponentsForEachVariable(Monomial const& monomial);
 
 private:
     bool isLessThanByComparingVariableNameMaps(

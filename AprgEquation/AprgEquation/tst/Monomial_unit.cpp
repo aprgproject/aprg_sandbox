@@ -453,7 +453,7 @@ TEST(MonomialTest, SaveIntersectionOfVariableExponentsMapWorks)
     Monomial monomial(85, {{"x", 3}, {"y", 4}});
     Monomial monomialToApply(356, {{"x", 5}, {"y", 2}});
 
-    monomial.saveIntersectionOfVariableExponentsMap(monomialToApply);
+    monomial.compareMonomialsAndSaveMinimumExponentsForEachVariable(monomialToApply);
 
     EXPECT_DOUBLE_EQ(1, monomial.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMapToVerify(monomial.getVariablesToExponentsMapConstReference());

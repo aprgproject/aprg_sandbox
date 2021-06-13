@@ -5,6 +5,7 @@
 #include <VariablesToValuesTypes.hpp>
 
 #include <string>
+#include <vector>
 
 namespace alba
 {
@@ -22,6 +23,7 @@ public:
     bool operator==(Polynomial const& second) const;
     bool operator!=(Polynomial const& second) const;
     bool operator<(Polynomial const& second) const;
+    bool isEmpty() const;
     bool isOne() const;
     bool isZero() const;
     bool isOneMonomial() const;
@@ -30,6 +32,7 @@ public:
     Monomials const& getMonomialsConstReference() const;
     std::string getDisplayableString() const;
 
+    void clear();
     void simplifyAndSort();
     void simplify();
     void sortMonomialsWithInversePriority();
@@ -46,6 +49,8 @@ private:
     void simplifyFurtherIfNeeded(Polynomial const& beforeSimplify, Polynomial const& afterSimplify);
     Monomials m_monomials;
 };
+
+using Polynomials=std::vector<Polynomial>;
 
 }
 

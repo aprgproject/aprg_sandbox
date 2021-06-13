@@ -1,4 +1,4 @@
-#include <PerformOperation.hpp>
+#include <PerformOperations.hpp>
 #include <Utilities.hpp>
 
 #include <gtest/gtest.h>
@@ -12,7 +12,7 @@ namespace alba
 namespace equation
 {
 
-TEST(PerformOperationTest, PerformOperationUnaryOperationWorks)
+TEST(PerformOperationsTest, PerformOperationUnaryOperationWorks)
 {
     Term termToVerify1(performOperation(Operator("+"), Term(215)));
     Term termToVerify2(performOperation(Operator("-"), Term(215)));
@@ -21,7 +21,7 @@ TEST(PerformOperationTest, PerformOperationUnaryOperationWorks)
     EXPECT_EQ(Term(-215), termToVerify2);
 }
 
-TEST(PerformOperationTest, PerformOperationBinaryOperationWorks)
+TEST(PerformOperationsTest, PerformOperationBinaryOperationWorks)
 {
     Term termToVerify1(performOperation(Operator("+"), Term(25), Term(2)));
     Term termToVerify2(performOperation(Operator("-"), Term(25), Term(2)));
@@ -36,7 +36,7 @@ TEST(PerformOperationTest, PerformOperationBinaryOperationWorks)
     EXPECT_EQ(Term(625), termToVerify5);
 }
 
-TEST(PerformOperationTest, AccumulateAndDoOperationOnTermDetailsWorks)
+TEST(PerformOperationsTest, AccumulateAndDoOperationOnTermDetailsWorks)
 {
     Term newTerm1(45);
     Term newTerm2(45);

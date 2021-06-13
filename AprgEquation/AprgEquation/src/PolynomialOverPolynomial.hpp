@@ -29,13 +29,10 @@ public:
 private:
     QuotientAndRemainder divide() const;
     unsigned int getLcmForDenominatorCoefficients(Polynomial const& polynomial);
-    unsigned int getGcfForIntegerCoefficients(Polynomial const& polynomial);
     Monomial getAndPositiveExponentsMonomialWithNegativeExponents(Polynomial const& polynomial);
     void convertFractionCoefficientsToInteger();
-    void removeGcfOnCoefficients();
     void convertNegativeExponentsToPositive();
-    void removeCommonVariableExponents();
-    Monomial getMonomialCommonVariablesExponentsInPolynomial(Monomials const& monomials) const;
+    void removeCommonMonomialOnAllMonomialsInNumeratorAndDenominator();
     Polynomial m_numerator;
     Polynomial m_denominator;
 };

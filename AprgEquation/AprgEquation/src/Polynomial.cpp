@@ -71,6 +71,11 @@ bool Polynomial::operator<(Polynomial const& second) const
     return result;
 }
 
+bool Polynomial::isEmpty() const
+{
+    return m_monomials.empty();
+}
+
 bool Polynomial::isOne() const
 {
     return isOneMonomial() && getFirstMonomial().isOne();
@@ -124,6 +129,11 @@ string Polynomial::getDisplayableString() const
         result << ")";
     }
     return result.str();
+}
+
+void Polynomial::clear()
+{
+    m_monomials.clear();
 }
 
 void Polynomial::simplifyAndSort()

@@ -270,7 +270,7 @@ void Monomial::putVariableWithExponent(string const& variable, AlbaNumber const&
     m_variablesToExponentsMap[variable]=exponent;
 }
 
-void Monomial::saveIntersectionOfVariableExponentsMap(Monomial const& monomial)
+void Monomial::compareMonomialsAndSaveMinimumExponentsForEachVariable(Monomial const& monomial)
 {
     m_constant=1;
     for(VariablesToExponentsMapIterator it = m_variablesToExponentsMap.begin();

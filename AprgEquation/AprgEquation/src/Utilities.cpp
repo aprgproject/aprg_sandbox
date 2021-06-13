@@ -1,14 +1,18 @@
 #include "Utilities.hpp"
 
 #include <Macros/AlbaMacros.hpp>
+#include <Math/AlbaMathHelper.hpp>
 #include <TermOperators.hpp>
 #include <TermsAggregator.hpp>
 #include <String/AlbaStringHelper.hpp>
 
 #include <algorithm>
+
+using namespace alba::mathHelper;
 using namespace std;
 using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
+
 namespace alba
 {
 
@@ -26,10 +30,12 @@ bool isOperator(string const& variableOrOperator)
             ")" == variableOrOperator;
 }
 
-bool canBeMergedByAdditionOrSubtraction(Term const& term1, Term const& term2){
+bool canBeMergedByAdditionOrSubtraction(Term const& term1, Term const& term2)
+{
     bool result(false);
     if(term1.isConstant() && term2.isConstant())
-    {        result = true;
+    {
+        result = true;
     }
     if(term1.isVariable() && term2.isVariable())
     {
@@ -301,14 +307,83 @@ string getEnumShortString(OperatorLevel const operatorLevel)
     }
 }
 
-Monomial createMonomialConstant(AlbaNumber const& number)
+BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer)
 {
-    return Monomial(number, {});
+    return move(BaseTermSharedPointer(
+                    dynamic_cast<BaseTerm*>(
+                        new Term(*dynamic_cast<Term*>(sharedPointer.get())))));
 }
 
-Monomial createMonomialVariable(string const& variableName)
+BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term)
 {
-    return Monomial(1, {{variableName, 1}});
+    return move(BaseTermSharedPointer(
+                    dynamic_cast<BaseTerm*>(
+                        new Term(term))));
+}
+
+BaseTermSharedPointer getSharedPointerFromTermReference(Term & term)
+{
+    return move(BaseTermSharedPointer(dynamic_cast<BaseTerm*>(&term)));
+}
+
+Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm)
+{
+    return dynamic_cast<Term const&>(baseTerm);
+}
+
+Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
+{
+    return dynamic_cast<Term const&>(*sharedPointer.get());
+}
+
+Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm)
+{
+    return dynamic_cast<Term &>(baseTerm);
+}
+
+Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer)
+{
+    return *dynamic_cast<Term*>(sharedPointer.get());
+}
+
+BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term)
+{
+    return dynamic_cast<BaseTerm const&>(term);
+}
+
+BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
+{
+    return dynamic_cast<BaseTerm const&>(*sharedPointer.get());
+}
+
+BaseTerm & getBaseTermReferenceFromTerm(Term & term)
+{
+    return dynamic_cast<BaseTerm &>(term);
+}
+
+Monomial createMonomialFromConstant(Constant const& constant)
+{
+    return Monomial(constant.getNumberConstReference(), {});
+}
+
+Monomial createMonomialFromVariable(Variable const& variable)
+{
+    return Monomial(1, {{variable.getVariableName(), 1}});
+}
+
+Polynomial createPolynomialFromConstant(Constant const& constant)
+{
+    return Polynomial{createMonomialFromConstant(constant)};
+}
+
+Polynomial createPolynomialFromVariable(Variable const& variable)
+{
+    return Polynomial{createMonomialFromVariable(variable)};
+}
+
+Polynomial createPolynomialFromMonomial(Monomial const& monomial)
+{
+    return Polynomial{monomial};
 }
 
 Polynomial createPolynomialIfPossible(Term const& term)
@@ -316,15 +391,15 @@ Polynomial createPolynomialIfPossible(Term const& term)
     Polynomial result;
     if(term.isConstant())
     {
-        result = Polynomial{createMonomialConstant(term.getConstantConstReference().getNumberConstReference())};
+        result = createPolynomialFromConstant(term.getConstantConstReference());
     }
     else if(term.isVariable())
     {
-        result = Polynomial{createMonomialVariable(term.getVariableConstReference().getVariableName())};
+        result = createPolynomialFromVariable(term.getVariableConstReference());
     }
     else if(term.isMonomial())
     {
-        result = Polynomial{term.getMonomialConstReference()};
+        result = createPolynomialFromMonomial(term.getMonomialConstReference());
     }
     else if(term.isPolynomial())
     {
@@ -499,56 +574,73 @@ Term convertValueTermStringToTerm(string const& valueTerm)
     return result;
 }
 
-BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer)
+Monomial getCommonMonomialInMonomials(Monomials const& monomials)
 {
-    return move(BaseTermSharedPointer(                    dynamic_cast<BaseTerm*>(
-                        new Term(*dynamic_cast<Term*>(sharedPointer.get())))));
-}
-BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term)
-{
-    return move(BaseTermSharedPointer(
-                    dynamic_cast<BaseTerm*>(
-                        new Term(term))));
+    unsigned int gcfCoefficient(getGcfForIntegerCoefficientsInMonomials(monomials));
+    Monomial commonMonomial(getMonomialWithMinimumExponentsInMonomials(monomials));
+    commonMonomial.setConstant(getCommonSignInMonomials(monomials)*gcfCoefficient);
+    return commonMonomial;
 }
 
-BaseTermSharedPointer getSharedPointerFromTermReference(Term & term)
+unsigned int getGcfForIntegerCoefficientsInMonomials(Monomials const& monomials)
 {
-    return move(BaseTermSharedPointer(dynamic_cast<BaseTerm*>(&term)));
+    unsigned int gcf(1);
+    bool isFirst(true);
+    for(Monomial const& monomial : monomials)
+    {
+        AlbaNumber const& coefficient(monomial.getConstantConstReference());
+        if(coefficient.isIntegerType())
+        {
+            unsigned int integerCoefficient(static_cast<unsigned int>(getAbsoluteValue(coefficient.getInteger())));
+            if(isFirst)
+            {
+                gcf = integerCoefficient;
+                isFirst = false;
+            }
+            else
+            {
+                gcf = getGreatestCommonFactor(gcf, integerCoefficient);
+            }
+        }
+    }
+    return gcf;
 }
 
-Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm)
+Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
 {
-    return dynamic_cast<Term const&>(baseTerm);
+    Monomial monomialWithMinimumExponents(1, {});
+    bool isFirst(true);
+    for(Monomial const& monomial : monomials)
+    {
+        if(isFirst)
+        {
+            monomialWithMinimumExponents = monomial;
+            isFirst=false;
+        }
+        else
+        {
+            monomialWithMinimumExponents.compareMonomialsAndSaveMinimumExponentsForEachVariable(monomial);
+        }
+    }
+    return monomialWithMinimumExponents;
 }
 
-Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
+AlbaNumber getCommonSignInMonomials(Monomials const& monomials)
 {
-    return dynamic_cast<Term const&>(*sharedPointer.get());
-}
-
-Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm)
-{
-    return dynamic_cast<Term &>(baseTerm);
-}
-
-Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer)
-{
-    return *dynamic_cast<Term*>(sharedPointer.get());
-}
-
-BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term)
-{
-    return dynamic_cast<BaseTerm const&>(term);
-}
-
-BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
-{
-    return dynamic_cast<BaseTerm const&>(*sharedPointer.get());
-}
-
-BaseTerm & getBaseTermReferenceFromTerm(Term & term)
-{
-    return dynamic_cast<BaseTerm &>(term);
+    unsigned positiveSign(0);
+    unsigned negativeSign(0);
+    for(Monomial const& monomial : monomials)
+    {
+        if(monomial.getConstantConstReference() >= AlbaNumber(0))
+        {
+            positiveSign++;
+        }
+        else
+        {
+            negativeSign++;
+        }
+    }
+    return (positiveSign >= negativeSign) ? 1 : -1;
 }
 
 }

@@ -214,6 +214,10 @@ bool Term::isEmpty() const
     {
         result = true;
     }
+    else if(m_type==TermType::Polynomial)
+    {
+        result = getPolynomialConstReference().isEmpty();
+    }
     else if(m_type==TermType::Expression)
     {
         result = getExpressionConstReference().isEmpty();

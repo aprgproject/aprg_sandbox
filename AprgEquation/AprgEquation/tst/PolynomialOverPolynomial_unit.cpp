@@ -76,16 +76,16 @@ TEST(PolynomialOverPolynomialTest, SimplifyWorksOnConvertingNegativeExponentsToP
     EXPECT_EQ((Polynomial{Monomial(3, {{"x", 1}, {"y", 2}, {"z", 1}}), Monomial(4, {{"x", 1}, {"y", 1}})}), polynomialOverPolynomial.getDenominator());
 }
 
-TEST(PolynomialOverPolynomialTest, SimplifyWorksOnRemovingCommonFactorInVariableExponents)
+TEST(PolynomialOverPolynomialTest, SimplifyWorksOnRemovingCommonSignInCoefficients)
 {
-    Polynomial numerator{Monomial(1, {{"x", 3}, {"y", 2}}), Monomial(1, {{"x", 2}, {"y", 3}})};
-    Polynomial denominator{Monomial(1, {{"x", 2}, {"y", 2}})};
+    Polynomial numerator{Monomial(-1, {{"x", 1}}), Monomial(-1, {{"y", 1}})};
+    Polynomial denominator{Monomial(-1, {{"a", 1}}), Monomial(1, {{"b", 1}})};
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
     polynomialOverPolynomial.simplify();
 
     EXPECT_EQ((Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})}), polynomialOverPolynomial.getNumerator());
-    EXPECT_EQ((Polynomial{Monomial(1, {})}), polynomialOverPolynomial.getDenominator());
+    EXPECT_EQ((Polynomial{Monomial(1, {{"a", 1}}), Monomial(-1, {{"b", 1}})}), polynomialOverPolynomial.getDenominator());
 }
 
 }

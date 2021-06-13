@@ -1,7 +1,7 @@
 #include "TermOperators.hpp"
 
 #include <Math/AlbaMathHelper.hpp>
-#include <PerformOperation.hpp>
+#include <PerformOperations.hpp>
 #include <Utilities.hpp>
 
 using namespace alba::mathHelper;
@@ -94,8 +94,8 @@ Term operator+(Constant const& constant, Variable const& variable)
 {
     return simplifyAndConvertPolynomialToSimplestTerm(
                 Polynomial{
-                    Monomial(constant.getNumberConstReference(), {}),
-                    Monomial(1, {{variable.getVariableName(), 1}})
+                    createMonomialFromConstant(constant),
+                    createMonomialFromVariable(variable)
                 });
 }
 
@@ -109,7 +109,7 @@ Term operator+(Constant const& constant, Monomial const& monomial)
     {
         return simplifyAndConvertPolynomialToSimplestTerm(
                     Polynomial{
-                        Monomial(constant.getNumberConstReference(), {}),
+                        createMonomialFromConstant(constant),
                         monomial
                     });
     }
@@ -118,7 +118,7 @@ Term operator+(Constant const& constant, Monomial const& monomial)
 Term operator+(Constant const& constant, Polynomial const& polynomial)
 {
     Polynomial newPolynomial;
-    newPolynomial.addMonomial(Monomial(constant.getNumberConstReference(), {}));
+    newPolynomial.addMonomial(createMonomialFromConstant(constant));
     newPolynomial.addPolynomial(polynomial);
     return simplifyAndConvertPolynomialToSimplestTerm(newPolynomial);
 }
@@ -134,8 +134,8 @@ Term operator+(Variable const& variable, Constant const& constant)
 {
     return simplifyAndConvertPolynomialToSimplestTerm(
                 Polynomial{
-                    Monomial(1, {{variable.getVariableName(), 1}}),
-                    Monomial(constant.getNumberConstReference(), {})
+                    createMonomialFromVariable(variable),
+                    createMonomialFromConstant(constant)
                 });
 }
 
@@ -149,8 +149,8 @@ Term operator+(Variable const& variable1, Variable const& variable2)
     {
         return simplifyAndConvertPolynomialToSimplestTerm(
                     Polynomial{
-                        Monomial(1, {{variable1.getVariableName(), 1}}),
-                        Monomial(1, {{variable2.getVariableName(), 1}})
+                        createMonomialFromVariable(variable1),
+                        createMonomialFromVariable(variable2)
                     });
     }
 }
@@ -165,7 +165,7 @@ Term operator+(Variable const& variable, Monomial const& monomial)
     {
         return simplifyAndConvertPolynomialToSimplestTerm(
                     Polynomial{
-                        Monomial(1, {{variable.getVariableName(), 1}}),
+                        createMonomialFromVariable(variable),
                         monomial
                     });
     }
@@ -174,7 +174,7 @@ Term operator+(Variable const& variable, Monomial const& monomial)
 Term operator+(Variable const& variable, Polynomial const& polynomial)
 {
     Polynomial newPolynomial;
-    newPolynomial.addMonomial(Monomial(1, {{variable.getVariableName(), 1}}));
+    newPolynomial.addMonomial(createMonomialFromVariable(variable));
     newPolynomial.addPolynomial(polynomial);
     return simplifyAndConvertPolynomialToSimplestTerm(newPolynomial);
 }
@@ -197,7 +197,7 @@ Term operator+(Monomial const& monomial, Constant const& constant)
         return simplifyAndConvertPolynomialToSimplestTerm(
                     Polynomial{
                         monomial,
-                        Monomial(constant.getNumberConstReference(), {})
+                        createMonomialFromConstant(constant)
                     });
     }
 }
@@ -213,7 +213,7 @@ Term operator+(Monomial const& monomial, Variable const& variable)
         return simplifyAndConvertPolynomialToSimplestTerm(
                     Polynomial{
                         monomial,
-                        Monomial(1, {{variable.getVariableName(), 1}})
+                        createMonomialFromVariable(variable)
                     });
     }
 }
@@ -235,7 +235,7 @@ Term operator+(Monomial const& monomial1, Monomial const& monomial2)
 
 Term operator+(Monomial const& monomial, Polynomial const& polynomial)
 {
-    Polynomial newPolynomial{monomial};
+    Polynomial newPolynomial(createPolynomialFromMonomial(monomial));
     newPolynomial.addPolynomial(polynomial);
     return simplifyAndConvertPolynomialToSimplestTerm(newPolynomial);
 }
@@ -250,14 +250,14 @@ Term operator+(Monomial const& monomial, Expression const& expression)
 Term operator+(Polynomial const& polynomial, Constant const& constant)
 {
     Polynomial newPolynomial(polynomial);
-    newPolynomial.addMonomial(Monomial(constant.getNumberConstReference(), {}));
+    newPolynomial.addMonomial(createMonomialFromConstant(constant));
     return simplifyAndConvertPolynomialToSimplestTerm(newPolynomial);
 }
 
 Term operator+(Polynomial const& polynomial, Variable const& variable)
 {
     Polynomial newPolynomial(polynomial);
-    newPolynomial.addMonomial(Monomial(1, {{variable.getVariableName(), 1}}));
+    newPolynomial.addMonomial(createMonomialFromVariable(variable));
     return simplifyAndConvertPolynomialToSimplestTerm(newPolynomial);
 }
 
@@ -334,7 +334,7 @@ Term operator-(Constant const& constant, Variable const& variable)
 {
     return simplifyAndConvertPolynomialToSimplestTerm(
                 Polynomial{
-                    Monomial(constant.getNumberConstReference(), {}),
+                    createMonomialFromConstant(constant),
                     Monomial(-1, {{variable.getVariableName(), 1}})
                 });
 }
@@ -349,7 +349,7 @@ Term operator-(Constant const& constant, Monomial const& monomial)
     {
         return simplifyAndConvertPolynomialToSimplestTerm(
                     Polynomial{
-                        Monomial(constant.getNumberConstReference(), {}),
+                        createMonomialFromConstant(constant),
                         Monomial(monomial.getConstantConstReference()*-1, monomial.getVariablesToExponentsMapConstReference())
                     });
     }
@@ -357,7 +357,7 @@ Term operator-(Constant const& constant, Monomial const& monomial)
 
 Term operator-(Constant const& constant, Polynomial const& polynomial)
 {
-    Polynomial newPolynomial{Monomial(constant.getNumberConstReference(), {})};
+    Polynomial newPolynomial{createMonomialFromConstant(constant)};
     Polynomial subtrahend(polynomial);
     subtrahend.multiplyNumber(-1);
     newPolynomial.addPolynomial(subtrahend);
@@ -375,7 +375,7 @@ Term operator-(Variable const& variable, Constant const& constant)
 {
     return simplifyAndConvertPolynomialToSimplestTerm(
                 Polynomial{
-                    Monomial(1, {{variable.getVariableName(), 1}}),
+                    createMonomialFromVariable(variable),
                     Monomial(constant.getNumberConstReference()*-1, {})
                 });
 }
@@ -390,7 +390,7 @@ Term operator-(Variable const& variable1, Variable const& variable2)
     {
         return simplifyAndConvertPolynomialToSimplestTerm(
                     Polynomial{
-                        Monomial(1, {{variable1.getVariableName(), 1}}),
+                        createMonomialFromVariable(variable1),
                         Monomial(-1, {{variable2.getVariableName(), 1}})
                     });
     }
@@ -406,7 +406,7 @@ Term operator-(Variable const& variable, Monomial const& monomial)
     {
         return simplifyAndConvertPolynomialToSimplestTerm(
                     Polynomial{
-                        Monomial(1, {{variable.getVariableName(), 1}}),
+                        createMonomialFromVariable(variable),
                         Monomial(monomial.getConstantConstReference()*-1, monomial.getVariablesToExponentsMapConstReference())
                     });
     }
@@ -414,7 +414,7 @@ Term operator-(Variable const& variable, Monomial const& monomial)
 
 Term operator-(Variable const& variable, Polynomial const& polynomial)
 {
-    Polynomial newPolynomial{Monomial(1, {{variable.getVariableName(), 1}})};
+    Polynomial newPolynomial{createMonomialFromVariable(variable)};
     Polynomial subtrahend(polynomial);
     subtrahend.multiplyNumber(-1);
     newPolynomial.addPolynomial(subtrahend);
@@ -481,7 +481,7 @@ Term operator-(Monomial const& monomial1, Monomial const& monomial2)
 
 Term operator-(Monomial const& monomial, Polynomial const& polynomial)
 {
-    Polynomial newPolynomial{monomial};
+    Polynomial newPolynomial(createPolynomialFromMonomial(monomial));
     Polynomial subtrahend(polynomial);
     subtrahend.multiplyNumber(-1);
     newPolynomial.addPolynomial(subtrahend);
@@ -639,7 +639,7 @@ Term operator*(Variable const& variable, Monomial const& monomial)
     }
     else
     {
-        Monomial newMonomial(createMonomialVariable(variable.getVariableName()));
+        Monomial newMonomial(createMonomialFromVariable(variable));
         newMonomial.multiplyMonomial(monomial);
         return simplifyAndConvertMonomialToSimplestTerm(newMonomial);
     }
@@ -648,7 +648,7 @@ Term operator*(Variable const& variable, Monomial const& monomial)
 Term operator*(Variable const& variable, Polynomial const& polynomial)
 {
     Polynomial newPolynomial(polynomial);
-    newPolynomial.multiplyMonomial(Monomial(1, {{variable.getVariableName(), 1}}));
+    newPolynomial.multiplyMonomial(createMonomialFromVariable(variable));
     return simplifyAndConvertPolynomialToSimplestTerm(newPolynomial);
 }
 
@@ -683,7 +683,7 @@ Term operator*(Monomial const& monomial, Variable const& variable)
     else
     {
         Monomial newMonomial(monomial);
-        newMonomial.multiplyMonomial(createMonomialVariable(variable.getVariableName()));
+        newMonomial.multiplyMonomial(createMonomialFromVariable(variable));
         return simplifyAndConvertMonomialToSimplestTerm(newMonomial);
     }
 }
@@ -719,7 +719,7 @@ Term operator*(Polynomial const& polynomial, Constant const& constant)
 Term operator*(Polynomial const& polynomial, Variable const& variable)
 {
     Polynomial newPolynomial(polynomial);
-    newPolynomial.multiplyMonomial(Monomial(1, {{variable.getVariableName(), 1}}));
+    newPolynomial.multiplyMonomial(createMonomialFromVariable(variable));
     return simplifyAndConvertPolynomialToSimplestTerm(newPolynomial);
 }
 
@@ -805,7 +805,7 @@ Term operator/(Constant const& constant, Monomial const& monomial)
     }
     else
     {
-        Monomial newMonomial(createMonomialConstant(constant.getNumberConstReference()));
+        Monomial newMonomial(createMonomialFromConstant(constant));
         newMonomial.divideMonomial(monomial);
         return simplifyAndConvertMonomialToSimplestTerm(newMonomial);
     }
@@ -848,7 +848,7 @@ Term operator/(Variable const& variable, Monomial const& monomial)
     }
     else
     {
-        Monomial newMonomial(createMonomialVariable(variable.getVariableName()));
+        Monomial newMonomial(createMonomialFromVariable(variable));
         newMonomial.divideMonomial(monomial);
         return simplifyAndConvertMonomialToSimplestTerm(newMonomial);
     }
@@ -890,7 +890,7 @@ Term operator/(Monomial const& monomial, Variable const& variable)
     else
     {
         Monomial newMonomial(monomial);
-        newMonomial.divideMonomial(createMonomialVariable(variable.getVariableName()));
+        newMonomial.divideMonomial(createMonomialFromVariable(variable));
         return simplifyAndConvertMonomialToSimplestTerm(newMonomial);
     }
 }
@@ -924,7 +924,7 @@ Term operator/(Polynomial const& polynomial, Constant const& constant)
 Term operator/(Polynomial const& polynomial, Variable const& variable)
 {
     Polynomial newPolynomial(polynomial);
-    newPolynomial.divideMonomial(Monomial(1, {{variable.getVariableName(), 1}}));
+    newPolynomial.divideMonomial(createMonomialFromVariable(variable));
     return simplifyAndConvertPolynomialToSimplestTerm(newPolynomial);
 }
 

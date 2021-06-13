@@ -239,7 +239,7 @@ TEST(TermTest, IsEmptyWorks)
     EXPECT_FALSE(term5.isEmpty());
     EXPECT_FALSE(term6.isEmpty());
     EXPECT_FALSE(term7.isEmpty());
-    EXPECT_FALSE(term8.isEmpty());
+    EXPECT_TRUE(term8.isEmpty());
     EXPECT_FALSE(term9.isEmpty());
     EXPECT_TRUE(term10.isEmpty());
 }

@@ -62,6 +62,15 @@ TEST(PolynomialTest, LessThanOperatorWorks)
                  < Polynomial({Monomial(6, {}), Monomial(8, {{"x", 2}, {"y", 3}})}));
 }
 
+TEST(PolynomialTest, IsEmptyWorks)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(6, {})};
+
+    EXPECT_TRUE(polynomial1.isEmpty());
+    EXPECT_FALSE(polynomial2.isEmpty());
+}
+
 TEST(PolynomialTest, IsOneWorks)
 {
     Polynomial polynomial1;
@@ -133,6 +142,21 @@ TEST(PolynomialTest, GetDisplayableStringWorks)
     EXPECT_EQ("(EmptyPolynomial)", polynomial1.getDisplayableString());
     EXPECT_EQ("(6)", polynomial2.getDisplayableString());
     EXPECT_EQ("(6 + -7|x^2||y^3||z^4|)", polynomial3.getDisplayableString());
+}
+
+TEST(PolynomialTest, ClearWorks)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+
+    polynomial1.clear();
+    polynomial2.clear();
+    polynomial3.clear();
+
+    EXPECT_TRUE(polynomial1.isEmpty());
+    EXPECT_TRUE(polynomial2.isEmpty());
+    EXPECT_TRUE(polynomial3.isEmpty());
 }
 
 TEST(PolynomialTest, SimplifyAndSortWorks)

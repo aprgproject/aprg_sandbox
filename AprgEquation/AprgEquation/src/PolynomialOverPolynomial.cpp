@@ -1,6 +1,7 @@
 #include "PolynomialOverPolynomial.hpp"
 
 #include <Math/AlbaMathHelper.hpp>
+#include <Utilities.hpp>
 
 using namespace alba::mathHelper;
 using namespace std;
@@ -38,9 +39,8 @@ PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::simplif
 void PolynomialOverPolynomial::simplify()
 {
     convertFractionCoefficientsToInteger();
-    removeGcfOnCoefficients();
     convertNegativeExponentsToPositive();
-    removeCommonVariableExponents();
+    removeCommonMonomialOnAllMonomialsInNumeratorAndDenominator();
     m_numerator.simplify();
     m_denominator.simplify();
 }
@@ -94,30 +94,6 @@ unsigned int PolynomialOverPolynomial::getLcmForDenominatorCoefficients(Polynomi
     return lcm;
 }
 
-unsigned int PolynomialOverPolynomial::getGcfForIntegerCoefficients(Polynomial const& polynomial)
-{
-    unsigned int gcf(1);
-    bool isFirst(true);
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
-    {
-        AlbaNumber const& coefficient(monomial.getConstantConstReference());
-        if(coefficient.isIntegerType())
-        {
-            unsigned int integerCoefficient(static_cast<unsigned int>(getAbsoluteValue(coefficient.getInteger())));
-            if(isFirst)
-            {
-                gcf = integerCoefficient;
-                isFirst = false;
-            }
-            else
-            {
-                gcf = getGreatestCommonFactor(gcf, integerCoefficient);
-            }
-        }
-    }
-    return gcf;
-}
-
 Monomial PolynomialOverPolynomial::getAndPositiveExponentsMonomialWithNegativeExponents(Polynomial const& polynomial)
 {
     Monomial resultMonomial(1, {});
@@ -154,15 +130,6 @@ void PolynomialOverPolynomial::convertFractionCoefficientsToInteger()
     m_denominator.multiplyNumber(denominatorMultiplier);
 }
 
-void PolynomialOverPolynomial::removeGcfOnCoefficients()
-{
-    unsigned int numeratorGcf(getGcfForIntegerCoefficients(m_numerator));
-    unsigned int denominatorGcf(getGcfForIntegerCoefficients(m_denominator));
-    unsigned int commonGcfOnNumeratorAndDenominator(getGreatestCommonFactor(numeratorGcf, denominatorGcf));
-    m_numerator.divideNumber(commonGcfOnNumeratorAndDenominator);
-    m_denominator.divideNumber(commonGcfOnNumeratorAndDenominator);
-}
-
 void PolynomialOverPolynomial::convertNegativeExponentsToPositive()
 {
     Monomial monomialExponentNumerator(getAndPositiveExponentsMonomialWithNegativeExponents(m_numerator));
@@ -173,36 +140,17 @@ void PolynomialOverPolynomial::convertNegativeExponentsToPositive()
     m_denominator.multiplyMonomial(monomialExponentDenominator);
 }
 
-void PolynomialOverPolynomial::removeCommonVariableExponents()
+void PolynomialOverPolynomial::removeCommonMonomialOnAllMonomialsInNumeratorAndDenominator()
 {
-    Monomial commonMonomialInNumerator(getMonomialCommonVariablesExponentsInPolynomial(m_numerator.getMonomialsConstReference()));
-    Monomial commonMonomialInDenominator(getMonomialCommonVariablesExponentsInPolynomial(m_denominator.getMonomialsConstReference()));
-    Monomial commonMonomial(getMonomialCommonVariablesExponentsInPolynomial(Monomials{commonMonomialInNumerator, commonMonomialInDenominator}));
-
+    Monomials numeratorAndDenominatorMonomials;
+    Monomials const& numeratorMonomials(m_numerator.getMonomialsConstReference());
+    Monomials const& denominatorMonomials(m_denominator.getMonomialsConstReference());
+    copy(numeratorMonomials.cbegin(), numeratorMonomials.cend(), back_inserter(numeratorAndDenominatorMonomials));
+    copy(denominatorMonomials.cbegin(), denominatorMonomials.cend(), back_inserter(numeratorAndDenominatorMonomials));
+    Monomial commonMonomial(getCommonMonomialInMonomials(numeratorAndDenominatorMonomials));
     m_numerator.divideMonomial(commonMonomial);
     m_denominator.divideMonomial(commonMonomial);
 }
-
-Monomial PolynomialOverPolynomial::getMonomialCommonVariablesExponentsInPolynomial(Monomials const& monomials) const
-{
-    Monomial intersectionMonomial(1, {});
-    bool isFirst(true);
-    for(Monomial const& monomial : monomials)
-    {
-        if(isFirst)
-        {
-            intersectionMonomial = monomial;
-            isFirst=false;
-        }
-        else
-        {
-            intersectionMonomial.saveIntersectionOfVariableExponentsMap(monomial);
-        }
-    }
-    return intersectionMonomial;
-}
-
-
 
 }
 

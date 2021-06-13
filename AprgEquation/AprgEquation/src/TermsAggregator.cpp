@@ -1,6 +1,6 @@
 #include "TermsAggregator.hpp"
 
-#include <PerformOperation.hpp>
+#include <PerformOperations.hpp>
 #include <Utilities.hpp>
 
 using namespace std;
@@ -152,10 +152,12 @@ AlbaOptional<unsigned int> TermsAggregator::getNextOperatorIndexToTraverse() con
             }
         }
     }
-    if(!operatorLevelToIndexMap.empty())    {
+    if(!operatorLevelToIndexMap.empty())
+    {
         pair<unsigned int, unsigned int> operatorLevelToIndexPair(*operatorLevelToIndexMap.begin());
         operatorIndexOptional.setValue(operatorLevelToIndexPair.second);
-    }    return operatorIndexOptional;
+    }
+    return operatorIndexOptional;
 }
 
 bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigned int const index)
@@ -168,10 +170,12 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
         Term const& term3(m_terms.at(index+1));
         if(term1.isValueTerm() && term2.isOperator() && term3.isValueTerm())
         {
-            Expression newExpression(createOrCopyExpressionFromATerm(term1));            Operator const& operatorTerm(term2.getOperatorConstReference());
+            Expression newExpression(createOrCopyExpressionFromATerm(term1));
+            Operator const& operatorTerm(term2.getOperatorConstReference());
             if(operatorTerm.isAddition())
             {
-                newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(term3));            }
+                newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(term3));
+            }
             else if(operatorTerm.isSubtraction())
             {
                 newExpression.putTermWithSubtraction(getBaseTermConstReferenceFromTerm(term3));
@@ -203,11 +207,15 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
     if(index+1 < m_terms.size())
     {
         Term const& term1(m_terms.at(index));
-        Term const& term2(m_terms.at(index+1));        if(term1.isOperator() && term2.isValueTerm() &&
+        Term const& term2(m_terms.at(index+1));
+        if(term1.isOperator() && term2.isValueTerm() &&
                 OperatorLevel::AdditionAndSubtraction == term1.getOperatorConstReference().getOperatorLevel())
-        {            Expression newExpression;
-            Operator const& operatorTerm(term1.getOperatorConstReference());            if(operatorTerm.isAddition())
-            {                newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(term2));
+        {
+            Expression newExpression;
+            Operator const& operatorTerm(term1.getOperatorConstReference());
+            if(operatorTerm.isAddition())
+            {
+                newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(term2));
             }
             else if(operatorTerm.isSubtraction())
             {
@@ -228,12 +236,16 @@ bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int 
     if(index>0 && index+1 < m_terms.size())
     {
         Term const& term1(m_terms.at(index-1));
-        Term const& term2(m_terms.at(index));        Term const& term3(m_terms.at(index+1));
+        Term const& term2(m_terms.at(index));
+        Term const& term3(m_terms.at(index+1));
         if(term1.isValueTerm() && term2.isOperator() && term3.isValueTerm())
         {
-            Term newTerm = performOperation(term2.getOperatorConstReference(), term1, term3);            eraseTermsInclusive(index-1, index+1);            insertTerm(index-1, newTerm);
+            Term newTerm = performOperation(term2.getOperatorConstReference(), term1, term3);
+            eraseTermsInclusive(index-1, index+1);
+            insertTerm(index-1, newTerm);
             isSimplified=true;
-        }    }
+        }
+    }
     return isSimplified;
 }
 
@@ -243,15 +255,19 @@ bool TermsAggregator::simplifyUnaryOperationAndReturnIfSimplified(unsigned int c
     if(index+1 < m_terms.size())
     {
         Term const& term1(m_terms.at(index));
-        Term const& term2(m_terms.at(index+1));        if(term1.isOperator() && term2.isValueTerm() &&
+        Term const& term2(m_terms.at(index+1));
+        if(term1.isOperator() && term2.isValueTerm() &&
                 OperatorLevel::AdditionAndSubtraction == term1.getOperatorConstReference().getOperatorLevel())
         {
-            Term newTerm = performOperation(term1.getOperatorConstReference(), term2);            eraseTermsInclusive(index, index+1);
+            Term newTerm = performOperation(term1.getOperatorConstReference(), term2);
+            eraseTermsInclusive(index, index+1);
             insertTerm(index, newTerm);
-            isSimplified=true;        }
+            isSimplified=true;
+        }
     }
     return isSimplified;
 }
+
 void TermsAggregator::eraseTermsInclusive(
         unsigned int const firstIndex,
         unsigned int const secondIndex)
@@ -268,7 +284,8 @@ void TermsAggregator::eraseTermsInclusive(
     }
 }
 
-void TermsAggregator::insertTerm(        unsigned int const index,
+void TermsAggregator::insertTerm(
+        unsigned int const index,
         Term const& term)
 {
     bool isOutsideStartAndEndIndex(m_startIndex>index || m_endIndex<index);
@@ -284,4 +301,5 @@ void TermsAggregator::insertTerm(        unsigned int const index,
 }
 
 }
+
 }

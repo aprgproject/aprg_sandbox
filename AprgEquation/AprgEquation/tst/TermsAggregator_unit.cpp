@@ -41,6 +41,7 @@ TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithBinaryOperation)
     TermsAggregator aggregator(Terms{Term("x"), Term("+"), Term("x")});
 
     aggregator.buildExpressionFromTerms();
+
     Terms termsToVerify(aggregator.getTermsConstReference());
     ASSERT_EQ(1u, termsToVerify.size());
     ASSERT_EQ(TermType::Expression, termsToVerify.at(0).getTermType());

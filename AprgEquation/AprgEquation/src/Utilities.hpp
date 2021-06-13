@@ -39,8 +39,22 @@ std::string getEnumShortString(TermType const termType);
 std::string getEnumShortString(TermAssociationType const association);
 std::string getEnumShortString(OperatorLevel const operatorLevel);
 
-Monomial createMonomialConstant(AlbaNumber const& number);
-Monomial createMonomialVariable(std::string const& variableName);
+BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer);
+BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);
+BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
+Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
+Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
+Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);
+Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
+BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term);
+BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
+BaseTerm & getBaseTermReferenceFromTerm(Term & term);
+
+Monomial createMonomialFromConstant(Constant const& constant);
+Monomial createMonomialFromVariable(Variable const& variable);
+Polynomial createPolynomialFromConstant(Constant const& constant);
+Polynomial createPolynomialFromVariable(Variable const& variable);
+Polynomial createPolynomialFromMonomial(Monomial const& monomial);
 Polynomial createPolynomialIfPossible(Term const& term);
 Expression createExpressionInAnExpression(Expression const& expression);
 Expression createAndWrapExpressionFromATerm(Term const& term);
@@ -57,14 +71,13 @@ Terms tokenizeToTerms(std::string const& inputString);
 void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);
 Term convertValueTermStringToTerm(std::string const& valueTerm);
 
-BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer);
-BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);
-BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
-Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
-Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);
-Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term);
-BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
-BaseTerm & getBaseTermReferenceFromTerm(Term & term);
+Monomial getCommonMonomialInMonomials(Monomials const& monomials);
+unsigned int getGcfForIntegerCoefficientsInMonomials(Monomials const& monomials);
+Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
+AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
+
+
+
 }
 
 }

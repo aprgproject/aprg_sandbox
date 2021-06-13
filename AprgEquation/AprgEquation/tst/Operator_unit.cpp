@@ -67,7 +67,8 @@ TEST(OperatorTest, IsAdditionWorksAsExpected)
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
-    EXPECT_FALSE(nullOperator.isAddition());    EXPECT_TRUE(addOperator.isAddition());
+    EXPECT_FALSE(nullOperator.isAddition());
+    EXPECT_TRUE(addOperator.isAddition());
     EXPECT_FALSE(subtractOperator.isAddition());
     EXPECT_FALSE(multiplyOperator.isAddition());
     EXPECT_FALSE(divideOperator.isAddition());
@@ -76,9 +77,11 @@ TEST(OperatorTest, IsAdditionWorksAsExpected)
     EXPECT_FALSE(closingGroupOperator.isAddition());
     EXPECT_FALSE(invalidOperator.isAddition());
 }
+
 TEST(OperatorTest, IsSubtractionWorksAsExpected)
 {
-    Operator nullOperator;    Operator addOperator("+");
+    Operator nullOperator;
+    Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
@@ -87,7 +90,8 @@ TEST(OperatorTest, IsSubtractionWorksAsExpected)
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
-    EXPECT_FALSE(nullOperator.isSubtraction());    EXPECT_FALSE(addOperator.isSubtraction());
+    EXPECT_FALSE(nullOperator.isSubtraction());
+    EXPECT_FALSE(addOperator.isSubtraction());
     EXPECT_TRUE(subtractOperator.isSubtraction());
     EXPECT_FALSE(multiplyOperator.isSubtraction());
     EXPECT_FALSE(divideOperator.isSubtraction());
@@ -96,9 +100,11 @@ TEST(OperatorTest, IsSubtractionWorksAsExpected)
     EXPECT_FALSE(closingGroupOperator.isSubtraction());
     EXPECT_FALSE(invalidOperator.isSubtraction());
 }
+
 TEST(OperatorTest, IsMultiplicationWorksAsExpected)
 {
-    Operator nullOperator;    Operator addOperator("+");
+    Operator nullOperator;
+    Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
@@ -107,7 +113,8 @@ TEST(OperatorTest, IsMultiplicationWorksAsExpected)
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
-    EXPECT_FALSE(nullOperator.isMultiplication());    EXPECT_FALSE(addOperator.isMultiplication());
+    EXPECT_FALSE(nullOperator.isMultiplication());
+    EXPECT_FALSE(addOperator.isMultiplication());
     EXPECT_FALSE(subtractOperator.isMultiplication());
     EXPECT_TRUE(multiplyOperator.isMultiplication());
     EXPECT_FALSE(divideOperator.isMultiplication());
@@ -116,9 +123,11 @@ TEST(OperatorTest, IsMultiplicationWorksAsExpected)
     EXPECT_FALSE(closingGroupOperator.isMultiplication());
     EXPECT_FALSE(invalidOperator.isMultiplication());
 }
+
 TEST(OperatorTest, IsDivisionWorksAsExpected)
 {
-    Operator nullOperator;    Operator addOperator("+");
+    Operator nullOperator;
+    Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
@@ -127,7 +136,8 @@ TEST(OperatorTest, IsDivisionWorksAsExpected)
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
-    EXPECT_FALSE(nullOperator.isDivision());    EXPECT_FALSE(addOperator.isDivision());
+    EXPECT_FALSE(nullOperator.isDivision());
+    EXPECT_FALSE(addOperator.isDivision());
     EXPECT_FALSE(subtractOperator.isDivision());
     EXPECT_FALSE(multiplyOperator.isDivision());
     EXPECT_TRUE(divideOperator.isDivision());
@@ -136,9 +146,11 @@ TEST(OperatorTest, IsDivisionWorksAsExpected)
     EXPECT_FALSE(closingGroupOperator.isDivision());
     EXPECT_FALSE(invalidOperator.isDivision());
 }
+
 TEST(OperatorTest, IsRaiseToPowerWorksAsExpected)
 {
-    Operator nullOperator;    Operator addOperator("+");
+    Operator nullOperator;
+    Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
@@ -147,7 +159,8 @@ TEST(OperatorTest, IsRaiseToPowerWorksAsExpected)
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
-    EXPECT_FALSE(nullOperator.isRaiseToPower());    EXPECT_FALSE(addOperator.isRaiseToPower());
+    EXPECT_FALSE(nullOperator.isRaiseToPower());
+    EXPECT_FALSE(addOperator.isRaiseToPower());
     EXPECT_FALSE(subtractOperator.isRaiseToPower());
     EXPECT_FALSE(multiplyOperator.isRaiseToPower());
     EXPECT_FALSE(divideOperator.isRaiseToPower());
@@ -160,7 +173,8 @@ TEST(OperatorTest, IsRaiseToPowerWorksAsExpected)
 TEST(OperatorTest, IsOpeningGroupOperatorWorksAsExpected)
 {
     Operator nullOperator;
-    Operator addOperator("+");    Operator subtractOperator("-");
+    Operator addOperator("+");
+    Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
     Operator raiseToPowerOperator("^");
@@ -204,7 +218,8 @@ TEST(OperatorTest, IsClosingGroupOperatorWorksAsExpected)
 
 TEST(OperatorTest, GetOperatorLevelAsExpected)
 {
-    Operator nullOperator;    Operator addOperator("+");
+    Operator nullOperator;
+    Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
@@ -213,7 +228,8 @@ TEST(OperatorTest, GetOperatorLevelAsExpected)
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
-    EXPECT_EQ(OperatorLevel::Unknown, nullOperator.getOperatorLevel());    EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, addOperator.getOperatorLevel());
+    EXPECT_EQ(OperatorLevel::Unknown, nullOperator.getOperatorLevel());
+    EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, addOperator.getOperatorLevel());
     EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, subtractOperator.getOperatorLevel());
     EXPECT_EQ(OperatorLevel::MultiplicationAndDivision, multiplyOperator.getOperatorLevel());
     EXPECT_EQ(OperatorLevel::MultiplicationAndDivision, divideOperator.getOperatorLevel());
@@ -222,9 +238,11 @@ TEST(OperatorTest, GetOperatorLevelAsExpected)
     EXPECT_EQ(OperatorLevel::Unknown, closingGroupOperator.getOperatorLevel());
     EXPECT_EQ(OperatorLevel::Unknown, invalidOperator.getOperatorLevel());
 }
+
 TEST(OperatorTest, GetOperatorStringValueAsExpected)
 {
-    Operator nullOperator;    Operator addOperator("+");
+    Operator nullOperator;
+    Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
@@ -233,7 +251,8 @@ TEST(OperatorTest, GetOperatorStringValueAsExpected)
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
-    EXPECT_TRUE(nullOperator.getOperatorString().empty());    EXPECT_EQ("+", addOperator.getOperatorString());
+    EXPECT_TRUE(nullOperator.getOperatorString().empty());
+    EXPECT_EQ("+", addOperator.getOperatorString());
     EXPECT_EQ("-", subtractOperator.getOperatorString());
     EXPECT_EQ("*", multiplyOperator.getOperatorString());
     EXPECT_EQ("/", divideOperator.getOperatorString());
@@ -242,9 +261,11 @@ TEST(OperatorTest, GetOperatorStringValueAsExpected)
     EXPECT_EQ(")", closingGroupOperator.getOperatorString());
     EXPECT_EQ("invalid", invalidOperator.getOperatorString());
 }
+
 TEST(OperatorTest, GetDisplayableStringWorks)
 {
-    Operator nullOperator;    Operator addOperator("+");
+    Operator nullOperator;
+    Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
@@ -253,7 +274,8 @@ TEST(OperatorTest, GetDisplayableStringWorks)
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
-    EXPECT_TRUE(nullOperator.getDisplayableString().empty());    EXPECT_EQ("+", addOperator.getDisplayableString());
+    EXPECT_TRUE(nullOperator.getDisplayableString().empty());
+    EXPECT_EQ("+", addOperator.getDisplayableString());
     EXPECT_EQ("-", subtractOperator.getDisplayableString());
     EXPECT_EQ("*", multiplyOperator.getDisplayableString());
     EXPECT_EQ("/", divideOperator.getDisplayableString());
@@ -262,9 +284,11 @@ TEST(OperatorTest, GetDisplayableStringWorks)
     EXPECT_EQ(")", closingGroupOperator.getDisplayableString());
     EXPECT_EQ("invalid", invalidOperator.getDisplayableString());
 }
+
 TEST(OperatorTest, SettingANewOperatingStringWorks)
 {
-    Operator operatorForTest;    EXPECT_EQ("", operatorForTest.getOperatorString());
+    Operator operatorForTest;
+    EXPECT_EQ("", operatorForTest.getOperatorString());
 
     operatorForTest.setOperatorString("multiply");
     EXPECT_EQ("multiply", operatorForTest.getOperatorString());

@@ -137,14 +137,119 @@ TEST(UtilitiesTest, GetTermPriorityValueWorks)
     EXPECT_EQ(6u, getTermTypePriorityValue(TermType::Expression));
 }
 
+TEST(UtilitiesTest, CreateNewTermAndReturnSharedPointerWorks)
+{
+    BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9652)));
+
+    BaseTermSharedPointer sharedPointerToVerify(createNewTermAndReturnSharedPointer(sharedPointer));
+
+    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));
+    EXPECT_EQ(Term(9652), termToVerify);
+    EXPECT_EQ(1, sharedPointerToVerify.use_count());
+}
+
+TEST(UtilitiesTest, CopyAndCreateNewTermAndReturnSharedPointerWorks)
+{
+    BaseTermSharedPointer sharedPointerToVerify(copyAndCreateNewTermAndReturnSharedPointer(Term(6415)));
+
+    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));
+    EXPECT_EQ(Term(6415), termToVerify);
+    EXPECT_EQ(1, sharedPointerToVerify.use_count());
+}
+
+TEST(UtilitiesTest, GetSharedPointerFromTermReferenceWorks)
+{
+    Term termToVerify(7896);
+
+    BaseTermSharedPointer sharedPointer(getSharedPointerFromTermReference(termToVerify));
+    Term & termToChange = *dynamic_cast<Term*>(sharedPointer.get());
+    termToChange.getConstantReference().setNumber(1459);
+
+    EXPECT_EQ(Term(1459), termToVerify);
+    EXPECT_EQ(1, sharedPointer.use_count());
+}
+
+TEST(UtilitiesTest, GetTermConstReferenceFromBaseTermWorks)
+{
+    Term originalTerm(7896);
+
+    Term const& termToVerify(getTermConstReferenceFromBaseTerm(dynamic_cast<BaseTerm const&>(originalTerm)));
+
+    EXPECT_EQ(Term(7896), termToVerify);
+}
+
+TEST(UtilitiesTest, GetTermConstReferenceFromSharedPointerWorks)
+{
+    BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9541)));
+
+    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointer));
+
+    EXPECT_EQ(Term(9541), termToVerify);
+    EXPECT_EQ(1, sharedPointer.use_count());
+}
+
+TEST(UtilitiesTest, GetTermReferenceFromBaseTermWorks)
+{
+    Term originalTerm(7896);
+
+    Term & termToVerify(getTermReferenceFromBaseTerm(dynamic_cast<BaseTerm &>(originalTerm)));
+    originalTerm = Term(854);
+
+    EXPECT_EQ(Term(854), termToVerify);
+}
+
+TEST(UtilitiesTest, GetTermReferenceFromSharedPointerWorks)
+{
+    BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9652)));
+
+    Term & termToChange(getTermReferenceFromSharedPointer(sharedPointer));
+    termToChange.getConstantReference().setNumber(763);
+
+    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointer));
+    EXPECT_EQ(Term(763), termToVerify);
+    EXPECT_EQ(1, sharedPointer.use_count());
+}
+
+TEST(UtilitiesTest, GetBaseTermConstReferenceFromTermWorks)
+{
+    Term originalTerm(7896);
+
+    BaseTerm const& baseTerm(getBaseTermConstReferenceFromTerm(originalTerm));
+
+    Term const& termToVerify(dynamic_cast<Term const&>(baseTerm));
+    EXPECT_EQ(Term(7896), termToVerify);
+}
+
+TEST(UtilitiesTest, GetBaseTermConstReferenceFromSharedPointerWorks)
+{
+    BaseTermSharedPointer sharedPointer(copyAndCreateNewTermAndReturnSharedPointer(Term(6415)));
+
+    BaseTerm const& baseTerm(getBaseTermConstReferenceFromSharedPointer(sharedPointer));
+
+    Term const& termToVerify(dynamic_cast<Term const&>(baseTerm));
+    EXPECT_EQ(Term(6415), termToVerify);
+    EXPECT_EQ(1, sharedPointer.use_count());
+}
+
+TEST(UtilitiesTest, GetBaseTermReferenceFromTermWorks)
+{
+    Term originalTerm(7896);
+
+    BaseTerm & baseTerm(getBaseTermReferenceFromTerm(originalTerm));
+    Term & termToVerify(dynamic_cast<Term &>(baseTerm));
+    originalTerm = Term(854);
+
+    EXPECT_EQ(Term(854), termToVerify);
+}
+
 TEST(UtilitiesTest, CreateMonomialConstantWorks)
 {
-    EXPECT_EQ(Monomial(5648, {}), createMonomialConstant(5648));
+    EXPECT_EQ(Monomial(5648, {}), createMonomialFromConstant(Constant(5648)));
 }
 
 TEST(UtilitiesTest, CreateMonomialVariableWorks)
 {
-    EXPECT_EQ(Monomial(1, {{"weight", 1}}), createMonomialVariable("weight"));
+    EXPECT_EQ(Monomial(1, {{"weight", 1}}), createMonomialFromVariable(Variable("weight")));
 }
 
 TEST(UtilitiesTest, CreatePolynomialIfPossibleWorks)
@@ -390,109 +495,6 @@ TEST(UtilitiesTest, ConvertValueTermStringToTermWorks)
     EXPECT_DOUBLE_EQ(5, termToVerify1.getConstantConstReference().getNumberConstReference().getDouble());
     EXPECT_EQ(TermType::Variable, termToVerify2.getTermType());
     EXPECT_EQ("x111", termToVerify2.getVariableConstReference().getVariableName());
-}
-
-TEST(UtilitiesTest, CreateNewTermAndReturnSharedPointerWorks)
-{
-    BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9652)));
-    BaseTermSharedPointer sharedPointerToVerify(createNewTermAndReturnSharedPointer(sharedPointer));
-
-    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));    EXPECT_EQ(Term(9652), termToVerify);
-    EXPECT_EQ(1, sharedPointerToVerify.use_count());
-}
-
-TEST(UtilitiesTest, CopyAndCreateNewTermAndReturnSharedPointerWorks)
-{
-    BaseTermSharedPointer sharedPointerToVerify(copyAndCreateNewTermAndReturnSharedPointer(Term(6415)));
-
-    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));
-    EXPECT_EQ(Term(6415), termToVerify);
-    EXPECT_EQ(1, sharedPointerToVerify.use_count());
-}
-
-TEST(UtilitiesTest, GetSharedPointerFromTermReferenceWorks)
-{
-    Term termToVerify(7896);
-
-    BaseTermSharedPointer sharedPointer(getSharedPointerFromTermReference(termToVerify));
-    Term & termToChange = *dynamic_cast<Term*>(sharedPointer.get());
-    termToChange.getConstantReference().setNumber(1459);
-
-    EXPECT_EQ(Term(1459), termToVerify);
-    EXPECT_EQ(1, sharedPointer.use_count());
-}
-
-TEST(UtilitiesTest, GetTermConstReferenceFromBaseTermWorks)
-{
-    Term originalTerm(7896);
-
-    Term const& termToVerify(getTermConstReferenceFromBaseTerm(dynamic_cast<BaseTerm const&>(originalTerm)));
-
-    EXPECT_EQ(Term(7896), termToVerify);
-}
-
-TEST(UtilitiesTest, GetTermConstReferenceFromSharedPointerWorks)
-{
-    BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9541)));
-
-    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointer));
-
-    EXPECT_EQ(Term(9541), termToVerify);
-    EXPECT_EQ(1, sharedPointer.use_count());
-}
-
-TEST(UtilitiesTest, GetTermReferenceFromBaseTermWorks)
-{
-    Term originalTerm(7896);
-
-    Term & termToVerify(getTermReferenceFromBaseTerm(dynamic_cast<BaseTerm &>(originalTerm)));
-    originalTerm = Term(854);
-
-    EXPECT_EQ(Term(854), termToVerify);
-}
-
-TEST(UtilitiesTest, GetTermReferenceFromSharedPointerWorks)
-{
-    BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9652)));
-
-    Term & termToChange(getTermReferenceFromSharedPointer(sharedPointer));
-    termToChange.getConstantReference().setNumber(763);
-
-    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointer));
-    EXPECT_EQ(Term(763), termToVerify);
-    EXPECT_EQ(1, sharedPointer.use_count());
-}
-
-TEST(UtilitiesTest, GetBaseTermConstReferenceFromTermWorks)
-{
-    Term originalTerm(7896);
-
-    BaseTerm const& baseTerm(getBaseTermConstReferenceFromTerm(originalTerm));
-
-    Term const& termToVerify(dynamic_cast<Term const&>(baseTerm));
-    EXPECT_EQ(Term(7896), termToVerify);
-}
-
-TEST(UtilitiesTest, GetBaseTermConstReferenceFromSharedPointerWorks)
-{
-    BaseTermSharedPointer sharedPointer(copyAndCreateNewTermAndReturnSharedPointer(Term(6415)));
-
-    BaseTerm const& baseTerm(getBaseTermConstReferenceFromSharedPointer(sharedPointer));
-
-    Term const& termToVerify(dynamic_cast<Term const&>(baseTerm));
-    EXPECT_EQ(Term(6415), termToVerify);
-    EXPECT_EQ(1, sharedPointer.use_count());
-}
-
-TEST(UtilitiesTest, GetBaseTermReferenceFromTermWorks)
-{
-    Term originalTerm(7896);
-
-    BaseTerm & baseTerm(getBaseTermReferenceFromTerm(originalTerm));
-    Term & termToVerify(dynamic_cast<Term &>(baseTerm));
-    originalTerm = Term(854);
-
-    EXPECT_EQ(Term(854), termToVerify);
 }
 
 }
