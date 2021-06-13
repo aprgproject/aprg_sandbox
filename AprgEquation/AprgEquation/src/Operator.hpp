@@ -26,13 +26,14 @@ public:
     bool isMultiplication() const;
     bool isDivision() const;
     bool isRaiseToPower() const;
+    bool isAnOperatorThatCanPerformed() const;
+    bool isOpeningGroupOperator() const;
+    bool isClosingGroupOperator() const;
 
     OperatorLevel getOperatorLevel() const;
-    std::string getOperatorString() const;
-    std::string getDisplayableString() const;
+    std::string getOperatorString() const;    std::string getDisplayableString() const;
 
     void setOperatorString(std::string const& operatingString);
-
 private:
     std::string m_operatingString;
 };

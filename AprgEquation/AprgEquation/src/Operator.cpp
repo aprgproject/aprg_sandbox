@@ -57,14 +57,27 @@ bool Operator::isRaiseToPower() const
     return "^" == m_operatingString;
 }
 
+bool Operator::isAnOperatorThatCanPerformed() const
+{
+    return isAddition() || isSubtraction() || isMultiplication() || isDivision() || isRaiseToPower();
+}
+
+bool Operator::isOpeningGroupOperator() const
+{
+    return "(" == m_operatingString;
+}
+
+bool Operator::isClosingGroupOperator() const
+{
+    return ")" == m_operatingString;
+}
+
 OperatorLevel Operator::getOperatorLevel() const
 {
-    OperatorLevel result(OperatorLevel::Unknown);
-    if(isAddition() || isSubtraction())
+    OperatorLevel result(OperatorLevel::Unknown);    if(isAddition() || isSubtraction())
     {
         result = OperatorLevel::AdditionAndSubtraction;
-    }
-    else if(isMultiplication() || isDivision())
+    }    else if(isMultiplication() || isDivision())
     {
         result = OperatorLevel::MultiplicationAndDivision;
     }
