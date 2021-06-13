@@ -576,38 +576,37 @@ Term convertValueTermStringToTerm(string const& valueTerm)
 
 Monomial getCommonMonomialInMonomials(Monomials const& monomials)
 {
-    unsigned int gcfCoefficient(getGcfForIntegerCoefficientsInMonomials(monomials));
+    AlbaNumber commonCoefficient(getCommonCoefficientInMonomials(monomials));
     Monomial commonMonomial(getMonomialWithMinimumExponentsInMonomials(monomials));
-    commonMonomial.setConstant(getCommonSignInMonomials(monomials)*gcfCoefficient);
+    commonMonomial.setConstant(getCommonSignInMonomials(monomials)*commonCoefficient);
+    commonMonomial.simplify();
     return commonMonomial;
 }
 
-unsigned int getGcfForIntegerCoefficientsInMonomials(Monomials const& monomials)
+AlbaNumber getCommonCoefficientInMonomials(Monomials const& monomials)
 {
-    unsigned int gcf(1);
+    AlbaNumber commonCoefficient(1);
     bool isFirst(true);
     for(Monomial const& monomial : monomials)
     {
         AlbaNumber const& coefficient(monomial.getConstantConstReference());
-        if(coefficient.isIntegerType())
+        if(coefficient.isIntegerOrFractionType())
         {
-            unsigned int integerCoefficient(static_cast<unsigned int>(getAbsoluteValue(coefficient.getInteger())));
             if(isFirst)
             {
-                gcf = integerCoefficient;
+                commonCoefficient = coefficient;
                 isFirst = false;
             }
             else
             {
-                gcf = getGreatestCommonFactor(gcf, integerCoefficient);
+                commonCoefficient = getGreatestCommonFactor(commonCoefficient, coefficient);
             }
         }
     }
-    return gcf;
+    return commonCoefficient;
 }
 
-Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
-{
+Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials){
     Monomial monomialWithMinimumExponents(1, {});
     bool isFirst(true);
     for(Monomial const& monomial : monomials)

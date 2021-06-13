@@ -45,10 +45,13 @@ public:
     void multiplyPolynomial(Polynomial const& polynomial);
     void divideMonomial(Monomial const& monomial);
 
+
+    bool isVariableExponentFound(Monomial const& monomial) const;
+    AlbaNumber getCoefficientOfVariableExponent(Monomial const& monomial) const;
+
 private:
     void simplifyFurtherIfNeeded(Polynomial const& beforeSimplify, Polynomial const& afterSimplify);
-    Monomials m_monomials;
-};
+    Monomials m_monomials;};
 
 using Polynomials=std::vector<Polynomial>;
 

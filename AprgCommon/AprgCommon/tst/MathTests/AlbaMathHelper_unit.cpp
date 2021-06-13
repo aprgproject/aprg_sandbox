@@ -53,7 +53,8 @@ TEST(AlbaMathHelperTest, AbsoluteValueCanBeComputed)
 TEST(AlbaMathHelperTest, SquareRootOfXSquaredPlusYSquaredCanBeComputed){
     EXPECT_EQ(5, getSquareRootOfXSquaredPlusYSquared(3,4));
     EXPECT_EQ(13, getSquareRootOfXSquaredPlusYSquared(5,-12));
-    EXPECT_EQ(25, getSquareRootOfXSquaredPlusYSquared(-7,24));    EXPECT_EQ(17, getSquareRootOfXSquaredPlusYSquared(-8,-15));
+    EXPECT_EQ(25, getSquareRootOfXSquaredPlusYSquared(-7,24));
+    EXPECT_EQ(17, getSquareRootOfXSquaredPlusYSquared(-8,-15));
 }
 
 TEST(AlbaMathHelperTest, SquareRootOfXSquaredPlusYSquaredPlusZSquaredCanBeComputed)
@@ -77,7 +78,8 @@ TEST(AlbaMathHelperTest, SignCanBeFetched)
 TEST(AlbaMathHelperTest, LowerBoundCanBeComputed){
     EXPECT_EQ(3, clampLowerBound(1, 3));
     EXPECT_EQ(3, clampLowerBound(2, 3));
-    EXPECT_EQ(3, clampLowerBound(3, 3));    EXPECT_EQ(4, clampLowerBound(4, 3));
+    EXPECT_EQ(3, clampLowerBound(3, 3));
+    EXPECT_EQ(4, clampLowerBound(4, 3));
     EXPECT_EQ(5, clampLowerBound(5, 3));
 }
 
@@ -104,7 +106,8 @@ TEST(AlbaMathHelperTest, IsDivisibleWorksAsExpected)
     EXPECT_FALSE(isDivisible(0u, 0u));    EXPECT_TRUE(isDivisible(0u, 1u));
     EXPECT_TRUE(isDivisible(1u, 1u));
     EXPECT_FALSE(isDivisible(1u, 5u));
-    EXPECT_TRUE(isDivisible(5u, 1u));    EXPECT_TRUE(isDivisible(256u, 16u));
+    EXPECT_TRUE(isDivisible(5u, 1u));
+    EXPECT_TRUE(isDivisible(256u, 16u));
     EXPECT_FALSE(isDivisible(256u, 17u));
 }
 
@@ -186,7 +189,8 @@ TEST(AlbaMathHelperTest, GetPiWorksAsExpected)
 
 TEST(AlbaMathHelperTest, GetEWorksAsExpected)
 {
-    EXPECT_DOUBLE_EQ(2.7182818284590452354, getE());}
+    EXPECT_DOUBLE_EQ(2.7182818284590452354, getE());
+}
 
 TEST(AlbaMathHelperTest, GetRaiseToPowerForIntegersWorksAsExpected)
 {
@@ -286,6 +290,7 @@ TEST(AlbaMathHelperTest, LeastCommonMultipleCanBeComputed)
     EXPECT_EQ(256u, getLeastCommonMultiple(8, 256));
     EXPECT_EQ(60u, getLeastCommonMultiple(15, 20));
 }
+
 TEST(AlbaMathHelperTest, DifferenceFromGreaterMultipleCanBeComputed)
 {
     EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(0, 0));
@@ -320,7 +325,8 @@ TEST(AlbaMathHelperTest, FractionalPartInDoubleCanBeComputed)
     EXPECT_DOUBLE_EQ(0, getFractionalPartInDouble(0));    EXPECT_DOUBLE_EQ(0, getFractionalPartInDouble(1));
     EXPECT_DOUBLE_EQ(0.5, getFractionalPartInDouble(1.5));
     EXPECT_DOUBLE_EQ(-0.5, getFractionalPartInDouble(-1.5));
-    EXPECT_DOUBLE_EQ(0.15625, getFractionalPartInDouble(652.15625));    EXPECT_DOUBLE_EQ(-0.125, getFractionalPartInDouble(-347.125));
+    EXPECT_DOUBLE_EQ(0.15625, getFractionalPartInDouble(652.15625));
+    EXPECT_DOUBLE_EQ(-0.125, getFractionalPartInDouble(-347.125));
 }
 
 TEST(AlbaMathHelperTest, CumulativeStandardDistributionApproximationCanBeComputed)

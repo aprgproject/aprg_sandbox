@@ -72,10 +72,9 @@ void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);
 Term convertValueTermStringToTerm(std::string const& valueTerm);
 
 Monomial getCommonMonomialInMonomials(Monomials const& monomials);
-unsigned int getGcfForIntegerCoefficientsInMonomials(Monomials const& monomials);
+AlbaNumber getCommonCoefficientInMonomials(Monomials const& monomials);
 Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
-
 
 
 }

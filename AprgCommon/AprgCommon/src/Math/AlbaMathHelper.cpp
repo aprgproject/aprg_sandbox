@@ -112,7 +112,8 @@ unsigned int getAbsoluteValue<unsigned int>(unsigned int const& value)
 
 //getXSquaredPlusYSquared
 template <typename NumberType>
-NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y){
+NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y)
+{
     return static_cast<NumberType>(pow(x, 2)+pow(y, 2));
 }
 template int getXSquaredPlusYSquared<int>(int const x, int const y);
@@ -153,7 +154,8 @@ template AlbaNumber getSign<AlbaNumber>(AlbaNumber const& value);
 //clampLowerBoundtemplate <typename NumberType>
 NumberType clampLowerBound(NumberType const value, NumberType const limit)
 {
-    return (value<limit) ? limit : value;}
+    return (value<limit) ? limit : value;
+}
 template int clampLowerBound<int>(int const value, int const limit);
 template double clampLowerBound<double>(double const value, double const limit);
 
@@ -236,7 +238,8 @@ double getPi()
 
 double getE()
 {
-    return 2.7182818284590452354;}
+    return 2.7182818284590452354;
+}
 
 int getRaiseToPowerForIntegers(int const base, unsigned int exponent)
 {
@@ -344,7 +347,8 @@ unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int
     unsigned int result(0);    if(firstNumber!=0 && secondNumber!=0)
     {
         result = firstNumber*secondNumber/getGreatestCommonFactor(firstNumber, secondNumber);
-    }    return result;
+    }
+    return result;
 }
 
 unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number)
@@ -369,7 +373,8 @@ int getIntegerPartInDouble(double const doubleValue)
 
 double getFractionalPartInDouble(double const doubleValue)
 {
-    return doubleValue-getIntegerPartInDouble(doubleValue);}
+    return doubleValue-getIntegerPartInDouble(doubleValue);
+}
 
 double calculateCumulativeStandardDistributionApproximation(double const z)
 {

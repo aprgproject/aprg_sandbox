@@ -9,7 +9,8 @@ namespace alba
 {
 class AlbaNumber
 {
-public:    enum class Type
+public:
+    enum class Type
     {
         Integer,
         Fraction,
@@ -41,7 +42,8 @@ public:    enum class Type
     AlbaNumber operator+() const;    AlbaNumber operator-() const;
     AlbaNumber operator+(AlbaNumber const& second) const;
     AlbaNumber operator-(AlbaNumber const& second) const;
-    AlbaNumber operator*(AlbaNumber const& second) const;    AlbaNumber operator/(AlbaNumber const& second) const;
+    AlbaNumber operator*(AlbaNumber const& second) const;
+    AlbaNumber operator/(AlbaNumber const& second) const;
     AlbaNumber operator^(AlbaNumber const& second) const;
     AlbaNumber operator+(int const signedValue) const;
     AlbaNumber operator-(int const signedValue) const;
@@ -69,6 +71,7 @@ public:    enum class Type
     double getDouble() const;
 
     std::string getDisplayableString() const;
+
 private:
     void convertToIntegerIfNeeded();
     AlbaNumber addBothIntegersAndReturnNumber(int const signedValue1, int const signedValue2) const;

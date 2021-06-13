@@ -6,6 +6,7 @@ namespace alba
 {
 namespace mathHelper
 {
+
 struct FractionDetails
 {
     int sign;
@@ -45,6 +46,7 @@ double getFractionalPartInDouble(double const doubleValue);
 double calculateCumulativeStandardDistributionApproximation(double const value);double calculateInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
 double convertDegreesToRadians(double const valueInDegrees);
 double convertRadiansToDegrees(double const valueInRadians);
+
 }//namespace mathHelper
 
 }//namespace alba

@@ -53,6 +53,7 @@ AlbaNumber::AlbaNumber(double const doubleValue)
 bool AlbaNumber::operator==(AlbaNumber const& second) const{
     return isAlmostEqual(getDouble(), second.getDouble());
 }
+
 bool AlbaNumber::operator!=(AlbaNumber const& second) const
 {
     AlbaNumber const& first(*this);
@@ -75,7 +76,8 @@ bool AlbaNumber::operator<(AlbaNumber const& second) const
 
 bool AlbaNumber::operator>(AlbaNumber const& second) const
 {
-    return getDouble() > second.getDouble();}
+    return getDouble() > second.getDouble();
+}
 
 AlbaNumber AlbaNumber::operator+() const
 {
@@ -445,7 +447,8 @@ AlbaNumber::Type AlbaNumber::getType() const
 
 int AlbaNumber::getInteger() const
 {
-    int result(0);    if(m_type==Type::Integer)
+    int result(0);
+    if(m_type==Type::Integer)
     {
         int const& dataReference(m_data.intData);
         result = dataReference;
@@ -546,7 +549,8 @@ void AlbaNumber::convertToIntegerIfNeeded()
 }
 AlbaNumber AlbaNumber::addBothIntegersAndReturnNumber(int const signedValue1, int const signedValue2) const
 {
-    return AlbaNumber(signedValue1 + signedValue2);}
+    return AlbaNumber(signedValue1 + signedValue2);
+}
 
 AlbaNumber AlbaNumber::addBothFractionsAndReturnNumber(AlbaNumber::FractionData const& fractionData1, AlbaNumber::FractionData const& fractionData2) const
 {

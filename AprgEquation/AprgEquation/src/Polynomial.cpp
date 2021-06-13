@@ -59,11 +59,10 @@ bool Polynomial::operator<(Polynomial const& second) const
             Monomial const& monomial2(monomials2.at(i));
             if(monomial1 != monomial2)
             {
-                result = monomial1<monomial2;
+                result = monomial1 < monomial2;
                 break;
             }
-        }
-    }
+        }    }
     else
     {
         result =  monomials1.size() < monomials2.size();
@@ -106,10 +105,39 @@ Monomials const& Polynomial::getMonomialsConstReference() const
     return m_monomials;
 }
 
+bool Polynomial::isVariableExponentFound(Monomial const& monomial) const
+{
+    bool result(false);
+    for(Monomial const& monomialInternal : m_monomials)
+    {
+        if(monomial.getVariablesToExponentsMapConstReference()
+                == monomialInternal.getVariablesToExponentsMapConstReference())
+        {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+
+AlbaNumber Polynomial::getCoefficientOfVariableExponent(Monomial const& monomial) const
+{
+    AlbaNumber coefficient;
+    for(Monomial const& monomialInternal : m_monomials)
+    {
+        if(monomial.getVariablesToExponentsMapConstReference()
+                == monomialInternal.getVariablesToExponentsMapConstReference())
+        {
+            coefficient = monomialInternal.getConstantConstReference();
+            break;
+        }
+    }
+    return coefficient;
+}
+
 string Polynomial::getDisplayableString() const
 {
-    stringstream result;
-    if(m_monomials.empty())
+    stringstream result;    if(m_monomials.empty())
     {
         result << "(EmptyPolynomial)";
     }

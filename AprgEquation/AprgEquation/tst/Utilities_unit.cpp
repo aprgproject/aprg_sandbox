@@ -497,6 +497,31 @@ TEST(UtilitiesTest, ConvertValueTermStringToTermWorks)
     EXPECT_EQ("x111", termToVerify2.getVariableConstReference().getVariableName());
 }
 
+TEST(UtilitiesTest, GetCommonMonomialInMonomialsWorks)
+{
+    Monomial monomialToVerify1(getCommonMonomialInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));
+    Monomial monomialToVerify2(getCommonMonomialInMonomials({Monomial(4, {{"x", 3}}), Monomial(8, {{"y", 7}})}));
+    Monomial monomialToVerify3(getCommonMonomialInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {})}));
+    Monomial monomialToVerify4(getCommonMonomialInMonomials({Monomial(AlbaNumber(1, 4), {{"x", 1}}), Monomial(5, {})}));
+    Monomial monomialToVerify5(getCommonMonomialInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {})}));
+    Monomial monomialToVerify6(getCommonMonomialInMonomials({Monomial(6, {}), Monomial(9, {})}));
+
+    Monomial monomialToExpect1(2, {{"x", 3}});
+    Monomial monomialToExpect2(4, {});
+    Monomial monomialToExpect3(1, {});
+    Monomial monomialToExpect4(AlbaNumber(1, 4), {});
+    Monomial monomialToExpect5(5, {});
+    Monomial monomialToExpect6(3, {});
+    EXPECT_EQ(monomialToExpect1, monomialToVerify1);
+    EXPECT_EQ(monomialToExpect2, monomialToVerify2);
+    EXPECT_EQ(monomialToExpect3, monomialToVerify3);
+    EXPECT_EQ(monomialToExpect4, monomialToVerify4);
+    EXPECT_EQ(monomialToExpect5, monomialToVerify5);
+    EXPECT_EQ(monomialToExpect6, monomialToVerify6);
+}
+
+
+
 }
 
 }
