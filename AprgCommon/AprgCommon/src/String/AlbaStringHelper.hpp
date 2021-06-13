@@ -1,13 +1,12 @@
 #pragma once
 
 #include <Optional/AlbaOptional.hpp>
+#include <Math/AlbaNumber.hpp>
 
 #include <string>
 #include <vector>
-
 namespace alba
 {
-
 std::string const WHITESPACE_STRING = " \t\n\r";
 std::string const ALPHA_NUMERIC_CHAR_MAP = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
@@ -90,14 +89,13 @@ template<char slashCharacterString> std::string getImmediateDirectoryName(std::s
 bool convertStringToBool(std::string const& stringToConvert);
 template <typename NumberType> NumberType convertStringToNumber(std::string const& stringToConvert);
 template <typename NumberType> NumberType convertHexStringToNumber(std::string const& stringToConvert);
+AlbaNumber convertStringToAlbaNumber(std::string const& stringToConvert);
 
 class NumberToStringConverter
-{
-public:
+{public:
     template <typename NumberType> std::string convert(NumberType number);
     void setPrecision(int const precision);
-    void setFieldWidth(int const fieldWidth);
-    void setFillCharacter(char const fillCharacter);
+    void setFieldWidth(int const fieldWidth);    void setFillCharacter(char const fillCharacter);
     void setMaximumLength(unsigned int const maximumLength);
 private:
     alba::AlbaOptional<int> m_precisionOptional;

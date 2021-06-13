@@ -53,14 +53,16 @@ Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression);
 Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial);
 Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial);
 
+Terms tokenizeToTerms(std::string const& inputString);
+void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);
+Term convertValueTermStringToTerm(std::string const& valueTerm);
+
 BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer);
 BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);
-BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
-Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
+BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
 Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
 Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);
-Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
-BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term);
+Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term);
 BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
 BaseTerm & getBaseTermReferenceFromTerm(Term & term);
 }

@@ -3,13 +3,12 @@
 #include <Macros/AlbaMacros.hpp>
 #include <TermOperators.hpp>
 #include <TermsAggregator.hpp>
+#include <String/AlbaStringHelper.hpp>
 
 #include <algorithm>
-
 using namespace std;
 using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
-
 namespace alba
 {
 
@@ -453,13 +452,58 @@ Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial)
     return newTerm;
 }
 
-BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer)
+Terms tokenizeToTerms(string const& inputString)
 {
-    return move(BaseTermSharedPointer(
-                    dynamic_cast<BaseTerm*>(
-                        new Term(*dynamic_cast<Term*>(sharedPointer.get())))));
+    Terms tokenizedTerms;
+    string valueTerm;
+    for(char const c : inputString)
+    {
+        if(!stringHelper::isWhiteSpace(c))
+        {
+            string characterString(1, c);
+            if(isOperator(characterString))
+            {
+                addValueTermIfNotEmpty(tokenizedTerms, valueTerm);
+                valueTerm.clear();
+                tokenizedTerms.emplace_back(characterString);
+            }
+            else
+            {
+                valueTerm+=characterString;
+            }
+        }
+    }
+    addValueTermIfNotEmpty(tokenizedTerms, valueTerm);
+    return tokenizedTerms;
 }
 
+void addValueTermIfNotEmpty(Terms & terms, string const& valueTerm)
+{
+    if(!valueTerm.empty())
+    {
+        terms.emplace_back(convertValueTermStringToTerm(valueTerm));
+    }
+}
+
+Term convertValueTermStringToTerm(string const& valueTerm)
+{
+    Term result;
+    if(stringHelper::isNumber(valueTerm.at(0)))
+    {
+        result = Term(stringHelper::convertStringToAlbaNumber(valueTerm));
+    }
+    else
+    {
+        result = Term(valueTerm);
+    }
+    return result;
+}
+
+BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer)
+{
+    return move(BaseTermSharedPointer(                    dynamic_cast<BaseTerm*>(
+                        new Term(*dynamic_cast<Term*>(sharedPointer.get())))));
+}
 BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term)
 {
     return move(BaseTermSharedPointer(

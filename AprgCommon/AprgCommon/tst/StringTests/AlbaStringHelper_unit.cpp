@@ -667,14 +667,23 @@ TEST(ConvertFromStringTest, HexConvertStringToIntegerWithNumbersOnly)
     EXPECT_EQ(0xA1B2C, convertHexStringToNumber<int>("xxxA#$%1 @#$#@B ^&*&^2%^&%^C*(&"));
 }
 
+TEST(ConvertFromStringTest, ConvertStringToDoubleWithAlbaNumber)
+{
+    AlbaNumber numberToVerify1(convertStringToAlbaNumber("12345"));
+    AlbaNumber numberToVerify2(convertStringToAlbaNumber("12345.6789"));
+
+    EXPECT_EQ(AlbaNumber::Type::Integer, numberToVerify1.getType());
+    EXPECT_EQ(12345, numberToVerify1.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Double, numberToVerify2.getType());
+    EXPECT_DOUBLE_EQ(12345.6789, numberToVerify2.getDouble());
+}
+
 TEST(ConvertToStringTest, ConvertNumberToStringWithDefaultParameters)
 {
-    NumberToStringConverter converter;
-    EXPECT_EQ("12345", converter.convert(12345));
+    NumberToStringConverter converter;    EXPECT_EQ("12345", converter.convert(12345));
     EXPECT_EQ("12345.7", converter.convert(12345.6789));
     EXPECT_EQ("-67890.1", converter.convert(-67890.1111));
 }
-
 TEST(ConvertToStringTest, ConvertNumberToStringWithUnderPrecision)
 {
     NumberToStringConverter converter;

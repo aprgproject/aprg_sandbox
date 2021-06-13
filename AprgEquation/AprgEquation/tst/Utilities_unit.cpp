@@ -349,14 +349,55 @@ TEST(UtilitiesTest, SimplifyAndConvertMonomialToSimplestTermWorks)
     EXPECT_DOUBLE_EQ(10, termToVerify4.getConstantConstReference().getNumberConstReference().getDouble());
 }
 
+TEST(UtilitiesTest, TokenizeToTermsWorks)
+{
+    Terms termsToVerify1(tokenizeToTerms(" 5yyy + x1*y1^20.15"));
+
+    ASSERT_EQ(7u, termsToVerify1.size());
+    EXPECT_EQ(TermType::Constant, termsToVerify1.at(0).getTermType());
+    EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_EQ(TermType::Operator, termsToVerify1.at(1).getTermType());
+    EXPECT_EQ("+", termsToVerify1.at(1).getOperatorConstReference().getOperatorString());
+    EXPECT_EQ(TermType::Variable, termsToVerify1.at(2).getTermType());
+    EXPECT_EQ("x1", termsToVerify1.at(2).getVariableConstReference().getVariableName());
+    EXPECT_EQ(TermType::Operator, termsToVerify1.at(3).getTermType());
+    EXPECT_EQ("*", termsToVerify1.at(3).getOperatorConstReference().getOperatorString());
+    EXPECT_EQ(TermType::Variable, termsToVerify1.at(4).getTermType());
+    EXPECT_EQ("y1", termsToVerify1.at(4).getVariableConstReference().getVariableName());
+    EXPECT_EQ(TermType::Operator, termsToVerify1.at(5).getTermType());
+    EXPECT_EQ("^", termsToVerify1.at(5).getOperatorConstReference().getOperatorString());
+    EXPECT_EQ(TermType::Constant, termsToVerify1.at(6).getTermType());
+    EXPECT_DOUBLE_EQ(20.15, termsToVerify1.at(6).getConstantConstReference().getNumberConstReference().getDouble());
+}
+
+TEST(UtilitiesTest, AddValueTermIfNotEmptyWorks)
+{
+    Terms termsToVerify1;
+
+    addValueTermIfNotEmpty(termsToVerify1, "5");
+
+    ASSERT_EQ(1u, termsToVerify1.size());
+    EXPECT_EQ(TermType::Constant, termsToVerify1.at(0).getTermType());
+    EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantConstReference().getNumberConstReference().getDouble());
+}
+
+TEST(UtilitiesTest, ConvertValueTermStringToTermWorks)
+{
+    Term termToVerify1(convertValueTermStringToTerm("5xxx"));
+    Term termToVerify2(convertValueTermStringToTerm("x111"));
+
+    EXPECT_EQ(TermType::Constant, termToVerify1.getTermType());
+    EXPECT_DOUBLE_EQ(5, termToVerify1.getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_EQ(TermType::Variable, termToVerify2.getTermType());
+    EXPECT_EQ("x111", termToVerify2.getVariableConstReference().getVariableName());
+}
+
 TEST(UtilitiesTest, CreateNewTermAndReturnSharedPointerWorks)
 {
     BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9652)));
-
     BaseTermSharedPointer sharedPointerToVerify(createNewTermAndReturnSharedPointer(sharedPointer));
 
-    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));
-    EXPECT_EQ(Term(9652), termToVerify);
+    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));    EXPECT_EQ(Term(9652), termToVerify);
     EXPECT_EQ(1, sharedPointerToVerify.use_count());
 }
 

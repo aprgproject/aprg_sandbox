@@ -200,15 +200,13 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
 bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned int const index)
 {
     bool isBuilt(false);
-    if(index >= 0 && index+1 < m_terms.size())
+    if(index+1 < m_terms.size())
     {
         Term const& term1(m_terms.at(index));
-        Term const& term2(m_terms.at(index+1));
-        if(term1.isOperator() && term2.isValueTerm() &&
+        Term const& term2(m_terms.at(index+1));        if(term1.isOperator() && term2.isValueTerm() &&
                 OperatorLevel::AdditionAndSubtraction == term1.getOperatorConstReference().getOperatorLevel())
         {            Expression newExpression;
-            Operator const& operatorTerm(term1.getOperatorConstReference());
-            if(operatorTerm.isAddition())
+            Operator const& operatorTerm(term1.getOperatorConstReference());            if(operatorTerm.isAddition())
             {                newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(term2));
             }
             else if(operatorTerm.isSubtraction())
@@ -227,15 +225,13 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
 bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int const index)
 {
     bool isSimplified(false);
-    if(index > 0 && index+1 < m_terms.size())
+    if(index>0 && index+1 < m_terms.size())
     {
         Term const& term1(m_terms.at(index-1));
-        Term const& term2(m_terms.at(index));
-        Term const& term3(m_terms.at(index+1));
+        Term const& term2(m_terms.at(index));        Term const& term3(m_terms.at(index+1));
         if(term1.isValueTerm() && term2.isOperator() && term3.isValueTerm())
         {
-            Term newTerm = performOperation(term2.getOperatorConstReference(), term1, term3);            eraseTermsInclusive(index-1, index+1);
-            insertTerm(index-1, newTerm);
+            Term newTerm = performOperation(term2.getOperatorConstReference(), term1, term3);            eraseTermsInclusive(index-1, index+1);            insertTerm(index-1, newTerm);
             isSimplified=true;
         }    }
     return isSimplified;
@@ -244,15 +240,13 @@ bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int 
 bool TermsAggregator::simplifyUnaryOperationAndReturnIfSimplified(unsigned int const index)
 {
     bool isSimplified(false);
-    if(index >= 0 && index+1 < m_terms.size())
+    if(index+1 < m_terms.size())
     {
         Term const& term1(m_terms.at(index));
-        Term const& term2(m_terms.at(index+1));
-        if(term1.isOperator() && term2.isValueTerm() &&
+        Term const& term2(m_terms.at(index+1));        if(term1.isOperator() && term2.isValueTerm() &&
                 OperatorLevel::AdditionAndSubtraction == term1.getOperatorConstReference().getOperatorLevel())
         {
-            Term newTerm = performOperation(term1.getOperatorConstReference(), term2);
-            eraseTermsInclusive(index, index+1);
+            Term newTerm = performOperation(term1.getOperatorConstReference(), term2);            eraseTermsInclusive(index, index+1);
             insertTerm(index, newTerm);
             isSimplified=true;        }
     }
