@@ -110,6 +110,7 @@ unsigned int getAbsoluteValue<unsigned int>(unsigned int const& value)
     return value;
 }
 
+
 //getXSquaredPlusYSquared
 template <typename NumberType>
 NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y)
@@ -151,7 +152,8 @@ template double getSign<double>(double const& value);
 template AlbaNumber getSign<AlbaNumber>(AlbaNumber const& value);
 
 
-//clampLowerBoundtemplate <typename NumberType>
+//clampLowerBound
+template <typename NumberType>
 NumberType clampLowerBound(NumberType const value, NumberType const limit)
 {
     return (value<limit) ? limit : value;
@@ -197,7 +199,8 @@ bool canConvertedToInteger(double const realValue)
 
 bool isDivisible(unsigned int const dividend, unsigned int const divisor)
 {
-    bool result(false);    if(divisor != 0)
+    bool result(false);
+    if(divisor != 0)
     {
         result = (dividend % divisor)==0;
     }
@@ -234,7 +237,8 @@ bool isPerfectNthPower(
 
 double getPi()
 {
-    return 3.14159265358979323846;}
+    return 3.14159265358979323846;
+}
 
 double getE()
 {
@@ -344,7 +348,8 @@ AlbaNumber getGreatestCommonFactor(AlbaNumber const& firstNumber, AlbaNumber con
 
 unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber)
 {
-    unsigned int result(0);    if(firstNumber!=0 && secondNumber!=0)
+    unsigned int result(0);
+    if(firstNumber!=0 && secondNumber!=0)
     {
         result = firstNumber*secondNumber/getGreatestCommonFactor(firstNumber, secondNumber);
     }
@@ -369,7 +374,8 @@ int getIntegerAfterRoundingDoubleValue(double const doubleValue)
 
 int getIntegerPartInDouble(double const doubleValue)
 {
-    return static_cast<int>(doubleValue);}
+    return static_cast<int>(doubleValue);
+}
 
 double getFractionalPartInDouble(double const doubleValue)
 {

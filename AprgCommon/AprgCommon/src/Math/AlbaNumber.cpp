@@ -50,7 +50,8 @@ AlbaNumber::AlbaNumber(double const doubleValue)
     convertToIntegerIfNeeded();
 }
 
-bool AlbaNumber::operator==(AlbaNumber const& second) const{
+bool AlbaNumber::operator==(AlbaNumber const& second) const
+{
     return isAlmostEqual(getDouble(), second.getDouble());
 }
 
@@ -72,7 +73,8 @@ bool AlbaNumber::operator>=(AlbaNumber const& second) const
 
 bool AlbaNumber::operator<(AlbaNumber const& second) const
 {
-    return getDouble() < second.getDouble();}
+    return getDouble() < second.getDouble();
+}
 
 bool AlbaNumber::operator>(AlbaNumber const& second) const
 {
@@ -443,7 +445,8 @@ bool AlbaNumber::isIntegerOrFractionType() const
 
 AlbaNumber::Type AlbaNumber::getType() const
 {
-    return m_type;}
+    return m_type;
+}
 
 int AlbaNumber::getInteger() const
 {
@@ -537,7 +540,8 @@ void AlbaNumber::convertToIntegerIfNeeded()
     /*if(m_type == Type::Fraction)
     {
         FractionData& fractionDataReference(m_data.fractionData);
-        if(isDivisible(getAbsoluteValue(fractionDataReference.numerator), fractionDataReference.denominator))        {
+        if(isDivisible(getAbsoluteValue(fractionDataReference.numerator), fractionDataReference.denominator))
+        {
             *this = AlbaNumber(static_cast<int>(fractionDataReference.numerator/fractionDataReference.denominator));
         }
     }*/
@@ -547,6 +551,7 @@ void AlbaNumber::convertToIntegerIfNeeded()
         *this = AlbaNumber(getIntegerAfterRoundingDoubleValue(realValue));
     }
 }
+
 AlbaNumber AlbaNumber::addBothIntegersAndReturnNumber(int const signedValue1, int const signedValue2) const
 {
     return AlbaNumber(signedValue1 + signedValue2);

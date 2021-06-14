@@ -206,7 +206,8 @@ TEST(AlbaNumberTest, LessThanOrEqualWorksAsExpected)
 
 TEST(AlbaNumberTest, GreaterThanWorksAsExpected)
 {
-    AlbaNumber number1;    AlbaNumber number2(1, 3);
+    AlbaNumber number1;
+    AlbaNumber number2(1, 3);
     AlbaNumber number3(0.5);
 
     EXPECT_FALSE(number1>number1);
@@ -235,7 +236,8 @@ TEST(AlbaNumberTest, GreaterThanOrEqualWorksAsExpected)
 
 TEST(AlbaNumberTest, UnaryPlusWorksOnDifferentTypes)
 {
-    AlbaNumber number1 = +AlbaNumber();    AlbaNumber number2 = +AlbaNumber(-81237);
+    AlbaNumber number1 = +AlbaNumber();
+    AlbaNumber number2 = +AlbaNumber(-81237);
     AlbaNumber number3 = +AlbaNumber(34095093u);
     AlbaNumber number4 = +AlbaNumber(-87408, -9802);
     AlbaNumber number5 = +AlbaNumber(4564.38794);
@@ -449,6 +451,7 @@ TEST(AlbaNumberTest, MultiplyWorksOnTypesStartingFromDouble)
     EXPECT_EQ(AlbaNumber::Type::Double, number4.getType());
     EXPECT_DOUBLE_EQ(244.11418499999999, number4.getDouble());
 }
+
 TEST(AlbaNumberTest, DivideWorksOnTypesStartingFromInteger)
 {
     AlbaNumber number1 = AlbaNumber() / AlbaNumber(1);

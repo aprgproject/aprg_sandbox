@@ -62,7 +62,8 @@ bool Polynomial::operator<(Polynomial const& second) const
                 result = monomial1 < monomial2;
                 break;
             }
-        }    }
+        }
+    }
     else
     {
         result =  monomials1.size() < monomials2.size();
@@ -137,7 +138,8 @@ AlbaNumber Polynomial::getCoefficientOfVariableExponent(Monomial const& monomial
 
 string Polynomial::getDisplayableString() const
 {
-    stringstream result;    if(m_monomials.empty())
+    stringstream result;
+    if(m_monomials.empty())
     {
         result << "(EmptyPolynomial)";
     }

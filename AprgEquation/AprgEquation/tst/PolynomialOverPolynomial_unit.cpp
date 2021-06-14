@@ -88,6 +88,18 @@ TEST(PolynomialOverPolynomialTest, SimplifyWorksOnRemovingCommonSignInCoefficien
     EXPECT_EQ((Polynomial{Monomial(1, {{"a", 1}}), Monomial(-1, {{"b", 1}})}), polynomialOverPolynomial.getDenominator());
 }
 
+TEST(PolynomialOverPolynomialTest, SimplifyWorksOnDifferentSignInNumeratorAndDenominator)
+{
+    Polynomial numerator{Monomial(-1, {{"x", 1}}), Monomial(-1, {{"y", 1}})};
+    Polynomial denominator{Monomial(1, {{"a", 1}}), Monomial(1, {{"b", 1}})};
+    PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
+
+    polynomialOverPolynomial.simplify();
+
+    EXPECT_EQ((Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})}), polynomialOverPolynomial.getNumerator());
+    EXPECT_EQ((Polynomial{Monomial(-1, {{"a", 1}}), Monomial(-1, {{"b", 1}})}), polynomialOverPolynomial.getDenominator());
+}
+
 }
 
 }

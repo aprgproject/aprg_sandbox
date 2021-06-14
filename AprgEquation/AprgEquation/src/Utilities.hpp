@@ -77,6 +77,7 @@ Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
 
 
+
 }
 
 }

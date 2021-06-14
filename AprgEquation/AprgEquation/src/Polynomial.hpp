@@ -51,7 +51,8 @@ public:
 
 private:
     void simplifyFurtherIfNeeded(Polynomial const& beforeSimplify, Polynomial const& afterSimplify);
-    Monomials m_monomials;};
+    Monomials m_monomials;
+};
 
 using Polynomials=std::vector<Polynomial>;
 

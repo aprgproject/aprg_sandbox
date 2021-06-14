@@ -7,6 +7,7 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -43,7 +44,8 @@ Polynomials factorizePolynomials(Polynomials const& polynomials)
             simplifyPolynomialThenEmplaceBack(result, polynomialToFactorize);
         }
         else
-        {            copy(factorizedPolynomials.cbegin(), factorizedPolynomials.cend(), back_inserter(result));
+        {
+            copy(factorizedPolynomials.cbegin(), factorizedPolynomials.cend(), back_inserter(result));
         }
     }
     return result;
@@ -104,7 +106,8 @@ Polynomials factorizeCommonMonomialAndReturnEmptyIfNotFactorized(Polynomial cons
         Monomial commonMonomial(getCommonMonomialInMonomials(polynomial.getMonomialsConstReference()));
         if(!commonMonomial.isOne())
         {
-            Polynomial reducedPolynomial(polynomial);            reducedPolynomial.divideMonomial(commonMonomial);
+            Polynomial reducedPolynomial(polynomial);
+            reducedPolynomial.divideMonomial(commonMonomial);
             reducedPolynomial.simplify();
             simplifyPolynomialThenEmplaceBack(result, createPolynomialFromMonomial(commonMonomial));
             simplifyPolynomialThenEmplaceBack(result, reducedPolynomial);
@@ -151,101 +154,65 @@ Polynomials factorizeIncreasingAndDecreasingExponentsFormIfNotFactorized(Polynom
     {
         Monomial firstMonomial(monomials.front());
         Monomial lastMonomial(monomials.back());
-        unsigned int divisor=2;
-        while(areExponentsDivisible(firstMonomial, divisor)
-              && areExponentsDivisible(lastMonomial, divisor))
+        unsigned int exponentDivisor(calculateMaxExponentDivisor(firstMonomial, lastMonomial));
+        if(areExponentsDivisible(firstMonomial, exponentDivisor) && areExponentsDivisible(lastMonomial, exponentDivisor))
         {
-            divisor++;
-        }
-        divisor--;
-        if(areExponentsDivisible(firstMonomial, divisor)
-                && areExponentsDivisible(lastMonomial, divisor))
-        {
-            firstMonomial.setConstant(1);
-            lastMonomial.setConstant(1);
-            firstMonomial.raiseToPowerNumber(AlbaNumber(1, divisor));
-            lastMonomial.raiseToPowerNumber(AlbaNumber(1, divisor));
-            Monomials monomialsWithExponentsInOrder;
-            for(unsigned int i=0; i<=divisor; i++)
+            Monomial unitFirstMonomial(1, firstMonomial.getVariablesToExponentsMapConstReference());
+            Monomial unitSecondMonomial(1, lastMonomial.getVariablesToExponentsMapConstReference());
+            unitFirstMonomial.raiseToPowerNumber(AlbaNumber(1, exponentDivisor));
+            unitSecondMonomial.raiseToPowerNumber(AlbaNumber(1, exponentDivisor));
+            Monomials monomialsWithExponentsInOrder(getMonomialsWithExponentsInOrder(exponentDivisor, unitFirstMonomial, unitSecondMonomial));
+            if(areAllMonomialsFoundInMonomialsWithExponentsInOrder(monomials, monomialsWithExponentsInOrder))
             {
-                Monomial firstPart(firstMonomial);
-                firstPart.raiseToPowerNumber(divisor-i);
-                Monomial secondPart(lastMonomial);
-                secondPart.raiseToPowerNumber(i);
-                Monomial product(firstPart);
-                product.multiplyMonomial(secondPart);
-                product.simplify();
-                monomialsWithExponentsInOrder.emplace_back(product);
-            }
-            Polynomial polynomialWithExponentsInOrder(monomialsWithExponentsInOrder);
-            bool areAllMonomialsFoundInPolynomialWithExponentsInOrder(false);
-            for(Monomial const& monomialToCheck : monomials)
-            {
-                if(polynomialWithExponentsInOrder.isVariableExponentFound(monomialToCheck))
+                AlbaNumbers coefficients(getCoefficientsInMonomialsWithExponentsInOrder(polynomial, monomialsWithExponentsInOrder));
+                if(exponentDivisor==2 && coefficients.size() == 3)
                 {
-                    areAllMonomialsFoundInPolynomialWithExponentsInOrder = true;
-                    break;
-                }
-            }
-            if(areAllMonomialsFoundInPolynomialWithExponentsInOrder)
-            {
-                AlbaNumbers coefficients;
-                for(Monomial const& monomialWithExponentInOrder : monomialsWithExponentsInOrder)
-                {
-                    coefficients.emplace_back(
-                                polynomial.getCoefficientOfVariableExponent(monomialWithExponentInOrder));
-                }
-                if(divisor==2 && coefficients.size() == 3)
-                {
-                    AlbaNumbers roots(calculateQuadraticRoots(coefficients.at(0), coefficients.at(1), coefficients.at(2)));
-                    if(roots.size() == 2)
-                    {
-                        AlbaNumber firstRootFirstCoefficient(1);
-                        AlbaNumber firstRootSecondCoefficient(roots.at(0)*-1);
-                        AlbaNumber secondRootFirstCoefficient(1);
-                        AlbaNumber secondRootSecondCoefficient(roots.at(1)*-1);
-
-                        AlbaNumber aCoefficient(coefficients.at(0));
-                        if(aCoefficient.isIntegerOrFractionType() && firstRootSecondCoefficient.isIntegerOrFractionType())
-                        {
-                            AlbaNumber::FractionData firstFractionData(aCoefficient.getFractionData());
-                            AlbaNumber::FractionData secondFractionData(firstRootSecondCoefficient.getFractionData());
-                            unsigned multiplier = getGreatestCommonFactor(firstFractionData.numerator, secondFractionData.denominator);
-                            firstRootFirstCoefficient = firstRootFirstCoefficient * multiplier;
-                            firstRootSecondCoefficient = firstRootSecondCoefficient * multiplier;
-                            aCoefficient = aCoefficient / multiplier;
-                        }
-                        if(aCoefficient.isIntegerOrFractionType() && secondRootSecondCoefficient.isIntegerOrFractionType())
-                        {
-                            AlbaNumber::FractionData firstFractionData(aCoefficient.getFractionData());
-                            AlbaNumber::FractionData secondFractionData(secondRootSecondCoefficient.getFractionData());
-                            unsigned multiplier = getGreatestCommonFactor(firstFractionData.numerator, secondFractionData.denominator);
-                            secondRootFirstCoefficient = secondRootFirstCoefficient * multiplier;
-                            secondRootSecondCoefficient = secondRootSecondCoefficient * multiplier;
-                            aCoefficient = aCoefficient / multiplier;
-                        }
-                        if(aCoefficient != 1)
-                        {
-                            simplifyPolynomialThenEmplaceBack(result, Polynomial{Monomial(aCoefficient, {})});
-                            aCoefficient=aCoefficient/aCoefficient;
-                        }
-
-                        Monomial firstRootFirstMonomial(firstMonomial);
-                        Monomial firstRootSecondMonomial(lastMonomial);
-                        Monomial secondRootFirstMonomial(firstMonomial);
-                        Monomial secondRootSecondMonomial(lastMonomial);
-                        firstRootFirstMonomial.setConstant(firstRootFirstCoefficient);
-                        firstRootSecondMonomial.setConstant(firstRootSecondCoefficient);
-                        secondRootFirstMonomial.setConstant(secondRootFirstCoefficient);
-                        secondRootSecondMonomial.setConstant(secondRootSecondCoefficient);
-                        simplifyPolynomialThenEmplaceBack(result, Polynomial{firstRootFirstMonomial, firstRootSecondMonomial});
-                        simplifyPolynomialThenEmplaceBack(result, Polynomial{secondRootFirstMonomial, secondRootSecondMonomial});
-                    }
+                    factorizeQuadraticForm(
+                                result,
+                                coefficients,
+                                unitFirstMonomial.getVariablesToExponentsMapConstReference(),
+                                unitSecondMonomial.getVariablesToExponentsMapConstReference());
                 }
             }
         }
     }
     return result;
+}
+
+void factorizeQuadraticForm(
+        Polynomials & result,
+        AlbaNumbers const& coefficients,
+        Monomial::VariablesToExponentsMap const& firstVariableExponent,
+        Monomial::VariablesToExponentsMap const& secondVariableExponent)
+{
+    AlbaNumbers roots(calculateQuadraticRoots(coefficients.at(0), coefficients.at(1), coefficients.at(2)));
+    if(roots.size() == 2)
+    {
+        AlbaNumber firstRootFirstCoefficient(1);
+        AlbaNumber firstRootSecondCoefficient(roots.at(0)*-1);
+        AlbaNumber secondRootFirstCoefficient(1);
+        AlbaNumber secondRootSecondCoefficient(roots.at(1)*-1);
+        AlbaNumber aCoefficient(coefficients.at(0));
+        if(aCoefficient.isIntegerOrFractionType() && firstRootSecondCoefficient.isIntegerOrFractionType())
+        {
+            fixCoefficientsOfQuadraticFactors(aCoefficient, firstRootFirstCoefficient, firstRootSecondCoefficient);
+        }
+        if(aCoefficient.isIntegerOrFractionType() && secondRootSecondCoefficient.isIntegerOrFractionType())
+        {
+            fixCoefficientsOfQuadraticFactors(aCoefficient, secondRootFirstCoefficient, secondRootSecondCoefficient);
+        }
+        if(aCoefficient != 1)
+        {
+            simplifyPolynomialThenEmplaceBack(result, Polynomial{Monomial(aCoefficient, {})});
+            aCoefficient=aCoefficient/aCoefficient;
+        }
+        Monomial firstRootFirstMonomial(firstRootFirstCoefficient, firstVariableExponent);
+        Monomial firstRootSecondMonomial(firstRootSecondCoefficient, secondVariableExponent);
+        Monomial secondRootFirstMonomial(secondRootFirstCoefficient, firstVariableExponent);
+        Monomial secondRootSecondMonomial(secondRootSecondCoefficient, secondVariableExponent);
+        simplifyPolynomialThenEmplaceBack(result, Polynomial{firstRootFirstMonomial, firstRootSecondMonomial});
+        simplifyPolynomialThenEmplaceBack(result, Polynomial{secondRootFirstMonomial, secondRootSecondMonomial});
+    }
 }
 
 void addFactorsOfDifferenceOfSquares(Polynomials & result, Polynomial const& polynomial)
@@ -320,6 +287,19 @@ void addFactorsOfSumOfCubes(Polynomials & result, Polynomial const& polynomial)
     simplifyPolynomialThenEmplaceBack(result, Polynomial{firstMonomialSquared, productOfFirstAndSecond, secondMonomialSquared});
 }
 
+void fixCoefficientsOfQuadraticFactors(
+        AlbaNumber & aCoefficient,
+        AlbaNumber & secondRootFirstCoefficient,
+        AlbaNumber & secondRootSecondCoefficient)
+{
+    AlbaNumber::FractionData firstFractionData(aCoefficient.getFractionData());
+    AlbaNumber::FractionData secondFractionData(secondRootSecondCoefficient.getFractionData());
+    unsigned multiplier = getGreatestCommonFactor(firstFractionData.numerator, secondFractionData.denominator);
+    secondRootFirstCoefficient = secondRootFirstCoefficient * multiplier;
+    secondRootSecondCoefficient = secondRootSecondCoefficient * multiplier;
+    aCoefficient = aCoefficient / multiplier;
+}
+
 bool isDifferenceOfSquares(Polynomial const& polynomial)
 {
     bool result(false);
@@ -345,7 +325,8 @@ bool isDifferenceOfSquares(Polynomial const& polynomial)
 bool isDifferenceOfCubes(Polynomial const& polynomial)
 {
     bool result(false);
-    Monomials monomials(polynomial.getMonomialsConstReference());    if(monomials.size() == 2)
+    Monomials monomials(polynomial.getMonomialsConstReference());
+    if(monomials.size() == 2)
     {
         Monomial firstMonomial(monomials.at(0));
         Monomial secondMonomial(monomials.at(1));
@@ -418,13 +399,66 @@ bool areExponentsDivisible(Monomial const& monomial, unsigned int const divisor)
             break;
         }
     }
-    return result;}
+    return result;
+}
+
+bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
+        Monomials const& monomialsToCheck,
+        Monomials const& monomialsWithExponentsInOrder)
+{
+    Polynomial polynomialWithExponentsInOrder(monomialsWithExponentsInOrder);
+    bool areAllMonomialsFoundInPolynomialWithExponentsInOrder(false);
+    for(Monomial const& monomialToCheck : monomialsToCheck)
+    {
+        if(polynomialWithExponentsInOrder.isVariableExponentFound(monomialToCheck))
+        {
+            areAllMonomialsFoundInPolynomialWithExponentsInOrder = true;
+            break;
+        }
+    }
+
+    return areAllMonomialsFoundInPolynomialWithExponentsInOrder;
+}
 
 void simplifyPolynomialThenEmplaceBack(Polynomials & polynomials, Polynomial const& polynomial)
 {
     Polynomial simplifiedPolynomial(polynomial);
     simplifiedPolynomial.simplify();
     polynomials.emplace_back(simplifiedPolynomial);
+}
+
+Monomials getMonomialsWithExponentsInOrder(
+        unsigned int const exponentDivisor,
+        Monomial const& firstInPolynomial,
+        Monomial const& lastInPolynomial)
+{
+    Monomials monomialsWithExponentsInOrder;
+    for(unsigned int i=0; i<=exponentDivisor; i++)
+    {
+        Monomial firstPart(firstInPolynomial);
+        firstPart.raiseToPowerNumber(exponentDivisor-i);
+        Monomial secondPart(lastInPolynomial);
+        secondPart.raiseToPowerNumber(i);
+        Monomial product(firstPart);
+        product.multiplyMonomial(secondPart);
+        product.simplify();
+        monomialsWithExponentsInOrder.emplace_back(product);
+    }
+    return monomialsWithExponentsInOrder;
+}
+
+AlbaNumbers getCoefficientsInMonomialsWithExponentsInOrder(
+        Polynomial const& polynomial,
+        Monomials const& monomialsWithExponentsInOrder)
+{
+    AlbaNumbers coefficients;
+    for(Monomial const& monomialWithExponentInOrder : monomialsWithExponentsInOrder)
+    {
+        coefficients.emplace_back(
+                    polynomial.getCoefficientOfVariableExponent(monomialWithExponentInOrder));
+    }
+
+    return coefficients;
 }
 
 AlbaNumbers calculateQuadraticRoots(AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c)
@@ -440,6 +474,19 @@ AlbaNumbers calculateQuadraticRoots(AlbaNumber const& a, AlbaNumber const& b, Al
         result.emplace_back(firstPart - secondPart);
     }
     return result;
+}
+
+unsigned int calculateMaxExponentDivisor(
+        Monomial const& firstMonomial,
+        Monomial const& lastMonomial)
+{
+    unsigned int exponentDivisor=2;
+    while(areExponentsDivisible(firstMonomial, exponentDivisor) && areExponentsDivisible(lastMonomial, exponentDivisor))
+    {
+        exponentDivisor++;
+    }
+    exponentDivisor--;
+    return exponentDivisor;
 }
 
 }

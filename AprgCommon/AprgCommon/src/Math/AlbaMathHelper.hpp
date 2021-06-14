@@ -4,6 +4,7 @@
 
 namespace alba
 {
+
 namespace mathHelper
 {
 
@@ -34,7 +35,8 @@ bool isPerfectNthPower(AlbaNumber const& number, unsigned int const nthPower);
 bool canConvertedToInteger(double const realValue);
 double getPi();
 double getE();
-int getRaiseToPowerForIntegers(int const base, unsigned int exponent);FractionDetails getFractionDetailsInLowestForm(int const numerator, int const denominator);
+int getRaiseToPowerForIntegers(int const base, unsigned int exponent);
+FractionDetails getFractionDetailsInLowestForm(int const numerator, int const denominator);
 FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue);
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber);
 AlbaNumber getGreatestCommonFactor(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);
@@ -43,7 +45,8 @@ unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsig
 int getIntegerAfterRoundingDoubleValue(double const doubleValue);
 int getIntegerPartInDouble(double const doubleValue);
 double getFractionalPartInDouble(double const doubleValue);
-double calculateCumulativeStandardDistributionApproximation(double const value);double calculateInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
+double calculateCumulativeStandardDistributionApproximation(double const value);
+double calculateInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
 double convertDegreesToRadians(double const valueInDegrees);
 double convertRadiansToDegrees(double const valueInRadians);
 

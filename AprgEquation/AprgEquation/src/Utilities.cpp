@@ -606,7 +606,8 @@ AlbaNumber getCommonCoefficientInMonomials(Monomials const& monomials)
     return commonCoefficient;
 }
 
-Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials){
+Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
+{
     Monomial monomialWithMinimumExponents(1, {});
     bool isFirst(true);
     for(Monomial const& monomial : monomials)
@@ -638,4 +639,5 @@ AlbaNumber getCommonSignInMonomials(Monomials const& monomials)
 }
 
 }
+
 }

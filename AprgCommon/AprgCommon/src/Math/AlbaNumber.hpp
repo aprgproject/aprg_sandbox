@@ -7,6 +7,7 @@
 
 namespace alba
 {
+
 class AlbaNumber
 {
 public:
@@ -39,7 +40,8 @@ public:
     bool operator>=(AlbaNumber const& second) const;
     bool operator<(AlbaNumber const& second) const;
     bool operator>(AlbaNumber const& second) const;
-    AlbaNumber operator+() const;    AlbaNumber operator-() const;
+    AlbaNumber operator+() const;
+    AlbaNumber operator-() const;
     AlbaNumber operator+(AlbaNumber const& second) const;
     AlbaNumber operator-(AlbaNumber const& second) const;
     AlbaNumber operator*(AlbaNumber const& second) const;
@@ -67,7 +69,8 @@ public:
     bool isIntegerOrFractionType() const;
 
     Type getType() const;
-    int getInteger() const;    FractionData getFractionData() const;
+    int getInteger() const;
+    FractionData getFractionData() const;
     double getDouble() const;
 
     std::string getDisplayableString() const;

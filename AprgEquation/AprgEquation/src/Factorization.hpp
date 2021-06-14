@@ -26,9 +26,18 @@ Polynomials factorizeDifferenceOfSquaresAndReturnEmptyIfNotFactorized(Polynomial
 Polynomials factorizeDifferenceOfCubesAndReturnEmptyIfNotFactorized(Polynomial const& polynomial);
 Polynomials factorizeSumOfCubesAndReturnEmptyIfNotFactorized(Polynomial const& polynomial);
 Polynomials factorizeIncreasingAndDecreasingExponentsFormIfNotFactorized(Polynomial const& polynomial);
+void factorizeQuadraticForm(
+        Polynomials & result,
+        AlbaNumbers const& coefficients,
+        Monomial::VariablesToExponentsMap const& firstVariableExponent,
+        Monomial::VariablesToExponentsMap const& secondVariableExponent);
 void addFactorsOfDifferenceOfSquares(Polynomials & result, Polynomial const& polynomial);
 void addFactorsOfDifferenceOfCubes(Polynomials & result, Polynomial const& polynomial);
 void addFactorsOfSumOfCubes(Polynomials & result, Polynomial const& polynomial);
+void fixCoefficientsOfQuadraticFactors(
+        AlbaNumber & aCoefficient,
+        AlbaNumber & secondRootFirstCoefficient,
+        AlbaNumber & secondRootSecondCoefficient);
 bool isDifferenceOfSquares(Polynomial const& polynomial);
 bool isDifferenceOfCubes(Polynomial const& polynomial);
 bool isSumOfCubes(Polynomial const& polynomial);
@@ -36,10 +45,20 @@ bool isPerfectSquare(Monomial const& monomial);
 bool isPerfectCube(Monomial const& monomial);
 bool isPerfectNthPower(Monomial const& monomial, unsigned int const nthPower);
 bool areExponentsDivisible(Monomial const& monomial, unsigned int const divisor);
+bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
+        Monomials const& monomialsToCheck,
+        Monomials const& monomialsWithExponentsInOrder);
 void simplifyPolynomialThenEmplaceBack(Polynomials & polynomials, Polynomial const& polynomial);
+Monomials getMonomialsWithExponentsInOrder(
+        unsigned int const exponentDivisor,
+        Monomial const& firstInPolynomial,
+        Monomial const& lastInPolynomial);
+AlbaNumbers getCoefficientsInMonomialsWithExponentsInOrder(Polynomial const& polynomial, Monomials const& monomialsWithExponentsInOrder);
 AlbaNumbers calculateQuadraticRoots(AlbaNumber const& a, AlbaNumber const& n, AlbaNumber const& c);
+unsigned int calculateMaxExponentDivisor(Monomial const& firstMonomial, Monomial const& lastMonomial);
 
 }
+
 }
 
 }

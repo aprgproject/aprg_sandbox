@@ -4,7 +4,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -345,4 +346,5 @@ TEST(FactorizationTest, QuadraticExpressionExample1_FactorizeWorks)
 }
 
 }
+
 }

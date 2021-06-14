@@ -50,7 +50,8 @@ TEST(AlbaMathHelperTest, AbsoluteValueCanBeComputed)
     EXPECT_EQ(AlbaNumber(1, 3), getAbsoluteValue(AlbaNumber(-1, 3)));
 }
 
-TEST(AlbaMathHelperTest, SquareRootOfXSquaredPlusYSquaredCanBeComputed){
+TEST(AlbaMathHelperTest, SquareRootOfXSquaredPlusYSquaredCanBeComputed)
+{
     EXPECT_EQ(5, getSquareRootOfXSquaredPlusYSquared(3,4));
     EXPECT_EQ(13, getSquareRootOfXSquaredPlusYSquared(5,-12));
     EXPECT_EQ(25, getSquareRootOfXSquaredPlusYSquared(-7,24));
@@ -75,7 +76,8 @@ TEST(AlbaMathHelperTest, SignCanBeFetched)
     EXPECT_EQ(AlbaNumber(-1), getSign(AlbaNumber(-1, 3)));
 }
 
-TEST(AlbaMathHelperTest, LowerBoundCanBeComputed){
+TEST(AlbaMathHelperTest, LowerBoundCanBeComputed)
+{
     EXPECT_EQ(3, clampLowerBound(1, 3));
     EXPECT_EQ(3, clampLowerBound(2, 3));
     EXPECT_EQ(3, clampLowerBound(3, 3));
@@ -103,7 +105,8 @@ TEST(AlbaMathHelperTest, CanConvertedToIntegerAsExpected)
 
 TEST(AlbaMathHelperTest, IsDivisibleWorksAsExpected)
 {
-    EXPECT_FALSE(isDivisible(0u, 0u));    EXPECT_TRUE(isDivisible(0u, 1u));
+    EXPECT_FALSE(isDivisible(0u, 0u));
+    EXPECT_TRUE(isDivisible(0u, 1u));
     EXPECT_TRUE(isDivisible(1u, 1u));
     EXPECT_FALSE(isDivisible(1u, 5u));
     EXPECT_TRUE(isDivisible(5u, 1u));
@@ -185,7 +188,8 @@ TEST(AlbaMathHelperTest, IsPerfectNthPowerForAlbaNumberWorksAsExpected)
 
 TEST(AlbaMathHelperTest, GetPiWorksAsExpected)
 {
-    EXPECT_DOUBLE_EQ(3.14159265358979323846, getPi());}
+    EXPECT_DOUBLE_EQ(3.14159265358979323846, getPi());
+}
 
 TEST(AlbaMathHelperTest, GetEWorksAsExpected)
 {
@@ -286,7 +290,8 @@ TEST(AlbaMathHelperTest, GreatestCommonFactorWithAlbaNumberCanBeComputed)
 
 TEST(AlbaMathHelperTest, LeastCommonMultipleCanBeComputed)
 {
-    EXPECT_EQ(0u, getLeastCommonMultiple(0, 0));    EXPECT_EQ(1u, getLeastCommonMultiple(1, 1));
+    EXPECT_EQ(0u, getLeastCommonMultiple(0, 0));
+    EXPECT_EQ(1u, getLeastCommonMultiple(1, 1));
     EXPECT_EQ(256u, getLeastCommonMultiple(8, 256));
     EXPECT_EQ(60u, getLeastCommonMultiple(15, 20));
 }
@@ -322,7 +327,8 @@ TEST(AlbaMathHelperTest, IntegerAfterRoundingDoubleValueCanBeComputed)
 
 TEST(AlbaMathHelperTest, FractionalPartInDoubleCanBeComputed)
 {
-    EXPECT_DOUBLE_EQ(0, getFractionalPartInDouble(0));    EXPECT_DOUBLE_EQ(0, getFractionalPartInDouble(1));
+    EXPECT_DOUBLE_EQ(0, getFractionalPartInDouble(0));
+    EXPECT_DOUBLE_EQ(0, getFractionalPartInDouble(1));
     EXPECT_DOUBLE_EQ(0.5, getFractionalPartInDouble(1.5));
     EXPECT_DOUBLE_EQ(-0.5, getFractionalPartInDouble(-1.5));
     EXPECT_DOUBLE_EQ(0.15625, getFractionalPartInDouble(652.15625));
