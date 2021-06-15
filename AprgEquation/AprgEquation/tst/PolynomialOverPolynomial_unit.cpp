@@ -28,14 +28,24 @@ TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWithNoRemainder)
     EXPECT_EQ((Polynomial{}), quotientAndRemainder.remainder);
 }
 
-TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWithRemainder)
+TEST(PolynomialOverPolynomialTest, SimplifyAndDivideOnAQuarticWithNoRemainder)
 {
-    Polynomial numerator{Monomial(5, {{"x", 3}}), Monomial(-14, {{"x", 1}}), Monomial(3, {})};
-    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-2, {})};
+    Polynomial numerator{Monomial(2112, {{"x", 4}}), Monomial(-296, {{"x", 3}}), Monomial(-5878, {{"x", 2}}), Monomial(409, {{"x", 1}}), Monomial(4095, {})};
+    Polynomial denominator{Monomial(11, {{"x", 1}}), Monomial(-13, {})};
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
     PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(polynomialOverPolynomial.simplifyAndDivide());
 
+    EXPECT_EQ((Polynomial{Monomial(192, {{"x", 3}}), Monomial(200, {{"x", 2}}), Monomial(-298, {{"x", 1}}), Monomial(-315, {})}), quotientAndRemainder.quotient);
+    EXPECT_EQ((Polynomial{}), quotientAndRemainder.remainder);
+}
+
+TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWithRemainder)
+{
+    Polynomial numerator{Monomial(5, {{"x", 3}}), Monomial(-14, {{"x", 1}}), Monomial(3, {})};    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-2, {})};
+    PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
+
+    PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(polynomialOverPolynomial.simplifyAndDivide());
     EXPECT_EQ((Polynomial{Monomial(5, {{"x", 2}}), Monomial(10, {{"x", 1}}), Monomial(6, {})}), quotientAndRemainder.quotient);
     EXPECT_EQ((Polynomial{Monomial(15, {})}), quotientAndRemainder.remainder);
 }
