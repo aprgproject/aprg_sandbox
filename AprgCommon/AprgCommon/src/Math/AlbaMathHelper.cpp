@@ -111,14 +111,29 @@ unsigned int getAbsoluteValue<unsigned int>(unsigned int const& value)
 }
 
 
+//getAbsoluteValue
+template <typename NumberType>
+unsigned int getNumberOfIntegerDigits(NumberType const value)
+{
+    unsigned int result(0);
+    NumberType absoluteValue(getAbsoluteValue(value));
+    if(absoluteValue >= 1)
+    {
+        result = static_cast<unsigned int>(log10(static_cast<double>(absoluteValue)))+1;
+    }
+    return result;
+}
+template unsigned int getNumberOfIntegerDigits<unsigned int>(unsigned int const value);
+template unsigned int getNumberOfIntegerDigits<int>(int const value);
+template unsigned int getNumberOfIntegerDigits<double>(double const value);
+
+
 //getXSquaredPlusYSquared
 template <typename NumberType>
-NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y)
-{
+NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y){
     return static_cast<NumberType>(pow(x, 2)+pow(y, 2));
 }
-template int getXSquaredPlusYSquared<int>(int const x, int const y);
-template double getXSquaredPlusYSquared<double>(double const x, double const y);
+template int getXSquaredPlusYSquared<int>(int const x, int const y);template double getXSquaredPlusYSquared<double>(double const x, double const y);
 
 
 //getSquareRootOfXSquaredPlusYSquared
@@ -197,14 +212,17 @@ bool canConvertedToInteger(double const realValue)
     return isAlmostEqual<double>(realValue, round(realValue));
 }
 
+bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits)
+{
+    return digits>=10;
+}
+
 bool isDivisible(unsigned int const dividend, unsigned int const divisor)
 {
-    bool result(false);
-    if(divisor != 0)
+    bool result(false);    if(divisor != 0)
     {
         result = (dividend % divisor)==0;
-    }
-    return result;
+    }    return result;
 }
 
 bool isPerfectNthPower(
@@ -258,78 +276,77 @@ FractionDetails getFractionDetailsInLowestForm(int const numerator, int const de
     unsigned int greatestCommonFactor = mathHelper::getGreatestCommonFactor(unsignedNumerator, unsignedDenominator);
     if(greatestCommonFactor==0)
     {
-        result.sign = mathHelper::getSign(numerator*denominator);
+        result.sign = mathHelper::getSign(numerator)*mathHelper::getSign(denominator);
         result.numerator = unsignedNumerator;
         result.denominator = unsignedDenominator;
     }
     else
     {
-        result.sign = mathHelper::getSign(numerator*denominator);
+        result.sign = mathHelper::getSign(numerator)*mathHelper::getSign(denominator);
         result.numerator = unsignedNumerator/greatestCommonFactor;
         result.denominator = unsignedDenominator/greatestCommonFactor;
-    }
-    return result;
+    }    return result;
 }
 
 FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue)
 {
-    static unsigned int numberOfIterations=0; //numberOfIterations dictates the accuracy of fraction
-    numberOfIterations++;
     constexpr double tolerance(1E-3);
     FractionDetails result;
-    result.sign = getSign(doubleValue);
-    double absoluteValueOfDouble = getAbsoluteValue(doubleValue);
+    result.sign = getSign(doubleValue);    double absoluteValueOfDouble = getAbsoluteValue(doubleValue);
     result.numerator = static_cast<int>(absoluteValueOfDouble);
     result.denominator = 1;
     double fractionalPart = getFractionalPartInDouble(absoluteValueOfDouble);
-    if(fractionalPart>tolerance && numberOfIterations<=10)
+    double nextDoubleValueInIteration = 1/fractionalPart;
+    unsigned estimatedNumberOfDigits = getNumberOfIntegerDigits(result.numerator) + getNumberOfIntegerDigits(nextDoubleValueInIteration);
+    if(fractionalPart>tolerance && !areNumberOfDigitsOnTheIntegerLimit(estimatedNumberOfDigits))
     {
-        double nextDoubleValueInIteration = 1/fractionalPart;
         FractionDetails partialResult = getBestFractionDetailsForDoubleValue(nextDoubleValueInIteration);
         result.numerator = (result.numerator * partialResult.numerator) + (partialResult.denominator);
         result.denominator = partialResult.numerator;
     }
-    else
-    {
-        numberOfIterations=0;
-    }
     return result;
 }
-
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber)
 {
     unsigned int result(0);
-    if(firstNumber==0)
+    unsigned int temporaryFirstValue(firstNumber);
+    unsigned int temporarySecondValue(secondNumber);
+    while(1)
     {
-        result = secondNumber;
-    }
-    else if(secondNumber==0)
-    {
-        result = firstNumber;
-    }
-    else if(firstNumber==1 || secondNumber==1)
-    {
-        result = 1;
-    }
-    else if(firstNumber==secondNumber)
-    {
-        result = firstNumber;
-    }
-    else if(firstNumber>secondNumber)
-    {
-        result = getGreatestCommonFactor(firstNumber-secondNumber, secondNumber);
-    }
-    else
-    {
-        result = getGreatestCommonFactor(secondNumber, secondNumber-firstNumber);
+        if(temporaryFirstValue==0)
+        {
+            result = temporarySecondValue;
+            break;
+        }
+        else if(temporarySecondValue==0)
+        {
+            result = temporaryFirstValue;
+            break;
+        }
+        else if(temporaryFirstValue==1 || temporarySecondValue==1)
+        {
+            result = 1;
+            break;
+        }
+        else if(temporaryFirstValue==temporarySecondValue)
+        {
+            result = temporaryFirstValue;
+            break;
+        }
+        else if(temporaryFirstValue>temporarySecondValue)
+        {
+            temporaryFirstValue = temporaryFirstValue%temporarySecondValue;
+        }
+        else
+        {
+            temporarySecondValue = temporarySecondValue%temporaryFirstValue;
+        }
     }
     return result;
 }
-
 AlbaNumber getGreatestCommonFactor(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber)
 {
-    AlbaNumber result(0);
-    if(firstNumber.isDoubleType() || secondNumber.isDoubleType())
+    AlbaNumber result(0);    if(firstNumber.isDoubleType() || secondNumber.isDoubleType())
     {
         result=1;
     }
@@ -351,15 +368,13 @@ unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int
     unsigned int result(0);
     if(firstNumber!=0 && secondNumber!=0)
     {
-        result = firstNumber*secondNumber/getGreatestCommonFactor(firstNumber, secondNumber);
+        result = firstNumber/getGreatestCommonFactor(firstNumber, secondNumber)*secondNumber;
     }
     return result;
 }
-
 unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number)
 {
-    unsigned result(0);
-    if(multiple>0)
+    unsigned result(0);    if(multiple>0)
     {
         unsigned int numberOfMultiples(getNumberOfMultiplesInclusive(multiple, number));
         result = (numberOfMultiples*multiple) - number;
