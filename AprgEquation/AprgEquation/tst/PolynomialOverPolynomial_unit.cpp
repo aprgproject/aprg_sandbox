@@ -110,6 +110,18 @@ TEST(PolynomialOverPolynomialTest, SimplifyWorksOnDifferentSignInNumeratorAndDen
     EXPECT_EQ((Polynomial{Monomial(-1, {{"a", 1}}), Monomial(-1, {{"b", 1}})}), polynomialOverPolynomial.getDenominator());
 }
 
+TEST(PolynomialOverPolynomialTest, SimplifyWorksOnCancellingFactors)
+{
+    Polynomial numerator{Monomial(4, {{"x", 2}}), Monomial(-9, {{"y", 2}})};
+    Polynomial denominator{Monomial(2, {{"x", 1}}), Monomial(-3, {{"y", 1}})};
+    PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
+
+    polynomialOverPolynomial.simplify();
+
+    EXPECT_EQ((Polynomial{Monomial(2, {{"x", 1}}), Monomial(3, {{"y", 1}})}), polynomialOverPolynomial.getNumerator());
+    EXPECT_EQ((Polynomial{Monomial(1, {})}), polynomialOverPolynomial.getDenominator());
+}
+
 }
 
 }

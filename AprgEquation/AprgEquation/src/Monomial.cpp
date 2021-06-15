@@ -159,14 +159,22 @@ AlbaNumber Monomial::getDegree() const
     return degree;
 }
 
+AlbaNumber Monomial::getMaxExponent() const
+{
+    AlbaNumber maxExponent;
+    for(VariableExponentPair const& variableExponentPair : m_variablesToExponentsMap)
+    {
+        maxExponent = max(maxExponent, variableExponentPair.second);
+    }
+    return maxExponent;
+}
+
 AlbaNumber Monomial::getExponentForVariable(string const& variableName) const
 {
-    AlbaNumber exponent(0);
-    if(m_variablesToExponentsMap.find(variableName) != m_variablesToExponentsMap.cend())
+    AlbaNumber exponent(0);    if(m_variablesToExponentsMap.find(variableName) != m_variablesToExponentsMap.cend())
     {
         exponent = m_variablesToExponentsMap.at(variableName);
-    }
-    return exponent;
+    }    return exponent;
 }
 
 string Monomial::getDisplayableString() const

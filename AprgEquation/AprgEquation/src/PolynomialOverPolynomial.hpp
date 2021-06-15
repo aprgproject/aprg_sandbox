@@ -25,17 +25,15 @@ public:
     QuotientAndRemainder simplifyAndDivide();
     void simplify();
     void sortNumeratorAndDenominator();
+    QuotientAndRemainder divide() const;
 
 private:
-    QuotientAndRemainder divide() const;
     unsigned int getLcmForDenominatorCoefficients(Polynomial const& polynomial);
     Monomial getAndPositiveExponentsMonomialWithNegativeExponents(Polynomial const& polynomial);
-    void convertFractionCoefficientsToInteger();
-    void convertNegativeExponentsToPositive();
+    void convertFractionCoefficientsToInteger();    void convertNegativeExponentsToPositive();
     void removeCommonMonomialOnAllMonomialsInNumeratorAndDenominator();
     Polynomial m_numerator;
-    Polynomial m_denominator;
-};
+    Polynomial m_denominator;};
 
 }
 
