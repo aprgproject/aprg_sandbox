@@ -18,7 +18,9 @@ public:
     virtual std::string getDebugString() const;
 
 private:
+
 };
 
 }
+
 }

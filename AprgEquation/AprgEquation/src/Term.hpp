@@ -60,10 +60,12 @@ public:
     std::string getDebugString() const override;
 
     Constant & getConstantReference();
-    Variable & getVariableReference();    Operator & getOperatorReference();
+    Variable & getVariableReference();
+    Operator & getOperatorReference();
     Monomial & getMonomialReference();
     Polynomial & getPolynomialReference();
     Expression & getExpressionReference();
+
     void sort();
     void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
 

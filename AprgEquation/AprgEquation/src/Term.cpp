@@ -359,11 +359,13 @@ string Term::getDebugString() const
     {
         result = getExpressionConstReference().getDebugString();
     }
-    return result;}
+    return result;
+}
 
 Constant & Term::getConstantReference()
 {
-    assert(m_type==TermType::Constant);    return *dynamic_cast<Constant*>(m_baseDataTermPointer.get());
+    assert(m_type==TermType::Constant);
+    return *dynamic_cast<Constant*>(m_baseDataTermPointer.get());
 }
 
 Variable & Term::getVariableReference()

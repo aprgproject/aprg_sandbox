@@ -29,7 +29,7 @@ public:
 
 private:
     unsigned int getLcmForDenominatorCoefficients(Polynomial const& polynomial);
-    Monomial getAndPositiveExponentsMonomialWithNegativeExponents(Polynomial const& polynomial);
+    Monomial getMonomialWithMaxNegativeExponentsAndConvertItToPositive(Polynomial const& polynomial);
     void convertFractionCoefficientsToInteger();
     void convertNegativeExponentsToPositive();
     void removeCommonMonomialOnAllMonomialsInNumeratorAndDenominator();

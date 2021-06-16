@@ -20,9 +20,11 @@ bool canBeMergedByAdditionOrSubtraction(Variable const& variable1, Variable cons
 bool canBeConvertedToPolynomial(Term const& term);
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
+
 unsigned int getOperatorPriority(std::string const& operatorString);
 unsigned int getAssociationPriority(TermAssociationType const association);
-unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);unsigned int getTermTypePriorityValue(TermType const termType);
+unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
+unsigned int getTermTypePriorityValue(TermType const termType);
 
 std::string getOperatingString(
         OperatorLevel const operatorLevel,
@@ -71,9 +73,11 @@ void retrieveDenominatorTerms(Terms & terms, Expression const& expression);
 Terms tokenizeToTerms(std::string const& inputString);
 void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);
 Term convertValueTermStringToTerm(std::string const& valueTerm);
+
 Monomial getCommonMonomialInMonomials(Monomials const& monomials);
 AlbaNumber getCommonCoefficientInMonomials(Monomials const& monomials);
-Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
+Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
+AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
 
 
 

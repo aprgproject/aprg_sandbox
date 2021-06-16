@@ -1457,7 +1457,7 @@ TEST(ExpressionTest, SimplifyToOneFractionWorks)
 {
     Expression expression(createExpressionIfPossible(tokenizeToTerms("((4)/(x+2))+((x+3)/(x*x-4))+((2*x+1)/(x-2))")));
 
-    expression.simplifyToOneFraction();
+    expression.simplifyToCommonDenominators();
 
     Expression expressionToExpect(
                 createExpressionIfPossible(
@@ -1469,10 +1469,12 @@ TEST(ExpressionTest, SimplifyToOneFractionWorks)
 
 TEST(ExpressionTest, SortWorks)
 {
-    Expression expression(                createExpressionIfPossible(
+    Expression expression(
+                createExpressionIfPossible(
                     Terms{
                         Term("-"), Term(2),
-                        Term("-"), Term(3),                        Term("+"), Term(4),
+                        Term("-"), Term(3),
+                        Term("+"), Term(4),
                         Term("+"), Term(5),
                         Term("-"), Term(Polynomial{Monomial(100, {}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(10, {})})
                     }));

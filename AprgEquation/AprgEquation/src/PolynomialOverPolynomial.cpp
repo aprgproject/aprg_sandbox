@@ -47,9 +47,11 @@ void PolynomialOverPolynomial::simplify()
     m_denominator.simplify();
     factorizeAndRemoveCommonFactorsInNumeratorAndDenominator();
 }
+
 void PolynomialOverPolynomial::sortNumeratorAndDenominator()
 {
-    m_numerator.sortMonomialsWithInversePriority();    m_denominator.sortMonomialsWithInversePriority();
+    m_numerator.sortMonomialsWithInversePriority();
+    m_denominator.sortMonomialsWithInversePriority();
 }
 
 PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide() const
@@ -95,7 +97,7 @@ unsigned int PolynomialOverPolynomial::getLcmForDenominatorCoefficients(Polynomi
     return lcm;
 }
 
-Monomial PolynomialOverPolynomial::getAndPositiveExponentsMonomialWithNegativeExponents(Polynomial const& polynomial)
+Monomial PolynomialOverPolynomial::getMonomialWithMaxNegativeExponentsAndConvertItToPositive(Polynomial const& polynomial)
 {
     Monomial resultMonomial(1, {});
     Monomial::VariablesToExponentsMap const& resultVariableMap(resultMonomial.getVariablesToExponentsMapConstReference());
@@ -133,8 +135,8 @@ void PolynomialOverPolynomial::convertFractionCoefficientsToInteger()
 
 void PolynomialOverPolynomial::convertNegativeExponentsToPositive()
 {
-    Monomial monomialExponentNumerator(getAndPositiveExponentsMonomialWithNegativeExponents(m_numerator));
-    Monomial monomialExponentDenominator(getAndPositiveExponentsMonomialWithNegativeExponents(m_denominator));
+    Monomial monomialExponentNumerator(getMonomialWithMaxNegativeExponentsAndConvertItToPositive(m_numerator));
+    Monomial monomialExponentDenominator(getMonomialWithMaxNegativeExponentsAndConvertItToPositive(m_denominator));
     m_numerator.multiplyMonomial(monomialExponentNumerator);
     m_numerator.multiplyMonomial(monomialExponentDenominator);
     m_denominator.multiplyMonomial(monomialExponentNumerator);
@@ -187,13 +189,18 @@ bool PolynomialOverPolynomial::removeCommonFactorsAndReturnIfSomeFactorsAreRemov
             denominatorIterator != denominatorFactors.end();
             denominatorIterator++)
         {
-            if(*numeratorIterator == *denominatorIterator)
+            Polynomial const& numerator(*numeratorIterator);
+            Polynomial const& denominator(*denominatorIterator);
+            if(!(numerator.isOneMonomial() && denominator.isOneMonomial()))
             {
-                numeratorFactors.erase(numeratorIterator);
-                denominatorFactors.erase(denominatorIterator);
-                numeratorIterator--;
-                denominatorIterator--;
-                areSomeFactorsRemoved = true;
+                if(numerator == denominator)
+                {
+                    numeratorFactors.erase(numeratorIterator);
+                    denominatorFactors.erase(denominatorIterator);
+                    numeratorIterator--;
+                    denominatorIterator--;
+                    areSomeFactorsRemoved = true;
+                }
             }
         }
     }
