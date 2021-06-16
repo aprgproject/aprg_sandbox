@@ -22,19 +22,18 @@ Polynomials factorizeDifferenceOfSquares(Polynomial const& polynomial);
 Polynomials factorizeDifferenceOfCubes(Polynomial const& polynomial);
 Polynomials factorizeSumOfCubes(Polynomial const& polynomial);
 Polynomials factorizeIncreasingAndDecreasingExponentsForm(Polynomial const& polynomial);
-Polynomials factorizeCommonMonomialAndReturnEmptyIfNotFactorized(Polynomial const& polynomial);
-Polynomials factorizeDifferenceOfSquaresAndReturnEmptyIfNotFactorized(Polynomial const& polynomial);
-Polynomials factorizeDifferenceOfCubesAndReturnEmptyIfNotFactorized(Polynomial const& polynomial);
-Polynomials factorizeSumOfCubesAndReturnEmptyIfNotFactorized(Polynomial const& polynomial);
-Polynomials factorizeIncreasingAndDecreasingExponentsFormIfNotFactorized(Polynomial const& polynomial);
+Polynomials factorizeBySplittingSmallerPolynomials(Polynomial const& polynomial);
+Polynomials factorizeCommonMonomialIfPossible(Polynomial const& polynomial);
+Polynomials factorizeDifferenceOfSquaresIfPossible(Polynomial const& polynomial);
+Polynomials factorizeDifferenceOfCubesIfPossible(Polynomial const& polynomial);
+Polynomials factorizeSumOfCubesIfPossible(Polynomial const& polynomial);
+Polynomials factorizeIncreasingAndDecreasingExponentsFormIfPossible(Polynomial const& polynomial);
 void factorizeRootsInIncreasingAndDecreasingExponentsForm(
         Polynomials & result,
-        Polynomial const& polynomial,
-        AlbaNumbers const& coefficients,
+        Polynomial const& polynomial,        AlbaNumbers const& coefficients,
         Monomial::VariablesToExponentsMap const& firstVariableExponent,
         Monomial::VariablesToExponentsMap const& secondVariableExponent);
-void factorizeQuadraticForm(
-        Polynomials & result,
+void factorizeQuadraticForm(        Polynomials & result,
         AlbaNumbers const& coefficients,
         Monomial::VariablesToExponentsMap const& firstVariableExponent,
         Monomial::VariablesToExponentsMap const& secondVariableExponent);
@@ -44,21 +43,24 @@ void factorizeOneRootInIncreasingAndDecreasingExponentsForm(
         AlbaNumbers const& coefficients,
         Monomial::VariablesToExponentsMap const& firstVariableExponent,
         Monomial::VariablesToExponentsMap const& secondVariableExponent);
+Polynomials factorizeBySplittingSmallerPolynomialsIfPossible(Polynomial const& polynomial);
+Polynomials splitPolynomialIntoSmallerPolynomials(Polynomial const& polynomial);
+Polynomials getCommonFactorsInPolynomials(Polynomials const& smallerPolynomials);
+void removeCommonFactorsInPolynomials(Polynomials & polynomials, Polynomials const& commonFactors);
+void combinePolynomialsByAdditionAndEmplaceBack(Polynomials & result, Polynomials const& smallerPolynomials);
 void addFactorsOfDifferenceOfSquares(Polynomials & result, Polynomial const& polynomial);
 void addFactorsOfDifferenceOfCubes(Polynomials & result, Polynomial const& polynomial);
 void addFactorsOfSumOfCubes(Polynomials & result, Polynomial const& polynomial);
 void fixCoefficientsOfFactors(
         AlbaNumber & aCoefficient,
-        AlbaNumber & secondRootFirstCoefficient,
-        AlbaNumber & secondRootSecondCoefficient);
+        AlbaNumber & rootFirstCoefficient,
+        AlbaNumber & rootSecondCoefficient);
 bool isDifferenceOfSquares(Polynomial const& polynomial);
 bool isDifferenceOfCubes(Polynomial const& polynomial);
-bool isSumOfCubes(Polynomial const& polynomial);
-bool isPerfectSquare(Monomial const& monomial);
+bool isSumOfCubes(Polynomial const& polynomial);bool isPerfectSquare(Monomial const& monomial);
 bool isPerfectCube(Monomial const& monomial);
 bool isPerfectNthPower(Monomial const& monomial, unsigned int const nthPower);
-bool areExponentsDivisible(Monomial const& monomial, unsigned int const divisor);
-bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
+bool areExponentsDivisible(Monomial const& monomial, unsigned int const divisor);bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
         Monomials const& monomialsToCheck,
         Monomials const& monomialsWithExponentsInOrder);
 void simplifyPolynomialThenEmplaceBack(Polynomials & polynomials, Polynomial const& polynomial);

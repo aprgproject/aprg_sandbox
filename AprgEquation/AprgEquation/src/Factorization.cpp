@@ -28,13 +28,12 @@ Polynomials factorize(Polynomial const& polynomial)
     if(result.size() == 1){result = factorizeDifferenceOfCubes(polynomialToFactorize); }
     if(result.size() == 1){result = factorizeSumOfCubes(polynomialToFactorize); }
     if(result.size() == 1){result = factorizeIncreasingAndDecreasingExponentsForm(polynomialToFactorize); }
+    if(result.size() == 1){result = factorizeBySplittingSmallerPolynomials(polynomialToFactorize); }
     if(result.size() != 1)
     {
-        result = factorizePolynomials(result);
-    }
+        result = factorizePolynomials(result);    }
     return result;
 }
-
 Polynomials factorizePolynomials(Polynomials const& polynomials)
 {
     Polynomials result;
@@ -68,48 +67,49 @@ Polynomials returnPolynomialsOrSinglePolynomialIfEmpty(
 Polynomials factorizeCommonMonomial(Polynomial const& polynomial)
 {
     return returnPolynomialsOrSinglePolynomialIfEmpty(
-                factorizeCommonMonomialAndReturnEmptyIfNotFactorized(polynomial),
+                factorizeCommonMonomialIfPossible(polynomial),
                 polynomial);
 }
-
 Polynomials factorizeDifferenceOfSquares(Polynomial const& polynomial)
 {
     return returnPolynomialsOrSinglePolynomialIfEmpty(
-                factorizeDifferenceOfSquaresAndReturnEmptyIfNotFactorized(polynomial),
+                factorizeDifferenceOfSquaresIfPossible(polynomial),
                 polynomial);
 }
-
 Polynomials factorizeDifferenceOfCubes(Polynomial const& polynomial)
 {
     return returnPolynomialsOrSinglePolynomialIfEmpty(
-                factorizeDifferenceOfCubesAndReturnEmptyIfNotFactorized(polynomial),
+                factorizeDifferenceOfCubesIfPossible(polynomial),
                 polynomial);
 }
-
 Polynomials factorizeSumOfCubes(Polynomial const& polynomial)
 {
     return returnPolynomialsOrSinglePolynomialIfEmpty(
-                factorizeSumOfCubesAndReturnEmptyIfNotFactorized(polynomial),
+                factorizeSumOfCubesIfPossible(polynomial),
                 polynomial);
 }
-
 Polynomials factorizeIncreasingAndDecreasingExponentsForm(Polynomial const& polynomial)
 {
     return returnPolynomialsOrSinglePolynomialIfEmpty(
-                factorizeIncreasingAndDecreasingExponentsFormIfNotFactorized(polynomial),
+                factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomial),
                 polynomial);
 }
 
-Polynomials factorizeCommonMonomialAndReturnEmptyIfNotFactorized(Polynomial const& polynomial)
+Polynomials factorizeBySplittingSmallerPolynomials(Polynomial const& polynomial)
+{
+    return returnPolynomialsOrSinglePolynomialIfEmpty(
+                factorizeBySplittingSmallerPolynomialsIfPossible(polynomial),
+                polynomial);
+}
+
+Polynomials factorizeCommonMonomialIfPossible(Polynomial const& polynomial)
 {
     Polynomials result;
     if(!polynomial.isOneMonomial())
-    {
-        Monomial commonMonomial(getCommonMonomialInMonomials(polynomial.getMonomialsConstReference()));
+    {        Monomial commonMonomial(getCommonMonomialInMonomials(polynomial.getMonomialsConstReference()));
         if(!commonMonomial.isOne())
         {
-            Polynomial reducedPolynomial(polynomial);
-            reducedPolynomial.divideMonomial(commonMonomial);
+            Polynomial reducedPolynomial(polynomial);            reducedPolynomial.divideMonomial(commonMonomial);
             reducedPolynomial.simplify();
             simplifyPolynomialThenEmplaceBack(result, createPolynomialFromMonomial(commonMonomial));
             simplifyPolynomialThenEmplaceBack(result, reducedPolynomial);
@@ -118,45 +118,40 @@ Polynomials factorizeCommonMonomialAndReturnEmptyIfNotFactorized(Polynomial cons
     return result;
 }
 
-Polynomials factorizeDifferenceOfSquaresAndReturnEmptyIfNotFactorized(Polynomial const& polynomial)
+Polynomials factorizeDifferenceOfSquaresIfPossible(Polynomial const& polynomial)
 {
     Polynomials result;
-    if(isDifferenceOfSquares(polynomial))
-    {
+    if(isDifferenceOfSquares(polynomial))    {
         addFactorsOfDifferenceOfSquares(result, polynomial);
     }
     return result;
 }
 
-Polynomials factorizeDifferenceOfCubesAndReturnEmptyIfNotFactorized(Polynomial const& polynomial)
+Polynomials factorizeDifferenceOfCubesIfPossible(Polynomial const& polynomial)
 {
     Polynomials result;
-    if(isDifferenceOfCubes(polynomial))
-    {
+    if(isDifferenceOfCubes(polynomial))    {
         addFactorsOfDifferenceOfCubes(result, polynomial);
     }
     return result;
 }
 
-Polynomials factorizeSumOfCubesAndReturnEmptyIfNotFactorized(Polynomial const& polynomial)
+Polynomials factorizeSumOfCubesIfPossible(Polynomial const& polynomial)
 {
     Polynomials result;
-    if(isSumOfCubes(polynomial))
-    {
+    if(isSumOfCubes(polynomial))    {
         addFactorsOfSumOfCubes(result, polynomial);
     }
     return result;
 }
 
-Polynomials factorizeIncreasingAndDecreasingExponentsFormIfNotFactorized(Polynomial const& polynomial)
+Polynomials factorizeIncreasingAndDecreasingExponentsFormIfPossible(Polynomial const& polynomial)
 {
     Polynomials result;
-    Monomials monomials(polynomial.getMonomialsConstReference());
-    if(monomials.size() > 1)
+    Monomials monomials(polynomial.getMonomialsConstReference());    if(monomials.size() > 1)
     {
         Monomial firstMonomial(monomials.front());
-        Monomial lastMonomial(monomials.back());
-        unsigned int exponentDivisor(calculateExponentDivisor(firstMonomial, lastMonomial));
+        Monomial lastMonomial(monomials.back());        unsigned int exponentDivisor(calculateExponentDivisor(firstMonomial, lastMonomial));
         if(areExponentsDivisible(firstMonomial, exponentDivisor) && areExponentsDivisible(lastMonomial, exponentDivisor))
         {
             Monomial unitFirstMonomial(1, firstMonomial.getVariablesToExponentsMapConstReference());
@@ -188,27 +183,16 @@ void factorizeRootsInIncreasingAndDecreasingExponentsForm(
 {
     if(coefficients.size() == 3)
     {
-        factorizeQuadraticForm(
-                    result,
-                    coefficients,
-                    firstVariableExponent,
-                    secondVariableExponent);
+        factorizeQuadraticForm(result, coefficients, firstVariableExponent, secondVariableExponent);
     }
     else if(coefficients.size() > 3)
     {
-        factorizeOneRootInIncreasingAndDecreasingExponentsForm(
-                    result,
-                    polynomial,
-                    coefficients,
-                    firstVariableExponent,
-                    secondVariableExponent);
+        factorizeOneRootInIncreasingAndDecreasingExponentsForm(result, polynomial, coefficients, firstVariableExponent, secondVariableExponent);
     }
 }
-
 void factorizeQuadraticForm(
         Polynomials & result,
-        AlbaNumbers const& coefficients,
-        Monomial::VariablesToExponentsMap const& firstVariableExponent,
+        AlbaNumbers const& coefficients,        Monomial::VariablesToExponentsMap const& firstVariableExponent,
         Monomial::VariablesToExponentsMap const& secondVariableExponent)
 {
     if(coefficients.size() == 3)
@@ -272,14 +256,121 @@ void factorizeOneRootInIncreasingAndDecreasingExponentsForm(
     }
 }
 
+Polynomials factorizeBySplittingSmallerPolynomialsIfPossible(Polynomial const& polynomial)
+{
+    Polynomials result;
+    Polynomials smallerPolynomials(splitPolynomialIntoSmallerPolynomials(polynomial));
+    if(smallerPolynomials.size() > 1)
+    {
+        Polynomials commonFactors(getCommonFactorsInPolynomials(smallerPolynomials));
+        if(!commonFactors.empty())
+        {
+            removeCommonFactorsInPolynomials(smallerPolynomials, commonFactors);
+            combinePolynomialsByAdditionAndEmplaceBack(result, smallerPolynomials);
+            for(Polynomial const& commonFactor : commonFactors)
+            {
+                simplifyPolynomialThenEmplaceBack(result, commonFactor);
+            }
+        }
+
+    }
+    return result;
+}
+
+Polynomials splitPolynomialIntoSmallerPolynomials(Polynomial const& polynomial)
+{
+    Polynomials result;
+    Monomials monomials(polynomial.getMonomialsConstReference());
+    Polynomial partialPolynomial;
+    string firstVariableName;
+    bool isFirst(true);
+    for(Monomial const& monomial : monomials)
+    {
+        string monomialFirstVariableName(monomial.getFirstVariableName());
+        if(!monomialFirstVariableName.empty())
+        {
+            if(isFirst)
+            {
+                firstVariableName = monomialFirstVariableName;
+                isFirst = false;
+            }
+            if(firstVariableName != monomialFirstVariableName)
+            {
+                firstVariableName = monomialFirstVariableName;
+                result.emplace_back(partialPolynomial);
+                partialPolynomial.clear();
+            }
+        }
+        partialPolynomial.addMonomial(monomial);
+    }
+    if(!partialPolynomial.isEmpty())
+    {
+        result.emplace_back(partialPolynomial);
+    }
+    return result;
+}
+
+Polynomials getCommonFactorsInPolynomials(Polynomials const& smallerPolynomials)
+{
+    Polynomials commonFactors;
+    bool isFirst(true);
+    for(Polynomial const& smallerPolynomial : smallerPolynomials)
+    {
+        Polynomials smallerFactors(factorize(smallerPolynomial));
+        if(isFirst)
+        {
+            commonFactors = smallerFactors;
+            isFirst = false;
+        }
+        else
+        {
+            Polynomials previousCommonFactors(commonFactors);
+            commonFactors.clear();
+            for(Polynomial const& previousCommonFactor : previousCommonFactors)
+            {
+                for(Polynomial const& smallerFactor : smallerFactors)
+                {
+                    if(previousCommonFactor == smallerFactor)
+                    {
+                        commonFactors.emplace_back(smallerFactor);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return commonFactors;
+}
+
+void removeCommonFactorsInPolynomials(Polynomials & polynomials, Polynomials const& commonFactors)
+{
+    for(Polynomial const& commonFactor : commonFactors)
+    {
+        for(Polynomial & smallerPolynomial : polynomials)
+        {
+            PolynomialOverPolynomial divideProcess(smallerPolynomial, commonFactor);
+            PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(divideProcess.divide());
+            smallerPolynomial = quotientAndRemainder.quotient;
+        }
+    }
+}
+
+void combinePolynomialsByAdditionAndEmplaceBack(Polynomials & result, Polynomials const& smallerPolynomials)
+{
+    Polynomial combinedPolynomial;
+    for(Polynomial const& smallerPolynomial : smallerPolynomials)
+    {
+        combinedPolynomial.addPolynomial(smallerPolynomial);
+    }
+    simplifyPolynomialThenEmplaceBack(result, combinedPolynomial);
+}
+
 void addFactorsOfDifferenceOfSquares(Polynomials & result, Polynomial const& polynomial)
 {
-    Monomials monomials(polynomial.getMonomialsConstReference());
-    Monomial firstMonomial(monomials.at(0));
+    Monomials monomials(polynomial.getMonomialsConstReference());    Monomial firstMonomial(monomials.at(0));
     Monomial secondMonomial(monomials.at(1));
     if(firstMonomial.getConstantConstReference() > 0 && secondMonomial.getConstantConstReference() < 0)
-    {
-        secondMonomial.multiplyNumber(-1);
+    {        secondMonomial.multiplyNumber(-1);
     }
     else if(firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() > 0)
     {
@@ -542,14 +633,12 @@ unsigned int calculateExponentDivisor(
     for(;exponentDivisor>2; exponentDivisor--)
     {
         if(areExponentsDivisible(firstMonomial, exponentDivisor)
-             && areExponentsDivisible(lastMonomial, exponentDivisor))
+                && areExponentsDivisible(lastMonomial, exponentDivisor))
         {
             break;
-        }
-    }
+        }    }
     return exponentDivisor;
 }
-
 }
 
 }

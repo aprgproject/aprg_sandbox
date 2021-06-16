@@ -371,6 +371,23 @@ TEST(FactorizationTest, CubicExpressionExample1_FactorizeWorks)
     EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
 }
 
+TEST(FactorizationTest, AXPlusBTimesCXPlusD_FactorizeBySplittingSmallerPolynomialsWorks)
+{
+    Polynomial polynomialToTest{
+        Monomial(1, {{"a", 1}, {"c", 1}, {"x", 2}}),
+                Monomial(1, {{"a", 1}, {"d", 1}, {"x", 1}}),
+                Monomial(1, {{"b", 1}, {"c", 1}, {"x", 1}}),
+                Monomial(1, {{"b", 1}, {"d", 1}})};
+
+    Polynomials polynomialsToVerify(factorizeBySplittingSmallerPolynomials(polynomialToTest));
+
+    ASSERT_EQ(2u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(1, {{"a", 1}, {"x", 1}}), Monomial(1, {{"b", 1}})};
+    Polynomial polynomialToExpect2{Monomial(1, {{"c", 1}, {"x", 1}}), Monomial(1, {{"d", 1}})};
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
+    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
+}
+
 }
 
 }
