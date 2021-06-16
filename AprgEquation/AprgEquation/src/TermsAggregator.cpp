@@ -174,31 +174,29 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
             Operator const& operatorTerm(term2.getOperatorConstReference());
             if(operatorTerm.isAddition())
             {
-                newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(term3));
+                newExpression.putTermWithAdditionIfNeeded(getBaseTermConstReferenceFromTerm(term3));
             }
             else if(operatorTerm.isSubtraction())
             {
-                newExpression.putTermWithSubtraction(getBaseTermConstReferenceFromTerm(term3));
+                newExpression.putTermWithSubtractionIfNeeded(getBaseTermConstReferenceFromTerm(term3));
             }
             else if(operatorTerm.isMultiplication())
             {
-                newExpression.putTermWithMultiplication(getBaseTermConstReferenceFromTerm(term3));
+                newExpression.putTermWithMultiplicationIfNeeded(getBaseTermConstReferenceFromTerm(term3));
             }
             else if(operatorTerm.isDivision())
             {
-                newExpression.putTermWithDivision(getBaseTermConstReferenceFromTerm(term3));
+                newExpression.putTermWithDivisionIfNeeded(getBaseTermConstReferenceFromTerm(term3));
             }
             else if(operatorTerm.isRaiseToPower())
             {
-                newExpression.putTermWithRaiseToPower(getBaseTermConstReferenceFromTerm(term3));
+                newExpression.putTermWithRaiseToPowerIfNeeded(getBaseTermConstReferenceFromTerm(term3));
             }
             Term newTerm(newExpression);
-            eraseTermsInclusive(index-1, index+1);
-            insertTerm(index-1, newTerm);
+            eraseTermsInclusive(index-1, index+1);            insertTerm(index-1, newTerm);
             isBuilt=true;
         }
-    }
-    return isBuilt;
+    }    return isBuilt;
 }
 
 bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned int const index)
@@ -215,19 +213,17 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
             Operator const& operatorTerm(term1.getOperatorConstReference());
             if(operatorTerm.isAddition())
             {
-                newExpression.putTermWithAddition(getBaseTermConstReferenceFromTerm(term2));
+                newExpression.putTermWithAdditionIfNeeded(getBaseTermConstReferenceFromTerm(term2));
             }
             else if(operatorTerm.isSubtraction())
             {
-                newExpression.putTermWithSubtraction(getBaseTermConstReferenceFromTerm(term2));
+                newExpression.putTermWithSubtractionIfNeeded(getBaseTermConstReferenceFromTerm(term2));
             }
             Term newTerm(newExpression);
-            eraseTermsInclusive(index, index+1);
-            insertTerm(index, newTerm);
+            eraseTermsInclusive(index, index+1);            insertTerm(index, newTerm);
             isBuilt=true;
         }
-    }
-    return isBuilt;
+    }    return isBuilt;
 }
 
 bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int const index)

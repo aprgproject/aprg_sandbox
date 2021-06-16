@@ -161,92 +161,83 @@ void Expression::clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm)
     m_termsWithPriorityAndAssociation.putTermWithPositiveAssociation(baseTerm);
 }
 
-void Expression::putTermWithAddition(BaseTerm const& baseTerm)
+void Expression::putTermWithAdditionIfNeeded(BaseTerm const& baseTerm)
 {
     if(!willHaveNoEffectOnAdditionOrSubtraction(
-                getTermConstReferenceFromBaseTerm(baseTerm)))
-    {
+                getTermConstReferenceFromBaseTerm(baseTerm)))    {
         if(isEmpty())
         {
             setTerm(baseTerm);
         }
         else
         {
-            putTermWithAdditionForNonEmptyTerms(baseTerm);
+            putTermWithAddition(baseTerm);
         }
     }
 }
 
-void Expression::putTermWithSubtraction(BaseTerm const& baseTerm)
+void Expression::putTermWithSubtractionIfNeeded(BaseTerm const& baseTerm)
 {
     if(!willHaveNoEffectOnAdditionOrSubtraction(
-                getTermConstReferenceFromBaseTerm(baseTerm)))
-    {
+                getTermConstReferenceFromBaseTerm(baseTerm)))    {
         if(isEmpty())
         {
-            m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
-            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
+            m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
         }
         else
         {
-            putTermWithSubtractionForNonEmptyTerms(baseTerm);
+            putTermWithSubtraction(baseTerm);
         }
     }
 }
 
-void Expression::putTermWithMultiplication(BaseTerm const& baseTerm)
+void Expression::putTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm)
 {
     if(!willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(
-                getTermConstReferenceFromBaseTerm(baseTerm)))
-    {
+                getTermConstReferenceFromBaseTerm(baseTerm)))    {
         if(isEmpty())
         {
             setTerm(baseTerm);
         }
         else
         {
-            putTermWithMultiplicationForNonEmptyTerms(baseTerm);
+            putTermWithMultiplication(baseTerm);
         }
     }
 }
 
-void Expression::putTermWithDivision(BaseTerm const& baseTerm)
+void Expression::putTermWithDivisionIfNeeded(BaseTerm const& baseTerm)
 {
     if(!willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(
-                getTermConstReferenceFromBaseTerm(baseTerm)))
-    {
+                getTermConstReferenceFromBaseTerm(baseTerm)))    {
         if(isEmpty())
         {
-            m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
-            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
+            m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
         }
         else
         {
-            putTermWithDivisionForNonEmptyTerms(baseTerm);
+            putTermWithDivision(baseTerm);
         }
     }
 }
 
-void Expression::putTermWithRaiseToPower(BaseTerm const& baseTerm)
+void Expression::putTermWithRaiseToPowerIfNeeded(BaseTerm const& baseTerm)
 {
     if(!willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(
-                getTermConstReferenceFromBaseTerm(baseTerm)))
-    {
+                getTermConstReferenceFromBaseTerm(baseTerm)))    {
         if(isEmpty())
         {
             setTerm(baseTerm);
         }
         else
         {
-            putTermWithRaiseToPowerForNonEmptyTerms(baseTerm);
+            putTermWithRaiseToPower(baseTerm);
         }
     }
 }
-
 void Expression::putPolynomialFirstWithMultiplication(Polynomial const& polynomial)
 {
-    if(OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel)
-    {
+    if(OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel)    {
         TermsWithDetails termsWithDetails(m_termsWithPriorityAndAssociation.getTermsWithDetails());
         clear();
         for(Monomial const& monomial : polynomial.getMonomialsConstReference())
@@ -267,16 +258,14 @@ void Expression::putPolynomialFirstWithMultiplication(Polynomial const& polynomi
         for(Monomial const& monomial : polynomial.getMonomialsConstReference())
         {
             Expression monomialExpression(createExpressionIfPossible(Terms{monomial}));
-            monomialExpression.putTermWithMultiplication(getBaseTermConstReferenceFromTerm(termExpression));
-            putTermWithAddition(Term(monomialExpression));
+            monomialExpression.putTermWithMultiplicationIfNeeded(getBaseTermConstReferenceFromTerm(termExpression));
+            putTermWithAdditionIfNeeded(Term(monomialExpression));
         }
 
-    }
-}
+    }}
 
 void Expression::putPolynomialSecondWithMultiplication(Polynomial const& polynomial)
-{
-    if(OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel)
+{    if(OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel)
     {
         TermsWithDetails termsWithDetails(m_termsWithPriorityAndAssociation.getTermsWithDetails());
         clear();
@@ -298,16 +287,14 @@ void Expression::putPolynomialSecondWithMultiplication(Polynomial const& polynom
         for(Monomial const& monomial : polynomial.getMonomialsConstReference())
         {
             Expression expressionTerm(expressionCopy);
-            expressionTerm.putTermWithMultiplication(getBaseTermConstReferenceFromTerm(Term(monomial)));
-            putTermWithAddition(Term(expressionTerm));
+            expressionTerm.putTermWithMultiplicationIfNeeded(getBaseTermConstReferenceFromTerm(Term(monomial)));
+            putTermWithAdditionIfNeeded(Term(expressionTerm));
         }
     }
 }
-
 void Expression::putExpressionWithMultiplication(Expression const& expression)
 {
-    if(OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel
-            && OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
+    if(OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel            && OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
     {
         TermsWithDetails termsWithDetails1(m_termsWithPriorityAndAssociation.getTermsWithDetails());
         TermsWithDetails termsWithDetails2(expression.getTerms().getTermsWithDetails());
@@ -351,14 +338,12 @@ void Expression::putExpressionWithMultiplication(Expression const& expression)
     }
     else
     {
-        putTermWithMultiplication(Term(expression));
+        putTermWithMultiplicationIfNeeded(Term(expression));
     }
 }
-
 void Expression::reverseTheAssociationOfTheTerms()
 {
-    m_termsWithPriorityAndAssociation.reverseTheAssociationOfTheTerms();
-}
+    m_termsWithPriorityAndAssociation.reverseTheAssociationOfTheTerms();}
 
 void Expression::set(OperatorLevel const operatorLevel, TermsWithAssociation const& termsWithPriorityAndAssociation)
 {
@@ -398,15 +383,13 @@ void Expression::simplifyToCommonDenominators()
     retrieveDenominatorTerms(denominatorTerms, *this);
     for(Term const& denominatorTerm : denominatorTerms)
     {
-        putTermWithMultiplication(getBaseTermConstReferenceFromTerm(denominatorTerm));
+        putTermWithMultiplicationIfNeeded(getBaseTermConstReferenceFromTerm(denominatorTerm));
     }
 
-    simplify();
-}
+    simplify();}
 
 void Expression::sort()
-{
-    m_termsWithPriorityAndAssociation.sort();
+{    m_termsWithPriorityAndAssociation.sort();
 }
 
 void Expression::substituteVariablesToValues(VariablesToValuesMap const& variableValueMap)
@@ -561,14 +544,12 @@ void Expression::processAndSaveTermsForRaiseToPower(
             else
             {
                 Expression raiseToPowerExpression(createOrCopyExpressionFromATerm(baseOfRaiseToPower));
-                raiseToPowerExpression.putTermWithRaiseToPower(exponentBaseTerm);
+                raiseToPowerExpression.putTermWithRaiseToPowerIfNeeded(exponentBaseTerm);
                 combinedTerm = Term(raiseToPowerExpression);
             }
-        }
-        setTerm(getBaseTermConstReferenceFromTerm(combinedTerm));
+        }        setTerm(getBaseTermConstReferenceFromTerm(combinedTerm));
     }
 }
-
 void Expression::accumulateTermsForAdditionAndSubtraction(
         BaseTerm & combinedBaseTerm,
         TermsWithDetails const& termsToCombine) const
@@ -715,15 +696,13 @@ void Expression::putTermsWithDetails(TermsWithDetails const& termsToSave)
     }
 }
 
-void Expression::putTermWithAdditionForNonEmptyTerms(BaseTerm const& baseTerm)
+void Expression::putTermWithAddition(BaseTerm const& baseTerm)
 {
     switch(m_commonOperatorLevel)
-    {
-    case OperatorLevel::Unknown:
+    {    case OperatorLevel::Unknown:
         m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
     case OperatorLevel::AdditionAndSubtraction:
-    {
-        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
+    {        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
         break;
     }
     case OperatorLevel::MultiplicationAndDivision:
@@ -737,15 +716,13 @@ void Expression::putTermWithAdditionForNonEmptyTerms(BaseTerm const& baseTerm)
     }
 }
 
-void Expression::putTermWithSubtractionForNonEmptyTerms(BaseTerm const& baseTerm)
+void Expression::putTermWithSubtraction(BaseTerm const& baseTerm)
 {
     switch(m_commonOperatorLevel)
-    {
-    case OperatorLevel::Unknown:
+    {    case OperatorLevel::Unknown:
         m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
     case OperatorLevel::AdditionAndSubtraction:
-    {
-        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
+    {        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
         break;
     }
     case OperatorLevel::MultiplicationAndDivision:
@@ -759,15 +736,13 @@ void Expression::putTermWithSubtractionForNonEmptyTerms(BaseTerm const& baseTerm
     }
 }
 
-void Expression::putTermWithMultiplicationForNonEmptyTerms(BaseTerm const& baseTerm)
+void Expression::putTermWithMultiplication(BaseTerm const& baseTerm)
 {
     switch(m_commonOperatorLevel)
-    {
-    case OperatorLevel::Unknown:
+    {    case OperatorLevel::Unknown:
         m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
     case OperatorLevel::MultiplicationAndDivision:
-    {
-        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
+    {        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
         break;
     }
     case OperatorLevel::AdditionAndSubtraction:
@@ -781,15 +756,13 @@ void Expression::putTermWithMultiplicationForNonEmptyTerms(BaseTerm const& baseT
     }
 }
 
-void Expression::putTermWithDivisionForNonEmptyTerms(BaseTerm const& baseTerm)
+void Expression::putTermWithDivision(BaseTerm const& baseTerm)
 {
     switch(m_commonOperatorLevel)
-    {
-    case OperatorLevel::Unknown:
+    {    case OperatorLevel::Unknown:
         m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
     case OperatorLevel::MultiplicationAndDivision:
-    {
-        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
+    {        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
         break;
     }
     case OperatorLevel::AdditionAndSubtraction:
@@ -803,15 +776,13 @@ void Expression::putTermWithDivisionForNonEmptyTerms(BaseTerm const& baseTerm)
     }
 }
 
-void Expression::putTermWithRaiseToPowerForNonEmptyTerms(BaseTerm const& baseTerm)
+void Expression::putTermWithRaiseToPower(BaseTerm const& baseTerm)
 {
     switch(m_commonOperatorLevel)
-    {
-    case OperatorLevel::Unknown:
+    {    case OperatorLevel::Unknown:
         m_commonOperatorLevel = OperatorLevel::RaiseToPower;
     case OperatorLevel::RaiseToPower:
-    {
-        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
+    {        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
         break;
     }
     case OperatorLevel::AdditionAndSubtraction:
@@ -1074,17 +1045,16 @@ void Expression::multiplyThenPutTermAsAddIfTrueAndAsSubtractIfFalse(
         bool const isAdd)
 {
     Expression expressionToAddOrSubtract(multiplicand);
-    expressionToAddOrSubtract.putTermWithMultiplication(getTermConstReferenceFromBaseTerm(multiplier));
+    expressionToAddOrSubtract.putTermWithMultiplicationIfNeeded(getTermConstReferenceFromBaseTerm(multiplier));
     if(isAdd)
     {
-        putTermWithAddition(Term(expressionToAddOrSubtract));
+        putTermWithAdditionIfNeeded(Term(expressionToAddOrSubtract));
     }
     else
     {
-        putTermWithSubtraction(Term(expressionToAddOrSubtract));
+        putTermWithSubtractionIfNeeded(Term(expressionToAddOrSubtract));
     }
 }
-
 }
 
 }
