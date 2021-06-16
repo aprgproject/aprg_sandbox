@@ -541,15 +541,13 @@ bool areExponentsDivisible(Monomial const& monomial, unsigned int const divisor)
     for(Monomial::VariableExponentPair const& variableExponentPair : monomial.getVariablesToExponentsMapConstReference())
     {
         if(!variableExponentPair.second.isIntegerType()
-                || !isDivisible(variableExponentPair.second.getInteger(), divisor))
+                || !isDivisible(getAbsoluteValue(variableExponentPair.second.getInteger()), divisor))
         {
             result=false;
-            break;
-        }
+            break;        }
     }
     return result;
 }
-
 bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
         Monomials const& monomialsToCheck,
         Monomials const& monomialsWithExponentsInOrder)
