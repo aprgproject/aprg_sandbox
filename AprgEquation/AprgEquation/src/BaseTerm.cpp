@@ -16,7 +16,12 @@ BaseTerm::~BaseTerm()
 
 string BaseTerm::getDisplayableString() const
 {
-    return "[BaseTerm]";
+    return "[BaseTermDisplayableString]";
+}
+
+string BaseTerm::getDebugString() const
+{
+    return "[BaseTermDebugString]";
 }
 
 }

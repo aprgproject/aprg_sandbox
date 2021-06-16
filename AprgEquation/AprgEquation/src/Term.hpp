@@ -57,14 +57,13 @@ public:
     Polynomial const& getPolynomialConstReference() const;
     Expression const& getExpressionConstReference() const;
     std::string getDisplayableString() const override;
+    std::string getDebugString() const override;
 
     Constant & getConstantReference();
-    Variable & getVariableReference();
-    Operator & getOperatorReference();
+    Variable & getVariableReference();    Operator & getOperatorReference();
     Monomial & getMonomialReference();
     Polynomial & getPolynomialReference();
     Expression & getExpressionReference();
-
     void sort();
     void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
 

@@ -17,13 +17,12 @@ bool canBeMergedByAdditionOrSubtraction(Term const& term1, Term const& term2);
 bool canBeMergedByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2);
 bool canBeMergedByAdditionOrSubtraction(Monomial const& monomial, Variable const& variable);
 bool canBeMergedByAdditionOrSubtraction(Variable const& variable1, Variable const& variable2);
+bool canBeConvertedToPolynomial(Term const& term);
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
-
 unsigned int getOperatorPriority(std::string const& operatorString);
 unsigned int getAssociationPriority(TermAssociationType const association);
-unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
-unsigned int getTermTypePriorityValue(TermType const termType);
+unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);unsigned int getTermTypePriorityValue(TermType const termType);
 
 std::string getOperatingString(
         OperatorLevel const operatorLevel,
@@ -67,14 +66,14 @@ Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression);
 Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial);
 Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial);
 
+void emplaceBackTermIfNotFound(Terms & terms, Term const& term);
+void retrieveDenominatorTerms(Terms & terms, Expression const& expression);
 Terms tokenizeToTerms(std::string const& inputString);
 void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);
 Term convertValueTermStringToTerm(std::string const& valueTerm);
-
 Monomial getCommonMonomialInMonomials(Monomials const& monomials);
 AlbaNumber getCommonCoefficientInMonomials(Monomials const& monomials);
-Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
-AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
+Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
 
 
 

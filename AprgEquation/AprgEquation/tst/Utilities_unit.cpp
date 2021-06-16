@@ -454,14 +454,29 @@ TEST(UtilitiesTest, SimplifyAndConvertMonomialToSimplestTermWorks)
     EXPECT_DOUBLE_EQ(10, termToVerify4.getConstantConstReference().getNumberConstReference().getDouble());
 }
 
+TEST(UtilitiesTest, RetrieveDenominatorTermsWorks)
+{
+    Terms termsToVerify;
+    retrieveDenominatorTerms(termsToVerify, createExpressionIfPossible(tokenizeToTerms("((4)/(x+2))+((x+3)/(x*x-4))+((2*x+1)/(x-2))")));
+
+    ASSERT_EQ(3u, termsToVerify.size());
+    Expression expressionToExpect1(createExpressionIfPossible(tokenizeToTerms("x+2")));
+    Expression expressionToExpect2(createExpressionIfPossible(tokenizeToTerms("x*x-4")));
+    Expression expressionToExpect3(createExpressionIfPossible(tokenizeToTerms("x-2")));
+    ASSERT_EQ(TermType::Expression, termsToVerify.at(0).getTermType());
+    EXPECT_EQ(expressionToExpect1, termsToVerify.at(0).getExpressionConstReference());
+    ASSERT_EQ(TermType::Expression, termsToVerify.at(1).getTermType());
+    EXPECT_EQ(expressionToExpect2, termsToVerify.at(1).getExpressionConstReference());
+    ASSERT_EQ(TermType::Expression, termsToVerify.at(2).getTermType());
+    EXPECT_EQ(expressionToExpect3, termsToVerify.at(2).getExpressionConstReference());
+}
+
 TEST(UtilitiesTest, TokenizeToTermsWorks)
 {
     Terms termsToVerify1(tokenizeToTerms(" 5yyy + x1*y1^20.15"));
-
     ASSERT_EQ(7u, termsToVerify1.size());
     EXPECT_EQ(TermType::Constant, termsToVerify1.at(0).getTermType());
-    EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantConstReference().getNumberConstReference().getDouble());
-    EXPECT_EQ(TermType::Operator, termsToVerify1.at(1).getTermType());
+    EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantConstReference().getNumberConstReference().getDouble());    EXPECT_EQ(TermType::Operator, termsToVerify1.at(1).getTermType());
     EXPECT_EQ("+", termsToVerify1.at(1).getOperatorConstReference().getOperatorString());
     EXPECT_EQ(TermType::Variable, termsToVerify1.at(2).getTermType());
     EXPECT_EQ("x1", termsToVerify1.at(2).getVariableConstReference().getVariableName());
