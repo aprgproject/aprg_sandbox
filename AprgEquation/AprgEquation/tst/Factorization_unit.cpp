@@ -322,9 +322,11 @@ TEST(FactorizationTest, QuadraticExpressionExample1_FactorizeIncreasingAndDecrea
     Polynomial polynomialToTest{Monomial(2, {{"x", 2}}), Monomial(-23, {{"x", 1}, {"y", 1}}), Monomial(-39, {{"y", 2}})};
 
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsForm(polynomialToTest));
+
     ASSERT_EQ(2u, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(-13, {{"y", 1}})};
-    Polynomial polynomialToExpect2{Monomial(2, {{"x", 1}}), Monomial(3, {{"y", 1}})};    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
+    Polynomial polynomialToExpect2{Monomial(2, {{"x", 1}}), Monomial(3, {{"y", 1}})};
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
@@ -333,9 +335,11 @@ TEST(FactorizationTest, QuadraticExpressionExample1_FactorizeWorks)
     Polynomial polynomialToTest{Monomial(2, {{"x", 2}}), Monomial(-23, {{"x", 1}, {"y", 1}}), Monomial(-39, {{"y", 2}})};
 
     Polynomials polynomialsToVerify(factorize(polynomialToTest));
+
     ASSERT_EQ(2u, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(-13, {{"y", 1}})};
-    Polynomial polynomialToExpect2{Monomial(2, {{"x", 1}}), Monomial(3, {{"y", 1}})};    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
+    Polynomial polynomialToExpect2{Monomial(2, {{"x", 1}}), Monomial(3, {{"y", 1}})};
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 

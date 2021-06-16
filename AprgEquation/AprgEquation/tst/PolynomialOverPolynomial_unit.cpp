@@ -42,10 +42,12 @@ TEST(PolynomialOverPolynomialTest, SimplifyAndDivideOnAQuarticWithNoRemainder)
 
 TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWithRemainder)
 {
-    Polynomial numerator{Monomial(5, {{"x", 3}}), Monomial(-14, {{"x", 1}}), Monomial(3, {})};    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-2, {})};
+    Polynomial numerator{Monomial(5, {{"x", 3}}), Monomial(-14, {{"x", 1}}), Monomial(3, {})};
+    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-2, {})};
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
     PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(polynomialOverPolynomial.simplifyAndDivide());
+
     EXPECT_EQ((Polynomial{Monomial(5, {{"x", 2}}), Monomial(10, {{"x", 1}}), Monomial(6, {})}), quotientAndRemainder.quotient);
     EXPECT_EQ((Polynomial{Monomial(15, {})}), quotientAndRemainder.remainder);
 }
@@ -86,7 +88,7 @@ TEST(PolynomialOverPolynomialTest, SimplifyWorksOnConvertingNegativeExponentsToP
     EXPECT_EQ((Polynomial{Monomial(3, {{"x", 1}, {"y", 2}, {"z", 1}}), Monomial(4, {{"x", 1}, {"y", 1}})}), polynomialOverPolynomial.getDenominator());
 }
 
-TEST(PolynomialOverPolynomialTest, SimplifyWorksOnRemovingCommonSignInCoefficients)
+TEST(PolynomialOverPolynomialTest, SimplifyWorksOnCommonNegativeSignInNumerator)
 {
     Polynomial numerator{Monomial(-1, {{"x", 1}}), Monomial(-1, {{"y", 1}})};
     Polynomial denominator{Monomial(-1, {{"a", 1}}), Monomial(1, {{"b", 1}})};
@@ -94,20 +96,32 @@ TEST(PolynomialOverPolynomialTest, SimplifyWorksOnRemovingCommonSignInCoefficien
 
     polynomialOverPolynomial.simplify();
 
-    EXPECT_EQ((Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})}), polynomialOverPolynomial.getNumerator());
-    EXPECT_EQ((Polynomial{Monomial(1, {{"a", 1}}), Monomial(-1, {{"b", 1}})}), polynomialOverPolynomial.getDenominator());
+    EXPECT_EQ((Polynomial{Monomial(-1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}), polynomialOverPolynomial.getNumerator());
+    EXPECT_EQ((Polynomial{Monomial(-1, {{"a", 1}}), Monomial(1, {{"b", 1}})}), polynomialOverPolynomial.getDenominator());
 }
 
-TEST(PolynomialOverPolynomialTest, SimplifyWorksOnDifferentSignInNumeratorAndDenominator)
+TEST(PolynomialOverPolynomialTest, SimplifyWorksOnCommonNegativeSignInDenominator)
+{
+    Polynomial numerator{Monomial(-1, {{"x", 1}}), Monomial(1, {{"y", 1}})};
+    Polynomial denominator{Monomial(-1, {{"a", 1}}), Monomial(-1, {{"b", 1}})};
+    PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
+
+    polynomialOverPolynomial.simplify();
+
+    EXPECT_EQ((Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}), polynomialOverPolynomial.getNumerator());
+    EXPECT_EQ((Polynomial{Monomial(1, {{"a", 1}}), Monomial(1, {{"b", 1}})}), polynomialOverPolynomial.getDenominator());
+}
+
+TEST(PolynomialOverPolynomialTest, SimplifyWorksOnCommonNegativeSignInNumeratorAndDenominator)
 {
     Polynomial numerator{Monomial(-1, {{"x", 1}}), Monomial(-1, {{"y", 1}})};
-    Polynomial denominator{Monomial(1, {{"a", 1}}), Monomial(1, {{"b", 1}})};
+    Polynomial denominator{Monomial(-1, {{"a", 1}}), Monomial(-1, {{"b", 1}})};
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
     polynomialOverPolynomial.simplify();
 
     EXPECT_EQ((Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})}), polynomialOverPolynomial.getNumerator());
-    EXPECT_EQ((Polynomial{Monomial(-1, {{"a", 1}}), Monomial(-1, {{"b", 1}})}), polynomialOverPolynomial.getDenominator());
+    EXPECT_EQ((Polynomial{Monomial(1, {{"a", 1}}), Monomial(1, {{"b", 1}})}), polynomialOverPolynomial.getDenominator());
 }
 
 TEST(PolynomialOverPolynomialTest, SimplifyWorksOnCancellingFactors)

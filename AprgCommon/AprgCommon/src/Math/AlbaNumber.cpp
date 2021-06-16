@@ -171,10 +171,12 @@ AlbaNumber AlbaNumber::operator+(AlbaNumber const& value) const
         double const& doubleDataReference1(first.m_data.doubleData);
         double const& doubleDataReference2(second.m_data.doubleData);
         result = addBothDoubleAndReturnNumber(doubleDataReference1, doubleDataReference2);
-    }    return result;
+    }
+    return result;
 }
 
-AlbaNumber AlbaNumber::operator-(AlbaNumber const& second) const{
+AlbaNumber AlbaNumber::operator-(AlbaNumber const& second) const
+{
     return operator+(-second);
 }
 
@@ -242,7 +244,8 @@ AlbaNumber AlbaNumber::operator*(AlbaNumber const& value) const
         double const& doubleDataReference1(first.m_data.doubleData);
         double const& doubleDataReference2(second.m_data.doubleData);
         result = multiplyBothDoubleAndReturnNumber(doubleDataReference1, doubleDataReference2);
-    }    return result;
+    }
+    return result;
 }
 
 AlbaNumber AlbaNumber::operator/(AlbaNumber const& value) const
@@ -295,7 +298,8 @@ AlbaNumber AlbaNumber::operator/(AlbaNumber const& value) const
         FractionData const& fractionDataReference1(first.m_data.fractionData);
         double const& doubleDataReference2(second.m_data.doubleData);
         result = AlbaNumber(
-                    static_cast<double>(fractionDataReference1.numerator) /                    fractionDataReference1.denominator /
+                    static_cast<double>(fractionDataReference1.numerator) /
+                    fractionDataReference1.denominator /
                     doubleDataReference2);
     }
     else if(first.m_type == Type::Double && second.m_type == Type::Integer)
@@ -309,7 +313,8 @@ AlbaNumber AlbaNumber::operator/(AlbaNumber const& value) const
         double const& doubleDataReference1(first.m_data.doubleData);
         FractionData const& fractionDataReference2(second.m_data.fractionData);
         result = AlbaNumber(
-                    doubleDataReference1 *                    fractionDataReference2.denominator /
+                    doubleDataReference1 *
+                    fractionDataReference2.denominator /
                     fractionDataReference2.numerator);
     }
     else if(first.m_type == Type::Double && second.m_type == Type::Double)
@@ -317,7 +322,8 @@ AlbaNumber AlbaNumber::operator/(AlbaNumber const& value) const
         double const& doubleDataReference1(first.m_data.doubleData);
         double const& doubleDataReference2(second.m_data.doubleData);
         result = AlbaNumber(doubleDataReference1 / doubleDataReference2);
-    }    return result;
+    }
+    return result;
 }
 
 AlbaNumber AlbaNumber::operator^(AlbaNumber const& value) const
@@ -370,10 +376,12 @@ AlbaNumber AlbaNumber::operator^(AlbaNumber const& value) const
     else if(first.m_type == Type::Double && second.m_type == Type::Double)
     {
         result = AlbaNumber(pow(getDouble(), second.getDouble()));
-    }    return result;
+    }
+    return result;
 }
 
-AlbaNumber AlbaNumber::operator+(int const signedValue) const{
+AlbaNumber AlbaNumber::operator+(int const signedValue) const
+{
     return operator+(AlbaNumber(signedValue));
 }
 
@@ -492,9 +500,11 @@ int AlbaNumber::getInteger() const
     }
     return result;
 }
+
 AlbaNumber::FractionData AlbaNumber::getFractionData() const
 {
-    FractionData result{0, 0};    if(m_type==Type::Integer)
+    FractionData result{0, 0};
+    if(m_type==Type::Integer)
     {
         int const& dataReference(m_data.intData);
         result.numerator = dataReference;
@@ -701,9 +711,11 @@ void AlbaNumber::convertToIntegerIfNeeded()
         }
     }
 }
+
 AlbaNumber AlbaNumber::addBothIntegersAndReturnNumber(int const signedValue1, int const signedValue2) const
 {
-    return AlbaNumber(signedValue1 + signedValue2);}
+    return AlbaNumber(signedValue1 + signedValue2);
+}
 
 AlbaNumber AlbaNumber::addBothFractionsAndReturnNumber(AlbaNumber::FractionData const& fractionData1, AlbaNumber::FractionData const& fractionData2) const
 {
@@ -766,10 +778,12 @@ AlbaNumber AlbaNumber::multiplyIntegerAndDoubleAndReturnNumber(int const signedV
     return AlbaNumber(static_cast<double>(signedValue) * doubleValue);
 }
 
-AlbaNumber AlbaNumber::multiplyFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const{
+AlbaNumber AlbaNumber::multiplyFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const
+{
     return AlbaNumber(
                 static_cast<double>(
-                    static_cast<double>(fractionData.numerator)/fractionData.denominator *                    doubleValue));
+                    static_cast<double>(fractionData.numerator)/fractionData.denominator *
+                    doubleValue));
 }
 
 AlbaNumber AlbaNumber::divideBothIntegersAndReturnNumber(int const dividend, int const divisor) const

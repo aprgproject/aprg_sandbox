@@ -51,9 +51,11 @@ public:
     AlbaNumber getMaxExponent() const;
     AlbaNumber getExponentForVariable(std::string const& variableName) const;
     std::string getDisplayableString() const;
+
     void simplify();
     void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
-    void multiplyNumber(AlbaNumber const& number);    void raiseToPowerNumber(AlbaNumber const& number);
+    void multiplyNumber(AlbaNumber const& number);
+    void raiseToPowerNumber(AlbaNumber const& number);
     void multiplyMonomial(Monomial const& monomial);
     void divideMonomial(Monomial const& monomial);
     void setConstant(AlbaNumber const& constant);

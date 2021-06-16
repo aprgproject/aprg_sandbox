@@ -8,10 +8,12 @@ using namespace alba::mathHelper;
 using namespace alba::equation::Factorization;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
+
 PolynomialOverPolynomial::PolynomialOverPolynomial(
         Polynomial const& numerator,
         Polynomial const& denominator)
@@ -45,52 +47,15 @@ void PolynomialOverPolynomial::simplify()
     m_denominator.simplify();
 
 
-    Polynomials numeratorFactors(factorize(m_numerator));
-    Polynomials denominatorFactors(factorize(m_denominator));
-
-    bool areSomeFactorsCancelled(false);
-    for(Polynomials::iterator numeratorIterator = numeratorFactors.begin();
-        numeratorIterator != numeratorFactors.end();
-        numeratorIterator++)
-    {
-        for(Polynomials::iterator denominatorIterator = denominatorFactors.begin();
-            denominatorIterator != denominatorFactors.end();
-            denominatorIterator++)
-        {
-            if(*numeratorIterator == *denominatorIterator)
-            {
-                numeratorFactors.erase(numeratorIterator);
-                denominatorFactors.erase(denominatorIterator);
-                numeratorIterator--;
-                denominatorIterator--;
-                areSomeFactorsCancelled = true;
-            }
-        }
-    }
-    if(areSomeFactorsCancelled)
-    {
-        Polynomial newNumerator{Monomial(1, {})};
-        Polynomial newDenominator{Monomial(1, {})};
-        for(Polynomial const& numeratorFactor : numeratorFactors)
-        {
-            newNumerator.multiplyPolynomial(numeratorFactor);
-        }
-
-        for(Polynomial const& denominatorFactor : denominatorFactors)
-        {
-            newDenominator.multiplyPolynomial(denominatorFactor);
-        }
-        newNumerator.simplify();
-        newDenominator.simplify();
-        m_numerator = newNumerator;
-        m_denominator = newDenominator;
-    }
+    factorizeAndRemoveCommonFactorsInNumeratorAndDenominator();
 }
 
-void PolynomialOverPolynomial::sortNumeratorAndDenominator(){
+void PolynomialOverPolynomial::sortNumeratorAndDenominator()
+{
     m_numerator.sortMonomialsWithInversePriority();
     m_denominator.sortMonomialsWithInversePriority();
 }
+
 PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide() const
 {
     Polynomial currentQuotient;
@@ -190,13 +155,64 @@ void PolynomialOverPolynomial::removeCommonMonomialOnAllMonomialsInNumeratorAndD
     Monomial commonMonomial(getCommonMonomialInMonomials(numeratorAndDenominatorMonomials));
     m_numerator.divideMonomial(commonMonomial);
     m_denominator.divideMonomial(commonMonomial);
-    if(getCommonSignInMonomials(m_numerator.getMonomialsConstReference()) == -1
-            || getCommonSignInMonomials(m_denominator.getMonomialsConstReference()) == -1)
+    //bool isNumeratorHasNegativeSign = getCommonSignInMonomials(m_numerator.getMonomialsConstReference()) == -1;
+    bool isDenominatorHasNegativeSign = getCommonSignInMonomials(m_denominator.getMonomialsConstReference()) == -1;
+    if(isDenominatorHasNegativeSign)
     {
         m_numerator.divideMonomial(createMonomialFromConstant(-1));
         m_denominator.divideMonomial(createMonomialFromConstant(-1));
     }
 
+}
+
+void PolynomialOverPolynomial::factorizeAndRemoveCommonFactorsInNumeratorAndDenominator()
+{
+    Polynomials numeratorFactors(factorize(m_numerator));
+    Polynomials denominatorFactors(factorize(m_denominator));
+
+    bool areSomeFactorsRemoved(removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(numeratorFactors, denominatorFactors));
+    if(areSomeFactorsRemoved)
+    {
+        m_numerator = multiplyAndSimplifyFactors(numeratorFactors);
+        m_denominator = multiplyAndSimplifyFactors(denominatorFactors);
+    }
+}
+
+bool PolynomialOverPolynomial::removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(
+        Polynomials & numeratorFactors,
+        Polynomials & denominatorFactors) const
+{
+    bool areSomeFactorsRemoved(false);
+    for(Polynomials::iterator numeratorIterator = numeratorFactors.begin();
+        numeratorIterator != numeratorFactors.end();
+        numeratorIterator++)
+    {
+        for(Polynomials::iterator denominatorIterator = denominatorFactors.begin();
+            denominatorIterator != denominatorFactors.end();
+            denominatorIterator++)
+        {
+            if(*numeratorIterator == *denominatorIterator)
+            {
+                numeratorFactors.erase(numeratorIterator);
+                denominatorFactors.erase(denominatorIterator);
+                numeratorIterator--;
+                denominatorIterator--;
+                areSomeFactorsRemoved = true;
+            }
+        }
+    }
+    return areSomeFactorsRemoved;
+}
+
+Polynomial PolynomialOverPolynomial::multiplyAndSimplifyFactors(Polynomials const& factors) const
+{
+    Polynomial product{Monomial(1, {})};
+    for(Polynomial const& factor : factors)
+    {
+        product.multiplyPolynomial(factor);
+    }
+    product.simplify();
+    return product;
 }
 
 }

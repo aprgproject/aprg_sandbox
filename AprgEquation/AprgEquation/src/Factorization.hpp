@@ -3,10 +3,12 @@
 #include <Math/AlbaNumberTypes.hpp>
 #include <Polynomial.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
+
 namespace Factorization
 {
 
@@ -48,10 +50,12 @@ void addFactorsOfSumOfCubes(Polynomials & result, Polynomial const& polynomial);
 void fixCoefficientsOfFactors(
         AlbaNumber & aCoefficient,
         AlbaNumber & secondRootFirstCoefficient,
-        AlbaNumber & secondRootSecondCoefficient);bool isDifferenceOfSquares(Polynomial const& polynomial);
+        AlbaNumber & secondRootSecondCoefficient);
+bool isDifferenceOfSquares(Polynomial const& polynomial);
 bool isDifferenceOfCubes(Polynomial const& polynomial);
 bool isSumOfCubes(Polynomial const& polynomial);
-bool isPerfectSquare(Monomial const& monomial);bool isPerfectCube(Monomial const& monomial);
+bool isPerfectSquare(Monomial const& monomial);
+bool isPerfectCube(Monomial const& monomial);
 bool isPerfectNthPower(Monomial const& monomial, unsigned int const nthPower);
 bool areExponentsDivisible(Monomial const& monomial, unsigned int const divisor);
 bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
@@ -67,6 +71,7 @@ AlbaNumbers calculateQuadraticRoots(AlbaNumber const& a, AlbaNumber const& n, Al
 unsigned int calculateExponentDivisor(Monomial const& firstMonomial, Monomial const& lastMonomial);
 
 }
+
 }
 
 }

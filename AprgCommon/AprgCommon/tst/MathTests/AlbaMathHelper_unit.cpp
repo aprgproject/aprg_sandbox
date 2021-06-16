@@ -97,7 +97,8 @@ TEST(AlbaMathHelperTest, HigherBoundCanBeComputed)
 TEST(AlbaMathHelperTest, CanConvertedToIntegerAsWorkExpected)
 {
     EXPECT_TRUE(canConvertedToInteger(0));
-    EXPECT_TRUE(canConvertedToInteger(1));    EXPECT_TRUE(canConvertedToInteger(2));
+    EXPECT_TRUE(canConvertedToInteger(1));
+    EXPECT_TRUE(canConvertedToInteger(2));
     EXPECT_FALSE(canConvertedToInteger(3.00000001));
     EXPECT_TRUE(canConvertedToInteger(3.0000000000001));
 }
@@ -113,10 +114,12 @@ TEST(AlbaMathHelperTest, AreNumberOfDigitsOnTheIntegerLimitWorkAsExpected)
 
 TEST(AlbaMathHelperTest, IsDivisibleWorksAsExpected)
 {
-    EXPECT_FALSE(isDivisible(0u, 0u));    EXPECT_TRUE(isDivisible(0u, 1u));
+    EXPECT_FALSE(isDivisible(0u, 0u));
+    EXPECT_TRUE(isDivisible(0u, 1u));
     EXPECT_TRUE(isDivisible(1u, 1u));
     EXPECT_FALSE(isDivisible(1u, 5u));
-    EXPECT_TRUE(isDivisible(5u, 1u));    EXPECT_TRUE(isDivisible(256u, 16u));
+    EXPECT_TRUE(isDivisible(5u, 1u));
+    EXPECT_TRUE(isDivisible(256u, 16u));
     EXPECT_FALSE(isDivisible(256u, 17u));
 }
 
@@ -220,10 +223,12 @@ TEST(AlbaMathHelperTest, GetNumberOfDigitsWorksAsExpected)
 
 TEST(AlbaMathHelperTest, GetRaiseToPowerForIntegersWorksAsExpected)
 {
-    EXPECT_EQ(1, getRaiseToPowerForIntegers(0, 0u));    EXPECT_EQ(1, getRaiseToPowerForIntegers(1, 0u));
+    EXPECT_EQ(1, getRaiseToPowerForIntegers(0, 0u));
+    EXPECT_EQ(1, getRaiseToPowerForIntegers(1, 0u));
     EXPECT_EQ(0, getRaiseToPowerForIntegers(0, 1u));
     EXPECT_EQ(243, getRaiseToPowerForIntegers(3, 5u));
-    EXPECT_EQ(-128, getRaiseToPowerForIntegers(-2, 7u));}
+    EXPECT_EQ(-128, getRaiseToPowerForIntegers(-2, 7u));
+}
 
 TEST(AlbaMathHelperTest, FractionDetailsInLowestFormCanBeComputed)
 {
@@ -258,10 +263,12 @@ TEST(AlbaMathHelperTest, FractionDetailsInLowestFormCanBeComputed)
     EXPECT_EQ(1234567892u, fractionDetails6.denominator);
 }
 
-TEST(AlbaMathHelperTest, BestFractionDetailsForDoubleValueCanBeComputed){
+TEST(AlbaMathHelperTest, BestFractionDetailsForDoubleValueCanBeComputed)
+{
     FractionDetails fractionDetails1(getBestFractionDetailsForDoubleValue(0));
     EXPECT_EQ(1, fractionDetails1.sign);
-    EXPECT_EQ(0u, fractionDetails1.numerator);    EXPECT_EQ(1u, fractionDetails1.denominator);
+    EXPECT_EQ(0u, fractionDetails1.numerator);
+    EXPECT_EQ(1u, fractionDetails1.denominator);
 
     FractionDetails fractionDetails2(getBestFractionDetailsForDoubleValue(1));
     EXPECT_EQ(1, fractionDetails2.sign);
@@ -302,10 +309,12 @@ TEST(AlbaMathHelperTest, GreatestCommonFactorCanBeComputed)
     EXPECT_EQ(1u, getGreatestCommonFactor(1234567891, 3));
 }
 
-TEST(AlbaMathHelperTest, GreatestCommonFactorWithAlbaNumberCanBeComputed){
+TEST(AlbaMathHelperTest, GreatestCommonFactorWithAlbaNumberCanBeComputed)
+{
     EXPECT_EQ(AlbaNumber(0), getGreatestCommonFactor(AlbaNumber(0), AlbaNumber(0)));
     EXPECT_EQ(AlbaNumber(1), getGreatestCommonFactor(AlbaNumber(1), AlbaNumber(1)));
-    EXPECT_EQ(AlbaNumber(1, 12), getGreatestCommonFactor(AlbaNumber(1, 6), AlbaNumber(1, 4)));    EXPECT_EQ(AlbaNumber(1), getGreatestCommonFactor(AlbaNumber(0.33), AlbaNumber(1, 4)));
+    EXPECT_EQ(AlbaNumber(1, 12), getGreatestCommonFactor(AlbaNumber(1, 6), AlbaNumber(1, 4)));
+    EXPECT_EQ(AlbaNumber(1), getGreatestCommonFactor(AlbaNumber(0.33), AlbaNumber(1, 4)));
     EXPECT_EQ(AlbaNumber(1, 4), getGreatestCommonFactor(AlbaNumber(5), AlbaNumber(1, 4)));
     EXPECT_EQ(AlbaNumber(3), getGreatestCommonFactor(AlbaNumber(6), AlbaNumber(9)));
 }
@@ -319,10 +328,12 @@ TEST(AlbaMathHelperTest, LeastCommonMultipleCanBeComputed)
     EXPECT_EQ(262144u, getLeastCommonMultiple(65536, 262144));
 }
 
-TEST(AlbaMathHelperTest, DifferenceFromGreaterMultipleCanBeComputed){
+TEST(AlbaMathHelperTest, DifferenceFromGreaterMultipleCanBeComputed)
+{
     EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(0, 0));
     EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(10, 10));
-    EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(5, 10));    EXPECT_EQ(5u, getDifferenceFromGreaterMultiple(10, 5));
+    EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(5, 10));
+    EXPECT_EQ(5u, getDifferenceFromGreaterMultiple(10, 5));
     EXPECT_EQ(48u, getDifferenceFromGreaterMultiple(57, 2346));
 }
 

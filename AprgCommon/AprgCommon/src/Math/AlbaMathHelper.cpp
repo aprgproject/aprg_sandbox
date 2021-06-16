@@ -130,10 +130,12 @@ template unsigned int getNumberOfIntegerDigits<double>(double const value);
 
 //getXSquaredPlusYSquared
 template <typename NumberType>
-NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y){
+NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y)
+{
     return static_cast<NumberType>(pow(x, 2)+pow(y, 2));
 }
-template int getXSquaredPlusYSquared<int>(int const x, int const y);template double getXSquaredPlusYSquared<double>(double const x, double const y);
+template int getXSquaredPlusYSquared<int>(int const x, int const y);
+template double getXSquaredPlusYSquared<double>(double const x, double const y);
 
 
 //getSquareRootOfXSquaredPlusYSquared
@@ -219,10 +221,12 @@ bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits)
 
 bool isDivisible(unsigned int const dividend, unsigned int const divisor)
 {
-    bool result(false);    if(divisor != 0)
+    bool result(false);
+    if(divisor != 0)
     {
         result = (dividend % divisor)==0;
-    }    return result;
+    }
+    return result;
 }
 
 bool isPerfectNthPower(
@@ -285,14 +289,16 @@ FractionDetails getFractionDetailsInLowestForm(int const numerator, int const de
         result.sign = mathHelper::getSign(numerator)*mathHelper::getSign(denominator);
         result.numerator = unsignedNumerator/greatestCommonFactor;
         result.denominator = unsignedDenominator/greatestCommonFactor;
-    }    return result;
+    }
+    return result;
 }
 
 FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue)
 {
     constexpr double tolerance(1E-3);
     FractionDetails result;
-    result.sign = getSign(doubleValue);    double absoluteValueOfDouble = getAbsoluteValue(doubleValue);
+    result.sign = getSign(doubleValue);
+    double absoluteValueOfDouble = getAbsoluteValue(doubleValue);
     result.numerator = static_cast<int>(absoluteValueOfDouble);
     result.denominator = 1;
     double fractionalPart = getFractionalPartInDouble(absoluteValueOfDouble);
@@ -306,6 +312,7 @@ FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue)
     }
     return result;
 }
+
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber)
 {
     unsigned int result(0);
@@ -344,9 +351,11 @@ unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned in
     }
     return result;
 }
+
 AlbaNumber getGreatestCommonFactor(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber)
 {
-    AlbaNumber result(0);    if(firstNumber.isDoubleType() || secondNumber.isDoubleType())
+    AlbaNumber result(0);
+    if(firstNumber.isDoubleType() || secondNumber.isDoubleType())
     {
         result=1;
     }
@@ -372,9 +381,11 @@ unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int
     }
     return result;
 }
+
 unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number)
 {
-    unsigned result(0);    if(multiple>0)
+    unsigned result(0);
+    if(multiple>0)
     {
         unsigned int numberOfMultiples(getNumberOfMultiplesInclusive(multiple, number));
         result = (numberOfMultiples*multiple) - number;
