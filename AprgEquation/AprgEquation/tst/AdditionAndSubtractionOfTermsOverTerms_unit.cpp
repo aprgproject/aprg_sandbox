@@ -1,11 +1,10 @@
 #include <AdditionAndSubtractionOfTermsOverTerms.hpp>
+#include <Utilities.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
@@ -62,6 +61,30 @@ TEST(AdditionAndSubtractionOfTermsOverTerms, GetNewNumeratorTermsOnLcmWorks)
     ASSERT_EQ(2u, termsToVerify3.size());
     EXPECT_EQ(termToExpect4, termsToVerify3.at(0));
     EXPECT_EQ(termToExpect5, termsToVerify3.at(1));
+}
+
+TEST(AdditionAndSubtractionOfTermsOverTerms, GetCombinedExpressionWorks)
+{
+    AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
+    TermsOverTerms fraction1({Term(4)}, {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})})});
+    TermsOverTerms fraction2({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})})}, {Term(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})})});
+    TermsOverTerms fraction3({Term(Polynomial{Monomial(2, {{"x", 1}}), Monomial(1, {})})}, {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})})});
+    additionAndSubtraction.putAsAddition(fraction1);
+    additionAndSubtraction.putAsAddition(fraction2);
+    additionAndSubtraction.putAsAddition(fraction3);
+
+    Expression expressionToVerify(additionAndSubtraction.getCombinedExpression());
+
+    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(-2, {})};
+    Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(2, {})};
+    Polynomial polynomial3{Monomial(1, {{"x", 1}}), Monomial(3, {})};
+    Polynomial polynomial4{Monomial(2, {{"x", 1}}), Monomial(1, {})};
+    Expression subExpression1(createExpressionIfPossible(Terms{Term(4), Term("*"), Term(polynomial1)}));
+    Expression subExpression2(createExpressionIfPossible(Terms{Term(polynomial3)}));
+    Expression subExpression3(createExpressionIfPossible(Terms{Term(polynomial4), Term("*"), Term(polynomial2)}));
+    Expression subExpression4(createExpressionIfPossible(Terms{Term(subExpression1), Term("+"), Term(subExpression2), Term("+"), Term(subExpression3)}));
+    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(subExpression4), Term("/"), Term(polynomial2), Term("/"), Term(polynomial1)}));
+    EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
 
