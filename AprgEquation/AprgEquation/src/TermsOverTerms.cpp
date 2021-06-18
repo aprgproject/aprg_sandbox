@@ -31,31 +31,31 @@ TermsOverTerms::TermsOverTerms(
     }
 }
 
+void TermsOverTerms::simplify()
+{
+    removeSameTermsInNumeratorAndDenominator();
+}
+
 TermsWithDetails TermsOverTerms::getNumeratorAndDenominatorAsTermWithDetails() const
 {
     TermsWithDetails result;
-    if(areTermsEmptyOrValueOne(m_numerators) && areTermsEmptyOrValueOne(m_denominators))
+    if(areTermsEmptyOrValueOne(m_numerators))
     {
         result.emplace_back(getBaseTermConstReferenceFromTerm(Term(1)), TermAssociationType::Positive);
     }
-    else
+    for(Term const& numerator : m_numerators)
     {
-        for(Term const& numerator : m_numerators)
-        {
-            result.emplace_back(getBaseTermConstReferenceFromTerm(numerator), TermAssociationType::Positive);
-        }
-        for(Term const& denominator : m_denominators)
-        {
-            result.emplace_back(getBaseTermConstReferenceFromTerm(denominator), TermAssociationType::Negative);
-        }
+        result.emplace_back(getBaseTermConstReferenceFromTerm(numerator), TermAssociationType::Positive);
+    }
+    for(Term const& denominator : m_denominators)
+    {
+        result.emplace_back(getBaseTermConstReferenceFromTerm(denominator), TermAssociationType::Negative);
     }
     return result;
 }
-
 void TermsOverTerms::removeSameTermsInNumeratorAndDenominator()
 {
-    for(Terms::iterator numeratorIt = m_numerators.begin();
-        numeratorIt != m_numerators.end();
+    for(Terms::iterator numeratorIt = m_numerators.begin();        numeratorIt != m_numerators.end();
         numeratorIt++)
     {
         for(Terms::iterator denominatorIt = m_denominators.begin();

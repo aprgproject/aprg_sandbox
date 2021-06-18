@@ -5,14 +5,13 @@
 #include <PerformOperations.hpp>
 #include <Term.hpp>
 #include <TermOperators.hpp>
+#include <TermsOverTerms.hpp>
 #include <Utilities.hpp>
 
-#include <algorithm>
-#include <sstream>
+#include <algorithm>#include <sstream>
 
 using namespace alba::equation::Factorization;
-using namespace std;
-using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
+using namespace std;using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
@@ -1001,52 +1000,17 @@ void Expression::processExpressionForMultiplicationAndDivision(
         TermsWithDetails const& expressionsForNumerator,
         TermsWithDetails const& expressionsForDenominator) const
 {
-    TermsWithDetails numerator(expressionsForNumerator);
-    TermsWithDetails denominator(expressionsForDenominator);
-    removeSameTermsInNumeratorAndDenominatorForMultiplicationAndDivision(numerator, denominator);
-    accumulateTermsForMultiplicationAndDivision(combinedBaseTerm, numerator);
-    accumulateTermsForMultiplicationAndDivision(combinedBaseTerm, denominator);
-}
-
-void Expression::removeSameTermsInNumeratorAndDenominatorForMultiplicationAndDivision(
-        TermsWithDetails & expressionsForNumerator,
-        TermsWithDetails & expressionsForDenominator) const
-{
-    bool areSomeTermsCancelled(false);
-    for(TermsWithDetails::iterator first = expressionsForNumerator.begin();
-        first != expressionsForNumerator.end();
-        first++)
-    {
-        for(TermsWithDetails::iterator second = expressionsForDenominator.begin();
-            second != expressionsForDenominator.end();
-            second++)
-        {
-            Term & termExpression1(getTermReferenceFromSharedPointer(first->baseTermSharedPointer));
-            Term & termExpression2(getTermReferenceFromSharedPointer(second->baseTermSharedPointer));
-            if(termExpression1 == termExpression2)
-            {
-                expressionsForNumerator.erase(first);
-                expressionsForDenominator.erase(second);
-                first--;
-                second--;
-                areSomeTermsCancelled = true;
-            }
-        }
-    }
-    if(expressionsForNumerator.empty() && expressionsForDenominator.empty() && areSomeTermsCancelled)
-    {
-        expressionsForNumerator.emplace_back(getBaseTermConstReferenceFromTerm(Term(1)), TermAssociationType::Positive);
-    }
+    TermsOverTerms termsOverTerms(expressionsForNumerator, expressionsForDenominator);
+    termsOverTerms.simplify();
+    accumulateTermsForMultiplicationAndDivision(combinedBaseTerm, termsOverTerms.getNumeratorAndDenominatorAsTermWithDetails());
 }
 
 void Expression::multiplyThenPutTermAsAddIfTrueAndAsSubtractIfFalse(
         Expression const& multiplicand,
-        BaseTerm const& multiplier,
-        bool const isAdd)
+        BaseTerm const& multiplier,        bool const isAdd)
 {
     Expression expressionToAddOrSubtract(multiplicand);
-    expressionToAddOrSubtract.putTermWithMultiplicationIfNeeded(getTermConstReferenceFromBaseTerm(multiplier));
-    if(isAdd)
+    expressionToAddOrSubtract.putTermWithMultiplicationIfNeeded(getTermConstReferenceFromBaseTerm(multiplier));    if(isAdd)
     {
         putTermWithAdditionIfNeeded(Term(expressionToAddOrSubtract));
     }

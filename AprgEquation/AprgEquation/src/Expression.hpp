@@ -149,17 +149,12 @@ private:
             BaseTerm & combinedBaseTerm,
             TermsWithAssociation::TermsWithDetails const& expressionsForNumerator,
             TermsWithAssociation::TermsWithDetails const& expressionsForDenominator) const;
-    void removeSameTermsInNumeratorAndDenominatorForMultiplicationAndDivision(
-            TermsWithAssociation::TermsWithDetails & expressionsForNumerator,
-            TermsWithAssociation::TermsWithDetails & expressionsForDenominator) const;
 
     void multiplyThenPutTermAsAddIfTrueAndAsSubtractIfFalse(
-            Expression const& multiplicand,
-            BaseTerm const& multiplier,
+            Expression const& multiplicand,            BaseTerm const& multiplier,
             bool const isAdd);
     OperatorLevel m_commonOperatorLevel;
-    TermsWithAssociation m_termsWithPriorityAndAssociation;
-};
+    TermsWithAssociation m_termsWithPriorityAndAssociation;};
 
 }
 
