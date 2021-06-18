@@ -382,14 +382,32 @@ unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int
     return result;
 }
 
+AlbaNumber getLeastCommonMultiple(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber)
+{
+    AlbaNumber result(0);
+    if(firstNumber.isDoubleType() || secondNumber.isDoubleType())
+    {
+        result=1;
+    }
+    else
+    {
+        AlbaNumber::FractionData firstFractionData(firstNumber.getFractionData());
+        AlbaNumber::FractionData secondFractionData(secondNumber.getFractionData());
+        unsigned int lcmDenominator = getLeastCommonMultiple(firstFractionData.denominator, secondFractionData.denominator);
+        unsigned int firstNumerator = static_cast<unsigned int>(getAbsoluteValue(firstFractionData.numerator))*lcmDenominator/firstFractionData.denominator;
+        unsigned int secondNumerator = static_cast<unsigned int>(getAbsoluteValue(secondFractionData.numerator))*lcmDenominator/secondFractionData.denominator;
+        unsigned int gcfNumerator = getLeastCommonMultiple(firstNumerator, secondNumerator);
+        result = AlbaNumber(gcfNumerator, lcmDenominator);
+    }
+    return result;
+}
+
 unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number)
 {
-    unsigned result(0);
-    if(multiple>0)
+    unsigned result(0);    if(multiple>0)
     {
         unsigned int numberOfMultiples(getNumberOfMultiplesInclusive(multiple, number));
-        result = (numberOfMultiples*multiple) - number;
-    }
+        result = (numberOfMultiples*multiple) - number;    }
     return result;
 }
 
