@@ -79,7 +79,14 @@ AlbaNumber getCommonCoefficientInMonomials(Monomials const& monomials);
 Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
 
-
+void segregateNonExpressionsAndExpressions(
+        TermsWithAssociation::TermsWithDetails & termsWithNonExpressions,
+        TermsWithAssociation::TermsWithDetails & termsWithExpressions,
+        TermsWithAssociation::TermsWithDetails const& termsToSegregate);
+void segregateTermsWithPositiveAndNegativeAssociations(
+        TermsWithAssociation::TermsWithDetails & termsWithPositiveAssociation,
+        TermsWithAssociation::TermsWithDetails & termsWithNegativeAssociation,
+        TermsWithAssociation::TermsWithDetails const& termsToSegregate);
 
 }
 

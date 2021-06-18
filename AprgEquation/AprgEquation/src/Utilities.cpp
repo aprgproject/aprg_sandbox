@@ -724,6 +724,43 @@ AlbaNumber getCommonSignInMonomials(Monomials const& monomials)
     return (negativeSignCount == monomials.size()) ? -1 : 1;
 }
 
+void segregateNonExpressionsAndExpressions(
+        TermsWithDetails & termsWithNonExpressions,
+        TermsWithDetails & termsWithExpressions,
+        TermsWithDetails const& termsToSegregate)
+{
+    for(TermWithDetails const& termToSegregate : termsToSegregate)
+    {
+        Term const& term(getTermConstReferenceFromSharedPointer(termToSegregate.baseTermSharedPointer));
+        if(term.isExpression())
+        {
+            termsWithExpressions.emplace_back(termToSegregate);
+        }
+        if(term.isValueTermButNotAnExpression())
+        {
+            termsWithNonExpressions.emplace_back(termToSegregate);
+        }
+    }
+}
+
+void segregateTermsWithPositiveAndNegativeAssociations(
+        TermsWithDetails & termsWithPositiveAssociation,
+        TermsWithDetails & termsWithNegativeAssociation,
+        TermsWithDetails const& termsToSegregate)
+{
+    for(TermWithDetails const& termToSegregate : termsToSegregate)
+    {
+        if(termToSegregate.hasPositiveAssociation())
+        {
+            termsWithPositiveAssociation.emplace_back(termToSegregate);
+        }
+        if(termToSegregate.hasNegativeAssociation())
+        {
+            termsWithNegativeAssociation.emplace_back(termToSegregate);
+        }
+    }
+}
+
 }
 
 }
