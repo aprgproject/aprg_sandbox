@@ -193,10 +193,12 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
                 newExpression.putTermWithRaiseToPowerIfNeeded(getBaseTermConstReferenceFromTerm(term3));
             }
             Term newTerm(newExpression);
-            eraseTermsInclusive(index-1, index+1);            insertTerm(index-1, newTerm);
+            eraseTermsInclusive(index-1, index+1);
+            insertTerm(index-1, newTerm);
             isBuilt=true;
         }
-    }    return isBuilt;
+    }
+    return isBuilt;
 }
 
 bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned int const index)
@@ -220,10 +222,12 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
                 newExpression.putTermWithSubtractionIfNeeded(getBaseTermConstReferenceFromTerm(term2));
             }
             Term newTerm(newExpression);
-            eraseTermsInclusive(index, index+1);            insertTerm(index, newTerm);
+            eraseTermsInclusive(index, index+1);
+            insertTerm(index, newTerm);
             isBuilt=true;
         }
-    }    return isBuilt;
+    }
+    return isBuilt;
 }
 
 bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int const index)

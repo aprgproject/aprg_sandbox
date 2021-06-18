@@ -235,51 +235,6 @@ Term performRaiseToPower(Term const& term1, Term const& term2)
     TERM_BINARY_OPERATION_MACRO(^)
 }
 
-void accumulateAndDoOperationOnTermDetails(
-        Term & partialResultTerm,
-        OperatorLevel const operatorLevel,
-        TermsWithAssociation::TermWithDetails const& termWithDetails)
-{
-    Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-    switch(operatorLevel)
-    {
-    case OperatorLevel::AdditionAndSubtraction:
-    {
-        if(termWithDetails.hasPositiveAssociation())
-        {
-            partialResultTerm = performAddition(partialResultTerm, term);
-        }
-        else if(termWithDetails.hasNegativeAssociation())
-        {
-            partialResultTerm = performSubtraction(partialResultTerm, term);
-        }
-        break;
-    }
-    case OperatorLevel::MultiplicationAndDivision:
-    {
-        if(termWithDetails.hasPositiveAssociation())
-        {
-            partialResultTerm = performMultiplication(partialResultTerm, term);
-        }
-        else if(termWithDetails.hasNegativeAssociation())
-        {
-            partialResultTerm = performDivision(partialResultTerm, term);
-        }
-        break;
-    }
-    case OperatorLevel::RaiseToPower:
-    {
-        if(termWithDetails.hasPositiveAssociation())
-        {
-            partialResultTerm = performRaiseToPower(partialResultTerm, term);
-        }
-        break;
-    }
-    default:
-        break;
-    }
-}
-
 
 }
 

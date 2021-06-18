@@ -53,9 +53,11 @@ TermsWithDetails TermsOverTerms::getNumeratorAndDenominatorAsTermWithDetails() c
     }
     return result;
 }
+
 void TermsOverTerms::removeSameTermsInNumeratorAndDenominator()
 {
-    for(Terms::iterator numeratorIt = m_numerators.begin();        numeratorIt != m_numerators.end();
+    for(Terms::iterator numeratorIt = m_numerators.begin();
+        numeratorIt != m_numerators.end();
         numeratorIt++)
     {
         for(Terms::iterator denominatorIt = m_denominators.begin();
