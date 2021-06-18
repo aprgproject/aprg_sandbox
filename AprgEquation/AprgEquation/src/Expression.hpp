@@ -57,14 +57,12 @@ public:
     void setCommonOperatorLevel(OperatorLevel const operatorLevel);
 
     void simplify();
-    void simplifyToCommonDenominators();
+    void simplifyToACommonDenominator();
     void sort();
     void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
-
 private:
 
-    //simplify functions
-    void simplifyAndCopyTerms(
+    //simplify functions    void simplifyAndCopyTerms(
             TermsWithAssociation::TermsWithDetails & termsToUpdate,
             TermsWithAssociation::TermsWithDetails const& termsToCheck);
     void simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
@@ -72,14 +70,15 @@ private:
             Expression const& expression,
             TermAssociationType const association);
     void simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify);
+    void simplifyToACommonDenominatorForExpression(Expression & expression);
+    void simplifyTermsWithDetailsInExpressionToACommonDenominator(Expression & expression);
+    bool tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression & addSubtractExpression);
 
     //process functions
-    void processTermsBaseOnOperatorLevel(
-            TermsWithAssociation::TermsWithDetails const& termsToProcess);
+    void processTermsBaseOnOperatorLevel(            TermsWithAssociation::TermsWithDetails const& termsToProcess);
     void processAndSaveTermsForAdditionAndSubtraction(
             TermsWithAssociation::TermsWithDetails const& termsToProcess);
-    void processAndSaveTermsForMultiplicationAndDivision(
-            TermsWithAssociation::TermsWithDetails const& termsToProcess);
+    void processAndSaveTermsForMultiplicationAndDivision(            TermsWithAssociation::TermsWithDetails const& termsToProcess);
     void processAndSaveTermsForRaiseToPower(
             TermsWithAssociation::TermsWithDetails const& termsToProcess);
 
@@ -106,23 +105,17 @@ private:
             TermsWithAssociation::TermsWithDetails const& termsWithExpressions) const;
 
     //functions for multiplication
-    void processNonExpressionsForMultiplicationAndDivision(
+    void processNumeratorsAndDenominators(
             BaseTerm & combinedBaseTerm,
-            TermsWithAssociation::TermsWithDetails const& nonExpressionsForNumerator,
-            TermsWithAssociation::TermsWithDetails const& nonExpressionsForDenominator) const;
-    void processExpressionForMultiplicationAndDivision(
-            BaseTerm & combinedBaseTerm,
-            TermsWithAssociation::TermsWithDetails const& expressionsForNumerator,
-            TermsWithAssociation::TermsWithDetails const& expressionsForDenominator) const;
+            TermsWithAssociation::TermsWithDetails const& numerators,
+            TermsWithAssociation::TermsWithDetails const& denominators) const;
 
     void multiplyThenPutTermAsAddIfTrueAndAsSubtractIfFalse(
-            Expression const& multiplicand,
-            BaseTerm const& multiplier,
+            Expression const& multiplicand,            BaseTerm const& multiplier,
             bool const isAdd);
     OperatorLevel m_commonOperatorLevel;
-    TermsWithAssociation m_termsWithPriorityAndAssociation;
+    TermsWithAssociation m_termsWithAssociation;
 };
 
 }
-
 }

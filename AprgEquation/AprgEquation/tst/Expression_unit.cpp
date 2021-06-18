@@ -1046,16 +1046,14 @@ TEST(ExpressionTest, SimplifyWorksOnAddingAndSubtractingConstantsMonomialPolynom
                     Terms{
                         Term(Polynomial{
                             Monomial(30, {{"x", 2}, {"y", 3}}),
-                            Monomial(410, {}),
-                            Monomial(-56, {{"x", 3}})
+                            Monomial(-56, {{"x", 3}}),
+                            Monomial(410, {})
                         })}));
     EXPECT_EQ(expressionToExpect, expression);
 }
-
 TEST(ExpressionTest, SimplifyWorksOnAddingAndSubtractingConstantsWithExpressionInBetween)
 {
-    Expression expression(
-                createExpressionIfPossible(
+    Expression expression(                createExpressionIfPossible(
                     Terms{
                         Term(500),
                         Term("+"), Term("y"), Term("^"), Term("y"),
@@ -1236,20 +1234,18 @@ TEST(ExpressionTest, SimplifyWorksOnPutPolynomialFirstWithMultiplication)
     Expression expressionToExpect2(
                 createOrCopyExpressionFromATerm(
                     Term(Polynomial{
-                             Monomial(100, {{"x", 1}}),
                              Monomial(1, {{"a", 1}, {"x", 1}}),
-                             Monomial(-1, {{"b", 1}, {"x", 1}}),
-                             Monomial(100, {{"y", 1}}),
                              Monomial(1, {{"a", 1}, {"y", 1}}),
-                             Monomial(-1, {{"b", 1}, {"y", 1}})
+                             Monomial(-1, {{"b", 1}, {"x", 1}}),
+                             Monomial(-1, {{"b", 1}, {"y", 1}}),
+                             Monomial(100, {{"x", 1}}),
+                             Monomial(100, {{"y", 1}})
                          })));
     Expression expressionToExpect3(
-                createOrCopyExpressionFromATerm(
-                    Term(Polynomial{
+                createOrCopyExpressionFromATerm(                    Term(Polynomial{
                              Monomial(200, {{"a", 1}, {"b", -1}, {"x", 1}}),
                              Monomial(200, {{"a", 1}, {"b", -1}, {"y", 1}})
-                         })));
-    Expression subExpression(createExpressionIfPossible(Terms{Term("a"), Term("^"), Term("b")}));
+                         })));    Expression subExpression(createExpressionIfPossible(Terms{Term("a"), Term("^"), Term("b")}));
     Expression expressionToExpect4(
                 createExpressionIfPossible(
                     Terms{
@@ -1283,20 +1279,18 @@ TEST(ExpressionTest, SimplifyWorksOnPutPolynomialSecondWithMultiplication)
     Expression expressionToExpect2(
                 createOrCopyExpressionFromATerm(
                     Term(Polynomial{
-                             Monomial(100, {{"x", 1}}),
                              Monomial(1, {{"a", 1}, {"x", 1}}),
-                             Monomial(-1, {{"b", 1}, {"x", 1}}),
-                             Monomial(100, {{"y", 1}}),
                              Monomial(1, {{"a", 1}, {"y", 1}}),
-                             Monomial(-1, {{"b", 1}, {"y", 1}})
+                             Monomial(-1, {{"b", 1}, {"x", 1}}),
+                             Monomial(-1, {{"b", 1}, {"y", 1}}),
+                             Monomial(100, {{"x", 1}}),
+                             Monomial(100, {{"y", 1}})
                          })));
     Expression expressionToExpect3(
-                createOrCopyExpressionFromATerm(
-                    Term(Polynomial{
+                createOrCopyExpressionFromATerm(                    Term(Polynomial{
                              Monomial(200, {{"a", 1}, {"b", -1}, {"x", 1}}),
                              Monomial(200, {{"a", 1}, {"b", -1}, {"y", 1}})
-                         })));
-    Expression subExpression(createExpressionIfPossible(Terms{Term("a"), Term("^"), Term("b")}));
+                         })));    Expression subExpression(createExpressionIfPossible(Terms{Term("a"), Term("^"), Term("b")}));
     Expression expressionToExpect4(
                 createExpressionIfPossible(
                     Terms{
@@ -1439,38 +1433,24 @@ TEST(ExpressionTest, SimplifyWorksOnRaiseToPowerWithMultipleTerms)
     EXPECT_EQ(expressionToExpect2, expression2);
 }
 
-TEST(ExpressionTest, SimplifyWorksUsingExample1)
-{
-    Expression expression(createExpressionIfPossible(tokenizeToTerms("(((4)/(x+2))+((x+3)/(x*x-4))+((2*x+1)/(x-2)))*(x+2)*(x*x-4)*(x-2)")));
-
-    expression.simplify();
-
-    Expression expressionToExpect(
-                createExpressionIfPossible(
-                    Terms{
-                        Term("a"), Term("^"), Term(createExpressionIfPossible(Terms{Term(Monomial(1, {{"b", 1}, {"c", 1}, {"d", 1}}))}))
-                    }));
-    EXPECT_EQ(expressionToExpect, expression);
-}
-
-TEST(ExpressionTest, SimplifyToOneFractionWorks)
+TEST(ExpressionTest, SimplifyToACommonDenominatorWorks)
 {
     Expression expression(createExpressionIfPossible(tokenizeToTerms("((4)/(x+2))+((x+3)/(x*x-4))+((2*x+1)/(x-2))")));
 
-    expression.simplifyToCommonDenominators();
+    expression.simplifyToACommonDenominator();
 
     Expression expressionToExpect(
                 createExpressionIfPossible(
                     Terms{
-                        Term("a"), Term("^"), Term(createExpressionIfPossible(Terms{Term(Monomial(1, {{"b", 1}, {"c", 1}, {"d", 1}}))}))
+                        Term(Polynomial{Monomial(2, {{"x", 2}}), Monomial(10, {{"x", 1}}), Monomial(-3, {})}),
+                        Term("/"),
+                        Term(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})}),
                     }));
     EXPECT_EQ(expressionToExpect, expression);
 }
-
 TEST(ExpressionTest, SortWorks)
 {
-    Expression expression(
-                createExpressionIfPossible(
+    Expression expression(                createExpressionIfPossible(
                     Terms{
                         Term("-"), Term(2),
                         Term("-"), Term(3),

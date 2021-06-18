@@ -166,33 +166,17 @@ void Polynomial::clear()
     m_monomials.clear();
 }
 
-void Polynomial::simplifyAndSort()
-{
-    simplify();
-    sortMonomialsWithInversePriority();
-}
-
 void Polynomial::simplify()
 {
     Polynomial beforeSimplify(*this);
-    Monomials previousMonomials(m_monomials);
-    m_monomials.clear();
-    for(Monomial & monomial : previousMonomials)
-    {
-        monomial.simplify();
-        if(!monomial.isZero())
-        {
-            addMonomial(monomial);
-        }
-    }
+    simplifyMonomialsAndReAdd();
+    sortMonomialsWithInversePriority();
     Polynomial afterSimplify(*this);
     simplifyFurtherIfNeeded(beforeSimplify, afterSimplify);
 }
-
 void Polynomial::sortMonomialsWithInversePriority()
 {
-    stable_sort(m_monomials.begin(), m_monomials.end(), [](Monomial const& monomial1, Monomial const& monomial2)
-    {
+    stable_sort(m_monomials.begin(), m_monomials.end(), [](Monomial const& monomial1, Monomial const& monomial2)    {
         return monomial2 < monomial1;
     });
 }
@@ -282,6 +266,20 @@ void Polynomial::simplifyFurtherIfNeeded(Polynomial const& beforeSimplify, Polyn
     if(beforeSimplify != afterSimplify)
     {
         simplify();
+    }
+}
+
+void Polynomial::simplifyMonomialsAndReAdd()
+{
+    Monomials previousMonomials(m_monomials);
+    m_monomials.clear();
+    for(Monomial & monomial : previousMonomials)
+    {
+        monomial.simplify();
+        if(!monomial.isZero())
+        {
+            addMonomial(monomial);
+        }
     }
 }
 

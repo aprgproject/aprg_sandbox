@@ -301,15 +301,13 @@ TEST(FactorizationTest, CommonMonomialCanBeFactored_FactorizeCommonMonomialWorks
 
     ASSERT_EQ(2u, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 1}})};
-    Polynomial polynomialToExpect2{Monomial(3, {{"y", 2}}), Monomial(2, {{"x", 2}})};
+    Polynomial polynomialToExpect2{Monomial(2, {{"x", 2}}), Monomial(3, {{"y", 2}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
-
 TEST(FactorizationTest, DifferenceOfSquaresCanBeFactored_FactorizeDifferenceOfSquaresWorks)
 {
     Polynomial polynomialToTest{Monomial(9, {{"x", 8}, {"y", 2}}), Monomial(-16, {{"z", 4}})};
-
     Polynomials polynomialsToVerify(factorizeDifferenceOfSquares(polynomialToTest));
 
     ASSERT_EQ(2u, polynomialsToVerify.size());

@@ -75,16 +75,14 @@ PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide(
             polynomialToSubtract.multiplyMonomial(currentQuotientMonomial);
             polynomialToSubtract.multiplyNumber(-1);
             currentRemainder.addPolynomial(polynomialToSubtract);
-            currentQuotient.simplifyAndSort();
-            currentRemainder.simplifyAndSort();
+            currentQuotient.simplify();
+            currentRemainder.simplify();
         }
     }
-    return QuotientAndRemainder{currentQuotient, currentRemainder};
-}
+    return QuotientAndRemainder{currentQuotient, currentRemainder};}
 
 unsigned int PolynomialOverPolynomial::getLcmForDenominatorCoefficients(Polynomial const& polynomial)
-{
-    unsigned int lcm(1);
+{    unsigned int lcm(1);
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
         AlbaNumber const& coefficient(monomial.getConstantConstReference());
