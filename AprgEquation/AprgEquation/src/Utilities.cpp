@@ -94,6 +94,20 @@ bool canBeMergedByAdditionOrSubtraction(Variable const& variable1, Variable cons
     return variable1.getVariableName() == variable2.getDisplayableString();
 }
 
+bool canBeConvertedToMonomial(Term const& term)
+{
+    TermType termType(term.getTermType());
+    bool isPolynomialWithOneMonomial(false);
+    if(term.isPolynomial())
+    {
+        isPolynomialWithOneMonomial = term.getPolynomialConstReference().isOneMonomial();
+    }
+    return TermType::Constant==termType
+            || TermType::Variable==termType
+            || TermType::Monomial==termType
+            || isPolynomialWithOneMonomial;
+}
+
 bool canBeConvertedToPolynomial(Term const& term)
 {
     TermType termType(term.getTermType());
@@ -383,6 +397,32 @@ Monomial createMonomialFromVariable(Variable const& variable)
     return Monomial(1, {{variable.getVariableName(), 1}});
 }
 
+Monomial createMonomialIfPossible(Term const& term)
+{
+    Monomial result;
+    if(term.isConstant())
+    {
+        result = createMonomialFromConstant(term.getConstantConstReference());
+    }
+    else if(term.isVariable())
+    {
+        result = createMonomialFromVariable(term.getVariableConstReference());
+    }
+    else if(term.isMonomial())
+    {
+        result = term.getMonomialConstReference();
+    }
+    else if(term.isPolynomial())
+    {
+        Polynomial const polynomial(term.getPolynomialConstReference());
+        if(polynomial.isOneMonomial())
+        {
+            result = polynomial.getFirstMonomial();
+        }
+    }
+    return result;
+}
+
 Polynomial createPolynomialFromConstant(Constant const& constant)
 {
     return Polynomial{createMonomialFromConstant(constant)};
@@ -660,16 +700,63 @@ Term convertValueTermStringToTerm(string const& valueTerm)
     return result;
 }
 
-Monomial getCommonMonomialInMonomials(Monomials const& monomials)
+Monomial getGcfMonomialInMonomials(Monomials const& monomials)
 {
-    AlbaNumber commonCoefficient(getCommonCoefficientInMonomials(monomials));
+    AlbaNumber commonCoefficient(getGcfCoefficientInMonomials(monomials));
     Monomial commonMonomial(getMonomialWithMinimumExponentsInMonomials(monomials));
     commonMonomial.setConstant(getCommonSignInMonomials(monomials)*commonCoefficient);
     commonMonomial.simplify();
     return commonMonomial;
 }
 
-AlbaNumber getCommonCoefficientInMonomials(Monomials const& monomials)
+Monomial getLcmMonomialInMonomials(Monomials const& monomials)
+{
+    AlbaNumber commonCoefficient(getGcfCoefficientInMonomials(monomials));
+    Monomial commonMonomial(getMonomialWithMaximumExponentsInMonomials(monomials));
+    commonMonomial.setConstant(getCommonSignInMonomials(monomials)*commonCoefficient);
+    commonMonomial.simplify();
+    return commonMonomial;
+}
+
+Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
+{
+    Monomial monomialWithMinimumExponents(1, {});
+    bool isFirst(true);
+    for(Monomial const& monomial : monomials)
+    {
+        if(isFirst)
+        {
+            monomialWithMinimumExponents = monomial;
+            isFirst=false;
+        }
+        else
+        {
+            monomialWithMinimumExponents.compareMonomialsAndSaveMinimumExponentsForEachVariable(monomial);
+        }
+    }
+    return monomialWithMinimumExponents;
+}
+
+Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials)
+{
+    Monomial monomialWithMinimumExponents(1, {});
+    bool isFirst(true);
+    for(Monomial const& monomial : monomials)
+    {
+        if(isFirst)
+        {
+            monomialWithMinimumExponents = monomial;
+            isFirst=false;
+        }
+        else
+        {
+            monomialWithMinimumExponents.compareMonomialsAndSaveMaximumExponentsForEachVariable(monomial);
+        }
+    }
+    return monomialWithMinimumExponents;
+}
+
+AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials)
 {
     AlbaNumber commonCoefficient(1);
     bool isFirst(true);
@@ -692,23 +779,27 @@ AlbaNumber getCommonCoefficientInMonomials(Monomials const& monomials)
     return commonCoefficient;
 }
 
-Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
+AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials)
 {
-    Monomial monomialWithMinimumExponents(1, {});
+    AlbaNumber commonCoefficient(1);
     bool isFirst(true);
     for(Monomial const& monomial : monomials)
     {
-        if(isFirst)
+        AlbaNumber const& coefficient(monomial.getConstantConstReference());
+        if(coefficient.isIntegerOrFractionType())
         {
-            monomialWithMinimumExponents = monomial;
-            isFirst=false;
-        }
-        else
-        {
-            monomialWithMinimumExponents.compareMonomialsAndSaveMinimumExponentsForEachVariable(monomial);
+            if(isFirst)
+            {
+                commonCoefficient = coefficient;
+                isFirst = false;
+            }
+            else
+            {
+                commonCoefficient = getGreatestCommonFactor(commonCoefficient, coefficient);
+            }
         }
     }
-    return monomialWithMinimumExponents;
+    return commonCoefficient;
 }
 
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials)
@@ -721,7 +812,25 @@ AlbaNumber getCommonSignInMonomials(Monomials const& monomials)
             negativeSignCount++;
         }
     }
-    return (negativeSignCount == monomials.size()) ? -1 : 1;
+    return (negativeSignCount>0 && negativeSignCount == monomials.size()) ? -1 : 1;
+}
+
+void segregateMonomialsAndNonMonomials(
+        Terms & monomials,
+        Terms & nonMonomials,
+        Terms const& termsToSegregate)
+{
+    for(Term const& termToSegregate : termsToSegregate)
+    {
+        if(canBeConvertedToMonomial(termToSegregate))
+        {
+            monomials.emplace_back(termToSegregate);
+        }
+        else
+        {
+            nonMonomials.emplace_back(termToSegregate);
+        }
+    }
 }
 
 void segregateNonExpressionsAndExpressions(
@@ -736,7 +845,7 @@ void segregateNonExpressionsAndExpressions(
         {
             termsWithExpressions.emplace_back(termToSegregate);
         }
-        if(term.isValueTermButNotAnExpression())
+        else if(term.isValueTermButNotAnExpression())
         {
             termsWithNonExpressions.emplace_back(termToSegregate);
         }
@@ -754,7 +863,7 @@ void segregateTermsWithPositiveAndNegativeAssociations(
         {
             termsWithPositiveAssociation.emplace_back(termToSegregate);
         }
-        if(termToSegregate.hasNegativeAssociation())
+        else
         {
             termsWithNegativeAssociation.emplace_back(termToSegregate);
         }

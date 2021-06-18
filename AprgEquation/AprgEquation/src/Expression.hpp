@@ -7,8 +7,10 @@
 #include <TermsWithAssociation.hpp>
 #include <TermType.hpp>
 #include <VariablesToValuesTypes.hpp>
+
 #include <functional>
 #include <string>
+
 namespace alba
 {
 
@@ -67,10 +69,12 @@ private:
             TermsWithAssociation::TermsWithDetails const& termsToCheck);
     void simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
             TermsWithAssociation::TermsWithDetails & termsToUpdate,
-            Expression const& expression,            TermAssociationType const association);
+            Expression const& expression,
+            TermAssociationType const association);
     void simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify);
 
-    //process functions    void processTermsBaseOnOperatorLevel(
+    //process functions
+    void processTermsBaseOnOperatorLevel(
             TermsWithAssociation::TermsWithDetails const& termsToProcess);
     void processAndSaveTermsForAdditionAndSubtraction(
             TermsWithAssociation::TermsWithDetails const& termsToProcess);
@@ -81,10 +85,12 @@ private:
 
     //put functions
     void putTermsWithDetails(TermsWithAssociation::TermsWithDetails const& termsToSave);
-    void putTermWithAddition(BaseTerm const& baseTerm);    void putTermWithSubtraction(BaseTerm const& baseTerm);
+    void putTermWithAddition(BaseTerm const& baseTerm);
+    void putTermWithSubtraction(BaseTerm const& baseTerm);
     void putTermWithMultiplication(BaseTerm const& baseTerm);
     void putTermWithDivision(BaseTerm const& baseTerm);
-    void putTermWithRaiseToPower(BaseTerm const& baseTerm);    void putTermForExpressionAndNonExpressions(
+    void putTermWithRaiseToPower(BaseTerm const& baseTerm);
+    void putTermForExpressionAndNonExpressions(
             BaseTerm const& baseTerm,
             TermAssociationType const overallAssociation);
     void putTerm(
@@ -100,10 +106,12 @@ private:
             TermsWithAssociation::TermsWithDetails const& termsWithExpressions) const;
 
     //functions for multiplication
-    void processNonExpressionsForMultiplicationAndDivision(            BaseTerm & combinedBaseTerm,
+    void processNonExpressionsForMultiplicationAndDivision(
+            BaseTerm & combinedBaseTerm,
             TermsWithAssociation::TermsWithDetails const& nonExpressionsForNumerator,
             TermsWithAssociation::TermsWithDetails const& nonExpressionsForDenominator) const;
-    void processExpressionForMultiplicationAndDivision(            BaseTerm & combinedBaseTerm,
+    void processExpressionForMultiplicationAndDivision(
+            BaseTerm & combinedBaseTerm,
             TermsWithAssociation::TermsWithDetails const& expressionsForNumerator,
             TermsWithAssociation::TermsWithDetails const& expressionsForDenominator) const;
 

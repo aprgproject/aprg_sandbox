@@ -17,6 +17,7 @@ bool canBeMergedByAdditionOrSubtraction(Term const& term1, Term const& term2);
 bool canBeMergedByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2);
 bool canBeMergedByAdditionOrSubtraction(Monomial const& monomial, Variable const& variable);
 bool canBeMergedByAdditionOrSubtraction(Variable const& variable1, Variable const& variable2);
+bool canBeConvertedToMonomial(Term const& term);
 bool canBeConvertedToPolynomial(Term const& term);
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
@@ -53,6 +54,7 @@ BaseTerm & getBaseTermReferenceFromTerm(Term & term);
 
 Monomial createMonomialFromConstant(Constant const& constant);
 Monomial createMonomialFromVariable(Variable const& variable);
+Monomial createMonomialIfPossible(Term const& term);
 Polynomial createPolynomialFromConstant(Constant const& constant);
 Polynomial createPolynomialFromVariable(Variable const& variable);
 Polynomial createPolynomialFromMonomial(Monomial const& monomial);
@@ -74,11 +76,17 @@ Terms tokenizeToTerms(std::string const& inputString);
 void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);
 Term convertValueTermStringToTerm(std::string const& valueTerm);
 
-Monomial getCommonMonomialInMonomials(Monomials const& monomials);
-AlbaNumber getCommonCoefficientInMonomials(Monomials const& monomials);
+Monomial getGcfMonomialInMonomials(Monomials const& monomials);
+Monomial getLcmMonomialInMonomials(Monomials const& monomials);
 Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
+Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
+AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials);
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
 
+void segregateMonomialsAndNonMonomials(
+        Terms & monomials,
+        Terms & nonMonomials,
+        Terms const& termsToSegregate);
 void segregateNonExpressionsAndExpressions(
         TermsWithAssociation::TermsWithDetails & termsWithNonExpressions,
         TermsWithAssociation::TermsWithDetails & termsWithExpressions,

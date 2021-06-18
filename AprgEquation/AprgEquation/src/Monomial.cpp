@@ -292,6 +292,18 @@ void Monomial::compareMonomialsAndSaveMinimumExponentsForEachVariable(Monomial c
     }
 }
 
+void Monomial::compareMonomialsAndSaveMaximumExponentsForEachVariable(Monomial const& monomial)
+{
+    m_constant=1;
+    for(VariablesToExponentsMapIterator it = m_variablesToExponentsMap.begin();
+        it != m_variablesToExponentsMap.end();
+        it++)
+    {
+        m_variablesToExponentsMap[it->first]
+                = max(monomial.getExponentForVariable(it->first), it->second);
+    }
+}
+
 bool Monomial::isLessThanByComparingVariableNameMaps(
         Monomial const& monomial1,
         Monomial const& monomial2) const

@@ -1253,8 +1253,8 @@ TEST(ExpressionTest, SimplifyWorksOnPutPolynomialFirstWithMultiplication)
     Expression expressionToExpect4(
                 createExpressionIfPossible(
                     Terms{
-                        Term(createExpressionIfPossible(Terms{Term(Monomial(1, {{"x", 1}})), Term("*"), Term(subExpression)})),
-                        Term("+"), Term(createExpressionIfPossible(Terms{Term(Monomial(1, {{"y", 1}})), Term("*"), Term(subExpression)}))
+                        Term(createExpressionIfPossible(Terms{Term(Variable("x")), Term("*"), Term(subExpression)})),
+                        Term("+"), Term(createExpressionIfPossible(Terms{Term(Variable("y")), Term("*"), Term(subExpression)}))
                     }));
     EXPECT_EQ(expressionToExpect1, expression1);
     EXPECT_EQ(expressionToExpect2, expression2);
@@ -1300,8 +1300,8 @@ TEST(ExpressionTest, SimplifyWorksOnPutPolynomialSecondWithMultiplication)
     Expression expressionToExpect4(
                 createExpressionIfPossible(
                     Terms{
-                        Term(createExpressionIfPossible(Terms{Term(Monomial(1, {{"x", 1}})), Term("*"), Term(subExpression)})),
-                        Term("+"), Term(createExpressionIfPossible(Terms{Term(Monomial(1, {{"y", 1}})), Term("*"), Term(subExpression)}))
+                        Term(createExpressionIfPossible(Terms{Term(Variable("x")), Term("*"), Term(subExpression)})),
+                        Term("+"), Term(createExpressionIfPossible(Terms{Term(Variable("y")), Term("*"), Term(subExpression)}))
                     }));
     EXPECT_EQ(expressionToExpect1, expression1);
     EXPECT_EQ(expressionToExpect2, expression2);

@@ -113,13 +113,13 @@ Polynomials factorizeCommonMonomialIfPossible(Polynomial const& polynomial)
     Polynomials result;
     if(!polynomial.isOneMonomial())
     {
-        Monomial commonMonomial(getCommonMonomialInMonomials(polynomial.getMonomialsConstReference()));
-        if(!commonMonomial.isOne())
+        Monomial gcfMonomial(getGcfMonomialInMonomials(polynomial.getMonomialsConstReference()));
+        if(!gcfMonomial.isOne())
         {
             Polynomial reducedPolynomial(polynomial);
-            reducedPolynomial.divideMonomial(commonMonomial);
+            reducedPolynomial.divideMonomial(gcfMonomial);
             reducedPolynomial.simplify();
-            simplifyPolynomialThenEmplaceBack(result, createPolynomialFromMonomial(commonMonomial));
+            simplifyPolynomialThenEmplaceBack(result, createPolynomialFromMonomial(gcfMonomial));
             simplifyPolynomialThenEmplaceBack(result, reducedPolynomial);
         }
     }

@@ -150,9 +150,9 @@ void PolynomialOverPolynomial::removeCommonMonomialOnAllMonomialsInNumeratorAndD
     Monomials const& denominatorMonomials(m_denominator.getMonomialsConstReference());
     copy(numeratorMonomials.cbegin(), numeratorMonomials.cend(), back_inserter(numeratorAndDenominatorMonomials));
     copy(denominatorMonomials.cbegin(), denominatorMonomials.cend(), back_inserter(numeratorAndDenominatorMonomials));
-    Monomial commonMonomial(getCommonMonomialInMonomials(numeratorAndDenominatorMonomials));
-    m_numerator.divideMonomial(commonMonomial);
-    m_denominator.divideMonomial(commonMonomial);
+    Monomial gcfMonomial(getGcfMonomialInMonomials(numeratorAndDenominatorMonomials));
+    m_numerator.divideMonomial(gcfMonomial);
+    m_denominator.divideMonomial(gcfMonomial);
     //bool isNumeratorHasNegativeSign = getCommonSignInMonomials(m_numerator.getMonomialsConstReference()) == -1;
     bool isDenominatorHasNegativeSign = getCommonSignInMonomials(m_denominator.getMonomialsConstReference()) == -1;
     if(isDenominatorHasNegativeSign)

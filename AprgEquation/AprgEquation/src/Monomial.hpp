@@ -63,6 +63,7 @@ public:
     void putVariablesWithExponents(VariablesToExponentsMap const& variablesWithExponents);
     void putVariableWithExponent(std::string const& variable, AlbaNumber const& exponent);
     void compareMonomialsAndSaveMinimumExponentsForEachVariable(Monomial const& monomial);
+    void compareMonomialsAndSaveMaximumExponentsForEachVariable(Monomial const& monomial);
 
 private:
     bool isLessThanByComparingVariableNameMaps(
