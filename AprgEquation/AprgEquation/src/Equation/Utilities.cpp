@@ -11,7 +11,8 @@
 #include <algorithm>
 using namespace alba::equation::Factorization;
 using namespace alba::mathHelper;
-using namespace std;using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
+using namespace std;
+using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
@@ -217,10 +218,49 @@ unsigned int getTermTypePriorityValue(TermType const termType)
     return result;
 }
 
+string getEnumShortString(TermType const termType)
+{
+    switch(termType)
+    {
+    ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Empty, "Empty")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Constant, "Constant")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Variable, "Variable")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Operator, "Operator")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Monomial, "Monomial")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Polynomial, "Polynomial")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Expression, "Expression")
+            default:
+        return "default";
+    }
+}
+
+string getEnumShortString(TermAssociationType const association)
+{
+    switch(association)
+    {
+    ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermAssociationType::Positive, "[POS]")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermAssociationType::Negative, "[NEG]")
+            default:
+        return "default";
+    }
+}
+
+string getEnumShortString(OperatorLevel const operatorLevel)
+{
+    switch(operatorLevel)
+    {
+    ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::Unknown, "[?]")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::AdditionAndSubtraction, "[+-]")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::MultiplicationAndDivision, "[*/]")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::RaiseToPower, "[^]")
+            default:
+        return "default";
+    }
+}
+
 string getOperatingString(
         OperatorLevel const operatorLevel,
-        TermAssociationType const association)
-{
+        TermAssociationType const association){
     string result;
     if(TermAssociationType::Positive == association)
     {
@@ -277,13 +317,18 @@ string getFirstStringIfNegativeAssociation(
 
 string getString(TermsWithDetails const& termsWithDetails)
 {
+    bool isFirst(true);
     string result;
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
+        if(!isFirst)
+        {
+            result += ", ";
+        }
+        isFirst=false;
         result += getString(termWithDetails);
     }
-    return result;
-}
+    return result;}
 
 string getString(TermWithDetails const& termWithDetails)
 {
@@ -291,50 +336,9 @@ string getString(TermWithDetails const& termWithDetails)
             +"]["+getEnumShortString(termWithDetails.association)+"]";
 }
 
-string getEnumShortString(TermType const termType)
-{
-    switch(termType)
-    {
-    ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Empty, "Empty")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Constant, "Constant")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Variable, "Variable")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Operator, "Operator")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Monomial, "Monomial")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Polynomial, "Polynomial")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Expression, "Expression")
-            default:
-        return "default";
-    }
-}
-
-string getEnumShortString(TermAssociationType const association)
-{
-    switch(association)
-    {
-    ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermAssociationType::Positive, "<POS>")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermAssociationType::Negative, "<NEG>")
-            default:
-        return "default";
-    }
-}
-
-string getEnumShortString(OperatorLevel const operatorLevel)
-{
-    switch(operatorLevel)
-    {
-    ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::Unknown, "<?>")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::AdditionAndSubtraction, "<+->")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::MultiplicationAndDivision, "<*/>")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::RaiseToPower, "<^>")
-            default:
-        return "default";
-    }
-}
-
 BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer)
 {
-    return move(BaseTermSharedPointer(
-                    dynamic_cast<BaseTerm*>(
+    return move(BaseTermSharedPointer(                    dynamic_cast<BaseTerm*>(
                         new Term(*dynamic_cast<Term*>(sharedPointer.get())))));
 }
 
@@ -582,7 +586,8 @@ Terms tokenizeToTerms(string const& inputString)
     Terms tokenizedTerms;    string valueTerm;
     for(char const c : inputString)
     {
-        if(!stringHelper::isWhiteSpace(c))        {
+        if(!stringHelper::isWhiteSpace(c))
+        {
             string characterString(1, c);
             if(isOperator(characterString))
             {
@@ -625,23 +630,22 @@ Term convertValueTermStringToTerm(string const& valueTerm)
 Monomial getGcfMonomialInMonomials(Monomials const& monomials)
 {
     AlbaNumber commonCoefficient(getGcfCoefficientInMonomials(monomials));
-    Monomial commonMonomial(getMonomialWithMinimumExponentsInMonomials(monomials));
-    commonMonomial.setConstant(getCommonSignInMonomials(monomials)*commonCoefficient);
-    commonMonomial.simplify();
-    return commonMonomial;
+    Monomial minExponentMonomial(getMonomialWithMinimumExponentsInMonomials(monomials));
+    minExponentMonomial.setConstant(getCommonSignInMonomials(monomials)*commonCoefficient);
+    minExponentMonomial.simplify();
+    return minExponentMonomial;
 }
 
 Monomial getLcmMonomialInMonomials(Monomials const& monomials)
 {
-    AlbaNumber commonCoefficient(getGcfCoefficientInMonomials(monomials));
-    Monomial commonMonomial(getMonomialWithMaximumExponentsInMonomials(monomials));
-    commonMonomial.setConstant(getCommonSignInMonomials(monomials)*commonCoefficient);
-    commonMonomial.simplify();
-    return commonMonomial;
+    AlbaNumber lcmCoefficient(getLcmCoefficientInMonomials(monomials));
+    Monomial maxExponentMonomial(getMonomialWithMaximumExponentsInMonomials(monomials));
+    maxExponentMonomial.setConstant(getCommonSignInMonomials(monomials)*lcmCoefficient);
+    maxExponentMonomial.simplify();
+    return maxExponentMonomial;
 }
 
-Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
-{
+Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials){
     Monomial monomialWithMinimumExponents(1, {});
     bool isFirst(true);
     for(Monomial const& monomial : monomials)
@@ -656,9 +660,9 @@ Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
             monomialWithMinimumExponents.compareMonomialsAndSaveMinimumExponentsForEachVariable(monomial);
         }
     }
+    monomialWithMinimumExponents.simplify();
     return monomialWithMinimumExponents;
 }
-
 Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials)
 {
     Monomial monomialWithMinimumExponents(1, {});
@@ -675,9 +679,9 @@ Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials)
             monomialWithMinimumExponents.compareMonomialsAndSaveMaximumExponentsForEachVariable(monomial);
         }
     }
+    monomialWithMinimumExponents.simplify();
     return monomialWithMinimumExponents;
 }
-
 AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials)
 {
     AlbaNumber commonCoefficient(1);
@@ -717,11 +721,10 @@ AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials)
             }
             else
             {
-                commonCoefficient = getGreatestCommonFactor(commonCoefficient, coefficient);
+                commonCoefficient = getLeastCommonMultiple(commonCoefficient, coefficient);
             }
         }
-    }
-    return commonCoefficient;
+    }    return commonCoefficient;
 }
 
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials)

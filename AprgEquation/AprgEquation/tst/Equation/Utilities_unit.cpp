@@ -4,6 +4,7 @@
 using namespace std;
 using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
+
 namespace alba
 {
 
@@ -108,7 +109,8 @@ TEST(UtilitiesTest, WillHaveNoEffectOnAdditionOrSubtractionWorks)
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Variable("x"))));    EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Monomial(96, {{"x", 1}}))));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Polynomial{Monomial(96, {{"x", 1}})})));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(createExpressionIfPossible(Terms{Term(254)}))));
-    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term(Expression())));}
+    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term(Expression())));
+}
 
 TEST(UtilitiesTest, WillHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPowerWorks)
 {
@@ -150,18 +152,84 @@ TEST(UtilitiesTest, GetOperatorLevelInversePriorityWorks)
 
 TEST(UtilitiesTest, GetTermPriorityValueWorks)
 {
+    EXPECT_EQ(0u, getTermTypePriorityValue(TermType::Empty));
     EXPECT_EQ(1u, getTermTypePriorityValue(TermType::Operator));
     EXPECT_EQ(2u, getTermTypePriorityValue(TermType::Constant));
-    EXPECT_EQ(3u, getTermTypePriorityValue(TermType::Variable));
-    EXPECT_EQ(4u, getTermTypePriorityValue(TermType::Monomial));
+    EXPECT_EQ(3u, getTermTypePriorityValue(TermType::Variable));    EXPECT_EQ(4u, getTermTypePriorityValue(TermType::Monomial));
     EXPECT_EQ(5u, getTermTypePriorityValue(TermType::Polynomial));
     EXPECT_EQ(6u, getTermTypePriorityValue(TermType::Expression));
+}
+
+TEST(UtilitiesTest, GetEnumShortStringForTermTypeWorks)
+{
+    EXPECT_EQ("Empty", getEnumShortString(TermType::Empty));
+    EXPECT_EQ("Constant", getEnumShortString(TermType::Constant));
+    EXPECT_EQ("Variable", getEnumShortString(TermType::Variable));
+    EXPECT_EQ("Operator", getEnumShortString(TermType::Operator));
+    EXPECT_EQ("Monomial", getEnumShortString(TermType::Monomial));
+    EXPECT_EQ("Polynomial", getEnumShortString(TermType::Polynomial));
+    EXPECT_EQ("Expression", getEnumShortString(TermType::Expression));
+}
+
+TEST(UtilitiesTest, GetEnumShortStringForTermAssociationTypeWorks)
+{
+    EXPECT_EQ("[POS]", getEnumShortString(TermAssociationType::Positive));
+    EXPECT_EQ("[NEG]", getEnumShortString(TermAssociationType::Negative));
+}
+
+TEST(UtilitiesTest, GetEnumShortStringForOperatorLevelWorks)
+{
+    EXPECT_EQ("[?]", getEnumShortString(OperatorLevel::Unknown));
+    EXPECT_EQ("[+-]", getEnumShortString(OperatorLevel::AdditionAndSubtraction));
+    EXPECT_EQ("[*/]", getEnumShortString(OperatorLevel::MultiplicationAndDivision));
+    EXPECT_EQ("[^]", getEnumShortString(OperatorLevel::RaiseToPower));
+}
+
+TEST(UtilitiesTest, GetOperatingStringWorks)
+{
+    EXPECT_TRUE(getOperatingString(OperatorLevel::Unknown, TermAssociationType::Positive).empty());
+    EXPECT_TRUE(getOperatingString(OperatorLevel::Unknown, TermAssociationType::Negative).empty());
+    EXPECT_EQ("+", getOperatingString(OperatorLevel::AdditionAndSubtraction, TermAssociationType::Positive));
+    EXPECT_EQ("-", getOperatingString(OperatorLevel::AdditionAndSubtraction, TermAssociationType::Negative));
+    EXPECT_EQ("*", getOperatingString(OperatorLevel::MultiplicationAndDivision, TermAssociationType::Positive));
+    EXPECT_EQ("/", getOperatingString(OperatorLevel::MultiplicationAndDivision, TermAssociationType::Negative));
+    EXPECT_EQ("^", getOperatingString(OperatorLevel::RaiseToPower, TermAssociationType::Positive));
+    EXPECT_TRUE(getOperatingString(OperatorLevel::RaiseToPower, TermAssociationType::Negative).empty());
+}
+
+TEST(UtilitiesTest, GetFirstStringIfNegativeAssociationWorks)
+{
+    EXPECT_TRUE(getFirstStringIfNegativeAssociation(OperatorLevel::Unknown, TermAssociationType::Positive).empty());
+    EXPECT_TRUE(getFirstStringIfNegativeAssociation(OperatorLevel::Unknown, TermAssociationType::Negative).empty());
+    EXPECT_TRUE(getFirstStringIfNegativeAssociation(OperatorLevel::AdditionAndSubtraction, TermAssociationType::Positive).empty());
+    EXPECT_EQ("-", getFirstStringIfNegativeAssociation(OperatorLevel::AdditionAndSubtraction, TermAssociationType::Negative));
+    EXPECT_TRUE(getFirstStringIfNegativeAssociation(OperatorLevel::MultiplicationAndDivision, TermAssociationType::Positive).empty());
+    EXPECT_EQ("1/", getFirstStringIfNegativeAssociation(OperatorLevel::MultiplicationAndDivision, TermAssociationType::Negative));
+    EXPECT_TRUE(getFirstStringIfNegativeAssociation(OperatorLevel::RaiseToPower, TermAssociationType::Positive).empty());
+    EXPECT_TRUE(getFirstStringIfNegativeAssociation(OperatorLevel::RaiseToPower, TermAssociationType::Negative).empty());
+}
+
+TEST(TermWithDetailsTest, GetStringForTermWithDetailsWorks)
+{
+    TermWithDetails termWithDetails(
+                getBaseTermConstReferenceFromTerm(Term(10)),
+                TermAssociationType::Negative);
+
+    EXPECT_EQ("[10][[NEG]]", getString(termWithDetails));
+}
+
+TEST(TermWithDetailsTest, GetStringForTermsWithDetailsWorks)
+{
+    TermsWithDetails termsWithDetails;
+    termsWithDetails.emplace_back(getBaseTermConstReferenceFromTerm(Term(10)), TermAssociationType::Negative);
+    termsWithDetails.emplace_back(getBaseTermConstReferenceFromTerm(Term(20)), TermAssociationType::Positive);
+
+    EXPECT_EQ("[10][[NEG]], [20][[POS]]", getString(termsWithDetails));
 }
 
 TEST(UtilitiesTest, CreateNewTermAndReturnSharedPointerWorks)
 {
     BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9652)));
-
     BaseTermSharedPointer sharedPointerToVerify(createNewTermAndReturnSharedPointer(sharedPointer));
 
     Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));
@@ -263,26 +331,53 @@ TEST(UtilitiesTest, GetBaseTermReferenceFromTermWorks)
     EXPECT_EQ(Term(854), termToVerify);
 }
 
-TEST(UtilitiesTest, CreateMonomialConstantWorks)
+TEST(UtilitiesTest, CreateMonomialFromConstantWorks)
 {
     EXPECT_EQ(Monomial(5648, {}), createMonomialFromConstant(Constant(5648)));
 }
 
-TEST(UtilitiesTest, CreateMonomialVariableWorks)
+TEST(UtilitiesTest, CreateMonomialFromVariableWorks)
 {
     EXPECT_EQ(Monomial(1, {{"weight", 1}}), createMonomialFromVariable(Variable("weight")));
 }
 
+TEST(UtilitiesTest, CreateMonomialIfPossibleWorks)
+{
+    EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible(Term{}));
+    EXPECT_EQ(Monomial(42, {}), createMonomialIfPossible(Term(42)));
+    EXPECT_EQ(Monomial(1, {{"weight", 1}}), createMonomialIfPossible(Term("weight")));
+    EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible(Term("+")));
+    EXPECT_EQ(Monomial(-1.5, {{"r", -3.75}}), createMonomialIfPossible(Term(Monomial(-1.5, {{"r", -3.75}}))));
+    EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible(Term(Polynomial{Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})})));
+    EXPECT_EQ(Monomial(0, {}), createMonomialIfPossible(Term(createExpressionIfPossible(Terms{Term(5), Term("+"), Term("interest")}))));
+}
+
+TEST(UtilitiesTest, CreatePolynomialFromConstantWorks)
+{
+    EXPECT_EQ(Polynomial{Monomial(5648, {})}, createPolynomialFromConstant(Constant(5648)));
+}
+
+TEST(UtilitiesTest, CreatePolynomialFromVariableWorks)
+{
+    EXPECT_EQ(Polynomial{Monomial(1, {{"weight", 1}})}, createPolynomialFromVariable(Variable("weight")));
+}
+
+TEST(UtilitiesTest, CreatePolynomialFromMonomialWorks)
+{
+    EXPECT_EQ(Polynomial{Monomial(2, {{"weight", 3}})}, createPolynomialFromMonomial(Monomial(2, {{"weight", 3}})));
+}
+
 TEST(UtilitiesTest, CreatePolynomialIfPossibleWorks)
 {
+    EXPECT_EQ((Polynomial{}), createPolynomialIfPossible(Term{}));
     EXPECT_EQ((Polynomial{Monomial(97, {})}), createPolynomialIfPossible(Term(97)));
     EXPECT_EQ((Polynomial{Monomial(1, {{"weight", 1}})}), createPolynomialIfPossible(Term("weight")));
     EXPECT_EQ((Polynomial{Monomial(24, {{"i", 5}})}), createPolynomialIfPossible(Term(Monomial(24, {{"i", 5}}))));
     EXPECT_EQ((Polynomial{Monomial(39, {{"r", 7}})}), createPolynomialIfPossible(Term(Polynomial{Monomial(39, {{"r", 7}})})));
+    EXPECT_EQ((Polynomial{}), createPolynomialIfPossible(Term(createExpressionIfPossible(Terms{Term(5), Term("+"), Term("interest")}))));
 }
 
-TEST(UtilitiesTest, CreateExpressionInExpressionWorks)
-{
+TEST(UtilitiesTest, CreateExpressionInExpressionWorks){
     Expression expression1(createExpressionIfPossible(Terms{Term(254)}));
     Expression expression2(createExpressionIfPossible(Terms{Term(4752)}));
 
@@ -331,7 +426,8 @@ TEST(UtilitiesTest, CreateExpressionIfPossibleWorks)
     Term const& termToVerify1(getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));    EXPECT_EQ(Term(10), termToVerify1);
     EXPECT_EQ(TermAssociationType::Negative, termsToVerify.at(1).association);
     Term const& termToVerify2(getTermConstReferenceFromSharedPointer(termsToVerify.at(1).baseTermSharedPointer));
-    EXPECT_EQ(Term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}), termToVerify2);}
+    EXPECT_EQ(Term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})}), termToVerify2);
+}
 
 TEST(UtilitiesTest, CreateExpressionIfPossibleDoesNotSimplifyExpressionInAExpression)
 {
@@ -360,6 +456,7 @@ TEST(UtilitiesTest, CreateExpressionIfPossibleDoesNotSimplifyExpressionInAExpres
     Term const& termToVerify3(getTermConstReferenceFromSharedPointer(termsToVerify3.at(0).baseTermSharedPointer));    ASSERT_TRUE(termToVerify3.isConstant());
     EXPECT_EQ(Constant(88), termToVerify3.getConstantConstReference());
 }
+
 TEST(UtilitiesTest, CreateExpressionIfPossibleDoesNotSimplify)
 {
     Expression expressionToTest(createExpressionIfPossible(Terms{Term(7.625), Term("+"), Term(2.375)}));
@@ -371,7 +468,8 @@ TEST(UtilitiesTest, CreateExpressionIfPossibleDoesNotSimplify)
     Term const& termToVerify1(getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));    EXPECT_EQ(Term(7.625), termToVerify1);
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify.at(1).association);
     Term const& termToVerify2(getTermConstReferenceFromSharedPointer(termsToVerify.at(1).baseTermSharedPointer));
-    EXPECT_EQ(Term(2.375), termToVerify2);}
+    EXPECT_EQ(Term(2.375), termToVerify2);
+}
 
 TEST(UtilitiesTest, CreateExpressionIfPossibleReturnsEmptyIfListOfTermsAreWrong)
 {
@@ -392,7 +490,8 @@ TEST(UtilitiesTest, CreateSimplifiedExpressionIfPossibleWorks)
     Term const& termToVerify1(getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));    EXPECT_EQ(Term(10), termToVerify1);
 }
 
-TEST(UtilitiesTest, CreateSimplifiedExpressionIfPossibleReturnsEmptyIfListOfTermsAreWrong){
+TEST(UtilitiesTest, CreateSimplifiedExpressionIfPossibleReturnsEmptyIfListOfTermsAreWrong)
+{
     Expression expressionToTest(createSimplifiedExpressionIfPossible(Terms{Term("+"), Term("+"), Term("+")}));
 
     EXPECT_EQ(OperatorLevel::Unknown, expressionToTest.getCommonOperatorLevel());
@@ -401,7 +500,8 @@ TEST(UtilitiesTest, CreateSimplifiedExpressionIfPossibleReturnsEmptyIfListOfTerm
 }
 TEST(UtilitiesTest, ConvertExpressionToSimplestTermWorks)
 {
-    Term termToVerify1(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{})));    Term termToVerify2(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{Term(156)})));
+    Term termToVerify1(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{})));
+    Term termToVerify2(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{Term(156)})));
 
     ASSERT_EQ(Term(), termToVerify1);
     ASSERT_EQ(Term(156), termToVerify2);
@@ -467,7 +567,8 @@ TEST(UtilitiesTest, TokenizeToTermsWorks)
     Terms termsToVerify1(tokenizeToTerms(" 5yyy + x1*y1^20.15"));
     ASSERT_EQ(7u, termsToVerify1.size());
     EXPECT_EQ(TermType::Constant, termsToVerify1.at(0).getTermType());
-    EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantConstReference().getNumberConstReference().getDouble());    EXPECT_EQ(TermType::Operator, termsToVerify1.at(1).getTermType());
+    EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_EQ(TermType::Operator, termsToVerify1.at(1).getTermType());
     EXPECT_EQ("+", termsToVerify1.at(1).getOperatorConstReference().getOperatorString());
     EXPECT_EQ(TermType::Variable, termsToVerify1.at(2).getTermType());
     EXPECT_EQ("x1", termsToVerify1.at(2).getVariableConstReference().getVariableName());
@@ -503,21 +604,43 @@ TEST(UtilitiesTest, ConvertValueTermStringToTermWorks)
     EXPECT_EQ("x111", termToVerify2.getVariableConstReference().getVariableName());
 }
 
-TEST(UtilitiesTest, GetCommonMonomialInMonomialsWorks)
+TEST(UtilitiesTest, GetGcfMonomialInMonomialsWorks)
 {
     Monomial monomialToVerify1(getGcfMonomialInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));
     Monomial monomialToVerify2(getGcfMonomialInMonomials({Monomial(4, {{"x", 3}}), Monomial(8, {{"y", 7}})}));
-    Monomial monomialToVerify3(getGcfMonomialInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {})}));
+    Monomial monomialToVerify3(getGcfMonomialInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {{"x", 9}})}));
     Monomial monomialToVerify4(getGcfMonomialInMonomials({Monomial(AlbaNumber(1, 4), {{"x", 1}}), Monomial(5, {})}));
-    Monomial monomialToVerify5(getGcfMonomialInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {})}));
+    Monomial monomialToVerify5(getGcfMonomialInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {{"x", -1}})}));
     Monomial monomialToVerify6(getGcfMonomialInMonomials({Monomial(6, {}), Monomial(9, {})}));
 
     Monomial monomialToExpect1(2, {{"x", 3}});
     Monomial monomialToExpect2(4, {});
-    Monomial monomialToExpect3(1, {});
+    Monomial monomialToExpect3(1, {{"x", 1}});
     Monomial monomialToExpect4(AlbaNumber(1, 4), {});
-    Monomial monomialToExpect5(5, {});
+    Monomial monomialToExpect5(5, {{"x", -1}});
     Monomial monomialToExpect6(3, {});
+    EXPECT_EQ(monomialToExpect1, monomialToVerify1);
+    EXPECT_EQ(monomialToExpect2, monomialToVerify2);    EXPECT_EQ(monomialToExpect3, monomialToVerify3);
+    EXPECT_EQ(monomialToExpect4, monomialToVerify4);
+    EXPECT_EQ(monomialToExpect5, monomialToVerify5);
+    EXPECT_EQ(monomialToExpect6, monomialToVerify6);
+}
+
+TEST(UtilitiesTest, GetLcmMonomialInMonomialsWorks)
+{
+    Monomial monomialToVerify1(getLcmMonomialInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));
+    Monomial monomialToVerify2(getLcmMonomialInMonomials({Monomial(4, {{"x", 3}}), Monomial(8, {{"y", 7}})}));
+    Monomial monomialToVerify3(getLcmMonomialInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {})}));
+    Monomial monomialToVerify4(getLcmMonomialInMonomials({Monomial(AlbaNumber(1, 4), {{"x", 1}}), Monomial(5, {})}));
+    Monomial monomialToVerify5(getLcmMonomialInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {{"x", -1}})}));
+    Monomial monomialToVerify6(getLcmMonomialInMonomials({Monomial(6, {}), Monomial(9, {})}));
+
+    Monomial monomialToExpect1(2, {{"x", 7}});
+    Monomial monomialToExpect2(8, {{"x", 3}, {"y", 7}});
+    Monomial monomialToExpect3(4, {{"x", 1}});
+    Monomial monomialToExpect4(5, {{"x", 1}});
+    Monomial monomialToExpect5(5, {{"x", 1}});
+    Monomial monomialToExpect6(18, {});
     EXPECT_EQ(monomialToExpect1, monomialToVerify1);
     EXPECT_EQ(monomialToExpect2, monomialToVerify2);
     EXPECT_EQ(monomialToExpect3, monomialToVerify3);
@@ -526,7 +649,133 @@ TEST(UtilitiesTest, GetCommonMonomialInMonomialsWorks)
     EXPECT_EQ(monomialToExpect6, monomialToVerify6);
 }
 
+TEST(UtilitiesTest, GetMonomialWithMinimumExponentsInMonomialsWorks)
+{
+    Monomial monomialToVerify1(getMonomialWithMinimumExponentsInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));
+    Monomial monomialToVerify2(getMonomialWithMinimumExponentsInMonomials({Monomial(4, {{"x", 3}}), Monomial(8, {{"y", 7}})}));
+    Monomial monomialToVerify3(getMonomialWithMinimumExponentsInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {{"x", 9}})}));
+    Monomial monomialToVerify4(getMonomialWithMinimumExponentsInMonomials({Monomial(AlbaNumber(1, 4), {{"x", 1}}), Monomial(5, {})}));
+    Monomial monomialToVerify5(getMonomialWithMinimumExponentsInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {{"x", -1}})}));
+    Monomial monomialToVerify6(getMonomialWithMinimumExponentsInMonomials({Monomial(6, {}), Monomial(9, {})}));
 
+    Monomial monomialToExpect1(1, {{"x", 3}});
+    Monomial monomialToExpect2(1, {});
+    Monomial monomialToExpect3(1, {{"x", 1}});
+    Monomial monomialToExpect4(1, {});
+    Monomial monomialToExpect5(1, {{"x", -1}});
+    Monomial monomialToExpect6(1, {});
+    EXPECT_EQ(monomialToExpect1, monomialToVerify1);
+    EXPECT_EQ(monomialToExpect2, monomialToVerify2);
+    EXPECT_EQ(monomialToExpect3, monomialToVerify3);
+    EXPECT_EQ(monomialToExpect4, monomialToVerify4);
+    EXPECT_EQ(monomialToExpect5, monomialToVerify5);
+    EXPECT_EQ(monomialToExpect6, monomialToVerify6);
+}
+
+TEST(UtilitiesTest, GetMonomialWithMaximumExponentsInMonomialsWorks)
+{
+    Monomial monomialToVerify1(getMonomialWithMaximumExponentsInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));
+    Monomial monomialToVerify2(getMonomialWithMaximumExponentsInMonomials({Monomial(4, {{"x", 3}}), Monomial(8, {{"y", 7}})}));
+    Monomial monomialToVerify3(getMonomialWithMaximumExponentsInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {})}));
+    Monomial monomialToVerify4(getMonomialWithMaximumExponentsInMonomials({Monomial(AlbaNumber(1, 4), {{"x", 1}}), Monomial(5, {})}));
+    Monomial monomialToVerify5(getMonomialWithMaximumExponentsInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {{"x", -1}})}));
+    Monomial monomialToVerify6(getMonomialWithMaximumExponentsInMonomials({Monomial(6, {}), Monomial(9, {})}));
+
+    Monomial monomialToExpect1(1, {{"x", 7}});
+    Monomial monomialToExpect2(1, {{"x", 3}, {"y", 7}});
+    Monomial monomialToExpect3(1, {{"x", 1}});
+    Monomial monomialToExpect4(1, {{"x", 1}});
+    Monomial monomialToExpect5(1, {{"x", 1}});
+    Monomial monomialToExpect6(1, {});
+    EXPECT_EQ(monomialToExpect1, monomialToVerify1);
+    EXPECT_EQ(monomialToExpect2, monomialToVerify2);
+    EXPECT_EQ(monomialToExpect3, monomialToVerify3);
+    EXPECT_EQ(monomialToExpect4, monomialToVerify4);
+    EXPECT_EQ(monomialToExpect5, monomialToVerify5);
+    EXPECT_EQ(monomialToExpect6, monomialToVerify6);
+}
+
+TEST(UtilitiesTest, GetGcfCoefficientInMonomialsWorks)
+{
+    EXPECT_EQ(AlbaNumber(2), getGcfCoefficientInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));
+    EXPECT_EQ(AlbaNumber(4), getGcfCoefficientInMonomials({Monomial(4, {{"x", 3}}), Monomial(8, {{"y", 7}})}));
+    EXPECT_EQ(AlbaNumber(1), getGcfCoefficientInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {{"x", 9}})}));
+    EXPECT_EQ(AlbaNumber(1, 4), getGcfCoefficientInMonomials({Monomial(AlbaNumber(1, 4), {{"x", 1}}), Monomial(5, {})}));
+    EXPECT_EQ(AlbaNumber(5), getGcfCoefficientInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {{"x", -1}})}));
+    EXPECT_EQ(AlbaNumber(3), getGcfCoefficientInMonomials({Monomial(6, {}), Monomial(9, {})}));
+}
+
+TEST(UtilitiesTest, GetLcmCoefficientInMonomialsWorks)
+{
+    EXPECT_EQ(AlbaNumber(2), getLcmCoefficientInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));
+    EXPECT_EQ(AlbaNumber(8), getLcmCoefficientInMonomials({Monomial(4, {{"x", 3}}), Monomial(8, {{"y", 7}})}));
+    EXPECT_EQ(AlbaNumber(4), getLcmCoefficientInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {{"x", 9}})}));
+    EXPECT_EQ(AlbaNumber(5), getLcmCoefficientInMonomials({Monomial(AlbaNumber(1, 4), {{"x", 1}}), Monomial(5, {})}));
+    EXPECT_EQ(AlbaNumber(5), getLcmCoefficientInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {{"x", -1}})}));
+    EXPECT_EQ(AlbaNumber(18), getLcmCoefficientInMonomials({Monomial(6, {}), Monomial(9, {})}));
+}
+
+TEST(UtilitiesTest, GetCommonSignInMonomialsWorks)
+{
+    EXPECT_EQ(AlbaNumber(1), getCommonSignInMonomials({}));
+    EXPECT_EQ(AlbaNumber(1), getCommonSignInMonomials({Monomial(2, {}), Monomial(2, {}), Monomial(2, {})}));
+    EXPECT_EQ(AlbaNumber(-1), getCommonSignInMonomials({Monomial(-2, {}), Monomial(-2, {}), Monomial(-2, {})}));
+}
+
+TEST(UtilitiesTest, SegregateMonomialsAndNonMonomialsWorks)
+{
+    Terms monomialTerms;
+    Terms nonMonomialTerms;
+    Term termExpression(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+
+    segregateMonomialsAndNonMonomials(monomialTerms, nonMonomialTerms, {Term(234), termExpression});
+
+    ASSERT_EQ(1u, monomialTerms.size());
+    EXPECT_EQ(Term(234), monomialTerms.at(0));
+    ASSERT_EQ(1u, nonMonomialTerms.size());
+    EXPECT_EQ(termExpression, nonMonomialTerms.at(0));
+}
+
+TEST(UtilitiesTest, SegregateNonExpressionsAndExpressionsWorks)
+{
+    TermsWithAssociation termsWithAssociation;
+    TermsWithDetails termsWithNonExpressions;
+    TermsWithDetails termsWithExpressions;
+    Term termExpression(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+    termsWithAssociation.putTermWithNegativeAssociation(getBaseTermConstReferenceFromTerm(Term(753)));
+    termsWithAssociation.putTermWithPositiveAssociation(getBaseTermConstReferenceFromTerm(termExpression));
+
+    segregateNonExpressionsAndExpressions(termsWithNonExpressions, termsWithExpressions, termsWithAssociation.getTermsWithDetails());
+
+    ASSERT_EQ(1u, termsWithNonExpressions.size());
+    TermWithDetails const& termWithDetails1(termsWithNonExpressions.at(0));
+    EXPECT_EQ(Term(753), getTermConstReferenceFromSharedPointer(termWithDetails1.baseTermSharedPointer));
+    EXPECT_EQ(TermAssociationType::Negative, termWithDetails1.association);
+    ASSERT_EQ(1u, termsWithExpressions.size());
+    TermWithDetails const& termWithDetails2(termsWithExpressions.at(0));
+    EXPECT_EQ(termExpression, getTermConstReferenceFromSharedPointer(termWithDetails2.baseTermSharedPointer));
+    EXPECT_EQ(TermAssociationType::Positive, termWithDetails2.association);
+}
+
+TEST(UtilitiesTest, SegregateTermsWithPositiveAndNegativeAssociationsWorks)
+{
+    TermsWithAssociation termsWithAssociation;
+    TermsWithDetails termsInPositive;
+    TermsWithDetails termsInNegative;
+    termsWithAssociation.putTermWithNegativeAssociation(getBaseTermConstReferenceFromTerm(Term(753)));
+    termsWithAssociation.putTermWithPositiveAssociation(getBaseTermConstReferenceFromTerm(Term(159)));
+
+    segregateTermsWithPositiveAndNegativeAssociations(termsInPositive, termsInNegative, termsWithAssociation.getTermsWithDetails());
+
+    ASSERT_EQ(1u, termsInPositive.size());
+    TermWithDetails const& termWithDetails1(termsInPositive.at(0));
+    EXPECT_EQ(Term(159), getTermConstReferenceFromSharedPointer(termWithDetails1.baseTermSharedPointer));
+    EXPECT_EQ(TermAssociationType::Positive, termWithDetails1.association);
+    ASSERT_EQ(1u, termsInNegative.size());
+    TermWithDetails const& termWithDetails2(termsInNegative.at(0));
+    EXPECT_EQ(Term(753), getTermConstReferenceFromSharedPointer(termWithDetails2.baseTermSharedPointer));
+    EXPECT_EQ(TermAssociationType::Negative, termWithDetails2.association);
+}
 
 }
 

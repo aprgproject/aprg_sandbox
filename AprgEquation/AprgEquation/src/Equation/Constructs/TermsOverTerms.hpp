@@ -6,6 +6,7 @@
 #include <string>
 namespace alba
 {
+
 namespace equation
 {
 

@@ -7,6 +7,7 @@
 #include <string>
 namespace alba
 {
+
 namespace equation
 {
 
@@ -25,23 +26,21 @@ unsigned int getAssociationPriority(TermAssociationType const association);
 unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
 unsigned int getTermTypePriorityValue(TermType const termType);
 
+std::string getEnumShortString(TermType const termType);
+std::string getEnumShortString(TermAssociationType const association);
+std::string getEnumShortString(OperatorLevel const operatorLevel);
 std::string getOperatingString(
         OperatorLevel const operatorLevel,
-        TermAssociationType const association);
-std::string getFirstStringIfNegativeAssociation(
+        TermAssociationType const association);std::string getFirstStringIfNegativeAssociation(
         OperatorLevel const operatorLevel,
         TermAssociationType const association);
 std::string getString(
         TermsWithAssociation::TermsWithDetails const& termsWithDetails);
 std::string getString(
         TermsWithAssociation::TermWithDetails const& termWithDetails);
-std::string getEnumShortString(TermType const termType);
-std::string getEnumShortString(TermAssociationType const association);
-std::string getEnumShortString(OperatorLevel const operatorLevel);
 
 BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer);
-BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);
-BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
+BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
 Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
 Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
 Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);
@@ -73,12 +72,13 @@ void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);
 Term convertValueTermStringToTerm(std::string const& valueTerm);
 Monomial getGcfMonomialInMonomials(Monomials const& monomials);
 Monomial getLcmMonomialInMonomials(Monomials const& monomials);
-Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
+Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
+Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
 AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials);
+AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials);
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
 
-void segregateMonomialsAndNonMonomials(
-        Terms & monomials,
+void segregateMonomialsAndNonMonomials(        Terms & monomials,
         Terms & nonMonomials,
         Terms const& termsToSegregate);
 void segregateNonExpressionsAndExpressions(

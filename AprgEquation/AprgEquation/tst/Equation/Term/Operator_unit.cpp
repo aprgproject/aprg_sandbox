@@ -3,7 +3,8 @@
 #include <gtest/gtest.h>
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -172,7 +173,8 @@ TEST(OperatorTest, IsRaiseToPowerWorksAsExpected)
 TEST(OperatorTest, IsAnOperatorThatCanPerformedWorksAsExpected)
 {
     Operator nullOperator;
-    Operator addOperator("+");    Operator subtractOperator("-");
+    Operator addOperator("+");
+    Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
     Operator raiseToPowerOperator("^");
@@ -204,7 +206,8 @@ TEST(OperatorTest, IsOpeningGroupOperatorWorksAsExpected)
 
     EXPECT_FALSE(nullOperator.isOpeningGroupOperator());
     EXPECT_FALSE(addOperator.isOpeningGroupOperator());
-    EXPECT_FALSE(subtractOperator.isOpeningGroupOperator());    EXPECT_FALSE(multiplyOperator.isOpeningGroupOperator());
+    EXPECT_FALSE(subtractOperator.isOpeningGroupOperator());
+    EXPECT_FALSE(multiplyOperator.isOpeningGroupOperator());
     EXPECT_FALSE(divideOperator.isOpeningGroupOperator());
     EXPECT_FALSE(raiseToPowerOperator.isOpeningGroupOperator());
     EXPECT_TRUE(openingGroupOperator.isOpeningGroupOperator());

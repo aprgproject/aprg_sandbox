@@ -8,6 +8,7 @@
 #include <algorithm>
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -579,7 +580,8 @@ bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
             break;        }
     }
 
-    return areAllMonomialsFoundInPolynomialWithExponentsInOrder;}
+    return areAllMonomialsFoundInPolynomialWithExponentsInOrder;
+}
 
 void simplifyPolynomialThenEmplaceBack(Polynomials & polynomials, Polynomial const& polynomial)
 {

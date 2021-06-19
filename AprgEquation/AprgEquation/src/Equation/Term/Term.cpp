@@ -7,7 +7,8 @@
 #include <string>
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -458,6 +459,12 @@ void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
         m_baseDataTermPointer.reset(new Expression(term.getExpressionConstReference()));
         break;
     }
+}
+
+ostream & operator<<(ostream & out, Term const& term)
+{
+    out << term.getDisplayableString();
+    return out;
 }
 
 

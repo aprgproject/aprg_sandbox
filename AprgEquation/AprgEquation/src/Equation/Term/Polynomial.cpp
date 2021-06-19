@@ -6,7 +6,8 @@
 #include <sstream>
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -96,7 +97,8 @@ bool Polynomial::isVariableExponentContentFound(Monomial const& monomial) const
     {        if(monomial.getVariablesToExponentsMapConstReference()
                 == monomialInternal.getVariablesToExponentsMapConstReference())
         {
-            result = true;            break;
+            result = true;
+            break;
         }
     }
     return result;
@@ -137,7 +139,8 @@ string Polynomial::getDisplayableString() const
     stringstream result;    if(m_monomials.empty())
     {
         result << "(EmptyPolynomial)";
-    }    else
+    }
+    else
     {
         result << "(";
         bool shouldPutPlusSymbol(false);
@@ -277,6 +280,12 @@ void Polynomial::simplifyMonomialsAndReAdd()
             addMonomial(monomial);
         }
     }
+}
+
+ostream & operator<<(ostream & out, Polynomial const& polynomial)
+{
+    out << polynomial.getDisplayableString();
+    return out;
 }
 
 }

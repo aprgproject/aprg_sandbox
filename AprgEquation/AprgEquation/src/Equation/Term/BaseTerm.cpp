@@ -24,6 +24,12 @@ string BaseTerm::getDebugString() const
     return "[BaseTermDebugString]";
 }
 
+ostream & operator<<(ostream & out, BaseTerm const& term)
+{
+    out << term.getDisplayableString();
+    return out;
+}
+
 }
 
 }

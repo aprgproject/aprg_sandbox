@@ -15,15 +15,16 @@
 
 namespace alba
 {
+
 namespace equation
 {
 
 class Term : public BaseTerm
 {
+    friend std::ostream & operator<<(std::ostream & out, Term const& term);
 public:
     Term();
-    Term(Term const& term);
-    Term(Constant const& constant);
+    Term(Term const& term);    Term(Constant const& constant);
     Term(std::string const& variableOrOperator);
     Term(Variable const& variable);
     Term(Operator const& operatorTerm);
@@ -74,6 +75,8 @@ private:
 };
 
 using Terms = std::vector<Term>;
+
+std::ostream & operator<<(std::ostream & out, Term const& term);
 
 }
 

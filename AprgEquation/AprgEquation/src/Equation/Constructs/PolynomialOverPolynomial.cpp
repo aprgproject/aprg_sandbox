@@ -9,6 +9,7 @@ using namespace alba::equation::Factorization;using namespace std;
 
 namespace alba
 {
+
 namespace equation
 {
 

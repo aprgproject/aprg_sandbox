@@ -6,6 +6,7 @@ namespace alba
 {
 namespace equation
 {
+
 class PolynomialOverPolynomial
 {
 public:

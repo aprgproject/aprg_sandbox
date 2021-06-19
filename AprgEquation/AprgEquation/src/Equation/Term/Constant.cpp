@@ -61,6 +61,12 @@ void Constant::setNumber(AlbaNumber const& constantValue)
     m_constantValue = constantValue;
 }
 
+ostream & operator<<(ostream & out, Constant const& constant)
+{
+    out << constant.getDisplayableString();
+    return out;
+}
+
 }
 
 }

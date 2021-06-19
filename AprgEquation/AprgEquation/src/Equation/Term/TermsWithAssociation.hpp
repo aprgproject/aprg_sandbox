@@ -9,6 +9,7 @@
 
 namespace alba
 {
+
 namespace equation
 {
 

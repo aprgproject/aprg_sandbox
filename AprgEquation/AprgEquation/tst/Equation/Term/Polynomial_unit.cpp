@@ -3,7 +3,8 @@
 #include <gtest/gtest.h>
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -135,7 +136,8 @@ TEST(PolynomialTest, GetFirstMonomialWorks)
     Polynomial polynomial1;    Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
-    Monomial monomial1(polynomial1.getFirstMonomial());    Monomial monomial2(polynomial2.getFirstMonomial());
+    Monomial monomial1(polynomial1.getFirstMonomial());
+    Monomial monomial2(polynomial2.getFirstMonomial());
     Monomial monomial3(polynomial3.getFirstMonomial());
 
     EXPECT_DOUBLE_EQ(0, monomial1.getConstantConstReference().getDouble());

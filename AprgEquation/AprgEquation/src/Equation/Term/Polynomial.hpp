@@ -8,15 +8,16 @@
 #include <vector>
 namespace alba
 {
+
 namespace equation
 {
 
 class Polynomial : public BaseTermData
 {
+    friend std::ostream & operator<<(std::ostream & out, Polynomial const& polynomial);
 public:
     Polynomial();
-    Polynomial(Monomials const& monomials);
-    Polynomial(std::initializer_list<Monomial> const& monomials);
+    Polynomial(Monomials const& monomials);    Polynomial(std::initializer_list<Monomial> const& monomials);
 
     bool operator==(Polynomial const& second) const;
     bool operator!=(Polynomial const& second) const;
@@ -33,7 +34,8 @@ public:
     std::string getDisplayableString() const;
     void clear();
     void simplify();
-    void sortMonomialsWithInversePriority();    void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
+    void sortMonomialsWithInversePriority();
+    void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
     void addMonomial(Monomial const& monomial);
     void addPolynomial(Polynomial const& polynomial);
     void multiplyNumber(AlbaNumber const& number);
@@ -48,6 +50,9 @@ private:
 };
 
 using Polynomials=std::vector<Polynomial>;
+
+std::ostream & operator<<(std::ostream & out, Polynomial const& polynomial);
+
 }
 
 }

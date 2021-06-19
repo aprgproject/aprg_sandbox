@@ -45,6 +45,12 @@ void Variable::setVariableName(string const& variableName)
     m_variableName = variableName;
 }
 
+ostream & operator<<(ostream & out, Variable const& variable)
+{
+    out << variable.getDisplayableString();
+    return out;
+}
+
 }
 
 }

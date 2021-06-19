@@ -8,20 +8,22 @@
 #include <map>#include <string>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
 
 class Monomial : public BaseTermData
 {
+    friend std::ostream & operator<<(std::ostream & out, Monomial const& monomial);
 public:
     using VariablesToExponentsMap = std::map<std::string, AlbaNumber>;
     using VariablesToExponentsMapIterator = VariablesToExponentsMap::iterator;
+    using VariablesToExponentsMapConstIterator = VariablesToExponentsMap::const_iterator;
     using VariableExponentPair = std::pair<std::string, AlbaNumber>;
     using VariableExponentReferencePair = std::pair<std::string & , AlbaNumber &>;
     using ChangeExponentsForVariableFunction = std::function<void(std::string const&, AlbaNumber&)>;
-
     Monomial();
     Monomial(AlbaNumber const& constant, std::initializer_list<VariableExponentPair> const& variablesWithExponents);
     Monomial(AlbaNumber const& constant, VariablesToExponentsMap const& variablesWithExponents);
@@ -73,6 +75,8 @@ private:
 };
 
 using Monomials=std::vector<Monomial>;
+
+std::ostream & operator<<(std::ostream & out, Monomial const& monomial);
 
 }
 
