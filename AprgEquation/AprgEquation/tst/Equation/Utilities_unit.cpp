@@ -75,17 +75,40 @@ TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForBothVariablesWorks)
     EXPECT_FALSE(canBeMergedByAdditionOrSubtraction(Variable("w"), Variable("x")));
 }
 
+TEST(UtilitiesTest, CanBeConvertedToMonomialWorks)
+{
+    EXPECT_FALSE(canBeConvertedToMonomial(Term()));
+    EXPECT_TRUE(canBeConvertedToMonomial(Term(Constant(0))));
+    EXPECT_TRUE(canBeConvertedToMonomial(Term(15)));
+    EXPECT_TRUE(canBeConvertedToMonomial(Term(Variable("x"))));
+    EXPECT_TRUE(canBeConvertedToMonomial(Term(Monomial(96, {{"x", 1}}))));
+    EXPECT_TRUE(canBeConvertedToMonomial(Term(Polynomial{Monomial(96, {{"x", 1}})})));
+    EXPECT_FALSE(canBeConvertedToMonomial(Term(Polynomial{Monomial(96, {{"x", 1}}), Monomial(73, {{"y", 1}})})));
+    EXPECT_FALSE(canBeConvertedToMonomial(Term(createExpressionIfPossible(Terms{Term(254)}))));
+    EXPECT_FALSE(canBeConvertedToMonomial(Term(Expression())));
+}
+
+TEST(UtilitiesTest, CanBeConvertedToPolynomialWorks)
+{
+    EXPECT_FALSE(canBeConvertedToPolynomial(Term()));
+    EXPECT_TRUE(canBeConvertedToPolynomial(Term(Constant(0))));
+    EXPECT_TRUE(canBeConvertedToPolynomial(Term(15)));
+    EXPECT_TRUE(canBeConvertedToPolynomial(Term(Variable("x"))));
+    EXPECT_TRUE(canBeConvertedToPolynomial(Term(Monomial(96, {{"x", 1}}))));
+    EXPECT_TRUE(canBeConvertedToPolynomial(Term(Polynomial{Monomial(96, {{"x", 1}})})));
+    EXPECT_FALSE(canBeConvertedToPolynomial(Term(createExpressionIfPossible(Terms{Term(254)}))));
+    EXPECT_FALSE(canBeConvertedToPolynomial(Term(Expression())));
+}
+
 TEST(UtilitiesTest, WillHaveNoEffectOnAdditionOrSubtractionWorks)
 {
-    EXPECT_TRUE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term()));
+    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term()));
     EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term(Constant(0))));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(15)));
-    EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Variable("x"))));
-    EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Monomial(96, {{"x", 1}}))));
+    EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Variable("x"))));    EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Monomial(96, {{"x", 1}}))));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Polynomial{Monomial(96, {{"x", 1}})})));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(createExpressionIfPossible(Terms{Term(254)}))));
-    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term(Expression())));
-}
+    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term(Expression())));}
 
 TEST(UtilitiesTest, WillHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPowerWorks)
 {
