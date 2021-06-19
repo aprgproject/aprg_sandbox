@@ -1,15 +1,13 @@
 #pragma once
 
-#include <BaseTermData.hpp>
-#include <Monomial.hpp>
-#include <VariablesToValuesTypes.hpp>
+#include <Equation/Constructs/VariablesToValuesTypes.hpp>
+#include <Equation/Term/BaseTermData.hpp>
+#include <Equation/Term/Monomial.hpp>
 
 #include <string>
 #include <vector>
-
 namespace alba
 {
-
 namespace equation
 {
 

@@ -1,15 +1,13 @@
 #include "TermOperators.hpp"
 
+#include <Equation/Operations/PerformOperations.hpp>
+#include <Equation/Utilities.hpp>
 #include <Math/AlbaMathHelper.hpp>
-#include <PerformOperations.hpp>
-#include <Utilities.hpp>
 
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace equation
 {
 

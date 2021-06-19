@@ -1,15 +1,13 @@
 #include "Factorization.hpp"
 
-#include <BrentMethod.hpp>
+#include <Equation/Constructs/BrentMethod.hpp>
+#include <Equation/Constructs/PolynomialOverPolynomial.hpp>
+#include <Equation/Utilities.hpp>
 #include <Math/AlbaMathHelper.hpp>
-#include <PolynomialOverPolynomial.hpp>
-#include <Utilities.hpp>
 
 #include <algorithm>
-
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 

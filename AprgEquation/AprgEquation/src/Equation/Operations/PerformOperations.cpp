@@ -1,13 +1,11 @@
 #include "PerformOperations.hpp"
 
-#include <TermOperators.hpp>
-#include <Utilities.hpp>
+#include <Equation/Term/TermOperators.hpp>
+#include <Equation/Utilities.hpp>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace equation
 {
 

@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Term.hpp>
+#include <Equation/Term/Term.hpp>
 #include <Optional/AlbaOptional.hpp>
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
-
 class TermsAggregator
 {
 public:

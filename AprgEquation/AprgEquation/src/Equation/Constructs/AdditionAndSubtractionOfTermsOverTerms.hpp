@@ -1,13 +1,11 @@
 #pragma once
 
-#include <TermsOverTerms.hpp>
-#include <TermAssociationType.hpp>
+#include <Equation/Constructs/TermsOverTerms.hpp>
+#include <Equation/Term/TermAssociationType.hpp>
 
 #include <vector>
-
 namespace alba
 {
-
 namespace equation
 {
 

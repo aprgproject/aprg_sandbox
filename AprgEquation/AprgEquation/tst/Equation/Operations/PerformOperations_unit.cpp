@@ -1,11 +1,9 @@
-#include <PerformOperations.hpp>
-#include <Utilities.hpp>
+#include <Equation/Operations/PerformOperations.hpp>
+#include <Equation/Utilities.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
-
 namespace alba
 {
 

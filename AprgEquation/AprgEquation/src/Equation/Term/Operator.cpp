@@ -1,12 +1,10 @@
 #include "Operator.hpp"
 
-#include <Utilities.hpp>
+#include <Equation/Utilities.hpp>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace equation
 {
 

@@ -1,16 +1,14 @@
 #pragma once
 
-#include <BaseTermPointers.hpp>
-#include <TermAssociationType.hpp>
-#include <VariablesToValuesTypes.hpp>
+#include <Equation/Constructs/VariablesToValuesTypes.hpp>
+#include <Equation/Term/BaseTermPointers.hpp>
+#include <Equation/Term/TermAssociationType.hpp>
 
 #include <functional>
-#include <list>
-#include <vector>
+#include <list>#include <vector>
 
 namespace alba
 {
-
 namespace equation
 {
 

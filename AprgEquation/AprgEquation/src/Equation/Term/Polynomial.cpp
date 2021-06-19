@@ -1,14 +1,12 @@
 #include "Polynomial.hpp"
 
-#include <Utilities.hpp>
+#include <Equation/Utilities.hpp>
 
 #include <algorithm>
 #include <sstream>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {

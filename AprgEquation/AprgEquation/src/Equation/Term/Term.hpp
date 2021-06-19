@@ -1,22 +1,20 @@
 #pragma once
 
-#include <BaseTermData.hpp>
-#include <Constant.hpp>
-#include <Expression.hpp>
+#include <Equation/Term/BaseTermData.hpp>
+#include <Equation/Term/Constant.hpp>
+#include <Equation/Term/Expression.hpp>
+#include <Equation/Term/Monomial.hpp>
+#include <Equation/Term/Operator.hpp>
+#include <Equation/Term/Polynomial.hpp>
+#include <Equation/Term/TermType.hpp>
+#include <Equation/Term/Variable.hpp>
 #include <Math/AlbaNumber.hpp>
-#include <Monomial.hpp>
-#include <Operator.hpp>
-#include <Polynomial.hpp>
-#include <TermType.hpp>
-#include <Variable.hpp>
 
 #include <memory>
-#include <string>
-#include <vector>
+#include <string>#include <vector>
 
 namespace alba
 {
-
 namespace equation
 {
 

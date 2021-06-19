@@ -1,12 +1,10 @@
-#include <TermOperators.hpp>
-#include <Utilities.hpp>
+#include <Equation/Term/TermOperators.hpp>
+#include <Equation/Utilities.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {

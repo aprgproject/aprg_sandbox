@@ -1,19 +1,17 @@
 #include "Utilities.hpp"
 
-#include <Factorization.hpp>
+#include <Equation/Constructs/Factorization.hpp>
+#include <Equation/Constructs/PolynomialOverPolynomial.hpp>
+#include <Equation/Constructs/TermsAggregator.hpp>
+#include <Equation/Term/TermOperators.hpp>
 #include <Macros/AlbaMacros.hpp>
 #include <Math/AlbaMathHelper.hpp>
-#include <PolynomialOverPolynomial.hpp>
-#include <TermOperators.hpp>
-#include <TermsAggregator.hpp>
 #include <String/AlbaStringHelper.hpp>
 
 #include <algorithm>
-
 using namespace alba::equation::Factorization;
 using namespace alba::mathHelper;
-using namespace std;
-using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
+using namespace std;using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
 
 namespace alba

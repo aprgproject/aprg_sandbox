@@ -1,18 +1,16 @@
 #pragma once
 
-#include <Constant.hpp>
-#include <Expression.hpp>
-#include <Monomial.hpp>
-#include <Polynomial.hpp>
-#include <Term.hpp>
-#include <Variable.hpp>
+#include <Equation/Term/Constant.hpp>
+#include <Equation/Term/Expression.hpp>
+#include <Equation/Term/Monomial.hpp>
+#include <Equation/Term/Polynomial.hpp>
+#include <Equation/Term/Term.hpp>
+#include <Equation/Term/Variable.hpp>
 
 namespace alba
 {
-
 namespace equation
 {
-
 //Unary plus: +a
 Term operator+(Constant const& constant);
 Term operator+(Variable const& variable);

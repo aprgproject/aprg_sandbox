@@ -1,12 +1,10 @@
 #pragma once
 
-#include <BaseTermData.hpp>
+#include <Equation/Term/BaseTermData.hpp>
 
 #include <string>
-
 namespace alba
 {
-
 namespace equation
 {
 

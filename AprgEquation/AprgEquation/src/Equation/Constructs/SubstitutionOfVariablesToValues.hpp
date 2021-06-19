@@ -1,15 +1,13 @@
 #pragma once
 
+#include <Equation/Constructs/VariablesToValuesTypes.hpp>
+#include <Equation/Term/Term.hpp>
 #include <Math/AlbaNumber.hpp>
-#include <Term.hpp>
-#include <VariablesToValuesTypes.hpp>
 
 #include <string>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {

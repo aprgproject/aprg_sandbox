@@ -1,13 +1,11 @@
 #pragma once
 
-#include <BaseTerm.hpp>
+#include <Equation/Term/BaseTerm.hpp>
 
 #include <memory>
 #include <vector>
-
 namespace alba
 {
-
 namespace equation
 {
 

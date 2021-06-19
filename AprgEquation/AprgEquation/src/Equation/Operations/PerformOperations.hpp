@@ -1,15 +1,13 @@
 #pragma once
 
-#include <Term.hpp>
-#include <Operator.hpp>
-#include <TermsWithAssociation.hpp>
+#include <Equation/Term/Operator.hpp>
+#include <Equation/Term/Term.hpp>
+#include <Equation/Term/TermsWithAssociation.hpp>
 
 namespace alba
 {
-
 namespace equation
 {
-
 Term performOperation(
         Operator const& operatorTerm,
         Term const& term);

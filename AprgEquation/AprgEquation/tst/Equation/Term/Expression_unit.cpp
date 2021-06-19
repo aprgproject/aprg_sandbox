@@ -1,13 +1,11 @@
-#include <Expression.hpp>
-#include <Term.hpp>
-#include <Utilities.hpp>
+#include <Equation/Term/Expression.hpp>
+#include <Equation/Term/Term.hpp>
+#include <Equation/Utilities.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
