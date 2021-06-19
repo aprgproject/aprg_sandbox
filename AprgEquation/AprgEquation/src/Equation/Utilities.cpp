@@ -577,88 +577,12 @@ Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial)
     return newTerm;
 }
 
-void factorizeAndEmplaceBackTermIfNotFound(Terms & terms, Term const& term)
-{
-    if(canBeConvertedToPolynomial(term))
-    {
-        Polynomials polynomials(factorize(createPolynomialIfPossible(term)));
-        for(Polynomial const& polynomial : polynomials)
-        {
-            emplaceBackTermIfNotFound(terms, Term(polynomial));
-        }
-    }
-    else
-    {
-        emplaceBackTermIfNotFound(terms, term);
-    }
-}
-
-void emplaceBackTermIfNotFound(Terms & terms, Term const& term)
-{
-    if(find(terms.cbegin(), terms.cend(), term) == terms.cend())
-    {
-        terms.emplace_back(term);
-    }
-}
-
-void retrieveDenominatorTerms(Terms & terms, Expression const& expression)
-{
-    if(expression.getCommonOperatorLevel() == OperatorLevel::AdditionAndSubtraction)
-    {
-        for(TermWithDetails const& termWithDetails : expression.getTerms().getTermsWithDetails())
-        {
-            BaseTerm const& baseTerm(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-            Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
-            if(term.isExpression())
-            {
-                retrieveDenominatorTerms(terms, term.getExpressionConstReference());
-            }
-            else if(canBeConvertedToPolynomial(term))
-            {
-                PolynomialOverPolynomial fractionInTerm(createPolynomialIfPossible(term), createPolynomialFromConstant(Constant(1)));
-                Polynomial denominatorInTerm(fractionInTerm.getDenominator());
-                if(!denominatorInTerm.isOne())
-                {
-                    factorizeAndEmplaceBackTermIfNotFound(terms, Term(denominatorInTerm));
-                }
-            }
-        }
-    }
-    else if(expression.getCommonOperatorLevel() == OperatorLevel::MultiplicationAndDivision)
-    {
-        for(TermWithDetails const& termWithDetails : expression.getTerms().getTermsWithDetails())
-        {
-            BaseTerm const& baseTerm(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-            Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
-            if(termWithDetails.hasNegativeAssociation())
-            {
-                factorizeAndEmplaceBackTermIfNotFound(terms, term);
-            }
-            else if(term.isExpression())
-            {
-                retrieveDenominatorTerms(terms, term.getExpressionConstReference());
-            }
-            else if(canBeConvertedToPolynomial(term))
-            {
-                PolynomialOverPolynomial fractionInTerm(createPolynomialIfPossible(term), createPolynomialFromConstant(Constant(1)));
-                Polynomial denominatorInTerm(fractionInTerm.getDenominator());
-                if(!denominatorInTerm.isOne())
-                {
-                    factorizeAndEmplaceBackTermIfNotFound(terms, Term(denominatorInTerm));
-                }
-            }
-        }
-    }
-}
-
 Terms tokenizeToTerms(string const& inputString)
 {
-    Terms tokenizedTerms;
-    string valueTerm;
+    Terms tokenizedTerms;    string valueTerm;
     for(char const c : inputString)
     {
-        if(!stringHelper::isWhiteSpace(c))
-        {
+        if(!stringHelper::isWhiteSpace(c))        {
             string characterString(1, c);
             if(isOperator(characterString))
             {

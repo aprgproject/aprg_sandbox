@@ -160,17 +160,24 @@ AlbaNumber Monomial::getDegree() const
 AlbaNumber Monomial::getMaxExponent() const
 {
     AlbaNumber maxExponent;
+    bool isFirst(true);
     for(VariableExponentPair const& variableExponentPair : m_variablesToExponentsMap)
     {
-        maxExponent = max(maxExponent, variableExponentPair.second);
+        if(isFirst)
+        {
+            maxExponent = variableExponentPair.second;
+            isFirst = false;
+        }
+        else
+        {
+            maxExponent = max(maxExponent, variableExponentPair.second);
+        }
     }
     return maxExponent;
 }
-
 AlbaNumber Monomial::getExponentForVariable(string const& variableName) const
 {
-    AlbaNumber exponent(0);
-    if(m_variablesToExponentsMap.find(variableName) != m_variablesToExponentsMap.cend())
+    AlbaNumber exponent(0);    if(m_variablesToExponentsMap.find(variableName) != m_variablesToExponentsMap.cend())
     {
         exponent = m_variablesToExponentsMap.at(variableName);
     }

@@ -168,10 +168,32 @@ TEST(OperatorTest, IsRaiseToPowerWorksAsExpected)
     EXPECT_FALSE(invalidOperator.isRaiseToPower());
 }
 
-TEST(OperatorTest, IsOpeningGroupOperatorWorksAsExpected)
+
+TEST(OperatorTest, IsAnOperatorThatCanPerformedWorksAsExpected)
 {
     Operator nullOperator;
-    Operator addOperator("+");
+    Operator addOperator("+");    Operator subtractOperator("-");
+    Operator multiplyOperator("*");
+    Operator divideOperator("/");
+    Operator raiseToPowerOperator("^");
+    Operator openingGroupOperator("(");
+    Operator closingGroupOperator(")");
+    Operator invalidOperator("invalid");
+
+    EXPECT_FALSE(nullOperator.isAnOperatorThatCanPerformed());
+    EXPECT_TRUE(addOperator.isAnOperatorThatCanPerformed());
+    EXPECT_TRUE(subtractOperator.isAnOperatorThatCanPerformed());
+    EXPECT_TRUE(multiplyOperator.isAnOperatorThatCanPerformed());
+    EXPECT_TRUE(divideOperator.isAnOperatorThatCanPerformed());
+    EXPECT_TRUE(raiseToPowerOperator.isAnOperatorThatCanPerformed());
+    EXPECT_FALSE(openingGroupOperator.isAnOperatorThatCanPerformed());
+    EXPECT_FALSE(closingGroupOperator.isAnOperatorThatCanPerformed());
+    EXPECT_FALSE(invalidOperator.isAnOperatorThatCanPerformed());
+}
+
+TEST(OperatorTest, IsOpeningGroupOperatorWorksAsExpected)
+{
+    Operator nullOperator;    Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
@@ -182,8 +204,7 @@ TEST(OperatorTest, IsOpeningGroupOperatorWorksAsExpected)
 
     EXPECT_FALSE(nullOperator.isOpeningGroupOperator());
     EXPECT_FALSE(addOperator.isOpeningGroupOperator());
-    EXPECT_FALSE(subtractOperator.isOpeningGroupOperator());
-    EXPECT_FALSE(multiplyOperator.isOpeningGroupOperator());
+    EXPECT_FALSE(subtractOperator.isOpeningGroupOperator());    EXPECT_FALSE(multiplyOperator.isOpeningGroupOperator());
     EXPECT_FALSE(divideOperator.isOpeningGroupOperator());
     EXPECT_FALSE(raiseToPowerOperator.isOpeningGroupOperator());
     EXPECT_TRUE(openingGroupOperator.isOpeningGroupOperator());
@@ -285,13 +306,14 @@ TEST(OperatorTest, GetDisplayableStringWorks)
 
 TEST(OperatorTest, SettingANewOperatingStringWorks)
 {
-    Operator operatorForTest;
-    EXPECT_EQ("", operatorForTest.getOperatorString());
+    Operator operatorForTest1;
+    Operator operatorForTest2;
 
-    operatorForTest.setOperatorString("multiply");
-    EXPECT_EQ("multiply", operatorForTest.getOperatorString());
+    operatorForTest2.setOperatorString("multiply");
+
+    EXPECT_EQ("", operatorForTest1.getOperatorString());
+    EXPECT_EQ("multiply", operatorForTest2.getOperatorString());
 }
 
 }
-
 }

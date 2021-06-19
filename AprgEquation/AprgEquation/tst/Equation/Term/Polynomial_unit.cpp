@@ -108,14 +108,34 @@ TEST(PolynomialTest, IsOneMonomialWorks)
     EXPECT_FALSE(polynomial3.isOneMonomial());
 }
 
-TEST(PolynomialTest, GetFirstMonomialWorks)
+TEST(PolynomialTest, IsVariableExponentMapContentFoundWorks)
 {
     Polynomial polynomial1;
-    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial2{Monomial(6, {{"x", 1}})};
+    Polynomial polynomial3{Monomial(6, {{"x", 1}}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+
+    EXPECT_FALSE(polynomial1.isVariableExponentContentFound(Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})));
+    EXPECT_FALSE(polynomial2.isVariableExponentContentFound(Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})));
+    EXPECT_TRUE(polynomial3.isVariableExponentContentFound(Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})));
+}
+
+TEST(PolynomialTest, GetCoefficientOfVariableExponentWorks)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(6, {{"x", 1}})};
+    Polynomial polynomial3{Monomial(6, {{"x", 1}}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+
+    EXPECT_DOUBLE_EQ(0, polynomial1.getCoefficientOfVariableExponent(Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})).getDouble());
+    EXPECT_DOUBLE_EQ(0, polynomial2.getCoefficientOfVariableExponent(Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})).getDouble());
+    EXPECT_DOUBLE_EQ(-7, polynomial3.getCoefficientOfVariableExponent(Monomial(98, {{"x", 2}, {"y", 3}, {"z", 4}})).getDouble());
+}
+
+TEST(PolynomialTest, GetFirstMonomialWorks)
+{
+    Polynomial polynomial1;    Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
-    Monomial monomial1(polynomial1.getFirstMonomial());
-    Monomial monomial2(polynomial2.getFirstMonomial());
+    Monomial monomial1(polynomial1.getFirstMonomial());    Monomial monomial2(polynomial2.getFirstMonomial());
     Monomial monomial3(polynomial3.getFirstMonomial());
 
     EXPECT_DOUBLE_EQ(0, monomial1.getConstantConstReference().getDouble());

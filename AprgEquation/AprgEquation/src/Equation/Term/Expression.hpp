@@ -31,15 +31,13 @@ public:
 
     OperatorLevel getCommonOperatorLevel() const;
     BaseTerm const& getFirstTermConstReference() const;
-    TermsWithAssociation const& getTerms() const;
+    TermsWithAssociation const& getTermsWithAssociation() const;
     TermsWithAssociation getTermsWithDetailsThatSatisfiesCondition(
             ConditionFunctionForTermsWithDetails const& conditionFunction) const;
-    std::string getDisplayableString() const;
-    std::string getDebugString() const;
+    std::string getDisplayableString() const;    std::string getDebugString() const;
 
     void clear();
     void clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm);
-
     void putTermWithAdditionIfNeeded(BaseTerm const& baseTerm);
     void putTermWithSubtractionIfNeeded(BaseTerm const& baseTerm);
     void putTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm);

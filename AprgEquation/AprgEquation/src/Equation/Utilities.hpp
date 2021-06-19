@@ -68,16 +68,12 @@ Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression);
 Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial);
 Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial);
 
-void emplaceBackTermIfNotFound(Terms & terms, Term const& term);
-void retrieveDenominatorTerms(Terms & terms, Expression const& expression);
 Terms tokenizeToTerms(std::string const& inputString);
 void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);
 Term convertValueTermStringToTerm(std::string const& valueTerm);
-
 Monomial getGcfMonomialInMonomials(Monomials const& monomials);
 Monomial getLcmMonomialInMonomials(Monomials const& monomials);
-Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
-Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
+Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
 AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials);
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
 
