@@ -35,6 +35,7 @@ void AdditionAndSubtractionOfTermsOverTerms::putAsAddition(TermsOverTerms const&
     m_items.emplace_back(addendSimplified);
     m_associations.emplace_back(TermAssociationType::Positive);
 }
+
 void AdditionAndSubtractionOfTermsOverTerms::putAsSubtraction(TermsOverTerms const& subtrahend)
 {
     TermsOverTerms subtrahendSimplified(subtrahend);
@@ -42,9 +43,11 @@ void AdditionAndSubtractionOfTermsOverTerms::putAsSubtraction(TermsOverTerms con
     m_items.emplace_back(subtrahendSimplified);
     m_associations.emplace_back(TermAssociationType::Negative);
 }
+
 Expression AdditionAndSubtractionOfTermsOverTerms::getCombinedExpression() const
 {
-    Terms lcmDenominatorTerms(getLcmOfDenominatorTerms());    unsigned int numberOfItems = m_items.size();
+    Terms lcmDenominatorTerms(getLcmOfDenominatorTerms());
+    unsigned int numberOfItems = m_items.size();
     Expression combinedNumerator;
     for(unsigned int numeratorIndex=0; numeratorIndex<numberOfItems; numeratorIndex++)
     {

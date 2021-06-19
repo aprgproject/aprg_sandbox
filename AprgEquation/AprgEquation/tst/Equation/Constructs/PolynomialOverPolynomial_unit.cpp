@@ -83,10 +83,12 @@ TEST(PolynomialOverPolynomialTest, SimplifyWorksOnRemovingCommonFactorInCoeffici
     Polynomial numeratorToExpect{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}}), Monomial(0.15, {})};
     Polynomial denominatorToExpect{Monomial(1, {{"y", 1}}), Monomial(1, {{"z", 1}})};
     EXPECT_EQ(numeratorToExpect, polynomialOverPolynomial.getNumerator());
-    EXPECT_EQ(denominatorToExpect, polynomialOverPolynomial.getDenominator());}
+    EXPECT_EQ(denominatorToExpect, polynomialOverPolynomial.getDenominator());
+}
 
 TEST(PolynomialOverPolynomialTest, SimplifyWorksOnConvertingNegativeExponentsToPositive)
-{    Polynomial numerator{Monomial(1, {{"x", 1}, {"y", -1}}), Monomial(2, {{"x", -1}, {"y", 1}})};
+{
+    Polynomial numerator{Monomial(1, {{"x", 1}, {"y", -1}}), Monomial(2, {{"x", -1}, {"y", 1}})};
     Polynomial denominator{Monomial(3, {{"y", 1}}), Monomial(4, {{"z", -1}})};
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 

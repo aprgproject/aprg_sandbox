@@ -174,9 +174,11 @@ void Polynomial::simplify()
     Polynomial afterSimplify(*this);
     simplifyFurtherIfNeeded(beforeSimplify, afterSimplify);
 }
+
 void Polynomial::sortMonomialsWithInversePriority()
 {
-    stable_sort(m_monomials.begin(), m_monomials.end(), [](Monomial const& monomial1, Monomial const& monomial2)    {
+    stable_sort(m_monomials.begin(), m_monomials.end(), [](Monomial const& monomial1, Monomial const& monomial2)
+    {
         return monomial2 < monomial1;
     });
 }

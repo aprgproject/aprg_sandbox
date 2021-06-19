@@ -329,10 +329,12 @@ TEST(AlbaMathHelperTest, LeastCommonMultipleCanBeComputed)
     EXPECT_EQ(AlbaNumber(3), getLeastCommonMultiple(AlbaNumber(3, 2), AlbaNumber(1, 3)));
 }
 
-TEST(AlbaMathHelperTest, DifferenceFromGreaterMultipleCanBeComputed){
+TEST(AlbaMathHelperTest, DifferenceFromGreaterMultipleCanBeComputed)
+{
     EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(0, 0));
     EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(10, 10));
-    EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(5, 10));    EXPECT_EQ(5u, getDifferenceFromGreaterMultiple(10, 5));
+    EXPECT_EQ(0u, getDifferenceFromGreaterMultiple(5, 10));
+    EXPECT_EQ(5u, getDifferenceFromGreaterMultiple(10, 5));
     EXPECT_EQ(48u, getDifferenceFromGreaterMultiple(57, 2346));
 }
 
