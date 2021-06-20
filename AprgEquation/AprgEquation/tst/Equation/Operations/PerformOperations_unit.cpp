@@ -5,6 +5,7 @@
 
 using namespace std;
 using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
+
 namespace alba
 {
 

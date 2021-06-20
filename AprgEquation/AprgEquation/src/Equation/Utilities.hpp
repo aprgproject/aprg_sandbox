@@ -8,6 +8,7 @@
 
 namespace alba
 {
+
 namespace equation
 {
 
@@ -35,7 +36,8 @@ std::string getOperatingString(
 std::string getFirstStringIfNegativeAssociation(
         OperatorLevel const operatorLevel,
         TermAssociationType const association);
-std::string getString(        TermsWithAssociation::TermsWithDetails const& termsWithDetails);
+std::string getString(
+        TermsWithAssociation::TermsWithDetails const& termsWithDetails);
 std::string getString(
         TermsWithAssociation::TermWithDetails const& termWithDetails);
 
@@ -44,7 +46,8 @@ BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& ter
 BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
 Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
 Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
-Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
+Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);
+Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
 BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term);
 BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
 BaseTerm & getBaseTermReferenceFromTerm(Term & term);
@@ -73,7 +76,8 @@ Term convertValueTermStringToTerm(std::string const& valueTerm);
 
 Monomial getGcfMonomialInMonomials(Monomials const& monomials);
 Monomial getLcmMonomialInMonomials(Monomials const& monomials);
-Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
+Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
+Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
 AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials);
 AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials);
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
@@ -92,4 +96,5 @@ void segregateTermsWithPositiveAndNegativeAssociations(
         TermsWithAssociation::TermsWithDetails & termsWithNegativeAssociation);
 
 }
+
 }

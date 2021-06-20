@@ -6,7 +6,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -27,7 +28,8 @@ TEST(ExpressionTest, ConstructionWorks)
     EXPECT_EQ(Term(12), termToVerify);
 }
 
-TEST(ExpressionTest, EqualityOperatorWorks){
+TEST(ExpressionTest, EqualityOperatorWorks)
+{
     Expression expression1;
     Expression expression2(createExpressionIfPossible(Terms{Term(5), Term("+"), Term(createExpressionIfPossible(Terms{Term(5), Term("+"), Term("interest")}))}));
     Expression expression3(createExpressionIfPossible(Terms{Term(6), Term("+"), Term("interest")}));
@@ -140,7 +142,8 @@ TEST(ExpressionTest, GetTermsWithAssociationWorks)
     EXPECT_EQ(Term(695), getTermConstReferenceFromSharedPointer(termsWithDetailsToVerify.at(0).baseTermSharedPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsWithDetailsToVerify.at(0).association);
     EXPECT_EQ(Term("interest"), getTermConstReferenceFromSharedPointer(termsWithDetailsToVerify.at(1).baseTermSharedPointer));
-    EXPECT_EQ(TermAssociationType::Negative, termsWithDetailsToVerify.at(1).association);    EXPECT_EQ(Term("debt"), getTermConstReferenceFromSharedPointer(termsWithDetailsToVerify.at(2).baseTermSharedPointer));
+    EXPECT_EQ(TermAssociationType::Negative, termsWithDetailsToVerify.at(1).association);
+    EXPECT_EQ(Term("debt"), getTermConstReferenceFromSharedPointer(termsWithDetailsToVerify.at(2).baseTermSharedPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsWithDetailsToVerify.at(2).association);
 }
 
@@ -195,6 +198,7 @@ TEST(ExpressionTest, ClearWorks)
 
     expression1.clear();
     expression2.clear();
+
     EXPECT_TRUE(expression1.isEmpty());
     EXPECT_TRUE(expression2.isEmpty());
 }
@@ -908,7 +912,8 @@ TEST(ExpressionTest, ReverseTheAssociationOfTheTermsWorks)
     EXPECT_EQ(Term(695), termToVerify);
 }
 
-TEST(ExpressionTest, SetWorks){
+TEST(ExpressionTest, SetWorks)
+{
     Expression expression;
     TermsWithAssociation terms;
     TermsWithAssociation::TermWithDetails termWithDetails(

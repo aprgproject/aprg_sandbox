@@ -8,7 +8,8 @@
 
 using namespace alba::equation::Factorization;
 using namespace std;
-using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
+using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
+using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
@@ -77,6 +78,7 @@ Terms const& TermsOverTerms::getDenominators() const
 {
     return m_denominators;
 }
+
 std::string TermsOverTerms::getDisplayableString() const
 {
     stringstream result;

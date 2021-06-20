@@ -4,7 +4,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -199,7 +200,8 @@ TEST(OperatorTest, IsOpeningGroupOperatorWorksAsExpected)
     Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
-    Operator divideOperator("/");    Operator raiseToPowerOperator("^");
+    Operator divideOperator("/");
+    Operator raiseToPowerOperator("^");
     Operator openingGroupOperator("(");
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");

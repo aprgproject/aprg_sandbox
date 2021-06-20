@@ -4,7 +4,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -127,7 +128,8 @@ TEST(MonomialTest, IsOneFunctionWorks)
 
     EXPECT_FALSE(monomial1.isOne());
     EXPECT_FALSE(monomial2.isOne());
-    EXPECT_FALSE(monomial3.isOne());    EXPECT_FALSE(monomial4.isOne());
+    EXPECT_FALSE(monomial3.isOne());
+    EXPECT_FALSE(monomial4.isOne());
     EXPECT_TRUE(monomial5.isOne());
 }
 
@@ -151,6 +153,7 @@ TEST(MonomialTest, IsConstantOnlyFunctionWorks)
     Monomial monomial1;
     Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
     Monomial monomial3(23, {});
+
     EXPECT_TRUE(monomial1.isConstantOnly());
     EXPECT_FALSE(monomial2.isConstantOnly());
     EXPECT_TRUE(monomial3.isConstantOnly());
@@ -204,7 +207,8 @@ TEST(MonomialTest, GetConstantConstReferenceWorks)
     Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
 
     EXPECT_DOUBLE_EQ(0, monomial1.getConstantConstReference().getDouble());
-    EXPECT_DOUBLE_EQ(-54, monomial2.getConstantConstReference().getDouble());}
+    EXPECT_DOUBLE_EQ(-54, monomial2.getConstantConstReference().getDouble());
+}
 
 TEST(MonomialTest, GetVariablesToExponentsMapConstReferenceWorks)
 {
@@ -285,7 +289,8 @@ TEST(MonomialTest, GetExponentForVariableWorks)
     Monomial monomial2(-54, {{"x", 6}, {"y1", -1.25}});
 
     EXPECT_DOUBLE_EQ(0, monomial1.getExponentForVariable("x").getDouble());
-    EXPECT_DOUBLE_EQ(6, monomial2.getExponentForVariable("x").getDouble());    EXPECT_DOUBLE_EQ(-1.25, monomial2.getExponentForVariable("y1").getDouble());
+    EXPECT_DOUBLE_EQ(6, monomial2.getExponentForVariable("x").getDouble());
+    EXPECT_DOUBLE_EQ(-1.25, monomial2.getExponentForVariable("y1").getDouble());
     EXPECT_DOUBLE_EQ(0, monomial2.getExponentForVariable("z").getDouble());
 }
 
@@ -448,6 +453,7 @@ TEST(MonomialTest, PuttingANewVariableWithExponentWorks)
     Monomial monomial;
 
     monomial.putVariableWithExponent("i", 62);
+
     Monomial::VariablesToExponentsMap const& variableMap(monomial.getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1u, variableMap.size());
     EXPECT_DOUBLE_EQ(62, variableMap.at("i").getDouble());
@@ -498,7 +504,8 @@ TEST(MonomialTest, SaveMinimumExponentsForEachVariableWorks)
 
     monomial.compareMonomialsAndSaveMinimumExponentsForEachVariable(monomialToApply);
 
-    EXPECT_DOUBLE_EQ(1, monomial.getConstantConstReference().getDouble());    Monomial::VariablesToExponentsMap const& variableMapToVerify(monomial.getVariablesToExponentsMapConstReference());
+    EXPECT_DOUBLE_EQ(1, monomial.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMapToVerify(monomial.getVariablesToExponentsMapConstReference());
     ASSERT_EQ(2u, variableMapToVerify.size());
     EXPECT_DOUBLE_EQ(3, variableMapToVerify.at("x").getDouble());
     EXPECT_DOUBLE_EQ(2, variableMapToVerify.at("y").getDouble());

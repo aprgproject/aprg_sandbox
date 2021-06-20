@@ -9,7 +9,8 @@
 #include <string>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -28,6 +29,7 @@ public:
     Monomial();
     Monomial(AlbaNumber const& constant, std::initializer_list<VariableExponentPair> const& variablesWithExponents);
     Monomial(AlbaNumber const& constant, VariablesToExponentsMap const& variablesWithExponents);
+
     static VariablesToExponentsMap combineVariableExponentMapByMultiplication(
             VariablesToExponentsMap const& variablesMap1,
             VariablesToExponentsMap const& variablesMap2);

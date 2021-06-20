@@ -8,6 +8,7 @@ namespace alba
 
 namespace equation
 {
+
 void accumulateAndDoOperationOnTermDetails(
         Term & combinedTerm,
         OperatorLevel const operatorLevel,

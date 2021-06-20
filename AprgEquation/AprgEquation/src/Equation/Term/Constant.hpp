@@ -7,6 +7,7 @@
 
 namespace alba
 {
+
 namespace equation
 {
 
@@ -20,6 +21,7 @@ public:
     Constant(unsigned int const unsignedValue);
     Constant(int const numerator, unsigned int const denominator);
     Constant(double const doubleValue);
+
     bool operator==(Constant const& second) const;
     bool operator!=(Constant const& second) const;
     bool operator<(Constant const& second) const;

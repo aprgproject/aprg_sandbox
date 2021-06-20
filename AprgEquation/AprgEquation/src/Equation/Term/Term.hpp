@@ -16,6 +16,7 @@
 
 namespace alba
 {
+
 namespace equation
 {
 
@@ -28,7 +29,8 @@ public:
     Term(Constant const& constant);
     Term(std::string const& variableOrOperator);
     Term(Variable const& variable);
-    Term(Operator const& operatorTerm);    Term(Monomial const& monomial);
+    Term(Operator const& operatorTerm);
+    Term(Monomial const& monomial);
     Term(Polynomial const& polynomial);
     Term(Expression const& expression);
 

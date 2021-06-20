@@ -10,6 +10,7 @@ using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
+
 namespace equation
 {
 

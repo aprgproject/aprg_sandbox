@@ -8,7 +8,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -363,6 +364,7 @@ string Term::getDebugString() const
     result += "]";
     return result;
 }
+
 Constant & Term::getConstantReference()
 {
     assert(m_type==TermType::Constant);

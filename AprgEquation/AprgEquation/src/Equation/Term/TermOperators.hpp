@@ -12,6 +12,7 @@ namespace alba
 
 namespace equation
 {
+
 //Unary plus: +a
 Term operator+(Constant const& constant);
 Term operator+(Variable const& variable);

@@ -8,6 +8,7 @@ namespace alba
 
 namespace equation
 {
+
 class TermsAggregator
 {
 public:

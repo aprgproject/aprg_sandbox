@@ -7,6 +7,7 @@
 
 namespace alba
 {
+
 namespace equation
 {
 
@@ -249,4 +250,5 @@ void AdditionAndSubtractionOfTermsOverTerms::putItem(TermsOverTerms const& item,
 }
 
 }
+
 }

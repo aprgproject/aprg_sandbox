@@ -9,6 +9,7 @@
 
 namespace alba
 {
+
 namespace equation
 {
 
@@ -21,7 +22,8 @@ public:
     Polynomial(std::initializer_list<Monomial> const& monomials);
 
     bool operator==(Polynomial const& second) const;
-    bool operator!=(Polynomial const& second) const;    bool operator<(Polynomial const& second) const;
+    bool operator!=(Polynomial const& second) const;
+    bool operator<(Polynomial const& second) const;
     bool isEmpty() const;
     bool isOne() const;
     bool isZero() const;
@@ -35,7 +37,8 @@ public:
 
     void clear();
     void simplify();
-    void sortMonomialsWithInversePriority();    void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
+    void sortMonomialsWithInversePriority();
+    void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
     void addMonomial(Monomial const& monomial);
     void addPolynomial(Polynomial const& polynomial);
     void multiplyNumber(AlbaNumber const& number);
@@ -51,6 +54,7 @@ private:
 };
 
 using Polynomials=std::vector<Polynomial>;
+
 std::ostream & operator<<(std::ostream & out, Polynomial const& polynomial);
 
 }

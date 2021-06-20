@@ -5,6 +5,7 @@
 
 namespace alba
 {
+
 namespace equation
 {
 
@@ -52,4 +53,5 @@ private:
 };
 
 }
+
 }

@@ -13,6 +13,7 @@
 
 namespace alba
 {
+
 namespace equation
 {
 
@@ -25,7 +26,8 @@ public:
     Expression(BaseTerm const& baseTerm);
     ~Expression();
 
-    bool operator==(Expression const& second) const;    bool operator!=(Expression const& second) const;
+    bool operator==(Expression const& second) const;
+    bool operator!=(Expression const& second) const;
     bool operator<(Expression const& second) const;
     bool isEmpty() const;
     bool containsOnlyOneTerm() const;
@@ -40,6 +42,7 @@ public:
 
     void clear();
     void clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm);
+
     void putTermWithAdditionIfNeeded(BaseTerm const& baseTerm);
     void putTermWithSubtractionIfNeeded(BaseTerm const& baseTerm);
     void putTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm);

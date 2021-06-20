@@ -8,6 +8,7 @@
 
 namespace alba
 {
+
 namespace equation
 {
 
@@ -25,6 +26,7 @@ public:
     Terms const& getDenominators() const;
 
     std::string getDisplayableString() const;
+
 private:
     void simplifyPolynomialsAndShouldFactorize(bool const shouldFactorize);
     void removeSameTermsInNumeratorAndDenominator();

@@ -6,6 +6,7 @@
 
 namespace alba
 {
+
 namespace equation
 {
 
@@ -19,6 +20,7 @@ public:
     bool operator==(Variable const& second) const;
     bool operator!=(Variable const& second) const;
     bool operator<(Variable const& second) const;
+
     std::string getVariableName() const;
     std::string getDisplayableString() const;
 
