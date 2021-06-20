@@ -38,37 +38,6 @@ TermsOverTerms::TermsOverTerms(
     }
 }
 
-void TermsOverTerms::simplify()
-{
-    //remove common terms first don't make it big
-    simplifyPolynomialsAndShouldFactorize(false);
-    removeSameTermsInNumeratorAndDenominator();
-}
-
-void TermsOverTerms::simplifyToFactors()
-{
-    simplifyPolynomialsAndShouldFactorize(true);
-    removeSameTermsInNumeratorAndDenominator();
-}
-
-TermsWithDetails TermsOverTerms::getNumeratorAndDenominatorAsTermWithDetails() const
-{
-    TermsWithDetails result;
-    if(areTermsEmptyOrValueOne(m_numerators))
-    {
-        result.emplace_back(getBaseTermConstReferenceFromTerm(Term(1)), TermAssociationType::Positive);
-    }
-    for(Term const& numerator : m_numerators)
-    {
-        result.emplace_back(getBaseTermConstReferenceFromTerm(numerator), TermAssociationType::Positive);
-    }
-    for(Term const& denominator : m_denominators)
-    {
-        result.emplace_back(getBaseTermConstReferenceFromTerm(denominator), TermAssociationType::Negative);
-    }
-    return result;
-}
-
 Terms const& TermsOverTerms::getNumerators() const
 {
     return m_numerators;
@@ -79,14 +48,24 @@ Terms const& TermsOverTerms::getDenominators() const
     return m_denominators;
 }
 
-std::string TermsOverTerms::getDisplayableString() const
+TermsWithDetails TermsOverTerms::getNumeratorAndDenominatorAsTermWithDetails() const
 {
-    stringstream result;
-    result << "Numerators:" << endl;
+    TermsWithDetails result;
     for(Term const& numerator : m_numerators)
     {
-        result << "[" << numerator.getDisplayableString() << "]" << endl;
-    }
+        result.emplace_back(getBaseTermConstReferenceFromTerm(numerator), TermAssociationType::Positive);    }
+    for(Term const& denominator : m_denominators)
+    {
+        result.emplace_back(getBaseTermConstReferenceFromTerm(denominator), TermAssociationType::Negative);    }
+    return result;
+}
+
+std::string TermsOverTerms::getDisplayableString() const
+{
+    stringstream result;    result << "Numerators:" << endl;
+    for(Term const& numerator : m_numerators)
+    {
+        result << "[" << numerator.getDisplayableString() << "]" << endl;    }
     result << "Denominators:" << endl;
     for(Term const& denominator : m_denominators)
     {
@@ -95,94 +74,53 @@ std::string TermsOverTerms::getDisplayableString() const
     return result.str();
 }
 
-void TermsOverTerms::simplifyPolynomialsAndShouldFactorize(bool const shouldFactorize)
+void TermsOverTerms::simplify()
+{
+    factorizeNumeratorsAndDenominators();
+    removeSameTermsInNumeratorAndDenominator();
+    simplifyPolynomialsAndPutFactorsIfNeeded(false);
+    removeSameTermsInNumeratorAndDenominator();
+}
+
+void TermsOverTerms::simplifyToFactors()
+{
+    factorizeNumeratorsAndDenominators();
+    removeSameTermsInNumeratorAndDenominator();
+    simplifyPolynomialsAndPutFactorsIfNeeded(true);
+    removeSameTermsInNumeratorAndDenominator();
+}
+
+void TermsOverTerms::factorizeNumeratorsAndDenominators()
+{
+    Terms numerators(m_numerators);
+    m_numerators.clear();
+    emplaceAndFactorizeAllTermsIfNeeded(m_numerators, numerators, true);
+    Terms denominators(m_denominators);
+    m_denominators.clear();
+    emplaceAndFactorizeAllTermsIfNeeded(m_denominators, denominators, true);
+}
+
+void TermsOverTerms::simplifyPolynomialsAndPutFactorsIfNeeded(bool const shouldFactorize)
 {
     Polynomial polynomialNumerator(createPolynomialFromConstant(1));
     Terms remainingNumerators;
-    for(Term const& numeratorTerm : m_numerators)
-    {
-        if(canBeConvertedToPolynomial(numeratorTerm))
-        {
-            polynomialNumerator.multiplyPolynomial(createPolynomialIfPossible(numeratorTerm));
-        }
-        else
-        {
-            remainingNumerators.emplace_back(numeratorTerm);
-        }
-    }
+    multiplyIfPolynomialElseEmplaceBack(polynomialNumerator, remainingNumerators, m_numerators);
     Polynomial polynomialDenominator(createPolynomialFromConstant(1));
     Terms remainingDenominators;
-    for(Term const& denominatorTerm : m_denominators)
-    {
-        if(canBeConvertedToPolynomial(denominatorTerm))
-        {
-            polynomialDenominator.multiplyPolynomial(createPolynomialIfPossible(denominatorTerm));
-        }
-        else
-        {
-            remainingDenominators.emplace_back(denominatorTerm);
-        }
-    }
-    PolynomialOverPolynomial numeratorAndDenominator(polynomialNumerator, polynomialDenominator);
-    numeratorAndDenominator.simplify();
-    polynomialNumerator = numeratorAndDenominator.getNumerator();
-    polynomialDenominator = numeratorAndDenominator.getDenominator();
+    multiplyIfPolynomialElseEmplaceBack(polynomialDenominator, remainingDenominators, m_denominators);
+    simplifyPolynomialNumeratorAndPolynomialDenominator(polynomialNumerator, polynomialDenominator);
     m_numerators.clear();
     m_denominators.clear();
-    if(polynomialNumerator.isZero())
-    {
-        m_numerators.emplace_back(Term(Constant(0)));
-    }
-    else if(!polynomialNumerator.isOne())
-    {
-        if(shouldFactorize)
-        {
-            Polynomials polynomialNumerators(factorize(polynomialNumerator));
-            for(Polynomial const& polynomial : polynomialNumerators)
-            {
-                m_numerators.emplace_back(simplifyAndConvertPolynomialToSimplestTerm(polynomial));
-            }
-        }
-        else
-        {
-            m_numerators.emplace_back(simplifyAndConvertPolynomialToSimplestTerm(polynomialNumerator));
-        }
-    }
-    for(Term const& numeratorTerm : remainingNumerators)
-    {
-        m_numerators.emplace_back(numeratorTerm);
-    }
-    if(polynomialDenominator.isZero())
-    {
-        m_denominators.emplace_back(Term(Constant(0)));
-    }
-    else if(!polynomialDenominator.isOne())
-    {
-        if(shouldFactorize)
-        {
-            Polynomials polynomialDenominators(factorize(polynomialDenominator));
-            for(Polynomial const& polynomial : polynomialDenominators)
-            {
-                m_denominators.emplace_back(simplifyAndConvertPolynomialToSimplestTerm(polynomial));
-            }
-        }
-        else
-        {
-            m_denominators.emplace_back(simplifyAndConvertPolynomialToSimplestTerm(polynomialDenominator));
-        }
-    }
-    for(Term const& denominatorTerm : remainingDenominators)
-    {
-        m_denominators.emplace_back(denominatorTerm);
-    }
+    emplaceAndFactorizePolynomialIfNeeded(m_numerators, polynomialNumerator, shouldFactorize);
+    copy(remainingNumerators.cbegin(), remainingNumerators.cend(), back_inserter(m_numerators));
+    emplaceAndFactorizePolynomialIfNeeded(m_denominators, polynomialDenominator, shouldFactorize);
+    copy(remainingDenominators.cbegin(), remainingDenominators.cend(), back_inserter(m_denominators));
 }
 
-void TermsOverTerms::removeSameTermsInNumeratorAndDenominator()
-{
+void TermsOverTerms::removeSameTermsInNumeratorAndDenominator(){
     for(Terms::iterator numeratorIt = m_numerators.begin();
         numeratorIt != m_numerators.end();
-        numeratorIt++)
-    {
+        numeratorIt++)    {
         for(Terms::iterator denominatorIt = m_denominators.begin();
             denominatorIt != m_denominators.end();
             denominatorIt++)
@@ -200,18 +138,86 @@ void TermsOverTerms::removeSameTermsInNumeratorAndDenominator()
     }
 }
 
-bool TermsOverTerms::areTermsEmptyOrValueOne(Terms const& terms) const
+void TermsOverTerms::multiplyIfPolynomialElseEmplaceBack(
+        Polynomial & polynomialResult,
+        Terms & termsResult,
+        Terms const& termsToCheck) const
 {
-    bool result(false);
-    if(terms.empty())
+    for(Term const& termToCheck : termsToCheck)
     {
-        result = true;
+        if(canBeConvertedToPolynomial(termToCheck))
+        {
+            polynomialResult.multiplyPolynomial(createPolynomialIfPossible(termToCheck));
+        }
+        else
+        {
+            termsResult.emplace_back(termToCheck);
+        }
+    }
+}
+
+void TermsOverTerms::emplaceAndFactorizeAllTermsIfNeeded(
+        Terms & termsResult,
+        Terms const& termsToCheck,
+        bool const shouldFactorize) const
+{
+    for(Term const& termToCheck : termsToCheck)
+    {
+        emplaceAndFactorizeTermIfNeeded(termsResult, termToCheck, shouldFactorize);
+    }
+}
+
+void TermsOverTerms::emplaceAndFactorizeTermIfNeeded(
+        Terms & termsResult,
+        Term const& term,
+        bool const shouldFactorize) const
+{
+    if(term.isPolynomial())
+    {
+        Polynomial simplifiedPolynomial(term.getPolynomialConstReference());
+        simplifiedPolynomial.simplify();
+        emplaceAndFactorizePolynomialIfNeeded(termsResult, simplifiedPolynomial, shouldFactorize);
     }
     else
     {
-        result = terms.at(0).isTheValueOne();
+        termsResult.emplace_back(term);
     }
-    return result;
+}
+
+void TermsOverTerms::emplaceAndFactorizePolynomialIfNeeded(
+        Terms & termsResult,
+        Polynomial const& polynomial,
+        bool const shouldFactorize) const
+{
+    if(polynomial.isZero())
+    {
+        termsResult.emplace_back(Term(Constant(0)));
+    }
+    else if(!polynomial.isOne())
+    {
+        if(shouldFactorize)
+        {
+            Polynomials polynomialFactors(factorize(polynomial));
+            for(Polynomial const& polynomialFactor : polynomialFactors)
+            {
+                termsResult.emplace_back(simplifyAndConvertPolynomialToSimplestTerm(polynomialFactor));
+            }
+        }
+        else
+        {
+            termsResult.emplace_back(simplifyAndConvertPolynomialToSimplestTerm(polynomial));
+        }
+    }
+}
+
+void TermsOverTerms::simplifyPolynomialNumeratorAndPolynomialDenominator(
+        Polynomial & polynomialNumerator,
+        Polynomial & polynomialDenominator) const
+{
+    PolynomialOverPolynomial numeratorAndDenominator(polynomialNumerator, polynomialDenominator);
+    numeratorAndDenominator.simplify();
+    polynomialNumerator = numeratorAndDenominator.getNumerator();
+    polynomialDenominator = numeratorAndDenominator.getDenominator();
 }
 
 }
