@@ -738,23 +738,27 @@ AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials)
 
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials)
 {
+    bool isFirst(true);
+    bool isFirstMonomialNegative(false);
     unsigned int negativeSignCount(0);
     for(Monomial const& monomial : monomials)
-    {
-        if(monomial.getConstantConstReference() < AlbaNumber(0))
+    {        if(monomial.getConstantConstReference() < AlbaNumber(0))
         {
             negativeSignCount++;
+            if(isFirst)
+            {
+                isFirstMonomialNegative = true;
+            }
         }
+        isFirst=false;
     }
-    return (negativeSignCount>0 && negativeSignCount == monomials.size()) ? -1 : 1;
+    return (isFirstMonomialNegative||(negativeSignCount>0 && negativeSignCount == monomials.size())) ? -1 : 1;
 }
 
-void segregateMonomialsAndNonMonomials(
-        Terms const& termsToSegregate,
+void segregateMonomialsAndNonMonomials(        Terms const& termsToSegregate,
         Terms & monomials,
         Terms & nonMonomials)
-{
-    for(Term const& termToSegregate : termsToSegregate)
+{    for(Term const& termToSegregate : termsToSegregate)
     {
         if(canBeConvertedToMonomial(termToSegregate))
         {

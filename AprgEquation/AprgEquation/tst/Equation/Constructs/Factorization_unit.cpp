@@ -712,14 +712,29 @@ TEST(FactorizationTest, FactorizeBySplittingSmallerPolynomialsIfPossible_WorksOn
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
-TEST(FactorizationTest, SplitPolynomialIntoSmallerPolynomialsWorks)
+TEST(FactorizationTest, FactorizeBySplittingSmallerPolynomialsIfPossible_WorksOnExample1)
 {
     Polynomial polynomialToTest{
-        Monomial(1, {{"a", 1}, {"x", 1}}),
+        Monomial(15, {{"a", 1}, {"b", 1}}),
+                Monomial(-20, {{"a", 1}}),
+                Monomial(-21, {{"b", 1}}),
+                Monomial(28, {})};
+
+    Polynomials polynomialsToVerify(factorizeBySplittingSmallerPolynomialsIfPossible(polynomialToTest));
+
+    ASSERT_EQ(2u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(5, {{"a", 1}}), Monomial(-7, {})};
+    Polynomial polynomialToExpect2{Monomial(3, {{"b", 1}}), Monomial(-4, {})};
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
+    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
+}
+
+TEST(FactorizationTest, SplitPolynomialIntoSmallerPolynomialsWorks)
+{
+    Polynomial polynomialToTest{        Monomial(1, {{"a", 1}, {"x", 1}}),
                 Monomial(1, {{"a", 1}, {"y", 1}}),
                 Monomial(1, {{"b", 1}, {"x", 1}}),
                 Monomial(1, {{"b", 1}, {"y", 1}})};
-
     Polynomials polynomialsToVerify(splitPolynomialIntoSmallerPolynomials(polynomialToTest));
 
     ASSERT_EQ(2u, polynomialsToVerify.size());

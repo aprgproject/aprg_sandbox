@@ -626,27 +626,29 @@ TEST(UtilitiesTest, GetGcfMonomialInMonomialsWorks)
     Monomial monomialToVerify4(getGcfMonomialInMonomials({Monomial(AlbaNumber(1, 4), {{"x", 1}}), Monomial(5, {})}));
     Monomial monomialToVerify5(getGcfMonomialInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {{"x", -1}})}));
     Monomial monomialToVerify6(getGcfMonomialInMonomials({Monomial(6, {}), Monomial(9, {})}));
+    Monomial monomialToVerify7(getGcfMonomialInMonomials({Monomial(-6, {}), Monomial(9, {})}));
+    Monomial monomialToVerify8(getGcfMonomialInMonomials({Monomial(6, {}), Monomial(-9, {})}));
 
     Monomial monomialToExpect1(2, {{"x", 3}});
-    Monomial monomialToExpect2(4, {});
-    Monomial monomialToExpect3(1, {{"x", 1}});
+    Monomial monomialToExpect2(4, {});    Monomial monomialToExpect3(1, {{"x", 1}});
     Monomial monomialToExpect4(AlbaNumber(1, 4), {});
     Monomial monomialToExpect5(5, {{"x", -1}});
     Monomial monomialToExpect6(3, {});
+    Monomial monomialToExpect7(-3, {});
+    Monomial monomialToExpect8(3, {});
     EXPECT_EQ(monomialToExpect1, monomialToVerify1);
     EXPECT_EQ(monomialToExpect2, monomialToVerify2);
-    EXPECT_EQ(monomialToExpect3, monomialToVerify3);
-    EXPECT_EQ(monomialToExpect4, monomialToVerify4);
+    EXPECT_EQ(monomialToExpect3, monomialToVerify3);    EXPECT_EQ(monomialToExpect4, monomialToVerify4);
     EXPECT_EQ(monomialToExpect5, monomialToVerify5);
     EXPECT_EQ(monomialToExpect6, monomialToVerify6);
+    EXPECT_EQ(monomialToExpect7, monomialToVerify7);
+    EXPECT_EQ(monomialToExpect8, monomialToVerify8);
 }
 
-TEST(UtilitiesTest, GetLcmMonomialInMonomialsWorks)
-{
+TEST(UtilitiesTest, GetLcmMonomialInMonomialsWorks){
     Monomial monomialToVerify1(getLcmMonomialInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));
     Monomial monomialToVerify2(getLcmMonomialInMonomials({Monomial(4, {{"x", 3}}), Monomial(8, {{"y", 7}})}));
-    Monomial monomialToVerify3(getLcmMonomialInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {})}));
-    Monomial monomialToVerify4(getLcmMonomialInMonomials({Monomial(AlbaNumber(1, 4), {{"x", 1}}), Monomial(5, {})}));
+    Monomial monomialToVerify3(getLcmMonomialInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {})}));    Monomial monomialToVerify4(getLcmMonomialInMonomials({Monomial(AlbaNumber(1, 4), {{"x", 1}}), Monomial(5, {})}));
     Monomial monomialToVerify5(getLcmMonomialInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {{"x", -1}})}));
     Monomial monomialToVerify6(getLcmMonomialInMonomials({Monomial(6, {}), Monomial(9, {})}));
 

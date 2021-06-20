@@ -42,15 +42,13 @@ void PolynomialOverPolynomial::simplify()
     removeCommonMonomialOnAllMonomialsInNumeratorAndDenominator();
     m_numerator.simplify();
     m_denominator.simplify();
-    factorizeAndRemoveCommonFactorsInNumeratorAndDenominator();
+    factorizeRemoveCommonFactorsInNumeratorAndDenominatorAndCombineRemainingFactors();
 }
 
-PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide() const
-{
+PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide() const{
     Polynomial currentQuotient;    Polynomial currentRemainder(m_numerator);
     while(!currentRemainder.isZero())
-    {
-        Monomial const& dividendMonomial(currentRemainder.getFirstMonomial());        Monomial const& divisorMonomial(m_denominator.getFirstMonomial());
+    {        Monomial const& dividendMonomial(currentRemainder.getFirstMonomial());        Monomial const& divisorMonomial(m_denominator.getFirstMonomial());
         Monomial currentQuotientMonomial(dividendMonomial);
         currentQuotientMonomial.divideMonomial(divisorMonomial);
         if(currentQuotientMonomial.hasNegativeExponents())
@@ -109,19 +107,16 @@ void PolynomialOverPolynomial::removeCommonMonomialOnAllMonomialsInNumeratorAndD
 
 }
 
-void PolynomialOverPolynomial::factorizeAndRemoveCommonFactorsInNumeratorAndDenominator()
+void PolynomialOverPolynomial::factorizeRemoveCommonFactorsInNumeratorAndDenominatorAndCombineRemainingFactors()
 {
     Polynomials numeratorFactors(factorize(m_numerator));
     Polynomials denominatorFactors(factorize(m_denominator));
-
     bool areSomeFactorsRemoved(removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(numeratorFactors, denominatorFactors));
     if(areSomeFactorsRemoved)
-    {
-        m_numerator = multiplyAndSimplifyFactors(numeratorFactors);
+    {        m_numerator = multiplyAndSimplifyFactors(numeratorFactors);
         m_denominator = multiplyAndSimplifyFactors(denominatorFactors);
     }
 }
-
 unsigned int PolynomialOverPolynomial::getLcmForDenominatorCoefficients(Polynomial const& polynomial)
 {
     unsigned int lcm(1);
