@@ -11,6 +11,7 @@ namespace alba
 namespace mathHelper
 {
 
+constexpr double DOUBLE_DIFFERENCE_TOLERANCE=1E-12;
 
 //internal functions
 
@@ -31,8 +32,7 @@ unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned
 template <typename NumberType>
 bool isAlmostEqual(NumberType const value1, NumberType const value2)
 {
-    constexpr double differenceTolerance(1E-12);
-    return getAbsoluteValue(value1-value2) <= differenceTolerance;
+    return getAbsoluteValue(value1-value2) <= DOUBLE_DIFFERENCE_TOLERANCE;
 }
 
 //Commented out: This implementation is not practical when value is equal to zero
@@ -208,10 +208,19 @@ bool isPerfectCube(NumberType const& value)
 template bool isPerfectCube<unsigned int>(unsigned int const& value);
 template bool isPerfectCube<AlbaNumber>(AlbaNumber const& value);
 
+bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance)
+{
+    return getAbsoluteValue(value1-value2) <= differenceTolerance;
+}
 
 bool canConvertedToInteger(double const realValue)
 {
     return isAlmostEqual<double>(realValue, round(realValue));
+}
+
+bool canConvertedToInteger(double const realValue, double const differenceTolerance)
+{
+    return isAlmostEqual(realValue, round(realValue), differenceTolerance);
 }
 
 bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits)

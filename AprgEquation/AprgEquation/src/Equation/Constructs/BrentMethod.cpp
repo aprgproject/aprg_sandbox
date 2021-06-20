@@ -49,10 +49,12 @@ AlbaNumberOptional BrentMethod::calculateRoot(AlbaNumber const& start, AlbaNumbe
     double bPreviousValue=a.getDouble();
     for(unsigned numberOfIterations=0; numberOfIterations<maxIterations; numberOfIterations++) //or |b − a| is small enough (convergence)
     {
-        if(calculate(s) == 0)        {
+        if(calculate(s) == 0)
+        {
             result.setValue(s);
             break;
-        }        if(calculate(b) == 0)
+        }
+        if(calculate(b) == 0)
         {
             result.setValue(b);
             break;
@@ -78,10 +80,12 @@ AlbaNumberOptional BrentMethod::calculateRoot(AlbaNumber const& start, AlbaNumbe
         }
         if(isBisectionMethodNeeded(a,b,c,d,s,mflag))
         {
-            s = calculateBiSectionMethod(a, b);            mflag = true;
+            s = calculateBiSectionMethod(a, b);
+            mflag = true;
         }
         else
-        {            mflag = false;
+        {
+            mflag = false;
         }
         AlbaNumber fs = calculate(s);
         d = c;
@@ -110,12 +114,21 @@ AlbaNumberOptional BrentMethod::calculateRoot(AlbaNumber const& start, AlbaNumbe
         bPreviousValue = b.getDouble();
     }
 
-    if(result.hasContent() && !m_coefficients.empty())    {
+    if(result.hasContent() && !m_coefficients.empty())
+    {
         AlbaNumber aCoefficient(m_coefficients.front());
         if(aCoefficient.isIntegerOrFractionType())
-        {            AlbaNumber integerValue(result.getConstReference()*aCoefficient);
-            integerValue.convertToInteger();
-            result.setValue(integerValue/aCoefficient);
+        {
+            AlbaNumber possibleIntegerValue(result.getConstReference()*aCoefficient);
+            if(canConvertedToInteger(possibleIntegerValue.getDouble(), 1E-5))
+            {
+                possibleIntegerValue.convertToInteger();
+                possibleIntegerValue = possibleIntegerValue/aCoefficient;
+                if(calculate(possibleIntegerValue)==0)
+                {
+                    result.setValue(possibleIntegerValue);
+                }
+            }
         }
     }
 

@@ -26,34 +26,35 @@ public:
     void simplify();
     void simplifyToFactors();
 
-
 private:
+    void clearThenEmplacePolynomialAndRemainingTerms(
+            Polynomial const& polynomialNumerator,
+            Terms const& remainingNumerators,
+            Terms & termsToUpdate) const;
     void factorizeNumeratorsAndDenominators();
-    void simplifyPolynomialsAndPutFactorsIfNeeded(bool const shouldFactorize);
+    void emplaceAndFactorizeAllTerms(Terms & termsResult, Terms const& termsToCheck) const;
+    void emplaceAndFactorizeTerm(Terms & termsResult, Term const& term) const;
+    void emplaceAndFactorizePolynomialIfNeeded(Terms & termsResult, Polynomial const& polynomial) const;
+    void emplacePolynomialIfNeeded(Terms & termsResult, Polynomial const& polynomialNumerator) const;
+    Polynomial multiplyPolynomialTerms(Terms const& polynomialTerms) const;
+    void removeTermsThatHasNoEffectInNumeratorAndDenominator();
     void removeSameTermsInNumeratorAndDenominator();
-    void multiplyIfPolynomialElseEmplaceBack(
-            Polynomial & polynomialResult,
-            Terms & termsResult,
+    void removeTermsThatHaveNoEffect(Terms & terms) const;
+    void splitTermsToCombinedPolynomialAndRemainingTerms(
+            Polynomial & combinedPolynomial,
+            Terms & remainingTerms,
             Terms const& termsToCheck) const;
     void simplifyPolynomialNumeratorAndPolynomialDenominator(
             Polynomial & polynomialNumerator,
             Polynomial & polynomialDenominator) const;
-    void emplaceAndFactorizeAllTermsIfNeeded(
-            Terms & termsResult,
-            Terms const& termsToCheck,
-            bool const shouldFactorize) const;
-    void emplaceAndFactorizeTermIfNeeded(
-            Terms & termsResult,
-            Term const& term,
-            bool const shouldFactorize) const;
-    void emplaceAndFactorizePolynomialIfNeeded(
-            Terms & termsResult,
-            Polynomial const& polynomialNumerator,
-            bool const shouldFactorize) const;
+    void simplifyMonomialsToPolynomialsOverPolynomials();
+    void simplifyPolynomialsToPolynomialsOverPolynomials();
     Terms m_numerators;
     Terms m_denominators;
 };
+
 using VectorOfTermsOverTerms = std::vector<TermsOverTerms>;
 
 }
+
 }

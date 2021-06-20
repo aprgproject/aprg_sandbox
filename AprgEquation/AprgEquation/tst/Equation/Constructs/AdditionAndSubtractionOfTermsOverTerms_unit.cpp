@@ -368,10 +368,12 @@ TEST(AdditionAndSubtractionOfTermsOverTerms, GetCombinedExpressionForRevisedNume
 TEST(AdditionAndSubtractionOfTermsOverTerms, GetCombinedExpressionUsingExample1Works)
 {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
-    TermsOverTerms fraction1({Term(4)}, {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})})});    TermsOverTerms fraction2({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})})}, {Term(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})})});
+    TermsOverTerms fraction1({Term(4)}, {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})})});
+    TermsOverTerms fraction2({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})})}, {Term(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})})});
     TermsOverTerms fraction3({Term(Polynomial{Monomial(2, {{"x", 1}}), Monomial(1, {})})}, {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})})});
     additionAndSubtraction.putAsAddition(fraction1);
-    additionAndSubtraction.putAsAddition(fraction2);    additionAndSubtraction.putAsAddition(fraction3);
+    additionAndSubtraction.putAsAddition(fraction2);
+    additionAndSubtraction.putAsAddition(fraction3);
 
     Expression expressionToVerify(additionAndSubtraction.getCombinedExpression());
 
@@ -384,6 +386,26 @@ TEST(AdditionAndSubtractionOfTermsOverTerms, GetCombinedExpressionUsingExample1W
     Expression subExpression3(createExpressionIfPossible(Terms{Term(polynomial4), Term("*"), Term(polynomial2)}));
     Expression subExpression4(createExpressionIfPossible(Terms{Term(subExpression1), Term("+"), Term(subExpression2), Term("+"), Term(subExpression3)}));
     Expression expressionToExpect(createExpressionIfPossible(Terms{Term(subExpression4), Term("/"), Term(polynomial2), Term("/"), Term(polynomial1)}));
+    EXPECT_EQ(expressionToExpect, expressionToVerify);
+}
+
+TEST(AdditionAndSubtractionOfTermsOverTerms, GetCombinedExpressionAndSimplifyWorksOnExponentPlusPolynomialDenominator)
+{
+    AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
+    Polynomial polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})};
+    Expression exponentExpression(createExpressionIfPossible({Term(2), Term("^"), Term("x")}));
+    TermsOverTerms fraction1({Term(exponentExpression)}, {});
+    TermsOverTerms fraction2({}, {Term(polynomial)});
+    additionAndSubtraction.putAsAddition(fraction1);
+    additionAndSubtraction.putAsAddition(fraction2);
+
+    Expression expressionToVerify(additionAndSubtraction.getCombinedExpression());
+    expressionToVerify.simplify();
+
+    Expression subExpression1(createExpressionIfPossible(Terms{Term("x"), Term("*"), Term(exponentExpression)}));
+    Expression subExpression2(createExpressionIfPossible(Terms{Term(2), Term("*"), Term(exponentExpression)}));
+    Expression subExpression3(createExpressionIfPossible(Terms{Term(1), Term("+"), Term(subExpression1), Term("+"), Term(subExpression2)}));
+    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(subExpression3), Term("/"), Term(polynomial)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
@@ -425,6 +447,7 @@ TEST(AdditionAndSubtractionOfTermsOverTerms, GetCombinedExpressionAndSimplifyUsi
     Expression expressionToVerify(additionAndSubtraction.getCombinedExpression());
     expressionToVerify.simplify();
 
+    //This values has been double checked.
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 2}}), Monomial(-10, {{"x", 1}}), Monomial(7, {})};
     Polynomial polynomialToExpect2{Monomial(6, {{"x", 3}}), Monomial(-11, {{"x", 2}}), Monomial(-14, {{"x", 1}}), Monomial(24, {})};
     Expression expressionToExpect(createExpressionIfPossible(Terms{Term(polynomialToExpect1), Term("/"), Term(polynomialToExpect2)}));

@@ -564,6 +564,25 @@ TEST(TermTest, GetDebugStringWorks)
     EXPECT_EQ("( [+-]||5[Constant][POS]+interest[Variable][POS] )[Expression]", term7.getDebugString());
 }
 
+TEST(TermTest, SimplifyWorks)
+{
+    Term term1(1475);
+    Term term2(Monomial(1475,{}));
+    Term term3(Polynomial{Monomial(1475,{})});
+    Term term4(Expression{createExpressionIfPossible({Term(1475)})});
+
+    term1.simplify();
+    term2.simplify();
+    term3.simplify();
+    term4.simplify();
+
+    Term termToExpect(1475);
+    EXPECT_EQ(termToExpect, term1);
+    EXPECT_EQ(termToExpect, term2);
+    EXPECT_EQ(termToExpect, term3);
+    EXPECT_EQ(termToExpect, term4);
+}
+
 TEST(TermTest, SortWorks)
 {
     Term term1;

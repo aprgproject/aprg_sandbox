@@ -836,7 +836,7 @@ AlbaNumber AlbaNumber::raisePowerOfFractionsAndIntegerAndReturnNumber(AlbaNumber
     return result;
 }
 
-std::ostream & operator<<(std::ostream & out, AlbaNumber const& number)
+ostream & operator<<(std::ostream & out, AlbaNumber const& number)
 {
     out << number.getDisplayableString();
     return out;

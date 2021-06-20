@@ -55,11 +55,11 @@ TEST(PolynomialTest, LessThanOperatorWorks)
     EXPECT_FALSE(Polynomial({Monomial(6, {}), Monomial(7, {{"x", 2}, {"y", 3}})})
                  < Polynomial({Monomial(6, {})}));
     EXPECT_TRUE(Polynomial({Monomial(6, {}), Monomial(7, {{"x", 2}, {"y", 3}})})
-                 < Polynomial({Monomial(6, {}), Monomial(8, {{"x", 1}}), Monomial(7, {{"x", 2}, {"y", 3}})}));
+                < Polynomial({Monomial(6, {}), Monomial(8, {{"x", 1}}), Monomial(7, {{"x", 2}, {"y", 3}})}));
     EXPECT_FALSE(Polynomial({Monomial(6, {}), Monomial(7, {{"x", 2}, {"y", 3}})})
                  < Polynomial({Monomial(6, {}), Monomial(6, {{"x", 2}, {"y", 3}})}));
     EXPECT_TRUE(Polynomial({Monomial(6, {}), Monomial(7, {{"x", 2}, {"y", 3}})})
-                 < Polynomial({Monomial(6, {}), Monomial(8, {{"x", 2}, {"y", 3}})}));
+                < Polynomial({Monomial(6, {}), Monomial(8, {{"x", 2}, {"y", 3}})}));
 }
 
 TEST(PolynomialTest, IsEmptyWorks)
@@ -358,6 +358,22 @@ TEST(PolynomialTest, MultiplyPolynomialWorks)
                    Monomial(18, {{"y", 8}}),
                    Monomial(27, {{"x", 4}, {"y", 8}})
                }), polynomial3);
+}
+
+TEST(PolynomialTest, MultiplyPolynomialUsingExample1Works)
+{
+    Polynomial polynomial1{Monomial(3, {{"x", 2}}), Monomial(-12, {{"x", 1}}), Monomial(-2, {})};
+    Polynomial polynomial2{Monomial(1, {{"x", 2}}), Monomial(4, {{"x", 1}}), Monomial(6, {})};
+
+    polynomial1.multiplyPolynomial(polynomial2);
+
+    Polynomial polynomialToExpect{
+        Monomial(3, {{"x", 4}}),
+                Monomial(0, {{"x", 3}}),
+                Monomial(-32, {{"x", 2}}),
+                Monomial(-80, {{"x", 1}}),
+                Monomial(-12, {})};
+    EXPECT_EQ(polynomialToExpect, polynomial1);
 }
 
 TEST(PolynomialTest, DivideMonomialWorks)

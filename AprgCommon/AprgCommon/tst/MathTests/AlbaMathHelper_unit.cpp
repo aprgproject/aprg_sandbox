@@ -25,6 +25,13 @@ TEST(AlbaMathHelperTest, IntegerTypesCanBeConsideredEqual)
     EXPECT_TRUE(isAlmostEqual(static_cast<int>(100), static_cast<int>(100)));
 }
 
+TEST(AlbaMathHelperTest, IsAlmostEqualWorksWithDifferenceTolerance)
+{
+    EXPECT_TRUE(isAlmostEqual(2.54, 2.55, 1E-1));
+    EXPECT_TRUE(isAlmostEqual(2.54, 2.55, 1E-2));
+    EXPECT_FALSE(isAlmostEqual(2.54, 2.55, 1E-3));
+}
+
 TEST(AlbaMathHelperTest, DistanceOfTwoNumbersCanBeComputed)
 {
     EXPECT_EQ(90, getDistance(-100,-10));
@@ -101,6 +108,13 @@ TEST(AlbaMathHelperTest, CanConvertedToIntegerAsWorkExpected)
     EXPECT_TRUE(canConvertedToInteger(2));
     EXPECT_FALSE(canConvertedToInteger(3.00000001));
     EXPECT_TRUE(canConvertedToInteger(3.0000000000001));
+}
+
+TEST(AlbaMathHelperTest, CanConvertedToIntegerWithDifferenceToleranceAsWorkExpected)
+{
+    EXPECT_TRUE(canConvertedToInteger(3.01, 1E-1));
+    EXPECT_TRUE(canConvertedToInteger(3.01, 1E-2));
+    EXPECT_FALSE(canConvertedToInteger(3.01, 1E-3));
 }
 
 TEST(AlbaMathHelperTest, AreNumberOfDigitsOnTheIntegerLimitWorkAsExpected)

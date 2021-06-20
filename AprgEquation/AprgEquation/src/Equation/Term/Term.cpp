@@ -401,6 +401,38 @@ Expression & Term::getExpressionReference()
     return *dynamic_cast<Expression*>(m_baseDataTermPointer.get());
 }
 
+void Term::simplify()
+{
+    if(m_type==TermType::Monomial)
+    {
+        *this = simplifyAndConvertMonomialToSimplestTerm(getMonomialConstReference());
+    }
+    else if(m_type==TermType::Polynomial)
+    {
+        *this = simplifyAndConvertPolynomialToSimplestTerm(getPolynomialConstReference());
+    }
+    else if(m_type==TermType::Expression)
+    {
+        *this = simplifyAndConvertExpressionToSimplestTerm(getExpressionConstReference());
+    }
+}
+
+void Term::simplifyToCommonDenominator()
+{
+    if(m_type==TermType::Monomial)
+    {
+        *this = simplifyAndConvertMonomialToSimplestTerm(getMonomialConstReference());
+    }
+    else if(m_type==TermType::Polynomial)
+    {
+        *this = simplifyAndConvertPolynomialToSimplestTerm(getPolynomialConstReference());
+    }
+    else if(m_type==TermType::Expression)
+    {
+        *this = simplifyToCommonDenominatorAndConvertExpressionToSimplestTerm(getExpressionConstReference());
+    }
+}
+
 void Term::sort()
 {
     if(isPolynomial())

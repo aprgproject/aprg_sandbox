@@ -36,19 +36,25 @@ PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::simplif
     simplify();
     return divide();
 }
+
 void PolynomialOverPolynomial::simplify()
 {
-    convertFractionCoefficientsToInteger();    convertNegativeExponentsToPositive();
+    convertFractionCoefficientsToInteger();
+    convertNegativeExponentsToPositive();
     removeCommonMonomialOnAllMonomialsInNumeratorAndDenominator();
     m_numerator.simplify();
     m_denominator.simplify();
     factorizeRemoveCommonFactorsInNumeratorAndDenominatorAndCombineRemainingFactors();
 }
 
-PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide() const{
-    Polynomial currentQuotient;    Polynomial currentRemainder(m_numerator);
+PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide() const
+{
+    Polynomial currentQuotient;
+    Polynomial currentRemainder(m_numerator);
     while(!currentRemainder.isZero())
-    {        Monomial const& dividendMonomial(currentRemainder.getFirstMonomial());        Monomial const& divisorMonomial(m_denominator.getFirstMonomial());
+    {
+        Monomial const& dividendMonomial(currentRemainder.getFirstMonomial());
+        Monomial const& divisorMonomial(m_denominator.getFirstMonomial());
         Monomial currentQuotientMonomial(dividendMonomial);
         currentQuotientMonomial.divideMonomial(divisorMonomial);
         if(currentQuotientMonomial.hasNegativeExponents())
@@ -71,10 +77,12 @@ PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide(
 
 void PolynomialOverPolynomial::convertFractionCoefficientsToInteger()
 {
-    unsigned int numeratorMultiplier(getLcmForDenominatorCoefficients(m_numerator));    m_numerator.multiplyNumber(numeratorMultiplier);
+    unsigned int numeratorMultiplier(getLcmForDenominatorCoefficients(m_numerator));
+    m_numerator.multiplyNumber(numeratorMultiplier);
     m_denominator.multiplyNumber(numeratorMultiplier);
     unsigned int denominatorMultiplier(getLcmForDenominatorCoefficients(m_denominator));
-    m_numerator.multiplyNumber(denominatorMultiplier);    m_denominator.multiplyNumber(denominatorMultiplier);
+    m_numerator.multiplyNumber(denominatorMultiplier);
+    m_denominator.multiplyNumber(denominatorMultiplier);
 }
 
 void PolynomialOverPolynomial::convertNegativeExponentsToPositive()
@@ -113,10 +121,12 @@ void PolynomialOverPolynomial::factorizeRemoveCommonFactorsInNumeratorAndDenomin
     Polynomials denominatorFactors(factorize(m_denominator));
     bool areSomeFactorsRemoved(removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(numeratorFactors, denominatorFactors));
     if(areSomeFactorsRemoved)
-    {        m_numerator = multiplyAndSimplifyFactors(numeratorFactors);
+    {
+        m_numerator = multiplyAndSimplifyFactors(numeratorFactors);
         m_denominator = multiplyAndSimplifyFactors(denominatorFactors);
     }
 }
+
 unsigned int PolynomialOverPolynomial::getLcmForDenominatorCoefficients(Polynomial const& polynomial)
 {
     unsigned int lcm(1);
@@ -160,10 +170,12 @@ Monomial PolynomialOverPolynomial::getMonomialWithMaxNegativeExponentsAndConvert
 
 bool PolynomialOverPolynomial::removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(
         Polynomials & numeratorFactors,
-        Polynomials & denominatorFactors) const{
+        Polynomials & denominatorFactors) const
+{
     bool areSomeFactorsRemoved(false);
     for(Polynomials::iterator numeratorIterator = numeratorFactors.begin();
-        numeratorIterator != numeratorFactors.end();        numeratorIterator++)
+        numeratorIterator != numeratorFactors.end();
+        numeratorIterator++)
     {
         for(Polynomials::iterator denominatorIterator = denominatorFactors.begin();
             denominatorIterator != denominatorFactors.end();

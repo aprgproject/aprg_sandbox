@@ -218,6 +218,10 @@ Expression AdditionAndSubtractionOfTermsOverTerms::getCombinedExpressionForNumer
     {
         combinedNumeratorOnIndex.putTermWithMultiplicationIfNeeded(getBaseTermConstReferenceFromTerm(numeratorTermOnIndex));
     }
+    if(combinedNumeratorOnIndex.isEmpty())
+    {
+        combinedNumeratorOnIndex = createExpressionIfPossible({Term(1)});
+    }
     return combinedNumeratorOnIndex;
 }
 

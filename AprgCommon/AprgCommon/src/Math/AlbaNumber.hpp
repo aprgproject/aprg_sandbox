@@ -10,8 +10,8 @@ namespace alba
 
 class AlbaNumber
 {
-public:
     friend std::ostream & operator<<(std::ostream & out, AlbaNumber const& number);
+public:
     enum class Type
     {
         Integer,

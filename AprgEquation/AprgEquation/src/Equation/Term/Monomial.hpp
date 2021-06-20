@@ -57,6 +57,7 @@ public:
     void simplify();
     void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
     void multiplyNumber(AlbaNumber const& number);
+    void divideNumber(AlbaNumber const& number);
     void raiseToPowerNumber(AlbaNumber const& number);
     void multiplyMonomial(Monomial const& monomial);
     void divideMonomial(Monomial const& monomial);

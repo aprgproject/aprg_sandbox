@@ -33,10 +33,14 @@ private:
     void factorizeRemoveCommonFactorsInNumeratorAndDenominatorAndCombineRemainingFactors();
     unsigned int getLcmForDenominatorCoefficients(Polynomial const& polynomial);
     Monomial getMonomialWithMaxNegativeExponentsAndConvertItToPositive(Polynomial const& polynomial);
-    bool removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(            Polynomials & numeratorFactors,
-            Polynomials & denominatorFactors) const;    Polynomial multiplyAndSimplifyFactors(Polynomials const& factors) const;
+    bool removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(
+            Polynomials & numeratorFactors,
+            Polynomials & denominatorFactors) const;
+    Polynomial multiplyAndSimplifyFactors(Polynomials const& factors) const;
     Polynomial m_numerator;
-    Polynomial m_denominator;};
+    Polynomial m_denominator;
+};
+
 }
 
 }

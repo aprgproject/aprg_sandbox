@@ -1453,6 +1453,30 @@ TEST(ExpressionTest, SimplifyWorksOnRaiseToPowerWithMultipleTerms)
     EXPECT_EQ(expressionToExpect2, expression2);
 }
 
+TEST(ExpressionTest, SimplifyWorksMultiplyingPolynomialOverPolynomials)
+{
+    Polynomial polynomial1{Monomial(3, {{"x", 2}}), Monomial(-12, {{"x", 1}}), Monomial(-2, {})};
+    Polynomial polynomial2{Monomial(1, {{"x", 2}}), Monomial(-6, {{"x", 1}}), Monomial(9, {})};
+    Polynomial polynomial3{Monomial(1, {{"x", 2}}), Monomial(4, {{"x", 1}}), Monomial(6, {})};
+    Polynomial polynomial4{Monomial(1, {{"x", 2}}), Monomial(6, {{"x", 1}}), Monomial(9, {})};
+    Polynomial polynomial5{Monomial(3, {{"x", 4}}), Monomial(-32, {{"x", 2}}), Monomial(-80, {{"x", 1}}), Monomial(-12, {})};
+    Polynomial polynomial6{Monomial(1, {{"x", 4}}), Monomial(-18, {{"x", 2}}), Monomial(81, {})};
+    Expression subExpression1(createExpressionIfPossible({Term(polynomial1), Term("/"), Term(polynomial2)}));
+    Expression subExpression2(createExpressionIfPossible({Term(polynomial3), Term("/"), Term(polynomial4)}));
+    Expression expression(createExpressionIfPossible({Term(subExpression1), Term("*"), Term(subExpression2)}));
+
+    expression.simplify();
+
+    Expression expressionToExpect(
+                createExpressionIfPossible(
+                    Terms{
+                        Term(polynomial5),
+                        Term("/"),
+                        Term(polynomial6)
+                    }));
+    EXPECT_EQ(expressionToExpect, expression);
+}
+
 TEST(ExpressionTest, SimplifyToACommonDenominatorWorks)
 {
     Expression expression(createExpressionIfPossible(tokenizeToTerms("((4)/(x+2))+((x+3)/(x*x-4))+((2*x+1)/(x-2))")));
@@ -1469,6 +1493,33 @@ TEST(ExpressionTest, SimplifyToACommonDenominatorWorks)
     EXPECT_EQ(expressionToExpect, expression);
 }
 
+TEST(ExpressionTest, SimplifyToACommonDenominatorWorksOnExponentPlusPolynomialDenominator)
+{
+    Expression expression(createExpressionIfPossible(tokenizeToTerms("2^x+((1)/(x+2))")));
+
+    expression.simplifyToACommonDenominator();
+
+    Polynomial polynomialToExpect{Monomial(1, {{"x", 1}}), Monomial(2, {})};
+    Expression subExpression1(createExpressionIfPossible({Term(2), Term("^"), Term("x")}));
+    Expression subExpression2(createExpressionIfPossible(Terms{Term("x"), Term("*"), Term(subExpression1)}));
+    Expression subExpression3(createExpressionIfPossible(Terms{Term(2), Term("*"), Term(subExpression1)}));
+    Expression subExpression4(createExpressionIfPossible(Terms{Term(1), Term("+"), Term(subExpression2), Term("+"), Term(subExpression3)}));
+    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(subExpression4), Term("/"), Term(polynomialToExpect)}));
+    EXPECT_EQ(expressionToExpect, expression);
+}
+
+TEST(ExpressionTest, SimplifyToACommonDenominatorWorksOnExponentWithFractionExpressions)
+{
+    Expression expression(createExpressionIfPossible(tokenizeToTerms("2^(((1)/(x+2))+((1)/(x-2)))")));
+
+    expression.simplifyToACommonDenominator();
+
+    Polynomial polynomialToExpect{Monomial(1, {{"x", 2}}), Monomial(-4, {})};
+    Expression subExpression(createExpressionIfPossible(Terms{Term(Monomial(2, {{"x", 1}})), Term("/"), Term(polynomialToExpect)}));
+    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(2), Term("^"), Term(subExpression)}));
+    EXPECT_EQ(expressionToExpect, expression);
+}
+
 TEST(ExpressionTest, SortWorks)
 {
     Expression expression(
@@ -1478,7 +1529,12 @@ TEST(ExpressionTest, SortWorks)
                         Term("-"), Term(3),
                         Term("+"), Term(4),
                         Term("+"), Term(5),
-                        Term("-"), Term(Polynomial{Monomial(100, {}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(10, {})})
+                        Term("-"),
+                        Term(Polynomial{
+                            Monomial(100, {}),
+                            Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}),
+                            Monomial(9, {{"x", 8}}),
+                            Monomial(10, {})})
                     }));
 
     expression.sort();
@@ -1490,7 +1546,12 @@ TEST(ExpressionTest, SortWorks)
                         Term("+"), Term(5),
                         Term("-"), Term(2),
                         Term("-"), Term(3),
-                        Term("-"), Term(Polynomial{Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(100, {}), Monomial(10, {})})
+                        Term("-"),
+                        Term(Polynomial{
+                            Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}),
+                            Monomial(9, {{"x", 8}}),
+                            Monomial(100, {}),
+                            Monomial(10, {})})
                     }));
     EXPECT_EQ(expressionToExpect, expression);
 }

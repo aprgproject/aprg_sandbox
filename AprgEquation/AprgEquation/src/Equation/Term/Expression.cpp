@@ -530,10 +530,10 @@ bool Expression::tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression & a
                 addSubtractTermsOverTerms.putAsAddOrSubtraction(TermsOverTerms(numerators, denominators), addSubtractTermWithDetails.association);
                 isTermAddedOrSubtracted=true;
             }
-            if(!isTermAddedOrSubtracted)
-            {
-                addSubtractTermsOverTerms.putAsAddOrSubtraction(TermsOverTerms({addSubtractTerm}, {}), addSubtractTermWithDetails.association);
-            }
+        }
+        if(!isTermAddedOrSubtracted)
+        {
+            addSubtractTermsOverTerms.putAsAddOrSubtraction(TermsOverTerms({addSubtractTerm}, {}), addSubtractTermWithDetails.association);
         }
     }
     if(shouldTermsOverTermsBeAddedOrSubtracted)

@@ -67,6 +67,8 @@ public:
     Polynomial & getPolynomialReference();
     Expression & getExpressionReference();
 
+    void simplify();
+    void simplifyToCommonDenominator();
     void sort();
     void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
 

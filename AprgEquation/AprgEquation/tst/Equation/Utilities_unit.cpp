@@ -511,13 +511,35 @@ TEST(UtilitiesTest, CreateSimplifiedExpressionIfPossibleReturnsEmptyIfListOfTerm
     ASSERT_TRUE(termsToVerify.empty());
 }
 
-TEST(UtilitiesTest, ConvertExpressionToSimplestTermWorks)
+TEST(UtilitiesTest, SimplifyAndConvertMonomialToSimplestTermWorks)
 {
-    Term termToVerify1(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{})));
-    Term termToVerify2(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{Term(156)})));
+    Term termToVerify1(simplifyAndConvertMonomialToSimplestTerm(Monomial()));
+    Term termToVerify2(simplifyAndConvertMonomialToSimplestTerm(Monomial(6, {})));
+    Term termToVerify3(simplifyAndConvertMonomialToSimplestTerm(Monomial(1, {{"x", 1}})));
+    Term termToVerify4(simplifyAndConvertMonomialToSimplestTerm(Monomial(10, {{"x", 0}})));
 
-    ASSERT_EQ(Term(), termToVerify1);
-    ASSERT_EQ(Term(156), termToVerify2);
+    ASSERT_EQ(TermType::Constant, termToVerify1.getTermType());
+    EXPECT_DOUBLE_EQ(0, termToVerify1.getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_EQ(TermType::Constant, termToVerify2.getTermType());
+    EXPECT_DOUBLE_EQ(6, termToVerify2.getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_EQ(TermType::Variable, termToVerify3.getTermType());
+    EXPECT_EQ("x", termToVerify3.getVariableConstReference().getVariableName());
+    ASSERT_EQ(TermType::Constant, termToVerify4.getTermType());
+    EXPECT_DOUBLE_EQ(10, termToVerify4.getConstantConstReference().getNumberConstReference().getDouble());
+}
+
+TEST(UtilitiesTest, SimplifyAndConvertPolynomialToSimplestTermWorks)
+{
+    Term termToVerify1(simplifyAndConvertPolynomialToSimplestTerm(Polynomial{}));
+    Term termToVerify2(simplifyAndConvertPolynomialToSimplestTerm(Polynomial{Monomial(6, {})}));
+    Term termToVerify3(simplifyAndConvertPolynomialToSimplestTerm(Polynomial{Monomial(6, {{"x", 1}}), Monomial(-6, {{"x", 1}})}));
+
+    ASSERT_EQ(TermType::Constant, termToVerify1.getTermType());
+    EXPECT_DOUBLE_EQ(0, termToVerify1.getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_EQ(TermType::Constant, termToVerify2.getTermType());
+    EXPECT_DOUBLE_EQ(6, termToVerify2.getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_EQ(TermType::Constant, termToVerify3.getTermType());
+    EXPECT_DOUBLE_EQ(0, termToVerify3.getConstantConstReference().getNumberConstReference().getDouble());
 }
 
 TEST(UtilitiesTest, SimplifyAndConvertExpressionToSimplestTermWorks)
@@ -544,35 +566,13 @@ TEST(UtilitiesTest, SimplifyAndConvertExpressionToSimplestTermWorks)
     EXPECT_DOUBLE_EQ(88, termToVerify5.getConstantConstReference().getNumberConstReference().getDouble());
 }
 
-TEST(UtilitiesTest, SimplifyAndConvertPolynomialToSimplestTermWorks)
+TEST(UtilitiesTest, ConvertExpressionToSimplestTermWorks)
 {
-    Term termToVerify1(simplifyAndConvertPolynomialToSimplestTerm(Polynomial{}));
-    Term termToVerify2(simplifyAndConvertPolynomialToSimplestTerm(Polynomial{Monomial(6, {})}));
-    Term termToVerify3(simplifyAndConvertPolynomialToSimplestTerm(Polynomial{Monomial(6, {{"x", 1}}), Monomial(-6, {{"x", 1}})}));
+    Term termToVerify1(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{})));
+    Term termToVerify2(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{Term(156)})));
 
-    ASSERT_EQ(TermType::Constant, termToVerify1.getTermType());
-    EXPECT_DOUBLE_EQ(0, termToVerify1.getConstantConstReference().getNumberConstReference().getDouble());
-    EXPECT_EQ(TermType::Constant, termToVerify2.getTermType());
-    EXPECT_DOUBLE_EQ(6, termToVerify2.getConstantConstReference().getNumberConstReference().getDouble());
-    EXPECT_EQ(TermType::Constant, termToVerify3.getTermType());
-    EXPECT_DOUBLE_EQ(0, termToVerify3.getConstantConstReference().getNumberConstReference().getDouble());
-}
-
-TEST(UtilitiesTest, SimplifyAndConvertMonomialToSimplestTermWorks)
-{
-    Term termToVerify1(simplifyAndConvertMonomialToSimplestTerm(Monomial()));
-    Term termToVerify2(simplifyAndConvertMonomialToSimplestTerm(Monomial(6, {})));
-    Term termToVerify3(simplifyAndConvertMonomialToSimplestTerm(Monomial(1, {{"x", 1}})));
-    Term termToVerify4(simplifyAndConvertMonomialToSimplestTerm(Monomial(10, {{"x", 0}})));
-
-    ASSERT_EQ(TermType::Constant, termToVerify1.getTermType());
-    EXPECT_DOUBLE_EQ(0, termToVerify1.getConstantConstReference().getNumberConstReference().getDouble());
-    EXPECT_EQ(TermType::Constant, termToVerify2.getTermType());
-    EXPECT_DOUBLE_EQ(6, termToVerify2.getConstantConstReference().getNumberConstReference().getDouble());
-    EXPECT_EQ(TermType::Variable, termToVerify3.getTermType());
-    EXPECT_EQ("x", termToVerify3.getVariableConstReference().getVariableName());
-    ASSERT_EQ(TermType::Constant, termToVerify4.getTermType());
-    EXPECT_DOUBLE_EQ(10, termToVerify4.getConstantConstReference().getNumberConstReference().getDouble());
+    ASSERT_EQ(Term(), termToVerify1);
+    ASSERT_EQ(Term(156), termToVerify2);
 }
 
 TEST(UtilitiesTest, TokenizeToTermsWorks)
@@ -630,7 +630,8 @@ TEST(UtilitiesTest, GetGcfMonomialInMonomialsWorks)
     Monomial monomialToVerify8(getGcfMonomialInMonomials({Monomial(6, {}), Monomial(-9, {})}));
 
     Monomial monomialToExpect1(2, {{"x", 3}});
-    Monomial monomialToExpect2(4, {});    Monomial monomialToExpect3(1, {{"x", 1}});
+    Monomial monomialToExpect2(4, {});
+    Monomial monomialToExpect3(1, {{"x", 1}});
     Monomial monomialToExpect4(AlbaNumber(1, 4), {});
     Monomial monomialToExpect5(5, {{"x", -1}});
     Monomial monomialToExpect6(3, {});
@@ -638,17 +639,20 @@ TEST(UtilitiesTest, GetGcfMonomialInMonomialsWorks)
     Monomial monomialToExpect8(3, {});
     EXPECT_EQ(monomialToExpect1, monomialToVerify1);
     EXPECT_EQ(monomialToExpect2, monomialToVerify2);
-    EXPECT_EQ(monomialToExpect3, monomialToVerify3);    EXPECT_EQ(monomialToExpect4, monomialToVerify4);
+    EXPECT_EQ(monomialToExpect3, monomialToVerify3);
+    EXPECT_EQ(monomialToExpect4, monomialToVerify4);
     EXPECT_EQ(monomialToExpect5, monomialToVerify5);
     EXPECT_EQ(monomialToExpect6, monomialToVerify6);
     EXPECT_EQ(monomialToExpect7, monomialToVerify7);
     EXPECT_EQ(monomialToExpect8, monomialToVerify8);
 }
 
-TEST(UtilitiesTest, GetLcmMonomialInMonomialsWorks){
+TEST(UtilitiesTest, GetLcmMonomialInMonomialsWorks)
+{
     Monomial monomialToVerify1(getLcmMonomialInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));
     Monomial monomialToVerify2(getLcmMonomialInMonomials({Monomial(4, {{"x", 3}}), Monomial(8, {{"y", 7}})}));
-    Monomial monomialToVerify3(getLcmMonomialInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {})}));    Monomial monomialToVerify4(getLcmMonomialInMonomials({Monomial(AlbaNumber(1, 4), {{"x", 1}}), Monomial(5, {})}));
+    Monomial monomialToVerify3(getLcmMonomialInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {})}));
+    Monomial monomialToVerify4(getLcmMonomialInMonomials({Monomial(AlbaNumber(1, 4), {{"x", 1}}), Monomial(5, {})}));
     Monomial monomialToVerify5(getLcmMonomialInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {{"x", -1}})}));
     Monomial monomialToVerify6(getLcmMonomialInMonomials({Monomial(6, {}), Monomial(9, {})}));
 
@@ -751,6 +755,20 @@ TEST(UtilitiesTest, SegregateMonomialsAndNonMonomialsWorks)
     EXPECT_EQ(Term(234), monomialTerms.at(0));
     ASSERT_EQ(1u, nonMonomialTerms.size());
     EXPECT_EQ(termExpression, nonMonomialTerms.at(0));
+}
+
+TEST(UtilitiesTest, SegregatePolynomialAndNonPolynomialsWorks)
+{
+    Terms polynomialTerms;
+    Terms nonPolynomialTerms;
+    Term termExpression(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+
+    segregatePolynomialAndNonPolynomials({Term(234), termExpression}, polynomialTerms, nonPolynomialTerms);
+
+    ASSERT_EQ(1u, polynomialTerms.size());
+    EXPECT_EQ(Term(234), polynomialTerms.at(0));
+    ASSERT_EQ(1u, nonPolynomialTerms.size());
+    EXPECT_EQ(termExpression, nonPolynomialTerms.at(0));
 }
 
 TEST(UtilitiesTest, SegregateNonExpressionsAndExpressionsWorks)

@@ -65,10 +65,11 @@ Expression createOrCopyExpressionFromATerm(Term const& term);
 Expression createExpressionIfPossible(Terms const& terms);
 Expression createSimplifiedExpressionIfPossible(Terms const& terms);
 
-Term convertExpressionToSimplestTerm(Expression const& expression);
-Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression);
-Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial);
 Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial);
+Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial);
+Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression);
+Term simplifyToCommonDenominatorAndConvertExpressionToSimplestTerm(Expression const& expression);
+Term convertExpressionToSimplestTerm(Expression const& expression);
 
 Terms tokenizeToTerms(std::string const& inputString);
 void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);
@@ -86,6 +87,10 @@ void segregateMonomialsAndNonMonomials(
         Terms const& termsToSegregate,
         Terms & monomials,
         Terms & nonMonomials);
+void segregatePolynomialAndNonPolynomials(
+        Terms const& termsToSegregate,
+        Terms & polynomials,
+        Terms & nonPolynomials);
 void segregateNonExpressionsAndExpressions(
         TermsWithAssociation::TermsWithDetails const& termsToSegregate,
         TermsWithAssociation::TermsWithDetails & termsWithNonExpressions,

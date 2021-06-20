@@ -519,26 +519,28 @@ Expression createSimplifiedExpressionIfPossible(Terms const& terms)
     return result;
 }
 
-Term convertExpressionToSimplestTerm(Expression const& expression)
+Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial)
 {
-    Term newTerm(expression);
-    if(expression.isEmpty())
+    Monomial newMonomial(monomial);
+    newMonomial.simplify();
+    Term newTerm(newMonomial);
+    if(newMonomial.isZero())
     {
-        newTerm = Term();
+        newTerm = Term(Constant(0));
     }
-    else if(expression.containsOnlyOneTerm())
+    else if(newMonomial.isConstantOnly())
     {
-        Term const& term = dynamic_cast<Term const&>(expression.getFirstTermConstReference());
-        newTerm = term;
+        newTerm = Term(newMonomial.getConstantConstReference());
+    }
+    else if(newMonomial.isVariableOnly())
+    {
+        newTerm = Term(newMonomial.getFirstVariableName());
+    }
+    else
+    {
+        newTerm = Term(newMonomial);
     }
     return newTerm;
-}
-
-Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression)
-{
-    Expression newExpression(expression);
-    newExpression.simplify();
-    return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial)
@@ -561,26 +563,31 @@ Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial)
     return newTerm;
 }
 
-Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial)
+Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression)
 {
-    Monomial newMonomial(monomial);
-    newMonomial.simplify();
-    Term newTerm(newMonomial);
-    if(newMonomial.isZero())
+    Expression newExpression(expression);
+    newExpression.simplify();
+    return convertExpressionToSimplestTerm(newExpression);
+}
+
+Term simplifyToCommonDenominatorAndConvertExpressionToSimplestTerm(Expression const& expression)
+{
+    Expression newExpression(expression);
+    newExpression.simplifyToACommonDenominator();
+    return convertExpressionToSimplestTerm(newExpression);
+}
+
+Term convertExpressionToSimplestTerm(Expression const& expression)
+{
+    Term newTerm(expression);
+    if(expression.isEmpty())
     {
-        newTerm = Term(Constant(0));
+        newTerm = Term();
     }
-    else if(newMonomial.isConstantOnly())
+    else if(expression.containsOnlyOneTerm())
     {
-        newTerm = Term(newMonomial.getConstantConstReference());
-    }
-    else if(newMonomial.isVariableOnly())
-    {
-        newTerm = Term(newMonomial.getFirstVariableName());
-    }
-    else
-    {
-        newTerm = Term(newMonomial);
+        Term const& term = dynamic_cast<Term const&>(expression.getFirstTermConstReference());
+        newTerm = term;
     }
     return newTerm;
 }
@@ -742,7 +749,8 @@ AlbaNumber getCommonSignInMonomials(Monomials const& monomials)
     bool isFirstMonomialNegative(false);
     unsigned int negativeSignCount(0);
     for(Monomial const& monomial : monomials)
-    {        if(monomial.getConstantConstReference() < AlbaNumber(0))
+    {
+        if(monomial.getConstantConstReference() < AlbaNumber(0))
         {
             negativeSignCount++;
             if(isFirst)
@@ -755,10 +763,12 @@ AlbaNumber getCommonSignInMonomials(Monomials const& monomials)
     return (isFirstMonomialNegative||(negativeSignCount>0 && negativeSignCount == monomials.size())) ? -1 : 1;
 }
 
-void segregateMonomialsAndNonMonomials(        Terms const& termsToSegregate,
+void segregateMonomialsAndNonMonomials(
+        Terms const& termsToSegregate,
         Terms & monomials,
         Terms & nonMonomials)
-{    for(Term const& termToSegregate : termsToSegregate)
+{
+    for(Term const& termToSegregate : termsToSegregate)
     {
         if(canBeConvertedToMonomial(termToSegregate))
         {
@@ -767,6 +777,24 @@ void segregateMonomialsAndNonMonomials(        Terms const& termsToSegregate,
         else
         {
             nonMonomials.emplace_back(termToSegregate);
+        }
+    }
+}
+
+void segregatePolynomialAndNonPolynomials(
+        Terms const& termsToSegregate,
+        Terms & polynomials,
+        Terms & nonPolynomials)
+{
+    for(Term const& termToSegregate : termsToSegregate)
+    {
+        if(canBeConvertedToPolynomial(termToSegregate))
+        {
+            polynomials.emplace_back(termToSegregate);
+        }
+        else
+        {
+            nonPolynomials.emplace_back(termToSegregate);
         }
     }
 }

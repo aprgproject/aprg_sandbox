@@ -231,6 +231,11 @@ void Monomial::multiplyNumber(AlbaNumber const& number)
     m_constant = m_constant * number;
 }
 
+void Monomial::divideNumber(AlbaNumber const& number)
+{
+    m_constant = m_constant / number;
+}
+
 void Monomial::raiseToPowerNumber(AlbaNumber const& number)
 {
     m_constant = m_constant ^ number;

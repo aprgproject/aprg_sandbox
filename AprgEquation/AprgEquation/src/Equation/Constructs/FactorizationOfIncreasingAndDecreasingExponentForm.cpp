@@ -51,10 +51,12 @@ Polynomials FactorizationOfIncreasingAndDecreasingExponentForm::factorizeIfPossi
                 }
             }
         }
-    }    return result;
+    }
+    return result;
 }
 
-void FactorizationOfIncreasingAndDecreasingExponentForm::factorizeUsingQuadraticFormulaOrBrentMethod(        Polynomials & result,
+void FactorizationOfIncreasingAndDecreasingExponentForm::factorizeUsingQuadraticFormulaOrBrentMethod(
+        Polynomials & result,
         Polynomial const& polynomial,
         AlbaNumbers const& coefficients,
         Monomial::VariablesToExponentsMap const& firstVariableExponent,
@@ -208,15 +210,17 @@ unsigned int FactorizationOfIncreasingAndDecreasingExponentForm::calculateMaxExp
     return maxExponentDivisor;
 }
 
-bool FactorizationOfIncreasingAndDecreasingExponentForm::areAllMonomialsFoundInMonomialsWithExponentsInOrder(        Monomials const& monomialsToCheck,
+bool FactorizationOfIncreasingAndDecreasingExponentForm::areAllMonomialsFoundInMonomialsWithExponentsInOrder(
+        Monomials const& monomialsToCheck,
         Monomials const& monomialsWithExponentsInOrder)
 {
-    Polynomial polynomialWithExponentsInOrder(monomialsWithExponentsInOrder);    bool areAllMonomialsFoundInPolynomialWithExponentsInOrder(false);
+    Polynomial polynomialWithExponentsInOrder(monomialsWithExponentsInOrder);
+    bool areAllMonomialsFoundInPolynomialWithExponentsInOrder(true);
     for(Monomial const& monomialToCheck : monomialsToCheck)
     {
-        if(polynomialWithExponentsInOrder.isVariableExponentContentFound(monomialToCheck))
+        if(!polynomialWithExponentsInOrder.isVariableExponentContentFound(monomialToCheck))
         {
-            areAllMonomialsFoundInPolynomialWithExponentsInOrder = true;
+            areAllMonomialsFoundInPolynomialWithExponentsInOrder = false;
             break;
         }
     }

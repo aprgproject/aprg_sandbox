@@ -1174,6 +1174,13 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ConstantRaiseToPowerConstantO
     EXPECT_EQ(Term(36), term);
 }
 
+TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ConstantRaiseToPowerConstantOperationWithZeroExponentWorks)
+{
+    Term term(Constant(6) ^ Constant(0));
+
+    EXPECT_EQ(Term(1), term);
+}
+
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ConstantRaiseToPowerVariableOperationWorks)
 {
     Term term(Constant(5) ^ Variable("x"));
