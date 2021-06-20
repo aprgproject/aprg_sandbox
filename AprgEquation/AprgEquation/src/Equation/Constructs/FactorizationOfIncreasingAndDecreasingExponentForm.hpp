@@ -46,14 +46,12 @@ private:
             Monomial const& lastInPolynomial);
     AlbaNumbers getCoefficientsInMonomialsWithExponentsInOrder(Polynomial const& polynomial, Monomials const& monomialsWithExponentsInOrder);
     AlbaNumbers calculateQuadraticRoots(AlbaNumber const& a, AlbaNumber const& n, AlbaNumber const& c);
-    unsigned int calculateExponentDivisor(Monomial const& firstMonomial, Monomial const& lastMonomial);
+    unsigned int calculateMaxExponentDivisor(Monomial const& firstMonomial, Monomial const& lastMonomial);
     bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
             Monomials const& monomialsToCheck,
-            Monomials const& monomialsWithExponentsInOrder);
-};
+            Monomials const& monomialsWithExponentsInOrder);};
 
 }
-
 }
 
 }

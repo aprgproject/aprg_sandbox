@@ -25,31 +25,36 @@ Polynomials FactorizationOfIncreasingAndDecreasingExponentForm::factorizeIfPossi
     {
         Monomial firstMonomial(monomials.front());
         Monomial lastMonomial(monomials.back());
-        unsigned int exponentDivisor(calculateExponentDivisor(firstMonomial, lastMonomial));
-        if(areExponentsDivisible(firstMonomial, exponentDivisor) && areExponentsDivisible(lastMonomial, exponentDivisor))
+        unsigned int maxExponentDivisor(calculateMaxExponentDivisor(firstMonomial, lastMonomial));
+        for(unsigned int exponentDivisor=2; exponentDivisor<=maxExponentDivisor; exponentDivisor++)
         {
-            Monomial unitFirstMonomial(1, firstMonomial.getVariablesToExponentsMapConstReference());
-            Monomial unitSecondMonomial(1, lastMonomial.getVariablesToExponentsMapConstReference());
-            unitFirstMonomial.raiseToPowerNumber(AlbaNumber(1, exponentDivisor));
-            unitSecondMonomial.raiseToPowerNumber(AlbaNumber(1, exponentDivisor));
-            Monomials monomialsWithExponentsInOrder(getMonomialsWithExponentsInOrder(exponentDivisor, unitFirstMonomial, unitSecondMonomial));
-            if(areAllMonomialsFoundInMonomialsWithExponentsInOrder(monomials, monomialsWithExponentsInOrder))
+            if(areExponentsDivisible(firstMonomial, exponentDivisor) && areExponentsDivisible(lastMonomial, exponentDivisor))
             {
-                AlbaNumbers coefficients(getCoefficientsInMonomialsWithExponentsInOrder(polynomial, monomialsWithExponentsInOrder));
-                factorizeUsingQuadraticFormulaOrBrentMethod(
-                            result,
-                            polynomial,
-                            coefficients,
-                            unitFirstMonomial.getVariablesToExponentsMapConstReference(),
-                            unitSecondMonomial.getVariablesToExponentsMapConstReference());
+                Monomial unitFirstMonomial(1, firstMonomial.getVariablesToExponentsMapConstReference());
+                Monomial unitSecondMonomial(1, lastMonomial.getVariablesToExponentsMapConstReference());
+                unitFirstMonomial.raiseToPowerNumber(AlbaNumber(1, exponentDivisor));
+                unitSecondMonomial.raiseToPowerNumber(AlbaNumber(1, exponentDivisor));
+                Monomials monomialsWithExponentsInOrder(getMonomialsWithExponentsInOrder(exponentDivisor, unitFirstMonomial, unitSecondMonomial));
+                if(areAllMonomialsFoundInMonomialsWithExponentsInOrder(monomials, monomialsWithExponentsInOrder))
+                {
+                    AlbaNumbers coefficients(getCoefficientsInMonomialsWithExponentsInOrder(polynomial, monomialsWithExponentsInOrder));
+                    factorizeUsingQuadraticFormulaOrBrentMethod(
+                                result,
+                                polynomial,
+                                coefficients,
+                                unitFirstMonomial.getVariablesToExponentsMapConstReference(),
+                                unitSecondMonomial.getVariablesToExponentsMapConstReference());
+                }
+                if(!result.empty())
+                {
+                    break;
+                }
             }
         }
-    }
-    return result;
+    }    return result;
 }
 
-void FactorizationOfIncreasingAndDecreasingExponentForm::factorizeUsingQuadraticFormulaOrBrentMethod(
-        Polynomials & result,
+void FactorizationOfIncreasingAndDecreasingExponentForm::factorizeUsingQuadraticFormulaOrBrentMethod(        Polynomials & result,
         Polynomial const& polynomial,
         AlbaNumbers const& coefficients,
         Monomial::VariablesToExponentsMap const& firstVariableExponent,
@@ -194,29 +199,19 @@ AlbaNumbers FactorizationOfIncreasingAndDecreasingExponentForm::calculateQuadrat
     return result;
 }
 
-unsigned int FactorizationOfIncreasingAndDecreasingExponentForm::calculateExponentDivisor(
+unsigned int FactorizationOfIncreasingAndDecreasingExponentForm::calculateMaxExponentDivisor(
         Monomial const& firstMonomial,
         Monomial const& lastMonomial)
 {
     AlbaNumber maxExponent = max(firstMonomial.getMaxExponent(), lastMonomial.getMaxExponent());
-    unsigned int exponentDivisor = getAbsoluteValue(maxExponent.getInteger());
-    for(;exponentDivisor>2; exponentDivisor--)
-    {
-        if(areExponentsDivisible(firstMonomial, exponentDivisor)
-                && areExponentsDivisible(lastMonomial, exponentDivisor))
-        {
-            break;
-        }
-    }
-    return exponentDivisor;
+    unsigned int maxExponentDivisor = getAbsoluteValue(maxExponent.getInteger());
+    return maxExponentDivisor;
 }
 
-bool FactorizationOfIncreasingAndDecreasingExponentForm::areAllMonomialsFoundInMonomialsWithExponentsInOrder(
-        Monomials const& monomialsToCheck,
+bool FactorizationOfIncreasingAndDecreasingExponentForm::areAllMonomialsFoundInMonomialsWithExponentsInOrder(        Monomials const& monomialsToCheck,
         Monomials const& monomialsWithExponentsInOrder)
 {
-    Polynomial polynomialWithExponentsInOrder(monomialsWithExponentsInOrder);
-    bool areAllMonomialsFoundInPolynomialWithExponentsInOrder(false);
+    Polynomial polynomialWithExponentsInOrder(monomialsWithExponentsInOrder);    bool areAllMonomialsFoundInPolynomialWithExponentsInOrder(false);
     for(Monomial const& monomialToCheck : monomialsToCheck)
     {
         if(polynomialWithExponentsInOrder.isVariableExponentContentFound(monomialToCheck))

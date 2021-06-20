@@ -80,14 +80,31 @@ TEST(FactorizationTest, DifferenceOfSquaresWithNegativeExponentsCanBeFactored_Fa
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
-TEST(FactorizationTest, DifferenceOfCubesCanBeFactored_FactorizeWorks)
+TEST(FactorizationTest, DifferenceOfSquaresWithBigExponent)
 {
-    Polynomial polynomialToTest{Monomial(27, {{"x", 12}, {"y", 3}}), Monomial(-64, {{"z", 6}})};
+    Polynomial polynomialToTest{Monomial(1, {{"x", 64}}),  Monomial(-1, {{"y", 16}})};
 
     Polynomials polynomialsToVerify(factorize(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(-4, {{"z", 2}})};
+    ASSERT_EQ(5u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(1, {{"x", 32}}), Monomial(1, {{"y", 8}})};
+    Polynomial polynomialToExpect2{Monomial(1, {{"x", 16}}), Monomial(1, {{"y", 4}})};
+    Polynomial polynomialToExpect3{Monomial(1, {{"x", 8}}), Monomial(1, {{"y", 2}})};
+    Polynomial polynomialToExpect4{Monomial(1, {{"x", 4}}), Monomial(1, {{"y", 1}})};
+    Polynomial polynomialToExpect5{Monomial(1, {{"x", 4}}), Monomial(-1, {{"y", 1}})};
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
+    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
+    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
+    EXPECT_EQ(polynomialToExpect4, polynomialsToVerify.at(3));
+    EXPECT_EQ(polynomialToExpect5, polynomialsToVerify.at(4));
+}
+
+TEST(FactorizationTest, DifferenceOfCubesCanBeFactored_FactorizeWorks)
+{
+    Polynomial polynomialToTest{Monomial(27, {{"x", 12}, {"y", 3}}), Monomial(-64, {{"z", 6}})};
+    Polynomials polynomialsToVerify(factorize(polynomialToTest));
+
+    ASSERT_EQ(2u, polynomialsToVerify.size());    Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(-4, {{"z", 2}})};
     Polynomial polynomialToExpect2{Monomial(9, {{"x", 8}, {"y", 2}}), Monomial(12, {{"x", 4}, {"y", 1}, {"z", 2}}), Monomial(16, {{"z", 4}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));

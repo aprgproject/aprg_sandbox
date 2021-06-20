@@ -139,6 +139,20 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
+TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossibleWorksBigExponentDifferenceOfSquares)
+{
+    FactorizationOfIncreasingAndDecreasingExponentForm factorization;
+    Polynomial polynomialToTest{Monomial(1, {{"x", 64}}),  Monomial(-1, {{"y", 16}})};
+
+    Polynomials polynomialsToVerify(factorization.factorizeIfPossible(polynomialToTest));
+
+    ASSERT_EQ(2u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(1, {{"x", 32}}), Monomial(-1, {{"y", 8}})};
+    Polynomial polynomialToExpect2{Monomial(1, {{"x", 32}}), Monomial(1, {{"y", 8}})};
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
+    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
+}
+
 }
 
 }
