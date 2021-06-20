@@ -13,10 +13,10 @@
 
 #include <algorithm>
 #include <sstream>
+
 using namespace alba::equation::Factorization;
 using namespace std;
-using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
-using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
+using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
@@ -87,10 +87,10 @@ TermsWithAssociation const& Expression::getTermsWithAssociation() const
 {
     return m_termsWithAssociation;
 }
+
 TermsWithAssociation Expression::getTermsWithDetailsThatSatisfiesCondition(
         ConditionFunctionForTermsWithDetails const& conditionFunction) const
-{
-    TermsWithAssociation termsWithOnlyExpressions;
+{    TermsWithAssociation termsWithOnlyExpressions;
     TermsWithDetails const& termsWithDetails(m_termsWithAssociation.getTermsWithDetails());
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
@@ -148,11 +148,11 @@ string Expression::getDebugString() const
         result << term.getDebugString() << getEnumShortString(termWithDetails.association);
     }
     result << " )";
-    return result.str();}
+    return result.str();
+}
 
 void Expression::clear()
-{
-    m_termsWithAssociation.clear();
+{    m_termsWithAssociation.clear();
     m_commonOperatorLevel = OperatorLevel::Unknown;
 }
 
@@ -314,11 +314,11 @@ void Expression::putExpressionWithMultiplication(Expression const& expression)
         TermsWithDetails termsWithDetails2(expression.getTermsWithAssociation().getTermsWithDetails());
         clear();
         for(TermWithDetails const& termWithDetails1 : termsWithDetails1)
-        {            for(TermWithDetails const& termWithDetails2 : termsWithDetails2)
+        {
+            for(TermWithDetails const& termWithDetails2 : termsWithDetails2)
             {
                 Term const& term1(getTermConstReferenceFromSharedPointer(termWithDetails1.baseTermSharedPointer));
-                Term const& term2(getTermConstReferenceFromSharedPointer(termWithDetails2.baseTermSharedPointer));
-                multiplyThenPutTermAsAddIfTrueAndAsSubtractIfFalse(
+                Term const& term2(getTermConstReferenceFromSharedPointer(termWithDetails2.baseTermSharedPointer));                multiplyThenPutTermAsAddIfTrueAndAsSubtractIfFalse(
                             createOrCopyExpressionFromATerm(term1),
                             getBaseTermConstReferenceFromTerm(term2),
                             termWithDetails1.association == termWithDetails2.association);
@@ -344,11 +344,11 @@ void Expression::putExpressionWithMultiplication(Expression const& expression)
         for(TermWithDetails const& termWithDetails : expression.getTermsWithAssociation().getTermsWithDetails())
         {
             multiplyThenPutTermAsAddIfTrueAndAsSubtractIfFalse(
-                        expressionCopy,                        getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer),
+                        expressionCopy,
+                        getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer),
                         termWithDetails.hasPositiveAssociation());
         }
-    }
-    else
+    }    else
     {
         putTermWithMultiplicationIfNeeded(Term(expression));
     }
@@ -442,11 +442,11 @@ void Expression::simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded
         TermsWithAssociation termsWithAssociation(expression.getTermsWithAssociation());
         if(TermAssociationType::Negative == association)
         {
-            termsWithAssociation.reverseTheAssociationOfTheTerms();        }
+            termsWithAssociation.reverseTheAssociationOfTheTerms();
+        }
         simplifyAndCopyTerms(termsToUpdate, termsWithAssociation.getTermsWithDetails());
     }
-    else
-    {
+    else    {
         termsToUpdate.emplace_back(getBaseTermConstReferenceFromTerm(Term(expression)), association);
     }
 }
@@ -508,21 +508,22 @@ bool Expression::tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression & a
     for(TermWithDetails const& addSubtractTermWithDetails : addSubtractExpression.getTermsWithAssociation().getTermsWithDetails())
     {
         Term const& addSubtractTerm(getTermConstReferenceFromSharedPointer(addSubtractTermWithDetails.baseTermSharedPointer));
-        bool isTermAddedOrSubtracted(false);        if(addSubtractTerm.isExpression())
+        bool isTermAddedOrSubtracted(false);
+        if(addSubtractTerm.isExpression())
         {
             Expression expression(addSubtractTerm.getExpressionConstReference());
             if(expression.getCommonOperatorLevel() == OperatorLevel::MultiplicationAndDivision)
             {
                 TermsWithDetails numerators;
                 TermsWithDetails denominators;
-                segregateTermsWithPositiveAndNegativeAssociations(numerators, denominators, expression.getTermsWithAssociation().getTermsWithDetails());
+                segregateTermsWithPositiveAndNegativeAssociations(expression.getTermsWithAssociation().getTermsWithDetails(), numerators, denominators);
                 if(!denominators.empty())
                 {
-                    shouldTermsOverTermsBeAddedOrSubtracted=true;                }
+                    shouldTermsOverTermsBeAddedOrSubtracted=true;
+                }
                 addSubtractTermsOverTerms.putAsAddOrSubtraction(TermsOverTerms(numerators, denominators), addSubtractTermWithDetails.association);
                 isTermAddedOrSubtracted=true;
-            }
-            if(!isTermAddedOrSubtracted)
+            }            if(!isTermAddedOrSubtracted)
             {
                 addSubtractTermsOverTerms.putAsAddOrSubtraction(TermsOverTerms({addSubtractTerm}, {}), addSubtractTermWithDetails.association);
             }
@@ -571,11 +572,10 @@ void Expression::processAndSaveTermsForAdditionAndSubtraction(
     BaseTerm & combinedBaseTerm(getBaseTermReferenceFromTerm(combinedTerm));
     TermsWithDetails termsWithNonExpressions;
     TermsWithDetails termsWithExpressions;
-    segregateNonExpressionsAndExpressions(termsWithNonExpressions, termsWithExpressions, termsToProcess);
+    segregateNonExpressionsAndExpressions(termsToProcess, termsWithNonExpressions, termsWithExpressions);
     accumulateTermsForAdditionAndSubtraction(combinedTerm, termsWithNonExpressions);
     addOrSubtractTermsWithExpressions(combinedBaseTerm, termsWithExpressions);
-    setTerm(combinedBaseTerm);
-}
+    setTerm(combinedBaseTerm);}
 
 void Expression::processAndSaveTermsForMultiplicationAndDivision(
         TermsWithDetails const& termsToProcess)
@@ -584,11 +584,10 @@ void Expression::processAndSaveTermsForMultiplicationAndDivision(
     BaseTerm & combinedBaseTerm(getBaseTermReferenceFromTerm(combinedTerm));
     TermsWithDetails numerators;
     TermsWithDetails denominators;
-    segregateTermsWithPositiveAndNegativeAssociations(numerators, denominators, termsToProcess);
+    segregateTermsWithPositiveAndNegativeAssociations(termsToProcess, numerators, denominators);
     processNumeratorsAndDenominators(combinedBaseTerm, numerators, denominators);
     setTerm(combinedBaseTerm);
 }
-
 void Expression::processAndSaveTermsForRaiseToPower(
         TermsWithDetails const& termsToProcess)
 {
@@ -763,11 +762,11 @@ void Expression::putTermForExpressionAndNonExpressions(
                 putTermsWithAssociation(expression.getTermsWithAssociation(), overallAssociation);
             }
             else
-            {                putTerm(baseTerm, overallAssociation);
+            {
+                putTerm(baseTerm, overallAssociation);
             }
         }
-    }
-    else if(term.isValueTermButNotAnExpression())
+    }    else if(term.isValueTermButNotAnExpression())
     {
         putTerm(baseTerm, overallAssociation);
     }

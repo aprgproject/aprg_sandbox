@@ -4,9 +4,9 @@
 
 #include <memory>
 #include <vector>
+
 namespace alba
 {
-
 namespace equation
 {
 

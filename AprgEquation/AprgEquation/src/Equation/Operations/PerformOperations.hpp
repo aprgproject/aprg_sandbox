@@ -6,9 +6,9 @@
 
 namespace alba
 {
+
 namespace equation
 {
-
 Term performOperation(
         Operator const& operatorTerm,
         Term const& term);

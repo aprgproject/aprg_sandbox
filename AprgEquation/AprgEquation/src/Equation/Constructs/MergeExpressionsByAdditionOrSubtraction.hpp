@@ -5,9 +5,9 @@
 
 namespace alba
 {
+
 namespace equation
 {
-
 Term getResultOfAddingAndSubtractingOfTermsWithExpressions(
         TermsWithAssociation::TermsWithDetails const& termsWithExpressions);
 bool mergeForAdditionAndSubtractionAndReturnIfMerged(

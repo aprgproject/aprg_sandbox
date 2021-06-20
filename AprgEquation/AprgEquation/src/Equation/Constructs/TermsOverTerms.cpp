@@ -5,10 +5,10 @@
 #include <Equation/Utilities.hpp>
 
 #include <sstream>
+
 using namespace alba::equation::Factorization;
 using namespace std;
-using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
-using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
+using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
@@ -68,16 +68,15 @@ TermsWithDetails TermsOverTerms::getNumeratorAndDenominatorAsTermWithDetails() c
     return result;
 }
 
-Terms TermsOverTerms::getNumerators() const
+Terms const& TermsOverTerms::getNumerators() const
 {
     return m_numerators;
 }
 
-Terms TermsOverTerms::getDenominators() const
+Terms const& TermsOverTerms::getDenominators() const
 {
     return m_denominators;
 }
-
 std::string TermsOverTerms::getDisplayableString() const
 {
     stringstream result;

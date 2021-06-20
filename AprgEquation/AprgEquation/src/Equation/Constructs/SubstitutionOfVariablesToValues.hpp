@@ -5,10 +5,10 @@
 #include <Math/AlbaNumber.hpp>
 
 #include <string>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {

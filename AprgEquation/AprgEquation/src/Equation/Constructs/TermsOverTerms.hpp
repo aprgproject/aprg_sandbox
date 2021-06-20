@@ -4,9 +4,10 @@
 #include <Equation/Term/TermsWithAssociation.hpp>
 
 #include <string>
+#include <vector>
+
 namespace alba
 {
-
 namespace equation
 {
 
@@ -20,11 +21,10 @@ public:
     void simplifyToFactors();
 
     TermsWithAssociation::TermsWithDetails getNumeratorAndDenominatorAsTermWithDetails() const;
-    Terms getNumerators() const;
-    Terms getDenominators() const;
+    Terms const& getNumerators() const;
+    Terms const& getDenominators() const;
 
     std::string getDisplayableString() const;
-
 private:
     void simplifyPolynomialsAndShouldFactorize(bool const shouldFactorize);
     void removeSameTermsInNumeratorAndDenominator();
@@ -32,6 +32,8 @@ private:
     Terms m_numerators;
     Terms m_denominators;
 };
+
+using VectorOfTermsOverTerms = std::vector<TermsOverTerms>;
 
 }
 

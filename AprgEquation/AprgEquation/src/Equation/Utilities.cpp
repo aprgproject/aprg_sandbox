@@ -9,10 +9,10 @@
 #include <String/AlbaStringHelper.hpp>
 
 #include <algorithm>
+
 using namespace alba::equation::Factorization;
 using namespace alba::mathHelper;
-using namespace std;
-using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
+using namespace std;using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
@@ -260,11 +260,11 @@ string getEnumShortString(OperatorLevel const operatorLevel)
 
 string getOperatingString(
         OperatorLevel const operatorLevel,
-        TermAssociationType const association){
+        TermAssociationType const association)
+{
     string result;
     if(TermAssociationType::Positive == association)
-    {
-        switch(operatorLevel)
+    {        switch(operatorLevel)
         {
         case OperatorLevel::AdditionAndSubtraction:
             result = "+";
@@ -328,20 +328,20 @@ string getString(TermsWithDetails const& termsWithDetails)
         isFirst=false;
         result += getString(termWithDetails);
     }
-    return result;}
+    return result;
+}
 
 string getString(TermWithDetails const& termWithDetails)
-{
-    return string("[")+termWithDetails.baseTermSharedPointer->getDisplayableString()
+{    return string("[")+termWithDetails.baseTermSharedPointer->getDisplayableString()
             +"]["+getEnumShortString(termWithDetails.association)+"]";
 }
 
 BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer)
 {
-    return move(BaseTermSharedPointer(                    dynamic_cast<BaseTerm*>(
+    return move(BaseTermSharedPointer(
+                    dynamic_cast<BaseTerm*>(
                         new Term(*dynamic_cast<Term*>(sharedPointer.get())))));
 }
-
 BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term)
 {
     return move(BaseTermSharedPointer(
@@ -583,11 +583,11 @@ Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial)
 
 Terms tokenizeToTerms(string const& inputString)
 {
-    Terms tokenizedTerms;    string valueTerm;
+    Terms tokenizedTerms;
+    string valueTerm;
     for(char const c : inputString)
     {
-        if(!stringHelper::isWhiteSpace(c))
-        {
+        if(!stringHelper::isWhiteSpace(c))        {
             string characterString(1, c);
             if(isOperator(characterString))
             {
@@ -645,11 +645,11 @@ Monomial getLcmMonomialInMonomials(Monomials const& monomials)
     return maxExponentMonomial;
 }
 
-Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials){
+Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
+{
     Monomial monomialWithMinimumExponents(1, {});
     bool isFirst(true);
-    for(Monomial const& monomial : monomials)
-    {
+    for(Monomial const& monomial : monomials)    {
         if(isFirst)
         {
             monomialWithMinimumExponents = monomial;
@@ -663,10 +663,10 @@ Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials){
     monomialWithMinimumExponents.simplify();
     return monomialWithMinimumExponents;
 }
+
 Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials)
 {
-    Monomial monomialWithMinimumExponents(1, {});
-    bool isFirst(true);
+    Monomial monomialWithMinimumExponents(1, {});    bool isFirst(true);
     for(Monomial const& monomial : monomials)
     {
         if(isFirst)
@@ -682,10 +682,10 @@ Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials)
     monomialWithMinimumExponents.simplify();
     return monomialWithMinimumExponents;
 }
+
 AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials)
 {
-    AlbaNumber commonCoefficient(1);
-    bool isFirst(true);
+    AlbaNumber commonCoefficient(1);    bool isFirst(true);
     for(Monomial const& monomial : monomials)
     {
         AlbaNumber const& coefficient(monomial.getConstantConstReference());
@@ -724,11 +724,11 @@ AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials)
                 commonCoefficient = getLeastCommonMultiple(commonCoefficient, coefficient);
             }
         }
-    }    return commonCoefficient;
+    }
+    return commonCoefficient;
 }
 
-AlbaNumber getCommonSignInMonomials(Monomials const& monomials)
-{
+AlbaNumber getCommonSignInMonomials(Monomials const& monomials){
     unsigned int negativeSignCount(0);
     for(Monomial const& monomial : monomials)
     {
@@ -741,13 +741,12 @@ AlbaNumber getCommonSignInMonomials(Monomials const& monomials)
 }
 
 void segregateMonomialsAndNonMonomials(
+        Terms const& termsToSegregate,
         Terms & monomials,
-        Terms & nonMonomials,
-        Terms const& termsToSegregate)
+        Terms & nonMonomials)
 {
     for(Term const& termToSegregate : termsToSegregate)
-    {
-        if(canBeConvertedToMonomial(termToSegregate))
+    {        if(canBeConvertedToMonomial(termToSegregate))
         {
             monomials.emplace_back(termToSegregate);
         }
@@ -759,13 +758,12 @@ void segregateMonomialsAndNonMonomials(
 }
 
 void segregateNonExpressionsAndExpressions(
+        TermsWithDetails const& termsToSegregate,
         TermsWithDetails & termsWithNonExpressions,
-        TermsWithDetails & termsWithExpressions,
-        TermsWithDetails const& termsToSegregate)
+        TermsWithDetails & termsWithExpressions)
 {
     for(TermWithDetails const& termToSegregate : termsToSegregate)
-    {
-        Term const& term(getTermConstReferenceFromSharedPointer(termToSegregate.baseTermSharedPointer));
+    {        Term const& term(getTermConstReferenceFromSharedPointer(termToSegregate.baseTermSharedPointer));
         if(term.isExpression())
         {
             termsWithExpressions.emplace_back(termToSegregate);
@@ -778,13 +776,12 @@ void segregateNonExpressionsAndExpressions(
 }
 
 void segregateTermsWithPositiveAndNegativeAssociations(
+        TermsWithDetails const& termsToSegregate,
         TermsWithDetails & termsWithPositiveAssociation,
-        TermsWithDetails & termsWithNegativeAssociation,
-        TermsWithDetails const& termsToSegregate)
+        TermsWithDetails & termsWithNegativeAssociation)
 {
     for(TermWithDetails const& termToSegregate : termsToSegregate)
-    {
-        if(termToSegregate.hasPositiveAssociation())
+    {        if(termToSegregate.hasPositiveAssociation())
         {
             termsWithPositiveAssociation.emplace_back(termToSegregate);
         }

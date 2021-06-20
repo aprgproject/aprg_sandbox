@@ -11,11 +11,11 @@
 #include <Math/AlbaNumber.hpp>
 
 #include <memory>
-#include <string>#include <vector>
+#include <string>
+#include <vector>
 
 namespace alba
 {
-
 namespace equation
 {
 
@@ -24,11 +24,11 @@ class Term : public BaseTerm
     friend std::ostream & operator<<(std::ostream & out, Term const& term);
 public:
     Term();
-    Term(Term const& term);    Term(Constant const& constant);
+    Term(Term const& term);
+    Term(Constant const& constant);
     Term(std::string const& variableOrOperator);
     Term(Variable const& variable);
-    Term(Operator const& operatorTerm);
-    Term(Monomial const& monomial);
+    Term(Operator const& operatorTerm);    Term(Monomial const& monomial);
     Term(Polynomial const& polynomial);
     Term(Expression const& expression);
 

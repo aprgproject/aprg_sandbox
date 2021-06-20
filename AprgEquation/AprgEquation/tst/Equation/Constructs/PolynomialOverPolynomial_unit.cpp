@@ -1,10 +1,10 @@
 #include <Equation/Constructs/PolynomialOverPolynomial.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {

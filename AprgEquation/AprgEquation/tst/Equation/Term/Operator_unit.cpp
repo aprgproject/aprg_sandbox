@@ -1,10 +1,10 @@
 #include <Equation/Term/Operator.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
@@ -195,11 +195,11 @@ TEST(OperatorTest, IsAnOperatorThatCanPerformedWorksAsExpected)
 
 TEST(OperatorTest, IsOpeningGroupOperatorWorksAsExpected)
 {
-    Operator nullOperator;    Operator addOperator("+");
+    Operator nullOperator;
+    Operator addOperator("+");
     Operator subtractOperator("-");
     Operator multiplyOperator("*");
-    Operator divideOperator("/");
-    Operator raiseToPowerOperator("^");
+    Operator divideOperator("/");    Operator raiseToPowerOperator("^");
     Operator openingGroupOperator("(");
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
@@ -319,4 +319,5 @@ TEST(OperatorTest, SettingANewOperatingStringWorks)
 }
 
 }
+
 }

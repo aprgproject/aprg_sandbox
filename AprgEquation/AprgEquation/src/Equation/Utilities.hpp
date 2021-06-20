@@ -5,9 +5,9 @@
 #include <Optional/AlbaOptional.hpp>
 
 #include <string>
+
 namespace alba
 {
-
 namespace equation
 {
 
@@ -31,20 +31,20 @@ std::string getEnumShortString(TermAssociationType const association);
 std::string getEnumShortString(OperatorLevel const operatorLevel);
 std::string getOperatingString(
         OperatorLevel const operatorLevel,
-        TermAssociationType const association);std::string getFirstStringIfNegativeAssociation(
+        TermAssociationType const association);
+std::string getFirstStringIfNegativeAssociation(
         OperatorLevel const operatorLevel,
         TermAssociationType const association);
-std::string getString(
-        TermsWithAssociation::TermsWithDetails const& termsWithDetails);
+std::string getString(        TermsWithAssociation::TermsWithDetails const& termsWithDetails);
 std::string getString(
         TermsWithAssociation::TermWithDetails const& termWithDetails);
 
 BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer);
-BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
+BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);
+BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
 Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
 Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
-Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);
-Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
+Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
 BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term);
 BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
 BaseTerm & getBaseTermReferenceFromTerm(Term & term);
@@ -70,26 +70,26 @@ Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial);
 Terms tokenizeToTerms(std::string const& inputString);
 void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);
 Term convertValueTermStringToTerm(std::string const& valueTerm);
+
 Monomial getGcfMonomialInMonomials(Monomials const& monomials);
 Monomial getLcmMonomialInMonomials(Monomials const& monomials);
-Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
-Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
+Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
 AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials);
 AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials);
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
 
-void segregateMonomialsAndNonMonomials(        Terms & monomials,
-        Terms & nonMonomials,
-        Terms const& termsToSegregate);
+void segregateMonomialsAndNonMonomials(
+        Terms const& termsToSegregate,
+        Terms & monomials,
+        Terms & nonMonomials);
 void segregateNonExpressionsAndExpressions(
+        TermsWithAssociation::TermsWithDetails const& termsToSegregate,
         TermsWithAssociation::TermsWithDetails & termsWithNonExpressions,
-        TermsWithAssociation::TermsWithDetails & termsWithExpressions,
-        TermsWithAssociation::TermsWithDetails const& termsToSegregate);
+        TermsWithAssociation::TermsWithDetails & termsWithExpressions);
 void segregateTermsWithPositiveAndNegativeAssociations(
+        TermsWithAssociation::TermsWithDetails const& termsToSegregate,
         TermsWithAssociation::TermsWithDetails & termsWithPositiveAssociation,
-        TermsWithAssociation::TermsWithDetails & termsWithNegativeAssociation,
-        TermsWithAssociation::TermsWithDetails const& termsToSegregate);
+        TermsWithAssociation::TermsWithDetails & termsWithNegativeAssociation);
 
 }
-
 }

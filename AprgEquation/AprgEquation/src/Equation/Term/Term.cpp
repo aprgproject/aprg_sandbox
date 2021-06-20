@@ -5,10 +5,10 @@
 
 #include <cassert>
 #include <string>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
@@ -358,9 +358,11 @@ string Term::getDebugString() const
     {
         result = getExpressionConstReference().getDebugString();
     }
+    result += "[";
+    result += getEnumShortString(m_type);
+    result += "]";
     return result;
 }
-
 Constant & Term::getConstantReference()
 {
     assert(m_type==TermType::Constant);

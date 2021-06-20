@@ -5,9 +5,9 @@
 
 namespace alba
 {
+
 namespace equation
 {
-
 namespace Factorization
 {
 
