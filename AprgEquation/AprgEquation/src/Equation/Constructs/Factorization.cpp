@@ -167,15 +167,13 @@ Polynomials factorizeBySplittingSmallerPolynomialsIfPossible(Polynomial const& p
         if(!commonFactors.empty())
         {
             smallerPolynomials = getPolynomialsWithRemovedCommonFactors(smallerPolynomials, commonFactors);
-            combinePolynomialsByAdditionAndEmplaceBack(result, smallerPolynomials);
+            combinePolynomialsByAdditionAndThenEmplaceBack(result, smallerPolynomials);
             for(Polynomial const& commonFactor : commonFactors)
             {
-                simplifyPolynomialThenEmplaceBack(result, commonFactor);
-            }
+                simplifyPolynomialThenEmplaceBack(result, commonFactor);            }
         }
     }
-    return result;
-}
+    return result;}
 
 Polynomials splitPolynomialIntoSmallerPolynomials(Polynomial const& polynomial)
 {
@@ -286,15 +284,13 @@ Polynomials getPolynomialsWithRemovedCommonFactors(Polynomials const& polynomial
     return result;
 }
 
-void combinePolynomialsByAdditionAndEmplaceBack(Polynomials & result, Polynomials const& smallerPolynomials)
+void combinePolynomialsByAdditionAndThenEmplaceBack(Polynomials & result, Polynomials const& smallerPolynomials)
 {
     Polynomial combinedPolynomial;
-    for(Polynomial const& smallerPolynomial : smallerPolynomials)
-    {
+    for(Polynomial const& smallerPolynomial : smallerPolynomials)    {
         combinedPolynomial.addPolynomial(smallerPolynomial);
     }
-    simplifyPolynomialThenEmplaceBack(result, combinedPolynomial);
-}
+    simplifyPolynomialThenEmplaceBack(result, combinedPolynomial);}
 
 void addFactorsOfDifferenceOfSquares(Polynomials & result, Polynomial const& polynomial)
 {
