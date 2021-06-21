@@ -127,9 +127,8 @@ bool canBeMergedForAdditionAndSubtraction(
         Term const& mergeTerm1,
         Term const& mergeTerm2)
 {
-    return uniqueExpression1 == uniqueExpression2 && canBeMergedByAdditionOrSubtraction(mergeTerm1, mergeTerm2);
+    return uniqueExpression1 == uniqueExpression2 && canBeMergedInAMonomialByAdditionOrSubtraction(mergeTerm1, mergeTerm2);
 }
 
 }
-
 }

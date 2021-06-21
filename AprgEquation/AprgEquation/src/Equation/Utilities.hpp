@@ -13,18 +13,16 @@ namespace equation
 {
 
 bool isOperator(std::string const& variableOrOperator);
-bool canBeMergedByAdditionOrSubtraction(Term const& term1, Term const& term2);
-bool canBeMergedByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2);
-bool canBeMergedByAdditionOrSubtraction(Monomial const& monomial, Variable const& variable);
-bool canBeMergedByAdditionOrSubtraction(Variable const& variable1, Variable const& variable2);
+bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const& term2);
+bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2);
+bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial, Variable const& variable);
+bool canBeMergedInAMonomialByAdditionOrSubtraction(Variable const& variable1, Variable const& variable2);
 bool canBeConvertedToMonomial(Term const& term);
 bool canBeConvertedToPolynomial(Term const& term);
-bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
-bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
+bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
 
 unsigned int getOperatorPriority(std::string const& operatorString);
-unsigned int getAssociationPriority(TermAssociationType const association);
-unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
+unsigned int getAssociationPriority(TermAssociationType const association);unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
 unsigned int getTermTypePriorityValue(TermType const termType);
 
 std::string getEnumShortString(TermType const termType);

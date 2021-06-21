@@ -10,13 +10,12 @@
 
 #include <functional>
 #include <string>
+#include <vector>
 
 namespace alba
 {
-
 namespace equation
 {
-
 class Expression : public BaseTermData
 {
     friend std::ostream & operator<<(std::ostream & out, Expression const& expression);
@@ -123,8 +122,9 @@ private:
     TermsWithAssociation m_termsWithAssociation;
 };
 
+using Expressions=std::vector<Expression>;
+
 std::ostream & operator<<(std::ostream & out, Expression const& expression);
 
 }
-
 }

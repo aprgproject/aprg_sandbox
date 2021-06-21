@@ -33,71 +33,64 @@ bool isOperator(string const& variableOrOperator)
             ")" == variableOrOperator;
 }
 
-bool canBeMergedByAdditionOrSubtraction(Term const& term1, Term const& term2)
+bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const& term2)
 {
     bool result(false);
-    if(term1.isConstant() && term2.isConstant())
-    {
+    if(term1.isConstant() && term2.isConstant())    {
         result = true;
     }
     if(term1.isVariable() && term2.isVariable())
     {
-        result = canBeMergedByAdditionOrSubtraction(term1.getVariableConstReference(), term2.getVariableConstReference());
+        result = canBeMergedInAMonomialByAdditionOrSubtraction(term1.getVariableConstReference(), term2.getVariableConstReference());
     }
     if(term1.isMonomial() && term2.isMonomial())
     {
-        result = canBeMergedByAdditionOrSubtraction(term1.getMonomialConstReference(), term2.getMonomialConstReference());
+        result = canBeMergedInAMonomialByAdditionOrSubtraction(term1.getMonomialConstReference(), term2.getMonomialConstReference());
     }
     if(term1.isMonomial() && term2.isVariable())
     {
-        result = canBeMergedByAdditionOrSubtraction(term1.getMonomialConstReference(), term2.getVariableConstReference());
+        result = canBeMergedInAMonomialByAdditionOrSubtraction(term1.getMonomialConstReference(), term2.getVariableConstReference());
     }
     if(term1.isVariable() && term2.isMonomial())
     {
-        result = canBeMergedByAdditionOrSubtraction(term2.getMonomialConstReference(), term1.getVariableConstReference());
+        result = canBeMergedInAMonomialByAdditionOrSubtraction(term2.getMonomialConstReference(), term1.getVariableConstReference());
     }
     return result;
 }
 
-bool canBeMergedByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2)
+bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2)
 {
     Monomial::VariablesToExponentsMap const& variablesMap1(monomial1.getVariablesToExponentsMapConstReference());
-    Monomial::VariablesToExponentsMap const& variablesMap2(monomial2.getVariablesToExponentsMapConstReference());
-    bool result(false);
+    Monomial::VariablesToExponentsMap const& variablesMap2(monomial2.getVariablesToExponentsMapConstReference());    bool result(false);
     if(variablesMap1.size() == variablesMap2.size())
     {
-        using MapConstIterator=Monomial::VariablesToExponentsMap::const_iterator;
-        using MismatchResultType=pair<MapConstIterator, MapConstIterator>;
+        using MapConstIterator=Monomial::VariablesToExponentsMap::const_iterator;        using MismatchResultType=pair<MapConstIterator, MapConstIterator>;
         MismatchResultType mismatchResult = mismatch(variablesMap1.cbegin(), variablesMap1.end(), variablesMap2.cbegin());
         result = mismatchResult.first == variablesMap1.cend();
     }
     return result;
 }
 
-bool canBeMergedByAdditionOrSubtraction(Monomial const& monomial, Variable const& variable)
+bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial, Variable const& variable)
 {
     Monomial::VariablesToExponentsMap const& variablesMap(monomial.getVariablesToExponentsMapConstReference());
-    string variableName(variable.getVariableName());
-    bool result(false);
+    string variableName(variable.getVariableName());    bool result(false);
     if(variablesMap.size() == 1)
     {
-        if(variablesMap.find(variableName) != variablesMap.cend())
-        {
+        if(variablesMap.find(variableName) != variablesMap.cend())        {
             result = variablesMap.at(variableName)==1;
         }
     }
     return result;
 }
 
-bool canBeMergedByAdditionOrSubtraction(Variable const& variable1, Variable const& variable2)
+bool canBeMergedInAMonomialByAdditionOrSubtraction(Variable const& variable1, Variable const& variable2)
 {
     return variable1.getVariableName() == variable2.getDisplayableString();
 }
-
 bool canBeConvertedToMonomial(Term const& term)
 {
-    TermType termType(term.getTermType());
-    bool isPolynomialWithOneMonomial(false);
+    TermType termType(term.getTermType());    bool isPolynomialWithOneMonomial(false);
     if(term.isPolynomial())
     {
         isPolynomialWithOneMonomial = term.getPolynomialConstReference().isOneMonomial();
