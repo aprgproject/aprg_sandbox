@@ -5,7 +5,8 @@
 #include <Equation/Factorization/Factorization.hpp>
 #include <Equation/Term/TermOperators.hpp>
 #include <Macros/AlbaMacros.hpp>
-#include <Math/AlbaMathHelper.hpp>#include <String/AlbaStringHelper.hpp>
+#include <Math/AlbaMathHelper.hpp>
+#include <String/AlbaStringHelper.hpp>
 
 #include <algorithm>
 

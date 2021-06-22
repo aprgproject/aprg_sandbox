@@ -22,6 +22,7 @@ public:
     TermsAggregator(Terms const& terms);
 
     Terms const& getTermsConstReference() const;
+
     void buildExpressionFromTerms();
     void simplifyTerms();
 
@@ -39,7 +40,8 @@ private:
             OperatorInputType const operatorInputType);
     bool performTraverseStepsWithBinaryOperationAndReturnIfContinue(
             AggregatorTraverseSteps const traverseSteps,
-            unsigned int const nextOperatorIndex);    bool performTraverseStepsWithUnaryOperationAndReturnIfContinue(
+            unsigned int const nextOperatorIndex);
+    bool performTraverseStepsWithUnaryOperationAndReturnIfContinue(
             AggregatorTraverseSteps const traverseSteps,
             unsigned int const nextOperatorIndex);
     Indexes getNextOperatorIndexes(OperatorInputType const operatorInputType) const;
@@ -51,10 +53,12 @@ private:
     bool hasNoValueBeforeThisIndex(unsigned int const index);
 
     void eraseTermsInclusive(
-            unsigned int const firstIndex,            unsigned int const secondIndex);
+            unsigned int const firstIndex,
+            unsigned int const secondIndex);
     void insertTerm(
             unsigned int const index,
             Term const& term);
+
     unsigned int m_startIndex;
     unsigned int m_endIndex;
     Terms m_terms;

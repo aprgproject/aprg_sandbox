@@ -5,6 +5,7 @@
 
 namespace alba
 {
+
 namespace equation
 {
 
@@ -13,10 +14,12 @@ namespace Factorization
 Expression factorize(Expression const& expression);
 Polynomials factorize(Polynomial const& polynomial);
 Polynomials factorizePolynomials(Polynomials const& polynomials);
-Polynomials returnPolynomialsOrSinglePolynomialIfEmpty(        Polynomials const& polynomials,
+Polynomials returnPolynomialsOrSinglePolynomialIfEmpty(
+        Polynomials const& polynomials,
         Polynomial const& polynomial);
 Polynomials factorizeCommonMonomial(Polynomial const& polynomial);
-Polynomials factorizeDifferenceOfSquares(Polynomial const& polynomial);Polynomials factorizeDifferenceOfCubes(Polynomial const& polynomial);
+Polynomials factorizeDifferenceOfSquares(Polynomial const& polynomial);
+Polynomials factorizeDifferenceOfCubes(Polynomial const& polynomial);
 Polynomials factorizeSumOfCubes(Polynomial const& polynomial);
 Polynomials factorizeIncreasingAndDecreasingExponentsForm(Polynomial const& polynomial);
 Polynomials factorizeBySplittingSmallerPolynomials(Polynomial const& polynomial);

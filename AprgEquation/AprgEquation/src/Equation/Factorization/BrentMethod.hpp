@@ -7,6 +7,7 @@
 
 namespace alba
 {
+
 namespace equation
 {
 
@@ -19,7 +20,8 @@ public:
 private:
     AlbaNumberOptional calculateInverseQuadraticInterpolation(
             AlbaNumber const& a,
-            AlbaNumber const& b,            AlbaNumber const& c) const;
+            AlbaNumber const& b,
+            AlbaNumber const& c) const;
     AlbaNumberOptional calculateSecantMethod(
             AlbaNumber const& a,
             AlbaNumber const& b) const;
@@ -36,6 +38,7 @@ private:
     AlbaNumber calculate(AlbaNumber const& inputValue) const;
     AlbaNumbers m_coefficients;
 };
+
 }
 
 }

@@ -17,7 +17,8 @@ BrentMethod::BrentMethod(AlbaNumbers const& coefficients)
 
 AlbaNumberOptional BrentMethod::calculateRoot(AlbaNumber const& start, AlbaNumber const& end)
 {
-    AlbaNumberOptional result;    AlbaNumber a = start;
+    AlbaNumberOptional result;
+    AlbaNumber a = start;
     AlbaNumber b = end;
     AlbaNumber c;
     AlbaNumber d;
@@ -60,7 +61,8 @@ AlbaNumberOptional BrentMethod::calculateRoot(AlbaNumber const& start, AlbaNumbe
         }
         AlbaNumber fc = calculate(c);
         if(fa != fc && fb != fc)
-        {            AlbaNumberOptional sOptional(calculateInverseQuadraticInterpolation(a, b, c));
+        {
+            AlbaNumberOptional sOptional(calculateInverseQuadraticInterpolation(a, b, c));
             if(!sOptional.hasContent())
             {
                 break;
@@ -126,6 +128,7 @@ AlbaNumberOptional BrentMethod::calculateRoot(AlbaNumber const& start, AlbaNumbe
             }
         }
     }
+
     return result;
 }
 
@@ -198,7 +201,8 @@ bool BrentMethod::isBisectionMethodNeeded(
 
 AlbaNumber BrentMethod::calculate(AlbaNumber const& inputValue) const
 {
-    AlbaNumber result;    AlbaNumber partialProduct(1);
+    AlbaNumber result;
+    AlbaNumber partialProduct(1);
     for(AlbaNumbers::const_reverse_iterator it=m_coefficients.crbegin();
         it != m_coefficients.crend();
         it++)

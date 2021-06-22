@@ -24,6 +24,7 @@ TEST(BrentMethodTest, CalculateRootWithNoRealRoots)
 
     ASSERT_FALSE(numberOptionalToVerify.hasContent());
 }
+
 TEST(BrentMethodTest, CalculateRootWorksOnPerfectSquare)
 {
     BrentMethod brentMethod(AlbaNumbers{1, 4, 4});
@@ -31,7 +32,8 @@ TEST(BrentMethodTest, CalculateRootWorksOnPerfectSquare)
     AlbaNumberOptional numberOptionalToVerify(brentMethod.calculateRoot(-4, 4));
 
     ASSERT_TRUE(numberOptionalToVerify.hasContent());
-    EXPECT_EQ(AlbaNumber(-2), numberOptionalToVerify.getConstReference());}
+    EXPECT_EQ(AlbaNumber(-2), numberOptionalToVerify.getConstReference());
+}
 
 TEST(BrentMethodTest, CalculateRootWorksOnPerfectSquareWithACoefficient)
 {
@@ -40,7 +42,8 @@ TEST(BrentMethodTest, CalculateRootWorksOnPerfectSquareWithACoefficient)
     AlbaNumberOptional numberOptionalToVerify(brentMethod.calculateRoot(-9, 9));
 
     ASSERT_TRUE(numberOptionalToVerify.hasContent());
-    EXPECT_EQ(AlbaNumber(-1, 3), numberOptionalToVerify.getConstReference());}
+    EXPECT_EQ(AlbaNumber(-1, 3), numberOptionalToVerify.getConstReference());
+}
 
 TEST(BrentMethodTest, CalculateRootWorksOnQuadraticExample)
 {
@@ -49,7 +52,8 @@ TEST(BrentMethodTest, CalculateRootWorksOnQuadraticExample)
     AlbaNumberOptional numberOptionalToVerify(brentMethod.calculateRoot(-35, 35));
 
     ASSERT_TRUE(numberOptionalToVerify.hasContent());
-    EXPECT_EQ(AlbaNumber(-7, 6), numberOptionalToVerify.getConstReference());}
+    EXPECT_EQ(AlbaNumber(-7, 6), numberOptionalToVerify.getConstReference());
+}
 
 TEST(BrentMethodTest, CalculateRootWorksDifferenceOfSquares)
 {
@@ -58,7 +62,8 @@ TEST(BrentMethodTest, CalculateRootWorksDifferenceOfSquares)
     AlbaNumberOptional numberOptionalToVerify(brentMethod.calculateRoot(-256, 256));
 
     ASSERT_TRUE(numberOptionalToVerify.hasContent());
-    EXPECT_EQ(AlbaNumber(-16), numberOptionalToVerify.getConstReference());}
+    EXPECT_EQ(AlbaNumber(-16), numberOptionalToVerify.getConstReference());
+}
 
 TEST(BrentMethodTest, CalculateRootWorksDifferenceOfCubes)
 {
@@ -67,7 +72,8 @@ TEST(BrentMethodTest, CalculateRootWorksDifferenceOfCubes)
     AlbaNumberOptional numberOptionalToVerify(brentMethod.calculateRoot(-27, 27));
 
     ASSERT_TRUE(numberOptionalToVerify.hasContent());
-    EXPECT_EQ(AlbaNumber(3, 2), numberOptionalToVerify.getConstReference());}
+    EXPECT_EQ(AlbaNumber(3, 2), numberOptionalToVerify.getConstReference());
+}
 
 TEST(BrentMethodTest, CalculateRootWorksSumOfCubes)
 {
@@ -76,7 +82,8 @@ TEST(BrentMethodTest, CalculateRootWorksSumOfCubes)
     AlbaNumberOptional numberOptionalToVerify(brentMethod.calculateRoot(-27, 27));
 
     ASSERT_TRUE(numberOptionalToVerify.hasContent());
-    EXPECT_EQ(AlbaNumber(-3, 2), numberOptionalToVerify.getConstReference());}
+    EXPECT_EQ(AlbaNumber(-3, 2), numberOptionalToVerify.getConstReference());
+}
 
 TEST(BrentMethodTest, CalculateRootWorksOnCubicExample)
 {
@@ -114,7 +121,8 @@ TEST(BrentMethodTest, CalculateRootWorksOnQuarticExample)
     AlbaNumberOptional numberOptionalToVerify(brentMethod.calculateRoot(-16, 16));
 
     ASSERT_TRUE(numberOptionalToVerify.hasContent());
-    EXPECT_EQ(AlbaNumber(-2), numberOptionalToVerify.getConstReference());}
+    EXPECT_EQ(AlbaNumber(-2), numberOptionalToVerify.getConstReference());
+}
 
 }
 

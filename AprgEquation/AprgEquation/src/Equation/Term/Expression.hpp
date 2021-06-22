@@ -3,9 +3,12 @@
 #include <Equation/Constructs/PolynomialOverPolynomial.hpp>
 #include <Equation/Substitution/VariablesToValuesTypes.hpp>
 #include <Equation/Term/BaseTermData.hpp>
-#include <Equation/Term/BaseTermPointers.hpp>#include <Equation/Term/OperatorLevel.hpp>#include <Equation/Term/Polynomial.hpp>
+#include <Equation/Term/BaseTermPointers.hpp>
+#include <Equation/Term/OperatorLevel.hpp>
+#include <Equation/Term/Polynomial.hpp>
 #include <Equation/Term/TermsWithAssociation.hpp>
 #include <Equation/Term/TermType.hpp>
+
 #include <functional>
 #include <string>
 #include <vector>
@@ -25,9 +28,11 @@ public:
     Expression();
     Expression(BaseTerm const& baseTerm);
     ~Expression();
+
     bool operator==(Expression const& second) const;
     bool operator!=(Expression const& second) const;
-    bool operator<(Expression const& second) const;    bool isEmpty() const;
+    bool operator<(Expression const& second) const;
+    bool isEmpty() const;
     bool containsOnlyOneTerm() const;
 
     OperatorLevel getCommonOperatorLevel() const;
@@ -58,7 +63,8 @@ public:
     void factorize();
     void simplify();
     void simplifyToACommonDenominator();
-    void sort();    void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
+    void sort();
+    void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
 
 private:
 
@@ -71,21 +77,25 @@ private:
 
     //simplify functions
     void simplifyAndCopyTerms(
-            TermsWithAssociation::TermsWithDetails & termsToUpdate,            TermsWithAssociation::TermsWithDetails const& termsToCheck);
+            TermsWithAssociation::TermsWithDetails & termsToUpdate,
+            TermsWithAssociation::TermsWithDetails const& termsToCheck);
     void simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
             TermsWithAssociation::TermsWithDetails & termsToUpdate,
-            Expression const& expression,            TermAssociationType const association);
+            Expression const& expression,
+            TermAssociationType const association);
     void simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify);
-    void simplifyToACommonDenominatorForExpression(Expression & expression);
+    bool simplifyToACommonDenominatorForExpressionAndReturnIfChanged(Expression & expression);
     void simplifyTermsWithDetailsInExpressionToACommonDenominator(Expression & expression);
     bool tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression & addSubtractExpression);
     void putNegativeExponentsOnDenominator(Expression & expression);
 
     //process functions
-    void processTermsBaseOnOperatorLevel(            TermsWithAssociation::TermsWithDetails const& termsToProcess);
+    void processTermsBaseOnOperatorLevel(
+            TermsWithAssociation::TermsWithDetails const& termsToProcess);
     void processAndSaveTermsForAdditionAndSubtraction(
             TermsWithAssociation::TermsWithDetails const& termsToProcess);
-    void processAndSaveTermsForMultiplicationAndDivision(            TermsWithAssociation::TermsWithDetails const& termsToProcess);
+    void processAndSaveTermsForMultiplicationAndDivision(
+            TermsWithAssociation::TermsWithDetails const& termsToProcess);
     void processAndSaveTermsForRaiseToPower(
             TermsWithAssociation::TermsWithDetails const& termsToProcess);
 
@@ -105,23 +115,31 @@ private:
     void putTermsWithAssociation(
             TermsWithAssociation const& termsWithAssociation,
             TermAssociationType const overallAssociation);
-    void putPolynomialOverPolynomial(
-            Expression & expression,
-            PolynomialOverPolynomial const& numeratorAndDenominator);
-    void putListOfPolynomialOverPolynomial(
+    void putListOfPolynomialOverPolynomialInExpression(
             Expression& expression,
             ListOfPolynomialOverPolynomial const& numeratorsAndDenominators);
+    void putPolynomialOverPolynomialInExpression(
+            Expression & expression,
+            PolynomialOverPolynomial const& numeratorAndDenominator);
 
     //functions for addition
-    void addOrSubtractTermsWithExpressions(            BaseTerm & combinedBaseTerm,
+    void addOrSubtractTermsWithExpressions(
+            BaseTerm & combinedBaseTerm,
             TermsWithAssociation::TermsWithDetails const& termsWithExpressions) const;
 
-    //functions for multiplication    void processNumeratorsAndDenominators(
+    //functions for multiplication
+    void processNumeratorsAndDenominators(
             BaseTerm & combinedBaseTerm,
             TermsWithAssociation::TermsWithDetails const& numerators,
             TermsWithAssociation::TermsWithDetails const& denominators) const;
 
-    // functions for multiplyThenAddOrSubtract
+    //functions for raise to power
+    void saveBaseAndExponentsToTerm(
+            BaseTerm & combinedBaseTerm,
+            BaseTerm const& baseOfRaiseToPowerBaseTerm,
+            TermsWithAssociation::TermsWithDetails const& exponents);
+
+    // functions for multiply then add or subtract
     void multiplyThenAddOrSubtract(Polynomial const& polynomial, Expression const& expression);
     void multiplyThenAddOrSubtract(Expression const& expression, Polynomial const& polynomial);
     void multiplyThenAddOrSubtract(Polynomial const& polynomial, TermsWithAssociation::TermsWithDetails const& termsWithDetails);
@@ -132,12 +150,25 @@ private:
             TermsWithAssociation::TermsWithDetails const& termsWithDetails1,
             TermsWithAssociation::TermsWithDetails const& termsWithDetails2);
     void multiplyThenAddOrSubtract(Expression const& multiplicand, BaseTerm const& multiplier, bool const isAdd);
+
+    // other functions
+    void setCommonOperatorLevelIfStillUnknown(OperatorLevel const operatorLevel);
+    TermsWithAssociation getTermsWithAssociationAndReverseIfNeeded(
+            Expression const& expression,
+            TermAssociationType const association);
+    void emplaceToNumeratorsAndDenominators(
+            ListOfPolynomialOverPolynomial & numeratorsAndDenominators,
+            Polynomial const& polynomial,
+            TermAssociationType const termAssociationType);
+
     OperatorLevel m_commonOperatorLevel;
     TermsWithAssociation m_termsWithAssociation;
 };
+
 using Expressions=std::vector<Expression>;
 
 std::ostream & operator<<(std::ostream & out, Expression const& expression);
+
 }
 
 }

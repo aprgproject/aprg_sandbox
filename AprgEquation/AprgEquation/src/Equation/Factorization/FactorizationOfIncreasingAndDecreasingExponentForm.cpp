@@ -9,6 +9,7 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -21,7 +22,8 @@ namespace Factorization
 Polynomials FactorizationOfIncreasingAndDecreasingExponentForm::factorizeIfPossible(Polynomial const& polynomial) const
 {
     Polynomials result;
-    Monomials monomials(polynomial.getMonomialsConstReference());    if(monomials.size() > 1)
+    Monomials monomials(polynomial.getMonomialsConstReference());
+    if(monomials.size() > 1)
     {
         Monomial firstMonomial(monomials.front());
         Monomial lastMonomial(monomials.back());
@@ -41,7 +43,8 @@ Polynomials FactorizationOfIncreasingAndDecreasingExponentForm::factorizeIfPossi
                     factorizePolynomialForm(
                                 result,
                                 polynomial,
-                                coefficients,                                unitFirstMonomial.getVariablesToExponentsMapConstReference(),
+                                coefficients,
+                                unitFirstMonomial.getVariablesToExponentsMapConstReference(),
                                 unitSecondMonomial.getVariablesToExponentsMapConstReference());
                 }
                 if(!result.empty())
@@ -70,7 +73,8 @@ void FactorizationOfIncreasingAndDecreasingExponentForm::factorizePolynomialForm
         AlbaNumber aCoefficient(remainingPolynomial.getFirstMonomial().getConstantConstReference());
         if(aCoefficient.isIntegerOrFractionType() && rootSecondCoefficient.isIntegerOrFractionType())
         {
-            fixCoefficientsOfFactors(aCoefficient, rootFirstCoefficient, rootSecondCoefficient);        }
+            fixCoefficientsOfFactors(aCoefficient, rootFirstCoefficient, rootSecondCoefficient);
+        }
         Monomial rootFirstMonomial(rootFirstCoefficient, firstVariableExponent);
         Monomial rootSecondMonomial(rootSecondCoefficient, secondVariableExponent);
         Polynomial rootPolynomial{rootFirstMonomial, rootSecondMonomial};
@@ -91,7 +95,8 @@ void FactorizationOfIncreasingAndDecreasingExponentForm::fixCoefficientsOfFactor
         AlbaNumber & rootSecondCoefficient) const
 {
     AlbaNumber::FractionData firstFractionData(aCoefficient.getFractionData());
-    AlbaNumber::FractionData secondFractionData(rootSecondCoefficient.getFractionData());    unsigned multiplier = getGreatestCommonFactor(firstFractionData.numerator, secondFractionData.denominator);
+    AlbaNumber::FractionData secondFractionData(rootSecondCoefficient.getFractionData());
+    unsigned multiplier = getGreatestCommonFactor(firstFractionData.numerator, secondFractionData.denominator);
     rootFirstCoefficient = rootFirstCoefficient * multiplier;
     rootSecondCoefficient = rootSecondCoefficient * multiplier;
     aCoefficient = aCoefficient / multiplier;
@@ -128,7 +133,8 @@ AlbaNumbers FactorizationOfIncreasingAndDecreasingExponentForm::getCoefficientsI
         Monomials const& monomialsWithExponentsInOrder) const
 {
     AlbaNumbers coefficients;
-    for(Monomial const& monomialWithExponentInOrder : monomialsWithExponentsInOrder)    {
+    for(Monomial const& monomialWithExponentInOrder : monomialsWithExponentsInOrder)
+    {
         coefficients.emplace_back(
                     polynomial.getCoefficientOfVariableExponent(monomialWithExponentInOrder));
     }
@@ -159,7 +165,8 @@ AlbaNumbers FactorizationOfIncreasingAndDecreasingExponentForm::calculateQuadrat
     AlbaNumbers result;
     AlbaNumber discriminant((b^2)-(a*c*4));
     if(discriminant >= 0)
-    {        AlbaNumber discriminantSquaredRoot = discriminant^(AlbaNumber(1, 2));
+    {
+        AlbaNumber discriminantSquaredRoot = discriminant^(AlbaNumber(1, 2));
         AlbaNumber firstPart((-b)/(a*2));
         AlbaNumber secondPart(discriminantSquaredRoot/(a*2));
         result.emplace_back(firstPart + secondPart);
