@@ -3,6 +3,7 @@
 #include <Equation/Substitution/VariablesToValuesTypes.hpp>
 #include <Equation/Term/Term.hpp>
 #include <Math/AlbaNumber.hpp>
+
 #include <string>
 
 using namespace std;

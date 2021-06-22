@@ -12,6 +12,7 @@
 
 #include <algorithm>
 #include <sstream>
+
 using namespace alba::equation::Factorization;
 using namespace std;
 using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;

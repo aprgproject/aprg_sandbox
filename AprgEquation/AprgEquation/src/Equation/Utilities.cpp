@@ -8,6 +8,7 @@
 #include <Math/AlbaMathHelper.hpp>#include <String/AlbaStringHelper.hpp>
 
 #include <algorithm>
+
 using namespace alba::equation::Factorization;
 using namespace alba::mathHelper;
 using namespace std;

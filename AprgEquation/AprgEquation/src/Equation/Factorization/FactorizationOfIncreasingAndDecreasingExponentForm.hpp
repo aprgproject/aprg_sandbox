@@ -16,44 +16,37 @@ class FactorizationOfIncreasingAndDecreasingExponentForm
 {
 public:
 
-    Polynomials factorizeIfPossible(Polynomial const& polynomial);
+    Polynomials factorizeIfPossible(Polynomial const& polynomial) const;
 
 private:
-    void factorizeUsingQuadraticFormulaOrBrentMethod(
+
+    void factorizePolynomialForm(
             Polynomials & result,
             Polynomial const& polynomial,
             AlbaNumbers const& coefficients,
             Monomial::VariablesToExponentsMap const& firstVariableExponent,
-            Monomial::VariablesToExponentsMap const& secondVariableExponent);
-    void factorizeQuadraticForm(
-            Polynomials & result,
-            AlbaNumbers const& coefficients,
-            Monomial::VariablesToExponentsMap const& firstVariableExponent,
-            Monomial::VariablesToExponentsMap const& secondVariableExponent);
-    void factorizeUsingBrentMethod(
-            Polynomials & result,
-            Polynomial const& polynomial,
-            AlbaNumbers const& coefficients,
-            Monomial::VariablesToExponentsMap const& firstVariableExponent,
-            Monomial::VariablesToExponentsMap const& secondVariableExponent);
+            Monomial::VariablesToExponentsMap const& secondVariableExponent) const;
     void fixCoefficientsOfFactors(
             AlbaNumber & aCoefficient,
             AlbaNumber & rootFirstCoefficient,
-            AlbaNumber & rootSecondCoefficient);
+            AlbaNumber & rootSecondCoefficient) const;
+    bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
+            Monomials const& monomialsToCheck,
+            Monomials const& monomialsWithExponentsInOrder) const;
+    unsigned int calculateMaxExponentDivisor(Monomial const& firstMonomial, Monomial const& lastMonomial) const;
+    AlbaNumbers getCoefficientsInMonomialsWithExponentsInOrder(Polynomial const& polynomial, Monomials const& monomialsWithExponentsInOrder) const;
+    AlbaNumbers calculatePolynomialRoots(AlbaNumbers const& coefficients) const;
+    AlbaNumbers calculateQuadraticRoots(AlbaNumber const& a, AlbaNumber const& n, AlbaNumber const& c) const;
+    AlbaNumbers calculatePolynomialRootsUsingBrentMethod(AlbaNumbers const& previousDerivativeRoots, AlbaNumbers const& coefficients) const;
+    AlbaNumber getMaxAbsoluteValueForRootFinding(AlbaNumbers const& coefficients) const;
+    AlbaNumbers getDerivativeCoefficients(AlbaNumbers const& coefficients) const;
     Monomials getMonomialsWithExponentsInOrder(
             unsigned int const exponentDivisor,
             Monomial const& firstInPolynomial,
-            Monomial const& lastInPolynomial);
-    AlbaNumbers getCoefficientsInMonomialsWithExponentsInOrder(Polynomial const& polynomial, Monomials const& monomialsWithExponentsInOrder);
-    AlbaNumbers calculateQuadraticRoots(AlbaNumber const& a, AlbaNumber const& n, AlbaNumber const& c);
-    unsigned int calculateMaxExponentDivisor(Monomial const& firstMonomial, Monomial const& lastMonomial);
-    bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
-            Monomials const& monomialsToCheck,
-            Monomials const& monomialsWithExponentsInOrder);
+            Monomial const& lastInPolynomial) const;
 };
 
 }
-
 }
 
 }

@@ -1,6 +1,7 @@
 #include <Equation/Substitution/SubstitutionOfVariablesToValues.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba

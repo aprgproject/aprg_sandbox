@@ -15,16 +15,9 @@ BrentMethod::BrentMethod(AlbaNumbers const& coefficients)
     : m_coefficients(coefficients)
 {}
 
-AlbaNumberOptional BrentMethod::calculateRoot()
-{
-    AlbaNumber maxValueOfCoefficients(getMaxOfAbsoluteValueOfCoefficients());
-    return calculateRoot(maxValueOfCoefficients*-1, maxValueOfCoefficients);
-}
-
 AlbaNumberOptional BrentMethod::calculateRoot(AlbaNumber const& start, AlbaNumber const& end)
 {
-    AlbaNumberOptional result;
-    AlbaNumber a = start;
+    AlbaNumberOptional result;    AlbaNumber a = start;
     AlbaNumber b = end;
     AlbaNumber c;
     AlbaNumber d;
@@ -59,10 +52,15 @@ AlbaNumberOptional BrentMethod::calculateRoot(AlbaNumber const& start, AlbaNumbe
             result.setValue(b);
             break;
         }
+        if(isAlmostEqual(a.getDouble(), b.getDouble(), 1E-13)
+                && isAlmostEqual(calculate(a).getDouble(), 0, 1E-11))
+        {
+            result.setValue(a);
+            break;
+        }
         AlbaNumber fc = calculate(c);
         if(fa != fc && fb != fc)
-        {
-            AlbaNumberOptional sOptional(calculateInverseQuadraticInterpolation(a, b, c));
+        {            AlbaNumberOptional sOptional(calculateInverseQuadraticInterpolation(a, b, c));
             if(!sOptional.hasContent())
             {
                 break;
@@ -119,19 +117,15 @@ AlbaNumberOptional BrentMethod::calculateRoot(AlbaNumber const& start, AlbaNumbe
         AlbaNumber aCoefficient(m_coefficients.front());
         if(aCoefficient.isIntegerOrFractionType())
         {
-            AlbaNumber possibleIntegerValue(result.getConstReference()*aCoefficient);
-            if(canConvertedToInteger(possibleIntegerValue.getDouble(), 1E-5))
+            AlbaNumber possibleValue(result.getConstReference()*aCoefficient);
+            possibleValue.convertToInteger();
+            possibleValue = possibleValue/aCoefficient;
+            if(calculate(possibleValue)==0)
             {
-                possibleIntegerValue.convertToInteger();
-                possibleIntegerValue = possibleIntegerValue/aCoefficient;
-                if(calculate(possibleIntegerValue)==0)
-                {
-                    result.setValue(possibleIntegerValue);
-                }
+                result.setValue(possibleValue);
             }
         }
     }
-
     return result;
 }
 
@@ -202,20 +196,9 @@ bool BrentMethod::isBisectionMethodNeeded(
     return isConditionOne || isConditionTwo || isConditionThree || isConditionFour || isConditionFive;
 }
 
-AlbaNumber BrentMethod::getMaxOfAbsoluteValueOfCoefficients() const
-{
-    AlbaNumber maxValue(0);
-    for(AlbaNumber const& coefficient : m_coefficients)
-    {
-        maxValue = max(maxValue, getAbsoluteValue(coefficient));
-    }
-    return maxValue;
-}
-
 AlbaNumber BrentMethod::calculate(AlbaNumber const& inputValue) const
 {
-    AlbaNumber result;
-    AlbaNumber partialProduct(1);
+    AlbaNumber result;    AlbaNumber partialProduct(1);
     for(AlbaNumbers::const_reverse_iterator it=m_coefficients.crbegin();
         it != m_coefficients.crend();
         it++)

@@ -4,6 +4,7 @@
 #include <Equation/Factorization/FactorizationOfIncreasingAndDecreasingExponentForm.hpp>
 #include <Equation/Utilities.hpp>
 #include <Math/AlbaMathHelper.hpp>
+
 #include <algorithm>
 
 using namespace alba::mathHelper;

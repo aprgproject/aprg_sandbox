@@ -1,6 +1,7 @@
 #include <Equation/Factorization/Factorization.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba
@@ -256,13 +257,12 @@ TEST(FactorizationTest, CubicExpressionExample1_FactorizeWorks)
     Polynomials polynomialsToVerify(factorize(polynomialToTest));
 
     ASSERT_EQ(3u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(4, {{"x", 1}}), Monomial(-5, {})};
+    Polynomial polynomialToExpect1{Monomial(6, {{"x", 1}}), Monomial(7, {})};
     Polynomial polynomialToExpect2{Monomial(8, {{"x", 1}}), Monomial(9, {})};
-    Polynomial polynomialToExpect3{Monomial(6, {{"x", 1}}), Monomial(7, {})};
+    Polynomial polynomialToExpect3{Monomial(4, {{"x", 1}}), Monomial(-5, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
-    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
-}
+    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));}
 
 TEST(FactorizationTest, AXPlusBTimesCXPlusD_FactorizeWorks)
 {
@@ -303,13 +303,12 @@ TEST(FactorizationTest, Example2_FactorizeWorks)
     Polynomials polynomialsToVerify(factorize(polynomialToTest));
 
     ASSERT_EQ(3u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(-3, {})};
-    Polynomial polynomialToExpect2{Monomial(2, {{"x", 1}}), Monomial(1, {})};
-    Polynomial polynomialToExpect3{Monomial(2, {{"x", 1}}), Monomial(-1, {})};
+    Polynomial polynomialToExpect1{Monomial(2, {{"x", 1}}), Monomial(1, {})};
+    Polynomial polynomialToExpect2{Monomial(2, {{"x", 1}}), Monomial(-1, {})};
+    Polynomial polynomialToExpect3{Monomial(1, {{"x", 1}}), Monomial(-3, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
-    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
-}
+    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));}
 
 TEST(FactorizationTest, Example3_FactorizeWorks)
 {
@@ -319,12 +318,11 @@ TEST(FactorizationTest, Example3_FactorizeWorks)
 
     ASSERT_EQ(4u, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(0.160246899469294, {})};
-    Polynomial polynomialToExpect2{Monomial(3, {})};
-    Polynomial polynomialToExpect3{Monomial(1, {{"x", 1}}), Monomial(-4.16024689946928, {})};
+    Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(-4.16024689946928, {})};
+    Polynomial polynomialToExpect3{Monomial(3, {})};
     Polynomial polynomialToExpect4{Monomial(1, {{"x", 2}}), Monomial(4, {{"x", 1}}), Monomial(6, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
-    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
-    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
+    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
     EXPECT_EQ(polynomialToExpect4, polynomialsToVerify.at(3));
 }
 

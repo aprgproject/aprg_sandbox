@@ -5,6 +5,7 @@
 #include <Equation/Term/Monomial.hpp>
 #include <string>
 #include <vector>
+
 namespace alba
 {
 

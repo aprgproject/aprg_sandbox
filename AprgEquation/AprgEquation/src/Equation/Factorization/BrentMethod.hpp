@@ -3,22 +3,23 @@
 #include <Math/AlbaNumber.hpp>
 #include <Math/AlbaNumberTypes.hpp>
 
+#include <vector>
+
 namespace alba
 {
-
 namespace equation
 {
 
 class BrentMethod
 {
 public:
+    using ListOfCoefficients = std::vector<AlbaNumbers>;
     BrentMethod(AlbaNumbers const& coefficients);
-    AlbaNumberOptional calculateRoot();
     AlbaNumberOptional calculateRoot(AlbaNumber const& start, AlbaNumber const& end);
+private:
     AlbaNumberOptional calculateInverseQuadraticInterpolation(
             AlbaNumber const& a,
-            AlbaNumber const& b,
-            AlbaNumber const& c) const;
+            AlbaNumber const& b,            AlbaNumber const& c) const;
     AlbaNumberOptional calculateSecantMethod(
             AlbaNumber const& a,
             AlbaNumber const& b) const;
@@ -32,13 +33,9 @@ public:
             AlbaNumber const& d,
             AlbaNumber const& s,
             bool const mflag) const;
-    AlbaNumber getMaxOfAbsoluteValueOfCoefficients() const;
     AlbaNumber calculate(AlbaNumber const& inputValue) const;
-
-private:
     AlbaNumbers m_coefficients;
 };
-
 }
 
 }
