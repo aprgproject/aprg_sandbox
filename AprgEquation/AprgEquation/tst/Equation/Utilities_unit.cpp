@@ -37,7 +37,8 @@ TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForTermsWorks)
     EXPECT_FALSE(canBeMergedInAMonomialByAdditionOrSubtraction(Term(Expression()), Term(Expression())));
 }
 
-TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForBothMonomialsWorks){
+TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForBothMonomialsWorks)
+{
     Monomial monomial1;
     Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
     Monomial monomial3(100, {{"x", 6}, {"y", -1.25}});
@@ -55,7 +56,8 @@ TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForBothMonomialsWorks){
     EXPECT_FALSE(canBeMergedInAMonomialByAdditionOrSubtraction(monomial2, monomial5));
 }
 
-TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForMonomialAndVariableWorks){
+TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForMonomialAndVariableWorks)
+{
     Monomial monomial1;
     Monomial monomial2(12, {{"x", 1}});
     Monomial monomial3(34, {{"x", 1.25}});
@@ -75,10 +77,12 @@ TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForBothVariablesWorks)
     EXPECT_FALSE(canBeMergedInAMonomialByAdditionOrSubtraction(Variable("w"), Variable("x")));
 }
 
-TEST(UtilitiesTest, CanBeConvertedToMonomialWorks){
+TEST(UtilitiesTest, CanBeConvertedToMonomialWorks)
+{
     EXPECT_FALSE(canBeConvertedToMonomial(Term()));
     EXPECT_TRUE(canBeConvertedToMonomial(Term(Constant(0))));
-    EXPECT_TRUE(canBeConvertedToMonomial(Term(15)));    EXPECT_TRUE(canBeConvertedToMonomial(Term(Variable("x"))));
+    EXPECT_TRUE(canBeConvertedToMonomial(Term(15)));
+    EXPECT_TRUE(canBeConvertedToMonomial(Term(Variable("x"))));
     EXPECT_TRUE(canBeConvertedToMonomial(Term(Monomial(96, {{"x", 1}}))));
     EXPECT_TRUE(canBeConvertedToMonomial(Term(Polynomial{Monomial(96, {{"x", 1}})})));
     EXPECT_FALSE(canBeConvertedToMonomial(Term(Polynomial{Monomial(96, {{"x", 1}}), Monomial(73, {{"y", 1}})})));

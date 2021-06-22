@@ -14,8 +14,10 @@
 
 namespace alba
 {
+
 namespace equation
 {
+
 class Expression : public BaseTermData
 {
     friend std::ostream & operator<<(std::ostream & out, Expression const& expression);
@@ -127,4 +129,5 @@ using Expressions=std::vector<Expression>;
 std::ostream & operator<<(std::ostream & out, Expression const& expression);
 
 }
+
 }

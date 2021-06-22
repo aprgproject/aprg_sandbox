@@ -24,7 +24,7 @@ public:
     void putAsSubtraction(Expression const& expression);
     void putAsAddOrSubtraction(Expression const& expression, TermAssociationType const association);
     void putTermsWithDetails(TermsWithAssociation::TermsWithDetails const& termsWithDetails);
-    void tryToCombine();
+    void combineExpressionsIfPossible();
 
 private:
     bool mergeForAdditionAndSubtractionAndReturnIfMerged(

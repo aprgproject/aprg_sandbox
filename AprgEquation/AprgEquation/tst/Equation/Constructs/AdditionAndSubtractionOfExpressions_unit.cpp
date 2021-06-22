@@ -155,7 +155,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, PutTermsWithDetailsWorks)
     EXPECT_EQ(TermAssociationType::Positive, associations.at(1));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, TryToCombineWorksOnAddingAndSubtractingRaiseToPowerExpressions)
+TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksOnAddingAndSubtractingRaiseToPowerExpressions)
 {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({Term(5), Term("*"), Term("y"), Term("^"), Term("y")}));
@@ -165,7 +165,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, TryToCombineWorksOnAddingAndSubtra
     additionAndSubtraction.putAsAddition(expression2);
     additionAndSubtraction.putAsSubtraction(expression3);
 
-    additionAndSubtraction.tryToCombine();
+    additionAndSubtraction.combineExpressionsIfPossible();
 
     Expression subExpression(createExpressionIfPossible(Terms{Term("y"), Term("^"), Term("y")}));
     Expression expressionToExpect(createExpressionIfPossible(Terms{Term(3), Term("*"), Term(subExpression)}));
@@ -177,7 +177,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, TryToCombineWorksOnAddingAndSubtra
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, TryToCombineWorksOnAddingAndSubtractingMultipleRaiseToPowerExpressions)
+TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksOnAddingAndSubtractingMultipleRaiseToPowerExpressions)
 {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
@@ -193,7 +193,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, TryToCombineWorksOnAddingAndSubtra
     additionAndSubtraction.putAsAddition(expression5);
     additionAndSubtraction.putAsAddition(expression6);
 
-    additionAndSubtraction.tryToCombine();
+    additionAndSubtraction.combineExpressionsIfPossible();
 
     Expression subExpression1(createExpressionIfPossible(Terms{Term("x"), Term("^"), Term("y")}));
     Expression subExpression2(createExpressionIfPossible(Terms{Term("y"), Term("^"), Term("y")}));
@@ -209,7 +209,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, TryToCombineWorksOnAddingAndSubtra
     EXPECT_EQ(TermAssociationType::Positive, associations.at(1));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, TryToCombineWorksOnAddingAndSubtractingNonSortedRaiseToPowerExpressions)
+TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksOnAddingAndSubtractingNonSortedRaiseToPowerExpressions)
 {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({Term(100), Term("*"), Term("y"), Term("^"), Term("y"), Term("*"), Term("x"), Term("^"), Term("x")}));
@@ -217,7 +217,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, TryToCombineWorksOnAddingAndSubtra
     additionAndSubtraction.putAsAddition(expression1);
     additionAndSubtraction.putAsSubtraction(expression2);
 
-    additionAndSubtraction.tryToCombine();
+    additionAndSubtraction.combineExpressionsIfPossible();
 
     Expression subExpression1(createExpressionIfPossible(Terms{Term("x"), Term("^"), Term("x")}));
     Expression subExpression2(createExpressionIfPossible(Terms{Term("y"), Term("^"), Term("y")}));
@@ -231,7 +231,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, TryToCombineWorksOnAddingAndSubtra
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, TryToCombineWorksOnAddingAndSubtractingRaiseToPowerExpressionsThatCannotBeAdded)
+TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksOnAddingAndSubtractingRaiseToPowerExpressionsThatCannotBeAdded)
 {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({Term(10), Term("*"), Term("y"), Term("^"), Term("y")}));
@@ -243,7 +243,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, TryToCombineWorksOnAddingAndSubtra
     additionAndSubtraction.putAsSubtraction(expression3);
     additionAndSubtraction.putAsSubtraction(expression4);
 
-    additionAndSubtraction.tryToCombine();
+    additionAndSubtraction.combineExpressionsIfPossible();
 
     Expression subExpression1(createExpressionIfPossible(Terms{Term("y"), Term("^"), Term("y")}));
     Expression expressionToExpect1(createExpressionIfPossible(Terms{Term(2), Term("*"), Term(subExpression1)}));

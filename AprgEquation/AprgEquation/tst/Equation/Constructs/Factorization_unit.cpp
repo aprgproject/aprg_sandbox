@@ -813,7 +813,8 @@ TEST(FactorizationTest, CombinePolynomialsByAdditionAndEmplaceBackWorks)
     combinePolynomialsByAdditionAndThenEmplaceBack(polynomialsToVerify, polynomials);
 
     ASSERT_EQ(1u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect{Monomial(3, {{"x", 1}}), Monomial(7, {})};    EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
+    Polynomial polynomialToExpect{Monomial(3, {{"x", 1}}), Monomial(7, {})};
+    EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
 }
 
 TEST(FactorizationTest, AddFactorsOfDifferenceOfSquaresWorks)

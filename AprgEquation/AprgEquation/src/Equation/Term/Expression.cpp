@@ -1,8 +1,8 @@
 #include "Expression.hpp"
 
+#include <Equation/Constructs/AdditionAndSubtractionOfExpressions.hpp>
 #include <Equation/Constructs/AdditionAndSubtractionOfTermsOverTerms.hpp>
 #include <Equation/Constructs/Factorization.hpp>
-#include <Equation/Constructs/MergeExpressionsByAdditionOrSubtraction.hpp>
 #include <Equation/Constructs/PolynomialOverPolynomial.hpp>
 #include <Equation/Constructs/TermsOverTerms.hpp>
 #include <Equation/Operations/AccumulateOperations.hpp>
@@ -811,10 +811,10 @@ void Expression::addOrSubtractTermsWithExpressions(
         BaseTerm & combinedBaseTerm,
         TermsWithDetails const& termsWithExpressions) const
 {
-    Term combinedExpressionTerm(getResultOfAddingAndSubtractingOfTermsWithExpressions(termsWithExpressions));
-    TermsWithDetails expressionTermsWithDetails;
-    expressionTermsWithDetails.emplace_back(getBaseTermConstReferenceFromTerm(combinedExpressionTerm), TermAssociationType::Positive);
-    accumulateTermsForAdditionAndSubtraction(getTermReferenceFromBaseTerm(combinedBaseTerm), expressionTermsWithDetails);
+    AdditionAndSubtractionOfExpressions additionAndSubtraction;
+    additionAndSubtraction.putTermsWithDetails(termsWithExpressions);
+    additionAndSubtraction.combineExpressionsIfPossible();
+    accumulateTermsForAdditionAndSubtraction(getTermReferenceFromBaseTerm(combinedBaseTerm), additionAndSubtraction.getAsTermsWithDetails());
 }
 
 void Expression::processNumeratorsAndDenominators(

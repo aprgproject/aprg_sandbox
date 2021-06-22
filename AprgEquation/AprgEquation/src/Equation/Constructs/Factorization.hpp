@@ -33,10 +33,12 @@ Polynomials getPolynomialsWithRemovedCommonFactors(Polynomials const& polynomial
 void combinePolynomialsByAdditionAndThenEmplaceBack(Polynomials & result, Polynomials const& smallerPolynomials);
 void addFactorsOfDifferenceOfSquares(Polynomials & result, Polynomial const& polynomial);
 void addFactorsOfDifferenceOfCubes(Polynomials & result, Polynomial const& polynomial);
-void addFactorsOfSumOfCubes(Polynomials & result, Polynomial const& polynomial);bool isDifferenceOfSquares(Polynomial const& polynomial);
+void addFactorsOfSumOfCubes(Polynomials & result, Polynomial const& polynomial);
+bool isDifferenceOfSquares(Polynomial const& polynomial);
 bool isDifferenceOfCubes(Polynomial const& polynomial);
 bool isSumOfCubes(Polynomial const& polynomial);
-bool isPerfectSquare(Monomial const& monomial);bool isPerfectCube(Monomial const& monomial);
+bool isPerfectSquare(Monomial const& monomial);
+bool isPerfectCube(Monomial const& monomial);
 bool isPerfectNthPower(Monomial const& monomial, unsigned int const nthPower);
 bool areExponentsDivisible(Monomial const& monomial, unsigned int const divisor);
 void simplifyPolynomialThenEmplaceBack(Polynomials & polynomials, Polynomial const& polynomial);

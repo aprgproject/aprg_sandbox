@@ -75,7 +75,7 @@ void AdditionAndSubtractionOfExpressions::putTermsWithDetails(TermsWithDetails c
     }
 }
 
-void AdditionAndSubtractionOfExpressions::tryToCombine()
+void AdditionAndSubtractionOfExpressions::combineExpressionsIfPossible()
 {
     unsigned int size = getSize();
     for(unsigned int firstIndex=0; firstIndex<size; firstIndex++)

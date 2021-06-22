@@ -170,10 +170,12 @@ Polynomials factorizeBySplittingSmallerPolynomialsIfPossible(Polynomial const& p
             combinePolynomialsByAdditionAndThenEmplaceBack(result, smallerPolynomials);
             for(Polynomial const& commonFactor : commonFactors)
             {
-                simplifyPolynomialThenEmplaceBack(result, commonFactor);            }
+                simplifyPolynomialThenEmplaceBack(result, commonFactor);
+            }
         }
     }
-    return result;}
+    return result;
+}
 
 Polynomials splitPolynomialIntoSmallerPolynomials(Polynomial const& polynomial)
 {
@@ -287,10 +289,12 @@ Polynomials getPolynomialsWithRemovedCommonFactors(Polynomials const& polynomial
 void combinePolynomialsByAdditionAndThenEmplaceBack(Polynomials & result, Polynomials const& smallerPolynomials)
 {
     Polynomial combinedPolynomial;
-    for(Polynomial const& smallerPolynomial : smallerPolynomials)    {
+    for(Polynomial const& smallerPolynomial : smallerPolynomials)
+    {
         combinedPolynomial.addPolynomial(smallerPolynomial);
     }
-    simplifyPolynomialThenEmplaceBack(result, combinedPolynomial);}
+    simplifyPolynomialThenEmplaceBack(result, combinedPolynomial);
+}
 
 void addFactorsOfDifferenceOfSquares(Polynomials & result, Polynomial const& polynomial)
 {

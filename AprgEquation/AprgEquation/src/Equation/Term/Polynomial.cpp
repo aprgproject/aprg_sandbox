@@ -199,10 +199,12 @@ void Polynomial::addMonomial(Monomial const& monomial)
         if(canBeMergedInAMonomialByAdditionOrSubtraction(monomialInternal, monomial))
         {
             isFoundInPolynomial=true;
-            monomialInternal.setConstant(monomialInternal.getConstantConstReference() + monomial.getConstantConstReference());        }
+            monomialInternal.setConstant(monomialInternal.getConstantConstReference() + monomial.getConstantConstReference());
+        }
     }
     if(!isFoundInPolynomial)
-    {        m_monomials.emplace_back(monomial);
+    {
+        m_monomials.emplace_back(monomial);
     }
 }
 
