@@ -151,6 +151,21 @@ TEST(TermsAggregatorTest, SimplifyWorksWithParenthesis)
     EXPECT_DOUBLE_EQ(3200000, termsToVerify.at(0).getConstantConstReference().getNumberConstReference().getDouble());
 }
 
+TEST(TermsAggregatorTest, SimplifyWorksWithNegativeValues)
+{
+    TermsAggregator aggregator(tokenizeToTerms("x^2*y^-3*z^4"));
+
+    aggregator.simplifyTerms();
+
+    Terms termsToVerify(aggregator.getTermsConstReference());
+    ASSERT_EQ(1u, termsToVerify.size());
+    ASSERT_EQ(TermType::Monomial, termsToVerify.at(0).getTermType());
+    Monomial monomialToExpect(1, {{"x", 2}, {"y", -3}, {"z", 4}});
+    Monomial monomialToVerify(termsToVerify.at(0).getMonomialConstReference());
+    EXPECT_EQ(monomialToExpect, monomialToVerify);
+}
+
+
 }
 
 }

@@ -964,13 +964,32 @@ TEST(ExpressionTest, SetCommonOperatorLevelWorks)
     EXPECT_EQ(OperatorLevel::RaiseToPower, expression4.getCommonOperatorLevel());
 }
 
+TEST(ExpressionTest, FactorizeWorks)
+{
+    Polynomial polynomial1({Monomial(2, {{"x", 2}}), Monomial(5, {{"x", 1}}), Monomial(-12, {})});
+    Polynomial polynomial2({Monomial(4, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(-3, {})});
+    Expression expressionToTest(createExpressionIfPossible(Terms{Term(polynomial1), Term("/"), Term(polynomial2)}));
+
+    expressionToTest.factorize();
+
+    Polynomial polynomialToExpect1({Monomial(2, {{"x", 1}}), Monomial(-3, {})});
+    Polynomial polynomialToExpect2({Monomial(1, {{"x", 1}}), Monomial(4, {})});
+    Polynomial polynomialToExpect3({Monomial(2, {{"x", 1}}), Monomial(1, {})});
+    Expression expressionToExpect(createExpressionIfPossible(
+                                      Terms{
+                                          Term(polynomialToExpect1),
+                                          Term("*"), Term(polynomialToExpect2),
+                                          Term("/"), Term(polynomialToExpect1),
+                                          Term("/"), Term(polynomialToExpect3)
+                                      }));
+    EXPECT_EQ(expressionToExpect, expressionToTest);
+}
+
 TEST(ExpressionTest, SimplifyWorksOnExpressionInExpressionForAMultipleTermExpression)
 {
-    Term expressionTerm(createExpressionIfPossible(Terms{Term("x"), Term("^"), Term("x")}));
-    Term expressionInExpressionTerm(createExpressionInAnExpression(expressionTerm));
+    Term expressionTerm(createExpressionIfPossible(Terms{Term("x"), Term("^"), Term("x")}));    Term expressionInExpressionTerm(createExpressionInAnExpression(expressionTerm));
     Term expressionInExpressionInExpressionTerm(createExpressionInAnExpression(expressionInExpressionTerm));
     Expression expression(createExpressionIfPossible(Terms{expressionInExpressionInExpressionTerm}));
-
     expression.simplify();
 
     EXPECT_EQ(expressionTerm, expression);
@@ -1493,24 +1512,37 @@ TEST(ExpressionTest, SimplifyToACommonDenominatorWorks)
     EXPECT_EQ(expressionToExpect, expression);
 }
 
+TEST(ExpressionTest, SimplifyToACommonDenominatorWorksWithNegativeExponents)
+{
+    Expression expression(createExpressionIfPossible(tokenizeToTerms("x^2*y^-3*z^4")));
+
+    expression.simplifyToACommonDenominator();
+
+    Expression expressionToExpect(
+                createExpressionIfPossible(
+                    Terms{
+                        Term(Monomial(1, {{"x", 2}, {"z", 4}})),
+                        Term("/"),
+                        Term(Monomial(1, {{"y", 3}})),
+                    }));
+    EXPECT_EQ(expressionToExpect, expression);
+}
+
 TEST(ExpressionTest, SimplifyToACommonDenominatorWorksOnExponentPlusPolynomialDenominator)
 {
     Expression expression(createExpressionIfPossible(tokenizeToTerms("2^x+((1)/(x+2))")));
-
     expression.simplifyToACommonDenominator();
 
     Polynomial polynomialToExpect{Monomial(1, {{"x", 1}}), Monomial(2, {})};
     Expression subExpression1(createExpressionIfPossible({Term(2), Term("^"), Term("x")}));
-    Expression subExpression2(createExpressionIfPossible(Terms{Term("x"), Term("*"), Term(subExpression1)}));
-    Expression subExpression3(createExpressionIfPossible(Terms{Term(2), Term("*"), Term(subExpression1)}));
+    Expression subExpression2(createExpressionIfPossible(Terms{Term(subExpression1), Term("*"), Term("x")}));
+    Expression subExpression3(createExpressionIfPossible(Terms{Term(subExpression1), Term("*"), Term(2)}));
     Expression subExpression4(createExpressionIfPossible(Terms{Term(1), Term("+"), Term(subExpression2), Term("+"), Term(subExpression3)}));
     Expression expressionToExpect(createExpressionIfPossible(Terms{Term(subExpression4), Term("/"), Term(polynomialToExpect)}));
-    EXPECT_EQ(expressionToExpect, expression);
-}
+    EXPECT_EQ(expressionToExpect, expression);}
 
 TEST(ExpressionTest, SimplifyToACommonDenominatorWorksOnExponentWithFractionExpressions)
-{
-    Expression expression(createExpressionIfPossible(tokenizeToTerms("2^(((1)/(x+2))+((1)/(x-2)))")));
+{    Expression expression(createExpressionIfPossible(tokenizeToTerms("2^(((1)/(x+2))+((1)/(x-2)))")));
 
     expression.simplifyToACommonDenominator();
 

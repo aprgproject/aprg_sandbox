@@ -72,14 +72,26 @@ bool Operator::isClosingGroupOperator() const
     return ")" == m_operatingString;
 }
 
+bool Operator::isSameOperatorInputType(OperatorInputType const operatorInputType) const
+{
+    bool result(false);
+    if(OperatorInputType::UnaryOperation == operatorInputType)
+    {
+        result = isAddition() || isSubtraction();
+    }
+    else if(OperatorInputType::BinaryOperation == operatorInputType)
+    {
+        result = isAddition() || isSubtraction() || isMultiplication() || isDivision() || isRaiseToPower();
+    }
+    return result;
+}
+
 OperatorLevel Operator::getOperatorLevel() const
 {
-    OperatorLevel result(OperatorLevel::Unknown);
-    if(isAddition() || isSubtraction())
+    OperatorLevel result(OperatorLevel::Unknown);    if(isAddition() || isSubtraction())
     {
         result = OperatorLevel::AdditionAndSubtraction;
-    }
-    else if(isMultiplication() || isDivision())
+    }    else if(isMultiplication() || isDivision())
     {
         result = OperatorLevel::MultiplicationAndDivision;
     }

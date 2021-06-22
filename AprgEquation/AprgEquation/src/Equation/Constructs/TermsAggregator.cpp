@@ -39,24 +39,16 @@ void TermsAggregator::traverse(AggregatorTraverseSteps const traverseSteps)
         bool continueToTraverse(true);
         while(continueToTraverse)
         {
-            AlbaOptional<unsigned int> nextOperatorIndexOptional(getNextOperatorIndexToTraverse());
-            continueToTraverse = nextOperatorIndexOptional.hasContent();
-            if(nextOperatorIndexOptional.hasContent())
+            continueToTraverse = traverseOnOperatorIndexesAndReturnIfContinue(traverseSteps, OperatorInputType::UnaryOperation);
+            if(!continueToTraverse)
             {
-                unsigned int nextOperatorIndex = nextOperatorIndexOptional.get();
-                continueToTraverse = performTraverseStepsWithBinaryOperationAndReturnIfContinue(traverseSteps, nextOperatorIndex);
-                if(!continueToTraverse)
-                {
-                    continueToTraverse = performTraverseStepsWithUnaryOperationAndReturnIfContinue(traverseSteps, nextOperatorIndex);
-                }
+                continueToTraverse = traverseOnOperatorIndexesAndReturnIfContinue(traverseSteps, OperatorInputType::BinaryOperation);
             }
         }
-        continueToCombine = combineOpeningClosingOperatorsAtStartEndIndexesAndReturnIfCombined();
-    }
+        continueToCombine = combineOpeningClosingOperatorsAtStartEndIndexesAndReturnIfCombined();    }
 }
 
-void TermsAggregator::updateStartIndexAndEndIndexAndCheckOpeningAndClosingOperators()
-{
+void TermsAggregator::updateStartIndexAndEndIndexAndCheckOpeningAndClosingOperators(){
     m_startIndex=0;
     m_endIndex=0;
     if(!m_terms.empty())
@@ -104,14 +96,46 @@ bool TermsAggregator::combineOpeningClosingOperatorsAtStartEndIndexesAndReturnIf
     return isCombined;
 }
 
+bool TermsAggregator::traverseOnOperatorIndexesAndReturnIfContinue(
+        AggregatorTraverseSteps const traverseSteps,
+        OperatorInputType const operatorInputType)
+{
+    bool continueToTraverse(false);
+    Indexes nextOperatorIndexes(getNextOperatorIndexes(operatorInputType));
+    for(unsigned int const nextOperatorIndex : nextOperatorIndexes)
+    {
+        continueToTraverse = performTraverseStepsAndReturnIfContinue(traverseSteps, nextOperatorIndex, operatorInputType);
+        if(continueToTraverse)
+        {
+            break;
+        }
+    }
+    return continueToTraverse;
+}
+
+bool TermsAggregator::performTraverseStepsAndReturnIfContinue(
+        AggregatorTraverseSteps const traverseSteps,
+        unsigned int const nextOperatorIndex,
+        OperatorInputType const operatorInputType)
+{
+    bool continueToTraverse(false);
+    if(OperatorInputType::UnaryOperation == operatorInputType)
+    {
+        continueToTraverse = performTraverseStepsWithUnaryOperationAndReturnIfContinue(traverseSteps, nextOperatorIndex);
+    }
+    else if(OperatorInputType::BinaryOperation == operatorInputType)
+    {
+        continueToTraverse = performTraverseStepsWithBinaryOperationAndReturnIfContinue(traverseSteps, nextOperatorIndex);
+    }
+    return continueToTraverse;
+}
+
 bool TermsAggregator::performTraverseStepsWithBinaryOperationAndReturnIfContinue(
         AggregatorTraverseSteps const traverseSteps,
-        unsigned int const nextOperatorIndex)
-{
+        unsigned int const nextOperatorIndex){
     bool continueToTraverse(true);
     if(AggregatorTraverseSteps::BuildExpression == traverseSteps)
-    {
-        continueToTraverse = buildExpressionWithBinaryOperationAndReturnIfBuilt(nextOperatorIndex);
+    {        continueToTraverse = buildExpressionWithBinaryOperationAndReturnIfBuilt(nextOperatorIndex);
     }
     else if(AggregatorTraverseSteps::Simplify == traverseSteps)
     {
@@ -136,36 +160,32 @@ bool TermsAggregator::performTraverseStepsWithUnaryOperationAndReturnIfContinue(
     return continueToTraverse;
 }
 
-AlbaOptional<unsigned int> TermsAggregator::getNextOperatorIndexToTraverse() const
+TermsAggregator::Indexes TermsAggregator::getNextOperatorIndexes(OperatorInputType const operatorInputType) const
 {
-    AlbaOptional<unsigned int> operatorIndexOptional;
+    Indexes operatorIndexes;
     multimap<unsigned int, unsigned int> operatorLevelToIndexMap;
     for(unsigned int i=m_startIndex; i<m_endIndex; i++)
-    {
-        Term const& term(m_terms.at(i));
+    {        Term const& term(m_terms.at(i));
         if(term.isOperator())
         {
             Operator const& operatorTerm(term.getOperatorConstReference());
-            if(operatorTerm.isAnOperatorThatCanPerformed())
+            if(operatorTerm.isSameOperatorInputType(operatorInputType))
             {
                 operatorLevelToIndexMap.emplace(getOperatorLevelInversePriority(operatorTerm.getOperatorLevel()), i);
             }
         }
     }
-    if(!operatorLevelToIndexMap.empty())
+    for(pair<unsigned int, unsigned int> const& operatorLevelToIndexPair : operatorLevelToIndexMap)
     {
-        pair<unsigned int, unsigned int> operatorLevelToIndexPair(*operatorLevelToIndexMap.begin());
-        operatorIndexOptional.setValue(operatorLevelToIndexPair.second);
+        operatorIndexes.emplace_back(operatorLevelToIndexPair.second);
     }
-    return operatorIndexOptional;
+    return operatorIndexes;
 }
 
-bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigned int const index)
-{
+bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigned int const index){
     bool isBuilt(false);
     if(index>0 && index+1 < m_terms.size())
-    {
-        Term const& term1(m_terms.at(index-1));
+    {        Term const& term1(m_terms.at(index-1));
         Term const& term2(m_terms.at(index));
         Term const& term3(m_terms.at(index+1));
         if(term1.isValueTerm() && term2.isOperator() && term3.isValueTerm())
@@ -208,15 +228,14 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
     {
         Term const& term1(m_terms.at(index));
         Term const& term2(m_terms.at(index+1));
-        if(term1.isOperator() && term2.isValueTerm() &&
+        bool haveNoFirstValue(hasNoValueBeforeThisIndex(index));
+        if(haveNoFirstValue && term1.isOperator() && term2.isValueTerm() &&
                 OperatorLevel::AdditionAndSubtraction == term1.getOperatorConstReference().getOperatorLevel())
         {
-            Expression newExpression;
-            Operator const& operatorTerm(term1.getOperatorConstReference());
+            Expression newExpression;            Operator const& operatorTerm(term1.getOperatorConstReference());
             if(operatorTerm.isAddition())
             {
-                newExpression.putTermWithAdditionIfNeeded(getBaseTermConstReferenceFromTerm(term2));
-            }
+                newExpression.putTermWithAdditionIfNeeded(getBaseTermConstReferenceFromTerm(term2));            }
             else if(operatorTerm.isSubtraction())
             {
                 newExpression.putTermWithSubtractionIfNeeded(getBaseTermConstReferenceFromTerm(term2));
@@ -256,26 +275,37 @@ bool TermsAggregator::simplifyUnaryOperationAndReturnIfSimplified(unsigned int c
     {
         Term const& term1(m_terms.at(index));
         Term const& term2(m_terms.at(index+1));
-        if(term1.isOperator() && term2.isValueTerm() &&
+        bool haveNoFirstValue(hasNoValueBeforeThisIndex(index));
+        if(haveNoFirstValue && term1.isOperator() && term2.isValueTerm() &&
                 OperatorLevel::AdditionAndSubtraction == term1.getOperatorConstReference().getOperatorLevel())
         {
-            Term newTerm = performOperation(term1.getOperatorConstReference(), term2);
-            eraseTermsInclusive(index, index+1);
+            Term newTerm = performOperation(term1.getOperatorConstReference(), term2);            eraseTermsInclusive(index, index+1);
             insertTerm(index, newTerm);
             isSimplified=true;
-        }
-    }
+        }    }
     return isSimplified;
+}
+
+bool TermsAggregator::hasNoValueBeforeThisIndex(unsigned int const index)
+{
+    bool result(false);
+    if(index==0)
+    {
+        result = true;
+    }
+    else if(index-1 < m_terms.size())
+    {
+        result = !m_terms.at(index-1).isValueTerm();
+    }
+    return result;
 }
 
 void TermsAggregator::eraseTermsInclusive(
         unsigned int const firstIndex,
-        unsigned int const secondIndex)
-{
+        unsigned int const secondIndex){
     bool isOutsideStartAndEndIndex(m_startIndex>firstIndex || m_endIndex<secondIndex);
     m_terms.erase(m_terms.cbegin()+firstIndex, m_terms.cbegin()+secondIndex+1);
-    if(isOutsideStartAndEndIndex)
-    {
+    if(isOutsideStartAndEndIndex)    {
         updateStartIndexAndEndIndexAndCheckOpeningAndClosingOperators();
     }
     else

@@ -13,14 +13,12 @@ namespace equation
 namespace Factorization
 {
 
-TEST(ExpressionTest, FactorizeWorks)
+TEST(FactorizationTest, FactorizeWorks)
 {
     Polynomial polynomial1({Monomial(2, {{"x", 2}}), Monomial(5, {{"x", 1}}), Monomial(-12, {})});
-    Polynomial polynomial2({Monomial(4, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(-3, {})});
-    Expression expressionToTest(createExpressionIfPossible(Terms{Term(polynomial1), Term("/"), Term(polynomial2)}));
+    Polynomial polynomial2({Monomial(4, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(-3, {})});    Expression expressionToTest(createExpressionIfPossible(Terms{Term(polynomial1), Term("/"), Term(polynomial2)}));
 
     Expression expressionToVerify(factorize(expressionToTest));
-
     Polynomial polynomialToExpect1({Monomial(2, {{"x", 1}}), Monomial(-3, {})});
     Polynomial polynomialToExpect2({Monomial(1, {{"x", 1}}), Monomial(4, {})});
     Polynomial polynomialToExpect3({Monomial(2, {{"x", 1}}), Monomial(1, {})});
