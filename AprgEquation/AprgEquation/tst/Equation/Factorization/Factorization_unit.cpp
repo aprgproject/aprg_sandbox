@@ -1,7 +1,6 @@
-#include <Equation/Constructs/Factorization.hpp>
+#include <Equation/Factorization/Factorization.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
 namespace alba

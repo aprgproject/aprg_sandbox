@@ -1,15 +1,13 @@
 #include "Utilities.hpp"
 
-#include <Equation/Constructs/Factorization.hpp>
 #include <Equation/Constructs/PolynomialOverPolynomial.hpp>
 #include <Equation/Constructs/TermsAggregator.hpp>
+#include <Equation/Factorization/Factorization.hpp>
 #include <Equation/Term/TermOperators.hpp>
 #include <Macros/AlbaMacros.hpp>
-#include <Math/AlbaMathHelper.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Math/AlbaMathHelper.hpp>#include <String/AlbaStringHelper.hpp>
 
 #include <algorithm>
-
 using namespace alba::equation::Factorization;
 using namespace alba::mathHelper;
 using namespace std;

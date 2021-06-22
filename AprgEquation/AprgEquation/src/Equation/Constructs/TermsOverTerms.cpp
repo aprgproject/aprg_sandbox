@@ -1,15 +1,13 @@
 #include "TermsOverTerms.hpp"
 
-#include <Equation/Constructs/Factorization.hpp>
 #include <Equation/Constructs/PolynomialOverPolynomial.hpp>
+#include <Equation/Factorization/Factorization.hpp>
 #include <Equation/Utilities.hpp>
 
-#include <algorithm>
-#include <sstream>
+#include <algorithm>#include <sstream>
 
 using namespace alba::equation::Factorization;
-using namespace std;
-using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
+using namespace std;using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
 
 namespace alba

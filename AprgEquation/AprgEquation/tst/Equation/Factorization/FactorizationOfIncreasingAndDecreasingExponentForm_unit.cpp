@@ -1,7 +1,6 @@
-#include <Equation/Constructs/FactorizationOfIncreasingAndDecreasingExponentForm.hpp>
+#include <Equation/Factorization/FactorizationOfIncreasingAndDecreasingExponentForm.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
 namespace alba

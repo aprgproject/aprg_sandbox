@@ -2,18 +2,16 @@
 
 #include <Equation/Constructs/AdditionAndSubtractionOfExpressions.hpp>
 #include <Equation/Constructs/AdditionAndSubtractionOfTermsOverTerms.hpp>
-#include <Equation/Constructs/Factorization.hpp>
 #include <Equation/Constructs/PolynomialOverPolynomial.hpp>
 #include <Equation/Constructs/TermsOverTerms.hpp>
 #include <Equation/Operations/AccumulateOperations.hpp>
+#include <Equation/Factorization/Factorization.hpp>
 #include <Equation/Term/Term.hpp>
 #include <Equation/Term/TermOperators.hpp>
-#include <Equation/Utilities.hpp>
-#include <Optional/AlbaOptional.hpp>
+#include <Equation/Utilities.hpp>#include <Optional/AlbaOptional.hpp>
 
 #include <algorithm>
 #include <sstream>
-
 using namespace alba::equation::Factorization;
 using namespace std;
 using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;

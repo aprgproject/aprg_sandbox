@@ -1,12 +1,10 @@
 #pragma once
 
-#include <Equation/Constructs/VariablesToValuesTypes.hpp>
+#include <Equation/Substitution/VariablesToValuesTypes.hpp>
 #include <Equation/Term/BaseTermData.hpp>
 #include <Equation/Term/Monomial.hpp>
-
 #include <string>
 #include <vector>
-
 namespace alba
 {
 
