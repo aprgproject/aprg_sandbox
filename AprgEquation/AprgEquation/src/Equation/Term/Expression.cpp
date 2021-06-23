@@ -13,14 +13,15 @@
 #include <algorithm>
 #include <sstream>
 
+
+#include <Debug/AlbaDebug.hpp>
+
 using namespace alba::equation::Factorization;
 using namespace std;
-using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
-using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
+using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
-
 namespace equation
 {
 
@@ -367,38 +368,72 @@ void Expression::sort()
 
 void Expression::factorize(Expression & expression)
 {
-    TermsWithDetails factorizedTermsWithDetails;
+    TermsWithDetails termsToPut;
     TermsWithDetails & termsWithDetails(expression.m_termsWithAssociation.m_termsWithDetails);
     for(TermsWithDetails::iterator it=termsWithDetails.begin(); it!=termsWithDetails.end(); it++)
     {
         Term & term(getTermReferenceFromSharedPointer(it->baseTermSharedPointer));
+        ALBA_PRINT1(term.getDebugString());
         if(term.isExpression())
         {
             Expression & subExpression(term.getExpressionReference());
             factorize(subExpression);
         }
+        else if(term.isFunction())
+        {
+            Expression & inputExpression(term.getFunctionReference().getInputExpressionReference());
+            factorize(inputExpression);
+        }
         else if(term.isPolynomial())
         {
-            factorizePolynomialsAndEmplaceInTermsWithDetails(
-                        factorizedTermsWithDetails,
-                        term.getPolynomialConstReference(),
-                        it->association);
+            factorizePolynomialAndUpdate(expression, termsToPut, term.getPolynomialConstReference(), it->association);
             termsWithDetails.erase(it);
             it--;
         }
     }
-    expression.putTermsWithDetails(factorizedTermsWithDetails);
+    expression.putTermsWithDetails(termsToPut);
 }
 
-void Expression::factorizePolynomialsAndEmplaceInTermsWithDetails(
-        TermsWithDetails & factorizedTermsWithDetails,
+void Expression::factorizePolynomialAndUpdate(
+        Expression & expression,
+        TermsWithDetails & termsToPut,
         Polynomial const& polynomial,
         TermAssociationType const overallAssociation)
 {
+    if(OperatorLevel::Unknown == expression.m_commonOperatorLevel)
+    {
+        expression.setCommonOperatorLevel(OperatorLevel::MultiplicationAndDivision);
+    }
+    if(OperatorLevel::MultiplicationAndDivision == expression.m_commonOperatorLevel)
+    {
+        TermsWithDetails factorizedTermsWithDetails;
+        factorizePolynomialAndEmplaceInTermsWithDetails(
+                    factorizedTermsWithDetails,
+                    polynomial,
+                    overallAssociation);
+        copy(factorizedTermsWithDetails.cbegin(), factorizedTermsWithDetails.cend(), back_inserter(termsToPut));
+    }
+    else
+    {
+        TermsWithDetails factorizedTermsWithDetails;
+        factorizePolynomialAndEmplaceInTermsWithDetails(
+                    factorizedTermsWithDetails,
+                    polynomial,
+                    TermAssociationType::Positive);
+        Expression newSubExpression;
+        newSubExpression.setCommonOperatorLevel(OperatorLevel::MultiplicationAndDivision);
+        newSubExpression.putTermsWithDetails(factorizedTermsWithDetails);
+        termsToPut.emplace_back(getBaseTermConstReferenceFromTerm(Term(newSubExpression)), overallAssociation);
+    }
+}
+
+void Expression::factorizePolynomialAndEmplaceInTermsWithDetails(
+        TermsWithDetails & factorizedTermsWithDetails,
+        Polynomial const& polynomial,
+        TermAssociationType const overallAssociation){
     Polynomials factorizedPolynomials(Factorization::factorize(polynomial));
     for(Polynomial const& factorizedPolynomial : factorizedPolynomials)
-    {
-        factorizedTermsWithDetails.emplace_back(getBaseTermConstReferenceFromTerm(Term(factorizedPolynomial)), overallAssociation);
+    {        factorizedTermsWithDetails.emplace_back(getBaseTermConstReferenceFromTerm(Term(factorizedPolynomial)), overallAssociation);
     }
 }
 

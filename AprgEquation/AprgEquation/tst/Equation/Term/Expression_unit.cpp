@@ -1,17 +1,18 @@
+#include <Equation/Functions/CommonFunctionLibrary.hpp>
 #include <Equation/Term/Expression.hpp>
 #include <Equation/Term/Term.hpp>
 #include <Equation/Utilities.hpp>
-
 #include <gtest/gtest.h>
+
+
+#include <Debug/AlbaDebug.hpp>
 
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
-
 TEST(ExpressionTest, ConstructionWorks)
 {
     Expression expression1;
@@ -964,14 +965,12 @@ TEST(ExpressionTest, SetCommonOperatorLevelWorks)
     EXPECT_EQ(OperatorLevel::RaiseToPower, expression4.getCommonOperatorLevel());
 }
 
-TEST(ExpressionTest, FactorizeWorks)
+TEST(ExpressionTest, FactorizeWorksOnPolynomialOverPolynomial)
 {
     Polynomial polynomial1({Monomial(2, {{"x", 2}}), Monomial(5, {{"x", 1}}), Monomial(-12, {})});
-    Polynomial polynomial2({Monomial(4, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(-3, {})});
-    Expression expressionToTest(createExpressionIfPossible({Term(polynomial1), Term("/"), Term(polynomial2)}));
+    Polynomial polynomial2({Monomial(4, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(-3, {})});    Expression expressionToTest(createExpressionIfPossible({Term(polynomial1), Term("/"), Term(polynomial2)}));
 
     expressionToTest.factorize();
-
     Polynomial polynomialToExpect1({Monomial(2, {{"x", 1}}), Monomial(-3, {})});
     Polynomial polynomialToExpect2({Monomial(1, {{"x", 1}}), Monomial(4, {})});
     Polynomial polynomialToExpect3({Monomial(2, {{"x", 1}}), Monomial(1, {})});
@@ -985,13 +984,48 @@ TEST(ExpressionTest, FactorizeWorks)
     EXPECT_EQ(expressionToExpect, expressionToTest);
 }
 
+TEST(ExpressionTest, FactorizeWorksOnPolynomialPlusPolynomial)
+{
+    Polynomial polynomial1({Monomial(2, {{"x", 2}}), Monomial(5, {{"x", 1}}), Monomial(-12, {})});
+    Polynomial polynomial2({Monomial(4, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(-3, {})});
+    Expression expressionToTest(createExpressionIfPossible({Term(polynomial1), Term("+"), Term(polynomial2)}));
+
+    expressionToTest.factorize();
+
+    Polynomial polynomialToExpect1({Monomial(2, {{"x", 1}}), Monomial(-3, {})});
+    Polynomial polynomialToExpect2({Monomial(1, {{"x", 1}}), Monomial(4, {})});
+    Polynomial polynomialToExpect3({Monomial(2, {{"x", 1}}), Monomial(1, {})});
+    Expression expression1(createExpressionIfPossible({Term(polynomialToExpect1), Term("*"), Term(polynomialToExpect2)}));
+    Expression expression2(createExpressionIfPossible({Term(polynomialToExpect1), Term("*"), Term(polynomialToExpect3)}));
+    Expression expressionToExpect(createExpressionIfPossible({Term(expression1), Term("+"), Term(expression2)}));
+    ALBA_PRINT1(expressionToExpect.getDebugString());
+    ALBA_PRINT1(expressionToTest.getDebugString());
+    EXPECT_EQ(expressionToExpect, expressionToTest);
+}
+
+TEST(ExpressionTest, FactorizeWorksOnInputExpressionOnFunction)
+{
+    Polynomial polynomial({Monomial(2, {{"x", 2}}), Monomial(5, {{"x", 1}}), Monomial(-12, {})});
+    Function absoluteValueFunction(Functions::abs(createOrCopyExpressionFromATerm(Term(polynomial))));
+    Expression expressionToTest(createOrCopyExpressionFromATerm(absoluteValueFunction));
+
+    expressionToTest.factorize();
+
+    Polynomial polynomialToExpect1({Monomial(2, {{"x", 1}}), Monomial(-3, {})});
+    Polynomial polynomialToExpect2({Monomial(1, {{"x", 1}}), Monomial(4, {})});
+    Function absoluteValueFunctionToExpect(
+                Functions::abs(
+                    createExpressionIfPossible({Term(polynomialToExpect1), Term("*"), Term(polynomialToExpect2)})));
+    Expression expressionToExpect(createOrCopyExpressionFromATerm(absoluteValueFunctionToExpect));
+
+    EXPECT_EQ(expressionToExpect, expressionToTest);
+}
+
 TEST(ExpressionTest, SimplifyWorksOnExpressionInExpressionForAMultipleTermExpression)
 {
-    Term expressionTerm(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
-    Term expressionInExpressionTerm(createExpressionInAnExpression(expressionTerm));
+    Term expressionTerm(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));    Term expressionInExpressionTerm(createExpressionInAnExpression(expressionTerm));
     Term expressionInExpressionInExpressionTerm(createExpressionInAnExpression(expressionInExpressionTerm));
     Expression expression(createExpressionIfPossible({expressionInExpressionInExpressionTerm}));
-
     expression.simplify();
 
     EXPECT_EQ(expressionTerm, expression);
