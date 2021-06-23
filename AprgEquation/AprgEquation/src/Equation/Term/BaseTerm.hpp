@@ -21,8 +21,7 @@ public:
 private:
 };
 
-std::ostream & operator<<(std::ostream & out, BaseTerm const& term);
+std::ostream & operator<<(std::ostream & out, BaseTerm const& baseTerm);
 
 }
-
 }
