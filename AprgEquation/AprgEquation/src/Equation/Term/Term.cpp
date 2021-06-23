@@ -252,7 +252,8 @@ bool Term::isTheValueZero() const
 {
     bool result(false);
     if(m_type==TermType::Constant)
-    {        result = getConstantConstReference()==0;
+    {
+        result = getConstantConstReference()==0;
     }
     else if(m_type==TermType::Monomial)
     {

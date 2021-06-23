@@ -423,7 +423,8 @@ void Expression::simplifyAndCopyTerms(
     }
 }
 
-void Expression::simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(        TermsWithDetails & termsToUpdate,
+void Expression::simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
+        TermsWithDetails & termsToUpdate,
         Expression const& expression,
         TermAssociationType const association)
 {
@@ -771,7 +772,8 @@ void Expression::putTermForExpressionAndNonExpressions(
 }
 
 void Expression::putTerm(BaseTerm const& baseTerm, TermAssociationType const overallAssociation)
-{    if(TermAssociationType::Positive == overallAssociation)
+{
+    if(TermAssociationType::Positive == overallAssociation)
     {
         m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
     }

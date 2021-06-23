@@ -845,7 +845,8 @@ void segregateNonExpressionsAndExpressions(
     }
 }
 
-void segregateTermsWithPositiveAndNegativeAssociations(        TermsWithDetails const& termsToSegregate,
+void segregateTermsWithPositiveAndNegativeAssociations(
+        TermsWithDetails const& termsToSegregate,
         TermsWithDetails & termsWithPositiveAssociation,
         TermsWithDetails & termsWithNegativeAssociation)
 {

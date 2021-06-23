@@ -541,7 +541,8 @@ TEST(TermTest, IsTheValueZeroWorks)
 {
     Term term1;
     Term term2(Constant(0));
-    Term term3(1);    Term term4(Variable("length"));
+    Term term3(1);
+    Term term4(Variable("length"));
     Term term5(Operator("+"));
     Term term6(Monomial(0, {}));
     Term term7(Monomial(1, {}));
