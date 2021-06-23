@@ -53,10 +53,10 @@ public:
     bool isValueTermAndNotAnExpression() const;
     bool isTheValueZero() const;
     bool isTheValueOne() const;
+
     TermType getTermType() const;
     Constant const& getConstantConstReference() const;
-    Variable const& getVariableConstReference() const;
-    Operator const& getOperatorConstReference() const;
+    Variable const& getVariableConstReference() const;    Operator const& getOperatorConstReference() const;
     Monomial const& getMonomialConstReference() const;
     Polynomial const& getPolynomialConstReference() const;
     Expression const& getExpressionConstReference() const;

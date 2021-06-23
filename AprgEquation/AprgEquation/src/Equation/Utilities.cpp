@@ -841,11 +841,11 @@ void segregateNonExpressionsAndExpressions(
         else if(term.isValueTermAndNotAnExpression())
         {
             termsWithNonExpressions.emplace_back(termToSegregate);
-        }    }
+        }
+    }
 }
 
-void segregateTermsWithPositiveAndNegativeAssociations(
-        TermsWithDetails const& termsToSegregate,
+void segregateTermsWithPositiveAndNegativeAssociations(        TermsWithDetails const& termsToSegregate,
         TermsWithDetails & termsWithPositiveAssociation,
         TermsWithDetails & termsWithNegativeAssociation)
 {
