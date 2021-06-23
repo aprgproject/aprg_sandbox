@@ -45,14 +45,13 @@ public:
     unsigned int getSize() const;
     BaseTerm const& getFirstTermConstReference() const;
     TermsWithDetails const& getTermsWithDetails() const;
+    TermsWithDetails & getTermsWithDetailsReference();
 
     void clear();
     void sort();
-    void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
     void putTermWithDetails(TermWithDetails const& termWithDetails);
     void putTermWithPositiveAssociation(BaseTerm const& baseTerm);
-    void putTermWithNegativeAssociation(BaseTerm const& baseTerm);
-    void reverseTheAssociationOfTheTerms();
+    void putTermWithNegativeAssociation(BaseTerm const& baseTerm);    void reverseTheAssociationOfTheTerms();
 
 private:
     TermsWithDetails m_termsWithDetails;

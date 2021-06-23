@@ -152,10 +152,14 @@ TermsWithAssociation::TermsWithDetails const& TermsWithAssociation::getTermsWith
     return m_termsWithDetails;
 }
 
+TermsWithAssociation::TermsWithDetails & TermsWithAssociation::getTermsWithDetailsReference()
+{
+    return m_termsWithDetails;
+}
+
 void TermsWithAssociation::clear()
 {
-    m_termsWithDetails.clear();
-}
+    m_termsWithDetails.clear();}
 
 void TermsWithAssociation::sort()
 {
@@ -167,19 +171,9 @@ void TermsWithAssociation::sort()
     stable_sort(m_termsWithDetails.begin(), m_termsWithDetails.end());
 }
 
-void TermsWithAssociation::substituteVariablesToValues(VariablesToValuesMap const& variableValueMap)
-{
-    for(TermWithDetails & termWithDetails : m_termsWithDetails)
-    {
-        Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        term.substituteVariablesToValues(variableValueMap);
-    }
-}
-
 void TermsWithAssociation::putTermWithDetails(TermWithDetails const& termWithDetails)
 {
-    m_termsWithDetails.emplace_back(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);
-}
+    m_termsWithDetails.emplace_back(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);}
 
 void TermsWithAssociation::putTermWithPositiveAssociation(BaseTerm const& baseTerm)
 {

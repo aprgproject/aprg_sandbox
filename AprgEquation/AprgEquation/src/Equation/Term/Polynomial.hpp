@@ -38,11 +38,9 @@ public:
     void clear();
     void simplify();
     void sortMonomialsWithInversePriority();
-    void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
     void addMonomial(Monomial const& monomial);
     void addPolynomial(Polynomial const& polynomial);
-    void multiplyNumber(AlbaNumber const& number);
-    void divideNumber(AlbaNumber const& number);
+    void multiplyNumber(AlbaNumber const& number);    void divideNumber(AlbaNumber const& number);
     void multiplyMonomial(Monomial const& monomial);
     void multiplyPolynomial(Polynomial const& polynomial);
     void divideMonomial(Monomial const& monomial);

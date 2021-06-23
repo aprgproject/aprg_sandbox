@@ -88,10 +88,14 @@ TermsWithAssociation const& Expression::getTermsWithAssociation() const
     return m_termsWithAssociation;
 }
 
+TermsWithAssociation & Expression::getTermsWithAssociationReference()
+{
+    return m_termsWithAssociation;
+}
+
 TermsWithAssociation Expression::getTermsWithDetailsThatSatisfiesCondition(
         ConditionFunctionForTermsWithDetails const& conditionFunction) const
-{
-    TermsWithAssociation termsWithOnlyExpressions;
+{    TermsWithAssociation termsWithOnlyExpressions;
     TermsWithDetails const& termsWithDetails(m_termsWithAssociation.getTermsWithDetails());
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
@@ -360,15 +364,9 @@ void Expression::sort()
     m_termsWithAssociation.sort();
 }
 
-void Expression::substituteVariablesToValues(VariablesToValuesMap const& variableValueMap)
-{
-    m_termsWithAssociation.substituteVariablesToValues(variableValueMap);
-}
-
 void Expression::factorize(Expression & expression)
 {
-    TermsWithDetails factorizedTermsWithDetails;
-    TermsWithDetails & termsWithDetails(expression.m_termsWithAssociation.m_termsWithDetails);
+    TermsWithDetails factorizedTermsWithDetails;    TermsWithDetails & termsWithDetails(expression.m_termsWithAssociation.m_termsWithDetails);
     for(TermsWithDetails::iterator it=termsWithDetails.begin(); it!=termsWithDetails.end(); it++)
     {
         Term & term(getTermReferenceFromSharedPointer(it->baseTermSharedPointer));

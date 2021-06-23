@@ -183,18 +183,9 @@ void Polynomial::sortMonomialsWithInversePriority()
     });
 }
 
-void Polynomial::substituteVariablesToValues(VariablesToValuesMap const& variableValueMap)
-{
-    for(Monomial & monomial : m_monomials)
-    {
-        monomial.substituteVariablesToValues(variableValueMap);
-    }
-}
-
 void Polynomial::addMonomial(Monomial const& monomial)
 {
-    bool isFoundInPolynomial(false);
-    for(Monomial & monomialInternal : m_monomials)
+    bool isFoundInPolynomial(false);    for(Monomial & monomialInternal : m_monomials)
     {
         if(canBeMergedInAMonomialByAdditionOrSubtraction(monomialInternal, monomial))
         {

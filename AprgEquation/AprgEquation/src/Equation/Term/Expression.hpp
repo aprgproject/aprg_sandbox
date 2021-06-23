@@ -38,10 +38,10 @@ public:
     OperatorLevel getCommonOperatorLevel() const;
     BaseTerm const& getFirstTermConstReference() const;
     TermsWithAssociation const& getTermsWithAssociation() const;
+    TermsWithAssociation & getTermsWithAssociationReference();
     TermsWithAssociation getTermsWithDetailsThatSatisfiesCondition(
             ConditionFunctionForTermsWithDetails const& conditionFunction) const;
-    std::string getDisplayableString() const;
-    std::string getDebugString() const;
+    std::string getDisplayableString() const;    std::string getDebugString() const;
 
     void clear();
     void clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm);
@@ -64,10 +64,8 @@ public:
     void simplify();
     void simplifyToACommonDenominator();
     void sort();
-    void substituteVariablesToValues(VariablesToValuesMap const& variableValueMap);
 
 private:
-
     //factorize functions
     void factorize(Expression & expression);
     void factorizePolynomialsAndEmplaceInTermsWithDetails(

@@ -208,28 +208,9 @@ void Monomial::simplify()
     removeZeroExponents();
 }
 
-void Monomial::substituteVariablesToValues(VariablesToValuesMap const& variableValueMap)
-{
-    SubstitutionOfVariablesToValues substitution(variableValueMap);
-    VariablesToExponentsMap previousVariableExponentMap(getVariablesToExponentsMapConstReference());
-    m_variablesToExponentsMap.clear();
-    for(Monomial::VariableExponentPair const& variableExponentPair : previousVariableExponentMap)
-    {
-        if(substitution.isVariableFound(variableExponentPair.first))
-        {
-            m_constant = m_constant*(substitution.getValueForVariable(variableExponentPair.first)^variableExponentPair.second);
-        }
-        else
-        {
-            putVariableWithExponent(variableExponentPair.first, variableExponentPair.second);
-        }
-    }
-}
-
 void Monomial::multiplyNumber(AlbaNumber const& number)
 {
-    m_constant = m_constant * number;
-}
+    m_constant = m_constant * number;}
 
 void Monomial::divideNumber(AlbaNumber const& number)
 {
@@ -294,34 +275,33 @@ void Monomial::putVariableWithExponent(string const& variable, AlbaNumber const&
     m_variablesToExponentsMap[variable]=exponent;
 }
 
-void Monomial::compareMonomialsAndSaveMinimumExponentsForEachVariable(Monomial const& monomial)
+void Monomial::compareMonomialsAndSaveMinimumExponentsForEachVariable(Monomial const& otherMonomial)
 {
     m_constant=1;
     for(VariablesToExponentsMapIterator it = m_variablesToExponentsMap.begin();
         it != m_variablesToExponentsMap.end();
         it++)
     {
-        it->second = min(monomial.getExponentForVariable(it->first), it->second);
+        it->second = min(otherMonomial.getExponentForVariable(it->first), it->second);
     }
 }
 
-void Monomial::compareMonomialsAndSaveMaximumExponentsForEachVariable(Monomial const& monomial)
+void Monomial::compareMonomialsAndSaveMaximumExponentsForEachVariable(Monomial const& otherMonomial)
 {
     m_constant=1;
     for(VariablesToExponentsMapIterator it = m_variablesToExponentsMap.begin();
         it != m_variablesToExponentsMap.end();
         it++)
     {
-        it->second = max(monomial.getExponentForVariable(it->first), it->second);
+        it->second = max(otherMonomial.getExponentForVariable(it->first), it->second);
     }
-    for(VariableExponentPair const& pair : monomial.getVariablesToExponentsMapConstReference())
+    for(VariableExponentPair const& otherVariableExponentPair : otherMonomial.getVariablesToExponentsMapConstReference())
     {
-        string const& otherVariableName(pair.first);
-        AlbaNumber const& otherExponent(pair.second);
+        string const& otherVariableName(otherVariableExponentPair.first);
+        AlbaNumber const& otherExponent(otherVariableExponentPair.second);
         if(m_variablesToExponentsMap.find(otherVariableName) != m_variablesToExponentsMap.end())
         {
-            m_variablesToExponentsMap[otherVariableName] = max(m_variablesToExponentsMap[otherVariableName], otherExponent);
-        }
+            m_variablesToExponentsMap[otherVariableName] = max(m_variablesToExponentsMap[otherVariableName], otherExponent);        }
         else
         {
             m_variablesToExponentsMap[otherVariableName] = otherExponent;

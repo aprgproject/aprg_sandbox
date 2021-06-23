@@ -240,35 +240,9 @@ TEST(PolynomialTest, SortWorks)
     EXPECT_EQ((Polynomial{Monomial(5, {{"x", 3}}), Monomial(1, {{"x", 2}, {"y", 1}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"y", 3}})}), polynomial3);
 }
 
-TEST(PolynomialTest, SubstituteVariablesToValuesWorks)
-{
-    Polynomial polynomial1;
-    Polynomial polynomial2{Monomial(100, {}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(10, {})};
-    Polynomial polynomial3{Monomial(1, {{"y", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 3}})};
-
-    polynomial1.substituteVariablesToValues({{"x", 2}, {"y", 5}});
-    polynomial2.substituteVariablesToValues({{"x", 2}, {"y", 5}});
-    polynomial3.substituteVariablesToValues({{"x", 2}, {"y", 5}});
-
-    EXPECT_EQ(Polynomial(), polynomial1);
-    EXPECT_EQ((Polynomial{Monomial(100, {}), Monomial(2500, {{"z", 4}}), Monomial(2304, {}), Monomial(10, {})}), polynomial2);
-    EXPECT_EQ((Polynomial{Monomial(125, {}), Monomial(50, {}), Monomial(20, {}), Monomial(40, {})}), polynomial3);
-}
-
-TEST(PolynomialTest, SubstituteVariablesToValuesAndThenSimplifyWorks)
-{
-    Polynomial polynomial{Monomial(-2, {{"x", 1}, {"y", 1}}), Monomial(3, {{"x", 1}}), Monomial(-4, {{"y", 1}})};
-
-    polynomial.substituteVariablesToValues({{"x", 3}, {"y", -2}});
-    polynomial.simplify();
-
-    EXPECT_EQ((Polynomial{Monomial(29, {})}), polynomial);
-}
-
 TEST(PolynomialTest, AddMonomialWorks)
 {
-    Polynomial polynomial1;
-    Polynomial polynomial2{Monomial(1, {})};
+    Polynomial polynomial1;    Polynomial polynomial2{Monomial(1, {})};
     Polynomial polynomial3{Monomial(2, {}), Monomial(3, {{"x", 4}})};
 
     polynomial1.addMonomial(Monomial(5, {{"x", 4}}));
