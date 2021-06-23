@@ -24,4 +24,5 @@ private:
 std::ostream & operator<<(std::ostream & out, BaseTerm const& baseTerm);
 
 }
+
 }

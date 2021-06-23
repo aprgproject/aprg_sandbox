@@ -19,4 +19,5 @@ enum class TermType
 };
 
 }
+
 }

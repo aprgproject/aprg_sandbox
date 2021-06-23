@@ -6,10 +6,10 @@
 #include <Equation/Functions/CommonFunctionLibrary.hpp>
 #include <Equation/Term/TermOperators.hpp>
 #include <Macros/AlbaMacros.hpp>
-#include <Math/AlbaMathHelper.hpp>#include <String/AlbaStringHelper.hpp>
+#include <Math/AlbaMathHelper.hpp>
+#include <String/AlbaStringHelper.hpp>
 
 #include <algorithm>
-
 using namespace alba::equation::Factorization;
 using namespace alba::mathHelper;
 using namespace std;
@@ -40,11 +40,11 @@ bool isFunction(string const& name)
 
 bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const& term2)
 {
-    bool result(false);    if(term1.isConstant() && term2.isConstant())
+    bool result(false);
+    if(term1.isConstant() && term2.isConstant())
     {
         result = true;
-    }
-    if(term1.isVariable() && term2.isVariable())
+    }    if(term1.isVariable() && term2.isVariable())
     {
         result = canBeMergedInAMonomialByAdditionOrSubtraction(term1.getVariableConstReference(), term2.getVariableConstReference());
     }
@@ -134,11 +134,11 @@ bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term)
 unsigned int getOperatorPriority(string const& operatorString)
 {
     unsigned int result=0;
-    if("+" == operatorString)    {
+    if("+" == operatorString)
+    {
         result=1;
     }
-    else if("-" == operatorString)
-    {
+    else if("-" == operatorString)    {
         result=2;
     }
     else if("*" == operatorString)
@@ -236,11 +236,11 @@ string getEnumShortString(TermType const termType)
             ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Function, "Function")
             default:
         return "default";
-    }}
+    }
+}
 
 string getEnumShortString(TermAssociationType const association)
-{
-    switch(association)
+{    switch(association)
     {
     ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermAssociationType::Positive, "[POS]")
             ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermAssociationType::Negative, "[NEG]")
@@ -534,11 +534,11 @@ Function createFunctionWithEmptyInputExpression(string const& functionName)
 
 Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial)
 {
-    Monomial newMonomial(monomial);    newMonomial.simplify();
+    Monomial newMonomial(monomial);
+    newMonomial.simplify();
     Term newTerm(newMonomial);
     if(newMonomial.isZero())
-    {
-        newTerm = Term(Constant(0));
+    {        newTerm = Term(Constant(0));
     }
     else if(newMonomial.isConstantOnly())
     {
@@ -589,11 +589,11 @@ Term simplifyAndConvertFunctionToSimplestTerm(Function const& functionAsParamete
     return convertFunctionToSimplestTerm(newFunction);
 }
 
-Term convertExpressionToSimplestTerm(Expression const& expression){
+Term convertExpressionToSimplestTerm(Expression const& expression)
+{
     Term newTerm(expression);
     if(expression.isEmpty())
-    {
-        newTerm = Term();
+    {        newTerm = Term();
     }
     else if(expression.containsOnlyOneTerm())
     {
@@ -615,11 +615,11 @@ Term convertFunctionToSimplestTerm(Function const& functionAsParameter)
 
 Terms tokenizeToTerms(string const& inputString)
 {
-    Terms tokenizedTerms;    string valueTerm;
+    Terms tokenizedTerms;
+    string valueTerm;
     for(char const c : inputString)
     {
-        if(!stringHelper::isWhiteSpace(c))
-        {
+        if(!stringHelper::isWhiteSpace(c))        {
             string characterString(1, c);
             if(isOperator(characterString))
             {
@@ -834,11 +834,11 @@ void segregateNonExpressionsAndExpressions(
         else if(term.isValueTermAndDoesNotHaveAExpression())
         {
             termsWithNonExpressions.emplace_back(termToSegregate);
-        }    }
+        }
+    }
 }
 
-void segregateTermsWithPositiveAndNegativeAssociations(
-        TermsWithDetails const& termsToSegregate,
+void segregateTermsWithPositiveAndNegativeAssociations(        TermsWithDetails const& termsToSegregate,
         TermsWithDetails & termsWithPositiveAssociation,
         TermsWithDetails & termsWithNegativeAssociation)
 {

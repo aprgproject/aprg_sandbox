@@ -255,14 +255,13 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForNumerat
 
     Expression expressionToVerify(additionAndSubtraction.getCombinedExpression());
 
-    Expression subExpression1(createExpressionIfPossible(Terms{Term(7)}));
-    Expression subExpression2(createExpressionIfPossible(Terms{Term(11)}));
-    Expression subExpression3(createExpressionIfPossible(Terms{Term(13)}));
-    Expression subExpression4(createExpressionIfPossible(Terms{Term(subExpression1), Term("-"), Term(subExpression2), Term("+"), Term(subExpression3)}));
-    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(subExpression4)}));
+    Expression subExpression1(createExpressionIfPossible({Term(7)}));
+    Expression subExpression2(createExpressionIfPossible({Term(11)}));
+    Expression subExpression3(createExpressionIfPossible({Term(13)}));
+    Expression subExpression4(createExpressionIfPossible({Term(subExpression1), Term("-"), Term(subExpression2), Term("+"), Term(subExpression3)}));
+    Expression expressionToExpect(createExpressionIfPossible({Term(subExpression4)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
-
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForLcmDenominatorWorks)
 {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
@@ -275,15 +274,14 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForLcmDeno
 
     Expression expressionToVerify(additionAndSubtraction.getCombinedExpression());
 
-    Expression subExpression1(createExpressionIfPossible(Terms{Term(createMonomialFromConstant(6))}));
-    Expression subExpression2(createExpressionIfPossible(Terms{Term(createMonomialFromConstant(4))}));
-    Expression subExpression3(createExpressionIfPossible(Terms{Term(createMonomialFromConstant(3))}));
-    Expression subExpression4(createExpressionIfPossible(Terms{Term(subExpression1), Term("+"), Term(subExpression2), Term("+"), Term(subExpression3)}));
-    Expression subExpression5(createExpressionIfPossible(Terms{Term(createMonomialFromConstant(12))}));
-    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(subExpression4), Term("/"), Term(subExpression5)}));
+    Expression subExpression1(createExpressionIfPossible({Term(createMonomialFromConstant(6))}));
+    Expression subExpression2(createExpressionIfPossible({Term(createMonomialFromConstant(4))}));
+    Expression subExpression3(createExpressionIfPossible({Term(createMonomialFromConstant(3))}));
+    Expression subExpression4(createExpressionIfPossible({Term(subExpression1), Term("+"), Term(subExpression2), Term("+"), Term(subExpression3)}));
+    Expression subExpression5(createExpressionIfPossible({Term(createMonomialFromConstant(12))}));
+    Expression expressionToExpect(createExpressionIfPossible({Term(subExpression4), Term("/"), Term(subExpression5)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
-
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForRevisedNumeratorTermsWorks)
 {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
@@ -296,15 +294,14 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForRevised
 
     Expression expressionToVerify(additionAndSubtraction.getCombinedExpression());
 
-    Expression subExpression1(createExpressionIfPossible(Terms{Term(7), Term("*"), Term(createMonomialFromConstant(6))}));
-    Expression subExpression2(createExpressionIfPossible(Terms{Term(11), Term("*"), Term(createMonomialFromConstant(4))}));
-    Expression subExpression3(createExpressionIfPossible(Terms{Term(13), Term("*"), Term(createMonomialFromConstant(3))}));
-    Expression subExpression4(createExpressionIfPossible(Terms{Term(subExpression1), Term("-"), Term(subExpression2), Term("+"), Term(subExpression3)}));
-    Expression subExpression5(createExpressionIfPossible(Terms{Term(createMonomialFromConstant(12))}));
-    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(subExpression4), Term("/"), Term(subExpression5)}));
+    Expression subExpression1(createExpressionIfPossible({Term(7), Term("*"), Term(createMonomialFromConstant(6))}));
+    Expression subExpression2(createExpressionIfPossible({Term(11), Term("*"), Term(createMonomialFromConstant(4))}));
+    Expression subExpression3(createExpressionIfPossible({Term(13), Term("*"), Term(createMonomialFromConstant(3))}));
+    Expression subExpression4(createExpressionIfPossible({Term(subExpression1), Term("-"), Term(subExpression2), Term("+"), Term(subExpression3)}));
+    Expression subExpression5(createExpressionIfPossible({Term(createMonomialFromConstant(12))}));
+    Expression expressionToExpect(createExpressionIfPossible({Term(subExpression4), Term("/"), Term(subExpression5)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
-
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionUsingExample1Works)
 {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
@@ -321,14 +318,13 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionUsingExamp
     Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(2, {})};
     Polynomial polynomial3{Monomial(1, {{"x", 1}}), Monomial(3, {})};
     Polynomial polynomial4{Monomial(2, {{"x", 1}}), Monomial(1, {})};
-    Expression subExpression1(createExpressionIfPossible(Terms{Term(4), Term("*"), Term(polynomial1)}));
-    Expression subExpression2(createExpressionIfPossible(Terms{Term(polynomial3)}));
-    Expression subExpression3(createExpressionIfPossible(Terms{Term(polynomial4), Term("*"), Term(polynomial2)}));
-    Expression subExpression4(createExpressionIfPossible(Terms{Term(subExpression1), Term("+"), Term(subExpression2), Term("+"), Term(subExpression3)}));
-    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(subExpression4), Term("/"), Term(polynomial2), Term("/"), Term(polynomial1)}));
+    Expression subExpression1(createExpressionIfPossible({Term(4), Term("*"), Term(polynomial1)}));
+    Expression subExpression2(createExpressionIfPossible({Term(polynomial3)}));
+    Expression subExpression3(createExpressionIfPossible({Term(polynomial4), Term("*"), Term(polynomial2)}));
+    Expression subExpression4(createExpressionIfPossible({Term(subExpression1), Term("+"), Term(subExpression2), Term("+"), Term(subExpression3)}));
+    Expression expressionToExpect(createExpressionIfPossible({Term(subExpression4), Term("/"), Term(polynomial2), Term("/"), Term(polynomial1)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
-
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplifyWorksOnExponentPlusPolynomialDenominator)
 {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
@@ -342,13 +338,12 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplif
     Expression expressionToVerify(additionAndSubtraction.getCombinedExpression());
     expressionToVerify.simplify();
 
-    Expression subExpression1(createExpressionIfPossible(Terms{Term("x"), Term("*"), Term(exponentExpression)}));
-    Expression subExpression2(createExpressionIfPossible(Terms{Term(2), Term("*"), Term(exponentExpression)}));
-    Expression subExpression3(createExpressionIfPossible(Terms{Term(1), Term("+"), Term(subExpression1), Term("+"), Term(subExpression2)}));
-    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(subExpression3), Term("/"), Term(polynomial)}));
+    Expression subExpression1(createExpressionIfPossible({Term("x"), Term("*"), Term(exponentExpression)}));
+    Expression subExpression2(createExpressionIfPossible({Term(2), Term("*"), Term(exponentExpression)}));
+    Expression subExpression3(createExpressionIfPossible({Term(1), Term("+"), Term(subExpression1), Term("+"), Term(subExpression2)}));
+    Expression expressionToExpect(createExpressionIfPossible({Term(subExpression3), Term("/"), Term(polynomial)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
-
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplifyUsingExample1Works)
 {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
@@ -364,10 +359,9 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplif
 
     Polynomial polynomialToExpect1{Monomial(2, {{"x", 2}}), Monomial(10, {{"x", 1}}), Monomial(-3, {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 2}}), Monomial(-4, {})};
-    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(polynomialToExpect1), Term("/"), Term(polynomialToExpect2)}));
+    Expression expressionToExpect(createExpressionIfPossible({Term(polynomialToExpect1), Term("/"), Term(polynomialToExpect2)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
-
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplifyUsingExample2Works)
 {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
@@ -390,10 +384,9 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplif
     //This values has been double checked.
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 2}}), Monomial(-10, {{"x", 1}}), Monomial(7, {})};
     Polynomial polynomialToExpect2{Monomial(6, {{"x", 3}}), Monomial(-11, {{"x", 2}}), Monomial(-14, {{"x", 1}}), Monomial(24, {})};
-    Expression expressionToExpect(createExpressionIfPossible(Terms{Term(polynomialToExpect1), Term("/"), Term(polynomialToExpect2)}));
+    Expression expressionToExpect(createExpressionIfPossible({Term(polynomialToExpect1), Term("/"), Term(polynomialToExpect2)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
-
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, PutAsAdditionWorks)
 {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;

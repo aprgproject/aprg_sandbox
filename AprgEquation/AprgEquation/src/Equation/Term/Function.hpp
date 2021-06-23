@@ -31,20 +31,20 @@ public:
 
     bool isInputExpressionAConstant() const;
 
-    std::string getFunctionName() const;    std::string getDisplayableString() const;
+    std::string getFunctionName() const;
+    std::string getDisplayableString() const;
     std::string getDebugString() const;
 
-    Constant performFunctionAndReturnResultIfPossible() const;
-    Expression const& getInputExpressionConstReference() const;
+    Constant performFunctionAndReturnResultIfPossible() const;    Expression const& getInputExpressionConstReference() const;
 
     Expression & getInputExpressionReference();
     void simplify();
 
-private:    std::string m_functionName;
+private:
+    std::string m_functionName;
     Expression m_inputExpression;
     FunctionToPerform m_functionToPerform;
 };
-
 std::ostream & operator<<(std::ostream & out, Function const& functionAsParameter);
 
 }

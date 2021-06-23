@@ -29,6 +29,7 @@ ostream & operator<<(ostream & out, BaseTerm const& baseTerm)
     out << baseTerm.getDisplayableString();
     return out;
 }
+
 }
 
 }

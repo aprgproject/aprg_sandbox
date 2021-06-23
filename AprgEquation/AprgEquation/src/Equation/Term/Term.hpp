@@ -6,10 +6,10 @@
 #include <Equation/Term/Function.hpp>
 #include <Equation/Term/Monomial.hpp>
 #include <Equation/Term/Operator.hpp>
-#include <Equation/Term/Polynomial.hpp>#include <Equation/Term/TermType.hpp>
+#include <Equation/Term/Polynomial.hpp>
+#include <Equation/Term/TermType.hpp>
 #include <Equation/Term/Variable.hpp>
 #include <Math/AlbaNumber.hpp>
-
 #include <memory>
 #include <string>
 #include <vector>
@@ -39,11 +39,11 @@ public:
 
     bool operator==(Term const& second) const;
     bool operator!=(Term const& second) const;
-    bool operator<(Term const& second) const;    bool isEmpty() const;
+    bool operator<(Term const& second) const;
+    bool isEmpty() const;
     bool isConstant() const;
     bool isVariable() const;
-    bool isOperator() const;
-    bool isMonomial() const;
+    bool isOperator() const;    bool isMonomial() const;
     bool isPolynomial() const;
     bool isExpression() const;
     bool isFunction() const;
@@ -51,30 +51,30 @@ public:
     bool isValueTermAndDoesNotHaveAExpression() const;
     bool isTheValueZero() const;
     bool isTheValueOne() const;
+
     TermType getTermType() const;
     Constant const& getConstantConstReference() const;
-    Variable const& getVariableConstReference() const;
-    Operator const& getOperatorConstReference() const;
+    Variable const& getVariableConstReference() const;    Operator const& getOperatorConstReference() const;
     Monomial const& getMonomialConstReference() const;
     Polynomial const& getPolynomialConstReference() const;
     Expression const& getExpressionConstReference() const;
     Function const& getFunctionConstReference() const;
     std::string getDisplayableString() const override;
     std::string getDebugString() const override;
+
     Constant & getConstantReference();
     Variable & getVariableReference();
-    Operator & getOperatorReference();
-    Monomial & getMonomialReference();
+    Operator & getOperatorReference();    Monomial & getMonomialReference();
     Polynomial & getPolynomialReference();
     Expression & getExpressionReference();
     Function & getFunctionReference();
 
     void simplify();
-    void simplifyToCommonDenominator();    void sort();
+    void simplifyToCommonDenominator();
+    void sort();
 
 private:
-    void resetBaseDataTermPointerBasedFromTerm(Term const& term);
-    TermType m_type;
+    void resetBaseDataTermPointerBasedFromTerm(Term const& term);    TermType m_type;
     std::unique_ptr<BaseTermData> m_baseDataTermPointer;
 };
 
