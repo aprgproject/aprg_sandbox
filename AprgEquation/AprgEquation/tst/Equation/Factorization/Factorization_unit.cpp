@@ -35,6 +35,7 @@ TEST(FactorizationTest, FactorizeWorks)
                                            }));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
+
 TEST(FactorizationTest, CommonConstantCanBeFactored_FactorizeWorks)
 {
     Polynomial polynomialToTest{Monomial(4, {{"x", 1}}), Monomial(20, {})};

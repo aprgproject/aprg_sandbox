@@ -262,6 +262,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForNumerat
     Expression expressionToExpect(createExpressionIfPossible({Term(subExpression4)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
+
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForLcmDenominatorWorks)
 {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
@@ -282,6 +283,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForLcmDeno
     Expression expressionToExpect(createExpressionIfPossible({Term(subExpression4), Term("/"), Term(subExpression5)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
+
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForRevisedNumeratorTermsWorks)
 {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
@@ -302,6 +304,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForRevised
     Expression expressionToExpect(createExpressionIfPossible({Term(subExpression4), Term("/"), Term(subExpression5)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
+
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionUsingExample1Works)
 {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
@@ -325,6 +328,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionUsingExamp
     Expression expressionToExpect(createExpressionIfPossible({Term(subExpression4), Term("/"), Term(polynomial2), Term("/"), Term(polynomial1)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
+
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplifyWorksOnExponentPlusPolynomialDenominator)
 {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
@@ -344,6 +348,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplif
     Expression expressionToExpect(createExpressionIfPossible({Term(subExpression3), Term("/"), Term(polynomial)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
+
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplifyUsingExample1Works)
 {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
@@ -362,6 +367,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplif
     Expression expressionToExpect(createExpressionIfPossible({Term(polynomialToExpect1), Term("/"), Term(polynomialToExpect2)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
+
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplifyUsingExample2Works)
 {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
@@ -387,6 +393,7 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplif
     Expression expressionToExpect(createExpressionIfPossible({Term(polynomialToExpect1), Term("/"), Term(polynomialToExpect2)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
+
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, PutAsAdditionWorks)
 {
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;

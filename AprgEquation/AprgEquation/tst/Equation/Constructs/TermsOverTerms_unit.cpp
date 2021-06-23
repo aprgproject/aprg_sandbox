@@ -22,7 +22,8 @@ TEST(TermsOverTermsTest, ConstructionWorks)
     TermsOverTerms termsOverTerms2({Term(5)}, {Term("x")});
     TermsOverTerms termsOverTerms3({termWithDetails}, {termWithDetails});
 
-    EXPECT_TRUE(termsOverTerms1.getNumerators().empty());    EXPECT_TRUE(termsOverTerms1.getDenominators().empty());
+    EXPECT_TRUE(termsOverTerms1.getNumerators().empty());
+    EXPECT_TRUE(termsOverTerms1.getDenominators().empty());
     Terms numeratorsToVerify1(termsOverTerms2.getNumerators());
     ASSERT_EQ(1u, numeratorsToVerify1.size());
     EXPECT_EQ(Term(5), numeratorsToVerify1.at(0));
@@ -42,7 +43,8 @@ TEST(TermsOverTermsTest, GetNumeratorsAndGetDenominatorsWorks)
     TermsOverTerms termsOverTerms({Term(5)}, {Term("x")});
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(1u, numeratorsToVerify.size());    EXPECT_EQ(Term(5), numeratorsToVerify.at(0));
+    ASSERT_EQ(1u, numeratorsToVerify.size());
+    EXPECT_EQ(Term(5), numeratorsToVerify.at(0));
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
     ASSERT_EQ(1u, denominatorsToVerify.size());
     EXPECT_EQ(Term("x"), denominatorsToVerify.at(0));
@@ -53,7 +55,8 @@ TEST(TermsOverTermsTest, GetNumeratorAndDenominatorAsTermWithDetailsWorks)
     TermsOverTerms termsOverTerms({Term(5)}, {Term("x")});
 
     TermsWithDetails termsWithDetails(termsOverTerms.getNumeratorAndDenominatorAsTermWithDetails());
-    ASSERT_EQ(2u, termsWithDetails.size());    EXPECT_EQ(Term(5), getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
+    ASSERT_EQ(2u, termsWithDetails.size());
+    EXPECT_EQ(Term(5), getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsWithDetails.at(0).association);
     EXPECT_EQ(Term("x"), getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
     EXPECT_EQ(TermAssociationType::Negative, termsWithDetails.at(1).association);
@@ -74,6 +77,7 @@ TEST(TermsOverTermsTest, SimplifyRemovesTermsThatHasNoEffect)
 
     numeratorHasTermsNoEffect.simplify();
     denominatorHasTermsNoEffect.simplify();
+
     Terms numeratorsToVerify1(numeratorHasTermsNoEffect.getNumerators());
     Terms denominatorsToVerify1(numeratorHasTermsNoEffect.getDenominators());
     EXPECT_TRUE(numeratorsToVerify1.empty());
@@ -92,6 +96,7 @@ TEST(TermsOverTermsTest, SimplifyRemovesOnSamePolynomialInNumeratorAndDenominato
     TermsOverTerms termsOverTerms({Term(polynomial2), Term(polynomial1)}, {Term(polynomial1), Term(polynomial3)});
 
     termsOverTerms.simplify();
+
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
     ASSERT_EQ(1u, numeratorsToVerify.size());
     EXPECT_EQ(Term(polynomial2), numeratorsToVerify.at(0));
@@ -107,6 +112,7 @@ TEST(TermsOverTermsTest, SimplifyRemovesOnSameFactorsInNumeratorAndDenominator)
     TermsOverTerms termsOverTerms({Term(polynomial1)}, {Term(polynomial2)});
 
     termsOverTerms.simplify();
+
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(1, {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
@@ -186,6 +192,7 @@ TEST(TermsOverTermsTest, SimplifyRemovesOnSameExpressionInNumeratorAndDenominato
     TermsOverTerms termsOverTerms({Term(expression2), Term(expression1)}, {Term(expression1), Term(expression3)});
 
     termsOverTerms.simplify();
+
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
     ASSERT_EQ(1u, numeratorsToVerify.size());
     EXPECT_EQ(Term(expression2), numeratorsToVerify.at(0));
@@ -201,6 +208,7 @@ TEST(TermsOverTermsTest, SimplifyWorksOnExample1)
     TermsOverTerms termsOverTerms({Term(polynomialNumerator)}, {Term(polynomialDenominator)});
 
     termsOverTerms.simplify();
+
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
     ASSERT_EQ(1u, numeratorsToVerify.size());
     EXPECT_EQ(Term(polynomialNumerator), numeratorsToVerify.at(0));

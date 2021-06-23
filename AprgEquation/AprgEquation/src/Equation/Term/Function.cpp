@@ -53,7 +53,8 @@ bool Function::isInputExpressionAConstant() const
     if(m_inputExpression.containsOnlyOneTerm())
     {
         Term const& term = dynamic_cast<Term const&>(m_inputExpression.getFirstTermConstReference());
-        result = term.isConstant();    }
+        result = term.isConstant();
+    }
     return result;
 }
 
@@ -95,7 +96,8 @@ Expression & Function::getInputExpressionReference()
 
 void Function::simplify()
 {
-    m_inputExpression.simplify();}
+    m_inputExpression.simplify();
+}
 
 ostream & operator<<(ostream & out, Function const& functionAsParameter)
 {

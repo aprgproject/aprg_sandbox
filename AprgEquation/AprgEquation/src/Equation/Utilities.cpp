@@ -10,6 +10,7 @@
 #include <String/AlbaStringHelper.hpp>
 
 #include <algorithm>
+
 using namespace alba::equation::Factorization;
 using namespace alba::mathHelper;
 using namespace std;
@@ -44,7 +45,8 @@ bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const
     if(term1.isConstant() && term2.isConstant())
     {
         result = true;
-    }    if(term1.isVariable() && term2.isVariable())
+    }
+    if(term1.isVariable() && term2.isVariable())
     {
         result = canBeMergedInAMonomialByAdditionOrSubtraction(term1.getVariableConstReference(), term2.getVariableConstReference());
     }
@@ -138,7 +140,8 @@ unsigned int getOperatorPriority(string const& operatorString)
     {
         result=1;
     }
-    else if("-" == operatorString)    {
+    else if("-" == operatorString)
+    {
         result=2;
     }
     else if("*" == operatorString)
@@ -240,7 +243,8 @@ string getEnumShortString(TermType const termType)
 }
 
 string getEnumShortString(TermAssociationType const association)
-{    switch(association)
+{
+    switch(association)
     {
     ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermAssociationType::Positive, "[POS]")
             ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermAssociationType::Negative, "[NEG]")
@@ -538,7 +542,8 @@ Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial)
     newMonomial.simplify();
     Term newTerm(newMonomial);
     if(newMonomial.isZero())
-    {        newTerm = Term(Constant(0));
+    {
+        newTerm = Term(Constant(0));
     }
     else if(newMonomial.isConstantOnly())
     {
@@ -593,7 +598,8 @@ Term convertExpressionToSimplestTerm(Expression const& expression)
 {
     Term newTerm(expression);
     if(expression.isEmpty())
-    {        newTerm = Term();
+    {
+        newTerm = Term();
     }
     else if(expression.containsOnlyOneTerm())
     {
@@ -619,7 +625,8 @@ Terms tokenizeToTerms(string const& inputString)
     string valueTerm;
     for(char const c : inputString)
     {
-        if(!stringHelper::isWhiteSpace(c))        {
+        if(!stringHelper::isWhiteSpace(c))
+        {
             string characterString(1, c);
             if(isOperator(characterString))
             {
@@ -831,14 +838,14 @@ void segregateNonExpressionsAndExpressions(
         {
             termsWithExpressions.emplace_back(termToSegregate);
         }
-        else if(term.isValueTermAndDoesNotHaveAExpression())
+        else if(term.isValueTermAndNotAnExpression())
         {
             termsWithNonExpressions.emplace_back(termToSegregate);
-        }
-    }
+        }    }
 }
 
-void segregateTermsWithPositiveAndNegativeAssociations(        TermsWithDetails const& termsToSegregate,
+void segregateTermsWithPositiveAndNegativeAssociations(
+        TermsWithDetails const& termsToSegregate,
         TermsWithDetails & termsWithPositiveAssociation,
         TermsWithDetails & termsWithNegativeAssociation)
 {

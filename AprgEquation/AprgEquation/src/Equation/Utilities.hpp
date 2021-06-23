@@ -20,7 +20,8 @@ bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial, Var
 bool canBeMergedInAMonomialByAdditionOrSubtraction(Variable const& variable1, Variable const& variable2);
 bool canBeConvertedToMonomial(Term const& term);
 bool canBeConvertedToPolynomial(Term const& term);
-bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
+bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
+bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
 
 unsigned int getOperatorPriority(std::string const& operatorString);
 unsigned int getAssociationPriority(TermAssociationType const association);
@@ -78,7 +79,8 @@ void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);
 Term convertValueTermStringToTerm(std::string const& valueTerm);
 
 Monomial getGcfMonomialInMonomials(Monomials const& monomials);
-Monomial getLcmMonomialInMonomials(Monomials const& monomials);Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
+Monomial getLcmMonomialInMonomials(Monomials const& monomials);
+Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
 Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
 AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials);
 AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials);

@@ -54,7 +54,8 @@ Term::Term(string const& stringTerm)
 
 Term::Term(Variable const& variable)
     : m_type(TermType::Variable)
-    , m_baseDataTermPointer(nullptr){
+    , m_baseDataTermPointer(nullptr)
+{
     m_baseDataTermPointer.reset(new Variable(variable));
 }
 
@@ -92,6 +93,7 @@ Term& Term::operator=(Term const& term)
     resetBaseDataTermPointerBasedFromTerm(term);
     return *this;
 }
+
 bool Term::operator==(Term const& second) const
 {
     bool result(false);
@@ -135,7 +137,8 @@ bool Term::operator==(Term const& second) const
 
 bool Term::operator!=(Term const& second) const
 {
-    return !(operator==(second));}
+    return !(operator==(second));
+}
 
 bool Term::operator<(Term const& second) const
 {
@@ -181,6 +184,7 @@ bool Term::operator<(Term const& second) const
     }
     return result;
 }
+
 bool Term::isEmpty() const
 {
     bool result(false);
@@ -205,7 +209,8 @@ bool Term::isConstant() const
 }
 
 bool Term::isVariable() const
-{    return TermType::Variable == m_type;
+{
+    return TermType::Variable == m_type;
 }
 
 bool Term::isOperator() const
@@ -238,16 +243,16 @@ bool Term::isValueTerm() const
     return isConstant() || isVariable() || isMonomial() || isPolynomial() || isExpression() || isFunction();
 }
 
-bool Term::isValueTermAndDoesNotHaveAExpression() const
+bool Term::isValueTermAndNotAnExpression() const
 {
-    return isConstant() || isVariable() || isMonomial() || isPolynomial();
+    return isConstant() || isVariable() || isMonomial() || isPolynomial() || isFunction();
 }
 
-bool Term::isTheValueZero() const
-{
+bool Term::isTheValueZero() const{
     bool result(false);
     if(m_type==TermType::Constant)
-    {        result = getConstantConstReference()==0;
+    {
+        result = getConstantConstReference()==0;
     }
     else if(m_type==TermType::Monomial)
     {
@@ -331,7 +336,8 @@ string Term::getDisplayableString() const
     if(m_type==TermType::Constant)
     {
         result = getConstantConstReference().getDisplayableString();
-    }    else if(m_type==TermType::Variable)
+    }
+    else if(m_type==TermType::Variable)
     {
         result = getVariableConstReference().getDisplayableString();
     }
@@ -360,7 +366,8 @@ string Term::getDisplayableString() const
 
 string Term::getDebugString() const
 {
-    string result;    if(m_type==TermType::Constant)
+    string result;
+    if(m_type==TermType::Constant)
     {
         result = getConstantConstReference().getDisplayableString();
     }
@@ -394,7 +401,8 @@ string Term::getDebugString() const
     return result;
 }
 
-Constant & Term::getConstantReference(){
+Constant & Term::getConstantReference()
+{
     assert(m_type==TermType::Constant);
     return *dynamic_cast<Constant*>(m_baseDataTermPointer.get());
 }
@@ -441,7 +449,8 @@ void Term::simplify()
     {
         *this = simplifyAndConvertMonomialToSimplestTerm(getMonomialConstReference());
     }
-    else if(m_type==TermType::Polynomial)    {
+    else if(m_type==TermType::Polynomial)
+    {
         *this = simplifyAndConvertPolynomialToSimplestTerm(getPolynomialConstReference());
     }
     else if(m_type==TermType::Expression)
@@ -458,7 +467,8 @@ void Term::simplifyToCommonDenominator()
 {
     if(m_type==TermType::Monomial)
     {
-        *this = simplifyAndConvertMonomialToSimplestTerm(getMonomialConstReference());    }
+        *this = simplifyAndConvertMonomialToSimplestTerm(getMonomialConstReference());
+    }
     else if(m_type==TermType::Polynomial)
     {
         *this = simplifyAndConvertPolynomialToSimplestTerm(getPolynomialConstReference());
@@ -482,7 +492,8 @@ void Term::sort()
 {
     if(isPolynomial())
     {
-        getPolynomialReference().sortMonomialsWithInversePriority();    }
+        getPolynomialReference().sortMonomialsWithInversePriority();
+    }
     else if(isExpression())
     {
         getExpressionReference().sort();
@@ -521,7 +532,8 @@ void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
 
 ostream & operator<<(ostream & out, Term const& term)
 {
-    out << term.getDisplayableString();    return out;
+    out << term.getDisplayableString();
+    return out;
 }
 
 

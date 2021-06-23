@@ -107,7 +107,8 @@ TEST(FunctionTest, IsInputExpressionAConstantWorks)
     Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
     {
         return constant;
-    });    Function function3("functionName", createOrCopyExpressionFromATerm(Term("x")), [](Constant const&  constant) -> Constant
+    });
+    Function function3("functionName", createOrCopyExpressionFromATerm(Term("x")), [](Constant const&  constant) -> Constant
     {
         return constant;
     });
@@ -141,6 +142,7 @@ TEST(FunctionTest, GetInputExpressionConstReferenceWorks)
     {
         return constant;
     });
+
     Expression expressionToExpect1;
     Expression expressionToExpect2(createOrCopyExpressionFromATerm(Term(5)));
     EXPECT_EQ(expressionToExpect1, function1.getInputExpressionConstReference());
@@ -154,6 +156,7 @@ TEST(FunctionTest, GetInputExpressionReferenceWorks)
     {
         return constant;
     });
+
     Expression expressionToExpect1;
     Expression expressionToExpect2(createOrCopyExpressionFromATerm(Term(5)));
     EXPECT_EQ(expressionToExpect1, function1.getInputExpressionReference());
@@ -164,7 +167,8 @@ TEST(FunctionTest, SimplifyWorks)
 {
     Function function1("functionName", createExpressionIfPossible({Term(5), Term("+"), Term(5)}), [](Constant const&  constant) -> Constant
     {
-        return constant;    });
+        return constant;
+    });
 
     function1.simplify();
 
@@ -176,7 +180,8 @@ TEST(FunctionTest, GetDisplayableStringWorks)
 {
     Function function1("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
     {
-        return constant;    });
+        return constant;
+    });
 
     EXPECT_EQ("functionName(5)", function1.getDisplayableString());
 }

@@ -104,6 +104,7 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnExpression
 
     Term verifyTerm1(substitution.performSubstitutionTo(expression1));
     Term verifyTerm2(substitution.performSubstitutionTo(expression2));
+
     Term expectTerm1;
     Term expectTerm2(32);
     EXPECT_EQ(expectTerm1, verifyTerm1);
@@ -120,7 +121,8 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnTerm)
     Term term5(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
 
     Term verifyTerm1(substitution.performSubstitutionTo(term1));
-    Term verifyTerm2(substitution.performSubstitutionTo(term2));    Term verifyTerm3(substitution.performSubstitutionTo(term3));
+    Term verifyTerm2(substitution.performSubstitutionTo(term2));
+    Term verifyTerm3(substitution.performSubstitutionTo(term3));
     Term verifyTerm4(substitution.performSubstitutionTo(term4));
     Term verifyTerm5(substitution.performSubstitutionTo(term5));
 

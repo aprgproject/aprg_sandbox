@@ -35,7 +35,8 @@ public:
     std::string getDisplayableString() const;
     std::string getDebugString() const;
 
-    Constant performFunctionAndReturnResultIfPossible() const;    Expression const& getInputExpressionConstReference() const;
+    Constant performFunctionAndReturnResultIfPossible() const;
+    Expression const& getInputExpressionConstReference() const;
 
     Expression & getInputExpressionReference();
     void simplify();
@@ -45,6 +46,7 @@ private:
     Expression m_inputExpression;
     FunctionToPerform m_functionToPerform;
 };
+
 std::ostream & operator<<(std::ostream & out, Function const& functionAsParameter);
 
 }

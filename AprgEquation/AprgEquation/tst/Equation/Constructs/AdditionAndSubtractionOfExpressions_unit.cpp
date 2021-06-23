@@ -171,7 +171,8 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksOnA
     Expression expressionToExpect(createExpressionIfPossible({Term(3), Term("*"), Term(subExpression)}));
     Expressions expressions(additionAndSubtraction.getExpressions());
     ASSERT_EQ(1u, expressions.size());
-    EXPECT_EQ(expressionToExpect, expressions.at(0));    TermAssociationTypes associations(additionAndSubtraction.getAssociations());
+    EXPECT_EQ(expressionToExpect, expressions.at(0));
+    TermAssociationTypes associations(additionAndSubtraction.getAssociations());
     ASSERT_EQ(1u, associations.size());
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
 }
@@ -200,7 +201,8 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksOnA
     Expression expressionToExpect2(createExpressionIfPossible({Term(4), Term("*"), Term(subExpression2)}));
     Expressions expressions(additionAndSubtraction.getExpressions());
     ASSERT_EQ(2u, expressions.size());
-    EXPECT_EQ(expressionToExpect1, expressions.at(0));    EXPECT_EQ(expressionToExpect2, expressions.at(1));
+    EXPECT_EQ(expressionToExpect1, expressions.at(0));
+    EXPECT_EQ(expressionToExpect2, expressions.at(1));
     TermAssociationTypes associations(additionAndSubtraction.getAssociations());
     ASSERT_EQ(2u, associations.size());
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
@@ -223,7 +225,8 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksOnA
     Expression expressionToExpect(createExpressionIfPossible({Term(90), Term("*"), Term(subExpression3)}));
     Expressions expressions(additionAndSubtraction.getExpressions());
     ASSERT_EQ(1u, expressions.size());
-    EXPECT_EQ(expressionToExpect, expressions.at(0));    TermAssociationTypes associations(additionAndSubtraction.getAssociations());
+    EXPECT_EQ(expressionToExpect, expressions.at(0));
+    TermAssociationTypes associations(additionAndSubtraction.getAssociations());
     ASSERT_EQ(1u, associations.size());
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
 }
@@ -247,7 +250,8 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksOnA
     Expression expressionToExpect2(createExpressionIfPossible({Term(Monomial(-5, {{"x", 1}})), Term("*"), Term(subExpression1)}));
     Expressions expressions(additionAndSubtraction.getExpressions());
     ASSERT_EQ(2u, expressions.size());
-    EXPECT_EQ(expressionToExpect1, expressions.at(0));    EXPECT_EQ(expressionToExpect2, expressions.at(1));
+    EXPECT_EQ(expressionToExpect1, expressions.at(0));
+    EXPECT_EQ(expressionToExpect2, expressions.at(1));
     TermAssociationTypes associations(additionAndSubtraction.getAssociations());
     ASSERT_EQ(2u, associations.size());
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
