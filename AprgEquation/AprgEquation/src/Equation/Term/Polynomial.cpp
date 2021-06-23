@@ -185,7 +185,8 @@ void Polynomial::sortMonomialsWithInversePriority()
 
 void Polynomial::addMonomial(Monomial const& monomial)
 {
-    bool isFoundInPolynomial(false);    for(Monomial & monomialInternal : m_monomials)
+    bool isFoundInPolynomial(false);
+    for(Monomial & monomialInternal : m_monomials)
     {
         if(canBeMergedInAMonomialByAdditionOrSubtraction(monomialInternal, monomial))
         {

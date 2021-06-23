@@ -12,11 +12,11 @@ namespace alba
 namespace equation
 {
 
-bool isOperator(std::string const& variableOrOperator);
+bool isOperator(std::string const& name);
+bool isFunction(std::string const& name);
 bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const& term2);
 bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2);
-bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial, Variable const& variable);
-bool canBeMergedInAMonomialByAdditionOrSubtraction(Variable const& variable1, Variable const& variable2);
+bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial, Variable const& variable);bool canBeMergedInAMonomialByAdditionOrSubtraction(Variable const& variable1, Variable const& variable2);
 bool canBeConvertedToMonomial(Term const& term);
 bool canBeConvertedToPolynomial(Term const& term);
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
@@ -64,16 +64,17 @@ Expression createAndWrapExpressionFromATerm(Term const& term);
 Expression createOrCopyExpressionFromATerm(Term const& term);
 Expression createExpressionIfPossible(Terms const& terms);
 Expression createSimplifiedExpressionIfPossible(Terms const& terms);
+Function createFunctionWithEmptyInputExpression(std::string const& functionName);
 
 Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial);
 Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial);
 Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression);
-Term simplifyToCommonDenominatorAndConvertExpressionToSimplestTerm(Expression const& expression);
+Term simplifyAndConvertFunctionToSimplestTerm(Function const& functionAsParameter);
 Term convertExpressionToSimplestTerm(Expression const& expression);
+Term convertFunctionToSimplestTerm(Function const& functionAsParameter);
 
 Terms tokenizeToTerms(std::string const& inputString);
-void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);
-Term convertValueTermStringToTerm(std::string const& valueTerm);
+void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);Term convertValueTermStringToTerm(std::string const& valueTerm);
 
 Monomial getGcfMonomialInMonomials(Monomials const& monomials);
 Monomial getLcmMonomialInMonomials(Monomials const& monomials);

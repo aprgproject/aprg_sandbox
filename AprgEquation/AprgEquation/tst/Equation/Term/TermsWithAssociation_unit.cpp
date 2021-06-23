@@ -339,7 +339,8 @@ TEST(TermsWithAssociationTest, SortWorks)
 
 TEST(TermsWithAssociationTest, PutTermWithDetailsWorks)
 {
-    TermsWithAssociation terms;    TermWithDetails termWithDetails(
+    TermsWithAssociation terms;
+    TermWithDetails termWithDetails(
                 getBaseTermConstReferenceFromTerm(Term(10)),
                 TermAssociationType::Negative);
 

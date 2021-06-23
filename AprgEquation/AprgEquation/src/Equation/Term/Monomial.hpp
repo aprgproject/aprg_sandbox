@@ -57,7 +57,8 @@ public:
     void simplify();
     void multiplyNumber(AlbaNumber const& number);
     void divideNumber(AlbaNumber const& number);
-    void raiseToPowerNumber(AlbaNumber const& number);    void multiplyMonomial(Monomial const& monomial);
+    void raiseToPowerNumber(AlbaNumber const& number);
+    void multiplyMonomial(Monomial const& monomial);
     void divideMonomial(Monomial const& monomial);
     void setConstant(AlbaNumber const& constant);
     void putVariablesWithExponents(std::initializer_list<VariableExponentPair> const& variablesWithExponents);

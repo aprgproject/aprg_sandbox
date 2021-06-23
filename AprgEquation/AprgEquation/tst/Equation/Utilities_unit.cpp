@@ -20,13 +20,19 @@ TEST(UtilitiesTest, IsOperatorWorks)
     EXPECT_TRUE(isOperator("*"));
     EXPECT_TRUE(isOperator("/"));
     EXPECT_TRUE(isOperator("^"));
-    EXPECT_FALSE(isOperator("add"));
+    EXPECT_FALSE(isOperator("notAnOperator"));
+}
+
+TEST(UtilitiesTest, IsFunctionWorks)
+{
+    EXPECT_FALSE(isFunction(""));
+    EXPECT_TRUE(isFunction("abs"));
+    EXPECT_FALSE(isFunction("notAnFunction"));
 }
 
 TEST(UtilitiesTest, CanBeMergedByAdditionOrSubtractionForTermsWorks)
 {
-    EXPECT_TRUE(canBeMergedInAMonomialByAdditionOrSubtraction(Term(73), Term(84)));
-    EXPECT_TRUE(canBeMergedInAMonomialByAdditionOrSubtraction(Term(Variable("x")), Term(Variable("x"))));
+    EXPECT_TRUE(canBeMergedInAMonomialByAdditionOrSubtraction(Term(73), Term(84)));    EXPECT_TRUE(canBeMergedInAMonomialByAdditionOrSubtraction(Term(Variable("x")), Term(Variable("x"))));
     EXPECT_TRUE(canBeMergedInAMonomialByAdditionOrSubtraction(Term(Monomial(96, {{"x", 1}})), Term(Monomial(96, {{"x", 1}}))));
     EXPECT_TRUE(canBeMergedInAMonomialByAdditionOrSubtraction(Term(Monomial(96, {{"x", 1}})), Term(Variable("x"))));
     EXPECT_TRUE(canBeMergedInAMonomialByAdditionOrSubtraction(Term(Variable("x")), Term(Monomial(96, {{"x", 1}}))));
@@ -172,10 +178,10 @@ TEST(UtilitiesTest, GetEnumShortStringForTermTypeWorks)
     EXPECT_EQ("Monomial", getEnumShortString(TermType::Monomial));
     EXPECT_EQ("Polynomial", getEnumShortString(TermType::Polynomial));
     EXPECT_EQ("Expression", getEnumShortString(TermType::Expression));
+    EXPECT_EQ("Function", getEnumShortString(TermType::Function));
 }
 
-TEST(UtilitiesTest, GetEnumShortStringForTermAssociationTypeWorks)
-{
+TEST(UtilitiesTest, GetEnumShortStringForTermAssociationTypeWorks){
     EXPECT_EQ("[POS]", getEnumShortString(TermAssociationType::Positive));
     EXPECT_EQ("[NEG]", getEnumShortString(TermAssociationType::Negative));
 }
@@ -511,10 +517,17 @@ TEST(UtilitiesTest, CreateSimplifiedExpressionIfPossibleReturnsEmptyIfListOfTerm
     ASSERT_TRUE(termsToVerify.empty());
 }
 
+TEST(UtilitiesTest, CreateFunctionWithEmptyInputExpressionWorks)
+{
+    Function absoluteFunction(createFunctionWithEmptyInputExpression("abs"));
+
+    EXPECT_EQ("abs", absoluteFunction.getFunctionName());
+    EXPECT_TRUE(absoluteFunction.getInputExpressionConstReference().isEmpty());
+}
+
 TEST(UtilitiesTest, SimplifyAndConvertMonomialToSimplestTermWorks)
 {
-    Term termToVerify1(simplifyAndConvertMonomialToSimplestTerm(Monomial()));
-    Term termToVerify2(simplifyAndConvertMonomialToSimplestTerm(Monomial(6, {})));
+    Term termToVerify1(simplifyAndConvertMonomialToSimplestTerm(Monomial()));    Term termToVerify2(simplifyAndConvertMonomialToSimplestTerm(Monomial(6, {})));
     Term termToVerify3(simplifyAndConvertMonomialToSimplestTerm(Monomial(1, {{"x", 1}})));
     Term termToVerify4(simplifyAndConvertMonomialToSimplestTerm(Monomial(10, {{"x", 0}})));
 
@@ -566,19 +579,63 @@ TEST(UtilitiesTest, SimplifyAndConvertExpressionToSimplestTermWorks)
     EXPECT_DOUBLE_EQ(88, termToVerify5.getConstantConstReference().getNumberConstReference().getDouble());
 }
 
+TEST(UtilitiesTest, SimplifyAndConvertFunctionToSimplestTermWorks)
+{
+    Function function1;
+    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    {
+        return constant;
+    });
+    Function function3("functionName", createExpressionIfPossible({Term(5), Term("+"), Term(5)}), [](Constant const&  constant) -> Constant
+    {
+        return constant;
+    });
+
+    Term termToVerify1(simplifyAndConvertFunctionToSimplestTerm(function1));
+    Term termToVerify2(simplifyAndConvertFunctionToSimplestTerm(function2));
+    Term termToVerify3(simplifyAndConvertFunctionToSimplestTerm(function3));
+
+    ASSERT_TRUE(termToVerify1.isFunction());
+    EXPECT_EQ(function1, termToVerify1.getFunctionConstReference());
+    EXPECT_EQ(Term(5), termToVerify2);
+    EXPECT_EQ(Term(10), termToVerify3);
+}
+
 TEST(UtilitiesTest, ConvertExpressionToSimplestTermWorks)
 {
     Term termToVerify1(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{})));
     Term termToVerify2(convertExpressionToSimplestTerm(createExpressionIfPossible(Terms{Term(156)})));
 
-    ASSERT_EQ(Term(), termToVerify1);
-    ASSERT_EQ(Term(156), termToVerify2);
+    EXPECT_EQ(Term(), termToVerify1);
+    EXPECT_EQ(Term(156), termToVerify2);
+}
+
+TEST(UtilitiesTest, ConvertFunctionToSimplestTermWorks)
+{
+    Function function1;
+    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    {
+        return constant;
+    });
+    Function function3("functionName", createOrCopyExpressionFromATerm(Term("x")), [](Constant const&  constant) -> Constant
+    {
+        return constant;
+    });
+
+    Term termToVerify1(convertFunctionToSimplestTerm(function1));
+    Term termToVerify2(convertFunctionToSimplestTerm(function2));
+    Term termToVerify3(convertFunctionToSimplestTerm(function3));
+
+    ASSERT_TRUE(termToVerify1.isFunction());
+    EXPECT_EQ(function1, termToVerify1.getFunctionConstReference());
+    EXPECT_EQ(Term(5), termToVerify2);
+    ASSERT_TRUE(termToVerify3.isFunction());
+    EXPECT_EQ(function3, termToVerify3.getFunctionConstReference());
 }
 
 TEST(UtilitiesTest, TokenizeToTermsWorks)
 {
     Terms termsToVerify1(tokenizeToTerms(" 5yyy + x1*y1^20.15"));
-
     ASSERT_EQ(7u, termsToVerify1.size());
     EXPECT_EQ(TermType::Constant, termsToVerify1.at(0).getTermType());
     EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantConstReference().getNumberConstReference().getDouble());

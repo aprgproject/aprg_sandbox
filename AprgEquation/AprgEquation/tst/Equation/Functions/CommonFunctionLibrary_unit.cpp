@@ -22,10 +22,9 @@ TEST(CommonFunctionLibraryTest, AbsoluteValueWorks)
     Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(-5)));
     Constant constantToExpect(5);
     EXPECT_EQ("abs", absoluteValueFunction.getFunctionName());
-    EXPECT_EQ(expressionToExpect, absoluteValueFunction.getExpression());
+    EXPECT_EQ(expressionToExpect, absoluteValueFunction.getInputExpressionConstReference());
     EXPECT_EQ(constantToExpect, absoluteValueFunction.performFunctionAndReturnResultIfPossible());
 }
-
 }
 
 }

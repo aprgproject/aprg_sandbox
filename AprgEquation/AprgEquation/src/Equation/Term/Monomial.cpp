@@ -210,7 +210,8 @@ void Monomial::simplify()
 
 void Monomial::multiplyNumber(AlbaNumber const& number)
 {
-    m_constant = m_constant * number;}
+    m_constant = m_constant * number;
+}
 
 void Monomial::divideNumber(AlbaNumber const& number)
 {
@@ -301,7 +302,8 @@ void Monomial::compareMonomialsAndSaveMaximumExponentsForEachVariable(Monomial c
         AlbaNumber const& otherExponent(otherVariableExponentPair.second);
         if(m_variablesToExponentsMap.find(otherVariableName) != m_variablesToExponentsMap.end())
         {
-            m_variablesToExponentsMap[otherVariableName] = max(m_variablesToExponentsMap[otherVariableName], otherExponent);        }
+            m_variablesToExponentsMap[otherVariableName] = max(m_variablesToExponentsMap[otherVariableName], otherExponent);
+        }
         else
         {
             m_variablesToExponentsMap[otherVariableName] = otherExponent;

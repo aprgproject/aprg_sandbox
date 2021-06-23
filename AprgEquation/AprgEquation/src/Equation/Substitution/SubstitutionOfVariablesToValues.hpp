@@ -6,6 +6,7 @@
 #include <Math/AlbaNumber.hpp>
 
 #include <string>
+
 using namespace std;
 
 namespace alba
@@ -37,7 +38,8 @@ private:
     void performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const;
     void putVariablesWithValues(std::initializer_list<VariableValuePair> const& variablesWithExponents);
     void putVariablesWithValues(VariablesToValuesMap const& variablesWithValues);
-    void putVariableWithValue(std::string const& variable, AlbaNumber const& exponent);    VariablesToValuesMap m_variableToValuesMap;
+    void putVariableWithValue(std::string const& variable, AlbaNumber const& exponent);
+    VariablesToValuesMap m_variableToValuesMap;
 };
 
 }

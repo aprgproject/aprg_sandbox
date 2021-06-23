@@ -31,22 +31,26 @@ Term::Term(Constant const& constant)
     , m_baseDataTermPointer(new Constant(constant))
 {}
 
-Term::Term(string const& variableOrOperator)
+Term::Term(string const& stringTerm)
     : m_type(TermType::Empty)
     , m_baseDataTermPointer(nullptr)
 {
-    if(equation::isOperator(variableOrOperator))
+    if(equation::isOperator(stringTerm))
     {
         m_type=TermType::Operator;
-        m_baseDataTermPointer.reset(new Operator(variableOrOperator));
+        m_baseDataTermPointer.reset(new Operator(stringTerm));
+    }
+    else if(equation::isFunction(stringTerm))
+    {
+        m_type=TermType::Function;
+        m_baseDataTermPointer.reset(new Function(createFunctionWithEmptyInputExpression(stringTerm)));
     }
     else
     {
         m_type=TermType::Variable;
-        m_baseDataTermPointer.reset(new Variable(variableOrOperator));
+        m_baseDataTermPointer.reset(new Variable(stringTerm));
     }
 }
-
 Term::Term(Variable const& variable)
     : m_type(TermType::Variable)
     , m_baseDataTermPointer(nullptr)
@@ -76,10 +80,14 @@ Term::Term(Expression const& expression)
     , m_baseDataTermPointer(new Expression(expression))
 {}
 
+Term::Term(Function const& function)
+    : m_type(TermType::Function)
+    , m_baseDataTermPointer(new Function(function))
+{}
+
 Term& Term::operator=(Term const& term)
 {
-    m_type = term.getTermType();
-    m_baseDataTermPointer.reset(nullptr);
+    m_type = term.getTermType();    m_baseDataTermPointer.reset(nullptr);
     resetBaseDataTermPointerBasedFromTerm(term);
     return *this;
 }
@@ -117,10 +125,13 @@ bool Term::operator==(Term const& second) const
         {
             result = getExpressionConstReference()==second.getExpressionConstReference();
         }
+        else if(m_type==TermType::Function)
+        {
+            result = getFunctionConstReference()==second.getFunctionConstReference();
+        }
     }
     return result;
 }
-
 bool Term::operator!=(Term const& second) const
 {
     return !(operator==(second));
@@ -159,18 +170,38 @@ bool Term::operator<(Term const& second) const
         {
             result = getExpressionConstReference() < second.getExpressionConstReference();
         }
+        else if(m_type==TermType::Function)
+        {
+            result = getFunctionConstReference() < second.getFunctionConstReference();
+        }
     }
     else
+    {        result = getTermTypePriorityValue(m_type) < getTermTypePriorityValue(second.m_type);
+    }
+    return result;
+}
+
+bool Term::isEmpty() const
+{
+    bool result(false);
+    if(m_type==TermType::Empty)
     {
-        result = getTermTypePriorityValue(m_type) < getTermTypePriorityValue(second.m_type);
+        result = true;
+    }
+    else if(m_type==TermType::Polynomial)
+    {
+        result = getPolynomialConstReference().isEmpty();
+    }
+    else if(m_type==TermType::Expression)
+    {
+        result = getExpressionConstReference().isEmpty();
     }
     return result;
 }
 
 bool Term::isConstant() const
 {
-    return TermType::Constant == m_type;
-}
+    return TermType::Constant == m_type;}
 
 bool Term::isVariable() const
 {
@@ -197,36 +228,22 @@ bool Term::isExpression() const
     return TermType::Expression == m_type;
 }
 
-bool Term::isValueTerm() const
+bool Term::isFunction() const
 {
-    return isConstant() || isVariable() || isMonomial() || isPolynomial() || isExpression();
+    return TermType::Function == m_type;
 }
 
-bool Term::isValueTermButNotAnExpression() const
+bool Term::isValueTerm() const
+{
+    return isConstant() || isVariable() || isMonomial() || isPolynomial() || isExpression() || isFunction();
+}
+
+bool Term::isValueTermAndDoesNotHaveAExpression() const
 {
     return isConstant() || isVariable() || isMonomial() || isPolynomial();
 }
 
-bool Term::isEmpty() const
-{
-    bool result(false);
-    if(m_type==TermType::Empty)
-    {
-        result = true;
-    }
-    else if(m_type==TermType::Polynomial)
-    {
-        result = getPolynomialConstReference().isEmpty();
-    }
-    else if(m_type==TermType::Expression)
-    {
-        result = getExpressionConstReference().isEmpty();
-    }
-    return result;
-}
-
-bool Term::isTheValueZero() const
-{
+bool Term::isTheValueZero() const{
     bool result(false);
     if(m_type==TermType::Constant)
     {
@@ -302,10 +319,15 @@ Expression const& Term::getExpressionConstReference() const
     return *dynamic_cast<Expression const * const>(m_baseDataTermPointer.get());
 }
 
+Function const& Term::getFunctionConstReference() const
+{
+    assert((m_type==TermType::Function));
+    return *dynamic_cast<Function const * const>(m_baseDataTermPointer.get());
+}
+
 string Term::getDisplayableString() const
 {
-    string result;
-    if(m_type==TermType::Constant)
+    string result;    if(m_type==TermType::Constant)
     {
         result = getConstantConstReference().getDisplayableString();
     }
@@ -329,9 +351,12 @@ string Term::getDisplayableString() const
     {
         result = getExpressionConstReference().getDisplayableString();
     }
+    else if(m_type==TermType::Function)
+    {
+        result = getFunctionConstReference().getDisplayableString();
+    }
     return result;
 }
-
 string Term::getDebugString() const
 {
     string result;
@@ -359,10 +384,13 @@ string Term::getDebugString() const
     {
         result = getExpressionConstReference().getDebugString();
     }
+    else if(m_type==TermType::Function)
+    {
+        result = getFunctionConstReference().getDebugString();
+    }
     result += "[";
     result += getEnumShortString(m_type);
-    result += "]";
-    return result;
+    result += "]";    return result;
 }
 
 Constant & Term::getConstantReference()
@@ -401,10 +429,15 @@ Expression & Term::getExpressionReference()
     return *dynamic_cast<Expression*>(m_baseDataTermPointer.get());
 }
 
+Function & Term::getFunctionReference()
+{
+    assert((m_type==TermType::Function));
+    return *dynamic_cast<Function*>(m_baseDataTermPointer.get());
+}
+
 void Term::simplify()
 {
-    if(m_type==TermType::Monomial)
-    {
+    if(m_type==TermType::Monomial)    {
         *this = simplifyAndConvertMonomialToSimplestTerm(getMonomialConstReference());
     }
     else if(m_type==TermType::Polynomial)
@@ -415,10 +448,13 @@ void Term::simplify()
     {
         *this = simplifyAndConvertExpressionToSimplestTerm(getExpressionConstReference());
     }
+    else if(m_type==TermType::Function)
+    {
+        *this = simplifyAndConvertFunctionToSimplestTerm(getFunctionConstReference());
+    }
 }
 
-void Term::simplifyToCommonDenominator()
-{
+void Term::simplifyToCommonDenominator(){
     if(m_type==TermType::Monomial)
     {
         *this = simplifyAndConvertMonomialToSimplestTerm(getMonomialConstReference());
@@ -429,12 +465,20 @@ void Term::simplifyToCommonDenominator()
     }
     else if(m_type==TermType::Expression)
     {
-        *this = simplifyToCommonDenominatorAndConvertExpressionToSimplestTerm(getExpressionConstReference());
+        Expression newExpression(getExpressionConstReference());
+        newExpression.simplifyToACommonDenominator();
+        *this = convertExpressionToSimplestTerm(newExpression);
+    }
+    else if(m_type==TermType::Function)
+    {
+        Function newFunction(getFunctionConstReference());
+        Expression & inputExpression(newFunction.getInputExpressionReference());
+        inputExpression.simplifyToACommonDenominator();
+        *this = convertFunctionToSimplestTerm(newFunction);
     }
 }
 
-void Term::sort()
-{
+void Term::sort(){
     if(isPolynomial())
     {
         getPolynomialReference().sortMonomialsWithInversePriority();
@@ -447,7 +491,8 @@ void Term::sort()
 
 void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
 {
-    switch(term.getTermType())    {
+    switch(term.getTermType())
+    {
     case TermType::Empty:
         break;
     case TermType::Constant:
@@ -468,9 +513,11 @@ void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
     case TermType::Expression:
         m_baseDataTermPointer.reset(new Expression(term.getExpressionConstReference()));
         break;
+    case TermType::Function:
+        m_baseDataTermPointer.reset(new Function(term.getFunctionConstReference()));
+        break;
     }
 }
-
 ostream & operator<<(ostream & out, Term const& term)
 {
     out << term.getDisplayableString();

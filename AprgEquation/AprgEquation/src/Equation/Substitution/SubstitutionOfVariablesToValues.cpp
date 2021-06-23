@@ -5,6 +5,7 @@
 using namespace std;
 using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
+
 namespace alba
 {
 
@@ -136,7 +137,8 @@ void SubstitutionOfVariablesToValues::performSubstitutionForTermsWithAssociation
 
 void SubstitutionOfVariablesToValues::putVariablesWithValues(initializer_list<VariableValuePair> const& variablesWithValues)
 {
-    for(VariableValuePair const& variableValuesPair : variablesWithValues)    {
+    for(VariableValuePair const& variableValuesPair : variablesWithValues)
+    {
         putVariableWithValue(variableValuesPair.first, variableValuesPair.second);
     }
 }

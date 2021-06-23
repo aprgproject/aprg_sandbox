@@ -3,6 +3,7 @@
 #include <Equation/Utilities.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba
@@ -52,7 +53,8 @@ TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample4)
     SubstitutionOfVariablesToValues substitution({{"x", 2}});
     Terms terms(tokenizeToTerms("(((3*x)/(x-3))-((3*x+2)/(x^2-6*x+9)))*(((x+2)/(x+3))-((x)/(x^2+6*x+9)))"));
     TermsAggregator aggregator(terms);
-    aggregator.simplifyTerms();    Terms simplifiedTerms(aggregator.getTermsConstReference());
+    aggregator.simplifyTerms();
+    Terms simplifiedTerms(aggregator.getTermsConstReference());
     ASSERT_EQ(1u, simplifiedTerms.size());
     Term & simplifiedTerm(simplifiedTerms.at(0));
     simplifiedTerm.simplifyToCommonDenominator();
@@ -60,4 +62,5 @@ TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample4)
 }
 
 }
+
 }

@@ -348,7 +348,8 @@ TEST(MonomialTest, SimplifyWorks)
 
 TEST(MonomialTest, MultiplyNumberWorks)
 {
-    Monomial monomial1(16, {{"x", 5}});    Monomial monomial2(20, {{"x", 7}});
+    Monomial monomial1(16, {{"x", 5}});
+    Monomial monomial2(20, {{"x", 7}});
 
     monomial1.multiplyNumber(3);
     monomial2.multiplyNumber(5);

@@ -3,10 +3,10 @@
 #include <Equation/Constructs/PolynomialOverPolynomial.hpp>
 #include <Equation/Constructs/TermsAggregator.hpp>
 #include <Equation/Factorization/Factorization.hpp>
+#include <Equation/Functions/CommonFunctionLibrary.hpp>
 #include <Equation/Term/TermOperators.hpp>
 #include <Macros/AlbaMacros.hpp>
-#include <Math/AlbaMathHelper.hpp>
-#include <String/AlbaStringHelper.hpp>
+#include <Math/AlbaMathHelper.hpp>#include <String/AlbaStringHelper.hpp>
 
 #include <algorithm>
 
@@ -22,21 +22,25 @@ namespace alba
 namespace equation
 {
 
-bool isOperator(string const& variableOrOperator)
+bool isOperator(string const& name)
 {
-    return "+" == variableOrOperator ||
-            "-" == variableOrOperator ||
-            "*" == variableOrOperator ||
-            "/" == variableOrOperator ||
-            "^" == variableOrOperator ||
-            "(" == variableOrOperator ||
-            ")" == variableOrOperator;
+    return "+" == name ||
+            "-" == name ||
+            "*" == name ||
+            "/" == name ||
+            "^" == name ||
+            "(" == name ||
+            ")" == name;
+}
+
+bool isFunction(string const& name)
+{
+    return "abs" == name;
 }
 
 bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const& term2)
 {
-    bool result(false);
-    if(term1.isConstant() && term2.isConstant())
+    bool result(false);    if(term1.isConstant() && term2.isConstant())
     {
         result = true;
     }
@@ -127,11 +131,10 @@ bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term)
     return term.isEmpty() || term.isTheValueOne();
 }
 
-unsigned int getOperatorPriority(std::string const& operatorString)
+unsigned int getOperatorPriority(string const& operatorString)
 {
     unsigned int result=0;
-    if("+" == operatorString)
-    {
+    if("+" == operatorString)    {
         result=1;
     }
     else if("-" == operatorString)
@@ -230,10 +233,10 @@ string getEnumShortString(TermType const termType)
             ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Monomial, "Monomial")
             ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Polynomial, "Polynomial")
             ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Expression, "Expression")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Function, "Function")
             default:
         return "default";
-    }
-}
+    }}
 
 string getEnumShortString(TermAssociationType const association)
 {
@@ -519,10 +522,19 @@ Expression createSimplifiedExpressionIfPossible(Terms const& terms)
     return result;
 }
 
+Function createFunctionWithEmptyInputExpression(string const& functionName)
+{
+    Function result;
+    if("abs" == functionName)
+    {
+        result = Functions::abs(Expression());
+    }
+    return result;
+}
+
 Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial)
 {
-    Monomial newMonomial(monomial);
-    newMonomial.simplify();
+    Monomial newMonomial(monomial);    newMonomial.simplify();
     Term newTerm(newMonomial);
     if(newMonomial.isZero())
     {
@@ -570,15 +582,14 @@ Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression)
     return convertExpressionToSimplestTerm(newExpression);
 }
 
-Term simplifyToCommonDenominatorAndConvertExpressionToSimplestTerm(Expression const& expression)
+Term simplifyAndConvertFunctionToSimplestTerm(Function const& functionAsParameter)
 {
-    Expression newExpression(expression);
-    newExpression.simplifyToACommonDenominator();
-    return convertExpressionToSimplestTerm(newExpression);
+    Function newFunction(functionAsParameter);
+    newFunction.simplify();
+    return convertFunctionToSimplestTerm(newFunction);
 }
 
-Term convertExpressionToSimplestTerm(Expression const& expression)
-{
+Term convertExpressionToSimplestTerm(Expression const& expression){
     Term newTerm(expression);
     if(expression.isEmpty())
     {
@@ -592,10 +603,19 @@ Term convertExpressionToSimplestTerm(Expression const& expression)
     return newTerm;
 }
 
+Term convertFunctionToSimplestTerm(Function const& functionAsParameter)
+{
+    Term newTerm(functionAsParameter);
+    if(functionAsParameter.isInputExpressionAConstant())
+    {
+        newTerm = Term(functionAsParameter.performFunctionAndReturnResultIfPossible());
+    }
+    return newTerm;
+}
+
 Terms tokenizeToTerms(string const& inputString)
 {
-    Terms tokenizedTerms;
-    string valueTerm;
+    Terms tokenizedTerms;    string valueTerm;
     for(char const c : inputString)
     {
         if(!stringHelper::isWhiteSpace(c))
@@ -811,11 +831,10 @@ void segregateNonExpressionsAndExpressions(
         {
             termsWithExpressions.emplace_back(termToSegregate);
         }
-        else if(term.isValueTermButNotAnExpression())
+        else if(term.isValueTermAndDoesNotHaveAExpression())
         {
             termsWithNonExpressions.emplace_back(termToSegregate);
-        }
-    }
+        }    }
 }
 
 void segregateTermsWithPositiveAndNegativeAssociations(

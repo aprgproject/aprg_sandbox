@@ -159,7 +159,8 @@ TermsWithAssociation::TermsWithDetails & TermsWithAssociation::getTermsWithDetai
 
 void TermsWithAssociation::clear()
 {
-    m_termsWithDetails.clear();}
+    m_termsWithDetails.clear();
+}
 
 void TermsWithAssociation::sort()
 {
@@ -173,7 +174,8 @@ void TermsWithAssociation::sort()
 
 void TermsWithAssociation::putTermWithDetails(TermWithDetails const& termWithDetails)
 {
-    m_termsWithDetails.emplace_back(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);}
+    m_termsWithDetails.emplace_back(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);
+}
 
 void TermsWithAssociation::putTermWithPositiveAssociation(BaseTerm const& baseTerm)
 {

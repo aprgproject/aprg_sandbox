@@ -40,7 +40,8 @@ public:
     void sortMonomialsWithInversePriority();
     void addMonomial(Monomial const& monomial);
     void addPolynomial(Polynomial const& polynomial);
-    void multiplyNumber(AlbaNumber const& number);    void divideNumber(AlbaNumber const& number);
+    void multiplyNumber(AlbaNumber const& number);
+    void divideNumber(AlbaNumber const& number);
     void multiplyMonomial(Monomial const& monomial);
     void multiplyPolynomial(Polynomial const& polynomial);
     void divideMonomial(Monomial const& monomial);

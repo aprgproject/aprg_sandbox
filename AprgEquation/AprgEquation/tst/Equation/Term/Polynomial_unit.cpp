@@ -242,7 +242,8 @@ TEST(PolynomialTest, SortWorks)
 
 TEST(PolynomialTest, AddMonomialWorks)
 {
-    Polynomial polynomial1;    Polynomial polynomial2{Monomial(1, {})};
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(1, {})};
     Polynomial polynomial3{Monomial(2, {}), Monomial(3, {{"x", 4}})};
 
     polynomial1.addMonomial(Monomial(5, {{"x", 4}}));

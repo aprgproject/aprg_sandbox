@@ -95,7 +95,8 @@ TermsWithAssociation & Expression::getTermsWithAssociationReference()
 
 TermsWithAssociation Expression::getTermsWithDetailsThatSatisfiesCondition(
         ConditionFunctionForTermsWithDetails const& conditionFunction) const
-{    TermsWithAssociation termsWithOnlyExpressions;
+{
+    TermsWithAssociation termsWithOnlyExpressions;
     TermsWithDetails const& termsWithDetails(m_termsWithAssociation.getTermsWithDetails());
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
@@ -366,7 +367,8 @@ void Expression::sort()
 
 void Expression::factorize(Expression & expression)
 {
-    TermsWithDetails factorizedTermsWithDetails;    TermsWithDetails & termsWithDetails(expression.m_termsWithAssociation.m_termsWithDetails);
+    TermsWithDetails factorizedTermsWithDetails;
+    TermsWithDetails & termsWithDetails(expression.m_termsWithAssociation.m_termsWithDetails);
     for(TermsWithDetails::iterator it=termsWithDetails.begin(); it!=termsWithDetails.end(); it++)
     {
         Term & term(getTermReferenceFromSharedPointer(it->baseTermSharedPointer));
@@ -414,11 +416,10 @@ void Expression::simplifyAndCopyTerms(
             expression.simplify();
             simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(termsToUpdate, expression, termWithDetails.association);
         }
-        else if(term.isValueTermButNotAnExpression())
+        else if(term.isValueTermAndDoesNotHaveAExpression())
         {
             termsToUpdate.emplace_back(baseTerm, termWithDetails.association);
-        }
-    }
+        }    }
 }
 
 void Expression::simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
@@ -763,11 +764,10 @@ void Expression::putTermForExpressionAndNonExpressions(
             }
         }
     }
-    else if(term.isValueTermButNotAnExpression())
+    else if(term.isValueTermAndDoesNotHaveAExpression())
     {
         putTerm(baseTerm, overallAssociation);
-    }
-}
+    }}
 
 void Expression::putTerm(BaseTerm const& baseTerm, TermAssociationType const overallAssociation)
 {

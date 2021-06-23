@@ -41,7 +41,8 @@ public:
     TermsWithAssociation & getTermsWithAssociationReference();
     TermsWithAssociation getTermsWithDetailsThatSatisfiesCondition(
             ConditionFunctionForTermsWithDetails const& conditionFunction) const;
-    std::string getDisplayableString() const;    std::string getDebugString() const;
+    std::string getDisplayableString() const;
+    std::string getDebugString() const;
 
     void clear();
     void clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm);
@@ -66,6 +67,7 @@ public:
     void sort();
 
 private:
+
     //factorize functions
     void factorize(Expression & expression);
     void factorizePolynomialsAndEmplaceInTermsWithDetails(

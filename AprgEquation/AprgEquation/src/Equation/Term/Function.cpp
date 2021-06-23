@@ -22,10 +22,34 @@ Function::Function(
     , m_functionToPerform(functionToPerform)
 {}
 
-bool Function::isInputExpressionAConstant() const
+bool Function::operator==(Function const& second) const
+{
+    return m_functionName == second.m_functionName
+            && m_inputExpression==second.m_inputExpression;
+}
+
+bool Function::operator!=(Function const& second) const
+{
+    return !(operator==(second));
+}
+
+bool Function::operator<(Function const& second) const
 {
     bool result(false);
-    if(m_inputExpression.containsOnlyOneTerm())
+    if(m_functionName == second.m_functionName)
+    {
+        return m_inputExpression < second.m_inputExpression;
+    }
+    else
+    {
+        result = m_functionName < second.m_functionName;
+    }
+    return result;
+}
+
+bool Function::isInputExpressionAConstant() const
+{
+    bool result(false);    if(m_inputExpression.containsOnlyOneTerm())
     {
         Term const& term = dynamic_cast<Term const&>(m_inputExpression.getFirstTermConstReference());
         result = term.isConstant();
@@ -59,16 +83,15 @@ Constant Function::performFunctionAndReturnResultIfPossible() const
     return result;
 }
 
-Expression const& Function::getExpression() const
+Expression const& Function::getInputExpressionConstReference() const
 {
     return m_inputExpression;
 }
 
-Expression & Function::getExpressionReference()
+Expression & Function::getInputExpressionReference()
 {
     return m_inputExpression;
 }
-
 void Function::simplify()
 {
     m_inputExpression.simplify();
