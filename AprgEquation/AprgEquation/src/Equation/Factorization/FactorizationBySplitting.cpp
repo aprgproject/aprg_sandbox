@@ -3,7 +3,6 @@
 #include <Equation/Constructs/PolynomialOverPolynomial.hpp>
 #include <Equation/Factorization/Factorization.hpp>
 #include <Equation/Factorization/FactorizationUtilities.hpp>
-#include <Equation/Substitution/SubstitutionOfVariablesToExpressions.hpp>
 #include <Equation/Utilities.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
@@ -65,77 +64,6 @@ Polynomials factorizeIfPossibleBySplittingByFirstVariable(Polynomial const& poly
     return result;
 }
 
-Polynomials factorizeSmallerPolynomials(Polynomials const& smallerPolynomials)
-{
-    Polynomials result;
-    result = factorizeSmallerPolynomialsByFactoringOutCommonFactors(smallerPolynomials);
-    if(result.empty())
-    {
-        result = factorizeSmallerPolynomialsBySubstitutingCommonFactorsToVariables(smallerPolynomials);
-    }
-    return result;
-}
-
-Polynomials factorizeSmallerPolynomialsByFactoringOutCommonFactors(Polynomials const& smallerPolynomials)
-{
-    Polynomials result;
-    if(smallerPolynomials.size() > 1)
-    {
-        Polynomials commonFactors(getCommonFactorsInThesePolynomials(smallerPolynomials));
-        if(!commonFactors.empty())
-        {
-            Polynomials remainingSmallerPolynomials(getPolynomialsWithRemovedCommonFactors(smallerPolynomials, commonFactors));
-            combinePolynomialsByAdditionAndThenEmplaceBack(result, remainingSmallerPolynomials);
-            for(Polynomial const& commonFactor : commonFactors)
-            {
-                simplifyPolynomialThenEmplaceBackIfNotEmpty(result, commonFactor);
-            }
-        }
-    }    return result;
-}
-
-Polynomials factorizeSmallerPolynomialsBySubstitutingCommonFactorsToVariables(Polynomials const& smallerPolynomials){
-    Polynomials result;
-    SubstitutionOfVariablesToExpressions substitution;
-    bool didSubstitutionHappen(false);
-    if(smallerPolynomials.size() > 1)
-    {
-        Polynomial newPolynomialWithVariables;
-        for(Polynomial const& smallerPolynomial : smallerPolynomials)
-        {
-            Polynomial newSmallerPolynomialWithVariables(createPolynomialFromConstant(1));
-            Polynomials factors(factorize(smallerPolynomial));
-            for(Polynomial const& factor : factors)
-            {
-                if(factor.isOneMonomial())
-                {
-                    newSmallerPolynomialWithVariables.multiplyMonomial(factor.getFirstMonomial());
-                }
-                else
-                {
-                    string variableNameForSubstitution(createVariableNameForSubstitution(factor));
-                    Expression polynomialExpressionForFactor(createOrCopyExpressionFromATerm(Term(factor)));
-                    substitution.putVariableWithExpression(variableNameForSubstitution, polynomialExpressionForFactor);
-                    newSmallerPolynomialWithVariables.multiplyMonomial(createMonomialFromVariable(Variable(variableNameForSubstitution)));
-                    didSubstitutionHappen=true;
-                }
-            }
-            newPolynomialWithVariables.addPolynomial(newSmallerPolynomialWithVariables);
-        }
-        if(didSubstitutionHappen)
-        {
-            Polynomials factorizedPolynomialsWithVariables(factorize(newPolynomialWithVariables));
-            if(factorizedPolynomialsWithVariables.size() > 1)
-            {
-                for(Polynomial const& factorizedPolynomialWithVariables : factorizedPolynomialsWithVariables)
-                {
-                    Polynomial finalPolynomial(createPolynomialIfPossible(substitution.performSubstitutionTo(factorizedPolynomialWithVariables)));
-                    simplifyPolynomialThenEmplaceBackIfNotEmpty(result, finalPolynomial);
-                }
-            }
-        }    }
-    return result;
-}
 Polynomials splitPolynomialsByPolynomialDegree(Polynomial const& polynomial)
 {
     Polynomials result;
@@ -159,7 +87,7 @@ Polynomials splitPolynomialsByPolynomialDegree(Polynomial const& polynomial)
         }
         partialPolynomial.addMonomial(monomial);
     }
-    emplaceBackIfNotEmpty(result, partialPolynomial);
+    simplifyPolynomialThenEmplaceBackIfNotEmpty(result, partialPolynomial);
     return result;
 }
 
@@ -187,10 +115,10 @@ Polynomials splitPolynomialsByDivisibilityOfExponents(Polynomial const& polynomi
                     collectedMonomials.emplace_back(remainingMonomial);
                 }
             }
-            emplaceBackIfNotEmpty(collectedPolynomials, partialPolynomial);
+            simplifyPolynomialThenEmplaceBackIfNotEmpty(collectedPolynomials, partialPolynomial);
             remainingMonomials = collectedMonomials;
         }
-        emplaceBackIfNotEmpty(collectedPolynomials, Polynomial(remainingMonomials));
+        simplifyPolynomialThenEmplaceBackIfNotEmpty(collectedPolynomials, Polynomial(remainingMonomials));
     }
     if(collectedPolynomials.size() > 1)
     {
@@ -225,7 +153,69 @@ Polynomials splitPolynomialsByFirstVariable(Polynomial const& polynomial)
         }
         partialPolynomial.addMonomial(monomial);
     }
-    emplaceBackIfNotEmpty(result, partialPolynomial);
+    simplifyPolynomialThenEmplaceBackIfNotEmpty(result, partialPolynomial);
+    return result;
+}
+
+Polynomials factorizeSmallerPolynomials(Polynomials const& smallerPolynomials)
+{
+    Polynomials result;
+    result = factorizeSmallerPolynomialsByFactoringOutCommonFactors(smallerPolynomials);
+    if(result.empty())
+    {
+        result = factorizeSmallerPolynomialsBySubstitutingCommonFactorsToVariables(smallerPolynomials);
+    }
+    return result;
+}
+
+Polynomials factorizeSmallerPolynomialsByFactoringOutCommonFactors(Polynomials const& smallerPolynomials)
+{
+    Polynomials result;
+    if(smallerPolynomials.size() > 1)
+    {
+        Polynomials commonFactors(getCommonFactorsInThesePolynomials(smallerPolynomials));
+        if(!commonFactors.empty())
+        {
+            Polynomials remainingSmallerPolynomials(getPolynomialsWithRemovedCommonFactors(smallerPolynomials, commonFactors));
+            combinePolynomialsByAdditionAndThenEmplaceBack(result, remainingSmallerPolynomials);
+            for(Polynomial const& commonFactor : commonFactors)
+            {
+                simplifyPolynomialThenEmplaceBackIfNotEmpty(result, commonFactor);
+            }
+        }
+    }
+    return result;
+}
+
+Polynomials factorizeSmallerPolynomialsBySubstitutingCommonFactorsToVariables(Polynomials const& smallerPolynomials)
+{
+    Polynomials result;
+    SubstitutionOfVariablesToExpressions variableSubstitution;
+    if(smallerPolynomials.size() > 1)
+    {
+        Polynomial newPolynomialWithVariables(getNewPolynomialWithVariables(variableSubstitution, smallerPolynomials));
+        if(!variableSubstitution.isEmpty())
+        {
+            result = factorizePolynomialWithVariables(newPolynomialWithVariables, variableSubstitution);
+        }
+    }
+    return result;
+}
+
+Polynomials factorizePolynomialWithVariables(
+        Polynomial const& newPolynomialWithVariables,
+        SubstitutionOfVariablesToExpressions const& variableSubstitution)
+{
+    Polynomials result;
+    Polynomials factorizedPolynomialsWithVariables(factorize(newPolynomialWithVariables));
+    if(factorizedPolynomialsWithVariables.size() > 1)
+    {
+        for(Polynomial const& factorizedPolynomialWithVariables : factorizedPolynomialsWithVariables)
+        {
+            Polynomial finalPolynomial(createPolynomialIfPossible(variableSubstitution.performSubstitutionTo(factorizedPolynomialWithVariables)));
+            simplifyPolynomialThenEmplaceBackIfNotEmpty(result, finalPolynomial);
+        }
+    }
     return result;
 }
 
@@ -235,54 +225,44 @@ Polynomials getCommonFactorsInThesePolynomials(Polynomials const& smallerPolynom
     bool isFirst(true);
     for(Polynomial const& smallerPolynomial : smallerPolynomials)
     {
-        Polynomials currentCommonFactors(factorize(smallerPolynomial));
+        Polynomials commonFactorsOfAPolynomial(factorize(smallerPolynomial));
         if(isFirst)
         {
-            commonFactors = currentCommonFactors;
+            commonFactors = commonFactorsOfAPolynomial;
             isFirst = false;
         }
         else
         {
-            Polynomials previousCommonFactors(commonFactors);
-            commonFactors.clear();
-            for(Polynomials::iterator it1=previousCommonFactors.begin(); it1!=previousCommonFactors.end(); it1++)
-            {
-                bool isFound(false);
-                Polynomial const& previousCommonFactor(*it1);
-                for(Polynomials::iterator it2=currentCommonFactors.begin(); it2!=currentCommonFactors.end(); it2++)
-                {
-                    Polynomial const& currentCommonFactor(*it2);
-                    if(previousCommonFactor.isOneMonomial() && currentCommonFactor.isOneMonomial())
-                    {
-                        Monomial gcfMonomial(getGcfMonomialInMonomials({previousCommonFactor.getFirstMonomial(), currentCommonFactor.getFirstMonomial()}));
-                        gcfMonomial.simplify();
-                        if(!gcfMonomial.isOne())
-                        {
-                            commonFactors.emplace_back(Polynomial{gcfMonomial});
-                            isFound=true;
-                        }
-                    }
-                    else if(previousCommonFactor == currentCommonFactor)
-                    {
-                        commonFactors.emplace_back(currentCommonFactor);
-                        isFound=true;
-                    }
-                    if(isFound)
-                    {
-                        currentCommonFactors.erase(it2);
-                        break;
-                    }
-                }
-                if(isFound)
-                {
-                    previousCommonFactors.erase(it1);
-                    it1=previousCommonFactors.begin();
-                    it1--;
-                }
-            }
+            updateToGetSubsetOfFactors(commonFactors, commonFactorsOfAPolynomial);
         }
     }
     return commonFactors;
+}
+
+Polynomial getNewPolynomialWithVariables(SubstitutionOfVariablesToExpressions & variableSubstitution, Polynomials const& smallerPolynomials)
+{
+    Polynomial newPolynomialWithVariables;
+    for(Polynomial const& smallerPolynomial : smallerPolynomials)
+    {
+        Polynomial newSmallerPolynomialWithVariables(createPolynomialFromConstant(1));
+        Polynomials factors(factorize(smallerPolynomial));
+        for(Polynomial const& factor : factors)
+        {
+            if(factor.isOneMonomial())
+            {
+                newSmallerPolynomialWithVariables.multiplyMonomial(factor.getFirstMonomial());
+            }
+            else
+            {
+                string variableNameForSubstitution(createVariableNameForSubstitution(factor));
+                Expression polynomialExpressionForFactor(createOrCopyExpressionFromATerm(Term(factor)));
+                variableSubstitution.putVariableWithExpression(variableNameForSubstitution, polynomialExpressionForFactor);
+                newSmallerPolynomialWithVariables.multiplyMonomial(createMonomialFromVariable(Variable(variableNameForSubstitution)));
+            }
+        }
+        newPolynomialWithVariables.addPolynomial(newSmallerPolynomialWithVariables);
+    }
+    return newPolynomialWithVariables;
 }
 
 Polynomials getPolynomialsWithRemovedCommonFactors(Polynomials const& polynomialsWithCommonFactors, Polynomials const& commonFactors)
@@ -305,6 +285,48 @@ Polynomials getPolynomialsWithRemovedCommonFactors(Polynomials const& polynomial
     return result;
 }
 
+void updateToGetSubsetOfFactors(Polynomials & commonFactors, Polynomials const& commonFactorsOfAPolynomial)
+{
+    Polynomials previousCommonFactors(commonFactors);
+    Polynomials currentCommonFactors(commonFactorsOfAPolynomial);
+    commonFactors.clear();
+    for(Polynomials::iterator it1=previousCommonFactors.begin(); it1!=previousCommonFactors.end(); it1++)
+    {
+        bool isFound(false);
+        Polynomial const& previousCommonFactor(*it1);
+        for(Polynomials::iterator it2=currentCommonFactors.begin(); it2!=currentCommonFactors.end(); it2++)
+        {
+            Polynomial const& currentCommonFactor(*it2);
+            if(previousCommonFactor.isOneMonomial() && currentCommonFactor.isOneMonomial())
+            {
+                Monomial gcfMonomial(getGcfMonomialInMonomials({previousCommonFactor.getFirstMonomial(), currentCommonFactor.getFirstMonomial()}));
+                gcfMonomial.simplify();
+                if(!gcfMonomial.isOne())
+                {
+                    commonFactors.emplace_back(Polynomial{gcfMonomial});
+                    isFound=true;
+                }
+            }
+            else if(previousCommonFactor == currentCommonFactor)
+            {
+                commonFactors.emplace_back(currentCommonFactor);
+                isFound=true;
+            }
+            if(isFound)
+            {
+                currentCommonFactors.erase(it2);
+                break;
+            }
+        }
+        if(isFound)
+        {
+            previousCommonFactors.erase(it1);
+            it1=previousCommonFactors.begin();
+            it1--;
+        }
+    }
+}
+
 void combinePolynomialsByAdditionAndThenEmplaceBack(Polynomials & result, Polynomials const& smallerPolynomials)
 {
     Polynomial combinedPolynomial;
@@ -316,6 +338,7 @@ void combinePolynomialsByAdditionAndThenEmplaceBack(Polynomials & result, Polyno
 }
 
 }
+
 }
 
 }

@@ -89,10 +89,12 @@ Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
 Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
 
 void segregateMonomialsAndNonMonomials(
-        Terms const& termsToSegregate,        Terms & monomials,
+        Terms const& termsToSegregate,
+        Terms & monomials,
         Terms & nonMonomials);
 void segregatePolynomialAndNonPolynomials(
-        Terms const& termsToSegregate,        Terms & polynomials,
+        Terms const& termsToSegregate,
+        Terms & polynomials,
         Terms & nonPolynomials);
 void segregateNonExpressionsAndExpressions(
         TermsWithAssociation::TermsWithDetails const& termsToSegregate,

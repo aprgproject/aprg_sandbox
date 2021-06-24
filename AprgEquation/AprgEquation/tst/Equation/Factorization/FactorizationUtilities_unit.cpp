@@ -197,7 +197,8 @@ TEST(FactorizationUtilitiesTest, SimplifyPolynomialThenEmplaceBackIfNotEmptyWork
     simplifyPolynomialThenEmplaceBackIfNotEmpty(polynomialsToVerify, polynomialToTest);
 
     ASSERT_EQ(1u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect{Monomial(3, {{"x", 1}})};    EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
+    Polynomial polynomialToExpect{Monomial(3, {{"x", 1}})};
+    EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
 }
 
 TEST(FactorizationUtilitiesTest, SimplifyPolynomialThenEmplaceBackIfNotEmptyWorksIfEmpty)

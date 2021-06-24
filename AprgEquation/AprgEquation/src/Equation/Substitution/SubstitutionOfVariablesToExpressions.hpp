@@ -24,7 +24,9 @@ public:
     SubstitutionOfVariablesToExpressions(std::initializer_list<VariableExpressionPair> const& variablesWithExpressions);
     SubstitutionOfVariablesToExpressions(VariablesToExpressionsMap const& variablesWithExpressions);
 
+    bool isEmpty() const;
     bool isVariableFound(string const& variable) const;
+    unsigned int getSize() const;
     Expression getExpressionForVariable(std::string const& variable) const;
     Term performSubstitutionTo(Variable const& variable) const;
     Term performSubstitutionTo(Monomial const& monomial) const;

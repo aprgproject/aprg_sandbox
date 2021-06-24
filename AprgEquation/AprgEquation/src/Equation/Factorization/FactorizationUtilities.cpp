@@ -27,10 +27,12 @@ Polynomials factorizePolynomials(Polynomials const& polynomials)
             simplifyPolynomialThenEmplaceBackIfNotEmpty(result, polynomialToFactorize);
         }
         else
-        {            copy(factorizedPolynomials.cbegin(), factorizedPolynomials.cend(), back_inserter(result));
+        {
+            copy(factorizedPolynomials.cbegin(), factorizedPolynomials.cend(), back_inserter(result));
         }
     }
-    return result;}
+    return result;
+}
 
 Polynomials returnPolynomialsOrSinglePolynomialIfEmpty(
         Polynomials const& polynomials,
@@ -43,9 +45,11 @@ Polynomials returnPolynomialsOrSinglePolynomialIfEmpty(
     }
     return result;
 }
+
 Polynomials factorizeCommonMonomial(Polynomial const& polynomial)
 {
-    return returnPolynomialsOrSinglePolynomialIfEmpty(                factorizeCommonMonomialIfPossible(polynomial),
+    return returnPolynomialsOrSinglePolynomialIfEmpty(
+                factorizeCommonMonomialIfPossible(polynomial),
                 polynomial);
 }
 
@@ -64,10 +68,12 @@ Polynomials factorizeCommonMonomialIfPossible(Polynomial const& polynomial)
             simplifyPolynomialThenEmplaceBackIfNotEmpty(result, reducedPolynomial);
         }
     }
-    return result;}
+    return result;
+}
 
 bool isPerfectSquare(Monomial const& monomial)
-{    return isPerfectNthPower(monomial, 2);
+{
+    return isPerfectNthPower(monomial, 2);
 }
 
 bool isPerfectCube(Monomial const& monomial)
@@ -108,10 +114,12 @@ void simplifyPolynomialThenEmplaceBackIfNotEmpty(Polynomials & polynomials, Poly
     emplaceBackIfNotEmpty(polynomials, simplifiedPolynomial);
 }
 
-void emplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomial){
+void emplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomial)
+{
     if(!polynomial.isEmpty())
     {
-        polynomials.emplace_back(polynomial);    }
+        polynomials.emplace_back(polynomial);
+    }
 }
 
 }

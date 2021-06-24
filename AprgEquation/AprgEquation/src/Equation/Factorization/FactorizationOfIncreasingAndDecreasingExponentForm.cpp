@@ -96,9 +96,11 @@ void factorizePolynomialForm(
         simplifyPolynomialThenEmplaceBackIfNotEmpty(result, remainingPolynomial);
     }
 }
+
 void fixCoefficientsOfFactors(
         AlbaNumber & aCoefficient,
-        AlbaNumber & rootFirstCoefficient,        AlbaNumber & rootSecondCoefficient)
+        AlbaNumber & rootFirstCoefficient,
+        AlbaNumber & rootSecondCoefficient)
 {
     AlbaNumber::FractionData firstFractionData(aCoefficient.getFractionData());
     AlbaNumber::FractionData secondFractionData(rootSecondCoefficient.getFractionData());

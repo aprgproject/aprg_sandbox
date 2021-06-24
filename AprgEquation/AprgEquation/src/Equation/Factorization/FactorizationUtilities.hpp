@@ -25,6 +25,7 @@ void simplifyPolynomialThenEmplaceBackIfNotEmpty(Polynomials & polynomials, Poly
 void emplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomial);
 
 }
+
 }
 
 }

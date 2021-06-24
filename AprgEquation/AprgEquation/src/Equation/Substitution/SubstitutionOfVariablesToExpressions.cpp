@@ -27,9 +27,19 @@ SubstitutionOfVariablesToExpressions::SubstitutionOfVariablesToExpressions(
     putVariablesWithExpressions(variablesWithExpressions);
 }
 
+bool SubstitutionOfVariablesToExpressions::isEmpty() const
+{
+    return m_variableToExpressionsMap.empty();
+}
+
 bool SubstitutionOfVariablesToExpressions::isVariableFound(string const& variable) const
 {
     return m_variableToExpressionsMap.find(variable) != m_variableToExpressionsMap.cend();
+}
+
+unsigned int SubstitutionOfVariablesToExpressions::getSize() const
+{
+    return m_variableToExpressionsMap.size();
 }
 
 Expression SubstitutionOfVariablesToExpressions::getExpressionForVariable(string const& variable) const
