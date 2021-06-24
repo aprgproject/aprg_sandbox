@@ -12,6 +12,8 @@ namespace equation
 namespace Factorization
 {
 
+Polynomials factorizeIncreasingAndDecreasingExponentsForm(Polynomial const& polynomial);
+
 class FactorizationOfIncreasingAndDecreasingExponentForm
 {
 public:

@@ -17,10 +17,12 @@ TEST(SubstitutionOfVariablesToValuesTest, ConstructionWorks)
     SubstitutionOfVariablesToValues();
     SubstitutionOfVariablesToValues({{"x", 1}, {"y", 2}});
     VariablesToValuesMap variableWithValues{{"x", 1}, {"y", 2}};
-    SubstitutionOfVariablesToValues{variableWithValues};}
+    SubstitutionOfVariablesToValues{variableWithValues};
+}
 
 TEST(SubstitutionOfVariablesToValuesTest, IsVariableFoundWorks)
-{    SubstitutionOfVariablesToValues substitution({{"x", 1}, {"y", 2}});
+{
+    SubstitutionOfVariablesToValues substitution({{"x", 1}, {"y", 2}});
 
     EXPECT_TRUE(substitution.isVariableFound("x"));
     EXPECT_TRUE(substitution.isVariableFound("y"));

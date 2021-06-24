@@ -17,10 +17,12 @@ TEST(SubstitutionOfVariablesToExpressionsTest, ConstructionWorks)
     SubstitutionOfVariablesToExpressions();
     SubstitutionOfVariablesToExpressions({{"x", createOrCopyExpressionFromATerm(Term("y"))}});
     VariablesToExpressionsMap variableWithExpressions{{"x", createOrCopyExpressionFromATerm(Term("y"))}};
-    SubstitutionOfVariablesToExpressions{variableWithExpressions};}
+    SubstitutionOfVariablesToExpressions{variableWithExpressions};
+}
 
 TEST(SubstitutionOfVariablesToExpressionsTest, IsVariableFoundWorks)
-{    SubstitutionOfVariablesToExpressions substitution({{"x", createOrCopyExpressionFromATerm(Term("y"))}});
+{
+    SubstitutionOfVariablesToExpressions substitution({{"x", createOrCopyExpressionFromATerm(Term("y"))}});
 
     EXPECT_TRUE(substitution.isVariableFound("x"));
     EXPECT_FALSE(substitution.isVariableFound("y"));

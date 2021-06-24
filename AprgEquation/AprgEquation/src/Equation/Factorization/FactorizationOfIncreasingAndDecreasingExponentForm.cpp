@@ -3,6 +3,7 @@
 #include <Equation/Constructs/PolynomialOverPolynomial.hpp>
 #include <Equation/Factorization/BrentMethod.hpp>
 #include <Equation/Factorization/Factorization.hpp>
+#include <Equation/Factorization/FactorizationUtilities.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
@@ -18,6 +19,14 @@ namespace equation
 
 namespace Factorization
 {
+
+Polynomials factorizeIncreasingAndDecreasingExponentsForm(Polynomial const& polynomial)
+{
+    FactorizationOfIncreasingAndDecreasingExponentForm factorization;
+    return returnPolynomialsOrSinglePolynomialIfEmpty(
+                factorization.factorizeIfPossible(polynomial),
+                polynomial);
+}
 
 Polynomials FactorizationOfIncreasingAndDecreasingExponentForm::factorizeIfPossible(Polynomial const& polynomial) const
 {

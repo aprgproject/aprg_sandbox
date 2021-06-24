@@ -17,10 +17,12 @@ SubstitutionOfVariablesToValues::SubstitutionOfVariablesToValues()
 
 SubstitutionOfVariablesToValues::SubstitutionOfVariablesToValues(std::initializer_list<VariableValuePair> const& variablesWithValues)
 {
-    putVariablesWithValues(variablesWithValues);}
+    putVariablesWithValues(variablesWithValues);
+}
 
 SubstitutionOfVariablesToValues::SubstitutionOfVariablesToValues(VariablesToValuesMap const& variablesWithValues)
-{    putVariablesWithValues(variablesWithValues);
+{
+    putVariablesWithValues(variablesWithValues);
 }
 
 bool SubstitutionOfVariablesToValues::isVariableFound(string const& variable) const

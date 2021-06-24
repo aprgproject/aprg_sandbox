@@ -13,6 +13,30 @@ namespace equation
 namespace Factorization
 {
 
+TEST(FactorizationTest, FactorizeIncreasingAndDecreasingExponentsFormWorksWhenItCannotBeFactored)
+{
+    Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
+
+    Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsForm(polynomialToTest));
+
+    ASSERT_EQ(1u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1(polynomialToTest);
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
+}
+
+TEST(FactorizationTest, FactorizeIncreasingAndDecreasingExponentsFormWorksWhenItCanBeFactored)
+{
+    Polynomial polynomialToTest{Monomial(9, {{"x", 2}}), Monomial(-30, {{"x", 1}}), Monomial(25, {})};
+
+    Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsForm(polynomialToTest));
+
+    ASSERT_EQ(2u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(3, {{"x", 1}}), Monomial(-5, {})};
+    Polynomial polynomialToExpect2{Monomial(3, {{"x", 1}}), Monomial(-5, {})};
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
+    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
+}
+
 TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossibleIsEmptyWhenItCannotBeRefactored)
 {
     FactorizationOfIncreasingAndDecreasingExponentForm factorization;

@@ -17,10 +17,12 @@ TEST(SubstitutionOfTermsToTermsTest, ConstructionWorks)
     SubstitutionOfTermsToTerms();
     SubstitutionOfTermsToTerms({{Term("x"), Term(2)}, {Term("y"), Term(5)}});
     TermToTermMap variableWithValues{{Term("x"), Term(2)}, {Term("y"), Term(5)}};
-    SubstitutionOfTermsToTerms{variableWithValues};}
+    SubstitutionOfTermsToTerms{variableWithValues};
+}
 
 TEST(SubstitutionOfTermsToTermsTest, IsTermFoundWorks)
-{    SubstitutionOfTermsToTerms substitution({{Term("x"), Term(2)}, {Term("y"), Term(5)}});
+{
+    SubstitutionOfTermsToTerms substitution({{Term("x"), Term(2)}, {Term("y"), Term(5)}});
 
     EXPECT_TRUE(substitution.isTermFound(Term("x")));
     EXPECT_TRUE(substitution.isTermFound(Term("y")));
