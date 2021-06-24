@@ -20,24 +20,39 @@ TEST(SubstitutionOfVariablesToValuesTest, ConstructionWorks)
     SubstitutionOfVariablesToValues{variableWithValues};
 }
 
+TEST(SubstitutionOfVariablesToValuesTest, IsEmptyWorks)
+{
+    SubstitutionOfVariablesToValues substitution1;
+    SubstitutionOfVariablesToValues substitution2({{"x", 1}, {"y", 2}});
+
+    EXPECT_TRUE(substitution1.isEmpty());
+    EXPECT_FALSE(substitution2.isEmpty());
+}
+
 TEST(SubstitutionOfVariablesToValuesTest, IsVariableFoundWorks)
 {
     SubstitutionOfVariablesToValues substitution({{"x", 1}, {"y", 2}});
-
     EXPECT_TRUE(substitution.isVariableFound("x"));
     EXPECT_TRUE(substitution.isVariableFound("y"));
     EXPECT_FALSE(substitution.isVariableFound("a"));
     EXPECT_FALSE(substitution.isVariableFound("b"));
 }
 
+TEST(SubstitutionOfVariablesToValuesTest, GetSizeWorks)
+{
+    SubstitutionOfVariablesToValues substitution1;
+    SubstitutionOfVariablesToValues substitution2({{"x", 1}, {"y", 2}});
+
+    EXPECT_EQ(0u, substitution1.getSize());
+    EXPECT_EQ(2u, substitution2.getSize());
+}
+
 TEST(SubstitutionOfVariablesToValuesTest, GetValueForVariableWorks)
 {
     SubstitutionOfVariablesToValues substitution({{"x", 1}, {"y", 2}});
-
     EXPECT_EQ(AlbaNumber(1), substitution.getValueForVariable("x"));
     EXPECT_EQ(AlbaNumber(2), substitution.getValueForVariable("y"));
-    EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("a"));
-    EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("b"));
+    EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("a"));    EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("b"));
 }
 
 TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnVariable)

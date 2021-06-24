@@ -20,24 +20,39 @@ TEST(SubstitutionOfVariablesToExpressionsTest, ConstructionWorks)
     SubstitutionOfVariablesToExpressions{variableWithExpressions};
 }
 
+TEST(SubstitutionOfVariablesToExpressionsTest, IsEmptyWorks)
+{
+    SubstitutionOfVariablesToExpressions substitution1;
+    SubstitutionOfVariablesToExpressions substitution2({{"x", createOrCopyExpressionFromATerm(Term("y"))}});
+
+    EXPECT_TRUE(substitution1.isEmpty());
+    EXPECT_FALSE(substitution2.isEmpty());
+}
+
 TEST(SubstitutionOfVariablesToExpressionsTest, IsVariableFoundWorks)
 {
     SubstitutionOfVariablesToExpressions substitution({{"x", createOrCopyExpressionFromATerm(Term("y"))}});
-
     EXPECT_TRUE(substitution.isVariableFound("x"));
     EXPECT_FALSE(substitution.isVariableFound("y"));
     EXPECT_FALSE(substitution.isVariableFound("a"));
     EXPECT_FALSE(substitution.isVariableFound("b"));
 }
 
+TEST(SubstitutionOfVariablesToExpressionsTest, GetSizeWorks)
+{
+    SubstitutionOfVariablesToExpressions substitution1;
+    SubstitutionOfVariablesToExpressions substitution2({{"x", createOrCopyExpressionFromATerm(Term("y"))}});
+
+    EXPECT_EQ(0u, substitution1.getSize());
+    EXPECT_EQ(1u, substitution2.getSize());
+}
+
 TEST(SubstitutionOfVariablesToExpressionsTest, GetValueForVariableWorks)
 {
     SubstitutionOfVariablesToExpressions substitution({{"x", createOrCopyExpressionFromATerm(Term("y"))}});
-
     Expression expressionToExpect(createOrCopyExpressionFromATerm(Term("y")));
     EXPECT_EQ(expressionToExpect, substitution.getExpressionForVariable("x"));
-    EXPECT_EQ(Expression{}, substitution.getExpressionForVariable("y"));
-    EXPECT_EQ(Expression{}, substitution.getExpressionForVariable("a"));
+    EXPECT_EQ(Expression{}, substitution.getExpressionForVariable("y"));    EXPECT_EQ(Expression{}, substitution.getExpressionForVariable("a"));
     EXPECT_EQ(Expression{}, substitution.getExpressionForVariable("b"));
 }
 
