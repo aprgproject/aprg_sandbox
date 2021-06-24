@@ -346,13 +346,17 @@ string getString(TermWithDetails const& termWithDetails)
             +"]["+getEnumShortString(termWithDetails.association)+"]";
 }
 
-BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer)
+string createVariableNameForSubstitution(Polynomial const& polynomial)
 {
-    return move(BaseTermSharedPointer(
-                    dynamic_cast<BaseTerm*>(
-                        new Term(*dynamic_cast<Term*>(sharedPointer.get())))));
+    string variableName = string("[") + polynomial.getDisplayableString() + "]";
+    return variableName;
 }
 
+BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer)
+{
+    return move(BaseTermSharedPointer(                    dynamic_cast<BaseTerm*>(
+                        new Term(*dynamic_cast<Term*>(sharedPointer.get())))));
+}
 BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term)
 {
     return move(BaseTermSharedPointer(
@@ -620,39 +624,6 @@ Term convertFunctionToSimplestTerm(Function const& functionAsParameter)
     return newTerm;
 }
 
-Terms tokenizeToTerms(string const& inputString)
-{
-    Terms tokenizedTerms;
-    string valueTerm;
-    for(char const c : inputString)
-    {
-        if(!stringHelper::isWhiteSpace(c))
-        {
-            string characterString(1, c);
-            if(isOperator(characterString))
-            {
-                addValueTermIfNotEmpty(tokenizedTerms, valueTerm);
-                valueTerm.clear();
-                tokenizedTerms.emplace_back(characterString);
-            }
-            else
-            {
-                valueTerm+=characterString;
-            }
-        }
-    }
-    addValueTermIfNotEmpty(tokenizedTerms, valueTerm);
-    return tokenizedTerms;
-}
-
-void addValueTermIfNotEmpty(Terms & terms, string const& valueTerm)
-{
-    if(!valueTerm.empty())
-    {
-        terms.emplace_back(convertValueTermStringToTerm(valueTerm));
-    }
-}
-
 Term convertValueTermStringToTerm(string const& valueTerm)
 {
     Term result;
@@ -665,64 +636,6 @@ Term convertValueTermStringToTerm(string const& valueTerm)
         result = Term(valueTerm);
     }
     return result;
-}
-
-Monomial getGcfMonomialInMonomials(Monomials const& monomials)
-{
-    AlbaNumber commonCoefficient(getGcfCoefficientInMonomials(monomials));
-    Monomial minExponentMonomial(getMonomialWithMinimumExponentsInMonomials(monomials));
-    minExponentMonomial.setConstant(getCommonSignInMonomials(monomials)*commonCoefficient);
-    minExponentMonomial.simplify();
-    return minExponentMonomial;
-}
-
-Monomial getLcmMonomialInMonomials(Monomials const& monomials)
-{
-    AlbaNumber lcmCoefficient(getLcmCoefficientInMonomials(monomials));
-    Monomial maxExponentMonomial(getMonomialWithMaximumExponentsInMonomials(monomials));
-    maxExponentMonomial.setConstant(getCommonSignInMonomials(monomials)*lcmCoefficient);
-    maxExponentMonomial.simplify();
-    return maxExponentMonomial;
-}
-
-Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
-{
-    Monomial monomialWithMinimumExponents(1, {});
-    bool isFirst(true);
-    for(Monomial const& monomial : monomials)
-    {
-        if(isFirst)
-        {
-            monomialWithMinimumExponents = monomial;
-            isFirst=false;
-        }
-        else
-        {
-            monomialWithMinimumExponents.compareMonomialsAndSaveMinimumExponentsForEachVariable(monomial);
-        }
-    }
-    monomialWithMinimumExponents.simplify();
-    return monomialWithMinimumExponents;
-}
-
-Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials)
-{
-    Monomial monomialWithMinimumExponents(1, {});
-    bool isFirst(true);
-    for(Monomial const& monomial : monomials)
-    {
-        if(isFirst)
-        {
-            monomialWithMinimumExponents = monomial;
-            isFirst=false;
-        }
-        else
-        {
-            monomialWithMinimumExponents.compareMonomialsAndSaveMaximumExponentsForEachVariable(monomial);
-        }
-    }
-    monomialWithMinimumExponents.simplify();
-    return monomialWithMinimumExponents;
 }
 
 AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials)
@@ -791,14 +704,78 @@ AlbaNumber getCommonSignInMonomials(Monomials const& monomials)
     return (isFirstMonomialNegative||(negativeSignCount>0 && negativeSignCount == monomials.size())) ? -1 : 1;
 }
 
+Monomial getGcfMonomialInMonomials(Monomials const& monomials){
+    AlbaNumber commonCoefficient(getGcfCoefficientInMonomials(monomials));
+    Monomial minExponentMonomial(getMonomialWithMinimumExponentsInMonomials(monomials));
+    minExponentMonomial.setConstant(getCommonSignInMonomials(monomials)*commonCoefficient);    minExponentMonomial.simplify();
+    return minExponentMonomial;
+}
+
+Monomial getLcmMonomialInMonomials(Monomials const& monomials)
+{
+    AlbaNumber lcmCoefficient(getLcmCoefficientInMonomials(monomials));
+    Monomial maxExponentMonomial(getMonomialWithMaximumExponentsInMonomials(monomials));
+    maxExponentMonomial.setConstant(getCommonSignInMonomials(monomials)*lcmCoefficient);
+    maxExponentMonomial.simplify();
+    return maxExponentMonomial;
+}
+
+Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
+{
+    Monomial monomialWithMinimumExponents(1, {});
+    bool isFirst(true);
+    for(Monomial const& monomial : monomials)
+    {
+        if(isFirst)
+        {
+            monomialWithMinimumExponents = monomial;
+            isFirst=false;
+        }
+        else
+        {
+            monomialWithMinimumExponents.compareMonomialsAndSaveMinimumExponentsForEachVariable(monomial);
+        }
+    }
+    monomialWithMinimumExponents.simplify();
+    return monomialWithMinimumExponents;
+}
+
+Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials)
+{
+    Monomial monomialWithMinimumExponents(1, {});
+    bool isFirst(true);
+    for(Monomial const& monomial : monomials)
+    {
+        if(isFirst)
+        {
+            monomialWithMinimumExponents = monomial;
+            isFirst=false;
+        }
+        else
+        {
+            monomialWithMinimumExponents.compareMonomialsAndSaveMaximumExponentsForEachVariable(monomial);
+        }
+    }
+    monomialWithMinimumExponents.simplify();
+    return monomialWithMinimumExponents;
+}
+
+Polynomial addAllPolynomials(Polynomials const& polynomials)
+{
+    Polynomial result;
+    for(Polynomial const& polynomial : polynomials)
+    {
+        result.addPolynomial(polynomial);
+    }
+    return result;
+}
+
 void segregateMonomialsAndNonMonomials(
         Terms const& termsToSegregate,
-        Terms & monomials,
-        Terms & nonMonomials)
+        Terms & monomials,        Terms & nonMonomials)
 {
     for(Term const& termToSegregate : termsToSegregate)
-    {
-        if(canBeConvertedToMonomial(termToSegregate))
+    {        if(canBeConvertedToMonomial(termToSegregate))
         {
             monomials.emplace_back(termToSegregate);
         }
@@ -861,6 +838,39 @@ void segregateTermsWithPositiveAndNegativeAssociations(
         {
             termsWithNegativeAssociation.emplace_back(termToSegregate);
         }
+    }
+}
+
+Terms tokenizeToTerms(string const& inputString)
+{
+    Terms tokenizedTerms;
+    string valueTerm;
+    for(char const c : inputString)
+    {
+        if(!stringHelper::isWhiteSpace(c))
+        {
+            string characterString(1, c);
+            if(isOperator(characterString))
+            {
+                addValueTermIfNotEmpty(tokenizedTerms, valueTerm);
+                valueTerm.clear();
+                tokenizedTerms.emplace_back(characterString);
+            }
+            else
+            {
+                valueTerm+=characterString;
+            }
+        }
+    }
+    addValueTermIfNotEmpty(tokenizedTerms, valueTerm);
+    return tokenizedTerms;
+}
+
+void addValueTermIfNotEmpty(Terms & terms, string const& valueTerm)
+{
+    if(!valueTerm.empty())
+    {
+        terms.emplace_back(convertValueTermStringToTerm(valueTerm));
     }
 }
 

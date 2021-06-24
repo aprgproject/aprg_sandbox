@@ -41,14 +41,13 @@ std::string getString(
         TermsWithAssociation::TermsWithDetails const& termsWithDetails);
 std::string getString(
         TermsWithAssociation::TermWithDetails const& termWithDetails);
+std::string createVariableNameForSubstitution(Polynomial const& polynomial);
 
 BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer);
-BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);
-BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
+BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
 Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
 Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
-Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);
-Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
+Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
 BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term);
 BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
 BaseTerm & getBaseTermReferenceFromTerm(Term & term);
@@ -73,26 +72,22 @@ Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression);
 Term simplifyAndConvertFunctionToSimplestTerm(Function const& functionAsParameter);
 Term convertExpressionToSimplestTerm(Expression const& expression);
 Term convertFunctionToSimplestTerm(Function const& functionAsParameter);
-
-Terms tokenizeToTerms(std::string const& inputString);
-void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);
 Term convertValueTermStringToTerm(std::string const& valueTerm);
 
+AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials);
+AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials);
+AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
 Monomial getGcfMonomialInMonomials(Monomials const& monomials);
 Monomial getLcmMonomialInMonomials(Monomials const& monomials);
 Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
 Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
-AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials);
-AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials);
-AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
+Polynomial addAllPolynomials(Polynomials const& polynomials);
 
 void segregateMonomialsAndNonMonomials(
-        Terms const& termsToSegregate,
-        Terms & monomials,
+        Terms const& termsToSegregate,        Terms & monomials,
         Terms & nonMonomials);
 void segregatePolynomialAndNonPolynomials(
-        Terms const& termsToSegregate,
-        Terms & polynomials,
+        Terms const& termsToSegregate,        Terms & polynomials,
         Terms & nonPolynomials);
 void segregateNonExpressionsAndExpressions(
         TermsWithAssociation::TermsWithDetails const& termsToSegregate,
@@ -102,6 +97,9 @@ void segregateTermsWithPositiveAndNegativeAssociations(
         TermsWithAssociation::TermsWithDetails const& termsToSegregate,
         TermsWithAssociation::TermsWithDetails & termsWithPositiveAssociation,
         TermsWithAssociation::TermsWithDetails & termsWithNegativeAssociation);
+
+Terms tokenizeToTerms(std::string const& inputString);
+void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);
 
 }
 
