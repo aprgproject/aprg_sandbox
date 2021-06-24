@@ -32,6 +32,7 @@ public:
     AlbaNumber getCoefficientOfVariableExponent(Monomial const& monomial) const;
     Monomial getFirstMonomial() const;
     Monomials const& getMonomialsConstReference() const;
+    AlbaNumber getMaxDegree() const;
     std::string getDisplayableString() const;
 
     void clear();

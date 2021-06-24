@@ -161,6 +161,17 @@ TEST(PolynomialTest, GetDisplayableStringWorks)
     Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
+    EXPECT_DOUBLE_EQ(0, polynomial1.getMaxDegree().getDouble());
+    EXPECT_DOUBLE_EQ(0, polynomial2.getMaxDegree().getDouble());
+    EXPECT_DOUBLE_EQ(9, polynomial3.getMaxDegree().getDouble());
+}
+
+TEST(PolynomialTest, GetMaxDegreeWorks)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+
     EXPECT_EQ("(EmptyPolynomial)", polynomial1.getDisplayableString());
     EXPECT_EQ("(6)", polynomial2.getDisplayableString());
     EXPECT_EQ("(6 + -7|x^2||y^3||z^4|)", polynomial3.getDisplayableString());

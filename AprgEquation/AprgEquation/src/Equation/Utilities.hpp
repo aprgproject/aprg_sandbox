@@ -3,6 +3,7 @@
 #include <Equation/Term/BaseTermPointers.hpp>
 #include <Equation/Term/Term.hpp>
 #include <Optional/AlbaOptional.hpp>
+#include <String/AlbaStringHelper.hpp>
 
 #include <string>
 
@@ -81,6 +82,9 @@ AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials);
 AlbaNumber getCommonSignInMonomials(Monomials const& monomials);
 Monomial getGcfMonomialInMonomials(Monomials const& monomials);
 Monomial getLcmMonomialInMonomials(Monomials const& monomials);
+void collectVariableNames(stringHelper::strings & variableNames, Monomial const& monomial);
+Monomial compareMonomialsAndSaveMinimumExponentsForEachVariable(Monomial const& firstMonomial, Monomial const& secondMonomial);
+Monomial compareMonomialsAndSaveMaximumExponentsForEachVariable(Monomial const& firstMonomial, Monomial const& secondMonomial);
 Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
 Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
 Polynomial addAllPolynomials(Polynomials const& polynomials);

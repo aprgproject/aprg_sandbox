@@ -22,6 +22,7 @@ bool isPerfectCube(Monomial const& monomial);
 bool isPerfectNthPower(Monomial const& monomial, unsigned int const nthPower);
 bool areExponentsDivisible(Monomial const& monomial, unsigned int const divisor);
 void simplifyPolynomialThenEmplaceBack(Polynomials & polynomials, Polynomial const& polynomial);
+void emplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomial);
 
 }
 

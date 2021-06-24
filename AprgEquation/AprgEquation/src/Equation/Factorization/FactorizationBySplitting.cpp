@@ -5,7 +5,9 @@
 #include <Equation/Factorization/FactorizationUtilities.hpp>
 #include <Equation/Substitution/SubstitutionOfVariablesToExpressions.hpp>
 #include <Equation/Utilities.hpp>
+#include <Math/AlbaMathHelper.hpp>
 
+using namespace alba::mathHelper;
 using namespace std;
 
 namespace alba
@@ -27,19 +29,15 @@ Polynomials factorizeBySplittingToSmallerPolynomials(Polynomial const& polynomia
 Polynomials factorizeIfPossibleBySplittingToSmallerPolynomials(Polynomial const& polynomial)
 {
     Polynomials result;
-    result = factorizeIfPossibleBySplittingByFirstVariable(polynomial);
+    result = factorizeIfPossibleBySplittingByPolynomialDegree(polynomial);
     if(result.empty())
     {
-        result = factorizeIfPossibleBySplittingByPolynomialDegree(polynomial);
+        result = factorizeIfPossibleBySplittingByDivisibilityOfExponents(polynomial);
+        if(result.empty())
+        {
+            result = factorizeIfPossibleBySplittingByFirstVariable(polynomial);
+        }
     }
-    return result;
-}
-
-Polynomials factorizeIfPossibleBySplittingByFirstVariable(Polynomial const& polynomial)
-{
-    Polynomials result;
-    Polynomials smallerPolynomials(splitPolynomialsByFirstVariable(polynomial));
-    result = factorizeSmallerPolynomials(smallerPolynomials);
     return result;
 }
 
@@ -47,6 +45,22 @@ Polynomials factorizeIfPossibleBySplittingByPolynomialDegree(Polynomial const& p
 {
     Polynomials result;
     Polynomials smallerPolynomials(splitPolynomialsByPolynomialDegree(polynomial));
+    result = factorizeSmallerPolynomials(smallerPolynomials);
+    return result;
+}
+
+Polynomials factorizeIfPossibleBySplittingByDivisibilityOfExponents(Polynomial const& polynomial)
+{
+    Polynomials result;
+    Polynomials smallerPolynomials(splitPolynomialsByDivisibilityOfExponents(polynomial));
+    result = factorizeSmallerPolynomials(smallerPolynomials);
+    return result;
+}
+
+Polynomials factorizeIfPossibleBySplittingByFirstVariable(Polynomial const& polynomial)
+{
+    Polynomials result;
+    Polynomials smallerPolynomials(splitPolynomialsByFirstVariable(polynomial));
     result = factorizeSmallerPolynomials(smallerPolynomials);
     return result;
 }
@@ -126,6 +140,69 @@ Polynomials factorizeSmallerPolynomialsBySubstitutingCommonFactorsToVariables(Po
     return result;
 }
 
+Polynomials splitPolynomialsByPolynomialDegree(Polynomial const& polynomial)
+{
+    Polynomials result;
+    Monomials monomials(polynomial.getMonomialsConstReference());
+    Polynomial partialPolynomial;
+    AlbaNumber currentDegree;
+    bool isFirst(true);
+    for(Monomial const& monomial : monomials)
+    {
+        AlbaNumber monomialDegree(monomial.getDegree());
+        if(isFirst)
+        {
+            currentDegree = monomialDegree;
+            isFirst = false;
+        }
+        if(currentDegree != monomialDegree)
+        {
+            currentDegree = monomialDegree;
+            result.emplace_back(partialPolynomial);
+            partialPolynomial.clear();
+        }
+        partialPolynomial.addMonomial(monomial);
+    }
+    emplaceBackIfNotEmpty(result, partialPolynomial);
+    return result;
+}
+
+Polynomials splitPolynomialsByDivisibilityOfExponents(Polynomial const& polynomial)
+{
+    Polynomials result;
+    Polynomials collectedPolynomials;
+    AlbaNumber polynomialDegree(polynomial.getMaxDegree());
+    if(polynomialDegree.isIntegerType() && polynomialDegree > 0)
+    {
+        Monomials remainingMonomials = polynomial.getMonomialsConstReference();
+        unsigned int degree = static_cast<unsigned int>(polynomialDegree.getInteger());
+        for(; degree>=2; degree--)
+        {
+            Polynomial partialPolynomial;
+            Monomials collectedMonomials;
+            for(Monomial const& remainingMonomial : remainingMonomials)
+            {
+                if(areExponentsDivisible(remainingMonomial, degree))
+                {
+                    partialPolynomial.addMonomial(remainingMonomial);
+                }
+                else
+                {
+                    collectedMonomials.emplace_back(remainingMonomial);
+                }
+            }
+            emplaceBackIfNotEmpty(collectedPolynomials, partialPolynomial);
+            remainingMonomials = collectedMonomials;
+        }
+        emplaceBackIfNotEmpty(collectedPolynomials, Polynomial(remainingMonomials));
+    }
+    if(collectedPolynomials.size() > 1)
+    {
+        result = collectedPolynomials;
+    }
+    return result;
+}
+
 Polynomials splitPolynomialsByFirstVariable(Polynomial const& polynomial)
 {
     Polynomials result;
@@ -152,40 +229,7 @@ Polynomials splitPolynomialsByFirstVariable(Polynomial const& polynomial)
         }
         partialPolynomial.addMonomial(monomial);
     }
-    if(!partialPolynomial.isEmpty())
-    {
-        result.emplace_back(partialPolynomial);
-    }
-    return result;
-}
-
-Polynomials splitPolynomialsByPolynomialDegree(Polynomial const& polynomial)
-{
-    Polynomials result;
-    Monomials monomials(polynomial.getMonomialsConstReference());
-    Polynomial partialPolynomial;
-    AlbaNumber currentDegree;
-    bool isFirst(true);
-    for(Monomial const& monomial : monomials)
-    {
-        AlbaNumber monomialDegree(monomial.getDegree());
-        if(isFirst)
-        {
-            currentDegree = monomialDegree;
-            isFirst = false;
-        }
-        if(currentDegree != monomialDegree)
-        {
-            currentDegree = monomialDegree;
-            result.emplace_back(partialPolynomial);
-            partialPolynomial.clear();
-        }
-        partialPolynomial.addMonomial(monomial);
-    }
-    if(!partialPolynomial.isEmpty())
-    {
-        result.emplace_back(partialPolynomial);
-    }
+    emplaceBackIfNotEmpty(result, partialPolynomial);
     return result;
 }
 

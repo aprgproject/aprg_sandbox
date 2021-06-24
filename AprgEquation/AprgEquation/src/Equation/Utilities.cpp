@@ -7,12 +7,12 @@
 #include <Equation/Term/TermOperators.hpp>
 #include <Macros/AlbaMacros.hpp>
 #include <Math/AlbaMathHelper.hpp>
-#include <String/AlbaStringHelper.hpp>
 
 #include <algorithm>
 
 using namespace alba::equation::Factorization;
 using namespace alba::mathHelper;
+using namespace alba::stringHelper;
 using namespace std;
 using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
@@ -629,9 +629,9 @@ Term convertFunctionToSimplestTerm(Function const& functionAsParameter)
 Term convertValueTermStringToTerm(string const& valueTerm)
 {
     Term result;
-    if(stringHelper::isNumber(valueTerm.at(0)))
+    if(isNumber(valueTerm.at(0)))
     {
-        result = Term(stringHelper::convertStringToAlbaNumber(valueTerm));
+        result = Term(convertStringToAlbaNumber(valueTerm));
     }
     else
     {
@@ -710,7 +710,11 @@ Monomial getGcfMonomialInMonomials(Monomials const& monomials)
 {
     AlbaNumber commonCoefficient(getGcfCoefficientInMonomials(monomials));
     Monomial minExponentMonomial(getMonomialWithMinimumExponentsInMonomials(monomials));
-    minExponentMonomial.setConstant(getCommonSignInMonomials(monomials)*commonCoefficient);
+    if(commonCoefficient != 1)
+    {
+        commonCoefficient = getCommonSignInMonomials(monomials)*commonCoefficient;
+    }
+    minExponentMonomial.setConstant(commonCoefficient);
     minExponentMonomial.simplify();
     return minExponentMonomial;
 }
@@ -722,6 +726,45 @@ Monomial getLcmMonomialInMonomials(Monomials const& monomials)
     maxExponentMonomial.setConstant(getCommonSignInMonomials(monomials)*lcmCoefficient);
     maxExponentMonomial.simplify();
     return maxExponentMonomial;
+}
+
+
+void collectVariableNames(strings & variableNames, Monomial const& monomial)
+{
+    for(Monomial::VariableExponentPair const& variableExponentPair : monomial.getVariablesToExponentsMapConstReference())
+    {
+        variableNames.emplace_back(variableExponentPair.first);
+    }
+}
+
+Monomial compareMonomialsAndSaveMinimumExponentsForEachVariable(Monomial const& firstMonomial, Monomial const& secondMonomial)
+{
+    Monomial::VariablesToExponentsMap newVariableExponentMap;
+    strings variableNames;
+    collectVariableNames(variableNames, firstMonomial);
+    collectVariableNames(variableNames, secondMonomial);
+    for(string const& variableName : variableNames)
+    {
+        newVariableExponentMap[variableName] = min(
+                    firstMonomial.getExponentForVariable(variableName),
+                    secondMonomial.getExponentForVariable(variableName));
+    }
+    return Monomial(1, newVariableExponentMap);
+}
+
+Monomial compareMonomialsAndSaveMaximumExponentsForEachVariable(Monomial const& firstMonomial, Monomial const& secondMonomial)
+{
+    Monomial::VariablesToExponentsMap newVariableExponentMap;
+    strings variableNames;
+    collectVariableNames(variableNames, firstMonomial);
+    collectVariableNames(variableNames, secondMonomial);
+    for(string const& variableName : variableNames)
+    {
+        newVariableExponentMap[variableName] = max(
+                    firstMonomial.getExponentForVariable(variableName),
+                    secondMonomial.getExponentForVariable(variableName));
+    }
+    return Monomial(1, newVariableExponentMap);
 }
 
 Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
@@ -737,7 +780,8 @@ Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
         }
         else
         {
-            monomialWithMinimumExponents.compareMonomialsAndSaveMinimumExponentsForEachVariable(monomial);
+            monomialWithMinimumExponents
+                    = compareMonomialsAndSaveMinimumExponentsForEachVariable(monomialWithMinimumExponents, monomial);
         }
     }
     monomialWithMinimumExponents.simplify();
@@ -746,22 +790,23 @@ Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
 
 Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials)
 {
-    Monomial monomialWithMinimumExponents(1, {});
+    Monomial monomialWithMaximumExponents(1, {});
     bool isFirst(true);
     for(Monomial const& monomial : monomials)
     {
         if(isFirst)
         {
-            monomialWithMinimumExponents = monomial;
+            monomialWithMaximumExponents = monomial;
             isFirst=false;
         }
         else
         {
-            monomialWithMinimumExponents.compareMonomialsAndSaveMaximumExponentsForEachVariable(monomial);
+            monomialWithMaximumExponents
+                    = compareMonomialsAndSaveMaximumExponentsForEachVariable(monomialWithMaximumExponents, monomial);
         }
     }
-    monomialWithMinimumExponents.simplify();
-    return monomialWithMinimumExponents;
+    monomialWithMaximumExponents.simplify();
+    return monomialWithMaximumExponents;
 }
 
 Polynomial addAllPolynomials(Polynomials const& polynomials)
@@ -853,7 +898,7 @@ Terms tokenizeToTerms(string const& inputString)
     string valueTerm;
     for(char const c : inputString)
     {
-        if(!stringHelper::isWhiteSpace(c))
+        if(!isWhiteSpace(c))
         {
             string characterString(1, c);
             if(isOperator(characterString))

@@ -34,10 +34,12 @@ Polynomials factorize(Polynomial const& polynomial)
         if(result.size() == 1){result = factorizeUsingPatterns(polynomialToFactorize); }
         if(result.size() == 1){result = factorizeIncreasingAndDecreasingExponentsForm(polynomialToFactorize); }
         if(result.size() == 1){result = factorizeBySplittingToSmallerPolynomials(polynomialToFactorize); }
-        if(result.size() != 1)        {
+        if(result.size() != 1)
+        {
             result = factorizePolynomials(result);
         }
-    }    return result;
+    }
+    return result;
 }
 
 }

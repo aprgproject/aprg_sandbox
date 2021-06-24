@@ -96,11 +96,13 @@ TEST(FactorizationTest, DifferenceOfSquaresWithNegativeExponentsCanBeFactored_Fa
 
     Polynomials polynomialsToVerify(factorize(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(4, {{"z", -2}})};
-    Polynomial polynomialToExpect2{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(-4, {{"z", -2}})};
+    ASSERT_EQ(3u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(1, {{"z", -4}})};
+    Polynomial polynomialToExpect2{Monomial(3, {{"x", 4}, {"y", 1}, {"z", 2}}), Monomial(+4, {})};
+    Polynomial polynomialToExpect3{Monomial(3, {{"x", 4}, {"y", 1}, {"z", 2}}), Monomial(-4, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
+    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
 }
 
 TEST(FactorizationTest, DifferenceOfSquaresWithBigExponent)
@@ -156,11 +158,13 @@ TEST(FactorizationTest, DifferenceOfCubesWithNegativeExponentsCanBeFactored_Fact
 
     Polynomials polynomialsToVerify(factorize(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(3, {{"x", 1}}), Monomial(-2, {{"y", -1}})};
-    Polynomial polynomialToExpect2{Monomial(9, {{"x", 2}}), Monomial(6, {{"x", 1}, {"y", -1}}), Monomial(4, {{"y", -2}})};
+    ASSERT_EQ(3u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(1, {{"y", -3}})};
+    Polynomial polynomialToExpect2{Monomial(3, {{"x", 1}, {"y", 1}}), Monomial(-2, {})};
+    Polynomial polynomialToExpect3{Monomial(9, {{"x", 2}, {"y", 2}}), Monomial(6, {{"x", 1}, {"y", 1}}), Monomial(4, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
+    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
 }
 
 TEST(FactorizationTest, SumOfCubesCanBeFactored_FactorizeWorks)
@@ -197,11 +201,13 @@ TEST(FactorizationTest, SumOfCubesWithNegativeExponentsCanBeFactored_FactorizeWo
 
     Polynomials polynomialsToVerify(factorize(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(3, {{"x", 1}}), Monomial(2, {{"y", -1}})};
-    Polynomial polynomialToExpect2{Monomial(9, {{"x", 2}}), Monomial(-6, {{"x", 1}, {"y", -1}}), Monomial(4, {{"y", -2}})};
+    ASSERT_EQ(3u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(1, {{"y", -3}})};
+    Polynomial polynomialToExpect2{Monomial(3, {{"x", 1}, {"y", 1}}), Monomial(2, {})};
+    Polynomial polynomialToExpect3{Monomial(9, {{"x", 2}, {"y", 2}}), Monomial(-6, {{"x", 1}, {"y", 1}}), Monomial(4, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
+    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
 }
 
 TEST(FactorizationTest, QuadraticExpressionWithFirstCoefficientIsOne_FactorizeWorks)
@@ -399,8 +405,8 @@ TEST(FactorizationTest, Example6_FactorizeWorks)
     Polynomials polynomialsToVerify(factorize(polynomialToTest));
 
     ASSERT_EQ(2u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(1, {})};
-    Polynomial polynomialToExpect2{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(2, {})};
+    Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}}), Monomial(1, {{"z", 1}})};
+    Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(-1, {{"z", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }

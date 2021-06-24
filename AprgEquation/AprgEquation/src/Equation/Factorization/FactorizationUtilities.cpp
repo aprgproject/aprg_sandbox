@@ -114,6 +114,14 @@ void simplifyPolynomialThenEmplaceBack(Polynomials & polynomials, Polynomial con
     polynomials.emplace_back(simplifiedPolynomial);
 }
 
+void emplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomial)
+{
+    if(!polynomial.isEmpty())
+    {
+        polynomials.emplace_back(polynomial);
+    }
+}
+
 }
 
 }

@@ -1,9 +1,11 @@
 #include <Equation/Factorization/FactorizationUsingPatterns.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
@@ -18,7 +20,8 @@ TEST(FactorizationUsingPatternsTest, FactorizeUsingPatternsWorksWhenItCannotBeFa
     Polynomials polynomialsToVerify(factorizeUsingPatterns(polynomialToTest));
 
     ASSERT_EQ(1u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1(polynomialToTest);    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
+    Polynomial polynomialToExpect1(polynomialToTest);
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
 }
 
 TEST(FactorizationUsingPatternsTest, FactorizeUsingPatternsWorksWhenItCanBeFactored)
@@ -28,7 +31,8 @@ TEST(FactorizationUsingPatternsTest, FactorizeUsingPatternsWorksWhenItCanBeFacto
     Polynomials polynomialsToVerify(factorizeUsingPatterns(polynomialToTest));
 
     ASSERT_EQ(2u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(4, {{"z", 2}})};    Polynomial polynomialToExpect2{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(-4, {{"z", 2}})};
+    Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(4, {{"z", 2}})};
+    Polynomial polynomialToExpect2{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(-4, {{"z", 2}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
@@ -42,7 +46,7 @@ TEST(FactorizationUsingPatternsTest, FactorizeUsingPatternsIfPossibleWorksWhenIt
     EXPECT_TRUE(polynomialsToVerify.empty());
 }
 
-TEST(FactorizationUsingPatternsTest, FactorizeUsingPatternsIfPossibleWorksWhenItCanBeFactored)
+TEST(FactorizationUsingPatternsTest, FactorizeUsingPatternsIfPossibleWorksWhenDifferenceOfSquares)
 {
     Polynomial polynomialToTest{Monomial(9, {{"x", 8}, {"y", 2}}), Monomial(-16, {{"z", 4}})};
 
@@ -55,9 +59,36 @@ TEST(FactorizationUsingPatternsTest, FactorizeUsingPatternsIfPossibleWorksWhenIt
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
+TEST(FactorizationUsingPatternsTest, FactorizeUsingPatternsIfPossibleWorksWhenDifferenceOfCubes)
+{
+    Polynomial polynomialToTest{Monomial(27, {{"x", 12}, {"y", 3}}), Monomial(-64, {{"z", 6}})};
+
+    Polynomials polynomialsToVerify(factorizeUsingPatternsIfPossible(polynomialToTest));
+
+    ASSERT_EQ(2u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(-4, {{"z", 2}})};
+    Polynomial polynomialToExpect2{Monomial(9, {{"x", 8}, {"y", 2}}), Monomial(12, {{"x", 4}, {"y", 1}, {"z", 2}}), Monomial(16, {{"z", 4}})};
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
+    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
+}
+
+TEST(FactorizationUsingPatternsTest, FactorizeUsingPatternsIfPossibleWorksWhenSumOfCubes)
+{
+    Polynomial polynomialToTest{Monomial(27, {{"x", 12}, {"y", 3}}), Monomial(64, {{"z", 6}})};
+
+    Polynomials polynomialsToVerify(factorizeUsingPatternsIfPossible(polynomialToTest));
+
+    ASSERT_EQ(2u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(4, {{"z", 2}})};
+    Polynomial polynomialToExpect2{Monomial(9, {{"x", 8}, {"y", 2}}), Monomial(-12, {{"x", 4}, {"y", 1}, {"z", 2}}), Monomial(16, {{"z", 4}})};
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
+    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
+}
+
 TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfSquaresIfPossible_IsEmptyWhenItCannotBeRefactored)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
+
     Polynomials polynomialsToVerify(factorizeDifferenceOfSquaresIfPossible(polynomialToTest));
 
     EXPECT_TRUE(polynomialsToVerify.empty());
@@ -66,9 +97,11 @@ TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfSquaresIfPossible_IsEm
 TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfSquaresIfPossible_WorksWhenFirstMonomialIsPositive)
 {
     Polynomial polynomialToTest{Monomial(9, {{"x", 8}, {"y", 2}}), Monomial(-16, {{"z", 4}})};
+
     Polynomials polynomialsToVerify(factorizeDifferenceOfSquaresIfPossible(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());    Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(4, {{"z", 2}})};
+    ASSERT_EQ(2u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(4, {{"z", 2}})};
     Polynomial polynomialToExpect2{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(-4, {{"z", 2}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
@@ -77,9 +110,11 @@ TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfSquaresIfPossible_Work
 TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfSquaresIfPossible_WorksWhenFirstMonomialIsNegative)
 {
     Polynomial polynomialToTest{Monomial(-9, {{"x", 8}, {"y", 2}}), Monomial(16, {{"z", 4}})};
+
     Polynomials polynomialsToVerify(factorizeDifferenceOfSquaresIfPossible(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());    Polynomial polynomialToExpect1{Monomial(-1, {})};
+    ASSERT_EQ(3u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(-1, {})};
     Polynomial polynomialToExpect2{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(4, {{"z", 2}})};
     Polynomial polynomialToExpect3{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(-4, {{"z", 2}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -90,6 +125,7 @@ TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfSquaresIfPossible_Work
 TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfCubesIfPossible_IsEmptyWhenItCannotBeRefactored)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
+
     Polynomials polynomialsToVerify(factorizeDifferenceOfCubesIfPossible(polynomialToTest));
 
     EXPECT_TRUE(polynomialsToVerify.empty());
@@ -98,9 +134,11 @@ TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfCubesIfPossible_IsEmpt
 TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfCubesIfPossible_WorksWhenFirstMonomialIsPositive)
 {
     Polynomial polynomialToTest{Monomial(27, {{"x", 12}, {"y", 3}}), Monomial(-64, {{"z", 6}})};
+
     Polynomials polynomialsToVerify(factorizeDifferenceOfCubesIfPossible(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());    Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(-4, {{"z", 2}})};
+    ASSERT_EQ(2u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(-4, {{"z", 2}})};
     Polynomial polynomialToExpect2{Monomial(9, {{"x", 8}, {"y", 2}}), Monomial(12, {{"x", 4}, {"y", 1}, {"z", 2}}), Monomial(16, {{"z", 4}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
@@ -109,9 +147,11 @@ TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfCubesIfPossible_WorksW
 TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfCubesIfPossible_WorksWhenFirstMonomialIsNegative)
 {
     Polynomial polynomialToTest{Monomial(-27, {{"x", 12}, {"y", 3}}), Monomial(64, {{"z", 6}})};
+
     Polynomials polynomialsToVerify(factorizeDifferenceOfCubesIfPossible(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());    Polynomial polynomialToExpect1{Monomial(-1, {})};
+    ASSERT_EQ(3u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(-1, {})};
     Polynomial polynomialToExpect2{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(-4, {{"z", 2}})};
     Polynomial polynomialToExpect3{Monomial(9, {{"x", 8}, {"y", 2}}), Monomial(12, {{"x", 4}, {"y", 1}, {"z", 2}}), Monomial(16, {{"z", 4}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -122,6 +162,7 @@ TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfCubesIfPossible_WorksW
 TEST(FactorizationUsingPatternsTest, FactorizeSumOfCubesIfPossible_IsEmptyWhenItCannotBeRefactored)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
+
     Polynomials polynomialsToVerify(factorizeSumOfCubesIfPossible(polynomialToTest));
 
     EXPECT_TRUE(polynomialsToVerify.empty());
@@ -130,9 +171,11 @@ TEST(FactorizationUsingPatternsTest, FactorizeSumOfCubesIfPossible_IsEmptyWhenIt
 TEST(FactorizationUsingPatternsTest, FactorizeSumOfCubesIfPossible_WorksWhenBothMonomialsArePositive)
 {
     Polynomial polynomialToTest{Monomial(27, {{"x", 12}, {"y", 3}}), Monomial(64, {{"z", 6}})};
+
     Polynomials polynomialsToVerify(factorizeSumOfCubesIfPossible(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());    Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(4, {{"z", 2}})};
+    ASSERT_EQ(2u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(4, {{"z", 2}})};
     Polynomial polynomialToExpect2{Monomial(9, {{"x", 8}, {"y", 2}}), Monomial(-12, {{"x", 4}, {"y", 1}, {"z", 2}}), Monomial(16, {{"z", 4}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
@@ -141,9 +184,11 @@ TEST(FactorizationUsingPatternsTest, FactorizeSumOfCubesIfPossible_WorksWhenBoth
 TEST(FactorizationUsingPatternsTest, FactorizeSumOfCubesIfPossible_WorksWhenBothMonomialsAreNegative)
 {
     Polynomial polynomialToTest{Monomial(-27, {{"x", 12}, {"y", 3}}), Monomial(-64, {{"z", 6}})};
+
     Polynomials polynomialsToVerify(factorizeSumOfCubesIfPossible(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());    Polynomial polynomialToExpect1{Monomial(-1, {})};
+    ASSERT_EQ(3u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(-1, {})};
     Polynomial polynomialToExpect2{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(4, {{"z", 2}})};
     Polynomial polynomialToExpect3{Monomial(9, {{"x", 8}, {"y", 2}}), Monomial(-12, {{"x", 4}, {"y", 1}, {"z", 2}}), Monomial(16, {{"z", 4}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -155,9 +200,11 @@ TEST(FactorizationUsingPatternsTest, AddFactorsOfDifferenceOfSquaresWorks)
 {
     Polynomial polynomial1{Monomial(9, {{"x", 4}}), Monomial(-16, {{"y", 2}})};
     Polynomial polynomial2{Monomial(-9, {{"x", 4}}), Monomial(16, {{"y", 2}})};
+
     Polynomials polynomialsToVerify1;
     Polynomials polynomialsToVerify2;
-    addFactorsOfDifferenceOfSquares(polynomialsToVerify1, polynomial1);    addFactorsOfDifferenceOfSquares(polynomialsToVerify2, polynomial2);
+    addFactorsOfDifferenceOfSquares(polynomialsToVerify1, polynomial1);
+    addFactorsOfDifferenceOfSquares(polynomialsToVerify2, polynomial2);
 
     ASSERT_EQ(2u, polynomialsToVerify1.size());
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 2}}), Monomial(4, {{"y", 1}})};
@@ -177,9 +224,11 @@ TEST(FactorizationUsingPatternsTest, AddFactorsOfDifferenceOfCubesWorks)
 {
     Polynomial polynomial1{Monomial(27, {{"x", 6}}), Monomial(-64, {{"y", 3}})};
     Polynomial polynomial2{Monomial(-27, {{"x", 6}}), Monomial(64, {{"y", 3}})};
+
     Polynomials polynomialsToVerify1;
     Polynomials polynomialsToVerify2;
-    addFactorsOfDifferenceOfCubes(polynomialsToVerify1, polynomial1);    addFactorsOfDifferenceOfCubes(polynomialsToVerify2, polynomial2);
+    addFactorsOfDifferenceOfCubes(polynomialsToVerify1, polynomial1);
+    addFactorsOfDifferenceOfCubes(polynomialsToVerify2, polynomial2);
 
     ASSERT_EQ(2u, polynomialsToVerify1.size());
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 2}}), Monomial(-4, {{"y", 1}})};
@@ -199,9 +248,11 @@ TEST(FactorizationUsingPatternsTest, AddFactorsOfSumOfCubesWorks)
 {
     Polynomial polynomial1{Monomial(27, {{"x", 6}}), Monomial(64, {{"y", 3}})};
     Polynomial polynomial2{Monomial(-27, {{"x", 6}}), Monomial(-64, {{"y", 3}})};
+
     Polynomials polynomialsToVerify1;
     Polynomials polynomialsToVerify2;
-    addFactorsOfSumOfCubes(polynomialsToVerify1, polynomial1);    addFactorsOfSumOfCubes(polynomialsToVerify2, polynomial2);
+    addFactorsOfSumOfCubes(polynomialsToVerify1, polynomial1);
+    addFactorsOfSumOfCubes(polynomialsToVerify2, polynomial2);
 
     ASSERT_EQ(2u, polynomialsToVerify1.size());
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 2}}), Monomial(4, {{"y", 1}})};
@@ -220,10 +271,12 @@ TEST(FactorizationUsingPatternsTest, AddFactorsOfSumOfCubesWorks)
 TEST(FactorizationUsingPatternsTest, IsDifferenceOfSquaresWorks)
 {
     Polynomial polynomial1;
-    Polynomial polynomial2{Monomial(9, {{"x", 4}}), Monomial(16, {{"y", 2}})};    Polynomial polynomial3{Monomial(-9, {{"x", 4}}), Monomial(16, {{"y", 2}})};
+    Polynomial polynomial2{Monomial(9, {{"x", 4}}), Monomial(16, {{"y", 2}})};
+    Polynomial polynomial3{Monomial(-9, {{"x", 4}}), Monomial(16, {{"y", 2}})};
     Polynomial polynomial4{Monomial(9, {{"x", 4}}), Monomial(-16, {{"y", 2}})};
     Polynomial polynomial5{Monomial(-9, {{"x", 4}}), Monomial(-16, {{"y", 2}})};
-    Polynomial polynomial6{Monomial(10, {{"x", 4}}), Monomial(-16, {{"y", 2}})};    Polynomial polynomial7{Monomial(9, {{"x", 4}}), Monomial(-15, {{"y", 2}})};
+    Polynomial polynomial6{Monomial(10, {{"x", 4}}), Monomial(-16, {{"y", 2}})};
+    Polynomial polynomial7{Monomial(9, {{"x", 4}}), Monomial(-15, {{"y", 2}})};
     Polynomial polynomial8{Monomial(9, {{"x", 5}}), Monomial(-16, {{"y", 2}})};
     Polynomial polynomial9{Monomial(9, {{"x", 4}}), Monomial(-16, {{"y", 3}})};
 
@@ -241,10 +294,12 @@ TEST(FactorizationUsingPatternsTest, IsDifferenceOfSquaresWorks)
 TEST(FactorizationUsingPatternsTest, IsDifferenceOfCubesWorks)
 {
     Polynomial polynomial1;
-    Polynomial polynomial2{Monomial(27, {{"x", 6}}), Monomial(64, {{"y", 3}})};    Polynomial polynomial3{Monomial(-27, {{"x", 6}}), Monomial(64, {{"y", 3}})};
+    Polynomial polynomial2{Monomial(27, {{"x", 6}}), Monomial(64, {{"y", 3}})};
+    Polynomial polynomial3{Monomial(-27, {{"x", 6}}), Monomial(64, {{"y", 3}})};
     Polynomial polynomial4{Monomial(27, {{"x", 6}}), Monomial(-64, {{"y", 3}})};
     Polynomial polynomial5{Monomial(-27, {{"x", 6}}), Monomial(-64, {{"y", 3}})};
-    Polynomial polynomial6{Monomial(28, {{"x", 6}}), Monomial(-64, {{"y", 3}})};    Polynomial polynomial7{Monomial(27, {{"x", 6}}), Monomial(-63, {{"y", 3}})};
+    Polynomial polynomial6{Monomial(28, {{"x", 6}}), Monomial(-64, {{"y", 3}})};
+    Polynomial polynomial7{Monomial(27, {{"x", 6}}), Monomial(-63, {{"y", 3}})};
     Polynomial polynomial8{Monomial(27, {{"x", 7}}), Monomial(-64, {{"y", 3}})};
     Polynomial polynomial9{Monomial(27, {{"x", 6}}), Monomial(-64, {{"y", 4}})};
 
@@ -262,10 +317,12 @@ TEST(FactorizationUsingPatternsTest, IsDifferenceOfCubesWorks)
 TEST(FactorizationUsingPatternsTest, IsSumOfCubesWorks)
 {
     Polynomial polynomial1;
-    Polynomial polynomial2{Monomial(27, {{"x", 6}}), Monomial(64, {{"y", 3}})};    Polynomial polynomial3{Monomial(-27, {{"x", 6}}), Monomial(64, {{"y", 3}})};
+    Polynomial polynomial2{Monomial(27, {{"x", 6}}), Monomial(64, {{"y", 3}})};
+    Polynomial polynomial3{Monomial(-27, {{"x", 6}}), Monomial(64, {{"y", 3}})};
     Polynomial polynomial4{Monomial(27, {{"x", 6}}), Monomial(-64, {{"y", 3}})};
     Polynomial polynomial5{Monomial(-27, {{"x", 6}}), Monomial(-64, {{"y", 3}})};
-    Polynomial polynomial6{Monomial(28, {{"x", 6}}), Monomial(64, {{"y", 3}})};    Polynomial polynomial7{Monomial(27, {{"x", 6}}), Monomial(63, {{"y", 3}})};
+    Polynomial polynomial6{Monomial(28, {{"x", 6}}), Monomial(64, {{"y", 3}})};
+    Polynomial polynomial7{Monomial(27, {{"x", 6}}), Monomial(63, {{"y", 3}})};
     Polynomial polynomial8{Monomial(27, {{"x", 7}}), Monomial(64, {{"y", 3}})};
     Polynomial polynomial9{Monomial(27, {{"x", 6}}), Monomial(64, {{"y", 4}})};
 

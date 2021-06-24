@@ -2,6 +2,7 @@
 
 #include <gtest/gtest.h>
 
+using namespace alba::stringHelper;
 using namespace std;
 using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
@@ -689,6 +690,10 @@ TEST(UtilitiesTest, GetGcfMonomialInMonomialsWorks)
     Monomial monomialToVerify6(getGcfMonomialInMonomials({Monomial(6, {}), Monomial(9, {})}));
     Monomial monomialToVerify7(getGcfMonomialInMonomials({Monomial(-6, {}), Monomial(9, {})}));
     Monomial monomialToVerify8(getGcfMonomialInMonomials({Monomial(6, {}), Monomial(-9, {})}));
+    Monomial monomialToVerify9(getGcfMonomialInMonomials({Monomial(1, {}), Monomial(1, {})}));
+    Monomial monomialToVerify10(getGcfMonomialInMonomials({Monomial(1, {}), Monomial(-1, {})}));
+    Monomial monomialToVerify11(getGcfMonomialInMonomials({Monomial(-1, {}), Monomial(1, {})}));
+    Monomial monomialToVerify12(getGcfMonomialInMonomials({Monomial(-1, {}), Monomial(-11, {})}));
 
     Monomial monomialToExpect1(2, {{"x", 3}});
     Monomial monomialToExpect2(4, {});
@@ -698,6 +703,10 @@ TEST(UtilitiesTest, GetGcfMonomialInMonomialsWorks)
     Monomial monomialToExpect6(3, {});
     Monomial monomialToExpect7(-3, {});
     Monomial monomialToExpect8(3, {});
+    Monomial monomialToExpect9(1, {});
+    Monomial monomialToExpect10(1, {});
+    Monomial monomialToExpect11(1, {});
+    Monomial monomialToExpect12(1, {});
     EXPECT_EQ(monomialToExpect1, monomialToVerify1);
     EXPECT_EQ(monomialToExpect2, monomialToVerify2);
     EXPECT_EQ(monomialToExpect3, monomialToVerify3);
@@ -706,6 +715,10 @@ TEST(UtilitiesTest, GetGcfMonomialInMonomialsWorks)
     EXPECT_EQ(monomialToExpect6, monomialToVerify6);
     EXPECT_EQ(monomialToExpect7, monomialToVerify7);
     EXPECT_EQ(monomialToExpect8, monomialToVerify8);
+    EXPECT_EQ(monomialToExpect9, monomialToVerify9);
+    EXPECT_EQ(monomialToExpect10, monomialToVerify10);
+    EXPECT_EQ(monomialToExpect11, monomialToVerify11);
+    EXPECT_EQ(monomialToExpect12, monomialToVerify12);
 }
 
 TEST(UtilitiesTest, GetLcmMonomialInMonomialsWorks)
@@ -729,6 +742,52 @@ TEST(UtilitiesTest, GetLcmMonomialInMonomialsWorks)
     EXPECT_EQ(monomialToExpect4, monomialToVerify4);
     EXPECT_EQ(monomialToExpect5, monomialToVerify5);
     EXPECT_EQ(monomialToExpect6, monomialToVerify6);
+}
+
+TEST(UtilitiesTest, CollectVariableNamesWorks)
+{
+    Monomial monomial(85, {{"a", -5}, {"b", 10}, {"x", 3}, {"y", 4}});
+    strings stringsToVerify;
+
+    collectVariableNames(stringsToVerify, monomial);
+
+    ASSERT_EQ(4u, stringsToVerify.size());
+    EXPECT_EQ("a", stringsToVerify.at(0));
+    EXPECT_EQ("b", stringsToVerify.at(1));
+    EXPECT_EQ("x", stringsToVerify.at(2));
+    EXPECT_EQ("y", stringsToVerify.at(3));
+}
+
+TEST(UtilitiesTest, CompareMonomialsAndSaveMinimumExponentsForEachVariableWorks)
+{
+    Monomial monomial1(85, {{"a", -5}, {"b", 10}, {"x", 3}, {"y", 4}});
+    Monomial monomial2(356, {{"a", 10}, {"b", -5}, {"x", 5}, {"y", 2}});
+
+    Monomial monomialToVerify(compareMonomialsAndSaveMinimumExponentsForEachVariable(monomial1, monomial2));
+
+    EXPECT_DOUBLE_EQ(1, monomialToVerify.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMapToVerify(monomialToVerify.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(4u, variableMapToVerify.size());
+    EXPECT_DOUBLE_EQ(-5, variableMapToVerify.at("a").getDouble());
+    EXPECT_DOUBLE_EQ(-5, variableMapToVerify.at("b").getDouble());
+    EXPECT_DOUBLE_EQ(3, variableMapToVerify.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(2, variableMapToVerify.at("y").getDouble());
+}
+
+TEST(UtilitiesTest, CompareMonomialsAndSaveMaximumExponentsForEachVariableWorks)
+{
+    Monomial monomial1(85, {{"a", -5}, {"b", 10}, {"x", 3}, {"y", 4}});
+    Monomial monomial2(356, {{"a", 10}, {"b", -5}, {"x", 5}, {"y", 2}});
+
+    Monomial monomialToVerify(compareMonomialsAndSaveMaximumExponentsForEachVariable(monomial1, monomial2));
+
+    EXPECT_DOUBLE_EQ(1, monomialToVerify.getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMapToVerify(monomialToVerify.getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(4u, variableMapToVerify.size());
+    EXPECT_DOUBLE_EQ(10, variableMapToVerify.at("a").getDouble());
+    EXPECT_DOUBLE_EQ(10, variableMapToVerify.at("b").getDouble());
+    EXPECT_DOUBLE_EQ(5, variableMapToVerify.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(4, variableMapToVerify.at("y").getDouble());
 }
 
 TEST(UtilitiesTest, GetMonomialWithMinimumExponentsInMonomialsWorks)

@@ -178,6 +178,17 @@ TEST(MonomialTest, IsVariableOnlyFunctionWorks)
     EXPECT_TRUE(monomial7.isVariableOnly());
 }
 
+TEST(MonomialTest, HasASingleVariableWorks)
+{
+    Monomial monomial1;
+    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
+    Monomial monomial3(-54, {{"x", 6}});
+
+    EXPECT_FALSE(monomial1.hasASingleVariable());
+    EXPECT_FALSE(monomial2.hasASingleVariable());
+    EXPECT_TRUE(monomial3.hasASingleVariable());
+}
+
 TEST(MonomialTest, HasNegativeExponentsWorks)
 {
     Monomial monomial1;
@@ -474,34 +485,6 @@ TEST(MonomialTest, PuttingVariableWithExponentWorks)
     Monomial::VariablesToExponentsMap const& variableMapToVerify(monomial.getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1u, variableMapToVerify.size());
     EXPECT_DOUBLE_EQ(67, variableMapToVerify.at("a").getDouble());
-}
-
-TEST(MonomialTest, SaveMinimumExponentsForEachVariableWorks)
-{
-    Monomial monomial(85, {{"x", 3}, {"y", 4}});
-    Monomial monomialToApply(356, {{"x", 5}, {"y", 2}});
-
-    monomial.compareMonomialsAndSaveMinimumExponentsForEachVariable(monomialToApply);
-
-    EXPECT_DOUBLE_EQ(1, monomial.getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMapToVerify(monomial.getVariablesToExponentsMapConstReference());
-    ASSERT_EQ(2u, variableMapToVerify.size());
-    EXPECT_DOUBLE_EQ(3, variableMapToVerify.at("x").getDouble());
-    EXPECT_DOUBLE_EQ(2, variableMapToVerify.at("y").getDouble());
-}
-
-TEST(MonomialTest, SaveMaximumExponentsForEachVariableWorks)
-{
-    Monomial monomial(85, {{"x", 3}, {"y", 4}});
-    Monomial monomialToApply(356, {{"x", 5}, {"y", 2}});
-
-    monomial.compareMonomialsAndSaveMaximumExponentsForEachVariable(monomialToApply);
-
-    EXPECT_DOUBLE_EQ(1, monomial.getConstantConstReference().getDouble());
-    Monomial::VariablesToExponentsMap const& variableMapToVerify(monomial.getVariablesToExponentsMapConstReference());
-    ASSERT_EQ(2u, variableMapToVerify.size());
-    EXPECT_DOUBLE_EQ(5, variableMapToVerify.at("x").getDouble());
-    EXPECT_DOUBLE_EQ(4, variableMapToVerify.at("y").getDouble());
 }
 
 }

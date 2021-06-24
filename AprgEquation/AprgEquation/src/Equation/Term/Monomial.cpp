@@ -115,6 +115,11 @@ bool Monomial::isVariableOnly() const
             (m_variablesToExponentsMap.cbegin())->second == 1;
 }
 
+bool Monomial::hasASingleVariable() const
+{
+    return m_variablesToExponentsMap.size() == 1;
+}
+
 bool Monomial::hasNegativeExponents() const
 {
     bool result(false);
@@ -274,41 +279,6 @@ void Monomial::putVariablesWithExponents(VariablesToExponentsMap const& variable
 void Monomial::putVariableWithExponent(string const& variable, AlbaNumber const& exponent)
 {
     m_variablesToExponentsMap[variable]=exponent;
-}
-
-void Monomial::compareMonomialsAndSaveMinimumExponentsForEachVariable(Monomial const& otherMonomial)
-{
-    m_constant=1;
-    for(VariablesToExponentsMapIterator it = m_variablesToExponentsMap.begin();
-        it != m_variablesToExponentsMap.end();
-        it++)
-    {
-        it->second = min(otherMonomial.getExponentForVariable(it->first), it->second);
-    }
-}
-
-void Monomial::compareMonomialsAndSaveMaximumExponentsForEachVariable(Monomial const& otherMonomial)
-{
-    m_constant=1;
-    for(VariablesToExponentsMapIterator it = m_variablesToExponentsMap.begin();
-        it != m_variablesToExponentsMap.end();
-        it++)
-    {
-        it->second = max(otherMonomial.getExponentForVariable(it->first), it->second);
-    }
-    for(VariableExponentPair const& otherVariableExponentPair : otherMonomial.getVariablesToExponentsMapConstReference())
-    {
-        string const& otherVariableName(otherVariableExponentPair.first);
-        AlbaNumber const& otherExponent(otherVariableExponentPair.second);
-        if(m_variablesToExponentsMap.find(otherVariableName) != m_variablesToExponentsMap.end())
-        {
-            m_variablesToExponentsMap[otherVariableName] = max(m_variablesToExponentsMap[otherVariableName], otherExponent);
-        }
-        else
-        {
-            m_variablesToExponentsMap[otherVariableName] = otherExponent;
-        }
-    }
 }
 
 bool Monomial::isLessThanByComparingVariableNameMaps(

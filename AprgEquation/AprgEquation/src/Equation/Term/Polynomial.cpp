@@ -136,6 +136,25 @@ Monomials const& Polynomial::getMonomialsConstReference() const
     return m_monomials;
 }
 
+AlbaNumber Polynomial::getMaxDegree() const
+{
+    bool isFirst(true);
+    AlbaNumber maxDegree;
+    for(Monomial const& monomial : m_monomials)
+    {
+        if(isFirst)
+        {
+            maxDegree = monomial.getDegree();
+            isFirst=false;
+        }
+        else
+        {
+            maxDegree = max(maxDegree, monomial.getDegree());
+        }
+    }
+    return maxDegree;
+}
+
 string Polynomial::getDisplayableString() const
 {
     stringstream result;
