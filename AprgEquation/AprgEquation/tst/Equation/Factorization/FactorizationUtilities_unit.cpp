@@ -189,16 +189,47 @@ TEST(FactorizationUtilitiesTest, AreExponentsDivisibleWorks)
     EXPECT_FALSE(areExponentsDivisible(monomial4, 4));
 }
 
-TEST(FactorizationUtilitiesTest, SimplifyPolynomialThenEmplaceBackWorks)
+TEST(FactorizationUtilitiesTest, SimplifyPolynomialThenEmplaceBackIfNotEmptyWorksIfNotEmpty)
 {
-    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(2, {{"x", 1}})};
+    Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(2, {{"x", 1}})};
 
     Polynomials polynomialsToVerify;
-    simplifyPolynomialThenEmplaceBack(polynomialsToVerify, polynomial1);
+    simplifyPolynomialThenEmplaceBackIfNotEmpty(polynomialsToVerify, polynomialToTest);
 
     ASSERT_EQ(1u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect{Monomial(3, {{"x", 1}})};
+    Polynomial polynomialToExpect{Monomial(3, {{"x", 1}})};    EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
+}
+
+TEST(FactorizationUtilitiesTest, SimplifyPolynomialThenEmplaceBackIfNotEmptyWorksIfEmpty)
+{
+    Polynomial polynomialToTest;
+
+    Polynomials polynomialsToVerify;
+    simplifyPolynomialThenEmplaceBackIfNotEmpty(polynomialsToVerify, polynomialToTest);
+
+    EXPECT_TRUE(polynomialsToVerify.empty());
+}
+
+TEST(FactorizationUtilitiesTest, EmplaceBackIfNotEmptyWorksIfNotEmpty)
+{
+    Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(2, {{"x", 1}})};
+
+    Polynomials polynomialsToVerify;
+    emplaceBackIfNotEmpty(polynomialsToVerify, polynomialToTest);
+
+    ASSERT_EQ(1u, polynomialsToVerify.size());
+    Polynomial polynomialToExpect{Monomial(1, {{"x", 1}}), Monomial(2, {{"x", 1}})};
     EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
+}
+
+TEST(FactorizationUtilitiesTest, EmplaceBackIfNotEmptyWorksIfEmpty)
+{
+    Polynomial polynomialToTest;
+
+    Polynomials polynomialsToVerify;
+    emplaceBackIfNotEmpty(polynomialsToVerify, polynomialToTest);
+
+    EXPECT_TRUE(polynomialsToVerify.empty());
 }
 
 }

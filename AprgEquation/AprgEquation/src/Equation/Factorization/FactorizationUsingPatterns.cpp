@@ -78,72 +78,64 @@ void addFactorsOfDifferenceOfSquares(Polynomials & result, Polynomial const& pol
     else if(firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() > 0)
     {
         firstMonomial.multiplyNumber(-1);
-        simplifyPolynomialThenEmplaceBack(result, createPolynomialFromConstant(Constant(-1)));
+        simplifyPolynomialThenEmplaceBackIfNotEmpty(result, createPolynomialFromConstant(Constant(-1)));
     }
     firstMonomial.raiseToPowerNumber(AlbaNumber(1, 2));
     secondMonomial.raiseToPowerNumber(AlbaNumber(1, 2));
-    simplifyPolynomialThenEmplaceBack(result, Polynomial{firstMonomial, secondMonomial});
+    simplifyPolynomialThenEmplaceBackIfNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
     secondMonomial.multiplyNumber(-1);
-    simplifyPolynomialThenEmplaceBack(result, Polynomial{firstMonomial, secondMonomial});
+    simplifyPolynomialThenEmplaceBackIfNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
 }
 
-void addFactorsOfDifferenceOfCubes(Polynomials & result, Polynomial const& polynomial)
-{
+void addFactorsOfDifferenceOfCubes(Polynomials & result, Polynomial const& polynomial){
     Monomials monomials(polynomial.getMonomialsConstReference());
     Monomial firstMonomial(monomials.at(0));
-    Monomial secondMonomial(monomials.at(1));
-    if(firstMonomial.getConstantConstReference() > 0 && secondMonomial.getConstantConstReference() < 0)
+    Monomial secondMonomial(monomials.at(1));    if(firstMonomial.getConstantConstReference() > 0 && secondMonomial.getConstantConstReference() < 0)
     {
         secondMonomial.multiplyNumber(-1);
     }
     else if(firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() > 0)
     {
         firstMonomial.multiplyNumber(-1);
-        simplifyPolynomialThenEmplaceBack(result, createPolynomialFromConstant(Constant(-1)));
+        simplifyPolynomialThenEmplaceBackIfNotEmpty(result, createPolynomialFromConstant(Constant(-1)));
     }
     firstMonomial.raiseToPowerNumber(AlbaNumber(1, 3));
-    secondMonomial.raiseToPowerNumber(AlbaNumber(1, 3));
-    Monomial firstMonomialSquared(firstMonomial);
+    secondMonomial.raiseToPowerNumber(AlbaNumber(1, 3));    Monomial firstMonomialSquared(firstMonomial);
     Monomial secondMonomialSquared(secondMonomial);
     Monomial productOfFirstAndSecond(firstMonomial);
     firstMonomialSquared.raiseToPowerNumber(2);
     secondMonomialSquared.raiseToPowerNumber(2);
     productOfFirstAndSecond.multiplyMonomial(secondMonomial);
     secondMonomial.multiplyNumber(-1);
-    simplifyPolynomialThenEmplaceBack(result, Polynomial{firstMonomial, secondMonomial});
-    simplifyPolynomialThenEmplaceBack(result, Polynomial{firstMonomialSquared, productOfFirstAndSecond, secondMonomialSquared});
+    simplifyPolynomialThenEmplaceBackIfNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
+    simplifyPolynomialThenEmplaceBackIfNotEmpty(result, Polynomial{firstMonomialSquared, productOfFirstAndSecond, secondMonomialSquared});
 }
 
-void addFactorsOfSumOfCubes(Polynomials & result, Polynomial const& polynomial)
-{
+void addFactorsOfSumOfCubes(Polynomials & result, Polynomial const& polynomial){
     Monomials monomials(polynomial.getMonomialsConstReference());
     Monomial firstMonomial(monomials.at(0));
-    Monomial secondMonomial(monomials.at(1));
-    if(firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() < 0)
+    Monomial secondMonomial(monomials.at(1));    if(firstMonomial.getConstantConstReference() < 0 && secondMonomial.getConstantConstReference() < 0)
     {
         firstMonomial.multiplyNumber(-1);
         secondMonomial.multiplyNumber(-1);
-        simplifyPolynomialThenEmplaceBack(result, createPolynomialFromConstant(Constant(-1)));
+        simplifyPolynomialThenEmplaceBackIfNotEmpty(result, createPolynomialFromConstant(Constant(-1)));
     }
     firstMonomial.raiseToPowerNumber(AlbaNumber(1, 3));
-    secondMonomial.raiseToPowerNumber(AlbaNumber(1, 3));
-    Monomial firstMonomialSquared(firstMonomial);
+    secondMonomial.raiseToPowerNumber(AlbaNumber(1, 3));    Monomial firstMonomialSquared(firstMonomial);
     Monomial secondMonomialSquared(secondMonomial);
     Monomial productOfFirstAndSecond(firstMonomial);
     firstMonomialSquared.raiseToPowerNumber(2);
     secondMonomialSquared.raiseToPowerNumber(2);
     productOfFirstAndSecond.multiplyMonomial(secondMonomial);
     productOfFirstAndSecond.multiplyNumber(-1);
-    simplifyPolynomialThenEmplaceBack(result, Polynomial{firstMonomial, secondMonomial});
-    simplifyPolynomialThenEmplaceBack(result, Polynomial{firstMonomialSquared, productOfFirstAndSecond, secondMonomialSquared});
+    simplifyPolynomialThenEmplaceBackIfNotEmpty(result, Polynomial{firstMonomial, secondMonomial});
+    simplifyPolynomialThenEmplaceBackIfNotEmpty(result, Polynomial{firstMonomialSquared, productOfFirstAndSecond, secondMonomialSquared});
 }
 
-bool isDifferenceOfSquares(Polynomial const& polynomial)
-{
+bool isDifferenceOfSquares(Polynomial const& polynomial){
     bool result(false);
     Monomials monomials(polynomial.getMonomialsConstReference());
-    if(monomials.size() == 2)
-    {
+    if(monomials.size() == 2)    {
         Monomial firstMonomial(monomials.at(0));
         Monomial secondMonomial(monomials.at(1));
         if(firstMonomial.getConstantConstReference() > 0 && secondMonomial.getConstantConstReference() < 0)

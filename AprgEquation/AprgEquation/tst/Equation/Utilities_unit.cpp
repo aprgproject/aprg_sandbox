@@ -237,14 +237,19 @@ TEST(TermWithDetailsTest, GetStringForTermsWithDetailsWorks)
     EXPECT_EQ("[10][[NEG]], [20][[POS]]", getString(termsWithDetails));
 }
 
+TEST(TermWithDetailsTest, CreateVariableNameForSubstitutionWorks)
+{
+    Polynomial polynomial{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+
+    EXPECT_EQ("[(6 + -7|x^2||y^3||z^4|)]", createVariableNameForSubstitution(polynomial));
+}
+
 TEST(UtilitiesTest, CreateNewTermAndReturnSharedPointerWorks)
 {
     BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9652)));
-
     BaseTermSharedPointer sharedPointerToVerify(createNewTermAndReturnSharedPointer(sharedPointer));
 
-    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));
-    EXPECT_EQ(Term(9652), termToVerify);
+    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));    EXPECT_EQ(Term(9652), termToVerify);
     EXPECT_EQ(1, sharedPointerToVerify.use_count());
 }
 

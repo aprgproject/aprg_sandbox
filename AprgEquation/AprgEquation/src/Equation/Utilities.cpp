@@ -809,24 +809,12 @@ Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials)
     return monomialWithMaximumExponents;
 }
 
-Polynomial addAllPolynomials(Polynomials const& polynomials)
-{
-    Polynomial result;
-    for(Polynomial const& polynomial : polynomials)
-    {
-        result.addPolynomial(polynomial);
-    }
-    return result;
-}
-
 void segregateMonomialsAndNonMonomials(
         Terms const& termsToSegregate,
-        Terms & monomials,
-        Terms & nonMonomials)
+        Terms & monomials,        Terms & nonMonomials)
 {
     for(Term const& termToSegregate : termsToSegregate)
-    {
-        if(canBeConvertedToMonomial(termToSegregate))
+    {        if(canBeConvertedToMonomial(termToSegregate))
         {
             monomials.emplace_back(termToSegregate);
         }
