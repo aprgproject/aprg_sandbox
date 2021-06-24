@@ -89,10 +89,25 @@ bool TermsAggregator::combineOpeningClosingOperatorsAtStartEndIndexesAndReturnIf
                 && term2.isValueTerm()
                 && term3.isOperator() && term3.getOperatorConstReference().isClosingGroupOperator())
         {
-            Term newTerm(term2);
-            eraseTermsInclusive(m_startIndex, m_endIndex);
-            insertTerm(m_startIndex, newTerm);
-            isCombined=true;
+            Term termBeforeStart;
+            if(m_startIndex>=1)
+            {
+                termBeforeStart = m_terms.at(m_startIndex-1);
+            }
+            if(m_startIndex>=1 && termBeforeStart.isFunction())
+            {
+                Function newFunction(termBeforeStart.getFunctionConstReference());
+                newFunction.getInputExpressionReference() = createOrCopyExpressionFromATerm(term2);
+                Term newTerm(newFunction);
+                eraseAndThenInsert(m_startIndex-1, m_endIndex, newTerm);
+                isCombined=true;
+            }
+            else
+            {
+                Term newTerm(term2);
+                eraseAndThenInsert(m_startIndex, m_endIndex, newTerm);
+                isCombined=true;
+            }
         }
     }
     return isCombined;
@@ -220,8 +235,7 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
                 newExpression.putTermWithRaiseToPowerIfNeeded(getBaseTermConstReferenceFromTerm(term3));
             }
             Term newTerm(newExpression);
-            eraseTermsInclusive(index-1, index+1);
-            insertTerm(index-1, newTerm);
+            eraseAndThenInsert(index-1, index+1, newTerm);
             isBuilt=true;
         }
     }
@@ -250,8 +264,7 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
                 newExpression.putTermWithSubtractionIfNeeded(getBaseTermConstReferenceFromTerm(term2));
             }
             Term newTerm(newExpression);
-            eraseTermsInclusive(index, index+1);
-            insertTerm(index, newTerm);
+            eraseAndThenInsert(index, index+1, newTerm);
             isBuilt=true;
         }
     }
@@ -269,8 +282,7 @@ bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int 
         if(term1.isValueTerm() && term2.isOperator() && term3.isValueTerm())
         {
             Term newTerm = performOperation(term2.getOperatorConstReference(), term1, term3);
-            eraseTermsInclusive(index-1, index+1);
-            insertTerm(index-1, newTerm);
+            eraseAndThenInsert(index-1, index+1, newTerm);
             isSimplified=true;
         }
     }
@@ -289,8 +301,7 @@ bool TermsAggregator::simplifyUnaryOperationAndReturnIfSimplified(unsigned int c
                 OperatorLevel::AdditionAndSubtraction == term1.getOperatorConstReference().getOperatorLevel())
         {
             Term newTerm = performOperation(term1.getOperatorConstReference(), term2);
-            eraseTermsInclusive(index, index+1);
-            insertTerm(index, newTerm);
+            eraseAndThenInsert(index, index+1, newTerm);
             isSimplified=true;
         }
     }
@@ -309,6 +320,15 @@ bool TermsAggregator::hasNoValueBeforeThisIndex(unsigned int const index)
         result = !m_terms.at(index-1).isValueTerm();
     }
     return result;
+}
+
+void TermsAggregator::eraseAndThenInsert(
+        unsigned int const firstIndex,
+        unsigned int const secondIndex,
+        Term const newTerm)
+{
+    eraseTermsInclusive(firstIndex, secondIndex);
+    insertTerm(firstIndex, newTerm);
 }
 
 void TermsAggregator::eraseTermsInclusive(

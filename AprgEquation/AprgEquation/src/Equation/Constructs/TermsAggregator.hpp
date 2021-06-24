@@ -52,6 +52,10 @@ private:
     bool simplifyUnaryOperationAndReturnIfSimplified(unsigned int const index);
     bool hasNoValueBeforeThisIndex(unsigned int const index);
 
+    void eraseAndThenInsert(
+            unsigned int const firstIndex,
+            unsigned int const secondIndex,
+            Term const newTerm);
     void eraseTermsInclusive(
             unsigned int const firstIndex,
             unsigned int const secondIndex);

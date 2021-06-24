@@ -79,9 +79,11 @@ private:
             TermsWithAssociation::TermsWithDetails & factorizedTermsWithDetails,
             Polynomial const& polynomial,
             TermAssociationType const overallAssociation);
+
     //simplify functions
     void simplifyAndCopyTerms(
-            TermsWithAssociation::TermsWithDetails & termsToUpdate,            TermsWithAssociation::TermsWithDetails const& termsToCheck);
+            TermsWithAssociation::TermsWithDetails & termsToUpdate,
+            TermsWithAssociation::TermsWithDetails const& termsToCheck);
     void simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
             TermsWithAssociation::TermsWithDetails & termsToUpdate,
             Expression const& expression,

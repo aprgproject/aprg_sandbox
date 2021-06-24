@@ -1,4 +1,5 @@
 #include <Equation/Constructs/TermsAggregator.hpp>
+#include <Equation/Functions/CommonFunctionLibrary.hpp>
 #include <Equation/Utilities.hpp>
 
 #include <gtest/gtest.h>
@@ -163,6 +164,19 @@ TEST(TermsAggregatorTest, SimplifyWorksWithNegativeValues)
     Monomial monomialToExpect(1, {{"x", 2}, {"y", -3}, {"z", 4}});
     Monomial monomialToVerify(termsToVerify.at(0).getMonomialConstReference());
     EXPECT_EQ(monomialToExpect, monomialToVerify);
+}
+
+TEST(TermsAggregatorTest, SimplifyWorksWithFunction)
+{
+    TermsAggregator aggregator(tokenizeToTerms("abs(5)"));
+
+    aggregator.simplifyTerms();
+
+    Function functionToExpect(Functions::abs(createOrCopyExpressionFromATerm(Term(5))));
+    Terms termsToVerify(aggregator.getTermsConstReference());
+    ASSERT_EQ(1u, termsToVerify.size());
+    ASSERT_EQ(TermType::Function, termsToVerify.at(0).getTermType());
+    EXPECT_EQ(functionToExpect, termsToVerify.at(0).getFunctionConstReference());
 }
 
 

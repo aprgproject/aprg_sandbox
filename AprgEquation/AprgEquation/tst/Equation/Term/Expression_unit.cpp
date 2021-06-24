@@ -2,17 +2,17 @@
 #include <Equation/Term/Expression.hpp>
 #include <Equation/Term/Term.hpp>
 #include <Equation/Utilities.hpp>
+
 #include <gtest/gtest.h>
-
-
-#include <Debug/AlbaDebug.hpp>
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace equation
 {
+
 TEST(ExpressionTest, ConstructionWorks)
 {
     Expression expression1;
@@ -968,9 +968,11 @@ TEST(ExpressionTest, SetCommonOperatorLevelWorks)
 TEST(ExpressionTest, FactorizeWorksOnPolynomialOverPolynomial)
 {
     Polynomial polynomial1({Monomial(2, {{"x", 2}}), Monomial(5, {{"x", 1}}), Monomial(-12, {})});
-    Polynomial polynomial2({Monomial(4, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(-3, {})});    Expression expressionToTest(createExpressionIfPossible({Term(polynomial1), Term("/"), Term(polynomial2)}));
+    Polynomial polynomial2({Monomial(4, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(-3, {})});
+    Expression expressionToTest(createExpressionIfPossible({Term(polynomial1), Term("/"), Term(polynomial2)}));
 
     expressionToTest.factorize();
+
     Polynomial polynomialToExpect1({Monomial(2, {{"x", 1}}), Monomial(-3, {})});
     Polynomial polynomialToExpect2({Monomial(1, {{"x", 1}}), Monomial(4, {})});
     Polynomial polynomialToExpect3({Monomial(2, {{"x", 1}}), Monomial(1, {})});
@@ -998,8 +1000,6 @@ TEST(ExpressionTest, FactorizeWorksOnPolynomialPlusPolynomial)
     Expression expression1(createExpressionIfPossible({Term(polynomialToExpect1), Term("*"), Term(polynomialToExpect2)}));
     Expression expression2(createExpressionIfPossible({Term(polynomialToExpect1), Term("*"), Term(polynomialToExpect3)}));
     Expression expressionToExpect(createExpressionIfPossible({Term(expression1), Term("+"), Term(expression2)}));
-    ALBA_PRINT1(expressionToExpect.getDebugString());
-    ALBA_PRINT1(expressionToTest.getDebugString());
     EXPECT_EQ(expressionToExpect, expressionToTest);
 }
 
@@ -1017,15 +1017,16 @@ TEST(ExpressionTest, FactorizeWorksOnInputExpressionOnFunction)
                 Functions::abs(
                     createExpressionIfPossible({Term(polynomialToExpect1), Term("*"), Term(polynomialToExpect2)})));
     Expression expressionToExpect(createOrCopyExpressionFromATerm(absoluteValueFunctionToExpect));
-
     EXPECT_EQ(expressionToExpect, expressionToTest);
 }
 
 TEST(ExpressionTest, SimplifyWorksOnExpressionInExpressionForAMultipleTermExpression)
 {
-    Term expressionTerm(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));    Term expressionInExpressionTerm(createExpressionInAnExpression(expressionTerm));
+    Term expressionTerm(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+    Term expressionInExpressionTerm(createExpressionInAnExpression(expressionTerm));
     Term expressionInExpressionInExpressionTerm(createExpressionInAnExpression(expressionInExpressionTerm));
     Expression expression(createExpressionIfPossible({expressionInExpressionInExpressionTerm}));
+
     expression.simplify();
 
     EXPECT_EQ(expressionTerm, expression);
@@ -1532,6 +1533,17 @@ TEST(ExpressionTest, SimplifyWorksMultiplyingPolynomialOverPolynomials)
     EXPECT_EQ(expressionToExpect, expression);
 }
 
+TEST(ExpressionTest, SimplifyWorksInsideAFunction)
+{
+    Function absoluteValueFunction(Functions::abs(createOrCopyExpressionFromATerm(Term(-100))));
+    Expression expressionToTest(createOrCopyExpressionFromATerm(absoluteValueFunction));
+
+    expressionToTest.simplify();
+
+    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(100)));
+    EXPECT_EQ(expressionToExpect, expressionToTest);
+}
+
 TEST(ExpressionTest, SimplifyToACommonDenominatorWorks)
 {
     Expression expression(createExpressionIfPossible(tokenizeToTerms("((4)/(x+2))+((x+3)/(x*x-4))+((2*x+1)/(x-2))")));
@@ -1589,6 +1601,22 @@ TEST(ExpressionTest, SimplifyToACommonDenominatorWorksOnExponentWithFractionExpr
     Expression subExpression(createExpressionIfPossible({Term(Monomial(2, {{"x", 1}})), Term("/"), Term(polynomialToExpect)}));
     Expression expressionToExpect(createExpressionIfPossible({Term(2), Term("^"), Term(subExpression)}));
     EXPECT_EQ(expressionToExpect, expression);
+}
+
+TEST(ExpressionTest, SimplifyToACommonDenominatorWorksInsideAFunction)
+{
+    Expression expressionToTest(createExpressionIfPossible(tokenizeToTerms("x^2*y^-abs(-3)*z^4")));
+
+    expressionToTest.simplifyToACommonDenominator();
+
+    Expression expressionToExpect(
+                createExpressionIfPossible(
+                    {
+                        Term(Monomial(1, {{"x", 2}, {"z", 4}})),
+                        Term("/"),
+                        Term(Monomial(1, {{"y", 3}})),
+                    }));
+    EXPECT_EQ(expressionToExpect, expressionToTest);
 }
 
 TEST(ExpressionTest, SortWorks)

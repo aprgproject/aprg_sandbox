@@ -13,15 +13,14 @@
 #include <algorithm>
 #include <sstream>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace alba::equation::Factorization;
 using namespace std;
-using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
+using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
+using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
+
 namespace equation
 {
 
@@ -373,7 +372,6 @@ void Expression::factorize(Expression & expression)
     for(TermsWithDetails::iterator it=termsWithDetails.begin(); it!=termsWithDetails.end(); it++)
     {
         Term & term(getTermReferenceFromSharedPointer(it->baseTermSharedPointer));
-        ALBA_PRINT1(term.getDebugString());
         if(term.isExpression())
         {
             Expression & subExpression(term.getExpressionReference());
@@ -430,10 +428,12 @@ void Expression::factorizePolynomialAndUpdate(
 void Expression::factorizePolynomialAndEmplaceInTermsWithDetails(
         TermsWithDetails & factorizedTermsWithDetails,
         Polynomial const& polynomial,
-        TermAssociationType const overallAssociation){
+        TermAssociationType const overallAssociation)
+{
     Polynomials factorizedPolynomials(Factorization::factorize(polynomial));
     for(Polynomial const& factorizedPolynomial : factorizedPolynomials)
-    {        factorizedTermsWithDetails.emplace_back(getBaseTermConstReferenceFromTerm(Term(factorizedPolynomial)), overallAssociation);
+    {
+        factorizedTermsWithDetails.emplace_back(getBaseTermConstReferenceFromTerm(Term(factorizedPolynomial)), overallAssociation);
     }
 }
 
@@ -450,6 +450,11 @@ void Expression::simplifyAndCopyTerms(
             Expression expression(term.getExpressionConstReference());
             expression.simplify();
             simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(termsToUpdate, expression, termWithDetails.association);
+        }
+        else if(term.isFunction())
+        {
+            Term newTerm(simplifyAndConvertFunctionToSimplestTerm(term.getFunctionConstReference()));
+            termsToUpdate.emplace_back(getBaseTermConstReferenceFromTerm(newTerm), termWithDetails.association);
         }
         else if(term.isValueTermAndNotAnExpression())
         {
