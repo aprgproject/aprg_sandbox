@@ -31,17 +31,13 @@ Polynomials factorize(Polynomial const& polynomial)
     if(!polynomialToFactorize.isOneMonomial())
     {
         result = factorizeCommonMonomial(polynomialToFactorize);
-        if(result.size() == 1){result = factorizeDifferenceOfSquares(polynomialToFactorize); }
-        if(result.size() == 1){result = factorizeDifferenceOfCubes(polynomialToFactorize); }
-        if(result.size() == 1){result = factorizeSumOfCubes(polynomialToFactorize); }
+        if(result.size() == 1){result = factorizeUsingPatterns(polynomialToFactorize); }
         if(result.size() == 1){result = factorizeIncreasingAndDecreasingExponentsForm(polynomialToFactorize); }
         if(result.size() == 1){result = factorizeBySplittingToSmallerPolynomials(polynomialToFactorize); }
-        if(result.size() != 1)
-        {
+        if(result.size() != 1)        {
             result = factorizePolynomials(result);
         }
-    }
-    return result;
+    }    return result;
 }
 
 }

@@ -14,35 +14,34 @@ namespace equation
 namespace Factorization
 {
 
-Polynomials factorizeDifferenceOfSquares(Polynomial const& polynomial)
+Polynomials factorizeUsingPatterns(Polynomial const& polynomial)
 {
     return returnPolynomialsOrSinglePolynomialIfEmpty(
-                factorizeDifferenceOfSquaresIfPossible(polynomial),
+                factorizeUsingPatternsIfPossible(polynomial),
                 polynomial);
 }
 
-Polynomials factorizeDifferenceOfCubes(Polynomial const& polynomial)
+Polynomials factorizeUsingPatternsIfPossible(Polynomial const& polynomial)
 {
-    return returnPolynomialsOrSinglePolynomialIfEmpty(
-                factorizeDifferenceOfCubesIfPossible(polynomial),
-                polynomial);
-}
-
-Polynomials factorizeSumOfCubes(Polynomial const& polynomial)
-{
-    return returnPolynomialsOrSinglePolynomialIfEmpty(
-                factorizeSumOfCubesIfPossible(polynomial),
-                polynomial);
+    Polynomials result;
+    result = factorizeDifferenceOfSquaresIfPossible(polynomial);
+    if(result.empty())
+    {
+        result = factorizeDifferenceOfCubesIfPossible(polynomial);
+        if(result.empty())
+        {
+            result = factorizeSumOfCubesIfPossible(polynomial);
+        }
+    }
+    return result;
 }
 
 Polynomials factorizeDifferenceOfSquaresIfPossible(Polynomial const& polynomial)
 {
-    Polynomials result;
-    if(isDifferenceOfSquares(polynomial))
+    Polynomials result;    if(isDifferenceOfSquares(polynomial))
     {
         addFactorsOfDifferenceOfSquares(result, polynomial);
-    }
-    return result;
+    }    return result;
 }
 
 Polynomials factorizeDifferenceOfCubesIfPossible(Polynomial const& polynomial)
