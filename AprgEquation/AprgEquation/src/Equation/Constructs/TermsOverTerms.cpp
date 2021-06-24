@@ -62,9 +62,11 @@ TermsWithDetails TermsOverTerms::getNumeratorAndDenominatorAsTermWithDetails() c
     }
     return result;
 }
+
 std::string TermsOverTerms::getDisplayableString() const
 {
-    stringstream result;    result << "Numerators:" << endl;
+    stringstream result;
+    result << "Numerators:" << endl;
     for(Term const& numerator : m_numerators)
     {
         result << "[" << numerator.getDisplayableString() << "]" << endl;

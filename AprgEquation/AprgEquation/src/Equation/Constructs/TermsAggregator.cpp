@@ -235,10 +235,12 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
                 newExpression.putTermWithRaiseToPowerIfNeeded(term3);
             }
             Term newTerm(newExpression);
-            eraseAndThenInsert(index-1, index+1, newTerm);            isBuilt=true;
+            eraseAndThenInsert(index-1, index+1, newTerm);
+            isBuilt=true;
         }
     }
-    return isBuilt;}
+    return isBuilt;
+}
 
 bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned int const index)
 {
@@ -262,10 +264,12 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
                 newExpression.putTermWithSubtractionIfNeeded(term2);
             }
             Term newTerm(newExpression);
-            eraseAndThenInsert(index, index+1, newTerm);            isBuilt=true;
+            eraseAndThenInsert(index, index+1, newTerm);
+            isBuilt=true;
         }
     }
-    return isBuilt;}
+    return isBuilt;
+}
 
 bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int const index)
 {

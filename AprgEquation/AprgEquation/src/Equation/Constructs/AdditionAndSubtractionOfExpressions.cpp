@@ -44,9 +44,11 @@ TermsWithDetails AdditionAndSubtractionOfExpressions::getAsTermsWithDetails() co
     }
     return result;
 }
+
 void AdditionAndSubtractionOfExpressions::putAsAddition(Expression const& expression)
 {
-    putItem(expression, TermAssociationType::Positive);}
+    putItem(expression, TermAssociationType::Positive);
+}
 
 void AdditionAndSubtractionOfExpressions::putAsSubtraction(Expression const& expression)
 {
@@ -109,9 +111,11 @@ bool AdditionAndSubtractionOfExpressions::mergeForAdditionAndSubtractionAndRetur
         accumulateTermsForAdditionAndSubtraction(resultMergeTerm, termsToMerge);
         expression1 = createOrCopyExpressionFromATerm(resultMergeTerm*Term(uniqueExpression1));
         expression2.clear();
+
         isMerged = true;
     }
-    return isMerged;}
+    return isMerged;
+}
 
 void AdditionAndSubtractionOfExpressions::retrieveUniqueExpressionsAndMergeTerms(
         Expression & uniqueExpression1,

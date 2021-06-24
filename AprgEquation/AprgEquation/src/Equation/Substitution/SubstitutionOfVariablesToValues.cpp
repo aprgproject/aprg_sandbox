@@ -74,10 +74,12 @@ Term SubstitutionOfVariablesToValues::performSubstitutionTo(Function const& func
 
 Term SubstitutionOfVariablesToValues::performSubstitutionTo(Term const& term) const
 {
-    Term newTerm;    if(term.isVariable())
+    Term newTerm(term);
+    if(term.isVariable())
     {
         newTerm = performSubstitutionTo(term.getVariableConstReference());
-    }    else if(term.isMonomial())
+    }
+    else if(term.isMonomial())
     {
         newTerm = performSubstitutionTo(term.getMonomialConstReference());
     }
@@ -88,6 +90,10 @@ Term SubstitutionOfVariablesToValues::performSubstitutionTo(Term const& term) co
     else if(term.isExpression())
     {
         newTerm = performSubstitutionTo(term.getExpressionConstReference());
+    }
+    else if(term.isFunction())
+    {
+        newTerm = performSubstitutionTo(term.getFunctionConstReference());
     }
     return newTerm;
 }
@@ -139,10 +145,12 @@ Function SubstitutionOfVariablesToValues::performSubstitutionForFunction(Functio
 
 void SubstitutionOfVariablesToValues::performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const
 {
-    for(TermWithDetails & termWithDetails : termsWithAssociation.getTermsWithDetailsReference())    {
+    for(TermWithDetails & termWithDetails : termsWithAssociation.getTermsWithDetailsReference())
+    {
         Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         term = performSubstitutionTo(term);
-    }}
+    }
+}
 
 void SubstitutionOfVariablesToValues::putVariablesWithValues(initializer_list<VariableValuePair> const& variablesWithValues)
 {
@@ -166,4 +174,5 @@ void SubstitutionOfVariablesToValues::putVariableWithValue(string const& variabl
 }
 
 }
+
 }

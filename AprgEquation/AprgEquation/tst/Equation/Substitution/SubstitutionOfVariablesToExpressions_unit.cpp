@@ -137,12 +137,14 @@ TEST(SubstitutionOfVariablesToExpressionsTest, PerformSubstitutionToWorksOnTerm)
     Term term3(Monomial(7, {{"x", 3}}));
     Term term4(Polynomial{Monomial(1, {{"y", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 3}})});
     Term term5(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
+    Term term6(10);
 
     Term verifyTerm1(substitution.performSubstitutionTo(term1));
     Term verifyTerm2(substitution.performSubstitutionTo(term2));
     Term verifyTerm3(substitution.performSubstitutionTo(term3));
     Term verifyTerm4(substitution.performSubstitutionTo(term4));
     Term verifyTerm5(substitution.performSubstitutionTo(term5));
+    Term verifyTerm6(substitution.performSubstitutionTo(term6));
 
     Term expectTerm1;
     Term expectTerm2("y");
@@ -150,11 +152,13 @@ TEST(SubstitutionOfVariablesToExpressionsTest, PerformSubstitutionToWorksOnTerm)
     Term expectTerm4(Monomial(8, {{"y", 3}}));
     Expression expressionToExpect(createExpressionIfPossible({Term("y"), Term("^"), Term("y")}));
     Term expectTerm5(expressionToExpect);
+    Term expectTerm6(10);
     EXPECT_EQ(expectTerm1, verifyTerm1);
     EXPECT_EQ(expectTerm2, verifyTerm2);
     EXPECT_EQ(expectTerm3, verifyTerm3);
     EXPECT_EQ(expectTerm4, verifyTerm4);
     EXPECT_EQ(expectTerm5, verifyTerm5);
+    EXPECT_EQ(expectTerm6, verifyTerm6);
 }
 
 }

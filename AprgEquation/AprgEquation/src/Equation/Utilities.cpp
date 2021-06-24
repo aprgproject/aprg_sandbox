@@ -483,10 +483,12 @@ Expression createAndWrapExpressionFromATerm(Term const& term)
     return Expression(term);
 }
 
-Expression createOrCopyExpressionFromATerm(Term const& term){
+Expression createOrCopyExpressionFromATerm(Term const& term)
+{
     Expression result;
     if(!term.isEmpty())
-    {        if(term.isExpression())
+    {
+        if(term.isExpression())
         {
             result=term.getExpressionConstReference();
         }
@@ -495,10 +497,12 @@ Expression createOrCopyExpressionFromATerm(Term const& term){
             result=Expression(term);
         }
     }
-    return result;}
+    return result;
+}
 
 Expression createExpressionIfPossible(Terms const& terms)
-{    Expression result;
+{
+    Expression result;
     TermsAggregator aggregator(terms);
     aggregator.buildExpressionFromTerms();
     Terms const& builtTerms(aggregator.getTermsConstReference());
@@ -605,9 +609,11 @@ Term convertExpressionToSimplestTerm(Expression const& expression)
     }
     return newTerm;
 }
+
 Term convertFunctionToSimplestTerm(Function const& functionAsParameter)
 {
-    Term newTerm(functionAsParameter);    if(functionAsParameter.isInputExpressionAConstant())
+    Term newTerm(functionAsParameter);
+    if(functionAsParameter.isInputExpressionAConstant())
     {
         newTerm = Term(functionAsParameter.performFunctionAndReturnResultIfPossible());
     }

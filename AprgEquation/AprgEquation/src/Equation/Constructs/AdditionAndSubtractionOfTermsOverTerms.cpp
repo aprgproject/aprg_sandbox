@@ -34,9 +34,11 @@ Expression AdditionAndSubtractionOfTermsOverTerms::getCombinedExpression() const
     combinedExpression.putTermWithDivisionIfNeeded(Term(combinedDenominator));
     return combinedExpression;
 }
+
 Terms AdditionAndSubtractionOfTermsOverTerms::getLcmOfDenominatorTerms() const
 {
-    Terms lcmTerms;    Monomials lcmMonomials;
+    Terms lcmTerms;
+    Monomials lcmMonomials;
     for(TermsOverTerms const& item : m_items)
     {
         Terms currentCommonFactors = lcmTerms;
@@ -205,9 +207,11 @@ Expression AdditionAndSubtractionOfTermsOverTerms::getCombinedDenominatorExpress
     }
     return combinedDenominator;
 }
+
 Expression AdditionAndSubtractionOfTermsOverTerms::getCombinedExpressionForNumeratorOnIndex(
         unsigned int numeratorIndex,
-        Terms const& lcmDenominatorTerms) const{
+        Terms const& lcmDenominatorTerms) const
+{
     Expression combinedNumeratorOnIndex;
     Terms numeratorTermsOnIndex(getRevisedNumeratorTermsBasedOnLcmOnIndex(numeratorIndex, lcmDenominatorTerms));
     for(Term const& numeratorTermOnIndex : numeratorTermsOnIndex)
@@ -215,10 +219,12 @@ Expression AdditionAndSubtractionOfTermsOverTerms::getCombinedExpressionForNumer
         combinedNumeratorOnIndex.putTermWithMultiplicationIfNeeded(numeratorTermOnIndex);
     }
     if(combinedNumeratorOnIndex.isEmpty())
-    {        combinedNumeratorOnIndex = createExpressionIfPossible({Term(1)});
+    {
+        combinedNumeratorOnIndex = createExpressionIfPossible({Term(1)});
     }
     return combinedNumeratorOnIndex;
 }
+
 void AdditionAndSubtractionOfTermsOverTerms::combineExpressionAsAddOrSubtract(
         Expression & combinedExpression,
         Expression const& expression,
@@ -233,9 +239,11 @@ void AdditionAndSubtractionOfTermsOverTerms::combineExpressionAsAddOrSubtract(
         combinedExpression.putTermWithSubtractionIfNeeded(Term(expression));
     }
 }
+
 TermsOverTerms AdditionAndSubtractionOfTermsOverTerms::getSimplifiedTermsOverTerms(TermsOverTerms const& termsOverTerms)
 {
-    TermsOverTerms termsOverTermsSimplified(termsOverTerms);    termsOverTermsSimplified.simplifyToFactors();
+    TermsOverTerms termsOverTermsSimplified(termsOverTerms);
+    termsOverTermsSimplified.simplifyToFactors();
     return termsOverTermsSimplified;
 }
 

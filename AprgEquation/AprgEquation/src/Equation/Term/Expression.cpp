@@ -300,16 +300,19 @@ void Expression::putExpressionWithMultiplication(Expression const& secondExpress
         multiplyThenAddOrSubtract(termsWithDetails, Term(secondExpression));
     }
     else if(OperatorLevel::AdditionAndSubtraction == secondExpression.getCommonOperatorLevel())
-    {        Expression thisExpression(*this);
+    {
+        Expression thisExpression(*this);
         clear();
         multiplyThenAddOrSubtract(
                     Term(thisExpression),
                     secondExpression.getTermsWithAssociation().getTermsWithDetails());
     }
-    else    {
+    else
+    {
         putTermWithMultiplicationIfNeeded(Term(secondExpression));
     }
 }
+
 void Expression::reverseTheAssociationOfTheTerms()
 {
     m_termsWithAssociation.reverseTheAssociationOfTheTerms();
@@ -402,28 +405,24 @@ void Expression::factorizePolynomialAndUpdate(
     if(OperatorLevel::MultiplicationAndDivision == expression.m_commonOperatorLevel)
     {
         TermsWithDetails factorizedTermsWithDetails;
-        factorizePolynomialAndEmplaceInTermsWithDetails(
-                    factorizedTermsWithDetails,
-                    polynomial,
-                    overallAssociation);
+        factorizePolynomialAndEmplaceInTermsWithDetails(factorizedTermsWithDetails, polynomial, overallAssociation);
         copy(factorizedTermsWithDetails.cbegin(), factorizedTermsWithDetails.cend(), back_inserter(termsToPut));
     }
     else
     {
         TermsWithDetails factorizedTermsWithDetails;
-        factorizePolynomialAndEmplaceInTermsWithDetails(
-                    factorizedTermsWithDetails,
-                    polynomial,
-                    TermAssociationType::Positive);
+        factorizePolynomialAndEmplaceInTermsWithDetails(factorizedTermsWithDetails, polynomial, TermAssociationType::Positive);
         Expression newSubExpression;
         newSubExpression.setCommonOperatorLevel(OperatorLevel::MultiplicationAndDivision);
         newSubExpression.putTermsWithDetails(factorizedTermsWithDetails);
         termsToPut.emplace_back(Term(newSubExpression), overallAssociation);
     }
 }
+
 void Expression::factorizePolynomialAndEmplaceInTermsWithDetails(
         TermsWithDetails & factorizedTermsWithDetails,
-        Polynomial const& polynomial,        TermAssociationType const overallAssociation)
+        Polynomial const& polynomial,
+        TermAssociationType const overallAssociation)
 {
     Polynomials factorizedPolynomials(Factorization::factorize(polynomial));
     for(Polynomial const& factorizedPolynomial : factorizedPolynomials)
@@ -431,9 +430,11 @@ void Expression::factorizePolynomialAndEmplaceInTermsWithDetails(
         factorizedTermsWithDetails.emplace_back(Term(factorizedPolynomial), overallAssociation);
     }
 }
+
 void Expression::simplifyAndCopyTerms(
         TermsWithDetails & termsToUpdate,
-        TermsWithDetails const& termsToCheck){
+        TermsWithDetails const& termsToCheck)
+{
     for(TermWithDetails const& termWithDetails : termsToCheck)
     {
         BaseTerm const& baseTerm(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
@@ -450,10 +451,12 @@ void Expression::simplifyAndCopyTerms(
             termsToUpdate.emplace_back(newTerm, termWithDetails.association);
         }
         else if(term.isValueTermAndNotAnExpression())
-        {            termsToUpdate.emplace_back(baseTerm, termWithDetails.association);
+        {
+            termsToUpdate.emplace_back(baseTerm, termWithDetails.association);
         }
     }
 }
+
 void Expression::simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
         TermsWithDetails & termsToUpdate,
         Expression const& expression,
@@ -471,9 +474,11 @@ void Expression::simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded
         termsToUpdate.emplace_back(Term(expression), association);
     }
 }
+
 void Expression::simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify)
 {
-    if(beforeSimplify != afterSimplify)    {
+    if(beforeSimplify != afterSimplify)
+    {
         simplify();
     }
 }
@@ -654,9 +659,11 @@ void Expression::processAndSaveTermsForRaiseToPower(
         setTerm(combinedTerm);
     }
 }
+
 void Expression::putTermsWithDetails(TermsWithDetails const& termsToSave)
 {
-    for(TermWithDetails const& termWithDetails : termsToSave)    {
+    for(TermWithDetails const& termWithDetails : termsToSave)
+    {
         m_termsWithAssociation.putTermWithDetails(termWithDetails);
     }
 }
@@ -678,9 +685,11 @@ void Expression::putTermWithAddition(BaseTerm const& baseTerm)
         clearAndPutTermInTermsWithAssociation(Term(Expression(*this)));
         m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
         putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
-        break;    }
+        break;
+    }
     }
 }
+
 void Expression::putTermWithSubtraction(BaseTerm const& baseTerm)
 {
     switch(m_commonOperatorLevel)
@@ -698,9 +707,11 @@ void Expression::putTermWithSubtraction(BaseTerm const& baseTerm)
         clearAndPutTermInTermsWithAssociation(Term(Expression(*this)));
         m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
         putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
-        break;    }
+        break;
+    }
     }
 }
+
 void Expression::putTermWithMultiplication(BaseTerm const& baseTerm)
 {
     switch(m_commonOperatorLevel)
@@ -718,9 +729,11 @@ void Expression::putTermWithMultiplication(BaseTerm const& baseTerm)
         clearAndPutTermInTermsWithAssociation(Term(Expression(*this)));
         m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
         putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
-        break;    }
+        break;
+    }
     }
 }
+
 void Expression::putTermWithDivision(BaseTerm const& baseTerm)
 {
     switch(m_commonOperatorLevel)
@@ -738,9 +751,11 @@ void Expression::putTermWithDivision(BaseTerm const& baseTerm)
         clearAndPutTermInTermsWithAssociation(Term(Expression(*this)));
         m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
         putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
-        break;    }
+        break;
+    }
     }
 }
+
 void Expression::putTermWithRaiseToPower(BaseTerm const& baseTerm)
 {
     switch(m_commonOperatorLevel)
@@ -758,9 +773,11 @@ void Expression::putTermWithRaiseToPower(BaseTerm const& baseTerm)
         clearAndPutTermInTermsWithAssociation(Term(Expression(*this)));
         m_commonOperatorLevel = OperatorLevel::RaiseToPower;
         putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
-        break;    }
+        break;
+    }
     }
 }
+
 void Expression::putTermForExpressionAndNonExpressions(
         BaseTerm const& baseTerm,
         TermAssociationType const overallAssociation)
@@ -835,10 +852,12 @@ void Expression::putPolynomialOverPolynomialInExpression(
                         numeratorAndDenominator.getDenominator()));
 }
 
-void Expression::addOrSubtractTermsWithExpressions(        BaseTerm & combinedBaseTerm,
+void Expression::addOrSubtractTermsWithExpressions(
+        BaseTerm & combinedBaseTerm,
         TermsWithDetails const& termsWithExpressions) const
 {
-    AdditionAndSubtractionOfExpressions additionAndSubtraction;    additionAndSubtraction.putTermsWithDetails(termsWithExpressions);
+    AdditionAndSubtractionOfExpressions additionAndSubtraction;
+    additionAndSubtraction.putTermsWithDetails(termsWithExpressions);
     additionAndSubtraction.combineExpressionsIfPossible();
     accumulateTermsForAdditionAndSubtraction(getTermReferenceFromBaseTerm(combinedBaseTerm), additionAndSubtraction.getAsTermsWithDetails());
 }
@@ -892,9 +911,11 @@ void Expression::multiplyThenAddOrSubtract(
         putTermWithAdditionIfNeeded(Term(monomialExpression));
     }
 }
+
 void Expression::multiplyThenAddOrSubtract(
         Expression const& expression,
-        Polynomial const& polynomial){
+        Polynomial const& polynomial)
+{
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
         Expression expressionTerm(expression);
@@ -902,6 +923,7 @@ void Expression::multiplyThenAddOrSubtract(
         putTermWithAdditionIfNeeded(Term(expressionTerm));
     }
 }
+
 void Expression::multiplyThenAddOrSubtract(
         Polynomial const& polynomial,
         TermsWithDetails const& termsWithDetails)
@@ -911,6 +933,7 @@ void Expression::multiplyThenAddOrSubtract(
         multiplyThenAddOrSubtract(Term(monomial), termsWithDetails);
     }
 }
+
 void Expression::multiplyThenAddOrSubtract(
         TermsWithDetails const& termsWithDetails,
         Polynomial const& polynomial)
@@ -920,9 +943,11 @@ void Expression::multiplyThenAddOrSubtract(
         multiplyThenAddOrSubtract(termsWithDetails, Term(monomial));
     }
 }
+
 void Expression::multiplyThenAddOrSubtract(
         BaseTerm const& baseTerm,
-        TermsWithDetails const& termsWithDetails){
+        TermsWithDetails const& termsWithDetails)
+{
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
         multiplyThenAddOrSubtract(
@@ -960,10 +985,12 @@ void Expression::multiplyThenAddOrSubtract(
                         term2,
                         termWithDetails1.association == termWithDetails2.association);
         }
-    }}
+    }
+}
 
 void Expression::multiplyThenAddOrSubtract(
-        Expression const& multiplicand,        BaseTerm const& multiplier,
+        Expression const& multiplicand,
+        BaseTerm const& multiplier,
         bool const isAdd)
 {
     Expression expressionToAddOrSubtract(multiplicand);

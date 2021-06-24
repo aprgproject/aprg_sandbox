@@ -3,9 +3,11 @@
 #include <Equation/Constructs/PolynomialOverPolynomial.hpp>
 #include <Equation/Term/BaseTermData.hpp>
 #include <Equation/Term/BaseTermPointers.hpp>
-#include <Equation/Term/OperatorLevel.hpp>#include <Equation/Term/Polynomial.hpp>
+#include <Equation/Term/OperatorLevel.hpp>
+#include <Equation/Term/Polynomial.hpp>
 #include <Equation/Term/TermsWithAssociation.hpp>
 #include <Equation/Term/TermType.hpp>
+
 #include <functional>
 #include <string>
 #include <vector>

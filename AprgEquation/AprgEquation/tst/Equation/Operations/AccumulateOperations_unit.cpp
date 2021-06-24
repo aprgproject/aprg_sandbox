@@ -22,9 +22,11 @@ TEST(AccumulateOperationsTest, AccumulateAndDoOperationOnTermDetailsWorks)
 
     accumulateAndDoOperationOnTermDetails(newTerm1, OperatorLevel::AdditionAndSubtraction, termWithDetails1);
     accumulateAndDoOperationOnTermDetails(newTerm2, OperatorLevel::AdditionAndSubtraction, termWithDetails2);
+
     EXPECT_EQ(Term(70), newTerm1);
     EXPECT_EQ(Term(20), newTerm2);
 }
+
 }
 
 }

@@ -3,9 +3,11 @@
 #include <Equation/Term/Term.hpp>
 #include <Equation/Term/TermsWithAssociation.hpp>
 #include <Math/AlbaNumber.hpp>
+
 #include <string>
 
 using namespace std;
+
 namespace alba
 {
 
@@ -18,8 +20,10 @@ using VariableValuePair = std::pair<std::string, AlbaNumber>;
 class SubstitutionOfVariablesToValues
 {
 public:
+
     SubstitutionOfVariablesToValues(std::initializer_list<VariableValuePair> const& variablesWithValues);
     SubstitutionOfVariablesToValues(VariablesToValuesMap const& variablesWithValues);
+
     bool isVariableFound(string const& variable) const;
     AlbaNumber getValueForVariable(std::string const& variable) const;
 
@@ -30,7 +34,8 @@ public:
     Term performSubstitutionTo(Function const& functionAsParameter) const;
     Term performSubstitutionTo(Term const& term) const;
 
-private:    Monomial performSubstitutionForMonomial(Monomial const& monomial) const;
+private:
+    Monomial performSubstitutionForMonomial(Monomial const& monomial) const;
     Polynomial performSubstitutionForPolynomial(Polynomial const& polynomial) const;
     Expression performSubstitutionForExpression(Expression const& expression) const;
     Function performSubstitutionForFunction(Function const& functionAsParameter) const;
@@ -40,6 +45,7 @@ private:    Monomial performSubstitutionForMonomial(Monomial const& monomial) co
     void putVariableWithValue(std::string const& variable, AlbaNumber const& value);
     VariablesToValuesMap m_variableToValuesMap;
 };
+
 }
 
 }
