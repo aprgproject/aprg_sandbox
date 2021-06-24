@@ -15,80 +15,73 @@ namespace equation
 
 Term createTermWithAnExpressionAdding2Terms(Term const& term1, Term const& term2)
 {
-    Expression newExpression(getBaseTermConstReferenceFromTerm(term1));
-    newExpression.putTermWithAdditionIfNeeded(getBaseTermConstReferenceFromTerm(term2));
+    Expression newExpression(term1);
+    newExpression.putTermWithAdditionIfNeeded(term2);
     return convertExpressionToSimplestTerm(newExpression);
 }
-
 Term createTermAddingAnExpressionAndATerm(Expression const& expression, Term const& term)
 {
     Expression newExpression(expression);
-    newExpression.putTermWithAdditionIfNeeded(getBaseTermConstReferenceFromTerm(term));
+    newExpression.putTermWithAdditionIfNeeded(term);
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term createTermWithAnExpressionSubtracting2Terms(Term const& term1, Term const& term2)
 {
-    Expression newExpression(getBaseTermConstReferenceFromTerm(term1));
-    newExpression.putTermWithSubtractionIfNeeded(getBaseTermConstReferenceFromTerm(term2));
+    Expression newExpression(term1);
+    newExpression.putTermWithSubtractionIfNeeded(term2);
     return convertExpressionToSimplestTerm(newExpression);
 }
-
 Term createTermSubtractingAnExpressionAndATerm(Expression const& expression, Term const& term)
 {
     Expression newExpression(expression);
-    newExpression.putTermWithSubtractionIfNeeded(getBaseTermConstReferenceFromTerm(term));
+    newExpression.putTermWithSubtractionIfNeeded(term);
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term createTermWithAnExpressionMultiplying2Terms(Term const& term1, Term const& term2)
 {
-    Expression newExpression(getBaseTermConstReferenceFromTerm(term1));
-    newExpression.putTermWithMultiplicationIfNeeded(getBaseTermConstReferenceFromTerm(term2));
+    Expression newExpression(term1);
+    newExpression.putTermWithMultiplicationIfNeeded(term2);
     return convertExpressionToSimplestTerm(newExpression);
 }
-
 Term createTermMultiplyingAnExpressionAndATerm(Expression const& expression, Term const& term)
 {
     Expression newExpression(expression);
-    newExpression.putTermWithMultiplicationIfNeeded(getBaseTermConstReferenceFromTerm(term));
+    newExpression.putTermWithMultiplicationIfNeeded(term);
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term createTermWithAnExpressionDividing2Terms(Term const& term1, Term const& term2)
 {
-    Expression newExpression(getBaseTermConstReferenceFromTerm(term1));
-    newExpression.putTermWithDivisionIfNeeded(getBaseTermConstReferenceFromTerm(term2));
+    Expression newExpression(term1);
+    newExpression.putTermWithDivisionIfNeeded(term2);
     return convertExpressionToSimplestTerm(newExpression);
 }
-
 Term createTermDividingAnExpressionAndATerm(Expression const& expression, Term const& term)
 {
     Expression newExpression(expression);
-    newExpression.putTermWithDivisionIfNeeded(getBaseTermConstReferenceFromTerm(term));
+    newExpression.putTermWithDivisionIfNeeded(term);
     return convertExpressionToSimplestTerm(newExpression);
 }
 
 Term createTermWithAnExpressionRaisingToPower2Terms(Term const& term1, Term const& term2)
 {
-    Expression newExpression(getBaseTermConstReferenceFromTerm(term1));
-    newExpression.putTermWithRaiseToPowerIfNeeded(getBaseTermConstReferenceFromTerm(term2));
+    Expression newExpression(term1);
+    newExpression.putTermWithRaiseToPowerIfNeeded(term2);
     return convertExpressionToSimplestTerm(newExpression);
 }
-
 Term createTermRaisingToPowerAnExpressionAndATerm(Expression const& expression, Term const& term)
 {
     Expression newExpression(expression);
-    newExpression.putTermWithRaiseToPowerIfNeeded(getBaseTermConstReferenceFromTerm(term));
+    newExpression.putTermWithRaiseToPowerIfNeeded(term);
     return convertExpressionToSimplestTerm(newExpression);
 }
-
 
 
 //Unary plus: +a
 
-Term operator+(Constant const& constant)
-{
+Term operator+(Constant const& constant){
     return Term(constant);
 }
 

@@ -30,15 +30,13 @@ Expression AdditionAndSubtractionOfTermsOverTerms::getCombinedExpression() const
     Expression combinedNumerator = getCombinedNumeratorExpression(lcmDenominatorTerms);
     Expression combinedDenominator = getCombinedDenominatorExpression(lcmDenominatorTerms);
     Expression combinedExpression;
-    combinedExpression.putTermWithMultiplicationIfNeeded(getBaseTermConstReferenceFromTerm(Term(combinedNumerator)));
-    combinedExpression.putTermWithDivisionIfNeeded(getBaseTermConstReferenceFromTerm(Term(combinedDenominator)));
+    combinedExpression.putTermWithMultiplicationIfNeeded(Term(combinedNumerator));
+    combinedExpression.putTermWithDivisionIfNeeded(Term(combinedDenominator));
     return combinedExpression;
 }
-
 Terms AdditionAndSubtractionOfTermsOverTerms::getLcmOfDenominatorTerms() const
 {
-    Terms lcmTerms;
-    Monomials lcmMonomials;
+    Terms lcmTerms;    Monomials lcmMonomials;
     for(TermsOverTerms const& item : m_items)
     {
         Terms currentCommonFactors = lcmTerms;
@@ -203,28 +201,24 @@ Expression AdditionAndSubtractionOfTermsOverTerms::getCombinedDenominatorExpress
     Expression combinedDenominator;
     for(Term const& denominatorTerm : lcmDenominatorTerms)
     {
-        combinedDenominator.putTermWithMultiplicationIfNeeded(getBaseTermConstReferenceFromTerm(denominatorTerm));
+        combinedDenominator.putTermWithMultiplicationIfNeeded(denominatorTerm);
     }
     return combinedDenominator;
 }
-
 Expression AdditionAndSubtractionOfTermsOverTerms::getCombinedExpressionForNumeratorOnIndex(
         unsigned int numeratorIndex,
-        Terms const& lcmDenominatorTerms) const
-{
+        Terms const& lcmDenominatorTerms) const{
     Expression combinedNumeratorOnIndex;
     Terms numeratorTermsOnIndex(getRevisedNumeratorTermsBasedOnLcmOnIndex(numeratorIndex, lcmDenominatorTerms));
     for(Term const& numeratorTermOnIndex : numeratorTermsOnIndex)
     {
-        combinedNumeratorOnIndex.putTermWithMultiplicationIfNeeded(getBaseTermConstReferenceFromTerm(numeratorTermOnIndex));
+        combinedNumeratorOnIndex.putTermWithMultiplicationIfNeeded(numeratorTermOnIndex);
     }
     if(combinedNumeratorOnIndex.isEmpty())
-    {
-        combinedNumeratorOnIndex = createExpressionIfPossible({Term(1)});
+    {        combinedNumeratorOnIndex = createExpressionIfPossible({Term(1)});
     }
     return combinedNumeratorOnIndex;
 }
-
 void AdditionAndSubtractionOfTermsOverTerms::combineExpressionAsAddOrSubtract(
         Expression & combinedExpression,
         Expression const& expression,
@@ -232,18 +226,16 @@ void AdditionAndSubtractionOfTermsOverTerms::combineExpressionAsAddOrSubtract(
 {
     if(TermAssociationType::Positive == association)
     {
-        combinedExpression.putTermWithAdditionIfNeeded(getBaseTermConstReferenceFromTerm(expression));
+        combinedExpression.putTermWithAdditionIfNeeded(Term(expression));
     }
     else
     {
-        combinedExpression.putTermWithSubtractionIfNeeded(getBaseTermConstReferenceFromTerm(expression));
+        combinedExpression.putTermWithSubtractionIfNeeded(Term(expression));
     }
 }
-
 TermsOverTerms AdditionAndSubtractionOfTermsOverTerms::getSimplifiedTermsOverTerms(TermsOverTerms const& termsOverTerms)
 {
-    TermsOverTerms termsOverTermsSimplified(termsOverTerms);
-    termsOverTermsSimplified.simplifyToFactors();
+    TermsOverTerms termsOverTermsSimplified(termsOverTerms);    termsOverTermsSimplified.simplifyToFactors();
     return termsOverTermsSimplified;
 }
 

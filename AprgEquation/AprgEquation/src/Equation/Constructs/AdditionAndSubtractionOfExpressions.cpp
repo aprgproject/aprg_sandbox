@@ -40,17 +40,13 @@ TermsWithDetails AdditionAndSubtractionOfExpressions::getAsTermsWithDetails() co
     unsigned int size = getSize();
     for(unsigned int index=0; index<size; index++)
     {
-        result.emplace_back(
-                    getBaseTermConstReferenceFromTerm(
-                        convertExpressionToSimplestTerm(m_expressions.at(index))), m_associations.at(index));
+        result.emplace_back(convertExpressionToSimplestTerm(m_expressions.at(index)), m_associations.at(index));
     }
     return result;
 }
-
 void AdditionAndSubtractionOfExpressions::putAsAddition(Expression const& expression)
 {
-    putItem(expression, TermAssociationType::Positive);
-}
+    putItem(expression, TermAssociationType::Positive);}
 
 void AdditionAndSubtractionOfExpressions::putAsSubtraction(Expression const& expression)
 {
@@ -108,16 +104,14 @@ bool AdditionAndSubtractionOfExpressions::mergeForAdditionAndSubtractionAndRetur
     {
         Term resultMergeTerm;
         TermsWithDetails termsToMerge;
-        termsToMerge.emplace_back(getBaseTermConstReferenceFromTerm(mergeTerm1), m_associations.at(index1));
-        termsToMerge.emplace_back(getBaseTermConstReferenceFromTerm(mergeTerm2), m_associations.at(index2));
+        termsToMerge.emplace_back(mergeTerm1, m_associations.at(index1));
+        termsToMerge.emplace_back(mergeTerm2, m_associations.at(index2));
         accumulateTermsForAdditionAndSubtraction(resultMergeTerm, termsToMerge);
         expression1 = createOrCopyExpressionFromATerm(resultMergeTerm*Term(uniqueExpression1));
         expression2.clear();
-
         isMerged = true;
     }
-    return isMerged;
-}
+    return isMerged;}
 
 void AdditionAndSubtractionOfExpressions::retrieveUniqueExpressionsAndMergeTerms(
         Expression & uniqueExpression1,

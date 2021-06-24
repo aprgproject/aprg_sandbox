@@ -216,31 +216,29 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
             Operator const& operatorTerm(term2.getOperatorConstReference());
             if(operatorTerm.isAddition())
             {
-                newExpression.putTermWithAdditionIfNeeded(getBaseTermConstReferenceFromTerm(term3));
+                newExpression.putTermWithAdditionIfNeeded(term3);
             }
             else if(operatorTerm.isSubtraction())
             {
-                newExpression.putTermWithSubtractionIfNeeded(getBaseTermConstReferenceFromTerm(term3));
+                newExpression.putTermWithSubtractionIfNeeded(term3);
             }
             else if(operatorTerm.isMultiplication())
             {
-                newExpression.putTermWithMultiplicationIfNeeded(getBaseTermConstReferenceFromTerm(term3));
+                newExpression.putTermWithMultiplicationIfNeeded(term3);
             }
             else if(operatorTerm.isDivision())
             {
-                newExpression.putTermWithDivisionIfNeeded(getBaseTermConstReferenceFromTerm(term3));
+                newExpression.putTermWithDivisionIfNeeded(term3);
             }
             else if(operatorTerm.isRaiseToPower())
             {
-                newExpression.putTermWithRaiseToPowerIfNeeded(getBaseTermConstReferenceFromTerm(term3));
+                newExpression.putTermWithRaiseToPowerIfNeeded(term3);
             }
             Term newTerm(newExpression);
-            eraseAndThenInsert(index-1, index+1, newTerm);
-            isBuilt=true;
+            eraseAndThenInsert(index-1, index+1, newTerm);            isBuilt=true;
         }
     }
-    return isBuilt;
-}
+    return isBuilt;}
 
 bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned int const index)
 {
@@ -257,19 +255,17 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
             Operator const& operatorTerm(term1.getOperatorConstReference());
             if(operatorTerm.isAddition())
             {
-                newExpression.putTermWithAdditionIfNeeded(getBaseTermConstReferenceFromTerm(term2));
+                newExpression.putTermWithAdditionIfNeeded(term2);
             }
             else if(operatorTerm.isSubtraction())
             {
-                newExpression.putTermWithSubtractionIfNeeded(getBaseTermConstReferenceFromTerm(term2));
+                newExpression.putTermWithSubtractionIfNeeded(term2);
             }
             Term newTerm(newExpression);
-            eraseAndThenInsert(index, index+1, newTerm);
-            isBuilt=true;
+            eraseAndThenInsert(index, index+1, newTerm);            isBuilt=true;
         }
     }
-    return isBuilt;
-}
+    return isBuilt;}
 
 bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int const index)
 {

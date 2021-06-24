@@ -1,13 +1,10 @@
 #pragma once
 
-#include <Equation/Substitution/VariablesToValuesTypes.hpp>
 #include <Equation/Term/BaseTermPointers.hpp>
 #include <Equation/Term/TermAssociationType.hpp>
-
 #include <functional>
 #include <list>
 #include <vector>
-
 namespace alba
 {
 

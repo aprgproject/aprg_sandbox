@@ -67,14 +67,17 @@ Term SubstitutionOfVariablesToValues::performSubstitutionTo(Expression const& ex
     return simplifyAndConvertExpressionToSimplestTerm(performSubstitutionForExpression(expression));
 }
 
+Term SubstitutionOfVariablesToValues::performSubstitutionTo(Function const& functionAsParameter) const
+{
+    return simplifyAndConvertFunctionToSimplestTerm(performSubstitutionForFunction(functionAsParameter));
+}
+
 Term SubstitutionOfVariablesToValues::performSubstitutionTo(Term const& term) const
 {
-    Term newTerm;
-    if(term.isVariable())
+    Term newTerm;    if(term.isVariable())
     {
         newTerm = performSubstitutionTo(term.getVariableConstReference());
-    }
-    else if(term.isMonomial())
+    }    else if(term.isMonomial())
     {
         newTerm = performSubstitutionTo(term.getMonomialConstReference());
     }
@@ -126,14 +129,20 @@ Expression SubstitutionOfVariablesToValues::performSubstitutionForExpression(Exp
     return newExpression;
 }
 
+Function SubstitutionOfVariablesToValues::performSubstitutionForFunction(Function const& functionAsParameter) const
+{
+    Function newFunction(functionAsParameter);
+    newFunction.getInputExpressionReference()
+            = performSubstitutionForExpression(functionAsParameter.getInputExpressionConstReference());
+    return newFunction;
+}
+
 void SubstitutionOfVariablesToValues::performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const
 {
-    for(TermWithDetails & termWithDetails : termsWithAssociation.getTermsWithDetailsReference())
-    {
+    for(TermWithDetails & termWithDetails : termsWithAssociation.getTermsWithDetailsReference())    {
         Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         term = performSubstitutionTo(term);
-    }
-}
+    }}
 
 void SubstitutionOfVariablesToValues::putVariablesWithValues(initializer_list<VariableValuePair> const& variablesWithValues)
 {
@@ -151,11 +160,10 @@ void SubstitutionOfVariablesToValues::putVariablesWithValues(VariablesToValuesMa
     }
 }
 
-void SubstitutionOfVariablesToValues::putVariableWithValue(string const& variable, AlbaNumber const& exponent)
+void SubstitutionOfVariablesToValues::putVariableWithValue(string const& variable, AlbaNumber const& value)
 {
-    m_variableToValuesMap[variable]=exponent;
+    m_variableToValuesMap[variable]=value;
 }
 
 }
-
 }
