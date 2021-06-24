@@ -1,30 +1,26 @@
+#include <Equation/Functions/CommonFunctionLibrary.hpp>
 #include <Equation/Substitution/SubstitutionOfVariablesToValues.hpp>
-
 #include <Equation/Utilities.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace equation
 {
 
 TEST(SubstitutionOfVariablesToValuesTest, ConstructionWorks)
 {
-    SubstitutionOfVariablesToValues substitution1({{"x", 1}, {"y", 2}});
+    SubstitutionOfVariablesToValues({{"x", 1}, {"y", 2}});
     VariablesToValuesMap variableWithValues{{"x", 1}, {"y", 2}};
-    SubstitutionOfVariablesToValues substitution2(variableWithValues);
+    SubstitutionOfVariablesToValues{variableWithValues};
 }
 
-TEST(SubstitutionOfVariablesToValuesTest, IsVariableFoundWorks)
-{
+TEST(SubstitutionOfVariablesToValuesTest, IsVariableFoundWorks){
     SubstitutionOfVariablesToValues substitution({{"x", 1}, {"y", 2}});
 
-    EXPECT_TRUE(substitution.isVariableFound("x"));
-    EXPECT_TRUE(substitution.isVariableFound("y"));
+    EXPECT_TRUE(substitution.isVariableFound("x"));    EXPECT_TRUE(substitution.isVariableFound("y"));
     EXPECT_FALSE(substitution.isVariableFound("a"));
     EXPECT_FALSE(substitution.isVariableFound("b"));
 }
@@ -111,14 +107,27 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnExpression
     EXPECT_EQ(expectTerm2, verifyTerm2);
 }
 
+TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnFunction)
+{
+    SubstitutionOfVariablesToValues substitution({{"x", -2}});
+    Function function1;
+    Function function2(Functions::abs(Term("x")));
+
+    Term verifyTerm1(substitution.performSubstitutionTo(function1));
+    Term verifyTerm2(substitution.performSubstitutionTo(function2));
+
+    Term expectTerm1(Function{});
+    Term expectTerm2(2);
+    EXPECT_EQ(expectTerm1, verifyTerm1);
+    EXPECT_EQ(expectTerm2, verifyTerm2);
+}
+
 TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnTerm)
 {
-    SubstitutionOfVariablesToValues substitution({{"x", 2}, {"y", 5}});
-    Term term1;
+    SubstitutionOfVariablesToValues substitution({{"x", 2}, {"y", 5}});    Term term1;
     Term term2("x");
     Term term3(Monomial(7, {{"x", 3}}));
-    Term term4(Polynomial{Monomial(1, {{"y", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 3}})});
-    Term term5(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
+    Term term4(Polynomial{Monomial(1, {{"y", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 3}})});    Term term5(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
 
     Term verifyTerm1(substitution.performSubstitutionTo(term1));
     Term verifyTerm2(substitution.performSubstitutionTo(term2));

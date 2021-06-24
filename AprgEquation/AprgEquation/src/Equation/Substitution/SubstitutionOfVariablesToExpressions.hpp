@@ -31,19 +31,18 @@ public:
     Term performSubstitutionTo(Monomial const& monomial) const;
     Term performSubstitutionTo(Polynomial const& polynomial) const;
     Term performSubstitutionTo(Expression const& expression) const;
+    Term performSubstitutionTo(Function const& functionAsParameter) const;
     Term performSubstitutionTo(Term const& term) const;
 
-private:
-    Expression performSubstitutionForMonomial(Monomial const& monomial) const;
+private:    Expression performSubstitutionForMonomial(Monomial const& monomial) const;
     Expression performSubstitutionForPolynomial(Polynomial const& polynomial) const;
     Expression performSubstitutionForExpression(Expression const& expression) const;
+    Function performSubstitutionForFunction(Function const& functionAsParameter) const;
     void performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const;
     void putVariablesWithExpressions(std::initializer_list<VariableExpressionPair> const& variablesWithExpressions);
-    void putVariablesWithExpressions(VariablesToExpressionsMap const& variablesWithExpressions);
-    void putVariableWithValue(std::string const& variable, Expression const& expression);
+    void putVariablesWithExpressions(VariablesToExpressionsMap const& variablesWithExpressions);    void putVariableWithValue(std::string const& variable, Expression const& expression);
     VariablesToExpressionsMap m_variableToExpressionsMap;
 };
-
 }
 
 }

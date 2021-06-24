@@ -601,17 +601,17 @@ TEST(UtilitiesTest, ConvertExpressionToSimplestTermWorks)
 {
     Term termToVerify1(convertExpressionToSimplestTerm(createExpressionIfPossible({})));
     Term termToVerify2(convertExpressionToSimplestTerm(createExpressionIfPossible({Term(156)})));
+    Term termToVerify3(convertExpressionToSimplestTerm(createExpressionIfPossible({Term(Monomial(444, {}))})));
 
     EXPECT_EQ(Term(), termToVerify1);
     EXPECT_EQ(Term(156), termToVerify2);
+    EXPECT_EQ(Term(444), termToVerify3);
 }
 
-TEST(UtilitiesTest, ConvertFunctionToSimplestTermWorks)
-{
+TEST(UtilitiesTest, ConvertFunctionToSimplestTermWorks){
     Function function1;
     Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
-    {
-        return constant;
+    {        return constant;
     });
     Function function3("functionName", createOrCopyExpressionFromATerm(Term("x")), [](Constant const&  constant) -> Constant
     {

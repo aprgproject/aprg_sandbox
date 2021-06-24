@@ -45,15 +45,13 @@ Term SubstitutionOfVariablesToExpressions::performSubstitutionTo(Variable const&
     string variableName(variable.getVariableName());
     if(isVariableFound(variableName))
     {
-        result = Term(getExpressionForVariable(variableName));
+        result = Term(simplifyAndConvertExpressionToSimplestTerm(getExpressionForVariable(variableName)));
     }
     else
-    {
-        result = Term(variable);
+    {        result = Term(variable);
     }
     return result;
 }
-
 Term SubstitutionOfVariablesToExpressions::performSubstitutionTo(Monomial const& monomial) const
 {
     return simplifyAndConvertExpressionToSimplestTerm(performSubstitutionForMonomial(monomial));
@@ -69,14 +67,17 @@ Term SubstitutionOfVariablesToExpressions::performSubstitutionTo(Expression cons
     return simplifyAndConvertExpressionToSimplestTerm(performSubstitutionForExpression(expression));
 }
 
+Term SubstitutionOfVariablesToExpressions::performSubstitutionTo(Function const& functionAsParameter) const
+{
+    return simplifyAndConvertFunctionToSimplestTerm(performSubstitutionForFunction(functionAsParameter));
+}
+
 Term SubstitutionOfVariablesToExpressions::performSubstitutionTo(Term const& term) const
 {
-    Term newTerm;
-    if(term.isVariable())
+    Term newTerm;    if(term.isVariable())
     {
         newTerm = performSubstitutionTo(term.getVariableConstReference());
-    }
-    else if(term.isMonomial())
+    }    else if(term.isMonomial())
     {
         newTerm = performSubstitutionTo(term.getMonomialConstReference());
     }
@@ -88,13 +89,12 @@ Term SubstitutionOfVariablesToExpressions::performSubstitutionTo(Term const& ter
     {
         newTerm = performSubstitutionTo(term.getExpressionConstReference());
     }
+    //newTerm.simplify();
     return newTerm;
 }
-
 Expression SubstitutionOfVariablesToExpressions::performSubstitutionForMonomial(Monomial const& monomial) const
 {
-    Monomial newMonomial(createMonomialFromConstant(monomial.getConstantConstReference()));
-    Monomial::VariablesToExponentsMap previousVariableExponentMap(monomial.getVariablesToExponentsMapConstReference());
+    Monomial newMonomial(createMonomialFromConstant(monomial.getConstantConstReference()));    Monomial::VariablesToExponentsMap previousVariableExponentMap(monomial.getVariablesToExponentsMapConstReference());
     Expression substitutedExpressions;
     for(Monomial::VariableExponentPair const& variableExponentPair : previousVariableExponentMap)
     {
@@ -131,14 +131,20 @@ Expression SubstitutionOfVariablesToExpressions::performSubstitutionForExpressio
     return newExpression;
 }
 
+Function SubstitutionOfVariablesToExpressions::performSubstitutionForFunction(Function const& functionAsParameter) const
+{
+    Function newFunction(functionAsParameter);
+    newFunction.getInputExpressionReference()
+            = performSubstitutionForExpression(functionAsParameter.getInputExpressionConstReference());
+    return newFunction;
+}
+
 void SubstitutionOfVariablesToExpressions::performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const
 {
-    for(TermWithDetails & termWithDetails : termsWithAssociation.getTermsWithDetailsReference())
-    {
+    for(TermWithDetails & termWithDetails : termsWithAssociation.getTermsWithDetailsReference())    {
         Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         term = performSubstitutionTo(term);
-    }
-}
+    }}
 
 void SubstitutionOfVariablesToExpressions::putVariablesWithExpressions(
         initializer_list<VariableExpressionPair> const& variablesWithExpressions)
