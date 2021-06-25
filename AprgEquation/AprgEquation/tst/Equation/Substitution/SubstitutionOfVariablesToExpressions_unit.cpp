@@ -32,6 +32,7 @@ TEST(SubstitutionOfVariablesToExpressionsTest, IsEmptyWorks)
 TEST(SubstitutionOfVariablesToExpressionsTest, IsVariableFoundWorks)
 {
     SubstitutionOfVariablesToExpressions substitution({{"x", createOrCopyExpressionFromATerm(Term("y"))}});
+
     EXPECT_TRUE(substitution.isVariableFound("x"));
     EXPECT_FALSE(substitution.isVariableFound("y"));
     EXPECT_FALSE(substitution.isVariableFound("a"));
@@ -50,9 +51,11 @@ TEST(SubstitutionOfVariablesToExpressionsTest, GetSizeWorks)
 TEST(SubstitutionOfVariablesToExpressionsTest, GetValueForVariableWorks)
 {
     SubstitutionOfVariablesToExpressions substitution({{"x", createOrCopyExpressionFromATerm(Term("y"))}});
+
     Expression expressionToExpect(createOrCopyExpressionFromATerm(Term("y")));
     EXPECT_EQ(expressionToExpect, substitution.getExpressionForVariable("x"));
-    EXPECT_EQ(Expression{}, substitution.getExpressionForVariable("y"));    EXPECT_EQ(Expression{}, substitution.getExpressionForVariable("a"));
+    EXPECT_EQ(Expression{}, substitution.getExpressionForVariable("y"));
+    EXPECT_EQ(Expression{}, substitution.getExpressionForVariable("a"));
     EXPECT_EQ(Expression{}, substitution.getExpressionForVariable("b"));
 }
 

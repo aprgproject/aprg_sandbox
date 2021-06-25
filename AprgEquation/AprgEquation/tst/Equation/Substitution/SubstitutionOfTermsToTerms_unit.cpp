@@ -32,6 +32,7 @@ TEST(SubstitutionOfTermsToTermsTest, IsEmptyWorks)
 TEST(SubstitutionOfTermsToTermsTest, IsTermFoundWorks)
 {
     SubstitutionOfTermsToTerms substitution({{Term("x"), Term(2)}, {Term("y"), Term(5)}});
+
     EXPECT_TRUE(substitution.isTermFound(Term("x")));
     EXPECT_TRUE(substitution.isTermFound(Term("y")));
     EXPECT_FALSE(substitution.isTermFound(Term("a")));
@@ -50,9 +51,11 @@ TEST(SubstitutionOfTermsToTermsTest, GetSizeWorks)
 TEST(SubstitutionOfTermsToTermsTest, GetTermForTermWorks)
 {
     SubstitutionOfTermsToTerms substitution({{Term("x"), Term(2)}, {Term("y"), Term(5)}});
+
     EXPECT_EQ(Term(2), substitution.getTermForTerm(Term("x")));
     EXPECT_EQ(Term(5), substitution.getTermForTerm(Term("y")));
-    EXPECT_EQ(Term(), substitution.getTermForTerm(Term("a")));    EXPECT_EQ(Term(), substitution.getTermForTerm(Term("b")));
+    EXPECT_EQ(Term(), substitution.getTermForTerm(Term("a")));
+    EXPECT_EQ(Term(), substitution.getTermForTerm(Term("b")));
 }
 
 TEST(SubstitutionOfTermsToTermsTest, PerformSubstitutionToWorksOnExpression)

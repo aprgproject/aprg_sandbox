@@ -51,10 +51,12 @@ Polynomials factorizeIncreasingAndDecreasingExponentsFormIfPossible(Polynomial c
                     result = factorizePolynomialForm(
                                 polynomial,
                                 coefficients,
-                                unitFirstMonomial.getVariablesToExponentsMapConstReference(),                                unitSecondMonomial.getVariablesToExponentsMapConstReference());
+                                unitFirstMonomial.getVariablesToExponentsMapConstReference(),
+                                unitSecondMonomial.getVariablesToExponentsMapConstReference());
                 }
                 if(!result.empty())
-                {                    break;
+                {
+                    break;
                 }
             }
         }
@@ -71,10 +73,12 @@ Polynomials factorizePolynomialForm(
     Polynomials result;
     AlbaNumbers rootValues(calculatePolynomialRoots(coefficients));
     Polynomial remainingPolynomial(polynomial);
-    for(AlbaNumber const& rootValue : rootValues)    {
+    for(AlbaNumber const& rootValue : rootValues)
+    {
         AlbaNumber rootFirstCoefficient(1);
         AlbaNumber rootSecondCoefficient(rootValue*-1);
-        AlbaNumber aCoefficient(remainingPolynomial.getFirstMonomial().getConstantConstReference());        if(aCoefficient.isIntegerOrFractionType() && rootSecondCoefficient.isIntegerOrFractionType())
+        AlbaNumber aCoefficient(remainingPolynomial.getFirstMonomial().getConstantConstReference());
+        if(aCoefficient.isIntegerOrFractionType() && rootSecondCoefficient.isIntegerOrFractionType())
         {
             fixCoefficientsOfFactors(aCoefficient, rootFirstCoefficient, rootSecondCoefficient);
         }
@@ -93,7 +97,8 @@ Polynomials factorizePolynomialForm(
     return result;
 }
 
-void fixCoefficientsOfFactors(        AlbaNumber & aCoefficient,
+void fixCoefficientsOfFactors(
+        AlbaNumber & aCoefficient,
         AlbaNumber & rootFirstCoefficient,
         AlbaNumber & rootSecondCoefficient)
 {
@@ -102,10 +107,12 @@ void fixCoefficientsOfFactors(        AlbaNumber & aCoefficient,
     unsigned multiplier = getGreatestCommonFactor(aCoefficientFractionData.numerator, secondFractionData.denominator);
     rootFirstCoefficient = rootFirstCoefficient * multiplier;
     rootSecondCoefficient = rootSecondCoefficient * multiplier;
-    aCoefficient = aCoefficient / multiplier;}
+    aCoefficient = aCoefficient / multiplier;
+}
 
 bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
-        Monomials const& monomialsToCheck,        Monomials const& monomialsWithExponentsInOrder)
+        Monomials const& monomialsToCheck,
+        Monomials const& monomialsWithExponentsInOrder)
 {
     Polynomial polynomialWithExponentsInOrder(monomialsWithExponentsInOrder);
     bool areAllMonomialsFoundInPolynomialWithExponentsInOrder(true);

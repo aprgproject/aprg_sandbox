@@ -13,44 +13,6 @@ namespace equation
 namespace Factorization
 {
 
-
-TEST(FactorizationUtilitiesTest, FactorizePolynomialsWorksWhenPolynomialsCannotBeFactorized)
-{
-    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(11, {})};
-    Polynomial polynomial2{Monomial(1, {{"y", 1}}), Monomial(13, {})};
-    Polynomial polynomial3{Monomial(1, {{"z", 1}}), Monomial(17, {})};
-    Polynomials polynomials{polynomial1, polynomial2, polynomial3};
-
-    Polynomials polynomialsToVerify(factorizePolynomials(polynomials));
-
-    ASSERT_EQ(3u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1(polynomial1);
-    Polynomial polynomialToExpect2(polynomial2);
-    Polynomial polynomialToExpect3(polynomial3);
-    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
-    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
-    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
-}
-
-TEST(FactorizationUtilitiesTest, FactorizePolynomialsWorksWhenPolynomialsCanBeFactorized)
-{
-    Polynomial polynomial1{Monomial(1, {{"x", 2}}), Monomial(-1, {})};
-    Polynomial polynomial2{Monomial(1, {{"y", 2}}), Monomial(-1, {})};
-    Polynomials polynomials{polynomial1, polynomial2};
-
-    Polynomials polynomialsToVerify(factorizePolynomials(polynomials));
-
-    ASSERT_EQ(4u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(1, {})};
-    Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
-    Polynomial polynomialToExpect3{Monomial(1, {{"y", 1}}), Monomial(1, {})};
-    Polynomial polynomialToExpect4{Monomial(1, {{"y", 1}}), Monomial(-1, {})};
-    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
-    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
-    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
-    EXPECT_EQ(polynomialToExpect4, polynomialsToVerify.at(3));
-}
-
 TEST(FactorizationUtilitiesTest, ReturnPolynomialsOrSinglePolynomialIfEmptyWorksWhenPolynomialsIsNotEmpty)
 {
     Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(11, {})};
@@ -80,61 +42,6 @@ TEST(FactorizationUtilitiesTest, ReturnPolynomialsOrSinglePolynomialIfEmptyWorks
     ASSERT_EQ(1u, polynomialsToVerify.size());
     Polynomial polynomialToExpect1(singlePolynomial);
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
-}
-
-TEST(FactorizationUtilitiesTest, FactorizeCommonMonomialWorksWhenItCannotBeFactored)
-{
-    Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
-
-    Polynomials polynomialsToVerify(factorizeCommonMonomial(polynomialToTest));
-
-    ASSERT_EQ(1u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1(polynomialToTest);
-    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
-}
-
-TEST(FactorizationUtilitiesTest, FactorizeCommonMonomialWorksWhenItCanBeFactored)
-{
-    Polynomial polynomialToTest{Monomial(9, {{"x", 1}, {"y", 2}}), Monomial(6, {{"x", 3}})};
-
-    Polynomials polynomialsToVerify(factorizeCommonMonomial(polynomialToTest));
-
-    ASSERT_EQ(2u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(3, {{"x", 1}})};
-    Polynomial polynomialToExpect2{Monomial(2, {{"x", 2}}), Monomial(3, {{"y", 2}})};
-    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
-    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
-}
-
-TEST(FactorizationUtilitiesTest, FactorizeCommonMonomialIfPossible_IsEmptyWhenItCannotBeRefactored)
-{
-    Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
-
-    Polynomials polynomialsToVerify(factorizeCommonMonomialIfPossible(polynomialToTest));
-
-    EXPECT_TRUE(polynomialsToVerify.empty());
-}
-
-TEST(FactorizationUtilitiesTest, FactorizeCommonMonomialIfPossible_IsEmptyWhenItsOneMonomial)
-{
-    Polynomial polynomialToTest{Monomial(7, {{"x", 7}})};
-
-    Polynomials polynomialsToVerify(factorizeCommonMonomialIfPossible(polynomialToTest));
-
-    EXPECT_TRUE(polynomialsToVerify.empty());
-}
-
-TEST(FactorizationUtilitiesTest, FactorizeCommonMonomialIfPossible_WorksWhenGettingTheGcfMonomial)
-{
-    Polynomial polynomialToTest{Monomial(9, {{"x", 1}, {"y", 2}}), Monomial(6, {{"x", 3}})};
-
-    Polynomials polynomialsToVerify(factorizeCommonMonomialIfPossible(polynomialToTest));
-
-    ASSERT_EQ(2u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(3, {{"x", 1}})};
-    Polynomial polynomialToExpect2{Monomial(2, {{"x", 2}}), Monomial(3, {{"y", 2}})};
-    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
-    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
 TEST(FactorizationUtilitiesTest, IsPerfectSquareWorks)

@@ -4,9 +4,7 @@
 #include <Equation/Factorization/Factorization.hpp>
 #include <Equation/Factorization/FactorizationUtilities.hpp>
 #include <Equation/Utilities.hpp>
-#include <Math/AlbaMathHelper.hpp>
 
-using namespace alba::mathHelper;
 using namespace std;
 
 namespace alba

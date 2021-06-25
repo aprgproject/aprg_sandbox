@@ -42,10 +42,12 @@ unsigned int SubstitutionOfVariablesToValues::getSize() const
 
 AlbaNumber SubstitutionOfVariablesToValues::getValueForVariable(string const& variable) const
 {
-    AlbaNumber result;    if(isVariableFound(variable))
+    AlbaNumber result;
+    if(isVariableFound(variable))
     {
         result = m_variableToValuesMap.at(variable);
-    }    return result;
+    }
+    return result;
 }
 
 Term SubstitutionOfVariablesToValues::performSubstitutionTo(Variable const& variable) const

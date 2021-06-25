@@ -1,9 +1,7 @@
 #include "Factorization.hpp"
 
-#include <Equation/Factorization/FactorizationBySplitting.hpp>
-#include <Equation/Factorization/FactorizationOfIncreasingAndDecreasingExponentForm.hpp>
-#include <Equation/Factorization/FactorizationUsingPatterns.hpp>
-#include <Equation/Factorization/FactorizationUtilities.hpp>
+#include <Equation/Factorization/FactorizationOfExpressions.hpp>
+#include <Equation/Factorization/FactorizationOfPolynomials.hpp>
 
 using namespace std;
 
@@ -16,31 +14,25 @@ namespace equation
 namespace Factorization
 {
 
-Expression factorize(Expression const& expression)
-{
-    Expression factorizedExpression(expression);
-    factorizedExpression.factorize();
-    return factorizedExpression;
-}
-
 Polynomials factorize(Polynomial const& polynomial)
 {
-    Polynomial polynomialToFactorize(polynomial);
-    polynomialToFactorize.simplify();
-    Polynomials result{polynomialToFactorize};
-    if(!polynomialToFactorize.isOneMonomial())
-    {
-        result = factorizeCommonMonomial(polynomialToFactorize);
-        if(result.size() == 1){result = factorizeUsingPatterns(polynomialToFactorize); }
-        if(result.size() == 1){result = factorizeIncreasingAndDecreasingExponentsForm(polynomialToFactorize); }
-        if(result.size() == 1){result = factorizeBySplittingToSmallerPolynomials(polynomialToFactorize); }
-        if(result.size() != 1)
-        {
-            result = factorizePolynomials(result);
-        }
-    }
-    return result;
+    return factorizeAPolynomial(polynomial);
 }
+
+Expression factorize(Expression const& expression)
+{
+    Expression newExpression(expression);
+    factorizeAnExpression(newExpression);
+    return newExpression;
+}
+
+Function factorize(Function const& functionAsParameter)
+{
+    Function newFunction(functionAsParameter);
+    factorizeAnExpression(newFunction.getInputExpressionReference());
+    return newFunction;
+}
+
 
 }
 

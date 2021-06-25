@@ -16,61 +16,6 @@ namespace equation
 namespace Factorization
 {
 
-Polynomials factorizePolynomials(Polynomials const& polynomials)
-{
-    Polynomials result;
-    for(Polynomial const& polynomialToFactorize : polynomials)
-    {
-        Polynomials factorizedPolynomials(factorize(polynomialToFactorize));
-        if(factorizedPolynomials.size() == 1)
-        {
-            simplifyPolynomialThenEmplaceBackIfNotEmpty(result, polynomialToFactorize);
-        }
-        else
-        {
-            copy(factorizedPolynomials.cbegin(), factorizedPolynomials.cend(), back_inserter(result));
-        }
-    }
-    return result;
-}
-
-Polynomials returnPolynomialsOrSinglePolynomialIfEmpty(
-        Polynomials const& polynomials,
-        Polynomial const& polynomial)
-{
-    Polynomials result(polynomials);
-    if(result.empty())
-    {
-        simplifyPolynomialThenEmplaceBackIfNotEmpty(result, polynomial);
-    }
-    return result;
-}
-
-Polynomials factorizeCommonMonomial(Polynomial const& polynomial)
-{
-    return returnPolynomialsOrSinglePolynomialIfEmpty(
-                factorizeCommonMonomialIfPossible(polynomial),
-                polynomial);
-}
-
-Polynomials factorizeCommonMonomialIfPossible(Polynomial const& polynomial)
-{
-    Polynomials result;
-    if(!polynomial.isOneMonomial())
-    {
-        Monomial gcfMonomial(getGcfMonomialInMonomials(polynomial.getMonomialsConstReference()));
-        if(!gcfMonomial.isOne())
-        {
-            Polynomial reducedPolynomial(polynomial);
-            reducedPolynomial.divideMonomial(gcfMonomial);
-            reducedPolynomial.simplify();
-            simplifyPolynomialThenEmplaceBackIfNotEmpty(result, createPolynomialFromMonomial(gcfMonomial));
-            simplifyPolynomialThenEmplaceBackIfNotEmpty(result, reducedPolynomial);
-        }
-    }
-    return result;
-}
-
 bool isPerfectSquare(Monomial const& monomial)
 {
     return isPerfectNthPower(monomial, 2);
@@ -120,6 +65,18 @@ void emplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomi
     {
         polynomials.emplace_back(polynomial);
     }
+}
+
+Polynomials returnPolynomialsOrSinglePolynomialIfEmpty(
+        Polynomials const& polynomials,
+        Polynomial const& polynomial)
+{
+    Polynomials result(polynomials);
+    if(result.empty())
+    {
+        simplifyPolynomialThenEmplaceBackIfNotEmpty(result, polynomial);
+    }
+    return result;
 }
 
 }

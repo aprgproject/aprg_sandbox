@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Equation/Term/Polynomial.hpp>
 #include <Equation/Substitution/SubstitutionOfVariablesToExpressions.hpp>
+#include <Equation/Term/Polynomial.hpp>
 
 namespace alba
 {

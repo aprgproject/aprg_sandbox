@@ -54,30 +54,19 @@ public:
     void putPolynomialFirstWithMultiplication(Polynomial const& polynomial);
     void putPolynomialSecondWithMultiplication(Polynomial const& polynomial);
     void putExpressionWithMultiplication(Expression const& expression);
+    void putTermsWithDetails(TermsWithAssociation::TermsWithDetails const& termsToSave);
 
     void reverseTheAssociationOfTheTerms();
     void set(OperatorLevel const operatorLevel, TermsWithAssociation const& termsWithPriorityAndAssociation);
     void setTerm(BaseTerm const& baseTerm);
     void setCommonOperatorLevel(OperatorLevel const operatorLevel);
+    void setCommonOperatorLevelIfStillUnknown(OperatorLevel const operatorLevel);
 
-    void factorize();
     void simplify();
     void simplifyToACommonDenominator();
     void sort();
 
 private:
-
-    //factorize functions
-    void factorize(Expression & expression);
-    void factorizePolynomialAndUpdate(
-            Expression & expression,
-            TermsWithAssociation::TermsWithDetails & termsToPut,
-            Polynomial const& polynomial,
-            TermAssociationType const overallAssociation);
-    void factorizePolynomialAndEmplaceInTermsWithDetails(
-            TermsWithAssociation::TermsWithDetails & factorizedTermsWithDetails,
-            Polynomial const& polynomial,
-            TermAssociationType const overallAssociation);
 
     //simplify functions
     void simplifyAndCopyTerms(
@@ -104,7 +93,6 @@ private:
             TermsWithAssociation::TermsWithDetails const& termsToProcess);
 
     //put functions
-    void putTermsWithDetails(TermsWithAssociation::TermsWithDetails const& termsToSave);
     void putTermWithAddition(BaseTerm const& baseTerm);
     void putTermWithSubtraction(BaseTerm const& baseTerm);
     void putTermWithMultiplication(BaseTerm const& baseTerm);
@@ -156,7 +144,6 @@ private:
     void multiplyThenAddOrSubtract(Expression const& multiplicand, BaseTerm const& multiplier, bool const isAdd);
 
     // other functions
-    void setCommonOperatorLevelIfStillUnknown(OperatorLevel const operatorLevel);
     TermsWithAssociation getTermsWithAssociationAndReverseIfNeeded(
             Expression const& expression,
             TermAssociationType const association);

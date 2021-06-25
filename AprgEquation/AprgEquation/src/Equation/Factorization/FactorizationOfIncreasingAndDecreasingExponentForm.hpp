@@ -17,10 +17,12 @@ Polynomials factorizeIncreasingAndDecreasingExponentsFormIfPossible(Polynomial c
 Polynomials factorizePolynomialForm(
         Polynomial const& polynomial,
         AlbaNumbers const& coefficients,
-        Monomial::VariablesToExponentsMap const& firstVariableExponent,        Monomial::VariablesToExponentsMap const& secondVariableExponent);
+        Monomial::VariablesToExponentsMap const& firstVariableExponent,
+        Monomial::VariablesToExponentsMap const& secondVariableExponent);
 void fixCoefficientsOfFactors(
         AlbaNumber & aCoefficient,
-        AlbaNumber & rootFirstCoefficient,        AlbaNumber & rootSecondCoefficient);
+        AlbaNumber & rootFirstCoefficient,
+        AlbaNumber & rootSecondCoefficient);
 bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
         Monomials const& monomialsToCheck,
         Monomials const& monomialsWithExponentsInOrder);
