@@ -1,8 +1,7 @@
-#include "FactorizationOfPolynomials.hpp"
+#include "FactorizationOfPolynomial.hpp"
 
 #include <Equation/Factorization/FactorizationBySplitting.hpp>
-#include <Equation/Factorization/FactorizationOfIncreasingAndDecreasingExponentForm.hpp>
-#include <Equation/Factorization/FactorizationUsingPatterns.hpp>
+#include <Equation/Factorization/FactorizationOfIncreasingAndDecreasingExponentForm.hpp>#include <Equation/Factorization/FactorizationUsingPatterns.hpp>
 #include <Equation/Factorization/FactorizationUtilities.hpp>
 #include <Equation/Utilities.hpp>
 

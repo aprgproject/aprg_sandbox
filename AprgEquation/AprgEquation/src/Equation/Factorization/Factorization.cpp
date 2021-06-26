@@ -1,13 +1,11 @@
 #include "Factorization.hpp"
 
-#include <Equation/Factorization/FactorizationOfExpressions.hpp>
-#include <Equation/Factorization/FactorizationOfPolynomials.hpp>
+#include <Equation/Factorization/FactorizationOfExpression.hpp>
+#include <Equation/Factorization/FactorizationOfPolynomial.hpp>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace equation
 {
 

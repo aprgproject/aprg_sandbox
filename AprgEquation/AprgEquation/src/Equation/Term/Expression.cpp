@@ -1,26 +1,17 @@
 #include "Expression.hpp"
 
-#include <Equation/Constructs/AdditionAndSubtractionOfExpressions.hpp>
-#include <Equation/Constructs/AdditionAndSubtractionOfTermsOverTerms.hpp>
-#include <Equation/Constructs/TermsOverTerms.hpp>
-#include <Equation/Operations/AccumulateOperations.hpp>
-#include <Equation/Factorization/Factorization.hpp>
-#include <Equation/Term/Term.hpp>
-#include <Equation/Term/TermOperators.hpp>
+#include <Equation/Simplification/SimplificationOfExpression.hpp>
 #include <Equation/Utilities.hpp>
-#include <Optional/AlbaOptional.hpp>
 
 #include <algorithm>
 #include <sstream>
 
-using namespace alba::equation::Factorization;
+using namespace alba::equation::Simplification;
 using namespace std;
 using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
-
 namespace alba
 {
-
 namespace equation
 {
 
@@ -353,266 +344,21 @@ void Expression::setCommonOperatorLevelIfStillUnknown(OperatorLevel const operat
 
 void Expression::simplify()
 {
-    Expression beforeSimplify(*this);
-
-    TermsWithDetails termsToUpdate;
-    simplifyAndCopyTerms(termsToUpdate, m_termsWithAssociation.getTermsWithDetails());
-    m_termsWithAssociation.clear();
-    processTermsBaseOnOperatorLevel(termsToUpdate);
-
-    Expression afterSimplify(*this);
-    simplifyFurtherIfNeeded(beforeSimplify, afterSimplify);
+    SimplificationOfExpression simplification(*this);
+    simplification.simplify();
+    *this = simplification.getExpression();
 }
 
-void Expression::simplifyToACommonDenominator()
-{
-    simplifyToACommonDenominatorForExpressionAndReturnIfChanged(*this);
-    simplify();
-    putNegativeExponentsOnDenominator(*this);
-}
-
-void Expression::sort()
-{
+void Expression::sort(){
     m_termsWithAssociation.sort();
-}
-
-void Expression::simplifyAndCopyTerms(
-        TermsWithDetails & termsToUpdate,
-        TermsWithDetails const& termsToCheck)
-{
-    for(TermWithDetails const& termWithDetails : termsToCheck)
-    {
-        BaseTerm const& baseTerm(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
-        if(term.isExpression())
-        {
-            Expression expression(term.getExpressionConstReference());
-            expression.simplify();
-            simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(termsToUpdate, expression, termWithDetails.association);
-        }
-        else if(term.isFunction())
-        {
-            Term newTerm(simplifyAndConvertFunctionToSimplestTerm(term.getFunctionConstReference()));
-            termsToUpdate.emplace_back(newTerm, termWithDetails.association);
-        }
-        else if(term.isValueTermAndNotAnExpression())
-        {
-            termsToUpdate.emplace_back(baseTerm, termWithDetails.association);
-        }
-    }
-}
-
-void Expression::simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
-        TermsWithDetails & termsToUpdate,
-        Expression const& expression,
-        TermAssociationType const association)
-{
-    OperatorLevel expressionOperatorLevel(expression.getCommonOperatorLevel());
-    if(expression.containsOnlyOneTerm() || OperatorLevel::Unknown == m_commonOperatorLevel || expressionOperatorLevel == m_commonOperatorLevel)
-    {
-        setCommonOperatorLevelIfStillUnknown(expression.getCommonOperatorLevel());
-        TermsWithAssociation termsWithAssociation(getTermsWithAssociationAndReverseIfNeeded(expression, association));
-        simplifyAndCopyTerms(termsToUpdate, termsWithAssociation.getTermsWithDetails());
-    }
-    else
-    {
-        termsToUpdate.emplace_back(Term(expression), association);
-    }
-}
-
-void Expression::simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify)
-{
-    if(beforeSimplify != afterSimplify)
-    {
-        simplify();
-    }
-}
-
-bool Expression::simplifyToACommonDenominatorForExpressionAndReturnIfChanged(Expression & expression)
-{
-    bool isChanged(false);
-    if(expression.getCommonOperatorLevel() == OperatorLevel::AdditionAndSubtraction)
-    {
-        isChanged = tryToAddSubtractTermsOverTermsAndReturnIfChanged(expression);
-    }
-    else
-    {
-        simplifyTermsWithDetailsInExpressionToACommonDenominator(expression);
-    }
-    return isChanged;
-}
-
-void Expression::simplifyTermsWithDetailsInExpressionToACommonDenominator(Expression & expression)
-{
-    bool isChanged(true);
-    while(isChanged)
-    {
-        isChanged=false;
-        for(TermWithDetails & termWithDetails : expression.m_termsWithAssociation.m_termsWithDetails)
-        {
-            Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-            if(term.isExpression())
-            {
-                Expression & subExpression(term.getExpressionReference());
-                isChanged = isChanged || simplifyToACommonDenominatorForExpressionAndReturnIfChanged(subExpression);
-            }
-        }
-        if(isChanged)
-        {
-            expression.simplify();
-        }
-    }
-}
-
-bool Expression::tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression & addSubtractExpression)
-{
-    AdditionAndSubtractionOfTermsOverTerms addSubtractTermsOverTerms;
-    bool shouldTermsOverTermsBeAddedOrSubtracted(false);
-    for(TermWithDetails const& addSubtractTermWithDetails : addSubtractExpression.getTermsWithAssociation().getTermsWithDetails())
-    {
-        Term const& addSubtractTerm(getTermConstReferenceFromSharedPointer(addSubtractTermWithDetails.baseTermSharedPointer));
-        bool isTermAddedOrSubtracted(false);
-        if(addSubtractTerm.isExpression())
-        {
-            Expression expression(addSubtractTerm.getExpressionConstReference());
-            if(expression.getCommonOperatorLevel() == OperatorLevel::MultiplicationAndDivision)
-            {
-                TermsWithDetails numerators;
-                TermsWithDetails denominators;
-                segregateTermsWithPositiveAndNegativeAssociations(expression.getTermsWithAssociation().getTermsWithDetails(), numerators, denominators);
-                if(!denominators.empty())
-                {
-                    shouldTermsOverTermsBeAddedOrSubtracted=true;
-                }
-                addSubtractTermsOverTerms.putAsAddOrSubtraction(TermsOverTerms(numerators, denominators), addSubtractTermWithDetails.association);
-                isTermAddedOrSubtracted=true;
-            }
-        }
-        if(!isTermAddedOrSubtracted)
-        {
-            addSubtractTermsOverTerms.putAsAddOrSubtraction(TermsOverTerms({addSubtractTerm}, {}), addSubtractTermWithDetails.association);
-        }
-    }
-    if(shouldTermsOverTermsBeAddedOrSubtracted)
-    {
-        addSubtractExpression=addSubtractTermsOverTerms.getCombinedExpression();
-        addSubtractExpression.simplify();
-    }
-    return shouldTermsOverTermsBeAddedOrSubtracted;
-}
-
-void Expression::putNegativeExponentsOnDenominator(Expression & expression)
-{
-    TermsWithDetails & termsWithDetails(expression.m_termsWithAssociation.m_termsWithDetails);
-    ListOfPolynomialOverPolynomial numeratorsAndDenominators;
-    for(TermsWithDetails::iterator it=termsWithDetails.begin(); it!=termsWithDetails.end(); it++)
-    {
-        Term & term(getTermReferenceFromSharedPointer(it->baseTermSharedPointer));
-        if(term.isExpression())
-        {
-            Expression & subExpression(term.getExpressionReference());
-            putNegativeExponentsOnDenominator(subExpression);
-        }
-        else if(canBeConvertedToPolynomial(term)
-                && (termsWithDetails.size() == 1 || expression.getCommonOperatorLevel()==OperatorLevel::MultiplicationAndDivision))
-        {
-            emplaceToNumeratorsAndDenominators(numeratorsAndDenominators, createPolynomialIfPossible(term), it->association);
-            termsWithDetails.erase(it);
-            it--;
-        }
-    }
-    putListOfPolynomialOverPolynomialInExpression(expression, numeratorsAndDenominators);
-}
-
-void Expression::processTermsBaseOnOperatorLevel(
-        TermsWithDetails const& termsToProcess)
-{
-    switch(m_commonOperatorLevel)
-    {
-    case OperatorLevel::Unknown:
-    {
-        putTermsWithDetails(termsToProcess);
-        break;
-    }
-    case OperatorLevel::AdditionAndSubtraction:
-    {
-        processAndSaveTermsForAdditionAndSubtraction(termsToProcess);
-        break;
-    }
-    case OperatorLevel::MultiplicationAndDivision:
-    {
-        processAndSaveTermsForMultiplicationAndDivision(termsToProcess);
-        break;
-    }
-    case OperatorLevel::RaiseToPower:
-    {
-        processAndSaveTermsForRaiseToPower(termsToProcess);
-        break;
-    }
-    }
-}
-
-void Expression::processAndSaveTermsForAdditionAndSubtraction(
-        TermsWithDetails const& termsToProcess)
-{
-    Term combinedTerm;
-    BaseTerm & combinedBaseTerm(getBaseTermReferenceFromTerm(combinedTerm));
-    TermsWithDetails termsWithNonExpressions;
-    TermsWithDetails termsWithExpressions;
-    segregateNonExpressionsAndExpressions(termsToProcess, termsWithNonExpressions, termsWithExpressions);
-    accumulateTermsForAdditionAndSubtraction(combinedTerm, termsWithNonExpressions);
-    addOrSubtractTermsWithExpressions(combinedBaseTerm, termsWithExpressions);
-    setTerm(combinedBaseTerm);
-}
-
-void Expression::processAndSaveTermsForMultiplicationAndDivision(
-        TermsWithDetails const& termsToProcess)
-{
-    Term combinedTerm(1);
-    BaseTerm & combinedBaseTerm(getBaseTermReferenceFromTerm(combinedTerm));
-    TermsWithDetails numerators;
-    TermsWithDetails denominators;
-    segregateTermsWithPositiveAndNegativeAssociations(termsToProcess, numerators, denominators);
-    processNumeratorsAndDenominators(combinedBaseTerm, numerators, denominators);
-    setTerm(combinedBaseTerm);
-}
-
-void Expression::processAndSaveTermsForRaiseToPower(
-        TermsWithDetails const& termsToProcess)
-{
-    if(!termsToProcess.empty())
-    {
-        Term combinedTerm;
-        Term const& baseOfRaiseToPower=getTermConstReferenceFromSharedPointer(termsToProcess.at(0).baseTermSharedPointer);
-        if(baseOfRaiseToPower.isTheValueZero())
-        {
-            combinedTerm = Term(Constant(0));
-        }
-        else if(baseOfRaiseToPower.isTheValueOne())
-        {
-            combinedTerm = Term(1);
-        }
-        else if(termsToProcess.size() == 2)
-        {
-            accumulateTermsForRaiseToPower(combinedTerm, termsToProcess);
-        }
-        else
-        {
-            TermsWithDetails exponents(termsToProcess.cbegin()+1, termsToProcess.cend());
-            saveBaseAndExponentsToTerm(combinedTerm, baseOfRaiseToPower, exponents);
-        }
-        setTerm(combinedTerm);
-    }
 }
 
 void Expression::putTermWithAddition(BaseTerm const& baseTerm)
 {
-    switch(m_commonOperatorLevel)
-    {
+    switch(m_commonOperatorLevel)    {
     case OperatorLevel::Unknown:
         m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
-    case OperatorLevel::AdditionAndSubtraction:
-    {
+    case OperatorLevel::AdditionAndSubtraction:    {
         putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
         break;
     }
@@ -767,84 +513,12 @@ void Expression::putTermsWithAssociation(TermsWithAssociation const& termsWithAs
     }
 }
 
-void Expression::putListOfPolynomialOverPolynomialInExpression(
-        Expression & expression,
-        ListOfPolynomialOverPolynomial const& numeratorsAndDenominators)
-{
-    for(PolynomialOverPolynomial const& numeratorAndDenominator : numeratorsAndDenominators)
-    {
-        putPolynomialOverPolynomialInExpression(expression, numeratorAndDenominator);
-    }
-}
-
-void Expression::putPolynomialOverPolynomialInExpression(
-        Expression & expression,
-        PolynomialOverPolynomial const& numeratorAndDenominator)
-{
-    expression.putTermWithMultiplicationIfNeeded(
-                    simplifyAndConvertPolynomialToSimplestTerm(
-                        numeratorAndDenominator.getNumerator()));
-    expression.putTermWithDivisionIfNeeded(
-                    simplifyAndConvertPolynomialToSimplestTerm(
-                        numeratorAndDenominator.getDenominator()));
-}
-
-void Expression::addOrSubtractTermsWithExpressions(
-        BaseTerm & combinedBaseTerm,
-        TermsWithDetails const& termsWithExpressions) const
-{
-    AdditionAndSubtractionOfExpressions additionAndSubtraction;
-    additionAndSubtraction.putTermsWithDetails(termsWithExpressions);
-    additionAndSubtraction.combineExpressionsIfPossible();
-    accumulateTermsForAdditionAndSubtraction(getTermReferenceFromBaseTerm(combinedBaseTerm), additionAndSubtraction.getAsTermsWithDetails());
-}
-
-void Expression::processNumeratorsAndDenominators(
-        BaseTerm & combinedBaseTerm,
-        TermsWithDetails const& numerators,
-        TermsWithDetails const& denominators) const
-{
-    TermsOverTerms termsOverTerms(numerators, denominators);
-    termsOverTerms.simplify();
-    accumulateTermsForMultiplicationAndDivision(
-                getTermReferenceFromBaseTerm(combinedBaseTerm),
-                termsOverTerms.getNumeratorAndDenominatorAsTermWithDetails());
-}
-
-void Expression::saveBaseAndExponentsToTerm(
-        BaseTerm & combinedBaseTerm,
-        BaseTerm const& baseOfRaiseToPowerBaseTerm,
-        TermsWithDetails const& exponents)
-{
-    Term & combinedTerm(getTermReferenceFromBaseTerm(combinedBaseTerm));
-    Term const& baseOfRaiseToPower(getTermConstReferenceFromBaseTerm(baseOfRaiseToPowerBaseTerm));
-    Term exponentTerm;
-    BaseTerm & exponentBaseTerm(getBaseTermReferenceFromTerm(exponentTerm));
-    accumulateTermsForMultiplicationAndDivision(exponentTerm, exponents);
-    if(exponentTerm.isTheValueZero())
-    {
-        combinedTerm = Term(1);
-    }
-    else if(exponentTerm.isTheValueOne())
-    {
-        combinedTerm = baseOfRaiseToPower;
-    }
-    else
-    {
-        Expression raiseToPowerExpression(createOrCopyExpressionFromATerm(baseOfRaiseToPower));
-        raiseToPowerExpression.putTermWithRaiseToPowerIfNeeded(exponentBaseTerm);
-        combinedTerm = Term(raiseToPowerExpression);
-    }
-}
-
 void Expression::multiplyThenAddOrSubtract(
         Polynomial const& polynomial,
-        Expression const& expression)
-{
+        Expression const& expression){
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
-        Expression monomialExpression(createExpressionIfPossible({monomial}));
-        monomialExpression.putTermWithMultiplicationIfNeeded(Term(expression));
+        Expression monomialExpression(createExpressionIfPossible({monomial}));        monomialExpression.putTermWithMultiplicationIfNeeded(Term(expression));
         putTermWithAdditionIfNeeded(Term(monomialExpression));
     }
 }
@@ -942,38 +616,10 @@ void Expression::multiplyThenAddOrSubtract(
     }
 }
 
-TermsWithAssociation Expression::getTermsWithAssociationAndReverseIfNeeded(Expression const& expression, TermAssociationType const association)
-{
-    TermsWithAssociation termsWithAssociation(expression.getTermsWithAssociation());
-    if(TermAssociationType::Negative == association)
-    {
-        termsWithAssociation.reverseTheAssociationOfTheTerms();
-    }
-    return termsWithAssociation;
-}
-
-void Expression::emplaceToNumeratorsAndDenominators(
-        ListOfPolynomialOverPolynomial & numeratorsAndDenominators,
-        Polynomial const& polynomial,
-        TermAssociationType const termAssociationType)
-{
-    Polynomial numerator(polynomial);
-    Polynomial denominator(createPolynomialFromConstant(1));
-    if(TermAssociationType::Negative == termAssociationType)
-    {
-        swap(numerator, denominator);
-    }
-    PolynomialOverPolynomial numeratorAndDenominator(numerator, denominator);
-    numeratorAndDenominator.simplify();
-    numeratorsAndDenominators.emplace_back(numeratorAndDenominator);
-}
-
 ostream & operator<<(ostream & out, Expression const& expression)
 {
-    out << expression.getDisplayableString();
-    return out;
+    out << expression.getDisplayableString();    return out;
 }
 
 }
-
 }

@@ -1,20 +1,15 @@
 #pragma once
 
-#include <Equation/Constructs/PolynomialOverPolynomial.hpp>
 #include <Equation/Term/BaseTermData.hpp>
-#include <Equation/Term/BaseTermPointers.hpp>
 #include <Equation/Term/OperatorLevel.hpp>
 #include <Equation/Term/Polynomial.hpp>
 #include <Equation/Term/TermsWithAssociation.hpp>
-#include <Equation/Term/TermType.hpp>
 
 #include <functional>
-#include <string>
-#include <vector>
+#include <string>#include <vector>
 
 namespace alba
 {
-
 namespace equation
 {
 
@@ -63,43 +58,16 @@ public:
     void setCommonOperatorLevelIfStillUnknown(OperatorLevel const operatorLevel);
 
     void simplify();
-    void simplifyToACommonDenominator();
     void sort();
 
 private:
 
-    //simplify functions
-    void simplifyAndCopyTerms(
-            TermsWithAssociation::TermsWithDetails & termsToUpdate,
-            TermsWithAssociation::TermsWithDetails const& termsToCheck);
-    void simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
-            TermsWithAssociation::TermsWithDetails & termsToUpdate,
-            Expression const& expression,
-            TermAssociationType const association);
-    void simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify);
-    bool simplifyToACommonDenominatorForExpressionAndReturnIfChanged(Expression & expression);
-    void simplifyTermsWithDetailsInExpressionToACommonDenominator(Expression & expression);
-    bool tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression & addSubtractExpression);
-    void putNegativeExponentsOnDenominator(Expression & expression);
-
-    //process functions
-    void processTermsBaseOnOperatorLevel(
-            TermsWithAssociation::TermsWithDetails const& termsToProcess);
-    void processAndSaveTermsForAdditionAndSubtraction(
-            TermsWithAssociation::TermsWithDetails const& termsToProcess);
-    void processAndSaveTermsForMultiplicationAndDivision(
-            TermsWithAssociation::TermsWithDetails const& termsToProcess);
-    void processAndSaveTermsForRaiseToPower(
-            TermsWithAssociation::TermsWithDetails const& termsToProcess);
-
     //put functions
     void putTermWithAddition(BaseTerm const& baseTerm);
-    void putTermWithSubtraction(BaseTerm const& baseTerm);
-    void putTermWithMultiplication(BaseTerm const& baseTerm);
+    void putTermWithSubtraction(BaseTerm const& baseTerm);    void putTermWithMultiplication(BaseTerm const& baseTerm);
     void putTermWithDivision(BaseTerm const& baseTerm);
     void putTermWithRaiseToPower(BaseTerm const& baseTerm);
-    void putTermForExpressionAndNonExpressions(
-            BaseTerm const& baseTerm,
+    void putTermForExpressionAndNonExpressions(            BaseTerm const& baseTerm,
             TermAssociationType const overallAssociation);
     void putTerm(
             BaseTerm const& baseTerm,
@@ -107,59 +75,23 @@ private:
     void putTermsWithAssociation(
             TermsWithAssociation const& termsWithAssociation,
             TermAssociationType const overallAssociation);
-    void putListOfPolynomialOverPolynomialInExpression(
-            Expression& expression,
-            ListOfPolynomialOverPolynomial const& numeratorsAndDenominators);
-    void putPolynomialOverPolynomialInExpression(
-            Expression & expression,
-            PolynomialOverPolynomial const& numeratorAndDenominator);
-
-    //functions for addition
-    void addOrSubtractTermsWithExpressions(
-            BaseTerm & combinedBaseTerm,
-            TermsWithAssociation::TermsWithDetails const& termsWithExpressions) const;
-
-    //functions for multiplication
-    void processNumeratorsAndDenominators(
-            BaseTerm & combinedBaseTerm,
-            TermsWithAssociation::TermsWithDetails const& numerators,
-            TermsWithAssociation::TermsWithDetails const& denominators) const;
-
-    //functions for raise to power
-    void saveBaseAndExponentsToTerm(
-            BaseTerm & combinedBaseTerm,
-            BaseTerm const& baseOfRaiseToPowerBaseTerm,
-            TermsWithAssociation::TermsWithDetails const& exponents);
 
     // functions for multiply then add or subtract
     void multiplyThenAddOrSubtract(Polynomial const& polynomial, Expression const& expression);
-    void multiplyThenAddOrSubtract(Expression const& expression, Polynomial const& polynomial);
-    void multiplyThenAddOrSubtract(Polynomial const& polynomial, TermsWithAssociation::TermsWithDetails const& termsWithDetails);
+    void multiplyThenAddOrSubtract(Expression const& expression, Polynomial const& polynomial);    void multiplyThenAddOrSubtract(Polynomial const& polynomial, TermsWithAssociation::TermsWithDetails const& termsWithDetails);
     void multiplyThenAddOrSubtract(TermsWithAssociation::TermsWithDetails const& termsWithDetails, Polynomial const& polynomial);
     void multiplyThenAddOrSubtract(BaseTerm const& baseTerm, TermsWithAssociation::TermsWithDetails const& termsWithDetails);
-    void multiplyThenAddOrSubtract(TermsWithAssociation::TermsWithDetails const& termsWithDetails, BaseTerm const& baseTerm);
-    void multiplyThenAddOrSubtract(
+    void multiplyThenAddOrSubtract(TermsWithAssociation::TermsWithDetails const& termsWithDetails, BaseTerm const& baseTerm);    void multiplyThenAddOrSubtract(
             TermsWithAssociation::TermsWithDetails const& termsWithDetails1,
             TermsWithAssociation::TermsWithDetails const& termsWithDetails2);
     void multiplyThenAddOrSubtract(Expression const& multiplicand, BaseTerm const& multiplier, bool const isAdd);
 
-    // other functions
-    TermsWithAssociation getTermsWithAssociationAndReverseIfNeeded(
-            Expression const& expression,
-            TermAssociationType const association);
-    void emplaceToNumeratorsAndDenominators(
-            ListOfPolynomialOverPolynomial & numeratorsAndDenominators,
-            Polynomial const& polynomial,
-            TermAssociationType const termAssociationType);
-
     OperatorLevel m_commonOperatorLevel;
     TermsWithAssociation m_termsWithAssociation;
 };
-
 using Expressions=std::vector<Expression>;
 
 std::ostream & operator<<(std::ostream & out, Expression const& expression);
-
 }
 
 }

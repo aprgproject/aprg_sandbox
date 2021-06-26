@@ -1,9 +1,8 @@
-#include "FactorizationOfExpressions.hpp"
+#include "FactorizationOfExpression.hpp"
 
-#include <Equation/Factorization/FactorizationOfPolynomials.hpp>
+#include <Equation/Factorization/FactorizationOfPolynomial.hpp>
 #include <Equation/Term/Term.hpp>
 #include <Equation/Utilities.hpp>
-
 using namespace std;
 using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;

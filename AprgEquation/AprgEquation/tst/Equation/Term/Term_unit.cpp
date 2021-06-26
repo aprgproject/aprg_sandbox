@@ -689,40 +689,12 @@ TEST(TermTest, SimplifyWorks)
     EXPECT_EQ(termToExpect, term5);
 }
 
-TEST(TermTest, SimplifyToCommonDenominatorWorks)
-{
-    Term term1(1475);
-    Term term2(Monomial(1475,{}));
-    Term term3(Polynomial{Monomial(1475,{})});
-    Term term4(Expression{createExpressionIfPossible({Term(1475)})});
-    Function function1("functionName", createOrCopyExpressionFromATerm(Term(1475)), [](Constant const&  constant) -> Constant
-    {
-        return constant;
-    });
-    Term term5(function1);
-
-    term1.simplifyToCommonDenominator();
-    term2.simplifyToCommonDenominator();
-    term3.simplifyToCommonDenominator();
-    term4.simplifyToCommonDenominator();
-    term5.simplifyToCommonDenominator();
-
-    Term termToExpect(1475);
-    EXPECT_EQ(termToExpect, term1);
-    EXPECT_EQ(termToExpect, term2);
-    EXPECT_EQ(termToExpect, term3);
-    EXPECT_EQ(termToExpect, term4);
-    EXPECT_EQ(termToExpect, term5);
-}
-
 TEST(TermTest, SortWorks)
 {
-    Term term1;
-    Term term2(Polynomial{});
+    Term term1;    Term term2(Polynomial{});
     Term term3(Expression{});
     Term term4(Polynomial{Monomial(100, {}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(10, {})});
     Term term5(createExpressionIfPossible({Term(1), Term("-"), Term(3), Term("-"), Term(2), Term("+"), Term(5), Term("+"), Term(4)}));
-
     term1.sort();
     term2.sort();
     term3.sort();

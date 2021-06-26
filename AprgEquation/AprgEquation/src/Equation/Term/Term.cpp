@@ -464,39 +464,12 @@ void Term::simplify()
     }
 }
 
-void Term::simplifyToCommonDenominator()
-{
-    if(m_type==TermType::Monomial)
-    {
-        *this = simplifyAndConvertMonomialToSimplestTerm(getMonomialConstReference());
-    }
-    else if(m_type==TermType::Polynomial)
-    {
-        *this = simplifyAndConvertPolynomialToSimplestTerm(getPolynomialConstReference());
-    }
-    else if(m_type==TermType::Expression)
-    {
-        Expression newExpression(getExpressionConstReference());
-        newExpression.simplifyToACommonDenominator();
-        *this = convertExpressionToSimplestTerm(newExpression);
-    }
-    else if(m_type==TermType::Function)
-    {
-        Function newFunction(getFunctionConstReference());
-        Expression & inputExpression(newFunction.getInputExpressionReference());
-        inputExpression.simplifyToACommonDenominator();
-        *this = convertFunctionToSimplestTerm(newFunction);
-    }
-}
-
 void Term::sort()
 {
-    if(isPolynomial())
-    {
+    if(isPolynomial())    {
         getPolynomialReference().sortMonomialsWithInversePriority();
     }
-    else if(isExpression())
-    {
+    else if(isExpression())    {
         getExpressionReference().sort();
     }
 }
