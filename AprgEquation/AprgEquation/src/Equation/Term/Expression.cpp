@@ -162,92 +162,101 @@ void Expression::clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm)
 
 void Expression::putTermWithAdditionIfNeeded(BaseTerm const& baseTerm)
 {
-    if(!willHaveNoEffectOnAdditionOrSubtraction(
-                getTermConstReferenceFromBaseTerm(baseTerm)))
+    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
+    if(isEmpty() && !willHaveNoEffectOnAdditionOrSubtraction(term))
     {
-        if(isEmpty())
+        setTerm(baseTerm);
+    }
+    else if(!willHaveNoEffectOnAdditionOrSubtraction(term))
+    {
+        if(containsOnlyOneTerm()
+                && willHaveNoEffectOnAdditionOrSubtraction(getTermConstReferenceFromBaseTerm(getFirstTermConstReference())))
         {
             setTerm(baseTerm);
-        }
-        else
+        }        else
         {
             putTermWithAddition(baseTerm);
-        }
-    }
+        }    }
 }
 
 void Expression::putTermWithSubtractionIfNeeded(BaseTerm const& baseTerm)
 {
-    if(!willHaveNoEffectOnAdditionOrSubtraction(
-                getTermConstReferenceFromBaseTerm(baseTerm)))
+    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
+    if(isEmpty() && !willHaveNoEffectOnAdditionOrSubtraction(term))
     {
-        if(isEmpty())
+        m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
+        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
+    }
+    else if(!willHaveNoEffectOnAdditionOrSubtraction(term))
+    {
+        if(containsOnlyOneTerm()
+                && willHaveNoEffectOnAdditionOrSubtraction(getTermConstReferenceFromBaseTerm(getFirstTermConstReference())))
         {
             m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
-            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
-        }
+            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);        }
         else
         {
-            putTermWithSubtraction(baseTerm);
-        }
+            putTermWithSubtraction(baseTerm);        }
     }
 }
 
 void Expression::putTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm)
 {
-    if(!willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(
-                getTermConstReferenceFromBaseTerm(baseTerm)))
+    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
+    if(isEmpty() && !willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
     {
-        if(isEmpty())
+        setTerm(baseTerm);
+    }
+    else if(!willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
+    {
+        if(containsOnlyOneTerm()
+                && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference())))
         {
             setTerm(baseTerm);
-        }
-        else
+        }        else
         {
             putTermWithMultiplication(baseTerm);
-        }
-    }
+        }    }
 }
 
 void Expression::putTermWithDivisionIfNeeded(BaseTerm const& baseTerm)
 {
-    if(!willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(
-                getTermConstReferenceFromBaseTerm(baseTerm)))
+    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
+    if(isEmpty() && !willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
     {
-        if(isEmpty())
+        m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
+        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
+    }
+    else if(!willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
+    {
+        if(containsOnlyOneTerm()
+                && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference())))
         {
             m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
-            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
-        }
+            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);        }
         else
         {
-            putTermWithDivision(baseTerm);
-        }
+            putTermWithDivision(baseTerm);        }
     }
 }
 
 void Expression::putTermWithRaiseToPowerIfNeeded(BaseTerm const& baseTerm)
 {
-    if(!willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(
-                getTermConstReferenceFromBaseTerm(baseTerm)))
+    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
+    if(isEmpty() && !willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
     {
-        if(isEmpty())
-        {
-            setTerm(baseTerm);
-        }
-        else
-        {
-            putTermWithRaiseToPower(baseTerm);
-        }
+        setTerm(baseTerm);
+    }
+    else if(!willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
+    {
+        putTermWithRaiseToPower(baseTerm);
     }
 }
 
-void Expression::putPolynomialFirstWithMultiplication(Polynomial const& polynomial)
-{
+void Expression::putPolynomialFirstWithMultiplication(Polynomial const& polynomial){
     if(OperatorLevel::AdditionAndSubtraction == m_commonOperatorLevel)
     {
-        TermsWithDetails termsWithDetails(m_termsWithAssociation.getTermsWithDetails());
-        clear();
+        TermsWithDetails termsWithDetails(m_termsWithAssociation.getTermsWithDetails());        clear();
         multiplyThenAddOrSubtract(polynomial, termsWithDetails);
     }
     else

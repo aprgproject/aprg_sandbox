@@ -118,15 +118,13 @@ bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
     bool areAllMonomialsFoundInPolynomialWithExponentsInOrder(true);
     for(Monomial const& monomialToCheck : monomialsToCheck)
     {
-        if(!polynomialWithExponentsInOrder.isVariableExponentContentFound(monomialToCheck))
+        if(!polynomialWithExponentsInOrder.isVariableExponentInMonomialFound(monomialToCheck))
         {
             areAllMonomialsFoundInPolynomialWithExponentsInOrder = false;
-            break;
-        }
+            break;        }
     }
     return areAllMonomialsFoundInPolynomialWithExponentsInOrder;
 }
-
 unsigned int calculateMaxExponentDivisor(
         Monomial const& firstMonomial,
         Monomial const& lastMonomial)

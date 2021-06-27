@@ -58,9 +58,9 @@ TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample4)
     ASSERT_EQ(1u, simplifiedTerms.size());
     Expression simplifiedExpression(createExpressionIfPossible(simplifiedTerms));
     SimplificationOfExpression simplification(simplifiedExpression);
-    simplification.simplifyToACommonDenominator();
+    simplification.setAsShouldSimplifyToACommonDenominator(true);
+    simplification.simplify();
     EXPECT_EQ(Term(AlbaNumber(-252, 25)), substitution.performSubstitutionTo(simplification.getExpression()));
 }
-
 }
 }

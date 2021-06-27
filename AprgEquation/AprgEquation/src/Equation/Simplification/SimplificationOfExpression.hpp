@@ -20,18 +20,20 @@ public:
 
     Expression getExpression() const;
 
+    void setAsShouldSimplifyToACommonDenominator(bool const shouldSimplifyToACommonDenominator);
     void simplify();
-    void simplifyToACommonDenominator();
 
 private:
+    void prepareToACommonDenominatorIfNeeded();
+    void finalizeToACommonDenominatorIfNeeded();
+
+    void simplifyExpression();
     void simplifyAndCopyTerms(
             TermsWithAssociation::TermsWithDetails & termsToUpdate,
-            TermsWithAssociation::TermsWithDetails const& termsToCheck);
-    void simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
+            TermsWithAssociation::TermsWithDetails const& termsToCheck);    void simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
             TermsWithAssociation::TermsWithDetails & termsToUpdate,
             Expression const& expression,
-            TermAssociationType const association);
-    void simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify);
+            TermAssociationType const association);    void simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify);
     bool simplifyToACommonDenominatorForExpressionAndReturnIfChanged(Expression & expression);
     void simplifyTermsWithDetailsInExpressionToACommonDenominator(Expression & expression);
     bool tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression & addSubtractExpression);
@@ -46,21 +48,26 @@ private:
     void processAndSaveTermsForRaiseToPower(
             TermsWithAssociation::TermsWithDetails const& termsToProcess);
 
-    void putListOfPolynomialOverPolynomialInExpression(
+    void putNumeratorsInExpression(
             Expression& expression,
             ListOfPolynomialOverPolynomial const& numeratorsAndDenominators);
-    void putPolynomialOverPolynomialInExpression(
-            Expression & expression,
-            PolynomialOverPolynomial const& numeratorAndDenominator);
+    void putNumeratorsInExpression(
+            Expression& expression,
+            TermsWithAssociation::TermsWithDetails const& numerators);
+    void putDenominatorsInExpression(
+            Expression& expression,
+            ListOfPolynomialOverPolynomial const& numeratorsAndDenominators);
+    void putDenominatorsInExpression(
+            Expression& expression,
+            TermsWithAssociation::TermsWithDetails const& denominators);
+
 
     //functions for addition
     void addOrSubtractTermsWithExpressions(
-            Term & combinedTerm,
-            TermsWithAssociation::TermsWithDetails const& termsWithExpressions) const;
+            Term & combinedTerm,            TermsWithAssociation::TermsWithDetails const& termsWithExpressions) const;
 
     //functions for multiplication
-    void processNumeratorsAndDenominators(
-            Term & combinedTerm,
+    void processNumeratorsAndDenominators(            Term & combinedTerm,
             TermsWithAssociation::TermsWithDetails const& numerators,
             TermsWithAssociation::TermsWithDetails const& denominators) const;
 
@@ -80,10 +87,10 @@ private:
             TermAssociationType const termAssociationType);
 
     Expression m_expression;
+    bool m_shouldSimplifyToACommonDenominator;
 };
 
 }
-
 }
 
 }

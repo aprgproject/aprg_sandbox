@@ -21,40 +21,59 @@ namespace Simplification
 SimplificationOfExpression::SimplificationOfExpression(
         Expression const& expression)
     : m_expression(expression)
+    , m_shouldSimplifyToACommonDenominator(false)
 {}
 
-Expression SimplificationOfExpression::getExpression() const
-{
+Expression SimplificationOfExpression::getExpression() const{
     return m_expression;
+}
+
+void SimplificationOfExpression::setAsShouldSimplifyToACommonDenominator(bool const shouldSimplifyToACommonDenominator)
+{
+    m_shouldSimplifyToACommonDenominator = shouldSimplifyToACommonDenominator;
 }
 
 void SimplificationOfExpression::simplify()
 {
+    prepareToACommonDenominatorIfNeeded();
+    simplifyExpression();
+    finalizeToACommonDenominatorIfNeeded();
+}
+
+void SimplificationOfExpression::prepareToACommonDenominatorIfNeeded()
+{
+    if(m_shouldSimplifyToACommonDenominator)
+    {
+        simplifyToACommonDenominatorForExpressionAndReturnIfChanged(m_expression);
+    }
+}
+
+void SimplificationOfExpression::finalizeToACommonDenominatorIfNeeded()
+{
+    if(m_shouldSimplifyToACommonDenominator)
+    {
+        putNegativeExponentsOnDenominator(m_expression);
+    }
+}
+
+void SimplificationOfExpression::simplifyExpression()
+{
     Expression beforeSimplify(m_expression);
 
-    TermsWithDetails termsToUpdate;
-    TermsWithAssociation & termsWithAssociation(m_expression.getTermsWithAssociationReference());
+    TermsWithDetails termsToUpdate;    TermsWithAssociation & termsWithAssociation(m_expression.getTermsWithAssociationReference());
     simplifyAndCopyTerms(termsToUpdate, termsWithAssociation.getTermsWithDetails());
     termsWithAssociation.clear();
     processTermsBaseOnOperatorLevel(termsToUpdate);
 
     Expression afterSimplify(m_expression);
     simplifyFurtherIfNeeded(beforeSimplify, afterSimplify);
+
 }
 
-void SimplificationOfExpression::simplifyToACommonDenominator()
-{
-    simplifyToACommonDenominatorForExpressionAndReturnIfChanged(m_expression);
-    simplify();
-    putNegativeExponentsOnDenominator(m_expression);
-}
-
-void SimplificationOfExpression::simplifyAndCopyTerms(
-        TermsWithDetails & termsToUpdate,
+void SimplificationOfExpression::simplifyAndCopyTerms(        TermsWithDetails & termsToUpdate,
         TermsWithDetails const& termsToCheck)
 {
-    for(TermWithDetails const& termWithDetails : termsToCheck)
-    {
+    for(TermWithDetails const& termWithDetails : termsToCheck)    {
         Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         if(term.isExpression())
         {
@@ -178,32 +197,48 @@ bool SimplificationOfExpression::tryToAddSubtractTermsOverTermsAndReturnIfChange
 void SimplificationOfExpression::putNegativeExponentsOnDenominator(Expression & expression)
 {
     TermsWithDetails & termsWithDetails(expression.getTermsWithAssociationReference().getTermsWithDetailsReference());
-    ListOfPolynomialOverPolynomial numeratorsAndDenominators;
-    for(TermsWithDetails::iterator it=termsWithDetails.begin(); it!=termsWithDetails.end(); it++)
+    if((termsWithDetails.size()==1 || expression.getCommonOperatorLevel()==OperatorLevel::MultiplicationAndDivision))
     {
-        Term & term(getTermReferenceFromSharedPointer(it->baseTermSharedPointer));
-        if(term.isExpression())
+        ListOfPolynomialOverPolynomial numeratorsAndDenominators;
+        bool isExpressionChanged(false);
+        for(TermsWithDetails::iterator it=termsWithDetails.begin(); it!=termsWithDetails.end(); it++)
         {
-            Expression & subExpression(term.getExpressionReference());
-            putNegativeExponentsOnDenominator(subExpression);
+            Term & term(getTermReferenceFromSharedPointer(it->baseTermSharedPointer));
+            if(term.isExpression())
+            {
+                Expression & subExpression(term.getExpressionReference());
+                putNegativeExponentsOnDenominator(subExpression);
+            }
+            else if(canBeConvertedToPolynomial(term))
+            {
+                emplaceToNumeratorsAndDenominators(numeratorsAndDenominators, createPolynomialIfPossible(term), it->association);
+                isExpressionChanged=true;
+                termsWithDetails.erase(it);
+                it--;
+            }
         }
-        else if(canBeConvertedToPolynomial(term)
-                && (termsWithDetails.size() == 1 || expression.getCommonOperatorLevel()==OperatorLevel::MultiplicationAndDivision))
+        if(isExpressionChanged)
         {
-            emplaceToNumeratorsAndDenominators(numeratorsAndDenominators, createPolynomialIfPossible(term), it->association);
-            termsWithDetails.erase(it);
-            it--;
+            Expression newExpression(createOrCopyExpressionFromATerm(Term(1)));
+            TermsWithDetails termsInNumerator;
+            TermsWithDetails termsInDenominator;
+            segregateTermsWithPositiveAndNegativeAssociations(
+                        expression.getTermsWithAssociation().getTermsWithDetails(),
+                        termsInNumerator,
+                        termsInDenominator);
+            putNumeratorsInExpression(newExpression, numeratorsAndDenominators);
+            putNumeratorsInExpression(newExpression, termsInNumerator);
+            putDenominatorsInExpression(newExpression, numeratorsAndDenominators);
+            putDenominatorsInExpression(newExpression, termsInDenominator);
+            expression = newExpression;
         }
     }
-    putListOfPolynomialOverPolynomialInExpression(expression, numeratorsAndDenominators);
 }
 
-void SimplificationOfExpression::processTermsBaseOnOperatorLevel(
-        TermsWithDetails const& termsToProcess)
+void SimplificationOfExpression::processTermsBaseOnOperatorLevel(        TermsWithDetails const& termsToProcess)
 {
     switch(m_expression.getCommonOperatorLevel())
-    {
-    case OperatorLevel::Unknown:
+    {    case OperatorLevel::Unknown:
     {
         m_expression.putTermsWithDetails(termsToProcess);
         break;
@@ -277,36 +312,58 @@ void SimplificationOfExpression::processAndSaveTermsForRaiseToPower(
     }
 }
 
-void SimplificationOfExpression::putListOfPolynomialOverPolynomialInExpression(
+void SimplificationOfExpression::putNumeratorsInExpression(
         Expression & expression,
         ListOfPolynomialOverPolynomial const& numeratorsAndDenominators)
 {
     for(PolynomialOverPolynomial const& numeratorAndDenominator : numeratorsAndDenominators)
     {
-        putPolynomialOverPolynomialInExpression(expression, numeratorAndDenominator);
+        expression.putTermWithMultiplicationIfNeeded(
+                    simplifyAndConvertPolynomialToSimplestTerm(
+                        numeratorAndDenominator.getNumerator()));
     }
 }
 
-void SimplificationOfExpression::putPolynomialOverPolynomialInExpression(
-        Expression & expression,
-        PolynomialOverPolynomial const& numeratorAndDenominator)
+void SimplificationOfExpression::putNumeratorsInExpression(
+        Expression& expression,
+        TermsWithDetails const& numerators)
 {
-    expression.putTermWithMultiplicationIfNeeded(
-                    simplifyAndConvertPolynomialToSimplestTerm(
-                        numeratorAndDenominator.getNumerator()));
-    expression.putTermWithDivisionIfNeeded(
+    for(TermWithDetails numeratorWithDetails : numerators)
+    {
+        Term & numeratorTerm(getTermReferenceFromSharedPointer(numeratorWithDetails.baseTermSharedPointer));
+        expression.putTermWithMultiplicationIfNeeded(numeratorTerm);
+    }
+}
+
+void SimplificationOfExpression::putDenominatorsInExpression(
+        Expression & expression,
+        ListOfPolynomialOverPolynomial const& numeratorsAndDenominators)
+{
+    for(PolynomialOverPolynomial const& numeratorAndDenominator : numeratorsAndDenominators)
+    {
+        expression.putTermWithDivisionIfNeeded(
                     simplifyAndConvertPolynomialToSimplestTerm(
                         numeratorAndDenominator.getDenominator()));
+    }
+}
+
+void SimplificationOfExpression::putDenominatorsInExpression(
+        Expression& expression,
+        TermsWithDetails const& denominators)
+{
+    for(TermWithDetails denominatorWithDetails : denominators)
+    {
+        Term & denominatorTerm(getTermReferenceFromSharedPointer(denominatorWithDetails.baseTermSharedPointer));
+        expression.putTermWithDivisionIfNeeded(denominatorTerm);
+    }
 }
 
 void SimplificationOfExpression::addOrSubtractTermsWithExpressions(
         Term & combinedTerm,
-        TermsWithDetails const& termsWithExpressions) const
-{
+        TermsWithDetails const& termsWithExpressions) const{
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     additionAndSubtraction.putTermsWithDetails(termsWithExpressions);
-    additionAndSubtraction.combineExpressionsIfPossible();
-    accumulateTermsForAdditionAndSubtraction(combinedTerm, additionAndSubtraction.getAsTermsWithDetails());
+    additionAndSubtraction.combineExpressionsIfPossible();    accumulateTermsForAdditionAndSubtraction(combinedTerm, additionAndSubtraction.getAsTermsWithDetails());
 }
 
 void SimplificationOfExpression::processNumeratorsAndDenominators(

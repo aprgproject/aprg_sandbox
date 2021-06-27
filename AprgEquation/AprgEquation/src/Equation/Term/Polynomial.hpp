@@ -27,14 +27,13 @@ public:
     bool isOne() const;
     bool isZero() const;
     bool isOneMonomial() const;
-    bool isVariableExponentContentFound(Monomial const& monomial) const;
+    bool isVariableExponentInMonomialFound(Monomial const& monomial) const;
+    bool hasNegativeExponents() const;
 
     AlbaNumber getCoefficientOfVariableExponent(Monomial const& monomial) const;
-    Monomial getFirstMonomial() const;
-    Monomials const& getMonomialsConstReference() const;
+    Monomial getFirstMonomial() const;    Monomials const& getMonomialsConstReference() const;
     AlbaNumber getMaxDegree() const;
     std::string getDisplayableString() const;
-
     void clear();
     void simplify();
     void sortMonomialsWithInversePriority();
