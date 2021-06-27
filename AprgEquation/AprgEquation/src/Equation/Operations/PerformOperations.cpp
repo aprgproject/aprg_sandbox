@@ -78,6 +78,10 @@ Term performOperation(
 {\
     newTerm = operation(term.getExpressionConstReference());\
 }\
+    else if(term.isFunction())\
+{\
+    newTerm = operation(term.getFunctionConstReference());\
+}\
     return newTerm;
 
 #define TERM_BINARY_OPERATION_MACRO(operation) \
@@ -104,6 +108,10 @@ Term performOperation(
 {\
     newTerm = term1.getConstantConstReference() operation term2.getExpressionConstReference();\
 }\
+    else if(term2.isFunction())\
+{\
+    newTerm = term1.getConstantConstReference() operation term2.getFunctionConstReference();\
+}\
 }\
     else if(term1.isVariable())\
 {\
@@ -126,6 +134,10 @@ Term performOperation(
     else if(term2.isExpression())\
 {\
     newTerm = term1.getVariableConstReference() operation term2.getExpressionConstReference();\
+}\
+    else if(term2.isFunction())\
+{\
+    newTerm = term1.getVariableConstReference() operation term2.getFunctionConstReference();\
 }\
 }\
     else if(term1.isMonomial())\
@@ -150,6 +162,10 @@ Term performOperation(
 {\
     newTerm = term1.getMonomialConstReference() operation term2.getExpressionConstReference();\
 }\
+    else if(term2.isFunction())\
+{\
+    newTerm = term1.getMonomialConstReference() operation term2.getFunctionConstReference();\
+}\
 }\
     else if(term1.isPolynomial())\
 {\
@@ -173,6 +189,10 @@ Term performOperation(
 {\
     newTerm = term1.getPolynomialConstReference() operation term2.getExpressionConstReference();\
 }\
+    else if(term2.isFunction())\
+{\
+    newTerm = term1.getPolynomialConstReference() operation term2.getFunctionConstReference();\
+}\
 }\
     else if(term1.isExpression())\
 {\
@@ -195,6 +215,37 @@ Term performOperation(
     else if(term2.isExpression())\
 {\
     newTerm = term1.getExpressionConstReference() operation term2.getExpressionConstReference();\
+}\
+    else if(term2.isFunction())\
+{\
+    newTerm = term1.getExpressionConstReference() operation term2.getFunctionConstReference();\
+}\
+}\
+    else if(term1.isFunction())\
+{\
+    if(term2.isConstant())\
+{\
+    newTerm = term1.getFunctionConstReference() operation term2.getConstantConstReference();\
+}\
+    else if(term2.isVariable())\
+{\
+    newTerm = term1.getFunctionConstReference() operation term2.getVariableConstReference();\
+}\
+    else if(term2.isMonomial())\
+{\
+    newTerm = term1.getFunctionConstReference() operation term2.getMonomialConstReference();\
+}\
+    else if(term2.isPolynomial())\
+{\
+    newTerm = term1.getFunctionConstReference() operation term2.getPolynomialConstReference();\
+}\
+    else if(term2.isExpression())\
+{\
+    newTerm = term1.getFunctionConstReference() operation term2.getExpressionConstReference();\
+}\
+    else if(term2.isFunction())\
+{\
+    newTerm = term1.getFunctionConstReference() operation term2.getFunctionConstReference();\
 }\
 }\
     return newTerm;

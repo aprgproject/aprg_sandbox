@@ -387,10 +387,12 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionAndSimplif
 
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 2}}), Monomial(-10, {{"x", 1}}), Monomial(7, {})};
     Polynomial polynomialToExpect2{Monomial(6, {{"x", 3}}), Monomial(-11, {{"x", 2}}), Monomial(-14, {{"x", 1}}), Monomial(24, {})};
-    Expression expressionToExpect(createExpressionIfPossible({Term(polynomialToExpect1), Term("/"), Term(polynomialToExpect2)}));    EXPECT_EQ(expressionToExpect, expressionToVerify);
+    Expression expressionToExpect(createExpressionIfPossible({Term(polynomialToExpect1), Term("/"), Term(polynomialToExpect2)}));
+    EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, PutAsAdditionWorks){
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, PutAsAdditionWorks)
+{
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction({Term(487)}, {Term(756)});
 

@@ -20,10 +20,15 @@ public:
 
     Expression getExpression() const;
 
-    void setAsShouldSimplifyToACommonDenominator(bool const shouldSimplifyToACommonDenominator);
+    void setAsShouldSimplifyToACommonDenominator(
+            bool const shouldSimplifyToACommonDenominator);
+    void setAsShouldSimplifyEvenExponentsCancellationWithAbsoluteValue(
+            bool const shouldSimplifyEvenExponentsCancellationWithAbsoluteValue);
     void simplify();
 
 private:
+    bool didEvenExponentCancellationHappened(
+            TermsWithAssociation::TermsWithDetails const& exponents) const;
     void prepareToACommonDenominatorIfNeeded();
     void finalizeToACommonDenominatorIfNeeded();
 
@@ -92,6 +97,7 @@ private:
 
     Expression m_expression;
     bool m_shouldSimplifyToACommonDenominator;
+    bool m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue;
 };
 
 }

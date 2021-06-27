@@ -2,9 +2,13 @@
 
 #include <Equation/Constructs/AdditionAndSubtractionOfExpressions.hpp>
 #include <Equation/Constructs/AdditionAndSubtractionOfTermsOverTerms.hpp>
+#include <Equation/Functions/CommonFunctionLibrary.hpp>
 #include <Equation/Operations/AccumulateOperations.hpp>
+#include <Equation/Term/TermOperators.hpp>
 #include <Equation/Utilities.hpp>
+#include <Math/AlbaMathHelper.hpp>
 
+using namespace alba::mathHelper;
 using namespace std;
 using TermWithDetails=alba::equation::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::equation::TermsWithAssociation::TermsWithDetails;
@@ -22,6 +26,7 @@ SimplificationOfExpression::SimplificationOfExpression(
         Expression const& expression)
     : m_expression(expression)
     , m_shouldSimplifyToACommonDenominator(false)
+    , m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue(false)
 {}
 
 Expression SimplificationOfExpression::getExpression() const
@@ -29,9 +34,16 @@ Expression SimplificationOfExpression::getExpression() const
     return m_expression;
 }
 
-void SimplificationOfExpression::setAsShouldSimplifyToACommonDenominator(bool const shouldSimplifyToACommonDenominator)
+void SimplificationOfExpression::setAsShouldSimplifyToACommonDenominator(
+        bool const shouldSimplifyToACommonDenominator)
 {
     m_shouldSimplifyToACommonDenominator = shouldSimplifyToACommonDenominator;
+}
+
+void SimplificationOfExpression::setAsShouldSimplifyEvenExponentsCancellationWithAbsoluteValue(
+        bool const shouldSimplifyEvenExponentsCancellationWithAbsoluteValue)
+{
+    m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue = shouldSimplifyEvenExponentsCancellationWithAbsoluteValue;
 }
 
 void SimplificationOfExpression::simplify()
@@ -39,6 +51,44 @@ void SimplificationOfExpression::simplify()
     prepareToACommonDenominatorIfNeeded();
     simplifyExpression();
     finalizeToACommonDenominatorIfNeeded();
+}
+
+bool SimplificationOfExpression::didEvenExponentCancellationHappened(
+        TermsWithDetails const& exponents) const
+{
+    bool result(false);
+    Term previousCombinedTerm(1);
+    for(TermWithDetails const& exponentWithDetails : exponents)
+    {
+        Term const& currentExponent(getTermConstReferenceFromSharedPointer(exponentWithDetails.baseTermSharedPointer));
+        Term currentCombineTerm(1);
+        if(TermAssociationType::Positive == exponentWithDetails.association)
+        {
+            currentCombineTerm = previousCombinedTerm*currentExponent;
+        }
+        else
+        {
+            currentCombineTerm = previousCombinedTerm/currentExponent;
+        }
+        if(previousCombinedTerm.isConstant() && currentCombineTerm.isConstant())
+        {
+            AlbaNumber previousCombinedValue(previousCombinedTerm.getConstantConstReference().getNumberConstReference());
+            AlbaNumber currentExponentValue(currentExponent.getConstantConstReference().getNumberConstReference());
+            if((previousCombinedValue.isIntegerType() || previousCombinedValue.isFractionType())
+                    && (currentExponentValue.isIntegerType() || currentExponentValue.isFractionType()))
+            {
+                bool isPreviousCombinedValueNumeratorEven(isEven(static_cast<unsigned int>(previousCombinedValue.getFractionData().numerator)));
+                bool isExponentValueDenominatorEven(isEven(static_cast<unsigned int>(currentExponentValue.getFractionData().denominator)));
+                result = isPreviousCombinedValueNumeratorEven && isExponentValueDenominatorEven;
+            }
+        }
+        else
+        {
+            break;
+        }
+        previousCombinedTerm = currentCombineTerm;
+    }
+    return result;
 }
 
 void SimplificationOfExpression::prepareToACommonDenominatorIfNeeded()
@@ -296,7 +346,7 @@ void SimplificationOfExpression::processAndSaveTermsForRaiseToPower(
     if(!termsToProcess.empty())
     {
         Term combinedTerm;
-        Term const& baseOfRaiseToPower=getTermConstReferenceFromSharedPointer(termsToProcess.at(0).baseTermSharedPointer);
+        Term baseOfRaiseToPower=getTermConstReferenceFromSharedPointer(termsToProcess.at(0).baseTermSharedPointer);
         if(baseOfRaiseToPower.isTheValueZero())
         {
             combinedTerm = Term(Constant(0));
@@ -312,6 +362,11 @@ void SimplificationOfExpression::processAndSaveTermsForRaiseToPower(
         else
         {
             TermsWithDetails exponents(termsToProcess.cbegin()+1, termsToProcess.cend());
+            if(m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue
+                    && didEvenExponentCancellationHappened(exponents))
+            {
+                baseOfRaiseToPower=simplifyAndConvertFunctionToSimplestTerm(Functions::abs(createOrCopyExpressionFromATerm(baseOfRaiseToPower)));
+            }
             saveBaseAndExponentsToTerm(combinedTerm, baseOfRaiseToPower, exponents);
         }
         m_expression.setTerm(combinedTerm);
