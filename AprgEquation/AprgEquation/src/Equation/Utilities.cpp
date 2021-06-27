@@ -246,29 +246,26 @@ string getEnumShortString(TermAssociationType const association)
 {
     switch(association)
     {
-    ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermAssociationType::Positive, "[POS]")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermAssociationType::Negative, "[NEG]")
+    ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermAssociationType::Positive, "{POS}")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermAssociationType::Negative, "{NEG}")
             default:
         return "default";
-    }
-}
+    }}
 
 string getEnumShortString(OperatorLevel const operatorLevel)
 {
     switch(operatorLevel)
     {
-    ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::Unknown, "[?]")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::AdditionAndSubtraction, "[+-]")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::MultiplicationAndDivision, "[*/]")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::RaiseToPower, "[^]")
+    ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::Unknown, "{?}")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::AdditionAndSubtraction, "{+-}")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::MultiplicationAndDivision, "{*/}")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(OperatorLevel::RaiseToPower, "{^}")
             default:
         return "default";
-    }
-}
+    }}
 
 string getOperatingString(
-        OperatorLevel const operatorLevel,
-        TermAssociationType const association)
+        OperatorLevel const operatorLevel,        TermAssociationType const association)
 {
     string result;
     if(TermAssociationType::Positive == association)
@@ -342,20 +339,18 @@ string getString(TermsWithDetails const& termsWithDetails)
 
 string getString(TermWithDetails const& termWithDetails)
 {
-    return string("[")+termWithDetails.baseTermSharedPointer->getDisplayableString()
-            +"]["+getEnumShortString(termWithDetails.association)+"]";
+    return string("{")+termWithDetails.baseTermSharedPointer->getDisplayableString()
+            +"}{"+getEnumShortString(termWithDetails.association)+"}";
 }
 
 string createVariableNameForSubstitution(Polynomial const& polynomial)
 {
-    string variableName = string("[") + polynomial.getDisplayableString() + "]";
+    string variableName = string("{") + polynomial.getDisplayableString() + "}";
     return variableName;
 }
-
 BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer)
 {
-    return move(BaseTermSharedPointer(
-                    dynamic_cast<BaseTerm*>(
+    return move(BaseTermSharedPointer(                    dynamic_cast<BaseTerm*>(
                         new Term(*dynamic_cast<Term*>(sharedPointer.get())))));
 }
 

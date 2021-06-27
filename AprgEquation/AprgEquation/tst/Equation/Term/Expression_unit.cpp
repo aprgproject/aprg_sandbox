@@ -186,17 +186,15 @@ TEST(ExpressionTest, GetDebugStringWorks)
     expression3.putTermWithDivisionIfNeeded(Term(96));
     Expression expression4(createExpressionIfPossible({Term(expression2), Term("^"), Term("cash")}));
 
-    EXPECT_EQ("( [?]|| )", expression1.getDebugString());
-    EXPECT_EQ("( [+-]||695[Constant][POS]-interest[Variable][NEG]+debt[Variable][POS] )", expression2.getDebugString());
-    EXPECT_EQ("( [*/]||1/96[Constant][NEG] )", expression3.getDebugString());
-    EXPECT_EQ("( [^]||( [+-]||695[Constant][POS]-interest[Variable][NEG]+debt[Variable][POS] )[Expression][POS]^cash[Variable][POS] )", expression4.getDebugString());
+    EXPECT_EQ("( {?}|| )", expression1.getDebugString());
+    EXPECT_EQ("( {+-}||695{Constant}{POS}-interest{Variable}{NEG}+debt{Variable}{POS} )", expression2.getDebugString());
+    EXPECT_EQ("( {*/}||1/96{Constant}{NEG} )", expression3.getDebugString());
+    EXPECT_EQ("( {^}||( {+-}||695{Constant}{POS}-interest{Variable}{NEG}+debt{Variable}{POS} ){Expression}{POS}^cash{Variable}{POS} )", expression4.getDebugString());
 }
 
-TEST(ExpressionTest, ClearWorks)
-{
+TEST(ExpressionTest, ClearWorks){
     Expression expression1;
     Expression expression2(createExpressionIfPossible({Term(695), Term("-"), Term("interest"), Term("+"), Term("debt")}));
-
     expression1.clear();
     expression2.clear();
 

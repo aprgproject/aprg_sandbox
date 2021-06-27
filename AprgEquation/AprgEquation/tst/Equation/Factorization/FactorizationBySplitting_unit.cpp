@@ -398,18 +398,16 @@ TEST(FactorizationBySplittingTest, GetNewPolynomialWithVariablesWorks)
 
     ASSERT_EQ(1u, variableSubstitution.getSize());
     Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(Polynomial{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}})})));
-    EXPECT_EQ(expressionToExpect, variableSubstitution.getExpressionForVariable("[(5|x^1| + 3|y^1|)]"));
+    EXPECT_EQ(expressionToExpect, variableSubstitution.getExpressionForVariable("{(5[x] + 3[y])}"));
     Polynomial polynomialToExpect{
-        Monomial(1, {{"[(5|x^1| + 3|y^1|)]", 2}}),
-                Monomial(3, {{"[(5|x^1| + 3|y^1|)]", 1}}),
+        Monomial(1, {{"{(5[x] + 3[y])}", 2}}),
+                Monomial(3, {{"{(5[x] + 3[y])}", 1}}),
                 Monomial(2, {})};
     EXPECT_EQ(polynomialToExpect, polynomia1ToVerify);
 }
-
 TEST(FactorizationBySplittingTest, RemoveCommonFactorsInPolynomialsWorks)
 {
-    Polynomial polynomial1{Monomial(12, {{"x", 3}}), Monomial(24, {{"x", 2}}), Monomial(12, {{"x", 1}})};
-    Polynomial polynomial2{Monomial(6, {{"x", 4}}), Monomial(-6, {{"x", 2}})};
+    Polynomial polynomial1{Monomial(12, {{"x", 3}}), Monomial(24, {{"x", 2}}), Monomial(12, {{"x", 1}})};    Polynomial polynomial2{Monomial(6, {{"x", 4}}), Monomial(-6, {{"x", 2}})};
     Polynomial polynomial3{Monomial(4, {{"x", 4}}), Monomial(4, {{"x", 3}})};
     Polynomial polynomial4{Monomial(2, {{"x", 1}})};
     Polynomial polynomial5{Monomial(1, {{"x", 1}}), Monomial(1, {})};

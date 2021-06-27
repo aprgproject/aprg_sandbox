@@ -193,9 +193,8 @@ TEST(FunctionTest, GetDebugStringWorks)
         return constant;
     });
 
-    EXPECT_EQ("functionName( [?]||5[Constant][POS] )", function1.getDebugString());
+    EXPECT_EQ("functionName( {?}||5{Constant}{POS} )", function1.getDebugString());
 }
 
 }
-
 }

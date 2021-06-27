@@ -185,24 +185,22 @@ TEST(UtilitiesTest, GetEnumShortStringForTermTypeWorks)
 
 TEST(UtilitiesTest, GetEnumShortStringForTermAssociationTypeWorks)
 {
-    EXPECT_EQ("[POS]", getEnumShortString(TermAssociationType::Positive));
-    EXPECT_EQ("[NEG]", getEnumShortString(TermAssociationType::Negative));
+    EXPECT_EQ("{POS}", getEnumShortString(TermAssociationType::Positive));
+    EXPECT_EQ("{NEG}", getEnumShortString(TermAssociationType::Negative));
 }
 
 TEST(UtilitiesTest, GetEnumShortStringForOperatorLevelWorks)
 {
-    EXPECT_EQ("[?]", getEnumShortString(OperatorLevel::Unknown));
-    EXPECT_EQ("[+-]", getEnumShortString(OperatorLevel::AdditionAndSubtraction));
-    EXPECT_EQ("[*/]", getEnumShortString(OperatorLevel::MultiplicationAndDivision));
-    EXPECT_EQ("[^]", getEnumShortString(OperatorLevel::RaiseToPower));
+    EXPECT_EQ("{?}", getEnumShortString(OperatorLevel::Unknown));
+    EXPECT_EQ("{+-}", getEnumShortString(OperatorLevel::AdditionAndSubtraction));
+    EXPECT_EQ("{*/}", getEnumShortString(OperatorLevel::MultiplicationAndDivision));
+    EXPECT_EQ("{^}", getEnumShortString(OperatorLevel::RaiseToPower));
 }
 
-TEST(UtilitiesTest, GetOperatingStringWorks)
-{
+TEST(UtilitiesTest, GetOperatingStringWorks){
     EXPECT_TRUE(getOperatingString(OperatorLevel::Unknown, TermAssociationType::Positive).empty());
     EXPECT_TRUE(getOperatingString(OperatorLevel::Unknown, TermAssociationType::Negative).empty());
-    EXPECT_EQ("+", getOperatingString(OperatorLevel::AdditionAndSubtraction, TermAssociationType::Positive));
-    EXPECT_EQ("-", getOperatingString(OperatorLevel::AdditionAndSubtraction, TermAssociationType::Negative));
+    EXPECT_EQ("+", getOperatingString(OperatorLevel::AdditionAndSubtraction, TermAssociationType::Positive));    EXPECT_EQ("-", getOperatingString(OperatorLevel::AdditionAndSubtraction, TermAssociationType::Negative));
     EXPECT_EQ("*", getOperatingString(OperatorLevel::MultiplicationAndDivision, TermAssociationType::Positive));
     EXPECT_EQ("/", getOperatingString(OperatorLevel::MultiplicationAndDivision, TermAssociationType::Negative));
     EXPECT_EQ("^", getOperatingString(OperatorLevel::RaiseToPower, TermAssociationType::Positive));
@@ -221,35 +219,33 @@ TEST(UtilitiesTest, GetFirstStringIfNegativeAssociationWorks)
     EXPECT_TRUE(getFirstStringIfNegativeAssociation(OperatorLevel::RaiseToPower, TermAssociationType::Negative).empty());
 }
 
-TEST(TermWithDetailsTest, GetStringForTermWithDetailsWorks)
+TEST(UtilitiesTest, GetStringForTermWithDetailsWorks)
 {
     TermWithDetails termWithDetails(Term(10), TermAssociationType::Negative);
 
-    EXPECT_EQ("[10][[NEG]]", getString(termWithDetails));
+    EXPECT_EQ("{10}{{NEG}}", getString(termWithDetails));
 }
 
-TEST(TermWithDetailsTest, GetStringForTermsWithDetailsWorks)
+TEST(UtilitiesTest, GetStringForTermsWithDetailsWorks)
 {
     TermsWithDetails termsWithDetails;
     termsWithDetails.emplace_back(Term(10), TermAssociationType::Negative);
     termsWithDetails.emplace_back(Term(20), TermAssociationType::Positive);
 
-    EXPECT_EQ("[10][[NEG]], [20][[POS]]", getString(termsWithDetails));
+    EXPECT_EQ("{10}{{NEG}}, {20}{{POS}}", getString(termsWithDetails));
 }
 
-TEST(TermWithDetailsTest, CreateVariableNameForSubstitutionWorks)
+TEST(UtilitiesTest, CreateVariableNameForSubstitutionWorks)
 {
     Polynomial polynomial{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
-    EXPECT_EQ("[(6 + -7|x^2||y^3||z^4|)]", createVariableNameForSubstitution(polynomial));
+    EXPECT_EQ("{(6 + -7[x^2][y^3][z^4])}", createVariableNameForSubstitution(polynomial));
 }
 
-TEST(UtilitiesTest, CreateNewTermAndReturnSharedPointerWorks)
-{
+TEST(UtilitiesTest, CreateNewTermAndReturnSharedPointerWorks){
     BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9652)));
 
     BaseTermSharedPointer sharedPointerToVerify(createNewTermAndReturnSharedPointer(sharedPointer));
-
     Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));
     EXPECT_EQ(Term(9652), termToVerify);
     EXPECT_EQ(1, sharedPointerToVerify.use_count());
