@@ -282,9 +282,11 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForLcmDeno
     Expression expressionToExpect(createExpressionIfPossible({Term(subExpression4), Term("/"), Term(12)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
+
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForRevisedNumeratorTermsWorks)
 {
-    AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;    TermsOverTerms fraction1({Term(7)}, {Term(2)});
+    AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
+    TermsOverTerms fraction1({Term(7)}, {Term(2)});
     TermsOverTerms fraction2({Term(11)}, {Term(3)});
     TermsOverTerms fraction3({Term(13)}, {Term(4)});
     additionAndSubtraction.putAsAddition(fraction1);
@@ -300,9 +302,11 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionForRevised
     Expression expressionToExpect(createExpressionIfPossible({Term(subExpression4), Term("/"), Term(12)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
+
 TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetCombinedExpressionUsingExample1Works)
 {
-    AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;    TermsOverTerms fraction1({Term(4)}, {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})})});
+    AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
+    TermsOverTerms fraction1({Term(4)}, {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})})});
     TermsOverTerms fraction2({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(3, {})})}, {Term(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})})});
     TermsOverTerms fraction3({Term(Polynomial{Monomial(2, {{"x", 1}}), Monomial(1, {})})}, {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})})});
     additionAndSubtraction.putAsAddition(fraction1);

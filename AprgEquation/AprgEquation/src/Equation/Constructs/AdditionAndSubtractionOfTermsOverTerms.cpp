@@ -34,9 +34,11 @@ Expression AdditionAndSubtractionOfTermsOverTerms::getCombinedExpression() const
     combinedExpression.putTermWithDivisionIfNeeded(convertExpressionToSimplestTerm(combinedDenominator));
     return combinedExpression;
 }
+
 Terms AdditionAndSubtractionOfTermsOverTerms::getLcmOfDenominatorTerms() const
 {
-    Terms lcmTerms;    Monomials lcmMonomials;
+    Terms lcmTerms;
+    Monomials lcmMonomials;
     for(TermsOverTerms const& item : m_items)
     {
         Terms currentCommonFactors = lcmTerms;

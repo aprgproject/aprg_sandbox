@@ -30,10 +30,12 @@ private:
     void simplifyExpression();
     void simplifyAndCopyTerms(
             TermsWithAssociation::TermsWithDetails & termsToUpdate,
-            TermsWithAssociation::TermsWithDetails const& termsToCheck);    void simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
+            TermsWithAssociation::TermsWithDetails const& termsToCheck);
+    void simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
             TermsWithAssociation::TermsWithDetails & termsToUpdate,
             Expression const& expression,
-            TermAssociationType const association);    void simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify);
+            TermAssociationType const association);
+    void simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify);
     bool simplifyToACommonDenominatorForExpressionAndReturnIfChanged(Expression & expression);
     void simplifyTermsWithDetailsInExpressionToACommonDenominator(Expression & expression);
     bool tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression & addSubtractExpression);
@@ -64,10 +66,12 @@ private:
 
     //functions for addition
     void addOrSubtractTermsWithExpressions(
-            Term & combinedTerm,            TermsWithAssociation::TermsWithDetails const& termsWithExpressions) const;
+            Term & combinedTerm,
+            TermsWithAssociation::TermsWithDetails const& termsWithExpressions) const;
 
     //functions for multiplication
-    void processNumeratorsAndDenominators(            Term & combinedTerm,
+    void processNumeratorsAndDenominators(
+            Term & combinedTerm,
             TermsWithAssociation::TermsWithDetails const& numerators,
             TermsWithAssociation::TermsWithDetails const& denominators) const;
 
@@ -91,6 +95,7 @@ private:
 };
 
 }
+
 }
 
 }

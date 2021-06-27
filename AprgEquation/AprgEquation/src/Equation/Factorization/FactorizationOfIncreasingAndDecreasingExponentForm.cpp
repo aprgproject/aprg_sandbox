@@ -121,10 +121,12 @@ bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
         if(!polynomialWithExponentsInOrder.isVariableExponentInMonomialFound(monomialToCheck))
         {
             areAllMonomialsFoundInPolynomialWithExponentsInOrder = false;
-            break;        }
+            break;
+        }
     }
     return areAllMonomialsFoundInPolynomialWithExponentsInOrder;
 }
+
 unsigned int calculateMaxExponentDivisor(
         Monomial const& firstMonomial,
         Monomial const& lastMonomial)

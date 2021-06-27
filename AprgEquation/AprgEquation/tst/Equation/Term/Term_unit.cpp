@@ -691,10 +691,12 @@ TEST(TermTest, SimplifyWorks)
 
 TEST(TermTest, SortWorks)
 {
-    Term term1;    Term term2(Polynomial{});
+    Term term1;
+    Term term2(Polynomial{});
     Term term3(Expression{});
     Term term4(Polynomial{Monomial(100, {}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(10, {})});
     Term term5(createExpressionIfPossible({Term(1), Term("-"), Term(3), Term("-"), Term(2), Term("+"), Term(5), Term("+"), Term(4)}));
+
     term1.sort();
     term2.sort();
     term3.sort();

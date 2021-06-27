@@ -4,8 +4,10 @@
 #include <Equation/Factorization/FactorizationOfPolynomial.hpp>
 
 using namespace std;
+
 namespace alba
 {
+
 namespace equation
 {
 

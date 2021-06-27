@@ -1,6 +1,7 @@
 #include <Equation/Factorization/FactorizationOfPolynomial.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba

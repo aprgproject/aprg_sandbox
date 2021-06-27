@@ -31,9 +31,11 @@ public:
     bool hasNegativeExponents() const;
 
     AlbaNumber getCoefficientOfVariableExponent(Monomial const& monomial) const;
-    Monomial getFirstMonomial() const;    Monomials const& getMonomialsConstReference() const;
+    Monomial getFirstMonomial() const;
+    Monomials const& getMonomialsConstReference() const;
     AlbaNumber getMaxDegree() const;
     std::string getDisplayableString() const;
+
     void clear();
     void simplify();
     void sortMonomialsWithInversePriority();

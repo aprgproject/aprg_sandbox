@@ -24,7 +24,8 @@ SimplificationOfExpression::SimplificationOfExpression(
     , m_shouldSimplifyToACommonDenominator(false)
 {}
 
-Expression SimplificationOfExpression::getExpression() const{
+Expression SimplificationOfExpression::getExpression() const
+{
     return m_expression;
 }
 
@@ -60,7 +61,8 @@ void SimplificationOfExpression::simplifyExpression()
 {
     Expression beforeSimplify(m_expression);
 
-    TermsWithDetails termsToUpdate;    TermsWithAssociation & termsWithAssociation(m_expression.getTermsWithAssociationReference());
+    TermsWithDetails termsToUpdate;
+    TermsWithAssociation & termsWithAssociation(m_expression.getTermsWithAssociationReference());
     simplifyAndCopyTerms(termsToUpdate, termsWithAssociation.getTermsWithDetails());
     termsWithAssociation.clear();
     processTermsBaseOnOperatorLevel(termsToUpdate);
@@ -70,10 +72,12 @@ void SimplificationOfExpression::simplifyExpression()
 
 }
 
-void SimplificationOfExpression::simplifyAndCopyTerms(        TermsWithDetails & termsToUpdate,
+void SimplificationOfExpression::simplifyAndCopyTerms(
+        TermsWithDetails & termsToUpdate,
         TermsWithDetails const& termsToCheck)
 {
-    for(TermWithDetails const& termWithDetails : termsToCheck)    {
+    for(TermWithDetails const& termWithDetails : termsToCheck)
+    {
         Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         if(term.isExpression())
         {
@@ -235,10 +239,12 @@ void SimplificationOfExpression::putNegativeExponentsOnDenominator(Expression & 
     }
 }
 
-void SimplificationOfExpression::processTermsBaseOnOperatorLevel(        TermsWithDetails const& termsToProcess)
+void SimplificationOfExpression::processTermsBaseOnOperatorLevel(
+        TermsWithDetails const& termsToProcess)
 {
     switch(m_expression.getCommonOperatorLevel())
-    {    case OperatorLevel::Unknown:
+    {
+    case OperatorLevel::Unknown:
     {
         m_expression.putTermsWithDetails(termsToProcess);
         break;
@@ -360,10 +366,12 @@ void SimplificationOfExpression::putDenominatorsInExpression(
 
 void SimplificationOfExpression::addOrSubtractTermsWithExpressions(
         Term & combinedTerm,
-        TermsWithDetails const& termsWithExpressions) const{
+        TermsWithDetails const& termsWithExpressions) const
+{
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     additionAndSubtraction.putTermsWithDetails(termsWithExpressions);
-    additionAndSubtraction.combineExpressionsIfPossible();    accumulateTermsForAdditionAndSubtraction(combinedTerm, additionAndSubtraction.getAsTermsWithDetails());
+    additionAndSubtraction.combineExpressionsIfPossible();
+    accumulateTermsForAdditionAndSubtraction(combinedTerm, additionAndSubtraction.getAsTermsWithDetails());
 }
 
 void SimplificationOfExpression::processNumeratorsAndDenominators(
