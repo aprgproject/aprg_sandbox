@@ -137,14 +137,28 @@ TEST(AlbaMathHelperTest, IsDivisibleWorksAsExpected)
     EXPECT_FALSE(isDivisible(256u, 17u));
 }
 
+TEST(AlbaMathHelperTest, IsEvenWorksAsExpected)
+{
+    EXPECT_TRUE(isEven(0u));
+    EXPECT_FALSE(isEven(1u));
+    EXPECT_TRUE(isEven(256u));
+    EXPECT_FALSE(isEven(255u));
+}
+
+TEST(AlbaMathHelperTest, IsOddWorksAsExpected)
+{
+    EXPECT_FALSE(isOdd(0u));
+    EXPECT_TRUE(isOdd(1u));
+    EXPECT_FALSE(isOdd(256u));
+    EXPECT_TRUE(isOdd(255u));
+}
+
 TEST(AlbaMathHelperTest, IsPerfectSquareForUnsignedIntWorksAsExpected)
 {
-    EXPECT_TRUE(isPerfectSquare(0u));
-    EXPECT_TRUE(isPerfectSquare(1u));
+    EXPECT_TRUE(isPerfectSquare(0u));    EXPECT_TRUE(isPerfectSquare(1u));
     EXPECT_FALSE(isPerfectSquare(3u));
     EXPECT_TRUE(isPerfectSquare(4u));
-    EXPECT_TRUE(isPerfectSquare(100u));
-    EXPECT_FALSE(isPerfectSquare(101u));
+    EXPECT_TRUE(isPerfectSquare(100u));    EXPECT_FALSE(isPerfectSquare(101u));
 }
 
 TEST(AlbaMathHelperTest, IsPerfectSquareForAlbaNumberWorksAsExpected)
