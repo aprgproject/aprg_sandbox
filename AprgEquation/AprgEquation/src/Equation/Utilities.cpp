@@ -23,28 +23,23 @@ namespace alba
 namespace equation
 {
 
-bool isOperator(string const& name)
+bool isOperator(string const& stringAsParameter)
 {
-    return "+" == name ||
-            "-" == name ||
-            "*" == name ||
-            "/" == name ||
-            "^" == name ||
-            "(" == name ||
-            ")" == name;
+    return "+" == stringAsParameter || "-" == stringAsParameter || "*" == stringAsParameter || "/" == stringAsParameter
+            || "^" == stringAsParameter || "(" == stringAsParameter || ")" == stringAsParameter
+            || "==" == stringAsParameter || "!=" == stringAsParameter || ">" == stringAsParameter
+            || "<" == stringAsParameter || ">=" == stringAsParameter || "<=" == stringAsParameter;
 }
 
-bool isFunction(string const& name)
+bool isFunction(string const& stringAsParameter)
 {
-    return "abs" == name;
+    return "abs" == stringAsParameter;
 }
 
-bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const& term2)
-{
+bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const& term2){
     bool result(false);
     if(term1.isConstant() && term2.isConstant())
-    {
-        result = true;
+    {        result = true;
     }
     if(term1.isVariable() && term2.isVariable())
     {
