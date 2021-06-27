@@ -558,18 +558,17 @@ TEST(SimplificationOfExpressionTest, SimplifyToACommonDenominatorWorksOnRaiseToP
     simplification2.setAsShouldSimplifyToACommonDenominator(true);
 
     simplification1.simplify();
-    //simplification2.simplify();
+    simplification2.simplify();
 
     Expression expressionToVerify1(simplification1.getExpression());
-    //Expression expressionToVerify2(simplification2.getExpression());
+    Expression expressionToVerify2(simplification2.getExpression());
     Expression expressionToExpect1(createExpressionIfPossible({Term(1)}));
-    //Expression expressionToExpect2(createExpressionIfPossible({Term(Constant(0))}));
+    Expression expressionToExpect2(createExpressionIfPossible({Term(Constant(0))}));
     EXPECT_EQ(expressionToExpect1, expressionToVerify1);
-    //EXPECT_EQ(expressionToExpect2, expressionToVerify2);
+    EXPECT_EQ(expressionToExpect2, expressionToVerify2);
 }
 
 }
-
 }
 
 }

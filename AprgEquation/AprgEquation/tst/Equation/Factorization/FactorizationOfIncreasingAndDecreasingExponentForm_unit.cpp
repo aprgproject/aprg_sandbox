@@ -133,15 +133,13 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
 
-    //ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(3u, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(6, {{"x", 1}}), Monomial(7, {})};
     Polynomial polynomialToExpect2{Monomial(8, {{"x", 1}}), Monomial(9, {})};
-    Polynomial polynomialToExpect3{Monomial(4, {{"x", 1}}), Monomial(-5, {})};
-    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
+    Polynomial polynomialToExpect3{Monomial(4, {{"x", 1}}), Monomial(-5, {})};    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
     EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
 }
-
 TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossibleWorksOnQuadraticExpressionWithFirstCoefficientIsOne)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 2}}), Monomial(3, {{"x", 1}}), Monomial(-4, {})};
