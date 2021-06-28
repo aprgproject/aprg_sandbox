@@ -2,44 +2,75 @@
 
 #include <fstream>
 #include <iterator>
+#include <map>
 #include <memory>
 #include <set>
-#include <sstream>
-#include <string>
+#include <sstream>#include <string>
 
 namespace alba
 {
-
 namespace containerHelper
 {
 
 template <typename ValueType>
-std::pair<ValueType,ValueType> getRangeFromSetBasedFromValue(std::set<ValueType> const& container, ValueType const& value)
+std::pair<ValueType,ValueType> getLowerAndUpperValuesInSet(
+        std::set<ValueType> const& container,
+        ValueType const& value)
 {
     std::pair<ValueType,ValueType> result;
-    typename std::set<ValueType>::const_iterator itUpper = container.upper_bound(value);
-    typename std::set<ValueType>::const_iterator itLower(itUpper);
-    if(itLower != container.cbegin())
+    typename std::set<ValueType>::const_iterator itFoundValue = container.find(value);
+    typename std::set<ValueType>::const_iterator itUpper(itFoundValue);
+    typename std::set<ValueType>::const_iterator itLower(itFoundValue);
+    if(itFoundValue==container.cend())
     {
-        itLower--;
-    }
-    if(itUpper == container.cend())
-    {
-        itUpper--;
+        itUpper = container.upper_bound(value);
+        itLower = itUpper;
+        if(itLower != container.cbegin())
+        {
+            itLower--;
+        }
+        if(itUpper == container.cend())
+        {
+            itUpper--;
+        }
     }
     result.first = *itLower;
     result.second = *itUpper;
     return result;
 }
 
+template <typename KeyType, typename ValueType>
+std::pair<typename std::map<KeyType, ValueType>::iterator, typename std::map<KeyType, ValueType>::iterator>
+getLowerAndUpperIteratorsInMap(std::map<KeyType, ValueType> & container, KeyType const& keyValue)
+{
+    std::pair<typename std::map<KeyType, ValueType>::iterator, typename std::map<KeyType, ValueType>::iterator> result;
+    typename std::map<KeyType, ValueType>::iterator itFoundValue = container.find(keyValue);
+    typename std::map<KeyType, ValueType>::iterator itUpper(itFoundValue);
+    typename std::map<KeyType, ValueType>::iterator itLower(itFoundValue);
+    if(itFoundValue==container.cend())
+    {
+        itUpper = container.upper_bound(keyValue);
+        itLower = itUpper;
+        if(itLower != container.cbegin())
+        {
+            itLower--;
+        }
+        if(itUpper == container.cend())
+        {
+            itUpper--;
+        }
+    }
+    result.first = itLower;
+    result.second = itUpper;
+    return result;
+}
+
 //SaveContentsOfContainerToFile
 template <typename ValueType, std::size_t size,
-          template<typename, std::size_t> class Container>
-void saveContentsOfContainerToFile(std::ofstream & outputFile, Container<ValueType, size> const& container)
+          template<typename, std::size_t> class Container>void saveContentsOfContainerToFile(std::ofstream & outputFile, Container<ValueType, size> const& container)
 {
     //tested on array
-    std::ostream_iterator<ValueType> outputIterator (outputFile, "\n");
-    std::copy(container.cbegin(), container.cend(), outputIterator);
+    std::ostream_iterator<ValueType> outputIterator (outputFile, "\n");    std::copy(container.cbegin(), container.cend(), outputIterator);
 }
 
 template <typename ValueType,

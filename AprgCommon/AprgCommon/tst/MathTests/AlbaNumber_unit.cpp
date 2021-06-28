@@ -2,13 +2,15 @@
 
 #include <gtest/gtest.h>
 
+#include <ctgmath>
+
+using namespace std;
+
 namespace alba
 {
-
 TEST(AlbaNumberTest, ConstructionWorksAsExpected)
 {
-    AlbaNumber number1;
-    AlbaNumber number2(-81237);
+    AlbaNumber number1;    AlbaNumber number2(-81237);
     AlbaNumber number3(34095093u);
     AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(-100, 10);
@@ -118,15 +120,13 @@ TEST(AlbaNumberTest, GetFractionDataWorksAsExpected)
     EXPECT_EQ(4901u, fractionData4.denominator);
     AlbaNumber::FractionData fractionData5(number5.getFractionData());
     EXPECT_EQ(228219397, fractionData5.numerator);
-    EXPECT_EQ(50000, fractionData5.denominator);
+    EXPECT_EQ(50000u, fractionData5.denominator);
 }
 
-TEST(AlbaNumberTest, GetDoubleWorksAsExpected)
-{
+TEST(AlbaNumberTest, GetDoubleWorksAsExpected){
     AlbaNumber number1;
     AlbaNumber number2(-81237);
-    AlbaNumber number3(34095093u);
-    AlbaNumber number4(-87408, -9802);
+    AlbaNumber number3(34095093u);    AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(4564.38794);
 
     EXPECT_DOUBLE_EQ(0, number1.getDouble());
@@ -612,28 +612,27 @@ TEST(AlbaNumberTest, RaisePowerWorksOnTypesStartingFromFraction)
     AlbaNumber number2 = AlbaNumber(10, 6) ^ 5;
     AlbaNumber number3 = AlbaNumber(10, 6) ^ AlbaNumber(10, 7);
     AlbaNumber number4 = AlbaNumber(10, 6) ^ 2.324897;
+    AlbaNumber number5 = AlbaNumber(12345, 12346) ^ AlbaNumber(1234);
     AlbaNumber number6 = AlbaNumber(1234567890, 1234567891) ^ AlbaNumber(3);
     AlbaNumber number7 = AlbaNumber(1234567891) ^ AlbaNumber(1234567890, 1234567891);
     AlbaNumber number8 = AlbaNumber(1234567890, 1234567891) ^ AlbaNumber(1234567890, 1234567893);
-
     EXPECT_EQ(AlbaNumber::Type::Integer, number1.getType());
     EXPECT_EQ(0, number1.getInteger());
-    EXPECT_EQ(AlbaNumber::Type::Fraction, number2.getType());
-    AlbaNumber::FractionData fractionData2(number2.getFractionData());
+    EXPECT_EQ(AlbaNumber::Type::Fraction, number2.getType());    AlbaNumber::FractionData fractionData2(number2.getFractionData());
     EXPECT_EQ(3125, fractionData2.numerator);
     EXPECT_EQ(243u, fractionData2.denominator);
     EXPECT_EQ(AlbaNumber::Type::Double, number3.getType());
     EXPECT_DOUBLE_EQ(2.0745637509941224, number3.getDouble());
     EXPECT_EQ(AlbaNumber::Type::Double, number4.getType());
     EXPECT_DOUBLE_EQ(3.2792572881529063, number4.getDouble());
+    EXPECT_EQ(AlbaNumber::Type::Double, number5.getType());
+    EXPECT_DOUBLE_EQ(0.90487772997589355, number5.getDouble());
     EXPECT_EQ(AlbaNumber::Type::Double, number6.getType());
     EXPECT_DOUBLE_EQ(0.99999999757000013, number6.getDouble());
-    EXPECT_EQ(AlbaNumber::Type::Double, number7.getType());
-    EXPECT_DOUBLE_EQ(1234567870.0660145, number7.getDouble());
+    EXPECT_EQ(AlbaNumber::Type::Double, number7.getType());    EXPECT_DOUBLE_EQ(1234567870.0660145, number7.getDouble());
     EXPECT_EQ(AlbaNumber::Type::Double, number8.getType());
     EXPECT_DOUBLE_EQ(0.99999999919000004, number8.getDouble());
 }
-
 TEST(AlbaNumberTest, RaisePowerWorksOnTypesStartingFromDouble)
 {
     AlbaNumber number1 = AlbaNumber(0.1) ^ AlbaNumber(1);
@@ -715,6 +714,49 @@ TEST(AlbaNumberTest, ConvertToFractionWorks)
     AlbaNumber::FractionData fractionData3(number3.getFractionData());
     EXPECT_EQ(-341, fractionData3.numerator);
     EXPECT_EQ(4u, fractionData3.denominator);
+}
+
+TEST(AlbaNumberTest, DivisionOfAValueByZeroWorksAsExpected)
+{
+    AlbaNumber number1(5);
+    AlbaNumber number2(5, 0);
+    AlbaNumber number3(1.25);
+
+    number1 = number1/0;
+    number3 = number3/0;
+    EXPECT_EQ(AlbaNumber::Type::Double, number1.getType());
+    EXPECT_DOUBLE_EQ(INFINITY, number1.getDouble());
+    EXPECT_EQ(AlbaNumber::Type::Double, number2.getType());
+    EXPECT_DOUBLE_EQ(INFINITY, number2.getDouble());
+    EXPECT_EQ(AlbaNumber::Type::Double, number3.getType());
+    EXPECT_DOUBLE_EQ(INFINITY, number3.getDouble());
+}
+
+TEST(AlbaNumberTest, DivisionOfZeroByZeroWorksAsExpected)
+{
+    AlbaNumber number1(0);
+    AlbaNumber number2(0, 0);
+    AlbaNumber number3(static_cast<double>(0));
+
+    number1 = number1/0;
+    number3 = number3/0;
+    EXPECT_EQ(AlbaNumber::Type::Double, number1.getType());
+    EXPECT_TRUE(isnan(number1.getDouble()));
+    EXPECT_EQ(AlbaNumber::Type::Double, number2.getType());
+    EXPECT_TRUE(isnan(number2.getDouble()));
+    EXPECT_EQ(AlbaNumber::Type::Double, number3.getType());
+    EXPECT_TRUE(isnan(number3.getDouble()));
+}
+
+TEST(AlbaNumberTest, SquareRootOfNegativeNumberWorksAsExpected)
+{
+    AlbaNumber base(-5);
+    AlbaNumber exponent(1, 2);
+
+    AlbaNumber numberToVerify = base^exponent;
+
+    EXPECT_EQ(AlbaNumber::Type::Double, numberToVerify.getType());
+    EXPECT_TRUE(isnan(numberToVerify.getDouble()));
 }
 
 }

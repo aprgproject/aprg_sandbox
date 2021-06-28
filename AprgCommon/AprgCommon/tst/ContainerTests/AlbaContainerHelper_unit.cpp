@@ -16,25 +16,49 @@ using namespace std;
 namespace alba
 {
 
-TEST(ContainerSetTest, GetRangeFromSetBasedFromValue)
+TEST(ContainerSetTest, GetLowerAndUpperValuesInSet)
 {
     set<int> sampleSet{-10,-5,1,2,4,5,23,50};
-    EXPECT_EQ((pair<int,int>(-10, -10)), getRangeFromSetBasedFromValue(sampleSet, -100));
-    EXPECT_EQ((pair<int,int>(-10, -5)), getRangeFromSetBasedFromValue(sampleSet, -10));
-    EXPECT_EQ((pair<int,int>(50, 50)), getRangeFromSetBasedFromValue(sampleSet, 50));
-    EXPECT_EQ((pair<int,int>(50, 50)), getRangeFromSetBasedFromValue(sampleSet, 10000));
-    EXPECT_EQ((pair<int,int>(23, 50)), getRangeFromSetBasedFromValue(sampleSet, 23));
-    EXPECT_EQ((pair<int,int>(5, 23)), getRangeFromSetBasedFromValue(sampleSet, 7));
+    EXPECT_EQ((pair<int,int>(-10, -10)), getLowerAndUpperValuesInSet(sampleSet, -100));
+    EXPECT_EQ((pair<int,int>(-10, -10)), getLowerAndUpperValuesInSet(sampleSet, -10));
+    EXPECT_EQ((pair<int,int>(50, 50)), getLowerAndUpperValuesInSet(sampleSet, 50));
+    EXPECT_EQ((pair<int,int>(50, 50)), getLowerAndUpperValuesInSet(sampleSet, 10000));
+    EXPECT_EQ((pair<int,int>(23, 23)), getLowerAndUpperValuesInSet(sampleSet, 23));
+    EXPECT_EQ((pair<int,int>(5, 23)), getLowerAndUpperValuesInSet(sampleSet, 7));
+}
+
+TEST(ContainerSetTest, GetLowerAndUpperIteratorsInMap)
+{
+    map<unsigned int, unsigned int> sampleMap{{1, 10}, {3, 30}, {5, 50}};
+    using MapIterator=map<unsigned int, unsigned int>::iterator;
+    using PairOfIterators=pair<MapIterator, MapIterator>;
+
+    MapIterator firstIterator=sampleMap.find(1);
+    MapIterator secondIterator=sampleMap.find(3);
+    MapIterator thirdIterator=sampleMap.find(5);
+    PairOfIterators iteratorsToVerify1(getLowerAndUpperIteratorsInMap(sampleMap, 0u));
+    EXPECT_EQ(firstIterator, iteratorsToVerify1.first);
+    EXPECT_EQ(firstIterator, iteratorsToVerify1.second);
+    PairOfIterators iteratorsToVerify2(getLowerAndUpperIteratorsInMap(sampleMap, 6u));
+    EXPECT_EQ(thirdIterator, iteratorsToVerify2.first);
+    EXPECT_EQ(thirdIterator, iteratorsToVerify2.second);
+    PairOfIterators iteratorsToVerify3(getLowerAndUpperIteratorsInMap(sampleMap, 1u));
+    EXPECT_EQ(firstIterator, iteratorsToVerify3.first);
+    EXPECT_EQ(firstIterator, iteratorsToVerify3.second);
+    PairOfIterators iteratorsToVerify4(getLowerAndUpperIteratorsInMap(sampleMap, 5u));
+    EXPECT_EQ(thirdIterator, iteratorsToVerify4.first);
+    EXPECT_EQ(thirdIterator, iteratorsToVerify4.second);
+    PairOfIterators iteratorsToVerify5(getLowerAndUpperIteratorsInMap(sampleMap, 4u));
+    EXPECT_EQ(secondIterator, iteratorsToVerify5.first);
+    EXPECT_EQ(thirdIterator, iteratorsToVerify5.second);
 }
 
 TEST(ContainerTest, SaveVectorOfIntegersToFile)
 {
-    std::array<int, 6> temporaryArray{0, -23, 4, 379,- 482, 37};
-    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
+    std::array<int, 6> temporaryArray{0, -23, 4, 379,- 482, 37};    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
 
     saveContentsOfContainerToFile(outputTestFile, temporaryArray);
     outputTestFile.close();
-
     ifstream inputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
     ASSERT_TRUE(inputTestFile.is_open());
 
