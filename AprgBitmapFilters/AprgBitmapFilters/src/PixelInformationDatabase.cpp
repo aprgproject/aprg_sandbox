@@ -26,9 +26,11 @@ void PixelInformationDatabase::saveAsPenPoints(BitmapXYs const& bitmapPoints)
         saveAsPenPoint(bitmapPoint);
     }
 }
+
 void PixelInformationDatabase::clear()
 {
-    m_pixelsInformationMap.clear();}
+    m_pixelsInformationMap.clear();
+}
 
 PixelInformation PixelInformationDatabase::getPixelInformation(BitmapXY const& bitmapXY) const
 {

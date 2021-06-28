@@ -155,10 +155,12 @@ TEST(AlbaMathHelperTest, IsOddWorksAsExpected)
 
 TEST(AlbaMathHelperTest, IsPerfectSquareForUnsignedIntWorksAsExpected)
 {
-    EXPECT_TRUE(isPerfectSquare(0u));    EXPECT_TRUE(isPerfectSquare(1u));
+    EXPECT_TRUE(isPerfectSquare(0u));
+    EXPECT_TRUE(isPerfectSquare(1u));
     EXPECT_FALSE(isPerfectSquare(3u));
     EXPECT_TRUE(isPerfectSquare(4u));
-    EXPECT_TRUE(isPerfectSquare(100u));    EXPECT_FALSE(isPerfectSquare(101u));
+    EXPECT_TRUE(isPerfectSquare(100u));
+    EXPECT_FALSE(isPerfectSquare(101u));
 }
 
 TEST(AlbaMathHelperTest, IsPerfectSquareForAlbaNumberWorksAsExpected)

@@ -250,10 +250,12 @@ bool isOdd(unsigned int const number)
 
 bool isPerfectNthPower(
         unsigned int const value,
-        unsigned int const nthPower){
+        unsigned int const nthPower)
+{
     double valueRaiseToTheReciprocal = pow(value, static_cast<double>(1)/nthPower);
     return canConvertedToInteger(valueRaiseToTheReciprocal);
 }
+
 bool isPerfectNthPower(
         AlbaNumber const& number,
         unsigned int const nthPower)
