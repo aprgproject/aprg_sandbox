@@ -133,33 +133,63 @@ bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term)
 unsigned int getOperatorPriority(string const& operatorString)
 {
     unsigned int result=0;
-    if("+" == operatorString)
+    if("(" == operatorString)
     {
         result=1;
     }
-    else if("-" == operatorString)
+    else if(")" == operatorString)
     {
         result=2;
     }
-    else if("*" == operatorString)
+    else if("+" == operatorString)
     {
         result=3;
     }
-    else if("/" == operatorString)
+    else if("-" == operatorString)
     {
         result=4;
     }
-    else if("^" == operatorString)
+    else if("*" == operatorString)
     {
         result=5;
     }
+    else if("/" == operatorString)
+    {
+        result=6;
+    }
+    else if("^" == operatorString)
+    {
+        result=7;
+    }
+    else if("==" == operatorString)
+    {
+        result=8;
+    }
+    else if("!=" == operatorString)
+    {
+        result=9;
+    }
+    else if("<" == operatorString)
+    {
+        result=10;
+    }
+    else if(">" == operatorString)
+    {
+        result=11;
+    }
+    else if("<=" == operatorString)
+    {
+        result=12;
+    }
+    else if(">=" == operatorString)
+    {
+        result=13;
+    }
     return result;
 }
-
 unsigned int getAssociationPriority(TermAssociationType const association)
 {
-    unsigned int result(0);
-    switch(association)
+    unsigned int result(0);    switch(association)
     {
     case TermAssociationType::Positive:
         result=1;

@@ -334,16 +334,18 @@ Function const& Term::getFunctionConstReference() const
 string Term::getDisplayableString() const
 {
     string result;
-    if(m_type==TermType::Constant)
+    if(m_type==TermType::Empty)
+    {
+        result = "{EmptyTerm}";
+    }
+    else if(m_type==TermType::Constant)
     {
         result = getConstantConstReference().getDisplayableString();
     }
-    else if(m_type==TermType::Variable)
-    {
+    else if(m_type==TermType::Variable)    {
         result = getVariableConstReference().getDisplayableString();
     }
-    else if(m_type==TermType::Operator)
-    {
+    else if(m_type==TermType::Operator)    {
         result = getOperatorConstReference().getDisplayableString();
     }
     else if(m_type==TermType::Monomial)

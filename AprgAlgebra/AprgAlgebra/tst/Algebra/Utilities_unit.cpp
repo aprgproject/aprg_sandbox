@@ -146,18 +146,24 @@ TEST(UtilitiesTest, WillHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPowerWork
 
 TEST(UtilitiesTest, GetOperatorLevelValueWorks)
 {
-    EXPECT_EQ(1u, getOperatorPriority("+"));
-    EXPECT_EQ(2u, getOperatorPriority("-"));
-    EXPECT_EQ(3u, getOperatorPriority("*"));
-    EXPECT_EQ(4u, getOperatorPriority("/"));
-    EXPECT_EQ(5u, getOperatorPriority("^"));
+    EXPECT_EQ(1u, getOperatorPriority("("));
+    EXPECT_EQ(2u, getOperatorPriority(")"));
+    EXPECT_EQ(3u, getOperatorPriority("+"));
+    EXPECT_EQ(4u, getOperatorPriority("-"));
+    EXPECT_EQ(5u, getOperatorPriority("*"));
+    EXPECT_EQ(6u, getOperatorPriority("/"));
+    EXPECT_EQ(7u, getOperatorPriority("^"));
+    EXPECT_EQ(8u, getOperatorPriority("=="));
+    EXPECT_EQ(9u, getOperatorPriority("!="));
+    EXPECT_EQ(10u, getOperatorPriority("<"));
+    EXPECT_EQ(11u, getOperatorPriority(">"));
+    EXPECT_EQ(12u, getOperatorPriority("<="));
+    EXPECT_EQ(13u, getOperatorPriority(">="));
     EXPECT_EQ(0u, getOperatorPriority("operator"));
 }
-
 TEST(UtilitiesTest, GetAssociationPriorityWorks)
 {
-    EXPECT_EQ(1u, getAssociationPriority(TermAssociationType::Positive));
-    EXPECT_EQ(2u, getAssociationPriority(TermAssociationType::Negative));
+    EXPECT_EQ(1u, getAssociationPriority(TermAssociationType::Positive));    EXPECT_EQ(2u, getAssociationPriority(TermAssociationType::Negative));
 }
 
 TEST(UtilitiesTest, GetOperatorLevelInversePriorityWorks)

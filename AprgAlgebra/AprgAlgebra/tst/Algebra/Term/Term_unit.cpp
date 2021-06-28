@@ -628,15 +628,13 @@ TEST(TermTest, GetDisplayableStringWorks)
     });
     Term term8(function1);
 
-    EXPECT_TRUE(term1.getDisplayableString().empty());
+    EXPECT_EQ("{EmptyTerm}", term1.getDisplayableString());
     EXPECT_EQ("0", term2.getDisplayableString());
     EXPECT_EQ("length", term3.getDisplayableString());
-    EXPECT_EQ("+", term4.getDisplayableString());
-    EXPECT_EQ("-1.5[distance^-3.75][power^4.5]", term5.getDisplayableString());
+    EXPECT_EQ("+", term4.getDisplayableString());    EXPECT_EQ("-1.5[distance^-3.75][power^4.5]", term5.getDisplayableString());
     EXPECT_EQ("(3 + -1.5[distance^-3.75][power^4.5])", term6.getDisplayableString());
     EXPECT_EQ("(5+interest)", term7.getDisplayableString());
-    EXPECT_EQ("functionName(5)", term8.getDisplayableString());
-}
+    EXPECT_EQ("functionName(5)", term8.getDisplayableString());}
 
 TEST(TermTest, GetDebugStringWorks)
 {
