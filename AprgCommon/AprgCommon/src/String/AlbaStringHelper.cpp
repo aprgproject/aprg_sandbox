@@ -277,10 +277,12 @@ void splitLinesToAchieveTargetLength(strings & strings, string const& mainString
             auto pairOfIndex = containerHelper::getLowerAndUpperValuesInSet(transitionIndexes, splittingIndex);
             unsigned int lowerTransitionIndex(pairOfIndex.first+1);
             unsigned int upperTransitionIndex(pairOfIndex.second);
-            int lowerDelta = static_cast<int>(splittingIndex-lowerTransitionIndex);            int upperDelta = static_cast<int>(upperTransitionIndex-splittingIndex);
+            int lowerDelta = static_cast<int>(splittingIndex-lowerTransitionIndex);
+            int upperDelta = static_cast<int>(upperTransitionIndex-splittingIndex);
 
             bool isUpperValid(upperDelta >= 0);
-            bool isLowerValid(lowerDelta >= 0 && lowerTransitionIndex != previousSplittingIndex);            if(isUpperValid && isLowerValid)
+            bool isLowerValid(lowerDelta >= 0 && lowerTransitionIndex != previousSplittingIndex);
+            if(isUpperValid && isLowerValid)
             {
                 if(upperDelta < lowerDelta)
                 {

@@ -7,8 +7,10 @@ using namespace std;
 
 namespace alba
 {
+
 namespace TwoDimensions
 {
+
 Triangle::Triangle()
     : TrianglePolygonParent()
 {}

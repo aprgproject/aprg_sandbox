@@ -5,10 +5,12 @@
 #include <map>
 #include <memory>
 #include <set>
-#include <sstream>#include <string>
+#include <sstream>
+#include <string>
 
 namespace alba
 {
+
 namespace containerHelper
 {
 
@@ -67,10 +69,12 @@ getLowerAndUpperIteratorsInMap(std::map<KeyType, ValueType> & container, KeyType
 
 //SaveContentsOfContainerToFile
 template <typename ValueType, std::size_t size,
-          template<typename, std::size_t> class Container>void saveContentsOfContainerToFile(std::ofstream & outputFile, Container<ValueType, size> const& container)
+          template<typename, std::size_t> class Container>
+void saveContentsOfContainerToFile(std::ofstream & outputFile, Container<ValueType, size> const& container)
 {
     //tested on array
-    std::ostream_iterator<ValueType> outputIterator (outputFile, "\n");    std::copy(container.cbegin(), container.cend(), outputIterator);
+    std::ostream_iterator<ValueType> outputIterator (outputFile, "\n");
+    std::copy(container.cbegin(), container.cend(), outputIterator);
 }
 
 template <typename ValueType,

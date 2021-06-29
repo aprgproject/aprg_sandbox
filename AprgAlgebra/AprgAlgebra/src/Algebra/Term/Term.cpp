@@ -342,10 +342,12 @@ string Term::getDisplayableString() const
     {
         result = getConstantConstReference().getDisplayableString();
     }
-    else if(m_type==TermType::Variable)    {
+    else if(m_type==TermType::Variable)
+    {
         result = getVariableConstReference().getDisplayableString();
     }
-    else if(m_type==TermType::Operator)    {
+    else if(m_type==TermType::Operator)
+    {
         result = getOperatorConstReference().getDisplayableString();
     }
     else if(m_type==TermType::Monomial)

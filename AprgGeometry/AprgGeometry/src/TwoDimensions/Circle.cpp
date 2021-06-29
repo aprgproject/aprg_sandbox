@@ -99,10 +99,12 @@ void Circle::traverseArea(double const interval, TraverseOperation const& traver
             }
             else
             {
-                traverseOperation(Point(m_center.getX()+x, m_center.getY()+y));                traverseOperation(Point(m_center.getX()-x, m_center.getY()+y));
+                traverseOperation(Point(m_center.getX()+x, m_center.getY()+y));
+                traverseOperation(Point(m_center.getX()-x, m_center.getY()+y));
                 traverseOperation(Point(m_center.getX()+x, m_center.getY()-y));
                 traverseOperation(Point(m_center.getX()-x, m_center.getY()-y));
-            }        }
+            }
+        }
     }
 }
 

@@ -4,8 +4,10 @@ using namespace std;
 
 namespace alba
 {
+
 namespace TwoDimensions
 {
+
 Parabola::Parabola()
     : ParabolaPolynomialParent()
 {}

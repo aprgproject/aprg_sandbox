@@ -49,10 +49,12 @@ AlbaNumber::AlbaNumber(int const numerator, unsigned int const denominator)
     }
 }
 
-AlbaNumber::AlbaNumber(double const doubleValue)    : m_type(Type::Double)
+AlbaNumber::AlbaNumber(double const doubleValue)
+    : m_type(Type::Double)
 {
     double& doubleDataReference(m_data.doubleData);
-    doubleDataReference = doubleValue;    convertToIntegerIfNeeded();
+    doubleDataReference = doubleValue;
+    convertToIntegerIfNeeded();
 }
 
 bool AlbaNumber::operator==(AlbaNumber const& second) const
@@ -601,17 +603,20 @@ bool AlbaNumber::isDoubleConversionNeededForAdditionAndSubtraction(AlbaNumber co
                 || areNumberOfDigitsOnTheIntegerLimit(secondNumeratorIntDigits);
     }
     else if(first.m_type == Type::Fraction && second.m_type == Type::Integer)
-    {        unsigned int firstNumeratorIntDigits = getNumberOfIntegerDigits(first.m_data.fractionData.numerator);
+    {
+        unsigned int firstNumeratorIntDigits = getNumberOfIntegerDigits(first.m_data.fractionData.numerator);
         unsigned int firstDenominatorIntDigits = getNumberOfIntegerDigits(first.m_data.fractionData.denominator);
         unsigned int secondIntDigits = getNumberOfIntegerDigits(second.m_data.intData);
         result = areNumberOfDigitsOnTheIntegerLimit(firstNumeratorIntDigits)
                 || areNumberOfDigitsOnTheIntegerLimit(firstDenominatorIntDigits+secondIntDigits);
     }
     else if(first.m_type == Type::Fraction && second.m_type == Type::Fraction)
-    {        unsigned int firstNumeratorIntDigits = getNumberOfIntegerDigits(first.m_data.fractionData.numerator);
+    {
+        unsigned int firstNumeratorIntDigits = getNumberOfIntegerDigits(first.m_data.fractionData.numerator);
         unsigned int firstDenominatorIntDigits = getNumberOfIntegerDigits(first.m_data.fractionData.denominator);
         unsigned int secondNumeratorIntDigits = getNumberOfIntegerDigits(second.m_data.fractionData.numerator);
-        unsigned int secondDenominatorIntDigits = getNumberOfIntegerDigits(second.m_data.fractionData.denominator);        result = areNumberOfDigitsOnTheIntegerLimit(firstNumeratorIntDigits+secondDenominatorIntDigits)
+        unsigned int secondDenominatorIntDigits = getNumberOfIntegerDigits(second.m_data.fractionData.denominator);
+        result = areNumberOfDigitsOnTheIntegerLimit(firstNumeratorIntDigits+secondDenominatorIntDigits)
                 || areNumberOfDigitsOnTheIntegerLimit(firstDenominatorIntDigits+secondNumeratorIntDigits)
                 || areNumberOfDigitsOnTheIntegerLimit(firstDenominatorIntDigits+secondDenominatorIntDigits);
     }
@@ -650,9 +655,11 @@ bool AlbaNumber::isDoubleConversionNeededForMultiplication(AlbaNumber const& fir
     }
     return result;
 }
+
 bool AlbaNumber::isDoubleConversionNeededForDivision(AlbaNumber const& first, AlbaNumber const& second) const
 {
-    bool result(false);    if(first.m_type == Type::Integer && second.m_type == Type::Fraction)
+    bool result(false);
+    if(first.m_type == Type::Integer && second.m_type == Type::Fraction)
     {
         unsigned int firstIntDigits = getNumberOfIntegerDigits(first.m_data.intData);
         unsigned int secondDenominatorIntDigits = getNumberOfIntegerDigits(second.m_data.fractionData.denominator);
@@ -675,9 +682,11 @@ bool AlbaNumber::isDoubleConversionNeededForDivision(AlbaNumber const& first, Al
     }
     return result;
 }
+
 bool AlbaNumber::isDoubleConversionNeededForRaiseToPower(AlbaNumber const& first, AlbaNumber const& second) const
 {
-    bool result(false);    if(first.m_type == Type::Integer && second.m_type == Type::Integer)
+    bool result(false);
+    if(first.m_type == Type::Integer && second.m_type == Type::Integer)
     {
         unsigned int firstIntDigits = getNumberOfIntegerDigits(first.m_data.intData);
         unsigned int secondIntDigits = getNumberOfIntegerDigits(second.m_data.intData);
@@ -693,9 +702,11 @@ bool AlbaNumber::isDoubleConversionNeededForRaiseToPower(AlbaNumber const& first
     }
     return result;
 }
+
 void AlbaNumber::convertToIntegerIfNeeded()
 {
-    if(m_type == Type::Fraction)    {
+    if(m_type == Type::Fraction)
+    {
         FractionData const& fractionDataReference(m_data.fractionData);
         if(isDivisible(getAbsoluteValue(fractionDataReference.numerator), fractionDataReference.denominator))
         {

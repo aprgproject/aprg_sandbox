@@ -187,9 +187,11 @@ unsigned int getOperatorPriority(string const& operatorString)
     }
     return result;
 }
+
 unsigned int getAssociationPriority(TermAssociationType const association)
 {
-    unsigned int result(0);    switch(association)
+    unsigned int result(0);
+    switch(association)
     {
     case TermAssociationType::Positive:
         result=1;

@@ -1,13 +1,16 @@
 #include "AprgBitmapFilters.hpp"
 
+#include <AnimizeColor.hpp>
 #include <AprgColorStatistics.hpp>
 #include <AprgColorUtilities.hpp>
 #include <Math/AlbaMathHelper.hpp>
 #include <Optional/AlbaOptional.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>#include <Randomizer/AlbaRandomizer.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <Randomizer/AlbaRandomizer.hpp>
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
 
-using namespace alba::ColorUtilities;using namespace alba::TwoDimensions;
+using namespace alba::ColorUtilities;
+using namespace alba::TwoDimensions;
 using namespace std;
 
 namespace alba
@@ -91,50 +94,47 @@ void AprgBitmapFilters::determinePenPixels(double const penSearchRadius, unsigne
     });
 }
 
-void AprgBitmapFilters::determinePenCircles(unsigned int const similarityColorLimit, double const acceptablePenPercentage)
+void AprgBitmapFilters::retainMaxRadiusPenCircles(
+        Circles & penCircles,
+        map<Point, Circles> const& penPointToPenCircles)
+{
+    penCircles.clear();
+    for(auto it=penPointToPenCircles.cbegin(); it!=penPointToPenCircles.cend(); it++)
+    {
+        Circles const& penCirclesInOnePoint(it->second);
+        Circles::const_iterator circleWithMaxRadiusIt = max_element(
+                    penCirclesInOnePoint.cbegin(),
+                    penCirclesInOnePoint.cend(),
+                    [](Circle const& circle1, Circle const& circle2)
+        {
+            return circle1.getRadius() < circle2.getRadius();
+        });
+        penCircles.emplace_back(*circleWithMaxRadiusIt);
+    }
+}
+
+void AprgBitmapFilters::determinePenCircles(
+        unsigned int const similarityColorLimit,
+        double const acceptablePenPercentage)
 {
     PixelInformationDatabase::PixelSet penPixels(m_pixelInformationDatabase.getPenPixelsConstReference());
     Circles & penCircles(m_pixelInformationDatabase.getPenCirclesReference());
 
+    map<Point, Circles> penPointToPenCircles;
     for(BitmapXY const centerPoint : penPixels)
     {
-        unsigned int const centerColor(m_inputCanvas.getColorAt(centerPoint));
-        AlbaOptional<Circle> circleOptional;
-        for(double radius=0.25; radius<=10; radius+=0.25)
+        AlbaOptional<Circle> penCircleOptional(getPossiblePenCircle(centerPoint, similarityColorLimit, acceptablePenPercentage));
+        if(penCircleOptional.hasContent())
         {
-            Circle circle(convertBitmapXYToPoint(centerPoint), radius);
-            unsigned int partOfPenPixelsCount(0);
-            unsigned int totalPixelCount(0);
-            circle.traverseArea(1, [&](Point const& point)
+            Circle penCircle(penCircleOptional.getConstReference());
+            penCircles.emplace_back(penCircle);
+            penCircle.traverseArea(1, [&](Point const& point)
             {
-                BitmapXY pointInCircle(convertPointToBitmapXY(point));
-                if(m_inputCanvas.isPositionInsideTheSnippet(pointInCircle))
-                {
-                    unsigned int const currentColor(m_inputCanvas.getColorAt(pointInCircle));
-                    PixelInformation const & pixelInfoInCircle(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(pointInCircle));
-                    if(isSimilar(centerColor, currentColor, similarityColorLimit) && pixelInfoInCircle.isPenPixel)
-                    {
-                        partOfPenPixelsCount++;
-                    }
-                    totalPixelCount++;
-                }
+                penPointToPenCircles[point].emplace_back(penCircle);
             });
-            double calculatedPenPercentage = (double)partOfPenPixelsCount/totalPixelCount;
-            if(calculatedPenPercentage >= acceptablePenPercentage)
-            {
-                circleOptional.setReference(circle);
-            }
-            else
-            {
-                break;
-            }
-        }
-        if(circleOptional.hasContent())
-        {
-            //ALBA_PRINT1(circleOptional.getConstReference().getDisplayableString());
-            penCircles.emplace_back(circleOptional.getConstReference());
         }
     }
+    retainMaxRadiusPenCircles(penCircles, penPointToPenCircles);
 }
 
 void AprgBitmapFilters::drawPenCirclesToOutputCanvas()
@@ -145,18 +145,18 @@ void AprgBitmapFilters::drawPenCirclesToOutputCanvas()
     {
         BitmapXY centerPoint(convertPointToBitmapXY(penCircle.getCenter()));
         unsigned int const centerColor(m_inputCanvas.getColorAt(centerPoint));
-        //ALBA_PRINT1(penCircle.getDisplayableString());
         penCircle.traverseArea(1, [&](Point const& point)
         {
             BitmapXY pointInCircle(convertPointToBitmapXY(point));
             if(m_inputCanvas.isPositionInsideTheSnippet(pointInCircle))
             {
-                PixelInformation & pixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(pointInCircle));
-                pixelInfo.temporaryColors.emplace_back(centerColor);
+                //PixelInformation & pixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(pointInCircle));
+                //pixelInfo.temporaryColors.emplace_back(centerColor);
+                m_outputCanvas.setPixelAt(pointInCircle, centerColor);
             }
         });
     }
-    m_outputCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const)
+    /*    m_outputCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const)
     {
         PixelInformation & pixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(bitmapPoint));
         vector<unsigned int> & tempColors(pixelInfo.temporaryColors);
@@ -178,7 +178,6 @@ void AprgBitmapFilters::drawPenCirclesToOutputCanvas()
             }
             //unsigned int colorOfCircle = combineRgbToColor(redSum/tempColors.size(), greenSum/tempColors.size(), blueSum/tempColors.size());
             unsigned int colorOfCircle = savedColorWithMaxIntensity;
-            //ALBA_PRINT3(bitmapPoint.getDisplayableString(), finalColor, savedColorIntensity);
             HueSaturationLightnessData hslData = convertColorToHueSaturationLightnessData(colorOfCircle);
             //hslData.saturationLightnessDecimal = 1.1*hslData.saturationLightnessDecimal;
             //hslData.saturationLightnessDecimal = hslData.saturationLightnessDecimal > 1 ? 1 : hslData.lightnessDecimal;
@@ -195,7 +194,7 @@ void AprgBitmapFilters::drawPenCirclesToOutputCanvas()
             m_outputCanvas.setPixelAt(bitmapPoint, convertHueSaturationLightnessDataToColor(hslData));
             tempColors.clear();
         }
-    });
+    });*/
 }
 
 void AprgBitmapFilters::drawBlankGapsUsingBlurInOutputCanvas(double const blurRadius)
@@ -287,6 +286,53 @@ void AprgBitmapFilters::getConnectedComponentsOneComponentAtATime()
     });
 }
 
+AlbaOptional<Circle> AprgBitmapFilters::getPossiblePenCircle(
+        BitmapXY const& centerPoint,
+        unsigned int const similarityColorLimit,
+        double const acceptablePenPercentage)
+{
+    AlbaOptional<Circle> result;
+    unsigned int const centerColor(m_inputCanvas.getColorAt(centerPoint));
+    unsigned int similarPixelsCount(0);
+    unsigned int totalPixelCount(0);
+    double initialRadius=0.25;
+    double interval=0.25;
+    double previousRadius=initialRadius;
+    for(double currentRadius=initialRadius+interval; currentRadius<=10; currentRadius+=interval)
+    {
+        Circle circle(convertBitmapXYToPoint(centerPoint), currentRadius);
+        twoDimensionsHelper::traverseCircleAreaBetweenTwoRadius(
+                    convertBitmapXYToPoint(centerPoint),
+                    previousRadius,
+                    currentRadius,
+                    1,
+                    [&](Point const& point)
+        {
+            BitmapXY pointInCircle(floor(point.getX()), floor(point.getY()));
+            if(m_inputCanvas.isPositionInsideTheSnippet(pointInCircle))
+            {
+                unsigned int const currentColor(m_inputCanvas.getColorAt(pointInCircle));
+                if(isSimilar(centerColor, currentColor, similarityColorLimit))
+                {
+                    similarPixelsCount++;
+                }
+                totalPixelCount++;
+            }
+        });
+        double calculatedPenPercentage = (double)similarPixelsCount/totalPixelCount;
+        if(calculatedPenPercentage >= acceptablePenPercentage)
+        {
+            result.setReference(circle);
+        }
+        else
+        {
+            break;
+        }
+        previousRadius = currentRadius;
+    }
+    return result;
+}
+
 void AprgBitmapFilters::getConnectedComponentsTwoPass()
 {
     unsigned int currentLabel=1;
@@ -351,38 +397,15 @@ void AprgBitmapFilters::gatherAndSaveColorDataAndStatistics()
     gatherAndSaveColorStatistics(m_bitmap.getConfiguration().getPath());
 }
 
-void AprgBitmapFilters::drawToAnimeColorToOutputCanvas(){
-    //isLightnessLikeAnAnime -> mean should be 0.40-0.60, and std dev should be greater than 0.20
-
-    map<double, unsigned int> lightnessToCount;
-    unsigned int count=0;
-    m_inputCanvas.traverse([&](BitmapXY const&, unsigned int const color)
-    {
-        HueSaturationLightnessData hslData(convertColorToHueSaturationLightnessData(color));
-        lightnessToCount.emplace(hslData.lightnessDecimal, 0);
-        lightnessToCount[hslData.lightnessDecimal]++;
-        count++;
-    });
-
-    map<double, double> lightnessToNewLightness;
-    unsigned int partialCount(0);
-    for(pair<double, unsigned int> lightnessToCountPair : lightnessToCount)
-    {
-        unsigned int currentWeight = partialCount+(lightnessToCountPair.second/2);
-        lightnessToNewLightness[lightnessToCountPair.first] = (double)currentWeight/count;
-        partialCount += lightnessToCountPair.second;
-    }
-
-    copyInputCanvasToOutputCanvas();
+void AprgBitmapFilters::drawToAnimeColorToOutputCanvas()
+{
+    AnimizeColor animizeColor;
+    animizeColor.gatherStatistics(m_bitmap.getConfiguration().getPath());
+    animizeColor.calculateNewValues();
     m_inputCanvas.traverse([&](BitmapXY const& position, unsigned int const color)
     {
-        HueSaturationLightnessData hslData(convertColorToHueSaturationLightnessData(color));
-        map<double, double>::iterator itLightness = lightnessToNewLightness.lower_bound(hslData.lightnessDecimal);
-        if(itLightness != lightnessToNewLightness.end())
-        {
-            hslData.lightnessDecimal = itLightness->second;
-            m_outputCanvas.setPixelAt(position, convertHueSaturationLightnessDataToColor(hslData));
-        }
+        unsigned int newColor = animizeColor.getNewColor(color);
+        m_outputCanvas.setPixelAt(position, newColor);
     });
 }
 

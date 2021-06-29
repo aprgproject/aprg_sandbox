@@ -4,6 +4,7 @@
 #include <AprgBitmapSnippet.hpp>
 #include <PixelInformationDatabase.hpp>
 #include <TwoDimensions/Point.hpp>
+#include <TwoDimensions/Circle.hpp>
 #include <UnionFind/UnionFind.hpp>
 
 #include <functional>
@@ -38,6 +39,10 @@ public:
 
     void getConnectedComponentsOneComponentAtATime();
     void getConnectedComponentsTwoPass();
+    AlbaOptional<TwoDimensions::Circle> getPossiblePenCircle(
+            BitmapXY const& centerPoint,
+            unsigned int const similarityColorLimit,
+            double const acceptablePenPercentage);
 
     void saveOutputCanvasIntoCurrentBitmapFile() const;
     void saveOutputCanvasIntoFileInTheSameDirectory(std::string const& filename);
@@ -48,7 +53,11 @@ public:
     void gatherAndSaveColorDataAndStatistics();
     void drawToAnimeColorToOutputCanvas();
 
+
 private:
+    void retainMaxRadiusPenCircles(
+            TwoDimensions::Circles & penCircles,
+            std::map<TwoDimensions::Point, TwoDimensions::Circles> const& penPointToPenCircles);
     unsigned int analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(
             UnionFindForLabels & unionFindForLabels,
             BitmapXY const & neighborPoint);

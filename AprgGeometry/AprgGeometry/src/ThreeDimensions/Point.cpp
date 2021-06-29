@@ -4,8 +4,10 @@ using namespace std;
 
 namespace alba
 {
+
 namespace ThreeDimensions
 {
+
 Point::Point()
     : PointParent(0, 0, 0)
 {}

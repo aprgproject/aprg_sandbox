@@ -8,9 +8,11 @@ using namespace std;
 
 namespace alba
 {
+
 TEST(AlbaNumberTest, ConstructionWorksAsExpected)
 {
-    AlbaNumber number1;    AlbaNumber number2(-81237);
+    AlbaNumber number1;
+    AlbaNumber number2(-81237);
     AlbaNumber number3(34095093u);
     AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(-100, 10);
@@ -123,10 +125,12 @@ TEST(AlbaNumberTest, GetFractionDataWorksAsExpected)
     EXPECT_EQ(50000u, fractionData5.denominator);
 }
 
-TEST(AlbaNumberTest, GetDoubleWorksAsExpected){
+TEST(AlbaNumberTest, GetDoubleWorksAsExpected)
+{
     AlbaNumber number1;
     AlbaNumber number2(-81237);
-    AlbaNumber number3(34095093u);    AlbaNumber number4(-87408, -9802);
+    AlbaNumber number3(34095093u);
+    AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(4564.38794);
 
     EXPECT_DOUBLE_EQ(0, number1.getDouble());
@@ -616,9 +620,11 @@ TEST(AlbaNumberTest, RaisePowerWorksOnTypesStartingFromFraction)
     AlbaNumber number6 = AlbaNumber(1234567890, 1234567891) ^ AlbaNumber(3);
     AlbaNumber number7 = AlbaNumber(1234567891) ^ AlbaNumber(1234567890, 1234567891);
     AlbaNumber number8 = AlbaNumber(1234567890, 1234567891) ^ AlbaNumber(1234567890, 1234567893);
+
     EXPECT_EQ(AlbaNumber::Type::Integer, number1.getType());
     EXPECT_EQ(0, number1.getInteger());
-    EXPECT_EQ(AlbaNumber::Type::Fraction, number2.getType());    AlbaNumber::FractionData fractionData2(number2.getFractionData());
+    EXPECT_EQ(AlbaNumber::Type::Fraction, number2.getType());
+    AlbaNumber::FractionData fractionData2(number2.getFractionData());
     EXPECT_EQ(3125, fractionData2.numerator);
     EXPECT_EQ(243u, fractionData2.denominator);
     EXPECT_EQ(AlbaNumber::Type::Double, number3.getType());
@@ -629,10 +635,12 @@ TEST(AlbaNumberTest, RaisePowerWorksOnTypesStartingFromFraction)
     EXPECT_DOUBLE_EQ(0.90487772997589355, number5.getDouble());
     EXPECT_EQ(AlbaNumber::Type::Double, number6.getType());
     EXPECT_DOUBLE_EQ(0.99999999757000013, number6.getDouble());
-    EXPECT_EQ(AlbaNumber::Type::Double, number7.getType());    EXPECT_DOUBLE_EQ(1234567870.0660145, number7.getDouble());
+    EXPECT_EQ(AlbaNumber::Type::Double, number7.getType());
+    EXPECT_DOUBLE_EQ(1234567870.0660145, number7.getDouble());
     EXPECT_EQ(AlbaNumber::Type::Double, number8.getType());
     EXPECT_DOUBLE_EQ(0.99999999919000004, number8.getDouble());
 }
+
 TEST(AlbaNumberTest, RaisePowerWorksOnTypesStartingFromDouble)
 {
     AlbaNumber number1 = AlbaNumber(0.1) ^ AlbaNumber(1);
