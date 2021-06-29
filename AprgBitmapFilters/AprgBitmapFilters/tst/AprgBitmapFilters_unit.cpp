@@ -41,15 +41,13 @@ TEST(BitmapFilterTest, DISABLED_AnimizeTest)
     }
 }
 
-TEST(BitmapFilterTest, DeterminePenCircles)
+TEST(BitmapFilterTest, DISABLED_DeterminePenCircles)
 {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
     AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory()+R"(NonAnimeBitmaps\Witcher.bmp)");
-
     AprgBitmapFilters bitmapFilter(sampleFile.getFullPath());
     bitmapFilter.determinePenPixels(2, 0x08);
-    bitmapFilter.determinePenCircles(0x06, 0.50);
-    bitmapFilter.drawPenCirclesToOutputCanvas();
+    bitmapFilter.determinePenCircles(0x06, 0.50);    bitmapFilter.drawPenCirclesToOutputCanvas();
     bitmapFilter.saveOutputCanvasIntoFileInTheSameDirectory("Witcher_PenCircles.bmp");
 }
 
@@ -85,23 +83,18 @@ TEST(BitmapFilterTest, DISABLED_CclTestOneComponentAtATime)
     AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory()+R"(CCL\CclTest.bmp)");
     AprgBitmapFilters bitmapFilter(sampleFile.getFullPath());
     bitmapFilter.getConnectedComponentsOneComponentAtATime();
-    bitmapFilter.saveOutputCanvasIntoFileInTheSameDirectory("CclTestOutput.bmp");
 }
 
-TEST(BitmapFilterTest, DISABLED_CclTestTwoPass)
-{
+TEST(BitmapFilterTest, DISABLED_CclTestTwoPass){
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
     AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory()+R"(CCL\CclTest.bmp)");
     AprgBitmapFilters bitmapFilter(sampleFile.getFullPath());
     bitmapFilter.getConnectedComponentsTwoPass();
-    bitmapFilter.saveOutputCanvasIntoFileInTheSameDirectory("CclTestOutput.bmp");
 }
 
-TEST(BitmapFilterTest, DISABLED_FillNonPenGaps)
-{
+TEST(BitmapFilterTest, DISABLED_FillNonPenGaps){
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
     AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory()+R"(PenPixelsExperiments\BitmapNonPenPixels.bmp)");
-
     AprgBitmapFilters bitmapFilter(sampleFile.getFullPath());
     bitmapFilter.drawBlankGapsUsingBlurInOutputCanvas(2);
     bitmapFilter.saveOutputCanvasIntoFileInTheSameDirectory("BitmapNonPenPixelsFilled.bmp");

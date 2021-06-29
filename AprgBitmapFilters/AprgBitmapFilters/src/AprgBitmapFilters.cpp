@@ -229,59 +229,52 @@ void AprgBitmapFilters::drawBlurredNonPenPixelsToOutputCanvas(double const blurR
     m_inputCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const)
     {
         PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
-        if(!pixelInfo.isPenPixel)
+        if(!pixelInfo.isPenPixel())
         {
             m_outputCanvas.setPixelAt(bitmapPoint, getBlurredColor(m_inputCanvas, bitmapPoint, blurRadius,[&](unsigned int centerColor, unsigned int currentColor, BitmapXY pointInCircle)
             {
                 PixelInformation const& pointInCirclePixelInfo(m_pixelInformationDatabase.getPixelInformation(pointInCircle));
-                return isSimilar(centerColor, currentColor, similarityColorLimit) && currentColor!=m_backgroundColor && !pointInCirclePixelInfo.isPenPixel;
+                return isSimilar(centerColor, currentColor, similarityColorLimit) && currentColor!=m_backgroundColor && !pointInCirclePixelInfo.isPenPixel();
             }));
         }
-    });
-}
+    });}
 
 void AprgBitmapFilters::drawNonPenPixelsToOutputCanvas()
 {
     m_inputCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
     {
         PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
-        if(!pixelInfo.isPenPixel)
+        if(!pixelInfo.isPenPixel())
         {
             m_outputCanvas.setPixelAt(bitmapPoint, color);
-        }
-    });
+        }    });
 }
 
-void AprgBitmapFilters::drawPenPixelsToOutputCanvas()
-{
+void AprgBitmapFilters::drawPenPixelsToOutputCanvas(){
     m_inputCanvas.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
     {
         PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
-        if(pixelInfo.isPenPixel)
+        if(pixelInfo.isPenPixel())
         {
             m_outputCanvas.setPixelAt(bitmapPoint, color);
-        }
-    });
+        }    });
 }
 
-void AprgBitmapFilters::getConnectedComponentsOneComponentAtATime()
-{
+void AprgBitmapFilters::getConnectedComponentsOneComponentAtATime(){
     unsigned int currentLabel=1;
     deque<BitmapXY> pointsInDeque;
     m_inputCanvas.traverse([&](BitmapXY const& currentPoint, unsigned int const currentPointColor)
     {
         PixelInformation & currentPixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(currentPoint));
-        if(isNotBackgroundColor(currentPointColor) && currentPixelInfo.label==PixelInformation::INITIAL_LABEL_VALUE)
+        if(isNotBackgroundColor(currentPointColor) && currentPixelInfo.isInitialLabel())
         {
-            currentPixelInfo.label = currentLabel;
+            currentPixelInfo.setLabel(currentLabel);
             pointsInDeque.push_front(currentPoint);
             while(!pointsInDeque.empty())
-            {
-                BitmapXY poppedPoint(pointsInDeque.back());
+            {                BitmapXY poppedPoint(pointsInDeque.back());
                 pointsInDeque.pop_back();
                 analyzeFourConnectivityNeighborPointsForConnectedComponentsOneComponentAtATime(pointsInDeque, poppedPoint, currentLabel);
-            }
-            currentLabel++;
+            }            currentLabel++;
         }
     });
 }
@@ -347,30 +340,27 @@ void AprgBitmapFilters::getConnectedComponentsTwoPass()
                         currentPoint);
             if(smallestNeighborLabel != PixelInformation::INVALID_LABEL_VALUE)
             {
-                currentPixelInfo.label = smallestNeighborLabel;
+                currentPixelInfo.setLabel(smallestNeighborLabel);
             }
             else
             {
-                currentPixelInfo.label = currentLabel;
+                currentPixelInfo.setLabel(currentLabel);
                 currentLabel++;
             }
-        }
-    });
+        }    });
     m_inputCanvas.traverse([&](BitmapXY const& currentPoint, unsigned int const currentPointColor)
     {
         PixelInformation & currentPixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(currentPoint));
-        if(isNotBackgroundColor(currentPointColor) && currentPixelInfo.label!=PixelInformation::INITIAL_LABEL_VALUE)
+        if(isNotBackgroundColor(currentPointColor) && currentPixelInfo.isInitialLabel())
         {
-            unsigned int smallestLabel = unionFindForLabels.getRoot(currentPixelInfo.label);
-            currentPixelInfo.label = smallestLabel;
+            unsigned int smallestLabel = unionFindForLabels.getRoot(currentPixelInfo.getLabel());
+            currentPixelInfo.setLabel(smallestLabel);
         }
     });
 }
-
 void AprgBitmapFilters::saveOutputCanvasIntoCurrentBitmapFile() const
 {
-    m_bitmap.setSnippetWriteToFile(m_outputCanvas);
-}
+    m_bitmap.setSnippetWriteToFile(m_outputCanvas);}
 
 void AprgBitmapFilters::saveOutputCanvasIntoFileInTheSameDirectory(string const& filename)
 {
@@ -433,17 +423,15 @@ unsigned int AprgBitmapFilters::analyzeNeighborPointForConnectedComponentsTwoPas
     {
         unsigned int neighborPointColor = m_inputCanvas.getColorAt(neighborPoint);
         PixelInformation & neighborPixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(neighborPoint));
-        if(isNotBackgroundColor(neighborPointColor) && neighborPixelInfo.label!=PixelInformation::INITIAL_LABEL_VALUE)
+        if(isNotBackgroundColor(neighborPointColor) && neighborPixelInfo.isInitialLabel())
         {
-            labelResult = neighborPixelInfo.label;
+            labelResult = neighborPixelInfo.getLabel();
         }
     }
-    return labelResult;
-}
+    return labelResult;}
 
 void AprgBitmapFilters::updateUnionFindForLabels(
-        UnionFindForLabels& unionFindForLabels,
-        unsigned int const smallestLabel,
+        UnionFindForLabels& unionFindForLabels,        unsigned int const smallestLabel,
         unsigned int const neighbor1Label,
         unsigned int const neighbor2Label) const
 {
@@ -482,17 +470,15 @@ void AprgBitmapFilters::analyzeNeighborPointForConnectedComponentsOneComponentAt
     {
         unsigned int neighborPointColor = m_inputCanvas.getColorAt(neighborPoint);
         PixelInformation & neighborPixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(neighborPoint));
-        if(isNotBackgroundColor(neighborPointColor) && neighborPixelInfo.label==PixelInformation::INITIAL_LABEL_VALUE)
+        if(isNotBackgroundColor(neighborPointColor) && neighborPixelInfo.isInitialLabel())
         {
-            neighborPixelInfo.label = currentLabel;
+            neighborPixelInfo.setLabel(currentLabel);
             pointsInDeque.push_front(neighborPoint);
         }
-    }
-}
+    }}
 
 Point AprgBitmapFilters::convertBitmapXYToPoint(BitmapXY const& bitmapPosition) const
-{
-    return Point(bitmapPosition.getX(), bitmapPosition.getY());
+{    return Point(bitmapPosition.getX(), bitmapPosition.getY());
 }
 
 BitmapXY AprgBitmapFilters::convertPointToBitmapXY(Point const& pointPosition) const
