@@ -24,54 +24,94 @@ public:
     bool isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) const;
     bool isNotBackgroundColor(unsigned int const color) const;
 
-    void clearOutputCanvas();
-    void copyInputCanvasToOutputCanvas();
-    void copyOutputCanvasToInputCanvas();
+    AprgBitmapSnippet getWholeBitmapSnippet() const;
+    AprgBitmapSnippet getBlankSnippet(unsigned int const backgroundColor) const;
+    AprgBitmapSnippet getBlankSnippetWithBackground() const;
+    unsigned int getLabelColor(unsigned int const label) const;
 
-    void determinePenPixels(double const penSearchRadius, unsigned int const similarityColorLimit);
-    void determinePenCircles(unsigned int const similarityColorLimit, double const acceptablePenPercentage);
-
-    void drawPenCirclesToOutputCanvas();
-    void drawBlankGapsUsingBlurInOutputCanvas(double const blurRadius);
-    void drawBlurredNonPenPixelsToOutputCanvas(double const blurRadius, unsigned int const similarityColorLimit);
-    void drawNonPenPixelsToOutputCanvas();
-    void drawPenPixelsToOutputCanvas();
-
-    void getConnectedComponentsOneComponentAtATime();
-    void getConnectedComponentsTwoPass();
     AlbaOptional<TwoDimensions::Circle> getPossiblePenCircle(
+            AprgBitmapSnippet const& inputSnippet,
             BitmapXY const& centerPoint,
             unsigned int const similarityColorLimit,
             double const acceptablePenPercentage);
 
-    void saveOutputCanvasIntoCurrentBitmapFile() const;
-    void saveOutputCanvasIntoFileInTheSameDirectory(std::string const& filename);
-    void saveOutputCanvasIntoFileWithFullFilePath(std::string const& fullFilePath);
+    void determinePenPixels(
+            AprgBitmapSnippet const& inputSnippet,
+            double const penSearchRadius,
+            unsigned int const similarityColorLimit);
+    void determinePenCirclesFromPenPixels(
+            AprgBitmapSnippet const& inputSnippet,
+            unsigned int const similarityColorLimit,
+            double const acceptablePenPercentage);
+    void determineConnectedComponentsByOneComponentAtATime(
+            AprgBitmapSnippet const& inputSnippet);
+    void determineConnectedComponentsUsingTwoPass(
+            AprgBitmapSnippet const& inputSnippet);
+
+    void drawPenPixels(
+            AprgBitmapSnippet const& inputSnippet,
+            AprgBitmapSnippet & outputSnippet);
+    void drawNonPenPixels(
+            AprgBitmapSnippet const& inputSnippet,
+            AprgBitmapSnippet & outputSnippet);
+    void drawBlurredNonPenPixels(
+            AprgBitmapSnippet & snippet,
+            double const blurRadius,
+            unsigned int const similarityColorLimit);
+    void drawToFillGapsUsingBlur(
+            AprgBitmapSnippet & snippet,
+            double const blurRadius);
+    void drawPenCircles(
+            AprgBitmapSnippet & snippet);
+    void drawAnimeColor(
+            AprgBitmapSnippet & snippet);
+    void drawNewColorForLabels(
+            AprgBitmapSnippet & snippet);
+
+    void saveOutputCanvasIntoCurrentBitmapFile(
+            AprgBitmapSnippet const& snippet) const;
+    void saveOutputCanvasIntoFileInTheSameDirectory(
+            AprgBitmapSnippet const& snippet,
+            std::string const& filename);
+    void saveOutputCanvasIntoFileWithFullFilePath(
+            AprgBitmapSnippet const& snippet,
+            std::string const& fullFilePath);
 
     void setBackgroundColor(unsigned int const backgroundColor);
-
     void gatherAndSaveColorDataAndStatistics();
-    void drawToAnimeColorToOutputCanvas();
-
 
 private:
     void retainMaxRadiusPenCircles(
             TwoDimensions::Circles & penCircles,
             std::map<TwoDimensions::Point, TwoDimensions::Circles> const& penPointToPenCircles);
     unsigned int analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(
+            AprgBitmapSnippet const& inputSnippet,
             UnionFindForLabels & unionFindForLabels,
             BitmapXY const & neighborPoint);
     unsigned int analyzeNeighborPointForConnectedComponentsTwoPassAneReturnLabel(
+            AprgBitmapSnippet const& inputSnippet,
             BitmapXY const & neighborPoint);
-    void updateUnionFindForLabels(UnionFindForLabels& unionFindForLabels, unsigned int const smallestLabel, unsigned int const neighbor1Label, unsigned int const neighbor2Label) const;
+    void updateUnionFindForLabels(
+            UnionFindForLabels& unionFindForLabels,
+            unsigned int const smallestLabel,
+            unsigned int const neighbor1Label,
+            unsigned int const neighbor2Label) const;
     void analyzeFourConnectivityNeighborPointsForConnectedComponentsOneComponentAtATime(
+            AprgBitmapSnippet const& inputSnippet,
             std::deque<BitmapXY> & pointsInQueue,
             BitmapXY const & poppedPoint,
             unsigned int const currentLabel);
     void analyzeNeighborPointForConnectedComponentsOneComponentAtATime(
+            AprgBitmapSnippet const& inputSnippet,
             std::deque<BitmapXY> & pointsInQueue,
             BitmapXY const & neighborPoint,
             unsigned int const currentLabel);
+    void determineConnectedComponentsUsingTwoPassInFirstPass(
+            AprgBitmapSnippet const& inputSnippet,
+            UnionFindForLabels & unionFindForLabels);
+    void determineConnectedComponentsUsingTwoPassInSecondPass(
+            AprgBitmapSnippet const& inputSnippet,
+            UnionFindForLabels const& unionFindForLabels);
     TwoDimensions::Point convertBitmapXYToPoint(BitmapXY const& bitmapPosition) const;
     BitmapXY convertPointToBitmapXY(TwoDimensions::Point const& pointPosition) const;
 
@@ -80,8 +120,6 @@ private:
 
     unsigned int m_backgroundColor;
     AprgBitmap m_bitmap;
-    AprgBitmapSnippet m_inputCanvas;
-    AprgBitmapSnippet m_outputCanvas;
     PixelInformationDatabase m_pixelInformationDatabase;
 };
 

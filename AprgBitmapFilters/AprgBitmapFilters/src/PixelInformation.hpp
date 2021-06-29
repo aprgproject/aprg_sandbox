@@ -13,6 +13,7 @@ public:
     bool isPenPixel() const;
     bool isInitialLabel() const;
     bool isInvalidLabel() const;
+    bool isInitialOrInvalidLabel() const;
     unsigned int getLabel() const;
 
     void setAsPenPoint(bool const isPenPixel);

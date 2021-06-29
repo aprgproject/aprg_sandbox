@@ -23,6 +23,11 @@ bool PixelInformation::isInvalidLabel() const
     return m_label==INVALID_LABEL_VALUE;
 }
 
+bool PixelInformation::isInitialOrInvalidLabel() const
+{
+    return isInitialLabel() || isInvalidLabel();
+}
+
 unsigned int PixelInformation::getLabel() const
 {
     return m_label;
