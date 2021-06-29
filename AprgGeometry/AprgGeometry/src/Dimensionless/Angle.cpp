@@ -3,13 +3,12 @@
 #include <Math/AlbaMathHelper.hpp>
 
 #include <cmath>
+#include <sstream>
 
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace Dimensionless
 {
 
@@ -84,18 +83,29 @@ void Angle::setAngleValueInDegreesNearestToZero()
     m_angleValueInDegrees = nearestPositiveAngleValueInDegrees<=180 ? nearestPositiveAngleValueInDegrees : nearestPositiveAngleValueInDegrees-360;
 }
 
+string Angle::getDisplayableString() const
+{
+    std::stringstream ss;
+    ss << "Angle in degrees: " << m_angleValueInDegrees;
+    return ss.str();
+}
+
 double Angle::calculateAngleValueInDegrees(AngleUnitType const angleInputType, double const angleValue) const
 {
-    double angleValueInDegrees=0;
-    if(AngleUnitType::Degrees == angleInputType)
+    double angleValueInDegrees=0;    if(AngleUnitType::Degrees == angleInputType)
     {
         angleValueInDegrees = angleValue;
-    }
-    else if(AngleUnitType::Radians == angleInputType)
+    }    else if(AngleUnitType::Radians == angleInputType)
     {
         angleValueInDegrees = convertRadiansToDegrees(angleValue);
     }
     return angleValueInDegrees;
+}
+
+ostream & operator<<(ostream & out, Angle const& angle)
+{
+    out << angle.getDisplayableString();
+    return out;
 }
 
 }

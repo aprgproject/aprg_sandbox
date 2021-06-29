@@ -379,5 +379,11 @@ LineType Line::determineLineTypeUsingCoefficients(double const aCoefficient, dou
     return lineType;
 }
 
+ostream & operator<<(ostream & out, Line const& line)
+{
+    out << line.getDisplayableString();
+    return out;
+}
+
 }
 }

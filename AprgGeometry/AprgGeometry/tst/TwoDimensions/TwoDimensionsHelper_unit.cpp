@@ -313,6 +313,43 @@ TEST(TwoDimensionsHelperTest, GetPointsFromTwoPointsUsingALineWithoutLastPointWo
     EXPECT_EQ(Point(-4,-4), pointsWithoutLastPoint[4]);
 }
 
+TEST(TwoDimensionsHelperTest, TraverseCircleAreaBetweenTwoRadiusWorks)
+{
+    Points pointsInAreaTraversal;
+
+    traverseCircleAreaBetweenTwoRadius(
+                Point(3,3),
+                2,
+                3,
+                1,
+                [&](Point const& pointInArea)
+    {
+        pointsInAreaTraversal.emplace_back(pointInArea);
+    });
+
+    ASSERT_EQ(20u, pointsInAreaTraversal.size());
+    EXPECT_EQ(Point(5,3), pointsInAreaTraversal[0]);
+    EXPECT_EQ(Point(1,3), pointsInAreaTraversal[1]);
+    EXPECT_EQ(Point(4,4), pointsInAreaTraversal[2]);
+    EXPECT_EQ(Point(2,4), pointsInAreaTraversal[3]);
+    EXPECT_EQ(Point(4,2), pointsInAreaTraversal[4]);
+    EXPECT_EQ(Point(2,2), pointsInAreaTraversal[5]);
+    EXPECT_EQ(Point(5,4), pointsInAreaTraversal[6]);
+    EXPECT_EQ(Point(1,4), pointsInAreaTraversal[7]);
+    EXPECT_EQ(Point(5,2), pointsInAreaTraversal[8]);
+    EXPECT_EQ(Point(1,2), pointsInAreaTraversal[9]);
+    EXPECT_EQ(Point(3,5), pointsInAreaTraversal[10]);
+    EXPECT_EQ(Point(3,1), pointsInAreaTraversal[11]);
+    EXPECT_EQ(Point(4,5), pointsInAreaTraversal[12]);
+    EXPECT_EQ(Point(2,5), pointsInAreaTraversal[13]);
+    EXPECT_EQ(Point(4,1), pointsInAreaTraversal[14]);
+    EXPECT_EQ(Point(2,1), pointsInAreaTraversal[15]);
+    EXPECT_EQ(Point(5,5), pointsInAreaTraversal[16]);
+    EXPECT_EQ(Point(1,5), pointsInAreaTraversal[17]);
+    EXPECT_EQ(Point(5,1), pointsInAreaTraversal[18]);
+    EXPECT_EQ(Point(1,1), pointsInAreaTraversal[19]);
+}
+
 }
 
 }

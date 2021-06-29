@@ -87,14 +87,22 @@ void Circle::traverseArea(double const interval, TraverseOperation const& traver
             {
                 traverseOperation(m_center);
             }
+            else if(x==0)
+            {
+                traverseOperation(Point(m_center.getX(), m_center.getY()+y));
+                traverseOperation(Point(m_center.getX(), m_center.getY()-y));
+            }
+            else if(y==0)
+            {
+                traverseOperation(Point(m_center.getX()+x, m_center.getY()));
+                traverseOperation(Point(m_center.getX()-x, m_center.getY()));
+            }
             else
             {
-                traverseOperation(Point(m_center.getX()+x, m_center.getY()+y));
-                traverseOperation(Point(m_center.getX()-x, m_center.getY()+y));
+                traverseOperation(Point(m_center.getX()+x, m_center.getY()+y));                traverseOperation(Point(m_center.getX()-x, m_center.getY()+y));
                 traverseOperation(Point(m_center.getX()+x, m_center.getY()-y));
                 traverseOperation(Point(m_center.getX()-x, m_center.getY()-y));
-            }
-        }
+            }        }
     }
 }
 
@@ -210,6 +218,12 @@ Points Circle::getPointsInTraversingX(double const signOfX, double const signOfY
         }
     });
     return result;
+}
+
+ostream & operator<<(ostream & out, Circle const& circle)
+{
+    out << circle.getDisplayableString();
+    return out;
 }
 
 }

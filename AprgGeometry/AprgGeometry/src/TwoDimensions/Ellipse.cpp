@@ -201,5 +201,11 @@ Points Ellipse::getPointsInTraversingX(double const signOfX, double const signOf
     return result;
 }
 
+ostream & operator<<(ostream & out, Ellipse const& ellipse)
+{
+    out << ellipse.getDisplayableString();
+    return out;
+}
+
 }
 }

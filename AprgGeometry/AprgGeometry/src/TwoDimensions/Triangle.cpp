@@ -3,13 +3,12 @@
 #include <algorithm>
 
 using namespace alba::Dimensionless;
+using namespace std;
 
 namespace alba
 {
-
 namespace TwoDimensions
 {
-
 Triangle::Triangle()
     : TrianglePolygonParent()
 {}
@@ -34,6 +33,19 @@ bool Triangle::isRightTriangle() const
     {
         return isAlmostEqual(angleAtVertex.getDegrees(), static_cast<double>(90));
     });
+}
+
+string Triangle::getDisplayableString() const
+{
+    std::stringstream ss;
+    ss << "[" << m_vertices[0] << "][" << m_vertices[1] << "][" << m_vertices[2] << "]";
+    return ss.str();
+}
+
+ostream & operator<<(ostream & out, Triangle const& triangle)
+{
+    out << triangle.getDisplayableString();
+    return out;
 }
 
 }

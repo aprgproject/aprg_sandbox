@@ -491,6 +491,46 @@ void savePointsFromTwoPointsUsingALineWithoutLastPoint(Points & points, Point co
     std::copy(pointsInLine.begin(), pointsInLine.end(), std::back_inserter(points));
 }
 
+void traverseCircleAreaBetweenTwoRadius(
+        Point const& center,
+        double const innerRadius,
+        double const outerRadius,
+        double const interval,
+        Circle::TraverseOperation const& traverseOperation)
+{
+    Circle innerCircle(center, innerRadius);
+    Circle outerCircle(center, outerRadius);
+    for(unsigned int y=0; y<outerRadius; y+=interval)
+    {
+        double xAtInnerCircle(innerCircle.calculateXFromYWithoutCenter(y, 1));
+        double xAtOuterCircle(outerCircle.calculateXFromYWithoutCenter(y, 1));
+        for(unsigned int x=xAtInnerCircle; x<xAtOuterCircle; x+=interval)
+        {
+            if(x==0 && y==0)
+            {
+                traverseOperation(center);
+            }
+            else if(x==0)
+            {
+                traverseOperation(Point(center.getX(), center.getY()+y));
+                traverseOperation(Point(center.getX(), center.getY()-y));
+            }
+            else if(y==0)
+            {
+                traverseOperation(Point(center.getX()+x, center.getY()));
+                traverseOperation(Point(center.getX()-x, center.getY()));
+            }
+            else
+            {
+                traverseOperation(Point(center.getX()+x, center.getY()+y));
+                traverseOperation(Point(center.getX()-x, center.getY()+y));
+                traverseOperation(Point(center.getX()+x, center.getY()-y));
+                traverseOperation(Point(center.getX()-x, center.getY()-y));
+            }
+        }
+    }
+}
+
 }
 }
 }

@@ -205,5 +205,11 @@ bool Line::areAllCoefficientsZero() const
     return isAlmostEqual(m_aCoefficient, 0.0) && isAlmostEqual(m_cCoefficient, 0.0) && isAlmostEqual(m_cCoefficient, 0.0);
 }
 
+ostream & operator<<(ostream & out, Line const& line)
+{
+    out << line.getDisplayableString();
+    return out;
+}
+
 }
 }

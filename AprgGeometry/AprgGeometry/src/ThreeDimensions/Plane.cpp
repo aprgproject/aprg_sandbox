@@ -167,6 +167,12 @@ void Plane::calculateDCoefficientUsingCoefficientsABCAndAPoint(Point const& firs
     m_dCoefficient = -(m_aCoefficient*first.getX())-(m_bCoefficient*first.getY())-(m_cCoefficient*first.getZ());
 }
 
+ostream & operator<<(ostream & out, Plane const& plane)
+{
+    out << plane.getDisplayableString();
+    return out;
+}
+
 
 }
 }
