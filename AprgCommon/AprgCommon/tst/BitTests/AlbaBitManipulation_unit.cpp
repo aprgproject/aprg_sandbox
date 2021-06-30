@@ -45,14 +45,44 @@ TEST(AlbaBitManipulationTest, ShiftNibblesToTheRightWorks)
     EXPECT_EQ(0xAu, AlbaBitManipulation<unsigned int>::shiftNibblesToTheRight<7>(0xA1000000));
 }
 
+TEST(AlbaBitManipulationTest, RotateBitToTheLeftWorks)
+{
+    EXPECT_EQ(0x142u, AlbaBitManipulation<unsigned int>::rotateBitToTheLeft<1>(0xA1));
+    EXPECT_EQ(0xA10u, AlbaBitManipulation<unsigned int>::rotateBitToTheLeft<4>(0xA1));
+    EXPECT_EQ(0xA100u, AlbaBitManipulation<unsigned int>::rotateBitToTheLeft<8>(0xA1));
+    EXPECT_EQ(0x1000000Au, AlbaBitManipulation<unsigned int>::rotateBitToTheLeft<28>(0xA1));
+}
+
+TEST(AlbaBitManipulationTest, RotateBitToTheRightWorks)
+{
+    EXPECT_EQ(0x50800000u, AlbaBitManipulation<unsigned int>::rotateBitToTheRight<1>(0xA1000000));
+    EXPECT_EQ(0xA100000u, AlbaBitManipulation<unsigned int>::rotateBitToTheRight<4>(0xA1000000));
+    EXPECT_EQ(0xA10000u, AlbaBitManipulation<unsigned int>::rotateBitToTheRight<8>(0xA1000000));
+    EXPECT_EQ(0x1000000Au, AlbaBitManipulation<unsigned int>::rotateBitToTheRight<28>(0xA1000000));
+}
+
+TEST(AlbaBitManipulationTest, RotateBitToTheLeftWithShiftValueWorks)
+{
+    EXPECT_EQ(0x142u, AlbaBitManipulation<unsigned int>::rotateBitToTheLeftWithShiftValue(0xA1, 1u));
+    EXPECT_EQ(0xA10u, AlbaBitManipulation<unsigned int>::rotateBitToTheLeftWithShiftValue(0xA1, 4u));
+    EXPECT_EQ(0xA100u, AlbaBitManipulation<unsigned int>::rotateBitToTheLeftWithShiftValue(0xA1, 8u));
+    EXPECT_EQ(0x1000000Au, AlbaBitManipulation<unsigned int>::rotateBitToTheLeftWithShiftValue(0xA1, 28u));
+}
+
+TEST(AlbaBitManipulationTest, RotateBitToTheRightWithShiftValueWorks)
+{
+    EXPECT_EQ(0x50800000u, AlbaBitManipulation<unsigned int>::rotateBitToTheRightWithShiftValue(0xA1000000, 1u));
+    EXPECT_EQ(0xA100000u, AlbaBitManipulation<unsigned int>::rotateBitToTheRightWithShiftValue(0xA1000000, 4u));
+    EXPECT_EQ(0xA10000u, AlbaBitManipulation<unsigned int>::rotateBitToTheRightWithShiftValue(0xA1000000, 8u));
+    EXPECT_EQ(0x1000000Au, AlbaBitManipulation<unsigned int>::rotateBitToTheRightWithShiftValue(0xA1000000, 28u));
+}
+
 TEST(AlbaBitManipulationTest, ConcatenationBytes_ArgumentsSizeLessThanResult)
 {
-    // Given
-    const unsigned char byte1 = 0xA1;
+    // Given    const unsigned char byte1 = 0xA1;
     const unsigned char byte2 = 0xBA;
 
-    // When
-    unsigned int result = AlbaBitManipulation<unsigned int>::concatenateBytes(byte1, byte2);
+    // When    unsigned int result = AlbaBitManipulation<unsigned int>::concatenateBytes(byte1, byte2);
 
     // Then
     EXPECT_EQ(0xA1BAu, result);
