@@ -1,20 +1,22 @@
-#include "AprgColorStatistics.hpp"
+#include "ColorStatistics.hpp"
 
-#include <AprgBitmap.hpp>
-#include <AprgBitmapSnippet.hpp>
-#include <AprgColorUtilities.hpp>
+#include <Bitmap/Bitmap.hpp>
+#include <Bitmap/BitmapSnippet.hpp>
+#include <BitmapFilters/ColorUtilities.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 
-using namespace alba::ColorUtilities;
+using namespace alba::AprgBitmap::ColorUtilities;
 using namespace std;
 
 namespace alba
 {
 
+namespace AprgBitmap
+{
+
 void gatherAndSaveColorStatistics(string const& bitmapPath)
 {
-    AlbaLocalPathHandler bitmapPathHandler(bitmapPath);
-    AlbaLocalPathHandler colorDataPathHandler(bitmapPathHandler.getDirectory() + R"(\)" + bitmapPathHandler.getFilenameOnly() + R"(_SortedColorData.csv)");
+    AlbaLocalPathHandler bitmapPathHandler(bitmapPath);    AlbaLocalPathHandler colorDataPathHandler(bitmapPathHandler.getDirectory() + R"(\)" + bitmapPathHandler.getFilenameOnly() + R"(_SortedColorData.csv)");
     AlbaLocalPathHandler colorStatisticsPathHandler(bitmapPathHandler.getDirectory() + R"(\)" + bitmapPathHandler.getFilenameOnly() + R"(_Statistics.txt)");
 
     AprgColorStatistics statistics;
@@ -25,12 +27,11 @@ void gatherAndSaveColorStatistics(string const& bitmapPath)
 
 void AprgColorStatistics::gatherStatistics(string const& bitmapPath)
 {
-    AprgBitmap bitmap(bitmapPath);
-    AprgBitmapSnippet canvas(bitmap.getSnippetReadFromFileWholeBitmap());
+    Bitmap bitmap(bitmapPath);
+    BitmapSnippet canvas(bitmap.getSnippetReadFromFileWholeBitmap());
     canvas.traverse([&](BitmapXY const&, unsigned int const color)
     {
-        double colorIntensity(calculateColorIntensityDecimal(color));
-        double luma601(calculateLuma601Decimal(color));
+        double colorIntensity(calculateColorIntensityDecimal(color));        double luma601(calculateLuma601Decimal(color));
         double luma709(calculateLuma709Decimal(color));
         colorIntensitySet.emplace(colorIntensity);
         luma601Set.emplace(luma601);
@@ -122,6 +123,8 @@ void AprgColorStatistics::saveColorStatistics(string const& path)
                          << " StdDev: " << luma601Statistics.getSampleStandardDeviation().getDisplayableString() << endl;
     statisticsFileStream << "Luma 709 Mean: " << luma709Statistics.getMean().getDisplayableString()
                          << " StdDev: " << luma709Statistics.getSampleStandardDeviation().getDisplayableString() << endl;
+}
+
 }
 
 }

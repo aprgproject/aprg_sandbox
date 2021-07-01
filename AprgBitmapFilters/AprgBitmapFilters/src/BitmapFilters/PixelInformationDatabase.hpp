@@ -1,20 +1,21 @@
 #pragma once
 
-#include <CommonTypes.hpp>
-#include <PixelInformation.hpp>
+#include <Bitmap/CommonTypes.hpp>
+#include <BitmapFilters/PixelInformation.hpp>
 #include <TwoDimensions/Circle.hpp>
 
 #include <map>
 #include <set>
-#include <vector>
 
 namespace alba
 {
 
+namespace AprgBitmap
+{
+
 class PixelInformationDatabase
 {
-public:
-    using PixelInformationMap = std::map<BitmapXY, PixelInformation>;
+public:    using PixelInformationMap = std::map<BitmapXY, PixelInformation>;
     using PixelSet = std::set<BitmapXY>;
 
     PixelInformationDatabase();
@@ -32,5 +33,7 @@ private:
     TwoDimensions::Circles m_penCircles;
 
 };
+
+}
 
 }

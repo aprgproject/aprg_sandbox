@@ -5,9 +5,11 @@ using namespace std;
 namespace alba
 {
 
+namespace AprgBitmap
+{
+
 PixelInformationDatabase::PixelInformationDatabase()
 {}
-
 void PixelInformationDatabase::saveAsPenPoint(BitmapXY const& bitmapPoint)
 {
     m_pixelsInformationMap[bitmapPoint].setAsPenPoint(true);
@@ -56,5 +58,6 @@ TwoDimensions::Circles const & PixelInformationDatabase::getPenCirclesConstRefer
     return m_penCircles;
 }
 
+}
 
 }

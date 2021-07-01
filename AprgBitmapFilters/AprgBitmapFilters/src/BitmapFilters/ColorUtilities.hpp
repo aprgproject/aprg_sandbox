@@ -3,9 +3,11 @@
 namespace alba
 {
 
-namespace ColorUtilities
+namespace AprgBitmap
 {
 
+namespace ColorUtilities
+{
 struct ColorPercentagesData
 {
     double redPercentage;
@@ -63,6 +65,8 @@ unsigned char extractGreen(unsigned int const color);
 unsigned char extractBlue(unsigned int const color);
 unsigned char extractMaxForOneColor(unsigned int const color);
 unsigned char extractMinForOneColor(unsigned int const color);
+
+}
 
 }
 
