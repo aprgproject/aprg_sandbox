@@ -1,24 +1,27 @@
 #pragma once
 
-#include <AprgBitmapConfiguration.hpp>
-#include <CommonTypes.hpp>
+#include <Bitmap/BitmapConfiguration.hpp>
+#include <Bitmap/CommonTypes.hpp>
 
 #include <functional>
 
 namespace alba
 {
 
-class AprgBitmapSnippet
+namespace AprgBitmap
+{
+
+class BitmapSnippet
 {
 public:
     using TraverseFunction = std::function<void(BitmapXY const&, unsigned int const)>;
     using TraverseAndUpdateFunction = std::function<void(BitmapXY const&, unsigned int &)>;
 
-    AprgBitmapSnippet();
-    AprgBitmapSnippet(BitmapXY const topLeftCornerPosition, BitmapXY const bottomRightCornerPosition, AprgBitmapConfiguration const& configuration);
+    BitmapSnippet();
+    BitmapSnippet(BitmapXY const topLeftCornerPosition, BitmapXY const bottomRightCornerPosition, BitmapConfiguration const& configuration);
 
     bool isPositionInsideTheSnippet(BitmapXY const position) const;
-    AprgBitmapConfiguration getConfiguration() const;
+    BitmapConfiguration getConfiguration() const;
     BitmapXY getTopLeftCorner() const;
     BitmapXY getBottomRightCorner() const;
     unsigned int getDeltaX() const;
@@ -49,8 +52,10 @@ private:
     void setPixelAtForMultipleBytePixels(unsigned char * writer, unsigned int const index, unsigned int const value);
     BitmapXY m_topLeftCorner;
     BitmapXY m_bottomRightCorner;
-    AprgBitmapConfiguration m_configuration;
+    BitmapConfiguration m_configuration;
     PixelData m_pixelData;
 };
+
+}
 
 }

@@ -4,9 +4,11 @@
 
 namespace alba
 {
+
 class PixelInformation
 {
-public:    static constexpr unsigned int INITIAL_LABEL_VALUE=0;
+public:
+    static constexpr unsigned int INITIAL_LABEL_VALUE=0;
     static constexpr unsigned int INVALID_LABEL_VALUE=0x1FFFFFFF;
 
     PixelInformation();

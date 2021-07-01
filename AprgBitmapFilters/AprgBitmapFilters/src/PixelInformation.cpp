@@ -9,9 +9,11 @@ PixelInformation::PixelInformation()
     , m_penCircle()
 {}
 
-bool PixelInformation::isPenPixel() const{
+bool PixelInformation::isPenPixel() const
+{
     return m_isPenPixel;
 }
+
 bool PixelInformation::isInitialLabel() const
 {
     return m_label==INITIAL_LABEL_VALUE;
@@ -39,7 +41,8 @@ TwoDimensions::Circle PixelInformation::getPenCircle() const
 
 void PixelInformation::setAsPenPoint(bool const isPenPixel)
 {
-    m_isPenPixel = isPenPixel;}
+    m_isPenPixel = isPenPixel;
+}
 
 void PixelInformation::setLabel(unsigned int const label)
 {

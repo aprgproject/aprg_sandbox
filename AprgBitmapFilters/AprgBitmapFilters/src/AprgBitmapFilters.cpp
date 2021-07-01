@@ -178,10 +178,12 @@ void AprgBitmapFilters::determinePenCirclesFromPenPixels(
     savePenCirclesInPenPixels();
 }
 
-void AprgBitmapFilters::determineConnectedComponentsByOneComponentAtATime(        AprgBitmapSnippet const& inputSnippet)
+void AprgBitmapFilters::determineConnectedComponentsByOneComponentAtATime(
+        AprgBitmapSnippet const& inputSnippet)
 {
     unsigned int currentLabel=1;
-    deque<BitmapXY> pointsInDeque;    inputSnippet.traverse([&](BitmapXY const& currentPoint, unsigned int const currentPointColor)
+    deque<BitmapXY> pointsInDeque;
+    inputSnippet.traverse([&](BitmapXY const& currentPoint, unsigned int const currentPointColor)
     {
         PixelInformation & currentPixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(currentPoint));
         if(isNotBackgroundColor(currentPointColor) && currentPixelInfo.isInitialLabel())
@@ -251,10 +253,12 @@ void AprgBitmapFilters::drawBlurredNonPenPixels(
                                    unsigned int centerColor, unsigned int currentColor, BitmapXY pointInCircle)
             {
                 PixelInformation const& pointInCirclePixelInfo(m_pixelInformationDatabase.getPixelInformation(pointInCircle));
-                return isSimilar(centerColor, currentColor, similarityColorLimit)                        && currentColor!=m_backgroundColor
+                return isSimilar(centerColor, currentColor, similarityColorLimit)
+                        && currentColor!=m_backgroundColor
                         && !pointInCirclePixelInfo.isPenPixel();
             }));
-        }    });
+        }
+    });
 }
 
 void AprgBitmapFilters::drawToFillGapsUsingBlur(
@@ -306,10 +310,12 @@ void AprgBitmapFilters::drawPenCircles(
                 outputSnippet.setPixelAt(pointInCircle, centerColor);
             }
         });
-    }    /*    outputSnippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const)
+    }
+    /*    outputSnippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const)
     {
         PixelInformation & pixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(bitmapPoint));
-        vector<unsigned int> & tempColors(pixelInfo.temporaryColors);        if(!tempColors.empty())
+        vector<unsigned int> & tempColors(pixelInfo.temporaryColors);
+        if(!tempColors.empty())
         {
             unsigned int redSum(0), greenSum(0), blueSum(0);
             double maxColorIntensity(0);
@@ -420,10 +426,12 @@ void AprgBitmapFilters::savePenCirclesInPenPixels()
     copy(setOfPenCircles.cbegin(), setOfPenCircles.cend(), back_inserter(penCircles));
 }
 
-unsigned int AprgBitmapFilters::analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(        AprgBitmapSnippet const& inputSnippet,
+unsigned int AprgBitmapFilters::analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(
+        AprgBitmapSnippet const& inputSnippet,
         UnionFindForLabels & unionFindForLabels,
         BitmapXY const & neighborPoint)
-{    //4-connectivity
+{
+    //4-connectivity
     unsigned int smallestLabel = PixelInformation::INVALID_LABEL_VALUE;
     BitmapXY neighbor1(neighborPoint.getX()-1, neighborPoint.getY());
     BitmapXY neighbor2(neighborPoint.getX(), neighborPoint.getY()-1);

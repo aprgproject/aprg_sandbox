@@ -1,4 +1,4 @@
-#include "AprgBitmapConfiguration.hpp"
+#include "BitmapConfiguration.hpp"
 
 #include <Bit/AlbaBitConstants.hpp>
 #include <Bit/AlbaBitManipulation.hpp>
@@ -10,7 +10,10 @@ using namespace std;
 namespace alba
 {
 
-AprgBitmapConfiguration::AprgBitmapConfiguration()
+namespace AprgBitmap
+{
+
+BitmapConfiguration::BitmapConfiguration()
     : m_fileSize(0)
     , m_pixelArrayAddress(0)
     , m_sizeOfHeader(0)
@@ -34,27 +37,27 @@ AprgBitmapConfiguration::AprgBitmapConfiguration()
     , m_colors()
 {}
 
-bool AprgBitmapConfiguration::isValid() const
+bool BitmapConfiguration::isValid() const
 {
     return isSignatureValid() && isHeaderValid() && isNumberOfColorPlanesValid() && isNumberOfBitsPerPixelValid();
 }
 
-bool AprgBitmapConfiguration::isSignatureValid() const
+bool BitmapConfiguration::isSignatureValid() const
 {
     return (m_signature == "BM");
 }
 
-bool AprgBitmapConfiguration::isHeaderValid() const
+bool BitmapConfiguration::isHeaderValid() const
 {
     return (m_sizeOfHeader == 40);
 }
 
-bool AprgBitmapConfiguration::isNumberOfColorPlanesValid() const
+bool BitmapConfiguration::isNumberOfColorPlanesValid() const
 {
     return (m_numberOfColorPlanes == 1);
 }
 
-bool AprgBitmapConfiguration::isNumberOfBitsPerPixelValid() const
+bool BitmapConfiguration::isNumberOfBitsPerPixelValid() const
 {
     return (m_numberOfBitsPerPixel == 1) ||
             (m_numberOfBitsPerPixel == 4) ||
@@ -64,94 +67,94 @@ bool AprgBitmapConfiguration::isNumberOfBitsPerPixelValid() const
             (m_numberOfBitsPerPixel == 32);
 }
 
-bool AprgBitmapConfiguration::isCompressedMethodSupported() const
+bool BitmapConfiguration::isCompressedMethodSupported() const
 {
     return (m_compressionMethodType == CompressedMethodType::BI_RGB);
 }
 
-bool AprgBitmapConfiguration::isPositionWithinTheBitmap(BitmapXY const position) const
+bool BitmapConfiguration::isPositionWithinTheBitmap(BitmapXY const position) const
 {
     return position.getX() < m_bitmapWidth && position.getY() < m_bitmapHeight;
 }
 
-bool AprgBitmapConfiguration::isPositionWithinTheBitmap(int x, int y) const
+bool BitmapConfiguration::isPositionWithinTheBitmap(int x, int y) const
 {
     return x < (int)m_bitmapWidth && y < (int)m_bitmapHeight && x >= 0 && y >= 0;
 }
 
-CompressedMethodType AprgBitmapConfiguration::getCompressedMethodType() const
+CompressedMethodType BitmapConfiguration::getCompressedMethodType() const
 {
     return m_compressionMethodType;
 }
 
-std::string AprgBitmapConfiguration::getPath() const
+std::string BitmapConfiguration::getPath() const
 {
     return m_path;
 }
 
-unsigned int AprgBitmapConfiguration::getPixelArrayAddress() const
+unsigned int BitmapConfiguration::getPixelArrayAddress() const
 {
     return m_pixelArrayAddress;
 }
 
-unsigned int AprgBitmapConfiguration::getBitmapWidth() const
+unsigned int BitmapConfiguration::getBitmapWidth() const
 {
     return m_bitmapWidth;
 }
 
-unsigned int AprgBitmapConfiguration::getBitmapHeight() const
+unsigned int BitmapConfiguration::getBitmapHeight() const
 {
     return m_bitmapHeight;
 }
 
-unsigned int AprgBitmapConfiguration::getNumberOfBitsPerPixel() const
+unsigned int BitmapConfiguration::getNumberOfBitsPerPixel() const
 {
     return m_numberOfBitsPerPixel;
 }
 
-unsigned int AprgBitmapConfiguration::getNumberOfBytesPerRowInFile() const
+unsigned int BitmapConfiguration::getNumberOfBytesPerRowInFile() const
 {
     return m_numberOfBytesPerRowInFile;
 }
 
-unsigned int AprgBitmapConfiguration::getBitMaskForValue() const
+unsigned int BitmapConfiguration::getBitMaskForValue() const
 {
     return m_bitMaskForValue;
 }
 
-BitmapXY AprgBitmapConfiguration::getPointWithinTheBitmap(int const xCoordinate, int const yCoordinate) const
+BitmapXY BitmapConfiguration::getPointWithinTheBitmap(int const xCoordinate, int const yCoordinate) const
 {
     return BitmapXY(getXCoordinateWithinTheBitmap(xCoordinate), getYCoordinateWithinTheBitmap(yCoordinate));
 }
 
-unsigned int AprgBitmapConfiguration::getXCoordinateWithinTheBitmap(int const coordinate) const
+unsigned int BitmapConfiguration::getXCoordinateWithinTheBitmap(int const coordinate) const
 {
     return getCoordinateWithinRange(coordinate, m_bitmapWidth);
 }
 
-unsigned int AprgBitmapConfiguration::getYCoordinateWithinTheBitmap(int const coordinate) const
+unsigned int BitmapConfiguration::getYCoordinateWithinTheBitmap(int const coordinate) const
 {
     return getCoordinateWithinRange(coordinate, m_bitmapHeight);
 }
 
-unsigned int AprgBitmapConfiguration::getCoordinateWithinRange(int const coordinate, int maxLength) const
+unsigned int BitmapConfiguration::getCoordinateWithinRange(int const coordinate, int maxLength) const
 {
     return (coordinate < 0 || maxLength <= 0) ? 0 : (coordinate >= maxLength) ? maxLength-1 : coordinate;
 }
 
-BitmapXY AprgBitmapConfiguration::getUpLeftCornerPoint() const
+BitmapXY BitmapConfiguration::getUpLeftCornerPoint() const
 {
     return BitmapXY(0,0);
 }
 
-BitmapXY AprgBitmapConfiguration::getDownRightCornerPoint() const
+BitmapXY BitmapConfiguration::getDownRightCornerPoint() const
 {
     unsigned int maxX = m_bitmapWidth==0 ? 0 : m_bitmapWidth-1;
     unsigned int maxY = m_bitmapHeight==0 ? 0 : m_bitmapHeight-1;
     return BitmapXY(maxX, maxY);
 }
 
-unsigned int AprgBitmapConfiguration::getColorUsingPixelValue(unsigned int pixelValue) const
+unsigned int BitmapConfiguration::getColorUsingPixelValue(unsigned int pixelValue) const
 {
     unsigned int color(0);
     switch(m_numberOfBitsPerPixel)
@@ -172,39 +175,39 @@ unsigned int AprgBitmapConfiguration::getColorUsingPixelValue(unsigned int pixel
     return color;
 }
 
-unsigned int AprgBitmapConfiguration::convertPixelsToBytesRoundToFloor(unsigned int pixels) const
+unsigned int BitmapConfiguration::convertPixelsToBytesRoundToFloor(unsigned int pixels) const
 {
     return (pixels*m_numberOfBitsPerPixel)/AlbaBitConstants::BYTE_SIZE_IN_BITS;
 }
 
-unsigned int AprgBitmapConfiguration::convertPixelsToBytesRoundToCeil(unsigned int pixels) const
+unsigned int BitmapConfiguration::convertPixelsToBytesRoundToCeil(unsigned int pixels) const
 {
     return ((pixels*m_numberOfBitsPerPixel)+AlbaBitConstants::BYTE_SIZE_IN_BITS-1)/AlbaBitConstants::BYTE_SIZE_IN_BITS;
 }
 
-unsigned int AprgBitmapConfiguration::convertBytesToPixels(unsigned int bytes) const
+unsigned int BitmapConfiguration::convertBytesToPixels(unsigned int bytes) const
 {
     return (bytes*AlbaBitConstants::BYTE_SIZE_IN_BITS)/m_numberOfBitsPerPixel;
 }
 
-unsigned int AprgBitmapConfiguration::getNumberOfPixelsForOneByte() const
+unsigned int BitmapConfiguration::getNumberOfPixelsForOneByte() const
 {
     return convertBytesToPixels(1);
 }
 
-unsigned int AprgBitmapConfiguration::getMaximumNumberOfPixelsBeforeOneByte() const
+unsigned int BitmapConfiguration::getMaximumNumberOfPixelsBeforeOneByte() const
 {
     unsigned int numberOfPixelsInOneByte(convertBytesToPixels(1));
     return (numberOfPixelsInOneByte>0) ? numberOfPixelsInOneByte-1 : 0;
 }
 
-unsigned int AprgBitmapConfiguration::getMinimumNumberOfBytesForOnePixel() const
+unsigned int BitmapConfiguration::getMinimumNumberOfBytesForOnePixel() const
 {
     unsigned int numberOfBytesInOnePixel(convertPixelsToBytesRoundToFloor(1));
     return (numberOfBytesInOnePixel>0) ? numberOfBytesInOnePixel : 1;
 }
 
-unsigned int AprgBitmapConfiguration::estimateSquareSideInPixels(unsigned int const numberOfBytesToRead) const
+unsigned int BitmapConfiguration::estimateSquareSideInPixels(unsigned int const numberOfBytesToRead) const
 {
     // Quadratic equation: side*side*m_numberOfBitsPerPixel + side*(1+getMinimumNumberOfBytesForOnePixel())*AlbaBitConstants::BYTE_SIZE_IN_BITS - numberOfBytesToRead*AlbaBitConstants::BYTE_SIZE_IN_BITS
     double a = m_numberOfBitsPerPixel;
@@ -213,22 +216,22 @@ unsigned int AprgBitmapConfiguration::estimateSquareSideInPixels(unsigned int co
     return (unsigned int)((sqrt(b*b + 4*a*c) - b)/(2*a));
 }
 
-unsigned int AprgBitmapConfiguration::getOneRowSizeInBytesFromPixels(unsigned int const leftPixelInclusive, unsigned int const rightPixelInclusive) const
+unsigned int BitmapConfiguration::getOneRowSizeInBytesFromPixels(unsigned int const leftPixelInclusive, unsigned int const rightPixelInclusive) const
 {
     return getOneRowSizeInBytesFromBytes(convertPixelsToBytesRoundToFloor(leftPixelInclusive), convertPixelsToBytesRoundToFloor(rightPixelInclusive));
 }
 
-unsigned int AprgBitmapConfiguration::getOneRowSizeInBytesFromBytes(unsigned int const leftByteInclusive, unsigned int const rightByteInclusive) const
+unsigned int BitmapConfiguration::getOneRowSizeInBytesFromBytes(unsigned int const leftByteInclusive, unsigned int const rightByteInclusive) const
 {
     return rightByteInclusive-leftByteInclusive+getMinimumNumberOfBytesForOnePixel();
 }
 
-Colors AprgBitmapConfiguration::getColorTable() const
+Colors BitmapConfiguration::getColorTable() const
 {
     return m_colors;
 }
 
-void AprgBitmapConfiguration::readBitmap(string const& path)
+void BitmapConfiguration::readBitmap(string const& path)
 {
     //https://en.wikipedia.org/wiki/BMP_file_format
 
@@ -245,7 +248,7 @@ void AprgBitmapConfiguration::readBitmap(string const& path)
     }
 }
 
-void AprgBitmapConfiguration::readBitmapFileHeader(AlbaFileReader& fileReader)
+void BitmapConfiguration::readBitmapFileHeader(AlbaFileReader& fileReader)
 {
     fileReader.moveLocation(0);
     m_signature += fileReader.getCharacter();
@@ -258,7 +261,7 @@ void AprgBitmapConfiguration::readBitmapFileHeader(AlbaFileReader& fileReader)
     m_pixelArrayAddress = fileReader.getFourByteSwappedData<unsigned int>();
 }
 
-void AprgBitmapConfiguration::readDibHeader(AlbaFileReader& fileReader) // only supports BITMAPINFOHEADER format
+void BitmapConfiguration::readDibHeader(AlbaFileReader& fileReader) // only supports BITMAPINFOHEADER format
 {
     fileReader.moveLocation(14);
     m_sizeOfHeader = fileReader.getFourByteSwappedData<unsigned int>();
@@ -296,7 +299,7 @@ void AprgBitmapConfiguration::readDibHeader(AlbaFileReader& fileReader) // only 
     m_numberImportantOfColors = fileReader.getFourByteSwappedData<unsigned int>();
 }
 
-void AprgBitmapConfiguration::readColors(AlbaFileReader& fileReader)
+void BitmapConfiguration::readColors(AlbaFileReader& fileReader)
 {
     fileReader.moveLocation(54);
     while(fileReader.getCurrentLocation()<m_pixelArrayAddress)
@@ -305,7 +308,7 @@ void AprgBitmapConfiguration::readColors(AlbaFileReader& fileReader)
     }
 }
 
-void AprgBitmapConfiguration::calculateOtherValuesAfterReading()
+void BitmapConfiguration::calculateOtherValuesAfterReading()
 {
     m_numberOfBytesForDataInRow = convertPixelsToBytesRoundToCeil(m_bitmapWidth);
     m_paddingForRowMemoryAlignment = (4 - (m_numberOfBytesForDataInRow%4))%4;
@@ -313,7 +316,7 @@ void AprgBitmapConfiguration::calculateOtherValuesAfterReading()
     m_bitMaskForValue = AlbaBitManipulation<unsigned int>::generateOnesWithNumberOfBits(m_numberOfBitsPerPixel);
 }
 
-CompressedMethodType AprgBitmapConfiguration::determineCompressedMethodType(unsigned int compressedMethodValue) const
+CompressedMethodType BitmapConfiguration::determineCompressedMethodType(unsigned int compressedMethodValue) const
 {
     CompressedMethodType compressedMethodType;
     switch(compressedMethodValue)
@@ -333,13 +336,13 @@ CompressedMethodType AprgBitmapConfiguration::determineCompressedMethodType(unsi
     return compressedMethodType;
 }
 
-bool areBitmapConfigurationsCompatibleForChangingPixelData(AprgBitmapConfiguration const& configuration1, AprgBitmapConfiguration const& configuration2)
+bool areBitmapConfigurationsCompatibleForChangingPixelData(BitmapConfiguration const& configuration1, BitmapConfiguration const& configuration2)
 {
     return configuration1.getNumberOfBitsPerPixel() == configuration2.getNumberOfBitsPerPixel() &&
             configuration1.getBitmapHeight() == configuration2.getBitmapHeight() &&
             configuration1.getBitmapWidth() == configuration2.getBitmapWidth();
 }
 
-
+}
 
 }

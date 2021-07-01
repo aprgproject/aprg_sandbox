@@ -1,11 +1,14 @@
 #pragma once
 
-#include <CommonTypes.hpp>
+#include <Bitmap/CommonTypes.hpp>
 #include <File/AlbaFileReader.hpp>
 
 #include <string>
 
 namespace alba
+{
+
+namespace AprgBitmap
 {
 
 enum class CompressedMethodType
@@ -23,10 +26,10 @@ enum class CompressedMethodType
     Unknown
 };
 
-class AprgBitmapConfiguration
+class BitmapConfiguration
 {
 public:
-    AprgBitmapConfiguration();
+    BitmapConfiguration();
     bool isValid() const;
     bool isSignatureValid() const;
     bool isHeaderValid() const;
@@ -96,6 +99,8 @@ private:
     Colors m_colors;
 };
 
-bool areBitmapConfigurationsCompatibleForChangingPixelData(AprgBitmapConfiguration const& configuration1, AprgBitmapConfiguration const& configuration2);
+bool areBitmapConfigurationsCompatibleForChangingPixelData(BitmapConfiguration const& configuration1, BitmapConfiguration const& configuration2);
+
+}
 
 }

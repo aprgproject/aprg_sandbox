@@ -1,33 +1,36 @@
-#include "AprgBitmap.hpp"
+#include "Bitmap.hpp"
 
 using namespace std;
 
 namespace alba
 {
 
-AprgBitmap::AprgBitmap(string const& path)
+namespace AprgBitmap
+{
+
+Bitmap::Bitmap(string const& path)
 {
     m_configuration.readBitmap(path);
 }
 
-AprgBitmapConfiguration AprgBitmap::getConfiguration() const
+BitmapConfiguration Bitmap::getConfiguration() const
 {
     return m_configuration;
 }
 
-AprgBitmapSnippet AprgBitmap::createColorFilledSnippetWithSizeOfWholeBitmap(unsigned char const colorByte) const
+BitmapSnippet Bitmap::createColorFilledSnippetWithSizeOfWholeBitmap(unsigned char const colorByte) const
 {
-    AprgBitmapSnippet snippet(m_configuration.getUpLeftCornerPoint(), m_configuration.getDownRightCornerPoint(), m_configuration);
+    BitmapSnippet snippet(m_configuration.getUpLeftCornerPoint(), m_configuration.getDownRightCornerPoint(), m_configuration);
     snippet.clearAndPutOneColorOnWholeSnippet(colorByte);
     return snippet;
 }
 
-AprgBitmapSnippet AprgBitmap::getSnippetReadFromFileWholeBitmap() const
+BitmapSnippet Bitmap::getSnippetReadFromFileWholeBitmap() const
 {
     return getSnippetReadFromFile(m_configuration.getUpLeftCornerPoint(), m_configuration.getDownRightCornerPoint());
 }
 
-AprgBitmapSnippet AprgBitmap::getSnippetReadFromFileWithOutOfRangeCoordinates(int outOfRangeLeft, int outOfRangeTop, int outOfRangeRight, int outOfRangeBottom) const
+BitmapSnippet Bitmap::getSnippetReadFromFileWithOutOfRangeCoordinates(int outOfRangeLeft, int outOfRangeTop, int outOfRangeRight, int outOfRangeBottom) const
 {
     if(outOfRangeLeft > outOfRangeRight)
     {
@@ -42,9 +45,9 @@ AprgBitmapSnippet AprgBitmap::getSnippetReadFromFileWithOutOfRangeCoordinates(in
     return getSnippetReadFromFile(topLeftCorner, bottomRightCorner);
 }
 
-AprgBitmapSnippet AprgBitmap::getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY const center, unsigned int const numberOfBytesToRead) const
+BitmapSnippet Bitmap::getSnippetReadFromFileWithNumberOfBytesToRead(BitmapXY const center, unsigned int const numberOfBytesToRead) const
 {
-    AprgBitmapSnippet snippet;
+    BitmapSnippet snippet;
     if(m_configuration.isPositionWithinTheBitmap(center))
     {
         BitmapXY topLeftCorner;
@@ -55,17 +58,17 @@ AprgBitmapSnippet AprgBitmap::getSnippetReadFromFileWithNumberOfBytesToRead(Bitm
     return snippet;
 }
 
-AprgBitmapSnippet AprgBitmap::getSnippetReadFromFile(BitmapXY const topLeftCorner, BitmapXY const bottomRightCorner) const
+BitmapSnippet Bitmap::getSnippetReadFromFile(BitmapXY const topLeftCorner, BitmapXY const bottomRightCorner) const
 {
     int byteOffsetInXForStart = (int)m_configuration.convertPixelsToBytesRoundToFloor(topLeftCorner.getX());
     int byteOffsetInXForEnd = (int)m_configuration.convertPixelsToBytesRoundToFloor(bottomRightCorner.getX());
     int startPixelInX = m_configuration.getXCoordinateWithinTheBitmap((int)m_configuration.convertBytesToPixels(byteOffsetInXForStart));
     int endPixelInX = m_configuration.getXCoordinateWithinTheBitmap((int)m_configuration.convertBytesToPixels(byteOffsetInXForEnd)+m_configuration.getMaximumNumberOfPixelsBeforeOneByte());
 
-    return AprgBitmapSnippet(BitmapXY(startPixelInX, topLeftCorner.getY()), BitmapXY(endPixelInX, bottomRightCorner.getY()), m_configuration);
+    return BitmapSnippet(BitmapXY(startPixelInX, topLeftCorner.getY()), BitmapXY(endPixelInX, bottomRightCorner.getY()), m_configuration);
 }
 
-void AprgBitmap::setSnippetWriteToFile(AprgBitmapSnippet const& snippet) const
+void Bitmap::setSnippetWriteToFile(BitmapSnippet const& snippet) const
 {
     if(areBitmapConfigurationsCompatibleForChangingPixelData(m_configuration, snippet.getConfiguration()))
     {
@@ -96,7 +99,7 @@ void AprgBitmap::setSnippetWriteToFile(AprgBitmapSnippet const& snippet) const
     }
 }
 
-void AprgBitmap::calculateNewCornersBasedOnCenterAndNumberOfBytes(BitmapXY & topLeftCorner, BitmapXY & bottomRightCorner, BitmapXY const center, unsigned int const numberOfBytes) const
+void Bitmap::calculateNewCornersBasedOnCenterAndNumberOfBytes(BitmapXY & topLeftCorner, BitmapXY & bottomRightCorner, BitmapXY const center, unsigned int const numberOfBytes) const
 {
     int side(m_configuration.estimateSquareSideInPixels(numberOfBytes));
     int halfSide(side/2);
@@ -118,7 +121,7 @@ void AprgBitmap::calculateNewCornersBasedOnCenterAndNumberOfBytes(BitmapXY & top
     bottomRightCorner.setY(bottom);
 }
 
-void AprgBitmap::adjustToTargetLength(int & low, int & high, int const targetLength, unsigned int const maxLength) const
+void Bitmap::adjustToTargetLength(int & low, int & high, int const targetLength, unsigned int const maxLength) const
 {
     if(high-low+1 < (int)targetLength)
     {
@@ -134,5 +137,6 @@ void AprgBitmap::adjustToTargetLength(int & low, int & high, int const targetLen
     }
 }
 
+}
 
 }

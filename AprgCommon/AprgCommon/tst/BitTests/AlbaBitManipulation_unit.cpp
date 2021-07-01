@@ -79,10 +79,12 @@ TEST(AlbaBitManipulationTest, RotateBitToTheRightWithShiftValueWorks)
 
 TEST(AlbaBitManipulationTest, ConcatenationBytes_ArgumentsSizeLessThanResult)
 {
-    // Given    const unsigned char byte1 = 0xA1;
+    // Given
+    const unsigned char byte1 = 0xA1;
     const unsigned char byte2 = 0xBA;
 
-    // When    unsigned int result = AlbaBitManipulation<unsigned int>::concatenateBytes(byte1, byte2);
+    // When
+    unsigned int result = AlbaBitManipulation<unsigned int>::concatenateBytes(byte1, byte2);
 
     // Then
     EXPECT_EQ(0xA1BAu, result);
