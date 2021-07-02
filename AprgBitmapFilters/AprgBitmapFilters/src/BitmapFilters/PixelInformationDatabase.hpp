@@ -24,11 +24,10 @@ public:
     TwoDimensions::Circles const & getPenCirclesConstReference() const;
 private:
     PixelInformationMap m_pixelsInformationMap;
-    PixelSet m_penPixels;
+    PixelSet m_penPoints;
     TwoDimensions::Circles m_penCircles;
 
 };
-
 }
 
 }

@@ -23,14 +23,12 @@ class BitmapFilters
 public:
     using BlurCondition = std::function<bool(unsigned int,unsigned int,BitmapXY)>;
     using UnionFindForLabels = UnionFindUsingMap<unsigned int>;
-    using PenPixelToPenCircleMap=std::map<BitmapXY, TwoDimensions::Circle>;
-    using PenPixelPenCirclePair=std::pair<BitmapXY, TwoDimensions::Circle>;
+    using PenPointToPenCircleMap=std::map<BitmapXY, TwoDimensions::Circle>;
+    using PenPointPenCirclePair=std::pair<BitmapXY, TwoDimensions::Circle>;
 
     BitmapFilters(std::string const& path);
-
     bool isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) const;
     bool isNotBackgroundColor(unsigned int const color) const;
-
     BitmapSnippet getWholeBitmapSnippet() const;
     BitmapSnippet getBlankSnippet(unsigned int const backgroundColor) const;
     BitmapSnippet getBlankSnippetWithBackground() const;
@@ -41,34 +39,31 @@ public:
             unsigned int const similarityColorLimit,
             double const acceptablePenPercentage);
 
-    void determinePenPixels(
+    void determinePenPoints(
             BitmapSnippet const& inputSnippet,
             double const penSearchRadius,
             unsigned int const similarityColorLimit);
-    void determinePenCirclesFromPenPixels(
+    void determinePenCirclesFromPenPoints(
             BitmapSnippet const& inputSnippet,
             unsigned int const similarityColorLimit,
-            double const acceptablePenPercentage);
-    void determineConnectedComponentsByOneComponentAtATime(
+            double const acceptablePenPercentage);    void determineConnectedComponentsByOneComponentAtATime(
             BitmapSnippet const& inputSnippet);
     void determineConnectedComponentsUsingTwoPass(
             BitmapSnippet const& inputSnippet);
 
-    void drawPenPixels(
+    void drawPenPoints(
             BitmapSnippet const& inputSnippet,
             BitmapSnippet & outputSnippet);
-    void drawNonPenPixels(
+    void drawNonPenPoints(
             BitmapSnippet const& inputSnippet,
             BitmapSnippet & outputSnippet);
-    void drawBlurredNonPenPixels(
+    void drawBlurredNonPenPoints(
             BitmapSnippet const& inputSnippet,
             BitmapSnippet & outputSnippet,
-            double const blurRadius,
-            unsigned int const similarityColorLimit);
+            double const blurRadius,            unsigned int const similarityColorLimit);
     void drawToFillGapsUsingBlur(
             BitmapSnippet & snippet,
-            double const blurRadius);
-    void drawPenCircles(
+            double const blurRadius);    void drawPenCircles(
             BitmapSnippet const& inputSnippet,
             BitmapSnippet & outputSnippet);
     void drawAnimeColor(
@@ -94,20 +89,18 @@ private:
             BitmapXY const& penBitmapXY,
             TwoDimensions::Circle const& circleToCheck,
             TwoDimensions::Circle const& circleToCompare) const;
-    void determinePenPixelsToPenCircles(
-            PenPixelToPenCircleMap & penPixelsToPenCircles,
+    void determinePenPointsToPenCircles(
+            PenPointToPenCircleMap & penPointsToPenCircles,
             BitmapSnippet const& inputSnippet,
             unsigned int const similarityColorLimit,
             double const acceptablePenPercentage);
-    void savePenCircles(PenPixelToPenCircleMap const& penPixelsToPenCircles);
+    void savePenCircles(PenPointToPenCircleMap const& penPointsToPenCircles);
     unsigned int analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(
             BitmapSnippet const& inputSnippet,
-            UnionFindForLabels & unionFindForLabels,
-            BitmapXY const & neighborPoint);
+            UnionFindForLabels & unionFindForLabels,            BitmapXY const & neighborPoint);
     unsigned int analyzeNeighborPointForConnectedComponentsTwoPassAneReturnLabel(
             BitmapSnippet const& inputSnippet,
-            BitmapXY const & neighborPoint);
-    void updateUnionFindForLabels(
+            BitmapXY const & neighborPoint);    void updateUnionFindForLabels(
             UnionFindForLabels& unionFindForLabels,
             unsigned int const smallestLabel,
             unsigned int const neighbor1Label,
