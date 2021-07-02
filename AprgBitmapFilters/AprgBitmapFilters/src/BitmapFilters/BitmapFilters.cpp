@@ -62,21 +62,12 @@ BitmapSnippet BitmapFilters::getBlankSnippetWithBackground() const
     return getBlankSnippet(m_backgroundColor);
 }
 
-unsigned int BitmapFilters::getLabelColor(unsigned int const label) const
-{
-    unsigned int digits = mathHelper::getNumberOfIntegerDigits(label);
-    double newValue = (static_cast<double>(1)/label) * pow(10, digits+8);
-    return static_cast<unsigned int>(newValue) % 0xFFFFFF;
-}
-
 AlbaOptional<Circle> BitmapFilters::getPossiblePenCircle(
         BitmapSnippet const& inputSnippet,
-        BitmapXY const& centerPoint,
-        unsigned int const similarityColorLimit,
+        BitmapXY const& centerPoint,        unsigned int const similarityColorLimit,
         double const acceptablePenPercentage)
 {
-    AlbaOptional<Circle> result;
-    unsigned int const centerColor(inputSnippet.getColorAt(centerPoint));
+    AlbaOptional<Circle> result;    unsigned int const centerColor(inputSnippet.getColorAt(centerPoint));
     unsigned int similarPixelsCount(0);
     unsigned int totalPixelCount(0);
     BitmapSnippetTraversal snippetTraversal(inputSnippet);
@@ -172,15 +163,14 @@ void BitmapFilters::determineConnectedComponentsByOneComponentAtATime(
             {
                 BitmapXY poppedPoint(pointsInDeque.back());
                 pointsInDeque.pop_back();
-                analyzeFourConnectivityNeighborPointsForConnectedComponentsOneComponentAtATime(inputSnippet, pointsInDeque, poppedPoint, currentLabel);
+                analyzeFourConnectivityNeighborPointsForConnectedComponentsOneComponentAtATime(
+                            inputSnippet, pointsInDeque, poppedPoint, currentLabel);
             }
             currentLabel++;
-        }
-    });
+        }    });
 }
 
-void BitmapFilters::determineConnectedComponentsUsingTwoPass(
-        BitmapSnippet const& inputSnippet)
+void BitmapFilters::determineConnectedComponentsUsingTwoPass(        BitmapSnippet const& inputSnippet)
 {
     UnionFindForLabels unionFindForLabels;
     determineConnectedComponentsUsingTwoPassInFirstPass(inputSnippet, unionFindForLabels);

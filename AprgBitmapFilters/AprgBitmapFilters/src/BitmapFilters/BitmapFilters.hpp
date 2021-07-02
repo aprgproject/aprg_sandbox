@@ -33,14 +33,11 @@ public:
     BitmapSnippet getWholeBitmapSnippet() const;
     BitmapSnippet getBlankSnippet(unsigned int const backgroundColor) const;
     BitmapSnippet getBlankSnippetWithBackground() const;
-    unsigned int getLabelColor(unsigned int const label) const;
 
     AlbaOptional<TwoDimensions::Circle> getPossiblePenCircle(
-            BitmapSnippet const& inputSnippet,
-            BitmapXY const& centerPoint,
+            BitmapSnippet const& inputSnippet,            BitmapXY const& centerPoint,
             unsigned int const similarityColorLimit,
             double const acceptablePenPercentage);
-
     void determinePenPixels(
             BitmapSnippet const& inputSnippet,
             double const penSearchRadius,
@@ -88,17 +85,13 @@ public:
     void setBackgroundColor(unsigned int const backgroundColor);
     void gatherAndSaveColorDataAndStatistics();
 
-    void drawBlurredColorToBackgroundPoints(double const blurRadius, BitmapSnippet& snippet, BitmapXYs backgroundPoints, BitmapXYs newBackgroundPoints);
-
 
 private:
     bool isThisPenCircleBetter(
-            BitmapXY const& penBitmapXY,
-            TwoDimensions::Circle const& circleToCheck,
+            BitmapXY const& penBitmapXY,            TwoDimensions::Circle const& circleToCheck,
             TwoDimensions::Circle const& circleToCompare) const;
     void determinePenPixelsToPenCircles(
-            PenPixelToPenCircleMap & penPixelsToPenCircles,
-            BitmapSnippet const& inputSnippet,
+            PenPixelToPenCircleMap & penPixelsToPenCircles,            BitmapSnippet const& inputSnippet,
             unsigned int const similarityColorLimit,
             double const acceptablePenPercentage);
     void savePenCircles(PenPixelToPenCircleMap const& penPixelsToPenCircles);
