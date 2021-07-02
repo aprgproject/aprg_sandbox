@@ -48,14 +48,12 @@ TEST(BitmapFilterTest, DISABLED_AnimizeMultipleFilesTest)
     }
 }
 
-TEST(BitmapFilterTest, AnimizeSingleFileTest)
+TEST(BitmapFilterTest, DISABLED_AnimizeSingleFileTest)
 {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
-    AlbaLocalPathHandler inputFilePathHandler(bitmapDirectory.getDirectory()+R"(NonAnimeBitmaps\Witcher.bmp)");
-    AlbaLocalPathHandler outputFilePathHandler(bitmapDirectory.getDirectory()+R"(NonAnimeBitmaps\Witcher_Animized.bmp)");
+    AlbaLocalPathHandler inputFilePathHandler(bitmapDirectory.getDirectory()+R"(NonAnimeBitmaps\Witcher.bmp)");    AlbaLocalPathHandler outputFilePathHandler(bitmapDirectory.getDirectory()+R"(NonAnimeBitmaps\Witcher_Animized.bmp)");
     animize(inputFilePathHandler.getFullPath(), outputFilePathHandler.getFullPath());
 }
-
 TEST(BitmapFilterTest, DISABLED_DeterminePenCircles)
 {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
