@@ -3,10 +3,10 @@
 #include <BitmapFilters/AnimizeColor.hpp>
 #include <BitmapFilters/ColorStatistics.hpp>
 #include <BitmapFilters/ColorUtilities.hpp>
+#include <BitmapFilters/Utilities.hpp>
 #include <Math/AlbaMathHelper.hpp>
 #include <Optional/AlbaOptional.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
-#include <TwoDimensions/TwoDimensionsHelper.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>#include <TwoDimensions/TwoDimensionsHelper.hpp>
 
 using namespace alba::AprgBitmap::ColorUtilities;
 using namespace alba::TwoDimensions;
@@ -26,7 +26,8 @@ BitmapFilters::BitmapFilters(string const& path)
 bool BitmapFilters::isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) const //RGB algo
 {
     bool isRedDifferenceBeyondLimit(mathHelper::getAbsoluteValue<int>((int)extractRed(color1)-(int)extractRed(color2))>(int)similarityColorLimit);
-    bool isGreenDifferenceBeyondLimit(mathHelper::getAbsoluteValue<int>((int)extractGreen(color1)-(int)extractGreen(color2))>(int)similarityColorLimit);    bool isBlueDifferenceBeyondLimit(mathHelper::getAbsoluteValue<int>((int)extractBlue(color1)-(int)extractBlue(color2))>(int)similarityColorLimit);
+    bool isGreenDifferenceBeyondLimit(mathHelper::getAbsoluteValue<int>((int)extractGreen(color1)-(int)extractGreen(color2))>(int)similarityColorLimit);
+    bool isBlueDifferenceBeyondLimit(mathHelper::getAbsoluteValue<int>((int)extractBlue(color1)-(int)extractBlue(color2))>(int)similarityColorLimit);
     return  !(isRedDifferenceBeyondLimit || isGreenDifferenceBeyondLimit || isBlueDifferenceBeyondLimit);
 }
 
@@ -69,7 +70,8 @@ AlbaOptional<Circle> BitmapFilters::getPossiblePenCircle(
         BitmapSnippet const& inputSnippet,
         BitmapXY const& centerPoint,
         unsigned int const similarityColorLimit,
-        double const acceptablePenPercentage){
+        double const acceptablePenPercentage)
+{
     AlbaOptional<Circle> result;
     unsigned int const centerColor(inputSnippet.getColorAt(centerPoint));
     unsigned int similarPixelsCount(0);
@@ -116,7 +118,8 @@ void BitmapFilters::determinePenPixels(
         BitmapSnippet const& inputSnippet,
         double const penSearchRadius,
         unsigned int const similarityColorLimit)
-{    inputSnippet.traverse([&](BitmapXY const& centerXY, unsigned int const centerColor)
+{
+    inputSnippet.traverse([&](BitmapXY const& centerXY, unsigned int const centerColor)
     {
         Circle circle(convertBitmapXYToPoint(centerXY), penSearchRadius);
         BitmapXYs bitmapPointsWithSimilarColors;
@@ -152,7 +155,8 @@ void BitmapFilters::determinePenCirclesFromPenPixels(
         BitmapSnippet const& inputSnippet,
         unsigned int const similarityColorLimit,
         double const acceptablePenPercentage)
-{    PixelInformationDatabase::PixelSet penPixels(m_pixelInformationDatabase.getPenPixelsConstReference());
+{
+    PixelInformationDatabase::PixelSet penPixels(m_pixelInformationDatabase.getPenPixelsConstReference());
     for(BitmapXY const& penPoint : penPixels)
     {
         AlbaOptional<Circle> penCircleOptional(getPossiblePenCircle(inputSnippet, penPoint, similarityColorLimit, acceptablePenPercentage));
@@ -168,7 +172,8 @@ void BitmapFilters::determinePenCirclesFromPenPixels(
                     if(pixelInfo.isPenPixel() && isThisPenCircleBetter(penCirclePoint, penCircle, pixelInfo.getPenCircle()))
                     {
                         pixelInfo.setPenCircle(penCircle);
-                    }                }
+                    }
+                }
             });
         }
     }
@@ -179,7 +184,8 @@ void BitmapFilters::determineConnectedComponentsByOneComponentAtATime(
         BitmapSnippet const& inputSnippet)
 {
     unsigned int currentLabel=1;
-    deque<BitmapXY> pointsInDeque;    inputSnippet.traverse([&](BitmapXY const& currentPoint, unsigned int const currentPointColor)
+    deque<BitmapXY> pointsInDeque;
+    inputSnippet.traverse([&](BitmapXY const& currentPoint, unsigned int const currentPointColor)
     {
         PixelInformation & currentPixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(currentPoint));
         if(isNotBackgroundColor(currentPointColor) && currentPixelInfo.isInitialLabel())
@@ -210,7 +216,8 @@ void BitmapFilters::drawPenPixels(
         BitmapSnippet & outputSnippet)
 {
     inputSnippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
-    {        PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
+    {
+        PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
         if(pixelInfo.isPenPixel())
         {
             outputSnippet.setPixelAt(bitmapPoint, color);
@@ -223,7 +230,8 @@ void BitmapFilters::drawNonPenPixels(
         BitmapSnippet & outputSnippet)
 {
     inputSnippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
-    {        PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
+    {
+        PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
         if(!pixelInfo.isPenPixel())
         {
             outputSnippet.setPixelAt(bitmapPoint, color);
@@ -239,7 +247,8 @@ void BitmapFilters::drawBlurredNonPenPixels(
     BitmapSnippet tempSnippet(snippet);
     tempSnippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const)
     {
-        PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));        if(!pixelInfo.isPenPixel())
+        PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
+        if(!pixelInfo.isPenPixel())
         {
             snippet.setPixelAt(bitmapPoint, getBlurredColor(
                                    tempSnippet, bitmapPoint, blurRadius,[&](
@@ -265,7 +274,8 @@ void BitmapFilters::drawToFillGapsUsingBlur(
         BitmapSnippet tempSnippet(snippet);
         snippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
         {
-            unsigned int newColor(color);            if(m_backgroundColor == color)
+            unsigned int newColor(color);
+            if(m_backgroundColor == color)
             {
                 newColor = getBlurredColor(snippet, bitmapPoint, blurRadius, [&](unsigned int , unsigned int currentColor, BitmapXY )
                 {
@@ -287,6 +297,7 @@ void BitmapFilters::drawPenCircles(
         BitmapSnippet & outputSnippet)
 {
     Circles const & penCircles(m_pixelInformationDatabase.getPenCirclesConstReference());
+
     for(Circle const& penCircle : penCircles)
     {
         BitmapXY centerPoint(convertPointToBitmapXY(penCircle.getCenter()));
@@ -347,7 +358,8 @@ void BitmapFilters::drawAnimeColor(
         BitmapSnippet & snippet)
 {
     AnimizeColor animizeColor;
-    animizeColor.gatherStatistics(m_bitmap.getConfiguration().getPath());    animizeColor.calculateNewValues();
+    animizeColor.gatherStatistics(m_bitmap.getConfiguration().getPath());
+    animizeColor.calculateNewValues();
     snippet.traverse([&](BitmapXY const& position, unsigned int const color)
     {
         unsigned int newColor = animizeColor.getNewColor(color);
@@ -359,7 +371,8 @@ void BitmapFilters::drawNewColorForLabels(
         BitmapSnippet & snippet)
 {
     snippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const)
-    {        PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
+    {
+        PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
         if(!pixelInfo.isInitialOrInvalidLabel())
         {
             snippet.setPixelAt(bitmapPoint, getLabelColor(pixelInfo.getLabel()));
@@ -423,7 +436,8 @@ bool BitmapFilters::isThisPenCircleBetter(
 void BitmapFilters::savePenCirclesInPenPixels()
 {
     PixelInformationDatabase::PixelSet penPixels(m_pixelInformationDatabase.getPenPixelsConstReference());
-    std::set<Circle> setOfPenCircles;    for(BitmapXY const& penPoint : penPixels)
+    std::set<Circle> setOfPenCircles;
+    for(BitmapXY const& penPoint : penPixels)
     {
         PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(penPoint));
         setOfPenCircles.emplace(pixelInfo.getPenCircle());
@@ -436,7 +450,8 @@ unsigned int BitmapFilters::analyzeFourConnectivityNeighborPointsForConnectedCom
         BitmapSnippet const& inputSnippet,
         UnionFindForLabels & unionFindForLabels,
         BitmapXY const & neighborPoint)
-{    //4-connectivity
+{
+    //4-connectivity
     unsigned int smallestLabel = PixelInformation::INVALID_LABEL_VALUE;
     BitmapXY neighbor1(neighborPoint.getX()-1, neighborPoint.getY());
     BitmapXY neighbor2(neighborPoint.getX(), neighborPoint.getY()-1);
@@ -452,7 +467,8 @@ unsigned int BitmapFilters::analyzeNeighborPointForConnectedComponentsTwoPassAne
         BitmapSnippet const& inputSnippet,
         BitmapXY const & neighborPoint)
 {
-    unsigned int labelResult = PixelInformation::INVALID_LABEL_VALUE;    if(inputSnippet.isPositionInsideTheSnippet(neighborPoint))
+    unsigned int labelResult = PixelInformation::INVALID_LABEL_VALUE;
+    if(inputSnippet.isPositionInsideTheSnippet(neighborPoint))
     {
         unsigned int neighborPointColor = inputSnippet.getColorAt(neighborPoint);
         PixelInformation & neighborPixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(neighborPoint));
@@ -467,7 +483,8 @@ unsigned int BitmapFilters::analyzeNeighborPointForConnectedComponentsTwoPassAne
 void BitmapFilters::updateUnionFindForLabels(
         UnionFindForLabels& unionFindForLabels,
         unsigned int const smallestLabel,
-        unsigned int const neighbor1Label,        unsigned int const neighbor2Label) const
+        unsigned int const neighbor1Label,
+        unsigned int const neighbor2Label) const
 {
     if(smallestLabel != PixelInformation::INVALID_LABEL_VALUE && neighbor1Label != PixelInformation::INVALID_LABEL_VALUE)
     {
@@ -483,7 +500,8 @@ void BitmapFilters::analyzeFourConnectivityNeighborPointsForConnectedComponentsO
         BitmapSnippet const& inputSnippet,
         deque<BitmapXY> & pointsInDeque,
         BitmapXY const & poppedPoint,
-        unsigned int const currentLabel){
+        unsigned int const currentLabel)
+{
     //4-connectivity
     BitmapXY neighbor1(poppedPoint.getX()-1, poppedPoint.getY());
     BitmapXY neighbor2(poppedPoint.getX(), poppedPoint.getY()-1);
@@ -499,7 +517,8 @@ void BitmapFilters::analyzeNeighborPointForConnectedComponentsOneComponentAtATim
         BitmapSnippet const& inputSnippet,
         deque<BitmapXY> & pointsInDeque,
         BitmapXY const & neighborPoint,
-        unsigned int const currentLabel){
+        unsigned int const currentLabel)
+{
     if(inputSnippet.isPositionInsideTheSnippet(neighborPoint))
     {
         unsigned int neighborPointColor = inputSnippet.getColorAt(neighborPoint);
@@ -516,7 +535,8 @@ void BitmapFilters::determineConnectedComponentsUsingTwoPassInFirstPass(
         BitmapSnippet const& inputSnippet,
         UnionFindForLabels & unionFindForLabels)
 {
-    unsigned int currentLabel=1;    inputSnippet.traverse([&](BitmapXY const& currentPoint, unsigned int const currentPointColor)
+    unsigned int currentLabel=1;
+    inputSnippet.traverse([&](BitmapXY const& currentPoint, unsigned int const currentPointColor)
     {
         if(isNotBackgroundColor(currentPointColor))
         {
@@ -542,7 +562,8 @@ void BitmapFilters::determineConnectedComponentsUsingTwoPassInSecondPass(
         BitmapSnippet const& inputSnippet,
         UnionFindForLabels const& unionFindForLabels)
 {
-    inputSnippet.traverse([&](BitmapXY const& currentPoint, unsigned int const currentPointColor)    {
+    inputSnippet.traverse([&](BitmapXY const& currentPoint, unsigned int const currentPointColor)
+    {
         PixelInformation & currentPixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(currentPoint));
         if(isNotBackgroundColor(currentPointColor) && !currentPixelInfo.isInitialLabel())
         {
@@ -552,20 +573,10 @@ void BitmapFilters::determineConnectedComponentsUsingTwoPassInSecondPass(
     });
 }
 
-Point BitmapFilters::convertBitmapXYToPoint(BitmapXY const& bitmapPosition) const
-{
-    return Point(bitmapPosition.getX(), bitmapPosition.getY());
-}
-
-BitmapXY BitmapFilters::convertPointToBitmapXY(Point const& pointPosition) const
-{
-    return BitmapXY(round(pointPosition.getX()), round(pointPosition.getY()));
-}
-
 unsigned int BitmapFilters::getBlurredColor(BitmapSnippet const& canvas, BitmapXY const& centerXY, double const blurRadius, BlurCondition const& isIncludedInBlur) const
 {
-    unsigned int const centerColor(canvas.getColorAt(centerXY));
-    double totalBlurredColorRed(0);    double totalBlurredColorGreen(0);
+    unsigned int const centerColor(canvas.getColorAt(centerXY));    double totalBlurredColorRed(0);
+    double totalBlurredColorGreen(0);
     double totalBlurredColorBlue(0);
     double totalBlurWeight(0);
     bool isChanged(false);

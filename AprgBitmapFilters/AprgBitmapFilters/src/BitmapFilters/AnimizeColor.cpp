@@ -18,7 +18,8 @@ namespace AprgBitmap
 
 void gatherAndSaveDataInAnimizeColor(string const& bitmapPath)
 {
-    AlbaLocalPathHandler bitmapPathHandler(bitmapPath);    AlbaLocalPathHandler colorDataPathHandler(bitmapPathHandler.getDirectory() + R"(\)" + bitmapPathHandler.getFilenameOnly() + R"(_AnimizeColorData.csv)");
+    AlbaLocalPathHandler bitmapPathHandler(bitmapPath);
+    AlbaLocalPathHandler colorDataPathHandler(bitmapPathHandler.getDirectory() + R"(\)" + bitmapPathHandler.getFilenameOnly() + R"(_AnimizeColorData.csv)");
 
     AnimizeColor statistics;
     statistics.gatherStatistics(bitmapPathHandler.getFullPath());
@@ -56,7 +57,8 @@ void AnimizeColor::gatherStatistics(string const& bitmapPath)
     BitmapSnippet canvas(bitmap.getSnippetReadFromFileWholeBitmap());
     canvas.traverse([&](BitmapXY const&, unsigned int const color)
     {
-        HueSaturationLightnessData hslData(convertColorToHueSaturationLightnessData(color));        addCountToValue(m_lightnessData, hslData.lightnessDecimal);
+        HueSaturationLightnessData hslData(convertColorToHueSaturationLightnessData(color));
+        addCountToValue(m_lightnessData, hslData.lightnessDecimal);
         addCountToValue(m_saturationData, hslData.saturationLightnessDecimal);
     });
 }

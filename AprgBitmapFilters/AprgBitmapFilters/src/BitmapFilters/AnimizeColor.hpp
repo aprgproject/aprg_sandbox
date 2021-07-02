@@ -11,7 +11,8 @@ namespace AprgBitmap
 
 void gatherAndSaveDataInAnimizeColor(std::string const& bitmapPath);
 
-class AnimizeColor{
+class AnimizeColor
+{
 public:
     AnimizeColor();
     struct ColorDetails

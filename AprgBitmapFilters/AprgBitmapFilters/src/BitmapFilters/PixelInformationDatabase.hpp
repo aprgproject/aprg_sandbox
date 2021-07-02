@@ -15,7 +15,8 @@ namespace AprgBitmap
 
 class PixelInformationDatabase
 {
-public:    using PixelInformationMap = std::map<BitmapXY, PixelInformation>;
+public:
+    using PixelInformationMap = std::map<BitmapXY, PixelInformation>;
     using PixelSet = std::set<BitmapXY>;
 
     PixelInformationDatabase();

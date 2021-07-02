@@ -6,6 +6,7 @@
 #include <TwoDimensions/Point.hpp>
 #include <TwoDimensions/Circle.hpp>
 #include <UnionFind/UnionFind.hpp>
+
 #include <functional>
 #include <deque>
 
@@ -97,7 +98,8 @@ private:
             BitmapSnippet const& inputSnippet,
             BitmapXY const & neighborPoint);
     void updateUnionFindForLabels(
-            UnionFindForLabels& unionFindForLabels,            unsigned int const smallestLabel,
+            UnionFindForLabels& unionFindForLabels,
+            unsigned int const smallestLabel,
             unsigned int const neighbor1Label,
             unsigned int const neighbor2Label) const;
     void analyzeFourConnectivityNeighborPointsForConnectedComponentsOneComponentAtATime(
@@ -116,12 +118,9 @@ private:
     void determineConnectedComponentsUsingTwoPassInSecondPass(
             BitmapSnippet const& inputSnippet,
             UnionFindForLabels const& unionFindForLabels);
-    TwoDimensions::Point convertBitmapXYToPoint(BitmapXY const& bitmapPosition) const;
-    BitmapXY convertPointToBitmapXY(TwoDimensions::Point const& pointPosition) const;
 
     unsigned int getBlurredColor(BitmapSnippet const& canvas, BitmapXY const& centerXY, double const blurRadius, BlurCondition const& isIncludedInBlur) const;
     double getBlurWeight(double const distanceFromCenter, double const blurRadius) const;
-
     unsigned int m_backgroundColor;
     Bitmap m_bitmap;
     PixelInformationDatabase m_pixelInformationDatabase;

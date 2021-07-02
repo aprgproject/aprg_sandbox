@@ -13,7 +13,8 @@ namespace AprgBitmap
 
 void gatherAndSaveColorStatistics(std::string const& bitmapPath);
 
-class AprgColorStatistics{
+class AprgColorStatistics
+{
 public:
     using OneDimensionStatistics = DataStatistics<1>;
 

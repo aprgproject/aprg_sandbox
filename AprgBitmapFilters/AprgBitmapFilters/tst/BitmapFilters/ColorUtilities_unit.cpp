@@ -14,6 +14,7 @@ namespace AprgBitmap
 TEST(ColorUtilitiesTest, CalculateColorPercentagesDataWorks)
 {
     ColorPercentagesData data3(calculateColorPercentagesData(0xB2C368));
+
     EXPECT_DOUBLE_EQ(0.69803921568627447236, data3.redPercentage);
     EXPECT_DOUBLE_EQ(0.76470588235294112422, data3.greenPercentage);
     EXPECT_DOUBLE_EQ(0.40784313725490195512, data3.bluePercentage);

@@ -8,6 +8,7 @@ namespace AprgBitmap
 
 namespace ColorUtilities
 {
+
 struct ColorPercentagesData
 {
     double redPercentage;

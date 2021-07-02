@@ -2,6 +2,7 @@
 
 #include <Bit/AlbaBitManipulation.hpp>
 #include <Math/AlbaMathHelper.hpp>
+
 #include <algorithm>
 #include <cmath>
 
@@ -17,6 +18,7 @@ namespace AprgBitmap
 
 namespace ColorUtilities
 {
+
 constexpr unsigned int MAX_COLOR_VALUE = 0xFF;
 
 ColorPercentagesData calculateColorPercentagesData(unsigned int const color)

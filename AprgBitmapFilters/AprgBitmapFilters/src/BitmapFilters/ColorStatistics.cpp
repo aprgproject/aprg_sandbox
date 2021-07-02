@@ -16,7 +16,8 @@ namespace AprgBitmap
 
 void gatherAndSaveColorStatistics(string const& bitmapPath)
 {
-    AlbaLocalPathHandler bitmapPathHandler(bitmapPath);    AlbaLocalPathHandler colorDataPathHandler(bitmapPathHandler.getDirectory() + R"(\)" + bitmapPathHandler.getFilenameOnly() + R"(_SortedColorData.csv)");
+    AlbaLocalPathHandler bitmapPathHandler(bitmapPath);
+    AlbaLocalPathHandler colorDataPathHandler(bitmapPathHandler.getDirectory() + R"(\)" + bitmapPathHandler.getFilenameOnly() + R"(_SortedColorData.csv)");
     AlbaLocalPathHandler colorStatisticsPathHandler(bitmapPathHandler.getDirectory() + R"(\)" + bitmapPathHandler.getFilenameOnly() + R"(_Statistics.txt)");
 
     AprgColorStatistics statistics;
@@ -31,7 +32,8 @@ void AprgColorStatistics::gatherStatistics(string const& bitmapPath)
     BitmapSnippet canvas(bitmap.getSnippetReadFromFileWholeBitmap());
     canvas.traverse([&](BitmapXY const&, unsigned int const color)
     {
-        double colorIntensity(calculateColorIntensityDecimal(color));        double luma601(calculateLuma601Decimal(color));
+        double colorIntensity(calculateColorIntensityDecimal(color));
+        double luma601(calculateLuma601Decimal(color));
         double luma709(calculateLuma709Decimal(color));
         colorIntensitySet.emplace(colorIntensity);
         luma601Set.emplace(luma601);

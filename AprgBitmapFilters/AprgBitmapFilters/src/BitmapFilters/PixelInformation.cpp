@@ -8,7 +8,8 @@ namespace AprgBitmap
 
 PixelInformation::PixelInformation()
     : m_label(INITIAL_LABEL_VALUE)
-    , m_isPenPixel(false)    , m_penCircle()
+    , m_isPenPixel(false)
+    , m_penCircle()
 {}
 
 bool PixelInformation::isPenPixel() const

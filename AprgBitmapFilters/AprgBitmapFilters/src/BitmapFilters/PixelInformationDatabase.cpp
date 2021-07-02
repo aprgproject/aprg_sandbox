@@ -10,6 +10,7 @@ namespace AprgBitmap
 
 PixelInformationDatabase::PixelInformationDatabase()
 {}
+
 void PixelInformationDatabase::saveAsPenPoint(BitmapXY const& bitmapPoint)
 {
     m_pixelsInformationMap[bitmapPoint].setAsPenPoint(true);

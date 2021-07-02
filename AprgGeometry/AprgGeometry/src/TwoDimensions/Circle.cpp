@@ -57,7 +57,8 @@ Point Circle::getCenter() const
 
 double Circle::getRadius() const
 {
-    return m_radius;}
+    return m_radius;
+}
 
 double Circle::getArea() const
 {
