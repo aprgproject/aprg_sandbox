@@ -58,7 +58,7 @@ TEST(BitmapFilterTest, DISABLED_AnimizeSingleFileTest)
     animize(inputFilePathHandler.getFullPath(), outputFilePathHandler.getFullPath());
 }
 
-TEST(BitmapFilterTest, DISABLED_DeterminePenCircles)
+TEST(BitmapFilterTest, DeterminePenCircles)
 {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
     AlbaLocalPathHandler sampleFile(bitmapDirectory.getDirectory()+R"(NonAnimeBitmaps\VeronicaMars.bmp)");

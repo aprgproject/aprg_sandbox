@@ -6,7 +6,6 @@
 #include <BitmapFilters/Utilities.hpp>
 #include <BitmapTraversal/BitmapSnippetTraversal.hpp>
 #include <BitmapTraversal/OutwardCircleTraversal.hpp>
-#include <Math/AlbaMathHelper.hpp>
 #include <Optional/AlbaOptional.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
@@ -64,10 +63,12 @@ BitmapSnippet BitmapFilters::getBlankSnippetWithBackground() const
 
 AlbaOptional<Circle> BitmapFilters::getPossiblePenCircle(
         BitmapSnippet const& inputSnippet,
-        BitmapXY const& centerPoint,        unsigned int const similarityColorLimit,
+        BitmapXY const& centerPoint,
+        unsigned int const similarityColorLimit,
         double const acceptablePenPercentage)
 {
-    AlbaOptional<Circle> result;    unsigned int const centerColor(inputSnippet.getColorAt(centerPoint));
+    AlbaOptional<Circle> result;
+    unsigned int const centerColor(inputSnippet.getColorAt(centerPoint));
     unsigned int similarPixelsCount(0);
     unsigned int totalPixelCount(0);
     BitmapSnippetTraversal snippetTraversal(inputSnippet);
@@ -128,11 +129,11 @@ void BitmapFilters::determinePenPixels(
         });
         if(bitmapPointsWithSimilarColors.size() > bitmapPointsWithDisimilarColors.size())
         {
-            m_pixelInformationDatabase.saveAsPenPoints(bitmapPointsWithDisimilarColors);
+            m_penPoints.addAsPenPoints(bitmapPointsWithDisimilarColors);
         }
         else
         {
-            m_pixelInformationDatabase.saveAsPenPoints(bitmapPointsWithSimilarColors);
+            m_penPoints.addAsPenPoints(bitmapPointsWithSimilarColors);
         }
     });
 }
@@ -167,10 +168,12 @@ void BitmapFilters::determineConnectedComponentsByOneComponentAtATime(
                             inputSnippet, pointsInDeque, poppedPoint, currentLabel);
             }
             currentLabel++;
-        }    });
+        }
+    });
 }
 
-void BitmapFilters::determineConnectedComponentsUsingTwoPass(        BitmapSnippet const& inputSnippet)
+void BitmapFilters::determineConnectedComponentsUsingTwoPass(
+        BitmapSnippet const& inputSnippet)
 {
     UnionFindForLabels unionFindForLabels;
     determineConnectedComponentsUsingTwoPassInFirstPass(inputSnippet, unionFindForLabels);
@@ -183,8 +186,8 @@ void BitmapFilters::drawPenPixels(
 {
     inputSnippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
     {
-        PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
-        if(pixelInfo.isPenPixel())
+        bool isPenPoint(m_penPoints.isPenPoint(bitmapPoint));
+        if(isPenPoint)
         {
             outputSnippet.setPixelAt(bitmapPoint, color);
         }
@@ -197,8 +200,8 @@ void BitmapFilters::drawNonPenPixels(
 {
     inputSnippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
     {
-        PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
-        if(!pixelInfo.isPenPixel())
+        bool isPenPoint(m_penPoints.isPenPoint(bitmapPoint));
+        if(!isPenPoint)
         {
             outputSnippet.setPixelAt(bitmapPoint, color);
         }
@@ -213,18 +216,18 @@ void BitmapFilters::drawBlurredNonPenPixels(
 {
     inputSnippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const)
     {
-        PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
-        if(!pixelInfo.isPenPixel())
+        bool isPenPoint(m_penPoints.isPenPoint(bitmapPoint));
+        if(!isPenPoint)
         {
             outputSnippet.setPixelAt(
                         bitmapPoint, getBlurredColor(
                             inputSnippet, bitmapPoint, blurRadius,[&](
                             unsigned int centerColor, unsigned int currentColor, BitmapXY pointInCircle)
             {
-                PixelInformation const& pointInCirclePixelInfo(m_pixelInformationDatabase.getPixelInformation(pointInCircle));
+                bool isPointInCircleAPenPoint(m_penPoints.isPenPoint(pointInCircle));
                 return isSimilar(centerColor, currentColor, similarityColorLimit)
                         && currentColor!=m_backgroundColor
-                        && !pointInCirclePixelInfo.isPenPixel();
+                        && !isPointInCircleAPenPoint;
             }));
         }
     });
@@ -411,8 +414,8 @@ void BitmapFilters::determinePenPixelsToPenCircles(
         unsigned int const similarityColorLimit,
         double const acceptablePenPercentage)
 {
-    PixelInformationDatabase::PixelSet penPixels(m_pixelInformationDatabase.getPenPixelsConstReference());
-    for(BitmapXY const& penPoint : penPixels)
+    PenPoints::PenPointsSet const& penPoints(m_penPoints.getPenPoints());
+    for(BitmapXY const& penPoint : penPoints)
     {
         AlbaOptional<Circle> penCircleOptional(getPossiblePenCircle(inputSnippet, penPoint, similarityColorLimit, acceptablePenPercentage));
         if(penCircleOptional.hasContent())
@@ -421,8 +424,8 @@ void BitmapFilters::determinePenPixelsToPenCircles(
             BitmapSnippetTraversal snippetTraversal(inputSnippet);
             snippetTraversal.traverse(possiblePenCircle, [&](BitmapXY const& pointInPossibleCircle)
             {
-                PixelInformation & pixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(pointInPossibleCircle));
-                if(pixelInfo.isPenPixel()
+                bool isPointInCircleAPenPoint(m_penPoints.isPenPoint(pointInPossibleCircle));
+                if(isPointInCircleAPenPoint
                         && isThisPenCircleBetter(pointInPossibleCircle, possiblePenCircle, penPixelsToPenCircles[pointInPossibleCircle]))
                 {
                     penPixelsToPenCircles[pointInPossibleCircle] = possiblePenCircle;

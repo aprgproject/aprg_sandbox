@@ -11,44 +11,6 @@ namespace AprgBitmap
 PixelInformationDatabase::PixelInformationDatabase()
 {}
 
-void PixelInformationDatabase::saveAsPenPoint(BitmapXY const& bitmapPoint)
-{
-    m_pixelsInformationMap[bitmapPoint].setAsPenPoint(true);
-    m_penPixels.emplace(bitmapPoint);
-}
-
-void PixelInformationDatabase::saveAsPenPoints(BitmapXYs const& bitmapPoints)
-{
-    for(BitmapXY const& bitmapPoint : bitmapPoints)
-    {
-        saveAsPenPoint(bitmapPoint);
-    }
-}
-
-void PixelInformationDatabase::clear()
-{
-    m_pixelsInformationMap.clear();
-}
-
-PixelInformation PixelInformationDatabase::getPixelInformation(BitmapXY const& bitmapXY) const
-{
-    if(m_pixelsInformationMap.find(bitmapXY) != m_pixelsInformationMap.cend())
-    {
-        return m_pixelsInformationMap.at(bitmapXY);
-    }
-    return PixelInformation();
-}
-
-PixelInformation & PixelInformationDatabase::getPixelInformationReferenceAndCreateIfNeeded(BitmapXY const& bitmapXY)
-{
-    return m_pixelsInformationMap[bitmapXY];
-}
-
-PixelInformationDatabase::PixelSet const & PixelInformationDatabase::getPenPixelsConstReference() const
-{
-    return m_penPixels;
-}
-
 TwoDimensions::Circles & PixelInformationDatabase::getPenCirclesReference()
 {
     return m_penCircles;

@@ -2,7 +2,8 @@
 
 #include <Bitmap/Bitmap.hpp>
 #include <Bitmap/BitmapSnippet.hpp>
-#include <BitmapFilters/LabelForPixels.hpp>
+#include <BitmapFilters/LabelForPoints.hpp>
+#include <BitmapFilters/PenPoints.hpp>
 #include <BitmapFilters/PixelInformationDatabase.hpp>
 #include <TwoDimensions/Point.hpp>
 #include <TwoDimensions/Circle.hpp>
@@ -35,9 +36,11 @@ public:
     BitmapSnippet getBlankSnippetWithBackground() const;
 
     AlbaOptional<TwoDimensions::Circle> getPossiblePenCircle(
-            BitmapSnippet const& inputSnippet,            BitmapXY const& centerPoint,
+            BitmapSnippet const& inputSnippet,
+            BitmapXY const& centerPoint,
             unsigned int const similarityColorLimit,
             double const acceptablePenPercentage);
+
     void determinePenPixels(
             BitmapSnippet const& inputSnippet,
             double const penSearchRadius,
@@ -88,10 +91,12 @@ public:
 
 private:
     bool isThisPenCircleBetter(
-            BitmapXY const& penBitmapXY,            TwoDimensions::Circle const& circleToCheck,
+            BitmapXY const& penBitmapXY,
+            TwoDimensions::Circle const& circleToCheck,
             TwoDimensions::Circle const& circleToCompare) const;
     void determinePenPixelsToPenCircles(
-            PenPixelToPenCircleMap & penPixelsToPenCircles,            BitmapSnippet const& inputSnippet,
+            PenPixelToPenCircleMap & penPixelsToPenCircles,
+            BitmapSnippet const& inputSnippet,
             unsigned int const similarityColorLimit,
             double const acceptablePenPercentage);
     void savePenCircles(PenPixelToPenCircleMap const& penPixelsToPenCircles);
@@ -134,7 +139,8 @@ private:
     unsigned int m_backgroundColor;
     Bitmap m_bitmap;
     PixelInformationDatabase m_pixelInformationDatabase;
-    LabelForPixels m_labelForPixels;
+    LabelForPoints m_labelForPixels;
+    PenPoints m_penPoints;
 };
 
 }
