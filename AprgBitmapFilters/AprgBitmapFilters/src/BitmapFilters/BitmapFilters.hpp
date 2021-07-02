@@ -2,6 +2,7 @@
 
 #include <Bitmap/Bitmap.hpp>
 #include <Bitmap/BitmapSnippet.hpp>
+#include <BitmapFilters/LabelForPixels.hpp>
 #include <BitmapFilters/PixelInformationDatabase.hpp>
 #include <TwoDimensions/Point.hpp>
 #include <TwoDimensions/Circle.hpp>
@@ -21,6 +22,8 @@ class BitmapFilters
 public:
     using BlurCondition = std::function<bool(unsigned int,unsigned int,BitmapXY)>;
     using UnionFindForLabels = UnionFindUsingMap<unsigned int>;
+    using PenPixelToPenCircleMap=std::map<BitmapXY, TwoDimensions::Circle>;
+    using PenPixelPenCirclePair=std::pair<BitmapXY, TwoDimensions::Circle>;
 
     BitmapFilters(std::string const& path);
 
@@ -62,7 +65,8 @@ public:
             BitmapSnippet & outputSnippet,
             double const blurRadius,
             unsigned int const similarityColorLimit);
-    void drawToFillGapsUsingBlur(            BitmapSnippet & snippet,
+    void drawToFillGapsUsingBlur(
+            BitmapSnippet & snippet,
             double const blurRadius);
     void drawPenCircles(
             BitmapSnippet const& inputSnippet,
@@ -86,12 +90,19 @@ public:
 
     void drawBlurredColorToBackgroundPoints(double const blurRadius, BitmapSnippet& snippet, BitmapXYs backgroundPoints, BitmapXYs newBackgroundPoints);
 
+
 private:
     bool isThisPenCircleBetter(
             BitmapXY const& penBitmapXY,
             TwoDimensions::Circle const& circleToCheck,
             TwoDimensions::Circle const& circleToCompare) const;
-    void savePenCirclesInPenPixels();    unsigned int analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(
+    void determinePenPixelsToPenCircles(
+            PenPixelToPenCircleMap & penPixelsToPenCircles,
+            BitmapSnippet const& inputSnippet,
+            unsigned int const similarityColorLimit,
+            double const acceptablePenPercentage);
+    void savePenCircles(PenPixelToPenCircleMap const& penPixelsToPenCircles);
+    unsigned int analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(
             BitmapSnippet const& inputSnippet,
             UnionFindForLabels & unionFindForLabels,
             BitmapXY const & neighborPoint);
@@ -129,7 +140,9 @@ private:
 
     unsigned int m_backgroundColor;
     Bitmap m_bitmap;
-    PixelInformationDatabase m_pixelInformationDatabase;};
+    PixelInformationDatabase m_pixelInformationDatabase;
+    LabelForPixels m_labelForPixels;
+};
 
 }
 
