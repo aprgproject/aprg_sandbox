@@ -4,13 +4,15 @@
 #include <BitmapFilters/ColorStatistics.hpp>
 #include <BitmapFilters/ColorUtilities.hpp>
 #include <BitmapFilters/Utilities.hpp>
+#include <BitmapTraversal/BitmapSnippetTraversal.hpp>
+#include <BitmapTraversal/OutwardCircleTraversal.hpp>
 #include <Math/AlbaMathHelper.hpp>
 #include <Optional/AlbaOptional.hpp>
-#include <PathHandlers/AlbaLocalPathHandler.hpp>#include <TwoDimensions/TwoDimensionsHelper.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <TwoDimensions/TwoDimensionsHelper.hpp>
 
 using namespace alba::AprgBitmap::ColorUtilities;
-using namespace alba::TwoDimensions;
-using namespace std;
+using namespace alba::TwoDimensions;using namespace std;
 
 namespace alba
 {
@@ -76,44 +78,38 @@ AlbaOptional<Circle> BitmapFilters::getPossiblePenCircle(
     unsigned int const centerColor(inputSnippet.getColorAt(centerPoint));
     unsigned int similarPixelsCount(0);
     unsigned int totalPixelCount(0);
-    double initialRadius=0.25;
-    double interval=0.25;
-    double previousRadius=initialRadius;
-    for(double currentRadius=initialRadius+interval; currentRadius<=10; currentRadius+=interval)
+    BitmapSnippetTraversal snippetTraversal(inputSnippet);
+    OutwardCircleTraversal outwardTraversal(5);
+    OutwardCircleTraversal::RadiusToCoordinates const& radiusToCoordinates(
+                outwardTraversal.getRadiusToCoordinates());
+    double currentRadius(0);
+    double previousRadius(0);
+    for(OutwardCircleTraversal::RadiusCoordinatesPair const& pair : radiusToCoordinates)
     {
-        Circle circle(convertBitmapXYToPoint(centerPoint), currentRadius);
-        twoDimensionsHelper::traverseCircleAreaBetweenTwoRadius(
-                    convertBitmapXYToPoint(centerPoint),
-                    previousRadius,
-                    currentRadius,
-                    1,
-                    [&](Point const& point)
+        currentRadius=pair.first;
+        snippetTraversal.traverse(centerPoint, pair, [&](BitmapXY const& pointInCircle)
         {
-            BitmapXY pointInCircle(floor(point.getX()), floor(point.getY()));
-            if(inputSnippet.isPositionInsideTheSnippet(pointInCircle))
+            unsigned int const currentColor(inputSnippet.getColorAt(pointInCircle));
+            if(isSimilar(centerColor, currentColor, similarityColorLimit))
             {
-                unsigned int const currentColor(inputSnippet.getColorAt(pointInCircle));
-                if(isSimilar(centerColor, currentColor, similarityColorLimit))
-                {
-                    similarPixelsCount++;
-                }
-                totalPixelCount++;
+                similarPixelsCount++;
             }
+            totalPixelCount++;
         });
-        double calculatedPenPercentage = (double)similarPixelsCount/totalPixelCount;
-        if(calculatedPenPercentage >= acceptablePenPercentage)
+        if(previousRadius != currentRadius)
         {
-            result.setReference(circle);
+            double calculatedPenPercentage = (double)similarPixelsCount/totalPixelCount;
+            if(calculatedPenPercentage < acceptablePenPercentage)
+            {
+                Circle penCircle(convertBitmapXYToPoint(centerPoint), previousRadius);
+                result.setReference(penCircle);
+                break;
+            }
+            previousRadius = currentRadius;
         }
-        else
-        {
-            break;
-        }
-        previousRadius = currentRadius;
     }
     return result;
 }
-
 void BitmapFilters::determinePenPixels(
         BitmapSnippet const& inputSnippet,
         double const penSearchRadius,
@@ -124,24 +120,20 @@ void BitmapFilters::determinePenPixels(
         Circle circle(convertBitmapXYToPoint(centerXY), penSearchRadius);
         BitmapXYs bitmapPointsWithSimilarColors;
         BitmapXYs bitmapPointsWithDisimilarColors;
-        circle.traverseArea(1, [&](Point const& point)
+        BitmapSnippetTraversal snippetTraversal(inputSnippet);
+        snippetTraversal.traverse(circle, [&](BitmapXY const& pointInCircle)
         {
-            BitmapXY pointInCircle(convertPointToBitmapXY(point));
-            if(inputSnippet.isPositionInsideTheSnippet(pointInCircle))
+            unsigned int const currentColor(inputSnippet.getColorAt(pointInCircle));
+            if(isSimilar(centerColor, currentColor, similarityColorLimit))
             {
-                unsigned int const currentColor(inputSnippet.getColorAt(pointInCircle));
-                if(isSimilar(centerColor, currentColor, similarityColorLimit))
-                {
-                    bitmapPointsWithSimilarColors.emplace_back(pointInCircle);
-                }
-                else
-                {
-                    bitmapPointsWithDisimilarColors.emplace_back(pointInCircle);
-                }
+                bitmapPointsWithSimilarColors.emplace_back(pointInCircle);
+            }
+            else
+            {
+                bitmapPointsWithDisimilarColors.emplace_back(pointInCircle);
             }
         });
-        if(bitmapPointsWithSimilarColors.size() > bitmapPointsWithDisimilarColors.size())
-        {
+        if(bitmapPointsWithSimilarColors.size() > bitmapPointsWithDisimilarColors.size())        {
             m_pixelInformationDatabase.saveAsPenPoints(bitmapPointsWithDisimilarColors);
         }
         else
@@ -163,20 +155,16 @@ void BitmapFilters::determinePenCirclesFromPenPixels(
         if(penCircleOptional.hasContent())
         {
             Circle const& penCircle(penCircleOptional.getConstReference());
-            penCircle.traverseArea(1, [&](Point const& penCirclePoint)
+            BitmapSnippetTraversal snippetTraversal(inputSnippet);
+            snippetTraversal.traverse(penCircle, [&](BitmapXY const& pointInPenCircle)
             {
-                BitmapXY pointInPenCircle(convertPointToBitmapXY(penCirclePoint));
-                if(inputSnippet.isPositionInsideTheSnippet(pointInPenCircle))
+                PixelInformation & pixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(pointInPenCircle));
+                if(pixelInfo.isPenPixel() && isThisPenCircleBetter(pointInPenCircle, penCircle, pixelInfo.getPenCircle()))
                 {
-                    PixelInformation & pixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(pointInPenCircle));
-                    if(pixelInfo.isPenPixel() && isThisPenCircleBetter(penCirclePoint, penCircle, pixelInfo.getPenCircle()))
-                    {
-                        pixelInfo.setPenCircle(penCircle);
-                    }
+                    pixelInfo.setPenCircle(penCircle);
                 }
             });
-        }
-    }
+        }    }
     savePenCirclesInPenPixels();
 }
 
@@ -240,23 +228,23 @@ void BitmapFilters::drawNonPenPixels(
 }
 
 void BitmapFilters::drawBlurredNonPenPixels(
-        BitmapSnippet & snippet,
+        BitmapSnippet const& inputSnippet,
+        BitmapSnippet & outputSnippet,
         double const blurRadius,
         unsigned int const similarityColorLimit)
 {
-    BitmapSnippet tempSnippet(snippet);
-    tempSnippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const)
+    inputSnippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const)
     {
         PixelInformation const& pixelInfo(m_pixelInformationDatabase.getPixelInformation(bitmapPoint));
         if(!pixelInfo.isPenPixel())
         {
-            snippet.setPixelAt(bitmapPoint, getBlurredColor(
-                                   tempSnippet, bitmapPoint, blurRadius,[&](
-                                   unsigned int centerColor, unsigned int currentColor, BitmapXY pointInCircle)
+            outputSnippet.setPixelAt(
+                        bitmapPoint, getBlurredColor(
+                            inputSnippet, bitmapPoint, blurRadius,[&](
+                            unsigned int centerColor, unsigned int currentColor, BitmapXY pointInCircle)
             {
                 PixelInformation const& pointInCirclePixelInfo(m_pixelInformationDatabase.getPixelInformation(pointInCircle));
-                return isSimilar(centerColor, currentColor, similarityColorLimit)
-                        && currentColor!=m_backgroundColor
+                return isSimilar(centerColor, currentColor, similarityColorLimit)                        && currentColor!=m_backgroundColor
                         && !pointInCirclePixelInfo.isPenPixel();
             }));
         }
@@ -267,31 +255,38 @@ void BitmapFilters::drawToFillGapsUsingBlur(
         BitmapSnippet & snippet,
         double const blurRadius)
 {
-    unsigned int numberOfPixelsWithChangedColor(1);
-    while(numberOfPixelsWithChangedColor!=0)
+    BitmapXYs backgroundPoints;
+    snippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
     {
-        numberOfPixelsWithChangedColor=0;
-        BitmapSnippet tempSnippet(snippet);
-        snippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
+        if(m_backgroundColor == color)
         {
-            unsigned int newColor(color);
-            if(m_backgroundColor == color)
+            backgroundPoints.emplace_back(bitmapPoint);
+        }
+    });
+    while(!backgroundPoints.empty())
+    {
+        BitmapXYs newBackgroundPoints;
+        BitmapSnippet tempSnippet(snippet);
+        for(BitmapXY const& backgroundPoint : backgroundPoints)
+        {
+            unsigned int newColor = getBlurredColor(
+                        snippet, backgroundPoint, blurRadius, [&](unsigned int , unsigned int currentColor, BitmapXY )
             {
-                newColor = getBlurredColor(snippet, bitmapPoint, blurRadius, [&](unsigned int , unsigned int currentColor, BitmapXY )
-                {
-                    return m_backgroundColor!=currentColor;
-                });
-                if(m_backgroundColor != newColor)
-                {
-                    numberOfPixelsWithChangedColor++;
-                }
+                return m_backgroundColor!=currentColor;
+            });
+            if(m_backgroundColor == newColor)
+            {
+                newBackgroundPoints.emplace_back(backgroundPoint);
             }
-            tempSnippet.setPixelAt(bitmapPoint, newColor);
-        });
+            else
+            {
+                tempSnippet.setPixelAt(backgroundPoint, newColor);
+            }
+        }
+        backgroundPoints = newBackgroundPoints;
         snippet=tempSnippet;
     }
 }
-
 void BitmapFilters::drawPenCircles(
         BitmapSnippet const& inputSnippet,
         BitmapSnippet & outputSnippet)
@@ -302,21 +297,16 @@ void BitmapFilters::drawPenCircles(
     {
         BitmapXY centerPoint(convertPointToBitmapXY(penCircle.getCenter()));
         unsigned int const centerColor(inputSnippet.getColorAt(centerPoint));
-        penCircle.traverseArea(1, [&](Point const& point)
+        BitmapSnippetTraversal snippetTraversal(inputSnippet);
+        snippetTraversal.traverse(penCircle, [&](BitmapXY const& pointInPenCircle)
         {
-            BitmapXY pointInCircle(convertPointToBitmapXY(point));
-            if(inputSnippet.isPositionInsideTheSnippet(pointInCircle))
-            {
-                //PixelInformation & pixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(pointInCircle));
-                //pixelInfo.temporaryColors.emplace_back(centerColor);
-                outputSnippet.setPixelAt(pointInCircle, centerColor);
-            }
+            outputSnippet.setPixelAt(pointInPenCircle, centerColor);
         });
     }
+
     /*    outputSnippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const)
     {
-        PixelInformation & pixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(bitmapPoint));
-        vector<unsigned int> & tempColors(pixelInfo.temporaryColors);
+        PixelInformation & pixelInfo(m_pixelInformationDatabase.getPixelInformationReferenceAndCreateIfNeeded(bitmapPoint));        vector<unsigned int> & tempColors(pixelInfo.temporaryColors);
         if(!tempColors.empty())
         {
             unsigned int redSum(0), greenSum(0), blueSum(0);
@@ -416,17 +406,17 @@ void BitmapFilters::gatherAndSaveColorDataAndStatistics()
 }
 
 bool BitmapFilters::isThisPenCircleBetter(
-        Point const& penPoint,
+        BitmapXY const& penBitmapXY,
         Circle const& circleToCheck,
         Circle const& circleToCompare) const
 {
     bool isBetter(false);
     if(circleToCheck.getRadius() == circleToCompare.getRadius())
     {
+        Point penPoint(convertBitmapXYToPoint(penBitmapXY));
         isBetter = twoDimensionsHelper::getDistance(penPoint, circleToCheck.getCenter())
                 < twoDimensionsHelper::getDistance(penPoint, circleToCompare.getCenter());
-    }
-    else
+    }    else
     {
         isBetter = circleToCheck.getRadius() > circleToCompare.getRadius();
     }
@@ -573,34 +563,35 @@ void BitmapFilters::determineConnectedComponentsUsingTwoPassInSecondPass(
     });
 }
 
-unsigned int BitmapFilters::getBlurredColor(BitmapSnippet const& canvas, BitmapXY const& centerXY, double const blurRadius, BlurCondition const& isIncludedInBlur) const
+unsigned int BitmapFilters::getBlurredColor(
+        BitmapSnippet const& snippet,
+        BitmapXY const& centerXY,
+        double const blurRadius,
+        BlurCondition const& isIncludedInBlur) const
 {
-    unsigned int const centerColor(canvas.getColorAt(centerXY));    double totalBlurredColorRed(0);
+    unsigned int const centerColor(snippet.getColorAt(centerXY));
+    double totalBlurredColorRed(0);
     double totalBlurredColorGreen(0);
     double totalBlurredColorBlue(0);
     double totalBlurWeight(0);
     bool isChanged(false);
     Circle circle(convertBitmapXYToPoint(centerXY), blurRadius);
-    circle.traverseArea(1, [&](Point const& point)
+    BitmapSnippetTraversal snippetTraversal(snippet);
+    snippetTraversal.traverse(circle, [&](BitmapXY const& pointInCircle)
     {
-        BitmapXY pointInCircle(convertPointToBitmapXY(point));
-        if(canvas.isPositionInsideTheSnippet(pointInCircle))
+        unsigned int const currentColor(snippet.getColorAt(pointInCircle));
+        if(isIncludedInBlur(centerColor, currentColor, pointInCircle))
         {
-            unsigned int const currentColor(canvas.getColorAt(pointInCircle));
-            if(isIncludedInBlur(centerColor, currentColor, pointInCircle))
-            {
-                isChanged=true;
-                double distanceFromCenter(twoDimensionsHelper::getDistance(convertBitmapXYToPoint(centerXY), convertBitmapXYToPoint(pointInCircle)));
-                double blurWeight(getBlurWeight(distanceFromCenter, blurRadius));
-                totalBlurredColorRed+=blurWeight*extractRed(currentColor);
-                totalBlurredColorGreen+=blurWeight*extractGreen(currentColor);
-                totalBlurredColorBlue+=blurWeight*extractBlue(currentColor);
-                totalBlurWeight+=blurWeight;
-            }
+            isChanged=true;
+            double distanceFromCenter(twoDimensionsHelper::getDistance(convertBitmapXYToPoint(centerXY), convertBitmapXYToPoint(pointInCircle)));
+            double blurWeight(getBlurWeight(distanceFromCenter, blurRadius));
+            totalBlurredColorRed+=blurWeight*extractRed(currentColor);
+            totalBlurredColorGreen+=blurWeight*extractGreen(currentColor);
+            totalBlurredColorBlue+=blurWeight*extractBlue(currentColor);
+            totalBlurWeight+=blurWeight;
         }
     });
-    unsigned int blurredColor(m_backgroundColor);
-    if(isChanged)
+    unsigned int blurredColor(m_backgroundColor);    if(isChanged)
     {
         blurredColor = combineRgbToColor(
                     static_cast<unsigned char>(totalBlurredColorRed/totalBlurWeight),

@@ -53,11 +53,11 @@ bool Circle::operator<(Circle const& circle) const
 
 Point Circle::getCenter() const
 {
-    return m_center;}
+    return m_center;
+}
 
 double Circle::getRadius() const
-{
-    return m_radius;
+{    return m_radius;
 }
 
 double Circle::getArea() const

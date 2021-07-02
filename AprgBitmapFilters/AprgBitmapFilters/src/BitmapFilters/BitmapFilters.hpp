@@ -58,11 +58,11 @@ public:
             BitmapSnippet const& inputSnippet,
             BitmapSnippet & outputSnippet);
     void drawBlurredNonPenPixels(
-            BitmapSnippet & snippet,
+            BitmapSnippet const& inputSnippet,
+            BitmapSnippet & outputSnippet,
             double const blurRadius,
             unsigned int const similarityColorLimit);
-    void drawToFillGapsUsingBlur(
-            BitmapSnippet & snippet,
+    void drawToFillGapsUsingBlur(            BitmapSnippet & snippet,
             double const blurRadius);
     void drawPenCircles(
             BitmapSnippet const& inputSnippet,
@@ -84,13 +84,14 @@ public:
     void setBackgroundColor(unsigned int const backgroundColor);
     void gatherAndSaveColorDataAndStatistics();
 
+    void drawBlurredColorToBackgroundPoints(double const blurRadius, BitmapSnippet& snippet, BitmapXYs backgroundPoints, BitmapXYs newBackgroundPoints);
+
 private:
     bool isThisPenCircleBetter(
-            TwoDimensions::Point const& penPoint,
+            BitmapXY const& penBitmapXY,
             TwoDimensions::Circle const& circleToCheck,
             TwoDimensions::Circle const& circleToCompare) const;
-    void savePenCirclesInPenPixels();
-    unsigned int analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(
+    void savePenCirclesInPenPixels();    unsigned int analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(
             BitmapSnippet const& inputSnippet,
             UnionFindForLabels & unionFindForLabels,
             BitmapXY const & neighborPoint);
@@ -119,12 +120,16 @@ private:
             BitmapSnippet const& inputSnippet,
             UnionFindForLabels const& unionFindForLabels);
 
-    unsigned int getBlurredColor(BitmapSnippet const& canvas, BitmapXY const& centerXY, double const blurRadius, BlurCondition const& isIncludedInBlur) const;
+    unsigned int getBlurredColor(
+            BitmapSnippet const& snippet,
+            BitmapXY const& centerXY,
+            double const blurRadius,
+            BlurCondition const& isIncludedInBlur) const;
     double getBlurWeight(double const distanceFromCenter, double const blurRadius) const;
+
     unsigned int m_backgroundColor;
     Bitmap m_bitmap;
-    PixelInformationDatabase m_pixelInformationDatabase;
-};
+    PixelInformationDatabase m_pixelInformationDatabase;};
 
 }
 
