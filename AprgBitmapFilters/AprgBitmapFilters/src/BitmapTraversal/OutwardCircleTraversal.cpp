@@ -12,10 +12,16 @@ namespace alba
 namespace AprgBitmap
 {
 
+OutwardCircleTraversal::Coordinate::Coordinate(
+        unsigned int const firstValue,
+        unsigned int const secondValue)
+    : coordinate1(firstValue)
+    , coordinate2(secondValue)
+{}
+
 OutwardCircleTraversal::OutwardCircleTraversal(unsigned int const maxRadius)
     : m_maxRadius(maxRadius)
-    , m_radiusToCoordinates()
-{
+    , m_radiusToCoordinates(){
     constructRadiusToCoordinates();
 }
 

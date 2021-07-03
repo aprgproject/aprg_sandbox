@@ -65,25 +65,29 @@ public:
             BitmapSnippet & outputSnippet,
             double const blurRadius,
             unsigned int const similarityColorLimit);
-    void drawBlurredColors(
+    void drawBlurredColorsUsingCircles(
             BitmapSnippet & snippet,
             double const blurRadius,
             unsigned int const similarityColorLimit);
     void drawToFillGapsUsingBlur(
             BitmapSnippet & snippet,
-            double const blurRadius);    void drawPenCircles(
+            double const blurRadius);
+    void drawPenCircles(
             BitmapSnippet const& inputSnippet,
             BitmapSnippet & outputSnippet);
-    void drawWithBlurredOutDisimilarColors(
+    void drawWithBlurringDisimilarColors(
+            BitmapSnippet & snippet,
+            unsigned int const similarityColorLimit);
+    void drawWithBlurUsingSnakeLikeTraversal(
             BitmapSnippet & snippet,
             unsigned int const similarityColorLimit);
     void drawAnimeColor(
             BitmapSnippet & snippet);
-    void drawNewColorForLabels(            BitmapSnippet & snippet);
+    void drawNewColorForLabels(
+            BitmapSnippet & snippet);
 
     void saveOutputCanvasIntoCurrentBitmapFile(
-            BitmapSnippet const& snippet) const;
-    void saveOutputCanvasIntoFileInTheSameDirectory(
+            BitmapSnippet const& snippet) const;    void saveOutputCanvasIntoFileInTheSameDirectory(
             BitmapSnippet const& snippet,
             std::string const& filename);
     void saveOutputCanvasIntoFileWithFullFilePath(
@@ -95,22 +99,24 @@ public:
 
 
 private:
-    void drawBlurredDisimilarColorsForCenterPoint(
+    void drawToBlurForCenterPoint(
             BitmapSnippet & snippet,
+            BitmapXYs & pointsToBlur,
             BitmapXY const& point,
             unsigned int const similarityColorLimit);
-    void drawBlurredDisimilarColorsForNonCenterPoint(
+    void drawToBlurForNonCenterPoint(
             BitmapSnippet & snippet,
+            BitmapXYs & pointsToBlur,
             BitmapXY const& point,
             unsigned int const centerColor,
             unsigned int const similarityColorLimit);
     bool isThisPenCircleBetter(
             BitmapXY const& penBitmapXY,
-            TwoDimensions::Circle const& circleToCheck,            TwoDimensions::Circle const& circleToCompare) const;
+            TwoDimensions::Circle const& circleToCheck,
+            TwoDimensions::Circle const& circleToCompare) const;
     void determinePenPointsToPenCircles(
             PenPointToPenCircleMap & penPointsToPenCircles,
-            BitmapSnippet const& inputSnippet,
-            unsigned int const similarityColorLimit,
+            BitmapSnippet const& inputSnippet,            unsigned int const similarityColorLimit,
             double const acceptablePenPercentage);
     void savePenCircles(PenPointToPenCircleMap const& penPointsToPenCircles);
     unsigned int analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(
@@ -150,14 +156,14 @@ private:
             unsigned char const centerColorPart,
             unsigned char const colorToComparePart,
             unsigned int const similarityColorLimit) const;
-    unsigned int getBlurredColor(
+    unsigned int getBlurredColorUsingACircle(
             BitmapSnippet const& snippet,
             BitmapXY const& centerXY,
-            double const blurRadius,            BlurCondition const& isIncludedInBlur) const;
+            double const blurRadius,
+            BlurCondition const& isIncludedInBlur) const;
     double getBlurWeight(double const distanceFromCenter, double const blurRadius) const;
 
-    unsigned int m_backgroundColor;
-    Bitmap m_bitmap;
+    unsigned int m_backgroundColor;    Bitmap m_bitmap;
     LabelForPoints m_labelForPixels;
     PenPoints m_penPoints;
     PenCircles m_penCircles;

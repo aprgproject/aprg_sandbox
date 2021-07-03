@@ -17,11 +17,11 @@ class AlbaXY
     friend std::ostream & operator<<(std::ostream & out, AlbaXY<CoordinateType2> const& xy);
 public:
     AlbaXY()
-        : x(0)        , y(0)
+        : x(0)
+        , y(0)
     {}
 
-    AlbaXY(CoordinateType const& xValue, CoordinateType const& yValue)
-        : x(xValue)
+    AlbaXY(CoordinateType const& xValue, CoordinateType const& yValue)        : x(xValue)
         , y(yValue)
     {}
 

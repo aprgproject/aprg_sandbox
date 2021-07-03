@@ -2,11 +2,9 @@
 
 #include <Bitmap/BitmapSnippet.hpp>
 #include <Bitmap/CommonTypes.hpp>
-#include <BitmapTraversal/OutwardCircleTraversal.hpp>
 #include <TwoDimensions/Circle.hpp>
 
 #include <functional>
-
 namespace alba
 {
 
@@ -20,16 +18,22 @@ public:
 
     BitmapSnippetTraversal(BitmapSnippet const& bitmapSnippet);
 
-    void traverse(
+    void traverseCircleArea(
             TwoDimensions::Circle const& circle,
             TraverseOperation const& traverseOperation) const;
-    void traverse(
+    void traverseCoordinatesCombinations(
             BitmapXY const& centerPoint,
-            OutwardCircleTraversal::RadiusCoordinatesPair const& radiusCoordinatesPair,
+            unsigned int const coordinate1,
+            unsigned int const coordinate2,
+            TraverseOperation const& traverseOperation) const;
+    void traverse4WayConnectivity(
+            BitmapXY const& centerPoint,
+            TraverseOperation const& traverseOperation) const;
+    void traverse8WayConnectivity(
+            BitmapXY const& centerPoint,
             TraverseOperation const& traverseOperation) const;
 
-private:
-    void checkPointBeforeDoingTraverseOperation(
+private:    void checkPointBeforeDoingTraverseOperation(
             BitmapXY const& point,
             TraverseOperation const& traverseOperation) const;
     BitmapSnippet const& m_bitmapSnippet;

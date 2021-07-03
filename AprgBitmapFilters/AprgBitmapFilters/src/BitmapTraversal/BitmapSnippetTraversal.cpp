@@ -15,28 +15,27 @@ BitmapSnippetTraversal::BitmapSnippetTraversal(BitmapSnippet const& bitmapSnippe
     : m_bitmapSnippet(bitmapSnippet)
 {}
 
-void BitmapSnippetTraversal::traverse(
+void BitmapSnippetTraversal::traverseCircleArea(
         Circle const& circle,
         TraverseOperation const& traverseOperation) const
-{
-    circle.traverseArea(1, [&](Point const& point)
+{    circle.traverseArea(1, [&](Point const& point)
     {
         BitmapXY pointInCircle(convertPointToBitmapXY(point));
         checkPointBeforeDoingTraverseOperation(pointInCircle, traverseOperation);
     });
 }
 
-void BitmapSnippetTraversal::traverse(
+void BitmapSnippetTraversal::traverseCoordinatesCombinations(
         BitmapXY const& centerPoint,
-        OutwardCircleTraversal::RadiusCoordinatesPair const& radiusCoordinatesPair,
+        unsigned int const coordinate1,
+        unsigned int const coordinate2,
         TraverseOperation const& traverseOperation) const
 {
-    unsigned int i = radiusCoordinatesPair.second.first;
-    unsigned int j = radiusCoordinatesPair.second.second;
+    unsigned int i = coordinate1;
+    unsigned int j = coordinate2;
     if(i==0 && j==0)
     {
-        checkPointBeforeDoingTraverseOperation(centerPoint, traverseOperation);
-    }
+        checkPointBeforeDoingTraverseOperation(centerPoint, traverseOperation);    }
     else if(i==0)
     {
         checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX()+j, centerPoint.getY()), traverseOperation);
@@ -71,10 +70,33 @@ void BitmapSnippetTraversal::traverse(
     }
 }
 
-void BitmapSnippetTraversal::checkPointBeforeDoingTraverseOperation(
-        BitmapXY const& point,
+void BitmapSnippetTraversal::traverse4WayConnectivity(
+        BitmapXY const& centerPoint,
         TraverseOperation const& traverseOperation) const
 {
+    checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX()-1, centerPoint.getY()), traverseOperation);
+    checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX()+1, centerPoint.getY()), traverseOperation);
+    checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX(), centerPoint.getY()-1), traverseOperation);
+    checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX(), centerPoint.getY()+1), traverseOperation);
+}
+
+void BitmapSnippetTraversal::traverse8WayConnectivity(
+        BitmapXY const& centerPoint,
+        TraverseOperation const& traverseOperation) const
+{
+    checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX()-1, centerPoint.getY()), traverseOperation);
+    checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX()+1, centerPoint.getY()), traverseOperation);
+    checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX(), centerPoint.getY()-1), traverseOperation);
+    checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX(), centerPoint.getY()+1), traverseOperation);
+    checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX()-1, centerPoint.getY()-1), traverseOperation);
+    checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX()-1, centerPoint.getY()+1), traverseOperation);
+    checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX()+1, centerPoint.getY()-1), traverseOperation);
+    checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX()+1, centerPoint.getY()+1), traverseOperation);
+}
+
+void BitmapSnippetTraversal::checkPointBeforeDoingTraverseOperation(
+        BitmapXY const& point,
+        TraverseOperation const& traverseOperation) const{
     if(m_bitmapSnippet.isPositionInsideTheSnippet(point))
     {
         traverseOperation(point);

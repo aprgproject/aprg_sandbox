@@ -269,11 +269,11 @@ TEST(AlbaMathHelperTest, GetPositiveDeltaAsExpected)
 
 TEST(AlbaMathHelperTest, GetRaiseToPowerForIntegersWorksAsExpected)
 {
-    EXPECT_EQ(1, getRaiseToPowerForIntegers(0, 0u));    EXPECT_EQ(1, getRaiseToPowerForIntegers(1, 0u));
+    EXPECT_EQ(1, getRaiseToPowerForIntegers(0, 0u));
+    EXPECT_EQ(1, getRaiseToPowerForIntegers(1, 0u));
     EXPECT_EQ(0, getRaiseToPowerForIntegers(0, 1u));
     EXPECT_EQ(243, getRaiseToPowerForIntegers(3, 5u));
-    EXPECT_EQ(-128, getRaiseToPowerForIntegers(-2, 7u));
-}
+    EXPECT_EQ(-128, getRaiseToPowerForIntegers(-2, 7u));}
 
 TEST(AlbaMathHelperTest, FractionDetailsInLowestFormCanBeComputed)
 {

@@ -27,9 +27,9 @@ public:
 
 private:
     void calculateNewCornersBasedOnCenterAndNumberOfBytes(BitmapXY & topLeftCorner, BitmapXY & bottomRightCorner, BitmapXY const center, unsigned int const numberOfBytes) const;
-    void adjustToTargetLength(int & low, int & high, int const targetLength, unsigned int const maxLength) const;    BitmapConfiguration m_configuration;
+    void adjustToTargetLength(int & low, int & high, int const targetLength, unsigned int const maxLength) const;
+    BitmapConfiguration m_configuration;
 };
 
 }
-
 }
