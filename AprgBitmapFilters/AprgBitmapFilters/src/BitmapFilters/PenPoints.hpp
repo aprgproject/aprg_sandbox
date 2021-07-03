@@ -14,6 +14,7 @@ class PenPoints
 {
 public:
     using PenPointsSet=std::set<BitmapXY>;
+
     bool isPenPoint(BitmapXY const& penPoint) const;
     PenPointsSet const& getPenPoints() const;
 
