@@ -65,16 +65,21 @@ public:
             BitmapSnippet & outputSnippet,
             double const blurRadius,
             unsigned int const similarityColorLimit);
+    void drawBlurredColors(
+            BitmapSnippet & snippet,
+            double const blurRadius,
+            unsigned int const similarityColorLimit);
     void drawToFillGapsUsingBlur(
             BitmapSnippet & snippet,
-            double const blurRadius);
-    void drawPenCircles(
+            double const blurRadius);    void drawPenCircles(
             BitmapSnippet const& inputSnippet,
             BitmapSnippet & outputSnippet);
+    void drawWithBlurredOutDisimilarColors(
+            BitmapSnippet & snippet,
+            unsigned int const similarityColorLimit);
     void drawAnimeColor(
             BitmapSnippet & snippet);
-    void drawNewColorForLabels(
-            BitmapSnippet & snippet);
+    void drawNewColorForLabels(            BitmapSnippet & snippet);
 
     void saveOutputCanvasIntoCurrentBitmapFile(
             BitmapSnippet const& snippet) const;
@@ -90,10 +95,18 @@ public:
 
 
 private:
+    void drawBlurredDisimilarColorsForCenterPoint(
+            BitmapSnippet & snippet,
+            BitmapXY const& point,
+            unsigned int const similarityColorLimit);
+    void drawBlurredDisimilarColorsForNonCenterPoint(
+            BitmapSnippet & snippet,
+            BitmapXY const& point,
+            unsigned int const centerColor,
+            unsigned int const similarityColorLimit);
     bool isThisPenCircleBetter(
             BitmapXY const& penBitmapXY,
-            TwoDimensions::Circle const& circleToCheck,
-            TwoDimensions::Circle const& circleToCompare) const;
+            TwoDimensions::Circle const& circleToCheck,            TwoDimensions::Circle const& circleToCompare) const;
     void determinePenPointsToPenCircles(
             PenPointToPenCircleMap & penPointsToPenCircles,
             BitmapSnippet const& inputSnippet,
@@ -130,10 +143,17 @@ private:
             UnionFindForLabels const& unionFindForLabels);
 
     unsigned int getBlurredColor(
+            unsigned int const centerColor,
+            unsigned int const colorToCompare,
+            unsigned int const similarityColorLimit) const;
+    unsigned char getBlurredColorPart(
+            unsigned char const centerColorPart,
+            unsigned char const colorToComparePart,
+            unsigned int const similarityColorLimit) const;
+    unsigned int getBlurredColor(
             BitmapSnippet const& snippet,
             BitmapXY const& centerXY,
-            double const blurRadius,
-            BlurCondition const& isIncludedInBlur) const;
+            double const blurRadius,            BlurCondition const& isIncludedInBlur) const;
     double getBlurWeight(double const distanceFromCenter, double const blurRadius) const;
 
     unsigned int m_backgroundColor;

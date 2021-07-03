@@ -41,10 +41,11 @@ bool canConvertedToInteger(double const realValue, double const differenceTolera
 bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits);
 double getPi();
 double getE();
+int subtract(unsigned int const number1, unsigned int const number2);
+unsigned int getPositiveDelta(unsigned int const number1, unsigned int const number2);
 int getRaiseToPowerForIntegers(int const base, unsigned int exponent);
 FractionDetails getFractionDetailsInLowestForm(int const numerator, int const denominator);
-FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue);
-unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber);
+FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue);unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber);
 AlbaNumber getGreatestCommonFactor(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);
 unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber);
 AlbaNumber getLeastCommonMultiple(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);

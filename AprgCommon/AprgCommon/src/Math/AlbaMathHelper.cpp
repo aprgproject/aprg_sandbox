@@ -191,7 +191,8 @@ template double clampHigherBound<double>(double const value, double const limit)
 
 //isPerfectSquare
 template <typename NumberType>
-bool isPerfectSquare(NumberType const& value){
+bool isPerfectSquare(NumberType const& value)
+{
     return isPerfectNthPower(value, 2);
 }
 template bool isPerfectSquare<unsigned int>(unsigned int const& value);
@@ -285,10 +286,19 @@ double getE()
     return 2.7182818284590452354;
 }
 
+int subtract(unsigned int const number1, unsigned int const number2)
+{
+    return static_cast<int>(number1)-static_cast<int>(number2);
+}
+
+unsigned int getPositiveDelta(unsigned int const number1, unsigned int const number2)
+{
+    return max(number1, number2) - min(number1, number2);
+}
+
 int getRaiseToPowerForIntegers(int const base, unsigned int exponent)
 {
-    return static_cast<int>(ceil(pow(base, exponent)));
-}
+    return static_cast<int>(ceil(pow(base, exponent)));}
 
 FractionDetails getFractionDetailsInLowestForm(int const numerator, int const denominator)
 {

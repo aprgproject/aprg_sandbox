@@ -29,11 +29,13 @@ BitmapConfiguration BitmapSnippet::getConfiguration() const
 
 bool BitmapSnippet::isPositionInsideTheSnippet(BitmapXY const position) const
 {
-    return m_topLeftCorner.getX() <= position.getX() && m_topLeftCorner.getY() <= position.getY() && m_bottomRightCorner.getX() >= position.getX() && m_bottomRightCorner.getY() >= position.getY();
+    return m_topLeftCorner.getX() <= position.getX()
+            && m_topLeftCorner.getY() <= position.getY()
+            && m_bottomRightCorner.getX() >= position.getX()
+            && m_bottomRightCorner.getY() >= position.getY();
 }
 
-BitmapXY BitmapSnippet::getTopLeftCorner() const
-{
+BitmapXY BitmapSnippet::getTopLeftCorner() const{
     return m_topLeftCorner;
 }
 
