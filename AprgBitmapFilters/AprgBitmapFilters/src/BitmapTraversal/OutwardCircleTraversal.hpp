@@ -22,6 +22,7 @@ public:
     };
     using RadiusToCoordinates=std::multimap<double, Coordinate>;
     using RadiusCoordinatesPair=std::pair<double, Coordinate>;
+
     OutwardCircleTraversal(unsigned int const maxRadius);
 
     RadiusToCoordinates const& getRadiusToCoordinates() const;

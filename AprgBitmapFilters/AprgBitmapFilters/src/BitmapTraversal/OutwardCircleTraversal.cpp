@@ -21,7 +21,8 @@ OutwardCircleTraversal::Coordinate::Coordinate(
 
 OutwardCircleTraversal::OutwardCircleTraversal(unsigned int const maxRadius)
     : m_maxRadius(maxRadius)
-    , m_radiusToCoordinates(){
+    , m_radiusToCoordinates()
+{
     constructRadiusToCoordinates();
 }
 

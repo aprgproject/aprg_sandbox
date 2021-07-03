@@ -5,6 +5,7 @@
 #include <TwoDimensions/Circle.hpp>
 
 #include <functional>
+
 namespace alba
 {
 
@@ -33,7 +34,8 @@ public:
             BitmapXY const& centerPoint,
             TraverseOperation const& traverseOperation) const;
 
-private:    void checkPointBeforeDoingTraverseOperation(
+private:
+    void checkPointBeforeDoingTraverseOperation(
             BitmapXY const& point,
             TraverseOperation const& traverseOperation) const;
     BitmapSnippet const& m_bitmapSnippet;

@@ -21,6 +21,7 @@ public:
         , y(0)
         , z(0)
     {}
+
     AlbaXYZ(CoordinateType const& xValue, CoordinateType const& yValue, CoordinateType const& zValue)
         : x(xValue)
         , y(yValue)

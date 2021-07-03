@@ -39,6 +39,7 @@ BitmapXY BitmapSnippet::getTopLeftCorner() const
 {
     return m_topLeftCorner;
 }
+
 BitmapXY BitmapSnippet::getBottomRightCorner() const
 {
     return m_bottomRightCorner;

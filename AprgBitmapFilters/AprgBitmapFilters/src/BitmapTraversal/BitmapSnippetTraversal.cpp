@@ -18,7 +18,8 @@ BitmapSnippetTraversal::BitmapSnippetTraversal(BitmapSnippet const& bitmapSnippe
 void BitmapSnippetTraversal::traverseCircleArea(
         Circle const& circle,
         TraverseOperation const& traverseOperation) const
-{    circle.traverseArea(1, [&](Point const& point)
+{
+    circle.traverseArea(1, [&](Point const& point)
     {
         BitmapXY pointInCircle(convertPointToBitmapXY(point));
         checkPointBeforeDoingTraverseOperation(pointInCircle, traverseOperation);
@@ -35,7 +36,8 @@ void BitmapSnippetTraversal::traverseCoordinatesCombinations(
     unsigned int j = coordinate2;
     if(i==0 && j==0)
     {
-        checkPointBeforeDoingTraverseOperation(centerPoint, traverseOperation);    }
+        checkPointBeforeDoingTraverseOperation(centerPoint, traverseOperation);
+    }
     else if(i==0)
     {
         checkPointBeforeDoingTraverseOperation(BitmapXY(centerPoint.getX()+j, centerPoint.getY()), traverseOperation);
@@ -96,7 +98,8 @@ void BitmapSnippetTraversal::traverse8WayConnectivity(
 
 void BitmapSnippetTraversal::checkPointBeforeDoingTraverseOperation(
         BitmapXY const& point,
-        TraverseOperation const& traverseOperation) const{
+        TraverseOperation const& traverseOperation) const
+{
     if(m_bitmapSnippet.isPositionInsideTheSnippet(point))
     {
         traverseOperation(point);

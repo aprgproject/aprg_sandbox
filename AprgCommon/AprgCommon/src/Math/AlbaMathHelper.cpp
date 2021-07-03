@@ -182,7 +182,8 @@ template double clampLowerBound<double>(double const value, double const limit);
 
 //clampHigherBound
 template <typename NumberType>
-NumberType clampHigherBound(NumberType const value, NumberType const limit){
+NumberType clampHigherBound(NumberType const value, NumberType const limit)
+{
     return (value>limit) ? limit : value;
 }
 template unsigned int clampHigherBound<unsigned int>(unsigned int const value, unsigned int const limit);
@@ -192,7 +193,8 @@ template double clampHigherBound<double>(double const value, double const limit)
 
 //isPerfectSquare
 template <typename NumberType>
-bool isPerfectSquare(NumberType const& value){
+bool isPerfectSquare(NumberType const& value)
+{
     return isPerfectNthPower(value, 2);
 }
 template bool isPerfectSquare<unsigned int>(unsigned int const& value);
@@ -302,7 +304,8 @@ int getRaiseToPowerForIntegers(int const base, unsigned int exponent)
 }
 
 FractionDetails getFractionDetailsInLowestForm(int const numerator, int const denominator)
-{    FractionDetails result{0, 0, 0};
+{
+    FractionDetails result{0, 0, 0};
     unsigned int unsignedNumerator = mathHelper::getAbsoluteValue(numerator);
     unsigned int unsignedDenominator = mathHelper::getAbsoluteValue(denominator);
     unsigned int greatestCommonFactor = mathHelper::getGreatestCommonFactor(unsignedNumerator, unsignedDenominator);

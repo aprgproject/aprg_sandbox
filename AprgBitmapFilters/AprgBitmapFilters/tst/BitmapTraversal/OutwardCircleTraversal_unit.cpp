@@ -31,7 +31,8 @@ TEST(OutwardCircleTraversalTest, ConstructedRadiusToCoordinatesAreCorrectForZero
         EXPECT_EQ(itInExpect->second.coordinate2, itInVerify->second.coordinate2);
         itInExpect++;
         itInVerify++;
-    }}
+    }
+}
 
 TEST(OutwardCircleTraversalTest, ConstructedRadiusToCoordinatesAreCorrectForRadiusWith5)
 {
@@ -70,7 +71,8 @@ TEST(OutwardCircleTraversalTest, ConstructedRadiusToCoordinatesAreCorrectForRadi
         EXPECT_EQ(itInExpect->second.coordinate2, itInVerify->second.coordinate2);
         itInExpect++;
         itInVerify++;
-    }}
+    }
+}
 
 }
 
