@@ -20,6 +20,15 @@ BitmapXY convertPointToBitmapXY(Point const& pointPosition)
     return BitmapXY(round(pointPosition.getX()), round(pointPosition.getY()));
 }
 
+void animeColorsInPenCircles(PenCircles & penCircles, AnimizeColor const& animizeColor)
+{
+    PenCircles::PointToPenCircleDetailsMap & map(penCircles.getPenCirclesReference());
+    for(PenCircles::PointToPenCircleDetailsMap::iterator it=map.begin(); it!=map.end(); it++)
+    {
+        it->second.color = animizeColor.getNewColor(it->second.color);
+    }
+}
+
 }
 
 }

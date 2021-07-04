@@ -1,35 +1,52 @@
 #include "PenCircles.hpp"
 
-using namespace alba::TwoDimensions;
-
 namespace alba
 {
 
 namespace AprgBitmap
 {
 
-bool PenCircles::isPenCircle(Circle const& penPoint) const
+PenCircles::PenCircleDetails::PenCircleDetails()
+    : radius(0)
+    , color(0u)
+{}
+
+PenCircles::PenCircleDetails::PenCircleDetails(
+        double const radiusParameter,
+        unsigned int const colorParameter)
+    : radius(radiusParameter)
+    , color(colorParameter)
+{}
+
+bool PenCircles::isPenCircle(BitmapXY const& point) const
 {
-    return m_penCircles.find(penPoint)!=m_penCircles.cend();
+    return m_penCircles.find(point)!=m_penCircles.cend();
 }
 
-PenCircles::PenCirclesSet const& PenCircles::getPenCircles() const
+PenCircles::PointToPenCircleDetailsMap const& PenCircles::getPenCircles() const
 {
     return m_penCircles;
 }
 
-void PenCircles::addAsPenCircle(Circle const& penPoint)
+PenCircles::PointToPenCircleDetailsMap & PenCircles::getPenCirclesReference()
 {
-    m_penCircles.emplace(penPoint);
+    return m_penCircles;
 }
 
-void PenCircles::removePenCircle(Circle const& penPoint)
+void PenCircles::addAsPenCircle(
+        BitmapXY const& point,
+        double const radius,
+        unsigned int const color)
 {
-    m_penCircles.erase(penPoint);
+    m_penCircles[point]=PenCircleDetails(radius, color);
 }
 
-void PenCircles::clear()
+void PenCircles::removePenCircle(BitmapXY const& point)
 {
+    m_penCircles.erase(point);
+}
+
+void PenCircles::clear(){
     m_penCircles.clear();
 }
 

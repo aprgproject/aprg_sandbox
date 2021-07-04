@@ -1,30 +1,43 @@
 #pragma once
 
-#include <TwoDimensions/Circle.hpp>
+#include <Bitmap/CommonTypes.hpp>
 
-#include <set>
+#include <map>
 
 namespace alba
 {
-
 namespace AprgBitmap
 {
 
 class PenCircles
 {
 public:
-    using PenCirclesSet=std::set<TwoDimensions::Circle>;
+    struct PenCircleDetails
+    {
+        PenCircleDetails();
+        PenCircleDetails(
+                double const radiusParameter,
+                unsigned int const colorParameter);
+        double radius;
+        unsigned int color;
+    };
+    using PointToPenCircleDetailsMap = std::map<BitmapXY, PenCircleDetails>;
+    using PointPenCircleDetailsPair = std::pair<BitmapXY, PenCircleDetails>;
 
-    bool isPenCircle(TwoDimensions::Circle const& penPoint) const;
-    PenCirclesSet const& getPenCircles() const;
+    bool isPenCircle(BitmapXY const& point) const;
+    PointToPenCircleDetailsMap const& getPenCircles() const;
+    PointToPenCircleDetailsMap & getPenCirclesReference();
 
-    void addAsPenCircle(TwoDimensions::Circle const& penPoint);
-    void removePenCircle(TwoDimensions::Circle const& penPoint);
+    void addAsPenCircle(
+            BitmapXY const& point,
+            double const radius,
+            unsigned int const color);
+    void removePenCircle(BitmapXY const& point);
     void clear();
+
 private:
-    PenCirclesSet m_penCircles;
+    PointToPenCircleDetailsMap m_penCircles;
 };
 
 }
-
 }

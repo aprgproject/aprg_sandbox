@@ -32,25 +32,23 @@ AnimizeColor::AnimizeColor()
     , m_highestIncludedValue(0.9)
 {}
 
-unsigned int AnimizeColor::getNewColor(unsigned int const originalColor)
+unsigned int AnimizeColor::getNewColor(unsigned int const originalColor) const
 {
     HueSaturationLightnessData newHslData(convertColorToHueSaturationLightnessData(originalColor));
-    newHslData.lightnessDecimal = getNewLightness(newHslData.lightnessDecimal);
-    newHslData.saturationLightnessDecimal = getNewSaturation(newHslData.saturationLightnessDecimal);
+    newHslData.lightnessDecimal = getNewLightness(newHslData.lightnessDecimal);    newHslData.saturationLightnessDecimal = getNewSaturation(newHslData.saturationLightnessDecimal);
     unsigned int newColor = convertHueSaturationLightnessDataToColor(newHslData);
     return newColor;
 }
 
-double AnimizeColor::getNewLightness(double const originalValue)
+double AnimizeColor::getNewLightness(double const originalValue) const
 {
     return getNewValue(m_lightnessData, originalValue);
 }
 
-double AnimizeColor::getNewSaturation(double const originalValue)
+double AnimizeColor::getNewSaturation(double const originalValue) const
 {
     return getNewValue(m_saturationData, originalValue);
 }
-
 void AnimizeColor::gatherStatistics(string const& bitmapPath)
 {
     Bitmap bitmap(bitmapPath);
@@ -131,26 +129,24 @@ void AnimizeColor::calculateNewValues(ColorDataMap & colorDataMap)
 }
 
 double AnimizeColor::getNewValue(
-        ColorDataMap & colorDataMap,
-        double const originalValue)
+        ColorDataMap const& colorDataMap,
+        double const originalValue) const
 {
     double newValue=originalValue;
-    if(isValueIncluded(originalValue))
-    {
+    if(isValueIncluded(originalValue))    {
         if(colorDataMap.find(originalValue) != colorDataMap.cend())
         {
             newValue = colorDataMap.at(originalValue).newValue;
         }
         else
         {
-            pair<ColorDataMap::iterator, ColorDataMap::iterator> iterators
-                    = containerHelper::getLowerAndUpperIteratorsInMap(colorDataMap, originalValue);
-            ColorDataMap::iterator itLower(iterators.first);
-            ColorDataMap::iterator itUpper(iterators.second);
+            pair<ColorDataMap::const_iterator, ColorDataMap::const_iterator> iterators
+                    = containerHelper::getLowerAndUpperConstIteratorsInMap(colorDataMap, originalValue);
+            ColorDataMap::const_iterator itLower(iterators.first);
+            ColorDataMap::const_iterator itUpper(iterators.second);
             double deltaX = itUpper->first - itLower->first;
             double deltaY = itUpper->second.newValue - itLower->second.newValue;
-            double deltaXToInterpolate = originalValue-itLower->first;
-            double deltaYInterpolated = deltaXToInterpolate/deltaX*deltaY;
+            double deltaXToInterpolate = originalValue-itLower->first;            double deltaYInterpolated = deltaXToInterpolate/deltaX*deltaY;
             newValue = itLower->second.newValue+deltaYInterpolated;
         }
     }
