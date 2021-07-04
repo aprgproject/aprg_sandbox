@@ -110,10 +110,10 @@ AlbaOptional<Circle> BitmapFilters::getPossiblePenCircle(
 }
 
 void BitmapFilters::determinePenPoints(
+        PenPoints & penPoints,
         BitmapSnippet const& inputSnippet,
         double const penSearchRadius,
-        unsigned int const similarityColorLimit)
-{
+        unsigned int const similarityColorLimit){
     inputSnippet.traverse([&](BitmapXY const& centerXY, unsigned int const centerColor)
     {
         Circle circle(convertBitmapXYToPoint(centerXY), penSearchRadius);
@@ -134,27 +134,31 @@ void BitmapFilters::determinePenPoints(
         });
         if(bitmapPointsWithSimilarColors.size() > bitmapPointsWithDisimilarColors.size())
         {
-            m_penPoints.addAsPenPoints(bitmapPointsWithDisimilarColors);
+            penPoints.addAsPenPoints(bitmapPointsWithDisimilarColors);
         }
         else
         {
-            m_penPoints.addAsPenPoints(bitmapPointsWithSimilarColors);
+            penPoints.addAsPenPoints(bitmapPointsWithSimilarColors);
         }
     });
 }
 
 void BitmapFilters::determinePenCirclesFromPenPoints(
+        PenCircles & penCircles,
+        PenPoints const& penPoints,
         BitmapSnippet const& inputSnippet,
         unsigned int const similarityColorLimit,
         double const acceptablePenPercentage)
 {
     map<BitmapXY, Circle> penPointsToPenCircles;
-    determinePenPointsToPenCircles(penPointsToPenCircles, inputSnippet, similarityColorLimit, acceptablePenPercentage);
-    savePenCircles(penPointsToPenCircles);
+    determinePenPointsToPenCircles(penPointsToPenCircles, penPoints, inputSnippet, similarityColorLimit, acceptablePenPercentage);
+    for(PenPointPenCirclePair const& penPointNewPenCirclePair : penPointsToPenCircles)
+    {
+        penCircles.addAsPenCircle(penPointNewPenCirclePair.second);
+    }
 }
 
-void BitmapFilters::determineConnectedComponentsByOneComponentAtATime(
-        BitmapSnippet const& inputSnippet)
+void BitmapFilters::determineConnectedComponentsByOneComponentAtATime(        BitmapSnippet const& inputSnippet)
 {
     unsigned int currentLabel=1;
     deque<BitmapXY> pointsInDeque;
@@ -186,54 +190,52 @@ void BitmapFilters::determineConnectedComponentsUsingTwoPass(
 }
 
 void BitmapFilters::drawPenPoints(
+        PenPoints const& penPoints,
         BitmapSnippet const& inputSnippet,
         BitmapSnippet & outputSnippet)
 {
     inputSnippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
     {
-        bool isPenPoint(m_penPoints.isPenPoint(bitmapPoint));
+        bool isPenPoint(penPoints.isPenPoint(bitmapPoint));
         if(isPenPoint)
         {
-            outputSnippet.setPixelAt(bitmapPoint, color);
-        }
+            outputSnippet.setPixelAt(bitmapPoint, color);        }
     });
 }
 
 void BitmapFilters::drawNonPenPoints(
+        PenPoints const& penPoints,
         BitmapSnippet const& inputSnippet,
         BitmapSnippet & outputSnippet)
 {
     inputSnippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
     {
-        bool isPenPoint(m_penPoints.isPenPoint(bitmapPoint));
+        bool isPenPoint(penPoints.isPenPoint(bitmapPoint));
         if(!isPenPoint)
         {
-            outputSnippet.setPixelAt(bitmapPoint, color);
-        }
+            outputSnippet.setPixelAt(bitmapPoint, color);        }
     });
 }
 
 void BitmapFilters::drawBlurredNonPenPoints(
+        PenPoints const& penPoints,
         BitmapSnippet const& inputSnippet,
         BitmapSnippet & outputSnippet,
-        double const blurRadius,
-        unsigned int const similarityColorLimit)
+        double const blurRadius,        unsigned int const similarityColorLimit)
 {
     inputSnippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const)
     {
-        bool isPenPoint(m_penPoints.isPenPoint(bitmapPoint));
+        bool isPenPoint(penPoints.isPenPoint(bitmapPoint));
         if(!isPenPoint)
         {
-            outputSnippet.setPixelAt(
-                        bitmapPoint, getBlurredColorUsingACircle(
+            outputSnippet.setPixelAt(                        bitmapPoint, getBlurredColorUsingACircle(
                             inputSnippet, bitmapPoint, blurRadius,
                             [&](unsigned int centerColor, unsigned int currentColor, BitmapXY const& pointInCircle)
             {
-                bool isPointInCircleAPenPoint(m_penPoints.isPenPoint(pointInCircle));
+                bool isPointInCircleAPenPoint(penPoints.isPenPoint(pointInCircle));
                 return isSimilar(centerColor, currentColor, similarityColorLimit)
                         && currentColor!=m_backgroundColor
-                        && !isPointInCircleAPenPoint;
-            }));
+                        && !isPointInCircleAPenPoint;            }));
         }
     });
 }
@@ -296,14 +298,14 @@ void BitmapFilters::drawToFillGapsUsingBlur(
 }
 
 void BitmapFilters::drawPenCircles(
+        PenCircles const& penCircles,
         BitmapSnippet const& inputSnippet,
         BitmapSnippet & outputSnippet)
 {
-    for(Circle const& penCircle : m_penCircles.getPenCircles())
+    for(Circle const& penCircle : penCircles.getPenCircles())
     {
         BitmapXY centerPoint(convertPointToBitmapXY(penCircle.getCenter()));
-        unsigned int const centerColor(inputSnippet.getColorAt(centerPoint));
-        BitmapSnippetTraversal snippetTraversal(inputSnippet);
+        unsigned int const centerColor(inputSnippet.getColorAt(centerPoint));        BitmapSnippetTraversal snippetTraversal(inputSnippet);
         snippetTraversal.traverseCircleArea(penCircle, [&](BitmapXY const& pointInPenCircle)
         {
             outputSnippet.setPixelAt(pointInPenCircle, centerColor);
@@ -323,11 +325,11 @@ void BitmapFilters::drawWithBlurringDisimilarColors(
     {
         disimilarPointsToNewColors.clear();
         snippet.traverse([&](BitmapXY const& point, unsigned int const pointColor)
-        {            double redTotal(0);
+        {
+            double redTotal(0);
             double greenTotal(0);
             double blueTotal(0);
-            unsigned int neighborCount(0);
-            unsigned int disimilarNeighborCount(0);
+            unsigned int neighborCount(0);            unsigned int disimilarNeighborCount(0);
             snippetTraversal.traverse8WayConnectivity(point, [&](BitmapXY const& neighborPoint)
             {
                 unsigned int neighborPointColor = snippet.getColorAt(neighborPoint);
@@ -357,11 +359,11 @@ void BitmapFilters::drawWithBlurringDisimilarColors(
     }
 }
 
-void BitmapFilters::drawWithBlurUsingSnakeLikeTraversal(        BitmapSnippet & snippet,
+void BitmapFilters::drawWithBlurUsingSnakeLikeTraversal(
+        BitmapSnippet & snippet,
         unsigned int const similarityColorLimit)
 {
-    BitmapXY const topLeft(snippet.getTopLeftCorner());
-    BitmapXY const bottomRight(snippet.getBottomRightCorner());
+    BitmapXY const topLeft(snippet.getTopLeftCorner());    BitmapXY const bottomRight(snippet.getBottomRightCorner());
     BitmapXY const middle((topLeft.getX()+bottomRight.getX())/2, (topLeft.getY()+bottomRight.getY())/2);
 
     BitmapXYs pointsToBlur;
@@ -446,11 +448,11 @@ void BitmapFilters::gatherAndSaveColorDataAndStatistics()
 
 unsigned int BitmapFilters::analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(
         BitmapSnippet const& inputSnippet,
-        UnionFindForLabels & unionFindForLabels,        BitmapXY const & neighborPoint)
+        UnionFindForLabels & unionFindForLabels,
+        BitmapXY const & neighborPoint)
 {
     //4-connectivity
-    unsigned int smallestLabel = INVALID_LABEL_VALUE;
-    BitmapXY neighbor1(neighborPoint.getX()-1, neighborPoint.getY());
+    unsigned int smallestLabel = INVALID_LABEL_VALUE;    BitmapXY neighbor1(neighborPoint.getX()-1, neighborPoint.getY());
     BitmapXY neighbor2(neighborPoint.getX(), neighborPoint.getY()-1);
     unsigned int neighbor1Label = analyzeNeighborPointForConnectedComponentsTwoPassAneReturnLabel(inputSnippet, neighbor1);
     unsigned int neighbor2Label = analyzeNeighborPointForConnectedComponentsTwoPassAneReturnLabel(inputSnippet, neighbor2);
@@ -479,11 +481,11 @@ void BitmapFilters::analyzeFourConnectivityNeighborPointsForConnectedComponentsO
 
 unsigned int BitmapFilters::analyzeNeighborPointForConnectedComponentsTwoPassAneReturnLabel(
         BitmapSnippet const& inputSnippet,
-        BitmapXY const & neighborPoint){
+        BitmapXY const & neighborPoint)
+{
     unsigned int labelResult = INVALID_LABEL_VALUE;
     if(inputSnippet.isPositionInsideTheSnippet(neighborPoint))
-    {
-        unsigned int neighborPointColor = inputSnippet.getColorAt(neighborPoint);
+    {        unsigned int neighborPointColor = inputSnippet.getColorAt(neighborPoint);
         unsigned int neighborPointLabel=m_labelForPixels.getLabel(neighborPoint);
         if(isNotBackgroundColor(neighborPointColor) && !isInitialLabel(neighborPointLabel))
         {
@@ -495,11 +497,11 @@ unsigned int BitmapFilters::analyzeNeighborPointForConnectedComponentsTwoPassAne
 
 void BitmapFilters::analyzeNeighborPointForConnectedComponentsOneComponentAtATime(
         BitmapSnippet const& inputSnippet,
-        deque<BitmapXY> & pointsInDeque,        BitmapXY const & neighborPoint,
+        deque<BitmapXY> & pointsInDeque,
+        BitmapXY const & neighborPoint,
         unsigned int const currentLabel)
 {
-    if(inputSnippet.isPositionInsideTheSnippet(neighborPoint))
-    {
+    if(inputSnippet.isPositionInsideTheSnippet(neighborPoint))    {
         unsigned int neighborPointColor = inputSnippet.getColorAt(neighborPoint);
         unsigned int neighborPointLabel=m_labelForPixels.getLabel(neighborPoint);
         if(isNotBackgroundColor(neighborPointColor) && isInitialLabel(neighborPointLabel))
@@ -554,25 +556,24 @@ void BitmapFilters::determineConnectedComponentsUsingTwoPassInSecondPass(
 
 void BitmapFilters::determinePenPointsToPenCircles(
         PenPointToPenCircleMap & penPointsToPenCircles,
+        PenPoints const& penPoints,
         BitmapSnippet const& inputSnippet,
         unsigned int const similarityColorLimit,
         double const acceptablePenPercentage)
 {
-    PenPoints::PenPointsSet const& penPoints(m_penPoints.getPenPoints());
-    for(BitmapXY const& penPoint : penPoints)
+    PenPoints::PenPointsSet const& penPointsSet(penPoints.getPenPoints());
+    for(BitmapXY const& penPoint : penPointsSet)
     {
         AlbaOptional<Circle> penCircleOptional(getPossiblePenCircle(inputSnippet, penPoint, similarityColorLimit, acceptablePenPercentage));
-        if(penCircleOptional.hasContent())
-        {
+        if(penCircleOptional.hasContent())        {
             Circle const& possiblePenCircle(penCircleOptional.getConstReference());
             BitmapSnippetTraversal snippetTraversal(inputSnippet);
             snippetTraversal.traverseCircleArea(possiblePenCircle, [&](BitmapXY const& pointInPossibleCircle)
             {
-                bool isPointInCircleAPenPoint(m_penPoints.isPenPoint(pointInPossibleCircle));
+                bool isPointInCircleAPenPoint(penPoints.isPenPoint(pointInPossibleCircle));
                 if(isPointInCircleAPenPoint
                         && isThisPenCircleBetter(pointInPossibleCircle, possiblePenCircle, penPointsToPenCircles[pointInPossibleCircle]))
-                {
-                    penPointsToPenCircles[pointInPossibleCircle] = possiblePenCircle;
+                {                    penPointsToPenCircles[pointInPossibleCircle] = possiblePenCircle;
                 }
             });
         }
@@ -628,18 +629,9 @@ void BitmapFilters::updateUnionFindForLabels(
     }
 }
 
-void BitmapFilters::savePenCircles(PenPointToPenCircleMap const& penPointsToPenCircles)
-{
-    for(PenPointPenCirclePair const& penPointNewPenCirclePair : penPointsToPenCircles)
-    {
-        m_penCircles.addAsPenCircle(penPointNewPenCirclePair.second);
-    }
-}
-
 bool BitmapFilters::isThisPenCircleBetter(
         BitmapXY const& penBitmapXY,
-        Circle const& circleToCheck,
-        Circle const& circleToCompare) const
+        Circle const& circleToCheck,        Circle const& circleToCompare) const
 {
     bool isBetter(false);
     if(circleToCheck.getRadius() == circleToCompare.getRadius())
@@ -657,11 +649,11 @@ bool BitmapFilters::isThisPenCircleBetter(
 
 unsigned int BitmapFilters::getBlurredColor(
         unsigned int const centerColor,
-        unsigned int const colorToCompare,        unsigned int const similarityColorLimit) const
+        unsigned int const colorToCompare,
+        unsigned int const similarityColorLimit) const
 {
     unsigned char red=getBlurredColorPart(extractRed(centerColor), extractRed(colorToCompare), similarityColorLimit);
-    unsigned char green=getBlurredColorPart(extractGreen(centerColor), extractGreen(colorToCompare), similarityColorLimit);
-    unsigned char blue=getBlurredColorPart(extractBlue(centerColor), extractBlue(colorToCompare), similarityColorLimit);
+    unsigned char green=getBlurredColorPart(extractGreen(centerColor), extractGreen(colorToCompare), similarityColorLimit);    unsigned char blue=getBlurredColorPart(extractBlue(centerColor), extractBlue(colorToCompare), similarityColorLimit);
     return combineRgbToColor(red, green, blue);
 }
 
