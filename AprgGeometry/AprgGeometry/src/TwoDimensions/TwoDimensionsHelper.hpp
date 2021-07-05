@@ -73,7 +73,7 @@ Line getPolynomialTangentLineAt(Polynomial<numberOfCoefficients> polynomial, dou
 
 void addPointIfInsideTwoPoints(Points & pointsAtBorder, Point const& point, Point const& minimumXAndY, Point const& maximumXAndY);
 void savePointsFromTwoPointsUsingALineWithoutLastPoint(Points & points, Point const& previousPoint, Point const& currentPoint, double const interval);
-
+void sortPointsInYAndThenX(Points & points);
 void traverseCircleAreaBetweenTwoRadius(
         Point const& center,
         double const innerRadius,

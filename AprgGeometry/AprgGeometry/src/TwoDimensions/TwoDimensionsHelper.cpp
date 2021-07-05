@@ -491,6 +491,25 @@ void savePointsFromTwoPointsUsingALineWithoutLastPoint(Points & points, Point co
     std::copy(pointsInLine.begin(), pointsInLine.end(), std::back_inserter(points));
 }
 
+void sortPointsInYAndThenX(Points & points)
+{
+    sort(points.begin(), points.end(), [](
+         Point const& point1,
+         Point const& point2)
+    {
+        bool result(false);
+        if(point1.getY() == point2.getY())
+        {
+            result = point1.getX() < point2.getX();
+        }
+        else
+        {
+            result = point1.getY() < point2.getY();
+        }
+        return result;
+    });
+}
+
 void traverseCircleAreaBetweenTwoRadius(
         Point const& center,
         double const innerRadius,

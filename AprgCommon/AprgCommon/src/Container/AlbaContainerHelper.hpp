@@ -70,10 +70,12 @@ getLowerAndUpperConstIteratorsInMap(std::map<KeyType, ValueType> const& containe
 template <typename KeyType, typename ValueType>
 std::pair<typename std::map<KeyType, ValueType>::iterator, typename std::map<KeyType, ValueType>::iterator>
 getLowerAndUpperIteratorsInMap(std::map<KeyType, ValueType> & container, KeyType const& keyValue)
-{    std::pair<typename std::map<KeyType, ValueType>::iterator, typename std::map<KeyType, ValueType>::iterator> result;
+{
+    std::pair<typename std::map<KeyType, ValueType>::iterator, typename std::map<KeyType, ValueType>::iterator> result;
     typename std::map<KeyType, ValueType>::iterator itFoundValue = container.find(keyValue);
     typename std::map<KeyType, ValueType>::iterator itUpper(itFoundValue);
-    typename std::map<KeyType, ValueType>::iterator itLower(itFoundValue);    if(itFoundValue==container.cend())
+    typename std::map<KeyType, ValueType>::iterator itLower(itFoundValue);
+    if(itFoundValue==container.cend())
     {
         itUpper = container.upper_bound(keyValue);
         itLower = itUpper;

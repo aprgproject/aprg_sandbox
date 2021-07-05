@@ -31,7 +31,7 @@ public:
     {
         Points points;
         AlbaRange<double> range(startValueOfX, endValueOfX, interval);
-        range.traverse([&](double traverseValueOfX)
+        range.traverse([&](double const traverseValueOfX)
         {
             points.push_back(Point(traverseValueOfX, calculateYfromX(traverseValueOfX)));
         });

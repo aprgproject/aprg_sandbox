@@ -247,10 +247,12 @@ string AlbaDateTime::getPrintableStringFormat3() const
 
 bool AlbaDateTime::operator<(AlbaDateTime const& secondDateTime) const
 {
-    bool result(false);    if(m_sign < secondDateTime.m_sign) result = true;
+    bool result(false);
+    if(m_sign < secondDateTime.m_sign) result = true;
     else if(m_sign > secondDateTime.m_sign) result = false;
     else result = isLessThanInMagnitude(*this, secondDateTime);
-    return result;}
+    return result;
+}
 
 bool AlbaDateTime::operator>(AlbaDateTime const& secondDateTime) const
 {

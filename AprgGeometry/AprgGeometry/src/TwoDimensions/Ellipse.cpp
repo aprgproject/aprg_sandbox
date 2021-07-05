@@ -95,14 +95,17 @@ bool Ellipse::isInside(Point const& point) const
 Points Ellipse::getPointsForCircumference(double const interval) const
 {
     Points result;
-    Points pointsInFirstQuarter(getPointsInTraversingXAndY(1, 1, interval));
-    Points pointsInSecondQuarter(getPointsInTraversingXAndY(-1, 1, interval));
-    Points pointsInThirdQuarter(getPointsInTraversingXAndY(-1, -1, interval));
-    Points pointsInFourthQuarter(getPointsInTraversingXAndY(1, -1, interval));
-    copy(pointsInFirstQuarter.cbegin(), pointsInFirstQuarter.cend()-1, back_inserter(result));
-    copy(pointsInSecondQuarter.cbegin(), pointsInSecondQuarter.cend()-1, back_inserter(result));
-    copy(pointsInThirdQuarter.cbegin(), pointsInThirdQuarter.cend()-1, back_inserter(result));
-    copy(pointsInFourthQuarter.cbegin(), pointsInFourthQuarter.cend()-1, back_inserter(result));
+    if(m_aValue!=0 && m_bValue!=0)
+    {
+        Points pointsInFirstQuarter(getPointsInTraversingXAndY(1, 1, interval));
+        Points pointsInSecondQuarter(getPointsInTraversingXAndY(-1, 1, interval));
+        Points pointsInThirdQuarter(getPointsInTraversingXAndY(-1, -1, interval));
+        Points pointsInFourthQuarter(getPointsInTraversingXAndY(1, -1, interval));
+        copy(pointsInFirstQuarter.cbegin(), pointsInFirstQuarter.cend()-1, back_inserter(result));
+        copy(pointsInSecondQuarter.cbegin(), pointsInSecondQuarter.cend()-1, back_inserter(result));
+        copy(pointsInThirdQuarter.cbegin(), pointsInThirdQuarter.cend()-1, back_inserter(result));
+        copy(pointsInFourthQuarter.cbegin(), pointsInFourthQuarter.cend()-1, back_inserter(result));
+    }
     return result;
 }
 

@@ -6,6 +6,7 @@
 
 namespace alba
 {
+
 namespace AprgBitmap
 {
 
@@ -40,4 +41,5 @@ private:
 };
 
 }
+
 }

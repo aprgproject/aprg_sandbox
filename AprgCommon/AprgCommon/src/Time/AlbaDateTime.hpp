@@ -65,10 +65,12 @@ public:
     std::string getPrintableStringFormat3() const; // HH:MM:SS.MMMMMM
     bool operator<(AlbaDateTime const& secondDateTime) const;
     bool operator>(AlbaDateTime const& secondDateTime) const;
-    bool operator==(AlbaDateTime const& secondDateTime) const;    bool operator!=(AlbaDateTime const& secondDateTime) const;
+    bool operator==(AlbaDateTime const& secondDateTime) const;
+    bool operator!=(AlbaDateTime const& secondDateTime) const;
     AlbaDateTime operator+(AlbaDateTime const& secondDateTime) const;
     AlbaDateTime operator-(AlbaDateTime const& secondDateTime) const;
-    void negate();    void setTime(unsigned short int const years, unsigned char const months, unsigned char const days, unsigned char const hours, unsigned char const minutes, unsigned char const seconds, unsigned int const microseconds);
+    void negate();
+    void setTime(unsigned short int const years, unsigned char const months, unsigned char const days, unsigned char const hours, unsigned char const minutes, unsigned char const seconds, unsigned int const microseconds);
 private:
     bool isLessThanInMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;
     bool isGreaterThanInMagnitude(AlbaDateTime const& firstDateTime, AlbaDateTime const& secondDateTime) const;

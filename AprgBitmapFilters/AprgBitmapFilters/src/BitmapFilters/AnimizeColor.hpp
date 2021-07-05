@@ -29,6 +29,7 @@ public:
     void gatherStatistics(std::string const& bitmapPath);
     void calculateNewValues();
     void saveColorData(std::string const& path);
+
 private:
     bool isValueIncluded(double const value) const;
     void addCountToValue(
@@ -40,7 +41,8 @@ private:
             double const originalLightnessValue) const;
     double m_lowestIncludedValue;
     double m_highestIncludedValue;
-    ColorDataMap m_lightnessData;    ColorDataMap m_saturationData;
+    ColorDataMap m_lightnessData;
+    ColorDataMap m_saturationData;
 };
 
 }

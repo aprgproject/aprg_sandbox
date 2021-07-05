@@ -210,7 +210,7 @@ void Line::getPointsForVerticalLine(Points & points, Point const& first, Point c
 {
     AlbaRange<double> range(first.getY(), second.getY(), interval);
     double xIntercept(getXIntercept());
-    range.traverse([&](double traverseValue)
+    range.traverse([&](double const traverseValue)
     {
         points.emplace_back(xIntercept, traverseValue);
     });
@@ -220,7 +220,7 @@ void Line::getPointsForHorizontalLine(Points & points, Point const& first, Point
 {
     AlbaRange<double> range(first.getX(), second.getX(), interval);
     double yIntercept(getYIntercept());
-    range.traverse([&](double traverseValue)
+    range.traverse([&](double const traverseValue)
     {
         points.emplace_back(traverseValue, yIntercept);
     });
@@ -247,14 +247,14 @@ void Line::getPointsForLineWithSlope(Points & points, Point const& first, Point 
 
         Points pointsFromXCoordinate;
         AlbaRange<double> rangeForX(startingPoint.getX(), endPoint.getX(), interval);
-        rangeForX.traverse([&](double traverseValueOfX)
+        rangeForX.traverse([&](double const traverseValueOfX)
         {
             pointsFromXCoordinate.emplace_back(traverseValueOfX, calculateYFromX(traverseValueOfX));
         });
 
         Points pointsFromYCoordinate;
         AlbaRange<double> rangeForY(startingPoint.getY(), endPoint.getY(), interval);
-        rangeForY.traverse([&](double traverseValueOfY)
+        rangeForY.traverse([&](double const traverseValueOfY)
         {
             pointsFromYCoordinate.emplace_back(calculateXFromY(traverseValueOfY), traverseValueOfY);
         });

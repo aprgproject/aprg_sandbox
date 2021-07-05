@@ -362,7 +362,7 @@ TEST(TwoDimensionsLineTest, LineWithExtremeSlopeWithManyPoints)
     EXPECT_EQ(-1, line.getAUnitIncreaseInY());
 
     Points points(line.getPoints(Point(0,0), Point(3194,3966), 1));
-    ASSERT_EQ(4659u, points.size());
+    ASSERT_EQ(4660u, points.size());
 }
 
 TEST(TwoDimensionsLineTest, LineCanBeComparedForEquality)

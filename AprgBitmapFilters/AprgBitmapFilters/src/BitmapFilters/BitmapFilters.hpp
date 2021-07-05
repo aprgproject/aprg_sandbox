@@ -5,13 +5,15 @@
 #include <BitmapFilters/AnimizeColor.hpp>
 #include <BitmapFilters/LabelForPoints.hpp>
 #include <BitmapFilters/PenCircles.hpp>
-#include <BitmapFilters/PenPoints.hpp>#include <BitmapTraversal/BitmapSnippetTraversal.hpp>
+#include <BitmapFilters/PenPoints.hpp>
+#include <BitmapTraversal/BitmapSnippetTraversal.hpp>
 #include <TwoDimensions/Point.hpp>
 #include <TwoDimensions/Circle.hpp>
 #include <UnionFind/UnionFind.hpp>
 
 #include <functional>
 #include <deque>
+
 namespace alba
 {
 
@@ -30,7 +32,8 @@ public:
 
     BitmapFilters(std::string const& path);
 
-    bool isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) const;    bool isNotBackgroundColor(unsigned int const color) const;
+    bool isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) const;
+    bool isNotBackgroundColor(unsigned int const color) const;
 
     BitmapSnippet getWholeBitmapSnippet() const;
     BitmapSnippet getBlankSnippet(unsigned int const backgroundColor) const;
@@ -66,7 +69,8 @@ public:
             BitmapSnippet & outputSnippet);
     void drawNonPenPoints(
             PenPoints const& penPoints,
-            BitmapSnippet const& inputSnippet,            BitmapSnippet & outputSnippet);
+            BitmapSnippet const& inputSnippet,
+            BitmapSnippet & outputSnippet);
     void drawBlurredNonPenPoints(
             PenPoints const& penPoints,
             BitmapSnippet const& inputSnippet,
@@ -78,7 +82,8 @@ public:
             BitmapSnippet & snippet);
 
     //draw blur functions
-    void drawWithBlurringDisimilarColors(            BitmapSnippet & snippet,
+    void drawWithBlurringDisimilarColors(
+            BitmapSnippet & snippet,
             unsigned int const numberOfPasses,
             unsigned int const similarityColorLimit);
     void drawBlurredColorsUsingCircles(
@@ -107,6 +112,7 @@ public:
     void saveSnippetIntoFileWithFullFilePath(
             BitmapSnippet const& snippet,
             std::string const& fullFilePath);
+
     void setBackgroundColor(unsigned int const backgroundColor);
 
     void gatherAndSaveColorDataAndStatistics();
@@ -122,7 +128,8 @@ private:
             BitmapXY const & neighborPoint);
     void analyzeFourConnectivityNeighborPointsForConnectedComponentsOneComponentAtATime(
             BitmapSnippet const& inputSnippet,
-            std::deque<BitmapXY> & pointsInQueue,            BitmapXY const & poppedPoint,
+            std::deque<BitmapXY> & pointsInQueue,
+            BitmapXY const & poppedPoint,
             unsigned int const currentLabel);
     unsigned int analyzeNeighborPointForConnectedComponentsTwoPassAneReturnLabel(
             BitmapSnippet const& inputSnippet,

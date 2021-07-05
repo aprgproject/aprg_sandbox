@@ -46,7 +46,8 @@ void PenCircles::removePenCircle(BitmapXY const& point)
     m_penCircles.erase(point);
 }
 
-void PenCircles::clear(){
+void PenCircles::clear()
+{
     m_penCircles.clear();
 }
 

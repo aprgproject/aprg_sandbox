@@ -8,9 +8,11 @@
 
 namespace alba
 {
+
 class AlbaWindowsTimer
 {
-public:    AlbaWindowsTimer();
+public:
+    AlbaWindowsTimer();
     void resetTimer();
     void stopTimer();
     void sleep(unsigned int const milliSeconds);
@@ -26,4 +28,5 @@ private:
     SYSTEMTIME m_time1;
     SYSTEMTIME m_time2;
 };
+
 }//namespace alba

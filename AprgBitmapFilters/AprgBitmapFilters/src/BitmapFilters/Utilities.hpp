@@ -5,7 +5,8 @@
 #include <BitmapFilters/PenCircles.hpp>
 #include <TwoDimensions/Point.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace AprgBitmap
 {
@@ -15,4 +16,5 @@ BitmapXY convertPointToBitmapXY(TwoDimensions::Point const& pointPosition);
 void animeColorsInPenCircles(PenCircles & penCircles, AnimizeColor const& animizeColor);
 
 }
+
 }

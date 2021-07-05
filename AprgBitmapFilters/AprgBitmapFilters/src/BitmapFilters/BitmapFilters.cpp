@@ -9,7 +9,8 @@
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
 
-using namespace alba::AprgBitmap::ColorUtilities;using namespace alba::TwoDimensions;
+using namespace alba::AprgBitmap::ColorUtilities;
+using namespace alba::TwoDimensions;
 using namespace std;
 
 namespace alba
@@ -155,6 +156,7 @@ void BitmapFilters::determinePenCirclesFromPenPoints(
         penCircles.addAsPenCircle(pair.first, pair.second.getRadius(), inputSnippet.getColorAt(pair.first));
     }
 }
+
 void BitmapFilters::determineConnectedComponentsByOneComponentAtATime(
         BitmapSnippet const& inputSnippet)
 {
@@ -258,6 +260,7 @@ void BitmapFilters::drawPenCircles(
         });
     }
 }
+
 void BitmapFilters::drawWithBlurringDisimilarColors(
         BitmapSnippet & snippet,
         unsigned int const numberOfPasses,
@@ -302,6 +305,7 @@ void BitmapFilters::drawWithBlurUsingSnakeLikeTraversal(
     BitmapXY const topLeft(snippet.getTopLeftCorner());
     BitmapXY const bottomRight(snippet.getBottomRightCorner());
     BitmapXY const middle((topLeft.getX()+bottomRight.getX())/2, (topLeft.getY()+bottomRight.getY())/2);
+
     BitmapXYs pointsToBlur;
     OutwardSnakeLikeTraversal traversal(
                 middle, OutwardSnakeLikeTraversal::Direction::Up, topLeft.getX(), bottomRight.getX(), topLeft.getY(), bottomRight.getY());
@@ -365,7 +369,8 @@ void BitmapFilters::drawAnimeColor(
 {
     snippet.traverse([&](BitmapXY const& position, unsigned int const color)
     {
-        unsigned int newColor = animizeColor.getNewColor(color);        snippet.setPixelAt(position, newColor);
+        unsigned int newColor = animizeColor.getNewColor(color);
+        snippet.setPixelAt(position, newColor);
     });
 }
 
@@ -399,7 +404,8 @@ void BitmapFilters::saveSnippetIntoFileInTheSameDirectory(
 void BitmapFilters::saveSnippetIntoFileWithFullFilePath(
         BitmapSnippet const& snippet,
         string const& fullFilePath)
-{    AlbaLocalPathHandler originalBitmapPathHandler(m_bitmap.getConfiguration().getPath());
+{
+    AlbaLocalPathHandler originalBitmapPathHandler(m_bitmap.getConfiguration().getPath());
     AlbaLocalPathHandler newFilePathHandler(fullFilePath);
     originalBitmapPathHandler.copyToNewFile(newFilePathHandler.getFullPath());
     Bitmap newBitmap(newFilePathHandler.getFullPath());
@@ -459,7 +465,8 @@ unsigned int BitmapFilters::analyzeFourConnectivityNeighborPointsForConnectedCom
         BitmapXY const & neighborPoint)
 {
     //4-connectivity
-    unsigned int smallestLabel = INVALID_LABEL_VALUE;    BitmapXY neighbor1(neighborPoint.getX()-1, neighborPoint.getY());
+    unsigned int smallestLabel = INVALID_LABEL_VALUE;
+    BitmapXY neighbor1(neighborPoint.getX()-1, neighborPoint.getY());
     BitmapXY neighbor2(neighborPoint.getX(), neighborPoint.getY()-1);
     unsigned int neighbor1Label = analyzeNeighborPointForConnectedComponentsTwoPassAneReturnLabel(inputSnippet, neighbor1);
     unsigned int neighbor2Label = analyzeNeighborPointForConnectedComponentsTwoPassAneReturnLabel(inputSnippet, neighbor2);
