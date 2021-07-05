@@ -234,14 +234,23 @@ string AlbaDateTime::getPrintableStringFormat2() const
     return ss.str();
 }
 
+string AlbaDateTime::getPrintableStringFormat3() const
+{
+    stringstream ss;
+    ss << setfill('0');
+    ss << setw(2) << getHours() << ":";
+    ss << setw(2) << getMinutes() << ":";
+    ss << setw(2) << getSeconds() << ".";
+    ss << setw(6) << getMicroSeconds();
+    return ss.str();
+}
+
 bool AlbaDateTime::operator<(AlbaDateTime const& secondDateTime) const
 {
-    bool result(false);
-    if(m_sign < secondDateTime.m_sign) result = true;
+    bool result(false);    if(m_sign < secondDateTime.m_sign) result = true;
     else if(m_sign > secondDateTime.m_sign) result = false;
     else result = isLessThanInMagnitude(*this, secondDateTime);
-    return result;
-}
+    return result;}
 
 bool AlbaDateTime::operator>(AlbaDateTime const& secondDateTime) const
 {

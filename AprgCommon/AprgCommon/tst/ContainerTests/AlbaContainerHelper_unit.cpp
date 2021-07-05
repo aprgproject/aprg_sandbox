@@ -27,14 +27,38 @@ TEST(ContainerSetTest, GetLowerAndUpperValuesInSet)
     EXPECT_EQ((pair<int,int>(5, 23)), getLowerAndUpperValuesInSet(sampleSet, 7));
 }
 
-TEST(ContainerSetTest, GetLowerAndUpperIteratorsInMap)
+TEST(ContainerSetTest, GetLowerAndUpperConstIteratorsInMap)
 {
     map<unsigned int, unsigned int> sampleMap{{1, 10}, {3, 30}, {5, 50}};
-    using MapIterator=map<unsigned int, unsigned int>::iterator;
+    using MapIterator=map<unsigned int, unsigned int>::const_iterator;
     using PairOfIterators=pair<MapIterator, MapIterator>;
 
     MapIterator firstIterator=sampleMap.find(1);
     MapIterator secondIterator=sampleMap.find(3);
+    MapIterator thirdIterator=sampleMap.find(5);
+    PairOfIterators iteratorsToVerify1(getLowerAndUpperConstIteratorsInMap(sampleMap, 0u));
+    EXPECT_EQ(firstIterator, iteratorsToVerify1.first);
+    EXPECT_EQ(firstIterator, iteratorsToVerify1.second);
+    PairOfIterators iteratorsToVerify2(getLowerAndUpperConstIteratorsInMap(sampleMap, 6u));
+    EXPECT_EQ(thirdIterator, iteratorsToVerify2.first);
+    EXPECT_EQ(thirdIterator, iteratorsToVerify2.second);
+    PairOfIterators iteratorsToVerify3(getLowerAndUpperConstIteratorsInMap(sampleMap, 1u));
+    EXPECT_EQ(firstIterator, iteratorsToVerify3.first);
+    EXPECT_EQ(firstIterator, iteratorsToVerify3.second);
+    PairOfIterators iteratorsToVerify4(getLowerAndUpperConstIteratorsInMap(sampleMap, 5u));
+    EXPECT_EQ(thirdIterator, iteratorsToVerify4.first);
+    EXPECT_EQ(thirdIterator, iteratorsToVerify4.second);
+    PairOfIterators iteratorsToVerify5(getLowerAndUpperConstIteratorsInMap(sampleMap, 4u));
+    EXPECT_EQ(secondIterator, iteratorsToVerify5.first);
+    EXPECT_EQ(thirdIterator, iteratorsToVerify5.second);
+}
+
+TEST(ContainerSetTest, GetLowerAndUpperIteratorsInMap)
+{
+    map<unsigned int, unsigned int> sampleMap{{1, 10}, {3, 30}, {5, 50}};    using MapIterator=map<unsigned int, unsigned int>::iterator;
+    using PairOfIterators=pair<MapIterator, MapIterator>;
+
+    MapIterator firstIterator=sampleMap.find(1);    MapIterator secondIterator=sampleMap.find(3);
     MapIterator thirdIterator=sampleMap.find(5);
     PairOfIterators iteratorsToVerify1(getLowerAndUpperIteratorsInMap(sampleMap, 0u));
     EXPECT_EQ(firstIterator, iteratorsToVerify1.first);

@@ -3,13 +3,13 @@
 #include <Time/AlbaDateTimeConstants.hpp>
 #include <Time/AlbaWindowsTimeHelper.hpp>
 
+using namespace std;
+
 namespace alba
 {
-
 AlbaWindowsTimer::AlbaWindowsTimer()
 {
-    resetTimer();
-}
+    resetTimer();}
 
 void AlbaWindowsTimer::resetTimer()
 {
@@ -29,49 +29,50 @@ void AlbaWindowsTimer::sleep(unsigned int const milliSeconds)
 
 unsigned int AlbaWindowsTimer::getElapsedTimeInMilliseconds() const
 {
-    AlbaDateTime time1(convertSystemTimeToAlbaDateTime(m_time1));
-    AlbaDateTime time2(convertSystemTimeToAlbaDateTime(m_time2));
-    AlbaDateTime difference(time2-time1);
+    AlbaDateTime difference(getDifferenceBetweenTimes());
     unsigned int elapsedTime =
             static_cast<unsigned int>(
-            (difference.getHours()*static_cast<int>(AlbaDateTimeConstants::NUMBER_OF_MILLISECONDS_IN_AN_HOUR))
-            + (difference.getMinutes()*static_cast<int>(AlbaDateTimeConstants::NUMBER_OF_MILLISECONDS_IN_A_MINUTE))
+            (difference.getHours()*static_cast<int>(AlbaDateTimeConstants::NUMBER_OF_MILLISECONDS_IN_AN_HOUR))            + (difference.getMinutes()*static_cast<int>(AlbaDateTimeConstants::NUMBER_OF_MILLISECONDS_IN_A_MINUTE))
             + (difference.getSeconds()*static_cast<int>(AlbaDateTimeConstants::NUMBER_OF_MILLISECONDS_IN_A_SECOND))
             + difference.getMicroSeconds());
-    return elapsedTime;
-}
+    return elapsedTime;}
 
 unsigned int AlbaWindowsTimer::getElapsedTimeInSeconds() const
 {
-    AlbaDateTime time1(convertSystemTimeToAlbaDateTime(m_time1));
-    AlbaDateTime time2(convertSystemTimeToAlbaDateTime(m_time2));
-    AlbaDateTime difference(time2-time1);
+    AlbaDateTime difference(getDifferenceBetweenTimes());
     unsigned int elapsedTime =
             static_cast<unsigned int>(
-            (difference.getHours()*static_cast<int>(AlbaDateTimeConstants::NUMBER_OF_SECONDS_IN_AN_HOUR))
-            + (difference.getMinutes()*static_cast<int>(AlbaDateTimeConstants::NUMBER_OF_SECONDS_IN_A_MINUTE))
+            (difference.getHours()*static_cast<int>(AlbaDateTimeConstants::NUMBER_OF_SECONDS_IN_AN_HOUR))            + (difference.getMinutes()*static_cast<int>(AlbaDateTimeConstants::NUMBER_OF_SECONDS_IN_A_MINUTE))
             + difference.getSeconds());
     return elapsedTime;
 }
 
 unsigned int AlbaWindowsTimer::getElapsedTimeInMinutes() const
 {
-    AlbaDateTime time1(convertSystemTimeToAlbaDateTime(m_time1));
-    AlbaDateTime time2(convertSystemTimeToAlbaDateTime(m_time2));
-    AlbaDateTime difference(time2-time1);
+    AlbaDateTime difference(getDifferenceBetweenTimes());
     unsigned int elapsedTime =
             static_cast<unsigned int>(
-            (difference.getHours()*static_cast<int>(AlbaDateTimeConstants::NUMBER_OF_MINUTES_IN_AN_HOUR))
-            + difference.getMinutes());
+            (difference.getHours()*static_cast<int>(AlbaDateTimeConstants::NUMBER_OF_MINUTES_IN_AN_HOUR))            + difference.getMinutes());
     return elapsedTime;
 }
 
 unsigned int AlbaWindowsTimer::getElapsedTimeInHours() const
 {
+    AlbaDateTime difference(getDifferenceBetweenTimes());
+    return static_cast<unsigned int>(difference.getHours());
+}
+
+string AlbaWindowsTimer::getElapsedTimeDisplayableString() const
+{
+    AlbaDateTime difference(getDifferenceBetweenTimes());
+    return difference.getPrintableStringFormat3();
+}
+
+AlbaDateTime AlbaWindowsTimer::getDifferenceBetweenTimes() const
+{
     AlbaDateTime time1(convertSystemTimeToAlbaDateTime(m_time1));
     AlbaDateTime time2(convertSystemTimeToAlbaDateTime(m_time2));
-    AlbaDateTime difference(time2-time1);
-    return static_cast<unsigned int>(difference.getHours());
+    return AlbaDateTime(time2-time1);
 }
 
 }//namespace alba
