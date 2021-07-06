@@ -56,16 +56,24 @@ TEST(CircleTest, CircleAtOriginWithRadius)
     EXPECT_EQ(Point(2.8284271247461902909,-1), points[19]);
 }
 
-TEST(CircleTest, GetNearestPointAtCircumference)
+TEST(CircleTest, GetPointAtAngleWorks)
+{
+    Circle circle(Point(1,2), 3);
+    EXPECT_EQ(Point(4,2), circle.getPointAtAngle(0));
+    EXPECT_EQ(Point(1,5), circle.getPointAtAngle(getPi()/2));
+    EXPECT_EQ(Point(-2,2), circle.getPointAtAngle(getPi()));
+    EXPECT_EQ(Point(1,-1), circle.getPointAtAngle(getPi()*3/2));
+    EXPECT_EQ(Point(4,2), circle.getPointAtAngle(getPi()*2));
+}
+
+TEST(CircleTest, GetNearestPointAtCircumferenceWorks)
 {
     Circle circle(Point(1,2), 3);
     EXPECT_EQ(Point(3.4,3.8), circle.getNearestPointInCircumference(Point(5,5)));
 }
-
 TEST(CircleTest, PointsInAreaTraversalIsCorrect)
 {
-    Circle circle(Point(3,3), 2);
-    Points pointsInAreaTraversal;
+    Circle circle(Point(3,3), 2);    Points pointsInAreaTraversal;
 
     circle.traverseArea(1, [&](Point const& pointInArea)
     {
