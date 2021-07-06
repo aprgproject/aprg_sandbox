@@ -28,13 +28,13 @@ TEST(AlbaRangeTest, TraverseIsNotInfiniteWhenRangeIsEmpty)
     EXPECT_EQ(0, range.getDelta());
     EXPECT_EQ(0, range.getInterval());
     EXPECT_EQ(0, range.getIntervalMagnitude());
-    EXPECT_EQ(AlbaRangeType::Stop, range.getRangeType());
+    EXPECT_EQ(AlbaRangeType::Once, range.getRangeType());
     ASSERT_TRUE(traversedValues.empty());
 }
 
-TEST(AlbaRangeTest, ForwardTraversalWorks)
+TEST(AlbaRangeTest, OnceTraversalWorks)
 {
-    AlbaRange<int> range(1, 10, -1);
+    AlbaRange<int> range(3, 3, -1);
     vector<int> traversedValues;
     range.traverse([&](int const traverseValue)
     {
@@ -42,9 +42,32 @@ TEST(AlbaRangeTest, ForwardTraversalWorks)
     });
 
     EXPECT_FALSE(range.isEmpty());
+    EXPECT_TRUE(range.isValueInsideInclusive(3));
+    EXPECT_FALSE(range.isValueInsideExclusive(4));
+    EXPECT_EQ(3, range.getMinimum());
+    EXPECT_EQ(3, range.getMaximum());
+    EXPECT_EQ(3, range.getStartValue());
+    EXPECT_EQ(3, range.getEndValue());
+    EXPECT_EQ(0, range.getDelta());
+    EXPECT_EQ(0, range.getInterval());
+    EXPECT_EQ(1, range.getIntervalMagnitude());
+    EXPECT_EQ(AlbaRangeType::Once, range.getRangeType());
+
+    ASSERT_EQ(1u, traversedValues.size());
+    EXPECT_EQ(3, traversedValues[0]);
+}
+
+TEST(AlbaRangeTest, ForwardTraversalWorks)
+{
+    AlbaRange<int> range(1, 10, -1);    vector<int> traversedValues;
+    range.traverse([&](int const traverseValue)
+    {
+        traversedValues.emplace_back(traverseValue);
+    });
+
+    EXPECT_FALSE(range.isEmpty());
     EXPECT_TRUE(range.isValueInsideInclusive(1));
-    EXPECT_FALSE(range.isValueInsideExclusive(1));
-    EXPECT_EQ(1, range.getMinimum());
+    EXPECT_FALSE(range.isValueInsideExclusive(1));    EXPECT_EQ(1, range.getMinimum());
     EXPECT_EQ(10, range.getMaximum());
     EXPECT_EQ(1, range.getStartValue());
     EXPECT_EQ(10, range.getEndValue());

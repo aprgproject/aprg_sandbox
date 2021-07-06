@@ -14,15 +14,13 @@ namespace alba
 enum class AlbaRangeType
 {
     Unknown,
-    Stop,
+    Once,
     Forward,
     Backward
 };
-
 template <typename DataType>
 class AlbaRange
-{
-public:
+{public:
     using TerminationCondition = std::function<bool(DataType,DataType)>;
     using TraverseOperation = std::function<void(DataType)>;
     AlbaRange()
@@ -134,18 +132,31 @@ public:
 
     void traverse(TraverseOperation const& traverseOperation) const
     {
-        TerminationCondition terminationCondition(getTerminationCondition());
-        DataType interval(getInterval());
-        for(DataType traverseValue = m_startValue; terminationCondition(traverseValue, m_endValue); traverseValue+=interval)
+        if(!isEmpty())
         {
-            traverseOperation(traverseValue);
+            if(AlbaRangeType::Once == getRangeType())
+            {
+                traverseOperation(m_startValue);
+            }
+            else
+            {
+                TerminationCondition terminationCondition(getTerminationCondition());
+                DataType interval(getInterval());
+                DataType traverseValue = m_startValue;
+                for(; terminationCondition(traverseValue, m_endValue); traverseValue+=interval)
+                {
+                    traverseOperation(traverseValue);
+                }
+                if(traverseValue-interval != m_endValue)
+                {
+                    traverseOperation(m_endValue);
+                }
+            }
         }
     }
-
     void clear()
     {
-        m_startValue=0;
-        m_endValue==0;
+        m_startValue=0;        m_endValue==0;
         m_intervalMagnitude==0;
     }
 
@@ -195,15 +206,13 @@ private:
         AlbaRangeType rangeType(AlbaRangeType::Unknown);
         if(startValue == endValue)
         {
-            rangeType = AlbaRangeType::Stop;
+            rangeType = AlbaRangeType::Once;
         }
         else if(startValue < endValue)
-        {
-            rangeType = AlbaRangeType::Forward;
+        {            rangeType = AlbaRangeType::Forward;
         }
         else
-        {
-            rangeType = AlbaRangeType::Backward;
+        {            rangeType = AlbaRangeType::Backward;
         }
         return rangeType;
     }
