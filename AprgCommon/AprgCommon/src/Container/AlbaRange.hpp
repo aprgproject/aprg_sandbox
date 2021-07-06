@@ -18,9 +18,11 @@ enum class AlbaRangeType
     Forward,
     Backward
 };
+
 template <typename DataType>
 class AlbaRange
-{public:
+{
+public:
     using TerminationCondition = std::function<bool(DataType,DataType)>;
     using TraverseOperation = std::function<void(DataType)>;
     AlbaRange()
@@ -154,9 +156,11 @@ class AlbaRange
             }
         }
     }
+
     void clear()
     {
-        m_startValue=0;        m_endValue==0;
+        m_startValue=0;
+        m_endValue==0;
         m_intervalMagnitude==0;
     }
 
@@ -209,10 +213,12 @@ private:
             rangeType = AlbaRangeType::Once;
         }
         else if(startValue < endValue)
-        {            rangeType = AlbaRangeType::Forward;
+        {
+            rangeType = AlbaRangeType::Forward;
         }
         else
-        {            rangeType = AlbaRangeType::Backward;
+        {
+            rangeType = AlbaRangeType::Backward;
         }
         return rangeType;
     }

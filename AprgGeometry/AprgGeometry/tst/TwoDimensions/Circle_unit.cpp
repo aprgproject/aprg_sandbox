@@ -71,9 +71,11 @@ TEST(CircleTest, GetNearestPointAtCircumferenceWorks)
     Circle circle(Point(1,2), 3);
     EXPECT_EQ(Point(3.4,3.8), circle.getNearestPointInCircumference(Point(5,5)));
 }
+
 TEST(CircleTest, PointsInAreaTraversalIsCorrect)
 {
-    Circle circle(Point(3,3), 2);    Points pointsInAreaTraversal;
+    Circle circle(Point(3,3), 2);
+    Points pointsInAreaTraversal;
 
     circle.traverseArea(1, [&](Point const& pointInArea)
     {

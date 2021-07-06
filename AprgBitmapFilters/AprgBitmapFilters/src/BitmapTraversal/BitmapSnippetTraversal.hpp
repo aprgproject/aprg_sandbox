@@ -6,8 +6,10 @@
 #include <TwoDimensions/Quadrilateral.hpp>
 
 #include <functional>
+
 namespace alba
 {
+
 namespace AprgBitmap
 {
 
@@ -26,10 +28,12 @@ public:
             TraverseOperation const& traverseOperation) const;
     void traverseCoordinatesCombinations(
             BitmapXY const& centerPoint,
-            unsigned int const coordinate1,            unsigned int const coordinate2,
+            unsigned int const coordinate1,
+            unsigned int const coordinate2,
             TraverseOperation const& traverseOperation) const;
     void traverse4WayConnectivity(
-            BitmapXY const& centerPoint,            TraverseOperation const& traverseOperation) const;
+            BitmapXY const& centerPoint,
+            TraverseOperation const& traverseOperation) const;
     void traverse8WayConnectivity(
             BitmapXY const& centerPoint,
             TraverseOperation const& traverseOperation) const;

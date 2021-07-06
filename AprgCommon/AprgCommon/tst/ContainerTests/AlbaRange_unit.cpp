@@ -59,7 +59,8 @@ TEST(AlbaRangeTest, OnceTraversalWorks)
 
 TEST(AlbaRangeTest, ForwardTraversalWorks)
 {
-    AlbaRange<int> range(1, 10, -1);    vector<int> traversedValues;
+    AlbaRange<int> range(1, 10, -1);
+    vector<int> traversedValues;
     range.traverse([&](int const traverseValue)
     {
         traversedValues.emplace_back(traverseValue);
@@ -67,7 +68,8 @@ TEST(AlbaRangeTest, ForwardTraversalWorks)
 
     EXPECT_FALSE(range.isEmpty());
     EXPECT_TRUE(range.isValueInsideInclusive(1));
-    EXPECT_FALSE(range.isValueInsideExclusive(1));    EXPECT_EQ(1, range.getMinimum());
+    EXPECT_FALSE(range.isValueInsideExclusive(1));
+    EXPECT_EQ(1, range.getMinimum());
     EXPECT_EQ(10, range.getMaximum());
     EXPECT_EQ(1, range.getStartValue());
     EXPECT_EQ(10, range.getEndValue());

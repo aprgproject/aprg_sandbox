@@ -96,7 +96,7 @@ AlbaNumber convertStringToAlbaNumber(std::string const& stringToConvert);
 class NumberToStringConverter
 {
 public:
-    template <typename NumberType> std::string convert(NumberType number);
+    template <typename NumberType> std::string convert(NumberType const number);
     void setPrecision(int const precision);
     void setFieldWidth(int const fieldWidth);
     void setFillCharacter(char const fillCharacter);

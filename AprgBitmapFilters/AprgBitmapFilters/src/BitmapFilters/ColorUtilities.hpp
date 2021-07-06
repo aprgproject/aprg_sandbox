@@ -41,6 +41,10 @@ struct ChromaColorData
     double hueDegrees;
 };
 
+bool isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit);
+
+unsigned int getColorValueOnly(unsigned int const number);
+
 ColorPercentagesData calculateColorPercentagesData(unsigned int const color);
 double calculateHueDegrees(ColorPercentagesData const& colorPercentagesData);
 double calculateColorIntensityDecimal(unsigned int const color);
@@ -52,6 +56,7 @@ HueSaturationLightnessData createHueSaturationLightnessData(double const hueDegr
 HueSaturationValueData createHueSaturationValueData(double const hueDegrees, double const saturationValueDecimal, double const valueDecimalOfColorMax);
 
 unsigned int combineRgbToColor(unsigned char const red, unsigned char const green, unsigned char const blue);
+unsigned int combine2Colors(unsigned int const color1, unsigned int const color2);
 
 unsigned int convertChromaColorDataToColor(ChromaColorData const& chromaColorData);
 HueSaturationLightnessData convertColorToHueSaturationLightnessData(unsigned int const color);

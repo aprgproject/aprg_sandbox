@@ -13,17 +13,47 @@ namespace AprgBitmap
 class PenCirclesDrawer
 {
 public:
+    struct ColorDetails
+    {
+        ColorDetails();
+        double totalRed;
+        double totalGreen;
+        double totalBlue;
+        double totalWeight;
+        bool isEmpty() const;
+        unsigned int getColor() const;
+        void addColor(unsigned int const color, double const weight);
+        void clear();
+    };
+    using PointToColorMap = std::map<BitmapXY, unsigned int>;
+    using PointColorPair = std::pair<BitmapXY, unsigned int>;
+    using PointToColorDetailsMap = std::map<BitmapXY, ColorDetails>;
+    using PointColorDetailsPair = std::pair<BitmapXY, ColorDetails>;
+
     PenCirclesDrawer(
             PenCircles const& penCircles,
             BitmapSnippet & snippet);
 
-    void drawCircles();
-    void drawCircleConnections();
+    void draw();
+    void drawUsingCirclesWithoutOverlay();
+    void drawUsingCirclesWithOverlay();
+    void drawUsingConnectedCircles();
 
 private:
-    PenCircles m_penCircles;
+    bool isToBeConnected(
+            PenCircles::PointPenCircleDetailsPair const& pair1,
+            PenCircles::PointPenCircleDetailsPair const& pair2) const;
+    void writeDrawnPointsInSnippet();
+    void writeCirclesWithoutOverlay();
+    void writeCirclesWithOverlay();
+    void connectCirclesIfNeeded();
+    void putCirclesWithoutOverlay();
+    void putCirclesWithOverlay();
+    void putCircleConnectionsAndRemoveProcessedCircles();
     BitmapSnippet & m_snippet;
     BitmapSnippetTraversal m_snippetTraversal;
+    PenCircles m_penCircles;
+    PointToColorMap m_drawnPoints;
 };
 
 }

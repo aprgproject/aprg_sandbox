@@ -45,27 +45,65 @@ PenCircles::CircleCenterConnections const& PenCircles::getCenterConnections() co
     return m_centerConnections;
 }
 
+PenCircles::PointPenCircleDetailsPairs PenCircles::getNearestPenCirclesToAPoint(
+        BitmapXY const& point,
+        unsigned int const distance) const
+{
+    PointPenCircleDetailsPairs result;
+    unsigned int minX=static_cast<unsigned int>(clampLowerBound(subtract(point.getX(), distance), 0));
+    unsigned int maxX=point.getX()+distance;
+    unsigned int minY=static_cast<unsigned int>(clampLowerBound(subtract(point.getY(), distance), 0));
+    unsigned int maxY=point.getY()+distance;
+    for(PointPenCircleDetailsPair const& pair : m_penCircles)
+    {
+        BitmapXY const& centerPoint(pair.first);
+        if(minX<=centerPoint.getX() && centerPoint.getX()<=maxX
+                && minY<=centerPoint.getY() && centerPoint.getY()<=maxY)
+        {
+            result.emplace_back(pair);
+        }
+    }
+    return result;
+}
+
 PenCircles::PointToPenCircleDetailsMap & PenCircles::getPenCirclesReference()
 {
-    return m_penCircles;}
+    return m_penCircles;
+}
 
 void PenCircles::addAsPenCircle(
         BitmapXY const& point,
-        double const radius,        unsigned int const color)
+        double const radius,
+        unsigned int const color)
 {
     m_penCircles[point]=PenCircleDetails(radius, color);
+}
+
+void PenCircles::removePenCircleAt(
+        BitmapXY const& circleCenter)
+{
+    m_penCircles.erase(circleCenter);
 }
 
 void PenCircles::connectCircles(
         BitmapXY const& circle1Center,
         BitmapXY const& circle2Center)
 {
-    m_centerConnections.emplace_back(circle1Center, circle2Center);
+    if(circle1Center < circle2Center)
+    {
+        m_centerConnections.emplace(circle1Center, circle2Center);
+    }
+    else if(circle2Center < circle1Center)
+    {
+        m_centerConnections.emplace(circle2Center, circle1Center);
+    }
 }
 
-void PenCircles::clear(){
+void PenCircles::clear()
+{
     m_penCircles.clear();
 }
+
 
 }
 

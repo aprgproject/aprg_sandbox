@@ -175,10 +175,12 @@ Point Circle::getPointAtAngle(double const angleInRadians)
 
 Point Circle::getNearestPointInCircumference(Point const& point) const
 {
-    Point deltaPoint(point.getX()-m_center.getX(), point.getY()-m_center.getY());    double angle = atan(deltaPoint.getY()/deltaPoint.getX());
+    Point deltaPoint(point.getX()-m_center.getX(), point.getY()-m_center.getY());
+    double angle = atan(deltaPoint.getY()/deltaPoint.getX());
     double nearestDeltaPointX = cos(angle) * m_radius * getSign(deltaPoint.getX());
     double nearestDeltaPointY = sin(angle) * m_radius * getSign(deltaPoint.getY());
-    return Point(m_center.getX()+nearestDeltaPointX, m_center.getY()+nearestDeltaPointY);}
+    return Point(m_center.getX()+nearestDeltaPointX, m_center.getY()+nearestDeltaPointY);
+}
 
 string Circle::getDisplayableString() const
 {

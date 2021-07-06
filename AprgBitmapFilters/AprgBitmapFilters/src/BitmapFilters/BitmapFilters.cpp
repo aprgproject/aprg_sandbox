@@ -2,6 +2,7 @@
 
 #include <BitmapFilters/ColorStatistics.hpp>
 #include <BitmapFilters/ColorUtilities.hpp>
+#include <BitmapFilters/PenCirclesDrawer.hpp>
 #include <BitmapFilters/Utilities.hpp>
 #include <BitmapTraversal/OutwardCircleTraversal.hpp>
 #include <BitmapTraversal/OutwardSnakeLikeTraversal.hpp>
@@ -19,30 +20,21 @@ namespace alba
 namespace AprgBitmap
 {
 
+constexpr unsigned int MAX_PEN_CIRCLE_RADIUS_COORDINATE=5;
+
 BitmapFilters::BitmapFilters(string const& path)
     : m_backgroundColor(0xFFFFFF)
     , m_bitmap(path)
 {}
 
-bool BitmapFilters::isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) const //RGB algo
+bool BitmapFilters::isBackgroundColor(unsigned int const color) const
 {
-    bool isRedDifferenceBeyondLimit(getPositiveDelta(extractRed(color1), extractRed(color2)) > similarityColorLimit);
-    bool isGreenDifferenceBeyondLimit(getPositiveDelta(extractGreen(color1), extractGreen(color2)) > similarityColorLimit);
-    bool isBlueDifferenceBeyondLimit(getPositiveDelta(extractBlue(color1), extractBlue(color2)) > similarityColorLimit);
-    return  !(isRedDifferenceBeyondLimit || isGreenDifferenceBeyondLimit || isBlueDifferenceBeyondLimit);
+    return getColorValueOnly(color) == m_backgroundColor;
 }
-
-/*
-bool BitmapFilters::isSimilar(unsigned int const color1, unsigned int const color2) const//Pythagorean algo
-{
-    double colorDifferenceAcrossDifferentColors(mathHelper::getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>((double)getRed(color1)-(double)getRed(color2), (double)getGreen(color1)-(double)getGreen(color2), (double)getBlue(color1)-(double)getBlue(color2)));
-    return colorDifferenceAcrossDifferentColors < m_similarityColorLimit;
-}
-*/
 
 bool BitmapFilters::isNotBackgroundColor(unsigned int const color) const
 {
-    return color != m_backgroundColor;
+    return getColorValueOnly(color) != m_backgroundColor;
 }
 
 BitmapSnippet BitmapFilters::getWholeBitmapSnippet() const
@@ -60,6 +52,12 @@ BitmapSnippet BitmapFilters::getBlankSnippetWithBackground() const
     return getBlankSnippet(m_backgroundColor);
 }
 
+BitmapSnippet BitmapFilters::getBlankSnippetWithColor(
+        unsigned int const color) const
+{
+    return getBlankSnippet(color);
+}
+
 AlbaOptional<Circle> BitmapFilters::getPossiblePenCircle(
         BitmapSnippet const& inputSnippet,
         BitmapXY const& centerPoint,
@@ -71,7 +69,7 @@ AlbaOptional<Circle> BitmapFilters::getPossiblePenCircle(
     unsigned int similarPixelsCount(0);
     unsigned int totalPixelCount(0);
     BitmapSnippetTraversal snippetTraversal(inputSnippet);
-    OutwardCircleTraversal outwardTraversal(5);
+    OutwardCircleTraversal outwardTraversal(MAX_PEN_CIRCLE_RADIUS_COORDINATE);
     OutwardCircleTraversal::RadiusToCoordinates const& radiusToCoordinates(
                 outwardTraversal.getRadiusToCoordinates());
     double currentRadius(0);
@@ -103,6 +101,11 @@ AlbaOptional<Circle> BitmapFilters::getPossiblePenCircle(
             }
             previousRadius = currentRadius;
         }
+    }
+    if(!result.hasContent())
+    {
+        Circle penCircle(convertBitmapXYToPoint(centerPoint), currentRadius);
+        result.setReference(penCircle);
     }
     return result;
 }
@@ -238,7 +241,7 @@ void BitmapFilters::drawBlurredNonPenPoints(
             {
                 bool isPointInCircleAPenPoint(penPoints.isPenPoint(pointInCircle));
                 return isSimilar(centerColor, currentColor, similarityColorLimit)
-                        && currentColor!=m_backgroundColor
+                        && isNotBackgroundColor(currentColor)
                         && !isPointInCircleAPenPoint;
             }));
         }
@@ -246,6 +249,14 @@ void BitmapFilters::drawBlurredNonPenPoints(
 }
 
 void BitmapFilters::drawPenCircles(
+        PenCircles const& penCircles,
+        BitmapSnippet & snippet)
+{
+    PenCirclesDrawer drawer(penCircles, snippet);
+    drawer.draw();
+}
+
+void BitmapFilters::drawPenCirclesOnly(
         PenCircles const& penCircles,
         BitmapSnippet & snippet)
 {
@@ -293,7 +304,7 @@ void BitmapFilters::drawBlurredColorsUsingCircles(
                         [&](unsigned int centerColor, unsigned int currentColor, BitmapXY const& )
         {
             return isSimilar(centerColor, currentColor, similarityColorLimit)
-                    && currentColor!=m_backgroundColor;
+                    && isNotBackgroundColor(currentColor);
         }));
     });
 }
@@ -332,13 +343,15 @@ void BitmapFilters::drawToFillGapsUsingBlur(
     BitmapXYs backgroundPoints;
     snippet.traverse([&](BitmapXY const& bitmapPoint, unsigned int const color)
     {
-        if(m_backgroundColor == color)
+        if(isBackgroundColor(color))
         {
             backgroundPoints.emplace_back(bitmapPoint);
         }
     });
-    while(!backgroundPoints.empty())
+    unsigned int previousNumberOfPoints=0;
+    while(previousNumberOfPoints != backgroundPoints.size() && !backgroundPoints.empty())
     {
+        previousNumberOfPoints=backgroundPoints.size();
         BitmapXYs newBackgroundPoints;
         BitmapSnippet tempSnippet(snippet);
         for(BitmapXY const& backgroundPoint : backgroundPoints)
@@ -347,9 +360,9 @@ void BitmapFilters::drawToFillGapsUsingBlur(
                         snippet, backgroundPoint, blurRadius,
                         [&](unsigned int , unsigned int currentColor, BitmapXY const& )
             {
-                return m_backgroundColor!=currentColor;
+                return isNotBackgroundColor(currentColor);
             });
-            if(m_backgroundColor == newColor)
+            if(isBackgroundColor(newColor))
             {
                 newBackgroundPoints.emplace_back(backgroundPoint);
             }
@@ -695,8 +708,6 @@ unsigned char BitmapFilters::getBlurredColorPart(
             blurredColorPart = centerColorPart+similarityColorLimit;
         }
     }
-    //unsigned char blurredColorPart = (centerColorPart+colorToComparePart)/2;
-    //ALBA_PRINT3((int)centerColorPart, (int)colorToComparePart, (int)blurredColorPart);
     return blurredColorPart;
 }
 

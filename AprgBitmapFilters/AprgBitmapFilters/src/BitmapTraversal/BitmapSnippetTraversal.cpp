@@ -21,8 +21,7 @@ void BitmapSnippetTraversal::traverseCircleArea(
 {
     circle.traverseArea(1, [&](Point const& point)
     {
-        BitmapXY pointInCircle(convertPointToBitmapXY(point));
-        checkPointBeforeDoingTraverseOperation(pointInCircle, traverseOperation);
+        checkPointBeforeDoingTraverseOperation(convertPointToBitmapXY(point), traverseOperation);
     });
 }
 
@@ -32,17 +31,18 @@ void BitmapSnippetTraversal::traverseQuadrilateralArea(
 {
     quadrilateral.traverseArea(1, [&](Point const& point)
     {
-        BitmapXY pointInCircle(convertPointToBitmapXY(point));
-        checkPointBeforeDoingTraverseOperation(pointInCircle, traverseOperation);
+        checkPointBeforeDoingTraverseOperation(convertPointToBitmapXY(point), traverseOperation);
     });
 }
 
 void BitmapSnippetTraversal::traverseCoordinatesCombinations(
         BitmapXY const& centerPoint,
-        unsigned int const coordinate1,        unsigned int const coordinate2,
+        unsigned int const coordinate1,
+        unsigned int const coordinate2,
         TraverseOperation const& traverseOperation) const
 {
-    unsigned int i = coordinate1;    unsigned int j = coordinate2;
+    unsigned int i = coordinate1;
+    unsigned int j = coordinate2;
     if(i==0 && j==0)
     {
         checkPointBeforeDoingTraverseOperation(centerPoint, traverseOperation);

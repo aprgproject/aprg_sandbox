@@ -283,6 +283,23 @@ TEST(QuadrilateralTest, PointsInAreaTraversalIsCorrectFor4YGroupsSecondPattern)
     EXPECT_EQ(Point(3,4), pointsInAreaTraversal[7]);
 }
 
+TEST(QuadrilateralTest, DoesNotCrashExampleDueToNearValues)
+{
+    Quadrilateral quadrilateral(
+                Point(3.57038804403507858964417209791,37.7082039324993658624407544266),
+                Point(-3.57038804403508036600101149816,37.7082039324993729678681120276),
+                Point(2.66121012417164948260506207589,36.2917960675006270321318879724),
+                Point(-2.66121012417165125896190147614,36.2917960675006341375592455734));
+    Points pointsInAreaTraversal;
+
+    quadrilateral.traverseArea(1, [&](Point const& pointInArea)
+    {
+        pointsInAreaTraversal.emplace_back(pointInArea);
+    });
+
+    EXPECT_EQ(24u, pointsInAreaTraversal.size());
+}
+
 
 }
 

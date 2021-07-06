@@ -2,6 +2,7 @@
 
 #include <Bitmap/CommonTypes.hpp>
 
+#include <set>
 #include <map>
 
 namespace alba
@@ -24,20 +25,27 @@ public:
     };
     using PointToPenCircleDetailsMap = std::map<BitmapXY, PenCircleDetails>;
     using PointPenCircleDetailsPair = std::pair<BitmapXY, PenCircleDetails>;
+    using PointPenCircleDetailsPairs = std::vector<PointPenCircleDetailsPair>;
     using CircleCenterConnection = std::pair<BitmapXY, BitmapXY>;
-    using CircleCenterConnections = std::vector<CircleCenterConnection>;
+    using CircleCenterConnections = std::set<CircleCenterConnection>;
 
     bool isPenCircle(BitmapXY const& point) const;
 
     PenCircleDetails getPenCircleDetails(BitmapXY const& point) const;
     PointToPenCircleDetailsMap const& getPenCircles() const;
     CircleCenterConnections const& getCenterConnections() const;
+    PointPenCircleDetailsPairs getNearestPenCirclesToAPoint(
+            BitmapXY const& point,
+            unsigned int const distance) const;
 
     PointToPenCircleDetailsMap & getPenCirclesReference();
 
-    void addAsPenCircle(            BitmapXY const& point,
+    void addAsPenCircle(
+            BitmapXY const& point,
             double const radius,
             unsigned int const color);
+    void removePenCircleAt(
+            BitmapXY const& circleCenter);
     void connectCircles(
             BitmapXY const& circle1Center,
             BitmapXY const& circle2Center);
@@ -49,4 +57,5 @@ private:
 };
 
 }
+
 }

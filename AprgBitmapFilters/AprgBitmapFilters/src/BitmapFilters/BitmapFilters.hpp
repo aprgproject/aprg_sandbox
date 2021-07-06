@@ -32,12 +32,14 @@ public:
 
     BitmapFilters(std::string const& path);
 
-    bool isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) const;
+    bool isBackgroundColor(unsigned int const color) const;
     bool isNotBackgroundColor(unsigned int const color) const;
 
     BitmapSnippet getWholeBitmapSnippet() const;
     BitmapSnippet getBlankSnippet(unsigned int const backgroundColor) const;
     BitmapSnippet getBlankSnippetWithBackground() const;
+    BitmapSnippet getBlankSnippetWithColor(
+            unsigned int const color) const;
 
     AlbaOptional<TwoDimensions::Circle> getPossiblePenCircle(
             BitmapSnippet const& inputSnippet,
@@ -78,6 +80,9 @@ public:
             double const blurRadius,
             unsigned int const similarityColorLimit);
     void drawPenCircles(
+            PenCircles const& penCircles,
+            BitmapSnippet & snippet);
+    void drawPenCirclesOnly(
             PenCircles const& penCircles,
             BitmapSnippet & snippet);
 

@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cmath>
 
+using namespace alba::mathHelper;
 using namespace std;
 
 //https://en.wikipedia.org/wiki/HSL_and_HSV
@@ -20,6 +21,27 @@ namespace ColorUtilities
 {
 
 constexpr unsigned int MAX_COLOR_VALUE = 0xFF;
+
+bool isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) //RGB algo
+{
+    bool isRedDifferenceBeyondLimit(getPositiveDelta(extractRed(color1), extractRed(color2)) > similarityColorLimit);
+    bool isGreenDifferenceBeyondLimit(getPositiveDelta(extractGreen(color1), extractGreen(color2)) > similarityColorLimit);
+    bool isBlueDifferenceBeyondLimit(getPositiveDelta(extractBlue(color1), extractBlue(color2)) > similarityColorLimit);
+    return  !(isRedDifferenceBeyondLimit || isGreenDifferenceBeyondLimit || isBlueDifferenceBeyondLimit);
+}
+
+unsigned int getColorValueOnly(unsigned int const number)
+{
+    return 0xFFFFFF & number;
+}
+
+/*
+bool isSimilar(unsigned int const color1, unsigned int const color2)//Pythagorean algo
+{
+    double colorDifferenceAcrossDifferentColors(getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>((double)getRed(color1)-(double)getRed(color2), (double)getGreen(color1)-(double)getGreen(color2), (double)getBlue(color1)-(double)getBlue(color2)));
+    return colorDifferenceAcrossDifferentColors < m_similarityColorLimit;
+}
+*/
 
 ColorPercentagesData calculateColorPercentagesData(unsigned int const color)
 {
@@ -132,6 +154,14 @@ unsigned int combineRgbToColor(unsigned char const red, unsigned char const gree
     return AlbaBitManipulation<unsigned int>::concatenateBytes(red, green, blue);
 }
 
+unsigned int combine2Colors(unsigned int const color1, unsigned int const color2)
+{
+    return combineRgbToColor(
+                static_cast<unsigned char>(round(static_cast<double>(extractRed(color1)+extractRed(color2))/2)),
+                static_cast<unsigned char>(round(static_cast<double>(extractGreen(color1)+extractGreen(color2))/2)),
+                static_cast<unsigned char>(round(static_cast<double>(extractBlue(color1)+extractBlue(color2))/2)));
+}
+
 unsigned int convertChromaColorDataToColor(ChromaColorData const& chromaColorData)
 {
     double c = chromaColorData.chroma;
@@ -183,7 +213,7 @@ HueSaturationLightnessData convertColorToHueSaturationLightnessData(unsigned int
     }
     else
     {
-        result.saturationLightnessDecimal = colorPercentagesData.deltaMaxMinPercentage/(1-mathHelper::getAbsoluteValue(result.lightnessDecimal*2-1));
+        result.saturationLightnessDecimal = colorPercentagesData.deltaMaxMinPercentage/(1-getAbsoluteValue(result.lightnessDecimal*2-1));
     }
     return result;
 }
@@ -208,8 +238,8 @@ HueSaturationValueData convertColorToHueSaturationValueData(unsigned int const c
 unsigned int convertHueSaturationLightnessDataToColor(HueSaturationLightnessData const& hslData)
 {
     ChromaColorData chromaColorData;
-    chromaColorData.chroma = (1-mathHelper::getAbsoluteValue(hslData.lightnessDecimal*2-1))*hslData.saturationLightnessDecimal;
-    chromaColorData.xSecondLargestComponent = chromaColorData.chroma*(1-mathHelper::getAbsoluteValue(fmod((hslData.hueDegrees/60), 2)-1));
+    chromaColorData.chroma = (1-getAbsoluteValue(hslData.lightnessDecimal*2-1))*hslData.saturationLightnessDecimal;
+    chromaColorData.xSecondLargestComponent = chromaColorData.chroma*(1-getAbsoluteValue(fmod((hslData.hueDegrees/60), 2)-1));
     chromaColorData.mOffset = hslData.lightnessDecimal-(chromaColorData.chroma/2);
     chromaColorData.hueDegrees = hslData.hueDegrees;
     return convertChromaColorDataToColor(chromaColorData);
@@ -219,7 +249,7 @@ unsigned int convertHueSaturationValueDataToColor(HueSaturationValueData const& 
 {
     ChromaColorData chromaColorData;
     chromaColorData.chroma = hsvData.valueDecimalOfColorMax*hsvData.saturationValueDecimal;
-    chromaColorData.xSecondLargestComponent = chromaColorData.chroma*(1-mathHelper::getAbsoluteValue(fmod((hsvData.hueDegrees/60), 2)-1));
+    chromaColorData.xSecondLargestComponent = chromaColorData.chroma*(1-getAbsoluteValue(fmod((hsvData.hueDegrees/60), 2)-1));
     chromaColorData.mOffset = hsvData.valueDecimalOfColorMax-chromaColorData.chroma;
     chromaColorData.hueDegrees = hsvData.hueDegrees;
     return convertChromaColorDataToColor(chromaColorData);

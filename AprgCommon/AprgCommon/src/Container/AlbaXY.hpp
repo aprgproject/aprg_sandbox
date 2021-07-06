@@ -110,6 +110,7 @@ public:
     std::string getDisplayableString() const
     {
         std::stringstream ss;
+        ss.precision(30);
         ss<<"("<<x<<","<<y<<")";
         return ss.str();
     }

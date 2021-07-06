@@ -975,7 +975,7 @@ AlbaNumber convertStringToAlbaNumber(string const& stringToConvert)
 }
 
 template <typename NumberType>
-string NumberToStringConverter::convert(NumberType number)
+string NumberToStringConverter::convert(NumberType const number)
 {
     string result;
     stringstream temporaryStream;

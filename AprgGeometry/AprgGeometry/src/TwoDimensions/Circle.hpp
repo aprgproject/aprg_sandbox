@@ -36,9 +36,11 @@ public:
     Point getNearestPointInCircumference(Point const& pointNotCircumference) const;
 
     std::string getDisplayableString() const;
+
 private:
     Points getPointsInTraversingXAndY(double const signOfX, double const signOfY, double const interval) const;
-    Points getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const;    Points getPointsInTraversingX(double const signOfX, double const signOfY, double const interval) const;
+    Points getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const;
+    Points getPointsInTraversingX(double const signOfX, double const signOfY, double const interval) const;
     Point m_center;
     double m_radius;
     double m_radiusSquared;
