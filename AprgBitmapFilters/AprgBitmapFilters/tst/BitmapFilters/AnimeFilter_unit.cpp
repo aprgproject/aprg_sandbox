@@ -32,14 +32,12 @@ TEST(AnimeFilterTest, DISABLED_AnimizeMultipleFilesTest)
     }
 }
 
-TEST(AnimeFilterTest, AnimizeSingleFileTest)
+TEST(AnimeFilterTest, DISABLED_AnimizeSingleFileTest)
 {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
-    AlbaLocalPathHandler inputFilePathHandler(bitmapDirectory.getDirectory()+R"(AnimeFilter\FiveForFighting.bmp)");
-    AlbaLocalPathHandler outputFilePathHandler(bitmapDirectory.getDirectory()+R"(AnimeFilter\FiveForFighting_Animized.bmp)");
+    AlbaLocalPathHandler inputFilePathHandler(bitmapDirectory.getDirectory()+R"(AnimeFilter\FiveForFighting.bmp)");    AlbaLocalPathHandler outputFilePathHandler(bitmapDirectory.getDirectory()+R"(AnimeFilter\FiveForFighting_Animized.bmp)");
     animize(inputFilePathHandler.getFullPath(), outputFilePathHandler.getFullPath());
 }
-
 }
 
 }

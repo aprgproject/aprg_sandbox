@@ -26,14 +26,23 @@ void BitmapSnippetTraversal::traverseCircleArea(
     });
 }
 
-void BitmapSnippetTraversal::traverseCoordinatesCombinations(
-        BitmapXY const& centerPoint,
-        unsigned int const coordinate1,
-        unsigned int const coordinate2,
+void BitmapSnippetTraversal::traverseQuadrilateralArea(
+        Quadrilateral const& quadrilateral,
         TraverseOperation const& traverseOperation) const
 {
-    unsigned int i = coordinate1;
-    unsigned int j = coordinate2;
+    quadrilateral.traverseArea(1, [&](Point const& point)
+    {
+        BitmapXY pointInCircle(convertPointToBitmapXY(point));
+        checkPointBeforeDoingTraverseOperation(pointInCircle, traverseOperation);
+    });
+}
+
+void BitmapSnippetTraversal::traverseCoordinatesCombinations(
+        BitmapXY const& centerPoint,
+        unsigned int const coordinate1,        unsigned int const coordinate2,
+        TraverseOperation const& traverseOperation) const
+{
+    unsigned int i = coordinate1;    unsigned int j = coordinate2;
     if(i==0 && j==0)
     {
         checkPointBeforeDoingTraverseOperation(centerPoint, traverseOperation);

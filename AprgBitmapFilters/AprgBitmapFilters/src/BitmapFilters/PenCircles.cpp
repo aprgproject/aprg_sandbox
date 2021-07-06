@@ -23,34 +23,49 @@ bool PenCircles::isPenCircle(BitmapXY const& point) const
     return m_penCircles.find(point)!=m_penCircles.cend();
 }
 
+PenCircles::PenCircleDetails PenCircles::getPenCircleDetails(
+        BitmapXY const& point) const
+{
+    PenCircleDetails penCircleDetails;
+    PointToPenCircleDetailsMap::const_iterator it = m_penCircles.find(point);
+    if(it!=m_penCircles.cend())
+    {
+        penCircleDetails = it->second;
+    }
+    return penCircleDetails;
+}
+
 PenCircles::PointToPenCircleDetailsMap const& PenCircles::getPenCircles() const
 {
     return m_penCircles;
 }
 
+PenCircles::CircleCenterConnections const& PenCircles::getCenterConnections() const
+{
+    return m_centerConnections;
+}
+
 PenCircles::PointToPenCircleDetailsMap & PenCircles::getPenCirclesReference()
 {
-    return m_penCircles;
-}
+    return m_penCircles;}
 
 void PenCircles::addAsPenCircle(
         BitmapXY const& point,
-        double const radius,
-        unsigned int const color)
+        double const radius,        unsigned int const color)
 {
     m_penCircles[point]=PenCircleDetails(radius, color);
 }
 
-void PenCircles::removePenCircle(BitmapXY const& point)
+void PenCircles::connectCircles(
+        BitmapXY const& circle1Center,
+        BitmapXY const& circle2Center)
 {
-    m_penCircles.erase(point);
+    m_centerConnections.emplace_back(circle1Center, circle2Center);
 }
 
-void PenCircles::clear()
-{
+void PenCircles::clear(){
     m_penCircles.clear();
 }
-
 
 }
 

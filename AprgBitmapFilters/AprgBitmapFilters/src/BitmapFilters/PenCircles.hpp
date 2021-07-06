@@ -24,22 +24,29 @@ public:
     };
     using PointToPenCircleDetailsMap = std::map<BitmapXY, PenCircleDetails>;
     using PointPenCircleDetailsPair = std::pair<BitmapXY, PenCircleDetails>;
+    using CircleCenterConnection = std::pair<BitmapXY, BitmapXY>;
+    using CircleCenterConnections = std::vector<CircleCenterConnection>;
 
     bool isPenCircle(BitmapXY const& point) const;
+
+    PenCircleDetails getPenCircleDetails(BitmapXY const& point) const;
     PointToPenCircleDetailsMap const& getPenCircles() const;
+    CircleCenterConnections const& getCenterConnections() const;
+
     PointToPenCircleDetailsMap & getPenCirclesReference();
 
-    void addAsPenCircle(
-            BitmapXY const& point,
+    void addAsPenCircle(            BitmapXY const& point,
             double const radius,
             unsigned int const color);
-    void removePenCircle(BitmapXY const& point);
+    void connectCircles(
+            BitmapXY const& circle1Center,
+            BitmapXY const& circle2Center);
     void clear();
 
 private:
     PointToPenCircleDetailsMap m_penCircles;
+    CircleCenterConnections m_centerConnections;
 };
 
 }
-
 }
