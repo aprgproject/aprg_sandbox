@@ -4,20 +4,19 @@
 #include <iterator>
 #include <unordered_map>
 
+using namespace std;
 
 namespace alba {
 
 // Pre-defined 10-byte representations of common sample rates
 
-std::unordered_map <unsigned int, std::vector<unsigned char>> aiffSampleRateTable = {
+unordered_map <unsigned int, vector<unsigned char>> aiffSampleRateTable = {
     {8000, {64, 11, 250, 0, 0, 0, 0, 0, 0, 0}},
     {11025, {64, 12, 172, 68, 0, 0, 0, 0, 0, 0}},
-    {16000, {64, 12, 250, 0, 0, 0, 0, 0, 0, 0}},
-    {22050, {64, 13, 172, 68, 0, 0, 0, 0, 0, 0}},
+    {16000, {64, 12, 250, 0, 0, 0, 0, 0, 0, 0}},    {22050, {64, 13, 172, 68, 0, 0, 0, 0, 0, 0}},
     {32000, {64, 13, 250, 0, 0, 0, 0, 0, 0, 0}},
     {37800, {64, 14, 147, 168, 0, 0, 0, 0, 0, 0}},
-    {44056, {64, 14, 172, 24, 0, 0, 0, 0, 0, 0}},
-    {44100, {64, 14, 172, 68, 0, 0, 0, 0, 0, 0}},
+    {44056, {64, 14, 172, 24, 0, 0, 0, 0, 0, 0}},    {44100, {64, 14, 172, 68, 0, 0, 0, 0, 0, 0}},
     {47250, {64, 14, 184, 146, 0, 0, 0, 0, 0, 0}},
     {48000, {64, 14, 187, 128, 0, 0, 0, 0, 0, 0}},
     {50000, {64, 14, 195, 80, 0, 0, 0, 0, 0, 0}},
@@ -89,20 +88,18 @@ double AprgAudio<T>::getLengthInSeconds() const
 template <class T>
 void AprgAudio<T>::printSummary() const
 {
-    std::cout << "|======================================|" << std::endl;
-    std::cout << "Num Channels: " << getNumChannels() << std::endl;
-    std::cout << "Num Samples Per Channel: " << getNumSamplesPerChannel() << std::endl;
-    std::cout << "Sample Rate: " << sampleRate << std::endl;
-    std::cout << "Bit Depth: " << bitDepth << std::endl;
-    std::cout << "Length in Seconds: " << getLengthInSeconds() << std::endl;
-    std::cout << "|======================================|" << std::endl;
+    cout << "|======================================|" << endl;
+    cout << "Num Channels: " << getNumChannels() << endl;
+    cout << "Num Samples Per Channel: " << getNumSamplesPerChannel() << endl;
+    cout << "Sample Rate: " << sampleRate << endl;
+    cout << "Bit Depth: " << bitDepth << endl;
+    cout << "Length in Seconds: " << getLengthInSeconds() << endl;
+    cout << "|======================================|" << endl;
 }
 
-template <class T>
-bool AprgAudio<T>::setAudioBuffer (AudioBuffer& newBuffer)
+template <class T>bool AprgAudio<T>::setAudioBuffer (AudioBuffer& newBuffer)
 {
     int numChannels = (int)newBuffer.size();
-
     if (numChannels <= 0)
     {
         assert (false && "The buffer your are trying to use has no channels");
@@ -147,14 +144,12 @@ void AprgAudio<T>::setNumSamplesPerChannel (int numSamples)
 
         // set any new samples to zero
         if (numSamples > originalSize)
-            std::fill (samples[i].begin() + originalSize, samples[i].end(), (T)0.);
+            fill (samples[i].begin() + originalSize, samples[i].end(), (T)0.);
     }
 }
-
 template <class T>
 void AprgAudio<T>::setNumChannels (int numChannels)
-{
-    int originalNumChannels = getNumChannels();
+{    int originalNumChannels = getNumChannels();
     int originalNumSamplesPerChannel = getNumSamplesPerChannel();
 
     samples.resize (numChannels);
@@ -166,15 +161,13 @@ void AprgAudio<T>::setNumChannels (int numChannels)
         for (int i = originalNumChannels; i < numChannels; i++)
         {
             samples[i].resize (originalNumSamplesPerChannel);
-            std::fill (samples[i].begin(), samples[i].end(), (T)0.);
+            fill (samples[i].begin(), samples[i].end(), (T)0.);
         }
     }
 }
-
 template <class T>
 void AprgAudio<T>::setBitDepth (int numBitsPerSample)
-{
-    bitDepth = numBitsPerSample;
+{    bitDepth = numBitsPerSample;
 }
 
 template <class T>
@@ -184,116 +177,104 @@ void AprgAudio<T>::setSampleRate (unsigned int newSampleRate)
 }
 
 template <class T>
-bool AprgAudio<T>::load (std::string filePath)
+bool AprgAudio<T>::load (string const& filePath)
 {
-    std::ifstream file (filePath, std::ios::binary);
+    ifstream file (filePath, ios::binary);
 
     // check the file exists
     if (! file.good())
     {
-        std::cout << "ERROR: File doesn't exist or otherwise can't load file" << std::endl;
-        std::cout << filePath << std::endl;
+        cout << "ERROR: File doesn't exist or otherwise can't load file" << endl;
+        cout << filePath << endl;
         return false;
     }
 
-    file.unsetf (std::ios::skipws);
-    std::istream_iterator<unsigned char> begin (file), end;
-    std::vector<unsigned char> fileData (begin, end);
+    file.unsetf (ios::skipws);
+    istream_iterator<unsigned char> begin (file), end;
+    vector<unsigned char> fileData (begin, end);
 
     // get audio file format
     audioFileFormat = determineAprgAudioFormat (fileData);
-
     if (audioFileFormat == AprgAudioFormat::Wave)
     {
-        return decodeWaveFile (fileData);
-    }
+        return decodeWaveFile (fileData);    }
     else if (audioFileFormat == AprgAudioFormat::Aiff)
     {
         return decodeAiffFile (fileData);
     }
     else
     {
-        std::cout << "Audio File Type: " << "Error" << std::endl;
+        cout << "Audio File Type: " << "Error" << endl;
         return false;
     }
 }
 
 template <class T>
-bool AprgAudio<T>::decodeWaveFile (std::vector<unsigned char>& fileData)
+bool AprgAudio<T>::decodeWaveFile (vector<unsigned char>& fileData)
 {
     // -----------------------------------------------------------
     // HEADER CHUNK
-    std::string headerChunkID (fileData.begin(), fileData.begin() + 4);
+    string headerChunkID (fileData.begin(), fileData.begin() + 4);
     //int32_t fileSizeInBytes = fourBytesToInt (fileData, 4) + 8;
-    std::string format (fileData.begin() + 8, fileData.begin() + 12);
+    string format (fileData.begin() + 8, fileData.begin() + 12);
 
     // -----------------------------------------------------------
-    // try and find the start points of key chunks
-    int indexOfDataChunk = getIndexOfString (fileData, "data");
+    // try and find the start points of key chunks    int indexOfDataChunk = getIndexOfString (fileData, "data");
     int indexOfFormatChunk = getIndexOfString (fileData, "fmt");
 
     // if we can't find the data or format chunks, or the IDs/formats don't seem to be as expected
     // then it is unlikely we'll able to read this file, so abort
     if (indexOfDataChunk == -1 || indexOfFormatChunk == -1 || headerChunkID != "RIFF" || format != "WAVE")
     {
-        std::cout << "ERROR: this doesn't seem to be a valid .WAV file" << std::endl;
+        cout << "ERROR: this doesn't seem to be a valid .WAV file" << endl;
         return false;
     }
-
     // -----------------------------------------------------------
     // FORMAT CHUNK
     int f = indexOfFormatChunk;
-    std::string formatChunkID (fileData.begin() + f, fileData.begin() + f + 4);
+    string formatChunkID (fileData.begin() + f, fileData.begin() + f + 4);
     //int32_t formatChunkSize = fourBytesToInt (fileData, f + 4);
     int16_t audioFormat = twoBytesToInt (fileData, f + 8);
-    int16_t numChannels = twoBytesToInt (fileData, f + 10);
-    sampleRate = (unsigned int) fourBytesToInt (fileData, f + 12);
+    int16_t numChannels = twoBytesToInt (fileData, f + 10);    sampleRate = (unsigned int) fourBytesToInt (fileData, f + 12);
     int32_t numBytesPerSecond = fourBytesToInt (fileData, f + 16);
     int16_t numBytesPerBlock = twoBytesToInt (fileData, f + 20);
     bitDepth = (int) twoBytesToInt (fileData, f + 22);
-
     int numBytesPerSample = bitDepth / 8;
 
     // check that the audio format is PCM
     if (audioFormat != 1)
     {
-        std::cout << "ERROR: this is a compressed .WAV file and this library does not support decoding them at present" << std::endl;
+        cout << "ERROR: this is a compressed .WAV file and this library does not support decoding them at present" << endl;
         return false;
     }
-
     // check the number of channels is mono or stereo
     if (numChannels < 1 ||numChannels > 2)
     {
-        std::cout << "ERROR: this WAV file seems to be neither mono nor stereo (perhaps multi-track, or corrupted?)" << std::endl;
+        cout << "ERROR: this WAV file seems to be neither mono nor stereo (perhaps multi-track, or corrupted?)" << endl;
         return false;
     }
-
     // check header data is consistent
     if ((numBytesPerSecond != (numChannels * sampleRate * bitDepth) / 8) || (numBytesPerBlock != (numChannels * numBytesPerSample)))
     {
-        std::cout << "ERROR: the header data in this WAV file seems to be inconsistent" << std::endl;
+        cout << "ERROR: the header data in this WAV file seems to be inconsistent" << endl;
         return false;
     }
-
     // check bit depth is either 8, 16 or 24 bit
     if (bitDepth != 8 && bitDepth != 16 && bitDepth != 24)
     {
-        std::cout << "ERROR: this file has a bit depth that is not 8, 16 or 24 bits" << std::endl;
+        cout << "ERROR: this file has a bit depth that is not 8, 16 or 24 bits" << endl;
         return false;
     }
-
     // -----------------------------------------------------------
     // DATA CHUNK
     int d = indexOfDataChunk;
-    std::string dataChunkID (fileData.begin() + d, fileData.begin() + d + 4);
+    string dataChunkID (fileData.begin() + d, fileData.begin() + d + 4);
     int32_t dataChunkSize = fourBytesToInt (fileData, d + 4);
 
-    int numSamples = dataChunkSize / (numChannels * bitDepth / 8);
-    int samplesStartIndex = indexOfDataChunk + 8;
+    int numSamples = dataChunkSize / (numChannels * bitDepth / 8);    int samplesStartIndex = indexOfDataChunk + 8;
 
     clearAudioBuffer();
     samples.resize (numChannels);
-
     for (int i = 0; i < numSamples; i++)
     {
         for (int channel = 0; channel < numChannels; channel++)
@@ -333,81 +314,71 @@ bool AprgAudio<T>::decodeWaveFile (std::vector<unsigned char>& fileData)
 }
 
 template <class T>
-bool AprgAudio<T>::decodeAiffFile (std::vector<unsigned char>& fileData)
+bool AprgAudio<T>::decodeAiffFile (vector<unsigned char>& fileData)
 {
     // -----------------------------------------------------------
     // HEADER CHUNK
-    std::string headerChunkID (fileData.begin(), fileData.begin() + 4);
+    string headerChunkID (fileData.begin(), fileData.begin() + 4);
     //int32_t fileSizeInBytes = fourBytesToInt (fileData, 4, Endianness::BigEndian) + 8;
-    std::string format (fileData.begin() + 8, fileData.begin() + 12);
+    string format (fileData.begin() + 8, fileData.begin() + 12);
 
     // -----------------------------------------------------------
-    // try and find the start points of key chunks
-    int indexOfCommChunk = getIndexOfString (fileData, "COMM");
+    // try and find the start points of key chunks    int indexOfCommChunk = getIndexOfString (fileData, "COMM");
     int indexOfSoundDataChunk = getIndexOfString (fileData, "SSND");
 
     // if we can't find the data or format chunks, or the IDs/formats don't seem to be as expected
     // then it is unlikely we'll able to read this file, so abort
     if (indexOfSoundDataChunk == -1 || indexOfCommChunk == -1 || headerChunkID != "FORM" || format != "AIFF")
     {
-        std::cout << "ERROR: this doesn't seem to be a valid AIFF file" << std::endl;
+        cout << "ERROR: this doesn't seem to be a valid AIFF file" << endl;
         return false;
     }
-
     // -----------------------------------------------------------
     // COMM CHUNK
     int p = indexOfCommChunk;
-    std::string commChunkID (fileData.begin() + p, fileData.begin() + p + 4);
+    string commChunkID (fileData.begin() + p, fileData.begin() + p + 4);
     //int32_t commChunkSize = fourBytesToInt (fileData, p + 4, Endianness::BigEndian);
     int16_t numChannels = twoBytesToInt (fileData, p + 8, Endianness::BigEndian);
-    int32_t numSamplesPerChannel = fourBytesToInt (fileData, p + 10, Endianness::BigEndian);
-    bitDepth = (int) twoBytesToInt (fileData, p + 14, Endianness::BigEndian);
+    int32_t numSamplesPerChannel = fourBytesToInt (fileData, p + 10, Endianness::BigEndian);    bitDepth = (int) twoBytesToInt (fileData, p + 14, Endianness::BigEndian);
     sampleRate = getAiffSampleRate (fileData, p + 16);
 
     // check the sample rate was properly decoded
     if (sampleRate == -1)
     {
-        std::cout << "ERROR: this AIFF file has an unsupported sample rate" << std::endl;
+        cout << "ERROR: this AIFF file has an unsupported sample rate" << endl;
         return false;
     }
-
     // check the number of channels is mono or stereo
     if (numChannels < 1 ||numChannels > 2)
     {
-        std::cout << "ERROR: this AIFF file seems to be neither mono nor stereo (perhaps multi-track, or corrupted?)" << std::endl;
+        cout << "ERROR: this AIFF file seems to be neither mono nor stereo (perhaps multi-track, or corrupted?)" << endl;
         return false;
     }
-
     // check bit depth is either 8, 16 or 24 bit
     if (bitDepth != 8 && bitDepth != 16 && bitDepth != 24)
     {
-        std::cout << "ERROR: this file has a bit depth that is not 8, 16 or 24 bits" << std::endl;
+        cout << "ERROR: this file has a bit depth that is not 8, 16 or 24 bits" << endl;
         return false;
     }
-
     // -----------------------------------------------------------
     // SSND CHUNK
     int s = indexOfSoundDataChunk;
-    std::string soundDataChunkID (fileData.begin() + s, fileData.begin() + s + 4);
+    string soundDataChunkID (fileData.begin() + s, fileData.begin() + s + 4);
     int32_t soundDataChunkSize = fourBytesToInt (fileData, s + 4, Endianness::BigEndian);
     int32_t offset = fourBytesToInt (fileData, s + 8, Endianness::BigEndian);
     //int32_t blockSize = fourBytesToInt (fileData, s + 12, Endianness::BigEndian);
-
     int numBytesPerSample = bitDepth / 8;
     int numBytesPerFrame = numBytesPerSample * numChannels;
-    int totalNumAudioSampleBytes = numSamplesPerChannel * numBytesPerFrame;
-    int samplesStartIndex = s + 16 + (int)offset;
+    int totalNumAudioSampleBytes = numSamplesPerChannel * numBytesPerFrame;    int samplesStartIndex = s + 16 + (int)offset;
 
     // sanity check the data
     if ((soundDataChunkSize - 8) != totalNumAudioSampleBytes || totalNumAudioSampleBytes > (fileData.size() - samplesStartIndex))
     {
-        std::cout << "ERROR: the metadatafor this file doesn't seem right" << std::endl;
+        cout << "ERROR: the metadatafor this file doesn't seem right" << endl;
         return false;
     }
-
     clearAudioBuffer();
     samples.resize (numChannels);
-
     for (int i = 0; i < numSamplesPerChannel; i++)
     {
         for (int channel = 0; channel < numChannels; channel++)
@@ -448,65 +419,56 @@ bool AprgAudio<T>::decodeAiffFile (std::vector<unsigned char>& fileData)
 }
 
 template <class T>
-unsigned int AprgAudio<T>::getAiffSampleRate (std::vector<unsigned char>& fileData, int sampleRateStartIndex)
+unsigned int AprgAudio<T>::getAiffSampleRate (vector<unsigned char>& fileData, int sampleRateStartIndex)
 {
     for (auto it : aiffSampleRateTable)
-    {
-        if (tenByteMatch (fileData, sampleRateStartIndex, it.second, 0))
+    {        if (tenByteMatch (fileData, sampleRateStartIndex, it.second, 0))
             return it.first;
     }
-
     return -1;
 }
 
 template <class T>
-bool AprgAudio<T>::tenByteMatch (std::vector<unsigned char>& v1, int startIndex1, std::vector<unsigned char>& v2, int startIndex2)
+bool AprgAudio<T>::tenByteMatch (vector<unsigned char>& v1, int startIndex1, vector<unsigned char>& v2, int startIndex2)
 {
     for (int i = 0; i < 10; i++)
-    {
-        if (v1[startIndex1 + i] != v2[startIndex2 + i])
+    {        if (v1[startIndex1 + i] != v2[startIndex2 + i])
             return false;
     }
-
     return true;
 }
 
 template <class T>
-void AprgAudio<T>::addSampleRateToAiffData (std::vector<unsigned char>& fileData, unsigned int sampleRate)
+void AprgAudio<T>::addSampleRateToAiffData (vector<unsigned char>& fileData, unsigned int sampleRate)
 {
     if (aiffSampleRateTable.count (sampleRate) > 0)
-    {
-        for (int i = 0; i < 10; i++)
+    {        for (int i = 0; i < 10; i++)
             fileData.push_back (aiffSampleRateTable[sampleRate][i]);
     }
 }
 
 template <class T>
-bool AprgAudio<T>::save (std::string filePath, AprgAudioFormat format)
+bool AprgAudio<T>::save (string const& filePath, AprgAudioFormat format)
 {
     if (format == AprgAudioFormat::Wave)
-    {
-        return saveToWaveFile (filePath);
+    {        return saveToWaveFile (filePath);
     }
     else if (format == AprgAudioFormat::Aiff)
-    {
-        return saveToAiffFile (filePath);
+    {        return saveToAiffFile (filePath);
     }
 
     return false;
 }
 
 template <class T>
-bool AprgAudio<T>::saveToWaveFile (std::string filePath)
+bool AprgAudio<T>::saveToWaveFile (string const& filePath)
 {
-    std::vector<unsigned char> fileData;
+    vector<unsigned char> fileData;
 
     int32_t dataChunkSize = getNumSamplesPerChannel() * (getNumChannels() * bitDepth / 8);
-
     // -----------------------------------------------------------
     // HEADER CHUNK
     addStringToFileData (fileData, "RIFF");
-
     // The file size in bytes is the header chunk size (4, not counting RIFF and WAVE) + the format
     // chunk size (24) + the metadata part of the data chunk plus the actual data chunk size
     int32_t fileSizeInBytes = 4 + 24 + 8 + dataChunkSize;
@@ -573,26 +535,23 @@ bool AprgAudio<T>::saveToWaveFile (std::string filePath)
     // check that the various sizes we put in the metadata are correct
     if (fileSizeInBytes != (fileData.size() - 8) || dataChunkSize != (getNumSamplesPerChannel() * getNumChannels() * (bitDepth / 8)))
     {
-        std::cout << "ERROR: couldn't save file to " << filePath << std::endl;
+        cout << "ERROR: couldn't save file to " << filePath << endl;
         return false;
     }
-
     // try to write the file
     return writeDataToFile (fileData, filePath);
 }
 
 template <class T>
-bool AprgAudio<T>::saveToAiffFile (std::string filePath)
+bool AprgAudio<T>::saveToAiffFile (string const& filePath)
 {
-    std::vector<unsigned char> fileData;
+    vector<unsigned char> fileData;
 
     int32_t numBytesPerSample = bitDepth / 8;
-    int32_t numBytesPerFrame = numBytesPerSample * getNumChannels();
-    int32_t totalNumAudioSampleBytes = getNumSamplesPerChannel() * numBytesPerFrame;
+    int32_t numBytesPerFrame = numBytesPerSample * getNumChannels();    int32_t totalNumAudioSampleBytes = getNumSamplesPerChannel() * numBytesPerFrame;
     int32_t soundDataChunkSize = totalNumAudioSampleBytes + 8;
 
-    // -----------------------------------------------------------
-    // HEADER CHUNK
+    // -----------------------------------------------------------    // HEADER CHUNK
     addStringToFileData (fileData, "FORM");
 
     // The file size in bytes is the header chunk size (4, not counting FORM and AIFF) + the COMM
@@ -656,26 +615,23 @@ bool AprgAudio<T>::saveToAiffFile (std::string filePath)
     // check that the various sizes we put in the metadata are correct
     if (fileSizeInBytes != (fileData.size() - 8) || soundDataChunkSize != getNumSamplesPerChannel() *  numBytesPerFrame + 8)
     {
-        std::cout << "ERROR: couldn't save file to " << filePath << std::endl;
+        cout << "ERROR: couldn't save file to " << filePath << endl;
         return false;
     }
-
     // try to write the file
     return writeDataToFile (fileData, filePath);
 }
 
 template <class T>
-bool AprgAudio<T>::writeDataToFile (std::vector<unsigned char>& fileData, std::string filePath)
+bool AprgAudio<T>::writeDataToFile (vector<unsigned char>& fileData, string const& filePath)
 {
-    std::ofstream outputFile (filePath, std::ios::binary);
+    ofstream outputFile (filePath, ios::binary);
 
     if (outputFile.is_open())
-    {
-        for (int i = 0; i < fileData.size(); i++)
+    {        for (int i = 0; i < fileData.size(); i++)
         {
             char value = (char) fileData[i];
-            outputFile.write (&value, sizeof (char));
-        }
+            outputFile.write (&value, sizeof (char));        }
 
         outputFile.close();
 
@@ -686,21 +642,18 @@ bool AprgAudio<T>::writeDataToFile (std::vector<unsigned char>& fileData, std::s
 }
 
 template <class T>
-void AprgAudio<T>::addStringToFileData (std::vector<unsigned char>& fileData, std::string s)
+void AprgAudio<T>::addStringToFileData (vector<unsigned char>& fileData, string const& s)
 {
     for (int i = 0; i < s.length();i++)
-        fileData.push_back ((unsigned char) s[i]);
-}
+        fileData.push_back ((unsigned char) s[i]);}
 
 template <class T>
-void AprgAudio<T>::addInt32ToFileData (std::vector<unsigned char>& fileData, int32_t i, Endianness endianness)
+void AprgAudio<T>::addInt32ToFileData (vector<unsigned char>& fileData, int32_t i, Endianness endianness)
 {
     unsigned char bytes[4];
-
     if (endianness == Endianness::LittleEndian)
     {
-        bytes[3] = (i >> 24) & 0xFF;
-        bytes[2] = (i >> 16) & 0xFF;
+        bytes[3] = (i >> 24) & 0xFF;        bytes[2] = (i >> 16) & 0xFF;
         bytes[1] = (i >> 8) & 0xFF;
         bytes[0] = i & 0xFF;
     }
@@ -717,14 +670,12 @@ void AprgAudio<T>::addInt32ToFileData (std::vector<unsigned char>& fileData, int
 }
 
 template <class T>
-void AprgAudio<T>::addInt16ToFileData (std::vector<unsigned char>& fileData, int16_t i, Endianness endianness)
+void AprgAudio<T>::addInt16ToFileData (vector<unsigned char>& fileData, int16_t i, Endianness endianness)
 {
     unsigned char bytes[2];
-
     if (endianness == Endianness::LittleEndian)
     {
-        bytes[1] = (i >> 8) & 0xFF;
-        bytes[0] = i & 0xFF;
+        bytes[1] = (i >> 8) & 0xFF;        bytes[0] = i & 0xFF;
     }
     else
     {
@@ -748,61 +699,53 @@ void AprgAudio<T>::clearAudioBuffer()
 }
 
 template <class T>
-AprgAudioFormat AprgAudio<T>::determineAprgAudioFormat (std::vector<unsigned char>& fileData)
+AprgAudioFormat AprgAudio<T>::determineAprgAudioFormat (vector<unsigned char>& fileData)
 {
-    std::string header (fileData.begin(), fileData.begin() + 4);
+    string header (fileData.begin(), fileData.begin() + 4);
 
     if (header == "RIFF")
-        return AprgAudioFormat::Wave;
-    else if (header == "FORM")
+        return AprgAudioFormat::Wave;    else if (header == "FORM")
         return AprgAudioFormat::Aiff;
     else
         return AprgAudioFormat::Error;
 }
 
 template <class T>
-int32_t AprgAudio<T>::fourBytesToInt (std::vector<unsigned char>& source, int startIndex, Endianness endianness)
+int32_t AprgAudio<T>::fourBytesToInt (vector<unsigned char>& source, int startIndex, Endianness endianness)
 {
     int32_t result;
-
     if (endianness == Endianness::LittleEndian)
         result = (source[startIndex + 3] << 24) | (source[startIndex + 2] << 16) | (source[startIndex + 1] << 8) | source[startIndex];
-    else
-        result = (source[startIndex] << 24) | (source[startIndex + 1] << 16) | (source[startIndex + 2] << 8) | source[startIndex + 3];
+    else        result = (source[startIndex] << 24) | (source[startIndex + 1] << 16) | (source[startIndex + 2] << 8) | source[startIndex + 3];
 
     return result;
 }
 
 template <class T>
-int16_t AprgAudio<T>::twoBytesToInt (std::vector<unsigned char>& source, int startIndex, Endianness endianness)
+int16_t AprgAudio<T>::twoBytesToInt (vector<unsigned char>& source, int startIndex, Endianness endianness)
 {
     int16_t result;
-
     if (endianness == Endianness::LittleEndian)
         result = (source[startIndex + 1] << 8) | source[startIndex];
-    else
-        result = (source[startIndex] << 8) | source[startIndex + 1];
+    else        result = (source[startIndex] << 8) | source[startIndex + 1];
 
     return result;
 }
 
 template <class T>
-int AprgAudio<T>::getIndexOfString (std::vector<unsigned char>& source, std::string stringToSearchFor)
+int AprgAudio<T>::getIndexOfString (vector<unsigned char>& source, string const& stringToSearchFor)
 {
     int index = -1;
     int stringLength = (int)stringToSearchFor.length();
-
     for (int i = 0; i < source.size() - stringLength;i++)
     {
-        std::string section (source.begin() + i, source.begin() + i + stringLength);
+        string section (source.begin() + i, source.begin() + i + stringLength);
 
         if (section == stringToSearchFor)
-        {
-            index = i;
+        {            index = i;
             break;
         }
     }
-
     return index;
 }
 
@@ -836,13 +779,11 @@ T AprgAudio<T>::singleByteToSample (unsigned char sample)
 template <class T>
 T AprgAudio<T>::clamp (T value, T minValue, T maxValue)
 {
-    value = std::min (value, maxValue);
-    value = std::max (value, minValue);
+    value = min (value, maxValue);
+    value = max (value, minValue);
     return value;
 }
-
 //===========================================================
 template class AprgAudio<float>;
 template class AprgAudio<double>;
-
 }
