@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(AprgAudioManipulator C CXX)
 
 set(OUTFILE ${PROJECT_NAME})
+
 #Comment out TEST_MODE to build static executable
 set(TEST_MODE "ON")
 
@@ -11,6 +12,7 @@ set(APRG_AUDIO_MANIPULATOR_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 #Assign Flags
 include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
+
 #Assign Definitions
 include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
 
