@@ -8,14 +8,15 @@
 namespace alba
 {
 
+namespace AprgAudio
+{
+
 /** The different types of audio file, plus some other types to
  * indicate a failure to load a file, or that one hasn't been
- * loaded yet
- */
+ * loaded yet */
 
 enum class AprgAudioFormat
-{
-    Error,
+{    Error,
     NotLoaded,
     Wave,
     Aiff
@@ -36,24 +37,21 @@ public:
 
     unsigned int getSampleRate() const;
 
-    int getNumChannels() const;
+    unsigned int getNumChannels() const;
 
     bool isMono() const;
-
     bool isStereo() const;
 
     int getBitDepth() const;
 
-    int getNumSamplesPerChannel() const;
+    unsigned int getNumSamplesPerChannel() const;
 
-    T* getSamplesAtChannel(unsigned int const channelIndex);
+    T* getSamplePointerAtChannel(unsigned int const channelIndex);
 
     /** @Returns the length in seconds of the audio file based on the number of samples and sample rate */
     double getLengthInSeconds() const;
-
     /** Prints a summary of the audio file to the console */
     void printSummary() const;
-
 
     /** Set the audio buffer for this AprgAudio by copying samples from another buffer.
      * @Returns true if the buffer was copied successfully.
@@ -63,19 +61,17 @@ public:
     /** Sets the audio buffer to a given number of channels and number of samples per channel. This will try to preserve
      * the existing audio, adding zeros to any new channels or new samples in a given channel.
      */
-    void setAudioBufferSize (int numChannels, int numSamples);
+    void setAudioBufferSize (unsigned int numChannels, unsigned int numSamples);
 
     /** Sets the number of samples per channel in the audio buffer. This will try to preserve
      * the existing audio, adding zeros to new samples in a given channel if the number of samples is increased.
      */
-    void setNumSamplesPerChannel (int numSamples);
+    void setNumSamplesPerChannel (unsigned int numSamples);
 
     /** Sets the number of channels. New channels will have the correct number of samples and be initialised to zero */
     void setNumChannels (int numChannels);
-
     /** Sets the bit depth for the audio file. If you use the save() function, this bit depth rate will be used */
     void setBitDepth (int numBitsPerSample);
-
     /** Sets the sample rate for the audio file. If you use the save() function, this sample rate will be used */
     void setSampleRate (unsigned int newSampleRate);
 
@@ -128,5 +124,7 @@ private:
     int sampleRate;
     int bitDepth;
 };
+
+}
 
 }
