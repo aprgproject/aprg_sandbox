@@ -3,10 +3,12 @@
 #include <Audio/AprgAudio.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 
-namespace alba{
+namespace alba
+{
 
 class AprgAudioManipulator
-{public:
+{
+public:
     using Audio=AprgAudio<double>;
     AprgAudioManipulator(std::string const& audioFilePath);
 
