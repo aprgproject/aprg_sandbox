@@ -100,6 +100,7 @@ void PolynomialOverPolynomial::removeCommonMonomialOnAllMonomialsInNumeratorAndD
     Monomials numeratorAndDenominatorMonomials;
     Monomials const& numeratorMonomials(m_numerator.getMonomialsConstReference());
     Monomials const& denominatorMonomials(m_denominator.getMonomialsConstReference());
+    numeratorAndDenominatorMonomials.reserve(numeratorMonomials.size()+denominatorMonomials.size());
     copy(numeratorMonomials.cbegin(), numeratorMonomials.cend(), back_inserter(numeratorAndDenominatorMonomials));
     copy(denominatorMonomials.cbegin(), denominatorMonomials.cend(), back_inserter(numeratorAndDenominatorMonomials));
     Monomial gcfMonomial(getGcfMonomialInMonomials(numeratorAndDenominatorMonomials));

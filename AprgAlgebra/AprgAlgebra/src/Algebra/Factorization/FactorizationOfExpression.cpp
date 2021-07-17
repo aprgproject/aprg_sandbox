@@ -58,6 +58,7 @@ void factorizePolynomialAndUpdate(
     {
         TermsWithDetails factorizedTermsWithDetails;
         factorizePolynomialAndEmplaceInTermsWithDetails(factorizedTermsWithDetails, polynomial, overallAssociation);
+        termsToPut.reserve(factorizedTermsWithDetails.size());
         copy(factorizedTermsWithDetails.cbegin(), factorizedTermsWithDetails.cend(), back_inserter(termsToPut));
     }
     else

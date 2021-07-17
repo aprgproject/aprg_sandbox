@@ -51,6 +51,9 @@ TEST(ContainerSetTest, GetLowerAndUpperConstIteratorsInMap)
     PairOfIterators iteratorsToVerify5(getLowerAndUpperConstIteratorsInMap(sampleMap, 4u));
     EXPECT_EQ(secondIterator, iteratorsToVerify5.first);
     EXPECT_EQ(thirdIterator, iteratorsToVerify5.second);
+    PairOfIterators iteratorsToVerify6(getLowerAndUpperConstIteratorsInMap(sampleMap, 3u));
+    EXPECT_EQ(secondIterator, iteratorsToVerify6.first);
+    EXPECT_EQ(secondIterator, iteratorsToVerify6.second);
 }
 
 TEST(ContainerSetTest, GetLowerAndUpperIteratorsInMap)
@@ -77,6 +80,83 @@ TEST(ContainerSetTest, GetLowerAndUpperIteratorsInMap)
     PairOfIterators iteratorsToVerify5(getLowerAndUpperIteratorsInMap(sampleMap, 4u));
     EXPECT_EQ(secondIterator, iteratorsToVerify5.first);
     EXPECT_EQ(thirdIterator, iteratorsToVerify5.second);
+    PairOfIterators iteratorsToVerify6(getLowerAndUpperIteratorsInMap(sampleMap, 3u));
+    EXPECT_EQ(secondIterator, iteratorsToVerify6.first);
+    EXPECT_EQ(secondIterator, iteratorsToVerify6.second);
+}
+
+TEST(ContainerSetTest, GetLowerAndUpperConstIteratorsInMultiMap)
+{
+    multimap<unsigned int, unsigned int> sampleMap{{1, 11}, {1, 12}, {3, 31}, {3, 32}, {5, 51}, {5, 52}};
+    using MultimapIterator=multimap<unsigned int, unsigned int>::const_iterator;
+    using PairOfIterators=pair<MultimapIterator, MultimapIterator>;
+
+    MultimapIterator firstIterator=sampleMap.begin();
+    MultimapIterator secondIterator=firstIterator;
+    secondIterator++;
+    MultimapIterator thirdIterator=secondIterator;
+    thirdIterator++;
+    MultimapIterator fourthIterator=thirdIterator;
+    fourthIterator++;
+    MultimapIterator fifthIterator=fourthIterator;
+    fifthIterator++;
+    MultimapIterator sixthIterator=fifthIterator;
+    sixthIterator++;
+    PairOfIterators iteratorsToVerify1(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 0u));
+    EXPECT_EQ(firstIterator, iteratorsToVerify1.first);
+    EXPECT_EQ(firstIterator, iteratorsToVerify1.second);
+    PairOfIterators iteratorsToVerify2(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 6u));
+    EXPECT_EQ(sixthIterator, iteratorsToVerify2.first);
+    EXPECT_EQ(sixthIterator, iteratorsToVerify2.second);
+    PairOfIterators iteratorsToVerify3(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 1u));
+    EXPECT_EQ(firstIterator, iteratorsToVerify3.first);
+    EXPECT_EQ(secondIterator, iteratorsToVerify3.second);
+    PairOfIterators iteratorsToVerify4(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 5u));
+    EXPECT_EQ(fifthIterator, iteratorsToVerify4.first);
+    EXPECT_EQ(sixthIterator, iteratorsToVerify4.second);
+    PairOfIterators iteratorsToVerify5(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 4u));
+    EXPECT_EQ(fourthIterator, iteratorsToVerify5.first);
+    EXPECT_EQ(fifthIterator, iteratorsToVerify5.second);
+    PairOfIterators iteratorsToVerify6(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 3u));
+    EXPECT_EQ(thirdIterator, iteratorsToVerify6.first);
+    EXPECT_EQ(fourthIterator, iteratorsToVerify6.second);
+}
+
+TEST(ContainerSetTest, GetLowerAndUpperIteratorsInMultiMap)
+{
+    multimap<unsigned int, unsigned int> sampleMap{{1, 11}, {1, 12}, {3, 31}, {3, 32}, {5, 51}, {5, 52}};
+    using MultimapIterator=multimap<unsigned int, unsigned int>::iterator;
+    using PairOfIterators=pair<MultimapIterator, MultimapIterator>;
+
+    MultimapIterator firstIterator=sampleMap.begin();
+    MultimapIterator secondIterator=firstIterator;
+    secondIterator++;
+    MultimapIterator thirdIterator=secondIterator;
+    thirdIterator++;
+    MultimapIterator fourthIterator=thirdIterator;
+    fourthIterator++;
+    MultimapIterator fifthIterator=fourthIterator;
+    fifthIterator++;
+    MultimapIterator sixthIterator=fifthIterator;
+    sixthIterator++;
+    PairOfIterators iteratorsToVerify1(getLowerAndUpperIteratorsInMultiMap(sampleMap, 0u));
+    EXPECT_EQ(firstIterator, iteratorsToVerify1.first);
+    EXPECT_EQ(firstIterator, iteratorsToVerify1.second);
+    PairOfIterators iteratorsToVerify2(getLowerAndUpperIteratorsInMultiMap(sampleMap, 6u));
+    EXPECT_EQ(sixthIterator, iteratorsToVerify2.first);
+    EXPECT_EQ(sixthIterator, iteratorsToVerify2.second);
+    PairOfIterators iteratorsToVerify3(getLowerAndUpperIteratorsInMultiMap(sampleMap, 1u));
+    EXPECT_EQ(firstIterator, iteratorsToVerify3.first);
+    EXPECT_EQ(secondIterator, iteratorsToVerify3.second);
+    PairOfIterators iteratorsToVerify4(getLowerAndUpperIteratorsInMultiMap(sampleMap, 5u));
+    EXPECT_EQ(fifthIterator, iteratorsToVerify4.first);
+    EXPECT_EQ(sixthIterator, iteratorsToVerify4.second);
+    PairOfIterators iteratorsToVerify5(getLowerAndUpperIteratorsInMultiMap(sampleMap, 4u));
+    EXPECT_EQ(fourthIterator, iteratorsToVerify5.first);
+    EXPECT_EQ(fifthIterator, iteratorsToVerify5.second);
+    PairOfIterators iteratorsToVerify6(getLowerAndUpperIteratorsInMultiMap(sampleMap, 3u));
+    EXPECT_EQ(thirdIterator, iteratorsToVerify6.first);
+    EXPECT_EQ(fourthIterator, iteratorsToVerify6.second);
 }
 
 TEST(ContainerTest, SaveVectorOfIntegersToFile)

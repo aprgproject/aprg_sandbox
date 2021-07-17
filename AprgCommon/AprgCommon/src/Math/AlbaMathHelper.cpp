@@ -71,6 +71,7 @@ NumberType getDistance(NumberType const value1, NumberType const value2)
 }
 template unsigned int getDistance<unsigned int>(unsigned int const value1, unsigned int const value2);
 template int getDistance<int>(int const value1, int const value2);
+template double getDistance<double>(double const value1, double const value2);
 
 
 //getAverage 2 parameters

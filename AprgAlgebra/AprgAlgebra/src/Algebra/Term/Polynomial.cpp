@@ -22,6 +22,7 @@ Polynomial::Polynomial(Monomials const& monomials)
 
 Polynomial::Polynomial(initializer_list<Monomial> const& monomials)
 {
+    m_monomials.reserve(monomials.size());
     copy(monomials.begin(), monomials.end(), back_inserter(m_monomials));
 }
 

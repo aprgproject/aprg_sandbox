@@ -1,4 +1,4 @@
-#include "AprgAudio.hpp"
+#include "Audio.hpp"
 
 #include <fstream>
 #include <iterator>
@@ -14,10 +14,12 @@ namespace AprgAudio
 
 // Pre-defined 10-byte representations of common sample rates
 
-unordered_map <unsigned int, vector<unsigned char>> aiffSampleRateTable = {    {8000, {64, 11, 250, 0, 0, 0, 0, 0, 0, 0}},
+unordered_map <unsigned int, vector<unsigned char>> aiffSampleRateTable = {
+    {8000, {64, 11, 250, 0, 0, 0, 0, 0, 0, 0}},
     {11025, {64, 12, 172, 68, 0, 0, 0, 0, 0, 0}},
     {16000, {64, 12, 250, 0, 0, 0, 0, 0, 0, 0}},
-    {22050, {64, 13, 172, 68, 0, 0, 0, 0, 0, 0}},    {32000, {64, 13, 250, 0, 0, 0, 0, 0, 0, 0}},
+    {22050, {64, 13, 172, 68, 0, 0, 0, 0, 0, 0}},
+    {32000, {64, 13, 250, 0, 0, 0, 0, 0, 0, 0}},
     {37800, {64, 14, 147, 168, 0, 0, 0, 0, 0, 0}},
     {44056, {64, 14, 172, 24, 0, 0, 0, 0, 0, 0}},
     {44100, {64, 14, 172, 68, 0, 0, 0, 0, 0, 0}},
@@ -35,43 +37,47 @@ unordered_map <unsigned int, vector<unsigned char>> aiffSampleRateTable = {    {
 };
 
 template <class T>
-AprgAudio<T>::AprgAudio()
+Audio<T>::Audio()
 {
     bitDepth = 16;
     sampleRate = 44100;
     samples.resize(1);
     samples[0].resize(0);
-    audioFileFormat = AprgAudioFormat::NotLoaded;
-}
-template <class T>
-unsigned int AprgAudio<T>::getSampleRate() const
-{    return sampleRate;
+    audioFileFormat = AudioFormat::NotLoaded;
 }
 
 template <class T>
-unsigned int AprgAudio<T>::getNumChannels() const
+unsigned int Audio<T>::getSampleRate() const
+{
+    return sampleRate;
+}
+
+template <class T>
+unsigned int Audio<T>::getNumChannels() const
 {
     return samples.size();
 }
 
-template <class T>bool AprgAudio<T>::isMono() const
+template <class T>
+bool Audio<T>::isMono() const
 {
     return getNumChannels() == 1;
 }
+
 template <class T>
-bool AprgAudio<T>::isStereo() const
+bool Audio<T>::isStereo() const
 {
     return getNumChannels() == 2;
 }
 
 template <class T>
-int AprgAudio<T>::getBitDepth() const
+int Audio<T>::getBitDepth() const
 {
     return bitDepth;
 }
 
 template <class T>
-unsigned int AprgAudio<T>::getNumSamplesPerChannel() const
+unsigned int Audio<T>::getNumSamplesPerChannel() const
 {
     if (!samples.empty())
     {
@@ -84,22 +90,25 @@ unsigned int AprgAudio<T>::getNumSamplesPerChannel() const
 }
 
 template <class T>
-T* AprgAudio<T>::getSamplePointerAtChannel(unsigned int const channelIndex)
+std::vector<T> const& Audio<T>::getSamplesAtChannel(unsigned int const channelIndex) const
 {
-    T* result=nullptr;
-    if(channelIndex<samples.size())    {
-        result=&(samples[channelIndex].front());
-    }
-    return result;}
+    return samples[channelIndex];
+}
 
 template <class T>
-double AprgAudio<T>::getLengthInSeconds() const
+std::vector<T> & Audio<T>::getSamplesReferenceAtChannel(unsigned int const channelIndex)
+{
+    return samples[channelIndex];
+}
+
+template <class T>
+double Audio<T>::getLengthInSeconds() const
 {
     return (double)getNumSamplesPerChannel() / (double)sampleRate;
 }
 
 template <class T>
-void AprgAudio<T>::printSummary() const
+void Audio<T>::printSummary() const
 {
     cout << "|======================================|" << endl;
     cout << "Num Channels: " << getNumChannels() << endl;
@@ -111,7 +120,7 @@ void AprgAudio<T>::printSummary() const
 }
 
 template <class T>
-bool AprgAudio<T>::setAudioBuffer (AudioBuffer& newBuffer)
+bool Audio<T>::setAudioBuffer (AudioBuffer& newBuffer)
 {
     int numChannels = (int)newBuffer.size();
 
@@ -135,20 +144,21 @@ bool AprgAudio<T>::setAudioBuffer (AudioBuffer& newBuffer)
         for (unsigned int i = 0; i < numSamples; i++)
         {
             samples[k][i] = newBuffer[k][i];
-        }    }
+        }
+    }
 
     return true;
 }
 
 template <class T>
-void AprgAudio<T>::setAudioBufferSize (unsigned int numChannels, unsigned int numSamples)
+void Audio<T>::setAudioBufferSize (unsigned int numChannels, unsigned int numSamples)
 {
     samples.resize(numChannels);
     setNumSamplesPerChannel(numSamples);
 }
 
 template <class T>
-void AprgAudio<T>::setNumSamplesPerChannel (unsigned int numSamples)
+void Audio<T>::setNumSamplesPerChannel (unsigned int numSamples)
 {
     unsigned int originalSize = getNumSamplesPerChannel();
 
@@ -161,8 +171,9 @@ void AprgAudio<T>::setNumSamplesPerChannel (unsigned int numSamples)
             fill (samples[i].begin() + originalSize, samples[i].end(), (T)0);
     }
 }
+
 template <class T>
-void AprgAudio<T>::setNumChannels (int numChannels)
+void Audio<T>::setNumChannels (int numChannels)
 {
     int originalNumChannels = static_cast<int>(getNumChannels());
     int originalNumSamplesPerChannel = static_cast<int>(getNumSamplesPerChannel());
@@ -170,28 +181,31 @@ void AprgAudio<T>::setNumChannels (int numChannels)
     samples.resize(numChannels);
 
     // make sure any new channels are set to the right size
-    // and filled with zeros    if (numChannels > originalNumChannels)
+    // and filled with zeros
+    if (numChannels > originalNumChannels)
     {
         for (int i = originalNumChannels; i < numChannels; i++)
         {
             samples[i].resize(originalNumSamplesPerChannel);
             fill (samples[i].begin(), samples[i].end(), (T)0.);
         }
-    }}
+    }
+}
 
 template <class T>
-void AprgAudio<T>::setBitDepth (int numBitsPerSample){
+void Audio<T>::setBitDepth (int numBitsPerSample)
+{
     bitDepth = numBitsPerSample;
 }
 
 template <class T>
-void AprgAudio<T>::setSampleRate (unsigned int newSampleRate)
+void Audio<T>::setSampleRate (unsigned int newSampleRate)
 {
     sampleRate = newSampleRate;
 }
 
 template <class T>
-bool AprgAudio<T>::load (string const& filePath)
+bool Audio<T>::load (string const& filePath)
 {
     ifstream file (filePath, ios::binary);
 
@@ -208,13 +222,13 @@ bool AprgAudio<T>::load (string const& filePath)
     vector<unsigned char> fileData (begin, end);
 
     // get audio file format
-    audioFileFormat = determineAprgAudioFormat (fileData);
+    audioFileFormat = determineAudioFormat (fileData);
 
-    if (audioFileFormat == AprgAudioFormat::Wave)
+    if (audioFileFormat == AudioFormat::Wave)
     {
         return decodeWaveFile (fileData);
     }
-    else if (audioFileFormat == AprgAudioFormat::Aiff)
+    else if (audioFileFormat == AudioFormat::Aiff)
     {
         return decodeAiffFile (fileData);
     }
@@ -226,7 +240,7 @@ bool AprgAudio<T>::load (string const& filePath)
 }
 
 template <class T>
-bool AprgAudio<T>::decodeWaveFile (vector<unsigned char>& fileData)
+bool Audio<T>::decodeWaveFile (vector<unsigned char>& fileData)
 {
     // -----------------------------------------------------------
     // HEADER CHUNK
@@ -303,9 +317,11 @@ bool AprgAudio<T>::decodeWaveFile (vector<unsigned char>& fileData)
     samples.resize(numChannels);
 
     for (int i = 0; i < numSamples; i++)
-    {        for (int channel = 0; channel < numChannels; channel++)
+    {
+        for (int channel = 0; channel < numChannels; channel++)
         {
             int sampleIndex = samplesStartIndex + (numBytesPerBlock * i) + channel * numBytesPerSample;
+
             if (bitDepth == 8)
             {
                 T sample = singleByteToSample (fileData[sampleIndex]);
@@ -339,7 +355,7 @@ bool AprgAudio<T>::decodeWaveFile (vector<unsigned char>& fileData)
 }
 
 template <class T>
-bool AprgAudio<T>::decodeAiffFile (vector<unsigned char>& fileData)
+bool Audio<T>::decodeAiffFile (vector<unsigned char>& fileData)
 {
     // -----------------------------------------------------------
     // HEADER CHUNK
@@ -416,9 +432,11 @@ bool AprgAudio<T>::decodeAiffFile (vector<unsigned char>& fileData)
     samples.resize(numChannels);
 
     for (int i = 0; i < numSamplesPerChannel; i++)
-    {        for (int channel = 0; channel < numChannels; channel++)
+    {
+        for (int channel = 0; channel < numChannels; channel++)
         {
             int sampleIndex = samplesStartIndex + (numBytesPerFrame * i) + channel * numBytesPerSample;
+
             if (bitDepth == 8)
             {
                 int8_t sampleAsSigned8Bit = (int8_t)fileData[sampleIndex];
@@ -453,7 +471,7 @@ bool AprgAudio<T>::decodeAiffFile (vector<unsigned char>& fileData)
 }
 
 template <class T>
-unsigned int AprgAudio<T>::getAiffSampleRate (vector<unsigned char>& fileData, int sampleRateStartIndex)
+unsigned int Audio<T>::getAiffSampleRate (vector<unsigned char>& fileData, int sampleRateStartIndex)
 {
     for (auto it : aiffSampleRateTable)
     {
@@ -465,7 +483,7 @@ unsigned int AprgAudio<T>::getAiffSampleRate (vector<unsigned char>& fileData, i
 }
 
 template <class T>
-bool AprgAudio<T>::tenByteMatch (vector<unsigned char>& v1, int startIndex1, vector<unsigned char>& v2, int startIndex2)
+bool Audio<T>::tenByteMatch (vector<unsigned char>& v1, int startIndex1, vector<unsigned char>& v2, int startIndex2)
 {
     for (int i = 0; i < 10; i++)
     {
@@ -477,7 +495,7 @@ bool AprgAudio<T>::tenByteMatch (vector<unsigned char>& v1, int startIndex1, vec
 }
 
 template <class T>
-void AprgAudio<T>::addSampleRateToAiffData (vector<unsigned char>& fileData, unsigned int sampleRate)
+void Audio<T>::addSampleRateToAiffData (vector<unsigned char>& fileData, unsigned int sampleRate)
 {
     if (aiffSampleRateTable.count (sampleRate) > 0)
     {
@@ -487,13 +505,13 @@ void AprgAudio<T>::addSampleRateToAiffData (vector<unsigned char>& fileData, uns
 }
 
 template <class T>
-bool AprgAudio<T>::save (string const& filePath, AprgAudioFormat format)
+bool Audio<T>::save (string const& filePath, AudioFormat format)
 {
-    if (format == AprgAudioFormat::Wave)
+    if (format == AudioFormat::Wave)
     {
         return saveToWaveFile (filePath);
     }
-    else if (format == AprgAudioFormat::Aiff)
+    else if (format == AudioFormat::Aiff)
     {
         return saveToAiffFile (filePath);
     }
@@ -502,17 +520,19 @@ bool AprgAudio<T>::save (string const& filePath, AprgAudioFormat format)
 }
 
 template <class T>
-bool AprgAudio<T>::saveToWaveFile (string const& filePath)
+bool Audio<T>::saveToWaveFile (string const& filePath)
 {
     vector<unsigned char> fileData;
 
     int32_t dataChunkSize = static_cast<int32_t>(getNumSamplesPerChannel() * (getNumChannels() * bitDepth / 8));
 
     // -----------------------------------------------------------
-    // HEADER CHUNK    addStringToFileData (fileData, "RIFF");
+    // HEADER CHUNK
+    addStringToFileData (fileData, "RIFF");
 
     // The file size in bytes is the header chunk size (4, not counting RIFF and WAVE) + the format
-    // chunk size (24) + the metadata part of the data chunk plus the actual data chunk size    int32_t fileSizeInBytes = 4 + 24 + 8 + dataChunkSize;
+    // chunk size (24) + the metadata part of the data chunk plus the actual data chunk size
+    int32_t fileSizeInBytes = 4 + 24 + 8 + dataChunkSize;
     addInt32ToFileData (fileData, fileSizeInBytes);
 
     addStringToFileData (fileData, "WAVE");
@@ -532,6 +552,7 @@ bool AprgAudio<T>::saveToWaveFile (string const& filePath)
     addInt16ToFileData (fileData, numBytesPerBlock);
 
     addInt16ToFileData (fileData, (int16_t)bitDepth);
+
     // -----------------------------------------------------------
     // DATA CHUNK
     addStringToFileData (fileData, "data");
@@ -542,10 +563,12 @@ bool AprgAudio<T>::saveToWaveFile (string const& filePath)
         for (unsigned int channel = 0; channel < getNumChannels(); channel++)
         {
             if (bitDepth == 8)
-            {                unsigned char byte = sampleToSingleByte (samples[channel][i]);
+            {
+                unsigned char byte = sampleToSingleByte (samples[channel][i]);
                 fileData.push_back (byte);
             }
-            else if (bitDepth == 16)            {
+            else if (bitDepth == 16)
+            {
                 int16_t sampleAsInt = sampleToSixteenBitInt (samples[channel][i]);
                 addInt16ToFileData (fileData, sampleAsInt);
             }
@@ -575,13 +598,15 @@ bool AprgAudio<T>::saveToWaveFile (string const& filePath)
             || dataChunkSize != static_cast<int32_t>(getNumSamplesPerChannel() * getNumChannels() * (bitDepth / 8)))
     {
         cout << "ERROR: couldn't save file to " << filePath << endl;
-        return false;    }
+        return false;
+    }
 
     // try to write the file
-    return writeDataToFile (fileData, filePath);}
+    return writeDataToFile (fileData, filePath);
+}
 
 template <class T>
-bool AprgAudio<T>::saveToAiffFile (string const& filePath)
+bool Audio<T>::saveToAiffFile (string const& filePath)
 {
     vector<unsigned char> fileData;
 
@@ -590,10 +615,12 @@ bool AprgAudio<T>::saveToAiffFile (string const& filePath)
     int32_t totalNumAudioSampleBytes = static_cast<int32_t>(getNumSamplesPerChannel() * numBytesPerFrame);
     int32_t soundDataChunkSize = totalNumAudioSampleBytes + 8;
 
-    // -----------------------------------------------------------    // HEADER CHUNK
+    // -----------------------------------------------------------
+    // HEADER CHUNK
     addStringToFileData (fileData, "FORM");
 
-    // The file size in bytes is the header chunk size (4, not counting FORM and AIFF) + the COMM    // chunk size (26) + the metadata part of the SSND chunk plus the actual data chunk size
+    // The file size in bytes is the header chunk size (4, not counting FORM and AIFF) + the COMM
+    // chunk size (26) + the metadata part of the SSND chunk plus the actual data chunk size
     int32_t fileSizeInBytes = 4 + 26 + 16 + totalNumAudioSampleBytes;
     addInt32ToFileData (fileData, fileSizeInBytes, Endianness::BigEndian);
 
@@ -607,9 +634,11 @@ bool AprgAudio<T>::saveToAiffFile (string const& filePath)
     addInt32ToFileData (fileData, static_cast<int32_t>(getNumSamplesPerChannel()), Endianness::BigEndian); // num samples per channel
     addInt16ToFileData (fileData, bitDepth, Endianness::BigEndian); // bit depth
     addSampleRateToAiffData (fileData, sampleRate);
+
     // -----------------------------------------------------------
     // SSND CHUNK
-    addStringToFileData (fileData, "SSND");    addInt32ToFileData (fileData, soundDataChunkSize, Endianness::BigEndian);
+    addStringToFileData (fileData, "SSND");
+    addInt32ToFileData (fileData, soundDataChunkSize, Endianness::BigEndian);
     addInt32ToFileData (fileData, 0, Endianness::BigEndian); // offset
     addInt32ToFileData (fileData, 0, Endianness::BigEndian); // block size
 
@@ -618,10 +647,12 @@ bool AprgAudio<T>::saveToAiffFile (string const& filePath)
         for (unsigned int channel = 0; channel < getNumChannels(); channel++)
         {
             if (bitDepth == 8)
-            {                unsigned char byte = sampleToSingleByte (samples[channel][i]);
+            {
+                unsigned char byte = sampleToSingleByte (samples[channel][i]);
                 fileData.push_back (byte);
             }
-            else if (bitDepth == 16)            {
+            else if (bitDepth == 16)
+            {
                 int16_t sampleAsInt = sampleToSixteenBitInt (samples[channel][i]);
                 addInt16ToFileData (fileData, sampleAsInt, Endianness::BigEndian);
             }
@@ -651,13 +682,15 @@ bool AprgAudio<T>::saveToAiffFile (string const& filePath)
             soundDataChunkSize != static_cast<int32_t>(getNumSamplesPerChannel() *  numBytesPerFrame + 8))
     {
         cout << "ERROR: couldn't save file to " << filePath << endl;
-        return false;    }
+        return false;
+    }
 
     // try to write the file
-    return writeDataToFile (fileData, filePath);}
+    return writeDataToFile (fileData, filePath);
+}
 
 template <class T>
-bool AprgAudio<T>::writeDataToFile (vector<unsigned char>& fileData, string const& filePath)
+bool Audio<T>::writeDataToFile (vector<unsigned char>& fileData, string const& filePath)
 {
     ofstream outputFile (filePath, ios::binary);
 
@@ -678,14 +711,14 @@ bool AprgAudio<T>::writeDataToFile (vector<unsigned char>& fileData, string cons
 }
 
 template <class T>
-void AprgAudio<T>::addStringToFileData (vector<unsigned char>& fileData, string const& s)
+void Audio<T>::addStringToFileData (vector<unsigned char>& fileData, string const& s)
 {
     for (int i = 0; i < static_cast<int>(s.length()); i++)
         fileData.push_back ((unsigned char) s[i]);
 }
 
 template <class T>
-void AprgAudio<T>::addInt32ToFileData (vector<unsigned char>& fileData, int32_t i, Endianness endianness)
+void Audio<T>::addInt32ToFileData (vector<unsigned char>& fileData, int32_t i, Endianness endianness)
 {
     unsigned char bytes[4];
 
@@ -709,7 +742,7 @@ void AprgAudio<T>::addInt32ToFileData (vector<unsigned char>& fileData, int32_t 
 }
 
 template <class T>
-void AprgAudio<T>::addInt16ToFileData (vector<unsigned char>& fileData, int16_t i, Endianness endianness)
+void Audio<T>::addInt16ToFileData (vector<unsigned char>& fileData, int16_t i, Endianness endianness)
 {
     unsigned char bytes[2];
 
@@ -729,7 +762,7 @@ void AprgAudio<T>::addInt16ToFileData (vector<unsigned char>& fileData, int16_t 
 }
 
 template <class T>
-void AprgAudio<T>::clearAudioBuffer()
+void Audio<T>::clearAudioBuffer()
 {
     for (int i = 0; i < static_cast<int>(samples.size()); i++)
     {
@@ -740,20 +773,20 @@ void AprgAudio<T>::clearAudioBuffer()
 }
 
 template <class T>
-AprgAudioFormat AprgAudio<T>::determineAprgAudioFormat (vector<unsigned char>& fileData)
+AudioFormat Audio<T>::determineAudioFormat (vector<unsigned char>& fileData)
 {
     string header (fileData.begin(), fileData.begin() + 4);
 
     if (header == "RIFF")
-        return AprgAudioFormat::Wave;
+        return AudioFormat::Wave;
     else if (header == "FORM")
-        return AprgAudioFormat::Aiff;
+        return AudioFormat::Aiff;
     else
-        return AprgAudioFormat::Error;
+        return AudioFormat::Error;
 }
 
 template <class T>
-int32_t AprgAudio<T>::fourBytesToInt (vector<unsigned char>& source, int startIndex, Endianness endianness)
+int32_t Audio<T>::fourBytesToInt (vector<unsigned char>& source, int startIndex, Endianness endianness)
 {
     int32_t result;
 
@@ -766,7 +799,7 @@ int32_t AprgAudio<T>::fourBytesToInt (vector<unsigned char>& source, int startIn
 }
 
 template <class T>
-int16_t AprgAudio<T>::twoBytesToInt (vector<unsigned char>& source, int startIndex, Endianness endianness)
+int16_t Audio<T>::twoBytesToInt (vector<unsigned char>& source, int startIndex, Endianness endianness)
 {
     int16_t result;
 
@@ -779,7 +812,7 @@ int16_t AprgAudio<T>::twoBytesToInt (vector<unsigned char>& source, int startInd
 }
 
 template <class T>
-int AprgAudio<T>::getIndexOfString (vector<unsigned char>& source, string const& stringToSearchFor)
+int Audio<T>::getIndexOfString (vector<unsigned char>& source, string const& stringToSearchFor)
 {
     int index = -1;
     int stringLength = (int)stringToSearchFor.length();
@@ -799,20 +832,20 @@ int AprgAudio<T>::getIndexOfString (vector<unsigned char>& source, string const&
 }
 
 template <class T>
-T AprgAudio<T>::sixteenBitIntToSample (int16_t sample)
+T Audio<T>::sixteenBitIntToSample (int16_t sample)
 {
     return static_cast<T> (sample) / static_cast<T> (32768.);
 }
 
 template <class T>
-int16_t AprgAudio<T>::sampleToSixteenBitInt (T sample)
+int16_t Audio<T>::sampleToSixteenBitInt (T sample)
 {
     sample = clamp (sample, -1., 1.);
     return static_cast<int16_t> (sample * 32767.);
 }
 
 template <class T>
-unsigned char AprgAudio<T>::sampleToSingleByte (T sample)
+unsigned char Audio<T>::sampleToSingleByte (T sample)
 {
     sample = clamp (sample, -1., 1.);
     sample = (sample + 1.) / 2.;
@@ -820,13 +853,13 @@ unsigned char AprgAudio<T>::sampleToSingleByte (T sample)
 }
 
 template <class T>
-T AprgAudio<T>::singleByteToSample (unsigned char sample)
+T Audio<T>::singleByteToSample (unsigned char sample)
 {
     return static_cast<T> (sample - 128) / static_cast<T> (128.);
 }
 
 template <class T>
-T AprgAudio<T>::clamp (T value, T minValue, T maxValue)
+T Audio<T>::clamp (T value, T minValue, T maxValue)
 {
     value = min (value, maxValue);
     value = max (value, minValue);
@@ -834,8 +867,8 @@ T AprgAudio<T>::clamp (T value, T minValue, T maxValue)
 }
 
 //===========================================================
-template class AprgAudio<float>;
-template class AprgAudio<double>;
+template class Audio<float>;
+template class Audio<double>;
 
 }
 

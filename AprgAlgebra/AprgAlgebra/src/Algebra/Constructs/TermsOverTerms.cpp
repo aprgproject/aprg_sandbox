@@ -102,6 +102,7 @@ void TermsOverTerms::clearThenEmplacePolynomialAndRemainingTerms(
 {
     termsToUpdate.clear();
     emplacePolynomialIfNeeded(termsToUpdate, polynomialNumerator);
+    termsToUpdate.reserve(remainingNumerators.size());
     copy(remainingNumerators.cbegin(), remainingNumerators.cend(), back_inserter(termsToUpdate));
 }
 

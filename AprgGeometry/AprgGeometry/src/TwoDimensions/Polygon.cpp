@@ -17,11 +17,11 @@ Polygon<numberOfVertices>::Polygon()
 {}
 
 template<unsigned int numberOfVertices>
-Polygon<numberOfVertices>::Polygon(std::initializer_list<Point> const& vertices)
+Polygon<numberOfVertices>::Polygon(initializer_list<Point> const& vertices)
 {
     static_assert(numberOfVertices>2, "The numberOfVertices is less than 2. Its not a polygon by definition.");
-    unsigned int limit = std::min(numberOfVertices, static_cast<unsigned int>(vertices.size()));
-    std::copy(vertices.begin(), vertices.begin()+limit, m_vertices.begin());
+    unsigned int limit = min(numberOfVertices, static_cast<unsigned int>(vertices.size()));
+    copy(vertices.begin(), vertices.begin()+limit, m_vertices.begin());
 }
 
 template<unsigned int numberOfVertices>
@@ -116,13 +116,17 @@ Points Polygon<numberOfVertices>::getPoints(double const interval) const
 }
 
 template<unsigned int numberOfVertices>
-void Polygon<numberOfVertices>::getPointsFromVerticesWithoutLastPoint(Points & points, double const interval, unsigned int vertexIndex1, unsigned int vertexIndex2) const
+void Polygon<numberOfVertices>::getPointsFromVerticesWithoutLastPoint(
+        Points & points, double const interval,
+        unsigned int vertexIndex1,
+        unsigned int vertexIndex2) const
 {
     Point const & firstPoint(m_vertices[vertexIndex1]);
     Point const & secondPoint(m_vertices[vertexIndex2]);
     Line line(firstPoint, secondPoint);
     Points pointsFromCurrentLine(line.getPointsWithoutLastPoint(firstPoint, secondPoint, interval));
-    copy(pointsFromCurrentLine.cbegin(), pointsFromCurrentLine.cend(), std::back_inserter(points));
+    points.reserve(pointsFromCurrentLine.size());
+    copy(pointsFromCurrentLine.cbegin(), pointsFromCurrentLine.cend(), back_inserter(points));
 }
 
 }

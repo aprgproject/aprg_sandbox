@@ -488,7 +488,8 @@ void savePointsFromTwoPointsUsingALineWithoutLastPoint(Points & points, Point co
 {
     Line line(previousPoint, currentPoint);
     Points pointsInLine(line.getPointsWithoutLastPoint(previousPoint, currentPoint, interval));
-    std::copy(pointsInLine.begin(), pointsInLine.end(), std::back_inserter(points));
+    points.reserve(pointsInLine.size());
+    copy(pointsInLine.begin(), pointsInLine.end(), back_inserter(points));
 }
 
 void sortPointsInYAndThenX(Points & points)

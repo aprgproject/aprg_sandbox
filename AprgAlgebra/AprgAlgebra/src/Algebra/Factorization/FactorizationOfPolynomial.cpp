@@ -48,6 +48,7 @@ Polynomials factorizePolynomials(Polynomials const& polynomials)
         }
         else
         {
+            result.reserve(result.size()+factorizedPolynomials.size());
             copy(factorizedPolynomials.cbegin(), factorizedPolynomials.cend(), back_inserter(result));
         }
     }

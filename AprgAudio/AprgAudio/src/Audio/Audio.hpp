@@ -13,47 +13,53 @@ namespace AprgAudio
 
 /** The different types of audio file, plus some other types to
  * indicate a failure to load a file, or that one hasn't been
- * loaded yet */
+ * loaded yet
+ */
 
-enum class AprgAudioFormat
-{    Error,
+enum class AudioFormat
+{
+    Error,
     NotLoaded,
     Wave,
     Aiff
 };
 
 template <class T>
-class AprgAudio
+class Audio
 {
 public:
 
     typedef std::vector<std::vector<T> > AudioBuffer;
 
-    AprgAudio();
+    Audio();
 
     bool load (std::string const& filePath);
 
-    bool save (std::string const& filePath, AprgAudioFormat format = AprgAudioFormat::Wave);
+    bool save (std::string const& filePath, AudioFormat format = AudioFormat::Wave);
 
     unsigned int getSampleRate() const;
 
     unsigned int getNumChannels() const;
 
     bool isMono() const;
+
     bool isStereo() const;
 
     int getBitDepth() const;
 
     unsigned int getNumSamplesPerChannel() const;
 
-    T* getSamplePointerAtChannel(unsigned int const channelIndex);
+    std::vector<T> const& getSamplesAtChannel(unsigned int const channelIndex) const;
+    std::vector<T> & getSamplesReferenceAtChannel(unsigned int const channelIndex);
 
     /** @Returns the length in seconds of the audio file based on the number of samples and sample rate */
     double getLengthInSeconds() const;
+
     /** Prints a summary of the audio file to the console */
     void printSummary() const;
 
-    /** Set the audio buffer for this AprgAudio by copying samples from another buffer.
+
+    /** Set the audio buffer for this Audio by copying samples from another buffer.
      * @Returns true if the buffer was copied successfully.
      */
     bool setAudioBuffer (AudioBuffer& newBuffer);
@@ -70,12 +76,14 @@ public:
 
     /** Sets the number of channels. New channels will have the correct number of samples and be initialised to zero */
     void setNumChannels (int numChannels);
+
     /** Sets the bit depth for the audio file. If you use the save() function, this bit depth rate will be used */
     void setBitDepth (int numBitsPerSample);
+
     /** Sets the sample rate for the audio file. If you use the save() function, this sample rate will be used */
     void setSampleRate (unsigned int newSampleRate);
 
-    /** A vector of vectors holding the audio samples for the AprgAudio. You can
+    /** A vector of vectors holding the audio samples for the Audio. You can
      * access the samples by channel and then by sample index, i.e:
      *
      *      samples[channel][sampleIndex]
@@ -90,7 +98,7 @@ private:
         BigEndian
     };
 
-    AprgAudioFormat determineAprgAudioFormat (std::vector<unsigned char>& fileData);
+    AudioFormat determineAudioFormat (std::vector<unsigned char>& fileData);
     bool decodeWaveFile (std::vector<unsigned char>& fileData);
     bool decodeAiffFile (std::vector<unsigned char>& fileData);
 
@@ -120,7 +128,7 @@ private:
 
     bool writeDataToFile (std::vector<unsigned char>& fileData, std::string const& filePath);
 
-    AprgAudioFormat audioFileFormat;
+    AudioFormat audioFileFormat;
     int sampleRate;
     int bitDepth;
 };

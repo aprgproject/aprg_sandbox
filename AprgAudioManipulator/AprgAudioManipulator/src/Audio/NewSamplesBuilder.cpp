@@ -1,0 +1,84 @@
+#include "NewSamplesBuilder.hpp"
+
+#include <Math/AlbaMathHelper.hpp>
+
+using namespace alba::mathHelper;
+using namespace std;
+
+namespace alba
+{
+
+namespace AprgAudio
+{
+
+NewSamplesBuilder::SampleMergingDetails::SampleMergingDetails()
+    : isChanged(false)
+    , totalValue(0)
+    , weight(0)
+{}
+
+NewSamplesBuilder::NewSamplesBuilder(Samples const& oldSamples)
+    : m_oldSamples(oldSamples)
+{}
+
+void NewSamplesBuilder::putSamplesBasedOnSearchResultAndSamples(
+        Samples & samplesToChange,
+        SearchResultsDetails const& searchResultDetails,
+        Samples const& searchSamples,
+        bool const alwaysPutNewValue)
+{
+    SamplesMergingDetails samplesMergingDetails;
+    retrieveSampleMergingDetails(samplesMergingDetails, searchResultDetails, searchSamples);
+    saveToNewSamples(samplesToChange, samplesMergingDetails, alwaysPutNewValue);
+}
+
+void NewSamplesBuilder::retrieveSampleMergingDetails(
+        SamplesMergingDetails & samplesMergingDetails,
+        SearchResultsDetails const& details,
+        Samples const& searchSamples)
+{
+    unsigned int searchSamplesSize=searchSamples.size();
+    for(SearchResultDetails const& detail : details)
+    {
+        double midpoint=detail.numberOfSamples/2;
+        for(unsigned int i=0;
+            i<detail.numberOfSamples
+            && (i+detail.searchIndex) < searchSamplesSize;
+            i++)
+        {
+            double distanceFromMidpoint=getDistance(midpoint, static_cast<double>(i));
+            double weightForPosition=1-distanceFromMidpoint/midpoint;
+            double searchSampleValue(searchSamples[i+detail.searchIndex]);
+            SampleMergingDetails & newSampleDetail(samplesMergingDetails[i+detail.replicationIndex]);
+            newSampleDetail.isChanged=true;
+            newSampleDetail.totalValue+=searchSampleValue*weightForPosition;
+            newSampleDetail.weight+=weightForPosition;
+        }
+    }
+}
+
+void NewSamplesBuilder::saveToNewSamples(
+        Samples & newSamples,
+        SamplesMergingDetails const& samplesMergingDetails,
+        bool const alwaysPutNewValue)
+{
+    unsigned int sampleSize=min(samplesMergingDetails.size(), newSamples.size());
+    for(unsigned int i=0; i<sampleSize; i++)
+    {
+        SampleMergingDetails const& mergingDetails(samplesMergingDetails.at(i));
+        if(mergingDetails.isChanged)
+        {
+            double mergedValue(mergingDetails.totalValue/mergingDetails.weight);
+            double oldSample(m_oldSamples[i]);
+            double & currentSample(newSamples[i]);
+            if(alwaysPutNewValue || getDistance(mergedValue, oldSample) < getDistance(currentSample, oldSample))
+            {
+                currentSample=mergedValue;
+            }
+        }
+    }
+}
+
+}
+
+}

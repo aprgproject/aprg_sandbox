@@ -383,6 +383,7 @@ public:
         if(!expressionsStack.empty())
         {
             Terms finalExpression=expressionsStack.top();
+            termsInInfix.reserve(finalExpression.size());
             std::copy(finalExpression.cbegin(), finalExpression.cend(), std::back_inserter(termsInInfix));
         }
         return infixEvaluator;
@@ -418,6 +419,7 @@ private:
         {
             outputTerms.emplace_back(Term::OperatorSyntaxType::StartGroup);
         }
+        outputTerms.reserve(inputTerms.size());
         std::copy(inputTerms.cbegin(), inputTerms.cend(), std::back_inserter(outputTerms));
         if(areGroupOperatorsNeeded)
         {
