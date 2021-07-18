@@ -12,9 +12,8 @@ namespace algebra
 
 TEST(SolutionToEquationTest, ConstructionWorks)
 {
-    SolutionToEquation(Equation("=", Term(), Term()));
+    SolutionToEquation(Equation(Term("x"), "=", Term("y")));
 }
 
 }
-
 }

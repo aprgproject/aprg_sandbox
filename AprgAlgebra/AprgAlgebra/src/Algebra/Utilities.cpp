@@ -26,16 +26,12 @@ namespace algebra
 bool isOperator(string const& stringAsParameter)
 {
     return "+" == stringAsParameter || "-" == stringAsParameter || "*" == stringAsParameter || "/" == stringAsParameter
-            || "^" == stringAsParameter || "(" == stringAsParameter || ")" == stringAsParameter
-            || "==" == stringAsParameter || "!=" == stringAsParameter || ">" == stringAsParameter
-            || "<" == stringAsParameter || ">=" == stringAsParameter || "<=" == stringAsParameter;
+            || "^" == stringAsParameter || "(" == stringAsParameter || ")" == stringAsParameter;
 }
 
-bool isFunction(string const& stringAsParameter)
-{
+bool isFunction(string const& stringAsParameter){
     return "abs" == stringAsParameter;
 }
-
 bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const& term2)
 {
     bool result(false);
@@ -161,37 +157,11 @@ unsigned int getOperatorPriority(string const& operatorString)
     {
         result=7;
     }
-    else if("==" == operatorString)
-    {
-        result=8;
-    }
-    else if("!=" == operatorString)
-    {
-        result=9;
-    }
-    else if("<" == operatorString)
-    {
-        result=10;
-    }
-    else if(">" == operatorString)
-    {
-        result=11;
-    }
-    else if("<=" == operatorString)
-    {
-        result=12;
-    }
-    else if(">=" == operatorString)
-    {
-        result=13;
-    }
     return result;
 }
-
 unsigned int getAssociationPriority(TermAssociationType const association)
 {
-    unsigned int result(0);
-    switch(association)
+    unsigned int result(0);    switch(association)
     {
     case TermAssociationType::Positive:
         result=1;
