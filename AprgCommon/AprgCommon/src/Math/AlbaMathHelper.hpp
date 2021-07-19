@@ -36,29 +36,36 @@ bool isOdd(unsigned int const number);
 bool isPerfectNthPower(unsigned int const valueToCheck, unsigned int const nthPower);
 bool isPerfectNthPower(AlbaNumber const& number, unsigned int const nthPower);
 bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance);
-bool canConvertedToInteger(double const realValue);
-bool canConvertedToInteger(double const realValue, double const differenceTolerance);
+bool isAlmostAnInteger(double const realValue);
+bool isAlmostAnInteger(double const realValue, double const differenceTolerance);
+bool isValueBeyondIntegerLimits(double const realValue);
+bool isValueBeyondUnsignedIntegerLimits(double const realValue);
+bool isValueBeyondShortIntegerLimits(double const realValue);
+bool isValueBeyondLongIntegerLimits(double const realValue);
+bool isValueBeyondUnsignedLongIntegerLimits(double const realValue);
+bool isValueBeyondLongLongIntegerLimits(double const realValue);
+bool isValueBeyondUnsignedLongLongIntegerLimits(double const realValue);
 bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits);
 double getPi();
-double getE();
-int subtract(unsigned int const number1, unsigned int const number2);
+double getE();int subtract(unsigned int const number1, unsigned int const number2);
 unsigned int getPositiveDelta(unsigned int const number1, unsigned int const number2);
 int getRaiseToPowerForIntegers(int const base, unsigned int exponent);
 FractionDetails getFractionDetailsInLowestForm(int const numerator, int const denominator);
+FractionDetails getFractionDetailsInLowestFormWithUnsignedDenominator(int const numerator, unsigned int const denominator);
 FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue);
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber);
 AlbaNumber getGreatestCommonFactor(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);
 unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber);
 AlbaNumber getLeastCommonMultiple(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);
+double getLeastCommonMultipleInDouble(unsigned int const firstNumber, unsigned int const secondNumber);
 unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number);
 int getIntegerAfterRoundingDoubleValue(double const doubleValue);
 int getIntegerPartInDouble(double const doubleValue);
+unsigned int getUnsignedIntegerAfterRoundingDoubleValue(double const doubleValue);
 double getFractionalPartInDouble(double const doubleValue);
 double calculateCumulativeStandardDistributionApproximation(double const value);
-double calculateInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
-double convertDegreesToRadians(double const valueInDegrees);
+double calculateInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);double convertDegreesToRadians(double const valueInDegrees);
 double convertRadiansToDegrees(double const valueInRadians);
 
 }//namespace mathHelper
-
 }//namespace alba

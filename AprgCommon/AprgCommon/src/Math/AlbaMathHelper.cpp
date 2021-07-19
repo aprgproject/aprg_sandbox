@@ -2,12 +2,11 @@
 
 #include <algorithm>
 #include <cmath>
+#include <climits>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace mathHelper
 {
 
@@ -32,15 +31,13 @@ unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned
 template <typename NumberType>
 bool isAlmostEqual(NumberType const value1, NumberType const value2)
 {
-    return getAbsoluteValue(value1-value2) <= DOUBLE_DIFFERENCE_TOLERANCE;
+    return getAbsoluteValue(value1-value2) < DOUBLE_DIFFERENCE_TOLERANCE;
 }
 
-//Commented out: This implementation is not practical when value is equal to zero
-/*
+//Commented out: This implementation is not practical when value is equal to zero/*
 template <typename NumberType>
 bool isAlmostEqual(NumberType const value1, NumberType const value2)
-{
-    constexpr double absoluteScaledDifferenceTolerance(1E-12);
+{    constexpr double absoluteScaledDifferenceTolerance(1E-12);
     double absoluteMaxValue = max(getAbsoluteValue(value1), getAbsoluteValue(value2));
     double difference = getAbsoluteValue(value1-value2);
     return difference <= absoluteMaxValue*absoluteScaledDifferenceTolerance;
@@ -216,25 +213,58 @@ bool isAlmostEqual(double const value1, double const value2, double const differ
     return getAbsoluteValue(value1-value2) <= differenceTolerance;
 }
 
-bool canConvertedToInteger(double const realValue)
+bool isAlmostAnInteger(double const realValue)
 {
     return isAlmostEqual<double>(realValue, round(realValue));
 }
 
-bool canConvertedToInteger(double const realValue, double const differenceTolerance)
+bool isAlmostAnInteger(double const realValue, double const differenceTolerance)
 {
     return isAlmostEqual(realValue, round(realValue), differenceTolerance);
 }
 
+bool isValueBeyondIntegerLimits(double const realValue)
+{
+    return realValue<INT_MIN || realValue>INT_MAX;
+}
+
+bool isValueBeyondUnsignedIntegerLimits(double const realValue)
+{
+    return realValue<0 || realValue>UINT_MAX;
+}
+
+bool isValueBeyondShortIntegerLimits(double const realValue)
+{
+    return realValue<SHRT_MIN || realValue>SHRT_MAX;
+}
+
+bool isValueBeyondLongIntegerLimits(double const realValue)
+{
+    return realValue<LONG_MIN || realValue>LONG_MAX;
+}
+
+bool isValueBeyondUnsignedLongIntegerLimits(double const realValue)
+{
+    return realValue<0 || realValue>ULONG_MAX;
+}
+
+bool isValueBeyondLongLongIntegerLimits(double const realValue)
+{
+    return realValue<LLONG_MIN || realValue>LLONG_MAX;
+}
+
+bool isValueBeyondUnsignedLongLongIntegerLimits(double const realValue)
+{
+    return realValue<0 || realValue>ULLONG_MAX;
+}
+
 bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits)
 {
-    return digits>=10;
-}
+    return digits>=10;}
 
 bool isDivisible(unsigned int const dividend, unsigned int const divisor)
 {
-    bool result(false);
-    if(divisor != 0)
+    bool result(false);    if(divisor != 0)
     {
         result = (dividend % divisor)==0;
     }
@@ -256,15 +286,13 @@ bool isPerfectNthPower(
         unsigned int const nthPower)
 {
     double valueRaiseToTheReciprocal = pow(value, static_cast<double>(1)/nthPower);
-    return canConvertedToInteger(valueRaiseToTheReciprocal);
+    return isAlmostAnInteger(valueRaiseToTheReciprocal);
 }
 
-bool isPerfectNthPower(
-        AlbaNumber const& number,
+bool isPerfectNthPower(        AlbaNumber const& number,
         unsigned int const nthPower)
 {
-    bool result(false);
-    if(number.isIntegerType())
+    bool result(false);    if(number.isIntegerType())
     {
         int integerValue(number.getInteger());
         result = integerValue >= 0 && isPerfectNthPower(static_cast<unsigned int>(integerValue), nthPower);
@@ -325,14 +353,32 @@ FractionDetails getFractionDetailsInLowestForm(int const numerator, int const de
     return result;
 }
 
+FractionDetails getFractionDetailsInLowestFormWithUnsignedDenominator(int const numerator, unsigned int const unsignedDenominator)
+{
+    FractionDetails result{0, 0, 0};
+    unsigned int unsignedNumerator = mathHelper::getAbsoluteValue(numerator);
+    unsigned int greatestCommonFactor = mathHelper::getGreatestCommonFactor(unsignedNumerator, unsignedDenominator);
+    if(greatestCommonFactor==0)
+    {
+        result.sign = mathHelper::getSign(numerator);
+        result.numerator = unsignedNumerator;
+        result.denominator = unsignedDenominator;
+    }
+    else
+    {
+        result.sign = mathHelper::getSign(numerator);
+        result.numerator = unsignedNumerator/greatestCommonFactor;
+        result.denominator = unsignedDenominator/greatestCommonFactor;
+    }
+    return result;
+}
+
 FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue)
 {
-    constexpr double tolerance(1E-3);
-    FractionDetails result;
+    constexpr double tolerance(1E-3);    FractionDetails result;
     result.sign = getSign(doubleValue);
     double absoluteValueOfDouble = getAbsoluteValue(doubleValue);
-    result.numerator = static_cast<int>(absoluteValueOfDouble);
-    result.denominator = 1;
+    result.numerator = static_cast<int>(absoluteValueOfDouble);    result.denominator = 1;
     double fractionalPart = getFractionalPartInDouble(absoluteValueOfDouble);
     double nextDoubleValueInIteration = 1/fractionalPart;
     unsigned estimatedNumberOfDigits = getNumberOfIntegerDigits(result.numerator) + getNumberOfIntegerDigits(nextDoubleValueInIteration);
@@ -434,14 +480,22 @@ AlbaNumber getLeastCommonMultiple(AlbaNumber const& firstNumber, AlbaNumber cons
     return result;
 }
 
+double getLeastCommonMultipleInDouble(unsigned int const firstNumber, unsigned int const secondNumber)
+{
+    double result(0);
+    if(firstNumber!=0 && secondNumber!=0)
+    {
+        result = static_cast<double>(firstNumber)/getGreatestCommonFactor(firstNumber, secondNumber)*secondNumber;
+    }
+    return result;
+}
+
 unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number)
 {
-    unsigned result(0);
-    if(multiple>0)
+    unsigned result(0);    if(multiple>0)
     {
         unsigned int numberOfMultiples(getNumberOfMultiplesInclusive(multiple, number));
-        result = (numberOfMultiples*multiple) - number;
-    }
+        result = (numberOfMultiples*multiple) - number;    }
     return result;
 }
 
@@ -455,15 +509,18 @@ int getIntegerPartInDouble(double const doubleValue)
     return static_cast<int>(doubleValue);
 }
 
+unsigned int getUnsignedIntegerAfterRoundingDoubleValue(double const doubleValue)
+{
+    return static_cast<unsigned int>(round(doubleValue));
+}
+
 double getFractionalPartInDouble(double const doubleValue)
 {
-    return doubleValue-getIntegerPartInDouble(doubleValue);
-}
+    return doubleValue-getIntegerPartInDouble(doubleValue);}
 
 double calculateCumulativeStandardDistributionApproximation(double const z)
 {
-    return 0.5 * erfc(-z * pow(0.5, 0.5));
-}
+    return 0.5 * erfc(-z * pow(0.5, 0.5));}
 
 double calculateInverseCumulativeStandardDistributionApproximation(double const probability, unsigned int const numberOfIterations)
 {

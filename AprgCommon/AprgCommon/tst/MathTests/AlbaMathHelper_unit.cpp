@@ -2,27 +2,27 @@
 
 #include <gtest/gtest.h>
 
+#include <climits>
+
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 TEST(AlbaMathHelperTest, DoubleTypesCanBeConsideredEqual)
 {
     EXPECT_TRUE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3));
     EXPECT_FALSE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3+0.1));
     EXPECT_TRUE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3+1E-13));
     EXPECT_TRUE(isAlmostEqual(1E-12,1E-12));
-    EXPECT_TRUE(isAlmostEqual(static_cast<double>(0),1E-12));
+    EXPECT_FALSE(isAlmostEqual(static_cast<double>(0),1E-11));
+    EXPECT_FALSE(isAlmostEqual(static_cast<double>(0),1E-12));
+    EXPECT_TRUE(isAlmostEqual(static_cast<double>(0),1E-13));
     EXPECT_TRUE(isAlmostEqual(static_cast<double>(0),1E-24));
     EXPECT_TRUE(isAlmostEqual(1E-12,1E-24));
-    EXPECT_TRUE(isAlmostEqual(1E-24,1E-24));
-}
+    EXPECT_TRUE(isAlmostEqual(1E-24,1E-24));}
 
 TEST(AlbaMathHelperTest, IntegerTypesCanBeConsideredEqual)
-{
-    EXPECT_TRUE(isAlmostEqual(static_cast<int>(100), static_cast<int>(100)));
+{    EXPECT_TRUE(isAlmostEqual(static_cast<int>(100), static_cast<int>(100)));
 }
 
 TEST(AlbaMathHelperTest, IsAlmostEqualWorksWithDifferenceTolerance)
@@ -101,31 +101,92 @@ TEST(AlbaMathHelperTest, HigherBoundCanBeComputed)
     EXPECT_EQ(3, clampHigherBound(5, 3));
 }
 
-TEST(AlbaMathHelperTest, CanConvertedToIntegerAsWorkExpected)
+TEST(AlbaMathHelperTest, IsAlmostAnIntegerWorksAsExpected)
 {
-    EXPECT_TRUE(canConvertedToInteger(0));
-    EXPECT_TRUE(canConvertedToInteger(1));
-    EXPECT_TRUE(canConvertedToInteger(2));
-    EXPECT_FALSE(canConvertedToInteger(3.00000001));
-    EXPECT_TRUE(canConvertedToInteger(3.0000000000001));
+    EXPECT_TRUE(isAlmostAnInteger(0));
+    EXPECT_TRUE(isAlmostAnInteger(1));
+    EXPECT_TRUE(isAlmostAnInteger(2));
+    EXPECT_FALSE(isAlmostAnInteger(3.00000001));
+    EXPECT_TRUE(isAlmostAnInteger(3.0000000000001));
 }
 
-TEST(AlbaMathHelperTest, CanConvertedToIntegerWithDifferenceToleranceAsWorkExpected)
+TEST(AlbaMathHelperTest, IsAlmostAnIntegerWithDifferenceToleranceWorksAsExpected)
 {
-    EXPECT_TRUE(canConvertedToInteger(3.01, 1E-1));
-    EXPECT_TRUE(canConvertedToInteger(3.01, 1E-2));
-    EXPECT_FALSE(canConvertedToInteger(3.01, 1E-3));
+    EXPECT_TRUE(isAlmostAnInteger(3.01, 1E-1));
+    EXPECT_TRUE(isAlmostAnInteger(3.01, 1E-2));
+    EXPECT_FALSE(isAlmostAnInteger(3.01, 1E-3));
 }
 
-TEST(AlbaMathHelperTest, AreNumberOfDigitsOnTheIntegerLimitWorkAsExpected)
+TEST(AlbaMathHelperTest, IsValueBeyondIntegerLimitsWorksAsExpected)
+{
+    EXPECT_TRUE(isValueBeyondIntegerLimits(static_cast<double>(INT_MIN)-1));
+    EXPECT_FALSE(isValueBeyondIntegerLimits(INT_MIN));
+    EXPECT_FALSE(isValueBeyondIntegerLimits(1000));
+    EXPECT_FALSE(isValueBeyondIntegerLimits(INT_MAX));
+    EXPECT_TRUE(isValueBeyondIntegerLimits(static_cast<double>(INT_MAX)+1));
+}
+
+TEST(AlbaMathHelperTest, IsValueBeyondUnsignedIntegerLimitsWorksAsExpected)
+{
+    EXPECT_TRUE(isValueBeyondUnsignedIntegerLimits(static_cast<double>(0)-1));
+    EXPECT_FALSE(isValueBeyondUnsignedIntegerLimits(0));
+    EXPECT_FALSE(isValueBeyondUnsignedIntegerLimits(1000));
+    EXPECT_FALSE(isValueBeyondUnsignedIntegerLimits(UINT_MAX));
+    EXPECT_TRUE(isValueBeyondUnsignedIntegerLimits(static_cast<double>(UINT_MAX)+1));
+}
+
+TEST(AlbaMathHelperTest, IsValueBeyondShortIntegerLimitsWorksAsExpected)
+{
+    EXPECT_TRUE(isValueBeyondShortIntegerLimits(static_cast<double>(SHRT_MIN)-1));
+    EXPECT_FALSE(isValueBeyondShortIntegerLimits(SHRT_MIN));
+    EXPECT_FALSE(isValueBeyondShortIntegerLimits(1000));
+    EXPECT_FALSE(isValueBeyondShortIntegerLimits(SHRT_MAX));
+    EXPECT_TRUE(isValueBeyondShortIntegerLimits(static_cast<double>(SHRT_MAX)+1));
+}
+
+TEST(AlbaMathHelperTest, IsValueBeyondLongIntegerLimitsWorksAsExpected)
+{
+    EXPECT_TRUE(isValueBeyondLongIntegerLimits(static_cast<double>(LONG_MIN)-1));
+    EXPECT_FALSE(isValueBeyondLongIntegerLimits(LONG_MIN));
+    EXPECT_FALSE(isValueBeyondLongIntegerLimits(1000));
+    EXPECT_FALSE(isValueBeyondLongIntegerLimits(LONG_MAX));
+    EXPECT_TRUE(isValueBeyondLongIntegerLimits(static_cast<double>(LONG_MAX)+1));
+}
+
+TEST(AlbaMathHelperTest, IsValueBeyondUnsignedLongIntegerLimitsWorksAsExpected)
+{
+    EXPECT_TRUE(isValueBeyondUnsignedLongIntegerLimits(static_cast<double>(0)-1));
+    EXPECT_FALSE(isValueBeyondUnsignedLongIntegerLimits(0));
+    EXPECT_FALSE(isValueBeyondUnsignedLongIntegerLimits(1000));
+    EXPECT_FALSE(isValueBeyondUnsignedLongIntegerLimits(ULONG_MAX));
+    EXPECT_TRUE(isValueBeyondUnsignedLongIntegerLimits(static_cast<double>(ULONG_MAX)+1));
+}
+
+TEST(AlbaMathHelperTest, IsValueBeyondLongLongIntegerLimitsWorksAsExpected)
+{
+    EXPECT_TRUE(isValueBeyondLongLongIntegerLimits(static_cast<double>(LLONG_MIN)*2));
+    EXPECT_FALSE(isValueBeyondLongLongIntegerLimits(LLONG_MIN));
+    EXPECT_FALSE(isValueBeyondLongLongIntegerLimits(1000));
+    EXPECT_FALSE(isValueBeyondLongLongIntegerLimits(LLONG_MAX));
+    EXPECT_TRUE(isValueBeyondLongLongIntegerLimits(static_cast<double>(LLONG_MAX)*2));
+}
+
+TEST(AlbaMathHelperTest, IsValueBeyondUnsignedLongLongIntegerLimitsWorksAsExpected)
+{
+    EXPECT_TRUE(isValueBeyondUnsignedLongLongIntegerLimits(static_cast<double>(0)-ULLONG_MAX));
+    EXPECT_FALSE(isValueBeyondUnsignedLongLongIntegerLimits(0));
+    EXPECT_FALSE(isValueBeyondUnsignedLongLongIntegerLimits(1000));
+    EXPECT_FALSE(isValueBeyondUnsignedLongLongIntegerLimits(ULLONG_MAX));
+    EXPECT_TRUE(isValueBeyondUnsignedLongLongIntegerLimits(static_cast<double>(ULLONG_MAX)*2));
+}
+
+TEST(AlbaMathHelperTest, AreNumberOfDigitsOnTheIntegerLimitWorksAsExpected)
 {
     EXPECT_FALSE(areNumberOfDigitsOnTheIntegerLimit(0));
     EXPECT_FALSE(areNumberOfDigitsOnTheIntegerLimit(1));
-    EXPECT_FALSE(areNumberOfDigitsOnTheIntegerLimit(9));
-    EXPECT_TRUE(areNumberOfDigitsOnTheIntegerLimit(10));
+    EXPECT_FALSE(areNumberOfDigitsOnTheIntegerLimit(9));    EXPECT_TRUE(areNumberOfDigitsOnTheIntegerLimit(10));
     EXPECT_TRUE(areNumberOfDigitsOnTheIntegerLimit(11));
 }
-
 TEST(AlbaMathHelperTest, IsDivisibleWorksAsExpected)
 {
     EXPECT_FALSE(isDivisible(0u, 0u));
