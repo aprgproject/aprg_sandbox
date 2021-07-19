@@ -108,11 +108,11 @@ TEST(UtilitiesTest, SearchAndTryToReplicateTwoFilesWorks)
                 audioToReplicateFilePathHandler.getFullPath(),
                 audioToSearch1FilePathHandler.getFullPath(),
                 true);
-    /*searchAndTryToReplicate(
+    searchAndTryToReplicate(
                 audioToChangeFilePathHandler.getFullPath(),
                 audioToReplicateFilePathHandler.getFullPath(),
                 audioToSearch2FilePathHandler.getFullPath(),
-                true);*/
+                false);
 }
 
 }

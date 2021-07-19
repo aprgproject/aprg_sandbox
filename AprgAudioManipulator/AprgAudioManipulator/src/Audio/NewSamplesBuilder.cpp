@@ -71,9 +71,10 @@ void NewSamplesBuilder::saveToNewSamples(
             double mergedValue(mergingDetails.totalValue/mergingDetails.weight);
             double oldSample(m_oldSamples[i]);
             double & currentSample(newSamples[i]);
-            if(alwaysPutNewValue || getDistance(mergedValue, oldSample) < getDistance(currentSample, oldSample))
+            double newValue=mergedValue*0.5+oldSample*0.5;
+            if(alwaysPutNewValue || getDistance(newValue, oldSample) < getDistance(currentSample, oldSample))
             {
-                currentSample=mergedValue;
+                currentSample=newValue;
             }
         }
     }

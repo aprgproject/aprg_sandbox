@@ -38,5 +38,16 @@ namespace alba
 #define ALBA_PRINT5(...) cout << "ALBA_PRINT5 in " << __FUNCTION__ << "(...): " << Z_ALBA_PRIVATE_GET_STRING_PRINT5(__VA_ARGS__) << endl
 #define ALBA_PRINT6(...) cout << "ALBA_PRINT6 in " << __FUNCTION__ << "(...): " << Z_ALBA_PRIVATE_GET_STRING_PRINT6(__VA_ARGS__) << endl
 
+#define ALBA_PRINT_CONTAINER(container)  \
+cout << "ALBA_PRINT_CONTAINER in " << __FUNCTION__ << "(...): " \
+    << ALBA_MACROS_GET_STRING_LITERAL(container) \
+    << " (with size " << container.size() <<")" \
+    << " : {"; \
+    for(auto const& item : container) \
+{ \
+    cout << "[" << item << "], "; \
+} \
+cout << "}" << endl;
+
 
 }//namespace alba

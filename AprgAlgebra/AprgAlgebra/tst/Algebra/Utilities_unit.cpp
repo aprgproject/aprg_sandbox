@@ -25,9 +25,11 @@ TEST(UtilitiesTest, IsOperatorWorks)
     EXPECT_TRUE(isOperator(")"));
     EXPECT_FALSE(isOperator("notAnOperator"));
 }
+
 TEST(UtilitiesTest, IsFunctionWorks)
 {
-    EXPECT_FALSE(isFunction(""));    EXPECT_TRUE(isFunction("abs"));
+    EXPECT_FALSE(isFunction(""));
+    EXPECT_TRUE(isFunction("abs"));
     EXPECT_FALSE(isFunction("notAnFunction"));
 }
 
@@ -147,9 +149,11 @@ TEST(UtilitiesTest, GetOperatorLevelValueWorks)
     EXPECT_EQ(7u, getOperatorPriority("^"));
     EXPECT_EQ(0u, getOperatorPriority("operator"));
 }
+
 TEST(UtilitiesTest, GetAssociationPriorityWorks)
 {
-    EXPECT_EQ(1u, getAssociationPriority(TermAssociationType::Positive));    EXPECT_EQ(2u, getAssociationPriority(TermAssociationType::Negative));
+    EXPECT_EQ(1u, getAssociationPriority(TermAssociationType::Positive));
+    EXPECT_EQ(2u, getAssociationPriority(TermAssociationType::Negative));
 }
 
 TEST(UtilitiesTest, GetOperatorLevelInversePriorityWorks)

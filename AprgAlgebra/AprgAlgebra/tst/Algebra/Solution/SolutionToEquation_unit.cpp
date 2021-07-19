@@ -16,4 +16,5 @@ TEST(SolutionToEquationTest, ConstructionWorks)
 }
 
 }
+
 }

@@ -35,10 +35,12 @@ AlbaNumber::AlbaNumber(unsigned int const unsignedValue)
 AlbaNumber::AlbaNumber(int const numerator, int const denominator)
     : m_type(Type::Fraction)
 {
-    if(denominator==0)    {
+    if(denominator==0)
+    {
         *this = AlbaNumber(static_cast<double>(numerator)/denominator);
     }
-    else    {
+    else
+    {
         FractionDetails fractionDetails(getFractionDetailsInLowestForm(numerator, denominator));
         FractionData& fractionDataReference(m_data.fractionData);
         fractionDataReference.numerator = fractionDetails.sign*fractionDetails.numerator;
@@ -46,9 +48,11 @@ AlbaNumber::AlbaNumber(int const numerator, int const denominator)
         convertToIntegerIfNeeded();
     }
 }
+
 AlbaNumber::AlbaNumber(double const doubleValue)
     : m_type(Type::Double)
-{    double& doubleDataReference(m_data.doubleData);
+{
+    double& doubleDataReference(m_data.doubleData);
     doubleDataReference = doubleValue;
     convertToIntegerIfNeeded();
 }
@@ -130,10 +134,12 @@ AlbaNumber AlbaNumber::operator+(AlbaNumber const& value) const
         result = addIntegerAndFractionAndReturnNumber(shouldBeConvertedToDouble, intDataReference1, fractionDataReference2);
     }
     else if(first.m_type == Type::Integer && second.m_type == Type::Double)
-    {        int const& intDataReference1(first.m_data.intData);
+    {
+        int const& intDataReference1(first.m_data.intData);
         double const& doubleDataReference2(second.m_data.doubleData);
         result = addIntegerAndDoubleAndReturnNumber(intDataReference1, doubleDataReference2);
-    }    else if(first.m_type == Type::Fraction && second.m_type == Type::Integer)
+    }
+    else if(first.m_type == Type::Fraction && second.m_type == Type::Integer)
     {
         FractionData const& fractionDataReference1(first.m_data.fractionData);
         int const& intDataReference2(second.m_data.intData);
@@ -146,10 +152,12 @@ AlbaNumber AlbaNumber::operator+(AlbaNumber const& value) const
         result = addBothFractionsAndReturnNumber(shouldBeConvertedToDouble, fractionDataReference1, fractionDataReference2);
     }
     else if(first.m_type == Type::Fraction && second.m_type == Type::Double)
-    {        FractionData const& fractionDataReference1(first.m_data.fractionData);
+    {
+        FractionData const& fractionDataReference1(first.m_data.fractionData);
         double const& doubleDataReference2(second.m_data.doubleData);
         result = addFractionAndDoubleAndReturnNumber(fractionDataReference1, doubleDataReference2);
-    }    else if(first.m_type == Type::Double && second.m_type == Type::Integer)
+    }
+    else if(first.m_type == Type::Double && second.m_type == Type::Integer)
     {
         double const& doubleDataReference1(first.m_data.doubleData);
         int const& intDataReference2(second.m_data.intData);
@@ -173,9 +181,11 @@ AlbaNumber AlbaNumber::operator+(AlbaNumber const& value) const
     }
     return result;
 }
+
 AlbaNumber AlbaNumber::operator-(AlbaNumber const& second) const
 {
-    return operator+(-second);}
+    return operator+(-second);
+}
 
 AlbaNumber AlbaNumber::operator*(AlbaNumber const& value) const
 {
@@ -197,10 +207,12 @@ AlbaNumber AlbaNumber::operator*(AlbaNumber const& value) const
         result = multiplyIntegerAndFractionAndReturnNumber(shouldBeConvertedToDouble, intDataReference1, fractionDataReference2);
     }
     else if(first.m_type == Type::Integer && second.m_type == Type::Double)
-    {        int const& intDataReference1(first.m_data.intData);
+    {
+        int const& intDataReference1(first.m_data.intData);
         double const& doubleDataReference2(second.m_data.doubleData);
         result = multiplyIntegerAndDoubleAndReturnNumber(intDataReference1, doubleDataReference2);
-    }    else if(first.m_type == Type::Fraction && second.m_type == Type::Integer)
+    }
+    else if(first.m_type == Type::Fraction && second.m_type == Type::Integer)
     {
         FractionData const& fractionDataReference1(first.m_data.fractionData);
         int const& intDataReference2(second.m_data.intData);
@@ -213,10 +225,12 @@ AlbaNumber AlbaNumber::operator*(AlbaNumber const& value) const
         result = multiplyBothFractionsAndReturnNumber(shouldBeConvertedToDouble, fractionDataReference1, fractionDataReference2);
     }
     else if(first.m_type == Type::Fraction && second.m_type == Type::Double)
-    {        FractionData const& fractionDataReference1(first.m_data.fractionData);
+    {
+        FractionData const& fractionDataReference1(first.m_data.fractionData);
         double const& doubleDataReference2(second.m_data.doubleData);
         result = multiplyFractionAndDoubleAndReturnNumber(fractionDataReference1, doubleDataReference2);
-    }    else if(first.m_type == Type::Double && second.m_type == Type::Integer)
+    }
+    else if(first.m_type == Type::Double && second.m_type == Type::Integer)
     {
         double const& doubleDataReference1(first.m_data.doubleData);
         int const& intDataReference2(second.m_data.intData);
@@ -240,6 +254,7 @@ AlbaNumber AlbaNumber::operator*(AlbaNumber const& value) const
     }
     return result;
 }
+
 AlbaNumber AlbaNumber::operator/(AlbaNumber const& value) const
 {
     AlbaNumber first(*this);
@@ -265,10 +280,12 @@ AlbaNumber AlbaNumber::operator/(AlbaNumber const& value) const
                     1);
     }
     else if(first.m_type == Type::Integer && second.m_type == Type::Double)
-    {        int const& intDataReference1(first.m_data.intData);
+    {
+        int const& intDataReference1(first.m_data.intData);
         double const& doubleDataReference2(second.m_data.doubleData);
         result = AlbaNumber(static_cast<double>(intDataReference1) / doubleDataReference2);
-    }    else if(first.m_type == Type::Fraction && second.m_type == Type::Integer)
+    }
+    else if(first.m_type == Type::Fraction && second.m_type == Type::Integer)
     {
         FractionData const& fractionDataReference1(first.m_data.fractionData);
         int const& intDataReference2(second.m_data.intData);
@@ -286,10 +303,12 @@ AlbaNumber AlbaNumber::operator/(AlbaNumber const& value) const
         result = divideBothFractionsAndReturnNumber(shouldBeConvertedToDouble, fractionDataReference1, fractionDataReference2);
     }
     else if(first.m_type == Type::Fraction && second.m_type == Type::Double)
-    {        FractionData const& fractionDataReference1(first.m_data.fractionData);
+    {
+        FractionData const& fractionDataReference1(first.m_data.fractionData);
         double const& doubleDataReference2(second.m_data.doubleData);
         result = AlbaNumber(
-                    static_cast<double>(fractionDataReference1.numerator) /                    fractionDataReference1.denominator /
+                    static_cast<double>(fractionDataReference1.numerator) /
+                    fractionDataReference1.denominator /
                     doubleDataReference2);
     }
     else if(first.m_type == Type::Double && second.m_type == Type::Integer)
@@ -319,6 +338,7 @@ AlbaNumber AlbaNumber::operator/(AlbaNumber const& value) const
     }
     return result;
 }
+
 AlbaNumber AlbaNumber::operator^(AlbaNumber const& value) const
 {
     AlbaNumber first(*this);
@@ -333,10 +353,12 @@ AlbaNumber AlbaNumber::operator^(AlbaNumber const& value) const
         result = raisePowerOfBothIntegersAndReturnNumber(shouldBeConvertedToDouble, intDataReference1, intDataReference2);
     }
     else if(first.m_type == Type::Integer && second.m_type == Type::Fraction)
-    {        result = AlbaNumber(pow(getDouble(), second.getDouble()));
+    {
+        result = AlbaNumber(pow(getDouble(), second.getDouble()));
     }
     else if(first.m_type == Type::Integer && second.m_type == Type::Double)
-    {        result = AlbaNumber(pow(getDouble(), second.getDouble()));
+    {
+        result = AlbaNumber(pow(getDouble(), second.getDouble()));
     }
     else if(first.m_type == Type::Fraction && second.m_type == Type::Integer)
     {
@@ -345,10 +367,12 @@ AlbaNumber AlbaNumber::operator^(AlbaNumber const& value) const
         result = raisePowerOfFractionsAndIntegerAndReturnNumber(shouldBeConvertedToDouble, fractionDataReference1, intDataReference2);
     }
     else if(first.m_type == Type::Fraction && second.m_type == Type::Fraction)
-    {        result = AlbaNumber(pow(getDouble(), second.getDouble()));
+    {
+        result = AlbaNumber(pow(getDouble(), second.getDouble()));
     }
     else if(first.m_type == Type::Fraction && second.m_type == Type::Double)
-    {        result = AlbaNumber(pow(getDouble(), second.getDouble()));
+    {
+        result = AlbaNumber(pow(getDouble(), second.getDouble()));
     }
     else if(first.m_type == Type::Double && second.m_type == Type::Integer)
     {
@@ -368,9 +392,11 @@ AlbaNumber AlbaNumber::operator^(AlbaNumber const& value) const
     }
     return result;
 }
+
 AlbaNumber AlbaNumber::operator+(int const signedValue) const
 {
-    return operator+(AlbaNumber(signedValue));}
+    return operator+(AlbaNumber(signedValue));
+}
 
 AlbaNumber AlbaNumber::operator-(int const signedValue) const
 {
@@ -567,10 +593,12 @@ void AlbaNumber::convertToFraction()
 
 void AlbaNumber::convertToIntegerIfNeeded()
 {
-    if(m_type == Type::Fraction)    {
+    if(m_type == Type::Fraction)
+    {
         FractionData const& fractionDataReference(m_data.fractionData);
         if(isDivisible(getAbsoluteValue(fractionDataReference.numerator), fractionDataReference.denominator))
-        {            *this = AlbaNumber(static_cast<int>(fractionDataReference.numerator/fractionDataReference.denominator));
+        {
+            *this = AlbaNumber(static_cast<int>(fractionDataReference.numerator/fractionDataReference.denominator));
         }
     }
     else if(m_type == Type::Double)
@@ -579,7 +607,8 @@ void AlbaNumber::convertToIntegerIfNeeded()
         if(!isValueBeyondIntegerLimits(realValue) && isAlmostAnInteger(realValue))
         {
             *this = AlbaNumber(getIntegerAfterRoundingDoubleValue(realValue));
-        }    }
+        }
+    }
 }
 
 AlbaNumber AlbaNumber::addBothIntegersAndReturnNumber(
@@ -622,9 +651,11 @@ AlbaNumber AlbaNumber::addIntegerAndFractionAndReturnNumber(
     return AlbaNumber(getIntegerAfterRoundingDoubleValue(numerator), fractionData.denominator);
 }
 
-AlbaNumber AlbaNumber::addIntegerAndDoubleAndReturnNumber(int const signedValue, double const doubleValue) const{
+AlbaNumber AlbaNumber::addIntegerAndDoubleAndReturnNumber(int const signedValue, double const doubleValue) const
+{
     return AlbaNumber(static_cast<double>(signedValue + doubleValue));
 }
+
 AlbaNumber AlbaNumber::addFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const
 {
     return AlbaNumber(
@@ -654,7 +685,8 @@ AlbaNumber AlbaNumber::multiplyBothFractionsAndReturnNumber(
     return AlbaNumber(getIntegerAfterRoundingDoubleValue(numerator), getIntegerAfterRoundingDoubleValue(denominator));
 }
 
-AlbaNumber AlbaNumber::multiplyBothDoubleAndReturnNumber(double const doubleValue1, double const doubleValue2) const{
+AlbaNumber AlbaNumber::multiplyBothDoubleAndReturnNumber(double const doubleValue1, double const doubleValue2) const
+{
     return AlbaNumber(doubleValue1 * doubleValue2);
 }
 
@@ -668,9 +700,11 @@ AlbaNumber AlbaNumber::multiplyIntegerAndFractionAndReturnNumber(
     return AlbaNumber(getIntegerAfterRoundingDoubleValue(numerator), fractionData.denominator);
 }
 
-AlbaNumber AlbaNumber::multiplyIntegerAndDoubleAndReturnNumber(int const signedValue, double const doubleValue) const{
+AlbaNumber AlbaNumber::multiplyIntegerAndDoubleAndReturnNumber(int const signedValue, double const doubleValue) const
+{
     return AlbaNumber(static_cast<double>(signedValue) * doubleValue);
 }
+
 AlbaNumber AlbaNumber::multiplyFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const
 {
     return AlbaNumber(
@@ -685,7 +719,7 @@ AlbaNumber AlbaNumber::divideBothIntegersAndReturnNumber(
         int const divisor) const
 {
     FractionDetails fractionDetails(getFractionDetailsInLowestForm(dividend, divisor));
-    double numerator(fractionDetails.sign*fractionDetails.numerator);
+    double numerator(static_cast<double>(fractionDetails.sign)*fractionDetails.numerator);
     shouldBeConvertedToDouble = isValueBeyondIntegerLimits(numerator);
     return AlbaNumber(getIntegerAfterRoundingDoubleValue(numerator), fractionDetails.denominator);
 }
@@ -760,9 +794,11 @@ AlbaNumber AlbaNumber::raisePowerOfFractionsAndIntegerAndReturnNumber(
     }
     return result;
 }
+
 ostream & operator<<(std::ostream & out, AlbaNumber const& number)
 {
-    out << number.getDisplayableString();    return out;
+    out << number.getDisplayableString();
+    return out;
 }
 
 

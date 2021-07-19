@@ -6,8 +6,10 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
+
 TEST(AlbaMathHelperTest, DoubleTypesCanBeConsideredEqual)
 {
     EXPECT_TRUE(isAlmostEqual(static_cast<double>(1)/3,static_cast<double>(1)/3));
@@ -19,10 +21,12 @@ TEST(AlbaMathHelperTest, DoubleTypesCanBeConsideredEqual)
     EXPECT_TRUE(isAlmostEqual(static_cast<double>(0),1E-13));
     EXPECT_TRUE(isAlmostEqual(static_cast<double>(0),1E-24));
     EXPECT_TRUE(isAlmostEqual(1E-12,1E-24));
-    EXPECT_TRUE(isAlmostEqual(1E-24,1E-24));}
+    EXPECT_TRUE(isAlmostEqual(1E-24,1E-24));
+}
 
 TEST(AlbaMathHelperTest, IntegerTypesCanBeConsideredEqual)
-{    EXPECT_TRUE(isAlmostEqual(static_cast<int>(100), static_cast<int>(100)));
+{
+    EXPECT_TRUE(isAlmostEqual(static_cast<int>(100), static_cast<int>(100)));
 }
 
 TEST(AlbaMathHelperTest, IsAlmostEqualWorksWithDifferenceTolerance)
@@ -184,9 +188,11 @@ TEST(AlbaMathHelperTest, AreNumberOfDigitsOnTheIntegerLimitWorksAsExpected)
 {
     EXPECT_FALSE(areNumberOfDigitsOnTheIntegerLimit(0));
     EXPECT_FALSE(areNumberOfDigitsOnTheIntegerLimit(1));
-    EXPECT_FALSE(areNumberOfDigitsOnTheIntegerLimit(9));    EXPECT_TRUE(areNumberOfDigitsOnTheIntegerLimit(10));
+    EXPECT_FALSE(areNumberOfDigitsOnTheIntegerLimit(9));
+    EXPECT_TRUE(areNumberOfDigitsOnTheIntegerLimit(10));
     EXPECT_TRUE(areNumberOfDigitsOnTheIntegerLimit(11));
 }
+
 TEST(AlbaMathHelperTest, IsDivisibleWorksAsExpected)
 {
     EXPECT_FALSE(isDivisible(0u, 0u));
@@ -401,6 +407,11 @@ TEST(AlbaMathHelperTest, BestFractionDetailsForDoubleValueCanBeComputed)
     EXPECT_EQ(-1, fractionDetails6.sign);
     EXPECT_EQ(2600u, fractionDetails6.numerator);
     EXPECT_EQ(33u, fractionDetails6.denominator);
+
+    FractionDetails fractionDetails7(getBestFractionDetailsForDoubleValue(2.236067977499789696409));
+    EXPECT_EQ(1, fractionDetails7.sign);
+    EXPECT_EQ(2446376235u, fractionDetails7.numerator);
+    EXPECT_EQ(1094052712u, fractionDetails7.denominator);
 }
 
 TEST(AlbaMathHelperTest, GreatestCommonFactorCanBeComputed)

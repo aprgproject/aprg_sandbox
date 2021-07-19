@@ -78,7 +78,9 @@ AlbaNumberOptional BrentMethod::calculateRoot(AlbaNumber const& start, AlbaNumbe
             }
             s = sOptional.getConstReference();
         }
-        if(isBisectionMethodNeeded(a,b,c,d,s,mflag))
+        if(isBisectionMethodNeeded(a,b,c,d,s,mflag) ||
+                isAlmostEqual(a.getDouble(), s.getDouble()) ||
+                isAlmostEqual(b.getDouble(), s.getDouble()))
         {
             s = calculateBiSectionMethod(a, b);
             mflag = true;

@@ -16,10 +16,12 @@ Equation::Equation(
         std::string const& equationOperator,
         Term const& rightHandTerm)
      : m_equationOperator(equationOperator)
-     , m_leftHandTerm(leftHandTerm)     , m_rightHandTerm(rightHandTerm)
+     , m_leftHandTerm(leftHandTerm)
+     , m_rightHandTerm(rightHandTerm)
 {}
 
-bool Equation::operator==(Equation const& second) const{
+bool Equation::operator==(Equation const& second) const
+{
    return m_equationOperator == second.m_equationOperator
            && m_leftHandTerm == second.m_leftHandTerm
            && m_rightHandTerm == second.m_rightHandTerm;
@@ -55,9 +57,11 @@ EquationOperator const& Equation::getEquationOperator() const
 {
     return m_equationOperator;
 }
+
 Term const& Equation::getLeftHandTerm() const
 {
-    return m_leftHandTerm;}
+    return m_leftHandTerm;
+}
 
 Term const& Equation::getRightHandTerm() const
 {

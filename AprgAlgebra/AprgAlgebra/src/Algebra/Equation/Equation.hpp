@@ -4,8 +4,10 @@
 #include <Algebra/Term/Term.hpp>
 
 #include <string>
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -19,7 +21,8 @@ public:
             std::string const& equationOperator,
             Term const& rightHandTerm);
 
-    bool operator==(Equation const& second) const;    bool operator!=(Equation const& second) const;
+    bool operator==(Equation const& second) const;
+    bool operator!=(Equation const& second) const;
     bool operator<(Equation const& second) const;
 
     EquationOperator const& getEquationOperator() const;
@@ -32,7 +35,9 @@ private:
     Term m_leftHandTerm;
     Term m_rightHandTerm;
 };
+
 std::ostream & operator<<(std::ostream & out, Equation const& equation);
 
 }
+
 }
