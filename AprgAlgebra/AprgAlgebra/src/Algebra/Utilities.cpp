@@ -41,27 +41,25 @@ bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const
     {
         result = true;
     }
-    if(term1.isVariable() && term2.isVariable())
+    else if(term1.isVariable() && term2.isVariable())
     {
         result = canBeMergedInAMonomialByAdditionOrSubtraction(term1.getVariableConstReference(), term2.getVariableConstReference());
     }
-    if(term1.isMonomial() && term2.isMonomial())
+    else if(term1.isMonomial() && term2.isMonomial())
     {
         result = canBeMergedInAMonomialByAdditionOrSubtraction(term1.getMonomialConstReference(), term2.getMonomialConstReference());
     }
-    if(term1.isMonomial() && term2.isVariable())
+    else if(term1.isMonomial() && term2.isVariable())
     {
         result = canBeMergedInAMonomialByAdditionOrSubtraction(term1.getMonomialConstReference(), term2.getVariableConstReference());
     }
-    if(term1.isVariable() && term2.isMonomial())
+    else if(term1.isVariable() && term2.isMonomial())
     {
         result = canBeMergedInAMonomialByAdditionOrSubtraction(term2.getMonomialConstReference(), term1.getVariableConstReference());
-    }
-    return result;
+    }    return result;
 }
 
-bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2)
-{
+bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2){
     Monomial::VariablesToExponentsMap const& variablesMap1(monomial1.getVariablesToExponentsMapConstReference());
     Monomial::VariablesToExponentsMap const& variablesMap2(monomial2.getVariablesToExponentsMapConstReference());
     bool result(false);
@@ -355,13 +353,78 @@ string createVariableNameForSubstitution(Polynomial const& polynomial)
     return variableName;
 }
 
-BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer)
+VariableNamesSet getVariableNames(Term const& term)
 {
-    return move(BaseTermSharedPointer(
-                    dynamic_cast<BaseTerm*>(
-                        new Term(*dynamic_cast<Term*>(sharedPointer.get())))));
+    VariableNamesSet result;
+    retrieveVariableNames(term, result);
+    return result;
 }
 
+void retrieveVariableNames(Term const& term, VariableNamesSet & variableNames)
+{
+    if(term.isVariable())
+    {
+        retrieveVariableNames(term.getVariableConstReference(), variableNames);
+    }
+    else if(term.isMonomial())
+    {
+        retrieveVariableNames(term.getMonomialConstReference(), variableNames);
+    }
+    else if(term.isPolynomial())
+    {
+        retrieveVariableNames(term.getPolynomialConstReference(), variableNames);
+    }
+    else if(term.isExpression())
+    {
+        retrieveVariableNames(term.getExpressionConstReference(), variableNames);
+    }
+    else if(term.isFunction())
+    {
+        retrieveVariableNames(term.getFunctionConstReference(), variableNames);
+    }
+}
+
+void retrieveVariableNames(Variable const& variable, VariableNamesSet & variableNames)
+{
+    variableNames.emplace(variable.getVariableName());
+}
+
+void retrieveVariableNames(Monomial const& monomial, VariableNamesSet & variableNames)
+{
+    for(Monomial::VariableExponentPair const& variableExponentsPair
+        : monomial.getVariablesToExponentsMapConstReference())
+    {
+        variableNames.emplace(variableExponentsPair.first);
+    }
+}
+
+void retrieveVariableNames(Polynomial const& polynomial, VariableNamesSet & variableNames)
+{
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    {
+        retrieveVariableNames(monomial, variableNames);
+    }
+}
+
+void retrieveVariableNames(Expression const& expression, VariableNamesSet & variableNames)
+{
+    for(TermsWithAssociation::TermWithDetails const& termWithDetails
+        : expression.getTermsWithAssociation().getTermsWithDetails())
+    {
+        retrieveVariableNames(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), variableNames);
+    }
+}
+
+void retrieveVariableNames(Function const& functionTerm, VariableNamesSet & variableNames)
+{
+    retrieveVariableNames(functionTerm.getInputExpressionConstReference(), variableNames);
+}
+
+BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer)
+{
+    return move(BaseTermSharedPointer(                    dynamic_cast<BaseTerm*>(
+                        new Term(*dynamic_cast<Term*>(sharedPointer.get())))));
+}
 BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term)
 {
     return move(BaseTermSharedPointer(

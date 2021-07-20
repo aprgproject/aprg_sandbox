@@ -62,6 +62,22 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnLessThanOrEqualOperator)
     EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
 }
 
+TEST(SimplificationOfEquationTest, SimplifyWorksToHaveCommonDenominator)
+{
+    SimplificationOfEquation simplification(Equation(Term(Monomial(1, {{"x", -1}})), "=", Term(Monomial(1, {{"y", -1}}))));
+
+    simplification.simplify();
+
+    Equation simplifiedEquation(simplification.getEquation());
+    Term expectedTerm(createExpressionIfPossible(
+    {Term(Polynomial({Monomial(-1, {{"x", 1}}), Monomial(1, {{"y", 1}})})),
+     Term("/"),
+     Term(Monomial(1, {{"x", 1}, {"y", 1}}))}));
+    EXPECT_EQ(expectedTerm, simplifiedEquation.getLeftHandTerm());
+    EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
+    EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
+}
+
 }
 
 }

@@ -5,22 +5,22 @@
 #include <Optional/AlbaOptional.hpp>
 #include <String/AlbaStringHelper.hpp>
 
+#include <set>
 #include <string>
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
 
+using VariableNamesSet = std::set<std::string>;
+
 bool isOperator(std::string const& stringAsParameter);
 bool isFunction(std::string const& stringAsParameter);
-bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const& term2);
-bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2);
+bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const& term2);bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2);
 bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial, Variable const& variable);
 bool canBeMergedInAMonomialByAdditionOrSubtraction(Variable const& variable1, Variable const& variable2);
-bool canBeConvertedToMonomial(Term const& term);
-bool canBeConvertedToPolynomial(Term const& term);
+bool canBeConvertedToMonomial(Term const& term);bool canBeConvertedToPolynomial(Term const& term);
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
 
@@ -44,14 +44,20 @@ std::string getString(
         TermsWithAssociation::TermWithDetails const& termWithDetails);
 std::string createVariableNameForSubstitution(Polynomial const& polynomial);
 
+VariableNamesSet getVariableNames(Term const& term);
+void retrieveVariableNames(Term const& term, VariableNamesSet & variableNames);
+void retrieveVariableNames(Variable const& variable, VariableNamesSet & variableNames);
+void retrieveVariableNames(Monomial const& monomial, VariableNamesSet & variableNames);
+void retrieveVariableNames(Polynomial const& polynomial, VariableNamesSet & variableNames);
+void retrieveVariableNames(Expression const& expression, VariableNamesSet & variableNames);
+void retrieveVariableNames(Function const& functionTerm, VariableNamesSet & variableNames);
+
 BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer);
 BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);
-BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
-Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
+BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
 Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
 Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);
-Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
-BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term);
+Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term);
 BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
 BaseTerm & getBaseTermReferenceFromTerm(Term & term);
 

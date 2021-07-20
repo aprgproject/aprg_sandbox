@@ -248,14 +248,126 @@ TEST(UtilitiesTest, CreateVariableNameForSubstitutionWorks)
     EXPECT_EQ("{(6 + -7[x^2][y^3][z^4])}", createVariableNameForSubstitution(polynomial));
 }
 
+TEST(UtilitiesTest, GetVariableNamesForTermWorks)
+{
+    VariableNamesSet variableNamesSet(getVariableNames(Term(Variable("VariableName"))));
+
+    ASSERT_FALSE(variableNamesSet.empty());
+    EXPECT_EQ("VariableName", *(variableNamesSet.cbegin()));
+}
+
+TEST(UtilitiesTest, RetrieveVariableNamesForTermWorks)
+{
+    VariableNamesSet variableNamesSet1;
+    VariableNamesSet variableNamesSet2;
+    VariableNamesSet variableNamesSet3;
+    VariableNamesSet variableNamesSet4;
+    VariableNamesSet variableNamesSet5;
+    Function functionTerm(
+                "functionName",
+                createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
+                [](Constant const&  constant) -> Constant
+    {
+        return constant;
+    });
+
+    retrieveVariableNames(Term(Variable("VariableName")), variableNamesSet1);
+    retrieveVariableNames(Term(Monomial(1, {{"x", 1}, {"y", 1}})), variableNamesSet2);
+    retrieveVariableNames(Term(Polynomial({Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})})), variableNamesSet3);
+    retrieveVariableNames(Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})), variableNamesSet4);
+    retrieveVariableNames(Term(functionTerm), variableNamesSet5);
+
+    ASSERT_FALSE(variableNamesSet1.empty());
+    EXPECT_EQ("VariableName", *(variableNamesSet1.cbegin()));
+    ASSERT_EQ(2u, variableNamesSet2.size());
+    VariableNamesSet::const_iterator it2 = variableNamesSet2.cbegin();
+    EXPECT_EQ("x", *(it2++));
+    EXPECT_EQ("y", *(it2++));
+    ASSERT_EQ(2u, variableNamesSet3.size());
+    VariableNamesSet::const_iterator it3 = variableNamesSet3.cbegin();
+    EXPECT_EQ("x", *(it3++));
+    EXPECT_EQ("y", *(it3++));
+    ASSERT_EQ(2u, variableNamesSet4.size());
+    VariableNamesSet::const_iterator it4 = variableNamesSet4.cbegin();
+    EXPECT_EQ("x", *(it4++));
+    EXPECT_EQ("y", *(it4++));
+    ASSERT_EQ(2u, variableNamesSet5.size());
+    VariableNamesSet::const_iterator it5 = variableNamesSet5.cbegin();
+    EXPECT_EQ("x", *(it5++));
+    EXPECT_EQ("y", *(it5++));
+}
+
+TEST(UtilitiesTest, RetrieveVariableNamesForVariableWorks)
+{
+    VariableNamesSet variableNamesSet;
+
+    retrieveVariableNames(Variable("VariableName"), variableNamesSet);
+
+    ASSERT_FALSE(variableNamesSet.empty());
+    EXPECT_EQ("VariableName", *(variableNamesSet.cbegin()));
+}
+
+TEST(UtilitiesTest, RetrieveVariableNamesForMonomialWorks)
+{
+    VariableNamesSet variableNamesSet;
+
+    retrieveVariableNames(Monomial(1, {{"x", 1}, {"y", 1}}), variableNamesSet);
+
+    ASSERT_EQ(2u, variableNamesSet.size());
+    VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
+    EXPECT_EQ("x", *(it++));
+    EXPECT_EQ("y", *(it++));
+}
+
+TEST(UtilitiesTest, RetrieveVariableNamesForPolynomialWorks)
+{
+    VariableNamesSet variableNamesSet;
+
+    retrieveVariableNames(Polynomial({Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})}), variableNamesSet);
+
+    ASSERT_EQ(2u, variableNamesSet.size());
+    VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
+    EXPECT_EQ("x", *(it++));
+    EXPECT_EQ("y", *(it++));
+}
+
+TEST(UtilitiesTest, RetrieveVariableNamesForExpressionWorks)
+{
+    VariableNamesSet variableNamesSet;
+
+    retrieveVariableNames(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}), variableNamesSet);
+
+    ASSERT_EQ(2u, variableNamesSet.size());
+    VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
+    EXPECT_EQ("x", *(it++));
+    EXPECT_EQ("y", *(it++));
+}
+
+TEST(UtilitiesTest, RetrieveVariableNamesForFunctionWorks)
+{
+    VariableNamesSet variableNamesSet;
+    Function functionTerm(
+                "functionName",
+                createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
+                [](Constant const&  constant) -> Constant
+    {
+        return constant;
+    });
+
+    retrieveVariableNames(functionTerm, variableNamesSet);
+
+    ASSERT_EQ(2u, variableNamesSet.size());
+    VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
+    EXPECT_EQ("x", *(it++));
+    EXPECT_EQ("y", *(it++));
+}
+
 TEST(UtilitiesTest, CreateNewTermAndReturnSharedPointerWorks)
 {
     BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9652)));
-
     BaseTermSharedPointer sharedPointerToVerify(createNewTermAndReturnSharedPointer(sharedPointer));
 
-    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));
-    EXPECT_EQ(Term(9652), termToVerify);
+    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));    EXPECT_EQ(Term(9652), termToVerify);
     EXPECT_EQ(1, sharedPointerToVerify.use_count());
 }
 

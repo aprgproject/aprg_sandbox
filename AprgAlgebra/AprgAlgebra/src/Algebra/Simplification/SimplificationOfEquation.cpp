@@ -1,12 +1,11 @@
 #include "SimplificationOfEquation.hpp"
 
+#include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Utilities.hpp>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -44,16 +43,16 @@ Expression SimplificationOfEquation::getNewCombinedExpression(
     {
         combinedExpression = createExpressionIfPossible(Terms{equation.getRightHandTerm(), Term("-"), equation.getLeftHandTerm()});
     }
-    combinedExpression.simplify();
-    return combinedExpression;
+    SimplificationOfExpression simplificationOfExpression(combinedExpression);
+    simplificationOfExpression.setAsShouldSimplifyToACommonDenominator(true);
+    simplificationOfExpression.simplify();
+    return simplificationOfExpression.getExpression();
 }
 
-string SimplificationOfEquation::getNewEquationOperatorString(
-        EquationOperator const& equationOperator) const
+string SimplificationOfEquation::getNewEquationOperatorString(        EquationOperator const& equationOperator) const
 {
     string result(equationOperator.getOperatorString());
-    if(equationOperator.isLessThan())
-    {
+    if(equationOperator.isLessThan())    {
         result=">";
     }
     else if(equationOperator.isLessThanOrEqual())
