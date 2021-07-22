@@ -33,15 +33,13 @@ unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned
 template <typename NumberType>
 bool isAlmostEqual(NumberType const value1, NumberType const value2)
 {
-    return getAbsoluteValue(value1-value2) < DOUBLE_DIFFERENCE_TOLERANCE;
+    return value1 == value2 || getAbsoluteValue(value1-value2) < DOUBLE_DIFFERENCE_TOLERANCE;
 }
 
-//Commented out: This implementation is not practical when value is equal to zero
-/*
+//Commented out: This implementation is not practical when value is equal to zero/*
 template <typename NumberType>
 bool isAlmostEqual(NumberType const value1, NumberType const value2)
-{
-    constexpr double absoluteScaledDifferenceTolerance(1E-12);
+{    constexpr double absoluteScaledDifferenceTolerance(1E-12);
     double absoluteMaxValue = max(getAbsoluteValue(value1), getAbsoluteValue(value2));
     double difference = getAbsoluteValue(value1-value2);
     return difference <= absoluteMaxValue*absoluteScaledDifferenceTolerance;
@@ -214,24 +212,27 @@ template bool isPerfectCube<AlbaNumber>(AlbaNumber const& value);
 
 bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance)
 {
-    return getAbsoluteValue(value1-value2) <= differenceTolerance;
+    return value1 == value2 || getAbsoluteValue(value1-value2) <= differenceTolerance;
 }
 
 bool isAlmostAnInteger(double const realValue)
 {
-    return isAlmostEqual<double>(realValue, round(realValue));
+    return isAlmostEqual<double>(
+                realValue,
+                static_cast<double>(static_cast<int>(round(realValue))));
 }
 
 bool isAlmostAnInteger(double const realValue, double const differenceTolerance)
 {
-    return isAlmostEqual(realValue, round(realValue), differenceTolerance);
+    return isAlmostEqual(
+                realValue,
+                static_cast<double>(static_cast<int>(round(realValue))),
+                differenceTolerance);
 }
 
-bool isValueBeyondIntegerLimits(double const realValue)
-{
+bool isValueBeyondIntegerLimits(double const realValue){
     return realValue<INT_MIN || realValue>INT_MAX;
 }
-
 bool isValueBeyondUnsignedIntegerLimits(double const realValue)
 {
     return realValue<0 || realValue>UINT_MAX;

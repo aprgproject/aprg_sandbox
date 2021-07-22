@@ -12,14 +12,17 @@ class AlbaNumber
 {
     friend std::ostream & operator<<(std::ostream & out, AlbaNumber const& number);
 public:
+    enum class Value
+    {
+        PositiveInfinity,
+        NegativeInfinity
+    };
     enum class Type
     {
-        Integer,
-        Fraction,
+        Integer,        Fraction,
         Double
     };
-    struct FractionData
-    {
+    struct FractionData    {
         int numerator;
         unsigned int denominator;
     };
@@ -34,14 +37,13 @@ public:
     AlbaNumber(unsigned int const unsignedValue);
     AlbaNumber(int const numerator, int const denominator);
     AlbaNumber(double const doubleValue);
+    AlbaNumber(Value const value);
 
     bool operator==(AlbaNumber const& second) const;
-    bool operator!=(AlbaNumber const& second) const;
-    bool operator<=(AlbaNumber const& second) const;
+    bool operator!=(AlbaNumber const& second) const;    bool operator<=(AlbaNumber const& second) const;
     bool operator>=(AlbaNumber const& second) const;
     bool operator<(AlbaNumber const& second) const;
-    bool operator>(AlbaNumber const& second) const;
-    AlbaNumber operator+() const;
+    bool operator>(AlbaNumber const& second) const;    AlbaNumber operator+() const;
     AlbaNumber operator-() const;
     AlbaNumber operator+(AlbaNumber const& second) const;
     AlbaNumber operator-(AlbaNumber const& second) const;
@@ -68,14 +70,14 @@ public:
     bool isFractionType() const;
     bool isDoubleType() const;
     bool isIntegerOrFractionType() const;
+    bool isPositiveInfinity() const;
+    bool isNegativeInfinity() const;
 
     Type getType() const;
-    int getInteger() const;
-    FractionData getFractionData() const;
+    int getInteger() const;    FractionData getFractionData() const;
     double getDouble() const;
 
     std::string getDisplayableString() const;
-
     void convertToInteger();
     void convertToFraction();
 

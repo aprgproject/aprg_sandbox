@@ -57,22 +57,33 @@ AlbaNumber::AlbaNumber(double const doubleValue)
     convertToIntegerIfNeeded();
 }
 
+AlbaNumber::AlbaNumber(Value const value)
+    : m_type(Type::Double)
+{
+    double& doubleDataReference(m_data.doubleData);
+    switch(value)
+    {
+    case Value::PositiveInfinity:
+        doubleDataReference = INFINITY;
+        break;
+    case Value::NegativeInfinity:
+        doubleDataReference = -INFINITY;
+        break;
+    }
+}
+
 bool AlbaNumber::operator==(AlbaNumber const& second) const
 {
-    return isAlmostEqual(getDouble(), second.getDouble());
-}
+    return isAlmostEqual(getDouble(), second.getDouble());}
 
 bool AlbaNumber::operator!=(AlbaNumber const& second) const
 {
-    AlbaNumber const& first(*this);
-    return !(first==second);
+    return !operator==(second);
 }
 
-bool AlbaNumber::operator<=(AlbaNumber const& second) const
-{
+bool AlbaNumber::operator<=(AlbaNumber const& second) const{
     return getDouble() <= second.getDouble();
 }
-
 bool AlbaNumber::operator>=(AlbaNumber const& second) const
 {
     return getDouble() >= second.getDouble();
@@ -488,15 +499,23 @@ bool AlbaNumber::isIntegerOrFractionType() const
     return isIntegerType() || isFractionType();
 }
 
+bool AlbaNumber::isPositiveInfinity() const
+{
+    return getDouble() == INFINITY;
+}
+
+bool AlbaNumber::isNegativeInfinity() const
+{
+    return getDouble() == -INFINITY;
+}
+
 AlbaNumber::Type AlbaNumber::getType() const
 {
-    return m_type;
-}
+    return m_type;}
 
 int AlbaNumber::getInteger() const
 {
-    int result(0);
-    if(m_type==Type::Integer)
+    int result(0);    if(m_type==Type::Integer)
     {
         int const& dataReference(m_data.intData);
         result = dataReference;
