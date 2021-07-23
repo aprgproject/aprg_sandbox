@@ -12,7 +12,6 @@ namespace algebra
 
 class Variable : public BaseTermData
 {
-    friend std::ostream & operator<<(std::ostream & out, Variable const& variable);
 public:
     Variable();
     Variable(std::string const& variableName);

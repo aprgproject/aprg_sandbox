@@ -23,7 +23,6 @@ namespace algebra
 
 class Term : public BaseTerm
 {
-    friend std::ostream & operator<<(std::ostream & out, Term const& term);
 public:
     Term();
     Term(Term const& term);

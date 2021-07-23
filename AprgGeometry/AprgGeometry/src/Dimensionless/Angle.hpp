@@ -17,7 +17,6 @@ enum class AngleUnitType
 
 class Angle
 {
-    friend std::ostream & operator<<(std::ostream & out, Angle const& angle);
 public:
     Angle();
     Angle(AngleUnitType const angleInputType, double const angleValue);

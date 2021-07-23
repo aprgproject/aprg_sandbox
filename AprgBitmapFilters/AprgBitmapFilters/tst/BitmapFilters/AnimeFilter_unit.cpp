@@ -32,7 +32,7 @@ TEST(AnimeFilterTest, DISABLED_AnimizeMultipleFilesTest)
     }
 }
 
-TEST(AnimeFilterTest, AnimizeSingleFileTest)
+TEST(AnimeFilterTest, DISABLED_AnimizeSingleFileTest)
 {
     AlbaLocalPathHandler bitmapDirectory(APRG_BITMAP_FILTERS_BITMAP_DIRECTORY);
     AlbaLocalPathHandler inputFilePathHandler(bitmapDirectory.getDirectory()+R"(NonAnimeBitmaps\GilmoreGirls.bmp)");

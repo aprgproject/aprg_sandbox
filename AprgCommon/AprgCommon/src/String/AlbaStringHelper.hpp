@@ -19,9 +19,11 @@ using strings=std::vector<std::string>;
 
 std::wstring convertStringToWideString(std::string const& stringInput);
 std::string convertWideStringToString(std::wstring const& wstringInput);
+
 unsigned int getLevenshteinDistance(std::string const& mainString, std::string const& string2);
 unsigned int generateUniqueId(std::string const& mainString);
-std::string constructFileLocator(std::string file, int lineNumber);std::string getRandomAlphaNumericString(unsigned int const length);
+std::string constructFileLocator(std::string file, int lineNumber);
+std::string getRandomAlphaNumericString(unsigned int const length);
 
 bool isStringFoundInsideTheOtherStringCaseSensitive(std::string const& mainString, std::string const& string2);
 bool isStringFoundInsideTheOtherStringNotCaseSensitive(std::string const& mainString, std::string const& string2);

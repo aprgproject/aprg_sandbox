@@ -21,10 +21,12 @@ TEST(AlbaNumberTest, ConstructionWorksAsExpected)
     AlbaNumber number8(AlbaNumber::Value::NegativeInfinity);
 
     EXPECT_EQ(AlbaNumber::Type::Integer, number1.getType());
-    EXPECT_EQ(0, number1.getInteger());    EXPECT_EQ(AlbaNumber::Type::Integer, number2.getType());
+    EXPECT_EQ(0, number1.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Integer, number2.getType());
     EXPECT_EQ(-81237, number2.getInteger());
     EXPECT_EQ(AlbaNumber::Type::Integer, number3.getType());
-    EXPECT_EQ(34095093, number3.getInteger());    EXPECT_EQ(AlbaNumber::Type::Fraction, number4.getType());
+    EXPECT_EQ(34095093, number3.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Fraction, number4.getType());
     AlbaNumber::FractionData fractionData(number4.getFractionData());
     EXPECT_EQ(43704, fractionData.numerator);
     EXPECT_EQ(4901u, fractionData.denominator);
@@ -38,10 +40,12 @@ TEST(AlbaNumberTest, ConstructionWorksAsExpected)
     EXPECT_DOUBLE_EQ(-INFINITY, number8.getDouble());
 }
 
-TEST(AlbaNumberTest, IsIntegerTypeWorksAsExpected){
+TEST(AlbaNumberTest, IsIntegerTypeWorksAsExpected)
+{
     AlbaNumber number1;
     AlbaNumber number2(-81237);
-    AlbaNumber number3(34095093u);    AlbaNumber number4(-87408, -9802);
+    AlbaNumber number3(34095093u);
+    AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(-100, 10);
     AlbaNumber number6(4564.38794);
 
@@ -156,12 +160,14 @@ TEST(AlbaNumberTest, IsNegativeInfinityWorksAsExpected)
 
 TEST(AlbaNumberTest, GetIntegerWorksAsExpected)
 {
-    AlbaNumber number1;    AlbaNumber number2(-81237);
+    AlbaNumber number1;
+    AlbaNumber number2(-81237);
     AlbaNumber number3(34095093u);
     AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(4564.38794);
 
-    EXPECT_EQ(0, number1.getInteger());    EXPECT_EQ(-81237, number2.getInteger());
+    EXPECT_EQ(0, number1.getInteger());
+    EXPECT_EQ(-81237, number2.getInteger());
     EXPECT_EQ(34095093, number3.getInteger());
     EXPECT_EQ(9, number4.getInteger());
     EXPECT_EQ(4564, number5.getInteger());
@@ -218,7 +224,8 @@ TEST(AlbaNumberTest, EqualityWorksAsExpected)
     AlbaNumber number7(AlbaNumber::Value::NegativeInfinity);
 
     EXPECT_TRUE(number1==number1);
-    EXPECT_TRUE(number2==number2);    EXPECT_TRUE(number3==number3);
+    EXPECT_TRUE(number2==number2);
+    EXPECT_TRUE(number3==number3);
     EXPECT_TRUE(number4==number4);
     EXPECT_TRUE(number5==number5);
     EXPECT_FALSE(number1==number2);
@@ -232,10 +239,12 @@ TEST(AlbaNumberTest, EqualityWorksAsExpected)
     EXPECT_FALSE(number6==number7);
 }
 
-TEST(AlbaNumberTest, InequalityWorksAsExpected){
+TEST(AlbaNumberTest, InequalityWorksAsExpected)
+{
     AlbaNumber number1;
     AlbaNumber number2(-81237);
-    AlbaNumber number3(-81237);    AlbaNumber number4(static_cast<double>(1)/3);
+    AlbaNumber number3(-81237);
+    AlbaNumber number4(static_cast<double>(1)/3);
     AlbaNumber number5(1, 3);
 
     EXPECT_FALSE(number1!=number1);
@@ -258,7 +267,8 @@ TEST(AlbaNumberTest, LessThanWorksAsExpected)
     AlbaNumber number5(AlbaNumber::Value::NegativeInfinity);
 
     EXPECT_FALSE(number1<number1);
-    EXPECT_FALSE(number2<number2);    EXPECT_FALSE(number3<number3);
+    EXPECT_FALSE(number2<number2);
+    EXPECT_FALSE(number3<number3);
     EXPECT_TRUE(number1<number2);
     EXPECT_TRUE(number2<number3);
     EXPECT_FALSE(number2<number1);
@@ -270,7 +280,8 @@ TEST(AlbaNumberTest, LessThanWorksAsExpected)
     EXPECT_FALSE(number4<number5);
 }
 
-TEST(AlbaNumberTest, LessThanOrEqualWorksAsExpected){
+TEST(AlbaNumberTest, LessThanOrEqualWorksAsExpected)
+{
     AlbaNumber number1;
     AlbaNumber number2(1, 3);
     AlbaNumber number3(0.5);
@@ -278,7 +289,8 @@ TEST(AlbaNumberTest, LessThanOrEqualWorksAsExpected){
     AlbaNumber number5(AlbaNumber::Value::NegativeInfinity);
 
     EXPECT_TRUE(number1<=number1);
-    EXPECT_TRUE(number2<=number2);    EXPECT_TRUE(number3<=number3);
+    EXPECT_TRUE(number2<=number2);
+    EXPECT_TRUE(number3<=number3);
     EXPECT_TRUE(number1<=number2);
     EXPECT_TRUE(number2<=number3);
     EXPECT_FALSE(number2<=number1);
@@ -290,7 +302,8 @@ TEST(AlbaNumberTest, LessThanOrEqualWorksAsExpected){
     EXPECT_FALSE(number4<=number5);
 }
 
-TEST(AlbaNumberTest, GreaterThanWorksAsExpected){
+TEST(AlbaNumberTest, GreaterThanWorksAsExpected)
+{
     AlbaNumber number1;
     AlbaNumber number2(1, 3);
     AlbaNumber number3(0.5);
@@ -298,7 +311,8 @@ TEST(AlbaNumberTest, GreaterThanWorksAsExpected){
     AlbaNumber number5(AlbaNumber::Value::NegativeInfinity);
 
     EXPECT_FALSE(number1>number1);
-    EXPECT_FALSE(number2>number2);    EXPECT_FALSE(number3>number3);
+    EXPECT_FALSE(number2>number2);
+    EXPECT_FALSE(number3>number3);
     EXPECT_FALSE(number1>number2);
     EXPECT_FALSE(number2>number3);
     EXPECT_TRUE(number2>number1);
@@ -310,7 +324,8 @@ TEST(AlbaNumberTest, GreaterThanWorksAsExpected){
     EXPECT_TRUE(number4>number5);
 }
 
-TEST(AlbaNumberTest, GreaterThanOrEqualWorksAsExpected){
+TEST(AlbaNumberTest, GreaterThanOrEqualWorksAsExpected)
+{
     AlbaNumber number1;
     AlbaNumber number2(1, 3);
     AlbaNumber number3(0.5);
@@ -318,7 +333,8 @@ TEST(AlbaNumberTest, GreaterThanOrEqualWorksAsExpected){
     AlbaNumber number5(AlbaNumber::Value::NegativeInfinity);
 
     EXPECT_TRUE(number1>=number1);
-    EXPECT_TRUE(number2>=number2);    EXPECT_TRUE(number3>=number3);
+    EXPECT_TRUE(number2>=number2);
+    EXPECT_TRUE(number3>=number3);
     EXPECT_FALSE(number1>=number2);
     EXPECT_FALSE(number2>=number3);
     EXPECT_TRUE(number2>=number1);
@@ -330,10 +346,12 @@ TEST(AlbaNumberTest, GreaterThanOrEqualWorksAsExpected){
     EXPECT_TRUE(number4>=number5);
 }
 
-TEST(AlbaNumberTest, UnaryPlusWorksOnDifferentTypes){
+TEST(AlbaNumberTest, UnaryPlusWorksOnDifferentTypes)
+{
     AlbaNumber number1 = +AlbaNumber();
     AlbaNumber number2 = +AlbaNumber(-81237);
-    AlbaNumber number3 = +AlbaNumber(34095093u);    AlbaNumber number4 = +AlbaNumber(-87408, -9802);
+    AlbaNumber number3 = +AlbaNumber(34095093u);
+    AlbaNumber number4 = +AlbaNumber(-87408, -9802);
     AlbaNumber number5 = +AlbaNumber(4564.38794);
 
     EXPECT_EQ(AlbaNumber::Type::Integer, number1.getType());

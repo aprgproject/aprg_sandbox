@@ -13,8 +13,6 @@ namespace alba
 template <typename CoordinateType>
 class AlbaXY
 {
-    template <typename CoordinateType2>
-    friend std::ostream & operator<<(std::ostream & out, AlbaXY<CoordinateType2> const& xy);
 public:
     AlbaXY()
         : x(0)

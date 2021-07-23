@@ -15,7 +15,6 @@ namespace algebra
 
 class Operator : public BaseTermData
 {
-    friend std::ostream & operator<<(std::ostream & out, Operator const& operatorTerm);
 public:
     Operator();
     Operator(std::string const& operatingString);

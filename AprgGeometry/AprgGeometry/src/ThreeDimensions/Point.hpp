@@ -14,7 +14,6 @@ using PointParent = AlbaXYZ<double>;
 
 class Point : public PointParent
 {
-    friend std::ostream & operator<<(std::ostream & out, Point const& point);
 public:
     Point();
     Point(PointParent const& pointParent);

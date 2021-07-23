@@ -12,7 +12,6 @@ using TrianglePolygonParent = Polygon<3>;
 
 class Triangle : public TrianglePolygonParent
 {
-    friend std::ostream & operator<<(std::ostream & out, Triangle const& triangle);
 public:
     Triangle();
     Triangle(Point const& first, Point const& second, Point const& third);

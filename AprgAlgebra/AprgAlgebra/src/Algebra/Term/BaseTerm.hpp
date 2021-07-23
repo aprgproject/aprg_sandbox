@@ -10,7 +10,6 @@ namespace algebra
 
 class BaseTerm
 {
-    friend std::ostream & operator<<(std::ostream & out, BaseTerm const& term);
 public:
     BaseTerm();
     virtual ~BaseTerm();

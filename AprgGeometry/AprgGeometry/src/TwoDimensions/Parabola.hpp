@@ -12,7 +12,6 @@ using ParabolaPolynomialParent = Polynomial<3>;
 
 class Parabola : public ParabolaPolynomialParent
 {
-    friend std::ostream & operator<<(std::ostream & out, Parabola const& parabola);
 public:
     //vertex focus directrix?
     Parabola();

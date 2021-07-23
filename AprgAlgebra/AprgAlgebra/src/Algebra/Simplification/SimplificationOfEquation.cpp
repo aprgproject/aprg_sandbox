@@ -4,8 +4,10 @@
 #include <Algebra/Utilities.hpp>
 
 using namespace std;
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -49,10 +51,12 @@ Expression SimplificationOfEquation::getNewCombinedExpression(
     return simplificationOfExpression.getExpression();
 }
 
-string SimplificationOfEquation::getNewEquationOperatorString(        EquationOperator const& equationOperator) const
+string SimplificationOfEquation::getNewEquationOperatorString(
+        EquationOperator const& equationOperator) const
 {
     string result(equationOperator.getOperatorString());
-    if(equationOperator.isLessThan())    {
+    if(equationOperator.isLessThan())
+    {
         result=">";
     }
     else if(equationOperator.isLessThanOrEqual())

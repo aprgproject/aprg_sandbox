@@ -96,7 +96,7 @@ AlbaOptional<Circle> BitmapFilters::getPossiblePenCircle(
             if(calculatedPenPercentage < acceptablePenPercentage)
             {
                 Circle penCircle(convertBitmapXYToPoint(centerPoint), previousRadius);
-                result.setReference(penCircle);
+                result.setConstReference(penCircle);
                 break;
             }
             previousRadius = currentRadius;
@@ -105,7 +105,7 @@ AlbaOptional<Circle> BitmapFilters::getPossiblePenCircle(
     if(!result.hasContent())
     {
         Circle penCircle(convertBitmapXYToPoint(centerPoint), currentRadius);
-        result.setReference(penCircle);
+        result.setConstReference(penCircle);
     }
     return result;
 }

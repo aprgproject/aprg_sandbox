@@ -15,7 +15,6 @@ namespace algebra
 
 class Function : public BaseTermData // is there a need of multiple parameter functions?
 {
-    friend std::ostream & operator<<(std::ostream & out, Function const& term);
 public:
     using FunctionToPerform=std::function<Constant(Constant const&)>;
 

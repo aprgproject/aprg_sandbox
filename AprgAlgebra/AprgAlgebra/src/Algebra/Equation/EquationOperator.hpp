@@ -10,7 +10,6 @@ namespace algebra
 
 class EquationOperator
 {
-    friend std::ostream & operator<<(std::ostream & out, EquationOperator const& equationOperator);
 public:
     EquationOperator();
     EquationOperator(std::string const& operatingString);

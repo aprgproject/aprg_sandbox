@@ -27,9 +27,11 @@ TEST(AlbaMathHelperTest, DoubleTypesCanBeConsideredEqual)
     EXPECT_FALSE(isAlmostEqual(INFINITY, -INFINITY));
 }
 
-TEST(AlbaMathHelperTest, IntegerTypesCanBeConsideredEqual){
+TEST(AlbaMathHelperTest, IntegerTypesCanBeConsideredEqual)
+{
     EXPECT_TRUE(isAlmostEqual(static_cast<int>(100), static_cast<int>(100)));
 }
+
 TEST(AlbaMathHelperTest, IsAlmostEqualWorksWithDifferenceTolerance)
 {
     EXPECT_TRUE(isAlmostEqual(2.54, 2.55, 1E-1));
@@ -40,10 +42,12 @@ TEST(AlbaMathHelperTest, IsAlmostEqualWorksWithDifferenceTolerance)
     EXPECT_FALSE(isAlmostEqual(INFINITY, -INFINITY, 1E-3));
 }
 
-TEST(AlbaMathHelperTest, DistanceOfTwoNumbersCanBeComputed){
+TEST(AlbaMathHelperTest, DistanceOfTwoNumbersCanBeComputed)
+{
     EXPECT_EQ(90, getDistance(-100,-10));
     EXPECT_EQ(20, getDistance(10,-10));
-    EXPECT_EQ(20, getDistance(-10,10));    EXPECT_EQ(90, getDistance(10,100));
+    EXPECT_EQ(20, getDistance(-10,10));
+    EXPECT_EQ(90, getDistance(10,100));
 }
 
 TEST(AlbaMathHelperTest, AverageOfTwoNumbersCanBeComputed)

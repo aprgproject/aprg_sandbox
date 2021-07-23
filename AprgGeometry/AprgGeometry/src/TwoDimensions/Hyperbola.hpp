@@ -12,7 +12,6 @@ namespace TwoDimensions
 
 class Hyperbola
 {
-    friend std::ostream & operator<<(std::ostream & out, Hyperbola const& hyperbola);
 public:
     using TraverseOperation = std::function<void(Point const&)>;
     Hyperbola();

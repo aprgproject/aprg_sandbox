@@ -56,10 +56,12 @@ bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const
     else if(term1.isVariable() && term2.isMonomial())
     {
         result = canBeMergedInAMonomialByAdditionOrSubtraction(term2.getMonomialConstReference(), term1.getVariableConstReference());
-    }    return result;
+    }
+    return result;
 }
 
-bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2){
+bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2)
+{
     Monomial::VariablesToExponentsMap const& variablesMap1(monomial1.getVariablesToExponentsMapConstReference());
     Monomial::VariablesToExponentsMap const& variablesMap2(monomial2.getVariablesToExponentsMapConstReference());
     bool result(false);
@@ -422,9 +424,11 @@ void retrieveVariableNames(Function const& functionTerm, VariableNamesSet & vari
 
 BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer)
 {
-    return move(BaseTermSharedPointer(                    dynamic_cast<BaseTerm*>(
+    return move(BaseTermSharedPointer(
+                    dynamic_cast<BaseTerm*>(
                         new Term(*dynamic_cast<Term*>(sharedPointer.get())))));
 }
+
 BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term)
 {
     return move(BaseTermSharedPointer(

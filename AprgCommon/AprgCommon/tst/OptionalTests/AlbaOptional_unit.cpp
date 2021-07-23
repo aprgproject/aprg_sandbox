@@ -42,6 +42,31 @@ TEST(OptionalTest, OptionalSetValueTest)
     EXPECT_EQ(222222, integerOptional1.get());
 }
 
+TEST(OptionalTest, OptionalSetConstReferenceTest)
+{
+    // Given
+    AlbaOptional<int> integerOptional1;
+    EXPECT_FALSE(static_cast<bool>(integerOptional1));
+
+    // When
+    int newValue1(2222);
+    integerOptional1.setConstReference(newValue1);
+
+    // Then
+    EXPECT_TRUE(static_cast<bool>(integerOptional1));
+    EXPECT_EQ(2222, static_cast<int>(integerOptional1));
+    EXPECT_EQ(2222, integerOptional1.get());
+
+    // When
+    int newValue2(222222);
+    integerOptional1.setConstReference(newValue2);
+
+    // Then
+    EXPECT_TRUE(static_cast<bool>(integerOptional1));
+    EXPECT_EQ(222222, static_cast<int>(integerOptional1));
+    EXPECT_EQ(222222, integerOptional1.get());
+}
+
 TEST(OptionalTest, OptionalGetReferenceTest)
 {
     // Given

@@ -8,7 +8,8 @@
 #include <set>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -17,10 +18,12 @@ using VariableNamesSet = std::set<std::string>;
 
 bool isOperator(std::string const& stringAsParameter);
 bool isFunction(std::string const& stringAsParameter);
-bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const& term2);bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2);
+bool canBeMergedInAMonomialByAdditionOrSubtraction(Term const& term1, Term const& term2);
+bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial1, Monomial const& monomial2);
 bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial, Variable const& variable);
 bool canBeMergedInAMonomialByAdditionOrSubtraction(Variable const& variable1, Variable const& variable2);
-bool canBeConvertedToMonomial(Term const& term);bool canBeConvertedToPolynomial(Term const& term);
+bool canBeConvertedToMonomial(Term const& term);
+bool canBeConvertedToPolynomial(Term const& term);
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
 
@@ -54,10 +57,12 @@ void retrieveVariableNames(Function const& functionTerm, VariableNamesSet & vari
 
 BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer);
 BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term);
-BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
+BaseTermSharedPointer getSharedPointerFromTermReference(Term & term);
+Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm);
 Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
 Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm);
-Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term);
+Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer);
+BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term);
 BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer);
 BaseTerm & getBaseTermReferenceFromTerm(Term & term);
 

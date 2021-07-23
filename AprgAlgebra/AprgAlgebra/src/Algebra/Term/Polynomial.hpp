@@ -14,7 +14,6 @@ namespace algebra
 
 class Polynomial : public BaseTermData
 {
-    friend std::ostream & operator<<(std::ostream & out, Polynomial const& polynomial);
 public:
     Polynomial();
     Polynomial(Monomials const& monomials);

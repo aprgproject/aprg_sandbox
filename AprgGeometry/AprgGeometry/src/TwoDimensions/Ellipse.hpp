@@ -12,7 +12,6 @@ namespace TwoDimensions
 
 class Ellipse
 {
-    friend std::ostream & operator<<(std::ostream & out, Ellipse const& ellipse);
 public:
     using TraverseOperation = std::function<void(Point const&)>;
     Ellipse();

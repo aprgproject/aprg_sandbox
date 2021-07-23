@@ -365,9 +365,11 @@ TEST(UtilitiesTest, RetrieveVariableNamesForFunctionWorks)
 TEST(UtilitiesTest, CreateNewTermAndReturnSharedPointerWorks)
 {
     BaseTermSharedPointer sharedPointer(dynamic_cast<BaseTerm*>(new Term(9652)));
+
     BaseTermSharedPointer sharedPointerToVerify(createNewTermAndReturnSharedPointer(sharedPointer));
 
-    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));    EXPECT_EQ(Term(9652), termToVerify);
+    Term const& termToVerify(getTermConstReferenceFromSharedPointer(sharedPointerToVerify));
+    EXPECT_EQ(Term(9652), termToVerify);
     EXPECT_EQ(1, sharedPointerToVerify.use_count());
 }
 

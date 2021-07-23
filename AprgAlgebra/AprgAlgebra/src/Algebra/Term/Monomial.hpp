@@ -16,7 +16,6 @@ namespace algebra
 
 class Monomial : public BaseTermData
 {
-    friend std::ostream & operator<<(std::ostream & out, Monomial const& monomial);
 public:
     using VariablesToExponentsMap = std::map<std::string, AlbaNumber>;
     using VariablesToExponentsMapIterator = VariablesToExponentsMap::iterator;

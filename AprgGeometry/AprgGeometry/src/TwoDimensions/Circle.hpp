@@ -13,7 +13,6 @@ namespace TwoDimensions
 
 class Circle
 {
-    friend std::ostream & operator<<(std::ostream & out, Circle const& circle);
 public:
     using TraverseOperation = std::function<void(Point const&)>;
     Circle();

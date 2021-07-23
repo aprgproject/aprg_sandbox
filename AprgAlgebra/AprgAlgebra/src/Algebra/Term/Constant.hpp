@@ -13,7 +13,6 @@ namespace algebra
 
 class Constant : public BaseTermData
 {
-    friend std::ostream & operator<<(std::ostream & out, Constant const& constant);
 public:
     Constant();
     Constant(AlbaNumber const& constantValue);

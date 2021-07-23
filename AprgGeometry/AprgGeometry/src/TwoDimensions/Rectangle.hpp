@@ -10,7 +10,6 @@ namespace TwoDimensions
 
 class Rectangle : public Quadrilateral
 {
-    friend std::ostream & operator<<(std::ostream & out, Rectangle const& rectangle);
 public:
     Rectangle();
     Rectangle(Point const& topLeft, Point const& bottomRight);

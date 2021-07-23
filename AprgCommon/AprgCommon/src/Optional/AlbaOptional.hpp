@@ -94,7 +94,7 @@ public:
         m_contentPointer.reset(new ContentType(content));
     }
 
-    void setReference(ContentType& content)
+    void setConstReference(ContentType const& content)
     {
         m_hasContent = true;
         m_contentPointer.reset(new ContentType(content));

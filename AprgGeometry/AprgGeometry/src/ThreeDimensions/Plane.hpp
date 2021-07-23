@@ -13,8 +13,6 @@ namespace ThreeDimensions
 
 class Plane
 {
-    friend std::ostream & operator<<(std::ostream & out, Plane const& plane);
-
 public:
     Plane();
     Plane(Point const& first, Point const& second, Point const& third);

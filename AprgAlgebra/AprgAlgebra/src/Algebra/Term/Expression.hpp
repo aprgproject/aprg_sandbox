@@ -17,7 +17,6 @@ namespace algebra
 
 class Expression : public BaseTermData
 {
-    friend std::ostream & operator<<(std::ostream & out, Expression const& expression);
 public:
     using ConditionFunctionForTermsWithDetails = std::function<bool(TermsWithAssociation::TermWithDetails const&)>;
 

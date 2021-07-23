@@ -14,7 +14,6 @@ using QuadrilateralPolygonParent = Polygon<4>;
 
 class Quadrilateral : public QuadrilateralPolygonParent
 {
-    friend std::ostream & operator<<(std::ostream & out, Quadrilateral const& quadrilateral);
 public:
     struct StartEndOfXAndY
     {

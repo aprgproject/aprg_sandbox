@@ -33,32 +33,30 @@ unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned
 template <typename NumberType>
 bool isAlmostEqual(NumberType const value1, NumberType const value2)
 {
-    return value1 == value2 || getAbsoluteValue(value1-value2) < DOUBLE_DIFFERENCE_TOLERANCE;
+    return value1==value2;
 }
+template bool isAlmostEqual<unsigned int>(unsigned int const value1, unsigned int const value2);
+template bool isAlmostEqual<int>(int const value1, int const value2);
 
-//Commented out: This implementation is not practical when value is equal to zero/*
+
+//isPerfectSquare
 template <typename NumberType>
-bool isAlmostEqual(NumberType const value1, NumberType const value2)
-{    constexpr double absoluteScaledDifferenceTolerance(1E-12);
-    double absoluteMaxValue = max(getAbsoluteValue(value1), getAbsoluteValue(value2));
-    double difference = getAbsoluteValue(value1-value2);
-    return difference <= absoluteMaxValue*absoluteScaledDifferenceTolerance;
-}
-*/
-
-template bool isAlmostEqual<double>(double const value1, double const value2);
-
-template <>
-bool isAlmostEqual<int>(int const value1, int const value2)
+bool isPerfectSquare(NumberType const value)
 {
-    return value1==value2;
+    return isPerfectNthPower(value, 2);
 }
+template bool isPerfectSquare<unsigned int>(unsigned int const value);
+template bool isPerfectSquare<AlbaNumber>(AlbaNumber const value);
 
-template <>
-bool isAlmostEqual<unsigned int>(unsigned int const value1, unsigned int const value2)
+
+//isPerfectCube
+template <typename NumberType>
+bool isPerfectCube(NumberType const value)
 {
-    return value1==value2;
+    return isPerfectNthPower(value, 3);
 }
+template bool isPerfectCube<unsigned int>(unsigned int const value);
+template bool isPerfectCube<AlbaNumber>(AlbaNumber const value);
 
 
 //getDistance
@@ -82,6 +80,8 @@ NumberType getAverage(NumberType const value1, NumberType const value2)
 template unsigned int getAverage<unsigned int>(unsigned int const value1, unsigned int const value2);
 template int getAverage<int>(int const value1, int const value2);
 template double getAverage<double>(double const value1, double const value2);
+template AlbaNumber getAverage<AlbaNumber>(AlbaNumber const value1, AlbaNumber const value2);
+
 
 //getAverage 3 parameters
 template <typename NumberType>
@@ -96,22 +96,19 @@ template double getAverage<double>(double const value1, double const value2, dou
 
 //getAbsoluteValue
 template <typename NumberType>
-NumberType getAbsoluteValue(NumberType const& value)
+NumberType getAbsoluteValue(NumberType const value)
 {
     return (value<0) ? value*-1 : value;
 }
-template int getAbsoluteValue<int>(int const& value);
-template double getAbsoluteValue<double>(double const& value);
-template AlbaNumber getAbsoluteValue<AlbaNumber>(AlbaNumber const& value);
-
+template int getAbsoluteValue<int>(int const value);
+template double getAbsoluteValue<double>(double const value);
 template <>
-unsigned int getAbsoluteValue<unsigned int>(unsigned int const& value)
+unsigned int getAbsoluteValue<unsigned int>(unsigned int const value)
 {
     return value;
 }
+template AlbaNumber getAbsoluteValue<AlbaNumber>(AlbaNumber const value);
 
-
-//getAbsoluteValue
 template <typename NumberType>
 unsigned int getNumberOfIntegerDigits(NumberType const value)
 {
@@ -160,14 +157,13 @@ template double getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>(double c
 
 //getSign
 template <typename NumberType>
-NumberType getSign(NumberType const& value)
+NumberType getSign(NumberType const value)
 {
     return (value<0) ? -1 : 1;
 }
-template int getSign<int>(int const& value);
-template double getSign<double>(double const& value);
-template AlbaNumber getSign<AlbaNumber>(AlbaNumber const& value);
-
+template int getSign<int>(int const value);
+template double getSign<double>(double const value);
+template AlbaNumber getSign<AlbaNumber>(AlbaNumber const value);
 
 //clampLowerBound
 template <typename NumberType>
@@ -190,25 +186,22 @@ template unsigned int clampHigherBound<unsigned int>(unsigned int const value, u
 template int clampHigherBound<int>(int const value, int const limit);
 template double clampHigherBound<double>(double const value, double const limit);
 
-
-//isPerfectSquare
-template <typename NumberType>
-bool isPerfectSquare(NumberType const& value)
+bool isAlmostEqual(double const value1, double const value2)
 {
-    return isPerfectNthPower(value, 2);
+    return value1 == value2 || getAbsoluteValue(value1-value2) < DOUBLE_DIFFERENCE_TOLERANCE;
 }
-template bool isPerfectSquare<unsigned int>(unsigned int const& value);
-template bool isPerfectSquare<AlbaNumber>(AlbaNumber const& value);
 
-
-//isPerfectCube
+//Commented out: This implementation is not practical when value is equal to zero
+/*
 template <typename NumberType>
-bool isPerfectCube(NumberType const& value)
+bool isAlmostEqual(NumberType const value1, NumberType const value2)
 {
-    return isPerfectNthPower(value, 3);
+    constexpr double absoluteScaledDifferenceTolerance(1E-12);
+    double absoluteMaxValue = max(getAbsoluteValue(value1), getAbsoluteValue(value2));
+    double difference = getAbsoluteValue(value1-value2);
+    return difference <= absoluteMaxValue*absoluteScaledDifferenceTolerance;
 }
-template bool isPerfectCube<unsigned int>(unsigned int const& value);
-template bool isPerfectCube<AlbaNumber>(AlbaNumber const& value);
+*/
 
 bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance)
 {
@@ -217,7 +210,7 @@ bool isAlmostEqual(double const value1, double const value2, double const differ
 
 bool isAlmostAnInteger(double const realValue)
 {
-    return isAlmostEqual<double>(
+    return isAlmostEqual(
                 realValue,
                 static_cast<double>(static_cast<int>(round(realValue))));
 }
@@ -230,9 +223,11 @@ bool isAlmostAnInteger(double const realValue, double const differenceTolerance)
                 differenceTolerance);
 }
 
-bool isValueBeyondIntegerLimits(double const realValue){
+bool isValueBeyondIntegerLimits(double const realValue)
+{
     return realValue<INT_MIN || realValue>INT_MAX;
 }
+
 bool isValueBeyondUnsignedIntegerLimits(double const realValue)
 {
     return realValue<0 || realValue>UINT_MAX;
@@ -530,8 +525,8 @@ AlbaNumber getLeastCommonMultiple(AlbaNumber const& firstNumber, AlbaNumber cons
         unsigned int lcmDenominator = getLeastCommonMultiple(firstFractionData.denominator, secondFractionData.denominator);
         unsigned int firstNumerator = static_cast<unsigned int>(getAbsoluteValue(firstFractionData.numerator))*lcmDenominator/firstFractionData.denominator;
         unsigned int secondNumerator = static_cast<unsigned int>(getAbsoluteValue(secondFractionData.numerator))*lcmDenominator/secondFractionData.denominator;
-        unsigned int gcfNumerator = getLeastCommonMultiple(firstNumerator, secondNumerator);
-        result = AlbaNumber(gcfNumerator, lcmDenominator);
+        unsigned int lcmNumerator = getLeastCommonMultiple(firstNumerator, secondNumerator);
+        result = AlbaNumber(lcmNumerator, lcmDenominator);
     }
     return result;
 }

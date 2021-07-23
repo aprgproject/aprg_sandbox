@@ -22,7 +22,6 @@ enum class LineType
 
 class Line
 {
-    friend std::ostream & operator<<(std::ostream & out, Line const& line);
 public:
     Line();
     Line(Point const& first, Point const& second);

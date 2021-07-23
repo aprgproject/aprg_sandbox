@@ -13,7 +13,6 @@ namespace algebra
 
 class Equation
 {
-    friend std::ostream & operator<<(std::ostream & out, Equation const& equation);
 public:
     Equation();
     Equation(
