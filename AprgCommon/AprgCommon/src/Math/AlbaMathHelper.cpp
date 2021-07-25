@@ -14,84 +14,177 @@ namespace mathHelper
 
 constexpr double DOUBLE_DIFFERENCE_TOLERANCE=1E-12;
 
+
+namespace
+{
 //internal functions
 
-unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned int const number)
-{
+unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned int const number){
     unsigned int result(0);
     if(multiple>0)
-    {
-        result = ((number+multiple-1)/multiple);
+    {        result = ((number+multiple-1)/multiple);
     }
     return result;
 }
 
+unsigned int getPartialNumerator(
+        double const doubleValue,
+        double & fractionalPart,
+        double & doubleValueForNextIteration)
+{
+    double absoluteValueOfDouble = getAbsoluteValue(doubleValue);
+    fractionalPart = getFractionalPartInDouble(absoluteValueOfDouble);
+    doubleValueForNextIteration = 1/fractionalPart;
+    return static_cast<unsigned int>(absoluteValueOfDouble);
+}
+
+FractionDetails getFractionFromPartialNumerators(
+        UnsignedIntegers const& calculatedPartialNumerators,
+        bool & isBeyondUnsignedIntegerLimits)
+{
+    double numerator, denominator;
+    bool isFirst(true);
+    for(UnsignedIntegers::const_reverse_iterator it=calculatedPartialNumerators.crbegin();
+        it!=calculatedPartialNumerators.crend();
+        it++)
+    {
+        unsigned int calculatedNumerator(*it);
+        if(isFirst)
+        {
+            numerator = calculatedNumerator;
+            denominator = 1;
+            isFirst = false;
+        }
+        else
+        {
+            double previousNumerator = numerator;
+            numerator = (calculatedNumerator * numerator) + denominator;
+            denominator = previousNumerator;
+        }
+        isBeyondUnsignedIntegerLimits =
+                isValueBeyondLimits<unsigned int>(numerator) || isValueBeyondLimits<unsigned int>(denominator);
+        if(isBeyondUnsignedIntegerLimits) { break; }
+    }
+    return FractionDetails{1, getUnsignedIntegerAfterRoundingDoubleValue(numerator), getUnsignedIntegerAfterRoundingDoubleValue(denominator)};
+}
+
 //end of internal functions
+}
+
+
+double getPi()
+{
+    return 3.14159265358979323846;
+}
+
+double getE()
+{
+    return 2.7182818284590452354;
+}
+
+double convertDegreesToRadians(double const valueInDegrees)
+{
+    return valueInDegrees/180*getPi();
+}
+
+double convertRadiansToDegrees(double const valueInRadians)
+{
+    return valueInRadians/getPi()*180;
+}
 
 
 //isAlmostEqual
 template <typename NumberType>
-bool isAlmostEqual(NumberType const value1, NumberType const value2)
-{
+bool isAlmostEqual(NumberType const value1, NumberType const value2){
     return value1==value2;
 }
 template bool isAlmostEqual<unsigned int>(unsigned int const value1, unsigned int const value2);
 template bool isAlmostEqual<int>(int const value1, int const value2);
-
-
-//isPerfectSquare
-template <typename NumberType>
-bool isPerfectSquare(NumberType const value)
+template <> bool isAlmostEqual<double>(double const value1, double const value2)
 {
-    return isPerfectNthPower(value, 2);
+    return value1 == value2 || getAbsoluteValue(value1-value2) < DOUBLE_DIFFERENCE_TOLERANCE;
 }
-template bool isPerfectSquare<unsigned int>(unsigned int const value);
-template bool isPerfectSquare<AlbaNumber>(AlbaNumber const value);
+//Commented out: This implementation is not practical when value is equal to zero
+//template <> bool isAlmostEqual<double>(double const value1, double const value2)
+//{
+//    constexpr double absoluteScaledDifferenceTolerance(1E-12);
+//    double absoluteMaxValue = max(getAbsoluteValue(value1), getAbsoluteValue(value2));
+//    double difference = getAbsoluteValue(value1-value2);
+//    return difference <= absoluteMaxValue*absoluteScaledDifferenceTolerance;
+//}
 
 
-//isPerfectCube
-template <typename NumberType>
-bool isPerfectCube(NumberType const value)
+bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance)
 {
-    return isPerfectNthPower(value, 3);
+    return value1 == value2 || getAbsoluteValue(value1-value2) <= differenceTolerance;
 }
-template bool isPerfectCube<unsigned int>(unsigned int const value);
-template bool isPerfectCube<AlbaNumber>(AlbaNumber const value);
 
-
-//getDistance
-template <typename NumberType>
-NumberType getDistance(NumberType const value1, NumberType const value2)
+bool isAlmostAnInteger(double const value)
 {
-    std::pair<NumberType, NumberType> minMaxPair = std::minmax(value1, value2);
-    return minMaxPair.second-minMaxPair.first;
+    return isAlmostEqual(
+                value,
+                static_cast<double>(static_cast<int>(round(value))));
 }
-template unsigned int getDistance<unsigned int>(unsigned int const value1, unsigned int const value2);
-template int getDistance<int>(int const value1, int const value2);
-template double getDistance<double>(double const value1, double const value2);
 
-
-//getAverage 2 parameters
-template <typename NumberType>
-NumberType getAverage(NumberType const value1, NumberType const value2)
+bool isAlmostAnInteger(double const value, double const differenceTolerance)
 {
-    return (value1+value2)/2;
+    return isAlmostEqual(
+                value,
+                static_cast<double>(static_cast<int>(round(value))),
+                differenceTolerance);
 }
-template unsigned int getAverage<unsigned int>(unsigned int const value1, unsigned int const value2);
-template int getAverage<int>(int const value1, int const value2);
-template double getAverage<double>(double const value1, double const value2);
-template AlbaNumber getAverage<AlbaNumber>(AlbaNumber const value1, AlbaNumber const value2);
 
 
-//getAverage 3 parameters
-template <typename NumberType>
-NumberType getAverage(NumberType const value1, NumberType const value2, NumberType const value3)
+//isValueBeyondLimits
+template <> bool isValueBeyondLimits<int>(double const value)
 {
-    return (value1+value2+value3)/3;
+    return value<INT_MIN || value>INT_MAX;
 }
-template unsigned int getAverage<unsigned int>(unsigned int const value1, unsigned int const value2, unsigned int const value3);
-template int getAverage<int>(int const value1, int const value2, int const value3);
-template double getAverage<double>(double const value1, double const value2, double const value3);
+template <> bool isValueBeyondLimits<unsigned int>(double const value)
+{
+    return value<0 || value>UINT_MAX;
+}
+template <> bool isValueBeyondLimits<short int>(double const value)
+{
+    return value<SHRT_MIN || value>SHRT_MAX;
+}
+template <> bool isValueBeyondLimits<long int>(double const value)
+{
+    return value<LONG_MIN || value>LONG_MAX;
+}
+template <> bool isValueBeyondLimits<unsigned long int>(double const value)
+{
+    return value<0 || value>ULONG_MAX;
+}
+template <> bool isValueBeyondLimits<long long int>(double const value)
+{
+    return value<LLONG_MIN || value>LLONG_MAX;
+}
+template <> bool isValueBeyondLimits<unsigned long long int>(double const value)
+{
+    return value<0 || value>ULLONG_MAX;
+}
+
+
+int getIntegerAfterRoundingDoubleValue(double const doubleValue)
+{
+    return static_cast<int>(round(doubleValue));
+}
+
+int getIntegerPartInDouble(double const doubleValue)
+{
+    return static_cast<int>(doubleValue);
+}
+
+unsigned int getUnsignedIntegerAfterRoundingDoubleValue(double const doubleValue)
+{
+    return static_cast<unsigned int>(round(doubleValue));
+}
+
+double getFractionalPartInDouble(double const doubleValue)
+{
+    return doubleValue-getIntegerPartInDouble(doubleValue);
+}
 
 
 //getAbsoluteValue
@@ -102,33 +195,78 @@ NumberType getAbsoluteValue(NumberType const value)
 }
 template int getAbsoluteValue<int>(int const value);
 template double getAbsoluteValue<double>(double const value);
-template <>
-unsigned int getAbsoluteValue<unsigned int>(unsigned int const value)
+template <> unsigned int getAbsoluteValue<unsigned int>(unsigned int const value)
 {
     return value;
 }
-template AlbaNumber getAbsoluteValue<AlbaNumber>(AlbaNumber const value);
-
-template <typename NumberType>
-unsigned int getNumberOfIntegerDigits(NumberType const value)
+AlbaNumber getAbsoluteValue(AlbaNumber const& value)
 {
-    unsigned int result(0);
-    NumberType absoluteValue(getAbsoluteValue(value));
-    if(absoluteValue >= 1)
-    {
-        result = static_cast<unsigned int>(log10(static_cast<double>(absoluteValue)))+1;
-    }
-    return result;
+    return (value<0) ? value*-1 : value;
 }
-template unsigned int getNumberOfIntegerDigits<unsigned int>(unsigned int const value);
-template unsigned int getNumberOfIntegerDigits<int>(int const value);
-template unsigned int getNumberOfIntegerDigits<double>(double const value);
+
+
+//getSigntemplate <typename NumberType>
+NumberType getSign(NumberType const value)
+{
+    return (value<0) ? -1 : 1;
+}
+template int getSign<int>(int const value);
+template double getSign<double>(double const value);
+template <> unsigned int getSign<unsigned int>(unsigned int const)
+{
+    return 1;
+}
+AlbaNumber getSign(AlbaNumber const& value)
+{
+    return (value<0) ? -1 : 1;
+}
+
+
+//getPositiveDelta
+template <typename NumberType>
+NumberType getPositiveDelta(NumberType const value1, NumberType const value2)
+{
+    pair<NumberType, NumberType> minMaxPair = minmax(value1, value2);
+    return minMaxPair.second-minMaxPair.first;
+}
+template unsigned int getPositiveDelta<unsigned int>(unsigned int const value1, unsigned int const value2);
+template int getPositiveDelta<int>(int const value1, int const value2);
+template double getPositiveDelta<double>(double const value1, double const value2);
+
+
+int convertToIntegerThenSubtract(unsigned int const number1, unsigned int const number2)
+{
+    return static_cast<int>(number1)-static_cast<int>(number2);
+}
+
+
+//getAverage 2 parameters
+template <typename NumberType>
+NumberType getAverage(NumberType const value1, NumberType const value2){
+    return (value1+value2)/2;
+}
+template unsigned int getAverage<unsigned int>(unsigned int const value1, unsigned int const value2);
+template int getAverage<int>(int const value1, int const value2);
+template double getAverage<double>(double const value1, double const value2);
+AlbaNumber getAverage(AlbaNumber const& value1, AlbaNumber const& value2)
+{
+    return (value1+value2)/2;
+}
+
+
+//getAverage 3 parameterstemplate <typename NumberType>
+NumberType getAverage(NumberType const value1, NumberType const value2, NumberType const value3)
+{
+    return (value1+value2+value3)/3;
+}
+template unsigned int getAverage<unsigned int>(unsigned int const value1, unsigned int const value2, unsigned int const value3);
+template int getAverage<int>(int const value1, int const value2, int const value3);
+template double getAverage<double>(double const value1, double const value2, double const value3);
 
 
 //getXSquaredPlusYSquared
 template <typename NumberType>
-NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y)
-{
+NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y){
     return static_cast<NumberType>(pow(x, 2)+pow(y, 2));
 }
 template int getXSquaredPlusYSquared<int>(int const x, int const y);
@@ -155,20 +293,53 @@ template int getSquareRootOfXSquaredPlusYSquaredPlusZSquared<int>(int const x, i
 template double getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>(double const x, double const y, double const z);
 
 
-//getSign
-template <typename NumberType>
-NumberType getSign(NumberType const value)
+double calculateCumulativeStandardDistributionApproximation(double const z)
 {
-    return (value<0) ? -1 : 1;
+    return 0.5 * erfc(-z * pow(0.5, 0.5));
 }
-template int getSign<int>(int const value);
-template double getSign<double>(double const value);
-template AlbaNumber getSign<AlbaNumber>(AlbaNumber const value);
+
+double calculateInverseCumulativeStandardDistributionApproximation(double const probability, unsigned int const numberOfIterations)
+{
+    double lowestZ=-10, highestZ=10, z(0);
+    for(unsigned int iterationCount=0; iterationCount<numberOfIterations; iterationCount++)
+    {
+        double middleZ = getAverage<double>(lowestZ, highestZ);
+        double probabilityLowest = calculateCumulativeStandardDistributionApproximation(lowestZ);
+        double probabilityMiddle = calculateCumulativeStandardDistributionApproximation(middleZ);
+        double probabilityHighest = calculateCumulativeStandardDistributionApproximation(highestZ);
+        if(isAlmostEqual(probability, probabilityLowest))
+        {
+            z=lowestZ;
+            break;
+        }
+        else if(isAlmostEqual(probability, probabilityMiddle))
+        {
+            z=middleZ;
+            break;
+        }
+        else if(isAlmostEqual(probability, probabilityHighest))
+        {
+            z=highestZ;
+            break;
+        }
+        else if(probability>probabilityLowest && probability<probabilityMiddle)
+        {
+            highestZ=middleZ;
+            z=getAverage<double>(lowestZ, middleZ);
+        }
+        else if(probability>probabilityMiddle && probability<probabilityHighest)
+        {
+            lowestZ=middleZ;
+            z=getAverage<double>(middleZ, highestZ);
+        }
+    }
+    return z;
+}
+
 
 //clampLowerBound
 template <typename NumberType>
-NumberType clampLowerBound(NumberType const value, NumberType const limit)
-{
+NumberType clampLowerBound(NumberType const value, NumberType const limit){
     return (value<limit) ? limit : value;
 }
 template unsigned int clampLowerBound<unsigned int>(unsigned int const value, unsigned int const limit);
@@ -186,87 +357,10 @@ template unsigned int clampHigherBound<unsigned int>(unsigned int const value, u
 template int clampHigherBound<int>(int const value, int const limit);
 template double clampHigherBound<double>(double const value, double const limit);
 
-bool isAlmostEqual(double const value1, double const value2)
-{
-    return value1 == value2 || getAbsoluteValue(value1-value2) < DOUBLE_DIFFERENCE_TOLERANCE;
-}
-
-//Commented out: This implementation is not practical when value is equal to zero
-/*
-template <typename NumberType>
-bool isAlmostEqual(NumberType const value1, NumberType const value2)
-{
-    constexpr double absoluteScaledDifferenceTolerance(1E-12);
-    double absoluteMaxValue = max(getAbsoluteValue(value1), getAbsoluteValue(value2));
-    double difference = getAbsoluteValue(value1-value2);
-    return difference <= absoluteMaxValue*absoluteScaledDifferenceTolerance;
-}
-*/
-
-bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance)
-{
-    return value1 == value2 || getAbsoluteValue(value1-value2) <= differenceTolerance;
-}
-
-bool isAlmostAnInteger(double const realValue)
-{
-    return isAlmostEqual(
-                realValue,
-                static_cast<double>(static_cast<int>(round(realValue))));
-}
-
-bool isAlmostAnInteger(double const realValue, double const differenceTolerance)
-{
-    return isAlmostEqual(
-                realValue,
-                static_cast<double>(static_cast<int>(round(realValue))),
-                differenceTolerance);
-}
-
-bool isValueBeyondIntegerLimits(double const realValue)
-{
-    return realValue<INT_MIN || realValue>INT_MAX;
-}
-
-bool isValueBeyondUnsignedIntegerLimits(double const realValue)
-{
-    return realValue<0 || realValue>UINT_MAX;
-}
-
-bool isValueBeyondShortIntegerLimits(double const realValue)
-{
-    return realValue<SHRT_MIN || realValue>SHRT_MAX;
-}
-
-bool isValueBeyondLongIntegerLimits(double const realValue)
-{
-    return realValue<LONG_MIN || realValue>LONG_MAX;
-}
-
-bool isValueBeyondUnsignedLongIntegerLimits(double const realValue)
-{
-    return realValue<0 || realValue>ULONG_MAX;
-}
-
-bool isValueBeyondLongLongIntegerLimits(double const realValue)
-{
-    return realValue<LLONG_MIN || realValue>LLONG_MAX;
-}
-
-bool isValueBeyondUnsignedLongLongIntegerLimits(double const realValue)
-{
-    return realValue<0 || realValue>ULLONG_MAX;
-}
-
-bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits)
-{
-    return digits>=10;
-}
 
 bool isDivisible(unsigned int const dividend, unsigned int const divisor)
 {
-    bool result(false);
-    if(divisor != 0)
+    bool result(false);    if(divisor != 0)
     {
         result = (dividend % divisor)==0;
     }
@@ -283,173 +377,12 @@ bool isOdd(unsigned int const number)
     return !isDivisible(number, 2u);
 }
 
-bool isPerfectNthPower(
-        unsigned int const value,
-        unsigned int const nthPower)
-{
-    double valueRaiseToTheReciprocal = pow(value, static_cast<double>(1)/nthPower);
-    return isAlmostAnInteger(valueRaiseToTheReciprocal);
-}
-
-bool isPerfectNthPower(
-        AlbaNumber const& number,
-        unsigned int const nthPower)
-{
-    bool result(false);
-    if(number.isIntegerType())
-    {
-        int integerValue(number.getInteger());
-        result = integerValue >= 0 && isPerfectNthPower(static_cast<unsigned int>(integerValue), nthPower);
-    }
-    else if(number.isFractionType())
-    {
-        AlbaNumber::FractionData fractionData(number.getFractionData());
-        result = fractionData.numerator >= 0
-                && isPerfectNthPower(static_cast<unsigned int>(getAbsoluteValue(fractionData.numerator)), nthPower)
-                && isPerfectNthPower(fractionData.denominator, nthPower);
-    }
-    return result;
-}
-
-double getPi()
-{
-    return 3.14159265358979323846;
-}
-
-double getE()
-{
-    return 2.7182818284590452354;
-}
-
-int subtract(unsigned int const number1, unsigned int const number2)
-{
-    return static_cast<int>(number1)-static_cast<int>(number2);
-}
-
-unsigned int getPositiveDelta(unsigned int const number1, unsigned int const number2)
-{
-    return max(number1, number2) - min(number1, number2);
-}
-
-int getRaiseToPowerForIntegers(int const base, unsigned int exponent)
-{
-    return static_cast<int>(ceil(pow(base, exponent)));
-}
-
-FractionDetails getFractionDetailsInLowestForm(int const numerator, int const denominator)
-{
-    FractionDetails result{0, 0, 0};
-    unsigned int unsignedNumerator = mathHelper::getAbsoluteValue(numerator);
-    unsigned int unsignedDenominator = mathHelper::getAbsoluteValue(denominator);
-    unsigned int greatestCommonFactor = mathHelper::getGreatestCommonFactor(unsignedNumerator, unsignedDenominator);
-    if(greatestCommonFactor==0)
-    {
-        result.sign = mathHelper::getSign(numerator)*mathHelper::getSign(denominator);
-        result.numerator = unsignedNumerator;
-        result.denominator = unsignedDenominator;
-    }
-    else
-    {
-        result.sign = mathHelper::getSign(numerator)*mathHelper::getSign(denominator);
-        result.numerator = unsignedNumerator/greatestCommonFactor;
-        result.denominator = unsignedDenominator/greatestCommonFactor;
-    }
-    return result;
-}
-
-FractionDetails getFractionDetailsInLowestFormWithUnsignedDenominator(int const numerator, unsigned int const unsignedDenominator)
-{
-    FractionDetails result{0, 0, 0};
-    unsigned int unsignedNumerator = mathHelper::getAbsoluteValue(numerator);
-    unsigned int greatestCommonFactor = mathHelper::getGreatestCommonFactor(unsignedNumerator, unsignedDenominator);
-    if(greatestCommonFactor==0)
-    {
-        result.sign = mathHelper::getSign(numerator);
-        result.numerator = unsignedNumerator;
-        result.denominator = unsignedDenominator;
-    }
-    else
-    {
-        result.sign = mathHelper::getSign(numerator);
-        result.numerator = unsignedNumerator/greatestCommonFactor;
-        result.denominator = unsignedDenominator/greatestCommonFactor;
-    }
-    return result;
-}
-
-unsigned int getPartialNumeratorForFractionCalculation(
-        double const doubleValue,
-        double & fractionalPart,
-        double & doubleValueForNextIteration)
-{
-    double absoluteValueOfDouble = getAbsoluteValue(doubleValue);
-    fractionalPart = getFractionalPartInDouble(absoluteValueOfDouble);
-    doubleValueForNextIteration = 1/fractionalPart;
-    return static_cast<unsigned int>(absoluteValueOfDouble);
-}
-
-FractionDetails getFinalFractionDetails(
-        UnsignedIntegers const& calculatedPartialNumerators,
-        bool & isBeyondUnsignedIntegerLimits)
-{
-    double numerator, denominator;
-    bool isFirst(true);
-    for(UnsignedIntegers::const_reverse_iterator it=calculatedPartialNumerators.crbegin();
-        it!=calculatedPartialNumerators.crend();
-        it++)
-    {
-        unsigned int calculatedNumerator(*it);
-        if(isFirst)
-        {
-            numerator = calculatedNumerator;
-            denominator = 1;
-            isFirst = false;
-        }
-        else
-        {
-            double previousNumerator = numerator;
-            numerator = (calculatedNumerator * numerator) + denominator;
-            denominator = previousNumerator;
-        }
-        isBeyondUnsignedIntegerLimits =
-                isValueBeyondUnsignedIntegerLimits(numerator) || isValueBeyondUnsignedIntegerLimits(denominator);
-        if(isBeyondUnsignedIntegerLimits) { break; }
-    }
-    return FractionDetails{1, getUnsignedIntegerAfterRoundingDoubleValue(numerator), getUnsignedIntegerAfterRoundingDoubleValue(denominator)};
-}
-
-FractionDetails getBestFractionDetailsForDoubleValue(
-        double const doubleValue)
-{
-    constexpr double tolerance(1E-12);
-    FractionDetails result{1, 0, 1};
-
-    UnsignedIntegers calculatedPartialNumerators;
-    double fractionalPart(getAbsoluteValue(doubleValue)), doubleValueForNextIteration(doubleValue);
-    bool isBeyondUnsignedIntegerLimits(false);
-    while(fractionalPart>tolerance && !isBeyondUnsignedIntegerLimits)
-    {
-        calculatedPartialNumerators.emplace_back(
-                    getPartialNumeratorForFractionCalculation(doubleValueForNextIteration, fractionalPart, doubleValueForNextIteration));
-        result = getFinalFractionDetails(calculatedPartialNumerators, isBeyondUnsignedIntegerLimits);
-    }
-    if(isBeyondUnsignedIntegerLimits)
-    {
-        calculatedPartialNumerators.pop_back();
-        result = getFinalFractionDetails(calculatedPartialNumerators, isBeyondUnsignedIntegerLimits);
-    }
-    result.sign = getSign(doubleValue);
-    return result;
-}
-
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber)
 {
-    unsigned int result(0);
-    unsigned int temporaryFirstValue(firstNumber);
+    unsigned int result(0);    unsigned int temporaryFirstValue(firstNumber);
     unsigned int temporarySecondValue(secondNumber);
     while(1)
-    {
-        if(temporaryFirstValue==0)
+    {        if(temporaryFirstValue==0)
         {
             result = temporarySecondValue;
             break;
@@ -552,77 +485,136 @@ unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsig
     return result;
 }
 
-int getIntegerAfterRoundingDoubleValue(double const doubleValue)
+//getFractionDetailsInLowestForm
+template <typename NumberType1, typename NumberType2>
+FractionDetails getFractionDetailsInLowestForm(NumberType1 const numerator, NumberType2 const denominator)
 {
-    return static_cast<int>(round(doubleValue));
-}
-
-int getIntegerPartInDouble(double const doubleValue)
-{
-    return static_cast<int>(doubleValue);
-}
-
-unsigned int getUnsignedIntegerAfterRoundingDoubleValue(double const doubleValue)
-{
-    return static_cast<unsigned int>(round(doubleValue));
-}
-
-double getFractionalPartInDouble(double const doubleValue)
-{
-    return doubleValue-getIntegerPartInDouble(doubleValue);
-}
-
-double calculateCumulativeStandardDistributionApproximation(double const z)
-{
-    return 0.5 * erfc(-z * pow(0.5, 0.5));
-}
-
-double calculateInverseCumulativeStandardDistributionApproximation(double const probability, unsigned int const numberOfIterations)
-{
-    double lowestZ=-10, highestZ=10, z(0);
-    for(unsigned int iterationCount=0; iterationCount<numberOfIterations; iterationCount++)
+    FractionDetails result{0, 0, 0};
+    unsigned int unsignedNumerator = mathHelper::getAbsoluteValue(numerator);
+    unsigned int unsignedDenominator = mathHelper::getAbsoluteValue(denominator);
+    unsigned int greatestCommonFactor = mathHelper::getGreatestCommonFactor(unsignedNumerator, unsignedDenominator);
+    if(greatestCommonFactor==0)
     {
-        double middleZ = getAverage<double>(lowestZ, highestZ);
-        double probabilityLowest = calculateCumulativeStandardDistributionApproximation(lowestZ);
-        double probabilityMiddle = calculateCumulativeStandardDistributionApproximation(middleZ);
-        double probabilityHighest = calculateCumulativeStandardDistributionApproximation(highestZ);
-        if(isAlmostEqual(probability, probabilityLowest))
-        {
-            z=lowestZ;
-            break;
-        }
-        else if(isAlmostEqual(probability, probabilityMiddle))
-        {
-            z=middleZ;
-            break;
-        }
-        else if(isAlmostEqual(probability, probabilityHighest))
-        {
-            z=highestZ;
-            break;
-        }
-        else if(probability>probabilityLowest && probability<probabilityMiddle)
-        {
-            highestZ=middleZ;
-            z=getAverage<double>(lowestZ, middleZ);
-        }
-        else if(probability>probabilityMiddle && probability<probabilityHighest)
-        {
-            lowestZ=middleZ;
-            z=getAverage<double>(middleZ, highestZ);
-        }
+        result.sign = mathHelper::getSign(numerator)*mathHelper::getSign(denominator);
+        result.numerator = unsignedNumerator;
+        result.denominator = unsignedDenominator;
     }
-    return z;
+    else
+    {
+        result.sign = mathHelper::getSign(numerator)*mathHelper::getSign(denominator);
+        result.numerator = unsignedNumerator/greatestCommonFactor;
+        result.denominator = unsignedDenominator/greatestCommonFactor;
+    }
+    return result;
+}
+template FractionDetails getFractionDetailsInLowestForm<int, int>(int const numerator, int const denominator);
+template FractionDetails getFractionDetailsInLowestForm<int, unsigned int>(int const numerator, unsigned int const denominator);
+
+
+FractionDetails getBestFractionDetailsForDoubleValue(
+        double const doubleValue)
+{
+    constexpr double tolerance(1E-12);
+    FractionDetails result{1, 0, 1};
+
+    UnsignedIntegers partialNumerators;
+    double fractionalPart(getAbsoluteValue(doubleValue)), doubleValueForNextIteration(doubleValue);
+    bool isBeyondUnsignedIntegerLimits(false);
+    while(fractionalPart>tolerance && !isBeyondUnsignedIntegerLimits)
+    {
+        partialNumerators.emplace_back(
+                    getPartialNumerator(doubleValueForNextIteration, fractionalPart, doubleValueForNextIteration));
+        result = getFractionFromPartialNumerators(partialNumerators, isBeyondUnsignedIntegerLimits);
+    }
+    if(isBeyondUnsignedIntegerLimits)
+    {
+        partialNumerators.pop_back();
+        result = getFractionFromPartialNumerators(partialNumerators, isBeyondUnsignedIntegerLimits);
+    }
+    result.sign = getSign(doubleValue);
+    return result;
 }
 
-double convertDegreesToRadians(double const valueInDegrees)
+
+//isPerfectCube
+template <typename NumberType>
+bool isPerfectCube(NumberType const value)
 {
-    return valueInDegrees/180*getPi();
+    return isPerfectNthPower(value, 3);
+}
+template bool isPerfectCube<unsigned int>(unsigned int const value);
+bool isPerfectCube(AlbaNumber const& value)
+{
+    return isPerfectNthPower(value, 3);
 }
 
-double convertRadiansToDegrees(double const valueInRadians)
+
+//isPerfectSquare
+template <typename NumberType>
+bool isPerfectSquare(NumberType const value)
 {
-    return valueInRadians/getPi()*180;
+    return isPerfectNthPower(value, 2);
+}
+template bool isPerfectSquare<unsigned int>(unsigned int const value);
+bool isPerfectSquare(AlbaNumber const& value)
+{
+    return isPerfectNthPower(value, 2);
+}
+
+
+bool isPerfectNthPower(
+        unsigned int const value,
+        unsigned int const nthPower)
+{
+    double valueRaiseToTheReciprocal = pow(value, static_cast<double>(1)/nthPower);
+    return isAlmostAnInteger(valueRaiseToTheReciprocal);
+}
+
+bool isPerfectNthPower(
+        AlbaNumber const& number,
+        unsigned int const nthPower)
+{
+    bool result(false);
+    if(number.isIntegerType())
+    {
+        int integerValue(number.getInteger());
+        result = integerValue >= 0 && isPerfectNthPower(static_cast<unsigned int>(integerValue), nthPower);
+    }
+    else if(number.isFractionType())
+    {
+        AlbaNumber::FractionData fractionData(number.getFractionData());
+        result = fractionData.numerator >= 0
+                && isPerfectNthPower(static_cast<unsigned int>(getAbsoluteValue(fractionData.numerator)), nthPower)
+                && isPerfectNthPower(fractionData.denominator, nthPower);
+    }
+    return result;
+}
+
+int getRaiseToPowerForIntegers(int const base, unsigned int exponent)
+{
+    return static_cast<int>(ceil(pow(base, exponent)));
+}
+
+
+template <typename NumberType>
+unsigned int getNumberOfIntegerDigits(NumberType const value)
+{
+    unsigned int result(0);
+    NumberType absoluteValue(getAbsoluteValue(value));
+    if(absoluteValue >= 1)
+    {
+        result = static_cast<unsigned int>(log10(static_cast<double>(absoluteValue)))+1;
+    }
+    return result;
+}
+template unsigned int getNumberOfIntegerDigits<unsigned int>(unsigned int const value);
+template unsigned int getNumberOfIntegerDigits<int>(int const value);
+template unsigned int getNumberOfIntegerDigits<double>(double const value);
+
+
+bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits)
+{
+    return digits>=10;
 }
 
 }//namespace mathHelper

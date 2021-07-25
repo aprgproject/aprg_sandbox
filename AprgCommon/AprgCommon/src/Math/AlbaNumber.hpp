@@ -81,14 +81,13 @@ public:
     FractionData getFractionData() const;
     double getDouble() const;
 
+    unsigned int getNumberDataSize() const;
     std::string getDisplayableString() const;
 
-    void convertToInteger();
-    void convertToFraction();
+    void convertToInteger();    void convertToFraction();
 
 private:
-    void convertToIntegerIfNeeded();
-    AlbaNumber addBothIntegersAndReturnNumber(
+    void convertToIntegerIfNeeded();    AlbaNumber addBothIntegersAndReturnNumber(
             bool & shouldBeConvertedToDouble,
             int const signedValue1,
             int const signedValue2) const;
