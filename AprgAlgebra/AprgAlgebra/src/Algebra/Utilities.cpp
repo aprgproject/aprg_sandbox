@@ -228,14 +228,48 @@ unsigned int getTermTypePriorityValue(TermType const termType)
     return result;
 }
 
+AlbaNumbers getRoots(Polynomial const& polynomial)
+{
+    AlbaNumbers result;
+    VariableNamesSet variableNames;
+    retrieveVariableNames(polynomial, variableNames);
+    if(variableNames.size() == 1)
+    {
+        Polynomials polynomials(factorize(polynomial));
+        for(Polynomial const& polynomial : polynomials)
+        {
+            Monomials const& monomials(polynomial.getMonomialsConstReference());
+            AlbaNumber maxDegree(polynomial.getMaxDegree());
+            if(monomials.size() == 1 && maxDegree > 0)
+            {
+                result.emplace_back(AlbaNumber(0));
+            }
+            else if(monomials.size() == 2)
+            {
+                Monomial firstMonomial(monomials.at(0));
+                Monomial secondMonomial(monomials.at(1));
+                if(secondMonomial.isConstantOnly())
+                {
+                    AlbaNumber constant(-secondMonomial.getConstantConstReference());
+                    constant = constant/firstMonomial.getConstantConstReference();
+                    constant = constant^(AlbaNumber(1)/firstMonomial.getMaxExponent());
+                    if(constant.hasValidValue())
+                    {
+                        result.emplace_back(constant);
+                    }
+                }
+            }
+        }
+    }
+    return result;
+}
+
 string getEnumShortString(TermType const termType)
 {
-    switch(termType)
-    {
+    switch(termType)    {
     ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Empty, "Empty")
             ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Constant, "Constant")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Variable, "Variable")
-            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Operator, "Operator")
+            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Variable, "Variable")            ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Operator, "Operator")
             ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Monomial, "Monomial")
             ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Polynomial, "Polynomial")
             ALBA_MACROS_CASE_ENUM_SHORT_STRING(TermType::Expression, "Expression")

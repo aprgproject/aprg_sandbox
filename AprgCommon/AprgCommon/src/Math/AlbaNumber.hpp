@@ -14,15 +14,14 @@ public:
     enum class Value
     {
         PositiveInfinity,
-        NegativeInfinity
+        NegativeInfinity,
+        NotANumber
     };
     enum class Type
-    {
-        Integer,
+    {        Integer,
         Fraction,
         Double
-    };
-    struct FractionData
+    };    struct FractionData
     {
         int numerator;
         unsigned int denominator;
@@ -82,14 +81,14 @@ public:
     bool isIntegerOrFractionType() const;
     bool isPositiveInfinity() const;
     bool isNegativeInfinity() const;
+    bool isNotANumber() const;
+    bool hasValidValue() const;
 
     Type getType() const;
-    long long int getInteger() const;
-    FractionData getFractionData() const;
+    long long int getInteger() const;    FractionData getFractionData() const;
     double getDouble() const;
 
-    unsigned int getNumberDataSize() const;
-    std::string getDisplayableString() const;
+    unsigned int getNumberDataSize() const;    std::string getDisplayableString() const;
 
     void convertToInteger();
     void convertToFraction();

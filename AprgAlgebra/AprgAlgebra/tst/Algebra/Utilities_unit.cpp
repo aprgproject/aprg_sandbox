@@ -175,14 +175,21 @@ TEST(UtilitiesTest, GetTermPriorityValueWorks)
     EXPECT_EQ(6u, getTermTypePriorityValue(TermType::Expression));
 }
 
+TEST(UtilitiesTest, GetRootsWorks)
+{
+    AlbaNumbers roots(getRoots(Polynomial{Monomial(-16, {}), Monomial(1, {{"x", 2}})}));
+
+    EXPECT_EQ(2u, roots.size());
+    EXPECT_EQ(AlbaNumber(-4), roots[0]);
+    EXPECT_EQ(AlbaNumber(4), roots[1]);
+}
+
 TEST(UtilitiesTest, GetEnumShortStringForTermTypeWorks)
 {
-    EXPECT_EQ("Empty", getEnumShortString(TermType::Empty));
-    EXPECT_EQ("Constant", getEnumShortString(TermType::Constant));
+    EXPECT_EQ("Empty", getEnumShortString(TermType::Empty));    EXPECT_EQ("Constant", getEnumShortString(TermType::Constant));
     EXPECT_EQ("Variable", getEnumShortString(TermType::Variable));
     EXPECT_EQ("Operator", getEnumShortString(TermType::Operator));
-    EXPECT_EQ("Monomial", getEnumShortString(TermType::Monomial));
-    EXPECT_EQ("Polynomial", getEnumShortString(TermType::Polynomial));
+    EXPECT_EQ("Monomial", getEnumShortString(TermType::Monomial));    EXPECT_EQ("Polynomial", getEnumShortString(TermType::Polynomial));
     EXPECT_EQ("Expression", getEnumShortString(TermType::Expression));
     EXPECT_EQ("Function", getEnumShortString(TermType::Function));
 }

@@ -344,15 +344,13 @@ TEST(FactorizationBySplittingTest, FactorizeSmallerPolynomialsBySubstitutingComm
     Polynomial polynomial3{Monomial(2, {})};
     Polynomials polynomialsToTest{polynomial1, polynomial2, polynomial3};
 
-    Polynomials polynomialsToVerify(factorizeSmallerPolynomialsBySubstitutingCommonFactorsToVariables(polynomialsToTest));
+    Polynomials polynomialsToVerify(factorizeSmallerPolynomialsBySubstitutingCommonFactorsToNewVariables(polynomialsToTest));
 
     ASSERT_EQ(2u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(1, {})};
-    Polynomial polynomialToExpect2{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(2, {})};
+    Polynomial polynomialToExpect1{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(1, {})};    Polynomial polynomialToExpect2{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(2, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
-
 TEST(FactorizationBySplittingTest, FactorizePolynomialWithVariablesWorks)
 {
     Polynomial polynomialsToTest{Monomial(1, {{"x+1", 2}}), Monomial(2, {{"x+1", 1}}), Monomial(1, {})};
@@ -360,14 +358,12 @@ TEST(FactorizationBySplittingTest, FactorizePolynomialWithVariablesWorks)
     {{"x+1",
       createOrCopyExpressionFromATerm(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}))}});
 
-    Polynomials polynomialsToVerify(factorizePolynomialWithVariables(polynomialsToTest, variableSubstitution));
+    Polynomials polynomialsToVerify(factorizePolynomialWithNewVariables(polynomialsToTest, variableSubstitution));
 
     ASSERT_EQ(2u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(2, {})};
-    Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(2, {})};
+    Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(2, {})};    Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(2, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
-
 }
 
 TEST(FactorizationBySplittingTest, GetCommonFactorsInThesePolynomialsWorks)
@@ -394,15 +390,13 @@ TEST(FactorizationBySplittingTest, GetNewPolynomialWithVariablesWorks)
     Polynomial polynomial3{Monomial(2, {})};
     Polynomials polynomialsToTest{polynomial1, polynomial2, polynomial3};
 
-    Polynomial polynomia1ToVerify(getNewPolynomialWithVariables(variableSubstitution, polynomialsToTest));
+    Polynomial polynomia1ToVerify(getNewPolynomialWithNewVariables(variableSubstitution, polynomialsToTest));
 
     ASSERT_EQ(1u, variableSubstitution.getSize());
-    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(Polynomial{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}})})));
-    EXPECT_EQ(expressionToExpect, variableSubstitution.getExpressionForVariable("{(5[x] + 3[y])}"));
+    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(Polynomial{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}})})));    EXPECT_EQ(expressionToExpect, variableSubstitution.getExpressionForVariable("{(5[x] + 3[y])}"));
     Polynomial polynomialToExpect{
         Monomial(1, {{"{(5[x] + 3[y])}", 2}}),
-                Monomial(3, {{"{(5[x] + 3[y])}", 1}}),
-                Monomial(2, {})};
+                Monomial(3, {{"{(5[x] + 3[y])}", 1}}),                Monomial(2, {})};
     EXPECT_EQ(polynomialToExpect, polynomia1ToVerify);
 }
 

@@ -22,18 +22,18 @@ Polynomials splitPolynomialsByDivisibilityOfExponents(Polynomial const& polynomi
 Polynomials splitPolynomialsByFirstVariable(Polynomial const& polynomial);
 Polynomials factorizeSmallerPolynomials(Polynomials const& smallerPolynomials);
 Polynomials factorizeSmallerPolynomialsByFactoringOutCommonFactors(Polynomials const& smallerPolynomials);
-Polynomials factorizeSmallerPolynomialsBySubstitutingCommonFactorsToVariables(Polynomials const& smallerPolynomials);
-Polynomials factorizePolynomialWithVariables(
+Polynomials factorizeSmallerPolynomialsBySubstitutingCommonFactorsToNewVariables(Polynomials const& smallerPolynomials);
+Polynomials factorizePolynomialWithNewVariables(
         Polynomial const& newPolynomialWithVariables,
         SubstitutionOfVariablesToExpressions const& variableSubstitution);
 Polynomials getCommonFactorsInThesePolynomials(Polynomials const& smallerPolynomials);
-Polynomial getNewPolynomialWithVariables(SubstitutionOfVariablesToExpressions & variableSubstitution, Polynomials const& smallerPolynomials);
+Polynomial getNewPolynomialWithNewVariables(
+        SubstitutionOfVariablesToExpressions & variableSubstitution,
+        Polynomials const& smallerPolynomials);
 Polynomials getPolynomialsWithRemovedCommonFactors(Polynomials const& polynomialsWithCommonFactors, Polynomials const& commonFactors);
 void updateToGetSubsetOfFactors(Polynomials & commonFactors, Polynomials const& currentCommonFactors);
 void combinePolynomialsByAdditionAndThenEmplaceBack(Polynomials & result, Polynomials const& smallerPolynomials);
-
 }
 
 }
-
 }
