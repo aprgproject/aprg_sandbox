@@ -50,9 +50,9 @@ PenCircles::PointPenCircleDetailsPairs PenCircles::getNearestPenCirclesToAPoint(
         unsigned int const distance) const
 {
     PointPenCircleDetailsPairs result;
-    unsigned int minX=static_cast<unsigned int>(clampLowerBound(subtract(point.getX(), distance), 0));
+    unsigned int minX=static_cast<unsigned int>(clampLowerBound(convertToIntegerThenSubtract(point.getX(), distance), 0));
     unsigned int maxX=point.getX()+distance;
-    unsigned int minY=static_cast<unsigned int>(clampLowerBound(subtract(point.getY(), distance), 0));
+    unsigned int minY=static_cast<unsigned int>(clampLowerBound(convertToIntegerThenSubtract(point.getY(), distance), 0));
     unsigned int maxY=point.getY()+distance;
     for(PointPenCircleDetailsPair const& pair : m_penCircles)
     {

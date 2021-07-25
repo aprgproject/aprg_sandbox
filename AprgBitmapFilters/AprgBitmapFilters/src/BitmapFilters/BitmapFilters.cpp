@@ -696,7 +696,7 @@ unsigned char BitmapFilters::getBlurredColorPart(
         unsigned int const similarityColorLimit) const
 {
     unsigned char blurredColorPart(colorToComparePart);
-    unsigned int positiveDelta(getPositiveDelta(centerColorPart, colorToComparePart));
+    unsigned int positiveDelta(getPositiveDelta<unsigned int>(centerColorPart, colorToComparePart));
     if(positiveDelta > similarityColorLimit)
     {
         if(centerColorPart > colorToComparePart)

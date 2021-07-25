@@ -97,7 +97,7 @@ Polynomials splitPolynomialsByDivisibilityOfExponents(Polynomial const& polynomi
     if(polynomialDegree.isIntegerType() && polynomialDegree > 0)
     {
         Monomials remainingMonomials = polynomial.getMonomialsConstReference();
-        unsigned int degree = static_cast<unsigned int>(polynomialDegree.getInteger());
+        long long int degree = polynomialDegree.getInteger();
         for(; degree>=2; degree--)
         {
             Polynomial partialPolynomial;

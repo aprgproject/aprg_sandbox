@@ -24,9 +24,9 @@ constexpr unsigned int MAX_COLOR_VALUE = 0xFF;
 
 bool isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) //RGB algo
 {
-    bool isRedDifferenceBeyondLimit(getPositiveDelta(extractRed(color1), extractRed(color2)) > similarityColorLimit);
-    bool isGreenDifferenceBeyondLimit(getPositiveDelta(extractGreen(color1), extractGreen(color2)) > similarityColorLimit);
-    bool isBlueDifferenceBeyondLimit(getPositiveDelta(extractBlue(color1), extractBlue(color2)) > similarityColorLimit);
+    bool isRedDifferenceBeyondLimit(getPositiveDelta<unsigned int>(extractRed(color1), extractRed(color2)) > similarityColorLimit);
+    bool isGreenDifferenceBeyondLimit(getPositiveDelta<unsigned int>(extractGreen(color1), extractGreen(color2)) > similarityColorLimit);
+    bool isBlueDifferenceBeyondLimit(getPositiveDelta<unsigned int>(extractBlue(color1), extractBlue(color2)) > similarityColorLimit);
     return  !(isRedDifferenceBeyondLimit || isGreenDifferenceBeyondLimit || isBlueDifferenceBeyondLimit);
 }
 

@@ -39,10 +39,12 @@ TEST(AlbaMathHelperTest, IntegerTypesCanBeConsideredEqual)
 
 TEST(AlbaMathHelperTest, DoubleTypesCanBeConsideredEqual)
 {
-    EXPECT_TRUE(isAlmostEqual(static_cast<double>(1)/3, static_cast<double>(1)/3));    EXPECT_FALSE(isAlmostEqual(static_cast<double>(1)/3, static_cast<double>(1)/3+0.1));
+    EXPECT_TRUE(isAlmostEqual(static_cast<double>(1)/3, static_cast<double>(1)/3));
+    EXPECT_FALSE(isAlmostEqual(static_cast<double>(1)/3, static_cast<double>(1)/3+0.1));
     EXPECT_TRUE(isAlmostEqual(static_cast<double>(1)/3, static_cast<double>(1)/3+1E-13));
     EXPECT_TRUE(isAlmostEqual(1E-12, 1E-12));
-    EXPECT_FALSE(isAlmostEqual(static_cast<double>(0), 1E-11));    EXPECT_FALSE(isAlmostEqual(static_cast<double>(0), 1E-12));
+    EXPECT_FALSE(isAlmostEqual(static_cast<double>(0), 1E-11));
+    EXPECT_FALSE(isAlmostEqual(static_cast<double>(0), 1E-12));
     EXPECT_TRUE(isAlmostEqual(static_cast<double>(0), 1E-13));
     EXPECT_TRUE(isAlmostEqual(static_cast<double>(0), 1E-24));
     EXPECT_TRUE(isAlmostEqual(1E-12, 1E-24));
@@ -54,7 +56,8 @@ TEST(AlbaMathHelperTest, DoubleTypesCanBeConsideredEqual)
 
 TEST(AlbaMathHelperTest, IsAlmostEqualWorksWithDifferenceTolerance)
 {
-    EXPECT_TRUE(isAlmostEqual(2.54, 2.55, 1E-1));    EXPECT_TRUE(isAlmostEqual(2.54, 2.55, 1E-2));
+    EXPECT_TRUE(isAlmostEqual(2.54, 2.55, 1E-1));
+    EXPECT_TRUE(isAlmostEqual(2.54, 2.55, 1E-2));
     EXPECT_FALSE(isAlmostEqual(2.54, 2.55, 1E-3));
     EXPECT_FALSE(isAlmostEqual(2, INFINITY, 1E-3));
     EXPECT_TRUE(isAlmostEqual(INFINITY, INFINITY, 1E-3));
@@ -63,11 +66,11 @@ TEST(AlbaMathHelperTest, IsAlmostEqualWorksWithDifferenceTolerance)
 
 TEST(AlbaMathHelperTest, IsAlmostAnIntegerWorks)
 {
-    EXPECT_TRUE(isAlmostAnInteger(0));
-    EXPECT_TRUE(isAlmostAnInteger(1));
-    EXPECT_TRUE(isAlmostAnInteger(2));
-    EXPECT_FALSE(isAlmostAnInteger(3.00000001));
-    EXPECT_TRUE(isAlmostAnInteger(3.0000000000001));
+    EXPECT_TRUE(isAlmostAnInteger<int>(0));
+    EXPECT_TRUE(isAlmostAnInteger<int>(1));
+    EXPECT_TRUE(isAlmostAnInteger<int>(2));
+    EXPECT_FALSE(isAlmostAnInteger<int>(3.00000001));
+    EXPECT_TRUE(isAlmostAnInteger<int>(3.0000000000001));
 }
 
 TEST(AlbaMathHelperTest, IsAlmostAnIntegerWithDifferenceToleranceWorks)
@@ -142,12 +145,18 @@ TEST(AlbaMathHelperTest, IsValueBeyondUnsignedLongLongIntegerLimitsWorks)
 
 TEST(AlbaMathHelperTest, IntegerAfterRoundingDoubleValueWorks)
 {
-    EXPECT_EQ(0, getIntegerAfterRoundingDoubleValue(0));
-    EXPECT_EQ(1, getIntegerAfterRoundingDoubleValue(1));
-    EXPECT_EQ(2, getIntegerAfterRoundingDoubleValue(1.5));
-    EXPECT_EQ(-2, getIntegerAfterRoundingDoubleValue(-1.5));
-    EXPECT_EQ(652, getIntegerAfterRoundingDoubleValue(652.426542));
-    EXPECT_EQ(-348, getIntegerAfterRoundingDoubleValue(-347.51514));
+    EXPECT_EQ(0, getIntegerAfterRoundingDoubleValue<int>(0));
+    EXPECT_EQ(1, getIntegerAfterRoundingDoubleValue<int>(1));
+    EXPECT_EQ(2, getIntegerAfterRoundingDoubleValue<int>(1.5));
+    EXPECT_EQ(-2, getIntegerAfterRoundingDoubleValue<int>(-1.5));
+    EXPECT_EQ(652, getIntegerAfterRoundingDoubleValue<int>(652.426542));
+    EXPECT_EQ(-348, getIntegerAfterRoundingDoubleValue<int>(-347.51514));
+    EXPECT_EQ(0u, getIntegerAfterRoundingDoubleValue<unsigned int>(0));
+    EXPECT_EQ(1u, getIntegerAfterRoundingDoubleValue<unsigned int>(1));
+    EXPECT_EQ(2u, getIntegerAfterRoundingDoubleValue<unsigned int>(1.5));
+    EXPECT_EQ(4294967294u, getIntegerAfterRoundingDoubleValue<unsigned int>(-1.5));
+    EXPECT_EQ(652u, getIntegerAfterRoundingDoubleValue<unsigned int>(652.426542));
+    EXPECT_EQ(4294966948u, getIntegerAfterRoundingDoubleValue<unsigned int>(-347.51514));
 }
 
 TEST(AlbaMathHelperTest, IntegerPartInDoubleWorks)
@@ -158,16 +167,6 @@ TEST(AlbaMathHelperTest, IntegerPartInDoubleWorks)
     EXPECT_EQ(-1, getIntegerPartInDouble(-1.5));
     EXPECT_EQ(652, getIntegerPartInDouble(652.426542));
     EXPECT_EQ(-347, getIntegerPartInDouble(-347.51514));
-}
-
-TEST(AlbaMathHelperTest, GetUnsignedIntegerAfterRoundingDoubleValueWorks)
-{
-    EXPECT_EQ(0u, getUnsignedIntegerAfterRoundingDoubleValue(0));
-    EXPECT_EQ(1u, getUnsignedIntegerAfterRoundingDoubleValue(1));
-    EXPECT_EQ(2u, getUnsignedIntegerAfterRoundingDoubleValue(1.5));
-    EXPECT_EQ(4294967294u, getUnsignedIntegerAfterRoundingDoubleValue(-1.5));
-    EXPECT_EQ(652u, getUnsignedIntegerAfterRoundingDoubleValue(652.426542));
-    EXPECT_EQ(4294966948u, getUnsignedIntegerAfterRoundingDoubleValue(-347.51514));
 }
 
 TEST(AlbaMathHelperTest, FractionalPartInDoubleWorks)
@@ -311,7 +310,8 @@ TEST(AlbaMathHelperTest, ClampHigherBoundWorks)
 TEST(AlbaMathHelperTest, IsDivisibleWorks)
 {
     EXPECT_FALSE(isDivisible(0u, 0u));
-    EXPECT_TRUE(isDivisible(0u, 1u));    EXPECT_TRUE(isDivisible(1u, 1u));
+    EXPECT_TRUE(isDivisible(0u, 1u));
+    EXPECT_TRUE(isDivisible(1u, 1u));
     EXPECT_FALSE(isDivisible(1u, 5u));
     EXPECT_TRUE(isDivisible(5u, 1u));
     EXPECT_TRUE(isDivisible(256u, 16u));
@@ -321,14 +321,16 @@ TEST(AlbaMathHelperTest, IsDivisibleWorks)
 TEST(AlbaMathHelperTest, IsEvenWorks)
 {
     EXPECT_TRUE(isEven(0u));
-    EXPECT_FALSE(isEven(1u));    EXPECT_TRUE(isEven(256u));
+    EXPECT_FALSE(isEven(1u));
+    EXPECT_TRUE(isEven(256u));
     EXPECT_FALSE(isEven(255u));
 }
 
 TEST(AlbaMathHelperTest, IsOddWorks)
 {
     EXPECT_FALSE(isOdd(0u));
-    EXPECT_TRUE(isOdd(1u));    EXPECT_FALSE(isOdd(256u));
+    EXPECT_TRUE(isOdd(1u));
+    EXPECT_FALSE(isOdd(256u));
     EXPECT_TRUE(isOdd(255u));
 }
 
@@ -387,10 +389,12 @@ TEST(AlbaMathHelperTest, GetFractionDetailsInLowestFormWorks)
 {
     FractionDetails fractionDetails1(getFractionDetailsInLowestForm(0, 0));
     EXPECT_EQ(1, fractionDetails1.sign);
-    EXPECT_EQ(0u, fractionDetails1.numerator);    EXPECT_EQ(0u, fractionDetails1.denominator);
+    EXPECT_EQ(0u, fractionDetails1.numerator);
+    EXPECT_EQ(0u, fractionDetails1.denominator);
 
     FractionDetails fractionDetails2(getFractionDetailsInLowestForm(1, 1));
-    EXPECT_EQ(1, fractionDetails2.sign);    EXPECT_EQ(1u, fractionDetails2.numerator);
+    EXPECT_EQ(1, fractionDetails2.sign);
+    EXPECT_EQ(1u, fractionDetails2.numerator);
     EXPECT_EQ(1u, fractionDetails2.denominator);
 
     FractionDetails fractionDetails3(getFractionDetailsInLowestForm(16, -32));
@@ -417,10 +421,12 @@ TEST(AlbaMathHelperTest, GetFractionDetailsInLowestFormWorks)
 TEST(AlbaMathHelperTest, GetBestFractionDetailsForDoubleValueWorks)
 {
     FractionDetails fractionDetails1(getBestFractionDetailsForDoubleValue(0));
-    EXPECT_EQ(1, fractionDetails1.sign);    EXPECT_EQ(0u, fractionDetails1.numerator);
+    EXPECT_EQ(1, fractionDetails1.sign);
+    EXPECT_EQ(0u, fractionDetails1.numerator);
     EXPECT_EQ(1u, fractionDetails1.denominator);
 
-    FractionDetails fractionDetails2(getBestFractionDetailsForDoubleValue(1));    EXPECT_EQ(1, fractionDetails2.sign);
+    FractionDetails fractionDetails2(getBestFractionDetailsForDoubleValue(1));
+    EXPECT_EQ(1, fractionDetails2.sign);
     EXPECT_EQ(1u, fractionDetails2.numerator);
     EXPECT_EQ(1u, fractionDetails2.denominator);
 

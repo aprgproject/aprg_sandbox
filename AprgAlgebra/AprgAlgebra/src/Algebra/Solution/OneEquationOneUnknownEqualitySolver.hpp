@@ -8,10 +8,10 @@ namespace alba
 namespace algebra
 {
 
-class SolutionToEquation
+class OneEquationOneUnknownEqualitySolver
 {
 public:
-    SolutionToEquation(Equation const& equation);
+    OneEquationOneUnknownEqualitySolver(Equation const& equation);
 
 private:
     Equation m_equation;

@@ -34,7 +34,7 @@ double convertRadiansToDegrees(double const valueInRadians);
 //Precision related functions
 template <typename NumberType> bool isAlmostEqual(NumberType const value1, NumberType const value2);
 bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance);
-bool isAlmostAnInteger(double const value);
+template <typename NumberType> bool isAlmostAnInteger(double const value);
 bool isAlmostAnInteger(double const value, double const differenceTolerance);
 template <typename NumberType> bool isValueBeyondLimits(double const value);
 template <> bool isValueBeyondLimits<int>(double const value);
@@ -44,9 +44,8 @@ template <> bool isValueBeyondLimits<long int>(double const value);
 template <> bool isValueBeyondLimits<unsigned long int>(double const value);
 template <> bool isValueBeyondLimits<long long int>(double const value);
 template <> bool isValueBeyondLimits<unsigned long long int>(double const value);
-int getIntegerAfterRoundingDoubleValue(double const doubleValue);
+template <typename NumberType> NumberType getIntegerAfterRoundingDoubleValue(double const doubleValue);
 int getIntegerPartInDouble(double const doubleValue);
-unsigned int getUnsignedIntegerAfterRoundingDoubleValue(double const doubleValue);
 double getFractionalPartInDouble(double const doubleValue);
 
 
@@ -84,7 +83,8 @@ bool isOdd(unsigned int const number);
 //Factor and multiple related functions
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber);
 AlbaNumber getGreatestCommonFactor(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);
-unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber);AlbaNumber getLeastCommonMultiple(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);
+unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber);
+AlbaNumber getLeastCommonMultiple(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);
 double getLeastCommonMultipleInDouble(unsigned int const firstNumber, unsigned int const secondNumber);
 unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number);
 

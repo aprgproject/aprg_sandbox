@@ -19,10 +19,12 @@ namespace
 {
 //internal functions
 
-unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned int const number){
+unsigned int getNumberOfMultiplesInclusive(unsigned int const multiple, unsigned int const number)
+{
     unsigned int result(0);
     if(multiple>0)
-    {        result = ((number+multiple-1)/multiple);
+    {
+        result = ((number+multiple-1)/multiple);
     }
     return result;
 }
@@ -65,7 +67,10 @@ FractionDetails getFractionFromPartialNumerators(
                 isValueBeyondLimits<unsigned int>(numerator) || isValueBeyondLimits<unsigned int>(denominator);
         if(isBeyondUnsignedIntegerLimits) { break; }
     }
-    return FractionDetails{1, getUnsignedIntegerAfterRoundingDoubleValue(numerator), getUnsignedIntegerAfterRoundingDoubleValue(denominator)};
+    return FractionDetails{
+        1,
+        getIntegerAfterRoundingDoubleValue<unsigned int>(numerator),
+                getIntegerAfterRoundingDoubleValue<unsigned int>(denominator)};
 }
 
 //end of internal functions
@@ -95,7 +100,8 @@ double convertRadiansToDegrees(double const valueInRadians)
 
 //isAlmostEqual
 template <typename NumberType>
-bool isAlmostEqual(NumberType const value1, NumberType const value2){
+bool isAlmostEqual(NumberType const value1, NumberType const value2)
+{
     return value1==value2;
 }
 template bool isAlmostEqual<unsigned int>(unsigned int const value1, unsigned int const value2);
@@ -119,12 +125,19 @@ bool isAlmostEqual(double const value1, double const value2, double const differ
     return value1 == value2 || getAbsoluteValue(value1-value2) <= differenceTolerance;
 }
 
+
+//isAlmostAnInteger
+template <typename NumberType>
 bool isAlmostAnInteger(double const value)
 {
     return isAlmostEqual(
                 value,
-                static_cast<double>(static_cast<int>(round(value))));
+                static_cast<double>(static_cast<NumberType>(round(value))));
 }
+template bool isAlmostAnInteger<int>(double const value);
+template bool isAlmostAnInteger<unsigned int>(double const value);
+template bool isAlmostAnInteger<long long int>(double const value);
+
 
 bool isAlmostAnInteger(double const value, double const differenceTolerance)
 {
@@ -166,19 +179,20 @@ template <> bool isValueBeyondLimits<unsigned long long int>(double const value)
 }
 
 
-int getIntegerAfterRoundingDoubleValue(double const doubleValue)
+//getIntegerAfterRoundingDoubleValue
+template <typename NumberType>
+NumberType getIntegerAfterRoundingDoubleValue(double const doubleValue)
 {
-    return static_cast<int>(round(doubleValue));
+    return static_cast<NumberType>(round(doubleValue));
 }
+template int getIntegerAfterRoundingDoubleValue<int>(double const doubleValue);
+template unsigned int getIntegerAfterRoundingDoubleValue<unsigned int>(double const doubleValue);
+template long long int getIntegerAfterRoundingDoubleValue<long long int>(double const doubleValue);
+
 
 int getIntegerPartInDouble(double const doubleValue)
 {
     return static_cast<int>(doubleValue);
-}
-
-unsigned int getUnsignedIntegerAfterRoundingDoubleValue(double const doubleValue)
-{
-    return static_cast<unsigned int>(round(doubleValue));
 }
 
 double getFractionalPartInDouble(double const doubleValue)
@@ -194,6 +208,7 @@ NumberType getAbsoluteValue(NumberType const value)
     return (value<0) ? value*-1 : value;
 }
 template int getAbsoluteValue<int>(int const value);
+template long long int getAbsoluteValue<long long int>(long long int const value);
 template double getAbsoluteValue<double>(double const value);
 template <> unsigned int getAbsoluteValue<unsigned int>(unsigned int const value)
 {
@@ -205,7 +220,8 @@ AlbaNumber getAbsoluteValue(AlbaNumber const& value)
 }
 
 
-//getSigntemplate <typename NumberType>
+//getSign
+template <typename NumberType>
 NumberType getSign(NumberType const value)
 {
     return (value<0) ? -1 : 1;
@@ -242,7 +258,8 @@ int convertToIntegerThenSubtract(unsigned int const number1, unsigned int const 
 
 //getAverage 2 parameters
 template <typename NumberType>
-NumberType getAverage(NumberType const value1, NumberType const value2){
+NumberType getAverage(NumberType const value1, NumberType const value2)
+{
     return (value1+value2)/2;
 }
 template unsigned int getAverage<unsigned int>(unsigned int const value1, unsigned int const value2);
@@ -254,7 +271,8 @@ AlbaNumber getAverage(AlbaNumber const& value1, AlbaNumber const& value2)
 }
 
 
-//getAverage 3 parameterstemplate <typename NumberType>
+//getAverage 3 parameters
+template <typename NumberType>
 NumberType getAverage(NumberType const value1, NumberType const value2, NumberType const value3)
 {
     return (value1+value2+value3)/3;
@@ -266,7 +284,8 @@ template double getAverage<double>(double const value1, double const value2, dou
 
 //getXSquaredPlusYSquared
 template <typename NumberType>
-NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y){
+NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y)
+{
     return static_cast<NumberType>(pow(x, 2)+pow(y, 2));
 }
 template int getXSquaredPlusYSquared<int>(int const x, int const y);
@@ -339,7 +358,8 @@ double calculateInverseCumulativeStandardDistributionApproximation(double const 
 
 //clampLowerBound
 template <typename NumberType>
-NumberType clampLowerBound(NumberType const value, NumberType const limit){
+NumberType clampLowerBound(NumberType const value, NumberType const limit)
+{
     return (value<limit) ? limit : value;
 }
 template unsigned int clampLowerBound<unsigned int>(unsigned int const value, unsigned int const limit);
@@ -360,7 +380,8 @@ template double clampHigherBound<double>(double const value, double const limit)
 
 bool isDivisible(unsigned int const dividend, unsigned int const divisor)
 {
-    bool result(false);    if(divisor != 0)
+    bool result(false);
+    if(divisor != 0)
     {
         result = (dividend % divisor)==0;
     }
@@ -379,10 +400,12 @@ bool isOdd(unsigned int const number)
 
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber)
 {
-    unsigned int result(0);    unsigned int temporaryFirstValue(firstNumber);
+    unsigned int result(0);
+    unsigned int temporaryFirstValue(firstNumber);
     unsigned int temporarySecondValue(secondNumber);
     while(1)
-    {        if(temporaryFirstValue==0)
+    {
+        if(temporaryFirstValue==0)
         {
             result = temporarySecondValue;
             break;
@@ -567,7 +590,7 @@ bool isPerfectNthPower(
         unsigned int const nthPower)
 {
     double valueRaiseToTheReciprocal = pow(value, static_cast<double>(1)/nthPower);
-    return isAlmostAnInteger(valueRaiseToTheReciprocal);
+    return isAlmostAnInteger<unsigned int>(valueRaiseToTheReciprocal);
 }
 
 bool isPerfectNthPower(
