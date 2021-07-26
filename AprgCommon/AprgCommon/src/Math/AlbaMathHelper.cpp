@@ -248,13 +248,16 @@ NumberType getPositiveDelta(NumberType const value1, NumberType const value2)
 template unsigned int getPositiveDelta<unsigned int>(unsigned int const value1, unsigned int const value2);
 template int getPositiveDelta<int>(int const value1, int const value2);
 template double getPositiveDelta<double>(double const value1, double const value2);
-
-
-int convertToIntegerThenSubtract(unsigned int const number1, unsigned int const number2)
+AlbaNumber getPositiveDelta(AlbaNumber const& value1, AlbaNumber const& value2)
 {
-    return static_cast<int>(number1)-static_cast<int>(number2);
+    pair<AlbaNumber, AlbaNumber> minMaxPair = minmax(value1, value2);
+    return minMaxPair.second-minMaxPair.first;
 }
 
+
+int convertToIntegerThenSubtract(unsigned int const number1, unsigned int const number2){
+    return static_cast<int>(number1)-static_cast<int>(number2);
+}
 
 //getAverage 2 parameters
 template <typename NumberType>

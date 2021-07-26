@@ -208,19 +208,18 @@ AlbaNumbers getRoots(Polynomial const& polynomial)
     retrieveVariableNames(polynomial, variableNames);
     if(variableNames.size() == 1)
     {
-        Polynomials polynomials(factorize(polynomial));
-        for(Polynomial const& polynomial : polynomials)
+        Polynomial polynomialToFactorize(polynomial);
+        Polynomials factorizedPolynomials(factorize(polynomialToFactorize));
+        for(Polynomial const& factorizedPolynomial : factorizedPolynomials)
         {
-            Monomials const& monomials(polynomial.getMonomialsConstReference());
-            AlbaNumber maxDegree(polynomial.getMaxDegree());
+            Monomials const& monomials(factorizedPolynomial.getMonomialsConstReference());
+            AlbaNumber maxDegree(factorizedPolynomial.getMaxDegree());
             if(monomials.size() == 1 && maxDegree > 0)
             {
-                result.emplace_back(AlbaNumber(0));
-            }
+                result.emplace_back(AlbaNumber(0));            }
             else if(monomials.size() == 2)
             {
-                Monomial firstMonomial(monomials.at(0));
-                Monomial secondMonomial(monomials.at(1));
+                Monomial firstMonomial(monomials.at(0));                Monomial secondMonomial(monomials.at(1));
                 if(secondMonomial.isConstantOnly())
                 {
                     AlbaNumber constant(-secondMonomial.getConstantConstReference());
@@ -364,13 +363,79 @@ string createVariableNameForSubstitution(Polynomial const& polynomial)
     return variableName;
 }
 
-VariableNamesSet getVariableNames(Term const& term)
+AlbaNumbersSet getNumbers(Term const& term)
 {
-    VariableNamesSet result;
-    retrieveVariableNames(term, result);
+    AlbaNumbersSet result;
+    retrieveNumbers(term, result);
     return result;
 }
 
+void retrieveNumbers(Term const& term, AlbaNumbersSet & numbers)
+{
+    if(term.isConstant())
+    {
+        retrieveNumbers(term.getConstantConstReference(), numbers);
+    }
+    else if(term.isMonomial())
+    {
+        retrieveNumbers(term.getMonomialConstReference(), numbers);
+    }
+    else if(term.isPolynomial())
+    {
+        retrieveNumbers(term.getPolynomialConstReference(), numbers);
+    }
+    else if(term.isExpression())
+    {
+        retrieveNumbers(term.getExpressionConstReference(), numbers);
+    }
+    else if(term.isFunction())
+    {
+        retrieveNumbers(term.getFunctionConstReference(), numbers);
+    }
+}
+
+void retrieveNumbers(Constant const& constant, AlbaNumbersSet & numbers)
+{
+    numbers.emplace(constant.getNumberConstReference());
+}
+
+void retrieveNumbers(Monomial const& monomial, AlbaNumbersSet & numbers)
+{
+    numbers.emplace(monomial.getConstantConstReference());
+    for(Monomial::VariableExponentPair const& variableExponentsPair
+        : monomial.getVariablesToExponentsMapConstReference())
+    {
+        numbers.emplace(variableExponentsPair.second);
+    }
+}
+
+void retrieveNumbers(Polynomial const& polynomial, AlbaNumbersSet & numbers)
+{
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    {
+        retrieveNumbers(monomial, numbers);
+    }
+}
+
+void retrieveNumbers(Expression const& expression, AlbaNumbersSet & numbers)
+{
+    for(TermsWithAssociation::TermWithDetails const& termWithDetails
+        : expression.getTermsWithAssociation().getTermsWithDetails())
+    {
+        retrieveNumbers(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), numbers);
+    }
+}
+
+void retrieveNumbers(Function const& functionTerm, AlbaNumbersSet & numbers)
+{
+    retrieveNumbers(functionTerm.getInputExpressionConstReference(), numbers);
+}
+
+VariableNamesSet getVariableNames(Term const& term)
+{
+    VariableNamesSet result;    retrieveVariableNames(term, result);
+    return result;
+}
 void retrieveVariableNames(Term const& term, VariableNamesSet & variableNames)
 {
     if(term.isVariable())
@@ -519,44 +584,31 @@ Monomial getLcmMonomialInMonomials(Monomials const& monomials)
     return maxExponentMonomial;
 }
 
-
-void collectVariableNames(strings & variableNames, Monomial const& monomial)
-{
-    for(Monomial::VariableExponentPair const& variableExponentPair : monomial.getVariablesToExponentsMapConstReference())
-    {
-        variableNames.emplace_back(variableExponentPair.first);
-    }
-}
-
 Monomial compareMonomialsAndSaveMinimumExponentsForEachVariable(Monomial const& firstMonomial, Monomial const& secondMonomial)
 {
     Monomial::VariablesToExponentsMap newVariableExponentMap;
-    strings variableNames;
-    collectVariableNames(variableNames, firstMonomial);
-    collectVariableNames(variableNames, secondMonomial);
+    VariableNamesSet variableNames;
+    retrieveVariableNames(firstMonomial, variableNames);
+    retrieveVariableNames(secondMonomial, variableNames);
     for(string const& variableName : variableNames)
     {
-        newVariableExponentMap[variableName] = min(
-                    firstMonomial.getExponentForVariable(variableName),
+        newVariableExponentMap[variableName] = min(                    firstMonomial.getExponentForVariable(variableName),
                     secondMonomial.getExponentForVariable(variableName));
     }
-    return Monomial(1, newVariableExponentMap);
-}
+    return Monomial(1, newVariableExponentMap);}
 
 Monomial compareMonomialsAndSaveMaximumExponentsForEachVariable(Monomial const& firstMonomial, Monomial const& secondMonomial)
 {
     Monomial::VariablesToExponentsMap newVariableExponentMap;
-    strings variableNames;
-    collectVariableNames(variableNames, firstMonomial);
-    collectVariableNames(variableNames, secondMonomial);
+    VariableNamesSet variableNames;
+    retrieveVariableNames(firstMonomial, variableNames);
+    retrieveVariableNames(secondMonomial, variableNames);
     for(string const& variableName : variableNames)
     {
-        newVariableExponentMap[variableName] = max(
-                    firstMonomial.getExponentForVariable(variableName),
+        newVariableExponentMap[variableName] = max(                    firstMonomial.getExponentForVariable(variableName),
                     secondMonomial.getExponentForVariable(variableName));
     }
-    return Monomial(1, newVariableExponentMap);
-}
+    return Monomial(1, newVariableExponentMap);}
 
 Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials)
 {

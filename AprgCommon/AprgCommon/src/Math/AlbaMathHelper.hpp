@@ -55,13 +55,12 @@ AlbaNumber getAbsoluteValue(AlbaNumber const& value);
 template <typename NumberType> NumberType getSign(NumberType const value);
 AlbaNumber getSign(AlbaNumber const& value);
 template <typename NumberType> NumberType getPositiveDelta(NumberType const value1, NumberType const value2);
+AlbaNumber getPositiveDelta(AlbaNumber const& value1, AlbaNumber const& value2);
 int convertToIntegerThenSubtract(unsigned int const number1, unsigned int const number2);
-
 
 //Computation functions
 template <typename NumberType> NumberType getAverage(NumberType const value1, NumberType const value2);
-AlbaNumber getAverage(AlbaNumber const& value1, AlbaNumber const& value2);
-template <typename NumberType> NumberType getAverage(NumberType const value1, NumberType const value2, NumberType const value3);
+AlbaNumber getAverage(AlbaNumber const& value1, AlbaNumber const& value2);template <typename NumberType> NumberType getAverage(NumberType const value1, NumberType const value2, NumberType const value3);
 template <typename NumberType> NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y);
 template <typename NumberType> NumberType getSquareRootOfXSquaredPlusYSquared(NumberType const x, NumberType const y);
 template <typename NumberType> NumberType getSquareRootOfXSquaredPlusYSquaredPlusZSquared(NumberType const x, NumberType const y, NumberType const z);

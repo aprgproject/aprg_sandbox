@@ -207,26 +207,28 @@ TEST(AlbaMathHelperTest, GetSignWorksForAlbaNumber)
     EXPECT_EQ(AlbaNumber(-1), getSign(AlbaNumber(-1, 3)));
 }
 
-TEST(AlbaMathHelperTest, GetPositiveDeltaAsExpected)
+TEST(AlbaMathHelperTest, GetPositiveDeltaWorksForPrimitiveTypes)
 {
     EXPECT_EQ(0u, getPositiveDelta(0u, 0u));
-    EXPECT_EQ(0u, getPositiveDelta(5u, 5u));
-    EXPECT_EQ(5u, getPositiveDelta(5u, 10u));
+    EXPECT_EQ(0u, getPositiveDelta(5u, 5u));    EXPECT_EQ(5u, getPositiveDelta(5u, 10u));
     EXPECT_EQ(5u, getPositiveDelta(10u, 5u));
     EXPECT_EQ(90, getPositiveDelta(-100,-10));
-    EXPECT_EQ(20, getPositiveDelta(10,-10));
-    EXPECT_EQ(20, getPositiveDelta(-10,10));
+    EXPECT_EQ(20, getPositiveDelta(10,-10));    EXPECT_EQ(20, getPositiveDelta(-10,10));
     EXPECT_EQ(90, getPositiveDelta(10,100));
+}
+
+TEST(AlbaMathHelperTest, GetPositiveDeltaWorksAlbaNumber)
+{
+    EXPECT_EQ(AlbaNumber(4.444), getPositiveDelta(1.234, 5.678));
+    EXPECT_EQ(AlbaNumber(4.444), getPositiveDelta(5.678, 1.234));
 }
 
 TEST(AlbaMathHelperTest, ConvertToIntegerThenSubtractWorks)
 {
-    EXPECT_EQ(0, convertToIntegerThenSubtract(0u, 0u));
-    EXPECT_EQ(0, convertToIntegerThenSubtract(5u, 5u));
+    EXPECT_EQ(0, convertToIntegerThenSubtract(0u, 0u));    EXPECT_EQ(0, convertToIntegerThenSubtract(5u, 5u));
     EXPECT_EQ(-5, convertToIntegerThenSubtract(5u, 10u));
     EXPECT_EQ(5, convertToIntegerThenSubtract(10u, 5u));
 }
-
 TEST(AlbaMathHelperTest, GetAverageOfTwoNumbersWorksForPrimitiveTypes)
 {
     EXPECT_EQ(0, getAverage(-10, 10));

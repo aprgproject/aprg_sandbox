@@ -5,13 +5,14 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
+
 using namespace alba::stringHelper;
+using namespace std;
 using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
-
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -152,23 +153,66 @@ TEST(TermUtilitiesTest, GetTermPriorityValueWorks)
     EXPECT_EQ(6u, getTermTypePriorityValue(TermType::Expression));
 }
 
-TEST(TermUtilitiesTest, GetRootsWorks)
+TEST(TermUtilitiesTest, GetRootsWorksAndRootsIsEmptyWhenConstantIsGiven)
 {
-    AlbaNumbers roots(getRoots(Polynomial{Monomial(-16, {}), Monomial(1, {{"x", 2}})}));
+    AlbaNumbers roots(getRoots(Polynomial{Monomial(-16, {})}));
+
+    EXPECT_TRUE(roots.empty());
+}
+
+TEST(TermUtilitiesTest, GetRootsWorksAndRootsIsEmptyWhenMultipleVariablesAreGiven)
+{
+    AlbaNumbers roots(getRoots(Polynomial{Monomial(1, {{"x", 4}}), Monomial(1, {{"y", 3}}), Monomial(-16, {})}));
+
+    EXPECT_TRUE(roots.empty());
+}
+
+TEST(TermUtilitiesTest, GetRootsWorksAndFactorizesAPolynomial)
+{
+    AlbaNumbers roots(getRoots(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-16, {})}));
 
     ASSERT_EQ(2u, roots.size());
     EXPECT_EQ(AlbaNumber(-4), roots[0]);
     EXPECT_EQ(AlbaNumber(4), roots[1]);
 }
 
+TEST(TermUtilitiesTest, GetRootsWorksAndRootIsZeroWhenExponentIsPositive)
+{
+    AlbaNumbers roots(getRoots(Polynomial{Monomial(1, {{"x", AlbaNumber(4)/3}})}));
+
+    ASSERT_EQ(1u, roots.size());
+    EXPECT_EQ(AlbaNumber(0), roots[0]);
+}
+
+TEST(TermUtilitiesTest, GetRootsWorksAndZeroIsNotIncludedWhenExponentIsNegative)
+{
+    AlbaNumbers roots(getRoots(Polynomial{Monomial(1, {{"x", AlbaNumber(-4)/3}})}));
+
+    EXPECT_TRUE(roots.empty());
+}
+
+TEST(TermUtilitiesTest, GetRootsWorksAndWhenPolynomialIsNotSorted)
+{
+    AlbaNumbers roots(getRoots(Polynomial{Monomial(-16, {}), Monomial(1, {{"x", 1}})}));
+
+    ASSERT_EQ(1u, roots.size());
+    EXPECT_EQ(AlbaNumber(16), roots[0]);
+}
+
+TEST(TermUtilitiesTest, GetRootsWorksAndRootIsCorrectlyCalculatedWhenExponentIsNotAnInteger)
+{
+    AlbaNumbers roots(getRoots(Polynomial{Monomial(1, {{"x", AlbaNumber(4)/3}}), Monomial(-16, {})}));
+
+    ASSERT_EQ(1u, roots.size());
+    EXPECT_EQ(AlbaNumber(8), roots[0]);
+}
+
 TEST(TermUtilitiesTest, GetEnumShortStringForTermTypeWorks)
 {
-    EXPECT_EQ("Empty", getEnumShortString(TermType::Empty));
-    EXPECT_EQ("Constant", getEnumShortString(TermType::Constant));
+    EXPECT_EQ("Empty", getEnumShortString(TermType::Empty));    EXPECT_EQ("Constant", getEnumShortString(TermType::Constant));
     EXPECT_EQ("Variable", getEnumShortString(TermType::Variable));
     EXPECT_EQ("Operator", getEnumShortString(TermType::Operator));
-    EXPECT_EQ("Monomial", getEnumShortString(TermType::Monomial));
-    EXPECT_EQ("Polynomial", getEnumShortString(TermType::Polynomial));
+    EXPECT_EQ("Monomial", getEnumShortString(TermType::Monomial));    EXPECT_EQ("Polynomial", getEnumShortString(TermType::Polynomial));
     EXPECT_EQ("Expression", getEnumShortString(TermType::Expression));
     EXPECT_EQ("Function", getEnumShortString(TermType::Function));
 }
@@ -234,18 +278,126 @@ TEST(TermUtilitiesTest, CreateVariableNameForSubstitutionWorks)
     EXPECT_EQ("{(6 + -7[x^2][y^3][z^4])}", createVariableNameForSubstitution(polynomial));
 }
 
+TEST(TermUtilitiesTest, GetNumbersForTermWorks)
+{
+    AlbaNumbersSet numbersSet(getNumbers(Term(Constant(1.234))));
+
+    ASSERT_EQ(1u, numbersSet.size());
+    EXPECT_EQ(AlbaNumber(1.234), *(numbersSet.cbegin()));
+}
+
+TEST(TermUtilitiesTest, RetrieveNumbersForTermWorks)
+{
+    AlbaNumbersSet numbersSet1;
+    AlbaNumbersSet numbersSet2;
+    AlbaNumbersSet numbersSet3;
+    AlbaNumbersSet numbersSet4;
+    AlbaNumbersSet numbersSet5;
+    Function functionTerm(
+                "functionName",
+                createExpressionIfPossible({Term("x"), Term("^"), Term(68)}),
+                [](Constant const&  constant) -> Constant
+    {
+        return constant;
+    });
+
+    retrieveNumbers(Term(Constant(1.234)), numbersSet1);
+    retrieveNumbers(Term(Monomial(34, {{"x", 1}, {"y", 1}})), numbersSet2);
+    retrieveNumbers(Term(Polynomial({Monomial(1, {{"x", 56}}), Monomial(1, {{"y", 1}})})), numbersSet3);
+    retrieveNumbers(Term(createExpressionIfPossible({Term("x"), Term("^"), Term(68)})), numbersSet4);
+    retrieveNumbers(Term(functionTerm), numbersSet5);
+
+    ASSERT_EQ(1u, numbersSet1.size());
+    EXPECT_EQ(AlbaNumber(1.234), *(numbersSet1.cbegin()));
+    ASSERT_EQ(2u, numbersSet2.size());
+    AlbaNumbersSet::const_iterator it2 = numbersSet2.cbegin();
+    EXPECT_EQ(AlbaNumber(1), *(it2++));
+    EXPECT_EQ(AlbaNumber(34), *(it2++));
+    ASSERT_EQ(2u, numbersSet3.size());
+    AlbaNumbersSet::const_iterator it3 = numbersSet3.cbegin();
+    EXPECT_EQ(AlbaNumber(1), *(it3++));
+    EXPECT_EQ(AlbaNumber(56), *(it3++));
+    ASSERT_EQ(1u, numbersSet4.size());
+    AlbaNumbersSet::const_iterator it4 = numbersSet4.cbegin();
+    EXPECT_EQ(AlbaNumber(68), *(it4++));
+    ASSERT_EQ(1u, numbersSet5.size());
+    AlbaNumbersSet::const_iterator it5 = numbersSet5.cbegin();
+    EXPECT_EQ(AlbaNumber(68), *(it5++));
+}
+
+TEST(TermUtilitiesTest, RetrieveNumbersForVariableWorks)
+{
+    AlbaNumbersSet numbersSet;
+
+    retrieveNumbers(Constant(1.234), numbersSet);
+
+    ASSERT_EQ(1u, numbersSet.size());
+    EXPECT_EQ(AlbaNumber(1.234), *(numbersSet.cbegin()));
+}
+
+TEST(TermUtilitiesTest, RetrieveNumbersForMonomialWorks)
+{
+    AlbaNumbersSet numbersSet;
+
+    retrieveNumbers(Monomial(34, {{"x", 1}, {"y", 1}}), numbersSet);
+
+    ASSERT_EQ(2u, numbersSet.size());
+    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
+    EXPECT_EQ(AlbaNumber(1), *(it++));
+    EXPECT_EQ(AlbaNumber(34), *(it++));
+}
+
+TEST(TermUtilitiesTest, RetrieveNumbersForPolynomialWorks)
+{
+    AlbaNumbersSet numbersSet;
+
+    retrieveNumbers(Polynomial({Monomial(1, {{"x", 56}}), Monomial(1, {{"y", 1}})}), numbersSet);
+
+    ASSERT_EQ(2u, numbersSet.size());
+    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
+    EXPECT_EQ(AlbaNumber(1), *(it++));
+    EXPECT_EQ(AlbaNumber(56), *(it++));
+}
+
+TEST(TermUtilitiesTest, RetrieveNumbersForExpressionWorks)
+{
+    AlbaNumbersSet numbersSet;
+
+    retrieveNumbers(createExpressionIfPossible({Term("x"), Term("^"), Term(68)}), numbersSet);
+
+    ASSERT_EQ(1u, numbersSet.size());
+    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
+    EXPECT_EQ(AlbaNumber(68), *(it++));
+}
+
+TEST(TermUtilitiesTest, RetrieveNumbersForFunctionWorks)
+{
+    AlbaNumbersSet numbersSet;
+    Function functionTerm(
+                "functionName",
+                createExpressionIfPossible({Term("x"), Term("^"), Term(68)}),
+                [](Constant const&  constant) -> Constant
+    {
+        return constant;
+    });
+
+    retrieveNumbers(functionTerm, numbersSet);
+
+    ASSERT_EQ(1u, numbersSet.size());
+    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
+    EXPECT_EQ(AlbaNumber(68), *(it++));
+}
+
 TEST(TermUtilitiesTest, GetVariableNamesForTermWorks)
 {
     VariableNamesSet variableNamesSet(getVariableNames(Term(Variable("VariableName"))));
 
-    ASSERT_FALSE(variableNamesSet.empty());
+    ASSERT_EQ(1u, variableNamesSet.size());
     EXPECT_EQ("VariableName", *(variableNamesSet.cbegin()));
 }
-
 TEST(TermUtilitiesTest, RetrieveVariableNamesForTermWorks)
 {
-    VariableNamesSet variableNamesSet1;
-    VariableNamesSet variableNamesSet2;
+    VariableNamesSet variableNamesSet1;    VariableNamesSet variableNamesSet2;
     VariableNamesSet variableNamesSet3;
     VariableNamesSet variableNamesSet4;
     VariableNamesSet variableNamesSet5;
@@ -263,15 +415,13 @@ TEST(TermUtilitiesTest, RetrieveVariableNamesForTermWorks)
     retrieveVariableNames(Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})), variableNamesSet4);
     retrieveVariableNames(Term(functionTerm), variableNamesSet5);
 
-    ASSERT_FALSE(variableNamesSet1.empty());
+    ASSERT_EQ(1u, variableNamesSet1.size());
     EXPECT_EQ("VariableName", *(variableNamesSet1.cbegin()));
     ASSERT_EQ(2u, variableNamesSet2.size());
-    VariableNamesSet::const_iterator it2 = variableNamesSet2.cbegin();
-    EXPECT_EQ("x", *(it2++));
+    VariableNamesSet::const_iterator it2 = variableNamesSet2.cbegin();    EXPECT_EQ("x", *(it2++));
     EXPECT_EQ("y", *(it2++));
     ASSERT_EQ(2u, variableNamesSet3.size());
-    VariableNamesSet::const_iterator it3 = variableNamesSet3.cbegin();
-    EXPECT_EQ("x", *(it3++));
+    VariableNamesSet::const_iterator it3 = variableNamesSet3.cbegin();    EXPECT_EQ("x", *(it3++));
     EXPECT_EQ("y", *(it3++));
     ASSERT_EQ(2u, variableNamesSet4.size());
     VariableNamesSet::const_iterator it4 = variableNamesSet4.cbegin();
@@ -289,14 +439,12 @@ TEST(TermUtilitiesTest, RetrieveVariableNamesForVariableWorks)
 
     retrieveVariableNames(Variable("VariableName"), variableNamesSet);
 
-    ASSERT_FALSE(variableNamesSet.empty());
+    ASSERT_EQ(1u, variableNamesSet.size());
     EXPECT_EQ("VariableName", *(variableNamesSet.cbegin()));
 }
-
 TEST(TermUtilitiesTest, RetrieveVariableNamesForMonomialWorks)
 {
     VariableNamesSet variableNamesSet;
-
     retrieveVariableNames(Monomial(1, {{"x", 1}, {"y", 1}}), variableNamesSet);
 
     ASSERT_EQ(2u, variableNamesSet.size());
@@ -412,27 +560,11 @@ TEST(TermUtilitiesTest, GetLcmMonomialInMonomialsWorks)
     EXPECT_EQ(monomialToExpect6, monomialToVerify6);
 }
 
-TEST(TermUtilitiesTest, CollectVariableNamesWorks)
-{
-    Monomial monomial(85, {{"a", -5}, {"b", 10}, {"x", 3}, {"y", 4}});
-    strings stringsToVerify;
-
-    collectVariableNames(stringsToVerify, monomial);
-
-    ASSERT_EQ(4u, stringsToVerify.size());
-    EXPECT_EQ("a", stringsToVerify.at(0));
-    EXPECT_EQ("b", stringsToVerify.at(1));
-    EXPECT_EQ("x", stringsToVerify.at(2));
-    EXPECT_EQ("y", stringsToVerify.at(3));
-}
-
 TEST(TermUtilitiesTest, CompareMonomialsAndSaveMinimumExponentsForEachVariableWorks)
 {
-    Monomial monomial1(85, {{"a", -5}, {"b", 10}, {"x", 3}, {"y", 4}});
-    Monomial monomial2(356, {{"a", 10}, {"b", -5}, {"x", 5}, {"y", 2}});
+    Monomial monomial1(85, {{"a", -5}, {"b", 10}, {"x", 3}, {"y", 4}});    Monomial monomial2(356, {{"a", 10}, {"b", -5}, {"x", 5}, {"y", 2}});
 
     Monomial monomialToVerify(compareMonomialsAndSaveMinimumExponentsForEachVariable(monomial1, monomial2));
-
     EXPECT_DOUBLE_EQ(1, monomialToVerify.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMapToVerify(monomialToVerify.getVariablesToExponentsMapConstReference());
     ASSERT_EQ(4u, variableMapToVerify.size());

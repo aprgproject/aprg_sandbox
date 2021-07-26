@@ -1,10 +1,14 @@
+//In numerical analysis, Brent's method is a root-finding algorithm combining the bisection method, the secant method and inverse quadratic interpolation.
+//It has the reliability of bisection but it can be as quick as some of the less-reliable methods.
+//The algorithm tries to use the potentially fast-converging secant method or inverse quadratic interpolation if possible, but it falls back to the more robust bisection method if necessary.
+//Brent's method is due to Richard Brent[1] and builds on an earlier algorithm by Theodorus Dekker.[2]
+//Consequently, the method is also known as the Brent–Dekker method.
+
 #include "BrentMethod.hpp"
 
 #include <Math/AlbaMathHelper.hpp>
-
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 
@@ -25,27 +29,21 @@ AlbaNumberOptional BrentMethod::calculateRoot(AlbaNumber const& start, AlbaNumbe
     AlbaNumber s;
     AlbaNumber fa = calculate(a);
     AlbaNumber fb = calculate(b);
-
-    //if(fa*fb>=0){//exit?//}
+    bool mflag(true);
 
     if(getAbsoluteValue(fa) < getAbsoluteValue(fb))
     {
-        swap(a, b);
-        fa = calculate(a);
+        swap(a, b);        fa = calculate(a);
         fb = calculate(b);
     }
     c=a;
 
-    bool mflag(true);
-
     unsigned int const maxIterations = 1000;
     double aPreviousValue=b.getDouble();
-    double bPreviousValue=a.getDouble();
-    for(unsigned numberOfIterations=0; numberOfIterations<maxIterations; numberOfIterations++) //or |b − a| is small enough (convergence)
+    double bPreviousValue=a.getDouble();    for(unsigned numberOfIterations=0; numberOfIterations<maxIterations; numberOfIterations++) //or |b − a| is small enough (convergence)
     {
         if(calculate(s) == 0)
-        {
-            result.setValue(s);
+        {            result.setValue(s);
             break;
         }
         if(calculate(b) == 0)

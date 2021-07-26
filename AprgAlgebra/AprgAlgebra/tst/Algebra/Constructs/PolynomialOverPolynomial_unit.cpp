@@ -12,18 +12,30 @@ namespace algebra
 
 TEST(PolynomialOverPolynomialTest, ConstructionWorks)
 {
+    PolynomialOverPolynomial();
     PolynomialOverPolynomial(Polynomial(), Polynomial());
     PolynomialOverPolynomial((Polynomial{Monomial(10, {})}), (Polynomial{Monomial(100, {})}));
 }
 
+TEST(PolynomialOverPolynomialTest, IsEmptyWorks)
+{
+    PolynomialOverPolynomial actual1;
+    PolynomialOverPolynomial actual2(Polynomial{}, Polynomial{});
+    PolynomialOverPolynomial actual3(Polynomial{}, (Polynomial{Monomial(100, {})}));
+    PolynomialOverPolynomial actual4((Polynomial{Monomial(10, {})}), (Polynomial{Monomial(100, {})}));
+
+    EXPECT_TRUE(actual1.isEmpty());
+    EXPECT_TRUE(actual2.isEmpty());
+    EXPECT_FALSE(actual3.isEmpty());
+    EXPECT_FALSE(actual4.isEmpty());
+}
+
 TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWithNoRemainder)
 {
-    Polynomial numerator{Monomial(3, {{"x", 3}}), Monomial(-4, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 1}, {"y", 2}}), Monomial(6, {{"y", 3}})};
-    Polynomial denominator{Monomial(1, {{"x", 2}}), Monomial(-2, {{"x", 1}, {"y", 1}}), Monomial(3, {{"y", 2}})};
+    Polynomial numerator{Monomial(3, {{"x", 3}}), Monomial(-4, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 1}, {"y", 2}}), Monomial(6, {{"y", 3}})};    Polynomial denominator{Monomial(1, {{"x", 2}}), Monomial(-2, {{"x", 1}, {"y", 1}}), Monomial(3, {{"y", 2}})};
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
     PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(polynomialOverPolynomial.simplifyAndDivide());
-
     Polynomial quotientToExpect{Monomial(3, {{"x", 1}}), Monomial(2, {{"y", 1}})};
     Polynomial remainderToExpect{};
     EXPECT_EQ(quotientToExpect, quotientAndRemainder.quotient);
