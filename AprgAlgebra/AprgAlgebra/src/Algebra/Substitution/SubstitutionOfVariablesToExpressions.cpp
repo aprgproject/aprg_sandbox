@@ -1,6 +1,8 @@
 #include "SubstitutionOfVariablesToExpressions.hpp"
 
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 using namespace std;
 using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;

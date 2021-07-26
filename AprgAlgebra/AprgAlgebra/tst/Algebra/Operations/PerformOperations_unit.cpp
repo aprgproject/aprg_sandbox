@@ -1,5 +1,4 @@
 #include <Algebra/Operations/PerformOperations.hpp>
-#include <Algebra/Utilities.hpp>
 
 #include <gtest/gtest.h>
 

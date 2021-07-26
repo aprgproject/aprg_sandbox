@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Algebra/Term/Term.hpp>
-#include <Algebra/Term/TermsWithAssociation.hpp>
+#include <Algebra/Term/TermTypes/Term.hpp>
+#include <Algebra/Term/TermTypes/TermsWithAssociation.hpp>
 
 #include <string>
 

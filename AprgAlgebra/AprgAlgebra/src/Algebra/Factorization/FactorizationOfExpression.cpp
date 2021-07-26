@@ -1,8 +1,8 @@
 #include "FactorizationOfExpression.hpp"
 
 #include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
-#include <Algebra/Term/Term.hpp>
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/TermTypes/Term.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 
 using namespace std;
 using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;

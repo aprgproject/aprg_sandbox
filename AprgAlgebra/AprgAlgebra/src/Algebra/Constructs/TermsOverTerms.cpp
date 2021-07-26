@@ -2,7 +2,11 @@
 
 #include <Algebra/Constructs/PolynomialOverPolynomial.hpp>
 #include <Algebra/Factorization/Factorization.hpp>
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/SegregateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 #include <algorithm>
 #include <sstream>

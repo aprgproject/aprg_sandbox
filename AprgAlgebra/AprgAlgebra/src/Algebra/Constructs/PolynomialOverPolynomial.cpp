@@ -1,7 +1,8 @@
 #include "PolynomialOverPolynomial.hpp"
 
 #include <Algebra/Factorization/Factorization.hpp>
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 using namespace alba::mathHelper;

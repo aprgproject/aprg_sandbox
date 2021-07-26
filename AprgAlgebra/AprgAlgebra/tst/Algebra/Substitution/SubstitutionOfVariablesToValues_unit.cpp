@@ -1,6 +1,6 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
 

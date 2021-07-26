@@ -1,7 +1,7 @@
 #include <Algebra/Factorization/Factorization.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
-#include <Algebra/Term/Term.hpp>
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/TermTypes/Term.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
 

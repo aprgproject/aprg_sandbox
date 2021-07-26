@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algebra/Term/Term.hpp>
+#include <Algebra/Term/TermTypes/Term.hpp>
 #include <Optional/AlbaOptional.hpp>
 
 namespace alba

@@ -1,7 +1,6 @@
 #include "FactorizationUtilities.hpp"
 
 #include <Algebra/Factorization/Factorization.hpp>
-#include <Algebra/Utilities.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 using namespace alba::mathHelper;

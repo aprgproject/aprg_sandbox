@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Algebra/Substitution/SubstitutionOfVariablesToExpressions.hpp>
-#include <Algebra/Term/Polynomial.hpp>
+#include <Algebra/Term/TermTypes/Polynomial.hpp>
 
 namespace alba
 {
@@ -13,7 +13,7 @@ namespace Factorization
 {
 
 Polynomials factorizeBySplittingToSmallerPolynomials(Polynomial const& polynomial);
-Polynomials factorizeIfPossibleBySplittingToSmallerPolynomials(Polynomial const& polynomial);
+Polynomials factorizeBySplittingToSmallerPolynomialsIfPossible(Polynomial const& polynomial);
 Polynomials factorizeIfPossibleBySplittingByPolynomialDegree(Polynomial const& polynomial);
 Polynomials factorizeIfPossibleBySplittingByDivisibilityOfExponents(Polynomial const& polynomial);
 Polynomials factorizeIfPossibleBySplittingByFirstVariable(Polynomial const& polynomial);
@@ -33,7 +33,9 @@ Polynomial getNewPolynomialWithNewVariables(
 Polynomials getPolynomialsWithRemovedCommonFactors(Polynomials const& polynomialsWithCommonFactors, Polynomials const& commonFactors);
 void updateToGetSubsetOfFactors(Polynomials & commonFactors, Polynomials const& currentCommonFactors);
 void combinePolynomialsByAdditionAndThenEmplaceBack(Polynomials & result, Polynomials const& smallerPolynomials);
+
 }
 
 }
+
 }

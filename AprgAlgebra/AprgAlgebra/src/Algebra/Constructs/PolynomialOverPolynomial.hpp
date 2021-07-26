@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algebra/Term/Polynomial.hpp>
+#include <Algebra/Term/TermTypes/Polynomial.hpp>
 
 #include <vector>
 

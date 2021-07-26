@@ -1,6 +1,7 @@
 #include "SubstitutionOfTermsToTerms.hpp"
 
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 
 using namespace std;
 using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;

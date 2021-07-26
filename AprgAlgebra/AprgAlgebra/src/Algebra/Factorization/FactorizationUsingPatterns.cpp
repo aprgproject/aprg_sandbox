@@ -1,7 +1,7 @@
 #include "FactorizationUsingPatterns.hpp"
 
 #include <Algebra/Factorization/FactorizationUtilities.hpp>
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 using namespace std;
 

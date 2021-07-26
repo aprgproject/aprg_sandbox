@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Algebra/Equation/EquationOperator.hpp>
-#include <Algebra/Term/Term.hpp>
+#include <Algebra/Term/TermTypes/Term.hpp>
 
 #include <string>
 

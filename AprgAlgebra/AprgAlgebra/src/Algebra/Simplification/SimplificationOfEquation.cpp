@@ -1,7 +1,8 @@
 #include "SimplificationOfEquation.hpp"
 
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 using namespace std;
 

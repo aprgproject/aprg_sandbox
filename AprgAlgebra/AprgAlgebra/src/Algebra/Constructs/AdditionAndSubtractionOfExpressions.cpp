@@ -1,8 +1,11 @@
 #include "AdditionAndSubtractionOfExpressions.hpp"
 
 #include <Algebra/Operations/AccumulateOperations.hpp>
-#include <Algebra/Term/TermOperators.hpp>
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 #include <algorithm>
 

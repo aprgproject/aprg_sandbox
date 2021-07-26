@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Algebra/Term/Operator.hpp>
-#include <Algebra/Term/Term.hpp>
-#include <Algebra/Term/TermsWithAssociation.hpp>
+#include <Algebra/Term/TermTypes/Operator.hpp>
+#include <Algebra/Term/TermTypes/Term.hpp>
+#include <Algebra/Term/TermTypes/TermsWithAssociation.hpp>
 
 namespace alba
 {

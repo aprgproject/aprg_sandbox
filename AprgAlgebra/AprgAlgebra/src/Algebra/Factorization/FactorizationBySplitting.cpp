@@ -3,7 +3,8 @@
 #include <Algebra/Constructs/PolynomialOverPolynomial.hpp>
 #include <Algebra/Factorization/Factorization.hpp>
 #include <Algebra/Factorization/FactorizationUtilities.hpp>
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 using namespace std;
 
@@ -19,11 +20,11 @@ namespace Factorization
 Polynomials factorizeBySplittingToSmallerPolynomials(Polynomial const& polynomial)
 {
     return returnPolynomialsOrSinglePolynomialIfEmpty(
-                factorizeIfPossibleBySplittingToSmallerPolynomials(polynomial),
+                factorizeBySplittingToSmallerPolynomialsIfPossible(polynomial),
                 polynomial);
 }
 
-Polynomials factorizeIfPossibleBySplittingToSmallerPolynomials(Polynomial const& polynomial)
+Polynomials factorizeBySplittingToSmallerPolynomialsIfPossible(Polynomial const& polynomial)
 {
     Polynomials result;
     result = factorizeIfPossibleBySplittingByPolynomialDegree(polynomial);
@@ -165,9 +166,11 @@ Polynomials factorizeSmallerPolynomials(Polynomials const& smallerPolynomials)
     }
     return result;
 }
+
 Polynomials factorizeSmallerPolynomialsByFactoringOutCommonFactors(Polynomials const& smallerPolynomials)
 {
-    Polynomials result;    if(smallerPolynomials.size() > 1)
+    Polynomials result;
+    if(smallerPolynomials.size() > 1)
     {
         Polynomials commonFactors(getCommonFactorsInThesePolynomials(smallerPolynomials));
         if(!commonFactors.empty())
@@ -201,10 +204,12 @@ Polynomials factorizeSmallerPolynomialsBySubstitutingCommonFactorsToNewVariables
 Polynomials factorizePolynomialWithNewVariables(
         Polynomial const& newPolynomialWithVariables,
         SubstitutionOfVariablesToExpressions const& variableSubstitution)
-{    Polynomials result;
+{
+    Polynomials result;
     Polynomials factorizedPolynomialsWithVariables(factorize(newPolynomialWithVariables));
     if(factorizedPolynomialsWithVariables.size() > 1)
-    {        for(Polynomial const& factorizedPolynomialWithVariables : factorizedPolynomialsWithVariables)
+    {
+        for(Polynomial const& factorizedPolynomialWithVariables : factorizedPolynomialsWithVariables)
         {
             Polynomial finalPolynomial(createPolynomialIfPossible(variableSubstitution.performSubstitutionTo(factorizedPolynomialWithVariables)));
             simplifyPolynomialThenEmplaceBackIfNotEmpty(result, finalPolynomial);
@@ -238,10 +243,12 @@ Polynomial getNewPolynomialWithNewVariables(
         Polynomials const& smallerPolynomials)
 {
     Polynomial newPolynomialWithVariables;
-    for(Polynomial const& smallerPolynomial : smallerPolynomials)    {
+    for(Polynomial const& smallerPolynomial : smallerPolynomials)
+    {
         Polynomial newSmallerPolynomialWithVariables(createPolynomialFromConstant(1));
         Polynomials factors(factorize(smallerPolynomial));
-        for(Polynomial const& factor : factors)        {
+        for(Polynomial const& factor : factors)
+        {
             if(factor.isOneMonomial())
             {
                 newSmallerPolynomialWithVariables.multiplyMonomial(factor.getFirstMonomial());

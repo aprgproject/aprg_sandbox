@@ -1,5 +1,5 @@
 #include <Algebra/Factorization/FactorizationOfExpression.hpp>
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
 

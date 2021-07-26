@@ -4,7 +4,8 @@
 #include <Algebra/Factorization/FactorizationOfIncreasingAndDecreasingExponentForm.hpp>
 #include <Algebra/Factorization/FactorizationUsingPatterns.hpp>
 #include <Algebra/Factorization/FactorizationUtilities.hpp>
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 using namespace std;
 
@@ -21,14 +22,32 @@ Polynomials factorizeAPolynomial(Polynomial const& polynomial)
 {
     Polynomial polynomialToFactorize(polynomial);
     polynomialToFactorize.simplify();
-    Polynomials result{polynomialToFactorize};
-    if(!polynomialToFactorize.isOneMonomial())
+    Polynomials result;
+    if(polynomialToFactorize.isOneMonomial())
     {
-        result = factorizeCommonMonomial(polynomialToFactorize);
-        if(result.size() == 1){result = factorizeUsingPatterns(polynomialToFactorize); }
-        if(result.size() == 1){result = factorizeIncreasingAndDecreasingExponentsForm(polynomialToFactorize); }
-        if(result.size() == 1){result = factorizeBySplittingToSmallerPolynomials(polynomialToFactorize); }
-        if(result.size() != 1)
+        result.emplace_back(polynomialToFactorize);
+    }
+    else
+    {
+        result = factorizeCommonMonomialIfPossible(polynomialToFactorize);
+        if(result.empty())
+        {
+            result = factorizeUsingPatternsIfPossible(polynomialToFactorize);
+        }
+        if(result.empty())
+        {
+            result = factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToFactorize);
+        }
+        if(result.empty())
+        {
+            result = factorizeBySplittingToSmallerPolynomialsIfPossible(polynomialToFactorize);
+        }
+
+        if(result.empty())
+        {
+            result.emplace_back(polynomialToFactorize);
+        }
+        else if(result.size() > 1)
         {
             result = factorizePolynomials(result);
         }

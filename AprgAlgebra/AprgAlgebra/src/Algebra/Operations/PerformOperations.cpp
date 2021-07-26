@@ -1,7 +1,6 @@
 #include "PerformOperations.hpp"
 
-#include <Algebra/Term/TermOperators.hpp>
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
 
 using namespace std;
 

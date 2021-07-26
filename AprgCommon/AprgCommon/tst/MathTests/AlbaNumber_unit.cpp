@@ -31,10 +31,12 @@ TEST(AlbaNumberTest, ConstructionWorksAsExpected)
     AlbaNumber number10(AlbaNumber::Value::NotANumber);
 
     EXPECT_EQ(AlbaNumber::Type::Integer, number1.getType());
-    EXPECT_EQ(0, number1.getInteger());    EXPECT_EQ(AlbaNumber::Type::Integer, number2.getType());
+    EXPECT_EQ(0, number1.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Integer, number2.getType());
     EXPECT_EQ(-81237, number2.getInteger());
     EXPECT_EQ(AlbaNumber::Type::Integer, number3.getType());
-    EXPECT_EQ(34095093, number3.getInteger());    EXPECT_EQ(AlbaNumber::Type::Fraction, number4.getType());
+    EXPECT_EQ(34095093, number3.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Fraction, number4.getType());
     AlbaNumber::FractionData fractionData(number4.getFractionData());
     EXPECT_EQ(43704, fractionData.numerator);
     EXPECT_EQ(4901u, fractionData.denominator);
@@ -52,10 +54,12 @@ TEST(AlbaNumberTest, ConstructionWorksAsExpected)
     EXPECT_TRUE(isnan(number10.getDouble()));
 }
 
-TEST(AlbaNumberTest, IsIntegerTypeWorksAsExpected){
+TEST(AlbaNumberTest, IsIntegerTypeWorksAsExpected)
+{
     AlbaNumber number1;
     AlbaNumber number2(-81237);
-    AlbaNumber number3(34095093u);    AlbaNumber number4(-87408, -9802);
+    AlbaNumber number3(34095093u);
+    AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(-100, 10);
     AlbaNumber number6(4564.38794);
 
@@ -133,20 +137,24 @@ TEST(AlbaNumberTest, IsPositiveInfinityWorksAsExpected)
     AlbaNumber number11(AlbaNumber::Value::NotANumber);
 
     EXPECT_FALSE(number1.isPositiveInfinity());
-    EXPECT_FALSE(number2.isPositiveInfinity());    EXPECT_FALSE(number3.isPositiveInfinity());
+    EXPECT_FALSE(number2.isPositiveInfinity());
+    EXPECT_FALSE(number3.isPositiveInfinity());
     EXPECT_FALSE(number4.isPositiveInfinity());
     EXPECT_FALSE(number5.isPositiveInfinity());
-    EXPECT_FALSE(number6.isPositiveInfinity());    EXPECT_TRUE(number7.isPositiveInfinity());
+    EXPECT_FALSE(number6.isPositiveInfinity());
+    EXPECT_TRUE(number7.isPositiveInfinity());
     EXPECT_FALSE(number8.isPositiveInfinity());
     EXPECT_TRUE(number9.isPositiveInfinity());
     EXPECT_FALSE(number10.isPositiveInfinity());
     EXPECT_FALSE(number11.isPositiveInfinity());
 }
 
-TEST(AlbaNumberTest, IsNegativeInfinityWorksAsExpected){
+TEST(AlbaNumberTest, IsNegativeInfinityWorksAsExpected)
+{
     AlbaNumber number1;
     AlbaNumber number2(-81237);
-    AlbaNumber number3(34095093u);    AlbaNumber number4(-87408, -9802);
+    AlbaNumber number3(34095093u);
+    AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(-100, 10);
     AlbaNumber number6(4564.38794);
     AlbaNumber number7(AlbaNumber::Value::PositiveInfinity);
@@ -156,10 +164,12 @@ TEST(AlbaNumberTest, IsNegativeInfinityWorksAsExpected){
     AlbaNumber number11(AlbaNumber::Value::NotANumber);
 
     EXPECT_FALSE(number1.isNegativeInfinity());
-    EXPECT_FALSE(number2.isNegativeInfinity());    EXPECT_FALSE(number3.isNegativeInfinity());
+    EXPECT_FALSE(number2.isNegativeInfinity());
+    EXPECT_FALSE(number3.isNegativeInfinity());
     EXPECT_FALSE(number4.isNegativeInfinity());
     EXPECT_FALSE(number5.isNegativeInfinity());
-    EXPECT_FALSE(number6.isNegativeInfinity());    EXPECT_FALSE(number7.isNegativeInfinity());
+    EXPECT_FALSE(number6.isNegativeInfinity());
+    EXPECT_FALSE(number7.isNegativeInfinity());
     EXPECT_TRUE(number8.isNegativeInfinity());
     EXPECT_FALSE(number9.isNegativeInfinity());
     EXPECT_TRUE(number10.isNegativeInfinity());
@@ -222,12 +232,14 @@ TEST(AlbaNumberTest, HasValidValueWorksAsExpected)
 
 TEST(AlbaNumberTest, GetIntegerWorksAsExpected)
 {
-    AlbaNumber number1;    AlbaNumber number2(-81237);
+    AlbaNumber number1;
+    AlbaNumber number2(-81237);
     AlbaNumber number3(34095093u);
     AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(4564.38794);
 
-    EXPECT_EQ(0, number1.getInteger());    EXPECT_EQ(-81237, number2.getInteger());
+    EXPECT_EQ(0, number1.getInteger());
+    EXPECT_EQ(-81237, number2.getInteger());
     EXPECT_EQ(34095093, number3.getInteger());
     EXPECT_EQ(9, number4.getInteger());
     EXPECT_EQ(4564, number5.getInteger());

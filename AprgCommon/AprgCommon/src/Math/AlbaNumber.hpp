@@ -18,10 +18,12 @@ public:
         NotANumber
     };
     enum class Type
-    {        Integer,
+    {
+        Integer,
         Fraction,
         Double
-    };    struct FractionData
+    };
+    struct FractionData
     {
         int numerator;
         unsigned int denominator;
@@ -85,10 +87,12 @@ public:
     bool hasValidValue() const;
 
     Type getType() const;
-    long long int getInteger() const;    FractionData getFractionData() const;
+    long long int getInteger() const;
+    FractionData getFractionData() const;
     double getDouble() const;
 
-    unsigned int getNumberDataSize() const;    std::string getDisplayableString() const;
+    unsigned int getNumberDataSize() const;
+    std::string getDisplayableString() const;
 
     void convertToInteger();
     void convertToFraction();

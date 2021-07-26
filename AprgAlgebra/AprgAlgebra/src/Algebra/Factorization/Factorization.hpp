@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Algebra/Term/Function.hpp>
-#include <Algebra/Term/Expression.hpp>
-#include <Algebra/Term/Polynomial.hpp>
+#include <Algebra/Term/TermTypes/Function.hpp>
+#include <Algebra/Term/TermTypes/Expression.hpp>
+#include <Algebra/Term/TermTypes/Polynomial.hpp>
 
 namespace alba
 {

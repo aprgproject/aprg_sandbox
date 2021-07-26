@@ -1,5 +1,5 @@
 #include <Algebra/Factorization/FactorizationBySplitting.hpp>
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
 
@@ -42,16 +42,16 @@ TEST(FactorizationBySplittingTest, FactorizeBySplittingSmallerPolynomialsWorksWh
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
-TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingToSmallerPolynomials_IsEmptyWhenItCannotBeRefactored)
+TEST(FactorizationBySplittingTest, FactorizeBySplittingToSmallerPolynomialsIfPossible_IsEmptyWhenItCannotBeRefactored)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
 
-    Polynomials polynomialsToVerify(factorizeIfPossibleBySplittingToSmallerPolynomials(polynomialToTest));
+    Polynomials polynomialsToVerify(factorizeBySplittingToSmallerPolynomialsIfPossible(polynomialToTest));
 
     EXPECT_TRUE(polynomialsToVerify.empty());
 }
 
-TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingToSmallerPolynomials_WorksBySplittingByPolynomialDegree)
+TEST(FactorizationBySplittingTest, FactorizeBySplittingToSmallerPolynomialsIfPossible_WorksBySplittingByPolynomialDegree)
 {
     Polynomial polynomialToTest{
         Monomial(25, {{"x", 2}}),
@@ -61,7 +61,7 @@ TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingToSmallerPolyno
                 Monomial(9, {{"y", 1}}),
                 Monomial(2, {})};
 
-    Polynomials polynomialsToVerify(factorizeIfPossibleBySplittingToSmallerPolynomials(polynomialToTest));
+    Polynomials polynomialsToVerify(factorizeBySplittingToSmallerPolynomialsIfPossible(polynomialToTest));
 
     ASSERT_EQ(2u, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(1, {})};
@@ -70,7 +70,7 @@ TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingToSmallerPolyno
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
-TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingToSmallerPolynomials_WorksBySplittingByDivisibilityOfExponents)
+TEST(FactorizationBySplittingTest, FactorizeBySplittingToSmallerPolynomialsIfPossible_WorksBySplittingByDivisibilityOfExponents)
 {
     Polynomial polynomialToTest{
         Monomial(1, {{"x", 2}}),
@@ -78,7 +78,7 @@ TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingToSmallerPolyno
                 Monomial(-1, {{"z", 2}}),
                 Monomial(-2, {{"y", 1}, {"z", 1}})};
 
-    Polynomials polynomialsToVerify(factorizeIfPossibleBySplittingToSmallerPolynomials(polynomialToTest));
+    Polynomials polynomialsToVerify(factorizeBySplittingToSmallerPolynomialsIfPossible(polynomialToTest));
 
     ASSERT_EQ(2u, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}}), Monomial(1, {{"z", 1}})};
@@ -87,7 +87,7 @@ TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingToSmallerPolyno
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
-TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingToSmallerPolynomials_WorksBySplittingByFirstVariable)
+TEST(FactorizationBySplittingTest, FactorizeBySplittingToSmallerPolynomialsIfPossible_WorksBySplittingByFirstVariable)
 {
     Polynomial polynomialToTest{
         Monomial(1, {{"a", 1}, {"x", 1}}),
@@ -95,7 +95,7 @@ TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingToSmallerPolyno
                 Monomial(-1, {{"b", 1}, {"y", 1}}),
                 Monomial(1, {{"b", 1}, {"x", 1}})};
 
-    Polynomials polynomialsToVerify(factorizeIfPossibleBySplittingToSmallerPolynomials(polynomialToTest));
+    Polynomials polynomialsToVerify(factorizeBySplittingToSmallerPolynomialsIfPossible(polynomialToTest));
 
     ASSERT_EQ(2u, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"a", 1}}), Monomial(1, {{"b", 1}})};
@@ -347,10 +347,12 @@ TEST(FactorizationBySplittingTest, FactorizeSmallerPolynomialsBySubstitutingComm
     Polynomials polynomialsToVerify(factorizeSmallerPolynomialsBySubstitutingCommonFactorsToNewVariables(polynomialsToTest));
 
     ASSERT_EQ(2u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(1, {})};    Polynomial polynomialToExpect2{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(2, {})};
+    Polynomial polynomialToExpect1{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(1, {})};
+    Polynomial polynomialToExpect2{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(2, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
+
 TEST(FactorizationBySplittingTest, FactorizePolynomialWithVariablesWorks)
 {
     Polynomial polynomialsToTest{Monomial(1, {{"x+1", 2}}), Monomial(2, {{"x+1", 1}}), Monomial(1, {})};
@@ -361,9 +363,11 @@ TEST(FactorizationBySplittingTest, FactorizePolynomialWithVariablesWorks)
     Polynomials polynomialsToVerify(factorizePolynomialWithNewVariables(polynomialsToTest, variableSubstitution));
 
     ASSERT_EQ(2u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(2, {})};    Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(2, {})};
+    Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(2, {})};
+    Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(2, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
+
 }
 
 TEST(FactorizationBySplittingTest, GetCommonFactorsInThesePolynomialsWorks)
@@ -393,10 +397,12 @@ TEST(FactorizationBySplittingTest, GetNewPolynomialWithVariablesWorks)
     Polynomial polynomia1ToVerify(getNewPolynomialWithNewVariables(variableSubstitution, polynomialsToTest));
 
     ASSERT_EQ(1u, variableSubstitution.getSize());
-    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(Polynomial{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}})})));    EXPECT_EQ(expressionToExpect, variableSubstitution.getExpressionForVariable("{(5[x] + 3[y])}"));
+    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(Polynomial{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}})})));
+    EXPECT_EQ(expressionToExpect, variableSubstitution.getExpressionForVariable("{(5[x] + 3[y])}"));
     Polynomial polynomialToExpect{
         Monomial(1, {{"{(5[x] + 3[y])}", 2}}),
-                Monomial(3, {{"{(5[x] + 3[y])}", 1}}),                Monomial(2, {})};
+                Monomial(3, {{"{(5[x] + 3[y])}", 1}}),
+                Monomial(2, {})};
     EXPECT_EQ(polynomialToExpect, polynomia1ToVerify);
 }
 

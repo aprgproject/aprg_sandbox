@@ -1,7 +1,8 @@
 #include <Algebra/Constructs/TermsAggregator.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Utilities.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 #include <gtest/gtest.h>
 
