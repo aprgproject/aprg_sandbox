@@ -23,20 +23,20 @@ public:
     bool operator==(Equation const& second) const;
     bool operator!=(Equation const& second) const;
     bool operator<(Equation const& second) const;
+    bool isEquationSatisfied() const;
 
     EquationOperator const& getEquationOperator() const;
-    Term const& getLeftHandTerm() const;
-    Term const& getRightHandTerm() const;
+    Term const& getLeftHandTerm() const;    Term const& getRightHandTerm() const;
     std::string getDisplayableString() const;
+
+    void simplify();
 
 private:
     EquationOperator m_equationOperator;
-    Term m_leftHandTerm;
-    Term m_rightHandTerm;
+    Term m_leftHandTerm;    Term m_rightHandTerm;
 };
 
 std::ostream & operator<<(std::ostream & out, Equation const& equation);
-
 }
 
 }

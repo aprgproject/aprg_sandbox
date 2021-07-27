@@ -1,13 +1,15 @@
 #include "Equation.hpp"
 
+#include <Algebra/Equation/EquationUtilities.hpp>
+#include <Algebra/Simplification/SimplificationOfEquation.hpp>
+
+using namespace alba::algebra::Simplification;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 Equation::Equation()
 {}
 
@@ -53,15 +55,18 @@ bool Equation::operator<(Equation const& second) const
     return result;
 }
 
+bool Equation::isEquationSatisfied() const
+{
+    return isEquationOperationSatisfied(m_equationOperator, m_leftHandTerm, m_rightHandTerm);
+}
+
 EquationOperator const& Equation::getEquationOperator() const
 {
-    return m_equationOperator;
-}
+    return m_equationOperator;}
 
 Term const& Equation::getLeftHandTerm() const
 {
-    return m_leftHandTerm;
-}
+    return m_leftHandTerm;}
 
 Term const& Equation::getRightHandTerm() const
 {
@@ -75,12 +80,17 @@ string Equation::getDisplayableString() const
             + " " + m_rightHandTerm.getDisplayableString();
 }
 
+void Equation::simplify()
+{
+    SimplificationOfEquation simplification(*this);
+    simplification.simplify();
+    *this = simplification.getEquation();
+}
+
 ostream & operator<<(ostream & out, Equation const& equation)
 {
-    out << equation.getDisplayableString();
-    return out;
+    out << equation.getDisplayableString();    return out;
 }
 
 }
-
 }

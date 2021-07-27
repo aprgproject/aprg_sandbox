@@ -17,19 +17,22 @@ public:
 
     SolutionSet();
 
+    bool isEmpty() const;
+
     AlbaNumbers const& getAcceptedValues() const;
     AlbaNumbers const& getRejectedValues() const;
     AlbaNumberIntervals const& getAcceptedIntervals() const;
-
     void addAcceptedValue(AlbaNumber const& value);
     void addRejectedValue(AlbaNumber const& value);
+    void addAcceptedValues(AlbaNumbers const& values);
+    void addRejectedValues(AlbaNumbers const& values);
+    void addAcceptedInterval(AlbaNumberInterval const& interval);
+
     void addValue(
             AlbaNumber const& value,
-            FunctionForCheckingValues const& isValueAcceptedFunction);
-    void determineAndAddAcceptedIntervals(
+            FunctionForCheckingValues const& isValueAcceptedFunction);    void determineAndAddAcceptedIntervals(
             AlbaNumbers const& valuesToCheck,
             FunctionForCheckingValues const& isValueAcceptedFunction);
-
 private:
     void prepareValuesToCheck(AlbaNumbers & combinedValuesToCheck);
     void checkValuesAndPutIntervals(

@@ -203,39 +203,35 @@ TEST(AlbaNumberTest, IsNotANumberWorksAsExpected)
     EXPECT_TRUE(number11.isNotANumber());
 }
 
-TEST(AlbaNumberTest, HasValidValueWorksAsExpected)
+TEST(AlbaNumberTest, IsAFiniteValueWorksAsExpected)
 {
     AlbaNumber number1;
-    AlbaNumber number2(-81237);
-    AlbaNumber number3(34095093u);
+    AlbaNumber number2(-81237);    AlbaNumber number3(34095093u);
     AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(-100, 10);
-    AlbaNumber number6(4564.38794);
-    AlbaNumber number7(AlbaNumber::Value::PositiveInfinity);
+    AlbaNumber number6(4564.38794);    AlbaNumber number7(AlbaNumber::Value::PositiveInfinity);
     AlbaNumber number8(AlbaNumber::Value::NegativeInfinity);
     AlbaNumber number9(100, 0);
     AlbaNumber number10(-100, 0);
     AlbaNumber number11(AlbaNumber::Value::NotANumber);
 
-    EXPECT_TRUE(number1.hasValidValue());
-    EXPECT_TRUE(number2.hasValidValue());
-    EXPECT_TRUE(number3.hasValidValue());
-    EXPECT_TRUE(number4.hasValidValue());
-    EXPECT_TRUE(number5.hasValidValue());
-    EXPECT_TRUE(number6.hasValidValue());
-    EXPECT_FALSE(number7.hasValidValue());
-    EXPECT_FALSE(number8.hasValidValue());
-    EXPECT_FALSE(number9.hasValidValue());
-    EXPECT_FALSE(number10.hasValidValue());
-    EXPECT_FALSE(number11.hasValidValue());
+    EXPECT_TRUE(number1.isAFiniteValue());
+    EXPECT_TRUE(number2.isAFiniteValue());
+    EXPECT_TRUE(number3.isAFiniteValue());
+    EXPECT_TRUE(number4.isAFiniteValue());
+    EXPECT_TRUE(number5.isAFiniteValue());
+    EXPECT_TRUE(number6.isAFiniteValue());
+    EXPECT_FALSE(number7.isAFiniteValue());
+    EXPECT_FALSE(number8.isAFiniteValue());
+    EXPECT_FALSE(number9.isAFiniteValue());
+    EXPECT_FALSE(number10.isAFiniteValue());
+    EXPECT_FALSE(number11.isAFiniteValue());
 }
 
-TEST(AlbaNumberTest, GetIntegerWorksAsExpected)
-{
+TEST(AlbaNumberTest, GetIntegerWorksAsExpected){
     AlbaNumber number1;
     AlbaNumber number2(-81237);
-    AlbaNumber number3(34095093u);
-    AlbaNumber number4(-87408, -9802);
+    AlbaNumber number3(34095093u);    AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(4564.38794);
 
     EXPECT_EQ(0, number1.getInteger());

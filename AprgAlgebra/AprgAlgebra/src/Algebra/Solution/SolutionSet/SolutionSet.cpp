@@ -16,15 +16,18 @@ namespace algebra
 SolutionSet::SolutionSet()
 {}
 
+bool SolutionSet::isEmpty() const
+{
+    return m_acceptedValues.empty() && m_rejectedValues.empty() && m_acceptedIntervals.empty();
+}
+
 AlbaNumbers const& SolutionSet::getAcceptedValues() const
 {
-    return m_acceptedValues;
-}
+    return m_acceptedValues;}
 
 AlbaNumbers const& SolutionSet::getRejectedValues() const
 {
-    return m_rejectedValues;
-}
+    return m_rejectedValues;}
 
 AlbaNumberIntervals const& SolutionSet::getAcceptedIntervals() const
 {
@@ -36,19 +39,32 @@ void SolutionSet::addAcceptedValue(AlbaNumber const& value)
     m_acceptedValues.emplace_back(value);
 }
 
+void SolutionSet::addAcceptedValues(AlbaNumbers const& values)
+{
+    copy(values.cbegin(), values.cend(), back_inserter(m_acceptedValues));
+}
+
 void SolutionSet::addRejectedValue(AlbaNumber const& value)
 {
     m_rejectedValues.emplace_back(value);
 }
 
+void SolutionSet::addRejectedValues(AlbaNumbers const& values)
+{
+    copy(values.cbegin(), values.cend(), back_inserter(m_rejectedValues));
+}
+
+void SolutionSet::addAcceptedInterval(AlbaNumberInterval const& interval)
+{
+    m_acceptedIntervals.emplace_back(interval);
+}
+
 void SolutionSet::addValue(
         AlbaNumber const& value,
-        FunctionForCheckingValues const& isValueAcceptedFunction)
-{
+        FunctionForCheckingValues const& isValueAcceptedFunction){
     if(isValueAcceptedFunction(value))
     {
-        m_acceptedValues.emplace_back(value);
-    }
+        m_acceptedValues.emplace_back(value);    }
     else
     {
         m_rejectedValues.emplace_back(value);

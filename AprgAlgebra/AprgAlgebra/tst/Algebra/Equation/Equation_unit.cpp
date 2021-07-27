@@ -81,14 +81,21 @@ TEST(EquationTest, LessThanOperatorWorks)
     EXPECT_TRUE(equation2<equation9);
 }
 
+TEST(EquationTest, IsEquationSatisfiedWorks)
+{
+    Equation equation1(Term(7), "=", Term(7));
+    Equation equation2(Term(7), "=", Term(8));
+
+    EXPECT_TRUE(equation1.isEquationSatisfied());
+    EXPECT_FALSE(equation2.isEquationSatisfied());
+}
+
 TEST(EquationTest, GetEquationOperatorWorks)
 {
-    Equation equation1(Term(), "=", Term());
-    Equation equation2(Term(7), ">", Term(8));
+    Equation equation1(Term(), "=", Term());    Equation equation2(Term(7), ">", Term(8));
 
     EXPECT_EQ(EquationOperator("="), equation1.getEquationOperator());
-    EXPECT_EQ(EquationOperator(">"), equation2.getEquationOperator());
-}
+    EXPECT_EQ(EquationOperator(">"), equation2.getEquationOperator());}
 
 TEST(EquationTest, GetLeftHandTermWorks)
 {
@@ -115,6 +122,17 @@ TEST(EquationTest, GetDisplayableStringWorks)
 
     EXPECT_EQ("{EmptyTerm} = {EmptyTerm}", equation1.getDisplayableString());
     EXPECT_EQ("7 > 8", equation2.getDisplayableString());
+}
+
+TEST(EquationTest, SimplifyWorks)
+{
+    Equation equation(Term("x"), "<", Term("y"));
+
+    equation.simplify();
+
+    EXPECT_EQ(Term(Polynomial({Monomial(-1, {{"x", 1}}), Monomial(1, {{"y", 1}})})), equation.getLeftHandTerm());
+    EXPECT_EQ(">", equation.getEquationOperator().getOperatorString());
+    EXPECT_EQ(Term(Constant(0)), equation.getRightHandTerm());
 }
 
 }

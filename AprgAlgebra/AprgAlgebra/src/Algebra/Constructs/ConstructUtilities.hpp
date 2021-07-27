@@ -9,8 +9,7 @@ namespace alba
 namespace algebra
 {
 
-PolynomialOverPolynomial createPolynomialOverPolynomialFromTermIfPossible(Term const& term);
+PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossible(Term const& term);
 
 }
-
 }

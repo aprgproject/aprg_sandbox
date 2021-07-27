@@ -176,6 +176,54 @@ TEST(SubstitutionOfVariablesToValuesTest, PerformSubstitutionToWorksOnTerm)
     EXPECT_EQ(expectTerm6, verifyTerm6);
 }
 
+TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValuesWorksUsingInitializerList)
+{
+    SubstitutionOfVariablesToValues substitution;
+
+    substitution.putVariablesWithValues({{"x", 1}, {"y", 2}});
+
+    EXPECT_EQ(AlbaNumber(1), substitution.getValueForVariable("x"));
+    EXPECT_EQ(AlbaNumber(2), substitution.getValueForVariable("y"));
+    EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("a"));
+    EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("b"));
+}
+
+TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValuesWorksUsingMap)
+{
+    SubstitutionOfVariablesToValues substitution;
+    VariablesToValuesMap variablesWithValues;
+    variablesWithValues.emplace("x", 1);
+    variablesWithValues.emplace("y", 2);
+
+    substitution.putVariablesWithValues(variablesWithValues);
+
+    EXPECT_EQ(AlbaNumber(1), substitution.getValueForVariable("x"));
+    EXPECT_EQ(AlbaNumber(2), substitution.getValueForVariable("y"));
+    EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("a"));
+    EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("b"));
+}
+
+TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValueWorks)
+{
+    SubstitutionOfVariablesToValues substitution;
+
+    substitution.putVariableWithValue("x", 5);
+
+    EXPECT_EQ(AlbaNumber(5), substitution.getValueForVariable("x"));
+    EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("a"));
+}
+
+TEST(SubstitutionOfVariablesToValuesTest, PutVariablesWithValueWorksWithSavingTheLastValue)
+{
+    SubstitutionOfVariablesToValues substitution;
+
+    substitution.putVariableWithValue("x", 5);
+    substitution.putVariableWithValue("x", 29);
+
+    EXPECT_EQ(AlbaNumber(29), substitution.getValueForVariable("x"));
+    EXPECT_EQ(AlbaNumber(0), substitution.getValueForVariable("a"));
+}
+
 }
 
 }

@@ -14,25 +14,22 @@ namespace alba
 namespace algebra
 {
 
-PolynomialOverPolynomial createPolynomialOverPolynomialFromTermIfPossible(
+PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossible(
         Term const& term)
 {
-    PolynomialOverPolynomial result(createPolynomialFromConstant(1), createPolynomialFromConstant(1));
+    PolynomialOverPolynomialOptional result;
     Term simplifiedTerm(term);
     simplifiedTerm.simplify();
+
     if(canBeConvertedToPolynomial(simplifiedTerm))
     {
-        result=PolynomialOverPolynomial(
-                    createPolynomialIfPossible(simplifiedTerm),
-                    createPolynomialFromConstant(1));
+        result.setConstReference(PolynomialOverPolynomial(createPolynomialIfPossible(simplifiedTerm), createPolynomialFromConstant(1)));
     }
     else if(simplifiedTerm.isExpression())
-    {
-        Expression expression(simplifiedTerm.getExpressionConstReference());
+    {        Expression expression(simplifiedTerm.getExpressionConstReference());
         if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
         {
-            bool canBeConvertedToPolynomialOverPolynomial(true);
-            Polynomial numerator(createPolynomialFromConstant(1));
+            bool canBeConvertedToPolynomialOverPolynomial(true);            Polynomial numerator(createPolynomialFromConstant(1));
             Polynomial denominator(createPolynomialFromConstant(1));
             for(TermWithDetails const& termWithDetails
                 : expression.getTermsWithAssociation().getTermsWithDetails())
@@ -57,13 +54,16 @@ PolynomialOverPolynomial createPolynomialOverPolynomialFromTermIfPossible(
             }
             if(canBeConvertedToPolynomialOverPolynomial)
             {
-                result=PolynomialOverPolynomial(numerator, denominator);
+                result.setConstReference(PolynomialOverPolynomial(numerator, denominator));
             }
         }
     }
+    if(result.hasContent())
+    {
+        result.getReference().simplify();
+    }
     return result;
 }
-
 }
 
 }

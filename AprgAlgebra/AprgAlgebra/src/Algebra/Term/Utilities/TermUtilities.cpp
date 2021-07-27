@@ -227,15 +227,13 @@ AlbaNumbers getRoots(Polynomial const& polynomial)
                     AlbaNumber constant(-secondMonomial.getConstantConstReference());
                     constant = constant/firstMonomial.getConstantConstReference();
                     constant = constant^(AlbaNumber(1)/firstMonomial.getMaxExponent());
-                    if(constant.hasValidValue())
+                    if(constant.isAFiniteValue())
                     {
                         result.emplace_back(constant);
-                    }
-                }
+                    }                }
             }
         }
-    }
-    return result;
+    }    return result;
 }
 
 string getEnumShortString(TermType const termType)
