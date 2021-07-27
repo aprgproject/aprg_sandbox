@@ -149,6 +149,20 @@ TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedWorksForXToXForm)
     EXPECT_EQ(44u, newtonMethod.getNumberOfIterationsExecuted());
 }
 
+TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedFailsToGetSolutionWithXToXForm)
+{
+    NewtonMethod::Function functionToIterate = [](AlbaNumber const& number)
+    {
+        return (number^number) + 823543;
+    };
+    NewtonMethod newtonMethod(-16, functionToIterate);
+
+    newtonMethod.runMaxNumberOfIterationsOrUntilFinished(100);
+
+    EXPECT_TRUE(newtonMethod.getCurrentComputedValue().isNotANumber());
+    EXPECT_EQ(1u, newtonMethod.getNumberOfIterationsExecuted());
+}
+
 }
 
 }

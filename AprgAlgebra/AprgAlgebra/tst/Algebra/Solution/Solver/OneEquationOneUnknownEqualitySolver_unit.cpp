@@ -2,9 +2,11 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -87,6 +89,17 @@ TEST(OneEquationOneUnknownEqualitySolverTest, XToTheXAreSolvedCorrectly)
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
     ASSERT_EQ(1u, acceptedValues.size());
     EXPECT_EQ(AlbaNumber(7), acceptedValues.at(0));
+}
+
+TEST(OneEquationOneUnknownEqualitySolverTest, XToTheXWithNegativeSolutionIsEmpty)
+{
+    Expression expression(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+    OneEquationOneUnknownEqualitySolver solver(Equation(Term(expression), "=", Term(-823543)));
+
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet());
+
+    AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
+    EXPECT_EQ(0u, acceptedValues.size());
 }
 
 }

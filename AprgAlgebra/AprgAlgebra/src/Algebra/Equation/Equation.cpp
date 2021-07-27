@@ -6,10 +6,12 @@
 using namespace alba::algebra::Simplification;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 Equation::Equation()
 {}
 
@@ -62,11 +64,13 @@ bool Equation::isEquationSatisfied() const
 
 EquationOperator const& Equation::getEquationOperator() const
 {
-    return m_equationOperator;}
+    return m_equationOperator;
+}
 
 Term const& Equation::getLeftHandTerm() const
 {
-    return m_leftHandTerm;}
+    return m_leftHandTerm;
+}
 
 Term const& Equation::getRightHandTerm() const
 {
@@ -89,8 +93,10 @@ void Equation::simplify()
 
 ostream & operator<<(ostream & out, Equation const& equation)
 {
-    out << equation.getDisplayableString();    return out;
+    out << equation.getDisplayableString();
+    return out;
 }
 
 }
+
 }

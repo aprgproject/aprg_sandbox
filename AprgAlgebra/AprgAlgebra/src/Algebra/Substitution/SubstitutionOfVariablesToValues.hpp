@@ -4,9 +4,11 @@
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/TermTypes/TermsWithAssociation.hpp>
 #include <Math/AlbaNumber.hpp>
+
 #include <string>
 
 using namespace std;
+
 namespace alba
 {
 

@@ -26,10 +26,12 @@ PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossibl
         result.setConstReference(PolynomialOverPolynomial(createPolynomialIfPossible(simplifiedTerm), createPolynomialFromConstant(1)));
     }
     else if(simplifiedTerm.isExpression())
-    {        Expression expression(simplifiedTerm.getExpressionConstReference());
+    {
+        Expression expression(simplifiedTerm.getExpressionConstReference());
         if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
         {
-            bool canBeConvertedToPolynomialOverPolynomial(true);            Polynomial numerator(createPolynomialFromConstant(1));
+            bool canBeConvertedToPolynomialOverPolynomial(true);
+            Polynomial numerator(createPolynomialFromConstant(1));
             Polynomial denominator(createPolynomialFromConstant(1));
             for(TermWithDetails const& termWithDetails
                 : expression.getTermsWithAssociation().getTermsWithDetails())
@@ -64,6 +66,7 @@ PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossibl
     }
     return result;
 }
+
 }
 
 }

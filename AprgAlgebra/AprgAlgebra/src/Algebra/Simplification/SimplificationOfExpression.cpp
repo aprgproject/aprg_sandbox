@@ -9,6 +9,7 @@
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 using namespace alba::mathHelper;
@@ -169,9 +170,11 @@ void SimplificationOfExpression::simplifyAndCopyTermsFromAnExpressionAndSetOpera
     }
 }
 
-void SimplificationOfExpression::simplifyFurtherIfNeeded(Expression const& beforeSimplify, Expression const& afterSimplify)
+void SimplificationOfExpression::simplifyFurtherIfNeeded(
+        Expression const& beforeSimplify,
+        Expression const& afterSimplify)
 {
-    if(beforeSimplify != afterSimplify)
+    if(beforeSimplify != afterSimplify && !isNotANumber(afterSimplify))
     {
         simplify();
     }

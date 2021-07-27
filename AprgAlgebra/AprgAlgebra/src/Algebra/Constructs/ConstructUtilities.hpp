@@ -12,4 +12,5 @@ namespace algebra
 PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossible(Term const& term);
 
 }
+
 }

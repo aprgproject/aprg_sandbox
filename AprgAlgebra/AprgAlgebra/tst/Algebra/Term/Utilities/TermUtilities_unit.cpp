@@ -118,6 +118,20 @@ TEST(TermUtilitiesTest, WillHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower
     EXPECT_TRUE(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term(Expression())));
 }
 
+TEST(TermUtilitiesTest, IsNotANumberWorksForTerm)
+{
+    EXPECT_TRUE(isNotANumber(Term(NAN)));
+    EXPECT_TRUE(isNotANumber(Term(createExpressionIfPossible({Term(NAN)}))));
+    EXPECT_FALSE(isNotANumber(Term(15)));
+    EXPECT_FALSE(isNotANumber(Term("x")));
+}
+
+TEST(TermUtilitiesTest, IsNotANumberWorksForExpression)
+{
+    EXPECT_TRUE(isNotANumber(createExpressionIfPossible({Term(NAN)})));
+    EXPECT_FALSE(isNotANumber(createExpressionIfPossible({Term(67)})));
+}
+
 TEST(TermUtilitiesTest, GetOperatorLevelValueWorks)
 {
     EXPECT_EQ(1u, getOperatorPriority("("));
@@ -178,17 +192,20 @@ TEST(TermUtilitiesTest, GetRootsWorksAndFactorizesAPolynomial)
     EXPECT_EQ(AlbaNumber(4), roots.at(1));
 }
 
-TEST(TermUtilitiesTest, GetRootsWorksAndRootIsZeroWhenExponentIsPositive){
+TEST(TermUtilitiesTest, GetRootsWorksAndRootIsZeroWhenExponentIsPositive)
+{
     AlbaNumbers roots(getRoots(Polynomial{Monomial(1, {{"x", AlbaNumber(4)/3}})}));
 
     ASSERT_EQ(1u, roots.size());
     EXPECT_EQ(AlbaNumber(0), roots.at(0));
 }
 
-TEST(TermUtilitiesTest, GetRootsWorksAndZeroIsNotIncludedWhenExponentIsNegative){
+TEST(TermUtilitiesTest, GetRootsWorksAndZeroIsNotIncludedWhenExponentIsNegative)
+{
     AlbaNumbers roots(getRoots(Polynomial{Monomial(1, {{"x", AlbaNumber(-4)/3}})}));
 
-    EXPECT_TRUE(roots.empty());}
+    EXPECT_TRUE(roots.empty());
+}
 
 TEST(TermUtilitiesTest, GetRootsWorksAndWhenPolynomialIsNotSorted)
 {
@@ -198,17 +215,20 @@ TEST(TermUtilitiesTest, GetRootsWorksAndWhenPolynomialIsNotSorted)
     EXPECT_EQ(AlbaNumber(16), roots.at(0));
 }
 
-TEST(TermUtilitiesTest, GetRootsWorksAndRootIsCorrectlyCalculatedWhenExponentIsNotAnInteger){
+TEST(TermUtilitiesTest, GetRootsWorksAndRootIsCorrectlyCalculatedWhenExponentIsNotAnInteger)
+{
     AlbaNumbers roots(getRoots(Polynomial{Monomial(1, {{"x", AlbaNumber(4)/3}}), Monomial(-16, {})}));
 
     ASSERT_EQ(1u, roots.size());
     EXPECT_EQ(AlbaNumber(8), roots.at(0));
 }
 
-TEST(TermUtilitiesTest, GetEnumShortStringForTermTypeWorks){
+TEST(TermUtilitiesTest, GetEnumShortStringForTermTypeWorks)
+{
     EXPECT_EQ("Empty", getEnumShortString(TermType::Empty));
     EXPECT_EQ("Constant", getEnumShortString(TermType::Constant));
-    EXPECT_EQ("Variable", getEnumShortString(TermType::Variable));    EXPECT_EQ("Operator", getEnumShortString(TermType::Operator));
+    EXPECT_EQ("Variable", getEnumShortString(TermType::Variable));
+    EXPECT_EQ("Operator", getEnumShortString(TermType::Operator));
     EXPECT_EQ("Monomial", getEnumShortString(TermType::Monomial));
     EXPECT_EQ("Polynomial", getEnumShortString(TermType::Polynomial));
     EXPECT_EQ("Expression", getEnumShortString(TermType::Expression));

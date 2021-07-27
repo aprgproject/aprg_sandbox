@@ -87,10 +87,12 @@ public:
     bool isAFiniteValue() const;
 
     Type getType() const;
-    long long int getInteger() const;    FractionData getFractionData() const;
+    long long int getInteger() const;
+    FractionData getFractionData() const;
     double getDouble() const;
 
-    unsigned int getNumberDataSize() const;    std::string getDisplayableString() const;
+    unsigned int getNumberDataSize() const;
+    std::string getDisplayableString() const;
 
     void convertToInteger();
     void convertToFraction();

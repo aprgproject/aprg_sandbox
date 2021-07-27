@@ -206,10 +206,12 @@ TEST(AlbaNumberTest, IsNotANumberWorksAsExpected)
 TEST(AlbaNumberTest, IsAFiniteValueWorksAsExpected)
 {
     AlbaNumber number1;
-    AlbaNumber number2(-81237);    AlbaNumber number3(34095093u);
+    AlbaNumber number2(-81237);
+    AlbaNumber number3(34095093u);
     AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(-100, 10);
-    AlbaNumber number6(4564.38794);    AlbaNumber number7(AlbaNumber::Value::PositiveInfinity);
+    AlbaNumber number6(4564.38794);
+    AlbaNumber number7(AlbaNumber::Value::PositiveInfinity);
     AlbaNumber number8(AlbaNumber::Value::NegativeInfinity);
     AlbaNumber number9(100, 0);
     AlbaNumber number10(-100, 0);
@@ -228,10 +230,12 @@ TEST(AlbaNumberTest, IsAFiniteValueWorksAsExpected)
     EXPECT_FALSE(number11.isAFiniteValue());
 }
 
-TEST(AlbaNumberTest, GetIntegerWorksAsExpected){
+TEST(AlbaNumberTest, GetIntegerWorksAsExpected)
+{
     AlbaNumber number1;
     AlbaNumber number2(-81237);
-    AlbaNumber number3(34095093u);    AlbaNumber number4(-87408, -9802);
+    AlbaNumber number3(34095093u);
+    AlbaNumber number4(-87408, -9802);
     AlbaNumber number5(4564.38794);
 
     EXPECT_EQ(0, number1.getInteger());

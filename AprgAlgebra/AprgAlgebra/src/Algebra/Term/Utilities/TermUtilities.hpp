@@ -24,6 +24,8 @@ bool canBeMergedInAMonomialByAdditionOrSubtraction(Monomial const& monomial, Var
 bool canBeMergedInAMonomialByAdditionOrSubtraction(Variable const& variable1, Variable const& variable2);
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
+bool isNotANumber(Term const& term);
+bool isNotANumber(Expression const& expression);
 
 unsigned int getOperatorPriority(std::string const& operatorString);
 unsigned int getAssociationPriority(TermAssociationType const association);

@@ -594,6 +594,18 @@ TEST(SimplificationOfExpressionTest, EvenExponentsCancellationWithAbsoluteValueW
     EXPECT_EQ(expressionToExpect2, expressionToVerify2);
 }
 
+TEST(SimplificationOfExpressionTest, NanSimplificationDoesNotCrash)
+{
+    Expression expression(createExpressionIfPossible(
+    {Term(-5.678), Term("^"), Term(-1.234)}));
+    SimplificationOfExpression simplification(expression);
+
+    simplification.simplify();
+
+    Expression expressionToVerify(simplification.getExpression());
+    EXPECT_TRUE(isNotANumber(expressionToVerify));
+}
+
 }
 
 }

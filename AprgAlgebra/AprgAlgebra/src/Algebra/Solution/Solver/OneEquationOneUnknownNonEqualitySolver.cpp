@@ -1,4 +1,4 @@
-#include "OneEquationOneUnknownEqualitySolver.hpp"
+#include "OneEquationOneUnknownNonEqualitySolver.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Solution/SolutionUtilities.hpp>
@@ -14,14 +14,14 @@ namespace alba
 namespace algebra
 {
 
-OneEquationOneUnknownEqualitySolver::OneEquationOneUnknownEqualitySolver(Equation const& equation)
+OneEquationOneUnknownNonEqualitySolver::OneEquationOneUnknownNonEqualitySolver(Equation const& equation)
     : m_equation(equation)
 {}
 
-SolutionSet OneEquationOneUnknownEqualitySolver::calculateSolutionAndReturnSolutionSet()
+SolutionSet OneEquationOneUnknownNonEqualitySolver::calculateSolutionAndReturnSolutionSet()
 {
     SolutionSet result;
-    if(m_equation.getEquationOperator().isEqual())
+    if(!m_equation.getEquationOperator().isEqual())
     {
         m_equation.simplify();
         if(m_equation.isEquationSatisfied())
@@ -36,7 +36,7 @@ SolutionSet OneEquationOneUnknownEqualitySolver::calculateSolutionAndReturnSolut
     return result;
 }
 
-void OneEquationOneUnknownEqualitySolver::addIntervalWhenEquationIsAlwaysSatisfied(SolutionSet & result)
+void OneEquationOneUnknownNonEqualitySolver::addIntervalWhenEquationIsAlwaysSatisfied(SolutionSet & result)
 {
     result.addAcceptedInterval(
                 AlbaNumberInterval(
@@ -44,7 +44,7 @@ void OneEquationOneUnknownEqualitySolver::addIntervalWhenEquationIsAlwaysSatisfi
                     createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)));
 }
 
-void OneEquationOneUnknownEqualitySolver::calculateWhenEquationIsSometimesSatisfied(SolutionSet & result)
+void OneEquationOneUnknownNonEqualitySolver::calculateWhenEquationIsSometimesSatisfied(SolutionSet & result)
 {
     Term const& nonZeroLeftHandTerm(m_equation.getLeftHandTerm());
     VariableNamesSet variableNames(getVariableNames(nonZeroLeftHandTerm));
@@ -66,7 +66,7 @@ void OneEquationOneUnknownEqualitySolver::calculateWhenEquationIsSometimesSatisf
     }
 }
 
-void OneEquationOneUnknownEqualitySolver::performNewtonMethodToFindSolution(
+void OneEquationOneUnknownNonEqualitySolver::performNewtonMethodToFindSolution(
         SolutionSet & result,
         Term const& termToCheck,
         string const& variableNameForSubstitution)

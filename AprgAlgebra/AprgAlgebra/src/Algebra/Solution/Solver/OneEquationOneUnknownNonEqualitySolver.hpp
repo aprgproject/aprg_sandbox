@@ -9,10 +9,10 @@ namespace alba
 namespace algebra
 {
 
-class OneEquationOneUnknownEqualitySolver
+class OneEquationOneUnknownNonEqualitySolver
 {
 public:
-    OneEquationOneUnknownEqualitySolver(Equation const& equation);
+    OneEquationOneUnknownNonEqualitySolver(Equation const& equation);
 
     SolutionSet calculateSolutionAndReturnSolutionSet();
 
