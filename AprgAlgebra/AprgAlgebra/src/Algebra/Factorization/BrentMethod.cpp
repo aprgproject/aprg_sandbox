@@ -7,8 +7,10 @@
 #include "BrentMethod.hpp"
 
 #include <Math/AlbaMathHelper.hpp>
+
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -16,119 +18,139 @@ namespace algebra
 {
 
 BrentMethod::BrentMethod(AlbaNumbers const& coefficients)
-    : m_coefficients(coefficients)
+    : m_numberOfIterationsExecuted(0)
+    , m_coefficients(coefficients)
 {}
 
-AlbaNumberOptional BrentMethod::calculateRoot(AlbaNumber const& start, AlbaNumber const& end)
+bool BrentMethod::isFinished() const
 {
-    AlbaNumberOptional result;
-    AlbaNumber a = start;
-    AlbaNumber b = end;
-    AlbaNumber c;
-    AlbaNumber d;
-    AlbaNumber s;
-    AlbaNumber fa = calculate(a);
-    AlbaNumber fb = calculate(b);
-    bool mflag(true);
+    return m_values.solutionOptional.hasContent();
+}
 
-    if(getAbsoluteValue(fa) < getAbsoluteValue(fb))
+unsigned int BrentMethod::getNumberOfIterationsExecuted() const
+{
+    return m_numberOfIterationsExecuted;
+}
+
+BrentMethod::CalculationValues const& BrentMethod::getCalculationValues() const
+{
+    return m_values;
+}
+
+AlbaNumberOptional const& BrentMethod::getSolution()
+{
+    convertSolutionToIntegerIfNeeded();
+    return m_values.solutionOptional;
+}
+
+void BrentMethod::resetCalculation(AlbaNumber const& start, AlbaNumber const& end)
+{
+    m_numberOfIterationsExecuted=0;
+    m_values.solutionOptional.clear();
+    m_values.a = start;
+    m_values.b = end;
+    m_values.d = 0;
+    m_values.s = 0;
+    m_values.fa = calculate(m_values.a);
+    m_values.fb = calculate(m_values.b);
+    m_values.mflag = true;
+
+    if(getAbsoluteValue(m_values.fa) < getAbsoluteValue(m_values.fb))
     {
-        swap(a, b);        fa = calculate(a);
-        fb = calculate(b);
+        swap(m_values.a, m_values.b);
+        swap(m_values.fa, m_values.fb);
     }
-    c=a;
+    m_values.c = m_values.a;
+}
 
-    unsigned int const maxIterations = 1000;
-    double aPreviousValue=b.getDouble();
-    double bPreviousValue=a.getDouble();    for(unsigned numberOfIterations=0; numberOfIterations<maxIterations; numberOfIterations++) //or |b − a| is small enough (convergence)
+void BrentMethod::runOneIteration()
+{
+    if(calculate(m_values.s) == 0)
     {
-        if(calculate(s) == 0)
-        {            result.setValue(s);
-            break;
-        }
-        if(calculate(b) == 0)
-        {
-            result.setValue(b);
-            break;
-        }
-        if(isAlmostEqual(a.getDouble(), b.getDouble(), 1E-13)
-                && isAlmostEqual(calculate(a).getDouble(), 0, 1E-11))
-        {
-            result.setValue(a);
-            break;
-        }
-        AlbaNumber fc = calculate(c);
-        if(fa != fc && fb != fc)
-        {
-            AlbaNumberOptional sOptional(calculateInverseQuadraticInterpolation(a, b, c));
-            if(!sOptional.hasContent())
-            {
-                break;
-            }
-            s = sOptional.getConstReference();
-        }
-        else if(fa != fb)
-        {
-            AlbaNumberOptional sOptional(calculateSecantMethod(a, b));
-            if(!sOptional.hasContent())
-            {
-                break;
-            }
-            s = sOptional.getConstReference();
-        }
-        if(isBisectionMethodNeeded(a,b,c,d,s,mflag) ||
-                isAlmostEqual(a.getDouble(), s.getDouble()) ||
-                isAlmostEqual(b.getDouble(), s.getDouble()))
-        {
-            s = calculateBiSectionMethod(a, b);
-            mflag = true;
-        }
-        else
-        {
-            mflag = false;
-        }
-        AlbaNumber fs = calculate(s);
-        d = c;
-        c = b;
-        if(fa*fs < 0)
-        {
-            b = s;
-        }
-        else
-        {
-            a = s;
-        }
-        fa = calculate(a);
-        fb = calculate(b);
-        if(getAbsoluteValue(fa) < getAbsoluteValue(fb))
-        {
-            swap(a, b);
-            fa = calculate(a);
-            fb = calculate(b);
-        }
-        if(a.getDouble() == aPreviousValue && b.getDouble() == bPreviousValue)
-        {
-            break;
-        }
-        aPreviousValue = a.getDouble();
-        bPreviousValue = b.getDouble();
+        m_values.solutionOptional.setValue(m_values.s);
+        return;
     }
-
-    if(result.hasContent() && !m_coefficients.empty())
+    if(calculate(m_values.b) == 0)
     {
-        AlbaNumber aCoefficient(m_coefficients.front());
-        if(aCoefficient.isIntegerOrFractionType())
-        {
-            AlbaNumber possibleValue(result.getConstReference()*aCoefficient);
-            possibleValue.convertToInteger();
-            possibleValue = possibleValue/aCoefficient;
-            if(calculate(possibleValue)==0)
-            {
-                result.setValue(possibleValue);
-            }
-        }
+        m_values.solutionOptional.setValue(m_values.b);
+        return;
     }
+    if(isAlmostEqual(m_values.a.getDouble(), m_values.b.getDouble())
+            && isAlmostEqual(calculate(m_values.a).getDouble(), 0.0, 1E-11))
+    {
+        m_values.solutionOptional.setValue(m_values.a);
+        return;
+    }
+    AlbaNumber fc = calculate(m_values.c);
+    if(m_values.fa != fc && m_values.fb != fc)
+    {
+        AlbaNumberOptional sOptional(calculateInverseQuadraticInterpolation(m_values.a, m_values.b, m_values.c));
+        if(!sOptional.hasContent())
+        {
+            return;
+        }
+        m_values.s = sOptional.getConstReference();
+    }
+    else if(m_values.fa != m_values.fb)
+    {
+        AlbaNumberOptional sOptional(calculateSecantMethod(m_values.a, m_values.b));
+        if(!sOptional.hasContent())
+        {
+            return;
+        }
+        m_values.s = sOptional.getConstReference();
+    }
+    if(isBisectionMethodNeeded(m_values.a, m_values.b, m_values.c, m_values.d, m_values.s, m_values.mflag)
+            || isAlmostEqual(m_values.a.getDouble(), m_values.s.getDouble())
+            || isAlmostEqual(m_values.b.getDouble(), m_values.s.getDouble()))
+    {
+        m_values.s = calculateBiSectionMethod(m_values.a, m_values.b);
+        m_values.mflag = true;
+    }
+    else
+    {
+        m_values.mflag = false;
+    }
+    AlbaNumber fs = calculate(m_values.s);
+    m_values.d = m_values.c;
+    m_values.c = m_values.b;
+    if(m_values.fa*fs < 0)
+    {
+        m_values.b = m_values.s;
+    }
+    else
+    {
+        m_values.a = m_values.s;
+    }
+    m_values.fa = calculate(m_values.a);
+    m_values.fb = calculate(m_values.b);
+    if(getAbsoluteValue(m_values.fa) < getAbsoluteValue(m_values.fb))
+    {
+        swap(m_values.a, m_values.b);
+        swap(m_values.fa, m_values.fb);
+    }
+    m_numberOfIterationsExecuted++;
+}
 
+void BrentMethod::runMaxNumberOfIterationsOrUntilFinished(unsigned int const maxIterations)
+{
+    for(unsigned int i=0; !isFinished() && i<maxIterations; i++)
+    {
+        runOneIteration();
+    }
+}
+
+AlbaNumber BrentMethod::calculate(AlbaNumber const& inputValue) const
+{
+    AlbaNumber result;
+    AlbaNumber partialProduct(1);
+    for(AlbaNumbers::const_reverse_iterator it=m_coefficients.crbegin();
+        it != m_coefficients.crend();
+        it++)
+    {
+        result = result + (*it)*partialProduct;
+        partialProduct = partialProduct*inputValue;
+    }
     return result;
 }
 
@@ -199,18 +221,22 @@ bool BrentMethod::isBisectionMethodNeeded(
     return isConditionOne || isConditionTwo || isConditionThree || isConditionFour || isConditionFive;
 }
 
-AlbaNumber BrentMethod::calculate(AlbaNumber const& inputValue) const
+void BrentMethod::convertSolutionToIntegerIfNeeded()
 {
-    AlbaNumber result;
-    AlbaNumber partialProduct(1);
-    for(AlbaNumbers::const_reverse_iterator it=m_coefficients.crbegin();
-        it != m_coefficients.crend();
-        it++)
+    if(m_values.solutionOptional.hasContent() && !m_coefficients.empty())
     {
-        result = result + (*it)*partialProduct;
-        partialProduct = partialProduct*inputValue;
+        AlbaNumber aCoefficient(m_coefficients.front());
+        if(aCoefficient.isIntegerOrFractionType())
+        {
+            AlbaNumber possibleValue(m_values.solutionOptional.getConstReference()*aCoefficient);
+            possibleValue.convertToInteger();
+            possibleValue = possibleValue/aCoefficient;
+            if(calculate(possibleValue)==0)
+            {
+                m_values.solutionOptional.setValue(possibleValue);
+            }
+        }
     }
-    return result;
 }
 
 }

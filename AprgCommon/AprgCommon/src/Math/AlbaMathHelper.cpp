@@ -255,9 +255,11 @@ AlbaNumber getPositiveDelta(AlbaNumber const& value1, AlbaNumber const& value2)
 }
 
 
-int convertToIntegerThenSubtract(unsigned int const number1, unsigned int const number2){
+int convertToIntegerThenSubtract(unsigned int const number1, unsigned int const number2)
+{
     return static_cast<int>(number1)-static_cast<int>(number2);
 }
+
 
 //getAverage 2 parameters
 template <typename NumberType>

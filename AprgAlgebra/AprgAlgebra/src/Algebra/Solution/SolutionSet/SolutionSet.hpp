@@ -20,9 +20,11 @@ public:
     AlbaNumbers const& getAcceptedValues() const;
     AlbaNumbers const& getRejectedValues() const;
     AlbaNumberIntervals const& getAcceptedIntervals() const;
+
     void addAcceptedValue(AlbaNumber const& value);
     void addRejectedValue(AlbaNumber const& value);
-    void addValue(            AlbaNumber const& value,
+    void addValue(
+            AlbaNumber const& value,
             FunctionForCheckingValues const& isValueAcceptedFunction);
     void determineAndAddAcceptedIntervals(
             AlbaNumbers const& valuesToCheck,

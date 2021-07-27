@@ -198,7 +198,9 @@ AlbaNumbers calculatePolynomialRootsUsingBrentMethod(
     for(unsigned int i = 0; i<size-1; i++)
     {
         unsigned int j=i+1;
-        AlbaNumberOptional rootOptional(brentMethod.calculateRoot(valuesForRootFinding.at(i), valuesForRootFinding.at(j)));
+        brentMethod.resetCalculation(valuesForRootFinding.at(i), valuesForRootFinding.at(j));
+        brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
+        AlbaNumberOptional rootOptional(brentMethod.getSolution());
         if(rootOptional.hasContent())
         {
             result.emplace_back(rootOptional.getConstReference());

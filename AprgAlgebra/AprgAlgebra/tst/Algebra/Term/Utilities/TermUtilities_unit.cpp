@@ -11,8 +11,10 @@ using namespace alba::stringHelper;
 using namespace std;
 using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -209,10 +211,12 @@ TEST(TermUtilitiesTest, GetRootsWorksAndRootIsCorrectlyCalculatedWhenExponentIsN
 
 TEST(TermUtilitiesTest, GetEnumShortStringForTermTypeWorks)
 {
-    EXPECT_EQ("Empty", getEnumShortString(TermType::Empty));    EXPECT_EQ("Constant", getEnumShortString(TermType::Constant));
+    EXPECT_EQ("Empty", getEnumShortString(TermType::Empty));
+    EXPECT_EQ("Constant", getEnumShortString(TermType::Constant));
     EXPECT_EQ("Variable", getEnumShortString(TermType::Variable));
     EXPECT_EQ("Operator", getEnumShortString(TermType::Operator));
-    EXPECT_EQ("Monomial", getEnumShortString(TermType::Monomial));    EXPECT_EQ("Polynomial", getEnumShortString(TermType::Polynomial));
+    EXPECT_EQ("Monomial", getEnumShortString(TermType::Monomial));
+    EXPECT_EQ("Polynomial", getEnumShortString(TermType::Polynomial));
     EXPECT_EQ("Expression", getEnumShortString(TermType::Expression));
     EXPECT_EQ("Function", getEnumShortString(TermType::Function));
 }
@@ -395,9 +399,11 @@ TEST(TermUtilitiesTest, GetVariableNamesForTermWorks)
     ASSERT_EQ(1u, variableNamesSet.size());
     EXPECT_EQ("VariableName", *(variableNamesSet.cbegin()));
 }
+
 TEST(TermUtilitiesTest, RetrieveVariableNamesForTermWorks)
 {
-    VariableNamesSet variableNamesSet1;    VariableNamesSet variableNamesSet2;
+    VariableNamesSet variableNamesSet1;
+    VariableNamesSet variableNamesSet2;
     VariableNamesSet variableNamesSet3;
     VariableNamesSet variableNamesSet4;
     VariableNamesSet variableNamesSet5;
@@ -418,10 +424,12 @@ TEST(TermUtilitiesTest, RetrieveVariableNamesForTermWorks)
     ASSERT_EQ(1u, variableNamesSet1.size());
     EXPECT_EQ("VariableName", *(variableNamesSet1.cbegin()));
     ASSERT_EQ(2u, variableNamesSet2.size());
-    VariableNamesSet::const_iterator it2 = variableNamesSet2.cbegin();    EXPECT_EQ("x", *(it2++));
+    VariableNamesSet::const_iterator it2 = variableNamesSet2.cbegin();
+    EXPECT_EQ("x", *(it2++));
     EXPECT_EQ("y", *(it2++));
     ASSERT_EQ(2u, variableNamesSet3.size());
-    VariableNamesSet::const_iterator it3 = variableNamesSet3.cbegin();    EXPECT_EQ("x", *(it3++));
+    VariableNamesSet::const_iterator it3 = variableNamesSet3.cbegin();
+    EXPECT_EQ("x", *(it3++));
     EXPECT_EQ("y", *(it3++));
     ASSERT_EQ(2u, variableNamesSet4.size());
     VariableNamesSet::const_iterator it4 = variableNamesSet4.cbegin();
@@ -442,9 +450,11 @@ TEST(TermUtilitiesTest, RetrieveVariableNamesForVariableWorks)
     ASSERT_EQ(1u, variableNamesSet.size());
     EXPECT_EQ("VariableName", *(variableNamesSet.cbegin()));
 }
+
 TEST(TermUtilitiesTest, RetrieveVariableNamesForMonomialWorks)
 {
     VariableNamesSet variableNamesSet;
+
     retrieveVariableNames(Monomial(1, {{"x", 1}, {"y", 1}}), variableNamesSet);
 
     ASSERT_EQ(2u, variableNamesSet.size());
@@ -562,9 +572,11 @@ TEST(TermUtilitiesTest, GetLcmMonomialInMonomialsWorks)
 
 TEST(TermUtilitiesTest, CompareMonomialsAndSaveMinimumExponentsForEachVariableWorks)
 {
-    Monomial monomial1(85, {{"a", -5}, {"b", 10}, {"x", 3}, {"y", 4}});    Monomial monomial2(356, {{"a", 10}, {"b", -5}, {"x", 5}, {"y", 2}});
+    Monomial monomial1(85, {{"a", -5}, {"b", 10}, {"x", 3}, {"y", 4}});
+    Monomial monomial2(356, {{"a", 10}, {"b", -5}, {"x", 5}, {"y", 2}});
 
     Monomial monomialToVerify(compareMonomialsAndSaveMinimumExponentsForEachVariable(monomial1, monomial2));
+
     EXPECT_DOUBLE_EQ(1, monomialToVerify.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMapToVerify(monomialToVerify.getVariablesToExponentsMapConstReference());
     ASSERT_EQ(4u, variableMapToVerify.size());

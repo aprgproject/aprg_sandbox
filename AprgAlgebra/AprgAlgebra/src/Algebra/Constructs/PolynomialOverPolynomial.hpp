@@ -25,9 +25,11 @@ public:
     bool isEmpty() const;
     Polynomial const& getNumerator() const;
     Polynomial const& getDenominator() const;
+
     QuotientAndRemainder simplifyAndDivide();
     void simplify();
     QuotientAndRemainder divide() const;
+
 private:
     void convertFractionCoefficientsToInteger();
     void convertNegativeExponentsToPositive();

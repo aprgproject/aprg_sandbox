@@ -32,10 +32,12 @@ TEST(PolynomialOverPolynomialTest, IsEmptyWorks)
 
 TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWithNoRemainder)
 {
-    Polynomial numerator{Monomial(3, {{"x", 3}}), Monomial(-4, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 1}, {"y", 2}}), Monomial(6, {{"y", 3}})};    Polynomial denominator{Monomial(1, {{"x", 2}}), Monomial(-2, {{"x", 1}, {"y", 1}}), Monomial(3, {{"y", 2}})};
+    Polynomial numerator{Monomial(3, {{"x", 3}}), Monomial(-4, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 1}, {"y", 2}}), Monomial(6, {{"y", 3}})};
+    Polynomial denominator{Monomial(1, {{"x", 2}}), Monomial(-2, {{"x", 1}, {"y", 1}}), Monomial(3, {{"y", 2}})};
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
     PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(polynomialOverPolynomial.simplifyAndDivide());
+
     Polynomial quotientToExpect{Monomial(3, {{"x", 1}}), Monomial(2, {{"y", 1}})};
     Polynomial remainderToExpect{};
     EXPECT_EQ(quotientToExpect, quotientAndRemainder.quotient);

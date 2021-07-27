@@ -13,9 +13,10 @@ namespace algebra
 
 class BrentMethod
 {
+public:
     struct CalculationValues
     {
-        AlbaNumberOptional result;
+        AlbaNumberOptional solutionOptional;
         AlbaNumber a;
         AlbaNumber b;
         AlbaNumber c;
@@ -25,13 +26,24 @@ class BrentMethod
         AlbaNumber fb;
         bool mflag;
     };
-
-public:
     using ListOfCoefficients = std::vector<AlbaNumbers>;
-    BrentMethod(AlbaNumbers const& coefficients);    AlbaNumberOptional calculateRoot(AlbaNumber const& start, AlbaNumber const& end);
+
+    BrentMethod(AlbaNumbers const& coefficients);
+
+    bool isFinished() const;
+    unsigned int getNumberOfIterationsExecuted() const;
+    CalculationValues const& getCalculationValues() const;
+
+    AlbaNumberOptional const& getSolution();
+    void resetCalculation(AlbaNumber const& start, AlbaNumber const& end);
+    void runOneIteration();
+    void runMaxNumberOfIterationsOrUntilFinished(unsigned int const maxIterations);
+
 private:
+    AlbaNumber calculate(AlbaNumber const& inputValue) const;
     AlbaNumberOptional calculateInverseQuadraticInterpolation(
-            AlbaNumber const& a,            AlbaNumber const& b,
+            AlbaNumber const& a,
+            AlbaNumber const& b,
             AlbaNumber const& c) const;
     AlbaNumberOptional calculateSecantMethod(
             AlbaNumber const& a,
@@ -46,10 +58,12 @@ private:
             AlbaNumber const& d,
             AlbaNumber const& s,
             bool const mflag) const;
-    AlbaNumber calculate(AlbaNumber const& inputValue) const;
+    void convertSolutionToIntegerIfNeeded();
+    unsigned int m_numberOfIterationsExecuted;
     AlbaNumbers m_coefficients;
     CalculationValues m_values;
 };
 
 }
+
 }

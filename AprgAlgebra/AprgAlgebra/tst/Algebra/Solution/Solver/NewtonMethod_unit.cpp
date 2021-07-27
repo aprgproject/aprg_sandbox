@@ -46,17 +46,6 @@ TEST(NewtonMethodTest, IsFinishedWorks)
     EXPECT_TRUE(newtonMethod3.isFinished());
 }
 
-TEST(NewtonMethodTest, GetCurrentComputedValueWorks)
-{
-    NewtonMethod::Function functionToIterate = [](AlbaNumber const& number)
-    {
-        return (number^2)-16;
-    };
-    NewtonMethod newtonMethod(5, functionToIterate);
-
-    EXPECT_EQ(AlbaNumber(5), newtonMethod.getCurrentComputedValue());
-}
-
 TEST(NewtonMethodTest, GetNumberOfIterationsExecutedWorksWhenNoIterationsAreExecuted)
 {
     NewtonMethod::Function functionToIterate = [](AlbaNumber const& number)
@@ -78,6 +67,17 @@ TEST(NewtonMethodTest, GetNumberOfIterationsExecutedWorksWhenOneIterationIsExecu
     newtonMethod.runOneIteration();
 
     EXPECT_EQ(1u, newtonMethod.getNumberOfIterationsExecuted());
+}
+
+TEST(NewtonMethodTest, GetCurrentComputedValueWorks)
+{
+    NewtonMethod::Function functionToIterate = [](AlbaNumber const& number)
+    {
+        return (number^2)-16;
+    };
+    NewtonMethod newtonMethod(5, functionToIterate);
+
+    EXPECT_EQ(AlbaNumber(5), newtonMethod.getCurrentComputedValue());
 }
 
 TEST(NewtonMethodTest, RunOneIterationWorks)

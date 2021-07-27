@@ -22,7 +22,8 @@ PolynomialOverPolynomial::PolynomialOverPolynomial()
 
 PolynomialOverPolynomial::PolynomialOverPolynomial(
         Polynomial const& numerator,
-        Polynomial const& denominator)    : m_numerator(numerator)
+        Polynomial const& denominator)
+    : m_numerator(numerator)
     , m_denominator(denominator)
 {}
 
@@ -33,11 +34,13 @@ bool PolynomialOverPolynomial::isEmpty() const
 
 Polynomial const& PolynomialOverPolynomial::getNumerator() const
 {
-    return m_numerator;}
+    return m_numerator;
+}
 
 Polynomial const& PolynomialOverPolynomial::getDenominator() const
 {
-    return m_denominator;}
+    return m_denominator;
+}
 
 PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::simplifyAndDivide()
 {

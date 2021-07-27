@@ -21,11 +21,11 @@ public:
 
     bool isSolved() const;
     bool isFinished() const;
-    AlbaNumber getCurrentComputedValue() const;
     unsigned int getNumberOfIterationsExecuted() const;
+    AlbaNumber const& getCurrentComputedValue() const;
 
     void runOneIteration();
-    void runMaxNumberOfIterationsOrUntilFinished(unsigned int const iterations);
+    void runMaxNumberOfIterationsOrUntilFinished(unsigned int const maxIterations);
     void runUntilFinished();
 
 private:

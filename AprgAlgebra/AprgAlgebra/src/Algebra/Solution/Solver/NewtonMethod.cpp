@@ -35,14 +35,14 @@ bool NewtonMethod::isFinished() const
     return !m_currentComputedValue.hasValidValue() || isSolved();
 }
 
-AlbaNumber NewtonMethod::getCurrentComputedValue() const
-{
-    return m_currentComputedValue;
-}
-
-unsigned NewtonMethod::getNumberOfIterationsExecuted() const
+unsigned int NewtonMethod::getNumberOfIterationsExecuted() const
 {
     return m_numberOfIterationsExecuted;
+}
+
+AlbaNumber const& NewtonMethod::getCurrentComputedValue() const
+{
+    return m_currentComputedValue;
 }
 
 void NewtonMethod::runOneIteration()
@@ -54,9 +54,9 @@ void NewtonMethod::runOneIteration()
     m_numberOfIterationsExecuted++;
 }
 
-void NewtonMethod::runMaxNumberOfIterationsOrUntilFinished(unsigned int const iterations)
+void NewtonMethod::runMaxNumberOfIterationsOrUntilFinished(unsigned int const maxIterations)
 {
-    for(unsigned int i=0; !isFinished() && i<iterations; i++)
+    for(unsigned int i=0; !isFinished() && i<maxIterations; i++)
     {
         runOneIteration();
     }
