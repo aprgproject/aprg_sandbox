@@ -12,10 +12,8 @@ namespace alba
 namespace algebra
 {
 
-using AlbaNumbersSet = std::set<AlbaNumber>;
 using VariableNamesSet = std::set<std::string>;
 using FunctionsSet = std::set<Function>;
-
 }
 
 }

@@ -22,20 +22,18 @@ namespace DomainAndRange
 {
 
 SolutionSet calculateDomain(
-        AlbaNumbers const& valuesToCheck,
+        AlbaNumbers const& domainValuesToCheck,
         FunctionToCheck const& functionToCheck)
 {
     SolutionSet domain;
     AlbaNumbers numbersWithTransitionValues(
-                getNumbersWithTransitionValues(valuesToCheck, functionToCheck));
+                getNumbersWithTransitionValues(domainValuesToCheck, functionToCheck));
     domain.determineAndAddAcceptedIntervals(numbersWithTransitionValues, [&](AlbaNumber const& value)
     {
-        AlbaNumber computedValue(functionToCheck(value));
-        return computedValue.isAFiniteValue();
+        AlbaNumber computedValue(functionToCheck(value));        return computedValue.isAFiniteValue();
     });
     return domain;
 }
-
 SolutionSet calculateDomainForTermWithOneVariable(
         AlbaNumbers const& valuesToCheck,
         Term const& term)
@@ -46,15 +44,13 @@ SolutionSet calculateDomainForTermWithOneVariable(
     {
         string variableName = *variableNames.cbegin();
         SubstitutionOfVariablesToValues substitution;
-        domain = calculateDomain(valuesToCheck,  [&](AlbaNumber const& value)
+        domain = calculateDomain(valuesToCheck, [&](AlbaNumber const& value)
         {
                 substitution.putVariableWithValue(variableName, value);
-                Term computedTerm(substitution.performSubstitutionTo(term));
-                AlbaNumber computedValue;
+                Term computedTerm(substitution.performSubstitutionTo(term));                AlbaNumber computedValue;
                 if(computedTerm.isConstant()){computedValue = computedTerm.getConstantConstReference().getNumberConstReference();}
                 return computedValue;
-    });
-    }
+    });    }
     return domain;
 }
 
@@ -117,59 +113,65 @@ SolutionSet calculateDomainForEquationWithVariableToSubstitute(
 {
     SolutionSet domain;
     SubstitutionOfVariablesToValues substitution;
-    domain = calculateDomain(valuesToCheck,  [&](AlbaNumber const& value)
+    OneEquationOneVariableEqualitySolver solver;
+    domain = calculateDomain(valuesToCheck, [&](AlbaNumber const& value)
     {
             substitution.putVariableWithValue(variableNameToSubstitute, value);
             Equation simplifiedEquation(substitution.performSubstitutionTo(equation));
             Equation equationToSolve(simplifiedEquation.getLeftHandTerm(), "=", Term(Constant(0)));
-            OneEquationOneVariableEqualitySolver solver;
             SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equationToSolve));
             AlbaNumber computedValue(AlbaNumber::Value::NotANumber);
-            AlbaNumbers acceptedValues(solutionSet.getAcceptedValues());
-            if(!acceptedValues.empty()){computedValue = acceptedValues.back();}
+            AlbaNumbers acceptedValues(solutionSet.getAcceptedValues());            if(!acceptedValues.empty()){computedValue = acceptedValues.back();}
             return computedValue;
 });
-    return domain;
-}
+    return domain;}
 
 AlbaNumbers getNumbersWithTransitionValues(
         AlbaNumbers const& valuesToCheck,
         FunctionToCheck const& functionToCheck)
 {
-    AlbaNumbers numbersWithTransitionValues(valuesToCheck);
+    AlbaNumbers sortedValues(valuesToCheck);
+    sort(sortedValues.begin(), sortedValues.end());
+
     bool isFirst(true);
     AlbaNumber previousInputValue;
     AlbaNumber previousOutputValue;
-    sort(numbersWithTransitionValues.begin(), numbersWithTransitionValues.end());
-
-    for(AlbaNumber const& inputValue : valuesToCheck)
+    AlbaNumbersSet numbersSet;
+    for(AlbaNumber const& inputValue : sortedValues)
     {
         AlbaNumber outputValue(functionToCheck(inputValue));
-        if(isFirst)
-        {
+        if(isFirst)        {
             isFirst = false;
         }
         else if(previousOutputValue.isAFiniteValue() && !outputValue.isAFiniteValue())
         {
-            numbersWithTransitionValues.emplace_back(getTransitionValue(previousInputValue, inputValue, functionToCheck));
+            numbersSet.emplace(getTransitionValue(previousInputValue, inputValue, functionToCheck));
         }
         else if(!previousOutputValue.isAFiniteValue() && outputValue.isAFiniteValue())
         {
-            numbersWithTransitionValues.emplace_back(getTransitionValue(inputValue, previousInputValue, functionToCheck));
+            numbersSet.emplace(getTransitionValue(inputValue, previousInputValue, functionToCheck));
         }
         previousInputValue = inputValue;
         previousOutputValue = outputValue;
     }
-    sort(numbersWithTransitionValues.begin(), numbersWithTransitionValues.end());
-    return numbersWithTransitionValues;
+
+    if(sortedValues.size() == 1)
+    {
+        numbersSet.emplace(sortedValues.front());
+    }
+    else if(sortedValues.size() == 2)
+    {
+        numbersSet.emplace(sortedValues.front());
+        numbersSet.emplace(sortedValues.back());
+    }
+
+    return AlbaNumbers(numbersSet.cbegin(), numbersSet.cend());
 }
 
-AlbaNumber getTransitionValue(
-        AlbaNumber const& inputValueYieldsToFiniteValue,
+AlbaNumber getTransitionValue(        AlbaNumber const& inputValueYieldsToFiniteValue,
         AlbaNumber const& inputValueYieldsToNonFiniteValue,
         FunctionToCheck const& functionToCheck)
-{
-    AlbaNumber currentValueToFiniteValue = inputValueYieldsToFiniteValue;
+{    AlbaNumber currentValueToFiniteValue = inputValueYieldsToFiniteValue;
     AlbaNumber currentValueToNonFiniteValue = inputValueYieldsToNonFiniteValue;
     AlbaNumber newInputValue(inputValueYieldsToFiniteValue);
     AlbaNumber previousInputValue;

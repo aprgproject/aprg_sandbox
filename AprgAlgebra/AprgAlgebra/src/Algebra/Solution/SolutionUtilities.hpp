@@ -13,12 +13,13 @@ namespace algebra
 {
 
 AlbaNumber getPositiveLogarithmOfLargestNumber(Term const& term);
+
 AlbaNumbers getValuesForDomainSearching(Term const& term);
-AlbaNumbers retrieveValuesForDomainSearching(
+void retrieveValuesForDomainSearching(
         AlbaNumbersSet & allValues,
         Term const& term);
+
 AlbaNumbers getValuesForDomainSearching(Equation const& equation);
 
 }
-
 }

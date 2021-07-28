@@ -36,15 +36,13 @@ AlbaNumbers getValuesForDomainSearching(Term const& term)
     return result;
 }
 
-AlbaNumbers retrieveValuesForDomainSearching(
+void retrieveValuesForDomainSearching(
         AlbaNumbersSet & allValues,
         Term const& term)
-{
-    AlbaNumbersSet numbers(getNumbers(term));
+{    AlbaNumbersSet numbers(getNumbers(term));
     for(AlbaNumber const& number : numbers)
     {
-        AlbaNumber positiveNumber(getAbsoluteValue(number));
-        AlbaNumber positiveLogarithm(log(positiveNumber.getDouble()));
+        AlbaNumber positiveNumber(getAbsoluteValue(number));        AlbaNumber positiveLogarithm(log(positiveNumber.getDouble()));
         allValues.emplace(positiveNumber*-1);
         allValues.emplace(positiveLogarithm*-1);
         allValues.emplace(positiveLogarithm);
