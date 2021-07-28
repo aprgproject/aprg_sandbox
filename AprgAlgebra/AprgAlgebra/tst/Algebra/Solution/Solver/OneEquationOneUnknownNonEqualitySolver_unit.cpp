@@ -138,6 +138,23 @@ TEST(OneEquationOneUnknownNonEqualitySolverTest, AbsoluteValueFunctionWithInputE
     EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(426), createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), acceptedIntervals.at(1));
 }
 
+TEST(OneEquationOneUnknownNonEqualitySolverTest, AbsoluteValueFunctionInDenominatorAreSolved)
+{
+    Term functionTerm(Functions::abs(
+                          createExpressionIfPossible({Term(Polynomial{Monomial(2, {{"x", 1}}), Monomial(3, {})}) })));
+    Term fractionTerm(createExpressionIfPossible({Term(1), Term("/"), functionTerm}));
+    OneEquationOneUnknownNonEqualitySolver solver;
+
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(fractionTerm, "<", Term(AlbaNumber(1, 4)))));
+
+    EXPECT_TRUE(solver.isSolved());
+    EXPECT_TRUE(solver.isACompleteSolution());
+    AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
+    ASSERT_EQ(2u, acceptedIntervals.size());
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createOpenEndpoint(AlbaNumber(-7, 2))), acceptedIntervals.at(0));
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber(1, 2)), createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), acceptedIntervals.at(1));
+}
+
 }
 
 }
