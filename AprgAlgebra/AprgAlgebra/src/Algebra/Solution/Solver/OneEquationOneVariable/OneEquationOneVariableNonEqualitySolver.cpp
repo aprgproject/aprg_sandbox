@@ -1,8 +1,7 @@
-#include "OneEquationOneUnknownNonEqualitySolver.hpp"
+#include "OneEquationOneVariableNonEqualitySolver.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-
 using namespace std;
 
 namespace alba
@@ -11,15 +10,14 @@ namespace alba
 namespace algebra
 {
 
-OneEquationOneUnknownNonEqualitySolver::OneEquationOneUnknownNonEqualitySolver()
-    : BaseOneEquationOneUnknownSolver()
+OneEquationOneVariableNonEqualitySolver::OneEquationOneVariableNonEqualitySolver()
+    : BaseOneEquationOneVariableSolver()
 {}
 
-void OneEquationOneUnknownNonEqualitySolver::calculateSolution(
+void OneEquationOneVariableNonEqualitySolver::calculateSolution(
         SolutionSet & solutionSet,
         Equation const& equation)
-{
-    if(!equation.getEquationOperator().isEqual())
+{    if(!equation.getEquationOperator().isEqual())
     {
         Equation simplifiedEquation(equation);
         simplifiedEquation.simplify();
@@ -34,11 +32,10 @@ void OneEquationOneUnknownNonEqualitySolver::calculateSolution(
     }
 }
 
-void OneEquationOneUnknownNonEqualitySolver::calculateForEquation(
+void OneEquationOneVariableNonEqualitySolver::calculateForEquation(
         SolutionSet & solutionSet,
         Equation const& equation)
-{
-    Term const& nonZeroLeftHandTerm(equation.getLeftHandTerm());
+{    Term const& nonZeroLeftHandTerm(equation.getLeftHandTerm());
     VariableNamesSet variableNames(getVariableNames(nonZeroLeftHandTerm));
     if(variableNames.size() == 1)
     {
@@ -49,11 +46,10 @@ void OneEquationOneUnknownNonEqualitySolver::calculateForEquation(
     }
 }
 
-void OneEquationOneUnknownNonEqualitySolver::calculateForTermAndVariable(
+void OneEquationOneVariableNonEqualitySolver::calculateForTermAndVariable(
         Term const& term,
         string const& )
-{
-    PolynomialOverPolynomialOptional popOptional(
+{    PolynomialOverPolynomialOptional popOptional(
                 createPolynomialOverPolynomialFromTermIfPossible(term));
     if(popOptional.hasContent())
     {
@@ -67,11 +63,10 @@ void OneEquationOneUnknownNonEqualitySolver::calculateForTermAndVariable(
     }
 }
 
-void OneEquationOneUnknownNonEqualitySolver::addIntervalsToSolutionSetIfNeeded(
+void OneEquationOneVariableNonEqualitySolver::addIntervalsToSolutionSetIfNeeded(
         SolutionSet& solutionSet,
         Equation const& equation,
-        string const& variableName)
-{
+        string const& variableName){
     if(!m_calculatedValues.empty() && isACompleteSolution())
     {
         SubstitutionOfVariablesToValues substitution;

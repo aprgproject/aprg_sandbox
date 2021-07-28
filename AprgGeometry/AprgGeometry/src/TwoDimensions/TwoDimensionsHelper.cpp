@@ -102,14 +102,17 @@ double getCosineOfAngleUsing2Deltas(double const deltaX1, double const deltaY1, 
     return numeratorPart/denominatorPart;
 }
 
+double getArcLength(Dimensionless::Angle const& angle, double const radius)
+{
+    return angle.getRadians() * radius;
+}
+
 template<unsigned int numberOfVertices>
 double getArea(Polygon<numberOfVertices> const& polygon)
-{
-    //shoelace formula
+{    //shoelace formula
     //https://en.wikipedia.org/wiki/Shoelace_formula
     //check also: https://en.wikipedia.org/wiki/Green%27s_theorem
-    double area(0);
-    Points const& vertices(polygon.getVertices());
+    double area(0);    Points const& vertices(polygon.getVertices());
     int sizeMinusOne = static_cast<int>(vertices.size())-1;
     for(int i=0; i<sizeMinusOne; i++)
     {

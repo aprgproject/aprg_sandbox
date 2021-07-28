@@ -1,8 +1,7 @@
-#include "BaseOneEquationOneUnknownSolver.hpp"
+#include "BaseOneEquationOneVariableSolver.hpp"
 
 #include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <algorithm>
 
@@ -14,38 +13,36 @@ namespace alba
 namespace algebra
 {
 
-BaseOneEquationOneUnknownSolver::BaseOneEquationOneUnknownSolver()
+BaseOneEquationOneVariableSolver::BaseOneEquationOneVariableSolver()
     : BaseSolver()
     , m_calculatedValues()
 {}
 
-SolutionSet BaseOneEquationOneUnknownSolver::calculateSolutionAndReturnSolutionSet(
+SolutionSet BaseOneEquationOneVariableSolver::calculateSolutionAndReturnSolutionSet(
         Equation const& equation)
 {
-    SolutionSet solutionSet;
-    calculateSolution(solutionSet, equation);
+    SolutionSet solutionSet;    calculateSolution(solutionSet, equation);
     return solutionSet;
 }
 
-void BaseOneEquationOneUnknownSolver::processWhenEquationIsAlwaysSatisfied(
+void BaseOneEquationOneVariableSolver::processWhenEquationIsAlwaysSatisfied(
         SolutionSet & solutionSet)
 {
     solutionSet.addAcceptedInterval(createAllRealValuesInterval());
     setAsCompleteSolution();
 }
 
-void BaseOneEquationOneUnknownSolver::calculateWhenEquationIsSometimesSatisfied(
+void BaseOneEquationOneVariableSolver::calculateWhenEquationIsSometimesSatisfied(
         SolutionSet & solutionSet,
         Equation const& equation)
 {
     calculateForEquation(solutionSet, equation);
 }
 
-void BaseOneEquationOneUnknownSolver::calculateForTermAndCheckAbsoluteValueFunctions(
+void BaseOneEquationOneVariableSolver::calculateForTermAndCheckAbsoluteValueFunctions(
         Term const& term,
         string const& variableName)
-{
-    FunctionsSet absFunctions(
+{    FunctionsSet absFunctions(
                 getFunctionsWithCondition(
                     term, [](Function const& functionObject)
     {
@@ -61,16 +58,15 @@ void BaseOneEquationOneUnknownSolver::calculateForTermAndCheckAbsoluteValueFunct
     }
 }
 
-void BaseOneEquationOneUnknownSolver::sortCalculatedValues()
+void BaseOneEquationOneVariableSolver::sortCalculatedValues()
 {
     sort(m_calculatedValues.begin(), m_calculatedValues.end());
 }
 
-void BaseOneEquationOneUnknownSolver::calculateAndSubstituteAbsoluteValueFunctions(
+void BaseOneEquationOneVariableSolver::calculateAndSubstituteAbsoluteValueFunctions(
         FunctionsSet const& absFunctions,
         Term const& term,
-        string const& variableName)
-{
+        string const& variableName){
     for(Function const& absFunction : absFunctions)
     {
         Term absFunctionTerm(absFunction);
@@ -94,11 +90,10 @@ void BaseOneEquationOneUnknownSolver::calculateAndSubstituteAbsoluteValueFunctio
     }
 }
 
-void BaseOneEquationOneUnknownSolver::addValuesToSolutionSetIfNeeded(
+void BaseOneEquationOneVariableSolver::addValuesToSolutionSetIfNeeded(
         SolutionSet& solutionSet,
         Term const& term,
-        string const& variableName)
-{
+        string const& variableName){
     if(!m_calculatedValues.empty() && isACompleteSolution())
     {
         SubstitutionOfVariablesToValues substitution;

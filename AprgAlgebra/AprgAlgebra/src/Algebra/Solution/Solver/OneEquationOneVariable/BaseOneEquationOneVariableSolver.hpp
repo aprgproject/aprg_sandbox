@@ -11,13 +11,12 @@ namespace alba
 namespace algebra
 {
 
-class BaseOneEquationOneUnknownSolver : public BaseSolver
+class BaseOneEquationOneVariableSolver : public BaseSolver
 {
 public:
-    BaseOneEquationOneUnknownSolver();
+    BaseOneEquationOneVariableSolver();
 
     SolutionSet calculateSolutionAndReturnSolutionSet(Equation const& equation);
-
 protected:
     virtual void calculateSolution(SolutionSet & solutionSet, Equation const& equation) = 0;
     void processWhenEquationIsAlwaysSatisfied(SolutionSet & solutionSet);

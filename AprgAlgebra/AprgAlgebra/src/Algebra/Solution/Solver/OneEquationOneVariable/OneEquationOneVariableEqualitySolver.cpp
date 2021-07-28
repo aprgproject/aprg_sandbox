@@ -1,8 +1,7 @@
-#include "OneEquationOneUnknownEqualitySolver.hpp"
+#include "OneEquationOneVariableEqualitySolver.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
-#include <Algebra/Solution/SolutionUtilities.hpp>
-#include <Algebra/Solution/Solver/NewtonMethod.hpp>
+#include <Algebra/Solution/SolutionUtilities.hpp>#include <Algebra/Solution/Solver/NewtonMethod.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 
 using namespace std;
@@ -13,15 +12,14 @@ namespace alba
 namespace algebra
 {
 
-OneEquationOneUnknownEqualitySolver::OneEquationOneUnknownEqualitySolver()
-    : BaseOneEquationOneUnknownSolver()
+OneEquationOneVariableEqualitySolver::OneEquationOneVariableEqualitySolver()
+    : BaseOneEquationOneVariableSolver()
 {}
 
-void OneEquationOneUnknownEqualitySolver::calculateSolution(
+void OneEquationOneVariableEqualitySolver::calculateSolution(
         SolutionSet & solutionSet,
         Equation const& equation)
-{
-    if(equation.getEquationOperator().isEqual())
+{    if(equation.getEquationOperator().isEqual())
     {
         Equation simplifiedEquation(equation);
         simplifiedEquation.simplify();
@@ -36,11 +34,10 @@ void OneEquationOneUnknownEqualitySolver::calculateSolution(
     }
 }
 
-void OneEquationOneUnknownEqualitySolver::calculateForEquation(
+void OneEquationOneVariableEqualitySolver::calculateForEquation(
         SolutionSet & solutionSet,
         Equation const& equation)
-{
-    Term const& nonZeroLeftHandTerm(equation.getLeftHandTerm());
+{    Term const& nonZeroLeftHandTerm(equation.getLeftHandTerm());
     VariableNamesSet variableNames(getVariableNames(nonZeroLeftHandTerm));
     if(variableNames.size() == 1)
     {
@@ -51,11 +48,10 @@ void OneEquationOneUnknownEqualitySolver::calculateForEquation(
     }
 }
 
-void OneEquationOneUnknownEqualitySolver::calculateForTermAndVariable(
+void OneEquationOneVariableEqualitySolver::calculateForTermAndVariable(
         Term const& term,
         string const& variableName)
-{
-    PolynomialOverPolynomialOptional popOptional(
+{    PolynomialOverPolynomialOptional popOptional(
                 createPolynomialOverPolynomialFromTermIfPossible(term));
     if(popOptional.hasContent())
     {
@@ -73,11 +69,10 @@ void OneEquationOneUnknownEqualitySolver::calculateForTermAndVariable(
     }
 }
 
-void OneEquationOneUnknownEqualitySolver::addValuesToSolutionSetIfNeeded(
+void OneEquationOneVariableEqualitySolver::addValuesToSolutionSetIfNeeded(
         SolutionSet& solutionSet,
         Term const& term,
-        string const& variableName)
-{
+        string const& variableName){
     if(!m_calculatedValues.empty())
     {
         SubstitutionOfVariablesToValues substitution;
@@ -102,17 +97,16 @@ void OneEquationOneUnknownEqualitySolver::addValuesToSolutionSetIfNeeded(
     }
 }
 
-void OneEquationOneUnknownEqualitySolver::performNewtonMethodToFindSolution(
+void OneEquationOneVariableEqualitySolver::performNewtonMethodToFindSolution(
         Term const& termToCheck,
         string const& variableNameForSubstitution)
 {
     SubstitutionOfVariablesToValues substitution;
     NewtonMethod newtonMethod(
-                getInitialValueForNewtonMethod(termToCheck),
+                getPositiveLogarithmOfLargestNumber(termToCheck),
                 [&](AlbaNumber const& value)
     {
-        substitution.putVariableWithValue(variableNameForSubstitution, value);
-        Term substitutedTerm(substitution.performSubstitutionTo(termToCheck));
+        substitution.putVariableWithValue(variableNameForSubstitution, value);        Term substitutedTerm(substitution.performSubstitutionTo(termToCheck));
         AlbaNumber computedValue;
         if(substitutedTerm.isConstant())
         {

@@ -77,14 +77,18 @@ TEST(TwoDimensionsHelperTest, GetConsineOfAngleUsing2DeltasWorksCorrectly)
     EXPECT_EQ(1, getCosineOfAngleUsing2Deltas(2,4,8,16));
 }
 
-TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForTriangle)
+TEST(TwoDimensionsHelperTest, GetArcLengthWorksCorrectly)
 {
-    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
-    EXPECT_EQ(8, getArea<3>(triangle));
+    EXPECT_DOUBLE_EQ(314.15926535897933, getArcLength(Angle(AngleUnitType::Degrees, 180), 100));
+    EXPECT_DOUBLE_EQ(1000, getArcLength(Angle(AngleUnitType::Radians, 10), 100));
 }
 
-TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForRectangle)
+TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForTriangle)
 {
+    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));    EXPECT_EQ(8, getArea<3>(triangle));
+}
+
+TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForRectangle){
     Rectangle rectangle(Point(0,5), Point(4,0));
     EXPECT_EQ(20, getArea<4>(rectangle));
 }
