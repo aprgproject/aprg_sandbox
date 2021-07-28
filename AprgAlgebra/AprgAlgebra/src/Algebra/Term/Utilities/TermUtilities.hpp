@@ -1,12 +1,10 @@
 #pragma once
 
 #include <Algebra/Term/TermTypes/Term.hpp>
+#include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 #include <Math/AlbaNumberTypes.hpp>
-#include <String/AlbaStringHelper.hpp>
 
 #include <functional>
-#include <set>
-#include <string>
 
 namespace alba
 {
@@ -14,9 +12,6 @@ namespace alba
 namespace algebra
 {
 
-using AlbaNumbersSet = std::set<AlbaNumber>;
-using VariableNamesSet = std::set<std::string>;
-using FunctionsSet = std::set<Function>;
 using FunctionCondition = std::function<bool(Function const&)>;
 
 bool isOperator(std::string const& stringAsParameter);

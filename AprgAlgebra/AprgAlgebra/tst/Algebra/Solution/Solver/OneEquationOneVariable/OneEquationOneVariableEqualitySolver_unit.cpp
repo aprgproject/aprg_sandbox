@@ -2,6 +2,7 @@
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+
 #include <gtest/gtest.h>
 
 using namespace std;
@@ -22,6 +23,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, NonEqualityOperatorsAreNotSolved)
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term("x"), "<", Term("x"))));
+
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
     EXPECT_TRUE(solutionSet.isEmpty());
@@ -32,6 +34,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, MultipleVariableEquationsAreNotSo
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term("x"), "=", Term("y"))));
+
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
     EXPECT_TRUE(solutionSet.isEmpty());
@@ -42,6 +45,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, EquationsThatAreAlwaysSatisfiedRe
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term("x"), "=", Term("x"))));
+
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals actualIntervals(solutionSet.getAcceptedIntervals());
@@ -54,6 +58,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, PolynomialAreSolvedCorrectly)
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(Monomial(1, {{"x", 4}})), "=", Term(16))));
+
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
@@ -70,6 +75,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, PolynomialOverPolynomialAreSolved
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), "=", Term(Constant(0)))));
+
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
@@ -88,6 +94,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, XToTheXAreSolvedCorrectly)
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), "=", Term(823543))));
+
     EXPECT_TRUE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
@@ -101,6 +108,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, XToTheXWithNegativeSolutionAreNot
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), "=", Term(-823543))));
+
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
@@ -113,6 +121,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, AbsoluteValueFunctionsAreSolved)
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(functionTerm, "=", Term(526))));
+
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
@@ -127,6 +136,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, AbsoluteValueFunctionWithInputExp
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(functionTerm, "=", Term(526))));
+
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());

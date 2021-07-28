@@ -116,10 +116,12 @@ Term SubstitutionOfVariablesToValues::performSubstitutionTo(Term const& term) co
 Equation SubstitutionOfVariablesToValues::performSubstitutionTo(
         Equation const& equation) const
 {
-    return Equation(
+    Equation simplifiedEquation(
                 performSubstitutionTo(equation.getLeftHandTerm()),
                 equation.getEquationOperator().getOperatorString(),
                 performSubstitutionTo(equation.getRightHandTerm()));
+    simplifiedEquation.simplify();
+    return simplifiedEquation;
 }
 
 Monomial SubstitutionOfVariablesToValues::performSubstitutionForMonomial(Monomial const& monomial) const

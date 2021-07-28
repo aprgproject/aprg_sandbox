@@ -28,7 +28,7 @@ Equation SimplificationOfEquation::getEquation() const
 void SimplificationOfEquation::simplify()
 {
     m_equation = Equation(
-                convertExpressionToSimplestTerm(getNewCombinedExpression(m_equation)),
+                simplifyAndConvertExpressionToSimplestTerm(getNewCombinedExpression(m_equation)),
                 getNewEquationOperatorString(m_equation.getEquationOperator()),
                 Term(Constant(0)));
 }

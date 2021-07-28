@@ -38,10 +38,12 @@ double getCosineOfAngleUsing2Deltas(double const deltaX1, double const deltaY1, 
 double getArcLength(Dimensionless::Angle const& angle, double const radius);
 template<unsigned int numberOfVertices> double getArea(Polygon<numberOfVertices> const& polygon);
 
-Quadrant getQuadrantOfAPoint(Point const& point);RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c);
+Quadrant getQuadrantOfAPoint(Point const& point);
+RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c);
 
 Dimensionless::Angle getAngleBasedOnAPointAndOrigin(Point const& point);
-Dimensionless::Angle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC);Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
+Dimensionless::Angle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC);
+Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 Dimensionless::Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 
 Point getIntersectionOfTwoLines(Line const& line1, Line const& line2);

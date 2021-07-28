@@ -11,13 +11,15 @@ using namespace std;
 
 namespace alba
 {
+
 namespace algebra
 {
 
 AlbaNumber getPositiveLogarithmOfLargestNumber(Term const& term)
 {
     AlbaNumbersSet numbers(getNumbers(term));
-    AlbaNumber initialValue(0);    if(!numbers.empty())
+    AlbaNumber initialValue(0);
+    if(!numbers.empty())
     {
         initialValue = log(getAbsoluteValue((*numbers.cbegin()).getDouble()));
     }
@@ -28,6 +30,16 @@ AlbaNumbers getValuesForDomainSearching(Term const& term)
 {
     AlbaNumbers result;
     AlbaNumbersSet allValues;
+    retrieveValuesForDomainSearching(allValues, term);
+    result.reserve(allValues.size());
+    copy(allValues.cbegin(), allValues.cend(), back_inserter(result));
+    return result;
+}
+
+AlbaNumbers retrieveValuesForDomainSearching(
+        AlbaNumbersSet & allValues,
+        Term const& term)
+{
     AlbaNumbersSet numbers(getNumbers(term));
     for(AlbaNumber const& number : numbers)
     {
@@ -38,7 +50,15 @@ AlbaNumbers getValuesForDomainSearching(Term const& term)
         allValues.emplace(positiveLogarithm);
         allValues.emplace(positiveNumber);
     }
-    result.reserve((allValues.size()));
+}
+
+AlbaNumbers getValuesForDomainSearching(Equation const& equation)
+{
+    AlbaNumbers result;
+    AlbaNumbersSet allValues;
+    retrieveValuesForDomainSearching(allValues, equation.getLeftHandTerm());
+    retrieveValuesForDomainSearching(allValues, equation.getRightHandTerm());
+    result.reserve(allValues.size());
     copy(allValues.cbegin(), allValues.cend(), back_inserter(result));
     return result;
 }

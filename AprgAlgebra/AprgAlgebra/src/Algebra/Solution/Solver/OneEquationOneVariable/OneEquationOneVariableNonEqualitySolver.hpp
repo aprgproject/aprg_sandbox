@@ -6,6 +6,7 @@
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -15,7 +16,8 @@ public:
     OneEquationOneVariableNonEqualitySolver();
 
 private:
-    void calculateSolution(SolutionSet & solutionSet, Equation const& equation);    void calculateForEquation(SolutionSet & solutionSet, Equation const& equation);
+    void calculateSolution(SolutionSet & solutionSet, Equation const& equation);
+    void calculateForEquation(SolutionSet & solutionSet, Equation const& equation);
     void calculateForTermAndVariable(Term const& term, std::string const& );
     void addIntervalsToSolutionSetIfNeeded(
             SolutionSet& solutionSet,

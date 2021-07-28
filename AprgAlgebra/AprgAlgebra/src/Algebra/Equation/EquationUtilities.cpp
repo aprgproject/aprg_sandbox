@@ -1,5 +1,7 @@
 #include "EquationUtilities.hpp"
 
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
+
 namespace alba
 {
 
@@ -79,6 +81,19 @@ bool isEquationOperationSatisfied(
         result = isGreaterThanOrEqual(leftTerm, rightTerm);
     }
     return result;
+}
+
+VariableNamesSet getVariableNames(Equation const& equation)
+{
+    VariableNamesSet result;
+    retrieveVariableNames(result, equation);
+    return result;
+}
+
+void retrieveVariableNames(VariableNamesSet & variableNames, Equation const& equation)
+{
+    retrieveVariableNames(variableNames, equation.getLeftHandTerm());
+    retrieveVariableNames(variableNames, equation.getRightHandTerm());
 }
 
 }

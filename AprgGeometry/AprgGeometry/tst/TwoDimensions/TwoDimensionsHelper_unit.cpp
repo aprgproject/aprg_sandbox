@@ -85,10 +85,12 @@ TEST(TwoDimensionsHelperTest, GetArcLengthWorksCorrectly)
 
 TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForTriangle)
 {
-    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));    EXPECT_EQ(8, getArea<3>(triangle));
+    Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
+    EXPECT_EQ(8, getArea<3>(triangle));
 }
 
-TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForRectangle){
+TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForRectangle)
+{
     Rectangle rectangle(Point(0,5), Point(4,0));
     EXPECT_EQ(20, getArea<4>(rectangle));
 }

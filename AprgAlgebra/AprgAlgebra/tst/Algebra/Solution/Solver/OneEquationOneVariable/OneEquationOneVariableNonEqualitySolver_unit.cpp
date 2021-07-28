@@ -3,6 +3,7 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba
@@ -21,6 +22,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, EqualityOperatorsAreNotSolved)
     OneEquationOneVariableNonEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term("x"), "=", Term("x"))));
+
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
     EXPECT_TRUE(solutionSet.isEmpty());
@@ -31,6 +33,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, MultipleVariableEquationsAreNo
     OneEquationOneVariableNonEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term("x"), "<", Term("y"))));
+
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
     EXPECT_TRUE(solutionSet.isEmpty());
@@ -41,6 +44,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, EquationsThatAreAlwaysSatisfie
     OneEquationOneVariableNonEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(2), "<", Term(3))));
+
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals actualIntervals(solutionSet.getAcceptedIntervals());
@@ -53,6 +57,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, PolynomialAreSolvedCorrectly)
     OneEquationOneVariableNonEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(Monomial(1, {{"x", 4}})), "<", Term(16))));
+
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
@@ -68,6 +73,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, PolynomialOverPolynomialAreSol
     OneEquationOneVariableNonEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), ">=", Term(Constant(0)))));
+
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
@@ -83,6 +89,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, XToTheXAreNotSolved)
     OneEquationOneVariableNonEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), ">", Term(823543))));
+
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
@@ -95,6 +102,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, XToTheXWithNegativeSolutionAre
     OneEquationOneVariableNonEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), ">", Term(-823543))));
+
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
@@ -107,6 +115,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, AbsoluteValueFunctionsAreSolve
     OneEquationOneVariableNonEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(functionTerm, "<", Term(526))));
+
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
@@ -120,6 +129,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, AbsoluteValueFunctionWithInput
     OneEquationOneVariableNonEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(functionTerm, ">=", Term(526))));
+
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
@@ -136,6 +146,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, AbsoluteValueFunctionInDenomin
     OneEquationOneVariableNonEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(fractionTerm, "<", Term(AlbaNumber(1, 4)))));
+
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());

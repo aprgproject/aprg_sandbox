@@ -2,6 +2,7 @@
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+
 using namespace std;
 
 namespace alba
@@ -17,7 +18,8 @@ OneEquationOneVariableNonEqualitySolver::OneEquationOneVariableNonEqualitySolver
 void OneEquationOneVariableNonEqualitySolver::calculateSolution(
         SolutionSet & solutionSet,
         Equation const& equation)
-{    if(!equation.getEquationOperator().isEqual())
+{
+    if(!equation.getEquationOperator().isEqual())
     {
         Equation simplifiedEquation(equation);
         simplifiedEquation.simplify();
@@ -35,7 +37,8 @@ void OneEquationOneVariableNonEqualitySolver::calculateSolution(
 void OneEquationOneVariableNonEqualitySolver::calculateForEquation(
         SolutionSet & solutionSet,
         Equation const& equation)
-{    Term const& nonZeroLeftHandTerm(equation.getLeftHandTerm());
+{
+    Term const& nonZeroLeftHandTerm(equation.getLeftHandTerm());
     VariableNamesSet variableNames(getVariableNames(nonZeroLeftHandTerm));
     if(variableNames.size() == 1)
     {
@@ -49,7 +52,8 @@ void OneEquationOneVariableNonEqualitySolver::calculateForEquation(
 void OneEquationOneVariableNonEqualitySolver::calculateForTermAndVariable(
         Term const& term,
         string const& )
-{    PolynomialOverPolynomialOptional popOptional(
+{
+    PolynomialOverPolynomialOptional popOptional(
                 createPolynomialOverPolynomialFromTermIfPossible(term));
     if(popOptional.hasContent())
     {
@@ -66,7 +70,8 @@ void OneEquationOneVariableNonEqualitySolver::calculateForTermAndVariable(
 void OneEquationOneVariableNonEqualitySolver::addIntervalsToSolutionSetIfNeeded(
         SolutionSet& solutionSet,
         Equation const& equation,
-        string const& variableName){
+        string const& variableName)
+{
     if(!m_calculatedValues.empty() && isACompleteSolution())
     {
         SubstitutionOfVariablesToValues substitution;

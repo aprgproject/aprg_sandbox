@@ -1,7 +1,8 @@
 #include "BaseOneEquationOneVariableSolver.hpp"
 
 #include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <algorithm>
 
@@ -21,7 +22,8 @@ BaseOneEquationOneVariableSolver::BaseOneEquationOneVariableSolver()
 SolutionSet BaseOneEquationOneVariableSolver::calculateSolutionAndReturnSolutionSet(
         Equation const& equation)
 {
-    SolutionSet solutionSet;    calculateSolution(solutionSet, equation);
+    SolutionSet solutionSet;
+    calculateSolution(solutionSet, equation);
     return solutionSet;
 }
 
@@ -42,7 +44,8 @@ void BaseOneEquationOneVariableSolver::calculateWhenEquationIsSometimesSatisfied
 void BaseOneEquationOneVariableSolver::calculateForTermAndCheckAbsoluteValueFunctions(
         Term const& term,
         string const& variableName)
-{    FunctionsSet absFunctions(
+{
+    FunctionsSet absFunctions(
                 getFunctionsWithCondition(
                     term, [](Function const& functionObject)
     {
@@ -66,7 +69,8 @@ void BaseOneEquationOneVariableSolver::sortCalculatedValues()
 void BaseOneEquationOneVariableSolver::calculateAndSubstituteAbsoluteValueFunctions(
         FunctionsSet const& absFunctions,
         Term const& term,
-        string const& variableName){
+        string const& variableName)
+{
     for(Function const& absFunction : absFunctions)
     {
         Term absFunctionTerm(absFunction);
@@ -93,7 +97,8 @@ void BaseOneEquationOneVariableSolver::calculateAndSubstituteAbsoluteValueFuncti
 void BaseOneEquationOneVariableSolver::addValuesToSolutionSetIfNeeded(
         SolutionSet& solutionSet,
         Term const& term,
-        string const& variableName){
+        string const& variableName)
+{
     if(!m_calculatedValues.empty() && isACompleteSolution())
     {
         SubstitutionOfVariablesToValues substitution;

@@ -5,6 +5,7 @@
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Macros/AlbaMacros.hpp>
 #include <Math/AlbaMathHelper.hpp>
+#include <String/AlbaStringHelper.hpp>
 
 using namespace alba::algebra::Factorization;
 using namespace alba::mathHelper;

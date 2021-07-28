@@ -1,7 +1,9 @@
 #pragma once
 
+#include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Equation/EquationOperator.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
+#include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 
 namespace alba
 {
@@ -19,6 +21,9 @@ bool isEquationOperationSatisfied(
         EquationOperator const& operatorObject,
         Term const& leftTerm,
         Term const& rightTerm);
+
+VariableNamesSet getVariableNames(Equation const& equation);
+void retrieveVariableNames(VariableNamesSet & variableNames, Equation const& equation);
 
 }
 
