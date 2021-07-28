@@ -1,9 +1,11 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
+
 #include <string/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
+
 #include <algorithm>
 
 using namespace alba::stringHelper;
@@ -153,10 +155,12 @@ TEST(TermUtilitiesTest, HasNotANumberWorksForFunction)
 
 TEST(TermUtilitiesTest, GetOperatorLevelValueWorks)
 {
-    EXPECT_EQ(1u, getOperatorPriority("("));    EXPECT_EQ(2u, getOperatorPriority(")"));
+    EXPECT_EQ(1u, getOperatorPriority("("));
+    EXPECT_EQ(2u, getOperatorPriority(")"));
     EXPECT_EQ(3u, getOperatorPriority("+"));
     EXPECT_EQ(4u, getOperatorPriority("-"));
-    EXPECT_EQ(5u, getOperatorPriority("*"));    EXPECT_EQ(6u, getOperatorPriority("/"));
+    EXPECT_EQ(5u, getOperatorPriority("*"));
+    EXPECT_EQ(6u, getOperatorPriority("/"));
     EXPECT_EQ(7u, getOperatorPriority("^"));
     EXPECT_EQ(0u, getOperatorPriority("operator"));
 }
@@ -313,7 +317,7 @@ TEST(TermUtilitiesTest, CreateVariableNameForSubstitutionWorks)
     EXPECT_EQ("{(6 + -7[x^2][y^3][z^4])}", createVariableNameForSubstitution(polynomial));
 }
 
-TEST(TermUtilitiesTest, GetNumbersForTermWorks)
+TEST(TermUtilitiesTest, GetNumbersWorksForTerm)
 {
     AlbaNumbersSet numbersSet(getNumbers(Term(Constant(1.234))));
 
@@ -321,14 +325,14 @@ TEST(TermUtilitiesTest, GetNumbersForTermWorks)
     EXPECT_EQ(AlbaNumber(1.234), *(numbersSet.cbegin()));
 }
 
-TEST(TermUtilitiesTest, RetrieveNumbersForTermWorks)
+TEST(TermUtilitiesTest, RetrieveNumbersWorksForTerm)
 {
     AlbaNumbersSet numbersSet1;
     AlbaNumbersSet numbersSet2;
     AlbaNumbersSet numbersSet3;
     AlbaNumbersSet numbersSet4;
     AlbaNumbersSet numbersSet5;
-    Function functionTerm(
+    Function functionObject(
                 "functionName",
                 createExpressionIfPossible({Term("x"), Term("^"), Term(68)}),
                 [](Constant const&  constant) -> Constant
@@ -336,11 +340,11 @@ TEST(TermUtilitiesTest, RetrieveNumbersForTermWorks)
         return constant;
     });
 
-    retrieveNumbers(Term(Constant(1.234)), numbersSet1);
-    retrieveNumbers(Term(Monomial(34, {{"x", 1}, {"y", 1}})), numbersSet2);
-    retrieveNumbers(Term(Polynomial({Monomial(1, {{"x", 56}}), Monomial(1, {{"y", 1}})})), numbersSet3);
-    retrieveNumbers(Term(createExpressionIfPossible({Term("x"), Term("^"), Term(68)})), numbersSet4);
-    retrieveNumbers(Term(functionTerm), numbersSet5);
+    retrieveNumbers(numbersSet1, Term(Constant(1.234)));
+    retrieveNumbers(numbersSet2, Term(Monomial(34, {{"x", 1}, {"y", 1}})));
+    retrieveNumbers(numbersSet3, Term(Polynomial({Monomial(1, {{"x", 56}}), Monomial(1, {{"y", 1}})})));
+    retrieveNumbers(numbersSet4, Term(createExpressionIfPossible({Term("x"), Term("^"), Term(68)})));
+    retrieveNumbers(numbersSet5, Term(functionObject));
 
     ASSERT_EQ(1u, numbersSet1.size());
     EXPECT_EQ(AlbaNumber(1.234), *(numbersSet1.cbegin()));
@@ -360,21 +364,21 @@ TEST(TermUtilitiesTest, RetrieveNumbersForTermWorks)
     EXPECT_EQ(AlbaNumber(68), *(it5++));
 }
 
-TEST(TermUtilitiesTest, RetrieveNumbersForVariableWorks)
+TEST(TermUtilitiesTest, RetrieveNumbersWorksForConstant)
 {
     AlbaNumbersSet numbersSet;
 
-    retrieveNumbers(Constant(1.234), numbersSet);
+    retrieveNumbers(numbersSet, Constant(1.234));
 
     ASSERT_EQ(1u, numbersSet.size());
     EXPECT_EQ(AlbaNumber(1.234), *(numbersSet.cbegin()));
 }
 
-TEST(TermUtilitiesTest, RetrieveNumbersForMonomialWorks)
+TEST(TermUtilitiesTest, RetrieveNumbersWorksForMonomial)
 {
     AlbaNumbersSet numbersSet;
 
-    retrieveNumbers(Monomial(34, {{"x", 1}, {"y", 1}}), numbersSet);
+    retrieveNumbers(numbersSet, Monomial(34, {{"x", 1}, {"y", 1}}));
 
     ASSERT_EQ(2u, numbersSet.size());
     AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
@@ -382,11 +386,11 @@ TEST(TermUtilitiesTest, RetrieveNumbersForMonomialWorks)
     EXPECT_EQ(AlbaNumber(34), *(it++));
 }
 
-TEST(TermUtilitiesTest, RetrieveNumbersForPolynomialWorks)
+TEST(TermUtilitiesTest, RetrieveNumbersWorksForPolynomial)
 {
     AlbaNumbersSet numbersSet;
 
-    retrieveNumbers(Polynomial({Monomial(1, {{"x", 56}}), Monomial(1, {{"y", 1}})}), numbersSet);
+    retrieveNumbers(numbersSet, Polynomial({Monomial(1, {{"x", 56}}), Monomial(1, {{"y", 1}})}));
 
     ASSERT_EQ(2u, numbersSet.size());
     AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
@@ -394,21 +398,21 @@ TEST(TermUtilitiesTest, RetrieveNumbersForPolynomialWorks)
     EXPECT_EQ(AlbaNumber(56), *(it++));
 }
 
-TEST(TermUtilitiesTest, RetrieveNumbersForExpressionWorks)
+TEST(TermUtilitiesTest, RetrieveNumbersWorksForExpression)
 {
     AlbaNumbersSet numbersSet;
 
-    retrieveNumbers(createExpressionIfPossible({Term("x"), Term("^"), Term(68)}), numbersSet);
+    retrieveNumbers(numbersSet, createExpressionIfPossible({Term("x"), Term("^"), Term(68)}));
 
     ASSERT_EQ(1u, numbersSet.size());
     AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
     EXPECT_EQ(AlbaNumber(68), *(it++));
 }
 
-TEST(TermUtilitiesTest, RetrieveNumbersForFunctionWorks)
+TEST(TermUtilitiesTest, RetrieveNumbersWorksForFunction)
 {
     AlbaNumbersSet numbersSet;
-    Function functionTerm(
+    Function functionObject(
                 "functionName",
                 createExpressionIfPossible({Term("x"), Term("^"), Term(68)}),
                 [](Constant const&  constant) -> Constant
@@ -416,14 +420,14 @@ TEST(TermUtilitiesTest, RetrieveNumbersForFunctionWorks)
         return constant;
     });
 
-    retrieveNumbers(functionTerm, numbersSet);
+    retrieveNumbers(numbersSet, functionObject);
 
     ASSERT_EQ(1u, numbersSet.size());
     AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
     EXPECT_EQ(AlbaNumber(68), *(it++));
 }
 
-TEST(TermUtilitiesTest, GetVariableNamesForTermWorks)
+TEST(TermUtilitiesTest, GetVariableNamesWorksForTerm)
 {
     VariableNamesSet variableNamesSet(getVariableNames(Term(Variable("VariableName"))));
 
@@ -431,14 +435,14 @@ TEST(TermUtilitiesTest, GetVariableNamesForTermWorks)
     EXPECT_EQ("VariableName", *(variableNamesSet.cbegin()));
 }
 
-TEST(TermUtilitiesTest, RetrieveVariableNamesForTermWorks)
+TEST(TermUtilitiesTest, RetrieveVariableNamesWorksForTerm)
 {
     VariableNamesSet variableNamesSet1;
     VariableNamesSet variableNamesSet2;
     VariableNamesSet variableNamesSet3;
     VariableNamesSet variableNamesSet4;
     VariableNamesSet variableNamesSet5;
-    Function functionTerm(
+    Function functionObject(
                 "functionName",
                 createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
                 [](Constant const&  constant) -> Constant
@@ -446,11 +450,11 @@ TEST(TermUtilitiesTest, RetrieveVariableNamesForTermWorks)
         return constant;
     });
 
-    retrieveVariableNames(Term(Variable("VariableName")), variableNamesSet1);
-    retrieveVariableNames(Term(Monomial(1, {{"x", 1}, {"y", 1}})), variableNamesSet2);
-    retrieveVariableNames(Term(Polynomial({Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})})), variableNamesSet3);
-    retrieveVariableNames(Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})), variableNamesSet4);
-    retrieveVariableNames(Term(functionTerm), variableNamesSet5);
+    retrieveVariableNames(variableNamesSet1, Term(Variable("VariableName")));
+    retrieveVariableNames(variableNamesSet2, Term(Monomial(1, {{"x", 1}, {"y", 1}})));
+    retrieveVariableNames(variableNamesSet3, Term(Polynomial({Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})})));
+    retrieveVariableNames(variableNamesSet4, Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})));
+    retrieveVariableNames(variableNamesSet5, Term(functionObject));
 
     ASSERT_EQ(1u, variableNamesSet1.size());
     EXPECT_EQ("VariableName", *(variableNamesSet1.cbegin()));
@@ -472,21 +476,21 @@ TEST(TermUtilitiesTest, RetrieveVariableNamesForTermWorks)
     EXPECT_EQ("y", *(it5++));
 }
 
-TEST(TermUtilitiesTest, RetrieveVariableNamesForVariableWorks)
+TEST(TermUtilitiesTest, RetrieveVariableNamesWorksForVariable)
 {
     VariableNamesSet variableNamesSet;
 
-    retrieveVariableNames(Variable("VariableName"), variableNamesSet);
+    retrieveVariableNames(variableNamesSet, Variable("VariableName"));
 
     ASSERT_EQ(1u, variableNamesSet.size());
     EXPECT_EQ("VariableName", *(variableNamesSet.cbegin()));
 }
 
-TEST(TermUtilitiesTest, RetrieveVariableNamesForMonomialWorks)
+TEST(TermUtilitiesTest, RetrieveVariableNamesWorksForMonomial)
 {
     VariableNamesSet variableNamesSet;
 
-    retrieveVariableNames(Monomial(1, {{"x", 1}, {"y", 1}}), variableNamesSet);
+    retrieveVariableNames(variableNamesSet, Monomial(1, {{"x", 1}, {"y", 1}}));
 
     ASSERT_EQ(2u, variableNamesSet.size());
     VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
@@ -494,11 +498,11 @@ TEST(TermUtilitiesTest, RetrieveVariableNamesForMonomialWorks)
     EXPECT_EQ("y", *(it++));
 }
 
-TEST(TermUtilitiesTest, RetrieveVariableNamesForPolynomialWorks)
+TEST(TermUtilitiesTest, RetrieveVariableNamesWorksForPolynomial)
 {
     VariableNamesSet variableNamesSet;
 
-    retrieveVariableNames(Polynomial({Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})}), variableNamesSet);
+    retrieveVariableNames(variableNamesSet, Polynomial({Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})}));
 
     ASSERT_EQ(2u, variableNamesSet.size());
     VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
@@ -506,11 +510,11 @@ TEST(TermUtilitiesTest, RetrieveVariableNamesForPolynomialWorks)
     EXPECT_EQ("y", *(it++));
 }
 
-TEST(TermUtilitiesTest, RetrieveVariableNamesForExpressionWorks)
+TEST(TermUtilitiesTest, RetrieveVariableNamesWorksForExpression)
 {
     VariableNamesSet variableNamesSet;
 
-    retrieveVariableNames(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}), variableNamesSet);
+    retrieveVariableNames(variableNamesSet, createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
 
     ASSERT_EQ(2u, variableNamesSet.size());
     VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
@@ -518,10 +522,10 @@ TEST(TermUtilitiesTest, RetrieveVariableNamesForExpressionWorks)
     EXPECT_EQ("y", *(it++));
 }
 
-TEST(TermUtilitiesTest, RetrieveVariableNamesForFunctionWorks)
+TEST(TermUtilitiesTest, RetrieveVariableNamesWorksForFunction)
 {
     VariableNamesSet variableNamesSet;
-    Function functionTerm(
+    Function functionObject(
                 "functionName",
                 createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
                 [](Constant const&  constant) -> Constant
@@ -529,12 +533,110 @@ TEST(TermUtilitiesTest, RetrieveVariableNamesForFunctionWorks)
         return constant;
     });
 
-    retrieveVariableNames(functionTerm, variableNamesSet);
+    retrieveVariableNames(variableNamesSet, functionObject);
 
     ASSERT_EQ(2u, variableNamesSet.size());
     VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
     EXPECT_EQ("x", *(it++));
     EXPECT_EQ("y", *(it++));
+}
+
+TEST(TermUtilitiesTest, RetrieveFunctionsWithConditionWorksForTerm)
+{
+    FunctionsSet functionsSets1;
+    FunctionsSet functionsSets2;
+    FunctionsSet functionsSets3;
+    FunctionsSet functionsSets4;
+    FunctionsSet functionsSets5;
+    FunctionsSet functionsSets6;
+    Function functionObject(
+                "functionName",
+                createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
+                [](Constant const&  constant) -> Constant
+    {
+        return constant;
+    });
+    Expression expression(createExpressionIfPossible({Term(1), Term("+"), Term(functionObject)}));
+    FunctionCondition conditionThatWillMatch = [](Function const functionObject)
+    {
+        return functionObject.getFunctionName() == "functionName";
+    };
+    FunctionCondition conditionThatWillNotMatch = [](Function const functionObject)
+    {
+        return functionObject.getFunctionName() == "WillNotMatch";
+    };
+    Term constantTerm(4756);
+    Term expressionTerm(expression);
+    Term functionTerm(functionObject);
+
+    retrieveFunctionsWithCondition(functionsSets1, constantTerm, conditionThatWillMatch);
+    retrieveFunctionsWithCondition(functionsSets2, constantTerm, conditionThatWillNotMatch);
+    retrieveFunctionsWithCondition(functionsSets3, expressionTerm, conditionThatWillMatch);
+    retrieveFunctionsWithCondition(functionsSets4, expressionTerm, conditionThatWillNotMatch);
+    retrieveFunctionsWithCondition(functionsSets5, functionTerm, conditionThatWillMatch);
+    retrieveFunctionsWithCondition(functionsSets6, functionTerm, conditionThatWillNotMatch);
+
+    EXPECT_TRUE(functionsSets1.empty());
+    EXPECT_TRUE(functionsSets2.empty());
+    ASSERT_EQ(1u, functionsSets3.size());
+    EXPECT_EQ(functionObject, *(functionsSets3.begin()));
+    EXPECT_TRUE(functionsSets4.empty());
+    ASSERT_EQ(1u, functionsSets5.size());
+    EXPECT_EQ(functionObject, *(functionsSets5.begin()));
+    EXPECT_TRUE(functionsSets6.empty());
+}
+
+TEST(TermUtilitiesTest, RetrieveFunctionsWithConditionWorksForExpression)
+{
+    FunctionsSet functionsSets1;
+    FunctionsSet functionsSets2;
+    Function functionObject(
+                "functionName",
+                createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
+                [](Constant const&  constant) -> Constant
+    {
+        return constant;
+    });
+    Expression expression(createExpressionIfPossible({Term(1), Term("+"), Term(functionObject)}));
+
+    retrieveFunctionsWithCondition(functionsSets1, expression, [](Function const functionObject)
+    {
+        return functionObject.getFunctionName() == "functionName";
+    });
+    retrieveFunctionsWithCondition(functionsSets2, expression, [](Function const functionObject)
+    {
+        return functionObject.getFunctionName() == "WillNotMatch";
+    });
+
+    ASSERT_EQ(1u, functionsSets1.size());
+    EXPECT_EQ(functionObject, *(functionsSets1.begin()));
+    EXPECT_TRUE(functionsSets2.empty());
+}
+
+TEST(TermUtilitiesTest, RetrieveFunctionsWithConditionWorksForFunction)
+{
+    FunctionsSet functionsSets1;
+    FunctionsSet functionsSets2;
+    Function functionObject(
+                "functionName",
+                createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
+                [](Constant const&  constant) -> Constant
+    {
+        return constant;
+    });
+
+    retrieveFunctionsWithCondition(functionsSets1, functionObject, [](Function const functionObject)
+    {
+        return functionObject.getFunctionName() == "functionName";
+    });
+    retrieveFunctionsWithCondition(functionsSets2, functionObject, [](Function const functionObject)
+    {
+        return functionObject.getFunctionName() == "WillNotMatch";
+    });
+
+    ASSERT_EQ(1u, functionsSets1.size());
+    EXPECT_EQ(functionObject, *(functionsSets1.begin()));
+    EXPECT_TRUE(functionsSets2.empty());
 }
 
 TEST(TermUtilitiesTest, GetGcfMonomialInMonomialsWorks)

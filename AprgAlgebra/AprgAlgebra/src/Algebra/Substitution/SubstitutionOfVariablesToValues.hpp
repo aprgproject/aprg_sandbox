@@ -38,10 +38,12 @@ public:
     Equation performSubstitutionTo(Equation const& equation) const;
 
     void putVariablesWithValues(std::initializer_list<VariableValuePair> const& variablesWithValues);
-    void putVariablesWithValues(VariablesToValuesMap const& variablesWithValues);    void putVariableWithValue(std::string const& variable, AlbaNumber const& value);
+    void putVariablesWithValues(VariablesToValuesMap const& variablesWithValues);
+    void putVariableWithValue(std::string const& variable, AlbaNumber const& value);
 
 private:
-    Monomial performSubstitutionForMonomial(Monomial const& monomial) const;    Polynomial performSubstitutionForPolynomial(Polynomial const& polynomial) const;
+    Monomial performSubstitutionForMonomial(Monomial const& monomial) const;
+    Polynomial performSubstitutionForPolynomial(Polynomial const& polynomial) const;
     Expression performSubstitutionForExpression(Expression const& expression) const;
     Function performSubstitutionForFunction(Function const& functionAsParameter) const;
     void performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const;

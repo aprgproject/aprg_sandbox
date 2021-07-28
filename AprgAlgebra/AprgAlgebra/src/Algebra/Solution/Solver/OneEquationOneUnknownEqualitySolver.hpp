@@ -2,6 +2,7 @@
 
 #include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Solution/SolutionSet/SolutionSet.hpp>
+#include <Algebra/Solution/Solver/BaseOneEquationOneUnknownSolver.hpp>
 
 namespace alba
 {
@@ -9,29 +10,24 @@ namespace alba
 namespace algebra
 {
 
-class OneEquationOneUnknownEqualitySolver
+class OneEquationOneUnknownEqualitySolver : public BaseOneEquationOneUnknownSolver
 {
 public:
-    OneEquationOneUnknownEqualitySolver(Equation const& equation);
-
-    bool isSolved() const;
-    bool isACompleteSolution() const;
-
-    SolutionSet calculateSolutionAndReturnSolutionSet();
+    OneEquationOneUnknownEqualitySolver();
 
 private:
-    void setAsCompleteSolution();
-    void setAsIncompleteSolution();
-    void processWhenEquationIsAlwaysSatisfied(SolutionSet & result);
-    void calculateWhenEquationIsSometimesSatisfied(SolutionSet & result);
+    void calculateSolution(SolutionSet & solutionSet, Equation const& equation);
+    void calculateForEquation(SolutionSet & solutionSet, Equation const& equation);
+    void calculateForTermAndVariable(Term const& term, std::string const& variableName);
+    void addValuesToSolutionSetIfNeeded(
+            SolutionSet& solutionSet,
+            Term const& term,
+            std::string const& variableName);
     void performNewtonMethodToFindSolution(
-            SolutionSet & result,
             Term const& termToCheck,
             std::string const& variableNameForSubstitution);
-    bool m_isSolved;
-    bool m_isACompleteSolution;
-    Equation m_equation;
 };
+
 
 }
 

@@ -4,7 +4,6 @@
 #include <Algebra/Solution/SolutionUtilities.hpp>
 #include <Algebra/Solution/Solver/NewtonMethod.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 using namespace std;
 
@@ -14,77 +13,96 @@ namespace alba
 namespace algebra
 {
 
-OneEquationOneUnknownEqualitySolver::OneEquationOneUnknownEqualitySolver(Equation const& equation)
-    : m_isSolved(false)
-    , m_isACompleteSolution(false)
-    , m_equation(equation)
+OneEquationOneUnknownEqualitySolver::OneEquationOneUnknownEqualitySolver()
+    : BaseOneEquationOneUnknownSolver()
 {}
 
-bool OneEquationOneUnknownEqualitySolver::isSolved() const
+void OneEquationOneUnknownEqualitySolver::calculateSolution(
+        SolutionSet & solutionSet,
+        Equation const& equation)
 {
-    return m_isSolved;
-}
-
-bool OneEquationOneUnknownEqualitySolver::isACompleteSolution() const
-{
-    return m_isACompleteSolution;
-}
-
-SolutionSet OneEquationOneUnknownEqualitySolver::calculateSolutionAndReturnSolutionSet()
-{
-    SolutionSet result;    if(m_equation.getEquationOperator().isEqual())
+    if(equation.getEquationOperator().isEqual())
     {
-        m_equation.simplify();
-        if(m_equation.isEquationSatisfied())
+        Equation simplifiedEquation(equation);
+        simplifiedEquation.simplify();
+        if(simplifiedEquation.isEquationSatisfied())
         {
-            processWhenEquationIsAlwaysSatisfied(result);
+            processWhenEquationIsAlwaysSatisfied(solutionSet);
         }
         else
-        {            calculateWhenEquationIsSometimesSatisfied(result);
+        {
+            calculateWhenEquationIsSometimesSatisfied(solutionSet, simplifiedEquation);
         }
     }
-    return result;
 }
 
-void OneEquationOneUnknownEqualitySolver::setAsCompleteSolution()
+void OneEquationOneUnknownEqualitySolver::calculateForEquation(
+        SolutionSet & solutionSet,
+        Equation const& equation)
 {
-    m_isSolved = true;
-    m_isACompleteSolution = true;
-}
-
-void OneEquationOneUnknownEqualitySolver::setAsIncompleteSolution()
-{
-    m_isSolved = true;
-    m_isACompleteSolution = false;
-}
-
-void OneEquationOneUnknownEqualitySolver::processWhenEquationIsAlwaysSatisfied(SolutionSet & result)
-{
-    result.addAcceptedInterval(createAllRealValuesInterval());
-    setAsCompleteSolution();
-}
-
-void OneEquationOneUnknownEqualitySolver::calculateWhenEquationIsSometimesSatisfied(SolutionSet & result)
-{
-    Term const& nonZeroLeftHandTerm(m_equation.getLeftHandTerm());    VariableNamesSet variableNames(getVariableNames(nonZeroLeftHandTerm));
+    Term const& nonZeroLeftHandTerm(equation.getLeftHandTerm());
+    VariableNamesSet variableNames(getVariableNames(nonZeroLeftHandTerm));
     if(variableNames.size() == 1)
     {
-        string variableName = *variableNames.cbegin();        PolynomialOverPolynomialOptional popOptional(
-                    createPolynomialOverPolynomialFromTermIfPossible(nonZeroLeftHandTerm));
-        if(popOptional.hasContent())
+        string variableName = *variableNames.cbegin();
+        calculateForTermAndCheckAbsoluteValueFunctions(nonZeroLeftHandTerm, variableName);
+        sortCalculatedValues();
+        addValuesToSolutionSetIfNeeded(solutionSet, nonZeroLeftHandTerm, variableName);
+    }
+}
+
+void OneEquationOneUnknownEqualitySolver::calculateForTermAndVariable(
+        Term const& term,
+        string const& variableName)
+{
+    PolynomialOverPolynomialOptional popOptional(
+                createPolynomialOverPolynomialFromTermIfPossible(term));
+    if(popOptional.hasContent())
+    {
+        PolynomialOverPolynomial const& pop(popOptional.getConstReference());
+        AlbaNumbers numeratorRoots(getRoots(pop.getNumerator()));
+        AlbaNumbers denominatorRoots(getRoots(pop.getDenominator()));
+        m_calculatedValues.reserve(numeratorRoots.size() + denominatorRoots.size());
+        copy(numeratorRoots.cbegin(), numeratorRoots.cend(), back_inserter(m_calculatedValues));
+        copy(denominatorRoots.cbegin(), denominatorRoots.cend(), back_inserter(m_calculatedValues));
+        setAsCompleteSolution();
+    }
+    else
+    {
+        performNewtonMethodToFindSolution(term, variableName);
+    }
+}
+
+void OneEquationOneUnknownEqualitySolver::addValuesToSolutionSetIfNeeded(
+        SolutionSet& solutionSet,
+        Term const& term,
+        string const& variableName)
+{
+    if(!m_calculatedValues.empty())
+    {
+        SubstitutionOfVariablesToValues substitution;
+        for(AlbaNumber const& value : m_calculatedValues)
         {
-            PolynomialOverPolynomial const& pop(popOptional.getConstReference());
-            result.addAcceptedValues(getRoots(pop.getNumerator()));
-            result.addRejectedValues(getRoots(pop.getDenominator()));
-            setAsCompleteSolution();
-        }
-        else
-        {            performNewtonMethodToFindSolution(result, nonZeroLeftHandTerm, variableName);
+            substitution.putVariableWithValue(variableName, value);
+            Term substitutedResult(substitution.performSubstitutionTo(term));
+            if(substitutedResult.isConstant())
+            {
+                AlbaNumber const& computedValue(
+                            substitutedResult.getConstantConstReference().getNumberConstReference());
+                if(!computedValue.isAFiniteValue())
+                {
+                    solutionSet.addRejectedValue(value);
+                }
+                else if(computedValue == 0)
+                {
+                    solutionSet.addAcceptedValue(value);
+                }
+            }
         }
     }
 }
+
 void OneEquationOneUnknownEqualitySolver::performNewtonMethodToFindSolution(
-        SolutionSet & result,
         Term const& termToCheck,
         string const& variableNameForSubstitution)
 {
@@ -94,23 +112,24 @@ void OneEquationOneUnknownEqualitySolver::performNewtonMethodToFindSolution(
                 [&](AlbaNumber const& value)
     {
         substitution.putVariableWithValue(variableNameForSubstitution, value);
-        Term result(substitution.performSubstitutionTo(termToCheck));
-        AlbaNumber resultValue;
-        if(result.isConstant())
+        Term substitutedTerm(substitution.performSubstitutionTo(termToCheck));
+        AlbaNumber computedValue;
+        if(substitutedTerm.isConstant())
         {
-            resultValue = result.getConstantConstReference().getNumberConstReference();
+            computedValue = substitutedTerm.getConstantConstReference().getNumberConstReference();
         }
-        return resultValue;
+        return computedValue;
     });
 
     newtonMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
 
     if(newtonMethod.isSolved())
     {
-        result.addAcceptedValue(newtonMethod.getCurrentComputedValue());
+        m_calculatedValues.emplace_back(newtonMethod.getCurrentComputedValue());
         setAsIncompleteSolution();
     }
 }
+
 }
 
 }

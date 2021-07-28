@@ -1,33 +1,31 @@
 #pragma once
 
-#include <Algebra/Constructs/PolynomialOverPolynomial.hpp>
 #include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Solution/SolutionSet/SolutionSet.hpp>
+#include <Algebra/Solution/Solver/BaseOneEquationOneUnknownSolver.hpp>
+
 namespace alba
 {
+
 namespace algebra
 {
 
-class OneEquationOneUnknownNonEqualitySolver
+class OneEquationOneUnknownNonEqualitySolver : public BaseOneEquationOneUnknownSolver
 {
 public:
-    OneEquationOneUnknownNonEqualitySolver(Equation const& equation);
-
-    bool isSolved() const;
-    bool isACompleteSolution() const;
-
-    SolutionSet calculateSolutionAndReturnSolutionSet();
+    OneEquationOneUnknownNonEqualitySolver();
 
 private:
-    void setAsCompleteSolution();
-    void setAsIncompleteSolution();
-    void processWhenEquationIsAlwaysSatisfied(SolutionSet & result);
-    void calculateWhenEquationIsSometimesSatisfied(SolutionSet & result);
-    AlbaNumbers getValuesToCheck(PolynomialOverPolynomial const& pop);
-    bool m_isSolved;
-    bool m_isACompleteSolution;
-    Equation m_equation;
+    void calculateSolution(SolutionSet & solutionSet, Equation const& equation);
+    void calculateForEquation(SolutionSet & solutionSet, Equation const& equation);
+    void calculateForTermAndVariable(Term const& term, std::string const& );
+    void addIntervalsToSolutionSetIfNeeded(
+            SolutionSet& solutionSet,
+            Equation const& equation,
+            std::string const& variableName);
+    AlbaNumbers m_calculatedValues;
 };
+
 
 }
 

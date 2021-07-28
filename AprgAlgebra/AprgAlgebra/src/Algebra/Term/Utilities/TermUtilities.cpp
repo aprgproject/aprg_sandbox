@@ -176,10 +176,12 @@ bool isAFiniteValue(Term const& term)
 
 unsigned int getOperatorPriority(string const& operatorString)
 {
-    unsigned int result=0;    if("(" == operatorString)
+    unsigned int result=0;
+    if("(" == operatorString)
     {
         result=1;
-    }    else if(")" == operatorString)
+    }
+    else if(")" == operatorString)
     {
         result=2;
     }
@@ -276,7 +278,7 @@ AlbaNumbers getRoots(Polynomial const& polynomial)
 {
     AlbaNumbers result;
     VariableNamesSet variableNames;
-    retrieveVariableNames(polynomial, variableNames);
+    retrieveVariableNames(variableNames, polynomial);
     if(variableNames.size() == 1)
     {
         Polynomial polynomialToFactorize(polynomial);
@@ -439,40 +441,40 @@ string createVariableNameForSubstitution(Polynomial const& polynomial)
 AlbaNumbersSet getNumbers(Term const& term)
 {
     AlbaNumbersSet result;
-    retrieveNumbers(term, result);
+    retrieveNumbers(result, term);
     return result;
 }
 
-void retrieveNumbers(Term const& term, AlbaNumbersSet & numbers)
+void retrieveNumbers(AlbaNumbersSet & numbers, Term const& term)
 {
     if(term.isConstant())
     {
-        retrieveNumbers(term.getConstantConstReference(), numbers);
+        retrieveNumbers(numbers, term.getConstantConstReference());
     }
     else if(term.isMonomial())
     {
-        retrieveNumbers(term.getMonomialConstReference(), numbers);
+        retrieveNumbers(numbers, term.getMonomialConstReference());
     }
     else if(term.isPolynomial())
     {
-        retrieveNumbers(term.getPolynomialConstReference(), numbers);
+        retrieveNumbers(numbers, term.getPolynomialConstReference());
     }
     else if(term.isExpression())
     {
-        retrieveNumbers(term.getExpressionConstReference(), numbers);
+        retrieveNumbers(numbers, term.getExpressionConstReference());
     }
     else if(term.isFunction())
     {
-        retrieveNumbers(term.getFunctionConstReference(), numbers);
+        retrieveNumbers(numbers, term.getFunctionConstReference());
     }
 }
 
-void retrieveNumbers(Constant const& constant, AlbaNumbersSet & numbers)
+void retrieveNumbers(AlbaNumbersSet & numbers, Constant const& constant)
 {
     numbers.emplace(constant.getNumberConstReference());
 }
 
-void retrieveNumbers(Monomial const& monomial, AlbaNumbersSet & numbers)
+void retrieveNumbers(AlbaNumbersSet & numbers, Monomial const& monomial)
 {
     numbers.emplace(monomial.getConstantConstReference());
     for(Monomial::VariableExponentPair const& variableExponentsPair
@@ -482,65 +484,65 @@ void retrieveNumbers(Monomial const& monomial, AlbaNumbersSet & numbers)
     }
 }
 
-void retrieveNumbers(Polynomial const& polynomial, AlbaNumbersSet & numbers)
+void retrieveNumbers(AlbaNumbersSet & numbers, Polynomial const& polynomial)
 {
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
-        retrieveNumbers(monomial, numbers);
+        retrieveNumbers(numbers, monomial);
     }
 }
 
-void retrieveNumbers(Expression const& expression, AlbaNumbersSet & numbers)
+void retrieveNumbers(AlbaNumbersSet & numbers, Expression const& expression)
 {
     for(TermsWithAssociation::TermWithDetails const& termWithDetails
         : expression.getTermsWithAssociation().getTermsWithDetails())
     {
-        retrieveNumbers(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), numbers);
+        retrieveNumbers(numbers, getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
     }
 }
 
-void retrieveNumbers(Function const& functionTerm, AlbaNumbersSet & numbers)
+void retrieveNumbers(AlbaNumbersSet & numbers, Function const& functionObject)
 {
-    retrieveNumbers(functionTerm.getInputExpressionConstReference(), numbers);
+    retrieveNumbers(numbers, functionObject.getInputExpressionConstReference());
 }
 
 VariableNamesSet getVariableNames(Term const& term)
 {
     VariableNamesSet result;
-    retrieveVariableNames(term, result);
+    retrieveVariableNames(result, term);
     return result;
 }
 
-void retrieveVariableNames(Term const& term, VariableNamesSet & variableNames)
+void retrieveVariableNames(VariableNamesSet & variableNames, Term const& term)
 {
     if(term.isVariable())
     {
-        retrieveVariableNames(term.getVariableConstReference(), variableNames);
+        retrieveVariableNames(variableNames, term.getVariableConstReference());
     }
     else if(term.isMonomial())
     {
-        retrieveVariableNames(term.getMonomialConstReference(), variableNames);
+        retrieveVariableNames(variableNames, term.getMonomialConstReference());
     }
     else if(term.isPolynomial())
     {
-        retrieveVariableNames(term.getPolynomialConstReference(), variableNames);
+        retrieveVariableNames(variableNames, term.getPolynomialConstReference());
     }
     else if(term.isExpression())
     {
-        retrieveVariableNames(term.getExpressionConstReference(), variableNames);
+        retrieveVariableNames(variableNames, term.getExpressionConstReference());
     }
     else if(term.isFunction())
     {
-        retrieveVariableNames(term.getFunctionConstReference(), variableNames);
+        retrieveVariableNames(variableNames, term.getFunctionConstReference());
     }
 }
 
-void retrieveVariableNames(Variable const& variable, VariableNamesSet & variableNames)
+void retrieveVariableNames(VariableNamesSet & variableNames, Variable const& variable)
 {
     variableNames.emplace(variable.getVariableName());
 }
 
-void retrieveVariableNames(Monomial const& monomial, VariableNamesSet & variableNames)
+void retrieveVariableNames(VariableNamesSet & variableNames, Monomial const& monomial)
 {
     for(Monomial::VariableExponentPair const& variableExponentsPair
         : monomial.getVariablesToExponentsMapConstReference())
@@ -549,26 +551,76 @@ void retrieveVariableNames(Monomial const& monomial, VariableNamesSet & variable
     }
 }
 
-void retrieveVariableNames(Polynomial const& polynomial, VariableNamesSet & variableNames)
+void retrieveVariableNames(VariableNamesSet & variableNames, Polynomial const& polynomial)
 {
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
-        retrieveVariableNames(monomial, variableNames);
+        retrieveVariableNames(variableNames, monomial);
     }
 }
 
-void retrieveVariableNames(Expression const& expression, VariableNamesSet & variableNames)
+void retrieveVariableNames(VariableNamesSet & variableNames, Expression const& expression)
 {
     for(TermsWithAssociation::TermWithDetails const& termWithDetails
         : expression.getTermsWithAssociation().getTermsWithDetails())
     {
-        retrieveVariableNames(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), variableNames);
+        retrieveVariableNames(variableNames, getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
     }
 }
 
-void retrieveVariableNames(Function const& functionTerm, VariableNamesSet & variableNames)
+void retrieveVariableNames(VariableNamesSet & variableNames, Function const& functionObject)
 {
-    retrieveVariableNames(functionTerm.getInputExpressionConstReference(), variableNames);
+    retrieveVariableNames(variableNames, functionObject.getInputExpressionConstReference());
+}
+
+FunctionsSet getFunctionsWithCondition(
+        Term const& term,
+        FunctionCondition const& isFunctionIncluded)
+{
+    FunctionsSet result;
+    retrieveFunctionsWithCondition(result, term, isFunctionIncluded);
+    return result;
+}
+
+void retrieveFunctionsWithCondition(
+        FunctionsSet & functions,
+        Term const& term,
+        FunctionCondition const& isFunctionIncluded)
+{
+    if(term.isExpression())
+    {
+        retrieveFunctionsWithCondition(functions, term.getExpressionConstReference(), isFunctionIncluded);
+    }
+    else if(term.isFunction())
+    {
+        retrieveFunctionsWithCondition(functions, term.getFunctionConstReference(), isFunctionIncluded);
+    }
+}
+
+void retrieveFunctionsWithCondition(
+        FunctionsSet & functions,
+        Expression const& expression,
+        FunctionCondition const& isFunctionIncluded)
+{
+    for(TermsWithAssociation::TermWithDetails const& termWithDetails
+        : expression.getTermsWithAssociation().getTermsWithDetails())
+    {
+        retrieveFunctionsWithCondition(
+                    functions,
+                    getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer),
+                    isFunctionIncluded);
+    }
+}
+
+void retrieveFunctionsWithCondition(
+        FunctionsSet & functions,
+        Function const& functionObject,
+        FunctionCondition const& isFunctionIncluded)
+{
+    if(isFunctionIncluded(functionObject))
+    {
+        functions.emplace(functionObject);
+    }
 }
 
 AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials)
@@ -663,8 +715,8 @@ Monomial compareMonomialsAndSaveMinimumExponentsForEachVariable(Monomial const& 
 {
     Monomial::VariablesToExponentsMap newVariableExponentMap;
     VariableNamesSet variableNames;
-    retrieveVariableNames(firstMonomial, variableNames);
-    retrieveVariableNames(secondMonomial, variableNames);
+    retrieveVariableNames(variableNames, firstMonomial);
+    retrieveVariableNames(variableNames, secondMonomial);
     for(string const& variableName : variableNames)
     {
         newVariableExponentMap[variableName] = min(
@@ -678,8 +730,8 @@ Monomial compareMonomialsAndSaveMaximumExponentsForEachVariable(Monomial const& 
 {
     Monomial::VariablesToExponentsMap newVariableExponentMap;
     VariableNamesSet variableNames;
-    retrieveVariableNames(firstMonomial, variableNames);
-    retrieveVariableNames(secondMonomial, variableNames);
+    retrieveVariableNames(variableNames, firstMonomial);
+    retrieveVariableNames(variableNames, secondMonomial);
     for(string const& variableName : variableNames)
     {
         newVariableExponentMap[variableName] = max(

@@ -98,10 +98,12 @@ TEST(AlbaNumberIntervalEndpointTest, SetTypeForEndpointWorksAsExpected)
 
 TEST(AlbaNumberTest, ConstructionForIntervalWorksAsExpected)
 {
-    AlbaNumberInterval interval1(createOpenEndpoint(645), createCloseEndpoint(784));    AlbaNumberInterval interval2(createCloseEndpoint(784), createOpenEndpoint(645));
+    AlbaNumberInterval interval1(createOpenEndpoint(645), createCloseEndpoint(784));
+    AlbaNumberInterval interval2(createCloseEndpoint(784), createOpenEndpoint(645));
 
     EXPECT_EQ(createOpenEndpoint(645), interval1.getLowerEndpoint());
-    EXPECT_EQ(createCloseEndpoint(784), interval1.getHigherEndpoint());    EXPECT_EQ(createOpenEndpoint(645), interval2.getLowerEndpoint());
+    EXPECT_EQ(createCloseEndpoint(784), interval1.getHigherEndpoint());
+    EXPECT_EQ(createOpenEndpoint(645), interval2.getLowerEndpoint());
     EXPECT_EQ(createCloseEndpoint(784), interval2.getHigherEndpoint());
 }
 

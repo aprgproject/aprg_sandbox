@@ -1,104 +1,92 @@
 #include "OneEquationOneUnknownNonEqualitySolver.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
-#include <Algebra/Solution/SolutionUtilities.hpp>
-#include <Algebra/Solution/Solver/NewtonMethod.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
-
-#include <algorithm>
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
 
-OneEquationOneUnknownNonEqualitySolver::OneEquationOneUnknownNonEqualitySolver(Equation const& equation)
-    : m_isSolved(false)
-    , m_isACompleteSolution(false)
-    , m_equation(equation)
+OneEquationOneUnknownNonEqualitySolver::OneEquationOneUnknownNonEqualitySolver()
+    : BaseOneEquationOneUnknownSolver()
 {}
 
-bool OneEquationOneUnknownNonEqualitySolver::isSolved() const
+void OneEquationOneUnknownNonEqualitySolver::calculateSolution(
+        SolutionSet & solutionSet,
+        Equation const& equation)
 {
-    return m_isSolved;
-}
-
-bool OneEquationOneUnknownNonEqualitySolver::isACompleteSolution() const
-{
-    return m_isACompleteSolution;
-}
-
-SolutionSet OneEquationOneUnknownNonEqualitySolver::calculateSolutionAndReturnSolutionSet()
-{
-    SolutionSet result;    if(!m_equation.getEquationOperator().isEqual())
+    if(!equation.getEquationOperator().isEqual())
     {
-        m_equation.simplify();
-        if(m_equation.isEquationSatisfied())
+        Equation simplifiedEquation(equation);
+        simplifiedEquation.simplify();
+        if(simplifiedEquation.isEquationSatisfied())
         {
-            processWhenEquationIsAlwaysSatisfied(result);
+            processWhenEquationIsAlwaysSatisfied(solutionSet);
         }
         else
-        {            calculateWhenEquationIsSometimesSatisfied(result);
-        }
-    }
-    return result;
-}
-
-void OneEquationOneUnknownNonEqualitySolver::setAsCompleteSolution()
-{
-    m_isSolved = true;
-    m_isACompleteSolution = true;
-}
-
-void OneEquationOneUnknownNonEqualitySolver::setAsIncompleteSolution()
-{
-    m_isSolved = true;
-    m_isACompleteSolution = false;
-}
-
-void OneEquationOneUnknownNonEqualitySolver::processWhenEquationIsAlwaysSatisfied(SolutionSet & result)
-{
-    result.addAcceptedInterval(createAllRealValuesInterval());
-    setAsCompleteSolution();
-}
-
-void OneEquationOneUnknownNonEqualitySolver::calculateWhenEquationIsSometimesSatisfied(SolutionSet & result)
-{
-    SubstitutionOfVariablesToValues substitution;
-    Term const& nonZeroLeftHandTerm(m_equation.getLeftHandTerm());
-    VariableNamesSet variableNames(getVariableNames(nonZeroLeftHandTerm));
-    if(variableNames.size() == 1)    {
-        string variableName = *variableNames.cbegin();
-        PolynomialOverPolynomialOptional popOptional(
-                    createPolynomialOverPolynomialFromTermIfPossible(nonZeroLeftHandTerm));
-        if(popOptional.hasContent())
         {
-            PolynomialOverPolynomial const& pop(popOptional.getConstReference());
-            AlbaNumbers valuesToCheck(getValuesToCheck(pop));
-            result.determineAndAddAcceptedIntervals(valuesToCheck, [&](AlbaNumber const& value)
-            {
-                substitution.putVariableWithValue(variableName, value);
-                Equation substitutedEquation(substitution.performSubstitutionTo(m_equation));
-                return substitutedEquation.isEquationSatisfied()
-                        && isAFiniteValue(substitutedEquation.getLeftHandTerm())
-                        && isAFiniteValue(substitutedEquation.getRightHandTerm());
-            });
-            setAsCompleteSolution();
+            calculateWhenEquationIsSometimesSatisfied(solutionSet, simplifiedEquation);
         }
     }
 }
 
-AlbaNumbers OneEquationOneUnknownNonEqualitySolver::getValuesToCheck(PolynomialOverPolynomial const& pop)
+void OneEquationOneUnknownNonEqualitySolver::calculateForEquation(
+        SolutionSet & solutionSet,
+        Equation const& equation)
 {
-    AlbaNumbers valuesToCheck(getRoots(pop.getNumerator()));
-    AlbaNumbers denominatorRoots(getRoots(pop.getDenominator()));
-    valuesToCheck.reserve(valuesToCheck.size() + denominatorRoots.size());
-    copy(denominatorRoots.cbegin(), denominatorRoots.cend(), back_inserter(valuesToCheck));
-    return valuesToCheck;
+    Term const& nonZeroLeftHandTerm(equation.getLeftHandTerm());
+    VariableNamesSet variableNames(getVariableNames(nonZeroLeftHandTerm));
+    if(variableNames.size() == 1)
+    {
+        string variableName = *variableNames.cbegin();
+        calculateForTermAndCheckAbsoluteValueFunctions(nonZeroLeftHandTerm, variableName);
+        sortCalculatedValues();
+        addIntervalsToSolutionSetIfNeeded(solutionSet, equation, variableName);
+    }
+}
+
+void OneEquationOneUnknownNonEqualitySolver::calculateForTermAndVariable(
+        Term const& term,
+        string const& )
+{
+    PolynomialOverPolynomialOptional popOptional(
+                createPolynomialOverPolynomialFromTermIfPossible(term));
+    if(popOptional.hasContent())
+    {
+        PolynomialOverPolynomial const& pop(popOptional.getConstReference());
+        AlbaNumbers numeratorRoots(getRoots(pop.getNumerator()));
+        AlbaNumbers denominatorRoots(getRoots(pop.getDenominator()));
+        m_calculatedValues.reserve(numeratorRoots.size() + denominatorRoots.size());
+        copy(numeratorRoots.cbegin(), numeratorRoots.cend(), back_inserter(m_calculatedValues));
+        copy(denominatorRoots.cbegin(), denominatorRoots.cend(), back_inserter(m_calculatedValues));
+        setAsCompleteSolution();
+    }
+}
+
+void OneEquationOneUnknownNonEqualitySolver::addIntervalsToSolutionSetIfNeeded(
+        SolutionSet& solutionSet,
+        Equation const& equation,
+        string const& variableName)
+{
+    if(!m_calculatedValues.empty() && isACompleteSolution())
+    {
+        SubstitutionOfVariablesToValues substitution;
+        solutionSet.determineAndAddAcceptedIntervals(m_calculatedValues, [&](AlbaNumber const& value)
+        {
+            substitution.putVariableWithValue(variableName, value);
+            Equation substitutedEquation(substitution.performSubstitutionTo(equation));
+            return substitutedEquation.isEquationSatisfied()
+                    && isAFiniteValue(substitutedEquation.getLeftHandTerm())
+                    && isAFiniteValue(substitutedEquation.getRightHandTerm());
+        });
+        setAsCompleteSolution();
+    }
 }
 
 }
+
 }

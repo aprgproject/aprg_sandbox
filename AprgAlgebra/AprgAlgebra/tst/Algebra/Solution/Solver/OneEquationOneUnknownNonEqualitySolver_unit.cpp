@@ -1,3 +1,4 @@
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneUnknownNonEqualitySolver.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
@@ -13,14 +14,14 @@ namespace algebra
 
 TEST(OneEquationOneUnknownNonEqualitySolverTest, ConstructionWorks)
 {
-    OneEquationOneUnknownNonEqualitySolver(Equation(Term("x"), "=", Term("y")));
+    OneEquationOneUnknownNonEqualitySolver();
 }
 
 TEST(OneEquationOneUnknownNonEqualitySolverTest, EqualityOperatorsAreNotSolved)
 {
-    OneEquationOneUnknownNonEqualitySolver solver(Equation(Term("x"), "=", Term("x")));
+    OneEquationOneUnknownNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet());
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term("x"), "=", Term("x"))));
 
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
@@ -29,9 +30,9 @@ TEST(OneEquationOneUnknownNonEqualitySolverTest, EqualityOperatorsAreNotSolved)
 
 TEST(OneEquationOneUnknownNonEqualitySolverTest, MultipleVariableEquationsAreNotSolved)
 {
-    OneEquationOneUnknownNonEqualitySolver solver(Equation(Term("x"), "<", Term("y")));
+    OneEquationOneUnknownNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet());
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term("x"), "<", Term("y"))));
 
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
@@ -40,9 +41,9 @@ TEST(OneEquationOneUnknownNonEqualitySolverTest, MultipleVariableEquationsAreNot
 
 TEST(OneEquationOneUnknownNonEqualitySolverTest, EquationsThatAreAlwaysSatisfiedResultsInInfiniteRange)
 {
-    OneEquationOneUnknownNonEqualitySolver solver(Equation(Term(2), "<", Term(3)));
+    OneEquationOneUnknownNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet());
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(2), "<", Term(3))));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
@@ -53,9 +54,9 @@ TEST(OneEquationOneUnknownNonEqualitySolverTest, EquationsThatAreAlwaysSatisfied
 
 TEST(OneEquationOneUnknownNonEqualitySolverTest, PolynomialAreSolvedCorrectly)
 {
-    OneEquationOneUnknownNonEqualitySolver solver(Equation(Term(Monomial(1, {{"x", 4}})), "<", Term(16)));
+    OneEquationOneUnknownNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet());
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(Monomial(1, {{"x", 4}})), "<", Term(16))));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
@@ -69,9 +70,9 @@ TEST(OneEquationOneUnknownNonEqualitySolverTest, PolynomialOverPolynomialAreSolv
     Polynomial numerator{Monomial(1, {{"x", 2}}), Monomial(-25, {})};
     Polynomial denominator{Monomial(1, {{"x", 2}}), Monomial(-36, {})};
     Expression expression(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
-    OneEquationOneUnknownNonEqualitySolver solver(Equation(Term(expression), ">=", Term(Constant(0))));
+    OneEquationOneUnknownNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet());
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), ">=", Term(Constant(0)))));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
@@ -85,9 +86,9 @@ TEST(OneEquationOneUnknownNonEqualitySolverTest, PolynomialOverPolynomialAreSolv
 TEST(OneEquationOneUnknownNonEqualitySolverTest, XToTheXAreNotSolved)
 {
     Expression expression(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
-    OneEquationOneUnknownNonEqualitySolver solver(Equation(Term(expression), ">", Term(823543)));
+    OneEquationOneUnknownNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet());
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), ">", Term(823543))));
 
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
@@ -98,14 +99,43 @@ TEST(OneEquationOneUnknownNonEqualitySolverTest, XToTheXAreNotSolved)
 TEST(OneEquationOneUnknownNonEqualitySolverTest, XToTheXWithNegativeSolutionAreNotSolved)
 {
     Expression expression(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
-    OneEquationOneUnknownNonEqualitySolver solver(Equation(Term(expression), ">", Term(-823543)));
+    OneEquationOneUnknownNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet());
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), ">", Term(-823543))));
 
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
     EXPECT_TRUE(acceptedIntervals.empty());
+}
+
+TEST(OneEquationOneUnknownNonEqualitySolverTest, AbsoluteValueFunctionsAreSolved)
+{
+    Term functionTerm(Functions::abs(createExpressionIfPossible({Term("x")})));
+    OneEquationOneUnknownNonEqualitySolver solver;
+
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(functionTerm, "<", Term(526))));
+
+    EXPECT_TRUE(solver.isSolved());
+    EXPECT_TRUE(solver.isACompleteSolution());
+    AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
+    ASSERT_EQ(1u, acceptedIntervals.size());
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(-526), createOpenEndpoint(526)), acceptedIntervals.at(0));
+}
+
+TEST(OneEquationOneUnknownNonEqualitySolverTest, AbsoluteValueFunctionWithInputExpressionAreSolved)
+{
+    Term functionTerm(Functions::abs(createExpressionIfPossible({Term("x"), Term("+"), Term(100)})));
+    OneEquationOneUnknownNonEqualitySolver solver;
+
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(functionTerm, ">=", Term(526))));
+
+    EXPECT_TRUE(solver.isSolved());
+    EXPECT_TRUE(solver.isACompleteSolution());
+    AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
+    ASSERT_EQ(2u, acceptedIntervals.size());
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createCloseEndpoint(-626)), acceptedIntervals.at(0));
+    EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(426), createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), acceptedIntervals.at(1));
 }
 
 }

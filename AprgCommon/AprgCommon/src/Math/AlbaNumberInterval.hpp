@@ -38,9 +38,11 @@ private:
 class AlbaNumberInterval
 {
 public:
+
     AlbaNumberInterval(
             AlbaNumberIntervalEndpoint const& firstEndpoint,
             AlbaNumberIntervalEndpoint const& secondEndpoint);
+
     bool operator==(AlbaNumberInterval const& second) const;
     AlbaNumberIntervalEndpoint const& getLowerEndpoint() const;
     AlbaNumberIntervalEndpoint const& getHigherEndpoint() const;

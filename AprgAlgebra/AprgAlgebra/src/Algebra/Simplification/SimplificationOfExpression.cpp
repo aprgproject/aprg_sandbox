@@ -177,10 +177,12 @@ void SimplificationOfExpression::simplifyFurtherIfNeeded(
     if(beforeSimplify != afterSimplify && !hasNotANumber(afterSimplify))
     {
         simplify();
-    }}
+    }
+}
 
 bool SimplificationOfExpression::simplifyToACommonDenominatorForExpressionAndReturnIfChanged(Expression & expression)
-{    bool isChanged(false);
+{
+    bool isChanged(false);
     if(expression.getCommonOperatorLevel() == OperatorLevel::AdditionAndSubtraction)
     {
         isChanged = tryToAddSubtractTermsOverTermsAndReturnIfChanged(expression);

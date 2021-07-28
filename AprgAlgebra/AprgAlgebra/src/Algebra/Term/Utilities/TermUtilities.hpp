@@ -4,6 +4,7 @@
 #include <Math/AlbaNumberTypes.hpp>
 #include <String/AlbaStringHelper.hpp>
 
+#include <functional>
 #include <set>
 #include <string>
 
@@ -15,6 +16,8 @@ namespace algebra
 
 using AlbaNumbersSet = std::set<AlbaNumber>;
 using VariableNamesSet = std::set<std::string>;
+using FunctionsSet = std::set<Function>;
+using FunctionCondition = std::function<bool(Function const&)>;
 
 bool isOperator(std::string const& stringAsParameter);
 bool isFunction(std::string const& stringAsParameter);
@@ -32,10 +35,12 @@ bool hasNotANumber(Function const& function);
 bool isAFiniteValue(Term const& term);
 
 unsigned int getOperatorPriority(std::string const& operatorString);
-unsigned int getAssociationPriority(TermAssociationType const association);unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
+unsigned int getAssociationPriority(TermAssociationType const association);
+unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
 unsigned int getTermTypePriorityValue(TermType const termType);
 
 AlbaNumbers getRoots(Polynomial const& polynomial);
+
 std::string getEnumShortString(TermType const termType);
 std::string getEnumShortString(TermAssociationType const association);
 std::string getEnumShortString(OperatorLevel const operatorLevel);
@@ -52,20 +57,25 @@ std::string getString(
 std::string createVariableNameForSubstitution(Polynomial const& polynomial);
 
 AlbaNumbersSet getNumbers(Term const& term);
-void retrieveNumbers(Term const& term, AlbaNumbersSet & numbers);
-void retrieveNumbers(Constant const& constant, AlbaNumbersSet & numbers);
-void retrieveNumbers(Monomial const& monomial, AlbaNumbersSet & numbers);
-void retrieveNumbers(Polynomial const& polynomial, AlbaNumbersSet & numbers);
-void retrieveNumbers(Expression const& expression, AlbaNumbersSet & numbers);
-void retrieveNumbers(Function const& functionTerm, AlbaNumbersSet & numbers);
+void retrieveNumbers(AlbaNumbersSet & numbers, Term const& term);
+void retrieveNumbers(AlbaNumbersSet & numbers, Constant const& constant);
+void retrieveNumbers(AlbaNumbersSet & numbers, Monomial const& monomial);
+void retrieveNumbers(AlbaNumbersSet & numbers, Polynomial const& polynomial);
+void retrieveNumbers(AlbaNumbersSet & numbers, Expression const& expression);
+void retrieveNumbers(AlbaNumbersSet & numbers, Function const& functionObject);
 
 VariableNamesSet getVariableNames(Term const& term);
-void retrieveVariableNames(Term const& term, VariableNamesSet & variableNames);
-void retrieveVariableNames(Variable const& variable, VariableNamesSet & variableNames);
-void retrieveVariableNames(Monomial const& monomial, VariableNamesSet & variableNames);
-void retrieveVariableNames(Polynomial const& polynomial, VariableNamesSet & variableNames);
-void retrieveVariableNames(Expression const& expression, VariableNamesSet & variableNames);
-void retrieveVariableNames(Function const& functionTerm, VariableNamesSet & variableNames);
+void retrieveVariableNames(VariableNamesSet & variableNames, Term const& term);
+void retrieveVariableNames(VariableNamesSet & variableNames, Variable const& variable);
+void retrieveVariableNames(VariableNamesSet & variableNames, Monomial const& monomial);
+void retrieveVariableNames(VariableNamesSet & variableNames, Polynomial const& polynomial);
+void retrieveVariableNames(VariableNamesSet & variableNames, Expression const& expression);
+void retrieveVariableNames(VariableNamesSet & variableNames, Function const& functionObject);
+
+FunctionsSet getFunctionsWithCondition(Term const& term, FunctionCondition const& isFunctionIncluded);
+void retrieveFunctionsWithCondition(FunctionsSet & functions, Term const& term, FunctionCondition const& isFunctionIncluded);
+void retrieveFunctionsWithCondition(FunctionsSet & functions, Expression const& expression, FunctionCondition const& isFunctionIncluded);
+void retrieveFunctionsWithCondition(FunctionsSet & functions, Function const& functionObject, FunctionCondition const& isFunctionIncluded);
 
 AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials);
 AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials);
