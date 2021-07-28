@@ -1,10 +1,9 @@
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
-
 #include <string/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
-
 #include <algorithm>
 
 using namespace alba::stringHelper;
@@ -132,14 +131,32 @@ TEST(TermUtilitiesTest, IsNotANumberWorksForExpression)
     EXPECT_FALSE(isNotANumber(createExpressionIfPossible({Term(67)})));
 }
 
+TEST(TermUtilitiesTest, HasNotANumberWorksForTerm)
+{
+    EXPECT_TRUE(hasNotANumber(Term(NAN)));
+    EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
+    EXPECT_FALSE(hasNotANumber(Term(15)));
+    EXPECT_FALSE(hasNotANumber(Term("x")));
+}
+
+TEST(TermUtilitiesTest, HasNotANumberWorksForExpression)
+{
+    EXPECT_TRUE(isNotANumber(createExpressionIfPossible({Term(NAN)})));
+    EXPECT_TRUE(hasNotANumber(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
+}
+
+TEST(TermUtilitiesTest, HasNotANumberWorksForFunction)
+{
+    Function absoluteValueFunction(Functions::abs(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
+    EXPECT_TRUE(hasNotANumber(absoluteValueFunction));
+}
+
 TEST(TermUtilitiesTest, GetOperatorLevelValueWorks)
 {
-    EXPECT_EQ(1u, getOperatorPriority("("));
-    EXPECT_EQ(2u, getOperatorPriority(")"));
+    EXPECT_EQ(1u, getOperatorPriority("("));    EXPECT_EQ(2u, getOperatorPriority(")"));
     EXPECT_EQ(3u, getOperatorPriority("+"));
     EXPECT_EQ(4u, getOperatorPriority("-"));
-    EXPECT_EQ(5u, getOperatorPriority("*"));
-    EXPECT_EQ(6u, getOperatorPriority("/"));
+    EXPECT_EQ(5u, getOperatorPriority("*"));    EXPECT_EQ(6u, getOperatorPriority("/"));
     EXPECT_EQ(7u, getOperatorPriority("^"));
     EXPECT_EQ(0u, getOperatorPriority("operator"));
 }

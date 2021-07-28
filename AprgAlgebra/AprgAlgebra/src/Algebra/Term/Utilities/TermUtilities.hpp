@@ -26,14 +26,16 @@ bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
 bool isNotANumber(Term const& term);
 bool isNotANumber(Expression const& expression);
+bool hasNotANumber(Term const& term);
+bool hasNotANumber(Expression const& expression);
+bool hasNotANumber(Function const& function);
+bool isAFiniteValue(Term const& term);
 
 unsigned int getOperatorPriority(std::string const& operatorString);
-unsigned int getAssociationPriority(TermAssociationType const association);
-unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
+unsigned int getAssociationPriority(TermAssociationType const association);unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
 unsigned int getTermTypePriorityValue(TermType const termType);
 
 AlbaNumbers getRoots(Polynomial const& polynomial);
-
 std::string getEnumShortString(TermType const termType);
 std::string getEnumShortString(TermAssociationType const association);
 std::string getEnumShortString(OperatorLevel const operatorLevel);

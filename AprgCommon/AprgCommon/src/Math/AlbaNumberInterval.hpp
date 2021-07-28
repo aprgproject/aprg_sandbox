@@ -35,21 +35,12 @@ private:
     AlbaNumber m_value;
 };
 
-AlbaNumberIntervalEndpoint::Type getEndpointType(bool const isCloseEndpoint);
-AlbaNumberIntervalEndpoint createOpenEndpoint(AlbaNumber const value);
-AlbaNumberIntervalEndpoint createCloseEndpoint(AlbaNumber const value);
-AlbaNumberIntervalEndpoint createEndpoint(
-        AlbaNumber const value,
-        bool const isCloseEndpoint);
-
 class AlbaNumberInterval
 {
 public:
-
     AlbaNumberInterval(
             AlbaNumberIntervalEndpoint const& firstEndpoint,
             AlbaNumberIntervalEndpoint const& secondEndpoint);
-
     bool operator==(AlbaNumberInterval const& second) const;
     AlbaNumberIntervalEndpoint const& getLowerEndpoint() const;
     AlbaNumberIntervalEndpoint const& getHigherEndpoint() const;
@@ -65,5 +56,13 @@ private:
 
 std::ostream & operator<<(std::ostream & out, AlbaNumberIntervalEndpoint const& endpoint);
 std::ostream & operator<<(std::ostream & out, AlbaNumberInterval const& interval);
+
+AlbaNumberIntervalEndpoint::Type getEndpointTypeWithCheckingIfItsClosed(bool const isCloseEndpoint);
+AlbaNumberIntervalEndpoint createOpenEndpoint(AlbaNumber const value);
+AlbaNumberIntervalEndpoint createCloseEndpoint(AlbaNumber const value);
+AlbaNumberIntervalEndpoint createEndpoint(
+        bool const isCloseEndpoint,
+        AlbaNumber const value);
+AlbaNumberInterval createAllRealValuesInterval();
 
 }

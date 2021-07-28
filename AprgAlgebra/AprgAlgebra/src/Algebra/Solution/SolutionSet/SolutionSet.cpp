@@ -43,23 +43,21 @@ void SolutionSet::addAcceptedValue(AlbaNumber const& value)
 
 void SolutionSet::addAcceptedValues(AlbaNumbers const& values)
 {
+    m_acceptedValues.reserve(m_acceptedValues.size() + values.size());
     copy(values.cbegin(), values.cend(), back_inserter(m_acceptedValues));
 }
-
 void SolutionSet::addRejectedValue(AlbaNumber const& value)
 {
-    m_rejectedValues.emplace_back(value);
-}
+    m_rejectedValues.emplace_back(value);}
 
 void SolutionSet::addRejectedValues(AlbaNumbers const& values)
 {
+    m_rejectedValues.reserve(m_rejectedValues.size() + values.size());
     copy(values.cbegin(), values.cend(), back_inserter(m_rejectedValues));
 }
-
 void SolutionSet::addAcceptedInterval(AlbaNumberInterval const& interval)
 {
-    m_acceptedIntervals.emplace_back(interval);
-}
+    m_acceptedIntervals.emplace_back(interval);}
 
 void SolutionSet::addValue(
         AlbaNumber const& value,
@@ -87,14 +85,13 @@ void SolutionSet::determineAndAddAcceptedIntervals(
 
 void SolutionSet::prepareValuesToCheck(AlbaNumbers & valuesToCheck)
 {
+    valuesToCheck.reserve(valuesToCheck.size() + m_acceptedValues.size() + m_rejectedValues.size());
     copy(m_acceptedValues.cbegin(), m_acceptedValues.cend(), back_inserter(valuesToCheck));
     copy(m_rejectedValues.cbegin(), m_rejectedValues.cend(), back_inserter(valuesToCheck));
-    valuesToCheck.erase(
-                remove_if(
+    valuesToCheck.erase(                remove_if(
                     valuesToCheck.begin(),
                     valuesToCheck.end(),
-                    [](AlbaNumber const& number){
-                    return number.isPositiveInfinity() || number.isNegativeInfinity();
+                    [](AlbaNumber const& number){                    return number.isPositiveInfinity() || number.isNegativeInfinity();
                 }),
             valuesToCheck.end());
     stable_sort(valuesToCheck.begin(), valuesToCheck.end());
@@ -111,41 +108,35 @@ void SolutionSet::checkValuesAndPutIntervals(
         if(isFirst)
         {
             AlbaNumber intervalValueToCheck(valueToCheck-getAbsoluteValue(valueToCheck));
-            addInterval(AlbaNumber(AlbaNumber::Value::NegativeInfinity), intervalValueToCheck, valueToCheck, isValueAcceptedFunction);
+            addInterval(AlbaNumber::Value::NegativeInfinity, intervalValueToCheck, valueToCheck, isValueAcceptedFunction);
             isFirst=false;
         }
-        else
-        {
+        else        {
             AlbaNumber intervalValueToCheck(getAverage(previousValueToCheck, valueToCheck));
             addInterval(previousValueToCheck, intervalValueToCheck, valueToCheck, isValueAcceptedFunction);
-        }
-        previousValueToCheck = valueToCheck;
+        }        previousValueToCheck = valueToCheck;
     }
     if(!valuesToCheck.empty())
     {
         AlbaNumber intervalValueToCheck(previousValueToCheck+getAbsoluteValue(previousValueToCheck));
-        addInterval(previousValueToCheck, intervalValueToCheck, AlbaNumber(AlbaNumber::Value::PositiveInfinity), isValueAcceptedFunction);
+        addInterval(previousValueToCheck, intervalValueToCheck, AlbaNumber::Value::PositiveInfinity, isValueAcceptedFunction);
     }
 }
-
 void SolutionSet::addInterval(
         AlbaNumber const& lowerEndpointValue,
-        AlbaNumber const& intervalValueToCheck,
-        AlbaNumber const& higherEndpointValue,
+        AlbaNumber const& intervalValueToCheck,        AlbaNumber const& higherEndpointValue,
         FunctionForCheckingValues const& isValueAcceptedFunction)
 {
     if(isValueAcceptedFunction(intervalValueToCheck))
     {
-        AlbaNumberIntervalEndpoint lowerEndpoint(createEndpoint(lowerEndpointValue, isValueAcceptedFunction(lowerEndpointValue)));
-        AlbaNumberIntervalEndpoint higherEndpoint(createEndpoint(higherEndpointValue, isValueAcceptedFunction(higherEndpointValue)));
+        AlbaNumberIntervalEndpoint lowerEndpoint(createEndpoint(isValueAcceptedFunction(lowerEndpointValue), lowerEndpointValue));
+        AlbaNumberIntervalEndpoint higherEndpoint(createEndpoint(isValueAcceptedFunction(higherEndpointValue), higherEndpointValue));
         if(lowerEndpointValue.isNegativeInfinity() || lowerEndpointValue.isPositiveInfinity())
         {
-            lowerEndpoint.setType(AlbaNumberIntervalEndpoint::Type::Open);
-        }
+            lowerEndpoint.setType(AlbaNumberIntervalEndpoint::Type::Open);        }
         if(higherEndpointValue.isNegativeInfinity() || higherEndpointValue.isPositiveInfinity())
         {
-            higherEndpoint.setType(AlbaNumberIntervalEndpoint::Type::Open);
-        }
+            higherEndpoint.setType(AlbaNumberIntervalEndpoint::Type::Open);        }
         m_acceptedIntervals.emplace_back(lowerEndpoint, higherEndpoint);
     }
 }

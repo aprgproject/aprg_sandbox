@@ -78,36 +78,12 @@ AlbaNumberInterval::AlbaNumberInterval(
     }
 }
 
-AlbaNumberIntervalEndpoint::Type getEndpointType(bool const isCloseEndpoint)
-{
-    return isCloseEndpoint ? AlbaNumberIntervalEndpoint::Type::Close : AlbaNumberIntervalEndpoint::Type::Open;
-}
-
-AlbaNumberIntervalEndpoint createOpenEndpoint(AlbaNumber const value)
-{
-    return AlbaNumberIntervalEndpoint(AlbaNumberIntervalEndpoint::Type::Open, value);
-}
-
-AlbaNumberIntervalEndpoint createCloseEndpoint(AlbaNumber const value)
-{
-    return AlbaNumberIntervalEndpoint(AlbaNumberIntervalEndpoint::Type::Close, value);
-}
-
-AlbaNumberIntervalEndpoint createEndpoint(
-        AlbaNumber const value,
-        bool const isCloseEndpoint)
-{
-    return AlbaNumberIntervalEndpoint(getEndpointType(isCloseEndpoint), value);
-}
-
 bool AlbaNumberInterval::operator==(AlbaNumberInterval const& second) const
 {
-    return m_lowerEndpoint==second.m_lowerEndpoint
-            && m_higherEndpoint==second.m_higherEndpoint;
+    return m_lowerEndpoint==second.m_lowerEndpoint            && m_higherEndpoint==second.m_higherEndpoint;
 }
 
-AlbaNumberIntervalEndpoint const& AlbaNumberInterval::getLowerEndpoint() const
-{
+AlbaNumberIntervalEndpoint const& AlbaNumberInterval::getLowerEndpoint() const{
     return m_lowerEndpoint;
 }
 
@@ -157,6 +133,35 @@ ostream & operator<<(ostream & out, AlbaNumberInterval const& interval)
 {
     out << interval.getDisplayableString();
     return out;
+}
+
+AlbaNumberIntervalEndpoint::Type getEndpointTypeWithCheckingIfItsClosed(bool const isCloseEndpoint)
+{
+    return isCloseEndpoint ? AlbaNumberIntervalEndpoint::Type::Close : AlbaNumberIntervalEndpoint::Type::Open;
+}
+
+AlbaNumberIntervalEndpoint createOpenEndpoint(AlbaNumber const value)
+{
+    return AlbaNumberIntervalEndpoint(AlbaNumberIntervalEndpoint::Type::Open, value);
+}
+
+AlbaNumberIntervalEndpoint createCloseEndpoint(AlbaNumber const value)
+{
+    return AlbaNumberIntervalEndpoint(AlbaNumberIntervalEndpoint::Type::Close, value);
+}
+
+AlbaNumberIntervalEndpoint createEndpoint(
+        bool const isCloseEndpoint,
+        AlbaNumber const value)
+{
+    return AlbaNumberIntervalEndpoint(getEndpointTypeWithCheckingIfItsClosed(isCloseEndpoint), value);
+}
+
+AlbaNumberInterval createAllRealValuesInterval()
+{
+    return AlbaNumberInterval(
+                createOpenEndpoint(AlbaNumber::Value::NegativeInfinity),
+                createOpenEndpoint(AlbaNumber::Value::PositiveInfinity));
 }
 
 }

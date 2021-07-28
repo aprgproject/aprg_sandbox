@@ -113,14 +113,21 @@ Term SubstitutionOfVariablesToValues::performSubstitutionTo(Term const& term) co
     return newTerm;
 }
 
+Equation SubstitutionOfVariablesToValues::performSubstitutionTo(
+        Equation const& equation) const
+{
+    return Equation(
+                performSubstitutionTo(equation.getLeftHandTerm()),
+                equation.getEquationOperator().getOperatorString(),
+                performSubstitutionTo(equation.getRightHandTerm()));
+}
+
 Monomial SubstitutionOfVariablesToValues::performSubstitutionForMonomial(Monomial const& monomial) const
 {
-    Monomial newMonomial(createMonomialFromConstant(monomial.getConstantConstReference()));
-    Monomial::VariablesToExponentsMap previousVariableExponentMap(monomial.getVariablesToExponentsMapConstReference());
+    Monomial newMonomial(createMonomialFromConstant(monomial.getConstantConstReference()));    Monomial::VariablesToExponentsMap previousVariableExponentMap(monomial.getVariablesToExponentsMapConstReference());
     for(Monomial::VariableExponentPair const& variableExponentPair : previousVariableExponentMap)
     {
-        if(isVariableFound(variableExponentPair.first))
-        {
+        if(isVariableFound(variableExponentPair.first))        {
             newMonomial.setConstant(
                         newMonomial.getConstantConstReference()
                         * (getValueForVariable(variableExponentPair.first)^variableExponentPair.second));

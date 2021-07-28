@@ -15,57 +15,74 @@ namespace algebra
 {
 
 OneEquationOneUnknownEqualitySolver::OneEquationOneUnknownEqualitySolver(Equation const& equation)
-    : m_equation(equation)
+    : m_isSolved(false)
+    , m_isACompleteSolution(false)
+    , m_equation(equation)
 {}
+
+bool OneEquationOneUnknownEqualitySolver::isSolved() const
+{
+    return m_isSolved;
+}
+
+bool OneEquationOneUnknownEqualitySolver::isACompleteSolution() const
+{
+    return m_isACompleteSolution;
+}
 
 SolutionSet OneEquationOneUnknownEqualitySolver::calculateSolutionAndReturnSolutionSet()
 {
-    SolutionSet result;
-    if(m_equation.getEquationOperator().isEqual())
+    SolutionSet result;    if(m_equation.getEquationOperator().isEqual())
     {
         m_equation.simplify();
         if(m_equation.isEquationSatisfied())
         {
-            addIntervalWhenEquationIsAlwaysSatisfied(result);
+            processWhenEquationIsAlwaysSatisfied(result);
         }
         else
-        {
-            calculateWhenEquationIsSometimesSatisfied(result);
+        {            calculateWhenEquationIsSometimesSatisfied(result);
         }
     }
     return result;
 }
 
-void OneEquationOneUnknownEqualitySolver::addIntervalWhenEquationIsAlwaysSatisfied(SolutionSet & result)
+void OneEquationOneUnknownEqualitySolver::setAsCompleteSolution()
 {
-    result.addAcceptedInterval(
-                AlbaNumberInterval(
-                    createOpenEndpoint(AlbaNumber::Value::NegativeInfinity),
-                    createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)));
+    m_isSolved = true;
+    m_isACompleteSolution = true;
+}
+
+void OneEquationOneUnknownEqualitySolver::setAsIncompleteSolution()
+{
+    m_isSolved = true;
+    m_isACompleteSolution = false;
+}
+
+void OneEquationOneUnknownEqualitySolver::processWhenEquationIsAlwaysSatisfied(SolutionSet & result)
+{
+    result.addAcceptedInterval(createAllRealValuesInterval());
+    setAsCompleteSolution();
 }
 
 void OneEquationOneUnknownEqualitySolver::calculateWhenEquationIsSometimesSatisfied(SolutionSet & result)
 {
-    Term const& nonZeroLeftHandTerm(m_equation.getLeftHandTerm());
-    VariableNamesSet variableNames(getVariableNames(nonZeroLeftHandTerm));
+    Term const& nonZeroLeftHandTerm(m_equation.getLeftHandTerm());    VariableNamesSet variableNames(getVariableNames(nonZeroLeftHandTerm));
     if(variableNames.size() == 1)
     {
-        string variableName = *variableNames.cbegin();
-        PolynomialOverPolynomialOptional popOptional(
+        string variableName = *variableNames.cbegin();        PolynomialOverPolynomialOptional popOptional(
                     createPolynomialOverPolynomialFromTermIfPossible(nonZeroLeftHandTerm));
         if(popOptional.hasContent())
         {
             PolynomialOverPolynomial const& pop(popOptional.getConstReference());
             result.addAcceptedValues(getRoots(pop.getNumerator()));
             result.addRejectedValues(getRoots(pop.getDenominator()));
+            setAsCompleteSolution();
         }
         else
-        {
-            performNewtonMethodToFindSolution(result, nonZeroLeftHandTerm, variableName);
+        {            performNewtonMethodToFindSolution(result, nonZeroLeftHandTerm, variableName);
         }
     }
 }
-
 void OneEquationOneUnknownEqualitySolver::performNewtonMethodToFindSolution(
         SolutionSet & result,
         Term const& termToCheck,
@@ -91,9 +108,9 @@ void OneEquationOneUnknownEqualitySolver::performNewtonMethodToFindSolution(
     if(newtonMethod.isSolved())
     {
         result.addAcceptedValue(newtonMethod.getCurrentComputedValue());
+        setAsIncompleteSolution();
     }
 }
-
 }
 
 }

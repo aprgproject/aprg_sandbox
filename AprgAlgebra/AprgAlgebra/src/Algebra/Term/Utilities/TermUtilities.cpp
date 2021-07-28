@@ -126,14 +126,60 @@ bool isNotANumber(Expression const& expression)
     return result;
 }
 
+bool hasNotANumber(Term const& term)
+{
+    bool result(false);
+    if(term.isConstant())
+    {
+        result = term.getConstantConstReference().getNumberConstReference().isNotANumber();
+    }
+    else if(term.isExpression())
+    {
+        result = hasNotANumber(term.getExpressionConstReference());
+    }
+    else if(term.isFunction())
+    {
+        result = hasNotANumber(term.getFunctionConstReference());
+    }
+    return result;
+}
+
+bool hasNotANumber(Expression const& expression)
+{
+    bool result(false);
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    {
+        result |= hasNotANumber(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        if(result)
+        {
+            break;
+        }
+    }
+    return result;
+}
+
+bool hasNotANumber(Function const& function)
+{
+    return hasNotANumber(function.getInputExpressionConstReference());
+}
+
+bool isAFiniteValue(Term const& term)
+{
+    bool result(false);
+    if(term.isConstant())
+    {
+        result = term.getConstantConstReference().getNumberConstReference().isAFiniteValue();
+    }
+    return result;
+}
+
 unsigned int getOperatorPriority(string const& operatorString)
 {
-    unsigned int result=0;
-    if("(" == operatorString)
+    unsigned int result=0;    if("(" == operatorString)
     {
         result=1;
-    }
-    else if(")" == operatorString)
+    }    else if(")" == operatorString)
     {
         result=2;
     }
