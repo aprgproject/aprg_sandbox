@@ -1,7 +1,6 @@
-#include <AlbaMatrix.hpp>
+#include <Matrix/AlbaMatrix.hpp>
 
 #include <gtest/gtest.h>
-
 #include <iostream>
 
 using namespace std;
