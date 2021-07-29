@@ -17,7 +17,6 @@ Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression);
 Term simplifyAndConvertFunctionToSimplestTerm(Function const& functionAsParameter);
 Term convertExpressionToSimplestTerm(Expression const& expression);
 Term convertFunctionToSimplestTerm(Function const& functionAsParameter);
-Term convertValueTermStringToTerm(std::string const& valueTerm);
 
 }
 

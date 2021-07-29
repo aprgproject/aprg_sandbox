@@ -22,6 +22,9 @@ include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 #Include AprgCommon, this needs APRG Directory
 include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
+#Include AprgMatrix, this needs APRG Directory
+include(${APRG_DIR}/AprgMatrix/AprgCmakeInclude/AprgMatrix.cmake)
+
 #Add files and directories
 include(${APRG_ALGEBRA_DIR}/cmake/FilesAndDirectories.cmake)
 
@@ -36,5 +39,5 @@ else()
     set(CMAKE_EXE_LINKER_FLAGS "-static")
     add_executable(${OUTFILE} ${APRG_ALGEBRA_SOURCES} ${APRG_ALGEBRA_MAIN_SOURCES})
     include_directories(${APRG_ALGEBRA_INCLUDE_DIRECTORIES})
-    target_link_libraries(${OUTFILE} APRG_COMMON)
+    target_link_libraries(${OUTFILE} APRG_MATRIX APRG_COMMON)
 endif()

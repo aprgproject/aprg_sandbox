@@ -23,6 +23,7 @@ public:
     Point getVertex() const;
     std::string getDisplayableString() const;
 };
+
 std::ostream & operator<<(std::ostream & out, Parabola const& parabola);
 
 }

@@ -3,7 +3,8 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Algebra/Term/Utilities/EnumHelpers.hpp>
+#include <Algebra/Term/Utilities/StringHelpers.hpp>
 
 #include <cassert>
 #include <string>

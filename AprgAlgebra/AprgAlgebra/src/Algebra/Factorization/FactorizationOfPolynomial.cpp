@@ -5,7 +5,7 @@
 #include <Algebra/Factorization/FactorizationUsingPatterns.hpp>
 #include <Algebra/Factorization/FactorizationUtilities.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 
 using namespace std;
 

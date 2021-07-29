@@ -17,7 +17,7 @@ Equation::Equation()
 
 Equation::Equation(
         Term const& leftHandTerm,
-        std::string const& equationOperator,
+        string const& equationOperator,
         Term const& rightHandTerm)
      : m_equationOperator(equationOperator)
      , m_leftHandTerm(leftHandTerm)

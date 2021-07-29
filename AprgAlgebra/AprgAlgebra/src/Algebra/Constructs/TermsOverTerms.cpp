@@ -6,7 +6,7 @@
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 #include <algorithm>
 #include <sstream>
@@ -67,7 +67,7 @@ TermsWithDetails TermsOverTerms::getNumeratorAndDenominatorAsTermWithDetails() c
     return result;
 }
 
-std::string TermsOverTerms::getDisplayableString() const
+string TermsOverTerms::getDisplayableString() const
 {
     stringstream result;
     result << "Numerators:" << endl;

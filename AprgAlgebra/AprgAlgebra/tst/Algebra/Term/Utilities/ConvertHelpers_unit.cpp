@@ -145,17 +145,6 @@ TEST(ConvertHelpersTest, ConvertFunctionToSimplestTermWorks)
     EXPECT_EQ(function3, termToVerify3.getFunctionConstReference());
 }
 
-TEST(ConvertHelpersTest, ConvertValueTermStringToTermWorks)
-{
-    Term termToVerify1(convertValueTermStringToTerm("5xxx"));
-    Term termToVerify2(convertValueTermStringToTerm("x111"));
-
-    EXPECT_EQ(TermType::Constant, termToVerify1.getTermType());
-    EXPECT_DOUBLE_EQ(5, termToVerify1.getConstantConstReference().getNumberConstReference().getDouble());
-    EXPECT_EQ(TermType::Variable, termToVerify2.getTermType());
-    EXPECT_EQ("x111", termToVerify2.getVariableConstReference().getVariableName());
-}
-
 }
 
 }

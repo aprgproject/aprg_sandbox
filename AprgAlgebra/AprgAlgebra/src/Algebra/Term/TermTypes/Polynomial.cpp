@@ -1,6 +1,7 @@
 #include "Polynomial.hpp"
 
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 #include <algorithm>
 #include <sstream>

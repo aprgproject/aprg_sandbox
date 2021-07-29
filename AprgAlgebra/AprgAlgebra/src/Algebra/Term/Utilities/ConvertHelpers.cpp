@@ -1,10 +1,5 @@
 #include "ConvertHelpers.hpp"
 
-#include <String/AlbaStringHelper.hpp>
-
-using namespace alba::stringHelper;
-using namespace std;
-
 namespace alba
 {
 
@@ -116,20 +111,6 @@ Term convertFunctionToSimplestTerm(Function const& functionAsParameter)
         newTerm = Term(functionAsParameter.performFunctionAndReturnResultIfPossible());
     }
     return newTerm;
-}
-
-Term convertValueTermStringToTerm(string const& valueTerm)
-{
-    Term result;
-    if(isNumber(valueTerm.at(0)))
-    {
-        result = Term(convertStringToAlbaNumber(valueTerm));
-    }
-    else
-    {
-        result = Term(valueTerm);
-    }
-    return result;
 }
 
 }

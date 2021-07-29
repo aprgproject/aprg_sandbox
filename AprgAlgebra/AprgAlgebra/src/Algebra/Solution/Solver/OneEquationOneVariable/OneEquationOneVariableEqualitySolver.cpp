@@ -4,6 +4,8 @@
 #include <Algebra/Solution/SolutionUtilities.hpp>
 #include <Algebra/Solution/Solver/NewtonMethod.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 using namespace std;
 
@@ -111,7 +113,8 @@ void OneEquationOneVariableEqualitySolver::performNewtonMethodToFindSolution(
     NewtonMethod::Function functionToIterate = [&](AlbaNumber const& value)
     {
         substitution.putVariableWithValue(variableNameForSubstitution, value);
-        Term substitutedTerm(substitution.performSubstitutionTo(termToCheck));        AlbaNumber computedValue;
+        Term substitutedTerm(substitution.performSubstitutionTo(termToCheck));
+        AlbaNumber computedValue;
         if(substitutedTerm.isConstant())
         {
             computedValue = substitutedTerm.getConstantConstReference().getNumberConstReference();
@@ -132,6 +135,7 @@ void OneEquationOneVariableEqualitySolver::performNewtonMethodToFindSolution(
         }
     }
 }
+
 }
 
 }

@@ -2,7 +2,7 @@
 
 #include <Algebra/Operations/PerformOperations.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Algebra/Term/Utilities/EnumHelpers.hpp>
 
 using namespace std;
 

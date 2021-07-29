@@ -3,6 +3,7 @@
 #include <Math/AlbaNumberTypes.hpp>
 
 #include <functional>
+#include <map>
 
 namespace alba
 {
@@ -52,6 +53,7 @@ private:
     AlbaNumberIntervals m_acceptedIntervals;
 };
 
+using VariableNameToSolutionSetMap = std::map<std::string, SolutionSet>;
 
 }
 

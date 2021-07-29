@@ -3,7 +3,7 @@
 #include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Solution/SolutionSet/SolutionSet.hpp>
 #include <Algebra/Solution/Solver/BaseSolver.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 
 namespace alba
 {

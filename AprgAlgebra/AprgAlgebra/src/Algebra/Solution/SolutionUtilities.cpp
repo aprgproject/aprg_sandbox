@@ -1,6 +1,6 @@
 #include "SolutionUtilities.hpp"
 
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
@@ -39,7 +39,8 @@ AlbaNumbers getInitialValuesForIteratingMethods(Term const& term)
 void retrieveInitialValuesForIteratingMethods(
         AlbaNumbersSet & allValues,
         Term const& term)
-{    AlbaNumbersSet numbers(getNumbers(term));
+{
+    AlbaNumbersSet numbers(getNumbers(term));
     for(AlbaNumber const& number : numbers)
     {
         AlbaNumber positiveNumber(getAbsoluteValue(number));
@@ -59,7 +60,8 @@ AlbaNumbers getInitialValuesForIteratingMethods(Equation const& equation)
     retrieveInitialValuesForIteratingMethods(allValues, equation.getRightHandTerm());
     result.reserve(allValues.size());
     copy(allValues.cbegin(), allValues.cend(), back_inserter(result));
-    return result;}
+    return result;
+}
 
 }
 

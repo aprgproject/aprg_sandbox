@@ -22,6 +22,7 @@ bool isEquationOperationSatisfied(
         EquationOperator const& operatorObject,
         Term const& leftTerm,
         Term const& rightTerm);
+bool doesAllEquationsHaveEqualityOperator(Equations const& equations);
 
 VariableNamesSet getVariableNames(Equation const& equation);
 void retrieveVariableNames(VariableNamesSet & variableNames, Equation const& equation);

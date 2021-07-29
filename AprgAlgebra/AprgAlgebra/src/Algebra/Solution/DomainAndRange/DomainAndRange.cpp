@@ -4,7 +4,7 @@
 #include <Algebra/Solution/SolutionUtilities.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
@@ -37,7 +37,8 @@ SolutionSet calculateDomainUsingTransitionValues(
 
     domain.determineAndAddAcceptedIntervals(numbersWithTransitionValues, [&](AlbaNumber const& value)
     {
-        AlbaNumber computedValue(functionToCheck(value));        return computedValue.isAFiniteValue();
+        AlbaNumber computedValue(functionToCheck(value));
+        return computedValue.isAFiniteValue();
     });
     return domain;
 }
@@ -70,7 +71,8 @@ SolutionSet calculateDomainForTermWithOneVariable(
     return calculateDomainForTermWithOneVariable(getInitialValuesForIteratingMethods(term), term);
 }
 
-SolutionSet calculateDomainForEquation(        string const& variableNameToCheck,
+SolutionSet calculateDomainForEquation(
+        string const& variableNameToCheck,
         AlbaNumbers const& valuesToCheck,
         Equation const& equation)
 {
@@ -92,7 +94,8 @@ SolutionSet calculateDomainForEquation(
     return calculateDomainForEquation(variableNameToCheck, getInitialValuesForIteratingMethods(equation), equation);
 }
 
-SolutionSet calculateRangeForEquation(        string const& variableNameToCheck,
+SolutionSet calculateRangeForEquation(
+        string const& variableNameToCheck,
         AlbaNumbers const& valuesToCheck,
         Equation const& equation)
 {
@@ -114,7 +117,8 @@ SolutionSet calculateRangeForEquation(
     return calculateRangeForEquation(variableNameToCheck, getInitialValuesForIteratingMethods(equation), equation);
 }
 
-SolutionSet calculateDomainForEquationWithVariableToSubstitute(        string const& variableNameToSubstitute,
+SolutionSet calculateDomainForEquationWithVariableToSubstitute(
+        string const& variableNameToSubstitute,
         AlbaNumbers const& valuesToCheck,
         Equation const& equation)
 {
@@ -175,7 +179,8 @@ void appendTransitionValues(
     AlbaNumber previousOutputValue;
     for(AlbaNumber const& inputValue : sortedValues)
     {
-        AlbaNumber outputValue(functionToCheck(inputValue));        if(isFirst)
+        AlbaNumber outputValue(functionToCheck(inputValue));
+        if(isFirst)
         {
             isFirst = false;
         }
@@ -197,7 +202,8 @@ AlbaNumbers getNumbers(AlbaNumbersSet const& collectedValues)
     return AlbaNumbers(collectedValues.cbegin(), collectedValues.cend());
 }
 
-AlbaNumber getTransitionValue(        AlbaNumber const& inputValueYieldsToFiniteValue,
+AlbaNumber getTransitionValue(
+        AlbaNumber const& inputValueYieldsToFiniteValue,
         AlbaNumber const& inputValueYieldsToNonFiniteValue,
         FunctionToCheck const& functionToCheck)
 {

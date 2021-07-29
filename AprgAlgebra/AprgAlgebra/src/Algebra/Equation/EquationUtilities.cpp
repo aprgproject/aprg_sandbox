@@ -2,7 +2,9 @@
 
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
+
+#include <algorithm>
 
 namespace alba
 {
@@ -83,6 +85,14 @@ bool isEquationOperationSatisfied(
         result = isGreaterThanOrEqual(leftTerm, rightTerm);
     }
     return result;
+}
+
+bool doesAllEquationsHaveEqualityOperator(Equations const& equations)
+{
+    return all_of(equations.cbegin(), equations.cend(), [](Equation const& equation)
+    {
+        return equation.getEquationOperator().isEqual();
+    });
 }
 
 VariableNamesSet getVariableNames(Equation const& equation)

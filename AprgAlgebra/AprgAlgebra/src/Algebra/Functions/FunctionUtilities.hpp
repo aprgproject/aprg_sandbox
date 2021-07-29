@@ -14,7 +14,7 @@ namespace algebra
 namespace Functions
 {
 
-AlbaNumberPairs getInputToOutputNumber(
+AlbaNumberPairs evaluateAndGetInputOutputPair(
         AlbaNumbers const& numbers,
         std::string const& variableName,
         Function const& functionObject);

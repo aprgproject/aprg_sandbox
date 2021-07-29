@@ -4,6 +4,7 @@
 #include <Algebra/Term/TermTypes/Term.hpp>
 
 #include <string>
+#include <vector>
 
 namespace alba
 {
@@ -37,6 +38,8 @@ private:
     Term m_leftHandTerm;
     Term m_rightHandTerm;
 };
+
+using Equations = std::vector<Equation>;
 
 std::ostream & operator<<(std::ostream & out, Equation const& equation);
 

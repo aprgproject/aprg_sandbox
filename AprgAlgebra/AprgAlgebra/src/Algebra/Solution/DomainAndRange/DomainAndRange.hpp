@@ -62,7 +62,8 @@ AlbaNumbers getNumbers(AlbaNumbersSet const& collectedValues);
 
 AlbaNumber getTransitionValue(
         AlbaNumber const& inputValueYieldsToFiniteValue,
-        AlbaNumber const& inputValueYieldsToNonFiniteValue,        DomainAndRange::FunctionToCheck const& functionToCheck);
+        AlbaNumber const& inputValueYieldsToNonFiniteValue,
+        DomainAndRange::FunctionToCheck const& functionToCheck);
 
 void retrieveTwoVariableNames(
         std::string & nameThatMatch,

@@ -21,7 +21,8 @@ TEST(SolutionUtilitiesTest, GetInitialValuesForIteratingMethodsWorksForTerm)
     AlbaNumbers actualValues(getInitialValuesForIteratingMethods(Term(Monomial(123, {{"x", 456}}))));
 
     ASSERT_EQ(8u, actualValues.size());
-    EXPECT_DOUBLE_EQ(-456, actualValues.at(0).getDouble());    EXPECT_DOUBLE_EQ(-123, actualValues.at(1).getDouble());
+    EXPECT_DOUBLE_EQ(-456, actualValues.at(0).getDouble());
+    EXPECT_DOUBLE_EQ(-123, actualValues.at(1).getDouble());
     EXPECT_DOUBLE_EQ(-6.1224928095143865, actualValues.at(2).getDouble());
     EXPECT_DOUBLE_EQ(-4.8121843553724171, actualValues.at(3).getDouble());
     EXPECT_DOUBLE_EQ(4.8121843553724171, actualValues.at(4).getDouble());
@@ -36,7 +37,8 @@ TEST(SolutionUtilitiesTest, GetInitialValuesForIteratingMethodsWorksForEquation)
                 getInitialValuesForIteratingMethods(
                     Equation(Term(Monomial(1, {{"x", 123}})), "=", Term(Monomial(1, {{"x", 456}})))));
 
-    ASSERT_EQ(11u, actualValues.size());    EXPECT_DOUBLE_EQ(-456, actualValues.at(0).getDouble());
+    ASSERT_EQ(11u, actualValues.size());
+    EXPECT_DOUBLE_EQ(-456, actualValues.at(0).getDouble());
     EXPECT_DOUBLE_EQ(-123, actualValues.at(1).getDouble());
     EXPECT_DOUBLE_EQ(-6.1224928095143865, actualValues.at(2).getDouble());
     EXPECT_DOUBLE_EQ(-4.8121843553724171, actualValues.at(3).getDouble());

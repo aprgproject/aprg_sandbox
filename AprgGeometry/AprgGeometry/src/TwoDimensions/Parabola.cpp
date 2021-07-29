@@ -5,7 +5,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace TwoDimensions
 {
@@ -47,7 +48,8 @@ Point Parabola::getVertex() const
 
 string Parabola::getDisplayableString() const
 {
-    std::stringstream ss;    ss << m_coefficients[0] << "*[x^2] + "<< m_coefficients[1] << "*x + " << m_coefficients[2] << " = 0";
+    std::stringstream ss;
+    ss << m_coefficients[0] << "*[x^2] + "<< m_coefficients[1] << "*x + " << m_coefficients[2] << " = 0";
     return ss.str();
 }
 

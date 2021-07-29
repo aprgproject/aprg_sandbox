@@ -163,7 +163,8 @@ TEST(DomainAndRangeTest, DISABLED_AppendTransitionValuesWorks)
     EXPECT_EQ(AlbaNumber(6), *(it++));
 }
 
-TEST(DomainAndRangeTest, DISABLED_GetTransitionValueWorks){
+TEST(DomainAndRangeTest, DISABLED_GetTransitionValueWorks)
+{
 
     AlbaNumber actualTransitionValue = getTransitionValue(
                 AlbaNumber(9.25),

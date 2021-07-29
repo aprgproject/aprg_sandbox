@@ -15,12 +15,12 @@ namespace algebra
 namespace Functions
 {
 
-TEST(FunctionUtilitiesTest, GetInputToOutputNumberWorks)
+TEST(FunctionUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
 {
     AlbaNumbers inputNumbers{-2,-1,0,1,2};
 
     AlbaNumberPairs inputAndOutputPairs(
-                getInputToOutputNumber(
+                evaluateAndGetInputOutputPair(
                     inputNumbers,
                     "x",
                     Functions::abs(createExpressionIfPossible({Term("x")}))));

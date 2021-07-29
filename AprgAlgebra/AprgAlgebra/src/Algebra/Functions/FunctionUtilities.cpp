@@ -13,7 +13,7 @@ namespace algebra
 namespace Functions
 {
 
-AlbaNumberPairs getInputToOutputNumber(
+AlbaNumberPairs evaluateAndGetInputOutputPair(
         AlbaNumbers const& numbers,
         string const& variableName,
         Function const& functionObject)

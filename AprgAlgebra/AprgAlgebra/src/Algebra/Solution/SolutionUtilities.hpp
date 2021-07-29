@@ -22,4 +22,5 @@ void retrieveInitialValuesForIteratingMethods(
 AlbaNumbers getInitialValuesForIteratingMethods(Equation const& equation);
 
 }
+
 }

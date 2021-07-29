@@ -16,7 +16,7 @@ namespace algebra
 SubstitutionOfTermsToTerms::SubstitutionOfTermsToTerms()
 {}
 
-SubstitutionOfTermsToTerms::SubstitutionOfTermsToTerms(std::initializer_list<TermTermPair> const& variablesWithValues)
+SubstitutionOfTermsToTerms::SubstitutionOfTermsToTerms(initializer_list<TermTermPair> const& variablesWithValues)
 {
     putTermsToTermsMapping(variablesWithValues);
 }

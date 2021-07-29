@@ -17,7 +17,7 @@ namespace algebra
 SubstitutionOfVariablesToValues::SubstitutionOfVariablesToValues()
 {}
 
-SubstitutionOfVariablesToValues::SubstitutionOfVariablesToValues(std::initializer_list<VariableValuePair> const& variablesWithValues)
+SubstitutionOfVariablesToValues::SubstitutionOfVariablesToValues(initializer_list<VariableValuePair> const& variablesWithValues)
 {
     putVariablesWithValues(variablesWithValues);
 }
