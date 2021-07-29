@@ -294,10 +294,12 @@ void Polynomial::simplifyFurtherIfNeeded(Polynomial const& beforeSimplify, Polyn
     if(beforeSimplify != afterSimplify && !hasNotANumber(afterSimplify))
     {
         simplify();
-    }}
+    }
+}
 
 void Polynomial::simplifyMonomialsAndReAdd()
-{    Monomials previousMonomials(m_monomials);
+{
+    Monomials previousMonomials(m_monomials);
     m_monomials.clear();
     for(Monomial & monomial : previousMonomials)
     {

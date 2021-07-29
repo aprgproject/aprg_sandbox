@@ -1,5 +1,7 @@
 #include "EquationUtilities.hpp"
 
+#include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 namespace alba

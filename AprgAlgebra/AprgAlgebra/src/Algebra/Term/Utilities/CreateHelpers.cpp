@@ -147,6 +147,15 @@ Function createFunctionWithEmptyInputExpression(string const& functionName)
     return result;
 }
 
+Function createFunctionInAnFunction(Function const& functionObject)
+{
+    return Function(
+                functionObject.getFunctionName(),
+                createExpressionIfPossible({Term(functionObject)}),
+                functionObject.getFunctionToPerform());
+}
+
+
 }
 
 }

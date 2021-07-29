@@ -22,4 +22,5 @@ void retrieveValuesForDomainSearching(
 AlbaNumbers getValuesForDomainSearching(Equation const& equation);
 
 }
+
 }

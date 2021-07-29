@@ -1,6 +1,7 @@
 #include "TermUtilities.hpp"
 
 #include <Algebra/Factorization/Factorization.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Macros/AlbaMacros.hpp>
@@ -107,13 +108,36 @@ bool isNotANumber(Term const& term)
     bool result(false);
     if(term.isConstant())
     {
-        result = term.getConstantConstReference().getNumberConstReference().isNotANumber();
+        result = isNotANumber(term.getConstantConstReference());
+    }
+    else if(term.isMonomial())
+    {
+        result = isNotANumber(term.getMonomialConstReference());
+    }
+    else if(term.isPolynomial())
+    {
+        result = isNotANumber(term.getPolynomialConstReference());
     }
     else if(term.isExpression())
     {
         result = isNotANumber(term.getExpressionConstReference());
     }
     return result;
+}
+
+bool isNotANumber(Constant const& constant)
+{
+    return constant.getNumberConstReference().isNotANumber();
+}
+
+bool isNotANumber(Monomial const& monomial)
+{
+    return monomial.isConstantOnly() && monomial.getConstantConstReference().isNotANumber();
+}
+
+bool isNotANumber(Polynomial const& polynomial)
+{
+    return polynomial.isOneMonomial() && isNotANumber(polynomial.getFirstMonomial());
 }
 
 bool isNotANumber(Expression const& expression)
@@ -132,7 +156,7 @@ bool hasNotANumber(Term const& term)
     bool result(false);
     if(term.isConstant())
     {
-        result = hasNotANumber(term.getConstantConstReference());
+        result = isNotANumber(term.getConstantConstReference());
     }
     else if(term.isMonomial())
     {
@@ -144,27 +168,24 @@ bool hasNotANumber(Term const& term)
     }
     else if(term.isExpression())
     {
-        result = hasNotANumber(term.getExpressionConstReference());    }
+        result = hasNotANumber(term.getExpressionConstReference());
+    }
     else if(term.isFunction())
     {
-        result = hasNotANumber(term.getFunctionConstReference());    }
+        result = hasNotANumber(term.getFunctionConstReference());
+    }
     return result;
-}
-
-bool hasNotANumber(Constant const& constant)
-{
-    return constant.getNumberConstReference().isNotANumber();
 }
 
 bool hasNotANumber(Monomial const& monomial)
 {
-    bool result(hasNotANumber(monomial.getConstantConstReference()));
+    bool result(isNotANumber(monomial.getConstantConstReference()));
     if(!result)
     {
         for(Monomial::VariableExponentPair const& variableExponentsPair
             : monomial.getVariablesToExponentsMapConstReference())
         {
-            result |= hasNotANumber(variableExponentsPair.first);
+            result |= variableExponentsPair.second.isNotANumber();
             if(result)
             {
                 break;
@@ -190,10 +211,12 @@ bool hasNotANumber(Polynomial const& polynomial)
 
 bool hasNotANumber(Expression const& expression)
 {
-    bool result(false);    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+    bool result(false);
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
-        result |= hasNotANumber(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));        if(result)
+        result |= hasNotANumber(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        if(result)
         {
             break;
         }
@@ -856,6 +879,25 @@ void addValueTermIfNotEmpty(Terms & terms, string const& valueTerm)
     {
         terms.emplace_back(convertValueTermStringToTerm(valueTerm));
     }
+}
+
+AlbaNumberPairs getInputToOutputNumber(
+        AlbaNumbers const& numbers,
+        string const& variableName,
+        Term const& term)
+{
+    AlbaNumberPairs result;
+    SubstitutionOfVariablesToValues substitution;
+    for(AlbaNumber const& number : numbers)
+    {
+        substitution.putVariableWithValue(variableName, number);
+        Term substituteTerm(substitution.performSubstitutionTo(term));
+        if(substituteTerm.isConstant())
+        {
+            result.emplace_back(number, substituteTerm.getConstantConstReference().getNumberConstReference());
+        }
+    }
+    return result;
 }
 
 }

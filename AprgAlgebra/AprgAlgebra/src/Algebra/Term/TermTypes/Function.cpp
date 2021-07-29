@@ -73,13 +73,16 @@ string Function::getDebugString() const
     return m_functionName + m_inputExpression.getDebugString();
 }
 
-Constant Function::performFunctionAndReturnResultIfPossible() const
+AlbaNumber Function::performFunctionAndReturnResultIfPossible() const
 {
-    Constant result;
-    if(isInputExpressionAConstant())
+    AlbaNumber result;
+    if(m_inputExpression.containsOnlyOneTerm())
     {
         Term const& term = dynamic_cast<Term const&>(m_inputExpression.getFirstTermConstReference());
-        result = m_functionToPerform(term.getConstantConstReference());
+        if(term.isConstant())
+        {
+            result = m_functionToPerform(term.getConstantConstReference().getNumberConstReference());
+        }
     }
     return result;
 }
@@ -87,6 +90,11 @@ Constant Function::performFunctionAndReturnResultIfPossible() const
 Expression const& Function::getInputExpressionConstReference() const
 {
     return m_inputExpression;
+}
+
+Function::FunctionToPerform const& Function::getFunctionToPerform() const
+{
+    return m_functionToPerform;
 }
 
 Expression & Function::getInputExpressionReference()

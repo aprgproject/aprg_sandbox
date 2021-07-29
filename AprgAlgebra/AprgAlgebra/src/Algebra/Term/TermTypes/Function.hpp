@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Algebra/Term/TermTypes/BaseTermData.hpp>
-#include <Algebra/Term/TermTypes/Constant.hpp>
 #include <Algebra/Term/TermTypes/Expression.hpp>
+#include <Math/AlbaNumber.hpp>
 
 #include <functional>
 #include <string>
@@ -16,7 +16,7 @@ namespace algebra
 class Function : public BaseTermData // is there a need of multiple parameter functions?
 {
 public:
-    using FunctionToPerform=std::function<Constant(Constant const&)>;
+    using FunctionToPerform=std::function<AlbaNumber(AlbaNumber const&)>;
 
     Function();
     Function(
@@ -34,8 +34,9 @@ public:
     std::string getDisplayableString() const;
     std::string getDebugString() const;
 
-    Constant performFunctionAndReturnResultIfPossible() const;
+    AlbaNumber performFunctionAndReturnResultIfPossible() const;
     Expression const& getInputExpressionConstReference() const;
+    FunctionToPerform const& getFunctionToPerform() const;
 
     Expression & getInputExpressionReference();
     void simplify();

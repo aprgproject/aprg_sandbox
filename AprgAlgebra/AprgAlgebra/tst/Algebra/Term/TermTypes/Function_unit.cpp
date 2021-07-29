@@ -14,18 +14,18 @@ namespace algebra
 TEST(FunctionTest, ConstructionWorks)
 {
     Function();
-    Function("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 }
 
 TEST(FunctionTest, GetFunctionNameWorks)
 {
     Function function1;
-    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     EXPECT_TRUE(function1.getFunctionName().empty());
@@ -35,17 +35,17 @@ TEST(FunctionTest, GetFunctionNameWorks)
 TEST(FunctionTest, EqualityWorks)
 {
     Function function1;
-    Function function2("functionName1", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function2("functionName1", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
-    Function function3("functionName2", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function3("functionName2", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
-    Function function4("functionName2", createOrCopyExpressionFromATerm(Term(10)), [](Constant const&  constant) -> Constant
+    Function function4("functionName2", createOrCopyExpressionFromATerm(Term(10)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     EXPECT_TRUE(function1==function1);
@@ -58,17 +58,17 @@ TEST(FunctionTest, EqualityWorks)
 TEST(FunctionTest, InequalityOperatorWorks)
 {
     Function function1;
-    Function function2("functionName1", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function2("functionName1", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
-    Function function3("functionName2", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function3("functionName2", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
-    Function function4("functionName2", createOrCopyExpressionFromATerm(Term(10)), [](Constant const&  constant) -> Constant
+    Function function4("functionName2", createOrCopyExpressionFromATerm(Term(10)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     EXPECT_FALSE(function1!=function1);
@@ -81,17 +81,17 @@ TEST(FunctionTest, InequalityOperatorWorks)
 TEST(FunctionTest, LessThanOperatorWorks)
 {
     Function function1;
-    Function function2("functionName1", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function2("functionName1", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
-    Function function3("functionName2", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function3("functionName2", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
-    Function function4("functionName2", createOrCopyExpressionFromATerm(Term(10)), [](Constant const&  constant) -> Constant
+    Function function4("functionName2", createOrCopyExpressionFromATerm(Term(10)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
     EXPECT_FALSE(function1 < function1);
     EXPECT_FALSE(function2 < function2);
@@ -103,13 +103,13 @@ TEST(FunctionTest, LessThanOperatorWorks)
 TEST(FunctionTest, IsInputExpressionAConstantWorks)
 {
     Function function1;
-    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
-    Function function3("functionName", createOrCopyExpressionFromATerm(Term("x")), [](Constant const&  constant) -> Constant
+    Function function3("functionName", createOrCopyExpressionFromATerm(Term("x")), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     EXPECT_FALSE(function1.isInputExpressionAConstant());
@@ -120,13 +120,13 @@ TEST(FunctionTest, IsInputExpressionAConstantWorks)
 TEST(FunctionTest, PerformFunctionAndReturnResultIfPossibleWorks)
 {
     Function function1;
-    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
-    Function function3("functionName", createOrCopyExpressionFromATerm(Term("x")), [](Constant const&  constant) -> Constant
+    Function function3("functionName", createOrCopyExpressionFromATerm(Term("x")), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     EXPECT_EQ(Constant(), function1.performFunctionAndReturnResultIfPossible());
@@ -137,9 +137,9 @@ TEST(FunctionTest, PerformFunctionAndReturnResultIfPossibleWorks)
 TEST(FunctionTest, GetInputExpressionConstReferenceWorks)
 {
     Function function1;
-    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     Expression expressionToExpect1;
@@ -151,9 +151,9 @@ TEST(FunctionTest, GetInputExpressionConstReferenceWorks)
 TEST(FunctionTest, GetInputExpressionReferenceWorks)
 {
     Function function1;
-    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     Expression expressionToExpect1;
@@ -164,9 +164,9 @@ TEST(FunctionTest, GetInputExpressionReferenceWorks)
 
 TEST(FunctionTest, SimplifyWorks)
 {
-    Function function1("functionName", createExpressionIfPossible({Term(5), Term("+"), Term(5)}), [](Constant const&  constant) -> Constant
+    Function function1("functionName", createExpressionIfPossible({Term(5), Term("+"), Term(5)}), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     function1.simplify();
@@ -177,9 +177,9 @@ TEST(FunctionTest, SimplifyWorks)
 
 TEST(FunctionTest, GetDisplayableStringWorks)
 {
-    Function function1("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function1("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     EXPECT_EQ("functionName(5)", function1.getDisplayableString());
@@ -187,9 +187,9 @@ TEST(FunctionTest, GetDisplayableStringWorks)
 
 TEST(FunctionTest, GetDebugStringWorks)
 {
-    Function function1("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function1("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     EXPECT_EQ("functionName( {?}||5{Constant}{POS} )", function1.getDebugString());

@@ -18,13 +18,15 @@ namespace DomainAndRange
 
 using FunctionToCheck=std::function<AlbaNumber(AlbaNumber const&)>;
 
-SolutionSet calculateDomain(
+SolutionSet calculateDomainUsingTransitionValues(
         AlbaNumbers const& domainValuesToCheck,
         FunctionToCheck const& functionToCheck);
 SolutionSet calculateDomainForTermWithOneVariable(
-        AlbaNumbers const& valuesToCheck,        Term const& term);
+        AlbaNumbers const& valuesToCheck,
+        Term const& term);
 SolutionSet calculateDomainForTermWithOneVariable(
         Term const& term);
+
 SolutionSet calculateDomainForEquation(
         std::string const& variableNameToCheck,
         AlbaNumbers const& valuesToCheck,

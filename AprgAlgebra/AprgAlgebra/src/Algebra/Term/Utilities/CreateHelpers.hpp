@@ -23,6 +23,7 @@ Expression createOrCopyExpressionFromATerm(Term const& term);
 Expression createExpressionIfPossible(Terms const& terms);
 Expression createSimplifiedExpressionIfPossible(Terms const& terms);
 Function createFunctionWithEmptyInputExpression(std::string const& functionName);
+Function createFunctionInAnFunction(Function const& functionObject);
 
 }
 

@@ -92,13 +92,13 @@ TEST(ConvertHelpersTest, SimplifyAndConvertExpressionToSimplestTermWorks)
 TEST(ConvertHelpersTest, SimplifyAndConvertFunctionToSimplestTermWorks)
 {
     Function function1;
-    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
-    Function function3("functionName", createExpressionIfPossible({Term(5), Term("+"), Term(5)}), [](Constant const&  constant) -> Constant
+    Function function3("functionName", createExpressionIfPossible({Term(5), Term("+"), Term(5)}), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     Term termToVerify1(simplifyAndConvertFunctionToSimplestTerm(function1));
@@ -125,13 +125,13 @@ TEST(ConvertHelpersTest, ConvertExpressionToSimplestTermWorks)
 TEST(ConvertHelpersTest, ConvertFunctionToSimplestTermWorks)
 {
     Function function1;
-    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
-    Function function3("functionName", createOrCopyExpressionFromATerm(Term("x")), [](Constant const&  constant) -> Constant
+    Function function3("functionName", createOrCopyExpressionFromATerm(Term("x")), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     Term termToVerify1(convertFunctionToSimplestTerm(function1));

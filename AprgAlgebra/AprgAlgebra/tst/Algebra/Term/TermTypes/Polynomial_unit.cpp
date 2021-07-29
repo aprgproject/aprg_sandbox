@@ -219,9 +219,11 @@ TEST(PolynomialTest, SimplifyWithNotANumberDoesNotCrash)
 
 TEST(PolynomialTest, SimplifyWorks)
 {
-    Polynomial polynomial1{Monomial(0, {{"x", 1}}), Monomial(0, {{"x", 1}})};    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial1{Monomial(0, {{"x", 1}}), Monomial(0, {{"x", 1}})};
+    Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-6, {})};
     Polynomial polynomial4{Monomial(-6, {{"y", 0}, {"z", 0}})};
+
     polynomial1.simplify();
     polynomial2.simplify();
     polynomial3.simplify();

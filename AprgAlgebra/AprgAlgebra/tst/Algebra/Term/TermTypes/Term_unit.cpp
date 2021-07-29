@@ -174,9 +174,9 @@ TEST(TermTest, TermsAsExpressionsWorkAsExpected)
 TEST(TermTest, TermsAsFunctionsWorkAsExpected)
 {
     Function function1;
-    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
     Term functionTerm1(function1);
     Term functionTerm2(function2);
@@ -623,9 +623,9 @@ TEST(TermTest, GetDisplayableStringWorks)
     Term term5(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));
     Term term6(Polynomial({Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})}));
     Term term7(createExpressionIfPossible({Term(5), Term("+"), Term("interest")}));
-    Function function1("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function1("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
     Term term8(function1);
 
@@ -648,9 +648,9 @@ TEST(TermTest, GetDebugStringWorks)
     Term term5(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));
     Term term6(Polynomial({Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})}));
     Term term7(createExpressionIfPossible({Term(5), Term("+"), Term("interest")}));
-    Function function1("functionName", createOrCopyExpressionFromATerm(Term(5)), [](Constant const&  constant) -> Constant
+    Function function1("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
     Term term8(function1);
 
@@ -670,9 +670,9 @@ TEST(TermTest, SimplifyWorks)
     Term term2(Monomial(1475,{}));
     Term term3(Polynomial{Monomial(1475,{})});
     Term term4(Expression{createExpressionIfPossible({Term(1475)})});
-    Function function1("functionName", createOrCopyExpressionFromATerm(Term(1475)), [](Constant const&  constant) -> Constant
+    Function function1("functionName", createOrCopyExpressionFromATerm(Term(1475)), [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
     Term term5(function1);
 

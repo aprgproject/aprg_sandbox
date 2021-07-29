@@ -122,9 +122,32 @@ TEST(TermUtilitiesTest, WillHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower
 TEST(TermUtilitiesTest, IsNotANumberWorksForTerm)
 {
     EXPECT_TRUE(isNotANumber(Term(NAN)));
-    EXPECT_TRUE(isNotANumber(Term(createExpressionIfPossible({Term(NAN)}))));
-    EXPECT_FALSE(isNotANumber(Term(15)));
     EXPECT_FALSE(isNotANumber(Term("x")));
+    EXPECT_TRUE(isNotANumber(Term(Monomial(NAN, {}))));
+    EXPECT_TRUE(isNotANumber(Term(Polynomial{Monomial(NAN, {})})));
+    EXPECT_TRUE(isNotANumber(Term(createExpressionIfPossible({Term(NAN)}))));
+    EXPECT_FALSE(isNotANumber(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
+}
+
+TEST(TermUtilitiesTest, IsNotANumberWorksForConstant)
+{
+    EXPECT_TRUE(isNotANumber(Constant(NAN)));
+    EXPECT_FALSE(isNotANumber(Constant(15)));
+}
+
+TEST(TermUtilitiesTest, IsNotANumberWorksForMonomial)
+{
+    EXPECT_TRUE(isNotANumber(Monomial(NAN, {})));
+    EXPECT_FALSE(isNotANumber(Monomial(NAN, {{"x", 1}})));
+    EXPECT_FALSE(isNotANumber(Monomial(15, {})));
+    EXPECT_FALSE(isNotANumber(Monomial(15, {{"x", NAN}})));
+}
+
+TEST(TermUtilitiesTest, IsNotANumberWorksForPolynomial)
+{
+    EXPECT_TRUE(isNotANumber(Polynomial{Monomial(NAN, {})}));
+    EXPECT_FALSE(isNotANumber(Polynomial{Monomial(NAN, {}), Monomial(5, {{"x", 1}})}));
+    EXPECT_FALSE(isNotANumber(Polynomial{Monomial(15, {})}));
 }
 
 TEST(TermUtilitiesTest, IsNotANumberWorksForExpression)
@@ -136,9 +159,26 @@ TEST(TermUtilitiesTest, IsNotANumberWorksForExpression)
 TEST(TermUtilitiesTest, HasNotANumberWorksForTerm)
 {
     EXPECT_TRUE(hasNotANumber(Term(NAN)));
-    EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
-    EXPECT_FALSE(hasNotANumber(Term(15)));
     EXPECT_FALSE(hasNotANumber(Term("x")));
+    EXPECT_TRUE(hasNotANumber(Term(Monomial(NAN, {}))));
+    EXPECT_TRUE(hasNotANumber(Term(Polynomial{Monomial(NAN, {})})));
+    EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({Term(NAN)}))));
+    EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
+}
+
+TEST(TermUtilitiesTest, HasNotANumberWorksForMonomial)
+{
+    EXPECT_TRUE(hasNotANumber(Monomial(NAN, {})));
+    EXPECT_TRUE(hasNotANumber(Monomial(NAN, {{"x", 1}})));
+    EXPECT_FALSE(hasNotANumber(Monomial(15, {})));
+    EXPECT_TRUE(hasNotANumber(Monomial(15, {{"x", NAN}})));
+}
+
+TEST(TermUtilitiesTest, HasNotANumberWorksForPolynomial)
+{
+    EXPECT_TRUE(hasNotANumber(Polynomial{Monomial(NAN, {})}));
+    EXPECT_TRUE(hasNotANumber(Polynomial{Monomial(NAN, {}), Monomial(5, {{"x", 1}})}));
+    EXPECT_FALSE(hasNotANumber(Polynomial{Monomial(15, {})}));
 }
 
 TEST(TermUtilitiesTest, HasNotANumberWorksForExpression)
@@ -335,9 +375,9 @@ TEST(TermUtilitiesTest, RetrieveNumbersWorksForTerm)
     Function functionObject(
                 "functionName",
                 createExpressionIfPossible({Term("x"), Term("^"), Term(68)}),
-                [](Constant const&  constant) -> Constant
+                [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     retrieveNumbers(numbersSet1, Term(Constant(1.234)));
@@ -415,9 +455,9 @@ TEST(TermUtilitiesTest, RetrieveNumbersWorksForFunction)
     Function functionObject(
                 "functionName",
                 createExpressionIfPossible({Term("x"), Term("^"), Term(68)}),
-                [](Constant const&  constant) -> Constant
+                [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     retrieveNumbers(numbersSet, functionObject);
@@ -445,9 +485,9 @@ TEST(TermUtilitiesTest, RetrieveVariableNamesWorksForTerm)
     Function functionObject(
                 "functionName",
                 createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
-                [](Constant const&  constant) -> Constant
+                [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     retrieveVariableNames(variableNamesSet1, Term(Variable("VariableName")));
@@ -528,9 +568,9 @@ TEST(TermUtilitiesTest, RetrieveVariableNamesWorksForFunction)
     Function functionObject(
                 "functionName",
                 createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
-                [](Constant const&  constant) -> Constant
+                [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     retrieveVariableNames(variableNamesSet, functionObject);
@@ -552,9 +592,9 @@ TEST(TermUtilitiesTest, RetrieveFunctionsWithConditionWorksForTerm)
     Function functionObject(
                 "functionName",
                 createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
-                [](Constant const&  constant) -> Constant
+                [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
     Expression expression(createExpressionIfPossible({Term(1), Term("+"), Term(functionObject)}));
     FunctionCondition conditionThatWillMatch = [](Function const functionObject)
@@ -593,9 +633,9 @@ TEST(TermUtilitiesTest, RetrieveFunctionsWithConditionWorksForExpression)
     Function functionObject(
                 "functionName",
                 createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
-                [](Constant const&  constant) -> Constant
+                [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
     Expression expression(createExpressionIfPossible({Term(1), Term("+"), Term(functionObject)}));
 
@@ -620,9 +660,9 @@ TEST(TermUtilitiesTest, RetrieveFunctionsWithConditionWorksForFunction)
     Function functionObject(
                 "functionName",
                 createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
-                [](Constant const&  constant) -> Constant
+                [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return constant;
+        return number;
     });
 
     retrieveFunctionsWithCondition(functionsSets1, functionObject, [](Function const functionObject)
@@ -838,6 +878,30 @@ TEST(TermUtilitiesTest, AddValueTermIfNotEmptyWorks)
     ASSERT_EQ(1u, termsToVerify1.size());
     EXPECT_EQ(TermType::Constant, termsToVerify1.at(0).getTermType());
     EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantConstReference().getNumberConstReference().getDouble());
+}
+
+TEST(TermUtilitiesTest, GetInputToOutputNumberWorks)
+{
+    AlbaNumbers inputNumbers{-2,-1,0,1,2};
+
+    AlbaNumberPairs inputAndOutputPairs(
+                getInputToOutputNumber(
+                    inputNumbers,
+                    "x",
+                    Term(Monomial(-2, {{"x", 3}}))
+                    ));
+
+    ASSERT_EQ(5u, inputAndOutputPairs.size());
+    EXPECT_EQ(AlbaNumber(-2), inputAndOutputPairs.at(0).first);
+    EXPECT_EQ(AlbaNumber(16), inputAndOutputPairs.at(0).second);
+    EXPECT_EQ(AlbaNumber(-1), inputAndOutputPairs.at(1).first);
+    EXPECT_EQ(AlbaNumber(2), inputAndOutputPairs.at(1).second);
+    EXPECT_EQ(AlbaNumber(0), inputAndOutputPairs.at(2).first);
+    EXPECT_EQ(AlbaNumber(0), inputAndOutputPairs.at(2).second);
+    EXPECT_EQ(AlbaNumber(1), inputAndOutputPairs.at(3).first);
+    EXPECT_EQ(AlbaNumber(-2), inputAndOutputPairs.at(3).second);
+    EXPECT_EQ(AlbaNumber(2), inputAndOutputPairs.at(4).first);
+    EXPECT_EQ(AlbaNumber(-16), inputAndOutputPairs.at(4).second);
 }
 
 }

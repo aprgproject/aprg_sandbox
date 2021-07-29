@@ -1,3 +1,4 @@
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
@@ -194,6 +195,19 @@ TEST(CreateHelpersTest, CreateFunctionWithEmptyInputExpressionWorks)
 
     EXPECT_EQ("abs", absoluteValueFunction.getFunctionName());
     EXPECT_TRUE(absoluteValueFunction.getInputExpressionConstReference().isEmpty());
+}
+
+TEST(CreateHelpersTest, CreateFunctionInAnFunctionWorks)
+{
+    Function absFunction(Functions::abs(createExpressionIfPossible({Term(-5)})));
+    Function absInAbsFunction(Functions::abs(createExpressionIfPossible({Term(absFunction)})));
+    Function absInAbsInAbsFunction(Functions::abs(createExpressionIfPossible({Term(absInAbsFunction)})));
+
+    Function functionToVerify1(createFunctionInAnFunction(absFunction));
+    Function functionToVerify2(createFunctionInAnFunction(absInAbsFunction));
+
+    EXPECT_EQ(absInAbsFunction, functionToVerify1);
+    EXPECT_EQ(absInAbsInAbsFunction, functionToVerify2);
 }
 
 }

@@ -16,9 +16,9 @@ namespace Functions
 
 Function abs(Expression const& expression)
 {
-    return Function("abs", expression, [](Constant const&  constant) -> Constant
+    return Function("abs", expression, [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return Constant(getAbsoluteValue(constant.getNumberConstReference()));
+        return getAbsoluteValue(number);
     });
 }
 

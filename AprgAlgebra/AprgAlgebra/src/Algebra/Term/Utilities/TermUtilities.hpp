@@ -23,17 +23,21 @@ bool canBeMergedInAMonomialByAdditionOrSubtraction(Variable const& variable1, Va
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
 bool isNotANumber(Term const& term);
+bool isNotANumber(Constant const& constant);
+bool isNotANumber(Monomial const& monomial);
+bool isNotANumber(Polynomial const& polynomial);
 bool isNotANumber(Expression const& expression);
 bool hasNotANumber(Term const& term);
-bool hasNotANumber(Constant const& constant);
 bool hasNotANumber(Monomial const& monomial);
 bool hasNotANumber(Polynomial const& polynomial);
 bool hasNotANumber(Expression const& expression);
 bool hasNotANumber(Function const& function);
 bool isAFiniteValue(Term const& term);
+
 unsigned int getOperatorPriority(std::string const& operatorString);
 unsigned int getAssociationPriority(TermAssociationType const association);
-unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);unsigned int getTermTypePriorityValue(TermType const termType);
+unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
+unsigned int getTermTypePriorityValue(TermType const termType);
 
 AlbaNumbers getRoots(Polynomial const& polynomial);
 
@@ -85,6 +89,11 @@ Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
 
 Terms tokenizeToTerms(std::string const& inputString);
 void addValueTermIfNotEmpty(Terms & terms, std::string const& valueTerm);
+
+AlbaNumberPairs getInputToOutputNumber(
+        AlbaNumbers const& numbers,
+        std::string const& variableName,
+        Term const& term);
 
 }
 
