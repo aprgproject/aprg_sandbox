@@ -36,13 +36,12 @@ public:
 
     void addSamples(Samples samples)
     {
+        m_samples.reserve(m_samples.size() + samples.size());
         std::copy(samples.cbegin(), samples.cend(), std::back_inserter(m_samples));
     }
-
     Samples getSamples() const
     {
-        return m_samples;
-    }
+        return m_samples;    }
 
     GroupOfSamples getGroupOfSamplesUsingKMeans(unsigned int const numberOfGroups) const
     {
