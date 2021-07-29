@@ -27,12 +27,17 @@ SolutionSet calculateDomainUsingTransitionValues(
 {
     //This would be better if we have differentiation.
     SolutionSet domain;
-    AlbaNumbers numbersWithTransitionValues(
-                getNumbersWithTransitionValues(domainValuesToCheck, functionToCheck));
+
+    AlbaNumbersSet sortedValues, collectedValues;
+    collectAndUniqueValuesAndSort(sortedValues, domainValuesToCheck);
+    collectMinAndMaxValues(collectedValues, sortedValues);
+    appendTransitionValues(collectedValues, sortedValues, functionToCheck);
+
+    AlbaNumbers numbersWithTransitionValues(getNumbers(collectedValues));
+
     domain.determineAndAddAcceptedIntervals(numbersWithTransitionValues, [&](AlbaNumber const& value)
     {
-        AlbaNumber computedValue(functionToCheck(value));
-        return computedValue.isAFiniteValue();
+        AlbaNumber computedValue(functionToCheck(value));        return computedValue.isAFiniteValue();
     });
     return domain;
 }
@@ -62,11 +67,10 @@ SolutionSet calculateDomainForTermWithOneVariable(
 SolutionSet calculateDomainForTermWithOneVariable(
         Term const& term)
 {
-    return calculateDomainForTermWithOneVariable(getValuesForDomainSearching(term), term);
+    return calculateDomainForTermWithOneVariable(getInitialValuesForIteratingMethods(term), term);
 }
 
-SolutionSet calculateDomainForEquation(
-        string const& variableNameToCheck,
+SolutionSet calculateDomainForEquation(        string const& variableNameToCheck,
         AlbaNumbers const& valuesToCheck,
         Equation const& equation)
 {
@@ -85,11 +89,10 @@ SolutionSet calculateDomainForEquation(
         string const& variableNameToCheck,
         Equation const& equation)
 {
-    return calculateDomainForEquation(variableNameToCheck, getValuesForDomainSearching(equation), equation);
+    return calculateDomainForEquation(variableNameToCheck, getInitialValuesForIteratingMethods(equation), equation);
 }
 
-SolutionSet calculateRangeForEquation(
-        string const& variableNameToCheck,
+SolutionSet calculateRangeForEquation(        string const& variableNameToCheck,
         AlbaNumbers const& valuesToCheck,
         Equation const& equation)
 {
@@ -108,11 +111,10 @@ SolutionSet calculateRangeForEquation(
         string const& variableNameToCheck,
         Equation const& equation)
 {
-    return calculateRangeForEquation(variableNameToCheck, getValuesForDomainSearching(equation), equation);
+    return calculateRangeForEquation(variableNameToCheck, getInitialValuesForIteratingMethods(equation), equation);
 }
 
-SolutionSet calculateDomainForEquationWithVariableToSubstitute(
-        string const& variableNameToSubstitute,
+SolutionSet calculateDomainForEquationWithVariableToSubstitute(        string const& variableNameToSubstitute,
         AlbaNumbers const& valuesToCheck,
         Equation const& equation)
 {
@@ -133,51 +135,69 @@ SolutionSet calculateDomainForEquationWithVariableToSubstitute(
     return domain;
 }
 
-AlbaNumbers getNumbersWithTransitionValues(
-        AlbaNumbers const& valuesToCheck,
+void collectAndUniqueValuesAndSort(
+        AlbaNumbersSet & sortedValues,
+        AlbaNumbers const& valuesToCheck)
+{
+    for(AlbaNumber const& valueToCheck : valuesToCheck)
+    {
+        sortedValues.emplace(valueToCheck);
+    }
+}
+
+void collectMinAndMaxValues(
+        AlbaNumbersSet & collectedValues,
+        AlbaNumbersSet const& sortedValues)
+{
+    unsigned int const valuesSize = sortedValues.size();
+    if(valuesSize == 1)
+    {
+        AlbaNumbersSet::const_iterator itFront = sortedValues.cbegin();
+        collectedValues.emplace(*itFront);
+    }
+    else if(sortedValues.size() >= 2)
+    {
+        AlbaNumbersSet::const_iterator itFront = sortedValues.cbegin();
+        AlbaNumbersSet::const_iterator itBack = sortedValues.cend();
+        itBack--;
+        collectedValues.emplace(*itFront);
+        collectedValues.emplace(*itBack);
+    }
+}
+
+void appendTransitionValues(
+        AlbaNumbersSet & collectedValues,
+        AlbaNumbersSet const& sortedValues,
         FunctionToCheck const& functionToCheck)
 {
-    AlbaNumbers sortedValues(valuesToCheck);
-    sort(sortedValues.begin(), sortedValues.end());
-
     bool isFirst(true);
     AlbaNumber previousInputValue;
     AlbaNumber previousOutputValue;
-    AlbaNumbersSet numbersSet;
     for(AlbaNumber const& inputValue : sortedValues)
     {
-        AlbaNumber outputValue(functionToCheck(inputValue));
-        if(isFirst)
+        AlbaNumber outputValue(functionToCheck(inputValue));        if(isFirst)
         {
             isFirst = false;
         }
         else if(previousOutputValue.isAFiniteValue() && !outputValue.isAFiniteValue())
         {
-            numbersSet.emplace(getTransitionValue(previousInputValue, inputValue, functionToCheck));
+            collectedValues.emplace(getTransitionValue(previousInputValue, inputValue, functionToCheck));
         }
         else if(!previousOutputValue.isAFiniteValue() && outputValue.isAFiniteValue())
         {
-            numbersSet.emplace(getTransitionValue(inputValue, previousInputValue, functionToCheck));
+            collectedValues.emplace(getTransitionValue(inputValue, previousInputValue, functionToCheck));
         }
         previousInputValue = inputValue;
         previousOutputValue = outputValue;
     }
-
-    if(sortedValues.size() == 1)
-    {
-        numbersSet.emplace(sortedValues.front());
-    }
-    else if(sortedValues.size() >= 2)
-    {
-        numbersSet.emplace(sortedValues.front());
-        numbersSet.emplace(sortedValues.back());
-    }
-
-    return AlbaNumbers(numbersSet.cbegin(), numbersSet.cend());
 }
 
-AlbaNumber getTransitionValue(
-        AlbaNumber const& inputValueYieldsToFiniteValue,
+AlbaNumbers getNumbers(AlbaNumbersSet const& collectedValues)
+{
+    return AlbaNumbers(collectedValues.cbegin(), collectedValues.cend());
+}
+
+AlbaNumber getTransitionValue(        AlbaNumber const& inputValueYieldsToFiniteValue,
         AlbaNumber const& inputValueYieldsToNonFiniteValue,
         FunctionToCheck const& functionToCheck)
 {

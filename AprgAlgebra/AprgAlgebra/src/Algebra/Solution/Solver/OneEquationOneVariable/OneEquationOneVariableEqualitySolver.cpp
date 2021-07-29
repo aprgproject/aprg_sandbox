@@ -107,29 +107,31 @@ void OneEquationOneVariableEqualitySolver::performNewtonMethodToFindSolution(
         string const& variableNameForSubstitution)
 {
     SubstitutionOfVariablesToValues substitution;
-    NewtonMethod newtonMethod(
-                getPositiveLogarithmOfLargestNumber(termToCheck),
-                [&](AlbaNumber const& value)
+
+    NewtonMethod::Function functionToIterate = [&](AlbaNumber const& value)
     {
         substitution.putVariableWithValue(variableNameForSubstitution, value);
-        Term substitutedTerm(substitution.performSubstitutionTo(termToCheck));
-        AlbaNumber computedValue;
+        Term substitutedTerm(substitution.performSubstitutionTo(termToCheck));        AlbaNumber computedValue;
         if(substitutedTerm.isConstant())
         {
             computedValue = substitutedTerm.getConstantConstReference().getNumberConstReference();
         }
         return computedValue;
-    });
+    };
 
-    newtonMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
-
-    if(newtonMethod.isSolved())
+    AlbaNumbers initialValues(getInitialValuesForIteratingMethods(termToCheck));
+    for(AlbaNumber const& initialValue : initialValues)
     {
-        m_calculatedValues.emplace_back(newtonMethod.getCurrentComputedValue());
-        setAsIncompleteSolution();
+        NewtonMethod newtonMethod(initialValue, functionToIterate);
+        newtonMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
+        if(newtonMethod.isSolved())
+        {
+            m_calculatedValues.emplace_back(newtonMethod.getCurrentComputedValue());
+            setAsIncompleteSolution();
+            break;
+        }
     }
 }
-
 }
 
 }

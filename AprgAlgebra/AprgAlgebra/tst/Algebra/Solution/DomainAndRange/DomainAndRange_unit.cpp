@@ -145,23 +145,25 @@ TEST(DomainAndRangeTest, DISABLED_CalculateRangeForEquationWorksWith2AbsoluteVal
     EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-1), createCloseEndpoint(1)), acceptedIntervals.at(0));
 }
 
-TEST(DomainAndRangeTest, DISABLED_GetNumbersWithTransitionValuesWorks)
+TEST(DomainAndRangeTest, DISABLED_AppendTransitionValuesWorks)
 {
-    AlbaNumbers value{5, 9.25};
+    AlbaNumbersSet collectedValues;
+    AlbaNumbersSet sortedValues{5, 9.25};
 
-    AlbaNumbers actualTransitionValues = getNumbersWithTransitionValues(value, [](AlbaNumber const& number)
+    appendTransitionValues(
+                collectedValues,
+                sortedValues,
+                [](AlbaNumber const& number)
     {
         return (number-6)^0.5;
     });
 
-    ASSERT_EQ(3u, actualTransitionValues.size());
-    EXPECT_EQ(AlbaNumber(5), actualTransitionValues.at(0));
-    EXPECT_EQ(AlbaNumber(6), actualTransitionValues.at(1));
-    EXPECT_EQ(AlbaNumber(9.25), actualTransitionValues.at(2));
+    ASSERT_EQ(1u, collectedValues.size());
+    AlbaNumbersSet::const_iterator it = collectedValues.cbegin();
+    EXPECT_EQ(AlbaNumber(6), *(it++));
 }
 
-TEST(DomainAndRangeTest, DISABLED_GetTransitionValueWorks)
-{
+TEST(DomainAndRangeTest, DISABLED_GetTransitionValueWorks){
 
     AlbaNumber actualTransitionValue = getTransitionValue(
                 AlbaNumber(9.25),

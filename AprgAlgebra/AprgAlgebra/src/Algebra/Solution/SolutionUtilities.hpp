@@ -14,13 +14,12 @@ namespace algebra
 
 AlbaNumber getPositiveLogarithmOfLargestNumber(Term const& term);
 
-AlbaNumbers getValuesForDomainSearching(Term const& term);
-void retrieveValuesForDomainSearching(
+AlbaNumbers getInitialValuesForIteratingMethods(Term const& term);
+void retrieveInitialValuesForIteratingMethods(
         AlbaNumbersSet & allValues,
         Term const& term);
 
-AlbaNumbers getValuesForDomainSearching(Equation const& equation);
+AlbaNumbers getInitialValuesForIteratingMethods(Equation const& equation);
 
 }
-
 }
