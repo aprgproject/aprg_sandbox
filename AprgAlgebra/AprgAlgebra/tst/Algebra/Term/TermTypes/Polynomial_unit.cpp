@@ -207,13 +207,21 @@ TEST(PolynomialTest, SimplifyAndSortWorks)
     EXPECT_EQ((Polynomial{Monomial(6, {{"x", 3}}), Monomial(2, {{"x", 1}, {"y", 2}})}), polynomial3);
 }
 
+TEST(PolynomialTest, SimplifyWithNotANumberDoesNotCrash)
+{
+    Polynomial polynomial{Monomial(NAN, {})};
+
+    polynomial.simplify();
+
+    ASSERT_EQ(1u, polynomial.getMonomialsConstReference().size());
+    EXPECT_TRUE(polynomial.getFirstMonomial().getConstantConstReference().isNotANumber());
+}
+
 TEST(PolynomialTest, SimplifyWorks)
 {
-    Polynomial polynomial1{Monomial(0, {{"x", 1}}), Monomial(0, {{"x", 1}})};
-    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial1{Monomial(0, {{"x", 1}}), Monomial(0, {{"x", 1}})};    Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-6, {})};
     Polynomial polynomial4{Monomial(-6, {{"y", 0}, {"z", 0}})};
-
     polynomial1.simplify();
     polynomial2.simplify();
     polynomial3.simplify();

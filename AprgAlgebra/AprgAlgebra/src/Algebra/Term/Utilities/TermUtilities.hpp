@@ -25,14 +25,15 @@ bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
 bool isNotANumber(Term const& term);
 bool isNotANumber(Expression const& expression);
 bool hasNotANumber(Term const& term);
+bool hasNotANumber(Constant const& constant);
+bool hasNotANumber(Monomial const& monomial);
+bool hasNotANumber(Polynomial const& polynomial);
 bool hasNotANumber(Expression const& expression);
 bool hasNotANumber(Function const& function);
 bool isAFiniteValue(Term const& term);
-
 unsigned int getOperatorPriority(std::string const& operatorString);
 unsigned int getAssociationPriority(TermAssociationType const association);
-unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);
-unsigned int getTermTypePriorityValue(TermType const termType);
+unsigned int getOperatorLevelInversePriority(OperatorLevel const operatorLevel);unsigned int getTermTypePriorityValue(TermType const termType);
 
 AlbaNumbers getRoots(Polynomial const& polynomial);
 

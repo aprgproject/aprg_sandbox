@@ -93,14 +93,25 @@ TEST(DomainAndRangeTest, CalculateDomainForEquationWorksWith2AbsoluteValues)
     EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-1), createCloseEndpoint(1)), acceptedIntervals.at(0));
 }
 
+TEST(DomainAndRangeTest, CalculateDomainForEquationWorksWithXToTheX)
+{
+    Expression leftHandExpression(createExpressionIfPossible({Term("x"), Term("^"), Term("x"), Term("-"), Term(823543)}));
+    Equation equation(Term(leftHandExpression), "=", Term("y"));
+
+    SolutionSet actualDomain = calculateDomainForEquation("x", equation);
+
+    AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());
+    ASSERT_EQ(2u, acceptedIntervals.size());
+    EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-1), createCloseEndpoint(1)), acceptedIntervals.at(0));
+    EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-1), createCloseEndpoint(1)), acceptedIntervals.at(1));
+}
+
 TEST(DomainAndRangeTest, CalculateRangeForEquationWorksWithEquationWithValues)
 {
-    Polynomial polynomialLeft{Monomial(1, {{"x", 2}}), Monomial(1, {{"y", 2}})};
-    Equation equation(Term(polynomialLeft), "=", Term(Constant(36)));
+    Polynomial polynomialLeft{Monomial(1, {{"x", 2}}), Monomial(1, {{"y", 2}})};    Equation equation(Term(polynomialLeft), "=", Term(Constant(36)));
     AlbaNumbers numbers{3.3, 9.9};
 
     SolutionSet actualDomain = calculateRangeForEquation("x", numbers, equation);
-
     AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());
     ASSERT_EQ(1u, acceptedIntervals.size());
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createCloseEndpoint(6)), acceptedIntervals.at(0));
@@ -118,14 +129,26 @@ TEST(DomainAndRangeTest, CalculateRangeForEquationWorksWithEquation)
     EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-6), createCloseEndpoint(6)), acceptedIntervals.at(0));
 }
 
+TEST(DomainAndRangeTest, CalculateRangeForEquationWorksWith2AbsoluteValues)
+{
+    Function absoluteValueOfX(Functions::abs(createExpressionIfPossible({Term("x")})));
+    Function absoluteValueOfY(Functions::abs(createExpressionIfPossible({Term("y")})));
+    Expression leftHandExpression(createExpressionIfPossible({Term(absoluteValueOfX), Term("+"), Term(absoluteValueOfY)}));
+    Equation equation(Term(leftHandExpression), "=", Term(Constant(1)));
+
+    SolutionSet actualDomain = calculateRangeForEquation("x", equation);
+
+    AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());
+    ASSERT_EQ(1u, acceptedIntervals.size());
+    EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-1), createCloseEndpoint(1)), acceptedIntervals.at(0));
+}
+
 TEST(DomainAndRangeTest, GetNumbersWithTransitionValuesWorks)
 {
     AlbaNumbers value{5, 9.25};
-
     AlbaNumbers actualTransitionValues = getNumbersWithTransitionValues(value, [](AlbaNumber const& number)
     {
-        return (number-6)^0.5;
-    });
+        return (number-6)^0.5;    });
 
     ASSERT_EQ(3u, actualTransitionValues.size());
     EXPECT_EQ(AlbaNumber(5), actualTransitionValues.at(0));

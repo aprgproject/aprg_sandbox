@@ -132,27 +132,68 @@ bool hasNotANumber(Term const& term)
     bool result(false);
     if(term.isConstant())
     {
-        result = term.getConstantConstReference().getNumberConstReference().isNotANumber();
+        result = hasNotANumber(term.getConstantConstReference());
+    }
+    else if(term.isMonomial())
+    {
+        result = hasNotANumber(term.getMonomialConstReference());
+    }
+    else if(term.isPolynomial())
+    {
+        result = hasNotANumber(term.getPolynomialConstReference());
     }
     else if(term.isExpression())
     {
-        result = hasNotANumber(term.getExpressionConstReference());
-    }
+        result = hasNotANumber(term.getExpressionConstReference());    }
     else if(term.isFunction())
     {
-        result = hasNotANumber(term.getFunctionConstReference());
+        result = hasNotANumber(term.getFunctionConstReference());    }
+    return result;
+}
+
+bool hasNotANumber(Constant const& constant)
+{
+    return constant.getNumberConstReference().isNotANumber();
+}
+
+bool hasNotANumber(Monomial const& monomial)
+{
+    bool result(hasNotANumber(monomial.getConstantConstReference()));
+    if(!result)
+    {
+        for(Monomial::VariableExponentPair const& variableExponentsPair
+            : monomial.getVariablesToExponentsMapConstReference())
+        {
+            result |= hasNotANumber(variableExponentsPair.first);
+            if(result)
+            {
+                break;
+            }
+        }
+    }
+    return result;
+}
+
+bool hasNotANumber(Polynomial const& polynomial)
+{
+    bool result(false);
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    {
+        result |= hasNotANumber(monomial);
+        if(result)
+        {
+            break;
+        }
     }
     return result;
 }
 
 bool hasNotANumber(Expression const& expression)
 {
-    bool result(false);
-    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+    bool result(false);    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
-        result |= hasNotANumber(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        if(result)
+        result |= hasNotANumber(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));        if(result)
         {
             break;
         }
