@@ -30,18 +30,13 @@ TEST(SampleTest, TestForDataSet)
 
     AprgModeling::MatrixOfDoubles coefficients(modeling.getCoefficients());
     cout<<"Coefficients:"<<endl;
-    coefficients.traverseThroughYAndThenX([&](unsigned int const x, unsigned int const, double const value)
-    {
-        cout<<"["<<x+1<<" -> "<<std::setprecision(20)<<value<<"],"<<endl;
-    });
+    cout<<coefficients<<endl;
 }
 
-TEST(SampleTest, DISABLED_TestForDataSet3_FileFormat2)
-{
+TEST(SampleTest, DISABLED_TestForDataSet3_FileFormat2){
     AprgModeling modeling;
     modeling.retrieveDataFromFileWithFileFormat2(ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT2_FILE3);
-    modeling.printRetrievedData();
-    unsigned int numberOfSamples (modeling.getNumberOfSamples());
+    modeling.printRetrievedData();    unsigned int numberOfSamples (modeling.getNumberOfSamples());
     modeling.saveRetrievedDataToModelingData(numberOfSamples);
     modeling.saveRetrievedDataToValidationData(numberOfSamples);
     modeling.modelUsingLeastSquares();
@@ -55,10 +50,7 @@ TEST(SampleTest, DISABLED_TestForDataSet3_FileFormat2)
 
     AprgModeling::MatrixOfDoubles coefficients(modeling.getCoefficients());
     cout<<"Coefficients:"<<endl;
-    coefficients.traverseThroughYAndThenX([&](unsigned int const x, unsigned int const, double const value)
-    {
-        cout<<"["<<x+1<<" -> "<<std::setprecision(20)<<value<<"],"<<endl;
-    });
+    cout<<coefficients<<endl;
 }
 
 }

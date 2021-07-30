@@ -282,23 +282,26 @@ void AprgModeling::calculateCoefficientsUsingLeastSquares()
     calculatedCoefficients = gsl_vector_alloc(dataWidth);
     calculatedCovariance = gsl_matrix_alloc(dataWidth, dataWidth);
 
-    m_modelingDataForY.traverseThroughYAndThenX([&](unsigned int const, unsigned int const y, double const value)
+    for(unsigned int y=0; y<m_modelingDataForY.getRows(); y++)
     {
-        gsl_vector_set(yModelingData, y, value);
-    });
-
-    m_modelingDataForX.traverseThroughYAndThenX([&](unsigned int const x, unsigned int const y, double const value)
+        for(unsigned int x=1; x<m_modelingDataForY.getColumns(); x++)
+        {
+            gsl_vector_set(yModelingData, y, m_modelingDataForY.get(x, y));
+        }
+    }
+    for(unsigned int x=1; x<m_modelingDataForX.getColumns(); x++)
     {
-        gsl_matrix_set(xModelingData, y, x, value);
-    });
+        for(unsigned int y=0; y<m_modelingDataForX.getRows(); y++)
+        {
+            gsl_matrix_set(xModelingData, y, x, m_modelingDataForX.get(x, y));
+        }
+    }
 
     gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc(dataHeight, dataWidth);
     gsl_multifit_linear(xModelingData, yModelingData, calculatedCoefficients, calculatedCovariance, &chisq, work);
-
     m_coefficients.clearAndResize(dataWidth, 1);
     for(unsigned int i=0; i<dataWidth; i++)
-    {
-        m_coefficients.set(i, 0, gsl_vector_get(calculatedCoefficients, i));
+    {        m_coefficients.set(i, 0, gsl_vector_get(calculatedCoefficients, i));
     }
 
     gsl_multifit_linear_free(work);
