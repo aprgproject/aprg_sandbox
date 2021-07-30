@@ -5,6 +5,7 @@
 #include <String/AlbaStringHelper.hpp>
 #include <Container/AlbaRange.hpp>
 
+#include <algorithm>
 #include <cassert>
 #include <functional>
 #include <sstream>
@@ -22,6 +23,7 @@ class Matrix
 {
 public:
     using MatrixData = std::vector<DataType>;
+    using ListOfMatrixData = std::vector<MatrixData>;
     using BinaryFunction = std::function<DataType(DataType const&, DataType const&)>;
     using UnaryFunction = std::function<DataType(DataType const&)>;
     using LoopFunction = std::function<void(unsigned int const x, unsigned int const y)>;
@@ -98,12 +100,34 @@ public:
 
     Matrix operator*(Matrix const& secondMatrix) const //matrix multiplication
     {
-        assert((m_numberOfColumns == secondMatrix.m_numberOfRows) && (m_numberOfRows == secondMatrix.m_numberOfColumns));
-        Matrix result(m_numberOfColumns, m_numberOfRows);
-        Matrix secondTransposedMatrix(secondMatrix);
-        secondTransposedMatrix.transpose();
-        traverseWithBinaryOperationWithSameDimensions(*this, secondTransposedMatrix, result, std::multiplies<DataType>());
+        assert(m_numberOfColumns == secondMatrix.m_numberOfRows);
+        Matrix result(m_numberOfRows, secondMatrix.m_numberOfColumns);
+        ListOfMatrixData rowsOfFirstMatrix;
+        ListOfMatrixData columnsOfSecondMatrix;
+        retrieveRows(rowsOfFirstMatrix);
+        secondMatrix.retrieveColumns(columnsOfSecondMatrix);
+
+        unsigned int y=0;
+        for(MatrixData const& rowOfFirstMatrix : rowsOfFirstMatrix)
+        {
+            unsigned int x=0;
+            for(MatrixData const& columnOfSecondMatrix : columnsOfSecondMatrix)
+            {
+                result.set(x,y,multiplyEachItemAndGetSum(rowOfFirstMatrix, columnOfSecondMatrix));
+                x++;
+            }
+            y++;
+        }
+
         return result;
+    }
+
+    bool isZeroMatrix() const
+    {
+        return std::all_of(m_matrixData.cbegin(), m_matrixData.cend(), [](DataType const& dataType)
+        {
+            return isAlmostEqual(dataType, 0);
+        });
     }
 
     bool isIdentityMatrix() const
@@ -146,6 +170,42 @@ public:
         return getMatrixIndex(x, y, m_numberOfColumns);
     }
 
+    void retrieveColumn(MatrixData & column, unsigned int const x) const
+    {
+        column.reserve(m_numberOfRows);
+        for(unsigned int y=0; y<m_numberOfRows; y++)
+        {
+            column.emplace_back(m_matrixData.at(getMatrixIndex(x, y)));
+        }
+    }
+
+    void retrieveRow(MatrixData & row, unsigned int const y) const
+    {
+        row.reserve(m_numberOfColumns);
+        for(unsigned int x=0; x<m_numberOfColumns; x++)
+        {
+            row.emplace_back(m_matrixData.at(getMatrixIndex(x, y)));
+        }
+    }
+
+    void retrieveColumns(ListOfMatrixData & columns) const
+    {
+        for(unsigned int x=0; x<m_numberOfColumns; x++)
+        {
+            columns.emplace_back();
+            retrieveColumn(columns.back(), x);
+        }
+    }
+
+    void retrieveRows(ListOfMatrixData & rows) const
+    {
+        for(unsigned int y=0; y<m_numberOfRows; y++)
+        {
+            rows.emplace_back();
+            retrieveRow(rows.back(), y);
+        }
+    }
+
     MatrixData const& getMatrixData() const
     {
         return m_matrixData;
@@ -159,7 +219,8 @@ public:
 
     std::string getString() const
     {
-        stringHelper::NumberToStringConverter converter;        DisplayTable table;
+        stringHelper::NumberToStringConverter converter;
+        DisplayTable table;
         table.setBorders("-","|");
         for(unsigned int y=0; y<m_numberOfRows; y++)
         {
@@ -186,14 +247,24 @@ public:
 
     void clearAndResize(unsigned int const numberOfColumns, unsigned int const numberOfRows)
     {
-        m_numberOfColumns = numberOfColumns;        m_numberOfRows = numberOfRows;
+        m_numberOfColumns = numberOfColumns;
+        m_numberOfRows = numberOfRows;
         m_matrixData.clear();
         m_matrixData.resize(numberOfColumns*numberOfRows, 0);
     }
 
+    void negate()
+    {
+        for(DataType & value : m_matrixData)
+        {
+            value *= -1;
+        }
+    }
+
     void transpose()
     {
-        unsigned int oldColumns(m_numberOfColumns);        unsigned int oldRows(m_numberOfRows);
+        unsigned int oldColumns(m_numberOfColumns);
+        unsigned int oldRows(m_numberOfRows);
         MatrixData oldMatrixData(m_matrixData);
         clearAndResize(oldRows, oldColumns);
         MatrixIndexRange yRange(0, oldRows-1, 1);
@@ -206,7 +277,8 @@ public:
 
     void invert()
     {
-        assert((m_numberOfColumns == m_numberOfRows));        unsigned int newColumns = m_numberOfColumns*2;
+        assert((m_numberOfColumns == m_numberOfRows));
+        unsigned int newColumns = m_numberOfColumns*2;
         Matrix tempMatrix(newColumns, m_numberOfRows);
         MatrixIndexRange yRange(0, m_numberOfRows-1, 1);
         MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
@@ -228,7 +300,8 @@ public:
 
     void transformToReducedEchelonForm()
     {
-        //gauss jordan reduction        unsigned int yWithLeadingEntry = 0;
+        //gauss jordan reduction
+        unsigned int yWithLeadingEntry = 0;
         for(unsigned int x=0; x<m_numberOfColumns; x++)
         {
             for(unsigned int y=yWithLeadingEntry; y<m_numberOfRows; y++)
@@ -248,7 +321,8 @@ public:
                             subtractRowsWithMultiplierPutDifferenceInAnotherRow(
                                         yToZero,
                                         yWithLeadingEntry,
-                                        m_matrixData.at(getMatrixIndex(x, yToZero))/m_matrixData.at(getMatrixIndex(x, yWithLeadingEntry)),                                        yToZero);
+                                        m_matrixData.at(getMatrixIndex(x, yToZero))/m_matrixData.at(getMatrixIndex(x, yWithLeadingEntry)),
+                                        yToZero);
                         }
                     }
                     yWithLeadingEntry++;
@@ -292,77 +366,6 @@ public:
     }
 
 private:
-    void fillRemainingEntriesToZeroIfNeeded(
-            unsigned int const numberOfColumns,
-            unsigned int const numberOfRows)
-    {
-        unsigned int targetSize = numberOfColumns*numberOfRows;
-        if(m_matrixData.size() != targetSize)
-        {
-            unsigned int originalSize = m_matrixData.size();
-            m_matrixData.resize(targetSize);
-            std::fill(m_matrixData.begin()+originalSize, m_matrixData.end(), 0);
-        }
-    }
-    void traverseWithBinaryOperationWithSameDimensions(
-            Matrix const& firstMatrix,
-            Matrix const& secondMatrix,            Matrix & resultMatrix,
-            BinaryFunction const& binaryFunction) const
-    {
-        assert((firstMatrix.m_numberOfColumns == secondMatrix.m_numberOfColumns) &&
-               (firstMatrix.m_numberOfRows == secondMatrix.m_numberOfRows) &&
-               (firstMatrix.m_numberOfColumns == resultMatrix.m_numberOfColumns) &&
-               (firstMatrix.m_numberOfRows == resultMatrix.m_numberOfRows));
-        MatrixIndexRange yRange(0, m_numberOfRows-1, 1);
-        MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
-        iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
-        {
-            resultMatrix.m_matrixData[getMatrixIndex(x, y)]
-                    = binaryFunction(firstMatrix.m_matrixData.at(getMatrixIndex(x, y)),
-                                     secondMatrix.m_matrixData.at(getMatrixIndex(x, y)));
-        });
-    }
-    void traverseWithUnaryOperationWithSameDimensions(
-            Matrix const& inputMatrix,
-            Matrix & resultMatrix,
-            UnaryFunction const& unaryFunction) const
-    {
-        assert((inputMatrix.m_numberOfColumns == resultMatrix.m_numberOfColumns) &&
-               (inputMatrix.m_numberOfRows == resultMatrix.m_numberOfRows));
-        MatrixIndexRange yRange(0, m_numberOfRows-1, 1);
-        MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
-        iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
-        {
-            resultMatrix.m_matrixData[getMatrixIndex(x, y)]
-                    = unaryFunction(inputMatrix.m_matrixData.at(getMatrixIndex(x, y)));
-        });
-    }
-    void traverseWithBinaryOperationForDifferentRows(
-            unsigned int const yInput1,
-            unsigned int const yInput2,
-            unsigned int const yOutput,
-            BinaryFunction const& binaryFunction)
-    {
-        assert((yInput1 < m_numberOfRows) && (yInput2 < m_numberOfRows) && (yOutput < m_numberOfRows));
-        for(unsigned int x=0; x<m_numberOfColumns; x++)
-        {
-            m_matrixData[getMatrixIndex(x, yOutput)]
-                    = binaryFunction(m_matrixData.at(getMatrixIndex(x, yInput1)),
-                                     m_matrixData.at(getMatrixIndex(x, yInput2)));
-        }
-    }
-    void traverseWithUnaryOperationForDifferentRows(
-            unsigned int const yInput,
-            unsigned int const yOutput,
-            UnaryFunction const& unaryFunction)
-    {
-        assert((yInput < m_numberOfRows) && (yOutput < m_numberOfRows));
-        for(unsigned int x=0; x<m_numberOfColumns; x++)
-        {
-            m_matrixData[getMatrixIndex(x, yOutput)]
-                    = unaryFunction(m_matrixData.at(getMatrixIndex(x, yInput)));
-        }
-    }
     bool areRowsWithAllZeroInTheBottom() const
     {
         bool isRowWithNonZeroEncountered(false);
@@ -428,6 +431,88 @@ private:
         }
         return true;
     }
+    void fillRemainingEntriesToZeroIfNeeded(
+            unsigned int const numberOfColumns,
+            unsigned int const numberOfRows)
+    {
+        unsigned int targetSize = numberOfColumns*numberOfRows;
+        if(m_matrixData.size() != targetSize)
+        {
+            unsigned int originalSize = m_matrixData.size();
+            m_matrixData.resize(targetSize);
+            std::fill(m_matrixData.begin()+originalSize, m_matrixData.end(), 0);
+        }
+    }
+    void traverseWithBinaryOperationWithSameDimensions(
+            Matrix const& firstMatrix,
+            Matrix const& secondMatrix,
+            Matrix & resultMatrix,
+            BinaryFunction const& binaryFunction) const
+    {
+        assert((firstMatrix.m_numberOfColumns == secondMatrix.m_numberOfColumns) &&
+               (firstMatrix.m_numberOfRows == secondMatrix.m_numberOfRows) &&
+               (firstMatrix.m_numberOfColumns == resultMatrix.m_numberOfColumns) &&
+               (firstMatrix.m_numberOfRows == resultMatrix.m_numberOfRows));
+        MatrixIndexRange yRange(0, m_numberOfRows-1, 1);
+        MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
+        iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
+        {
+            resultMatrix.m_matrixData[getMatrixIndex(x, y)]
+                    = binaryFunction(firstMatrix.m_matrixData.at(getMatrixIndex(x, y)),
+                                     secondMatrix.m_matrixData.at(getMatrixIndex(x, y)));
+        });
+    }
+    void traverseWithUnaryOperationWithSameDimensions(
+            Matrix const& inputMatrix,
+            Matrix & resultMatrix,
+            UnaryFunction const& unaryFunction) const
+    {
+        assert((inputMatrix.m_numberOfColumns == resultMatrix.m_numberOfColumns) &&
+               (inputMatrix.m_numberOfRows == resultMatrix.m_numberOfRows));
+        MatrixIndexRange yRange(0, m_numberOfRows-1, 1);
+        MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
+        iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
+        {
+            resultMatrix.m_matrixData[getMatrixIndex(x, y)]
+                    = unaryFunction(inputMatrix.m_matrixData.at(getMatrixIndex(x, y)));
+        });
+    }
+    void traverseWithBinaryOperationForDifferentRows(
+            unsigned int const yInput1,
+            unsigned int const yInput2,
+            unsigned int const yOutput,
+            BinaryFunction const& binaryFunction)
+    {
+        assert((yInput1 < m_numberOfRows) && (yInput2 < m_numberOfRows) && (yOutput < m_numberOfRows));
+        for(unsigned int x=0; x<m_numberOfColumns; x++)
+        {
+            m_matrixData[getMatrixIndex(x, yOutput)]
+                    = binaryFunction(m_matrixData.at(getMatrixIndex(x, yInput1)),
+                                     m_matrixData.at(getMatrixIndex(x, yInput2)));
+        }
+    }
+    void traverseWithUnaryOperationForDifferentRows(
+            unsigned int const yInput,
+            unsigned int const yOutput,
+            UnaryFunction const& unaryFunction)
+    {
+        assert((yInput < m_numberOfRows) && (yOutput < m_numberOfRows));
+        for(unsigned int x=0; x<m_numberOfColumns; x++)
+        {
+            m_matrixData[getMatrixIndex(x, yOutput)]
+                    = unaryFunction(m_matrixData.at(getMatrixIndex(x, yInput)));
+        }
+    }
+    DataType multiplyEachItemAndGetSum(MatrixData const& first, MatrixData const& second) const
+    {
+        DataType result(0);
+        unsigned int minSize = std::min(first.size(), second.size());
+        for(unsigned int i=0; i<minSize; i++)
+        {
+            result+=first.at(i)*second.at(i);
+        }
+        return result;
+    }
     void iterateThroughYAndThenX(MatrixIndexRange const& yRange, MatrixIndexRange const& xRange, LoopFunction const& loopFunction) const
     {
         yRange.traverse([&](unsigned int const yValue)
@@ -452,9 +537,11 @@ private:
     {
         return (y*numberOfColumns)+x;
     }
+
     unsigned int m_numberOfColumns;
     unsigned int m_numberOfRows;
-    MatrixData m_matrixData;};
+    MatrixData m_matrixData;
+};
 
 template <typename DataType>
 std::ostream & operator<<(std::ostream & out, Matrix<DataType> const& matrix)

@@ -1007,7 +1007,8 @@ string NumberToStringConverter::convert(AlbaNumber const& number)
 
 void NumberToStringConverter::setPrecision(int const precision)
 {
-    m_precisionOptional.setValue(precision);}
+    m_precisionOptional.setValue(precision);
+}
 
 void NumberToStringConverter::setFieldWidth(int const fieldWidth)
 {
@@ -1030,4 +1031,5 @@ template string NumberToStringConverter::convert<float>(float number);
 template string NumberToStringConverter::convert<double>(double number);
 
 }//namespace stringHelper
+
 }//namespace alba

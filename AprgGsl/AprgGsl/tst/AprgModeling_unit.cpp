@@ -33,10 +33,12 @@ TEST(SampleTest, TestForDataSet)
     cout<<coefficients<<endl;
 }
 
-TEST(SampleTest, DISABLED_TestForDataSet3_FileFormat2){
+TEST(SampleTest, DISABLED_TestForDataSet3_FileFormat2)
+{
     AprgModeling modeling;
     modeling.retrieveDataFromFileWithFileFormat2(ALBA_MODELING_DATA_SET_WITH_FILE_FORMAT2_FILE3);
-    modeling.printRetrievedData();    unsigned int numberOfSamples (modeling.getNumberOfSamples());
+    modeling.printRetrievedData();
+    unsigned int numberOfSamples (modeling.getNumberOfSamples());
     modeling.saveRetrievedDataToModelingData(numberOfSamples);
     modeling.saveRetrievedDataToValidationData(numberOfSamples);
     modeling.modelUsingLeastSquares();

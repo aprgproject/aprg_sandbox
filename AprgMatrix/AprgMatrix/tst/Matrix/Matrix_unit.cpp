@@ -89,7 +89,7 @@ TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithMatrixDataWithG
     EXPECT_EQ(6u, matrixData.at(5));
 }
 
-TEST(AlbaMatrixTest, OperatorEqualWorks_MatrixCanBeCheckedIfEqual)
+TEST(AlbaMatrixTest, OperatorEqualWorks)
 {
     Matrix<unsigned int> matrix1(2,3,
     {1,2,
@@ -109,7 +109,7 @@ TEST(AlbaMatrixTest, OperatorEqualWorks_MatrixCanBeCheckedIfEqual)
     EXPECT_FALSE(matrix1==matrix5);
 }
 
-TEST(AlbaMatrixTest, OperatorPlusWorks_MatrixCanBeAdded)
+TEST(AlbaMatrixTest, OperatorPlusWorks)
 {
     Matrix<unsigned int> matrix1(2,3,
     {1,2,
@@ -126,7 +126,7 @@ TEST(AlbaMatrixTest, OperatorPlusWorks_MatrixCanBeAdded)
     EXPECT_EQ(12u, resultMatrix.get(1,2));
 }
 
-TEST(AlbaMatrixTest, OperatorMinusWorks_MatrixCanBeSubtracted)
+TEST(AlbaMatrixTest, OperatorMinusWorks)
 {
     Matrix<unsigned int> matrix1(2,3,
     {100,200,
@@ -166,25 +166,63 @@ TEST(AlbaMatrixTest, OperatorMultiplyWorks_MatrixCanBeMultipliedWithConstantValu
 
 TEST(AlbaMatrixTest, OperatorMultiplyWorks_MatrixCanBeMultipliedWithAnotherMatrix)
 {
-    Matrix<unsigned int> matrix1(2,3,
+    Matrix<int> matrix1(3,2,
+    {1,2,-1,
+     3,1,4});
+    Matrix<int> matrix2(2,3,
+    {-2,5,
+     4,-3,
+     2,1});
+
+    Matrix<int> resultMatrix(matrix1*matrix2);
+
+    EXPECT_EQ(2u, resultMatrix.getColumns());
+    EXPECT_EQ(2u, resultMatrix.getRows());
+    EXPECT_EQ(4, resultMatrix.get(0,0));
+    EXPECT_EQ(-2, resultMatrix.get(1,0));
+    EXPECT_EQ(6, resultMatrix.get(0,1));
+    EXPECT_EQ(16, resultMatrix.get(1,1));
+}
+
+TEST(AlbaMatrixTest, OperatorMultiplyWorks_AnotherExample)
+{
+    Matrix<unsigned int> matrix1(2,2,
+    {2,3,
+     4,5});
+    Matrix<unsigned int> matrix2(2,2,
     {1,2,
-     3,4,
-     5,6});
-    Matrix<unsigned int> matrix2(3,2,
-    {1,3,5,
-     2,4,6});
+     7,0});
 
     Matrix<unsigned int> resultMatrix(matrix1*matrix2);
 
-    EXPECT_EQ(1u, resultMatrix.get(0,0));
+    EXPECT_EQ(2u, resultMatrix.getColumns());
+    EXPECT_EQ(2u, resultMatrix.getRows());
+    EXPECT_EQ(23u, resultMatrix.get(0,0));
     EXPECT_EQ(4u, resultMatrix.get(1,0));
-    EXPECT_EQ(9u, resultMatrix.get(0,1));
-    EXPECT_EQ(16u, resultMatrix.get(1,1));
-    EXPECT_EQ(25u, resultMatrix.get(0,2));
-    EXPECT_EQ(36u, resultMatrix.get(1,2));
+    EXPECT_EQ(39u, resultMatrix.get(0,1));
+    EXPECT_EQ(8u, resultMatrix.get(1,1));
 }
 
-TEST(AlbaMatrixTest, IsIdentityMatrixWorks_MatrixCanBeCheckedIfItsIdentityMatrix)
+TEST(AlbaMatrixTest, IsZeroMatrixWorks)
+{
+    Matrix<unsigned int> matrix1(3,3,
+    {0,0,0,
+     0,0,0,
+     0,0,0});
+    Matrix<unsigned int> matrix2(2,2,
+    {0,0,
+     0,0});
+    Matrix<unsigned int> matrix3(3,3,
+    {0,0,0,
+     0,1,0,
+     0,0,0});
+
+    EXPECT_TRUE(matrix1.isZeroMatrix());
+    EXPECT_TRUE(matrix2.isZeroMatrix());
+    EXPECT_FALSE(matrix3.isZeroMatrix());
+}
+
+TEST(AlbaMatrixTest, IsIdentityMatrixWorks)
 {
     Matrix<unsigned int> matrix1(3,3,
     {1,0,0,
@@ -277,6 +315,80 @@ TEST(AlbaMatrixTest, GetMatrixIndexWorks)
     EXPECT_EQ(75u, matrix.getMatrixIndex(5, 5));
 }
 
+TEST(AlbaMatrixTest, RetrieveColumnWorks)
+{
+    Matrix<unsigned int> matrix(2,3,
+    {1,2,
+     3,4,
+     5,6});
+
+    Matrix<unsigned int>::MatrixData secondColumn;
+    matrix.retrieveColumn(secondColumn, 1);
+
+    ASSERT_EQ(3u, secondColumn.size());
+    EXPECT_EQ(2u, secondColumn.at(0));
+    EXPECT_EQ(4u, secondColumn.at(1));
+    EXPECT_EQ(6u, secondColumn.at(2));
+}
+
+TEST(AlbaMatrixTest, RetrieveRowWorks)
+{
+    Matrix<unsigned int> matrix(2,3,
+    {1,2,
+     3,4,
+     5,6});
+
+    Matrix<unsigned int>::MatrixData secondRow;
+    matrix.retrieveRow(secondRow, 1);
+
+    ASSERT_EQ(2u, secondRow.size());
+    EXPECT_EQ(3u, secondRow.at(0));
+    EXPECT_EQ(4u, secondRow.at(1));
+}
+
+TEST(AlbaMatrixTest, RetrieveColumnsWorks)
+{
+    Matrix<unsigned int> matrix(2,3,
+    {1,2,
+     3,4,
+     5,6});
+
+    Matrix<unsigned int>::ListOfMatrixData columns;
+    matrix.retrieveColumns(columns);
+
+    ASSERT_EQ(2u, columns.size());
+    ASSERT_EQ(3u, columns.at(0).size());
+    EXPECT_EQ(1u, columns.at(0).at(0));
+    EXPECT_EQ(3u, columns.at(0).at(1));
+    EXPECT_EQ(5u, columns.at(0).at(2));
+    ASSERT_EQ(3u, columns.at(1).size());
+    EXPECT_EQ(2u, columns.at(1).at(0));
+    EXPECT_EQ(4u, columns.at(1).at(1));
+    EXPECT_EQ(6u, columns.at(1).at(2));
+}
+
+TEST(AlbaMatrixTest, RetrieveRowsWorks)
+{
+    Matrix<unsigned int> matrix(2,3,
+    {1,2,
+     3,4,
+     5,6});
+
+    Matrix<unsigned int>::ListOfMatrixData rows;
+    matrix.retrieveRows(rows);
+
+    ASSERT_EQ(3u, rows.size());
+    ASSERT_EQ(2u, rows.at(0).size());
+    EXPECT_EQ(1u, rows.at(0).at(0));
+    EXPECT_EQ(2u, rows.at(0).at(1));
+    ASSERT_EQ(2u, rows.at(1).size());
+    EXPECT_EQ(3u, rows.at(1).at(0));
+    EXPECT_EQ(4u, rows.at(1).at(1));
+    ASSERT_EQ(2u, rows.at(2).size());
+    EXPECT_EQ(5u, rows.at(2).at(0));
+    EXPECT_EQ(6u, rows.at(2).at(1));
+}
+
 TEST(AlbaMatrixTest, GetMatrixDataWorks)
 {
     Matrix<unsigned int> matrix(2,3,
@@ -306,6 +418,21 @@ TEST(AlbaMatrixTest, GetWorks_ValueCanBeFetchedFromEmptyVector)
     EXPECT_EQ(0u, matrix.get(1,1));
     EXPECT_EQ(0u, matrix.get(0,2));
     EXPECT_EQ(0u, matrix.get(1,2));
+}
+
+TEST(AlbaMatrixTest, GetWorks_ValueCanBeFetchedFromNonEmptyVector)
+{
+    Matrix<unsigned int> matrix(2,3,
+    {1,2,
+     3,4,
+     5,6});
+
+    EXPECT_EQ(1u, matrix.get(0,0));
+    EXPECT_EQ(2u, matrix.get(1,0));
+    EXPECT_EQ(3u, matrix.get(0,1));
+    EXPECT_EQ(4u, matrix.get(1,1));
+    EXPECT_EQ(5u, matrix.get(0,2));
+    EXPECT_EQ(6u, matrix.get(1,2));
 }
 
 TEST(AlbaMatrixTest, GetStringWorks)
@@ -373,7 +500,7 @@ TEST(AlbaMatrixTest, SetWorks_OverwritesExistingValuesAndDoesNotChangeOtherValue
     EXPECT_EQ(6u, matrix.get(1,2));
 }
 
-TEST(AlbaMatrixTest, ClearAndResizeWorks_MatrixCanBeResized)
+TEST(AlbaMatrixTest, ClearAndResizeWorks)
 {
     Matrix<unsigned int> matrix(2,3,
     {1,2,
@@ -390,7 +517,24 @@ TEST(AlbaMatrixTest, ClearAndResizeWorks_MatrixCanBeResized)
     EXPECT_EQ(0u, matrix.get(2,1));
 }
 
-TEST(AlbaMatrixTest, TransposeWorks_MatrixCanBeTransposed)
+TEST(AlbaMatrixTest, NegateWorks)
+{
+    Matrix<int> matrix(2,3,
+    {1,2,
+     3,4,
+     5,6});
+
+    matrix.negate();
+
+    EXPECT_EQ(-1, matrix.get(0,0));
+    EXPECT_EQ(-2, matrix.get(1,0));
+    EXPECT_EQ(-3, matrix.get(0,1));
+    EXPECT_EQ(-4, matrix.get(1,1));
+    EXPECT_EQ(-5, matrix.get(0,2));
+    EXPECT_EQ(-6, matrix.get(1,2));
+}
+
+TEST(AlbaMatrixTest, TransposeWorks)
 {
     Matrix<unsigned int> matrix(2,3,
     {1,2,
@@ -407,7 +551,7 @@ TEST(AlbaMatrixTest, TransposeWorks_MatrixCanBeTransposed)
     EXPECT_EQ(6u, matrix.get(2,1));
 }
 
-TEST(AlbaMatrixTest, InvertWorks_InverseOfMatrixCanBeComputed)
+TEST(AlbaMatrixTest, InvertWorks)
 {
     Matrix<double> matrix(3,3,
     {1.0,1.0,1.0,
@@ -431,7 +575,7 @@ TEST(AlbaMatrixTest, InvertWorks_InverseOfMatrixCanBeComputed)
     EXPECT_TRUE(multipliedMatrix.isIdentityMatrix());
 }
 
-TEST(AlbaMatrixTest, TransformToReducedEchelonFormWorks_MatrixTransformToReducedEchelonForm)
+TEST(AlbaMatrixTest, TransformToReducedEchelonFormWorks)
 {
     Matrix<double> matrix(5,4,
     {0.0,2.0,3.0,-4.0,1,
@@ -463,7 +607,7 @@ TEST(AlbaMatrixTest, TransformToReducedEchelonFormWorks_MatrixTransformToReduced
     EXPECT_DOUBLE_EQ(0.0, matrix.get(4,3));
 }
 
-TEST(AlbaMatrixTest, InterchangeRowsWorks_MatrixRowsCanBeInterchanged)
+TEST(AlbaMatrixTest, InterchangeRowsWorks)
 {
     Matrix<unsigned int> matrix(2,3,
     {1,2,
@@ -480,7 +624,7 @@ TEST(AlbaMatrixTest, InterchangeRowsWorks_MatrixRowsCanBeInterchanged)
     EXPECT_EQ(2u, matrix.get(1,2));
 }
 
-TEST(AlbaMatrixTest, AddTwoRowsAndPutSumInAnotherRowWorks_MatrixRowsCanBeAdded)
+TEST(AlbaMatrixTest, AddTwoRowsAndPutSumInAnotherRowWorks)
 {
     Matrix<unsigned int> matrix(2,3,
     {1,2,
@@ -497,7 +641,7 @@ TEST(AlbaMatrixTest, AddTwoRowsAndPutSumInAnotherRowWorks_MatrixRowsCanBeAdded)
     EXPECT_EQ(8u, matrix.get(1,2));
 }
 
-TEST(AlbaMatrixTest, MultiplyValueInRowAndPutProductInAnotherRowWorks_MatrixRowsCanBeMultipliedWithAValue)
+TEST(AlbaMatrixTest, MultiplyValueInRowAndPutProductInAnotherRowWorks)
 {
     Matrix<unsigned int> matrix(2,3,
     {1,2,
@@ -516,7 +660,7 @@ TEST(AlbaMatrixTest, MultiplyValueInRowAndPutProductInAnotherRowWorks_MatrixRows
     EXPECT_EQ(24u, matrix.get(1,2));
 }
 
-TEST(AlbaMatrixTest, SubtractRowsWithMultiplierPutDifferenceInAnotherRowWorks_MatrixRowsCanBeSubtractedWithMultiplier)
+TEST(AlbaMatrixTest, SubtractRowsWithMultiplierPutDifferenceInAnotherRowWorks)
 {
     Matrix<double> matrix(2,3,
     {1.0,2.0,

@@ -687,7 +687,8 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithDefaultParameters)
     EXPECT_EQ("2.66667", converter.convert(AlbaNumber(8,3)));
 }
 
-TEST(ConvertToStringTest, ConvertNumberToStringWithUnderPrecision){
+TEST(ConvertToStringTest, ConvertNumberToStringWithUnderPrecision)
+{
     NumberToStringConverter converter;
     converter.setPrecision(8);
     EXPECT_EQ("12345", converter.convert(12345));
@@ -696,7 +697,8 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithUnderPrecision){
     EXPECT_EQ("2.6666667", converter.convert(AlbaNumber(8,3)));
 }
 
-TEST(ConvertToStringTest, ConvertNumberToStringWithOverPrecision){
+TEST(ConvertToStringTest, ConvertNumberToStringWithOverPrecision)
+{
     NumberToStringConverter converter;
     converter.setPrecision(15);
     EXPECT_EQ("12345", converter.convert(12345));
@@ -705,7 +707,8 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithOverPrecision){
     EXPECT_EQ("2.66666666666667", converter.convert(AlbaNumber(8,3)));
 }
 
-TEST(ConvertToStringTest, ConvertNumberToStringWithLessFieldWidth){
+TEST(ConvertToStringTest, ConvertNumberToStringWithLessFieldWidth)
+{
     NumberToStringConverter converter;
     converter.setPrecision(15);
     converter.setFieldWidth(3);
@@ -715,7 +718,8 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithLessFieldWidth){
     EXPECT_EQ("2.66666666666667", converter.convert(AlbaNumber(8,3)));
 }
 
-TEST(ConvertToStringTest, ConvertNumberToStringWithMoreFieldWidth){
+TEST(ConvertToStringTest, ConvertNumberToStringWithMoreFieldWidth)
+{
     NumberToStringConverter converter;
     converter.setPrecision(15);
     converter.setFieldWidth(15);
@@ -725,7 +729,8 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithMoreFieldWidth){
     EXPECT_EQ("2.66666666666667", converter.convert(AlbaNumber(8,3)));
 }
 
-TEST(ConvertToStringTest, ConvertNumberToStringWithFillCharacter){
+TEST(ConvertToStringTest, ConvertNumberToStringWithFillCharacter)
+{
     NumberToStringConverter converter;
     converter.setPrecision(15);
     converter.setFieldWidth(15);
@@ -737,3 +742,4 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithFillCharacter){
 }
 
 }
+
