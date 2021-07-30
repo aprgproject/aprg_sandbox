@@ -167,10 +167,12 @@ AlbaNumbers calculatePolynomialRoots(AlbaNumbers const& coefficients)
 
 AlbaNumbers calculatePolynomialRootsUsingBrentMethod(
         AlbaNumbers const& previousDerivativeRoots,
-        AlbaNumbers const& coefficients){
+        AlbaNumbers const& coefficients)
+{
     AlbaNumbers result;
     AlbaNumbers valuesForRootFinding(previousDerivativeRoots);
-    AlbaNumber maxAbsoluteValue(getMaxAbsoluteValueForRootFinding(coefficients));    valuesForRootFinding.emplace_back(maxAbsoluteValue*-1);
+    AlbaNumber maxAbsoluteValue(getMaxAbsoluteValueForRootFinding(coefficients));
+    valuesForRootFinding.emplace_back(maxAbsoluteValue*-1);
     valuesForRootFinding.emplace_back(maxAbsoluteValue);
     sort(valuesForRootFinding.begin(), valuesForRootFinding.end());
     BrentMethod brentMethod(coefficients);

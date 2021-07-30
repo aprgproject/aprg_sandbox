@@ -125,12 +125,13 @@ TEST(TwoDimensionsHelperTest, GetPointAlongALineWithDistanceFromAPointWorksCorre
     EXPECT_EQ(Point(-2,-2), getPointAlongALineWithDistanceFromAPoint(Line(Point(0,0), Point(-1,-1)), Point(-1,-1), sqrt(2), false));
 }
 
-TEST(TwoDimensionsHelperTest, GetIntersectionsOfLineAndParabolaWorks)
+TEST(TwoDimensionsHelperTest, GetIntersectionsOfParabolaAndLineWorks)
 {
     Parabola parabola(1, -5, 4);
     Line line(Point(0,-0.25), Point(1,0));
 
-    Points points(getIntersectionsOfLineAndParabola(parabola, line));
+    Points points(getIntersectionsOfParabolaAndLine(parabola, line));
+
     ASSERT_EQ(2u, points.size());
     EXPECT_EQ(Point(1,0), points.at(0));
     EXPECT_EQ(Point(4.25,0.8125), points.at(1));
@@ -138,10 +139,12 @@ TEST(TwoDimensionsHelperTest, GetIntersectionsOfLineAndParabolaWorks)
 
 TEST(TwoDimensionsHelperTest, PopNearestPointWorks)
 {
-    Points points;    points.emplace_back(4,4);
+    Points points;
+    points.emplace_back(4,4);
     points.emplace_back(1,1);
     points.emplace_back(3,3);
     points.emplace_back(2,2);
+
     EXPECT_EQ(Point(1,1), popNearestPoint(points, Point(0,0)));
     EXPECT_EQ(Point(2,2), popNearestPoint(points, Point(0,0)));
     EXPECT_EQ(Point(3,3), popNearestPoint(points, Point(0,0)));
@@ -209,7 +212,8 @@ TEST(TwoDimensionsHelperTest, PointsInParabolaCanBeConnected)
     EXPECT_EQ(Point(2,11), connectedPoints.at(10));
 }
 
-TEST(TwoDimensionsHelperTest, GetConvexHullPointsUsingGrahamScanWorksCorrectly){
+TEST(TwoDimensionsHelperTest, GetConvexHullPointsUsingGrahamScanWorksCorrectly)
+{
     Points inputPoints{{-7,8},{-4,6},{2,6},{6,4},{8,6},{7,-2},{4,-6},{8,-7},{0,0},
                        {3,-2},{6,-10},{0,-6},{-9,-5},{-8,-2},{-8,0},{-10,3},{-2,2},{-10,4}};
     Points convexHullPoints(getConvexHullPointsUsingGrahamScan(inputPoints));
@@ -224,9 +228,11 @@ TEST(TwoDimensionsHelperTest, GetConvexHullPointsUsingGrahamScanWorksCorrectly){
     EXPECT_EQ(Point(6,-10), convexHullPoints.at(6));
 }
 
-TEST(TwoDimensionsHelperTest, GetLineWithSameSlopeAndPoint){
+TEST(TwoDimensionsHelperTest, GetLineWithSameSlopeAndPoint)
+{
     Line lineInput(Point(0,0), Point(-1,1));
     Line expectedLine(getLineWithSameSlope(lineInput, Point(2,2)));
+
     EXPECT_EQ(4, expectedLine.getYIntercept());
     EXPECT_EQ(4, expectedLine.getXIntercept());
     EXPECT_EQ(-1, expectedLine.getSlope());
@@ -312,7 +318,8 @@ TEST(TwoDimensionsHelperTest, AddPointIfInsideTwoPointsWorks)
     EXPECT_EQ(Point(1,1), points.at(2));
 }
 
-TEST(TwoDimensionsHelperTest, GetPointsFromTwoPointsUsingALineWithoutLastPointWorksCorrectly){
+TEST(TwoDimensionsHelperTest, GetPointsFromTwoPointsUsingALineWithoutLastPointWorksCorrectly)
+{
     Points pointsWithoutLastPoint;
     savePointsFromTwoPointsUsingALineWithoutLastPoint(pointsWithoutLastPoint, Point(0,0), Point(-5,-5), 1);
 
@@ -324,10 +331,12 @@ TEST(TwoDimensionsHelperTest, GetPointsFromTwoPointsUsingALineWithoutLastPointWo
     EXPECT_EQ(Point(-4,-4), pointsWithoutLastPoint.at(4));
 }
 
-TEST(TwoDimensionsHelperTest, TraverseCircleAreaBetweenTwoRadiusWorks){
+TEST(TwoDimensionsHelperTest, TraverseCircleAreaBetweenTwoRadiusWorks)
+{
     Points pointsInAreaTraversal;
 
-    traverseCircleAreaBetweenTwoRadius(                Point(3,3),
+    traverseCircleAreaBetweenTwoRadius(
+                Point(3,3),
                 2,
                 3,
                 1,
@@ -360,4 +369,5 @@ TEST(TwoDimensionsHelperTest, TraverseCircleAreaBetweenTwoRadiusWorks){
 }
 
 }
+
 }

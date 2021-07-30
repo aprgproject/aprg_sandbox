@@ -215,10 +215,12 @@ void Polynomial::simplify()
     while(isFurtherSimplificationNeeded(beforeSimplify, afterSimplify));
 }
 
-void Polynomial::sortMonomialsWithInversePriority(){
+void Polynomial::sortMonomialsWithInversePriority()
+{
     stable_sort(m_monomials.begin(), m_monomials.end(), [](Monomial const& monomial1, Monomial const& monomial2)
     {
-        return monomial2 < monomial1;    });
+        return monomial2 < monomial1;
+    });
 }
 
 void Polynomial::addMonomial(Monomial const& monomial)
@@ -300,10 +302,12 @@ bool Polynomial::isFurtherSimplificationNeeded(
     return beforeSimplify != afterSimplify && !hasNotANumber(afterSimplify);
 }
 
-void Polynomial::simplifyMonomialsAndReAdd(){
+void Polynomial::simplifyMonomialsAndReAdd()
+{
     Monomials previousMonomials(m_monomials);
     m_monomials.clear();
-    for(Monomial & monomial : previousMonomials)    {
+    for(Monomial & monomial : previousMonomials)
+    {
         monomial.simplify();
         if(!monomial.isZero())
         {

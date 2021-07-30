@@ -128,7 +128,8 @@ bool isAlmostEqual(AlbaNumber const& number1, AlbaNumber const& number2)
 
 bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance)
 {
-    return value1 == value2 || getAbsoluteValue(value1-value2) <= differenceTolerance;}
+    return value1 == value2 || getAbsoluteValue(value1-value2) <= differenceTolerance;
+}
 
 
 //isAlmostAnInteger
@@ -386,10 +387,12 @@ AlbaNumbers calculateQuadraticRoots(
 
 //clampLowerBound
 template <typename NumberType>
-NumberType clampLowerBound(NumberType const value, NumberType const limit){
+NumberType clampLowerBound(NumberType const value, NumberType const limit)
+{
     return (value<limit) ? limit : value;
 }
-template unsigned int clampLowerBound<unsigned int>(unsigned int const value, unsigned int const limit);template int clampLowerBound<int>(int const value, int const limit);
+template unsigned int clampLowerBound<unsigned int>(unsigned int const value, unsigned int const limit);
+template int clampLowerBound<int>(int const value, int const limit);
 template double clampLowerBound<double>(double const value, double const limit);
 
 

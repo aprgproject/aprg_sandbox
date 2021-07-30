@@ -1027,4 +1027,5 @@ template string NumberToStringConverter::convert<double>(double number);
 template string NumberToStringConverter::convert<AlbaNumber>(AlbaNumber number);
 
 }//namespace stringHelper
+
 }//namespace alba

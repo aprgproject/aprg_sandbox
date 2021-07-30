@@ -45,7 +45,8 @@ void OneEquationOneVariableNonEqualitySolver::calculateForEquation(
     VariableNamesSet variableNames(retrieveAndReturnVariableNames(nonZeroLeftHandTerm));
     if(variableNames.size() == 1)
     {
-        string variableName = *variableNames.cbegin();        calculateForTermAndCheckAbsoluteValueFunctions(nonZeroLeftHandTerm, variableName);
+        string variableName = *variableNames.cbegin();
+        calculateForTermAndCheckAbsoluteValueFunctions(nonZeroLeftHandTerm, variableName);
         sortCalculatedValues();
         addIntervalsToSolutionSetIfNeeded(solutionSet, equation, variableName);
     }

@@ -26,7 +26,8 @@ TEST(TriangleTest, GetLengthOfSidesAreCorrect)
     EXPECT_DOUBLE_EQ(4, lengthOfSides.at(2));
 }
 
-TEST(TriangleTest, GetAnglesAreCorrect){
+TEST(TriangleTest, GetAnglesAreCorrect)
+{
     Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
     Angles angles(triangle.getAnglesAtVertices());
 
@@ -36,10 +37,12 @@ TEST(TriangleTest, GetAnglesAreCorrect){
     EXPECT_DOUBLE_EQ(45, angles.at(2).getDegrees());
 }
 
-TEST(TriangleTest, GetSumOfAnglesIsCorrect){
+TEST(TriangleTest, GetSumOfAnglesIsCorrect)
+{
     Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
 
-    EXPECT_DOUBLE_EQ(180, triangle.getSumOfAngles().getDegrees());}
+    EXPECT_DOUBLE_EQ(180, triangle.getSumOfAngles().getDegrees());
+}
 
 TEST(TriangleTest, IsEquilateralWorksCorrectly)
 {
@@ -109,4 +112,5 @@ TEST(TriangleTest, GetPointsAreCorrect)
 }
 
 }
+
 }

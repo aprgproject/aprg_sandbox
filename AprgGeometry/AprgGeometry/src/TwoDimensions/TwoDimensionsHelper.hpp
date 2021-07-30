@@ -8,9 +8,11 @@
 #include <TwoDimensions/Parabola.hpp>
 #include <TwoDimensions/Point.hpp>
 #include <TwoDimensions/Polygon.hpp>
-#include <TwoDimensions/Polynomial.hpp>#include <TwoDimensions/Quadrants.hpp>
+#include <TwoDimensions/Polynomial.hpp>
+#include <TwoDimensions/Quadrants.hpp>
 #include <TwoDimensions/RotationDirection.hpp>
 #include <TwoDimensions/Triangle.hpp>
+
 #include <functional>
 
 namespace alba
@@ -50,12 +52,14 @@ Point getMidpoint(Point const& point1, Point const& point2);
 Point getPointAlongALineWithDistanceFromAPoint(Line const& line, Point const& referencePoint, double const distance, bool const isIncreasedOnX);
 Point popNearestPoint(Points & points, Point const& point);
 
-Points getIntersectionsOfLineAndParabola(Parabola const& parabola, Line const& line);
+Points getIntersectionsOfParabolaAndLine(Parabola const& parabola, Line const& line);
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval);
 Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);//UT
-Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);Points getPointsInSortedIncreasingX(Points const& pointsToBeSorted);//UT
+Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);
+Points getPointsInSortedIncreasingX(Points const& pointsToBeSorted);//UT
 Points getPointsInSortedDecreasingX(Points const& pointsToBeSorted);
 Points getConvexHullPointsUsingGrahamScan(Points const& points);
+
 Line getLineWithSameSlope(Line const& line, Point const& point);
 Line getLineWithPerpendicularSlope(Line const& line, Point const& point);
 Line getTangentLineAt(Circle const& circle, Point const& point);

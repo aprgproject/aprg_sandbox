@@ -5,13 +5,15 @@
 
 namespace alba
 {
+
 namespace algebra
 {
 
 AlbaNumbers getRoots(Polynomial const& polynomial);
 AlbaNumberPairs evaluateAndGetInputOutputPair(
         AlbaNumbers const& numbers,
-        std::string const& variableName,        Term const& term);
+        std::string const& variableName,
+        Term const& term);
 
 }
 

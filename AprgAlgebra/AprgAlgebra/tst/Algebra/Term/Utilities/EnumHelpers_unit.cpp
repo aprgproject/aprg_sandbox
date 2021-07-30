@@ -34,7 +34,8 @@ TEST(EnumHelpersTest, GetTermPriorityValueWorks)
     EXPECT_EQ(7u, getTermTypePriorityValue(TermType::Function));
 }
 
-TEST(EnumHelpersTest, GetEnumShortStringForTermTypeWorks){
+TEST(EnumHelpersTest, GetEnumShortStringForTermTypeWorks)
+{
     EXPECT_EQ("Empty", getEnumShortString(TermType::Empty));
     EXPECT_EQ("Constant", getEnumShortString(TermType::Constant));
     EXPECT_EQ("Variable", getEnumShortString(TermType::Variable));

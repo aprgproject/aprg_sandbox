@@ -28,4 +28,5 @@ TEST(RectangleTest, GetPointsAreCorrect)
 }
 
 }
+
 }

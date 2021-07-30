@@ -98,7 +98,8 @@ bool doesAllEquationsHaveEqualityOperator(Equations const& equations)
 VariableNamesSet retrieveAndReturnVariableNames(Equation const& equation)
 {
     VariableNamesSet result;
-    retrieveVariableNames(result, equation);    return result;
+    retrieveVariableNames(result, equation);
+    return result;
 }
 
 void retrieveVariableNames(VariableNamesSet & variableNames, Equation const& equation)

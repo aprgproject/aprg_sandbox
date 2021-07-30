@@ -306,10 +306,12 @@ TEST(AlbaMathHelperTest, CalculateQuadraticRootsWorks)
 
 TEST(AlbaMathHelperTest, ClampLowerBoundWorks)
 {
-    EXPECT_EQ(3, clampLowerBound(1, 3));    EXPECT_EQ(3, clampLowerBound(2, 3));
+    EXPECT_EQ(3, clampLowerBound(1, 3));
+    EXPECT_EQ(3, clampLowerBound(2, 3));
     EXPECT_EQ(3, clampLowerBound(3, 3));
     EXPECT_EQ(4, clampLowerBound(4, 3));
-    EXPECT_EQ(5, clampLowerBound(5, 3));}
+    EXPECT_EQ(5, clampLowerBound(5, 3));
+}
 
 TEST(AlbaMathHelperTest, ClampHigherBoundWorks)
 {

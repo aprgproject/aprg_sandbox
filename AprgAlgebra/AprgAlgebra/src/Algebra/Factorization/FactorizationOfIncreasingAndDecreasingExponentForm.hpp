@@ -31,10 +31,12 @@ AlbaNumbers getCoefficientsInMonomialsWithExponentsInOrder(Polynomial const& pol
 AlbaNumbers calculatePolynomialRoots(AlbaNumbers const& coefficients);
 AlbaNumbers calculatePolynomialRootsUsingBrentMethod(AlbaNumbers const& previousDerivativeRoots, AlbaNumbers const& coefficients);
 AlbaNumber getMaxAbsoluteValueForRootFinding(AlbaNumbers const& coefficients);
-AlbaNumbers getDerivativeCoefficients(AlbaNumbers const& coefficients);Monomials getMonomialsWithExponentsInOrder(
+AlbaNumbers getDerivativeCoefficients(AlbaNumbers const& coefficients);
+Monomials getMonomialsWithExponentsInOrder(
         unsigned int const exponentDivisor,
         Monomial const& firstInPolynomial,
         Monomial const& lastInPolynomial);
+
 }
 
 }

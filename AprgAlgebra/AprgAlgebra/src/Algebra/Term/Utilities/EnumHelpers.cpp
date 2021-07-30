@@ -56,7 +56,8 @@ unsigned int getTermTypePriorityValue(TermType const termType)
         break;
     case TermType::Operator:
         result=1;
-        break;    case TermType::Constant:
+        break;
+    case TermType::Constant:
         result=2;
         break;
     case TermType::Variable:

@@ -147,6 +147,7 @@ TEST(RetrieveHelpersTest, RetrieveAndReturnNumbersWorksForTerm)
     ASSERT_EQ(1u, numbersSet.size());
     EXPECT_EQ(AlbaNumber(1.234), *(numbersSet.cbegin()));
 }
+
 TEST(RetrieveHelpersTest, RetrieveNumbersWorksForTerm)
 {
     AlbaNumbersSet numbersSet1;
@@ -254,7 +255,8 @@ TEST(RetrieveHelpersTest, RetrieveAndReturnVariableNamesWorksForTerm)
     VariableNamesSet variableNamesSet(retrieveAndReturnVariableNames(Term(Variable("VariableName"))));
 
     ASSERT_EQ(1u, variableNamesSet.size());
-    EXPECT_EQ("VariableName", *(variableNamesSet.cbegin()));}
+    EXPECT_EQ("VariableName", *(variableNamesSet.cbegin()));
+}
 
 TEST(RetrieveHelpersTest, RetrieveVariableNamesWorksForTerm)
 {
@@ -402,7 +404,8 @@ TEST(RetrieveHelpersTest, RetrieveAndReturnFunctionsWithConditionWorksForExpress
 
 TEST(RetrieveHelpersTest, RetrieveFunctionsWithConditionWorksForTerm)
 {
-    FunctionsSet functionsSets1;    FunctionsSet functionsSets2;
+    FunctionsSet functionsSets1;
+    FunctionsSet functionsSets2;
     FunctionsSet functionsSets3;
     FunctionsSet functionsSets4;
     FunctionsSet functionsSets5;

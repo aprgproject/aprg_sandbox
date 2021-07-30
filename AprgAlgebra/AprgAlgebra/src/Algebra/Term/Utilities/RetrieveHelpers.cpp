@@ -120,6 +120,7 @@ AlbaNumbersSet retrieveAndReturnNumbers(Term const& term)
     retrieveNumbers(result, term);
     return result;
 }
+
 void retrieveNumbers(AlbaNumbersSet & numbers, Term const& term)
 {
     if(term.isConstant())
@@ -184,7 +185,8 @@ void retrieveNumbers(AlbaNumbersSet & numbers, Function const& functionObject)
 VariableNamesSet retrieveAndReturnVariableNames(Term const& term)
 {
     VariableNamesSet result;
-    retrieveVariableNames(result, term);    return result;
+    retrieveVariableNames(result, term);
+    return result;
 }
 
 void retrieveVariableNames(VariableNamesSet & variableNames, Term const& term)
@@ -258,7 +260,8 @@ void retrieveVariableNames(VariableNamesSet & variableNames, Polynomials const& 
 FunctionsSet retrieveAndReturnFunctionsWithCondition(
         Term const& term,
         FunctionCondition const& isFunctionIncluded)
-{    FunctionsSet result;
+{
+    FunctionsSet result;
     retrieveFunctionsWithCondition(result, term, isFunctionIncluded);
     return result;
 }

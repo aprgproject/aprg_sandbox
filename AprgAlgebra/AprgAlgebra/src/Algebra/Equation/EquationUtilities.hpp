@@ -28,4 +28,5 @@ VariableNamesSet retrieveAndReturnVariableNames(Equation const& equation);
 void retrieveVariableNames(VariableNamesSet & variableNames, Equation const& equation);
 
 }
+
 }

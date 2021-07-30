@@ -66,10 +66,12 @@ bool SimplificationOfExpression::isFurtherSimplificationNeeded(
 
 bool SimplificationOfExpression::didEvenExponentCancellationHappened(
         TermsWithDetails const& exponents) const
-{    bool result(false);
+{
+    bool result(false);
     Term previousCombinedTerm(1);
     for(TermWithDetails const& exponentWithDetails : exponents)
-    {        Term const& currentExponent(getTermConstReferenceFromSharedPointer(exponentWithDetails.baseTermSharedPointer));
+    {
+        Term const& currentExponent(getTermConstReferenceFromSharedPointer(exponentWithDetails.baseTermSharedPointer));
         Term currentCombineTerm(1);
         if(TermAssociationType::Positive == exponentWithDetails.association)
         {
@@ -131,10 +133,12 @@ void SimplificationOfExpression::simplifyExpression()
     while(isFurtherSimplificationNeeded(beforeSimplify, m_expression));
 }
 
-void SimplificationOfExpression::simplifyAndCopyTerms(        TermsWithDetails & termsToUpdate,
+void SimplificationOfExpression::simplifyAndCopyTerms(
+        TermsWithDetails & termsToUpdate,
         TermsWithDetails const& termsToCheck)
 {
-    for(TermWithDetails const& termWithDetails : termsToCheck)    {
+    for(TermWithDetails const& termWithDetails : termsToCheck)
+    {
         Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         if(term.isExpression())
         {
@@ -176,10 +180,12 @@ void SimplificationOfExpression::simplifyAndCopyTermsFromAnExpressionAndSetOpera
 
 bool SimplificationOfExpression::simplifyToACommonDenominatorForExpressionAndReturnIfChanged(Expression & expression)
 {
-    bool isChanged(false);    if(expression.getCommonOperatorLevel() == OperatorLevel::AdditionAndSubtraction)
+    bool isChanged(false);
+    if(expression.getCommonOperatorLevel() == OperatorLevel::AdditionAndSubtraction)
     {
         isChanged = tryToAddSubtractTermsOverTermsAndReturnIfChanged(expression);
-    }    else
+    }
+    else
     {
         simplifyTermsWithDetailsInExpressionToACommonDenominator(expression);
     }

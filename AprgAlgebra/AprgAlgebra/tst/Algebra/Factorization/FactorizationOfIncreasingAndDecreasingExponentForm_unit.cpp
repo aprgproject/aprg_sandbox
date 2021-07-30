@@ -293,9 +293,11 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, CalculatePolynomial
 
 TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, CalculatePolynomialRootsUsingBrentMethodWorks)
 {
-    AlbaNumbers cubicCoefficients{1, 3, 3, 1};    AlbaNumbers previousDerivativeCoefficients{3, 6, 3};
+    AlbaNumbers cubicCoefficients{1, 3, 3, 1};
+    AlbaNumbers previousDerivativeCoefficients{3, 6, 3};
 
     AlbaNumbers roots(calculatePolynomialRootsUsingBrentMethod(previousDerivativeCoefficients, cubicCoefficients));
+
     ASSERT_EQ(1u, roots.size());
     EXPECT_DOUBLE_EQ(-1, roots.at(0).getDouble());
 }

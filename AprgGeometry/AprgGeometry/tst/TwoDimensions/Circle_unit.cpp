@@ -56,10 +56,12 @@ TEST(CircleTest, CircleAtOriginWithRadius)
     EXPECT_EQ(Point(2.8284271247461902909,-1), points.at(19));
 }
 
-TEST(CircleTest, GetPointAtAngleWorks){
+TEST(CircleTest, GetPointAtAngleWorks)
+{
     Circle circle(Point(1,2), 3);
     EXPECT_EQ(Point(4,2), circle.getPointAtAngle(0));
-    EXPECT_EQ(Point(1,5), circle.getPointAtAngle(getPi()/2));    EXPECT_EQ(Point(-2,2), circle.getPointAtAngle(getPi()));
+    EXPECT_EQ(Point(1,5), circle.getPointAtAngle(getPi()/2));
+    EXPECT_EQ(Point(-2,2), circle.getPointAtAngle(getPi()));
     EXPECT_EQ(Point(1,-1), circle.getPointAtAngle(getPi()*3/2));
     EXPECT_EQ(Point(4,2), circle.getPointAtAngle(getPi()*2));
 }
@@ -97,4 +99,5 @@ TEST(CircleTest, PointsInAreaTraversalIsCorrect)
 }
 
 }
+
 }

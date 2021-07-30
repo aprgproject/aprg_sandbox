@@ -4,8 +4,10 @@
 #include <Math/AlbaNumberTypes.hpp>
 
 #include <vector>
+
 namespace alba
 {
+
 namespace mathHelper
 {
 
@@ -35,7 +37,8 @@ template <typename NumberType> bool isAlmostEqual(NumberType const value1, Numbe
 bool isAlmostEqual(AlbaNumber const& number1, AlbaNumber const& number2);
 bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance);
 template <typename NumberType> bool isAlmostAnInteger(double const value);
-bool isAlmostAnInteger(double const value, double const differenceTolerance);template <typename NumberType> bool isValueBeyondLimits(double const value);
+bool isAlmostAnInteger(double const value, double const differenceTolerance);
+template <typename NumberType> bool isValueBeyondLimits(double const value);
 template <> bool isValueBeyondLimits<int>(double const value);
 template <> bool isValueBeyondLimits<unsigned int>(double const value);
 template <> bool isValueBeyondLimits<short int>(double const value);
@@ -70,8 +73,10 @@ double calculateInverseCumulativeStandardDistributionApproximation(double const 
 AlbaNumbers calculateQuadraticRoots(AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c);
 
 
-//Clamp functionstemplate <typename NumberType> NumberType clampLowerBound(NumberType const value, NumberType const limit);
+//Clamp functions
+template <typename NumberType> NumberType clampLowerBound(NumberType const value, NumberType const limit);
 template <typename NumberType> NumberType clampHigherBound(NumberType const value, NumberType const limit);
+
 
 //Divisibility functions
 bool isDivisible(unsigned int const dividend, unsigned int const divisor);
