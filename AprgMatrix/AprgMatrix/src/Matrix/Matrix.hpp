@@ -69,15 +69,21 @@ public:
         }
         else if(m_matrixData != secondMatrix.m_matrixData)
         {
-            isEqual=false;
+            isEqual = std::equal(
+                        m_matrixData.cbegin(),
+                        m_matrixData.cend(),
+                        secondMatrix.m_matrixData.cbegin(),
+                        secondMatrix.m_matrixData.cend(),
+                        [](DataType const& first, DataType const& second)
+            {
+                    return mathHelper::isAlmostEqual(first, second);
+        });
         }
         return isEqual;
     }
-
     Matrix operator+(Matrix const& secondMatrix) const
     {
-        assert((m_numberOfColumns == secondMatrix.m_numberOfColumns) && (m_numberOfRows == secondMatrix.m_numberOfRows));
-        Matrix result(m_numberOfColumns, m_numberOfRows);
+        assert((m_numberOfColumns == secondMatrix.m_numberOfColumns) && (m_numberOfRows == secondMatrix.m_numberOfRows));        Matrix result(m_numberOfColumns, m_numberOfRows);
         traverseWithBinaryOperationWithSameDimensions(*this, secondMatrix, result, std::plus<DataType>());
         return result;
     }
@@ -106,30 +112,30 @@ public:
         ListOfMatrixData columnsOfSecondMatrix;
         retrieveRows(rowsOfFirstMatrix);
         secondMatrix.retrieveColumns(columnsOfSecondMatrix);
-
         unsigned int y=0;
         for(MatrixData const& rowOfFirstMatrix : rowsOfFirstMatrix)
-        {
-            unsigned int x=0;
+        {            unsigned int x=0;
             for(MatrixData const& columnOfSecondMatrix : columnsOfSecondMatrix)
             {
-                result.set(x,y,multiplyEachItemAndGetSum(rowOfFirstMatrix, columnOfSecondMatrix));
+                result.setEntry(x,y,multiplyEachItemAndGetSum(rowOfFirstMatrix, columnOfSecondMatrix));
                 x++;
             }
             y++;
         }
-
         return result;
+    }
+
+    bool isSquare() const
+    {
+        return m_numberOfColumns == m_numberOfRows;
     }
 
     bool isZeroMatrix() const
     {
-        return std::all_of(m_matrixData.cbegin(), m_matrixData.cend(), [](DataType const& dataType)
-        {
+        return std::all_of(m_matrixData.cbegin(), m_matrixData.cend(), [](DataType const& dataType)        {
             return isAlmostEqual(dataType, 0);
         });
     }
-
     bool isIdentityMatrix() const
     {
         bool isIdentityMatrix(m_numberOfColumns==m_numberOfRows);
@@ -139,26 +145,31 @@ public:
             {
                 if(x==y)
                 {
-                    isIdentityMatrix = isIdentityMatrix && m_matrixData.at(getMatrixIndex(x, y)) == 1;
+                    isIdentityMatrix = isIdentityMatrix && getEntry(x, y) == 1;
                 }
                 else
                 {
-                    isIdentityMatrix = isIdentityMatrix && m_matrixData.at(getMatrixIndex(x, y)) == 0;
+                    isIdentityMatrix = isIdentityMatrix && getEntry(x, y) == 0;
                 }
             }
-        }
-        return isIdentityMatrix;
+        }        return isIdentityMatrix;
+    }
+
+    bool isSingular() const // means the its non invertible
+    {
+        auto inverseOfInverse = *this;
+        inverseOfInverse.invert();
+        inverseOfInverse.invert();
+        return !(*this == inverseOfInverse);
     }
 
     bool isReducedRowEchelonForm() const
     {
-        return areRowsWithAllZeroInTheBottom() && areLeadingEntriesInReducedRowEchelonForm();
-    }
+        return areRowsWithAllZeroInTheBottom() && areLeadingEntriesInReducedRowEchelonForm();    }
 
     unsigned int getColumns() const
     {
-        return m_numberOfColumns;
-    }
+        return m_numberOfColumns;    }
 
     unsigned int getRows() const
     {
@@ -170,24 +181,95 @@ public:
         return getMatrixIndex(x, y, m_numberOfColumns);
     }
 
+    DataType getDeterminant() const
+    {
+        assert(m_numberOfColumns == m_numberOfRows);
+        DataType determinant(0);
+
+        if(m_numberOfColumns==1)
+        {
+            determinant = getEntry(0,0);
+        }
+        else if(m_numberOfColumns==2)
+        {
+            determinant = getEntry(0,0)*getEntry(1,1) - getEntry(0,1)*getEntry(1,0);
+        }
+        else
+        {
+            determinant = getDeterminantWhenSideIsMoreThan2();
+        }
+        return determinant;
+    }
+
+    DataType getValueUsingCramerRule(
+            unsigned int const columnIndex,
+            MatrixData const& newColumnValues) const
+    {
+        assert(m_numberOfColumns == m_numberOfRows);
+        Matrix matrixWithNewColumn(*this);
+        matrixWithNewColumn.setColumn(columnIndex, newColumnValues);
+        return matrixWithNewColumn.getDeterminant()/getDeterminant();
+    }
+
+    DataType getEntry(unsigned int const x, unsigned int const y) const
+    {
+        assert((x < m_numberOfColumns) && (y < m_numberOfRows));
+        return m_matrixData.at(getMatrixIndex(x, y));
+    }
+
+    MatrixData const& getMatrixData() const    {
+        return m_matrixData;
+    }
+
+    Matrix getMatrixWithOneColumnAndOneRowRemoved(
+            unsigned int const columnIndex,
+            unsigned int const rowIndex) const
+    {
+        assert((columnIndex < m_numberOfColumns) && (rowIndex < m_numberOfRows));
+        Matrix result(m_numberOfColumns-1, m_numberOfRows-1);
+        iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y)
+        {
+            if(columnIndex != x && rowIndex != y)
+            {
+                unsigned int newX = (x >= columnIndex) ? x-1 : x;
+                unsigned int newY = (y >= rowIndex) ? y-1 : y;
+                result.setEntry(newX, newY, getEntry(x , y));
+            }
+        });
+        return result;
+    }
+
+    std::string getString() const    {
+        stringHelper::NumberToStringConverter converter;
+        DisplayTable table;
+        table.setBorders("-","|");
+        for(unsigned int y=0; y<m_numberOfRows; y++)
+        {
+            table.addRow();
+            for(unsigned int x=0; x<m_numberOfColumns; x++)
+            {
+                table.getLastRow().addCell(converter.convert<DataType>(getEntry(x, y)));
+            }
+        }
+        return table.drawOutput();
+    }
+
     void retrieveColumn(MatrixData & column, unsigned int const x) const
     {
         column.reserve(m_numberOfRows);
         for(unsigned int y=0; y<m_numberOfRows; y++)
         {
-            column.emplace_back(m_matrixData.at(getMatrixIndex(x, y)));
+            column.emplace_back(getEntry(x, y));
         }
     }
-
     void retrieveRow(MatrixData & row, unsigned int const y) const
     {
         row.reserve(m_numberOfColumns);
         for(unsigned int x=0; x<m_numberOfColumns; x++)
         {
-            row.emplace_back(m_matrixData.at(getMatrixIndex(x, y)));
+            row.emplace_back(getEntry(x, y));
         }
     }
-
     void retrieveColumns(ListOfMatrixData & columns) const
     {
         for(unsigned int x=0; x<m_numberOfColumns; x++)
@@ -206,53 +288,42 @@ public:
         }
     }
 
-    MatrixData const& getMatrixData() const
-    {
-        return m_matrixData;
-    }
-
-    DataType get(unsigned int const x, unsigned int const y) const
-    {
-        assert((x < m_numberOfColumns) && (y < m_numberOfRows));
-        return m_matrixData.at(getMatrixIndex(x, y));
-    }
-
-    std::string getString() const
-    {
-        stringHelper::NumberToStringConverter converter;
-        DisplayTable table;
-        table.setBorders("-","|");
-        for(unsigned int y=0; y<m_numberOfRows; y++)
-        {
-            table.addRow();
-            for(unsigned int x=0; x<m_numberOfColumns; x++)
-            {
-                table.getLastRow().addCell(converter.convert<DataType>(m_matrixData.at(getMatrixIndex(x, y))));
-            }
-        }
-        return table.drawOutput();
-    }
-
-    void set(unsigned int const x, unsigned int const y, DataType const& value)
+    void setEntry(unsigned int const x, unsigned int const y, DataType const& value)
     {
         assert((x < m_numberOfColumns) && (y < m_numberOfRows));
         m_matrixData[getMatrixIndex(x, y)] = value;
     }
 
-    void set(std::initializer_list<DataType> dataSampleValues)
+    void setEntries(MatrixData const& dataSampleValues)
     {
         unsigned int limit = std::min(m_matrixData.size(), dataSampleValues.size());
         std::copy(dataSampleValues.begin(), dataSampleValues.begin()+limit, m_matrixData.begin());
     }
 
+    void setColumn(unsigned int const columnIndex, MatrixData const& dataSampleValues)
+    {
+        unsigned int limit = std::min(m_numberOfRows, dataSampleValues.size());
+        for(unsigned int y=0; y<limit; y++)
+        {
+            setEntry(columnIndex, y, dataSampleValues.at(y));
+        }
+    }
+
+    void setRow(unsigned int const rowIndex, MatrixData const& dataSampleValues)
+    {
+        unsigned int limit = std::min(m_numberOfColumns, dataSampleValues.size());
+        for(unsigned int x=0; x<limit; x++)
+        {
+            setEntry(x, rowIndex, dataSampleValues.at(x));
+        }
+    }
+
     void clearAndResize(unsigned int const numberOfColumns, unsigned int const numberOfRows)
     {
-        m_numberOfColumns = numberOfColumns;
-        m_numberOfRows = numberOfRows;
+        m_numberOfColumns = numberOfColumns;        m_numberOfRows = numberOfRows;
         m_matrixData.clear();
         m_matrixData.resize(numberOfColumns*numberOfRows, 0);
     }
-
     void negate()
     {
         for(DataType & value : m_matrixData)
@@ -269,67 +340,60 @@ public:
         clearAndResize(oldRows, oldColumns);
         MatrixIndexRange yRange(0, oldRows-1, 1);
         MatrixIndexRange xRange(0, oldColumns-1, 1);
-        iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
+        iterateThroughYAndThenXWithRanges(yRange, xRange, [&](unsigned int const x, unsigned int const y)
         {
             m_matrixData[getMatrixIndex(y, x)] = oldMatrixData[getMatrixIndex(x, y, oldColumns)];
-        });
-    }
+        });    }
 
     void invert()
     {
         assert((m_numberOfColumns == m_numberOfRows));
         unsigned int newColumns = m_numberOfColumns*2;
         Matrix tempMatrix(newColumns, m_numberOfRows);
-        MatrixIndexRange yRange(0, m_numberOfRows-1, 1);
-        MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
-        iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
+        iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y)
         {
-            tempMatrix.m_matrixData[getMatrixIndex(x, y, newColumns)] = m_matrixData.at(getMatrixIndex(x, y));
+            tempMatrix.m_matrixData[getMatrixIndex(x, y, newColumns)] = getEntry(x, y);
         });
         unsigned int minValueForDiagonal = std::min(m_numberOfColumns, m_numberOfRows);
-        for(unsigned int d=0; d<minValueForDiagonal; d++)
-        {
+        for(unsigned int d=0; d<minValueForDiagonal; d++)        {
             tempMatrix.m_matrixData[getMatrixIndex(m_numberOfColumns+d, d, newColumns)] = 1;
         }
-        tempMatrix.transformToReducedEchelonForm();
-        iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
+        tempMatrix.transformToReducedEchelonFormUsingGaussJordanReduction();
+        iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y)
         {
             m_matrixData[getMatrixIndex(x, y)] = tempMatrix.m_matrixData.at(getMatrixIndex(m_numberOfColumns+x, y, newColumns));
         });
     }
 
-    void transformToReducedEchelonForm()
+    void transformToReducedEchelonFormUsingGaussJordanReduction()
     {
-        //gauss jordan reduction
         unsigned int yWithLeadingEntry = 0;
         for(unsigned int x=0; x<m_numberOfColumns; x++)
         {
             for(unsigned int y=yWithLeadingEntry; y<m_numberOfRows; y++)
             {
-                if(!mathHelper::isAlmostEqual(m_matrixData.at(getMatrixIndex(x, y)), static_cast<DataType>(0)))
+                if(!mathHelper::isAlmostEqual(getEntry(x, y), static_cast<DataType>(0)))
                 {
                     interchangeRows(y, yWithLeadingEntry);
                     multiplyValueInRowAndPutProductInAnotherRow(
                                 yWithLeadingEntry,
-                                static_cast<DataType>(1)/m_matrixData.at(getMatrixIndex(x, yWithLeadingEntry)),
+                                static_cast<DataType>(1)/getEntry(x, yWithLeadingEntry),
                                 yWithLeadingEntry);
                     for(unsigned int yToZero=0; yToZero<m_numberOfRows; yToZero++)
                     {
                         if(yToZero != yWithLeadingEntry
-                                && !mathHelper::isAlmostEqual(m_matrixData.at(getMatrixIndex(x, yToZero)), static_cast<DataType>(0)))
+                                && !mathHelper::isAlmostEqual(getEntry(x, yToZero), static_cast<DataType>(0)))
                         {
                             subtractRowsWithMultiplierPutDifferenceInAnotherRow(
                                         yToZero,
                                         yWithLeadingEntry,
-                                        m_matrixData.at(getMatrixIndex(x, yToZero))/m_matrixData.at(getMatrixIndex(x, yWithLeadingEntry)),
+                                        getEntry(x, yToZero)/getEntry(x, yWithLeadingEntry),
                                         yToZero);
                         }
-                    }
-                    yWithLeadingEntry++;
+                    }                    yWithLeadingEntry++;
                     break;
                 }
-            }
-        }
+            }        }
     }
 
     void interchangeRows(unsigned int const y1, unsigned int const y2)
@@ -375,15 +439,13 @@ private:
             bool isRowWithAllZero(true);
             for(unsigned int x=0; x<m_numberOfColumns; x++)
             {
-                if(isRowWithAllZero && !mathHelper::isAlmostEqual(m_matrixData.at(getMatrixIndex(x, y)), static_cast<DataType>(0)))
+                if(isRowWithAllZero && !mathHelper::isAlmostEqual(getEntry(x, y), static_cast<DataType>(0)))
                 {
                     isRowWithAllZero = false;
-                    break;
-                }
+                    break;                }
             }
             if(!isRowWithNonZeroEncountered)
-            {
-                isRowWithNonZeroEncountered = !isRowWithAllZero;
+            {                isRowWithNonZeroEncountered = !isRowWithAllZero;
             }
             if(isRowWithNonZeroEncountered && isRowWithAllZero)
             {
@@ -393,29 +455,27 @@ private:
         }
         return true;
     }
+
     bool areLeadingEntriesInReducedRowEchelonForm() const
     {
-        int currentLeadingEntryColumn(-1);
-        for(unsigned int y=0; y<m_numberOfRows; y++)
+        int currentLeadingEntryColumn(-1);        for(unsigned int y=0; y<m_numberOfRows; y++)
         {
             for(unsigned int x=0; x<m_numberOfColumns; x++)
             {
-                if(mathHelper::isAlmostEqual(m_matrixData.at(getMatrixIndex(x, y)), static_cast<DataType>(0))) {}
-                else if(mathHelper::isAlmostEqual(m_matrixData.at(getMatrixIndex(x, y)), static_cast<DataType>(1)))
+                if(mathHelper::isAlmostEqual(getEntry(x, y), static_cast<DataType>(0))) {}
+                else if(mathHelper::isAlmostEqual(getEntry(x, y), static_cast<DataType>(1)))
                 {
                     if(currentLeadingEntryColumn < static_cast<int>(x))
                     {
                         for(unsigned int yZeroCheck=0; yZeroCheck<m_numberOfRows; yZeroCheck++)
                         {
-                            if(yZeroCheck!=y && !mathHelper::isAlmostEqual(m_matrixData.at(getMatrixIndex(x, yZeroCheck)), static_cast<DataType>(0)))
+                            if(yZeroCheck!=y && !mathHelper::isAlmostEqual(getEntry(x, yZeroCheck), static_cast<DataType>(0)))
                             {
                                 //4. If a column contains a leading entry of some row, then all other entries in that column are zero
-                                return false;
-                            }
+                                return false;                            }
                         }
                     }
-                    else
-                    {
+                    else                    {
                         //3. If rows i and i+1 are two successive rows that do not consist entirely of zeros, then the leading entry of row i+1 is to the right of the leading entry of row i.
                         return false;
                     }
@@ -431,78 +491,34 @@ private:
         }
         return true;
     }
-    void fillRemainingEntriesToZeroIfNeeded(
-            unsigned int const numberOfColumns,
-            unsigned int const numberOfRows)
+
+    unsigned int getMatrixIndex(unsigned int const x, unsigned int const y, unsigned int const numberOfColumns) const
     {
-        unsigned int targetSize = numberOfColumns*numberOfRows;
-        if(m_matrixData.size() != targetSize)
-        {
-            unsigned int originalSize = m_matrixData.size();
-            m_matrixData.resize(targetSize);
-            std::fill(m_matrixData.begin()+originalSize, m_matrixData.end(), 0);
-        }
+        return (y*numberOfColumns)+x;
     }
-    void traverseWithBinaryOperationWithSameDimensions(
-            Matrix const& firstMatrix,
-            Matrix const& secondMatrix,
-            Matrix & resultMatrix,
-            BinaryFunction const& binaryFunction) const
+
+    unsigned int getBestIndexForCoFactorExpansion(ListOfMatrixData const& rowsAndColumns) const
     {
-        assert((firstMatrix.m_numberOfColumns == secondMatrix.m_numberOfColumns) &&
-               (firstMatrix.m_numberOfRows == secondMatrix.m_numberOfRows) &&
-               (firstMatrix.m_numberOfColumns == resultMatrix.m_numberOfColumns) &&
-               (firstMatrix.m_numberOfRows == resultMatrix.m_numberOfRows));
-        MatrixIndexRange yRange(0, m_numberOfRows-1, 1);
-        MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
-        iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
+        unsigned int i=0;
+        unsigned int bestIndex=0;
+        unsigned int highestNumberOfZeros=0;
+        for(MatrixData const& rowOrColumn : rowsAndColumns)
         {
-            resultMatrix.m_matrixData[getMatrixIndex(x, y)]
-                    = binaryFunction(firstMatrix.m_matrixData.at(getMatrixIndex(x, y)),
-                                     secondMatrix.m_matrixData.at(getMatrixIndex(x, y)));
+            unsigned int numberOfZeros = std::count_if(rowOrColumn.cbegin(), rowOrColumn.cend(), [](DataType const& value)
+            {
+                    return isAlmostEqual(value, 0);
         });
-    }
-    void traverseWithUnaryOperationWithSameDimensions(
-            Matrix const& inputMatrix,
-            Matrix & resultMatrix,
-            UnaryFunction const& unaryFunction) const
-    {
-        assert((inputMatrix.m_numberOfColumns == resultMatrix.m_numberOfColumns) &&
-               (inputMatrix.m_numberOfRows == resultMatrix.m_numberOfRows));
-        MatrixIndexRange yRange(0, m_numberOfRows-1, 1);
-        MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
-        iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
-        {
-            resultMatrix.m_matrixData[getMatrixIndex(x, y)]
-                    = unaryFunction(inputMatrix.m_matrixData.at(getMatrixIndex(x, y)));
-        });
-    }
-    void traverseWithBinaryOperationForDifferentRows(
-            unsigned int const yInput1,
-            unsigned int const yInput2,
-            unsigned int const yOutput,
-            BinaryFunction const& binaryFunction)
-    {
-        assert((yInput1 < m_numberOfRows) && (yInput2 < m_numberOfRows) && (yOutput < m_numberOfRows));
-        for(unsigned int x=0; x<m_numberOfColumns; x++)
-        {
-            m_matrixData[getMatrixIndex(x, yOutput)]
-                    = binaryFunction(m_matrixData.at(getMatrixIndex(x, yInput1)),
-                                     m_matrixData.at(getMatrixIndex(x, yInput2)));
+            if(highestNumberOfZeros < numberOfZeros)
+            {
+                highestNumberOfZeros = numberOfZeros;
+                bestIndex = i;
+            }
+            i++;
         }
+
+        return bestIndex;
     }
-    void traverseWithUnaryOperationForDifferentRows(
-            unsigned int const yInput,
-            unsigned int const yOutput,
-            UnaryFunction const& unaryFunction)
-    {
-        assert((yInput < m_numberOfRows) && (yOutput < m_numberOfRows));
-        for(unsigned int x=0; x<m_numberOfColumns; x++)
-        {
-            m_matrixData[getMatrixIndex(x, yOutput)]
-                    = unaryFunction(m_matrixData.at(getMatrixIndex(x, yInput)));
-        }
-    }
+
     DataType multiplyEachItemAndGetSum(MatrixData const& first, MatrixData const& second) const
     {
         DataType result(0);
@@ -513,38 +529,157 @@ private:
         }
         return result;
     }
-    void iterateThroughYAndThenX(MatrixIndexRange const& yRange, MatrixIndexRange const& xRange, LoopFunction const& loopFunction) const
+
+    DataType getValueFromCoFactorExpansion(unsigned int x, unsigned int y) const
+    {
+        DataType value(0);
+        DataType entry = getEntry(x,y);
+        if(!isAlmostEqual(entry, 0))
+        {
+            int sign = isEven(x+y) ? 1 : -1;
+            DataType subDeterminant = getMatrixWithOneColumnAndOneRowRemoved(x,y).getDeterminant();
+            value = entry*subDeterminant*sign;
+        }
+        return value;
+    }
+
+    DataType getDeterminantWhenSideIsMoreThan2() const
+    {
+        DataType determinant(0);
+
+        ListOfMatrixData rowsAndColumns;
+        retrieveRows(rowsAndColumns);
+        retrieveColumns(rowsAndColumns);
+
+        unsigned int bestIndex(getBestIndexForCoFactorExpansion(rowsAndColumns));
+        if(bestIndex < m_numberOfRows)
+        {
+            unsigned int y = bestIndex;
+            for(unsigned int x=0; x<m_numberOfColumns; x++)
+            {
+                determinant += getValueFromCoFactorExpansion(x, y);
+            }
+        }
+        else
+        {
+            unsigned int x = bestIndex-m_numberOfRows;
+            for(unsigned int y=0; y<m_numberOfRows; y++)
+            {
+                determinant += getValueFromCoFactorExpansion(x, y);
+            }
+        }
+        return determinant;
+    }
+
+    void fillRemainingEntriesToZeroIfNeeded(
+            unsigned int const numberOfColumns,
+            unsigned int const numberOfRows)    {
+        unsigned int targetSize = numberOfColumns*numberOfRows;
+        if(m_matrixData.size() != targetSize)
+        {            unsigned int originalSize = m_matrixData.size();
+            m_matrixData.resize(targetSize);
+            std::fill(m_matrixData.begin()+originalSize, m_matrixData.end(), 0);
+        }
+    }
+
+    void traverseWithBinaryOperationWithSameDimensions(
+            Matrix const& firstMatrix,
+            Matrix const& secondMatrix,            Matrix & resultMatrix,
+            BinaryFunction const& binaryFunction) const
+    {
+        assert((firstMatrix.m_numberOfColumns == secondMatrix.m_numberOfColumns) &&
+               (firstMatrix.m_numberOfRows == secondMatrix.m_numberOfRows) &&
+               (firstMatrix.m_numberOfColumns == resultMatrix.m_numberOfColumns) &&
+               (firstMatrix.m_numberOfRows == resultMatrix.m_numberOfRows));
+        iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y)
+        {
+            resultMatrix.m_matrixData[getMatrixIndex(x, y)]
+                    = binaryFunction(firstMatrix.getEntry(x, y),
+                                     secondMatrix.getEntry(x, y));
+        });
+    }
+
+    void traverseWithUnaryOperationWithSameDimensions(
+            Matrix const& inputMatrix,
+            Matrix & resultMatrix,            UnaryFunction const& unaryFunction) const
+    {
+        assert((inputMatrix.m_numberOfColumns == resultMatrix.m_numberOfColumns) &&
+               (inputMatrix.m_numberOfRows == resultMatrix.m_numberOfRows));
+        iterateAllThroughYAndThenX([&](unsigned int const x, unsigned int const y)
+        {
+            resultMatrix.m_matrixData[getMatrixIndex(x, y)]
+                    = unaryFunction(inputMatrix.getEntry(x, y));
+        });
+    }
+
+    void traverseWithBinaryOperationForDifferentRows(
+            unsigned int const yInput1,
+            unsigned int const yInput2,            unsigned int const yOutput,
+            BinaryFunction const& binaryFunction)
+    {
+        assert((yInput1 < m_numberOfRows) && (yInput2 < m_numberOfRows) && (yOutput < m_numberOfRows));
+        for(unsigned int x=0; x<m_numberOfColumns; x++)
+        {
+            m_matrixData[getMatrixIndex(x, yOutput)]
+                    = binaryFunction(getEntry(x, yInput1),
+                                     getEntry(x, yInput2));
+        }
+    }
+
+    void traverseWithUnaryOperationForDifferentRows(
+            unsigned int const yInput,
+            unsigned int const yOutput,            UnaryFunction const& unaryFunction)
+    {
+        assert((yInput < m_numberOfRows) && (yOutput < m_numberOfRows));
+        for(unsigned int x=0; x<m_numberOfColumns; x++)
+        {
+            m_matrixData[getMatrixIndex(x, yOutput)]
+                    = unaryFunction(getEntry(x, yInput));
+        }
+    }
+
+    void iterateAllThroughYAndThenX(LoopFunction const& loopFunction) const
+    {
+        for(unsigned int y=0; y<m_numberOfRows; y++)
+        {
+            for(unsigned int x=0; x<m_numberOfColumns; x++)
+            {
+                loopFunction(x, y);
+            }
+        }
+    }
+
+    void iterateThroughYAndThenXWithRanges(
+            MatrixIndexRange const& yRange,
+            MatrixIndexRange const& xRange,
+            LoopFunction const& loopFunction) const
     {
         yRange.traverse([&](unsigned int const yValue)
-        {
-            xRange.traverse([&](unsigned int const xValue)
+        {            xRange.traverse([&](unsigned int const xValue)
             {
                 loopFunction(xValue, yValue);
             });
         });
     }
-    void iterateThroughXAndThenY(MatrixIndexRange const& xRange, MatrixIndexRange const& yRange, LoopFunction const& loopFunction) const
+
+    void iterateThroughXAndThenYWithRanges(
+            MatrixIndexRange const& xRange,
+            MatrixIndexRange const& yRange,
+            LoopFunction const& loopFunction) const
     {
         xRange.traverse([&](unsigned int const xValue)
-        {
-            yRange.traverse([&](unsigned int const yValue)
+        {            yRange.traverse([&](unsigned int const yValue)
             {
                 loopFunction(xValue, yValue);
             });
         });
-    }
-    unsigned int getMatrixIndex(unsigned int const x, unsigned int const y, unsigned int const numberOfColumns) const
-    {
-        return (y*numberOfColumns)+x;
     }
 
     unsigned int m_numberOfColumns;
-    unsigned int m_numberOfRows;
-    MatrixData m_matrixData;
+    unsigned int m_numberOfRows;    MatrixData m_matrixData;
 };
 
-template <typename DataType>
-std::ostream & operator<<(std::ostream & out, Matrix<DataType> const& matrix)
+template <typename DataType>std::ostream & operator<<(std::ostream & out, Matrix<DataType> const& matrix)
 {
     out << matrix.getString();
     return out;
