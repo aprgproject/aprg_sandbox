@@ -97,10 +97,10 @@ class NumberToStringConverter
 {
 public:
     template <typename NumberType> std::string convert(NumberType const number);
+    std::string convert(AlbaNumber const& number);
     void setPrecision(int const precision);
     void setFieldWidth(int const fieldWidth);
-    void setFillCharacter(char const fillCharacter);
-    void setMaximumLength(unsigned int const maximumLength);
+    void setFillCharacter(char const fillCharacter);    void setMaximumLength(unsigned int const maximumLength);
 private:
     alba::AlbaOptional<int> m_precisionOptional;
     alba::AlbaOptional<int> m_fieldWidthOptional;

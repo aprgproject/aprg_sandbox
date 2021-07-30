@@ -684,48 +684,48 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithDefaultParameters)
     EXPECT_EQ("12345", converter.convert(12345));
     EXPECT_EQ("12345.7", converter.convert(12345.6789));
     EXPECT_EQ("-67890.1", converter.convert(-67890.1111));
+    EXPECT_EQ("2.66667", converter.convert(AlbaNumber(8,3)));
 }
 
-TEST(ConvertToStringTest, ConvertNumberToStringWithUnderPrecision)
-{
+TEST(ConvertToStringTest, ConvertNumberToStringWithUnderPrecision){
     NumberToStringConverter converter;
     converter.setPrecision(8);
     EXPECT_EQ("12345", converter.convert(12345));
     EXPECT_EQ("12345.679", converter.convert(12345.6789));
     EXPECT_EQ("-67890.111", converter.convert(-67890.1111));
+    EXPECT_EQ("2.6666667", converter.convert(AlbaNumber(8,3)));
 }
 
-TEST(ConvertToStringTest, ConvertNumberToStringWithOverPrecision)
-{
+TEST(ConvertToStringTest, ConvertNumberToStringWithOverPrecision){
     NumberToStringConverter converter;
     converter.setPrecision(15);
     EXPECT_EQ("12345", converter.convert(12345));
     EXPECT_EQ("12345.6789", converter.convert(12345.6789));
     EXPECT_EQ("-67890.1111", converter.convert(-67890.1111));
+    EXPECT_EQ("2.66666666666667", converter.convert(AlbaNumber(8,3)));
 }
 
-TEST(ConvertToStringTest, ConvertNumberToStringWithLessFieldWidth)
-{
+TEST(ConvertToStringTest, ConvertNumberToStringWithLessFieldWidth){
     NumberToStringConverter converter;
     converter.setPrecision(15);
     converter.setFieldWidth(3);
     EXPECT_EQ("12345", converter.convert(12345));
     EXPECT_EQ("12345.6789", converter.convert(12345.6789));
     EXPECT_EQ("-67890.1111", converter.convert(-67890.1111));
+    EXPECT_EQ("2.66666666666667", converter.convert(AlbaNumber(8,3)));
 }
 
-TEST(ConvertToStringTest, ConvertNumberToStringWithMoreFieldWidth)
-{
+TEST(ConvertToStringTest, ConvertNumberToStringWithMoreFieldWidth){
     NumberToStringConverter converter;
     converter.setPrecision(15);
     converter.setFieldWidth(15);
     EXPECT_EQ("          12345", converter.convert(12345));
     EXPECT_EQ("     12345.6789", converter.convert(12345.6789));
     EXPECT_EQ("    -67890.1111", converter.convert(-67890.1111));
+    EXPECT_EQ("2.66666666666667", converter.convert(AlbaNumber(8,3)));
 }
 
-TEST(ConvertToStringTest, ConvertNumberToStringWithFillCharacter)
-{
+TEST(ConvertToStringTest, ConvertNumberToStringWithFillCharacter){
     NumberToStringConverter converter;
     converter.setPrecision(15);
     converter.setFieldWidth(15);
@@ -733,7 +733,7 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithFillCharacter)
     EXPECT_EQ("000000000012345", converter.convert(12345));
     EXPECT_EQ("0000012345.6789", converter.convert(12345.6789));
     EXPECT_EQ("0000-67890.1111", converter.convert(-67890.1111));
+    EXPECT_EQ("2.66666666666667", converter.convert(AlbaNumber(8,3)));
 }
 
 }
-

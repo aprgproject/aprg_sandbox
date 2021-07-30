@@ -162,7 +162,8 @@ public:
         stringHelper::NumberToStringConverter converter;        DisplayTable table;
         table.setBorders("-","|");
         for(unsigned int y=0; y<m_numberOfRows; y++)
-        {            table.addRow();
+        {
+            table.addRow();
             for(unsigned int x=0; x<m_numberOfColumns; x++)
             {
                 table.getLastRow().addCell(converter.convert<DataType>(m_matrixData.at(getMatrixIndex(x, y))));
@@ -195,7 +196,8 @@ public:
         unsigned int oldColumns(m_numberOfColumns);        unsigned int oldRows(m_numberOfRows);
         MatrixData oldMatrixData(m_matrixData);
         clearAndResize(oldRows, oldColumns);
-        MatrixIndexRange yRange(0, oldRows-1, 1);        MatrixIndexRange xRange(0, oldColumns-1, 1);
+        MatrixIndexRange yRange(0, oldRows-1, 1);
+        MatrixIndexRange xRange(0, oldColumns-1, 1);
         iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
         {
             m_matrixData[getMatrixIndex(y, x)] = oldMatrixData[getMatrixIndex(x, y, oldColumns)];
@@ -207,7 +209,8 @@ public:
         assert((m_numberOfColumns == m_numberOfRows));        unsigned int newColumns = m_numberOfColumns*2;
         Matrix tempMatrix(newColumns, m_numberOfRows);
         MatrixIndexRange yRange(0, m_numberOfRows-1, 1);
-        MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);        iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
+        MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
+        iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
         {
             tempMatrix.m_matrixData[getMatrixIndex(x, y, newColumns)] = m_matrixData.at(getMatrixIndex(x, y));
         });
@@ -228,7 +231,8 @@ public:
         //gauss jordan reduction        unsigned int yWithLeadingEntry = 0;
         for(unsigned int x=0; x<m_numberOfColumns; x++)
         {
-            for(unsigned int y=yWithLeadingEntry; y<m_numberOfRows; y++)            {
+            for(unsigned int y=yWithLeadingEntry; y<m_numberOfRows; y++)
+            {
                 if(!mathHelper::isAlmostEqual(m_matrixData.at(getMatrixIndex(x, y)), static_cast<DataType>(0)))
                 {
                     interchangeRows(y, yWithLeadingEntry);
@@ -247,7 +251,8 @@ public:
                                         m_matrixData.at(getMatrixIndex(x, yToZero))/m_matrixData.at(getMatrixIndex(x, yWithLeadingEntry)),                                        yToZero);
                         }
                     }
-                    yWithLeadingEntry++;                    break;
+                    yWithLeadingEntry++;
+                    break;
                 }
             }
         }
@@ -304,7 +309,8 @@ private:
             Matrix const& secondMatrix,            Matrix & resultMatrix,
             BinaryFunction const& binaryFunction) const
     {
-        assert((firstMatrix.m_numberOfColumns == secondMatrix.m_numberOfColumns) &&               (firstMatrix.m_numberOfRows == secondMatrix.m_numberOfRows) &&
+        assert((firstMatrix.m_numberOfColumns == secondMatrix.m_numberOfColumns) &&
+               (firstMatrix.m_numberOfRows == secondMatrix.m_numberOfRows) &&
                (firstMatrix.m_numberOfColumns == resultMatrix.m_numberOfColumns) &&
                (firstMatrix.m_numberOfRows == resultMatrix.m_numberOfRows));
         MatrixIndexRange yRange(0, m_numberOfRows-1, 1);
@@ -451,7 +457,8 @@ private:
     MatrixData m_matrixData;};
 
 template <typename DataType>
-std::ostream & operator<<(std::ostream & out, Matrix<DataType> const& matrix){
+std::ostream & operator<<(std::ostream & out, Matrix<DataType> const& matrix)
+{
     out << matrix.getString();
     return out;
 }

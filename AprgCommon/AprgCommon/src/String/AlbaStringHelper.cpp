@@ -1000,10 +1000,14 @@ string NumberToStringConverter::convert(NumberType const number)
     return result;
 }
 
+string NumberToStringConverter::convert(AlbaNumber const& number)
+{
+    return convert(number.getDouble());
+}
+
 void NumberToStringConverter::setPrecision(int const precision)
 {
-    m_precisionOptional.setValue(precision);
-}
+    m_precisionOptional.setValue(precision);}
 
 void NumberToStringConverter::setFieldWidth(int const fieldWidth)
 {
@@ -1024,8 +1028,6 @@ template string NumberToStringConverter::convert<int>(int number);
 template string NumberToStringConverter::convert<unsigned int>(unsigned int number);
 template string NumberToStringConverter::convert<float>(float number);
 template string NumberToStringConverter::convert<double>(double number);
-template string NumberToStringConverter::convert<AlbaNumber>(AlbaNumber number);
 
 }//namespace stringHelper
-
 }//namespace alba
