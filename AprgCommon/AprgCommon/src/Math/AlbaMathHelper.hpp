@@ -1,12 +1,11 @@
 #pragma once
 
 #include <Math/AlbaNumber.hpp>
+#include <Math/AlbaNumberTypes.hpp>
 
 #include <vector>
-
 namespace alba
 {
-
 namespace mathHelper
 {
 
@@ -68,12 +67,11 @@ template <typename NumberType> NumberType getSquareRootOfXSquaredPlusYSquared(Nu
 template <typename NumberType> NumberType getSquareRootOfXSquaredPlusYSquaredPlusZSquared(NumberType const x, NumberType const y, NumberType const z);
 double calculateCumulativeStandardDistributionApproximation(double const value);
 double calculateInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
+AlbaNumbers calculateQuadraticRoots(AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c);
 
 
-//Clamp functions
-template <typename NumberType> NumberType clampLowerBound(NumberType const value, NumberType const limit);
+//Clamp functionstemplate <typename NumberType> NumberType clampLowerBound(NumberType const value, NumberType const limit);
 template <typename NumberType> NumberType clampHigherBound(NumberType const value, NumberType const limit);
-
 
 //Divisibility functions
 bool isDivisible(unsigned int const dividend, unsigned int const divisor);

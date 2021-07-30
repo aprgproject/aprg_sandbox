@@ -203,19 +203,22 @@ void Polynomial::clear()
 
 void Polynomial::simplify()
 {
-    Polynomial beforeSimplify(*this);
-    simplifyMonomialsAndReAdd();
-    sortMonomialsWithInversePriority();
-    Polynomial afterSimplify(*this);
-    simplifyFurtherIfNeeded(beforeSimplify, afterSimplify);
+    Polynomial beforeSimplify;
+    Polynomial afterSimplify;
+    do
+    {
+        beforeSimplify=*this;
+        simplifyMonomialsAndReAdd();
+        sortMonomialsWithInversePriority();
+        afterSimplify=*this;
+    }
+    while(isFurtherSimplificationNeeded(beforeSimplify, afterSimplify));
 }
 
-void Polynomial::sortMonomialsWithInversePriority()
-{
+void Polynomial::sortMonomialsWithInversePriority(){
     stable_sort(m_monomials.begin(), m_monomials.end(), [](Monomial const& monomial1, Monomial const& monomial2)
     {
-        return monomial2 < monomial1;
-    });
+        return monomial2 < monomial1;    });
 }
 
 void Polynomial::addMonomial(Monomial const& monomial)
@@ -290,20 +293,17 @@ void Polynomial::divideMonomial(Monomial const& monomial)
     }
 }
 
-void Polynomial::simplifyFurtherIfNeeded(Polynomial const& beforeSimplify, Polynomial const& afterSimplify)
+bool Polynomial::isFurtherSimplificationNeeded(
+        Polynomial const& beforeSimplify,
+        Polynomial const& afterSimplify) const
 {
-    if(beforeSimplify != afterSimplify && !hasNotANumber(afterSimplify))
-    {
-        simplify();
-    }
+    return beforeSimplify != afterSimplify && !hasNotANumber(afterSimplify);
 }
 
-void Polynomial::simplifyMonomialsAndReAdd()
-{
+void Polynomial::simplifyMonomialsAndReAdd(){
     Monomials previousMonomials(m_monomials);
     m_monomials.clear();
-    for(Monomial & monomial : previousMonomials)
-    {
+    for(Monomial & monomial : previousMonomials)    {
         monomial.simplify();
         if(!monomial.isZero())
         {

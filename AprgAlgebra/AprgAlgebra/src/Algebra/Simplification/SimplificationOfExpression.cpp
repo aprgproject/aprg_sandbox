@@ -57,14 +57,19 @@ void SimplificationOfExpression::simplify()
     finalizeToACommonDenominatorIfNeeded();
 }
 
+bool SimplificationOfExpression::isFurtherSimplificationNeeded(
+        Expression const& beforeSimplify,
+        Expression const& afterSimplify) const
+{
+    return beforeSimplify != afterSimplify && !hasNotANumber(afterSimplify);
+}
+
 bool SimplificationOfExpression::didEvenExponentCancellationHappened(
         TermsWithDetails const& exponents) const
-{
-    bool result(false);
+{    bool result(false);
     Term previousCombinedTerm(1);
     for(TermWithDetails const& exponentWithDetails : exponents)
-    {
-        Term const& currentExponent(getTermConstReferenceFromSharedPointer(exponentWithDetails.baseTermSharedPointer));
+    {        Term const& currentExponent(getTermConstReferenceFromSharedPointer(exponentWithDetails.baseTermSharedPointer));
         Term currentCombineTerm(1);
         if(TermAssociationType::Positive == exponentWithDetails.association)
         {
@@ -113,24 +118,23 @@ void SimplificationOfExpression::finalizeToACommonDenominatorIfNeeded()
 
 void SimplificationOfExpression::simplifyExpression()
 {
-    Expression beforeSimplify(m_expression);
-
-    TermsWithDetails termsToUpdate;
-    TermsWithAssociation & termsWithAssociation(m_expression.getTermsWithAssociationReference());
-    simplifyAndCopyTerms(termsToUpdate, termsWithAssociation.getTermsWithDetails());
-    termsWithAssociation.clear();
-    processTermsBaseOnOperatorLevel(termsToUpdate);
-
-    Expression afterSimplify(m_expression);
-    simplifyFurtherIfNeeded(beforeSimplify, afterSimplify);
+    Expression beforeSimplify;
+    do
+    {
+        beforeSimplify=m_expression;
+        TermsWithDetails termsToUpdate;
+        TermsWithAssociation & termsWithAssociation(m_expression.getTermsWithAssociationReference());
+        simplifyAndCopyTerms(termsToUpdate, termsWithAssociation.getTermsWithDetails());
+        termsWithAssociation.clear();
+        processTermsBaseOnOperatorLevel(termsToUpdate);
+    }
+    while(isFurtherSimplificationNeeded(beforeSimplify, m_expression));
 }
 
-void SimplificationOfExpression::simplifyAndCopyTerms(
-        TermsWithDetails & termsToUpdate,
+void SimplificationOfExpression::simplifyAndCopyTerms(        TermsWithDetails & termsToUpdate,
         TermsWithDetails const& termsToCheck)
 {
-    for(TermWithDetails const& termWithDetails : termsToCheck)
-    {
+    for(TermWithDetails const& termWithDetails : termsToCheck)    {
         Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         if(term.isExpression())
         {
@@ -170,24 +174,12 @@ void SimplificationOfExpression::simplifyAndCopyTermsFromAnExpressionAndSetOpera
     }
 }
 
-void SimplificationOfExpression::simplifyFurtherIfNeeded(
-        Expression const& beforeSimplify,
-        Expression const& afterSimplify)
-{
-    if(beforeSimplify != afterSimplify && !hasNotANumber(afterSimplify))
-    {
-        simplify();
-    }
-}
-
 bool SimplificationOfExpression::simplifyToACommonDenominatorForExpressionAndReturnIfChanged(Expression & expression)
 {
-    bool isChanged(false);
-    if(expression.getCommonOperatorLevel() == OperatorLevel::AdditionAndSubtraction)
+    bool isChanged(false);    if(expression.getCommonOperatorLevel() == OperatorLevel::AdditionAndSubtraction)
     {
         isChanged = tryToAddSubtractTermsOverTermsAndReturnIfChanged(expression);
-    }
-    else
+    }    else
     {
         simplifyTermsWithDetailsInExpressionToACommonDenominator(expression);
     }

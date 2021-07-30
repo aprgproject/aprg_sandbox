@@ -165,32 +165,12 @@ AlbaNumbers calculatePolynomialRoots(AlbaNumbers const& coefficients)
     return result;
 }
 
-AlbaNumbers calculateQuadraticRoots(
-        AlbaNumber const& a,
-        AlbaNumber const& b,
-        AlbaNumber const& c)
-{
-    AlbaNumbers result;
-    AlbaNumber discriminant((b^2)-(a*c*4));
-    if(discriminant >= 0)
-    {
-        AlbaNumber discriminantSquaredRoot = discriminant^(AlbaNumber(1, 2));
-        AlbaNumber firstPart((-b)/(a*2));
-        AlbaNumber secondPart(discriminantSquaredRoot/(a*2));
-        result.emplace_back(firstPart + secondPart);
-        result.emplace_back(firstPart - secondPart);
-    }
-    return result;
-}
-
 AlbaNumbers calculatePolynomialRootsUsingBrentMethod(
         AlbaNumbers const& previousDerivativeRoots,
-        AlbaNumbers const& coefficients)
-{
+        AlbaNumbers const& coefficients){
     AlbaNumbers result;
     AlbaNumbers valuesForRootFinding(previousDerivativeRoots);
-    AlbaNumber maxAbsoluteValue(getMaxAbsoluteValueForRootFinding(coefficients));
-    valuesForRootFinding.emplace_back(maxAbsoluteValue*-1);
+    AlbaNumber maxAbsoluteValue(getMaxAbsoluteValueForRootFinding(coefficients));    valuesForRootFinding.emplace_back(maxAbsoluteValue*-1);
     valuesForRootFinding.emplace_back(maxAbsoluteValue);
     sort(valuesForRootFinding.begin(), valuesForRootFinding.end());
     BrentMethod brentMethod(coefficients);

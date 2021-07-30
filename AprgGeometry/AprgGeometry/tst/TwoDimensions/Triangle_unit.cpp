@@ -21,28 +21,25 @@ TEST(TriangleTest, GetLengthOfSidesAreCorrect)
     Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
     array<double, 3> lengthOfSides(triangle.getLengthOfSides());
 
-    EXPECT_DOUBLE_EQ(4, lengthOfSides[0]);
-    EXPECT_DOUBLE_EQ(5.6568542494923806, lengthOfSides[1]);
-    EXPECT_DOUBLE_EQ(4, lengthOfSides[2]);
+    EXPECT_DOUBLE_EQ(4, lengthOfSides.at(0));
+    EXPECT_DOUBLE_EQ(5.6568542494923806, lengthOfSides.at(1));
+    EXPECT_DOUBLE_EQ(4, lengthOfSides.at(2));
 }
 
-TEST(TriangleTest, GetAnglesAreCorrect)
-{
+TEST(TriangleTest, GetAnglesAreCorrect){
     Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
     Angles angles(triangle.getAnglesAtVertices());
 
     ASSERT_EQ(3u, angles.size());
-    EXPECT_DOUBLE_EQ(90, angles[0].getDegrees());
-    EXPECT_DOUBLE_EQ(45, angles[1].getDegrees());
-    EXPECT_DOUBLE_EQ(45, angles[2].getDegrees());
+    EXPECT_DOUBLE_EQ(90, angles.at(0).getDegrees());
+    EXPECT_DOUBLE_EQ(45, angles.at(1).getDegrees());
+    EXPECT_DOUBLE_EQ(45, angles.at(2).getDegrees());
 }
 
-TEST(TriangleTest, GetSumOfAnglesIsCorrect)
-{
+TEST(TriangleTest, GetSumOfAnglesIsCorrect){
     Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
 
-    EXPECT_DOUBLE_EQ(180, triangle.getSumOfAngles().getDegrees());
-}
+    EXPECT_DOUBLE_EQ(180, triangle.getSumOfAngles().getDegrees());}
 
 TEST(TriangleTest, IsEquilateralWorksCorrectly)
 {
@@ -97,20 +94,19 @@ TEST(TriangleTest, GetPointsAreCorrect)
     Points points(triangle.getPoints(1));
 
     ASSERT_EQ(12u, points.size());
-    EXPECT_EQ(Point(0,0), points[0]);
-    EXPECT_EQ(Point(1,1), points[1]);
-    EXPECT_EQ(Point(2,2), points[2]);
-    EXPECT_EQ(Point(3,3), points[3]);
-    EXPECT_EQ(Point(2,4), points[4]);
-    EXPECT_EQ(Point(1,5), points[5]);
-    EXPECT_EQ(Point(0,6), points[6]);
-    EXPECT_EQ(Point(0,5), points[7]);
-    EXPECT_EQ(Point(0,4), points[8]);
-    EXPECT_EQ(Point(0,3), points[9]);
-    EXPECT_EQ(Point(0,2), points[10]);
-    EXPECT_EQ(Point(0,1), points[11]);
+    EXPECT_EQ(Point(0,0), points.at(0));
+    EXPECT_EQ(Point(1,1), points.at(1));
+    EXPECT_EQ(Point(2,2), points.at(2));
+    EXPECT_EQ(Point(3,3), points.at(3));
+    EXPECT_EQ(Point(2,4), points.at(4));
+    EXPECT_EQ(Point(1,5), points.at(5));
+    EXPECT_EQ(Point(0,6), points.at(6));
+    EXPECT_EQ(Point(0,5), points.at(7));
+    EXPECT_EQ(Point(0,4), points.at(8));
+    EXPECT_EQ(Point(0,3), points.at(9));
+    EXPECT_EQ(Point(0,2), points.at(10));
+    EXPECT_EQ(Point(0,1), points.at(11));
 }
 
 }
-
 }

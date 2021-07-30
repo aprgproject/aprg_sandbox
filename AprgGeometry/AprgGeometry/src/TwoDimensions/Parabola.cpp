@@ -60,4 +60,5 @@ ostream & operator<<(ostream & out, Parabola const& parabola)
 }
 
 }
+
 }

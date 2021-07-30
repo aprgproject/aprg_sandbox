@@ -17,16 +17,15 @@ TEST(RectangleTest, GetPointsAreCorrect)
     Points points(retangle.getPoints(1));
 
     ASSERT_EQ(8u, points.size());
-    EXPECT_EQ(Point(-1,1), points[0]);
-    EXPECT_EQ(Point(0,1), points[1]);
-    EXPECT_EQ(Point(1,1), points[2]);
-    EXPECT_EQ(Point(1,0), points[3]);
-    EXPECT_EQ(Point(1,-1), points[4]);
-    EXPECT_EQ(Point(0,-1), points[5]);
-    EXPECT_EQ(Point(-1,-1), points[6]);
-    EXPECT_EQ(Point(-1,0), points[7]);
+    EXPECT_EQ(Point(-1,1), points.at(0));
+    EXPECT_EQ(Point(0,1), points.at(1));
+    EXPECT_EQ(Point(1,1), points.at(2));
+    EXPECT_EQ(Point(1,0), points.at(3));
+    EXPECT_EQ(Point(1,-1), points.at(4));
+    EXPECT_EQ(Point(0,-1), points.at(5));
+    EXPECT_EQ(Point(-1,-1), points.at(6));
+    EXPECT_EQ(Point(-1,0), points.at(7));
 }
 
 }
-
 }

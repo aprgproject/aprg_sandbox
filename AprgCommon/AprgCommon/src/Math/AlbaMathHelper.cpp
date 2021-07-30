@@ -365,15 +365,31 @@ double calculateInverseCumulativeStandardDistributionApproximation(double const 
     return z;
 }
 
+AlbaNumbers calculateQuadraticRoots(
+        AlbaNumber const& a,
+        AlbaNumber const& b,
+        AlbaNumber const& c)
+{
+    AlbaNumbers result;
+    AlbaNumber discriminant((b^2)-(a*c*4));
+    if(discriminant >= 0)
+    {
+        AlbaNumber discriminantSquaredRoot = discriminant^(AlbaNumber(1, 2));
+        AlbaNumber firstPart((-b)/(a*2));
+        AlbaNumber secondPart(discriminantSquaredRoot/(a*2));
+        result.emplace_back(firstPart + secondPart);
+        result.emplace_back(firstPart - secondPart);
+    }
+    return result;
+}
+
 
 //clampLowerBound
 template <typename NumberType>
-NumberType clampLowerBound(NumberType const value, NumberType const limit)
-{
+NumberType clampLowerBound(NumberType const value, NumberType const limit){
     return (value<limit) ? limit : value;
 }
-template unsigned int clampLowerBound<unsigned int>(unsigned int const value, unsigned int const limit);
-template int clampLowerBound<int>(int const value, int const limit);
+template unsigned int clampLowerBound<unsigned int>(unsigned int const value, unsigned int const limit);template int clampLowerBound<int>(int const value, int const limit);
 template double clampLowerBound<double>(double const value, double const limit);
 
 

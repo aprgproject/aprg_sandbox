@@ -29,15 +29,12 @@ bool areAllMonomialsFoundInMonomialsWithExponentsInOrder(
 unsigned int calculateMaxExponentDivisor(Monomial const& firstMonomial, Monomial const& lastMonomial);
 AlbaNumbers getCoefficientsInMonomialsWithExponentsInOrder(Polynomial const& polynomial, Monomials const& monomialsWithExponentsInOrder);
 AlbaNumbers calculatePolynomialRoots(AlbaNumbers const& coefficients);
-AlbaNumbers calculateQuadraticRoots(AlbaNumber const& a, AlbaNumber const& n, AlbaNumber const& c);
 AlbaNumbers calculatePolynomialRootsUsingBrentMethod(AlbaNumbers const& previousDerivativeRoots, AlbaNumbers const& coefficients);
 AlbaNumber getMaxAbsoluteValueForRootFinding(AlbaNumbers const& coefficients);
-AlbaNumbers getDerivativeCoefficients(AlbaNumbers const& coefficients);
-Monomials getMonomialsWithExponentsInOrder(
+AlbaNumbers getDerivativeCoefficients(AlbaNumbers const& coefficients);Monomials getMonomialsWithExponentsInOrder(
         unsigned int const exponentDivisor,
         Monomial const& firstInPolynomial,
         Monomial const& lastInPolynomial);
-
 }
 
 }

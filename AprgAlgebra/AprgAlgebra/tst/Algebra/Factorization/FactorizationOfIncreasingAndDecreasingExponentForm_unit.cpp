@@ -291,22 +291,11 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, CalculatePolynomial
     EXPECT_DOUBLE_EQ(-1, cubicRoots.at(2).getDouble());
 }
 
-TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, CalculateQuadraticRootsWorks)
-{
-    AlbaNumbers quadraticRoots(calculateQuadraticRoots(8, 22, 15));
-
-    ASSERT_EQ(2u, quadraticRoots.size());
-    EXPECT_DOUBLE_EQ(-1.25, quadraticRoots.at(0).getDouble());
-    EXPECT_DOUBLE_EQ(-1.5, quadraticRoots.at(1).getDouble());
-}
-
 TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, CalculatePolynomialRootsUsingBrentMethodWorks)
 {
-    AlbaNumbers cubicCoefficients{1, 3, 3, 1};
-    AlbaNumbers previousDerivativeCoefficients{3, 6, 3};
+    AlbaNumbers cubicCoefficients{1, 3, 3, 1};    AlbaNumbers previousDerivativeCoefficients{3, 6, 3};
 
     AlbaNumbers roots(calculatePolynomialRootsUsingBrentMethod(previousDerivativeCoefficients, cubicCoefficients));
-
     ASSERT_EQ(1u, roots.size());
     EXPECT_DOUBLE_EQ(-1, roots.at(0).getDouble());
 }

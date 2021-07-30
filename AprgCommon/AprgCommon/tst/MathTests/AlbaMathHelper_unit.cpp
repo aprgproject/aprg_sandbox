@@ -295,14 +295,21 @@ TEST(AlbaMathHelperTest, InverseCumulativeStandardDistributionApproximationWorks
     EXPECT_DOUBLE_EQ(0, calculateInverseCumulativeStandardDistributionApproximation(3.3036, 20));
 }
 
+TEST(AlbaMathHelperTest, CalculateQuadraticRootsWorks)
+{
+    AlbaNumbers quadraticRoots(calculateQuadraticRoots(8, 22, 15));
+
+    ASSERT_EQ(2u, quadraticRoots.size());
+    EXPECT_DOUBLE_EQ(-1.25, quadraticRoots.at(0).getDouble());
+    EXPECT_DOUBLE_EQ(-1.5, quadraticRoots.at(1).getDouble());
+}
+
 TEST(AlbaMathHelperTest, ClampLowerBoundWorks)
 {
-    EXPECT_EQ(3, clampLowerBound(1, 3));
-    EXPECT_EQ(3, clampLowerBound(2, 3));
+    EXPECT_EQ(3, clampLowerBound(1, 3));    EXPECT_EQ(3, clampLowerBound(2, 3));
     EXPECT_EQ(3, clampLowerBound(3, 3));
     EXPECT_EQ(4, clampLowerBound(4, 3));
-    EXPECT_EQ(5, clampLowerBound(5, 3));
-}
+    EXPECT_EQ(5, clampLowerBound(5, 3));}
 
 TEST(AlbaMathHelperTest, ClampHigherBoundWorks)
 {

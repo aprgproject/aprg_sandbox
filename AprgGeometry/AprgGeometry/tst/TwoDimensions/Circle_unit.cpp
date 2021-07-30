@@ -34,34 +34,32 @@ TEST(CircleTest, CircleAtOriginWithRadius)
     EXPECT_EQ(18.849555921538758696, circle.getCircumference());
     Points points(circle.getLocus(1));
     ASSERT_EQ(20u, points.size());
-    EXPECT_EQ(Point(3,0), points[0]);
-    EXPECT_EQ(Point(2.8284271247461902909,1), points[1]);
-    EXPECT_EQ(Point(2.2360679774997898051,2), points[2]);
-    EXPECT_EQ(Point(2,2.2360679774997898051), points[3]);
-    EXPECT_EQ(Point(1,2.8284271247461902909), points[4]);
-    EXPECT_EQ(Point(0,3), points[5]);
-    EXPECT_EQ(Point(-1,2.8284271247461902909), points[6]);
-    EXPECT_EQ(Point(-2,2.2360679774997898051), points[7]);
-    EXPECT_EQ(Point(-2.2360679774997898051,2), points[8]);
-    EXPECT_EQ(Point(-2.8284271247461902909,1), points[9]);
-    EXPECT_EQ(Point(-3,0), points[10]);
-    EXPECT_EQ(Point(-2.8284271247461902909,-1), points[11]);
-    EXPECT_EQ(Point(-2.2360679774997898051,-2), points[12]);
-    EXPECT_EQ(Point(-2,-2.2360679774997898051), points[13]);
-    EXPECT_EQ(Point(-1,-2.8284271247461902909), points[14]);
-    EXPECT_EQ(Point(0,-3), points[15]);
-    EXPECT_EQ(Point(1,-2.8284271247461902909), points[16]);
-    EXPECT_EQ(Point(2,-2.2360679774997898051), points[17]);
-    EXPECT_EQ(Point(2.2360679774997898051,-2), points[18]);
-    EXPECT_EQ(Point(2.8284271247461902909,-1), points[19]);
+    EXPECT_EQ(Point(3,0), points.at(0));
+    EXPECT_EQ(Point(2.8284271247461902909,1), points.at(1));
+    EXPECT_EQ(Point(2.2360679774997898051,2), points.at(2));
+    EXPECT_EQ(Point(2,2.2360679774997898051), points.at(3));
+    EXPECT_EQ(Point(1,2.8284271247461902909), points.at(4));
+    EXPECT_EQ(Point(0,3), points.at(5));
+    EXPECT_EQ(Point(-1,2.8284271247461902909), points.at(6));
+    EXPECT_EQ(Point(-2,2.2360679774997898051), points.at(7));
+    EXPECT_EQ(Point(-2.2360679774997898051,2), points.at(8));
+    EXPECT_EQ(Point(-2.8284271247461902909,1), points.at(9));
+    EXPECT_EQ(Point(-3,0), points.at(10));
+    EXPECT_EQ(Point(-2.8284271247461902909,-1), points.at(11));
+    EXPECT_EQ(Point(-2.2360679774997898051,-2), points.at(12));
+    EXPECT_EQ(Point(-2,-2.2360679774997898051), points.at(13));
+    EXPECT_EQ(Point(-1,-2.8284271247461902909), points.at(14));
+    EXPECT_EQ(Point(0,-3), points.at(15));
+    EXPECT_EQ(Point(1,-2.8284271247461902909), points.at(16));
+    EXPECT_EQ(Point(2,-2.2360679774997898051), points.at(17));
+    EXPECT_EQ(Point(2.2360679774997898051,-2), points.at(18));
+    EXPECT_EQ(Point(2.8284271247461902909,-1), points.at(19));
 }
 
-TEST(CircleTest, GetPointAtAngleWorks)
-{
+TEST(CircleTest, GetPointAtAngleWorks){
     Circle circle(Point(1,2), 3);
     EXPECT_EQ(Point(4,2), circle.getPointAtAngle(0));
-    EXPECT_EQ(Point(1,5), circle.getPointAtAngle(getPi()/2));
-    EXPECT_EQ(Point(-2,2), circle.getPointAtAngle(getPi()));
+    EXPECT_EQ(Point(1,5), circle.getPointAtAngle(getPi()/2));    EXPECT_EQ(Point(-2,2), circle.getPointAtAngle(getPi()));
     EXPECT_EQ(Point(1,-1), circle.getPointAtAngle(getPi()*3/2));
     EXPECT_EQ(Point(4,2), circle.getPointAtAngle(getPi()*2));
 }
@@ -83,21 +81,20 @@ TEST(CircleTest, PointsInAreaTraversalIsCorrect)
     });
 
     ASSERT_EQ(13u, pointsInAreaTraversal.size());
-    EXPECT_EQ(Point(3,3), pointsInAreaTraversal[0]);
-    EXPECT_EQ(Point(4,3), pointsInAreaTraversal[1]);
-    EXPECT_EQ(Point(2,3), pointsInAreaTraversal[2]);
-    EXPECT_EQ(Point(5,3), pointsInAreaTraversal[3]);
-    EXPECT_EQ(Point(1,3), pointsInAreaTraversal[4]);
-    EXPECT_EQ(Point(3,4), pointsInAreaTraversal[5]);
-    EXPECT_EQ(Point(3,2), pointsInAreaTraversal[6]);
-    EXPECT_EQ(Point(4,4), pointsInAreaTraversal[7]);
-    EXPECT_EQ(Point(2,4), pointsInAreaTraversal[8]);
-    EXPECT_EQ(Point(4,2), pointsInAreaTraversal[9]);
-    EXPECT_EQ(Point(2,2), pointsInAreaTraversal[10]);
-    EXPECT_EQ(Point(3,5), pointsInAreaTraversal[11]);
-    EXPECT_EQ(Point(3,1), pointsInAreaTraversal[12]);
+    EXPECT_EQ(Point(3,3), pointsInAreaTraversal.at(0));
+    EXPECT_EQ(Point(4,3), pointsInAreaTraversal.at(1));
+    EXPECT_EQ(Point(2,3), pointsInAreaTraversal.at(2));
+    EXPECT_EQ(Point(5,3), pointsInAreaTraversal.at(3));
+    EXPECT_EQ(Point(1,3), pointsInAreaTraversal.at(4));
+    EXPECT_EQ(Point(3,4), pointsInAreaTraversal.at(5));
+    EXPECT_EQ(Point(3,2), pointsInAreaTraversal.at(6));
+    EXPECT_EQ(Point(4,4), pointsInAreaTraversal.at(7));
+    EXPECT_EQ(Point(2,4), pointsInAreaTraversal.at(8));
+    EXPECT_EQ(Point(4,2), pointsInAreaTraversal.at(9));
+    EXPECT_EQ(Point(2,2), pointsInAreaTraversal.at(10));
+    EXPECT_EQ(Point(3,5), pointsInAreaTraversal.at(11));
+    EXPECT_EQ(Point(3,1), pointsInAreaTraversal.at(12));
 }
 
 }
-
 }

@@ -47,15 +47,13 @@ public:
     void divideMonomial(Monomial const& monomial);
 
 private:
-    void simplifyFurtherIfNeeded(Polynomial const& beforeSimplify, Polynomial const& afterSimplify);
+    bool isFurtherSimplificationNeeded(Polynomial const& beforeSimplify, Polynomial const& afterSimplify) const;
     void simplifyMonomialsAndReAdd();
     Monomials m_monomials;
 };
-
 using Polynomials=std::vector<Polynomial>;
 
 std::ostream & operator<<(std::ostream & out, Polynomial const& polynomial);
-
 }
 
 }
