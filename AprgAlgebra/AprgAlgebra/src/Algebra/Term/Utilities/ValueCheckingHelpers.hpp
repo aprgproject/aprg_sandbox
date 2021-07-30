@@ -20,8 +20,7 @@ bool hasNotANumber(Monomial const& monomial);
 bool hasNotANumber(Polynomial const& polynomial);
 bool hasNotANumber(Expression const& expression);
 bool hasNotANumber(Function const& function);
-bool isAFiniteValue(Term const& term);
+bool isAFiniteConstant(Term const& term);
 
 }
-
 }

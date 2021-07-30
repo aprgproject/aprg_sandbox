@@ -147,15 +147,13 @@ bool hasNotANumber(Function const& function)
     return hasNotANumber(function.getInputExpressionConstReference());
 }
 
-bool isAFiniteValue(Term const& term)
+bool isAFiniteConstant(Term const& term)
 {
     bool result(false);
-    if(term.isConstant())
-    {
+    if(term.isConstant())    {
         result = term.getConstantConstReference().getNumberConstReference().isAFiniteValue();
     }
-    return result;
-}
+    return result;}
 
 }
 

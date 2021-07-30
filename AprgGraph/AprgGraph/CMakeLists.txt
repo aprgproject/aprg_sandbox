@@ -22,16 +22,19 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 #Include gtest, this needs APRG Directory
 include(${APRG_DIR}/gtest/AprgCmakeInclude/gtest.cmake)
 
-#Include AprgBitmap, this needs APRG Directory
-include(${APRG_DIR}/AprgBitmap/AprgCmakeInclude/AprgBitmap.cmake)
+#Include AprgAlgebra, this needs APRG Directory
+include(${APRG_DIR}/AprgAlgebra/AprgCmakeInclude/AprgAlgebra.cmake)
 
 #Include AprgGeometry, this needs APRG Directory
 include(${APRG_DIR}/AprgGeometry/AprgCmakeInclude/AprgGeometry.cmake)
+
+#Include AprgBitmap, this needs APRG Directory
+include(${APRG_DIR}/AprgBitmap/AprgCmakeInclude/AprgBitmap.cmake)
 
 #Add files and directories
 include(${APRG_GRAPH_DIR}/cmake/FilesAndDirectories.cmake)
 
 add_executable(${OUTFILE} ${APRG_GRAPH_SOURCES_AND_TESTS})
 include_directories(${APRG_GRAPH_INCLUDE_DIRECTORIES} ${APRG_GRAPH_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} gtest APRG_GEOMETRY APRG_BITMAP APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${OUTFILE} gtest APRG_BITMAP APRG_GEOMETRY APRG_ALGEBRA APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})
 add_test(${OUTFILE} ${OUTFILE})

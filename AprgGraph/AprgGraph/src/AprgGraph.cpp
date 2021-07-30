@@ -1,21 +1,24 @@
 #include "AprgGraph.hpp"
 
+#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
-
 #include <algorithm>
 #include <cmath>
 
 using namespace std;
 
+using namespace alba::algebra;
+using namespace alba::AprgBitmap;
 using namespace alba::TwoDimensions;
 
-namespace alba
-{
+namespace alba{
 
 AprgGraph::AprgGraph(string const& bitmapPath, BitmapXY const& originInBitmap, BitmapDoubleXY const& magnification)
-    : m_bitmap(bitmapPath)
-    , m_bitmapSnippet(m_bitmap.getSnippetReadFromFileWholeBitmap())
+    : m_bitmap(bitmapPath)    , m_bitmapSnippet(m_bitmap.getSnippetReadFromFileWholeBitmap())
     , m_originInBitmap(originInBitmap)
     , m_magnification(magnification)
     , m_lowestInterval(getLowestInterval())
@@ -61,14 +64,12 @@ void AprgGraph::drawLine(Line const& line, unsigned int const color)
 
 void AprgGraph::drawCircle(Circle const& circle, unsigned int const color)
 {
-    Points points(circle.getPointsForCircumference(m_lowestInterval));
+    Points points(circle.getLocus(m_lowestInterval));
     drawDiscontinuousPoints(points, color);
 }
-
 void AprgGraph::drawEllipse(Ellipse const& ellipse, unsigned int const color)
 {
-    Points points(ellipse.getPointsForCircumference(m_lowestInterval));
-    drawDiscontinuousPoints(points, color);
+    Points points(ellipse.getPointsForCircumference(m_lowestInterval));    drawDiscontinuousPoints(points, color);
 }
 
 void AprgGraph::drawHyperbola(Hyperbola const& hyperbola, unsigned int const color)
@@ -77,13 +78,23 @@ void AprgGraph::drawHyperbola(Hyperbola const& hyperbola, unsigned int const col
     drawDiscontinuousPoints(points, color);
 }
 
+void AprgGraph::drawTermWithXYSubstitution(Term const& term, unsigned int const color)
+{
+    drawTermWithXSubstitution(term, color);
+    drawTermWithYSubstitution(term, color);
+}
+
+void AprgGraph::drawEquationWithXYSubstitution(Equation const& equation, unsigned int const color)
+{
+    drawEquationWithXSubstitution(equation, color);
+    drawEquationWithYSubstitution(equation, color);
+}
+
 void AprgGraph::drawGrid(BitmapDoubleXY const& gridInterval)
 {
-    if(0!=gridInterval.getX() && 0!=gridInterval.getY())
-    {
+    if(0!=gridInterval.getX() && 0!=gridInterval.getY())    {
         const unsigned int gridColor(0x00BBBBBB);
         const unsigned int mainColor(0x00000000);
-
         for(double x=gridInterval.getX(); x<=m_realDownRightPoint.getX(); x+=gridInterval.getX())
         {
             Points gridLine{Point(x, m_realUpLeftPoint.getY()), Point(x, m_realDownRightPoint.getY())};
@@ -120,26 +131,23 @@ void AprgGraph::drawFunctionUsingX(unsigned int const color, FunctionWithDoubles
 {
     Points points;
     RangeWithDoubles xRange(m_realUpLeftPoint.getX(), m_realDownRightPoint.getX(), m_lowestInterval);
-    xRange.traverse([&](double xValue)
+    xRange.traverse([&](double const xValue)
     {
         points.emplace_back(xValue, functionFromXToY(xValue));
-    });
-    drawContinuousPoints(points, color);
+    });    drawContinuousPoints(points, color);
 }
 
 void AprgGraph::drawFunctionUsingY(unsigned int const color, FunctionWithDoubles const& functionFromYToX)
 {
     Points points;
     RangeWithDoubles yRange(m_realUpLeftPoint.getY(), m_realDownRightPoint.getY(), m_lowestInterval);
-    yRange.traverse([&](double yValue)
+    yRange.traverse([&](double const yValue)
     {
         points.emplace_back(functionFromYToX(yValue), yValue);
-    });
-    drawContinuousPoints(points, color);
+    });    drawContinuousPoints(points, color);
 }
 
-void AprgGraph::drawNumberLabel(LabelType const labelType, BitmapXY const& numberPosition, double const number)
-{
+void AprgGraph::drawNumberLabel(LabelType const labelType, BitmapXY const& numberPosition, double const number){
     string label(m_numberToStringConverter.convert(number));
     unsigned int labelCharacterLength = label.length();
     unsigned int widthOfCharacter = 12;
@@ -170,16 +178,14 @@ void AprgGraph::drawNumberLabel(LabelType const labelType, BitmapXY const& numbe
 void  AprgGraph::drawCharacter(BitmapXY const& upLeftPoint, char const character, unsigned int const colorToWrite)
 {
     string bitmapFilePathOfCharacter(getBitmapFilePathOfCharacter(character));
-    AprgBitmap characterBitmap(bitmapFilePathOfCharacter);
-    AprgBitmapSnippet characterBitmapSnippet(characterBitmap.getSnippetReadFromFileWholeBitmap());
+    Bitmap characterBitmap(bitmapFilePathOfCharacter);
+    BitmapSnippet characterBitmapSnippet(characterBitmap.getSnippetReadFromFileWholeBitmap());
 
     characterBitmapSnippet.traverse([&](BitmapXY const& point, unsigned int const color)
-    {
-        if(color==0x00000000)
+    {        if(color==0x00000000)
         {
             m_bitmapSnippet.setPixelAt(BitmapXY(upLeftPoint.getX()+point.getX(), upLeftPoint.getY()+point.getY()), colorToWrite);
-        }
-    });
+        }    });
 }
 
 void AprgGraph::saveChangesToBitmapFile()
@@ -274,6 +280,84 @@ double AprgGraph::convertBitmapXCoordinateToRealXCoordinate(double const xCoordi
 double AprgGraph::convertBitmapYCoordinateToRealYCoordinate(double const yCoordinate) const
 {
     return (yCoordinate-m_originInBitmap.getY())/(m_magnification.getY()*-1);
+}
+
+void AprgGraph::drawTermWithXSubstitution(Term const& term, unsigned int const color)
+{
+    Points points;
+    RangeWithDoubles xRange(m_realUpLeftPoint.getX(), m_realDownRightPoint.getX(), m_lowestInterval);
+    SubstitutionOfVariablesToValues substitution;
+    xRange.traverse([&](double const xValue)
+    {
+        substitution.putVariableWithValue("x", xValue);
+        Term substitutedTerm(substitution.performSubstitutionTo(term));
+        if(substitutedTerm.isConstant())
+        {
+            points.emplace_back(xValue, substitutedTerm.getConstantConstReference().getNumberConstReference().getDouble());
+        }
+    });
+    drawContinuousPoints(points, color);
+}
+
+void AprgGraph::drawTermWithYSubstitution(Term const& term, unsigned int const color)
+{
+    Points points;
+    RangeWithDoubles yRange(m_realUpLeftPoint.getY(), m_realDownRightPoint.getY(), m_lowestInterval);
+    SubstitutionOfVariablesToValues substitution;
+    yRange.traverse([&](double const yValue)
+    {
+        substitution.putVariableWithValue("y", yValue);
+        Term substitutedTerm(substitution.performSubstitutionTo(term));
+        if(substitutedTerm.isConstant())
+        {
+            points.emplace_back(substitutedTerm.getConstantConstReference().getNumberConstReference().getDouble(), yValue);
+        }
+    });
+    drawContinuousPoints(points, color);
+}
+
+void AprgGraph::drawEquationWithXSubstitution(Equation const& equation, unsigned int const color)
+{
+    Points points;
+    RangeWithDoubles xRange(m_realUpLeftPoint.getX(), m_realDownRightPoint.getX(), m_lowestInterval);
+    SubstitutionOfVariablesToValues substitution;
+    xRange.traverse([&](double const xValue)
+    {
+        substitution.putVariableWithValue("x", xValue);
+        Equation substitutedEquation(substitution.performSubstitutionTo(equation));
+        Term const& nonZeroLeftHandTerm(substitutedEquation.getLeftHandTerm());
+        if(canBeConvertedToPolynomial(nonZeroLeftHandTerm))
+        {
+            AlbaNumbers roots(getRoots(createPolynomialIfPossible(nonZeroLeftHandTerm)));
+            for(AlbaNumber const& root : roots)
+            {
+                points.emplace_back(xValue, root.getDouble());
+            }
+        }
+    });
+    drawDiscontinuousPoints(points, color);
+}
+
+void AprgGraph::drawEquationWithYSubstitution(Equation const& equation, unsigned int const color)
+{
+    Points points;
+    RangeWithDoubles yRange(m_realUpLeftPoint.getY(), m_realDownRightPoint.getY(), m_lowestInterval);
+    SubstitutionOfVariablesToValues substitution;
+    yRange.traverse([&](double const yValue)
+    {
+        substitution.putVariableWithValue("y", yValue);
+        Equation substitutedEquation(substitution.performSubstitutionTo(equation));
+        Term const& nonZeroLeftHandTerm(substitutedEquation.getLeftHandTerm());
+        if(canBeConvertedToPolynomial(nonZeroLeftHandTerm))
+        {
+            AlbaNumbers roots(getRoots(createPolynomialIfPossible(nonZeroLeftHandTerm)));
+            for(AlbaNumber const& root : roots)
+            {
+                points.emplace_back(root.getDouble(), yValue);
+            }
+        }
+    });
+    drawDiscontinuousPoints(points, color);
 }
 
 

@@ -110,6 +110,13 @@ TEST(ValueCheckingHelpersTest, HasNotANumberWorksForFunction)
     EXPECT_TRUE(hasNotANumber(absoluteValueFunction));
 }
 
+TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorksForFunction)
+{
+    EXPECT_FALSE(isAFiniteConstant(Term("x")));
+    EXPECT_TRUE(isAFiniteConstant(Term(1)));
+    EXPECT_FALSE(isAFiniteConstant(Term(NAN)));
+}
+
 }
 
 }
