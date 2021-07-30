@@ -23,4 +23,5 @@ bool hasNotANumber(Function const& function);
 bool isAFiniteConstant(Term const& term);
 
 }
+
 }

@@ -27,8 +27,10 @@ include(${APRG_DIR}/Boost/AprgCmakeInclude/boost.cmake)
 
 #Include AprgGeometry, this needs APRG Directory
 include(${APRG_DIR}/AprgGeometry/AprgCmakeInclude/AprgGeometry.cmake)
+
 #Add files and directories
 include(${GNUPLOT_IOSTREAM_DIR}/cmake/FilesAndDirectories.cmake)
+
 add_executable(${OUTFILE} ${GNUPLOT_IOSTREAM_SOURCES_AND_TESTS})
 include_directories(${GNUPLOT_IOSTREAM_INCLUDE_DIRECTORIES} ${GNUPLOT_IOSTREAM_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
 target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_GEOMETRY APRG_COMMON gtest ${Boost_LIBRARIES} iconv)

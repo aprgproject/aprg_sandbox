@@ -9,6 +9,7 @@
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -18,10 +19,12 @@ public:
     using NumberMatrix=AlbaMatrix<AlbaNumber>;
     LinearEquationsEqualitySolver();
 
-    VariableNameToSolutionSetMap calculateSolutionAndReturnSolutionSet(Equations const& equations);    VariableNameToSolutionSetMap calculateSolutionAndReturnSolutionSet(Polynomials const& polynomials);
+    VariableNameToSolutionSetMap calculateSolutionAndReturnSolutionSet(Equations const& equations);
+    VariableNameToSolutionSetMap calculateSolutionAndReturnSolutionSet(Polynomials const& polynomials);
 
 private:
-    void calculateSolution(VariableNameToSolutionSetMap & solutionSets, Equations const& equations);    void calculateSolution(VariableNameToSolutionSetMap & solutionSets, Polynomials const& polynomials);
+    void calculateSolution(VariableNameToSolutionSetMap & solutionSets, Equations const& equations);
+    void calculateSolution(VariableNameToSolutionSetMap & solutionSets, Polynomials const& polynomials);
     bool areExponentsEqualToOneAndZero(AlbaNumbersSet const& exponents) const;
     void setMatrixCoefficients(
             NumberMatrix & coefficientsMatrix,

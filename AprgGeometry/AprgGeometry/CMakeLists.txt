@@ -24,6 +24,8 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 
 #Add files and directories
 include(${APRG_GEOMETRY_DIR}/cmake/FilesAndDirectories.cmake)
+
 add_executable(${OUTFILE} ${APRG_GEOMETRY_SOURCES_AND_TESTS})
 include_directories(${APRG_GEOMETRY_INCLUDE_DIRECTORIES} ${APRG_GEOMETRY_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} APRG_COMMON gtest ${CMAKE_THREAD_LIBS_INIT})add_test(${OUTFILE} ${OUTFILE})
+target_link_libraries(${OUTFILE} APRG_COMMON gtest ${CMAKE_THREAD_LIBS_INIT})
+add_test(${OUTFILE} ${OUTFILE})

@@ -11,9 +11,11 @@ namespace algebra
 TEST(TermUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
 {
     AlbaNumbers inputNumbers{-2,-1,0,1,2};
+
     AlbaNumberPairs inputAndOutputPairs(
                 evaluateAndGetInputOutputPair(
-                    inputNumbers,                    "x",
+                    inputNumbers,
+                    "x",
                     Term(Monomial(-2, {{"x", 3}}))
                     ));
 

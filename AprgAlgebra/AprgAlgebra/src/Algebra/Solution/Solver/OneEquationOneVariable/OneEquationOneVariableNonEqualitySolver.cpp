@@ -7,8 +7,10 @@
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace std;
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -84,8 +86,10 @@ void OneEquationOneVariableNonEqualitySolver::addIntervalsToSolutionSetIfNeeded(
                     && isAFiniteConstant(substitutedEquation.getRightHandTerm())
                     && substitutedEquation.isEquationSatisfied();
         });
-        setAsCompleteSolution();    }
+        setAsCompleteSolution();
+    }
 }
 
 }
+
 }

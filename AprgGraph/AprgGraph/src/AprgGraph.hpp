@@ -6,10 +6,12 @@
 #include <Bitmap/BitmapSnippet.hpp>
 #include <Container/AlbaRange.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <TwoDimensions/Circle.hpp>#include <TwoDimensions/Ellipse.hpp>
+#include <TwoDimensions/Circle.hpp>
+#include <TwoDimensions/Ellipse.hpp>
 #include <TwoDimensions/Hyperbola.hpp>
 #include <TwoDimensions/Line.hpp>
 #include <TwoDimensions/Point.hpp>
+
 #include <functional>
 #include <string>
 
@@ -32,7 +34,8 @@ public:
 
     void drawPoint(TwoDimensions::Point const& point, unsigned int const color);
     void drawDiscontinuousPoints(TwoDimensions::Points const& points, unsigned int const color);
-    void drawContinuousPoints(TwoDimensions::Points const& points, unsigned int const color);    void drawLine(TwoDimensions::Line const& line, unsigned int const color);
+    void drawContinuousPoints(TwoDimensions::Points const& points, unsigned int const color);
+    void drawLine(TwoDimensions::Line const& line, unsigned int const color);
     void drawCircle(TwoDimensions::Circle const& circle, unsigned int const color);
     void drawEllipse(TwoDimensions::Ellipse const& ellipse, unsigned int const color);
     void drawHyperbola(TwoDimensions::Hyperbola const& hyperbola, unsigned int const color);
@@ -68,7 +71,8 @@ private:
     AprgBitmap::BitmapDoubleXY m_magnification;
     double m_lowestInterval;
     TwoDimensions::Point m_realUpLeftPoint;
-    TwoDimensions::Point m_realDownRightPoint;    alba::stringHelper::NumberToStringConverter m_numberToStringConverter;
+    TwoDimensions::Point m_realDownRightPoint;
+    alba::stringHelper::NumberToStringConverter m_numberToStringConverter;
 };
 
 }
