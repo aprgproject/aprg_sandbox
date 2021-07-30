@@ -72,10 +72,12 @@ void LinearEquationsEqualitySolver::calculateSolution(
         coefficientsMatrix.transformToReducedEchelonFormUsingGaussJordanReduction();
         if(coefficientsMatrix.isReducedRowEchelonForm())
         {
-            saveSolutionSetsFromTheCoefficientMatrix(solutionSets, coefficientsMatrix, variables);            setAsCompleteSolution();
+            saveSolutionSetsFromTheCoefficientMatrix(solutionSets, coefficientsMatrix, variables);
+            setAsCompleteSolution();
         }
     }
 }
+
 bool LinearEquationsEqualitySolver::areExponentsEqualToOneAndZero(
         AlbaNumbersSet const& exponents) const
 {
@@ -106,9 +108,11 @@ void LinearEquationsEqualitySolver::setMatrixCoefficients(
         coefficientsMatrix.setEntry(columnIndex, rowIndex++, getCoefficientWithNoVariables(polynomial));
     }
 }
+
 void LinearEquationsEqualitySolver::saveSolutionSetsFromTheCoefficientMatrix(
         VariableNameToSolutionSetMap & solutionSets,
-        NumberMatrix const& coefficientsMatrix,        VariableNamesSet const& variables)
+        NumberMatrix const& coefficientsMatrix,
+        VariableNamesSet const& variables)
 {
     unsigned int index=0;
     unsigned int columnEndIndex = variables.size();
@@ -120,7 +124,9 @@ void LinearEquationsEqualitySolver::saveSolutionSetsFromTheCoefficientMatrix(
             solutionSets[variableName].addAcceptedValue(-coefficientsMatrix.getEntry(columnEndIndex, index));
         }
         index++;
-    }}
+    }
+}
 
 }
+
 }
