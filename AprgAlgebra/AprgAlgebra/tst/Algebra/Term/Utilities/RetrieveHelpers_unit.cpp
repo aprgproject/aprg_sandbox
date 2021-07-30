@@ -9,14 +9,144 @@ namespace alba
 namespace algebra
 {
 
-TEST(RetrieveHelpersTest, GetNumbersWorksForTerm)
+
+
+TEST(RetrieveHelpersTest, GetCoefficientForVariableOnlyWorks)
 {
-    AlbaNumbersSet numbersSet(getNumbers(Term(Constant(1.234))));
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}})};
+    Polynomial polynomial3{Monomial(587, {{"x", 9}}), Monomial(975, {{"y", 10}})};
+
+    EXPECT_EQ(AlbaNumber(0), getCoefficientForVariableOnly("x", polynomial1));
+    EXPECT_EQ(AlbaNumber(516), getCoefficientForVariableOnly("a", polynomial2));
+    EXPECT_EQ(AlbaNumber(975), getCoefficientForVariableOnly("y", polynomial3));
+}
+
+TEST(RetrieveHelpersTest, RetrieveAndReturnExponentsWorksForTerm)
+{
+    AlbaNumbersSet numbersSet(retrieveAndReturnExponents(Term(Monomial(34, {{"x", 521}, {"y", 4531}}))));
+
+    ASSERT_EQ(2u, numbersSet.size());
+    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
+    EXPECT_EQ(AlbaNumber(521), *(it++));
+    EXPECT_EQ(AlbaNumber(4531), *(it++));
+}
+
+TEST(RetrieveHelpersTest, RetrieveExponentsWorksForTerm)
+{
+    AlbaNumbersSet numbersSet1;
+    AlbaNumbersSet numbersSet2;
+    AlbaNumbersSet numbersSet3;
+    AlbaNumbersSet numbersSet4;
+    AlbaNumbersSet numbersSet5;
+    Function functionObject(
+                "functionName",
+                createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", 10}}))}),
+                [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return number;
+    });
+
+    retrieveExponents(numbersSet1, Term(Constant(1.234)));
+    retrieveExponents(numbersSet2, Term(Monomial(34, {{"x", 5}, {"y", 6}})));
+    retrieveExponents(numbersSet3, Term(Polynomial({Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})})));
+    retrieveExponents(numbersSet4, Term(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", 9}}))})));
+    retrieveExponents(numbersSet5, Term(functionObject));
+
+    EXPECT_TRUE(numbersSet1.empty());
+    ASSERT_EQ(2u, numbersSet2.size());
+    AlbaNumbersSet::const_iterator it2 = numbersSet2.cbegin();
+    EXPECT_EQ(AlbaNumber(5), *(it2++));
+    EXPECT_EQ(AlbaNumber(6), *(it2++));
+    ASSERT_EQ(2u, numbersSet3.size());
+    AlbaNumbersSet::const_iterator it3 = numbersSet3.cbegin();
+    EXPECT_EQ(AlbaNumber(7), *(it3++));
+    EXPECT_EQ(AlbaNumber(8), *(it3++));
+    ASSERT_EQ(1u, numbersSet4.size());
+    AlbaNumbersSet::const_iterator it4 = numbersSet4.cbegin();
+    EXPECT_EQ(AlbaNumber(9), *(it4++));
+    ASSERT_EQ(1u, numbersSet5.size());
+    AlbaNumbersSet::const_iterator it5 = numbersSet5.cbegin();
+    EXPECT_EQ(AlbaNumber(10), *(it5++));
+}
+
+TEST(RetrieveHelpersTest, RetrieveExponentsWorksForMonomial)
+{
+    AlbaNumbersSet numbersSet;
+
+    retrieveExponents(numbersSet, Monomial(34, {{"x", 5}, {"y", 6}}));
+
+    ASSERT_EQ(2u, numbersSet.size());
+    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
+    EXPECT_EQ(AlbaNumber(5), *(it++));
+    EXPECT_EQ(AlbaNumber(6), *(it++));
+}
+
+TEST(RetrieveHelpersTest, RetrieveExponentsWorksForPolynomial)
+{
+    AlbaNumbersSet numbersSet;
+
+    retrieveExponents(numbersSet, Polynomial({Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})}));
+
+    ASSERT_EQ(2u, numbersSet.size());
+    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
+    EXPECT_EQ(AlbaNumber(7), *(it++));
+    EXPECT_EQ(AlbaNumber(8), *(it++));
+}
+
+TEST(RetrieveHelpersTest, RetrieveExponentsWorksForExpression)
+{
+    AlbaNumbersSet numbersSet;
+
+    retrieveExponents(numbersSet, createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", 9}}))}));
+
+    ASSERT_EQ(1u, numbersSet.size());
+    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
+    EXPECT_EQ(AlbaNumber(9), *(it++));
+}
+
+TEST(RetrieveHelpersTest, RetrieveExponentsWorksForFunction)
+{
+    AlbaNumbersSet numbersSet;
+    Function functionObject(
+                "functionName",
+                createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", 10}}))}),
+                [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return number;
+    });
+
+    retrieveExponents(numbersSet, functionObject);
+
+    ASSERT_EQ(1u, numbersSet.size());
+    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
+    EXPECT_EQ(AlbaNumber(10), *(it++));
+}
+
+TEST(RetrieveHelpersTest, RetrieveExponentsWorksForPolynomials)
+{
+    AlbaNumbersSet numbersSet;
+    Polynomials polynomials;
+    polynomials.emplace_back(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})});
+    polynomials.emplace_back(Polynomial{Monomial(587, {{"x", 9}}), Monomial(975, {{"y", 10}})});
+
+    retrieveExponents(numbersSet, polynomials);
+
+    ASSERT_EQ(4u, numbersSet.size());
+    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
+    EXPECT_EQ(AlbaNumber(7), *(it++));
+    EXPECT_EQ(AlbaNumber(8), *(it++));
+    EXPECT_EQ(AlbaNumber(9), *(it++));
+    EXPECT_EQ(AlbaNumber(10), *(it++));
+}
+
+TEST(RetrieveHelpersTest, RetrieveAndReturnNumbersWorksForTerm)
+{
+    AlbaNumbersSet numbersSet(retrieveAndReturnNumbers(Term(Constant(1.234))));
 
     ASSERT_EQ(1u, numbersSet.size());
     EXPECT_EQ(AlbaNumber(1.234), *(numbersSet.cbegin()));
 }
-
 TEST(RetrieveHelpersTest, RetrieveNumbersWorksForTerm)
 {
     AlbaNumbersSet numbersSet1;
@@ -119,13 +249,12 @@ TEST(RetrieveHelpersTest, RetrieveNumbersWorksForFunction)
     EXPECT_EQ(AlbaNumber(68), *(it++));
 }
 
-TEST(RetrieveHelpersTest, GetVariableNamesWorksForTerm)
+TEST(RetrieveHelpersTest, RetrieveAndReturnVariableNamesWorksForTerm)
 {
-    VariableNamesSet variableNamesSet(getVariableNames(Term(Variable("VariableName"))));
+    VariableNamesSet variableNamesSet(retrieveAndReturnVariableNames(Term(Variable("VariableName"))));
 
     ASSERT_EQ(1u, variableNamesSet.size());
-    EXPECT_EQ("VariableName", *(variableNamesSet.cbegin()));
-}
+    EXPECT_EQ("VariableName", *(variableNamesSet.cbegin()));}
 
 TEST(RetrieveHelpersTest, RetrieveVariableNamesWorksForTerm)
 {
@@ -233,10 +362,47 @@ TEST(RetrieveHelpersTest, RetrieveVariableNamesWorksForFunction)
     EXPECT_EQ("y", *(it++));
 }
 
+TEST(RetrieveHelpersTest, RetrieveVariableNamesWorksForPolynomials)
+{
+    VariableNamesSet variableNamesSet;
+    Polynomials polynomials;
+    polynomials.emplace_back(Polynomial{Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}})});
+    polynomials.emplace_back(Polynomial{Monomial(587, {{"x", 9}}), Monomial(975, {{"y", 10}})});
+
+    retrieveVariableNames(variableNamesSet, polynomials);
+
+    ASSERT_EQ(4u, variableNamesSet.size());
+    VariableNamesSet::const_iterator it = variableNamesSet.cbegin();
+    EXPECT_EQ("a", *(it++));
+    EXPECT_EQ("b", *(it++));
+    EXPECT_EQ("x", *(it++));
+    EXPECT_EQ("y", *(it++));
+}
+
+TEST(RetrieveHelpersTest, RetrieveAndReturnFunctionsWithConditionWorksForExpression)
+{
+    Function functionObject(
+                "functionName",
+                createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
+                [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return number;
+    });
+    Expression expression(createExpressionIfPossible({Term(1), Term("+"), Term(functionObject)}));
+
+    FunctionsSet functionsSets1(
+                retrieveAndReturnFunctionsWithCondition(Term(expression), [](Function const functionObject)
+    {
+        return functionObject.getFunctionName() == "functionName";
+    }));
+
+    ASSERT_EQ(1u, functionsSets1.size());
+    EXPECT_EQ(functionObject, *(functionsSets1.begin()));
+}
+
 TEST(RetrieveHelpersTest, RetrieveFunctionsWithConditionWorksForTerm)
 {
-    FunctionsSet functionsSets1;
-    FunctionsSet functionsSets2;
+    FunctionsSet functionsSets1;    FunctionsSet functionsSets2;
     FunctionsSet functionsSets3;
     FunctionsSet functionsSets4;
     FunctionsSet functionsSets5;

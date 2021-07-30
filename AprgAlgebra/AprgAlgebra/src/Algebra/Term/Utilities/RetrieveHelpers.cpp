@@ -8,13 +8,118 @@ namespace alba
 namespace algebra
 {
 
-AlbaNumbersSet getNumbers(Term const& term)
+AlbaNumber getCoefficientWithNoVariables(
+        Polynomial const& polynomial)
+{
+    AlbaNumber coefficientValue;
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    {
+        Monomial::VariablesToExponentsMap const& variableToExponentMap(
+                    monomial.getVariablesToExponentsMapConstReference());
+        if(variableToExponentMap.empty())
+        {
+            coefficientValue = monomial.getConstantConstReference();
+            break;
+        }
+    }
+    return coefficientValue;
+}
+
+AlbaNumber getCoefficientForVariableOnly(
+        std::string variableName,
+        Polynomial const& polynomial)
+{
+    AlbaNumber coefficientValue;
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    {
+        Monomial::VariablesToExponentsMap const& variableToExponentMap(
+                    monomial.getVariablesToExponentsMapConstReference());
+        if(variableToExponentMap.size() == 1)
+        {
+            auto const& variableExponentPair = *(variableToExponentMap.cbegin());
+            if(variableExponentPair.first == variableName)
+            {
+                coefficientValue = monomial.getConstantConstReference();
+                break;
+            }
+        }
+    }
+    return coefficientValue;
+}
+
+
+AlbaNumbersSet retrieveAndReturnExponents(Term const& term)
+{
+    AlbaNumbersSet result;
+    retrieveExponents(result, term);
+    return result;
+}
+
+void retrieveExponents(AlbaNumbersSet & numbers, Term const& term)
+{
+    if(term.isMonomial())
+    {
+        retrieveExponents(numbers, term.getMonomialConstReference());
+    }
+    else if(term.isPolynomial())
+    {
+        retrieveExponents(numbers, term.getPolynomialConstReference());
+    }
+    else if(term.isExpression())
+    {
+        retrieveExponents(numbers, term.getExpressionConstReference());
+    }
+    else if(term.isFunction())
+    {
+        retrieveExponents(numbers, term.getFunctionConstReference());
+    }
+}
+
+void retrieveExponents(AlbaNumbersSet & numbers, Monomial const& monomial)
+{
+    for(Monomial::VariableExponentPair const& variableExponentsPair
+        : monomial.getVariablesToExponentsMapConstReference())
+    {
+        numbers.emplace(variableExponentsPair.second);
+    }
+}
+
+void retrieveExponents(AlbaNumbersSet & numbers, Polynomial const& polynomial)
+{
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    {
+        retrieveExponents(numbers, monomial);
+    }
+}
+
+void retrieveExponents(AlbaNumbersSet & numbers, Expression const& expression)
+{
+    for(TermsWithAssociation::TermWithDetails const& termWithDetails
+        : expression.getTermsWithAssociation().getTermsWithDetails())
+    {
+        retrieveExponents(numbers, getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+    }
+}
+
+void retrieveExponents(AlbaNumbersSet & numbers, Function const& functionObject)
+{
+    retrieveExponents(numbers, functionObject.getInputExpressionConstReference());
+}
+
+void retrieveExponents(AlbaNumbersSet & numbers, Polynomials const& polynomials)
+{
+    for(Polynomial const& polynomial : polynomials)
+    {
+        retrieveExponents(numbers, polynomial);
+    }
+}
+
+AlbaNumbersSet retrieveAndReturnNumbers(Term const& term)
 {
     AlbaNumbersSet result;
     retrieveNumbers(result, term);
     return result;
 }
-
 void retrieveNumbers(AlbaNumbersSet & numbers, Term const& term)
 {
     if(term.isConstant())
@@ -76,11 +181,10 @@ void retrieveNumbers(AlbaNumbersSet & numbers, Function const& functionObject)
     retrieveNumbers(numbers, functionObject.getInputExpressionConstReference());
 }
 
-VariableNamesSet getVariableNames(Term const& term)
+VariableNamesSet retrieveAndReturnVariableNames(Term const& term)
 {
     VariableNamesSet result;
-    retrieveVariableNames(result, term);
-    return result;
+    retrieveVariableNames(result, term);    return result;
 }
 
 void retrieveVariableNames(VariableNamesSet & variableNames, Term const& term)
@@ -143,11 +247,18 @@ void retrieveVariableNames(VariableNamesSet & variableNames, Function const& fun
     retrieveVariableNames(variableNames, functionObject.getInputExpressionConstReference());
 }
 
-FunctionsSet getFunctionsWithCondition(
+void retrieveVariableNames(VariableNamesSet & variableNames, Polynomials const& polynomials)
+{
+    for(Polynomial const& polynomial : polynomials)
+    {
+        retrieveVariableNames(variableNames, polynomial);
+    }
+}
+
+FunctionsSet retrieveAndReturnFunctionsWithCondition(
         Term const& term,
         FunctionCondition const& isFunctionIncluded)
-{
-    FunctionsSet result;
+{    FunctionsSet result;
     retrieveFunctionsWithCondition(result, term, isFunctionIncluded);
     return result;
 }

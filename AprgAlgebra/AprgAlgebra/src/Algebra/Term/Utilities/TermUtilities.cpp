@@ -51,20 +51,9 @@ AlbaNumbers getRoots(Polynomial const& polynomial)
     return result;
 }
 
-AlbaNumber getMaxDegreeOfPolynomials(Polynomials const& polynomials)
-{
-    AlbaNumber maxDegree;
-    for(Polynomial const& polynomial : polynomials)
-    {
-        maxDegree = max(maxDegree, polynomial.getMaxDegree());
-    }
-    return maxDegree;
-}
-
 AlbaNumberPairs evaluateAndGetInputOutputPair(
         AlbaNumbers const& numbers,
-        string const& variableName,
-        Term const& term)
+        string const& variableName,        Term const& term)
 {
     AlbaNumberPairs result;
     SubstitutionOfVariablesToValues substitution;

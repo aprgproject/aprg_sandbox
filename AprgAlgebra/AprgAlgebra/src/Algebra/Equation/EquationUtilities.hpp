@@ -24,9 +24,8 @@ bool isEquationOperationSatisfied(
         Term const& rightTerm);
 bool doesAllEquationsHaveEqualityOperator(Equations const& equations);
 
-VariableNamesSet getVariableNames(Equation const& equation);
+VariableNamesSet retrieveAndReturnVariableNames(Equation const& equation);
 void retrieveVariableNames(VariableNamesSet & variableNames, Equation const& equation);
 
 }
-
 }

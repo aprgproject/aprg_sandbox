@@ -120,10 +120,15 @@ template <> bool isAlmostEqual<double>(double const value1, double const value2)
 //}
 
 
+bool isAlmostEqual(AlbaNumber const& number1, AlbaNumber const& number2)
+{
+    return number1 == number2;
+}
+
+
 bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance)
 {
-    return value1 == value2 || getAbsoluteValue(value1-value2) <= differenceTolerance;
-}
+    return value1 == value2 || getAbsoluteValue(value1-value2) <= differenceTolerance;}
 
 
 //isAlmostAnInteger

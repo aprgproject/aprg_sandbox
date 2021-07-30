@@ -48,11 +48,10 @@ SolutionSet calculateDomainForTermWithOneVariable(
         Term const& term)
 {
     SolutionSet domain;
-    VariableNamesSet variableNames(getVariableNames(term));
+    VariableNamesSet variableNames(retrieveAndReturnVariableNames(term));
     if(variableNames.size() == 1)
     {
-        string variableName = *variableNames.cbegin();
-        SubstitutionOfVariablesToValues substitution;
+        string variableName = *variableNames.cbegin();        SubstitutionOfVariablesToValues substitution;
         domain = calculateDomainUsingTransitionValues(valuesToCheck, [&](AlbaNumber const& value)
         {
                 substitution.putVariableWithValue(variableName, value);
@@ -77,11 +76,10 @@ SolutionSet calculateDomainForEquation(
         Equation const& equation)
 {
     SolutionSet domain;
-    VariableNamesSet variableNames(getVariableNames(equation));
+    VariableNamesSet variableNames(retrieveAndReturnVariableNames(equation));
     string inputName, outputName;
     retrieveTwoVariableNames(inputName, outputName, variableNames, variableNameToCheck);
-    if(!inputName.empty() && !outputName.empty())
-    {
+    if(!inputName.empty() && !outputName.empty())    {
         domain = calculateDomainForEquationWithVariableToSubstitute(inputName, valuesToCheck, equation);
     }
     return domain;
@@ -100,11 +98,10 @@ SolutionSet calculateRangeForEquation(
         Equation const& equation)
 {
     SolutionSet domain;
-    VariableNamesSet variableNames(getVariableNames(equation));
+    VariableNamesSet variableNames(retrieveAndReturnVariableNames(equation));
     string inputName, outputName;
     retrieveTwoVariableNames(inputName, outputName, variableNames, variableNameToCheck);
-    if(!inputName.empty() && !outputName.empty())
-    {
+    if(!inputName.empty() && !outputName.empty())    {
         domain = calculateDomainForEquationWithVariableToSubstitute(outputName, valuesToCheck, equation);
     }
     return domain;

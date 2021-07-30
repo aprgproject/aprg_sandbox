@@ -17,11 +17,10 @@ namespace algebra
 
 AlbaNumber getPositiveLogarithmOfLargestNumber(Term const& term)
 {
-    AlbaNumbersSet numbers(getNumbers(term));
+    AlbaNumbersSet numbers(retrieveAndReturnNumbers(term));
     AlbaNumber initialValue(0);
     if(!numbers.empty())
-    {
-        initialValue = log(getAbsoluteValue((*numbers.cbegin()).getDouble()));
+    {        initialValue = log(getAbsoluteValue((*numbers.cbegin()).getDouble()));
     }
     return initialValue;
 }
@@ -40,11 +39,10 @@ void retrieveInitialValuesForIteratingMethods(
         AlbaNumbersSet & allValues,
         Term const& term)
 {
-    AlbaNumbersSet numbers(getNumbers(term));
+    AlbaNumbersSet numbers(retrieveAndReturnNumbers(term));
     for(AlbaNumber const& number : numbers)
     {
-        AlbaNumber positiveNumber(getAbsoluteValue(number));
-        AlbaNumber positiveLogarithm(log(positiveNumber.getDouble()));
+        AlbaNumber positiveNumber(getAbsoluteValue(number));        AlbaNumber positiveLogarithm(log(positiveNumber.getDouble()));
         allValues.emplace(positiveNumber*-1);
         allValues.emplace(positiveLogarithm*-1);
         allValues.emplace(positiveLogarithm);

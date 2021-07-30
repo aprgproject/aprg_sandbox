@@ -18,7 +18,7 @@ namespace alba
 {
 
 template <typename DataType>
-class AlbaMatrix
+class Matrix
 {
 public:
     using MatrixData = std::vector<DataType>;
@@ -28,11 +28,11 @@ public:
     using LoopWithValueFunction = std::function<void(unsigned int const x, unsigned int const y,DataType const& value)>;
     using MatrixIndexRange = AlbaRange<unsigned int>;
 
-    AlbaMatrix()
+    Matrix()
         : m_numberOfColumns(0) // can we make this as template parameter?
         , m_numberOfRows(0)
     {}
-    AlbaMatrix(unsigned int const numberOfColumns, unsigned int const numberOfRows)
+    Matrix(unsigned int const numberOfColumns, unsigned int const numberOfRows)
         : m_numberOfColumns(numberOfColumns)
         , m_numberOfRows(numberOfRows)
         , m_matrixData(numberOfColumns*numberOfRows, 0)
@@ -132,7 +132,7 @@ public:
     {
         assert((m_numberOfColumns == m_numberOfRows));
         unsigned int newColumns = m_numberOfColumns*2;
-        AlbaMatrix tempMatrix(newColumns, m_numberOfRows);
+        Matrix tempMatrix(newColumns, m_numberOfRows);
         MatrixIndexRange yRange(0, m_numberOfRows-1, 1);
         MatrixIndexRange xRange(0, m_numberOfColumns-1, 1);
         iterateThroughYAndThenX(yRange, xRange, [&](unsigned int const x, unsigned int const y)
@@ -202,37 +202,37 @@ public:
             }
         }
     }
-    AlbaMatrix operator+(AlbaMatrix const& secondMatrix) const
+    Matrix operator+(Matrix const& secondMatrix) const
     {
         assert((m_numberOfColumns == secondMatrix.m_numberOfColumns) && (m_numberOfRows == secondMatrix.m_numberOfRows));
-        AlbaMatrix result(m_numberOfColumns, m_numberOfRows);
+        Matrix result(m_numberOfColumns, m_numberOfRows);
         traverseWithBinaryOperationWithSameDimensions(*this, secondMatrix, result, std::plus<DataType>());
         return result;
     }
-    AlbaMatrix operator-(AlbaMatrix const& secondMatrix) const
+    Matrix operator-(Matrix const& secondMatrix) const
     {
         assert((m_numberOfColumns == secondMatrix.m_numberOfColumns) && (m_numberOfRows == secondMatrix.m_numberOfRows));
-        AlbaMatrix result(m_numberOfColumns, m_numberOfRows);
+        Matrix result(m_numberOfColumns, m_numberOfRows);
         traverseWithBinaryOperationWithSameDimensions(*this, secondMatrix, result, std::minus<DataType>());
         return result;
     }
-    AlbaMatrix operator*(DataType const& scalarMultiplier) const //scalar multiplication
+    Matrix operator*(DataType const& scalarMultiplier) const //scalar multiplication
     {
-        AlbaMatrix result(m_numberOfColumns, m_numberOfRows);
+        Matrix result(m_numberOfColumns, m_numberOfRows);
         std::function<DataType(DataType const&)> scalarMultiplication = std::bind(std::multiplies<DataType>(), std::placeholders::_1, scalarMultiplier);
         traverseWithUnaryOperationWithSameDimensions(*this, result, scalarMultiplication);
         return result;
     }
-    AlbaMatrix operator*(AlbaMatrix const& secondMatrix) const //matrix multiplication
+    Matrix operator*(Matrix const& secondMatrix) const //matrix multiplication
     {
         assert((m_numberOfColumns == secondMatrix.m_numberOfRows) && (m_numberOfRows == secondMatrix.m_numberOfColumns));
-        AlbaMatrix result(m_numberOfColumns, m_numberOfRows);
-        AlbaMatrix secondTransposedMatrix(secondMatrix);
+        Matrix result(m_numberOfColumns, m_numberOfRows);
+        Matrix secondTransposedMatrix(secondMatrix);
         secondTransposedMatrix.transpose();
         traverseWithBinaryOperationWithSameDimensions(*this, secondTransposedMatrix, result, std::multiplies<DataType>());
         return result;
     }
-    bool operator==(AlbaMatrix const& secondMatrix) const
+    bool operator==(Matrix const& secondMatrix) const
     {
         if(m_numberOfColumns != secondMatrix.m_numberOfColumns)
         {
@@ -279,9 +279,9 @@ public:
 
 private:
     void traverseWithBinaryOperationWithSameDimensions(
-            AlbaMatrix const& firstMatrix,
-            AlbaMatrix const& secondMatrix,
-            AlbaMatrix & resultMatrix,
+            Matrix const& firstMatrix,
+            Matrix const& secondMatrix,
+            Matrix & resultMatrix,
             BinaryFunction const& binaryFunction) const
     {
         assert((firstMatrix.m_numberOfColumns == secondMatrix.m_numberOfColumns) &&
@@ -298,8 +298,8 @@ private:
         });
     }
     void traverseWithUnaryOperationWithSameDimensions(
-            AlbaMatrix const& inputMatrix,
-            AlbaMatrix & resultMatrix,
+            Matrix const& inputMatrix,
+            Matrix & resultMatrix,
             UnaryFunction const& unaryFunction) const
     {
         assert((inputMatrix.m_numberOfColumns == resultMatrix.m_numberOfColumns) &&
@@ -427,5 +427,12 @@ private:
     unsigned int m_numberOfRows;
     MatrixData m_matrixData;
 };
+
+template <typename DataType>
+std::ostream & operator<<(std::ostream & out, Matrix<DataType> const& matrix)
+{
+    out << matrix.getString();
+    return out;
+}
 
 }//namespace alba

@@ -51,10 +51,12 @@ unsigned int getTermTypePriorityValue(TermType const termType)
     unsigned int result(0);
     switch(termType)
     {
+    case TermType::Empty:
+        result=0;
+        break;
     case TermType::Operator:
         result=1;
-        break;
-    case TermType::Constant:
+        break;    case TermType::Constant:
         result=2;
         break;
     case TermType::Variable:

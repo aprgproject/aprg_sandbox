@@ -42,11 +42,10 @@ void OneEquationOneVariableNonEqualitySolver::calculateForEquation(
         Equation const& equation)
 {
     Term const& nonZeroLeftHandTerm(equation.getLeftHandTerm());
-    VariableNamesSet variableNames(getVariableNames(nonZeroLeftHandTerm));
+    VariableNamesSet variableNames(retrieveAndReturnVariableNames(nonZeroLeftHandTerm));
     if(variableNames.size() == 1)
     {
-        string variableName = *variableNames.cbegin();
-        calculateForTermAndCheckAbsoluteValueFunctions(nonZeroLeftHandTerm, variableName);
+        string variableName = *variableNames.cbegin();        calculateForTermAndCheckAbsoluteValueFunctions(nonZeroLeftHandTerm, variableName);
         sortCalculatedValues();
         addIntervalsToSolutionSetIfNeeded(solutionSet, equation, variableName);
     }

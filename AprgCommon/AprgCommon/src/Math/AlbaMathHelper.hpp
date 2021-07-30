@@ -33,10 +33,10 @@ double convertRadiansToDegrees(double const valueInRadians);
 
 //Precision related functions
 template <typename NumberType> bool isAlmostEqual(NumberType const value1, NumberType const value2);
+bool isAlmostEqual(AlbaNumber const& number1, AlbaNumber const& number2);
 bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance);
 template <typename NumberType> bool isAlmostAnInteger(double const value);
-bool isAlmostAnInteger(double const value, double const differenceTolerance);
-template <typename NumberType> bool isValueBeyondLimits(double const value);
+bool isAlmostAnInteger(double const value, double const differenceTolerance);template <typename NumberType> bool isValueBeyondLimits(double const value);
 template <> bool isValueBeyondLimits<int>(double const value);
 template <> bool isValueBeyondLimits<unsigned int>(double const value);
 template <> bool isValueBeyondLimits<short int>(double const value);

@@ -47,11 +47,10 @@ void BaseOneEquationOneVariableSolver::calculateForTermAndCheckAbsoluteValueFunc
         string const& variableName)
 {
     FunctionsSet absFunctions(
-                getFunctionsWithCondition(
+                retrieveAndReturnFunctionsWithCondition(
                     term, [](Function const& functionObject)
     {
-                    return functionObject.getFunctionName() == "abs";
-                }));
+                    return functionObject.getFunctionName() == "abs";                }));
     if(absFunctions.empty())
     {
         calculateForTermAndVariable(term, variableName);
