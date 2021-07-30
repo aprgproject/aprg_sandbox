@@ -30,15 +30,13 @@ TEST(AprgGeometryTwoDimensionsTest, DISABLED_CircleAtOriginWithRadius)
     Gnuplot gp;
     gp << "plot ";
     Circle circle(Point(0,0), 3);
-    Points points(circle.getPointsForCircumference(0.001));
+    Points points(circle.getLocus(0.001));
     graphPoints(gp, points, "CircleAtOriginWithRadius");
     gp << endl;
 }
-
 TEST(AprgGeometryTwoDimensionsTest, DISABLED_HyperbolaAtOriginWithRadius)
 {
-    Gnuplot gp;
-    gp << "plot ";
+    Gnuplot gp;    gp << "plot ";
     Hyperbola hyperbola(Point(0, 0), 3, 2);
     Points points(hyperbola.getPointsForShape(0.001));
     graphPoints(gp, points, "HyperbolaAtOriginWithRadius");
@@ -54,14 +52,12 @@ TEST(AprgGeometryTwoDimensionsTest, DISABLED_SampleCircle)
     Line expectedLine2(getTangentLineAt(circle, Point(4,2)));
     Line expectedLine3(getTangentLineAt(circle, Point(2.5,3.5)));
 
-    Points pointsCircle(circle.getPointsForCircumference(0.01));
+    Points pointsCircle(circle.getLocus(0.01));
     Points pointsLine1(expectedLine1.getPoints(Point(-10, -10), Point(10, 10), 0.001));
     Points pointsLine2(expectedLine2.getPoints(Point(-10, -10), Point(10, 10), 0.001));
-    Points pointsLine3(expectedLine3.getPoints(Point(-10, -10), Point(10, 10), 0.001));
-    graphPoints(gp, pointsCircle, "Circle");
+    Points pointsLine3(expectedLine3.getPoints(Point(-10, -10), Point(10, 10), 0.001));    graphPoints(gp, pointsCircle, "Circle");
     graphPoints(gp, pointsLine1, "Line1");
     graphPoints(gp, pointsLine2, "Line2");
-    graphPoints(gp, pointsLine3, "Line3");
-    gp << endl;
+    graphPoints(gp, pointsLine3, "Line3");    gp << endl;
 }
 
