@@ -155,15 +155,13 @@ AlbaNumbers calculatePolynomialRoots(AlbaNumbers const& coefficients)
     AlbaNumbers result;
     if(coefficients.size() == 3)
     {
-        result = calculateQuadraticRoots(coefficients.at(0), coefficients.at(1), coefficients.at(2));
+        result = getQuadraticRoots(coefficients.at(0), coefficients.at(1), coefficients.at(2));
     }
     else
-    {
-        AlbaNumbers derivativeRoots(calculatePolynomialRoots(getDerivativeCoefficients(coefficients)));
+    {        AlbaNumbers derivativeRoots(calculatePolynomialRoots(getDerivativeCoefficients(coefficients)));
         result = calculatePolynomialRootsUsingBrentMethod(derivativeRoots, coefficients);
     }
-    return result;
-}
+    return result;}
 
 AlbaNumbers calculatePolynomialRootsUsingBrentMethod(
         AlbaNumbers const& previousDerivativeRoots,

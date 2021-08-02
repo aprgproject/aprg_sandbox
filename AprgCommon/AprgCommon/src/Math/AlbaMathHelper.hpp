@@ -68,20 +68,28 @@ template <typename NumberType> NumberType getAverage(NumberType const value1, Nu
 template <typename NumberType> NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y);
 template <typename NumberType> NumberType getSquareRootOfXSquaredPlusYSquared(NumberType const x, NumberType const y);
 template <typename NumberType> NumberType getSquareRootOfXSquaredPlusYSquaredPlusZSquared(NumberType const x, NumberType const y, NumberType const z);
-double calculateCumulativeStandardDistributionApproximation(double const value);
-double calculateInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
-AlbaNumbers calculateQuadraticRoots(AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c);
+AlbaNumbers getQuadraticRoots(AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c);
+
+
+//Combinatorics functions
+unsigned int getFactorial(unsigned int const number);
+unsigned int getNumberOfPermutations(unsigned int const p, unsigned int const r);
+unsigned int getNumberOfCombinations(unsigned int const p, unsigned int const r);
+unsigned int getValueAtPascalTriangle(unsigned int const rowIndex, unsigned int const columnIndex);
+
+
+//Statistics functions
+double getCumulativeStandardDistributionApproximation(double const value);
+double getInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
 
 
 //Clamp functions
 template <typename NumberType> NumberType clampLowerBound(NumberType const value, NumberType const limit);
 template <typename NumberType> NumberType clampHigherBound(NumberType const value, NumberType const limit);
 
-
 //Divisibility functions
 bool isDivisible(unsigned int const dividend, unsigned int const divisor);
-bool isEven(unsigned int const number);
-bool isOdd(unsigned int const number);
+bool isEven(unsigned int const number);bool isOdd(unsigned int const number);
 
 
 //Factor and multiple related functions

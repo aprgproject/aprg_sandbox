@@ -14,7 +14,9 @@ AlbaNumber getRemainderForOneVariablePolynomialDividedByVariableMinusConstantVal
         Polynomial const& polynomial,
         AlbaNumber const& value);
 AlbaNumbers getRoots(Polynomial const& polynomial);
+Polynomial raiseBinomialToAPowerUsingBinomialExpansion(
+        Polynomial const& binomial,
+        unsigned int const power);
 
 }
-
 }

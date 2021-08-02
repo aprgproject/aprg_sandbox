@@ -40,8 +40,7 @@ public:
 
     double calculateAcceptableDeviationBasedOnChauvenetCriterion(unsigned int const sampleSize)
     {
-        return mathHelper::getAbsoluteValue(mathHelper::calculateInverseCumulativeStandardDistributionApproximation(1/((double)4*sampleSize), 20));
+        return mathHelper::getAbsoluteValue(mathHelper::getInverseCumulativeStandardDistributionApproximation(1/((double)4*sampleSize), 20));
     }
 };
-
 }

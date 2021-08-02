@@ -323,28 +323,91 @@ template int getSquareRootOfXSquaredPlusYSquaredPlusZSquared<int>(int const x, i
 template double getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>(double const x, double const y, double const z);
 
 
-double calculateCumulativeStandardDistributionApproximation(double const z)
+AlbaNumbers getQuadraticRoots(
+        AlbaNumber const& a,
+        AlbaNumber const& b,
+        AlbaNumber const& c)
+{
+    AlbaNumbers result;
+    AlbaNumber discriminant((b^2)-(a*c*4));
+    if(discriminant >= 0)
+    {
+        AlbaNumber discriminantSquaredRoot = discriminant^(AlbaNumber(1, 2));
+        AlbaNumber firstPart((-b)/(a*2));
+        AlbaNumber secondPart(discriminantSquaredRoot/(a*2));
+        result.emplace_back(firstPart + secondPart);
+        result.emplace_back(firstPart - secondPart);
+    }
+    return result;
+}
+
+unsigned int getFactorial(unsigned int const number)
+{
+    unsigned int result(1);
+    for(unsigned int currentNumber=number; currentNumber>1; currentNumber--)
+    {
+        result *= currentNumber;
+    }
+    return result;
+}
+
+unsigned int getNumberOfPermutations(unsigned int const n, unsigned int const r)
+{
+    unsigned int result(0);
+    if(n >= r)
+    {
+        result = 1;
+        for(unsigned int currentNumber=n; currentNumber>n-r; currentNumber--)
+        {
+            result *= currentNumber;
+        }
+    }
+    return result;
+}
+
+unsigned int getNumberOfCombinations(unsigned int const n, unsigned int const r)
+{
+    unsigned int result(0);
+    if(n >= r)
+    {
+        result = 1;
+        for(unsigned int currentNumber=n; currentNumber>n-r; currentNumber--)
+        {
+            result *= currentNumber;
+        }
+        for(unsigned int currentNumber=r; currentNumber>1; currentNumber--)
+        {
+            result /= currentNumber;
+        }
+    }
+    return result;
+}
+
+unsigned int getValueAtPascalTriangle(unsigned int const rowIndex, unsigned int const columnIndex)
+{
+    return getNumberOfCombinations(rowIndex, columnIndex);
+}
+
+double getCumulativeStandardDistributionApproximation(double const z)
 {
     return 0.5 * erfc(-z * pow(0.5, 0.5));
 }
 
-double calculateInverseCumulativeStandardDistributionApproximation(double const probability, unsigned int const numberOfIterations)
+double getInverseCumulativeStandardDistributionApproximation(double const probability, unsigned int const numberOfIterations)
 {
     double lowestZ=-10, highestZ=10, z(0);
     for(unsigned int iterationCount=0; iterationCount<numberOfIterations; iterationCount++)
     {
         double middleZ = getAverage<double>(lowestZ, highestZ);
-        double probabilityLowest = calculateCumulativeStandardDistributionApproximation(lowestZ);
-        double probabilityMiddle = calculateCumulativeStandardDistributionApproximation(middleZ);
-        double probabilityHighest = calculateCumulativeStandardDistributionApproximation(highestZ);
+        double probabilityLowest = getCumulativeStandardDistributionApproximation(lowestZ);
+        double probabilityMiddle = getCumulativeStandardDistributionApproximation(middleZ);
+        double probabilityHighest = getCumulativeStandardDistributionApproximation(highestZ);
         if(isAlmostEqual(probability, probabilityLowest))
         {
-            z=lowestZ;
-            break;
+            z=lowestZ;            break;
         }
         else if(isAlmostEqual(probability, probabilityMiddle))
-        {
-            z=middleZ;
+        {            z=middleZ;
             break;
         }
         else if(isAlmostEqual(probability, probabilityHighest))
@@ -366,33 +429,13 @@ double calculateInverseCumulativeStandardDistributionApproximation(double const 
     return z;
 }
 
-AlbaNumbers calculateQuadraticRoots(
-        AlbaNumber const& a,
-        AlbaNumber const& b,
-        AlbaNumber const& c)
-{
-    AlbaNumbers result;
-    AlbaNumber discriminant((b^2)-(a*c*4));
-    if(discriminant >= 0)
-    {
-        AlbaNumber discriminantSquaredRoot = discriminant^(AlbaNumber(1, 2));
-        AlbaNumber firstPart((-b)/(a*2));
-        AlbaNumber secondPart(discriminantSquaredRoot/(a*2));
-        result.emplace_back(firstPart + secondPart);
-        result.emplace_back(firstPart - secondPart);
-    }
-    return result;
-}
-
 
 //clampLowerBound
 template <typename NumberType>
-NumberType clampLowerBound(NumberType const value, NumberType const limit)
-{
+NumberType clampLowerBound(NumberType const value, NumberType const limit){
     return (value<limit) ? limit : value;
 }
-template unsigned int clampLowerBound<unsigned int>(unsigned int const value, unsigned int const limit);
-template int clampLowerBound<int>(int const value, int const limit);
+template unsigned int clampLowerBound<unsigned int>(unsigned int const value, unsigned int const limit);template int clampLowerBound<int>(int const value, int const limit);
 template double clampLowerBound<double>(double const value, double const limit);
 
 

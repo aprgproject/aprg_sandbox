@@ -276,42 +276,110 @@ TEST(AlbaMathHelperTest, GetSquareRootOfXSquaredPlusYSquaredPlusZSquaredWorks)
     EXPECT_EQ(7, getSquareRootOfXSquaredPlusYSquaredPlusZSquared(-2,-3,-6));
 }
 
-TEST(AlbaMathHelperTest, CumulativeStandardDistributionApproximationWorks)
+TEST(AlbaMathHelperTest, GetCumulativeStandardDistributionApproximationWorks)
 {
     //comparing with Z table, http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/standardnormaltable.pdf
-    EXPECT_DOUBLE_EQ(0.5, calculateCumulativeStandardDistributionApproximation(0));
-    EXPECT_DOUBLE_EQ(0.86433393905361732834, calculateCumulativeStandardDistributionApproximation(1.1));
-    EXPECT_DOUBLE_EQ(0.0081975359245961311461, calculateCumulativeStandardDistributionApproximation(-2.4));
-    EXPECT_DOUBLE_EQ(0.99996696335237056363, calculateCumulativeStandardDistributionApproximation(3.99));
-    EXPECT_DOUBLE_EQ(3.3036647629402369943e-005, calculateCumulativeStandardDistributionApproximation(-3.99));
+    EXPECT_DOUBLE_EQ(0.5, getCumulativeStandardDistributionApproximation(0));
+    EXPECT_DOUBLE_EQ(0.86433393905361732834, getCumulativeStandardDistributionApproximation(1.1));
+    EXPECT_DOUBLE_EQ(0.0081975359245961311461, getCumulativeStandardDistributionApproximation(-2.4));
+    EXPECT_DOUBLE_EQ(0.99996696335237056363, getCumulativeStandardDistributionApproximation(3.99));
+    EXPECT_DOUBLE_EQ(3.3036647629402369943e-005, getCumulativeStandardDistributionApproximation(-3.99));
 }
 
-TEST(AlbaMathHelperTest, InverseCumulativeStandardDistributionApproximationWorks)
+TEST(AlbaMathHelperTest, GetInverseCumulativeStandardDistributionApproximationWorks)
 {
-    EXPECT_DOUBLE_EQ(0, calculateInverseCumulativeStandardDistributionApproximation(0.5, 20));
-    EXPECT_DOUBLE_EQ(1.0999774932861328125, calculateInverseCumulativeStandardDistributionApproximation(0.86433, 20));
-    EXPECT_DOUBLE_EQ(-2.4003314971923828125, calculateInverseCumulativeStandardDistributionApproximation(0.00819, 20));
-    EXPECT_DOUBLE_EQ(3.9444065093994140625, calculateInverseCumulativeStandardDistributionApproximation(0.99996, 20));
-    EXPECT_DOUBLE_EQ(0, calculateInverseCumulativeStandardDistributionApproximation(3.3036, 20));
+    EXPECT_DOUBLE_EQ(0, getInverseCumulativeStandardDistributionApproximation(0.5, 20));
+    EXPECT_DOUBLE_EQ(1.0999774932861328125, getInverseCumulativeStandardDistributionApproximation(0.86433, 20));
+    EXPECT_DOUBLE_EQ(-2.4003314971923828125, getInverseCumulativeStandardDistributionApproximation(0.00819, 20));
+    EXPECT_DOUBLE_EQ(3.9444065093994140625, getInverseCumulativeStandardDistributionApproximation(0.99996, 20));
+    EXPECT_DOUBLE_EQ(0, getInverseCumulativeStandardDistributionApproximation(3.3036, 20));
 }
 
-TEST(AlbaMathHelperTest, CalculateQuadraticRootsWorks)
+TEST(AlbaMathHelperTest, GetQuadraticRootsWorks)
 {
-    AlbaNumbers quadraticRoots(calculateQuadraticRoots(8, 22, 15));
+    AlbaNumbers quadraticRoots(getQuadraticRoots(8, 22, 15));
 
     ASSERT_EQ(2u, quadraticRoots.size());
-    EXPECT_DOUBLE_EQ(-1.25, quadraticRoots.at(0).getDouble());
-    EXPECT_DOUBLE_EQ(-1.5, quadraticRoots.at(1).getDouble());
+    EXPECT_DOUBLE_EQ(-1.25, quadraticRoots.at(0).getDouble());    EXPECT_DOUBLE_EQ(-1.5, quadraticRoots.at(1).getDouble());
+}
+
+TEST(AlbaMathHelperTest, GetFactorialWorks)
+{
+    EXPECT_EQ(1u, getFactorial(0));
+    EXPECT_EQ(1u, getFactorial(1));
+    EXPECT_EQ(120u, getFactorial(5));
+    EXPECT_EQ(3628800u, getFactorial(10));
+}
+
+TEST(AlbaMathHelperTest, GetNumberOfPermutationsWorks)
+{
+    EXPECT_EQ(24u, getNumberOfPermutations(4, 4));
+    EXPECT_EQ(1u, getNumberOfPermutations(4, 0));
+    EXPECT_EQ(4u, getNumberOfPermutations(4, 1));
+    EXPECT_EQ(0u, getNumberOfPermutations(4, 5));
+
+    //Find the number of permutations of a two digit number with values 1, 2, 3, and 4.
+    EXPECT_EQ(12u, getNumberOfPermutations(4, 2));
+
+    //If four people enter a bus in which there are ten vacant seats, how many ways are there for the four to be seated?
+    EXPECT_EQ(5040u, getNumberOfPermutations(10, 4));
+
+    //In how many ways may five books to be arranged on a shelf?
+    EXPECT_EQ(120u, getNumberOfPermutations(5, 5));
+
+    //Find the number of permutations of the eight letters of the word "gargling".
+    EXPECT_EQ(6720u, getFactorial(8)/getFactorial(3));
+
+    //Find the number of permutations of the 11 letters of the word "mississippi".
+    EXPECT_EQ(34650u, getFactorial(11)/(getFactorial(4)*getFactorial(4)*getFactorial(2)));
+
+    //How many ways can four boys and three girls be seated in a row containing seven seats if the boys and girls must alternate?
+    EXPECT_EQ(144u, getFactorial(4)*getFactorial(3));
+
+    //In how many ways can 8 people be seated around a table?
+    EXPECT_EQ(5040u, getFactorial(8)/8);
+}
+
+TEST(AlbaMathHelperTest, GetNumberOfCombinationsWorks)
+{
+    EXPECT_EQ(1u, getNumberOfCombinations(4, 4));
+    EXPECT_EQ(1u, getNumberOfCombinations(4, 0));
+    EXPECT_EQ(4u, getNumberOfCombinations(4, 1));
+    EXPECT_EQ(0u, getNumberOfCombinations(4, 5));
+
+    //How many different sums of money can be made by taking one coin from a penny, a nickel, a dime, and a quarter?
+    EXPECT_EQ(4u, getNumberOfCombinations(4, 1));
+
+    //How many different sums of money can be made by taking two coins from a penny, a nickel, a dime, and a quarter?
+    EXPECT_EQ(6u, getNumberOfCombinations(4, 2));
+
+    //How many different sums of money can be made from a penny, a nickel, a dime, and a quarter?
+    EXPECT_EQ(15u, getNumberOfCombinations(4, 1) + getNumberOfCombinations(4, 2) + getNumberOfCombinations(4, 3) + getNumberOfCombinations(4, 4));
+
+    //In a class of 15 boys and 10 girls, in how many ways may a committee made up of 3 boys and 2 girls be selected?
+    EXPECT_EQ(20475u, getNumberOfCombinations(15, 3) * getNumberOfCombinations(10, 2));
+
+    //On a certain examination, the student must answer 8 out of the 12 question, including 5 of the first 6.
+    //How many ways may he write the examination?
+    EXPECT_EQ(120u, getNumberOfCombinations(6, 5) * getNumberOfCombinations(6, 3));
+}
+
+TEST(AlbaMathHelperTest, GetValueAtPascalTriangleWorks)
+{
+    EXPECT_EQ(1u, getValueAtPascalTriangle(0, 0));
+    EXPECT_EQ(1u, getValueAtPascalTriangle(4, 4));
+    EXPECT_EQ(1u, getValueAtPascalTriangle(4, 0));
+    EXPECT_EQ(4u, getValueAtPascalTriangle(4, 1));
+    EXPECT_EQ(6u, getValueAtPascalTriangle(4, 2));
+    EXPECT_EQ(0u, getValueAtPascalTriangle(4, 5));
 }
 
 TEST(AlbaMathHelperTest, ClampLowerBoundWorks)
 {
-    EXPECT_EQ(3, clampLowerBound(1, 3));
-    EXPECT_EQ(3, clampLowerBound(2, 3));
+    EXPECT_EQ(3, clampLowerBound(1, 3));    EXPECT_EQ(3, clampLowerBound(2, 3));
     EXPECT_EQ(3, clampLowerBound(3, 3));
     EXPECT_EQ(4, clampLowerBound(4, 3));
-    EXPECT_EQ(5, clampLowerBound(5, 3));
-}
+    EXPECT_EQ(5, clampLowerBound(5, 3));}
 
 TEST(AlbaMathHelperTest, ClampHigherBoundWorks)
 {

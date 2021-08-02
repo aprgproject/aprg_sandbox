@@ -76,6 +76,22 @@ TEST(PolynomialHelpersTest, GetRootsWorksAndRootIsCorrectlyCalculatedWhenExponen
     EXPECT_EQ(AlbaNumber(8), roots.at(0));
 }
 
+TEST(PolynomialHelpersTest, RaiseBinomialToAPowerUsingBinomialExpansionWorks)
+{
+    Polynomial binomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})};
+
+    Polynomial actualExpansion(raiseBinomialToAPowerUsingBinomialExpansion(binomial, 4));
+
+    Polynomial expectedExpansion{
+        Monomial(1, {{"x", 4}}),
+                Monomial(4, {{"x", 3}, {"y", 1}}),
+                Monomial(6, {{"x", 2}, {"y", 2}}),
+                Monomial(4, {{"x", 1}, {"y", 3}}),
+                Monomial(1, {{"y", 4}})
+    };
+    EXPECT_EQ(expectedExpansion, actualExpansion);
+}
+
 }
 
 }

@@ -4,13 +4,12 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
+#include <Math/AlbaMathHelper.hpp>
 
 using namespace alba::algebra::Factorization;
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -78,6 +77,36 @@ AlbaNumbers getRoots(Polynomial const& polynomial)
     }
     return result;
 }
+
+Polynomial raiseBinomialToAPowerUsingBinomialExpansion(
+        Polynomial const& binomial,
+        unsigned int const power)
+{
+    Polynomial result;
+    Monomials const monomials(binomial.getMonomialsConstReference());
+    if(monomials.size() == 2u)
+    {
+        Monomial const& firstMonomial(monomials.at(0));
+        Monomial const& secondMonomial(monomials.at(1));
+        for(unsigned int i=0; i<=power; i++)
+        {
+            unsigned int firstPower=i;
+            unsigned int secondPower=power-i;
+            Monomial firstPart(firstMonomial);
+            Monomial secondPart(secondMonomial);
+            firstPart.raiseToPowerNumber(AlbaNumber(firstPower));
+            secondPart.raiseToPowerNumber(AlbaNumber(secondPower));
+            firstPart.multiplyMonomial(secondPart);
+            firstPart.multiplyNumber(AlbaNumber(mathHelper::getValueAtPascalTriangle(power, i)));
+            firstPart.simplify();
+            result.addMonomial(firstPart);
+        }
+    }
+    result.simplify();
+    return result;
+}
+
+
 }
 
 }
