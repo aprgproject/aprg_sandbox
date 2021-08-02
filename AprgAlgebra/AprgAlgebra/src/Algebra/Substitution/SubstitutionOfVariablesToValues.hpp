@@ -7,14 +7,10 @@
 
 #include <string>
 
-using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
-
 using VariablesToValuesMap = std::map<std::string, AlbaNumber>;
 using VariableValuePair = std::pair<std::string, AlbaNumber>;
 
@@ -26,15 +22,13 @@ public:
     SubstitutionOfVariablesToValues(VariablesToValuesMap const& variablesWithValues);
 
     bool isEmpty() const;
-    bool isVariableFound(string const& variable) const;
+    bool isVariableFound(std::string const& variable) const;
     unsigned int getSize() const;
     AlbaNumber getValueForVariable(std::string const& variable) const;
-    Term performSubstitutionTo(Variable const& variable) const;
-    Term performSubstitutionTo(Monomial const& monomial) const;
+    Term performSubstitutionTo(Variable const& variable) const;    Term performSubstitutionTo(Monomial const& monomial) const;
     Term performSubstitutionTo(Polynomial const& polynomial) const;
     Term performSubstitutionTo(Expression const& expression) const;
-    Term performSubstitutionTo(Function const& functionAsParameter) const;
-    Term performSubstitutionTo(Term const& term) const;
+    Term performSubstitutionTo(Function const& functionAsParameter) const;    Term performSubstitutionTo(Term const& term) const;
     Equation performSubstitutionTo(Equation const& equation) const;
 
     void putVariablesWithValues(std::initializer_list<VariableValuePair> const& variablesWithValues);

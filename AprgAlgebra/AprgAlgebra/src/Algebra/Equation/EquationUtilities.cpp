@@ -108,6 +108,15 @@ void retrieveVariableNames(VariableNamesSet & variableNames, Equation const& equ
     retrieveVariableNames(variableNames, equation.getRightHandTerm());
 }
 
+void retrieveVariableNames(VariableNamesSet & variableNames, Equations const& equations)
+{
+    for(Equation const& equation : equations)
+    {
+        retrieveVariableNames(variableNames, equation);
+    }
+}
+
+
 }
 
 }

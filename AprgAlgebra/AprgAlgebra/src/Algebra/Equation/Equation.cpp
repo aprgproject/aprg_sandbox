@@ -57,15 +57,18 @@ bool Equation::operator<(Equation const& second) const
     return result;
 }
 
+bool Equation::isEmpty() const
+{
+    return m_equationOperator.getOperatorString().empty() && m_leftHandTerm.isEmpty() && m_rightHandTerm.isEmpty();
+}
+
 bool Equation::isEquationSatisfied() const
 {
-    return isEquationOperationSatisfied(m_equationOperator, m_leftHandTerm, m_rightHandTerm);
-}
+    return isEquationOperationSatisfied(m_equationOperator, m_leftHandTerm, m_rightHandTerm);}
 
 EquationOperator const& Equation::getEquationOperator() const
 {
-    return m_equationOperator;
-}
+    return m_equationOperator;}
 
 Term const& Equation::getLeftHandTerm() const
 {

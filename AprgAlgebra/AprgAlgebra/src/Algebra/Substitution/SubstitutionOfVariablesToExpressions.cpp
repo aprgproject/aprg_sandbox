@@ -115,14 +115,23 @@ Term SubstitutionOfVariablesToExpressions::performSubstitutionTo(Term const& ter
     return newTerm;
 }
 
+Equation SubstitutionOfVariablesToExpressions::performSubstitutionTo(
+        Equation const& equation) const
+{
+    Equation simplifiedEquation(
+                performSubstitutionTo(equation.getLeftHandTerm()),
+                equation.getEquationOperator().getOperatorString(),
+                performSubstitutionTo(equation.getRightHandTerm()));
+    simplifiedEquation.simplify();
+    return simplifiedEquation;
+}
+
 Expression SubstitutionOfVariablesToExpressions::performSubstitutionForMonomial(Monomial const& monomial) const
 {
-    Monomial newMonomial(createMonomialFromConstant(monomial.getConstantConstReference()));
-    Monomial::VariablesToExponentsMap previousVariableExponentMap(monomial.getVariablesToExponentsMapConstReference());
+    Monomial newMonomial(createMonomialFromConstant(monomial.getConstantConstReference()));    Monomial::VariablesToExponentsMap previousVariableExponentMap(monomial.getVariablesToExponentsMapConstReference());
     Expression substitutedExpressions;
     for(Monomial::VariableExponentPair const& variableExponentPair : previousVariableExponentMap)
-    {
-        if(isVariableFound(variableExponentPair.first))
+    {        if(isVariableFound(variableExponentPair.first))
         {
             Expression substitutedExpression(Term(getExpressionForVariable(variableExponentPair.first)));
             substitutedExpression.putTermWithRaiseToPowerIfNeeded(Term(variableExponentPair.second));
