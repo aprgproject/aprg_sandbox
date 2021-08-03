@@ -404,10 +404,12 @@ double getInverseCumulativeStandardDistributionApproximation(double const probab
         double probabilityHighest = getCumulativeStandardDistributionApproximation(highestZ);
         if(isAlmostEqual(probability, probabilityLowest))
         {
-            z=lowestZ;            break;
+            z=lowestZ;
+            break;
         }
         else if(isAlmostEqual(probability, probabilityMiddle))
-        {            z=middleZ;
+        {
+            z=middleZ;
             break;
         }
         else if(isAlmostEqual(probability, probabilityHighest))
@@ -432,10 +434,12 @@ double getInverseCumulativeStandardDistributionApproximation(double const probab
 
 //clampLowerBound
 template <typename NumberType>
-NumberType clampLowerBound(NumberType const value, NumberType const limit){
+NumberType clampLowerBound(NumberType const value, NumberType const limit)
+{
     return (value<limit) ? limit : value;
 }
-template unsigned int clampLowerBound<unsigned int>(unsigned int const value, unsigned int const limit);template int clampLowerBound<int>(int const value, int const limit);
+template unsigned int clampLowerBound<unsigned int>(unsigned int const value, unsigned int const limit);
+template int clampLowerBound<int>(int const value, int const limit);
 template double clampLowerBound<double>(double const value, double const limit);
 
 

@@ -1,9 +1,9 @@
 #pragma once
 
 #include <Algebra/Equation/Equation.hpp>
+#include <Algebra/Term/TermTypes/Expression.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/TermTypes/TermsWithAssociation.hpp>
-#include <Math/AlbaNumber.hpp>
 
 #include <string>
 
@@ -13,20 +13,20 @@ namespace alba
 namespace algebra
 {
 
-using VariablesToValuesMap = std::map<std::string, AlbaNumber>;
-using VariableValuePair = std::pair<std::string, AlbaNumber>;
+using VariablesToTermsMap = std::map<std::string, Term>;
+using VariableTermPair = std::pair<std::string, Term>;
 
-class SubstitutionOfVariablesToValues
+class SubstitutionOfVariablesToTerms
 {
 public:
-    SubstitutionOfVariablesToValues();
-    SubstitutionOfVariablesToValues(std::initializer_list<VariableValuePair> const& variablesWithValues);
-    SubstitutionOfVariablesToValues(VariablesToValuesMap const& variablesWithValues);
+    SubstitutionOfVariablesToTerms();
+    SubstitutionOfVariablesToTerms(std::initializer_list<VariableTermPair> const& variablesWithTerms);
+    SubstitutionOfVariablesToTerms(VariablesToTermsMap const& variablesWithTerms);
 
     bool isEmpty() const;
     bool isVariableFound(std::string const& variable) const;
     unsigned int getSize() const;
-    AlbaNumber getValueForVariable(std::string const& variable) const;
+    Term getTermForVariable(std::string const& variable) const;
     Term performSubstitutionTo(Variable const& variable) const;
     Term performSubstitutionTo(Monomial const& monomial) const;
     Term performSubstitutionTo(Polynomial const& polynomial) const;
@@ -35,17 +35,17 @@ public:
     Term performSubstitutionTo(Term const& term) const;
     Equation performSubstitutionTo(Equation const& equation) const;
 
-    void putVariablesWithValues(std::initializer_list<VariableValuePair> const& variablesWithValues);
-    void putVariablesWithValues(VariablesToValuesMap const& variablesWithValues);
-    void putVariableWithValue(std::string const& variable, AlbaNumber const& value);
+    void putVariablesWithTerms(std::initializer_list<VariableTermPair> const& variablesWithTerms);
+    void putVariablesWithTerms(VariablesToTermsMap const& variablesWithTerms);
+    void putVariableWithTerm(std::string const& variable, Term const& term);
 
 private:
-    Monomial performSubstitutionForMonomial(Monomial const& monomial) const;
-    Polynomial performSubstitutionForPolynomial(Polynomial const& polynomial) const;
+    Expression performSubstitutionForMonomial(Monomial const& monomial) const;
+    Expression performSubstitutionForPolynomial(Polynomial const& polynomial) const;
     Expression performSubstitutionForExpression(Expression const& expression) const;
     Function performSubstitutionForFunction(Function const& functionAsParameter) const;
     void performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const;
-    VariablesToValuesMap m_variableToValuesMap;
+    VariablesToTermsMap m_variableToExpressionsMap;
 };
 
 }

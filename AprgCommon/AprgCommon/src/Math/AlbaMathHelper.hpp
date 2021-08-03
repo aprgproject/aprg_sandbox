@@ -87,9 +87,11 @@ double getInverseCumulativeStandardDistributionApproximation(double const p, uns
 template <typename NumberType> NumberType clampLowerBound(NumberType const value, NumberType const limit);
 template <typename NumberType> NumberType clampHigherBound(NumberType const value, NumberType const limit);
 
+
 //Divisibility functions
 bool isDivisible(unsigned int const dividend, unsigned int const divisor);
-bool isEven(unsigned int const number);bool isOdd(unsigned int const number);
+bool isEven(unsigned int const number);
+bool isOdd(unsigned int const number);
 
 
 //Factor and multiple related functions

@@ -1,4 +1,4 @@
-#include "SubstitutionOfVariablesToExpressions.hpp"
+#include "SubstitutionOfVariablesToTerms.hpp"
 
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
@@ -14,39 +14,39 @@ namespace alba
 namespace algebra
 {
 
-SubstitutionOfVariablesToExpressions::SubstitutionOfVariablesToExpressions()
+SubstitutionOfVariablesToTerms::SubstitutionOfVariablesToTerms()
 {}
 
-SubstitutionOfVariablesToExpressions::SubstitutionOfVariablesToExpressions(
-        initializer_list<VariableExpressionPair> const& variablesWithExpressions)
+SubstitutionOfVariablesToTerms::SubstitutionOfVariablesToTerms(
+        initializer_list<VariableTermPair> const& variablesWithTerms)
 {
-    putVariablesWithExpressions(variablesWithExpressions);
+    putVariablesWithTerms(variablesWithTerms);
 }
 
-SubstitutionOfVariablesToExpressions::SubstitutionOfVariablesToExpressions(
-        VariablesToExpressionsMap const& variablesWithExpressions)
+SubstitutionOfVariablesToTerms::SubstitutionOfVariablesToTerms(
+        VariablesToTermsMap const& variablesWithTerms)
 {
-    putVariablesWithExpressions(variablesWithExpressions);
+    putVariablesWithTerms(variablesWithTerms);
 }
 
-bool SubstitutionOfVariablesToExpressions::isEmpty() const
+bool SubstitutionOfVariablesToTerms::isEmpty() const
 {
     return m_variableToExpressionsMap.empty();
 }
 
-bool SubstitutionOfVariablesToExpressions::isVariableFound(string const& variable) const
+bool SubstitutionOfVariablesToTerms::isVariableFound(string const& variable) const
 {
     return m_variableToExpressionsMap.find(variable) != m_variableToExpressionsMap.cend();
 }
 
-unsigned int SubstitutionOfVariablesToExpressions::getSize() const
+unsigned int SubstitutionOfVariablesToTerms::getSize() const
 {
     return m_variableToExpressionsMap.size();
 }
 
-Expression SubstitutionOfVariablesToExpressions::getExpressionForVariable(string const& variable) const
+Term SubstitutionOfVariablesToTerms::getTermForVariable(string const& variable) const
 {
-    Expression result;
+    Term result;
     if(isVariableFound(variable))
     {
         result = m_variableToExpressionsMap.at(variable);
@@ -54,13 +54,13 @@ Expression SubstitutionOfVariablesToExpressions::getExpressionForVariable(string
     return result;
 }
 
-Term SubstitutionOfVariablesToExpressions::performSubstitutionTo(Variable const& variable) const
+Term SubstitutionOfVariablesToTerms::performSubstitutionTo(Variable const& variable) const
 {
     Term result;
     string variableName(variable.getVariableName());
     if(isVariableFound(variableName))
     {
-        result = Term(simplifyAndConvertExpressionToSimplestTerm(getExpressionForVariable(variableName)));
+        result = getTermForVariable(variableName);
     }
     else
     {
@@ -69,27 +69,27 @@ Term SubstitutionOfVariablesToExpressions::performSubstitutionTo(Variable const&
     return result;
 }
 
-Term SubstitutionOfVariablesToExpressions::performSubstitutionTo(Monomial const& monomial) const
+Term SubstitutionOfVariablesToTerms::performSubstitutionTo(Monomial const& monomial) const
 {
     return simplifyAndConvertExpressionToSimplestTerm(performSubstitutionForMonomial(monomial));
 }
 
-Term SubstitutionOfVariablesToExpressions::performSubstitutionTo(Polynomial const& polynomial) const
+Term SubstitutionOfVariablesToTerms::performSubstitutionTo(Polynomial const& polynomial) const
 {
     return simplifyAndConvertExpressionToSimplestTerm(performSubstitutionForPolynomial(polynomial));
 }
 
-Term SubstitutionOfVariablesToExpressions::performSubstitutionTo(Expression const& expression) const
+Term SubstitutionOfVariablesToTerms::performSubstitutionTo(Expression const& expression) const
 {
     return simplifyAndConvertExpressionToSimplestTerm(performSubstitutionForExpression(expression));
 }
 
-Term SubstitutionOfVariablesToExpressions::performSubstitutionTo(Function const& functionAsParameter) const
+Term SubstitutionOfVariablesToTerms::performSubstitutionTo(Function const& functionAsParameter) const
 {
     return simplifyAndConvertFunctionToSimplestTerm(performSubstitutionForFunction(functionAsParameter));
 }
 
-Term SubstitutionOfVariablesToExpressions::performSubstitutionTo(Term const& term) const
+Term SubstitutionOfVariablesToTerms::performSubstitutionTo(Term const& term) const
 {
     Term newTerm(term);
     if(term.isVariable())
@@ -115,7 +115,7 @@ Term SubstitutionOfVariablesToExpressions::performSubstitutionTo(Term const& ter
     return newTerm;
 }
 
-Equation SubstitutionOfVariablesToExpressions::performSubstitutionTo(
+Equation SubstitutionOfVariablesToTerms::performSubstitutionTo(
         Equation const& equation) const
 {
     Equation simplifiedEquation(
@@ -126,28 +126,30 @@ Equation SubstitutionOfVariablesToExpressions::performSubstitutionTo(
     return simplifiedEquation;
 }
 
-Expression SubstitutionOfVariablesToExpressions::performSubstitutionForMonomial(Monomial const& monomial) const
+Expression SubstitutionOfVariablesToTerms::performSubstitutionForMonomial(Monomial const& monomial) const
 {
-    Monomial newMonomial(createMonomialFromConstant(monomial.getConstantConstReference()));    Monomial::VariablesToExponentsMap previousVariableExponentMap(monomial.getVariablesToExponentsMapConstReference());
+    Monomial remainingMonomial(createMonomialFromConstant(monomial.getConstantConstReference()));
+    Monomial::VariablesToExponentsMap previousVariableExponentMap(monomial.getVariablesToExponentsMapConstReference());
     Expression substitutedExpressions;
     for(Monomial::VariableExponentPair const& variableExponentPair : previousVariableExponentMap)
-    {        if(isVariableFound(variableExponentPair.first))
+    {
+        if(isVariableFound(variableExponentPair.first))
         {
-            Expression substitutedExpression(Term(getExpressionForVariable(variableExponentPair.first)));
+            Expression substitutedExpression(getTermForVariable(variableExponentPair.first));
             substitutedExpression.putTermWithRaiseToPowerIfNeeded(Term(variableExponentPair.second));
             substitutedExpressions.putTermWithMultiplicationIfNeeded(Term(substitutedExpression));
         }
         else
         {
-            newMonomial.putVariableWithExponent(variableExponentPair.first, variableExponentPair.second);
+            remainingMonomial.putVariableWithExponent(variableExponentPair.first, variableExponentPair.second);
         }
     }
-    Expression finalExpression(getBaseTermConstReferenceFromTerm(Term(newMonomial)));
+    Expression finalExpression(getBaseTermConstReferenceFromTerm(Term(remainingMonomial)));
     finalExpression.putTermWithMultiplicationIfNeeded(Term(substitutedExpressions));
     return finalExpression;
 }
 
-Expression SubstitutionOfVariablesToExpressions::performSubstitutionForPolynomial(Polynomial const& polynomial) const
+Expression SubstitutionOfVariablesToTerms::performSubstitutionForPolynomial(Polynomial const& polynomial) const
 {
     Expression newExpression;
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
@@ -157,14 +159,14 @@ Expression SubstitutionOfVariablesToExpressions::performSubstitutionForPolynomia
     return newExpression;
 }
 
-Expression SubstitutionOfVariablesToExpressions::performSubstitutionForExpression(Expression const& expression) const
+Expression SubstitutionOfVariablesToTerms::performSubstitutionForExpression(Expression const& expression) const
 {
     Expression newExpression(expression);
     performSubstitutionForTermsWithAssociation(newExpression.getTermsWithAssociationReference());
     return newExpression;
 }
 
-Function SubstitutionOfVariablesToExpressions::performSubstitutionForFunction(Function const& functionAsParameter) const
+Function SubstitutionOfVariablesToTerms::performSubstitutionForFunction(Function const& functionAsParameter) const
 {
     Function newFunction(functionAsParameter);
     newFunction.getInputExpressionReference()
@@ -172,7 +174,7 @@ Function SubstitutionOfVariablesToExpressions::performSubstitutionForFunction(Fu
     return newFunction;
 }
 
-void SubstitutionOfVariablesToExpressions::performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const
+void SubstitutionOfVariablesToTerms::performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const
 {
     for(TermWithDetails & termWithDetails : termsWithAssociation.getTermsWithDetailsReference())
     {
@@ -181,27 +183,30 @@ void SubstitutionOfVariablesToExpressions::performSubstitutionForTermsWithAssoci
     }
 }
 
-void SubstitutionOfVariablesToExpressions::putVariablesWithExpressions(
-        initializer_list<VariableExpressionPair> const& variablesWithExpressions)
+void SubstitutionOfVariablesToTerms::putVariablesWithTerms(
+        initializer_list<VariableTermPair> const& variablesWithTerms)
 {
-    for(VariableExpressionPair const& variableValuesPair : variablesWithExpressions)
+    for(VariableTermPair const& variableValuesPair : variablesWithTerms)
     {
-        putVariableWithExpression(variableValuesPair.first, variableValuesPair.second);
+        putVariableWithTerm(variableValuesPair.first, variableValuesPair.second);
     }
 }
 
-void SubstitutionOfVariablesToExpressions::putVariablesWithExpressions(
-        VariablesToExpressionsMap const& variablesWithExpressions)
+void SubstitutionOfVariablesToTerms::putVariablesWithTerms(
+        VariablesToTermsMap const& variablesWithTerms)
 {
-    for(VariableExpressionPair const& variableValuesPair : variablesWithExpressions)
+    for(VariableTermPair const& variableValuesPair : variablesWithTerms)
     {
-        putVariableWithExpression(variableValuesPair.first, variableValuesPair.second);
+        putVariableWithTerm(variableValuesPair.first, variableValuesPair.second);
     }
 }
 
-void SubstitutionOfVariablesToExpressions::putVariableWithExpression(string const& variable, Expression const& expression)
+void SubstitutionOfVariablesToTerms::putVariableWithTerm(
+        string const& variable,
+        Term const& term)
 {
-    m_variableToExpressionsMap[variable]=expression;
+    m_variableToExpressionsMap[variable]=term;
+    m_variableToExpressionsMap.at(variable).simplify();
 }
 
 }

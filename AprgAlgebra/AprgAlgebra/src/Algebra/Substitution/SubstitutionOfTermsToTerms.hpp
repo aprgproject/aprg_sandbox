@@ -7,8 +7,10 @@
 
 namespace alba
 {
+
 namespace algebra
 {
+
 using TermToTermMap = std::map<Term, Term>;
 using TermTermPair = std::pair<Term, Term>;
 

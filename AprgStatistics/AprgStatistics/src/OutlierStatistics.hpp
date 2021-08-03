@@ -43,4 +43,5 @@ public:
         return mathHelper::getAbsoluteValue(mathHelper::getInverseCumulativeStandardDistributionApproximation(1/((double)4*sampleSize), 20));
     }
 };
+
 }

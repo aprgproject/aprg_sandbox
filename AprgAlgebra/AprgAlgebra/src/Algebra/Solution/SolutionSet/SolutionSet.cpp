@@ -7,8 +7,10 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -59,11 +61,13 @@ string SolutionSet::getDisplayableString() const
 
 void SolutionSet::addAcceptedValue(AlbaNumber const& value)
 {
-    m_acceptedValues.emplace_back(value);}
+    m_acceptedValues.emplace_back(value);
+}
 
 void SolutionSet::addAcceptedValues(AlbaNumbers const& values)
 {
-    m_acceptedValues.reserve(m_acceptedValues.size() + values.size());    copy(values.cbegin(), values.cend(), back_inserter(m_acceptedValues));
+    m_acceptedValues.reserve(m_acceptedValues.size() + values.size());
+    copy(values.cbegin(), values.cend(), back_inserter(m_acceptedValues));
 }
 
 void SolutionSet::addRejectedValue(AlbaNumber const& value)

@@ -356,9 +356,9 @@ TEST(FactorizationBySplittingTest, FactorizeSmallerPolynomialsBySubstitutingComm
 TEST(FactorizationBySplittingTest, FactorizePolynomialWithVariablesWorks)
 {
     Polynomial polynomialsToTest{Monomial(1, {{"x+1", 2}}), Monomial(2, {{"x+1", 1}}), Monomial(1, {})};
-    SubstitutionOfVariablesToExpressions variableSubstitution(
+    SubstitutionOfVariablesToTerms variableSubstitution(
     {{"x+1",
-      createOrCopyExpressionFromATerm(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}))}});
+      Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})})}});
 
     Polynomials polynomialsToVerify(factorizePolynomialWithNewVariables(polynomialsToTest, variableSubstitution));
 
@@ -388,7 +388,7 @@ TEST(FactorizationBySplittingTest, GetCommonFactorsInThesePolynomialsWorks)
 
 TEST(FactorizationBySplittingTest, GetNewPolynomialWithVariablesWorks)
 {
-    SubstitutionOfVariablesToExpressions variableSubstitution;
+    SubstitutionOfVariablesToTerms variableSubstitution;
     Polynomial polynomial1{Monomial(25, {{"x", 2}}), Monomial(30, {{"x", 1}, {"y", 1}}), Monomial(9, {{"y", 2}})};
     Polynomial polynomial2{Monomial(15, {{"x", 1}}), Monomial(9, {{"y", 1}})};
     Polynomial polynomial3{Monomial(2, {})};
@@ -397,8 +397,8 @@ TEST(FactorizationBySplittingTest, GetNewPolynomialWithVariablesWorks)
     Polynomial polynomia1ToVerify(getNewPolynomialWithNewVariables(variableSubstitution, polynomialsToTest));
 
     ASSERT_EQ(1u, variableSubstitution.getSize());
-    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(Polynomial{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}})})));
-    EXPECT_EQ(expressionToExpect, variableSubstitution.getExpressionForVariable("{(5[x] + 3[y])}"));
+    Term termToExpect(Polynomial{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}})});
+    EXPECT_EQ(termToExpect, variableSubstitution.getTermForVariable("{(5[x] + 3[y])}"));
     Polynomial polynomialToExpect{
         Monomial(1, {{"{(5[x] + 3[y])}", 2}}),
                 Monomial(3, {{"{(5[x] + 3[y])}", 1}}),

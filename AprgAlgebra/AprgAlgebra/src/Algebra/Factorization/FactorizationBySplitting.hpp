@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algebra/Substitution/SubstitutionOfVariablesToExpressions.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/TermTypes/Polynomial.hpp>
 
 namespace alba
@@ -25,10 +25,10 @@ Polynomials factorizeSmallerPolynomialsByFactoringOutCommonFactors(Polynomials c
 Polynomials factorizeSmallerPolynomialsBySubstitutingCommonFactorsToNewVariables(Polynomials const& smallerPolynomials);
 Polynomials factorizePolynomialWithNewVariables(
         Polynomial const& newPolynomialWithVariables,
-        SubstitutionOfVariablesToExpressions const& variableSubstitution);
+        SubstitutionOfVariablesToTerms const& variableSubstitution);
 Polynomials getCommonFactorsInThesePolynomials(Polynomials const& smallerPolynomials);
 Polynomial getNewPolynomialWithNewVariables(
-        SubstitutionOfVariablesToExpressions & variableSubstitution,
+        SubstitutionOfVariablesToTerms & variableSubstitution,
         Polynomials const& smallerPolynomials);
 Polynomials getPolynomialsWithRemovedCommonFactors(Polynomials const& polynomialsWithCommonFactors, Polynomials const& commonFactors);
 void updateToGetSubsetOfFactors(Polynomials & commonFactors, Polynomials const& currentCommonFactors);

@@ -19,4 +19,5 @@ Polynomial raiseBinomialToAPowerUsingBinomialExpansion(
         unsigned int const power);
 
 }
+
 }

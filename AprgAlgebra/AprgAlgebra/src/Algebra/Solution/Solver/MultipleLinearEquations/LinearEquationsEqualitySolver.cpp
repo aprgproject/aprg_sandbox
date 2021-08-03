@@ -39,10 +39,12 @@ void LinearEquationsEqualitySolver::calculateSolution(
         MultipleVariableSolutionSet & solutionSet,
         Equations const& equations)
 {
-    if(doesAllEquationsHaveEqualityOperator(equations))    {
+    if(doesAllEquationsHaveEqualityOperator(equations))
+    {
         Polynomials polynomials;
         for(Equation const& equation : equations)
-        {            Equation simplifiedEquation(equation);
+        {
+            Equation simplifiedEquation(equation);
             simplifiedEquation.simplify();
             Term const& nonZeroLeftHandTerm(simplifiedEquation.getLeftHandTerm());
             if(canBeConvertedToPolynomial(nonZeroLeftHandTerm))
@@ -58,10 +60,12 @@ void LinearEquationsEqualitySolver::calculateSolution(
         MultipleVariableSolutionSet & solutionSet,
         Polynomials const& polynomials)
 {
-    VariableNamesSet variables;    AlbaNumbersSet exponents;
+    VariableNamesSet variables;
+    AlbaNumbersSet exponents;
     retrieveExponents(exponents, polynomials);
     retrieveVariableNames(variables, polynomials);
-    if(areExponentsEqualToOneAndZero(exponents)            && variables.size() == polynomials.size())
+    if(areExponentsEqualToOneAndZero(exponents)
+            && variables.size() == polynomials.size())
     {
         NumberMatrix coefficientsMatrix(variables.size()+1, polynomials.size());
         setMatrixCoefficients(coefficientsMatrix, variables, polynomials);
@@ -71,10 +75,12 @@ void LinearEquationsEqualitySolver::calculateSolution(
             saveSolutionSetsFromTheCoefficientMatrix(solutionSet, coefficientsMatrix, variables);
             setAsCompleteSolution();
         }
-    }}
+    }
+}
 
 bool LinearEquationsEqualitySolver::areExponentsEqualToOneAndZero(
-        AlbaNumbersSet const& exponents) const{
+        AlbaNumbersSet const& exponents) const
+{
     return all_of(exponents.cbegin(), exponents.cend(), [](AlbaNumber const& exponent)
     {
         return exponent == 1 || exponent == 0;
@@ -107,7 +113,8 @@ void LinearEquationsEqualitySolver::saveSolutionSetsFromTheCoefficientMatrix(
         MultipleVariableSolutionSet & solutionSet,
         NumberMatrix const& coefficientsMatrix,
         VariableNamesSet const& variables)
-{    unsigned int index=0;
+{
+    unsigned int index=0;
     unsigned int columnEndIndex = variables.size();
     for(string const& variableName : variables)
     {
@@ -119,7 +126,9 @@ void LinearEquationsEqualitySolver::saveSolutionSetsFromTheCoefficientMatrix(
             solutionSet.addSolutionSetForVariable(variableName, solutionSetForVariable);
         }
         index++;
-    }}
+    }
+}
 
 }
+
 }

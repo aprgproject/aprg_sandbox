@@ -190,7 +190,7 @@ Polynomials factorizeSmallerPolynomialsByFactoringOutCommonFactors(Polynomials c
 Polynomials factorizeSmallerPolynomialsBySubstitutingCommonFactorsToNewVariables(Polynomials const& smallerPolynomials)
 {
     Polynomials result;
-    SubstitutionOfVariablesToExpressions variableSubstitution;
+    SubstitutionOfVariablesToTerms variableSubstitution;
     if(smallerPolynomials.size() > 1)
     {
         Polynomial newPolynomialWithVariables(getNewPolynomialWithNewVariables(variableSubstitution, smallerPolynomials));
@@ -204,7 +204,7 @@ Polynomials factorizeSmallerPolynomialsBySubstitutingCommonFactorsToNewVariables
 
 Polynomials factorizePolynomialWithNewVariables(
         Polynomial const& newPolynomialWithVariables,
-        SubstitutionOfVariablesToExpressions const& variableSubstitution)
+        SubstitutionOfVariablesToTerms const& variableSubstitution)
 {
     Polynomials result;
     Polynomials factorizedPolynomialsWithVariables(factorize(newPolynomialWithVariables));
@@ -240,7 +240,7 @@ Polynomials getCommonFactorsInThesePolynomials(Polynomials const& smallerPolynom
 }
 
 Polynomial getNewPolynomialWithNewVariables(
-        SubstitutionOfVariablesToExpressions & variableSubstitution,
+        SubstitutionOfVariablesToTerms & variableSubstitution,
         Polynomials const& smallerPolynomials)
 {
     Polynomial newPolynomialWithVariables;
@@ -257,8 +257,7 @@ Polynomial getNewPolynomialWithNewVariables(
             else
             {
                 string variableNameForSubstitution(createVariableNameForSubstitution(factor));
-                Expression polynomialExpressionForFactor(createOrCopyExpressionFromATerm(Term(factor)));
-                variableSubstitution.putVariableWithExpression(variableNameForSubstitution, polynomialExpressionForFactor);
+                variableSubstitution.putVariableWithTerm(variableNameForSubstitution, factor);
                 newSmallerPolynomialWithVariables.multiplyMonomial(createMonomialFromVariable(Variable(variableNameForSubstitution)));
             }
         }

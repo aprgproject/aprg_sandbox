@@ -4,10 +4,12 @@
 #include <Algebra/Solution/SolutionSet/MultipleVariableSolutionSet.hpp>
 #include <Algebra/Solution/Solver/BaseSolver.hpp>
 #include <Algebra/Term/TermTypes/Polynomial.hpp>
-#include <Algebra/Term/TermTypes/TermContainerTypes.hpp>#include <Math/AlbaMatrix.hpp>
+#include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
+#include <Math/AlbaMatrix.hpp>
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -25,13 +27,15 @@ private:
     void calculateSolution(MultipleVariableSolutionSet & solutionSet, Polynomials const& polynomials);
     bool areExponentsEqualToOneAndZero(AlbaNumbersSet const& exponents) const;
     void setMatrixCoefficients(
-            NumberMatrix & coefficientsMatrix,            VariableNamesSet const& variableNames,
+            NumberMatrix & coefficientsMatrix,
+            VariableNamesSet const& variableNames,
             Polynomials const& polynomials);
     void saveSolutionSetsFromTheCoefficientMatrix(
             MultipleVariableSolutionSet & solutionSet,
             NumberMatrix const& coefficientsMatrix,
             VariableNamesSet const& variables);
 };
+
 
 }
 

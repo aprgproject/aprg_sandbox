@@ -287,9 +287,11 @@ Points getIntersectionsOfParabolaAndLine(
     AlbaNumbers xValues(getQuadraticRoots(AlbaNumber(newA), AlbaNumber(newB), AlbaNumber(newC)));
     for(AlbaNumber const& xValue : xValues)
     {
-        result.emplace_back(xValue.getDouble(), line.calculateYFromX(xValue.getDouble()));    }
+        result.emplace_back(xValue.getDouble(), line.calculateYFromX(xValue.getDouble()));
+    }
     return result;
 }
+
 Point popNearestPoint(Points & points, Point const& point)
 {
     Point result;
