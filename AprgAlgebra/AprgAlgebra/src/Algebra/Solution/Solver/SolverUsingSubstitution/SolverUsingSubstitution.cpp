@@ -5,16 +5,11 @@
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
-#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 
 #include <algorithm>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
