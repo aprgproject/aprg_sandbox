@@ -26,13 +26,6 @@ Expression factorize(Expression const& expression)
     return newExpression;
 }
 
-Function factorize(Function const& functionAsParameter)
-{
-    Function newFunction(functionAsParameter);
-    factorizeAnExpression(newFunction.getInputExpressionReference());
-    return newFunction;
-}
-
 
 }
 

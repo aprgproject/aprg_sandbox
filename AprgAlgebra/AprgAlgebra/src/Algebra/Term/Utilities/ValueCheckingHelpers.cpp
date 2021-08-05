@@ -144,7 +144,7 @@ bool hasNotANumber(Expression const& expression)
 
 bool hasNotANumber(Function const& function)
 {
-    return hasNotANumber(function.getInputExpressionConstReference());
+    return hasNotANumber(function.getInputTermConstReference());
 }
 
 bool isAFiniteConstant(Term const& term)

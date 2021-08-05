@@ -589,7 +589,7 @@ TEST(SimplificationOfExpressionTest, EvenExponentsCancellationWithAbsoluteValueW
     Expression expressionToExpect1(createOrCopyExpressionFromATerm(Term(Polynomial
     {Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})})));
     Expression expressionToExpect2(createExpressionIfPossible(
-    {Term(Functions::abs(createOrCopyExpressionFromATerm(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})})))),
+    {Term(Functions::abs(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}))),
      Term("^"), Term(2)}));
     EXPECT_EQ(expressionToExpect1, expressionToVerify1);
     EXPECT_EQ(expressionToExpect2, expressionToVerify2);

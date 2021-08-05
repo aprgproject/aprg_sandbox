@@ -119,7 +119,7 @@ void retrieveExponents(AlbaNumbersSet & numbers, Expression const& expression)
 
 void retrieveExponents(AlbaNumbersSet & numbers, Function const& functionObject)
 {
-    retrieveExponents(numbers, functionObject.getInputExpressionConstReference());
+    retrieveExponents(numbers, functionObject.getInputTermConstReference());
 }
 
 void retrieveExponents(AlbaNumbersSet & numbers, Polynomials const& polynomials)
@@ -195,7 +195,7 @@ void retrieveNumbers(AlbaNumbersSet & numbers, Expression const& expression)
 
 void retrieveNumbers(AlbaNumbersSet & numbers, Function const& functionObject)
 {
-    retrieveNumbers(numbers, functionObject.getInputExpressionConstReference());
+    retrieveNumbers(numbers, functionObject.getInputTermConstReference());
 }
 
 VariableNamesSet retrieveAndReturnVariableNames(Term const& term)
@@ -262,7 +262,7 @@ void retrieveVariableNames(VariableNamesSet & variableNames, Expression const& e
 
 void retrieveVariableNames(VariableNamesSet & variableNames, Function const& functionObject)
 {
-    retrieveVariableNames(variableNames, functionObject.getInputExpressionConstReference());
+    retrieveVariableNames(variableNames, functionObject.getInputTermConstReference());
 }
 
 void retrieveVariableNames(VariableNamesSet & variableNames, Polynomials const& polynomials)

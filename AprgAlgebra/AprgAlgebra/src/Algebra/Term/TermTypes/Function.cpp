@@ -1,6 +1,7 @@
 #include "Function.hpp"
 
 #include <Algebra/Term/TermTypes/Term.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 
 using namespace std;
 
@@ -11,21 +12,39 @@ namespace algebra
 {
 
 Function::Function()
+    : m_functionName()
+    , m_inputTermPointer(new Term())
+    , m_functionToPerform()
+{}
+
+Function::Function(Function const& functionObject)
+    : m_functionName(functionObject.m_functionName)
+    , m_inputTermPointer(new Term(getTermConstReferenceFromUniquePointer(functionObject.m_inputTermPointer)))
+    , m_functionToPerform(functionObject.m_functionToPerform)
 {}
 
 Function::Function(
         string const& functionName,
-        Expression const& inputExpression,
+        BaseTerm const& baseTerm,
         FunctionToPerform const& functionToPerform)
     : m_functionName(functionName)
-    , m_inputExpression(inputExpression)
+    , m_inputTermPointer(new Term(getTermConstReferenceFromBaseTerm(baseTerm)))
     , m_functionToPerform(functionToPerform)
 {}
+
+Function& Function::operator=(Function const& functionObject)
+{
+    m_functionName = functionObject.m_functionName;
+    m_inputTermPointer.reset(new Term(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference())));
+    m_functionToPerform = functionObject.m_functionToPerform;
+    return *this;
+}
 
 bool Function::operator==(Function const& second) const
 {
     return m_functionName == second.m_functionName
-            && m_inputExpression==second.m_inputExpression;
+            && getTermConstReferenceFromBaseTerm(getInputTermConstReference())
+            == getTermConstReferenceFromBaseTerm(second.getInputTermConstReference());
 }
 
 bool Function::operator!=(Function const& second) const
@@ -38,7 +57,8 @@ bool Function::operator<(Function const& second) const
     bool result(false);
     if(m_functionName == second.m_functionName)
     {
-        return m_inputExpression < second.m_inputExpression;
+        return getTermConstReferenceFromBaseTerm(getInputTermConstReference())
+                < getTermConstReferenceFromBaseTerm(second.getInputTermConstReference());
     }
     else
     {
@@ -47,15 +67,9 @@ bool Function::operator<(Function const& second) const
     return result;
 }
 
-bool Function::isInputExpressionAConstant() const
+bool Function::isInputAConstant() const
 {
-    bool result(false);
-    if(m_inputExpression.containsOnlyOneTerm())
-    {
-        Term const& term = dynamic_cast<Term const&>(m_inputExpression.getFirstTermConstReference());
-        result = term.isConstant();
-    }
-    return result;
+    return getTermConstReferenceFromBaseTerm(getInputTermConstReference()).isConstant();
 }
 
 string Function::getFunctionName() const
@@ -65,31 +79,28 @@ string Function::getFunctionName() const
 
 string Function::getDisplayableString() const
 {
-    return m_functionName + m_inputExpression.getDisplayableString();
+    return m_functionName + "(" + getTermConstReferenceFromBaseTerm(getInputTermConstReference()).getDisplayableString() + ")";
 }
 
 string Function::getDebugString() const
 {
-    return m_functionName + m_inputExpression.getDebugString();
+    return m_functionName + "(" + getTermConstReferenceFromBaseTerm(getInputTermConstReference()).getDebugString() + ")";
 }
 
 AlbaNumber Function::performFunctionAndReturnResultIfPossible() const
 {
     AlbaNumber result;
-    if(m_inputExpression.containsOnlyOneTerm())
+    Term const& term(getTermConstReferenceFromBaseTerm(getInputTermConstReference()));
+    if(term.isConstant())
     {
-        Term const& term = dynamic_cast<Term const&>(m_inputExpression.getFirstTermConstReference());
-        if(term.isConstant())
-        {
-            result = m_functionToPerform(term.getConstantConstReference().getNumberConstReference());
-        }
+        result = m_functionToPerform(term.getConstantConstReference().getNumberConstReference());
     }
     return result;
 }
 
-Expression const& Function::getInputExpressionConstReference() const
+BaseTerm const& Function::getInputTermConstReference() const
 {
-    return m_inputExpression;
+    return getBaseTermConstReferenceFromUniquePointer(m_inputTermPointer);
 }
 
 Function::FunctionToPerform const& Function::getFunctionToPerform() const
@@ -97,14 +108,14 @@ Function::FunctionToPerform const& Function::getFunctionToPerform() const
     return m_functionToPerform;
 }
 
-Expression & Function::getInputExpressionReference()
+BaseTerm & Function::getInputTermReference()
 {
-    return m_inputExpression;
+    return getBaseTermReferenceFromUniquePointer(m_inputTermPointer);
 }
 
 void Function::simplify()
 {
-    m_inputExpression.simplify();
+    getTermReferenceFromBaseTerm(getInputTermReference()).simplify();
 }
 
 ostream & operator<<(ostream & out, Function const& functionAsParameter)

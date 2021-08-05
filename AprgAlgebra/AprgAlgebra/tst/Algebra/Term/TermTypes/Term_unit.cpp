@@ -174,7 +174,7 @@ TEST(TermTest, TermsAsExpressionsWorkAsExpected)
 TEST(TermTest, TermsAsFunctionsWorkAsExpected)
 {
     Function function1;
-    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
+    Function function2("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
@@ -186,20 +186,19 @@ TEST(TermTest, TermsAsFunctionsWorkAsExpected)
     ASSERT_EQ(TermType::Function, functionTerm1.getTermType());
     Function const& functionToVerify1(functionTerm1.getFunctionConstReference());
     EXPECT_TRUE(functionToVerify1.getFunctionName().empty());
-    EXPECT_EQ(Expression(), functionToVerify1.getInputExpressionConstReference());
+    EXPECT_EQ(Term(), getTermConstReferenceFromBaseTerm(functionToVerify1.getInputTermConstReference()));
 
     //For function2
     ASSERT_EQ(TermType::Function, functionTerm2.getTermType());
     Function const& functionToVerify2(functionTerm2.getFunctionConstReference());
     EXPECT_EQ("functionName", functionToVerify2.getFunctionName());
-    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(5)));
-    EXPECT_EQ(expressionToExpect, functionToVerify2.getInputExpressionConstReference());
+    EXPECT_EQ(Term(5), getTermConstReferenceFromBaseTerm(functionToVerify2.getInputTermConstReference()));
 
     //For function3
     ASSERT_EQ(TermType::Function, functionTerm3.getTermType());
     Function const& functionToVerify3(functionTerm3.getFunctionConstReference());
     EXPECT_EQ("abs", functionToVerify3.getFunctionName());
-    EXPECT_TRUE(functionToVerify3.getInputExpressionConstReference().isEmpty());
+    EXPECT_TRUE(getTermConstReferenceFromBaseTerm(functionToVerify3.getInputTermConstReference()).isEmpty());
 }
 
 TEST(TermTest, TermsAsConstantsCanBeChangedAsExpected)
@@ -266,11 +265,10 @@ TEST(TermTest, TermsAsFunctionsCanBeChangedAsExpected)
 {
     Term term(Function{});
 
-    term.getFunctionReference().getInputExpressionReference() = createOrCopyExpressionFromATerm(Term(7));
+    getTermReferenceFromBaseTerm(term.getFunctionReference().getInputTermReference()) = Term(7);
 
     ASSERT_EQ(TermType::Function, term.getTermType());
-    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(7)));
-    EXPECT_EQ(expressionToExpect, term.getFunctionConstReference().getInputExpressionConstReference());
+    EXPECT_EQ(Term(7), getTermConstReferenceFromBaseTerm(term.getFunctionConstReference().getInputTermConstReference()));
 }
 
 TEST(TermTest, EqualityOperatorWorks)
@@ -623,7 +621,7 @@ TEST(TermTest, GetDisplayableStringWorks)
     Term term5(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));
     Term term6(Polynomial({Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})}));
     Term term7(createExpressionIfPossible({Term(5), Term("+"), Term("interest")}));
-    Function function1("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
+    Function function1("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
@@ -648,7 +646,7 @@ TEST(TermTest, GetDebugStringWorks)
     Term term5(Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}}));
     Term term6(Polynomial({Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})}));
     Term term7(createExpressionIfPossible({Term(5), Term("+"), Term("interest")}));
-    Function function1("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
+    Function function1("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
@@ -661,7 +659,7 @@ TEST(TermTest, GetDebugStringWorks)
     EXPECT_EQ("-1.5[distance^-3.75][power^4.5]{Monomial}", term5.getDebugString());
     EXPECT_EQ("(3 + -1.5[distance^-3.75][power^4.5]){Polynomial}", term6.getDebugString());
     EXPECT_EQ("( {+-}||5{Constant}{POS}+interest{Variable}{POS} ){Expression}", term7.getDebugString());
-    EXPECT_EQ("functionName( {?}||5{Constant}{POS} ){Function}", term8.getDebugString());
+    EXPECT_EQ("functionName(5{Constant}){Function}", term8.getDebugString());
 }
 
 TEST(TermTest, SimplifyWorks)
@@ -670,7 +668,7 @@ TEST(TermTest, SimplifyWorks)
     Term term2(Monomial(1475,{}));
     Term term3(Polynomial{Monomial(1475,{})});
     Term term4(Expression{createExpressionIfPossible({Term(1475)})});
-    Function function1("functionName", createOrCopyExpressionFromATerm(Term(1475)), [](AlbaNumber const&  number) -> AlbaNumber
+    Function function1("functionName", Term(1475), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });

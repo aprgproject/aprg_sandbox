@@ -109,8 +109,8 @@ Expression SubstitutionOfTermsToTerms::performSubstitutionForExpression(Expressi
 Function SubstitutionOfTermsToTerms::performSubstitutionForFunction(Function const& functionAsParameter) const
 {
     Function newFunction(functionAsParameter);
-    newFunction.getInputExpressionReference()
-            = performSubstitutionForExpression(functionAsParameter.getInputExpressionConstReference());
+    getTermReferenceFromBaseTerm(newFunction.getInputTermReference())
+            = performSubstitutionTo(functionAsParameter.getInputTermConstReference());
     return newFunction;
 }
 

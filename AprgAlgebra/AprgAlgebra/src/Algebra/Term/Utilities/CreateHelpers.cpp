@@ -142,7 +142,7 @@ Function createFunctionWithEmptyInputExpression(string const& functionName)
     Function result;
     if("abs" == functionName)
     {
-        result = Functions::abs(Expression());
+        result = Functions::abs(Term());
     }
     return result;
 }
@@ -151,7 +151,7 @@ Function createFunctionInAnFunction(Function const& functionObject)
 {
     return Function(
                 functionObject.getFunctionName(),
-                createExpressionIfPossible({Term(functionObject)}),
+                Term(functionObject),
                 functionObject.getFunctionToPerform());
 }
 

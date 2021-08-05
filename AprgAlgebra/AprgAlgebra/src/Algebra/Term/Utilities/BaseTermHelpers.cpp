@@ -35,6 +35,11 @@ Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& 
     return dynamic_cast<Term const&>(*sharedPointer.get());
 }
 
+Term const& getTermConstReferenceFromUniquePointer(BaseTermUniquePointer const& uniquePointer)
+{
+    return dynamic_cast<Term const&>(*uniquePointer.get());
+}
+
 Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm)
 {
     return dynamic_cast<Term &>(baseTerm);
@@ -43,6 +48,11 @@ Term & getTermReferenceFromBaseTerm(BaseTerm & baseTerm)
 Term & getTermReferenceFromSharedPointer(BaseTermSharedPointer & sharedPointer)
 {
     return *dynamic_cast<Term*>(sharedPointer.get());
+}
+
+Term & getTermReferenceFromUniquePointer(BaseTermUniquePointer & uniquePointer)
+{
+    return *dynamic_cast<Term*>(uniquePointer.get());
 }
 
 BaseTerm const& getBaseTermConstReferenceFromTerm(Term const& term)
@@ -55,9 +65,24 @@ BaseTerm const& getBaseTermConstReferenceFromSharedPointer(BaseTermSharedPointer
     return dynamic_cast<BaseTerm const&>(*sharedPointer.get());
 }
 
+BaseTerm const& getBaseTermConstReferenceFromUniquePointer(BaseTermUniquePointer const& uniquePointer)
+{
+    return dynamic_cast<BaseTerm const&>(*uniquePointer.get());
+}
+
 BaseTerm & getBaseTermReferenceFromTerm(Term & term)
 {
     return dynamic_cast<BaseTerm &>(term);
+}
+
+BaseTerm & getBaseTermReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
+{
+    return dynamic_cast<BaseTerm &>(*sharedPointer.get());
+}
+
+BaseTerm & getBaseTermReferenceFromUniquePointer(BaseTermUniquePointer const& uniquePointer)
+{
+    return dynamic_cast<BaseTerm &>(*uniquePointer.get());
 }
 
 }

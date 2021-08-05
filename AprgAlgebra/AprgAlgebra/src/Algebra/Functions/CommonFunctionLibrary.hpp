@@ -1,7 +1,6 @@
 #pragma once
 
-#include <Algebra/Term/TermTypes/Expression.hpp>
-#include <Algebra/Term/TermTypes/Function.hpp>
+#include <Algebra/Term/TermTypes/Term.hpp>
 
 namespace alba
 {
@@ -12,7 +11,7 @@ namespace algebra
 namespace Functions
 {
 
-Function abs(Expression const& expression);
+Function abs(Term const& term);
 
 }
 

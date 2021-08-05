@@ -173,7 +173,7 @@ TEST(TermsAggregatorTest, SimplifyWorksWithFunction)
 
     aggregator.simplifyTerms();
 
-    Function functionToExpect(Functions::abs(createOrCopyExpressionFromATerm(Term(5))));
+    Function functionToExpect(Functions::abs(Term(5)));
     Terms termsToVerify(aggregator.getTermsConstReference());
     ASSERT_EQ(1u, termsToVerify.size());
     ASSERT_EQ(TermType::Function, termsToVerify.at(0).getTermType());

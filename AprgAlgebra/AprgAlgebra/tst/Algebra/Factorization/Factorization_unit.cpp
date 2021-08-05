@@ -52,21 +52,6 @@ TEST(FactorizationTest, FactorizeWorksForAnExpression)
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(FactorizationTest, FactorizeWorksForAFunction)
-{
-    Polynomial polynomial({Monomial(2, {{"x", 2}}), Monomial(5, {{"x", 1}}), Monomial(-12, {})});
-    Function functionToTest(Functions::abs(createOrCopyExpressionFromATerm(Term(polynomial))));
-
-    Function functionToVerify(factorize(functionToTest));
-
-    Polynomial polynomialToExpect1({Monomial(2, {{"x", 1}}), Monomial(-3, {})});
-    Polynomial polynomialToExpect2({Monomial(1, {{"x", 1}}), Monomial(4, {})});
-    Function functionToExpect(
-                Functions::abs(
-                    createExpressionIfPossible({Term(polynomialToExpect1), Term("*"), Term(polynomialToExpect2)})));
-    EXPECT_EQ(functionToExpect, functionToVerify);
-}
-
 }
 
 }

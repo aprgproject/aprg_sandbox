@@ -1,6 +1,7 @@
 #include "TermsAggregator.hpp"
 
 #include <Algebra/Operations/PerformOperations.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/EnumHelpers.hpp>
 
@@ -98,7 +99,7 @@ bool TermsAggregator::combineOpeningClosingOperatorsAtStartEndIndexesAndReturnIf
             if(m_startIndex>=1 && termBeforeStart.isFunction())
             {
                 Function newFunction(termBeforeStart.getFunctionConstReference());
-                newFunction.getInputExpressionReference() = createOrCopyExpressionFromATerm(term2);
+                getTermReferenceFromBaseTerm(newFunction.getInputTermReference()) = term2;
                 Term newTerm(newFunction);
                 eraseAndThenInsert(m_startIndex-1, m_endIndex, newTerm);
                 isCombined=true;

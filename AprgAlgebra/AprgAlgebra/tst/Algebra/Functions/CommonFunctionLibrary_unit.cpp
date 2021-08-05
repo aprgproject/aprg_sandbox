@@ -1,4 +1,5 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
@@ -16,13 +17,11 @@ namespace Functions
 
 TEST(CommonFunctionLibraryTest, AbsoluteValueWorks)
 {
-    Function absoluteValueFunction(abs(createOrCopyExpressionFromATerm(Term(-5))));
+    Function absoluteValueFunction(abs(Term(-5)));
 
-    Expression expressionToExpect(createOrCopyExpressionFromATerm(Term(-5)));
-    Constant constantToExpect(5);
     EXPECT_EQ("abs", absoluteValueFunction.getFunctionName());
-    EXPECT_EQ(expressionToExpect, absoluteValueFunction.getInputExpressionConstReference());
-    EXPECT_EQ(constantToExpect, absoluteValueFunction.performFunctionAndReturnResultIfPossible());
+    EXPECT_EQ(Term(-5), getTermConstReferenceFromBaseTerm(absoluteValueFunction.getInputTermConstReference()));
+    EXPECT_EQ(Constant(5), absoluteValueFunction.performFunctionAndReturnResultIfPossible());
 }
 
 }

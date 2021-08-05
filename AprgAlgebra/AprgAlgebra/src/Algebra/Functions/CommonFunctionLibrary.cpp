@@ -14,9 +14,9 @@ namespace algebra
 namespace Functions
 {
 
-Function abs(Expression const& expression)
+Function abs(Term const& term)
 {
-    return Function("abs", expression, [](AlbaNumber const&  number) -> AlbaNumber
+    return Function("abs", term, [](AlbaNumber const&  number) -> AlbaNumber
     {
         return getAbsoluteValue(number);
     });

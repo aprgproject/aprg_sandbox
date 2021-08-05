@@ -2,6 +2,7 @@
 
 #include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 
@@ -76,7 +77,7 @@ void BaseOneEquationOneVariableSolver::calculateAndSubstituteAbsoluteValueFuncti
     {
         Term absFunctionTerm(absFunction);
         SubstitutionOfTermsToTerms substitutionForPositive;
-        Term positiveTerm(absFunction.getInputExpressionConstReference());
+        Term positiveTerm(absFunction.getInputTermConstReference());
         substitutionForPositive.putTermToTermMapping(absFunctionTerm, positiveTerm);
         Term substitutedPositiveTerm(substitutionForPositive.performSubstitutionTo(term));
         substitutedPositiveTerm.simplify();
@@ -84,10 +85,11 @@ void BaseOneEquationOneVariableSolver::calculateAndSubstituteAbsoluteValueFuncti
 
         SubstitutionOfTermsToTerms substitutionForNegative;
         Term negativeTerm(
-                    createExpressionIfPossible({
-                                                   Term(-1),
-                                                   Term("*"),
-                                                   Term(absFunction.getInputExpressionConstReference())}));
+                    createExpressionIfPossible(
+        {
+                            Term(-1),
+                            Term("*"),
+                            getTermConstReferenceFromBaseTerm(absFunction.getInputTermConstReference())}));
         substitutionForNegative.putTermToTermMapping(absFunctionTerm, negativeTerm);
         Term substitutedNegativeTerm(substitutionForNegative.performSubstitutionTo(term));
         substitutedNegativeTerm.simplify();

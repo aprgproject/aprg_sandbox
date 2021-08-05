@@ -41,7 +41,7 @@ TEST(RetrieveHelpersTest, RetrieveExponentsWorksForTerm)
     AlbaNumbersSet numbersSet5;
     Function functionObject(
                 "functionName",
-                createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", 10}}))}),
+                Term(createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", 10}}))})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -110,7 +110,7 @@ TEST(RetrieveHelpersTest, RetrieveExponentsWorksForFunction)
     AlbaNumbersSet numbersSet;
     Function functionObject(
                 "functionName",
-                createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", 10}}))}),
+                Term(createExpressionIfPossible({Term(4516), Term("+"), Term(Monomial(7895, {{"x", 10}}))})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -157,7 +157,7 @@ TEST(RetrieveHelpersTest, RetrieveNumbersWorksForTerm)
     AlbaNumbersSet numbersSet5;
     Function functionObject(
                 "functionName",
-                createExpressionIfPossible({Term("x"), Term("^"), Term(68)}),
+                Term(createExpressionIfPossible({Term("x"), Term("^"), Term(68)})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -237,7 +237,7 @@ TEST(RetrieveHelpersTest, RetrieveNumbersWorksForFunction)
     AlbaNumbersSet numbersSet;
     Function functionObject(
                 "functionName",
-                createExpressionIfPossible({Term("x"), Term("^"), Term(68)}),
+                Term(createExpressionIfPossible({Term("x"), Term("^"), Term(68)})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -267,7 +267,7 @@ TEST(RetrieveHelpersTest, RetrieveVariableNamesWorksForTerm)
     VariableNamesSet variableNamesSet5;
     Function functionObject(
                 "functionName",
-                createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
+                Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -350,7 +350,7 @@ TEST(RetrieveHelpersTest, RetrieveVariableNamesWorksForFunction)
     VariableNamesSet variableNamesSet;
     Function functionObject(
                 "functionName",
-                createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
+                Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -385,7 +385,7 @@ TEST(RetrieveHelpersTest, RetrieveAndReturnFunctionsWithConditionWorksForExpress
 {
     Function functionObject(
                 "functionName",
-                createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
+                Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -412,7 +412,7 @@ TEST(RetrieveHelpersTest, RetrieveFunctionsWithConditionWorksForTerm)
     FunctionsSet functionsSets6;
     Function functionObject(
                 "functionName",
-                createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
+                Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -453,7 +453,7 @@ TEST(RetrieveHelpersTest, RetrieveFunctionsWithConditionWorksForExpression)
     FunctionsSet functionsSets2;
     Function functionObject(
                 "functionName",
-                createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
+                Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
@@ -480,7 +480,7 @@ TEST(RetrieveHelpersTest, RetrieveFunctionsWithConditionWorksForFunction)
     FunctionsSet functionsSets2;
     Function functionObject(
                 "functionName",
-                createExpressionIfPossible({Term("x"), Term("^"), Term("y")}),
+                Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})),
                 [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;

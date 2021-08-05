@@ -194,14 +194,14 @@ TEST(CreateHelpersTest, CreateFunctionWithEmptyInputExpressionWorks)
     Function absoluteValueFunction(createFunctionWithEmptyInputExpression("abs"));
 
     EXPECT_EQ("abs", absoluteValueFunction.getFunctionName());
-    EXPECT_TRUE(absoluteValueFunction.getInputExpressionConstReference().isEmpty());
+    EXPECT_TRUE(getTermConstReferenceFromBaseTerm(absoluteValueFunction.getInputTermConstReference()).isEmpty());
 }
 
 TEST(CreateHelpersTest, CreateFunctionInAnFunctionWorks)
 {
-    Function absFunction(Functions::abs(createExpressionIfPossible({Term(-5)})));
-    Function absInAbsFunction(Functions::abs(createExpressionIfPossible({Term(absFunction)})));
-    Function absInAbsInAbsFunction(Functions::abs(createExpressionIfPossible({Term(absInAbsFunction)})));
+    Function absFunction(Functions::abs(Term(-5)));
+    Function absInAbsFunction(Functions::abs(Term(absFunction)));
+    Function absInAbsInAbsFunction(Functions::abs(Term(absInAbsFunction)));
 
     Function functionToVerify1(createFunctionInAnFunction(absFunction));
     Function functionToVerify2(createFunctionInAnFunction(absInAbsFunction));

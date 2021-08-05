@@ -15,7 +15,6 @@ namespace Factorization
 
 Polynomials factorize(Polynomial const& polynomial);
 Expression factorize(Expression const& expression);
-Function factorize(Function const& expression);
 
 }
 

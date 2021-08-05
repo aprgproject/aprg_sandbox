@@ -92,11 +92,11 @@ TEST(ConvertHelpersTest, SimplifyAndConvertExpressionToSimplestTermWorks)
 TEST(ConvertHelpersTest, SimplifyAndConvertFunctionToSimplestTermWorks)
 {
     Function function1;
-    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
+    Function function2("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
-    Function function3("functionName", createExpressionIfPossible({Term(5), Term("+"), Term(5)}), [](AlbaNumber const&  number) -> AlbaNumber
+    Function function3("functionName", Term(createExpressionIfPossible({Term(5), Term("+"), Term(5)})), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
@@ -125,11 +125,11 @@ TEST(ConvertHelpersTest, ConvertExpressionToSimplestTermWorks)
 TEST(ConvertHelpersTest, ConvertFunctionToSimplestTermWorks)
 {
     Function function1;
-    Function function2("functionName", createOrCopyExpressionFromATerm(Term(5)), [](AlbaNumber const&  number) -> AlbaNumber
+    Function function2("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
-    Function function3("functionName", createOrCopyExpressionFromATerm(Term("x")), [](AlbaNumber const&  number) -> AlbaNumber
+    Function function3("functionName", Term("x"), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });

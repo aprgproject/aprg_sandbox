@@ -106,7 +106,7 @@ Term convertExpressionToSimplestTerm(Expression const& expression)
 Term convertFunctionToSimplestTerm(Function const& functionAsParameter)
 {
     Term newTerm(functionAsParameter);
-    if(functionAsParameter.isInputExpressionAConstant())
+    if(functionAsParameter.isInputAConstant())
     {
         newTerm = Term(functionAsParameter.performFunctionAndReturnResultIfPossible());
     }

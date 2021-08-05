@@ -29,11 +29,6 @@ void factorizeAnExpression(Expression & expression)
             Expression & subExpression(term.getExpressionReference());
             factorizeAnExpression(subExpression);
         }
-        else if(term.isFunction())
-        {
-            Expression & inputExpression(term.getFunctionReference().getInputExpressionReference());
-            factorizeAnExpression(inputExpression);
-        }
         else if(term.isPolynomial())
         {
             factorizePolynomialAndUpdate(expression, termsToPut, term.getPolynomialConstReference(), it->association);
