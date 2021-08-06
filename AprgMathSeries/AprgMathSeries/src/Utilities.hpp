@@ -6,11 +6,10 @@ namespace alba
 namespace MathSeries
 {
 
-double getSumUsingFirstAndLastTerm(
+double getSumOfArithmeticSeriesUsingFirstAndLastTerm(
         double const value1,
         double const value2,
         int const count);
-
 }
 
 }

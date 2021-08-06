@@ -34,12 +34,10 @@ double ArithmeticSeries::getSum(
         int const startingNthIndex,
         int const endingNthIndex)
 {
-    return getSumUsingFirstAndLastTerm(
+    return getSumOfArithmeticSeriesUsingFirstAndLastTerm(
                 getValueAt(startingNthIndex),
                 getValueAt(endingNthIndex),
-                endingNthIndex - startingNthIndex + 1);
-}
+                endingNthIndex - startingNthIndex + 1);}
 
 }
-
 }
