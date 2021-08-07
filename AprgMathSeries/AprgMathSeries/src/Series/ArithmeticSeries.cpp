@@ -14,30 +14,29 @@ ArithmeticSeries::ArithmeticSeries(
 {}
 
 ArithmeticSeries::ArithmeticSeries(
-        double const valueAtNthIndex1,
-        int const nthIndex1,
-        double const valueAtNthIndex2,
-        int const nthIndex2)
+        double const valueAtIndex1,
+        int const index1,
+        double const valueAtIndex2,
+        int const index2)
 {
-    m_commonDifference = (valueAtNthIndex1 - valueAtNthIndex2)/(nthIndex1 - nthIndex2);
-    m_firstTerm = valueAtNthIndex1 - (nthIndex1 - 1)*m_commonDifference;
+    m_commonDifference = (valueAtIndex1 - valueAtIndex2)/(index1 - index2);
+    m_firstTerm = valueAtIndex1 - index1*m_commonDifference;
 }
 
-double ArithmeticSeries::getValueAt(int const nthIndex) const
+double ArithmeticSeries::getValueAtIndex(int const index) const
 {
-    return m_firstTerm + (nthIndex - 1)*m_commonDifference;
+    return m_firstTerm + index*m_commonDifference;
 }
 
 double ArithmeticSeries::getSum(
-        int const startingNthIndex,
-        int const endingNthIndex)
+        int const startingIndex,
+        int const endingIndex)
 {
-    return getSumOfArithmeticSeriesUsingFirstAndLastTerm(
-                getValueAt(startingNthIndex),
-                getValueAt(endingNthIndex),
-                endingNthIndex - startingNthIndex + 1);
+    return getSumOfArithmeticSeriesUsingFirstAndLastValue(
+                getValueAtIndex(startingIndex),
+                getValueAtIndex(endingIndex),
+                endingIndex - startingIndex + 1);
 }
 
 }
-
 }

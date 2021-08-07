@@ -8,14 +8,15 @@
 
 #include <algorithm>
 
+
+#include <Debug/AlbaDebug.hpp>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 SolverUsingSubstitution::SolverUsingSubstitution()
     : BaseSolver()
 {}
@@ -35,25 +36,22 @@ void SolverUsingSubstitution::calculateSolutionForAllVariables(
         MultipleVariableSolutionSet & multipleVariableSolutionSet,
         Equations const& equations)
 {
-    VariableNamesSet variableAsUnknown;
-    retrieveVariableNames(variableAsUnknown, equations);
+    VariableNamesSet variablesWithUnknownValues;
+    retrieveVariableNames(variablesWithUnknownValues, equations);
     VariableNamesSet previousVariableWithSolution, variableWithSolution;
     do
-    {
-        previousVariableWithSolution=variableWithSolution;
+    {        previousVariableWithSolution=variableWithSolution;
         calculateSolutionForOneVariable(multipleVariableSolutionSet, equations);
         variableWithSolution = multipleVariableSolutionSet.getVariableNames();
     }
-    while(previousVariableWithSolution.size() != variableWithSolution.size() && variableAsUnknown.size() != variableWithSolution.size());
-    if(variableAsUnknown == variableWithSolution)
+    while(previousVariableWithSolution.size() != variableWithSolution.size() && variablesWithUnknownValues.size() != variableWithSolution.size());
+    if(variablesWithUnknownValues == variableWithSolution)
     {
         setAsCompleteSolution();
-    }
-}
+    }}
 
 void SolverUsingSubstitution::calculateSolutionForOneVariable(
-        MultipleVariableSolutionSet & multipleVariableSolutionSet,
-        Equations const& equations)
+        MultipleVariableSolutionSet & multipleVariableSolutionSet,        Equations const& equations)
 {
     Equations substitutedEquations(equations);
     substituteSolutionSetValuesToEquations(substitutedEquations, multipleVariableSolutionSet);
@@ -94,13 +92,12 @@ void SolverUsingSubstitution::isolateAndSubstituteUntilOneUnknown(
         string selectedVariableName;
         unsigned int selectedEquationIndex(0u);
         selectVariableNameAndEquationNumber(areVariableAndEquationSelected, selectedVariableName, selectedEquationIndex, substitutedEquations);
+        ALBA_PRINT4(areVariableAndEquationSelected, selectedVariableName, selectedEquationIndex, substitutedEquations.at(selectedEquationIndex));
         substituteEquationForSelectedEquationIndex(substitutedEquations, areVariableAndEquationSelected, selectedVariableName, selectedEquationIndex);
         removeEquationsWithoutUnknowns(substitutedEquations);
-        unknowns.clear();
-        retrieveVariableNames(unknowns, substitutedEquations);
+        unknowns.clear();        retrieveVariableNames(unknowns, substitutedEquations);
     }
 }
-
 void SolverUsingSubstitution::solveUsingOneUnknownAndAddToSolutionSet(
         MultipleVariableSolutionSet & multipleVariableSolutionSet,
         Equations const& substitutedEquations)
@@ -115,14 +112,13 @@ void SolverUsingSubstitution::solveUsingOneUnknownAndAddToSolutionSet(
             string variableNameToSolve(*(variableNamesToSolve.cbegin()));
             OneEquationOneVariableEqualitySolver solver;
             SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equationToSolve));
+            ALBA_PRINT2(solutionSet, equationToSolve);
             multipleVariableSolutionSet.addSolutionSetForVariable(variableNameToSolve, solutionSet);
         }
-    }
-}
+    }}
 
 void SolverUsingSubstitution::selectVariableNameAndEquationNumber(
-        bool & areVariableAndEquationSelected,
-        string & selectedVariableName,
+        bool & areVariableAndEquationSelected,        string & selectedVariableName,
         unsigned int & selectedEquationIndex,
         Equations const& equations)
 {
@@ -131,48 +127,48 @@ void SolverUsingSubstitution::selectVariableNameAndEquationNumber(
     selectedEquationIndex = 0u;
     VariableNamesSet variableNames;
     retrieveVariableNames(variableNames, equations);
+    unsigned int equationIndex=0;
     for(Equation const& equation : equations)
     {
         IsolationOfOneVariableOnEqualityEquation isolation(equation);
-        unsigned int index=0;
         for(string const& variableName : variableNames)
         {
+            ALBA_PRINT3(isolation.canBeIsolated(variableName), variableName, equation);
             if(isolation.canBeIsolated(variableName)
                     && isolation.getExponentOfIsolatedVariable(variableName) == 1)
             {
                 areVariableAndEquationSelected = true;
                 selectedVariableName = variableName;
-                selectedEquationIndex = index;
+                selectedEquationIndex = equationIndex;
+                ALBA_PRINT3(areVariableAndEquationSelected, selectedVariableName, selectedEquationIndex);
                 break;
             }
-            index++;
         }
+        equationIndex++;
     }
 }
-
 void SolverUsingSubstitution::substituteEquationForSelectedEquationIndex(
         Equations & substitutedEquations,
-        bool const areVariableAndEquationSelected,
-        string const& selectedVariableName,
+        bool const areVariableAndEquationSelected,        string const& selectedVariableName,
         unsigned int const selectedEquationIndex)
 {
     if(areVariableAndEquationSelected)
     {
         IsolationOfOneVariableOnEqualityEquation isolation(substitutedEquations.at(selectedEquationIndex));
         Equation isolatedEquation(isolation.isolate(selectedVariableName));
+        ALBA_PRINT2(substitutedEquations.at(selectedEquationIndex), isolatedEquation);
         substitutedEquations.erase(substitutedEquations.begin()+selectedEquationIndex);
         SubstitutionOfVariablesToTerms substitution;
         substitution.putVariableWithTerm(selectedVariableName, isolatedEquation.getLeftHandTerm());
         for(Equation & substitutedEquation : substitutedEquations)
         {
+            ALBA_PRINT2(substitutedEquation, substitution.performSubstitutionTo(substitutedEquation));
             substitutedEquation = substitution.performSubstitutionTo(substitutedEquation);
         }
-    }
-}
+    }}
 
 void SolverUsingSubstitution::removeEquationsWithoutUnknowns(Equations& substitutedEquations)
-{
-    substitutedEquations.erase(
+{    substitutedEquations.erase(
                 remove_if(substitutedEquations.begin(), substitutedEquations.end(), [](Equation const& equation)
     {
                     VariableNamesSet unknowns;

@@ -6,11 +6,17 @@ namespace alba
 namespace MathSeries
 {
 
-double getSumOfArithmeticSeriesUsingFirstAndLastTerm(
-        double const value1,
-        double const value2,
+double getSumOfArithmeticSeriesUsingFirstAndLastValue(
+        double const firstValue,
+        double const lastValue,
         int const count);
+double getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(
+        double const firstValue,
+        double const commonMultiplier,
+        int const count);
+double getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(
+        double const firstValue,
+        double const commonMultiplier);
 
 }
-
 }

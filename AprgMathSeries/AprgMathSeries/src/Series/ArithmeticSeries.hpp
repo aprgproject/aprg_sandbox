@@ -15,21 +15,19 @@ public:
             double const commonDifference);
 
     ArithmeticSeries(
-            double const valueAtNthIndex1,
-            int const nthIndex1,
-            double const valueAtNthIndex2,
-            int const nthIndex2);
+            double const valueAtIndex1,
+            int const index1,
+            double const valueAtIndex2,
+            int const index2);
 
-    double getValueAt(int const nthIndex) const;
+    double getValueAtIndex(int const index) const;
     double getSum(
-            int const startingNthIndex,
-            int const endingNthIndex);
+            int const startingIndex,
+            int const endingIndex);
 
 private:
-    double m_firstTerm;
-    double m_commonDifference;
+    double m_firstTerm;    double m_commonDifference;
 };
 
 }
-
 }
