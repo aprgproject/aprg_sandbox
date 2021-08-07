@@ -166,8 +166,10 @@ TEST(TermOperatorsTest, BinaryPlusOperator_ConstantAddTermOperationWorks)
 TEST(TermOperatorsTest, BinaryPlusOperator_VariableAddConstantOperationWorks)
 {
     Term term(Variable("y") + Constant(4));
+
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"y", 1}}), Monomial(4, {})}), term);
 }
+
 TEST(TermOperatorsTest, BinaryPlusOperator_VariableAddVariableWithSameVariableOperationWorks)
 {
     Term term(Variable("i") + Variable("i"));
@@ -233,8 +235,10 @@ TEST(TermOperatorsTest, BinaryPlusOperator_VariableAddTermOperationWorks)
 TEST(TermOperatorsTest, BinaryPlusOperator_MonomialAddConstantWithSameMonomialConstantOperationWorks)
 {
     Term term(Monomial(8, {}) + Constant(2));
+
     EXPECT_EQ(Term(10), term);
 }
+
 TEST(TermOperatorsTest, BinaryPlusOperator_MonomialAddConstantWithDifferentMonomialConstantOperationWorks)
 {
     Term term(Monomial(6, {{"x", 2}, {"y", 4}}) + Constant(4));
@@ -307,8 +311,10 @@ TEST(TermOperatorsTest, BinaryPlusOperator_MonomialAddTermOperationWorks)
 TEST(TermOperatorsTest, BinaryPlusOperator_PolynomialAddConstantOperationWorks)
 {
     Term term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})} + Constant(10));
+
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(15, {})}), term);
 }
+
 TEST(TermOperatorsTest, BinaryPlusOperator_PolynomialAddVariableOperationWorks)
 {
     Term term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})} + Variable("x"));
@@ -360,9 +366,11 @@ TEST(TermOperatorsTest, BinaryPlusOperator_PolynomialAddTermOperationWorks)
 TEST(TermOperatorsTest, BinaryPlusOperator_ExpressionAddConstantOperationWorks)
 {
     Term term(createExpressionIfPossible({Term(54)}) + Constant(10));
+
     Expression expressionToExpect(
                 createExpressionIfPossible({Term(54), Term("+"), Term(10)}));
-    EXPECT_EQ(Term(expressionToExpect), term);}
+    EXPECT_EQ(Term(expressionToExpect), term);
+}
 
 TEST(TermOperatorsTest, BinaryPlusOperator_ExpressionAddVariableOperationWorks)
 {
@@ -425,9 +433,11 @@ TEST(TermOperatorsTest, BinaryPlusOperator_ExpressionAddTermOperationWorks)
 TEST(TermOperatorsTest, BinaryPlusOperator_FunctionAddConstantOperationWorks)
 {
     Function absoluteValueFunction(Functions::abs(Expression{}));
+
     Term term(absoluteValueFunction + Constant(10));
 
-    Expression expressionToExpect(                createExpressionIfPossible({Term(absoluteValueFunction), Term("+"), Term(10)}));
+    Expression expressionToExpect(
+                createExpressionIfPossible({Term(absoluteValueFunction), Term("+"), Term(10)}));
     EXPECT_EQ(Term(expressionToExpect), term);
 }
 
@@ -555,8 +565,10 @@ TEST(TermOperatorsTest, BinaryPlusOperator_TermAddTermOperationWorks)
 TEST(TermOperatorsTest, BinaryMinusOperator_ConstantSubtractConstantOperationWorks)
 {
     Term term(Constant(6) - Constant(2));
+
     EXPECT_EQ(Term(4), term);
 }
+
 TEST(TermOperatorsTest, BinaryMinusOperator_ConstantSubtractVariableOperationWorks)
 {
     Term term(Constant(5) - Variable("x"));
@@ -615,8 +627,10 @@ TEST(TermOperatorsTest, BinaryMinusOperator_ConstantSubtractTermOperationWorks)
 TEST(TermOperatorsTest, BinaryMinusOperator_VariableSubtractConstantOperationWorks)
 {
     Term term(Variable("y") - Constant(4));
+
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"y", 1}}), Monomial(-4, {})}), term);
 }
+
 TEST(TermOperatorsTest, BinaryMinusOperator_VariableSubtractVariableWithSameVariableOperationWorks)
 {
     Term term(Variable("i") - Variable("i"));
@@ -682,8 +696,10 @@ TEST(TermOperatorsTest, BinaryMinusOperator_VariableSubtractTermOperationWorks)
 TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractConstantWithSameMonomialConstantOperationWorks)
 {
     Term term(Monomial(8, {}) - Constant(2));
+
     EXPECT_EQ(Term(6), term);
 }
+
 TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractConstantWithDifferentMonomialConstantOperationWorks)
 {
     Term term(Monomial(6, {{"x", 2}, {"y", 4}}) - Constant(4));
@@ -763,8 +779,10 @@ TEST(TermOperatorsTest, BinaryMinusOperator_MonomialSubtractTermOperationWorks)
 TEST(TermOperatorsTest, BinaryMinusOperator_PolynomialSubtractConstantOperationWorks)
 {
     Term term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})} - Constant(10));
+
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-5, {})}), term);
 }
+
 TEST(TermOperatorsTest, BinaryMinusOperator_PolynomialSubtractVariableOperationWorks)
 {
     Term term(Polynomial{Monomial(5, {}), Monomial(7, {{"x", 1}})} - Variable("x"));
@@ -823,9 +841,11 @@ TEST(TermOperatorsTest, BinaryMinusOperator_PolynomialSubtractTermOperationWorks
 TEST(TermOperatorsTest, BinaryMinusOperator_ExpressionSubtractConstantOperationWorks)
 {
     Term term(createExpressionIfPossible({Term(54)}) - Constant(10));
+
     Expression expressionToExpect(
                 createExpressionIfPossible({Term(54), Term("-"), Term(10)}));
-    EXPECT_EQ(Term(expressionToExpect), term);}
+    EXPECT_EQ(Term(expressionToExpect), term);
+}
 
 TEST(TermOperatorsTest, BinaryMinusOperator_ExpressionSubtractVariableOperationWorks)
 {
@@ -886,9 +906,11 @@ TEST(TermOperatorsTest, BinaryMinusOperator_ExpressionSubtractTermOperationWorks
 TEST(TermOperatorsTest, BinaryMinusOperator_FunctionSubtractConstantOperationWorks)
 {
     Function absoluteValueFunction(Functions::abs(Expression{}));
+
     Term term(absoluteValueFunction - Constant(10));
 
-    Expression expressionToExpect(                createExpressionIfPossible({Term(absoluteValueFunction), Term("-"), Term(10)}));
+    Expression expressionToExpect(
+                createExpressionIfPossible({Term(absoluteValueFunction), Term("-"), Term(10)}));
     EXPECT_EQ(Term(expressionToExpect), term);
 }
 
@@ -1016,8 +1038,10 @@ TEST(TermOperatorsTest, BinaryMinusOperator_TermSubtractTermOperationWorks)
 TEST(TermOperatorsTest, BinaryMultiplyOperator_ConstantMultiplyConstantOperationWorks)
 {
     Term term(Constant(6) * Constant(2));
+
     EXPECT_EQ(Term(12), term);
 }
+
 TEST(TermOperatorsTest, BinaryMultiplyOperator_ConstantMultiplyVariableOperationWorks)
 {
     Term term(Constant(5) * Variable("x"));
@@ -1076,8 +1100,10 @@ TEST(TermOperatorsTest, BinaryMultiplyOperator_ConstantMultiplyTermOperationWork
 TEST(TermOperatorsTest, BinaryMultiplyOperator_VariableMultiplyConstantOperationWorks)
 {
     Term term(Variable("y") * Constant(4));
+
     EXPECT_EQ(Term(Monomial(4, {{"y", 1}})), term);
 }
+
 TEST(TermOperatorsTest, BinaryMultiplyOperator_VariableMultiplyVariableWithSameVariableOperationWorks)
 {
     Term term(Variable("i") * Variable("i"));
@@ -1143,8 +1169,10 @@ TEST(TermOperatorsTest, BinaryMultiplyOperator_VariableMultiplyTermOperationWork
 TEST(TermOperatorsTest, BinaryMultiplyOperator_MonomialMultiplyConstantWithSameMonomialConstantOperationWorks)
 {
     Term term(Monomial(8, {}) * Constant(2));
+
     EXPECT_EQ(Term(16), term);
 }
+
 TEST(TermOperatorsTest, BinaryMultiplyOperator_MonomialMultiplyConstantWithDifferentMonomialConstantOperationWorks)
 {
     Term term(Monomial(6, {{"x", 2}, {"y", 4}}) * Constant(4));
@@ -1217,8 +1245,10 @@ TEST(TermOperatorsTest, BinaryMultiplyOperator_MonomialMultiplyTermOperationWork
 TEST(TermOperatorsTest, BinaryMultiplyOperator_PolynomialMultiplyConstantOperationWorks)
 {
     Term term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})} * Constant(10));
+
     EXPECT_EQ(Term(Polynomial{Monomial(10, {{"x", 1}}), Monomial(50, {})}), term);
 }
+
 TEST(TermOperatorsTest, BinaryMultiplyOperator_PolynomialMultiplyVariableOperationWorks)
 {
     Term term(Polynomial{Monomial(5, {}), Monomial(4, {{"x", 1}})} * Variable("x"));
@@ -1274,9 +1304,11 @@ TEST(TermOperatorsTest, BinaryMultiplyOperator_PolynomialMultiplyTermOperationWo
 TEST(TermOperatorsTest, BinaryMultiplyOperator_ExpressionMultiplyConstantOperationWorks)
 {
     Term term(createExpressionIfPossible({Term(54)}) * Constant(10));
+
     Expression expressionToExpect(
                 createExpressionIfPossible({Term(54), Term("*"), Term(10)}));
-    EXPECT_EQ(Term(expressionToExpect), term);}
+    EXPECT_EQ(Term(expressionToExpect), term);
+}
 
 TEST(TermOperatorsTest, BinaryMultiplyOperator_ExpressionMultiplyVariableOperationWorks)
 {
@@ -1341,9 +1373,11 @@ TEST(TermOperatorsTest, BinaryMultiplyOperator_ExpressionMultiplyTermOperationWo
 TEST(TermOperatorsTest, BinaryMultiplyOperator_FunctionMultiplyConstantOperationWorks)
 {
     Function absoluteValueFunction(Functions::abs(Expression{}));
+
     Term term(absoluteValueFunction * Constant(10));
 
-    Expression expressionToExpect(                createExpressionIfPossible({Term(absoluteValueFunction), Term("*"), Term(10)}));
+    Expression expressionToExpect(
+                createExpressionIfPossible({Term(absoluteValueFunction), Term("*"), Term(10)}));
     EXPECT_EQ(Term(expressionToExpect), term);
 }
 
@@ -1471,8 +1505,10 @@ TEST(TermOperatorsTest, BinaryMultiplyOperator_TermMultiplyTermOperationWorks)
 TEST(TermOperatorsTest, BinaryDivideOperator_ConstantDivideConstantOperationWorks)
 {
     Term term(Constant(6) / Constant(2));
+
     EXPECT_EQ(Term(3), term);
 }
+
 TEST(TermOperatorsTest, BinaryDivideOperator_ConstantDivideVariableOperationWorks)
 {
     Term term(Constant(5) / Variable("x"));
@@ -1536,8 +1572,10 @@ TEST(TermOperatorsTest, BinaryDivideOperator_ConstantDivideTermOperationWorks)
 TEST(TermOperatorsTest, BinaryDivideOperator_VariableDivideConstantOperationWorks)
 {
     Term term(Variable("y") / Constant(4));
+
     EXPECT_EQ(Term(Monomial(0.25, {{"y", 1}})), term);
 }
+
 TEST(TermOperatorsTest, BinaryDivideOperator_VariableDivideVariableWithSameVariableOperationWorks)
 {
     Term term(Variable("i") / Variable("i"));
@@ -1608,8 +1646,10 @@ TEST(TermOperatorsTest, BinaryDivideOperator_VariableDivideTermOperationWorks)
 TEST(TermOperatorsTest, BinaryDivideOperator_MonomialDivideConstantWithSameMonomialConstantOperationWorks)
 {
     Term term(Monomial(8, {}) / Constant(2));
+
     EXPECT_EQ(Term(4), term);
 }
+
 TEST(TermOperatorsTest, BinaryDivideOperator_MonomialDivideConstantWithDifferentMonomialConstantOperationWorks)
 {
     Term term(Monomial(6, {{"x", 2}, {"y", 4}}) / Constant(4));
@@ -1688,8 +1728,10 @@ TEST(TermOperatorsTest, BinaryDivideOperator_MonomialDivideTermOperationWorks)
 TEST(TermOperatorsTest, BinaryDivideOperator_PolynomialDivideConstantOperationWorks)
 {
     Term term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})} / Constant(10));
+
     EXPECT_EQ(Term(Polynomial{Monomial(0.1, {{"x", 1}}), Monomial(0.5, {})}), term);
 }
+
 TEST(TermOperatorsTest, BinaryDivideOperator_PolynomialDivideVariableOperationWorks)
 {
     Term term(Polynomial{Monomial(5, {}), Monomial(4, {{"x", 2}})} / Variable("x"));
@@ -1747,9 +1789,11 @@ TEST(TermOperatorsTest, BinaryDivideOperator_PolynomialDivideTermOperationWorks)
 TEST(TermOperatorsTest, BinaryDivideOperator_ExpressionDivideConstantOperationWorks)
 {
     Term term(createExpressionIfPossible({Term(54)}) / Constant(10));
+
     Expression expressionToExpect(
                 createExpressionIfPossible({Term(54), Term("/"), Term(10)}));
-    EXPECT_EQ(Term(expressionToExpect), term);}
+    EXPECT_EQ(Term(expressionToExpect), term);
+}
 
 TEST(TermOperatorsTest, BinaryDivideOperator_ExpressionDivideVariableOperationWorks)
 {
@@ -1810,9 +1854,11 @@ TEST(TermOperatorsTest, BinaryDivideOperator_ExpressionDivideTermOperationWorks)
 TEST(TermOperatorsTest, BinaryDivideOperator_FunctionDivideConstantOperationWorks)
 {
     Function absoluteValueFunction(Functions::abs(Expression{}));
+
     Term term(absoluteValueFunction / Constant(10));
 
-    Expression expressionToExpect(                createExpressionIfPossible({Term(absoluteValueFunction), Term("/"), Term(10)}));
+    Expression expressionToExpect(
+                createExpressionIfPossible({Term(absoluteValueFunction), Term("/"), Term(10)}));
     EXPECT_EQ(Term(expressionToExpect), term);
 }
 
@@ -1945,8 +1991,10 @@ TEST(TermOperatorsTest, BinaryDivideOperator_TermDivideTermOperationWorks)
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ConstantRaiseToPowerConstantOperationWorks)
 {
     Term term(Constant(6) ^ Constant(2));
+
     EXPECT_EQ(Term(36), term);
 }
+
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ConstantRaiseToPowerConstantOperationWithZeroExponentWorks)
 {
     Term term(Constant(6) ^ Constant(0));
@@ -2027,8 +2075,10 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ConstantRaiseToPowerTermOpera
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_VariableRaiseToPowerConstantOperationWorks)
 {
     Term term(Variable("y") ^ Constant(4));
+
     EXPECT_EQ(Term(Monomial(1, {{"y", 4}})), term);
 }
+
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_VariableRaiseToPowerVariableWithSameVariableOperationWorks)
 {
     Term term(Variable("i") ^ Variable("i"));
@@ -2119,8 +2169,10 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_VariableRaiseToPowerTermOpera
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_MonomialRaiseToPowerConstantWithSameMonomialConstantOperationWorks)
 {
     Term term(Monomial(8, {}) ^ Constant(2));
+
     EXPECT_EQ(Term(64), term);
 }
+
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_MonomialRaiseToPowerConstantWithDifferentMonomialConstantOperationWorks)
 {
     Term term(Monomial(6, {{"x", 2}, {"y", 4}}) ^ Constant(4));
@@ -2219,6 +2271,7 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_MonomialRaiseToPowerTermOpera
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_PolynomialRaiseToPowerZeroOperationWorks)
 {
     Term term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})} ^ 0);
+
     EXPECT_EQ(Term(1), term);
 }
 
@@ -2227,20 +2280,24 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_PolynomialRaiseToPowerPositiv
     Term term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})} ^ Constant(3));
 
     EXPECT_EQ(Term(Polynomial{
-                       Monomial(1, {{"x", 3}}),                       Monomial(15, {{"x", 2}}),
+                       Monomial(1, {{"x", 3}}),
+                       Monomial(15, {{"x", 2}}),
                        Monomial(75, {{"x", 1}}),
                        Monomial(125, {})
-                   }), term);}
+                   }), term);
+}
 
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_PolynomialRaiseToPowerNegativeConstantOperationWorks)
 {
     Term term(Polynomial{Monomial(5, {}), Monomial(1, {{"x", 1}})} ^ Constant(-3));
 
     EXPECT_EQ(Term(createExpressionIfPossible({
-                                                  Constant(1),                                                  Operator("/"),
+                                                  Constant(1),
+                                                  Operator("/"),
                                                   Polynomial{
                                                       Monomial(1, {{"x", 3}}),
-                                                      Monomial(15, {{"x", 2}}),                                                      Monomial(75, {{"x", 1}}),
+                                                      Monomial(15, {{"x", 2}}),
+                                                      Monomial(75, {{"x", 1}}),
                                                       Monomial(125, {})
                                                   }
                                               })), term);
@@ -2316,9 +2373,11 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_PolynomialRaiseToPowerTermOpe
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ExpressionRaiseToPowerConstantOperationWorks)
 {
     Term term(createExpressionIfPossible({Term(54)}) ^ Constant(10));
+
     Expression expressionToExpect(
                 createExpressionIfPossible({Term(54), Term("^"), Term(10)}));
-    EXPECT_EQ(Term(expressionToExpect), term);}
+    EXPECT_EQ(Term(expressionToExpect), term);
+}
 
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ExpressionRaiseToPowerVariableOperationWorks)
 {
@@ -2383,9 +2442,11 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ExpressionRaiseToPowerTermOpe
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_FunctionRaiseToPowerConstantOperationWorks)
 {
     Function absoluteValueFunction(Functions::abs(Expression{}));
+
     Term term(absoluteValueFunction ^ Constant(10));
 
-    Expression expressionToExpect(                createExpressionIfPossible({Term(absoluteValueFunction), Term("^"), Term(10)}));
+    Expression expressionToExpect(
+                createExpressionIfPossible({Term(absoluteValueFunction), Term("^"), Term(10)}));
     EXPECT_EQ(Term(expressionToExpect), term);
 }
 
@@ -2528,8 +2589,10 @@ TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_TermRaiseToPowerTermOperation
 TEST(TermOperatorsTest, ValueIsZeroWhenSubtractingSameConstant)
 {
     Term term(Constant(24) - Constant(24));
+
     EXPECT_EQ(Term(Constant(0)), term);
 }
+
 TEST(TermOperatorsTest, ValueIsZeroWhenSubtractingSameVariable)
 {
     Term term(Variable("power") - Variable("power"));

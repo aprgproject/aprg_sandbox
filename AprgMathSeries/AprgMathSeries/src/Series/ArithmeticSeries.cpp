@@ -37,7 +37,9 @@ double ArithmeticSeries::getSum(
     return getSumOfArithmeticSeriesUsingFirstAndLastTerm(
                 getValueAt(startingNthIndex),
                 getValueAt(endingNthIndex),
-                endingNthIndex - startingNthIndex + 1);}
+                endingNthIndex - startingNthIndex + 1);
+}
 
 }
+
 }
