@@ -1,13 +1,11 @@
 #include "ArithmeticSeries.hpp"
 
-#include <Utilities.hpp>
+#include <Series/Utilities.hpp>
 
 namespace alba
 {
-
 namespace MathSeries
 {
-
 ArithmeticSeries::ArithmeticSeries(
         double const firstTerm,
         double const commonDifference)

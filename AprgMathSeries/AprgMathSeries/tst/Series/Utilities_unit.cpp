@@ -1,11 +1,9 @@
-#include <Utilities.hpp>
+#include <Series/Utilities.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace MathSeries
 {
