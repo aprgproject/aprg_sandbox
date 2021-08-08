@@ -4,8 +4,10 @@
 
 namespace alba
 {
+
 namespace MathSeries
 {
+
 ArithmeticSeries::ArithmeticSeries(
         double const firstTerm,
         double const commonDifference)
@@ -39,4 +41,5 @@ double ArithmeticSeries::getSum(
 }
 
 }
+
 }

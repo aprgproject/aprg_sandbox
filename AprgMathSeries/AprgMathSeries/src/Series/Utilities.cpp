@@ -7,6 +7,7 @@ using namespace alba::mathHelper;
 
 namespace alba
 {
+
 namespace MathSeries
 {
 

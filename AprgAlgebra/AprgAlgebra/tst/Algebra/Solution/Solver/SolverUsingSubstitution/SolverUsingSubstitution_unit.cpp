@@ -22,11 +22,11 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksAsDo
     Polynomial polynomial{Monomial(1, {{"x", 1}})};
     equations.emplace_back(Term(polynomial), ">", Term(4));
 
-    MultipleVariableSolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equations));
+    MultipleVariableSolutionSets solutionSets(solver.calculateSolutionAndReturnSolutionSet(equations));
 
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
-    EXPECT_EQ(0u, solutionSet.getNumberOfVariablesWithSolutions());
+    EXPECT_TRUE(solutionSets.empty());
 }
 
 TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor1Equation)
@@ -36,10 +36,12 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor1
     Polynomial polynomial{Monomial(1, {{"x", 1}})};
     equations.emplace_back(Term(polynomial), "=", Term(4));
 
-    MultipleVariableSolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equations));
+    MultipleVariableSolutionSets solutionSets(solver.calculateSolutionAndReturnSolutionSet(equations));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
+    ASSERT_EQ(1u, solutionSets.size());
+    MultipleVariableSolutionSet const& solutionSet(solutionSets.back());
     EXPECT_EQ(1u, solutionSet.getNumberOfVariablesWithSolutions());
     AlbaNumbers acceptedValuesForX(solutionSet.getSolutionSetForVariable("x").getAcceptedValues());
     ASSERT_EQ(1u, acceptedValuesForX.size());
@@ -55,10 +57,12 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor2
     equations.emplace_back(Term(polynomial1), "=", Term(4));
     equations.emplace_back(Term(polynomial2), "=", Term(-12));
 
-    MultipleVariableSolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equations));
+    MultipleVariableSolutionSets solutionSets(solver.calculateSolutionAndReturnSolutionSet(equations));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
+    ASSERT_EQ(1u, solutionSets.size());
+    MultipleVariableSolutionSet const& solutionSet(solutionSets.back());
     EXPECT_EQ(2u, solutionSet.getNumberOfVariablesWithSolutions());
     AlbaNumbers acceptedValuesForX(solutionSet.getSolutionSetForVariable("x").getAcceptedValues());
     ASSERT_EQ(1u, acceptedValuesForX.size());
@@ -79,10 +83,12 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksFor3
     equations.emplace_back(Term(polynomial2), "=", Term(9));
     equations.emplace_back(Term(polynomial3), "=", Term(1));
 
-    MultipleVariableSolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equations));
+    MultipleVariableSolutionSets solutionSets(solver.calculateSolutionAndReturnSolutionSet(equations));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
+    ASSERT_EQ(1u, solutionSets.size());
+    MultipleVariableSolutionSet const& solutionSet(solutionSets.back());
     EXPECT_EQ(3u, solutionSet.getNumberOfVariablesWithSolutions());
     AlbaNumbers acceptedValuesForX(solutionSet.getSolutionSetForVariable("x").getAcceptedValues());
     ASSERT_EQ(1u, acceptedValuesForX.size());
@@ -104,19 +110,27 @@ TEST(SolverUsingSubstitutionTest, CalculateSolutionAndReturnSolutionSetWorksForL
     equations.emplace_back(Term(polynomial1), "=", Term(Constant(0)));
     equations.emplace_back(Term(polynomial2), "=", Term(1));
 
-    MultipleVariableSolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(equations));
+    MultipleVariableSolutionSets solutionSets(solver.calculateSolutionAndReturnSolutionSet(equations));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
-    EXPECT_EQ(2u, solutionSet.getNumberOfVariablesWithSolutions());
-    AlbaNumbers acceptedValuesForX(solutionSet.getSolutionSetForVariable("x").getAcceptedValues());
-    ASSERT_EQ(2u, acceptedValuesForX.size());
-    EXPECT_EQ(AlbaNumber(1), acceptedValuesForX.at(0));
-    EXPECT_EQ(AlbaNumber(2), acceptedValuesForX.at(1));
-    AlbaNumbers acceptedValuesForY(solutionSet.getSolutionSetForVariable("y").getAcceptedValues());
-    ASSERT_EQ(2u, acceptedValuesForY.size());
-    EXPECT_EQ(AlbaNumber(0), acceptedValuesForY.at(0));
-    EXPECT_EQ(AlbaNumber(13)/16, acceptedValuesForY.at(1));
+    ASSERT_EQ(2u, solutionSets.size());
+    MultipleVariableSolutionSet const& solutionSet1(solutionSets.at(0));
+    EXPECT_EQ(2u, solutionSet1.getNumberOfVariablesWithSolutions());
+    AlbaNumbers acceptedValuesForX1(solutionSet1.getSolutionSetForVariable("x").getAcceptedValues());
+    ASSERT_EQ(1u, acceptedValuesForX1.size());
+    EXPECT_EQ(AlbaNumber(1), acceptedValuesForX1.at(0));
+    AlbaNumbers acceptedValuesForY1(solutionSet1.getSolutionSetForVariable("y").getAcceptedValues());
+    ASSERT_EQ(1u, acceptedValuesForY1.size());
+    EXPECT_EQ(AlbaNumber(0), acceptedValuesForY1.at(0));
+    MultipleVariableSolutionSet const& solutionSet2(solutionSets.at(1));
+    EXPECT_EQ(2u, solutionSet2.getNumberOfVariablesWithSolutions());
+    AlbaNumbers acceptedValuesForX2(solutionSet2.getSolutionSetForVariable("x").getAcceptedValues());
+    ASSERT_EQ(1u, acceptedValuesForX2.size());
+    EXPECT_EQ(AlbaNumber(17)/4, acceptedValuesForX2.at(0));
+    AlbaNumbers acceptedValuesForY2(solutionSet2.getSolutionSetForVariable("y").getAcceptedValues());
+    ASSERT_EQ(1u, acceptedValuesForY2.size());
+    EXPECT_EQ(AlbaNumber(13)/16, acceptedValuesForY2.at(0));
 }
 
 }

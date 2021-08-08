@@ -3,6 +3,7 @@
 #include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Solution/SolutionSet/MultipleVariableSolutionSet.hpp>
 #include <Algebra/Solution/Solver/BaseSolver.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 
 namespace alba
 {
@@ -15,22 +16,41 @@ class SolverUsingSubstitution : public BaseSolver
 public:
     SolverUsingSubstitution();
 
-    MultipleVariableSolutionSet calculateSolutionAndReturnSolutionSet(Equations const& equations);
+    MultipleVariableSolutionSets calculateSolutionAndReturnSolutionSet(Equations const& equations);
 
 private:
-    void calculateSolutionForAllVariables(
+    bool isTheValueAlreadyExisting(
+            std::string const& variableName,
+            AlbaNumber const& value) const;
+    bool isSolutionCorrectAndComplete(
+            MultipleVariableSolutionSet const& solutionSet,
+            Equations const& equations) const;
+    SubstitutionOfVariablesToValues getSubstitutionFromSolutionSet(
+            MultipleVariableSolutionSet const& solutionSet) const;
+
+    void clear();
+    void calculateSolutions(
+            Equations const& equations);
+    void calculateASolutionForAllVariables(
             MultipleVariableSolutionSet & multipleVariableSolutionSet,
             Equations const& equations);
-    void calculateSolutionForOneVariable(
+    void addIfSolutionIsCompleteAndCorrect(
+            MultipleVariableSolutionSet const& solutionSet,
+            Equations const& equations);
+    void calculateASolutionForOneVariable(
             MultipleVariableSolutionSet & multipleVariableSolutionSet,
             Equations const& equations);
     void substituteSolutionSetValuesToEquations(
             Equations & substitutedEquations,
             MultipleVariableSolutionSet const& multipleVariableSolutionSet);
     void isolateAndSubstituteUntilOneUnknown(Equations & substitutedEquations);
-    void solveUsingOneUnknownAndAddToSolutionSet(
+    void solveForTheFirstOneVariableEquationAndUpdate(
             MultipleVariableSolutionSet & multipleVariableSolutionSet,
             Equations const& substitutedEquations);
+    void solveAndUpdate(
+            MultipleVariableSolutionSet & solutionSet,
+            Equation const& equationToSolve,
+            std::string const& variableNameToSolve);
     void selectVariableNameAndEquationNumber(
             bool & isFound,
             std::string & selectedVariableName,
@@ -42,6 +62,10 @@ private:
             std::string const& selectedVariableName,
             unsigned int const selectedEquationIndex);
     void removeEquationsWithoutUnknowns(Equations& substitutedEquations);
+
+    MultipleVariableSolutionSets m_solutionsWithAllVariables;
+    MultipleVariableSolutionSets m_solutionsWithSomeVariables;
+    VariableNamesSet m_variablesNames;
 };
 
 

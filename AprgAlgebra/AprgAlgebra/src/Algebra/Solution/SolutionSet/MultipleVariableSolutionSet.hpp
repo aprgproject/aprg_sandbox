@@ -20,7 +20,10 @@ public:
 
     MultipleVariableSolutionSet();
 
+    bool isValueAcceptedForVariable(std::string const& variableName, AlbaNumber const& value) const;
     unsigned int getNumberOfVariablesWithSolutions() const;
+    std::string getDisplayableString() const;
+
     VariableNamesSet getVariableNames() const;
     SolutionSet getSolutionSetForVariable(std::string const& variableName) const;
     VariableNameToSolutionSetMap const& getVariableNameToSolutionSetMap() const;
@@ -32,6 +35,8 @@ private:
 };
 
 using MultipleVariableSolutionSets = std::vector<MultipleVariableSolutionSet>;
+
+std::ostream & operator<<(std::ostream & out, MultipleVariableSolutionSet const& solutionSet);
 
 }
 

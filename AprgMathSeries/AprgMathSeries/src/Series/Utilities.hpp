@@ -19,4 +19,5 @@ double getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(
         double const commonMultiplier);
 
 }
+
 }

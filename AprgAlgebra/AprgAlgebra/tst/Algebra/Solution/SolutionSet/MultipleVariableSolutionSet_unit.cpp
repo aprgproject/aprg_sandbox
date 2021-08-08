@@ -17,6 +17,20 @@ TEST(MultipleVariableSolutionSetTest, ConstructorWorksAndEmpty)
     EXPECT_TRUE(solutionSet.getVariableNameToSolutionSetMap().empty());
 }
 
+TEST(MultipleVariableSolutionSetTest, IsValueAcceptedForVariableWorks)
+{
+    MultipleVariableSolutionSet solutionSet;
+    SolutionSet solutionSetForVariable;
+    solutionSetForVariable.addAcceptedValue(AlbaNumber(58));
+    solutionSet.addSolutionSetForVariable("a", solutionSetForVariable);
+    solutionSet.addSolutionSetForVariable("b", solutionSetForVariable);
+
+    EXPECT_TRUE(solutionSet.isValueAcceptedForVariable("a", 58));
+    EXPECT_FALSE(solutionSet.isValueAcceptedForVariable("a", 59));
+    EXPECT_TRUE(solutionSet.isValueAcceptedForVariable("b", 58));
+    EXPECT_FALSE(solutionSet.isValueAcceptedForVariable("b", 59));
+}
+
 TEST(MultipleVariableSolutionSetTest, GetNumberOfVariablesWithSolutionsWorks)
 {
     MultipleVariableSolutionSet solutionSet;
