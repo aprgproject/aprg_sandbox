@@ -59,15 +59,13 @@ bool SolverUsingSubstitution::isTheValueAlreadyExisting(
     return result;
 }
 
-bool SolverUsingSubstitution::isSolutionCorrectAndComplete(
+bool SolverUsingSubstitution::isSolutionCorrect(
         MultipleVariableSolutionSet const& solutionSet,
         Equations const& equations) const
-{
-    bool result(true);
+{    bool result(true);
     SubstitutionOfVariablesToValues substitution(getSubstitutionFromSolutionSet(solutionSet));
     for(Equation const& equation : equations)
-    {
-        Equation potentialSolvedEquation(substitution.performSubstitutionTo(equation));
+    {        Equation potentialSolvedEquation(substitution.performSubstitutionTo(equation));
         result = result && isAFiniteConstant(potentialSolvedEquation.getLeftHandTerm())
                 && isAFiniteConstant(potentialSolvedEquation.getRightHandTerm())
                 && potentialSolvedEquation.isEquationSatisfied();
@@ -85,15 +83,14 @@ SubstitutionOfVariablesToValues SolverUsingSubstitution::getSubstitutionFromSolu
     MultipleVariableSolutionSet::VariableNameToSolutionSetMap const& variableNameToSolutionSetMap(
                 solutionSet.getVariableNameToSolutionSetMap());
     SubstitutionOfVariablesToValues substitution;
-    for(MultipleVariableSolutionSet::VariableNameToSolutionSetPair const& variableNameToSolutionSet : variableNameToSolutionSetMap)
+    for(MultipleVariableSolutionSet::VariableNameToSolutionSetPair const& variableNameToSolutionSet
+        : variableNameToSolutionSetMap)
     {
         AlbaNumbers const& acceptedValues(variableNameToSolutionSet.second.getAcceptedValues());
-        if(!acceptedValues.empty())
-        {
+        if(!acceptedValues.empty())        {
             substitution.putVariableWithValue(variableNameToSolutionSet.first, acceptedValues.front());
         }
-    }
-    return substitution;
+    }    return substitution;
 }
 
 void SolverUsingSubstitution::clear()
@@ -124,31 +121,29 @@ void SolverUsingSubstitution::calculateASolutionForAllVariables(
         MultipleVariableSolutionSet & solutionSet,
         Equations const& equations)
 {
-    VariableNamesSet previousVariablesWithSolution, variablesWithSolution;
+    unsigned int previousNumberOfVariables(0);
+    VariableNamesSet variablesWithSolution;
     do
     {
-        previousVariablesWithSolution=variablesWithSolution;
+        previousNumberOfVariables = variablesWithSolution.size();
         calculateASolutionForOneVariable(solutionSet, equations);
         variablesWithSolution = solutionSet.getVariableNames();
     }
-    while(previousVariablesWithSolution.size() != variablesWithSolution.size()
+    while(previousNumberOfVariables != variablesWithSolution.size()
           && m_variablesNames.size() != variablesWithSolution.size());
 }
-
 void SolverUsingSubstitution::addIfSolutionIsCompleteAndCorrect(
         MultipleVariableSolutionSet const& solutionSet,
         Equations const& equations)
 {
     if(m_variablesNames == solutionSet.getVariableNames())
     {
-        if(isSolutionCorrectAndComplete(solutionSet, equations))
+        if(isSolutionCorrect(solutionSet, equations))
         {
             m_solutionsWithAllVariables.emplace_back(solutionSet);
-            setAsCompleteSolution();
-        }
+            setAsCompleteSolution();        }
     }
 }
-
 void SolverUsingSubstitution::calculateASolutionForOneVariable(
         MultipleVariableSolutionSet & solutionSet,
         Equations const& equations)
