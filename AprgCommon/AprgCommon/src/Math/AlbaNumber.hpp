@@ -1,13 +1,11 @@
 #pragma once
 
-#include <Container/AlbaUniqueVariant.hpp>
+#include <Math/AlbaComplexNumber.hpp>
 
 #include <ostream>
 #include <string>
-
 namespace alba
 {
-
 class AlbaNumber
 {
 public:
@@ -28,19 +26,23 @@ public:
         int numerator;
         unsigned int denominator;
     };
+    struct ComplexNumberData
+    {
+        float realPart;
+        float imaginaryPart;
+    };
     union NumberUnionData
     {
         long long int intData;
         FractionData fractionData;
         double doubleData;
+        ComplexNumberData complexNumberData;
     };
     AlbaNumber();
-    AlbaNumber(int const integerValue);
-    AlbaNumber(unsigned int const integerValue);
+    AlbaNumber(int const integerValue);    AlbaNumber(unsigned int const integerValue);
     AlbaNumber(long long int const integerValue);
     AlbaNumber(int const numerator, int const denominator);
-    AlbaNumber(int const numerator, unsigned int const denominator);
-    AlbaNumber(double const doubleValue);
+    AlbaNumber(int const numerator, unsigned int const denominator);    AlbaNumber(double const doubleValue);
     AlbaNumber(Value const value);
 
     bool operator==(AlbaNumber const& second) const;
