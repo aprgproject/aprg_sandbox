@@ -276,33 +276,20 @@ TEST(AlbaMathHelperTest, GetSquareRootOfXSquaredPlusYSquaredPlusZSquaredWorks)
     EXPECT_EQ(7, getSquareRootOfXSquaredPlusYSquaredPlusZSquared(-2,-3,-6));
 }
 
-TEST(AlbaMathHelperTest, GetCumulativeStandardDistributionApproximationWorks)
+TEST(AlbaMathHelperTest,  GetLogarithmWorks)
 {
-    //comparing with Z table, http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/standardnormaltable.pdf
-    EXPECT_DOUBLE_EQ(0.5, getCumulativeStandardDistributionApproximation(0));
-    EXPECT_DOUBLE_EQ(0.86433393905361732834, getCumulativeStandardDistributionApproximation(1.1));
-    EXPECT_DOUBLE_EQ(0.0081975359245961311461, getCumulativeStandardDistributionApproximation(-2.4));
-    EXPECT_DOUBLE_EQ(0.99996696335237056363, getCumulativeStandardDistributionApproximation(3.99));
-    EXPECT_DOUBLE_EQ(3.3036647629402369943e-005, getCumulativeStandardDistributionApproximation(-3.99));
-}
-
-TEST(AlbaMathHelperTest, GetInverseCumulativeStandardDistributionApproximationWorks)
-{
-    EXPECT_DOUBLE_EQ(0, getInverseCumulativeStandardDistributionApproximation(0.5, 20));
-    EXPECT_DOUBLE_EQ(1.0999774932861328125, getInverseCumulativeStandardDistributionApproximation(0.86433, 20));
-    EXPECT_DOUBLE_EQ(-2.4003314971923828125, getInverseCumulativeStandardDistributionApproximation(0.00819, 20));
-    EXPECT_DOUBLE_EQ(3.9444065093994140625, getInverseCumulativeStandardDistributionApproximation(0.99996, 20));
-    EXPECT_DOUBLE_EQ(0, getInverseCumulativeStandardDistributionApproximation(3.3036, 20));
+    EXPECT_DOUBLE_EQ(2, getLogarithm(3, 9));
+    EXPECT_DOUBLE_EQ(5, getLogarithm(2, 32));
+    EXPECT_DOUBLE_EQ(-4, getLogarithm(2, 0.0625));
+    EXPECT_DOUBLE_EQ(1.9534452978042594, getLogarithm(4, 15));
 }
 
 TEST(AlbaMathHelperTest, GetQuadraticRootsWorks)
 {
     AlbaNumbers quadraticRoots(getQuadraticRoots(8, 22, 15));
-
     ASSERT_EQ(2u, quadraticRoots.size());
     EXPECT_DOUBLE_EQ(-1.25, quadraticRoots.at(0).getDouble());
-    EXPECT_DOUBLE_EQ(-1.5, quadraticRoots.at(1).getDouble());
-}
+    EXPECT_DOUBLE_EQ(-1.5, quadraticRoots.at(1).getDouble());}
 
 TEST(AlbaMathHelperTest, GetFactorialWorks)
 {
@@ -375,14 +362,31 @@ TEST(AlbaMathHelperTest, GetValueAtPascalTriangleWorks)
     EXPECT_EQ(0u, getValueAtPascalTriangle(4, 5));
 }
 
+TEST(AlbaMathHelperTest, GetCumulativeStandardDistributionApproximationWorks)
+{
+    //comparing with Z table, http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/standardnormaltable.pdf
+    EXPECT_DOUBLE_EQ(0.5, getCumulativeStandardDistributionApproximation(0));
+    EXPECT_DOUBLE_EQ(0.86433393905361732834, getCumulativeStandardDistributionApproximation(1.1));
+    EXPECT_DOUBLE_EQ(0.0081975359245961311461, getCumulativeStandardDistributionApproximation(-2.4));
+    EXPECT_DOUBLE_EQ(0.99996696335237056363, getCumulativeStandardDistributionApproximation(3.99));
+    EXPECT_DOUBLE_EQ(3.3036647629402369943e-005, getCumulativeStandardDistributionApproximation(-3.99));
+}
+
+TEST(AlbaMathHelperTest, GetInverseCumulativeStandardDistributionApproximationWorks)
+{
+    EXPECT_DOUBLE_EQ(0, getInverseCumulativeStandardDistributionApproximation(0.5, 20));
+    EXPECT_DOUBLE_EQ(1.0999774932861328125, getInverseCumulativeStandardDistributionApproximation(0.86433, 20));
+    EXPECT_DOUBLE_EQ(-2.4003314971923828125, getInverseCumulativeStandardDistributionApproximation(0.00819, 20));
+    EXPECT_DOUBLE_EQ(3.9444065093994140625, getInverseCumulativeStandardDistributionApproximation(0.99996, 20));
+    EXPECT_DOUBLE_EQ(0, getInverseCumulativeStandardDistributionApproximation(3.3036, 20));
+}
+
 TEST(AlbaMathHelperTest, ClampLowerBoundWorks)
 {
-    EXPECT_EQ(3, clampLowerBound(1, 3));
-    EXPECT_EQ(3, clampLowerBound(2, 3));
+    EXPECT_EQ(3, clampLowerBound(1, 3));    EXPECT_EQ(3, clampLowerBound(2, 3));
     EXPECT_EQ(3, clampLowerBound(3, 3));
     EXPECT_EQ(4, clampLowerBound(4, 3));
-    EXPECT_EQ(5, clampLowerBound(5, 3));
-}
+    EXPECT_EQ(5, clampLowerBound(5, 3));}
 
 TEST(AlbaMathHelperTest, ClampHigherBoundWorks)
 {

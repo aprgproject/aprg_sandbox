@@ -323,14 +323,18 @@ template int getSquareRootOfXSquaredPlusYSquaredPlusZSquared<int>(int const x, i
 template double getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>(double const x, double const y, double const z);
 
 
+double getLogarithm(double const base, double const logarithmValue)
+{
+    return log10(logarithmValue)/log10(base);
+}
+
+
 AlbaNumbers getQuadraticRoots(
         AlbaNumber const& a,
-        AlbaNumber const& b,
-        AlbaNumber const& c)
+        AlbaNumber const& b,        AlbaNumber const& c)
 {
     AlbaNumbers result;
-    AlbaNumber discriminant((b^2)-(a*c*4));
-    if(discriminant >= 0)
+    AlbaNumber discriminant((b^2)-(a*c*4));    if(discriminant >= 0)
     {
         AlbaNumber discriminantSquaredRoot = discriminant^(AlbaNumber(1, 2));
         AlbaNumber firstPart((-b)/(a*2));

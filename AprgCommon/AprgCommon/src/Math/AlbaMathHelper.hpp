@@ -68,13 +68,12 @@ template <typename NumberType> NumberType getAverage(NumberType const value1, Nu
 template <typename NumberType> NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y);
 template <typename NumberType> NumberType getSquareRootOfXSquaredPlusYSquared(NumberType const x, NumberType const y);
 template <typename NumberType> NumberType getSquareRootOfXSquaredPlusYSquaredPlusZSquared(NumberType const x, NumberType const y, NumberType const z);
+double getLogarithm(double const base, double const value);
 AlbaNumbers getQuadraticRoots(AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c);
-
 
 //Combinatorics functions
 unsigned int getFactorial(unsigned int const number);
-unsigned int getNumberOfPermutations(unsigned int const p, unsigned int const r);
-unsigned int getNumberOfCombinations(unsigned int const p, unsigned int const r);
+unsigned int getNumberOfPermutations(unsigned int const p, unsigned int const r);unsigned int getNumberOfCombinations(unsigned int const p, unsigned int const r);
 unsigned int getValueAtPascalTriangle(unsigned int const rowIndex, unsigned int const columnIndex);
 
 
