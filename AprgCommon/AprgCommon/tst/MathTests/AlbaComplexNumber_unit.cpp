@@ -5,14 +5,23 @@
 namespace alba
 {
 
+TEST(AlbaComplexNumberTest, ConstructionWorks)
+{
+    AlbaComplexNumber<double> complex1;
+    AlbaComplexNumber<double> complex2(3, 4);
+
+    EXPECT_DOUBLE_EQ(0, complex1.getRealPart());
+    EXPECT_DOUBLE_EQ(0, complex1.getImaginaryPart());
+    EXPECT_DOUBLE_EQ(3, complex2.getRealPart());
+    EXPECT_DOUBLE_EQ(4, complex2.getImaginaryPart());
+}
+
 TEST(AlbaComplexNumberTest, OperatorEqualsWorks)
 {
-    AlbaComplexNumber<double> complex1(3, 4);
-    AlbaComplexNumber<double> complex2(3, 4);
+    AlbaComplexNumber<double> complex1(3, 4);    AlbaComplexNumber<double> complex2(3, 4);
     AlbaComplexNumber<double> complex3(3, 3);
     AlbaComplexNumber<double> complex4(4, 4);
-    AlbaComplexNumber<double> complex5(5, 5);
-    AlbaComplexNumber<double> complex6(static_cast<double>(1)/3, static_cast<double>(4)/3);
+    AlbaComplexNumber<double> complex5(5, 5);    AlbaComplexNumber<double> complex6(static_cast<double>(1)/3, static_cast<double>(4)/3);
 
     EXPECT_TRUE(complex1==complex1);
     EXPECT_TRUE(complex1==complex2);

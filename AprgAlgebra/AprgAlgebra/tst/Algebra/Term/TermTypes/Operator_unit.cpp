@@ -55,15 +55,13 @@ TEST(OperatorTest, LessThanOperatorWorks)
     EXPECT_TRUE(Operator("*") < Operator("/"));
 }
 
-TEST(OperatorTest, IsAdditionWorksAsExpected)
+TEST(OperatorTest, IsAdditionWorks)
 {
     Operator nullOperator;
-    Operator addOperator("+");
-    Operator subtractOperator("-");
+    Operator addOperator("+");    Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
-    Operator raiseToPowerOperator("^");
-    Operator openingGroupOperator("(");
+    Operator raiseToPowerOperator("^");    Operator openingGroupOperator("(");
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
@@ -78,15 +76,13 @@ TEST(OperatorTest, IsAdditionWorksAsExpected)
     EXPECT_FALSE(invalidOperator.isAddition());
 }
 
-TEST(OperatorTest, IsSubtractionWorksAsExpected)
+TEST(OperatorTest, IsSubtractionWorks)
 {
     Operator nullOperator;
-    Operator addOperator("+");
-    Operator subtractOperator("-");
+    Operator addOperator("+");    Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
-    Operator raiseToPowerOperator("^");
-    Operator openingGroupOperator("(");
+    Operator raiseToPowerOperator("^");    Operator openingGroupOperator("(");
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
@@ -101,15 +97,13 @@ TEST(OperatorTest, IsSubtractionWorksAsExpected)
     EXPECT_FALSE(invalidOperator.isSubtraction());
 }
 
-TEST(OperatorTest, IsMultiplicationWorksAsExpected)
+TEST(OperatorTest, IsMultiplicationWorks)
 {
     Operator nullOperator;
-    Operator addOperator("+");
-    Operator subtractOperator("-");
+    Operator addOperator("+");    Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
-    Operator raiseToPowerOperator("^");
-    Operator openingGroupOperator("(");
+    Operator raiseToPowerOperator("^");    Operator openingGroupOperator("(");
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
@@ -124,15 +118,13 @@ TEST(OperatorTest, IsMultiplicationWorksAsExpected)
     EXPECT_FALSE(invalidOperator.isMultiplication());
 }
 
-TEST(OperatorTest, IsDivisionWorksAsExpected)
+TEST(OperatorTest, IsDivisionWorks)
 {
     Operator nullOperator;
-    Operator addOperator("+");
-    Operator subtractOperator("-");
+    Operator addOperator("+");    Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
-    Operator raiseToPowerOperator("^");
-    Operator openingGroupOperator("(");
+    Operator raiseToPowerOperator("^");    Operator openingGroupOperator("(");
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
@@ -147,15 +139,13 @@ TEST(OperatorTest, IsDivisionWorksAsExpected)
     EXPECT_FALSE(invalidOperator.isDivision());
 }
 
-TEST(OperatorTest, IsRaiseToPowerWorksAsExpected)
+TEST(OperatorTest, IsRaiseToPowerWorks)
 {
     Operator nullOperator;
-    Operator addOperator("+");
-    Operator subtractOperator("-");
+    Operator addOperator("+");    Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
-    Operator raiseToPowerOperator("^");
-    Operator openingGroupOperator("(");
+    Operator raiseToPowerOperator("^");    Operator openingGroupOperator("(");
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
@@ -171,15 +161,13 @@ TEST(OperatorTest, IsRaiseToPowerWorksAsExpected)
 }
 
 
-TEST(OperatorTest, IsAnOperatorThatCanPerformedWorksAsExpected)
+TEST(OperatorTest, IsAnOperatorThatCanPerformedWorks)
 {
     Operator nullOperator;
-    Operator addOperator("+");
-    Operator subtractOperator("-");
+    Operator addOperator("+");    Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
-    Operator raiseToPowerOperator("^");
-    Operator openingGroupOperator("(");
+    Operator raiseToPowerOperator("^");    Operator openingGroupOperator("(");
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
@@ -194,15 +182,13 @@ TEST(OperatorTest, IsAnOperatorThatCanPerformedWorksAsExpected)
     EXPECT_FALSE(invalidOperator.isAnOperatorThatCanPerformed());
 }
 
-TEST(OperatorTest, IsOpeningGroupOperatorWorksAsExpected)
+TEST(OperatorTest, IsOpeningGroupOperatorWorks)
 {
     Operator nullOperator;
-    Operator addOperator("+");
-    Operator subtractOperator("-");
+    Operator addOperator("+");    Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
-    Operator raiseToPowerOperator("^");
-    Operator openingGroupOperator("(");
+    Operator raiseToPowerOperator("^");    Operator openingGroupOperator("(");
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 
@@ -217,15 +203,13 @@ TEST(OperatorTest, IsOpeningGroupOperatorWorksAsExpected)
     EXPECT_FALSE(invalidOperator.isOpeningGroupOperator());
 }
 
-TEST(OperatorTest, IsClosingGroupOperatorWorksAsExpected)
+TEST(OperatorTest, IsClosingGroupOperatorWorks)
 {
     Operator nullOperator;
-    Operator addOperator("+");
-    Operator subtractOperator("-");
+    Operator addOperator("+");    Operator subtractOperator("-");
     Operator multiplyOperator("*");
     Operator divideOperator("/");
-    Operator raiseToPowerOperator("^");
-    Operator openingGroupOperator("(");
+    Operator raiseToPowerOperator("^");    Operator openingGroupOperator("(");
     Operator closingGroupOperator(")");
     Operator invalidOperator("invalid");
 

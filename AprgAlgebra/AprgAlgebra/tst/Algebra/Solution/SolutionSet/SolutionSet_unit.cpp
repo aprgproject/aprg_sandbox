@@ -12,15 +12,13 @@ namespace alba
 namespace algebra
 {
 
-TEST(SolutionSetTest, IsEmptyWorksAsExpected)
+TEST(SolutionSetTest, IsEmptyWorks)
 {
     SolutionSet solutionSet1;
-    SolutionSet solutionSet2;
-    SolutionSet solutionSet3;
+    SolutionSet solutionSet2;    SolutionSet solutionSet3;
     SolutionSet solutionSet4;
     solutionSet2.addAcceptedValue(45);
-    solutionSet3.addRejectedValue(67);
-    AlbaNumbers addedValuesToCheck{1};
+    solutionSet3.addRejectedValue(67);    AlbaNumbers addedValuesToCheck{1};
     solutionSet4.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck)
     {
         return find(addedValuesToCheck.cbegin(), addedValuesToCheck.cend(), numberToCheck) == addedValuesToCheck.cend();
@@ -32,92 +30,78 @@ TEST(SolutionSetTest, IsEmptyWorksAsExpected)
     EXPECT_FALSE(solutionSet4.isEmpty());
 }
 
-TEST(SolutionSetTest, AddAcceptedValueWorksAsExpected)
+TEST(SolutionSetTest, AddAcceptedValueWorks)
 {
     SolutionSet solutionSet;
-
     solutionSet.addAcceptedValue(5863);
 
-    AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
-    ASSERT_EQ(1u, acceptedValues.size());
+    AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());    ASSERT_EQ(1u, acceptedValues.size());
     EXPECT_EQ(5863, acceptedValues.back().getInteger());
     EXPECT_TRUE(solutionSet.getRejectedValues().empty());
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
 
-TEST(SolutionSetTest, AddRejectedValueWorksAsExpected)
+TEST(SolutionSetTest, AddRejectedValueWorks)
 {
     SolutionSet solutionSet;
-
     solutionSet.addRejectedValue(5863);
 
-    AlbaNumbers const& rejectedValues(solutionSet.getRejectedValues());
-    ASSERT_EQ(1u, rejectedValues.size());
+    AlbaNumbers const& rejectedValues(solutionSet.getRejectedValues());    ASSERT_EQ(1u, rejectedValues.size());
     EXPECT_EQ(5863, rejectedValues.back().getInteger());
     EXPECT_TRUE(solutionSet.getAcceptedValues().empty());
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
 
-TEST(SolutionSetTest, AddAcceptedValuesWorksAsExpected)
+TEST(SolutionSetTest, AddAcceptedValuesWorks)
 {
     SolutionSet solutionSet;
-
     solutionSet.addAcceptedValues(AlbaNumbers{5863, 8546});
 
-    AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
-    ASSERT_EQ(2u, acceptedValues.size());
+    AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());    ASSERT_EQ(2u, acceptedValues.size());
     EXPECT_EQ(5863, acceptedValues.at(0).getInteger());
     EXPECT_EQ(8546, acceptedValues.at(1).getInteger());
     EXPECT_TRUE(solutionSet.getRejectedValues().empty());
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
 
-TEST(SolutionSetTest, AddRejectedValuesWorksAsExpected)
+TEST(SolutionSetTest, AddRejectedValuesWorks)
 {
     SolutionSet solutionSet;
-
     solutionSet.addRejectedValues(AlbaNumbers{5863, 8546});
 
-    AlbaNumbers const& rejectedValues(solutionSet.getRejectedValues());
-    ASSERT_EQ(2u, rejectedValues.size());
+    AlbaNumbers const& rejectedValues(solutionSet.getRejectedValues());    ASSERT_EQ(2u, rejectedValues.size());
     EXPECT_EQ(5863, rejectedValues.at(0).getInteger());
     EXPECT_EQ(8546, rejectedValues.at(1).getInteger());
     EXPECT_TRUE(solutionSet.getAcceptedValues().empty());
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
 
-TEST(SolutionSetTest, AddAcceptedIntervalWorksAsExpected)
+TEST(SolutionSetTest, AddAcceptedIntervalWorks)
 {
     SolutionSet solutionSet;
-
     solutionSet.addAcceptedInterval(AlbaNumberInterval(createOpenEndpoint(87), createOpenEndpoint(99)));
 
-    AlbaNumberIntervals actualIntervals(solutionSet.getAcceptedIntervals());
-    ASSERT_EQ(1u, actualIntervals.size());
+    AlbaNumberIntervals actualIntervals(solutionSet.getAcceptedIntervals());    ASSERT_EQ(1u, actualIntervals.size());
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(87), createOpenEndpoint(99)), actualIntervals.at(0));
 }
 
-TEST(SolutionSetTest, AddValueForAcceptedValueWorksAsExpected)
+TEST(SolutionSetTest, AddValueForAcceptedValueWorks)
 {
     SolutionSet solutionSet;
-
     solutionSet.addValue(5863, [](AlbaNumber const&){return true;});
 
-    AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
-    ASSERT_EQ(1u, acceptedValues.size());
+    AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());    ASSERT_EQ(1u, acceptedValues.size());
     EXPECT_EQ(5863, acceptedValues.back().getInteger());
     EXPECT_TRUE(solutionSet.getRejectedValues().empty());
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
 
-TEST(SolutionSetTest, AddValueForRejectedValueWorksAsExpected)
+TEST(SolutionSetTest, AddValueForRejectedValueWorks)
 {
     SolutionSet solutionSet;
-
     solutionSet.addValue(5863, [](AlbaNumber const&){return false;});
 
-    AlbaNumbers const& rejectedValues(solutionSet.getRejectedValues());
-    ASSERT_EQ(1u, rejectedValues.size());
+    AlbaNumbers const& rejectedValues(solutionSet.getRejectedValues());    ASSERT_EQ(1u, rejectedValues.size());
     EXPECT_EQ(5863, rejectedValues.back().getInteger());
     EXPECT_TRUE(solutionSet.getAcceptedValues().empty());
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
@@ -243,6 +227,17 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksAndNotAcceptedInterva
     ASSERT_EQ(2u, actualIntervals.size());
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createOpenEndpoint(1)), actualIntervals.at(0));
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(2), createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), actualIntervals.at(1));
+}
+
+TEST(SolutionSetTest, GetDisplayableStringWorks)
+{
+    SolutionSet solutionSet;
+    solutionSet.addAcceptedValue(3.7);
+    solutionSet.addAcceptedValue(5.6);
+    solutionSet.addRejectedValue(6.5);
+    solutionSet.addAcceptedInterval(AlbaNumberInterval(createOpenEndpoint(87), createOpenEndpoint(99)));
+
+    EXPECT_EQ("AcceptedValues:{3.7, 5.6} RejectedValues:{6.5} AcceptedInterval:{(87, 99)}", solutionSet.getDisplayableString());
 }
 
 }

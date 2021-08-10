@@ -250,28 +250,24 @@ TEST(BtsLogPrintTest, OperatorGreaterThanWorksWhenHigherBtsTimeIsCompared)
     EXPECT_FALSE(printWithPcTimeDuringLowerBtsRuntimeTime > printWithPcTimeDuringHigherBtsRuntimeTime);
 }
 
-TEST(BtsLogPrintTest, OperatorEqualityWorksAsExpectedBasedOnBtsTime)
+TEST(BtsLogPrintTest, OperatorEqualityWorksBasedOnBtsTime)
 {
     BtsLogPrint logPrint1("000009 23.09 12:08:04.251  [192.168.255.1]  19 FCT-1011-3-BTSOMex <1990-01-01T00:00:16.700634Z> 2F9 INF/SUBSYSTEM/SUBCOMPONENT, This is a print");
-    BtsLogPrint logPrint2("000009 23.09 12:08:04.251  [192.168.255.1]  19 FCT-1011-3-BTSOMex <1990-01-01T00:00:16.700634Z> 2F9 INF/SUBSYSTEM/SUBCOMPONENT, This is a print");
-    BtsLogPrint logPrint3("FCT-1011-3-BTSOMex <1990-01-01T00:00:16.700634Z> 2F9 INF/SUBSYSTEM/SUBCOMPONENT, This is a print");
+    BtsLogPrint logPrint2("000009 23.09 12:08:04.251  [192.168.255.1]  19 FCT-1011-3-BTSOMex <1990-01-01T00:00:16.700634Z> 2F9 INF/SUBSYSTEM/SUBCOMPONENT, This is a print");    BtsLogPrint logPrint3("FCT-1011-3-BTSOMex <1990-01-01T00:00:16.700634Z> 2F9 INF/SUBSYSTEM/SUBCOMPONENT, This is a print");
     BtsLogPrint differentTimePrint4("FCT-1011-3-BTSOMex <2004-01-01T00:00:17.856856> 2F9 INF/SUBSYSTEM/SUBCOMPONENT, This is a print");
 
-    EXPECT_TRUE(logPrint1==logPrint2);
-    EXPECT_TRUE(logPrint1==logPrint3);
+    EXPECT_TRUE(logPrint1==logPrint2);    EXPECT_TRUE(logPrint1==logPrint3);
     EXPECT_FALSE(differentTimePrint4==logPrint1);
     EXPECT_FALSE(differentTimePrint4==logPrint2);
     EXPECT_FALSE(differentTimePrint4==logPrint3);
 }
 
-TEST(BtsLogPrintTest, OperatorEqualityWorksAsExpectedBasedPrint)
+TEST(BtsLogPrintTest, OperatorEqualityWorksBasedPrint)
 {
     BtsLogPrint logPrint1("000009 23.09 12:08:04.251  [192.168.255.1]  19 FCT-1011-3-BTSOMex <1990-01-01T00:00:16.700634Z> 2F9 INF/SUBSYSTEM/SUBCOMPONENT, This is a print");
     BtsLogPrint differentPrint2("000009 23.09 12:08:04.251  [192.168.255.1]  19 FCT-1011-3-BTSOMex <1990-01-01T00:00:16.700634Z> 2F9 INF/SUBSYSTEM/SUBCOMPONENT, This is a different print");
-
     EXPECT_FALSE(differentPrint2==logPrint1);
 }
-
 TEST(BtsLogPrintTest, SyslogAndSnapshotPrintStartupComparisonTest)
 {
     BtsLogPrint logPrint1("022712 09.11 15:32:45.246  [192.168.255.129]  90 FCT-1011-0-HWRSwDl <2004-01-01T00:01:33.827322Z> 3C0 WRN/HWA/SWDL, 1");

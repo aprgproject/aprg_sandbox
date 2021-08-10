@@ -18,16 +18,14 @@ public:
     using Sample = DataSample<dimensions>;
     using Samples = std::vector<Sample>;
     using GroupOfSamples = std::vector<Samples>;
-    using SamplesToGroupPair = std::pair<Sample, unsigned int>;
-    using SamplesToGroupPairs = std::vector<std::pair<Sample, unsigned int>>;
+    using SamplesGroupPair = std::pair<Sample, unsigned int>;
+    using SamplesGroupPairs = std::vector<std::pair<Sample, unsigned int>>;
 
     KMeansClustering()
     {}
-
     void clear()
     {
-        m_samples.clear();
-    }
+        m_samples.clear();    }
 
     void addSample(Sample sample)
     {
@@ -47,60 +45,56 @@ public:
 
     GroupOfSamples getGroupOfSamplesUsingKMeans(unsigned int const numberOfGroups) const
     {
-        SamplesToGroupPairs samplesToGroupPairs(calculateInitialSamplesToGroupPairsFromSavedSamples(numberOfGroups));
-        bool isSamplesToGroupPairsChanged(true);
-        while(isSamplesToGroupPairsChanged)
+        SamplesGroupPairs samplesGroupPairs(calculateInitialSamplesGroupPairsFromSavedSamples(numberOfGroups));
+        bool isSamplesGroupPairsChanged(true);
+        while(isSamplesGroupPairsChanged)
         {
-            isSamplesToGroupPairsChanged=false;
-            GroupOfSamples groupOfSamples(calculateGroupOfSamplesFromSamplesToGroupPairs(samplesToGroupPairs, numberOfGroups));
+            isSamplesGroupPairsChanged=false;
+            GroupOfSamples groupOfSamples(calculateGroupOfSamplesFromSamplesGroupPairs(samplesGroupPairs, numberOfGroups));
             Samples meanForEachGroup(calculateMeanForEachGroup(groupOfSamples));
 
-            for(SamplesToGroupPair & samplesToGroupPair : samplesToGroupPairs)
+            for(SamplesGroupPair & samplesGroupPair : samplesGroupPairs)
             {
                 unsigned int nearestGroup(0);
                 double nearestDistance(0);
                 for(unsigned int groupIndex=0; groupIndex<numberOfGroups; groupIndex++)
                 {
-                    double currentDistance(StatisticsUtilities::calculateDistance(samplesToGroupPair.first, meanForEachGroup[groupIndex]));
+                    double currentDistance(StatisticsUtilities::calculateDistance(samplesGroupPair.first, meanForEachGroup[groupIndex]));
                     if(groupIndex==0  || nearestDistance>currentDistance)
                     {
-                        nearestGroup = groupIndex;
-                        nearestDistance = currentDistance;
+                        nearestGroup = groupIndex;                        nearestDistance = currentDistance;
                     }
                 }
-                isSamplesToGroupPairsChanged = isSamplesToGroupPairsChanged||(nearestGroup!=samplesToGroupPair.second);
-                samplesToGroupPair.second = nearestGroup;
+                isSamplesGroupPairsChanged = isSamplesGroupPairsChanged||(nearestGroup!=samplesGroupPair.second);
+                samplesGroupPair.second = nearestGroup;
             }
         }
-        return calculateGroupOfSamplesFromSamplesToGroupPairs(samplesToGroupPairs, numberOfGroups);
+        return calculateGroupOfSamplesFromSamplesGroupPairs(samplesGroupPairs, numberOfGroups);
     }
 
 private:
-    GroupOfSamples calculateGroupOfSamplesFromSamplesToGroupPairs(SamplesToGroupPairs const& samplesToGroupPairs, unsigned int const numberOfGroups) const
+    GroupOfSamples calculateGroupOfSamplesFromSamplesGroupPairs(SamplesGroupPairs const& samplesGroupPairs, unsigned int const numberOfGroups) const
     {
         GroupOfSamples result;
-        for(unsigned int groupIndex=0; groupIndex<numberOfGroups; groupIndex++)
-        {
+        for(unsigned int groupIndex=0; groupIndex<numberOfGroups; groupIndex++)        {
             result.emplace_back();
         }
-        for(SamplesToGroupPair const& samplesToGroupPair : samplesToGroupPairs)
+        for(SamplesGroupPair const& samplesGroupPair : samplesGroupPairs)
         {
-            result[samplesToGroupPair.second].emplace_back(samplesToGroupPair.first);
+            result[samplesGroupPair.second].emplace_back(samplesGroupPair.first);
         }
         return result;
     }
 
-    SamplesToGroupPairs calculateInitialSamplesToGroupPairsFromSavedSamples(unsigned int const numberOfGroups) const
+    SamplesGroupPairs calculateInitialSamplesGroupPairsFromSavedSamples(unsigned int const numberOfGroups) const
     {
-        SamplesToGroupPairs result;
+        SamplesGroupPairs result;
         unsigned int count(0);
         unsigned int numberSamplesPerGroup((m_samples.size()/numberOfGroups)+1);
-        for(Sample const& sample : m_samples)
-        {
+        for(Sample const& sample : m_samples)        {
             result.emplace_back(sample, count++/numberSamplesPerGroup);
         }
-        return result;
-    }
+        return result;    }
 
     Samples calculateMeanForEachGroup(GroupOfSamples const& groupOfSamples) const
     {

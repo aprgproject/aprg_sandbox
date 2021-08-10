@@ -20,15 +20,13 @@ TEST(AlbaCropFileTest, NoOutputIsWrittenWhenInputIsNonExisting)
     EXPECT_FALSE(cropFile.isOutputFileWritten());
 }
 
-TEST(AlbaCropFileTest, CropUpdatesWorksAsExpected)
+TEST(AlbaCropFileTest, CropUpdatesWorks)
 {
     ofstream testFile(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
-    ASSERT_TRUE(testFile.is_open());
-    for(unsigned int i = 0; i<100; i++)
+    ASSERT_TRUE(testFile.is_open());    for(unsigned int i = 0; i<100; i++)
     {
         testFile << i << endl;
-    }
-    testFile.close();
+    }    testFile.close();
 
     double capturedPercentage=0;
     AlbaCropFile cropFile("[50]", 50, [&](double percentage)->void
@@ -41,15 +39,13 @@ TEST(AlbaCropFileTest, CropUpdatesWorksAsExpected)
     EXPECT_DOUBLE_EQ(100, capturedPercentage);
 }
 
-TEST(AlbaCropFileTest, CropWorksAsExpectedWhenCropSizeIsHalfOfTheWholeDocument) // windows handling is problematic
+TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocument) // windows handling is problematic
 {
     ofstream testFile(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
-    ASSERT_TRUE(testFile.is_open());
-    for(unsigned int i = 0; i<10; i++)
+    ASSERT_TRUE(testFile.is_open());    for(unsigned int i = 0; i<10; i++)
     {
         testFile << i << endl;
-    }
-    testFile.close();
+    }    testFile.close();
 
     ifstream testFileToRead(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     AlbaFileReader testFileReader(testFileToRead);
@@ -74,15 +70,13 @@ TEST(AlbaCropFileTest, CropWorksAsExpectedWhenCropSizeIsHalfOfTheWholeDocument) 
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(AlbaCropFileTest, CropWorksAsExpectedWhenCropSizeIsTwiceOfTheWholeDocument) // windows handling is problematic
+TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsTwiceOfTheWholeDocument) // windows handling is problematic
 {
     ofstream testFile(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
-    ASSERT_TRUE(testFile.is_open());
-    for(unsigned int i = 0; i<10; i++)
+    ASSERT_TRUE(testFile.is_open());    for(unsigned int i = 0; i<10; i++)
     {
         testFile << i << endl;
-    }
-    testFile.close();
+    }    testFile.close();
 
     ifstream testFileToRead(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     AlbaFileReader testFileReader(testFileToRead);
@@ -113,15 +107,13 @@ TEST(AlbaCropFileTest, CropWorksAsExpectedWhenCropSizeIsTwiceOfTheWholeDocument)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(AlbaCropFileTest, CropWorksAsExpectedWhenCropSizeIsHalfOfTheWholeDocumentAtTheStart) // windows handling is problematic
+TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheStart) // windows handling is problematic
 {
     ofstream testFile(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
-    ASSERT_TRUE(testFile.is_open());
-    for(unsigned int i = 0; i<10; i++)
+    ASSERT_TRUE(testFile.is_open());    for(unsigned int i = 0; i<10; i++)
     {
         testFile << i << endl;
-    }
-    testFile.close();
+    }    testFile.close();
 
     ifstream testFileToRead(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     AlbaFileReader testFileReader(testFileToRead);
@@ -145,15 +137,13 @@ TEST(AlbaCropFileTest, CropWorksAsExpectedWhenCropSizeIsHalfOfTheWholeDocumentAt
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(AlbaCropFileTest, CropWorksAsExpectedWhenCropSizeIsHalfOfTheWholeDocumentAtTheEnd) // windows handling is problematic
+TEST(AlbaCropFileTest, CropWorksWhenCropSizeIsHalfOfTheWholeDocumentAtTheEnd) // windows handling is problematic
 {
     ofstream testFile(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
-    ASSERT_TRUE(testFile.is_open());
-    for(unsigned int i = 0; i<10; i++)
+    ASSERT_TRUE(testFile.is_open());    for(unsigned int i = 0; i<10; i++)
     {
         testFile << i << endl;
-    }
-    testFile.close();
+    }    testFile.close();
 
     ifstream testFileToRead(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
     AlbaFileReader testFileReader(testFileToRead);
