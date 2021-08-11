@@ -25,10 +25,12 @@ private:
     bool isSolutionCorrect(
             MultipleVariableSolutionSet const& solutionSet,
             Equations const& equations) const;
-    SubstitutionOfVariablesToValues getSubstitutionFromSolutionSet(            MultipleVariableSolutionSet const& solutionSet) const;
+    SubstitutionOfVariablesToValues getSubstitutionFromSolutionSet(
+            MultipleVariableSolutionSet const& solutionSet) const;
 
     void clear();
-    void calculateSolutions(            Equations const& equations);
+    void calculateSolutions(
+            Equations const& equations);
     void calculateASolutionForAllVariables(
             MultipleVariableSolutionSet & multipleVariableSolutionSet,
             Equations const& equations);

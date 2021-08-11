@@ -58,10 +58,12 @@ TEST(EquationOperatorTest, LessThanEquationOperatorWorks)
 TEST(EquationOperatorTest, IsEqualWorks)
 {
     EquationOperator nullOperator;
-    EquationOperator singleEqualityOperator("=");    EquationOperator doubleEqualityOperator("==");
+    EquationOperator singleEqualityOperator("=");
+    EquationOperator doubleEqualityOperator("==");
     EquationOperator inequalityOperator("!=");
     EquationOperator lessThanOperator("<");
-    EquationOperator greaterThanOperator(">");    EquationOperator lessThanOperatorOrEqual("<=");
+    EquationOperator greaterThanOperator(">");
+    EquationOperator lessThanOperatorOrEqual("<=");
     EquationOperator greaterThanOperatorOrEqual(">=");
     EquationOperator invalidEquationOperator("invalid");
 
@@ -79,10 +81,12 @@ TEST(EquationOperatorTest, IsEqualWorks)
 TEST(EquationOperatorTest, IsNotEqualWorks)
 {
     EquationOperator nullOperator;
-    EquationOperator singleEqualityOperator("=");    EquationOperator doubleEqualityOperator("==");
+    EquationOperator singleEqualityOperator("=");
+    EquationOperator doubleEqualityOperator("==");
     EquationOperator inequalityOperator("!=");
     EquationOperator lessThanOperator("<");
-    EquationOperator greaterThanOperator(">");    EquationOperator lessThanOperatorOrEqual("<=");
+    EquationOperator greaterThanOperator(">");
+    EquationOperator lessThanOperatorOrEqual("<=");
     EquationOperator greaterThanOperatorOrEqual(">=");
     EquationOperator invalidEquationOperator("invalid");
 
@@ -100,10 +104,12 @@ TEST(EquationOperatorTest, IsNotEqualWorks)
 TEST(EquationOperatorTest, IsLessThanWorks)
 {
     EquationOperator nullOperator;
-    EquationOperator singleEqualityOperator("=");    EquationOperator doubleEqualityOperator("==");
+    EquationOperator singleEqualityOperator("=");
+    EquationOperator doubleEqualityOperator("==");
     EquationOperator inequalityOperator("!=");
     EquationOperator lessThanOperator("<");
-    EquationOperator greaterThanOperator(">");    EquationOperator lessThanOperatorOrEqual("<=");
+    EquationOperator greaterThanOperator(">");
+    EquationOperator lessThanOperatorOrEqual("<=");
     EquationOperator greaterThanOperatorOrEqual(">=");
     EquationOperator invalidEquationOperator("invalid");
 
@@ -121,10 +127,12 @@ TEST(EquationOperatorTest, IsLessThanWorks)
 TEST(EquationOperatorTest, IsGreaterThanWorks)
 {
     EquationOperator nullOperator;
-    EquationOperator singleEqualityOperator("=");    EquationOperator doubleEqualityOperator("==");
+    EquationOperator singleEqualityOperator("=");
+    EquationOperator doubleEqualityOperator("==");
     EquationOperator inequalityOperator("!=");
     EquationOperator lessThanOperator("<");
-    EquationOperator greaterThanOperator(">");    EquationOperator lessThanOperatorOrEqual("<=");
+    EquationOperator greaterThanOperator(">");
+    EquationOperator lessThanOperatorOrEqual("<=");
     EquationOperator greaterThanOperatorOrEqual(">=");
     EquationOperator invalidEquationOperator("invalid");
 
@@ -142,10 +150,12 @@ TEST(EquationOperatorTest, IsGreaterThanWorks)
 TEST(EquationOperatorTest, IsLessThanOrEqualWorks)
 {
     EquationOperator nullOperator;
-    EquationOperator singleEqualityOperator("=");    EquationOperator doubleEqualityOperator("==");
+    EquationOperator singleEqualityOperator("=");
+    EquationOperator doubleEqualityOperator("==");
     EquationOperator inequalityOperator("!=");
     EquationOperator lessThanOperator("<");
-    EquationOperator greaterThanOperator(">");    EquationOperator lessThanOperatorOrEqual("<=");
+    EquationOperator greaterThanOperator(">");
+    EquationOperator lessThanOperatorOrEqual("<=");
     EquationOperator greaterThanOperatorOrEqual(">=");
     EquationOperator invalidEquationOperator("invalid");
 
@@ -163,10 +173,12 @@ TEST(EquationOperatorTest, IsLessThanOrEqualWorks)
 TEST(EquationOperatorTest, IsGreaterThanOrEqualWorks)
 {
     EquationOperator nullOperator;
-    EquationOperator singleEqualityOperator("=");    EquationOperator doubleEqualityOperator("==");
+    EquationOperator singleEqualityOperator("=");
+    EquationOperator doubleEqualityOperator("==");
     EquationOperator inequalityOperator("!=");
     EquationOperator lessThanOperator("<");
-    EquationOperator greaterThanOperator(">");    EquationOperator lessThanOperatorOrEqual("<=");
+    EquationOperator greaterThanOperator(">");
+    EquationOperator lessThanOperatorOrEqual("<=");
     EquationOperator greaterThanOperatorOrEqual(">=");
     EquationOperator invalidEquationOperator("invalid");
 
@@ -184,10 +196,12 @@ TEST(EquationOperatorTest, IsGreaterThanOrEqualWorks)
 TEST(EquationOperatorTest, IsAnEqualityVariantWorks)
 {
     EquationOperator nullOperator;
-    EquationOperator singleEqualityOperator("=");    EquationOperator doubleEqualityOperator("==");
+    EquationOperator singleEqualityOperator("=");
+    EquationOperator doubleEqualityOperator("==");
     EquationOperator inequalityOperator("!=");
     EquationOperator lessThanOperator("<");
-    EquationOperator greaterThanOperator(">");    EquationOperator lessThanOperatorOrEqual("<=");
+    EquationOperator greaterThanOperator(">");
+    EquationOperator lessThanOperatorOrEqual("<=");
     EquationOperator greaterThanOperatorOrEqual(">=");
     EquationOperator invalidEquationOperator("invalid");
 
@@ -205,10 +219,12 @@ TEST(EquationOperatorTest, IsAnEqualityVariantWorks)
 TEST(EquationOperatorTest, IsALessThanVariantWorks)
 {
     EquationOperator nullOperator;
-    EquationOperator singleEqualityOperator("=");    EquationOperator doubleEqualityOperator("==");
+    EquationOperator singleEqualityOperator("=");
+    EquationOperator doubleEqualityOperator("==");
     EquationOperator inequalityOperator("!=");
     EquationOperator lessThanOperator("<");
-    EquationOperator greaterThanOperator(">");    EquationOperator lessThanOperatorOrEqual("<=");
+    EquationOperator greaterThanOperator(">");
+    EquationOperator lessThanOperatorOrEqual("<=");
     EquationOperator greaterThanOperatorOrEqual(">=");
     EquationOperator invalidEquationOperator("invalid");
 
@@ -226,10 +242,12 @@ TEST(EquationOperatorTest, IsALessThanVariantWorks)
 TEST(EquationOperatorTest, IsAGreaterThanVariantWorks)
 {
     EquationOperator nullOperator;
-    EquationOperator singleEqualityOperator("=");    EquationOperator doubleEqualityOperator("==");
+    EquationOperator singleEqualityOperator("=");
+    EquationOperator doubleEqualityOperator("==");
     EquationOperator inequalityOperator("!=");
     EquationOperator lessThanOperator("<");
-    EquationOperator greaterThanOperator(">");    EquationOperator lessThanOperatorOrEqual("<=");
+    EquationOperator greaterThanOperator(">");
+    EquationOperator lessThanOperatorOrEqual("<=");
     EquationOperator greaterThanOperatorOrEqual(">=");
     EquationOperator invalidEquationOperator("invalid");
 
@@ -247,10 +265,12 @@ TEST(EquationOperatorTest, IsAGreaterThanVariantWorks)
 TEST(EquationOperatorTest, GetEquationOperatorStringValueWorks)
 {
     EquationOperator nullOperator;
-    EquationOperator singleEqualityOperator("=");    EquationOperator doubleEqualityOperator("==");
+    EquationOperator singleEqualityOperator("=");
+    EquationOperator doubleEqualityOperator("==");
     EquationOperator inequalityOperator("!=");
     EquationOperator lessThanOperator("<");
-    EquationOperator greaterThanOperator(">");    EquationOperator lessThanOperatorOrEqual("<=");
+    EquationOperator greaterThanOperator(">");
+    EquationOperator lessThanOperatorOrEqual("<=");
     EquationOperator greaterThanOperatorOrEqual(">=");
     EquationOperator invalidEquationOperator("invalid");
 

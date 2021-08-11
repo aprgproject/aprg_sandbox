@@ -23,9 +23,11 @@ public:
 
     KMeansClustering()
     {}
+
     void clear()
     {
-        m_samples.clear();    }
+        m_samples.clear();
+    }
 
     void addSample(Sample sample)
     {
@@ -62,7 +64,8 @@ public:
                     double currentDistance(StatisticsUtilities::calculateDistance(samplesGroupPair.first, meanForEachGroup[groupIndex]));
                     if(groupIndex==0  || nearestDistance>currentDistance)
                     {
-                        nearestGroup = groupIndex;                        nearestDistance = currentDistance;
+                        nearestGroup = groupIndex;
+                        nearestDistance = currentDistance;
                     }
                 }
                 isSamplesGroupPairsChanged = isSamplesGroupPairsChanged||(nearestGroup!=samplesGroupPair.second);
@@ -76,7 +79,8 @@ private:
     GroupOfSamples calculateGroupOfSamplesFromSamplesGroupPairs(SamplesGroupPairs const& samplesGroupPairs, unsigned int const numberOfGroups) const
     {
         GroupOfSamples result;
-        for(unsigned int groupIndex=0; groupIndex<numberOfGroups; groupIndex++)        {
+        for(unsigned int groupIndex=0; groupIndex<numberOfGroups; groupIndex++)
+        {
             result.emplace_back();
         }
         for(SamplesGroupPair const& samplesGroupPair : samplesGroupPairs)
@@ -91,10 +95,12 @@ private:
         SamplesGroupPairs result;
         unsigned int count(0);
         unsigned int numberSamplesPerGroup((m_samples.size()/numberOfGroups)+1);
-        for(Sample const& sample : m_samples)        {
+        for(Sample const& sample : m_samples)
+        {
             result.emplace_back(sample, count++/numberSamplesPerGroup);
         }
-        return result;    }
+        return result;
+    }
 
     Samples calculateMeanForEachGroup(GroupOfSamples const& groupOfSamples) const
     {

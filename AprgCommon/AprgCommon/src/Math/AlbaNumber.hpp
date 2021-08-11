@@ -4,8 +4,10 @@
 
 #include <ostream>
 #include <string>
+
 namespace alba
 {
+
 class AlbaNumber
 {
 public:
@@ -39,10 +41,12 @@ public:
         ComplexNumberData complexNumberData;
     };
     AlbaNumber();
-    AlbaNumber(int const integerValue);    AlbaNumber(unsigned int const integerValue);
+    AlbaNumber(int const integerValue);
+    AlbaNumber(unsigned int const integerValue);
     AlbaNumber(long long int const integerValue);
     AlbaNumber(int const numerator, int const denominator);
-    AlbaNumber(int const numerator, unsigned int const denominator);    AlbaNumber(double const doubleValue);
+    AlbaNumber(int const numerator, unsigned int const denominator);
+    AlbaNumber(double const doubleValue);
     AlbaNumber(Value const value);
 
     bool operator==(AlbaNumber const& second) const;

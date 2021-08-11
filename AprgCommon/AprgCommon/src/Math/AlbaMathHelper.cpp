@@ -24,10 +24,12 @@ unsigned int getNumberOfMultiplesInclusive(
         unsigned int const number)
 {
     unsigned int result(0);
-    if(multiple>0)    {
+    if(multiple>0)
+    {
         result = ((number+multiple-1)/multiple);
     }
-    return result;}
+    return result;
+}
 
 unsigned int getPartialNumerator(
         double const doubleValue,
@@ -331,10 +333,12 @@ double getLogarithm(double const base, double const logarithmValue)
 
 AlbaNumbers getQuadraticRoots(
         AlbaNumber const& a,
-        AlbaNumber const& b,        AlbaNumber const& c)
+        AlbaNumber const& b,
+        AlbaNumber const& c)
 {
     AlbaNumbers result;
-    AlbaNumber discriminant((b^2)-(a*c*4));    if(discriminant >= 0)
+    AlbaNumber discriminant((b^2)-(a*c*4));
+    if(discriminant >= 0)
     {
         AlbaNumber discriminantSquaredRoot = discriminant^(AlbaNumber(1, 2));
         AlbaNumber firstPart((-b)/(a*2));
