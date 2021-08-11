@@ -112,6 +112,7 @@ TEST(AlbaComplexNumberTest, OperatorAdditionAssignmentWorks)
     AlbaComplexNumber<double> actualComplex(3, 4);    AlbaComplexNumber<double> anotherComplex(5, 6);
 
     actualComplex+=anotherComplex;
+
     AlbaComplexNumber<double> expectedComplex(8, 10);
     EXPECT_EQ(expectedComplex, actualComplex);
 }
@@ -217,4 +218,5 @@ TEST(AlbaComplexNumberTest, GetDisplayableStringWorks)
     AlbaComplexNumber<double> complex(3.5, 4.5);
     EXPECT_EQ("(3.5 + 4.5i)", complex.getDisplayableString());
 }
+
 }

@@ -21,11 +21,11 @@ public:
     {
         Integer,
         Fraction,
-        Double
+        Double,
+        ComplexNumber
     };
     struct FractionData
-    {
-        int numerator;
+    {        int numerator;
         unsigned int denominator;
     };
     struct ComplexNumberData
@@ -44,15 +44,17 @@ public:
     AlbaNumber(int const integerValue);
     AlbaNumber(unsigned int const integerValue);
     AlbaNumber(long long int const integerValue);
-    AlbaNumber(int const numerator, int const denominator);
-    AlbaNumber(int const numerator, unsigned int const denominator);
     AlbaNumber(double const doubleValue);
     AlbaNumber(Value const value);
 
+    static AlbaNumber createFraction(int const numerator, int const denominator);
+    static AlbaNumber createFraction(int const numerator, unsigned int const denominator);
+    static AlbaNumber createComplexNumber(int const realPart, int const imaginaryPart);
+    static AlbaNumber createComplexNumber(float const realPart, float const imaginaryPart);
+
     bool operator==(AlbaNumber const& second) const;
     bool operator!=(AlbaNumber const& second) const;
-    bool operator<=(AlbaNumber const& second) const;
-    bool operator>=(AlbaNumber const& second) const;
+    bool operator<=(AlbaNumber const& second) const;    bool operator>=(AlbaNumber const& second) const;
     bool operator<(AlbaNumber const& second) const;
     bool operator>(AlbaNumber const& second) const;
     AlbaNumber operator+() const;
@@ -105,13 +107,14 @@ public:
 
 private:
     template <typename NumberType1, typename NumberType2>
-    void constructFraction(NumberType1 const numerator, NumberType2 const denominator);
+    void constructBasedFromFractionDetails(NumberType1 const numerator, NumberType2 const denominator);
+    template <typename NumberType1, typename NumberType2>
+    void constructBasedFromComplexNumberDetails(NumberType1 const realPart, NumberType2 const imaginaryPart);
 
-    void convertToIntegerIfNeeded();
+    void convertFromDoubleToIntegerIfNeeded();
     AlbaNumber addBothIntegersAndReturnNumber(
             bool & shouldBeConvertedToDouble,
-            long long int const integerValue1,
-            long long int const integerValue2) const;
+            long long int const integerValue1,            long long int const integerValue2) const;
     AlbaNumber addBothFractionsAndReturnNumber(
             bool & shouldBeConvertedToDouble,
             FractionData const& fractionData1,

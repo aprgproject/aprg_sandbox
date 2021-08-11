@@ -12,8 +12,8 @@ namespace alba
 namespace mathHelper
 {
 
+constexpr double FLOAT_DIFFERENCE_TOLERANCE=1E-5;
 constexpr double DOUBLE_DIFFERENCE_TOLERANCE=1E-12;
-
 
 namespace
 {
@@ -108,10 +108,13 @@ bool isAlmostEqual(NumberType const value1, NumberType const value2)
 }
 template bool isAlmostEqual<unsigned int>(unsigned int const value1, unsigned int const value2);
 template bool isAlmostEqual<int>(int const value1, int const value2);
+template <> bool isAlmostEqual<float>(float const value1, float const value2)
+{
+    return value1 == value2 || getAbsoluteValue(value1-value2) < FLOAT_DIFFERENCE_TOLERANCE;
+}
 template <> bool isAlmostEqual<double>(double const value1, double const value2)
 {
-    return value1 == value2 || getAbsoluteValue(value1-value2) < DOUBLE_DIFFERENCE_TOLERANCE;
-}
+    return value1 == value2 || getAbsoluteValue(value1-value2) < DOUBLE_DIFFERENCE_TOLERANCE;}
 //Commented out: This implementation is not practical when value is equal to zero
 //template <> bool isAlmostEqual<double>(double const value1, double const value2)
 //{
@@ -135,20 +138,22 @@ bool isAlmostEqual(double const value1, double const value2, double const differ
 
 
 //isAlmostAnInteger
-template <typename NumberType>
-bool isAlmostAnInteger(double const value)
+template <typename NumberType1, typename NumberType2>
+bool isAlmostAnInteger(NumberType1 const value)
 {
     return isAlmostEqual(
                 value,
-                static_cast<double>(static_cast<NumberType>(round(value))));
+                static_cast<double>(static_cast<NumberType2>(round(value))));
 }
-template bool isAlmostAnInteger<int>(double const value);
-template bool isAlmostAnInteger<unsigned int>(double const value);
-template bool isAlmostAnInteger<long long int>(double const value);
+template bool isAlmostAnInteger<float, int>(float const value);
+template bool isAlmostAnInteger<float, unsigned int>(float const value);
+template bool isAlmostAnInteger<float, long long int>(float const value);
+template bool isAlmostAnInteger<double, int>(double const value);
+template bool isAlmostAnInteger<double, unsigned int>(double const value);
+template bool isAlmostAnInteger<double, long long int>(double const value);
 
 
-bool isAlmostAnInteger(double const value, double const differenceTolerance)
-{
+bool isAlmostAnInteger(double const value, double const differenceTolerance){
     return isAlmostEqual(
                 value,
                 static_cast<double>(static_cast<int>(round(value))),
@@ -340,11 +345,11 @@ AlbaNumbers getQuadraticRoots(
     AlbaNumber discriminant((b^2)-(a*c*4));
     if(discriminant >= 0)
     {
-        AlbaNumber discriminantSquaredRoot = discriminant^(AlbaNumber(1, 2));
+        AlbaNumber discriminantSquaredRoot
+                = discriminant^(AlbaNumber::createFraction(1, 2));
         AlbaNumber firstPart((-b)/(a*2));
         AlbaNumber secondPart(discriminantSquaredRoot/(a*2));
-        result.emplace_back(firstPart + secondPart);
-        result.emplace_back(firstPart - secondPart);
+        result.emplace_back(firstPart + secondPart);        result.emplace_back(firstPart - secondPart);
     }
     return result;
 }
@@ -536,11 +541,10 @@ AlbaNumber getGreatestCommonFactor(AlbaNumber const& firstNumber, AlbaNumber con
         unsigned int firstNumerator = static_cast<unsigned int>(getAbsoluteValue(firstFractionData.numerator))*lcmDenominator/firstFractionData.denominator;
         unsigned int secondNumerator = static_cast<unsigned int>(getAbsoluteValue(secondFractionData.numerator))*lcmDenominator/secondFractionData.denominator;
         unsigned int gcfNumerator = getGreatestCommonFactor(firstNumerator, secondNumerator);
-        result = AlbaNumber(gcfNumerator, lcmDenominator);
+        result = AlbaNumber::createFraction(static_cast<int>(gcfNumerator), lcmDenominator);
     }
     return result;
 }
-
 unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber)
 {
     unsigned int result(0);
@@ -566,11 +570,10 @@ AlbaNumber getLeastCommonMultiple(AlbaNumber const& firstNumber, AlbaNumber cons
         unsigned int firstNumerator = static_cast<unsigned int>(getAbsoluteValue(firstFractionData.numerator))*lcmDenominator/firstFractionData.denominator;
         unsigned int secondNumerator = static_cast<unsigned int>(getAbsoluteValue(secondFractionData.numerator))*lcmDenominator/secondFractionData.denominator;
         unsigned int lcmNumerator = getLeastCommonMultiple(firstNumerator, secondNumerator);
-        result = AlbaNumber(lcmNumerator, lcmDenominator);
+        result = AlbaNumber::createFraction(static_cast<int>(lcmNumerator), lcmDenominator);
     }
     return result;
 }
-
 double getLeastCommonMultipleInDouble(unsigned int const firstNumber, unsigned int const secondNumber)
 {
     double result(0);
@@ -674,11 +677,10 @@ bool isPerfectNthPower(
         unsigned int const nthPower)
 {
     double valueRaiseToTheReciprocal = pow(value, static_cast<double>(1)/nthPower);
-    return isAlmostAnInteger<unsigned int>(valueRaiseToTheReciprocal);
+    return isAlmostAnInteger<double, unsigned int>(valueRaiseToTheReciprocal);
 }
 
-bool isPerfectNthPower(
-        AlbaNumber const& number,
+bool isPerfectNthPower(        AlbaNumber const& number,
         unsigned int const nthPower)
 {
     bool result(false);
