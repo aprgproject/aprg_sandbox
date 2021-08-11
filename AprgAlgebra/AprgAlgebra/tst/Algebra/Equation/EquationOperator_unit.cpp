@@ -244,15 +244,13 @@ TEST(EquationOperatorTest, IsAGreaterThanVariantWorks)
     EXPECT_FALSE(invalidEquationOperator.isAGreaterThanVariant());
 }
 
-TEST(EquationOperatorTest, GetEquationOperatorStringValueAsExpected)
+TEST(EquationOperatorTest, GetEquationOperatorStringValueWorks)
 {
     EquationOperator nullOperator;
-    EquationOperator singleEqualityOperator("=");
-    EquationOperator doubleEqualityOperator("==");
+    EquationOperator singleEqualityOperator("=");    EquationOperator doubleEqualityOperator("==");
     EquationOperator inequalityOperator("!=");
     EquationOperator lessThanOperator("<");
-    EquationOperator greaterThanOperator(">");
-    EquationOperator lessThanOperatorOrEqual("<=");
+    EquationOperator greaterThanOperator(">");    EquationOperator lessThanOperatorOrEqual("<=");
     EquationOperator greaterThanOperatorOrEqual(">=");
     EquationOperator invalidEquationOperator("invalid");
 
