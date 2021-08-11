@@ -33,35 +33,51 @@ TEST(AlbaComplexNumberTest, OperatorEqualsWorks)
     EXPECT_TRUE(complex6==complex6);
 }
 
-TEST(AlbaComplexNumberTest, OperatorAddWorks)
+TEST(AlbaComplexNumberTest, OperatorBinaryAddWorks)
 {
     AlbaComplexNumber<double> complex1(3, 4);
     AlbaComplexNumber<double> complex2(5, 6);
-
     AlbaComplexNumber<double> actualComplex(complex1+complex2);
 
     AlbaComplexNumber<double> expectedComplex(8, 10);
     EXPECT_EQ(expectedComplex, actualComplex);
 }
 
-TEST(AlbaComplexNumberTest, OperatorMinusWorks)
+TEST(AlbaComplexNumberTest, OperatorBinaryMinusWorks)
 {
     AlbaComplexNumber<double> complex1(7, 9);
     AlbaComplexNumber<double> complex2(5, 6);
-
     AlbaComplexNumber<double> actualComplex(complex1-complex2);
 
     AlbaComplexNumber<double> expectedComplex(2, 3);
     EXPECT_EQ(expectedComplex, actualComplex);
 }
 
+TEST(AlbaComplexNumberTest, OperatorUnaryAddWorks)
+{
+    AlbaComplexNumber<double> complex(3, 4);
+
+    AlbaComplexNumber<double> actualComplex(+complex);
+
+    AlbaComplexNumber<double> expectedComplex(3, 4);
+    EXPECT_EQ(expectedComplex, actualComplex);
+}
+
+TEST(AlbaComplexNumberTest, OperatorUnaryMinusWorks)
+{
+    AlbaComplexNumber<double> complex(7, 9);
+
+    AlbaComplexNumber<double> actualComplex(-complex);
+
+    AlbaComplexNumber<double> expectedComplex(-7, -9);
+    EXPECT_EQ(expectedComplex, actualComplex);
+}
+
 TEST(AlbaComplexNumberTest, OperatorMultiplyWorks)
 {
-    AlbaComplexNumber<double> complex1(3, 4);
-    AlbaComplexNumber<double> complex2(5, 6);
+    AlbaComplexNumber<double> complex1(3, 4);    AlbaComplexNumber<double> complex2(5, 6);
 
     AlbaComplexNumber<double> actualComplex(complex1*complex2);
-
     AlbaComplexNumber<double> expectedComplex(-9, 38);
     EXPECT_EQ(expectedComplex, actualComplex);
 }
@@ -77,13 +93,55 @@ TEST(AlbaComplexNumberTest, OperatorDivideWorks)
     EXPECT_EQ(expectedComplex, actualComplex);
 }
 
+TEST(AlbaComplexNumberTest, OperatorAdditionAssignmentWorks)
+{
+    AlbaComplexNumber<double> actualComplex(3, 4);
+    AlbaComplexNumber<double> anotherComplex(5, 6);
+
+    actualComplex+=anotherComplex;
+
+    AlbaComplexNumber<double> expectedComplex(8, 10);
+    EXPECT_EQ(expectedComplex, actualComplex);
+}
+
+TEST(AlbaComplexNumberTest, OperatorSubtractionAssignmentWorks)
+{
+    AlbaComplexNumber<double> actualComplex(7, 9);
+    AlbaComplexNumber<double> anotherComplex(5, 6);
+
+    actualComplex-=anotherComplex;
+
+    AlbaComplexNumber<double> expectedComplex(2, 3);
+    EXPECT_EQ(expectedComplex, actualComplex);
+}
+
+TEST(AlbaComplexNumberTest, OperatorMultiplicationAssignmentWorks)
+{
+    AlbaComplexNumber<double> actualComplex(3, 4);
+    AlbaComplexNumber<double> anotherComplex(5, 6);
+
+    actualComplex*=anotherComplex;
+
+    AlbaComplexNumber<double> expectedComplex(-9, 38);
+    EXPECT_EQ(expectedComplex, actualComplex);
+}
+
+TEST(AlbaComplexNumberTest, OperatorDivisionAssignmentWorks)
+{
+    AlbaComplexNumber<double> actualComplex(5, 6);
+    AlbaComplexNumber<double> anotherComplex(3, 4);
+
+    actualComplex/=anotherComplex;
+
+    AlbaComplexNumber<double> expectedComplex(1.56, -0.08);
+    EXPECT_EQ(expectedComplex, actualComplex);
+}
+
 TEST(AlbaComplexNumberTest, GetRealPartWorks)
 {
     AlbaComplexNumber<double> complex(3.5, 4.5);
-
     EXPECT_DOUBLE_EQ(3.5, complex.getRealPart());
 }
-
 TEST(AlbaComplexNumberTest, GetImaginaryPartWorks)
 {
     AlbaComplexNumber<double> complex(3.5, 4.5);
