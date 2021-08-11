@@ -34,16 +34,15 @@ double convertRadiansToDegrees(double const valueInRadians);
 
 //Precision related functions
 template <typename NumberType> bool isAlmostEqual(NumberType const value1, NumberType const value2);
-bool isAlmostEqual(AlbaNumber const& number1, AlbaNumber const& number2);
 bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance);
 template <typename NumberType1, typename NumberType2> bool isAlmostAnInteger(NumberType1 const value);
 bool isAlmostAnInteger(double const value, double const differenceTolerance);
 template <typename NumberType> bool isValueBeyondLimits(double const value);
-template <> bool isValueBeyondLimits<int>(double const value);template <> bool isValueBeyondLimits<unsigned int>(double const value);
+template <> bool isValueBeyondLimits<int>(double const value);
+template <> bool isValueBeyondLimits<unsigned int>(double const value);
 template <> bool isValueBeyondLimits<short int>(double const value);
 template <> bool isValueBeyondLimits<long int>(double const value);
-template <> bool isValueBeyondLimits<unsigned long int>(double const value);
-template <> bool isValueBeyondLimits<long long int>(double const value);
+template <> bool isValueBeyondLimits<unsigned long int>(double const value);template <> bool isValueBeyondLimits<long long int>(double const value);
 template <> bool isValueBeyondLimits<unsigned long long int>(double const value);
 template <typename NumberType> NumberType getIntegerAfterRoundingDoubleValue(double const doubleValue);
 int getIntegerPartInDouble(double const doubleValue);
@@ -52,24 +51,23 @@ double getFractionalPartInDouble(double const doubleValue);
 
 //Sign related functions
 template <typename NumberType> NumberType getAbsoluteValue(NumberType const value);
-AlbaNumber getAbsoluteValue(AlbaNumber const& value);
 template <typename NumberType> NumberType getSign(NumberType const value);
-AlbaNumber getSign(AlbaNumber const& value);
 template <typename NumberType> NumberType getPositiveDelta(NumberType const value1, NumberType const value2);
-AlbaNumber getPositiveDelta(AlbaNumber const& value1, AlbaNumber const& value2);
 int convertToIntegerThenSubtract(unsigned int const number1, unsigned int const number2);
+AlbaNumber getAbsoluteValueForAlbaNumber(AlbaNumber const& value);
+AlbaNumber getSignForAlbaNumber(AlbaNumber const& value);
+AlbaNumber getPositiveDeltaForAlbaNumber(AlbaNumber const& value1, AlbaNumber const& value2);
 
 
 //Computation functions
 template <typename NumberType> NumberType getAverage(NumberType const value1, NumberType const value2);
-AlbaNumber getAverage(AlbaNumber const& value1, AlbaNumber const& value2);
 template <typename NumberType> NumberType getAverage(NumberType const value1, NumberType const value2, NumberType const value3);
 template <typename NumberType> NumberType getXSquaredPlusYSquared(NumberType const x, NumberType const y);
 template <typename NumberType> NumberType getSquareRootOfXSquaredPlusYSquared(NumberType const x, NumberType const y);
 template <typename NumberType> NumberType getSquareRootOfXSquaredPlusYSquaredPlusZSquared(NumberType const x, NumberType const y, NumberType const z);
 double getLogarithm(double const base, double const value);
+AlbaNumber getAverageForAlbaNumber(AlbaNumber const& value1, AlbaNumber const& value2);
 AlbaNumbers getQuadraticRoots(AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c);
-
 
 //Combinatorics functions
 unsigned int getFactorial(unsigned int const number);
@@ -96,35 +94,35 @@ bool isOdd(unsigned int const number);
 
 //Factor and multiple related functions
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber);
-AlbaNumber getGreatestCommonFactor(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);
 unsigned int getLeastCommonMultiple(unsigned int const firstNumber, unsigned int const secondNumber);
-AlbaNumber getLeastCommonMultiple(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);
 double getLeastCommonMultipleInDouble(unsigned int const firstNumber, unsigned int const secondNumber);
 unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsigned int const number);
+AlbaNumber getGreatestCommonFactorForAlbaNumber(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);
+AlbaNumber getLeastCommonMultipleForAlbaNumber(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);
 
 
-//Fraction related functions
-template <typename NumberType1, typename NumberType2>
+//Fraction related functionstemplate <typename NumberType1, typename NumberType2>
 FractionDetails getFractionDetailsInLowestForm(NumberType1 const numerator, NumberType2 const denominator);
 FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue);
 
 
 //Power related functions
 template <typename NumberType> bool isPerfectCube(NumberType const value);
-bool isPerfectCube(AlbaNumber const& value);
 template <typename NumberType> bool isPerfectSquare(NumberType const value);
-bool isPerfectSquare(AlbaNumber const& value);
 bool isPerfectNthPower(unsigned int const valueToCheck, unsigned int const nthPower);
-bool isPerfectNthPower(AlbaNumber const& number, unsigned int const nthPower);
 int getRaiseToPowerForIntegers(int const base, unsigned int exponent);
+bool isPerfectCubeForAlbaNumber(AlbaNumber const& value);
+bool isPerfectSquareForAlbaNumber(AlbaNumber const& value);
+bool isPerfectNthPowerForAlbaNumber(AlbaNumber const& number, unsigned int const nthPower);
 
 
-//Digit related functions
-template <typename NumberType> unsigned int getNumberOfIntegerDigits(NumberType const value);
+//Digit related functionstemplate <typename NumberType> unsigned int getNumberOfIntegerDigits(NumberType const value);
 bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits);
 
 
+//Complex number related functions
+AlbaComplexNumber<float> createComplexNumberFromData(AlbaNumber::ComplexNumberData const& data);
+void saveToComplexNumberData(AlbaNumber::ComplexNumberData & data, AlbaComplexNumber<float> const& number);
 
 }//namespace mathHelper
-
 }//namespace alba

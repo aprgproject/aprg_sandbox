@@ -135,12 +135,11 @@ public:
 
     bool isZeroMatrix() const
     {
-        return std::all_of(m_matrixData.cbegin(), m_matrixData.cend(), [](DataType const& dataType)
+        return std::all_of(m_matrixData.cbegin(), m_matrixData.cend(), [](DataType const& data)
         {
-            return isAlmostEqual(dataType, 0);
+            return isAlmostEqual(data, static_cast<DataType>(0));
         });
     }
-
     bool isIdentityMatrix() const
     {
         bool isIdentityMatrix(m_numberOfColumns==m_numberOfRows);

@@ -2,9 +2,12 @@
 
 #include <gtest/gtest.h>
 
+#include <cmath>
+
+using namespace std;
+
 namespace alba
 {
-
 TEST(AlbaComplexNumberTest, ConstructionWorks)
 {
     AlbaComplexNumber<double> complex1;
@@ -97,22 +100,44 @@ TEST(AlbaComplexNumberTest, OperatorDivideWorks)
     EXPECT_EQ(expectedComplex, actualComplex);
 }
 
+TEST(AlbaComplexNumberTest, OperatorDivideWorksWithZero)
+{
+    AlbaComplexNumber<double> complex1(5, 6);
+    AlbaComplexNumber<double> complex2(0, 0);
+
+    AlbaComplexNumber<double> actualComplex(complex1/complex2);
+
+    EXPECT_TRUE(isnan(actualComplex.getRealPart()));
+    EXPECT_TRUE(isnan(actualComplex.getImaginaryPart()));
+}
+
 TEST(AlbaComplexNumberTest, OperatorRaiseToPowerWorks)
 {
-    AlbaComplexNumber<double> complex(-0.5, sqrt(3)/2);
+    AlbaComplexNumber<double> actualComplex1(AlbaComplexNumber<double>(-0.5, sqrt(3)/2)^3);
+    AlbaComplexNumber<double> actualComplex2(AlbaComplexNumber<double>(-8, 0)^(static_cast<double>(1)/3));
 
-    AlbaComplexNumber<double> actualComplex(complex^3);
+    AlbaComplexNumber<double> expectedComplex1(1, 0);
+    AlbaComplexNumber<double> expectedComplex2(-2, 0);
+    EXPECT_EQ(expectedComplex1, actualComplex1);
+    EXPECT_EQ(expectedComplex2, actualComplex2);
+}
 
-    AlbaComplexNumber<double> expectedComplex(1, 0);
+TEST(AlbaComplexNumberTest, OperatorRaiseToPowerWorksWithNegativeOneRaisedToOneHalf)
+{
+    AlbaComplexNumber<double> complex(-1, 0);
+
+    AlbaComplexNumber<double> actualComplex(complex^0.5);
+
+    AlbaComplexNumber<double> expectedComplex(0, 1);
     EXPECT_EQ(expectedComplex, actualComplex);
 }
 
 TEST(AlbaComplexNumberTest, OperatorAdditionAssignmentWorks)
 {
-    AlbaComplexNumber<double> actualComplex(3, 4);    AlbaComplexNumber<double> anotherComplex(5, 6);
+    AlbaComplexNumber<double> actualComplex(3, 4);
+    AlbaComplexNumber<double> anotherComplex(5, 6);
 
     actualComplex+=anotherComplex;
-
     AlbaComplexNumber<double> expectedComplex(8, 10);
     EXPECT_EQ(expectedComplex, actualComplex);
 }
@@ -171,10 +196,16 @@ TEST(AlbaComplexNumberTest, GetModulusWorks)
     EXPECT_DOUBLE_EQ(5, complex.getModulus());
 }
 
+TEST(AlbaComplexNumberTest, GetModulusWithSignOfRealPartWorks)
+{
+    AlbaComplexNumber<double> complex(-3, 4);
+
+    EXPECT_DOUBLE_EQ(-5, complex.getModulusWithSignOfRealPart());
+}
+
 TEST(AlbaComplexNumberTest, GetModulusSquaredWorks)
 {
     AlbaComplexNumber<double> complex(3, 4);
-
     EXPECT_DOUBLE_EQ(25, complex.getModulusSquared());
 }
 
@@ -185,13 +216,20 @@ TEST(AlbaComplexNumberTest, GetAngleInRadiansWorks)
     EXPECT_DOUBLE_EQ(0.92729521800161219, complex.getAngleInRadians());
 }
 
+TEST(AlbaComplexNumberTest, GetBestAngleInRaiseToPowerInRadiansWorks)
+{
+    AlbaComplexNumber<double> complex(-8, 0);
+
+    EXPECT_DOUBLE_EQ(3.1415926535897931, complex.getBestAngleInRaiseToPowerInRadians(static_cast<double>(1)/3));
+}
+
 TEST(AlbaComplexNumberTest, GetConjugateWorks)
 {
     AlbaComplexNumber<double> complex1(3, 4);
+
     AlbaComplexNumber<double> actualComplex(complex1.getConjugate());
 
-    AlbaComplexNumber<double> expectedComplex(3, -4);
-    EXPECT_EQ(expectedComplex, actualComplex);
+    AlbaComplexNumber<double> expectedComplex(3, -4);    EXPECT_EQ(expectedComplex, actualComplex);
 }
 
 TEST(AlbaComplexNumberTest, GetNthRootWorks)
@@ -216,7 +254,7 @@ TEST(AlbaComplexNumberTest, GetNthRootWorks)
 TEST(AlbaComplexNumberTest, GetDisplayableStringWorks)
 {
     AlbaComplexNumber<double> complex(3.5, 4.5);
+
     EXPECT_EQ("(3.5 + 4.5i)", complex.getDisplayableString());
 }
-
 }

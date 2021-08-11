@@ -20,16 +20,16 @@ public:
     enum class Type
     {
         Integer,
-        Fraction,
         Double,
+        Fraction,
         ComplexNumber
     };
     struct FractionData
-    {        int numerator;
+    {
+        int numerator;
         unsigned int denominator;
     };
-    struct ComplexNumberData
-    {
+    struct ComplexNumberData    {
         float realPart;
         float imaginaryPart;
     };
@@ -50,15 +50,15 @@ public:
     static AlbaNumber createFraction(int const numerator, int const denominator);
     static AlbaNumber createFraction(int const numerator, unsigned int const denominator);
     static AlbaNumber createComplexNumber(int const realPart, int const imaginaryPart);
-    static AlbaNumber createComplexNumber(float const realPart, float const imaginaryPart);
+    static AlbaNumber createComplexNumber(double const realPart, double const imaginaryPart);
 
     bool operator==(AlbaNumber const& second) const;
     bool operator!=(AlbaNumber const& second) const;
-    bool operator<=(AlbaNumber const& second) const;    bool operator>=(AlbaNumber const& second) const;
+    bool operator<=(AlbaNumber const& second) const;
+    bool operator>=(AlbaNumber const& second) const;
     bool operator<(AlbaNumber const& second) const;
     bool operator>(AlbaNumber const& second) const;
-    AlbaNumber operator+() const;
-    AlbaNumber operator-() const;
+    AlbaNumber operator+() const;    AlbaNumber operator-() const;
     AlbaNumber operator+(AlbaNumber const& second) const;
     AlbaNumber operator-(AlbaNumber const& second) const;
     AlbaNumber operator*(AlbaNumber const& second) const;
@@ -86,22 +86,22 @@ public:
     AlbaNumber operator^(double const doubleValue) const;
 
     bool isIntegerType() const;
-    bool isFractionType() const;
     bool isDoubleType() const;
+    bool isFractionType() const;
+    bool isComplexNumberType() const;
     bool isIntegerOrFractionType() const;
     bool isPositiveInfinity() const;
-    bool isNegativeInfinity() const;
-    bool isNotANumber() const;
+    bool isNegativeInfinity() const;    bool isNotANumber() const;
     bool isAFiniteValue() const;
 
     Type getType() const;
     long long int getInteger() const;
-    FractionData getFractionData() const;
     double getDouble() const;
+    FractionData getFractionData() const;
+    ComplexNumberData getComplexNumberData() const;
 
     unsigned int getNumberDataSize() const;
     std::string getDisplayableString() const;
-
     void convertToInteger();
     void convertToFraction();
 
@@ -110,44 +110,46 @@ private:
     void constructBasedFromFractionDetails(NumberType1 const numerator, NumberType2 const denominator);
     template <typename NumberType1, typename NumberType2>
     void constructBasedFromComplexNumberDetails(NumberType1 const realPart, NumberType2 const imaginaryPart);
-
     void convertFromDoubleToIntegerIfNeeded();
+
+    double adjustFloatValue(float const value) const;
+
     AlbaNumber addBothIntegersAndReturnNumber(
             bool & shouldBeConvertedToDouble,
-            long long int const integerValue1,            long long int const integerValue2) const;
+            long long int const integerValue1,
+            long long int const integerValue2) const;
+    AlbaNumber addBothDoubleAndReturnNumber(double const doubleValue1, double const doubleValue2) const;
     AlbaNumber addBothFractionsAndReturnNumber(
             bool & shouldBeConvertedToDouble,
             FractionData const& fractionData1,
             FractionData const& fractionData2) const;
-    AlbaNumber addBothDoubleAndReturnNumber(double const doubleValue1, double const doubleValue2) const;
+    AlbaNumber addIntegerAndDoubleAndReturnNumber(
+            long long int const integerValue,
+            double const doubleValue) const;
     AlbaNumber addIntegerAndFractionAndReturnNumber(
             bool & shouldBeConvertedToDouble,
             long long int const integerValue,
             FractionData const& fractionData) const;
-    AlbaNumber addIntegerAndDoubleAndReturnNumber(
-            long long int const integerValue,
-            double const doubleValue) const;
     AlbaNumber addFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const;
     AlbaNumber multiplyBothIntegersAndReturnNumber(
             bool & shouldBeConvertedToDouble,
             long long int const integerValue1,
             long long int const integerValue2) const;
+    AlbaNumber multiplyBothDoubleAndReturnNumber(double const doubleValue1, double const doubleValue2) const;
     AlbaNumber multiplyBothFractionsAndReturnNumber(
             bool & shouldBeConvertedToDouble,
             FractionData const& fractionData1,
             FractionData const& fractionData2) const;
-    AlbaNumber multiplyBothDoubleAndReturnNumber(double const doubleValue1, double const doubleValue2) const;
+    AlbaNumber multiplyIntegerAndDoubleAndReturnNumber(
+            long long int const integerValue,
+            double const doubleValue) const;
     AlbaNumber multiplyIntegerAndFractionAndReturnNumber(
             bool & shouldBeConvertedToDouble,
             long long int const integerValue,
             FractionData const& fractionData) const;
-    AlbaNumber multiplyIntegerAndDoubleAndReturnNumber(
-            long long int const integerValue,
-            double const doubleValue) const;
     AlbaNumber multiplyFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const;
     AlbaNumber divideBothIntegersAndReturnNumber(
-            bool & shouldBeConvertedToDouble,
-            long long int const dividend,
+            bool & shouldBeConvertedToDouble,            long long int const dividend,
             long long int const divisor) const;
     AlbaNumber divideDividendsAndDivisorsAndReturnNumber(
             bool & shouldBeConvertedToDouble,
