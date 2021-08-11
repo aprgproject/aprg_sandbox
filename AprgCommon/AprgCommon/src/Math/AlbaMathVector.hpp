@@ -61,20 +61,22 @@ public:
 
     MathVector operator+(MathVector const& second) const
     {
-        Values resultValues;
+        MathVector result;
         Values const& firstValues(m_values);
         Values const& secondValues(second.m_values);
+        Values & resultValues(result.m_values);
         std::transform(firstValues.begin(), firstValues.end(), secondValues.begin(), resultValues.begin(), std::plus<DataType>());
-        return MathVector(resultValues);
+        return result;
     }
 
     MathVector operator-(MathVector const& second) const
     {
-        Values resultValues;
+        MathVector result;
         Values const& firstValues(m_values);
         Values const& secondValues(second.m_values);
+        Values & resultValues(result.m_values);
         std::transform(firstValues.begin(), firstValues.end(), secondValues.begin(), resultValues.begin(), std::minus<DataType>());
-        return MathVector(resultValues);
+        return result;
     }
 
     MathVector operator+() const
@@ -84,7 +86,32 @@ public:
 
     MathVector operator-() const
     {
-        std::transform(m_values.begin(), m_values.end(), m_values.begin(), std::negate<DataType>());
+        MathVector result;
+        Values & resultValues(result.m_values);
+        std::transform(m_values.begin(), m_values.end(), resultValues.begin(), std::negate<DataType>());
+        return result;
+    }
+
+    MathVector operator*(DataType const scalarValue) const
+    {
+        MathVector result;
+        Values & resultValues(result.m_values);
+        std::transform(m_values.begin(), m_values.end(), resultValues.begin(), [&](DataType const value)
+        {
+            return value*scalarValue;
+        });
+        return result;
+    }
+
+    MathVector operator/(DataType const scalarValue) const
+    {
+        MathVector result;
+        Values & resultValues(result.m_values);
+        std::transform(m_values.begin(), m_values.end(), resultValues.begin(), [&](DataType const value)
+        {
+            return value/scalarValue;
+        });
+        return result;
     }
 
     MathVector& operator+=(MathVector const& second)
@@ -110,6 +137,15 @@ public:
     {
         assert(index<SIZE);
         return m_values.at(index);
+    }
+
+    DataType getMagnitude() const
+    {
+        return static_cast<DataType>(sqrt(std::accumulate(m_values.cbegin(), m_values.cend(), 0, [](
+                                                          DataType const partialResult, DataType const currentValue)
+        {
+            return partialResult + static_cast<DataType>(pow(currentValue, 2));
+        })));
     }
 
     Values const& getValues() const

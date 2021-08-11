@@ -12,7 +12,8 @@ public:
 
     AlbaComplexNumber();
     AlbaComplexNumber(
-            DataType const realPart,            DataType const imaginaryPart);
+            DataType const realPart,
+            DataType const imaginaryPart);
 
     bool operator==(AlbaComplexNumber const& second) const;
     AlbaComplexNumber<DataType> operator+(AlbaComplexNumber<DataType> const& second) const;
@@ -27,9 +28,11 @@ public:
     AlbaComplexNumber<DataType>& operator/=(AlbaComplexNumber<DataType> const& second);
     DataType getRealPart() const;
     DataType getImaginaryPart() const;
-    DataType getModulus() const;    DataType getModulusSquared() const;
+    DataType getModulus() const;
+    DataType getModulusSquared() const;
     AlbaComplexNumber<DataType> getConjugate() const;
     std::string getDisplayableString() const;
+
 private:
     DataType getRealPartInMultiplication(
             DataType const firstRealPart,

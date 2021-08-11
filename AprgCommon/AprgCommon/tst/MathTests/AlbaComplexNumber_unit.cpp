@@ -37,6 +37,7 @@ TEST(AlbaComplexNumberTest, OperatorBinaryAddWorks)
 {
     AlbaComplexNumber<double> complex1(3, 4);
     AlbaComplexNumber<double> complex2(5, 6);
+
     AlbaComplexNumber<double> actualComplex(complex1+complex2);
 
     AlbaComplexNumber<double> expectedComplex(8, 10);
@@ -47,6 +48,7 @@ TEST(AlbaComplexNumberTest, OperatorBinaryMinusWorks)
 {
     AlbaComplexNumber<double> complex1(7, 9);
     AlbaComplexNumber<double> complex2(5, 6);
+
     AlbaComplexNumber<double> actualComplex(complex1-complex2);
 
     AlbaComplexNumber<double> expectedComplex(2, 3);
@@ -75,9 +77,11 @@ TEST(AlbaComplexNumberTest, OperatorUnaryMinusWorks)
 
 TEST(AlbaComplexNumberTest, OperatorMultiplyWorks)
 {
-    AlbaComplexNumber<double> complex1(3, 4);    AlbaComplexNumber<double> complex2(5, 6);
+    AlbaComplexNumber<double> complex1(3, 4);
+    AlbaComplexNumber<double> complex2(5, 6);
 
     AlbaComplexNumber<double> actualComplex(complex1*complex2);
+
     AlbaComplexNumber<double> expectedComplex(-9, 38);
     EXPECT_EQ(expectedComplex, actualComplex);
 }
@@ -140,8 +144,10 @@ TEST(AlbaComplexNumberTest, OperatorDivisionAssignmentWorks)
 TEST(AlbaComplexNumberTest, GetRealPartWorks)
 {
     AlbaComplexNumber<double> complex(3.5, 4.5);
+
     EXPECT_DOUBLE_EQ(3.5, complex.getRealPart());
 }
+
 TEST(AlbaComplexNumberTest, GetImaginaryPartWorks)
 {
     AlbaComplexNumber<double> complex(3.5, 4.5);
