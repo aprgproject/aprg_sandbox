@@ -691,7 +691,8 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithUnderPrecision)
 {
     NumberToStringConverter converter;
     converter.setPrecision(8);
-    EXPECT_EQ("12345", converter.convert(12345));    EXPECT_EQ("12345.679", converter.convert(12345.6789));
+    EXPECT_EQ("12345", converter.convert(12345));
+    EXPECT_EQ("12345.679", converter.convert(12345.6789));
     EXPECT_EQ("-67890.111", converter.convert(-67890.1111));
     EXPECT_EQ("2.6666667", converter.convert(AlbaNumber::createFraction(8, 3)));
 }
@@ -700,7 +701,8 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithOverPrecision)
 {
     NumberToStringConverter converter;
     converter.setPrecision(15);
-    EXPECT_EQ("12345", converter.convert(12345));    EXPECT_EQ("12345.6789", converter.convert(12345.6789));
+    EXPECT_EQ("12345", converter.convert(12345));
+    EXPECT_EQ("12345.6789", converter.convert(12345.6789));
     EXPECT_EQ("-67890.1111", converter.convert(-67890.1111));
     EXPECT_EQ("2.66666666666667", converter.convert(AlbaNumber::createFraction(8, 3)));
 }
@@ -709,7 +711,8 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithLessFieldWidth)
 {
     NumberToStringConverter converter;
     converter.setPrecision(15);
-    converter.setFieldWidth(3);    EXPECT_EQ("12345", converter.convert(12345));
+    converter.setFieldWidth(3);
+    EXPECT_EQ("12345", converter.convert(12345));
     EXPECT_EQ("12345.6789", converter.convert(12345.6789));
     EXPECT_EQ("-67890.1111", converter.convert(-67890.1111));
     EXPECT_EQ("2.66666666666667", converter.convert(AlbaNumber::createFraction(8, 3)));
@@ -719,7 +722,8 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithMoreFieldWidth)
 {
     NumberToStringConverter converter;
     converter.setPrecision(15);
-    converter.setFieldWidth(15);    EXPECT_EQ("          12345", converter.convert(12345));
+    converter.setFieldWidth(15);
+    EXPECT_EQ("          12345", converter.convert(12345));
     EXPECT_EQ("     12345.6789", converter.convert(12345.6789));
     EXPECT_EQ("    -67890.1111", converter.convert(-67890.1111));
     EXPECT_EQ("2.66666666666667", converter.convert(AlbaNumber::createFraction(8, 3)));
@@ -729,7 +733,8 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithFillCharacter)
 {
     NumberToStringConverter converter;
     converter.setPrecision(15);
-    converter.setFieldWidth(15);    converter.setFillCharacter('0');
+    converter.setFieldWidth(15);
+    converter.setFillCharacter('0');
     EXPECT_EQ("000000000012345", converter.convert(12345));
     EXPECT_EQ("0000012345.6789", converter.convert(12345.6789));
     EXPECT_EQ("0000-67890.1111", converter.convert(-67890.1111));
@@ -737,3 +742,4 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithFillCharacter)
 }
 
 }
+

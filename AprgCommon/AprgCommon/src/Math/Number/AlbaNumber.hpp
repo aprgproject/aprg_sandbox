@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Math/AlbaComplexNumber.hpp>
+#include <Math/Number/AlbaComplexNumber.hpp>
 
 #include <ostream>
 #include <string>
@@ -29,7 +29,8 @@ public:
         int numerator;
         unsigned int denominator;
     };
-    struct ComplexNumberData    {
+    struct ComplexNumberData
+    {
         float realPart;
         float imaginaryPart;
     };
@@ -58,7 +59,8 @@ public:
     bool operator>=(AlbaNumber const& second) const;
     bool operator<(AlbaNumber const& second) const;
     bool operator>(AlbaNumber const& second) const;
-    AlbaNumber operator+() const;    AlbaNumber operator-() const;
+    AlbaNumber operator+() const;
+    AlbaNumber operator-() const;
     AlbaNumber operator+(AlbaNumber const& second) const;
     AlbaNumber operator-(AlbaNumber const& second) const;
     AlbaNumber operator*(AlbaNumber const& second) const;
@@ -91,7 +93,8 @@ public:
     bool isComplexNumberType() const;
     bool isIntegerOrFractionType() const;
     bool isPositiveInfinity() const;
-    bool isNegativeInfinity() const;    bool isNotANumber() const;
+    bool isNegativeInfinity() const;
+    bool isNotANumber() const;
     bool isAFiniteValue() const;
 
     Type getType() const;
@@ -102,6 +105,7 @@ public:
 
     unsigned int getNumberDataSize() const;
     std::string getDisplayableString() const;
+
     void convertToInteger();
     void convertToFraction();
 
@@ -149,7 +153,8 @@ private:
             FractionData const& fractionData) const;
     AlbaNumber multiplyFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const;
     AlbaNumber divideBothIntegersAndReturnNumber(
-            bool & shouldBeConvertedToDouble,            long long int const dividend,
+            bool & shouldBeConvertedToDouble,
+            long long int const dividend,
             long long int const divisor) const;
     AlbaNumber divideDividendsAndDivisorsAndReturnNumber(
             bool & shouldBeConvertedToDouble,

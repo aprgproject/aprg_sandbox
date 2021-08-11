@@ -44,7 +44,8 @@ private:
     DataType getRealPartInMultiplication(
             DataType const firstRealPart,
             DataType const firstImaginaryPart,
-            DataType const secondRealPart,            DataType const secondImaginaryPart) const;
+            DataType const secondRealPart,
+            DataType const secondImaginaryPart) const;
     DataType getImaginaryPartInMultiplication(
             DataType const firstRealPart,
             DataType const firstImaginaryPart,

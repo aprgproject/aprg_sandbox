@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Math/AlbaNumber.hpp>
-#include <Math/AlbaNumberInterval.hpp>
+#include <Math/Number/AlbaNumber.hpp>
+#include <Math/Number/AlbaNumberInterval.hpp>
 #include <Optional/AlbaOptional.hpp>
 
 #include <map>

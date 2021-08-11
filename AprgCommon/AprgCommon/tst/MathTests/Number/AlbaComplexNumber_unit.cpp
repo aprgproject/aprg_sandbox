@@ -1,4 +1,4 @@
-#include <Math/AlbaComplexNumber.hpp>
+#include <Math/Number/AlbaComplexNumber.hpp>
 
 #include <gtest/gtest.h>
 
@@ -8,6 +8,7 @@ using namespace std;
 
 namespace alba
 {
+
 TEST(AlbaComplexNumberTest, ConstructionWorks)
 {
     AlbaComplexNumber<double> complex1;
@@ -138,6 +139,7 @@ TEST(AlbaComplexNumberTest, OperatorAdditionAssignmentWorks)
     AlbaComplexNumber<double> anotherComplex(5, 6);
 
     actualComplex+=anotherComplex;
+
     AlbaComplexNumber<double> expectedComplex(8, 10);
     EXPECT_EQ(expectedComplex, actualComplex);
 }
@@ -206,6 +208,7 @@ TEST(AlbaComplexNumberTest, GetModulusWithSignOfRealPartWorks)
 TEST(AlbaComplexNumberTest, GetModulusSquaredWorks)
 {
     AlbaComplexNumber<double> complex(3, 4);
+
     EXPECT_DOUBLE_EQ(25, complex.getModulusSquared());
 }
 
@@ -229,7 +232,8 @@ TEST(AlbaComplexNumberTest, GetConjugateWorks)
 
     AlbaComplexNumber<double> actualComplex(complex1.getConjugate());
 
-    AlbaComplexNumber<double> expectedComplex(3, -4);    EXPECT_EQ(expectedComplex, actualComplex);
+    AlbaComplexNumber<double> expectedComplex(3, -4);
+    EXPECT_EQ(expectedComplex, actualComplex);
 }
 
 TEST(AlbaComplexNumberTest, GetNthRootWorks)
@@ -257,4 +261,5 @@ TEST(AlbaComplexNumberTest, GetDisplayableStringWorks)
 
     EXPECT_EQ("(3.5 + 4.5i)", complex.getDisplayableString());
 }
+
 }

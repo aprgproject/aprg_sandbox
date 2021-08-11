@@ -140,6 +140,7 @@ public:
             return isAlmostEqual(data, static_cast<DataType>(0));
         });
     }
+
     bool isIdentityMatrix() const
     {
         bool isIdentityMatrix(m_numberOfColumns==m_numberOfRows);

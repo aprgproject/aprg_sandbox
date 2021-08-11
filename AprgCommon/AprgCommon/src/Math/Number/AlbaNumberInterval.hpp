@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Math/AlbaNumber.hpp>
+#include <Math/Number/AlbaNumber.hpp>
 
 namespace alba
 {

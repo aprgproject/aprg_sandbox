@@ -21,6 +21,7 @@ constexpr double DOUBLE_DIFFERENCE_TOLERANCE=1E-12;
 namespace
 {
 //internal functions
+
 unsigned int getNumberOfMultiplesInclusive(
         unsigned int const multiple,
         unsigned int const number)
@@ -120,7 +121,8 @@ template <> bool isAlmostEqual<double>(double const value1, double const value2)
 }
 //Commented out: This implementation is not practical when value is equal to zero
 //template <> bool isAlmostEqual<double>(double const value1, double const value2)
-//{//    constexpr double absoluteScaledDifferenceTolerance(1E-12);
+//{
+//    constexpr double absoluteScaledDifferenceTolerance(1E-12);
 //    double absoluteMaxValue = max(getAbsoluteValue(value1), getAbsoluteValue(value2));
 //    double difference = getAbsoluteValue(value1-value2);
 //    return difference <= absoluteMaxValue*absoluteScaledDifferenceTolerance;
@@ -129,7 +131,8 @@ template <> bool isAlmostEqual<double>(double const value1, double const value2)
 
 bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance)
 {
-    return value1 == value2 || getAbsoluteValue(value1-value2) <= differenceTolerance;}
+    return value1 == value2 || getAbsoluteValue(value1-value2) <= differenceTolerance;
+}
 
 
 //isAlmostAnInteger
@@ -141,7 +144,8 @@ bool isAlmostAnInteger(NumberType1 const value)
                 static_cast<NumberType1>(static_cast<NumberType2>(round(value))));
 }
 template bool isAlmostAnInteger<float, int>(float const value);
-template bool isAlmostAnInteger<float, unsigned int>(float const value);template bool isAlmostAnInteger<float, long long int>(float const value);
+template bool isAlmostAnInteger<float, unsigned int>(float const value);
+template bool isAlmostAnInteger<float, long long int>(float const value);
 template bool isAlmostAnInteger<double, int>(double const value);
 template bool isAlmostAnInteger<double, unsigned int>(double const value);
 template bool isAlmostAnInteger<double, long long int>(double const value);
@@ -151,7 +155,8 @@ bool isAlmostAnInteger(double const value, double const differenceTolerance)
 {
     return isAlmostEqual(
                 value,
-                static_cast<double>(static_cast<int>(round(value))),                differenceTolerance);
+                static_cast<double>(static_cast<int>(round(value))),
+                differenceTolerance);
 }
 
 
@@ -223,7 +228,8 @@ template <> unsigned int getAbsoluteValue<unsigned int>(unsigned int const value
 }
 
 
-//getSigntemplate <typename NumberType>
+//getSign
+template <typename NumberType>
 NumberType getSign(NumberType const value)
 {
     return (value<0) ? -1 : 1;
@@ -237,7 +243,8 @@ template <> unsigned int getSign<unsigned int>(unsigned int const)
 }
 
 
-//getPositiveDeltatemplate <typename NumberType>
+//getPositiveDelta
+template <typename NumberType>
 NumberType getPositiveDelta(NumberType const value1, NumberType const value2)
 {
     pair<NumberType, NumberType> minMaxPair = minmax(value1, value2);
@@ -268,6 +275,7 @@ AlbaNumber getPositiveDeltaForAlbaNumber(AlbaNumber const& value1, AlbaNumber co
     return minMaxPair.second-minMaxPair.first;
 }
 
+
 //getAverage 2 parameters
 template <typename NumberType>
 NumberType getAverage(NumberType const value1, NumberType const value2)
@@ -279,7 +287,8 @@ template int getAverage<int>(int const value1, int const value2);
 template double getAverage<double>(double const value1, double const value2);
 
 
-//getAverage 3 parameterstemplate <typename NumberType>
+//getAverage 3 parameters
+template <typename NumberType>
 NumberType getAverage(NumberType const value1, NumberType const value2, NumberType const value3)
 {
     return (value1+value2+value3)/3;
@@ -299,6 +308,7 @@ template int getXSquaredPlusYSquared<int>(int const x, int const y);
 template float getXSquaredPlusYSquared<float>(float const x, float const y);
 template double getXSquaredPlusYSquared<double>(double const x, double const y);
 
+
 //getSquareRootOfXSquaredPlusYSquared
 template <typename NumberType>
 NumberType getSquareRootOfXSquaredPlusYSquared(NumberType const x, NumberType const y)
@@ -308,6 +318,7 @@ NumberType getSquareRootOfXSquaredPlusYSquared(NumberType const x, NumberType co
 template int getSquareRootOfXSquaredPlusYSquared<int>(int const x, int const y);
 template float getSquareRootOfXSquaredPlusYSquared<float>(float const x, float const y);
 template double getSquareRootOfXSquaredPlusYSquared<double>(double const x, double const y);
+
 
 //getSquareRootOfXSquaredPlusYSquaredPlusZSquared
 template <typename NumberType>
@@ -331,7 +342,8 @@ AlbaNumber getAverageForAlbaNumber(AlbaNumber const& value1, AlbaNumber const& v
 
 
 AlbaNumbers getQuadraticRoots(
-        AlbaNumber const& a,        AlbaNumber const& b,
+        AlbaNumber const& a,
+        AlbaNumber const& b,
         AlbaNumber const& c)
 {
     AlbaNumbers result;
@@ -347,6 +359,7 @@ AlbaNumbers getQuadraticRoots(
     }
     return result;
 }
+
 unsigned int getFactorial(unsigned int const number)
 {
     unsigned int result(1);
@@ -553,7 +566,8 @@ unsigned int getDifferenceFromGreaterMultiple(unsigned int const multiple, unsig
 AlbaNumber getGreatestCommonFactorForAlbaNumber(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber)
 {
     AlbaNumber result(0);
-    if(firstNumber.isDoubleType() || secondNumber.isDoubleType())    {
+    if(firstNumber.isDoubleType() || secondNumber.isDoubleType())
+    {
         result=1;
     }
     else
@@ -572,7 +586,8 @@ AlbaNumber getGreatestCommonFactorForAlbaNumber(AlbaNumber const& firstNumber, A
 AlbaNumber getLeastCommonMultipleForAlbaNumber(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber)
 {
     AlbaNumber result(0);
-    if(firstNumber.isDoubleType() || secondNumber.isDoubleType())    {
+    if(firstNumber.isDoubleType() || secondNumber.isDoubleType())
+    {
         result=1;
     }
     else
@@ -589,7 +604,8 @@ AlbaNumber getLeastCommonMultipleForAlbaNumber(AlbaNumber const& firstNumber, Al
 }
 
 //getFractionDetailsInLowestForm
-template <typename NumberType1, typename NumberType2>FractionDetails getFractionDetailsInLowestForm(NumberType1 const numerator, NumberType2 const denominator)
+template <typename NumberType1, typename NumberType2>
+FractionDetails getFractionDetailsInLowestForm(NumberType1 const numerator, NumberType2 const denominator)
 {
     FractionDetails result{0, 0, 0};
     unsigned int unsignedNumerator = mathHelper::getAbsoluteValue(numerator);
@@ -647,7 +663,8 @@ bool isPerfectCube(NumberType const value)
 template bool isPerfectCube<unsigned int>(unsigned int const value);
 
 
-//isPerfectSquaretemplate <typename NumberType>
+//isPerfectSquare
+template <typename NumberType>
 bool isPerfectSquare(NumberType const value)
 {
     return isPerfectNthPower(value, 2);
@@ -655,7 +672,8 @@ bool isPerfectSquare(NumberType const value)
 template bool isPerfectSquare<unsigned int>(unsigned int const value);
 
 
-bool isPerfectNthPower(        unsigned int const value,
+bool isPerfectNthPower(
+        unsigned int const value,
         unsigned int const nthPower)
 {
     double valueRaiseToTheReciprocal = pow(value, static_cast<double>(1)/nthPower);
@@ -681,7 +699,8 @@ bool isPerfectNthPowerForAlbaNumber(
         AlbaNumber const& number,
         unsigned int const nthPower)
 {
-    bool result(false);    if(number.isIntegerType())
+    bool result(false);
+    if(number.isIntegerType())
     {
         int integerValue(number.getInteger());
         result = integerValue >= 0 && isPerfectNthPower(static_cast<unsigned int>(integerValue), nthPower);
@@ -698,7 +717,8 @@ bool isPerfectNthPowerForAlbaNumber(
 
 
 template <typename NumberType>
-unsigned int getNumberOfIntegerDigits(NumberType const value){
+unsigned int getNumberOfIntegerDigits(NumberType const value)
+{
     unsigned int result(0);
     NumberType absoluteValue(getAbsoluteValue(value));
     if(absoluteValue >= 1)

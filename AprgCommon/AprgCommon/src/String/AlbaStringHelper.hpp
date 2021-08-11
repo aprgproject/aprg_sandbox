@@ -1,11 +1,10 @@
 #pragma once
 
+#include <Math/Number/AlbaNumber.hpp>
 #include <Optional/AlbaOptional.hpp>
-#include <Math/AlbaNumber.hpp>
 
 #include <string>
 #include <vector>
-
 namespace alba
 {
 

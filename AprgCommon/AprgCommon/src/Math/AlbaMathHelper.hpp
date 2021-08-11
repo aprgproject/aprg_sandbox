@@ -1,10 +1,9 @@
 #pragma once
 
-#include <Math/AlbaNumber.hpp>
-#include <Math/AlbaNumberTypes.hpp>
+#include <Math/Number/AlbaNumber.hpp>
+#include <Math/Number/AlbaNumberTypes.hpp>
 
 #include <vector>
-
 namespace alba
 {
 
@@ -42,7 +41,8 @@ template <> bool isValueBeyondLimits<int>(double const value);
 template <> bool isValueBeyondLimits<unsigned int>(double const value);
 template <> bool isValueBeyondLimits<short int>(double const value);
 template <> bool isValueBeyondLimits<long int>(double const value);
-template <> bool isValueBeyondLimits<unsigned long int>(double const value);template <> bool isValueBeyondLimits<long long int>(double const value);
+template <> bool isValueBeyondLimits<unsigned long int>(double const value);
+template <> bool isValueBeyondLimits<long long int>(double const value);
 template <> bool isValueBeyondLimits<unsigned long long int>(double const value);
 template <typename NumberType> NumberType getIntegerAfterRoundingDoubleValue(double const doubleValue);
 int getIntegerPartInDouble(double const doubleValue);
@@ -68,6 +68,7 @@ template <typename NumberType> NumberType getSquareRootOfXSquaredPlusYSquaredPlu
 double getLogarithm(double const base, double const value);
 AlbaNumber getAverageForAlbaNumber(AlbaNumber const& value1, AlbaNumber const& value2);
 AlbaNumbers getQuadraticRoots(AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c);
+
 
 //Combinatorics functions
 unsigned int getFactorial(unsigned int const number);
@@ -101,7 +102,8 @@ AlbaNumber getGreatestCommonFactorForAlbaNumber(AlbaNumber const& firstNumber, A
 AlbaNumber getLeastCommonMultipleForAlbaNumber(AlbaNumber const& firstNumber, AlbaNumber const& secondNumber);
 
 
-//Fraction related functionstemplate <typename NumberType1, typename NumberType2>
+//Fraction related functions
+template <typename NumberType1, typename NumberType2>
 FractionDetails getFractionDetailsInLowestForm(NumberType1 const numerator, NumberType2 const denominator);
 FractionDetails getBestFractionDetailsForDoubleValue(double const doubleValue);
 
@@ -116,7 +118,8 @@ bool isPerfectSquareForAlbaNumber(AlbaNumber const& value);
 bool isPerfectNthPowerForAlbaNumber(AlbaNumber const& number, unsigned int const nthPower);
 
 
-//Digit related functionstemplate <typename NumberType> unsigned int getNumberOfIntegerDigits(NumberType const value);
+//Digit related functions
+template <typename NumberType> unsigned int getNumberOfIntegerDigits(NumberType const value);
 bool areNumberOfDigitsOnTheIntegerLimit(unsigned int const digits);
 
 
@@ -125,4 +128,5 @@ AlbaComplexNumber<float> createComplexNumberFromData(AlbaNumber::ComplexNumberDa
 void saveToComplexNumberData(AlbaNumber::ComplexNumberData & data, AlbaComplexNumber<float> const& number);
 
 }//namespace mathHelper
+
 }//namespace alba
