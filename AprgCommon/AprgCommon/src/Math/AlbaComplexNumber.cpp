@@ -2,13 +2,13 @@
 
 #include <Math/AlbaMathHelper.hpp>
 
+
+#include <cmath>
 #include <sstream>
 
 using namespace std;
-
 namespace alba
 {
-
 template <typename DataType>
 AlbaComplexNumber<DataType>::AlbaComplexNumber()
     : m_realPart(0)
@@ -28,40 +28,36 @@ template AlbaComplexNumber<double>::AlbaComplexNumber(double const value1, doubl
 
 
 template <typename DataType>
-bool AlbaComplexNumber<DataType>::operator==(AlbaComplexNumber const& second) const
+bool AlbaComplexNumber<DataType>::operator==(AlbaComplexNumber<DataType> const& second) const
 {
     return mathHelper::isAlmostEqual(m_realPart, second.m_realPart)
             && mathHelper::isAlmostEqual(m_imaginaryPart, second.m_imaginaryPart);
 }
-template bool AlbaComplexNumber<double>::operator==(AlbaComplexNumber const& second) const;
+template bool AlbaComplexNumber<double>::operator==(AlbaComplexNumber<double> const& second) const;
 
 
-template <typename DataType>
-AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::operator+(AlbaComplexNumber<DataType> const& second) const
+template <typename DataType>AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::operator+(AlbaComplexNumber<DataType> const& second) const
 {
     return AlbaComplexNumber<DataType>(
                 m_realPart+second.m_realPart,
                 m_imaginaryPart+second.m_imaginaryPart);
 }
-template AlbaComplexNumber<double> AlbaComplexNumber<double>::operator+(AlbaComplexNumber const& second) const;
+template AlbaComplexNumber<double> AlbaComplexNumber<double>::operator+(AlbaComplexNumber<double> const& second) const;
 
 
-template <typename DataType>
-AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::operator-(AlbaComplexNumber<DataType> const& second) const
+template <typename DataType>AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::operator-(AlbaComplexNumber<DataType> const& second) const
 {
     return AlbaComplexNumber<DataType>(
                 m_realPart-second.m_realPart,
                 m_imaginaryPart-second.m_imaginaryPart);
 }
-template AlbaComplexNumber<double> AlbaComplexNumber<double>::operator-(AlbaComplexNumber const& second) const;
+template AlbaComplexNumber<double> AlbaComplexNumber<double>::operator-(AlbaComplexNumber<double> const& second) const;
 
 
-template <typename DataType>
-AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::operator+() const
+template <typename DataType>AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::operator+() const
 {
     return *this;
-}
-template AlbaComplexNumber<double> AlbaComplexNumber<double>::operator+() const;
+}template AlbaComplexNumber<double> AlbaComplexNumber<double>::operator+() const;
 
 
 template <typename DataType>
@@ -79,71 +75,74 @@ AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::operator*(AlbaComplexNu
                 getRealPartInMultiplication(m_realPart, m_imaginaryPart, second.m_realPart, second.m_imaginaryPart),
                 getImaginaryPartInMultiplication(m_realPart, m_imaginaryPart, second.m_realPart, second.m_imaginaryPart));
 }
-template AlbaComplexNumber<double> AlbaComplexNumber<double>::operator*(AlbaComplexNumber const& second) const;
+template AlbaComplexNumber<double> AlbaComplexNumber<double>::operator*(AlbaComplexNumber<double> const& second) const;
 
 
-template <typename DataType>
-AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::operator/(AlbaComplexNumber<DataType> const& second) const
+template <typename DataType>AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::operator/(AlbaComplexNumber<DataType> const& second) const
 {
     DataType denominator(second.getModulusSquared());
     return AlbaComplexNumber<DataType>(
                 getRealPartInDivision(m_realPart, m_imaginaryPart, second.m_realPart, second.m_imaginaryPart)/denominator,
                 getImaginaryPartInDivision(m_realPart, m_imaginaryPart, second.m_realPart, second.m_imaginaryPart)/denominator);
 }
-template AlbaComplexNumber<double> AlbaComplexNumber<double>::operator/(AlbaComplexNumber const& second) const;
+template AlbaComplexNumber<double> AlbaComplexNumber<double>::operator/(AlbaComplexNumber<double> const& second) const;
+
+
+template <typename DataType>
+AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::operator^(DataType const exponent) const
+{
+    double modulusPart = pow(static_cast<double>(getModulus()), static_cast<double>(exponent));
+    double angleToBeUsed = getAngleInRadians()*exponent;
+    double realPart = modulusPart * cos(angleToBeUsed);
+    double imaginaryPart = modulusPart * sin(angleToBeUsed);
+    return AlbaComplexNumber<DataType>(static_cast<DataType>(realPart), static_cast<DataType>(imaginaryPart));
+}
+template AlbaComplexNumber<double> AlbaComplexNumber<double>::operator^(double const second) const;
 
 
 template <typename DataType>
 AlbaComplexNumber<DataType>& AlbaComplexNumber<DataType>::operator+=(AlbaComplexNumber<DataType> const& second)
 {
-    m_realPart += second.m_realPart;
-    m_imaginaryPart += second.m_imaginaryPart;
+    m_realPart += second.m_realPart;    m_imaginaryPart += second.m_imaginaryPart;
     return *this;
 }
-template AlbaComplexNumber<double>& AlbaComplexNumber<double>::operator+=(AlbaComplexNumber const& second);
+template AlbaComplexNumber<double>& AlbaComplexNumber<double>::operator+=(AlbaComplexNumber<double> const& second);
 
 
-template <typename DataType>
-AlbaComplexNumber<DataType>& AlbaComplexNumber<DataType>::operator-=(AlbaComplexNumber<DataType> const& second)
+template <typename DataType>AlbaComplexNumber<DataType>& AlbaComplexNumber<DataType>::operator-=(AlbaComplexNumber<DataType> const& second)
 {
     m_realPart -= second.m_realPart;
     m_imaginaryPart -= second.m_imaginaryPart;
     return *this;
 }
-template AlbaComplexNumber<double>& AlbaComplexNumber<double>::operator-=(AlbaComplexNumber const& second);
+template AlbaComplexNumber<double>& AlbaComplexNumber<double>::operator-=(AlbaComplexNumber<double> const& second);
 
 
-template <typename DataType>
-AlbaComplexNumber<DataType>& AlbaComplexNumber<DataType>::operator*=(AlbaComplexNumber<DataType> const& second)
+template <typename DataType>AlbaComplexNumber<DataType>& AlbaComplexNumber<DataType>::operator*=(AlbaComplexNumber<DataType> const& second)
 {
     DataType realPart = getRealPartInMultiplication(m_realPart, m_imaginaryPart, second.m_realPart, second.m_imaginaryPart);
-    DataType imaginaryPart = getImaginaryPartInMultiplication(m_realPart, m_imaginaryPart, second.m_realPart, second.m_imaginaryPart);
-    m_realPart = realPart;
+    DataType imaginaryPart = getImaginaryPartInMultiplication(m_realPart, m_imaginaryPart, second.m_realPart, second.m_imaginaryPart);    m_realPart = realPart;
     m_imaginaryPart = imaginaryPart;
     return *this;
 }
-template AlbaComplexNumber<double>& AlbaComplexNumber<double>::operator*=(AlbaComplexNumber const& second);
+template AlbaComplexNumber<double>& AlbaComplexNumber<double>::operator*=(AlbaComplexNumber<double> const& second);
 
 
-template <typename DataType>
-AlbaComplexNumber<DataType>& AlbaComplexNumber<DataType>::operator/=(AlbaComplexNumber<DataType> const& second)
+template <typename DataType>AlbaComplexNumber<DataType>& AlbaComplexNumber<DataType>::operator/=(AlbaComplexNumber<DataType> const& second)
 {
     DataType denominator(second.getModulusSquared());
-    DataType realPart = getRealPartInDivision(m_realPart, m_imaginaryPart, second.m_realPart, second.m_imaginaryPart)/denominator;
-    DataType imaginaryPart = getImaginaryPartInDivision(m_realPart, m_imaginaryPart, second.m_realPart, second.m_imaginaryPart)/denominator;
+    DataType realPart = getRealPartInDivision(m_realPart, m_imaginaryPart, second.m_realPart, second.m_imaginaryPart)/denominator;    DataType imaginaryPart = getImaginaryPartInDivision(m_realPart, m_imaginaryPart, second.m_realPart, second.m_imaginaryPart)/denominator;
     m_realPart = realPart;
     m_imaginaryPart = imaginaryPart;
     return *this;
 }
-template AlbaComplexNumber<double>& AlbaComplexNumber<double>::operator/=(AlbaComplexNumber const& second);
+template AlbaComplexNumber<double>& AlbaComplexNumber<double>::operator/=(AlbaComplexNumber<double> const& second);
 
 
-template <typename DataType>
-DataType AlbaComplexNumber<DataType>::getRealPart() const
+template <typename DataType>DataType AlbaComplexNumber<DataType>::getRealPart() const
 {
     return m_realPart;
-}
-template double AlbaComplexNumber<double>::getRealPart() const;
+}template double AlbaComplexNumber<double>::getRealPart() const;
 
 
 template <typename DataType>
@@ -171,22 +170,44 @@ template double AlbaComplexNumber<double>::getModulusSquared() const;
 
 
 template <typename DataType>
+double AlbaComplexNumber<DataType>::getAngleInRadians() const
+{
+    return atan2(static_cast<DataType>(m_imaginaryPart), static_cast<DataType>(m_realPart));
+}
+template double AlbaComplexNumber<double>::getAngleInRadians() const;
+
+
+template <typename DataType>
 AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::getConjugate() const
 {
-    return AlbaComplexNumber<DataType>(m_realPart, -m_imaginaryPart);
-}
+    return AlbaComplexNumber<DataType>(m_realPart, -m_imaginaryPart);}
 template AlbaComplexNumber<double> AlbaComplexNumber<double>::getConjugate() const;
+
+
+template <typename DataType>
+AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::getNthRoot(
+        unsigned int const nthRoot,
+        unsigned int const root) const
+{
+    assert(nthRoot<=root);
+    double modulusPart = pow(static_cast<double>(getModulus()), 1/static_cast<double>(root));
+    double angleToBeUsed = (getAngleInRadians() + mathHelper::getPi()*2*nthRoot) / root;
+    double realPart = modulusPart * cos(angleToBeUsed);
+    double imaginaryPart = modulusPart * sin(angleToBeUsed);
+    return AlbaComplexNumber<DataType>(static_cast<DataType>(realPart), static_cast<DataType>(imaginaryPart));
+}
+template AlbaComplexNumber<double> AlbaComplexNumber<double>::getNthRoot(
+        unsigned int const nthRoot,
+        unsigned int const root) const;
 
 
 template <typename DataType>
 string AlbaComplexNumber<DataType>::getDisplayableString() const
 {
-    stringstream ss;
-    ss << "(" << m_realPart << " + " << m_imaginaryPart << "i)";
+    stringstream ss;    ss << "(" << m_realPart << " + " << m_imaginaryPart << "i)";
     return ss.str();
 }
 template string AlbaComplexNumber<double>::getDisplayableString() const;
-
 
 template <typename DataType>
 DataType AlbaComplexNumber<DataType>::getRealPartInMultiplication(

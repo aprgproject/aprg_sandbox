@@ -22,23 +22,25 @@ public:
     AlbaComplexNumber<DataType> operator-() const;
     AlbaComplexNumber<DataType> operator*(AlbaComplexNumber<DataType> const& second) const;
     AlbaComplexNumber<DataType> operator/(AlbaComplexNumber<DataType> const& second) const;
+    AlbaComplexNumber<DataType> operator^(DataType const second) const;
     AlbaComplexNumber<DataType>& operator+=(AlbaComplexNumber<DataType> const& second);
     AlbaComplexNumber<DataType>& operator-=(AlbaComplexNumber<DataType> const& second);
-    AlbaComplexNumber<DataType>& operator*=(AlbaComplexNumber<DataType> const& second);
-    AlbaComplexNumber<DataType>& operator/=(AlbaComplexNumber<DataType> const& second);
+    AlbaComplexNumber<DataType>& operator*=(AlbaComplexNumber<DataType> const& second);    AlbaComplexNumber<DataType>& operator/=(AlbaComplexNumber<DataType> const& second);
     DataType getRealPart() const;
     DataType getImaginaryPart() const;
     DataType getModulus() const;
     DataType getModulusSquared() const;
+    double getAngleInRadians() const;
     AlbaComplexNumber<DataType> getConjugate() const;
+    AlbaComplexNumber<DataType> getNthRoot(
+            unsigned int const nthRoot,
+            unsigned int const root) const;
     std::string getDisplayableString() const;
 
-private:
-    DataType getRealPartInMultiplication(
+private:    DataType getRealPartInMultiplication(
             DataType const firstRealPart,
             DataType const firstImaginaryPart,
-            DataType const secondRealPart,
-            DataType const secondImaginaryPart) const;
+            DataType const secondRealPart,            DataType const secondImaginaryPart) const;
     DataType getImaginaryPartInMultiplication(
             DataType const firstRealPart,
             DataType const firstImaginaryPart,

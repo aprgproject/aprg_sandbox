@@ -97,13 +97,21 @@ TEST(AlbaComplexNumberTest, OperatorDivideWorks)
     EXPECT_EQ(expectedComplex, actualComplex);
 }
 
+TEST(AlbaComplexNumberTest, OperatorRaiseToPowerWorks)
+{
+    AlbaComplexNumber<double> complex(-0.5, sqrt(3)/2);
+
+    AlbaComplexNumber<double> actualComplex(complex^3);
+
+    AlbaComplexNumber<double> expectedComplex(1, 0);
+    EXPECT_EQ(expectedComplex, actualComplex);
+}
+
 TEST(AlbaComplexNumberTest, OperatorAdditionAssignmentWorks)
 {
-    AlbaComplexNumber<double> actualComplex(3, 4);
-    AlbaComplexNumber<double> anotherComplex(5, 6);
+    AlbaComplexNumber<double> actualComplex(3, 4);    AlbaComplexNumber<double> anotherComplex(5, 6);
 
     actualComplex+=anotherComplex;
-
     AlbaComplexNumber<double> expectedComplex(8, 10);
     EXPECT_EQ(expectedComplex, actualComplex);
 }
@@ -169,21 +177,44 @@ TEST(AlbaComplexNumberTest, GetModulusSquaredWorks)
     EXPECT_DOUBLE_EQ(25, complex.getModulusSquared());
 }
 
+TEST(AlbaComplexNumberTest, GetAngleInRadiansWorks)
+{
+    AlbaComplexNumber<double> complex(3, 4);
+
+    EXPECT_DOUBLE_EQ(0.92729521800161219, complex.getAngleInRadians());
+}
+
 TEST(AlbaComplexNumberTest, GetConjugateWorks)
 {
     AlbaComplexNumber<double> complex1(3, 4);
-
     AlbaComplexNumber<double> actualComplex(complex1.getConjugate());
 
     AlbaComplexNumber<double> expectedComplex(3, -4);
     EXPECT_EQ(expectedComplex, actualComplex);
 }
 
+TEST(AlbaComplexNumberTest, GetNthRootWorks)
+{
+    AlbaComplexNumber<double> complex(1, 0);
+
+    AlbaComplexNumber<double> actualComplex1(complex.getNthRoot(0u, 4u));
+    AlbaComplexNumber<double> actualComplex2(complex.getNthRoot(1u, 4u));
+    AlbaComplexNumber<double> actualComplex3(complex.getNthRoot(2u, 4u));
+    AlbaComplexNumber<double> actualComplex4(complex.getNthRoot(3u, 4u));
+
+    AlbaComplexNumber<double> expectedComplex1(1, 0);
+    AlbaComplexNumber<double> expectedComplex2(0, 1);
+    AlbaComplexNumber<double> expectedComplex3(-1, 0);
+    AlbaComplexNumber<double> expectedComplex4(0, -1);
+    EXPECT_EQ(expectedComplex1, actualComplex1);
+    EXPECT_EQ(expectedComplex2, actualComplex2);
+    EXPECT_EQ(expectedComplex3, actualComplex3);
+    EXPECT_EQ(expectedComplex4, actualComplex4);
+}
+
 TEST(AlbaComplexNumberTest, GetDisplayableStringWorks)
 {
     AlbaComplexNumber<double> complex(3.5, 4.5);
-
     EXPECT_EQ("(3.5 + 4.5i)", complex.getDisplayableString());
 }
-
 }
