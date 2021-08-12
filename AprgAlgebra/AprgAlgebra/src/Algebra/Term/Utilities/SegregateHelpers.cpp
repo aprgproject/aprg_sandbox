@@ -61,7 +61,7 @@ void segregateNonExpressionsAndExpressions(
         {
             termsWithExpressions.emplace_back(termToSegregate);
         }
-        else if(term.isValueTermAndNotAnExpression())
+        else if(term.isNonEmptyTermTypeAndNotAnExpression())
         {
             termsWithNonExpressions.emplace_back(termToSegregate);
         }

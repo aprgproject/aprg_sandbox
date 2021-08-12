@@ -1,5 +1,7 @@
 #include "ConvertHelpers.hpp"
 
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+
 namespace alba
 {
 
@@ -34,7 +36,7 @@ Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial)
     Monomial newMonomial(monomial);
     newMonomial.simplify();
     Term newTerm(newMonomial);
-    if(newMonomial.isZero())
+    if(isTheValue(newMonomial, 0))
     {
         newTerm = Term(Constant(0));
     }
@@ -58,7 +60,7 @@ Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial)
     Polynomial newPolynomial(polynomial);
     newPolynomial.simplify();
     Term newTerm;
-    if(newPolynomial.isZero())
+    if(isTheValue(newPolynomial, 0))
     {
         newTerm = Term(Constant(0));
     }

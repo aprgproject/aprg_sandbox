@@ -23,8 +23,6 @@ public:
     bool operator!=(Polynomial const& second) const;
     bool operator<(Polynomial const& second) const;
     bool isEmpty() const;
-    bool isOne() const;
-    bool isZero() const;
     bool isOneMonomial() const;
     bool isVariableExponentInMonomialFound(Monomial const& monomial) const;
     bool hasNegativeExponents() const;

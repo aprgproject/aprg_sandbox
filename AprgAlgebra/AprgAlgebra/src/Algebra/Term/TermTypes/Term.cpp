@@ -241,50 +241,14 @@ bool Term::isFunction() const
     return TermType::Function == m_type;
 }
 
-bool Term::isValueTerm() const
+bool Term::isNonEmptyTermType() const
 {
     return isConstant() || isVariable() || isMonomial() || isPolynomial() || isExpression() || isFunction();
 }
 
-bool Term::isValueTermAndNotAnExpression() const
+bool Term::isNonEmptyTermTypeAndNotAnExpression() const
 {
     return isConstant() || isVariable() || isMonomial() || isPolynomial() || isFunction();
-}
-
-bool Term::isTheValueZero() const
-{
-    bool result(false);
-    if(m_type==TermType::Constant)
-    {
-        result = getConstantConstReference()==0;
-    }
-    else if(m_type==TermType::Monomial)
-    {
-        result = getMonomialConstReference().isZero();
-    }
-    else if(m_type==TermType::Polynomial)
-    {
-        result = getPolynomialConstReference().isZero();
-    }
-    return result;
-}
-
-bool Term::isTheValueOne() const
-{
-    bool result(false);
-    if(m_type==TermType::Constant)
-    {
-        result = getConstantConstReference()==1;
-    }
-    else if(m_type==TermType::Monomial)
-    {
-        result = getMonomialConstReference().isOne();
-    }
-    else if(m_type==TermType::Polynomial)
-    {
-        result = getPolynomialConstReference().isOne();
-    }
-    return result;
 }
 
 TermType Term::getTermType() const

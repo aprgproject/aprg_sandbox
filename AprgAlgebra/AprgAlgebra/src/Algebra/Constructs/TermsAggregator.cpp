@@ -88,7 +88,7 @@ bool TermsAggregator::combineOpeningClosingOperatorsAtStartEndIndexesAndReturnIf
         Term const& term2(m_terms.at(m_startIndex+1));
         Term const& term3(m_terms.at(m_endIndex));
         if(term1.isOperator() && term1.getOperatorConstReference().isOpeningGroupOperator()
-                && term2.isValueTerm()
+                && term2.isNonEmptyTermType()
                 && term3.isOperator() && term3.getOperatorConstReference().isClosingGroupOperator())
         {
             Term termBeforeStart;
@@ -212,7 +212,7 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
         Term const& term1(m_terms.at(index-1));
         Term const& term2(m_terms.at(index));
         Term const& term3(m_terms.at(index+1));
-        if(term1.isValueTerm() && term2.isOperator() && term3.isValueTerm())
+        if(term1.isNonEmptyTermType() && term2.isOperator() && term3.isNonEmptyTermType())
         {
             Expression newExpression(createOrCopyExpressionFromATerm(term1));
             Operator const& operatorTerm(term2.getOperatorConstReference());
@@ -252,7 +252,7 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
         Term const& term1(m_terms.at(index));
         Term const& term2(m_terms.at(index+1));
         bool haveNoFirstValue(hasNoValueBeforeThisIndex(index));
-        if(haveNoFirstValue && term1.isOperator() && term2.isValueTerm() &&
+        if(haveNoFirstValue && term1.isOperator() && term2.isNonEmptyTermType() &&
                 OperatorLevel::AdditionAndSubtraction == term1.getOperatorConstReference().getOperatorLevel())
         {
             Expression newExpression;
@@ -281,7 +281,7 @@ bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int 
         Term const& term1(m_terms.at(index-1));
         Term const& term2(m_terms.at(index));
         Term const& term3(m_terms.at(index+1));
-        if(term1.isValueTerm() && term2.isOperator() && term3.isValueTerm())
+        if(term1.isNonEmptyTermType() && term2.isOperator() && term3.isNonEmptyTermType())
         {
             Term newTerm = performOperation(term2.getOperatorConstReference(), term1, term3);
             eraseAndThenInsert(index-1, index+1, newTerm);
@@ -299,7 +299,7 @@ bool TermsAggregator::simplifyUnaryOperationAndReturnIfSimplified(unsigned int c
         Term const& term1(m_terms.at(index));
         Term const& term2(m_terms.at(index+1));
         bool haveNoFirstValue(hasNoValueBeforeThisIndex(index));
-        if(haveNoFirstValue && term1.isOperator() && term2.isValueTerm() &&
+        if(haveNoFirstValue && term1.isOperator() && term2.isNonEmptyTermType() &&
                 OperatorLevel::AdditionAndSubtraction == term1.getOperatorConstReference().getOperatorLevel())
         {
             Term newTerm = performOperation(term1.getOperatorConstReference(), term2);
@@ -319,7 +319,7 @@ bool TermsAggregator::hasNoValueBeforeThisIndex(unsigned int const index)
     }
     else if(index-1 < m_terms.size())
     {
-        result = !m_terms.at(index-1).isValueTerm();
+        result = !m_terms.at(index-1).isNonEmptyTermType();
     }
     return result;
 }

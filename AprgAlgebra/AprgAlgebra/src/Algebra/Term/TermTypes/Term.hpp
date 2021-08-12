@@ -12,10 +12,12 @@
 #include <Math/Number/AlbaNumber.hpp>
 
 #include <memory>
-#include <string>#include <vector>
+#include <string>
+#include <vector>
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -46,10 +48,8 @@ public:
     bool isPolynomial() const;
     bool isExpression() const;
     bool isFunction() const;
-    bool isValueTerm() const;
-    bool isValueTermAndNotAnExpression() const;
-    bool isTheValueZero() const;
-    bool isTheValueOne() const;
+    bool isNonEmptyTermType() const;
+    bool isNonEmptyTermTypeAndNotAnExpression() const;
 
     TermType getTermType() const;
     Constant const& getConstantConstReference() const;

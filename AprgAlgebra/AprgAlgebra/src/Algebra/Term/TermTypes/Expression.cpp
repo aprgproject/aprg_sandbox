@@ -501,7 +501,7 @@ void Expression::putTermForExpressionAndNonExpressions(
             }
         }
     }
-    else if(term.isValueTermAndNotAnExpression())
+    else if(term.isNonEmptyTermTypeAndNotAnExpression())
     {
         putTerm(baseTerm, overallAssociation);
     }

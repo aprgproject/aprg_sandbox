@@ -21,7 +21,9 @@ Function abs(Term const& term)
         return getAbsoluteValueForAlbaNumber(number);
     });
 }
+
 }
 
 }
+
 }

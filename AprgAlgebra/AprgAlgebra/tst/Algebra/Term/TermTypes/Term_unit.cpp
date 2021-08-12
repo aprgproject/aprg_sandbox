@@ -19,10 +19,12 @@ TEST(TermTest, TermsAsConstantsWorks)
     Term constant3(AlbaNumber::createFraction(3498, 3459));
     Term constant4(-34.8767);
 
-    ASSERT_EQ(TermType::Constant, constant1.getTermType());    EXPECT_DOUBLE_EQ(4353, constant1.  getConstantConstReference().getNumberConstReference().getDouble());
+    ASSERT_EQ(TermType::Constant, constant1.getTermType());
+    EXPECT_DOUBLE_EQ(4353, constant1.  getConstantConstReference().getNumberConstReference().getDouble());
 
     ASSERT_EQ(TermType::Constant, constant2.getTermType());
     EXPECT_DOUBLE_EQ(-3248, constant2.  getConstantConstReference().getNumberConstReference().getDouble());
+
     ASSERT_EQ(TermType::Constant, constant3.getTermType());
     EXPECT_DOUBLE_EQ(1.0112749349522983, constant3.  getConstantConstReference().getNumberConstReference().getDouble());
 
@@ -492,7 +494,7 @@ TEST(TermTest, IsFunctionWorks)
     EXPECT_TRUE(term8.isFunction());
 }
 
-TEST(TermTest, IsValueTermWorks)
+TEST(TermTest, IsNonEmptyTermTypeWorks)
 {
     Term term1;
     Term term2(1);
@@ -503,17 +505,17 @@ TEST(TermTest, IsValueTermWorks)
     Term term7(Expression{});
     Term term8(Function{});
 
-    EXPECT_FALSE(term1.isValueTerm());
-    EXPECT_TRUE(term2.isValueTerm());
-    EXPECT_TRUE(term3.isValueTerm());
-    EXPECT_FALSE(term4.isValueTerm());
-    EXPECT_TRUE(term5.isValueTerm());
-    EXPECT_TRUE(term6.isValueTerm());
-    EXPECT_TRUE(term7.isValueTerm());
-    EXPECT_TRUE(term8.isValueTerm());
+    EXPECT_FALSE(term1.isNonEmptyTermType());
+    EXPECT_TRUE(term2.isNonEmptyTermType());
+    EXPECT_TRUE(term3.isNonEmptyTermType());
+    EXPECT_FALSE(term4.isNonEmptyTermType());
+    EXPECT_TRUE(term5.isNonEmptyTermType());
+    EXPECT_TRUE(term6.isNonEmptyTermType());
+    EXPECT_TRUE(term7.isNonEmptyTermType());
+    EXPECT_TRUE(term8.isNonEmptyTermType());
 }
 
-TEST(TermTest, IsValueTermAndDoesNotHaveAExpressionWorks)
+TEST(TermTest, IsNonEmptyTermTypeAndDoesNotHaveAExpressionWorks)
 {
     Term term1;
     Term term2(1);
@@ -524,69 +526,14 @@ TEST(TermTest, IsValueTermAndDoesNotHaveAExpressionWorks)
     Term term7(Expression{});
     Term term8(Function{});
 
-    EXPECT_FALSE(term1.isValueTermAndNotAnExpression());
-    EXPECT_TRUE(term2.isValueTermAndNotAnExpression());
-    EXPECT_TRUE(term3.isValueTermAndNotAnExpression());
-    EXPECT_FALSE(term4.isValueTermAndNotAnExpression());
-    EXPECT_TRUE(term5.isValueTermAndNotAnExpression());
-    EXPECT_TRUE(term6.isValueTermAndNotAnExpression());
-    EXPECT_FALSE(term7.isValueTermAndNotAnExpression());
-    EXPECT_TRUE(term8.isValueTermAndNotAnExpression());
-}
-
-TEST(TermTest, IsTheValueZeroWorks)
-{
-    Term term1;
-    Term term2(Constant(0));
-    Term term3(1);
-    Term term4(Variable("length"));
-    Term term5(Operator("+"));
-    Term term6(Monomial(0, {}));
-    Term term7(Monomial(1, {}));
-    Term term8(Polynomial{});
-    Term term9(Polynomial{Monomial(1, {})});
-    Term term10(Expression{});
-    Term term11(Function{});
-
-    EXPECT_FALSE(term1.isTheValueZero());
-    EXPECT_TRUE(term2.isTheValueZero());
-    EXPECT_FALSE(term3.isTheValueZero());
-    EXPECT_FALSE(term4.isTheValueZero());
-    EXPECT_FALSE(term5.isTheValueZero());
-    EXPECT_TRUE(term6.isTheValueZero());
-    EXPECT_FALSE(term7.isTheValueZero());
-    EXPECT_TRUE(term8.isTheValueZero());
-    EXPECT_FALSE(term9.isTheValueZero());
-    EXPECT_FALSE(term9.isTheValueZero());
-    EXPECT_FALSE(term10.isTheValueZero());
-    EXPECT_FALSE(term11.isTheValueZero());
-}
-
-TEST(TermTest, IsTheValueOneWorks)
-{
-    Term term1;
-    Term term2(Constant(0));
-    Term term3(1);
-    Term term4(Variable("length"));
-    Term term5(Operator("+"));
-    Term term6(Monomial(0, {}));
-    Term term7(Monomial(1, {}));
-    Term term8(Polynomial{});
-    Term term9(Polynomial{Monomial(1, {})});
-    Term term10(Expression{});
-    Term term11(Function{});
-
-    EXPECT_FALSE(term1.isTheValueOne());
-    EXPECT_FALSE(term2.isTheValueOne());
-    EXPECT_TRUE(term3.isTheValueOne());
-    EXPECT_FALSE(term4.isTheValueOne());
-    EXPECT_FALSE(term5.isTheValueOne());
-    EXPECT_FALSE(term6.isTheValueOne());
-    EXPECT_TRUE(term7.isTheValueOne());
-    EXPECT_FALSE(term8.isTheValueOne());
-    EXPECT_TRUE(term9.isTheValueOne());
-    EXPECT_FALSE(term10.isTheValueOne());
-    EXPECT_FALSE(term11.isTheValueZero());
+    EXPECT_FALSE(term1.isNonEmptyTermTypeAndNotAnExpression());
+    EXPECT_TRUE(term2.isNonEmptyTermTypeAndNotAnExpression());
+    EXPECT_TRUE(term3.isNonEmptyTermTypeAndNotAnExpression());
+    EXPECT_FALSE(term4.isNonEmptyTermTypeAndNotAnExpression());
+    EXPECT_TRUE(term5.isNonEmptyTermTypeAndNotAnExpression());
+    EXPECT_TRUE(term6.isNonEmptyTermTypeAndNotAnExpression());
+    EXPECT_FALSE(term7.isNonEmptyTermTypeAndNotAnExpression());
+    EXPECT_TRUE(term8.isNonEmptyTermTypeAndNotAnExpression());
 }
 
 TEST(TermTest, GetTermTypeWorks)

@@ -5,6 +5,7 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 #include <algorithm>
 
@@ -47,7 +48,7 @@ Terms AdditionAndSubtractionOfTermsOverTerms::getLcmOfDenominatorTerms() const
         Terms currentCommonFactors = lcmTerms;
         for(Term const& denominatorTerm : item.getDenominators())
         {
-            if(!(denominatorTerm.isTheValueOne() || denominatorTerm.isEmpty()))
+            if(!(isTheValue(denominatorTerm, 1) || denominatorTerm.isEmpty()))
             {
                 if(canBeConvertedToMonomial(denominatorTerm))
                 {
@@ -61,7 +62,7 @@ Terms AdditionAndSubtractionOfTermsOverTerms::getLcmOfDenominatorTerms() const
         }
     }
     Monomial lcmMonomial(getLcmMonomialInMonomials(lcmMonomials));
-    if(!lcmMonomial.isOne())
+    if(!isTheValue(lcmMonomial, 1))
     {
         lcmTerms.emplace(lcmTerms.begin(), lcmMonomial);
     }
@@ -173,7 +174,7 @@ void AdditionAndSubtractionOfTermsOverTerms::emplaceMonomialMultiplierIfNeeded(
         Terms & numeratorTerms,
         Monomial const& monomialMultiplier) const
 {
-    if(!monomialMultiplier.isOne())
+    if(!isTheValue(monomialMultiplier, 1))
     {
         numeratorTerms.emplace_back(Term(monomialMultiplier));
     }

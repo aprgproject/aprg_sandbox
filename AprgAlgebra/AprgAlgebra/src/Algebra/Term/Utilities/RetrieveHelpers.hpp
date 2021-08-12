@@ -6,8 +6,10 @@
 
 #include <functional>
 #include <map>
+
 namespace alba
 {
+
 namespace algebra
 {
 

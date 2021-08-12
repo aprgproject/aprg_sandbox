@@ -265,10 +265,12 @@ AlbaComplexNumber<DataType> AlbaComplexNumber<DataType>::getNthRoot(
     double modulusPart = pow(static_cast<double>(getModulus()), static_cast<double>(1)/root);
     double angleToBeUsed = (getAngleInRadians() + getPi()*2*nthRoot) / root;
     double realPart = modulusPart * cos(angleToBeUsed);
-    double imaginaryPart = modulusPart * sin(angleToBeUsed);    return AlbaComplexNumber<DataType>(static_cast<DataType>(realPart), static_cast<DataType>(imaginaryPart));
+    double imaginaryPart = modulusPart * sin(angleToBeUsed);
+    return AlbaComplexNumber<DataType>(static_cast<DataType>(realPart), static_cast<DataType>(imaginaryPart));
 }
 template AlbaComplexNumber<float> AlbaComplexNumber<float>::getNthRoot(
-        unsigned int const nthRoot,        unsigned int const root) const;
+        unsigned int const nthRoot,
+        unsigned int const root) const;
 template AlbaComplexNumber<double> AlbaComplexNumber<double>::getNthRoot(
         unsigned int const nthRoot,
         unsigned int const root) const;

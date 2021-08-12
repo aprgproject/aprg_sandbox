@@ -13,12 +13,80 @@ namespace algebra
 
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term)
 {
-    return term.isEmpty() || term.isTheValueZero();
+    return term.isEmpty() || isTheValue(term, 0);
 }
 
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term)
 {
-    return term.isEmpty() || term.isTheValueOne();
+    return term.isEmpty() || isTheValue(term, 1);
+}
+
+bool isTheValue(Term const& term, AlbaNumber const& number)
+{
+    bool result(false);
+    if(term.isConstant())
+    {
+        result = isTheValue(term.getConstantConstReference(), number);
+    }
+    else if(term.isMonomial())
+    {
+        result = isTheValue(term.getMonomialConstReference(), number);
+    }
+    else if(term.isPolynomial())
+    {
+        result = isTheValue(term.getPolynomialConstReference(), number);
+    }
+    else if(term.isExpression())
+    {
+        result = isTheValue(term.getExpressionConstReference(), number);
+    }
+    return result;
+}
+
+bool isTheValue(Constant const& constant, AlbaNumber const& number)
+{
+    return constant.getNumberConstReference() == number;
+}
+
+bool isTheValue(Monomial const& monomial, AlbaNumber const& number)
+{
+    bool result(false);
+    if(number == 0)
+    {
+        result = monomial.getConstantConstReference() == number;
+    }
+    else
+    {
+        result = monomial.isConstantOnly() && monomial.getConstantConstReference() == number;
+    }
+    return result;
+}
+
+bool isTheValue(Polynomial const& polynomial, AlbaNumber const& number)
+{
+    bool result(false);
+    if(number == 0)
+    {
+        result = polynomial.getMonomialsConstReference().empty();
+    }
+    else
+    {
+        result = polynomial.isOneMonomial() && isTheValue(polynomial.getFirstMonomial(), number);
+    }
+    return result;
+}
+
+bool isTheValue(Expression const& expression, AlbaNumber const& number)
+{
+    bool result(false);
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+    if(termsWithDetails.size() == 1)
+    {
+        result = isTheValue(
+                    getTermConstReferenceFromSharedPointer(termsWithDetails.front().baseTermSharedPointer),
+                    number);
+    }
+    return result;
 }
 
 bool isNotANumber(Term const& term)

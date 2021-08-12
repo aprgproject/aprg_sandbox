@@ -6,10 +6,12 @@
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
-using namespace alba::mathHelper;using namespace alba::algebra::Factorization;
+using namespace alba::mathHelper;
+using namespace alba::algebra::Factorization;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -61,13 +63,15 @@ PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide(
 {
     Polynomial currentQuotient;
     Polynomial currentRemainder(m_numerator);
-    while(!currentRemainder.isZero() && !isNotANumber(currentRemainder))
+    while(!isTheValue(currentRemainder, 0) && !isNotANumber(currentRemainder))
     {
         Monomial const& dividendMonomial(currentRemainder.getFirstMonomial());
-        Monomial const& divisorMonomial(m_denominator.getFirstMonomial());        Monomial currentQuotientMonomial(dividendMonomial);
+        Monomial const& divisorMonomial(m_denominator.getFirstMonomial());
+        Monomial currentQuotientMonomial(dividendMonomial);
         currentQuotientMonomial.divideMonomial(divisorMonomial);
         if(currentQuotientMonomial.hasNegativeExponents())
-        {            break;
+        {
+            break;
         }
         else
         {

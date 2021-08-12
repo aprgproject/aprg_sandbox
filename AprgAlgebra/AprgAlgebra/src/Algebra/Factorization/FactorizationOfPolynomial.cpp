@@ -6,6 +6,7 @@
 #include <Algebra/Factorization/FactorizationUtilities.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace std;
 
@@ -87,7 +88,7 @@ Polynomials factorizeCommonMonomialIfPossible(Polynomial const& polynomial)
     if(!polynomial.isOneMonomial())
     {
         Monomial gcfMonomial(getGcfMonomialInMonomials(polynomial.getMonomialsConstReference()));
-        if(!gcfMonomial.isOne())
+        if(!isTheValue(gcfMonomial, 1))
         {
             Polynomial reducedPolynomial(polynomial);
             reducedPolynomial.divideMonomial(gcfMonomial);

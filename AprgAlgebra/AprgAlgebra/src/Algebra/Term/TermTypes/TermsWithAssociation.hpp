@@ -8,10 +8,12 @@
 #include <string>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 class TermsWithAssociation
 {
 public:
@@ -29,10 +31,12 @@ public:
         std::string getDisplayableString() const;
         void clear();
         BaseTermSharedPointer baseTermSharedPointer;
-        TermAssociationType association;    };
+        TermAssociationType association;
+    };
     using TermsWithDetails=std::vector<TermWithDetails>;
 
-    TermsWithAssociation();    ~TermsWithAssociation();
+    TermsWithAssociation();
+    ~TermsWithAssociation();
 
     bool operator==(TermsWithAssociation const& second) const;
     bool operator!=(TermsWithAssociation const& second) const;

@@ -96,7 +96,7 @@ void accumulateTermsForMultiplicationAndDivision(
         TermsWithDetails const& termsToCombine)
 {
     bool isFirst(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(combinedTerm));
-    if(combinedTerm.isTheValueZero())
+    if(isTheValue(combinedTerm, 0))
     {
         combinedTerm = Term(Constant(0));
     }
@@ -105,7 +105,7 @@ void accumulateTermsForMultiplicationAndDivision(
         for(TermWithDetails const& termWithDetails : termsToCombine)
         {
             Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-            if(term.isTheValueZero() && termWithDetails.hasPositiveAssociation())
+            if(isTheValue(term, 0) && termWithDetails.hasPositiveAssociation())
             {
                 combinedTerm = Term(Constant(0));
                 break;

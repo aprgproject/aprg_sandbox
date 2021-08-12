@@ -5,8 +5,10 @@
 
 namespace alba
 {
+
 namespace algebra
 {
+
 bool doesThePolynomialHaveOnlyOneVariable(Polynomial const& polynomial);
 AlbaNumber getRemainderForOneVariablePolynomialDividedByVariableMinusConstantValue(
         Polynomial const& polynomial,

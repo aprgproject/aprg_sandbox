@@ -6,6 +6,7 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace std;
 
@@ -276,7 +277,7 @@ Polynomials getPolynomialsWithRemovedCommonFactors(Polynomials const& polynomial
         {
             PolynomialOverPolynomial divideProcess(resultPolynomial, commonFactor);
             PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(divideProcess.divide());
-            if(quotientAndRemainder.remainder.isZero())
+            if(isTheValue(quotientAndRemainder.remainder, 0))
             {
                 resultPolynomial = quotientAndRemainder.quotient;
             }
@@ -302,7 +303,7 @@ void updateToGetSubsetOfFactors(Polynomials & commonFactors, Polynomials const& 
             {
                 Monomial gcfMonomial(getGcfMonomialInMonomials({previousCommonFactor.getFirstMonomial(), currentCommonFactor.getFirstMonomial()}));
                 gcfMonomial.simplify();
-                if(!gcfMonomial.isOne())
+                if(!isTheValue(gcfMonomial, 1))
                 {
                     commonFactors.emplace_back(Polynomial{gcfMonomial});
                     isFound=true;

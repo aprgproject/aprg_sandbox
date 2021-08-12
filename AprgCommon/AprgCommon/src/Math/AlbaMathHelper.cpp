@@ -137,12 +137,14 @@ bool isAlmostEqual(AlbaNumber const& value1, AlbaNumber const& value2)
 
 bool isAlmostEqual(double const value1, double const value2, double const differenceTolerance)
 {
-    return value1 == value2 || getAbsoluteValue(value1-value2) <= differenceTolerance;}
+    return value1 == value2 || getAbsoluteValue(value1-value2) <= differenceTolerance;
+}
 
 
 //isAlmostAnInteger
 template <typename NumberType1, typename NumberType2>
-bool isAlmostAnInteger(NumberType1 const value){
+bool isAlmostAnInteger(NumberType1 const value)
+{
     return isAlmostEqual(
                 value,
                 static_cast<NumberType1>(static_cast<NumberType2>(round(value))));
@@ -365,7 +367,8 @@ AlbaNumbers getQuadraticRealRoots(
 }
 
 AlbaNumbers getQuadraticRoots(
-        AlbaNumber const& a,        AlbaNumber const& b,
+        AlbaNumber const& a,
+        AlbaNumber const& b,
         AlbaNumber const& c)
 {
     AlbaNumbers result;
@@ -388,9 +391,11 @@ AlbaNumbers getQuadraticRoots(
     }
     return result;
 }
+
 unsigned int getFactorial(unsigned int const number)
 {
-    unsigned int result(1);    for(unsigned int currentNumber=number; currentNumber>1; currentNumber--)
+    unsigned int result(1);
+    for(unsigned int currentNumber=number; currentNumber>1; currentNumber--)
     {
         result *= currentNumber;
     }
@@ -780,8 +785,10 @@ template AlbaNumber createNumberFromComplexNumber<double>(AlbaComplexNumber<doub
 
 void saveToComplexNumberData(AlbaNumber::ComplexNumberData & data, AlbaComplexNumber<float> const& number)
 {
-    data.realPart = number.getRealPart();    data.imaginaryPart = number.getImaginaryPart();
+    data.realPart = number.getRealPart();
+    data.imaginaryPart = number.getImaginaryPart();
 }
 
 }//namespace mathHelper
+
 }//namespace alba

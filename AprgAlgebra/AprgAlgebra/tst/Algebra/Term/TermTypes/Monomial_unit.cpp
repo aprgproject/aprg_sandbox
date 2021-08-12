@@ -118,36 +118,6 @@ TEST(MonomialTest, LessThanOperatorWorks)
     EXPECT_TRUE(Monomial(54, {{"x", 6}}) < Monomial(54, {{"x", 3}, {"y", 4}}));
 }
 
-TEST(MonomialTest, IsOneFunctionWorks)
-{
-    Monomial monomial1;
-    Monomial monomial2(1, {{"x", 6}, {"y", -1.25}});
-    Monomial monomial3(0, {{"x", 6}, {"y", -1.25}});
-    Monomial monomial4(23, {});
-    Monomial monomial5(1, {});
-
-    EXPECT_FALSE(monomial1.isOne());
-    EXPECT_FALSE(monomial2.isOne());
-    EXPECT_FALSE(monomial3.isOne());
-    EXPECT_FALSE(monomial4.isOne());
-    EXPECT_TRUE(monomial5.isOne());
-}
-
-TEST(MonomialTest, IsZeroFunctionWorks)
-{
-    Monomial monomial1;
-    Monomial monomial2(-54, {{"x", 6}, {"y", -1.25}});
-    Monomial monomial3(0, {{"x", 6}, {"y", -1.25}});
-    Monomial monomial4(23, {});
-    Monomial monomial5(0, {});
-
-    EXPECT_TRUE(monomial1.isZero());
-    EXPECT_FALSE(monomial2.isZero());
-    EXPECT_TRUE(monomial3.isZero());
-    EXPECT_FALSE(monomial4.isZero());
-    EXPECT_TRUE(monomial5.isZero());
-}
-
 TEST(MonomialTest, IsConstantOnlyFunctionWorks)
 {
     Monomial monomial1;

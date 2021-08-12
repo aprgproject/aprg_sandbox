@@ -67,4 +67,5 @@ TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample4)
 }
 
 }
+
 }

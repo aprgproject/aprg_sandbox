@@ -78,16 +78,6 @@ bool Polynomial::isEmpty() const
     return m_monomials.empty();
 }
 
-bool Polynomial::isOne() const
-{
-    return isOneMonomial() && getFirstMonomial().isOne();
-}
-
-bool Polynomial::isZero() const
-{
-    return m_monomials.empty();
-}
-
 bool Polynomial::isOneMonomial() const
 {
     return m_monomials.size() == 1;
@@ -309,7 +299,7 @@ void Polynomial::simplifyMonomialsAndReAdd()
     for(Monomial & monomial : previousMonomials)
     {
         monomial.simplify();
-        if(!monomial.isZero())
+        if(!isTheValue(monomial, 0))
         {
             addMonomial(monomial);
         }

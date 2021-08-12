@@ -151,7 +151,7 @@ void SimplificationOfExpression::simplifyAndCopyTerms(
             Term newTerm(simplifyAndConvertFunctionToSimplestTerm(term.getFunctionConstReference()));
             termsToUpdate.emplace_back(newTerm, termWithDetails.association);
         }
-        else if(term.isValueTermAndNotAnExpression())
+        else if(term.isNonEmptyTermTypeAndNotAnExpression())
         {
             termsToUpdate.emplace_back(term, termWithDetails.association);
         }
@@ -350,11 +350,11 @@ void SimplificationOfExpression::processAndSaveTermsForRaiseToPower(
     {
         Term combinedTerm;
         Term baseOfRaiseToPower=getTermConstReferenceFromSharedPointer(termsToProcess.at(0).baseTermSharedPointer);
-        if(baseOfRaiseToPower.isTheValueZero())
+        if(isTheValue(baseOfRaiseToPower, 0))
         {
             combinedTerm = Term(Constant(0));
         }
-        else if(baseOfRaiseToPower.isTheValueOne())
+        else if(isTheValue(baseOfRaiseToPower, 1))
         {
             combinedTerm = Term(1);
         }
@@ -451,11 +451,11 @@ void SimplificationOfExpression::saveBaseAndExponentsToTerm(
 {
     Term exponentTerm;
     accumulateTermsForMultiplicationAndDivision(exponentTerm, exponents);
-    if(exponentTerm.isTheValueZero())
+    if(isTheValue(exponentTerm, 0))
     {
         combinedTerm = Term(1);
     }
-    else if(exponentTerm.isTheValueOne())
+    else if(isTheValue(exponentTerm, 1))
     {
         combinedTerm = baseOfRaiseToPower;
     }

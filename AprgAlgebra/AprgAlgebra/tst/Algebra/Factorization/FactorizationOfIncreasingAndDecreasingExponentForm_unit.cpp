@@ -94,13 +94,15 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
                 Monomial(25, {})};
 
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
+
     ASSERT_EQ(3u, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(20, {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(20, {})};
     Polynomial polynomialToExpect3{Monomial(AlbaNumber::createFraction(1, 16), {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
-    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));}
+    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
+}
 
 TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossibleWorksOnQuadraticExpressionWithFractionSecondCoefficients)
 {
@@ -117,9 +119,11 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
+
 TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossibleWorksOnQuadraticExpressionExample1)
 {
     Polynomial polynomialToTest{Monomial(2, {{"x", 2}}), Monomial(-23, {{"x", 1}, {"y", 1}}), Monomial(-39, {{"y", 2}})};
+
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
 
     ASSERT_EQ(2u, polynomialsToVerify.size());
@@ -222,9 +226,11 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FixCoefficientsOfFa
 
     fixCoefficientsOfFactors(aCoefficient1, firstRoot1, secondRoot1);
     fixCoefficientsOfFactors(aCoefficient2, firstRoot2, secondRoot2);
+
     EXPECT_DOUBLE_EQ(11, aCoefficient1.getDouble());
     EXPECT_DOUBLE_EQ(12, firstRoot1.getDouble());
-    EXPECT_DOUBLE_EQ(13, secondRoot1.getDouble());    EXPECT_DOUBLE_EQ(5, aCoefficient2.getDouble());
+    EXPECT_DOUBLE_EQ(13, secondRoot1.getDouble());
+    EXPECT_DOUBLE_EQ(5, aCoefficient2.getDouble());
     EXPECT_DOUBLE_EQ(7, firstRoot2.getDouble());
     EXPECT_DOUBLE_EQ(1, secondRoot2.getDouble());
 }

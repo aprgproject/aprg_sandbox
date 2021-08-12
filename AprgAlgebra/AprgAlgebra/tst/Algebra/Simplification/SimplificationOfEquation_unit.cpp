@@ -92,8 +92,10 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnSimplifyingAnExpression)
     Term expectedTerm(AlbaNumber::createFraction(451, 523));
     EXPECT_EQ(expectedTerm, simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
-    EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());}
+    EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
+}
 }
 
 }
+
 }

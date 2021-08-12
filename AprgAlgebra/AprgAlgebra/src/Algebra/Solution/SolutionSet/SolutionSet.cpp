@@ -150,10 +150,12 @@ void SolutionSet::prepareValuesToCheck(AlbaNumbers & valuesToCheck)
                     return !number.isAFiniteValue() || number.isComplexNumberType();
                 }),
             valuesToCheck.end());
-    stable_sort(valuesToCheck.begin(), valuesToCheck.end());}
+    stable_sort(valuesToCheck.begin(), valuesToCheck.end());
+}
 
 void SolutionSet::checkValuesAndPutIntervals(
-        AlbaNumbers const& valuesToCheck,        FunctionForCheckingValues const& isValueAcceptedFunction)
+        AlbaNumbers const& valuesToCheck,
+        FunctionForCheckingValues const& isValueAcceptedFunction)
 {
     bool isFirst(true);
     AlbaNumber previousValueToCheck(AlbaNumber::Value::NegativeInfinity);
@@ -170,16 +172,19 @@ void SolutionSet::checkValuesAndPutIntervals(
             AlbaNumber intervalValueToCheck(getAverageForAlbaNumber(previousValueToCheck, valueToCheck));
             addInterval(previousValueToCheck, intervalValueToCheck, valueToCheck, isValueAcceptedFunction);
         }
-        previousValueToCheck = valueToCheck;    }
+        previousValueToCheck = valueToCheck;
+    }
     if(!valuesToCheck.empty())
     {
         AlbaNumber intervalValueToCheck(previousValueToCheck+getAbsoluteValueForAlbaNumber(previousValueToCheck));
         addInterval(previousValueToCheck, intervalValueToCheck, AlbaNumber::Value::PositiveInfinity, isValueAcceptedFunction);
     }
 }
+
 void SolutionSet::addInterval(
         AlbaNumber const& lowerEndpointValue,
-        AlbaNumber const& intervalValueToCheck,        AlbaNumber const& higherEndpointValue,
+        AlbaNumber const& intervalValueToCheck,
+        AlbaNumber const& higherEndpointValue,
         FunctionForCheckingValues const& isValueAcceptedFunction)
 {
     if(isValueAcceptedFunction(intervalValueToCheck))

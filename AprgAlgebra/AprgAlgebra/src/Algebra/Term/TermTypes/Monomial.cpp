@@ -93,16 +93,6 @@ bool Monomial::operator<(Monomial const& second) const
     return result;
 }
 
-bool Monomial::isOne() const
-{
-    return m_constant == 1 && isConstantOnly();
-}
-
-bool Monomial::isZero() const
-{
-    return m_constant == 0;
-}
-
 bool Monomial::isConstantOnly() const
 {
     return m_variablesToExponentsMap.empty();

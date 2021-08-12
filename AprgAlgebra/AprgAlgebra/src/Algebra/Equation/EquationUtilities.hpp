@@ -8,8 +8,10 @@
 
 namespace alba
 {
+
 namespace algebra
 {
+
 bool isEqual(Term const& leftTerm, Term const& rightTerm);
 bool isNotEqual(Term const& leftTerm, Term const& rightTerm);
 bool isLessThan(Term const& leftTerm, Term const& rightTerm);
