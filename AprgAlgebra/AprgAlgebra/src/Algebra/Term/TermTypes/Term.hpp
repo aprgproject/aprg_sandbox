@@ -9,15 +9,13 @@
 #include <Algebra/Term/TermTypes/Polynomial.hpp>
 #include <Algebra/Term/TermTypes/TermType.hpp>
 #include <Algebra/Term/TermTypes/Variable.hpp>
-#include <Math/AlbaNumber.hpp>
+#include <Math/Number/AlbaNumber.hpp>
 
 #include <memory>
-#include <string>
-#include <vector>
+#include <string>#include <vector>
 
 namespace alba
 {
-
 namespace algebra
 {
 

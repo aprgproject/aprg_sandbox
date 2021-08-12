@@ -3,14 +3,12 @@
 #include <Algebra/Term/TermTypes/BaseTerm.hpp>
 #include <Algebra/Term/TermTypes/BaseTermData.hpp>
 #include <Algebra/Term/TermTypes/BaseTermPointers.hpp>
-#include <Math/AlbaNumber.hpp>
+#include <Math/Number/AlbaNumber.hpp>
 
 #include <functional>
 #include <string>
-
 namespace alba
 {
-
 namespace algebra
 {
 

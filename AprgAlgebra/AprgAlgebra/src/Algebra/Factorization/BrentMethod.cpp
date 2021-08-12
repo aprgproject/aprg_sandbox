@@ -55,14 +55,12 @@ void BrentMethod::resetCalculation(AlbaNumber const& start, AlbaNumber const& en
     m_values.fb = calculate(m_values.b);
     m_values.mflag = true;
 
-    if(getAbsoluteValue(m_values.fa) < getAbsoluteValue(m_values.fb))
+    if(getAbsoluteValueForAlbaNumber(m_values.fa) < getAbsoluteValueForAlbaNumber(m_values.fb))
     {
         swap(m_values.a, m_values.b);
-        swap(m_values.fa, m_values.fb);
-    }
+        swap(m_values.fa, m_values.fb);    }
     m_values.c = m_values.a;
 }
-
 void BrentMethod::runOneIteration()
 {
     if(calculate(m_values.s) == 0)
@@ -124,14 +122,12 @@ void BrentMethod::runOneIteration()
     }
     m_values.fa = calculate(m_values.a);
     m_values.fb = calculate(m_values.b);
-    if(getAbsoluteValue(m_values.fa) < getAbsoluteValue(m_values.fb))
+    if(getAbsoluteValueForAlbaNumber(m_values.fa) < getAbsoluteValueForAlbaNumber(m_values.fb))
     {
         swap(m_values.a, m_values.b);
-        swap(m_values.fa, m_values.fb);
-    }
+        swap(m_values.fa, m_values.fb);    }
     m_numberOfIterationsExecuted++;
 }
-
 void BrentMethod::runMaxNumberOfIterationsOrUntilFinished(unsigned int const maxIterations)
 {
     for(unsigned int i=0; !isFinished() && i<maxIterations; i++)
@@ -214,17 +210,15 @@ bool BrentMethod::isBisectionMethodNeeded(
     AlbaNumber maxForConditionOne = max(first, second);
     AlbaNumber gamma = 1;
     bool isConditionOne = s < minForConditionOne || maxForConditionOne < s;
-    bool isConditionTwo = mflag && getAbsoluteValue(s-b) >= (getAbsoluteValue(b-c)/2);
-    bool isConditionThree = !mflag && getAbsoluteValue(s-b) >= (getAbsoluteValue(c-d)/2);
-    bool isConditionFour = mflag && getAbsoluteValue(b-c) < getAbsoluteValue(gamma);
-    bool isConditionFive = !mflag && getAbsoluteValue(c-d) < getAbsoluteValue(gamma);
+    bool isConditionTwo = mflag && getAbsoluteValueForAlbaNumber(s-b) >= (getAbsoluteValueForAlbaNumber(b-c)/2);
+    bool isConditionThree = !mflag && getAbsoluteValueForAlbaNumber(s-b) >= (getAbsoluteValueForAlbaNumber(c-d)/2);
+    bool isConditionFour = mflag && getAbsoluteValueForAlbaNumber(b-c) < getAbsoluteValueForAlbaNumber(gamma);
+    bool isConditionFive = !mflag && getAbsoluteValueForAlbaNumber(c-d) < getAbsoluteValueForAlbaNumber(gamma);
     return isConditionOne || isConditionTwo || isConditionThree || isConditionFour || isConditionFive;
 }
-
 void BrentMethod::convertSolutionToIntegerIfNeeded()
 {
-    if(m_values.solutionOptional.hasContent() && !m_coefficients.empty())
-    {
+    if(m_values.solutionOptional.hasContent() && !m_coefficients.empty())    {
         AlbaNumber aCoefficient(m_coefficients.front());
         if(aCoefficient.isIntegerOrFractionType())
         {

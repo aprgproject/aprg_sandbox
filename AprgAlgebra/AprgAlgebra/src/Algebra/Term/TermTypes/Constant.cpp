@@ -23,18 +23,12 @@ Constant::Constant(unsigned int const unsignedValue)
     : m_constantValue(unsignedValue)
 {}
 
-Constant::Constant(int const numerator, unsigned int const denominator)
-    : m_constantValue(numerator, denominator)
-{}
-
 Constant::Constant(double const doubleValue)
     : m_constantValue(doubleValue)
 {}
-
 bool Constant::operator==(Constant const& second) const
 {
-   return  m_constantValue == second.m_constantValue;
-}
+   return  m_constantValue == second.m_constantValue;}
 
 bool Constant::operator!=(Constant const& second) const
 {

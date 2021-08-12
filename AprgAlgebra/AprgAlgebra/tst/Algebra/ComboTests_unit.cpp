@@ -63,9 +63,8 @@ TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample4)
     SimplificationOfExpression simplification(simplifiedExpression);
     simplification.setAsShouldSimplifyToACommonDenominator(true);
     simplification.simplify();
-    EXPECT_EQ(Term(AlbaNumber(-252, 25)), substitution.performSubstitutionTo(simplification.getExpression()));
+    EXPECT_EQ(Term(AlbaNumber::createFraction(-252, 25)), substitution.performSubstitutionTo(simplification.getExpression()));
 }
 
 }
-
 }

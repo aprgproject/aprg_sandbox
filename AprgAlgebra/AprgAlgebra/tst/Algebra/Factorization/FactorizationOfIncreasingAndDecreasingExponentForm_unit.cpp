@@ -88,36 +88,38 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 
 TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossibleWorksOnQuadraticExpressionWithFractionFirstCoefficients)
 {
-    Polynomial polynomialToTest{Monomial(AlbaNumber(1, 16), {{"x", 2}}), Monomial(AlbaNumber(5, 2), {{"x", 1}}), Monomial(25, {})};
+    Polynomial polynomialToTest{
+        Monomial(AlbaNumber::createFraction(1, 16), {{"x", 2}}),
+                Monomial(AlbaNumber::createFraction(5, 2), {{"x", 1}}),
+                Monomial(25, {})};
 
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
-
     ASSERT_EQ(3u, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(20, {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(20, {})};
-    Polynomial polynomialToExpect3{Monomial(AlbaNumber(1, 16), {})};
+    Polynomial polynomialToExpect3{Monomial(AlbaNumber::createFraction(1, 16), {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
-    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
-}
+    EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));}
 
 TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossibleWorksOnQuadraticExpressionWithFractionSecondCoefficients)
 {
-    Polynomial polynomialToTest{Monomial(25, {{"x", 2}}), Monomial(AlbaNumber(5, 2), {{"x", 1}}), Monomial(AlbaNumber(1, 16), {})};
+    Polynomial polynomialToTest{
+        Monomial(25, {{"x", 2}}),
+                Monomial(AlbaNumber::createFraction(5, 2), {{"x", 1}}),
+                Monomial(AlbaNumber::createFraction(1, 16), {})};
 
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
 
     ASSERT_EQ(2u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(5, {{"x", 1}}), Monomial(AlbaNumber(1, 4), {})};
-    Polynomial polynomialToExpect2{Monomial(5, {{"x", 1}}), Monomial(AlbaNumber(1, 4), {})};
+    Polynomial polynomialToExpect1{Monomial(5, {{"x", 1}}), Monomial(AlbaNumber::createFraction(1, 4), {})};
+    Polynomial polynomialToExpect2{Monomial(5, {{"x", 1}}), Monomial(AlbaNumber::createFraction(1, 4), {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
-
 TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossibleWorksOnQuadraticExpressionExample1)
 {
     Polynomial polynomialToTest{Monomial(2, {{"x", 2}}), Monomial(-23, {{"x", 1}, {"y", 1}}), Monomial(-39, {{"y", 2}})};
-
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
 
     ASSERT_EQ(2u, polynomialsToVerify.size());
@@ -216,15 +218,13 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FixCoefficientsOfFa
     AlbaNumber secondRoot1(13);
     AlbaNumber aCoefficient2(35);
     AlbaNumber firstRoot2(1);
-    AlbaNumber secondRoot2(1, 7);
+    AlbaNumber secondRoot2(AlbaNumber::createFraction(1, 7));
 
     fixCoefficientsOfFactors(aCoefficient1, firstRoot1, secondRoot1);
     fixCoefficientsOfFactors(aCoefficient2, firstRoot2, secondRoot2);
-
     EXPECT_DOUBLE_EQ(11, aCoefficient1.getDouble());
     EXPECT_DOUBLE_EQ(12, firstRoot1.getDouble());
-    EXPECT_DOUBLE_EQ(13, secondRoot1.getDouble());
-    EXPECT_DOUBLE_EQ(5, aCoefficient2.getDouble());
+    EXPECT_DOUBLE_EQ(13, secondRoot1.getDouble());    EXPECT_DOUBLE_EQ(5, aCoefficient2.getDouble());
     EXPECT_DOUBLE_EQ(7, firstRoot2.getDouble());
     EXPECT_DOUBLE_EQ(1, secondRoot2.getDouble());
 }

@@ -29,15 +29,13 @@ bool isPerfectNthPower(Monomial const& monomial, unsigned int const nthPower)
 {
     AlbaNumber constant(monomial.getConstantConstReference());
     bool result(false);
-    if(constant.isIntegerType() && mathHelper::isPerfectNthPower(constant, nthPower))
+    if(constant.isIntegerType() && mathHelper::isPerfectNthPowerForAlbaNumber(constant, nthPower))
     {
         result = areExponentsDivisible(monomial, nthPower);
-    }
-    return result;
+    }    return result;
 }
 
-bool areExponentsDivisible(Monomial const& monomial, unsigned int const divisor)
-{
+bool areExponentsDivisible(Monomial const& monomial, unsigned int const divisor){
     bool result(true);
     for(Monomial::VariableExponentPair const& variableExponentPair : monomial.getVariablesToExponentsMapConstReference())
     {

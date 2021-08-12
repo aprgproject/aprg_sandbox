@@ -575,15 +575,13 @@ TEST(SimplificationOfExpressionTest, EvenExponentsCancellationWithAbsoluteValueW
     Expression expression1(createExpressionIfPossible(
     {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}),
      Term("^"), Term(4),
-     Term("^"), Term(AlbaNumber(1, 2))}));
+     Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     Expression expression2(expression1);
     SimplificationOfExpression simplification1(expression1);
-    SimplificationOfExpression simplification2(expression2);
-    simplification2.setAsShouldSimplifyEvenExponentsCancellationWithAbsoluteValue(true);
+    SimplificationOfExpression simplification2(expression2);    simplification2.setAsShouldSimplifyEvenExponentsCancellationWithAbsoluteValue(true);
 
     simplification1.simplify();
     simplification2.simplify();
-
     Expression expressionToVerify1(simplification1.getExpression());
     Expression expressionToVerify2(simplification2.getExpression());
     Expression expressionToExpect1(createOrCopyExpressionFromATerm(Term(Polynomial
@@ -595,18 +593,16 @@ TEST(SimplificationOfExpressionTest, EvenExponentsCancellationWithAbsoluteValueW
     EXPECT_EQ(expressionToExpect2, expressionToVerify2);
 }
 
-TEST(SimplificationOfExpressionTest, NanSimplificationDoesNotCrash)
+TEST(SimplificationOfExpressionTest, ZeroOverZeroResultsToNanAndDoesNotCrash)
 {
     Expression expression(createExpressionIfPossible(
-    {Term(-5.678), Term("^"), Term(-1.234)}));
+    {Term(Constant(0)), Term("/"), Term(Constant(0))}));
     SimplificationOfExpression simplification(expression);
 
     simplification.simplify();
-
     Expression expressionToVerify(simplification.getExpression());
     EXPECT_TRUE(isNotANumber(expressionToVerify));
 }
-
 }
 
 }

@@ -2,14 +2,12 @@
 
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
-#include <Math/AlbaNumberTypes.hpp>
+#include <Math/Number/AlbaNumberTypes.hpp>
 
 #include <functional>
 #include <map>
-
 namespace alba
 {
-
 namespace algebra
 {
 

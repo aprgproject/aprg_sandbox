@@ -145,26 +145,34 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, AbsoluteValueFunctionInDenomin
     Term fractionTerm(createExpressionIfPossible({Term(1), Term("/"), functionTerm}));
     OneEquationOneVariableNonEqualitySolver solver;
 
-    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(fractionTerm, "<", Term(AlbaNumber(1, 4)))));
+    SolutionSet solutionSet(
+                solver.calculateSolutionAndReturnSolutionSet(
+                    Equation(fractionTerm, "<", Term(AlbaNumber::createFraction(1, 4)))));
 
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(2u, acceptedIntervals.size());
-    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createOpenEndpoint(AlbaNumber(-7, 2))), acceptedIntervals.at(0));
-    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber(1, 2)), createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), acceptedIntervals.at(1));
+    EXPECT_EQ(
+                AlbaNumberInterval(
+                    createOpenEndpoint(AlbaNumber::Value::NegativeInfinity),
+                    createOpenEndpoint(AlbaNumber::createFraction(-7, 2))),
+                acceptedIntervals.at(0));
+    EXPECT_EQ(
+                AlbaNumberInterval(
+                    createOpenEndpoint(AlbaNumber::createFraction(1, 2)),
+                    createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)),
+                acceptedIntervals.at(1));
 }
 
 TEST(OneEquationOneVariableNonEqualitySolverTest, PolynomialsInEquationAreSolved)
 {
-    Polynomial polynomialLeft{Monomial(AlbaNumber(2, 3), {{"x", 1}}), Monomial(-4, {})};
+    Polynomial polynomialLeft{Monomial(AlbaNumber::createFraction(2, 3), {{"x", 1}}), Monomial(-4, {})};
     Polynomial polynomialRight{Monomial(5, {{"x", 1}}), Monomial(9, {})};
     OneEquationOneVariableNonEqualitySolver solver;
-
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(polynomialLeft), "<", Term(polynomialRight))));
 
-    EXPECT_TRUE(solver.isSolved());
-    EXPECT_TRUE(solver.isACompleteSolution());
+    EXPECT_TRUE(solver.isSolved());    EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(1u, acceptedIntervals.size());
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), acceptedIntervals.at(0));

@@ -5,12 +5,11 @@
 #include <Algebra/Term/Utilities/EnumHelpers.hpp>
 
 #include <algorithm>
+#include <sstream>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -69,14 +68,20 @@ unsigned int TermsWithAssociation::TermWithDetails::getAssociationPriority() con
     return algebra::getAssociationPriority(association);
 }
 
-void TermsWithAssociation::TermWithDetails::clear()
+string TermsWithAssociation::TermWithDetails::getDisplayableString() const
 {
-    baseTermSharedPointer.reset();
-    association=TermAssociationType::Positive;
+    stringstream ss;
+    Term const& term(getTermConstReferenceFromSharedPointer(baseTermSharedPointer));
+    ss << "[" << getEnumShortString(association) << "{" << term.getDisplayableString() << "}]";
+    return ss.str();
 }
 
-TermsWithAssociation::TermsWithAssociation()
-{}
+void TermsWithAssociation::TermWithDetails::clear()
+{
+    baseTermSharedPointer.reset();    association=TermAssociationType::Positive;
+}
+
+TermsWithAssociation::TermsWithAssociation(){}
 
 TermsWithAssociation::~TermsWithAssociation()
 {}
@@ -201,6 +206,12 @@ void TermsWithAssociation::reverseTheAssociationOfTheTerms()
             termWithDetails.association = TermAssociationType::Positive;
         }
     }
+}
+
+ostream & operator<<(ostream & out, TermsWithAssociation::TermWithDetails const& termWithDetails)
+{
+    out << termWithDetails.getDisplayableString();
+    return out;
 }
 
 }

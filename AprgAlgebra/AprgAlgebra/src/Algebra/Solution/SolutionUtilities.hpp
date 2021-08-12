@@ -3,15 +3,13 @@
 #include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
-#include <Math/AlbaNumber.hpp>
-#include <Math/AlbaNumberTypes.hpp>
+#include <Math/Number/AlbaNumber.hpp>
+#include <Math/Number/AlbaNumberTypes.hpp>
 
 namespace alba
 {
-
 namespace algebra
 {
-
 AlbaNumber getPositiveLogarithmOfLargestNumber(Term const& term);
 
 AlbaNumbers getInitialValuesForIteratingMethods(Term const& term);

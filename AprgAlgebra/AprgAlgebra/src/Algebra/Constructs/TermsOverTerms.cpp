@@ -191,33 +191,37 @@ void TermsOverTerms::removeTermsThatHasNoEffectInNumeratorAndDenominator()
 
 void TermsOverTerms::removeSameTermsInNumeratorAndDenominator()
 {
+    bool hasZerosOnNumeratorAndDenominator(false);
     for(Terms::iterator numeratorIt = m_numerators.begin();
         numeratorIt != m_numerators.end();
-        numeratorIt++)
-    {
+        numeratorIt++)    {
         for(Terms::iterator denominatorIt = m_denominators.begin();
             denominatorIt != m_denominators.end();
-            denominatorIt++)
-        {
+            denominatorIt++)        {
             Term const& term1(*numeratorIt);
             Term const& term2(*denominatorIt);
             if(term1 == term2)
             {
+                if(term1.isTheValueZero())
+                {
+                    hasZerosOnNumeratorAndDenominator=true;
+                }
                 m_numerators.erase(numeratorIt);
                 m_denominators.erase(denominatorIt);
-                numeratorIt--;
-                denominatorIt--;
+                numeratorIt--;                denominatorIt--;
             }
         }
     }
+    if(hasZerosOnNumeratorAndDenominator)
+    {
+        m_numerators.emplace_back(Term(NAN));
+    }
 }
 
-void TermsOverTerms::removeTermsThatHaveNoEffect(Terms & terms) const
-{
+void TermsOverTerms::removeTermsThatHaveNoEffect(Terms & terms) const{
     terms.erase(remove_if(terms.begin(), terms.end(), [](Term const& term){
                     return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term);
-                }), terms.end());
-}
+                }), terms.end());}
 
 void TermsOverTerms::simplifyPolynomialNumeratorAndPolynomialDenominator(
         Polynomial & polynomialNumerator,

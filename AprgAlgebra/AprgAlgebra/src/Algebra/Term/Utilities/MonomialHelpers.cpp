@@ -90,15 +90,13 @@ AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials)
             }
             else
             {
-                commonCoefficient = getGreatestCommonFactor(commonCoefficient, coefficient);
+                commonCoefficient = getGreatestCommonFactorForAlbaNumber(commonCoefficient, coefficient);
             }
         }
-    }
-    return commonCoefficient;
+    }    return commonCoefficient;
 }
 
-AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials)
-{
+AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials){
     AlbaNumber commonCoefficient(1);
     bool isFirst(true);
     for(Monomial const& monomial : monomials)
@@ -113,15 +111,13 @@ AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials)
             }
             else
             {
-                commonCoefficient = getLeastCommonMultiple(commonCoefficient, coefficient);
+                commonCoefficient = getLeastCommonMultipleForAlbaNumber(commonCoefficient, coefficient);
             }
         }
-    }
-    return commonCoefficient;
+    }    return commonCoefficient;
 }
 
-AlbaNumber getCommonSignInMonomials(Monomials const& monomials)
-{
+AlbaNumber getCommonSignInMonomials(Monomials const& monomials){
     bool isFirst(true);
     bool isFirstMonomialNegative(false);
     unsigned int negativeSignCount(0);

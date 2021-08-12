@@ -1,11 +1,11 @@
 #include <Algebra/Constructs/PolynomialOverPolynomial.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
@@ -30,42 +30,49 @@ TEST(PolynomialOverPolynomialTest, IsEmptyWorks)
     EXPECT_FALSE(actual4.isEmpty());
 }
 
-TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWithNoRemainder)
+TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWorksWithZeroOverZero)
+{
+    Polynomial numerator(createPolynomialFromConstant(Constant(0)));
+    Polynomial denominator(createPolynomialFromConstant(Constant(0)));
+    PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
+
+    PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(polynomialOverPolynomial.simplifyAndDivide());
+
+    Polynomial quotientToExpect;
+    EXPECT_EQ(quotientToExpect, quotientAndRemainder.quotient);
+    EXPECT_TRUE(isNotANumber(quotientAndRemainder.remainder));
+}
+
+TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWorksWithNoRemainder)
 {
     Polynomial numerator{Monomial(3, {{"x", 3}}), Monomial(-4, {{"x", 2}, {"y", 1}}), Monomial(5, {{"x", 1}, {"y", 2}}), Monomial(6, {{"y", 3}})};
     Polynomial denominator{Monomial(1, {{"x", 2}}), Monomial(-2, {{"x", 1}, {"y", 1}}), Monomial(3, {{"y", 2}})};
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
-
     PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(polynomialOverPolynomial.simplifyAndDivide());
 
-    Polynomial quotientToExpect{Monomial(3, {{"x", 1}}), Monomial(2, {{"y", 1}})};
-    Polynomial remainderToExpect{};
+    Polynomial quotientToExpect{Monomial(3, {{"x", 1}}), Monomial(2, {{"y", 1}})};    Polynomial remainderToExpect{};
     EXPECT_EQ(quotientToExpect, quotientAndRemainder.quotient);
     EXPECT_EQ(remainderToExpect, quotientAndRemainder.remainder);
 }
 
-TEST(PolynomialOverPolynomialTest, SimplifyAndDivideOnAQuarticWithNoRemainder)
+TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWorksOnAQuarticWithNoRemainder)
 {
     Polynomial numerator{Monomial(2112, {{"x", 4}}), Monomial(-296, {{"x", 3}}), Monomial(-5878, {{"x", 2}}), Monomial(409, {{"x", 1}}), Monomial(4095, {})};
-    Polynomial denominator{Monomial(11, {{"x", 1}}), Monomial(-13, {})};
-    PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
+    Polynomial denominator{Monomial(11, {{"x", 1}}), Monomial(-13, {})};    PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
     PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(polynomialOverPolynomial.simplifyAndDivide());
-
     Polynomial quotientToExpect{Monomial(192, {{"x", 3}}), Monomial(200, {{"x", 2}}), Monomial(-298, {{"x", 1}}), Monomial(-315, {})};
     Polynomial remainderToExpect{};
     EXPECT_EQ(quotientToExpect, quotientAndRemainder.quotient);
     EXPECT_EQ(remainderToExpect, quotientAndRemainder.remainder);
 }
 
-TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWithRemainder)
+TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWorksWithRemainder)
 {
     Polynomial numerator{Monomial(5, {{"x", 3}}), Monomial(-8, {{"x", 2}}), Monomial(6, {{"x", 1}}), Monomial(4, {})};
-    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-2, {})};
-    PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
+    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-2, {})};    PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
     PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(polynomialOverPolynomial.simplifyAndDivide());
-
     Polynomial quotientToExpect{Monomial(5, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(10, {})};
     Polynomial remainderToExpect{Monomial(24, {})};
     EXPECT_EQ(quotientToExpect, quotientAndRemainder.quotient);
@@ -74,16 +81,14 @@ TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWithRemainder)
 
 TEST(PolynomialOverPolynomialTest, SimplifyWorksOnConvertingFractionCoefficientsToInteger)
 {
-    Polynomial numerator{Monomial(AlbaNumber(1, 2), {{"x", 1}}), Monomial(AlbaNumber(1, 3), {{"y", 1}})};
-    Polynomial denominator{Monomial(AlbaNumber(1, 5), {{"x", 1}}), Monomial(AlbaNumber(1, 10), {{"y", 1}})};
+    Polynomial numerator{Monomial(AlbaNumber::createFraction(1, 2), {{"x", 1}}), Monomial(AlbaNumber::createFraction(1, 3), {{"y", 1}})};
+    Polynomial denominator{Monomial(AlbaNumber::createFraction(1, 5), {{"x", 1}}), Monomial(AlbaNumber::createFraction(1, 10), {{"y", 1}})};
     PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
 
     polynomialOverPolynomial.simplify();
-
     Polynomial numeratorToExpect{Monomial(15, {{"x", 1}}), Monomial(10, {{"y", 1}})};
     Polynomial denominatorToExpect{Monomial(6, {{"x", 1}}), Monomial(3, {{"y", 1}})};
-    EXPECT_EQ(numeratorToExpect, polynomialOverPolynomial.getNumerator());
-    EXPECT_EQ(denominatorToExpect, polynomialOverPolynomial.getDenominator());
+    EXPECT_EQ(numeratorToExpect, polynomialOverPolynomial.getNumerator());    EXPECT_EQ(denominatorToExpect, polynomialOverPolynomial.getDenominator());
 }
 
 TEST(PolynomialOverPolynomialTest, SimplifyWorksOnRemovingCommonFactorInCoefficients)

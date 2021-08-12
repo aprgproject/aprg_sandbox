@@ -62,17 +62,16 @@ TEST(OneEquationOneVariableEqualitySolverTest, PolynomialAreSolvedCorrectly)
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
-    ASSERT_EQ(2u, acceptedValues.size());
+    ASSERT_EQ(3u, acceptedValues.size());
     EXPECT_EQ(AlbaNumber(-2), acceptedValues.at(0));
-    EXPECT_EQ(AlbaNumber(2), acceptedValues.at(1));
+    EXPECT_EQ(AlbaNumber::createComplexNumber(0, 2), acceptedValues.at(1));
+    EXPECT_EQ(AlbaNumber(2), acceptedValues.at(2));
 }
 
-TEST(OneEquationOneVariableEqualitySolverTest, PolynomialOverPolynomialAreSolvedCorrectly)
-{
+TEST(OneEquationOneVariableEqualitySolverTest, PolynomialOverPolynomialAreSolvedCorrectly){
     Polynomial numerator{Monomial(1, {{"x", 2}}), Monomial(-25, {})};
     Polynomial denominator{Monomial(1, {{"x", 2}}), Monomial(-36, {})};
-    Expression expression(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
-    OneEquationOneVariableEqualitySolver solver;
+    Expression expression(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));    OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), "=", Term(Constant(0)))));
 
@@ -168,15 +167,13 @@ TEST(OneEquationOneVariableEqualitySolverTest, SquareRootInEquationAreSolved)
 {
     Polynomial polynomial1{Monomial(-5, {{"x", 1}}), Monomial(1, {})};
     Polynomial polynomial2{Monomial(-1, {{"x", 1}}), Monomial(1, {})};
-    Expression expression1(createExpressionIfPossible({Term(polynomial1), Term("^"), Term(AlbaNumber(1, 2))}));
-    Expression expression2(createExpressionIfPossible({Term(polynomial2), Term("^"), Term(AlbaNumber(1, 2))}));
+    Expression expression1(createExpressionIfPossible({Term(polynomial1), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Expression expression2(createExpressionIfPossible({Term(polynomial2), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     Expression expressionLeft(createExpressionIfPossible({Term(expression1), Term("+"), Term(expression2)}));
     OneEquationOneVariableEqualitySolver solver;
-
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expressionLeft), "=", Term(2))));
 
-    EXPECT_TRUE(solver.isSolved());
-    EXPECT_FALSE(solver.isACompleteSolution());
+    EXPECT_TRUE(solver.isSolved());    EXPECT_FALSE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
     ASSERT_EQ(1u, acceptedValues.size());
     EXPECT_EQ(AlbaNumber(0), acceptedValues.at(0));

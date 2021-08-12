@@ -1,14 +1,12 @@
 #pragma once
 
 #include <Algebra/Term/TermTypes/Polynomial.hpp>
-#include <Math/AlbaNumberTypes.hpp>
+#include <Math/Number/AlbaNumberTypes.hpp>
 
 namespace alba
 {
-
 namespace algebra
 {
-
 namespace Factorization
 {
 

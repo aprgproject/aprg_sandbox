@@ -1,13 +1,11 @@
 #pragma once
 
 #include <Algebra/Term/TermTypes/Function.hpp>
-#include <Math/AlbaNumberTypes.hpp>
+#include <Math/Number/AlbaNumberTypes.hpp>
 
 #include <string>
-
 namespace alba
 {
-
 namespace algebra
 {
 

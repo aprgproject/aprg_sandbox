@@ -18,12 +18,10 @@ Function abs(Term const& term)
 {
     return Function("abs", term, [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return getAbsoluteValue(number);
+        return getAbsoluteValueForAlbaNumber(number);
     });
 }
-
 }
 
 }
-
 }

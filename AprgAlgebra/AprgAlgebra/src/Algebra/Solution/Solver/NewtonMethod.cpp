@@ -80,13 +80,11 @@ AlbaNumber NewtonMethod::getSlopeApproximationAt(
 
 void NewtonMethod::updatePositiveDeltaForSlopeIfNeeded(AlbaNumber const& newValue)
 {
-    AlbaNumber newPositiveDelta = getPositiveDelta(newValue, m_currentComputedValue);
+    AlbaNumber newPositiveDelta = getPositiveDeltaForAlbaNumber(newValue, m_currentComputedValue);
     if(newPositiveDelta < m_positiveDeltaForSlope)
     {
-        m_positiveDeltaForSlope = newPositiveDelta;
-    }
+        m_positiveDeltaForSlope = newPositiveDelta;    }
 }
 
 }
-
 }

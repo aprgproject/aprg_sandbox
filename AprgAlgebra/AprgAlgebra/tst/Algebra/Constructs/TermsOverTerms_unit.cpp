@@ -1,13 +1,12 @@
 #include <Algebra/Constructs/TermsOverTerms.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
-
 namespace alba
 {
 
@@ -87,13 +86,24 @@ TEST(TermsOverTermsTest, SimplifyRemovesTermsThatHasNoEffect)
     EXPECT_TRUE(denominatorsToVerify2.empty());
 }
 
+TEST(TermsOverTermsTest, SimplifyDoesNotCancelsZerosInNumeratorAndDenominator)
+{
+    TermsOverTerms termsOverTerms({Term(Constant(0))}, {Term(Constant(0))});
+
+    termsOverTerms.simplify();
+
+    Terms numeratorsToVerify(termsOverTerms.getNumerators());
+    ASSERT_EQ(1u, numeratorsToVerify.size());
+    EXPECT_TRUE(isNotANumber(numeratorsToVerify.at(0)));
+    Terms denominatorsToVerify(termsOverTerms.getDenominators());
+    ASSERT_TRUE(denominatorsToVerify.empty());
+}
+
 TEST(TermsOverTermsTest, SimplifyRemovesOnSamePolynomialInNumeratorAndDenominator)
 {
-    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(11, {})};
-    Polynomial polynomial2{Monomial(1, {{"y", 1}}), Monomial(13, {})};
+    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(11, {})};    Polynomial polynomial2{Monomial(1, {{"y", 1}}), Monomial(13, {})};
     Polynomial polynomial3{Monomial(1, {{"z", 1}}), Monomial(17, {})};
     TermsOverTerms termsOverTerms({Term(polynomial2), Term(polynomial1)}, {Term(polynomial1), Term(polynomial3)});
-
     termsOverTerms.simplify();
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());

@@ -216,34 +216,37 @@ TEST(FactorizationOfPolynomialsTest, QuadraticExpressionWithFirstCoefficientIsNo
 
 TEST(FactorizationOfPolynomialsTest, QuadraticExpressionWithFractionFirstCoefficients_FactorizeWorks)
 {
-    Polynomial polynomialToTest{Monomial(AlbaNumber(1, 16), {{"x", 2}}), Monomial(AlbaNumber(5, 2), {{"x", 1}}), Monomial(25, {})};
+    Polynomial polynomialToTest{
+        Monomial(AlbaNumber::createFraction(1, 16), {{"x", 2}}),
+                Monomial(AlbaNumber::createFraction(5, 2), {{"x", 1}}),
+                Monomial(25, {})};
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
     ASSERT_EQ(3u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(AlbaNumber(1, 16), {})};
+    Polynomial polynomialToExpect1{Monomial(AlbaNumber::createFraction(1, 16), {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(20, {})};
     Polynomial polynomialToExpect3{Monomial(1, {{"x", 1}}), Monomial(20, {})};
-    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
-    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
     EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
 }
 
 TEST(FactorizationOfPolynomialsTest, QuadraticExpressionWithFractionSecondCoefficients_FactorizeWorks)
 {
-    Polynomial polynomialToTest{Monomial(25, {{"x", 2}}), Monomial(AlbaNumber(5, 2), {{"x", 1}}), Monomial(AlbaNumber(1, 16), {})};
+    Polynomial polynomialToTest{
+        Monomial(25, {{"x", 2}}),
+                Monomial(AlbaNumber::createFraction(5, 2), {{"x", 1}}),
+                Monomial(AlbaNumber::createFraction(1, 16), {})};
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
     ASSERT_EQ(3u, polynomialsToVerify.size());
-    Polynomial polynomialToExpect1{Monomial(AlbaNumber(1, 16), {})};
+    Polynomial polynomialToExpect1{Monomial(AlbaNumber::createFraction(1, 16), {})};
     Polynomial polynomialToExpect2{Monomial(20, {{"x", 1}}), Monomial(1, {})};
     Polynomial polynomialToExpect3{Monomial(20, {{"x", 1}}), Monomial(1, {})};
-    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
-    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
     EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
 }
-
 TEST(FactorizationOfPolynomialsTest, QuadraticExpressionExample1_FactorizeWorks)
 {
     Polynomial polynomialToTest{Monomial(2, {{"x", 2}}), Monomial(-23, {{"x", 1}, {"y", 1}}), Monomial(-39, {{"y", 2}})};
