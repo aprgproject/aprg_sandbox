@@ -320,6 +320,39 @@ TEST(OperatorTest, SettingANewOperatingStringWorks)
     EXPECT_EQ("multiply", operatorForTest2.getOperatorString());
 }
 
+TEST(OperatorTest, ReverseOperationWorks)
+{
+    Operator nullOperator;
+    Operator addOperator("+");
+    Operator subtractOperator("-");
+    Operator multiplyOperator("*");
+    Operator divideOperator("/");
+    Operator raiseToPowerOperator("^");
+    Operator openingGroupOperator("(");
+    Operator closingGroupOperator(")");
+    Operator invalidOperator("invalid");
+
+    nullOperator.reverseOperation();
+    addOperator.reverseOperation();
+    subtractOperator.reverseOperation();
+    multiplyOperator.reverseOperation();
+    divideOperator.reverseOperation();
+    raiseToPowerOperator.reverseOperation();
+    openingGroupOperator.reverseOperation();
+    closingGroupOperator.reverseOperation();
+    invalidOperator.reverseOperation();
+
+    EXPECT_TRUE(nullOperator.getDisplayableString().empty());
+    EXPECT_EQ("-", addOperator.getDisplayableString());
+    EXPECT_EQ("+", subtractOperator.getDisplayableString());
+    EXPECT_EQ("/", multiplyOperator.getDisplayableString());
+    EXPECT_EQ("*", divideOperator.getDisplayableString());
+    EXPECT_EQ("^", raiseToPowerOperator.getDisplayableString());
+    EXPECT_EQ("(", openingGroupOperator.getDisplayableString());
+    EXPECT_EQ(")", closingGroupOperator.getDisplayableString());
+    EXPECT_EQ("invalid", invalidOperator.getDisplayableString());
+}
+
 }
 
 }

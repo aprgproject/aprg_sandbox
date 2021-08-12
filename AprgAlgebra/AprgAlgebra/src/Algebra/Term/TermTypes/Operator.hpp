@@ -38,13 +38,12 @@ public:
     std::string getDisplayableString() const;
 
     void setOperatorString(std::string const& operatingString);
+    void reverseOperation();
 
 private:
-    std::string m_operatingString;
-};
+    std::string m_operatingString;};
 
 std::ostream & operator<<(std::ostream & out, Operator const& operatorTerm);
-
 }
 
 }
