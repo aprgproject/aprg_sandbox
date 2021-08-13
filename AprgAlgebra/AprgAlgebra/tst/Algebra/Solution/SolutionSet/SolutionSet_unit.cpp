@@ -44,9 +44,11 @@ TEST(SolutionSetTest, AddAcceptedValueWorks)
     EXPECT_TRUE(solutionSet.getRejectedValues().empty());
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
+
 TEST(SolutionSetTest, AddRejectedValueWorks)
 {
     SolutionSet solutionSet;
+
     solutionSet.addRejectedValue(5863);
 
     AlbaNumbers const& rejectedValues(solutionSet.getRejectedValues());
@@ -55,9 +57,11 @@ TEST(SolutionSetTest, AddRejectedValueWorks)
     EXPECT_TRUE(solutionSet.getAcceptedValues().empty());
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
+
 TEST(SolutionSetTest, AddAcceptedValuesWorks)
 {
     SolutionSet solutionSet;
+
     solutionSet.addAcceptedValues(AlbaNumbers{5863, 8546});
 
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
@@ -67,9 +71,11 @@ TEST(SolutionSetTest, AddAcceptedValuesWorks)
     EXPECT_TRUE(solutionSet.getRejectedValues().empty());
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
+
 TEST(SolutionSetTest, AddRejectedValuesWorks)
 {
     SolutionSet solutionSet;
+
     solutionSet.addRejectedValues(AlbaNumbers{5863, 8546});
 
     AlbaNumbers const& rejectedValues(solutionSet.getRejectedValues());
@@ -79,9 +85,11 @@ TEST(SolutionSetTest, AddRejectedValuesWorks)
     EXPECT_TRUE(solutionSet.getAcceptedValues().empty());
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
+
 TEST(SolutionSetTest, AddAcceptedIntervalWorks)
 {
     SolutionSet solutionSet;
+
     solutionSet.addAcceptedInterval(AlbaNumberInterval(createOpenEndpoint(87), createOpenEndpoint(99)));
 
     AlbaNumberIntervals actualIntervals(solutionSet.getAcceptedIntervals());
@@ -101,9 +109,11 @@ TEST(SolutionSetTest, AddValueForAcceptedValueWorks)
     EXPECT_TRUE(solutionSet.getRejectedValues().empty());
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
+
 TEST(SolutionSetTest, AddValueForRejectedValueWorks)
 {
     SolutionSet solutionSet;
+
     solutionSet.addValue(5863, [](AlbaNumber const&){return false;});
 
     AlbaNumbers const& rejectedValues(solutionSet.getRejectedValues());
@@ -112,9 +122,11 @@ TEST(SolutionSetTest, AddValueForRejectedValueWorks)
     EXPECT_TRUE(solutionSet.getAcceptedValues().empty());
     EXPECT_TRUE(solutionSet.getAcceptedIntervals().empty());
 }
+
 TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithOnePoint)
 {
     SolutionSet solutionSet;
+
     AlbaNumbers addedValuesToCheck{1};
     solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck)
     {

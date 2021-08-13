@@ -142,8 +142,10 @@ void Operator::reverseOperation()
 
 ostream & operator<<(ostream & out, Operator const& operatorTerm)
 {
-    out << operatorTerm.getDisplayableString();    return out;
+    out << operatorTerm.getDisplayableString();
+    return out;
 }
 
 }
+
 }

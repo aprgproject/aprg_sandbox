@@ -6,8 +6,10 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -69,6 +71,55 @@ Function cot(Term const& term)
         return 1/::tan(number.getDouble());
     });
 }
+
+Function arcsin(Term const& term)
+{
+    return Function("arcsin", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return ::asin(number.getDouble());
+    });
+}
+
+Function arccos(Term const& term)
+{
+    return Function("arccos", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return ::acos(number.getDouble());
+    });
+}
+
+Function arctan(Term const& term)
+{
+    return Function("arctan", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return ::atan(number.getDouble());
+    });
+}
+
+Function arccsc(Term const& term)
+{
+    return Function("arccsc", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return ::asin(1/number.getDouble());
+    });
+}
+
+Function arcsec(Term const& term)
+{
+    return Function("arcsec", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return ::acos(1/number.getDouble());
+    });
+}
+
+Function arccot(Term const& term)
+{
+    return Function("arccot", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return ::atan(1/number.getDouble());
+    });
+}
+
 
 }
 
