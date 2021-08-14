@@ -12,6 +12,7 @@ using namespace alba::mathHelper;
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -21,7 +22,8 @@ TEST(TrigonometricEquationsTest, GetSineSquaredPlusCosineSquaredEqualsOneWorks)
 
     Equation actualEquation(getSineSquaredPlusCosineSquaredEqualsOne(x));
 
-    Term expectedSineSquaredTerm(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(2)}));    Term expectedCosineSquaredTerm(createExpressionIfPossible({Term(cos(x)), Term("^"), Term(2)}));
+    Term expectedSineSquaredTerm(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(2)}));
+    Term expectedCosineSquaredTerm(createExpressionIfPossible({Term(cos(x)), Term("^"), Term(2)}));
     Term leftHandSide(createExpressionIfPossible({expectedSineSquaredTerm, Term("+"), expectedCosineSquaredTerm}));
     Equation expectedEquation(leftHandSide, "=", Term(1));
     EXPECT_EQ(expectedEquation, actualEquation);
@@ -145,7 +147,12 @@ TEST(TrigonometricEquationsTest, GetSineSquaredWorks)
 
     Term actualTerm(getSineSquared(x));
 
-    Term expectedTerm(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(2)}));    EXPECT_EQ(expectedTerm, actualTerm);
+    Term expectedTerm(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(2)}));
+    EXPECT_EQ(expectedTerm, actualTerm);
+
+    SubstitutionOfVariablesToValues substitution;
+    substitution.putVariableWithValue("x", getPi()/6);
+    EXPECT_EQ(Term(AlbaNumber::createFraction(1, 4)), substitution.performSubstitutionTo(actualTerm));
 }
 
 TEST(TrigonometricEquationsTest, GetCosineSquaredWorks)
@@ -154,7 +161,12 @@ TEST(TrigonometricEquationsTest, GetCosineSquaredWorks)
 
     Term actualTerm(getCosineSquared(x));
 
-    Term expectedTerm(createExpressionIfPossible({Term(cos(x)), Term("^"), Term(2)}));    EXPECT_EQ(expectedTerm, actualTerm);
+    Term expectedTerm(createExpressionIfPossible({Term(cos(x)), Term("^"), Term(2)}));
+    EXPECT_EQ(expectedTerm, actualTerm);
+
+    SubstitutionOfVariablesToValues substitution;
+    substitution.putVariableWithValue("x", getPi()/3);
+    EXPECT_EQ(Term(AlbaNumber::createFraction(1, 4)), substitution.performSubstitutionTo(actualTerm));
 }
 
 TEST(TrigonometricEquationsTest, GetTangentSquaredWorks)
@@ -163,7 +175,12 @@ TEST(TrigonometricEquationsTest, GetTangentSquaredWorks)
 
     Term actualTerm(getTangentSquared(x));
 
-    Term expectedTerm(createExpressionIfPossible({Term(tan(x)), Term("^"), Term(2)}));    EXPECT_EQ(expectedTerm, actualTerm);
+    Term expectedTerm(createExpressionIfPossible({Term(tan(x)), Term("^"), Term(2)}));
+    EXPECT_EQ(expectedTerm, actualTerm);
+
+    SubstitutionOfVariablesToValues substitution;
+    substitution.putVariableWithValue("x", getPi()/4);
+    EXPECT_EQ(Term(1), substitution.performSubstitutionTo(actualTerm));
 }
 
 TEST(TrigonometricEquationsTest, GetSineOfSumOrDifferenceOfTwoVariablesWorks)
@@ -180,9 +197,16 @@ TEST(TrigonometricEquationsTest, GetSineOfSumOrDifferenceOfTwoVariablesWorks)
     Term expectedSineOfDifferenceOfValues(createExpressionIfPossible({Term(firstPart), Term("-"), Term(secondPart)}));
     EXPECT_EQ(expectedSineOfSumOfValues, actualSineOfSumOfValues);
     EXPECT_EQ(expectedSineOfDifferenceOfValues, actualSineOfDifferenceOfValues);
+
+    SubstitutionOfVariablesToValues substitution;
+    substitution.putVariableWithValue("x", getPi()/12);
+    substitution.putVariableWithValue("y", getPi()/12);
+    EXPECT_EQ(Term(AlbaNumber::createFraction(1, 2)), substitution.performSubstitutionTo(actualSineOfSumOfValues));
+    EXPECT_EQ(Term(Constant(0)), substitution.performSubstitutionTo(actualSineOfDifferenceOfValues));
 }
 
-TEST(TrigonometricEquationsTest, GetCosineOfSumOrDifferenceOfTwoVariablesWorks){
+TEST(TrigonometricEquationsTest, GetCosineOfSumOrDifferenceOfTwoVariablesWorks)
+{
     Term x("x");
     Term y("y");
 
@@ -195,9 +219,16 @@ TEST(TrigonometricEquationsTest, GetCosineOfSumOrDifferenceOfTwoVariablesWorks){
     Term expectedCosineOfDifferenceOfValues(createExpressionIfPossible({Term(firstPart), Term("+"), Term(secondPart)}));
     EXPECT_EQ(expectedCosineOfSumOfValues, actualCosineOfSumOfValues);
     EXPECT_EQ(expectedCosineOfDifferenceOfValues, actualCosineOfDifferenceOfValues);
+
+    SubstitutionOfVariablesToValues substitution;
+    substitution.putVariableWithValue("x", getPi()/6);
+    substitution.putVariableWithValue("y", getPi()/6);
+    EXPECT_EQ(Term(AlbaNumber::createFraction(1, 2)), substitution.performSubstitutionTo(actualCosineOfSumOfValues));
+    EXPECT_EQ(Term(1), substitution.performSubstitutionTo(actualCosineOfDifferenceOfValues));
 }
 
-TEST(TrigonometricEquationsTest, GetTangentOfSumOrDifferenceOfTwoVariablesWorks){
+TEST(TrigonometricEquationsTest, GetTangentOfSumOrDifferenceOfTwoVariablesWorks)
+{
     Term x("x");
     Term y("y");
 
@@ -206,13 +237,20 @@ TEST(TrigonometricEquationsTest, GetTangentOfSumOrDifferenceOfTwoVariablesWorks)
 
     Expression numeratorSum(createExpressionIfPossible({Term(tan(x)), Term("+"), Term(tan(y))}));
     Expression denominatorSum(createExpressionIfPossible(
-    {Term(1), Term("-"), Term(createExpressionIfPossible({Term(tan(x)), Term("*"), Term(tan(y))}))}));    Expression numeratorDifference(createExpressionIfPossible({Term(tan(x)), Term("-"), Term(tan(y))}));
+    {Term(1), Term("-"), Term(createExpressionIfPossible({Term(tan(x)), Term("*"), Term(tan(y))}))}));
+    Expression numeratorDifference(createExpressionIfPossible({Term(tan(x)), Term("-"), Term(tan(y))}));
     Expression denominatorDifference(createExpressionIfPossible(
     {Term(1), Term("+"), Term(createExpressionIfPossible({Term(tan(x)), Term("*"), Term(tan(y))}))}));
     Term expectedTangentOfSumOfValues(createExpressionIfPossible({Term(numeratorSum), Term("/"), Term(denominatorSum)}));
     Term expectedTangentOfDifferenceOfValues(createExpressionIfPossible({Term(numeratorDifference), Term("/"), Term(denominatorDifference)}));
     EXPECT_EQ(expectedTangentOfSumOfValues, actualTangentOfSumOfValues);
     EXPECT_EQ(expectedTangentOfDifferenceOfValues, actualTangentOfDifferenceOfValues);
+
+    SubstitutionOfVariablesToValues substitution;
+    substitution.putVariableWithValue("x", getPi()/8);
+    substitution.putVariableWithValue("y", getPi()/8);
+    EXPECT_EQ(Term(1), substitution.performSubstitutionTo(actualTangentOfSumOfValues));
+    EXPECT_EQ(Term(Constant(0)), substitution.performSubstitutionTo(actualTangentOfDifferenceOfValues));
 }
 
 TEST(TrigonometricEquationsTest, GetSineOfDoubledValueWorks)
@@ -223,6 +261,10 @@ TEST(TrigonometricEquationsTest, GetSineOfDoubledValueWorks)
 
     Term expectedSineOfDoubledValue(createExpressionIfPossible({Term(2), Term("*"), Term(sin(x)), Term("*"), Term(cos(x))}));
     EXPECT_EQ(expectedSineOfDoubledValue, actualSineOfDoubledValue);
+
+    SubstitutionOfVariablesToValues substitution;
+    substitution.putVariableWithValue("x", getPi()/12);
+    EXPECT_EQ(Term(AlbaNumber::createFraction(1, 2)), substitution.performSubstitutionTo(actualSineOfDoubledValue));
 }
 
 TEST(TrigonometricEquationsTest, GetCosineOfDoubledValueWorks)
@@ -233,6 +275,10 @@ TEST(TrigonometricEquationsTest, GetCosineOfDoubledValueWorks)
 
     Term expectedCosineOfDoubledValue(createExpressionIfPossible({getCosineSquared(x), Term("-"), getSineSquared(x)}));
     EXPECT_EQ(expectedCosineOfDoubledValue, actualCosineOfDoubledValue);
+
+    SubstitutionOfVariablesToValues substitution;
+    substitution.putVariableWithValue("x", getPi()/6);
+    EXPECT_EQ(Term(AlbaNumber::createFraction(1, 2)), substitution.performSubstitutionTo(actualCosineOfDoubledValue));
 }
 
 TEST(TrigonometricEquationsTest, GetTangentOfDoubledValueWorks)
@@ -245,6 +291,10 @@ TEST(TrigonometricEquationsTest, GetTangentOfDoubledValueWorks)
     Term expectedDenominator(createExpressionIfPossible({Term(1), Term("-"), getTangentSquared(x)}));
     Term expectedTangentOfDoubledValue(createExpressionIfPossible({expectedNumerator, Term("/"), expectedDenominator}));
     EXPECT_EQ(expectedTangentOfDoubledValue, actualTangentOfDoubledValue);
+
+    SubstitutionOfVariablesToValues substitution;
+    substitution.putVariableWithValue("x", getPi()/8);
+    EXPECT_EQ(Term(1), substitution.performSubstitutionTo(expectedTangentOfDoubledValue));
 }
 
 TEST(TrigonometricEquationsTest, GetSineOfHalvedValueWorks)
@@ -253,11 +303,18 @@ TEST(TrigonometricEquationsTest, GetSineOfHalvedValueWorks)
 
     Term actualPositiveRoot(getSineOfHalvedValue(x, true));
     Term actualNegativeRoot(getSineOfHalvedValue(x, false));
+
     Term numerator(createExpressionIfPossible({Term(1), Term("-"), Term(cos(x))}));
     Term squaredValue(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
-    Term expectedPositiveRoot(createExpressionIfPossible({squaredValue, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));    Term expectedNegativeRoot(createExpressionIfPossible({Term(-1), Term("*"), Term(expectedPositiveRoot)}));
+    Term expectedPositiveRoot(createExpressionIfPossible({squaredValue, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term expectedNegativeRoot(createExpressionIfPossible({Term(-1), Term("*"), Term(expectedPositiveRoot)}));
     EXPECT_EQ(expectedPositiveRoot, actualPositiveRoot);
     EXPECT_EQ(expectedNegativeRoot, actualNegativeRoot);
+
+    SubstitutionOfVariablesToValues substitution;
+    substitution.putVariableWithValue("x", getPi()/3);
+    EXPECT_EQ(Term(AlbaNumber::createFraction(1, 2)), substitution.performSubstitutionTo(actualPositiveRoot));
+    EXPECT_EQ(Term(AlbaNumber::createFraction(-1, 2)), substitution.performSubstitutionTo(actualNegativeRoot));
 }
 
 TEST(TrigonometricEquationsTest, GetCosineOfHalvedValueWorks)
@@ -266,11 +323,18 @@ TEST(TrigonometricEquationsTest, GetCosineOfHalvedValueWorks)
 
     Term actualPositiveRoot(getCosineOfHalvedValue(x, true));
     Term actualNegativeRoot(getCosineOfHalvedValue(x, false));
+
     Term numerator(createExpressionIfPossible({Term(1), Term("+"), Term(cos(x))}));
     Term squaredValue(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
-    Term expectedPositiveRoot(createExpressionIfPossible({squaredValue, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));    Term expectedNegativeRoot(createExpressionIfPossible({Term(-1), Term("*"), Term(expectedPositiveRoot)}));
+    Term expectedPositiveRoot(createExpressionIfPossible({squaredValue, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term expectedNegativeRoot(createExpressionIfPossible({Term(-1), Term("*"), Term(expectedPositiveRoot)}));
     EXPECT_EQ(expectedPositiveRoot, actualPositiveRoot);
     EXPECT_EQ(expectedNegativeRoot, actualNegativeRoot);
+
+    SubstitutionOfVariablesToValues substitution;
+    substitution.putVariableWithValue("x", getPi()*2/3);
+    EXPECT_EQ(Term(AlbaNumber::createFraction(1, 2)), substitution.performSubstitutionTo(actualPositiveRoot));
+    EXPECT_EQ(Term(AlbaNumber::createFraction(-1, 2)), substitution.performSubstitutionTo(actualNegativeRoot));
 }
 
 }

@@ -33,10 +33,12 @@ Equation getLawOfCosineEquation(
         Term const& oppositeAngleOfSide1);
 Term getSineSquared(Term const& term);
 Term getCosineSquared(Term const& term);
-Term getTangentSquared(Term const& term);Term getSineOfSumOrDifferenceOfTwoVariables(
+Term getTangentSquared(Term const& term);
+Term getSineOfSumOrDifferenceOfTwoVariables(
         Term const& term1,
         Operator const& operatorObject,
-        Term const& term2);Term getCosineOfSumOrDifferenceOfTwoVariables(
+        Term const& term2);
+Term getCosineOfSumOrDifferenceOfTwoVariables(
         Term const& term1,
         Operator const& operatorObject,
         Term const& term2);

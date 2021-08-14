@@ -32,6 +32,18 @@ TEST(PolynomialOverPolynomialTest, IsEmptyWorks)
     EXPECT_FALSE(actual4.isEmpty());
 }
 
+TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWorksWithZeroOverDouble)
+{
+    Polynomial numerator(createPolynomialFromConstant(Constant(0)));
+    Polynomial denominator(createPolynomialFromConstant(Constant(1.17157287525381)));
+    PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
+
+    PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(polynomialOverPolynomial.simplifyAndDivide());
+
+    EXPECT_EQ(Polynomial(), quotientAndRemainder.quotient);
+    EXPECT_EQ(Polynomial(), quotientAndRemainder.remainder);
+}
+
 TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWorksWithZeroOverZero)
 {
     Polynomial numerator(createPolynomialFromConstant(Constant(0)));
@@ -40,9 +52,8 @@ TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWorksWithZeroOverZero)
 
     PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(polynomialOverPolynomial.simplifyAndDivide());
 
-    Polynomial quotientToExpect;
-    EXPECT_EQ(quotientToExpect, quotientAndRemainder.quotient);
-    EXPECT_TRUE(isNotANumber(quotientAndRemainder.remainder));
+    EXPECT_EQ(Polynomial(), quotientAndRemainder.quotient);
+    EXPECT_EQ(Polynomial(), quotientAndRemainder.remainder);
 }
 
 TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWorksWithNoRemainder)
@@ -85,6 +96,30 @@ TEST(PolynomialOverPolynomialTest, SimplifyAndDivideWorksWithRemainder)
     Polynomial remainderToExpect{Monomial(24, {})};
     EXPECT_EQ(quotientToExpect, quotientAndRemainder.quotient);
     EXPECT_EQ(remainderToExpect, quotientAndRemainder.remainder);
+}
+
+TEST(PolynomialOverPolynomialTest, SimplifyWorksWithZeroOverDouble)
+{
+    Polynomial numerator(createPolynomialFromConstant(Constant(0)));
+    Polynomial denominator(createPolynomialFromConstant(Constant(1.17157287525381)));
+    PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
+
+    polynomialOverPolynomial.simplify();
+
+    EXPECT_EQ(Polynomial(), polynomialOverPolynomial.getNumerator());
+    EXPECT_EQ(createPolynomialFromConstant(1.17157287525381), polynomialOverPolynomial.getDenominator());
+}
+
+TEST(PolynomialOverPolynomialTest, SimplifyWorksWithZeroOverZero)
+{
+    Polynomial numerator(createPolynomialFromConstant(Constant(0)));
+    Polynomial denominator(createPolynomialFromConstant(Constant(0)));
+    PolynomialOverPolynomial polynomialOverPolynomial(numerator, denominator);
+
+    polynomialOverPolynomial.simplify();
+
+    EXPECT_EQ(Polynomial(), polynomialOverPolynomial.getNumerator());
+    EXPECT_EQ(Polynomial(), polynomialOverPolynomial.getDenominator());
 }
 
 TEST(PolynomialOverPolynomialTest, SimplifyWorksOnConvertingFractionCoefficientsToInteger)

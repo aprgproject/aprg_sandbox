@@ -18,6 +18,8 @@ Polynomial raiseBinomialToAPowerUsingBinomialExpansion(
         Polynomial const& binomial,
         unsigned int const power);
 
+void removeEmptyPolynomials(Polynomials & polynomials);
+
 }
 
 }

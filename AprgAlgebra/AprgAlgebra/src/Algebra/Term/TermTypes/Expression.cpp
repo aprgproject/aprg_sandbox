@@ -469,10 +469,12 @@ void Expression::putTermWithRaiseToPower(BaseTerm const& baseTerm)
         putTermWithRaiseToPowerForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
         break;
     }
-    case OperatorLevel::AdditionAndSubtraction:    case OperatorLevel::MultiplicationAndDivision:
+    case OperatorLevel::AdditionAndSubtraction:
+    case OperatorLevel::MultiplicationAndDivision:
     {
         clearAndPutTermInTermsWithAssociation(Term(Expression(*this)));
-        m_commonOperatorLevel = OperatorLevel::RaiseToPower;        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
+        m_commonOperatorLevel = OperatorLevel::RaiseToPower;
+        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
         break;
     }
     }
@@ -532,10 +534,12 @@ void Expression::putTermWithRaiseToPowerForExpressionAndNonExpressions(
 
 void Expression::putTerm(BaseTerm const& baseTerm, TermAssociationType const overallAssociation)
 {
-    if(TermAssociationType::Positive == overallAssociation)    {
+    if(TermAssociationType::Positive == overallAssociation)
+    {
         m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
     }
-    else if(TermAssociationType::Negative == overallAssociation)    {
+    else if(TermAssociationType::Negative == overallAssociation)
+    {
         m_termsWithAssociation.putTermWithNegativeAssociation(baseTerm);
     }
 }

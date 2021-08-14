@@ -3,8 +3,11 @@
 #include <Algebra/Factorization/Factorization.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
+
+#include <algorithm>
 
 using namespace alba::mathHelper;
 using namespace alba::algebra::Factorization;
@@ -116,14 +119,17 @@ void PolynomialOverPolynomial::removeCommonMonomialOnAllMonomialsInNumeratorAndD
     copy(numeratorMonomials.cbegin(), numeratorMonomials.cend(), back_inserter(numeratorAndDenominatorMonomials));
     copy(denominatorMonomials.cbegin(), denominatorMonomials.cend(), back_inserter(numeratorAndDenominatorMonomials));
     Monomial gcfMonomial(getGcfMonomialInMonomials(numeratorAndDenominatorMonomials));
-    m_numerator.divideMonomial(gcfMonomial);
-    m_denominator.divideMonomial(gcfMonomial);
-    //bool isNumeratorHasNegativeSign = getCommonSignInMonomials(m_numerator.getMonomialsConstReference()) == -1;
-    bool isDenominatorHasNegativeSign = getCommonSignInMonomials(m_denominator.getMonomialsConstReference()) == -1;
-    if(isDenominatorHasNegativeSign)
+    if(!isTheValue(gcfMonomial, 0))
     {
-        m_numerator.divideMonomial(createMonomialFromConstant(-1));
-        m_denominator.divideMonomial(createMonomialFromConstant(-1));
+        m_numerator.divideMonomial(gcfMonomial);
+        m_denominator.divideMonomial(gcfMonomial);
+        //bool isNumeratorHasNegativeSign = getCommonSignInMonomials(m_numerator.getMonomialsConstReference()) == -1;
+        bool isDenominatorHasNegativeSign = getCommonSignInMonomials(m_denominator.getMonomialsConstReference()) == -1;
+        if(isDenominatorHasNegativeSign)
+        {
+            m_numerator.divideMonomial(createMonomialFromConstant(-1));
+            m_denominator.divideMonomial(createMonomialFromConstant(-1));
+        }
     }
 
 }
@@ -132,6 +138,8 @@ void PolynomialOverPolynomial::factorizeRemoveCommonFactorsInNumeratorAndDenomin
 {
     Polynomials numeratorFactors(factorize(m_numerator));
     Polynomials denominatorFactors(factorize(m_denominator));
+    removeEmptyPolynomials(numeratorFactors);
+    removeEmptyPolynomials(denominatorFactors);
     bool areSomeFactorsRemoved(removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(numeratorFactors, denominatorFactors));
     if(areSomeFactorsRemoved)
     {
@@ -187,11 +195,11 @@ bool PolynomialOverPolynomial::removeCommonFactorsAndReturnIfSomeFactorsAreRemov
 {
     bool areSomeFactorsRemoved(false);
     for(Polynomials::iterator numeratorIterator = numeratorFactors.begin();
-        numeratorIterator != numeratorFactors.end();
+        !numeratorFactors.empty() && numeratorIterator != numeratorFactors.end();
         numeratorIterator++)
     {
         for(Polynomials::iterator denominatorIterator = denominatorFactors.begin();
-            denominatorIterator != denominatorFactors.end();
+            !numeratorFactors.empty() && !denominatorFactors.empty() && denominatorIterator != denominatorFactors.end();
             denominatorIterator++)
         {
             Polynomial const& numerator(*numeratorIterator);
@@ -202,8 +210,8 @@ bool PolynomialOverPolynomial::removeCommonFactorsAndReturnIfSomeFactorsAreRemov
                 {
                     numeratorFactors.erase(numeratorIterator);
                     denominatorFactors.erase(denominatorIterator);
-                    numeratorIterator--;
-                    denominatorIterator--;
+                    if(numeratorFactors.begin() != numeratorIterator){numeratorIterator--;}
+                    if(denominatorFactors.begin() != denominatorIterator){denominatorIterator--;}
                     areSomeFactorsRemoved = true;
                 }
             }

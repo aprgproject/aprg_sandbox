@@ -6,6 +6,8 @@
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
+#include <algorithm>
+
 using namespace alba::algebra::Factorization;
 using namespace std;
 
@@ -108,6 +110,14 @@ Polynomial raiseBinomialToAPowerUsingBinomialExpansion(
     return result;
 }
 
+void removeEmptyPolynomials(Polynomials & polynomials)
+{
+    polynomials.erase(remove_if(polynomials.begin(), polynomials.end(), [](
+              Polynomial const& polynomial)
+    {
+        return polynomial.isEmpty();
+    }), polynomials.end());
+}
 
 }
 

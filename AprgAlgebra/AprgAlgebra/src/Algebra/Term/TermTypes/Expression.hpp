@@ -77,9 +77,11 @@ private:
             TermAssociationType const overallAssociation);
     void putTerm(
             BaseTerm const& baseTerm,
-            TermAssociationType const overallAssociation);    void putTermsWithAssociation(
+            TermAssociationType const overallAssociation);
+    void putTermsWithAssociation(
             TermsWithAssociation const& termsWithAssociation,
             TermAssociationType const overallAssociation);
+
     // functions for multiply then add or subtract
     void multiplyThenAddOrSubtract(Polynomial const& polynomial, Expression const& expression);
     void multiplyThenAddOrSubtract(Expression const& expression, Polynomial const& polynomial);
