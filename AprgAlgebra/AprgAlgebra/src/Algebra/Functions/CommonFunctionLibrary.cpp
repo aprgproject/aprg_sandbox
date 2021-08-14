@@ -120,9 +120,20 @@ Function arccot(Term const& term)
     });
 }
 
+Function sinHarmonic(
+        Term const& term,
+        AlbaNumber const& amplitude,
+        AlbaNumber const& period,
+        AlbaNumber const& phaseDifference)
+{
+    return Function("sinHarmonic", term, [&](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return amplitude * ::sin((period*number + phaseDifference).getDouble());
+    });
+}
+
 
 }
 
 }
-
 }

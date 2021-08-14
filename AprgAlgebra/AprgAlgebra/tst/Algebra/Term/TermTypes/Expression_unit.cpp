@@ -811,15 +811,17 @@ TEST(ExpressionTest, PutTermWithRaiseToPowerUsingExpressionWithSameOperationLeve
 
     Expression subExpression1(createExpressionIfPossible({Term(695), Term("+"), Term("interest")}));
     Expression expressionToExpect1(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
-    Expression expressionToExpect2(createExpressionIfPossible({Term(1), Term("^"), Term("x"), Term("^"), Term("y")}));
-    Expression expressionToExpect3(createExpressionIfPossible({Term(695), Term("^"), Term("interest"), Term("^"), Term("x"), Term("^"), Term("y")}));
+    Expression expressionToExpect2(createExpressionIfPossible(
+    {Term(1), Term("^"), Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}))}
+                                       ));
+    Expression expressionToExpect3(createExpressionIfPossible(
+    {Term(695), Term("^"), Term("interest"), Term("^"), Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}))}
+                                       ));
     Expression expressionToExpect4(createExpressionIfPossible({subExpression1, Term("^"), Term("x"), Term("^"), Term("y")}));
     EXPECT_EQ(expressionToExpect1, expression1);
-    EXPECT_EQ(expressionToExpect2, expression2);
-    EXPECT_EQ(expressionToExpect3, expression3);
+    EXPECT_EQ(expressionToExpect2, expression2);    EXPECT_EQ(expressionToExpect3, expression3);
     EXPECT_EQ(expressionToExpect4, expression4);
 }
-
 TEST(ExpressionTest, PutTermWithRaiseToPowerUsingExpressionWithDifferentOperationLevelWorks)
 {
     Expression expression1;
@@ -845,13 +847,36 @@ TEST(ExpressionTest, PutTermWithRaiseToPowerUsingExpressionWithDifferentOperatio
     EXPECT_EQ(expressionToExpect4, expression4);
 }
 
-TEST(ExpressionTest, PutPolynomialFirstWithMultiplicationWorks)
+TEST(ExpressionTest, PutTermWithRaiseToPowerUsingExpressionWithNegativeAssociationExpression)
 {
     Expression expression1;
-    Expression expression2(createExpressionIfPossible({Term(100), Term("+"), Term("a"), Term("-"), Term("b")}));
+    Expression expression2(createOrCopyExpressionFromATerm(Term(Constant(2))));
+    Expression expression3(createExpressionIfPossible({Term(695), Term("^"), Term("interest")}));
+    Expression expression4(createExpressionIfPossible({Term(695), Term("+"), Term("interest")}));
+
+    Expression expressionToApply(createExpressionIfPossible({Term("-"), Term("5")}));
+    expression1.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
+    expression2.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
+    expression3.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
+    expression4.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
+
+    Expression subExpression1(createExpressionIfPossible({Term("-"), Term("5")}));
+    Expression subExpression2(createExpressionIfPossible({Term(695), Term("+"), Term("interest")}));
+    Expression expressionToExpect1(createExpressionIfPossible({Term("-"), Term("5")}));
+    Expression expressionToExpect2(createExpressionIfPossible({Term(2), Term("^"), Term(subExpression1)}));
+    Expression expressionToExpect3(createExpressionIfPossible({Term(695), Term("^"), Term("interest"), Term("^"), Term(subExpression1)}));
+    Expression expressionToExpect4(createExpressionIfPossible({subExpression2, Term("^"), Term(subExpression1)}));
+    EXPECT_EQ(expressionToExpect1, expression1);
+    EXPECT_EQ(expressionToExpect2, expression2);
+    EXPECT_EQ(expressionToExpect3, expression3);
+    EXPECT_EQ(expressionToExpect4, expression4);
+}
+
+TEST(ExpressionTest, PutPolynomialFirstWithMultiplicationWorks)
+{
+    Expression expression1;    Expression expression2(createExpressionIfPossible({Term(100), Term("+"), Term("a"), Term("-"), Term("b")}));
     Expression expression3(createExpressionIfPossible({Term(200), Term("*"), Term("a"), Term("/"), Term("b")}));
     Expression expression4(createExpressionIfPossible({Term("a"), Term("^"), Term("b")}));
-
     Polynomial polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})};
     expression1.putPolynomialFirstWithMultiplication(polynomial);
     expression2.putPolynomialFirstWithMultiplication(polynomial);
@@ -947,22 +972,19 @@ TEST(ExpressionTest, PutExpressionWithMultiplicationWorks)
     Expression subExpression2(createExpressionIfPossible({Term("c"), Term("^"), Term("d")}));
     Expression subExpression3(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
     Expression subExpression4(createExpressionIfPossible({Term("y"), Term("^"), Term("y")}));
-    Expression subExpression5(createExpressionIfPossible({Term("a"), Term("^"), Term("b"), Term("^"), Term("c"), Term("^"), Term("d")}));
     Expression expression1;
     Expression expression2(createExpressionIfPossible({Term(subExpression1), Term("-"), Term(subExpression2)}));
     Expression expression3(createExpressionIfPossible({Term(subExpression1), Term("/"), Term(subExpression2)}));
     Expression expression4(createExpressionIfPossible({Term(subExpression1), Term("^"), Term(subExpression2)}));
     Expression expression5(createExpressionIfPossible({Term(subExpression1), Term("-"), Term(subExpression2)}));
-
     Expression expressionToApply1(createExpressionIfPossible({Term(subExpression3), Term("-"), Term(subExpression4)}));
+
     expression1.putExpressionWithMultiplication(expressionToApply1);
     expression2.putExpressionWithMultiplication(expressionToApply1);
-    expression3.putExpressionWithMultiplication(expressionToApply1);
-    expression4.putExpressionWithMultiplication(expressionToApply1);
+    expression3.putExpressionWithMultiplication(expressionToApply1);    expression4.putExpressionWithMultiplication(expressionToApply1);
     expression5.putExpressionWithMultiplication(subExpression3);
 
-    Expression expressionToExpect1(
-                createExpressionIfPossible(
+    Expression expressionToExpect1(                createExpressionIfPossible(
                     {
                         Term(subExpression3), Term("-"), Term(subExpression4)
                     }));
@@ -980,19 +1002,18 @@ TEST(ExpressionTest, PutExpressionWithMultiplicationWorks)
                         Term(createExpressionIfPossible({Term(subExpression1), Term("/"), Term(subExpression2), Term("*"), Term(subExpression3)})),
                         Term("-"), Term(createExpressionIfPossible({Term(subExpression1), Term("/"), Term(subExpression2), Term("*"), Term(subExpression4)}))
                     }));
+    Expression subExpressionToExpect(createExpressionIfPossible({Term("a"), Term("^"), Term("b"), Term("^"), Term(subExpression2)}));
     Expression expressionToExpect4(
                 createExpressionIfPossible(
                     {
-                        Term(createExpressionIfPossible({Term(subExpression5), Term("*"), Term(subExpression3)})),
-                        Term("-"), Term(createExpressionIfPossible({Term(subExpression5), Term("*"), Term(subExpression4)}))
+                        Term(createExpressionIfPossible({Term(subExpressionToExpect), Term("*"), Term(subExpression3)})),
+                        Term("-"), Term(createExpressionIfPossible({Term(subExpressionToExpect), Term("*"), Term(subExpression4)}))
                     }));
     Expression expressionToExpect5(
-                createExpressionIfPossible(
-                    {
+                createExpressionIfPossible(                    {
                         Term(createExpressionIfPossible({Term(subExpression1), Term("*"), Term(subExpression3)})),
                         Term("-"), Term(createExpressionIfPossible({Term(subExpression2), Term("*"), Term(subExpression3)}))
-                    }));
-    EXPECT_EQ(expressionToExpect1, expression1);
+                    }));    EXPECT_EQ(expressionToExpect1, expression1);
     EXPECT_EQ(expressionToExpect2, expression2);
     EXPECT_EQ(expressionToExpect3, expression3);
     EXPECT_EQ(expressionToExpect4, expression4);
@@ -1212,30 +1233,21 @@ TEST(ExpressionTest, SimplifyWorksOnPutExpressionWithMultiplication)
     Expression subExpression2(createExpressionIfPossible({Term("c"), Term("^"), Term("d")}));
     Expression subExpression3(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
     Expression subExpression4(createExpressionIfPossible({Term("y"), Term("^"), Term("y")}));
-    Expression subExpression5(
-                createExpressionIfPossible(
-                    {
-                        Term("a"), Term("^"), Term(createExpressionIfPossible({Term(Monomial(1, {{"b", 1}, {"c", 1}, {"d", 1}}))}))
-                    }));
     Expression expression1;
     Expression expression2(createExpressionIfPossible({Term(subExpression1), Term("-"), Term(subExpression2)}));
     Expression expression3(createExpressionIfPossible({Term(subExpression1), Term("/"), Term(subExpression2)}));
     Expression expression4(createExpressionIfPossible({Term(subExpression1), Term("^"), Term(subExpression2)}));
-    Expression expression5(createExpressionIfPossible({Term(subExpression1), Term("-"), Term(subExpression2)}));
     Expression expressionToApply1(createExpressionIfPossible({Term(subExpression3), Term("-"), Term(subExpression4)}));
     expression1.putExpressionWithMultiplication(expressionToApply1);
     expression2.putExpressionWithMultiplication(expressionToApply1);
     expression3.putExpressionWithMultiplication(expressionToApply1);
     expression4.putExpressionWithMultiplication(expressionToApply1);
-    expression5.putExpressionWithMultiplication(subExpression3);
 
     expression1.simplify();
-    expression2.simplify();
-    expression3.simplify();
+    expression2.simplify();    expression3.simplify();
     expression4.simplify();
 
-    Expression expressionToExpect1(
-                createExpressionIfPossible(
+    Expression expressionToExpect1(                createExpressionIfPossible(
                     {
                         Term(subExpression3), Term("-"), Term(subExpression4)
                     }));
@@ -1253,31 +1265,25 @@ TEST(ExpressionTest, SimplifyWorksOnPutExpressionWithMultiplication)
                         Term(createExpressionIfPossible({Term(subExpression1), Term("*"), Term(subExpression3), Term("/"), Term(subExpression2)})),
                         Term("-"), Term(createExpressionIfPossible({Term(subExpression1), Term("*"), Term(subExpression4), Term("/"), Term(subExpression2)}))
                     }));
+    Expression subExpressionToExpect1(createExpressionIfPossible({Term("c"), Term("^"), Term("d")}));
+    Expression subExpressionToExpect2(createExpressionIfPossible({Term("b"), Term("*"), Term(subExpressionToExpect1)}));
+    Expression subExpressionToExpect3(createExpressionIfPossible({Term("a"), Term("^"), Term(subExpressionToExpect2)}));
     Expression expressionToExpect4(
                 createExpressionIfPossible(
                     {
-                        Term(createExpressionIfPossible({Term(subExpression5), Term("*"), Term(subExpression3)})),
-                        Term("-"), Term(createExpressionIfPossible({Term(subExpression5), Term("*"), Term(subExpression4)}))
-                    }));
-    Expression expressionToExpect5(
-                createExpressionIfPossible(
-                    {
-                        Term(createExpressionIfPossible({Term(subExpression1), Term("*"), Term(subExpression3)})),
-                        Term("-"), Term(createExpressionIfPossible({Term(subExpression2), Term("*"), Term(subExpression3)}))
+                        Term(createExpressionIfPossible({Term(subExpressionToExpect3), Term("*"), Term(subExpression3)})),
+                        Term("-"), Term(createExpressionIfPossible({Term(subExpressionToExpect3), Term("*"), Term(subExpression4)}))
                     }));
     EXPECT_EQ(expressionToExpect1, expression1);
     EXPECT_EQ(expressionToExpect2, expression2);
     EXPECT_EQ(expressionToExpect3, expression3);
     EXPECT_EQ(expressionToExpect4, expression4);
-    EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, SortWorks)
-{
+TEST(ExpressionTest, SortWorks){
     Expression expression(
                 createExpressionIfPossible(
-                    {
-                        Term("-"), Term(2),
+                    {                        Term("-"), Term(2),
                         Term("-"), Term(3),
                         Term("+"), Term(4),
                         Term("+"), Term(5),

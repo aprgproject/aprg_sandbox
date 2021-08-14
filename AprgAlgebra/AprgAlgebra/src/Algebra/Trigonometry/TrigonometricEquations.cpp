@@ -18,15 +18,69 @@ Equation getSineSquaredPlusCosineSquaredEqualsOne(Term const& term)
     return Equation(leftSideTerm, "=", Term(1));
 }
 
+Equation getSineEquationOfRightTriangle(
+        Term const& angle,
+        Term const& oppositeSideOfAngle,
+        Term const& hypotenuse)
+{
+    Term leftSideTerm(sin(angle));
+    Term rightSideTerm(createExpressionIfPossible({oppositeSideOfAngle, Term("/"), hypotenuse}));
+    return Equation(leftSideTerm, "=", Term(rightSideTerm));
+}
+
+Equation getCosineEquationOfRightTriangle(
+        Term const& angle,
+        Term const& adjacentSideOfAngle,
+        Term const& hypotenuse)
+{
+    Term leftSideTerm(cos(angle));
+    Term rightSideTerm(createExpressionIfPossible({adjacentSideOfAngle, Term("/"), hypotenuse}));
+    return Equation(leftSideTerm, "=", Term(rightSideTerm));
+}
+
+Equation getTangentEquationOfRightTriangle(
+        Term const& angle,
+        Term const& oppositeSideOfAngle,
+        Term const& adjacentSideOfAngle)
+{
+    Term leftSideTerm(tan(angle));
+    Term rightSideTerm(createExpressionIfPossible({oppositeSideOfAngle, Term("/"), adjacentSideOfAngle}));
+    return Equation(leftSideTerm, "=", Term(rightSideTerm));
+}
+
+Equation getLawOfSineEquation(
+        Term const& side1,
+        Term const& oppositeAngleOfSide1,
+        Term const& side2,
+        Term const& oppositeAngleOfSide2)
+{
+    Term leftSideTerm(createExpressionIfPossible({side1, Term("/"), sin(oppositeAngleOfSide1)}));
+    Term rightSideTerm(createExpressionIfPossible({side2, Term("/"), sin(oppositeAngleOfSide2)}));
+    return Equation(leftSideTerm, "=", Term(rightSideTerm));
+}
+
+Equation getLawOfCosineEquation(
+        Term const& side1,
+        Term const& side2,
+        Term const& side3,
+        Term const& oppositeAngleOfSide1)
+{
+    Term side1Squared(createExpressionIfPossible({side1, Term("^"), Term(2)}));
+    Term side2Squared(createExpressionIfPossible({side2, Term("^"), Term(2)}));
+    Term side3Squared(createExpressionIfPossible({side3, Term("^"), Term(2)}));
+    Term cosinePart(createExpressionIfPossible({Term(2), Term("*"), side2, Term("*"), side3, Term("*"), Term(cos(oppositeAngleOfSide1))}));
+    Term leftSideTerm(side1Squared);
+    Term rightSideTerm(createExpressionIfPossible({side2Squared, Term("+"), side3Squared, Term("-"), cosinePart}));
+    return Equation(leftSideTerm, "=", Term(rightSideTerm));
+}
+
 Term getSineSquared(Term const& term)
 {
-    return Term(createExpressionIfPossible({Term(sin(term)), Term("^"), Term(2)}));
-}
+    return Term(createExpressionIfPossible({Term(sin(term)), Term("^"), Term(2)}));}
 
 Term getCosineSquared(Term const& term)
 {
-    return Term(createExpressionIfPossible({Term(cos(term)), Term("^"), Term(2)}));
-}
+    return Term(createExpressionIfPossible({Term(cos(term)), Term("^"), Term(2)}));}
 
 Term getTangentSquared(Term const& term)
 {

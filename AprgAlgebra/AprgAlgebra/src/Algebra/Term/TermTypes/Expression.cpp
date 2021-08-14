@@ -466,15 +466,13 @@ void Expression::putTermWithRaiseToPower(BaseTerm const& baseTerm)
         m_commonOperatorLevel = OperatorLevel::RaiseToPower;
     case OperatorLevel::RaiseToPower:
     {
-        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
+        putTermWithRaiseToPowerForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
         break;
     }
-    case OperatorLevel::AdditionAndSubtraction:
-    case OperatorLevel::MultiplicationAndDivision:
+    case OperatorLevel::AdditionAndSubtraction:    case OperatorLevel::MultiplicationAndDivision:
     {
         clearAndPutTermInTermsWithAssociation(Term(Expression(*this)));
-        m_commonOperatorLevel = OperatorLevel::RaiseToPower;
-        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
+        m_commonOperatorLevel = OperatorLevel::RaiseToPower;        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
         break;
     }
     }
@@ -507,14 +505,37 @@ void Expression::putTermForExpressionAndNonExpressions(
     }
 }
 
+void Expression::putTermWithRaiseToPowerForExpressionAndNonExpressions(
+        BaseTerm const& baseTerm,
+        TermAssociationType const overallAssociation)
+{
+    Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
+    if(term.isExpression())
+    {
+        Expression const & expression(term.getExpressionConstReference());
+        TermsWithAssociation const& termsWithAssociation(expression.getTermsWithAssociation());
+        if(1 == termsWithAssociation.getSize()
+                && TermAssociationType::Positive == termsWithAssociation.getTermsWithDetails().front().association)
+        {
+            putTerm(termsWithAssociation.getFirstTermConstReference(), overallAssociation);
+        }
+        else
+        {
+            putTerm(baseTerm, overallAssociation);
+        }
+    }
+    else if(term.isNonEmptyTermTypeAndNotAnExpression())
+    {
+        putTerm(baseTerm, overallAssociation);
+    }
+}
+
 void Expression::putTerm(BaseTerm const& baseTerm, TermAssociationType const overallAssociation)
 {
-    if(TermAssociationType::Positive == overallAssociation)
-    {
+    if(TermAssociationType::Positive == overallAssociation)    {
         m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
     }
-    else if(TermAssociationType::Negative == overallAssociation)
-    {
+    else if(TermAssociationType::Negative == overallAssociation)    {
         m_termsWithAssociation.putTermWithNegativeAssociation(baseTerm);
     }
 }

@@ -166,15 +166,15 @@ void SimplificationOfExpression::simplifyAndCopyTermsFromAnExpressionAndSetOpera
     OperatorLevel expressionOperatorLevel(expression.getCommonOperatorLevel());
     if(expression.containsOnlyOneTerm()
             || OperatorLevel::Unknown == m_expression.getCommonOperatorLevel()
-            || expressionOperatorLevel == m_expression.getCommonOperatorLevel())
+            || (expressionOperatorLevel == m_expression.getCommonOperatorLevel()
+                && OperatorLevel::AdditionAndSubtraction == m_expression.getCommonOperatorLevel()
+                && OperatorLevel::MultiplicationAndDivision == m_expression.getCommonOperatorLevel()))
     {
         m_expression.setCommonOperatorLevelIfStillUnknown(expression.getCommonOperatorLevel());
-        TermsWithAssociation termsWithAssociation(getTermsWithAssociationAndReverseIfNeeded(expression, association));
-        simplifyAndCopyTerms(termsToUpdate, termsWithAssociation.getTermsWithDetails());
+        TermsWithAssociation termsWithAssociation(getTermsWithAssociationAndReverseIfNeeded(expression, association));        simplifyAndCopyTerms(termsToUpdate, termsWithAssociation.getTermsWithDetails());
     }
     else
-    {
-        termsToUpdate.emplace_back(Term(expression), association);
+    {        termsToUpdate.emplace_back(Term(expression), association);
     }
 }
 
@@ -358,18 +358,12 @@ void SimplificationOfExpression::processAndSaveTermsForRaiseToPower(
         {
             combinedTerm = Term(1);
         }
-        else if(termsToProcess.size() == 2)
-        {
-            accumulateTermsForRaiseToPower(combinedTerm, termsToProcess);
-        }
         else
         {
-            TermsWithDetails exponents(termsToProcess.cbegin()+1, termsToProcess.cend());
-            if(m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue
+            TermsWithDetails exponents(termsToProcess.cbegin()+1, termsToProcess.cend());            if(m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue
                     && didEvenExponentCancellationHappened(exponents))
             {
-                baseOfRaiseToPower=simplifyAndConvertFunctionToSimplestTerm(Functions::abs(createOrCopyExpressionFromATerm(baseOfRaiseToPower)));
-            }
+                baseOfRaiseToPower=simplifyAndConvertFunctionToSimplestTerm(Functions::abs(createOrCopyExpressionFromATerm(baseOfRaiseToPower)));            }
             saveBaseAndExponentsToTerm(combinedTerm, baseOfRaiseToPower, exponents);
         }
         m_expression.setTerm(combinedTerm);
@@ -449,30 +443,33 @@ void SimplificationOfExpression::saveBaseAndExponentsToTerm(
         Term const& baseOfRaiseToPower,
         TermsWithDetails const& exponents)
 {
-    Term exponentTerm;
-    accumulateTermsForMultiplicationAndDivision(exponentTerm, exponents);
-    if(isTheValue(exponentTerm, 0))
+    Term exponentCombinedTerm;
+    accumulateTermsForMultiplicationAndDivision(exponentCombinedTerm, exponents);
+    if(isTheValue(exponentCombinedTerm, 0))
     {
         combinedTerm = Term(1);
     }
-    else if(isTheValue(exponentTerm, 1))
+    else if(isTheValue(exponentCombinedTerm, 1))
     {
         combinedTerm = baseOfRaiseToPower;
+    }
+    else if(canBeConvertedToPolynomial(baseOfRaiseToPower) && exponentCombinedTerm.isConstant())
+    {
+        combinedTerm = baseOfRaiseToPower ^ exponentCombinedTerm;
     }
     else
     {
         Expression raiseToPowerExpression(createOrCopyExpressionFromATerm(baseOfRaiseToPower));
-        raiseToPowerExpression.putTermWithRaiseToPowerIfNeeded(exponentTerm);
+        raiseToPowerExpression.putTermWithRaiseToPowerIfNeeded(exponentCombinedTerm);
         combinedTerm = Term(raiseToPowerExpression);
     }
+
 }
 
-TermsWithAssociation SimplificationOfExpression::getTermsWithAssociationAndReverseIfNeeded(
-        Expression const& expression,
+TermsWithAssociation SimplificationOfExpression::getTermsWithAssociationAndReverseIfNeeded(        Expression const& expression,
         TermAssociationType const association)
 {
-    TermsWithAssociation termsWithAssociation(expression.getTermsWithAssociation());
-    if(TermAssociationType::Negative == association)
+    TermsWithAssociation termsWithAssociation(expression.getTermsWithAssociation());    if(TermAssociationType::Negative == association)
     {
         termsWithAssociation.reverseTheAssociationOfTheTerms();
     }

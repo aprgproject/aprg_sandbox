@@ -134,6 +134,15 @@ TEST(CommonFunctionLibraryTest, ArcCotangentFunctionWorks)
     EXPECT_EQ(AlbaNumber(getPi()/2), arcCotangentFunction.performFunctionAndReturnResultIfPossible());
 }
 
+TEST(CommonFunctionLibraryTest, SineHarmonicFunctionWorks)
+{
+    Function sineFunction(sinHarmonic(Term(getPi()), 4, 2, AlbaNumber(getPi()/2)));
+
+    EXPECT_EQ("sinHarmonic", sineFunction.getFunctionName());
+    EXPECT_EQ(Term(getPi()), getTermConstReferenceFromBaseTerm(sineFunction.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber(4), sineFunction.performFunctionAndReturnResultIfPossible());
+}
+
 }
 
 }

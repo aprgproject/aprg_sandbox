@@ -72,13 +72,14 @@ private:
     void putTermForExpressionAndNonExpressions(
             BaseTerm const& baseTerm,
             TermAssociationType const overallAssociation);
-    void putTerm(
+    void putTermWithRaiseToPowerForExpressionAndNonExpressions(
             BaseTerm const& baseTerm,
             TermAssociationType const overallAssociation);
-    void putTermsWithAssociation(
+    void putTerm(
+            BaseTerm const& baseTerm,
+            TermAssociationType const overallAssociation);    void putTermsWithAssociation(
             TermsWithAssociation const& termsWithAssociation,
             TermAssociationType const overallAssociation);
-
     // functions for multiply then add or subtract
     void multiplyThenAddOrSubtract(Polynomial const& polynomial, Expression const& expression);
     void multiplyThenAddOrSubtract(Expression const& expression, Polynomial const& polynomial);
