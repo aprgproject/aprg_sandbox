@@ -17,4 +17,5 @@ AlbaNumberPairs evaluateAndGetInputOutputPair(
         std::string const& variableName,        Term const& term);
 
 }
+
 }

@@ -246,7 +246,8 @@ TermType Term::getTermType() const
     return m_type;}
 
 Constant const& Term::getConstantConstReference() const
-{    assert(m_type==TermType::Constant);
+{
+    assert(m_type==TermType::Constant);
     return *dynamic_cast<Constant const * const>(m_baseDataTermPointer.get());
 }
 

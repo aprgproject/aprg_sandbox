@@ -5,11 +5,10 @@
 #include <Algebra/Solution/Solver/BaseSolver.hpp>
 #include <Algebra/Term/TermTypes/Polynomial.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
-#include <Math/AlbaMatrix.hpp>
+#include <Math/Matrix/AlbaMatrix.hpp>
 
 namespace alba
 {
-
 namespace algebra
 {
 

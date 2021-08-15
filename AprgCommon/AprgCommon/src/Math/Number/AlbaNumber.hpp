@@ -113,7 +113,8 @@ public:
     bool isFractionType() const;    bool isComplexNumberType() const;
     bool isIntegerOrFractionType() const;
     bool isPositiveInfinity() const;
-    bool isNegativeInfinity() const;    bool isNotANumber() const;
+    bool isNegativeInfinity() const;
+    bool isNotANumber() const;
     bool isAFiniteValue() const;
 
     Type getType() const;

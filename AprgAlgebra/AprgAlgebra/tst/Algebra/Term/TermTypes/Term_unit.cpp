@@ -499,7 +499,8 @@ TEST(TermTest, GetTermTypeWorks)
     Term term1;    Term term2(Constant(0));
     Term term3(Variable("length"));
     Term term4(Operator("+"));
-    Term term5(Monomial(1, {}));    Term term6(Polynomial{});
+    Term term5(Monomial(1, {}));
+    Term term6(Polynomial{});
     Term term7(Expression{});
     Term term8(Function{});
 

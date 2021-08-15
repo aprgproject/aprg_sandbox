@@ -7,11 +7,8 @@
 #include <sstream>
 #include <string>
 
-using namespace alba::mathHelper;
-
 namespace alba
 {
-
 template <typename DataType, unsigned int SIZE>
 class AlbaMathVector
 {
@@ -39,11 +36,14 @@ public:
 
     bool operator==(MathVector const& second) const
     {
-        return std::equal(m_values.cbegin(), m_values.cend(), second.m_values.cbegin());
+        return std::equal(m_values.cbegin(), m_values.cend(), second.m_values.cbegin(),
+                          [](DataType const first, DataType const second)
+        {
+            return mathHelper::isAlmostEqual(first, second);
+        });
     }
 
-    bool operator!=(MathVector const& second) const
-    {
+    bool operator!=(MathVector const& second) const    {
         MathVector const& first(*this);
         return !(first==second);
     }
@@ -174,10 +174,14 @@ public:
         return ss.str();
     }
 
+    Values & getValuesReference()
+    {
+        return m_values;
+    }
+
 private:
     Values m_values;
 };
-
 template <typename DataType, unsigned int SIZE>
 std::ostream & operator<<(std::ostream & out, AlbaMathVector<DataType, SIZE> const& mathVector)
 {

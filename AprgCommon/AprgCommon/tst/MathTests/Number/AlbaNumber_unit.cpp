@@ -1022,7 +1022,8 @@ TEST(AlbaNumberTest, IsIntegerTypeWorks)
     AlbaNumber number1;    AlbaNumber number2(-81237);
     AlbaNumber number3(34095093u);
     AlbaNumber number4(1000000000000000000);
-    AlbaNumber number5(4564.38794);    AlbaNumber number6(AlbaNumber::Value::PositiveInfinity);
+    AlbaNumber number5(4564.38794);
+    AlbaNumber number6(AlbaNumber::Value::PositiveInfinity);
     AlbaNumber number7(AlbaNumber::createFraction(-87408, -9802));
     AlbaNumber number8(AlbaNumber::createFraction(-100, 10));
     AlbaNumber number9(AlbaNumber::createComplexNumber(-4.5, 3.5));

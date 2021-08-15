@@ -14,7 +14,8 @@
 #include <Math/AlbaMathHelper.hpp>
 using namespace alba::mathHelper;
 using namespace std;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
+using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
+using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
@@ -156,7 +157,8 @@ void SimplificationOfExpression::simplifyAndCopyTerms(
         }    }
 }
 
-void SimplificationOfExpression::simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(        TermsWithDetails & termsToUpdate,
+void SimplificationOfExpression::simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
+        TermsWithDetails & termsToUpdate,
         Expression const& expression,
         TermAssociationType const association)
 {

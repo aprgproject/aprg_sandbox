@@ -11,7 +11,8 @@
 #include <algorithm>#include <sstream>
 
 using namespace alba::algebra::Simplification;
-using namespace std;using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
+using namespace std;
+using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
@@ -506,7 +507,8 @@ void Expression::putTermForExpressionAndNonExpressions(
     }}
 
 void Expression::putTermWithRaiseToPowerForExpressionAndNonExpressions(
-        BaseTerm const& baseTerm,        TermAssociationType const overallAssociation)
+        BaseTerm const& baseTerm,
+        TermAssociationType const overallAssociation)
 {
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
     if(term.isExpression())
@@ -529,7 +531,8 @@ void Expression::putTermWithRaiseToPowerForExpressionAndNonExpressions(
     }}
 
 void Expression::putTerm(BaseTerm const& baseTerm, TermAssociationType const overallAssociation)
-{    if(TermAssociationType::Positive == overallAssociation)
+{
+    if(TermAssociationType::Positive == overallAssociation)
     {
         m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
     }

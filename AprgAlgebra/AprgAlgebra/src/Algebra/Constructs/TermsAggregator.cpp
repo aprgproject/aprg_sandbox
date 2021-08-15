@@ -9,6 +9,7 @@
 using namespace std;
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -93,7 +94,8 @@ bool TermsAggregator::combineOpeningClosingOperatorsAtStartEndIndexesAndReturnIf
             Term termBeforeStart;            if(m_startIndex>=1)
             {
                 termBeforeStart = m_terms.at(m_startIndex-1);
-            }            if(m_startIndex>=1 && termBeforeStart.isFunction())
+            }
+            if(m_startIndex>=1 && termBeforeStart.isFunction())
             {
                 Function newFunction(termBeforeStart.getFunctionConstReference());
                 getTermReferenceFromBaseTerm(newFunction.getInputTermReference()) = term2;
@@ -215,7 +217,8 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
             Operator const& operatorTerm(term2.getOperatorConstReference());            if(operatorTerm.isAddition())
             {
                 newExpression.putTermWithAdditionIfNeeded(term3);
-            }            else if(operatorTerm.isSubtraction())
+            }
+            else if(operatorTerm.isSubtraction())
             {
                 newExpression.putTermWithSubtractionIfNeeded(term3);
             }
@@ -253,7 +256,8 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
             Expression newExpression;            Operator const& operatorTerm(term1.getOperatorConstReference());
             if(operatorTerm.isAddition())
             {
-                newExpression.putTermWithAdditionIfNeeded(term2);            }
+                newExpression.putTermWithAdditionIfNeeded(term2);
+            }
             else if(operatorTerm.isSubtraction())
             {
                 newExpression.putTermWithSubtractionIfNeeded(term2);
@@ -280,7 +284,8 @@ bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int 
             eraseAndThenInsert(index-1, index+1, newTerm);            isSimplified=true;
         }
     }
-    return isSimplified;}
+    return isSimplified;
+}
 
 bool TermsAggregator::simplifyUnaryOperationAndReturnIfSimplified(unsigned int const index)
 {
@@ -314,7 +319,8 @@ bool TermsAggregator::hasNoValueBeforeThisIndex(unsigned int const index) const
 }
 void TermsAggregator::eraseAndThenInsert(
         unsigned int const firstIndex,
-        unsigned int const secondIndex,        Term const newTerm)
+        unsigned int const secondIndex,
+        Term const newTerm)
 {
     eraseTermsInclusive(firstIndex, secondIndex);
     insertTerm(firstIndex, newTerm);

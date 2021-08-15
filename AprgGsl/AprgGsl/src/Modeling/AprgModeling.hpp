@@ -1,10 +1,9 @@
 #pragma once
 
-#include <Math/AlbaMatrix.hpp>
+#include <Math/Matrix/AlbaMatrix.hpp>
 
 #include <string>
 #include <vector>
-
 namespace alba
 {
 

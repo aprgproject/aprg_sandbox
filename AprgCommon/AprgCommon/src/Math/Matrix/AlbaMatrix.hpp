@@ -137,10 +137,9 @@ public:
     {
         return std::all_of(m_matrixData.cbegin(), m_matrixData.cend(), [](DataType const& data)
         {
-            return isAlmostEqual(data, static_cast<DataType>(0));
+            return mathHelper::isAlmostEqual(data, static_cast<DataType>(0));
         });
     }
-
     bool isIdentityMatrix() const
     {
         bool isIdentityMatrix(m_numberOfColumns==m_numberOfRows);
@@ -529,11 +528,10 @@ private:
         {
             unsigned int numberOfZeros = std::count_if(rowOrColumn.cbegin(), rowOrColumn.cend(), [](DataType const& value)
             {
-                    return isAlmostEqual(value, 0);
+                    return mathHelper::isAlmostEqual(value, 0);
         });
             if(highestNumberOfZeros < numberOfZeros)
-            {
-                highestNumberOfZeros = numberOfZeros;
+            {                highestNumberOfZeros = numberOfZeros;
                 bestIndex = i;
             }
             i++;
@@ -557,13 +555,12 @@ private:
     {
         DataType value(0);
         DataType entry = getEntry(x,y);
-        if(!isAlmostEqual(entry, 0))
+        if(!mathHelper::isAlmostEqual(entry, 0))
         {
-            int sign = isEven(x+y) ? 1 : -1;
+            int sign = mathHelper::isEven(x+y) ? 1 : -1;
             DataType subDeterminant = getMatrixWithOneColumnAndOneRowRemoved(x,y).getDeterminant();
             value = entry*subDeterminant*sign;
-        }
-        return value;
+        }        return value;
     }
 
     DataType getDeterminantWhenSideIsMoreThan2() const

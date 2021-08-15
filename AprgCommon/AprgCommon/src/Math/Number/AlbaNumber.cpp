@@ -707,7 +707,8 @@ AlbaNumber& AlbaNumber::operator/=(AlbaNumber const& second)
 }
 AlbaNumber AlbaNumber::operator+=(int const integerValue)
 {
-    return operator+=(AlbaNumber(integerValue));}
+    return operator+=(AlbaNumber(integerValue));
+}
 
 AlbaNumber AlbaNumber::operator-=(int const integerValue)
 {
@@ -790,7 +791,8 @@ bool AlbaNumber::isIntegerType() const
 
 bool AlbaNumber::isDoubleType() const
 {
-    return m_type==Type::Double;}
+    return m_type==Type::Double;
+}
 
 bool AlbaNumber::isFractionType() const
 {

@@ -5,11 +5,8 @@
 #include <sstream>
 #include <string>
 
-using namespace alba::mathHelper;
-
 namespace alba
 {
-
 template <typename CoordinateType>
 class AlbaXY
 {
@@ -46,11 +43,10 @@ public:
 
     bool operator==(AlbaXY<CoordinateType> const& xy) const
     {
-        return isAlmostEqual(x, xy.x) && isAlmostEqual(y, xy.y);
+        return mathHelper::isAlmostEqual(x, xy.x) && mathHelper::isAlmostEqual(y, xy.y);
     }
 
-    bool operator!=(AlbaXY<CoordinateType> const& secondXy) const
-    {
+    bool operator!=(AlbaXY<CoordinateType> const& secondXy) const    {
         AlbaXY<CoordinateType> const& firstXy(*this);
         return !(firstXy==secondXy);
     }

@@ -9,6 +9,7 @@ using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;using
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -66,7 +67,8 @@ void segregateNonExpressionsAndExpressions(
         }    }
 }
 
-void segregateTermsWithPositiveAndNegativeAssociations(        TermsWithDetails const& termsToSegregate,
+void segregateTermsWithPositiveAndNegativeAssociations(
+        TermsWithDetails const& termsToSegregate,
         TermsWithDetails & termsWithPositiveAssociation,
         TermsWithDetails & termsWithNegativeAssociation)
 {
