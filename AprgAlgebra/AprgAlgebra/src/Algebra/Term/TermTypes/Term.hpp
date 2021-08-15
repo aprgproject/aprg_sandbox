@@ -48,16 +48,12 @@ public:
     bool isPolynomial() const;
     bool isExpression() const;
     bool isFunction() const;
-    bool isNonEmptyTermType() const;
-    bool isNonEmptyTermTypeAndNotAnExpression() const;
 
     TermType getTermType() const;
-    Constant const& getConstantConstReference() const;
-    Variable const& getVariableConstReference() const;
+    Constant const& getConstantConstReference() const;    Variable const& getVariableConstReference() const;
     Operator const& getOperatorConstReference() const;
     Monomial const& getMonomialConstReference() const;
-    Polynomial const& getPolynomialConstReference() const;
-    Expression const& getExpressionConstReference() const;
+    Polynomial const& getPolynomialConstReference() const;    Expression const& getExpressionConstReference() const;
     Function const& getFunctionConstReference() const;
     std::string getDisplayableString() const override;
     std::string getDebugString() const override;

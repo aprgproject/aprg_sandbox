@@ -494,56 +494,12 @@ TEST(TermTest, IsFunctionWorks)
     EXPECT_TRUE(term8.isFunction());
 }
 
-TEST(TermTest, IsNonEmptyTermTypeWorks)
-{
-    Term term1;
-    Term term2(1);
-    Term term3(Variable("length"));
-    Term term4(Operator("+"));
-    Term term5(Monomial(1, {}));
-    Term term6(Polynomial{});
-    Term term7(Expression{});
-    Term term8(Function{});
-
-    EXPECT_FALSE(term1.isNonEmptyTermType());
-    EXPECT_TRUE(term2.isNonEmptyTermType());
-    EXPECT_TRUE(term3.isNonEmptyTermType());
-    EXPECT_FALSE(term4.isNonEmptyTermType());
-    EXPECT_TRUE(term5.isNonEmptyTermType());
-    EXPECT_TRUE(term6.isNonEmptyTermType());
-    EXPECT_TRUE(term7.isNonEmptyTermType());
-    EXPECT_TRUE(term8.isNonEmptyTermType());
-}
-
-TEST(TermTest, IsNonEmptyTermTypeAndDoesNotHaveAExpressionWorks)
-{
-    Term term1;
-    Term term2(1);
-    Term term3(Variable("length"));
-    Term term4(Operator("+"));
-    Term term5(Monomial(1, {}));
-    Term term6(Polynomial{});
-    Term term7(Expression{});
-    Term term8(Function{});
-
-    EXPECT_FALSE(term1.isNonEmptyTermTypeAndNotAnExpression());
-    EXPECT_TRUE(term2.isNonEmptyTermTypeAndNotAnExpression());
-    EXPECT_TRUE(term3.isNonEmptyTermTypeAndNotAnExpression());
-    EXPECT_FALSE(term4.isNonEmptyTermTypeAndNotAnExpression());
-    EXPECT_TRUE(term5.isNonEmptyTermTypeAndNotAnExpression());
-    EXPECT_TRUE(term6.isNonEmptyTermTypeAndNotAnExpression());
-    EXPECT_FALSE(term7.isNonEmptyTermTypeAndNotAnExpression());
-    EXPECT_TRUE(term8.isNonEmptyTermTypeAndNotAnExpression());
-}
-
 TEST(TermTest, GetTermTypeWorks)
 {
-    Term term1;
-    Term term2(Constant(0));
+    Term term1;    Term term2(Constant(0));
     Term term3(Variable("length"));
     Term term4(Operator("+"));
-    Term term5(Monomial(1, {}));
-    Term term6(Polynomial{});
+    Term term5(Monomial(1, {}));    Term term6(Polynomial{});
     Term term7(Expression{});
     Term term8(Function{});
 

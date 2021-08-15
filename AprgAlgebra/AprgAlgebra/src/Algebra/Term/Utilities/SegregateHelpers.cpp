@@ -2,14 +2,13 @@
 
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 using namespace std;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
-using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
+using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -61,15 +60,13 @@ void segregateNonExpressionsAndExpressions(
         {
             termsWithExpressions.emplace_back(termToSegregate);
         }
-        else if(term.isNonEmptyTermTypeAndNotAnExpression())
+        else if(isNonEmptyOrNonOperatorOrNonExpressionType(term))
         {
             termsWithNonExpressions.emplace_back(termToSegregate);
-        }
-    }
+        }    }
 }
 
-void segregateTermsWithPositiveAndNegativeAssociations(
-        TermsWithDetails const& termsToSegregate,
+void segregateTermsWithPositiveAndNegativeAssociations(        TermsWithDetails const& termsToSegregate,
         TermsWithDetails & termsWithPositiveAssociation,
         TermsWithDetails & termsWithNegativeAssociation)
 {

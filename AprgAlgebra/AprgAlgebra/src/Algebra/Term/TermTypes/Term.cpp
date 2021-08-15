@@ -241,24 +241,12 @@ bool Term::isFunction() const
     return TermType::Function == m_type;
 }
 
-bool Term::isNonEmptyTermType() const
-{
-    return isConstant() || isVariable() || isMonomial() || isPolynomial() || isExpression() || isFunction();
-}
-
-bool Term::isNonEmptyTermTypeAndNotAnExpression() const
-{
-    return isConstant() || isVariable() || isMonomial() || isPolynomial() || isFunction();
-}
-
 TermType Term::getTermType() const
 {
-    return m_type;
-}
+    return m_type;}
 
 Constant const& Term::getConstantConstReference() const
-{
-    assert(m_type==TermType::Constant);
+{    assert(m_type==TermType::Constant);
     return *dynamic_cast<Constant const * const>(m_baseDataTermPointer.get());
 }
 

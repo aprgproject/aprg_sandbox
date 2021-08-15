@@ -50,15 +50,13 @@ private:
     bool buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned int const index);
     bool simplifyBinaryOperationAndReturnIfSimplified(unsigned int const index);
     bool simplifyUnaryOperationAndReturnIfSimplified(unsigned int const index);
-    bool hasNoValueBeforeThisIndex(unsigned int const index);
+    bool hasNoValueBeforeThisIndex(unsigned int const index) const;
 
     void eraseAndThenInsert(
-            unsigned int const firstIndex,
-            unsigned int const secondIndex,
+            unsigned int const firstIndex,            unsigned int const secondIndex,
             Term const newTerm);
     void eraseTermsInclusive(
-            unsigned int const firstIndex,
-            unsigned int const secondIndex);
+            unsigned int const firstIndex,            unsigned int const secondIndex);
     void insertTerm(
             unsigned int const index,
             Term const& term);

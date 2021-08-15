@@ -9,13 +9,12 @@
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
-
 using namespace alba::mathHelper;
 using namespace std;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
-using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
+using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
@@ -151,15 +150,13 @@ void SimplificationOfExpression::simplifyAndCopyTerms(
             Term newTerm(simplifyAndConvertFunctionToSimplestTerm(term.getFunctionConstReference()));
             termsToUpdate.emplace_back(newTerm, termWithDetails.association);
         }
-        else if(term.isNonEmptyTermTypeAndNotAnExpression())
+        else if(isNonEmptyOrNonOperatorOrNonExpressionType(term))
         {
             termsToUpdate.emplace_back(term, termWithDetails.association);
-        }
-    }
+        }    }
 }
 
-void SimplificationOfExpression::simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
-        TermsWithDetails & termsToUpdate,
+void SimplificationOfExpression::simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(        TermsWithDetails & termsToUpdate,
         Expression const& expression,
         TermAssociationType const association)
 {

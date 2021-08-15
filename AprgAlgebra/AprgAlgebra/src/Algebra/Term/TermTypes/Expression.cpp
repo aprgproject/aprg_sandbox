@@ -5,14 +5,13 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/EnumHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
-#include <algorithm>
-#include <sstream>
+#include <algorithm>#include <sstream>
 
 using namespace alba::algebra::Simplification;
-using namespace std;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
+using namespace std;using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
 using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
@@ -501,15 +500,13 @@ void Expression::putTermForExpressionAndNonExpressions(
             }
         }
     }
-    else if(term.isNonEmptyTermTypeAndNotAnExpression())
+    else if(isNonEmptyOrNonOperatorOrNonExpressionType(term))
     {
         putTerm(baseTerm, overallAssociation);
-    }
-}
+    }}
 
 void Expression::putTermWithRaiseToPowerForExpressionAndNonExpressions(
-        BaseTerm const& baseTerm,
-        TermAssociationType const overallAssociation)
+        BaseTerm const& baseTerm,        TermAssociationType const overallAssociation)
 {
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
     if(term.isExpression())
@@ -526,15 +523,13 @@ void Expression::putTermWithRaiseToPowerForExpressionAndNonExpressions(
             putTerm(baseTerm, overallAssociation);
         }
     }
-    else if(term.isNonEmptyTermTypeAndNotAnExpression())
+    else if(isNonEmptyOrNonOperatorOrNonExpressionType(term))
     {
         putTerm(baseTerm, overallAssociation);
-    }
-}
+    }}
 
 void Expression::putTerm(BaseTerm const& baseTerm, TermAssociationType const overallAssociation)
-{
-    if(TermAssociationType::Positive == overallAssociation)
+{    if(TermAssociationType::Positive == overallAssociation)
     {
         m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
     }
