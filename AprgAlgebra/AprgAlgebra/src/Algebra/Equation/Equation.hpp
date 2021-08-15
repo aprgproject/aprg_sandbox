@@ -24,13 +24,12 @@ public:
     bool operator==(Equation const& second) const;
     bool operator!=(Equation const& second) const;
     bool operator<(Equation const& second) const;
+
     bool isEmpty() const;
     bool isEquationSatisfied() const;
-
     EquationOperator const& getEquationOperator() const;
     Term const& getLeftHandTerm() const;
-    Term const& getRightHandTerm() const;
-    std::string getDisplayableString() const;
+    Term const& getRightHandTerm() const;    std::string getDisplayableString() const;
 
     void simplify();
 

@@ -1,12 +1,11 @@
 #include "StringHelpers.hpp"
 
+#include <Algebra/Constructs/TermsAggregator.hpp>
 #include <Algebra/Term/Utilities/EnumHelpers.hpp>
 #include <String/AlbaStringHelper.hpp>
-
 using namespace alba::stringHelper;
 using namespace std;
-using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
+using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
 
 namespace alba
 {
@@ -145,53 +144,66 @@ string createVariableNameForSubstitution(Polynomial const& polynomial)
     return variableName;
 }
 
-Term constructTermFromValueString(string const& valueTerm)
+Term constructTermFromString(string const& valueString)
 {
     Term result;
-    if(isNumber(valueTerm.at(0)))
+    if(!valueString.empty())
     {
-        result = Term(convertStringToAlbaNumber(valueTerm));
-    }
-    else
-    {
-        result = Term(valueTerm);
+        if(isNumber(valueString.at(0)))
+        {
+            result = Term(convertStringToAlbaNumber(valueString));
+        }
+        else
+        {
+            result = Term(valueString);
+        }
     }
     return result;
 }
 
+Term buildTermIfPossible(string const& termString)
+{
+    Term result;
+    TermsAggregator aggregator(tokenizeToTerms(termString));
+    aggregator.simplifyTerms();
+    Terms const& simplifiedTerms(aggregator.getTermsConstReference());
+    if(simplifiedTerms.size() == 1)
+    {
+        result = simplifiedTerms.at(0);
+    }
+    return result;
+}
 Terms tokenizeToTerms(string const& inputString)
 {
     Terms tokenizedTerms;
-    string valueTerm;
+    string valueString;
     for(char const c : inputString)
     {
-        if(!isWhiteSpace(c))
-        {
+        if(!isWhiteSpace(c))        {
             string characterString(1, c);
             if(isOperator(characterString))
             {
-                addValueTermIfNotEmpty(tokenizedTerms, valueTerm);
-                valueTerm.clear();
+                addValueTermIfNotEmpty(tokenizedTerms, valueString);
+                valueString.clear();
                 tokenizedTerms.emplace_back(characterString);
             }
             else
             {
-                valueTerm+=characterString;
+                valueString+=characterString;
             }
         }
     }
-    addValueTermIfNotEmpty(tokenizedTerms, valueTerm);
+    addValueTermIfNotEmpty(tokenizedTerms, valueString);
     return tokenizedTerms;
 }
 
-void addValueTermIfNotEmpty(Terms & terms, string const& valueTerm)
+void addValueTermIfNotEmpty(Terms & terms, string const& valueString)
 {
-    if(!valueTerm.empty())
+    if(!valueString.empty())
     {
-        terms.emplace_back(constructTermFromValueString(valueTerm));
+        terms.emplace_back(constructTermFromString(valueString));
     }
 }
-
 }
 
 }

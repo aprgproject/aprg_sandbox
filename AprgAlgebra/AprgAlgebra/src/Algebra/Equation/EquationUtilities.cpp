@@ -1,26 +1,37 @@
 #include "EquationUtilities.hpp"
 
+#include <Algebra/Equation/EquationBuilder.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
-
 #include <algorithm>
+
+using namespace std;
 
 namespace alba
 {
-
 namespace algebra
 {
 
+bool isEquationOperatorString(string const& stringToCheck)
+{
+    return "=" == stringToCheck || "==" == stringToCheck || "!=" == stringToCheck
+            || "<" == stringToCheck || ">" == stringToCheck || "<=" == stringToCheck || ">=" == stringToCheck;
+}
+
+bool isEquationOperatorCharacterString(string const& stringToCheck)
+{
+    return "=" == stringToCheck || "!" == stringToCheck
+            || "<" == stringToCheck || ">" == stringToCheck;
+}
+
 bool isEqual(Term const& leftTerm, Term const& rightTerm)
 {
-    return leftTerm == rightTerm;
-}
+    return leftTerm == rightTerm;}
 
 bool isNotEqual(Term const& leftTerm, Term const& rightTerm)
 {
-    return leftTerm != rightTerm;
-}
+    return leftTerm != rightTerm;}
 
 bool isLessThan(Term const& leftTerm, Term const& rightTerm)
 {
@@ -95,13 +106,22 @@ bool doesAllEquationsHaveEqualityOperator(Equations const& equations)
     });
 }
 
-VariableNamesSet retrieveAndReturnVariableNames(Equation const& equation)
+string getEquationOperatorCharacters()
 {
-    VariableNamesSet result;
-    retrieveVariableNames(result, equation);
-    return result;
+    return "!=<>";
 }
 
+Equation buildEquationIfPossible(string const& equationString)
+{
+    EquationBuilder builder(equationString);
+    return builder.getEquation();
+}
+
+VariableNamesSet retrieveAndReturnVariableNames(Equation const& equation)
+{
+    VariableNamesSet result;    retrieveVariableNames(result, equation);
+    return result;
+}
 void retrieveVariableNames(VariableNamesSet & variableNames, Equation const& equation)
 {
     retrieveVariableNames(variableNames, equation.getLeftHandTerm());

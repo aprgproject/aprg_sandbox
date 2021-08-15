@@ -89,25 +89,30 @@ TEST(StringHelpersTest, CreateVariableNameForSubstitutionWorks)
     EXPECT_EQ("{(6 + -7[x^2][y^3][z^4])}", createVariableNameForSubstitution(polynomial));
 }
 
-TEST(StringHelpersTest, ConstructTermFromValueStringWorks)
+TEST(StringHelpersTest, ConstructTermFromStringWorks)
 {
-    Term termToVerify1(constructTermFromValueString("5xxx"));
-    Term termToVerify2(constructTermFromValueString("x111"));
+    Term termToVerify1(constructTermFromString("5xxx"));
+    Term termToVerify2(constructTermFromString("x111"));
 
     EXPECT_EQ(TermType::Constant, termToVerify1.getTermType());
-    EXPECT_DOUBLE_EQ(5, termToVerify1.getConstantConstReference().getNumberConstReference().getDouble());
-    EXPECT_EQ(TermType::Variable, termToVerify2.getTermType());
+    EXPECT_DOUBLE_EQ(5, termToVerify1.getConstantConstReference().getNumberConstReference().getDouble());    EXPECT_EQ(TermType::Variable, termToVerify2.getTermType());
     EXPECT_EQ("x111", termToVerify2.getVariableConstReference().getVariableName());
+}
+
+TEST(StringHelpersTest, BuildTermIfPossibleWorks)
+{
+    Term termToVerify(buildTermIfPossible("x^2*y^-3*z^4"));
+
+    Term termToExpect(Monomial(1, {{"x", 2}, {"y", -3}, {"z", 4}}));
+    EXPECT_EQ(termToExpect, termToVerify);
 }
 
 TEST(StringHelpersTest, TokenizeToTermsWorks)
 {
     Terms termsToVerify1(tokenizeToTerms(" 5yyy + x1*y1^20.15"));
-
     ASSERT_EQ(7u, termsToVerify1.size());
     EXPECT_EQ(TermType::Constant, termsToVerify1.at(0).getTermType());
-    EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantConstReference().getNumberConstReference().getDouble());
-    EXPECT_EQ(TermType::Operator, termsToVerify1.at(1).getTermType());
+    EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantConstReference().getNumberConstReference().getDouble());    EXPECT_EQ(TermType::Operator, termsToVerify1.at(1).getTermType());
     EXPECT_EQ("+", termsToVerify1.at(1).getOperatorConstReference().getOperatorString());
     EXPECT_EQ(TermType::Variable, termsToVerify1.at(2).getTermType());
     EXPECT_EQ("x1", termsToVerify1.at(2).getVariableConstReference().getVariableName());
