@@ -1,10 +1,8 @@
-#include <Math/AlbaMathVector.hpp>
+#include <Math/Vector/AlbaMathVector.hpp>
 
 #include <gtest/gtest.h>
-
 namespace alba
 {
-
 TEST(AlbaMathVectorTest, ConstructionWorks)
 {
     AlbaMathVector<double, 2> mathVector1;

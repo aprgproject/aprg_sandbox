@@ -1,11 +1,9 @@
-#include <Math/AlbaMatrix.hpp>
+#include <Math/Matrix/AlbaMatrix.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedByDefaultConstructor)
 {

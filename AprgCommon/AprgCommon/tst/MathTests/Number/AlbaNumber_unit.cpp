@@ -911,14 +911,118 @@ TEST(AlbaNumberTest, RaisePowerWorksOnTypesStartingFromComplexNumber)
     EXPECT_EQ(0ll, number4.getInteger());
 }
 
+TEST(AlbaNumberTest, OperatorAdditionAssignmentWorks)
+{
+    AlbaNumber number1(4506);
+    AlbaNumber number2(4506);
+    AlbaNumber number3(4506);
+    AlbaNumber number4(4506);
+    AlbaNumber number5(4506);
+
+    number1 += AlbaNumber(2);
+    number2 += -2;
+    number3 += 3u;
+    number4 += 1000000000000000000ll;
+    number5 += 2.2;
+
+    EXPECT_EQ(AlbaNumber::Type::Integer, number1.getType());
+    EXPECT_EQ(4508, number1.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Integer, number2.getType());
+    EXPECT_EQ(4504, number2.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Integer, number3.getType());
+    EXPECT_EQ(4509, number3.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Integer, number4.getType());
+    EXPECT_EQ(1000000000000004506, number4.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Double, number5.getType());
+    EXPECT_DOUBLE_EQ(4508.2, number5.getDouble());
+}
+
+TEST(AlbaNumberTest, OperatorSubtractionAssignmentWorks)
+{
+    AlbaNumber number1(4506);
+    AlbaNumber number2(4506);
+    AlbaNumber number3(4506);
+    AlbaNumber number4(4506);
+    AlbaNumber number5(4506);
+
+    number1 -= AlbaNumber(2);
+    number2 -= -2;
+    number3 -= 3u;
+    number4 -= 10000ll;
+    number5 -= 2.2;
+
+    EXPECT_EQ(AlbaNumber::Type::Integer, number1.getType());
+    EXPECT_EQ(4504, number1.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Integer, number2.getType());
+    EXPECT_EQ(4508, number2.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Integer, number3.getType());
+    EXPECT_EQ(4503, number3.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Integer, number4.getType());
+    EXPECT_EQ(-5494, number4.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Double, number5.getType());
+    EXPECT_DOUBLE_EQ(4503.8, number5.getDouble());
+}
+
+TEST(AlbaNumberTest, OperatorMultiplicationAssignmentWorks)
+{
+    AlbaNumber number1(4506);
+    AlbaNumber number2(4506);
+    AlbaNumber number3(4506);
+    AlbaNumber number4(4506);
+    AlbaNumber number5(4506);
+
+    number1 *= AlbaNumber(2);
+    number2 *= -2;
+    number3 *= 3u;
+    number4 *= 10000ll;
+    number5 *= 2.2;
+
+    EXPECT_EQ(AlbaNumber::Type::Integer, number1.getType());
+    EXPECT_EQ(9012, number1.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Integer, number2.getType());
+    EXPECT_EQ(-9012, number2.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Integer, number3.getType());
+    EXPECT_EQ(13518, number3.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Integer, number4.getType());
+    EXPECT_EQ(45060000, number4.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Double, number5.getType());
+    EXPECT_DOUBLE_EQ(9913.2, number5.getDouble());
+}
+
+TEST(AlbaNumberTest, OperatorDivisionAssignmentWorks)
+{
+    AlbaNumber number1(4506);
+    AlbaNumber number2(4506);
+    AlbaNumber number3(4506);
+    AlbaNumber number4(4506);
+    AlbaNumber number5(4506);
+
+    number1 /= AlbaNumber(2);
+    number2 /= -2;
+    number3 /= 3u;
+    number4 /= 10000ll;
+    number5 /= 2.2;
+
+    EXPECT_EQ(AlbaNumber::Type::Integer, number1.getType());
+    EXPECT_EQ(2253, number1.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Integer, number2.getType());
+    EXPECT_EQ(-2253, number2.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Integer, number3.getType());
+    EXPECT_EQ(1502, number3.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Fraction, number4.getType());
+    AlbaNumber::FractionData fractionData(number4.getFractionData());
+    EXPECT_EQ(2253, fractionData.numerator);
+    EXPECT_EQ(5000u, fractionData.denominator);
+    EXPECT_EQ(AlbaNumber::Type::Double, number5.getType());
+    EXPECT_DOUBLE_EQ(2048.181818181818, number5.getDouble());
+}
+
 TEST(AlbaNumberTest, IsIntegerTypeWorks)
 {
-    AlbaNumber number1;
-    AlbaNumber number2(-81237);
+    AlbaNumber number1;    AlbaNumber number2(-81237);
     AlbaNumber number3(34095093u);
     AlbaNumber number4(1000000000000000000);
-    AlbaNumber number5(4564.38794);
-    AlbaNumber number6(AlbaNumber::Value::PositiveInfinity);
+    AlbaNumber number5(4564.38794);    AlbaNumber number6(AlbaNumber::Value::PositiveInfinity);
     AlbaNumber number7(AlbaNumber::createFraction(-87408, -9802));
     AlbaNumber number8(AlbaNumber::createFraction(-100, 10));
     AlbaNumber number9(AlbaNumber::createComplexNumber(-4.5, 3.5));
