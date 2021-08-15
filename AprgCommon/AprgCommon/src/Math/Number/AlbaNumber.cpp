@@ -693,18 +693,21 @@ AlbaNumber& AlbaNumber::operator-=(AlbaNumber const& second)
     thisReference = thisReference - second;
     return thisReference;
 }
+
 AlbaNumber& AlbaNumber::operator*=(AlbaNumber const& second)
 {
     AlbaNumber & thisReference(*this);
     thisReference = thisReference * second;
     return thisReference;
 }
+
 AlbaNumber& AlbaNumber::operator/=(AlbaNumber const& second)
 {
     AlbaNumber & thisReference(*this);
     thisReference = thisReference / second;
     return thisReference;
 }
+
 AlbaNumber AlbaNumber::operator+=(int const integerValue)
 {
     return operator+=(AlbaNumber(integerValue));
@@ -787,7 +790,8 @@ AlbaNumber AlbaNumber::operator/=(double const doubleValue)
 
 bool AlbaNumber::isIntegerType() const
 {
-    return m_type==Type::Integer;}
+    return m_type==Type::Integer;
+}
 
 bool AlbaNumber::isDoubleType() const
 {

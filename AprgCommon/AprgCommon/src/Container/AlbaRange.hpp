@@ -8,6 +8,7 @@
 
 namespace alba
 {
+
 enum class AlbaRangeType
 {
     Unknown,
@@ -34,7 +35,8 @@ public:
         , m_intervalMagnitude(mathHelper::getAbsoluteValue(intervalMagnitude))
     {}
 
-    bool isEmpty() const    {
+    bool isEmpty() const
+    {
         return m_startValue==0 && m_endValue==0 && m_intervalMagnitude==0;
     }
 
@@ -113,7 +115,8 @@ public:
         m_intervalMagnitude = mathHelper::getAbsoluteValue(intervalMagnitude);
     }
 
-    void setStartValue(DataType const startValue)    {
+    void setStartValue(DataType const startValue)
+    {
         m_startValue = startValue;
     }
 

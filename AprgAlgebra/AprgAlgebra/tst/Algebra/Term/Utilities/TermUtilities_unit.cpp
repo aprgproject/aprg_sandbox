@@ -53,6 +53,7 @@ TEST(TermUtilitiesTest, IsNonEmptyOrNonOperatorOrNonExpressionTypeWorks)
 TEST(TermUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
 {
     AlbaNumbers inputNumbers{-2,-1,0,1,2};
+
     AlbaNumberPairs inputAndOutputPairs(
                 evaluateAndGetInputOutputPair(
                     inputNumbers,

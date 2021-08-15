@@ -53,7 +53,8 @@ private:
     bool hasNoValueBeforeThisIndex(unsigned int const index) const;
 
     void eraseAndThenInsert(
-            unsigned int const firstIndex,            unsigned int const secondIndex,
+            unsigned int const firstIndex,
+            unsigned int const secondIndex,
             Term const newTerm);
     void eraseTermsInclusive(
             unsigned int const firstIndex,

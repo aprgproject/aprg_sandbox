@@ -243,7 +243,8 @@ bool Term::isFunction() const
 
 TermType Term::getTermType() const
 {
-    return m_type;}
+    return m_type;
+}
 
 Constant const& Term::getConstantConstReference() const
 {

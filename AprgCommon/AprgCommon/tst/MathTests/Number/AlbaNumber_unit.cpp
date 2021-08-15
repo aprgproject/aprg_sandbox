@@ -1019,7 +1019,8 @@ TEST(AlbaNumberTest, OperatorDivisionAssignmentWorks)
 
 TEST(AlbaNumberTest, IsIntegerTypeWorks)
 {
-    AlbaNumber number1;    AlbaNumber number2(-81237);
+    AlbaNumber number1;
+    AlbaNumber number2(-81237);
     AlbaNumber number3(34095093u);
     AlbaNumber number4(1000000000000000000);
     AlbaNumber number5(4564.38794);

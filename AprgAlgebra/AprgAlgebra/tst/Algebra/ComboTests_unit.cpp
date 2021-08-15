@@ -1,10 +1,14 @@
+#include <Algebra/Equation/EquationUtilities.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
+#include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableNonEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::algebra::Simplification;
 using namespace std;
+
 namespace alba
 {
 
@@ -32,7 +36,7 @@ TEST(ComboTest, SimplifyAndSubstitutionWorksUsingExample3)
     EXPECT_EQ(Term(12825), substitution.performSubstitutionTo(term));
 }
 
-TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample4)
+TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample1)
 {
     SubstitutionOfVariablesToValues substitution({{"x", 2}});
     Term term(buildTermIfPossible("(((3*x)/(x-3))-((3*x+2)/(x^2-6*x+9)))*(((x+2)/(x+3))-((x)/(x^2+6*x+9)))"));
@@ -46,5 +50,28 @@ TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample4)
     }
 }
 
+TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample1)
+{
+    OneEquationOneVariableNonEqualitySolver solver;
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("2+3*x<5*x+8")));
+
+    AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
+    ASSERT_EQ(1, acceptedIntervals.size());
+    EXPECT_EQ(AlbaNumberIntervalEndpoint(createOpenEndpoint(-3)), acceptedIntervals.front().getLowerEndpoint());
+    EXPECT_EQ(AlbaNumberIntervalEndpoint(createOpenEndpoint(INFINITY)), acceptedIntervals.front().getHigherEndpoint());
 }
+
+TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample2)
+{
+    OneEquationOneVariableNonEqualitySolver solver;
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("7/x>2")));
+
+    AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
+    ASSERT_EQ(1, acceptedIntervals.size());
+    EXPECT_EQ(AlbaNumberIntervalEndpoint(createOpenEndpoint(0)), acceptedIntervals.front().getLowerEndpoint());
+    EXPECT_EQ(AlbaNumberIntervalEndpoint(createOpenEndpoint(AlbaNumber::createFraction(7, 2))), acceptedIntervals.front().getHigherEndpoint());
+}
+
+}
+
 }

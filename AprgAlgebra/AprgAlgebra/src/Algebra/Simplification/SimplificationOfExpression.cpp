@@ -12,6 +12,7 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
+
 using namespace alba::mathHelper;
 using namespace std;
 using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
@@ -154,7 +155,8 @@ void SimplificationOfExpression::simplifyAndCopyTerms(
         else if(isNonEmptyOrNonOperatorOrNonExpressionType(term))
         {
             termsToUpdate.emplace_back(term, termWithDetails.association);
-        }    }
+        }
+    }
 }
 
 void SimplificationOfExpression::simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(

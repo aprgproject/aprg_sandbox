@@ -9,6 +9,7 @@
 
 namespace alba
 {
+
 template <typename DataType, unsigned int SIZE>
 class AlbaMathVector
 {
@@ -43,7 +44,8 @@ public:
         });
     }
 
-    bool operator!=(MathVector const& second) const    {
+    bool operator!=(MathVector const& second) const
+    {
         MathVector const& first(*this);
         return !(first==second);
     }
@@ -182,6 +184,7 @@ public:
 private:
     Values m_values;
 };
+
 template <typename DataType, unsigned int SIZE>
 std::ostream & operator<<(std::ostream & out, AlbaMathVector<DataType, SIZE> const& mathVector)
 {

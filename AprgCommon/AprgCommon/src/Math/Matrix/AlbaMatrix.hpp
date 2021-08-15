@@ -140,6 +140,7 @@ public:
             return mathHelper::isAlmostEqual(data, static_cast<DataType>(0));
         });
     }
+
     bool isIdentityMatrix() const
     {
         bool isIdentityMatrix(m_numberOfColumns==m_numberOfRows);
@@ -531,7 +532,8 @@ private:
                     return mathHelper::isAlmostEqual(value, 0);
         });
             if(highestNumberOfZeros < numberOfZeros)
-            {                highestNumberOfZeros = numberOfZeros;
+            {
+                highestNumberOfZeros = numberOfZeros;
                 bestIndex = i;
             }
             i++;
@@ -560,7 +562,8 @@ private:
             int sign = mathHelper::isEven(x+y) ? 1 : -1;
             DataType subDeterminant = getMatrixWithOneColumnAndOneRowRemoved(x,y).getDeterminant();
             value = entry*subDeterminant*sign;
-        }        return value;
+        }
+        return value;
     }
 
     DataType getDeterminantWhenSideIsMoreThan2() const

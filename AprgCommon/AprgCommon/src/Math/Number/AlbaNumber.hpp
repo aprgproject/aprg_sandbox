@@ -110,7 +110,8 @@ public:
 
     bool isIntegerType() const;
     bool isDoubleType() const;
-    bool isFractionType() const;    bool isComplexNumberType() const;
+    bool isFractionType() const;
+    bool isComplexNumberType() const;
     bool isIntegerOrFractionType() const;
     bool isPositiveInfinity() const;
     bool isNegativeInfinity() const;

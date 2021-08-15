@@ -8,7 +8,8 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
-#include <algorithm>#include <sstream>
+#include <algorithm>
+#include <sstream>
 
 using namespace alba::algebra::Simplification;
 using namespace std;
@@ -504,7 +505,8 @@ void Expression::putTermForExpressionAndNonExpressions(
     else if(isNonEmptyOrNonOperatorOrNonExpressionType(term))
     {
         putTerm(baseTerm, overallAssociation);
-    }}
+    }
+}
 
 void Expression::putTermWithRaiseToPowerForExpressionAndNonExpressions(
         BaseTerm const& baseTerm,
@@ -528,7 +530,8 @@ void Expression::putTermWithRaiseToPowerForExpressionAndNonExpressions(
     else if(isNonEmptyOrNonOperatorOrNonExpressionType(term))
     {
         putTerm(baseTerm, overallAssociation);
-    }}
+    }
+}
 
 void Expression::putTerm(BaseTerm const& baseTerm, TermAssociationType const overallAssociation)
 {

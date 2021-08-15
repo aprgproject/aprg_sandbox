@@ -3,9 +3,11 @@
 #include <Algebra/Constructs/TermsAggregator.hpp>
 #include <Algebra/Term/Utilities/EnumHelpers.hpp>
 #include <String/AlbaStringHelper.hpp>
+
 using namespace alba::stringHelper;
 using namespace std;
-using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
+using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
+using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
 
 namespace alba
 {
@@ -173,13 +175,15 @@ Term buildTermIfPossible(string const& termString)
     }
     return result;
 }
+
 Terms tokenizeToTerms(string const& inputString)
 {
     Terms tokenizedTerms;
     string valueString;
     for(char const c : inputString)
     {
-        if(!isWhiteSpace(c))        {
+        if(!isWhiteSpace(c))
+        {
             string characterString(1, c);
             if(isOperator(characterString))
             {
@@ -204,6 +208,7 @@ void addValueTermIfNotEmpty(Terms & terms, string const& valueString)
         terms.emplace_back(constructTermFromString(valueString));
     }
 }
+
 }
 
 }

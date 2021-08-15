@@ -50,7 +50,8 @@ public:
     bool isFunction() const;
 
     TermType getTermType() const;
-    Constant const& getConstantConstReference() const;    Variable const& getVariableConstReference() const;
+    Constant const& getConstantConstReference() const;
+    Variable const& getVariableConstReference() const;
     Operator const& getOperatorConstReference() const;
     Monomial const& getMonomialConstReference() const;
     Polynomial const& getPolynomialConstReference() const;

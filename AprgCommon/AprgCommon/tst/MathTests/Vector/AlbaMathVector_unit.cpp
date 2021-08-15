@@ -1,6 +1,7 @@
 #include <Math/Vector/AlbaMathVector.hpp>
 
 #include <gtest/gtest.h>
+
 namespace alba
 {
 
@@ -17,7 +18,8 @@ TEST(AlbaMathVectorTest, ConstructionWorks)
     VectorTwoElements mathVector3{3, 4};
 
     ASSERT_EQ(2u, mathVector1.getSize());
-    EXPECT_DOUBLE_EQ(0, mathVector1.getValueAt(0));    EXPECT_DOUBLE_EQ(0, mathVector1.getValueAt(1));
+    EXPECT_DOUBLE_EQ(0, mathVector1.getValueAt(0));
+    EXPECT_DOUBLE_EQ(0, mathVector1.getValueAt(1));
     ASSERT_EQ(2u, mathVector2.getSize());
     EXPECT_DOUBLE_EQ(6, mathVector2.getValueAt(0));
     EXPECT_DOUBLE_EQ(7, mathVector2.getValueAt(1));
@@ -36,7 +38,8 @@ TEST(AlbaMathVectorTest, OperatorEqualsWorks)
     VectorTwoElements mathVector6{static_cast<double>(1)/3, static_cast<double>(4)/3};
 
     EXPECT_TRUE(mathVector1==mathVector1);
-    EXPECT_TRUE(mathVector1==mathVector2);    EXPECT_FALSE(mathVector1==mathVector3);
+    EXPECT_TRUE(mathVector1==mathVector2);
+    EXPECT_FALSE(mathVector1==mathVector3);
     EXPECT_FALSE(mathVector1==mathVector4);
     EXPECT_FALSE(mathVector1==mathVector5);
     EXPECT_TRUE(mathVector6==mathVector6);
@@ -52,7 +55,8 @@ TEST(AlbaMathVectorTest, OperatorNotEqualsWorks)
     VectorTwoElements mathVector6{static_cast<double>(1)/3, static_cast<double>(4)/3};
 
     EXPECT_FALSE(mathVector1!=mathVector1);
-    EXPECT_FALSE(mathVector1!=mathVector2);    EXPECT_TRUE(mathVector1!=mathVector3);
+    EXPECT_FALSE(mathVector1!=mathVector2);
+    EXPECT_TRUE(mathVector1!=mathVector3);
     EXPECT_TRUE(mathVector1!=mathVector4);
     EXPECT_TRUE(mathVector1!=mathVector5);
     EXPECT_FALSE(mathVector6!=mathVector6);
@@ -68,7 +72,8 @@ TEST(AlbaMathVectorTest, OperatorLessThanWorks)
     VectorTwoElements mathVector6{static_cast<double>(1)/3, static_cast<double>(4)/3};
 
     EXPECT_FALSE(mathVector1<mathVector1);
-    EXPECT_FALSE(mathVector1<mathVector2);    EXPECT_FALSE(mathVector1<mathVector3);
+    EXPECT_FALSE(mathVector1<mathVector2);
+    EXPECT_FALSE(mathVector1<mathVector3);
     EXPECT_TRUE(mathVector1<mathVector4);
     EXPECT_TRUE(mathVector1<mathVector5);
     EXPECT_TRUE(mathVector3<mathVector1);
@@ -167,12 +172,14 @@ TEST(AlbaMathVectorTest, GetSizeWorks)
 
     EXPECT_EQ(2u, mathVector.getSize());
 }
+
 TEST(AlbaMathVectorTest, GetValueAtWorks)
 {
     VectorTwoElements mathVector{3.5, 4.5};
 
     ASSERT_EQ(2u, mathVector.getSize());
-    EXPECT_DOUBLE_EQ(3.5, mathVector.getValueAt(0));    EXPECT_DOUBLE_EQ(4.5, mathVector.getValueAt(1));
+    EXPECT_DOUBLE_EQ(3.5, mathVector.getValueAt(0));
+    EXPECT_DOUBLE_EQ(4.5, mathVector.getValueAt(1));
 }
 
 TEST(AlbaMathVectorTest, GetMagnitudeWorks)
@@ -181,7 +188,8 @@ TEST(AlbaMathVectorTest, GetMagnitudeWorks)
     VectorTwoElements mathVector2{6, 7};
 
     EXPECT_DOUBLE_EQ(5, mathVector1.getMagnitude());
-    EXPECT_DOUBLE_EQ(9.2195444572928871, mathVector2.getMagnitude());}
+    EXPECT_DOUBLE_EQ(9.2195444572928871, mathVector2.getMagnitude());
+}
 
 TEST(AlbaMathVectorTest, GetValuesWorks)
 {
@@ -190,7 +198,8 @@ TEST(AlbaMathVectorTest, GetValuesWorks)
     VectorTwoElements::Values values(mathVector.getValues());
 
     ASSERT_EQ(2u, values.size());
-    EXPECT_DOUBLE_EQ(3.5, values.at(0));    EXPECT_DOUBLE_EQ(4.5, values.at(1));
+    EXPECT_DOUBLE_EQ(3.5, values.at(0));
+    EXPECT_DOUBLE_EQ(4.5, values.at(1));
 }
 
 TEST(AlbaMathVectorTest, GetDisplayableStringWorks)
@@ -199,4 +208,5 @@ TEST(AlbaMathVectorTest, GetDisplayableStringWorks)
 
     EXPECT_EQ("{3.5, 4.5}", mathVector.getDisplayableString());
 }
+
 }
