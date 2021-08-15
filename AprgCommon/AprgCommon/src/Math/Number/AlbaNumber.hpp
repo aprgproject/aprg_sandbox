@@ -87,14 +87,33 @@ public:
     AlbaNumber operator/(double const doubleValue) const;
     AlbaNumber operator^(double const doubleValue) const;
 
+    AlbaNumber& operator+=(AlbaNumber const& second);
+    AlbaNumber& operator-=(AlbaNumber const& second);
+    AlbaNumber& operator*=(AlbaNumber const& second);
+    AlbaNumber& operator/=(AlbaNumber const& second);
+    AlbaNumber operator+=(int const integerValue);
+    AlbaNumber operator-=(int const integerValue);
+    AlbaNumber operator*=(int const integerValue);
+    AlbaNumber operator/=(int const integerValue);
+    AlbaNumber operator+=(unsigned int const integerValue);
+    AlbaNumber operator-=(unsigned int const integerValue);
+    AlbaNumber operator*=(unsigned int const integerValue);
+    AlbaNumber operator/=(unsigned int const integerValue);
+    AlbaNumber operator+=(long long int const integerValue);
+    AlbaNumber operator-=(long long int const integerValue);
+    AlbaNumber operator*=(long long int const integerValue);
+    AlbaNumber operator/=(long long int const integerValue);
+    AlbaNumber operator+=(double const doubleValue);
+    AlbaNumber operator-=(double const doubleValue);
+    AlbaNumber operator*=(double const doubleValue);
+    AlbaNumber operator/=(double const doubleValue);
+
     bool isIntegerType() const;
     bool isDoubleType() const;
-    bool isFractionType() const;
-    bool isComplexNumberType() const;
+    bool isFractionType() const;    bool isComplexNumberType() const;
     bool isIntegerOrFractionType() const;
     bool isPositiveInfinity() const;
-    bool isNegativeInfinity() const;
-    bool isNotANumber() const;
+    bool isNegativeInfinity() const;    bool isNotANumber() const;
     bool isAFiniteValue() const;
 
     Type getType() const;
