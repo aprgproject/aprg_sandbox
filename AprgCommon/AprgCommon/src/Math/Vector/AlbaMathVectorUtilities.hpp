@@ -26,26 +26,27 @@ bool areVectorsParallel(
                 vector1.getMagnitude() * vector2.getMagnitude());
 }
 
+
+// This is always true.
 template <typename DataType, unsigned int SIZE>
 bool isCauchySchwarzInequalitySatisfied(
         AlbaMathVector<DataType, SIZE> const& vector1,
-        AlbaMathVector<DataType, SIZE> const& vector2) // This is always true.
+        AlbaMathVector<DataType, SIZE> const& vector2)
 {
     return getDotProduct(vector1, vector2) <= vector1.getMagnitude() * vector2.getMagnitude();
 }
 
+// This is always true.
 template <typename DataType, unsigned int SIZE>
 bool isTriangleInequalitySatisfied(
         AlbaMathVector<DataType, SIZE> const& vector1,
-        AlbaMathVector<DataType, SIZE> const& vector2) // This is always true.
+        AlbaMathVector<DataType, SIZE> const& vector2)
 {
     return (vector1+vector2).getMagnitude() <= vector1.getMagnitude() + vector2.getMagnitude();
 }
-
 template <typename DataType, unsigned int SIZE>
 AlbaMathVector<DataType, SIZE> createZeroVector()
-{
-    return AlbaMathVector<DataType, SIZE>();
+{    return AlbaMathVector<DataType, SIZE>();
 }
 
 template <typename DataType, unsigned int SIZE>
