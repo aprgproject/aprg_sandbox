@@ -291,42 +291,38 @@ TEST(AlbaMathHelperTest, GetAverageOfTwoNumbersForAlbaNumberWorks)
               getAverageForAlbaNumber(AlbaNumber::createFraction(1, 3), AlbaNumber::createFraction(1, 3)));
 }
 
-TEST(AlbaMathHelperTest, GetQuadraticRealRootsWorks)
+TEST(AlbaMathHelperTest, GetQuadraticWorksWithRealRootsOnlyWithInputHavingRealRoots)
 {
-    AlbaNumbers quadraticRoots(getQuadraticRealRoots(8, 22, 15));
+    AlbaNumbers quadraticRoots(getQuadraticRoots(RootType::RealRootsOnly, 8, 22, 15));
 
     ASSERT_EQ(2u, quadraticRoots.size());
-    EXPECT_EQ(AlbaNumber(-1.25), quadraticRoots.at(0));
-    EXPECT_EQ(AlbaNumber(-1.5), quadraticRoots.at(1));
+    EXPECT_EQ(AlbaNumber(-1.25), quadraticRoots.at(0));    EXPECT_EQ(AlbaNumber(-1.5), quadraticRoots.at(1));
 }
 
-TEST(AlbaMathHelperTest, GetQuadraticRealRootsWorksWithImaginaryRoots)
+TEST(AlbaMathHelperTest, GetQuadraticWorksWithRealRootsOnlyWithInputHavingImaginaryRoots)
 {
-    AlbaNumbers quadraticRoots(getQuadraticRealRoots(1, 0, 4));
+    AlbaNumbers quadraticRoots(getQuadraticRoots(RootType::RealRootsOnly, 1, 0, 4));
 
     EXPECT_TRUE(quadraticRoots.empty());
 }
 
-TEST(AlbaMathHelperTest, GetQuadraticRootsWorks)
+TEST(AlbaMathHelperTest, GetQuadraticWorksWithRealRootsAndImaginaryRootsWithInputHavingRealRoots)
 {
-    AlbaNumbers quadraticRoots(getQuadraticRoots(8, 22, 15));
+    AlbaNumbers quadraticRoots(getQuadraticRoots(RootType::RealRootsAndImaginaryRoots, 8, 22, 15));
 
     ASSERT_EQ(2u, quadraticRoots.size());
-    EXPECT_EQ(AlbaNumber(-1.25), quadraticRoots.at(0));
-    EXPECT_EQ(AlbaNumber(-1.5), quadraticRoots.at(1));
+    EXPECT_EQ(AlbaNumber(-1.25), quadraticRoots.at(0));    EXPECT_EQ(AlbaNumber(-1.5), quadraticRoots.at(1));
 }
 
-TEST(AlbaMathHelperTest, GetQuadraticRootsWorksWithImaginaryRoots)
+TEST(AlbaMathHelperTest, GetQuadraticWorksWithRealRootsAndImaginaryRootsWithInputHavingImaginaryRoots)
 {
-    AlbaNumbers quadraticRoots(getQuadraticRoots(1, 0, 4));
+    AlbaNumbers quadraticRoots(getQuadraticRoots(RootType::RealRootsAndImaginaryRoots, 1, 0, 4));
 
     ASSERT_EQ(2u, quadraticRoots.size());
-    EXPECT_EQ(AlbaNumber::createComplexNumber(0, 2), quadraticRoots.at(0));
-    EXPECT_EQ(AlbaNumber::createComplexNumber(0, -2), quadraticRoots.at(1));
+    EXPECT_EQ(AlbaNumber::createComplexNumber(0, 2), quadraticRoots.at(0));    EXPECT_EQ(AlbaNumber::createComplexNumber(0, -2), quadraticRoots.at(1));
 }
 
-TEST(AlbaMathHelperTest, GetFactorialWorks)
-{
+TEST(AlbaMathHelperTest, GetFactorialWorks){
     EXPECT_EQ(1u, getFactorial(0));
     EXPECT_EQ(1u, getFactorial(1));
     EXPECT_EQ(120u, getFactorial(5));

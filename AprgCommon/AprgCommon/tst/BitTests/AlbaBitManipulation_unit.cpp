@@ -45,14 +45,30 @@ TEST(AlbaBitManipulationTest, ShiftNibblesToTheRightWorks)
     EXPECT_EQ(0xAu, AlbaBitManipulation<unsigned int>::shiftNibblesToTheRight<7>(0xA1000000));
 }
 
+TEST(AlbaBitManipulationTest, ShiftBitsToTheLeftWorks)
+{
+    EXPECT_EQ(0xA1u, AlbaBitManipulation<unsigned int>::shiftBitsToTheLeft<0>(0xA1));
+    EXPECT_EQ(0x508u, AlbaBitManipulation<unsigned int>::shiftBitsToTheLeft<3>(0xA1));
+    EXPECT_EQ(0x14200000u, AlbaBitManipulation<unsigned int>::shiftBitsToTheLeft<21>(0xA1));
+    EXPECT_EQ(0x20000000u, AlbaBitManipulation<unsigned int>::shiftBitsToTheLeft<29>(0xA1));
+    EXPECT_EQ(0x80000000u, AlbaBitManipulation<unsigned int>::shiftBitsToTheLeft<31>(0xA1));
+}
+
+TEST(AlbaBitManipulationTest, ShiftBitsToTheRightWorks)
+{
+    EXPECT_EQ(0xA1000000u, AlbaBitManipulation<unsigned int>::shiftBitsToTheRight<0>(0xA1000000));
+    EXPECT_EQ(0x14200000u, AlbaBitManipulation<unsigned int>::shiftBitsToTheRight<3>(0xA1000000));
+    EXPECT_EQ(0x508u, AlbaBitManipulation<unsigned int>::shiftBitsToTheRight<21>(0xA1000000));
+    EXPECT_EQ(0x5u, AlbaBitManipulation<unsigned int>::shiftBitsToTheRight<29>(0xA1000000));
+    EXPECT_EQ(0x1u, AlbaBitManipulation<unsigned int>::shiftBitsToTheRight<31>(0xA1000000));
+}
+
 TEST(AlbaBitManipulationTest, RotateBitToTheLeftWorks)
 {
-    EXPECT_EQ(0x142u, AlbaBitManipulation<unsigned int>::rotateBitToTheLeft<1>(0xA1));
-    EXPECT_EQ(0xA10u, AlbaBitManipulation<unsigned int>::rotateBitToTheLeft<4>(0xA1));
+    EXPECT_EQ(0x142u, AlbaBitManipulation<unsigned int>::rotateBitToTheLeft<1>(0xA1));    EXPECT_EQ(0xA10u, AlbaBitManipulation<unsigned int>::rotateBitToTheLeft<4>(0xA1));
     EXPECT_EQ(0xA100u, AlbaBitManipulation<unsigned int>::rotateBitToTheLeft<8>(0xA1));
     EXPECT_EQ(0x1000000Au, AlbaBitManipulation<unsigned int>::rotateBitToTheLeft<28>(0xA1));
 }
-
 TEST(AlbaBitManipulationTest, RotateBitToTheRightWorks)
 {
     EXPECT_EQ(0x50800000u, AlbaBitManipulation<unsigned int>::rotateBitToTheRight<1>(0xA1000000));
@@ -161,13 +177,26 @@ TEST(AlbaBitManipulationTest, NibblesAreSuccessfullyObtainedWhenU32IsUsed)
     EXPECT_EQ(0x1u, AlbaBitManipulation<unsigned int>::getNibbleAt<7>(input));
 }
 
-TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU16IsUsed)
+TEST(AlbaBitManipulationTest, BitsAreSuccessfullyObtainedWhenU32IsUsed)
 {
     // Given
-    const short unsigned int input = 0x1234;
+    const unsigned int input = 0x12345678;
 
     // When
 
+    // Then
+    EXPECT_EQ(0x0u, AlbaBitManipulation<unsigned int>::getBitAt<0>(input));
+    EXPECT_EQ(0x1u, AlbaBitManipulation<unsigned int>::getBitAt<3>(input));
+    EXPECT_EQ(0x1u, AlbaBitManipulation<unsigned int>::getBitAt<21>(input));
+    EXPECT_EQ(0x0u, AlbaBitManipulation<unsigned int>::getBitAt<29>(input));
+    EXPECT_EQ(0x0u, AlbaBitManipulation<unsigned int>::getBitAt<31>(input));
+}
+
+TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU16IsUsed)
+{
+    // Given    const short unsigned int input = 0x1234;
+
+    // When
     // Then
     EXPECT_EQ(0x3412u, AlbaBitManipulation<short unsigned int>::swap(input));
 }
