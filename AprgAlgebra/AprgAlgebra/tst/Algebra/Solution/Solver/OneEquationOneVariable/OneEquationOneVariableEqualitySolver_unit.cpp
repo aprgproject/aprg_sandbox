@@ -146,14 +146,26 @@ TEST(OneEquationOneVariableEqualitySolverTest, AbsoluteValueFunctionWithInputExp
     EXPECT_EQ(AlbaNumber(426), acceptedValues.at(1));
 }
 
+TEST(OneEquationOneVariableEqualitySolverTest, TwoAbsoluteValueFunctionsAreSolved)
+{
+    Term functionTerm1(Functions::abs(Polynomial{Monomial(2,{{"x", 1}}), Monomial(-1, {})}));
+    Term functionTerm2(Functions::abs(Polynomial{Monomial(4,{{"x", 1}}), Monomial(3, {})}));
+    OneEquationOneVariableEqualitySolver solver;
+
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(functionTerm1, "=", functionTerm2)));
+
+    AlbaNumbers acceptedValues(solutionSet.getAcceptedValues());
+    ASSERT_EQ(2u, acceptedValues.size());
+    EXPECT_EQ(AlbaNumber(-2), acceptedValues.at(0));
+    EXPECT_EQ(AlbaNumber::createFraction(-1, 3), acceptedValues.at(1));
+}
+
 TEST(OneEquationOneVariableEqualitySolverTest, AdditionFractionsInEquationIsSolved)
 {
-    Polynomial polynomial1{Monomial(2, {{"x", 1}}), Monomial(5, {})};
-    Polynomial polynomial2{Monomial(5, {{"x", 1}})};
+    Polynomial polynomial1{Monomial(2, {{"x", 1}}), Monomial(5, {})};    Polynomial polynomial2{Monomial(5, {{"x", 1}})};
     Polynomial polynomial3{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
     Expression expression1(createExpressionIfPossible({Term(polynomial1), Term("/"), Term(2)}));
-    Expression expression2(createExpressionIfPossible({Term(polynomial2), Term("/"), Term(polynomial3)}));
-    Expression leftHandExpression(createExpressionIfPossible({Term(expression1), Term("-"), Term(expression2)}));
+    Expression expression2(createExpressionIfPossible({Term(polynomial2), Term("/"), Term(polynomial3)}));    Expression leftHandExpression(createExpressionIfPossible({Term(expression1), Term("-"), Term(expression2)}));
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(leftHandExpression), "=", Term("x"))));

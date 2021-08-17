@@ -1,13 +1,12 @@
 #include "BaseOneEquationOneVariableSolver.hpp"
 
+#include <Bit/AlbaBitManipulation.hpp>
 #include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 
 #include <algorithm>
-
 using namespace std;
 
 namespace alba
@@ -63,44 +62,47 @@ void BaseOneEquationOneVariableSolver::calculateForTermAndCheckAbsoluteValueFunc
     }
 }
 
-void BaseOneEquationOneVariableSolver::sortCalculatedValues()
+void BaseOneEquationOneVariableSolver::sortAndRemoveDuplicateCalculatedValues()
 {
     sort(m_calculatedValues.begin(), m_calculatedValues.end());
+    m_calculatedValues.erase(unique(m_calculatedValues.begin(), m_calculatedValues.end()), m_calculatedValues.end());
 }
 
-void BaseOneEquationOneVariableSolver::calculateAndSubstituteAbsoluteValueFunctions(
-        FunctionsSet const& absFunctions,
+void BaseOneEquationOneVariableSolver::calculateAndSubstituteAbsoluteValueFunctions(        FunctionsSet const& absFunctions,
         Term const& term,
         string const& variableName)
 {
-    for(Function const& absFunction : absFunctions)
+    using BitManipulation = AlbaBitManipulation<unsigned int>;
+    unsigned int finalValue = BitManipulation::generateOnesWithNumberOfBits(absFunctions.size());
+    for(unsigned int permutationValue=0; permutationValue<=finalValue; permutationValue++)
     {
-        Term absFunctionTerm(absFunction);
-        SubstitutionOfTermsToTerms substitutionForPositive;
-        Term positiveTerm(absFunction.getInputTermConstReference());
-        substitutionForPositive.putTermToTermMapping(absFunctionTerm, positiveTerm);
-        Term substitutedPositiveTerm(substitutionForPositive.performSubstitutionTo(term));
-        substitutedPositiveTerm.simplify();
-        calculateForTermAndVariable(substitutedPositiveTerm, variableName);
-
-        SubstitutionOfTermsToTerms substitutionForNegative;
-        Term negativeTerm(
-                    createExpressionIfPossible(
+        SubstitutionOfTermsToTerms substitution;
+        auto itFunctionSet = absFunctions.cbegin();
+        for(unsigned int i=0; i<absFunctions.size(); i++)
         {
-                            Term(-1),
-                            Term("*"),
-                            getTermConstReferenceFromBaseTerm(absFunction.getInputTermConstReference())}));
-        substitutionForNegative.putTermToTermMapping(absFunctionTerm, negativeTerm);
-        Term substitutedNegativeTerm(substitutionForNegative.performSubstitutionTo(term));
-        substitutedNegativeTerm.simplify();
-        calculateForTermAndVariable(substitutedNegativeTerm, variableName);
+            bool isBitAsserted(((permutationValue >> i) & 1) != 0);
+            Term termToReplace;
+            Term const& absFunctionTerm(*itFunctionSet);
+            Term const& absFunctionInputTerm(getTermConstReferenceFromBaseTerm(itFunctionSet->getInputTermConstReference()));
+            if(isBitAsserted)
+            {
+                termToReplace = absFunctionInputTerm;
+            }
+            else
+            {
+                termToReplace
+                        = Term(createExpressionIfPossible({Term(-1), Term("*"), absFunctionInputTerm}));
+            }
+            substitution.putTermToTermMapping(absFunctionTerm, termToReplace);
+            itFunctionSet++;
+        }
+        Term termAfterSubstitution(substitution.performSubstitutionTo(term));
+        calculateForTermAndVariable(termAfterSubstitution, variableName);
     }
 }
-
 void BaseOneEquationOneVariableSolver::addValuesToSolutionSetIfNeeded(
         SolutionSet& solutionSet,
-        Term const& term,
-        string const& variableName)
+        Term const& term,        string const& variableName)
 {
     if(!m_calculatedValues.empty() && isACompleteSolution())
     {
