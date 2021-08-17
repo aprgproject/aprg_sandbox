@@ -12,4 +12,5 @@ namespace AlbaBitConstants
     unsigned char const BIT_MASK = 0x01;
     unsigned char const NUMBER_OF_NIBBLES_IN_BYTE = 2;
 }
+
 }

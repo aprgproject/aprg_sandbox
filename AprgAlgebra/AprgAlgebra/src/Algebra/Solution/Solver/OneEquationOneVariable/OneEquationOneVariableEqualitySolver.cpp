@@ -52,9 +52,11 @@ void OneEquationOneVariableEqualitySolver::calculateForEquation(
         addValuesToSolutionSetIfNeeded(solutionSet, nonZeroLeftHandTerm, variableName);
     }
 }
+
 void OneEquationOneVariableEqualitySolver::calculateForTermAndVariable(
         Term const& term,
-        string const& variableName){
+        string const& variableName)
+{
     PolynomialOverPolynomialOptional popOptional(
                 createPolynomialOverPolynomialFromTermIfPossible(term));
     if(popOptional.hasContent())

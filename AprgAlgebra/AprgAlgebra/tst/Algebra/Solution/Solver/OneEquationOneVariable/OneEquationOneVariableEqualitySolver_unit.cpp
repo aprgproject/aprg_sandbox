@@ -162,10 +162,12 @@ TEST(OneEquationOneVariableEqualitySolverTest, TwoAbsoluteValueFunctionsAreSolve
 
 TEST(OneEquationOneVariableEqualitySolverTest, AdditionFractionsInEquationIsSolved)
 {
-    Polynomial polynomial1{Monomial(2, {{"x", 1}}), Monomial(5, {})};    Polynomial polynomial2{Monomial(5, {{"x", 1}})};
+    Polynomial polynomial1{Monomial(2, {{"x", 1}}), Monomial(5, {})};
+    Polynomial polynomial2{Monomial(5, {{"x", 1}})};
     Polynomial polynomial3{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
     Expression expression1(createExpressionIfPossible({Term(polynomial1), Term("/"), Term(2)}));
-    Expression expression2(createExpressionIfPossible({Term(polynomial2), Term("/"), Term(polynomial3)}));    Expression leftHandExpression(createExpressionIfPossible({Term(expression1), Term("-"), Term(expression2)}));
+    Expression expression2(createExpressionIfPossible({Term(polynomial2), Term("/"), Term(polynomial3)}));
+    Expression leftHandExpression(createExpressionIfPossible({Term(expression1), Term("-"), Term(expression2)}));
     OneEquationOneVariableEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(leftHandExpression), "=", Term("x"))));

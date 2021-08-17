@@ -14,14 +14,16 @@ namespace mathHelper
 enum class RootType
 {
     RealRootsOnly,
-    RealRootsAndImaginaryRoots,
+    RealAndImaginaryRoots,
 };
 
 using Integers=std::vector<int>;
 using UnsignedIntegers=std::vector<unsigned int>;
+
 struct FractionDetails
 {
-    int sign;    unsigned int numerator;
+    int sign;
+    unsigned int numerator;
     unsigned int denominator;
 };
 
@@ -76,10 +78,12 @@ AlbaNumber getAverageForAlbaNumber(AlbaNumber const& value1, AlbaNumber const& v
 AlbaNumbers getQuadraticRoots(RootType const rootType, AlbaNumber const& a, AlbaNumber const& b, AlbaNumber const& c);
 
 
-//Combinatorics functionsunsigned int getFactorial(unsigned int const number);
+//Combinatorics functions
+unsigned int getFactorial(unsigned int const number);
 unsigned int getNumberOfPermutations(unsigned int const p, unsigned int const r);
 unsigned int getNumberOfCombinations(unsigned int const p, unsigned int const r);
 unsigned int getValueAtPascalTriangle(unsigned int const rowIndex, unsigned int const columnIndex);
+
 
 //Statistics functions
 double getCumulativeStandardDistributionApproximation(double const value);
