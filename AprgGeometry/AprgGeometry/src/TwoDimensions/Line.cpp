@@ -8,14 +8,13 @@
 #include <cmath>
 #include <iterator>
 
+using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace TwoDimensions
 {
-
 Line::Line()
     : m_type(LineType::Invalid)
     , m_aCoefficient(0)

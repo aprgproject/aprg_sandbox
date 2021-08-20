@@ -27,14 +27,13 @@ bool isOrigin(Point const& point)
 
 bool isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point const& maximumXAndY)
 {
-    return (point.getX() >= minimumXAndY.getX() && point.getY() >= minimumXAndY.getY() && point.getX() <= maximumXAndY.getX() && point.getY() <= maximumXAndY.getY());
+    return (point.getX() >= minimumXAndY.getX() && point.getY() >= minimumXAndY.getY()
+            && point.getX() <= maximumXAndY.getX() && point.getY() <= maximumXAndY.getY());
 }
 
-bool isPointInLine(Point const& point, Line const& line)
-{
+bool isPointInLine(Point const& point, Line const& line){
     return isAlmostEqual(point.getY(), line.calculateYFromX(point.getX()));
 }
-
 bool isCongruent(Triangle const& triangle1, Triangle const& triangle2)
 {
     Dimensionless::Angles anglesInTriangle1(triangle1.getAnglesAtVertices());

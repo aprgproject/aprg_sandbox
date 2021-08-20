@@ -4,24 +4,33 @@
 
 #include <cmath>
 
+using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace TwoDimensions
 {
-
 TEST(CircleTest, EmptyCircle)
 {
     Circle circle;
 
     EXPECT_EQ(Point(0,0), circle.getCenter());
-    EXPECT_EQ(0, circle.getRadius());
-    EXPECT_EQ(0, circle.getArea());
-    EXPECT_EQ(0, circle.getCircumference());
+    EXPECT_DOUBLE_EQ(0, circle.getRadius());
+    EXPECT_DOUBLE_EQ(0, circle.getArea());
+    EXPECT_DOUBLE_EQ(0, circle.getCircumference());
     Points points(circle.getLocus(1));
     ASSERT_TRUE(points.empty());
+}
+
+TEST(CircleTest, CreateCircleFromCoefficients)
+{
+    Circle circle(1, 6, -2, -15);
+
+    EXPECT_EQ(Point(-3,1), circle.getCenter());
+    EXPECT_DOUBLE_EQ(5, circle.getRadius());
+    EXPECT_DOUBLE_EQ(78.539816339744831, circle.getArea());
+    EXPECT_DOUBLE_EQ(31.415926535897931, circle.getCircumference());
 }
 
 TEST(CircleTest, CircleAtOriginWithRadius)
@@ -29,17 +38,15 @@ TEST(CircleTest, CircleAtOriginWithRadius)
     Circle circle(Point(0,0), 3);
 
     EXPECT_EQ(Point(0,0), circle.getCenter());
-    EXPECT_EQ(3, circle.getRadius());
-    EXPECT_EQ(28.274333882308138044, circle.getArea());
-    EXPECT_EQ(18.849555921538758696, circle.getCircumference());
+    EXPECT_DOUBLE_EQ(3, circle.getRadius());
+    EXPECT_DOUBLE_EQ(28.274333882308138044, circle.getArea());
+    EXPECT_DOUBLE_EQ(18.849555921538758696, circle.getCircumference());
     Points points(circle.getLocus(1));
     ASSERT_EQ(20u, points.size());
-    EXPECT_EQ(Point(3,0), points.at(0));
-    EXPECT_EQ(Point(2.8284271247461902909,1), points.at(1));
+    EXPECT_EQ(Point(3,0), points.at(0));    EXPECT_EQ(Point(2.8284271247461902909,1), points.at(1));
     EXPECT_EQ(Point(2.2360679774997898051,2), points.at(2));
     EXPECT_EQ(Point(2,2.2360679774997898051), points.at(3));
-    EXPECT_EQ(Point(1,2.8284271247461902909), points.at(4));
-    EXPECT_EQ(Point(0,3), points.at(5));
+    EXPECT_EQ(Point(1,2.8284271247461902909), points.at(4));    EXPECT_EQ(Point(0,3), points.at(5));
     EXPECT_EQ(Point(-1,2.8284271247461902909), points.at(6));
     EXPECT_EQ(Point(-2,2.2360679774997898051), points.at(7));
     EXPECT_EQ(Point(-2.2360679774997898051,2), points.at(8));

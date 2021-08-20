@@ -27,15 +27,25 @@ Circle::Circle(Point const& center, double const radius)
     , m_radiusSquared(radius*radius)
 {}
 
+Circle::Circle(
+        double const a,
+        double const d,
+        double const e,
+        double const f)
+    : m_center()
+    , m_radius(0)
+    , m_radiusSquared(0)
+{
+    determineAndSaveCenterAndRadiusFromCoefficients(a, d, e, f);
+}
+
 bool Circle::operator==(Circle const& circle) const
 {
-    return (m_center == circle.m_center) && isAlmostEqual(m_radius, circle.m_radius);
-}
+    return (m_center == circle.m_center) && isAlmostEqual(m_radius, circle.m_radius);}
 
 bool Circle::operator!=(Circle const& circle) const
 {
-    return !((*this)==circle);
-}
+    return !((*this)==circle);}
 
 bool Circle::operator<(Circle const& circle) const
 {
@@ -190,14 +200,25 @@ string Circle::getDisplayableString() const
     return ss.str();
 }
 
+void Circle::determineAndSaveCenterAndRadiusFromCoefficients(
+        double const a,
+        double const d,
+        double const e,
+        double const f)
+{
+    double xPart = d/a/2;
+    double yPart = e/a/2;
+    m_center = Point(-xPart, -yPart);
+    m_radius = -(f/a)-pow(xPart, 2)-pow(yPart, 2);
+    m_radiusSquared = pow(m_radius, 2);
+}
+
 Points Circle::getPointsInTraversingXAndY(double const signOfX, double const signOfY, double const interval) const
 {
-    Points result;
-    Points pointsFromTraversingX(getPointsInTraversingX(signOfX, signOfY, interval));
+    Points result;    Points pointsFromTraversingX(getPointsInTraversingX(signOfX, signOfY, interval));
     Points pointsFromTraversingY(getPointsInTraversingY(signOfX, signOfY, interval));
     if(signOfX>0 && signOfY>0)
-    {
-        result = twoDimensionsHelper::getMergedPointsInDecreasingX(pointsFromTraversingX, pointsFromTraversingY);
+    {        result = twoDimensionsHelper::getMergedPointsInDecreasingX(pointsFromTraversingX, pointsFromTraversingY);
     }
     else if(signOfX<0 && signOfY>0)
     {
