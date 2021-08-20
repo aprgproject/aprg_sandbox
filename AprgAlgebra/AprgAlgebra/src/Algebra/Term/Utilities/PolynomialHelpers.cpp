@@ -47,15 +47,13 @@ AlbaNumber getRemainderForOneVariablePolynomialDividedByVariableMinusConstantVal
 }
 
 
-AlbaNumbers getRoots(Polynomial const& polynomial)
+AlbaNumbers getRoots(RootType const rootType, Polynomial const& polynomial)
 {
     AlbaNumbers result;
-    if(doesThePolynomialHaveOnlyOneVariable(polynomial))
-    {
+    if(doesThePolynomialHaveOnlyOneVariable(polynomial))    {
         Polynomial polynomialToFactorize(polynomial);
         Polynomials factorizedPolynomials(factorize(polynomialToFactorize));
-        for(Polynomial const& factorizedPolynomial : factorizedPolynomials)
-        {
+        for(Polynomial const& factorizedPolynomial : factorizedPolynomials)        {
             Monomials const& monomials(factorizedPolynomial.getMonomialsConstReference());
             AlbaNumber maxDegree(factorizedPolynomial.getMaxDegree());
             if(monomials.size() == 1 && maxDegree > 0)
@@ -71,17 +69,26 @@ AlbaNumbers getRoots(Polynomial const& polynomial)
                     AlbaNumber constant(-secondMonomial.getConstantConstReference());
                     constant = constant/firstMonomial.getConstantConstReference();
                     constant = constant^(AlbaNumber(1)/firstMonomial.getMaxExponent());
+
                     if(constant.isAFiniteValue())
                     {
-                        result.emplace_back(constant);
+                        if(RootType::RealAndImaginaryRoots == rootType)
+                        {
+                            result.emplace_back(constant);
+                        }
+                        else if(RootType::RealRootsOnly == rootType)
+                        {
+                            if(!constant.isComplexNumberType())
+                            {
+                                result.emplace_back(constant);
+                            }
+                        }
                     }
                 }
-            }
-        }
+            }        }
     }
     return result;
 }
-
 Polynomial raiseBinomialToAPowerUsingBinomialExpansion(
         Polynomial const& binomial,
         unsigned int const power)
@@ -113,12 +120,11 @@ Polynomial raiseBinomialToAPowerUsingBinomialExpansion(
 void removeEmptyPolynomials(Polynomials & polynomials)
 {
     polynomials.erase(remove_if(polynomials.begin(), polynomials.end(), [](
-              Polynomial const& polynomial)
+                                Polynomial const& polynomial)
     {
-        return polynomial.isEmpty();
-    }), polynomials.end());
+                          return polynomial.isEmpty();
+                      }), polynomials.end());
 }
 
 }
-
 }
