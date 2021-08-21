@@ -16,11 +16,11 @@ namespace algebra
 using FunctionCondition = std::function<bool(Function const&)>;
 using VariableToValueMap = std::map<std::string, AlbaNumber>;
 
-AlbaNumber getCoefficientWithNoVariables(
+AlbaNumber getCoefficientOfMonomialWithNoVariables(
         Polynomial const& polynomial);
-AlbaNumber getCoefficientForVariableOnly(
-        std::string const& variableName,
-        Polynomial const& polynomial);
+AlbaNumber getCoefficientOfMonomialWithVariableOnly(
+        Polynomial const& polynomial,
+        std::string const& variableName);
 VariableToValueMap getCoefficientsForVariablesOnly(
         Polynomial const& polynomial);
 
@@ -40,6 +40,14 @@ void retrieveNumbers(AlbaNumbersSet & numbers, Polynomial const& polynomial);
 void retrieveNumbers(AlbaNumbersSet & numbers, Expression const& expression);
 void retrieveNumbers(AlbaNumbersSet & numbers, Function const& functionObject);
 
+AlbaNumber getFirstCoefficient(Term const& term);
+AlbaNumber getFirstCoefficient(Constant const& constant);
+AlbaNumber getFirstCoefficient(Variable const& variable);
+AlbaNumber getFirstCoefficient(Monomial const& monomial);
+AlbaNumber getFirstCoefficient(Polynomial const& polynomial);
+AlbaNumber getFirstCoefficient(Expression const& expression);
+AlbaNumber getFirstCoefficient(Function const& functionObject);
+
 VariableNamesSet retrieveAndReturnVariableNames(Term const& term);
 void retrieveVariableNames(VariableNamesSet & variableNames, Term const& term);
 void retrieveVariableNames(VariableNamesSet & variableNames, Variable const& variable);
@@ -48,6 +56,11 @@ void retrieveVariableNames(VariableNamesSet & variableNames, Polynomial const& p
 void retrieveVariableNames(VariableNamesSet & variableNames, Expression const& expression);
 void retrieveVariableNames(VariableNamesSet & variableNames, Function const& functionObject);
 void retrieveVariableNames(VariableNamesSet & variableNames, Polynomials const& polynomials);
+
+unsigned int countIndividualTermsAndReturnNumber(Term const& term);
+void countIndividualTerms(unsigned int & count, Term const& term);
+void countIndividualTerms(unsigned int & count, Expression const& expression);
+void countIndividualTerms(unsigned int & count, Function const& functionObject);
 
 FunctionsSet retrieveAndReturnFunctionsWithCondition(Term const& term, FunctionCondition const& isFunctionIncluded);
 void retrieveFunctionsWithCondition(FunctionsSet & functions, Term const& term, FunctionCondition const& isFunctionIncluded);

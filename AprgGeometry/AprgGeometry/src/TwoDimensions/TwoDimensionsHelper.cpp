@@ -31,9 +31,11 @@ bool isInsideTwoPoints(Point const& point, Point const& minimumXAndY, Point cons
             && point.getX() <= maximumXAndY.getX() && point.getY() <= maximumXAndY.getY());
 }
 
-bool isPointInLine(Point const& point, Line const& line){
+bool isPointInLine(Point const& point, Line const& line)
+{
     return isAlmostEqual(point.getY(), line.calculateYFromX(point.getX()));
 }
+
 bool isCongruent(Triangle const& triangle1, Triangle const& triangle2)
 {
     Dimensionless::Angles anglesInTriangle1(triangle1.getAnglesAtVertices());
@@ -286,9 +288,11 @@ Points getIntersectionsOfParabolaAndLine(
     AlbaNumbers xValues(getQuadraticRoots(RootType::RealRootsOnly, AlbaNumber(newA), AlbaNumber(newB), AlbaNumber(newC)));
     for(AlbaNumber const& xValue : xValues)
     {
-        result.emplace_back(xValue.getDouble(), line.calculateYFromX(xValue.getDouble()));    }
+        result.emplace_back(xValue.getDouble(), line.calculateYFromX(xValue.getDouble()));
+    }
     return result;
 }
+
 Point popNearestPoint(Points & points, Point const& point)
 {
     Point result;

@@ -50,10 +50,12 @@ AlbaNumber getRemainderForOneVariablePolynomialDividedByVariableMinusConstantVal
 AlbaNumbers getRoots(RootType const rootType, Polynomial const& polynomial)
 {
     AlbaNumbers result;
-    if(doesThePolynomialHaveOnlyOneVariable(polynomial))    {
+    if(doesThePolynomialHaveOnlyOneVariable(polynomial))
+    {
         Polynomial polynomialToFactorize(polynomial);
         Polynomials factorizedPolynomials(factorize(polynomialToFactorize));
-        for(Polynomial const& factorizedPolynomial : factorizedPolynomials)        {
+        for(Polynomial const& factorizedPolynomial : factorizedPolynomials)
+        {
             Monomials const& monomials(factorizedPolynomial.getMonomialsConstReference());
             AlbaNumber maxDegree(factorizedPolynomial.getMaxDegree());
             if(monomials.size() == 1 && maxDegree > 0)
@@ -85,10 +87,12 @@ AlbaNumbers getRoots(RootType const rootType, Polynomial const& polynomial)
                         }
                     }
                 }
-            }        }
+            }
+        }
     }
     return result;
 }
+
 Polynomial raiseBinomialToAPowerUsingBinomialExpansion(
         Polynomial const& binomial,
         unsigned int const power)
@@ -127,4 +131,5 @@ void removeEmptyPolynomials(Polynomials & polynomials)
 }
 
 }
+
 }

@@ -64,10 +64,12 @@ private:
     void drawConnectedBitmapPointsIfPossible(TwoDimensions::Points const& bitmapPoints, unsigned int const color);
     void drawTermWithXSubstitution(algebra::Term const& term, unsigned int const color);
     void drawTermWithYSubstitution(algebra::Term const& term, unsigned int const color);
-    void drawEquationWithXSubstitution(algebra::Equation const& equation, unsigned int const color);    void drawEquationWithYSubstitution(algebra::Equation const& equation, unsigned int const color);
+    void drawEquationWithXSubstitution(algebra::Equation const& equation, unsigned int const color);
+    void drawEquationWithYSubstitution(algebra::Equation const& equation, unsigned int const color);
     AprgBitmap::Bitmap m_bitmap;
     AprgBitmap::BitmapSnippet m_bitmapSnippet;
-    AprgBitmap::BitmapXY m_originInBitmap;    AprgBitmap::BitmapDoubleXY m_magnification;
+    AprgBitmap::BitmapXY m_originInBitmap;
+    AprgBitmap::BitmapDoubleXY m_magnification;
     double m_lowestInterval;
     TwoDimensions::Point m_realUpLeftPoint;
     TwoDimensions::Point m_realDownRightPoint;

@@ -5,8 +5,10 @@
 using namespace alba::mathHelper;
 using namespace alba::Dimensionless;
 using namespace std;
+
 namespace alba
 {
+
 namespace TwoDimensions
 {
 

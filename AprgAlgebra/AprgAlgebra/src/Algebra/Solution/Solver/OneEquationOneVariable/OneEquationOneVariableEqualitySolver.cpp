@@ -66,10 +66,12 @@ void OneEquationOneVariableEqualitySolver::calculateForTermAndVariable(
         AlbaNumbers denominatorRoots(getRoots(RootType::RealAndImaginaryRoots, pop.getDenominator()));
         m_calculatedValues.reserve(numeratorRoots.size() + denominatorRoots.size());
         copy(numeratorRoots.cbegin(), numeratorRoots.cend(), back_inserter(m_calculatedValues));
-        copy(denominatorRoots.cbegin(), denominatorRoots.cend(), back_inserter(m_calculatedValues));        setAsCompleteSolution();
+        copy(denominatorRoots.cbegin(), denominatorRoots.cend(), back_inserter(m_calculatedValues));
+        setAsCompleteSolution();
     }
     else
-    {        performNewtonMethodToFindSolution(term, variableName);
+    {
+        performNewtonMethodToFindSolution(term, variableName);
     }
 }
 

@@ -7,10 +7,12 @@ using namespace alba::Dimensionless;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace TwoDimensions
 {
+
 template<unsigned int numberOfVertices>
 Polygon<numberOfVertices>::Polygon()
 {}

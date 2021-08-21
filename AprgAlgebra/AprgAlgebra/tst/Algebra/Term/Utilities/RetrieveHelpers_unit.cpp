@@ -9,17 +9,26 @@ namespace alba
 namespace algebra
 {
 
+TEST(RetrieveHelpersTest, GetCoefficientOfMonomialWithNoVariablesWorks)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}})};
+    Polynomial polynomial3{Monomial(587, {{"x", 9}}), Monomial(975, {})};
 
+    EXPECT_EQ(AlbaNumber(0), getCoefficientOfMonomialWithNoVariables(polynomial1));
+    EXPECT_EQ(AlbaNumber(0), getCoefficientOfMonomialWithNoVariables(polynomial2));
+    EXPECT_EQ(AlbaNumber(975), getCoefficientOfMonomialWithNoVariables(polynomial3));
+}
 
-TEST(RetrieveHelpersTest, GetCoefficientForVariableOnlyWorks)
+TEST(RetrieveHelpersTest, GetCoefficientOfMonomialWithVariableOnlyWorks)
 {
     Polynomial polynomial1;
     Polynomial polynomial2{Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}})};
     Polynomial polynomial3{Monomial(587, {{"x", 9}}), Monomial(975, {{"y", 10}})};
 
-    EXPECT_EQ(AlbaNumber(0), getCoefficientForVariableOnly("x", polynomial1));
-    EXPECT_EQ(AlbaNumber(516), getCoefficientForVariableOnly("a", polynomial2));
-    EXPECT_EQ(AlbaNumber(975), getCoefficientForVariableOnly("y", polynomial3));
+    EXPECT_EQ(AlbaNumber(0), getCoefficientOfMonomialWithVariableOnly(polynomial1, "x"));
+    EXPECT_EQ(AlbaNumber(516), getCoefficientOfMonomialWithVariableOnly(polynomial2, "a"));
+    EXPECT_EQ(AlbaNumber(975), getCoefficientOfMonomialWithVariableOnly(polynomial3, "y"));
 }
 
 TEST(RetrieveHelpersTest, RetrieveAndReturnExponentsWorksForTerm)
@@ -250,6 +259,56 @@ TEST(RetrieveHelpersTest, RetrieveNumbersWorksForFunction)
     EXPECT_EQ(AlbaNumber(68), *(it++));
 }
 
+TEST(RetrieveHelpersTest, GetFirstCoefficientWorksForTerm)
+{
+    Function functionObject(
+                "functionName",
+                Term(createExpressionIfPossible({Term(Monomial(45, {{"x", 1}})), Term("^"), Term(68)})),
+                [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return number;
+    });
+
+    EXPECT_EQ(AlbaNumber(1.234), getFirstCoefficient(Term(Constant(1.234))));
+    EXPECT_EQ(AlbaNumber(34), getFirstCoefficient(Term(Monomial(34, {{"x", 1}, {"y", 1}}))));
+    EXPECT_EQ(AlbaNumber(5), getFirstCoefficient(Term(Polynomial({Monomial(5, {{"x", 56}}), Monomial(1, {{"y", 1}})}))));
+    EXPECT_EQ(AlbaNumber(78), getFirstCoefficient(Term(createExpressionIfPossible({Term(Monomial(78, {{"x", 1}})), Term("^"), Term(68)}))));
+    EXPECT_EQ(AlbaNumber(45), getFirstCoefficient(Term(functionObject)));
+}
+
+TEST(RetrieveHelpersTest, GetFirstCoefficientWorksForConstant)
+{
+    EXPECT_EQ(AlbaNumber(1.234), getFirstCoefficient(Constant(1.234)));
+}
+
+TEST(RetrieveHelpersTest, GetFirstCoefficientWorksForMonomial)
+{
+    EXPECT_EQ(AlbaNumber(34), getFirstCoefficient(Monomial(34, {{"x", 1}, {"y", 1}})));
+}
+
+TEST(RetrieveHelpersTest, GetFirstCoefficientWorksForPolynomial)
+{
+    EXPECT_EQ(AlbaNumber(5), getFirstCoefficient(Polynomial({Monomial(5, {{"x", 56}}), Monomial(1, {{"y", 1}})})));
+}
+
+TEST(RetrieveHelpersTest, GetFirstCoefficientWorksForExpression)
+{
+    EXPECT_EQ(AlbaNumber(78), getFirstCoefficient(Term(createExpressionIfPossible({Term(Monomial(78, {{"x", 1}})), Term("^"), Term(68)}))));
+}
+
+TEST(RetrieveHelpersTest, GetFirstCoefficientWorksForFunction)
+{
+    Function functionObject(
+                "functionName",
+                Term(createExpressionIfPossible({Term(Monomial(45, {{"x", 1}})), Term("^"), Term(68)})),
+                [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return number;
+    });
+
+    EXPECT_EQ(AlbaNumber(45), getFirstCoefficient(Term(functionObject)));
+}
+
 TEST(RetrieveHelpersTest, RetrieveAndReturnVariableNamesWorksForTerm)
 {
     VariableNamesSet variableNamesSet(retrieveAndReturnVariableNames(Term(Variable("VariableName"))));
@@ -379,6 +438,76 @@ TEST(RetrieveHelpersTest, RetrieveVariableNamesWorksForPolynomials)
     EXPECT_EQ("b", *(it++));
     EXPECT_EQ("x", *(it++));
     EXPECT_EQ("y", *(it++));
+}
+
+TEST(RetrieveHelpersTest, CountIndividualTermsAndReturnNumberWorksForTerm)
+{
+    Function functionObject(
+                "functionName",
+                Term(createExpressionIfPossible({Term(Monomial(45, {{"x", 1}})), Term("^"), Term(68)})),
+                [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return number;
+    });
+
+    EXPECT_EQ(1, countIndividualTermsAndReturnNumber(Term(Constant(1.234))));
+    EXPECT_EQ(1, countIndividualTermsAndReturnNumber(Term(Monomial(34, {{"x", 1}, {"y", 1}}))));
+    EXPECT_EQ(1, countIndividualTermsAndReturnNumber(Term(Polynomial({Monomial(5, {{"x", 56}}), Monomial(1, {{"y", 1}})}))));
+    EXPECT_EQ(3, countIndividualTermsAndReturnNumber(Term(createExpressionIfPossible({Term(Monomial(78, {{"x", 1}})), Term("^"), Term(68)}))));
+    EXPECT_EQ(4, countIndividualTermsAndReturnNumber(Term(functionObject)));
+}
+
+TEST(RetrieveHelpersTest, CountIndividualTermsWorksForTerm)
+{
+    Function functionObject(
+                "functionName",
+                Term(createExpressionIfPossible({Term(Monomial(45, {{"x", 1}})), Term("^"), Term(68)})),
+                [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return number;
+    });
+    unsigned int count1(0);
+    unsigned int count2(0);
+    unsigned int count3(0);
+    unsigned int count4(0);
+    unsigned int count5(0);
+
+    countIndividualTerms(count1, Term(Constant(1.234)));
+    countIndividualTerms(count2, Term(Monomial(34, {{"x", 1}, {"y", 1}})));
+    countIndividualTerms(count3, Term(Polynomial({Monomial(5, {{"x", 56}}), Monomial(1, {{"y", 1}})})));
+    countIndividualTerms(count4, Term(createExpressionIfPossible({Term(Monomial(78, {{"x", 1}})), Term("^"), Term(68)})));
+    countIndividualTerms(count5, Term(functionObject));
+
+    EXPECT_EQ(1, count1);
+    EXPECT_EQ(1, count2);
+    EXPECT_EQ(1, count3);
+    EXPECT_EQ(3, count4);
+    EXPECT_EQ(4, count5);
+}
+
+TEST(RetrieveHelpersTest, CountIndividualTermsWorksForExpression)
+{
+    unsigned int count(0);
+
+    countIndividualTerms(count, createExpressionIfPossible({Term(Monomial(78, {{"x", 1}})), Term("^"), Term(68)}));
+
+    EXPECT_EQ(2, count);
+}
+
+TEST(RetrieveHelpersTest, CountIndividualTermsWorksForFunction)
+{
+    Function functionObject(
+                "functionName",
+                Term(createExpressionIfPossible({Term(Monomial(45, {{"x", 1}})), Term("^"), Term(68)})),
+                [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return number;
+    });
+    unsigned int count(0);
+
+    countIndividualTerms(count, functionObject);
+
+    EXPECT_EQ(3, count);
 }
 
 TEST(RetrieveHelpersTest, RetrieveAndReturnFunctionsWithConditionWorksForExpression)

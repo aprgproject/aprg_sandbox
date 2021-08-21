@@ -22,7 +22,6 @@ public:
 
 private:
     Expression getNewCombinedExpression(Equation const& equation) const;
-    std::string getNewEquationOperatorString(EquationOperator const& equationOperator) const;
 
     Equation m_equation;
 };

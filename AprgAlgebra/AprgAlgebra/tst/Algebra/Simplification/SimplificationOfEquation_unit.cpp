@@ -33,8 +33,8 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnLessThanOperator)
     simplification.simplify();
 
     Equation simplifiedEquation(simplification.getEquation());
-    EXPECT_EQ(Term(Polynomial({Monomial(-1, {{"x", 1}}), Monomial(1, {{"y", 1}})})), simplifiedEquation.getLeftHandTerm());
-    EXPECT_EQ(">", simplifiedEquation.getEquationOperator().getOperatorString());
+    EXPECT_EQ(Term(Polynomial({Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})})), simplifiedEquation.getLeftHandTerm());
+    EXPECT_EQ("<", simplifiedEquation.getEquationOperator().getOperatorString());
     EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
 }
 
@@ -57,8 +57,8 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnLessThanOrEqualOperator)
     simplification.simplify();
 
     Equation simplifiedEquation(simplification.getEquation());
-    EXPECT_EQ(Term(Polynomial({Monomial(-1, {{"x", 1}}), Monomial(1, {{"y", 1}})})), simplifiedEquation.getLeftHandTerm());
-    EXPECT_EQ(">=", simplifiedEquation.getEquationOperator().getOperatorString());
+    EXPECT_EQ(Term(Polynomial({Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})})), simplifiedEquation.getLeftHandTerm());
+    EXPECT_EQ("<=", simplifiedEquation.getEquationOperator().getOperatorString());
     EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
 }
 

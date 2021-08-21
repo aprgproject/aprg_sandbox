@@ -1,7 +1,9 @@
 #include <Algebra/Equation/EquationUtilities.hpp>
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::algebra::Functions;
 using namespace std;
 
 namespace alba
@@ -31,6 +33,28 @@ TEST(EquationUtilitiesTest, IsEquationOperatorCharacterStringWorks)
     EXPECT_TRUE(isEquationOperatorCharacterString("<"));
     EXPECT_TRUE(isEquationOperatorCharacterString(">"));;
     EXPECT_FALSE(isEquationOperatorCharacterString("?"));
+}
+
+TEST(EquationUtilitiesTest, DoesNegativeVariableSubstitutionYieldsToTheSameEquationWorks)
+{
+    EXPECT_TRUE(doesNegativeVariableSubstitutionYieldsToTheSameEquation(Equation(Term("a"), "=", Term("b")), {"x"}));
+    EXPECT_FALSE(doesNegativeVariableSubstitutionYieldsToTheSameEquation(Equation(Term("a"), "=", Term("b")), {"a"}));
+    EXPECT_FALSE(doesNegativeVariableSubstitutionYieldsToTheSameEquation(Equation(Term("a"), "=", Term("b")), {"b"}));
+    EXPECT_TRUE(doesNegativeVariableSubstitutionYieldsToTheSameEquation(Equation(Term("a"), "=", Term("b")), {"a", "b"}));
+}
+
+TEST(EquationUtilitiesTest, IsSymmetricAlongXAxisWorks)
+{
+    EXPECT_FALSE(isSymmetricAlongXAxis(Equation(Term("x"), "=", Term("y"))));
+    EXPECT_TRUE(isSymmetricAlongXAxis(Equation(Term("x"), "=", Term(Monomial(1, {{"y", 2}})))));
+    EXPECT_TRUE(isSymmetricAlongXAxis(Equation(Term("x"), "=", Term(abs(Term("y"))))));
+}
+
+TEST(EquationUtilitiesTest, IsSymmetricAlongYAxisWorks)
+{
+    EXPECT_FALSE(isSymmetricAlongYAxis(Equation(Term("y"), "=", Term("x"))));
+    EXPECT_TRUE(isSymmetricAlongYAxis(Equation(Term("y"), "=", Term(Monomial(1, {{"x", 2}})))));
+    EXPECT_TRUE(isSymmetricAlongYAxis(Equation(Term("y"), "=", Term(abs(Term("x"))))));
 }
 
 TEST(EquationUtilitiesTest, IsEqualWorks)
@@ -179,6 +203,19 @@ TEST(EquationUtilitiesTest, DoesAllEquationsHaveEqualityOperatorWorks)
 TEST(EquationUtilitiesTest, GetEquationOperatorCharactersWorks)
 {
     EXPECT_EQ("!=<>", getEquationOperatorCharacters());
+}
+
+TEST(EquationUtilitiesTest, GetReverseEquationOperatorStringWorks)
+{
+    EXPECT_EQ("", getReverseEquationOperatorString(""));
+    EXPECT_EQ("=", getReverseEquationOperatorString("="));
+    EXPECT_EQ("==", getReverseEquationOperatorString("=="));
+    EXPECT_EQ("!=", getReverseEquationOperatorString("!="));
+    EXPECT_EQ(">", getReverseEquationOperatorString("<"));
+    EXPECT_EQ("<", getReverseEquationOperatorString(">"));;
+    EXPECT_EQ(">=", getReverseEquationOperatorString("<="));
+    EXPECT_EQ("<=", getReverseEquationOperatorString(">="));
+    EXPECT_EQ("!!", getReverseEquationOperatorString("!!"));
 }
 
 TEST(EquationUtilitiesTest, BuildEquationIfPossibleWorks)

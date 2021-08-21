@@ -2,11 +2,13 @@
 
 #include <Algebra/Equation/EquationBuilder.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 
 #include <algorithm>
 
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -25,6 +27,36 @@ bool isEquationOperatorCharacterString(string const& stringToCheck)
 {
     return "=" == stringToCheck || "!" == stringToCheck
             || "<" == stringToCheck || ">" == stringToCheck;
+}
+
+bool doesNegativeVariableSubstitutionYieldsToTheSameEquation(
+        Equation const& equation,
+        strings const& variableNames)
+{
+    Equation equation1(equation);
+    equation1.simplify();
+    SubstitutionOfVariablesToTerms substitution;
+    for(string const& variableName : variableNames)
+    {
+        substitution.putVariableWithTerm(variableName, Term(Monomial(-1, {{variableName, 1}})));
+    }
+    Equation equation2(substitution.performSubstitutionTo(equation1));
+    return equation1 == equation2;
+}
+
+bool isSymmetricAlongXAxis(Equation const& equation)
+{
+    return doesNegativeVariableSubstitutionYieldsToTheSameEquation(equation, {"y"});
+}
+
+bool isSymmetricAlongYAxis(Equation const& equation)
+{
+    return doesNegativeVariableSubstitutionYieldsToTheSameEquation(equation, {"x"});
+}
+
+bool isSymmetricOnOrigin(Equation const& equation)
+{
+    return doesNegativeVariableSubstitutionYieldsToTheSameEquation(equation, {"x", "y"});
 }
 
 bool isEqual(Term const& leftTerm, Term const& rightTerm)
@@ -113,6 +145,28 @@ bool doesAllEquationsHaveEqualityOperator(Equations const& equations)
 string getEquationOperatorCharacters()
 {
     return "!=<>";
+}
+
+string getReverseEquationOperatorString(string const& equationOperatorString)
+{
+    string result(equationOperatorString);
+    if("<" == equationOperatorString)
+    {
+        result = ">";
+    }
+    else if(">" == equationOperatorString)
+    {
+        result = "<";
+    }
+    else if("<=" == equationOperatorString)
+    {
+        result = ">=";
+    }
+    else if(">=" == equationOperatorString)
+    {
+        result = "<=";
+    }
+    return result;
 }
 
 Equation buildEquationIfPossible(string const& equationString)

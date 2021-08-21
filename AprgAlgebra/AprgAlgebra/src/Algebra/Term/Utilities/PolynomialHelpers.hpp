@@ -24,7 +24,9 @@ AlbaNumbers getRoots(RootType const rootType, Polynomial const& polynomial);
 Polynomial raiseBinomialToAPowerUsingBinomialExpansion(
         Polynomial const& binomial,
         unsigned int const power);
+
 void removeEmptyPolynomials(Polynomials & polynomials);
 
 }
+
 }

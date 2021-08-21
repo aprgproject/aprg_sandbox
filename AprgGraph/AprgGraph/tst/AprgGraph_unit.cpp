@@ -5,9 +5,11 @@
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 #include <gtest/gtest.h>
+
 #include <cmath>
 
-using namespace alba::algebra;using namespace alba::AprgBitmap;
+using namespace alba::algebra;
+using namespace alba::AprgBitmap;
 using namespace alba::TwoDimensions;
 using namespace std;
 
@@ -53,4 +55,5 @@ TEST(SampleTest, BitmapGraph24Bits)
     });
     graph.saveChangesToBitmapFile();
 }
+
 }

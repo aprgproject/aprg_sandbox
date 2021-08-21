@@ -2,13 +2,15 @@
 
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 
+using namespace std;
+
 namespace alba
 {
 
 namespace algebra
 {
 
-AlbaNumber getCoefficientWithNoVariables(
+AlbaNumber getCoefficientOfMonomialWithNoVariables(
         Polynomial const& polynomial)
 {
     AlbaNumber coefficientValue;
@@ -25,9 +27,9 @@ AlbaNumber getCoefficientWithNoVariables(
     return coefficientValue;
 }
 
-AlbaNumber getCoefficientForVariableOnly(
-        std::string const& variableName,
-        Polynomial const& polynomial)
+AlbaNumber getCoefficientOfMonomialWithVariableOnly(
+        Polynomial const& polynomial,
+        string const& variableName)
 {
     AlbaNumber coefficientValue;
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
@@ -198,6 +200,77 @@ void retrieveNumbers(AlbaNumbersSet & numbers, Function const& functionObject)
     retrieveNumbers(numbers, functionObject.getInputTermConstReference());
 }
 
+AlbaNumber getFirstCoefficient(Term const& term)
+{
+    AlbaNumber number;
+    if(term.isConstant())
+    {
+        number = getFirstCoefficient(term.getConstantConstReference());
+    }
+    else if(term.isMonomial())
+    {
+        number = getFirstCoefficient(term.getMonomialConstReference());
+    }
+    else if(term.isPolynomial())
+    {
+        number = getFirstCoefficient(term.getPolynomialConstReference());
+    }
+    else if(term.isExpression())
+    {
+        number = getFirstCoefficient(term.getExpressionConstReference());
+    }
+    else if(term.isFunction())
+    {
+        number = getFirstCoefficient(term.getFunctionConstReference());
+    }
+    return number;
+}
+
+AlbaNumber getFirstCoefficient(Constant const& constant)
+{
+    return constant.getNumberConstReference();
+}
+
+AlbaNumber getFirstCoefficient(Variable const& variable)
+{
+    return 1;
+}
+
+AlbaNumber getFirstCoefficient(Monomial const& monomial)
+{
+    return monomial.getConstantConstReference();
+}
+
+AlbaNumber getFirstCoefficient(Polynomial const& polynomial)
+{
+    AlbaNumber firstCoefficient;
+    Monomials const& monomials(polynomial.getMonomialsConstReference());
+    if(!monomials.empty())
+    {
+        firstCoefficient = monomials.front().getConstantConstReference();
+    }
+    return firstCoefficient;
+}
+
+AlbaNumber getFirstCoefficient(Expression const& expression)
+{
+    AlbaNumber firstCoefficient;
+    TermsWithAssociation::TermsWithDetails const& termsWithDetails(
+                expression.getTermsWithAssociation().getTermsWithDetails());
+    if(!termsWithDetails.empty())
+    {
+        firstCoefficient = getFirstCoefficient(
+                    getTermConstReferenceFromSharedPointer(
+                        termsWithDetails.front().baseTermSharedPointer));
+    }
+    return firstCoefficient;
+}
+
+AlbaNumber getFirstCoefficient(Function const& functionObject)
+{
+    return getFirstCoefficient(functionObject.getInputTermConstReference());
+}
+
 VariableNamesSet retrieveAndReturnVariableNames(Term const& term)
 {
     VariableNamesSet result;
@@ -271,6 +344,45 @@ void retrieveVariableNames(VariableNamesSet & variableNames, Polynomials const& 
     {
         retrieveVariableNames(variableNames, polynomial);
     }
+}
+
+unsigned int countIndividualTermsAndReturnNumber(Term const& term)
+{
+    unsigned int count = 0;
+    countIndividualTerms(count, term);
+    return count;
+}
+
+void countIndividualTerms(unsigned int & count, Term const& term)
+{
+    if(term.isConstant() || term.isVariable() || term.isMonomial() || term.isPolynomial())
+    {
+        count++;
+    }
+    else if(term.isExpression())
+    {
+        count++;
+        countIndividualTerms(count, term.getExpressionConstReference());
+    }
+    else if(term.isFunction())
+    {
+        count++;
+        countIndividualTerms(count, term.getFunctionConstReference());
+    }
+}
+
+void countIndividualTerms(unsigned int & count, Expression const& expression)
+{
+    for(TermsWithAssociation::TermWithDetails const& termWithDetails
+        : expression.getTermsWithAssociation().getTermsWithDetails())
+    {
+        countIndividualTerms(count, getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+    }
+}
+
+void countIndividualTerms(unsigned int & count, Function const& functionObject)
+{
+    countIndividualTerms(count, functionObject.getInputTermConstReference());
 }
 
 FunctionsSet retrieveAndReturnFunctionsWithCondition(

@@ -5,14 +5,20 @@
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 #include <Math/Number/AlbaNumberTypes.hpp>
+#include <String/AlbaStringHelper.hpp>
 
 namespace alba
 {
 
 namespace algebra
 {
+
 bool isEquationOperatorString(std::string const& stringToCheck);
 bool isEquationOperatorCharacterString(std::string const& stringToCheck);
+bool doesNegativeVariableSubstitutionYieldsToTheSameEquation(
+        Equation const& equation, stringHelper::strings const& variableNames);
+bool isSymmetricAlongXAxis(Equation const& equation);
+bool isSymmetricAlongYAxis(Equation const& equation);
 bool isEqual(Term const& leftTerm, Term const& rightTerm);
 bool isNotEqual(Term const& leftTerm, Term const& rightTerm);
 bool isLessThan(Term const& leftTerm, Term const& rightTerm);
@@ -26,6 +32,7 @@ bool isEquationOperationSatisfied(
 bool doesAllEquationsHaveEqualityOperator(Equations const& equations);
 
 std::string getEquationOperatorCharacters();
+std::string getReverseEquationOperatorString(std::string const& equationOperatorString);
 Equation buildEquationIfPossible(std::string const& equationString);
 
 VariableNamesSet retrieveAndReturnVariableNames(Equation const& equation);

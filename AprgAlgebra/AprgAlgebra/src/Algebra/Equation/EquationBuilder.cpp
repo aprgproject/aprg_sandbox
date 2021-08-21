@@ -42,7 +42,7 @@ stringHelper::strings const& EquationBuilder::getEquationOperatorStrings() const
     return m_equationOperatorStrings;
 }
 
-void EquationBuilder::splitAndSaveOperatorAndTermStrings(std::string const& equationInString)
+void EquationBuilder::splitAndSaveOperatorAndTermStrings(string const& equationInString)
 {
     strings splittedStrings;
     splitToStrings<SplitStringType::WithDelimeters>(splittedStrings, equationInString, getEquationOperatorCharacters());
