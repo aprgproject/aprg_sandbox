@@ -32,21 +32,18 @@ SolutionSet calculateDomainUsingTransitionValues(
     collectAndUniqueValuesAndSort(sortedValues, domainValuesToCheck);
     collectMinAndMaxValues(collectedValues, sortedValues);
     appendTransitionValues(collectedValues, sortedValues, functionToCheck);
-
     AlbaNumbers numbersWithTransitionValues(getNumbers(collectedValues));
 
     domain.determineAndAddAcceptedIntervals(numbersWithTransitionValues, [&](AlbaNumber const& value)
     {
         AlbaNumber computedValue(functionToCheck(value));
-        return computedValue.isAFiniteValue();
+        return computedValue.isARealFiniteValue();
     });
     return domain;
 }
-
 SolutionSet calculateDomainForTermWithOneVariable(
         AlbaNumbers const& valuesToCheck,
-        Term const& term)
-{
+        Term const& term){
     SolutionSet domain;
     VariableNamesSet variableNames(retrieveAndReturnVariableNames(term));
     if(variableNames.size() == 1)
@@ -184,19 +181,17 @@ void appendTransitionValues(
         {
             isFirst = false;
         }
-        else if(previousOutputValue.isAFiniteValue() && !outputValue.isAFiniteValue())
+        else if(previousOutputValue.isARealFiniteValue() && !outputValue.isARealFiniteValue())
         {
             collectedValues.emplace(getTransitionValue(previousInputValue, inputValue, functionToCheck));
         }
-        else if(!previousOutputValue.isAFiniteValue() && outputValue.isAFiniteValue())
+        else if(!previousOutputValue.isARealFiniteValue() && outputValue.isARealFiniteValue())
         {
             collectedValues.emplace(getTransitionValue(inputValue, previousInputValue, functionToCheck));
-        }
-        previousInputValue = inputValue;
+        }        previousInputValue = inputValue;
         previousOutputValue = outputValue;
     }
 }
-
 AlbaNumbers getNumbers(AlbaNumbersSet const& collectedValues)
 {
     return AlbaNumbers(collectedValues.cbegin(), collectedValues.cend());
@@ -207,30 +202,28 @@ AlbaNumber getTransitionValue(
         AlbaNumber const& inputValueYieldsToNonFiniteValue,
         FunctionToCheck const& functionToCheck)
 {
-    AlbaNumber currentValueToFiniteValue = inputValueYieldsToFiniteValue;
-    AlbaNumber currentValueToNonFiniteValue = inputValueYieldsToNonFiniteValue;
+    AlbaNumber currentValueToRealFiniteValue = inputValueYieldsToFiniteValue;
+    AlbaNumber currentValueToNonRealFiniteValue = inputValueYieldsToNonFiniteValue;
     AlbaNumber newInputValue(inputValueYieldsToFiniteValue);
     AlbaNumber previousInputValue;
     while(previousInputValue != newInputValue)
     {
         previousInputValue = newInputValue;
-        newInputValue = getAverageForAlbaNumber(currentValueToFiniteValue, currentValueToNonFiniteValue);
+        newInputValue = getAverageForAlbaNumber(currentValueToRealFiniteValue, currentValueToNonRealFiniteValue);
         AlbaNumber newOutputValue(functionToCheck(newInputValue));
-        if(newOutputValue.isAFiniteValue())
+        if(newOutputValue.isARealFiniteValue())
         {
-            currentValueToFiniteValue = newInputValue;
+            currentValueToRealFiniteValue = newInputValue;
         }
         else
         {
-            currentValueToNonFiniteValue = newInputValue;
+            currentValueToNonRealFiniteValue = newInputValue;
         }
     }
-    return newInputValue;
-}
+    return newInputValue;}
 
 void retrieveTwoVariableNames(
-        string & nameThatMatch,
-        string & nameThatDoesNotMatch,
+        string & nameThatMatch,        string & nameThatDoesNotMatch,
         VariableNamesSet const& variableNames,
         string const& variableNameToCheck)
 {

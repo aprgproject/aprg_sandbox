@@ -94,8 +94,8 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnSimplifyingAnExpression)
     EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
     EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
 }
-}
 
 }
 
+}
 }

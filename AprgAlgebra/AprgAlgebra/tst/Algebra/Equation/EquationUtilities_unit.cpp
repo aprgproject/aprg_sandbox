@@ -57,14 +57,21 @@ TEST(EquationUtilitiesTest, IsSymmetricAlongYAxisWorks)
     EXPECT_TRUE(isSymmetricAlongYAxis(Equation(Term("y"), "=", Term(abs(Term("x"))))));
 }
 
+TEST(EquationUtilitiesTest, IsSymmetricOnOriginWorks)
+{
+    EXPECT_TRUE(isSymmetricOnOrigin(Equation(Term("y"), "=", Term("x"))));
+    EXPECT_FALSE(isSymmetricOnOrigin(Equation(Term("y"), "=", Term(Monomial(1, {{"x", 2}})))));
+    EXPECT_TRUE(isSymmetricOnOrigin(Equation(Term("y"), "=", Term(Monomial(1, {{"x", 3}})))));
+    EXPECT_FALSE(isSymmetricOnOrigin(Equation(Term("y"), "=", Term(abs(Term("x"))))));
+    EXPECT_TRUE(isSymmetricOnOrigin(Equation(Term(Monomial(1, {{"x", 1}, {"y", 1}})), "=", Term(1))));
+}
+
 TEST(EquationUtilitiesTest, IsEqualWorks)
 {
-    Term term1(1234);
-    Term term2(1234);
+    Term term1(1234);    Term term2(1234);
     Term term3(1111);
     Term term4(5678);
     Term term5("x");
-
     EXPECT_TRUE(isEqual(term1, term1));
     EXPECT_TRUE(isEqual(term1, term2));
     EXPECT_FALSE(isEqual(term1, term3));

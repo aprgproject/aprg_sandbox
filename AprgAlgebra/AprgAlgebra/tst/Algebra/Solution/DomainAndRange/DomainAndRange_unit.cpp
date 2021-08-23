@@ -79,13 +79,27 @@ TEST(DomainAndRangeTest, DISABLED_CalculateDomainForEquationWorksWithEquation)
     EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-6), createCloseEndpoint(6)), acceptedIntervals.at(0));
 }
 
+TEST(DomainAndRangeTest, DISABLED_CalculateDomainForEquationWorksWithSquareRootOfQuadratic)
+{
+    Polynomial quadratic{Monomial(9, {}), Monomial(-1, {{"x", 2}})};
+    Expression expression(createExpressionIfPossible({Term(quadratic), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Equation equation(Term(expression), "=", Term("y"));
+
+    SolutionSet actualDomain = calculateDomainForEquation("x", equation);
+
+    AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());
+    ASSERT_EQ(1u, acceptedIntervals.size());
+    EXPECT_EQ(AlbaNumberInterval(
+                  createOpenEndpoint(-3.0000000000171933578),
+                  createOpenEndpoint(3.0000000000171933578)),
+              acceptedIntervals.at(0));
+}
+
 TEST(DomainAndRangeTest, DISABLED_CalculateDomainForEquationWorksWith2AbsoluteValues)
 {
-    Function absoluteValueOfX(Functions::abs(createExpressionIfPossible({Term("x")})));
-    Function absoluteValueOfY(Functions::abs(createExpressionIfPossible({Term("y")})));
+    Function absoluteValueOfX(Functions::abs(createExpressionIfPossible({Term("x")})));    Function absoluteValueOfY(Functions::abs(createExpressionIfPossible({Term("y")})));
     Expression leftHandExpression(createExpressionIfPossible({Term(absoluteValueOfX), Term("+"), Term(absoluteValueOfY)}));
     Equation equation(Term(leftHandExpression), "=", Term(Constant(1)));
-
     SolutionSet actualDomain = calculateDomainForEquation("x", equation);
 
     AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());
@@ -165,15 +179,12 @@ TEST(DomainAndRangeTest, DISABLED_AppendTransitionValuesWorks)
 
 TEST(DomainAndRangeTest, DISABLED_GetTransitionValueWorks)
 {
-
     AlbaNumber actualTransitionValue = getTransitionValue(
                 AlbaNumber(9.25),
-                AlbaNumber(5),
-                [](AlbaNumber const& number)
+                AlbaNumber(5),                [](AlbaNumber const& number)
     {
         return (number-6)^0.5;
     });
-
     EXPECT_EQ(AlbaNumber(6), actualTransitionValue);
 }
 
