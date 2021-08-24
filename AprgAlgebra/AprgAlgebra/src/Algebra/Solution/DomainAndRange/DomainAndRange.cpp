@@ -41,9 +41,11 @@ SolutionSet calculateDomainUsingTransitionValues(
     });
     return domain;
 }
+
 SolutionSet calculateDomainForTermWithOneVariable(
         AlbaNumbers const& valuesToCheck,
-        Term const& term){
+        Term const& term)
+{
     SolutionSet domain;
     VariableNamesSet variableNames(retrieveAndReturnVariableNames(term));
     if(variableNames.size() == 1)
@@ -188,10 +190,12 @@ void appendTransitionValues(
         else if(!previousOutputValue.isARealFiniteValue() && outputValue.isARealFiniteValue())
         {
             collectedValues.emplace(getTransitionValue(inputValue, previousInputValue, functionToCheck));
-        }        previousInputValue = inputValue;
+        }
+        previousInputValue = inputValue;
         previousOutputValue = outputValue;
     }
 }
+
 AlbaNumbers getNumbers(AlbaNumbersSet const& collectedValues)
 {
     return AlbaNumbers(collectedValues.cbegin(), collectedValues.cend());
@@ -220,10 +224,12 @@ AlbaNumber getTransitionValue(
             currentValueToNonRealFiniteValue = newInputValue;
         }
     }
-    return newInputValue;}
+    return newInputValue;
+}
 
 void retrieveTwoVariableNames(
-        string & nameThatMatch,        string & nameThatDoesNotMatch,
+        string & nameThatMatch,
+        string & nameThatDoesNotMatch,
         VariableNamesSet const& variableNames,
         string const& variableNameToCheck)
 {

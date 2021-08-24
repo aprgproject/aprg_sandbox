@@ -7,10 +7,12 @@
 using namespace alba::algebra::Simplification;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 Function::Function()
     : m_functionName()
     , m_inputTermPointer(new Term())
@@ -120,10 +122,12 @@ void Function::simplify()
     *this = simplification.getFunction();
 }
 
-ostream & operator<<(ostream & out, Function const& functionAsParameter){
+ostream & operator<<(ostream & out, Function const& functionAsParameter)
+{
     out << functionAsParameter.getDisplayableString();
     return out;
 }
+
 }
 
 }

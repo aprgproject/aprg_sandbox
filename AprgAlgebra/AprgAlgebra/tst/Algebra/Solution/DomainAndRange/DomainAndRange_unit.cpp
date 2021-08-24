@@ -89,17 +89,16 @@ TEST(DomainAndRangeTest, DISABLED_CalculateDomainForEquationWorksWithSquareRootO
 
     AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());
     ASSERT_EQ(1u, acceptedIntervals.size());
-    EXPECT_EQ(AlbaNumberInterval(
-                  createOpenEndpoint(-3.0000000000171933578),
-                  createOpenEndpoint(3.0000000000171933578)),
-              acceptedIntervals.at(0));
+    EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-3), createCloseEndpoint(3)), acceptedIntervals.at(0));
 }
 
 TEST(DomainAndRangeTest, DISABLED_CalculateDomainForEquationWorksWith2AbsoluteValues)
 {
-    Function absoluteValueOfX(Functions::abs(createExpressionIfPossible({Term("x")})));    Function absoluteValueOfY(Functions::abs(createExpressionIfPossible({Term("y")})));
+    Function absoluteValueOfX(Functions::abs(createExpressionIfPossible({Term("x")})));
+    Function absoluteValueOfY(Functions::abs(createExpressionIfPossible({Term("y")})));
     Expression leftHandExpression(createExpressionIfPossible({Term(absoluteValueOfX), Term("+"), Term(absoluteValueOfY)}));
     Equation equation(Term(leftHandExpression), "=", Term(Constant(1)));
+
     SolutionSet actualDomain = calculateDomainForEquation("x", equation);
 
     AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());
@@ -115,9 +114,8 @@ TEST(DomainAndRangeTest, DISABLED_CalculateDomainForEquationWorksWithXToTheXIsWr
     SolutionSet actualDomain = calculateDomainForEquation("x", equation);
 
     AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());
-    ASSERT_EQ(2u, acceptedIntervals.size());
-    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createCloseEndpoint(-823543)), acceptedIntervals.at(0));
-    EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(0), createCloseEndpoint(143.016087935746)), acceptedIntervals.at(1));
+    ASSERT_EQ(1u, acceptedIntervals.size());
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createCloseEndpoint(143.016087935746)), acceptedIntervals.at(0));
 }
 
 TEST(DomainAndRangeTest, DISABLED_CalculateRangeForEquationWorksWithEquationWithValues)
@@ -181,10 +179,12 @@ TEST(DomainAndRangeTest, DISABLED_GetTransitionValueWorks)
 {
     AlbaNumber actualTransitionValue = getTransitionValue(
                 AlbaNumber(9.25),
-                AlbaNumber(5),                [](AlbaNumber const& number)
+                AlbaNumber(5),
+                [](AlbaNumber const& number)
     {
         return (number-6)^0.5;
     });
+
     EXPECT_EQ(AlbaNumber(6), actualTransitionValue);
 }
 

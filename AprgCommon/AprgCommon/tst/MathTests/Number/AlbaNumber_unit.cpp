@@ -907,8 +907,10 @@ TEST(AlbaNumberTest, RaisePowerWorksOnTypesStartingFromComplexNumber)
     AlbaNumber::ComplexNumberData complexNumberData3(number3.getComplexNumberData());
     EXPECT_FLOAT_EQ(-2.0044679e+017, complexNumberData3.realPart);
     EXPECT_FLOAT_EQ(-1.6134964e+017, complexNumberData3.imaginaryPart);
-    EXPECT_EQ(AlbaNumber::Type::Integer, number4.getType());
-    EXPECT_EQ(0ll, number4.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::ComplexNumber, number4.getType());
+    AlbaNumber::ComplexNumberData complexNumberData4(number4.getComplexNumberData());
+    EXPECT_FLOAT_EQ(-4.9898603e-007, complexNumberData4.realPart);
+    EXPECT_FLOAT_EQ(-3.3563614e-009, complexNumberData4.imaginaryPart);
 }
 
 TEST(AlbaNumberTest, OperatorAdditionAssignmentWorks)

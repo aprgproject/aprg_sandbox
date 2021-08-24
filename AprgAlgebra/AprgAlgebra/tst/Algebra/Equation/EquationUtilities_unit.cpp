@@ -68,10 +68,12 @@ TEST(EquationUtilitiesTest, IsSymmetricOnOriginWorks)
 
 TEST(EquationUtilitiesTest, IsEqualWorks)
 {
-    Term term1(1234);    Term term2(1234);
+    Term term1(1234);
+    Term term2(1234);
     Term term3(1111);
     Term term4(5678);
     Term term5("x");
+
     EXPECT_TRUE(isEqual(term1, term1));
     EXPECT_TRUE(isEqual(term1, term2));
     EXPECT_FALSE(isEqual(term1, term3));
