@@ -208,15 +208,13 @@ AlbaNumbers getDerivativeCoefficients(AlbaNumbers const& coefficients)
     if(!derivativeCoefficients.empty())
     {
         derivativeCoefficients.pop_back();
-        AlbaNumber derivativeMultiplier = derivativeCoefficients.size();
+        AlbaNumber derivativeMultiplier(static_cast<long long int>(derivativeCoefficients.size()));
         for(AlbaNumber & derivativeCoefficient : derivativeCoefficients)
         {
-            derivativeCoefficient = derivativeCoefficient*derivativeMultiplier;
-            derivativeMultiplier=derivativeMultiplier-1;
+            derivativeCoefficient = derivativeCoefficient*derivativeMultiplier;            derivativeMultiplier=derivativeMultiplier-1;
         }
     }
-    return derivativeCoefficients;
-}
+    return derivativeCoefficients;}
 
 Monomials getMonomialsWithExponentsInOrder(
         unsigned int const exponentDivisor,

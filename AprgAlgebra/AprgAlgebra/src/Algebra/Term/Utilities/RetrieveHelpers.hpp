@@ -42,15 +42,13 @@ void retrieveNumbers(AlbaNumbersSet & numbers, Function const& functionObject);
 
 AlbaNumber getFirstCoefficient(Term const& term);
 AlbaNumber getFirstCoefficient(Constant const& constant);
-AlbaNumber getFirstCoefficient(Variable const& variable);
+AlbaNumber getFirstCoefficient(Variable const& );
 AlbaNumber getFirstCoefficient(Monomial const& monomial);
 AlbaNumber getFirstCoefficient(Polynomial const& polynomial);
-AlbaNumber getFirstCoefficient(Expression const& expression);
-AlbaNumber getFirstCoefficient(Function const& functionObject);
+AlbaNumber getFirstCoefficient(Expression const& expression);AlbaNumber getFirstCoefficient(Function const& functionObject);
 
 VariableNamesSet retrieveAndReturnVariableNames(Term const& term);
-void retrieveVariableNames(VariableNamesSet & variableNames, Term const& term);
-void retrieveVariableNames(VariableNamesSet & variableNames, Variable const& variable);
+void retrieveVariableNames(VariableNamesSet & variableNames, Term const& term);void retrieveVariableNames(VariableNamesSet & variableNames, Variable const& variable);
 void retrieveVariableNames(VariableNamesSet & variableNames, Monomial const& monomial);
 void retrieveVariableNames(VariableNamesSet & variableNames, Polynomial const& polynomial);
 void retrieveVariableNames(VariableNamesSet & variableNames, Expression const& expression);

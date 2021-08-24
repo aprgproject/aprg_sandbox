@@ -1,12 +1,11 @@
 #include "AprgGraph.hpp"
 
+#include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
-
 #include <algorithm>
 #include <cmath>
 
@@ -371,40 +370,33 @@ void AprgGraph::drawEquationWithXSubstitution(Equation const& equation, unsigned
     {
         substitution.putVariableWithValue("x", xValue);
         Equation substitutedEquation(substitution.performSubstitutionTo(equation));
-        Term const& nonZeroLeftHandTerm(substitutedEquation.getLeftHandTerm());
-        if(canBeConvertedToPolynomial(nonZeroLeftHandTerm))
+        OneEquationOneVariableEqualitySolver solver;
+        SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(substitutedEquation));
+        AlbaNumbers acceptedValues(solutionSet.getAcceptedValues());
+        for(AlbaNumber const& acceptedValue : acceptedValues)
         {
-            AlbaNumbers roots(getRoots(RootType::RealRootsOnly, createPolynomialIfPossible(nonZeroLeftHandTerm)));
-            for(AlbaNumber const& root : roots)
-            {
-                points.emplace_back(xValue, root.getDouble());
-            }
+            points.emplace_back(xValue, acceptedValue.getDouble());
         }
     });
-    drawDiscontinuousPoints(points, color);
-}
+    drawDiscontinuousPoints(points, color);}
 
 void AprgGraph::drawEquationWithYSubstitution(Equation const& equation, unsigned int const color)
-{
-    Points points;
+{    Points points;
     RangeWithDoubles yRange(m_realUpLeftPoint.getY(), m_realDownRightPoint.getY(), m_lowestInterval);
     SubstitutionOfVariablesToValues substitution;
     yRange.traverse([&](double const yValue)
     {
         substitution.putVariableWithValue("y", yValue);
         Equation substitutedEquation(substitution.performSubstitutionTo(equation));
-        Term const& nonZeroLeftHandTerm(substitutedEquation.getLeftHandTerm());
-        if(canBeConvertedToPolynomial(nonZeroLeftHandTerm))
+        OneEquationOneVariableEqualitySolver solver;
+        SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(substitutedEquation));
+        AlbaNumbers acceptedValues(solutionSet.getAcceptedValues());
+        for(AlbaNumber const& acceptedValue : acceptedValues)
         {
-            AlbaNumbers roots(getRoots(RootType::RealRootsOnly, createPolynomialIfPossible(nonZeroLeftHandTerm)));
-            for(AlbaNumber const& root : roots)
-            {
-                points.emplace_back(root.getDouble(), yValue);
-            }
+            points.emplace_back(acceptedValue.getDouble(), yValue);
         }
     });
-    drawDiscontinuousPoints(points, color);
-}
+    drawDiscontinuousPoints(points, color);}
 
 
 }

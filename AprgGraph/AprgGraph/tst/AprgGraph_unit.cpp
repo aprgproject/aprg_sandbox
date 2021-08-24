@@ -38,21 +38,37 @@ TEST(SampleTest, BitmapGraph24Bits)
     graph.drawTermWithXYSubstitution(polynomialTermInX, 0x0055A1BA);
     graph.drawTermWithXYSubstitution(polynomialTermInY, 0x00A1BA55);
 
-    Equation equation1(buildEquationIfPossible("x*y - x^2 + 1 = 0"));
-    Equation equation2(buildEquationIfPossible("x^2 - 2*x*y + y^2 + 2*x - 3*y + 2 = 0"));
-    Equation equation3(buildEquationIfPossible("y^2 - x - 2 = 0"));
-    graph.drawEquationWithXYSubstitution(equation1, 0x0000A1BA);
-    graph.drawEquationWithXYSubstitution(equation2, 0x00A1BA00);
-    graph.drawEquationWithXYSubstitution(equation3, 0x00A100BA);
+    //Equation equation1(buildEquationIfPossible("x*y - x^2 + 1 = 0"));
+    //Equation equation2(buildEquationIfPossible("x^2 - 2*x*y + y^2 + 2*x - 3*y + 2 = 0"));
+    //Equation equation3(buildEquationIfPossible("y^2 - x - 2 = 0"));
+    Equation equation4(buildEquationIfPossible("(x^2 + 9)/(x-2) = y"));
+    //graph.drawEquationWithXYSubstitution(equation1, 0x0000A1BA);
+    //graph.drawEquationWithXYSubstitution(equation2, 0x00A1BA00);
+    //graph.drawEquationWithXYSubstitution(equation3, 0x00A100BA);
+    graph.drawEquationWithXYSubstitution(equation4, 0x0000BAA1);
 
     graph.drawFunctionUsingX(0x00AA0033, [](double xValue)->double
-    {
-        return 5*sin(xValue/2);
+    {        return 5*sin(xValue/2);
     });
     graph.drawFunctionUsingY(0x003300AA, [](double yValue)->double
-    {
-        return 5*sin(yValue/2);
+    {        return 5*sin(yValue/2);
     });
+    graph.saveChangesToBitmapFile();
+}
+
+TEST(SampleTest, TemporaryTest)
+{
+    AlbaLocalPathHandler defaultFile(APRG_GRAPH_24_BIT_DEFAULT_FILE);
+    AlbaLocalPathHandler graphOutputFile(APRG_GRAPH_24_BIT_GRAPH_OUTPUT_FILE);
+    graphOutputFile.deleteFile();
+    defaultFile.copyToNewFile(graphOutputFile.getFullPath());
+
+    AprgGraph graph(graphOutputFile.getFullPath(), BitmapXY(800,450), BitmapDoubleXY(50, 50));
+    graph.drawGrid(BitmapDoubleXY((double)5, (double)5));
+
+    Equation equation(buildEquationIfPossible("x = y"));
+    graph.drawEquationWithXYSubstitution(equation, 0x0000A1BA);
+
     graph.saveChangesToBitmapFile();
 }
 
