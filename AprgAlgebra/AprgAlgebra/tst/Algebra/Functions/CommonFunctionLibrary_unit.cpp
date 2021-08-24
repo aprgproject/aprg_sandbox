@@ -26,14 +26,21 @@ TEST(CommonFunctionLibraryTest, AbsoluteValueFunctionWorks)
     EXPECT_EQ(AlbaNumber(5), absoluteValueFunction.performFunctionAndReturnResultIfPossible());
 }
 
+TEST(CommonFunctionLibraryTest, GreatestIntegerFunctionWorks)
+{
+    Function greatestIntegerFunctionObject(greatestIntegerFunction(Term(-5.1)));
+
+    EXPECT_EQ("greatestIntegerFunction", greatestIntegerFunctionObject.getFunctionName());
+    EXPECT_EQ(Term(-5.1), getTermConstReferenceFromBaseTerm(greatestIntegerFunctionObject.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber(-5), greatestIntegerFunctionObject.performFunctionAndReturnResultIfPossible());
+}
+
 TEST(CommonFunctionLibraryTest, SineFunctionWorks)
 {
     Function sineFunction(sin(Term(getPi())));
-
     EXPECT_EQ("sin", sineFunction.getFunctionName());
     EXPECT_EQ(Term(getPi()), getTermConstReferenceFromBaseTerm(sineFunction.getInputTermConstReference()));
-    EXPECT_EQ(AlbaNumber(0), sineFunction.performFunctionAndReturnResultIfPossible());
-}
+    EXPECT_EQ(AlbaNumber(0), sineFunction.performFunctionAndReturnResultIfPossible());}
 
 TEST(CommonFunctionLibraryTest, CosineFunctionWorks)
 {

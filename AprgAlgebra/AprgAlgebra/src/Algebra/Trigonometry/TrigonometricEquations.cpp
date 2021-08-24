@@ -12,15 +12,13 @@ namespace alba
 namespace algebra
 {
 
-Equation getSineSquaredPlusCosineSquaredEqualsOne(Term const& term)
+Equation getTrigonometricPythagoreanIdentity(Term const& term)
 {
     Term leftSideTerm(createExpressionIfPossible({getSineSquared(term), Term("+"), getCosineSquared(term)}));
-    return Equation(leftSideTerm, "=", Term(1));
-}
+    return Equation(leftSideTerm, "=", Term(1));}
 
 Equation getSineEquationOfRightTriangle(
-        Term const& angle,
-        Term const& oppositeSideOfAngle,
+        Term const& angle,        Term const& oppositeSideOfAngle,
         Term const& hypotenuse)
 {
     Term leftSideTerm(sin(angle));

@@ -17,33 +17,45 @@ namespace DomainAndRange
 
 TEST(DomainAndRangeTest, DISABLED_CalculateDomainUsingTransitionValuesWorksWithFunction)
 {
-    AlbaNumbers value{5, 9.25};
+    AlbaNumbers values{5, 9.25};
 
-    SolutionSet actualDomain = calculateDomainUsingTransitionValues(value, [](AlbaNumber const& number)
+    SolutionSet actualDomain = calculateDomainUsingTransitionValues(values, [](AlbaNumber const& number)
     {
         return (number-6)^0.5;
     });
-
     AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());
     ASSERT_EQ(1u, acceptedIntervals.size());
     EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(6), createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), acceptedIntervals.at(0));
 }
 
+TEST(DomainAndRangeTest, DISABLED_CalculateDomainUsingTransitionValuesWorksWithFunctionWithNanValues)
+{
+    AlbaNumbers values{3};
+
+    SolutionSet actualDomain = calculateDomainUsingTransitionValues(values, [](AlbaNumber const& number)
+    {
+        return (number == 3) ? NAN : number;
+    });
+
+    AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());
+    ASSERT_EQ(2u, acceptedIntervals.size());
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createOpenEndpoint(3)), acceptedIntervals.at(0));
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(3), createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), acceptedIntervals.at(1));
+}
+
 TEST(DomainAndRangeTest, DISABLED_CalculateDomainForTermWithOneVariableWorksWithTermWithValues)
 {
-    AlbaNumbers value{1.3, 9.25};
+    AlbaNumbers values{1.3, 9.25};
     Polynomial polynomial{Monomial(4, {}), Monomial(-1, {{"x", 2}})};
     Expression expression(createExpressionIfPossible({Term(polynomial), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
 
-    SolutionSet actualDomain = calculateDomainForTermWithOneVariable(value, Term(expression));
+    SolutionSet actualDomain = calculateDomainForTermWithOneVariable(values, Term(expression));
 
     AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());
-    ASSERT_EQ(1u, acceptedIntervals.size());
-    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createCloseEndpoint(2)), acceptedIntervals.at(0));
+    ASSERT_EQ(1u, acceptedIntervals.size());    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createCloseEndpoint(2)), acceptedIntervals.at(0));
 }
 
-TEST(DomainAndRangeTest, DISABLED_CalculateDomainForTermWithOneVariableWorksWithTerm)
-{
+TEST(DomainAndRangeTest, DISABLED_CalculateDomainForTermWithOneVariableWorksWithTerm){
     Polynomial polynomial{Monomial(4, {}), Monomial(-1, {{"x", 2}})};
     Expression expression(createExpressionIfPossible({Term(polynomial), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
 
@@ -54,14 +66,25 @@ TEST(DomainAndRangeTest, DISABLED_CalculateDomainForTermWithOneVariableWorksWith
     EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-2), createCloseEndpoint(2)), acceptedIntervals.at(0));
 }
 
+TEST(DomainAndRangeTest, DISABLED_CalculateDomainForTermWithOneVariableWorksWithTermWithExample1)
+{
+    Polynomial polynomial{Monomial(1, {{"x", 2}}), Monomial(-2, {{"x", 1}})};
+    Expression expression(createExpressionIfPossible({Term(polynomial), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+
+    SolutionSet actualDomain = calculateDomainForTermWithOneVariable(Term(expression));
+
+    AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());
+    ASSERT_EQ(2u, acceptedIntervals.size());
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createCloseEndpoint(0)), acceptedIntervals.at(0));
+    EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(2), createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), acceptedIntervals.at(1));
+}
+
 TEST(DomainAndRangeTest, DISABLED_CalculateDomainForEquationWorksWithEquationWithValues)
 {
-    Polynomial polynomialLeft{Monomial(1, {{"x", 2}}), Monomial(1, {{"y", 2}})};
-    Equation equation(Term(polynomialLeft), "=", Term(Constant(36)));
+    Polynomial polynomialLeft{Monomial(1, {{"x", 2}}), Monomial(1, {{"y", 2}})};    Equation equation(Term(polynomialLeft), "=", Term(Constant(36)));
     AlbaNumbers numbers{3.3, 9.9};
 
     SolutionSet actualDomain = calculateDomainForEquation("x", numbers, equation);
-
     AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());
     ASSERT_EQ(1u, acceptedIntervals.size());
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createCloseEndpoint(6)), acceptedIntervals.at(0));
