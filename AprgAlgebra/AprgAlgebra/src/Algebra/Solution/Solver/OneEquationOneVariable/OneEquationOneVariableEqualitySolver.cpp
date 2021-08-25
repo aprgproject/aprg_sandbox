@@ -129,13 +129,11 @@ void OneEquationOneVariableEqualitySolver::performNewtonMethodToFindSolution(
         newtonMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
         if(newtonMethod.isSolved())
         {
-            m_calculatedValues.emplace_back(newtonMethod.getCurrentComputedValue());
+            m_calculatedValues.emplace_back(newtonMethod.getCurrentValue());
             setAsIncompleteSolution();
             break;
-        }
-    }
+        }    }
 }
 
 }
-
 }

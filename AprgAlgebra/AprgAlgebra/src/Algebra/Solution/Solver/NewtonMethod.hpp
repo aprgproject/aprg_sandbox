@@ -22,21 +22,19 @@ public:
     bool isSolved() const;
     bool isFinished() const;
     unsigned int getNumberOfIterationsExecuted() const;
-    AlbaNumber const& getCurrentComputedValue() const;
+    AlbaNumber const& getCurrentValue() const;
 
     void runOneIteration();
-    void runMaxNumberOfIterationsOrUntilFinished(unsigned int const maxIterations);
-    void runUntilFinished();
+    void runMaxNumberOfIterationsOrUntilFinished(unsigned int const maxIterations);    void runUntilFinished();
 
 private:
     AlbaNumber getSlopeApproximationAt(AlbaNumber const& value) const;
     void updatePositiveDeltaForSlopeIfNeeded(AlbaNumber const& newValue);
     unsigned int m_numberOfIterationsExecuted;
-    AlbaNumber m_currentComputedValue;
+    AlbaNumber m_currentValue;
     AlbaNumber m_positiveDeltaForSlope;
     Function m_functionToIterate;
 };
-
 }
 
 }

@@ -20,44 +20,40 @@ NewtonMethod::NewtonMethod(
         AlbaNumber const& initialValue,
         Function const& functionToIterate)
     : m_numberOfIterationsExecuted(0)
-    , m_currentComputedValue(initialValue)
+    , m_currentValue(initialValue)
     , m_positiveDeltaForSlope(INITIAL_DELTA_FOR_SLOPE)
     , m_functionToIterate(functionToIterate)
 {}
-
 bool NewtonMethod::isSolved() const
 {
-    return m_functionToIterate(m_currentComputedValue) == 0;
+    return m_functionToIterate(m_currentValue) == 0;
 }
 
 bool NewtonMethod::isFinished() const
 {
-    return !m_currentComputedValue.isAFiniteValue() || isSolved();
+    return !m_currentValue.isARealFiniteValue() || isSolved();
 }
 
-unsigned int NewtonMethod::getNumberOfIterationsExecuted() const
-{
+unsigned int NewtonMethod::getNumberOfIterationsExecuted() const{
     return m_numberOfIterationsExecuted;
 }
 
-AlbaNumber const& NewtonMethod::getCurrentComputedValue() const
+AlbaNumber const& NewtonMethod::getCurrentValue() const
 {
-    return m_currentComputedValue;
+    return m_currentValue;
 }
 
 void NewtonMethod::runOneIteration()
 {
-    AlbaNumber newValue = m_currentComputedValue
-            - (m_functionToIterate(m_currentComputedValue) / getSlopeApproximationAt(m_currentComputedValue));
+    AlbaNumber newValue = m_currentValue
+            - (m_functionToIterate(m_currentValue) / getSlopeApproximationAt(m_currentValue));
     updatePositiveDeltaForSlopeIfNeeded(newValue);
-    m_currentComputedValue = newValue;
+    m_currentValue = newValue;
     m_numberOfIterationsExecuted++;
 }
-
 void NewtonMethod::runMaxNumberOfIterationsOrUntilFinished(unsigned int const maxIterations)
 {
-    for(unsigned int i=0; !isFinished() && i<maxIterations; i++)
-    {
+    for(unsigned int i=0; !isFinished() && i<maxIterations; i++)    {
         runOneIteration();
     }
 }
@@ -80,13 +76,11 @@ AlbaNumber NewtonMethod::getSlopeApproximationAt(
 
 void NewtonMethod::updatePositiveDeltaForSlopeIfNeeded(AlbaNumber const& newValue)
 {
-    AlbaNumber newPositiveDelta = getPositiveDeltaForAlbaNumber(newValue, m_currentComputedValue);
+    AlbaNumber newPositiveDelta = getPositiveDeltaForAlbaNumber(newValue, m_currentValue);
     if(newPositiveDelta < m_positiveDeltaForSlope)
     {
-        m_positiveDeltaForSlope = newPositiveDelta;
-    }
+        m_positiveDeltaForSlope = newPositiveDelta;    }
 }
 
 }
-
 }

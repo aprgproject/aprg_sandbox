@@ -67,100 +67,86 @@ TEST(NewtonMethodTest, GetNumberOfIterationsExecutedWorksWhenOneIterationIsExecu
     EXPECT_EQ(1u, newtonMethod.getNumberOfIterationsExecuted());
 }
 
-TEST(NewtonMethodTest, GetCurrentComputedValueWorks)
+TEST(NewtonMethodTest, GetCurrentValueWorks)
 {
     NewtonMethod::Function functionToIterate = [](AlbaNumber const& number)
-    {
-        return (number^2)-16;
+    {        return (number^2)-16;
     };
     NewtonMethod newtonMethod(5, functionToIterate);
 
-    EXPECT_EQ(AlbaNumber(5), newtonMethod.getCurrentComputedValue());
+    EXPECT_EQ(AlbaNumber(5), newtonMethod.getCurrentValue());
 }
 
-TEST(NewtonMethodTest, RunOneIterationWorks)
-{
+TEST(NewtonMethodTest, RunOneIterationWorks){
     NewtonMethod::Function functionToIterate = [](AlbaNumber const& number)
     {
-        return (number^2)-16;
-    };
+        return (number^2)-16;    };
     NewtonMethod newtonMethod(16, functionToIterate);
 
     newtonMethod.runOneIteration();
 
-    EXPECT_EQ(AlbaNumber(8.5000000043790038262), newtonMethod.getCurrentComputedValue());
+    EXPECT_EQ(AlbaNumber(8.5000000043790038262), newtonMethod.getCurrentValue());
 }
 
-TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedWorksWhenMaxIterationIsReached)
-{
+TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedWorksWhenMaxIterationIsReached){
     NewtonMethod::Function functionToIterate = [](AlbaNumber const& number)
     {
-        return (number^2)-16;
-    };
+        return (number^2)-16;    };
     NewtonMethod newtonMethod(16, functionToIterate);
 
     newtonMethod.runMaxNumberOfIterationsOrUntilFinished(4);
 
-    EXPECT_EQ(AlbaNumber(4.0022575248056222463), newtonMethod.getCurrentComputedValue());
+    EXPECT_EQ(AlbaNumber(4.0022575248056222463), newtonMethod.getCurrentValue());
     EXPECT_EQ(4u, newtonMethod.getNumberOfIterationsExecuted());
 }
-
 TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedWorksWhenMaxIterationIsNotReached)
 {
-    NewtonMethod::Function functionToIterate = [](AlbaNumber const& number)
-    {
+    NewtonMethod::Function functionToIterate = [](AlbaNumber const& number)    {
         return (number^2)-16;
     };
     NewtonMethod newtonMethod(16, functionToIterate);
 
     newtonMethod.runMaxNumberOfIterationsOrUntilFinished(100);
 
-    EXPECT_EQ(AlbaNumber(4), newtonMethod.getCurrentComputedValue());
+    EXPECT_EQ(AlbaNumber(4), newtonMethod.getCurrentValue());
     EXPECT_EQ(6u, newtonMethod.getNumberOfIterationsExecuted());
 }
-
 TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedWorks)
 {
-    NewtonMethod::Function functionToIterate = [](AlbaNumber const& number)
-    {
+    NewtonMethod::Function functionToIterate = [](AlbaNumber const& number)    {
         return (number^2)-16;
     };
     NewtonMethod newtonMethod(16, functionToIterate);
 
     newtonMethod.runUntilFinished();
 
-    EXPECT_EQ(AlbaNumber(4), newtonMethod.getCurrentComputedValue());
+    EXPECT_EQ(AlbaNumber(4), newtonMethod.getCurrentValue());
     EXPECT_EQ(6u, newtonMethod.getNumberOfIterationsExecuted());
 }
-
 TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedWorksForXToXForm)
 {
-    NewtonMethod::Function functionToIterate = [](AlbaNumber const& number)
-    {
+    NewtonMethod::Function functionToIterate = [](AlbaNumber const& number)    {
         return (number^number)-256;
     };
     NewtonMethod newtonMethod(16, functionToIterate);
 
     newtonMethod.runMaxNumberOfIterationsOrUntilFinished(100);
 
-    EXPECT_EQ(AlbaNumber(4), newtonMethod.getCurrentComputedValue());
+    EXPECT_EQ(AlbaNumber(4), newtonMethod.getCurrentValue());
     EXPECT_EQ(44u, newtonMethod.getNumberOfIterationsExecuted());
 }
-
 TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedFailsToGetSolutionWithXToXForm)
 {
-    NewtonMethod::Function functionToIterate = [](AlbaNumber const& number)
-    {
+    NewtonMethod::Function functionToIterate = [](AlbaNumber const& number)    {
         return (number^number) + 823543;
     };
     NewtonMethod newtonMethod(-16, functionToIterate);
 
     newtonMethod.runMaxNumberOfIterationsOrUntilFinished(100);
 
-    EXPECT_TRUE(newtonMethod.getCurrentComputedValue().isNegativeInfinity());
+    EXPECT_TRUE(newtonMethod.getCurrentValue().isNegativeInfinity());
     EXPECT_EQ(1u, newtonMethod.getNumberOfIterationsExecuted());
 }
-
 }
 
 }
