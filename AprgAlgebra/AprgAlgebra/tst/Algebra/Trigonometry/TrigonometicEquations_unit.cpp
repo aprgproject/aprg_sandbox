@@ -6,14 +6,14 @@
 
 #include <gtest/gtest.h>
 
+#include <cmath>
+
 using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-namespace algebra
-{
+namespace algebra{
 
 TEST(TrigonometricEquationsTest, GetTrigonometricPythagoreanIdentityWorks)
 {

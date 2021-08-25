@@ -34,15 +34,13 @@ TEST(DomainAndRangeTest, DISABLED_CalculateDomainUsingTransitionValuesWorksWithF
 
     SolutionSet actualDomain = calculateDomainUsingTransitionValues(values, [](AlbaNumber const& number)
     {
-        return (number == 3) ? NAN : number;
+        return (number == 3) ? AlbaNumber(AlbaNumber::Value::NotANumber) : number;
     });
 
-    AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());
-    ASSERT_EQ(2u, acceptedIntervals.size());
+    AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());    ASSERT_EQ(2u, acceptedIntervals.size());
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createOpenEndpoint(3)), acceptedIntervals.at(0));
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(3), createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), acceptedIntervals.at(1));
 }
-
 TEST(DomainAndRangeTest, DISABLED_CalculateDomainForTermWithOneVariableWorksWithTermWithValues)
 {
     AlbaNumbers values{1.3, 9.25};

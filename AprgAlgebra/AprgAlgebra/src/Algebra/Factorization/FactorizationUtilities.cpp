@@ -1,40 +1,18 @@
 #include "FactorizationUtilities.hpp"
 
 #include <Algebra/Factorization/Factorization.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
-using namespace alba::mathHelper;
-using namespace std;
+using namespace alba::mathHelper;using namespace std;
 
 namespace alba
 {
-
 namespace algebra
 {
 
 namespace Factorization
 {
-
-bool isPerfectSquare(Monomial const& monomial)
-{
-    return isPerfectNthPower(monomial, 2);
-}
-
-bool isPerfectCube(Monomial const& monomial)
-{
-    return isPerfectNthPower(monomial, 3);
-}
-
-bool isPerfectNthPower(Monomial const& monomial, unsigned int const nthPower)
-{
-    AlbaNumber constant(monomial.getConstantConstReference());
-    bool result(false);
-    if(constant.isIntegerType() && mathHelper::isPerfectNthPowerForAlbaNumber(constant, nthPower))
-    {
-        result = areExponentsDivisible(monomial, nthPower);
-    }
-    return result;
-}
 
 bool areExponentsDivisible(Monomial const& monomial, unsigned int const divisor)
 {
@@ -51,9 +29,47 @@ bool areExponentsDivisible(Monomial const& monomial, unsigned int const divisor)
     return result;
 }
 
-void simplifyPolynomialThenEmplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomial)
+bool isPerfectSquare(Monomial const& monomial)
 {
-    Polynomial simplifiedPolynomial(polynomial);
+    return isPerfectNthPower(monomial, 2);}
+
+bool isPerfectCube(Monomial const& monomial)
+{
+    return isPerfectNthPower(monomial, 3);}
+
+bool isPerfectNthPower(Monomial const& monomial, unsigned int const nthPower)
+{
+    AlbaNumber constant(monomial.getConstantConstReference());
+    bool result(false);
+    if(constant.isIntegerType() && mathHelper::isPerfectNthPowerForAlbaNumber(constant, nthPower))
+    {
+        result = areExponentsDivisible(monomial, nthPower);
+    }
+    return result;
+}
+
+bool doesNotNeedToBeFactorized(Polynomial const& polynomial)
+{
+    Monomials const& monomials(polynomial.getMonomialsConstReference());
+    bool result(false);
+    if(monomials.size() <= 1)
+    {
+        result = true;
+    }
+    else if(monomials.size() == 2)
+    {
+        if(doesThePolynomialHaveOnlyOneVariable(polynomial))
+        {
+            Monomial const& first(monomials.at(0));
+            Monomial const& second(monomials.at(1));
+            result = (first.getMaxExponent() == 0 && first.getConstantConstReference() == 1 && second.getMaxExponent() <= 1)
+                    || (first.getMaxExponent() <= 1 && first.getMaxExponent() == 0 && second.getConstantConstReference() == 1);
+        }
+    }
+    return result;}
+
+void simplifyPolynomialThenEmplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomial)
+{    Polynomial simplifiedPolynomial(polynomial);
     simplifiedPolynomial.simplify();
     emplaceBackIfNotEmpty(polynomials, simplifiedPolynomial);
 }

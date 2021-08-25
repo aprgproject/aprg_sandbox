@@ -54,26 +54,25 @@ AlbaNumbers getRoots(RootType const rootType, Polynomial const& polynomial)
     {
         Polynomial polynomialToFactorize(polynomial);
         Polynomials factorizedPolynomials(factorize(polynomialToFactorize));
+
         for(Polynomial const& factorizedPolynomial : factorizedPolynomials)
         {
-            Monomials const& monomials(factorizedPolynomial.getMonomialsConstReference());
+            Monomials const& monomialsToCheck(factorizedPolynomial.getMonomialsConstReference());
             AlbaNumber maxDegree(factorizedPolynomial.getMaxDegree());
-            if(monomials.size() == 1 && maxDegree > 0)
+            if(monomialsToCheck.size() == 1 && maxDegree > 0)
             {
                 result.emplace_back(AlbaNumber(0));
             }
-            else if(monomials.size() == 2)
+            else if(monomialsToCheck.size() == 2)
             {
-                Monomial firstMonomial(monomials.at(0));
-                Monomial secondMonomial(monomials.at(1));
+                Monomial firstMonomial(monomialsToCheck.at(0));
+                Monomial secondMonomial(monomialsToCheck.at(1));
                 if(secondMonomial.isConstantOnly())
                 {
-                    AlbaNumber constant(-secondMonomial.getConstantConstReference());
-                    constant = constant/firstMonomial.getConstantConstReference();
+                    AlbaNumber constant(-secondMonomial.getConstantConstReference());                    constant = constant/firstMonomial.getConstantConstReference();
                     constant = constant^(AlbaNumber(1)/firstMonomial.getMaxExponent());
 
-                    if(constant.isAFiniteValue())
-                    {
+                    if(constant.isAFiniteValue())                    {
                         if(RootType::RealAndImaginaryRoots == rootType)
                         {
                             result.emplace_back(constant);

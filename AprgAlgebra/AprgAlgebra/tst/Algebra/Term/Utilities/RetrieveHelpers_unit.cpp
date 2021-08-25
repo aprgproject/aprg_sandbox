@@ -450,19 +450,17 @@ TEST(RetrieveHelpersTest, CountIndividualTermsAndReturnNumberWorksForTerm)
         return number;
     });
 
-    EXPECT_EQ(1, countIndividualTermsAndReturnNumber(Term(Constant(1.234))));
-    EXPECT_EQ(1, countIndividualTermsAndReturnNumber(Term(Monomial(34, {{"x", 1}, {"y", 1}}))));
-    EXPECT_EQ(1, countIndividualTermsAndReturnNumber(Term(Polynomial({Monomial(5, {{"x", 56}}), Monomial(1, {{"y", 1}})}))));
-    EXPECT_EQ(3, countIndividualTermsAndReturnNumber(Term(createExpressionIfPossible({Term(Monomial(78, {{"x", 1}})), Term("^"), Term(68)}))));
-    EXPECT_EQ(4, countIndividualTermsAndReturnNumber(Term(functionObject)));
+    EXPECT_EQ(1u, countIndividualTermsAndReturnNumber(Term(Constant(1.234))));
+    EXPECT_EQ(1u, countIndividualTermsAndReturnNumber(Term(Monomial(34, {{"x", 1}, {"y", 1}}))));
+    EXPECT_EQ(1u, countIndividualTermsAndReturnNumber(Term(Polynomial({Monomial(5, {{"x", 56}}), Monomial(1, {{"y", 1}})}))));
+    EXPECT_EQ(3u, countIndividualTermsAndReturnNumber(Term(createExpressionIfPossible({Term(Monomial(78, {{"x", 1}})), Term("^"), Term(68)}))));
+    EXPECT_EQ(4u, countIndividualTermsAndReturnNumber(Term(functionObject)));
 }
 
-TEST(RetrieveHelpersTest, CountIndividualTermsWorksForTerm)
-{
+TEST(RetrieveHelpersTest, CountIndividualTermsWorksForTerm){
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term(Monomial(45, {{"x", 1}})), Term("^"), Term(68)})),
-                [](AlbaNumber const&  number) -> AlbaNumber
+                Term(createExpressionIfPossible({Term(Monomial(45, {{"x", 1}})), Term("^"), Term(68)})),                [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
@@ -478,28 +476,25 @@ TEST(RetrieveHelpersTest, CountIndividualTermsWorksForTerm)
     countIndividualTerms(count4, Term(createExpressionIfPossible({Term(Monomial(78, {{"x", 1}})), Term("^"), Term(68)})));
     countIndividualTerms(count5, Term(functionObject));
 
-    EXPECT_EQ(1, count1);
-    EXPECT_EQ(1, count2);
-    EXPECT_EQ(1, count3);
-    EXPECT_EQ(3, count4);
-    EXPECT_EQ(4, count5);
+    EXPECT_EQ(1u, count1);
+    EXPECT_EQ(1u, count2);
+    EXPECT_EQ(1u, count3);
+    EXPECT_EQ(3u, count4);
+    EXPECT_EQ(4u, count5);
 }
 
-TEST(RetrieveHelpersTest, CountIndividualTermsWorksForExpression)
-{
+TEST(RetrieveHelpersTest, CountIndividualTermsWorksForExpression){
     unsigned int count(0);
 
     countIndividualTerms(count, createExpressionIfPossible({Term(Monomial(78, {{"x", 1}})), Term("^"), Term(68)}));
 
-    EXPECT_EQ(2, count);
+    EXPECT_EQ(2u, count);
 }
 
-TEST(RetrieveHelpersTest, CountIndividualTermsWorksForFunction)
-{
+TEST(RetrieveHelpersTest, CountIndividualTermsWorksForFunction){
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term(Monomial(45, {{"x", 1}})), Term("^"), Term(68)})),
-                [](AlbaNumber const&  number) -> AlbaNumber
+                Term(createExpressionIfPossible({Term(Monomial(45, {{"x", 1}})), Term("^"), Term(68)})),                [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
@@ -507,15 +502,13 @@ TEST(RetrieveHelpersTest, CountIndividualTermsWorksForFunction)
 
     countIndividualTerms(count, functionObject);
 
-    EXPECT_EQ(3, count);
+    EXPECT_EQ(3u, count);
 }
 
-TEST(RetrieveHelpersTest, RetrieveAndReturnFunctionsWithConditionWorksForExpression)
-{
+TEST(RetrieveHelpersTest, RetrieveAndReturnFunctionsWithConditionWorksForExpression){
     Function functionObject(
                 "functionName",
-                Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})),
-                [](AlbaNumber const&  number) -> AlbaNumber
+                Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")})),                [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });

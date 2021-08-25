@@ -24,30 +24,26 @@ Polynomials factorizeAPolynomial(Polynomial const& polynomial)
     Polynomial polynomialToFactorize(polynomial);
     polynomialToFactorize.simplify();
     Polynomials result;
-    if(polynomialToFactorize.isOneMonomial())
+    if(doesNotNeedToBeFactorized(polynomial))
     {
         result.emplace_back(polynomialToFactorize);
-    }
-    else
+    }    else
     {
         result = factorizeCommonMonomialIfPossible(polynomialToFactorize);
-        if(result.empty())
-        {
+        if(result.empty())        {
             result = factorizeUsingPatternsIfPossible(polynomialToFactorize);
         }
         if(result.empty())
         {
             result = factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToFactorize);
         }
-        if(result.empty())
+        if(result.empty() && polynomialToFactorize.getMonomialsConstReference().size() > 2)
         {
             result = factorizeBySplittingToSmallerPolynomialsIfPossible(polynomialToFactorize);
         }
-
         if(result.empty())
         {
-            result.emplace_back(polynomialToFactorize);
-        }
+            result.emplace_back(polynomialToFactorize);        }
         else if(result.size() > 1)
         {
             result = factorizePolynomials(result);
