@@ -14,22 +14,20 @@ namespace alba
 namespace algebra
 {
 
-TEST(LimitTest, IsRejectedOutputValueForLimitWorks)
+TEST(LimitTest, IsRejectedLimitValueForDirectSubstitutionAndIterativeMethodsWorks)
 {
-    EXPECT_TRUE(isRejectedOutputValueForLimit(AlbaNumber(0)));
-    EXPECT_FALSE(isRejectedOutputValueForLimit(AlbaNumber(1)));
-    EXPECT_FALSE(isRejectedOutputValueForLimit(AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
-    EXPECT_FALSE(isRejectedOutputValueForLimit(AlbaNumber(AlbaNumber::Value::NegativeInfinity)));
-    EXPECT_TRUE(isRejectedOutputValueForLimit(AlbaNumber(AlbaNumber::Value::NotANumber)));
-    EXPECT_TRUE(isRejectedOutputValueForLimit(AlbaNumber(AlbaNumber::createComplexNumber(2, 3))));
+    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(0)));
+    EXPECT_FALSE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(1)));
+    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(AlbaNumber::Value::NegativeInfinity)));
+    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(AlbaNumber::Value::NotANumber)));
+    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(AlbaNumber::createComplexNumber(2, 3))));
 }
 
-TEST(LimitTest, GetLimitValueByApproachTypeWorksForPolynomialOverPolynomial)
-{
+TEST(LimitTest, GetLimitValueByApproachTypeWorksForPolynomialOverPolynomial){
     Term numerator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-25, {})});
     Term denominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-5, {})});
     Term polynomialOverPolynomialTerm(createExpressionIfPossible({numerator, Term("/"), denominator}));
-
     EXPECT_EQ(AlbaNumber(10), getLimitValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitApproachType::BothSides));
     EXPECT_EQ(AlbaNumber(10), getLimitValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitApproachType::PositiveSide));
     EXPECT_EQ(AlbaNumber(10), getLimitValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitApproachType::NegativeSide));
