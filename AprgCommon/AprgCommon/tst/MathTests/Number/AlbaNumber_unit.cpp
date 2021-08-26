@@ -1525,7 +1525,8 @@ TEST(AlbaNumberTest, SquareRootOfNegativeNumberWorks)
     EXPECT_DOUBLE_EQ(-2, numberToVerify1.getInteger());
     EXPECT_EQ(AlbaNumber::Type::ComplexNumber, numberToVerify2.getType());
     AlbaNumber::ComplexNumberData complexNumberData2(numberToVerify2.getComplexNumberData());
-    EXPECT_FLOAT_EQ(0, complexNumberData2.realPart);    EXPECT_FLOAT_EQ(1, complexNumberData2.imaginaryPart);
+    EXPECT_FLOAT_EQ(0, complexNumberData2.realPart);
+    EXPECT_FLOAT_EQ(1, complexNumberData2.imaginaryPart);
     EXPECT_EQ(AlbaNumber::Type::ComplexNumber, numberToVerify3.getType());
     AlbaNumber::ComplexNumberData complexNumberData3(numberToVerify3.getComplexNumberData());
     EXPECT_FLOAT_EQ(0, complexNumberData3.realPart);

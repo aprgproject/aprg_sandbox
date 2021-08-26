@@ -11,7 +11,7 @@ namespace alba
 namespace algebra
 {
 
-enum class LimitApproachType
+enum class LimitAtAValueApproachType
 {
     BothSides,
     PositiveSide,
@@ -19,28 +19,30 @@ enum class LimitApproachType
 };
 
 bool isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber const& value);
-AlbaNumber getLimitValueByApproachType(
+AlbaNumber getLimitAtAValueByApproachType(
         Term const& term,
         std::string const& variableName,
         AlbaNumber const& valueToApproach,
-        LimitApproachType const limitApproachType);
-AlbaNumber getLimitInBothSides(
-        Term const& term,
-        std::string const& variableName,        AlbaNumber const& valueToApproach);
-AlbaNumber getLimitInPositiveSide(
-        Term const& term,
-        std::string const& variableName,        AlbaNumber const& valueToApproach);
-AlbaNumber getLimitInNegativeSide(
+        LimitAtAValueApproachType const limitApproachType);
+AlbaNumber getLimitAtAValueInBothSides(
         Term const& term,
         std::string const& variableName,
         AlbaNumber const& valueToApproach);
-AlbaNumber getLimitByIterationAndLinearInterpolation(
+AlbaNumber getLimitAtAValueInThePositiveSide(
+        Term const& term,
+        std::string const& variableName,
+        AlbaNumber const& valueToApproach);
+AlbaNumber getLimitAtAValueInTheNegativeSide(
+        Term const& term,
+        std::string const& variableName,
+        AlbaNumber const& valueToApproach);
+AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
         Term const& term,
         std::string const& variableName,
         AlbaNumber const& valueToApproach,
         AlbaNumber const& initialValueForIteration,
         unsigned int maxNumberOfIterations);
-AlbaNumber getLimitValue(
+AlbaNumber getLimitAtAValueUsingTrendOfValues(
         Term const& term,
         std::string const& variableName,
         AlbaNumber const& valueToApproach,
@@ -49,14 +51,17 @@ AlbaNumber getLimitValue(
 
 AlbaNumber getValueUsingLinearInterpolation(
         AlbaNumber const& input1,
-        AlbaNumber const& input2,        AlbaNumber const& inputValue,
+        AlbaNumber const& input2,
+        AlbaNumber const& inputValue,
         AlbaNumber const& output1,
         AlbaNumber const& output2);
-Term getLimitAsItApproachesAValue(
+
+Term getLimitAtAValue(
         Term const& term,
         std::string const& variableName,
         AlbaNumber const& value,
-        LimitApproachType const limitApproachType);
+        LimitAtAValueApproachType const limitApproachType);
 
 }
+
 }
