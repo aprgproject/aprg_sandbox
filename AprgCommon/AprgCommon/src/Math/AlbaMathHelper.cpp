@@ -52,10 +52,12 @@ FractionDetails getFractionFromPartialNumerators(
     double numerator(0), denominator(0);
     bool isFirst(true);
     for(UnsignedIntegers::const_reverse_iterator it=calculatedPartialNumerators.crbegin();
-        it!=calculatedPartialNumerators.crend();        it++)
+        it!=calculatedPartialNumerators.crend();
+        it++)
     {
         unsigned int calculatedNumerator(*it);
-        if(isFirst)        {
+        if(isFirst)
+        {
             numerator = calculatedNumerator;
             denominator = 1;
             isFirst = false;

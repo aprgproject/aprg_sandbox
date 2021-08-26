@@ -220,9 +220,11 @@ void TermsOverTerms::removeSameTermsInNumeratorAndDenominator()
         m_numerators.emplace_back(Term(AlbaNumber(AlbaNumber::Value::NotANumber)));
     }
 }
+
 void TermsOverTerms::removeTermsThatHaveNoEffect(Terms & terms) const
 {
-    terms.erase(remove_if(terms.begin(), terms.end(), [](Term const& term){                    return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term);
+    terms.erase(remove_if(terms.begin(), terms.end(), [](Term const& term){
+                    return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term);
                 }), terms.end());
 }
 

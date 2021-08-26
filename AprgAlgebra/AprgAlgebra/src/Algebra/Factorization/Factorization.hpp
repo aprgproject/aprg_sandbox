@@ -20,4 +20,5 @@ Expression factorize(Expression const& expression);
 }
 
 }
+
 }

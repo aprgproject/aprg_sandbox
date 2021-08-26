@@ -25,7 +25,8 @@ public:
     AlbaNumber const& getCurrentValue() const;
 
     void runOneIteration();
-    void runMaxNumberOfIterationsOrUntilFinished(unsigned int const maxIterations);    void runUntilFinished();
+    void runMaxNumberOfIterationsOrUntilFinished(unsigned int const maxIterations);
+    void runUntilFinished();
 
 private:
     AlbaNumber getSlopeApproximationAt(AlbaNumber const& value) const;
@@ -35,6 +36,7 @@ private:
     AlbaNumber m_positiveDeltaForSlope;
     Function m_functionToIterate;
 };
+
 }
 
 }

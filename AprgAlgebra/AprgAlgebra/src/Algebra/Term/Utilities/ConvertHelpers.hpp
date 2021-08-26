@@ -8,6 +8,7 @@ namespace alba
 namespace algebra
 {
 
+bool canBeConvertedToConstant(Polynomial const& polynomial);
 bool canBeConvertedToMonomial(Term const& term);
 bool canBeConvertedToPolynomial(Term const& term);
 

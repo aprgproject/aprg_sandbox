@@ -34,10 +34,12 @@ Function greatestIntegerFunction(Term const& term)
 
 Function sin(Term const& term)
 {
-    return Function("sin", term, [](AlbaNumber const&  number) -> AlbaNumber    {
+    return Function("sin", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
         return ::sin(number.getDouble());
     });
 }
+
 Function cos(Term const& term)
 {
     return Function("cos", term, [](AlbaNumber const&  number) -> AlbaNumber

@@ -8,6 +8,7 @@
 #include <string>
 
 using namespace std;
+
 namespace alba
 {
 
@@ -27,10 +28,12 @@ static std::ofstream debugStream(ALBA_PRINT_OUTPUT_STREAM_FILE_PATH);
 
 #define Z_ALBA_PRIVATE_GET_STRING_LITERALS_EXPANSION(parameter1, parameter2) ALBA_MACROS_GET_STRING_LITERAL(parameter1) + parameter2
 #define Z_ALBA_PRIVATE_GET_STRING_LITERALS1(parameter1)                      ALBA_MACROS_GET_STRING_LITERAL(parameter1)
-#define Z_ALBA_PRIVATE_GET_STRING_LITERALS2(parameter1, parameter2)          ALBA_MACROS_GET_STRING_LITERAL(parameter1) + ALBA_MACROS_GET_STRING_LITERAL(parameter2)#define Z_ALBA_PRIVATE_GET_STRING_LITERALS3(parameter, ...)                  Z_ALBA_PRIVATE_GET_STRING_LITERALS_EXPANSION(parameter, Z_ALBA_PRIVATE_GET_STRING_LITERALS2(__VA_ARGS__))
+#define Z_ALBA_PRIVATE_GET_STRING_LITERALS2(parameter1, parameter2)          ALBA_MACROS_GET_STRING_LITERAL(parameter1) + ALBA_MACROS_GET_STRING_LITERAL(parameter2)
+#define Z_ALBA_PRIVATE_GET_STRING_LITERALS3(parameter, ...)                  Z_ALBA_PRIVATE_GET_STRING_LITERALS_EXPANSION(parameter, Z_ALBA_PRIVATE_GET_STRING_LITERALS2(__VA_ARGS__))
 #define Z_ALBA_PRIVATE_GET_STRING_LITERALS4(parameter, ...)                  Z_ALBA_PRIVATE_GET_STRING_LITERALS_EXPANSION(parameter, Z_ALBA_PRIVATE_GET_STRING_LITERALS3(__VA_ARGS__))
 #define Z_ALBA_PRIVATE_GET_STRING_LITERALS5(parameter, ...)                  Z_ALBA_PRIVATE_GET_STRING_LITERALS_EXPANSION(parameter, Z_ALBA_PRIVATE_GET_STRING_LITERALS4(__VA_ARGS__))
 #define Z_ALBA_PRIVATE_GET_STRING_LITERALS6(parameter, ...)                  Z_ALBA_PRIVATE_GET_STRING_LITERALS_EXPANSION(parameter, Z_ALBA_PRIVATE_GET_STRING_LITERALS4(__VA_ARGS__))
+
 #define Z_ALBA_PRIVATE_GET_STRING_PRINT_EXPANSION(parameter1, parameter2) parameter1 << parameter2
 #define Z_ALBA_PRIVATE_GET_STRING_PRINT1(parameter1)                      ALBA_MACROS_GET_STRING_LITERAL(parameter1) << " : [" << parameter1 << "] "
 #define Z_ALBA_PRIVATE_GET_STRING_PRINT2(parameter1, parameter2)          ALBA_MACROS_GET_STRING_LITERAL(parameter1) << " : [" << parameter1 << "] " << ALBA_MACROS_GET_STRING_LITERAL(parameter2) << " : [" << parameter2 << "] "

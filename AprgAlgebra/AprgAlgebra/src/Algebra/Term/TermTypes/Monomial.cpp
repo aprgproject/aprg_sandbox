@@ -149,7 +149,7 @@ AlbaNumber Monomial::getDegree() const
     AlbaNumber degree;
     for(VariableExponentPair const& variableExponentPair : m_variablesToExponentsMap)
     {
-        degree = degree+variableExponentPair.second;
+        degree = degree + variableExponentPair.second;
     }
     return degree;
 }

@@ -23,7 +23,9 @@ void emplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomi
 Polynomials returnPolynomialsOrSinglePolynomialIfEmpty(
         Polynomials const& polynomials,
         Polynomial const& polynomial);
+
 }
 
 }
+
 }

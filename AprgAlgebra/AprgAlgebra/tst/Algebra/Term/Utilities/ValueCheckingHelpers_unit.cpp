@@ -8,8 +8,10 @@
 
 namespace alba
 {
+
 namespace algebra
 {
+
 TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnAdditionOrSubtractionWorks)
 {
     EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term()));

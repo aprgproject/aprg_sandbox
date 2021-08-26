@@ -9,6 +9,14 @@ namespace alba
 namespace algebra
 {
 
+TEST(ConvertHelpersTest, CanBeConvertedToConstantWorks)
+{
+    EXPECT_TRUE(canBeConvertedToConstant(Polynomial()));
+    EXPECT_TRUE(canBeConvertedToConstant(Polynomial{Monomial(96, {})}));
+    EXPECT_FALSE(canBeConvertedToConstant(Polynomial{Monomial(96, {{"x", 1}})}));
+    EXPECT_FALSE(canBeConvertedToConstant(Polynomial{Monomial(96, {}), Monomial(96, {{"x", 1}})}));
+}
+
 TEST(ConvertHelpersTest, CanBeConvertedToMonomialWorks)
 {
     EXPECT_FALSE(canBeConvertedToMonomial(Term()));

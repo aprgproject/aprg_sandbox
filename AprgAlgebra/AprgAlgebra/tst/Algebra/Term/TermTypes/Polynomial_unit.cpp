@@ -184,9 +184,11 @@ TEST(PolynomialTest, SimplifyWithNotANumberDoesNotCrash)
     Polynomial polynomial{Monomial(AlbaNumber::Value::NotANumber, {})};
 
     polynomial.simplify();
+
     ASSERT_EQ(1u, polynomial.getMonomialsConstReference().size());
     EXPECT_TRUE(polynomial.getFirstMonomial().getConstantConstReference().isNotANumber());
 }
+
 TEST(PolynomialTest, SimplifyWorks)
 {
     Polynomial polynomial1{Monomial(0, {{"x", 1}}), Monomial(0, {{"x", 1}})};

@@ -1,7 +1,9 @@
 #include "PolynomialOverPolynomial.hpp"
 
 #include <Algebra/Factorization/Factorization.hpp>
+#include <Algebra/Factorization/FactorizationUtilities.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
@@ -90,6 +92,11 @@ PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide(
     return QuotientAndRemainder{currentQuotient, currentRemainder};
 }
 
+bool PolynomialOverPolynomial::shouldPerformFactorization() const
+{
+    return !canBeConvertedToConstant(m_numerator) && !canBeConvertedToConstant(m_denominator);
+}
+
 void PolynomialOverPolynomial::convertFractionCoefficientsToInteger()
 {
     unsigned int numeratorMultiplier(getLcmForDenominatorCoefficients(m_numerator));
@@ -136,15 +143,16 @@ void PolynomialOverPolynomial::removeCommonMonomialOnAllMonomialsInNumeratorAndD
 
 void PolynomialOverPolynomial::factorizeRemoveCommonFactorsInNumeratorAndDenominatorAndCombineRemainingFactors()
 {
-    Polynomials numeratorFactors(factorize(m_numerator));
-    Polynomials denominatorFactors(factorize(m_denominator));
-    removeEmptyPolynomials(numeratorFactors);
-    removeEmptyPolynomials(denominatorFactors);
-    bool areSomeFactorsRemoved(removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(numeratorFactors, denominatorFactors));
-    if(areSomeFactorsRemoved)
+    if(shouldPerformFactorization())
     {
-        m_numerator = multiplyAndSimplifyFactors(numeratorFactors);
-        m_denominator = multiplyAndSimplifyFactors(denominatorFactors);
+        Polynomials numeratorFactors(factorize(m_numerator));
+        Polynomials denominatorFactors(factorize(m_denominator));
+        bool areSomeFactorsRemoved(removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(numeratorFactors, denominatorFactors));
+        if(areSomeFactorsRemoved)
+        {
+            m_numerator = multiplyAndSimplifyFactors(numeratorFactors);
+            m_denominator = multiplyAndSimplifyFactors(denominatorFactors);
+        }
     }
 }
 

@@ -8,6 +8,11 @@ namespace alba
 namespace algebra
 {
 
+bool canBeConvertedToConstant(Polynomial const& polynomial)
+{
+    return polynomial.isEmpty() || (polynomial.isOneMonomial() && polynomial.getFirstMonomial().isConstantOnly());
+}
+
 bool canBeConvertedToMonomial(Term const& term)
 {
     TermType termType(term.getTermType());

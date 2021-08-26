@@ -32,6 +32,7 @@ public:
     QuotientAndRemainder divide() const;
 
 private:
+    bool shouldPerformFactorization() const;
     void convertFractionCoefficientsToInteger();
     void convertNegativeExponentsToPositive();
     void removeCommonMonomialOnAllMonomialsInNumeratorAndDenominator();
