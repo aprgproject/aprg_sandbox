@@ -35,14 +35,21 @@ TEST(CommonFunctionLibraryTest, GreatestIntegerFunctionWorks)
     EXPECT_EQ(AlbaNumber(-5), greatestIntegerFunctionObject.performFunctionAndReturnResultIfPossible());
 }
 
+TEST(CommonFunctionLibraryTest, SignumFunctionWorks)
+{
+    Function signumFunctionObject(sgn(Term(-5.1)));
+
+    EXPECT_EQ("sgn", signumFunctionObject.getFunctionName());
+    EXPECT_EQ(Term(-5.1), getTermConstReferenceFromBaseTerm(signumFunctionObject.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber(-1), signumFunctionObject.performFunctionAndReturnResultIfPossible());
+}
+
 TEST(CommonFunctionLibraryTest, SineFunctionWorks)
 {
     Function sineFunction(sin(Term(getPi())));
-
     EXPECT_EQ("sin", sineFunction.getFunctionName());
     EXPECT_EQ(Term(getPi()), getTermConstReferenceFromBaseTerm(sineFunction.getInputTermConstReference()));
-    EXPECT_EQ(AlbaNumber(0), sineFunction.performFunctionAndReturnResultIfPossible());
-}
+    EXPECT_EQ(AlbaNumber(0), sineFunction.performFunctionAndReturnResultIfPossible());}
 
 TEST(CommonFunctionLibraryTest, CosineFunctionWorks)
 {

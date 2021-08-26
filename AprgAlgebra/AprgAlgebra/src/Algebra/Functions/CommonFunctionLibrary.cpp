@@ -32,14 +32,29 @@ Function greatestIntegerFunction(Term const& term)
     });
 }
 
-Function sin(Term const& term)
+Function sgn(Term const& term)
 {
-    return Function("sin", term, [](AlbaNumber const&  number) -> AlbaNumber
+    return Function("sgn", term, [](AlbaNumber const&  number) -> AlbaNumber
     {
-        return ::sin(number.getDouble());
+        AlbaNumber result(0);
+        if(number > 0)
+        {
+            result = 1;
+        }
+        else if(number < 0)
+        {
+            result = -1;
+        }
+        return result;
     });
 }
 
+Function sin(Term const& term)
+{
+    return Function("sin", term, [](AlbaNumber const&  number) -> AlbaNumber    {
+        return ::sin(number.getDouble());
+    });
+}
 Function cos(Term const& term)
 {
     return Function("cos", term, [](AlbaNumber const&  number) -> AlbaNumber

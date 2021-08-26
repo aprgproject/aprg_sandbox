@@ -1522,15 +1522,30 @@ TEST(AlbaNumberTest, SquareRootOfNegativeNumberWorks)
     AlbaNumber numberToVerify3 = AlbaNumber(-5) ^ AlbaNumber::createFraction(1, 2);
 
     EXPECT_EQ(AlbaNumber::Type::Integer, numberToVerify1.getType());
-    EXPECT_DOUBLE_EQ(-2, numberToVerify1.getDouble());
+    EXPECT_DOUBLE_EQ(-2, numberToVerify1.getInteger());
     EXPECT_EQ(AlbaNumber::Type::ComplexNumber, numberToVerify2.getType());
     AlbaNumber::ComplexNumberData complexNumberData2(numberToVerify2.getComplexNumberData());
-    EXPECT_FLOAT_EQ(0, complexNumberData2.realPart);
-    EXPECT_FLOAT_EQ(1, complexNumberData2.imaginaryPart);
+    EXPECT_FLOAT_EQ(0, complexNumberData2.realPart);    EXPECT_FLOAT_EQ(1, complexNumberData2.imaginaryPart);
     EXPECT_EQ(AlbaNumber::Type::ComplexNumber, numberToVerify3.getType());
     AlbaNumber::ComplexNumberData complexNumberData3(numberToVerify3.getComplexNumberData());
     EXPECT_FLOAT_EQ(0, complexNumberData3.realPart);
     EXPECT_FLOAT_EQ(2.236068, complexNumberData3.imaginaryPart);
+}
+
+TEST(AlbaNumberTest, PrecisionWorksOnSquareRootAndPolynomialCalculation)
+{
+    AlbaNumber valueToTest(3.99999999999636202119290828705);
+
+    AlbaNumber numerator = (valueToTest ^ AlbaNumber::createFraction(1,2)) - 2;
+    AlbaNumber denominator = valueToTest - 4;
+    AlbaNumber numberToVerify = numerator/denominator;
+
+    EXPECT_EQ(AlbaNumber::Type::Integer, numerator.getType());
+    EXPECT_EQ(0, numerator.getInteger());
+    EXPECT_EQ(AlbaNumber::Type::Double, denominator.getType());
+    EXPECT_DOUBLE_EQ(-3.637978807091713e-012, denominator.getDouble());
+    EXPECT_EQ(AlbaNumber::Type::Integer, numberToVerify.getType());
+    EXPECT_EQ(0, numberToVerify.getInteger());
 }
 
 }
