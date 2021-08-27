@@ -1,10 +1,9 @@
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 #include <gtest/gtest.h>
-
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -50,14 +49,23 @@ TEST(TermUtilitiesTest, IsNonEmptyOrNonOperatorOrNonExpressionTypeWorks)
     EXPECT_TRUE(isNonEmptyOrNonOperatorOrNonExpressionType(term8));
 }
 
+TEST(TermUtilitiesTest, IsNegatedTermSimplerWorks)
+{
+    Term xToTheX(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+    Term negativeXToTheX(createExpressionIfPossible({Term(-1), Term("*"), Term("x"), Term("^"), Term("x")}));
+
+    EXPECT_FALSE(isNegatedTermSimpler(xToTheX, negativeXToTheX));
+    EXPECT_TRUE(isNegatedTermSimpler(negativeXToTheX, xToTheX));
+    EXPECT_FALSE(isNegatedTermSimpler(Term(Monomial(5, {})), Term(Monomial(-5, {}))));
+    EXPECT_TRUE(isNegatedTermSimpler(Term(Monomial(-5, {})), Term(Monomial(5, {}))));
+}
+
 TEST(TermUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
 {
     AlbaNumbers inputNumbers{-2,-1,0,1,2};
-
     AlbaNumberPairs inputAndOutputPairs(
                 evaluateAndGetInputOutputPair(
-                    inputNumbers,
-                    "x",
+                    inputNumbers,                    "x",
                     Term(Monomial(-2, {{"x", 3}}))
                     ));
 
