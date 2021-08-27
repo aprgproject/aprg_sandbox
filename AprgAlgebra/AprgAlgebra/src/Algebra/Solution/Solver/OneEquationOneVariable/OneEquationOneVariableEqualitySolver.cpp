@@ -6,13 +6,10 @@
 #include <Algebra/Solution/Solver/NewtonMethod.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
-#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 

@@ -1,18 +1,14 @@
 #include "DomainAndRange.hpp"
 
-#include <Algebra/Equation/EquationUtilities.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Solution/SolutionUtilities.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
-
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 

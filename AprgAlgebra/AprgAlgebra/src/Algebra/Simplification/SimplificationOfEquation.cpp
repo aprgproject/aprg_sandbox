@@ -6,13 +6,10 @@
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 

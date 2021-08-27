@@ -1,15 +1,11 @@
 #include "RetrieveHelpers.hpp"
 
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 AlbaNumber getCoefficientOfMonomialWithNoVariables(
         Polynomial const& polynomial)
 {

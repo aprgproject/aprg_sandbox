@@ -9,14 +9,27 @@ namespace alba
 namespace algebra
 {
 
+TEST(FunctionsRetrieverTest, RetrieveFromEquationsWorks)
+{
+    FunctionsRetriever retriever([](Function const&)
+    {
+        return false;
+    });
+    Equation equation1(Term(Monomial(34, {{"x", 5}})), "=", Term(Monomial(41, {{"y", 6}})));
+    Equation equation2(Term(Monomial(95, {{"x", 7}})), "=", Term(Monomial(18, {{"y", 8}})));
+
+    retriever.retrieveFromEquations({equation1, equation2});
+
+    FunctionsSet const& functionsSet(retriever.getSavedData());
+    EXPECT_TRUE(functionsSet.empty());
+}
+
 TEST(FunctionsRetrieverTest, RetrieveFromEquationWorks)
 {
-    FunctionsRetriever::FunctionCondition conditionThatWillMatch = [](Function const& functionObject)
-    {
+    FunctionsRetriever::FunctionCondition conditionThatWillMatch = [](Function const& functionObject)    {
         return functionObject.getFunctionName() == "functionName";
     };
-    FunctionsRetriever::FunctionCondition conditionThatWillNotMatch = [](Function const& functionObject)
-    {
+    FunctionsRetriever::FunctionCondition conditionThatWillNotMatch = [](Function const& functionObject)    {
         return functionObject.getFunctionName() == "WillNotMatch";
     };
     FunctionsRetriever retriever1(conditionThatWillMatch);

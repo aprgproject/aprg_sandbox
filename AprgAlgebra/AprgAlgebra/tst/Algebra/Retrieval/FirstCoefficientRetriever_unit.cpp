@@ -9,13 +9,22 @@ namespace alba
 namespace algebra
 {
 
-TEST(FirstCoefficientRetrieverTest, RetrieveFromEquationWorks)
+TEST(FirstCoefficientRetrieverTest, RetrieveFromEquationsWorks)
 {
     FirstCoefficientRetriever retriever;
-    Term leftHandTerm(Monomial(34, {{"x", 5}}));
+    Equation equation1(Term(Monomial(34, {{"x", 5}})), "=", Term(Monomial(41, {{"y", 6}})));
+    Equation equation2(Term(Monomial(95, {{"x", 7}})), "=", Term(Monomial(18, {{"y", 8}})));
+
+    retriever.retrieveFromEquations({equation1, equation2});
+
+    EXPECT_EQ(AlbaNumber(34), retriever.getSavedData());
+}
+
+TEST(FirstCoefficientRetrieverTest, RetrieveFromEquationWorks)
+{
+    FirstCoefficientRetriever retriever;    Term leftHandTerm(Monomial(34, {{"x", 5}}));
     Term rightHandTerm(Monomial(41, {{"y", 6}}));
     Equation equation(leftHandTerm, "=", rightHandTerm);
-
     retriever.retrieveFromEquation(equation);
 
     EXPECT_EQ(AlbaNumber(34), retriever.getSavedData());

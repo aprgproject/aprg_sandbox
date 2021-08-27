@@ -9,13 +9,28 @@ namespace alba
 namespace algebra
 {
 
-TEST(ExponentsRetrieverTest, RetrieveFromEquationWorks)
+TEST(ExponentsRetrieverTest, RetrieveFromEquationsWorks)
 {
     ExponentsRetriever retriever;
-    Term leftHandTerm(Monomial(34, {{"x", 5}}));
+    Equation equation1(Term(Monomial(34, {{"x", 5}})), "=", Term(Monomial(41, {{"y", 6}})));
+    Equation equation2(Term(Monomial(95, {{"x", 7}})), "=", Term(Monomial(18, {{"y", 8}})));
+
+    retriever.retrieveFromEquations({equation1, equation2});
+
+    AlbaNumbersSet const& numbersSet(retriever.getSavedData());
+    ASSERT_EQ(4u, numbersSet.size());
+    AlbaNumbersSet::const_iterator it = numbersSet.cbegin();
+    EXPECT_EQ(AlbaNumber(5), *(it++));
+    EXPECT_EQ(AlbaNumber(6), *(it++));
+    EXPECT_EQ(AlbaNumber(7), *(it++));
+    EXPECT_EQ(AlbaNumber(8), *(it++));
+}
+
+TEST(ExponentsRetrieverTest, RetrieveFromEquationWorks)
+{
+    ExponentsRetriever retriever;    Term leftHandTerm(Monomial(34, {{"x", 5}}));
     Term rightHandTerm(Monomial(41, {{"y", 6}}));
     Equation equation(leftHandTerm, "=", rightHandTerm);
-
     retriever.retrieveFromEquation(equation);
 
     AlbaNumbersSet const& numbersSet(retriever.getSavedData());
