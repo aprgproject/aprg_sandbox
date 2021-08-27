@@ -175,27 +175,6 @@ Equation buildEquationIfPossible(string const& equationString)
     return builder.getEquation();
 }
 
-VariableNamesSet retrieveAndReturnVariableNames(Equation const& equation)
-{
-    VariableNamesSet result;
-    retrieveVariableNames(result, equation);
-    return result;
-}
-
-void retrieveVariableNames(VariableNamesSet & variableNames, Equation const& equation)
-{
-    retrieveVariableNames(variableNames, equation.getLeftHandTerm());
-    retrieveVariableNames(variableNames, equation.getRightHandTerm());
-}
-
-void retrieveVariableNames(VariableNamesSet & variableNames, Equations const& equations)
-{
-    for(Equation const& equation : equations)
-    {
-        retrieveVariableNames(variableNames, equation);
-    }
-}
-
 
 }
 

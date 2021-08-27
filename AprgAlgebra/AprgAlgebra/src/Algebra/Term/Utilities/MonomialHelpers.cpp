@@ -1,5 +1,6 @@
 #include "MonomialHelpers.hpp"
 
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
@@ -165,10 +166,10 @@ Monomial getLcmMonomialInMonomials(Monomials const& monomials)
 Monomial compareMonomialsAndSaveMinimumExponentsForEachVariable(Monomial const& firstMonomial, Monomial const& secondMonomial)
 {
     Monomial::VariablesToExponentsMap newVariableExponentMap;
-    VariableNamesSet variableNames;
-    retrieveVariableNames(variableNames, firstMonomial);
-    retrieveVariableNames(variableNames, secondMonomial);
-    for(string const& variableName : variableNames)
+    VariableNamesRetriever variableNamesRetriever;
+    variableNamesRetriever.retrieveFromMonomial(firstMonomial);
+    variableNamesRetriever.retrieveFromMonomial(secondMonomial);
+    for(string const& variableName : variableNamesRetriever.getSavedData())
     {
         newVariableExponentMap[variableName] = min(
                     firstMonomial.getExponentForVariable(variableName),
@@ -180,10 +181,10 @@ Monomial compareMonomialsAndSaveMinimumExponentsForEachVariable(Monomial const& 
 Monomial compareMonomialsAndSaveMaximumExponentsForEachVariable(Monomial const& firstMonomial, Monomial const& secondMonomial)
 {
     Monomial::VariablesToExponentsMap newVariableExponentMap;
-    VariableNamesSet variableNames;
-    retrieveVariableNames(variableNames, firstMonomial);
-    retrieveVariableNames(variableNames, secondMonomial);
-    for(string const& variableName : variableNames)
+    VariableNamesRetriever variableNamesRetriever;
+    variableNamesRetriever.retrieveFromMonomial(firstMonomial);
+    variableNamesRetriever.retrieveFromMonomial(secondMonomial);
+    for(string const& variableName : variableNamesRetriever.getSavedData())
     {
         newVariableExponentMap[variableName] = max(
                     firstMonomial.getExponentForVariable(variableName),

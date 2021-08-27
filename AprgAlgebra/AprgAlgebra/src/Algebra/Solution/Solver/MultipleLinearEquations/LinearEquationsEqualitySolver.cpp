@@ -1,6 +1,8 @@
 #include "LinearEquationsEqualitySolver.hpp"
 
 #include <Algebra/Equation/EquationUtilities.hpp>
+#include <Algebra/Retrieval/ExponentsRetriever.hpp>
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
@@ -60,10 +62,12 @@ void LinearEquationsEqualitySolver::calculateSolution(
         MultipleVariableSolutionSet & solutionSet,
         Polynomials const& polynomials)
 {
-    VariableNamesSet variables;
-    AlbaNumbersSet exponents;
-    retrieveExponents(exponents, polynomials);
-    retrieveVariableNames(variables, polynomials);
+    ExponentsRetriever exponentsRetriever;
+    VariableNamesRetriever variablesRetriever;
+    exponentsRetriever.retrieveFromPolynomials(polynomials);
+    variablesRetriever.retrieveFromPolynomials(polynomials);
+    AlbaNumbersSet const& exponents(exponentsRetriever.getSavedData());
+    VariableNamesSet const& variables(variablesRetriever.getSavedData());
     if(areExponentsEqualToOneAndZero(exponents)
             && variables.size() == polynomials.size())
     {

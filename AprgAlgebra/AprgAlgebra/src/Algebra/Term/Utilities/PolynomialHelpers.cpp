@@ -1,6 +1,7 @@
 #include "PolynomialHelpers.hpp"
 
 #include <Algebra/Factorization/Factorization.hpp>
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
@@ -19,9 +20,9 @@ namespace algebra
 
 bool doesThePolynomialHaveOnlyOneVariable(Polynomial const& polynomial)
 {
-    VariableNamesSet variableNames;
-    retrieveVariableNames(variableNames, polynomial);
-    return variableNames.size() == 1;
+    VariableNamesRetriever variableNamesRetriever;
+    variableNamesRetriever.retrieveFromPolynomial(polynomial);
+    return variableNamesRetriever.getSavedData().size() == 1;
 }
 
 AlbaNumber getRemainderForOneVariablePolynomialDividedByVariableMinusConstantValue(
@@ -30,8 +31,9 @@ AlbaNumber getRemainderForOneVariablePolynomialDividedByVariableMinusConstantVal
 {
     //remainder theorem
     AlbaNumber remainder;
-    VariableNamesSet variableNames;
-    retrieveVariableNames(variableNames, polynomial);
+    VariableNamesRetriever variableNamesRetriever;
+    variableNamesRetriever.retrieveFromPolynomial(polynomial);
+    VariableNamesSet const& variableNames(variableNamesRetriever.getSavedData());
     if(variableNames.size() == 1)
     {
         string variableName = *variableNames.cbegin();

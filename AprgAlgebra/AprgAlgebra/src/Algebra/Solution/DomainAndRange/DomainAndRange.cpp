@@ -1,6 +1,7 @@
 #include "DomainAndRange.hpp"
 
 #include <Algebra/Equation/EquationUtilities.hpp>
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Solution/SolutionUtilities.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
@@ -47,7 +48,9 @@ SolutionSet calculateDomainForTermWithOneVariable(
         Term const& term)
 {
     SolutionSet domain;
-    VariableNamesSet variableNames(retrieveAndReturnVariableNames(term));
+    VariableNamesRetriever variableNamesRetriever;
+    variableNamesRetriever.retrieveFromTerm(term);
+    VariableNamesSet const& variableNames(variableNamesRetriever.getSavedData());
     if(variableNames.size() == 1)
     {
         string variableName = *variableNames.cbegin();
@@ -76,7 +79,9 @@ SolutionSet calculateDomainForEquation(
         Equation const& equation)
 {
     SolutionSet domain;
-    VariableNamesSet variableNames(retrieveAndReturnVariableNames(equation));
+    VariableNamesRetriever variableNamesRetriever;
+    variableNamesRetriever.retrieveFromEquation(equation);
+    VariableNamesSet const& variableNames(variableNamesRetriever.getSavedData());
     string inputName, outputName;
     retrieveTwoVariableNames(inputName, outputName, variableNames, variableNameToCheck);
     if(!inputName.empty() && !outputName.empty())
@@ -99,7 +104,9 @@ SolutionSet calculateRangeForEquation(
         Equation const& equation)
 {
     SolutionSet domain;
-    VariableNamesSet variableNames(retrieveAndReturnVariableNames(equation));
+    VariableNamesRetriever variableNamesRetriever;
+    variableNamesRetriever.retrieveFromEquation(equation);
+    VariableNamesSet const& variableNames(variableNamesRetriever.getSavedData());
     string inputName, outputName;
     retrieveTwoVariableNames(inputName, outputName, variableNames, variableNameToCheck);
     if(!inputName.empty() && !outputName.empty())

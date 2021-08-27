@@ -24,49 +24,6 @@ AlbaNumber getCoefficientOfMonomialWithVariableOnly(
 VariableToValueMap getCoefficientsForVariablesOnly(
         Polynomial const& polynomial);
 
-AlbaNumbersSet retrieveAndReturnExponents(Term const& term);
-void retrieveExponents(AlbaNumbersSet & numbers, Term const& term);
-void retrieveExponents(AlbaNumbersSet & numbers, Monomial const& monomial);
-void retrieveExponents(AlbaNumbersSet & numbers, Polynomial const& polynomial);
-void retrieveExponents(AlbaNumbersSet & numbers, Expression const& expression);
-void retrieveExponents(AlbaNumbersSet & numbers, Function const& functionObject);
-void retrieveExponents(AlbaNumbersSet & numbers, Polynomials const& polynomials);
-
-AlbaNumbersSet retrieveAndReturnNumbers(Term const& term);
-void retrieveNumbers(AlbaNumbersSet & numbers, Term const& term);
-void retrieveNumbers(AlbaNumbersSet & numbers, Constant const& constant);
-void retrieveNumbers(AlbaNumbersSet & numbers, Monomial const& monomial);
-void retrieveNumbers(AlbaNumbersSet & numbers, Polynomial const& polynomial);
-void retrieveNumbers(AlbaNumbersSet & numbers, Expression const& expression);
-void retrieveNumbers(AlbaNumbersSet & numbers, Function const& functionObject);
-
-AlbaNumber getFirstCoefficient(Term const& term);
-AlbaNumber getFirstCoefficient(Constant const& constant);
-AlbaNumber getFirstCoefficient(Variable const& );
-AlbaNumber getFirstCoefficient(Monomial const& monomial);
-AlbaNumber getFirstCoefficient(Polynomial const& polynomial);
-AlbaNumber getFirstCoefficient(Expression const& expression);
-AlbaNumber getFirstCoefficient(Function const& functionObject);
-
-VariableNamesSet retrieveAndReturnVariableNames(Term const& term);
-void retrieveVariableNames(VariableNamesSet & variableNames, Term const& term);
-void retrieveVariableNames(VariableNamesSet & variableNames, Variable const& variable);
-void retrieveVariableNames(VariableNamesSet & variableNames, Monomial const& monomial);
-void retrieveVariableNames(VariableNamesSet & variableNames, Polynomial const& polynomial);
-void retrieveVariableNames(VariableNamesSet & variableNames, Expression const& expression);
-void retrieveVariableNames(VariableNamesSet & variableNames, Function const& functionObject);
-void retrieveVariableNames(VariableNamesSet & variableNames, Polynomials const& polynomials);
-
-unsigned int countIndividualTermsAndReturnNumber(Term const& term);
-void countIndividualTerms(unsigned int & count, Term const& term);
-void countIndividualTerms(unsigned int & count, Expression const& expression);
-void countIndividualTerms(unsigned int & count, Function const& functionObject);
-
-FunctionsSet retrieveAndReturnFunctionsWithCondition(Term const& term, FunctionCondition const& isFunctionIncluded);
-void retrieveFunctionsWithCondition(FunctionsSet & functions, Term const& term, FunctionCondition const& isFunctionIncluded);
-void retrieveFunctionsWithCondition(FunctionsSet & functions, Expression const& expression, FunctionCondition const& isFunctionIncluded);
-void retrieveFunctionsWithCondition(FunctionsSet & functions, Function const& functionObject, FunctionCondition const& isFunctionIncluded);
-
 }
 
 }

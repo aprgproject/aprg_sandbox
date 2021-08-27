@@ -1,6 +1,7 @@
 #include "BaseOneEquationOneVariableSolver.hpp"
 
 #include <Bit/AlbaBitManipulation.hpp>
+#include <Algebra/Retrieval/FunctionsRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
@@ -48,12 +49,12 @@ void BaseOneEquationOneVariableSolver::calculateForTermAndCheckAbsoluteValueFunc
         Term const& term,
         string const& variableName)
 {
-    FunctionsSet absFunctions(
-                retrieveAndReturnFunctionsWithCondition(
-                    term, [](Function const& functionObject)
+    FunctionsRetriever absFunctionsRetriever([](Function const& functionObject)
     {
-                    return functionObject.getFunctionName() == "abs";
-                }));
+        return functionObject.getFunctionName() == "abs";
+    });
+    absFunctionsRetriever.retrieveFromTerm(term);
+    FunctionsSet const& absFunctions(absFunctionsRetriever.getSavedData());
     if(absFunctions.empty())
     {
         calculateForTermAndVariable(term, variableName);

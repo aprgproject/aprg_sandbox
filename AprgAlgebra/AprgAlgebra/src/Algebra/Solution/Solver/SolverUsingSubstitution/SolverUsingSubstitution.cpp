@@ -2,6 +2,7 @@
 
 #include <Algebra/Equation/EquationUtilities.hpp>
 #include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquation.hpp>
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
@@ -26,7 +27,9 @@ MultipleVariableSolutionSets SolverUsingSubstitution::calculateSolutionAndReturn
     clear();
     if(doesAllEquationsHaveEqualityOperator(equations))
     {
-        retrieveVariableNames(m_variablesNames, equations);
+        VariableNamesRetriever variableNamesRetriever;
+        variableNamesRetriever.retrieveFromEquations(equations);
+        m_variablesNames = variableNamesRetriever.getSavedData();
         calculateSolutions(equations);
     }
     return m_solutionsWithAllVariables;
@@ -176,9 +179,9 @@ void SolverUsingSubstitution::substituteSolutionSetValuesToEquations(
 void SolverUsingSubstitution::isolateAndSubstituteUntilOneUnknown(
         Equations & substitutedEquations)
 {
-    VariableNamesSet unknowns;
-    retrieveVariableNames(unknowns, substitutedEquations);
-    while(unknowns.size() > 1)
+    VariableNamesRetriever unknownsRetriever;
+    unknownsRetriever.retrieveFromEquations(substitutedEquations);
+    while(unknownsRetriever.getSavedData().size() > 1)
     {
         bool areVariableAndEquationSelected(false);
         string selectedVariableName;
@@ -186,8 +189,8 @@ void SolverUsingSubstitution::isolateAndSubstituteUntilOneUnknown(
         selectVariableNameAndEquationNumber(areVariableAndEquationSelected, selectedVariableName, selectedEquationIndex, substitutedEquations);
         substituteEquationForSelectedEquationIndex(substitutedEquations, areVariableAndEquationSelected, selectedVariableName, selectedEquationIndex);
         removeEquationsWithoutUnknowns(substitutedEquations);
-        unknowns.clear();
-        retrieveVariableNames(unknowns, substitutedEquations);
+        unknownsRetriever.getSavedDataReference().clear();
+        unknownsRetriever.retrieveFromEquations(substitutedEquations);
     }
 }
 
@@ -195,11 +198,12 @@ void SolverUsingSubstitution::solveForTheFirstOneVariableEquationAndUpdate(
         MultipleVariableSolutionSet & solutionSet,
         Equations const& substitutedEquations)
 {
+    VariableNamesRetriever variableNamesToSolveRetriever;
     if(substitutedEquations.size() >= 1)
     {
         Equation const& equationToSolve(substitutedEquations.front());
-        VariableNamesSet variableNamesToSolve;
-        retrieveVariableNames(variableNamesToSolve, equationToSolve);
+        variableNamesToSolveRetriever.retrieveFromEquation(equationToSolve);
+        VariableNamesSet const& variableNamesToSolve(variableNamesToSolveRetriever.getSavedData());
         if(variableNamesToSolve.size() == 1)
         {
             string variableNameToSolve(*(variableNamesToSolve.cbegin()));
@@ -246,13 +250,13 @@ void SolverUsingSubstitution::selectVariableNameAndEquationNumber(
     areVariableAndEquationSelected = false;
     selectedVariableName.clear();
     selectedEquationIndex = 0u;
-    VariableNamesSet variableNames;
-    retrieveVariableNames(variableNames, equations);
+    VariableNamesRetriever variableNamesRetriever;
+    variableNamesRetriever.retrieveFromEquations(equations);
     unsigned int equationIndex=0;
     for(Equation const& equation : equations)
     {
         IsolationOfOneVariableOnEqualityEquation isolation(equation);
-        for(string const& variableName : variableNames)
+        for(string const& variableName : variableNamesRetriever.getSavedData())
         {
             if(isolation.canBeIsolated(variableName)
                     && isolation.getExponentOfIsolatedVariable(variableName) == 1)
@@ -292,9 +296,10 @@ void SolverUsingSubstitution::removeEquationsWithoutUnknowns(Equations& substitu
     substitutedEquations.erase(
                 remove_if(substitutedEquations.begin(), substitutedEquations.end(), [](Equation const& equation)
     {
-                    VariableNamesSet unknowns;
-                    retrieveVariableNames(unknowns, equation);
-                    return unknowns.empty();
+
+                    VariableNamesRetriever unknownsRetriever;
+                    unknownsRetriever.retrieveFromEquation(equation);
+                    return unknownsRetriever.getSavedData().empty();
                 }),
             substitutedEquations.end());
 }

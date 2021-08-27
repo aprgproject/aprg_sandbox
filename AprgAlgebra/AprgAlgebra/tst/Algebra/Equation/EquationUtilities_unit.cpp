@@ -234,48 +234,6 @@ TEST(EquationUtilitiesTest, BuildEquationIfPossibleWorks)
     EXPECT_EQ(expectedEquation, buildEquationIfPossible("a=b"));
 }
 
-TEST(EquationUtilitiesTest, RetrieveAndReturnVariableNamesWorks)
-{
-    VariableNamesSet variableNamesSet(retrieveAndReturnVariableNames(Equation(Term("a"), "=", Term("b"))));
-
-    ASSERT_EQ(2u, variableNamesSet.size());
-    auto it = variableNamesSet.cbegin();
-    EXPECT_EQ("a", *(it++));
-    EXPECT_EQ("b", *(it++));
-}
-
-TEST(EquationUtilitiesTest, RetrieveVariableNamesWorksForEquation)
-{
-    VariableNamesSet variableNamesSet;
-    Equation equation(Term("a"), "=", Term("b"));
-
-    retrieveVariableNames(variableNamesSet, equation);
-
-    ASSERT_EQ(2u, variableNamesSet.size());
-    auto it = variableNamesSet.cbegin();
-    EXPECT_EQ("a", *(it++));
-    EXPECT_EQ("b", *(it++));
-}
-
-TEST(EquationUtilitiesTest, RetrieveVariableNamesWorksForEquations)
-{
-    VariableNamesSet variableNamesSet;
-    Equation equation1(Term("a"), "=", Term("b"));
-    Equation equation2(Term("x"), "=", Term("y"));
-    Equation equation3(Term("r"), "!=", Term("p"));
-
-    retrieveVariableNames(variableNamesSet, Equations{equation1, equation2, equation3});
-
-    ASSERT_EQ(6u, variableNamesSet.size());
-    auto it = variableNamesSet.cbegin();
-    EXPECT_EQ("a", *(it++));
-    EXPECT_EQ("b", *(it++));
-    EXPECT_EQ("p", *(it++));
-    EXPECT_EQ("r", *(it++));
-    EXPECT_EQ("x", *(it++));
-    EXPECT_EQ("y", *(it++));
-}
-
 }
 
 }

@@ -1,6 +1,7 @@
 #include "OneEquationOneVariableEqualitySolver.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Solution/SolutionUtilities.hpp>
 #include <Algebra/Solution/Solver/NewtonMethod.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
@@ -43,7 +44,9 @@ void OneEquationOneVariableEqualitySolver::calculateForEquation(
         Equation const& equation)
 {
     Term const& nonZeroLeftHandTerm(equation.getLeftHandTerm());
-    VariableNamesSet variableNames(retrieveAndReturnVariableNames(nonZeroLeftHandTerm));
+    VariableNamesRetriever variableNamesRetriever;
+    variableNamesRetriever.retrieveFromTerm(nonZeroLeftHandTerm);
+    VariableNamesSet const& variableNames(variableNamesRetriever.getSavedData());
     if(variableNames.size() == 1)
     {
         string variableName = *variableNames.cbegin();

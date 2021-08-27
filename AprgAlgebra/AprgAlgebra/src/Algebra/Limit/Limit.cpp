@@ -36,10 +36,12 @@ bool hasVerticalAsymptoteAtValue(
 
 AlbaNumber getLimitAtAValueByApproachType(
         Term const& term,
-        string const& variableName,        AlbaNumber const& valueToApproach,
+        string const& variableName,
+        AlbaNumber const& valueToApproach,
         LimitAtAValueApproachType const limitApproachType)
 {
-    AlbaNumber result;    if(LimitAtAValueApproachType::BothSides == limitApproachType)
+    AlbaNumber result;
+    if(LimitAtAValueApproachType::BothSides == limitApproachType)
     {
         result = getLimitAtAValueInBothSides(term, variableName, valueToApproach);
     }
@@ -161,10 +163,12 @@ AlbaNumber getLimitAtAValueUsingTrendOfValues(
         if(outputAtValueToApproach.isPositiveOrNegativeInfinity())
         {
             if(previousAcceptedOutput<0)
-            {                result = AlbaNumber(AlbaNumber::Value::NegativeInfinity);
+            {
+                result = AlbaNumber(AlbaNumber::Value::NegativeInfinity);
             }
             else
-            {                result = AlbaNumber(AlbaNumber::Value::PositiveInfinity);
+            {
+                result = AlbaNumber(AlbaNumber::Value::PositiveInfinity);
             }
         }
         else

@@ -1,7 +1,9 @@
 #include "SimplificationOfEquation.hpp"
 
-#include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Equation/EquationUtilities.hpp>
+#include <Algebra/Retrieval/FirstCoefficientRetriever.hpp>
+#include <Algebra/Retrieval/NumberOfTermsRetriever.hpp>
+#include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
@@ -35,14 +37,28 @@ void SimplificationOfEquation::simplify()
     Term leftHandSideNegated(createExpressionIfPossible({leftHandSide, Term("*"), Term(-1)}));
     leftHandSideNegated.simplify();
 
-    if(countIndividualTermsAndReturnNumber(leftHandSide)  > countIndividualTermsAndReturnNumber(leftHandSideNegated)
-            || getFirstCoefficient(leftHandSide) < 0)
+    if(isNegatedTermSimpler(leftHandSide, leftHandSideNegated))
     {
         leftHandSide = leftHandSideNegated;
         equationOperatorString = getReverseEquationOperatorString(equationOperatorString);
     }
 
     m_equation = Equation(leftHandSide, equationOperatorString, Term(Constant(0)));
+}
+
+bool SimplificationOfEquation::isNegatedTermSimpler(
+        Term const& term,
+        Term const& negatedTerm) const
+{
+    FirstCoefficientRetriever firstCoefficientRetrieverForTerm;
+    NumberOfTermsRetriever numberOfTermsRetrieverForTerm;
+    NumberOfTermsRetriever numberOfTermsRetrieverForNegatedTerm;
+    firstCoefficientRetrieverForTerm.retrieveFromTerm(term);
+    numberOfTermsRetrieverForTerm.retrieveFromTerm(term);
+    numberOfTermsRetrieverForNegatedTerm.retrieveFromTerm(negatedTerm);
+
+    return numberOfTermsRetrieverForTerm.getSavedData() > numberOfTermsRetrieverForNegatedTerm.getSavedData()
+            || firstCoefficientRetrieverForTerm.getSavedData() < 0;
 }
 
 Expression SimplificationOfEquation::getNewCombinedExpression(

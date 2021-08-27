@@ -1,8 +1,8 @@
 #include "FactorizationUtilities.hpp"
 
 #include <Algebra/Factorization/Factorization.hpp>
+#include <Algebra/Retrieval/ExponentsRetriever.hpp>
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
-#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
@@ -69,8 +69,9 @@ bool doesNotNeedToBeFactorized(Polynomial const& polynomial)
         Monomial const& second(monomials.at(1));
         bool areBothConstantIntegers = first.getConstantConstReference().isIntegerType() && second.getConstantConstReference().isIntegerType();
         bool areEitherConstantOne = first.getConstantConstReference() == 1 || second.getConstantConstReference() == 1;
-        AlbaNumbersSet exponents;
-        retrieveExponents(exponents, polynomial);
+        ExponentsRetriever retriever;
+        retriever.retrieveFromPolynomial(polynomial);
+        AlbaNumbersSet const& exponents(retriever.getSavedData());
         bool areAllExponentsOneOrZero = all_of(exponents.cbegin(), exponents.cend(), [](AlbaNumber const& exponent)
         {
             return exponent == 0 || exponent == 1;

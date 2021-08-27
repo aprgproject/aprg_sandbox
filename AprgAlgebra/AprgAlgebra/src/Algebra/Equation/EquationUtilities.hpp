@@ -36,10 +36,6 @@ std::string getEquationOperatorCharacters();
 std::string getReverseEquationOperatorString(std::string const& equationOperatorString);
 Equation buildEquationIfPossible(std::string const& equationString);
 
-VariableNamesSet retrieveAndReturnVariableNames(Equation const& equation);
-void retrieveVariableNames(VariableNamesSet & variableNames, Equation const& equation);
-void retrieveVariableNames(VariableNamesSet & variableNames, Equations const& equations);
-
 }
 
 }

@@ -1,5 +1,6 @@
 #include "SolutionUtilities.hpp"
 
+#include <Algebra/Retrieval/NumbersRetriever.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
@@ -17,7 +18,9 @@ namespace algebra
 
 AlbaNumber getPositiveLogarithmOfLargestNumber(Term const& term)
 {
-    AlbaNumbersSet numbers(retrieveAndReturnNumbers(term));
+    NumbersRetriever retriever;
+    retriever.retrieveFromTerm(term);
+    AlbaNumbersSet const& numbers(retriever.getSavedData());
     AlbaNumber initialValue(0);
     if(!numbers.empty())
     {
@@ -40,7 +43,9 @@ void retrieveInitialValuesForIteratingMethods(
         AlbaNumbersSet & allValues,
         Term const& term)
 {
-    AlbaNumbersSet numbers(retrieveAndReturnNumbers(term));
+    NumbersRetriever retriever;
+    retriever.retrieveFromTerm(term);
+    AlbaNumbersSet const& numbers(retriever.getSavedData());
     for(AlbaNumber const& number : numbers)
     {
         AlbaNumber positiveNumber(getAbsoluteValueForAlbaNumber(number));
