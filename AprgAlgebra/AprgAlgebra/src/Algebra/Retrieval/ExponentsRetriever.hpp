@@ -16,6 +16,7 @@ class ExponentsRetriever final : public BaseExponentsRetriever
 public:
     void retrieveFromMonomial(Monomial const& monomial) override;
 };
+
 }
 
 }

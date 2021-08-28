@@ -75,23 +75,35 @@ TEST(MonomialHelpersTest, HasNegativeExponentsWorks)
     EXPECT_TRUE(hasNegativeExponents(Monomial(-54, {{"x", -6}, {"y", -1.25}})));
 }
 
-TEST(MonomialHelpersTest, GetGcfCoefficientInMonomialsWorks)
+TEST(MonomialHelpersTest, GetGcfOfExponentsInMonomialWorks)
 {
-    EXPECT_EQ(AlbaNumber(2), getGcfCoefficientInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));    EXPECT_EQ(AlbaNumber(4), getGcfCoefficientInMonomials({Monomial(4, {{"x", 3}}), Monomial(8, {{"y", 7}})}));
-    EXPECT_EQ(AlbaNumber(1), getGcfCoefficientInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {{"x", 9}})}));
-    EXPECT_EQ(AlbaNumber::createFraction(1, 4),
-              getGcfCoefficientInMonomials({Monomial(AlbaNumber::createFraction(1, 4), {{"x", 1}}), Monomial(5, {})}));    EXPECT_EQ(AlbaNumber(5), getGcfCoefficientInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {{"x", -1}})}));
-    EXPECT_EQ(AlbaNumber(3), getGcfCoefficientInMonomials({Monomial(6, {}), Monomial(9, {})}));
+    Monomial monomial(1,
+    {{"x", AlbaNumber::createFraction(1, 2)},
+     {"y", AlbaNumber::createFraction(2, 7)},
+     {"z", AlbaNumber::createFraction(9, 5)}});
+
+    EXPECT_EQ(AlbaNumber::createFraction(1, 70), getGcfOfExponentsInMonomial(monomial));
 }
 
-TEST(MonomialHelpersTest, GetLcmCoefficientInMonomialsWorks)
+TEST(MonomialHelpersTest, GetGcfOfCoefficientsInMonomialsWorks)
 {
-    EXPECT_EQ(AlbaNumber(2), getLcmCoefficientInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));
-    EXPECT_EQ(AlbaNumber(8), getLcmCoefficientInMonomials({Monomial(4, {{"x", 3}}), Monomial(8, {{"y", 7}})}));
-    EXPECT_EQ(AlbaNumber(4), getLcmCoefficientInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {{"x", 9}})}));
-    EXPECT_EQ(AlbaNumber(5), getLcmCoefficientInMonomials({Monomial(AlbaNumber::createFraction(1, 4), {{"x", 1}}), Monomial(5, {})}));
-    EXPECT_EQ(AlbaNumber(5), getLcmCoefficientInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {{"x", -1}})}));
-    EXPECT_EQ(AlbaNumber(18), getLcmCoefficientInMonomials({Monomial(6, {}), Monomial(9, {})}));
+    EXPECT_EQ(AlbaNumber(2), getGcfOfCoefficientsInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));
+    EXPECT_EQ(AlbaNumber(4), getGcfOfCoefficientsInMonomials({Monomial(4, {{"x", 3}}), Monomial(8, {{"y", 7}})}));
+    EXPECT_EQ(AlbaNumber(1), getGcfOfCoefficientsInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {{"x", 9}})}));
+    EXPECT_EQ(AlbaNumber::createFraction(1, 4),
+              getGcfOfCoefficientsInMonomials({Monomial(AlbaNumber::createFraction(1, 4), {{"x", 1}}), Monomial(5, {})}));
+    EXPECT_EQ(AlbaNumber(5), getGcfOfCoefficientsInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {{"x", -1}})}));
+    EXPECT_EQ(AlbaNumber(3), getGcfOfCoefficientsInMonomials({Monomial(6, {}), Monomial(9, {})}));
+}
+
+TEST(MonomialHelpersTest, GetLcmOfCoefficientsInMonomialsWorks)
+{
+    EXPECT_EQ(AlbaNumber(2), getLcmOfCoefficientsInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));
+    EXPECT_EQ(AlbaNumber(8), getLcmOfCoefficientsInMonomials({Monomial(4, {{"x", 3}}), Monomial(8, {{"y", 7}})}));
+    EXPECT_EQ(AlbaNumber(4), getLcmOfCoefficientsInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {{"x", 9}})}));
+    EXPECT_EQ(AlbaNumber(5), getLcmOfCoefficientsInMonomials({Monomial(AlbaNumber::createFraction(1, 4), {{"x", 1}}), Monomial(5, {})}));
+    EXPECT_EQ(AlbaNumber(5), getLcmOfCoefficientsInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {{"x", -1}})}));
+    EXPECT_EQ(AlbaNumber(18), getLcmOfCoefficientsInMonomials({Monomial(6, {}), Monomial(9, {})}));
 }
 
 TEST(MonomialHelpersTest, GetCommonSignInMonomialsWorks)

@@ -100,10 +100,12 @@ bool Polynomial::isVariableExponentInMonomialFound(Monomial const& monomial) con
 
 AlbaNumber Polynomial::getCoefficientOfVariableExponent(Monomial const& monomial) const
 {
-    AlbaNumber coefficient;    for(Monomial const& monomialInternal : m_monomials)
+    AlbaNumber coefficient;
+    for(Monomial const& monomialInternal : m_monomials)
     {
         if(monomial.getVariablesToExponentsMapConstReference()
-                == monomialInternal.getVariablesToExponentsMapConstReference())        {
+                == monomialInternal.getVariablesToExponentsMapConstReference())
+        {
             coefficient = monomialInternal.getConstantConstReference();
             break;
         }

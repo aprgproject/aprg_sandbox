@@ -13,7 +13,7 @@ namespace alba
 namespace algebra
 {
 
-TEST(SegregateHelpersTest, SegregateMonomialsAndNonMonomialsWorks)
+TEST(SegregateHelpersTest, SegregateMonomialsAndNonMonomialsWorksForTerms)
 {
     Terms monomialTerms;
     Terms nonMonomialTerms;
@@ -25,6 +25,27 @@ TEST(SegregateHelpersTest, SegregateMonomialsAndNonMonomialsWorks)
     EXPECT_EQ(Term(234), monomialTerms.at(0));
     ASSERT_EQ(1u, nonMonomialTerms.size());
     EXPECT_EQ(termExpression, nonMonomialTerms.at(0));
+}
+
+TEST(SegregateHelpersTest, SegregateMonomialsAndNonMonomialsWorksForTermsWithDetails)
+{
+    TermsWithAssociation termsWithAssociation;
+    TermsWithDetails monomialTerms;
+    TermsWithDetails nonMonomialTerms;
+    Term termExpression(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+    termsWithAssociation.putTermWithNegativeAssociation(Term(753));
+    termsWithAssociation.putTermWithPositiveAssociation(termExpression);
+
+    segregateMonomialsAndNonMonomials(termsWithAssociation.getTermsWithDetails(), monomialTerms, nonMonomialTerms);
+
+    ASSERT_EQ(1u, monomialTerms.size());
+    TermWithDetails const& termWithDetails1(monomialTerms.at(0));
+    EXPECT_EQ(Term(753), getTermConstReferenceFromSharedPointer(termWithDetails1.baseTermSharedPointer));
+    EXPECT_EQ(TermAssociationType::Negative, termWithDetails1.association);
+    ASSERT_EQ(1u, nonMonomialTerms.size());
+    TermWithDetails const& termWithDetails2(nonMonomialTerms.at(0));
+    EXPECT_EQ(termExpression, getTermConstReferenceFromSharedPointer(termWithDetails2.baseTermSharedPointer));
+    EXPECT_EQ(TermAssociationType::Positive, termWithDetails2.association);
 }
 
 TEST(SegregateHelpersTest, SegregatePolynomialAndNonPolynomialsWorks)

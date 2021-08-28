@@ -161,34 +161,34 @@ TEST(FunctionTest, GetInputExpressionReferenceWorks)
 
 TEST(FunctionTest, SimplifyWorks)
 {
-    Function function1("functionName", Term(createExpressionIfPossible({Term(5), Term("+"), Term(5)})), [](AlbaNumber const&  number) -> AlbaNumber
+    Function functionObject("functionName", Term(createExpressionIfPossible({Term(5), Term("+"), Term(5)})), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
 
-    function1.simplify();
+    functionObject.simplify();
 
-    EXPECT_EQ(Term(10), getTermConstReferenceFromBaseTerm(function1.getInputTermConstReference()));
+    EXPECT_EQ(Term(10), getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
 }
 
 TEST(FunctionTest, GetDisplayableStringWorks)
 {
-    Function function1("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
+    Function functionObject("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
 
-    EXPECT_EQ("functionName(5)", function1.getDisplayableString());
+    EXPECT_EQ("functionName(5)", functionObject.getDisplayableString());
 }
 
 TEST(FunctionTest, GetDebugStringWorks)
 {
-    Function function1("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
+    Function functionObject("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
 
-    EXPECT_EQ("functionName(5{Constant})", function1.getDebugString());
+    EXPECT_EQ("functionName(5{Constant})", functionObject.getDebugString());
 }
 
 }

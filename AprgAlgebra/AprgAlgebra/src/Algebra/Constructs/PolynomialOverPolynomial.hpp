@@ -47,8 +47,8 @@ private:
     Polynomial m_denominator;
 };
 
-using ListOfPolynomialOverPolynomial=std::vector<PolynomialOverPolynomial>;
-using PolynomialOverPolynomialOptional=AlbaOptional<PolynomialOverPolynomial>;
+using ListOfPolynomialOverPolynomial = std::vector<PolynomialOverPolynomial>;
+using PolynomialOverPolynomialOptional = AlbaOptional<PolynomialOverPolynomial>;
 
 }
 

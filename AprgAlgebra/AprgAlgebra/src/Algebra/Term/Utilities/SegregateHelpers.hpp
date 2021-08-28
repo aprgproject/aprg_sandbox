@@ -12,6 +12,10 @@ void segregateMonomialsAndNonMonomials(
         Terms const& termsToSegregate,
         Terms & monomials,
         Terms & nonMonomials);
+void segregateMonomialsAndNonMonomials(
+        TermsWithAssociation::TermsWithDetails const& termsToSegregate,
+        TermsWithAssociation::TermsWithDetails & monomials,
+        TermsWithAssociation::TermsWithDetails & nonMonomials);
 void segregatePolynomialAndNonPolynomials(
         Terms const& termsToSegregate,
         Terms & polynomials,

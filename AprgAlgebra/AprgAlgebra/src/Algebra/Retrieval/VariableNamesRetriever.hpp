@@ -17,6 +17,7 @@ public:
     void retrieveFromVariable(Variable const& variable) override;
     void retrieveFromMonomial(Monomial const& monomial) override;
 };
+
 }
 
 }

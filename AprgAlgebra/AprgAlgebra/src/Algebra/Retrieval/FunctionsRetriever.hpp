@@ -21,9 +21,11 @@ public:
     FunctionsRetriever(FunctionCondition const& isFunctionIncluded);
     void retrieveFromPolynomial(Polynomial const&) override;
     void retrieveFromFunction(Function const& functionObject) override;
+
 private:
     FunctionCondition m_isFunctionIncluded;
 };
+
 }
 
 }

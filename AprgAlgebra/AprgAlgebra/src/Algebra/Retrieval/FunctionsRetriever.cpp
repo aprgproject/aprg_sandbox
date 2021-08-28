@@ -13,10 +13,12 @@ FunctionsRetriever::FunctionsRetriever(
 
 void FunctionsRetriever::retrieveFromPolynomial(Polynomial const&)
 {
-    // Do nothing}
+    // Do nothing
+}
 
 void FunctionsRetriever::retrieveFromFunction(Function const& functionObject)
-{    if(m_isFunctionIncluded(functionObject))
+{
+    if(m_isFunctionIncluded(functionObject))
     {
         m_savedData.emplace(functionObject);
     }

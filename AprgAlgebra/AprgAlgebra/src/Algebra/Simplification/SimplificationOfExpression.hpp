@@ -16,6 +16,7 @@ namespace Simplification
 class SimplificationOfExpression
 {
 public:
+    SimplificationOfExpression();
     SimplificationOfExpression(Expression const& expression);
 
     Expression getExpression() const;
@@ -24,6 +25,11 @@ public:
             bool const shouldSimplifyToACommonDenominator);
     void setAsShouldSimplifyEvenExponentsCancellationWithAbsoluteValue(
             bool const shouldSimplifyEvenExponentsCancellationWithAbsoluteValue);
+    void setAsShouldSimplifyByCombiningMonomialAndRadicalExpressions(
+            bool const shouldSimplifyByCombiningMonomialAndRadicalExpressions);
+
+    void setExpression(Expression const& expression);
+
     void simplify();
 
 private:
@@ -71,16 +77,13 @@ private:
             TermsWithAssociation::TermsWithDetails const& denominators);
 
 
-    //functions for addition
+    //functions for addition/subtraction
     void addOrSubtractTermsWithExpressions(
             Term & combinedTerm,
             TermsWithAssociation::TermsWithDetails const& termsWithExpressions) const;
 
-    //functions for multiplication
-    void processNumeratorsAndDenominators(
-            Term & combinedTerm,
-            TermsWithAssociation::TermsWithDetails const& numerators,
-            TermsWithAssociation::TermsWithDetails const& denominators) const;
+    //functions for multiplication/division
+    void combineMonomialAndFirstRadical(TermsWithAssociation::TermsWithDetails & termsWithDetails);
 
     //functions for raise to power
     void saveBaseAndExponentsToTerm(
@@ -100,6 +103,7 @@ private:
     Expression m_expression;
     bool m_shouldSimplifyToACommonDenominator;
     bool m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue;
+    bool m_shouldSimplifyByCombiningMonomialAndRadicalExpressions;
 };
 
 }

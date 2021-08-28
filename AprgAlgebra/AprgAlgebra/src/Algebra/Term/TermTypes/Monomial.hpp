@@ -43,7 +43,8 @@ public:
     bool hasASingleVariable() const;
 
     AlbaNumber const& getConstantConstReference() const;
-    VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;    std::string getFirstVariableName() const;
+    VariablesToExponentsMap const& getVariablesToExponentsMapConstReference() const;
+    std::string getFirstVariableName() const;
     AlbaNumber getDegree() const;
     AlbaNumber getMaxExponent() const;
     AlbaNumber getExponentForVariable(std::string const& variableName) const;
@@ -52,10 +53,12 @@ public:
     void clear();
     void simplify();
     void multiplyNumber(AlbaNumber const& number);
-    void divideNumber(AlbaNumber const& number);    void raiseToPowerNumber(AlbaNumber const& number);
+    void divideNumber(AlbaNumber const& number);
+    void raiseToPowerNumber(AlbaNumber const& number);
     void multiplyMonomial(Monomial const& monomial);
     void divideMonomial(Monomial const& monomial);
-    void setConstant(AlbaNumber const& constant);    void putVariablesWithExponents(std::initializer_list<VariableExponentPair> const& variablesWithExponents);
+    void setConstant(AlbaNumber const& constant);
+    void putVariablesWithExponents(std::initializer_list<VariableExponentPair> const& variablesWithExponents);
     void putVariablesWithExponents(VariablesToExponentsMap const& variablesWithExponents);
     void putVariableWithExponent(std::string const& variable, AlbaNumber const& exponent);
 

@@ -1,16 +1,32 @@
 #include "TermUtilities.hpp"
 
+#include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Retrieval/FirstCoefficientRetriever.hpp>
 #include <Algebra/Retrieval/NumberOfTermsRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 
 using namespace std;
+using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
+using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
 
 namespace algebra
 {
+
+bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm)
+{
+    FirstCoefficientRetriever firstCoefficientRetrieverForTerm;
+    NumberOfTermsRetriever numberOfTermsRetrieverForTerm;
+    NumberOfTermsRetriever numberOfTermsRetrieverForNegatedTerm;
+    firstCoefficientRetrieverForTerm.retrieveFromTerm(term);
+    numberOfTermsRetrieverForTerm.retrieveFromTerm(term);
+    numberOfTermsRetrieverForNegatedTerm.retrieveFromTerm(negatedTerm);
+
+    return numberOfTermsRetrieverForTerm.getSavedData() > numberOfTermsRetrieverForNegatedTerm.getSavedData()
+            || firstCoefficientRetrieverForTerm.getSavedData() < 0;
+}
 
 bool isNonEmptyOrNonOperatorType(Term const& term)
 {
@@ -26,17 +42,10 @@ bool isNonEmptyOrNonOperatorOrNonExpressionType(Term const& term)
             && TermType::Expression != termType;
 }
 
-bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm)
+bool isRadicalTerm(Term const& term)
 {
-    FirstCoefficientRetriever firstCoefficientRetrieverForTerm;
-    NumberOfTermsRetriever numberOfTermsRetrieverForTerm;
-    NumberOfTermsRetriever numberOfTermsRetrieverForNegatedTerm;
-    firstCoefficientRetrieverForTerm.retrieveFromTerm(term);
-    numberOfTermsRetrieverForTerm.retrieveFromTerm(term);
-    numberOfTermsRetrieverForNegatedTerm.retrieveFromTerm(negatedTerm);
-
-    return numberOfTermsRetrieverForTerm.getSavedData() > numberOfTermsRetrieverForNegatedTerm.getSavedData()
-            || firstCoefficientRetrieverForTerm.getSavedData() < 0;
+    TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(term));
+    return termRaiseToANumber.isRadical();
 }
 
 AlbaNumberPairs evaluateAndGetInputOutputPair(

@@ -89,12 +89,37 @@ bool hasNegativeExponents(Monomial const& monomial)
     return result;
 }
 
-AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials)
+AlbaNumber getGcfOfExponentsInMonomial(Monomial const& monomial)
 {
-    AlbaNumber commonCoefficient(1);    bool isFirst(true);
+    AlbaNumber commonExponent(1);
+    bool isFirst(true);
+    for(Monomial::VariableExponentPair const& variablePair : monomial.getVariablesToExponentsMapConstReference())
+    {
+        AlbaNumber const& exponent(variablePair.second);
+        if(exponent.isIntegerOrFractionType())
+        {
+            if(isFirst)
+            {
+                commonExponent = exponent;
+                isFirst = false;
+            }
+            else
+            {
+                commonExponent = getGreatestCommonFactorForAlbaNumber(commonExponent, exponent);
+            }
+        }
+    }
+    return commonExponent;
+}
+
+AlbaNumber getGcfOfCoefficientsInMonomials(Monomials const& monomials)
+{
+    AlbaNumber commonCoefficient(1);
+    bool isFirst(true);
     for(Monomial const& monomial : monomials)
     {
-        AlbaNumber const& coefficient(monomial.getConstantConstReference());        if(coefficient.isIntegerOrFractionType())
+        AlbaNumber const& coefficient(monomial.getConstantConstReference());
+        if(coefficient.isIntegerOrFractionType())
         {
             if(isFirst)
             {
@@ -110,7 +135,7 @@ AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials)
     return commonCoefficient;
 }
 
-AlbaNumber getLcmCoefficientInMonomials(Monomials const& monomials)
+AlbaNumber getLcmOfCoefficientsInMonomials(Monomials const& monomials)
 {
     AlbaNumber commonCoefficient(1);
     bool isFirst(true);
@@ -155,7 +180,7 @@ AlbaNumber getCommonSignInMonomials(Monomials const& monomials)
 
 Monomial getGcfMonomialInMonomials(Monomials const& monomials)
 {
-    AlbaNumber commonCoefficient(getGcfCoefficientInMonomials(monomials));
+    AlbaNumber commonCoefficient(getGcfOfCoefficientsInMonomials(monomials));
     Monomial minExponentMonomial(getMonomialWithMinimumExponentsInMonomials(monomials));
     if(commonCoefficient != 1)
     {
@@ -168,7 +193,7 @@ Monomial getGcfMonomialInMonomials(Monomials const& monomials)
 
 Monomial getLcmMonomialInMonomials(Monomials const& monomials)
 {
-    AlbaNumber lcmCoefficient(getLcmCoefficientInMonomials(monomials));
+    AlbaNumber lcmCoefficient(getLcmOfCoefficientsInMonomials(monomials));
     Monomial maxExponentMonomial(getMonomialWithMaximumExponentsInMonomials(monomials));
     maxExponentMonomial.setConstant(getCommonSignInMonomials(monomials)*lcmCoefficient);
     maxExponentMonomial.simplify();

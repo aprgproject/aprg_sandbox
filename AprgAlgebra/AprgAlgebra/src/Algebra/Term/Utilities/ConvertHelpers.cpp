@@ -40,44 +40,14 @@ Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial)
 {
     Monomial newMonomial(monomial);
     newMonomial.simplify();
-    Term newTerm(newMonomial);
-    if(isTheValue(newMonomial, 0))
-    {
-        newTerm = Term(Constant(0));
-    }
-    else if(newMonomial.isConstantOnly())
-    {
-        newTerm = Term(newMonomial.getConstantConstReference());
-    }
-    else if(newMonomial.isVariableOnly())
-    {
-        newTerm = Term(newMonomial.getFirstVariableName());
-    }
-    else
-    {
-        newTerm = Term(newMonomial);
-    }
-    return newTerm;
+    return convertMonomialToSimplestTerm(newMonomial);
 }
 
 Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial)
 {
     Polynomial newPolynomial(polynomial);
     newPolynomial.simplify();
-    Term newTerm;
-    if(isTheValue(newPolynomial, 0))
-    {
-        newTerm = Term(Constant(0));
-    }
-    else if(newPolynomial.isOneMonomial())
-    {
-        newTerm = simplifyAndConvertMonomialToSimplestTerm(newPolynomial.getFirstMonomial());
-    }
-    else
-    {
-        newTerm = Term(newPolynomial);
-    }
-    return newTerm;
+    return convertPolynomialToSimplestTerm(newPolynomial);
 }
 
 Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression)
@@ -92,6 +62,38 @@ Term simplifyAndConvertFunctionToSimplestTerm(Function const& functionAsParamete
     Function newFunction(functionAsParameter);
     newFunction.simplify();
     return convertFunctionToSimplestTerm(newFunction);
+}
+
+Term convertMonomialToSimplestTerm(Monomial const& monomial)
+{
+    Term newTerm(monomial);
+    if(isTheValue(monomial, 0))
+    {
+        newTerm = Term(Constant(0));
+    }
+    else if(monomial.isConstantOnly())
+    {
+        newTerm = Term(monomial.getConstantConstReference());
+    }
+    else if(monomial.isVariableOnly())
+    {
+        newTerm = Term(monomial.getFirstVariableName());
+    }
+    return newTerm;
+}
+
+Term convertPolynomialToSimplestTerm(Polynomial const& polynomial)
+{
+    Term newTerm(polynomial);
+    if(isTheValue(polynomial, 0))
+    {
+        newTerm = Term(Constant(0));
+    }
+    else if(polynomial.isOneMonomial())
+    {
+        newTerm = simplifyAndConvertMonomialToSimplestTerm(polynomial.getFirstMonomial());
+    }
+    return newTerm;
 }
 
 Term convertExpressionToSimplestTerm(Expression const& expression)

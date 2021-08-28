@@ -15,18 +15,32 @@ namespace algebra
 class TermsOverTerms
 {
 public:
+    TermsOverTerms();
     TermsOverTerms(Terms const& numerators, Terms const& denominators);
     TermsOverTerms(TermsWithAssociation::TermsWithDetails const& numerators, TermsWithAssociation::TermsWithDetails const& denominators);
 
     Terms const& getNumerators() const;
     Terms const& getDenominators() const;
     TermsWithAssociation::TermsWithDetails getNumeratorAndDenominatorAsTermWithDetails() const;
+    Term getCombinedTerm() const;
+    Term getCombinedNumerator() const;
+    Term getCombinedDenominator() const;
+    void retrievePolynomialAndNonPolynomialNumerators(
+            Polynomial & polynomialNumerator,
+            Terms & nonPolynomialNumerators) const;
+    void retrievePolynomialAndNonPolynomialsDenominators(
+            Polynomial & polynomialNumerator,
+            Terms & nonPolynomialNumerators) const;
     std::string getDisplayableString() const;
 
     void simplify();
     void simplifyToFactors();
 
 private:
+    void retrievePolynomialAndNonPolynomialsTerms(
+            Terms const& termsToCheck,
+            Polynomial & polynomial,
+            Terms & nonPolynomialTerms) const;
     void clearThenEmplacePolynomialAndRemainingTerms(
             Polynomial const& polynomialNumerator,
             Terms const& remainingNumerators,

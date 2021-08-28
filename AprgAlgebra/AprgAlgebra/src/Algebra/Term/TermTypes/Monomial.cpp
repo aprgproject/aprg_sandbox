@@ -112,10 +112,12 @@ bool Monomial::hasASingleVariable() const
 
 AlbaNumber const& Monomial::getConstantConstReference() const
 {
-    return m_constant;}
+    return m_constant;
+}
 
 Monomial::VariablesToExponentsMap const& Monomial::getVariablesToExponentsMapConstReference() const
-{    return m_variablesToExponentsMap;
+{
+    return m_variablesToExponentsMap;
 }
 
 string Monomial::getFirstVariableName() const
@@ -192,11 +194,13 @@ void Monomial::clear()
 
 void Monomial::simplify()
 {
-    removeZeroExponents();}
+    removeZeroExponents();
+}
 
 void Monomial::multiplyNumber(AlbaNumber const& number)
 {
-    m_constant = m_constant * number;}
+    m_constant = m_constant * number;
+}
 
 void Monomial::divideNumber(AlbaNumber const& number)
 {

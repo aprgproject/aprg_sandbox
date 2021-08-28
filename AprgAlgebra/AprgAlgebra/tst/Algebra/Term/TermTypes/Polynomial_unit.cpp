@@ -147,10 +147,12 @@ TEST(PolynomialTest, GetMonomialsConstReferenceWorks)
 
 TEST(PolynomialTest, GetMaxDegreeWorks)
 {
-    Polynomial polynomial1;    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
-    EXPECT_DOUBLE_EQ(0, polynomial1.getMaxDegree().getDouble());    EXPECT_DOUBLE_EQ(0, polynomial2.getMaxDegree().getDouble());
+    EXPECT_DOUBLE_EQ(0, polynomial1.getMaxDegree().getDouble());
+    EXPECT_DOUBLE_EQ(0, polynomial2.getMaxDegree().getDouble());
     EXPECT_DOUBLE_EQ(9, polynomial3.getMaxDegree().getDouble());
 }
 
@@ -189,40 +191,17 @@ TEST(PolynomialTest, GetMonomialsReferenceWorks)
 
 TEST(PolynomialTest, ClearWorks)
 {
-    Polynomial polynomial1;    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
-    polynomial1.clear();    polynomial2.clear();
+    polynomial1.clear();
+    polynomial2.clear();
     polynomial3.clear();
 
     EXPECT_TRUE(polynomial1.isEmpty());
     EXPECT_TRUE(polynomial2.isEmpty());
     EXPECT_TRUE(polynomial3.isEmpty());
-}
-
-TEST(PolynomialTest, SimplifyAndSortWorks)
-{
-    Polynomial polynomial1;
-    Polynomial polynomial2{Monomial(100, {}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(10, {})};
-    Polynomial polynomial3{Monomial(1, {{"x", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(5, {{"x", 3}})};
-
-    polynomial1.simplify();
-    polynomial2.simplify();
-    polynomial3.simplify();
-
-    EXPECT_EQ(Polynomial(), polynomial1);
-    EXPECT_EQ((Polynomial{Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(110, {})}), polynomial2);
-    EXPECT_EQ((Polynomial{Monomial(6, {{"x", 3}}), Monomial(2, {{"x", 1}, {"y", 2}})}), polynomial3);
-}
-
-TEST(PolynomialTest, SimplifyWithNotANumberDoesNotCrash)
-{
-    Polynomial polynomial{Monomial(AlbaNumber::Value::NotANumber, {})};
-
-    polynomial.simplify();
-
-    ASSERT_EQ(1u, polynomial.getMonomialsConstReference().size());
-    EXPECT_TRUE(polynomial.getFirstMonomial().getConstantConstReference().isNotANumber());
 }
 
 TEST(PolynomialTest, SimplifyWorks)
@@ -252,6 +231,31 @@ TEST(PolynomialTest, SimplifyWorks)
     ASSERT_EQ(1u, monomials4.size());
     EXPECT_DOUBLE_EQ(-6, monomials4.at(0).getConstantConstReference().getDouble());
     ASSERT_TRUE(monomials4.at(0).getVariablesToExponentsMapConstReference().empty());
+}
+
+TEST(PolynomialTest, SimplifyWorksAndItSortsMonomials)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(100, {}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(10, {})};
+    Polynomial polynomial3{Monomial(1, {{"x", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(5, {{"x", 3}})};
+
+    polynomial1.simplify();
+    polynomial2.simplify();
+    polynomial3.simplify();
+
+    EXPECT_EQ(Polynomial(), polynomial1);
+    EXPECT_EQ((Polynomial{Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(110, {})}), polynomial2);
+    EXPECT_EQ((Polynomial{Monomial(6, {{"x", 3}}), Monomial(2, {{"x", 1}, {"y", 2}})}), polynomial3);
+}
+
+TEST(PolynomialTest, SimplifyWithNotANumberDoesNotCrash)
+{
+    Polynomial polynomial{Monomial(AlbaNumber::Value::NotANumber, {})};
+
+    polynomial.simplify();
+
+    ASSERT_EQ(1u, polynomial.getMonomialsConstReference().size());
+    EXPECT_TRUE(polynomial.getFirstMonomial().getConstantConstReference().isNotANumber());
 }
 
 TEST(PolynomialTest, SortWorks)

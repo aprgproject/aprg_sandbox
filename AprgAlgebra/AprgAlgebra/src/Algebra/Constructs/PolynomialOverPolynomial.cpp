@@ -77,10 +77,12 @@ PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide(
         if(hasNegativeExponents(currentQuotientMonomial))
         {
             break;
-        }        else
+        }
+        else
         {
             currentQuotient.addMonomial(currentQuotientMonomial);
-            Polynomial polynomialToSubtract(m_denominator);            polynomialToSubtract.multiplyMonomial(currentQuotientMonomial);
+            Polynomial polynomialToSubtract(m_denominator);
+            polynomialToSubtract.multiplyMonomial(currentQuotientMonomial);
             polynomialToSubtract.multiplyNumber(-1);
             currentRemainder.addPolynomial(polynomialToSubtract);
             currentQuotient.simplify();

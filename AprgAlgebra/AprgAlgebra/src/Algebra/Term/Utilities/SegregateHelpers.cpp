@@ -32,6 +32,25 @@ void segregateMonomialsAndNonMonomials(
     }
 }
 
+void segregateMonomialsAndNonMonomials(
+        TermsWithDetails const& termsToSegregate,
+        TermsWithDetails & monomials,
+        TermsWithDetails & nonMonomials)
+{
+    for(TermWithDetails const& termToSegregate : termsToSegregate)
+    {
+        Term const& term(getTermConstReferenceFromSharedPointer(termToSegregate.baseTermSharedPointer));
+        if(canBeConvertedToMonomial(term))
+        {
+            monomials.emplace_back(termToSegregate);
+        }
+        else
+        {
+            nonMonomials.emplace_back(termToSegregate);
+        }
+    }
+}
+
 void segregatePolynomialAndNonPolynomials(
         Terms const& termsToSegregate,
         Terms & polynomials,

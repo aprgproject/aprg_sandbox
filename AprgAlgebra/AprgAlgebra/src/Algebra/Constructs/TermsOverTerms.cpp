@@ -2,6 +2,7 @@
 
 #include <Algebra/Constructs/PolynomialOverPolynomial.hpp>
 #include <Algebra/Factorization/Factorization.hpp>
+#include <Algebra/Operations/AccumulateOperations.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
@@ -21,6 +22,11 @@ namespace alba
 
 namespace algebra
 {
+
+TermsOverTerms::TermsOverTerms()
+    : m_numerators()
+    , m_denominators()
+{}
 
 TermsOverTerms::TermsOverTerms(Terms const& numerators, Terms const& denominators)
     : m_numerators(numerators)
@@ -67,6 +73,53 @@ TermsWithDetails TermsOverTerms::getNumeratorAndDenominatorAsTermWithDetails() c
     return result;
 }
 
+Term TermsOverTerms::getCombinedTerm() const
+{
+    Term combinedTerm(1);
+    accumulateTermsForMultiplicationAndDivision(
+                combinedTerm,
+                getNumeratorAndDenominatorAsTermWithDetails());
+    return combinedTerm;
+}
+
+Term TermsOverTerms::getCombinedNumerator() const
+{
+    Term combinedTerm(1);
+    TermsWithDetails numeratorsWithPositiveAssociation;
+    for(Term const& numerator : m_numerators)
+    {
+        numeratorsWithPositiveAssociation.emplace_back(numerator, TermAssociationType::Positive);
+    }
+    accumulateTermsForMultiplicationAndDivision(combinedTerm, numeratorsWithPositiveAssociation);
+    return combinedTerm;
+}
+
+Term TermsOverTerms::getCombinedDenominator() const
+{
+    Term combinedTerm(1);
+    TermsWithDetails denominatorsWithPositiveAssociation;
+    for(Term const& denominator : m_denominators)
+    {
+        denominatorsWithPositiveAssociation.emplace_back(denominator, TermAssociationType::Positive);
+    }
+    accumulateTermsForMultiplicationAndDivision(combinedTerm, denominatorsWithPositiveAssociation);
+    return combinedTerm;
+}
+
+void TermsOverTerms::retrievePolynomialAndNonPolynomialNumerators(
+        Polynomial & polynomialNumerator,
+        Terms & nonPolynomialNumerators) const
+{
+    retrievePolynomialAndNonPolynomialsTerms(m_numerators, polynomialNumerator, nonPolynomialNumerators);
+}
+
+void TermsOverTerms::retrievePolynomialAndNonPolynomialsDenominators(
+        Polynomial & polynomialDenominator,
+        Terms & nonPolynomialDenominators) const
+{
+    retrievePolynomialAndNonPolynomialsTerms(m_denominators, polynomialDenominator, nonPolynomialDenominators);
+}
+
 string TermsOverTerms::getDisplayableString() const
 {
     stringstream result;
@@ -97,6 +150,25 @@ void TermsOverTerms::simplifyToFactors()
     removeTermsThatHasNoEffectInNumeratorAndDenominator();
     removeSameTermsInNumeratorAndDenominator();
     simplifyMonomialsToPolynomialsOverPolynomials();
+}
+
+void TermsOverTerms::retrievePolynomialAndNonPolynomialsTerms(
+        Terms const& termsToCheck,
+        Polynomial & polynomial,
+        Terms & nonPolynomialTerms) const
+{
+    polynomial = (createPolynomialFromConstant(1));
+    for(Term const& termToCheck : termsToCheck)
+    {
+        if(canBeConvertedToPolynomial(termToCheck))
+        {
+            polynomial.multiplyPolynomial(createPolynomialIfPossible(termToCheck));
+        }
+        else
+        {
+            nonPolynomialTerms.emplace_back(termToCheck);
+        }
+    }
 }
 
 void TermsOverTerms::clearThenEmplacePolynomialAndRemainingTerms(

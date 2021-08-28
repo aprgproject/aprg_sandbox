@@ -2,6 +2,7 @@
 
 #include <Algebra/Constructs/AdditionAndSubtractionOfExpressions.hpp>
 #include <Algebra/Constructs/AdditionAndSubtractionOfTermsOverTerms.hpp>
+#include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Operations/AccumulateOperations.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
@@ -12,6 +13,8 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
+
+#include <algorithm>
 
 using namespace alba::mathHelper;
 using namespace std;
@@ -27,11 +30,19 @@ namespace algebra
 namespace Simplification
 {
 
+SimplificationOfExpression::SimplificationOfExpression()
+    : m_expression()
+    , m_shouldSimplifyToACommonDenominator(false)
+    , m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue(false)
+    , m_shouldSimplifyByCombiningMonomialAndRadicalExpressions(false)
+{}
+
 SimplificationOfExpression::SimplificationOfExpression(
         Expression const& expression)
     : m_expression(expression)
     , m_shouldSimplifyToACommonDenominator(false)
     , m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue(false)
+    , m_shouldSimplifyByCombiningMonomialAndRadicalExpressions(false)
 {}
 
 Expression SimplificationOfExpression::getExpression() const
@@ -49,6 +60,18 @@ void SimplificationOfExpression::setAsShouldSimplifyEvenExponentsCancellationWit
         bool const shouldSimplifyEvenExponentsCancellationWithAbsoluteValue)
 {
     m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue = shouldSimplifyEvenExponentsCancellationWithAbsoluteValue;
+}
+
+void SimplificationOfExpression::setAsShouldSimplifyByCombiningMonomialAndRadicalExpressions(
+        bool const shouldSimplifyByCombiningMonomialAndRadicalExpressions)
+{
+    m_shouldSimplifyByCombiningMonomialAndRadicalExpressions = shouldSimplifyByCombiningMonomialAndRadicalExpressions;
+}
+
+void SimplificationOfExpression::setExpression(
+        Expression const& expression)
+{
+    m_expression = expression;
 }
 
 void SimplificationOfExpression::simplify()
@@ -147,14 +170,11 @@ void SimplificationOfExpression::simplifyAndCopyTerms(
             expression.simplify();
             simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(termsToUpdate, expression, termWithDetails.association);
         }
-        else if(term.isFunction())
+        else if(isNonEmptyOrNonOperatorType(term))
         {
-            Term newTerm(simplifyAndConvertFunctionToSimplestTerm(term.getFunctionConstReference()));
+            Term newTerm(term);
+            newTerm.simplify();
             termsToUpdate.emplace_back(newTerm, termWithDetails.association);
-        }
-        else if(isNonEmptyOrNonOperatorOrNonExpressionType(term))
-        {
-            termsToUpdate.emplace_back(term, termWithDetails.association);
         }
     }
 }
@@ -338,12 +358,17 @@ void SimplificationOfExpression::processAndSaveTermsForAdditionAndSubtraction(
 void SimplificationOfExpression::processAndSaveTermsForMultiplicationAndDivision(
         TermsWithDetails const& termsToProcess)
 {
-    Term combinedTerm(1);
+    TermsWithDetails numeratorsAndDenominators(termsToProcess);
+    if(m_shouldSimplifyByCombiningMonomialAndRadicalExpressions)
+    {
+        combineMonomialAndFirstRadical(numeratorsAndDenominators);
+    }
     TermsWithDetails numerators;
     TermsWithDetails denominators;
-    segregateTermsWithPositiveAndNegativeAssociations(termsToProcess, numerators, denominators);
-    processNumeratorsAndDenominators(combinedTerm, numerators, denominators);
-    m_expression.setTerm(combinedTerm);
+    segregateTermsWithPositiveAndNegativeAssociations(numeratorsAndDenominators, numerators, denominators);
+    TermsOverTerms termsOverTerms(numerators, denominators);
+    termsOverTerms.simplify();
+    m_expression.setTerm(termsOverTerms.getCombinedTerm());
 }
 
 void SimplificationOfExpression::processAndSaveTermsForRaiseToPower(
@@ -431,16 +456,43 @@ void SimplificationOfExpression::addOrSubtractTermsWithExpressions(
     accumulateTermsForAdditionAndSubtraction(combinedTerm, additionAndSubtraction.getAsTermsWithDetails());
 }
 
-void SimplificationOfExpression::processNumeratorsAndDenominators(
-        Term & combinedTerm,
-        TermsWithDetails const& numerators,
-        TermsWithDetails const& denominators) const
+void SimplificationOfExpression::combineMonomialAndFirstRadical(
+        TermsWithDetails & termsWithDetails)
 {
-    TermsOverTerms termsOverTerms(numerators, denominators);
-    termsOverTerms.simplify();
-    accumulateTermsForMultiplicationAndDivision(
-                combinedTerm,
-                termsOverTerms.getNumeratorAndDenominatorAsTermWithDetails());
+    TermsWithDetails monomials;
+    TermsWithDetails remainingTerms;
+    segregateMonomialsAndNonMonomials(termsWithDetails, monomials, remainingTerms);
+
+    TermsWithDetails::iterator firstRadicalIt = find_if(
+                remainingTerms.begin(), remainingTerms.end(),
+                [](TermWithDetails const& remainingTerm)
+    {
+            Term const& termToCheck(getTermConstReferenceFromSharedPointer(remainingTerm.baseTermSharedPointer));
+            return isRadicalTerm(termToCheck);});
+    if(firstRadicalIt != remainingTerms.end())
+    {
+        Term combinedMonomialTerm(1);
+        accumulateTermsForMultiplicationAndDivision(combinedMonomialTerm, monomials);
+        TermRaiseToANumber termRaiseToANumber(
+                    createTermRaiseToANumberFromTerm(
+                        getTermConstReferenceFromSharedPointer(firstRadicalIt->baseTermSharedPointer)));
+        remainingTerms.erase(firstRadicalIt);
+        TermAssociationType radicalAssociationType(firstRadicalIt->association);
+        Monomial combinedMonomial(createMonomialIfPossible(combinedMonomialTerm));
+        combinedMonomial.raiseToPowerNumber(AlbaNumber(1)/termRaiseToANumber.getExponent());
+        Expression newRadical(getTermConstReferenceFromBaseTerm(Term(combinedMonomial)));
+        if(TermAssociationType::Positive == radicalAssociationType)
+        {
+            newRadical.putTermWithMultiplicationIfNeeded(getTermConstReferenceFromBaseTerm(termRaiseToANumber.getBase()));
+        }
+        else
+        {
+            newRadical.putTermWithDivisionIfNeeded(getTermConstReferenceFromBaseTerm(termRaiseToANumber.getBase()));
+        }
+        newRadical.putTermWithRaiseToPowerIfNeeded(Term(termRaiseToANumber.getExponent()));
+        remainingTerms.emplace(remainingTerms.begin(), Term(newRadical), TermAssociationType::Positive);
+        termsWithDetails = remainingTerms;
+    }
 }
 
 void SimplificationOfExpression::saveBaseAndExponentsToTerm(

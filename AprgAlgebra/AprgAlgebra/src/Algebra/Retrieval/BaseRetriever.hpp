@@ -77,10 +77,12 @@ public:
 
     virtual void retrieveFromPolynomial(Polynomial const& polynomial)
     {
-        for(Monomial const& monomial : polynomial.getMonomialsConstReference())        {
+        for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+        {
             retrieveFromMonomial(monomial);
         }
     }
+
     virtual void retrieveFromExpression(Expression const& expression)
     {
         for(TermsWithAssociation::TermWithDetails const& termWithDetails

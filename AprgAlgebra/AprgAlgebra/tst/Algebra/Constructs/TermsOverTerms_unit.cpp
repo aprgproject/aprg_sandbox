@@ -18,7 +18,7 @@ namespace algebra
 TEST(TermsOverTermsTest, ConstructionWorks)
 {
     TermWithDetails termWithDetails(Term(10), TermAssociationType::Positive);
-    TermsOverTerms termsOverTerms1(Terms{}, Terms{});
+    TermsOverTerms termsOverTerms1;
     TermsOverTerms termsOverTerms2({Term(5)}, {Term("x")});
     TermsOverTerms termsOverTerms3({termWithDetails}, {termWithDetails});
 
@@ -68,6 +68,60 @@ TEST(TermsOverTermsTest, GetNumeratorAndDenominatorAsTermWithDetailsWorksWhenBot
 
     TermsWithDetails termsWithDetails(termsOverTerms.getNumeratorAndDenominatorAsTermWithDetails());
     EXPECT_TRUE(termsWithDetails.empty());
+}
+
+TEST(TermsOverTermsTest, GetCombinedTermWorks)
+{
+    TermsOverTerms termsOverTerms({Term("x"), Term(56)}, {Term(7), Term("y")});
+
+    Term expectedTerm(Term(Monomial(8, {{"x", 1}, {"y", -1}})));
+    EXPECT_EQ(expectedTerm, termsOverTerms.getCombinedTerm());
+}
+
+TEST(TermsOverTermsTest, GetCombinedNumeratorWorks)
+{
+    TermsOverTerms termsOverTerms({Term("x"), Term(56)}, {Term(7), Term("y")});
+
+    Term expectedTerm(Term(Monomial(56, {{"x", 1}})));
+    EXPECT_EQ(expectedTerm, termsOverTerms.getCombinedNumerator());
+}
+
+TEST(TermsOverTermsTest, GetCombinedDenominatorWorks)
+{
+    TermsOverTerms termsOverTerms({Term("x"), Term(56)}, {Term(7), Term("y")});
+
+    Term expectedTerm(Term(Monomial(7, {{"y", 1}})));
+    EXPECT_EQ(expectedTerm, termsOverTerms.getCombinedDenominator());
+}
+
+TEST(TermsOverTermsTest, RetrievePolynomialAndNonPolynomialNumeratorsWorks)
+{
+    Term nonPolynomialTerm(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+    TermsOverTerms termsOverTerms({Term(5), Term("x"), nonPolynomialTerm}, {Term(6), Term("y"), nonPolynomialTerm});
+
+    Polynomial retrievedPolynomial;
+    Terms retrievedTerms;
+    termsOverTerms.retrievePolynomialAndNonPolynomialNumerators(retrievedPolynomial, retrievedTerms);
+
+    Polynomial expectedPolynomial{Monomial(5, {{"x", 1}})};
+    EXPECT_EQ(expectedPolynomial, retrievedPolynomial);
+    ASSERT_EQ(1u, retrievedTerms.size());
+    EXPECT_EQ(nonPolynomialTerm, retrievedTerms.at(0));
+}
+
+TEST(TermsOverTermsTest, RetrievePolynomialAndNonPolynomialDenominatorsWorks)
+{
+    Term nonPolynomialTerm(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+    TermsOverTerms termsOverTerms({Term(5), Term("x"), nonPolynomialTerm}, {Term(6), Term("y"), nonPolynomialTerm});
+
+    Polynomial retrievedPolynomial;
+    Terms retrievedTerms;
+    termsOverTerms.retrievePolynomialAndNonPolynomialsDenominators(retrievedPolynomial, retrievedTerms);
+
+    Polynomial expectedPolynomial{Monomial(6, {{"y", 1}})};
+    EXPECT_EQ(expectedPolynomial, retrievedPolynomial);
+    ASSERT_EQ(1u, retrievedTerms.size());
+    EXPECT_EQ(nonPolynomialTerm, retrievedTerms.at(0));
 }
 
 TEST(TermsOverTermsTest, SimplifyRemovesTermsThatHasNoEffect)

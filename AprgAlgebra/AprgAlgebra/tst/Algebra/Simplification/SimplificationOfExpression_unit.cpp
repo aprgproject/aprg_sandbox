@@ -17,6 +17,18 @@ namespace algebra
 namespace Simplification
 {
 
+TEST(SimplificationOfExpressionTest, SimplifyWorksOnSimplifyingInnerTerms)
+{
+    Expression monomialRaiseToMonomial(createExpressionIfPossible({Term(Monomial(1, {{"x", 1}})), Term("^"), Term(Monomial(1, {{"y", 1}}))}));
+    SimplificationOfExpression simplification(monomialRaiseToMonomial);
+
+    simplification.simplify();
+
+    Expression expressionToVerify(simplification.getExpression());
+    Expression expressionToExpect(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
+    EXPECT_EQ(expressionToExpect, expressionToVerify);
+}
+
 TEST(SimplificationOfExpressionTest, SimplifyWorksOnExpressionInExpressionForAMultipleTermExpression)
 {
     Term expressionTerm(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
@@ -677,6 +689,96 @@ TEST(SimplificationOfExpressionTest, EvenExponentsCancellationWithAbsoluteValueW
      Term("^"), Term(2)}));
     EXPECT_EQ(expressionToExpect1, expressionToVerify1);
     EXPECT_EQ(expressionToExpect2, expressionToVerify2);
+}
+
+TEST(SimplificationOfExpressionTest, SimplifyByCombiningMonomialAndRadicalExpressionsWorksWhenSetAsDefaultUsingMultiplication)
+{
+    Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm,  Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Expression expressionToTest(createExpressionIfPossible({Term("x"),  Term("*"), Term(squareRootOfXPlusOne)}));
+    SimplificationOfExpression simplification(expressionToTest);
+
+    simplification.simplify();
+
+    Expression expressionToVerify(simplification.getExpression());
+    Expression expressionToExpect(createExpressionIfPossible({Term("x"),  Term("*"), Term(squareRootOfXPlusOne)}));
+    EXPECT_EQ(expressionToExpect, expressionToVerify);
+}
+
+TEST(SimplificationOfExpressionTest, SimplifyByCombiningMonomialAndRadicalExpressionsWorksWhenSetToFalseUsingMultiplication)
+{
+    Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm,  Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Expression expressionToTest(createExpressionIfPossible({Term("x"),  Term("*"), Term(squareRootOfXPlusOne)}));
+    SimplificationOfExpression simplification(expressionToTest);
+    simplification.setAsShouldSimplifyByCombiningMonomialAndRadicalExpressions(false);
+
+    simplification.simplify();
+
+    Expression expressionToVerify(simplification.getExpression());
+    Expression expressionToExpect(createExpressionIfPossible({Term("x"),  Term("*"), Term(squareRootOfXPlusOne)}));
+    EXPECT_EQ(expressionToExpect, expressionToVerify);
+}
+
+TEST(SimplificationOfExpressionTest, SimplifyByCombiningMonomialAndRadicalExpressionsWorksWhenSetToTrueUsingMultiplication)
+{
+    Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm,  Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Expression expressionToTest(createExpressionIfPossible({Term("x"),  Term("*"), Term(squareRootOfXPlusOne)}));
+    SimplificationOfExpression simplification(expressionToTest);
+    simplification.setAsShouldSimplifyByCombiningMonomialAndRadicalExpressions(true);
+
+    simplification.simplify();
+
+    Expression expressionToVerify(simplification.getExpression());
+    Term insideSquareRootTerm(Polynomial{Monomial(1, {{"x", 3}}), Monomial(1, {{"x", 2}})});
+    Expression expressionToExpect(createExpressionIfPossible({insideSquareRootTerm,  Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    EXPECT_EQ(expressionToExpect, expressionToVerify);
+}
+
+TEST(SimplificationOfExpressionTest, SimplifyByCombiningMonomialAndRadicalExpressionsWorksWhenSetAsDefaultUsingDivision)
+{
+    Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm,  Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Expression expressionToTest(createExpressionIfPossible({Term("x"),  Term("/"), Term(squareRootOfXPlusOne)}));
+    SimplificationOfExpression simplification(expressionToTest);
+
+    simplification.simplify();
+
+    Expression expressionToVerify(simplification.getExpression());
+    Expression expressionToExpect(createExpressionIfPossible({Term("x"),  Term("/"), Term(squareRootOfXPlusOne)}));
+    EXPECT_EQ(expressionToExpect, expressionToVerify);
+}
+
+TEST(SimplificationOfExpressionTest, SimplifyByCombiningMonomialAndRadicalExpressionsWorksWhenSetToFalseUsingDivision)
+{
+    Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm,  Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Expression expressionToTest(createExpressionIfPossible({Term("x"),  Term("/"), Term(squareRootOfXPlusOne)}));
+    SimplificationOfExpression simplification(expressionToTest);
+    simplification.setAsShouldSimplifyByCombiningMonomialAndRadicalExpressions(false);
+
+    simplification.simplify();
+
+    Expression expressionToVerify(simplification.getExpression());
+    Expression expressionToExpect(createExpressionIfPossible({Term("x"),  Term("/"), Term(squareRootOfXPlusOne)}));
+    EXPECT_EQ(expressionToExpect, expressionToVerify);
+}
+
+TEST(SimplificationOfExpressionTest, SimplifyByCombiningMonomialAndRadicalExpressionsWorksWhenSetToTrueUsingDivision)
+{
+    Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm,  Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Expression expressionToTest(createExpressionIfPossible({Term("x"),  Term("/"), Term(squareRootOfXPlusOne)}));
+    SimplificationOfExpression simplification(expressionToTest);
+    simplification.setAsShouldSimplifyByCombiningMonomialAndRadicalExpressions(true);
+
+    simplification.simplify();
+
+    Expression expressionToVerify(simplification.getExpression());
+    Expression subExpression(createExpressionIfPossible({Term(Monomial(1, {{"x", 2}})),  Term("/"), xPlusOneTerm}));
+    Expression expressionToExpect(createExpressionIfPossible({Term(subExpression),  Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
 TEST(SimplificationOfExpressionTest, ZeroOverZeroResultsToNanAndDoesNotCrash)

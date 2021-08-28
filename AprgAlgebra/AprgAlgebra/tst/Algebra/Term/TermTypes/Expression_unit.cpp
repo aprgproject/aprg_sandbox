@@ -1131,7 +1131,7 @@ TEST(ExpressionTest, SetCommonOperatorLevelIfStillUnknownWorks)
     EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, expression2.getCommonOperatorLevel());
 }
 
-TEST(SimplificationOfExpressionTest, SimplifyWorks)
+TEST(ExpressionTest, SimplifyWorks)
 {
     Expression expressionToTest(createExpressionIfPossible({Term(100), Term("+"), Term(200), Term("-"), Term(50)}));
 

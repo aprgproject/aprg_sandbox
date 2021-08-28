@@ -78,6 +78,133 @@ TEST(ConstructUtilitiesTest, CreatePolynomialOverPolynomialFromTermIfPossibleWor
     EXPECT_FALSE(popOptional.hasContent());
 }
 
+TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForNonExpression)
+{
+    Term nonExpressionTerm("x");
+
+    TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(nonExpressionTerm));
+
+    Terms numeratorsToVerify(termsOverTerms.getNumerators());
+    ASSERT_EQ(1u, numeratorsToVerify.size());
+    EXPECT_EQ(Term("x"), numeratorsToVerify.at(0));
+    Terms denominatorsToVerify(termsOverTerms.getDenominators());
+    EXPECT_TRUE(denominatorsToVerify.empty());
+}
+
+TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForNonMultiplicationDivisionExpression)
+{
+    Term nonMultiplicationDivisionExpressionTerm(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
+
+    TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(nonMultiplicationDivisionExpressionTerm));
+
+    Terms numeratorsToVerify(termsOverTerms.getNumerators());
+    ASSERT_EQ(1u, numeratorsToVerify.size());
+    EXPECT_EQ(nonMultiplicationDivisionExpressionTerm, numeratorsToVerify.at(0));
+    Terms denominatorsToVerify(termsOverTerms.getDenominators());
+    EXPECT_TRUE(denominatorsToVerify.empty());
+}
+
+TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForMultiplicationDivisionExpression)
+{
+    Term multiplicationDivisionExpressionTerm(createExpressionIfPossible({Term("x"), Term("/"), Term("y")}));
+
+    TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(multiplicationDivisionExpressionTerm));
+
+    Terms numeratorsToVerify(termsOverTerms.getNumerators());
+    ASSERT_EQ(1u, numeratorsToVerify.size());
+    EXPECT_EQ(Term("x"), numeratorsToVerify.at(0));
+    Terms denominatorsToVerify(termsOverTerms.getDenominators());
+    ASSERT_EQ(1u, denominatorsToVerify.size());
+    EXPECT_EQ(Term("y"), denominatorsToVerify.at(0));
+}
+
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForNonMonomialOrExpression)
+{
+    Term nonMonomialOrExpressionTerm("x");
+
+    TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(nonMonomialOrExpressionTerm));
+
+    EXPECT_EQ(Term("x"), termRaiseToANumber.getBase());
+    EXPECT_EQ(AlbaNumber(1), termRaiseToANumber.getExponent());
+}
+
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForMonomial)
+{
+    Term monomialTerm(Monomial(1,
+    {{"x", AlbaNumber::createFraction(1, 2)},
+     {"y", AlbaNumber::createFraction(2, 7)},
+     {"z", AlbaNumber::createFraction(9, 5)}}));
+
+    TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(monomialTerm));
+
+    Term baseToExpect(Monomial(1,
+    {{"x", 35},
+     {"y", 20},
+     {"z", 126}}));
+    EXPECT_EQ(baseToExpect, termRaiseToANumber.getBase());
+    EXPECT_EQ(AlbaNumber::createFraction(1, 70), termRaiseToANumber.getExponent());
+}
+
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForNonRaiseToPowerExpression)
+{
+    Term nonRaiseToPowerExpressionTerm(createExpressionIfPossible({Term("x"), Term("+"), Term("y")}));
+
+    TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(nonRaiseToPowerExpressionTerm));
+
+    Term baseToExpect(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})});
+    EXPECT_EQ(baseToExpect, termRaiseToANumber.getBase());
+    EXPECT_EQ(AlbaNumber(1), termRaiseToANumber.getExponent());
+}
+
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowerExpressionWithOneTerm)
+{
+    Expression raiseToPowerExpression(Term("x"));
+    raiseToPowerExpression.setCommonOperatorLevel(OperatorLevel::RaiseToPower);
+    Term raiseToPowerExpressionTerm(raiseToPowerExpression);
+
+    TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(raiseToPowerExpressionTerm));
+
+    EXPECT_EQ(Term("x"), termRaiseToANumber.getBase());
+    EXPECT_EQ(AlbaNumber(1), termRaiseToANumber.getExponent());
+}
+
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowerExpressionWithTwoTerms)
+{
+    Term baseTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})});
+    Term raiseToPowerExpressionTerm(createExpressionIfPossible({baseTerm, Term("^"), Term(1.79)}));
+
+    TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(raiseToPowerExpressionTerm));
+
+    EXPECT_EQ(baseTerm, termRaiseToANumber.getBase());
+    EXPECT_EQ(AlbaNumber(1.79), termRaiseToANumber.getExponent());
+}
+
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowerExpressionWithThreeTerms)
+{
+    Term baseTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})});
+    Term raiseToPowerExpressionTerm(createExpressionIfPossible({baseTerm, Term("^"), Term(1.79), Term("^"), Term("y")}));
+
+    TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(raiseToPowerExpressionTerm));
+
+    Term baseToExpect(createExpressionIfPossible({baseTerm, Term("^"), Term("y")}));
+    EXPECT_EQ(baseToExpect, termRaiseToANumber.getBase());
+    EXPECT_EQ(AlbaNumber(1.79), termRaiseToANumber.getExponent());
+}
+
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowerExpressionWithMonomialExponent)
+{
+    Term baseTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})});
+    Term exponentTerm(Monomial(2.84, {{"x", 2}, {"y", 3}}));
+    Term raiseToPowerExpressionTerm(createExpressionIfPossible({baseTerm, Term("^"), exponentTerm}));
+
+    TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(raiseToPowerExpressionTerm));
+
+    Term exponentInBaseToExpect(Monomial(1, {{"x", 2}, {"y", 3}}));
+    Term baseToExpect(createExpressionIfPossible({baseTerm, Term("^"), exponentInBaseToExpect}));
+    EXPECT_EQ(baseToExpect, termRaiseToANumber.getBase());
+    EXPECT_EQ(AlbaNumber(2.84), termRaiseToANumber.getExponent());
+}
+
 }
 
 }

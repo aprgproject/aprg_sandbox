@@ -38,10 +38,12 @@ public:
 
     void simplify();
 
-private:    EquationOperator m_equationOperator;
+private:
+    EquationOperator m_equationOperator;
     Term m_leftHandTerm;
     Term m_rightHandTerm;
 };
+
 using Equations = std::vector<Equation>;
 
 std::ostream & operator<<(std::ostream & out, Equation const& equation);
