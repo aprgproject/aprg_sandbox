@@ -128,15 +128,23 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForNonMonomial
     EXPECT_EQ(AlbaNumber(1), termRaiseToANumber.getExponent());
 }
 
-TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForMonomial)
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForMonomialWithSingleVariable)
 {
-    Term monomialTerm(Monomial(1,
-    {{"x", AlbaNumber::createFraction(1, 2)},
-     {"y", AlbaNumber::createFraction(2, 7)},
-     {"z", AlbaNumber::createFraction(9, 5)}}));
+    Term monomialTerm(Monomial(1, {{"x", 1.78}}));
 
     TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(monomialTerm));
 
+    EXPECT_EQ(Term("x"), termRaiseToANumber.getBase());
+    EXPECT_EQ(AlbaNumber(1.78), termRaiseToANumber.getExponent());
+}
+
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForMonomialWithMultipleVariables)
+{
+    Term monomialTerm(Monomial(1,
+    {{"x", AlbaNumber::createFraction(1, 2)},
+     {"y", AlbaNumber::createFraction(2, 7)},     {"z", AlbaNumber::createFraction(9, 5)}}));
+
+    TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(monomialTerm));
     Term baseToExpect(Monomial(1,
     {{"x", 35},
      {"y", 20},

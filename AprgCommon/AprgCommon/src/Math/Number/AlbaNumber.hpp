@@ -115,14 +115,13 @@ public:
     bool isIntegerOrFractionType() const;
     bool isPositiveInfinity() const;
     bool isNegativeInfinity() const;
+    bool isPositiveOrNegativeInfinity() const;
     bool isNotANumber() const;
     bool isAFiniteValue() const;
     bool isARealFiniteValue() const;
-
     Type getType() const;
     long long int getInteger() const;
-    double getDouble() const;
-    FractionData getFractionData() const;
+    double getDouble() const;    FractionData getFractionData() const;
     ComplexNumberData getComplexNumberData() const;
 
     unsigned int getNumberDataSize() const;

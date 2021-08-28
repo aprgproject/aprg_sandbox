@@ -1196,10 +1196,39 @@ TEST(AlbaNumberTest, IsNegativeInfinityWorks)
     EXPECT_FALSE(number13.isNegativeInfinity());
 }
 
-TEST(AlbaNumberTest, IsNotANumberWorks)
+TEST(AlbaNumberTest, IsPositiveOrNegativeInfinityWorks)
 {
     AlbaNumber number1;
-    AlbaNumber number2(-81237);
+    AlbaNumber number2(-81237);    AlbaNumber number3(34095093u);
+    AlbaNumber number4(1000000000000000000);
+    AlbaNumber number5(4564.38794);
+    AlbaNumber number6(AlbaNumber::createFraction(-87408, -9802));
+    AlbaNumber number7(AlbaNumber::createFraction(-100, 10));
+    AlbaNumber number8(AlbaNumber::createComplexNumber(-4.5, 3.5));
+    AlbaNumber number9(AlbaNumber::Value::PositiveInfinity);
+    AlbaNumber number10(AlbaNumber::Value::NegativeInfinity);
+    AlbaNumber number11(AlbaNumber::createFraction(100, 0));
+    AlbaNumber number12(AlbaNumber::createFraction(-100, 0));
+    AlbaNumber number13(AlbaNumber::Value::NotANumber);
+
+    EXPECT_FALSE(number1.isPositiveOrNegativeInfinity());
+    EXPECT_FALSE(number2.isPositiveOrNegativeInfinity());
+    EXPECT_FALSE(number3.isPositiveOrNegativeInfinity());
+    EXPECT_FALSE(number4.isPositiveOrNegativeInfinity());
+    EXPECT_FALSE(number5.isPositiveOrNegativeInfinity());
+    EXPECT_FALSE(number6.isPositiveOrNegativeInfinity());
+    EXPECT_FALSE(number7.isPositiveOrNegativeInfinity());
+    EXPECT_FALSE(number8.isPositiveOrNegativeInfinity());
+    EXPECT_TRUE(number9.isPositiveOrNegativeInfinity());
+    EXPECT_TRUE(number10.isPositiveOrNegativeInfinity());
+    EXPECT_TRUE(number11.isPositiveOrNegativeInfinity());
+    EXPECT_TRUE(number12.isPositiveOrNegativeInfinity());
+    EXPECT_FALSE(number13.isPositiveOrNegativeInfinity());
+}
+
+TEST(AlbaNumberTest, IsNotANumberWorks)
+{
+    AlbaNumber number1;    AlbaNumber number2(-81237);
     AlbaNumber number3(34095093u);
     AlbaNumber number4(1000000000000000000);
     AlbaNumber number5(4564.38794);
@@ -1214,8 +1243,7 @@ TEST(AlbaNumberTest, IsNotANumberWorks)
 
     EXPECT_FALSE(number1.isNotANumber());
     EXPECT_FALSE(number2.isNotANumber());
-    EXPECT_FALSE(number3.isNotANumber());
-    EXPECT_FALSE(number4.isNotANumber());
+    EXPECT_FALSE(number3.isNotANumber());    EXPECT_FALSE(number4.isNotANumber());
     EXPECT_FALSE(number5.isNotANumber());
     EXPECT_FALSE(number6.isNotANumber());
     EXPECT_FALSE(number7.isNotANumber());
