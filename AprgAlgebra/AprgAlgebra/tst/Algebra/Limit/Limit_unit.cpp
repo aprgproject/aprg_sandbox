@@ -35,14 +35,23 @@ TEST(LimitTest, HasVerticalAsymptoteAtValueWorks)
     EXPECT_TRUE(hasVerticalAsymptoteAtValue(constantOverPolynomialTerm, "x", 2));
 }
 
+TEST(LimitTest, HasHorizontalAsymptoteAtValueWorks)
+{
+    Term numerator("x");
+    Term denominatorInSquareRoot(Polynomial{Monomial(1, {{"x", 2}}), Monomial(1, {})});
+    Term denominator(createExpressionIfPossible({denominatorInSquareRoot, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term term(createExpressionIfPossible({numerator, Term("/"), denominator}));
+
+    EXPECT_FALSE(hasHorizontalAsymptoteAtValue(term, "x", 3));
+    EXPECT_TRUE(hasHorizontalAsymptoteAtValue(term, "x", 1));
+}
+
 TEST(LimitTest, GetLimitAtAValueByApproachTypeWorksForPolynomialOverPolynomial)
 {
-    Term numerator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-25, {})});
-    Term denominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-5, {})});
+    Term numerator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-25, {})});    Term denominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-5, {})});
     Term polynomialOverPolynomialTerm(createExpressionIfPossible({numerator, Term("/"), denominator}));
 
-    EXPECT_EQ(AlbaNumber(10), getLimitAtAValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitAtAValueApproachType::BothSides));
-    EXPECT_EQ(AlbaNumber(10), getLimitAtAValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitAtAValueApproachType::PositiveSide));
+    EXPECT_EQ(AlbaNumber(10), getLimitAtAValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitAtAValueApproachType::BothSides));    EXPECT_EQ(AlbaNumber(10), getLimitAtAValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitAtAValueApproachType::PositiveSide));
     EXPECT_EQ(AlbaNumber(10), getLimitAtAValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitAtAValueApproachType::NegativeSide));
 }
 
@@ -214,6 +223,12 @@ TEST(LimitTest, GetLimitAtAValueWorksForASpecifiedFunction)
     EXPECT_EQ(Term(3), getLimitAtAValue(functionTermToTest, "x", 1, LimitAtAValueApproachType::BothSides));
     EXPECT_EQ(Term(3), getLimitAtAValue(functionTermToTest, "x", 1, LimitAtAValueApproachType::PositiveSide));
     EXPECT_EQ(Term(3), getLimitAtAValue(functionTermToTest, "x", 1, LimitAtAValueApproachType::NegativeSide));
+}
+
+TEST(LimitTest, GetLimitAtInfinityWorks)
+{
+    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::NegativeInfinity)), getLimitAtInfinity(Term("x"), "x", AlbaNumber::Value::NegativeInfinity));
+    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::PositiveInfinity)), getLimitAtInfinity(Term("x"), "x", AlbaNumber::Value::PositiveInfinity));
 }
 
 }

@@ -27,17 +27,19 @@ private:
     void simplify();
     void simplifyAsATerm();
     void simplifyAsTermsOverTermsIfPossible();
-    AlbaNumber getMaxDegreeInNumeratorAndDenominator(
-            Term const& numerator,
-            Term const& denominator);
+    void simplifyPolynomialToMaxDegreeMonomialOnly();
+    AlbaNumber getMaxDegree(Term const& term);
+    AlbaNumber getDegreeToRemove(
+            AlbaNumber const& numeratorDegree,
+            AlbaNumber const& denominatorDegree);
 
     Term m_simplifiedTermAtInfinity;
     std::string m_variableName;
-    DegreeOnlyMutator m_degreeReductionMutator;
+    bool m_isSimplifiedDenominatorZero;
+    DegreeOnlyMutator m_degreeOnlyMutator;
     RemoveMonomialsWithNegativeExponentMutator m_removeMonomialsWithNegativeExponentMutator;
     Simplification::SimplificationMutator m_simplificationMutator;
 };
-
 }
 
 }

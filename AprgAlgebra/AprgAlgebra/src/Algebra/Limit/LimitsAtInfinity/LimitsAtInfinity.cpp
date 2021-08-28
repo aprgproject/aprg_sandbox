@@ -5,13 +5,12 @@
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace alba::algebra::Simplification;
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -20,15 +19,14 @@ LimitsAtInfinity::LimitsAtInfinity(
         std::string const& variableName)
     : m_simplifiedTermAtInfinity(term)
     , m_variableName(variableName)
-    , m_degreeReductionMutator(variableName)
+    , m_isSimplifiedDenominatorZero(false)
+    , m_degreeOnlyMutator(variableName)
     , m_removeMonomialsWithNegativeExponentMutator(variableName)
     , m_simplificationMutator()
-{
-    SimplificationOfExpression simplification;
+{    SimplificationOfExpression simplification;
     simplification.setAsShouldSimplifyByCombiningMonomialAndRadicalExpressions(true);
     m_simplificationMutator.putSimplification(simplification);
-    simplify();
-}
+    simplify();}
 
 Term LimitsAtInfinity::getSimplifiedTermAtInfinity() const
 {
@@ -46,52 +44,77 @@ void LimitsAtInfinity::simplify()
 {
     simplifyAsATerm();
     simplifyAsTermsOverTermsIfPossible();
+    simplifyPolynomialToMaxDegreeMonomialOnly();
 }
 
-void LimitsAtInfinity::simplifyAsATerm()
-{
+void LimitsAtInfinity::simplifyAsATerm(){
     m_simplifiedTermAtInfinity.simplify();
     m_removeMonomialsWithNegativeExponentMutator.mutateTerm(m_simplifiedTermAtInfinity);
 }
-
 void LimitsAtInfinity::simplifyAsTermsOverTermsIfPossible()
 {
     TermsOverTerms currentTermsOverTerms(createTermsOverTermsFromTerm(m_simplifiedTermAtInfinity));
     Term numerator(currentTermsOverTerms.getCombinedNumerator());
     Term denominator(currentTermsOverTerms.getCombinedDenominator());
-    AlbaNumber maxExponentInBoth = getMaxDegreeInNumeratorAndDenominator(numerator, denominator);
-    Term termToDivide(Monomial(1, {{m_variableName, maxExponentInBoth}}));
+    AlbaNumber numeratorDegree(getMaxDegree(numerator));
+    AlbaNumber denominatorDegree(getMaxDegree(denominator));
+    AlbaNumber degreeToRemove(getDegreeToRemove(numeratorDegree, denominatorDegree));
+    Term termToDivide(Monomial(1, {{m_variableName, degreeToRemove}}));
     numerator = numerator/termToDivide;
     numerator.simplify();
-    denominator = denominator/termToDivide;
-    denominator.simplify();
+    denominator = denominator/termToDivide;    denominator.simplify();
     m_simplificationMutator.mutateTerm(numerator);
     m_simplificationMutator.mutateTerm(denominator);
     m_removeMonomialsWithNegativeExponentMutator.mutateTerm(numerator);
     m_removeMonomialsWithNegativeExponentMutator.mutateTerm(denominator);
     m_simplifiedTermAtInfinity = numerator/denominator;
-    m_simplifiedTermAtInfinity.simplify();
 }
 
-AlbaNumber LimitsAtInfinity::getMaxDegreeInNumeratorAndDenominator(
-        Term const& numerator,
-        Term const& denominator)
+void LimitsAtInfinity::simplifyPolynomialToMaxDegreeMonomialOnly()
 {
-    Term reducedNumerator(numerator);
-    Term reducedDenominator(denominator);
-    m_degreeReductionMutator.mutateTerm(reducedNumerator);
-    m_degreeReductionMutator.mutateTerm(reducedDenominator);
-    AlbaNumber maxExponentInNumerator;
-    if(canBeConvertedToMonomial(reducedNumerator))
+    if(m_simplifiedTermAtInfinity.isPolynomial())
     {
-        maxExponentInNumerator = createMonomialIfPossible(reducedNumerator).getDegree();
+        Polynomial newPolynomial(m_simplifiedTermAtInfinity.getPolynomialConstReference());
+        AlbaNumber maxDegree(getMaxDegree(m_simplifiedTermAtInfinity));
+        Monomial monomialWithMaxDegree(1, {{m_variableName, maxDegree}});
+        newPolynomial.divideMonomial(monomialWithMaxDegree);
+        m_removeMonomialsWithNegativeExponentMutator.mutatePolynomial(newPolynomial);
+        newPolynomial.multiplyMonomial(monomialWithMaxDegree);
+        m_simplifiedTermAtInfinity = Term(newPolynomial);
+        m_simplifiedTermAtInfinity.simplify();
     }
-    AlbaNumber maxExponentInDenominator;
-    if(canBeConvertedToMonomial(reducedDenominator))
+}
+
+AlbaNumber LimitsAtInfinity::getMaxDegree(Term const& term)
+{
+    Term degreeOnlyTerm(term);
+    m_degreeOnlyMutator.mutateTerm(degreeOnlyTerm);
+    AlbaNumber degree;
+    if(canBeConvertedToMonomial(degreeOnlyTerm))
     {
-        maxExponentInDenominator = createMonomialIfPossible(reducedDenominator).getDegree();
+        degree = createMonomialIfPossible(degreeOnlyTerm).getDegree();
     }
-    return max(maxExponentInNumerator, maxExponentInDenominator);
+    return degree;
+}
+
+AlbaNumber LimitsAtInfinity::getDegreeToRemove(
+        AlbaNumber const& numeratorDegree,
+        AlbaNumber const& denominatorDegree)
+{
+    AlbaNumber degreeToRemove;
+    if(numeratorDegree == denominatorDegree)
+    {
+        degreeToRemove = numeratorDegree;
+    }
+    else if(numeratorDegree > denominatorDegree)
+    {
+        degreeToRemove = min(numeratorDegree, denominatorDegree);
+    }
+    else if(numeratorDegree < denominatorDegree)
+    {
+        degreeToRemove = max(numeratorDegree, denominatorDegree);
+    }
+    return degreeToRemove;
 }
 
 }

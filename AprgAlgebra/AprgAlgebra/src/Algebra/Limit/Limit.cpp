@@ -1,11 +1,10 @@
 #include "Limit.hpp"
 
+#include <Algebra/Limit/LimitsAtInfinity/LimitsAtInfinity.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Math/AlbaMathHelper.hpp>
-
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 
@@ -27,21 +26,34 @@ bool isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber con
 
 bool hasVerticalAsymptoteAtValue(
         Term const& term,
-        std::string const& variableName,
+        string const& variableName,
         AlbaNumber const& valueToApproach)
 {
-    return getLimitAtAValueInThePositiveSide(term, variableName, valueToApproach).isPositiveOrNegativeInfinity()
-            || getLimitAtAValueInTheNegativeSide(term, variableName, valueToApproach).isPositiveOrNegativeInfinity();
+    return getLimitAtAValueInThePositiveSide(term, variableName, valueToApproach).isPositiveOrNegativeInfinity()            || getLimitAtAValueInTheNegativeSide(term, variableName, valueToApproach).isPositiveOrNegativeInfinity();
+}
+
+bool hasHorizontalAsymptoteAtValue(
+        Term const& term,
+        string const& variableName,
+        AlbaNumber const& valueToApproach)
+{
+    bool result(false);
+    Term limitAtPositiveInfinity(getLimitAtInfinity(term, variableName, AlbaNumber::Value::PositiveInfinity));
+    Term limitAtNegativeInfinity(getLimitAtInfinity(term, variableName, AlbaNumber::Value::NegativeInfinity));
+    if(limitAtPositiveInfinity.isConstant() && limitAtNegativeInfinity.isConstant())
+    {
+        result = limitAtPositiveInfinity.getConstantConstReference().getNumberConstReference() == valueToApproach
+                || limitAtNegativeInfinity.getConstantConstReference().getNumberConstReference() == valueToApproach;
+    }
+    return result;
 }
 
 AlbaNumber getLimitAtAValueByApproachType(
         Term const& term,
-        string const& variableName,
-        AlbaNumber const& valueToApproach,
+        string const& variableName,        AlbaNumber const& valueToApproach,
         LimitAtAValueApproachType const limitApproachType)
 {
-    AlbaNumber result;
-    if(LimitAtAValueApproachType::BothSides == limitApproachType)
+    AlbaNumber result;    if(LimitAtAValueApproachType::BothSides == limitApproachType)
     {
         result = getLimitAtAValueInBothSides(term, variableName, valueToApproach);
     }
@@ -224,6 +236,15 @@ Term getLimitAtAValue(
         }
     }
     return limitResult;
+}
+
+Term getLimitAtInfinity(
+        Term const& term,
+        string const& variableName,
+        AlbaNumber::Value const infinityValue)
+{
+    LimitsAtInfinity limitsAtInfinity(term, variableName);
+    return limitsAtInfinity.getValueAtInfinity(infinityValue);
 }
 
 }
