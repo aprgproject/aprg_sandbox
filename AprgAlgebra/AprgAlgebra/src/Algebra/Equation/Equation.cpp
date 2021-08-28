@@ -89,13 +89,21 @@ string Equation::getDisplayableString() const
             + " " + m_rightHandTerm.getDisplayableString();
 }
 
-void Equation::simplify()
+Term & Equation::getLeftHandTermReference()
 {
-    SimplificationOfEquation simplification(*this);
-    simplification.simplify();
-    *this = simplification.getEquation();
+    return m_leftHandTerm;
 }
 
+Term & Equation::getRightHandTermReference()
+{
+    return m_rightHandTerm;
+}
+
+void Equation::simplify()
+{
+    SimplificationOfEquation simplification(*this);    simplification.simplify();
+    *this = simplification.getEquation();
+}
 ostream & operator<<(ostream & out, Equation const& equation)
 {
     out << equation.getDisplayableString();

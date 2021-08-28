@@ -62,14 +62,25 @@ TEST(MonomialHelpersTest, CanBeMergedByAdditionOrSubtractionForBothVariablesWork
     EXPECT_FALSE(canBeMergedInAMonomialByAdditionOrSubtraction(Variable("w"), Variable("x")));
 }
 
+TEST(MonomialHelpersTest, HasNegativeExponentsWorks)
+{
+    EXPECT_FALSE(hasNegativeExponents(Monomial()));
+    EXPECT_FALSE(hasNegativeExponents(Monomial(23, {})));
+    EXPECT_FALSE(hasNegativeExponents(Monomial(-23, {})));
+    EXPECT_FALSE(hasNegativeExponents(Monomial(-54, {{"x", 6}})));
+    EXPECT_TRUE(hasNegativeExponents(Monomial(-54, {{"x", -6}})));
+    EXPECT_FALSE(hasNegativeExponents(Monomial(-54, {{"x", 6}, {"y", 1.25}})));
+    EXPECT_TRUE(hasNegativeExponents(Monomial(-54, {{"x", 6}, {"y", -1.25}})));
+    EXPECT_TRUE(hasNegativeExponents(Monomial(-54, {{"x", -6}, {"y", 1.25}})));
+    EXPECT_TRUE(hasNegativeExponents(Monomial(-54, {{"x", -6}, {"y", -1.25}})));
+}
+
 TEST(MonomialHelpersTest, GetGcfCoefficientInMonomialsWorks)
 {
-    EXPECT_EQ(AlbaNumber(2), getGcfCoefficientInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));
-    EXPECT_EQ(AlbaNumber(4), getGcfCoefficientInMonomials({Monomial(4, {{"x", 3}}), Monomial(8, {{"y", 7}})}));
+    EXPECT_EQ(AlbaNumber(2), getGcfCoefficientInMonomials({Monomial(2, {{"x", 3}}), Monomial(2, {{"x", 7}})}));    EXPECT_EQ(AlbaNumber(4), getGcfCoefficientInMonomials({Monomial(4, {{"x", 3}}), Monomial(8, {{"y", 7}})}));
     EXPECT_EQ(AlbaNumber(1), getGcfCoefficientInMonomials({Monomial(1, {{"x", 1}}), Monomial(4, {{"x", 9}})}));
     EXPECT_EQ(AlbaNumber::createFraction(1, 4),
-              getGcfCoefficientInMonomials({Monomial(AlbaNumber::createFraction(1, 4), {{"x", 1}}), Monomial(5, {})}));
-    EXPECT_EQ(AlbaNumber(5), getGcfCoefficientInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {{"x", -1}})}));
+              getGcfCoefficientInMonomials({Monomial(AlbaNumber::createFraction(1, 4), {{"x", 1}}), Monomial(5, {})}));    EXPECT_EQ(AlbaNumber(5), getGcfCoefficientInMonomials({Monomial(0.33, {{"x", 1}}), Monomial(5, {{"x", -1}})}));
     EXPECT_EQ(AlbaNumber(3), getGcfCoefficientInMonomials({Monomial(6, {}), Monomial(9, {})}));
 }
 

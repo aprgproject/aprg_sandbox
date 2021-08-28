@@ -127,14 +127,30 @@ TEST(PolynomialTest, GetFirstMonomialWorks)
     ASSERT_TRUE(variableMap3.empty());
 }
 
+TEST(PolynomialTest, GetMonomialsConstReferenceWorks)
+{
+    Polynomial polynomial{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+
+    Monomials const& monomials(polynomial.getMonomialsConstReference());
+
+    ASSERT_EQ(2u, monomials.size());
+    EXPECT_DOUBLE_EQ(6, monomials.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(-7, monomials.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(3u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(2, variableMap2.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(3, variableMap2.at("y").getDouble());
+    EXPECT_DOUBLE_EQ(4, variableMap2.at("z").getDouble());
+}
+
 TEST(PolynomialTest, GetMaxDegreeWorks)
 {
-    Polynomial polynomial1;
-    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial1;    Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
-    EXPECT_DOUBLE_EQ(0, polynomial1.getMaxDegree().getDouble());
-    EXPECT_DOUBLE_EQ(0, polynomial2.getMaxDegree().getDouble());
+    EXPECT_DOUBLE_EQ(0, polynomial1.getMaxDegree().getDouble());    EXPECT_DOUBLE_EQ(0, polynomial2.getMaxDegree().getDouble());
     EXPECT_DOUBLE_EQ(9, polynomial3.getMaxDegree().getDouble());
 }
 
@@ -149,14 +165,34 @@ TEST(PolynomialTest, GetDisplayableStringWorks)
     EXPECT_EQ("(6 + -7[x^2][y^3][z^4])", polynomial3.getDisplayableString());
 }
 
+TEST(PolynomialTest, GetMonomialsReferenceWorks)
+{
+    Polynomial polynomial{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+
+    Monomials & monomialsToChange(polynomial.getMonomialsReference());
+    monomialsToChange.at(0).setConstant(22);
+    monomialsToChange.at(1).putVariableWithExponent("a", 5);
+
+    Monomials const& monomialsToCheck(polynomial.getMonomialsConstReference());
+    ASSERT_EQ(2u, monomialsToCheck.size());
+    EXPECT_DOUBLE_EQ(22, monomialsToCheck.at(0).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap1(monomialsToCheck.at(0).getVariablesToExponentsMapConstReference());
+    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_DOUBLE_EQ(-7, monomialsToCheck.at(1).getConstantConstReference().getDouble());
+    Monomial::VariablesToExponentsMap const& variableMap2(monomialsToCheck.at(1).getVariablesToExponentsMapConstReference());
+    ASSERT_EQ(4u, variableMap2.size());
+    EXPECT_DOUBLE_EQ(2, variableMap2.at("x").getDouble());
+    EXPECT_DOUBLE_EQ(3, variableMap2.at("y").getDouble());
+    EXPECT_DOUBLE_EQ(4, variableMap2.at("z").getDouble());
+    EXPECT_DOUBLE_EQ(5, variableMap2.at("a").getDouble());
+}
+
 TEST(PolynomialTest, ClearWorks)
 {
-    Polynomial polynomial1;
-    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial1;    Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
-    polynomial1.clear();
-    polynomial2.clear();
+    polynomial1.clear();    polynomial2.clear();
     polynomial3.clear();
 
     EXPECT_TRUE(polynomial1.isEmpty());

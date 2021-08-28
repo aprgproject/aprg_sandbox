@@ -19,16 +19,11 @@ public:
     using FunctionCondition = std::function<bool(Function const&)>;
 
     FunctionsRetriever(FunctionCondition const& isFunctionIncluded);
-    void retrieveFromConstant(Constant const& constant) override;
-    void retrieveFromVariable(Variable const& variable) override;
-    void retrieveFromMonomial(Monomial const& monomial) override;
     void retrieveFromPolynomial(Polynomial const&) override;
     void retrieveFromFunction(Function const& functionObject) override;
-
 private:
     FunctionCondition m_isFunctionIncluded;
 };
-
 }
 
 }

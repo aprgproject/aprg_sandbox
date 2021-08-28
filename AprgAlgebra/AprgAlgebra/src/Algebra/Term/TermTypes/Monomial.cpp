@@ -110,28 +110,12 @@ bool Monomial::hasASingleVariable() const
     return m_variablesToExponentsMap.size() == 1;
 }
 
-bool Monomial::hasNegativeExponents() const
-{
-    bool result(false);
-    for(VariableExponentPair const& variableExponentsPair : m_variablesToExponentsMap)
-    {
-        if(variableExponentsPair.second < 0)
-        {
-            result=true;
-            break;
-        }
-    }
-    return result;
-}
-
 AlbaNumber const& Monomial::getConstantConstReference() const
 {
-    return m_constant;
-}
+    return m_constant;}
 
 Monomial::VariablesToExponentsMap const& Monomial::getVariablesToExponentsMapConstReference() const
-{
-    return m_variablesToExponentsMap;
+{    return m_variablesToExponentsMap;
 }
 
 string Monomial::getFirstVariableName() const
@@ -200,15 +184,19 @@ string Monomial::getDisplayableString() const
     return result.str();
 }
 
+void Monomial::clear()
+{
+    m_constant = AlbaNumber(0);
+    m_variablesToExponentsMap.clear();
+}
+
 void Monomial::simplify()
 {
-    removeZeroExponents();
-}
+    removeZeroExponents();}
 
 void Monomial::multiplyNumber(AlbaNumber const& number)
 {
-    m_constant = m_constant * number;
-}
+    m_constant = m_constant * number;}
 
 void Monomial::divideNumber(AlbaNumber const& number)
 {

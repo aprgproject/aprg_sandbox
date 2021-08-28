@@ -74,14 +74,27 @@ bool canBeMergedInAMonomialByAdditionOrSubtraction(Variable const& variable1, Va
     return variable1.getVariableName() == variable2.getDisplayableString();
 }
 
+bool hasNegativeExponents(Monomial const& monomial)
+{
+    bool result(false);
+    for(Monomial::VariableExponentPair const& variableExponentsPair
+        : monomial.getVariablesToExponentsMapConstReference())
+    {
+        if(variableExponentsPair.second < 0)
+        {
+            result=true;
+            break;
+        }
+    }
+    return result;
+}
+
 AlbaNumber getGcfCoefficientInMonomials(Monomials const& monomials)
 {
-    AlbaNumber commonCoefficient(1);
-    bool isFirst(true);
+    AlbaNumber commonCoefficient(1);    bool isFirst(true);
     for(Monomial const& monomial : monomials)
     {
-        AlbaNumber const& coefficient(monomial.getConstantConstReference());
-        if(coefficient.isIntegerOrFractionType())
+        AlbaNumber const& coefficient(monomial.getConstantConstReference());        if(coefficient.isIntegerOrFractionType())
         {
             if(isFirst)
             {

@@ -66,18 +66,21 @@ public:
         }
     }
 
-    virtual void retrieveFromConstant(Constant const& constant) = 0;
-    virtual void retrieveFromVariable(Variable const& variable) = 0;
-    virtual void retrieveFromMonomial(Monomial const& monomial) = 0;
+    virtual void retrieveFromConstant(Constant const&)
+    {}
+
+    virtual void retrieveFromVariable(Variable const&)
+    {}
+
+    virtual void retrieveFromMonomial(Monomial const&)
+    {}
 
     virtual void retrieveFromPolynomial(Polynomial const& polynomial)
     {
-        for(Monomial const& monomial : polynomial.getMonomialsConstReference())
-        {
+        for(Monomial const& monomial : polynomial.getMonomialsConstReference())        {
             retrieveFromMonomial(monomial);
         }
     }
-
     virtual void retrieveFromExpression(Expression const& expression)
     {
         for(TermsWithAssociation::TermWithDetails const& termWithDetails
