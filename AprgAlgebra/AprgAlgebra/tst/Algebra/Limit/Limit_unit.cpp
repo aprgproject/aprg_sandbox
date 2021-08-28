@@ -15,14 +15,20 @@ namespace alba
 namespace algebra
 {
 
+TEST(LimitTest, IsAlmostEqualForLimitCheckingWorks)
+{
+    EXPECT_TRUE(isAlmostEqualForLimitChecking(AlbaNumber(0), AlbaNumber(0)));
+    EXPECT_FALSE(isAlmostEqualForLimitChecking(AlbaNumber(0.1), AlbaNumber(0.2)));
+    EXPECT_FALSE(isAlmostEqualForLimitChecking(AlbaNumber(1E-5), AlbaNumber(3E-5)));
+    EXPECT_TRUE(isAlmostEqualForLimitChecking(AlbaNumber(1E-6), AlbaNumber(3E-6)));
+}
+
 TEST(LimitTest, IsRejectedLimitValueForDirectSubstitutionAndIterativeMethodsWorks)
 {
-    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(0)));
-    EXPECT_FALSE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(1)));
+    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(0)));    EXPECT_FALSE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(1)));
     EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
     EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(AlbaNumber::Value::NegativeInfinity)));
-    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(AlbaNumber::Value::NotANumber)));
-    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(AlbaNumber::createComplexNumber(2, 3))));
+    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(AlbaNumber::Value::NotANumber)));    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(AlbaNumber::createComplexNumber(2, 3))));
 }
 
 TEST(LimitTest, HasVerticalAsymptoteAtValueWorks)

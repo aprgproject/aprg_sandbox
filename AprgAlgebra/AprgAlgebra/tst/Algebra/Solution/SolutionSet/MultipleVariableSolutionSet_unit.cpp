@@ -78,16 +78,15 @@ TEST(MultipleVariableSolutionSetTest, GetSolutionSetForVariableWorks)
     solutionSetForA.addAcceptedValue(AlbaNumber(58));
     solutionSet.addSolutionSetForVariable("a", solutionSetForA);
 
-    AlbaNumbers const& acceptedValues(solutionSet.getSolutionSetForVariable("a").getAcceptedValues());
+    SolutionSet solutionSetToVerify(solutionSet.getSolutionSetForVariable("a"));
 
+    AlbaNumbers const& acceptedValues(solutionSetToVerify.getAcceptedValues());
     ASSERT_EQ(1u, acceptedValues.size());
     EXPECT_EQ(AlbaNumber(58), acceptedValues.at(0));
 }
-
 TEST(MultipleVariableSolutionSetTest, AddSolutionSetForVariableWorks)
 {
-    MultipleVariableSolutionSet solutionSet;
-    SolutionSet solutionSetForA;
+    MultipleVariableSolutionSet solutionSet;    SolutionSet solutionSetForA;
     solutionSetForA.addAcceptedValue(AlbaNumber(58));
 
     solutionSet.addSolutionSetForVariable("a", solutionSetForA);

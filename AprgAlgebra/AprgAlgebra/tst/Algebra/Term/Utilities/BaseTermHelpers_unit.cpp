@@ -28,26 +28,12 @@ TEST(BaseTermHelpersTest, CopyAndCreateNewTermAndReturnSharedPointerWorks)
     EXPECT_EQ(1, sharedPointerToVerify.use_count());
 }
 
-TEST(BaseTermHelpersTest, GetSharedPointerFromTermReferenceWorks)
-{
-    Term termToVerify(7896);
-
-    BaseTermSharedPointer sharedPointer(getSharedPointerFromTermReference(termToVerify));
-    Term & termToChange = *dynamic_cast<Term*>(sharedPointer.get());
-    termToChange.getConstantReference().setNumber(1459);
-
-    EXPECT_EQ(Term(1459), termToVerify);
-    EXPECT_EQ(1, sharedPointer.use_count());
-}
-
 TEST(BaseTermHelpersTest, GetTermConstReferenceFromBaseTermWorks)
 {
     Term originalTerm(7896);
-
     Term const& termToVerify(getTermConstReferenceFromBaseTerm(dynamic_cast<BaseTerm const&>(originalTerm)));
 
-    EXPECT_EQ(Term(7896), termToVerify);
-}
+    EXPECT_EQ(Term(7896), termToVerify);}
 
 TEST(BaseTermHelpersTest, GetTermConstReferenceFromSharedPointerWorks)
 {

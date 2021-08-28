@@ -28,15 +28,13 @@ PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossibl
     }
     else if(simplifiedTerm.isExpression())
     {
-        Expression expression(simplifiedTerm.getExpressionConstReference());
+        Expression const& expression(simplifiedTerm.getExpressionConstReference());
         if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
         {
-            bool canBeConvertedToPolynomialOverPolynomial(true);
-            Polynomial numerator(createPolynomialFromConstant(1));
+            bool canBeConvertedToPolynomialOverPolynomial(true);            Polynomial numerator(createPolynomialFromConstant(1));
             Polynomial denominator(createPolynomialFromConstant(1));
             for(TermWithDetails const& termWithDetails
-                : expression.getTermsWithAssociation().getTermsWithDetails())
-            {
+                : expression.getTermsWithAssociation().getTermsWithDetails())            {
                 Term const& termInExpression(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
                 if(canBeConvertedToPolynomial(termInExpression))
                 {
@@ -77,15 +75,13 @@ TermsOverTerms createTermsOverTermsFromTerm(Term const& term)
     bool isResultUpdatedWithContent(false);
     if(simplifiedTerm.isExpression())
     {
-        Expression expression(simplifiedTerm.getExpressionConstReference());
+        Expression const& expression(simplifiedTerm.getExpressionConstReference());
         if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
         {
-            TermsWithDetails numerators;
-            TermsWithDetails denominators;
+            TermsWithDetails numerators;            TermsWithDetails denominators;
             segregateTermsWithPositiveAndNegativeAssociations(expression.getTermsWithAssociation().getTermsWithDetails(), numerators, denominators);
             result = TermsOverTerms(numerators, denominators);
-            isResultUpdatedWithContent=true;
-        }
+            isResultUpdatedWithContent=true;        }
     }
     if(!isResultUpdatedWithContent)
     {

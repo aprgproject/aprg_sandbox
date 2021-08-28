@@ -49,26 +49,26 @@ SolutionSet calculateDomainForTermWithOneVariable(
     VariableNamesRetriever variableNamesRetriever;
     variableNamesRetriever.retrieveFromTerm(term);
     VariableNamesSet const& variableNames(variableNamesRetriever.getSavedData());
-    if(variableNames.size() == 1)
+    if(variableNames.size() == 0)
+    {
+        domain.addAcceptedInterval(createAllRealValuesInterval());
+    }
+    else if(variableNames.size() == 1)
     {
         string variableName = *variableNames.cbegin();
         SubstitutionOfVariablesToValues substitution;
-        domain = calculateDomainUsingTransitionValues(valuesToCheck, [&](AlbaNumber const& value)
-        {
+        domain = calculateDomainUsingTransitionValues(valuesToCheck, [&](AlbaNumber const& value)        {
                 substitution.putVariableWithValue(variableName, value);
                 Term computedTerm(substitution.performSubstitutionTo(term));
                 AlbaNumber computedValue;
                 if(computedTerm.isConstant()){computedValue = computedTerm.getConstantConstReference().getNumberConstReference();}
-                return computedValue;
-    });
+                return computedValue;});
     }
     return domain;
 }
-
 SolutionSet calculateDomainForTermWithOneVariable(
         Term const& term)
-{
-    return calculateDomainForTermWithOneVariable(getInitialValuesForIteratingMethods(term), term);
+{    return calculateDomainForTermWithOneVariable(getInitialValuesForIteratingMethods(term), term);
 }
 
 SolutionSet calculateDomainForEquation(
@@ -138,15 +138,12 @@ SolutionSet calculateDomainForEquationWithVariableToSubstitute(
             AlbaNumber computedValue(AlbaNumber::Value::NotANumber);
             AlbaNumbers acceptedValues(solutionSet.getAcceptedValues());
             if(!acceptedValues.empty()){computedValue = acceptedValues.back();}
-            return computedValue;
-});
+            return computedValue;});
     return domain;
 }
-
 void collectAndUniqueValuesAndSort(
         AlbaNumbersSet & sortedValues,
-        AlbaNumbers const& valuesToCheck)
-{
+        AlbaNumbers const& valuesToCheck){
     for(AlbaNumber const& valueToCheck : valuesToCheck)
     {
         sortedValues.emplace(valueToCheck);

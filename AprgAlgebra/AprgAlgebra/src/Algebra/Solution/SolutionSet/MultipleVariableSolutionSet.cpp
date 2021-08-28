@@ -69,15 +69,13 @@ void MultipleVariableSolutionSet::addSolutionSetForVariable(
         string const& variableName,
         SolutionSet const& solutionSet)
 {
-    m_variableNameToSolutionSetMap.emplace(variableName, solutionSet);
+    m_variableNameToSolutionSetMap[variableName] = solutionSet;
 }
 
-ostream & operator<<(ostream & out, MultipleVariableSolutionSet const& solutionSet)
-{
+ostream & operator<<(ostream & out, MultipleVariableSolutionSet const& solutionSet){
     out << solutionSet.getDisplayableString();
     return out;
 }
-
 }
 
 }

@@ -20,19 +20,12 @@ BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& ter
                         new Term(term))));
 }
 
-BaseTermSharedPointer getSharedPointerFromTermReference(Term & term)
-{
-    return move(BaseTermSharedPointer(dynamic_cast<BaseTerm*>(&term)));
-}
-
 Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm)
 {
-    return dynamic_cast<Term const&>(baseTerm);
-}
+    return dynamic_cast<Term const&>(baseTerm);}
 
 Term const& getTermConstReferenceFromSharedPointer(BaseTermSharedPointer const& sharedPointer)
-{
-    return dynamic_cast<Term const&>(*sharedPointer.get());
+{    return dynamic_cast<Term const&>(*sharedPointer.get());
 }
 
 Term const& getTermConstReferenceFromUniquePointer(BaseTermUniquePointer const& uniquePointer)
