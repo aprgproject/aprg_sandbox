@@ -1,10 +1,9 @@
 #include "SimplificationOfFunction.hpp"
 
-#include <Algebra/Retrieval/FirstCoefficientRetriever.hpp>
-#include <Algebra/Retrieval/NumberOfTermsRetriever.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 
 using namespace std;
@@ -43,21 +42,6 @@ void SimplificationOfFunction::simplify()
             inputTermReference = inputTermNegated;
         }
     }
-}
-
-bool SimplificationOfFunction::isNegatedTermSimpler(
-        Term const& term,
-        Term const& negatedTerm) const
-{
-    FirstCoefficientRetriever firstCoefficientRetrieverForTerm;
-    NumberOfTermsRetriever numberOfTermsRetrieverForTerm;
-    NumberOfTermsRetriever numberOfTermsRetrieverForNegatedTerm;
-    firstCoefficientRetrieverForTerm.retrieveFromTerm(term);
-    numberOfTermsRetrieverForTerm.retrieveFromTerm(term);
-    numberOfTermsRetrieverForNegatedTerm.retrieveFromTerm(negatedTerm);
-
-    return numberOfTermsRetrieverForTerm.getSavedData() > numberOfTermsRetrieverForNegatedTerm.getSavedData()
-            || firstCoefficientRetrieverForTerm.getSavedData() < 0;
 }
 
 }

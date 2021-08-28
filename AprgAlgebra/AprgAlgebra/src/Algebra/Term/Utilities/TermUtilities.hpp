@@ -11,6 +11,7 @@ namespace algebra
 
 bool isNonEmptyOrNonOperatorType(Term const& term);
 bool isNonEmptyOrNonOperatorOrNonExpressionType(Term const& term);
+bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm);
 
 AlbaNumberPairs evaluateAndGetInputOutputPair(
         AlbaNumbers const& numbers,

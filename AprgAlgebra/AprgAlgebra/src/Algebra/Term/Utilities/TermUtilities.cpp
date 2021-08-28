@@ -1,5 +1,7 @@
 #include "TermUtilities.hpp"
 
+#include <Algebra/Retrieval/FirstCoefficientRetriever.hpp>
+#include <Algebra/Retrieval/NumberOfTermsRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 
 using namespace std;
@@ -22,6 +24,19 @@ bool isNonEmptyOrNonOperatorOrNonExpressionType(Term const& term)
     return TermType::Empty != termType
             && TermType::Operator != termType
             && TermType::Expression != termType;
+}
+
+bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm)
+{
+    FirstCoefficientRetriever firstCoefficientRetrieverForTerm;
+    NumberOfTermsRetriever numberOfTermsRetrieverForTerm;
+    NumberOfTermsRetriever numberOfTermsRetrieverForNegatedTerm;
+    firstCoefficientRetrieverForTerm.retrieveFromTerm(term);
+    numberOfTermsRetrieverForTerm.retrieveFromTerm(term);
+    numberOfTermsRetrieverForNegatedTerm.retrieveFromTerm(negatedTerm);
+
+    return numberOfTermsRetrieverForTerm.getSavedData() > numberOfTermsRetrieverForNegatedTerm.getSavedData()
+            || firstCoefficientRetrieverForTerm.getSavedData() < 0;
 }
 
 AlbaNumberPairs evaluateAndGetInputOutputPair(

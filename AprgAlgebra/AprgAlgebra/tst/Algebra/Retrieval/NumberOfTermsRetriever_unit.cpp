@@ -22,9 +22,11 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromEquationsWorks)
 
 TEST(NumberOfTermsRetrieverTest, RetrieveFromEquationWorks)
 {
-    NumberOfTermsRetriever retriever;    Term leftHandTerm(Monomial(34, {{"x", 5}}));
+    NumberOfTermsRetriever retriever;
+    Term leftHandTerm(Monomial(34, {{"x", 5}}));
     Term rightHandTerm(Monomial(41, {{"y", 6}}));
     Equation equation(leftHandTerm, "=", rightHandTerm);
+
     retriever.retrieveFromEquation(equation);
 
     EXPECT_EQ(2u, retriever.getSavedData());

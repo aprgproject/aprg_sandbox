@@ -2,10 +2,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 AlbaNumber getCoefficientOfMonomialWithNoVariables(
         Polynomial const& polynomial)
 {

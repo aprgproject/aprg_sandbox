@@ -33,6 +33,8 @@ public:
     AlbaNumber getMaxDegree() const;
     std::string getDisplayableString() const;
 
+    Monomials & getMonomialsReference();
+
     void clear();
     void simplify();
     void sortMonomialsWithInversePriority();

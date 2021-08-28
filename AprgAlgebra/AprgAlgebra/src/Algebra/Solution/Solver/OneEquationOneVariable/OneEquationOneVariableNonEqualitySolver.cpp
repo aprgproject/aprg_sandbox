@@ -7,8 +7,10 @@
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace std;
+
 namespace alba
 {
+
 namespace algebra
 {
 

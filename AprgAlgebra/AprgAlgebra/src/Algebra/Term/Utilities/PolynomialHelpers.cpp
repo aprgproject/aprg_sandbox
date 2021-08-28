@@ -7,8 +7,10 @@
 #include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
+
 using namespace alba::algebra::Factorization;
 using namespace std;
+
 namespace alba
 {
 

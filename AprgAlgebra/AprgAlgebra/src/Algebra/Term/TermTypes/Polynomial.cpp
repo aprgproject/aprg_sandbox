@@ -186,6 +186,11 @@ string Polynomial::getDisplayableString() const
     return result.str();
 }
 
+Monomials & Polynomial::getMonomialsReference()
+{
+    return m_monomials;
+}
+
 void Polynomial::clear()
 {
     m_monomials.clear();

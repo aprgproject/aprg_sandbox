@@ -22,9 +22,11 @@ TEST(FirstCoefficientRetrieverTest, RetrieveFromEquationsWorks)
 
 TEST(FirstCoefficientRetrieverTest, RetrieveFromEquationWorks)
 {
-    FirstCoefficientRetriever retriever;    Term leftHandTerm(Monomial(34, {{"x", 5}}));
+    FirstCoefficientRetriever retriever;
+    Term leftHandTerm(Monomial(34, {{"x", 5}}));
     Term rightHandTerm(Monomial(41, {{"y", 6}}));
     Equation equation(leftHandTerm, "=", rightHandTerm);
+
     retriever.retrieveFromEquation(equation);
 
     EXPECT_EQ(AlbaNumber(34), retriever.getSavedData());

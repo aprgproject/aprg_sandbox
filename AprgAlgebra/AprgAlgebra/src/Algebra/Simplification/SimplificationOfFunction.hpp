@@ -22,7 +22,6 @@ public:
     void simplify();
 
 private:
-    bool isNegatedTermSimpler(Term const& term,  Term const& negatedTerm) const;
     Function m_function;
 };
 

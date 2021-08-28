@@ -8,8 +8,10 @@
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 
 using namespace std;
+
 namespace alba
 {
+
 namespace algebra
 {
 
