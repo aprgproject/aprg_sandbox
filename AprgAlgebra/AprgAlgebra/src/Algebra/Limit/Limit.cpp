@@ -157,15 +157,13 @@ AlbaNumber getLimitAtAValueUsingTrendOfValues(
         AlbaNumber const& previousAcceptedInput,
         AlbaNumber const& previousPreviousAcceptedInput)
 {
-    AlbaNumber result;
+    AlbaNumber result(AlbaNumber::Value::NotANumber);
     SubstitutionOfVariablesToValues substitution;
     substitution.putVariableWithValue(variableName, valueToApproach);
-    Term outputTermAtValueToApproach(substitution.performSubstitutionTo(term));
-    substitution.putVariableWithValue(variableName, previousAcceptedInput);
+    Term outputTermAtValueToApproach(substitution.performSubstitutionTo(term));    substitution.putVariableWithValue(variableName, previousAcceptedInput);
     Term previousAcceptedOutputTerm(substitution.performSubstitutionTo(term));
     substitution.putVariableWithValue(variableName, previousPreviousAcceptedInput);
-    Term previousPreviousAcceptedOutputTerm(substitution.performSubstitutionTo(term));
-    if(outputTermAtValueToApproach.isConstant()
+    Term previousPreviousAcceptedOutputTerm(substitution.performSubstitutionTo(term));    if(outputTermAtValueToApproach.isConstant()
             && previousAcceptedOutputTerm.isConstant()
             && previousPreviousAcceptedOutputTerm.isConstant())
     {
