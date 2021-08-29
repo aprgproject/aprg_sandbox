@@ -15,14 +15,61 @@ using namespace std;
 namespace alba
 {
 
+namespace
+{
+
+set<string> listOfCPlusPlusHeaders
+{
+    "algorithm", "any", "array", "atomic", "bitset", "cassert", "cctype", "cerrno", "cfenv", "cfloat",
+    "chrono", "cinttypes", "climits", "clocale", "cmath", "codecvt", "complex", "condition_variable",
+    "csetjmp", "csignal", "cstdarg", "cstddef", "cstdint", "cstdio", "cstdlib", "cstring", "ctime",
+    "cuchar", "cwchar", "cwctype", "deque", "exception", "execution", "filesystem" "forward_list",
+    "fstream", "functional", "future", "initializer_list", "iomanip", "ios", "iosfwd", "iostream",
+    "istream", "iterator", "limits", "list", "locale", "map", "memory", "memory_resource", "mutex",
+    "new", "numeric", "optional", "ostream", "queue", "random", "ratio", "regex", "scoped_allocator",
+    "set", "shared_mutex", "sstream", "stack", "stdexcept", "streambuf", "string", "string_view",
+    "strstream", "system_error", "thread", "tuple", "typeindex", "typeinfo", "type_traits",
+    "unordered_map", "unordered_set", "utility", "valarray", "variant", "vector"
+};
+
+set<string> listOfLinuxHeaders
+{
+    "assert.h", "conio.h", "crtdbg.h", "ctype.h", "curses.h", "dirent.h", "env.h", "errno.h", "eti.h",
+    "fcntl.h", "float.h", "fnmatch.h", "form.h", "graph.h", "grp.h", "i86.h", "limits.h", "locale.h",
+    "malloc.h", "math.h", "mbctype.h", "mbstring.h", "mem.h", "menu.h", "mig.h", "mqueue.h", "panel.h",
+    "pgchart.h", "process.h", "pwd.h", "queue.h", "regex.h", "search.h", "semaphore.h", "setjmp.h",
+    "share.h", "signal.h", "stdarg.h", "stddef.h", "stdio.h", "stdlib.h", "string.h", "sys/audio.h",
+    "sys/cdrom.h", "sys/console.h", "sys/con_msg.h", "sys/debug.h", "sys/dev.h", "sys/dev_msg.h",
+    "sys/disk.h", "sys/dumper.h", "sys/fd.h", "sys/fsys.h", "sys/fsysinfo.h", "sys/fsys_msg.h",
+    "sys/inline.h", "sys/io_msg.h", "sys/irqinfo.h", "sys/kernel.h", "sys/lmf.h", "sys/locking.h",
+    "sys/magic.h", "sys/mman.h", "sys/mouse.h", "sys/mous_msg.h", "sys/name.h", "sys/osinfo.h",
+    "sys/osstat.h", "sys/pci.h", "sys/prfx.h", "sys/proc_msg.h", "sys/proxy.h", "sys/psinfo.h",
+    "sys/qioctl.h", "sys/qnxterm.h", "sys/qnx_glob.h", "sys/sched.h", "sys/seginfo.h", "sys/select.h",
+    "sys/sendmx.h", "sys/ser_msg.h", "sys/sidinfo.h", "sys/stat.h", "sys/sys_msg.h", "sys/term.h",
+    "sys/timeb.h", "sys/timers.h", "sys/times.h", "sys/trace.h", "sys/tracecod.h", "sys/types.h",
+    "sys/uio.h", "sys/uscsi.h", "sys/utsname.h", "sys/vc.h", "sys/wait.h", "syslog.h", "tar.h",
+    "tchar.h", "term.h", "termios.h", "time.h", "unctrl.h", "unicode.h", "unistd.h", "unix.h",
+    "utime.h", "varargs.h", "_comdef.h"
+};
+
+set<string> listOfWindowsHeaders
+{
+    "basetsd.h", "cderr.h", "commdlg.h", "ctype.h", "dde.h", "ddeml.h", "dlgs.h", "excpt.h",
+    "guiddef.h", "imm.h", "lzexpand.h", "mmsystem.h", "nb30.h", "objbase.h", "ole2.h", "oleauto.h",
+    "olectlid.h", "rpc.h", "shellapi.h", "stdarg.h", "string.h", "winbase.h", "winbgim.h", "wincon.h",
+    "wincrypt.h", "windef.h", "windows.h", "winerror.h", "wingdi.h", "winnetwk.h", "winnls.h",
+    "winnt.h", "winperf.h", "winreg.h", "winresrc.h", "winsock.h", "winspool.h", "winsvc.h", "winuser.h",
+    "winver.h",
+};
+
+}
+
 void CPlusPlusFileFixer::processDirectory(string const& path)
 {
-    set<string> listOfFiles;
-    set<string> listOfDirectories;
+    set<string> listOfFiles;    set<string> listOfDirectories;
     AlbaLocalPathHandler(path).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& filePath : listOfFiles)
-    {
-        AlbaLocalPathHandler filePathHandler(filePath);
+    {        AlbaLocalPathHandler filePathHandler(filePath);
         if(!isPathIgnored(filePath))
         {
             if("cpp" == filePathHandler.getExtension() || "hpp" == filePathHandler.getExtension())
@@ -53,15 +100,14 @@ void CPlusPlusFileFixer::clear()
 void CPlusPlusFileFixer::checkFile(string const& path)
 {
     readContentsFromFile(path);
-    notifyIfIostreamHeaderExistInProductionCode(path);
-    notifyIfCAssertHeaderExistInProductionCode(path);
+    notifyIfAlbaDebugHeaderExistInProductionCode(path);
+    //notifyIfCAssertHeaderExistInProductionCode(path);
+    //notifyIfIostreamHeaderExistInProductionCode(path);
     //notifyIfMoreThanLoopsAreCascaded(path);
 }
-
 void CPlusPlusFileFixer::readContentsFromFile(string const& path)
 {
-    AlbaLocalPathHandler filePathHandler(path);
-    ifstream inputLogFileStream(filePathHandler.getFullPath());
+    AlbaLocalPathHandler filePathHandler(path);    ifstream inputLogFileStream(filePathHandler.getFullPath());
     AlbaFileReader fileReader(inputLogFileStream);
     bool isOnHeaderPart(true);
     while(fileReader.isNotFinished())
@@ -110,18 +156,15 @@ void CPlusPlusFileFixer::notifyIfThereAreCommentsInHeader(string const& path, st
 
 void CPlusPlusFileFixer::notifyIfAlbaDebugHeaderExistInProductionCode(string const& path) const
 {
-    AlbaLocalPathHandler filePathHandler(path);
     bool isAlbaDebugHeaderFound = (std::find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("Debug/AlbaDebug.hpp")) != m_headerListFromAngleBrackets.end());
     if(isAlbaDebugHeaderFound) // !isUnitTest)
     {
-        cout<<"CHECK THIS: iostream found in:["<<path<<"]."<<endl;
+        cout<<"CHECK THIS: AlbaDebug found in:["<<path<<"]."<<endl;
     }
 }
-
 void CPlusPlusFileFixer::notifyIfIostreamHeaderExistInProductionCode(string const& path) const
 {
-    AlbaLocalPathHandler filePathHandler(path);
-    bool isIostreamFound = (std::find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("iostream")) != m_headerListFromAngleBrackets.end());
+    AlbaLocalPathHandler filePathHandler(path);    bool isIostreamFound = (std::find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("iostream")) != m_headerListFromAngleBrackets.end());
     //bool isCpp = filePathHandler.getExtension() == "cpp";
     bool isUnitTest = isStringFoundInsideTheOtherStringCaseSensitive(filePathHandler.getFile(), "_unit.cpp");
     if(isIostreamFound && !isUnitTest)// && !isCpp) // !isUnitTest)
@@ -173,47 +216,29 @@ void CPlusPlusFileFixer::fix(string const& path)
 
 void CPlusPlusFileFixer::fixHeaders(string const& path)
 {
-    AlbaLocalPathHandler filePathHandler(path);
-    set<string> mainHeaders;
     set<string> cPlusPlusHeaders;
     set<string> otherLibraryHeaders;
     set<string> aprgFiles;
     for(string const& header: m_headerListFromAngleBrackets)
     {
-        if(isMainHeader(header, filePathHandler.getFullPath()))
-        {
-            mainHeaders.emplace(header);
-        }
-        else if(isCPlusPlusHeader(header))
+        if(isCPlusPlusHeader(header))
         {
             cPlusPlusHeaders.emplace(header);
         }
-        else if(isOtherLibraryHeaders(header))
-        {
+        else if(isOtherLibraryHeaders(header))        {
             otherLibraryHeaders.emplace(header);
         }
-        else
-        {
+        else        {
             aprgFiles.emplace(header);
         }
     }
     m_headerListFromAngleBrackets.clear();
-    if(!mainHeaders.empty())
-    {
-        for(string const& header: mainHeaders)
-        {
-            addHeaderFileFromAngleBrackets(header);
-        }
-        addHeaderFileFromAngleBrackets("");
-    }
     if(!aprgFiles.empty())
     {
-        for(string const& header: aprgFiles)
-        {
+        for(string const& header: aprgFiles)        {
             addHeaderFileFromAngleBrackets(header);
         }
-        addHeaderFileFromAngleBrackets("");
-    }
+        addHeaderFileFromAngleBrackets("");    }
     if(!otherLibraryHeaders.empty())
     {
         for(string const& header: otherLibraryHeaders)
@@ -262,34 +287,30 @@ void CPlusPlusFileFixer::fixSmallUToCapitalUInNumbers()
     for(string & line : m_linesAfterTheHeader)
     {
         int indexOfU = line.find("u");
-        if(isNotNpos(indexOfU))
+        while(isNotNpos(indexOfU))
         {
             bool isCharacterBeforeUANumber(false);
-            bool isCharacterAfterUNotALetterOrNumberOrUnderscore(false);
-            if(indexOfU > 0)
+            bool isCharacterAfterUNotALetterOrNumberOrUnderscore(false);            if(indexOfU > 0)
             {
                 isCharacterBeforeUANumber = isNumber(line.at(indexOfU-1));
             }
-            if(indexOfU+1 < line.length())
+            if(indexOfU+1 < static_cast<int>(line.length()))
             {
                 isCharacterAfterUNotALetterOrNumberOrUnderscore = !isLetterOrNumberOrUnderscore(line.at(indexOfU+1));
-            }
-            else
+            }            else
             {
                 isCharacterAfterUNotALetterOrNumberOrUnderscore = true;
-            }
-            if(isCharacterBeforeUANumber && isCharacterAfterUNotALetterOrNumberOrUnderscore)
+            }            if(isCharacterBeforeUANumber && isCharacterAfterUNotALetterOrNumberOrUnderscore)
             {
                 line.at(indexOfU) = 'U';
             }
+            indexOfU = line.find("u", indexOfU+1);
         }
     }
 }
-
 void CPlusPlusFileFixer::addHeaderFileFromAngleBrackets(std::string const& header)
 {
-    AlbaPathHandler headerPathHandler(header, "/");
-    m_headerListFromAngleBrackets.emplace_back(headerPathHandler.getFullPath());
+    AlbaPathHandler headerPathHandler(header, "/");    m_headerListFromAngleBrackets.emplace_back(headerPathHandler.getFullPath());
 }
 
 void CPlusPlusFileFixer::addHeaderFileFromQuotations(std::string const& header)
@@ -395,33 +416,31 @@ bool CPlusPlusFileFixer::isPathIgnored(string const& path) const
 
 bool CPlusPlusFileFixer::isCPlusPlusHeader(string const& header) const
 {
-    bool result(false);
-    if("cstdlib" == header || "csignal" == header || "csetjmp" == header || "cstdarg" == header || "typeinfo" == header || "typeindex" == header || "type_traits" == header ||
-            "bitset" == header || "functional" == header || "utility" == header || "ctime" == header || "chrono" == header || "cstddef" == header || "initializer_list" == header ||
-            "tuple" == header || "any" == header || "optional" == header || "variant" == header || "new" == header || "memory" == header || "scoped_allocator" == header ||
-            "memory_resource" == header || "climits" == header || "cfloat" == header || "cstdint" == header || "cinttypes" == header || "limits" == header || "exception" == header ||
-            "stdexcept" == header || "cassert" == header || "system_error" == header || "cerrno" == header || "cctype" == header || "cwctype" == header || "cstring" == header || "cwchar" == header ||
-            "cuchar" == header || "string" == header || "string_view" == header || "array" == header || "vector" == header || "deque" == header || "list" == header || "forward_list" == header ||
-            "set" == header || "map" == header || "unordered_set" == header || "unordered_map" == header || "stack" == header || "queue" == header || "algorithm" == header ||
-            "execution" == header || "iterator" == header || "cmath" == header || "complex" == header || "valarray" == header || "random" == header || "numeric" == header ||
-            "ratio" == header || "cfenv" == header || "iosfwd" == header || "ios" == header || "istream" == header || "ostream" == header || "iostream" == header || "fstream" == header ||
-            "sstream" == header || "strstream" == header || "iomanip" == header || "streambuf" == header || "cstdio" == header || "locale" == header || "clocale" == header ||
-            "codecvt" == header || "regex" == header || "atomic" == header || "thread" == header || "mutex" == header || "shared_mutex" == header || "future" == header ||
-            "condition_variable" == header || "filesystem" == header)
-    {
-        result=true;
-    }
-    return result;
+    return listOfCPlusPlusHeaders.find(header) != listOfCPlusPlusHeaders.cend();
+}
+
+bool CPlusPlusFileFixer::isLinuxHeader(string const& header) const
+{
+    return listOfLinuxHeaders.find(header) != listOfLinuxHeaders.cend()
+            || isStringFoundInsideTheOtherStringCaseSensitive(header, "sys/");
+}
+
+bool CPlusPlusFileFixer::isWindowsHeader(string const& header) const
+{
+    return listOfWindowsHeaders.find(header) != listOfWindowsHeaders.cend();
+}
+
+bool CPlusPlusFileFixer::isGtestHeader(string const& header) const
+{
+    return isStringFoundInsideTheOtherStringCaseSensitive(header, "gtest");
 }
 
 bool CPlusPlusFileFixer::isQtHeader(string const& header) const
 {
-    bool result(false);
-    AlbaLocalPathHandler headerFileHandler(header);
+    bool result(false);    AlbaLocalPathHandler headerFileHandler(header);
     if(header.length()>=2)
     {
-        if('Q' == header[0] && ('t' == header[1] || isCapitalLetter(header[1])) && headerFileHandler.getExtension().empty())
-        {
+        if('Q' == header[0] && ('t' == header[1] || isCapitalLetter(header[1])) && headerFileHandler.getExtension().empty())        {
             result = true;
         }
     }
@@ -431,23 +450,10 @@ bool CPlusPlusFileFixer::isQtHeader(string const& header) const
 bool CPlusPlusFileFixer::isOtherLibraryHeaders(string const& header) const
 {
     bool result(false);
-    if("windows.h" == header || isStringFoundInsideTheOtherStringCaseSensitive(header, "gtest") || isQtHeader(header))
+    if(isLinuxHeader(header) || isWindowsHeader(header) || isGtestHeader(header) || isQtHeader(header))
     {
         result=true;
-    }
-    return result;
-}
-
-bool CPlusPlusFileFixer::isMainHeader(string const& headerFoundInFile, string const& filePath) const
-{
-    bool result(false);
-    AlbaLocalPathHandler headerFileHandler(headerFoundInFile);
-    AlbaLocalPathHandler filePathHandler(filePath);
-    if(isStringFoundInsideTheOtherStringCaseSensitive(headerFileHandler.getFilenameOnly(), filePathHandler.getFilenameOnly()))
-    {
-        result=true;
-    }
-    return result;
+    }    return result;
 }
 
 
