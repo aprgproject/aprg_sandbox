@@ -197,86 +197,85 @@ TEST(AlbaBitManipulationTest, BitsAreSuccessfullyObtainedWhenU32IsUsed)
 TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU16IsUsed)
 {
     // Given
-    const short unsigned int input = 0x1234;
+    const uint16_t input = 0x1234;
 
     // When
 
     // Then
-    EXPECT_EQ(0x3412U, AlbaBitManipulation<short unsigned int>::swap(input));
+    EXPECT_EQ(0x3412U, AlbaBitManipulation<uint16_t>::swap(input));
 }
 
 TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU32IsUsed)
 {
     // Given
-    const unsigned int input = 0x12345678;
+    const uint32_t input = 0x12345678;
 
     // When
 
     // Then
-    EXPECT_EQ(0x78563412U, AlbaBitManipulation<unsigned int>::swap(input));
+    EXPECT_EQ(0x78563412U, AlbaBitManipulation<uint32_t>::swap(input));
 }
 
 TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedWhenU64IsUsed)
 {
     // Given
-    const unsigned long long input = 0x123456789ABCDEF0;
+    const uint64_t input = 0x123456789ABCDEF0;
 
     // When
 
     // Then
-    EXPECT_EQ(0xF0DEBC9A78563412U, AlbaBitManipulation<unsigned long long>::swap(input));
+    EXPECT_EQ(0xF0DEBC9A78563412U, AlbaBitManipulation<uint64_t>::swap(input));
 }
 
 
 TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForTwoBytes)
 {
     // Given
-    const short unsigned int input = 0x1234;
+    const uint16_t input = 0x1234;
 
     // When
 
     // Then
-    EXPECT_EQ(0x3412U, AlbaBitManipulation<short unsigned int>::swapForTwoBytes(input));
+    EXPECT_EQ(0x3412U, AlbaBitManipulation<uint16_t>::swapForTwoBytes(input));
 }
 
 TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForFourBytes)
 {
     // Given
-    const unsigned int input = 0x12345678;
+    const uint32_t input = 0x12345678;
 
     // When
 
     // Then
-    EXPECT_EQ(0x78563412U, AlbaBitManipulation<unsigned int>::swapForFourBytes(input));
+    EXPECT_EQ(0x78563412U, AlbaBitManipulation<uint32_t>::swapForFourBytes(input));
 }
 
 TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForEightBytes)
 {
     // Given
-    const unsigned long long input = 0x123456789ABCDEF0;
+    const uint64_t input = 0x123456789ABCDEF0;
 
     // When
 
     // Then
-    EXPECT_EQ(0xF0DEBC9A78563412U, AlbaBitManipulation<unsigned long long>::swapForEightBytes(input));
+    EXPECT_EQ(0xF0DEBC9A78563412U, AlbaBitManipulation<uint64_t>::swapForEightBytes(input));
 }
 
-TEST(AlbaBitManipulationTest, GenerationOfOnesIsSuccessful)
-{
+TEST(AlbaBitManipulationTest, GenerationOfOnesIsSuccessful){
     // Given
     const unsigned int input = 2;
 
     // When
 
     // Then
-    EXPECT_EQ(0x00000003U, AlbaBitManipulation<unsigned int>::generateOnesWithNumberOfBits(input));
+    EXPECT_EQ(0x00000003U, AlbaBitManipulation<uint32_t>::generateOnesWithNumberOfBits(input));
 }
 
 TEST(AlbaBitManipulationTest, GetAllBitsAsserted)
 {
-    EXPECT_EQ(0xFFFFU, AlbaBitManipulation<short unsigned int>::getAllBitsAsserted());
-    EXPECT_EQ(0xFFFFFFFFU, AlbaBitManipulation<unsigned int>::getAllBitsAsserted());
-    EXPECT_EQ(0xFFFFFFFFFFFFFFFFU, AlbaBitManipulation<unsigned long long>::getAllBitsAsserted());
+    EXPECT_EQ(0xFFFFU, AlbaBitManipulation<uint16_t>::getAllBitsAsserted());
+    EXPECT_EQ(0xFFFFFFFFU, AlbaBitManipulation<uint32_t>::getAllBitsAsserted());
+    EXPECT_EQ(0xFFFFFFFFFFFFFFFFU, AlbaBitManipulation<uint64_t>::getAllBitsAsserted());
 }
 
 }

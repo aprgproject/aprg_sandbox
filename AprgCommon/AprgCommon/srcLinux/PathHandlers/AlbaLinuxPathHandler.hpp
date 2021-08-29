@@ -30,10 +30,10 @@ public:
     bool deleteFile();
     bool deleteDirectoryWithoutFilesAndDirectories(); //do tests
     void deleteFilesInDirectory(); //do tests
+    void deleteInnerFilesAndDirectories(); //do tests
     void deleteDirectoryWithFilesAndDirectories(); //do tests
     bool copyToNewFile(std::string const& newFilePath);
-    bool renameFile(std::string const& newFileName);
-    bool renameImmediateDirectory(std::string const& newDirectoryName);
+    bool renameFile(std::string const& newFileName);    bool renameImmediateDirectory(std::string const& newDirectoryName);
     void findFilesAndDirectoriesOneDepth(
             std::string const& wildCardSearch,
             ListOfPaths& listOfFiles,

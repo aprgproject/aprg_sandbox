@@ -179,11 +179,10 @@ void AlbaLinuxPathHandler::deleteFilesInDirectory()
     reInput();
 }
 
-void AlbaLinuxPathHandler::deleteDirectoryWithFilesAndDirectories()
+void AlbaLinuxPathHandler::deleteInnerFilesAndDirectories()
 {
     set<string> listOfFiles;
-    set<string> listOfDirectories;
-    findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
+    set<string> listOfDirectories;    findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& file: listOfFiles)
     {
         AlbaLinuxPathHandler(file).deleteFile();
@@ -193,10 +192,15 @@ void AlbaLinuxPathHandler::deleteDirectoryWithFilesAndDirectories()
     {
         AlbaLinuxPathHandler(*reverseIterator).deleteDirectoryWithoutFilesAndDirectories();
     }
-    deleteDirectoryWithoutFilesAndDirectories();
     reInput();
 }
 
+void AlbaLinuxPathHandler::deleteDirectoryWithFilesAndDirectories()
+{
+    deleteInnerFilesAndDirectories();
+    deleteDirectoryWithoutFilesAndDirectories();
+    reInput();
+}
 bool AlbaLinuxPathHandler::copyToNewFile(string const& newFilePath)
 {
     int readFileDescriptor;
