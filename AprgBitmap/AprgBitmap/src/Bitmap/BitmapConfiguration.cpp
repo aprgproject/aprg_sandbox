@@ -2,17 +2,18 @@
 
 #include <Bit/AlbaBitConstants.hpp>
 #include <Bit/AlbaBitManipulation.hpp>
+#include <Math/AlbaMathHelper.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 #include <cmath>
 
+using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace AprgBitmap
 {
-
 BitmapConfiguration::BitmapConfiguration()
     : m_fileSize(0)
     , m_pixelArrayAddress(0)
@@ -92,40 +93,38 @@ std::string BitmapConfiguration::getPath() const
     return m_path;
 }
 
-unsigned int BitmapConfiguration::getPixelArrayAddress() const
+uint32_t BitmapConfiguration::getPixelArrayAddress() const
 {
     return m_pixelArrayAddress;
 }
 
-unsigned int BitmapConfiguration::getBitmapWidth() const
+uint32_t BitmapConfiguration::getBitmapWidth() const
 {
     return m_bitmapWidth;
 }
 
-unsigned int BitmapConfiguration::getBitmapHeight() const
+uint32_t BitmapConfiguration::getBitmapHeight() const
 {
     return m_bitmapHeight;
 }
 
-unsigned int BitmapConfiguration::getNumberOfBitsPerPixel() const
+uint16_t BitmapConfiguration::getNumberOfBitsPerPixel() const
 {
     return m_numberOfBitsPerPixel;
 }
 
-unsigned int BitmapConfiguration::getNumberOfBytesPerRowInFile() const
+uint32_t BitmapConfiguration::getNumberOfBytesPerRowInFile() const
 {
     return m_numberOfBytesPerRowInFile;
 }
 
-unsigned int BitmapConfiguration::getBitMaskForValue() const
+uint32_t BitmapConfiguration::getBitMaskForValue() const
 {
     return m_bitMaskForValue;
 }
-
 BitmapXY BitmapConfiguration::getPointWithinTheBitmap(int const xCoordinate, int const yCoordinate) const
 {
-    return BitmapXY(getXCoordinateWithinTheBitmap(xCoordinate), getYCoordinateWithinTheBitmap(yCoordinate));
-}
+    return BitmapXY(getXCoordinateWithinTheBitmap(xCoordinate), getYCoordinateWithinTheBitmap(yCoordinate));}
 
 unsigned int BitmapConfiguration::getXCoordinateWithinTheBitmap(int const coordinate) const
 {
@@ -154,41 +153,36 @@ BitmapXY BitmapConfiguration::getDownRightCornerPoint() const
     return BitmapXY(maxX, maxY);
 }
 
-unsigned int BitmapConfiguration::getColorUsingPixelValue(unsigned int pixelValue) const
+uint32_t BitmapConfiguration::getColorUsingPixelValue(uint32_t const pixelValue) const
 {
-    unsigned int color(0);
+    uint32_t color(0);
     switch(m_numberOfBitsPerPixel)
     {
-    case 1:
-    case 2:
+    case 1:    case 2:
     case 4:
     case 8:
-        if(pixelValue<m_colors.size())
+        if(pixelValue < m_colors.size())
         {
             color = m_colors[pixelValue];
-        }
-        break;
+        }        break;
     default:
         color = pixelValue;
-        break;
-    }
+        break;    }
     return color;
 }
 
-unsigned int BitmapConfiguration::convertPixelsToBytesRoundToFloor(unsigned int pixels) const
+unsigned int BitmapConfiguration::convertPixelsToBytesRoundedToFloor(unsigned int pixels) const
 {
     return (pixels*m_numberOfBitsPerPixel)/AlbaBitConstants::BYTE_SIZE_IN_BITS;
 }
 
-unsigned int BitmapConfiguration::convertPixelsToBytesRoundToCeil(unsigned int pixels) const
+unsigned int BitmapConfiguration::convertPixelsToBytesRoundedToCeil(unsigned int pixels) const
 {
     return ((pixels*m_numberOfBitsPerPixel)+AlbaBitConstants::BYTE_SIZE_IN_BITS-1)/AlbaBitConstants::BYTE_SIZE_IN_BITS;
 }
-
 unsigned int BitmapConfiguration::convertBytesToPixels(unsigned int bytes) const
 {
-    return (bytes*AlbaBitConstants::BYTE_SIZE_IN_BITS)/m_numberOfBitsPerPixel;
-}
+    return (bytes*AlbaBitConstants::BYTE_SIZE_IN_BITS)/m_numberOfBitsPerPixel;}
 
 unsigned int BitmapConfiguration::getNumberOfPixelsForOneByte() const
 {
@@ -203,29 +197,35 @@ unsigned int BitmapConfiguration::getMaximumNumberOfPixelsBeforeOneByte() const
 
 unsigned int BitmapConfiguration::getMinimumNumberOfBytesForOnePixel() const
 {
-    unsigned int numberOfBytesInOnePixel(convertPixelsToBytesRoundToFloor(1));
+    unsigned int numberOfBytesInOnePixel(convertPixelsToBytesRoundedToFloor(1));
     return (numberOfBytesInOnePixel>0) ? numberOfBytesInOnePixel : 1;
 }
 
-unsigned int BitmapConfiguration::estimateSquareSideInPixels(unsigned int const numberOfBytesToRead) const
+unsigned int BitmapConfiguration::getEstimatedSquareSideInPixels(unsigned int const numberOfBytesToRead) const
 {
-    // Quadratic equation: side*side*m_numberOfBitsPerPixel + side*(1+getMinimumNumberOfBytesForOnePixel())*AlbaBitConstants::BYTE_SIZE_IN_BITS - numberOfBytesToRead*AlbaBitConstants::BYTE_SIZE_IN_BITS
+    // Quadratic equation: side*side*m_numberOfBitsPerPixel
+    //+ side*(1+getMinimumNumberOfBytesForOnePixel())*AlbaBitConstants::BYTE_SIZE_IN_BITS
+    //- numberOfBytesToRead*AlbaBitConstants::BYTE_SIZE_IN_BITS
     double a = m_numberOfBitsPerPixel;
     double b = (1+getMinimumNumberOfBytesForOnePixel())*AlbaBitConstants::BYTE_SIZE_IN_BITS;
-    double c = numberOfBytesToRead*AlbaBitConstants::BYTE_SIZE_IN_BITS;
-    return (unsigned int)((sqrt(b*b + 4*a*c) - b)/(2*a));
+    double c = -1 * static_cast<int>(numberOfBytesToRead*AlbaBitConstants::BYTE_SIZE_IN_BITS);
+    unsigned int result(0);
+    AlbaNumbers roots(getQuadraticRoots(RootType::RealRootsOnly, AlbaNumber(a), AlbaNumber(b), AlbaNumber(c)));
+    if(!roots.empty())
+    {
+        result = static_cast<unsigned int>(roots.front().getInteger());
+    }
+    return result;
 }
 
 unsigned int BitmapConfiguration::getOneRowSizeInBytesFromPixels(unsigned int const leftPixelInclusive, unsigned int const rightPixelInclusive) const
 {
-    return getOneRowSizeInBytesFromBytes(convertPixelsToBytesRoundToFloor(leftPixelInclusive), convertPixelsToBytesRoundToFloor(rightPixelInclusive));
+    return getOneRowSizeInBytesFromBytes(convertPixelsToBytesRoundedToFloor(leftPixelInclusive), convertPixelsToBytesRoundedToFloor(rightPixelInclusive));
 }
 
-unsigned int BitmapConfiguration::getOneRowSizeInBytesFromBytes(unsigned int const leftByteInclusive, unsigned int const rightByteInclusive) const
-{
+unsigned int BitmapConfiguration::getOneRowSizeInBytesFromBytes(unsigned int const leftByteInclusive, unsigned int const rightByteInclusive) const{
     return rightByteInclusive-leftByteInclusive+getMinimumNumberOfBytesForOnePixel();
 }
-
 Colors BitmapConfiguration::getColorTable() const
 {
     return m_colors;
@@ -235,16 +235,15 @@ void BitmapConfiguration::readBitmap(string const& path)
 {
     //https://en.wikipedia.org/wiki/BMP_file_format
 
-    m_path=path;
-    ifstream inputStream(path, ios::binary);
+    m_path = AlbaLocalPathHandler(path).getFullPath();
+    ifstream inputStream(m_path, ios::binary);
+
     if(inputStream.is_open())
     {
         AlbaFileReader fileReader(inputStream);
-
         readBitmapFileHeader(fileReader);
         readDibHeader(fileReader);
-        readColors(fileReader);
-        calculateOtherValuesAfterReading();
+        readColors(fileReader);        calculateOtherValuesAfterReading();
     }
 }
 
@@ -255,76 +254,73 @@ void BitmapConfiguration::readBitmapFileHeader(AlbaFileReader& fileReader)
     m_signature += fileReader.getCharacter();
 
     fileReader.moveLocation(2);
-    m_fileSize = fileReader.getFourByteSwappedData<unsigned int>();
+    m_fileSize = fileReader.getFourByteSwappedData<uint32_t>();
 
     fileReader.moveLocation(10);
-    m_pixelArrayAddress = fileReader.getFourByteSwappedData<unsigned int>();
+    m_pixelArrayAddress = fileReader.getFourByteSwappedData<uint32_t>();
 }
 
 void BitmapConfiguration::readDibHeader(AlbaFileReader& fileReader) // only supports BITMAPINFOHEADER format
 {
     fileReader.moveLocation(14);
-    m_sizeOfHeader = fileReader.getFourByteSwappedData<unsigned int>();
+    m_sizeOfHeader = fileReader.getFourByteSwappedData<uint32_t>();
 
     fileReader.moveLocation(18);
-    m_bitmapWidth = fileReader.getFourByteSwappedData<unsigned int>();
+    m_bitmapWidth = fileReader.getFourByteSwappedData<uint32_t>();
 
     fileReader.moveLocation(22);
-    m_bitmapHeight = fileReader.getFourByteSwappedData<unsigned int>();
+    m_bitmapHeight = fileReader.getFourByteSwappedData<uint32_t>();
 
     fileReader.moveLocation(26);
-    m_numberOfColorPlanes = fileReader.getTwoByteSwappedData<unsigned int>();
+    m_numberOfColorPlanes = fileReader.getTwoByteSwappedData<uint16_t>();
 
     fileReader.moveLocation(28);
-    m_numberOfBitsPerPixel = fileReader.getTwoByteSwappedData<unsigned int>();
+    m_numberOfBitsPerPixel = fileReader.getTwoByteSwappedData<uint16_t>();
 
-    m_bitmapSize = (unsigned long)m_bitmapWidth*m_bitmapHeight;
+    m_bitmapSize = static_cast<uint64_t>(m_bitmapWidth) * static_cast<uint64_t>(m_bitmapHeight);
 
     fileReader.moveLocation(30);
-    m_compressionMethodType = determineCompressedMethodType(fileReader.getFourByteData<unsigned int>());
+    m_compressionMethodType = determineCompressedMethodType(fileReader.getFourByteData<uint32_t>());
 
     fileReader.moveLocation(34);
-    m_imageSize = fileReader.getFourByteData<unsigned int>();
+    m_imageSize = fileReader.getFourByteData<uint32_t>();
 
     fileReader.moveLocation(38);
-    m_horizontalResolutionPixelInAMeter = fileReader.getFourByteSwappedData<unsigned int>();
+    m_horizontalResolutionPixelInAMeter = fileReader.getFourByteSwappedData<uint32_t>();
 
     fileReader.moveLocation(42);
-    m_verticalResolutionPixelInAMeter = fileReader.getFourByteSwappedData<unsigned int>();
+    m_verticalResolutionPixelInAMeter = fileReader.getFourByteSwappedData<uint32_t>();
 
     fileReader.moveLocation(46);
-    m_numberOfColors = fileReader.getFourByteSwappedData<unsigned int>();
+    m_numberOfColors = fileReader.getFourByteSwappedData<uint32_t>();
 
     fileReader.moveLocation(50);
-    m_numberImportantOfColors = fileReader.getFourByteSwappedData<unsigned int>();
+    m_numberImportantOfColors = fileReader.getFourByteSwappedData<uint32_t>();
 }
 
-void BitmapConfiguration::readColors(AlbaFileReader& fileReader)
-{
+void BitmapConfiguration::readColors(AlbaFileReader& fileReader){
     fileReader.moveLocation(54);
     while(fileReader.getCurrentLocation()<m_pixelArrayAddress)
     {
-        m_colors.push_back(fileReader.getFourByteSwappedData<unsigned int>());
+        m_colors.push_back(fileReader.getFourByteSwappedData<uint32_t>());
     }
 }
 
 void BitmapConfiguration::calculateOtherValuesAfterReading()
 {
-    m_numberOfBytesForDataInRow = convertPixelsToBytesRoundToCeil(m_bitmapWidth);
+    m_numberOfBytesForDataInRow = convertPixelsToBytesRoundedToCeil(m_bitmapWidth);
     m_paddingForRowMemoryAlignment = (4 - (m_numberOfBytesForDataInRow%4))%4;
     m_numberOfBytesPerRowInFile = m_numberOfBytesForDataInRow + m_paddingForRowMemoryAlignment;
-    m_bitMaskForValue = AlbaBitManipulation<unsigned int>::generateOnesWithNumberOfBits(m_numberOfBitsPerPixel);
+    m_bitMaskForValue = AlbaBitManipulation<uint32_t>::generateOnesWithNumberOfBits(m_numberOfBitsPerPixel);
 }
 
-CompressedMethodType BitmapConfiguration::determineCompressedMethodType(unsigned int compressedMethodValue) const
+CompressedMethodType BitmapConfiguration::determineCompressedMethodType(uint32_t compressedMethodValue) const
 {
     CompressedMethodType compressedMethodType;
-    switch(compressedMethodValue)
-    {
+    switch(compressedMethodValue)    {
     case 0: compressedMethodType = CompressedMethodType::BI_RGB; break;
     case 1: compressedMethodType = CompressedMethodType::BI_RLE8; break;
-    case 2: compressedMethodType = CompressedMethodType::BI_RLE4; break;
-    case 3: compressedMethodType = CompressedMethodType::BI_BITFIELDS; break;
+    case 2: compressedMethodType = CompressedMethodType::BI_RLE4; break;    case 3: compressedMethodType = CompressedMethodType::BI_BITFIELDS; break;
     case 4: compressedMethodType = CompressedMethodType::BI_JPEG; break;
     case 5: compressedMethodType = CompressedMethodType::BI_PNG; break;
     case 6: compressedMethodType = CompressedMethodType::BI_ALPHABITFIELDS; break;

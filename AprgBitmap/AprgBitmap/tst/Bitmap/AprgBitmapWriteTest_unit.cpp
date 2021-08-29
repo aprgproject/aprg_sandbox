@@ -2,15 +2,12 @@
 
 #include <gtest/gtest.h>
 
-#include <iostream>
 #include <cmath>
 
 using namespace std;
-
 #define APRG_BITMAP_WRITE_TEST_FILE APRG_DIR R"(AprgBitmap\AprgBitmap\tst\SampleBitmaps\WriteTestFile.bmp)"
 
-namespace alba
-{
+namespace alba{
 
 namespace AprgBitmap
 {
