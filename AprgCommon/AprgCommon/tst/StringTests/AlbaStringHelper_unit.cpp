@@ -141,8 +141,8 @@ TEST(UniqueIdTest, GenerateUniqueId)
     string string2("MARK is the no#1 programmer in the world. MARK is also the nicest programmer.");
     unsigned int uniqueId1 = generateUniqueId(string1);
     unsigned int uniqueId2 = generateUniqueId(string2);
-    EXPECT_EQ(552749853u, uniqueId1);
-    EXPECT_EQ(1436619827u, uniqueId2);
+    EXPECT_EQ(552749853U, uniqueId1);
+    EXPECT_EQ(1436619827U, uniqueId2);
 }
 
 TEST(ConstructFileLocatorTest, ConstructFileLocator)
@@ -162,9 +162,9 @@ TEST(UniqueIdTest, CheckLevenshteinDistance)
     string string2("This is  statement");
     string string3("This is not a statement");
     string string4("This is b statement");
-    EXPECT_EQ(1u, getLevenshteinDistance(string1, string2));
-    EXPECT_EQ(4u, getLevenshteinDistance(string1, string3));
-    EXPECT_EQ(1u, getLevenshteinDistance(string1, string4));
+    EXPECT_EQ(1U, getLevenshteinDistance(string1, string2));
+    EXPECT_EQ(4U, getLevenshteinDistance(string1, string3));
+    EXPECT_EQ(1U, getLevenshteinDistance(string1, string4));
 }
 TEST(ConvertCaseFromStringTest, ConvertToCapitalLettersUsingAllLetters)
 {
@@ -587,7 +587,7 @@ TEST(BooleanStringTest, IsOneWordTest)
     string testString2("   \n\n    \t\t\t\t");
     string testString3("AbCDE FghIj KlM nopQR stU vWx Yz");
     string testString4("AbCDEFghIjKlMnopQRstUvWxYz1234567890!@#$%^&*()");
-    string testString5("");
+    string testString5;
 
     EXPECT_FALSE(isOneWord(testString1));
     EXPECT_FALSE(isOneWord(testString2));
@@ -742,4 +742,3 @@ TEST(ConvertToStringTest, ConvertNumberToStringWithFillCharacter)
 }
 
 }
-

@@ -66,10 +66,10 @@ unsigned int generateUniqueId(string const& mainString)
     return uniqueId;
 }
 
-string constructFileLocator(string file, int lineNumber)
+string constructFileLocator(string const& file, int const lineNumber)
 {
     stringstream ss;
-    ss << file.substr(file.find_last_of(R"(\)")+1) << "[" << lineNumber << "]";
+    ss << file.substr(file.find_last_of('\\')+1) << "[" << lineNumber << "]";
     return ss.str();
 }
 
@@ -102,14 +102,7 @@ bool isWildcardMatch(string const& mainString, string const& wildcard, unsigned 
     else if(isMainStringDone)
     {
         bool isWildcardDoneOnNextIndex = wildcardIndex+1 >= wildcard.size();
-        if (wildcard[wildcardIndex] == '*' && isWildcardDoneOnNextIndex)
-        {
-            result = true;
-        }
-        else
-        {
-            result = false;
-        }
+        result = wildcard[wildcardIndex] == '*' && isWildcardDoneOnNextIndex;
     }
     else if(wildcard[wildcardIndex] == mainString[mainStringIndex])
     {
@@ -749,7 +742,7 @@ string getStringWithLeftAlignment(string const& mainString, unsigned int const l
 string getCorrectPathWithoutUrlParameters(string const& path)
 {
     string correctPathWithoutUrlParameters(path);
-    unsigned int indexOfQuestionMark = path.find_first_of("?");
+    unsigned int indexOfQuestionMark = path.find_first_of('?');
     if(isNotNpos(static_cast<int>(indexOfQuestionMark)))
     {
         correctPathWithoutUrlParameters = path.substr(0, indexOfQuestionMark);
@@ -760,7 +753,7 @@ string getCorrectPathWithoutUrlParameters(string const& path)
 string getUrlParameters(string const& path)
 {
     string urlParameters;
-    unsigned int indexOfQuestionMark = path.find_first_of("?");
+    unsigned int indexOfQuestionMark = path.find_first_of('?');
     if(isNotNpos(static_cast<int>(indexOfQuestionMark)))
     {
         urlParameters = path.substr(indexOfQuestionMark);
@@ -797,7 +790,10 @@ string getCorrectPathWithoutDoublePeriod(string const& mainString, string const&
     while(isDirectoryChanged)
     {
         isDirectoryChanged = false;
-        unsigned int indexOfDoublePeriod = correctPath.find(slashCharacterString+".."+slashCharacterString);
+        string stringToFind(slashCharacterString);
+        stringToFind += string("..");
+        stringToFind += slashCharacterString;
+        unsigned int indexOfDoublePeriod = correctPath.find(stringToFind);
         if(isNotNpos(static_cast<int>(indexOfDoublePeriod)))
         {
             unsigned int indexOfNearestSlash = correctPath.find_last_of(slashCharacterString, indexOfDoublePeriod-1);

@@ -1,4 +1,3 @@
-
 //#define ALBA_PRINT_OUTPUT_STREAM_FILE_PATH APRG_DIR "/Log.txt" //use this macro for file outputs
 
 #include <Debug/AlbaDebug.hpp>

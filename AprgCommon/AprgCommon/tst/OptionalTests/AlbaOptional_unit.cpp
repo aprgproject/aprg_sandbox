@@ -146,7 +146,7 @@ TEST(OptionalTest, OptionalCanBeCopiedTest)
 {
     // Given
     AlbaOptional<int> integerOptional1(1111);
-    AlbaOptional<int> integerOptional2(integerOptional1);
+    AlbaOptional<int> const& integerOptional2(integerOptional1);
 
     // When
     // Then
@@ -261,4 +261,3 @@ TEST(OptionalTest, OptionalCanBeMovedByMoveContructorTest)
 }
 
 }
-

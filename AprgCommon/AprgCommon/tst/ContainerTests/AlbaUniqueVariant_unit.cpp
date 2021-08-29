@@ -8,28 +8,28 @@ namespace alba
 TEST(UniqueVariantTest, AcquiringVariantTypeInvokesDefaultConstructor)
 {
     // Given
-    struct ExampleStructure1 : public VariantDataType
+    class ExampleStructure1 : public VariantDataType
     {
-        unsigned unsignedField;
-        float floatField;
-
+    public:
         ExampleStructure1()
             : unsignedField(0)
-            , floatField(0.f)
-        {
-        }
+            , floatField(0.F)
+        {}
+
+        unsigned unsignedField;
+        float floatField;
     };
 
-    struct ExampleStructure2 : public VariantDataType
+    class ExampleStructure2 : public VariantDataType
     {
-        double doubleField;
-        char charField;
-
+    public:
         ExampleStructure2()
             : doubleField(0.0)
             , charField('\0')
-        {
-        }
+        {}
+
+        double doubleField;
+        char charField;
     };
 
     UniqueVariant<ExampleStructure1, ExampleStructure2> variant;
@@ -39,8 +39,8 @@ TEST(UniqueVariantTest, AcquiringVariantTypeInvokesDefaultConstructor)
     ExampleStructure2 & exampleStructure2 = variant.acquire<ExampleStructure2>();
 
     // Then
-    ASSERT_EQ(0u, exampleStructure1.unsignedField);
-    ASSERT_FLOAT_EQ(0.f, exampleStructure1.floatField);
+    ASSERT_EQ(0U, exampleStructure1.unsignedField);
+    ASSERT_FLOAT_EQ(0.F, exampleStructure1.floatField);
     ASSERT_DOUBLE_EQ(0.0, exampleStructure2.doubleField);
     ASSERT_EQ('\0', exampleStructure2.charField);
 }
@@ -50,7 +50,7 @@ class DestructorClass : public VariantDataType
 {
 public:
     static bool s_destructorInvoked;
-    ~DestructorClass()
+    ~DestructorClass() final
     {
         s_destructorInvoked = true;
     }
@@ -81,9 +81,14 @@ TEST(UniqueVariantTest, PolymorphismIsSupportedByUniqueVariant)
         int m_value;
     public:
         explicit Base(int value)
-            : m_value(value) { }
-        virtual int getValue() const { return m_value; }
-        virtual ~Base() { }
+            : m_value(value)
+        {}
+        virtual int getValue() const
+        {
+            return m_value;
+        }
+        virtual ~Base()
+        {}
     };
 
     class Derived : public Base
@@ -91,7 +96,10 @@ TEST(UniqueVariantTest, PolymorphismIsSupportedByUniqueVariant)
     public:
         Derived()
             : Base(0) { }
-        virtual int getValue() const { return valueFromTest; }
+        virtual int getValue() const override
+        {
+            return valueFromTest;
+        }
     };
 
     // When

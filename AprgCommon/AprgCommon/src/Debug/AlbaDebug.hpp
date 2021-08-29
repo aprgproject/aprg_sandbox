@@ -3,8 +3,8 @@
 #include <Container/AlbaSingleton.hpp>
 #include <Macros/AlbaMacros.hpp>
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <string>
 
 using namespace std;

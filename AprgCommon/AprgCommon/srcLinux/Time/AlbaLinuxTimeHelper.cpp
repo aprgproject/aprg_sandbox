@@ -1,7 +1,6 @@
 #include "AlbaLinuxTimeHelper.hpp"
 
 #include <Time/AlbaDateTimeConstants.hpp>
-
 #include <unistd.h>
 
 namespace alba
@@ -14,7 +13,7 @@ void sleep(unsigned int const milliSeconds)
 
 AlbaDateTime getCurrentDateTime()
 {
-    struct timespec timeSpec;
+    timespec timeSpec{};
     clock_gettime(CLOCK_REALTIME, &timeSpec);
     return convertSystemTimeToAlbaDateTime(timeSpec);
 }

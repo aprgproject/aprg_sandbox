@@ -19,7 +19,7 @@ string AlbaUserInterface::getUserInput()
 
 string AlbaUserInterface::getFilePathInput()
 {
-    while (1)
+    while(true)
     {
         string pathString(getUserInput());
         AlbaLocalPathHandler filePath(pathString);
@@ -46,7 +46,7 @@ template double AlbaUserInterface::getNumberFromInput<double>();
 
 
 template <typename NumberType>
-NumberType AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<NumberType> choices)
+NumberType AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string const& question, Choices<NumberType> const& choices)
 {
     cout<<question<<endl;
 
@@ -70,11 +70,11 @@ NumberType AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(string
     cout << "Input your answer: ";
     return stringHelper::convertStringToNumber<NumberType>(getUserInput());
 }
-template int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(std::string const& question, Choices<int> choices);
-template unsigned int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(std::string const& question, Choices<unsigned int> choices);
+template int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(std::string const& question, Choices<int> const& choices);
+template unsigned int AlbaUserInterface::displayQuestionAndChoicesAndGetNumberAnswer(std::string const& question, Choices<unsigned int> const& choices);
 
 
-string AlbaUserInterface::displayQuestionAndChoicesAndGetStringAnswerInAllCapitals(string const& question, Choices<string> choices)
+string AlbaUserInterface::displayQuestionAndChoicesAndGetStringAnswerInAllCapitals(string const& question, Choices<string> const& choices)
 {
     cout<<question<<endl;
 

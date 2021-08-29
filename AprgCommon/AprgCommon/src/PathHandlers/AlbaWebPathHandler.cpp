@@ -97,8 +97,8 @@ void AlbaWebPathHandler::splitPathToBeforeAndAfterProtocol(string const& path, s
     int indexBeforeSlash = static_cast<int>(path.find_first_of(m_slashCharacterString));
     if(stringHelper::isNotNpos(indexBeforeProtocol) && stringHelper::isNotNpos(indexBeforeSlash) && indexBeforeProtocol < indexBeforeSlash)
     {
-        protocolWithSymbols = path.substr(0,static_cast<string::size_type>(indexBeforeProtocol+3));
-        pathAfterProtocol = path.substr(static_cast<string::size_type>(indexBeforeProtocol+3));
+        protocolWithSymbols = path.substr(0, static_cast<string::size_type>(indexBeforeProtocol)+3);
+        pathAfterProtocol = path.substr(static_cast<string::size_type>(indexBeforeProtocol)+3);
     }
     else
     {

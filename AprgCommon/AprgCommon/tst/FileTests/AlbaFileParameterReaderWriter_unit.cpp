@@ -21,7 +21,7 @@ TEST(ReaderWriterParameterTest, EmptyFileTest)
     AlbaFileParameterReader reader(readTestFile);
     ASSERT_TRUE(readTestFile.good());
     ASSERT_FALSE(readTestFile.eof());
-    EXPECT_EQ(0u, reader.readData<unsigned int>());
+    EXPECT_EQ(0U, reader.readData<unsigned int>());
     EXPECT_EQ(0, reader.readData<int>());
     EXPECT_EQ(0, reader.readData<double>());
     EXPECT_TRUE(reader.readData<string>().empty());
@@ -33,7 +33,7 @@ TEST(ReaderWriterParameterTest, SingleParameterTest)
     ASSERT_TRUE(writeTestFile.is_open());
 
     AlbaFileParameterWriter writer(writeTestFile);
-    writer.writeData(12345u);
+    writer.writeData(12345U);
     writer.writeData(-12345);
     writer.writeData(1.2345);
     writer.writeData<string>("12345");
@@ -44,7 +44,7 @@ TEST(ReaderWriterParameterTest, SingleParameterTest)
     AlbaFileParameterReader reader(readTestFile);
     ASSERT_TRUE(readTestFile.good());
     ASSERT_FALSE(readTestFile.eof());
-    EXPECT_EQ(12345u, reader.readData<unsigned int>());
+    EXPECT_EQ(12345U, reader.readData<unsigned int>());
     EXPECT_EQ(-12345, reader.readData<int>());
     EXPECT_EQ(1.2345, reader.readData<double>());
     EXPECT_EQ("12345", reader.readData<string>());
@@ -67,12 +67,12 @@ TEST(ReaderWriterParameterTest, VectorTest)
     ASSERT_TRUE(readTestFile.good());
     ASSERT_FALSE(readTestFile.eof());
     reader.readData(retrievedVector);
-    ASSERT_EQ(5u, retrievedVector.size());
-    EXPECT_EQ(1u, retrievedVector.at(0));
-    EXPECT_EQ(2u, retrievedVector.at(1));
-    EXPECT_EQ(3u, retrievedVector.at(2));
-    EXPECT_EQ(4u, retrievedVector.at(3));
-    EXPECT_EQ(5u, retrievedVector.at(4));
+    ASSERT_EQ(5U, retrievedVector.size());
+    EXPECT_EQ(1U, retrievedVector.at(0));
+    EXPECT_EQ(2U, retrievedVector.at(1));
+    EXPECT_EQ(3U, retrievedVector.at(2));
+    EXPECT_EQ(4U, retrievedVector.at(3));
+    EXPECT_EQ(5U, retrievedVector.at(4));
 }
 
 TEST(ReaderWriterParameterTest, MapTest)
@@ -92,7 +92,7 @@ TEST(ReaderWriterParameterTest, MapTest)
     ASSERT_TRUE(readTestFile.good());
     ASSERT_FALSE(readTestFile.eof());
     reader.readData(retrievedmap);
-    ASSERT_EQ(3u, retrievedmap.size());
+    ASSERT_EQ(3U, retrievedmap.size());
     EXPECT_EQ("one", retrievedmap.at(1));
     EXPECT_EQ("two", retrievedmap.at(2));
     EXPECT_EQ("three", retrievedmap.at(3));

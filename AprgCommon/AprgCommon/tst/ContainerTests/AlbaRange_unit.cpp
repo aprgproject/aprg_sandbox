@@ -53,7 +53,7 @@ TEST(AlbaRangeTest, OnceTraversalWorks)
     EXPECT_EQ(1, range.getIntervalMagnitude());
     EXPECT_EQ(AlbaRangeType::Once, range.getRangeType());
 
-    ASSERT_EQ(1u, traversedValues.size());
+    ASSERT_EQ(1U, traversedValues.size());
     EXPECT_EQ(3, traversedValues[0]);
 }
 
@@ -78,7 +78,7 @@ TEST(AlbaRangeTest, ForwardTraversalWorks)
     EXPECT_EQ(1, range.getIntervalMagnitude());
     EXPECT_EQ(AlbaRangeType::Forward, range.getRangeType());
 
-    ASSERT_EQ(10u, traversedValues.size());
+    ASSERT_EQ(10U, traversedValues.size());
     EXPECT_EQ(1, traversedValues[0]);
     EXPECT_EQ(2, traversedValues[1]);
     EXPECT_EQ(3, traversedValues[2]);
@@ -112,7 +112,7 @@ TEST(AlbaRangeTest, BackwardTraversalWorks)
     EXPECT_EQ(1, range.getIntervalMagnitude());
     EXPECT_EQ(AlbaRangeType::Backward, range.getRangeType());
 
-    ASSERT_EQ(11u, traversedValues.size());
+    ASSERT_EQ(11U, traversedValues.size());
     EXPECT_EQ(5, traversedValues[0]);
     EXPECT_EQ(4, traversedValues[1]);
     EXPECT_EQ(3, traversedValues[2]);
@@ -149,7 +149,7 @@ TEST(AlbaRangeTest, RangeCanBeChangedAfterCreation)
     EXPECT_EQ(1, range.getIntervalMagnitude());
     EXPECT_EQ(AlbaRangeType::Backward, range.getRangeType());
 
-    ASSERT_EQ(11u, traversedValues.size());
+    ASSERT_EQ(11U, traversedValues.size());
     EXPECT_EQ(5, traversedValues[0]);
     EXPECT_EQ(4, traversedValues[1]);
     EXPECT_EQ(3, traversedValues[2]);
@@ -192,7 +192,7 @@ TEST(AlbaRangeTest, ValuesCanBeSet)
     EXPECT_EQ(1, range.getIntervalMagnitude());
     EXPECT_EQ(AlbaRangeType::Forward, range.getRangeType());
 
-    ASSERT_EQ(10u, traversedValues.size());
+    ASSERT_EQ(10U, traversedValues.size());
     EXPECT_EQ(1, traversedValues[0]);
     EXPECT_EQ(2, traversedValues[1]);
     EXPECT_EQ(3, traversedValues[2]);

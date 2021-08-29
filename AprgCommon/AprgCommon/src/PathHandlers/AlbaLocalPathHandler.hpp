@@ -1,6 +1,5 @@
 #pragma once
 
-
 #ifdef OS_WINDOWS
 #include <PathHandlers/AlbaWindowsPathHandler.hpp>
 #endif

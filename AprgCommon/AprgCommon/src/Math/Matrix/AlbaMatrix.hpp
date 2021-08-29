@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Math/AlbaMathHelper.hpp>
-#include <User/DisplayTable.hpp>
-#include <String/AlbaStringHelper.hpp>
 #include <Container/AlbaRange.hpp>
+#include <Math/AlbaMathHelper.hpp>
+#include <String/AlbaStringHelper.hpp>
+#include <User/DisplayTable.hpp>
 
 #include <algorithm>
 #include <cassert>
@@ -51,7 +51,7 @@ public:
         , m_numberOfRows(numberOfRows)
         , m_matrixData(
               matrixData.cbegin(),
-              matrixData.cbegin()+std::min(matrixData.size(), numberOfColumns*numberOfRows))
+              matrixData.cbegin() + std::min(static_cast<unsigned int>(matrixData.size()), numberOfColumns*numberOfRows))
     {
         fillRemainingEntriesToZeroIfNeeded(numberOfColumns, numberOfRows);
     }
@@ -314,7 +314,7 @@ public:
 
     void setColumn(unsigned int const columnIndex, MatrixData const& dataSampleValues)
     {
-        unsigned int limit = std::min(m_numberOfRows, dataSampleValues.size());
+        unsigned int limit = std::min(m_numberOfRows, static_cast<unsigned int>(dataSampleValues.size()));
         for(unsigned int y=0; y<limit; y++)
         {
             setEntry(columnIndex, y, dataSampleValues.at(y));
@@ -323,7 +323,7 @@ public:
 
     void setRow(unsigned int const rowIndex, MatrixData const& dataSampleValues)
     {
-        unsigned int limit = std::min(m_numberOfColumns, dataSampleValues.size());
+        unsigned int limit = std::min(m_numberOfColumns, static_cast<unsigned int>(dataSampleValues.size()));
         for(unsigned int x=0; x<limit; x++)
         {
             setEntry(x, rowIndex, dataSampleValues.at(x));

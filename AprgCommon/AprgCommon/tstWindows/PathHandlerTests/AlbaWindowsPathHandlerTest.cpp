@@ -1,5 +1,4 @@
 #include <PathHandlerTests/AlbaWindowsPathHandlerTest.hpp>
-
 #include <String/AlbaStringHelper.hpp>
 
 using namespace std;

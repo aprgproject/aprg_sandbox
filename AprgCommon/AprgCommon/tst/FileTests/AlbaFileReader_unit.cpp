@@ -17,9 +17,9 @@ TEST(FileReadTest, ReadFromTestFile_ConstructorsWorks)
     ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader1(inputTestFile);
-    EXPECT_EQ(10000u, fileReader1.getMaxBufferSize());
+    EXPECT_EQ(10000U, fileReader1.getMaxBufferSize());
     AlbaFileReader fileReader2(inputTestFile, 200);
-    EXPECT_EQ(200u, fileReader2.getMaxBufferSize());
+    EXPECT_EQ(200U, fileReader2.getMaxBufferSize());
 }
 
 TEST(FileReadTest, ReadFromTestFile_SetAndGetBufferSizeWorks)
@@ -28,9 +28,9 @@ TEST(FileReadTest, ReadFromTestFile_SetAndGetBufferSizeWorks)
     ASSERT_TRUE(inputTestFile.is_open());
 
     AlbaFileReader fileReader(inputTestFile);
-    EXPECT_EQ(10000u, fileReader.getMaxBufferSize());
+    EXPECT_EQ(10000U, fileReader.getMaxBufferSize());
     fileReader.setMaxBufferSize(200);
-    EXPECT_EQ(200u, fileReader.getMaxBufferSize());
+    EXPECT_EQ(200U, fileReader.getMaxBufferSize());
 }
 
 TEST(FileReadTest, ReadFromTestFile_ReadLineUsingVariousCharacters)
@@ -98,9 +98,9 @@ TEST(FileReadTest, ReadFromTestFile_ReadLineWithSizeLimit)
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(2000u, fileReader.getLineAndIgnoreWhiteSpaces().length());
-    EXPECT_EQ(2000u, fileReader.getLineAndIgnoreWhiteSpaces().length());
-    EXPECT_EQ(1000u, fileReader.getLineAndIgnoreWhiteSpaces().length());
+    EXPECT_EQ(2000U, fileReader.getLineAndIgnoreWhiteSpaces().length());
+    EXPECT_EQ(2000U, fileReader.getLineAndIgnoreWhiteSpaces().length());
+    EXPECT_EQ(1000U, fileReader.getLineAndIgnoreWhiteSpaces().length());
     EXPECT_FALSE(fileReader.isNotFinished());
     EXPECT_EQ("", fileReader.getLineAndIgnoreWhiteSpaces());
 }
@@ -155,32 +155,32 @@ TEST(FileReadTest, ReadFromTestFile_ReadMultipleCharacters)
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    unsigned int numberOfCharacters=3u;
+    unsigned int numberOfCharacters=3U;
     char* charPointer;
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ("123", string(charPointer, numberOfCharacters));
-    EXPECT_EQ(3u, numberOfCharacters);
+    EXPECT_EQ(3U, numberOfCharacters);
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ("!@#", string(charPointer, numberOfCharacters));
-    EXPECT_EQ(3u, numberOfCharacters);
+    EXPECT_EQ(3U, numberOfCharacters);
 
 #ifdef OS_WINDOWS
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ(" \t\r", string(charPointer, numberOfCharacters));
-    EXPECT_EQ(3u, numberOfCharacters);
+    EXPECT_EQ(3U, numberOfCharacters);
     EXPECT_TRUE(fileReader.isNotFinished());
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ("\n", string(charPointer, numberOfCharacters));
-    EXPECT_EQ(1u, numberOfCharacters);
+    EXPECT_EQ(1U, numberOfCharacters);
 #endif
 #ifdef OS_LINUX
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ(" \t\n", string(charPointer, numberOfCharacters));
-    EXPECT_EQ(3u, numberOfCharacters);
+    EXPECT_EQ(3U, numberOfCharacters);
     EXPECT_TRUE(fileReader.isNotFinished());
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ("", string(charPointer, numberOfCharacters));
-    EXPECT_EQ(0u, numberOfCharacters);
+    EXPECT_EQ(0U, numberOfCharacters);
 #endif
     EXPECT_FALSE(fileReader.isNotFinished());
 }
@@ -205,12 +205,12 @@ TEST(FileReadTest, ReadFromTestFile_RequestToReadMultipleCharactersThatIsTheBeyo
     char* charPointer;
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ("123", string(charPointer, numberOfCharacters));
-    EXPECT_EQ(3u, numberOfCharacters);
+    EXPECT_EQ(3U, numberOfCharacters);
     EXPECT_TRUE(fileReader.isNotFinished());
     numberOfCharacters=20000;
     charPointer = fileReader.getCharacters(numberOfCharacters);
     EXPECT_EQ("45", string(charPointer, numberOfCharacters));
-    EXPECT_EQ(2u, numberOfCharacters);
+    EXPECT_EQ(2U, numberOfCharacters);
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
@@ -234,13 +234,13 @@ TEST(FileReadTest, ReadFromTestFile_ReadTwoByteNumbers)
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(0x0123u, fileReader.getTwoByteData<unsigned int>());
+    EXPECT_EQ(0x0123U, fileReader.getTwoByteData<unsigned int>());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(0x4567u, fileReader.getTwoByteData<unsigned int>());
+    EXPECT_EQ(0x4567U, fileReader.getTwoByteData<unsigned int>());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(0xA1BAu, fileReader.getTwoByteData<unsigned int>());
+    EXPECT_EQ(0xA1BAU, fileReader.getTwoByteData<unsigned int>());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(0x0u, fileReader.getTwoByteData<unsigned int>());
+    EXPECT_EQ(0x0U, fileReader.getTwoByteData<unsigned int>());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
@@ -264,9 +264,9 @@ TEST(FileReadTest, ReadFromTestFile_ReadFourByteNumbers)
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(0x01234567u, fileReader.getFourByteData<unsigned int>());
+    EXPECT_EQ(0x01234567U, fileReader.getFourByteData<unsigned int>());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(0xA1BAu, fileReader.getFourByteData<unsigned int>());
+    EXPECT_EQ(0xA1BAU, fileReader.getFourByteData<unsigned int>());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
@@ -290,7 +290,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadEightByteNumbers)
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(0x000001234567A1BAu, fileReader.getEightByteData<unsigned long long>());
+    EXPECT_EQ(0x000001234567A1BAU, fileReader.getEightByteData<unsigned long long>());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
@@ -314,13 +314,13 @@ TEST(FileReadTest, ReadFromTestFile_ReadSwappedTwoByteNumbers)
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(0x2301u, fileReader.getTwoByteSwappedData<unsigned int>());
+    EXPECT_EQ(0x2301U, fileReader.getTwoByteSwappedData<unsigned int>());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(0x6745u, fileReader.getTwoByteSwappedData<unsigned int>());
+    EXPECT_EQ(0x6745U, fileReader.getTwoByteSwappedData<unsigned int>());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(0xBAA1u, fileReader.getTwoByteSwappedData<unsigned int>());
+    EXPECT_EQ(0xBAA1U, fileReader.getTwoByteSwappedData<unsigned int>());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(0x0u, fileReader.getTwoByteSwappedData<unsigned int>());
+    EXPECT_EQ(0x0U, fileReader.getTwoByteSwappedData<unsigned int>());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
@@ -344,7 +344,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadSwappedEightByteNumbers)
     ASSERT_TRUE(inputTestFile.good());
     ASSERT_FALSE(inputTestFile.eof());
     EXPECT_TRUE(fileReader.isNotFinished());
-    EXPECT_EQ(0xBAA1674523010000u, fileReader.getEightByteSwappedData<unsigned long long>());
+    EXPECT_EQ(0xBAA1674523010000U, fileReader.getEightByteSwappedData<unsigned long long>());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
@@ -372,12 +372,12 @@ TEST(FileReadTest, ReadFromTestFile_FileContentsCanBeSavedInMemoryBuffer)
     AlbaMemoryBuffer buffer;
     fileReader.saveDataToMemoryBuffer(buffer, 8);
     unsigned char* reader = reinterpret_cast<unsigned char*>(buffer.getBufferPointer());
-    EXPECT_EQ(0x01u, reader[0]);
-    EXPECT_EQ(0x23u, reader[1]);
-    EXPECT_EQ(0x45u, reader[2]);
-    EXPECT_EQ(0x67u, reader[3]);
-    EXPECT_EQ(0xA1u, reader[4]);
-    EXPECT_EQ(0xBAu, reader[5]);
+    EXPECT_EQ(0x01U, reader[0]);
+    EXPECT_EQ(0x23U, reader[1]);
+    EXPECT_EQ(0x45U, reader[2]);
+    EXPECT_EQ(0x67U, reader[3]);
+    EXPECT_EQ(0xA1U, reader[4]);
+    EXPECT_EQ(0xBAU, reader[5]);
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 

@@ -12,7 +12,7 @@ TEST(AlbaMemoryBufferTest, DefaultValuesAreClear)
     AlbaMemoryBuffer buffer;
     EXPECT_FALSE(buffer);
     EXPECT_FALSE(buffer.hasContent());
-    EXPECT_EQ(0u, buffer.getSize());
+    EXPECT_EQ(0U, buffer.getSize());
 }
 
 TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeSavedDuringConstructionOfBuffer)
@@ -23,7 +23,7 @@ TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeSavedDuringConstructionOfBuffer)
 
     EXPECT_TRUE(buffer);
     EXPECT_TRUE(buffer.hasContent());
-    EXPECT_EQ(4u, buffer.getSize());
+    EXPECT_EQ(4U, buffer.getSize());
     EXPECT_EQ(input, output);
 }
 
@@ -36,7 +36,7 @@ TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeSaved)
 
     EXPECT_TRUE(buffer);
     EXPECT_TRUE(buffer.hasContent());
-    EXPECT_EQ(4u, buffer.getSize());
+    EXPECT_EQ(4U, buffer.getSize());
     EXPECT_EQ(input, output);
 }
 
@@ -50,7 +50,7 @@ TEST(AlbaMemoryBufferTest, MemoryBufferCanBeCopied)
 
     EXPECT_TRUE(buffer2);
     EXPECT_TRUE(buffer2.hasContent());
-    EXPECT_EQ(4u, buffer2.getSize());
+    EXPECT_EQ(4U, buffer2.getSize());
     EXPECT_EQ(input, output);
 }
 
@@ -64,7 +64,7 @@ TEST(AlbaMemoryBufferTest, MemoryBufferCanBeResizedToBeLarger)
 
     EXPECT_TRUE(buffer);
     EXPECT_TRUE(buffer.hasContent());
-    EXPECT_EQ(8u, buffer.getSize());
+    EXPECT_EQ(8U, buffer.getSize());
     EXPECT_EQ(input, output);
 }
 
@@ -78,7 +78,7 @@ TEST(AlbaMemoryBufferTest, MemoryBufferCanBeResizedToBeSmaller)
 
     EXPECT_TRUE(buffer);
     EXPECT_TRUE(buffer.hasContent());
-    EXPECT_EQ(3u, buffer.getSize());
+    EXPECT_EQ(3U, buffer.getSize());
     EXPECT_EQ(0x78, bufferPointer[0]);
     EXPECT_EQ(0x56, bufferPointer[1]);
     EXPECT_EQ(0x34, bufferPointer[2]);
@@ -94,7 +94,7 @@ TEST(AlbaMemoryBufferTest, PrimitiveTypesCanBeClearedAndSavedConsecutively2Times
 
     EXPECT_TRUE(buffer);
     EXPECT_TRUE(buffer.hasContent());
-    EXPECT_EQ(4u, buffer.getSize());
+    EXPECT_EQ(4U, buffer.getSize());
     EXPECT_EQ(input2, output);
 }
 
@@ -108,7 +108,7 @@ TEST(AlbaMemoryBufferTest, StructureCanBeSaved)
         double param3;
     };
 
-    Sample input;
+    Sample input{};
     input.param1 = true;
     input.param2 = 12345678;
     input.param3 = 1.234E56;
@@ -133,17 +133,17 @@ TEST(AlbaMemoryBufferTest, DataForMemoryBufferCanBeWrittenConsecutivelyOutsideTh
 
     EXPECT_TRUE(buffer);
     EXPECT_TRUE(buffer.hasContent());
-    EXPECT_EQ(8u, buffer.getSize());
+    EXPECT_EQ(8U, buffer.getSize());
 
     unsigned char* reader = reinterpret_cast<unsigned char*>(buffer.getBufferPointer());
-    EXPECT_EQ(0x12u, reader[0]);
-    EXPECT_EQ(0x34u, reader[1]);
-    EXPECT_EQ(0x56u, reader[2]);
-    EXPECT_EQ(0x78u, reader[3]);
-    EXPECT_EQ(0x87u, reader[4]);
-    EXPECT_EQ(0x65u, reader[5]);
-    EXPECT_EQ(0x43u, reader[6]);
-    EXPECT_EQ(0x21u, reader[7]);
+    EXPECT_EQ(0x12U, reader[0]);
+    EXPECT_EQ(0x34U, reader[1]);
+    EXPECT_EQ(0x56U, reader[2]);
+    EXPECT_EQ(0x78U, reader[3]);
+    EXPECT_EQ(0x87U, reader[4]);
+    EXPECT_EQ(0x65U, reader[5]);
+    EXPECT_EQ(0x43U, reader[6]);
+    EXPECT_EQ(0x21U, reader[7]);
 }
 
 TEST(AlbaMemoryBufferTest, GetDisplayableStringWorks)
@@ -153,7 +153,7 @@ TEST(AlbaMemoryBufferTest, GetDisplayableStringWorks)
 
     EXPECT_TRUE(buffer);
     EXPECT_TRUE(buffer.hasContent());
-    EXPECT_EQ(4u, buffer.getSize());
+    EXPECT_EQ(4U, buffer.getSize());
     EXPECT_FALSE(buffer.getDisplayableString().empty());
 }
 
@@ -184,7 +184,7 @@ TEST(AlbaMemoryBufferTest, SettingAndRetrievingDynamicSizeObjectWorks)
     buffer.saveObject<SampleDynamicClass>(dynamicInput);
     SampleDynamicClass& output(buffer.retrieveObject<SampleDynamicClass>());
 
-    ASSERT_EQ(4u, output.integers.size());
+    ASSERT_EQ(4U, output.integers.size());
     EXPECT_EQ(11, output.integers[0]);
     EXPECT_EQ(22, output.integers[1]);
     EXPECT_EQ(33, output.integers[2]);

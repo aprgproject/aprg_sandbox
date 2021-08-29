@@ -12,15 +12,15 @@ TEST(AlbaDateTimeTest, EmptyDateTimeCanBeCreated)
     AlbaDateTime timeSample;
 
     EXPECT_TRUE(timeSample.isEmpty());
-    EXPECT_EQ(0u, timeSample.getYears());
-    EXPECT_EQ(1u, timeSample.getMonths());
-    EXPECT_EQ(0u, timeSample.getDays());
-    EXPECT_EQ(0u, timeSample.getHours());
-    EXPECT_EQ(0u, timeSample.getMinutes());
-    EXPECT_EQ(0u, timeSample.getSeconds());
-    EXPECT_EQ(0u, timeSample.getMicroSeconds());
-    EXPECT_EQ(0u, timeSample.getTotalDaysInYearMonthDays());
-    EXPECT_EQ(0u, timeSample.getTotalSecondsInHourMinutesSeconds());
+    EXPECT_EQ(0U, timeSample.getYears());
+    EXPECT_EQ(1U, timeSample.getMonths());
+    EXPECT_EQ(0U, timeSample.getDays());
+    EXPECT_EQ(0U, timeSample.getHours());
+    EXPECT_EQ(0U, timeSample.getMinutes());
+    EXPECT_EQ(0U, timeSample.getSeconds());
+    EXPECT_EQ(0U, timeSample.getMicroSeconds());
+    EXPECT_EQ(0U, timeSample.getTotalDaysInYearMonthDays());
+    EXPECT_EQ(0U, timeSample.getTotalSecondsInHourMinutesSeconds());
     EXPECT_EQ(" 1 * 0000-01-00 00:00:00.000000", timeSample.getPrintableStringFormat1());
 }
 
@@ -29,15 +29,15 @@ TEST(AlbaDateTimeTest, DateTimeCanBeCreatedWithParameters)
     AlbaDateTime timeSample(2017, 10, 6, 4, 59, 44, 32487);
 
     EXPECT_FALSE(timeSample.isEmpty());
-    EXPECT_EQ(2017u, timeSample.getYears());
-    EXPECT_EQ(10u, timeSample.getMonths());
-    EXPECT_EQ(6u, timeSample.getDays());
-    EXPECT_EQ(4u, timeSample.getHours());
-    EXPECT_EQ(59u, timeSample.getMinutes());
-    EXPECT_EQ(44u, timeSample.getSeconds());
-    EXPECT_EQ(32487u, timeSample.getMicroSeconds());
-    EXPECT_EQ(736974u, timeSample.getTotalDaysInYearMonthDays());
-    EXPECT_EQ(17984u, timeSample.getTotalSecondsInHourMinutesSeconds());
+    EXPECT_EQ(2017U, timeSample.getYears());
+    EXPECT_EQ(10U, timeSample.getMonths());
+    EXPECT_EQ(6U, timeSample.getDays());
+    EXPECT_EQ(4U, timeSample.getHours());
+    EXPECT_EQ(59U, timeSample.getMinutes());
+    EXPECT_EQ(44U, timeSample.getSeconds());
+    EXPECT_EQ(32487U, timeSample.getMicroSeconds());
+    EXPECT_EQ(736974U, timeSample.getTotalDaysInYearMonthDays());
+    EXPECT_EQ(17984U, timeSample.getTotalSecondsInHourMinutesSeconds());
     EXPECT_EQ(" 1 * 2017-10-06 04:59:44.032487", timeSample.getPrintableStringFormat1());
 }
 
@@ -214,4 +214,3 @@ TEST(AlbaDateTimeTest, SubtractionOperatorWorksInRealScenario)
 }
 
 }
-

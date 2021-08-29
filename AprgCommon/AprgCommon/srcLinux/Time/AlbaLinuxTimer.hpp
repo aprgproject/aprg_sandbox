@@ -19,8 +19,8 @@ public:
     unsigned int getElapsedTimeInHours() const;
 
 private:
-    struct timespec m_timeSpec1;
-    struct timespec m_timeSpec2;
+    timespec m_timeSpec1;
+    timespec m_timeSpec2;
 };
 
 }//namespace alba

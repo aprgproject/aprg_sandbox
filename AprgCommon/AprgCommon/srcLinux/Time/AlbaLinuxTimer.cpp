@@ -2,16 +2,18 @@
 
 #include <Time/AlbaDateTimeConstants.hpp>
 #include <Time/AlbaLinuxTimeHelper.hpp>
-
 #include <unistd.h>
 
 namespace alba
 {
 
 AlbaLinuxTimer::AlbaLinuxTimer()
+    : m_timeSpec1{}
+    , m_timeSpec2{}
 {
     resetTimer();
 }
+
 void AlbaLinuxTimer::resetTimer()
 {
     clock_gettime(CLOCK_REALTIME, &m_timeSpec1);

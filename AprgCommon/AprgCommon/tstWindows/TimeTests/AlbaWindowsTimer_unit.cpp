@@ -11,7 +11,7 @@ TEST(AlbaWindowsTimer, DISABLED_TimerCanBeInitialized)
     Sleep(2000);
     timer.stopTimer();
     unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();
-    EXPECT_EQ(2u, secondsElapsed);
+    EXPECT_EQ(2U, secondsElapsed);
 }
 
 TEST(AlbaWindowsTimer, DISABLED_TimerCanBeRestarted)
@@ -22,7 +22,7 @@ TEST(AlbaWindowsTimer, DISABLED_TimerCanBeRestarted)
     Sleep(1000);
     timer.stopTimer();
     unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();
-    EXPECT_EQ(1u, secondsElapsed);
+    EXPECT_EQ(1U, secondsElapsed);
 }
 
 }

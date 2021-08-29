@@ -94,7 +94,7 @@ NumberType AlbaFileReader::getData()
     NumberType result(0);
     m_stream.read(getCharacterBufferPointer(), numberOfBytesToRead);
     unsigned int numberOfCharacters = static_cast<unsigned int>(m_stream.gcount());
-    result = accumulate(m_characterBuffer.cbegin(), m_characterBuffer.cbegin()+static_cast<int>(numberOfCharacters), static_cast<NumberType>(0u), [&](NumberType partialSum, NumberType newValue)
+    result = accumulate(m_characterBuffer.cbegin(), m_characterBuffer.cbegin()+static_cast<int>(numberOfCharacters), static_cast<NumberType>(0U), [&](NumberType partialSum, NumberType newValue)
     {
         partialSum = static_cast<NumberType>(partialSum << 8);
         partialSum |= (0xFF & newValue);
@@ -127,7 +127,10 @@ string AlbaFileReader::getLineAndIgnoreWhiteSpaces()
         m_stream.getline(getCharacterBufferPointer(), static_cast<streamsize>(m_characterBuffer.size()));
         string result(getCharacterBufferPointer());
         result = stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(result);
-        if(""!=result){ return result; }
+        if(!result.empty())
+        {
+            return result;
+        }
     }
     return "";
 }

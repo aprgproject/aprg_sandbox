@@ -24,7 +24,7 @@ AlbaMemoryBuffer::operator bool() const
 
 bool AlbaMemoryBuffer::hasContent() const
 {
-    return m_buffer.size()>0;
+    return !m_buffer.empty();
 }
 
 unsigned int AlbaMemoryBuffer::getSize() const
@@ -47,10 +47,10 @@ void AlbaMemoryBuffer::clear()
     m_buffer.clear();
 }
 
-void AlbaMemoryBuffer::clearAndSetNewData(void* bufferPointer, unsigned int const size)
+void AlbaMemoryBuffer::clearAndSetNewData(void* sourcePointer, unsigned int const size)
 {
     clear();
-    addData(bufferPointer, size);
+    addData(sourcePointer, size);
 }
 
 void AlbaMemoryBuffer::resize(unsigned int const size)

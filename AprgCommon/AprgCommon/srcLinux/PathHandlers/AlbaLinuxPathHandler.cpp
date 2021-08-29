@@ -3,12 +3,11 @@
 #include <Linux/AlbaLinuxHelper.hpp>
 #include <String/AlbaStringHelper.hpp>
 #include <Time/AlbaLinuxTimeHelper.hpp>
-
 #include <fcntl.h>
-#include <unistd.h>
 #include <sys/sendfile.h>
-#include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include <cstdio>
 #include <ctime>
@@ -23,6 +22,8 @@ namespace alba
 
 AlbaLinuxPathHandler::AlbaLinuxPathHandler(PathInitialValueSource const initialValueSource)
     : AlbaPathHandler(R"(/)")
+    , m_foundInLocalSystem(false)
+    , m_relativePath(false)
 {
     if(PathInitialValueSource::DetectedLocalPath == initialValueSource)
     {
@@ -32,6 +33,8 @@ AlbaLinuxPathHandler::AlbaLinuxPathHandler(PathInitialValueSource const initialV
 
 AlbaLinuxPathHandler::AlbaLinuxPathHandler(string const& path)
     : AlbaPathHandler(R"(/)")
+    , m_foundInLocalSystem(false)
+    , m_relativePath(false)
 {
     save(path);
 }
@@ -48,7 +51,7 @@ void AlbaLinuxPathHandler::clear()
 
 double AlbaLinuxPathHandler::getFileSizeEstimate()
 {
-    struct stat fileStatus;
+    struct stat fileStatus{};
     double fileSize(0);
     if(0 == stat(getFullPath().c_str(), &fileStatus))
     {
@@ -64,11 +67,11 @@ double AlbaLinuxPathHandler::getFileSizeEstimate()
 
 AlbaDateTime AlbaLinuxPathHandler::getFileCreationTime()
 {
-    struct stat fileStatus;
+    struct stat fileStatus{};
     AlbaDateTime fileCreationTime;
     if(0 == stat(getFullPath().c_str(), &fileStatus))
     {
-        struct timespec timeSpec;
+        timespec timeSpec{};
         clock_gettime(CLOCK_REALTIME, &timeSpec);
         fileCreationTime = convertSystemTimeToAlbaDateTime(timeSpec);
     }
@@ -197,7 +200,7 @@ bool AlbaLinuxPathHandler::copyToNewFile(string const& newFilePath)
 {
     int readFileDescriptor;
     int writeFileDescriptor;
-    struct stat statBuffer;
+    struct stat statBuffer{};
     off_t offset = 0;
     bool isSuccessful(false);
 
@@ -385,7 +388,7 @@ bool AlbaLinuxPathHandler::isPathADirectory(string const& fileOrDirectoryName) c
     bool result(false);
     if(canBeLocated(fileOrDirectoryName))
     {
-        struct stat statBuffer;
+        struct stat statBuffer{};
         if(0 == stat(fileOrDirectoryName.c_str(), &statBuffer))
         {
             result = S_ISDIR(statBuffer.st_mode);
@@ -401,7 +404,7 @@ bool AlbaLinuxPathHandler::isPathADirectory(string const& fileOrDirectoryName) c
 
 bool AlbaLinuxPathHandler::canBeLocated(string const& fullPath) const
 {
-    struct stat statBuffer;
+    struct stat statBuffer{};
     return stat(fullPath.c_str(), &statBuffer)==0;
 }
 

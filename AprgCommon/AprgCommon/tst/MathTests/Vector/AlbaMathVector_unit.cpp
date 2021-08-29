@@ -17,13 +17,13 @@ TEST(AlbaMathVectorTest, ConstructionWorks)
     VectorTwoElements mathVector2(values);
     VectorTwoElements mathVector3{3, 4};
 
-    ASSERT_EQ(2u, mathVector1.getSize());
+    ASSERT_EQ(2U, mathVector1.getSize());
     EXPECT_DOUBLE_EQ(0, mathVector1.getValueAt(0));
     EXPECT_DOUBLE_EQ(0, mathVector1.getValueAt(1));
-    ASSERT_EQ(2u, mathVector2.getSize());
+    ASSERT_EQ(2U, mathVector2.getSize());
     EXPECT_DOUBLE_EQ(6, mathVector2.getValueAt(0));
     EXPECT_DOUBLE_EQ(7, mathVector2.getValueAt(1));
-    ASSERT_EQ(2u, mathVector3.getSize());
+    ASSERT_EQ(2U, mathVector3.getSize());
     EXPECT_DOUBLE_EQ(3, mathVector3.getValueAt(0));
     EXPECT_DOUBLE_EQ(4, mathVector3.getValueAt(1));
 }
@@ -170,14 +170,14 @@ TEST(AlbaMathVectorTest, GetSizeWorks)
 {
     VectorTwoElements mathVector{3.5, 4.5};
 
-    EXPECT_EQ(2u, mathVector.getSize());
+    EXPECT_EQ(2U, mathVector.getSize());
 }
 
 TEST(AlbaMathVectorTest, GetValueAtWorks)
 {
     VectorTwoElements mathVector{3.5, 4.5};
 
-    ASSERT_EQ(2u, mathVector.getSize());
+    ASSERT_EQ(2U, mathVector.getSize());
     EXPECT_DOUBLE_EQ(3.5, mathVector.getValueAt(0));
     EXPECT_DOUBLE_EQ(4.5, mathVector.getValueAt(1));
 }
@@ -197,7 +197,7 @@ TEST(AlbaMathVectorTest, GetValuesWorks)
 
     VectorTwoElements::Values values(mathVector.getValues());
 
-    ASSERT_EQ(2u, values.size());
+    ASSERT_EQ(2U, values.size());
     EXPECT_DOUBLE_EQ(3.5, values.at(0));
     EXPECT_DOUBLE_EQ(4.5, values.at(1));
 }

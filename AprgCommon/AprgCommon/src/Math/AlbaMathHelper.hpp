@@ -80,13 +80,13 @@ AlbaNumbers getQuadraticRoots(RootType const rootType, AlbaNumber const& a, Alba
 
 //Combinatorics functions
 unsigned int getFactorial(unsigned int const number);
-unsigned int getNumberOfPermutations(unsigned int const p, unsigned int const r);
-unsigned int getNumberOfCombinations(unsigned int const p, unsigned int const r);
+unsigned int getNumberOfPermutations(unsigned int const n, unsigned int const r);
+unsigned int getNumberOfCombinations(unsigned int const n, unsigned int const r);
 unsigned int getValueAtPascalTriangle(unsigned int const rowIndex, unsigned int const columnIndex);
 
 
 //Statistics functions
-double getCumulativeStandardDistributionApproximation(double const value);
+double getCumulativeStandardDistributionApproximation(double const z);
 double getInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
 
 

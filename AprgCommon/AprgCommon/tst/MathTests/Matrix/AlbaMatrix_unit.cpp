@@ -11,28 +11,28 @@ TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedByDefaultConstructo
 {
     AlbaMatrix<unsigned int> matrix;
 
-    EXPECT_EQ(0u, matrix.getColumns());
-    EXPECT_EQ(0u, matrix.getRows());
+    EXPECT_EQ(0U, matrix.getColumns());
+    EXPECT_EQ(0U, matrix.getRows());
     AlbaMatrix<unsigned int>::MatrixData const& matrixData(
                 matrix.getMatrixData());
-    ASSERT_EQ(0u, matrixData.size());
+    ASSERT_EQ(0U, matrixData.size());
 }
 
 TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithSize)
 {
     AlbaMatrix<unsigned int> matrix(2,3);
 
-    EXPECT_EQ(2u, matrix.getColumns());
-    EXPECT_EQ(3u, matrix.getRows());
+    EXPECT_EQ(2U, matrix.getColumns());
+    EXPECT_EQ(3U, matrix.getRows());
     AlbaMatrix<unsigned int>::MatrixData const& matrixData(
                 matrix.getMatrixData());
-    ASSERT_EQ(6u, matrixData.size());
-    EXPECT_EQ(0u, matrixData.at(0));
-    EXPECT_EQ(0u, matrixData.at(1));
-    EXPECT_EQ(0u, matrixData.at(2));
-    EXPECT_EQ(0u, matrixData.at(3));
-    EXPECT_EQ(0u, matrixData.at(4));
-    EXPECT_EQ(0u, matrixData.at(5));
+    ASSERT_EQ(6U, matrixData.size());
+    EXPECT_EQ(0U, matrixData.at(0));
+    EXPECT_EQ(0U, matrixData.at(1));
+    EXPECT_EQ(0U, matrixData.at(2));
+    EXPECT_EQ(0U, matrixData.at(3));
+    EXPECT_EQ(0U, matrixData.at(4));
+    EXPECT_EQ(0U, matrixData.at(5));
 }
 
 TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithMatrixDataWithSameSize)
@@ -44,13 +44,13 @@ TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithMatrixDataWithS
 
     AlbaMatrix<unsigned int>::MatrixData const& matrixData(
                 matrix.getMatrixData());
-    ASSERT_EQ(6u, matrixData.size());
-    EXPECT_EQ(1u, matrixData.at(0));
-    EXPECT_EQ(2u, matrixData.at(1));
-    EXPECT_EQ(3u, matrixData.at(2));
-    EXPECT_EQ(4u, matrixData.at(3));
-    EXPECT_EQ(5u, matrixData.at(4));
-    EXPECT_EQ(6u, matrixData.at(5));
+    ASSERT_EQ(6U, matrixData.size());
+    EXPECT_EQ(1U, matrixData.at(0));
+    EXPECT_EQ(2U, matrixData.at(1));
+    EXPECT_EQ(3U, matrixData.at(2));
+    EXPECT_EQ(4U, matrixData.at(3));
+    EXPECT_EQ(5U, matrixData.at(4));
+    EXPECT_EQ(6U, matrixData.at(5));
 }
 
 TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithMatrixDataWithLesserSize)
@@ -62,13 +62,13 @@ TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithMatrixDataWithL
 
     AlbaMatrix<unsigned int>::MatrixData const& matrixData(
                 matrix.getMatrixData());
-    ASSERT_EQ(6u, matrixData.size());
-    EXPECT_EQ(1u, matrixData.at(0));
-    EXPECT_EQ(2u, matrixData.at(1));
-    EXPECT_EQ(3u, matrixData.at(2));
-    EXPECT_EQ(4u, matrixData.at(3));
-    EXPECT_EQ(5u, matrixData.at(4));
-    EXPECT_EQ(0u, matrixData.at(5));
+    ASSERT_EQ(6U, matrixData.size());
+    EXPECT_EQ(1U, matrixData.at(0));
+    EXPECT_EQ(2U, matrixData.at(1));
+    EXPECT_EQ(3U, matrixData.at(2));
+    EXPECT_EQ(4U, matrixData.at(3));
+    EXPECT_EQ(5U, matrixData.at(4));
+    EXPECT_EQ(0U, matrixData.at(5));
 }
 
 TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithMatrixDataWithGreaterSize)
@@ -80,13 +80,13 @@ TEST(AlbaMatrixTest, MatrixConstructor_AlbaMatrixCanBeCreatedWithMatrixDataWithG
 
     AlbaMatrix<unsigned int>::MatrixData const& matrixData(
                 matrix.getMatrixData());
-    ASSERT_EQ(6u, matrixData.size());
-    EXPECT_EQ(1u, matrixData.at(0));
-    EXPECT_EQ(2u, matrixData.at(1));
-    EXPECT_EQ(3u, matrixData.at(2));
-    EXPECT_EQ(4u, matrixData.at(3));
-    EXPECT_EQ(5u, matrixData.at(4));
-    EXPECT_EQ(6u, matrixData.at(5));
+    ASSERT_EQ(6U, matrixData.size());
+    EXPECT_EQ(1U, matrixData.at(0));
+    EXPECT_EQ(2U, matrixData.at(1));
+    EXPECT_EQ(3U, matrixData.at(2));
+    EXPECT_EQ(4U, matrixData.at(3));
+    EXPECT_EQ(5U, matrixData.at(4));
+    EXPECT_EQ(6U, matrixData.at(5));
 }
 
 TEST(AlbaMatrixTest, OperatorEqualWorks)
@@ -118,12 +118,12 @@ TEST(AlbaMatrixTest, OperatorPlusWorks)
 
     AlbaMatrix<unsigned int> resultMatrix(matrix1+matrix1);
 
-    EXPECT_EQ(2u, resultMatrix.getEntry(0,0));
-    EXPECT_EQ(4u, resultMatrix.getEntry(1,0));
-    EXPECT_EQ(6u, resultMatrix.getEntry(0,1));
-    EXPECT_EQ(8u, resultMatrix.getEntry(1,1));
-    EXPECT_EQ(10u, resultMatrix.getEntry(0,2));
-    EXPECT_EQ(12u, resultMatrix.getEntry(1,2));
+    EXPECT_EQ(2U, resultMatrix.getEntry(0,0));
+    EXPECT_EQ(4U, resultMatrix.getEntry(1,0));
+    EXPECT_EQ(6U, resultMatrix.getEntry(0,1));
+    EXPECT_EQ(8U, resultMatrix.getEntry(1,1));
+    EXPECT_EQ(10U, resultMatrix.getEntry(0,2));
+    EXPECT_EQ(12U, resultMatrix.getEntry(1,2));
 }
 
 TEST(AlbaMatrixTest, OperatorMinusWorks)
@@ -139,12 +139,12 @@ TEST(AlbaMatrixTest, OperatorMinusWorks)
 
     AlbaMatrix<unsigned int> resultMatrix(matrix1-matrix2);
 
-    EXPECT_EQ(99u, resultMatrix.getEntry(0,0));
-    EXPECT_EQ(198u, resultMatrix.getEntry(1,0));
-    EXPECT_EQ(297u, resultMatrix.getEntry(0,1));
-    EXPECT_EQ(396u, resultMatrix.getEntry(1,1));
-    EXPECT_EQ(495u, resultMatrix.getEntry(0,2));
-    EXPECT_EQ(594u, resultMatrix.getEntry(1,2));
+    EXPECT_EQ(99U, resultMatrix.getEntry(0,0));
+    EXPECT_EQ(198U, resultMatrix.getEntry(1,0));
+    EXPECT_EQ(297U, resultMatrix.getEntry(0,1));
+    EXPECT_EQ(396U, resultMatrix.getEntry(1,1));
+    EXPECT_EQ(495U, resultMatrix.getEntry(0,2));
+    EXPECT_EQ(594U, resultMatrix.getEntry(1,2));
 }
 
 TEST(AlbaMatrixTest, OperatorMultiplyWorks_MatrixCanBeMultipliedWithConstantValue)
@@ -156,12 +156,12 @@ TEST(AlbaMatrixTest, OperatorMultiplyWorks_MatrixCanBeMultipliedWithConstantValu
 
     AlbaMatrix<unsigned int> resultMatrix(matrix*2);
 
-    EXPECT_EQ(2u, resultMatrix.getEntry(0,0));
-    EXPECT_EQ(4u, resultMatrix.getEntry(1,0));
-    EXPECT_EQ(6u, resultMatrix.getEntry(0,1));
-    EXPECT_EQ(8u, resultMatrix.getEntry(1,1));
-    EXPECT_EQ(10u, resultMatrix.getEntry(0,2));
-    EXPECT_EQ(12u, resultMatrix.getEntry(1,2));
+    EXPECT_EQ(2U, resultMatrix.getEntry(0,0));
+    EXPECT_EQ(4U, resultMatrix.getEntry(1,0));
+    EXPECT_EQ(6U, resultMatrix.getEntry(0,1));
+    EXPECT_EQ(8U, resultMatrix.getEntry(1,1));
+    EXPECT_EQ(10U, resultMatrix.getEntry(0,2));
+    EXPECT_EQ(12U, resultMatrix.getEntry(1,2));
 }
 
 TEST(AlbaMatrixTest, OperatorMultiplyWorks_MatrixCanBeMultipliedWithAnotherMatrix)
@@ -176,8 +176,8 @@ TEST(AlbaMatrixTest, OperatorMultiplyWorks_MatrixCanBeMultipliedWithAnotherMatri
 
     AlbaMatrix<int> resultMatrix(matrix1*matrix2);
 
-    EXPECT_EQ(2u, resultMatrix.getColumns());
-    EXPECT_EQ(2u, resultMatrix.getRows());
+    EXPECT_EQ(2U, resultMatrix.getColumns());
+    EXPECT_EQ(2U, resultMatrix.getRows());
     EXPECT_EQ(4, resultMatrix.getEntry(0,0));
     EXPECT_EQ(-2, resultMatrix.getEntry(1,0));
     EXPECT_EQ(6, resultMatrix.getEntry(0,1));
@@ -195,12 +195,12 @@ TEST(AlbaMatrixTest, OperatorMultiplyWorks_AnotherExample)
 
     AlbaMatrix<unsigned int> resultMatrix(matrix1*matrix2);
 
-    EXPECT_EQ(2u, resultMatrix.getColumns());
-    EXPECT_EQ(2u, resultMatrix.getRows());
-    EXPECT_EQ(23u, resultMatrix.getEntry(0,0));
-    EXPECT_EQ(4u, resultMatrix.getEntry(1,0));
-    EXPECT_EQ(39u, resultMatrix.getEntry(0,1));
-    EXPECT_EQ(8u, resultMatrix.getEntry(1,1));
+    EXPECT_EQ(2U, resultMatrix.getColumns());
+    EXPECT_EQ(2U, resultMatrix.getRows());
+    EXPECT_EQ(23U, resultMatrix.getEntry(0,0));
+    EXPECT_EQ(4U, resultMatrix.getEntry(1,0));
+    EXPECT_EQ(39U, resultMatrix.getEntry(0,1));
+    EXPECT_EQ(8U, resultMatrix.getEntry(1,1));
 }
 
 TEST(AlbaMatrixTest, IsSquareWorks)
@@ -324,24 +324,24 @@ TEST(AlbaMatrixTest, GetColumnsWorks)
 {
     AlbaMatrix<unsigned int> matrix(14,6);
 
-    EXPECT_EQ(14u, matrix.getColumns());
+    EXPECT_EQ(14U, matrix.getColumns());
 }
 
 TEST(AlbaMatrixTest, GetRowsWorks)
 {
     AlbaMatrix<unsigned int> matrix(14,6);
 
-    EXPECT_EQ(6u, matrix.getRows());
+    EXPECT_EQ(6U, matrix.getRows());
 }
 
 TEST(AlbaMatrixTest, GetMatrixIndexWorks)
 {
     AlbaMatrix<unsigned int> matrix(14,6);
 
-    EXPECT_EQ(45u, matrix.getMatrixIndex(3, 3));
-    EXPECT_EQ(73u, matrix.getMatrixIndex(3, 5));
-    EXPECT_EQ(47u, matrix.getMatrixIndex(5, 3));
-    EXPECT_EQ(75u, matrix.getMatrixIndex(5, 5));
+    EXPECT_EQ(45U, matrix.getMatrixIndex(3, 3));
+    EXPECT_EQ(73U, matrix.getMatrixIndex(3, 5));
+    EXPECT_EQ(47U, matrix.getMatrixIndex(5, 3));
+    EXPECT_EQ(75U, matrix.getMatrixIndex(5, 5));
 }
 
 TEST(AlbaMatrixTest, GetDeterminantWorks)
@@ -395,12 +395,12 @@ TEST(AlbaMatrixTest, GetEntryWorks_ValueCanBeFetchedFromEmptyVector)
 {
     AlbaMatrix<unsigned int> matrix(2,3);
 
-    EXPECT_EQ(0u, matrix.getEntry(0,0));
-    EXPECT_EQ(0u, matrix.getEntry(1,0));
-    EXPECT_EQ(0u, matrix.getEntry(0,1));
-    EXPECT_EQ(0u, matrix.getEntry(1,1));
-    EXPECT_EQ(0u, matrix.getEntry(0,2));
-    EXPECT_EQ(0u, matrix.getEntry(1,2));
+    EXPECT_EQ(0U, matrix.getEntry(0,0));
+    EXPECT_EQ(0U, matrix.getEntry(1,0));
+    EXPECT_EQ(0U, matrix.getEntry(0,1));
+    EXPECT_EQ(0U, matrix.getEntry(1,1));
+    EXPECT_EQ(0U, matrix.getEntry(0,2));
+    EXPECT_EQ(0U, matrix.getEntry(1,2));
 }
 
 TEST(AlbaMatrixTest, GetEntryWorks_ValueCanBeFetchedFromNonEmptyVector)
@@ -410,12 +410,12 @@ TEST(AlbaMatrixTest, GetEntryWorks_ValueCanBeFetchedFromNonEmptyVector)
      3,4,
      5,6});
 
-    EXPECT_EQ(1u, matrix.getEntry(0,0));
-    EXPECT_EQ(2u, matrix.getEntry(1,0));
-    EXPECT_EQ(3u, matrix.getEntry(0,1));
-    EXPECT_EQ(4u, matrix.getEntry(1,1));
-    EXPECT_EQ(5u, matrix.getEntry(0,2));
-    EXPECT_EQ(6u, matrix.getEntry(1,2));
+    EXPECT_EQ(1U, matrix.getEntry(0,0));
+    EXPECT_EQ(2U, matrix.getEntry(1,0));
+    EXPECT_EQ(3U, matrix.getEntry(0,1));
+    EXPECT_EQ(4U, matrix.getEntry(1,1));
+    EXPECT_EQ(5U, matrix.getEntry(0,2));
+    EXPECT_EQ(6U, matrix.getEntry(1,2));
 }
 
 TEST(AlbaMatrixTest, GetMatrixDataWorks)
@@ -428,13 +428,13 @@ TEST(AlbaMatrixTest, GetMatrixDataWorks)
     AlbaMatrix<unsigned int>::MatrixData const& matrixData(
                 matrix.getMatrixData());
 
-    ASSERT_EQ(6u, matrixData.size());
-    EXPECT_EQ(1u, matrixData.at(0));
-    EXPECT_EQ(2u, matrixData.at(1));
-    EXPECT_EQ(3u, matrixData.at(2));
-    EXPECT_EQ(4u, matrixData.at(3));
-    EXPECT_EQ(5u, matrixData.at(4));
-    EXPECT_EQ(6u, matrixData.at(5));
+    ASSERT_EQ(6U, matrixData.size());
+    EXPECT_EQ(1U, matrixData.at(0));
+    EXPECT_EQ(2U, matrixData.at(1));
+    EXPECT_EQ(3U, matrixData.at(2));
+    EXPECT_EQ(4U, matrixData.at(3));
+    EXPECT_EQ(5U, matrixData.at(4));
+    EXPECT_EQ(6U, matrixData.at(5));
 }
 
 TEST(AlbaMatrixTest, GetMatrixWithOneColumnAndOneRowRemovedWorks)
@@ -447,15 +447,15 @@ TEST(AlbaMatrixTest, GetMatrixWithOneColumnAndOneRowRemovedWorks)
     AlbaMatrix<unsigned int> resultMatrix(
                 matrix.getMatrixWithOneColumnAndOneRowRemoved(1,2));
 
-    EXPECT_EQ(2u, resultMatrix.getColumns());
-    EXPECT_EQ(2u, resultMatrix.getRows());
+    EXPECT_EQ(2U, resultMatrix.getColumns());
+    EXPECT_EQ(2U, resultMatrix.getRows());
     AlbaMatrix<unsigned int>::MatrixData const& resultMatrixData(
                 resultMatrix.getMatrixData());
-    ASSERT_EQ(4u, resultMatrixData.size());
-    EXPECT_EQ(1u, resultMatrixData.at(0));
-    EXPECT_EQ(3u, resultMatrixData.at(1));
-    EXPECT_EQ(4u, resultMatrixData.at(2));
-    EXPECT_EQ(6u, resultMatrixData.at(3));
+    ASSERT_EQ(4U, resultMatrixData.size());
+    EXPECT_EQ(1U, resultMatrixData.at(0));
+    EXPECT_EQ(3U, resultMatrixData.at(1));
+    EXPECT_EQ(4U, resultMatrixData.at(2));
+    EXPECT_EQ(6U, resultMatrixData.at(3));
 }
 
 TEST(AlbaMatrixTest, GetStringWorks)
@@ -478,10 +478,10 @@ TEST(AlbaMatrixTest, RetrieveColumnWorks)
     AlbaMatrix<unsigned int>::MatrixData secondColumn;
     matrix.retrieveColumn(secondColumn, 1);
 
-    ASSERT_EQ(3u, secondColumn.size());
-    EXPECT_EQ(2u, secondColumn.at(0));
-    EXPECT_EQ(4u, secondColumn.at(1));
-    EXPECT_EQ(6u, secondColumn.at(2));
+    ASSERT_EQ(3U, secondColumn.size());
+    EXPECT_EQ(2U, secondColumn.at(0));
+    EXPECT_EQ(4U, secondColumn.at(1));
+    EXPECT_EQ(6U, secondColumn.at(2));
 }
 
 TEST(AlbaMatrixTest, RetrieveRowWorks)
@@ -494,9 +494,9 @@ TEST(AlbaMatrixTest, RetrieveRowWorks)
     AlbaMatrix<unsigned int>::MatrixData secondRow;
     matrix.retrieveRow(secondRow, 1);
 
-    ASSERT_EQ(2u, secondRow.size());
-    EXPECT_EQ(3u, secondRow.at(0));
-    EXPECT_EQ(4u, secondRow.at(1));
+    ASSERT_EQ(2U, secondRow.size());
+    EXPECT_EQ(3U, secondRow.at(0));
+    EXPECT_EQ(4U, secondRow.at(1));
 }
 
 TEST(AlbaMatrixTest, RetrieveColumnsWorks)
@@ -509,15 +509,15 @@ TEST(AlbaMatrixTest, RetrieveColumnsWorks)
     AlbaMatrix<unsigned int>::ListOfMatrixData columns;
     matrix.retrieveColumns(columns);
 
-    ASSERT_EQ(2u, columns.size());
-    ASSERT_EQ(3u, columns.at(0).size());
-    EXPECT_EQ(1u, columns.at(0).at(0));
-    EXPECT_EQ(3u, columns.at(0).at(1));
-    EXPECT_EQ(5u, columns.at(0).at(2));
-    ASSERT_EQ(3u, columns.at(1).size());
-    EXPECT_EQ(2u, columns.at(1).at(0));
-    EXPECT_EQ(4u, columns.at(1).at(1));
-    EXPECT_EQ(6u, columns.at(1).at(2));
+    ASSERT_EQ(2U, columns.size());
+    ASSERT_EQ(3U, columns.at(0).size());
+    EXPECT_EQ(1U, columns.at(0).at(0));
+    EXPECT_EQ(3U, columns.at(0).at(1));
+    EXPECT_EQ(5U, columns.at(0).at(2));
+    ASSERT_EQ(3U, columns.at(1).size());
+    EXPECT_EQ(2U, columns.at(1).at(0));
+    EXPECT_EQ(4U, columns.at(1).at(1));
+    EXPECT_EQ(6U, columns.at(1).at(2));
 }
 
 TEST(AlbaMatrixTest, RetrieveRowsWorks)
@@ -530,16 +530,16 @@ TEST(AlbaMatrixTest, RetrieveRowsWorks)
     AlbaMatrix<unsigned int>::ListOfMatrixData rows;
     matrix.retrieveRows(rows);
 
-    ASSERT_EQ(3u, rows.size());
-    ASSERT_EQ(2u, rows.at(0).size());
-    EXPECT_EQ(1u, rows.at(0).at(0));
-    EXPECT_EQ(2u, rows.at(0).at(1));
-    ASSERT_EQ(2u, rows.at(1).size());
-    EXPECT_EQ(3u, rows.at(1).at(0));
-    EXPECT_EQ(4u, rows.at(1).at(1));
-    ASSERT_EQ(2u, rows.at(2).size());
-    EXPECT_EQ(5u, rows.at(2).at(0));
-    EXPECT_EQ(6u, rows.at(2).at(1));
+    ASSERT_EQ(3U, rows.size());
+    ASSERT_EQ(2U, rows.at(0).size());
+    EXPECT_EQ(1U, rows.at(0).at(0));
+    EXPECT_EQ(2U, rows.at(0).at(1));
+    ASSERT_EQ(2U, rows.at(1).size());
+    EXPECT_EQ(3U, rows.at(1).at(0));
+    EXPECT_EQ(4U, rows.at(1).at(1));
+    ASSERT_EQ(2U, rows.at(2).size());
+    EXPECT_EQ(5U, rows.at(2).at(0));
+    EXPECT_EQ(6U, rows.at(2).at(1));
 }
 
 TEST(AlbaMatrixTest, SetEntryWorks_ValueCanSavedInTheMatrix)
@@ -553,12 +553,12 @@ TEST(AlbaMatrixTest, SetEntryWorks_ValueCanSavedInTheMatrix)
     matrix.setEntry(0,2,5);
     matrix.setEntry(1,2,6);
 
-    EXPECT_EQ(1u, matrix.getEntry(0,0));
-    EXPECT_EQ(2u, matrix.getEntry(1,0));
-    EXPECT_EQ(3u, matrix.getEntry(0,1));
-    EXPECT_EQ(4u, matrix.getEntry(1,1));
-    EXPECT_EQ(5u, matrix.getEntry(0,2));
-    EXPECT_EQ(6u, matrix.getEntry(1,2));
+    EXPECT_EQ(1U, matrix.getEntry(0,0));
+    EXPECT_EQ(2U, matrix.getEntry(1,0));
+    EXPECT_EQ(3U, matrix.getEntry(0,1));
+    EXPECT_EQ(4U, matrix.getEntry(1,1));
+    EXPECT_EQ(5U, matrix.getEntry(0,2));
+    EXPECT_EQ(6U, matrix.getEntry(1,2));
 }
 
 TEST(AlbaMatrixTest, SetEntriesWorks_MultipleValuesCanSavedInTheMatrix)
@@ -570,12 +570,12 @@ TEST(AlbaMatrixTest, SetEntriesWorks_MultipleValuesCanSavedInTheMatrix)
      3,4,
      5,6});
 
-    EXPECT_EQ(1u, matrix.getEntry(0,0));
-    EXPECT_EQ(2u, matrix.getEntry(1,0));
-    EXPECT_EQ(3u, matrix.getEntry(0,1));
-    EXPECT_EQ(4u, matrix.getEntry(1,1));
-    EXPECT_EQ(5u, matrix.getEntry(0,2));
-    EXPECT_EQ(6u, matrix.getEntry(1,2));
+    EXPECT_EQ(1U, matrix.getEntry(0,0));
+    EXPECT_EQ(2U, matrix.getEntry(1,0));
+    EXPECT_EQ(3U, matrix.getEntry(0,1));
+    EXPECT_EQ(4U, matrix.getEntry(1,1));
+    EXPECT_EQ(5U, matrix.getEntry(0,2));
+    EXPECT_EQ(6U, matrix.getEntry(1,2));
 }
 
 TEST(AlbaMatrixTest, SetEntriesWorks_OverwritesExistingValuesAndDoesNotChangeOtherValues)
@@ -589,12 +589,12 @@ TEST(AlbaMatrixTest, SetEntriesWorks_OverwritesExistingValuesAndDoesNotChangeOth
     {9,8,
      7});
 
-    EXPECT_EQ(9u, matrix.getEntry(0,0));
-    EXPECT_EQ(8u, matrix.getEntry(1,0));
-    EXPECT_EQ(7u, matrix.getEntry(0,1));
-    EXPECT_EQ(4u, matrix.getEntry(1,1));
-    EXPECT_EQ(5u, matrix.getEntry(0,2));
-    EXPECT_EQ(6u, matrix.getEntry(1,2));
+    EXPECT_EQ(9U, matrix.getEntry(0,0));
+    EXPECT_EQ(8U, matrix.getEntry(1,0));
+    EXPECT_EQ(7U, matrix.getEntry(0,1));
+    EXPECT_EQ(4U, matrix.getEntry(1,1));
+    EXPECT_EQ(5U, matrix.getEntry(0,2));
+    EXPECT_EQ(6U, matrix.getEntry(1,2));
 }
 
 TEST(AlbaMatrixTest, SetColumnWorks)
@@ -606,12 +606,12 @@ TEST(AlbaMatrixTest, SetColumnWorks)
 
     matrix.setColumn(1, {9, 8, 7});
 
-    EXPECT_EQ(1u, matrix.getEntry(0,0));
-    EXPECT_EQ(9u, matrix.getEntry(1,0));
-    EXPECT_EQ(3u, matrix.getEntry(0,1));
-    EXPECT_EQ(8u, matrix.getEntry(1,1));
-    EXPECT_EQ(5u, matrix.getEntry(0,2));
-    EXPECT_EQ(7u, matrix.getEntry(1,2));
+    EXPECT_EQ(1U, matrix.getEntry(0,0));
+    EXPECT_EQ(9U, matrix.getEntry(1,0));
+    EXPECT_EQ(3U, matrix.getEntry(0,1));
+    EXPECT_EQ(8U, matrix.getEntry(1,1));
+    EXPECT_EQ(5U, matrix.getEntry(0,2));
+    EXPECT_EQ(7U, matrix.getEntry(1,2));
 }
 
 TEST(AlbaMatrixTest, SetRowWorks)
@@ -623,12 +623,12 @@ TEST(AlbaMatrixTest, SetRowWorks)
 
     matrix.setRow(1, {9, 8});
 
-    EXPECT_EQ(1u, matrix.getEntry(0,0));
-    EXPECT_EQ(2u, matrix.getEntry(1,0));
-    EXPECT_EQ(9u, matrix.getEntry(0,1));
-    EXPECT_EQ(8u, matrix.getEntry(1,1));
-    EXPECT_EQ(5u, matrix.getEntry(0,2));
-    EXPECT_EQ(6u, matrix.getEntry(1,2));
+    EXPECT_EQ(1U, matrix.getEntry(0,0));
+    EXPECT_EQ(2U, matrix.getEntry(1,0));
+    EXPECT_EQ(9U, matrix.getEntry(0,1));
+    EXPECT_EQ(8U, matrix.getEntry(1,1));
+    EXPECT_EQ(5U, matrix.getEntry(0,2));
+    EXPECT_EQ(6U, matrix.getEntry(1,2));
 }
 
 TEST(AlbaMatrixTest, ClearAndResizeWorks)
@@ -640,12 +640,12 @@ TEST(AlbaMatrixTest, ClearAndResizeWorks)
 
     matrix.clearAndResize(3,2);
 
-    EXPECT_EQ(0u, matrix.getEntry(0,0));
-    EXPECT_EQ(0u, matrix.getEntry(0,1));
-    EXPECT_EQ(0u, matrix.getEntry(1,0));
-    EXPECT_EQ(0u, matrix.getEntry(1,1));
-    EXPECT_EQ(0u, matrix.getEntry(2,0));
-    EXPECT_EQ(0u, matrix.getEntry(2,1));
+    EXPECT_EQ(0U, matrix.getEntry(0,0));
+    EXPECT_EQ(0U, matrix.getEntry(0,1));
+    EXPECT_EQ(0U, matrix.getEntry(1,0));
+    EXPECT_EQ(0U, matrix.getEntry(1,1));
+    EXPECT_EQ(0U, matrix.getEntry(2,0));
+    EXPECT_EQ(0U, matrix.getEntry(2,1));
 }
 
 TEST(AlbaMatrixTest, NegateWorks)
@@ -674,12 +674,12 @@ TEST(AlbaMatrixTest, TransposeWorks)
 
     matrix.transpose();
 
-    EXPECT_EQ(1u, matrix.getEntry(0,0));
-    EXPECT_EQ(3u, matrix.getEntry(1,0));
-    EXPECT_EQ(5u, matrix.getEntry(2,0));
-    EXPECT_EQ(2u, matrix.getEntry(0,1));
-    EXPECT_EQ(4u, matrix.getEntry(1,1));
-    EXPECT_EQ(6u, matrix.getEntry(2,1));
+    EXPECT_EQ(1U, matrix.getEntry(0,0));
+    EXPECT_EQ(3U, matrix.getEntry(1,0));
+    EXPECT_EQ(5U, matrix.getEntry(2,0));
+    EXPECT_EQ(2U, matrix.getEntry(0,1));
+    EXPECT_EQ(4U, matrix.getEntry(1,1));
+    EXPECT_EQ(6U, matrix.getEntry(2,1));
 }
 
 TEST(AlbaMatrixTest, InvertWorks)
@@ -747,12 +747,12 @@ TEST(AlbaMatrixTest, InterchangeRowsWorks)
 
     matrix.interchangeRows(0,2);
 
-    EXPECT_EQ(5u, matrix.getEntry(0,0));
-    EXPECT_EQ(6u, matrix.getEntry(1,0));
-    EXPECT_EQ(3u, matrix.getEntry(0,1));
-    EXPECT_EQ(4u, matrix.getEntry(1,1));
-    EXPECT_EQ(1u, matrix.getEntry(0,2));
-    EXPECT_EQ(2u, matrix.getEntry(1,2));
+    EXPECT_EQ(5U, matrix.getEntry(0,0));
+    EXPECT_EQ(6U, matrix.getEntry(1,0));
+    EXPECT_EQ(3U, matrix.getEntry(0,1));
+    EXPECT_EQ(4U, matrix.getEntry(1,1));
+    EXPECT_EQ(1U, matrix.getEntry(0,2));
+    EXPECT_EQ(2U, matrix.getEntry(1,2));
 }
 
 TEST(AlbaMatrixTest, AddTwoRowsAndPutSumInAnotherRowWorks)
@@ -764,12 +764,12 @@ TEST(AlbaMatrixTest, AddTwoRowsAndPutSumInAnotherRowWorks)
 
     matrix.addTwoRowsAndPutSumInAnotherRow(0,2,2);
 
-    EXPECT_EQ(1u, matrix.getEntry(0,0));
-    EXPECT_EQ(2u, matrix.getEntry(1,0));
-    EXPECT_EQ(3u, matrix.getEntry(0,1));
-    EXPECT_EQ(4u, matrix.getEntry(1,1));
-    EXPECT_EQ(6u, matrix.getEntry(0,2));
-    EXPECT_EQ(8u, matrix.getEntry(1,2));
+    EXPECT_EQ(1U, matrix.getEntry(0,0));
+    EXPECT_EQ(2U, matrix.getEntry(1,0));
+    EXPECT_EQ(3U, matrix.getEntry(0,1));
+    EXPECT_EQ(4U, matrix.getEntry(1,1));
+    EXPECT_EQ(6U, matrix.getEntry(0,2));
+    EXPECT_EQ(8U, matrix.getEntry(1,2));
 }
 
 TEST(AlbaMatrixTest, MultiplyValueInRowAndPutProductInAnotherRowWorks)
@@ -783,12 +783,12 @@ TEST(AlbaMatrixTest, MultiplyValueInRowAndPutProductInAnotherRowWorks)
     matrix.multiplyValueInRowAndPutProductInAnotherRow(1,3,1);
     matrix.multiplyValueInRowAndPutProductInAnotherRow(2,4,2);
 
-    EXPECT_EQ(2u, matrix.getEntry(0,0));
-    EXPECT_EQ(4u, matrix.getEntry(1,0));
-    EXPECT_EQ(9u, matrix.getEntry(0,1));
-    EXPECT_EQ(12u, matrix.getEntry(1,1));
-    EXPECT_EQ(20u, matrix.getEntry(0,2));
-    EXPECT_EQ(24u, matrix.getEntry(1,2));
+    EXPECT_EQ(2U, matrix.getEntry(0,0));
+    EXPECT_EQ(4U, matrix.getEntry(1,0));
+    EXPECT_EQ(9U, matrix.getEntry(0,1));
+    EXPECT_EQ(12U, matrix.getEntry(1,1));
+    EXPECT_EQ(20U, matrix.getEntry(0,2));
+    EXPECT_EQ(24U, matrix.getEntry(1,2));
 }
 
 TEST(AlbaMatrixTest, SubtractRowsWithMultiplierPutDifferenceInAnotherRowWorks)
@@ -819,12 +819,12 @@ TEST(AlbaMatrixTest, MatrixCanBeCopied)
 
     copiedMatrix = matrix;
 
-    EXPECT_EQ(1u, copiedMatrix.getEntry(0,0));
-    EXPECT_EQ(2u, copiedMatrix.getEntry(1,0));
-    EXPECT_EQ(3u, copiedMatrix.getEntry(0,1));
-    EXPECT_EQ(4u, copiedMatrix.getEntry(1,1));
-    EXPECT_EQ(5u, copiedMatrix.getEntry(0,2));
-    EXPECT_EQ(6u, copiedMatrix.getEntry(1,2));
+    EXPECT_EQ(1U, copiedMatrix.getEntry(0,0));
+    EXPECT_EQ(2U, copiedMatrix.getEntry(1,0));
+    EXPECT_EQ(3U, copiedMatrix.getEntry(0,1));
+    EXPECT_EQ(4U, copiedMatrix.getEntry(1,1));
+    EXPECT_EQ(5U, copiedMatrix.getEntry(0,2));
+    EXPECT_EQ(6U, copiedMatrix.getEntry(1,2));
 }
 
 }

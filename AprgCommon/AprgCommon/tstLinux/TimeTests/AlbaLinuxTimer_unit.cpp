@@ -1,8 +1,7 @@
 #include <Time/AlbaLinuxTimer.hpp>
+#include <unistd.h>
 
 #include <gtest/gtest.h>
-
-#include <unistd.h>
 
 namespace alba
 {
@@ -13,7 +12,7 @@ TEST(AlbaLinuxTimer, DISABLED_TimerCanBeInitialized)
     usleep(2000000);
     timer.stopTimer();
     unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();
-    EXPECT_EQ(2u, secondsElapsed);
+    EXPECT_EQ(2U, secondsElapsed);
 }
 
 TEST(AlbaLinuxTimer, DISABLED_TimerCanBeRestarted)
@@ -24,7 +23,7 @@ TEST(AlbaLinuxTimer, DISABLED_TimerCanBeRestarted)
     usleep(1000000);
     timer.stopTimer();
     unsigned int secondsElapsed = timer.getElapsedTimeInSeconds();
-    EXPECT_EQ(1u, secondsElapsed);
+    EXPECT_EQ(1U, secondsElapsed);
 }
 
 }

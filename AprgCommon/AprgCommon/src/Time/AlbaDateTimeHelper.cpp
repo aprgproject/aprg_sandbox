@@ -237,15 +237,15 @@ void dateTimeHelper::reorganizeUnderflowValues(int & totalDays, int & totalSecon
 {
     if(totalMicroSeconds<0)
     {
-        unsigned int neededSeconds = static_cast<unsigned int>((ceil((static_cast<double>(-1)*totalMicroSeconds)/NUMBER_OF_MICROSECONDS_IN_A_SECOND)));
-        totalSeconds-=neededSeconds;
-        totalMicroSeconds+=neededSeconds*NUMBER_OF_MICROSECONDS_IN_A_SECOND;
+        int neededSeconds = static_cast<int>((ceil((static_cast<double>(-1)*totalMicroSeconds)/NUMBER_OF_MICROSECONDS_IN_A_SECOND)));
+        totalSeconds -= neededSeconds;
+        totalMicroSeconds += neededSeconds * static_cast<int>(NUMBER_OF_MICROSECONDS_IN_A_SECOND);
     }
     if(totalSeconds<0)
     {
-        unsigned int neededDays = static_cast<unsigned int>((ceil((static_cast<double>(-1)*totalSeconds)/NUMBER_OF_SECONDS_IN_A_DAY)));
-        totalDays-=neededDays;
-        totalSeconds+=neededDays*NUMBER_OF_SECONDS_IN_A_DAY;
+        int neededDays = static_cast<int>((ceil((static_cast<double>(-1)*totalSeconds)/NUMBER_OF_SECONDS_IN_A_DAY)));
+        totalDays -= neededDays;
+        totalSeconds += neededDays * static_cast<int>(NUMBER_OF_SECONDS_IN_A_DAY);
     }
 }
 
@@ -256,7 +256,7 @@ unsigned int dateTimeHelper::retrieveAndRemoveYearsFromTotalDays(unsigned int & 
     while(remainingDaysTemp<=0 && years>0)
     {
         years--;
-        remainingDaysTemp += getNumberOfDaysInAYear(years);
+        remainingDaysTemp += static_cast<int>(getNumberOfDaysInAYear(years));
     }
     remainingDays=static_cast<unsigned int>(remainingDaysTemp);
     return years;

@@ -1,8 +1,8 @@
 #include "AlbaMathHelper.hpp"
 
 #include <algorithm>
-#include <cmath>
 #include <climits>
+#include <cmath>
 
 using namespace std;
 
@@ -518,12 +518,12 @@ bool isDivisible(unsigned int const dividend, unsigned int const divisor)
 
 bool isEven(unsigned int const number)
 {
-    return isDivisible(number, 2u);
+    return isDivisible(number, 2U);
 }
 
 bool isOdd(unsigned int const number)
 {
-    return !isDivisible(number, 2u);
+    return !isDivisible(number, 2U);
 }
 
 unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned int const secondNumber)
@@ -531,7 +531,7 @@ unsigned int getGreatestCommonFactor(unsigned int const firstNumber, unsigned in
     unsigned int result(0);
     unsigned int temporaryFirstValue(firstNumber);
     unsigned int temporarySecondValue(secondNumber);
-    while(1)
+    while(true)
     {
         if(temporaryFirstValue==0)
         {
@@ -735,7 +735,7 @@ bool isPerfectNthPowerForAlbaNumber(
     bool result(false);
     if(number.isIntegerType())
     {
-        int integerValue(number.getInteger());
+        int integerValue(static_cast<int>(number.getInteger()));
         result = integerValue >= 0 && isPerfectNthPower(static_cast<unsigned int>(integerValue), nthPower);
     }
     else if(number.isFractionType())

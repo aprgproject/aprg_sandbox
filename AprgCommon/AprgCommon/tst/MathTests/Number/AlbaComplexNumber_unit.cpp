@@ -240,10 +240,10 @@ TEST(AlbaComplexNumberTest, GetNthRootWorks)
 {
     AlbaComplexNumber<double> complex(1, 0);
 
-    AlbaComplexNumber<double> actualComplex1(complex.getNthRoot(0u, 4u));
-    AlbaComplexNumber<double> actualComplex2(complex.getNthRoot(1u, 4u));
-    AlbaComplexNumber<double> actualComplex3(complex.getNthRoot(2u, 4u));
-    AlbaComplexNumber<double> actualComplex4(complex.getNthRoot(3u, 4u));
+    AlbaComplexNumber<double> actualComplex1(complex.getNthRoot(0U, 4U));
+    AlbaComplexNumber<double> actualComplex2(complex.getNthRoot(1U, 4U));
+    AlbaComplexNumber<double> actualComplex3(complex.getNthRoot(2U, 4U));
+    AlbaComplexNumber<double> actualComplex4(complex.getNthRoot(3U, 4U));
 
     AlbaComplexNumber<double> expectedComplex1(1, 0);
     AlbaComplexNumber<double> expectedComplex2(0, 1);

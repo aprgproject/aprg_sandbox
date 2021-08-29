@@ -36,22 +36,22 @@ TEST(ContainerSetTest, GetLowerAndUpperConstIteratorsInMap)
     MapIterator firstIterator=sampleMap.find(1);
     MapIterator secondIterator=sampleMap.find(3);
     MapIterator thirdIterator=sampleMap.find(5);
-    PairOfIterators iteratorsToVerify1(getLowerAndUpperConstIteratorsInMap(sampleMap, 0u));
+    PairOfIterators iteratorsToVerify1(getLowerAndUpperConstIteratorsInMap(sampleMap, 0U));
     EXPECT_EQ(firstIterator, iteratorsToVerify1.first);
     EXPECT_EQ(firstIterator, iteratorsToVerify1.second);
-    PairOfIterators iteratorsToVerify2(getLowerAndUpperConstIteratorsInMap(sampleMap, 6u));
+    PairOfIterators iteratorsToVerify2(getLowerAndUpperConstIteratorsInMap(sampleMap, 6U));
     EXPECT_EQ(thirdIterator, iteratorsToVerify2.first);
     EXPECT_EQ(thirdIterator, iteratorsToVerify2.second);
-    PairOfIterators iteratorsToVerify3(getLowerAndUpperConstIteratorsInMap(sampleMap, 1u));
+    PairOfIterators iteratorsToVerify3(getLowerAndUpperConstIteratorsInMap(sampleMap, 1U));
     EXPECT_EQ(firstIterator, iteratorsToVerify3.first);
     EXPECT_EQ(firstIterator, iteratorsToVerify3.second);
-    PairOfIterators iteratorsToVerify4(getLowerAndUpperConstIteratorsInMap(sampleMap, 5u));
+    PairOfIterators iteratorsToVerify4(getLowerAndUpperConstIteratorsInMap(sampleMap, 5U));
     EXPECT_EQ(thirdIterator, iteratorsToVerify4.first);
     EXPECT_EQ(thirdIterator, iteratorsToVerify4.second);
-    PairOfIterators iteratorsToVerify5(getLowerAndUpperConstIteratorsInMap(sampleMap, 4u));
+    PairOfIterators iteratorsToVerify5(getLowerAndUpperConstIteratorsInMap(sampleMap, 4U));
     EXPECT_EQ(secondIterator, iteratorsToVerify5.first);
     EXPECT_EQ(thirdIterator, iteratorsToVerify5.second);
-    PairOfIterators iteratorsToVerify6(getLowerAndUpperConstIteratorsInMap(sampleMap, 3u));
+    PairOfIterators iteratorsToVerify6(getLowerAndUpperConstIteratorsInMap(sampleMap, 3U));
     EXPECT_EQ(secondIterator, iteratorsToVerify6.first);
     EXPECT_EQ(secondIterator, iteratorsToVerify6.second);
 }
@@ -65,22 +65,22 @@ TEST(ContainerSetTest, GetLowerAndUpperIteratorsInMap)
     MapIterator firstIterator=sampleMap.find(1);
     MapIterator secondIterator=sampleMap.find(3);
     MapIterator thirdIterator=sampleMap.find(5);
-    PairOfIterators iteratorsToVerify1(getLowerAndUpperIteratorsInMap(sampleMap, 0u));
+    PairOfIterators iteratorsToVerify1(getLowerAndUpperIteratorsInMap(sampleMap, 0U));
     EXPECT_EQ(firstIterator, iteratorsToVerify1.first);
     EXPECT_EQ(firstIterator, iteratorsToVerify1.second);
-    PairOfIterators iteratorsToVerify2(getLowerAndUpperIteratorsInMap(sampleMap, 6u));
+    PairOfIterators iteratorsToVerify2(getLowerAndUpperIteratorsInMap(sampleMap, 6U));
     EXPECT_EQ(thirdIterator, iteratorsToVerify2.first);
     EXPECT_EQ(thirdIterator, iteratorsToVerify2.second);
-    PairOfIterators iteratorsToVerify3(getLowerAndUpperIteratorsInMap(sampleMap, 1u));
+    PairOfIterators iteratorsToVerify3(getLowerAndUpperIteratorsInMap(sampleMap, 1U));
     EXPECT_EQ(firstIterator, iteratorsToVerify3.first);
     EXPECT_EQ(firstIterator, iteratorsToVerify3.second);
-    PairOfIterators iteratorsToVerify4(getLowerAndUpperIteratorsInMap(sampleMap, 5u));
+    PairOfIterators iteratorsToVerify4(getLowerAndUpperIteratorsInMap(sampleMap, 5U));
     EXPECT_EQ(thirdIterator, iteratorsToVerify4.first);
     EXPECT_EQ(thirdIterator, iteratorsToVerify4.second);
-    PairOfIterators iteratorsToVerify5(getLowerAndUpperIteratorsInMap(sampleMap, 4u));
+    PairOfIterators iteratorsToVerify5(getLowerAndUpperIteratorsInMap(sampleMap, 4U));
     EXPECT_EQ(secondIterator, iteratorsToVerify5.first);
     EXPECT_EQ(thirdIterator, iteratorsToVerify5.second);
-    PairOfIterators iteratorsToVerify6(getLowerAndUpperIteratorsInMap(sampleMap, 3u));
+    PairOfIterators iteratorsToVerify6(getLowerAndUpperIteratorsInMap(sampleMap, 3U));
     EXPECT_EQ(secondIterator, iteratorsToVerify6.first);
     EXPECT_EQ(secondIterator, iteratorsToVerify6.second);
 }
@@ -102,22 +102,22 @@ TEST(ContainerSetTest, GetLowerAndUpperConstIteratorsInMultiMap)
     fifthIterator++;
     MultimapIterator sixthIterator=fifthIterator;
     sixthIterator++;
-    PairOfIterators iteratorsToVerify1(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 0u));
+    PairOfIterators iteratorsToVerify1(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 0U));
     EXPECT_EQ(firstIterator, iteratorsToVerify1.first);
     EXPECT_EQ(firstIterator, iteratorsToVerify1.second);
-    PairOfIterators iteratorsToVerify2(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 6u));
+    PairOfIterators iteratorsToVerify2(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 6U));
     EXPECT_EQ(sixthIterator, iteratorsToVerify2.first);
     EXPECT_EQ(sixthIterator, iteratorsToVerify2.second);
-    PairOfIterators iteratorsToVerify3(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 1u));
+    PairOfIterators iteratorsToVerify3(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 1U));
     EXPECT_EQ(firstIterator, iteratorsToVerify3.first);
     EXPECT_EQ(secondIterator, iteratorsToVerify3.second);
-    PairOfIterators iteratorsToVerify4(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 5u));
+    PairOfIterators iteratorsToVerify4(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 5U));
     EXPECT_EQ(fifthIterator, iteratorsToVerify4.first);
     EXPECT_EQ(sixthIterator, iteratorsToVerify4.second);
-    PairOfIterators iteratorsToVerify5(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 4u));
+    PairOfIterators iteratorsToVerify5(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 4U));
     EXPECT_EQ(fourthIterator, iteratorsToVerify5.first);
     EXPECT_EQ(fifthIterator, iteratorsToVerify5.second);
-    PairOfIterators iteratorsToVerify6(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 3u));
+    PairOfIterators iteratorsToVerify6(getLowerAndUpperConstIteratorsInMultiMap(sampleMap, 3U));
     EXPECT_EQ(thirdIterator, iteratorsToVerify6.first);
     EXPECT_EQ(fourthIterator, iteratorsToVerify6.second);
 }
@@ -139,22 +139,22 @@ TEST(ContainerSetTest, GetLowerAndUpperIteratorsInMultiMap)
     fifthIterator++;
     MultimapIterator sixthIterator=fifthIterator;
     sixthIterator++;
-    PairOfIterators iteratorsToVerify1(getLowerAndUpperIteratorsInMultiMap(sampleMap, 0u));
+    PairOfIterators iteratorsToVerify1(getLowerAndUpperIteratorsInMultiMap(sampleMap, 0U));
     EXPECT_EQ(firstIterator, iteratorsToVerify1.first);
     EXPECT_EQ(firstIterator, iteratorsToVerify1.second);
-    PairOfIterators iteratorsToVerify2(getLowerAndUpperIteratorsInMultiMap(sampleMap, 6u));
+    PairOfIterators iteratorsToVerify2(getLowerAndUpperIteratorsInMultiMap(sampleMap, 6U));
     EXPECT_EQ(sixthIterator, iteratorsToVerify2.first);
     EXPECT_EQ(sixthIterator, iteratorsToVerify2.second);
-    PairOfIterators iteratorsToVerify3(getLowerAndUpperIteratorsInMultiMap(sampleMap, 1u));
+    PairOfIterators iteratorsToVerify3(getLowerAndUpperIteratorsInMultiMap(sampleMap, 1U));
     EXPECT_EQ(firstIterator, iteratorsToVerify3.first);
     EXPECT_EQ(secondIterator, iteratorsToVerify3.second);
-    PairOfIterators iteratorsToVerify4(getLowerAndUpperIteratorsInMultiMap(sampleMap, 5u));
+    PairOfIterators iteratorsToVerify4(getLowerAndUpperIteratorsInMultiMap(sampleMap, 5U));
     EXPECT_EQ(fifthIterator, iteratorsToVerify4.first);
     EXPECT_EQ(sixthIterator, iteratorsToVerify4.second);
-    PairOfIterators iteratorsToVerify5(getLowerAndUpperIteratorsInMultiMap(sampleMap, 4u));
+    PairOfIterators iteratorsToVerify5(getLowerAndUpperIteratorsInMultiMap(sampleMap, 4U));
     EXPECT_EQ(fourthIterator, iteratorsToVerify5.first);
     EXPECT_EQ(fifthIterator, iteratorsToVerify5.second);
-    PairOfIterators iteratorsToVerify6(getLowerAndUpperIteratorsInMultiMap(sampleMap, 3u));
+    PairOfIterators iteratorsToVerify6(getLowerAndUpperIteratorsInMultiMap(sampleMap, 3U));
     EXPECT_EQ(thirdIterator, iteratorsToVerify6.first);
     EXPECT_EQ(fourthIterator, iteratorsToVerify6.second);
 }
@@ -186,7 +186,7 @@ TEST(ContainerTest, SaveVectorOfIntegersToFile)
 
 TEST(ContainerTest, RetrieveVectorOfIntegersFromFile)
 {
-    std::array<int, 4> temporaryArray;
+    std::array<int, 4> temporaryArray{};
     ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
     outputTestFile<<"18723"<<endl;
     outputTestFile<<"-608"<<endl;
@@ -199,7 +199,7 @@ TEST(ContainerTest, RetrieveVectorOfIntegersFromFile)
 
     retrieveContentsOfContainerFromFile(inputTestFile, temporaryArray);
 
-    ASSERT_EQ(4u, temporaryArray.size());
+    ASSERT_EQ(4U, temporaryArray.size());
     auto it = temporaryArray.begin();
     EXPECT_EQ(18723, *(it++));
     EXPECT_EQ(-608, *(it++));
@@ -254,7 +254,7 @@ TEST(ContainerTest, RetrieveArrayOfIntegersFromFile)
 
     retrieveContentsOfContainerFromFile(inputTestFile, temporaryVector);
 
-    ASSERT_EQ(4u, temporaryVector.size());
+    ASSERT_EQ(4U, temporaryVector.size());
     auto it = temporaryVector.begin();
     EXPECT_EQ(18723, *(it++));
     EXPECT_EQ(-608, *(it++));
@@ -308,7 +308,7 @@ TEST(ContainerTest, RetrieveSetOfIntegersFromFile)
 
     retrieveContentsOfContainerFromFile(inputTestFile, temporarySet);
 
-    ASSERT_EQ(4u, temporarySet.size());
+    ASSERT_EQ(4U, temporarySet.size());
     auto it = temporarySet.begin();
     EXPECT_EQ(-43735, *(it++));
     EXPECT_EQ(-608, *(it++));
@@ -366,7 +366,7 @@ TEST(ContainerTest, RetrieveMapOfIntegersFromFile)
 
     retrieveContentsOfContainerFromFile(inputTestFile, temporaryMap);
 
-    ASSERT_EQ(2u, temporaryMap.size());
+    ASSERT_EQ(2U, temporaryMap.size());
     auto it = temporaryMap.begin();
     EXPECT_EQ(1, it->first);
     EXPECT_EQ(2, it->second);

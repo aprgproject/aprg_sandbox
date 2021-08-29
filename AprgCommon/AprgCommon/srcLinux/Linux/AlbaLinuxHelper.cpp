@@ -12,8 +12,8 @@ namespace alba
 string AlbaLinuxHelper::getErrorMessage(int const localErrnoCopy)
 {
     constexpr unsigned int const MAX_ERROR_CHAR_STRING=256;
-    char characterBuffer[MAX_ERROR_CHAR_STRING];
-    char const * str = strerror_r(localErrnoCopy, characterBuffer, MAX_ERROR_CHAR_STRING);
+    array<char, MAX_ERROR_CHAR_STRING> characterBuffer{};
+    char const * str = strerror_r(localErrnoCopy, characterBuffer.begin(), MAX_ERROR_CHAR_STRING);
     return string(str);
 }
 
