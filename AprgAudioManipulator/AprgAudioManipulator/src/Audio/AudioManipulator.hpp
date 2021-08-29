@@ -22,10 +22,10 @@ public:
     void addSamplesAtChannelWithValue(
             unsigned int const channelIndex,
             double const value);
-    void multiplySamplesWithValue(double const multiplier);
+    void multiplySamplesWithValue(double const value);
     void multiplySamplesAtChannelWithValue(
             unsigned int const channelIndex,
-            double const multiplier);
+            double const value);
 
     void saveAudioIntoCurrentFile();
     void saveAudioIntoFileInTheSameDirectory(

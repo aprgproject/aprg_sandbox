@@ -6,7 +6,8 @@
 
 #include <dirent.h>
 
-#include <functional>#include <string>
+#include <functional>
+#include <string>
 
 namespace alba
 {

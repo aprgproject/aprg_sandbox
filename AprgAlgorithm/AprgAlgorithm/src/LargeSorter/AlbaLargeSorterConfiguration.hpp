@@ -14,17 +14,20 @@ struct AlbaLargeSorterConfiguration
         : m_directoryForBlocks()
         , m_minimumNumberOfObjectsPerBlock(100)
         , m_maximumNumberOfObjectsPerBlock(1000)
-        , m_maximumNumberOfObjectsInMemory(2000)        , m_maximumFileStreams(100)
+        , m_maximumNumberOfObjectsInMemory(2000)
+        , m_maximumFileStreams(100)
     {}
     AlbaLargeSorterConfiguration(
-            std::string const& directoryForBlocks,            unsigned int minimumNumberOfObjectsPerBlock,
+            std::string const& directoryForBlocks,
+            unsigned int minimumNumberOfObjectsPerBlock,
             unsigned int maximumNumberOfObjectsPerBlock,
             unsigned int maximumNumberOfObjectsInMemory,
             unsigned int maximumFileStreams)
         : m_directoryForBlocks(getFixedPath(directoryForBlocks))
         , m_minimumNumberOfObjectsPerBlock(minimumNumberOfObjectsPerBlock)
         , m_maximumNumberOfObjectsPerBlock(maximumNumberOfObjectsPerBlock)
-        , m_maximumNumberOfObjectsInMemory(maximumNumberOfObjectsInMemory)        , m_maximumFileStreams(maximumFileStreams)
+        , m_maximumNumberOfObjectsInMemory(maximumNumberOfObjectsInMemory)
+        , m_maximumFileStreams(maximumFileStreams)
     {}
     AlbaLargeSorterConfiguration(
             AlbaLargeSorterConfiguration const& sorterConfiguration,
@@ -34,10 +37,12 @@ struct AlbaLargeSorterConfiguration
         m_directoryForBlocks = getFixedPath(directoryForBlocks);
     }
     std::string m_directoryForBlocks;
-    unsigned int m_minimumNumberOfObjectsPerBlock;    unsigned int m_maximumNumberOfObjectsPerBlock;
+    unsigned int m_minimumNumberOfObjectsPerBlock;
+    unsigned int m_maximumNumberOfObjectsPerBlock;
     unsigned int m_maximumNumberOfObjectsInMemory;
     unsigned int m_maximumFileStreams;
-    bool isConfigurationValid() const    {
+    bool isConfigurationValid() const
+    {
         if(m_minimumNumberOfObjectsPerBlock <= 0) { return false; }
         if(m_maximumNumberOfObjectsPerBlock <= m_minimumNumberOfObjectsPerBlock) { return false; }
         AlbaLocalPathHandler directoryPath(m_directoryForBlocks);

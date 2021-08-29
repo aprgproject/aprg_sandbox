@@ -8,8 +8,10 @@
 
 namespace alba
 {
+
 namespace AprgAudio
 {
+
 /** The different types of audio file, plus some other types to
  * indicate a failure to load a file, or that one hasn't been
  * loaded yet
@@ -103,9 +105,11 @@ private:
 
     bool saveToWaveFile (std::string const& filePath);
     bool saveToAiffFile (std::string const& filePath);
+
     void clearAudioBuffer();
 
-    int32_t fourBytesToInt (std::vector<unsigned char>& source, int startIndex, Endianness endianness = Endianness::LittleEndian);    int16_t twoBytesToInt (std::vector<unsigned char>& source, int startIndex, Endianness endianness = Endianness::LittleEndian);
+    int32_t fourBytesToInt (std::vector<unsigned char>& source, int startIndex, Endianness endianness = Endianness::LittleEndian);
+    int16_t twoBytesToInt (std::vector<unsigned char>& source, int startIndex, Endianness endianness = Endianness::LittleEndian);
     int getIndexOfString (std::vector<unsigned char>& source, std::string const& s);
 
     T sixteenBitIntToSample (int16_t sample);
@@ -126,8 +130,10 @@ private:
     bool writeDataToFile (std::vector<unsigned char>& fileDataBytes, std::string const& filePath);
 
     AudioFormat audioFileFormat;
-    int sampleRate;    int bitDepth;
+    int sampleRate;
+    int bitDepth;
 };
 
 }
+
 }

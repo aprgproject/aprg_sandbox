@@ -4,7 +4,8 @@
 
 #include <unistd.h>
 
-namespace alba{
+namespace alba
+{
 
 void sleep(unsigned int const milliSeconds)
 {

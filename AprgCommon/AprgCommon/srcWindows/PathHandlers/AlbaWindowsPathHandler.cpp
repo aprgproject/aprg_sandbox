@@ -7,7 +7,8 @@
 #include <winbase.h>
 #include <windows.h>
 
-#include <functional>#include <iostream>
+#include <functional>
+#include <iostream>
 #include <sstream>
 #include <string>
 

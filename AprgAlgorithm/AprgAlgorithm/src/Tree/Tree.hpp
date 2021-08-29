@@ -4,10 +4,12 @@
 #include <memory>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 template <typename ObjectType>
-class Tree{
+class Tree
+{
     using ObjectIndexes = std::vector<unsigned int>;
     using ObjectPtrs = std::vector<std::unique_ptr<ObjectType>>;
 public:

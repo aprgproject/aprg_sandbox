@@ -5,7 +5,8 @@
 
 #include <unistd.h>
 
-namespace alba{
+namespace alba
+{
 
 AlbaLinuxTimer::AlbaLinuxTimer()
     : m_timeSpec1{}

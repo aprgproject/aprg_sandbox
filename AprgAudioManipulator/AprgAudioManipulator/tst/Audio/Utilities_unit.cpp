@@ -5,9 +5,6 @@
 
 #include <gtest/gtest.h>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace alba::mathHelper;
 using namespace std;
 
@@ -118,4 +115,3 @@ TEST(UtilitiesTest, SearchAndTryToReplicateTwoFilesWorks)
 }
 
 }
-

@@ -17,7 +17,8 @@ TEST(BinarySearchTest, BinarySearchCanBeCreatedUsingDefaultConstructor)
     EXPECT_EQ(0U, binarySearch.getLowestValue());
 }
 
-TEST(BinarySearchTest, HighLowMiddleValuesCanFetchedInOneItem){
+TEST(BinarySearchTest, HighLowMiddleValuesCanFetchedInOneItem)
+{
     BinarySearch<unsigned int> binarySearch;
     binarySearch.add(6);
     EXPECT_EQ(6U, binarySearch.getLowestValue());
@@ -25,7 +26,8 @@ TEST(BinarySearchTest, HighLowMiddleValuesCanFetchedInOneItem){
     EXPECT_EQ(6U, binarySearch.getHighestValue());
 }
 
-TEST(BinarySearchTest, HighLowMiddleValuesCanFetchedInTwoItems){
+TEST(BinarySearchTest, HighLowMiddleValuesCanFetchedInTwoItems)
+{
     BinarySearch<unsigned int> binarySearch;
     binarySearch.add({6, 97});
     EXPECT_EQ(6U, binarySearch.getLowestValue());
@@ -33,7 +35,8 @@ TEST(BinarySearchTest, HighLowMiddleValuesCanFetchedInTwoItems){
     EXPECT_EQ(97U, binarySearch.getHighestValue());
 }
 
-TEST(BinarySearchTest, HighLowMiddleValuesCanFetchedInFourItems){
+TEST(BinarySearchTest, HighLowMiddleValuesCanFetchedInFourItems)
+{
     BinarySearch<unsigned int> binarySearch;
     binarySearch.add({6, 13, 96, 97});
     EXPECT_EQ(6U, binarySearch.getLowestValue());

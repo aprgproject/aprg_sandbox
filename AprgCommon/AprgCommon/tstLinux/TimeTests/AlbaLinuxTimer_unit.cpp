@@ -5,6 +5,7 @@
 
 namespace alba
 {
+
 TEST(AlbaLinuxTimer, DISABLED_TimerCanBeInitialized)
 {
     AlbaLinuxTimer timer;

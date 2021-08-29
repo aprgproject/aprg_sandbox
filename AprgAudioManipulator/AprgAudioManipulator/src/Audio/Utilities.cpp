@@ -5,6 +5,7 @@
 #include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
+#include <numeric>
 
 using namespace alba::mathHelper;
 using namespace std;
@@ -139,7 +140,7 @@ void searchForBestSampleIndexes(
 
     for(unsigned int replicationIndex=0; replicationIndex<deltaSamplesToReplicate.size(); replicationIndex+=sampleIntervalForReplication)
     {
-        unsigned int numberOfSamplesToCompare = min(numberOfSamplesForReplication, deltaSamplesToReplicate.size()-replicationIndex);
+        unsigned int numberOfSamplesToCompare = min(numberOfSamplesForReplication, static_cast<unsigned int>(deltaSamplesToReplicate.size()-replicationIndex));
         double commonMultiplierInReplicate = getCommonMultiplierForDeltaSamples(
                     deltaSamplesToReplicate, replicationIndex, replicationIndex+numberOfSamplesToCompare);
         Indexes searchIndexes(nearestSamplesToSearch.getNearestSamplesIndexes(samplesToReplicate[replicationIndex], numberOfSearchSamplesPerReplication));

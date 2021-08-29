@@ -6,9 +6,11 @@
 
 namespace alba
 {
+
 class AlbaGrepStringToken
 {
-public:    enum class TokenType
+public:
+    enum class TokenType
     {
         Dummy,
         Operator,

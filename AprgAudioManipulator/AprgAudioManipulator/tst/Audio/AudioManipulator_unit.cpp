@@ -39,4 +39,3 @@ TEST(AudioManipulatorTest, DISABLED_MultiplySamplesWithValueWorks)
 }
 
 }
-

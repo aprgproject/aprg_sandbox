@@ -6,10 +6,12 @@
 #include <LargeSorter/DataBlockMemoryHandler.hpp>
 #include <Optional/AlbaOptional.hpp>
 
-#include <algorithm>#include <fstream>
+#include <algorithm>
+#include <fstream>
 #include <functional>
 #include <string>
 #include <vector>
+
 namespace alba
 {
 
