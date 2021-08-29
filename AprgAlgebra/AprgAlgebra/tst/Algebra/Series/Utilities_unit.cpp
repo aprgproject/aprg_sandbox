@@ -44,4 +44,3 @@ TEST(UtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExampl
 }
 
 }
-

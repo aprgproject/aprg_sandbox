@@ -36,7 +36,7 @@ TEST(FactorizationUtilitiesTest, ReturnPolynomialsOrSinglePolynomialIfEmptyWorks
 
     Polynomials polynomialsToVerify(returnPolynomialsOrSinglePolynomialIfEmpty(polynomials, singlePolynomial));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1(polynomial1);
     Polynomial polynomialToExpect2(polynomial2);
     Polynomial polynomialToExpect3(polynomial3);
@@ -52,7 +52,7 @@ TEST(FactorizationUtilitiesTest, ReturnPolynomialsOrSinglePolynomialIfEmptyWorks
 
     Polynomials polynomialsToVerify(returnPolynomialsOrSinglePolynomialIfEmpty(polynomials, singlePolynomial));
 
-    ASSERT_EQ(1u, polynomialsToVerify.size());
+    ASSERT_EQ(1U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1(singlePolynomial);
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
 }
@@ -115,7 +115,7 @@ TEST(FactorizationUtilitiesTest, SimplifyPolynomialThenEmplaceBackIfNotEmptyWork
     Polynomials polynomialsToVerify;
     simplifyPolynomialThenEmplaceBackIfNotEmpty(polynomialsToVerify, polynomialToTest);
 
-    ASSERT_EQ(1u, polynomialsToVerify.size());
+    ASSERT_EQ(1U, polynomialsToVerify.size());
     Polynomial polynomialToExpect{Monomial(3, {{"x", 1}})};
     EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
 }
@@ -137,7 +137,7 @@ TEST(FactorizationUtilitiesTest, EmplaceBackIfNotEmptyWorksIfNotEmpty)
     Polynomials polynomialsToVerify;
     emplaceBackIfNotEmpty(polynomialsToVerify, polynomialToTest);
 
-    ASSERT_EQ(1u, polynomialsToVerify.size());
+    ASSERT_EQ(1U, polynomialsToVerify.size());
     Polynomial polynomialToExpect{Monomial(1, {{"x", 1}}), Monomial(2, {{"x", 1}})};
     EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
 }

@@ -10,28 +10,28 @@ namespace algebra
 
 TEST(EnumHelpersTest, GetAssociationPriorityWorks)
 {
-    EXPECT_EQ(1u, getAssociationPriority(TermAssociationType::Positive));
-    EXPECT_EQ(2u, getAssociationPriority(TermAssociationType::Negative));
+    EXPECT_EQ(1U, getAssociationPriority(TermAssociationType::Positive));
+    EXPECT_EQ(2U, getAssociationPriority(TermAssociationType::Negative));
 }
 
 TEST(EnumHelpersTest, GetOperatorLevelInversePriorityWorks)
 {
-    EXPECT_EQ(0u, getOperatorLevelInversePriority(OperatorLevel::Unknown));
-    EXPECT_EQ(3u, getOperatorLevelInversePriority(OperatorLevel::AdditionAndSubtraction));
-    EXPECT_EQ(2u, getOperatorLevelInversePriority(OperatorLevel::MultiplicationAndDivision));
-    EXPECT_EQ(1u, getOperatorLevelInversePriority(OperatorLevel::RaiseToPower));
+    EXPECT_EQ(0U, getOperatorLevelInversePriority(OperatorLevel::Unknown));
+    EXPECT_EQ(3U, getOperatorLevelInversePriority(OperatorLevel::AdditionAndSubtraction));
+    EXPECT_EQ(2U, getOperatorLevelInversePriority(OperatorLevel::MultiplicationAndDivision));
+    EXPECT_EQ(1U, getOperatorLevelInversePriority(OperatorLevel::RaiseToPower));
 }
 
 TEST(EnumHelpersTest, GetTermPriorityValueWorks)
 {
-    EXPECT_EQ(0u, getTermTypePriorityValue(TermType::Empty));
-    EXPECT_EQ(1u, getTermTypePriorityValue(TermType::Operator));
-    EXPECT_EQ(2u, getTermTypePriorityValue(TermType::Constant));
-    EXPECT_EQ(3u, getTermTypePriorityValue(TermType::Variable));
-    EXPECT_EQ(4u, getTermTypePriorityValue(TermType::Monomial));
-    EXPECT_EQ(5u, getTermTypePriorityValue(TermType::Polynomial));
-    EXPECT_EQ(6u, getTermTypePriorityValue(TermType::Expression));
-    EXPECT_EQ(7u, getTermTypePriorityValue(TermType::Function));
+    EXPECT_EQ(0U, getTermTypePriorityValue(TermType::Empty));
+    EXPECT_EQ(1U, getTermTypePriorityValue(TermType::Operator));
+    EXPECT_EQ(2U, getTermTypePriorityValue(TermType::Constant));
+    EXPECT_EQ(3U, getTermTypePriorityValue(TermType::Variable));
+    EXPECT_EQ(4U, getTermTypePriorityValue(TermType::Monomial));
+    EXPECT_EQ(5U, getTermTypePriorityValue(TermType::Polynomial));
+    EXPECT_EQ(6U, getTermTypePriorityValue(TermType::Expression));
+    EXPECT_EQ(7U, getTermTypePriorityValue(TermType::Function));
 }
 
 TEST(EnumHelpersTest, GetEnumShortStringForTermTypeWorks)

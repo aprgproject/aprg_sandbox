@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Algebra/Limit/LimitAtAValueApproachType.hpp>
-#include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Solution/SolutionSet/SolutionSet.hpp>
+#include <Algebra/Term/TermTypes/Term.hpp>
 #include <Math/Number/AlbaNumber.hpp>
 
 #include <string>

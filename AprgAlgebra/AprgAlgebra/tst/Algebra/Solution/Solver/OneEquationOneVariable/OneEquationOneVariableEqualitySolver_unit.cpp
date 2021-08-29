@@ -1,7 +1,7 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
 
@@ -49,7 +49,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, EquationsThatAreAlwaysSatisfiedRe
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals actualIntervals(solutionSet.getAcceptedIntervals());
-    ASSERT_EQ(1u, actualIntervals.size());
+    ASSERT_EQ(1U, actualIntervals.size());
     EXPECT_EQ(createAllRealValuesInterval(), actualIntervals.at(0));
 }
 
@@ -62,7 +62,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, PolynomialAreSolvedCorrectly)
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
-    ASSERT_EQ(3u, acceptedValues.size());
+    ASSERT_EQ(3U, acceptedValues.size());
     EXPECT_EQ(AlbaNumber(-2), acceptedValues.at(0));
     EXPECT_EQ(AlbaNumber::createComplexNumber(0, 2), acceptedValues.at(1));
     EXPECT_EQ(AlbaNumber(2), acceptedValues.at(2));
@@ -80,11 +80,11 @@ TEST(OneEquationOneVariableEqualitySolverTest, PolynomialOverPolynomialAreSolved
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
-    ASSERT_EQ(2u, acceptedValues.size());
+    ASSERT_EQ(2U, acceptedValues.size());
     EXPECT_EQ(AlbaNumber(-5), acceptedValues.at(0));
     EXPECT_EQ(AlbaNumber(5), acceptedValues.at(1));
     AlbaNumbers const& rejectedValues(solutionSet.getRejectedValues());
-    ASSERT_EQ(2u, rejectedValues.size());
+    ASSERT_EQ(2U, rejectedValues.size());
     EXPECT_EQ(AlbaNumber(-6), rejectedValues.at(0));
     EXPECT_EQ(AlbaNumber(6), rejectedValues.at(1));
 }
@@ -99,7 +99,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, XToTheXAreSolvedCorrectly)
     EXPECT_TRUE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
-    ASSERT_EQ(1u, acceptedValues.size());
+    ASSERT_EQ(1U, acceptedValues.size());
     EXPECT_EQ(AlbaNumber(7), acceptedValues.at(0));
 }
 
@@ -113,7 +113,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, XToTheXWithNegativeSolutionAreNot
     EXPECT_FALSE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
-    EXPECT_EQ(0u, acceptedValues.size());
+    EXPECT_EQ(0U, acceptedValues.size());
 }
 
 TEST(OneEquationOneVariableEqualitySolverTest, AbsoluteValueFunctionsAreSolved)
@@ -126,7 +126,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, AbsoluteValueFunctionsAreSolved)
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
-    EXPECT_EQ(2u, acceptedValues.size());
+    EXPECT_EQ(2U, acceptedValues.size());
     EXPECT_EQ(AlbaNumber(-526), acceptedValues.at(0));
     EXPECT_EQ(AlbaNumber(526), acceptedValues.at(1));
 }
@@ -141,7 +141,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, AbsoluteValueFunctionWithInputExp
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
-    EXPECT_EQ(2u, acceptedValues.size());
+    EXPECT_EQ(2U, acceptedValues.size());
     EXPECT_EQ(AlbaNumber(-626), acceptedValues.at(0));
     EXPECT_EQ(AlbaNumber(426), acceptedValues.at(1));
 }
@@ -155,7 +155,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, TwoAbsoluteValueFunctionsAreSolve
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(functionTerm1, "=", functionTerm2)));
 
     AlbaNumbers acceptedValues(solutionSet.getAcceptedValues());
-    ASSERT_EQ(2u, acceptedValues.size());
+    ASSERT_EQ(2U, acceptedValues.size());
     EXPECT_EQ(AlbaNumber(-2), acceptedValues.at(0));
     EXPECT_EQ(AlbaNumber::createFraction(-1, 3), acceptedValues.at(1));
 }
@@ -175,7 +175,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, AdditionFractionsInEquationIsSolv
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
-    ASSERT_EQ(1u, acceptedValues.size());
+    ASSERT_EQ(1U, acceptedValues.size());
     EXPECT_EQ(AlbaNumber(-1), acceptedValues.at(0));
 }
 
@@ -193,7 +193,7 @@ TEST(OneEquationOneVariableEqualitySolverTest, SquareRootInEquationAreSolved)
     EXPECT_TRUE(solver.isSolved());
     EXPECT_FALSE(solver.isACompleteSolution());
     AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
-    ASSERT_EQ(1u, acceptedValues.size());
+    ASSERT_EQ(1U, acceptedValues.size());
     EXPECT_EQ(AlbaNumber(0), acceptedValues.at(0));
 }
 

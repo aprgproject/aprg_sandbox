@@ -20,7 +20,7 @@ TEST(FactorizationOfPolynomialsTest, CommonConstantCanBeFactored_FactorizeWorks)
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(4, {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(5, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -33,7 +33,7 @@ TEST(FactorizationOfPolynomialsTest, CommonMonomialCanBeFactored_FactorizeWorks)
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 1}})};
     Polynomial polynomialToExpect2{Monomial(2, {{"x", 2}}), Monomial(3, {{"y", 2}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -46,7 +46,7 @@ TEST(FactorizationOfPolynomialsTest, DifferenceOfSquaresCanBeFactored_FactorizeW
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(4, {{"z", 2}})};
     Polynomial polynomialToExpect2{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(-4, {{"z", 2}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -59,7 +59,7 @@ TEST(FactorizationOfPolynomialsTest, DifferenceOfSquaresInReverseCanBeFactored_F
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(-1, {})};
     Polynomial polynomialToExpect2{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(4, {{"z", 2}})};
     Polynomial polynomialToExpect3{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(-4, {{"z", 2}})};
@@ -74,7 +74,7 @@ TEST(FactorizationOfPolynomialsTest, DifferenceOfSquaresWithNegativeExponentsCan
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"z", -4}})};
     Polynomial polynomialToExpect2{Monomial(3, {{"x", 4}, {"y", 1}, {"z", 2}}), Monomial(+4, {})};
     Polynomial polynomialToExpect3{Monomial(3, {{"x", 4}, {"y", 1}, {"z", 2}}), Monomial(-4, {})};
@@ -89,7 +89,7 @@ TEST(FactorizationOfPolynomialsTest, DifferenceOfSquaresWithBigExponent)
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(5u, polynomialsToVerify.size());
+    ASSERT_EQ(5U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 32}}), Monomial(1, {{"y", 8}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 16}}), Monomial(1, {{"y", 4}})};
     Polynomial polynomialToExpect3{Monomial(1, {{"x", 8}}), Monomial(1, {{"y", 2}})};
@@ -108,7 +108,7 @@ TEST(FactorizationOfPolynomialsTest, DifferenceOfCubesCanBeFactored_FactorizeWor
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(-4, {{"z", 2}})};
     Polynomial polynomialToExpect2{Monomial(9, {{"x", 8}, {"y", 2}}), Monomial(12, {{"x", 4}, {"y", 1}, {"z", 2}}), Monomial(16, {{"z", 4}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -121,7 +121,7 @@ TEST(FactorizationOfPolynomialsTest, DifferenceOfCubesInReverseCanBeFactored_Fac
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(-1, {})};
     Polynomial polynomialToExpect2{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(-4, {{"z", 2}})};
     Polynomial polynomialToExpect3{Monomial(9, {{"x", 8}, {"y", 2}}), Monomial(12, {{"x", 4}, {"y", 1}, {"z", 2}}), Monomial(16, {{"z", 4}})};
@@ -136,7 +136,7 @@ TEST(FactorizationOfPolynomialsTest, DifferenceOfCubesWithNegativeExponentsCanBe
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"y", -3}})};
     Polynomial polynomialToExpect2{Monomial(3, {{"x", 1}, {"y", 1}}), Monomial(-2, {})};
     Polynomial polynomialToExpect3{Monomial(9, {{"x", 2}, {"y", 2}}), Monomial(6, {{"x", 1}, {"y", 1}}), Monomial(4, {})};
@@ -151,7 +151,7 @@ TEST(FactorizationOfPolynomialsTest, SumOfCubesCanBeFactored_FactorizeWorks)
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(4, {{"z", 2}})};
     Polynomial polynomialToExpect2{Monomial(9, {{"x", 8}, {"y", 2}}), Monomial(-12, {{"x", 4}, {"y", 1}, {"z", 2}}), Monomial(16, {{"z", 4}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -164,7 +164,7 @@ TEST(FactorizationOfPolynomialsTest, SumOfCubesInReverseCanBeFactored_FactorizeW
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(-1, {})};
     Polynomial polynomialToExpect2{Monomial(3, {{"x", 4}, {"y", 1}}), Monomial(4, {{"z", 2}})};
     Polynomial polynomialToExpect3{Monomial(9, {{"x", 8}, {"y", 2}}), Monomial(-12, {{"x", 4}, {"y", 1}, {"z", 2}}), Monomial(16, {{"z", 4}})};
@@ -179,7 +179,7 @@ TEST(FactorizationOfPolynomialsTest, SumOfCubesWithNegativeExponentsCanBeFactore
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"y", -3}})};
     Polynomial polynomialToExpect2{Monomial(3, {{"x", 1}, {"y", 1}}), Monomial(2, {})};
     Polynomial polynomialToExpect3{Monomial(9, {{"x", 2}, {"y", 2}}), Monomial(-6, {{"x", 1}, {"y", 1}}), Monomial(4, {})};
@@ -194,7 +194,7 @@ TEST(FactorizationOfPolynomialsTest, QuadraticExpressionWithFirstCoefficientIsOn
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(4, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -207,7 +207,7 @@ TEST(FactorizationOfPolynomialsTest, QuadraticExpressionWithFirstCoefficientIsNo
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 1}}), Monomial(-5, {})};
     Polynomial polynomialToExpect2{Monomial(3, {{"x", 1}}), Monomial(-5, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -223,7 +223,7 @@ TEST(FactorizationOfPolynomialsTest, QuadraticExpressionWithFractionFirstCoeffic
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(AlbaNumber::createFraction(1, 16), {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(20, {})};
     Polynomial polynomialToExpect3{Monomial(1, {{"x", 1}}), Monomial(20, {})};
@@ -241,7 +241,7 @@ TEST(FactorizationOfPolynomialsTest, QuadraticExpressionWithFractionSecondCoeffi
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(AlbaNumber::createFraction(1, 16), {})};
     Polynomial polynomialToExpect2{Monomial(20, {{"x", 1}}), Monomial(1, {})};
     Polynomial polynomialToExpect3{Monomial(20, {{"x", 1}}), Monomial(1, {})};
@@ -256,7 +256,7 @@ TEST(FactorizationOfPolynomialsTest, QuadraticExpressionExample1_FactorizeWorks)
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(-13, {{"y", 1}})};
     Polynomial polynomialToExpect2{Monomial(2, {{"x", 1}}), Monomial(3, {{"y", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -269,7 +269,7 @@ TEST(FactorizationOfPolynomialsTest, CubicExpressionExample1_FactorizeWorks)
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(6, {{"x", 1}}), Monomial(7, {})};
     Polynomial polynomialToExpect2{Monomial(8, {{"x", 1}}), Monomial(9, {})};
     Polynomial polynomialToExpect3{Monomial(4, {{"x", 1}}), Monomial(-5, {})};
@@ -290,7 +290,7 @@ TEST(FactorizationOfPolynomialsTest, FactorizeWorksBySplittingByPolynomialDegree
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(1, {})};
     Polynomial polynomialToExpect2{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(2, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -307,7 +307,7 @@ TEST(FactorizationOfPolynomialsTest, FactorizeWorksBySplittingByDivisibilityOfEx
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}}), Monomial(1, {{"z", 1}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(-1, {{"z", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -324,7 +324,7 @@ TEST(FactorizationOfPolynomialsTest, FactorizeWorksBySplittingByFirstVariable)
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"a", 1}}), Monomial(1, {{"b", 1}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -341,7 +341,7 @@ TEST(FactorizationOfPolynomialsTest, AXPlusBTimesCXPlusD_FactorizeWorks)
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"a", 1}, {"x", 1}}), Monomial(1, {{"b", 1}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"c", 1}, {"x", 1}}), Monomial(1, {{"d", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -354,7 +354,7 @@ TEST(FactorizationOfPolynomialsTest, Example1_FactorizeWorks)
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(2, {{"x", 1}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(7, {})};
     Polynomial polynomialToExpect3{Monomial(1, {{"x", 1}}), Monomial(7, {})};
@@ -369,7 +369,7 @@ TEST(FactorizationOfPolynomialsTest, Example2_FactorizeWorks)
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(2, {{"x", 1}}), Monomial(1, {})};
     Polynomial polynomialToExpect2{Monomial(2, {{"x", 1}}), Monomial(-1, {})};
     Polynomial polynomialToExpect3{Monomial(1, {{"x", 1}}), Monomial(-3, {})};
@@ -384,7 +384,7 @@ TEST(FactorizationOfPolynomialsTest, Example3_FactorizeWorks)
 
     Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
 
-    ASSERT_EQ(4u, polynomialsToVerify.size());
+    ASSERT_EQ(4U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(0.160246899469294, {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(-4.16024689946928, {})};
     Polynomial polynomialToExpect3{Monomial(3, {})};
@@ -404,7 +404,7 @@ TEST(FactorizationOfPolynomialsTest, FactorizePolynomialsWorksWhenPolynomialsCan
 
     Polynomials polynomialsToVerify(factorizePolynomials(polynomials));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1(polynomial1);
     Polynomial polynomialToExpect2(polynomial2);
     Polynomial polynomialToExpect3(polynomial3);
@@ -421,7 +421,7 @@ TEST(FactorizationOfPolynomialsTest, FactorizePolynomialsWorksWhenPolynomialsCan
 
     Polynomials polynomialsToVerify(factorizePolynomials(polynomials));
 
-    ASSERT_EQ(4u, polynomialsToVerify.size());
+    ASSERT_EQ(4U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(1, {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
     Polynomial polynomialToExpect3{Monomial(1, {{"y", 1}}), Monomial(1, {})};
@@ -438,7 +438,7 @@ TEST(FactorizationOfPolynomialsTest, FactorizeCommonMonomialWorksWhenItCannotBeF
 
     Polynomials polynomialsToVerify(factorizeCommonMonomial(polynomialToTest));
 
-    ASSERT_EQ(1u, polynomialsToVerify.size());
+    ASSERT_EQ(1U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1(polynomialToTest);
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
 }
@@ -449,7 +449,7 @@ TEST(FactorizationOfPolynomialsTest, FactorizeCommonMonomialWorksWhenItCanBeFact
 
     Polynomials polynomialsToVerify(factorizeCommonMonomial(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 1}})};
     Polynomial polynomialToExpect2{Monomial(2, {{"x", 2}}), Monomial(3, {{"y", 2}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -480,7 +480,7 @@ TEST(FactorizationOfPolynomialsTest, FactorizeCommonMonomialIfPossible_WorksWhen
 
     Polynomials polynomialsToVerify(factorizeCommonMonomialIfPossible(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 1}})};
     Polynomial polynomialToExpect2{Monomial(2, {{"x", 2}}), Monomial(3, {{"y", 2}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));

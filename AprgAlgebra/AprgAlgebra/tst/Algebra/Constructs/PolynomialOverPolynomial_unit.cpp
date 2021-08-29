@@ -14,9 +14,16 @@ namespace algebra
 
 TEST(PolynomialOverPolynomialTest, ConstructionWorks)
 {
-    PolynomialOverPolynomial();
-    PolynomialOverPolynomial(Polynomial(), Polynomial());
-    PolynomialOverPolynomial((Polynomial{Monomial(10, {})}), (Polynomial{Monomial(100, {})}));
+    PolynomialOverPolynomial actual1;
+    PolynomialOverPolynomial actual2(Polynomial{}, Polynomial{});
+    PolynomialOverPolynomial actual3(Polynomial{Monomial(10, {})}, Polynomial{Monomial(100, {})});
+
+    EXPECT_EQ(Polynomial(), actual1.getNumerator());
+    EXPECT_EQ(Polynomial(), actual1.getDenominator());
+    EXPECT_EQ(Polynomial(), actual2.getNumerator());
+    EXPECT_EQ(Polynomial(), actual2.getDenominator());
+    EXPECT_EQ(Polynomial({Monomial(10, {})}), actual3.getNumerator());
+    EXPECT_EQ(Polynomial({Monomial(100, {})}), actual3.getDenominator());
 }
 
 TEST(PolynomialOverPolynomialTest, IsEmptyWorks)

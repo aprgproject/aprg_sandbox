@@ -1,7 +1,7 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Trigonometry/TrigonometricEquations.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 #include <gtest/gtest.h>
@@ -130,7 +130,7 @@ TEST(TrigonometricEquationsTest, GetLawOfCosineEquationWorks)
     Term side2Squared(createExpressionIfPossible({s2, Term("^"), Term(2)}));
     Term side3Squared(createExpressionIfPossible({s3, Term("^"), Term(2)}));
     Term cosinePart(createExpressionIfPossible({Term(2), Term("*"), s2, Term("*"), s3, Term("*"), Term(cos(a1))}));
-    Term leftHandSide(side1Squared);
+    Term const& leftHandSide(side1Squared);
     Term rightHandSide(createExpressionIfPossible({side2Squared, Term("+"), side3Squared, Term("-"), cosinePart}));
     Equation expectedEquation(leftHandSide, "=", rightHandSide);
     EXPECT_EQ(expectedEquation, actualEquation);

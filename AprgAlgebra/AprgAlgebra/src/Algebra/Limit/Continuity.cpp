@@ -2,8 +2,8 @@
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Functions/FunctionUtilities.hpp>
-#include <Algebra/Retrieval/FunctionsRetriever.hpp>
 #include <Algebra/Limit/Limit.hpp>
+#include <Algebra/Retrieval/FunctionsRetriever.hpp>
 #include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>

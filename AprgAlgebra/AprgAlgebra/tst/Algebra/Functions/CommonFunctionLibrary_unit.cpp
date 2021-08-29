@@ -1,7 +1,7 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
-#include <Math/AlbaMathHelper.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Math/AlbaMathHelper.hpp>
 
 #include <gtest/gtest.h>
 

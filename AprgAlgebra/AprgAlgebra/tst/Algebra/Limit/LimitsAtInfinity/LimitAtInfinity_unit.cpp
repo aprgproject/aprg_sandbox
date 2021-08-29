@@ -1,5 +1,4 @@
 #include <Algebra/Limit/LimitsAtInfinity/LimitsAtInfinity.hpp>
-
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>

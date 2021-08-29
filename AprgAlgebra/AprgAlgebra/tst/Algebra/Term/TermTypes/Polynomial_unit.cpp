@@ -19,13 +19,13 @@ TEST(PolynomialTest, PolynomialsAreConstructedCorrectly)
     ASSERT_TRUE(monomials1.empty());
 
     Monomials const& monomials2(polynomial2.getMonomialsConstReference());
-    ASSERT_EQ(2u, monomials2.size());
+    ASSERT_EQ(2U, monomials2.size());
     EXPECT_DOUBLE_EQ(6, monomials2.at(0).getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomials2.at(0).getVariablesToExponentsMapConstReference());
     ASSERT_TRUE(variableMap1.empty());
     EXPECT_DOUBLE_EQ(-7, monomials2.at(1).getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap2(monomials2.at(1).getVariablesToExponentsMapConstReference());
-    ASSERT_EQ(3u, variableMap2.size());
+    ASSERT_EQ(3U, variableMap2.size());
     EXPECT_DOUBLE_EQ(2, variableMap2.at("x").getDouble());
     EXPECT_DOUBLE_EQ(3, variableMap2.at("y").getDouble());
     EXPECT_DOUBLE_EQ(4, variableMap2.at("z").getDouble());
@@ -133,13 +133,13 @@ TEST(PolynomialTest, GetMonomialsConstReferenceWorks)
 
     Monomials const& monomials(polynomial.getMonomialsConstReference());
 
-    ASSERT_EQ(2u, monomials.size());
+    ASSERT_EQ(2U, monomials.size());
     EXPECT_DOUBLE_EQ(6, monomials.at(0).getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomials.at(0).getVariablesToExponentsMapConstReference());
     ASSERT_TRUE(variableMap1.empty());
     EXPECT_DOUBLE_EQ(-7, monomials.at(1).getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap2(monomials.at(1).getVariablesToExponentsMapConstReference());
-    ASSERT_EQ(3u, variableMap2.size());
+    ASSERT_EQ(3U, variableMap2.size());
     EXPECT_DOUBLE_EQ(2, variableMap2.at("x").getDouble());
     EXPECT_DOUBLE_EQ(3, variableMap2.at("y").getDouble());
     EXPECT_DOUBLE_EQ(4, variableMap2.at("z").getDouble());
@@ -176,13 +176,13 @@ TEST(PolynomialTest, GetMonomialsReferenceWorks)
     monomialsToChange.at(1).putVariableWithExponent("a", 5);
 
     Monomials const& monomialsToCheck(polynomial.getMonomialsConstReference());
-    ASSERT_EQ(2u, monomialsToCheck.size());
+    ASSERT_EQ(2U, monomialsToCheck.size());
     EXPECT_DOUBLE_EQ(22, monomialsToCheck.at(0).getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomialsToCheck.at(0).getVariablesToExponentsMapConstReference());
     ASSERT_TRUE(variableMap1.empty());
     EXPECT_DOUBLE_EQ(-7, monomialsToCheck.at(1).getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap2(monomialsToCheck.at(1).getVariablesToExponentsMapConstReference());
-    ASSERT_EQ(4u, variableMap2.size());
+    ASSERT_EQ(4U, variableMap2.size());
     EXPECT_DOUBLE_EQ(2, variableMap2.at("x").getDouble());
     EXPECT_DOUBLE_EQ(3, variableMap2.at("y").getDouble());
     EXPECT_DOUBLE_EQ(4, variableMap2.at("z").getDouble());
@@ -220,7 +220,7 @@ TEST(PolynomialTest, SimplifyWorks)
     ASSERT_TRUE(monomials1.empty());
 
     Monomials const& monomials2(polynomial2.getMonomialsConstReference());
-    ASSERT_EQ(1u, monomials2.size());
+    ASSERT_EQ(1U, monomials2.size());
     EXPECT_DOUBLE_EQ(6, monomials2.at(0).getConstantConstReference().getDouble());
     ASSERT_TRUE(monomials2.at(0).getVariablesToExponentsMapConstReference().empty());
 
@@ -228,7 +228,7 @@ TEST(PolynomialTest, SimplifyWorks)
     ASSERT_TRUE(monomials3.empty());
 
     Monomials const& monomials4(polynomial4.getMonomialsConstReference());
-    ASSERT_EQ(1u, monomials4.size());
+    ASSERT_EQ(1U, monomials4.size());
     EXPECT_DOUBLE_EQ(-6, monomials4.at(0).getConstantConstReference().getDouble());
     ASSERT_TRUE(monomials4.at(0).getVariablesToExponentsMapConstReference().empty());
 }
@@ -254,7 +254,7 @@ TEST(PolynomialTest, SimplifyWithNotANumberDoesNotCrash)
 
     polynomial.simplify();
 
-    ASSERT_EQ(1u, polynomial.getMonomialsConstReference().size());
+    ASSERT_EQ(1U, polynomial.getMonomialsConstReference().size());
     EXPECT_TRUE(polynomial.getFirstMonomial().getConstantConstReference().isNotANumber());
 }
 

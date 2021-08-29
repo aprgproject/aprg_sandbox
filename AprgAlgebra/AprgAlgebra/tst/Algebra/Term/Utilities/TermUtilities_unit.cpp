@@ -94,7 +94,7 @@ TEST(TermUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
                     Term(Monomial(-2, {{"x", 3}}))
                     ));
 
-    ASSERT_EQ(5u, inputAndOutputPairs.size());
+    ASSERT_EQ(5U, inputAndOutputPairs.size());
     EXPECT_EQ(AlbaNumber(-2), inputAndOutputPairs.at(0).first);
     EXPECT_EQ(AlbaNumber(16), inputAndOutputPairs.at(0).second);
     EXPECT_EQ(AlbaNumber(-1), inputAndOutputPairs.at(1).first);

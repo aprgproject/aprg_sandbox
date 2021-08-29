@@ -22,7 +22,7 @@ TEST(FactorizationTest, FactorizeWorksForAPolynomial)
 
     Polynomials polynomialsToVerify(factorize(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(2, {{"x", 1}}), Monomial(1, {})};
     Polynomial polynomialToExpect2{Monomial(2, {{"x", 1}}), Monomial(-1, {})};
     Polynomial polynomialToExpect3{Monomial(1, {{"x", 1}}), Monomial(-3, {})};

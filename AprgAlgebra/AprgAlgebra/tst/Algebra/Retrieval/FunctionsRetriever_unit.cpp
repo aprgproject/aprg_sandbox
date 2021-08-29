@@ -52,7 +52,7 @@ TEST(FunctionsRetrieverTest, RetrieveFromEquationWorks)
 
     FunctionsSet const& functionsSets1(retriever1.getSavedData());
     FunctionsSet const& functionsSets2(retriever2.getSavedData());
-    ASSERT_EQ(1u, functionsSets1.size());
+    ASSERT_EQ(1U, functionsSets1.size());
     EXPECT_EQ(functionObject, *(functionsSets1.begin()));
     EXPECT_TRUE(functionsSets2.empty());
 }
@@ -100,10 +100,10 @@ TEST(FunctionsRetrieverTest, RetrieveFromTermWorks)
     FunctionsSet const& functionsSets6(retriever6.getSavedData());
     EXPECT_TRUE(functionsSets1.empty());
     EXPECT_TRUE(functionsSets2.empty());
-    ASSERT_EQ(1u, functionsSets3.size());
+    ASSERT_EQ(1U, functionsSets3.size());
     EXPECT_EQ(functionObject, *(functionsSets3.begin()));
     EXPECT_TRUE(functionsSets4.empty());
-    ASSERT_EQ(1u, functionsSets5.size());
+    ASSERT_EQ(1U, functionsSets5.size());
     EXPECT_EQ(functionObject, *(functionsSets5.begin()));
     EXPECT_TRUE(functionsSets6.empty());
 }
@@ -186,7 +186,7 @@ TEST(FunctionsRetrieverTest, RetrieveFromExpressionWorks)
 
     FunctionsSet const& functionsSets1(retriever1.getSavedData());
     FunctionsSet const& functionsSets2(retriever2.getSavedData());
-    ASSERT_EQ(1u, functionsSets1.size());
+    ASSERT_EQ(1U, functionsSets1.size());
     EXPECT_EQ(functionObject, *(functionsSets1.begin()));
     EXPECT_TRUE(functionsSets2.empty());
 }
@@ -216,7 +216,7 @@ TEST(FunctionsRetrieverTest, RetrieveFromFunctionWorks)
 
     FunctionsSet const& functionsSets1(retriever1.getSavedData());
     FunctionsSet const& functionsSets2(retriever2.getSavedData());
-    ASSERT_EQ(1u, functionsSets1.size());
+    ASSERT_EQ(1U, functionsSets1.size());
     EXPECT_EQ(functionObject, *(functionsSets1.begin()));
     EXPECT_TRUE(functionsSets2.empty());
 }

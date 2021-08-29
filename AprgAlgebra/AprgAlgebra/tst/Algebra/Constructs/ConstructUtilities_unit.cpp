@@ -85,9 +85,9 @@ TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForNonExpression)
     TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(nonExpressionTerm));
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(1u, numeratorsToVerify.size());
+    ASSERT_EQ(1U, numeratorsToVerify.size());
     EXPECT_EQ(Term("x"), numeratorsToVerify.at(0));
-    Terms denominatorsToVerify(termsOverTerms.getDenominators());
+    Terms const& denominatorsToVerify(termsOverTerms.getDenominators());
     EXPECT_TRUE(denominatorsToVerify.empty());
 }
 
@@ -98,9 +98,9 @@ TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForNonMultiplicati
     TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(nonMultiplicationDivisionExpressionTerm));
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(1u, numeratorsToVerify.size());
+    ASSERT_EQ(1U, numeratorsToVerify.size());
     EXPECT_EQ(nonMultiplicationDivisionExpressionTerm, numeratorsToVerify.at(0));
-    Terms denominatorsToVerify(termsOverTerms.getDenominators());
+    Terms const& denominatorsToVerify(termsOverTerms.getDenominators());
     EXPECT_TRUE(denominatorsToVerify.empty());
 }
 
@@ -111,10 +111,10 @@ TEST(ConstructUtilitiesTest, CreateTermsOverTermsFromTermWorksForMultiplicationD
     TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(multiplicationDivisionExpressionTerm));
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(1u, numeratorsToVerify.size());
+    ASSERT_EQ(1U, numeratorsToVerify.size());
     EXPECT_EQ(Term("x"), numeratorsToVerify.at(0));
-    Terms denominatorsToVerify(termsOverTerms.getDenominators());
-    ASSERT_EQ(1u, denominatorsToVerify.size());
+    Terms const& denominatorsToVerify(termsOverTerms.getDenominators());
+    ASSERT_EQ(1U, denominatorsToVerify.size());
     EXPECT_EQ(Term("y"), denominatorsToVerify.at(0));
 }
 

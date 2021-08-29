@@ -39,7 +39,7 @@ TEST(MultipleVariableSolutionSetTest, GetNumberOfVariablesWithSolutionsWorks)
     solutionSet.addSolutionSetForVariable("a", solutionSetForVariable);
     solutionSet.addSolutionSetForVariable("b", solutionSetForVariable);
 
-    EXPECT_EQ(2u, solutionSet.getNumberOfVariablesWithSolutions());
+    EXPECT_EQ(2U, solutionSet.getNumberOfVariablesWithSolutions());
 }
 
 TEST(MultipleVariableSolutionSetTest, GetDisplayableStringWorks)
@@ -81,7 +81,7 @@ TEST(MultipleVariableSolutionSetTest, GetSolutionSetForVariableWorks)
     SolutionSet solutionSetToVerify(solutionSet.getSolutionSetForVariable("a"));
 
     AlbaNumbers const& acceptedValues(solutionSetToVerify.getAcceptedValues());
-    ASSERT_EQ(1u, acceptedValues.size());
+    ASSERT_EQ(1U, acceptedValues.size());
     EXPECT_EQ(AlbaNumber(58), acceptedValues.at(0));
 }
 
@@ -94,11 +94,11 @@ TEST(MultipleVariableSolutionSetTest, AddSolutionSetForVariableWorks)
     solutionSet.addSolutionSetForVariable("a", solutionSetForA);
 
     MultipleVariableSolutionSet::VariableNameToSolutionSetMap expectedMap(solutionSet.getVariableNameToSolutionSetMap());
-    ASSERT_EQ(1u, expectedMap.size());
+    ASSERT_EQ(1U, expectedMap.size());
     auto const it = expectedMap.cbegin();
     EXPECT_EQ("a", it->first);
     AlbaNumbers const& acceptedValues(it->second.getAcceptedValues());
-    ASSERT_EQ(1u, acceptedValues.size());
+    ASSERT_EQ(1U, acceptedValues.size());
     EXPECT_EQ(AlbaNumber(58), acceptedValues.at(0));
 }
 

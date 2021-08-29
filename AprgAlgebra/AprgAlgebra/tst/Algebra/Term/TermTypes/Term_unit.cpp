@@ -82,7 +82,7 @@ TEST(TermTest, TermsAsMonomialsWorks)
     ASSERT_EQ(TermType::Monomial, monomial2.getTermType());
     EXPECT_DOUBLE_EQ(1.5, monomial2.getMonomialConstReference().getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap2(monomial2.getMonomialConstReference().getVariablesToExponentsMapConstReference());
-    ASSERT_EQ(1u, variableMap2.size());
+    ASSERT_EQ(1U, variableMap2.size());
     Monomial::VariableExponentPair const& variable2(*variableMap2.begin());
     EXPECT_EQ("distance", variable2.first);
     EXPECT_DOUBLE_EQ(3.75, variable2.second.getDouble());
@@ -90,7 +90,7 @@ TEST(TermTest, TermsAsMonomialsWorks)
     ASSERT_EQ(TermType::Monomial, monomial3.getTermType());
     EXPECT_DOUBLE_EQ(-1.5, monomial3.getMonomialConstReference().getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap3(monomial3.getMonomialConstReference().getVariablesToExponentsMapConstReference());
-    ASSERT_EQ(2u, variableMap3.size());
+    ASSERT_EQ(2U, variableMap3.size());
     Monomial::VariablesToExponentsMap::const_iterator variableMap3It = variableMap3.cbegin();
     Monomial::VariableExponentPair const& variable3_1(*variableMap3It);
     EXPECT_EQ("distance", variable3_1.first);
@@ -115,7 +115,7 @@ TEST(TermTest, TermsAsPolynomialsWorks)
     //For polynomial2
     ASSERT_EQ(TermType::Polynomial, polynomial2.getTermType());
     Monomials const& monomials2(polynomial2.getPolynomialConstReference().getMonomialsConstReference());
-    ASSERT_EQ(1u, monomials2.size());
+    ASSERT_EQ(1U, monomials2.size());
     Monomial const& monomial2(monomials2.front());
     EXPECT_DOUBLE_EQ(3, monomial2.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap2(monomial2.getVariablesToExponentsMapConstReference());
@@ -124,7 +124,7 @@ TEST(TermTest, TermsAsPolynomialsWorks)
     //For polynomial3
     ASSERT_EQ(TermType::Polynomial, polynomial3.getTermType());
     Monomials const& monomials3(polynomial3.getPolynomialConstReference().getMonomialsConstReference());
-    ASSERT_EQ(2u, monomials3.size());
+    ASSERT_EQ(2U, monomials3.size());
 
     Monomial const& monomial3_1(monomials3.front());
     EXPECT_DOUBLE_EQ(3, monomial3_1.getConstantConstReference().getDouble());
@@ -134,7 +134,7 @@ TEST(TermTest, TermsAsPolynomialsWorks)
     Monomial const& monomial3_2(monomials3.back());
     EXPECT_DOUBLE_EQ(-1.5, monomial3_2.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap3_2(monomial3_2.getVariablesToExponentsMapConstReference());
-    ASSERT_EQ(2u, variableMap3_2.size());
+    ASSERT_EQ(2U, variableMap3_2.size());
     Monomial::VariablesToExponentsMap::const_iterator variableMap3It = variableMap3_2.cbegin();
     Monomial::VariableExponentPair const& variable3_1(*variableMap3It);
     EXPECT_EQ("distance", variable3_1.first);
@@ -162,7 +162,7 @@ TEST(TermTest, TermsAsExpressionsWorks)
     Expression const& expression2(expressionTerm2.getExpressionConstReference());
     EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, expression2.getCommonOperatorLevel());
     TermsWithAssociation::TermsWithDetails const& termsToVerify2(expression2.getTermsWithAssociation().getTermsWithDetails());
-    ASSERT_EQ(2u, termsToVerify2.size());
+    ASSERT_EQ(2U, termsToVerify2.size());
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify2.at(0).association);
     Term const& termToVerify1(getTermConstReferenceFromSharedPointer(termsToVerify2.at(0).baseTermSharedPointer));
     EXPECT_EQ(Term(5), termToVerify1);

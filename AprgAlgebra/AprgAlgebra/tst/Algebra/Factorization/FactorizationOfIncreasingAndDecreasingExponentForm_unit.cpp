@@ -19,7 +19,7 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIncreasing
 
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsForm(polynomialToTest));
 
-    ASSERT_EQ(1u, polynomialsToVerify.size());
+    ASSERT_EQ(1U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1(polynomialToTest);
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
 }
@@ -30,7 +30,7 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIncreasing
 
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsForm(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 1}}), Monomial(-5, {})};
     Polynomial polynomialToExpect2{Monomial(3, {{"x", 1}}), Monomial(-5, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -79,7 +79,7 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(3, {{"x", 1}}), Monomial(-5, {})};
     Polynomial polynomialToExpect2{Monomial(3, {{"x", 1}}), Monomial(-5, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -95,7 +95,7 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(20, {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(20, {})};
     Polynomial polynomialToExpect3{Monomial(AlbaNumber::createFraction(1, 16), {})};
@@ -113,7 +113,7 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(5, {{"x", 1}}), Monomial(AlbaNumber::createFraction(1, 4), {})};
     Polynomial polynomialToExpect2{Monomial(5, {{"x", 1}}), Monomial(AlbaNumber::createFraction(1, 4), {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -126,7 +126,7 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(-13, {{"y", 1}})};
     Polynomial polynomialToExpect2{Monomial(2, {{"x", 1}}), Monomial(3, {{"y", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -139,7 +139,7 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(6, {{"x", 1}}), Monomial(7, {})};
     Polynomial polynomialToExpect2{Monomial(8, {{"x", 1}}), Monomial(9, {})};
     Polynomial polynomialToExpect3{Monomial(4, {{"x", 1}}), Monomial(-5, {})};
@@ -154,7 +154,7 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(4, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -167,7 +167,7 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 32}}), Monomial(-1, {{"y", 8}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 32}}), Monomial(1, {{"y", 8}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -185,7 +185,7 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossible
 
     Polynomials polynomialsToVerify(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToTest));
 
-    ASSERT_EQ(4u, polynomialsToVerify.size());
+    ASSERT_EQ(4U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(6, {{"x", 1}}), Monomial(7, {})};
     Polynomial polynomialToExpect2{Monomial(8, {{"x", 1}}), Monomial(9, {})};
     Polynomial polynomialToExpect3{Monomial(11, {{"x", 1}}), Monomial(-13, {})};
@@ -208,7 +208,7 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizePolynomial
                     Monomial::VariablesToExponentsMap{{"x", 1}},
                     Monomial::VariablesToExponentsMap{}));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect{Monomial(1, {{"x", 1}}), Monomial(1, {})};
     EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(1));
@@ -250,10 +250,10 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, AreAllMonomialsFoun
 
 TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, CalculateMaxExponentDivisorWorks)
 {
-    EXPECT_EQ(0u, calculateMaxExponentDivisor(Monomial(1, {}), Monomial(1, {})));
-    EXPECT_EQ(7u, calculateMaxExponentDivisor(Monomial(1, {{"x", 7}}), Monomial(1, {{"y", 7}})));
-    EXPECT_EQ(7u, calculateMaxExponentDivisor(Monomial(1, {{"x", 3}}), Monomial(1, {{"y", 7}})));
-    EXPECT_EQ(9u, calculateMaxExponentDivisor(Monomial(1, {{"x", 9}}), Monomial(1, {{"y", 7}})));
+    EXPECT_EQ(0U, calculateMaxExponentDivisor(Monomial(1, {}), Monomial(1, {})));
+    EXPECT_EQ(7U, calculateMaxExponentDivisor(Monomial(1, {{"x", 7}}), Monomial(1, {{"y", 7}})));
+    EXPECT_EQ(7U, calculateMaxExponentDivisor(Monomial(1, {{"x", 3}}), Monomial(1, {{"y", 7}})));
+    EXPECT_EQ(9U, calculateMaxExponentDivisor(Monomial(1, {{"x", 9}}), Monomial(1, {{"y", 7}})));
 }
 
 TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, GetCoefficientsInMonomialsWithExponentsInOrderWorks)
@@ -268,12 +268,12 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, GetCoefficientsInMo
     AlbaNumbers coefficients3(getCoefficientsInMonomialsWithExponentsInOrder(polynomial2, monomials2));
 
     EXPECT_TRUE(coefficients1.empty());
-    ASSERT_EQ(4u, coefficients2.size());
+    ASSERT_EQ(4U, coefficients2.size());
     EXPECT_DOUBLE_EQ(1, coefficients2.at(0).getDouble());
     EXPECT_DOUBLE_EQ(3, coefficients2.at(1).getDouble());
     EXPECT_DOUBLE_EQ(3, coefficients2.at(2).getDouble());
     EXPECT_DOUBLE_EQ(1, coefficients2.at(3).getDouble());
-    ASSERT_EQ(4u, coefficients3.size());
+    ASSERT_EQ(4U, coefficients3.size());
     EXPECT_DOUBLE_EQ(0, coefficients3.at(0).getDouble());
     EXPECT_DOUBLE_EQ(0, coefficients3.at(1).getDouble());
     EXPECT_DOUBLE_EQ(3, coefficients3.at(2).getDouble());
@@ -288,10 +288,10 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, CalculatePolynomial
     AlbaNumbers quadraticRoots(calculatePolynomialRoots(quadraticCoefficients));
     AlbaNumbers cubicRoots(calculatePolynomialRoots(cubicCoefficients));
 
-    ASSERT_EQ(2u, quadraticRoots.size());
+    ASSERT_EQ(2U, quadraticRoots.size());
     EXPECT_DOUBLE_EQ(-1, quadraticRoots.at(0).getDouble());
     EXPECT_DOUBLE_EQ(-1, quadraticRoots.at(1).getDouble());
-    ASSERT_EQ(3u, cubicRoots.size());
+    ASSERT_EQ(3U, cubicRoots.size());
     EXPECT_DOUBLE_EQ(-1, cubicRoots.at(0).getDouble());
     EXPECT_DOUBLE_EQ(-1, cubicRoots.at(1).getDouble());
     EXPECT_DOUBLE_EQ(-1, cubicRoots.at(2).getDouble());
@@ -304,7 +304,7 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, CalculatePolynomial
 
     AlbaNumbers roots(calculatePolynomialRootsUsingBrentMethod(previousDerivativeCoefficients, cubicCoefficients));
 
-    ASSERT_EQ(1u, roots.size());
+    ASSERT_EQ(1U, roots.size());
     EXPECT_DOUBLE_EQ(-1, roots.at(0).getDouble());
 }
 
@@ -323,7 +323,7 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, GetDerivativeCoeffi
 
     AlbaNumbers derivativeCoefficients(getDerivativeCoefficients(cubicCoefficients));
 
-    ASSERT_EQ(3u, derivativeCoefficients.size());
+    ASSERT_EQ(3U, derivativeCoefficients.size());
     EXPECT_DOUBLE_EQ(3, derivativeCoefficients.at(0).getDouble());
     EXPECT_DOUBLE_EQ(6, derivativeCoefficients.at(1).getDouble());
     EXPECT_DOUBLE_EQ(3, derivativeCoefficients.at(2).getDouble());
@@ -333,7 +333,7 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, GetMonomialsWithExp
 {
     Monomials monomialsToVerify(getMonomialsWithExponentsInOrder(3, Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})));
 
-    ASSERT_EQ(4u, monomialsToVerify.size());
+    ASSERT_EQ(4U, monomialsToVerify.size());
     EXPECT_EQ(Monomial(1, {{"x", 3}}), monomialsToVerify.at(0));
     EXPECT_EQ(Monomial(1, {{"x", 2}, {"y", 1}}), monomialsToVerify.at(1));
     EXPECT_EQ(Monomial(1, {{"x", 1}, {"y", 2}}), monomialsToVerify.at(2));

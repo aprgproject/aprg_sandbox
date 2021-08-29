@@ -37,6 +37,11 @@ unsigned int BrentMethod::getNumberOfIterationsExecuted() const
     return m_numberOfIterationsExecuted;
 }
 
+AlbaNumbers const& BrentMethod::getCoefficients() const
+{
+    return m_coefficients;
+}
+
 BrentMethod::CalculationValues const& BrentMethod::getCalculationValues() const
 {
     return m_values;

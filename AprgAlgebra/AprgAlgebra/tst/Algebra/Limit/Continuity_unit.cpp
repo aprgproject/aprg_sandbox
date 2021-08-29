@@ -138,7 +138,7 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnPolynomial)
     SolutionSet continuityDomain(getContinuityDomain(polynomialTerm));
 
     AlbaNumberIntervals const& intervalToVerify(continuityDomain.getAcceptedIntervals());
-    ASSERT_EQ(1u, intervalToVerify.size());
+    ASSERT_EQ(1U, intervalToVerify.size());
     EXPECT_EQ(createAllRealValuesInterval(), intervalToVerify.front());
 }
 
@@ -151,7 +151,7 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnPolynomialOverPolynomial)
     SolutionSet continuityDomain(getContinuityDomain(termToTest));
 
     AlbaNumberIntervals const& intervalToVerify(continuityDomain.getAcceptedIntervals());
-    ASSERT_EQ(3u, intervalToVerify.size());
+    ASSERT_EQ(3U, intervalToVerify.size());
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createOpenEndpoint(-3)),
               intervalToVerify.at(0));
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3)),
@@ -168,7 +168,7 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnSquareRootOfPolynomial)
     SolutionSet continuityDomain(getContinuityDomain(termToTest));
 
     AlbaNumberIntervals const& intervalToVerify(continuityDomain.getAcceptedIntervals());
-    ASSERT_EQ(1u, intervalToVerify.size());
+    ASSERT_EQ(1U, intervalToVerify.size());
     EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-2), createCloseEndpoint(2)), intervalToVerify.at(0));
 }
 

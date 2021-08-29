@@ -672,7 +672,7 @@ TEST(SimplificationOfExpressionTest, EvenExponentsCancellationWithAbsoluteValueW
     {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}),
      Term("^"), Term(4),
      Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Expression expression2(expression1);
+    Expression const& expression2(expression1);
     SimplificationOfExpression simplification1(expression1);
     SimplificationOfExpression simplification2(expression2);
     simplification2.setAsShouldSimplifyEvenExponentsCancellationWithAbsoluteValue(true);

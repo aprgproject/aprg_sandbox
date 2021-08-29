@@ -40,7 +40,7 @@ TEST(FunctionUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
                     "x",
                     Functions::abs(createExpressionIfPossible({Term("x")}))));
 
-    ASSERT_EQ(5u, inputAndOutputPairs.size());
+    ASSERT_EQ(5U, inputAndOutputPairs.size());
     EXPECT_EQ(AlbaNumber(-2), inputAndOutputPairs.at(0).first);
     EXPECT_EQ(AlbaNumber(2), inputAndOutputPairs.at(0).second);
     EXPECT_EQ(AlbaNumber(-1), inputAndOutputPairs.at(1).first);

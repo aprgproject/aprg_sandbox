@@ -43,7 +43,7 @@ TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample1)
     Term term(buildTermIfPossible("(((3*x)/(x-3))-((3*x+2)/(x^2-6*x+9)))*(((x+2)/(x+3))-((x)/(x^2+6*x+9)))"));
     if(term.isExpression())
     {
-        Expression expression(term.getExpressionConstReference());
+        Expression const& expression(term.getExpressionConstReference());
         SimplificationOfExpression simplification(expression);
         simplification.setAsShouldSimplifyToACommonDenominator(true);
         simplification.simplify();

@@ -20,7 +20,7 @@ TEST(FactorizationBySplittingTest, FactorizeBySplittingSmallerPolynomialsWorksWh
 
     Polynomials polynomialsToVerify(factorizeBySplittingToSmallerPolynomials(polynomialToTest));
 
-    ASSERT_EQ(1u, polynomialsToVerify.size());
+    ASSERT_EQ(1U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1(polynomialToTest);
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
 }
@@ -35,7 +35,7 @@ TEST(FactorizationBySplittingTest, FactorizeBySplittingSmallerPolynomialsWorksWh
 
     Polynomials polynomialsToVerify(factorizeBySplittingToSmallerPolynomials(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"a", 1}, {"x", 1}}), Monomial(1, {{"b", 1}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"c", 1}, {"x", 1}}), Monomial(1, {{"d", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -63,7 +63,7 @@ TEST(FactorizationBySplittingTest, FactorizeBySplittingToSmallerPolynomialsIfPos
 
     Polynomials polynomialsToVerify(factorizeBySplittingToSmallerPolynomialsIfPossible(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(1, {})};
     Polynomial polynomialToExpect2{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(2, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -80,7 +80,7 @@ TEST(FactorizationBySplittingTest, FactorizeBySplittingToSmallerPolynomialsIfPos
 
     Polynomials polynomialsToVerify(factorizeBySplittingToSmallerPolynomialsIfPossible(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}}), Monomial(1, {{"z", 1}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(-1, {{"z", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -97,7 +97,7 @@ TEST(FactorizationBySplittingTest, FactorizeBySplittingToSmallerPolynomialsIfPos
 
     Polynomials polynomialsToVerify(factorizeBySplittingToSmallerPolynomialsIfPossible(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"a", 1}}), Monomial(1, {{"b", 1}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -125,7 +125,7 @@ TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByPolynomialDeg
 
     Polynomials polynomialsToVerify(factorizeIfPossibleBySplittingByPolynomialDegree(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(1, {})};
     Polynomial polynomialToExpect2{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(2, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -151,7 +151,7 @@ TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByDivisibilityO
 
     Polynomials polynomialsToVerify(factorizeIfPossibleBySplittingByDivisibilityOfExponents(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}}), Monomial(1, {{"z", 1}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(-1, {{"z", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -195,7 +195,7 @@ TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByFirstVariable
 
     Polynomials polynomialsToVerify(factorizeIfPossibleBySplittingByFirstVariable(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"a", 1}, {"x", 1}}), Monomial(1, {{"b", 1}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"c", 1}, {"x", 1}}), Monomial(1, {{"d", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -212,7 +212,7 @@ TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByFirstVariable
 
     Polynomials polynomialsToVerify(factorizeIfPossibleBySplittingByFirstVariable(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(5, {{"a", 1}}), Monomial(-7, {})};
     Polynomial polynomialToExpect2{Monomial(3, {{"b", 1}}), Monomial(-4, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -229,7 +229,7 @@ TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByFirstVariable
 
     Polynomials polynomialsToVerify(factorizeIfPossibleBySplittingByFirstVariable(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"a", 1}}), Monomial(1, {{"b", 1}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -248,7 +248,7 @@ TEST(FactorizationBySplittingTest, SplitPolynomialsByPolynomialDegree_Works)
 
     Polynomials polynomialsToVerify(splitPolynomialsByPolynomialDegree(polynomialToTest));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(25, {{"x", 2}}), Monomial(30, {{"x", 1}, {"y", 1}}), Monomial(9, {{"y", 2}})};
     Polynomial polynomialToExpect2{Monomial(15, {{"x", 1}}), Monomial(9, {{"y", 1}})};
     Polynomial polynomialToExpect3{Monomial(2, {})};
@@ -267,7 +267,7 @@ TEST(FactorizationBySplittingTest, SplitPolynomialsByDivisibilityOfExponents_Wor
 
     Polynomials polynomialsToVerify(splitPolynomialsByDivisibilityOfExponents(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 2}}), Monomial(-1, {{"z", 2}})};
     Polynomial polynomialToExpect2{Monomial(2, {{"x", 1}, {"y", 1}}), Monomial(-2, {{"y", 1}, {"z", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -284,7 +284,7 @@ TEST(FactorizationBySplittingTest, SplitPolynomialsByFirstVariable_Works)
 
     Polynomials polynomialsToVerify(splitPolynomialsByFirstVariable(polynomialToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"a", 1}, {"x", 1}}), Monomial(1, {{"a", 1}, {"y", 1}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"b", 1}, {"x", 1}}), Monomial(1, {{"b", 1}, {"y", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -299,7 +299,7 @@ TEST(FactorizationBySplittingTest, factorizeSmallerPolynomials_WorksByFactoringO
 
     Polynomials polynomialsToVerify(factorizeSmallerPolynomials(polynomialsToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"a", 1}}), Monomial(1, {{"b", 1}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -315,7 +315,7 @@ TEST(FactorizationBySplittingTest, FactorizeSmallerPolynomials_WorksBySubstituti
 
     Polynomials polynomialsToVerify(factorizeSmallerPolynomials(polynomialsToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(1, {})};
     Polynomial polynomialToExpect2{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(2, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -330,7 +330,7 @@ TEST(FactorizationBySplittingTest, FactorizeSmallerPolynomialsByFactoringOutComm
 
     Polynomials polynomialsToVerify(factorizeSmallerPolynomialsByFactoringOutCommonFactors(polynomialsToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"a", 1}}), Monomial(1, {{"b", 1}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -346,7 +346,7 @@ TEST(FactorizationBySplittingTest, FactorizeSmallerPolynomialsBySubstitutingComm
 
     Polynomials polynomialsToVerify(factorizeSmallerPolynomialsBySubstitutingCommonFactorsToNewVariables(polynomialsToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(1, {})};
     Polynomial polynomialToExpect2{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}}), Monomial(2, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -362,7 +362,7 @@ TEST(FactorizationBySplittingTest, FactorizePolynomialWithVariablesWorks)
 
     Polynomials polynomialsToVerify(factorizePolynomialWithNewVariables(polynomialsToTest, variableSubstitution));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(2, {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(2, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -379,7 +379,7 @@ TEST(FactorizationBySplittingTest, GetCommonFactorsInThesePolynomialsWorks)
 
     Polynomials polynomialsToVerify(getCommonFactorsInThesePolynomials(polynomialsToTest));
 
-    ASSERT_EQ(2u, polynomialsToVerify.size());
+    ASSERT_EQ(2U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(2, {{"x", 1}})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(1, {})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
@@ -396,7 +396,7 @@ TEST(FactorizationBySplittingTest, GetNewPolynomialWithVariablesWorks)
 
     Polynomial polynomia1ToVerify(getNewPolynomialWithNewVariables(variableSubstitution, polynomialsToTest));
 
-    ASSERT_EQ(1u, variableSubstitution.getSize());
+    ASSERT_EQ(1U, variableSubstitution.getSize());
     Term termToExpect(Polynomial{Monomial(5, {{"x", 1}}), Monomial(3, {{"y", 1}})});
     EXPECT_EQ(termToExpect, variableSubstitution.getTermForVariable("{(5[x] + 3[y])}"));
     Polynomial polynomialToExpect{
@@ -418,7 +418,7 @@ TEST(FactorizationBySplittingTest, RemoveCommonFactorsInPolynomialsWorks)
 
     Polynomials polynomialsToVerify(getPolynomialsWithRemovedCommonFactors(polynomialsWithFactors, commonFactors));
 
-    ASSERT_EQ(3u, polynomialsToVerify.size());
+    ASSERT_EQ(3U, polynomialsToVerify.size());
     Polynomial polynomialToExpect1{Monomial(6, {{"x", 1}}), Monomial(6, {})};
     Polynomial polynomialToExpect2{Monomial(3, {{"x", 2}}), Monomial(-3, {{"x", 1}})};
     Polynomial polynomialToExpect3{Monomial(2, {{"x", 2}})};
@@ -437,7 +437,7 @@ TEST(FactorizationBySplittingTest, UpdateToGetSubsetOfFactorsWorks)
 
     updateToGetSubsetOfFactors(commonFactors1, commonFactors2);
 
-    ASSERT_EQ(1u, commonFactors1.size());
+    ASSERT_EQ(1U, commonFactors1.size());
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(1, {})};
     EXPECT_EQ(polynomialToExpect1, commonFactors1.at(0));
 }
@@ -452,7 +452,7 @@ TEST(FactorizationBySplittingTest, CombinePolynomialsByAdditionAndEmplaceBackWor
     Polynomials polynomialsToVerify;
     combinePolynomialsByAdditionAndThenEmplaceBack(polynomialsToVerify, polynomials);
 
-    ASSERT_EQ(1u, polynomialsToVerify.size());
+    ASSERT_EQ(1U, polynomialsToVerify.size());
     Polynomial polynomialToExpect{Monomial(3, {{"x", 1}}), Monomial(7, {})};
     EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
 }

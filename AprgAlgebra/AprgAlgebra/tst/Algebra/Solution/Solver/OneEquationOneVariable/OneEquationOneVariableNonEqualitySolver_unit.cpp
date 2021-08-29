@@ -48,7 +48,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, EquationsThatAreAlwaysSatisfie
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals actualIntervals(solutionSet.getAcceptedIntervals());
-    ASSERT_EQ(1u, actualIntervals.size());
+    ASSERT_EQ(1U, actualIntervals.size());
     EXPECT_EQ(createAllRealValuesInterval(), actualIntervals.at(0));
 }
 
@@ -61,7 +61,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, PolynomialAreSolvedCorrectly)
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
-    ASSERT_EQ(1u, acceptedIntervals.size());
+    ASSERT_EQ(1U, acceptedIntervals.size());
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(-2), createOpenEndpoint(2)), acceptedIntervals.at(0));
 }
 
@@ -77,7 +77,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, PolynomialOverPolynomialAreSol
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
-    ASSERT_EQ(3u, acceptedIntervals.size());
+    ASSERT_EQ(3U, acceptedIntervals.size());
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createOpenEndpoint(-6)), acceptedIntervals.at(0));
     EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-5), createCloseEndpoint(5)), acceptedIntervals.at(1));
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(6), createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), acceptedIntervals.at(2));
@@ -119,7 +119,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, AbsoluteValueFunctionsAreSolve
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
-    ASSERT_EQ(1u, acceptedIntervals.size());
+    ASSERT_EQ(1U, acceptedIntervals.size());
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(-526), createOpenEndpoint(526)), acceptedIntervals.at(0));
 }
 
@@ -133,7 +133,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, AbsoluteValueFunctionWithInput
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
-    ASSERT_EQ(2u, acceptedIntervals.size());
+    ASSERT_EQ(2U, acceptedIntervals.size());
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createCloseEndpoint(-626)), acceptedIntervals.at(0));
     EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(426), createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), acceptedIntervals.at(1));
 }
@@ -152,7 +152,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, AbsoluteValueFunctionInDenomin
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
-    ASSERT_EQ(2u, acceptedIntervals.size());
+    ASSERT_EQ(2U, acceptedIntervals.size());
     EXPECT_EQ(
                 AlbaNumberInterval(
                     createOpenEndpoint(AlbaNumber::Value::NegativeInfinity),
@@ -176,7 +176,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, PolynomialsInEquationAreSolved
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
     AlbaNumberIntervals const& acceptedIntervals(solutionSet.getAcceptedIntervals());
-    ASSERT_EQ(1u, acceptedIntervals.size());
+    ASSERT_EQ(1U, acceptedIntervals.size());
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), acceptedIntervals.at(0));
 }
 

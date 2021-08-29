@@ -1,7 +1,7 @@
 #include "ProofByInduction.hpp"
 
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 
 using namespace std;

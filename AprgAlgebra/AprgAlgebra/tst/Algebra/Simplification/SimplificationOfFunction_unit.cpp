@@ -1,5 +1,5 @@
-#include <Algebra/Simplification/SimplificationOfFunction.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
+#include <Algebra/Simplification/SimplificationOfFunction.hpp>
 
 #include <gtest/gtest.h>
 

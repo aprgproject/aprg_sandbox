@@ -40,7 +40,7 @@ TEST(PolynomialHelpersTest, GetRootsWorksAndFactorizesAPolynomial)
 {
     AlbaNumbers roots(getRoots(RootType::RealRootsOnly, Polynomial{Monomial(1, {{"x", 2}}), Monomial(-16, {})}));
 
-    ASSERT_EQ(2u, roots.size());
+    ASSERT_EQ(2U, roots.size());
     EXPECT_EQ(AlbaNumber(-4), roots.at(0));
     EXPECT_EQ(AlbaNumber(4), roots.at(1));
 }
@@ -49,7 +49,7 @@ TEST(PolynomialHelpersTest, GetRootsWorksAndRootIsZeroWhenExponentIsPositive)
 {
     AlbaNumbers roots(getRoots(RootType::RealRootsOnly, Polynomial{Monomial(1, {{"x", AlbaNumber(4)/3}})}));
 
-    ASSERT_EQ(1u, roots.size());
+    ASSERT_EQ(1U, roots.size());
     EXPECT_EQ(AlbaNumber(0), roots.at(0));
 }
 
@@ -64,7 +64,7 @@ TEST(PolynomialHelpersTest, GetRootsWorksAndWhenPolynomialIsNotSorted)
 {
     AlbaNumbers roots(getRoots(RootType::RealRootsOnly, Polynomial{Monomial(-16, {}), Monomial(1, {{"x", 1}})}));
 
-    ASSERT_EQ(1u, roots.size());
+    ASSERT_EQ(1U, roots.size());
     EXPECT_EQ(AlbaNumber(16), roots.at(0));
 }
 
@@ -72,7 +72,7 @@ TEST(PolynomialHelpersTest, GetRootsWorksAndRootIsCorrectlyCalculatedWhenExponen
 {
     AlbaNumbers roots(getRoots(RootType::RealRootsOnly, Polynomial{Monomial(1, {{"x", AlbaNumber(4)/3}}), Monomial(-16, {})}));
 
-    ASSERT_EQ(1u, roots.size());
+    ASSERT_EQ(1U, roots.size());
     EXPECT_EQ(AlbaNumber(8), roots.at(0));
 }
 

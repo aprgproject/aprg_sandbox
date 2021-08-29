@@ -14,10 +14,16 @@ namespace algebra
 
 TEST(SubstitutionOfVariablesToTermsTest, ConstructionWorks)
 {
-    SubstitutionOfVariablesToTerms();
-    SubstitutionOfVariablesToTerms({{"x", Term("y")}});
+    SubstitutionOfVariablesToTerms substitution1;
+    SubstitutionOfVariablesToTerms substitution2{{"x", Term("y")}};
     VariablesToTermsMap variableWithExpressions{{"x", Term("y")}};
-    SubstitutionOfVariablesToTerms{variableWithExpressions};
+    SubstitutionOfVariablesToTerms substitution3{variableWithExpressions};
+
+    EXPECT_TRUE(substitution1.isEmpty());
+    EXPECT_EQ(1U, substitution2.getSize());
+    EXPECT_EQ(Term("y"), substitution2.getTermForVariable("x"));
+    EXPECT_EQ(1U, substitution3.getSize());
+    EXPECT_EQ(Term("y"), substitution3.getTermForVariable("x"));
 }
 
 TEST(SubstitutionOfVariablesToTermsTest, IsEmptyWorks)
@@ -44,8 +50,8 @@ TEST(SubstitutionOfVariablesToTermsTest, GetSizeWorks)
     SubstitutionOfVariablesToTerms substitution1;
     SubstitutionOfVariablesToTerms substitution2({{"x", Term("y")}});
 
-    EXPECT_EQ(0u, substitution1.getSize());
-    EXPECT_EQ(1u, substitution2.getSize());
+    EXPECT_EQ(0U, substitution1.getSize());
+    EXPECT_EQ(1U, substitution2.getSize());
 }
 
 TEST(SubstitutionOfVariablesToTermsTest, GetValueForVariableWorks)

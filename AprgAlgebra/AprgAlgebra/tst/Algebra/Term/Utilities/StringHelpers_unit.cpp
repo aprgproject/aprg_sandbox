@@ -33,14 +33,14 @@ TEST(StringHelpersTest, IsFunctionWorks)
 
 TEST(StringHelpersTest, GetOperatorLevelValueWorks)
 {
-    EXPECT_EQ(1u, getOperatorPriority("("));
-    EXPECT_EQ(2u, getOperatorPriority(")"));
-    EXPECT_EQ(3u, getOperatorPriority("+"));
-    EXPECT_EQ(4u, getOperatorPriority("-"));
-    EXPECT_EQ(5u, getOperatorPriority("*"));
-    EXPECT_EQ(6u, getOperatorPriority("/"));
-    EXPECT_EQ(7u, getOperatorPriority("^"));
-    EXPECT_EQ(0u, getOperatorPriority("operator"));
+    EXPECT_EQ(1U, getOperatorPriority("("));
+    EXPECT_EQ(2U, getOperatorPriority(")"));
+    EXPECT_EQ(3U, getOperatorPriority("+"));
+    EXPECT_EQ(4U, getOperatorPriority("-"));
+    EXPECT_EQ(5U, getOperatorPriority("*"));
+    EXPECT_EQ(6U, getOperatorPriority("/"));
+    EXPECT_EQ(7U, getOperatorPriority("^"));
+    EXPECT_EQ(0U, getOperatorPriority("operator"));
 }
 TEST(StringHelpersTest, GetOperatingStringWorks)
 {
@@ -112,7 +112,7 @@ TEST(StringHelpersTest, TokenizeToTermsWorks)
 {
     Terms termsToVerify1(tokenizeToTerms(" 5yyy + x1*y1^20.15"));
 
-    ASSERT_EQ(7u, termsToVerify1.size());
+    ASSERT_EQ(7U, termsToVerify1.size());
     ASSERT_EQ(TermType::Constant, termsToVerify1.at(0).getTermType());
     EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantConstReference().getNumberConstReference().getDouble());
     ASSERT_EQ(TermType::Operator, termsToVerify1.at(1).getTermType());
@@ -135,7 +135,7 @@ TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks)
 
     addValueTermIfNotEmpty(termsToVerify1, "5");
 
-    ASSERT_EQ(1u, termsToVerify1.size());
+    ASSERT_EQ(1U, termsToVerify1.size());
     ASSERT_EQ(TermType::Constant, termsToVerify1.at(0).getTermType());
     EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantConstReference().getNumberConstReference().getDouble());
 }

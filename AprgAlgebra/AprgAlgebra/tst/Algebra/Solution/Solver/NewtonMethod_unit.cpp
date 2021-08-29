@@ -54,7 +54,7 @@ TEST(NewtonMethodTest, GetNumberOfIterationsExecutedWorksWhenNoIterationsAreExec
     };
     NewtonMethod newtonMethod(5, functionToIterate);
 
-    EXPECT_EQ(0u, newtonMethod.getNumberOfIterationsExecuted());
+    EXPECT_EQ(0U, newtonMethod.getNumberOfIterationsExecuted());
 }
 
 TEST(NewtonMethodTest, GetNumberOfIterationsExecutedWorksWhenOneIterationIsExecuted)
@@ -66,7 +66,7 @@ TEST(NewtonMethodTest, GetNumberOfIterationsExecutedWorksWhenOneIterationIsExecu
     NewtonMethod newtonMethod(5, functionToIterate);
     newtonMethod.runOneIteration();
 
-    EXPECT_EQ(1u, newtonMethod.getNumberOfIterationsExecuted());
+    EXPECT_EQ(1U, newtonMethod.getNumberOfIterationsExecuted());
 }
 
 TEST(NewtonMethodTest, GetCurrentValueWorks)
@@ -104,7 +104,7 @@ TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedWorksWhenMaxIterat
     newtonMethod.runMaxNumberOfIterationsOrUntilFinished(4);
 
     EXPECT_EQ(AlbaNumber(4.0022575248056222463), newtonMethod.getCurrentValue());
-    EXPECT_EQ(4u, newtonMethod.getNumberOfIterationsExecuted());
+    EXPECT_EQ(4U, newtonMethod.getNumberOfIterationsExecuted());
 }
 
 TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedWorksWhenMaxIterationIsNotReached)
@@ -118,7 +118,7 @@ TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedWorksWhenMaxIterat
     newtonMethod.runMaxNumberOfIterationsOrUntilFinished(100);
 
     EXPECT_EQ(AlbaNumber(4), newtonMethod.getCurrentValue());
-    EXPECT_EQ(6u, newtonMethod.getNumberOfIterationsExecuted());
+    EXPECT_EQ(6U, newtonMethod.getNumberOfIterationsExecuted());
 }
 
 TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedWorks)
@@ -132,7 +132,7 @@ TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedWorks)
     newtonMethod.runUntilFinished();
 
     EXPECT_EQ(AlbaNumber(4), newtonMethod.getCurrentValue());
-    EXPECT_EQ(6u, newtonMethod.getNumberOfIterationsExecuted());
+    EXPECT_EQ(6U, newtonMethod.getNumberOfIterationsExecuted());
 }
 
 TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedWorksForXToXForm)
@@ -146,7 +146,7 @@ TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedWorksForXToXForm)
     newtonMethod.runMaxNumberOfIterationsOrUntilFinished(100);
 
     EXPECT_EQ(AlbaNumber(4), newtonMethod.getCurrentValue());
-    EXPECT_EQ(44u, newtonMethod.getNumberOfIterationsExecuted());
+    EXPECT_EQ(44U, newtonMethod.getNumberOfIterationsExecuted());
 }
 
 TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedFailsToGetSolutionWithXToXForm)
@@ -160,7 +160,7 @@ TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedFailsToGetSolution
     newtonMethod.runMaxNumberOfIterationsOrUntilFinished(100);
 
     EXPECT_TRUE(newtonMethod.getCurrentValue().isNegativeInfinity());
-    EXPECT_EQ(1u, newtonMethod.getNumberOfIterationsExecuted());
+    EXPECT_EQ(1U, newtonMethod.getNumberOfIterationsExecuted());
 }
 
 }

@@ -32,6 +32,7 @@ public:
 
     bool isFinished() const;
     unsigned int getNumberOfIterationsExecuted() const;
+    AlbaNumbers const& getCoefficients() const;
     CalculationValues const& getCalculationValues() const;
 
     AlbaNumberOptional const& getSolution();

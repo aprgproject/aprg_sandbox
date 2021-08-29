@@ -37,7 +37,7 @@ TEST(EquationBuilderTest, GetTermStringsWorks)
 
     stringHelper::strings termStrings(builder.getTermStrings());
 
-    ASSERT_EQ(4u, termStrings.size());
+    ASSERT_EQ(4U, termStrings.size());
     EXPECT_EQ("a", termStrings.at(0));
     EXPECT_EQ("b", termStrings.at(1));
     EXPECT_EQ("c", termStrings.at(2));
@@ -50,7 +50,7 @@ TEST(EquationBuilderTest, GetEquationOperatorStringsWorks)
 
     stringHelper::strings equationOperatorStrings(builder.getEquationOperatorStrings());
 
-    ASSERT_EQ(7u, equationOperatorStrings.size());
+    ASSERT_EQ(7U, equationOperatorStrings.size());
     EXPECT_EQ("=", equationOperatorStrings.at(0));
     EXPECT_EQ("==", equationOperatorStrings.at(1));
     EXPECT_EQ("!=", equationOperatorStrings.at(2));

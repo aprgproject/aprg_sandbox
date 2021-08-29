@@ -14,11 +14,18 @@ namespace algebra
 
 TEST(FunctionTest, ConstructionWorks)
 {
-    Function();
-    Function("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
+    Function function1;
+    Function function2("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
     {
         return number;
     });
+
+    EXPECT_TRUE(function1.getFunctionName().empty());
+    EXPECT_EQ(Term(), getTermConstReferenceFromBaseTerm(function1.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber(), function1.performFunctionAndReturnResultIfPossible());
+    EXPECT_EQ("functionName", function2.getFunctionName());
+    EXPECT_EQ(Term(5), getTermConstReferenceFromBaseTerm(function2.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber(5), function2.performFunctionAndReturnResultIfPossible());
 }
 
 TEST(FunctionTest, GetFunctionNameWorks)
@@ -130,9 +137,9 @@ TEST(FunctionTest, PerformFunctionAndReturnResultIfPossibleWorks)
         return number;
     });
 
-    EXPECT_EQ(Constant(), function1.performFunctionAndReturnResultIfPossible());
-    EXPECT_EQ(Constant(5), function2.performFunctionAndReturnResultIfPossible());
-    EXPECT_EQ(Constant(), function3.performFunctionAndReturnResultIfPossible());
+    EXPECT_EQ(AlbaNumber(), function1.performFunctionAndReturnResultIfPossible());
+    EXPECT_EQ(AlbaNumber(5), function2.performFunctionAndReturnResultIfPossible());
+    EXPECT_EQ(AlbaNumber(), function3.performFunctionAndReturnResultIfPossible());
 }
 
 TEST(FunctionTest, GetInputExpressionConstReferenceWorks)

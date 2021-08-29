@@ -17,7 +17,7 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromEquationsWorks)
 
     retriever.retrieveFromEquations({equation1, equation2});
 
-    EXPECT_EQ(4u, retriever.getSavedData());
+    EXPECT_EQ(4U, retriever.getSavedData());
 }
 
 TEST(NumberOfTermsRetrieverTest, RetrieveFromEquationWorks)
@@ -29,7 +29,7 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromEquationWorks)
 
     retriever.retrieveFromEquation(equation);
 
-    EXPECT_EQ(2u, retriever.getSavedData());
+    EXPECT_EQ(2U, retriever.getSavedData());
 }
 
 TEST(NumberOfTermsRetrieverTest, RetrieveFromTermWorks)
@@ -50,7 +50,7 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromTermWorks)
     retriever.retrieveFromTerm(Term(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"g", 9}}))})));
     retriever.retrieveFromTerm(Term(functionObject));
 
-    EXPECT_EQ(11u, retriever.getSavedData());
+    EXPECT_EQ(11U, retriever.getSavedData());
 }
 
 TEST(NumberOfTermsRetrieverTest, RetrieveFromConstantWorks)
@@ -59,7 +59,7 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromConstantWorks)
 
     retriever.retrieveFromConstant(Constant(1.234));
 
-    EXPECT_EQ(1u, retriever.getSavedData());
+    EXPECT_EQ(1U, retriever.getSavedData());
 }
 
 TEST(NumberOfTermsRetrieverTest, RetrieveFromVariableWorks)
@@ -68,7 +68,7 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromVariableWorks)
 
     retriever.retrieveFromVariable(Variable("x"));
 
-    EXPECT_EQ(1u, retriever.getSavedData());
+    EXPECT_EQ(1U, retriever.getSavedData());
 }
 
 TEST(NumberOfTermsRetrieverTest, RetrieveFromMonomialWorks)
@@ -77,7 +77,7 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromMonomialWorks)
 
     retriever.retrieveFromMonomial(Monomial(34, {{"x", 5}, {"y", 6}}));
 
-    EXPECT_EQ(1u, retriever.getSavedData());
+    EXPECT_EQ(1U, retriever.getSavedData());
 }
 
 TEST(NumberOfTermsRetrieverTest, RetrieveFromPolynomialWorks)
@@ -86,7 +86,7 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromPolynomialWorks)
 
     retriever.retrieveFromPolynomial(Polynomial({Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})}));
 
-    EXPECT_EQ(1u, retriever.getSavedData());
+    EXPECT_EQ(1U, retriever.getSavedData());
 }
 
 TEST(NumberOfTermsRetrieverTest, RetrieveFromExpressionWorks)
@@ -95,7 +95,7 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromExpressionWorks)
 
     retriever.retrieveFromExpression(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", 9}}))}));
 
-    EXPECT_EQ(3u, retriever.getSavedData());
+    EXPECT_EQ(3U, retriever.getSavedData());
 }
 
 TEST(NumberOfTermsRetrieverTest, RetrieveFromFunctionWorks)
@@ -111,7 +111,7 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromFunctionWorks)
 
     retriever.retrieveFromFunction(functionObject);
 
-    EXPECT_EQ(4u, retriever.getSavedData());
+    EXPECT_EQ(4U, retriever.getSavedData());
 }
 
 TEST(NumberOfTermsRetrieverTest, RetrieveFromPolynomialsWorks)
@@ -123,7 +123,7 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromPolynomialsWorks)
 
     retriever.retrieveFromPolynomials(polynomials);
 
-    EXPECT_EQ(2u, retriever.getSavedData());
+    EXPECT_EQ(2U, retriever.getSavedData());
 }
 
 }

@@ -210,11 +210,9 @@ void Monomial::divideNumber(AlbaNumber const& number)
 void Monomial::raiseToPowerNumber(AlbaNumber const& number)
 {
     m_constant = m_constant ^ number;
-    for(VariablesToExponentsMapIterator it = m_variablesToExponentsMap.begin();
-        it != m_variablesToExponentsMap.end();
-        it++)
+    for(auto & variableExponentsPair : m_variablesToExponentsMap)
     {
-        AlbaNumber & exponent(it->second);
+        AlbaNumber & exponent(variableExponentsPair.second);
         exponent=exponent*number;
     }
 }

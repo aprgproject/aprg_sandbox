@@ -25,16 +25,16 @@ TEST(TermsOverTermsTest, ConstructionWorks)
     EXPECT_TRUE(termsOverTerms1.getNumerators().empty());
     EXPECT_TRUE(termsOverTerms1.getDenominators().empty());
     Terms numeratorsToVerify1(termsOverTerms2.getNumerators());
-    ASSERT_EQ(1u, numeratorsToVerify1.size());
+    ASSERT_EQ(1U, numeratorsToVerify1.size());
     EXPECT_EQ(Term(5), numeratorsToVerify1.at(0));
     Terms denominatorsToVerify1(termsOverTerms2.getDenominators());
-    ASSERT_EQ(1u, denominatorsToVerify1.size());
+    ASSERT_EQ(1U, denominatorsToVerify1.size());
     EXPECT_EQ(Term("x"), denominatorsToVerify1.at(0));
     Terms numeratorsToVerify2(termsOverTerms3.getNumerators());
-    ASSERT_EQ(1u, numeratorsToVerify2.size());
+    ASSERT_EQ(1U, numeratorsToVerify2.size());
     EXPECT_EQ(Term(10), numeratorsToVerify2.at(0));
     Terms denominatorsToVerify3(termsOverTerms3.getDenominators());
-    ASSERT_EQ(1u, denominatorsToVerify3.size());
+    ASSERT_EQ(1U, denominatorsToVerify3.size());
     EXPECT_EQ(Term(10), denominatorsToVerify3.at(0));
 }
 
@@ -43,10 +43,10 @@ TEST(TermsOverTermsTest, GetNumeratorsAndGetDenominatorsWorks)
     TermsOverTerms termsOverTerms({Term(5)}, {Term("x")});
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(1u, numeratorsToVerify.size());
+    ASSERT_EQ(1U, numeratorsToVerify.size());
     EXPECT_EQ(Term(5), numeratorsToVerify.at(0));
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
-    ASSERT_EQ(1u, denominatorsToVerify.size());
+    ASSERT_EQ(1U, denominatorsToVerify.size());
     EXPECT_EQ(Term("x"), denominatorsToVerify.at(0));
 }
 
@@ -55,7 +55,7 @@ TEST(TermsOverTermsTest, GetNumeratorAndDenominatorAsTermWithDetailsWorks)
     TermsOverTerms termsOverTerms({Term(5)}, {Term("x")});
 
     TermsWithDetails termsWithDetails(termsOverTerms.getNumeratorAndDenominatorAsTermWithDetails());
-    ASSERT_EQ(2u, termsWithDetails.size());
+    ASSERT_EQ(2U, termsWithDetails.size());
     EXPECT_EQ(Term(5), getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsWithDetails.at(0).association);
     EXPECT_EQ(Term("x"), getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
@@ -105,7 +105,7 @@ TEST(TermsOverTermsTest, RetrievePolynomialAndNonPolynomialNumeratorsWorks)
 
     Polynomial expectedPolynomial{Monomial(5, {{"x", 1}})};
     EXPECT_EQ(expectedPolynomial, retrievedPolynomial);
-    ASSERT_EQ(1u, retrievedTerms.size());
+    ASSERT_EQ(1U, retrievedTerms.size());
     EXPECT_EQ(nonPolynomialTerm, retrievedTerms.at(0));
 }
 
@@ -120,7 +120,7 @@ TEST(TermsOverTermsTest, RetrievePolynomialAndNonPolynomialDenominatorsWorks)
 
     Polynomial expectedPolynomial{Monomial(6, {{"y", 1}})};
     EXPECT_EQ(expectedPolynomial, retrievedPolynomial);
-    ASSERT_EQ(1u, retrievedTerms.size());
+    ASSERT_EQ(1U, retrievedTerms.size());
     EXPECT_EQ(nonPolynomialTerm, retrievedTerms.at(0));
 }
 
@@ -149,7 +149,7 @@ TEST(TermsOverTermsTest, SimplifyDoesNotCancelsZerosInNumeratorAndDenominator)
     termsOverTerms.simplify();
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(1u, numeratorsToVerify.size());
+    ASSERT_EQ(1U, numeratorsToVerify.size());
     EXPECT_TRUE(isNotANumber(numeratorsToVerify.at(0)));
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
     ASSERT_TRUE(denominatorsToVerify.empty());
@@ -165,10 +165,10 @@ TEST(TermsOverTermsTest, SimplifyRemovesOnSamePolynomialInNumeratorAndDenominato
     termsOverTerms.simplify();
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(1u, numeratorsToVerify.size());
+    ASSERT_EQ(1U, numeratorsToVerify.size());
     EXPECT_EQ(Term(polynomial2), numeratorsToVerify.at(0));
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
-    ASSERT_EQ(1u, denominatorsToVerify.size());
+    ASSERT_EQ(1U, denominatorsToVerify.size());
     EXPECT_EQ(Term(polynomial3), denominatorsToVerify.at(0));
 }
 
@@ -183,10 +183,10 @@ TEST(TermsOverTermsTest, SimplifyRemovesOnSameFactorsInNumeratorAndDenominator)
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(1, {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(1u, numeratorsToVerify.size());
+    ASSERT_EQ(1U, numeratorsToVerify.size());
     EXPECT_EQ(Term(polynomialToExpect1), numeratorsToVerify.at(0));
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
-    ASSERT_EQ(1u, denominatorsToVerify.size());
+    ASSERT_EQ(1U, denominatorsToVerify.size());
     EXPECT_EQ(Term(polynomialToExpect2), denominatorsToVerify.at(0));
 }
 
@@ -205,10 +205,10 @@ TEST(TermsOverTermsTest, SimplifyRemovesOnSameFactorsFirstBeforeCombining)
 
     Polynomial polynomialToExpect{Monomial(264, {{"x", 2}}), Monomial(-15, {{"x", 1}}), Monomial(-351, {})};
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(1u, numeratorsToVerify.size());
+    ASSERT_EQ(1U, numeratorsToVerify.size());
     EXPECT_EQ(Term(polynomialToExpect), numeratorsToVerify.at(0));
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
-    ASSERT_EQ(1u, denominatorsToVerify.size());
+    ASSERT_EQ(1U, denominatorsToVerify.size());
     EXPECT_EQ(Term(2), denominatorsToVerify.at(0));
 }
 
@@ -225,10 +225,10 @@ TEST(TermsOverTermsTest, SimplifyWorksAsCombiningPolynomialsOnNumeratorAndDenomi
     Polynomial polynomialToExpect1{Monomial(1, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"x", 2}}), Monomial(4, {{"x", 1}}), Monomial(4, {})};
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(1u, numeratorsToVerify.size());
+    ASSERT_EQ(1U, numeratorsToVerify.size());
     EXPECT_EQ(Term(polynomialToExpect1), numeratorsToVerify.at(0));
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
-    ASSERT_EQ(1u, denominatorsToVerify.size());
+    ASSERT_EQ(1U, denominatorsToVerify.size());
     EXPECT_EQ(Term(polynomialToExpect2), denominatorsToVerify.at(0));
 }
 
@@ -247,7 +247,7 @@ TEST(TermsOverTermsTest, SimplifyWorksWithPolynomialsWithNegativeExponents)
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
     EXPECT_TRUE(numeratorsToVerify.empty());
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
-    ASSERT_EQ(1u, denominatorsToVerify.size());
+    ASSERT_EQ(1U, denominatorsToVerify.size());
     EXPECT_EQ(Term(monomialToExpect), denominatorsToVerify.at(0));
 }
 
@@ -261,10 +261,10 @@ TEST(TermsOverTermsTest, SimplifyRemovesOnSameExpressionInNumeratorAndDenominato
     termsOverTerms.simplify();
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(1u, numeratorsToVerify.size());
+    ASSERT_EQ(1U, numeratorsToVerify.size());
     EXPECT_EQ(Term(expression2), numeratorsToVerify.at(0));
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
-    ASSERT_EQ(1u, denominatorsToVerify.size());
+    ASSERT_EQ(1U, denominatorsToVerify.size());
     EXPECT_EQ(Term(expression3), denominatorsToVerify.at(0));
 }
 
@@ -277,10 +277,10 @@ TEST(TermsOverTermsTest, SimplifyWorksOnExample1)
     termsOverTerms.simplify();
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(1u, numeratorsToVerify.size());
+    ASSERT_EQ(1U, numeratorsToVerify.size());
     EXPECT_EQ(Term(polynomialNumerator), numeratorsToVerify.at(0));
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
-    ASSERT_EQ(1u, denominatorsToVerify.size());
+    ASSERT_EQ(1U, denominatorsToVerify.size());
     EXPECT_EQ(Term(polynomialDenominator), denominatorsToVerify.at(0));
 }
 
@@ -295,11 +295,11 @@ TEST(TermsOverTermsTest, SimplifyToFactorsWorksAsDoesNotCombinePolynomials)
     termsOverTerms.simplifyToFactors();
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(2u, numeratorsToVerify.size());
+    ASSERT_EQ(2U, numeratorsToVerify.size());
     EXPECT_EQ(Term(polynomial1), numeratorsToVerify.at(0));
     EXPECT_EQ(Term(polynomial1), numeratorsToVerify.at(1));
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
-    ASSERT_EQ(2u, denominatorsToVerify.size());
+    ASSERT_EQ(2U, denominatorsToVerify.size());
     EXPECT_EQ(Term(polynomial2), denominatorsToVerify.at(0));
     EXPECT_EQ(Term(polynomial2), denominatorsToVerify.at(1));
 }
@@ -319,7 +319,7 @@ TEST(TermsOverTermsTest, SimplifyToFactorsWorksWithPolynomialsWithNegativeExpone
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
     EXPECT_TRUE(numeratorsToVerify.empty());
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
-    ASSERT_EQ(1u, denominatorsToVerify.size());
+    ASSERT_EQ(1U, denominatorsToVerify.size());
     EXPECT_EQ(Term(monomialToExpect), denominatorsToVerify.at(0));
 }
 
@@ -336,11 +336,11 @@ TEST(TermsOverTermsTest, SimplifyToFactorsWorksWithExample1)
     Polynomial polynomialToExpect1{Monomial(1, {{"a", 1}}), Monomial(1, {})};
     Polynomial polynomialToExpect2{Monomial(1, {{"a", 2}}), Monomial(1, {{"a", 1}}), Monomial(1, {})};
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(2u, numeratorsToVerify.size());
+    ASSERT_EQ(2U, numeratorsToVerify.size());
     EXPECT_EQ(Term("a"), numeratorsToVerify.at(0));
     EXPECT_EQ(Term(polynomialToExpect1), numeratorsToVerify.at(1));
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
-    ASSERT_EQ(1u, denominatorsToVerify.size());
+    ASSERT_EQ(1U, denominatorsToVerify.size());
     EXPECT_EQ(Term(polynomialToExpect2), denominatorsToVerify.at(0));
 }
 

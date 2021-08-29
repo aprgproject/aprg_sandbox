@@ -5,7 +5,6 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 
-
 using namespace std;
 
 namespace alba
