@@ -1,29 +1,28 @@
 #include <Audio/Audio.hpp>
-
-#include <Audio/ExpectedValues/aiff_stereo_8bit_44100.hpp>
 #include <Audio/ExpectedValues/aiff_stereo_16bit_44100.hpp>
-#include <Audio/ExpectedValues/aiff_stereo_24bit_44100.hpp>
-#include <Audio/ExpectedValues/aiff_stereo_8bit_48000.hpp>
 #include <Audio/ExpectedValues/aiff_stereo_16bit_48000.hpp>
+#include <Audio/ExpectedValues/aiff_stereo_24bit_44100.hpp>
 #include <Audio/ExpectedValues/aiff_stereo_24bit_48000.hpp>
+#include <Audio/ExpectedValues/aiff_stereo_8bit_44100.hpp>
+#include <Audio/ExpectedValues/aiff_stereo_8bit_48000.hpp>
 #include <Audio/ExpectedValues/wav_mono_16bit_44100.hpp>
 #include <Audio/ExpectedValues/wav_mono_16bit_48000.hpp>
-#include <Audio/ExpectedValues/wav_stereo_8bit_44100.hpp>
 #include <Audio/ExpectedValues/wav_stereo_16bit_44100.hpp>
-#include <Audio/ExpectedValues/wav_stereo_24bit_44100.hpp>
-#include <Audio/ExpectedValues/wav_stereo_8bit_48000.hpp>
 #include <Audio/ExpectedValues/wav_stereo_16bit_48000.hpp>
+#include <Audio/ExpectedValues/wav_stereo_24bit_44100.hpp>
 #include <Audio/ExpectedValues/wav_stereo_24bit_48000.hpp>
+#include <Audio/ExpectedValues/wav_stereo_8bit_44100.hpp>
+#include <Audio/ExpectedValues/wav_stereo_8bit_48000.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 #include <gtest/gtest.h>
 
+#include <cmath>
+
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace AprgAudio
 {
 
@@ -328,15 +327,13 @@ bool writeTest(int numChannels, int sampleRate, int bitDepth, AudioFormat format
 
     for (unsigned int i = 0; i < static_cast<unsigned int>(audioFile.getNumSamplesPerChannel()); i++)
     {
-        float sample = sinf (2. * getPi() * ((float) i / sampleRateAsFloat) * 440.) ;
+        float sample = static_cast<float>(sin(2.0 * getPi() * i / sampleRateAsFloat * 440.0));
 
         for (unsigned int k = 0; k < static_cast<unsigned int>(audioFile.getNumChannels()); k++)
-            audioFile.samples[k][i] = sample * 0.5;
-    }
+            audioFile.samples[k][i] = sample * 0.5;    }
 
     audioFile.setSampleRate (sampleRate);
     audioFile.setBitDepth (bitDepth);
-
     std::string numChannelsAsString = numChannels == 1 ? "mono" : "stereo";
     std::string bitDepthAsString = std::to_string (bitDepth);
     std::string sampleRateAsString = std::to_string (sampleRate);
