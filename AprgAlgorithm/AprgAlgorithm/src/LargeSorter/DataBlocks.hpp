@@ -68,17 +68,13 @@ public:
     }
     void createNewBlockBeforeThisIterator(BlockIterator const& iteratorAfterNewBlock, DataBlockType const blockType)
     {
-        std::stringstream ss;
-        ss << m_configuration.m_directoryForBlocks << R"(\BLOCK_)" << m_numberOfBlocks << ".txt";
-        m_blocks.emplace(iteratorAfterNewBlock, blockType, m_numberOfBlocks, ss.str());
+        m_blocks.emplace(iteratorAfterNewBlock, blockType, m_numberOfBlocks, m_configuration.getFilePathWithBlockNumber(m_numberOfBlocks));
         BlockIterator newBlockIterator(iteratorAfterNewBlock);
         newBlockIterator--;
-        m_numberOfBlocks++;
-    }
+        m_numberOfBlocks++;    }
     void deleteBlock(BlockIterator const& iteratorOfBlockToErase)
     {
-        bool const isMainIteratorDeleted = m_mainIterator==iteratorOfBlockToErase;
-        m_memoryCache.deleteBlock(iteratorOfBlockToErase->getBlockId());
+        bool const isMainIteratorDeleted = m_mainIterator==iteratorOfBlockToErase;        m_memoryCache.deleteBlock(iteratorOfBlockToErase->getBlockId());
         m_fileStreamOpenedCache.deleteBlock(iteratorOfBlockToErase->getBlockId());
         BlockIterator newIterator= m_blocks.erase(iteratorOfBlockToErase);
         if(isMainIteratorDeleted) { m_mainIterator = newIterator; }

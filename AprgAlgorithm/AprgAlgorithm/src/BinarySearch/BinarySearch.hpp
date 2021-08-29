@@ -45,17 +45,15 @@ public:
     }
     ObjectType getNearestValueFromLowestMiddleHighest(ObjectType const& value) const
     {
-        ObjectType distanceFromLowestValue(mathHelper::getDistance(value, getLowestValue()));
-        ObjectType distanceFromMiddleValue(mathHelper::getDistance(value, getMiddleValue()));
-        ObjectType distanceFromHighestValue(mathHelper::getDistance(value, getHighestValue()));
+        ObjectType distanceFromLowestValue(mathHelper::getPositiveDelta(value, getLowestValue()));
+        ObjectType distanceFromMiddleValue(mathHelper::getPositiveDelta(value, getMiddleValue()));
+        ObjectType distanceFromHighestValue(mathHelper::getPositiveDelta(value, getHighestValue()));
         ObjectType lowestDistance(std::min(std::min(distanceFromLowestValue, distanceFromMiddleValue), distanceFromHighestValue));
         ObjectType result;
-        if(lowestDistance==distanceFromLowestValue)
-        {
+        if(lowestDistance==distanceFromLowestValue)        {
             result = getLowestValue();
         }
-        else if(lowestDistance==distanceFromMiddleValue)
-        {
+        else if(lowestDistance==distanceFromMiddleValue)        {
             result = getMiddleValue();
         }
         else if(lowestDistance==distanceFromHighestValue)

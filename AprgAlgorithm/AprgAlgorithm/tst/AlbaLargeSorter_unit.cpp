@@ -1,19 +1,18 @@
 #include <LargeSorter/AlbaLargeSorter.hpp>
-
 #include <PathHandlers/AlbaPathHandler.hpp>
+#include <Time/AlbaLocalTimeHelper.hpp>
 
 #include <gtest/gtest.h>
 
 #include <algorithm>
 #include <iostream>
+#include <random>
 #include <set>
 #include <string>
 #include <vector>
-
 using namespace std;
 
-#define ALBA_LARGE_SORTER_TEST_FILE APRG_DIR R"(AprgAlgorithm\AprgAlgorithm\tst\FilesForTests\LargeSorterTest\Test1.txt)"
-#define ALBA_LARGE_SORTER_BLOCK_DIR APRG_DIR R"(AprgAlgorithm\AprgAlgorithm\tst\FilesForTests\LargeSorterTest\blocks\)"
+#define ALBA_LARGE_SORTER_TEST_FILE APRG_DIR R"(AprgAlgorithm\AprgAlgorithm\tst\FilesForTests\LargeSorterTest\Test1.txt)"#define ALBA_LARGE_SORTER_BLOCK_DIR APRG_DIR R"(AprgAlgorithm\AprgAlgorithm\tst\FilesForTests\LargeSorterTest\blocks\)"
 
 namespace alba
 {
@@ -22,17 +21,23 @@ class TestObject
 {
 public:
     TestObject()
+        : m_valueInteger{}
+        , m_valueDouble{}
+        , m_valueCharacter{}
+        , m_valueString()
     {}
 
-    TestObject(int valueInteger, double valueDouble, char valueCharacter, string valueString)
+    TestObject(
+            int const valueInteger,
+            double const valueDouble,
+            char const valueCharacter,
+            string const& valueString)
         : m_valueInteger(valueInteger)
         , m_valueDouble(valueDouble)
-        , m_valueCharacter(valueCharacter)
-        , m_valueString(valueString)
+        , m_valueCharacter(valueCharacter)        , m_valueString(valueString)
     {}
     bool operator<(TestObject const& testObject) const
-    {
-        return m_valueInteger < testObject.m_valueInteger;
+    {        return m_valueInteger < testObject.m_valueInteger;
     }
     bool operator>(TestObject const& testObject) const
     {
@@ -156,30 +161,26 @@ TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanBeAdded)
     cache.addBlock(3, 30);
     cache.addBlock(4, 40);
     cache.addBlock(5, 50);
-    EXPECT_EQ(5u, cache.getContainerReference().size());
+    EXPECT_EQ(5U, cache.getContainerReference().size());
 }
 
-TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanNotBeDuplicated)
-{
+TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanNotBeDuplicated){
     DataBlockCache<int> cache;
     cache.addBlock(1, 10);
-    cache.addBlock(2, 20);
-    cache.addBlock(3, 30);
+    cache.addBlock(2, 20);    cache.addBlock(3, 30);
     cache.addBlock(4, 40);
     cache.addBlock(5, 50);
     cache.addBlock(4, 40);
     cache.addBlock(3, 30);
     cache.addBlock(3, 30);
     cache.addBlock(3, 30);
-    EXPECT_EQ(5u, cache.getContainerReference().size());
+    EXPECT_EQ(5U, cache.getContainerReference().size());
 }
 
-TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanBeDeleted)
-{
+TEST(AlbaLargeSorterTest, CacheTest_ObjectsCanBeDeleted){
     DataBlockCache<int> cache;
     cache.addBlock(1, 10);
-    cache.addBlock(2, 20);
-    cache.addBlock(3, 30);
+    cache.addBlock(2, 20);    cache.addBlock(3, 30);
     cache.addBlock(4, 40);
     cache.addBlock(5, 50);
     cache.deleteBlock(1);
@@ -203,15 +204,13 @@ TEST(AlbaLargeSorterTest, CacheTest_CacheIsUnchangedByDeletionOfNonExistingObjec
     cache.deleteBlock(7);
     cache.deleteBlock(7);
     cache.deleteBlock(8);
-    EXPECT_EQ(5u, cache.getContainerReference().size());
+    EXPECT_EQ(5U, cache.getContainerReference().size());
 }
 
-TEST(AlbaLargeSorterTest, CacheTest_EarliestObjectsCanBePop)
-{
+TEST(AlbaLargeSorterTest, CacheTest_EarliestObjectsCanBePop){
     DataBlockCache<int> cache;
     cache.addBlock(1, 10);
-    cache.addBlock(2, 20);
-    cache.addBlock(3, 30);
+    cache.addBlock(2, 20);    cache.addBlock(3, 30);
     cache.addBlock(4, 40);
     cache.addBlock(5, 50);
     EXPECT_EQ(10, cache.popTheEarliestAddedBlock());
@@ -243,14 +242,12 @@ TEST(AlbaLargeSorterTest, CacheTest_ContainerReferenceCanFetched)
     cache.addBlock(4, 40);
     cache.addBlock(5, 50);
     DataBlockCache<int>::BlockCacheContainer & container(cache.getContainerReference());
-    ASSERT_EQ(5u, container.size());
+    ASSERT_EQ(5U, container.size());
     EXPECT_EQ(50, container[0].m_blockInformation);
     EXPECT_EQ(40, container[1].m_blockInformation);
-    EXPECT_EQ(30, container[2].m_blockInformation);
-    EXPECT_EQ(20, container[3].m_blockInformation);
+    EXPECT_EQ(30, container[2].m_blockInformation);    EXPECT_EQ(20, container[3].m_blockInformation);
     EXPECT_EQ(10, container[4].m_blockInformation);
 }
-
 TEST(AlbaLargeSorterTest, FileHandlerTest_FileAreWrittenAtTheEndAgainAfterRelease)
 {
     AlbaLocalPathHandler(ALBA_LARGE_SORTER_TEST_FILE).deleteFile();
@@ -267,16 +264,17 @@ TEST(AlbaLargeSorterTest, FileHandlerTest_FileAreWrittenAtTheEndAgainAfterReleas
     fileHandler.getFileDumpStreamReference()<<4<<endl;
     fileHandler.releaseFileStream();
 
+    AlbaLocalPathHandler inputPathHandler(ALBA_LARGE_SORTER_TEST_FILE);
+    ASSERT_TRUE(inputPathHandler.isFoundInLocalSystem());
     int valueFromFile;
-    ifstream inputTestFile(ALBA_LARGE_SORTER_TEST_FILE);
+    ifstream inputTestFile(inputPathHandler.getFullPath());
+    ASSERT_TRUE(inputTestFile.is_open());
     inputTestFile>>valueFromFile;
     EXPECT_EQ(1, valueFromFile);
-    inputTestFile>>valueFromFile;
-    EXPECT_EQ(2, valueFromFile);
+    inputTestFile>>valueFromFile;    EXPECT_EQ(2, valueFromFile);
     inputTestFile>>valueFromFile;
     EXPECT_EQ(3, valueFromFile);
-    inputTestFile>>valueFromFile;
-    EXPECT_EQ(4, valueFromFile);
+    inputTestFile>>valueFromFile;    EXPECT_EQ(4, valueFromFile);
 }
 
 TEST(AlbaLargeSorterTest, SorterIsInitiallyEmpty)
@@ -339,18 +337,16 @@ TEST(AlbaLargeSorterTest, PrimitiveDataTypesForBlocksAreCreatedWhenBlocksWhenMem
     }
 
     int integerInFile;
-    ifstream inputTestFile0(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_1.txt)");
-    ifstream inputTestFile1(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_2.txt)");
-    ifstream inputTestFile2(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_3.txt)");
-    ifstream inputTestFile3(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_4.txt)");
+    ifstream inputTestFile0(AlbaLocalPathHandler(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_1.txt)").getFullPath());
+    ifstream inputTestFile1(AlbaLocalPathHandler(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_2.txt)").getFullPath());
+    ifstream inputTestFile2(AlbaLocalPathHandler(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_3.txt)").getFullPath());
+    ifstream inputTestFile3(AlbaLocalPathHandler(string(ALBA_LARGE_SORTER_BLOCK_DIR) + R"(\BLOCK_4.txt)").getFullPath());
     ASSERT_TRUE(inputTestFile0.is_open());
     inputTestFile0>>integerInFile;
-    EXPECT_EQ(0, integerInFile);
-    inputTestFile0>>integerInFile;
+    EXPECT_EQ(0, integerInFile);    inputTestFile0>>integerInFile;
     EXPECT_EQ(1, integerInFile);
     inputTestFile0>>integerInFile;
-    EXPECT_EQ(2, integerInFile);
-    ASSERT_TRUE(inputTestFile1.is_open());
+    EXPECT_EQ(2, integerInFile);    ASSERT_TRUE(inputTestFile1.is_open());
     inputTestFile1>>integerInFile;
     EXPECT_EQ(3, integerInFile);
     inputTestFile1>>integerInFile;
@@ -538,14 +534,12 @@ TEST(AlbaLargeSorterTest, ObjectsAreSortedWhenUsingRandomShuffle)
     objectsToShuffle.emplace_back(13, 13.13, 'm', "thirteenthString");
     objectsToShuffle.emplace_back(14, 14.14, 'n', "fourteenthString");
     objectsToShuffle.emplace_back(15, 15.15, 'o', "fifteenthString");
-    random_shuffle(objectsToShuffle.begin(), objectsToShuffle.end());
+    shuffle(objectsToShuffle.begin(), objectsToShuffle.end(), default_random_engine(getCurrentDateTime().getMicroSeconds()));
     AlbaLargeSorter<TestObject> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 3, 10, 0, 100));
 
-    for(TestObject const& testObject : objectsToShuffle)
-    {
+    for(TestObject const& testObject : objectsToShuffle)    {
         largeSorter.add(testObject);
     }
-
     int expectedValue=1;
     largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](TestObject const& testObject)
     {
@@ -577,19 +571,19 @@ TEST(AlbaLargeSorterTest, DISABLED_FileStreamAreLimitedByMaximumFileStreams)
 {
     AlbaLargeSorter<int> largeSorter(AlbaLargeSorterConfiguration(ALBA_LARGE_SORTER_BLOCK_DIR, 0, 1, 0, 200));
     vector<int> integersToShuffle;
-    for(int inputValue=0; inputValue<1000; inputValue++)
+    constexpr int NUMBER_OF_INTEGERS=1000;
+    integersToShuffle.reserve(NUMBER_OF_INTEGERS);
+    for(int inputValue=0; inputValue<NUMBER_OF_INTEGERS; inputValue++)
     {
         integersToShuffle.emplace_back(inputValue);
     }
-    random_shuffle(integersToShuffle.begin(), integersToShuffle.end());
+    shuffle(integersToShuffle.begin(), integersToShuffle.end(), default_random_engine(getCurrentDateTime().getMicroSeconds()));
     for(int value : integersToShuffle)
     {
-        largeSorter.add(value);
-    }
+        largeSorter.add(value);    }
 
     int expectedValue=0;
-    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)
-    {
+    largeSorter.sortThenDoFunctionThenReleaseAllObjects([&expectedValue](int const& actualValue)    {
         EXPECT_EQ(expectedValue++, actualValue);
     });
     EXPECT_EQ(1000, expectedValue);

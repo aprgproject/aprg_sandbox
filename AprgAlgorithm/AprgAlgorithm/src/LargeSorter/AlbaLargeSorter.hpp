@@ -2,20 +2,18 @@
 
 #include <LargeSorter/AlbaLargeSorterConfiguration.hpp>
 #include <LargeSorter/AlbaLargeSorterTypes.hpp>
-
 #include <LargeSorter/DataBlockCache.hpp>
 #include <LargeSorter/DataBlocks.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 #include <functional>
+#include <numeric>
 
 namespace alba
 {
-
 template <typename ObjectToSort>
 class AlbaLargeSorter
-{
-    using BlockType = AlbaLargeSorterBlockType<ObjectToSort>;
+{    using BlockType = AlbaLargeSorterBlockType<ObjectToSort>;
     using BlockIterator = AlbaLargeSorterBlockIterator<ObjectToSort>;
 
     using BlockCache = AlbaLargeSorterBlockCache<BlockIterator>;

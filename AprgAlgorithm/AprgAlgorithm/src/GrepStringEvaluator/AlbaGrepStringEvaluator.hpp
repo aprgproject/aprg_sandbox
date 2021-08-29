@@ -1,16 +1,14 @@
 #pragma once
 
-#include <GrepStringEvaluator/AlbaGrepStringEvaluatorPerformOperations.hpp> //this needs to be before ExpressionEvaluator
+#include <GrepStringEvaluator/AlbaGrepStringEvaluatorPerformOperations.hpp> //This needs to be first
 #include <ExpressionEvaluator/ExpressionEvaluator.hpp>
-#include <GrepStringEvaluator/AlbaGrepStringOperatorType.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.hpp>
+#include <GrepStringEvaluator/AlbaGrepStringOperatorType.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringToken.hpp>
 
-#include <functional>
-#include <stack>
+#include <functional>#include <stack>
 #include <string>
 #include <vector>
-
 namespace alba
 {
 
@@ -34,15 +32,13 @@ private:
     void extractTokensWhileNotOnString(bool& isOnString, char const& currentCharacter, int& parenthesisCount);
     void generateExpressionEvaluatorPostfix();
     bool isEvaluationPossible() const;
-    void addOperator(char const currentCharacter);
+    void addOperator(char const characterOperator);
     void addParenthesis(char const currentCharacter, int& parenthesisCount);
     char convertTildeToExclamationPointIfNeeded(char const character);
-    bool isOperator(char const character) const;
-    bool isParenthesis(char const character) const;
+    bool isOperator(char const character) const;    bool isParenthesis(char const character) const;
     void setErrorMessage(std::string const& errorMessage);
     bool m_isEvaluatorInvalid;
-    std::string m_errorMessage;
-    VectorOfTokens m_tokens;
+    std::string m_errorMessage;    VectorOfTokens m_tokens;
     PostfixEvaluator m_postfixEvaluator;
 };
 

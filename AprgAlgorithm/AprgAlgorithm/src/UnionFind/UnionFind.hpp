@@ -1,14 +1,12 @@
 #pragma once
 
-#include <map> //or unordered_map?
+#include <map>
 
 namespace alba
 {
-
 template <typename ObjectType>
 class UnionFindUsingMap
-{
-    using ConnectionMap = std::map<ObjectType, ObjectType>; // you are using map, so log N but this should to be near linear (boo!)
+{    using ConnectionMap = std::map<ObjectType, ObjectType>; // you are using map, so log N but this should to be near linear (boo!)
 public:
     UnionFindUsingMap()
     {}

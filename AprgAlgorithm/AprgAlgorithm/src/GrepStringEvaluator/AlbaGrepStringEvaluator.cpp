@@ -64,15 +64,13 @@ void AlbaGrepStringEvaluator::extractTokens(string const& condition)
 
     m_tokens.erase(remove_if(m_tokens.begin(), m_tokens.end(), [](AlbaGrepStringToken const& token){return token.isToBeIgnored();}), m_tokens.end());
 
-    if(m_tokens.size() == 0)
+    if(m_tokens.empty())
     {
         setErrorMessage("There are no contents");
-    }
-    else if(isOnString)
+    }    else if(isOnString)
     {
         setErrorMessage("Incomplete '[' ']' found");
-    }
-    else if(parenthesisCount != 0)
+    }    else if(parenthesisCount != 0)
     {
         setErrorMessage("Incomplete '(' ')' found");
     }
@@ -88,14 +86,12 @@ void AlbaGrepStringEvaluator::extractTokensWhileOnString(bool& isOnString, strin
     }
     else
     {
-        stringToBuild += ::toupper(currentCharacter);
+        stringToBuild += static_cast<char>(::toupper(currentCharacter));
     }
 }
-
 void AlbaGrepStringEvaluator::extractTokensWhileNotOnString(bool& isOnString, char const& currentCharacter, int& parenthesisCount)
 {
-    if('[' == currentCharacter)
-    {
+    if('[' == currentCharacter)    {
         isOnString = true;
     }
     else if(isOperator(currentCharacter))

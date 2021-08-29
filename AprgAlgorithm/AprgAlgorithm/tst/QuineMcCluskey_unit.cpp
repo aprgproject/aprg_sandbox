@@ -1,15 +1,12 @@
-#include <QuineMcCluskey/QuineMcCluskey.hpp>
-
 #include <File/AlbaFileReader.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <QuineMcCluskey/QuineMcCluskey.hpp>
 #include <String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
-
 #include <iostream>
 
 using namespace std;
-
 namespace alba
 {
 
@@ -105,19 +102,17 @@ TEST(QuineMcCluskeyTest, GetImplicantsForCubeZero)
     Implicants mintermsWithThree(quineMcCluskey.getImplicants(3,0));
     Implicants mintermsWithFour(quineMcCluskey.getImplicants(4,0));
 
-    ASSERT_EQ(0u, mintermsWithZero.getSize());
-    ASSERT_EQ(2u, mintermsWithOne.getSize());
-    ASSERT_EQ(3u, mintermsWithTwo.getSize());
-    ASSERT_EQ(2u, mintermsWithThree.getSize());
-    ASSERT_EQ(1u, mintermsWithFour.getSize());
+    ASSERT_EQ(0U, mintermsWithZero.getSize());
+    ASSERT_EQ(2U, mintermsWithOne.getSize());
+    ASSERT_EQ(3U, mintermsWithTwo.getSize());
+    ASSERT_EQ(2U, mintermsWithThree.getSize());
+    ASSERT_EQ(1U, mintermsWithFour.getSize());
 
     EXPECT_EQ("", mintermsWithZero.getImplicantsString());
-    EXPECT_EQ("[0 : 4|], [1 : 8|], ", mintermsWithOne.getImplicantsString());
-    EXPECT_EQ("[0 : 9|], [1 : 10|], [2 : 12|], ", mintermsWithTwo.getImplicantsString());
+    EXPECT_EQ("[0 : 4|], [1 : 8|], ", mintermsWithOne.getImplicantsString());    EXPECT_EQ("[0 : 9|], [1 : 10|], [2 : 12|], ", mintermsWithTwo.getImplicantsString());
     EXPECT_EQ("[0 : 11|], [1 : 14|], ", mintermsWithThree.getImplicantsString());
     EXPECT_EQ("[0 : 15|], ", mintermsWithFour.getImplicantsString());
 }
-
 TEST(QuineMcCluskeyTest, GetImplicantsCubeOne)
 {
     QuineMcCluskey quineMcCluskey;
@@ -143,19 +138,17 @@ TEST(QuineMcCluskeyTest, GetImplicantsCubeOne)
     Implicants mintermsWithThree(quineMcCluskey.getImplicants(3,1));
     Implicants mintermsWithFour(quineMcCluskey.getImplicants(4,1));
 
-    ASSERT_EQ(0u, mintermsWithZero.getSize());
-    ASSERT_EQ(4u, mintermsWithOne.getSize());
-    ASSERT_EQ(4u, mintermsWithTwo.getSize());
-    ASSERT_EQ(2u, mintermsWithThree.getSize());
-    ASSERT_EQ(0u, mintermsWithFour.getSize());
+    ASSERT_EQ(0U, mintermsWithZero.getSize());
+    ASSERT_EQ(4U, mintermsWithOne.getSize());
+    ASSERT_EQ(4U, mintermsWithTwo.getSize());
+    ASSERT_EQ(2U, mintermsWithThree.getSize());
+    ASSERT_EQ(0U, mintermsWithFour.getSize());
 
     EXPECT_EQ("", mintermsWithZero.getImplicantsString());
-    EXPECT_EQ("[0 : 4|12|], [1 : 8|9|], [2 : 8|10|], [3 : 8|12|], ", mintermsWithOne.getImplicantsString());
-    EXPECT_EQ("[0 : 9|11|], [1 : 10|11|], [2 : 10|14|], [3 : 12|14|], ", mintermsWithTwo.getImplicantsString());
+    EXPECT_EQ("[0 : 4|12|], [1 : 8|9|], [2 : 8|10|], [3 : 8|12|], ", mintermsWithOne.getImplicantsString());    EXPECT_EQ("[0 : 9|11|], [1 : 10|11|], [2 : 10|14|], [3 : 12|14|], ", mintermsWithTwo.getImplicantsString());
     EXPECT_EQ("[0 : 11|15|], [1 : 14|15|], ", mintermsWithThree.getImplicantsString());
     EXPECT_EQ("", mintermsWithFour.getImplicantsString());
 }
-
 TEST(QuineMcCluskeyTest, GetImplicantsCubeTwo)
 {
     QuineMcCluskey quineMcCluskey;
@@ -177,19 +170,17 @@ TEST(QuineMcCluskeyTest, GetImplicantsCubeTwo)
     Implicants mintermsWithThree(quineMcCluskey.getImplicants(3,2));
     Implicants mintermsWithFour(quineMcCluskey.getImplicants(4,2));
 
-    ASSERT_EQ(0u, mintermsWithZero.getSize());
-    ASSERT_EQ(2u, mintermsWithOne.getSize());
-    ASSERT_EQ(1u, mintermsWithTwo.getSize());
-    ASSERT_EQ(0u, mintermsWithThree.getSize());
-    ASSERT_EQ(0u, mintermsWithFour.getSize());
+    ASSERT_EQ(0U, mintermsWithZero.getSize());
+    ASSERT_EQ(2U, mintermsWithOne.getSize());
+    ASSERT_EQ(1U, mintermsWithTwo.getSize());
+    ASSERT_EQ(0U, mintermsWithThree.getSize());
+    ASSERT_EQ(0U, mintermsWithFour.getSize());
 
     EXPECT_EQ("", mintermsWithZero.getImplicantsString());
-    EXPECT_EQ("[0 : 8|9|10|11|], [1 : 8|10|12|14|], ", mintermsWithOne.getImplicantsString());
-    EXPECT_EQ("[0 : 10|11|14|15|], ", mintermsWithTwo.getImplicantsString());
+    EXPECT_EQ("[0 : 8|9|10|11|], [1 : 8|10|12|14|], ", mintermsWithOne.getImplicantsString());    EXPECT_EQ("[0 : 10|11|14|15|], ", mintermsWithTwo.getImplicantsString());
     EXPECT_EQ("", mintermsWithThree.getImplicantsString());
     EXPECT_EQ("", mintermsWithFour.getImplicantsString());
 }
-
 TEST(QuineMcCluskeyTest, GetFinalImplicants)
 {
     QuineMcCluskey quineMcCluskey;
@@ -207,14 +198,12 @@ TEST(QuineMcCluskeyTest, GetFinalImplicants)
 
     Implicants finalImplicants(quineMcCluskey.getAllFinalImplicants());
 
-    ASSERT_EQ(4u, finalImplicants.getSize());
+    ASSERT_EQ(4U, finalImplicants.getSize());
     EXPECT_EQ("[0 : 4|12|], [1 : 8|9|10|11|], [2 : 8|10|12|14|], [3 : 10|11|14|15|], ", finalImplicants.getImplicantsString());
     cout<<quineMcCluskey.getOutputTable(finalImplicants);
 }
-
 TEST(QuineMcCluskeyTest, DISABLED_ExperimentalTest)
 {
-
     QuineMcCluskey quineMcCluskey;
     /*quineMcCluskey.setInputOutput(0, LogicalValue::True);
     quineMcCluskey.setInputOutput(1, LogicalValue::True);

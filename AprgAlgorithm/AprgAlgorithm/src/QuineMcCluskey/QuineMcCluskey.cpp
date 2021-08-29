@@ -85,25 +85,16 @@ bool Implicant::isSubset(Implicant const& implicant) const
 bool Implicant::isSuperset(unsigned int minterm) const
 {
     bool result(false);
-    if(m_minterms.size()>0)
+    if(!m_minterms.empty())
     {
         Minterms::const_iterator it = m_minterms.find(minterm);
-        if (it == m_minterms.end())
-        {
-            result = false;
-        }
-        else
-        {
-            result = true;
-        }
+        result = it != m_minterms.end();
     }
     return result;
 }
-
 unsigned int Implicant::getLengthOfEquivalentString() const
 {
-    unsigned int orResult(getOrResultOfMinterms());
-    unsigned int length=0;
+    unsigned int orResult(getOrResultOfMinterms());    unsigned int length=0;
     for(; orResult > 0; orResult >>= 1)
     {
         length++;
@@ -119,15 +110,13 @@ string Implicant::getEquivalentString() const
 string Implicant::getEquivalentString(unsigned int length) const
 {
     string booleanEquivalent;
-    if(m_minterms.size()>0 && length>0)
+    if(!m_minterms.empty() && length>0)
     {
         unsigned int xorResult(getAndResultOfMinterms() ^ getOrResultOfMinterms());
-        unsigned int displayBits(getFirstMinterm());
-        unsigned int mask = 0x01 << (length-1);
+        unsigned int displayBits(getFirstMinterm());        unsigned int mask = 0x01 << (length-1);
         for(unsigned int i=0; i<length; i++)
         {
-            if(xorResult & mask)
-            {
+            if(xorResult & mask)            {
                 booleanEquivalent.push_back('-');
             }
             else if(displayBits & mask)
@@ -157,15 +146,13 @@ string Implicant::getMintermString() const
 unsigned int Implicant::getFirstMinterm() const
 {
     unsigned int result(0);
-    if(m_minterms.size()>0)
+    if(!m_minterms.empty())
     {
         result = *m_minterms.begin();
-    }
-    return result;
+    }    return result;
 }
 
-unsigned int Implicant::getAndResultOfMinterms() const
-{
+unsigned int Implicant::getAndResultOfMinterms() const{
     unsigned int andResult(getFirstMinterm());
     for(unsigned int minterm : m_minterms)
     {
@@ -189,14 +176,12 @@ void Implicant::addMinterm(unsigned int minterm)
     m_minterms.emplace(minterm);
 }
 
-void Implicants::loopAllImplicants(std::function<void(Implicant const&)> doFunction) const
+void Implicants::loopAllImplicants(std::function<void(Implicant const&)> const& doFunction) const
 {
     for(Implicant const& implicant : m_implicants)
-    {
-        doFunction(implicant);
+    {        doFunction(implicant);
     }
 }
-
 unsigned int Implicants::getSize() const
 {
     return m_implicants.size();
@@ -250,14 +235,13 @@ void Implicants::addFinalImplicant(Implicant const& implicant)
 
 
 QuineMcCluskey::QuineMcCluskey()
+    : m_cubeSize(0)
 {}
 
-LogicalValue QuineMcCluskey::getOutput(unsigned int const input) const
-{
+LogicalValue QuineMcCluskey::getOutput(unsigned int const input) const{
     LogicalValue result(LogicalValue::False);
     FunctionsMap::const_iterator it = m_functionMap.find(input);
-    if (it != m_functionMap.end())
-    {
+    if (it != m_functionMap.end())    {
         result = it->second;
     }
     return result;
