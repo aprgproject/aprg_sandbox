@@ -8,10 +8,12 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 namespace Functions
 {
 
@@ -28,10 +30,12 @@ bool isFunctionContinuous(Function const& functionObject)
 
 AlbaNumberPairs evaluateAndGetInputOutputPair(
         AlbaNumbers const& numbers,
-        string const& variableName,        Function const& functionObject)
+        string const& variableName,
+        Function const& functionObject)
 {
     AlbaNumberPairs result;
-    SubstitutionOfVariablesToValues substitution;    for(AlbaNumber const& number : numbers)
+    SubstitutionOfVariablesToValues substitution;
+    for(AlbaNumber const& number : numbers)
     {
         substitution.putVariableWithValue(variableName, number);
         Term substituteTerm(substitution.performSubstitutionTo(functionObject));

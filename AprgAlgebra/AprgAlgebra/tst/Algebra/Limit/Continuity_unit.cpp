@@ -37,10 +37,12 @@ TEST(ContinuityTest, IsContinuousAtWorksForContinuousPieceWiseFunction)
     EXPECT_TRUE(isContinuousAt(functionTermToTest, "x", 10, LimitAtAValueApproachType::BothSides));
 }
 
-TEST(ContinuityTest, IsContinuousAtWorksForDiscontinuousPieceWiseFunction){
+TEST(ContinuityTest, IsContinuousAtWorksForDiscontinuousPieceWiseFunction)
+{
     Function functionToTest(
                 "functionToTest",
-                getBaseTermConstReferenceFromTerm(Term("x")),                [](AlbaNumber const& number)
+                getBaseTermConstReferenceFromTerm(Term("x")),
+                [](AlbaNumber const& number)
     {
         AlbaNumber result;
         if(number == 1)
@@ -73,10 +75,12 @@ TEST(ContinuityTest, IsContinuousAtWorksOnTheEdgesOfSquareRootOfPolynomial)
 
 TEST(ContinuityTest, GetContinuityTypeAtWorksForRemovableDiscontinuityFunction)
 {
-    Function functionToTest(                "functionToTest",
+    Function functionToTest(
+                "functionToTest",
                 getBaseTermConstReferenceFromTerm(Term("x")),
                 [](AlbaNumber const& number)
-    {        AlbaNumber result;
+    {
+        AlbaNumber result;
         if(number == 3)
         {
             result = 2;

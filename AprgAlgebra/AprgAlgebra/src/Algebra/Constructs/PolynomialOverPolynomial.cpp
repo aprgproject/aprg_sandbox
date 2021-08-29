@@ -74,11 +74,7 @@ PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide(
         Monomial const& divisorMonomial(m_denominator.getFirstMonomial());
         Monomial currentQuotientMonomial(dividendMonomial);
         currentQuotientMonomial.divideMonomial(divisorMonomial);
-        if(hasNegativeExponents(currentQuotientMonomial))
-        {
-            break;
-        }
-        else
+        if(!hasNegativeExponents(currentQuotientMonomial))
         {
             currentQuotient.addMonomial(currentQuotientMonomial);
             Polynomial polynomialToSubtract(m_denominator);
@@ -87,6 +83,10 @@ PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::divide(
             currentRemainder.addPolynomial(polynomialToSubtract);
             currentQuotient.simplify();
             currentRemainder.simplify();
+        }
+        else
+        {
+            break;
         }
     }
     return QuotientAndRemainder{currentQuotient, currentRemainder};
@@ -177,7 +177,7 @@ Monomial PolynomialOverPolynomial::getMonomialWithMaxNegativeExponentsAndConvert
     Monomial::VariablesToExponentsMap const& resultVariableMap(resultMonomial.getVariablesToExponentsMapConstReference());
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
-        for(Monomial::VariableExponentPair const& variablePair : monomial.getVariablesToExponentsMapConstReference())
+        for(auto const& variablePair : monomial.getVariablesToExponentsMapConstReference())
         {
             if(variablePair.second < 0)
             {

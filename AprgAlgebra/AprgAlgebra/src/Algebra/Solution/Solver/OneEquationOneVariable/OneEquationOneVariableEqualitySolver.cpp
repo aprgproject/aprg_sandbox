@@ -15,6 +15,11 @@ namespace alba
 namespace algebra
 {
 
+namespace
+{
+constexpr unsigned int NUMBER_OF_ITERATIONS_IN_NEWTON_METHOD=1000;
+}
+
 OneEquationOneVariableEqualitySolver::OneEquationOneVariableEqualitySolver()
     : BaseOneEquationOneVariableSolver()
 {}
@@ -128,7 +133,7 @@ void OneEquationOneVariableEqualitySolver::performNewtonMethodToFindSolution(
     for(AlbaNumber const& initialValue : initialValues)
     {
         NewtonMethod newtonMethod(initialValue, functionToIterate);
-        newtonMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
+        newtonMethod.runMaxNumberOfIterationsOrUntilFinished(NUMBER_OF_ITERATIONS_IN_NEWTON_METHOD);
         if(newtonMethod.isSolved())
         {
             m_calculatedValues.emplace_back(newtonMethod.getCurrentValue());

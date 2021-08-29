@@ -69,7 +69,7 @@ Equation getLawOfCosineEquation(
     Term side2Squared(createExpressionIfPossible({side2, Term("^"), Term(2)}));
     Term side3Squared(createExpressionIfPossible({side3, Term("^"), Term(2)}));
     Term cosinePart(createExpressionIfPossible({Term(2), Term("*"), side2, Term("*"), side3, Term("*"), Term(cos(oppositeAngleOfSide1))}));
-    Term leftSideTerm(side1Squared);
+    Term const& leftSideTerm(side1Squared);
     Term rightSideTerm(createExpressionIfPossible({side2Squared, Term("+"), side3Squared, Term("-"), cosinePart}));
     return Equation(leftSideTerm, "=", Term(rightSideTerm));
 }

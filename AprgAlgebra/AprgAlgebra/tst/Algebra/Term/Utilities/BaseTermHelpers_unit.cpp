@@ -31,9 +31,11 @@ TEST(BaseTermHelpersTest, CopyAndCreateNewTermAndReturnSharedPointerWorks)
 TEST(BaseTermHelpersTest, GetTermConstReferenceFromBaseTermWorks)
 {
     Term originalTerm(7896);
+
     Term const& termToVerify(getTermConstReferenceFromBaseTerm(dynamic_cast<BaseTerm const&>(originalTerm)));
 
-    EXPECT_EQ(Term(7896), termToVerify);}
+    EXPECT_EQ(Term(7896), termToVerify);
+}
 
 TEST(BaseTermHelpersTest, GetTermConstReferenceFromSharedPointerWorks)
 {

@@ -88,7 +88,7 @@ SubstitutionOfVariablesToValues SolverUsingSubstitution::getSubstitutionFromSolu
     MultipleVariableSolutionSet::VariableNameToSolutionSetMap const& variableNameToSolutionSetMap(
                 solutionSet.getVariableNameToSolutionSetMap());
     SubstitutionOfVariablesToValues substitution;
-    for(MultipleVariableSolutionSet::VariableNameToSolutionSetPair const& variableNameToSolutionSet
+    for(auto const& variableNameToSolutionSet
         : variableNameToSolutionSetMap)
     {
         AlbaNumbers const& acceptedValues(variableNameToSolutionSet.second.getAcceptedValues());
@@ -185,7 +185,7 @@ void SolverUsingSubstitution::isolateAndSubstituteUntilOneUnknown(
     {
         bool areVariableAndEquationSelected(false);
         string selectedVariableName;
-        unsigned int selectedEquationIndex(0u);
+        unsigned int selectedEquationIndex(0U);
         selectVariableNameAndEquationNumber(areVariableAndEquationSelected, selectedVariableName, selectedEquationIndex, substitutedEquations);
         substituteEquationForSelectedEquationIndex(substitutedEquations, areVariableAndEquationSelected, selectedVariableName, selectedEquationIndex);
         removeEquationsWithoutUnknowns(substitutedEquations);
@@ -199,7 +199,7 @@ void SolverUsingSubstitution::solveForTheFirstOneVariableEquationAndUpdate(
         Equations const& substitutedEquations)
 {
     VariableNamesRetriever variableNamesToSolveRetriever;
-    if(substitutedEquations.size() >= 1)
+    if(!substitutedEquations.empty())
     {
         Equation const& equationToSolve(substitutedEquations.front());
         variableNamesToSolveRetriever.retrieveFromEquation(equationToSolve);
@@ -249,7 +249,7 @@ void SolverUsingSubstitution::selectVariableNameAndEquationNumber(
 {
     areVariableAndEquationSelected = false;
     selectedVariableName.clear();
-    selectedEquationIndex = 0u;
+    selectedEquationIndex = 0U;
     VariableNamesRetriever variableNamesRetriever;
     variableNamesRetriever.retrieveFromEquations(equations);
     unsigned int equationIndex=0;

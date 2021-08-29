@@ -17,7 +17,7 @@ public:
     using FunctionToCheck=std::function<AlbaNumber(AlbaNumber const&)>;
 
     ProofByInduction(
-            std::string const variableNameInExpression,
+            std::string const& variableNameInExpression,
             Term const& algebraicExpressionToCheck,
             FunctionToCheck const& functionToCheck);
 
@@ -25,7 +25,7 @@ public:
     bool isVerificationOnInductionStepSuccessful(
             Term const& firstTerm,
             Term const& secondTerm,
-            Term const& expectedDifferenceOfFirstAndSecondTerm) const;
+            Term const& expectedDifferenceOfSecondAndFirstTerm) const;
 
     std::string m_variableNameInExpression;
     Term m_algebraicExpressionToCheck;

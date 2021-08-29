@@ -1,6 +1,7 @@
 #include <ReplaceStringInFiles/ReplaceStringInFiles.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba
@@ -40,6 +41,7 @@ TEST(AlbaReplaceStringInFileTest, DISABLED_ReplaceCStylePrintWithCPlusPlusStyleI
     ReplaceStringInFiles replacer;
     replacer.replaceCToCPlusPlusStylePrintOnDirectories(
                 R"(D:\Branches\MODERNIZATION\TLH\C_Application\SC_TCOM\CP_TLH\)",
-                R"(D:\Branches\MODERNIZATION\TLH\C_Application\SC_TCOM\NewTLH\)");}
+                R"(D:\Branches\MODERNIZATION\TLH\C_Application\SC_TCOM\NewTLH\)");
+}
 
 }

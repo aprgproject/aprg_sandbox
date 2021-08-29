@@ -15,13 +15,13 @@ namespace algebra
 
 Function::Function()
     : m_functionName()
-    , m_inputTermPointer(new Term())
+    , m_inputTermPointer(make_unique<Term>())
     , m_functionToPerform()
 {}
 
 Function::Function(Function const& functionObject)
     : m_functionName(functionObject.m_functionName)
-    , m_inputTermPointer(new Term(getTermConstReferenceFromUniquePointer(functionObject.m_inputTermPointer)))
+    , m_inputTermPointer(make_unique<Term>(getTermConstReferenceFromUniquePointer(functionObject.m_inputTermPointer)))
     , m_functionToPerform(functionObject.m_functionToPerform)
 {}
 
@@ -30,14 +30,14 @@ Function::Function(
         BaseTerm const& baseTerm,
         FunctionToPerform const& functionToPerform)
     : m_functionName(functionName)
-    , m_inputTermPointer(new Term(getTermConstReferenceFromBaseTerm(baseTerm)))
+    , m_inputTermPointer(make_unique<Term>(getTermConstReferenceFromBaseTerm(baseTerm)))
     , m_functionToPerform(functionToPerform)
 {}
 
 Function& Function::operator=(Function const& functionObject)
 {
     m_functionName = functionObject.m_functionName;
-    m_inputTermPointer.reset(new Term(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference())));
+    m_inputTermPointer= make_unique<Term>(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
     m_functionToPerform = functionObject.m_functionToPerform;
     return *this;
 }

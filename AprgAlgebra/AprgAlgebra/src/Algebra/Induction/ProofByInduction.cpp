@@ -13,7 +13,7 @@ namespace algebra
 {
 
 ProofByInduction::ProofByInduction(
-        string const variableNameInExpression,
+        string const& variableNameInExpression,
         Term const& algebraicExpressionToCheck,
         ProofByInduction::FunctionToCheck const& functionToCheck)
     : m_variableNameInExpression(variableNameInExpression)

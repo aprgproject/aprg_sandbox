@@ -21,6 +21,11 @@ namespace algebra
 namespace Factorization
 {
 
+namespace
+{
+constexpr unsigned int NUMBER_OF_ITERATIONS_IN_BRENT_METHOD=1000;
+}
+
 Polynomials factorizeIncreasingAndDecreasingExponentsForm(Polynomial const& polynomial)
 {
     return returnPolynomialsOrSinglePolynomialIfEmpty(
@@ -182,7 +187,7 @@ AlbaNumbers calculatePolynomialRootsUsingBrentMethod(
     {
         unsigned int j=i+1;
         brentMethod.resetCalculation(valuesForRootFinding.at(i), valuesForRootFinding.at(j));
-        brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
+        brentMethod.runMaxNumberOfIterationsOrUntilFinished(NUMBER_OF_ITERATIONS_IN_BRENT_METHOD);
         AlbaNumberOptional rootOptional(brentMethod.getSolution());
         if(rootOptional.hasContent())
         {

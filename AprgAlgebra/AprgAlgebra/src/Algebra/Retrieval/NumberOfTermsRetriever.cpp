@@ -8,7 +8,7 @@ namespace algebra
 
 NumberOfTermsRetriever::NumberOfTermsRetriever()
 {
-    m_savedData = 0u;
+    m_savedData = 0U;
 }
 
 void NumberOfTermsRetriever::retrieveFromConstant(Constant const&)

@@ -77,7 +77,7 @@ bool canBeMergedInAMonomialByAdditionOrSubtraction(Variable const& variable1, Va
 bool hasNegativeExponents(Monomial const& monomial)
 {
     bool result(false);
-    for(Monomial::VariableExponentPair const& variableExponentsPair
+    for(auto const& variableExponentsPair
         : monomial.getVariablesToExponentsMapConstReference())
     {
         if(variableExponentsPair.second < 0)
@@ -93,7 +93,7 @@ AlbaNumber getGcfOfExponentsInMonomial(Monomial const& monomial)
 {
     AlbaNumber commonExponent(1);
     bool isFirst(true);
-    for(Monomial::VariableExponentPair const& variablePair : monomial.getVariablesToExponentsMapConstReference())
+    for(auto const& variablePair : monomial.getVariablesToExponentsMapConstReference())
     {
         AlbaNumber const& exponent(variablePair.second);
         if(exponent.isIntegerOrFractionType())

@@ -17,6 +17,11 @@ namespace alba
 namespace algebra
 {
 
+namespace
+{
+constexpr double BRENT_METHOD_TOLERANCE_TO_ZERO = 1E-11;
+}
+
 BrentMethod::BrentMethod(AlbaNumbers const& coefficients)
     : m_numberOfIterationsExecuted(0)
     , m_coefficients(coefficients)
@@ -76,7 +81,7 @@ void BrentMethod::runOneIteration()
         return;
     }
     if(isAlmostEqual(m_values.a.getDouble(), m_values.b.getDouble())
-            && isAlmostEqual(calculate(m_values.a).getDouble(), 0.0, 1E-11))
+            && isAlmostEqual(calculate(m_values.a).getDouble(), 0.0, BRENT_METHOD_TOLERANCE_TO_ZERO))
     {
         m_values.solutionOptional.setValue(m_values.a);
         return;

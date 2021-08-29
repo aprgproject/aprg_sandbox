@@ -8,10 +8,12 @@
 #include <Optional/AlbaOptional.hpp>
 
 using namespace std;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
+using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
+using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -31,10 +33,12 @@ PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossibl
         Expression const& expression(simplifiedTerm.getExpressionConstReference());
         if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
         {
-            bool canBeConvertedToPolynomialOverPolynomial(true);            Polynomial numerator(createPolynomialFromConstant(1));
+            bool canBeConvertedToPolynomialOverPolynomial(true);
+            Polynomial numerator(createPolynomialFromConstant(1));
             Polynomial denominator(createPolynomialFromConstant(1));
             for(TermWithDetails const& termWithDetails
-                : expression.getTermsWithAssociation().getTermsWithDetails())            {
+                : expression.getTermsWithAssociation().getTermsWithDetails())
+            {
                 Term const& termInExpression(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
                 if(canBeConvertedToPolynomial(termInExpression))
                 {
@@ -78,10 +82,12 @@ TermsOverTerms createTermsOverTermsFromTerm(Term const& term)
         Expression const& expression(simplifiedTerm.getExpressionConstReference());
         if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
         {
-            TermsWithDetails numerators;            TermsWithDetails denominators;
+            TermsWithDetails numerators;
+            TermsWithDetails denominators;
             segregateTermsWithPositiveAndNegativeAssociations(expression.getTermsWithAssociation().getTermsWithDetails(), numerators, denominators);
             result = TermsOverTerms(numerators, denominators);
-            isResultUpdatedWithContent=true;        }
+            isResultUpdatedWithContent=true;
+        }
     }
     if(!isResultUpdatedWithContent)
     {
@@ -122,7 +128,8 @@ TermRaiseToANumber createTermRaiseToANumberFromTerm(Term const& term)
         resultDetailsOptional.setConstReference({Term(newMonomial), exponent});
     }
     else if(simplifiedTerm.isExpression())
-    {        Expression const& expression(simplifiedTerm.getExpressionConstReference());
+    {
+        Expression const& expression(simplifiedTerm.getExpressionConstReference());
         if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
         {
             TermsWithDetails raiseToPowerTerms(expression.getTermsWithAssociation().getTermsWithDetails());
@@ -132,17 +139,20 @@ TermRaiseToANumber createTermRaiseToANumberFromTerm(Term const& term)
                 resultDetailsOptional.setConstReference({base, 1});
             }
             else if(raiseToPowerTerms.size() >= 2)
-            {                Term const& exponent(getTermConstReferenceFromSharedPointer(raiseToPowerTerms.back().baseTermSharedPointer));
+            {
+                Term const& exponent(getTermConstReferenceFromSharedPointer(raiseToPowerTerms.back().baseTermSharedPointer));
                 if(exponent.isConstant())
                 {
                     Term const& base(getTermConstReferenceFromSharedPointer(raiseToPowerTerms.front().baseTermSharedPointer));
                     resultDetailsOptional.setConstReference({base, exponent.getConstantConstReference().getNumberConstReference()});
                 }
                 else if(exponent.isMonomial())
-                {                    Monomial oldExponentMonomial(exponent.getMonomialConstReference());
+                {
+                    Monomial oldExponentMonomial(exponent.getMonomialConstReference());
                     AlbaNumber newExponentValue(oldExponentMonomial.getConstantConstReference());
                     raiseToPowerTerms.pop_back();
-                    Expression newBaseExpression;                    newBaseExpression.setCommonOperatorLevel(OperatorLevel::RaiseToPower);
+                    Expression newBaseExpression;
+                    newBaseExpression.setCommonOperatorLevel(OperatorLevel::RaiseToPower);
                     newBaseExpression.putTermsWithDetails(raiseToPowerTerms);
                     oldExponentMonomial.setConstant(1);
                     newBaseExpression.putTermWithRaiseToPowerIfNeeded(Term(oldExponentMonomial));
@@ -162,7 +172,9 @@ TermRaiseToANumber createTermRaiseToANumberFromTerm(Term const& term)
     {
         result = TermRaiseToANumber(simplifiedTerm, 1);
     }
-    return result;}
+    return result;
+}
 
 }
+
 }

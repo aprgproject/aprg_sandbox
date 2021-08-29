@@ -1562,7 +1562,7 @@ Term operator^(Polynomial const& polynomial, Constant const& constant)
     AlbaNumber exponentNumber(constant.getNumberConstReference());
     if(exponentNumber.isIntegerType())
     {
-        int exponentInteger(exponentNumber.getInteger());
+        int exponentInteger(static_cast<int>(exponentNumber.getInteger()));
         if(exponentInteger == 0)
         {
             newTerm = Term(Constant(1));

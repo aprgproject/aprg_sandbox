@@ -83,10 +83,12 @@ Terms AdditionAndSubtractionOfTermsOverTerms::getRevisedNumeratorTermsBasedOnLcm
         Terms const& multipliers(lcmOfDenominatorTerms);
         Terms monomialMultiplierTerms;
         Terms nonMonomialMultiplierTerms;
-        segregateMonomialsAndNonMonomials(multipliers, monomialMultiplierTerms, nonMonomialMultiplierTerms);        Monomial monomialMultiplier(getCombinedMonomialMultiplier(monomialMultiplierTerms));
+        segregateMonomialsAndNonMonomials(multipliers, monomialMultiplierTerms, nonMonomialMultiplierTerms);
+        Monomial monomialMultiplier(getCombinedMonomialMultiplier(monomialMultiplierTerms));
         updateMonomialAndNonMonomialMultipliersBasedOnDenominatorOnIndex(itemIndex, monomialMultiplier, nonMonomialMultiplierTerms);
         emplaceExistingNumeratorTerms(numeratorTerms, itemIndex);
-        emplaceMonomialMultiplierIfNeeded(numeratorTerms, monomialMultiplier);        emplaceNonMonomialMultipliers(numeratorTerms, nonMonomialMultiplierTerms);
+        emplaceMonomialMultiplierIfNeeded(numeratorTerms, monomialMultiplier);
+        emplaceNonMonomialMultipliers(numeratorTerms, nonMonomialMultiplierTerms);
     }
     return numeratorTerms;
 }

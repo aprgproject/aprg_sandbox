@@ -38,7 +38,7 @@ Monomial createMonomialIfPossible(Term const& term)
     }
     else if(term.isPolynomial())
     {
-        Polynomial const polynomial(term.getPolynomialConstReference());
+        Polynomial const& polynomial(term.getPolynomialConstReference());
         if(polynomial.isOneMonomial())
         {
             result = polynomial.getFirstMonomial();

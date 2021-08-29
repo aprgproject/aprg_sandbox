@@ -320,10 +320,12 @@ void splitToStringsUsingASeriesOfDelimeters(strings & listOfStrings, string cons
         unsigned int delimiterIndex(0);
         for(string const& delimeter : seriesOfDelimiters)
         {
-            delimiterIndex = mainString.find(delimeter, startingIndexOfFind);            if(isNpos(static_cast<int>(delimiterIndex)))
+            delimiterIndex = mainString.find(delimeter, startingIndexOfFind);
+            if(isNpos(static_cast<int>(delimiterIndex)))
             {
                 break;
-            }            if(startingIndexOfFind != delimiterIndex)
+            }
+            if(startingIndexOfFind != delimiterIndex)
             {
                 listOfStrings.emplace_back(mainString.substr(startingIndexOfFind, delimiterIndex-startingIndexOfFind));
             }

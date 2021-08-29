@@ -53,7 +53,7 @@ AlbaNumbers getRoots(RootType const rootType, Polynomial const& polynomial)
     AlbaNumbers result;
     if(doesThePolynomialHaveOnlyOneVariable(polynomial))
     {
-        Polynomial polynomialToFactorize(polynomial);
+        Polynomial const& polynomialToFactorize(polynomial);
         Polynomials factorizedPolynomials(factorize(polynomialToFactorize));
 
         for(Polynomial const& factorizedPolynomial : factorizedPolynomials)
@@ -100,8 +100,8 @@ Polynomial raiseBinomialToAPowerUsingBinomialExpansion(
         unsigned int const power)
 {
     Polynomial result;
-    Monomials const monomials(binomial.getMonomialsConstReference());
-    if(monomials.size() == 2u)
+    Monomials const& monomials(binomial.getMonomialsConstReference());
+    if(monomials.size() == 2U)
     {
         Monomial const& firstMonomial(monomials.at(0));
         Monomial const& secondMonomial(monomials.at(1));

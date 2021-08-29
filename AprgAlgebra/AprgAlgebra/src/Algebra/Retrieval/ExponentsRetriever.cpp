@@ -8,7 +8,7 @@ namespace algebra
 
 void ExponentsRetriever::retrieveFromMonomial(Monomial const& monomial)
 {
-    for(Monomial::VariableExponentPair const& variableExponentsPair
+    for(auto const& variableExponentsPair
         : monomial.getVariablesToExponentsMapConstReference())
     {
         m_savedData.emplace(variableExponentsPair.second);

@@ -28,6 +28,7 @@ private:
     void fixHeaders(std::string const& path);
     void removeTrailingLinesInCode();
     void fixNamespaces();
+    void fixSmallUToCapitalUInNumbers();
     void addHeaderFileFromAngleBrackets(std::string const& header);
     void addHeaderFileFromQuotations(std::string const& header);
 

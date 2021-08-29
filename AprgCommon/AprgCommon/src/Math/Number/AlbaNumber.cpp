@@ -830,11 +830,13 @@ bool AlbaNumber::isPositiveOrNegativeInfinity() const
 
 bool AlbaNumber::isNotANumber() const
 {
-    return isnan(getDouble());}
+    return isnan(getDouble());
+}
 
 bool AlbaNumber::isAFiniteValue() const
 {
-    return !isPositiveInfinity() && !isNegativeInfinity() && !isNotANumber();}
+    return !isPositiveInfinity() && !isNegativeInfinity() && !isNotANumber();
+}
 
 bool AlbaNumber::isARealFiniteValue() const
 {

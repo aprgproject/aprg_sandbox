@@ -29,8 +29,8 @@ public:
             Polynomial & polynomialNumerator,
             Terms & nonPolynomialNumerators) const;
     void retrievePolynomialAndNonPolynomialsDenominators(
-            Polynomial & polynomialNumerator,
-            Terms & nonPolynomialNumerators) const;
+            Polynomial & polynomialDenominator,
+            Terms & nonPolynomialDenominators) const;
     std::string getDisplayableString() const;
 
     void simplify();

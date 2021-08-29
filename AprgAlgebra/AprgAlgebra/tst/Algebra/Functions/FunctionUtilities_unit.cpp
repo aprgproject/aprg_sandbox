@@ -4,9 +4,11 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -31,9 +33,11 @@ TEST(FunctionUtilitiesTest, IsFunctionContinuousWorks)
 TEST(FunctionUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
 {
     AlbaNumbers inputNumbers{-2,-1,0,1,2};
+
     AlbaNumberPairs inputAndOutputPairs(
                 evaluateAndGetInputOutputPair(
-                    inputNumbers,                    "x",
+                    inputNumbers,
+                    "x",
                     Functions::abs(createExpressionIfPossible({Term("x")}))));
 
     ASSERT_EQ(5u, inputAndOutputPairs.size());

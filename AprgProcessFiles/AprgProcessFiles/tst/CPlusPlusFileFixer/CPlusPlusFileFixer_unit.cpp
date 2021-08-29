@@ -15,10 +15,10 @@ namespace alba
 TEST(CPlusPlusFileFixerTest, DISABLED_ActualRun)
 {
     CPlusPlusFileFixer fixer;
-    fixer.processDirectory(R"(C:\APRG_CLEAN_COPY\)");    //fixer.processDirectory(R"(C:\APRG\TcomTools\)");
-    //fixer.processFile(R"(C:\APRG\AprgCommon\AprgCommon\tst\AlbaStringHelper_unit.cpp)");
+    //fixer.processDirectory(R"(N:\Branches\APRG_COPY_COPY\)");
 }
-TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersTest)
+
+TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersAreCorrected)
 {
     CPlusPlusFileFixer fixer;
     ofstream testFile(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
@@ -68,7 +68,7 @@ TEST(CPlusPlusFileFixerTest, CPlusPlusFileHeadersTest)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(CPlusPlusFileFixerTest, RemoveTrailingEmptyLineTest)
+TEST(CPlusPlusFileFixerTest, TrailingEmptyLineAreRemoved)
 {
     CPlusPlusFileFixer fixer;
     ofstream testFile(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
@@ -97,7 +97,7 @@ TEST(CPlusPlusFileFixerTest, RemoveTrailingEmptyLineTest)
     EXPECT_FALSE(fileReader.isNotFinished());
 }
 
-TEST(CPlusPlusFileFixerTest, NamespaceCorrection)
+TEST(CPlusPlusFileFixerTest, NamespaceFormattingIsCorrected)
 {
     CPlusPlusFileFixer fixer;
     ofstream testFile(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
@@ -118,6 +118,50 @@ TEST(CPlusPlusFileFixerTest, NamespaceCorrection)
     EXPECT_EQ(R"(namespace samplenamespace )", fileReader.getLine());
     EXPECT_EQ(R"({)", fileReader.getLine());
     EXPECT_EQ(R"(})", fileReader.getLine());
+    EXPECT_EQ("", fileReader.getLine());
+    EXPECT_FALSE(fileReader.isNotFinished());
+}
+
+TEST(CPlusPlusFileFixerTest, SmallUInNumberIsConvertedToCapitalU)
+{
+    CPlusPlusFileFixer fixer;
+    ofstream testFile(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
+    ASSERT_TRUE(testFile.is_open());
+    testFile << R"(u)" << endl;
+    testFile << R"(u1)" << endl;
+    testFile << R"(uname)" << endl;
+    testFile << R"(u_)" << endl;
+    testFile << R"(u )" << endl;
+    testFile << R"(5uname)" << endl;
+    testFile << R"(5u1)" << endl;
+    testFile << R"(5u_)" << endl;
+    testFile << R"(5u)" << endl;
+    testFile << R"(5u )" << endl;
+    testFile << R"(5u/)" << endl;
+    testFile << R"(10050u)" << endl;
+    testFile.close();
+
+    fixer.processFile(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
+
+    ifstream inputTestFile(APRG_PROCESS_FILES_TEST_FILE1_TO_READ);
+    ASSERT_TRUE(inputTestFile.is_open());
+
+    AlbaFileReader fileReader(inputTestFile);
+    ASSERT_TRUE(inputTestFile.good());
+    ASSERT_FALSE(inputTestFile.eof());
+    EXPECT_TRUE(fileReader.isNotFinished());
+    EXPECT_EQ(R"(u)", fileReader.getLine());
+    EXPECT_EQ(R"(u1)", fileReader.getLine());
+    EXPECT_EQ(R"(uname)", fileReader.getLine());
+    EXPECT_EQ(R"(u_)", fileReader.getLine());
+    EXPECT_EQ(R"(u )", fileReader.getLine());
+    EXPECT_EQ(R"(5uname)", fileReader.getLine());
+    EXPECT_EQ(R"(5u1)", fileReader.getLine());
+    EXPECT_EQ(R"(5u_)", fileReader.getLine());
+    EXPECT_EQ(R"(5U)", fileReader.getLine());
+    EXPECT_EQ(R"(5U )", fileReader.getLine());
+    EXPECT_EQ(R"(5U/)", fileReader.getLine());
+    EXPECT_EQ(R"(10050U)", fileReader.getLine());
     EXPECT_EQ("", fileReader.getLine());
     EXPECT_FALSE(fileReader.isNotFinished());
 }

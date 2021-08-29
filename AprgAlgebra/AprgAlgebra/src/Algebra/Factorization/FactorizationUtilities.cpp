@@ -22,7 +22,7 @@ namespace Factorization
 bool areExponentsDivisible(Monomial const& monomial, unsigned int const divisor)
 {
     bool result(true);
-    for(Monomial::VariableExponentPair const& variableExponentPair : monomial.getVariablesToExponentsMapConstReference())
+    for(auto const& variableExponentPair : monomial.getVariablesToExponentsMapConstReference())
     {
         if(!variableExponentPair.second.isIntegerType()
                 || !isDivisible(getAbsoluteValue(variableExponentPair.second.getInteger()), divisor))

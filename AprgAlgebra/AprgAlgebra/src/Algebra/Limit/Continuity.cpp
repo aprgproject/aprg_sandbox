@@ -12,10 +12,12 @@ using namespace alba::algebra::DomainAndRange;
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 bool isContinuousAt(
         Term const& term,
         string const& variableName,
@@ -23,7 +25,8 @@ bool isContinuousAt(
         LimitAtAValueApproachType const limitApproachType)
 {
     bool result(false);
-    SubstitutionOfVariablesToValues substitution{{variableName, value}};    Term subtitutedResult(substitution.performSubstitutionTo(term));
+    SubstitutionOfVariablesToValues substitution{{variableName, value}};
+    Term subtitutedResult(substitution.performSubstitutionTo(term));
     if(subtitutedResult.isConstant())
     {
         AlbaNumber limitAtValue(getLimitAtAValueByApproachType(term, variableName, value, limitApproachType));
@@ -32,9 +35,11 @@ bool isContinuousAt(
     }
     return result;
 }
+
 ContinuityType getContinuityTypeAt(
         Term const& term,
-        string const& variableName,        AlbaNumber const& value)
+        string const& variableName,
+        AlbaNumber const& value)
 {
     ContinuityType result(ContinuityType::Unknown);
     SubstitutionOfVariablesToValues substitution{{variableName, value}};
@@ -51,10 +56,12 @@ ContinuityType getContinuityTypeAt(
                 result = ContinuityType::ContinuousAtBothSides;
             }
             else
-            {                result = ContinuityType::DiscontinuousWithRemovableDiscontinuity;
+            {
+                result = ContinuityType::DiscontinuousWithRemovableDiscontinuity;
             }
         }
-        else        {
+        else
+        {
             result = ContinuityType::DiscontinuousWithEssentialDiscontinuity;
         }
     }

@@ -131,7 +131,7 @@ Expression SubstitutionOfVariablesToTerms::performSubstitutionForMonomial(Monomi
     Monomial remainingMonomial(createMonomialFromConstant(monomial.getConstantConstReference()));
     Monomial::VariablesToExponentsMap previousVariableExponentMap(monomial.getVariablesToExponentsMapConstReference());
     Expression substitutedExpressions;
-    for(Monomial::VariableExponentPair const& variableExponentPair : previousVariableExponentMap)
+    for(auto const& variableExponentPair : previousVariableExponentMap)
     {
         if(isVariableFound(variableExponentPair.first))
         {
@@ -195,7 +195,7 @@ void SubstitutionOfVariablesToTerms::putVariablesWithTerms(
 void SubstitutionOfVariablesToTerms::putVariablesWithTerms(
         VariablesToTermsMap const& variablesWithTerms)
 {
-    for(VariableTermPair const& variableValuesPair : variablesWithTerms)
+    for(auto const& variableValuesPair : variablesWithTerms)
     {
         putVariableWithTerm(variableValuesPair.first, variableValuesPair.second);
     }

@@ -18,9 +18,11 @@ bool isFunctionContinuous(Function const& functionObject);
 
 AlbaNumberPairs evaluateAndGetInputOutputPair(
         AlbaNumbers const& numbers,
-        std::string const& variableName,        Function const& functionObject);
+        std::string const& variableName,
+        Function const& functionObject);
 
 }
+
 }
 
 }

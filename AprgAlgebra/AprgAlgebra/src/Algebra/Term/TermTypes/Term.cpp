@@ -31,7 +31,7 @@ Term::Term(Term const& term)
 
 Term::Term(Constant const& constant)
     : m_type(TermType::Constant)
-    , m_baseDataTermPointer(new Constant(constant))
+    , m_baseDataTermPointer(make_unique<Constant>(constant))
 {}
 
 Term::Term(string const& stringTerm)
@@ -41,17 +41,17 @@ Term::Term(string const& stringTerm)
     if(algebra::isOperator(stringTerm))
     {
         m_type=TermType::Operator;
-        m_baseDataTermPointer.reset(new Operator(stringTerm));
+        m_baseDataTermPointer = make_unique<Operator>(stringTerm);
     }
     else if(algebra::isFunction(stringTerm))
     {
         m_type=TermType::Function;
-        m_baseDataTermPointer.reset(new Function(createFunctionWithEmptyInputExpression(stringTerm)));
+        m_baseDataTermPointer = make_unique<Function>(createFunctionWithEmptyInputExpression(stringTerm));
     }
     else
     {
         m_type=TermType::Variable;
-        m_baseDataTermPointer.reset(new Variable(stringTerm));
+        m_baseDataTermPointer = make_unique<Variable>(stringTerm);
     }
 }
 
@@ -59,34 +59,34 @@ Term::Term(Variable const& variable)
     : m_type(TermType::Variable)
     , m_baseDataTermPointer(nullptr)
 {
-    m_baseDataTermPointer.reset(new Variable(variable));
+    m_baseDataTermPointer = make_unique<Variable>(variable);
 }
 
 Term::Term(Operator const& operatorTerm)
     : m_type(TermType::Operator)
     , m_baseDataTermPointer(nullptr)
 {
-    m_baseDataTermPointer.reset(new Operator(operatorTerm));
+    m_baseDataTermPointer = make_unique<Operator>(operatorTerm);
 }
 
 Term::Term(Monomial const& monomial)
     : m_type(TermType::Monomial)
-    , m_baseDataTermPointer(new Monomial(monomial))
+    , m_baseDataTermPointer(make_unique<Monomial>(monomial))
 {}
 
 Term::Term(Polynomial const& polynomial)
     : m_type(TermType::Polynomial)
-    , m_baseDataTermPointer(new Polynomial(polynomial))
+    , m_baseDataTermPointer(make_unique<Polynomial>(polynomial))
 {}
 
 Term::Term(Expression const& expression)
     : m_type(TermType::Expression)
-    , m_baseDataTermPointer(new Expression(expression))
+    , m_baseDataTermPointer(make_unique<Expression>(expression))
 {}
 
 Term::Term(Function const& function)
     : m_type(TermType::Function)
-    , m_baseDataTermPointer(new Function(function))
+    , m_baseDataTermPointer(make_unique<Function>(function))
 {}
 
 Term& Term::operator=(Term const& term)
@@ -444,25 +444,25 @@ void Term::resetBaseDataTermPointerBasedFromTerm(Term const& term)
     case TermType::Empty:
         break;
     case TermType::Constant:
-        m_baseDataTermPointer.reset(new Constant(term.getConstantConstReference()));
+        m_baseDataTermPointer = make_unique<Constant>(term.getConstantConstReference());
         break;
     case TermType::Variable:
-        m_baseDataTermPointer.reset(new Variable(term.getVariableConstReference()));
+        m_baseDataTermPointer = make_unique<Variable>(term.getVariableConstReference());
         break;
     case TermType::Operator:
-        m_baseDataTermPointer.reset(new Operator(term.getOperatorConstReference()));
+        m_baseDataTermPointer = make_unique<Operator>(term.getOperatorConstReference());
         break;
     case TermType::Monomial:
-        m_baseDataTermPointer.reset(new Monomial(term.getMonomialConstReference()));
+        m_baseDataTermPointer = make_unique<Monomial>(term.getMonomialConstReference());
         break;
     case TermType::Polynomial:
-        m_baseDataTermPointer.reset(new Polynomial(term.getPolynomialConstReference()));
+        m_baseDataTermPointer = make_unique<Polynomial>(term.getPolynomialConstReference());
         break;
     case TermType::Expression:
-        m_baseDataTermPointer.reset(new Expression(term.getExpressionConstReference()));
+        m_baseDataTermPointer = make_unique<Expression>(term.getExpressionConstReference());
         break;
     case TermType::Function:
-        m_baseDataTermPointer.reset(new Function(term.getFunctionConstReference()));
+        m_baseDataTermPointer = make_unique<Function>(term.getFunctionConstReference());
         break;
     }
 }

@@ -247,7 +247,7 @@ bool SimplificationOfExpression::tryToAddSubtractTermsOverTermsAndReturnIfChange
         bool isTermAddedOrSubtracted(false);
         if(addSubtractTerm.isExpression())
         {
-            Expression expression(addSubtractTerm.getExpressionConstReference());
+            Expression const& expression(addSubtractTerm.getExpressionConstReference());
             if(expression.getCommonOperatorLevel() == OperatorLevel::MultiplicationAndDivision)
             {
                 TermsWithDetails numerators;

@@ -30,7 +30,7 @@ public:
 private:
     void updateStartIndexAndEndIndexAndCheckOpeningAndClosingOperators();
     bool combineOpeningClosingOperatorsAtStartEndIndexesAndReturnIfCombined();
-    void traverse(AggregatorTraverseSteps const traverseOperation);
+    void traverse(AggregatorTraverseSteps const traverseSteps);
     bool traverseOnOperatorIndexesAndReturnIfContinue(
             AggregatorTraverseSteps const traverseSteps,
             OperatorInputType const operatorInputType);
@@ -55,7 +55,7 @@ private:
     void eraseAndThenInsert(
             unsigned int const firstIndex,
             unsigned int const secondIndex,
-            Term const newTerm);
+            Term const& term);
     void eraseTermsInclusive(
             unsigned int const firstIndex,
             unsigned int const secondIndex);

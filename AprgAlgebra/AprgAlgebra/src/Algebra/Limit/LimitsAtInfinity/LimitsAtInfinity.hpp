@@ -40,6 +40,7 @@ private:
     RemoveMonomialsWithNegativeExponentMutator m_removeMonomialsWithNegativeExponentMutator;
     Simplification::SimplificationMutator m_simplificationMutator;
 };
+
 }
 
 }

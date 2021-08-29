@@ -128,7 +128,7 @@ Monomial SubstitutionOfVariablesToValues::performSubstitutionForMonomial(Monomia
 {
     Monomial newMonomial(createMonomialFromConstant(monomial.getConstantConstReference()));
     Monomial::VariablesToExponentsMap previousVariableExponentMap(monomial.getVariablesToExponentsMapConstReference());
-    for(Monomial::VariableExponentPair const& variableExponentPair : previousVariableExponentMap)
+    for(auto const& variableExponentPair : previousVariableExponentMap)
     {
         if(isVariableFound(variableExponentPair.first))
         {
@@ -188,7 +188,7 @@ void SubstitutionOfVariablesToValues::putVariablesWithValues(initializer_list<Va
 
 void SubstitutionOfVariablesToValues::putVariablesWithValues(VariablesToValuesMap const& variablesWithValues)
 {
-    for(VariableValuePair const& variableValuesPair : variablesWithValues)
+    for(auto const& variableValuesPair : variablesWithValues)
     {
         putVariableWithValue(variableValuesPair.first, variableValuesPair.second);
     }

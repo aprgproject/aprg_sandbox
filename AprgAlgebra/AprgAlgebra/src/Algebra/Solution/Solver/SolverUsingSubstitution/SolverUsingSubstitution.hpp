@@ -52,7 +52,7 @@ private:
             Equation const& equationToSolve,
             std::string const& variableNameToSolve);
     void selectVariableNameAndEquationNumber(
-            bool & isFound,
+            bool & areVariableAndEquationSelected,
             std::string & selectedVariableName,
             unsigned int & selectedEquationIndex,
             Equations const& equations);

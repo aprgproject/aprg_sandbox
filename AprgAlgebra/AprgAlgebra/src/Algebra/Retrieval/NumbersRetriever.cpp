@@ -19,7 +19,7 @@ void NumbersRetriever::retrieveFromVariable(Variable const&)
 void NumbersRetriever::retrieveFromMonomial(Monomial const& monomial)
 {
     m_savedData.emplace(monomial.getConstantConstReference());
-    for(Monomial::VariableExponentPair const& variableExponentsPair
+    for(auto const& variableExponentsPair
         : monomial.getVariablesToExponentsMapConstReference())
     {
         m_savedData.emplace(variableExponentsPair.second);

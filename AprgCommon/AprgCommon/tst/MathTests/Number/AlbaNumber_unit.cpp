@@ -1199,7 +1199,8 @@ TEST(AlbaNumberTest, IsNegativeInfinityWorks)
 TEST(AlbaNumberTest, IsPositiveOrNegativeInfinityWorks)
 {
     AlbaNumber number1;
-    AlbaNumber number2(-81237);    AlbaNumber number3(34095093u);
+    AlbaNumber number2(-81237);
+    AlbaNumber number3(34095093u);
     AlbaNumber number4(1000000000000000000);
     AlbaNumber number5(4564.38794);
     AlbaNumber number6(AlbaNumber::createFraction(-87408, -9802));
@@ -1228,7 +1229,8 @@ TEST(AlbaNumberTest, IsPositiveOrNegativeInfinityWorks)
 
 TEST(AlbaNumberTest, IsNotANumberWorks)
 {
-    AlbaNumber number1;    AlbaNumber number2(-81237);
+    AlbaNumber number1;
+    AlbaNumber number2(-81237);
     AlbaNumber number3(34095093u);
     AlbaNumber number4(1000000000000000000);
     AlbaNumber number5(4564.38794);
@@ -1243,7 +1245,8 @@ TEST(AlbaNumberTest, IsNotANumberWorks)
 
     EXPECT_FALSE(number1.isNotANumber());
     EXPECT_FALSE(number2.isNotANumber());
-    EXPECT_FALSE(number3.isNotANumber());    EXPECT_FALSE(number4.isNotANumber());
+    EXPECT_FALSE(number3.isNotANumber());
+    EXPECT_FALSE(number4.isNotANumber());
     EXPECT_FALSE(number5.isNotANumber());
     EXPECT_FALSE(number6.isNotANumber());
     EXPECT_FALSE(number7.isNotANumber());

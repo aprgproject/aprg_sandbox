@@ -15,7 +15,9 @@ namespace algebra
 {
 
 TermsAggregator::TermsAggregator(Terms const& terms)
-    : m_terms(terms)
+    : m_startIndex(0)
+    , m_endIndex(0)
+    , m_terms(terms)
 {}
 
 Terms const& TermsAggregator::getTermsConstReference() const
@@ -101,14 +103,12 @@ bool TermsAggregator::combineOpeningClosingOperatorsAtStartEndIndexesAndReturnIf
             {
                 Function newFunction(termBeforeStart.getFunctionConstReference());
                 getTermReferenceFromBaseTerm(newFunction.getInputTermReference()) = term2;
-                Term newTerm(newFunction);
-                eraseAndThenInsert(m_startIndex-1, m_endIndex, newTerm);
+                eraseAndThenInsert(m_startIndex-1, m_endIndex, Term(newFunction));
                 isCombined=true;
             }
             else
             {
-                Term newTerm(term2);
-                eraseAndThenInsert(m_startIndex, m_endIndex, newTerm);
+                eraseAndThenInsert(m_startIndex, m_endIndex, term2);
                 isCombined=true;
             }
         }
@@ -198,7 +198,7 @@ TermsAggregator::Indexes TermsAggregator::getNextOperatorIndexes(OperatorInputTy
             }
         }
     }
-    for(pair<unsigned int, unsigned int> const& operatorLevelToIndexPair : operatorLevelToIndexMap)
+    for(auto const& operatorLevelToIndexPair : operatorLevelToIndexMap)
     {
         operatorIndexes.emplace_back(operatorLevelToIndexPair.second);
     }
@@ -237,8 +237,7 @@ bool TermsAggregator::buildExpressionWithBinaryOperationAndReturnIfBuilt(unsigne
             {
                 newExpression.putTermWithRaiseToPowerIfNeeded(term3);
             }
-            Term newTerm(newExpression);
-            eraseAndThenInsert(index-1, index+1, newTerm);
+            eraseAndThenInsert(index-1, index+1, Term(newExpression));
             isBuilt=true;
         }
     }
@@ -266,8 +265,7 @@ bool TermsAggregator::buildExpressionWithUnaryOperationAndReturnIfBuilt(unsigned
             {
                 newExpression.putTermWithSubtractionIfNeeded(term2);
             }
-            Term newTerm(newExpression);
-            eraseAndThenInsert(index, index+1, newTerm);
+            eraseAndThenInsert(index, index+1, Term(newExpression));
             isBuilt=true;
         }
     }
@@ -284,7 +282,7 @@ bool TermsAggregator::simplifyBinaryOperationAndReturnIfSimplified(unsigned int 
         Term const& term3(m_terms.at(index+1));
         if(isNonEmptyOrNonOperatorType(term1) && term2.isOperator() && isNonEmptyOrNonOperatorType(term3))
         {
-            Term newTerm = performOperation(term2.getOperatorConstReference(), term1, term3);
+            Term newTerm(performOperation(term2.getOperatorConstReference(), term1, term3));
             eraseAndThenInsert(index-1, index+1, newTerm);
             isSimplified=true;
         }
@@ -303,7 +301,7 @@ bool TermsAggregator::simplifyUnaryOperationAndReturnIfSimplified(unsigned int c
         if(haveNoFirstValue && term1.isOperator() && isNonEmptyOrNonOperatorType(term2) &&
                 OperatorLevel::AdditionAndSubtraction == term1.getOperatorConstReference().getOperatorLevel())
         {
-            Term newTerm = performOperation(term1.getOperatorConstReference(), term2);
+            Term newTerm(performOperation(term1.getOperatorConstReference(), term2));
             eraseAndThenInsert(index, index+1, newTerm);
             isSimplified=true;
         }
@@ -328,8 +326,9 @@ bool TermsAggregator::hasNoValueBeforeThisIndex(unsigned int const index) const
 void TermsAggregator::eraseAndThenInsert(
         unsigned int const firstIndex,
         unsigned int const secondIndex,
-        Term const newTerm)
+        Term const& term)
 {
+    Term newTerm(term);
     eraseTermsInclusive(firstIndex, secondIndex);
     insertTerm(firstIndex, newTerm);
 }

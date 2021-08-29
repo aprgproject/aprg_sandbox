@@ -31,7 +31,7 @@ Polynomial getNewPolynomialWithNewVariables(
         SubstitutionOfVariablesToTerms & variableSubstitution,
         Polynomials const& smallerPolynomials);
 Polynomials getPolynomialsWithRemovedCommonFactors(Polynomials const& polynomialsWithCommonFactors, Polynomials const& commonFactors);
-void updateToGetSubsetOfFactors(Polynomials & commonFactors, Polynomials const& currentCommonFactors);
+void updateToGetSubsetOfFactors(Polynomials & commonFactors, Polynomials const& commonFactorsOfAPolynomial);
 void combinePolynomialsByAdditionAndThenEmplaceBack(Polynomials & result, Polynomials const& smallerPolynomials);
 
 }

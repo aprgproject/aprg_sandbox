@@ -168,7 +168,7 @@ bool hasNotANumber(Monomial const& monomial)
     bool result(isNotANumber(monomial.getConstantConstReference()));
     if(!result)
     {
-        for(Monomial::VariableExponentPair const& variableExponentsPair
+        for(auto const& variableExponentsPair
             : monomial.getVariablesToExponentsMapConstReference())
         {
             result |= variableExponentsPair.second.isNotANumber();

@@ -25,10 +25,12 @@ public:
     void processFile(std::string const& inputFilePath, std::string const& outputFilePath);
 
 private:
-    double getLocationOfPrioritizedPrint(std::string const& inputFilePath);    void performCropForFile(std::string const& inputFilePath, std::string const& outputFilePath, double const foundLocation);
+    double getLocationOfPrioritizedPrint(std::string const& inputFilePath);
+    void performCropForFile(std::string const& inputFilePath, std::string const& outputFilePath, double const foundLocation);
     LocationsInFile getLocationsInFile(double const foundLocation, double const fileSize) const;
     void updateAfterOneIteration(double const percentage);
-    bool m_isOutputFileWritten;    double m_cropSize;
+    bool m_isOutputFileWritten;
+    double m_cropSize;
     AlbaGrepStringEvaluator m_prioritizedLineEvaluator;
     AlbaOptional<UpdateFunctionWithPercentage const&> m_updateFunctionAfterOneIterationOptional;
 };

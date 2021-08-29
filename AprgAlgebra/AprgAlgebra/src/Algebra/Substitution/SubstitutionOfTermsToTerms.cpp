@@ -133,7 +133,7 @@ void SubstitutionOfTermsToTerms::putTermsToTermsMapping(initializer_list<TermTer
 
 void SubstitutionOfTermsToTerms::putTermsToTermsMapping(TermToTermMap const& variablesWithValues)
 {
-    for(TermTermPair const& variableValuesPair : variablesWithValues)
+    for(auto const& variableValuesPair : variablesWithValues)
     {
         putTermToTermMapping(variableValuesPair.first, variableValuesPair.second);
     }
