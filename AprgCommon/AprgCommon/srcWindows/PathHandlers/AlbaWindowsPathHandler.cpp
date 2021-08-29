@@ -3,12 +3,11 @@
 #include <String/AlbaStringHelper.hpp>
 #include <Time/AlbaWindowsTimeHelper.hpp>
 #include <Windows/AlbaWindowsHelper.hpp>
-#include <winbase.h>
 
+#include <winbase.h>
 #include <windows.h>
 
-#include <functional>
-#include <iostream>
+#include <functional>#include <iostream>
 #include <sstream>
 #include <string>
 
