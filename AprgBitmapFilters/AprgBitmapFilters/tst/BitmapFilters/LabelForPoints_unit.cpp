@@ -27,52 +27,49 @@ TEST(LabelForPointsTest, IsInitialOrInvalidLabelWorks)
 {
     EXPECT_TRUE(isInitialOrInvalidLabel(INITIAL_LABEL_VALUE));
     EXPECT_TRUE(isInitialOrInvalidLabel(INVALID_LABEL_VALUE));
-    EXPECT_FALSE(isInitialOrInvalidLabel(1u));
+    EXPECT_FALSE(isInitialOrInvalidLabel(1U));
 }
 
 TEST(LabelForPointsTest, GetLabelColorWorks)
 {
-    EXPECT_EQ(0x0u, getLabelColor(INITIAL_LABEL_VALUE));
-    EXPECT_EQ(0x1A2BCEu, getLabelColor(INVALID_LABEL_VALUE));
-    EXPECT_EQ(0x9ACA3Bu, getLabelColor(1u));
-    EXPECT_EQ(0xCD651Du, getLabelColor(2u));
+    EXPECT_EQ(0x0U, getLabelColor(INITIAL_LABEL_VALUE));
+    EXPECT_EQ(0x1A2BCEU, getLabelColor(INVALID_LABEL_VALUE));
+    EXPECT_EQ(0x9ACA3BU, getLabelColor(1U));
+    EXPECT_EQ(0xCD651DU, getLabelColor(2U));
 }
 
 TEST(LabelForPointsTest, GetLabelWorks)
 {
     LabelForPoints labelForPixels;
-    labelForPixels.setLabel(BitmapXY(12, 34), 0x123456u);
+    labelForPixels.setLabel(BitmapXY(12, 34), 0x123456U);
 
-    EXPECT_EQ(0x123456u, labelForPixels.getLabel(BitmapXY(12, 34)));
+    EXPECT_EQ(0x123456U, labelForPixels.getLabel(BitmapXY(12, 34)));
     EXPECT_EQ(INITIAL_LABEL_VALUE, labelForPixels.getLabel(BitmapXY(56, 78)));
 }
-
 TEST(LabelForPointsTest, GetPixelsToLabelsWorks)
 {
     LabelForPoints labelForPixels;
-    labelForPixels.setLabel(BitmapXY(12, 34), 0x123456u);
+    labelForPixels.setLabel(BitmapXY(12, 34), 0x123456U);
 
     LabelForPoints::PixelsToLabelsMap const& pixelsToLabels(labelForPixels.getPixelsToLabels());
 
-    ASSERT_EQ(1u, pixelsToLabels.size());
-    LabelForPoints::PixelsToLabelsPair const& pairToVerify(*pixelsToLabels.cbegin());
+    ASSERT_EQ(1U, pixelsToLabels.size());
+    LabelForPoints::PixelAndLabelPair const& pairToVerify(*pixelsToLabels.cbegin());
     EXPECT_EQ(BitmapXY(12, 34), pairToVerify.first);
-    EXPECT_EQ(0x123456u, pairToVerify.second);
+    EXPECT_EQ(0x123456U, pairToVerify.second);
 }
 
-TEST(LabelForPointsTest, SetLabelWorks)
-{
+TEST(LabelForPointsTest, SetLabelWorks){
     LabelForPoints labelForPixels;
 
-    labelForPixels.setLabel(BitmapXY(12, 34), 0x123456u);
+    labelForPixels.setLabel(BitmapXY(12, 34), 0x123456U);
 
     LabelForPoints::PixelsToLabelsMap const& pixelsToLabels(labelForPixels.getPixelsToLabels());
-    ASSERT_EQ(1u, pixelsToLabels.size());
-    LabelForPoints::PixelsToLabelsPair const& pairToVerify(*pixelsToLabels.cbegin());
+    ASSERT_EQ(1U, pixelsToLabels.size());
+    LabelForPoints::PixelAndLabelPair const& pairToVerify(*pixelsToLabels.cbegin());
     EXPECT_EQ(BitmapXY(12, 34), pairToVerify.first);
-    EXPECT_EQ(0x123456u, pairToVerify.second);
+    EXPECT_EQ(0x123456U, pairToVerify.second);
 }
-
 
 }
 

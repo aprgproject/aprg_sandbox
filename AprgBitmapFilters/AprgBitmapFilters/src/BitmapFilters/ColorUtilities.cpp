@@ -5,14 +5,13 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 
 using namespace alba::mathHelper;
 using namespace std;
-
 //https://en.wikipedia.org/wiki/HSL_and_HSV
 
-namespace alba
-{
+namespace alba{
 
 namespace AprgBitmap
 {
@@ -20,40 +19,37 @@ namespace AprgBitmap
 namespace ColorUtilities
 {
 
-constexpr unsigned int MAX_COLOR_VALUE = 0xFF;
+constexpr uint8_t MAX_COLOR_VALUE = 0xFF;
 
-bool isSimilar(unsigned int const color1, unsigned int const color2, unsigned int const similarityColorLimit) //RGB algo
+bool isSimilar(uint32_t const color1, uint32_t const color2, uint32_t const similarityColorLimit) //RGB algo
 {
-    bool isRedDifferenceBeyondLimit(getPositiveDelta<unsigned int>(extractRed(color1), extractRed(color2)) > similarityColorLimit);
-    bool isGreenDifferenceBeyondLimit(getPositiveDelta<unsigned int>(extractGreen(color1), extractGreen(color2)) > similarityColorLimit);
-    bool isBlueDifferenceBeyondLimit(getPositiveDelta<unsigned int>(extractBlue(color1), extractBlue(color2)) > similarityColorLimit);
+    bool isRedDifferenceBeyondLimit = getPositiveDelta<uint32_t>(extractRed(color1), extractRed(color2)) > similarityColorLimit;
+    bool isGreenDifferenceBeyondLimit = getPositiveDelta<uint32_t>(extractGreen(color1), extractGreen(color2)) > similarityColorLimit;
+    bool isBlueDifferenceBeyondLimit = getPositiveDelta<uint32_t>(extractBlue(color1), extractBlue(color2)) > similarityColorLimit;
     return  !(isRedDifferenceBeyondLimit || isGreenDifferenceBeyondLimit || isBlueDifferenceBeyondLimit);
 }
 
-unsigned int getColorValueOnly(unsigned int const number)
+uint32_t getColorValueOnly(uint32_t const value)
 {
-    return 0xFFFFFF & number;
+    return 0xFFFFFF & value;
 }
 
 /*
-bool isSimilar(unsigned int const color1, unsigned int const color2)//Pythagorean algo
+bool isSimilar(uint32_t const color1, uint32_t const color2)//Pythagorean algo
 {
     double colorDifferenceAcrossDifferentColors(getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>((double)getRed(color1)-(double)getRed(color2), (double)getGreen(color1)-(double)getGreen(color2), (double)getBlue(color1)-(double)getBlue(color2)));
-    return colorDifferenceAcrossDifferentColors < m_similarityColorLimit;
-}
+    return colorDifferenceAcrossDifferentColors < m_similarityColorLimit;}
 */
 
-ColorPercentagesData calculateColorPercentagesData(unsigned int const color)
+ColorPercentagesData calculateColorPercentagesData(uint32_t const color)
 {
-    ColorPercentagesData result;
+    ColorPercentagesData result{};
     double red = extractRed(color);
     double green = extractGreen(color);
-    double blue = extractBlue(color);
-    result.redPercentage = red/MAX_COLOR_VALUE;
+    double blue = extractBlue(color);    result.redPercentage = red/MAX_COLOR_VALUE;
     result.greenPercentage = green/MAX_COLOR_VALUE;
     result.bluePercentage = blue/MAX_COLOR_VALUE;
-    result.colorPercentageMax = max(max(result.redPercentage, result.greenPercentage), result.bluePercentage);
-    result.colorPercentageMin = min(min(result.redPercentage, result.greenPercentage), result.bluePercentage);
+    result.colorPercentageMax = max(max(result.redPercentage, result.greenPercentage), result.bluePercentage);    result.colorPercentageMin = min(min(result.redPercentage, result.greenPercentage), result.bluePercentage);
     result.deltaMaxMinPercentage = result.colorPercentageMax-result.colorPercentageMin;
     return result;
 }
@@ -89,36 +85,32 @@ double calculateHueDegrees(ColorPercentagesData const& colorPercentagesData)
     return hueDegrees;
 }
 
-double calculateColorIntensityDecimal(unsigned int const color)
+double calculateColorIntensityDecimal(uint32_t const color)
 {
     return (((double)extractRed(color)+extractGreen(color)+extractBlue(color))/MAX_COLOR_VALUE)/3;
 }
 
-double calculateLuma601Decimal(unsigned int const color)
+double calculateLuma601Decimal(uint32_t const color)
 {
     ColorPercentagesData colorPercentagesData(calculateColorPercentagesData(color));
-    return colorPercentagesData.redPercentage*0.2990 +
-            colorPercentagesData.greenPercentage*0.5870 +
+    return colorPercentagesData.redPercentage*0.2990 +            colorPercentagesData.greenPercentage*0.5870 +
             colorPercentagesData.bluePercentage*0.1140;
 }
 
-double calculateLuma709Decimal(unsigned int const color)
+double calculateLuma709Decimal(uint32_t const color)
 {
     ColorPercentagesData colorPercentagesData(calculateColorPercentagesData(color));
-    return colorPercentagesData.redPercentage*0.2126 +
-            colorPercentagesData.greenPercentage*0.7152 +
+    return colorPercentagesData.redPercentage*0.2126 +            colorPercentagesData.greenPercentage*0.7152 +
             colorPercentagesData.bluePercentage*0.0722;
 }
 
-double calculateSaturationColorIntensityDecimal(unsigned int const color)
+double calculateSaturationColorIntensityDecimal(uint32_t const color)
 {
     double result;
-    double colorIntensityDecimal(calculateColorIntensityDecimal(color));
-    if(colorIntensityDecimal == 0)
+    double colorIntensityDecimal(calculateColorIntensityDecimal(color));    if(colorIntensityDecimal == 0)
     {
         result = 0;
-    }
-    else
+    }    else
     {
         result = 1-((double)extractMinForOneColor(color)/MAX_COLOR_VALUE/colorIntensityDecimal);
     }
@@ -130,47 +122,42 @@ HueSaturationLightnessData createHueSaturationLightnessData(
         double const saturationLightnessDecimal,
         double const lightnessDecimal)
 {
-    HueSaturationLightnessData result;
+    HueSaturationLightnessData result{};
     result.hueDegrees = hueDegrees;
     result.saturationLightnessDecimal = saturationLightnessDecimal;
-    result.lightnessDecimal = lightnessDecimal;
-    return result;
+    result.lightnessDecimal = lightnessDecimal;    return result;
 }
 
-HueSaturationValueData createHueSaturationValueData(
-        double const hueDegrees,
+HueSaturationValueData createHueSaturationValueData(        double const hueDegrees,
         double const saturationValueDecimal,
         double const valueDecimalOfColorMax)
 {
-    HueSaturationValueData result;
+    HueSaturationValueData result{};
     result.hueDegrees = hueDegrees;
     result.saturationValueDecimal = saturationValueDecimal;
-    result.valueDecimalOfColorMax = valueDecimalOfColorMax;
-    return result;
+    result.valueDecimalOfColorMax = valueDecimalOfColorMax;    return result;
 }
 
-unsigned int combineRgbToColor(unsigned char const red, unsigned char const green, unsigned char const blue)
+uint32_t combineRgbToColor(uint8_t const red, uint8_t const green, uint8_t const blue)
 {
-    return AlbaBitManipulation<unsigned int>::concatenateBytes(red, green, blue);
+    return AlbaBitManipulation<uint32_t>::concatenateBytes(red, green, blue);
 }
 
-unsigned int combine2Colors(unsigned int const color1, unsigned int const color2)
+uint32_t combine2Colors(uint32_t const color1, uint32_t const color2)
 {
     return combineRgbToColor(
-                static_cast<unsigned char>(round(static_cast<double>(extractRed(color1)+extractRed(color2))/2)),
-                static_cast<unsigned char>(round(static_cast<double>(extractGreen(color1)+extractGreen(color2))/2)),
-                static_cast<unsigned char>(round(static_cast<double>(extractBlue(color1)+extractBlue(color2))/2)));
+                static_cast<uint8_t>(round(static_cast<double>(extractRed(color1)+extractRed(color2))/2)),
+                static_cast<uint8_t>(round(static_cast<double>(extractGreen(color1)+extractGreen(color2))/2)),
+                static_cast<uint8_t>(round(static_cast<double>(extractBlue(color1)+extractBlue(color2))/2)));
 }
 
-unsigned int convertChromaColorDataToColor(ChromaColorData const& chromaColorData)
+uint32_t convertChromaColorDataToColor(ChromaColorData const& chromaColorData)
 {
     double c = chromaColorData.chroma;
-    double x = chromaColorData.xSecondLargestComponent;
-    double m = chromaColorData.mOffset;
+    double x = chromaColorData.xSecondLargestComponent;    double m = chromaColorData.mOffset;
     double hueDegrees(chromaColorData.hueDegrees);
     double redPrime(0);
-    double greenPrime(0);
-    double bluePrime(0);
+    double greenPrime(0);    double bluePrime(0);
     if(hueDegrees>=0 && hueDegrees<60)
     {
         redPrime = c; greenPrime = x; bluePrime=0;
@@ -196,76 +183,68 @@ unsigned int convertChromaColorDataToColor(ChromaColorData const& chromaColorDat
         redPrime = c; greenPrime = 0; bluePrime=x;
     }
     return combineRgbToColor(
-                static_cast<unsigned char>(round((redPrime+m)*MAX_COLOR_VALUE)),
-                static_cast<unsigned char>(round((greenPrime+m)*MAX_COLOR_VALUE)),
-                static_cast<unsigned char>(round((bluePrime+m)*MAX_COLOR_VALUE)));
+                static_cast<uint8_t>(round((redPrime+m)*MAX_COLOR_VALUE)),
+                static_cast<uint8_t>(round((greenPrime+m)*MAX_COLOR_VALUE)),
+                static_cast<uint8_t>(round((bluePrime+m)*MAX_COLOR_VALUE)));
 }
 
-HueSaturationLightnessData convertColorToHueSaturationLightnessData(unsigned int const color)
+HueSaturationLightnessData convertColorToHueSaturationLightnessData(uint32_t const color)
 {
     ColorPercentagesData colorPercentagesData(calculateColorPercentagesData(color));
-    HueSaturationLightnessData result;
+    HueSaturationLightnessData result{};
     result.hueDegrees = calculateHueDegrees(colorPercentagesData);
     result.lightnessDecimal = (colorPercentagesData.colorPercentageMax+colorPercentagesData.colorPercentageMin)/2;
-    if(colorPercentagesData.deltaMaxMinPercentage == 0)
-    {
+    if(colorPercentagesData.deltaMaxMinPercentage == 0)    {
         result.saturationLightnessDecimal = 0;
     }
-    else
-    {
+    else    {
         result.saturationLightnessDecimal = colorPercentagesData.deltaMaxMinPercentage/(1-getAbsoluteValue(result.lightnessDecimal*2-1));
     }
     return result;
 }
 
-HueSaturationValueData convertColorToHueSaturationValueData(unsigned int const color)
+HueSaturationValueData convertColorToHueSaturationValueData(uint32_t const color)
 {
     ColorPercentagesData colorPercentagesData(calculateColorPercentagesData(color));
-    HueSaturationValueData result;
+    HueSaturationValueData result{};
     result.hueDegrees = calculateHueDegrees(colorPercentagesData);
     result.valueDecimalOfColorMax = colorPercentagesData.colorPercentageMax;
-    if(colorPercentagesData.colorPercentageMax == 0)
-    {
+    if(colorPercentagesData.colorPercentageMax == 0)    {
         result.saturationValueDecimal = 0;
     }
-    else
-    {
+    else    {
         result.saturationValueDecimal = colorPercentagesData.deltaMaxMinPercentage/colorPercentagesData.colorPercentageMax;
     }
     return result;
 }
 
-unsigned int convertHueSaturationLightnessDataToColor(HueSaturationLightnessData const& hslData)
+uint32_t convertHueSaturationLightnessDataToColor(HueSaturationLightnessData const& hslData)
 {
-    ChromaColorData chromaColorData;
+    ChromaColorData chromaColorData{};
     chromaColorData.chroma = (1-getAbsoluteValue(hslData.lightnessDecimal*2-1))*hslData.saturationLightnessDecimal;
     chromaColorData.xSecondLargestComponent = chromaColorData.chroma*(1-getAbsoluteValue(fmod((hslData.hueDegrees/60), 2)-1));
-    chromaColorData.mOffset = hslData.lightnessDecimal-(chromaColorData.chroma/2);
-    chromaColorData.hueDegrees = hslData.hueDegrees;
+    chromaColorData.mOffset = hslData.lightnessDecimal-(chromaColorData.chroma/2);    chromaColorData.hueDegrees = hslData.hueDegrees;
     return convertChromaColorDataToColor(chromaColorData);
 }
 
-unsigned int convertHueSaturationValueDataToColor(HueSaturationValueData const& hsvData)
+uint32_t convertHueSaturationValueDataToColor(HueSaturationValueData const& hsvData)
 {
-    ChromaColorData chromaColorData;
+    ChromaColorData chromaColorData{};
     chromaColorData.chroma = hsvData.valueDecimalOfColorMax*hsvData.saturationValueDecimal;
     chromaColorData.xSecondLargestComponent = chromaColorData.chroma*(1-getAbsoluteValue(fmod((hsvData.hueDegrees/60), 2)-1));
-    chromaColorData.mOffset = hsvData.valueDecimalOfColorMax-chromaColorData.chroma;
-    chromaColorData.hueDegrees = hsvData.hueDegrees;
+    chromaColorData.mOffset = hsvData.valueDecimalOfColorMax-chromaColorData.chroma;    chromaColorData.hueDegrees = hsvData.hueDegrees;
     return convertChromaColorDataToColor(chromaColorData);
 }
 
 HueSaturationValueData convertHslDataToHsvData(HueSaturationLightnessData const& hslData)
 {
-    HueSaturationValueData result;
+    HueSaturationValueData result{};
     result.hueDegrees = hslData.hueDegrees;
     result.valueDecimalOfColorMax = hslData.lightnessDecimal + hslData.saturationLightnessDecimal*min(hslData.lightnessDecimal, 1-hslData.lightnessDecimal);
-    if(result.valueDecimalOfColorMax==0)
-    {
+    if(result.valueDecimalOfColorMax==0)    {
         result.saturationValueDecimal=0;
     }
-    else
-    {
+    else    {
         result.saturationValueDecimal=2-(2*hslData.lightnessDecimal/result.valueDecimalOfColorMax);
     }
     return result;
@@ -273,48 +252,44 @@ HueSaturationValueData convertHslDataToHsvData(HueSaturationLightnessData const&
 
 HueSaturationLightnessData convertHsvDataToHslData(HueSaturationValueData const& hsvData)
 {
-    HueSaturationLightnessData result;
+    HueSaturationLightnessData result{};
     result.hueDegrees = hsvData.hueDegrees;
     result.lightnessDecimal = hsvData.valueDecimalOfColorMax-(hsvData.valueDecimalOfColorMax*hsvData.saturationValueDecimal/2);
-    if(result.lightnessDecimal==0 || result.lightnessDecimal==1)
-    {
+    if(result.lightnessDecimal==0 || result.lightnessDecimal==1)    {
         result.saturationLightnessDecimal=0;
     }
-    else
-    {
+    else    {
         result.saturationLightnessDecimal = (hsvData.valueDecimalOfColorMax-result.lightnessDecimal) /
                 (min(result.lightnessDecimal, 1-result.lightnessDecimal));
     }
     return result;
 }
 
-unsigned char extractRed(unsigned int const color)
+uint8_t extractRed(uint32_t const color)
 {
-    return (AlbaBitManipulation<unsigned int>::getByteAt<2>(color));
+    return (AlbaBitManipulation<uint32_t>::getByteAt<2>(color));
 }
 
-unsigned char extractGreen(unsigned int const color)
+uint8_t extractGreen(uint32_t const color)
 {
-    return (AlbaBitManipulation<unsigned int>::getByteAt<1>(color));
+    return (AlbaBitManipulation<uint32_t>::getByteAt<1>(color));
 }
 
-unsigned char extractBlue(unsigned int const color)
+uint8_t extractBlue(uint32_t const color)
 {
-    return (AlbaBitManipulation<unsigned int>::getByteAt<0>(color));
+    return (AlbaBitManipulation<uint32_t>::getByteAt<0>(color));
 }
 
-unsigned char extractMaxForOneColor(unsigned int const color)
+uint8_t extractMaxForOneColor(uint32_t const color)
 {
     return max(max(extractRed(color), extractGreen(color)), extractBlue(color));
 }
 
-unsigned char extractMinForOneColor(unsigned int const color)
+uint8_t extractMinForOneColor(uint32_t const color)
 {
     return min(min(extractRed(color), extractGreen(color)), extractBlue(color));
 }
-
 }
 
 }
-
 }

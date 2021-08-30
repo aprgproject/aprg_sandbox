@@ -2,15 +2,13 @@
 
 #include <Bitmap/CommonTypes.hpp>
 
-#include <set>
 #include <map>
+#include <set>
 
 namespace alba
 {
-
 namespace AprgBitmap
 {
-
 class PenCircles
 {
 public:
@@ -19,38 +17,34 @@ public:
         PenCircleDetails();
         PenCircleDetails(
                 double const radiusParameter,
-                unsigned int const colorParameter);
+                uint32_t const colorParameter);
         double radius;
-        unsigned int color;
+        uint32_t color;
     };
     using PointToPenCircleDetailsMap = std::map<BitmapXY, PenCircleDetails>;
-    using PointPenCircleDetailsPair = std::pair<BitmapXY, PenCircleDetails>;
-    using PointPenCircleDetailsPairs = std::vector<PointPenCircleDetailsPair>;
+    using PointAndPenCircleDetailsPair = std::pair<BitmapXY, PenCircleDetails>;
+    using PointAndPenCircleDetailsPairs = std::vector<PointAndPenCircleDetailsPair>;
     using CircleCenterConnection = std::pair<BitmapXY, BitmapXY>;
     using CircleCenterConnections = std::set<CircleCenterConnection>;
-
     bool isPenCircle(BitmapXY const& point) const;
 
     PenCircleDetails getPenCircleDetails(BitmapXY const& point) const;
     PointToPenCircleDetailsMap const& getPenCircles() const;
     CircleCenterConnections const& getCenterConnections() const;
-    PointPenCircleDetailsPairs getNearestPenCirclesToAPoint(
+    PointAndPenCircleDetailsPairs getNearestPenCirclesToAPoint(
             BitmapXY const& point,
             unsigned int const distance) const;
-
     PointToPenCircleDetailsMap & getPenCirclesReference();
 
     void addAsPenCircle(
             BitmapXY const& point,
             double const radius,
-            unsigned int const color);
+            uint32_t const color);
     void removePenCircleAt(
             BitmapXY const& circleCenter);
-    void connectCircles(
-            BitmapXY const& circle1Center,
+    void connectCircles(            BitmapXY const& circle1Center,
             BitmapXY const& circle2Center);
     void clear();
-
 private:
     PointToPenCircleDetailsMap m_penCircles;
     CircleCenterConnections m_centerConnections;

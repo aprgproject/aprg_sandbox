@@ -21,36 +21,32 @@ public:
         double totalBlue;
         double totalWeight;
         bool isEmpty() const;
-        unsigned int getColor() const;
-        void addColor(unsigned int const color, double const weight);
+        uint32_t getColor() const;
+        void addColor(uint32_t const color, double const weight);
         void clear();
     };
-    using PointToColorMap = std::map<BitmapXY, unsigned int>;
-    using PointColorPair = std::pair<BitmapXY, unsigned int>;
+    using PointToColorMap = std::map<BitmapXY, uint32_t>;
+    using PointAndColorPair = std::pair<BitmapXY, uint32_t>;
     using PointToColorDetailsMap = std::map<BitmapXY, ColorDetails>;
-    using PointColorDetailsPair = std::pair<BitmapXY, ColorDetails>;
+    using PointAndColorDetailsPair = std::pair<BitmapXY, ColorDetails>;
 
     PenCirclesDrawer(
-            PenCircles const& penCircles,
-            BitmapSnippet & snippet);
+            PenCircles const& penCircles,            BitmapSnippet & snippet);
 
     void draw();
-    void drawUsingCirclesWithoutOverlay();
-    void drawUsingCirclesWithOverlay();
+    void drawUsingCirclesWithoutOverlay();    void drawUsingCirclesWithOverlay();
     void drawUsingConnectedCircles();
 
 private:
     bool isToBeConnected(
-            PenCircles::PointPenCircleDetailsPair const& pair1,
-            PenCircles::PointPenCircleDetailsPair const& pair2) const;
+            PenCircles::PointAndPenCircleDetailsPair const& pair1,
+            PenCircles::PointAndPenCircleDetailsPair const& pair2) const;
     void writeDrawnPointsInSnippet();
     void writeCirclesWithoutOverlay();
-    void writeCirclesWithOverlay();
-    void connectCirclesIfNeeded();
+    void writeCirclesWithOverlay();    void connectCirclesIfNeeded();
     void putCirclesWithoutOverlay();
     void putCirclesWithOverlay();
-    void putCircleConnectionsAndRemoveProcessedCircles();
-    BitmapSnippet & m_snippet;
+    void putCircleConnectionsAndRemoveProcessedCircles();    BitmapSnippet & m_snippet;
     BitmapSnippetTraversal m_snippetTraversal;
     PenCircles m_penCircles;
     PointToColorMap m_drawnPoints;

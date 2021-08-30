@@ -32,20 +32,17 @@ AnimizeColor::AnimizeColor()
     , m_highestIncludedValue(0.9)
 {}
 
-unsigned int AnimizeColor::getNewColor(unsigned int const originalColor) const
+uint32_t AnimizeColor::getNewColor(uint32_t const originalColor) const
 {
     HueSaturationLightnessData newHslData(convertColorToHueSaturationLightnessData(originalColor));
     newHslData.lightnessDecimal = getNewLightness(newHslData.lightnessDecimal);
     newHslData.saturationLightnessDecimal = getNewSaturation(newHslData.saturationLightnessDecimal);
-    unsigned int newColor = convertHueSaturationLightnessDataToColor(newHslData);
-    return newColor;
+    return convertHueSaturationLightnessDataToColor(newHslData);
 }
 
-double AnimizeColor::getNewLightness(double const originalValue) const
-{
+double AnimizeColor::getNewLightness(double const originalValue) const{
     return getNewValue(m_lightnessData, originalValue);
 }
-
 double AnimizeColor::getNewSaturation(double const originalValue) const
 {
     return getNewValue(m_saturationData, originalValue);
@@ -74,15 +71,13 @@ void AnimizeColor::saveColorData(string const& path)
     ofstream colorDataFileStream(path);
 
     colorDataFileStream << "lightness, newLightness"<< endl;
-    for(ColorDataPair const lightnessCountPair : m_lightnessData)
+    for(ValueAndColorDataPair const lightnessCountPair : m_lightnessData)
     {
         colorDataFileStream << lightnessCountPair.first
-                            << ", " << lightnessCountPair.second.newValue
-                            << endl;
+                            << ", " << lightnessCountPair.second.newValue                            << endl;
         /*for(unsigned int i=0; i<lightnessCountPair.second.count; i++)
         {
-            colorDataFileStream << lightnessCountPair.first
-                                << ", " << lightnessCountPair.second.newLightness
+            colorDataFileStream << lightnessCountPair.first                                << ", " << lightnessCountPair.second.newLightness
                                 << endl;
         }*/
     }
@@ -101,39 +96,35 @@ void AnimizeColor::addCountToValue(
     {
         if(colorDataMap.find(value) == colorDataMap.cend())
         {
-            ColorDetails details;
+            ColorDetails details{};
             details.count=1;
             colorDataMap.emplace(value, details);
-        }
-        else
+        }        else
         {
             colorDataMap.at(value).count++;
-        }
-    }
+        }    }
 }
 
 void AnimizeColor::calculateNewValues(ColorDataMap & colorDataMap)
 {
     unsigned int totalCount=0;
-    for(ColorDataPair const& pair : colorDataMap)
+    for(auto const& colorDataPair : colorDataMap)
     {
-        totalCount+=pair.second.count;
+        totalCount += colorDataPair.second.count;
     }
     unsigned int partialCount=0;
     double diffOfHighestAndLowestValue=m_highestIncludedValue-m_lowestIncludedValue;
-    for(ColorDataMap::iterator it=colorDataMap.begin(); it!=colorDataMap.end(); it++)
+    for(auto & colorDataPair : colorDataMap)
     {
-        unsigned int currentCount=it->second.count;
-        it->second.newValue=(((static_cast<double>(currentCount)/2)+partialCount)/totalCount*diffOfHighestAndLowestValue)
-                +m_lowestIncludedValue;
+        unsigned int currentCount=colorDataPair.second.count;
+        colorDataPair.second.newValue = (((static_cast<double>(currentCount)/2)+partialCount)/totalCount*diffOfHighestAndLowestValue)
+                + m_lowestIncludedValue;
         partialCount+=currentCount;
     }
 }
-
 double AnimizeColor::getNewValue(
         ColorDataMap const& colorDataMap,
-        double const originalValue) const
-{
+        double const originalValue) const{
     double newValue=originalValue;
     if(isValueIncluded(originalValue))
     {

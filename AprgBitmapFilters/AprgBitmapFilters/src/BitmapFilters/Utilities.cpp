@@ -23,12 +23,11 @@ BitmapXY convertPointToBitmapXY(Point const& pointPosition)
 void animeColorsInPenCircles(PenCircles & penCircles, AnimizeColor const& animizeColor)
 {
     PenCircles::PointToPenCircleDetailsMap & map(penCircles.getPenCirclesReference());
-    for(PenCircles::PointToPenCircleDetailsMap::iterator it=map.begin(); it!=map.end(); it++)
+    for(auto & pointAndPenCircleDetails : map)
     {
-        it->second.color = animizeColor.getNewColor(it->second.color);
+        pointAndPenCircleDetails.second.color = animizeColor.getNewColor(pointAndPenCircleDetails.second.color);
     }
 }
-
 }
 
 }

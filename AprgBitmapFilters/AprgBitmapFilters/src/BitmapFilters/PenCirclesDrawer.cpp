@@ -1,15 +1,13 @@
 #include "PenCirclesDrawer.hpp"
 
-#include <BitmapFilters/Utilities.hpp>
 #include <BitmapFilters/ColorUtilities.hpp>
+#include <BitmapFilters/Utilities.hpp>
 #include <Dimensionless/Angle.hpp>
 #include <TwoDimensions/Circle.hpp>
-#include <TwoDimensions/Line.hpp>
-#include <TwoDimensions/TwoDimensionsHelper.hpp>
+#include <TwoDimensions/Line.hpp>#include <TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <cmath>
 #include <set>
-
 using namespace alba::AprgBitmap::ColorUtilities;
 using namespace alba::Dimensionless;
 using namespace alba::TwoDimensions;
@@ -34,28 +32,26 @@ bool PenCirclesDrawer::ColorDetails::isEmpty() const
     return totalWeight==0;
 }
 
-unsigned int PenCirclesDrawer::ColorDetails::getColor() const
+uint32_t PenCirclesDrawer::ColorDetails::getColor() const
 {
-    unsigned char red = static_cast<unsigned char>(round(totalRed/totalWeight));
-    unsigned char green = static_cast<unsigned char>(round(totalGreen/totalWeight));
-    unsigned char blue = static_cast<unsigned char>(round(totalBlue/totalWeight));
-    return combineRgbToColor(red, green, blue);
+    return combineRgbToColor(
+                static_cast<uint8_t>(round(totalRed/totalWeight)),
+                static_cast<uint8_t>(round(totalGreen/totalWeight)),
+                static_cast<uint8_t>(round(totalBlue/totalWeight)));
 }
 
-void PenCirclesDrawer::ColorDetails::addColor(unsigned int const color, double const weight)
+void PenCirclesDrawer::ColorDetails::addColor(uint32_t const color, double const weight)
 {
-    totalRed+=extractRed(color)*weight;
-    totalGreen+=extractGreen(color)*weight;
-    totalBlue+=extractBlue(color)*weight;
-    totalWeight+=weight;
+    totalRed += extractRed(color)*weight;
+    totalGreen += extractGreen(color)*weight;
+    totalBlue += extractBlue(color)*weight;
+    totalWeight += weight;
 }
 
-void PenCirclesDrawer::ColorDetails::clear()
-{
+void PenCirclesDrawer::ColorDetails::clear(){
     totalRed=0;
     totalGreen=0;
-    totalBlue=0;
-    totalWeight=0;
+    totalBlue=0;    totalWeight=0;
 }
 
 PenCirclesDrawer::PenCirclesDrawer(
@@ -91,108 +87,102 @@ void PenCirclesDrawer::drawUsingConnectedCircles()
 }
 
 bool PenCirclesDrawer::isToBeConnected(
-        PenCircles::PointPenCircleDetailsPair const& pair1,
-        PenCircles::PointPenCircleDetailsPair const& pair2) const
+        PenCircles::PointAndPenCircleDetailsPair const& pair1,
+        PenCircles::PointAndPenCircleDetailsPair const& pair2) const
 {
     return isSimilar(pair1.second.color, pair2.second.color, 0x08)
-            && getDistance(convertBitmapXYToPoint(pair1.first), convertBitmapXYToPoint(pair2.first))
-            < (pair1.second.radius + pair2.second.radius);
+            && getDistance(convertBitmapXYToPoint(pair1.first), convertBitmapXYToPoint(pair2.first))            < (pair1.second.radius + pair2.second.radius);
 }
 
 void PenCirclesDrawer::writeDrawnPointsInSnippet()
 {
-    for(PointColorPair const& pointColorPair : m_drawnPoints)
+    for(auto const& pointAndColorPair : m_drawnPoints)
     {
-        m_snippet.setPixelAt(pointColorPair.first, pointColorPair.second);
+        m_snippet.setPixelAt(pointAndColorPair.first, pointAndColorPair.second);
     }
 }
 
 void PenCirclesDrawer::writeCirclesWithoutOverlay()
 {
-    for(PenCircles::PointPenCircleDetailsPair const& pair : m_penCircles.getPenCircles())
+    for(auto const& pointAndPenCircleDetailsPair : m_penCircles.getPenCircles())
     {
-        Circle penCircle(convertBitmapXYToPoint(pair.first), pair.second.radius);
-        unsigned int circleColor(pair.second.color);
+        Circle penCircle(convertBitmapXYToPoint(pointAndPenCircleDetailsPair.first), pointAndPenCircleDetailsPair.second.radius);
+        unsigned int circleColor(pointAndPenCircleDetailsPair.second.color);
         m_snippetTraversal.traverseCircleArea(penCircle, [&](BitmapXY const& pointInCircle)
         {
-            m_snippet.setPixelAt(pointInCircle, circleColor);
-        });
+            m_snippet.setPixelAt(pointInCircle, circleColor);        });
     }
 }
 
 void PenCirclesDrawer::writeCirclesWithOverlay()
 {
     PointToColorDetailsMap pointsWithColorDetails;
-    for(PenCircles::PointPenCircleDetailsPair const& pair : m_penCircles.getPenCircles())
+    for(auto const& pointAndPenCircleDetailsPair : m_penCircles.getPenCircles())
     {
-        Circle penCircle(convertBitmapXYToPoint(pair.first), pair.second.radius);
+        Circle penCircle(convertBitmapXYToPoint(pointAndPenCircleDetailsPair.first), pointAndPenCircleDetailsPair.second.radius);
         m_snippetTraversal.traverseCircleArea(penCircle, [&](BitmapXY const& pointInCircle)
         {
-            pointsWithColorDetails[pointInCircle].addColor(pair.second.color, 1);
+            pointsWithColorDetails[pointInCircle].addColor(pointAndPenCircleDetailsPair.second.color, 1);
         });
     }
-    for(PointColorDetailsPair const& pointAndColorDetails : pointsWithColorDetails)
+    for(auto const& pointAndColorDetails : pointsWithColorDetails)
     {
         ColorDetails colorDetails(pointAndColorDetails.second);
-        BitmapXY const& pointInCircle(pointAndColorDetails.first);
-        PointToColorMap::const_iterator it = m_drawnPoints.find(pointInCircle);
+        BitmapXY const& pointInCircle(pointAndColorDetails.first);        PointToColorMap::const_iterator it = m_drawnPoints.find(pointInCircle);
         if(it!=m_drawnPoints.cend())
         {
-            colorDetails.addColor(it->second, 1);
-        }
+            colorDetails.addColor(it->second, 1);        }
         m_snippet.setPixelAt(pointInCircle, colorDetails.getColor());
     }
 }
 
 void PenCirclesDrawer::connectCirclesIfNeeded()
 {
-    for(PenCircles::PointPenCircleDetailsPair const& mainPair : m_penCircles.getPenCircles())
+    for(auto const& mainPair : m_penCircles.getPenCircles())
     {
         BitmapXY const& centerPoint(mainPair.first);
-        PenCircles::PointPenCircleDetailsPairs neighborPairs(m_penCircles.getNearestPenCirclesToAPoint(centerPoint, mainPair.second.radius));
-        for(PenCircles::PointPenCircleDetailsPair const& neighborPair : neighborPairs)
+        PenCircles::PointAndPenCircleDetailsPairs neighborPairs(
+                    m_penCircles.getNearestPenCirclesToAPoint(
+                        centerPoint,
+                        static_cast<unsigned int>(round(mainPair.second.radius))));
+        for(auto const& neighborPair : neighborPairs)
         {
             if(mainPair.first!=neighborPair.first && isToBeConnected(mainPair, neighborPair))
-            {
-                m_penCircles.connectCircles(centerPoint, neighborPair.first);
+            {                m_penCircles.connectCircles(centerPoint, neighborPair.first);
             }
         }
-    }
-}
+    }}
 
 void PenCirclesDrawer::putCirclesWithoutOverlay()
 {
-    for(PenCircles::PointPenCircleDetailsPair const& pair : m_penCircles.getPenCircles())
+    for(auto const& pointAndPenCircleDetailsPair : m_penCircles.getPenCircles())
     {
-        Circle penCircle(convertBitmapXYToPoint(pair.first), pair.second.radius);
-        unsigned int circleColor(pair.second.color);
+        Circle penCircle(convertBitmapXYToPoint(pointAndPenCircleDetailsPair.first), pointAndPenCircleDetailsPair.second.radius);
+        unsigned int circleColor(pointAndPenCircleDetailsPair.second.color);
         m_snippetTraversal.traverseCircleArea(penCircle, [&](BitmapXY const& pointInCircle)
         {
-            m_drawnPoints.emplace(pointInCircle, circleColor);
-        });
+            m_drawnPoints.emplace(pointInCircle, circleColor);        });
     }
 }
 
 void PenCirclesDrawer::putCirclesWithOverlay()
 {
     PointToColorDetailsMap pointsWithColorDetails;
-    for(PenCircles::PointPenCircleDetailsPair const& pair : m_penCircles.getPenCircles())
+    for(auto const& pointAndPenCircleDetailsPair : m_penCircles.getPenCircles())
     {
-        Circle penCircle(convertBitmapXYToPoint(pair.first), pair.second.radius);
+        Circle penCircle(convertBitmapXYToPoint(pointAndPenCircleDetailsPair.first), pointAndPenCircleDetailsPair.second.radius);
         m_snippetTraversal.traverseCircleArea(penCircle, [&](BitmapXY const& pointInCircle)
         {
-            pointsWithColorDetails[pointInCircle].addColor(pair.second.color, 1);
+            pointsWithColorDetails[pointInCircle].addColor(pointAndPenCircleDetailsPair.second.color, 1);
         });
     }
-    for(PointColorDetailsPair const& pointAndColorDetails : pointsWithColorDetails)
+    for(auto const& pointAndColorDetails : pointsWithColorDetails)
     {
         ColorDetails colorDetails(pointAndColorDetails.second);
-        BitmapXY const& pointInCircle(pointAndColorDetails.first);
-        PointToColorMap::const_iterator it = m_drawnPoints.find(pointInCircle);
+        BitmapXY const& pointInCircle(pointAndColorDetails.first);        PointToColorMap::const_iterator it = m_drawnPoints.find(pointInCircle);
         if(it!=m_drawnPoints.cend())
         {
-            colorDetails.addColor(it->second, 1);
-        }
+            colorDetails.addColor(it->second, 1);        }
         m_drawnPoints.emplace(pointInCircle, colorDetails.getColor());
     }
 }
@@ -258,34 +248,29 @@ void PenCirclesDrawer::putCircleConnectionsAndRemoveProcessedCircles()
                     ColorDetails colorDetails;
                     colorDetails.addColor(details1.color, weightForCircle1);
                     colorDetails.addColor(details2.color, weightForCircle2);
-                    connectionPoints[pointInQuad]=colorDetails.getColor();
+                    connectionPoints[pointInQuad] = colorDetails.getColor();
                 });
-                for(PointColorPair const& pointColorPair : connectionPoints)
+                for(auto const& pointAndColorPair : connectionPoints)
                 {
                     /*double weight = (circle1.getRadius()-getDistance(lineOfTwoCenters, convertBitmapXYToPoint(pointColorPair.first)))/circle1.getRadius();
-                    if(weight==0)
-                    {
+                    if(weight==0)                    {
                         weight = static_cast<double>(1)/pow(circle1.getRadius(), 2);
                     }*/
-                    pointsWithColorDetails[pointColorPair.first].addColor(pointColorPair.second, 1);
+                    pointsWithColorDetails[pointAndColorPair.first].addColor(pointAndColorPair.second, 1);
                 }
                 centersOfFoundPenCircles.emplace(connection.first);
-                centersOfFoundPenCircles.emplace(connection.second);
-            }
+                centersOfFoundPenCircles.emplace(connection.second);            }
         }
     }
-    for(BitmapXY const& centerOfFoundPenCircle : centersOfFoundPenCircles)
-    {
+    for(BitmapXY const& centerOfFoundPenCircle : centersOfFoundPenCircles)    {
         m_penCircles.removePenCircleAt(centerOfFoundPenCircle);
     }
 
-    for(PointColorDetailsPair const& pointAndColorDetails : pointsWithColorDetails)
+    for(auto const& pointAndColorDetails : pointsWithColorDetails)
     {
         m_drawnPoints[pointAndColorDetails.first]=pointAndColorDetails.second.getColor();
-    }
-}
+    }}
 
 
 }
-
 }

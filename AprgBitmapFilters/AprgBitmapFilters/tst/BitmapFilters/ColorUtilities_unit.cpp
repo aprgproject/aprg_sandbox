@@ -100,26 +100,23 @@ TEST(ColorUtilitiesTest, CreateHueSaturationValueDataWorks)
 
 TEST(ColorUtilitiesTest, CombineRgbColorWorks)
 {
-    EXPECT_EQ(0x0u, combineRgbToColor(0x0, 0x0, 0x0));
-    EXPECT_EQ(0x6A0000u, combineRgbToColor(0x6A, 0x0, 0x0));
-    EXPECT_EQ(0x005A00u, combineRgbToColor(0x0, 0x5A, 0x0));
-    EXPECT_EQ(0x0000CDu, combineRgbToColor(0x0, 0x0, 0xCD));
-    EXPECT_EQ(0x6A5ACDu, combineRgbToColor(0x6A, 0x5A, 0xCD));
+    EXPECT_EQ(0x0U, combineRgbToColor(0x0, 0x0, 0x0));
+    EXPECT_EQ(0x6A0000U, combineRgbToColor(0x6A, 0x0, 0x0));
+    EXPECT_EQ(0x005A00U, combineRgbToColor(0x0, 0x5A, 0x0));
+    EXPECT_EQ(0x0000CDU, combineRgbToColor(0x0, 0x0, 0xCD));
+    EXPECT_EQ(0x6A5ACDU, combineRgbToColor(0x6A, 0x5A, 0xCD));
 }
 
-TEST(ColorUtilitiesTest, ConvertColorToHueSaturationLightnessDataWorks)
-{
+TEST(ColorUtilitiesTest, ConvertColorToHueSaturationLightnessDataWorks){
     HueSaturationLightnessData hslData1(convertColorToHueSaturationLightnessData(0x0));
     HueSaturationLightnessData hslData2(convertColorToHueSaturationLightnessData(0xFFFFFF));
-    HueSaturationLightnessData hslData3(convertColorToHueSaturationLightnessData(0xA7E6ABu));
+    HueSaturationLightnessData hslData3(convertColorToHueSaturationLightnessData(0xA7E6ABU));
 
     EXPECT_DOUBLE_EQ(0, hslData1.hueDegrees);
-    EXPECT_DOUBLE_EQ(0, hslData1.saturationLightnessDecimal);
-    EXPECT_DOUBLE_EQ(0, hslData1.lightnessDecimal);
+    EXPECT_DOUBLE_EQ(0, hslData1.saturationLightnessDecimal);    EXPECT_DOUBLE_EQ(0, hslData1.lightnessDecimal);
     EXPECT_DOUBLE_EQ(0, hslData2.hueDegrees);
     EXPECT_DOUBLE_EQ(0, hslData2.saturationLightnessDecimal);
-    EXPECT_DOUBLE_EQ(1, hslData2.lightnessDecimal);
-    EXPECT_DOUBLE_EQ(123.80952380952379599, hslData3.hueDegrees);
+    EXPECT_DOUBLE_EQ(1, hslData2.lightnessDecimal);    EXPECT_DOUBLE_EQ(123.80952380952379599, hslData3.hueDegrees);
     EXPECT_DOUBLE_EQ(0.55752212389380539914, hslData3.saturationLightnessDecimal);
     EXPECT_DOUBLE_EQ(0.77843137254901961786, hslData3.lightnessDecimal);
 }
@@ -128,15 +125,13 @@ TEST(ColorUtilitiesTest, ConvertColorToHueSaturationValueDataWorks)
 {
     HueSaturationValueData hsvData1(convertColorToHueSaturationValueData(0x0));
     HueSaturationValueData hsvData2(convertColorToHueSaturationValueData(0xFFFFFF));
-    HueSaturationValueData hsvData3(convertColorToHueSaturationValueData(0xA7E6ABu));
+    HueSaturationValueData hsvData3(convertColorToHueSaturationValueData(0xA7E6ABU));
 
     EXPECT_DOUBLE_EQ(0, hsvData1.hueDegrees);
-    EXPECT_DOUBLE_EQ(0, hsvData1.saturationValueDecimal);
-    EXPECT_DOUBLE_EQ(0, hsvData1.valueDecimalOfColorMax);
+    EXPECT_DOUBLE_EQ(0, hsvData1.saturationValueDecimal);    EXPECT_DOUBLE_EQ(0, hsvData1.valueDecimalOfColorMax);
     EXPECT_DOUBLE_EQ(0, hsvData2.hueDegrees);
     EXPECT_DOUBLE_EQ(0, hsvData2.saturationValueDecimal);
-    EXPECT_DOUBLE_EQ(1, hsvData2.valueDecimalOfColorMax);
-    EXPECT_DOUBLE_EQ(123.80952380952379599, hsvData3.hueDegrees);
+    EXPECT_DOUBLE_EQ(1, hsvData2.valueDecimalOfColorMax);    EXPECT_DOUBLE_EQ(123.80952380952379599, hsvData3.hueDegrees);
     EXPECT_DOUBLE_EQ(0.27391304347826089804, hsvData3.saturationValueDecimal);
     EXPECT_DOUBLE_EQ(0.90196078431372550543, hsvData3.valueDecimalOfColorMax);
 }
@@ -147,28 +142,25 @@ TEST(ColorUtilitiesTest, ConvertHueSaturationLightnessDataToColorWorks)
     HueSaturationLightnessData hslData2(createHueSaturationLightnessData(360, 1, 1));
     HueSaturationLightnessData hslData3(createHueSaturationLightnessData(123.80952380952379599, 0.55752212389380539914, 0.77843137254901961786));
 
-    EXPECT_EQ(0x0u, convertHueSaturationLightnessDataToColor(hslData1));
-    EXPECT_EQ(0xFFFFFFu, convertHueSaturationLightnessDataToColor(hslData2));
-    EXPECT_EQ(0xA7E6ABu, convertHueSaturationLightnessDataToColor(hslData3));
+    EXPECT_EQ(0x0U, convertHueSaturationLightnessDataToColor(hslData1));
+    EXPECT_EQ(0xFFFFFFU, convertHueSaturationLightnessDataToColor(hslData2));
+    EXPECT_EQ(0xA7E6ABU, convertHueSaturationLightnessDataToColor(hslData3));
 }
 
-TEST(ColorUtilitiesTest, ConvertHueSaturationValueDataToColorWorks)
-{
+TEST(ColorUtilitiesTest, ConvertHueSaturationValueDataToColorWorks){
     HueSaturationValueData hsvData1(createHueSaturationValueData(0, 0, 0));
     HueSaturationValueData hsvData2(createHueSaturationValueData(360, 0, 1));
     HueSaturationValueData hsvData3(createHueSaturationValueData(123.80952380952379599, 0.27391304347826089804, 0.90196078431372550543));
 
-    EXPECT_EQ(0x0u, convertHueSaturationValueDataToColor(hsvData1));
-    EXPECT_EQ(0xFFFFFFu, convertHueSaturationValueDataToColor(hsvData2));
-    EXPECT_EQ(0xA7E6ABu, convertHueSaturationValueDataToColor(hsvData3));
+    EXPECT_EQ(0x0U, convertHueSaturationValueDataToColor(hsvData1));
+    EXPECT_EQ(0xFFFFFFU, convertHueSaturationValueDataToColor(hsvData2));
+    EXPECT_EQ(0xA7E6ABU, convertHueSaturationValueDataToColor(hsvData3));
 }
 
-TEST(ColorUtilitiesTest, ConvertHslDataToHsvDataWorks)
-{
+TEST(ColorUtilitiesTest, ConvertHslDataToHsvDataWorks){
     HueSaturationLightnessData hslData1(createHueSaturationLightnessData(0, 0, 0));
     HueSaturationLightnessData hslData2(createHueSaturationLightnessData(0, 0, 1));
     HueSaturationLightnessData hslData3(createHueSaturationLightnessData(123.80952380952379599, 0.55752212389380539914, 0.77843137254901961786));
-
     HueSaturationValueData expectedHsvData1(convertHslDataToHsvData(hslData1));
     HueSaturationValueData expectedHsvData2(convertHslDataToHsvData(hslData2));
     HueSaturationValueData expectedHsvData3(convertHslDataToHsvData(hslData3));
@@ -207,25 +199,24 @@ TEST(ColorUtilitiesTest, ConvertHsvDataToHslDataWorks)
 
 TEST(ColorUtilitiesTest, ExtractRedWorks)
 {
-    EXPECT_EQ(0xFFu, extractRed(0xFFFFFF));
-    EXPECT_EQ(0x0u, extractRed(0x0));
-    EXPECT_EQ(0x32u, extractRed(0x32CD32));
+    EXPECT_EQ(0xFFU, extractRed(0xFFFFFF));
+    EXPECT_EQ(0x0U, extractRed(0x0));
+    EXPECT_EQ(0x32U, extractRed(0x32CD32));
 }
 
 TEST(ColorUtilitiesTest, ExtractGreenWorks)
 {
-    EXPECT_EQ(0xFFu, extractGreen(0xFFFFFF));
-    EXPECT_EQ(0x0u, extractGreen(0x0));
-    EXPECT_EQ(0xB3u, extractGreen(0x3CB371));
+    EXPECT_EQ(0xFFU, extractGreen(0xFFFFFF));
+    EXPECT_EQ(0x0U, extractGreen(0x0));
+    EXPECT_EQ(0xB3U, extractGreen(0x3CB371));
 }
 
 TEST(ColorUtilitiesTest, ExtractBlueWorks)
 {
-    EXPECT_EQ(0xFFu, extractBlue(0xFFFFFF));
-    EXPECT_EQ(0x0u, extractBlue(0x0));
-    EXPECT_EQ(0x57u, extractBlue(0x2E8B57));
+    EXPECT_EQ(0xFFU, extractBlue(0xFFFFFF));
+    EXPECT_EQ(0x0U, extractBlue(0x0));
+    EXPECT_EQ(0x57U, extractBlue(0x2E8B57));
 }
 
 }
-
 }
