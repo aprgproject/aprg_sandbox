@@ -188,25 +188,23 @@ void AprgGraph::drawNumberLabel(LabelType const labelType, Point const& bitmapPo
     unsigned int widthOfCharacter = 12;
     unsigned int heightOfCharacter = 20;
     int startPositionInX=0,  startPositionInY=0;
-    int numberPositionInX = round(bitmapPointNumberPosition.getX());
-    int numberPositionInY = round(bitmapPointNumberPosition.getY());
+    int numberPositionInX = static_cast<int>(round(bitmapPointNumberPosition.getX()));
+    int numberPositionInY = static_cast<int>(round(bitmapPointNumberPosition.getY()));
     if(LabelType::HorizontalLabel == labelType)
     {
-        startPositionInX = numberPositionInX - (label.length()*widthOfCharacter/2);
+        startPositionInX = numberPositionInX - (static_cast<int>(label.length())*widthOfCharacter/2);
         startPositionInY = numberPositionInY;
     }
     else if(LabelType::VerticalLabel == labelType)
     {
         startPositionInX = numberPositionInX;
-        startPositionInY = numberPositionInY - (heightOfCharacter/2);
+        startPositionInY = numberPositionInY - (static_cast<int>(heightOfCharacter/2));
     }
     else if(LabelType::OriginLabel == labelType)
-    {
-        startPositionInX = numberPositionInX;
+    {        startPositionInX = numberPositionInX;
         startPositionInY = numberPositionInY;
     }
-    for(unsigned int i=0; i<labelCharacterLength; i++)
-    {
+    for(unsigned int i=0; i<labelCharacterLength; i++)    {
         drawCharacter(BitmapXY(startPositionInX+(i*widthOfCharacter), startPositionInY), label[i], 0x00000000);
     }
 }

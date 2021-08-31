@@ -1,15 +1,12 @@
-#include <AprgGraph.hpp>
-
 #include <Algebra/Equation/EquationUtilities.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
+#include <AprgGraph.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 #include <gtest/gtest.h>
-
 #include <cmath>
 
-using namespace alba::algebra;
-using namespace alba::AprgBitmap;
+using namespace alba::algebra;using namespace alba::AprgBitmap;
 using namespace alba::TwoDimensions;
 using namespace std;
 
@@ -19,15 +16,13 @@ using namespace std;
 namespace alba
 {
 
-TEST(SampleTest, DISABLED_BitmapGraph24Bits)
+TEST(AprgGraphTest, DISABLED_BitmapGraph24Bits)
 {
     AlbaLocalPathHandler defaultFile(APRG_GRAPH_24_BIT_DEFAULT_FILE);
-    AlbaLocalPathHandler graphOutputFile(APRG_GRAPH_24_BIT_GRAPH_OUTPUT_FILE);
-    graphOutputFile.deleteFile();
+    AlbaLocalPathHandler graphOutputFile(APRG_GRAPH_24_BIT_GRAPH_OUTPUT_FILE);    graphOutputFile.deleteFile();
     defaultFile.copyToNewFile(graphOutputFile.getFullPath());
 
-    AprgGraph graph(graphOutputFile.getFullPath(), BitmapXY(800,450), BitmapDoubleXY(50, 50));
-    graph.drawGrid(BitmapDoubleXY((double)5, (double)5));
+    AprgGraph graph(graphOutputFile.getFullPath(), BitmapXY(800,450), BitmapDoubleXY(50, 50));    graph.drawGrid(BitmapDoubleXY((double)5, (double)5));
     graph.drawLine(Line(1,1,1), 0x00FF0000);
     graph.drawCircle(Circle(Point(0,0), 10), 0x000000FF);
     graph.drawEllipse(Ellipse(Point(0,0), 15, 10), 0x0000FFFF);
@@ -58,15 +53,13 @@ TEST(SampleTest, DISABLED_BitmapGraph24Bits)
     graph.saveChangesToBitmapFile();
 }
 
-TEST(SampleTest, TemporaryTest)
+TEST(AprgGraphTest, TemporaryTest)
 {
     AlbaLocalPathHandler defaultFile(APRG_GRAPH_24_BIT_DEFAULT_FILE);
-    AlbaLocalPathHandler graphOutputFile(APRG_GRAPH_24_BIT_GRAPH_OUTPUT_FILE);
-    graphOutputFile.deleteFile();
+    AlbaLocalPathHandler graphOutputFile(APRG_GRAPH_24_BIT_GRAPH_OUTPUT_FILE);    graphOutputFile.deleteFile();
     defaultFile.copyToNewFile(graphOutputFile.getFullPath());
 
-    AprgGraph graph(graphOutputFile.getFullPath(), BitmapXY(800,450), BitmapDoubleXY(50, 50));
-    graph.drawGrid(BitmapDoubleXY((double)5, (double)5));
+    AprgGraph graph(graphOutputFile.getFullPath(), BitmapXY(800,450), BitmapDoubleXY(50, 50));    graph.drawGrid(BitmapDoubleXY((double)5, (double)5));
 
     Equation equation(buildEquationIfPossible("(x^2 + 9)/(x-2) = y"));
     graph.drawEquationWithXYSubstitution(equation, 0x0000A1BA);
