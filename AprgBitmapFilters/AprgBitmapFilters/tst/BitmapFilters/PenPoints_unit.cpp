@@ -32,7 +32,8 @@ TEST(PenPointsTest, GetPenPointsWorks)
     EXPECT_EQ(BitmapXY(4155U, 6416U), pointToVerify);
 }
 
-TEST(PenPointsTest, AddAsPenPointWorks){
+TEST(PenPointsTest, AddAsPenPointWorks)
+{
     PenPoints penPoints;
 
     penPoints.addAsPenPoint(BitmapXY(4155U, 6416U));
@@ -43,7 +44,8 @@ TEST(PenPointsTest, AddAsPenPointWorks){
     EXPECT_EQ(BitmapXY(4155U, 6416U), pointToVerify);
 }
 
-TEST(PenPointsTest, AddAsPenPointsWorks){
+TEST(PenPointsTest, AddAsPenPointsWorks)
+{
     PenPoints penPoints;
 
     penPoints.addAsPenPoints({BitmapXY(4155U, 6416U), BitmapXY(4156U, 256U)});
@@ -65,7 +67,8 @@ TEST(PenPointsTest, RemovePenPointWorks)
     penPoints.removePenPoint(BitmapXY(4155U, 6416U));
 
     PenPoints::PenPointsSet const& penPointsToVerify(penPoints.getPenPoints());
-    ASSERT_TRUE(penPointsToVerify.empty());}
+    ASSERT_TRUE(penPointsToVerify.empty());
+}
 
 TEST(PenPointsTest, ClearWorks)
 {
@@ -73,9 +76,11 @@ TEST(PenPointsTest, ClearWorks)
     penPoints.addAsPenPoint(BitmapXY(4155U, 6416U));
 
     penPoints.clear();
+
     PenPoints::PenPointsSet const& penPointsToVerify(penPoints.getPenPoints());
     ASSERT_TRUE(penPointsToVerify.empty());
 }
+
 }
 
 }

@@ -16,7 +16,7 @@ TEST(RectangleTest, GetPointsAreCorrect)
     Rectangle retangle(Point(-1,1), Point(1,-1));
     Points points(retangle.getPoints(1));
 
-    ASSERT_EQ(8u, points.size());
+    ASSERT_EQ(8U, points.size());
     EXPECT_EQ(Point(-1,1), points.at(0));
     EXPECT_EQ(Point(0,1), points.at(1));
     EXPECT_EQ(Point(1,1), points.at(2));

@@ -6,10 +6,12 @@
 #include <cstdint>
 #include <string>
 
-namespace alba{
+namespace alba
+{
 
 namespace AprgBitmap
 {
+
 enum class CompressedMethodType
 {
     BI_RGB,
@@ -48,7 +50,8 @@ public:
     uint32_t getBitMaskForValue() const;
 
     BitmapXY getPointWithinTheBitmap(int const xCoordinate, int const yCoordinate) const;
-    unsigned int getXCoordinateWithinTheBitmap(int const coordinate) const;    unsigned int getYCoordinateWithinTheBitmap(int const coordinate) const;
+    unsigned int getXCoordinateWithinTheBitmap(int const coordinate) const;
+    unsigned int getYCoordinateWithinTheBitmap(int const coordinate) const;
     unsigned int getCoordinateWithinRange(int const coordinate, int maxLength) const;
     BitmapXY getUpLeftCornerPoint() const;
     BitmapXY getDownRightCornerPoint() const;
@@ -63,9 +66,11 @@ public:
     unsigned int getEstimatedSquareSideInPixels(unsigned int const numberOfBytesToRead) const;
     unsigned int getOneRowSizeInBytesFromPixels(unsigned int const leftPixelInclusive, unsigned int const rightPixelInclusive) const;
     unsigned int getOneRowSizeInBytesFromBytes(unsigned int const leftByteInclusive, unsigned int const rightByteInclusive) const;
+
     Colors getColorTable() const;
 
     void readBitmap(std::string const& path);
+
 private:
     void readBitmapFileHeader(AlbaFileReader& fileReader);
     void readDibHeader(AlbaFileReader& fileReader);
@@ -92,9 +97,11 @@ private:
     uint32_t m_bitMaskForValue;
     std::string m_path;
     std::string m_signature;
-    Colors m_colors;};
+    Colors m_colors;
+};
 
 bool areBitmapConfigurationsCompatibleForChangingPixelData(BitmapConfiguration const& configuration1, BitmapConfiguration const& configuration2);
+
 }
 
 }

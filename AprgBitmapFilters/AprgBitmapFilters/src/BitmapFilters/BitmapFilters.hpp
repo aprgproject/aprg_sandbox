@@ -16,6 +16,7 @@
 
 namespace alba
 {
+
 namespace AprgBitmap
 {
 
@@ -46,7 +47,8 @@ public:
             uint32_t const similarityColorLimit,
             double const acceptablePenPercentage);
 
-    //determine functions    void determinePenPoints(
+    //determine functions
+    void determinePenPoints(
             PenPoints & penPoints,
             BitmapSnippet const& inputSnippet,
             double const penSearchRadius,
@@ -58,10 +60,12 @@ public:
             uint32_t const similarityColorLimit,
             double const acceptablePenPercentage);
     void determineConnectedComponentsByOneComponentAtATime(
-            BitmapSnippet const& inputSnippet);    void determineConnectedComponentsUsingTwoPass(
+            BitmapSnippet const& inputSnippet);
+    void determineConnectedComponentsUsingTwoPass(
             BitmapSnippet const& inputSnippet);
 
-    //draw pen and non pen functions    void drawPenPoints(
+    //draw pen and non pen functions
+    void drawPenPoints(
             PenPoints const& penPoints,
             BitmapSnippet const& inputSnippet,
             BitmapSnippet & outputSnippet);
@@ -77,9 +81,11 @@ public:
             uint32_t const similarityColorLimit);
     void drawPenCircles(
             PenCircles const& penCircles,
-            BitmapSnippet & snippet);    void drawPenCirclesOnly(
+            BitmapSnippet & snippet);
+    void drawPenCirclesOnly(
             PenCircles const& penCircles,
             BitmapSnippet & snippet);
+
     //draw blur functions
     void drawWithBlurringDisimilarColors(
             BitmapSnippet & snippet,
@@ -94,10 +100,12 @@ public:
             uint32_t const similarityColorLimit);
 
     //other draw functions
-    void drawToFillGapsUsingBlur(            BitmapSnippet & snippet,
+    void drawToFillGapsUsingBlur(
+            BitmapSnippet & snippet,
             double const blurRadius);
     void drawAnimeColor(
-            BitmapSnippet & snippet,            AnimizeColor const& animizeColor);
+            BitmapSnippet & snippet,
+            AnimizeColor const& animizeColor);
     void drawNewColorForLabels(
             BitmapSnippet & snippet);
 
@@ -113,6 +121,7 @@ public:
     void setBackgroundColor(uint32_t const backgroundColor);
 
     void gatherAndSaveColorDataAndStatistics();
+
 private:
     void collectDisimilarPointsToNewColors(
             PointToColorMap & disimilarPointsToNewColors,
@@ -120,23 +129,27 @@ private:
             uint32_t const similarityColorLimit);
     unsigned int analyzeFourConnectivityNeighborPointsForConnectedComponentsTwoPassAndReturnSmallestLabel(
             BitmapSnippet const& inputSnippet,
-            UnionFindForLabels & unionFindForLabels,            BitmapXY const & neighborPoint);
+            UnionFindForLabels & unionFindForLabels,
+            BitmapXY const & neighborPoint);
     void analyzeFourConnectivityNeighborPointsForConnectedComponentsOneComponentAtATime(
             BitmapSnippet const& inputSnippet,
             std::deque<BitmapXY> & pointsInDeque,
             BitmapXY const & poppedPoint,
             unsigned int const currentLabel);
-    unsigned int analyzeNeighborPointForConnectedComponentsTwoPassAneReturnLabel(            BitmapSnippet const& inputSnippet,
+    unsigned int analyzeNeighborPointForConnectedComponentsTwoPassAneReturnLabel(
+            BitmapSnippet const& inputSnippet,
             BitmapXY const & neighborPoint);
     void analyzeNeighborPointForConnectedComponentsOneComponentAtATime(
             BitmapSnippet const& inputSnippet,
             std::deque<BitmapXY> & pointsInDeque,
             BitmapXY const & neighborPoint,
             unsigned int const currentLabel);
-    void determineConnectedComponentsUsingTwoPassInFirstPass(            BitmapSnippet const& inputSnippet,
+    void determineConnectedComponentsUsingTwoPassInFirstPass(
+            BitmapSnippet const& inputSnippet,
             UnionFindForLabels & unionFindForLabels);
     void determineConnectedComponentsUsingTwoPassInSecondPass(
-            BitmapSnippet const& inputSnippet,            UnionFindForLabels const& unionFindForLabels);
+            BitmapSnippet const& inputSnippet,
+            UnionFindForLabels const& unionFindForLabels);
     void determinePenPointsToPenCircles(
             PenPointToPenCircleMap & penPointsToPenCircles,
             PenPoints const& penPoints,
@@ -156,7 +169,8 @@ private:
             uint32_t const similarityColorLimit);
     void updateUnionFindForLabels(
             UnionFindForLabels& unionFindForLabels,
-            unsigned int const smallestLabel,            unsigned int const neighbor1Label,
+            unsigned int const smallestLabel,
+            unsigned int const neighbor1Label,
             unsigned int const neighbor2Label) const;
 
     bool isThisPenCircleBetter(
@@ -174,13 +188,15 @@ private:
     uint32_t getBlurredColorUsingACircle(
             BitmapSnippet const& snippet,
             BitmapXY const& centerXY,
-            double const blurRadius,            BlurCondition const& isIncludedInBlur) const;
+            double const blurRadius,
+            BlurCondition const& isIncludedInBlur) const;
     double getBlurWeight(double const distanceFromCenter, double const blurRadius) const;
 
     uint32_t m_backgroundColor;
     Bitmap m_bitmap;
     LabelForPoints m_labelForPixels;
 };
+
 }
 
 }

@@ -70,7 +70,8 @@ unsigned int AlbaWindowsTimer::getElapsedTimeInHours() const
 
 AlbaDateTime AlbaWindowsTimer::getDifferenceBetweenTimes() const
 {
-    AlbaDateTime time1(convertSystemTimeToAlbaDateTime(m_time1));    AlbaDateTime time2(convertSystemTimeToAlbaDateTime(m_time2));
+    AlbaDateTime time1(convertSystemTimeToAlbaDateTime(m_time1));
+    AlbaDateTime time2(convertSystemTimeToAlbaDateTime(m_time2));
     return AlbaDateTime(time2-time1);
 }
 

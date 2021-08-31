@@ -66,10 +66,12 @@ set<string> listOfWindowsHeaders
 
 void CPlusPlusFileFixer::processDirectory(string const& path)
 {
-    set<string> listOfFiles;    set<string> listOfDirectories;
+    set<string> listOfFiles;
+    set<string> listOfDirectories;
     AlbaLocalPathHandler(path).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& filePath : listOfFiles)
-    {        AlbaLocalPathHandler filePathHandler(filePath);
+    {
+        AlbaLocalPathHandler filePathHandler(filePath);
         if(!isPathIgnored(filePath))
         {
             if("cpp" == filePathHandler.getExtension() || "hpp" == filePathHandler.getExtension())
@@ -105,9 +107,11 @@ void CPlusPlusFileFixer::checkFile(string const& path)
     //notifyIfIostreamHeaderExistInProductionCode(path);
     //notifyIfMoreThanLoopsAreCascaded(path);
 }
+
 void CPlusPlusFileFixer::readContentsFromFile(string const& path)
 {
-    AlbaLocalPathHandler filePathHandler(path);    ifstream inputLogFileStream(filePathHandler.getFullPath());
+    AlbaLocalPathHandler filePathHandler(path);
+    ifstream inputLogFileStream(filePathHandler.getFullPath());
     AlbaFileReader fileReader(inputLogFileStream);
     bool isOnHeaderPart(true);
     while(fileReader.isNotFinished())
@@ -162,9 +166,11 @@ void CPlusPlusFileFixer::notifyIfAlbaDebugHeaderExistInProductionCode(string con
         cout<<"CHECK THIS: AlbaDebug found in:["<<path<<"]."<<endl;
     }
 }
+
 void CPlusPlusFileFixer::notifyIfIostreamHeaderExistInProductionCode(string const& path) const
 {
-    AlbaLocalPathHandler filePathHandler(path);    bool isIostreamFound = (std::find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("iostream")) != m_headerListFromAngleBrackets.end());
+    AlbaLocalPathHandler filePathHandler(path);
+    bool isIostreamFound = (std::find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("iostream")) != m_headerListFromAngleBrackets.end());
     //bool isCpp = filePathHandler.getExtension() == "cpp";
     bool isUnitTest = isStringFoundInsideTheOtherStringCaseSensitive(filePathHandler.getFile(), "_unit.cpp");
     if(isIostreamFound && !isUnitTest)// && !isCpp) // !isUnitTest)
@@ -225,20 +231,24 @@ void CPlusPlusFileFixer::fixHeaders(string const& path)
         {
             cPlusPlusHeaders.emplace(header);
         }
-        else if(isOtherLibraryHeaders(header))        {
+        else if(isOtherLibraryHeaders(header))
+        {
             otherLibraryHeaders.emplace(header);
         }
-        else        {
+        else
+        {
             aprgFiles.emplace(header);
         }
     }
     m_headerListFromAngleBrackets.clear();
     if(!aprgFiles.empty())
     {
-        for(string const& header: aprgFiles)        {
+        for(string const& header: aprgFiles)
+        {
             addHeaderFileFromAngleBrackets(header);
         }
-        addHeaderFileFromAngleBrackets("");    }
+        addHeaderFileFromAngleBrackets("");
+    }
     if(!otherLibraryHeaders.empty())
     {
         for(string const& header: otherLibraryHeaders)
@@ -290,17 +300,20 @@ void CPlusPlusFileFixer::fixSmallUToCapitalUInNumbers()
         while(isNotNpos(indexOfU))
         {
             bool isCharacterBeforeUANumber(false);
-            bool isCharacterAfterUNotALetterOrNumberOrUnderscore(false);            if(indexOfU > 0)
+            bool isCharacterAfterUNotALetterOrNumberOrUnderscore(false);
+            if(indexOfU > 0)
             {
                 isCharacterBeforeUANumber = isNumber(line.at(indexOfU-1));
             }
             if(indexOfU+1 < static_cast<int>(line.length()))
             {
                 isCharacterAfterUNotALetterOrNumberOrUnderscore = !isLetterOrNumberOrUnderscore(line.at(indexOfU+1));
-            }            else
+            }
+            else
             {
                 isCharacterAfterUNotALetterOrNumberOrUnderscore = true;
-            }            if(isCharacterBeforeUANumber && isCharacterAfterUNotALetterOrNumberOrUnderscore)
+            }
+            if(isCharacterBeforeUANumber && isCharacterAfterUNotALetterOrNumberOrUnderscore)
             {
                 line.at(indexOfU) = 'U';
             }
@@ -308,9 +321,11 @@ void CPlusPlusFileFixer::fixSmallUToCapitalUInNumbers()
         }
     }
 }
+
 void CPlusPlusFileFixer::addHeaderFileFromAngleBrackets(std::string const& header)
 {
-    AlbaPathHandler headerPathHandler(header, "/");    m_headerListFromAngleBrackets.emplace_back(headerPathHandler.getFullPath());
+    AlbaPathHandler headerPathHandler(header, "/");
+    m_headerListFromAngleBrackets.emplace_back(headerPathHandler.getFullPath());
 }
 
 void CPlusPlusFileFixer::addHeaderFileFromQuotations(std::string const& header)
@@ -437,10 +452,12 @@ bool CPlusPlusFileFixer::isGtestHeader(string const& header) const
 
 bool CPlusPlusFileFixer::isQtHeader(string const& header) const
 {
-    bool result(false);    AlbaLocalPathHandler headerFileHandler(header);
+    bool result(false);
+    AlbaLocalPathHandler headerFileHandler(header);
     if(header.length()>=2)
     {
-        if('Q' == header[0] && ('t' == header[1] || isCapitalLetter(header[1])) && headerFileHandler.getExtension().empty())        {
+        if('Q' == header[0] && ('t' == header[1] || isCapitalLetter(header[1])) && headerFileHandler.getExtension().empty())
+        {
             result = true;
         }
     }
@@ -453,7 +470,8 @@ bool CPlusPlusFileFixer::isOtherLibraryHeaders(string const& header) const
     if(isLinuxHeader(header) || isWindowsHeader(header) || isGtestHeader(header) || isQtHeader(header))
     {
         result=true;
-    }    return result;
+    }
+    return result;
 }
 
 

@@ -4,7 +4,8 @@
 
 #include <ctime>
 
-namespace alba{
+namespace alba
+{
 
 class AlbaLinuxTimer
 {
@@ -21,7 +22,8 @@ public:
     AlbaDateTime getDifferenceBetweenTimes() const;
 
 private:
-    timespec m_timeSpec1;    timespec m_timeSpec2;
+    timespec m_timeSpec1;
+    timespec m_timeSpec2;
 };
 
 }//namespace alba

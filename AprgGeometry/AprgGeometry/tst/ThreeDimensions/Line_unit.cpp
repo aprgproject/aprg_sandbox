@@ -176,4 +176,3 @@ TEST(ThreeDimensionsLineTest, LineCanBeComparedForEquality)
 }
 
 }
-

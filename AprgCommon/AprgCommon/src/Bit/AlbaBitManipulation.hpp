@@ -7,6 +7,7 @@
 
 namespace alba
 {
+
 template <typename DataTypeToManipulate>
 class AlbaBitManipulation
 {
@@ -213,14 +214,16 @@ template <>
 constexpr uint32_t AlbaBitManipulation<uint32_t>::swapWithBytes<4>(uint32_t const value)
 {
     return concatenateBytes(getByteAt<0>(value), getByteAt<1>(value),
-                            getByteAt<2>(value), getByteAt<3>(value));}
+                            getByteAt<2>(value), getByteAt<3>(value));
+}
 
 template <>
 template <>
 constexpr uint64_t AlbaBitManipulation<uint64_t>::swapWithBytes<8>(uint64_t const value)
 {
     return concatenateBytes(getByteAt<0>(value), getByteAt<1>(value),
-                            getByteAt<2>(value), getByteAt<3>(value),                            getByteAt<4>(value), getByteAt<5>(value),
+                            getByteAt<2>(value), getByteAt<3>(value),
+                            getByteAt<4>(value), getByteAt<5>(value),
                             getByteAt<6>(value), getByteAt<7>(value));
 }
 
@@ -241,4 +244,5 @@ constexpr uint64_t AlbaBitManipulation<uint64_t>::getAllBitsAsserted()
 {
     return 0xFFFFFFFFFFFFFFFF;
 }
+
 }

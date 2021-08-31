@@ -2,6 +2,8 @@
 
 #include <gtest/gtest.h>
 
+#include <cmath>
+
 using namespace alba::Dimensionless;
 using namespace std;
 
@@ -31,7 +33,7 @@ TEST(TriangleTest, GetAnglesAreCorrect)
     Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
     Angles angles(triangle.getAnglesAtVertices());
 
-    ASSERT_EQ(3u, angles.size());
+    ASSERT_EQ(3U, angles.size());
     EXPECT_DOUBLE_EQ(90, angles.at(0).getDegrees());
     EXPECT_DOUBLE_EQ(45, angles.at(1).getDegrees());
     EXPECT_DOUBLE_EQ(45, angles.at(2).getDegrees());
@@ -96,7 +98,7 @@ TEST(TriangleTest, GetPointsAreCorrect)
     Triangle triangle(Point(0,0), Point(3,3), Point(0,6));
     Points points(triangle.getPoints(1));
 
-    ASSERT_EQ(12u, points.size());
+    ASSERT_EQ(12U, points.size());
     EXPECT_EQ(Point(0,0), points.at(0));
     EXPECT_EQ(Point(1,1), points.at(1));
     EXPECT_EQ(Point(2,2), points.at(2));

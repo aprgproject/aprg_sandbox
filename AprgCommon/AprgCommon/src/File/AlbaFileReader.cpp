@@ -7,6 +7,7 @@
 #include <fstream>
 #include <numeric>
 #include <string>
+
 using namespace std;
 
 namespace alba
@@ -99,7 +100,8 @@ NumberType AlbaFileReader::getData()
                         [&](NumberType partialSum, NumberType newValue)
     {
         partialSum = static_cast<NumberType>(partialSum << 8);
-        partialSum |= (0xFF & newValue);        return partialSum;
+        partialSum |= (0xFF & newValue);
+        return partialSum;
     });
     return result;
 }
@@ -122,7 +124,8 @@ template uint64_t AlbaFileReader::getData<uint64_t, 8>();
 
 void AlbaFileReader::saveDataToMemoryBuffer(AlbaMemoryBuffer& buffer, unsigned int numberOfBytesToRead)
 {
-    char* writer = static_cast<char*>(buffer.resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(numberOfBytesToRead));    m_stream.read(writer, static_cast<streamsize>(numberOfBytesToRead));
+    char* writer = static_cast<char*>(buffer.resizeWithAdditionalSizeAndReturnBeginOfAdditionalData(numberOfBytesToRead));
+    m_stream.read(writer, static_cast<streamsize>(numberOfBytesToRead));
 }
 
 string AlbaFileReader::getLineAndIgnoreWhiteSpaces()

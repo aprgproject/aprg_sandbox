@@ -46,6 +46,7 @@ TEST(LabelForPointsTest, GetLabelWorks)
     EXPECT_EQ(0x123456U, labelForPixels.getLabel(BitmapXY(12, 34)));
     EXPECT_EQ(INITIAL_LABEL_VALUE, labelForPixels.getLabel(BitmapXY(56, 78)));
 }
+
 TEST(LabelForPointsTest, GetPixelsToLabelsWorks)
 {
     LabelForPoints labelForPixels;
@@ -59,7 +60,8 @@ TEST(LabelForPointsTest, GetPixelsToLabelsWorks)
     EXPECT_EQ(0x123456U, pairToVerify.second);
 }
 
-TEST(LabelForPointsTest, SetLabelWorks){
+TEST(LabelForPointsTest, SetLabelWorks)
+{
     LabelForPoints labelForPixels;
 
     labelForPixels.setLabel(BitmapXY(12, 34), 0x123456U);
@@ -70,6 +72,7 @@ TEST(LabelForPointsTest, SetLabelWorks){
     EXPECT_EQ(BitmapXY(12, 34), pairToVerify.first);
     EXPECT_EQ(0x123456U, pairToVerify.second);
 }
+
 
 }
 

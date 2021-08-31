@@ -43,7 +43,7 @@ Quadrant getQuadrantOfAPoint(Point const& point);
 RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c);
 
 Dimensionless::Angle getAngleBasedOnAPointAndOrigin(Point const& point);
-Dimensionless::Angle getTheInnerAngleUsingThreePoints(Point const& pointA, Point const& pointB, Point const& pointC);
+Dimensionless::Angle getTheInnerAngleUsingThreePoints(Point const& commonPoint, Point const& firstPoint, Point const& secondPoint);
 Dimensionless::Angle getTheSmallerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 Dimensionless::Angle getTheLargerAngleBetweenTwoLines(Line const& line1, Line const& line2);
 

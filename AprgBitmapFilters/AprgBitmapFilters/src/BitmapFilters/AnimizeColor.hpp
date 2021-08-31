@@ -26,7 +26,8 @@ public:
     uint32_t getNewColor(uint32_t const originalColor) const;
     double getNewLightness(double const originalValue) const;
     double getNewSaturation(double const originalValue) const;
-    void gatherStatistics(std::string const& bitmapPath);    void calculateNewValues();
+    void gatherStatistics(std::string const& bitmapPath);
+    void calculateNewValues();
     void saveColorData(std::string const& path);
 
 private:
@@ -40,8 +41,10 @@ private:
             double const originalValue) const;
     double m_lowestIncludedValue;
     double m_highestIncludedValue;
-    ColorDataMap m_lightnessData;    ColorDataMap m_saturationData;
+    ColorDataMap m_lightnessData;
+    ColorDataMap m_saturationData;
 };
 
 }
+
 }

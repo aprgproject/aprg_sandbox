@@ -105,10 +105,10 @@ Points Circle::getLocus(double const interval) const //points for circumference
 
 void Circle::traverseArea(double const interval, TraverseOperation const& traverseOperation) const
 {
-    for(unsigned int y=0; y<=m_radius; y+=interval)
+    for(double y=0; y<=m_radius; y+=interval)
     {
         double xAtTheEdgeOfCircle(calculateXFromYWithoutCenter(y, 1));
-        for(unsigned int x=0; x<=xAtTheEdgeOfCircle; x+=interval)
+        for(double x=0; x<=xAtTheEdgeOfCircle; x+=interval)
         {
             if(x==0 && y==0)
             {

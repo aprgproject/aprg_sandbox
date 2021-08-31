@@ -10,10 +10,12 @@
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace AprgBitmap
 {
+
 BitmapConfiguration::BitmapConfiguration()
     : m_fileSize(0)
     , m_pixelArrayAddress(0)
@@ -122,9 +124,11 @@ uint32_t BitmapConfiguration::getBitMaskForValue() const
 {
     return m_bitMaskForValue;
 }
+
 BitmapXY BitmapConfiguration::getPointWithinTheBitmap(int const xCoordinate, int const yCoordinate) const
 {
-    return BitmapXY(getXCoordinateWithinTheBitmap(xCoordinate), getYCoordinateWithinTheBitmap(yCoordinate));}
+    return BitmapXY(getXCoordinateWithinTheBitmap(xCoordinate), getYCoordinateWithinTheBitmap(yCoordinate));
+}
 
 unsigned int BitmapConfiguration::getXCoordinateWithinTheBitmap(int const coordinate) const
 {
@@ -158,16 +162,19 @@ uint32_t BitmapConfiguration::getColorUsingPixelValue(uint32_t const pixelValue)
     uint32_t color(0);
     switch(m_numberOfBitsPerPixel)
     {
-    case 1:    case 2:
+    case 1:
+    case 2:
     case 4:
     case 8:
         if(pixelValue < m_colors.size())
         {
             color = m_colors[pixelValue];
-        }        break;
+        }
+        break;
     default:
         color = pixelValue;
-        break;    }
+        break;
+    }
     return color;
 }
 
@@ -180,9 +187,11 @@ unsigned int BitmapConfiguration::convertPixelsToBytesRoundedToCeil(unsigned int
 {
     return ((pixels*m_numberOfBitsPerPixel)+AlbaBitConstants::BYTE_SIZE_IN_BITS-1)/AlbaBitConstants::BYTE_SIZE_IN_BITS;
 }
+
 unsigned int BitmapConfiguration::convertBytesToPixels(unsigned int bytes) const
 {
-    return (bytes*AlbaBitConstants::BYTE_SIZE_IN_BITS)/m_numberOfBitsPerPixel;}
+    return (bytes*AlbaBitConstants::BYTE_SIZE_IN_BITS)/m_numberOfBitsPerPixel;
+}
 
 unsigned int BitmapConfiguration::getNumberOfPixelsForOneByte() const
 {
@@ -223,9 +232,11 @@ unsigned int BitmapConfiguration::getOneRowSizeInBytesFromPixels(unsigned int co
     return getOneRowSizeInBytesFromBytes(convertPixelsToBytesRoundedToFloor(leftPixelInclusive), convertPixelsToBytesRoundedToFloor(rightPixelInclusive));
 }
 
-unsigned int BitmapConfiguration::getOneRowSizeInBytesFromBytes(unsigned int const leftByteInclusive, unsigned int const rightByteInclusive) const{
+unsigned int BitmapConfiguration::getOneRowSizeInBytesFromBytes(unsigned int const leftByteInclusive, unsigned int const rightByteInclusive) const
+{
     return rightByteInclusive-leftByteInclusive+getMinimumNumberOfBytesForOnePixel();
 }
+
 Colors BitmapConfiguration::getColorTable() const
 {
     return m_colors;
@@ -241,9 +252,11 @@ void BitmapConfiguration::readBitmap(string const& path)
     if(inputStream.is_open())
     {
         AlbaFileReader fileReader(inputStream);
+
         readBitmapFileHeader(fileReader);
         readDibHeader(fileReader);
-        readColors(fileReader);        calculateOtherValuesAfterReading();
+        readColors(fileReader);
+        calculateOtherValuesAfterReading();
     }
 }
 
@@ -298,7 +311,8 @@ void BitmapConfiguration::readDibHeader(AlbaFileReader& fileReader) // only supp
     m_numberImportantOfColors = fileReader.getFourByteSwappedData<uint32_t>();
 }
 
-void BitmapConfiguration::readColors(AlbaFileReader& fileReader){
+void BitmapConfiguration::readColors(AlbaFileReader& fileReader)
+{
     fileReader.moveLocation(54);
     while(fileReader.getCurrentLocation()<m_pixelArrayAddress)
     {
@@ -317,10 +331,12 @@ void BitmapConfiguration::calculateOtherValuesAfterReading()
 CompressedMethodType BitmapConfiguration::determineCompressedMethodType(uint32_t compressedMethodValue) const
 {
     CompressedMethodType compressedMethodType;
-    switch(compressedMethodValue)    {
+    switch(compressedMethodValue)
+    {
     case 0: compressedMethodType = CompressedMethodType::BI_RGB; break;
     case 1: compressedMethodType = CompressedMethodType::BI_RLE8; break;
-    case 2: compressedMethodType = CompressedMethodType::BI_RLE4; break;    case 3: compressedMethodType = CompressedMethodType::BI_BITFIELDS; break;
+    case 2: compressedMethodType = CompressedMethodType::BI_RLE4; break;
+    case 3: compressedMethodType = CompressedMethodType::BI_BITFIELDS; break;
     case 4: compressedMethodType = CompressedMethodType::BI_JPEG; break;
     case 5: compressedMethodType = CompressedMethodType::BI_PNG; break;
     case 6: compressedMethodType = CompressedMethodType::BI_ALPHABITFIELDS; break;

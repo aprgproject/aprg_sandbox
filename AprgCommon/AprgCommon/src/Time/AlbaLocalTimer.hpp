@@ -5,6 +5,7 @@
 #ifdef OS_WINDOWS
 #include <Time/AlbaWindowsTimer.hpp>
 #endif
+
 #ifdef OS_LINUX
 #include <Time/AlbaLinuxTimer.hpp>
 #endif

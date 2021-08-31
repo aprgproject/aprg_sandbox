@@ -66,7 +66,7 @@ TEST(TwoDimensionsLineTest, HorizontalLine)
     EXPECT_EQ(0, line.getAUnitIncreaseInY());
 
     Points points(line.getPoints(Point(-2,10), Point(2,-10), 1));
-    ASSERT_EQ(5u, points.size());
+    ASSERT_EQ(5U, points.size());
     EXPECT_EQ(Point(-2,3), points.at(0));
     EXPECT_EQ(Point(-1,3), points.at(1));
     EXPECT_EQ(Point(0,3), points.at(2));
@@ -90,7 +90,7 @@ TEST(TwoDimensionsLineTest, VerticalLine)
     EXPECT_EQ(-6, line.getAUnitIncreaseInY());
 
     Points points(line.getPoints(Point(10,-3), Point(-10,3), 1));
-    ASSERT_EQ(7u, points.size());
+    ASSERT_EQ(7U, points.size());
     EXPECT_EQ(Point(2,-3), points.at(0));
     EXPECT_EQ(Point(2,-2), points.at(1));
     EXPECT_EQ(Point(2,-1), points.at(2));
@@ -116,7 +116,7 @@ TEST(TwoDimensionsLineTest, LineWithSlope)
     EXPECT_EQ(-6, line.getAUnitIncreaseInY());
 
     Points points(line.getPoints(Point(-2,-3), Point(2,3), 1));
-    ASSERT_EQ(9u, points.size());
+    ASSERT_EQ(9U, points.size());
     EXPECT_EQ(Point(-2,-3), points.at(0));
     EXPECT_EQ(Point(-1.33333333333333333,-2), points.at(1));
     EXPECT_EQ(Point(-1,-1.5), points.at(2));
@@ -144,7 +144,7 @@ TEST(TwoDimensionsLineTest, HorizontalLineWithPointsReversed)
     EXPECT_EQ(0, line.getAUnitIncreaseInY());
 
     Points points(line.getPoints(Point(2,10), Point(-2,-10), 1));
-    ASSERT_EQ(5u, points.size());
+    ASSERT_EQ(5U, points.size());
     EXPECT_EQ(Point(2,3), points.at(0));
     EXPECT_EQ(Point(1,3), points.at(1));
     EXPECT_EQ(Point(0,3), points.at(2));
@@ -168,7 +168,7 @@ TEST(TwoDimensionsLineTest, VerticalLineWithPointsReversed)
     EXPECT_EQ(6, line.getAUnitIncreaseInY());
 
     Points points(line.getPoints(Point(10,3), Point(-10,-3), 1));
-    ASSERT_EQ(7u, points.size());
+    ASSERT_EQ(7U, points.size());
     EXPECT_EQ(Point(2,3), points.at(0));
     EXPECT_EQ(Point(2,2), points.at(1));
     EXPECT_EQ(Point(2,1), points.at(2));
@@ -194,7 +194,7 @@ TEST(TwoDimensionsLineTest, LineWithSlopeWithPointsReversed)
     EXPECT_EQ(6, line.getAUnitIncreaseInY());
 
     Points points(line.getPoints(Point(2,3), Point(-2,-3), 1));
-    ASSERT_EQ(9u, points.size());
+    ASSERT_EQ(9U, points.size());
     EXPECT_EQ(Point(2,3), points.at(0));
     EXPECT_EQ(Point(1.33333333333333333,2), points.at(1));
     EXPECT_EQ(Point(1,1.5), points.at(2));
@@ -222,7 +222,7 @@ TEST(TwoDimensionsLineTest, LineWithNegativeSlope)
     EXPECT_EQ(-2, line.getAUnitIncreaseInY());
 
     Points points(line.getPoints(Point(2,0), Point(0,2), 1));
-    ASSERT_EQ(3u, points.size());
+    ASSERT_EQ(3U, points.size());
     EXPECT_EQ(Point(2,0), points.at(0));
     EXPECT_EQ(Point(1,1), points.at(1));
     EXPECT_EQ(Point(0,2), points.at(2));
@@ -260,7 +260,7 @@ TEST(TwoDimensionsLineTest, HorizontalLineConstructedByCoefficients)
     EXPECT_EQ(0, line.getAUnitIncreaseInY());
 
     Points points(line.getPoints(Point(-2,10), Point(2,-10), 1));
-    ASSERT_EQ(5u, points.size());
+    ASSERT_EQ(5U, points.size());
     EXPECT_EQ(Point(-2,3), points.at(0));
     EXPECT_EQ(Point(-1,3), points.at(1));
     EXPECT_EQ(Point(0,3), points.at(2));
@@ -284,7 +284,7 @@ TEST(TwoDimensionsLineTest, VerticalLineConstructedByCoefficients)
     EXPECT_EQ(-1, line.getAUnitIncreaseInY());
 
     Points points(line.getPoints(Point(10,-3), Point(-10,3), 1));
-    ASSERT_EQ(7u, points.size());
+    ASSERT_EQ(7U, points.size());
     EXPECT_EQ(Point(2,-3), points.at(0));
     EXPECT_EQ(Point(2,-2), points.at(1));
     EXPECT_EQ(Point(2,-1), points.at(2));
@@ -310,7 +310,7 @@ TEST(TwoDimensionsLineTest, LineWithSlopeConstructedByCoefficients)
     EXPECT_EQ(-3, line.getAUnitIncreaseInY());
 
     Points points(line.getPoints(Point(-2,-3), Point(2,3), 1));
-    ASSERT_EQ(9u, points.size());
+    ASSERT_EQ(9U, points.size());
     EXPECT_EQ(Point(-2,-3), points.at(0));
     EXPECT_EQ(Point(-1.33333333333333333,-2), points.at(1));
     EXPECT_EQ(Point(-1,-1.5), points.at(2));
@@ -338,7 +338,7 @@ TEST(TwoDimensionsLineTest, PointsAreCorrectForLineWithSteepSlope)
     EXPECT_EQ(5, line.getAUnitIncreaseInY());
 
     Points points(line.getPoints(Point(-2,-2), Point(2,2), 1));
-    ASSERT_EQ(5u, points.size());
+    ASSERT_EQ(5U, points.size());
     EXPECT_EQ(Point(-0.4,-2), points.at(0));
     EXPECT_EQ(Point(-0.2,-1), points.at(1));
     EXPECT_EQ(Point(0,0), points.at(2));
@@ -362,7 +362,7 @@ TEST(TwoDimensionsLineTest, LineWithExtremeSlopeWithManyPoints)
     EXPECT_EQ(-1, line.getAUnitIncreaseInY());
 
     Points points(line.getPoints(Point(0,0), Point(3194,3966), 1));
-    ASSERT_EQ(4660u, points.size());
+    ASSERT_EQ(4660U, points.size());
 }
 
 TEST(TwoDimensionsLineTest, LineCanBeComparedForEquality)

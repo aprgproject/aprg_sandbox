@@ -21,10 +21,12 @@ BitmapConfiguration Bitmap::getConfiguration() const
 BitmapSnippet Bitmap::createColorFilledSnippetWithSizeOfWholeBitmap(uint8_t const colorByte) const
 {
     BitmapSnippet snippet(m_configuration.getUpLeftCornerPoint(), m_configuration.getDownRightCornerPoint(), m_configuration);
-    snippet.clearAndPutOneColorOnWholeSnippet(colorByte);    return snippet;
+    snippet.clearAndPutOneColorOnWholeSnippet(colorByte);
+    return snippet;
 }
 
-BitmapSnippet Bitmap::getSnippetReadFromFileWholeBitmap() const{
+BitmapSnippet Bitmap::getSnippetReadFromFileWholeBitmap() const
+{
     return getSnippetReadFromFile(m_configuration.getUpLeftCornerPoint(), m_configuration.getDownRightCornerPoint());
 }
 
@@ -67,9 +69,11 @@ BitmapSnippet Bitmap::getSnippetReadFromFile(BitmapXY const topLeftCorner, Bitma
 
     return BitmapSnippet(BitmapXY(startPixelInX, topLeftCorner.getY()), BitmapXY(endPixelInX, bottomRightCorner.getY()), m_configuration);
 }
+
 void Bitmap::setSnippetWriteToFile(BitmapSnippet const& snippet) const
 {
-    if(areBitmapConfigurationsCompatibleForChangingPixelData(m_configuration, snippet.getConfiguration()))    {
+    if(areBitmapConfigurationsCompatibleForChangingPixelData(m_configuration, snippet.getConfiguration()))
+    {
         if(m_configuration.isPositionWithinTheBitmap(snippet.getTopLeftCorner()) && m_configuration.isPositionWithinTheBitmap(snippet.getBottomRightCorner()))
         {
             fstream streamFile(m_configuration.getPath(), fstream::in | fstream::out | fstream::binary);
@@ -91,10 +95,12 @@ void Bitmap::setSnippetWriteToFile(BitmapSnippet const& snippet) const
                     char const* pixelDataPointer = static_cast<char const*>(snippet.getPixelDataConstReference().getConstantBufferPointer()) + snippetIndex;
                     streamFile.seekg(fileOffsetForStart, streamFile.beg);
                     streamFile.write(pixelDataPointer, numberOfBytesToBeCopiedForX);
-                    snippetIndex += numberOfBytesToBeCopiedForX;                }
+                    snippetIndex += numberOfBytesToBeCopiedForX;
+                }
                 streamFile.flush();
             }
-        }    }
+        }
+    }
 }
 
 void Bitmap::calculateNewCornersBasedOnCenterAndNumberOfBytes(BitmapXY & topLeftCorner, BitmapXY & bottomRightCorner, BitmapXY const center, unsigned int const numberOfBytes) const
@@ -113,10 +119,12 @@ void Bitmap::calculateNewCornersBasedOnCenterAndNumberOfBytes(BitmapXY & topLeft
     int bottom(static_cast<int>(m_configuration.getYCoordinateWithinTheBitmap(static_cast<int>(center.getY()) + halfYSizeInBytes)));
     adjustToTargetLength(top, bottom, ySizeInBytes, m_configuration.getBitmapHeight());
 
-    topLeftCorner.setX(left);    topLeftCorner.setY(top);
+    topLeftCorner.setX(left);
+    topLeftCorner.setY(top);
     bottomRightCorner.setX(right);
     bottomRightCorner.setY(bottom);
 }
+
 void Bitmap::adjustToTargetLength(int & low, int & high, int const targetLength, unsigned int const maxLength) const
 {
     if(high-low+1 < (int)targetLength)

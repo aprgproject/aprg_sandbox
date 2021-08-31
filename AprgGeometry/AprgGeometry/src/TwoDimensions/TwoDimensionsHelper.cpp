@@ -166,7 +166,7 @@ Quadrant getQuadrantOfAPoint(Point const& point)
 RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c)
 {
     RotationDirection result(RotationDirection::None);
-    int area = (b.getX() - a.getX()) * (c.getY() - a.getY()) - (b.getY() - a.getY()) * (c.getX() - a.getX());
+    double area = (b.getX() - a.getX()) * (c.getY() - a.getY()) - (b.getY() - a.getY()) * (c.getX() - a.getX());
     if (area > 0)
     {
         result = RotationDirection::CounterClockWise;
@@ -557,11 +557,11 @@ void traverseCircleAreaBetweenTwoRadius(
 {
     Circle innerCircle(center, innerRadius);
     Circle outerCircle(center, outerRadius);
-    for(unsigned int y=0; y<outerRadius; y+=interval)
+    for(double y=0; y<outerRadius; y+=interval)
     {
         double xAtInnerCircle(innerCircle.calculateXFromYWithoutCenter(y, 1));
         double xAtOuterCircle(outerCircle.calculateXFromYWithoutCenter(y, 1));
-        for(unsigned int x=xAtInnerCircle; x<xAtOuterCircle; x+=interval)
+        for(double x=xAtInnerCircle; x<xAtOuterCircle; x+=interval)
         {
             if(x==0 && y==0)
             {

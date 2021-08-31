@@ -3,8 +3,8 @@
 #include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
-#include <cmath>
 #include <cassert>
+#include <cmath>
 
 using namespace alba::Dimensionless;
 using namespace alba::mathHelper;

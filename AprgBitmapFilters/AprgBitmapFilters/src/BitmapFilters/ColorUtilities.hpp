@@ -4,8 +4,10 @@
 
 namespace alba
 {
+
 namespace AprgBitmap
 {
+
 namespace ColorUtilities
 {
 
@@ -73,6 +75,7 @@ uint8_t extractMaxForOneColor(uint32_t const color);
 uint8_t extractMinForOneColor(uint32_t const color);
 
 }
+
 }
 
 }

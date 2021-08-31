@@ -44,7 +44,7 @@ TEST(CircleTest, CircleAtOriginWithRadius)
     EXPECT_DOUBLE_EQ(28.274333882308138044, circle.getArea());
     EXPECT_DOUBLE_EQ(18.849555921538758696, circle.getCircumference());
     Points points(circle.getLocus(1));
-    ASSERT_EQ(20u, points.size());
+    ASSERT_EQ(20U, points.size());
     EXPECT_EQ(Point(3,0), points.at(0));
     EXPECT_EQ(Point(2.8284271247461902909,1), points.at(1));
     EXPECT_EQ(Point(2.2360679774997898051,2), points.at(2));
@@ -93,7 +93,7 @@ TEST(CircleTest, PointsInAreaTraversalIsCorrect)
         pointsInAreaTraversal.emplace_back(pointInArea);
     });
 
-    ASSERT_EQ(13u, pointsInAreaTraversal.size());
+    ASSERT_EQ(13U, pointsInAreaTraversal.size());
     EXPECT_EQ(Point(3,3), pointsInAreaTraversal.at(0));
     EXPECT_EQ(Point(4,3), pointsInAreaTraversal.at(1));
     EXPECT_EQ(Point(2,3), pointsInAreaTraversal.at(2));

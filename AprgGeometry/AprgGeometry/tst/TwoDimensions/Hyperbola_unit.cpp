@@ -1,5 +1,5 @@
-#include <TwoDimensions/Hyperbola.hpp>
 #include <Math/AlbaMathHelper.hpp>
+#include <TwoDimensions/Hyperbola.hpp>
 
 #include <gtest/gtest.h>
 
@@ -40,7 +40,7 @@ TEST(HyperbolaTest, HyperbolaAtOriginWithRadius)
     EXPECT_DOUBLE_EQ(1.3333333333333333, hyperbola.getSemiLactusRectum());
 
     Points points(hyperbola.getPointsForShape(1));
-    ASSERT_EQ(22u, points.size());
+    ASSERT_EQ(22U, points.size());
     EXPECT_EQ(Point(6,3.4641016151377543864), points.at(0));
     EXPECT_EQ(Point(5,2.6666666666666669627), points.at(1));
     EXPECT_EQ(Point(4.2426406871192856585,2), points.at(2));

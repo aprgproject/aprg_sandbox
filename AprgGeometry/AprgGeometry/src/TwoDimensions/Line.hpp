@@ -26,7 +26,7 @@ public:
     Line();
     Line(Point const& first, Point const& second);
     Line(double const aCoefficient, double const bCoefficient, double const cCoefficient); //ax+by+c=0
-    Line(double const aCoefficient, double const bCoefficient, Point const& first); //ax+by+c=0
+    Line(double const aCoefficient, double const bCoefficient, Point const& point); //ax+by+c=0
     bool operator==(Line const& line) const;
     bool operator!=(Line const& line) const;
     LineType getType() const;

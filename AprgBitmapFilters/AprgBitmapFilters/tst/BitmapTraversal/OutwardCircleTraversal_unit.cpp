@@ -20,10 +20,12 @@ TEST(OutwardCircleTraversalTest, ConstructedRadiusToCoordinatesAreCorrectForZero
     RadiusToCoordinates const& radiusToCoordinates(traversal.getRadiusToCoordinates());
 
     ExpectedRadiusToCoordinates expectation;
-    expectation.emplace_back(0, Coordinate(0,0));    RadiusToCoordinates::const_iterator itInVerify=radiusToCoordinates.cbegin();
+    expectation.emplace_back(0, Coordinate(0,0));
+    RadiusToCoordinates::const_iterator itInVerify=radiusToCoordinates.cbegin();
     ExpectedRadiusToCoordinates::const_iterator itInExpect=expectation.cbegin();
     ASSERT_EQ(expectation.size(), radiusToCoordinates.size());
-    for(;itInExpect!=expectation.cend() && itInVerify!=radiusToCoordinates.cend();)    {
+    for(;itInExpect!=expectation.cend() && itInVerify!=radiusToCoordinates.cend();)
+    {
         EXPECT_DOUBLE_EQ(itInExpect->first, itInVerify->first);
         EXPECT_EQ(itInExpect->second.coordinate1, itInVerify->second.coordinate1);
         EXPECT_EQ(itInExpect->second.coordinate2, itInVerify->second.coordinate2);
@@ -38,10 +40,12 @@ TEST(OutwardCircleTraversalTest, ConstructedRadiusToCoordinatesAreCorrectForRadi
     OutwardCircleTraversal::RadiusToCoordinates const& radiusToCoordinates(traversal.getRadiusToCoordinates());
 
     ExpectedRadiusToCoordinates expectation;
-    expectation.emplace_back(0, Coordinate(0,0));    expectation.emplace_back(1, Coordinate(0,1));
+    expectation.emplace_back(0, Coordinate(0,0));
+    expectation.emplace_back(1, Coordinate(0,1));
     expectation.emplace_back(1.4142135623730951, Coordinate(1,1));
     expectation.emplace_back(2, Coordinate(0,2));
-    expectation.emplace_back(2.2360679774997898, Coordinate(1,2));    expectation.emplace_back(2.8284271247461903, Coordinate(2,2));
+    expectation.emplace_back(2.2360679774997898, Coordinate(1,2));
+    expectation.emplace_back(2.8284271247461903, Coordinate(2,2));
     expectation.emplace_back(3, Coordinate(0,3));
     expectation.emplace_back(3.1622776601683795, Coordinate(1,3));
     expectation.emplace_back(3.6055512754639891, Coordinate(2,3));

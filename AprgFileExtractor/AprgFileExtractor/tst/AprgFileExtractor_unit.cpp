@@ -36,10 +36,12 @@ TEST(AprgFileExtractorTest, ListOfFilesFromZipFileAreCorrectlyRetrieved)
     ASSERT_EQ(11U, files.size());
     auto fileIterator = files.begin();
     EXPECT_EQ(R"(DirectoryTest\DIR1\File1.log)", *fileIterator++);
-    EXPECT_EQ(R"(DirectoryTest\DIR2\File2.txt)", *fileIterator++);    EXPECT_EQ(R"(DirectoryTest\DIR3\File3)", *fileIterator++);
+    EXPECT_EQ(R"(DirectoryTest\DIR2\File2.txt)", *fileIterator++);
+    EXPECT_EQ(R"(DirectoryTest\DIR3\File3)", *fileIterator++);
     EXPECT_EQ(R"(DirectoryTest\DIR4\File4.mp3)", *fileIterator++);
     EXPECT_EQ(R"(DirectoryTest\DIR5\File5.avi)", *fileIterator++);
-    EXPECT_EQ(R"(DirectoryTest\DIR6\SUBDIR1\File6.jpg)", *fileIterator++);    EXPECT_EQ(R"(DirectoryTest\File1.log)", *fileIterator++);
+    EXPECT_EQ(R"(DirectoryTest\DIR6\SUBDIR1\File6.jpg)", *fileIterator++);
+    EXPECT_EQ(R"(DirectoryTest\File1.log)", *fileIterator++);
     EXPECT_EQ(R"(DirectoryTest\File2.txt)", *fileIterator++);
     EXPECT_EQ(R"(DirectoryTest\File3)", *fileIterator++);
     EXPECT_EQ(R"(DirectoryTest\File4.mp3)", *fileIterator++);

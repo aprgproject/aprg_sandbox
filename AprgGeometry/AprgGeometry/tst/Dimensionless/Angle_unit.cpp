@@ -1,5 +1,4 @@
 #include <Dimensionless/Angle.hpp>
-
 #include <Math/AlbaMathHelper.hpp>
 
 #include <gtest/gtest.h>

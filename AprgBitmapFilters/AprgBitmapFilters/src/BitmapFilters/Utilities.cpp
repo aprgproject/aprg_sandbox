@@ -28,6 +28,7 @@ void animeColorsInPenCircles(PenCircles & penCircles, AnimizeColor const& animiz
         pointAndPenCircleDetails.second.color = animizeColor.getNewColor(pointAndPenCircleDetails.second.color);
     }
 }
+
 }
 
 }

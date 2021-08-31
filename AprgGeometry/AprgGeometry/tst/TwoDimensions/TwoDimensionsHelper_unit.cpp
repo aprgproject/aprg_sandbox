@@ -1,7 +1,6 @@
-#include <TwoDimensions/TwoDimensionsHelper.hpp>
-
 #include <TwoDimensions/Parabola.hpp>
 #include <TwoDimensions/Rectangle.hpp>
+#include <TwoDimensions/TwoDimensionsHelper.hpp>
 
 #include <gtest/gtest.h>
 
@@ -57,24 +56,24 @@ TEST(TwoDimensionsHelperTest, IsCongruentWorksForTriangles)
 
 TEST(TwoDimensionsHelperTest, DistanceBetween2PointsCanBeCalculated)
 {
-    EXPECT_EQ(pow(2, 0.5), getDistance(Point(0,0), Point(1,1)));
+    EXPECT_DOUBLE_EQ(pow(2, 0.5), getDistance(Point(0,0), Point(1,1)));
 }
 
 TEST(TwoDimensionsHelperTest, DistanceBetweenPointAndLineCanBeCalculated)
 {
-    EXPECT_EQ(2, getDistance(Line(0,-1,4), Point(2,2)));
-    EXPECT_EQ(2, getDistance(Line(-1,0,4), Point(2,2)));
-    EXPECT_EQ(2*pow(2, 0.5), getDistance(Line(1,1,0), Point(2,2)));
+    EXPECT_DOUBLE_EQ(2, getDistance(Line(0,-1,4), Point(2,2)));
+    EXPECT_DOUBLE_EQ(2, getDistance(Line(-1,0,4), Point(2,2)));
+    EXPECT_DOUBLE_EQ(2*pow(2, 0.5), getDistance(Line(1,1,0), Point(2,2)));
 }
 
 TEST(TwoDimensionsHelperTest, GetConsineOfAngleUsing1DeltaWorksCorrectly)
 {
-    EXPECT_EQ(0.8, getCosineOfAngleUsing1Delta(3,4));
+    EXPECT_DOUBLE_EQ(0.8, getCosineOfAngleUsing1Delta(3,4));
 }
 
 TEST(TwoDimensionsHelperTest, GetConsineOfAngleUsing2DeltasWorksCorrectly)
 {
-    EXPECT_EQ(1, getCosineOfAngleUsing2Deltas(2,4,8,16));
+    EXPECT_DOUBLE_EQ(1, getCosineOfAngleUsing2Deltas(2,4,8,16));
 }
 
 TEST(TwoDimensionsHelperTest, GetArcLengthWorksCorrectly)
@@ -86,13 +85,13 @@ TEST(TwoDimensionsHelperTest, GetArcLengthWorksCorrectly)
 TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForTriangle)
 {
     Triangle triangle(Point(0,0), Point(0,4), Point(4,0));
-    EXPECT_EQ(8, getArea<3>(triangle));
+    EXPECT_DOUBLE_EQ(8, getArea<3>(triangle));
 }
 
 TEST(TwoDimensionsHelperTest, GetAreaForPolygonWorksForRectangle)
 {
     Rectangle rectangle(Point(0,5), Point(4,0));
-    EXPECT_EQ(20, getArea<4>(rectangle));
+    EXPECT_DOUBLE_EQ(20, getArea<4>(rectangle));
 }
 
 TEST(TwoDimensionsHelperTest, LineAndLineIntersectionCanBeFound)
@@ -132,7 +131,7 @@ TEST(TwoDimensionsHelperTest, GetIntersectionsOfParabolaAndLineWorks)
 
     Points points(getIntersectionsOfParabolaAndLine(parabola, line));
 
-    ASSERT_EQ(2u, points.size());
+    ASSERT_EQ(2U, points.size());
     EXPECT_EQ(Point(1,0), points.at(0));
     EXPECT_EQ(Point(4.25,0.8125), points.at(1));
 }
@@ -198,7 +197,7 @@ TEST(TwoDimensionsHelperTest, PointsInParabolaCanBeConnected)
     Points parabolaPoints(parabola.getPoints(-2, 2, 1));
     Points connectedPoints(getConnectedPointsUsingALine(parabolaPoints, 1));
 
-    ASSERT_EQ(11u, connectedPoints.size());
+    ASSERT_EQ(11U, connectedPoints.size());
     EXPECT_EQ(Point(-2,3), connectedPoints.at(0));
     EXPECT_EQ(Point(-1,2), connectedPoints.at(1));
     EXPECT_EQ(Point(0,3), connectedPoints.at(2));
@@ -218,7 +217,7 @@ TEST(TwoDimensionsHelperTest, GetConvexHullPointsUsingGrahamScanWorksCorrectly)
                        {3,-2},{6,-10},{0,-6},{-9,-5},{-8,-2},{-8,0},{-10,3},{-2,2},{-10,4}};
     Points convexHullPoints(getConvexHullPointsUsingGrahamScan(inputPoints));
 
-    ASSERT_EQ(7u, convexHullPoints.size());
+    ASSERT_EQ(7U, convexHullPoints.size());
     EXPECT_EQ(Point(-9,-5), convexHullPoints.at(0));
     EXPECT_EQ(Point(-10,3), convexHullPoints.at(1));
     EXPECT_EQ(Point(-10,4), convexHullPoints.at(2));
@@ -312,7 +311,7 @@ TEST(TwoDimensionsHelperTest, AddPointIfInsideTwoPointsWorks)
     addPointIfInsideTwoPoints(points, Point(2,2), minimumXAndY, maximumXAndY);
     addPointIfInsideTwoPoints(points, Point(3,3), minimumXAndY, maximumXAndY);
 
-    ASSERT_EQ(3u, points.size());
+    ASSERT_EQ(3U, points.size());
     EXPECT_EQ(Point(-1,-1), points.at(0));
     EXPECT_EQ(Point(0,0), points.at(1));
     EXPECT_EQ(Point(1,1), points.at(2));
@@ -323,7 +322,7 @@ TEST(TwoDimensionsHelperTest, GetPointsFromTwoPointsUsingALineWithoutLastPointWo
     Points pointsWithoutLastPoint;
     savePointsFromTwoPointsUsingALineWithoutLastPoint(pointsWithoutLastPoint, Point(0,0), Point(-5,-5), 1);
 
-    ASSERT_EQ(5u, pointsWithoutLastPoint.size());
+    ASSERT_EQ(5U, pointsWithoutLastPoint.size());
     EXPECT_EQ(Point(0,0), pointsWithoutLastPoint.at(0));
     EXPECT_EQ(Point(-1,-1), pointsWithoutLastPoint.at(1));
     EXPECT_EQ(Point(-2,-2), pointsWithoutLastPoint.at(2));
@@ -337,35 +336,23 @@ TEST(TwoDimensionsHelperTest, TraverseCircleAreaBetweenTwoRadiusWorks)
 
     traverseCircleAreaBetweenTwoRadius(
                 Point(3,3),
+                1,
                 2,
-                3,
                 1,
                 [&](Point const& pointInArea)
     {
         pointsInAreaTraversal.emplace_back(pointInArea);
     });
 
-    ASSERT_EQ(20u, pointsInAreaTraversal.size());
-    EXPECT_EQ(Point(5,3), pointsInAreaTraversal.at(0));
-    EXPECT_EQ(Point(1,3), pointsInAreaTraversal.at(1));
-    EXPECT_EQ(Point(4,4), pointsInAreaTraversal.at(2));
-    EXPECT_EQ(Point(2,4), pointsInAreaTraversal.at(3));
-    EXPECT_EQ(Point(4,2), pointsInAreaTraversal.at(4));
-    EXPECT_EQ(Point(2,2), pointsInAreaTraversal.at(5));
-    EXPECT_EQ(Point(5,4), pointsInAreaTraversal.at(6));
-    EXPECT_EQ(Point(1,4), pointsInAreaTraversal.at(7));
-    EXPECT_EQ(Point(5,2), pointsInAreaTraversal.at(8));
-    EXPECT_EQ(Point(1,2), pointsInAreaTraversal.at(9));
-    EXPECT_EQ(Point(3,5), pointsInAreaTraversal.at(10));
-    EXPECT_EQ(Point(3,1), pointsInAreaTraversal.at(11));
-    EXPECT_EQ(Point(4,5), pointsInAreaTraversal.at(12));
-    EXPECT_EQ(Point(2,5), pointsInAreaTraversal.at(13));
-    EXPECT_EQ(Point(4,1), pointsInAreaTraversal.at(14));
-    EXPECT_EQ(Point(2,1), pointsInAreaTraversal.at(15));
-    EXPECT_EQ(Point(5,5), pointsInAreaTraversal.at(16));
-    EXPECT_EQ(Point(1,5), pointsInAreaTraversal.at(17));
-    EXPECT_EQ(Point(5,1), pointsInAreaTraversal.at(18));
-    EXPECT_EQ(Point(1,1), pointsInAreaTraversal.at(19));
+    ASSERT_EQ(8U, pointsInAreaTraversal.size());
+    EXPECT_EQ(Point(4, 3), pointsInAreaTraversal.at(0));
+    EXPECT_EQ(Point(2, 3), pointsInAreaTraversal.at(1));
+    EXPECT_EQ(Point(3, 4), pointsInAreaTraversal.at(2));
+    EXPECT_EQ(Point(3, 2), pointsInAreaTraversal.at(3));
+    EXPECT_EQ(Point(4, 4), pointsInAreaTraversal.at(4));
+    EXPECT_EQ(Point(2, 4), pointsInAreaTraversal.at(5));
+    EXPECT_EQ(Point(4, 2), pointsInAreaTraversal.at(6));
+    EXPECT_EQ(Point(2, 2), pointsInAreaTraversal.at(7));
 }
 
 }

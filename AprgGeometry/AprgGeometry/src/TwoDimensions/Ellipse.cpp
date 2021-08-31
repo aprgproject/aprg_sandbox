@@ -112,10 +112,10 @@ Points Ellipse::getPointsForCircumference(double const interval) const
 
 void Ellipse::traverseArea(double const interval, TraverseOperation const& traverseOperation) const
 {
-    for(unsigned int y=0; y<=m_bValue; y+=interval)
+    for(double y=0; y<=m_bValue; y+=interval)
     {
         double xAtTheEdgeOfEllipse(calculateXFromYWithoutCenter(y, 1));
-        for(unsigned int x=0; x<=xAtTheEdgeOfEllipse; x+=interval)
+        for(double x=0; x<=xAtTheEdgeOfEllipse; x+=interval)
         {
             if(x==0 && y==0)
             {

@@ -20,7 +20,7 @@ TEST(ParabolaTest, GetPointsAreCorrect)
     Parabola parabola{1,2,3};
     Points points(parabola.getPoints(-2, 2, 1));
 
-    ASSERT_EQ(5u, points.size());
+    ASSERT_EQ(5U, points.size());
     EXPECT_EQ(Point(-2,3), points.at(0));
     EXPECT_EQ(Point(-1,2), points.at(1));
     EXPECT_EQ(Point(0,3), points.at(2));
@@ -33,7 +33,7 @@ TEST(ParabolaTest, GetPointsAreCorrectWhenBoundariesAreReversed)
     Parabola parabola{1,2,3};
     Points points(parabola.getPoints(2, -2, 1));
 
-    ASSERT_EQ(5u, points.size());
+    ASSERT_EQ(5U, points.size());
     EXPECT_EQ(Point(2,11), points.at(0));
     EXPECT_EQ(Point(1,6), points.at(1));
     EXPECT_EQ(Point(0,3), points.at(2));

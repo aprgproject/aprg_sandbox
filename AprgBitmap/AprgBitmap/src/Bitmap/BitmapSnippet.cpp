@@ -80,9 +80,11 @@ void BitmapSnippet::clearAndPutOneColorOnWholeSnippet(unsigned char const colorB
     int yDifference = static_cast<int>(m_bottomRightCorner.getY()) - static_cast<int>(m_topLeftCorner.getY()) +1;
     m_pixelData.resize(numberOfBytesToBeCopiedForX*yDifference, colorByte);
 }
+
 void BitmapSnippet::loadPixelDataFromFileInConfiguration()
 {
-    if(m_configuration.isPositionWithinTheBitmap(m_topLeftCorner) && m_configuration.isPositionWithinTheBitmap(m_bottomRightCorner))    {
+    if(m_configuration.isPositionWithinTheBitmap(m_topLeftCorner) && m_configuration.isPositionWithinTheBitmap(m_bottomRightCorner))
+    {
         ifstream inputStream(m_configuration.getPath(), ios::binary);
         AlbaFileReader fileReader(inputStream);
         if(inputStream.is_open())
@@ -94,10 +96,12 @@ void BitmapSnippet::loadPixelDataFromFileInConfiguration()
             int numberOfBytesToBeCopiedForX = static_cast<int>(m_configuration.getOneRowSizeInBytesFromBytes(byteOffsetInXForStart, byteOffsetInXForEnd));
 
             for(int y=offsetInYForStart; y>=offsetInYForEnd; y--)
-            {                unsigned long long fileOffsetForStart = m_configuration.getPixelArrayAddress()+((unsigned long long)m_configuration.getNumberOfBytesPerRowInFile()*y)+byteOffsetInXForStart;
+            {
+                unsigned long long fileOffsetForStart = m_configuration.getPixelArrayAddress()+((unsigned long long)m_configuration.getNumberOfBytesPerRowInFile()*y)+byteOffsetInXForStart;
                 fileReader.moveLocation(fileOffsetForStart);
                 fileReader.saveDataToMemoryBuffer(m_pixelData, numberOfBytesToBeCopiedForX);
-            }        }
+            }
+        }
     }
 }
 
@@ -120,10 +124,12 @@ uint32_t BitmapSnippet::getPixelAt(BitmapXY const position) const
         uint8_t const* reader = static_cast<uint8_t const*>(m_pixelData.getConstantBufferPointer());
         if(m_configuration.getNumberOfBitsPerPixel() < AlbaBitConstants::BYTE_SIZE_IN_BITS)
         {
-            result = getPixelAtForPixelInAByte(reader, index, position);        }
+            result = getPixelAtForPixelInAByte(reader, index, position);
+        }
         else
         {
-            result = getPixelAtForMultipleBytePixels(reader, index);        }
+            result = getPixelAtForMultipleBytePixels(reader, index);
+        }
     }
     return result;
 }
@@ -132,6 +138,7 @@ uint32_t BitmapSnippet::getColorAt(BitmapXY const position) const
 {
     return m_configuration.getColorUsingPixelValue(getPixelAt(position));
 }
+
 bool BitmapSnippet::isBlackAt(BitmapXY const position) const //this is the only assumption, colors can depend on numberofbits of pixel and color table
 {
     return (m_configuration.getColorUsingPixelValue(getPixelAt(position))==0x00000000);
@@ -145,10 +152,12 @@ void BitmapSnippet::setPixelAt(BitmapXY const position, uint32_t const value)
         uint8_t* writer = static_cast<uint8_t *>(m_pixelData.getBufferPointer());
         if(m_configuration.getNumberOfBitsPerPixel() < AlbaBitConstants::BYTE_SIZE_IN_BITS)
         {
-            setPixelAtForPixelInAByte(writer, index, position, value);        }
+            setPixelAtForPixelInAByte(writer, index, position, value);
+        }
         else
         {
-            setPixelAtForMultipleBytePixels(writer, index, value);        }
+            setPixelAtForMultipleBytePixels(writer, index, value);
+        }
     }
 }
 
@@ -203,7 +212,8 @@ uint32_t BitmapSnippet::getPixelAtForPixelInAByte(uint8_t const* reader, unsigne
         result = static_cast<uint32_t>(*(reader+index));
         unsigned int shiftValue = calculateShiftValue(position);
         result = (result >> shiftValue) & m_configuration.getBitMaskForValue();
-    }    return result;
+    }
+    return result;
 }
 
 uint32_t BitmapSnippet::getPixelAtForMultipleBytePixels(uint8_t const* reader, unsigned int const index) const
@@ -241,10 +251,12 @@ void BitmapSnippet::setPixelAtForMultipleBytePixels(uint8_t* writer, unsigned in
     uint32_t valueToSave(value);
     unsigned int minimumNumberOfBytesForOnePixel = m_configuration.getMinimumNumberOfBytesForOnePixel();
     if(index+minimumNumberOfBytesForOnePixel-1 < m_pixelData.getSize())
-    {        for(int indexForMultipleBytePixel=0; indexForMultipleBytePixel<(int)minimumNumberOfBytesForOnePixel; indexForMultipleBytePixel++)
+    {
+        for(int indexForMultipleBytePixel=0; indexForMultipleBytePixel<(int)minimumNumberOfBytesForOnePixel; indexForMultipleBytePixel++)
         {
             *(writer+index+indexForMultipleBytePixel) = valueToSave & AlbaBitConstants::BYTE_MASK;
-            valueToSave >>= AlbaBitConstants::BYTE_SIZE_IN_BITS;        }
+            valueToSave >>= AlbaBitConstants::BYTE_SIZE_IN_BITS;
+        }
     }
 }
 

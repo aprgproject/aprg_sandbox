@@ -27,4 +27,5 @@ private:
     SYSTEMTIME m_time1;
     SYSTEMTIME m_time2;
 };
+
 }//namespace alba

@@ -243,6 +243,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadTwoByteNumbers)
     EXPECT_EQ(0x0U, fileReader.getTwoByteData<uint16_t>());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
+
 TEST(FileReadTest, ReadFromTestFile_ReadFourByteNumbers)
 {
     AlbaLocalPathHandler commonTestFileToRead(APRG_COMMON_TEST_FILE_TO_READ);
@@ -268,6 +269,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadFourByteNumbers)
     EXPECT_EQ(0xA1BAU, fileReader.getFourByteData<uint32_t>());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
+
 TEST(FileReadTest, ReadFromTestFile_ReadEightByteNumbers)
 {
     AlbaLocalPathHandler commonTestFileToRead(APRG_COMMON_TEST_FILE_TO_READ);
@@ -291,6 +293,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadEightByteNumbers)
     EXPECT_EQ(0x000001234567A1BAU, fileReader.getEightByteData<uint64_t>());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
+
 TEST(FileReadTest, ReadFromTestFile_ReadSwappedTwoByteNumbers)
 {
     AlbaLocalPathHandler commonTestFileToRead(APRG_COMMON_TEST_FILE_TO_READ);
@@ -349,7 +352,8 @@ TEST(FileReadTest, ReadFromTestFile_ReadSwappedFourByteNumbers)
 
 TEST(FileReadTest, ReadFromTestFile_ReadSwappedEightByteNumbers)
 {
-    AlbaLocalPathHandler commonTestFileToRead(APRG_COMMON_TEST_FILE_TO_READ);    ofstream testFile(commonTestFileToRead.getFullPath());
+    AlbaLocalPathHandler commonTestFileToRead(APRG_COMMON_TEST_FILE_TO_READ);
+    ofstream testFile(commonTestFileToRead.getFullPath());
     ASSERT_TRUE(testFile.is_open());
     testFile.put(0x01);
     testFile.put(0x23);
@@ -369,6 +373,7 @@ TEST(FileReadTest, ReadFromTestFile_ReadSwappedEightByteNumbers)
     EXPECT_EQ(0xBAA1674523010000U, fileReader.getEightByteSwappedData<uint64_t>());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
+
 TEST(FileReadTest, ReadFromTestFile_FileContentsCanBeSavedInMemoryBuffer)
 {
     AlbaLocalPathHandler commonTestFileToRead(APRG_COMMON_TEST_FILE_TO_READ);

@@ -261,7 +261,8 @@ TEST(AlbaBitManipulationTest, DataIsSuccessfullySwappedForEightBytes)
     EXPECT_EQ(0xF0DEBC9A78563412U, AlbaBitManipulation<uint64_t>::swapForEightBytes(input));
 }
 
-TEST(AlbaBitManipulationTest, GenerationOfOnesIsSuccessful){
+TEST(AlbaBitManipulationTest, GenerationOfOnesIsSuccessful)
+{
     // Given
     const unsigned int input = 2;
 

@@ -1,5 +1,5 @@
-#include <TwoDimensions/Ellipse.hpp>
 #include <Math/AlbaMathHelper.hpp>
+#include <TwoDimensions/Ellipse.hpp>
 
 #include <gtest/gtest.h>
 
@@ -43,7 +43,7 @@ TEST(EllipseTest, EllipseAtOriginWithRadius)
     EXPECT_DOUBLE_EQ(18.849555921538759, ellipse.getArea());
 
     Points points(ellipse.getPointsForCircumference(1));
-    ASSERT_EQ(16u, points.size());
+    ASSERT_EQ(16U, points.size());
     EXPECT_EQ(Point(3,0), points.at(0));
     EXPECT_EQ(Point(2.5980762113533160118,1), points.at(1));
     EXPECT_EQ(Point(2,1.490711984999859796), points.at(2));

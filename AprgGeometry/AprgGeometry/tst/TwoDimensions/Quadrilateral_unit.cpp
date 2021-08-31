@@ -21,7 +21,7 @@ TEST(QuadrilateralTest, GetPointsAreCorrect)
     Quadrilateral quadrilateral(Point(-2,0), Point(0,-2), Point(2,0), Point(0,2));
     Points points(quadrilateral.getPoints(1));
 
-    ASSERT_EQ(8u, points.size());
+    ASSERT_EQ(8U, points.size());
     EXPECT_EQ(Point(-2,0), points.at(0));
     EXPECT_EQ(Point(-1,-1), points.at(1));
     EXPECT_EQ(Point(0,-2), points.at(2));
@@ -38,7 +38,7 @@ TEST(QuadrilateralTest, DISABLED_PointsInQuadilateralAreCorrectWhenOutOfOrderVer
     Quadrilateral quadrilateral(Point(-2,0), Point(2,0), Point(0,2), Point(0,-2));
     Points points(quadrilateral.getPoints(1));
 
-    ASSERT_EQ(8u, points.size());
+    ASSERT_EQ(8U, points.size());
     EXPECT_EQ(Point(-2,0), points.at(0));
     EXPECT_EQ(Point(-1,-1), points.at(1));
     EXPECT_EQ(Point(0,-2), points.at(2));
@@ -59,7 +59,7 @@ TEST(QuadrilateralTest, PointsInAreaTraversalIsCorrectFor1YGroup)
         pointsInAreaTraversal.emplace_back(pointInArea);
     });
 
-    ASSERT_EQ(5u, pointsInAreaTraversal.size());
+    ASSERT_EQ(5U, pointsInAreaTraversal.size());
     EXPECT_EQ(Point(1,1), pointsInAreaTraversal.at(0));
     EXPECT_EQ(Point(2,1), pointsInAreaTraversal.at(1));
     EXPECT_EQ(Point(3,1), pointsInAreaTraversal.at(2));
@@ -77,7 +77,7 @@ TEST(QuadrilateralTest, PointsInAreaTraversalIsCorrectFor2YGroupsInFirstPattern)
         pointsInAreaTraversal.emplace_back(pointInArea);
     });
 
-    ASSERT_EQ(9u, pointsInAreaTraversal.size());
+    ASSERT_EQ(9U, pointsInAreaTraversal.size());
     EXPECT_EQ(Point(3,1), pointsInAreaTraversal.at(0));
     EXPECT_EQ(Point(2,2), pointsInAreaTraversal.at(1));
     EXPECT_EQ(Point(3,2), pointsInAreaTraversal.at(2));
@@ -99,7 +99,7 @@ TEST(QuadrilateralTest, PointsInAreaTraversalIsCorrectFor2YGroupsInSecondPattern
         pointsInAreaTraversal.emplace_back(pointInArea);
     });
 
-    ASSERT_EQ(9u, pointsInAreaTraversal.size());
+    ASSERT_EQ(9U, pointsInAreaTraversal.size());
     EXPECT_EQ(Point(2,2), pointsInAreaTraversal.at(0));
     EXPECT_EQ(Point(3,2), pointsInAreaTraversal.at(1));
     EXPECT_EQ(Point(4,2), pointsInAreaTraversal.at(2));
@@ -121,7 +121,7 @@ TEST(QuadrilateralTest, PointsInAreaTraversalIsCorrectFor2YGroupsInThirdPattern)
         pointsInAreaTraversal.emplace_back(pointInArea);
     });
 
-    ASSERT_EQ(9u, pointsInAreaTraversal.size());
+    ASSERT_EQ(9U, pointsInAreaTraversal.size());
     EXPECT_EQ(Point(1,3), pointsInAreaTraversal.at(0));
     EXPECT_EQ(Point(2,3), pointsInAreaTraversal.at(1));
     EXPECT_EQ(Point(3,3), pointsInAreaTraversal.at(2));
@@ -143,7 +143,7 @@ TEST(QuadrilateralTest, PointsInAreaTraversalIsCorrectFor3YGroupsInFirstPattern)
         pointsInAreaTraversal.emplace_back(pointInArea);
     });
 
-    ASSERT_EQ(9u, pointsInAreaTraversal.size());
+    ASSERT_EQ(9U, pointsInAreaTraversal.size());
     EXPECT_EQ(Point(2,1), pointsInAreaTraversal.at(0));
     EXPECT_EQ(Point(2,2), pointsInAreaTraversal.at(1));
     EXPECT_EQ(Point(3,2), pointsInAreaTraversal.at(2));
@@ -165,7 +165,7 @@ TEST(QuadrilateralTest, PointsInAreaTraversalIsCorrectFor3YGroupsInSecondPattern
         pointsInAreaTraversal.emplace_back(pointInArea);
     });
 
-    ASSERT_EQ(9u, pointsInAreaTraversal.size());
+    ASSERT_EQ(9U, pointsInAreaTraversal.size());
     EXPECT_EQ(Point(4,1), pointsInAreaTraversal.at(0));
     EXPECT_EQ(Point(3,2), pointsInAreaTraversal.at(1));
     EXPECT_EQ(Point(4,2), pointsInAreaTraversal.at(2));
@@ -187,7 +187,7 @@ TEST(QuadrilateralTest, PointsInAreaTraversalIsCorrectFor3YGroupsInThirdPattern)
         pointsInAreaTraversal.emplace_back(pointInArea);
     });
 
-    ASSERT_EQ(7u, pointsInAreaTraversal.size());
+    ASSERT_EQ(7U, pointsInAreaTraversal.size());
     EXPECT_EQ(Point(3,1), pointsInAreaTraversal.at(0));
     EXPECT_EQ(Point(1,2), pointsInAreaTraversal.at(1));
     EXPECT_EQ(Point(2,2), pointsInAreaTraversal.at(2));
@@ -207,7 +207,7 @@ TEST(QuadrilateralTest, PointsInAreaTraversalIsCorrectFor3YGroupsInFourthPattern
         pointsInAreaTraversal.emplace_back(pointInArea);
     });
 
-    ASSERT_EQ(9u, pointsInAreaTraversal.size());
+    ASSERT_EQ(9U, pointsInAreaTraversal.size());
     EXPECT_EQ(Point(2,2), pointsInAreaTraversal.at(0));
     EXPECT_EQ(Point(3,2), pointsInAreaTraversal.at(1));
     EXPECT_EQ(Point(4,2), pointsInAreaTraversal.at(2));
@@ -229,7 +229,7 @@ TEST(QuadrilateralTest, PointsInAreaTraversalIsCorrectFor3YGroupsInFifthPattern)
         pointsInAreaTraversal.emplace_back(pointInArea);
     });
 
-    ASSERT_EQ(9u, pointsInAreaTraversal.size());
+    ASSERT_EQ(9U, pointsInAreaTraversal.size());
     EXPECT_EQ(Point(2,2), pointsInAreaTraversal.at(0));
     EXPECT_EQ(Point(3,2), pointsInAreaTraversal.at(1));
     EXPECT_EQ(Point(4,2), pointsInAreaTraversal.at(2));
@@ -251,7 +251,7 @@ TEST(QuadrilateralTest, PointsInAreaTraversalIsCorrectFor4YGroupsFirstPattern)
         pointsInAreaTraversal.emplace_back(pointInArea);
     });
 
-    ASSERT_EQ(8u, pointsInAreaTraversal.size());
+    ASSERT_EQ(8U, pointsInAreaTraversal.size());
     EXPECT_EQ(Point(3,1), pointsInAreaTraversal.at(0));
     EXPECT_EQ(Point(2,2), pointsInAreaTraversal.at(1));
     EXPECT_EQ(Point(3,2), pointsInAreaTraversal.at(2));
@@ -272,7 +272,7 @@ TEST(QuadrilateralTest, PointsInAreaTraversalIsCorrectFor4YGroupsSecondPattern)
         pointsInAreaTraversal.emplace_back(pointInArea);
     });
 
-    ASSERT_EQ(8u, pointsInAreaTraversal.size());
+    ASSERT_EQ(8U, pointsInAreaTraversal.size());
     EXPECT_EQ(Point(3,1), pointsInAreaTraversal.at(0));
     EXPECT_EQ(Point(2.5,2), pointsInAreaTraversal.at(1));
     EXPECT_EQ(Point(3.5,2), pointsInAreaTraversal.at(2));
@@ -297,7 +297,7 @@ TEST(QuadrilateralTest, DoesNotCrashExampleDueToNearValues)
         pointsInAreaTraversal.emplace_back(pointInArea);
     });
 
-    EXPECT_EQ(24u, pointsInAreaTraversal.size());
+    EXPECT_EQ(24U, pointsInAreaTraversal.size());
 }
 
 
