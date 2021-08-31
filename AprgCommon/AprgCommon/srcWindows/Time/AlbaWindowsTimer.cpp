@@ -68,16 +68,9 @@ unsigned int AlbaWindowsTimer::getElapsedTimeInHours() const
     return static_cast<unsigned int>(difference.getHours());
 }
 
-string AlbaWindowsTimer::getElapsedTimeDisplayableString() const
-{
-    AlbaDateTime difference(getDifferenceBetweenTimes());
-    return difference.getPrintableStringFormat3();
-}
-
 AlbaDateTime AlbaWindowsTimer::getDifferenceBetweenTimes() const
 {
-    AlbaDateTime time1(convertSystemTimeToAlbaDateTime(m_time1));
-    AlbaDateTime time2(convertSystemTimeToAlbaDateTime(m_time2));
+    AlbaDateTime time1(convertSystemTimeToAlbaDateTime(m_time1));    AlbaDateTime time2(convertSystemTimeToAlbaDateTime(m_time2));
     return AlbaDateTime(time2-time1);
 }
 

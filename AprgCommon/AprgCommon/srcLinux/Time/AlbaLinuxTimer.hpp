@@ -1,9 +1,10 @@
 #pragma once
 
+#include <Time/AlbaDateTime.hpp>
+
 #include <ctime>
 
-namespace alba
-{
+namespace alba{
 
 class AlbaLinuxTimer
 {
@@ -17,10 +18,10 @@ public:
     unsigned int getElapsedTimeInSeconds() const;
     unsigned int getElapsedTimeInMinutes() const;
     unsigned int getElapsedTimeInHours() const;
+    AlbaDateTime getDifferenceBetweenTimes() const;
 
 private:
-    timespec m_timeSpec1;
-    timespec m_timeSpec2;
+    timespec m_timeSpec1;    timespec m_timeSpec2;
 };
 
 }//namespace alba

@@ -1,9 +1,10 @@
 #pragma once
 
+#include <string>
+
 #ifdef OS_WINDOWS
 #include <Time/AlbaWindowsTimer.hpp>
 #endif
-
 #ifdef OS_LINUX
 #include <Time/AlbaLinuxTimer.hpp>
 #endif
@@ -24,6 +25,9 @@ class AlbaLocalTimer: public AlbaWindowsTimer
 class AlbaLocalTimer: public AlbaLinuxTimer
 #endif
 {
+public:
+    std::string getElapsedTimeDisplayableString() const;
+
 };
 
 }//namespace alba

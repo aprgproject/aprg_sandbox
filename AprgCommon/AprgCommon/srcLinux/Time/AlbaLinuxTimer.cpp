@@ -78,4 +78,11 @@ unsigned int AlbaLinuxTimer::getElapsedTimeInHours() const
     return static_cast<unsigned int>(difference.getHours());
 }
 
+AlbaDateTime AlbaLinuxTimer::getDifferenceBetweenTimes() const
+{
+    AlbaDateTime time1(convertSystemTimeToAlbaDateTime(m_timeSpec1));
+    AlbaDateTime time2(convertSystemTimeToAlbaDateTime(m_timeSpec2));
+    return AlbaDateTime(time2-time1);
+}
+
 }//namespace alba

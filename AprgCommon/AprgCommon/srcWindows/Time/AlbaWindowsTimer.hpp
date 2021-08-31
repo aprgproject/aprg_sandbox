@@ -21,12 +21,10 @@ public:
     unsigned int getElapsedTimeInSeconds() const;
     unsigned int getElapsedTimeInMinutes() const;
     unsigned int getElapsedTimeInHours() const;
-    std::string getElapsedTimeDisplayableString() const;
+    AlbaDateTime getDifferenceBetweenTimes() const;
 
 private:
-    AlbaDateTime getDifferenceBetweenTimes() const;
     SYSTEMTIME m_time1;
     SYSTEMTIME m_time2;
 };
-
 }//namespace alba
