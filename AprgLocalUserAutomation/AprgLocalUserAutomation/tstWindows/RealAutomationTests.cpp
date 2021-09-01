@@ -1,16 +1,12 @@
 #include <AlbaLocalUserAutomation.hpp>
-
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 #include <gtest/gtest.h>
-
 #include <windows.h>
 
 using namespace std;
-
 namespace alba
 {
-
 TEST(RealAutomationTest, DISABLED_NormalizeAudioForMp3Files) //DISABLED_
 {
     AlbaWindowsUserAutomation userAutomation;
