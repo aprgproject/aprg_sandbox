@@ -11,14 +11,20 @@
 namespace alba
 {
 
+//This needs to first because template needs to available so that compiler can use it.
+template <typename ElementType1, typename ElementType2>
+std::ostream & operator<<(std::ostream & out, std::pair<ElementType1, ElementType2> const& pairWithTwoElements)
+{
+    out << "(" << pairWithTwoElements.first << "," << pairWithTwoElements.second << ")";
+    return out;
+}
+
 template <typename ElementType>
 class AprgMathSet
-{
-public:
+{public:
     using Rule = std::function<bool(ElementType const&)>;
     using RosterInitializerList = std::initializer_list<ElementType>;
-    using RosterList = std::vector<ElementType>;
-    using RosterContainer = std::set<ElementType>;
+    using RosterList = std::vector<ElementType>;    using RosterContainer = std::set<ElementType>;
     using VoidElementFunction = std::function<void(ElementType const&)>;
     using GenerateFunction = std::function<void(VoidElementFunction const& generateElementFunction)>;
 
@@ -68,15 +74,13 @@ std::string getGeneratedRosterString(GenerateFunction const& generateFunction) c
     {
         if(contains(element))
         {
-            enumerateElements(descriptionStream, element, index);
+            enumerateElement(descriptionStream, element, index);
             index++;
         }
-    });
-    return std::string("{... ")+descriptionStream.str()+" ...}";
+    });    return std::string("{... ")+descriptionStream.str()+" ...}";
 }
 
-bool isASubsetOf(AprgMathSet const& mathSet2, GenerateFunction const& generateFunction) const
-{
+bool isASubsetOf(AprgMathSet const& mathSet2, GenerateFunction const& generateFunction) const{
     bool result(true);
     generateFunction([&](ElementType const& element)
     {
@@ -161,21 +165,19 @@ void constructSetBasedOnRosterList(RosterList const& rosterList)
     unsigned int index=0;
     for(ElementType const& elementInRoster : rosterList)
     {
-        enumerateElements(descriptionStream, elementInRoster, index);
+        enumerateElement(descriptionStream, elementInRoster, index);
         index++;
     }
     m_description = descriptionStream.str();
 }
 
-void enumerateElements(std::stringstream & descriptionStream, ElementType const& elementInRoster, unsigned int const index) const
+void enumerateElement(std::stringstream & descriptionStream, ElementType const& elementInRoster, unsigned int const index) const
 {
     if(index==0)
-    {
-        descriptionStream << elementInRoster;
+    {        descriptionStream << elementInRoster;
     }
     else
-    {
-        descriptionStream << ", " << elementInRoster;
+    {        descriptionStream << ", " << elementInRoster;
     }
 }
 
@@ -221,13 +223,6 @@ AprgMathSet<std::pair<ElementType1, ElementType2>> getCarterisianProduct(
         }
     });
     return AprgMathSet<std::pair<ElementType1, ElementType2>>(rosterList);
-}
-
-template <typename ElementType1, typename ElementType2>
-std::ostream & operator<<(std::ostream & out, std::pair<ElementType1, ElementType2> const& pairWithTwoElements)
-{
-    out << "(" << pairWithTwoElements.first << "," << pairWithTwoElements.second << ")";
-    return out;
 }
 
 
