@@ -26,14 +26,12 @@ public:
 
     DataSample(std::initializer_list<double> const& dataSampleValues)
     {
-        unsigned int limit = std::min(dimensions, dataSampleValues.size());
+        unsigned int limit = std::min(dimensions, static_cast<unsigned int>(dataSampleValues.size()));
         std::copy(dataSampleValues.begin(), dataSampleValues.begin()+limit, m_data.begin());
     }
-
     bool isIndexValid(unsigned int index) const
     {
-        return index < dimensions;
-    }
+        return index < dimensions;    }
 
     unsigned int getSize() const
     {

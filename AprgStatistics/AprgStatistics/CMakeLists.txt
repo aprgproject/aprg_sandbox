@@ -27,5 +27,5 @@ include(${APRG_STATISTICS_DIR}/cmake/FilesAndDirectories.cmake)
 
 add_executable(${OUTFILE} ${APRG_STATISTICS_SOURCES_AND_TESTS})
 include_directories(${APRG_STATISTICS_INCLUDE_DIRECTORIES} ${APRG_STATISTICS_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest)
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest pthread)
 add_test(${OUTFILE} ${OUTFILE})

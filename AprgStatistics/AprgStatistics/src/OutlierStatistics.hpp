@@ -1,15 +1,12 @@
 #pragma once
 
 #include <DataStatistics.hpp>
-
 #include <Math/AlbaMathHelper.hpp>
 
-namespace alba
-{
+namespace alba{
 
 template <unsigned int dimensions>
-class OutlierStatistics : public DataStatistics<dimensions>
-{
+class OutlierStatistics : public DataStatistics<dimensions>{
 public:
     using Sample = DataSample<dimensions>;
     using Samples = std::vector<Sample>;
