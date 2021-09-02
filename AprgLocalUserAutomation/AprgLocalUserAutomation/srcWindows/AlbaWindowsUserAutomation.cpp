@@ -9,8 +9,10 @@
 #include <iostream>
 
 using namespace std;
+
 namespace alba
 {
+
 bool AlbaWindowsUserAutomation::isLetterPressed(char const letter) const
 {
     USHORT status = GetAsyncKeyState(::toupper(letter));

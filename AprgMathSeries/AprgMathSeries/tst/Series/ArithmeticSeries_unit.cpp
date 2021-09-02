@@ -45,4 +45,3 @@ TEST(ArithmeticSeriesTest, GetSumWorks)
 }
 
 }
-

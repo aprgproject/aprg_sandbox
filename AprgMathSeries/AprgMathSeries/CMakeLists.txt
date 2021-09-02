@@ -27,5 +27,5 @@ include(${APRG_MATH_SERIES_DIR}/cmake/FilesAndDirectories.cmake)
 
 add_executable(${OUTFILE} ${APRG_MATH_SERIES_SOURCES_AND_TESTS})
 include_directories(${APRG_MATH_SERIES_INCLUDE_DIRECTORIES} ${APRG_MATH_SERIES_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest)
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest pthread)
 add_test(${OUTFILE} ${OUTFILE})

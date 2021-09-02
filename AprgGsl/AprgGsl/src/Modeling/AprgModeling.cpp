@@ -45,10 +45,12 @@ void AprgModeling::retrieveDataFromFileWithFileFormat1(string const& filePath)
             columnsForX = max(columnsForX, static_cast<unsigned int>(itemsFound.size()-1));
             stringHelper::strings::const_iterator it(itemsFound.begin());
             retrievedDataForY.emplace_back(stringHelper::convertStringToNumber<double>(*it));
-            it++;            for_each(it, itemsFound.cend(), [&](string const& item)
+            it++;
+            for_each(it, itemsFound.cend(), [&](string const& item)
             {
                 retrievedDataForX.emplace_back(stringHelper::convertStringToNumber<double>(item));
-            });            numberOfSamples++;
+            });
+            numberOfSamples++;
         }
     }
     saveRetrievedDataForXAndY(columnsForX, numberOfSamples, retrievedDataForX, retrievedDataForY);
@@ -89,10 +91,12 @@ void AprgModeling::retrieveDataFromFileWithFileFormat2(string const& filePath)
                 reversedCoordinatesColumns = max(reversedCoordinatesColumns, static_cast<unsigned int>(itemsFound.size()-1));
                 stringHelper::strings::const_iterator it(itemsFound.begin());
                 it++;
-                for_each(it, itemsFound.cend(), [&](string const& item)                {
+                for_each(it, itemsFound.cend(), [&](string const& item)
+                {
                     reversedCoordinates.emplace_back(stringHelper::convertStringToNumber<double>(item));
                 });
-                reversedCoordinatesRows++;            }
+                reversedCoordinatesRows++;
+            }
         }
     }
     for(unsigned int i=0; i<reversedCoordinatesColumns; i++)

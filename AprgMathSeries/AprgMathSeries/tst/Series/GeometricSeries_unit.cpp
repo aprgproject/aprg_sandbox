@@ -54,4 +54,3 @@ TEST(GeometricSeriesTest, GetInfiniteSumIfMultiplierIsFractionalWorks)
 }
 
 }
-

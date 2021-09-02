@@ -1,6 +1,7 @@
 #include "Utilities.hpp"
 
 #include <Math/AlbaMathHelper.hpp>
+
 #include <cmath>
 
 using namespace alba::mathHelper;
