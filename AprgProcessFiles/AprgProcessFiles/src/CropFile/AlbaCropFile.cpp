@@ -81,15 +81,13 @@ void AlbaCropFile::performCropForFile(string const& inputFilePath, string const&
     AlbaFileReader fileReader(inputFileStream);
     LocationsInFile locations(getLocationsInFile(foundLocation, fileReader.getFileSize()));
     inputFileStream.clear();
-    fileReader.moveLocation(locations.startLocation);
+    fileReader.moveLocation(static_cast<unsigned long long>(locations.startLocation));
 
     double locationDifference = locations.endLocation-locations.startLocation;
-    while(fileReader.isNotFinished())
-    {
+    while(fileReader.isNotFinished())    {
         double currentLocation = fileReader.getCurrentLocation();
         string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
-        if(currentLocation < locations.endLocation)
-        {
+        if(currentLocation < locations.endLocation)        {
             m_isOutputFileWritten = true;
             outputFileStream << lineInLogs << endl;
         }
@@ -106,15 +104,13 @@ void AlbaCropFile::performCropForFile(string const& inputFilePath, string const&
 
 AlbaCropFile::LocationsInFile AlbaCropFile::getLocationsInFile(double const foundLocation, double const fileSize) const
 {
-    LocationsInFile locations;
+    LocationsInFile locations{};
     locations.startLocation = foundLocation - (m_cropSize/2);
     locations.endLocation = foundLocation + (m_cropSize/2);
-    double overFlowOnTheRight = locations.endLocation - fileSize;
-    double overFlowOnTheLeft = -locations.startLocation;
+    double overFlowOnTheRight = locations.endLocation - fileSize;    double overFlowOnTheLeft = -locations.startLocation;
     if(overFlowOnTheRight>0 || overFlowOnTheLeft>0)
     {
-        if(overFlowOnTheRight<0 && overFlowOnTheRight+overFlowOnTheLeft<=0)
-        {
+        if(overFlowOnTheRight<0 && overFlowOnTheRight+overFlowOnTheLeft<=0)        {
             locations.startLocation += overFlowOnTheLeft;
             locations.endLocation += overFlowOnTheLeft;
         }

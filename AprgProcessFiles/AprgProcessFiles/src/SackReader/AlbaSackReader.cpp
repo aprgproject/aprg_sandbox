@@ -6,13 +6,12 @@
 #include <iostream>
 #include <iterator>
 #include <map>
+#include <numeric>
 #include <set>
 #include <vector>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 AlbaSackReader::AlbaSackReader(string const& filePath)
     : m_inputPathHandler(filePath)
@@ -48,18 +47,16 @@ void AlbaSackReader::process()
 
 void AlbaSackReader::printAll() const
 {
-    for(auto type:m_types)
+    for(auto const& type : m_types)
     {
-        cout<<"Type:"<<type.first<<endl;
+        cout << "Type:" << type.first << endl;
         type.second.printAll();
-        cout<<endl;
+        cout << endl;
     }
 }
-
 void AlbaSackReader::processDirectory(string const& path)
 {
-    set<string> listOfFiles;
-    set<string> listOfDirectories;
+    set<string> listOfFiles;    set<string> listOfDirectories;
     AlbaLocalPathHandler(path).findFilesAndDirectoriesUnlimitedDepth("*.*", listOfFiles, listOfDirectories);
     for(string const& filePath : listOfFiles)
     {
@@ -123,30 +120,30 @@ void AlbaSackReader::tokenize(stringHelper::strings & tokens, string const& line
 
 void AlbaSackReader::combineWords(stringHelper::strings & tokens)
 {
-    vector<string> tokensToCombine = {"unsigned char", "signed char", "unsigned int", "signed int", "short int", "unsigned short int", "signed short int",
-                                      "long int", "signed long int", "unsigned long int", "long double"};
+    vector<string> tokensToCombine =
+    {"unsigned char", "signed char", "unsigned int", "signed int", "short int", "unsigned short int", "signed short int",
+     "long int", "signed long int", "unsigned long int", "long double"};
+
     struct TokenAndIndex
     {
-        unsigned int index;
-        string token;
+        unsigned int index;        string token;
     };
     vector<TokenAndIndex> recentWords;
-    for(unsigned int i=0; i<tokens.size(); i++)
-    {
+    for(unsigned int i=0; i<tokens.size(); i++)    {
         string token(tokens[i]);
         if(stringHelper::isIdentifier(token))
         {
-            TokenAndIndex tokenAndIndex; tokenAndIndex.index = i; tokenAndIndex.token = token;
+            TokenAndIndex tokenAndIndex{};
+            tokenAndIndex.index = i;
+            tokenAndIndex.token = token;
             recentWords.emplace_back(tokenAndIndex);
-            int lastIndex = recentWords.size()-1;
+            int lastIndex = static_cast<int>(recentWords.size())-1;
             if(lastIndex >= 2)
             {
-                string lastThreeWords = recentWords[lastIndex-2].token + " " + recentWords[lastIndex-1].token + " " + recentWords[lastIndex].token;
-                if(tokensToCombine.end() != std::find(tokensToCombine.begin(), tokensToCombine.end(), lastThreeWords))
+                string lastThreeWords = recentWords[lastIndex-2].token + " " + recentWords[lastIndex-1].token + " " + recentWords[lastIndex].token;                if(tokensToCombine.end() != std::find(tokensToCombine.begin(), tokensToCombine.end(), lastThreeWords))
                 {
                     tokens.erase(tokens.begin()+recentWords[lastIndex-2].index, tokens.begin()+recentWords[lastIndex].index+1);
-                    tokens.insert(tokens.begin()+recentWords[lastIndex-2].index, lastThreeWords);
-                    i = recentWords[lastIndex-2].index;
+                    tokens.insert(tokens.begin()+recentWords[lastIndex-2].index, lastThreeWords);                    i = recentWords[lastIndex-2].index;
                     recentWords.clear();
                     continue;
                 }
@@ -195,23 +192,25 @@ void AlbaSackReader::combineArrayOperators(stringHelper::strings & tokens)
             if(']' == token[0])
             {
                 closingBracketIndex = i;
-                string combinedArrayString = accumulate(tokens.begin()+nonWhiteSpaceIndex, tokens.begin()+closingBracketIndex+1, string(""), [&](string const& partialResult, string const& currentToken)
+                string combinedArrayString = accumulate(
+                            tokens.begin()+nonWhiteSpaceIndex,
+                            tokens.begin()+closingBracketIndex+1,
+                            string(),
+                            [&](string const& partialResult, string const& currentToken)
                 {
-                    string nextResult = partialResult;
-                    if(!stringHelper::isWhiteSpace(currentToken))
-                    {
+                        string nextResult = partialResult;
+                        if(!stringHelper::isWhiteSpace(currentToken))
+                {
                         nextResult += currentToken;
-                    }
-                    return nextResult;
-                });
+            }
+                        return nextResult;
+            });
                 tokens.erase(tokens.begin()+nonWhiteSpaceIndex, tokens.begin()+closingBracketIndex+1);
                 tokens.insert(tokens.begin()+nonWhiteSpaceIndex, combinedArrayString);
-                i = nonWhiteSpaceIndex;
-                state = 0;
+                i = nonWhiteSpaceIndex;                state = 0;
                 continue;
             }
-        }
-    }
+        }    }
 }
 
 template <> void AlbaSackReader::analyzeInReaderState<AlbaSackReader::ReaderState::LookingForInitialKeyword>(AlbaSackReader::ReaderTransactionData& transactionData, string const& token)
@@ -395,14 +394,12 @@ void AlbaSackReader::analyze(stringHelper::strings const& tokens)
 {
     ReaderTransactionData transactionData;
     transactionData.state = ReaderState::LookingForInitialKeyword;
-    for(string token:tokens)
+    for(string const& token : tokens)
     {
         //cout<<"analyze -> state: "<<getReaderStateString(transactionData.state)<<" typeName:["<<transactionData.typeName<<"] token:["<<token<<"]"<<endl;
-
 #define HANDLE_READER_STATE(en) \
     case en: \
-    analyzeInReaderState<en>(transactionData, token); \
-    break;
+    analyzeInReaderState<en>(transactionData, token); \    break;
 
         switch(transactionData.state)
         {

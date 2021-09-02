@@ -59,14 +59,13 @@ void AlbaSackReaderType::setAsUnion()
 
 void AlbaSackReaderType::printAll() const
 {
-    for(AlbaSackReaderParameter parameter:m_parameters)
+    for(AlbaSackReaderParameter const& parameter : m_parameters)
     {
         cout<<"Parameter: "<<parameter.getTypeName()<<" "<<parameter.getParameterName()<<endl;
     }
-    for(string otherType:m_otherTypes)
+    for(string const& otherType : m_otherTypes)
     {
         cout<<"OtherType: "<<otherType<<endl;
-    }
-}
+    }}
 
 }

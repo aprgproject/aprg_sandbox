@@ -1,17 +1,14 @@
 #pragma once
 
-#include <SackReader/AlbaSackReaderType.hpp>
-
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <SackReader/AlbaSackReaderType.hpp>
 #include <String/AlbaStringHelper.hpp>
 
-#include <map>
-#include <string>
+#include <map>#include <string>
 
 namespace alba
 {
-
 class AlbaSackReader
 {
 public:

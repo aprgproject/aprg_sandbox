@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Optional/AlbaOptional.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
+#include <Optional/AlbaOptional.hpp>
 
 #include <functional>
 #include <string>
-
 namespace alba
 {
-
 class AlbaCropFile
 {
 public:
