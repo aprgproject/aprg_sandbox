@@ -5,10 +5,12 @@
 #include <numeric>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 template <unsigned int dimensions>
-class DataStatisticsUtilities{
+class DataStatisticsUtilities
+{
 public:
     using Sample = DataSample<dimensions>;
     using Samples = std::vector<Sample>;

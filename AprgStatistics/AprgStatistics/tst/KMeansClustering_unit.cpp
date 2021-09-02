@@ -27,9 +27,11 @@ TEST(KMeansClusteringTestTwoDimensions, DataSampleCanBeAdded)
     ASSERT_EQ(1U, result.size());
     EXPECT_EQ((LocalSample{1,1}), result[0]);
 }
+
 TEST(KMeansClusteringTestTwoDimensions, DataSamplesCanBeAdded)
 {
-    LocalKMeans kMeans;    LocalSamples samples;
+    LocalKMeans kMeans;
+    LocalSamples samples;
     samples.emplace_back(LocalSample{1,1});
     samples.emplace_back(LocalSample{2,2});
     kMeans.addSamples(samples);
@@ -40,6 +42,7 @@ TEST(KMeansClusteringTestTwoDimensions, DataSamplesCanBeAdded)
     EXPECT_EQ((LocalSample{1,1}), result[0]);
     EXPECT_EQ((LocalSample{2,2}), result[1]);
 }
+
 TEST(KMeansClusteringTestTwoDimensions, PerformKMeansWithNoSamples)
 {
     LocalKMeans kMeans;
@@ -49,7 +52,8 @@ TEST(KMeansClusteringTestTwoDimensions, PerformKMeansWithNoSamples)
     ASSERT_EQ(1U, result.size());
 }
 
-TEST(KMeansClusteringTestTwoDimensions, PerformKMeansForOneSample){
+TEST(KMeansClusteringTestTwoDimensions, PerformKMeansForOneSample)
+{
     LocalKMeans kMeans;
     kMeans.addSample(LocalSample{1,1});
 
@@ -59,9 +63,11 @@ TEST(KMeansClusteringTestTwoDimensions, PerformKMeansForOneSample){
     ASSERT_EQ(1U, result[0].size());
     EXPECT_EQ((LocalSample{1,1}), result[0][0]);
 }
+
 TEST(KMeansClusteringTestTwoDimensions, PerformKMeansForTwoGroupsWithSameValue)
 {
-    LocalKMeans kMeans;    kMeans.addSample(LocalSample{1,1});
+    LocalKMeans kMeans;
+    kMeans.addSample(LocalSample{1,1});
     kMeans.addSample(LocalSample{1,1});
     kMeans.addSample(LocalSample{1,1});
     kMeans.addSample(LocalSample{1,1});
@@ -73,10 +79,12 @@ TEST(KMeansClusteringTestTwoDimensions, PerformKMeansForTwoGroupsWithSameValue)
     ASSERT_EQ(0U, result[1].size());
     EXPECT_EQ((LocalSample{1,1}), result[0][0]);
     EXPECT_EQ((LocalSample{1,1}), result[0][1]);
-    EXPECT_EQ((LocalSample{1,1}), result[0][2]);    EXPECT_EQ((LocalSample{1,1}), result[0][3]);
+    EXPECT_EQ((LocalSample{1,1}), result[0][2]);
+    EXPECT_EQ((LocalSample{1,1}), result[0][3]);
 }
 
-TEST(KMeansClusteringTestTwoDimensions, PerformKMeansForTwoGroupsWithTwoDifferentValues){
+TEST(KMeansClusteringTestTwoDimensions, PerformKMeansForTwoGroupsWithTwoDifferentValues)
+{
     LocalKMeans kMeans;
     kMeans.addSample(LocalSample{1,1});
     kMeans.addSample(LocalSample{2,2});
@@ -90,10 +98,12 @@ TEST(KMeansClusteringTestTwoDimensions, PerformKMeansForTwoGroupsWithTwoDifferen
     ASSERT_EQ(3U, result[1].size());
     EXPECT_EQ((LocalSample{1,1}), result[0][0]);
     EXPECT_EQ((LocalSample{2,2}), result[1][0]);
-    EXPECT_EQ((LocalSample{2,2}), result[1][1]);    EXPECT_EQ((LocalSample{2,2}), result[1][2]);
+    EXPECT_EQ((LocalSample{2,2}), result[1][1]);
+    EXPECT_EQ((LocalSample{2,2}), result[1][2]);
 }
 
-TEST(KMeansClusteringTestTwoDimensions, PerformKMeansForTwoGroupsWithManyDifferentValues){
+TEST(KMeansClusteringTestTwoDimensions, PerformKMeansForTwoGroupsWithManyDifferentValues)
+{
     LocalKMeans kMeans;
     kMeans.addSample(LocalSample{1,1});
     kMeans.addSample(LocalSample{1.5,2});
@@ -110,9 +120,11 @@ TEST(KMeansClusteringTestTwoDimensions, PerformKMeansForTwoGroupsWithManyDiffere
     ASSERT_EQ(5U, result[1].size());
     EXPECT_EQ((LocalSample{1,1}), result[0][0]);
     EXPECT_EQ((LocalSample{1.5,2}), result[0][1]);
-    EXPECT_EQ((LocalSample{3,4}), result[1][0]);    EXPECT_EQ((LocalSample{5,7}), result[1][1]);
+    EXPECT_EQ((LocalSample{3,4}), result[1][0]);
+    EXPECT_EQ((LocalSample{5,7}), result[1][1]);
     EXPECT_EQ((LocalSample{3.5,5}), result[1][2]);
     EXPECT_EQ((LocalSample{4.5,5}), result[1][3]);
-    EXPECT_EQ((LocalSample{3.5,4.5}), result[1][4]);}
+    EXPECT_EQ((LocalSample{3.5,4.5}), result[1][4]);
+}
 
 }

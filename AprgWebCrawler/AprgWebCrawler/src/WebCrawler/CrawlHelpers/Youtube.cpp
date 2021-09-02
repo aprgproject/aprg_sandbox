@@ -1,4 +1,4 @@
-/*#include <File/AlbaFileReader.hpp>
+#include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
 #include <WebCrawler/CrawlConfiguration/CrawlConfiguration.hpp>
 #include <WebCrawler/WebCrawler.hpp>

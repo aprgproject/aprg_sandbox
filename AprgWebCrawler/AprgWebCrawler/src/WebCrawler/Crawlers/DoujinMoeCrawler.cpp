@@ -1,7 +1,7 @@
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <WebCrawler/Crawlers/DoujinMoeCrawler.hpp>
 #include <WebCrawler/CrawlHelpers/Downloaders.hpp>
+#include <WebCrawler/Crawlers/DoujinMoeCrawler.hpp>
 
 #include <iostream>
 

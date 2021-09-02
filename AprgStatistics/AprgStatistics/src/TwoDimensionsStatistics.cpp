@@ -3,8 +3,10 @@
 
 #include <algorithm>
 #include <cmath>
+
 namespace alba
 {
+
 TwoDimensionsStatistics::LineModel TwoDimensionsStatistics::calculateLineModelUsingLeastSquares(Samples const& samples)
 {
     bool isDifferenceForXNotZero(false);

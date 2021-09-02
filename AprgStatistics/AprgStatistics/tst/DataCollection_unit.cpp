@@ -29,4 +29,5 @@ TEST(DataCollectionTest, CollectionDataAreCorrect)
     EXPECT_EQ(10, collection.getAverage());
     EXPECT_EQ(10, collection.getAverageWithDoubleFormat());
 }
+
 }

@@ -18,10 +18,12 @@ TEST(SampleTest, NullSetWorks)
                   [&](AprgMathSet<unsigned int>::VoidElementFunction const& elementFunction)
     {
                   for(unsigned int i=0; i<=10; i++)
-                  {                      elementFunction(i);
+                  {
+                      elementFunction(i);
                   }
               }));
 }
+
 TEST(SampleTest, MathSetCreatedWithRosterListWorks)
 {
     AprgMathSet<unsigned int>::RosterList rosterList{1,2,3,4,5};
@@ -36,10 +38,12 @@ TEST(SampleTest, MathSetCreatedWithRosterListWorks)
                   [&](AprgMathSet<unsigned int>::VoidElementFunction const& elementFunction)
     {
                   for(unsigned int i=0; i<=10; i++)
-                  {                      elementFunction(i);
+                  {
+                      elementFunction(i);
                   }
               }));
 }
+
 TEST(SampleTest, MathSetCreatedWithInitializerListWorks)
 {
     AprgMathSet<unsigned int> mathSet({2,4,6,8,9});
@@ -53,10 +57,12 @@ TEST(SampleTest, MathSetCreatedWithInitializerListWorks)
                   [&](AprgMathSet<unsigned int>::VoidElementFunction const& elementFunction)
     {
                   for(unsigned int i=0; i<=10; i++)
-                  {                      elementFunction(i);
+                  {
+                      elementFunction(i);
                   }
               }));
 }
+
 TEST(SampleTest, MathSetCreatedWithASetRuleWorks)
 {
     AprgMathSet<unsigned int> mathSet("set of even numbers", [](unsigned int const& elementToCheck)
@@ -73,10 +79,12 @@ TEST(SampleTest, MathSetCreatedWithASetRuleWorks)
                   [&](AprgMathSet<unsigned int>::VoidElementFunction const& elementFunction)
     {
                   for(unsigned int i=0; i<=10; i++)
-                  {                      elementFunction(i);
+                  {
+                      elementFunction(i);
                   }
               }));
 }
+
 TEST(SampleTest, IsASubsetOfWorks)
 {
     AprgMathSet<unsigned int> mathSet1({2,4});
@@ -89,9 +97,11 @@ TEST(SampleTest, IsASubsetOfWorks)
             AprgMathSet<unsigned int>::VoidElementFunction const& elementFunction)
     {
         for(unsigned int i=0; i<=10; i++)
-        {            elementFunction(i);
+        {
+            elementFunction(i);
         }
     };
+
     EXPECT_TRUE(mathSet1.isASubsetOf(mathSet2, generateFunction));
     EXPECT_FALSE(mathSet2.isASubsetOf(mathSet1, generateFunction));
 }
@@ -108,9 +118,11 @@ TEST(SampleTest, IsASupersetOfWorks)
             AprgMathSet<unsigned int>::VoidElementFunction const& elementFunction)
     {
         for(unsigned int i=0; i<=10; i++)
-        {            elementFunction(i);
+        {
+            elementFunction(i);
         }
     };
+
     EXPECT_TRUE(mathSet2.isASupersetOf(mathSet1, generateFunction));
     EXPECT_FALSE(mathSet1.isASupersetOf(mathSet2, generateFunction));
 }
@@ -131,9 +143,11 @@ TEST(SampleTest, IsDisjointWithWorks)
             AprgMathSet<unsigned int>::VoidElementFunction const& elementFunction)
     {
         for(unsigned int i=0; i<=10; i++)
-        {            elementFunction(i);
+        {
+            elementFunction(i);
         }
     };
+
     EXPECT_TRUE(mathSet1.isDisjointWith(mathSet2, generateFunction));
     EXPECT_TRUE(mathSet2.isDisjointWith(mathSet1, generateFunction));
     EXPECT_FALSE(mathSet1.isDisjointWith(mathSet3, generateFunction));
@@ -158,10 +172,12 @@ TEST(SampleTest, GetComplementWorks)
                   [&](AprgMathSet<unsigned int>::VoidElementFunction const& elementFunction)
     {
                   for(unsigned int i=0; i<=10; i++)
-                  {                      elementFunction(i);
+                  {
+                      elementFunction(i);
                   }
               }));
 }
+
 TEST(SampleTest, GetUnionWithWorks)
 {
     AprgMathSet<unsigned int> mathSet1({1,2,3});
@@ -181,10 +197,12 @@ TEST(SampleTest, GetUnionWithWorks)
                   [&](AprgMathSet<unsigned int>::VoidElementFunction const& elementFunction)
     {
                   for(unsigned int i=0; i<=10; i++)
-                  {                      elementFunction(i);
+                  {
+                      elementFunction(i);
                   }
               }));
 }
+
 TEST(SampleTest, GetUnionWorks)
 {
     AprgMathSet<unsigned int> mathSet1({3,4,5});
@@ -204,10 +222,12 @@ TEST(SampleTest, GetUnionWorks)
                   [&](AprgMathSet<unsigned int>::VoidElementFunction const& elementFunction)
     {
                   for(unsigned int i=0; i<=10; i++)
-                  {                      elementFunction(i);
+                  {
+                      elementFunction(i);
                   }
               }));
 }
+
 TEST(SampleTest, GetIntersectionWithWorks)
 {
     AprgMathSet<unsigned int> mathSet1({1,2,3});
@@ -227,10 +247,12 @@ TEST(SampleTest, GetIntersectionWithWorks)
                   [&](AprgMathSet<unsigned int>::VoidElementFunction const& elementFunction)
     {
                   for(unsigned int i=0; i<=10; i++)
-                  {                      elementFunction(i);
+                  {
+                      elementFunction(i);
                   }
               }));
 }
+
 TEST(SampleTest, GetIntersectionWorks)
 {
     AprgMathSet<unsigned int> mathSet1({3,4,5});
@@ -250,10 +272,12 @@ TEST(SampleTest, GetIntersectionWorks)
                   [&](AprgMathSet<unsigned int>::VoidElementFunction const& elementFunction)
     {
                   for(unsigned int i=0; i<=10; i++)
-                  {                      elementFunction(i);
+                  {
+                      elementFunction(i);
                   }
               }));
 }
+
 TEST(SampleTest, GetCartesianWorks)
 {
     AprgMathSet<unsigned int> mathSet1({1,2});
@@ -263,7 +287,8 @@ TEST(SampleTest, GetCartesianWorks)
             AprgMathSet<unsigned int>::VoidElementFunction const& elementFunction)
     {
         for(unsigned int i=0; i<=10; i++)
-        {            elementFunction(i);
+        {
+            elementFunction(i);
         }
     };
 
@@ -271,9 +296,11 @@ TEST(SampleTest, GetCartesianWorks)
             AprgMathSet<unsigned int>::VoidElementFunction const& elementFunction)
     {
         for(char c='a'; c<='z'; c++)
-        {            elementFunction(c);
+        {
+            elementFunction(c);
         }
     };
+
     AprgMathSet<pair<unsigned int, char>> cartesianProduct(getCarterisianProduct(mathSet1, mathSet2, generateFunction1, generateFunction2));
 
     EXPECT_TRUE(cartesianProduct.contains(pair<unsigned int, char>(1,'y')));

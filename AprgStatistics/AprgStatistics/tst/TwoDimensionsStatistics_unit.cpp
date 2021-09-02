@@ -30,10 +30,12 @@ TEST(TwoDimensionsStatisticsTest, SameValuesOfXAndYForLineModeling)
     EXPECT_DOUBLE_EQ(0, lineModel.cCoefficient);
 }
 
-TEST(TwoDimensionsStatisticsTest, SameValuesOfXForLineModeling){
+TEST(TwoDimensionsStatisticsTest, SameValuesOfXForLineModeling)
+{
     LocalSamples samples;
     samples.emplace_back(LocalSample{5,0});
-    samples.emplace_back(LocalSample{5,1});    samples.emplace_back(LocalSample{5,2});
+    samples.emplace_back(LocalSample{5,1});
+    samples.emplace_back(LocalSample{5,2});
     samples.emplace_back(LocalSample{5,3});
     samples.emplace_back(LocalSample{5,4});
     samples.emplace_back(LocalSample{5,5});
@@ -44,10 +46,12 @@ TEST(TwoDimensionsStatisticsTest, SameValuesOfXForLineModeling){
     EXPECT_DOUBLE_EQ(-5, lineModel.cCoefficient);
 }
 
-TEST(TwoDimensionsStatisticsTest, SameValuesOfYForLineModeling){
+TEST(TwoDimensionsStatisticsTest, SameValuesOfYForLineModeling)
+{
     LocalSamples samples;
     samples.emplace_back(LocalSample{0,5});
-    samples.emplace_back(LocalSample{1,5});    samples.emplace_back(LocalSample{2,5});
+    samples.emplace_back(LocalSample{1,5});
+    samples.emplace_back(LocalSample{2,5});
     samples.emplace_back(LocalSample{3,5});
     samples.emplace_back(LocalSample{4,5});
     samples.emplace_back(LocalSample{5,5});
@@ -58,10 +62,12 @@ TEST(TwoDimensionsStatisticsTest, SameValuesOfYForLineModeling){
     EXPECT_DOUBLE_EQ(-5, lineModel.cCoefficient);
 }
 
-TEST(TwoDimensionsStatisticsTest, LineModelingWithPositiveSlope){
+TEST(TwoDimensionsStatisticsTest, LineModelingWithPositiveSlope)
+{
     LocalSamples samples;
     samples.emplace_back(LocalSample{0,0});
-    samples.emplace_back(LocalSample{1,1});    samples.emplace_back(LocalSample{2,2});
+    samples.emplace_back(LocalSample{1,1});
+    samples.emplace_back(LocalSample{2,2});
     samples.emplace_back(LocalSample{3,3});
     samples.emplace_back(LocalSample{4,4});
     samples.emplace_back(LocalSample{5,5});
@@ -72,10 +78,12 @@ TEST(TwoDimensionsStatisticsTest, LineModelingWithPositiveSlope){
     EXPECT_DOUBLE_EQ(0, lineModel.cCoefficient);
 }
 
-TEST(TwoDimensionsStatisticsTest, LineModelingWithNegativeSlope){
+TEST(TwoDimensionsStatisticsTest, LineModelingWithNegativeSlope)
+{
     LocalSamples samples;
     samples.emplace_back(LocalSample{0,0});
-    samples.emplace_back(LocalSample{1,-1});    samples.emplace_back(LocalSample{2,-2});
+    samples.emplace_back(LocalSample{1,-1});
+    samples.emplace_back(LocalSample{2,-2});
     samples.emplace_back(LocalSample{3,-3});
     samples.emplace_back(LocalSample{4,-4});
     samples.emplace_back(LocalSample{5,-5});
@@ -86,10 +94,12 @@ TEST(TwoDimensionsStatisticsTest, LineModelingWithNegativeSlope){
     EXPECT_DOUBLE_EQ(0, lineModel.cCoefficient);
 }
 
-TEST(TwoDimensionsStatisticsTest, LineModelingWithPositiveYIntercept){
+TEST(TwoDimensionsStatisticsTest, LineModelingWithPositiveYIntercept)
+{
     LocalSamples samples;
     samples.emplace_back(LocalSample{0,1});
-    samples.emplace_back(LocalSample{1,2});    samples.emplace_back(LocalSample{2,3});
+    samples.emplace_back(LocalSample{1,2});
+    samples.emplace_back(LocalSample{2,3});
     samples.emplace_back(LocalSample{3,4});
     samples.emplace_back(LocalSample{4,5});
     samples.emplace_back(LocalSample{5,6});
@@ -100,10 +110,12 @@ TEST(TwoDimensionsStatisticsTest, LineModelingWithPositiveYIntercept){
     EXPECT_DOUBLE_EQ(-1, lineModel.cCoefficient);
 }
 
-TEST(TwoDimensionsStatisticsTest, LineModelingWithPositiveXIntercept){
+TEST(TwoDimensionsStatisticsTest, LineModelingWithPositiveXIntercept)
+{
     LocalSamples samples;
     samples.emplace_back(LocalSample{1,0});
-    samples.emplace_back(LocalSample{2,1});    samples.emplace_back(LocalSample{3,2});
+    samples.emplace_back(LocalSample{2,1});
+    samples.emplace_back(LocalSample{3,2});
     samples.emplace_back(LocalSample{4,3});
     samples.emplace_back(LocalSample{5,4});
     samples.emplace_back(LocalSample{6,5});
@@ -114,10 +126,12 @@ TEST(TwoDimensionsStatisticsTest, LineModelingWithPositiveXIntercept){
     EXPECT_DOUBLE_EQ(1, lineModel.cCoefficient);
 }
 
-TEST(TwoDimensionsStatisticsTest, LineModelingWithScatteredValue){
+TEST(TwoDimensionsStatisticsTest, LineModelingWithScatteredValue)
+{
     LocalSamples samples;
     samples.emplace_back(LocalSample{1.47, 52.21});
-    samples.emplace_back(LocalSample{1.50, 53.12});    samples.emplace_back(LocalSample{1.52, 54.48});
+    samples.emplace_back(LocalSample{1.50, 53.12});
+    samples.emplace_back(LocalSample{1.52, 54.48});
     samples.emplace_back(LocalSample{1.55, 55.84});
     samples.emplace_back(LocalSample{1.57, 57.20});
     samples.emplace_back(LocalSample{1.60, 58.57});
@@ -137,10 +151,12 @@ TEST(TwoDimensionsStatisticsTest, LineModelingWithScatteredValue){
     EXPECT_DOUBLE_EQ(-0.64846044526168001, lineModel.cCoefficient);
 }
 
-TEST(TwoDimensionsStatisticsTest, SquareErrorFromLineModelCanBeCalculatedForInvalidLine){
+TEST(TwoDimensionsStatisticsTest, SquareErrorFromLineModelCanBeCalculatedForInvalidLine)
+{
     LocalLineModel lineModel(0, 0, 0);
 
-    EXPECT_EQ(0, TwoDimensionsStatistics::calculateSquareError(LocalSample{5, 3}, lineModel));    EXPECT_EQ(0, TwoDimensionsStatistics::calculateSquareError(LocalSample{7, 5}, lineModel));
+    EXPECT_EQ(0, TwoDimensionsStatistics::calculateSquareError(LocalSample{5, 3}, lineModel));
+    EXPECT_EQ(0, TwoDimensionsStatistics::calculateSquareError(LocalSample{7, 5}, lineModel));
 }
 
 TEST(TwoDimensionsStatisticsTest, SquareErrorFromLineModelCanBeCalculatedForVerticalLine)
@@ -180,10 +196,12 @@ TEST(TwoDimensionsStatisticsTest, SamplesCanBeSortedBySquareErrorFromLineModelFo
     ASSERT_EQ(5U, squareErrorToSampleMultimap.size());
     LocalValueToSampleMultimap::iterator it=squareErrorToSampleMultimap.begin();
     EXPECT_EQ((LocalSample{5,3}), it++->second);
-    EXPECT_EQ((LocalSample{5,3}), it++->second);    EXPECT_EQ((LocalSample{5,3}), it++->second);
+    EXPECT_EQ((LocalSample{5,3}), it++->second);
+    EXPECT_EQ((LocalSample{5,3}), it++->second);
     EXPECT_EQ((LocalSample{5,3}), it++->second);
     EXPECT_EQ((LocalSample{5,3}), it++->second);
 }
+
 TEST(TwoDimensionsStatisticsTest, SamplesCanBeSortedBySquareErrorFromLineModelForVerticalLine)
 {
     LocalSamples samples;
@@ -199,10 +217,12 @@ TEST(TwoDimensionsStatisticsTest, SamplesCanBeSortedBySquareErrorFromLineModelFo
     ASSERT_EQ(6U, squareErrorToSampleMultimap.size());
     LocalValueToSampleMultimap::iterator it=squareErrorToSampleMultimap.begin();
     EXPECT_EQ((LocalSample{5,0}), it++->second);
-    EXPECT_EQ((LocalSample{5,1}), it++->second);    EXPECT_EQ((LocalSample{5,2}), it++->second);
+    EXPECT_EQ((LocalSample{5,1}), it++->second);
+    EXPECT_EQ((LocalSample{5,2}), it++->second);
     EXPECT_EQ((LocalSample{5,3}), it++->second);
     EXPECT_EQ((LocalSample{5,4}), it++->second);
-    EXPECT_EQ((LocalSample{5,5}), it++->second);}
+    EXPECT_EQ((LocalSample{5,5}), it++->second);
+}
 
 TEST(TwoDimensionsStatisticsTest, SamplesCanBeSortedBySquareErrorFromLineModelForHorizontalLine)
 {
@@ -219,10 +239,12 @@ TEST(TwoDimensionsStatisticsTest, SamplesCanBeSortedBySquareErrorFromLineModelFo
     ASSERT_EQ(6U, squareErrorToSampleMultimap.size());
     LocalValueToSampleMultimap::iterator it=squareErrorToSampleMultimap.begin();
     EXPECT_EQ((LocalSample{0,5}), it++->second);
-    EXPECT_EQ((LocalSample{1,5}), it++->second);    EXPECT_EQ((LocalSample{2,5}), it++->second);
+    EXPECT_EQ((LocalSample{1,5}), it++->second);
+    EXPECT_EQ((LocalSample{2,5}), it++->second);
     EXPECT_EQ((LocalSample{3,5}), it++->second);
     EXPECT_EQ((LocalSample{4,5}), it++->second);
-    EXPECT_EQ((LocalSample{5,5}), it++->second);}
+    EXPECT_EQ((LocalSample{5,5}), it++->second);
+}
 
 TEST(TwoDimensionsStatisticsTest, SamplesCanBeSortedBySquareErrorFromLineModelForScatteredPoints)
 {
@@ -249,10 +271,12 @@ TEST(TwoDimensionsStatisticsTest, SamplesCanBeSortedBySquareErrorFromLineModelFo
     ASSERT_EQ(15U, squareErrorToSampleMultimap.size());
     LocalValueToSampleMultimap::iterator it=squareErrorToSampleMultimap.begin();
     EXPECT_EQ((LocalSample{1.75, 68.10}), it++->second);
-    EXPECT_EQ((LocalSample{1.57, 57.20}), it++->second);    EXPECT_EQ((LocalSample{1.55, 55.84}), it++->second);
+    EXPECT_EQ((LocalSample{1.57, 57.20}), it++->second);
+    EXPECT_EQ((LocalSample{1.55, 55.84}), it++->second);
     EXPECT_EQ((LocalSample{1.78, 69.92}), it++->second);
     EXPECT_EQ((LocalSample{1.50, 53.12}), it++->second);
-    EXPECT_EQ((LocalSample{1.60, 58.57}), it++->second);    EXPECT_EQ((LocalSample{1.52, 54.48}), it++->second);
+    EXPECT_EQ((LocalSample{1.60, 58.57}), it++->second);
+    EXPECT_EQ((LocalSample{1.52, 54.48}), it++->second);
     EXPECT_EQ((LocalSample{1.70, 64.47}), it++->second);
     EXPECT_EQ((LocalSample{1.73, 66.28}), it++->second);
     EXPECT_EQ((LocalSample{1.65, 61.29}), it++->second);

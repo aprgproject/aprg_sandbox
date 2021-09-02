@@ -6,8 +6,10 @@
 
 #include <algorithm>
 #include <functional>
+
 namespace alba
 {
+
 template <unsigned int dimensions>
 class DataStatistics
 {
