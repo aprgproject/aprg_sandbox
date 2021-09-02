@@ -14,15 +14,13 @@ TEST(SymbolMapTest, DISABLED_InputTraceFileIsProcessedByTraceDecoder)
     cout<<traceDecoder.getNearestLowerSymbol(0x08a0c623)<<endl;
 }
 
-TEST(FileTest, InputTraceFileIsProcessedByTraceDecoderWithSymbolTableFromObjdump)
+TEST(FileTest, DISABLED_InputTraceFileIsProcessedByTraceDecoderWithSymbolTableFromObjdump)
 {
     BtsTraceDecoder traceDecoder;
-    traceDecoder.saveSymbolTableFromObjdump(R"(C:\APRG\symbols.txt)");
-    traceDecoder.processInputTraceFile(R"(C:\APRG\input.txt)");
+    traceDecoder.saveSymbolTableFromObjdump(R"(C:\APRG\symbols.txt)");    traceDecoder.processInputTraceFile(R"(C:\APRG\input.txt)");
 }
 
-TEST(FileTest, DISABLED_InputTraceFileIsProcessedByTraceDecoderWithSymbolTableFromMappedFile)
-{
+TEST(FileTest, DISABLED_InputTraceFileIsProcessedByTraceDecoderWithSymbolTableFromMappedFile){
     BtsTraceDecoder traceDecoder;
     traceDecoder.saveSymbolTableFromMappedFile(R"(C:\APRG\tcomr3.map)");
     traceDecoder.processInputTraceFile(R"(C:\APRG\input.txt)");

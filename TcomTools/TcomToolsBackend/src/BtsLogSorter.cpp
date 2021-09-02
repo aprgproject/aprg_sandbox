@@ -40,15 +40,13 @@ BtsLogSorter::BtsLogSorter(BtsLogSorterConfiguration const& configuration)
     createTempDirectories();
 }
 
-double BtsLogSorter::getTotalSizeToBeRead(set<string> listOfFiles)
+double BtsLogSorter::getTotalSizeToBeRead(set<string> const& listOfFiles)
 {
     double totalFileSize(0);
-    for(string const& filePath : listOfFiles)
-    {
+    for(string const& filePath : listOfFiles)    {
         AlbaLocalPathHandler filePathHandler(filePath);
         if(m_evaluator.evaluate(filePathHandler.getFile()))
-        {
-            totalFileSize += filePathHandler.getFileSizeEstimate();
+        {            totalFileSize += filePathHandler.getFileSizeEstimate();
         }
     }
     return totalFileSize;
@@ -197,63 +195,55 @@ void BtsLogSorter::addStartupLogsOnSorterWithPcTime()
         {
             m_sorterWithPcTime.add(startupLogPrint);
         }
-        ProgressCounters::writeProgressForCombine = 25*printReader.getCurrentLocation()/fileSize;
+        ProgressCounters::writeProgressForCombine = static_cast<int>(25*printReader.getCurrentLocation()/fileSize);
     }
 }
-
 void BtsLogSorter::writeLogsWithoutPcTimeToOutputFile(ofstream & outputLogFileStream)
 {
-    cout << "Save sorted logs without PC time." << endl;
-    unsigned long long printCount(0);
+    cout << "Save sorted logs without PC time." << endl;    unsigned long long printCount(0);
     unsigned long long size(m_sorterWithoutPcTime.getSize());
     m_sorterWithoutPcTime.sortThenDoFunctionThenReleaseAllObjects([&](BtsLogPrint const& logPrint)
     {
         updateOrWriteCurrentPrint(logPrint, outputLogFileStream);
-        ProgressCounters::writeProgressForCombine = 75 + (printCount++ * 25/size);
+        ProgressCounters::writeProgressForCombine = static_cast<int>(75 + (printCount++ * 25/size));
     });
     writeLastPrint(outputLogFileStream);
 }
-
 void BtsLogSorter::separateLogsWithoutPcTimeIntoDifferentAddresses()
 {
     cout << "Save sorted logs without PC time into different addresses." << endl;
     map<string, ofstream> hardwareAddressToOutputSteamMap;
 
-    for(string hardwareAddress: m_foundHardwareAddresses)
+    for(string const& hardwareAddress: m_foundHardwareAddresses)
     {
         hardwareAddressToOutputSteamMap[hardwareAddress].open(getPathOfLogWithoutPcTimeBasedFromHardwareAddress(m_directoryOfLogsWithoutPcTime, hardwareAddress));
-    }
-    unsigned long long printCount(0);
+    }    unsigned long long printCount(0);
     unsigned long long size(m_sorterWithoutPcTime.getSize());
     m_sorterWithoutPcTime.sortThenDoFunctionThenReleaseAllObjects([&](BtsLogPrint const& logPrint)
     {
         hardwareAddressToOutputSteamMap[logPrint.getHardwareAddress()] << logPrint << endl;
-        ProgressCounters::writeProgressForCombine = 25 + (printCount++ * 25/size);
+        ProgressCounters::writeProgressForCombine = static_cast<int>(25 + (printCount++ * 25/size));
     });
 }
-
 void BtsLogSorter::writeLogsWithPcTimeToOutputFile(ofstream & outputLogFileStream)
 {
     cout << "Merge logs with and without PC time and save to output file." << endl;
     map<string, BtsPrintReaderWithRollback> hardwareAddressToReaderMap;
-    for(string hardwareAddress: m_foundHardwareAddresses)
+    for(string const& hardwareAddress: m_foundHardwareAddresses)
     {
         hardwareAddressToReaderMap[hardwareAddress].openIfNeeded(getPathOfLogWithoutPcTimeBasedFromHardwareAddress(m_directoryOfLogsWithoutPcTime, hardwareAddress));
-    }
-    unsigned long long printCount(0);
+    }    unsigned long long printCount(0);
     unsigned long long size(m_sorterWithPcTime.getSize());
     m_sorterWithPcTime.sortThenDoFunctionThenReleaseAllObjects([&](BtsLogPrint const& logPrint)
     {
         writePrintsFromFileReaderBeforeThisPrint(hardwareAddressToReaderMap[logPrint.getHardwareAddress()], logPrint, outputLogFileStream);
         updateOrWriteCurrentPrint(logPrint, outputLogFileStream);
-        ProgressCounters::writeProgressForCombine = 50 + (printCount++ * 25/size);
+        ProgressCounters::writeProgressForCombine = static_cast<int>(50 + (printCount++ * 25/size));
     });
     for(auto & hardwareAddressToReaderPair: hardwareAddressToReaderMap)
-    {
-        addPrintsFromReaderToSorterWithoutPcTime(hardwareAddressToReaderPair.second);
+    {        addPrintsFromReaderToSorterWithoutPcTime(hardwareAddressToReaderPair.second);
     }
 }
-
 void BtsLogSorter::addPrintsFromReaderToSorterWithoutPcTime(BtsPrintReaderWithRollback & printReader)
 {
     while(printReader.isGood())

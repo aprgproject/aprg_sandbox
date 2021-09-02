@@ -130,8 +130,8 @@ TEST (BtsLogAnalyzerTest, DISABLED_SizeOfTest)
         unsigned char seqNum[4]; //4 dapat
         //short extra; //2
     };
-    TraceReportHeader traceReportHeader;
-    cout<<"Size of:"<<sizeof(traceReportHeader)<<endl;
+    TraceReportHeader traceReportHeader{};
+    cout << "Size of:" << sizeof(traceReportHeader) << endl;
 }
 
 }

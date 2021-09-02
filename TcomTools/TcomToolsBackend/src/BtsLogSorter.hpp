@@ -23,31 +23,27 @@ public:
     void saveLogsToOutputFile(std::string const& outputPath);
 
     double getTotalSizeToBeRead();
-    double getTotalSizeToBeRead(std::set<std::string> listOfFiles);
+    double getTotalSizeToBeRead(std::set<std::string> const& listOfFiles);
 
 private:
-    void createTempDirectories() const;
-    void deleteTempFilesAndDirectoriesOfOneDayOld() const;
+    void createTempDirectories() const;    void deleteTempFilesAndDirectoriesOfOneDayOld() const;
     void deleteStartupLog() const;
     void deleteLogsWithoutPcTime() const;
-    void saveLogToOutputFileIfAllHavePcTime(std::string const& outputPath);
-    void saveLogToOutputFileIfNotAllHavePcTime(std::string const& outputPath);
+    void saveLogToOutputFileIfAllHavePcTime(std::string const& outputPath);    void saveLogToOutputFileIfNotAllHavePcTime(std::string const& outputPath);
     std::string getPathOfLogWithoutPcTimeBasedFromHardwareAddress(std::string const& directory, std::string const& hardwareAddress) const;
     void openStartupLogsIfNeeded();
     void addStartupLogsOnSorterWithPcTime();
     void writeLogsWithoutPcTimeToOutputFile(std::ofstream & outputLogFileStream);
     void separateLogsWithoutPcTimeIntoDifferentAddresses();
     void writeLogsWithPcTimeToOutputFile(std::ofstream & outputLogFileStream);
-    void addPrintsFromReaderToSorterWithoutPcTime(BtsPrintReaderWithRollback & fileReader);
-    void writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRollback & fileReader, BtsLogPrint const& logPrint, std::ofstream & outputLogFileStream);
+    void addPrintsFromReaderToSorterWithoutPcTime(BtsPrintReaderWithRollback & printReader);
+    void writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRollback & printReader, BtsLogPrint const& logPrint, std::ofstream & outputLogFileStream);
     void updateOrWriteCurrentPrint(BtsLogPrint const& logPrint, std::ofstream & outputLogFileStream);
     void writeLastPrint(std::ofstream & outputLogFileStream);
-    void deleteFilesInDirectory(std::string const& directoryOfLogs) const;
-    alba::AlbaGrepStringEvaluator m_evaluator;
+    void deleteFilesInDirectory(std::string const& directoryOfLogs) const;    alba::AlbaGrepStringEvaluator m_evaluator;
     std::string m_pathOfAllTempFiles;
     std::string m_pathOfCurrentTempFiles;
-    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithPcTime;
-    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithoutPcTime;
+    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithPcTime;    alba::AlbaLargeSorter<BtsLogPrint> m_sorterWithoutPcTime;
     std::string m_directoryOfLogsWithoutPcTime;
     std::string m_pathOfStartupLog;
     alba::AlbaOptional<std::ofstream> m_startupLogStreamOptional;
