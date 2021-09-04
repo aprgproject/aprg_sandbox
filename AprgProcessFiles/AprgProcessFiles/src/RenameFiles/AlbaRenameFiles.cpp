@@ -23,10 +23,12 @@ void AlbaRenameFiles::renameWithIncreasingNumbers(
     converter.setFieldWidth(static_cast<int>(fieldWidth));
 
     ListOfPaths listOfFiles;
-    ListOfPaths listOfDirectories;    m_directoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
+    ListOfPaths listOfDirectories;
+    m_directoryPathHandler.findFilesAndDirectoriesOneDepth("*.*", listOfFiles, listOfDirectories);
 
     unsigned int count=startingNumber;
-    for(string const& file : listOfFiles)    {
+    for(string const& file : listOfFiles)
+    {
         AlbaLocalPathHandler filePathHandler(file);
         filePathHandler.renameFile(prefix+converter.convert(count++)+string(".")+filePathHandler.getExtension());
     }

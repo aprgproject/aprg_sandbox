@@ -1,6 +1,4 @@
 #include <CrnccIdMapping.hpp>
-
-#include <Debug/AlbaDebug.hpp>
 #include <Randomizer/AlbaRandomizer.hpp>
 
 #include <gtest/gtest.h>
@@ -10,7 +8,7 @@ using namespace std;
 namespace alba
 {
 
-TEST(SampleTest, PerformanceAccessTestWithRandomValues)
+/*TEST(SampleTest, PerformanceAccessTestWithRandomValues)
 {
     constexpr unsigned int initialSize=2500;
     constexpr unsigned int accessIterations=1000000;
@@ -23,7 +21,6 @@ TEST(SampleTest, PerformanceAccessTestWithRandomValues)
         TNbccId nbccId = randomizer.getRandomValueInUniformDistribution(1,2500);
         crnccIds.emplace_back(crnccId);
         setCrnccIdMapping(crnccId, nbccId);
-        ALBA_PRINT2(crnccId, nbccId);
     }
 
 
@@ -31,11 +28,10 @@ TEST(SampleTest, PerformanceAccessTestWithRandomValues)
     {
         TCRNCCommunicationContextId crnccIdAccess = crnccIds[randomizer.getRandomValueInUniformDistribution(0, crnccIds.size()-1)];
         TNbccId nbccIdAccess = getNbccIdFromCrnccId(crnccIdAccess);
-        ALBA_PRINT2(crnccIdAccess, nbccIdAccess);
     }
 }
 
-TEST(SampleTest, DISABLED_PerformanceAddTestWithRandomValues)
+TEST(SampleTest, PerformanceAddTestWithRandomValues)
 {
     constexpr unsigned int initialSize=1000000;
 
@@ -47,8 +43,7 @@ TEST(SampleTest, DISABLED_PerformanceAddTestWithRandomValues)
         TNbccId nbccId = randomizer.getRandomValueInUniformDistribution(1,2500);
         crnccIds.emplace_back(crnccId);
         setCrnccIdMapping(crnccId, nbccId);
-        ALBA_PRINT2(crnccId, nbccId);
     }
-}
+}*/
 
 }

@@ -5,8 +5,10 @@
 
 #include <functional>
 #include <string>
+
 namespace alba
 {
+
 class AlbaCropFile
 {
 public:

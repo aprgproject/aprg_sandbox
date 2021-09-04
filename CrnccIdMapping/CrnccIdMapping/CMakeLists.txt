@@ -27,5 +27,5 @@ include(${CRNCCID_MAPPING_DIR}/cmake/FilesAndDirectories.cmake)
 
 add_executable(${OUTFILE} ${CRNCCID_MAPPING_SOURCES_AND_TESTS})
 include_directories(${CRNCCID_MAPPING_INCLUDE_DIRECTORIES} ${CRNCCID_MAPPING_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest)
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest pthread)
 add_test(${OUTFILE} ${OUTFILE})

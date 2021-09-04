@@ -66,6 +66,7 @@ void AlbaSackReaderType::printAll() const
     for(string const& otherType : m_otherTypes)
     {
         cout<<"OtherType: "<<otherType<<endl;
-    }}
+    }
+}
 
 }

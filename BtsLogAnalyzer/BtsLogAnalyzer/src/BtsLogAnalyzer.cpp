@@ -1,10 +1,12 @@
 #include "BtsLogAnalyzer.hpp"
 
 #include <BtsLogPrint.hpp>
-#include <File/AlbaFileReader.hpp>#include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <File/AlbaFileReader.hpp>
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <String/AlbaStringHelper.hpp>
 
-#include <iomanip>#include <iostream>
+#include <iomanip>
+#include <iostream>
 #include <set>
 
 using namespace std;
@@ -21,10 +23,12 @@ BtsLogAnalyzer::BtsLogAnalyzer()
 BtsLogAnalyzer::BtsLogAnalyzer(string const& pathOfOutputFile)
     : m_outputStream(pathOfOutputFile)
     , m_totalDelay(0)
-    , m_count(0){
+    , m_count(0)
+{
     if(m_outputStream.is_open())
     {
-        cout<<"OutputStream is opened. Saving to output files"<<endl;    }
+        cout<<"OutputStream is opened. Saving to output files"<<endl;
+    }
 }
 
 void BtsLogAnalyzer::processFileForToCountUsersWithTracing(string const& filePath)
@@ -199,10 +203,12 @@ void BtsLogAnalyzer::processFileForBtsDelayForRlh(string const& filePath)
                 int delay = static_cast<int>(delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000);
                 //if(uniqueKey.crnccId == 15167){cout<<"crnccId "<<uniqueKey.crnccId<<"nbccId "<<uniqueKey.nbccId<<"delay "<<delay<<"startTimeOptional "<<delayForCrnccId.startTimeOptional.getReference()<<"endTimeOptional "<<delayForCrnccId.endTimeOptional.getReference()<<endl;}
                 m_totalDelay += delay;
-                m_count++;                m_outputStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;
+                m_count++;
+                m_outputStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;
                 m_btsLogDelays.erase(uniqueKey);
             }
-        }    }
+        }
+    }
 }
 
 void BtsLogAnalyzer::processFileForBtsDelayForRlDeletion(string const& filePath)
@@ -247,10 +253,12 @@ void BtsLogAnalyzer::processFileForBtsDelayForRlDeletion(string const& filePath)
                 int delay = static_cast<int>(delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000);
                 //if(uniqueKey.crnccId == 15167){cout<<"crnccId "<<uniqueKey.crnccId<<"nbccId "<<uniqueKey.nbccId<<"delay "<<delay<<"startTimeOptional "<<delayForCrnccId.startTimeOptional.getReference()<<"endTimeOptional "<<delayForCrnccId.endTimeOptional.getReference()<<endl;}
                 m_totalDelay += delay;
-                m_count++;                m_outputStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;
+                m_count++;
+                m_outputStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;
                 m_btsLogDelays.erase(uniqueKey);
             }
-        }    }
+        }
+    }
 }
 
 void BtsLogAnalyzer::processFileForBtsDelayForMikhailKnife(string const& filePath)
@@ -362,9 +370,11 @@ void BtsLogAnalyzer::processFileForBtsDelayForMikhailKnife(string const& filePat
                 int delay = static_cast<int>(delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000);
                 grmProcessTotal += delay;
                 grmProcessCount++;
-                grmProcessFileStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;            }
+                grmProcessFileStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;
+            }
             grmProcessMap.erase(uniqueKey);
         }
+
         BtsLogDelay & messageDeliveryInstance = messageDeliveryMap[uniqueKey];
         if(messageDeliveryInstance.startTimeOptional && messageDeliveryInstance.endTimeOptional)
         {
@@ -375,9 +385,11 @@ void BtsLogAnalyzer::processFileForBtsDelayForMikhailKnife(string const& filePat
                 int delay = static_cast<int>(delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000);
                 messageDeliveryTotal += delay;
                 messageDeliveryCount++;
-                messageDeliveryFileStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;            }
+                messageDeliveryFileStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;
+            }
             messageDeliveryMap.erase(uniqueKey);
         }
+
         BtsLogDelay & rlSetupMapInstance = rlSetupMap[uniqueKey];
         if(rlSetupMapInstance.startTimeOptional && rlSetupMapInstance.endTimeOptional)
         {
@@ -387,10 +399,12 @@ void BtsLogAnalyzer::processFileForBtsDelayForMikhailKnife(string const& filePat
                 int delay = static_cast<int>(delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000);
                 rlSetupTotal += delay;
                 rlSetupCount++;
-                rlSetupFileStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;            }
+                rlSetupFileStream<<uniqueKey.crnccId<<","<<uniqueKey.nbccId<<","<<uniqueKey.transactionId<<","<<setw(10)<<delay<<endl;
+            }
             rlSetupMap.erase(uniqueKey);
         }
-    }    cout<<"grmFetchTotal: "<<grmFetchTotal<<" count: "<<grmFetchCount<<" average:"<<grmFetchTotal/grmFetchCount<<endl;
+    }
+    cout<<"grmFetchTotal: "<<grmFetchTotal<<" count: "<<grmFetchCount<<" average:"<<grmFetchTotal/grmFetchCount<<endl;
     cout<<"grmProcessTotal: "<<grmProcessTotal<<" count: "<<grmProcessCount<<" average:"<<grmProcessTotal/grmProcessCount<<endl;
     cout<<"messageDeliveryTotal: "<<messageDeliveryTotal<<" count: "<<messageDeliveryCount<<" average:"<<messageDeliveryTotal/messageDeliveryCount<<endl;
     cout<<"rlSetupTotal: "<<rlSetupTotal<<" count: "<<rlSetupCount<<" average:"<<rlSetupTotal/rlSetupCount<<endl;
@@ -434,10 +448,12 @@ void BtsLogAnalyzer::processFileForBtsDelayForGrm(string const& filePath)
                 int delay = static_cast<int>(delayTime.getMicroSeconds()+delayTime.getSeconds()*1000000);
                 if(delay<1000000)
                 {
-                    m_totalDelay += delay;                    m_count++;
+                    m_totalDelay += delay;
+                    m_count++;
                     m_outputStream<<crnccId<<","<<nbccId<<","<<transactionId<<","<<setw(10)<<delay<<endl;
                 }
-                m_btsLogDelaysGrm.erase(nbccId);            }
+                m_btsLogDelaysGrm.erase(nbccId);
+            }
         }
         /*else if(stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(INF/TCOM/R, CTRL_RLH_)")
                 || stringHelper::isStringFoundInsideTheOtherStringNotCaseSensitive(lineInLogs, R"(INF/TCOM/R, RLH_CTRL_)")
@@ -475,9 +491,11 @@ string BtsLogAnalyzer::getNumberAfterThisString(string const& mainString, string
         int lastIndexOfFirstString = static_cast<int>(firstIndexOfFirstString + stringToSearch.length());
         int lastIndexOfNumber;
         for(lastIndexOfNumber = lastIndexOfFirstString; stringHelper::isNumber(mainString[lastIndexOfNumber]); ++lastIndexOfNumber);
-        result = mainString.substr(lastIndexOfFirstString, lastIndexOfNumber-lastIndexOfFirstString);    }
+        result = mainString.substr(lastIndexOfFirstString, lastIndexOfNumber-lastIndexOfFirstString);
+    }
     return result;
 }
+
 double BtsLogAnalyzer::getComputedAverageDelay() const
 {
     cout<<"totalDelay: "<<m_totalDelay<<" count: "<<m_count<<endl;

@@ -5,7 +5,7 @@ using TNbccId = unsigned int;
 using u32 = unsigned int;
 constexpr unsigned int MAX_USERS_IN_NODEB = 2500;
 
-#include <map>;
+#include <map>
 
 //remove this
 
