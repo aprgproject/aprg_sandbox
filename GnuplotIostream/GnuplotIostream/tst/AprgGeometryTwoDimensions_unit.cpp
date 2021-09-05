@@ -64,4 +64,3 @@ TEST(AprgGeometryTwoDimensionsTest, DISABLED_SampleCircle)
     graphPoints(gp, pointsLine3, "Line3");
     gp << endl;
 }
-

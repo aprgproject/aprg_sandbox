@@ -135,4 +135,3 @@ TEST(AprgGeometryThreeDimensionsTest, LineOfIntersectionOfTwoPlanes)
     graphPoint(gp, point3OfPlane2, "Point3OfPlane2");
     gp << endl;
 }
-
