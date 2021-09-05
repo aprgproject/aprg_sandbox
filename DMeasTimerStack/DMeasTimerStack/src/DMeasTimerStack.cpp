@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <cstring>
+
 #define DM_ERR_HIGH printf
 #define DM_WRN_HIGH printf
 #define DM_INF_HIGH printf
@@ -31,7 +32,8 @@ void tcomSetSfn(unsigned int sfn)
 using namespace std;
 using namespace alba;
 
-namespace DMeas {
+namespace DMeas 
+{
 
 TimerStack::TimerIndex TimerStack::s_timerCounter = 0;
 int const TimerStack::fibs[6] = {0, 1000, 1000, 2000, 3000, 5000};
@@ -750,7 +752,7 @@ void TimerStack::dump(TimerIndex begin, TimerIndex end)
                 break;
             }
 
-            MTPRINTF("TimersTable[%02d]:    %-4u | %s | MId: %d / nbccId: %u\n",
+            MTPRINTF("TimersTable[%02d]:    %-4U | %s | MId: %d / nbccId: %u\n",
                      timerIndex,
                      timerData->timerValue,
                      timerTypeStr.c_str(),

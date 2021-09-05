@@ -1,4 +1,3 @@
-
 #ifndef DMEASTIMERSTACK_HPP
 #define DMEASTIMERSTACK_HPP
 
@@ -24,7 +23,8 @@ typedef u32 TimeCounter;
 //----------------------- COMMON DEFINITIONS ----------------------------------
 
 
-namespace DMeas {
+namespace DMeas 
+{
 
 
 extern TSfn currSfn;
