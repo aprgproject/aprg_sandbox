@@ -13,15 +13,13 @@ DspDetails::DspDetails()
     , numberOfHsRachCfs(0)
     , orderCountOfCfAllocation(0)
     , dliPool(0)
-    , hasEmergencyCalls(0)
+    , hasEmergencyCalls(false)
     , isNbicAllocated(false)
     , mode(DspMode::NyquistDedicatedChannelDevice)
-    , nyquistType(NyquistType::Nyquist)
-{}
+    , nyquistType(NyquistType::Nyquist){}
 
 Dsp::Dsp()
-    : m_dspDetails()
-{}
+    : m_dspDetails(){}
 
 Dsp::Dsp(DspDetails const& dspDetails)
     : m_dspDetails(dspDetails)

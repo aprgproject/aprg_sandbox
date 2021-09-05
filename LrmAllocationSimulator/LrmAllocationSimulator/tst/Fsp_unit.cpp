@@ -18,9 +18,9 @@ TEST(FspTest, FspDetailsCanAssignedCorrectlyAtConstruction)
 
     EXPECT_EQ(SmType::ESM, fsp.getSmType());
     EXPECT_TRUE(fsp.isMasterTcom());
-    EXPECT_EQ(0x1200u, fsp.getAddress());
-    ASSERT_EQ(1u, fsp.getDspAddresses().size());
-    EXPECT_EQ(0x1230u, fsp.getDspAddresses().back());
+    EXPECT_EQ(0x1200U, fsp.getAddress());
+    ASSERT_EQ(1U, fsp.getDspAddresses().size());
+    EXPECT_EQ(0x1230U, fsp.getDspAddresses().back());
 }
 
 }
