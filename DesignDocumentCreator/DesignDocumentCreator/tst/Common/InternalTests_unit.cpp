@@ -2,9 +2,9 @@
 #include <Common/Components/SampleComponent.hpp>
 #include <Common/Environment.hpp>
 #include <Common/Events/Events.hpp>
+#include <Common/Events/OtherEvent.hpp>
 #include <Common/Messages/Messages.hpp>
 #include <Common/Timers/Timers.hpp>
-#include <Common/Events/OtherEvent.hpp>
 
 #include <gtest/gtest.h>
 

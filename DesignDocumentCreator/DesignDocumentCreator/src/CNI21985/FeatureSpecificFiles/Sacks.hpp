@@ -1,25 +1,25 @@
 #pragma once
 
-#include <EControlUnitType.h>
 #include <EConditional.h>
+#include <EControlUnitType.h>
 #include <EResponseCond.h>
+#include <ETransportBearerCause.h>
+#include <EUnregisterType.h>
+#include <SFlexiConnectionInfo.h>
+#include <SFspInformation.h>
 #include <STCWamAddressInd.h>
 #include <STransportBearerLocationData.h>
 #include <STransportBearerSignallingData.h>
-#include <SFlexiConnectionInfo.h>
-#include <SFspInformation.h>
 #include <STupConfigurationInfo.h>
 #include <STupcBtsParameters.h>
 #include <TAaSysComSicad.h>
-#include <TCellId.h>
 #include <TCause.h>
+#include <TCellId.h>
 #include <TMtuSize.h>
 #include <TNbccId.h>
 #include <TNumberOfItems.h>
 #include <TNumberOfPresence.h>
 #include <TTransactionID.h>
-#include <EUnregisterType.h>
-#include <ETransportBearerCause.h>
 
 #define MAX_NUM_RLH_INSTANCES 8
 

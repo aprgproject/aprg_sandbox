@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Common/Components/ComponentName.hpp>
-
 #include <FeatureSpecificFiles/Sacks.hpp>
 #include <IfAaSysCom_Defs.h>
 #include <TAaSysComSicad.h>

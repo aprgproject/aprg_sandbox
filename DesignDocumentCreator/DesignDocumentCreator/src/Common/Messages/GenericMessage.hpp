@@ -4,7 +4,6 @@
 #include <Common/Messages/MessageName.hpp>
 #include <Memory/AlbaMemoryBuffer.hpp>
 
-
 namespace DesignDocumentCreator
 {
 

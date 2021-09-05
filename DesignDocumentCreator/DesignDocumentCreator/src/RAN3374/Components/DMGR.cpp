@@ -1,6 +1,5 @@
-#include <RAN3374/Components/DMGR.hpp>
-
 #include <Common/Utils/StringHelpers.hpp>
+#include <RAN3374/Components/DMGR.hpp>
 
 #include <iostream>
 

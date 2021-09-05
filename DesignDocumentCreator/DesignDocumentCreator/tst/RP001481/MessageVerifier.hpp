@@ -13,4 +13,3 @@ namespace MessageVerifier
 }
 
 } // namespace DesignDocumentCreator
-

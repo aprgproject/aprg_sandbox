@@ -1,12 +1,12 @@
-#include <gtest/gtest.h>
-
 #include <Common/Components/ComponentName.hpp>
 #include <Common/Utils/StringHelpers.hpp>
-#include <Components/TOAM.hpp>
 #include <Components/LRM.hpp>
-#include <ModuleTest.hpp>
+#include <Components/TOAM.hpp>
 #include <MessageFactory.hpp>
 #include <MessageVerifier.hpp>
+#include <ModuleTest.hpp>
+
+#include <gtest/gtest.h>
 
 using namespace std;
 using namespace DesignDocumentCreator;

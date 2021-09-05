@@ -2,7 +2,6 @@
 
 #include <Common/Components/Components.hpp>
 #include <Common/Uml/UmlLogger.hpp>
-
 #include <optional/AlbaOptional.hpp>
 
 namespace DesignDocumentCreator

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Memory/AlbaMemoryBuffer.hpp>
 #include <Common/Messages/Message.hpp>
 #include <Common/Messages/MessageWrapper.hpp>
+#include <Memory/AlbaMemoryBuffer.hpp>
 
 #include <vector>
 

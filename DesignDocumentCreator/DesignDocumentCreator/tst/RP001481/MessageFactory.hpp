@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Common/Messages/GenericMessage.hpp>
-
 #include <SLrmConfigurationDataInd.h>
 
 namespace DesignDocumentCreator
@@ -18,4 +17,3 @@ namespace MessageFactory
 }
 
 } // namespace DesignDocumentCreator
-

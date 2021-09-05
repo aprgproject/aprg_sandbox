@@ -1,8 +1,8 @@
-#include <gtest/gtest.h>
-
 #include <Components/LRM.hpp>
-#include <MessageFactory.hpp>
 #include <FakeFramework/FakeFrameworkHelpers.hpp>
+#include <MessageFactory.hpp>
+
+#include <gtest/gtest.h>
 
 using namespace std;
 using namespace DesignDocumentCreator;
@@ -26,20 +26,20 @@ TEST(LrmTest, GetFspAddressWorks)
 {
     LRM lrm(ComponentName::LRM);
 
-    EXPECT_EQ(0xA1u, lrm.getFspAddressFromDspAddress(0xA1BA));
-    EXPECT_EQ(0xA1u, lrm.getFspAddressFromDspAddress(0xA100));
+    EXPECT_EQ(0xA1U, lrm.getFspAddressFromDspAddress(0xA1BA));
+    EXPECT_EQ(0xA1U, lrm.getFspAddressFromDspAddress(0xA100));
     EXPECT_EQ(0xBAu, lrm.getFspAddressFromDspAddress(0xBAA1));
-    EXPECT_EQ(0u, lrm.getFspAddressFromDspAddress(0));
+    EXPECT_EQ(0U, lrm.getFspAddressFromDspAddress(0));
 }
 
 TEST(LrmTest, GetKeplerAddressWithoutCorWorks)
 {
     LRM lrm(ComponentName::LRM);
 
-    EXPECT_EQ(0xA1B0u, lrm.getKeplerAddressWithoutCore(0xA1BA));
-    EXPECT_EQ(0xA100u, lrm.getKeplerAddressWithoutCore(0xA100));
-    EXPECT_EQ(0xBAA0u, lrm.getKeplerAddressWithoutCore(0xBAA1));
-    EXPECT_EQ(0u, lrm.getKeplerAddressWithoutCore(0));
+    EXPECT_EQ(0xA1B0U, lrm.getKeplerAddressWithoutCore(0xA1BA));
+    EXPECT_EQ(0xA100U, lrm.getKeplerAddressWithoutCore(0xA100));
+    EXPECT_EQ(0xBAA0U, lrm.getKeplerAddressWithoutCore(0xBAA1));
+    EXPECT_EQ(0U, lrm.getKeplerAddressWithoutCore(0));
 }
 
 TEST(LrmTest, IsTcomInThisK2Works)
@@ -63,11 +63,11 @@ TEST(LrmTest, GetPowerGroupIdWorks)
 
     lrm.saveDspInformation(payload);
 
-    EXPECT_EQ(0u, lrm.getPowerGroupId(0xA1BA));
-    EXPECT_EQ(1u, lrm.getPowerGroupId(0x1230));
-    EXPECT_EQ(1u, lrm.getPowerGroupId(0x1240));
-    EXPECT_EQ(2u, lrm.getPowerGroupId(0x1250));
-    EXPECT_EQ(2u, lrm.getPowerGroupId(0x1260));
+    EXPECT_EQ(0U, lrm.getPowerGroupId(0xA1BA));
+    EXPECT_EQ(1U, lrm.getPowerGroupId(0x1230));
+    EXPECT_EQ(1U, lrm.getPowerGroupId(0x1240));
+    EXPECT_EQ(2U, lrm.getPowerGroupId(0x1250));
+    EXPECT_EQ(2U, lrm.getPowerGroupId(0x1260));
 }
 
 TEST(LrmTest, GetDspModeIdWorks)
@@ -93,9 +93,9 @@ TEST(LrmTest, GetNumberOfK2sInPowerGroupWorks)
 
     lrm.savePowerGroupInformation(payload);
 
-    EXPECT_EQ(0u, lrm.getNumberOfK2sInPowerGroup(0));
-    EXPECT_EQ(2u, lrm.getNumberOfK2sInPowerGroup(1));
-    EXPECT_EQ(2u, lrm.getNumberOfK2sInPowerGroup(2));
+    EXPECT_EQ(0U, lrm.getNumberOfK2sInPowerGroup(0));
+    EXPECT_EQ(2U, lrm.getNumberOfK2sInPowerGroup(1));
+    EXPECT_EQ(2U, lrm.getNumberOfK2sInPowerGroup(2));
 }
 
 TEST(LrmTest, GetDspAddressesForLcgIdWorks)
@@ -109,13 +109,13 @@ TEST(LrmTest, GetDspAddressesForLcgIdWorks)
     LRM::AddressesVector dspAddressForLcg1(lrm.getDspAddressesForLcgId(1));
     LRM::AddressesVector dspAddressForLcg2(lrm.getDspAddressesForLcgId(2));
 
-    ASSERT_EQ(4u, dspAddressForLcg1.size());
-    EXPECT_EQ(0x1230u, dspAddressForLcg1[0]);
-    EXPECT_EQ(0x1240u, dspAddressForLcg1[1]);
-    EXPECT_EQ(0x1250u, dspAddressForLcg1[2]);
-    EXPECT_EQ(0x1260u, dspAddressForLcg1[3]);
+    ASSERT_EQ(4U, dspAddressForLcg1.size());
+    EXPECT_EQ(0x1230U, dspAddressForLcg1[0]);
+    EXPECT_EQ(0x1240U, dspAddressForLcg1[1]);
+    EXPECT_EQ(0x1250U, dspAddressForLcg1[2]);
+    EXPECT_EQ(0x1260U, dspAddressForLcg1[3]);
 
-    ASSERT_EQ(0u, dspAddressForLcg2.size());
+    ASSERT_EQ(0U, dspAddressForLcg2.size());
 }
 
 TEST(LrmTest, FindMcdCcdDFor1LcgWithMoreThan2K2WithNbic)
@@ -128,7 +128,7 @@ TEST(LrmTest, FindMcdCcdDFor1LcgWithMoreThan2K2WithNbic)
     lrm.saveLcgInformation(payload);
     lrm.savePowerGroupInformation(payload);
 
-    EXPECT_EQ(0x1230u, lrm.findLocationOfMcdCcdDForLcgId(1));
+    EXPECT_EQ(0x1230U, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
 
 TEST(LrmTest, FindMcdCcdDRemoveMasterTcomAddress)
@@ -142,7 +142,7 @@ TEST(LrmTest, FindMcdCcdDRemoveMasterTcomAddress)
     lrm.saveLcgInformation(payload);
     lrm.savePowerGroupInformation(payload);
 
-    EXPECT_EQ(0x1240u, lrm.findLocationOfMcdCcdDForLcgId(1));
+    EXPECT_EQ(0x1240U, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
 
 TEST(LrmTest, FindMcdCcdDRemoveDspWithInvalidNumberOfPowerGroup)
@@ -155,7 +155,7 @@ TEST(LrmTest, FindMcdCcdDRemoveDspWithInvalidNumberOfPowerGroup)
     lrm.saveLcgInformation(payload);
     lrm.savePowerGroupInformation(payload);
 
-    EXPECT_EQ(0x1240u, lrm.findLocationOfMcdCcdDForLcgId(1));
+    EXPECT_EQ(0x1240U, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
 
 TEST(LrmTest, FindMcdCcdDRemoveUnacceptableOriginalDspMode)
@@ -169,7 +169,7 @@ TEST(LrmTest, FindMcdCcdDRemoveUnacceptableOriginalDspMode)
     lrm.savePowerGroupInformation(payload);
     lrm.setDspModeInAddress(0x1230, EDspMode_Kepler_MCD_DCD);
 
-    EXPECT_EQ(0x1240u, lrm.findLocationOfMcdCcdDForLcgId(1));
+    EXPECT_EQ(0x1240U, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
 
 TEST(LrmTest, FindMcdCcdDPrioritizeNumberMcdCcdDInFspForOtherLcg)
@@ -183,7 +183,7 @@ TEST(LrmTest, FindMcdCcdDPrioritizeNumberMcdCcdDInFspForOtherLcg)
     lrm.savePowerGroupInformation(payload);
     lrm.setDspModeInAddress(0x1230, EDspMode_Kepler_MCD_CCDD);
 
-    EXPECT_EQ(0x1330u, lrm.findLocationOfMcdCcdDForLcgId(1));
+    EXPECT_EQ(0x1330U, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
 
 TEST(LrmTest, FindMcdCcdDPrioritizeNumberK2s)
@@ -196,7 +196,7 @@ TEST(LrmTest, FindMcdCcdDPrioritizeNumberK2s)
     lrm.saveLcgInformation(payload);
     lrm.savePowerGroupInformation(payload);
 
-    EXPECT_EQ(0x1250u, lrm.findLocationOfMcdCcdDForLcgId(1));
+    EXPECT_EQ(0x1250U, lrm.findLocationOfMcdCcdDForLcgId(1));
 }
 
 TEST(LrmTest, SetNumberOfIndicesCanBeDone)
@@ -204,32 +204,32 @@ TEST(LrmTest, SetNumberOfIndicesCanBeDone)
     DelayedLinkIndices dli;
 
     dli.setIndices(10);
-    EXPECT_EQ(0u, dli.getNumberOfIndices(0));
-    EXPECT_EQ(10u, dli.getNumberOfIndices(1));
-    EXPECT_EQ(0u, dli.getNumberOfIndices(2));
-    EXPECT_EQ(0u, dli.getNumberOfIndices(3));
-    EXPECT_EQ(0u, dli.getNumberOfIndices(4));
+    EXPECT_EQ(0U, dli.getNumberOfIndices(0));
+    EXPECT_EQ(10U, dli.getNumberOfIndices(1));
+    EXPECT_EQ(0U, dli.getNumberOfIndices(2));
+    EXPECT_EQ(0U, dli.getNumberOfIndices(3));
+    EXPECT_EQ(0U, dli.getNumberOfIndices(4));
 
     dli.setIndices(20);
-    EXPECT_EQ(0u, dli.getNumberOfIndices(0));
-    EXPECT_EQ(12u, dli.getNumberOfIndices(1));
-    EXPECT_EQ(8u, dli.getNumberOfIndices(2));
-    EXPECT_EQ(0u, dli.getNumberOfIndices(3));
-    EXPECT_EQ(0u, dli.getNumberOfIndices(4));
+    EXPECT_EQ(0U, dli.getNumberOfIndices(0));
+    EXPECT_EQ(12U, dli.getNumberOfIndices(1));
+    EXPECT_EQ(8U, dli.getNumberOfIndices(2));
+    EXPECT_EQ(0U, dli.getNumberOfIndices(3));
+    EXPECT_EQ(0U, dli.getNumberOfIndices(4));
 
     dli.setIndices(40);
-    EXPECT_EQ(0u, dli.getNumberOfIndices(0));
-    EXPECT_EQ(12u, dli.getNumberOfIndices(1));
-    EXPECT_EQ(12u, dli.getNumberOfIndices(2));
-    EXPECT_EQ(12u, dli.getNumberOfIndices(3));
-    EXPECT_EQ(4u, dli.getNumberOfIndices(4));
+    EXPECT_EQ(0U, dli.getNumberOfIndices(0));
+    EXPECT_EQ(12U, dli.getNumberOfIndices(1));
+    EXPECT_EQ(12U, dli.getNumberOfIndices(2));
+    EXPECT_EQ(12U, dli.getNumberOfIndices(3));
+    EXPECT_EQ(4U, dli.getNumberOfIndices(4));
 
     dli.setIndices(0);
-    EXPECT_EQ(0u, dli.getNumberOfIndices(0));
-    EXPECT_EQ(0u, dli.getNumberOfIndices(1));
-    EXPECT_EQ(0u, dli.getNumberOfIndices(2));
-    EXPECT_EQ(0u, dli.getNumberOfIndices(3));
-    EXPECT_EQ(0u, dli.getNumberOfIndices(4));
+    EXPECT_EQ(0U, dli.getNumberOfIndices(0));
+    EXPECT_EQ(0U, dli.getNumberOfIndices(1));
+    EXPECT_EQ(0U, dli.getNumberOfIndices(2));
+    EXPECT_EQ(0U, dli.getNumberOfIndices(3));
+    EXPECT_EQ(0U, dli.getNumberOfIndices(4));
 }
 
 TEST(LrmTest, SetAsAllocatedOrNotCanBeDone)
@@ -281,7 +281,7 @@ TEST(LrmTest, AllocatedDliAreNotIncludedInSelection)
     dli.setIndices(20);
     dli.setPoolAsAllocated(1);
 
-    EXPECT_EQ(2u, dli.getAvailablePoolIdForRel4(1));
+    EXPECT_EQ(2U, dli.getAvailablePoolIdForRel4(1));
 }
 
 TEST(LrmTest, IndicesDoesNotFitAreNotIncludedInSelection)
@@ -291,7 +291,7 @@ TEST(LrmTest, IndicesDoesNotFitAreNotIncludedInSelection)
     dli.setIndices(20);
     dli.setPoolAsAllocated(1);
 
-    EXPECT_EQ(0u, dli.getAvailablePoolIdForRel4(12));
+    EXPECT_EQ(0U, dli.getAvailablePoolIdForRel4(12));
 }
 
 TEST(LrmTest, LowestNumberOfDlisIsPrioritized)
@@ -300,7 +300,7 @@ TEST(LrmTest, LowestNumberOfDlisIsPrioritized)
 
     dli.setIndices(20);
 
-    EXPECT_EQ(2u, dli.getAvailablePoolIdForRel4(8));
+    EXPECT_EQ(2U, dli.getAvailablePoolIdForRel4(8));
 }
 
 TEST(LrmTest, LowestDliPoolIsPrioritized)
@@ -309,7 +309,7 @@ TEST(LrmTest, LowestDliPoolIsPrioritized)
 
     dli.setIndices(48);
 
-    EXPECT_EQ(1u, dli.getAvailablePoolIdForRel4(12));
+    EXPECT_EQ(1U, dli.getAvailablePoolIdForRel4(12));
 }
 
 TEST(LrmTest, hasConflictWithNextAvailablePoolFor2And3WithRXGreaterThan8)
@@ -380,7 +380,7 @@ TEST(LrmTest, FindNbicMcdCcd)
     lrm.saveLcgInformation(payload);
     lrm.savePowerGroupInformation(payload);
 
-    EXPECT_EQ(0x1230u, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
+    EXPECT_EQ(0x1230U, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
 }
 
 
@@ -396,7 +396,7 @@ TEST(LrmTest, FindNbicMcdCcdDRemoveFspsWithPic)
     lrm.setDspModeInAddress(0x1230, EDspMode_Kepler_DCD_PIC);
     lrm.setDspModeInAddress(0x1240, EDspMode_Kepler_DCD_PIC);
 
-    EXPECT_EQ(0x1330u, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
+    EXPECT_EQ(0x1330U, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
 }
 
 TEST(LrmTest, FindNbicMcdCcdDRemoveFspsWithNbic)
@@ -411,7 +411,7 @@ TEST(LrmTest, FindNbicMcdCcdDRemoveFspsWithNbic)
     lrm.setAsNbicMcdCcdDInAddress(0x1230);
     lrm.setAsNbicMcdCcdDInAddress(0x1240);
 
-    EXPECT_EQ(0x1330u, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
+    EXPECT_EQ(0x1330U, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
 }
 
 TEST(LrmTest, FindNbicMcdCcdDRemoveConflictDlis)
@@ -426,6 +426,5 @@ TEST(LrmTest, FindNbicMcdCcdDRemoveConflictDlis)
     lrm.saveDliInfo(payload);
     lrm.setPoolIdInDspAddress(0x1230, 4);
 
-    EXPECT_EQ(0x1330u, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
+    EXPECT_EQ(0x1330U, lrm.findLocationOfMcdCcdDWithNbicForLcgId(1));
 }
-

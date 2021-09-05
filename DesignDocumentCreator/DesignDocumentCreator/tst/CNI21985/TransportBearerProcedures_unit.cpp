@@ -1,14 +1,14 @@
-#include <gtest/gtest.h>
-
+#include <Common/Utils/StringHelpers.hpp>
 #include <Components/Dsp.hpp>
 #include <Components/TcomCchhRlh.hpp>
 #include <Components/Trsw.hpp>
 #include <Components/TupcCm.hpp>
 #include <Components/TupcTbm.hpp>
-#include <Common/Utils/StringHelpers.hpp>
-#include <ModuleTest.hpp>
 #include <MessageFactory.hpp>
 #include <MessageVerifier.hpp>
+#include <ModuleTest.hpp>
+
+#include <gtest/gtest.h>
 
 using namespace std;
 using namespace DesignDocumentCreator;

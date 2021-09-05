@@ -11,4 +11,3 @@ namespace MessageFactory
 }
 
 } // namespace DesignDocumentCreator
-

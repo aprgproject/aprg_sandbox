@@ -1,35 +1,34 @@
 #pragma once
 
 #include <Common/Messages/MessageWrapper.hpp>
-
 #include <FeatureSpecificFiles/Sacks.hpp>
-#include <oam_tcom.h>
-#include <STransportBearerRegisterMsg.h>
-#include <STransportBearerRegisterResponseMsg.h>
-#include <STransportBearerUnregisterMsg.h>
-#include <STransportBearerUnregisterResponseMsg.h>
-#include <STransportBearerReallocationPrepareReq.h>
-#include <STransportBearerReallocationPrepareResp.h>
-#include <STransportBearerReallocationCommitReq.h>
-#include <STransportBearerReallocationCommitResp.h>
-#include <STransportBearerReallocationCleanupReq.h>
-#include <STransportBearerReallocationCleanupResp.h>
-#include <STransportBearerReallocationCancelReq.h>
-#include <STransportBearerReallocationCancelResp.h>
 #include <STransportBearerModificationCancelReq.h>
 #include <STransportBearerModificationCancelResp.h>
 #include <STransportBearerModificationCommitReq.h>
 #include <STransportBearerModificationCommitResp.h>
 #include <STransportBearerModificationPrepareReq.h>
 #include <STransportBearerModificationPrepareResp.h>
-#include <STransportBearerSetupMsg.h>
+#include <STransportBearerReallocationCancelReq.h>
+#include <STransportBearerReallocationCancelResp.h>
+#include <STransportBearerReallocationCleanupReq.h>
+#include <STransportBearerReallocationCleanupResp.h>
+#include <STransportBearerReallocationCommitReq.h>
+#include <STransportBearerReallocationCommitResp.h>
+#include <STransportBearerReallocationPrepareReq.h>
+#include <STransportBearerReallocationPrepareResp.h>
+#include <STransportBearerRegisterMsg.h>
+#include <STransportBearerRegisterResponseMsg.h>
 #include <STransportBearerReleaseMsg.h>
-#include <TUP_TransportConnectionSetupReq.h>
-#include <TUP_TransportConnectionSetupResp.h>
+#include <STransportBearerSetupMsg.h>
+#include <STransportBearerUnregisterMsg.h>
+#include <STransportBearerUnregisterResponseMsg.h>
 #include <TUP_TransportConnectionReleaseReq.h>
 #include <TUP_TransportConnectionReleaseResp.h>
+#include <TUP_TransportConnectionSetupReq.h>
+#include <TUP_TransportConnectionSetupResp.h>
 #include <TUP_TransportConnectionTransferReq.h>
 #include <TUP_TransportConnectionTransferResp.h>
+#include <oam_tcom.h>
 
 namespace DesignDocumentCreator
 {
@@ -79,4 +78,3 @@ WRAP_DYNAMIC_ARRAY_MESSAGE(MessageName::TUPC_CM_BEARERS_UPDATE_IND_MSG, SCmBeare
 
 
 }
-
