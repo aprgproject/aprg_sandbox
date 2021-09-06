@@ -1,39 +1,33 @@
-#include <MessageContentChecker.hpp>
-
-#include <Bit/AlbaBitManipulation.hpp>
-
 #include <BB_2_RlSetupReq.h>
-#include <SDlDpchInfoRlSetup.h>
-#include <SRadioLinkSetup_Ver2.h>
-#include <SCmTransGapPatternSeqInfo.h>
-#include <SCmActivePatternSeqInfo.h>
-#include <TCtfc.h>
-#include <SDchInfo_Ver2.h>
-#include <SHsDschInformation_Ver2.h>
-#include <SEDpchInformation_Ver2.h>
-#include <SCpcDtxDrxInfo.h>
-#include <SPrivateRlInformation.h>
-#include <SAdditionalHsCellInfo.h>
-#include <SAdditionalEdchCellInfo.h>
+#include <Bit/AlbaBitManipulation.hpp>
+#include <Debug/AlbaDebug.hpp>
+#include <MessageContentChecker.hpp>
 #include <SAddiEdchRlMappingInfo.h>
-
+#include <SAdditionalEdchCellInfo.h>
+#include <SAdditionalHsCellInfo.h>
+#include <SCmActivePatternSeqInfo.h>
+#include <SCmTransGapPatternSeqInfo.h>
+#include <SCpcDtxDrxInfo.h>
+#include <SDchInfo_Ver2.h>
 #include <SDchSpecificInfo.h>
+#include <SDlDpchInfoRlSetup.h>
+#include <SEDpchInformation_Ver2.h>
+#include <SHsDschInformation_Ver2.h>
+#include <SPrivateRlInformation.h>
+#include <SRadioLinkSetup_Ver2.h>
 #include <STransportFormatSet.h>
+#include <TCtfc.h>
 
 #include <gtest/gtest.h>
 
 #include <iostream>
 
-#include <Debug/AlbaDebug.hpp>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 unsigned int swap4(unsigned int temp)
-{
-    return alba::AlbaBitManipulation<unsigned int>::swapForFourBytes(temp);
+{    return alba::AlbaBitManipulation<unsigned int>::swapForFourBytes(temp);
     //return temp;
 }
 
