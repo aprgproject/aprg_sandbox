@@ -1,20 +1,18 @@
 #pragma once
 
-#include <BtsLogTime.hpp>
 #include <BtsLogPrint.hpp>
+#include <BtsLogTime.hpp>
 #include <Optional/AlbaOptional.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 #include <fstream>
-#include <vector>
 #include <string>
+#include <vector>
 
 namespace alba
 {
-
 class StartupLogAnalyzer
 {
-
 public:
 
     StartupLogAnalyzer();
