@@ -1,28 +1,25 @@
 #include <AprgFileExtractor.hpp>
+#include <Debug/AlbaDebug.hpp>
 #include <File/AlbaFileReader.hpp>
+#include <Math/AlbaMathHelper.hpp>
 #include <NsapHelper.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <QuickestWayToProgram.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <Math/AlbaMathHelper.hpp>
-#include <Debug/AlbaDebug.hpp>
-#include <stdio.h>
-
 
 #include <gtest/gtest.h>
+#include <stdio.h>
 #include <windows.h>
 
 #include <algorithm>
 #include <iostream>
+#include <iterator>
 #include <map>
 #include <string>
-#include <iterator>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace ProgressCounters
 {
 int numberOfFilesToBeAnalyzedForExtraction;
