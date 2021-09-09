@@ -1,18 +1,14 @@
 #include "RttAnalyzer2.hpp"
 
+#include <Debug/AlbaDebug.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <String/AlbaStringHelper.hpp>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
-
 RttAnalyzer2::RttAnalyzer2(string const& outputFilePath)
     : m_outputLogStream(outputFilePath)
 {}
