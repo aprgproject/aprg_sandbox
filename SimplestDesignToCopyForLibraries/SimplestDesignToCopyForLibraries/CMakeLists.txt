@@ -3,16 +3,11 @@ project(SimplestDesignToCopyForLibraries C CXX)
 
 set(OUTFILE ${PROJECT_NAME})
 
-#Comment out TEST_MODE to build static executable
-set(TEST_MODE "ON")
-
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(SIMPLEST_DESIGN_TO_COPY_FOR_LIBRARIES_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-
 #Assign Flags
 include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
-
 #Assign Definitions
 include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
 
@@ -27,5 +22,5 @@ include(${SIMPLEST_DESIGN_TO_COPY_FOR_LIBRARIES_DIR}/cmake/FilesAndDirectories.c
 
 add_executable(${OUTFILE} ${SIMPLEST_DESIGN_TO_COPY_FOR_LIBRARIES_SOURCES_AND_TESTS})
 include_directories(${SIMPLEST_DESIGN_TO_COPY_FOR_LIBRARIES_INCLUDE_DIRECTORIES} ${SIMPLEST_DESIGN_TO_COPY_FOR_LIBRARIES_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest)
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest pthread)
 add_test(${OUTFILE} ${OUTFILE})
