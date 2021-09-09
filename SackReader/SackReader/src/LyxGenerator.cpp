@@ -6,13 +6,10 @@
 #include <algorithm>
 #include <fstream>
 
-
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
-
 LyxGenerator::LyxGenerator(std::string const& pathOfLog, Database const& database)
     : m_logStream(pathOfLog)
     , m_database(database)

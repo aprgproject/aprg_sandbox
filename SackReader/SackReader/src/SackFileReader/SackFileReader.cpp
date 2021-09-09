@@ -8,15 +8,12 @@
 
 #include <fstream>
 
-
 using namespace alba::CommentStateMachineNamespace;
 using namespace alba::SackFileReaderStateMachineNamespace;
-using namespace alba::stringHelper;
-using namespace std;
+using namespace alba::stringHelper;using namespace std;
 
 namespace alba
 {
-
 SackFileReader::SackFileReader(Database & database)
     : m_database(database)
 {}
