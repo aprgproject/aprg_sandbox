@@ -8,7 +8,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 constexpr unsigned int TCOM_FSP_ADDRESS = 0x1200;
 
@@ -17,9 +18,11 @@ HardwareConfiguration::HardwareConfiguration()
     , m_tcomFspAddress(0)
 {}
 
-AddressToDspMap& HardwareConfiguration::getAddressToDspMapReference(){
+AddressToDspMap& HardwareConfiguration::getAddressToDspMapReference()
+{
     return m_dspAddressToDspMap;
 }
+
 AddressToFspMap& HardwareConfiguration::getAddressToFspMapReference()
 {
     return m_fspAddressToFspMap;
@@ -290,10 +293,12 @@ void HardwareConfiguration::printDspAllocations(unsigned int const printFlags)
     for(auto const& addressToFspPair : m_fspAddressToFspMap)
     {
         table.addRow();
-        stringstream firstCellStream;        firstCellStream<<"0x"<<hex<<addressToFspPair.first<<dec;
+        stringstream firstCellStream;
+        firstCellStream<<"0x"<<hex<<addressToFspPair.first<<dec;
         table.getLastRow().addCell(firstCellStream.str());
         for(unsigned int const dspAddress : addressToFspPair.second.getDspAddresses())
-        {            Dsp& dsp(m_dspAddressToDspMap.at(dspAddress));
+        {
+            Dsp& dsp(m_dspAddressToDspMap.at(dspAddress));
             stringstream streamTemp;
             streamTemp<<"LCG:"<<dsp.getLcgId()<<"\n"<<dsp.getNbicString()<<dsp.getModeString();
             table.getLastRow().addCell(streamTemp.str(), DisplayTableCellMode::center, DisplayTableCellMode::center);

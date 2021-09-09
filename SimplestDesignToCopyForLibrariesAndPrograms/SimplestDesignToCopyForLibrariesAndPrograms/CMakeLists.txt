@@ -4,7 +4,7 @@ project(SimplestDesignToCopyForLibrariesAndPrograms C CXX)
 set(OUTFILE ${PROJECT_NAME})
 
 #Comment out TEST_MODE to build static executable
-#set(TEST_MODE "ON")
+set(TEST_MODE "ON")
 
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
@@ -28,7 +28,7 @@ include(${SIMPLEST_DESIGN_TO_COPY_FOR_LIBRARIES_AND_PROGRAMS_DIR}/cmake/FilesAnd
 if (TEST_MODE)
     add_executable(${OUTFILE} ${SIMPLEST_DESIGN_TO_COPY_FOR_LIBRARIES_AND_PROGRAMS_SOURCES_AND_TESTS})
     include_directories(${SIMPLEST_DESIGN_TO_COPY_FOR_LIBRARIES_AND_PROGRAMS_INCLUDE_DIRECTORIES} ${SIMPLEST_DESIGN_TO_COPY_FOR_LIBRARIES_AND_PROGRAMS_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-    target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest)
+    target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest pthread)
     add_test(${OUTFILE} ${OUTFILE})
 else()
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")

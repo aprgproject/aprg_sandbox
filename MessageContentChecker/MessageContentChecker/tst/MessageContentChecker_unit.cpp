@@ -24,10 +24,12 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 unsigned int swap4(unsigned int temp)
-{    return alba::AlbaBitManipulation<unsigned int>::swapForFourBytes(temp);
+{
+    return alba::AlbaBitManipulation<unsigned int>::swapForFourBytes(temp);
     //return temp;
 }
 

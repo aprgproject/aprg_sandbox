@@ -4,6 +4,7 @@
 #include <Bitmap/Bitmap.hpp>
 #include <Math/AlbaMathHelper.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -12,6 +13,7 @@ using namespace alba::AprgBitmap;
 using namespace alba::mathHelper;
 using namespace alba::TwoDimensions;
 using namespace std;
+
 namespace alba
 {
 
@@ -27,10 +29,12 @@ PidSimulator::PidSimulator(stringHelper::strings const& argumentsInMain)
     , m_randomizer()
 {}
 
-double PidSimulator::calculatePid(double const input, double const target){
+double PidSimulator::calculatePid(double const input, double const target)
+{
     //https://en.wikipedia.org/wiki/PID_controller
 
-    static double integral = 0;    static double derivative = 0;
+    static double integral = 0;
+    static double derivative = 0;
     static double lastError = 0;
 
     double error = target - input;
@@ -151,9 +155,11 @@ void PidSimulator::generateRandomForInput()
         }
     }
 }
+
 double PidSimulator::computeFromMachsModel(double const inputDemandSample, double const psuedoMaxTxPower, double & adjustedDemand)
 {
-    double result(0);    if("MachsModel1" == m_conf.machsModelType)
+    double result(0);
+    if("MachsModel1" == m_conf.machsModelType)
     {
         result = computeFromMachsModel1(inputDemandSample, psuedoMaxTxPower, adjustedDemand);
     }
@@ -219,9 +225,11 @@ void PidSimulator::calculateAndGenerateOutputImage()
         BitmapConfiguration configuration(bitmap.getConfiguration());
         calculateMagnificationAndOffset(xLeftMax, xRightMax, yBottomMax, yTopMax, configuration.getBitmapWidth(), configuration.getBitmapHeight());
         cout << "offset:[" << m_xOffsetToGraph << ", " << m_yOffsetToGraph << "] magnification:[" << m_xMagnificationToGraph << ", " << m_yMagnificationToGraph << "]" << endl;
+
         AprgGraph graph(graphOutputFile.getFullPath(), BitmapXY(m_xOffsetToGraph, m_yOffsetToGraph), BitmapDoubleXY(m_xMagnificationToGraph, m_yMagnificationToGraph));
         graph.drawGrid(BitmapDoubleXY(m_xGridInterval, m_yGridInterval));
-        graph.drawContinuousPoints(targetSeries, 0x00444444);        graph.drawContinuousPoints(inputDemandSeries, 0x000000FF);
+        graph.drawContinuousPoints(targetSeries, 0x00444444);
+        graph.drawContinuousPoints(inputDemandSeries, 0x000000FF);
         graph.drawContinuousPoints(pseudoMaxTxPowerSeries, 0x0000FF00);
         graph.drawContinuousPoints(tcomReceivedPowerFromMachsSeries, 0x00FF0000);
         //Remove adjusted demand //graph.drawContinuousPoints(adjustedDemandSeries, 0x00008888);

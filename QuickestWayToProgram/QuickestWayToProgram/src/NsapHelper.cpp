@@ -3,8 +3,10 @@
 
 #include <algorithm>
 #include <cstdio>
+
 namespace CommonClassLib
 {
+
 inline u8 CNsapHelper::getIpByte(TTransportLayerAddress const& nsap, u8 const index)
 {
     return nsap[IP_NSAP_OFFSET + index];

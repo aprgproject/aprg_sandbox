@@ -18,8 +18,10 @@
 #include <string>
 
 using namespace std;
+
 namespace alba
 {
+
 namespace ProgressCounters
 {
 int numberOfFilesToBeAnalyzedForExtraction;

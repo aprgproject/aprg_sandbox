@@ -33,6 +33,7 @@ include(${APRG_DIR}/AprgAlgebra/AprgCmakeInclude/AprgAlgebra.cmake)
 
 #Include AprgGraph, this needs APRG Directory
 include(${APRG_DIR}/AprgGraph/AprgCmakeInclude/AprgGraph.cmake)
+
 #Add files and directories
 include(${PID_SIMULATOR_DIR}/cmake/FilesAndDirectories.cmake)
 
@@ -42,7 +43,8 @@ if (TEST_MODE)
     target_link_libraries(${OUTFILE} gtest APRG_GRAPH APRG_ALGEBRA APRG_GEOMETRY APRG_BITMAP APRG_COMMON ${CMAKE_THREAD_LIBS_INIT})  # add real time library
     add_test(${OUTFILE} ${OUTFILE})
 else()
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")    set(BUILD_SHARED_LIBRARIES OFF)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    set(BUILD_SHARED_LIBRARIES OFF)
     set(CMAKE_EXE_LINKER_FLAGS "-static")
     add_executable(${OUTFILE} ${PID_SIMULATOR_SOURCES} ${PID_SIMULATOR_MAIN_SOURCES})
     include_directories(${PID_SIMULATOR_INCLUDE_DIRECTORIES})

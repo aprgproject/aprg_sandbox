@@ -16,10 +16,12 @@ DspDetails::DspDetails()
     , hasEmergencyCalls(false)
     , isNbicAllocated(false)
     , mode(DspMode::NyquistDedicatedChannelDevice)
-    , nyquistType(NyquistType::Nyquist){}
+    , nyquistType(NyquistType::Nyquist)
+{}
 
 Dsp::Dsp()
-    : m_dspDetails(){}
+    : m_dspDetails()
+{}
 
 Dsp::Dsp(DspDetails const& dspDetails)
     : m_dspDetails(dspDetails)

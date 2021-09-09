@@ -18,9 +18,11 @@ TEST(LrmDssWcdmaLteLoadMonitoringTest, ConsecutiveLowerLoadStateCountIsInitially
     EXPECT_EQ(0U, loadMonitoring.getConsecutiveLowerLoadStateCount());
 }
 
-TEST(LrmDssWcdmaLteLoadMonitoringTest, ConsecutiveLowerLoadStateCountCanBeSet){
+TEST(LrmDssWcdmaLteLoadMonitoringTest, ConsecutiveLowerLoadStateCountCanBeSet)
+{
     //Given
     LrmDssWcdmaLteLoadMonitoring loadMonitoring;
+
     //When
     loadMonitoring.setConsecutiveLowerLoadStateCount(10);
 
@@ -28,7 +30,8 @@ TEST(LrmDssWcdmaLteLoadMonitoringTest, ConsecutiveLowerLoadStateCountCanBeSet){
     EXPECT_EQ(10U, loadMonitoring.getConsecutiveLowerLoadStateCount());
 }
 
-TEST(LrmDssWcdmaLteLoadMonitoringTest, CommissioningLoadFactorValuesAreInitiallyZero){
+TEST(LrmDssWcdmaLteLoadMonitoringTest, CommissioningLoadFactorValuesAreInitiallyZero)
+{
     //Given
     LrmDssWcdmaLteLoadMonitoring loadMonitoring;
 
@@ -39,7 +42,8 @@ TEST(LrmDssWcdmaLteLoadMonitoringTest, CommissioningLoadFactorValuesAreInitially
     EXPECT_EQ(0U, loadMonitoring.getHsdpaAndHsfachLoadFactor());
 }
 
-TEST(LrmDssWcdmaLteLoadMonitoringTest, CommissioningLoadFactorValuesCanBeSet){
+TEST(LrmDssWcdmaLteLoadMonitoringTest, CommissioningLoadFactorValuesCanBeSet)
+{
     //Given
     LrmDssWcdmaLteLoadMonitoring loadMonitoring;
 
@@ -50,7 +54,8 @@ TEST(LrmDssWcdmaLteLoadMonitoringTest, CommissioningLoadFactorValuesCanBeSet){
     EXPECT_EQ(70U, loadMonitoring.getHsdpaAndHsfachLoadFactor());
 }
 
-TEST(LrmDssWcdmaLteLoadMonitoringTest, CommissioningLoadThresholdValuesAreInitiallyZero){
+TEST(LrmDssWcdmaLteLoadMonitoringTest, CommissioningLoadThresholdValuesAreInitiallyZero)
+{
     //Given
     LrmDssWcdmaLteLoadMonitoring loadMonitoring;
 
@@ -61,9 +66,11 @@ TEST(LrmDssWcdmaLteLoadMonitoringTest, CommissioningLoadThresholdValuesAreInitia
     EXPECT_EQ(0U, loadMonitoring.getHighLoadThreshold());
 }
 
-TEST(LrmDssWcdmaLteLoadMonitoringTest, CommissioningLoadFactorThresholdCanBeSet){
+TEST(LrmDssWcdmaLteLoadMonitoringTest, CommissioningLoadFactorThresholdCanBeSet)
+{
     //Given
     LrmDssWcdmaLteLoadMonitoring loadMonitoring;
+
     //When
     loadMonitoring.setCommissioningLoadThresholdValues(100, 180);
 
@@ -72,9 +79,11 @@ TEST(LrmDssWcdmaLteLoadMonitoringTest, CommissioningLoadFactorThresholdCanBeSet)
     EXPECT_EQ(180U, loadMonitoring.getHighLoadThreshold());
 }
 
-TEST(LrmDssWcdmaLteLoadMonitoringTest, LowLoadStateCanBeDeterminedBasedOnCellLoad){
+TEST(LrmDssWcdmaLteLoadMonitoringTest, LowLoadStateCanBeDeterminedBasedOnCellLoad)
+{
     //Given
     LrmDssWcdmaLteLoadMonitoring loadMonitoring;
+
     //When
     loadMonitoring.setCommissioningLoadThresholdValues(100, 180);
 
@@ -117,9 +126,11 @@ TEST(LrmDssWcdmaLteLoadMonitoringTest, CellLoadIsCalculatedAsZeroWhenThereAreNoU
     EXPECT_EQ(0U, loadMonitoring.calculateCellLoad(0, 0, false));
 }
 
-TEST(LrmDssWcdmaLteLoadMonitoringTest, DchLoadIsCalculatedAsPartOfCellLoad){
+TEST(LrmDssWcdmaLteLoadMonitoringTest, DchLoadIsCalculatedAsPartOfCellLoad)
+{
     //Given
     LrmDssWcdmaLteLoadMonitoring loadMonitoring;
+
     //When
     loadMonitoring.setCommissioningLoadFactorValues(34, 56);
 
@@ -127,9 +138,11 @@ TEST(LrmDssWcdmaLteLoadMonitoringTest, DchLoadIsCalculatedAsPartOfCellLoad){
     EXPECT_EQ(918U, loadMonitoring.calculateCellLoad(27, 0, false));
 }
 
-TEST(LrmDssWcdmaLteLoadMonitoringTest, HsdpaLoadIsCalculatedAsPartOfCellLoad){
+TEST(LrmDssWcdmaLteLoadMonitoringTest, HsdpaLoadIsCalculatedAsPartOfCellLoad)
+{
     //Given
     LrmDssWcdmaLteLoadMonitoring loadMonitoring;
+
     //When
     loadMonitoring.setCommissioningLoadFactorValues(34, 56);
 
@@ -137,9 +150,11 @@ TEST(LrmDssWcdmaLteLoadMonitoringTest, HsdpaLoadIsCalculatedAsPartOfCellLoad){
     EXPECT_EQ(4704U, loadMonitoring.calculateCellLoad(0, 84, false));
 }
 
-TEST(LrmDssWcdmaLteLoadMonitoringTest, HsfachIsCalculatedAsPartOfCellLoad){
+TEST(LrmDssWcdmaLteLoadMonitoringTest, HsfachIsCalculatedAsPartOfCellLoad)
+{
     //Given
     LrmDssWcdmaLteLoadMonitoring loadMonitoring;
+
     //When
     loadMonitoring.setCommissioningLoadFactorValues(34, 56);
 
@@ -147,9 +162,11 @@ TEST(LrmDssWcdmaLteLoadMonitoringTest, HsfachIsCalculatedAsPartOfCellLoad){
     EXPECT_EQ(56U, loadMonitoring.calculateCellLoad(0, 0, true));
 }
 
-TEST(LrmDssWcdmaLteLoadMonitoringTest, CellLoadIsCalculatedCorrectlyWhenAllParametersArePresent) // not TDD but for peace of mind{
+TEST(LrmDssWcdmaLteLoadMonitoringTest, CellLoadIsCalculatedCorrectlyWhenAllParametersArePresent) // not TDD but for peace of mind
+{
     //Given
     LrmDssWcdmaLteLoadMonitoring loadMonitoring;
+
     //When
     loadMonitoring.setCommissioningLoadFactorValues(34, 56);
 
@@ -157,9 +174,11 @@ TEST(LrmDssWcdmaLteLoadMonitoringTest, CellLoadIsCalculatedCorrectlyWhenAllParam
     EXPECT_EQ(5678U, loadMonitoring.calculateCellLoad(27, 84, true));
 }
 
-TEST(LrmDssWcdmaLteLoadMonitoringTest, NextLoadStateIsLowWhenAllInputLoadStatesAreLow){
+TEST(LrmDssWcdmaLteLoadMonitoringTest, NextLoadStateIsLowWhenAllInputLoadStatesAreLow)
+{
     //Given
     LrmDssWcdmaLteLoadMonitoring loadMonitoring;
+
     //When
     EDssWcdmaLoad currentLoadState = EDssWcdmaLoad_Low;
     EDssWcdmaLoad currentLoadStateOfTheAppliedFilter = EDssWcdmaLoad_Low;
@@ -195,10 +214,12 @@ TEST(LrmDssWcdmaLteLoadMonitoringTest, ConsecutiveLowerLoadStateCountIsResetToZe
     EXPECT_EQ(0U, loadMonitoring.getConsecutiveLowerLoadStateCount());
 }
 
-TEST(LrmDssWcdmaLteLoadMonitoringTest, ConsecutiveLowerLoadStateCountIsIncrementedWhenCurrentLoadStateIsLowerThanTheLoadOfAppliedFilter){
+TEST(LrmDssWcdmaLteLoadMonitoringTest, ConsecutiveLowerLoadStateCountIsIncrementedWhenCurrentLoadStateIsLowerThanTheLoadOfAppliedFilter)
+{
     //Given
     LrmDssWcdmaLteLoadMonitoring loadMonitoring;
     loadMonitoring.setConsecutiveLowerLoadStateCount(10);
+
     //When
     EDssWcdmaLoad currentLoadState = EDssWcdmaLoad_Low;
     EDssWcdmaLoad currentLoadStateOfTheAppliedFilter = EDssWcdmaLoad_High;
@@ -207,9 +228,11 @@ TEST(LrmDssWcdmaLteLoadMonitoringTest, ConsecutiveLowerLoadStateCountIsIncrement
     EXPECT_EQ(11U, loadMonitoring.getConsecutiveLowerLoadStateCount());
 }
 
-TEST(LrmDssWcdmaLteLoadMonitoringTest, NextLowerLoadStateCanBeDetermined){
+TEST(LrmDssWcdmaLteLoadMonitoringTest, NextLowerLoadStateCanBeDetermined)
+{
     //Given
     LrmDssWcdmaLteLoadMonitoring loadMonitoring;
+
     //When
 
     //Then

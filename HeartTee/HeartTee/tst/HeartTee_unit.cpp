@@ -5,9 +5,11 @@
 #include <unistd.h>
 
 #include <iostream>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 /*
 TEST(SampleTest, DISABLED_SampleTest1)

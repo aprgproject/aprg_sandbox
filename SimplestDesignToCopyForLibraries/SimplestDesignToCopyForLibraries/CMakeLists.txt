@@ -6,8 +6,10 @@ set(OUTFILE ${PROJECT_NAME})
 #Assign APRG Directory
 set(APRG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 set(SIMPLEST_DESIGN_TO_COPY_FOR_LIBRARIES_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
 #Assign Flags
 include(${APRG_DIR}/AprgCMakeHelpers/CommonFlags.cmake)
+
 #Assign Definitions
 include(${APRG_DIR}/AprgCMakeHelpers/CommonDefinitions.cmake)
 

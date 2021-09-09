@@ -30,9 +30,11 @@ TEST(HardwareConfigurationTest, OneFspOneLcgEvenDistribution)
     EXPECT_EQ(0x1200U, fspIn1200.getAddress());
     EXPECT_TRUE(fspIn1200.isMasterTcom());
 }
+
 TEST(HardwareConfigurationTest, OneFspTwoLcgEvenDistribution)
 {
-    HardwareConfiguration hardwareConfiguration;    hardwareConfiguration.changeConfigurationToOneFspTwoLcgEvenDistribution();
+    HardwareConfiguration hardwareConfiguration;
+    hardwareConfiguration.changeConfigurationToOneFspTwoLcgEvenDistribution();
     AddressToDspMap& addressToDspMap(hardwareConfiguration.getAddressToDspMapReference());
     AddressToFspMap& addressToFspMap(hardwareConfiguration.getAddressToFspMapReference());
     Dsp& dspIn1230(addressToDspMap.at(0x1230));
@@ -61,9 +63,11 @@ TEST(HardwareConfigurationTest, OneFspTwoLcgEvenDistribution)
     EXPECT_EQ(0x1200U, fspIn1200.getAddress());
     EXPECT_TRUE(fspIn1200.isMasterTcom());
 }
+
 TEST(HardwareConfigurationTest, TwoFspOneLcgEvenDistribution_CheckSecondFsp)
 {
-    HardwareConfiguration hardwareConfiguration;    hardwareConfiguration.changeConfigurationToTwoFspOneLcgEvenDistribution();
+    HardwareConfiguration hardwareConfiguration;
+    hardwareConfiguration.changeConfigurationToTwoFspOneLcgEvenDistribution();
     AddressToDspMap& addressToDspMap(hardwareConfiguration.getAddressToDspMapReference());
     AddressToFspMap& addressToFspMap(hardwareConfiguration.getAddressToFspMapReference());
     Dsp& dspIn1330(addressToDspMap.at(0x1330));
@@ -83,9 +87,11 @@ TEST(HardwareConfigurationTest, TwoFspOneLcgEvenDistribution_CheckSecondFsp)
     EXPECT_EQ(0x1300U, fspIn1300.getAddress());
     EXPECT_FALSE(fspIn1300.isMasterTcom());
 }
+
 TEST(HardwareConfigurationTest, TwoFspTwoLcgEvenDistribution)
 {
-    HardwareConfiguration hardwareConfiguration;    hardwareConfiguration.changeConfigurationToTwoFspTwoLcgEvenDistribution();
+    HardwareConfiguration hardwareConfiguration;
+    hardwareConfiguration.changeConfigurationToTwoFspTwoLcgEvenDistribution();
     AddressToDspMap& addressToDspMap(hardwareConfiguration.getAddressToDspMapReference());
     AddressToFspMap& addressToFspMap(hardwareConfiguration.getAddressToFspMapReference());
     Dsp& dspIn1230(addressToDspMap.at(0x1230));
@@ -129,4 +135,5 @@ TEST(HardwareConfigurationTest, TwoFspTwoLcgEvenDistribution)
     EXPECT_EQ(0x1300U, fspIn1300.getAddress());
     EXPECT_FALSE(fspIn1300.isMasterTcom());
 }
+
 }

@@ -11,8 +11,10 @@
 
 namespace alba
 {
+
 class StartupLogAnalyzer
 {
+
 public:
 
     StartupLogAnalyzer();

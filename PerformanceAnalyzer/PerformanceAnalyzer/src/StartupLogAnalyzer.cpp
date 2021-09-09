@@ -9,10 +9,12 @@
 
 using namespace alba::stringHelper;
 using namespace std;
-using tcomToolsBackend::BtsLogPrint;using tcomToolsBackend::BtsLogTime;
+using tcomToolsBackend::BtsLogPrint;
+using tcomToolsBackend::BtsLogTime;
 using tcomToolsBackend::BtsLogTimeType;
 
-namespace alba{
+namespace alba
+{
 
 StartupLogAnalyzer::StartupLogAnalyzer()
     : m_btsLogPathHandler("")
@@ -55,10 +57,12 @@ void StartupLogAnalyzer::saveDataToCsv(string const& csvPath)
     AlbaLocalPathHandler outputFileHandler(csvPath);
     ofstream outputFileStream(outputFileHandler.getFullPath());
     saveDataTimeToCsv(outputFileStream, m_firstDspToBecomeAvailableTimeDescriptionString, m_firstDspToBecomeAvailableTime);
-    saveDataTimeToCsv(outputFileStream, m_allDspsBecomeAvailableTimeDescriptionString, m_allDspsBecomeAvailableTime);    //saveDataTimeToCsv(outputFileStream, m_settingSrioRoutesTimeDescriptionString, m_settingSrioRoutesTime);
+    saveDataTimeToCsv(outputFileStream, m_allDspsBecomeAvailableTimeDescriptionString, m_allDspsBecomeAvailableTime);
+    //saveDataTimeToCsv(outputFileStream, m_settingSrioRoutesTimeDescriptionString, m_settingSrioRoutesTime);
     saveDataTimeToCsv(outputFileStream, m_basebandAllocationRequestResponseTimeDescriptionString, m_basebandAllocationRequestResponseTime);
     saveDataTimeToCsv(outputFileStream, m_firstDspModeChangeFromFirstDspAvailableDescriptionString, m_firstDspModeChangeFromFirstDspAvailable);
-    saveDataTimeToCsv(outputFileStream, m_firstModeChangeTimeDescriptionString, m_firstModeChangeTime);    saveDataTimeToCsv(outputFileStream, m_startupAllocationTimeAfterModeChangeDescriptionString, m_startupAllocationTimeAfterModeChange);
+    saveDataTimeToCsv(outputFileStream, m_firstModeChangeTimeDescriptionString, m_firstModeChangeTime);
+    saveDataTimeToCsv(outputFileStream, m_startupAllocationTimeAfterModeChangeDescriptionString, m_startupAllocationTimeAfterModeChange);
     //saveDataTimeToCsv(outputFileStream, m_remainingLicenseExchangesTimeDescriptionString, m_remainingLicenseExchangesTime);
     //saveDataTimeToCsv(outputFileStream, m_resetRequestResponseWithRncTimeDescriptionString, m_resetRequestResponseWithRncTime);
     //saveDataTimeToCsv(outputFileStream, m_auditRequestResponseWithRncTimeDescriptionString, m_auditRequestResponseWithRncTime);
