@@ -1,15 +1,12 @@
+#include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <SOOSA.hpp>
 #include <SoosaConfiguration.hpp>
-
-#include <PathHandlers/AlbaLocalPathHandler.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace std;
-
 namespace alba
 {
-
 TEST(SoosaTest, SampleTest1)
 {
     AlbaLocalPathHandler fileToTest(APRG_DIR R"(SOOSA\SOOSA\tst\FilesForTests\TestSoosaBasicScenario.bmp)");
@@ -64,46 +61,46 @@ TEST(SoosaTest, SampleTest1)
     SOOSA soosa(configuration);
     soosa.process();
 
-    ASSERT_EQ(39u, soosa.getNumberOfAnswers());
-    EXPECT_EQ(5u, soosa.getAnswerToQuestion(0));
-    EXPECT_EQ(4u, soosa.getAnswerToQuestion(1));
-    EXPECT_EQ(3u, soosa.getAnswerToQuestion(2));
-    EXPECT_EQ(2u, soosa.getAnswerToQuestion(3));
-    EXPECT_EQ(1u, soosa.getAnswerToQuestion(4));
-    EXPECT_EQ(2u, soosa.getAnswerToQuestion(5));
-    EXPECT_EQ(3u, soosa.getAnswerToQuestion(6));
-    EXPECT_EQ(4u, soosa.getAnswerToQuestion(7));
-    EXPECT_EQ(5u, soosa.getAnswerToQuestion(8));
-    EXPECT_EQ(4u, soosa.getAnswerToQuestion(9));
-    EXPECT_EQ(3u, soosa.getAnswerToQuestion(10));
-    EXPECT_EQ(2u, soosa.getAnswerToQuestion(11));
-    EXPECT_EQ(1u, soosa.getAnswerToQuestion(12));
-    EXPECT_EQ(2u, soosa.getAnswerToQuestion(13));
-    EXPECT_EQ(3u, soosa.getAnswerToQuestion(14));
-    EXPECT_EQ(4u, soosa.getAnswerToQuestion(15));
-    EXPECT_EQ(5u, soosa.getAnswerToQuestion(16));
-    EXPECT_EQ(4u, soosa.getAnswerToQuestion(17));
-    EXPECT_EQ(3u, soosa.getAnswerToQuestion(18));
-    EXPECT_EQ(2u, soosa.getAnswerToQuestion(19));
-    EXPECT_EQ(1u, soosa.getAnswerToQuestion(20));
-    EXPECT_EQ(2u, soosa.getAnswerToQuestion(21));
-    EXPECT_EQ(3u, soosa.getAnswerToQuestion(22));
-    EXPECT_EQ(4u, soosa.getAnswerToQuestion(23));
-    EXPECT_EQ(5u, soosa.getAnswerToQuestion(24));
-    EXPECT_EQ(4u, soosa.getAnswerToQuestion(25));
-    EXPECT_EQ(3u, soosa.getAnswerToQuestion(26));
-    EXPECT_EQ(2u, soosa.getAnswerToQuestion(27));
-    EXPECT_EQ(1u, soosa.getAnswerToQuestion(28));
-    EXPECT_EQ(2u, soosa.getAnswerToQuestion(29));
-    EXPECT_EQ(3u, soosa.getAnswerToQuestion(30));
-    EXPECT_EQ(4u, soosa.getAnswerToQuestion(31));
-    EXPECT_EQ(5u, soosa.getAnswerToQuestion(32));
-    EXPECT_EQ(4u, soosa.getAnswerToQuestion(33));
-    EXPECT_EQ(3u, soosa.getAnswerToQuestion(34));
-    EXPECT_EQ(2u, soosa.getAnswerToQuestion(35));
-    EXPECT_EQ(1u, soosa.getAnswerToQuestion(36));
-    EXPECT_EQ(2u, soosa.getAnswerToQuestion(37));
-    EXPECT_EQ(3u, soosa.getAnswerToQuestion(38));
+    ASSERT_EQ(39U, soosa.getNumberOfAnswers());
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(0));
+    EXPECT_EQ(4U, soosa.getAnswerToQuestion(1));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(2));
+    EXPECT_EQ(2U, soosa.getAnswerToQuestion(3));
+    EXPECT_EQ(1U, soosa.getAnswerToQuestion(4));
+    EXPECT_EQ(2U, soosa.getAnswerToQuestion(5));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(6));
+    EXPECT_EQ(4U, soosa.getAnswerToQuestion(7));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(8));
+    EXPECT_EQ(4U, soosa.getAnswerToQuestion(9));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(10));
+    EXPECT_EQ(2U, soosa.getAnswerToQuestion(11));
+    EXPECT_EQ(1U, soosa.getAnswerToQuestion(12));
+    EXPECT_EQ(2U, soosa.getAnswerToQuestion(13));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(14));
+    EXPECT_EQ(4U, soosa.getAnswerToQuestion(15));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(16));
+    EXPECT_EQ(4U, soosa.getAnswerToQuestion(17));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(18));
+    EXPECT_EQ(2U, soosa.getAnswerToQuestion(19));
+    EXPECT_EQ(1U, soosa.getAnswerToQuestion(20));
+    EXPECT_EQ(2U, soosa.getAnswerToQuestion(21));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(22));
+    EXPECT_EQ(4U, soosa.getAnswerToQuestion(23));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(24));
+    EXPECT_EQ(4U, soosa.getAnswerToQuestion(25));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(26));
+    EXPECT_EQ(2U, soosa.getAnswerToQuestion(27));
+    EXPECT_EQ(1U, soosa.getAnswerToQuestion(28));
+    EXPECT_EQ(2U, soosa.getAnswerToQuestion(29));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(30));
+    EXPECT_EQ(4U, soosa.getAnswerToQuestion(31));
+    EXPECT_EQ(5U, soosa.getAnswerToQuestion(32));
+    EXPECT_EQ(4U, soosa.getAnswerToQuestion(33));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(34));
+    EXPECT_EQ(2U, soosa.getAnswerToQuestion(35));
+    EXPECT_EQ(1U, soosa.getAnswerToQuestion(36));
+    EXPECT_EQ(2U, soosa.getAnswerToQuestion(37));
+    EXPECT_EQ(3U, soosa.getAnswerToQuestion(38));
 }
 
 }
