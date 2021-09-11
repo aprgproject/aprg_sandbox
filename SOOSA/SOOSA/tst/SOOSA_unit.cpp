@@ -5,8 +5,10 @@
 #include <gtest/gtest.h>
 
 using namespace std;
+
 namespace alba
 {
+
 TEST(SoosaTest, SampleTest1)
 {
     AlbaLocalPathHandler fileToTest(APRG_DIR R"(SOOSA\SOOSA\tst\FilesForTests\TestSoosaBasicScenario.bmp)");

@@ -1,5 +1,4 @@
 #include <ProgressBarThread.hpp>
-
 #include <StepHandler.hpp>
 
 #include <QtWidgets>

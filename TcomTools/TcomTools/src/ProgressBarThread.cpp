@@ -2,9 +2,11 @@
 #include <StepHandler.hpp>
 
 #include <QtWidgets>
+
 using namespace std;
 
-namespace tcomToolsGui{
+namespace tcomToolsGui
+{
 
 ProgressBarThread::ProgressBarThread(QObject *parent)
     : QThread(parent)

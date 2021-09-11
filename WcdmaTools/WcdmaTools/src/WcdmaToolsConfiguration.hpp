@@ -3,8 +3,8 @@
 #include <BtsLogSorterConfiguration.hpp>
 #include <LargeSorter/AlbaLargeSorterConfiguration.hpp>
 
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 
 namespace wcdmaToolsGui
 {

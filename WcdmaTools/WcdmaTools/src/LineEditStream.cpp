@@ -1,5 +1,4 @@
 #include <LineEditStream.hpp>
-
 #include <qtextedit.h>
 
 namespace wcdmaToolsGui

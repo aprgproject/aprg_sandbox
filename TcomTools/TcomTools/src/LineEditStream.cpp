@@ -1,10 +1,12 @@
 #include <LineEditStream.hpp>
 #include <qtextedit.h>
 
-namespace tcomToolsGui{
+namespace tcomToolsGui
+{
 
 LineEditStream::LineEditStream(std::ostream & stream, QTextEdit * text_edit)
-    : m_stream(stream){
+    : m_stream(stream)
+{
     log_window = text_edit;
     //m_oldStreamBuffer = stream.rdbuf();
     //stream.rdbuf(this);

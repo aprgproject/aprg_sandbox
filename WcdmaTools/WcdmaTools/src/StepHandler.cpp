@@ -1,5 +1,3 @@
-#include <StepHandler.hpp>
-
 #include <AprgFileExtractor.hpp>
 #include <BtsLogSorter.hpp>
 #include <CropFile/AlbaCropFile.hpp>
@@ -7,6 +5,7 @@
 #include <GrepFile/AlbaGrepFile.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <StepHandler.hpp>
 #include <String/AlbaStringHelper.hpp>
 
 #include <fstream>

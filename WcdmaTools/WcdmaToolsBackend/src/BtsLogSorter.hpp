@@ -1,8 +1,7 @@
 #pragma once
 
-#include <BtsLogSorterConfiguration.hpp>
-
 #include <BtsLogPrint.hpp>
+#include <BtsLogSorterConfiguration.hpp>
 #include <BtsPrintReaderWithRollback.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
 #include <LargeSorter/AlbaLargeSorter.hpp>
@@ -24,7 +23,7 @@ public:
     void saveLogsToOutputFile(std::string const& outputPath);
 
     double getTotalSizeToBeRead();
-    double getTotalSizeToBeRead(std::set<std::string> listOfFiles);
+    double getTotalSizeToBeRead(std::set<std::string> const& listOfFiles);
 
 
 private:
@@ -40,8 +39,8 @@ private:
     void writeLogsWithoutPcTimeToOutputFile(std::ofstream & outputLogFileStream);
     void separateLogsWithoutPcTimeIntoDifferentAddresses();
     void writeLogsWithPcTimeToOutputFile(std::ofstream & outputLogFileStream);
-    void addPrintsFromReaderToSorterWithoutPcTime(BtsPrintReaderWithRollback & fileReader);
-    void writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRollback & fileReader, BtsLogPrint const& logPrint, std::ofstream & outputLogFileStream);
+    void addPrintsFromReaderToSorterWithoutPcTime(BtsPrintReaderWithRollback & printReader);
+    void writePrintsFromFileReaderBeforeThisPrint(BtsPrintReaderWithRollback & printReader, BtsLogPrint const& logPrint, std::ofstream & outputLogFileStream);
     void updateOrWriteCurrentPrint(BtsLogPrint const& logPrint, std::ofstream & outputLogFileStream);
     void writeLastPrint(std::ofstream & outputLogFileStream);
     void deleteFilesInDirectory(std::string const& directoryOfLogs) const;

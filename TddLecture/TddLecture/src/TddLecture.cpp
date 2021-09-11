@@ -3,8 +3,10 @@
 #include <iostream>
 
 using namespace std;
+
 namespace alba
 {
+
 TddLecture::TddLecture()
 {
     m_sample = 0;

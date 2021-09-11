@@ -6,8 +6,10 @@
 #include <iostream>
 
 using namespace std;
+
 namespace alba
 {
+
 unsigned int SoosaConfiguration::getNumberOfColumns() const
 {
     return m_formDetails.columnToNumberOfQuestionsMap.size();
@@ -43,10 +45,12 @@ unsigned int SoosaConfiguration::getQuestionNumberInColumn(unsigned int const co
             questionNumber = accumulate(m_formDetails.columnToNumberOfQuestionsMap.begin(), columnMapIterator, 0U, [](unsigned int partialResult, SoosaFormDetails::ColumnToNumberOfQuestionsPair const& columnQuestionPair)
             {
                 return partialResult+=columnQuestionPair.second;
-            });            questionNumber += questionOffsetInColumn;
+            });
+            questionNumber += questionOffsetInColumn;
         }
     }
-    return questionNumber;}
+    return questionNumber;
+}
 
 string SoosaConfiguration::getPath() const
 {

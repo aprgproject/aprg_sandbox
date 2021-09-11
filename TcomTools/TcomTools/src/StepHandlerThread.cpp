@@ -4,8 +4,10 @@
 #include <QtWidgets>
 
 using namespace std;
+
 namespace tcomToolsGui
 {
+
 StepHandlerThread::StepHandlerThread(TcomToolsConfiguration & configuration)
     : QThread(nullptr)
     , m_mutex()
