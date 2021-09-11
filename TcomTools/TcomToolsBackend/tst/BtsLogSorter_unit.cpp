@@ -32,54 +32,54 @@ TEST_F(BtsLogSorterTest, DISABLED_PerformanceTest)
 TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreMerged)
 {
     BtsLogSorter btsLogSorter(m_configuration);
-    btsLogSorter.processFile(APRG_DIR R"(TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged\input.log)");
-    btsLogSorter.saveLogsToOutputFile(APRG_DIR R"(TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged\output.log)");
+    AlbaLocalPathHandler inputPathHandler(APRG_DIR R"(WcdmaTools\WcdmaToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged\input.log)");
+    AlbaLocalPathHandler outputPathHandler(APRG_DIR R"(WcdmaTools\WcdmaToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged\output.log)");
+    btsLogSorter.processFile(inputPathHandler.getFullPath());
+    btsLogSorter.saveLogsToOutputFile(outputPathHandler.getFullPath());
 
     int lines=0;
-    ifstream inputLogFileStream(APRG_DIR R"(TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged\output.log)");
+    ifstream inputLogFileStream(outputPathHandler.getFullPath());
     AlbaFileReader fileReader(inputLogFileStream);
     while(fileReader.isNotFinished())
-    {
-        fileReader.getLineAndIgnoreWhiteSpaces();
+    {        fileReader.getLineAndIgnoreWhiteSpaces();
         lines++;
     }
-
     EXPECT_EQ(3, lines);
 }
 
 TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreMerged2)
 {
     BtsLogSorter btsLogSorter(m_configuration);
-    btsLogSorter.processFile(APRG_DIR R"(TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged2\input.log)");
-    btsLogSorter.saveLogsToOutputFile(APRG_DIR R"(TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged2\output.log)");
+    AlbaLocalPathHandler inputPathHandler(APRG_DIR R"(WcdmaTools\WcdmaToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged2\input.log)");
+    AlbaLocalPathHandler outputPathHandler(APRG_DIR R"(WcdmaTools\WcdmaToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged2\output.log)");
+    btsLogSorter.processFile(inputPathHandler.getFullPath());
+    btsLogSorter.saveLogsToOutputFile(outputPathHandler.getFullPath());
 
     int lines=0;
-    ifstream inputLogFileStream(APRG_DIR R"(TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreMerged2\output.log)");
+    ifstream inputLogFileStream(outputPathHandler.getFullPath());
     AlbaFileReader fileReader(inputLogFileStream);
     while(fileReader.isNotFinished())
-    {
-        fileReader.getLineAndIgnoreWhiteSpaces();
+    {        fileReader.getLineAndIgnoreWhiteSpaces();
         lines++;
     }
-
     EXPECT_EQ(60, lines);
 }
 
 TEST_F(BtsLogSorterTest, SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime)
 {
     BtsLogSorter btsLogSorter(m_configuration);
-    btsLogSorter.processFile(APRG_DIR R"(TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime\input.log)");
-    btsLogSorter.saveLogsToOutputFile(APRG_DIR R"(TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime\output.log)");
+    AlbaLocalPathHandler inputPathHandler(APRG_DIR R"(WcdmaTools\WcdmaToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime\input.log)");
+    AlbaLocalPathHandler outputPathHandler(APRG_DIR R"(WcdmaTools\WcdmaToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime\output.log)");
+    btsLogSorter.processFile(inputPathHandler.getFullPath());
+    btsLogSorter.saveLogsToOutputFile(outputPathHandler.getFullPath());
 
     int lines=0;
-    ifstream inputLogFileStream(APRG_DIR R"(TcomTools\TcomToolsBackend\tst\ImportantTestingFiles\SyslogsAndSnapshotTest_PrintsAreOrderedBasedOnBtsTime\output.log)");
+    ifstream inputLogFileStream(outputPathHandler.getFullPath());
     AlbaFileReader fileReader(inputLogFileStream);
     while(fileReader.isNotFinished())
-    {
-        cout<<fileReader.getLineAndIgnoreWhiteSpaces()<<endl;
+    {        cout<<fileReader.getLineAndIgnoreWhiteSpaces()<<endl;
         lines++;
     }
-
     EXPECT_EQ(5, lines);
 }
 

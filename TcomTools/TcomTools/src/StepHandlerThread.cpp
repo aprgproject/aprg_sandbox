@@ -1,14 +1,11 @@
-#include <StepHandlerThread.hpp>
-
 #include <StepHandler.hpp>
+#include <StepHandlerThread.hpp>
 
 #include <QtWidgets>
 
 using namespace std;
-
 namespace tcomToolsGui
 {
-
 StepHandlerThread::StepHandlerThread(TcomToolsConfiguration & configuration)
     : QThread(nullptr)
     , m_mutex()

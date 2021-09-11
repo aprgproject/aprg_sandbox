@@ -1,18 +1,15 @@
-#include <StepHandler.hpp>
-
 #include <AprgFileExtractor.hpp>
 #include <BtsLogSorter.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluator.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <StepHandler.hpp>
 #include <String/AlbaStringHelper.hpp>
 
-#include <fstream>
-#include <iostream>
+#include <fstream>#include <iostream>
 #include <string>
 
-namespace alba
-{
+namespace alba{
 namespace ProgressCounters
 {
 extern int grepProcessProgress;
