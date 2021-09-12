@@ -122,24 +122,13 @@ void CPlusPlusFileFixer::readContentsFromFile(string const& path)
             if(isStringFoundInsideTheOtherStringCaseSensitive(line, "#include"))
             {
                 notifyIfThereAreCommentsInHeader(path, line);
-                string headerFromAngleBrackets(getStringInBetweenTwoStrings(line, R"(<)", R"(>)"));
-                string headerFromQuotations(getStringInBetweenTwoStrings(line, R"(")", R"(")"));
-                if(!headerFromAngleBrackets.empty())
-                {
-                    addHeaderFileFromAngleBrackets(headerFromAngleBrackets);
-                }
-                if(!headerFromQuotations.empty())
-                {
-                    addHeaderFileFromQuotations(headerFromQuotations);
-                }
+                readLineWithSharpInclude(line, path);
             }
             else if(isStringFoundInsideTheOtherStringCaseSensitive(line, "#pragma") && isStringFoundInsideTheOtherStringCaseSensitive(line, "once"))
-            {
-                m_isPragmaOnceFound = true;
+            {                m_isPragmaOnceFound = true;
             }
             else if(!isWhiteSpace(line))
-            {
-                m_linesAfterTheHeader.emplace_back(line);
+            {                m_linesAfterTheHeader.emplace_back(line);
                 isOnHeaderPart=false;
             }
         }
@@ -150,55 +139,74 @@ void CPlusPlusFileFixer::readContentsFromFile(string const& path)
     }
 }
 
-void CPlusPlusFileFixer::notifyIfThereAreCommentsInHeader(string const& path, std::string const& line) const
+void CPlusPlusFileFixer::readLineWithSharpInclude(string const& line, string const& path)
+{
+    string headerFromAngleBrackets(getStringInBetweenTwoStrings(line, R"(<)", R"(>)"));
+    string headerFromQuotations(getStringInBetweenTwoStrings(line, R"(")", R"(")"));
+    if(!headerFromAngleBrackets.empty())
+    {
+        AlbaLocalPathHandler filePathHandler(path);
+        AlbaPathHandler headerFromAngleBracketsPathHandler(headerFromAngleBrackets, "/");
+        if(headerFromAngleBracketsPathHandler.getFilenameOnly() == filePathHandler.getFilenameOnly()
+                && isStringFoundInsideTheOtherStringCaseSensitive(filePathHandler.getFullPath(), headerFromAngleBrackets))
+        {
+            addHeaderFileFromQuotations(filePathHandler.getFile());
+
+        }
+        else
+        {
+            addHeaderFileFromAngleBrackets(headerFromAngleBrackets);
+        }
+    }
+    if(!headerFromQuotations.empty())
+    {
+        addHeaderFileFromQuotations(headerFromQuotations);
+    }
+}
+
+void CPlusPlusFileFixer::notifyIfThereAreCommentsInHeader(string const& path, string const& line) const
 {
     if(isStringFoundInsideTheOtherStringCaseSensitive(line, "//"))
     {
-        cout<<"CHECK THIS: Header comments on:["<<path<<"] in line:["<<line<<"]"<<endl;
-    }
+        cout<<"CHECK THIS: Header comments on:["<<path<<"] in line:["<<line<<"]"<<endl;    }
 }
 
 void CPlusPlusFileFixer::notifyIfAlbaDebugHeaderExistInProductionCode(string const& path) const
 {
-    bool isAlbaDebugHeaderFound = (std::find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("Debug/AlbaDebug.hpp")) != m_headerListFromAngleBrackets.end());
+    bool isAlbaDebugHeaderFound = (find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("Debug/AlbaDebug.hpp")) != m_headerListFromAngleBrackets.end());
     if(isAlbaDebugHeaderFound) // !isUnitTest)
     {
-        cout<<"CHECK THIS: AlbaDebug found in:["<<path<<"]."<<endl;
-    }
+        cout<<"CHECK THIS: AlbaDebug found in:["<<path<<"]."<<endl;    }
 }
 
 void CPlusPlusFileFixer::notifyIfIostreamHeaderExistInProductionCode(string const& path) const
 {
     AlbaLocalPathHandler filePathHandler(path);
-    bool isIostreamFound = (std::find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("iostream")) != m_headerListFromAngleBrackets.end());
+    bool isIostreamFound = (find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("iostream")) != m_headerListFromAngleBrackets.end());
     //bool isCpp = filePathHandler.getExtension() == "cpp";
     bool isUnitTest = isStringFoundInsideTheOtherStringCaseSensitive(filePathHandler.getFile(), "_unit.cpp");
-    if(isIostreamFound && !isUnitTest)// && !isCpp) // !isUnitTest)
-    {
+    if(isIostreamFound && !isUnitTest)// && !isCpp) // !isUnitTest)    {
         cout<<"CHECK THIS: iostream found in:["<<path<<"]."<<endl;
     }
 }
 
 void CPlusPlusFileFixer::notifyIfCAssertHeaderExistInProductionCode(string const& path) const
 {
-    bool isCAssertFound = (std::find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("cassert")) != m_headerListFromAngleBrackets.end());
+    bool isCAssertFound = (find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("cassert")) != m_headerListFromAngleBrackets.end());
     if(isCAssertFound)
     {
-        cout<<"CHECK THIS: cassert found in:["<<path<<"]."<<endl;
-    }
+        cout<<"CHECK THIS: cassert found in:["<<path<<"]."<<endl;    }
 }
 
 void CPlusPlusFileFixer::notifyIfMoreThanLoopsAreCascaded(string const& path) const
 {
-    std::set<unsigned int> indentionsOfLoops;
+    set<unsigned int> indentionsOfLoops;
     for(string const& line : m_linesAfterTheHeader)
     {
-        if(isLineWithALoopStart(line))
-        {
+        if(isLineWithALoopStart(line))        {
             indentionsOfLoops.emplace(getStringThatContainsWhiteSpaceIndention(line).size());
             if(indentionsOfLoops.size()>=2)
-            {
-                cout<<"CHECK THIS: More than 2 loops found in:["<<path<<"] in line:["<<line<<"]."<<endl;
+            {                cout<<"CHECK THIS: More than 2 loops found in:["<<path<<"] in line:["<<line<<"]."<<endl;
             }
         }
         else if(isLineWithALoopEnd(line))
@@ -322,21 +330,19 @@ void CPlusPlusFileFixer::fixSmallUToCapitalUInNumbers()
     }
 }
 
-void CPlusPlusFileFixer::addHeaderFileFromAngleBrackets(std::string const& header)
+void CPlusPlusFileFixer::addHeaderFileFromAngleBrackets(string const& header)
 {
     AlbaPathHandler headerPathHandler(header, "/");
     m_headerListFromAngleBrackets.emplace_back(headerPathHandler.getFullPath());
 }
 
-void CPlusPlusFileFixer::addHeaderFileFromQuotations(std::string const& header)
+void CPlusPlusFileFixer::addHeaderFileFromQuotations(string const& header)
 {
     AlbaPathHandler headerPathHandler(header, "/");
-    m_headerListFromQuotations.emplace(headerPathHandler.getFullPath());
-}
+    m_headerListFromQuotations.emplace(headerPathHandler.getFullPath());}
 
 void CPlusPlusFileFixer::writeFile(string const& path)
-{
-    AlbaLocalPathHandler filePathHandler(path);
+{    AlbaLocalPathHandler filePathHandler(path);
     ofstream outputLogFileStream(filePathHandler.getFullPath());
     if(m_isPragmaOnceFound)
     {
