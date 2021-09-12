@@ -36,8 +36,8 @@ include(${APRG_DIR}/AprgStatistics/AprgCmakeInclude/AprgStatistics.cmake)
 #Include AprgFileExtractor, this needs APRG Directory
 include(${APRG_DIR}/AprgFileExtractor/AprgCmakeInclude/AprgFileExtractor.cmake)
 
-#Include TcomToolsBackend, this needs APRG Directory
-include(${APRG_DIR}/TcomTools/AprgCmakeInclude/TcomToolsBackend.cmake)
+#Include WcdmaToolsBackend, this needs APRG Directory
+include(${APRG_DIR}/WcdmaTools/AprgCmakeInclude/WcdmaToolsBackend.cmake)
 
 #Add files and directories
 include(${PERFORMANCE_ANALYZER_DIR}/cmake/FilesAndDirectories.cmake)
@@ -45,5 +45,5 @@ include(${PERFORMANCE_ANALYZER_DIR}/cmake/FilesAndDirectories.cmake)
 add_executable(${OUTFILE} ${PERFORMANCE_ANALYZER_SOURCES_AND_TESTS})
 include_directories(${PERFORMANCE_ANALYZER_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
 target_link_libraries(APRG_FILE_EXTRACTOR APRG_ALGORITHM APRG_COMMON)
-target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} TCOM_TOOLS_BACKEND APRG_FILE_EXTRACTOR APRG_ALGORITHM APRG_COMMON gtest pthread)
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} WCDMA_TOOLS_BACKEND APRG_FILE_EXTRACTOR APRG_ALGORITHM APRG_COMMON gtest pthread)
 add_test(${OUTFILE} ${OUTFILE})

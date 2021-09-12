@@ -4,10 +4,12 @@
 #include <Common/Utils/StringHelpers.hpp>
 #include <FakeFramework/FakeFrameworkHelpers.hpp>
 
-#include <algorithm>#include <iostream>
+#include <algorithm>
+#include <iostream>
 #include <iterator>
 #include <set>
 #include <vector>
+
 using namespace std;
 using namespace DesignDocumentCreator::StringHelpers;
 

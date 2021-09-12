@@ -22,13 +22,13 @@ include(${APRG_DIR}/AprgCommon/AprgCmakeInclude/AprgCommon.cmake)
 #Include AprgAlgorithm, this needs APRG Directory
 include(${APRG_DIR}/AprgAlgorithm/AprgCmakeInclude/AprgAlgorithm.cmake)
 
-#Include TcomToolsBackend, this needs APRG Directory
-include(${APRG_DIR}/TcomTools/AprgCmakeInclude/TcomToolsBackend.cmake)
+#Include WcdmaToolsBackend, this needs APRG Directory
+include(${APRG_DIR}/WcdmaTools/AprgCmakeInclude/WcdmaToolsBackend.cmake)
 
 #Add files and directories
 include(${BTS_LOG_ANALYZER_DIR}/cmake/FilesAndDirectories.cmake)
 
 add_executable(${OUTFILE} ${BTS_LOG_ANALYZER_SOURCES_AND_TESTS})
 include_directories(${BTS_LOG_ANALYZER_INCLUDE_DIRECTORIES} ${BTS_LOG_ANALYZER_TEST_INCLUDE_DIRECTORIES} ${GTEST_INCLUDE_DIRS})
-target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} TCOM_TOOLS_BACKEND APRG_ALGORITHM APRG_COMMON gtest pthread)
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} WCDMA_TOOLS_BACKEND APRG_ALGORITHM APRG_COMMON gtest pthread)
 add_test(${OUTFILE} ${OUTFILE})

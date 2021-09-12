@@ -2,10 +2,12 @@
 
 #include <File/AlbaFileReader.hpp>
 #include <String/AlbaStringHelper.hpp>
-#include <WebCrawler/CrawlHelpers/AutomatedFirefoxBrowser.hpp>#include <WebCrawler/CrawlHelpers/Downloaders.hpp>
+#include <WebCrawler/CrawlHelpers/AutomatedFirefoxBrowser.hpp>
+#include <WebCrawler/CrawlHelpers/Downloaders.hpp>
 #include <WebCrawler/Crawlers/ChiaAnimeCrawler.hpp>
 #include <WebCrawler/Crawlers/DoujinMoeCrawler.hpp>
-#include <WebCrawler/Crawlers/OneDownloadPerPageCrawler.hpp>#include <WebCrawler/Crawlers/Y8Crawler.hpp>
+#include <WebCrawler/Crawlers/OneDownloadPerPageCrawler.hpp>
+#include <WebCrawler/Crawlers/Y8Crawler.hpp>
 #include <WebCrawler/Crawlers/Youtube.hpp>
 
 #include <algorithm>
@@ -44,9 +46,11 @@ WebCrawler::WebCrawler(string const& workingDirectory, string const& webLink, st
 {
     m_webLinks.push_back(webLink);
     m_memoryCardPathHandler.createDirectoriesForNonExisitingDirectories();
-    saveMemoryCard();    m_downloadDirectoryPathHandler.reInput();
+    saveMemoryCard();
+    m_downloadDirectoryPathHandler.reInput();
     m_memoryCardPathHandler.reInput();
 }
+
 void WebCrawler::crawl()
 {
     switch(m_mode)

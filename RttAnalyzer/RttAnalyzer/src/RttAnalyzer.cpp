@@ -3,8 +3,10 @@
 #include <File/AlbaFileReader.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <String/AlbaStringHelper.hpp>
+
 using namespace alba::stringHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -44,20 +46,24 @@ void RttAnalyzer::processLine(std::string const& line)
     {
         strings titles;
         splitToStrings<SplitStringType::WithoutDelimeters>(titles, line, "|");
-        processTitles(titles);    }
+        processTitles(titles);
+    }
     else if(isStringFoundInsideTheOtherStringNotCaseSensitive(line, "SET") && isStringFoundInsideTheOtherStringNotCaseSensitive(line, "|"))
     {
         strings values;
         splitToStrings<SplitStringType::WithoutDelimeters>(values, line, "|");
-        processValues(dateTime, values);    }
+        processValues(dateTime, values);
+    }
     else if(!isStringFoundInsideTheOtherStringNotCaseSensitive(line, "------"))
     {
         m_cx8IndexOptional.clear();
         m_pnPosIndexOptional.clear();
-    }}
+    }
+}
 
 /*
-void RttAnalyzer::processLine(std::string const& line){
+void RttAnalyzer::processLine(std::string const& line)
+{
     static string dateTime;
     if(isStringFoundInsideTheOtherStringNotCaseSensitive(line, "0x4179"))
     {
@@ -96,9 +102,11 @@ void RttAnalyzer::processTitles(strings const& titles)
         {
             m_cx8IndexOptional.setValue(index);
             break;
-        }        index++;
+        }
+        index++;
     }
 }
+
 /*
 void RttAnalyzer::processTitles(strings const& titles)
 {
@@ -128,10 +136,12 @@ void RttAnalyzer::processValues(string const& dateTime, strings const& values)
             unsigned int value = convertStringToNumber<unsigned int>(values[m_cx8IndexOptional.getReference()]);
             if(value!=0)
             {
-                rttDetails.multiplePos[0] = value;                rttDetails.dateTime = dateTime;
+                rttDetails.multiplePos[0] = value;
+                rttDetails.dateTime = dateTime;
                 m_allRttDetails.emplace_back(rttDetails);
             }
-        }    }
+        }
+    }
 }
 
 /*
@@ -150,10 +160,12 @@ void RttAnalyzer::processValues(string const& dateTime, strings const& values)
         }
     }
     m_posNumber++;
-    if(m_posNumber==6)    {
+    if(m_posNumber==6)
+    {
         rttDetails.dateTime = dateTime;
         m_allRttDetails.emplace_back(rttDetails);
-        m_posNumber=0;    }
+        m_posNumber=0;
+    }
 }
 */
 
