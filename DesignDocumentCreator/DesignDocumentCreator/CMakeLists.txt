@@ -94,5 +94,5 @@ include_directories(
     ${SACKS_DIR_TO_INCLUDE}
     ${GTEST_INCLUDE_DIRS}
 )
-target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest)
+target_link_libraries(${OUTFILE} ${CMAKE_THREAD_LIBS_INIT} APRG_COMMON gtest pthread)
 add_test(${OUTFILE} ${OUTFILE})
