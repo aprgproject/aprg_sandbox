@@ -1,14 +1,11 @@
 #include <BB_2_RlSetupReq.h>
 #include <Bit/AlbaBitManipulation.hpp>
-#include <Debug/AlbaDebug.hpp>
 #include <MessageContentChecker.hpp>
 #include <SAddiEdchRlMappingInfo.h>
-#include <SAdditionalEdchCellInfo.h>
-#include <SAdditionalHsCellInfo.h>
+#include <SAdditionalEdchCellInfo.h>#include <SAdditionalHsCellInfo.h>
 #include <SCmActivePatternSeqInfo.h>
 #include <SCmTransGapPatternSeqInfo.h>
-#include <SCpcDtxDrxInfo.h>
-#include <SDchInfo_Ver2.h>
+#include <SCpcDtxDrxInfo.h>#include <SDchInfo_Ver2.h>
 #include <SDchSpecificInfo.h>
 #include <SDlDpchInfoRlSetup.h>
 #include <SEDpchInformation_Ver2.h>
@@ -201,77 +198,23 @@ TEST(SampleTest, SampleTest1)
 
     u8* movablePointer = (u8*) dynamicPayload;
 
-    //unsigned int offset = (sizeof(SDlDpchInfoRlSetup)*swap4(rlSetupReqPointer->numOfDlDpchInfo));
-
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfDlDpchInfo));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfRlInfo));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfo));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfoForCmSet2));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfCmActivePatternSeqInfo));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfUlTfc));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfDlTfc));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfDch));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfHsDschInfo));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfEDpchInfo));
-
-    ALBA_PRINT1(sizeof(SDlDpchInfoRlSetup));
-    ALBA_PRINT1(sizeof(SRadioLinkSetup_Ver2));
-    ALBA_PRINT1(sizeof(SCmTransGapPatternSeqInfo));
-    ALBA_PRINT1(sizeof(SCmTransGapPatternSeqInfo));
-    ALBA_PRINT1(sizeof(SCmActivePatternSeqInfo));
-    ALBA_PRINT1(sizeof(TCtfc));
-    ALBA_PRINT1(sizeof(TCtfc));
-    ALBA_PRINT1(sizeof(SDchInfo_Ver2));
-    ALBA_PRINT1(sizeof(SHsDschInformation_Ver2));
-    ALBA_PRINT1(sizeof(SEDpchInformation_Ver2));
-
-
     unsigned int offset = sizeof(BB_2_RlSetupReq) - sizeof(TDynamicData)
             + (sizeof(SDlDpchInfoRlSetup)*swap4(rlSetupReqPointer->numOfDlDpchInfo))
-            + (sizeof(SRadioLinkSetup_Ver2)*swap4(rlSetupReqPointer->numOfRlInfo))
-            + (sizeof(SCmTransGapPatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfo))
+            + (sizeof(SRadioLinkSetup_Ver2)*swap4(rlSetupReqPointer->numOfRlInfo))            + (sizeof(SCmTransGapPatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfo))
             + (sizeof(SCmTransGapPatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfoForCmSet2))
             + (sizeof(SCmActivePatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmActivePatternSeqInfo))
-            + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfUlTfc))
-            + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfDlTfc))
+            + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfUlTfc))            + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfDlTfc))
             + (sizeof(SDchInfo_Ver2)*swap4(rlSetupReqPointer->numOfDch));
 
 
     SEDpchInformation_Ver2* printPointer = (SEDpchInformation_Ver2*) (dynamicPayload + sizeof(BB_2_RlSetupReq) - sizeof(TDynamicData)  + offset );
 
-    ALBA_PRINT1(swap4(printPointer->servingEDchRlId));
-    ALBA_PRINT1(swap4(printPointer->maxSetOfEDpdchs));
-    ALBA_PRINT1(swap4(printPointer->punctureLimit));
-    ALBA_PRINT1(swap4(printPointer->eTti));
-    ALBA_PRINT1(swap4(printPointer->eDpcchPowerOffset));
-    ALBA_PRINT1(swap4(printPointer->eRgch2IndexStepThreshold));
-    ALBA_PRINT1(swap4(printPointer->eRgch3IndexStepThreshold));
-    ALBA_PRINT1(swap4(printPointer->harqInfoForEDch));
-    ALBA_PRINT1(swap4(printPointer->hsDschConfiguredIndicator));
-    ALBA_PRINT1(swap4(printPointer->eRnti));
-    ALBA_PRINT1(swap4(printPointer->initialSetOfEDpdchs));
-    ALBA_PRINT1(swap4(printPointer->initialMaxAllowedETfci));
-    ALBA_PRINT1(swap4(printPointer->hwGrantInMixedState));
-    ALBA_PRINT1(swap4(printPointer->numOfEDchMacDFlows));
-    ALBA_PRINT1(swap4(printPointer->harqProcAllocFor2msScheduledTxGrant));
-    ALBA_PRINT1(swap4(printPointer->eDchProcessingOverloadLevel));
-    ALBA_PRINT1(swap4(printPointer->eDchRefPowerOffset));
-    ALBA_PRINT1(swap4(printPointer->maceResetIndicator));
-    ALBA_PRINT1(swap4(printPointer->eDchPowerOffsetSchedInf));
-    ALBA_PRINT1(swap4(printPointer->sixteenQamUlOperInd));
-    ALBA_PRINT1(swap4(printPointer->edchMacdPduSizeFormat));
-    ALBA_PRINT1(swap4(printPointer->numOfEDchDlCtrlChGrantInfo));
-    ALBA_PRINT1(swap4(printPointer->eagchTableChoice));
-    ALBA_PRINT1(swap4(printPointer->dcHsupaConfigued));
-
     /*
         unsigned int offset = (sizeof(SDlDpchInfoRlSetup)*swap4(rlSetupReqPointer->numOfDlDpchInfo))
-                + (sizeof(SRadioLinkSetup_Ver2)*swap4(rlSetupReqPointer->numOfRlInfo))
-                + (sizeof(SCmTransGapPatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfo))
+                + (sizeof(SRadioLinkSetup_Ver2)*swap4(rlSetupReqPointer->numOfRlInfo))                + (sizeof(SCmTransGapPatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfo))
                 + (sizeof(SCmTransGapPatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfoForCmSet2))
                 + (sizeof(SCmActivePatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmActivePatternSeqInfo))
-                + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfUlTfc))
-                + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfDlTfc))
+                + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfUlTfc))                + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfDlTfc))
                 + (sizeof(SDchInfo_Ver2)*swap4(rlSetupReqPointer->numOfDch))
                 + (sizeof(SHsDschInformation_Ver2)*swap4(rlSetupReqPointer->numOfHsDschInfo))
                 + (sizeof(SEDpchInformation_Ver2)*swap4(rlSetupReqPointer->numOfEDpchInfo))
@@ -616,104 +559,43 @@ TEST(SampleTest, SampleTest2)
 
     u8* movablePointer = (u8*) dynamicPayload;
 
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfDlDpchInfo));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfRlInfo));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfo));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfoForCmSet2));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfCmActivePatternSeqInfo));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfUlTfc));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfDlTfc));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfDch));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfHsDschInfo));
-    ALBA_PRINT1(swap4(rlSetupReqPointer->numOfEDpchInfo));
-
-    ALBA_PRINT1(sizeof(BB_2_RlSetupReq));
-    ALBA_PRINT1(sizeof(SDlDpchInfoRlSetup));
-    ALBA_PRINT1(sizeof(SRadioLinkSetup_Ver2));
-    ALBA_PRINT1(sizeof(SCmTransGapPatternSeqInfo));
-    ALBA_PRINT1(sizeof(SCmTransGapPatternSeqInfo));
-    ALBA_PRINT1(sizeof(SCmActivePatternSeqInfo));
-    ALBA_PRINT1(sizeof(TCtfc));
-    ALBA_PRINT1(sizeof(TCtfc));
-    ALBA_PRINT1(sizeof(SDchInfo_Ver2));
-    ALBA_PRINT1(sizeof(SHsDschInformation_Ver2));
-    ALBA_PRINT1(sizeof(SEDpchInformation_Ver2));
-    ALBA_PRINT1(sizeof(SDchInfo_Ver2));
-
 
     unsigned int offset = sizeof(BB_2_RlSetupReq) - sizeof(TDynamicData)
             + (sizeof(SDlDpchInfoRlSetup)*swap4(rlSetupReqPointer->numOfDlDpchInfo))
-            + (sizeof(SRadioLinkSetup_Ver2)*swap4(rlSetupReqPointer->numOfRlInfo))
-            + (sizeof(SCmTransGapPatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfo))
+            + (sizeof(SRadioLinkSetup_Ver2)*swap4(rlSetupReqPointer->numOfRlInfo))            + (sizeof(SCmTransGapPatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfo))
             + (sizeof(SCmTransGapPatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfoForCmSet2))
             + (sizeof(SCmActivePatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmActivePatternSeqInfo))
-            + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfUlTfc))
-            + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfDlTfc));
+            + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfUlTfc))            + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfDlTfc));
             //+ (sizeof(SDchInfo_Ver2)*swap4(rlSetupReqPointer->numOfDch))
 
 
-    ALBA_PRINT1(offset);
     unsigned int numOfDch = swap4(rlSetupReqPointer->numOfDch);
     for(int i=0; i<numOfDch; i++)
     {
         SDchInfo_Ver2* dchInfoPointer = (SDchInfo_Ver2*) (dynamicPayload + offset);
         offset += sizeof(SDchInfo_Ver2) - sizeof(TDynamicData);
-        ALBA_PRINT3(sizeof(SDchInfo_Ver2), numOfDch, offset);
         unsigned int numOfDchSpecificInfo = swap4(dchInfoPointer->numOfDchSpecificInfo);
         for(int j=0; j<numOfDchSpecificInfo; j++)
         {
-            ALBA_PRINT3(sizeof(SDchSpecificInfo), numOfDchSpecificInfo, offset);
             SDchSpecificInfo* dchSpecificInfoPointer = (SDchSpecificInfo*) (dynamicPayload + offset);
             offset += sizeof(SDchSpecificInfo) - sizeof(SDynamicTfInfo);
-            ALBA_PRINT1(offset);
             unsigned int numberOfTfUl = swap4(dchSpecificInfoPointer->numberOfTfUl);
             offset += (sizeof(SDynamicTfInfo)*numberOfTfUl);
-            ALBA_PRINT3(sizeof(SDynamicTfInfo),numberOfTfUl, offset);
             unsigned int numberOfTfDl = swap4(dchSpecificInfoPointer->numberOfTfDl);
             offset += (sizeof(SDynamicTfInfo)*numberOfTfDl);
-            ALBA_PRINT3(sizeof(SDynamicTfInfo), numberOfTfDl, offset);
         }
     }
 
     offset += (sizeof(SHsDschInformation_Ver2)*swap4(rlSetupReqPointer->numOfHsDschInfo));
-    ALBA_PRINT1(offset);
 
     SEDpchInformation_Ver2* printPointer = (SEDpchInformation_Ver2*) (dynamicPayload + offset );
 
-
-    ALBA_PRINT1(swap4(printPointer->servingEDchRlId));
-    ALBA_PRINT1(swap4(printPointer->maxSetOfEDpdchs));
-    ALBA_PRINT1(swap4(printPointer->punctureLimit));
-    ALBA_PRINT1(swap4(printPointer->eTti));
-    ALBA_PRINT1(swap4(printPointer->eDpcchPowerOffset));
-    ALBA_PRINT1(swap4(printPointer->eRgch2IndexStepThreshold));
-    ALBA_PRINT1(swap4(printPointer->eRgch3IndexStepThreshold));
-    ALBA_PRINT1(swap4(printPointer->harqInfoForEDch));
-    ALBA_PRINT1(swap4(printPointer->hsDschConfiguredIndicator));
-    ALBA_PRINT1(swap4(printPointer->eRnti));
-    ALBA_PRINT1(swap4(printPointer->initialSetOfEDpdchs));
-    ALBA_PRINT1(swap4(printPointer->initialMaxAllowedETfci));
-    ALBA_PRINT1(swap4(printPointer->hwGrantInMixedState));
-    ALBA_PRINT1(swap4(printPointer->numOfEDchMacDFlows));
-    ALBA_PRINT1(swap4(printPointer->harqProcAllocFor2msScheduledTxGrant));
-    ALBA_PRINT1(swap4(printPointer->eDchProcessingOverloadLevel));
-    ALBA_PRINT1(swap4(printPointer->eDchRefPowerOffset));
-    ALBA_PRINT1(swap4(printPointer->maceResetIndicator));
-    ALBA_PRINT1(swap4(printPointer->eDchPowerOffsetSchedInf));
-    ALBA_PRINT1(swap4(printPointer->sixteenQamUlOperInd));
-    ALBA_PRINT1(swap4(printPointer->edchMacdPduSizeFormat));
-    ALBA_PRINT1(swap4(printPointer->numOfEDchDlCtrlChGrantInfo));
-    ALBA_PRINT1(swap4(printPointer->eagchTableChoice));
-    ALBA_PRINT1(swap4(printPointer->dcHsupaConfigued));
-
     /*
         unsigned int offset = (sizeof(SDlDpchInfoRlSetup)*swap4(rlSetupReqPointer->numOfDlDpchInfo))
-                + (sizeof(SRadioLinkSetup_Ver2)*swap4(rlSetupReqPointer->numOfRlInfo))
-                + (sizeof(SCmTransGapPatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfo))
+                + (sizeof(SRadioLinkSetup_Ver2)*swap4(rlSetupReqPointer->numOfRlInfo))                + (sizeof(SCmTransGapPatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfo))
                 + (sizeof(SCmTransGapPatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmTransGapPatternSeqInfoForCmSet2))
                 + (sizeof(SCmActivePatternSeqInfo)*swap4(rlSetupReqPointer->numOfCmActivePatternSeqInfo))
-                + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfUlTfc))
-                + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfDlTfc))
+                + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfUlTfc))                + (sizeof(TCtfc)*swap4(rlSetupReqPointer->numOfDlTfc))
                 + (sizeof(SDchInfo_Ver2)*swap4(rlSetupReqPointer->numOfDch))
                 + (sizeof(SHsDschInformation_Ver2)*swap4(rlSetupReqPointer->numOfHsDschInfo))
                 + (sizeof(SEDpchInformation_Ver2)*swap4(rlSetupReqPointer->numOfEDpchInfo))

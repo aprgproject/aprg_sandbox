@@ -1,13 +1,10 @@
 #include "RttAnalyzer2.hpp"
 
-#include <Debug/AlbaDebug.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <String/AlbaStringHelper.hpp>
-
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
 
@@ -74,15 +71,12 @@ void RttAnalyzer2::processLine2(string const& fileName, string const& line)
     if(isStringFoundInsideTheOtherStringNotCaseSensitive(line, "2019 Apr"))
     {
         dateTime = getStringInBetweenTwoStrings(line, "2019 Apr  3  ", "  [");
-        //ALBA_PRINT2(line, dateTime);
     }
     else if(isStringFoundInsideTheOtherStringNotCaseSensitive(line, "RXD_FILT"))
-    {
-        unsigned int maxPos = convertStringToNumber<unsigned int>(getNumberAfterThisString(line, "max_pos[0]: "));
+    {        unsigned int maxPos = convertStringToNumber<unsigned int>(getNumberAfterThisString(line, "max_pos[0]: "));
         unsigned int refPos = convertStringToNumber<unsigned int>(getNumberAfterThisString(line, "ref_pos: "));
         int difference = static_cast<int>(maxPos)-static_cast<int>(refPos);
-        m_outputLogStream << fileName <<"," << dateTime << ","<< maxPos << "," << refPos << "," << difference << endl;
-    }
+        m_outputLogStream << fileName <<"," << dateTime << ","<< maxPos << "," << refPos << "," << difference << endl;    }
 }
 
 void RttAnalyzer2::processFile3(string const& file)

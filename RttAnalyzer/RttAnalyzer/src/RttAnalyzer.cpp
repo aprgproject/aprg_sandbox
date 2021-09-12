@@ -1,13 +1,10 @@
 #include "RttAnalyzer.hpp"
 
-#include <Debug/AlbaDebug.hpp>
 #include <File/AlbaFileReader.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <String/AlbaStringHelper.hpp>
-
 using namespace alba::stringHelper;
 using namespace std;
-
 namespace alba
 {
 
@@ -45,29 +42,22 @@ void RttAnalyzer::processLine(std::string const& line)
     }
     else if(isStringFoundInsideTheOtherStringNotCaseSensitive(line, "PSC") && isStringFoundInsideTheOtherStringNotCaseSensitive(line, "(cx8)"))
     {
-        ALBA_PRINT2("cx8", line);
         strings titles;
         splitToStrings<SplitStringType::WithoutDelimeters>(titles, line, "|");
-        processTitles(titles);
-    }
+        processTitles(titles);    }
     else if(isStringFoundInsideTheOtherStringNotCaseSensitive(line, "SET") && isStringFoundInsideTheOtherStringNotCaseSensitive(line, "|"))
     {
-        ALBA_PRINT2("|", line);
         strings values;
         splitToStrings<SplitStringType::WithoutDelimeters>(values, line, "|");
-        processValues(dateTime, values);
-    }
+        processValues(dateTime, values);    }
     else if(!isStringFoundInsideTheOtherStringNotCaseSensitive(line, "------"))
     {
-        ALBA_PRINT2("------", line);
         m_cx8IndexOptional.clear();
         m_pnPosIndexOptional.clear();
-    }
-}
+    }}
 
 /*
-void RttAnalyzer::processLine(std::string const& line)
-{
+void RttAnalyzer::processLine(std::string const& line){
     static string dateTime;
     if(isStringFoundInsideTheOtherStringNotCaseSensitive(line, "0x4179"))
     {
@@ -104,14 +94,11 @@ void RttAnalyzer::processTitles(strings const& titles)
     {
         if(isStringFoundInsideTheOtherStringNotCaseSensitive(title, "(cx8)") && !m_cx8IndexOptional.hasContent())
         {
-            ALBA_PRINT2("processTitles", index);
             m_cx8IndexOptional.setValue(index);
             break;
-        }
-        index++;
+        }        index++;
     }
 }
-
 /*
 void RttAnalyzer::processTitles(strings const& titles)
 {
@@ -134,22 +121,17 @@ void RttAnalyzer::processTitles(strings const& titles)
 void RttAnalyzer::processValues(string const& dateTime, strings const& values)
 {
     static RttDetails rttDetails;
-    ALBA_PRINT2("processValues", dateTime);
     if(m_cx8IndexOptional.hasContent())
     {
-        ALBA_PRINT3("m_cx8IndexOptional", m_cx8IndexOptional.getReference(), values.size());
         if(m_cx8IndexOptional.getReference()<values.size())
         {
             unsigned int value = convertStringToNumber<unsigned int>(values[m_cx8IndexOptional.getReference()]);
-            ALBA_PRINT2("value", value);
             if(value!=0)
             {
-                rttDetails.multiplePos[0] = value;
-                rttDetails.dateTime = dateTime;
+                rttDetails.multiplePos[0] = value;                rttDetails.dateTime = dateTime;
                 m_allRttDetails.emplace_back(rttDetails);
             }
-        }
-    }
+        }    }
 }
 
 /*
@@ -166,15 +148,12 @@ void RttAnalyzer::processValues(string const& dateTime, strings const& values)
                 rttDetails.pnPos = convertStringToNumber<unsigned int>(values[m_pnPosIndexOptional.getReference()]);
             }
         }
-        //ALBA_PRINT5(m_posNumber, rttDetails.multiplePos[m_posNumber], rttDetails.pnPos, m_cx8IndexOptional.getReference(), m_pnPosIndexOptional.getReference());
     }
     m_posNumber++;
-    if(m_posNumber==6)
-    {
+    if(m_posNumber==6)    {
         rttDetails.dateTime = dateTime;
         m_allRttDetails.emplace_back(rttDetails);
-        m_posNumber=0;
-    }
+        m_posNumber=0;    }
 }
 */
 

@@ -15,17 +15,12 @@
 #include <fstream>
 #include <iostream>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 #define VK_CONTROL 0x11
 #define VK_MENU 0x12
 #define VK_RETURN 0x0D
-
 using namespace alba;
 using namespace std;
 using namespace stringHelper;
-
 namespace aprgWebCrawler
 {
 
@@ -37,15 +32,12 @@ AutomatedFirefoxBrowser& AutomatedFirefoxBrowser::getInstance()
 
 void AutomatedFirefoxBrowser::downloadFileWithDefaultSettings(string const& webPath, string const& downloadLocalPath) const
 {
-    ALBA_PRINT2(webPath, downloadLocalPath);
     createNewTab();
     openWebPathOnCurrentTab(webPath);
-    saveCurrentTab(downloadLocalPath);
-    closeTab();
+    saveCurrentTab(downloadLocalPath);    closeTab();
 }
 
-void AutomatedFirefoxBrowser::createNewTab() const
-{
+void AutomatedFirefoxBrowser::createNewTab() const{
     pressControlAndLetter('T');
 }
 
