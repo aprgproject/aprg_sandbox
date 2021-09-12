@@ -227,15 +227,13 @@ template void splitToStrings<SplitStringType::WithDelimeters> (strings & listOfS
 
 string combineStrings(strings const& listOfStrings, string const& delimiters)
 {
-    string result = accumulate(listOfStrings.cbegin(), listOfStrings.cend(), string(""), [&delimiters](string const& previousResult, string const& currentString)
+    string result = accumulate(listOfStrings.cbegin(), listOfStrings.cend(), string(), [&delimiters](string const& previousResult, string const& currentString)
     {
             return string(previousResult + currentString + delimiters);
 });
-
     if(result.size() > delimiters.size())
     {
-        result = result.substr(0, result.size() - delimiters.size());
-    }
+        result = result.substr(0, result.size() - delimiters.size());    }
     return result;
 }
 
@@ -446,15 +444,13 @@ string getStringWithoutRedundantWhiteSpace(string const& mainString)
         if(isNpos(static_cast<int>(indexNotWhiteSpace))){break;}
         unsigned int indexWhiteSpace = mainString.find_first_of(WHITESPACE_STRING, indexNotWhiteSpace);
         index = (isNotNpos(static_cast<int>(indexWhiteSpace))) ? indexWhiteSpace : length;
-        result += (!result.empty()) ? " " : "";
+        result += (!result.empty()) ? " " : string();
         result += mainString.substr(indexNotWhiteSpace, index-indexNotWhiteSpace);
     }
-    return result;
-}
+    return result;}
 
 string getStringWithoutQuotations(string const& mainString)
-{
-    unsigned int length = mainString.length();
+{    unsigned int length = mainString.length();
     if(length>2 && mainString[0] == '\"' && mainString[length-1] == '\"')
     {
         return mainString.substr(1, length-2);
@@ -576,15 +572,13 @@ string getStringAndReplaceNonAlphanumericCharactersToUnderScore(string const& pa
 {
     bool isPreviousCharacterNonAlphanumeric = false;
     string correctPath = accumulate(
-                path.cbegin(), path.cend(), string(""), [&isPreviousCharacterNonAlphanumeric]
+                path.cbegin(), path.cend(), string(), [&isPreviousCharacterNonAlphanumeric]
                 (string const& currentString, char const currentCharacter)
     {
-            string partialResult(currentString);
-            if(!isLetterOrNumber(currentCharacter))
+            string partialResult(currentString);            if(!isLetterOrNumber(currentCharacter))
     {
             if(!isPreviousCharacterNonAlphanumeric)
-    {
-            partialResult += "_";
+    {            partialResult += "_";
 }
 }
             else
@@ -763,29 +757,27 @@ string getUrlParameters(string const& path)
 
 string getCorrectPathWithReplacedSlashCharacters(string const& path, string const& slashCharacterString)
 {
-    bool isSlashDetected = false;
-    string correctPath = accumulate(path.cbegin(), path.cend(), string(""),
-                                    [&isSlashDetected, slashCharacterString]
+    bool wasSlashDetected = false;
+    string correctPath = accumulate(path.cbegin(), path.cend(), string(),
+                                    [&wasSlashDetected, slashCharacterString]
                                     (string const& currentString, char const currentCharacter)
     {
         string partialResult(currentString);
         if(isSlashCharacter(currentCharacter))
         {
-            if(!isSlashDetected){partialResult += slashCharacterString;}
+            if(!wasSlashDetected){partialResult += slashCharacterString;}
         }
         else
         {
             partialResult += currentCharacter;
         }
-        isSlashDetected = isSlashCharacter(currentCharacter);
+        wasSlashDetected = isSlashCharacter(currentCharacter);
         return partialResult;
     });
-    return correctPath;
-}
+    return correctPath;}
 
 string getCorrectPathWithoutDoublePeriod(string const& mainString, string const& slashCharacterString)
-{
-    string correctPath(mainString);
+{    string correctPath(mainString);
     bool isDirectoryChanged = true;
     while(isDirectoryChanged)
     {
@@ -837,39 +829,34 @@ string getImmediateDirectoryName(string const& mainString, string const& slashCh
 template<char slashCharacter>
 string getCorrectPathWithReplacedSlashCharacters(string const& path)
 {
-    return getCorrectPathWithReplacedSlashCharacters(path, string("")+slashCharacter);
+    return getCorrectPathWithReplacedSlashCharacters(path, string()+slashCharacter);
 }
 template string getCorrectPathWithReplacedSlashCharacters<'\\'>(string const& path);
 template string getCorrectPathWithReplacedSlashCharacters<'/'>(string const& path);
-
 template<char slashCharacter>
 string getCorrectPathWithoutDoublePeriod(string const& path)
 {
-    return getCorrectPathWithoutDoublePeriod(path, string("")+slashCharacter);
+    return getCorrectPathWithoutDoublePeriod(path, string()+slashCharacter);
 }
 template string getCorrectPathWithoutDoublePeriod<'\\'>(string const& path);
 template string getCorrectPathWithoutDoublePeriod<'/'>(string const& path);
-
 template<char slashCharacter>
 string getStringBeforeDoublePeriod(string const& path)
 {
-    return getStringBeforeDoublePeriod(path, string("")+slashCharacter);
+    return getStringBeforeDoublePeriod(path, string()+slashCharacter);
 }
 template string getStringBeforeDoublePeriod<'\\'>(string const& path);
 template string getStringBeforeDoublePeriod<'/'>(string const& path);
-
 template<char slashCharacter>
 string getImmediateDirectoryName(string const& path)
 {
-    return getImmediateDirectoryName(path, string("")+slashCharacter);
+    return getImmediateDirectoryName(path, string()+slashCharacter);
 }
 template string getImmediateDirectoryName<'\\'>(string const& path);
 template string getImmediateDirectoryName<'/'>(string const& path);
-
 bool convertStringToBool(string const& stringToConvert)
 {
-    string allCapital(getStringWithCapitalLetters(stringToConvert));
-    bool result(false);
+    string allCapital(getStringWithCapitalLetters(stringToConvert));    bool result(false);
     if("TRUE" == allCapital)
     {
         result = true;

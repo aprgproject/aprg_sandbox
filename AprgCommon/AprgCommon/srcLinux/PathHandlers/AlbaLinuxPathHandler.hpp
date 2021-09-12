@@ -66,9 +66,8 @@ private:
             int depth) const;
     bool isPathADirectory(std::string const& fileOrDirectoryName) const;
     bool canBeLocated(std::string const& fullPath) const;
-    bool isSlashNeededAtTheEnd(std::string const& correctPath, std::string const& path) const;
+    bool isSlashNeededAtTheEnd(std::string const& correctedPath, std::string const& originalPath) const;
     bool m_foundInLocalSystem;
     bool m_relativePath;
 };
-
 }//namespace alba

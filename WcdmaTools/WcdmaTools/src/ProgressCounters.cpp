@@ -1,11 +1,9 @@
-#include <ProgressCounters.hpp>
+#include "ProgressCounters.hpp"
 
 namespace alba
 {
-
 namespace ProgressCounters
 {
-
 int getOverAllProgress()
 {
     if(0 == numberOfStepsEnabled)

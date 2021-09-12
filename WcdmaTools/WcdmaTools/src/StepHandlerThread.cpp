@@ -1,12 +1,11 @@
+#include "StepHandlerThread.hpp"
+
 #include <StepHandler.hpp>
-#include <StepHandlerThread.hpp>
 
 #include <QtWidgets>
-
 using namespace std;
 
-namespace wcdmaToolsGui
-{
+namespace wcdmaToolsGui{
 
 StepHandlerThread::StepHandlerThread(WcdmaToolsConfiguration & configuration)
     : QThread(nullptr)

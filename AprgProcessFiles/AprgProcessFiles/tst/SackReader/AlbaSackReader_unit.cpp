@@ -212,14 +212,12 @@ TEST(AlbaSackReaderTest, TypedefWithEnumAreRecognized)
     testFile << "MyEnum_Value2  = 2," << endl;
     testFile << "MyEnum_Value5  = 5" << endl;
     testFile << "} MyEnum;" << endl;
-    testFile << "" << endl;
+    testFile << endl;
     testFile.close();
 
-    AlbaSackReader sackReader(file1ToReadPathHandler.getFullPath());
-    sackReader.process();
+    AlbaSackReader sackReader(file1ToReadPathHandler.getFullPath());    sackReader.process();
     AlbaSackReaderType myClass = sackReader.getType("MyEnum");
     AlbaSackReaderType::Parameters myClassParameters = myClass.getParameters();
-    ASSERT_EQ(0U, myClassParameters.size());
-}
+    ASSERT_EQ(0U, myClassParameters.size());}
 
 }

@@ -180,14 +180,12 @@ TEST(ContainerTest, SaveVectorOfIntegersToFile)
     EXPECT_EQ("379", fileReader.getLine());
     EXPECT_EQ("-482", fileReader.getLine());
     EXPECT_EQ("37", fileReader.getLine());
-    EXPECT_EQ("", fileReader.getLine());
+    EXPECT_TRUE(fileReader.getLine().empty());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
-
 TEST(ContainerTest, RetrieveVectorOfIntegersFromFile)
 {
-    std::array<int, 4> temporaryArray{};
-    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
+    std::array<int, 4> temporaryArray{};    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
     outputTestFile<<"18723"<<endl;
     outputTestFile<<"-608"<<endl;
     outputTestFile<<"-43735"<<endl;
@@ -235,14 +233,12 @@ TEST(ContainerTest, SaveArrayOfIntegersToFile)
     EXPECT_EQ("379", fileReader.getLine());
     EXPECT_EQ("-482", fileReader.getLine());
     EXPECT_EQ("37", fileReader.getLine());
-    EXPECT_EQ("", fileReader.getLine());
+    EXPECT_TRUE(fileReader.getLine().empty());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
-
 TEST(ContainerTest, RetrieveArrayOfIntegersFromFile)
 {
-    vector<int> temporaryVector;
-    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
+    vector<int> temporaryVector;    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
     outputTestFile<<"18723"<<endl;
     outputTestFile<<"-608"<<endl;
     outputTestFile<<"-43735"<<endl;
@@ -289,14 +285,12 @@ TEST(ContainerTest, SaveSetOfIntegersToFile)
     EXPECT_EQ("4", fileReader.getLine());
     EXPECT_EQ("37", fileReader.getLine());
     EXPECT_EQ("379", fileReader.getLine());
-    EXPECT_EQ("", fileReader.getLine());
+    EXPECT_TRUE(fileReader.getLine().empty());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
-
 TEST(ContainerTest, RetrieveSetOfIntegersFromFile)
 {
-    set<int> temporarySet;
-    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
+    set<int> temporarySet;    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
     outputTestFile<<"18723"<<endl;
     outputTestFile<<"-608"<<endl;
     outputTestFile<<"-43735"<<endl;
@@ -347,14 +341,12 @@ TEST(ContainerTest, SaveMapOfIntegersToFile)
     EXPECT_EQ("95", fileReader.getLine());
     EXPECT_EQ("2348", fileReader.getLine());
     EXPECT_EQ("17", fileReader.getLine());
-    EXPECT_EQ("", fileReader.getLine());
+    EXPECT_TRUE(fileReader.getLine().empty());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
-
 TEST(ContainerTest, RetrieveMapOfIntegersFromFile)
 {
-    map<int,int> temporaryMap;
-    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
+    map<int,int> temporaryMap;    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
     outputTestFile<<"1"<<endl;
     outputTestFile<<"2"<<endl;
     outputTestFile<<"3"<<endl;

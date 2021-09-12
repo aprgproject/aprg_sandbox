@@ -17,14 +17,12 @@ namespace alba
 
 AlbaSackReader::AlbaSackReader(string const& filePath)
     : m_inputPathHandler(filePath)
-    , m_fileEvaluator("")
+    , m_fileEvaluator(string())
 {}
 
-AlbaSackReader::AlbaSackReader(string const& filePath, string const& fileCondition)
-    : m_inputPathHandler(filePath)
+AlbaSackReader::AlbaSackReader(string const& filePath, string const& fileCondition)    : m_inputPathHandler(filePath)
     , m_fileEvaluator(fileCondition)
 {}
-
 AlbaSackReaderType AlbaSackReader::getType(string const& typeName) const
 {
     AlbaSackReaderType type;
@@ -110,15 +108,13 @@ string AlbaSackReader::getReaderStateString(ReaderState const state)
             GET_ENUM_STRING(ReaderState::TypedefEnumStateLookingForClosingBrace)
             GET_ENUM_STRING(ReaderState::TypedefEnumStateLookingForType)
     }
-    return string("");
+    return string();
 #undef GET_ENUM_STRING
 }
 
-
 void AlbaSackReader::tokenize(stringHelper::strings & tokens, string const& line)
 {
-    stringHelper::strings tokensInLine;
-    stringHelper::splitToStrings<stringHelper::SplitStringType::WithDelimeters>(tokensInLine, line, " \t\n\r;{}[]");
+    stringHelper::strings tokensInLine;    stringHelper::splitToStrings<stringHelper::SplitStringType::WithDelimeters>(tokensInLine, line, " \t\n\r;{}[]");
     copy(tokensInLine.begin(), tokensInLine.end(), back_inserter(tokens));
 }
 

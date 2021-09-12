@@ -7,14 +7,13 @@
 #include <sstream>
 #include <string>
 
+using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 string AlbaWindowsHelper::getLastFormattedErrorMessage()
-{
-    stringstream lastErrorStream;
+{    stringstream lastErrorStream;
     unsigned int errorCode = GetLastError();
     lastErrorStream<< "No message from windows. Error code: " << errorCode;
     if (errorCode)
@@ -32,13 +31,12 @@ string AlbaWindowsHelper::getLastFormattedErrorMessage()
         if(bufferLength)
         {
             LPCSTR lpMessageString = (LPCSTR)lpMessageBuffer;
-            string errorMessageFromWindows(stringHelper::getStringWithoutRedundantWhiteSpace(string(lpMessageString, lpMessageString+bufferLength)));
+            string errorMessageFromWindows(getStringWithoutRedundantWhiteSpace(string(lpMessageString, lpMessageString+bufferLength)));
             LocalFree(lpMessageBuffer);
-            lastErrorStream.str("");
+            lastErrorStream.str(string());
             lastErrorStream<<"Error from windows: ["<<errorMessageFromWindows<<"] ErrorCode:["<<errorCode<<"]"<<endl;
         }
-    }
-    return lastErrorStream.str();
+    }    return lastErrorStream.str();
 }
 
 }//namespace alba

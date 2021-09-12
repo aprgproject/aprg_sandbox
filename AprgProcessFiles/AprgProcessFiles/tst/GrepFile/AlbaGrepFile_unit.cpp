@@ -72,8 +72,7 @@ TEST(AlbaGrepFileTest, GrepWorks)
     EXPECT_EQ(R"(As a person, I think that Mark is so cool)", fileReader.getLine());
     EXPECT_EQ(R"(As a designer, I know that Mark Earvin is so cool)", fileReader.getLine());
     EXPECT_EQ(R"(As a coder, I know that MARKalba is so cool)", fileReader.getLine());
-    EXPECT_EQ("", fileReader.getLine());
+    EXPECT_TRUE(fileReader.getLine().empty());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
-
 }

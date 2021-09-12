@@ -8,14 +8,13 @@
 #include <numeric>
 #include <string>
 
+using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 AlbaFileReader::AlbaFileReader(ifstream& stream)
-    : m_characterBuffer()
-    , m_stream(stream)
+    : m_characterBuffer()    , m_stream(stream)
 {
     setMaxBufferSize(INITIAL_MAX_BUFFER_SIZE);
 }
@@ -130,37 +129,37 @@ void AlbaFileReader::saveDataToMemoryBuffer(AlbaMemoryBuffer& buffer, unsigned i
 
 string AlbaFileReader::getLineAndIgnoreWhiteSpaces()
 {
+    string result;
     while(!m_stream.eof())
     {
         m_stream.clear();
         m_stream.getline(getCharacterBufferPointer(), static_cast<streamsize>(m_characterBuffer.size()));
-        string result(getCharacterBufferPointer());
-        result = stringHelper::getStringWithoutStartingAndTrailingWhiteSpace(result);
+        string stringFromBuffer(getCharacterBufferPointer());
+        result = getStringWithoutStartingAndTrailingWhiteSpace(stringFromBuffer);
         if(!result.empty())
         {
-            return result;
+            break;
         }
     }
-    return "";
+    return result;
 }
 
 string AlbaFileReader::getLine()
 {
+    string result;
     if(!m_stream.eof())
     {
         m_stream.clear();
         m_stream.getline(getCharacterBufferPointer(), static_cast<streamsize>(m_characterBuffer.size()));
-        return string(getCharacterBufferPointer());
+        result = string(getCharacterBufferPointer());
     }
-    return "";
+    return result;
 }
 
-double AlbaFileReader::getCurrentLocation() const
-{
+double AlbaFileReader::getCurrentLocation() const{
     double location = m_stream.tellg();
     return location;
 }
-
 double AlbaFileReader::getFileSize() const
 {
     m_stream.seekg(0, m_stream.end);

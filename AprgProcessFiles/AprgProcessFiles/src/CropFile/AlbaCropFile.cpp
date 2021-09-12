@@ -58,18 +58,16 @@ double AlbaCropFile::getLocationOfPrioritizedPrint(string const& inputFilePath)
     while(fileReader.isNotFinished())
     {
         currentLocation = fileReader.getCurrentLocation();
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
-        if(m_prioritizedLineEvaluator.evaluate(lineInLogs))
+        string lineInFile(fileReader.getLineAndIgnoreWhiteSpaces());
+        if(m_prioritizedLineEvaluator.evaluate(lineInFile))
         {
-            cout<<"CropFile: Found the prioritized line in input file. Line: "<<lineInLogs<<endl;
+            cout<<"CropFile: Found the prioritized line in input file. Line: "<<lineInFile<<endl;
             foundLocation = currentLocation;
             break;
-        }
-        if(fileReader.isNotFinished())
+        }        if(fileReader.isNotFinished())
         {
             updateAfterOneIteration(fileReader.getCurrentLocation()*50/sizeOfFile);
-        }
-    }
+        }    }
     return foundLocation;
 }
 
@@ -87,19 +85,17 @@ void AlbaCropFile::performCropForFile(string const& inputFilePath, string const&
     while(fileReader.isNotFinished())
     {
         double currentLocation = fileReader.getCurrentLocation();
-        string lineInLogs(fileReader.getLineAndIgnoreWhiteSpaces());
+        string lineInFile(fileReader.getLineAndIgnoreWhiteSpaces());
         if(currentLocation < locations.endLocation)
         {
             m_isOutputFileWritten = true;
-            outputFileStream << lineInLogs << endl;
+            outputFileStream << lineInFile << endl;
         }
         else
-        {
-            break;
+        {            break;
         }
         if(fileReader.isNotFinished())
-        {
-            updateAfterOneIteration(50 + (currentLocation-locations.startLocation)*50/locationDifference);
+        {            updateAfterOneIteration(50 + (currentLocation-locations.startLocation)*50/locationDifference);
         }
     }
 }
@@ -109,28 +105,26 @@ AlbaCropFile::LocationsInFile AlbaCropFile::getLocationsInFile(double const foun
     LocationsInFile locations{};
     locations.startLocation = foundLocation - (m_cropSize/2);
     locations.endLocation = foundLocation + (m_cropSize/2);
-    double overFlowOnTheRight = locations.endLocation - fileSize;
     double overFlowOnTheLeft = -locations.startLocation;
-    if(overFlowOnTheRight>0 || overFlowOnTheLeft>0)
+    double overFlowOnTheRight = locations.endLocation - fileSize;
+    if(overFlowOnTheLeft>0 || overFlowOnTheRight>0)
     {
-        if(overFlowOnTheRight<0 && overFlowOnTheRight+overFlowOnTheLeft<=0)
-        {
-            locations.startLocation += overFlowOnTheLeft;
-            locations.endLocation += overFlowOnTheLeft;
-        }
-        else if(overFlowOnTheLeft<0 && overFlowOnTheRight+overFlowOnTheLeft<=0)
+        if(overFlowOnTheLeft<0 && overFlowOnTheRight+overFlowOnTheLeft<=0)
         {
             locations.startLocation -= overFlowOnTheRight;
             locations.endLocation -= overFlowOnTheRight;
         }
+        else if(overFlowOnTheRight<0 && overFlowOnTheRight+overFlowOnTheLeft<=0)
+        {
+            locations.startLocation += overFlowOnTheLeft;
+            locations.endLocation += overFlowOnTheLeft;
+        }
         else
         {
-            locations.startLocation = 0;
-            locations.endLocation = fileSize;
+            locations.startLocation = 0;            locations.endLocation = fileSize;
         }
     }
-    return locations;
-}
+    return locations;}
 
 void AlbaCropFile::updateAfterOneIteration(double const percentage)
 {

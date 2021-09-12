@@ -1,17 +1,17 @@
 #include <PathHandlerTests/AlbaLinuxPathHandlerTest.hpp>
 #include <String/AlbaStringHelper.hpp>
 
+using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 AlbaLinuxPathHandlerTest::AlbaLinuxPathHandlerTest()
 {}
 
 string AlbaLinuxPathHandlerTest::convertToSimplestPath(string const& path)
 {
-    return stringHelper::getCorrectPathWithoutDoublePeriod<'/'>(stringHelper::getCorrectPathWithReplacedSlashCharacters<'/'>(path));
+    return getCorrectPathWithoutDoublePeriod<'/'>(getCorrectPathWithReplacedSlashCharacters<'/'>(path));
 }
 
 }

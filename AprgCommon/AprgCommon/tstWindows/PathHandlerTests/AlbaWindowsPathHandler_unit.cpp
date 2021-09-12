@@ -34,14 +34,23 @@ TEST_F(AlbaWindowsPathHandlerTest, FullPathWithOnlyDirectoryGiven_JumbledSlashes
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
 }
 
-TEST_F(AlbaWindowsPathHandlerTest, FullPathWithOnlyDirectoryGiven_WithNumbersAndSpecialCharacters)
+TEST_F(AlbaWindowsPathHandlerTest, FullPathWithOnlyDirectoryGiven_JumbledSlashesWithDirectoryDoesNotExists)
 {
-    AlbaWindowsPathHandler pathHandler(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\AprgCommon\tst\)");
-    EXPECT_EQ("APRG_DRIVE", pathHandler.getDriveOrRoot());
-    EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\AprgCommon\tst\)", pathHandler.getDirectory());
+    AlbaWindowsPathHandler pathHandler(APRG_DIR R"(////AprgCommon\\\\/AprgCommon/tst\DirectoryDoesNotExists\)");
+    EXPECT_EQ(getDriveOfAprgDir(), pathHandler.getDriveOrRoot());
+    EXPECT_EQ(convertToSimplestPath(pathOfAprgDirectory + R"(AprgCommon\AprgCommon\tst\DirectoryDoesNotExists\)"), pathHandler.getDirectory());
     EXPECT_TRUE(pathHandler.getFile().empty());
     EXPECT_TRUE(pathHandler.getFilenameOnly().empty());
     EXPECT_TRUE(pathHandler.getExtension().empty());
+    EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
+}
+
+TEST_F(AlbaWindowsPathHandlerTest, FullPathWithOnlyDirectoryGiven_WithNumbersAndSpecialCharacters)
+{
+    AlbaWindowsPathHandler pathHandler(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\AprgCommon\tst\)");    EXPECT_EQ("APRG_DRIVE", pathHandler.getDriveOrRoot());
+    EXPECT_EQ(R"(APRG_DRIVE:\APRG12345\Aprg!@#$%Common\AprgCommon\tst\)", pathHandler.getDirectory());
+    EXPECT_TRUE(pathHandler.getFile().empty());
+    EXPECT_TRUE(pathHandler.getFilenameOnly().empty());    EXPECT_TRUE(pathHandler.getExtension().empty());
     EXPECT_EQ(PathType::Directory, pathHandler.getPathType());
 }
 

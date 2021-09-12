@@ -1,12 +1,11 @@
-#include <ProgressBarThread.hpp>
+#include "ProgressBarThread.hpp"
+
 #include <StepHandler.hpp>
 
 #include <QtWidgets>
-
 using namespace std;
 
-namespace wcdmaToolsGui
-{
+namespace wcdmaToolsGui{
 
 ProgressBarThread::ProgressBarThread(QObject *parent)
     : QThread(parent)

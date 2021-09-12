@@ -11,7 +11,7 @@ TEST(AlbaBaseStateMachine, IntegerIdentifierTest)
 {
     AlbaBaseStateMachine<unsigned int, unsigned int> stateMachine(9999U);
     EXPECT_EQ(9999U, stateMachine.getState());
-    //EXPECT_DEATH(stateMachine.processInput(0), "");
+    //EXPECT_DEATH(stateMachine.processInput(0), string());
 }
 
 }
