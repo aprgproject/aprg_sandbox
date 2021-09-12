@@ -29,16 +29,14 @@ private:
     };
     struct BtsLogDelay
     {
-        AlbaOptional<tcomToolsBackend::BtsLogTime> startTimeOptional;
-        AlbaOptional<tcomToolsBackend::BtsLogTime> endTimeOptional;
+        AlbaOptional<wcdmaToolsBackend::BtsLogTime> startTimeOptional;
+        AlbaOptional<wcdmaToolsBackend::BtsLogTime> endTimeOptional;
     };
 
-public:
-    PerformanceAnalyzer();
+public:    PerformanceAnalyzer();
     void setFileForRawDataDump(std::string const& rawDataPath);
     void logLineInRawDataFile(std::string const& line);
-    void logStringInRawDataFile(std::string const& line);
-    std::string extract(std::string const& inputPath) const;
+    void logStringInRawDataFile(std::string const& line);    std::string extract(std::string const& inputPath) const;
     std::string combineAndSort(std::string const& inputPath) const;
     void processFileForMsgQueueingTime(std::string const& filePath);
     void processFileForRlSetupDelayInRlh(std::string const& filePath);
@@ -53,13 +51,12 @@ public:
     void processFileForTraceLog(std::string const& traceLogPath);
     void processDirectoryForTraceLog(std::string const& traceLogPath);
 
-    int getDelayTimeInUs(tcomToolsBackend::BtsLogTime const& endTime, tcomToolsBackend::BtsLogTime const& startTime) const;
-    int getDelayTimeInMinutes(tcomToolsBackend::BtsLogTime const& endTime, tcomToolsBackend::BtsLogTime const& startTime) const;
+    int getDelayTimeInUs(wcdmaToolsBackend::BtsLogTime const& endTime, wcdmaToolsBackend::BtsLogTime const& startTime) const;
+    int getDelayTimeInMinutes(wcdmaToolsBackend::BtsLogTime const& endTime, wcdmaToolsBackend::BtsLogTime const& startTime) const;
 
 private:
     std::string m_extractGrepCondition;
-    tcomToolsBackend::BtsLogSorterConfiguration m_sorterConfiguration;
+    wcdmaToolsBackend::BtsLogSorterConfiguration m_sorterConfiguration;
     alba::AlbaOptional<std::ofstream> m_RawDataFileOptional;
 };
-
 }

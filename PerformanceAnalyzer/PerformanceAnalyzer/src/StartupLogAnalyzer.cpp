@@ -9,17 +9,15 @@
 
 using namespace alba::stringHelper;
 using namespace std;
-using tcomToolsBackend::BtsLogPrint;
-using tcomToolsBackend::BtsLogTime;
-using tcomToolsBackend::BtsLogTimeType;
+using wcdmaToolsBackend::BtsLogPrint;
+using wcdmaToolsBackend::BtsLogTime;
+using wcdmaToolsBackend::BtsLogTimeType;
 
 namespace alba
 {
-
 StartupLogAnalyzer::StartupLogAnalyzer()
     : m_btsLogPathHandler("")
-    , m_firstLogTime()
-    , m_processingAndMessagingTotalDelay(0)
+    , m_firstLogTime()    , m_processingAndMessagingTotalDelay(0)
     , m_processingAndMessagingTotalDelaysDescriptionString()
     , m_firstDspToBecomeAvailableTimeDescriptionString("First DSP to become available time: ")
     , m_allDspsBecomeAvailableTimeDescriptionString("All DSPs become available time: ")

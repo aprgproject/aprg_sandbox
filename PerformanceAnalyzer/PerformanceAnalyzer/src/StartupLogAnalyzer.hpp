@@ -24,19 +24,17 @@ public:
     void processFileWithSortedPrints(std::string const& pathOfBtsLog);
 
 private:
-    void analyzeStartupDelays(std::string const& lineInLogs, tcomToolsBackend::BtsLogTime& previousNotableTime);
-    double getTotalSeconds(tcomToolsBackend::BtsLogTime const& beforeTime, tcomToolsBackend::BtsLogTime const& afterTime) const;
-    double getTotalSeconds(tcomToolsBackend::BtsLogTime const& btsLogTime) const;
+    void analyzeStartupDelays(std::string const& lineInLogs, wcdmaToolsBackend::BtsLogTime& previousNotableTime);
+    double getTotalSeconds(wcdmaToolsBackend::BtsLogTime const& beforeTime, wcdmaToolsBackend::BtsLogTime const& afterTime) const;
+    double getTotalSeconds(wcdmaToolsBackend::BtsLogTime const& btsLogTime) const;
     AlbaLocalPathHandler m_btsLogPathHandler;
-    tcomToolsBackend::BtsLogTime m_firstLogTime;
+    wcdmaToolsBackend::BtsLogTime m_firstLogTime;
     double m_processingAndMessagingTotalDelay;
     std::string m_processingAndMessagingTotalDelaysDescriptionString;
-    std::string m_firstDspToBecomeAvailableTimeDescriptionString;
-    std::string m_allDspsBecomeAvailableTimeDescriptionString;
+    std::string m_firstDspToBecomeAvailableTimeDescriptionString;    std::string m_allDspsBecomeAvailableTimeDescriptionString;
     std::string m_settingSrioRoutesTimeDescriptionString;
     std::string m_basebandAllocationRequestResponseTimeDescriptionString;
-    std::string m_firstDspModeChangeFromFirstDspAvailableDescriptionString;
-    std::string m_firstModeChangeTimeDescriptionString;
+    std::string m_firstDspModeChangeFromFirstDspAvailableDescriptionString;    std::string m_firstModeChangeTimeDescriptionString;
     std::string m_startupAllocationTimeAfterModeChangeDescriptionString;
     std::string m_remainingLicenseExchangesTimeDescriptionString;
     std::string m_resetRequestResponseWithRncTimeDescriptionString;

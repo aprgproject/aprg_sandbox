@@ -9,17 +9,15 @@
 
 using namespace alba::stringHelper;
 using namespace std;
-using tcomToolsBackend::BtsLogPrint;
-using tcomToolsBackend::BtsLogTime;
-using tcomToolsBackend::BtsLogTimeType;
+using wcdmaToolsBackend::BtsLogPrint;
+using wcdmaToolsBackend::BtsLogTime;
+using wcdmaToolsBackend::BtsLogTimeType;
 
 namespace alba
 {
-
 BtsLogAnalyzer::PrintsAvailable::PrintsAvailable()
     : hasBB_2_RL_SETUP_REQ_MSG(false)
-    , hasBB_2_RL_SETUP_ACK_MSG(false)
-    , hasTC_TRANSPORT_BEARER_REGISTER_MSG(false)
+    , hasBB_2_RL_SETUP_ACK_MSG(false)    , hasTC_TRANSPORT_BEARER_REGISTER_MSG(false)
     , hasTC_TRANSPORT_BEARER_REGISTER_RESP_MSG(false)
 {}
 
