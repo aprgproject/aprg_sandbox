@@ -31,10 +31,12 @@ private:
     wcdmaToolsBackend::BtsLogTime m_firstLogTime;
     double m_processingAndMessagingTotalDelay;
     std::string m_processingAndMessagingTotalDelaysDescriptionString;
-    std::string m_firstDspToBecomeAvailableTimeDescriptionString;    std::string m_allDspsBecomeAvailableTimeDescriptionString;
+    std::string m_firstDspToBecomeAvailableTimeDescriptionString;
+    std::string m_allDspsBecomeAvailableTimeDescriptionString;
     std::string m_settingSrioRoutesTimeDescriptionString;
     std::string m_basebandAllocationRequestResponseTimeDescriptionString;
-    std::string m_firstDspModeChangeFromFirstDspAvailableDescriptionString;    std::string m_firstModeChangeTimeDescriptionString;
+    std::string m_firstDspModeChangeFromFirstDspAvailableDescriptionString;
+    std::string m_firstModeChangeTimeDescriptionString;
     std::string m_startupAllocationTimeAfterModeChangeDescriptionString;
     std::string m_remainingLicenseExchangesTimeDescriptionString;
     std::string m_resetRequestResponseWithRncTimeDescriptionString;

@@ -11,9 +11,20 @@ namespace alba
 namespace ExpressionEvaluator
 {
 
+//Operations
+template <typename ValueTemplateType, typename OperatorTemplateType>
+ValueTemplateType performUnaryOperation(OperatorTemplateType const& operatorObject, ValueTemplateType const& value);
+
+template <typename ValueTemplateType, typename OperatorTemplateType>
+ValueTemplateType performBinaryOperation(ValueTemplateType const& value1, OperatorTemplateType const& operatorObject, ValueTemplateType const& value2);
+
+
+//Converter
 template <typename ValueTemplateType, typename OperatorTemplateType>
 class ExpressionEvaluatorConverter;
 
+
+//Term
 template <typename ValueTemplateType, typename OperatorTemplateType>
 class ExpressionEvaluatorTerm
 {

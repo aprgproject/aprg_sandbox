@@ -10,10 +10,12 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 string AlbaWindowsHelper::getLastFormattedErrorMessage()
-{    stringstream lastErrorStream;
+{
+    stringstream lastErrorStream;
     unsigned int errorCode = GetLastError();
     lastErrorStream<< "No message from windows. Error code: " << errorCode;
     if (errorCode)
@@ -36,7 +38,8 @@ string AlbaWindowsHelper::getLastFormattedErrorMessage()
             lastErrorStream.str(string());
             lastErrorStream<<"Error from windows: ["<<errorMessageFromWindows<<"] ErrorCode:["<<errorCode<<"]"<<endl;
         }
-    }    return lastErrorStream.str();
+    }
+    return lastErrorStream.str();
 }
 
 }//namespace alba

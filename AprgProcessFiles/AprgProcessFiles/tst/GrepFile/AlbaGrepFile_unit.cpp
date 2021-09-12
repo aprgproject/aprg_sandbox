@@ -75,4 +75,5 @@ TEST(AlbaGrepFileTest, GrepWorks)
     EXPECT_TRUE(fileReader.getLine().empty());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
+
 }

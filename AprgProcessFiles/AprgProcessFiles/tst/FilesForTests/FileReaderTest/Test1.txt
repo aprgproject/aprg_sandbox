@@ -1,5 +1,13 @@
-typedef enum {
-MyEnum_Value0  = 0,
-MyEnum_Value2  = 2,
-MyEnum_Value5  = 5
-} MyEnum;
+u
+u1
+uname
+u_
+u 
+5uname
+5u1
+5u_
+5U
+5U 
+5U/
+10050U
+1uname 99U

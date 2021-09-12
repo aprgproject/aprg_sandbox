@@ -250,23 +250,27 @@ void CPlusPlusFileFixer::fixHeaders(string const& )
         addHeaderFileFromAngleBrackets(string());
     }
     if(!otherLibraryHeaders.empty())
-    {        for(string const& header: otherLibraryHeaders)
+    {
+        for(string const& header: otherLibraryHeaders)
         {
             addHeaderFileFromAngleBrackets(header);
         }
         addHeaderFileFromAngleBrackets(string());
     }
     if(!cPlusPlusHeaders.empty())
-    {        for(string const& header: cPlusPlusHeaders)
+    {
+        for(string const& header: cPlusPlusHeaders)
         {
             addHeaderFileFromAngleBrackets(header);
         }
         addHeaderFileFromAngleBrackets(string());
     }
 }
+
 void CPlusPlusFileFixer::removeTrailingLinesInCode()
 {
-    auto nonWhiteSpaceLineIterator = m_linesAfterTheHeader.rbegin();    for(; nonWhiteSpaceLineIterator != m_linesAfterTheHeader.rend(); nonWhiteSpaceLineIterator++)
+    auto nonWhiteSpaceLineIterator = m_linesAfterTheHeader.rbegin();
+    for(; nonWhiteSpaceLineIterator != m_linesAfterTheHeader.rend(); nonWhiteSpaceLineIterator++)
     {
         if(!isWhiteSpace(*nonWhiteSpaceLineIterator))
         {

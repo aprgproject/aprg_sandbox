@@ -11,10 +11,12 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 AlbaFileReader::AlbaFileReader(ifstream& stream)
-    : m_characterBuffer()    , m_stream(stream)
+    : m_characterBuffer()
+    , m_stream(stream)
 {
     setMaxBufferSize(INITIAL_MAX_BUFFER_SIZE);
 }
@@ -156,10 +158,12 @@ string AlbaFileReader::getLine()
     return result;
 }
 
-double AlbaFileReader::getCurrentLocation() const{
+double AlbaFileReader::getCurrentLocation() const
+{
     double location = m_stream.tellg();
     return location;
 }
+
 double AlbaFileReader::getFileSize() const
 {
     m_stream.seekg(0, m_stream.end);

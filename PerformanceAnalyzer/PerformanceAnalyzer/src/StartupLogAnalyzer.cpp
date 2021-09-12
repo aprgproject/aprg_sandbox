@@ -15,9 +15,11 @@ using wcdmaToolsBackend::BtsLogTimeType;
 
 namespace alba
 {
+
 StartupLogAnalyzer::StartupLogAnalyzer()
     : m_btsLogPathHandler("")
-    , m_firstLogTime()    , m_processingAndMessagingTotalDelay(0)
+    , m_firstLogTime()
+    , m_processingAndMessagingTotalDelay(0)
     , m_processingAndMessagingTotalDelaysDescriptionString()
     , m_firstDspToBecomeAvailableTimeDescriptionString("First DSP to become available time: ")
     , m_allDspsBecomeAvailableTimeDescriptionString("All DSPs become available time: ")

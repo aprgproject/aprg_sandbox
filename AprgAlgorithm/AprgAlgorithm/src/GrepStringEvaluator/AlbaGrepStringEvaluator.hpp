@@ -1,7 +1,7 @@
 #pragma once
 
-#include <GrepStringEvaluator/AlbaGrepStringEvaluatorPerformOperations.hpp> //This needs to be first
 #include <ExpressionEvaluator/ExpressionEvaluator.hpp>
+#include <GrepStringEvaluator/AlbaGrepStringEvaluatorPerformOperations.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringEvaluatorTerm.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringOperatorType.hpp>
 #include <GrepStringEvaluator/AlbaGrepStringToken.hpp>

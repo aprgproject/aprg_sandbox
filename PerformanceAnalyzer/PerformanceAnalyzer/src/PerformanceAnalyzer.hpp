@@ -33,10 +33,12 @@ private:
         AlbaOptional<wcdmaToolsBackend::BtsLogTime> endTimeOptional;
     };
 
-public:    PerformanceAnalyzer();
+public:
+    PerformanceAnalyzer();
     void setFileForRawDataDump(std::string const& rawDataPath);
     void logLineInRawDataFile(std::string const& line);
-    void logStringInRawDataFile(std::string const& line);    std::string extract(std::string const& inputPath) const;
+    void logStringInRawDataFile(std::string const& line);
+    std::string extract(std::string const& inputPath) const;
     std::string combineAndSort(std::string const& inputPath) const;
     void processFileForMsgQueueingTime(std::string const& filePath);
     void processFileForRlSetupDelayInRlh(std::string const& filePath);
@@ -59,4 +61,5 @@ private:
     wcdmaToolsBackend::BtsLogSorterConfiguration m_sorterConfiguration;
     alba::AlbaOptional<std::ofstream> m_RawDataFileOptional;
 };
+
 }

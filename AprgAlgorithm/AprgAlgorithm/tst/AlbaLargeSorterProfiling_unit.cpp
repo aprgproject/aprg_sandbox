@@ -28,7 +28,7 @@ TEST(AlbaLargeSorterPriofileTest, DISABLED_FirstTest)
     sorterConfiguration.m_maximumFileStreams = 10;
 
     //AlbaUserInterface ui;
-    //while(1)
+    //while(true)
     //{
         unsigned int sampleSize = 1280000;//(stringHelper::convertStringToNumber<unsigned int>(ui.getUserInput()));
 

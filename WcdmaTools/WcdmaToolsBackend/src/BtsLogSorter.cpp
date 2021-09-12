@@ -244,9 +244,11 @@ void BtsLogSorter::separateLogsWithoutPcTimeIntoDifferentAddresses()
         ProgressCounters::writeProgressForCombine = static_cast<int>(25 + (printCount++ * 25/size));
     });
 }
+
 void BtsLogSorter::writeLogsWithPcTimeToOutputFile(ofstream & outputLogFileStream)
 {
-    cout << "Merge logs with and without PC time and save to output file." << endl;    map<string, BtsPrintReaderWithRollback> hardwareAddressToReaderMap;
+    cout << "Merge logs with and without PC time and save to output file." << endl;
+    map<string, BtsPrintReaderWithRollback> hardwareAddressToReaderMap;
     for(string const& hardwareAddress: m_foundHardwareAddresses)
     {
         hardwareAddressToReaderMap[hardwareAddress].openIfNeeded(getPathOfLogWithoutPcTimeBasedFromHardwareAddress(m_directoryOfLogsWithoutPcTime, hardwareAddress));

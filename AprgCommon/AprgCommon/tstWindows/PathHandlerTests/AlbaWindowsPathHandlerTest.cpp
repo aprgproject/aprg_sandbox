@@ -4,10 +4,12 @@
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 AlbaWindowsPathHandlerTest::AlbaWindowsPathHandlerTest()
-    : pathOfAprgDirectory(APRG_DIR){}
+    : pathOfAprgDirectory(APRG_DIR)
+{}
 
 string AlbaWindowsPathHandlerTest::convertToSimplestPath(string const& path)
 {

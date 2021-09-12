@@ -8,11 +8,13 @@ namespace alba
 namespace ExpressionEvaluator
 {
 
-AlbaGrepStringEvaluatorTerm performUnaryOperation(AlbaGrepStringOperatorType const operatorString, AlbaGrepStringEvaluatorTerm const& value)
+template <>
+AlbaGrepStringEvaluatorTerm performUnaryOperation<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>
+(AlbaGrepStringOperatorType const& operatorObject, AlbaGrepStringEvaluatorTerm const& value)
 {
     using OperatorType = AlbaGrepStringOperatorType;
     bool outputValue(false);
-    switch (operatorString)
+    switch (operatorObject)
     {
     case OperatorType::NotOperator:
         outputValue = !value.getResult();
@@ -23,13 +25,15 @@ AlbaGrepStringEvaluatorTerm performUnaryOperation(AlbaGrepStringOperatorType con
     return AlbaGrepStringEvaluatorTerm(outputValue);
 }
 
-AlbaGrepStringEvaluatorTerm performBinaryOperation(AlbaGrepStringEvaluatorTerm const& value1, AlbaGrepStringOperatorType const operatorString, AlbaGrepStringEvaluatorTerm const& value2)
+template <>
+AlbaGrepStringEvaluatorTerm performBinaryOperation<AlbaGrepStringEvaluatorTerm, AlbaGrepStringOperatorType>
+(AlbaGrepStringEvaluatorTerm const& value1, AlbaGrepStringOperatorType const& operatorObject, AlbaGrepStringEvaluatorTerm const& value2)
 {
     using OperatorType = AlbaGrepStringOperatorType;
     bool outputValue(false);
     bool inputValue1(value1.getResult());
     bool inputValue2(value2.getResult());
-    switch (operatorString)
+    switch (operatorObject)
     {
     case OperatorType::AndOperator:
         outputValue = inputValue1 && inputValue2;

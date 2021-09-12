@@ -19,10 +19,12 @@ using namespace alba::AlbaLinuxHelper;
 using namespace alba::stringHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 AlbaLinuxPathHandler::AlbaLinuxPathHandler(PathInitialValueSource const initialValueSource)
-    : AlbaPathHandler(R"(/)")    , m_foundInLocalSystem(false)
+    : AlbaPathHandler(R"(/)")
+    , m_foundInLocalSystem(false)
     , m_relativePath(false)
 {
     if(PathInitialValueSource::DetectedLocalPath == initialValueSource)
@@ -120,10 +122,12 @@ void AlbaLinuxPathHandler::createDirectoriesForNonExisitingDirectories() const
         if(isNpos(static_cast<int>(indexWithSlashCharacter))){break;}
         string partialDirectory(fullPath.substr(0, indexWithSlashCharacter+1));
         AlbaLinuxPathHandler partialDirectoryPathHandler(partialDirectory);
-        if(!partialDirectoryPathHandler.isFoundInLocalSystem())        {
+        if(!partialDirectoryPathHandler.isFoundInLocalSystem())
+        {
             mkdir(partialDirectoryPathHandler.getFullPath().c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
         }
-        index = indexWithSlashCharacter+1;    }
+        index = indexWithSlashCharacter+1;
+    }
 }
 
 bool AlbaLinuxPathHandler::deleteFile()
@@ -346,10 +350,12 @@ void AlbaLinuxPathHandler::loopAllFilesAndDirectoriesInDirectoryStream(
             bool canProceedBasedOnWildcard = wildCardSearch.empty() || "*.*" == wildCardSearch || isWildcardMatch(immediateFileOrDirectoryName, wildCardSearch);
             bool isTheNameNotComposedOfPeriods = "." != immediateFileOrDirectoryName && ".." != immediateFileOrDirectoryName;
             if(isTheNameNotComposedOfPeriods && canProceedBasedOnWildcard)
-            {                string fullFileOrDirectoryName(currentDirectory+immediateFileOrDirectoryName);
+            {
+                string fullFileOrDirectoryName(currentDirectory+immediateFileOrDirectoryName);
                 if(isPathADirectory(fullFileOrDirectoryName))
                 {
-                    string fullFileOrDirectoryNameWithSlash(fullFileOrDirectoryName+"/");                    listOfDirectories.emplace(fullFileOrDirectoryNameWithSlash);
+                    string fullFileOrDirectoryNameWithSlash(fullFileOrDirectoryName+"/");
+                    listOfDirectories.emplace(fullFileOrDirectoryNameWithSlash);
                     findFilesAndDirectoriesWithDepth(fullFileOrDirectoryNameWithSlash, wildCardSearch, listOfFiles, listOfDirectories, depth);
                 }
                 else
@@ -380,9 +386,11 @@ void AlbaLinuxPathHandler::save(string const& path)
         correctPath = getCorrectPathWithoutDoublePeriod(correctPath + m_slashCharacterString, m_slashCharacterString);
     }
     setExtensionFromPath(correctPath);
-    setDirectoryAndFileFromPath(correctPath);    setFileType();
+    setDirectoryAndFileFromPath(correctPath);
+    setFileType();
     m_foundInLocalSystem = canBeLocated(correctPath);
 }
+
 bool AlbaLinuxPathHandler::isPathADirectory(string const& fileOrDirectoryName) const
 {
     bool result(false);
@@ -430,6 +438,7 @@ bool AlbaLinuxPathHandler::isSlashNeededAtTheEnd(string const& correctedPath, st
             }
         }
     }
-    return result;}
+    return result;
+}
 
 }//namespace alba

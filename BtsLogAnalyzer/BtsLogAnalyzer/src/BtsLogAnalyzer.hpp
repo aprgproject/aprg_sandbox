@@ -12,9 +12,11 @@ using wcdmaToolsBackend::BtsLogTime;
 
 namespace alba
 {
+
 struct BtsLogDelay
 {
-    AlbaOptional<BtsLogTime> startTimeOptional;    AlbaOptional<BtsLogTime> endTimeOptional;
+    AlbaOptional<BtsLogTime> startTimeOptional;
+    AlbaOptional<BtsLogTime> endTimeOptional;
 };
 
 struct UniqueId

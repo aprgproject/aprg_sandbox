@@ -64,10 +64,12 @@ double AlbaCropFile::getLocationOfPrioritizedPrint(string const& inputFilePath)
             cout<<"CropFile: Found the prioritized line in input file. Line: "<<lineInFile<<endl;
             foundLocation = currentLocation;
             break;
-        }        if(fileReader.isNotFinished())
+        }
+        if(fileReader.isNotFinished())
         {
             updateAfterOneIteration(fileReader.getCurrentLocation()*50/sizeOfFile);
-        }    }
+        }
+    }
     return foundLocation;
 }
 
@@ -92,10 +94,12 @@ void AlbaCropFile::performCropForFile(string const& inputFilePath, string const&
             outputFileStream << lineInFile << endl;
         }
         else
-        {            break;
+        {
+            break;
         }
         if(fileReader.isNotFinished())
-        {            updateAfterOneIteration(50 + (currentLocation-locations.startLocation)*50/locationDifference);
+        {
+            updateAfterOneIteration(50 + (currentLocation-locations.startLocation)*50/locationDifference);
         }
     }
 }
@@ -121,10 +125,12 @@ AlbaCropFile::LocationsInFile AlbaCropFile::getLocationsInFile(double const foun
         }
         else
         {
-            locations.startLocation = 0;            locations.endLocation = fileSize;
+            locations.startLocation = 0;
+            locations.endLocation = fileSize;
         }
     }
-    return locations;}
+    return locations;
+}
 
 void AlbaCropFile::updateAfterOneIteration(double const percentage)
 {

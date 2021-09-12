@@ -183,9 +183,11 @@ TEST(ContainerTest, SaveVectorOfIntegersToFile)
     EXPECT_TRUE(fileReader.getLine().empty());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
+
 TEST(ContainerTest, RetrieveVectorOfIntegersFromFile)
 {
-    std::array<int, 4> temporaryArray{};    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
+    std::array<int, 4> temporaryArray{};
+    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
     outputTestFile<<"18723"<<endl;
     outputTestFile<<"-608"<<endl;
     outputTestFile<<"-43735"<<endl;
@@ -236,9 +238,11 @@ TEST(ContainerTest, SaveArrayOfIntegersToFile)
     EXPECT_TRUE(fileReader.getLine().empty());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
+
 TEST(ContainerTest, RetrieveArrayOfIntegersFromFile)
 {
-    vector<int> temporaryVector;    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
+    vector<int> temporaryVector;
+    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
     outputTestFile<<"18723"<<endl;
     outputTestFile<<"-608"<<endl;
     outputTestFile<<"-43735"<<endl;
@@ -288,9 +292,11 @@ TEST(ContainerTest, SaveSetOfIntegersToFile)
     EXPECT_TRUE(fileReader.getLine().empty());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
+
 TEST(ContainerTest, RetrieveSetOfIntegersFromFile)
 {
-    set<int> temporarySet;    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
+    set<int> temporarySet;
+    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
     outputTestFile<<"18723"<<endl;
     outputTestFile<<"-608"<<endl;
     outputTestFile<<"-43735"<<endl;
@@ -344,9 +350,11 @@ TEST(ContainerTest, SaveMapOfIntegersToFile)
     EXPECT_TRUE(fileReader.getLine().empty());
     EXPECT_FALSE(fileReader.isNotFinished());
 }
+
 TEST(ContainerTest, RetrieveMapOfIntegersFromFile)
 {
-    map<int,int> temporaryMap;    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
+    map<int,int> temporaryMap;
+    ofstream outputTestFile(APRG_COMMON_TEST_FILE_TO_READ);
     outputTestFile<<"1"<<endl;
     outputTestFile<<"2"<<endl;
     outputTestFile<<"3"<<endl;

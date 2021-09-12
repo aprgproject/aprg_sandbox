@@ -9,10 +9,12 @@
 
 namespace Ui
 {
-class WcdmaTools;}
+class WcdmaTools;
+}
 
 class WcdmaTools : public QMainWindow
-{    Q_OBJECT
+{
+    Q_OBJECT
 
 public:
     explicit WcdmaTools(QWidget *parent = 0);

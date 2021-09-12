@@ -3,9 +3,11 @@
 #include <StepHandler.hpp>
 
 #include <QtWidgets>
+
 using namespace std;
 
-namespace wcdmaToolsGui{
+namespace wcdmaToolsGui
+{
 
 StepHandlerThread::StepHandlerThread(WcdmaToolsConfiguration & configuration)
     : QThread(nullptr)
