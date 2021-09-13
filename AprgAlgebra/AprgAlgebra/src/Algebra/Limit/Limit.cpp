@@ -268,7 +268,8 @@ Term getLimitAtInfinity(
         string const& variableName,        AlbaNumber::Value const infinityValue)
 {
     LimitsAtInfinity limitsAtInfinity(term, variableName);
-    return limitsAtInfinity.getValueAtInfinity(infinityValue);}
+    return limitsAtInfinity.getValueAtInfinity(infinityValue);
+}
 
 }
 

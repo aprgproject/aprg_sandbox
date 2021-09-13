@@ -14,6 +14,7 @@ using namespace alba::algebra::Functions;using namespace std;
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -71,7 +72,8 @@ ContinuityType getContinuityTypeAt(
         string const& variableName,        AlbaNumber const& value)
 {
     ContinuityType result(ContinuityType::Unknown);
-    SubstitutionOfVariablesToValues substitution{{variableName, value}};    Term subtitutedResult(substitution.performSubstitutionTo(term));
+    SubstitutionOfVariablesToValues substitution{{variableName, value}};
+    Term subtitutedResult(substitution.performSubstitutionTo(term));
     if(subtitutedResult.isConstant())
     {
         AlbaNumber limitAtValueInPositiveSide(getLimitAtAValueInThePositiveSide(term, variableName, value));
@@ -108,7 +110,8 @@ SolutionSet getContinuityDomain(
     {        return isFunctionContinuous(functionObject);
     });
     if(functionsRetriever.getSavedData().empty())
-    {        continuityDomain = calculateDomainForTermWithOneVariable(term);
+    {
+        continuityDomain = calculateDomainForTermWithOneVariable(term);
     }
     return continuityDomain;
 }

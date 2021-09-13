@@ -25,10 +25,58 @@ bool AlbaNumberInterval::operator==(AlbaNumberInterval const& second) const
             && m_higherEndpoint==second.m_higherEndpoint;
 }
 
+bool AlbaNumberInterval::isValueInsideTheInterval(
+        AlbaNumber const& value) const
+{
+    AlbaNumber const& lowerEndpointValue(m_lowerEndpoint.getValue());
+    AlbaNumber const& higherEndpointValue(m_higherEndpoint.getValue());
+    bool isInsideTheInterval = lowerEndpointValue < value && value < higherEndpointValue;
+    bool isEqualToLowerCloseEndpoint = m_lowerEndpoint.isClose() && lowerEndpointValue == value;
+    bool isEqualToHigherCloseEndpoint = m_higherEndpoint.isClose() && higherEndpointValue == value;
+    return isInsideTheInterval || isEqualToLowerCloseEndpoint || isEqualToHigherCloseEndpoint;
+}
+
+bool AlbaNumberInterval::isValueInsideTheIntervalExceptAtTheEndpoints(
+        AlbaNumber const& value) const
+{
+    return m_lowerEndpoint.getValue() < value && value < m_higherEndpoint.getValue();
+}
+
+bool AlbaNumberInterval::isEndpointInsideTheInterval(
+        AlbaNumberIntervalEndpoint const& endpointToCheck) const
+{
+    bool result(false);
+    AlbaNumber const& endPointValueToCheck(endpointToCheck.getValue());
+    if(endpointToCheck.isOpen())
+    {
+        AlbaNumber const& lowerEndpointValue(m_lowerEndpoint.getValue());
+        AlbaNumber const& higherEndpointValue(m_higherEndpoint.getValue());
+        if(endPointValueToCheck == lowerEndpointValue || endPointValueToCheck == higherEndpointValue)
+        {
+            result = true;
+        }
+        else
+        {
+            result = isValueInsideTheIntervalExceptAtTheEndpoints(endPointValueToCheck);
+        }
+    }
+    else if(endpointToCheck.isClose())
+    {
+        result = isValueInsideTheInterval(endPointValueToCheck);
+    }
+    return result;
+}
+
+bool AlbaNumberInterval::isIntervalInsideTheInterval(
+        AlbaNumberInterval const& interval) const
+{
+    return isEndpointInsideTheInterval(interval.getLowerEndpoint())
+            && isEndpointInsideTheInterval(interval.getHigherEndpoint());
+}
+
 AlbaNumberIntervalEndpoint const& AlbaNumberInterval::getLowerEndpoint() const
 {
-    return m_lowerEndpoint;
-}
+    return m_lowerEndpoint;}
 
 AlbaNumberIntervalEndpoint const& AlbaNumberInterval::getHigherEndpoint() const
 {

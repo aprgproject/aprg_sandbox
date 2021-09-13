@@ -9,6 +9,7 @@
 #include <gtest/gtest.h>
 using namespace alba::algebra::Simplification;
 using namespace std;
+
 namespace alba
 {
 

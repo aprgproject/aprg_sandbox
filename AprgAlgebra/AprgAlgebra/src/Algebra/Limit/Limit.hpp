@@ -75,4 +75,5 @@ Term getLimitAtInfinity(
         std::string const& variableName,        AlbaNumber::Value const infinityValue);
 
 }
+
 }
