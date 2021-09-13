@@ -4,7 +4,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -21,10 +22,12 @@ bool hasAnyFunctions(Term const& term)
 
 AlbaNumber getCoefficientOfMonomialWithNoVariables(
         Polynomial const& polynomial)
-{    AlbaNumber coefficientValue;
+{
+    AlbaNumber coefficientValue;
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
-        Monomial::VariablesToExponentsMap const& variableToExponentMap(                    monomial.getVariablesToExponentsMapConstReference());
+        Monomial::VariablesToExponentsMap const& variableToExponentMap(
+                    monomial.getVariablesToExponentsMapConstReference());
         if(variableToExponentMap.empty())
         {
             coefficientValue = monomial.getConstantConstReference();

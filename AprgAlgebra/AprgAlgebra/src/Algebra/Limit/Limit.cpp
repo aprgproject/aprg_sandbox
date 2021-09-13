@@ -6,10 +6,12 @@
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
-using namespace alba::algebra::Simplification;using namespace alba::mathHelper;
+using namespace alba::algebra::Simplification;
+using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -277,10 +279,12 @@ Term getLimitAtAValue(
         {
             limitResult = Term(getLimitAtAValueByApproachType(term, variableName, valueToApproach, limitApproachType));
         }
-    }    return limitResult;
+    }
+    return limitResult;
 }
 
-Term simplifyTermForLimit(Term const& term){
+Term simplifyTermForLimit(Term const& term)
+{
     SimplificationMutator mutator;
     SimplificationOfExpression simplificationOfExpression;
     simplificationOfExpression.setAsShouldSimplifyToACommonDenominator(true);

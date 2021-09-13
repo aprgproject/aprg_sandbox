@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Container/AlbaSingleton.hpp>
 #include <Math/Number/AlbaComplexNumber.hpp>
 
 #include <ostream>
@@ -11,6 +12,8 @@ namespace alba
 class AlbaNumber
 {
 public:
+    static constexpr double ADJUSTMENT_FLOAT_TOLERANCE = 1E-15;
+
     enum class Value
     {
         PositiveInfinity,
@@ -41,6 +44,41 @@ public:
         double doubleData;
         ComplexNumberData complexNumberData;
     };
+
+    struct ConfigurationDetails
+    {
+        double comparisonTolerance;
+        double floatAdjustmentTolerance;
+    };
+
+    class Configuration : public AlbaSingleton<Configuration>
+    {
+    public:
+        Configuration();
+        ConfigurationDetails const& getConfigurationDetails();
+        double getComparisonTolerance() const;
+        double getFloatAdjustmentTolerance() const;
+
+        void setConfigurationDetails(ConfigurationDetails const& configurationDetails);
+        void setConfigurationToDefault();
+        void setConfigurationTolerancesToZero();
+        void setComparisonTolerance(double const comparisonTolerance);
+        void setFloatAdjustmentTolerance(double const comparisonTolerance);
+    private:
+        ConfigurationDetails m_configurationDetails;
+    };
+
+    class ScopeObject
+    {
+    public:
+        ScopeObject();
+        ~ScopeObject();
+        void setInThisScopeTheTolerancesToZero() const;
+    private:
+        void setInThisScopeTheValuesBack() const;
+        ConfigurationDetails m_savedConfigurationDetails;
+    };
+
     AlbaNumber();
     AlbaNumber(int const integerValue);
     AlbaNumber(unsigned int const integerValue);
@@ -52,8 +90,6 @@ public:
     static AlbaNumber createFraction(int const numerator, unsigned int const denominator);
     static AlbaNumber createComplexNumber(int const realPart, int const imaginaryPart);
     static AlbaNumber createComplexNumber(double const realPart, double const imaginaryPart);
-    static void setTolerancesToZero();
-    static void setTolerancesToDefault();
 
     bool operator==(AlbaNumber const& second) const;
     bool operator!=(AlbaNumber const& second) const;
@@ -200,21 +236,8 @@ private:
             FractionData const& baseFractionData,
             long long int const exponent) const;
 
-public:
-    static double s_comparisonTolerance;
-    static double s_floatAdjustmentTolerance;
-
-private:
     Type m_type;
     NumberUnionData m_data;
-};
-
-class AlbaNumberToleranceToZeroScopeObject
-{
-public:
-    AlbaNumberToleranceToZeroScopeObject();
-    ~AlbaNumberToleranceToZeroScopeObject();
-    void doSomethingToAvoidWarning();
 };
 
 std::ostream & operator<<(std::ostream & out, AlbaNumber const& number);
