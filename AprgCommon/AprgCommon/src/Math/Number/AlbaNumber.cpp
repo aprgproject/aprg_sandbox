@@ -71,15 +71,19 @@ AlbaNumber::ScopeObject::~ScopeObject()
     setInThisScopeTheValuesBack();
 }
 
+void AlbaNumber::ScopeObject::setInThisScopeThisConfiguration(
+        AlbaNumber::ConfigurationDetails const& configurationDetails) const
+{
+    AlbaNumber::Configuration::getInstance().setConfigurationDetails(configurationDetails);
+}
+
 void AlbaNumber::ScopeObject::setInThisScopeTheTolerancesToZero() const
 {
-    AlbaNumber::Configuration::getInstance().setConfigurationTolerancesToZero();
-}
+    AlbaNumber::Configuration::getInstance().setConfigurationTolerancesToZero();}
 
 void AlbaNumber::ScopeObject::setInThisScopeTheValuesBack() const
 {
-    AlbaNumber::Configuration::getInstance().setConfigurationDetails(m_savedConfigurationDetails);
-}
+    AlbaNumber::Configuration::getInstance().setConfigurationDetails(m_savedConfigurationDetails);}
 
 AlbaNumber::AlbaNumber()
     : m_type(Type::Integer)
