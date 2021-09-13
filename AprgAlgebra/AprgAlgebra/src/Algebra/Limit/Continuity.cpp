@@ -10,11 +10,11 @@
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 using namespace alba::algebra::DomainAndRange;
-using namespace alba::algebra::Functions;using namespace std;
+using namespace alba::algebra::Functions;
+using namespace std;
 
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -69,11 +69,11 @@ bool isIntermediateValueTheoremSatisfied(
 
 ContinuityType getContinuityTypeAt(
         Term const& term,
-        string const& variableName,        AlbaNumber const& value)
+        string const& variableName,
+        AlbaNumber const& value)
 {
     ContinuityType result(ContinuityType::Unknown);
-    SubstitutionOfVariablesToValues substitution{{variableName, value}};
-    Term subtitutedResult(substitution.performSubstitutionTo(term));
+    SubstitutionOfVariablesToValues substitution{{variableName, value}};    Term subtitutedResult(substitution.performSubstitutionTo(term));
     if(subtitutedResult.isConstant())
     {
         AlbaNumber limitAtValueInPositiveSide(getLimitAtAValueInThePositiveSide(term, variableName, value));
@@ -107,11 +107,11 @@ SolutionSet getContinuityDomain(
 
     SolutionSet continuityDomain;
     FunctionsRetriever functionsRetriever([](Function const& functionObject)
-    {        return isFunctionContinuous(functionObject);
+    {
+        return isFunctionContinuous(functionObject);
     });
     if(functionsRetriever.getSavedData().empty())
-    {
-        continuityDomain = calculateDomainForTermWithOneVariable(term);
+    {        continuityDomain = calculateDomainForTermWithOneVariable(term);
     }
     return continuityDomain;
 }

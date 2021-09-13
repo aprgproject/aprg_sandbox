@@ -7,9 +7,9 @@
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::algebra::Simplification;
 using namespace std;
-
 namespace alba
 {
 
@@ -62,20 +62,20 @@ TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample1)
     EXPECT_EQ(createPositiveInfinityOpenEndpoint(), acceptedIntervals.front().getHigherEndpoint());
 }
 
-TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample2){
+TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample2)
+{
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("7/x > 2")));
-
     AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(1U, acceptedIntervals.size());
     EXPECT_EQ(createOpenEndpoint(0), acceptedIntervals.front().getLowerEndpoint());
     EXPECT_EQ(createOpenEndpoint(AlbaNumber::createFraction(7, 2)), acceptedIntervals.front().getHigherEndpoint());
 }
 
-TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample3){
+TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample3)
+{
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("abs(3*x+2) > 5")));
-
     AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(2U, acceptedIntervals.size());
     AlbaNumberInterval const& interval1(acceptedIntervals.at(0));
@@ -86,10 +86,10 @@ TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample3){
     EXPECT_EQ(createPositiveInfinityOpenEndpoint(), interval2.getHigherEndpoint());
 }
 
-TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample4){
+TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample4)
+{
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("x^2+7*x+12 >= 0")));
-
     AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(2U, acceptedIntervals.size());
     AlbaNumberInterval const& interval1(acceptedIntervals.at(0));
@@ -101,4 +101,5 @@ TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample4){
 }
 
 }
+
 }

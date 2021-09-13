@@ -22,10 +22,10 @@ public:
 
     AlbaNumberIntervalEndpoint const& getLowerEndpoint() const;
     AlbaNumberIntervalEndpoint const& getHigherEndpoint() const;
+
     std::string getDisplayableString() const;
 
     void setNewEndpoint(AlbaNumberIntervalEndpoint const& endpoint);
-
 private:
     AlbaNumberIntervalEndpoint m_lowerEndpoint;
     AlbaNumberIntervalEndpoint m_higherEndpoint;

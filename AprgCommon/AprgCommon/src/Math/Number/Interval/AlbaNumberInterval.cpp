@@ -76,11 +76,11 @@ bool AlbaNumberInterval::isIntervalInsideTheInterval(
 
 AlbaNumberIntervalEndpoint const& AlbaNumberInterval::getLowerEndpoint() const
 {
-    return m_lowerEndpoint;}
+    return m_lowerEndpoint;
+}
 
 AlbaNumberIntervalEndpoint const& AlbaNumberInterval::getHigherEndpoint() const
-{
-    return m_higherEndpoint;
+{    return m_higherEndpoint;
 }
 
 string AlbaNumberInterval::getDisplayableString() const

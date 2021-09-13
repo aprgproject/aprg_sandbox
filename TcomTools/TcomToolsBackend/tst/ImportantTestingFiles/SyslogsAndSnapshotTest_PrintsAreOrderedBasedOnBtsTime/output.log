@@ -1,0 +1,4 @@
+input.log                |09.11 15:32:45.246000 FCT-1011-0-HWRSwDl <2015-01-01T00:01:33.827322Z> 3C0 WRN/HWA/SWDL, validateSrioWrite, [0x1331] ddal_rio_copy_from() failed
+input.log                |FCT-1011-0-HWRSwDl <2015-01-01T00:01:34.827322Z> 3C0 WRN/HWA/SWDL, validateSrioWrite, [0x1331] ddal_rio_copy_from() failed
+input.log                |09.11 15:32:45.948000 FCT-1011-0-HWRSwDl <2015-01-01T00:01:35.533125Z> 3C0 WRN/HWA/SWDL, validateSrioWrite, [0x1331] ddal_rio_copy_from() failed
+input.log                |FCT-1011-0-HWRSwDl <2015-01-01T00:01:36.533125Z> 3C0 WRN/HWA/SWDL, validateSrioWrite, [0x1331] ddal_rio_copy_from() failed
