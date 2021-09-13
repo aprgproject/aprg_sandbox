@@ -1,10 +1,9 @@
 #pragma once
 
-#include <Math/Number/AlbaNumberIntervalEndpoint.hpp>
+#include <Math/Number/Interval/AlbaNumberIntervalEndpoint.hpp>
 
 namespace alba
 {
-
 class AlbaNumberInterval
 {
 public:

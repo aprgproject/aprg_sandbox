@@ -1,11 +1,10 @@
 #pragma once
 
-#include <Math/Number/AlbaNumberInterval.hpp>
-#include <Math/Number/AlbaNumberIntervalEndpoint.hpp>
+#include <Math/Number/Interval/AlbaNumberInterval.hpp>
+#include <Math/Number/Interval/AlbaNumberIntervalEndpoint.hpp>
 
 namespace alba
 {
-
 AlbaNumberIntervalEndpoint::Type getEndpointTypeWithCheckingIfItsClosed(bool const isCloseEndpoint);
 AlbaNumberIntervalEndpoint createOpenEndpoint(AlbaNumber const value);
 AlbaNumberIntervalEndpoint createCloseEndpoint(AlbaNumber const value);

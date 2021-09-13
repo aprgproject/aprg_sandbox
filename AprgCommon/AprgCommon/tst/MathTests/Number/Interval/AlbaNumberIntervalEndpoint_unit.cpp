@@ -1,7 +1,6 @@
-#include <Math/Number/AlbaNumberIntervalEndpoint.hpp>
+#include <Math/Number/Interval/AlbaNumberIntervalEndpoint.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
 namespace alba

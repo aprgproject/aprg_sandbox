@@ -1,8 +1,7 @@
-#include <Math/Number/AlbaNumberInterval.hpp>
-#include <Math/Number/AlbaNumberIntervalHelpers.hpp>
+#include <Math/Number/Interval/AlbaNumberInterval.hpp>
+#include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
 namespace alba
