@@ -6,8 +6,10 @@
 #include <numeric>
 
 using namespace std;
+
 namespace alba
 {
+
 unsigned int SoosaConfiguration::getNumberOfColumns() const
 {
     return m_formDetails.columnToNumberOfQuestionsMap.size();

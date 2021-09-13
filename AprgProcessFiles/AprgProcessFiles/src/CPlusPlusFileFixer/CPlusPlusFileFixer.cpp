@@ -125,10 +125,12 @@ void CPlusPlusFileFixer::readContentsFromFile(string const& path)
                 readLineWithSharpInclude(line, path);
             }
             else if(isStringFoundInsideTheOtherStringCaseSensitive(line, "#pragma") && isStringFoundInsideTheOtherStringCaseSensitive(line, "once"))
-            {                m_isPragmaOnceFound = true;
+            {
+                m_isPragmaOnceFound = true;
             }
             else if(!isWhiteSpace(line))
-            {                m_linesAfterTheHeader.emplace_back(line);
+            {
+                m_linesAfterTheHeader.emplace_back(line);
                 isOnHeaderPart=false;
             }
         }
@@ -168,7 +170,8 @@ void CPlusPlusFileFixer::notifyIfThereAreCommentsInHeader(string const& path, st
 {
     if(isStringFoundInsideTheOtherStringCaseSensitive(line, "//"))
     {
-        cout<<"CHECK THIS: Header comments on:["<<path<<"] in line:["<<line<<"]"<<endl;    }
+        cout<<"CHECK THIS: Header comments on:["<<path<<"] in line:["<<line<<"]"<<endl;
+    }
 }
 
 void CPlusPlusFileFixer::notifyIfAlbaDebugHeaderExistInProductionCode(string const& path) const
@@ -176,7 +179,8 @@ void CPlusPlusFileFixer::notifyIfAlbaDebugHeaderExistInProductionCode(string con
     bool isAlbaDebugHeaderFound = (find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("Debug/AlbaDebug.hpp")) != m_headerListFromAngleBrackets.end());
     if(isAlbaDebugHeaderFound) // !isUnitTest)
     {
-        cout<<"CHECK THIS: AlbaDebug found in:["<<path<<"]."<<endl;    }
+        cout<<"CHECK THIS: AlbaDebug found in:["<<path<<"]."<<endl;
+    }
 }
 
 void CPlusPlusFileFixer::notifyIfIostreamHeaderExistInProductionCode(string const& path) const
@@ -185,7 +189,8 @@ void CPlusPlusFileFixer::notifyIfIostreamHeaderExistInProductionCode(string cons
     bool isIostreamFound = (find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("iostream")) != m_headerListFromAngleBrackets.end());
     //bool isCpp = filePathHandler.getExtension() == "cpp";
     bool isUnitTest = isStringFoundInsideTheOtherStringCaseSensitive(filePathHandler.getFile(), "_unit.cpp");
-    if(isIostreamFound && !isUnitTest)// && !isCpp) // !isUnitTest)    {
+    if(isIostreamFound && !isUnitTest)// && !isCpp) // !isUnitTest)
+    {
         cout<<"CHECK THIS: iostream found in:["<<path<<"]."<<endl;
     }
 }
@@ -195,7 +200,8 @@ void CPlusPlusFileFixer::notifyIfCAssertHeaderExistInProductionCode(string const
     bool isCAssertFound = (find(m_headerListFromAngleBrackets.cbegin(), m_headerListFromAngleBrackets.cend(), string("cassert")) != m_headerListFromAngleBrackets.end());
     if(isCAssertFound)
     {
-        cout<<"CHECK THIS: cassert found in:["<<path<<"]."<<endl;    }
+        cout<<"CHECK THIS: cassert found in:["<<path<<"]."<<endl;
+    }
 }
 
 void CPlusPlusFileFixer::notifyIfMoreThanLoopsAreCascaded(string const& path) const
@@ -203,10 +209,12 @@ void CPlusPlusFileFixer::notifyIfMoreThanLoopsAreCascaded(string const& path) co
     set<unsigned int> indentionsOfLoops;
     for(string const& line : m_linesAfterTheHeader)
     {
-        if(isLineWithALoopStart(line))        {
+        if(isLineWithALoopStart(line))
+        {
             indentionsOfLoops.emplace(getStringThatContainsWhiteSpaceIndention(line).size());
             if(indentionsOfLoops.size()>=2)
-            {                cout<<"CHECK THIS: More than 2 loops found in:["<<path<<"] in line:["<<line<<"]."<<endl;
+            {
+                cout<<"CHECK THIS: More than 2 loops found in:["<<path<<"] in line:["<<line<<"]."<<endl;
             }
         }
         else if(isLineWithALoopEnd(line))
@@ -339,10 +347,12 @@ void CPlusPlusFileFixer::addHeaderFileFromAngleBrackets(string const& header)
 void CPlusPlusFileFixer::addHeaderFileFromQuotations(string const& header)
 {
     AlbaPathHandler headerPathHandler(header, "/");
-    m_headerListFromQuotations.emplace(headerPathHandler.getFullPath());}
+    m_headerListFromQuotations.emplace(headerPathHandler.getFullPath());
+}
 
 void CPlusPlusFileFixer::writeFile(string const& path)
-{    AlbaLocalPathHandler filePathHandler(path);
+{
+    AlbaLocalPathHandler filePathHandler(path);
     ofstream outputLogFileStream(filePathHandler.getFullPath());
     if(m_isPragmaOnceFound)
     {

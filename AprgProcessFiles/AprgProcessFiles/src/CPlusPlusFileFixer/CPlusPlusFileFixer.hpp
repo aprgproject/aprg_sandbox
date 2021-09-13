@@ -22,10 +22,12 @@ private:
     void readLineWithSharpInclude(std::string const& line, std::string const& path);
     void notifyIfThereAreCommentsInHeader(std::string const& path, std::string const& line) const;
     void notifyIfAlbaDebugHeaderExistInProductionCode(std::string const& path) const;
-    void notifyIfIostreamHeaderExistInProductionCode(std::string const& path) const;    void notifyIfCAssertHeaderExistInProductionCode(std::string const& path) const;
+    void notifyIfIostreamHeaderExistInProductionCode(std::string const& path) const;
+    void notifyIfCAssertHeaderExistInProductionCode(std::string const& path) const;
     void notifyIfMoreThanLoopsAreCascaded(std::string const& path) const;
 
-    void fix(std::string const& path);    void fixHeaders(std::string const& path);
+    void fix(std::string const& path);
+    void fixHeaders(std::string const& path);
     void removeTrailingLinesInCode();
     void fixNamespaces();
     void fixSmallUToCapitalUInNumbers();

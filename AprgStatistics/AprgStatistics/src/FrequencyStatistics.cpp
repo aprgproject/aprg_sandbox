@@ -5,8 +5,10 @@
 #include <numeric>
 
 using namespace std;
+
 namespace alba
 {
+
 unsigned int FrequencyStatistics::calculateNumberOfSamples(FrequencySamples const& samples)
 {
     return accumulate(samples.begin(), samples.end(), (unsigned int)0, [](unsigned int partialResult, FrequencyPair const& frequencyPair)
