@@ -52,14 +52,14 @@ public:
     static AlbaNumber createFraction(int const numerator, unsigned int const denominator);
     static AlbaNumber createComplexNumber(int const realPart, int const imaginaryPart);
     static AlbaNumber createComplexNumber(double const realPart, double const imaginaryPart);
+    static void setTolerancesToZero();
+    static void setTolerancesToDefault();
 
     bool operator==(AlbaNumber const& second) const;
-    bool operator!=(AlbaNumber const& second) const;
-    bool operator<=(AlbaNumber const& second) const;
+    bool operator!=(AlbaNumber const& second) const;    bool operator<=(AlbaNumber const& second) const;
     bool operator>=(AlbaNumber const& second) const;
     bool operator<(AlbaNumber const& second) const;
-    bool operator>(AlbaNumber const& second) const;
-    AlbaNumber operator+() const;
+    bool operator>(AlbaNumber const& second) const;    AlbaNumber operator+() const;
     AlbaNumber operator-() const;
     AlbaNumber operator+(AlbaNumber const& second) const;
     AlbaNumber operator-(AlbaNumber const& second) const;
@@ -198,8 +198,21 @@ private:
             FractionData const& baseFractionData,
             long long int const exponent) const;
 
+public:
+    static double s_comparisonTolerance;
+    static double s_floatAdjustmentTolerance;
+
+private:
     Type m_type;
     NumberUnionData m_data;
+};
+
+class AlbaNumberToleranceToZeroScopeObject
+{
+public:
+    AlbaNumberToleranceToZeroScopeObject();
+    ~AlbaNumberToleranceToZeroScopeObject();
+    void doSomethingToAvoidWarning();
 };
 
 std::ostream & operator<<(std::ostream & out, AlbaNumber const& number);

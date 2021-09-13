@@ -1,31 +1,23 @@
 #include "AlbaMathHelper.hpp"
 
+#include <Math/AlbaMathConstants.hpp>
+
 #include <algorithm>
 #include <climits>
 #include <cmath>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace mathHelper
 {
 
-constexpr double FLOAT_PRECISION=1E-8;
-constexpr double DOUBLE_PRECISION=1E-15;
-constexpr double FLOAT_DIFFERENCE_TOLERANCE=1E-5;
-constexpr double DOUBLE_DIFFERENCE_TOLERANCE=1E-12;
-
-
 namespace
 {
 //internal functions
-
 unsigned int getNumberOfMultiplesInclusive(
         unsigned int const multiple,
-        unsigned int const number)
-{
+        unsigned int const number){
     unsigned int result(0);
     if(multiple>0)
     {
@@ -84,48 +76,44 @@ FractionDetails getFractionFromPartialNumerators(
 
 double getPi()
 {
-    return 3.14159265358979323846;
+    return PI_DOUBLE_VALUE;
 }
 
 double getE()
 {
-    return 2.7182818284590452354;
+    return E_DOUBLE_VALUE;
 }
 
 double convertDegreesToRadians(double const valueInDegrees)
 {
-    return valueInDegrees/180*getPi();
+    return valueInDegrees / 180 * getPi();
 }
 
 double convertRadiansToDegrees(double const valueInRadians)
 {
-    return valueInRadians/getPi()*180;
+    return valueInRadians / getPi() * 180;
 }
-
 
 //isAlmostEqual
 template <typename NumberType>
-bool isAlmostEqual(NumberType const value1, NumberType const value2)
-{
+bool isAlmostEqual(NumberType const value1, NumberType const value2){
     return value1==value2;
 }
 template bool isAlmostEqual<unsigned int>(unsigned int const value1, unsigned int const value2);
 template bool isAlmostEqual<int>(int const value1, int const value2);
 template <> bool isAlmostEqual<float>(float const value1, float const value2)
 {
-    return value1 == value2 || getAbsoluteValue(value1-value2) < FLOAT_DIFFERENCE_TOLERANCE;
+    return value1 == value2 || getAbsoluteValue(value1-value2) < COMPARISON_TOLERANCE_FOR_FLOAT;
 }
 template <> bool isAlmostEqual<double>(double const value1, double const value2)
 {
-    return value1 == value2 || getAbsoluteValue(value1-value2) < DOUBLE_DIFFERENCE_TOLERANCE;
+    return value1 == value2 || getAbsoluteValue(value1-value2) < COMPARISON_TOLERANCE_FOR_DOUBLE;
 }
 //Commented out: This implementation is not practical when value is equal to zero
-//template <> bool isAlmostEqual<double>(double const value1, double const value2)
-//{
+//template <> bool isAlmostEqual<double>(double const value1, double const value2)//{
 //    constexpr double absoluteScaledDifferenceTolerance(1E-12);
 //    double absoluteMaxValue = max(getAbsoluteValue(value1), getAbsoluteValue(value2));
-//    double difference = getAbsoluteValue(value1-value2);
-//    return difference <= absoluteMaxValue*absoluteScaledDifferenceTolerance;
+//    double difference = getAbsoluteValue(value1-value2);//    return difference <= absoluteMaxValue*absoluteScaledDifferenceTolerance;
 //}
 
 
@@ -159,17 +147,12 @@ template bool isAlmostAnInteger<double, long long int>(double const value);
 
 bool isAlmostAnInteger(double const value, double const differenceTolerance)
 {
-    return isAlmostEqual(
-                value,
-                static_cast<double>(static_cast<int>(round(value))),
-                differenceTolerance);
+    return isAlmostEqual(value, round(value), differenceTolerance);
 }
-
 
 //isValueBeyondLimits
 template <> bool isValueBeyondLimits<int>(double const value)
-{
-    return value<INT_MIN || value>INT_MAX;
+{    return value<INT_MIN || value>INT_MAX;
 }
 template <> bool isValueBeyondLimits<unsigned int>(double const value)
 {
