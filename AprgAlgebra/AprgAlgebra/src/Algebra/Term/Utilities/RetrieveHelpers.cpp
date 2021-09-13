@@ -1,21 +1,30 @@
 #include "RetrieveHelpers.hpp"
 
+#include <Algebra/Retrieval/FunctionsRetriever.hpp>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
 
+bool hasAnyFunctions(Term const& term)
+{
+    FunctionsRetriever functionsRetriever([](Function const&)
+    {
+        return true;
+    });
+    functionsRetriever.retrieveFromTerm(term);
+    return !functionsRetriever.getSavedData().empty();
+}
+
 AlbaNumber getCoefficientOfMonomialWithNoVariables(
         Polynomial const& polynomial)
-{
-    AlbaNumber coefficientValue;
+{    AlbaNumber coefficientValue;
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
-        Monomial::VariablesToExponentsMap const& variableToExponentMap(
-                    monomial.getVariablesToExponentsMapConstReference());
+        Monomial::VariablesToExponentsMap const& variableToExponentMap(                    monomial.getVariablesToExponentsMapConstReference());
         if(variableToExponentMap.empty())
         {
             coefficientValue = monomial.getConstantConstReference();
