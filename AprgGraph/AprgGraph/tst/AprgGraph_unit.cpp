@@ -67,10 +67,9 @@ TEST(AprgGraphTest, TemporaryTest)
     AprgGraph graph(graphOutputFile.getFullPath(), BitmapXY(800,450), BitmapDoubleXY(50, 50));
     graph.drawGrid(BitmapDoubleXY((double)5, (double)5));
 
-    Equation equation(buildEquationIfPossible("(x^2 + 9)/(x-2) = y"));
+    Equation equation(buildEquationIfPossible("x^x = y"));
     graph.drawEquationWithXYSubstitution(equation, 0x0000A1BA);
 
-    graph.saveChangesToBitmapFile();
-}
+    graph.saveChangesToBitmapFile();}
 
 }
