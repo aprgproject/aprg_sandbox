@@ -159,10 +159,9 @@ TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedFailsToGetSolution
 
     newtonMethod.runMaxNumberOfIterationsOrUntilFinished(100);
 
-    EXPECT_TRUE(newtonMethod.getCurrentValue().isNegativeInfinity());
+    EXPECT_TRUE(newtonMethod.getCurrentValue().isNotANumber());
     EXPECT_EQ(1U, newtonMethod.getNumberOfIterationsExecuted());
 }
-
 }
 
 }

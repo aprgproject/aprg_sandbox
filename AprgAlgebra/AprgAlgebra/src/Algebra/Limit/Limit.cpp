@@ -20,14 +20,12 @@ namespace
 constexpr double COMPARISON_TOLERANCE_FOR_LIMIT_ITERATION=1E-15;
 constexpr double COMPARISON_TOLERANCE_FOR_LIMIT_CHECKING=1E-5;
 constexpr unsigned int MAX_NUMBER_OF_ITERATIONS=100;
-constexpr double POSITIVE_DELTA_FOR_INITIAL_VALUE=1;
+constexpr double POSITIVE_DELTA_FOR_INITIAL_VALUE=1E-3;
 
 }
-
 bool isAlmostEqualForLimitIteration(AlbaNumber const& value1, AlbaNumber const& value2)
 {
-    return isAlmostEqual(value1.getDouble(), value2.getDouble(), COMPARISON_TOLERANCE_FOR_LIMIT_ITERATION);
-}
+    return isAlmostEqual(value1.getDouble(), value2.getDouble(), COMPARISON_TOLERANCE_FOR_LIMIT_ITERATION);}
 
 bool isAlmostEqualForLimitChecking(AlbaNumber const& value1, AlbaNumber const& value2)
 {
