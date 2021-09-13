@@ -1,15 +1,13 @@
 #include "SoosaConfiguration.hpp"
 
 #include <algorithm>
-#include <numeric>
 #include <cassert>
 #include <iostream>
+#include <numeric>
 
 using namespace std;
-
 namespace alba
 {
-
 unsigned int SoosaConfiguration::getNumberOfColumns() const
 {
     return m_formDetails.columnToNumberOfQuestionsMap.size();

@@ -6,15 +6,13 @@
 #include <BitmapFilters/Utilities.hpp>
 #include <BitmapTraversal/OutwardCircleTraversal.hpp>
 #include <BitmapTraversal/OutwardSnakeLikeTraversal.hpp>
-#include <Optional/AlbaOptional.hpp>
 #include <Math/AlbaMathHelper.hpp>
+#include <Optional/AlbaOptional.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 #include <TwoDimensions/TwoDimensionsHelper.hpp>
-
 using namespace alba::AprgBitmap::ColorUtilities;
 using namespace alba::mathHelper;
-using namespace alba::TwoDimensions;
-using namespace std;
+using namespace alba::TwoDimensions;using namespace std;
 
 namespace alba
 {
