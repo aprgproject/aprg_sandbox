@@ -41,6 +41,7 @@ ContinuityType getContinuityTypeAt(
 
 SolutionSet getContinuityDomain(
         Term const& term);
+
 }
 
 }

@@ -10,6 +10,7 @@
 
 using namespace alba::algebra::Simplification;
 using namespace std;
+
 namespace alba
 {
 
@@ -66,6 +67,7 @@ TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample2)
 {
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("7/x > 2")));
+
     AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(1U, acceptedIntervals.size());
     EXPECT_EQ(createOpenEndpoint(0), acceptedIntervals.front().getLowerEndpoint());
@@ -76,6 +78,7 @@ TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample3)
 {
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("abs(3*x+2) > 5")));
+
     AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(2U, acceptedIntervals.size());
     AlbaNumberInterval const& interval1(acceptedIntervals.at(0));
@@ -90,6 +93,7 @@ TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample4)
 {
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("x^2+7*x+12 >= 0")));
+
     AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(2U, acceptedIntervals.size());
     AlbaNumberInterval const& interval1(acceptedIntervals.at(0));

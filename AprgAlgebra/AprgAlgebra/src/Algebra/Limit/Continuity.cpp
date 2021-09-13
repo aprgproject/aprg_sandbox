@@ -15,6 +15,7 @@ using namespace std;
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -73,7 +74,8 @@ ContinuityType getContinuityTypeAt(
         AlbaNumber const& value)
 {
     ContinuityType result(ContinuityType::Unknown);
-    SubstitutionOfVariablesToValues substitution{{variableName, value}};    Term subtitutedResult(substitution.performSubstitutionTo(term));
+    SubstitutionOfVariablesToValues substitution{{variableName, value}};
+    Term subtitutedResult(substitution.performSubstitutionTo(term));
     if(subtitutedResult.isConstant())
     {
         AlbaNumber limitAtValueInPositiveSide(getLimitAtAValueInThePositiveSide(term, variableName, value));
@@ -108,10 +110,13 @@ SolutionSet getContinuityDomain(
     // Calculus Theorem:  A cosine function is continuous at every number.
 
     SolutionSet continuityDomain;
-    FunctionsRetriever functionsRetriever([](Function const& functionObject)    {
+    FunctionsRetriever functionsRetriever([](Function const& functionObject)
+    {
         return isFunctionContinuous(functionObject);
     });
-    if(functionsRetriever.getSavedData().empty())    {        continuityDomain = calculateDomainForTermWithOneVariable(term);
+    if(functionsRetriever.getSavedData().empty())
+    {
+        continuityDomain = calculateDomainForTermWithOneVariable(term);
     }
     return continuityDomain;
 }

@@ -6,8 +6,10 @@
 
 #include <cmath>
 #include <sstream>
+
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -20,9 +22,11 @@ double AlbaNumber::s_floatAdjustmentTolerance = ADJUSTMENT_FLOAT_TOLERANCE;
 
 AlbaNumber::AlbaNumber()
     : m_type(Type::Integer)
-    , m_data{}{
+    , m_data{}
+{
     m_data.intData = 0;
 }
+
 AlbaNumber::AlbaNumber(int const integerValue)
     : m_type(Type::Integer)
     , m_data{}
@@ -120,10 +124,12 @@ bool AlbaNumber::operator==(AlbaNumber const& second) const
         result = isAlmostEqual(getDouble(), second.getDouble(), s_comparisonTolerance);
     }
     else if(isComplexNumberType() && second.isComplexNumberType())
-    {        result = createComplexNumberFromData(m_data.complexNumberData)
+    {
+        result = createComplexNumberFromData(m_data.complexNumberData)
                 == createComplexNumberFromData(second.m_data.complexNumberData);
     }
-    return result;}
+    return result;
+}
 
 bool AlbaNumber::operator!=(AlbaNumber const& second) const
 {
@@ -980,10 +986,12 @@ string AlbaNumber::getDisplayableString() const
         result.precision(16);
         result << m_data.doubleData;
     }
-    else if(m_type==Type::Fraction)    {
+    else if(m_type==Type::Fraction)
+    {
         result << "(" << m_data.fractionData.numerator << "/" << m_data.fractionData.denominator << ")";
     }
-    else if(m_type==Type::ComplexNumber)    {
+    else if(m_type==Type::ComplexNumber)
+    {
         result << ComplexFloat(m_data.complexNumberData.realPart, m_data.complexNumberData.imaginaryPart).getDisplayableString();
     }
     return result.str();
@@ -1037,10 +1045,12 @@ void AlbaNumber::constructBasedFromComplexNumberDetails(NumberType1 const realPa
     if(isAlmostEqual(adjustedImaginaryPart, 0.0, s_comparisonTolerance)
             || POSITIVE_INFINITY_DOUBLE_VALUE == adjustedRealPart
             || NEGATIVE_INFINITY_DOUBLE_VALUE == adjustedRealPart
-            || isnan(adjustedRealPart))    {
+            || isnan(adjustedRealPart))
+    {
         *this = AlbaNumber(static_cast<double>(adjustedRealPart));
     }
-    else    {
+    else
+    {
         m_type = AlbaNumber::Type::ComplexNumber;
         ComplexNumberData& complexReference(m_data.complexNumberData);
         complexReference.realPart = static_cast<float>(adjustedRealPart);
@@ -1057,7 +1067,8 @@ void AlbaNumber::convertFromDoubleToIntegerIfNeeded()
     if(!isValueBeyondLimits<long long int>(realValue) && isAlmostAnInteger(realValue, s_comparisonTolerance))
     {
         *this = AlbaNumber(getIntegerAfterRoundingDoubleValue<long long int>(realValue));
-    }}
+    }
+}
 
 double AlbaNumber::adjustFloatValue(float const value) const
 {
@@ -1065,10 +1076,12 @@ double AlbaNumber::adjustFloatValue(float const value) const
     if(isAlmostAnInteger(value, s_floatAdjustmentTolerance))
     {
         result=round(value);
-    }    return result;
+    }
+    return result;
 }
 
-AlbaNumber AlbaNumber::addBothIntegersAndReturnNumber(        bool & shouldBeConvertedToDouble,
+AlbaNumber AlbaNumber::addBothIntegersAndReturnNumber(
+        bool & shouldBeConvertedToDouble,
         long long int const integerValue1,
         long long int const integerValue2) const
 {
@@ -1290,7 +1303,9 @@ void AlbaNumberToleranceToZeroScopeObject::doSomethingToAvoidWarning()
 
 ostream & operator<<(ostream & out, AlbaNumber const& number)
 {
-    out << number.getDisplayableString();    return out;
+    out << number.getDisplayableString();
+    return out;
 }
+
 
 }

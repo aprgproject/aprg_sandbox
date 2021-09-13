@@ -44,7 +44,8 @@ TEST(AlbaNumberIntervalHelpersTest, GetEndpointTypeWithCheckingIfItsClosedWorks)
     EXPECT_EQ(AlbaNumberIntervalEndpoint::Type::Open, getEndpointTypeWithCheckingIfItsClosed(false));
 }
 
-TEST(AlbaNumberIntervalHelpersTest, CreateOpenEndpointWorks){
+TEST(AlbaNumberIntervalHelpersTest, CreateOpenEndpointWorks)
+{
     AlbaNumberIntervalEndpoint endpoint(createOpenEndpoint(645));
 
     EXPECT_EQ(AlbaNumberIntervalEndpoint::Type::Open, endpoint.getType());

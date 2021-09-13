@@ -102,10 +102,12 @@ TEST(AlbaNumberTest, SetToleranceToZeroAndSetToleranceToDefaultWorks)
 
 TEST(AlbaNumberTest, EqualityWorks)
 {
-    AlbaNumber number1;    AlbaNumber number2(-81237);
+    AlbaNumber number1;
+    AlbaNumber number2(-81237);
     AlbaNumber number3(-81237);
     AlbaNumber number4(static_cast<double>(1)/3);
-    AlbaNumber number5(AlbaNumber::Value::PositiveInfinity);    AlbaNumber number6(AlbaNumber::Value::NegativeInfinity);
+    AlbaNumber number5(AlbaNumber::Value::PositiveInfinity);
+    AlbaNumber number6(AlbaNumber::Value::NegativeInfinity);
     AlbaNumber number7(AlbaNumber::createFraction(1, 3));
     AlbaNumber number8(AlbaNumber::createComplexNumber(static_cast<double>(1)/3, 0.0));
     AlbaNumber number9(AlbaNumber::createComplexNumber(-81237, -81237));
@@ -633,10 +635,12 @@ TEST(AlbaNumberTest, MultiplyWorksOnTypesStartingFromDouble)
     //    EXPECT_FLOAT_EQ(-36.75, complexNumberData.imaginaryPart);
 }
 
-TEST(AlbaNumberTest, MultiplyWorksOnTypesStartingFromFraction){
+TEST(AlbaNumberTest, MultiplyWorksOnTypesStartingFromFraction)
+{
     AlbaNumber number1 = AlbaNumber::createFraction(0, 1) * AlbaNumber::createFraction(0, 1);
     AlbaNumber number2 = AlbaNumber::createFraction(100, 6) * 5;
-    AlbaNumber number3 = AlbaNumber::createFraction(100, 6) * AlbaNumber::createFraction(10, 7);    AlbaNumber number4 = AlbaNumber::createFraction(100, 6) * 23.24897;
+    AlbaNumber number3 = AlbaNumber::createFraction(100, 6) * AlbaNumber::createFraction(10, 7);
+    AlbaNumber number4 = AlbaNumber::createFraction(100, 6) * 23.24897;
     AlbaNumber number5 = AlbaNumber::createFraction(-2005875, -79507) * AlbaNumber::createFraction(-688, -27);
     AlbaNumber number6 = AlbaNumber::createFraction(1234567890, 1234567891) * AlbaNumber(1234567891);
     AlbaNumber number7 = AlbaNumber(1234567891) * AlbaNumber::createFraction(1234567890, 1234567891);

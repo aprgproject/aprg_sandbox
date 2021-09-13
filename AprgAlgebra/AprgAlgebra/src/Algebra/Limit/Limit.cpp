@@ -1,36 +1,37 @@
 #include "Limit.hpp"
 
 #include <Algebra/Limit/LimitsAtInfinity/LimitsAtInfinity.hpp>
+#include <Algebra/Retrieval/FunctionsRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
+
 namespace algebra
 {
 
 namespace
 {
 
-constexpr double LIMIT_DIFFERENCE_TOLERANCE=1E-5;
+constexpr double COMPARISON_TOLERANCE_FOR_LIMIT_ITERATION=1E-15;
+constexpr double COMPARISON_TOLERANCE_FOR_LIMIT_CHECKING=1E-5;
 constexpr unsigned int MAX_NUMBER_OF_ITERATIONS=100;
 constexpr double POSITIVE_DELTA_FOR_INITIAL_VALUE=1;
 
 }
 
-bool isAlmostEqualForLimitChecking(AlbaNumber const& value1, AlbaNumber const& value2)
+bool isAlmostEqualForLimitIteration(AlbaNumber const& value1, AlbaNumber const& value2)
 {
-    return isAlmostEqual(value1.getDouble(), value2.getDouble(), LIMIT_DIFFERENCE_TOLERANCE);
+    return isAlmostEqual(value1.getDouble(), value2.getDouble(), COMPARISON_TOLERANCE_FOR_LIMIT_ITERATION);
 }
 
-bool isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber const& value)
+bool isAlmostEqualForLimitChecking(AlbaNumber const& value1, AlbaNumber const& value2)
 {
-    return !value.isARealFiniteValue() || value.getDouble() == 0;
+    return isAlmostEqual(value1.getDouble(), value2.getDouble(), COMPARISON_TOLERANCE_FOR_LIMIT_CHECKING);
 }
 
 bool hasVerticalAsymptoteAtValue(
@@ -85,10 +86,12 @@ bool isSqueezeTheoremSatisfied(
 
 AlbaNumber getLimitAtAValueByApproachType(
         Term const& term,
-        string const& variableName,        AlbaNumber const& valueToApproach,
+        string const& variableName,
+        AlbaNumber const& valueToApproach,
         LimitAtAValueApproachType const limitApproachType)
 {
-    AlbaNumber result;    if(LimitAtAValueApproachType::BothSides == limitApproachType)
+    AlbaNumber result;
+    if(LimitAtAValueApproachType::BothSides == limitApproachType)
     {
         result = getLimitAtAValueInBothSides(term, variableName, valueToApproach);
     }
@@ -151,6 +154,9 @@ AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
         AlbaNumber const& initialValueForIteration,
         unsigned int maxNumberOfIterations)
 {
+    AlbaNumberToleranceToZeroScopeObject scopeObject;
+    scopeObject.doSomethingToAvoidWarning();
+
     SubstitutionOfVariablesToValues substitution;
     AlbaNumber currentInput(initialValueForIteration);
     AlbaNumber previousAcceptedInput(currentInput);
@@ -163,7 +169,7 @@ AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
         if(currentOutputTerm.isConstant())
         {
             AlbaNumber currentOutputNumber(currentOutputTerm.getConstantConstReference().getNumberConstReference());
-            if(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(currentOutputNumber))
+            if(!currentOutputNumber.isARealFiniteValue())
             {
                 previousRejectedInput = currentInput;
             }
@@ -173,7 +179,8 @@ AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
                 previousAcceptedInput = currentInput;
             }
             AlbaNumber newInput(getAverageForAlbaNumber(previousAcceptedInput, previousRejectedInput));
-            if(newInput == valueToApproach)
+            if(isAlmostEqualForLimitIteration(newInput, valueToApproach)
+                    || isAlmostEqualForLimitIteration(previousAcceptedInput, newInput))
             {
                 break;
             }
@@ -195,6 +202,9 @@ AlbaNumber getLimitAtAValueUsingTrendOfValues(
         AlbaNumber const& previousAcceptedInput,
         AlbaNumber const& previousPreviousAcceptedInput)
 {
+    AlbaNumberToleranceToZeroScopeObject scopeObject;
+    scopeObject.doSomethingToAvoidWarning();
+
     AlbaNumber result(AlbaNumber::Value::NotANumber);
     SubstitutionOfVariablesToValues substitution;
     substitution.putVariableWithValue(variableName, valueToApproach);
@@ -203,6 +213,7 @@ AlbaNumber getLimitAtAValueUsingTrendOfValues(
     Term previousAcceptedOutputTerm(substitution.performSubstitutionTo(term));
     substitution.putVariableWithValue(variableName, previousPreviousAcceptedInput);
     Term previousPreviousAcceptedOutputTerm(substitution.performSubstitutionTo(term));
+
     if(outputTermAtValueToApproach.isConstant()
             && previousAcceptedOutputTerm.isConstant()
             && previousPreviousAcceptedOutputTerm.isConstant())
@@ -212,14 +223,10 @@ AlbaNumber getLimitAtAValueUsingTrendOfValues(
         AlbaNumber previousPreviousAcceptedOutput(previousPreviousAcceptedOutputTerm.getConstantConstReference().getNumberConstReference());
         if(outputAtValueToApproach.isPositiveOrNegativeInfinity())
         {
-            if(previousAcceptedOutput<0)
-            {
-                result = AlbaNumber(AlbaNumber::Value::NegativeInfinity);
-            }
-            else
-            {
-                result = AlbaNumber(AlbaNumber::Value::PositiveInfinity);
-            }
+            result = (previousAcceptedOutput<0) ?
+                        AlbaNumber(AlbaNumber::Value::NegativeInfinity) :
+                        AlbaNumber(AlbaNumber::Value::PositiveInfinity);
+
         }
         else
         {
@@ -268,7 +275,12 @@ Term getLimitAtAValue(
     if(limitResult.isConstant())
     {
         AlbaNumber limitResultNumber(limitResult.getConstantConstReference().getNumberConstReference());
-        if(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(limitResultNumber))
+        FunctionsRetriever functionsRetriever([](Function const&)
+        {
+            return true;
+        });
+        functionsRetriever.retrieveFromTerm(term);
+        if(!limitResultNumber.isARealFiniteValue() || !functionsRetriever.getSavedData().empty())
         {
             limitResult = Term(getLimitAtAValueByApproachType(term, variableName, valueToApproach, limitApproachType));
         }
@@ -293,7 +305,8 @@ Term getLimitAtInfinity(
         AlbaNumber::Value const infinityValue)
 {
     LimitsAtInfinity limitsAtInfinity(term, variableName);
-    return limitsAtInfinity.getValueAtInfinity(infinityValue);}
+    return limitsAtInfinity.getValueAtInfinity(infinityValue);
+}
 
 }
 

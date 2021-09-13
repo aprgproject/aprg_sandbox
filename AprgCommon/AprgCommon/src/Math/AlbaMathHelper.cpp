@@ -5,9 +5,11 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
+
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace mathHelper
 {
@@ -15,9 +17,11 @@ namespace mathHelper
 namespace
 {
 //internal functions
+
 unsigned int getNumberOfMultiplesInclusive(
         unsigned int const multiple,
-        unsigned int const number){
+        unsigned int const number)
+{
     unsigned int result(0);
     if(multiple>0)
     {
@@ -94,9 +98,11 @@ double convertRadiansToDegrees(double const valueInRadians)
     return valueInRadians / getPi() * 180;
 }
 
+
 //isAlmostEqual
 template <typename NumberType>
-bool isAlmostEqual(NumberType const value1, NumberType const value2){
+bool isAlmostEqual(NumberType const value1, NumberType const value2)
+{
     return value1==value2;
 }
 template bool isAlmostEqual<unsigned int>(unsigned int const value1, unsigned int const value2);
@@ -110,10 +116,12 @@ template <> bool isAlmostEqual<double>(double const value1, double const value2)
     return value1 == value2 || getAbsoluteValue(value1-value2) < COMPARISON_TOLERANCE_FOR_DOUBLE;
 }
 //Commented out: This implementation is not practical when value is equal to zero
-//template <> bool isAlmostEqual<double>(double const value1, double const value2)//{
+//template <> bool isAlmostEqual<double>(double const value1, double const value2)
+//{
 //    constexpr double absoluteScaledDifferenceTolerance(1E-12);
 //    double absoluteMaxValue = max(getAbsoluteValue(value1), getAbsoluteValue(value2));
-//    double difference = getAbsoluteValue(value1-value2);//    return difference <= absoluteMaxValue*absoluteScaledDifferenceTolerance;
+//    double difference = getAbsoluteValue(value1-value2);
+//    return difference <= absoluteMaxValue*absoluteScaledDifferenceTolerance;
 //}
 
 
@@ -150,9 +158,11 @@ bool isAlmostAnInteger(double const value, double const differenceTolerance)
     return isAlmostEqual(value, round(value), differenceTolerance);
 }
 
+
 //isValueBeyondLimits
 template <> bool isValueBeyondLimits<int>(double const value)
-{    return value<INT_MIN || value>INT_MAX;
+{
+    return value<INT_MIN || value>INT_MAX;
 }
 template <> bool isValueBeyondLimits<unsigned int>(double const value)
 {

@@ -80,7 +80,8 @@ AlbaNumberIntervalEndpoint const& AlbaNumberInterval::getLowerEndpoint() const
 }
 
 AlbaNumberIntervalEndpoint const& AlbaNumberInterval::getHigherEndpoint() const
-{    return m_higherEndpoint;
+{
+    return m_higherEndpoint;
 }
 
 string AlbaNumberInterval::getDisplayableString() const

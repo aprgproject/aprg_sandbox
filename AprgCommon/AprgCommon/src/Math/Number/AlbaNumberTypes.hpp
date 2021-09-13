@@ -8,7 +8,8 @@
 #include <set>
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 using AlbaNumbersSet=std::set<AlbaNumber>;
 using AlbaNumberMap=std::map<AlbaNumber, AlbaNumber>;

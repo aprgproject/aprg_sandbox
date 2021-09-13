@@ -6,6 +6,7 @@
 #include <algorithm>
 
 using namespace std;
+
 namespace alba
 {
 
@@ -143,6 +144,7 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithAcceptedValue)
 {
     SolutionSet solutionSet;
     solutionSet.addAcceptedValue(2);
+
     AlbaNumbers addedValuesToCheck{1};
     AlbaNumbers valuesThatAreNotAccepted{1,2};
     solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck)
@@ -161,6 +163,7 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithRejectedValue)
 {
     SolutionSet solutionSet;
     solutionSet.addRejectedValue(2);
+
     AlbaNumbers addedValuesToCheck{1};
     AlbaNumbers valuesThatAreNotAccepted{1,2};
     solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck)
@@ -179,7 +182,8 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithRedundantInfiniti
 {
     SolutionSet solutionSet;
 
-    AlbaNumbers addedValuesToCheck{        1,
+    AlbaNumbers addedValuesToCheck{
+        1,
         AlbaNumber::Value::PositiveInfinity,
                 AlbaNumber::Value::NegativeInfinity,
                 AlbaNumber::Value::PositiveInfinity,
@@ -200,7 +204,8 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithAllKindOfInterval
 {
     SolutionSet solutionSet;
 
-    AlbaNumbers valuesThatAreNotAccepted{4,5};    solutionSet.determineAndAddAcceptedIntervals(valuesThatAreNotAccepted, [&](AlbaNumber const& numberToCheck)
+    AlbaNumbers valuesThatAreNotAccepted{4,5};
+    solutionSet.determineAndAddAcceptedIntervals(valuesThatAreNotAccepted, [&](AlbaNumber const& numberToCheck)
     {
         return find(valuesThatAreNotAccepted.cbegin(), valuesThatAreNotAccepted.cend(), numberToCheck) == valuesThatAreNotAccepted.cend();
     });
@@ -216,7 +221,8 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksWithAllConnectedInter
 {
     SolutionSet solutionSet;
 
-    AlbaNumbers addedValuesToCheck{1,2,3};    AlbaNumbers valuesThatAreNotAccepted{2};
+    AlbaNumbers addedValuesToCheck{1,2,3};
+    AlbaNumbers valuesThatAreNotAccepted{2};
     solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck)
     {
         return find(valuesThatAreNotAccepted.cbegin(), valuesThatAreNotAccepted.cend(), numberToCheck) == valuesThatAreNotAccepted.cend();
@@ -232,7 +238,8 @@ TEST(SolutionSetTest, DetermineAndAddAcceptedIntervalsWorksAndNotAcceptedInterva
 {
     SolutionSet solutionSet;
 
-    AlbaNumbers addedValuesToCheck{1,2};    AlbaNumbers valuesThatAreNotAccepted{1, 1.5, 2};
+    AlbaNumbers addedValuesToCheck{1,2};
+    AlbaNumbers valuesThatAreNotAccepted{1, 1.5, 2};
     solutionSet.determineAndAddAcceptedIntervals(addedValuesToCheck, [&](AlbaNumber const& numberToCheck)
     {
         return find(valuesThatAreNotAccepted.cbegin(), valuesThatAreNotAccepted.cend(), numberToCheck) == valuesThatAreNotAccepted.cend();
@@ -248,7 +255,8 @@ TEST(SolutionSetTest, GetDisplayableStringWorks)
 {
     SolutionSet solutionSet;
     solutionSet.addAcceptedValue(3.7);
-    solutionSet.addAcceptedValue(5.6);    solutionSet.addRejectedValue(6.5);
+    solutionSet.addAcceptedValue(5.6);
+    solutionSet.addRejectedValue(6.5);
     solutionSet.addAcceptedInterval(AlbaNumberInterval(createOpenEndpoint(87), createOpenEndpoint(99)));
 
     EXPECT_EQ("AcceptedValues:{3.7, 5.6} RejectedValues:{6.5} AcceptedInterval:{(87, 99)}", solutionSet.getDisplayableString());

@@ -6,13 +6,26 @@
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::algebra::Functions;
 using namespace std;
+
 namespace alba
 {
 
 namespace algebra
 {
+
+TEST(LimitTest, IsAlmostEqualForLimitIterationWorks)
+{
+    AlbaNumberToleranceToZeroScopeObject scopeObject;
+    scopeObject.doSomethingToAvoidWarning();
+
+    EXPECT_TRUE(isAlmostEqualForLimitIteration(AlbaNumber(0), AlbaNumber(0)));
+    EXPECT_FALSE(isAlmostEqualForLimitIteration(AlbaNumber(0.1), AlbaNumber(0.2)));
+    EXPECT_FALSE(isAlmostEqualForLimitIteration(AlbaNumber(1E-15), AlbaNumber(3E-15)));
+    EXPECT_TRUE(isAlmostEqualForLimitIteration(AlbaNumber(1E-16), AlbaNumber(3E-16)));
+}
 
 TEST(LimitTest, IsAlmostEqualForLimitCheckingWorks)
 {
@@ -20,16 +33,6 @@ TEST(LimitTest, IsAlmostEqualForLimitCheckingWorks)
     EXPECT_FALSE(isAlmostEqualForLimitChecking(AlbaNumber(0.1), AlbaNumber(0.2)));
     EXPECT_FALSE(isAlmostEqualForLimitChecking(AlbaNumber(1E-5), AlbaNumber(3E-5)));
     EXPECT_TRUE(isAlmostEqualForLimitChecking(AlbaNumber(1E-6), AlbaNumber(3E-6)));
-}
-
-TEST(LimitTest, IsRejectedLimitValueForDirectSubstitutionAndIterativeMethodsWorks)
-{
-    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(0)));
-    EXPECT_FALSE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(1)));
-    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
-    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(AlbaNumber::Value::NegativeInfinity)));
-    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(AlbaNumber::Value::NotANumber)));
-    EXPECT_TRUE(isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber(AlbaNumber::createComplexNumber(2, 3))));
 }
 
 TEST(LimitTest, HasVerticalAsymptoteAtValueWorks)
@@ -65,10 +68,12 @@ TEST(LimitTest, IsSqueezeTheoremSatisfiedWorks)
 
 TEST(LimitTest, GetLimitAtAValueByApproachTypeWorksForPolynomialOverPolynomial)
 {
-    Term numerator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-25, {})});    Term denominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-5, {})});
+    Term numerator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-25, {})});
+    Term denominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-5, {})});
     Term polynomialOverPolynomialTerm(createExpressionIfPossible({numerator, Term("/"), denominator}));
 
-    EXPECT_EQ(AlbaNumber(10), getLimitAtAValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitAtAValueApproachType::BothSides));    EXPECT_EQ(AlbaNumber(10), getLimitAtAValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitAtAValueApproachType::PositiveSide));
+    EXPECT_EQ(AlbaNumber(10), getLimitAtAValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitAtAValueApproachType::BothSides));
+    EXPECT_EQ(AlbaNumber(10), getLimitAtAValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitAtAValueApproachType::PositiveSide));
     EXPECT_EQ(AlbaNumber(10), getLimitAtAValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitAtAValueApproachType::NegativeSide));
 }
 
@@ -211,7 +216,8 @@ TEST(LimitTest, GetLimitAtAValueWorksForPolynomialOverPolynomialWithFractionalVa
     Term denominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-4, {})});
     Term polynomialOverPolynomialTerm(createExpressionIfPossible({numerator, Term("/"), denominator}));
 
-    EXPECT_EQ(Term(0.25), getLimitAtAValue(polynomialOverPolynomialTerm, "x", 4, LimitAtAValueApproachType::BothSides));    EXPECT_EQ(Term(0.25), getLimitAtAValue(polynomialOverPolynomialTerm, "x", 4, LimitAtAValueApproachType::PositiveSide));
+    EXPECT_EQ(Term(0.25), getLimitAtAValue(polynomialOverPolynomialTerm, "x", 4, LimitAtAValueApproachType::BothSides));
+    EXPECT_EQ(Term(0.25), getLimitAtAValue(polynomialOverPolynomialTerm, "x", 4, LimitAtAValueApproachType::PositiveSide));
     EXPECT_EQ(Term(0.25), getLimitAtAValue(polynomialOverPolynomialTerm, "x", 4, LimitAtAValueApproachType::NegativeSide));
 }
 

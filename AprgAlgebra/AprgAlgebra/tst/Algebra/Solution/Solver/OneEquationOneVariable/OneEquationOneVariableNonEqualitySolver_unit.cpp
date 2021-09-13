@@ -7,7 +7,8 @@
 
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -87,6 +88,7 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, XToTheXAreNotSolved)
 {
     Expression expression(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
     OneEquationOneVariableNonEqualitySolver solver;
+
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(expression), ">", Term(823543))));
 
     EXPECT_FALSE(solver.isSolved());
@@ -141,7 +143,8 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, AbsoluteValueFunctionInDenomin
 {
     Term functionTerm(Functions::abs(
                           createExpressionIfPossible({Term(Polynomial{Monomial(2, {{"x", 1}}), Monomial(3, {})}) })));
-    Term fractionTerm(createExpressionIfPossible({Term(1), Term("/"), functionTerm}));    OneEquationOneVariableNonEqualitySolver solver;
+    Term fractionTerm(createExpressionIfPossible({Term(1), Term("/"), functionTerm}));
+    OneEquationOneVariableNonEqualitySolver solver;
 
     SolutionSet solutionSet(
                 solver.calculateSolutionAndReturnSolutionSet(
@@ -165,7 +168,8 @@ TEST(OneEquationOneVariableNonEqualitySolverTest, AbsoluteValueFunctionInDenomin
 
 TEST(OneEquationOneVariableNonEqualitySolverTest, PolynomialsInEquationAreSolved)
 {
-    Polynomial polynomialLeft{Monomial(AlbaNumber::createFraction(2, 3), {{"x", 1}}), Monomial(-4, {})};    Polynomial polynomialRight{Monomial(5, {{"x", 1}}), Monomial(9, {})};
+    Polynomial polynomialLeft{Monomial(AlbaNumber::createFraction(2, 3), {{"x", 1}}), Monomial(-4, {})};
+    Polynomial polynomialRight{Monomial(5, {{"x", 1}}), Monomial(9, {})};
     OneEquationOneVariableNonEqualitySolver solver;
 
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(polynomialLeft), "<", Term(polynomialRight))));

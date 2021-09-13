@@ -26,6 +26,7 @@ public:
     std::string getDisplayableString() const;
 
     void setNewEndpoint(AlbaNumberIntervalEndpoint const& endpoint);
+
 private:
     AlbaNumberIntervalEndpoint m_lowerEndpoint;
     AlbaNumberIntervalEndpoint m_higherEndpoint;

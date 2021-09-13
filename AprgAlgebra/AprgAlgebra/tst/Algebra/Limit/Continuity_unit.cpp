@@ -8,6 +8,7 @@
 
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -89,7 +90,8 @@ TEST(ContinuityTest, GetContinuityTypeAtWorksForRemovableDiscontinuityFunction)
                 "functionToTest",
                 getBaseTermConstReferenceFromTerm(Term("x")),
                 [](AlbaNumber const& number)
-    {        AlbaNumber result;
+    {
+        AlbaNumber result;
         if(number == 3)
         {
             result = 2;
@@ -171,7 +173,8 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnPolynomialOverPolynomial)
 
 TEST(ContinuityTest, GetContinuityDomainWorksOnSquareRootOfPolynomial)
 {
-    Term polynomialTerm(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(4, {})});    Term termToTest(createExpressionIfPossible({polynomialTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term polynomialTerm(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(4, {})});
+    Term termToTest(createExpressionIfPossible({polynomialTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
 
     SolutionSet continuityDomain(getContinuityDomain(termToTest));
 

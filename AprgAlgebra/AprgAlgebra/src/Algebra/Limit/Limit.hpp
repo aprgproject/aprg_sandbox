@@ -12,8 +12,8 @@ namespace alba
 namespace algebra
 {
 
+bool isAlmostEqualForLimitIteration(AlbaNumber const& value1, AlbaNumber const& value2);
 bool isAlmostEqualForLimitChecking(AlbaNumber const& value1, AlbaNumber const& value2);
-bool isRejectedLimitValueForDirectSubstitutionAndIterativeMethods(AlbaNumber const& value);
 bool hasVerticalAsymptoteAtValue(
         Term const& term,
         std::string const& variableName,
@@ -30,10 +30,12 @@ bool isSqueezeTheoremSatisfied(
         AlbaNumber const& valueToApproach);
 
 AlbaNumber getLimitAtAValueByApproachType(
-        Term const& term,        std::string const& variableName,
+        Term const& term,
+        std::string const& variableName,
         AlbaNumber const& valueToApproach,
         LimitAtAValueApproachType const limitApproachType);
-AlbaNumber getLimitAtAValueInBothSides(        Term const& term,
+AlbaNumber getLimitAtAValueInBothSides(
+        Term const& term,
         std::string const& variableName,
         AlbaNumber const& valueToApproach);
 AlbaNumber getLimitAtAValueInThePositiveSide(
@@ -80,4 +82,5 @@ Term getLimitAtInfinity(
         AlbaNumber::Value const infinityValue);
 
 }
+
 }

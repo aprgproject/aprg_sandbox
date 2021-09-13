@@ -40,8 +40,8 @@ TEST(LimitTest, GetLimitAtAValueWorksForCosineExpression)
     Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
 
     EXPECT_EQ(Term(Constant(0)), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::BothSides));
-    EXPECT_EQ(Term(1.41431223288356e-006), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::PositiveSide));
-    EXPECT_EQ(Term(-1.41431223288356e-006), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::NegativeSide));
+    EXPECT_EQ(Term(Constant(0)), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::PositiveSide));
+    EXPECT_EQ(Term(Constant(0)), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::NegativeSide));
 }
 
 TEST(LimitTest, GetLimitAtAValueWorksForCosineAndSineExpression)
@@ -51,8 +51,8 @@ TEST(LimitTest, GetLimitAtAValueWorksForCosineAndSineExpression)
     Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
 
     EXPECT_EQ(Term(Constant(0)), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::BothSides));
-    EXPECT_EQ(Term(1.41431223288356e-006), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::PositiveSide));
-    EXPECT_EQ(Term(-1.41431223288356e-006), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::NegativeSide));
+    EXPECT_EQ(Term(Constant(0)), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::PositiveSide));
+    EXPECT_EQ(Term(Constant(0)), getLimitAtAValue(termToTest, "x", 0, LimitAtAValueApproachType::NegativeSide));
 }
 
 TEST(LimitTest, GetLimitAtAValueWorksForTangentExpression)
