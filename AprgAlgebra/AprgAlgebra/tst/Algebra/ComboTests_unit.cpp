@@ -4,12 +4,11 @@
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableNonEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
+#include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::algebra::Simplification;
 using namespace std;
-
 namespace alba
 {
 
@@ -58,51 +57,47 @@ TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample1)
 
     AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(1U, acceptedIntervals.size());
-    EXPECT_EQ(AlbaNumberIntervalEndpoint(createOpenEndpoint(-3)), acceptedIntervals.front().getLowerEndpoint());
-    EXPECT_EQ(AlbaNumberIntervalEndpoint(createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), acceptedIntervals.front().getHigherEndpoint());
+    EXPECT_EQ(createOpenEndpoint(-3), acceptedIntervals.front().getLowerEndpoint());
+    EXPECT_EQ(createPositiveInfinityOpenEndpoint(), acceptedIntervals.front().getHigherEndpoint());
 }
 
-TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample2)
-{
+TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample2){
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("7/x > 2")));
 
     AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(1U, acceptedIntervals.size());
-    EXPECT_EQ(AlbaNumberIntervalEndpoint(createOpenEndpoint(0)), acceptedIntervals.front().getLowerEndpoint());
-    EXPECT_EQ(AlbaNumberIntervalEndpoint(createOpenEndpoint(AlbaNumber::createFraction(7, 2))), acceptedIntervals.front().getHigherEndpoint());
+    EXPECT_EQ(createOpenEndpoint(0), acceptedIntervals.front().getLowerEndpoint());
+    EXPECT_EQ(createOpenEndpoint(AlbaNumber::createFraction(7, 2)), acceptedIntervals.front().getHigherEndpoint());
 }
 
-TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample3)
-{
+TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample3){
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("abs(3*x+2) > 5")));
 
     AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(2U, acceptedIntervals.size());
     AlbaNumberInterval const& interval1(acceptedIntervals.at(0));
-    EXPECT_EQ(AlbaNumberIntervalEndpoint(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity)), interval1.getLowerEndpoint());
-    EXPECT_EQ(AlbaNumberIntervalEndpoint(createOpenEndpoint(AlbaNumber::createFraction(-7, 3))), interval1.getHigherEndpoint());
+    EXPECT_EQ(createNegativeInfinityOpenEndpoint(), interval1.getLowerEndpoint());
+    EXPECT_EQ(createOpenEndpoint(AlbaNumber::createFraction(-7, 3)), interval1.getHigherEndpoint());
     AlbaNumberInterval const& interval2(acceptedIntervals.at(1));
-    EXPECT_EQ(AlbaNumberIntervalEndpoint(createOpenEndpoint(1)), interval2.getLowerEndpoint());
-    EXPECT_EQ(AlbaNumberIntervalEndpoint(createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), interval2.getHigherEndpoint());
+    EXPECT_EQ(createOpenEndpoint(1), interval2.getLowerEndpoint());
+    EXPECT_EQ(createPositiveInfinityOpenEndpoint(), interval2.getHigherEndpoint());
 }
 
-TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample4)
-{
+TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample4){
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("x^2+7*x+12 >= 0")));
 
     AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(2U, acceptedIntervals.size());
     AlbaNumberInterval const& interval1(acceptedIntervals.at(0));
-    EXPECT_EQ(AlbaNumberIntervalEndpoint(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity)), interval1.getLowerEndpoint());
+    EXPECT_EQ(createNegativeInfinityOpenEndpoint(), interval1.getLowerEndpoint());
     EXPECT_EQ(AlbaNumberIntervalEndpoint(createCloseEndpoint(-4)), interval1.getHigherEndpoint());
     AlbaNumberInterval const& interval2(acceptedIntervals.at(1));
     EXPECT_EQ(AlbaNumberIntervalEndpoint(createCloseEndpoint(-3)), interval2.getLowerEndpoint());
-    EXPECT_EQ(AlbaNumberIntervalEndpoint(createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)), interval2.getHigherEndpoint());
+    EXPECT_EQ(createPositiveInfinityOpenEndpoint(), interval2.getHigherEndpoint());
 }
 
 }
-
 }

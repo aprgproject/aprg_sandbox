@@ -5,12 +5,11 @@
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Math/AlbaMathHelper.hpp>
+#include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 #include <algorithm>
-
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 

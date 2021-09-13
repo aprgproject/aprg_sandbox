@@ -252,14 +252,23 @@ Term getLimitAtAValue(
     return limitResult;
 }
 
-Term getLimitAtInfinity(
+Term simplifyAndGetLimitAtAValue(
         Term const& term,
         string const& variableName,
-        AlbaNumber::Value const infinityValue)
+        AlbaNumber const& valueToApproach,
+        LimitAtAValueApproachType const limitApproachType)
+{
+    Term simplifiedTerm(term);
+    simplifiedTerm.simplify();
+    return getLimitAtAValue(simplifiedTerm, variableName, valueToApproach, limitApproachType);
+}
+
+Term getLimitAtInfinity(
+        Term const& term,
+        string const& variableName,        AlbaNumber::Value const infinityValue)
 {
     LimitsAtInfinity limitsAtInfinity(term, variableName);
-    return limitsAtInfinity.getValueAtInfinity(infinityValue);
-}
+    return limitsAtInfinity.getValueAtInfinity(infinityValue);}
 
 }
 

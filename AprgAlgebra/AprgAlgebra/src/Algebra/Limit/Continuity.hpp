@@ -27,24 +27,19 @@ bool isContinuousAt(
         AlbaNumber const& value,
         LimitAtAValueApproachType const limitApproachType);
 
-bool isContinuousAtPositiveSideOnly(
+bool isIntermediateValueTheoremSatisfied(
         Term const& term,
         std::string const& variableName,
-        AlbaNumber const& value);
-
-bool isContinuousAtNegativeSideOnly(
-        Term const& term,
-        std::string const& variableName,
-        AlbaNumber const& value);
+        AlbaNumber const& firstValue,
+        AlbaNumber const& secondValue,
+        AlbaNumber const& valueToTest);
 
 ContinuityType getContinuityTypeAt(
         Term const& term,
-        std::string const& variableName,
-        AlbaNumber const& value);
+        std::string const& variableName,        AlbaNumber const& value);
 
 SolutionSet getContinuityDomain(
         Term const& term);
-
 }
 
 }

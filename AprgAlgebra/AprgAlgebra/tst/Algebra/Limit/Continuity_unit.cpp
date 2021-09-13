@@ -2,12 +2,11 @@
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
+#include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 
@@ -73,14 +72,22 @@ TEST(ContinuityTest, IsContinuousAtWorksOnTheEdgesOfSquareRootOfPolynomial)
     EXPECT_TRUE(isContinuousAt(termToTest, "x", 2, LimitAtAValueApproachType::NegativeSide));
 }
 
+TEST(ContinuityTest, IsIntermediateValueTheoremSatisfiedWorks)
+{
+    Polynomial numerator{Monomial(2, {})};
+    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-4, {})};
+    Term termToTest(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
+
+    EXPECT_FALSE(isIntermediateValueTheoremSatisfied(termToTest, "x", 2, 5, 4));
+    EXPECT_TRUE(isIntermediateValueTheoremSatisfied(termToTest, "x", 5, 7, 6));
+}
+
 TEST(ContinuityTest, GetContinuityTypeAtWorksForRemovableDiscontinuityFunction)
 {
-    Function functionToTest(
-                "functionToTest",
+    Function functionToTest(                "functionToTest",
                 getBaseTermConstReferenceFromTerm(Term("x")),
                 [](AlbaNumber const& number)
-    {
-        AlbaNumber result;
+    {        AlbaNumber result;
         if(number == 3)
         {
             result = 2;
@@ -152,18 +159,16 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnPolynomialOverPolynomial)
 
     AlbaNumberIntervals const& intervalToVerify(continuityDomain.getAcceptedIntervals());
     ASSERT_EQ(3U, intervalToVerify.size());
-    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(AlbaNumber::Value::NegativeInfinity), createOpenEndpoint(-3)),
+    EXPECT_EQ(AlbaNumberInterval(createNegativeInfinityOpenEndpoint(), createOpenEndpoint(-3)),
               intervalToVerify.at(0));
     EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3)),
               intervalToVerify.at(1));
-    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(3), createOpenEndpoint(AlbaNumber::Value::PositiveInfinity)),
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(3), createPositiveInfinityOpenEndpoint()),
               intervalToVerify.at(2));
 }
-
 TEST(ContinuityTest, GetContinuityDomainWorksOnSquareRootOfPolynomial)
 {
-    Term polynomialTerm(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(4, {})});
-    Term termToTest(createExpressionIfPossible({polynomialTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term polynomialTerm(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(4, {})});    Term termToTest(createExpressionIfPossible({polynomialTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
 
     SolutionSet continuityDomain(getContinuityDomain(termToTest));
 

@@ -7,14 +7,13 @@
 #include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 using namespace alba::algebra::DomainAndRange;
-using namespace alba::algebra::Functions;
-using namespace std;
+using namespace alba::algebra::Functions;using namespace std;
 
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -36,14 +35,43 @@ bool isContinuousAt(
     return result;
 }
 
+bool isIntermediateValueTheoremSatisfied(
+        Term const& term,
+        std::string const& variableName,
+        AlbaNumber const& firstValue,
+        AlbaNumber const& secondValue,
+        AlbaNumber const& valueToTest)
+{
+    // Theorem: If the function f is continuous on the closed interval [v1, v2] and if f(v1) != f(v2),
+    // then for any number k between f(v1) and f(v2) there exists a number v3 between v1 and v2 such that f(v3) = k
+
+    bool result(false);
+    SubstitutionOfVariablesToValues substitution;
+    substitution.putVariableWithValue(variableName, firstValue);
+    Term outputOfFirst(substitution.performSubstitutionTo(term));
+    substitution.putVariableWithValue(variableName, secondValue);
+    Term outputOfSecond(substitution.performSubstitutionTo(term));
+    if(outputOfFirst.isConstant() && outputOfSecond.isConstant())
+    {
+        AlbaNumber outputValueOfFirst(outputOfFirst.getConstantConstReference().getNumberConstReference());
+        AlbaNumber outputValueOfSecond(outputOfSecond.getConstantConstReference().getNumberConstReference());
+        SolutionSet continuityDomain(getContinuityDomain(term));
+        AlbaNumberIntervals const& continuityDomainIntervals(continuityDomain.getAcceptedIntervals());
+        AlbaNumberInterval firstAndSecondInterval(createCloseEndpoint(firstValue), createCloseEndpoint(secondValue));
+        bool areOutputValuesNotEqual = outputValueOfFirst != outputValueOfSecond;
+        bool areFirstAndSecondIntervalInContinuousDomain = isIntervalInsideTheIntervals(continuityDomainIntervals, firstAndSecondInterval);
+        bool isValueToTestBetweenFirstAndSecond = firstAndSecondInterval.isValueInsideTheInterval(valueToTest);
+        result = areFirstAndSecondIntervalInContinuousDomain && areOutputValuesNotEqual && isValueToTestBetweenFirstAndSecond;
+    }
+    return result;
+}
+
 ContinuityType getContinuityTypeAt(
         Term const& term,
-        string const& variableName,
-        AlbaNumber const& value)
+        string const& variableName,        AlbaNumber const& value)
 {
     ContinuityType result(ContinuityType::Unknown);
-    SubstitutionOfVariablesToValues substitution{{variableName, value}};
-    Term subtitutedResult(substitution.performSubstitutionTo(term));
+    SubstitutionOfVariablesToValues substitution{{variableName, value}};    Term subtitutedResult(substitution.performSubstitutionTo(term));
     if(subtitutedResult.isConstant())
     {
         AlbaNumber limitAtValueInPositiveSide(getLimitAtAValueInThePositiveSide(term, variableName, value));
@@ -71,14 +99,16 @@ ContinuityType getContinuityTypeAt(
 SolutionSet getContinuityDomain(
         Term const& term)
 {
+    // Calculus Theorem:  A polynomial function is continuous at every number.
+    // Calculus Theorem:  A rational function (polynomial over polynomial) is continuous at every number in its domain.
+    // Calculus Observation:  A radical function is continuous at every number in its domain.
+
     SolutionSet continuityDomain;
     FunctionsRetriever functionsRetriever([](Function const& functionObject)
-    {
-        return isFunctionContinuous(functionObject);
+    {        return isFunctionContinuous(functionObject);
     });
     if(functionsRetriever.getSavedData().empty())
-    {
-        continuityDomain = calculateDomainForTermWithOneVariable(term);
+    {        continuityDomain = calculateDomainForTermWithOneVariable(term);
     }
     return continuityDomain;
 }

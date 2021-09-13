@@ -64,11 +64,15 @@ Term getLimitAtAValue(
         std::string const& variableName,
         AlbaNumber const& value,
         LimitAtAValueApproachType const limitApproachType);
-Term getLimitAtInfinity(
+Term simplifyAndGetLimitAtAValue(
         Term const& term,
         std::string const& variableName,
-        AlbaNumber::Value const infinityValue);
+        AlbaNumber const& valueToApproach,
+        LimitAtAValueApproachType const limitApproachType);
+
+Term getLimitAtInfinity(
+        Term const& term,
+        std::string const& variableName,        AlbaNumber::Value const infinityValue);
 
 }
-
 }
