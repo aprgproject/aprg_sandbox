@@ -2,13 +2,12 @@
 #include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::algebra::Functions;
 using namespace std;
-
 namespace alba
 {
 
@@ -54,14 +53,22 @@ TEST(LimitTest, HasHorizontalAsymptoteAtValueWorks)
     EXPECT_TRUE(hasHorizontalAsymptoteAtValue(term, "x", 1));
 }
 
+TEST(LimitTest, IsSqueezeTheoremSatisfiedWorks)
+{
+    Term f(buildTermIfPossible("-4*(x-2)^2 + 3"));
+    Term g(buildTermIfPossible("(x-2)*(x^2 - 4*x + 7)/(x-2)"));
+    Term h(buildTermIfPossible("4*(x-2)^2 + 3"));
+
+    EXPECT_FALSE(isSqueezeTheoremSatisfied(h, g, f, "x", 1));
+    EXPECT_TRUE(isSqueezeTheoremSatisfied(h, g, f, "x", 2));
+}
+
 TEST(LimitTest, GetLimitAtAValueByApproachTypeWorksForPolynomialOverPolynomial)
 {
-    Term numerator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-25, {})});
-    Term denominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-5, {})});
+    Term numerator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-25, {})});    Term denominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-5, {})});
     Term polynomialOverPolynomialTerm(createExpressionIfPossible({numerator, Term("/"), denominator}));
 
-    EXPECT_EQ(AlbaNumber(10), getLimitAtAValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitAtAValueApproachType::BothSides));
-    EXPECT_EQ(AlbaNumber(10), getLimitAtAValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitAtAValueApproachType::PositiveSide));
+    EXPECT_EQ(AlbaNumber(10), getLimitAtAValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitAtAValueApproachType::BothSides));    EXPECT_EQ(AlbaNumber(10), getLimitAtAValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitAtAValueApproachType::PositiveSide));
     EXPECT_EQ(AlbaNumber(10), getLimitAtAValueByApproachType(polynomialOverPolynomialTerm, "x", 5, LimitAtAValueApproachType::NegativeSide));
 }
 

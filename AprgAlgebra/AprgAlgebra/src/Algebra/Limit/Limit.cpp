@@ -4,12 +4,13 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
+
+#include <Debug/AlbaDebug.hpp>
+
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -57,14 +58,37 @@ bool hasHorizontalAsymptoteAtValue(
     return result;
 }
 
+bool isSqueezeTheoremSatisfied(
+        Term const& alwaysLowerTermAtInterval,
+        Term const& termInBetweenAtInterval,
+        Term const& alwaysHigherTermAtInterval,
+        std::string const& variableName,
+        AlbaNumber const& valueToApproach)
+{
+    // Theorem: Suppose that the functions f, g, and h are defined on some open interval I containing A except
+    // possibly A itself, and that f(x) <= g(x) <= h(x) for all x in I for which x != A. Also that the limit for
+    // f(x) as it approaches A and limit for h(x) as it approaches A, both exists and are both equal to L
+    // Then, the limit of g(x) exists and equal to L as well.
+
+    bool result(false);
+    Term limitAtLower(simplifyAndGetLimitAtAValue(alwaysLowerTermAtInterval, variableName, valueToApproach, LimitAtAValueApproachType::BothSides));
+    Term limitAtTermInBetween(simplifyAndGetLimitAtAValue(termInBetweenAtInterval, variableName, valueToApproach, LimitAtAValueApproachType::BothSides));
+    Term limitAtHigher(simplifyAndGetLimitAtAValue(alwaysHigherTermAtInterval, variableName, valueToApproach, LimitAtAValueApproachType::BothSides));
+
+    if(limitAtLower == limitAtHigher)
+    {
+        //double check if limit really exists
+        result = limitAtTermInBetween == limitAtLower;
+    }
+    return result;
+}
+
 AlbaNumber getLimitAtAValueByApproachType(
         Term const& term,
-        string const& variableName,
-        AlbaNumber const& valueToApproach,
+        string const& variableName,        AlbaNumber const& valueToApproach,
         LimitAtAValueApproachType const limitApproachType)
 {
-    AlbaNumber result;
-    if(LimitAtAValueApproachType::BothSides == limitApproachType)
+    AlbaNumber result;    if(LimitAtAValueApproachType::BothSides == limitApproachType)
     {
         result = getLimitAtAValueInBothSides(term, variableName, valueToApproach);
     }

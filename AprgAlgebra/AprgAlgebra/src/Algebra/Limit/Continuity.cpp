@@ -104,14 +104,14 @@ SolutionSet getContinuityDomain(
     // Calculus Theorem:  A polynomial function is continuous at every number.
     // Calculus Theorem:  A rational function (polynomial over polynomial) is continuous at every number in its domain.
     // Calculus Observation:  A radical function is continuous at every number in its domain.
+    // Calculus Theorem:  A sine function is continuous at every number.
+    // Calculus Theorem:  A cosine function is continuous at every number.
 
     SolutionSet continuityDomain;
-    FunctionsRetriever functionsRetriever([](Function const& functionObject)
-    {
+    FunctionsRetriever functionsRetriever([](Function const& functionObject)    {
         return isFunctionContinuous(functionObject);
     });
-    if(functionsRetriever.getSavedData().empty())
-    {        continuityDomain = calculateDomainForTermWithOneVariable(term);
+    if(functionsRetriever.getSavedData().empty())    {        continuityDomain = calculateDomainForTermWithOneVariable(term);
     }
     return continuityDomain;
 }
