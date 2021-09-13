@@ -95,7 +95,7 @@ TEST(StringHelpersTest, ConstructTermFromStringWorks)
     Term termToVerify2(constructTermFromString("x111"));
 
     ASSERT_EQ(TermType::Constant, termToVerify1.getTermType());
-    EXPECT_DOUBLE_EQ(5, termToVerify1.getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(5, termToVerify1.getConstantValueConstReference().getDouble());
     ASSERT_EQ(TermType::Variable, termToVerify2.getTermType());
     EXPECT_EQ("x111", termToVerify2.getVariableConstReference().getVariableName());
 }
@@ -114,7 +114,7 @@ TEST(StringHelpersTest, TokenizeToTermsWorks)
 
     ASSERT_EQ(7U, termsToVerify1.size());
     ASSERT_EQ(TermType::Constant, termsToVerify1.at(0).getTermType());
-    EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantValueConstReference().getDouble());
     ASSERT_EQ(TermType::Operator, termsToVerify1.at(1).getTermType());
     EXPECT_EQ("+", termsToVerify1.at(1).getOperatorConstReference().getOperatorString());
     ASSERT_EQ(TermType::Variable, termsToVerify1.at(2).getTermType());
@@ -126,7 +126,7 @@ TEST(StringHelpersTest, TokenizeToTermsWorks)
     ASSERT_EQ(TermType::Operator, termsToVerify1.at(5).getTermType());
     EXPECT_EQ("^", termsToVerify1.at(5).getOperatorConstReference().getOperatorString());
     ASSERT_EQ(TermType::Constant, termsToVerify1.at(6).getTermType());
-    EXPECT_DOUBLE_EQ(20.15, termsToVerify1.at(6).getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(20.15, termsToVerify1.at(6).getConstantValueConstReference().getDouble());
 }
 
 TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks)
@@ -137,7 +137,7 @@ TEST(StringHelpersTest, AddValueTermIfNotEmptyWorks)
 
     ASSERT_EQ(1U, termsToVerify1.size());
     ASSERT_EQ(TermType::Constant, termsToVerify1.at(0).getTermType());
-    EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(5, termsToVerify1.at(0).getConstantValueConstReference().getDouble());
 }
 
 }

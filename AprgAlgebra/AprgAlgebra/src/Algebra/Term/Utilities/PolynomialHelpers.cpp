@@ -41,7 +41,7 @@ AlbaNumber getRemainderForOneVariablePolynomialDividedByVariableMinusConstantVal
         Term substitutedTerm(substitution.performSubstitutionTo(polynomial));
         if(substitutedTerm.isConstant())
         {
-            remainder = substitutedTerm.getConstantConstReference().getNumberConstReference();
+            remainder = substitutedTerm.getConstantValueConstReference();
         }
     }
     return remainder;

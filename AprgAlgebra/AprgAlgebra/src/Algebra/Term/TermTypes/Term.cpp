@@ -288,6 +288,11 @@ Function const& Term::getFunctionConstReference() const
     return *dynamic_cast<Function const * const>(m_baseDataTermPointer.get());
 }
 
+AlbaNumber const& Term::getConstantValueConstReference() const
+{
+    return getConstantConstReference().getNumberConstReference();
+}
+
 string Term::getDisplayableString() const
 {
     string result;

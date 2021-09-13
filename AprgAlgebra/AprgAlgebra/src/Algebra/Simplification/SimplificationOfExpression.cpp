@@ -107,8 +107,8 @@ bool SimplificationOfExpression::didEvenExponentCancellationHappened(
         }
         if(previousCombinedTerm.isConstant() && currentCombineTerm.isConstant())
         {
-            AlbaNumber previousCombinedValue(previousCombinedTerm.getConstantConstReference().getNumberConstReference());
-            AlbaNumber currentExponentValue(currentExponent.getConstantConstReference().getNumberConstReference());
+            AlbaNumber previousCombinedValue(previousCombinedTerm.getConstantValueConstReference());
+            AlbaNumber currentExponentValue(currentExponent.getConstantValueConstReference());
             if((previousCombinedValue.isIntegerType() || previousCombinedValue.isFractionType())
                     && (currentExponentValue.isIntegerType() || currentExponentValue.isFractionType()))
             {

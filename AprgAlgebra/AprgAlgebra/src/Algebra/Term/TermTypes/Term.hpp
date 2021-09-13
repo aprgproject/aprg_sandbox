@@ -57,6 +57,7 @@ public:
     Polynomial const& getPolynomialConstReference() const;
     Expression const& getExpressionConstReference() const;
     Function const& getFunctionConstReference() const;
+    AlbaNumber const& getConstantValueConstReference() const;
     std::string getDisplayableString() const override;
     std::string getDebugString() const override;
 

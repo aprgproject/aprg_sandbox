@@ -191,7 +191,8 @@ TEST(LimitTest, GetLimitAtAValueWorksForPolynomialOverPolynomial)
 TEST(LimitTest, GetLimitAtAValueWorksForPolynomialOverPolynomialWithDiscontinuityAtOneTwoThree                                                                                                                                                                                                                                               )
 {
     Term numerator(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-2, {{"x", 2}})});
-    Term denominator(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(11, {{"x", 1}}), Monomial(-6, {})});    Term polynomialOverPolynomialTerm(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term denominator(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(11, {{"x", 1}}), Monomial(-6, {})});
+    Term polynomialOverPolynomialTerm(createExpressionIfPossible({numerator, Term("/"), denominator}));
 
     EXPECT_TRUE(isNotANumber(getLimitAtAValue(polynomialOverPolynomialTerm, "x", 2, LimitAtAValueApproachType::BothSides)));
     EXPECT_EQ(Term(-4), getLimitAtAValue(polynomialOverPolynomialTerm, "x", 2, LimitAtAValueApproachType::PositiveSide));
@@ -212,12 +213,27 @@ TEST(LimitTest, GetLimitAtAValueWorksForPolynomialOverPolynomialWithEqualDegreeB
               getLimitAtAValue(polynomialOverPolynomialTerm, "x", 2, LimitAtAValueApproachType::NegativeSide));
 }
 
+TEST(LimitTest, SimplifyTermForLimitWorksForHavingACommonDenominator)
+{
+    Term denominator1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})});
+    Term denominator2(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(3, {})});
+    Term firstTerm(createExpressionIfPossible({Term(1), Term("/"), denominator1}));
+    Term secondTerm(createExpressionIfPossible({Term(1), Term("/"), denominator2}));
+    Term termToTest(createExpressionIfPossible({firstTerm, Term("+"), secondTerm}));
+
+    Term expectedDenominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-1, {{"x", 1}}), Monomial(-6, {})});
+    Term expectedTerm(createExpressionIfPossible({Term(-5), Term("/"), expectedDenominator}));
+    EXPECT_EQ(expectedTerm, simplifyTermForLimit(termToTest));
+}
+
 TEST(LimitTest, SimplifyAndGetLimitAtAValueWorksForPolynomialOverPolynomialWithDiscontinuityAtOneTwoThree_ThisCancelsProblematicFactors)
 {
-    Term numerator(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-2, {{"x", 2}})});    Term denominator(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(11, {{"x", 1}}), Monomial(-6, {})});
+    Term numerator(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-2, {{"x", 2}})});
+    Term denominator(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(11, {{"x", 1}}), Monomial(-6, {})});
     Term polynomialOverPolynomialTerm(createExpressionIfPossible({numerator, Term("/"), denominator}));
 
-    EXPECT_EQ(Term(-4), simplifyAndGetLimitAtAValue(polynomialOverPolynomialTerm, "x", 2, LimitAtAValueApproachType::BothSides));    EXPECT_EQ(Term(-4), simplifyAndGetLimitAtAValue(polynomialOverPolynomialTerm, "x", 2, LimitAtAValueApproachType::PositiveSide));
+    EXPECT_EQ(Term(-4), simplifyAndGetLimitAtAValue(polynomialOverPolynomialTerm, "x", 2, LimitAtAValueApproachType::BothSides));
+    EXPECT_EQ(Term(-4), simplifyAndGetLimitAtAValue(polynomialOverPolynomialTerm, "x", 2, LimitAtAValueApproachType::PositiveSide));
     EXPECT_EQ(Term(-4), simplifyAndGetLimitAtAValue(polynomialOverPolynomialTerm, "x", 2, LimitAtAValueApproachType::NegativeSide));
 }
 

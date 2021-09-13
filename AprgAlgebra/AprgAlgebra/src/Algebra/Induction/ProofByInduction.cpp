@@ -30,7 +30,7 @@ bool ProofByInduction::isVerificationOnASpecificValueSuccessful(
     Term termFromExpression(substitution.performSubstitutionTo(m_algebraicExpressionToCheck));
     if(termFromExpression.isConstant())
     {
-        valueFromExpression=termFromExpression.getConstantConstReference().getNumberConstReference();
+        valueFromExpression=termFromExpression.getConstantValueConstReference();
     }
     return valueFromFunction==valueFromExpression;
 }

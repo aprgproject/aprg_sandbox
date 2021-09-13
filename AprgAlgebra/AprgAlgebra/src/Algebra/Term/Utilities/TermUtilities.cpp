@@ -61,7 +61,7 @@ AlbaNumberPairs evaluateAndGetInputOutputPair(
         Term substituteTerm(substitution.performSubstitutionTo(term));
         if(substituteTerm.isConstant())
         {
-            result.emplace_back(number, substituteTerm.getConstantConstReference().getNumberConstReference());
+            result.emplace_back(number, substituteTerm.getConstantValueConstReference());
         }
     }
     return result;

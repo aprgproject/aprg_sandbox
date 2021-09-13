@@ -144,7 +144,7 @@ TermRaiseToANumber createTermRaiseToANumberFromTerm(Term const& term)
                 if(exponent.isConstant())
                 {
                     Term const& base(getTermConstReferenceFromSharedPointer(raiseToPowerTerms.front().baseTermSharedPointer));
-                    resultDetailsOptional.setConstReference({base, exponent.getConstantConstReference().getNumberConstReference()});
+                    resultDetailsOptional.setConstReference({base, exponent.getConstantValueConstReference()});
                 }
                 else if(exponent.isMonomial())
                 {

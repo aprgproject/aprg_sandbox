@@ -31,7 +31,7 @@ bool isContinuousAt(
     if(subtitutedResult.isConstant())
     {
         AlbaNumber limitAtValue(getLimitAtAValueByApproachType(term, variableName, value, limitApproachType));
-        AlbaNumber const& subtitutedResultValue(subtitutedResult.getConstantConstReference().getNumberConstReference());
+        AlbaNumber const& subtitutedResultValue(subtitutedResult.getConstantValueConstReference());
         result = isAlmostEqualForLimitChecking(subtitutedResultValue, limitAtValue);
     }
     return result;
@@ -55,8 +55,8 @@ bool isIntermediateValueTheoremSatisfied(
     Term outputOfSecond(substitution.performSubstitutionTo(term));
     if(outputOfFirst.isConstant() && outputOfSecond.isConstant())
     {
-        AlbaNumber outputValueOfFirst(outputOfFirst.getConstantConstReference().getNumberConstReference());
-        AlbaNumber outputValueOfSecond(outputOfSecond.getConstantConstReference().getNumberConstReference());
+        AlbaNumber outputValueOfFirst(outputOfFirst.getConstantValueConstReference());
+        AlbaNumber outputValueOfSecond(outputOfSecond.getConstantValueConstReference());
         SolutionSet continuityDomain(getContinuityDomain(term));
         AlbaNumberIntervals const& continuityDomainIntervals(continuityDomain.getAcceptedIntervals());
         AlbaNumberInterval firstAndSecondInterval(createCloseEndpoint(firstValue), createCloseEndpoint(secondValue));
@@ -82,7 +82,7 @@ ContinuityType getContinuityTypeAt(
         AlbaNumber limitAtValueInNegativeSide(getLimitAtAValueInTheNegativeSide(term, variableName, value));
         if(isAlmostEqualForLimitChecking(limitAtValueInPositiveSide, limitAtValueInNegativeSide))
         {
-            AlbaNumber const& subtitutedResultValue(subtitutedResult.getConstantConstReference().getNumberConstReference());
+            AlbaNumber const& subtitutedResultValue(subtitutedResult.getConstantValueConstReference());
             if(isAlmostEqualForLimitChecking(limitAtValueInPositiveSide, subtitutedResultValue))
             {
                 result = ContinuityType::ContinuousAtBothSides;

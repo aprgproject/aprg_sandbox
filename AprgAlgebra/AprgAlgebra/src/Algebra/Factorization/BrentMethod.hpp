@@ -45,10 +45,12 @@ private:
     bool isAlmostEqualForBrentMethod(AlbaNumber const& value1, double const value2) const;
     AlbaNumber calculate(AlbaNumber const& inputValue) const;
     AlbaNumberOptional calculateInverseQuadraticInterpolation(
-            AlbaNumber const& a,            AlbaNumber const& b,
+            AlbaNumber const& a,
+            AlbaNumber const& b,
             AlbaNumber const& c) const;
     AlbaNumberOptional calculateSecantMethod(
-            AlbaNumber const& a,            AlbaNumber const& b) const;
+            AlbaNumber const& a,
+            AlbaNumber const& b) const;
     AlbaNumber calculateBiSectionMethod(
             AlbaNumber const& a,
             AlbaNumber const& b) const;

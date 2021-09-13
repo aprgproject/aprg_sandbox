@@ -220,7 +220,7 @@ bool isAFiniteConstant(Term const& term)
     bool result(false);
     if(term.isConstant())
     {
-        result = term.getConstantConstReference().getNumberConstReference().isAFiniteValue();
+        result = term.getConstantValueConstReference().isAFiniteValue();
     }
     return result;
 }

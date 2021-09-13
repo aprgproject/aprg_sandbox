@@ -20,16 +20,16 @@ TEST(TermTest, TermsAsConstantsWorks)
     Term constant4(-34.8767);
 
     ASSERT_EQ(TermType::Constant, constant1.getTermType());
-    EXPECT_DOUBLE_EQ(4353, constant1.  getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(4353, constant1.getConstantConstReference().getNumberConstReference().getDouble());
 
     ASSERT_EQ(TermType::Constant, constant2.getTermType());
-    EXPECT_DOUBLE_EQ(-3248, constant2.  getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(-3248, constant2.getConstantConstReference().getNumberConstReference().getDouble());
 
     ASSERT_EQ(TermType::Constant, constant3.getTermType());
-    EXPECT_DOUBLE_EQ(1.0112749349522983, constant3.  getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(1.0112749349522983, constant3.getConstantConstReference().getNumberConstReference().getDouble());
 
     ASSERT_EQ(TermType::Constant, constant4.getTermType());
-    EXPECT_DOUBLE_EQ(-34.8767, constant4.  getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(-34.8767, constant4.getConstantConstReference().getNumberConstReference().getDouble());
 }
 
 TEST(TermTest, TermsAsVariablesWorks)
@@ -201,6 +201,26 @@ TEST(TermTest, TermsAsFunctionsWorks)
     EXPECT_TRUE(getTermConstReferenceFromBaseTerm(functionToVerify3.getInputTermConstReference()).isEmpty());
 }
 
+TEST(TermTest, GetConstantValueConstReferenceWorks)
+{
+    Term constant1(4353);
+    Term constant2(-3248);
+    Term constant3(AlbaNumber::createFraction(3498, 3459));
+    Term constant4(-34.8767);
+
+    ASSERT_EQ(TermType::Constant, constant1.getTermType());
+    EXPECT_DOUBLE_EQ(4353, constant1.getConstantValueConstReference().getDouble());
+
+    ASSERT_EQ(TermType::Constant, constant2.getTermType());
+    EXPECT_DOUBLE_EQ(-3248, constant2.getConstantValueConstReference().getDouble());
+
+    ASSERT_EQ(TermType::Constant, constant3.getTermType());
+    EXPECT_DOUBLE_EQ(1.0112749349522983, constant3.getConstantValueConstReference().getDouble());
+
+    ASSERT_EQ(TermType::Constant, constant4.getTermType());
+    EXPECT_DOUBLE_EQ(-34.8767, constant4.getConstantValueConstReference().getDouble());
+}
+
 TEST(TermTest, TermsAsConstantsCanBeChanged)
 {
     Term term(Constant{});
@@ -208,7 +228,7 @@ TEST(TermTest, TermsAsConstantsCanBeChanged)
     term.getConstantReference().setNumber(7575);
 
     ASSERT_EQ(TermType::Constant, term.getTermType());
-    EXPECT_DOUBLE_EQ(7575, term.  getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(7575, term.getConstantValueConstReference().getDouble());
 }
 
 TEST(TermTest, TermsAsVariablesCanBeChanged)

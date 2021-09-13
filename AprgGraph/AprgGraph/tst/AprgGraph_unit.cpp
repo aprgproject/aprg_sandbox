@@ -70,6 +70,7 @@ TEST(AprgGraphTest, TemporaryTest)
     Equation equation(buildEquationIfPossible("x^x = y"));
     graph.drawEquationWithXYSubstitution(equation, 0x0000A1BA);
 
-    graph.saveChangesToBitmapFile();}
+    graph.saveChangesToBitmapFile();
+}
 
 }

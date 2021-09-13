@@ -73,8 +73,7 @@ bool isLessThan(Term const& leftTerm, Term const& rightTerm)
     bool result(false);
     if(leftTerm.isConstant() && rightTerm.isConstant())
     {
-        result = leftTerm.getConstantConstReference().getNumberConstReference()
-                < rightTerm.getConstantConstReference().getNumberConstReference();
+        result = leftTerm.getConstantValueConstReference() < rightTerm.getConstantValueConstReference();
     }
     return result;
 }
@@ -84,8 +83,7 @@ bool isGreaterThan(Term const& leftTerm, Term const& rightTerm)
     bool result(false);
     if(leftTerm.isConstant() && rightTerm.isConstant())
     {
-        result = leftTerm.getConstantConstReference().getNumberConstReference()
-                > rightTerm.getConstantConstReference().getNumberConstReference();
+        result = leftTerm.getConstantValueConstReference() > rightTerm.getConstantValueConstReference();
     }
     return result;
 }

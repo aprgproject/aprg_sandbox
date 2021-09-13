@@ -120,7 +120,7 @@ void BaseOneEquationOneVariableSolver::addValuesToSolutionSetIfNeeded(
             if(substitutedResult.isConstant())
             {
                 AlbaNumber const& computedValue(
-                            substitutedResult.getConstantConstReference().getNumberConstReference());
+                            substitutedResult.getConstantValueConstReference());
                 if(!computedValue.isAFiniteValue())
                 {
                     solutionSet.addRejectedValue(value);

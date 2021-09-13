@@ -63,7 +63,7 @@ SolutionSet calculateDomainForTermWithOneVariable(
                 substitution.putVariableWithValue(variableName, value);
                 Term computedTerm(substitution.performSubstitutionTo(term));
                 AlbaNumber computedValue;
-                if(computedTerm.isConstant()){computedValue = computedTerm.getConstantConstReference().getNumberConstReference();}
+                if(computedTerm.isConstant()){computedValue = computedTerm.getConstantValueConstReference();}
                 return computedValue;});
     }
     return domain;

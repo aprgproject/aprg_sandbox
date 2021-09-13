@@ -97,7 +97,7 @@ void OneEquationOneVariableEqualitySolver::addValuesToSolutionSetIfNeeded(
             if(substitutedResult.isConstant())
             {
                 AlbaNumber const& computedValue(
-                            substitutedResult.getConstantConstReference().getNumberConstReference());
+                            substitutedResult.getConstantValueConstReference());
                 if(!computedValue.isAFiniteValue())
                 {
                     solutionSet.addRejectedValue(value);
@@ -124,7 +124,7 @@ void OneEquationOneVariableEqualitySolver::performNewtonMethodToFindSolution(
         AlbaNumber computedValue;
         if(substitutedTerm.isConstant())
         {
-            computedValue = substitutedTerm.getConstantConstReference().getNumberConstReference();
+            computedValue = substitutedTerm.getConstantValueConstReference();
         }
         return computedValue;
     };

@@ -2,9 +2,11 @@
 
 #include <Algebra/Limit/LimitsAtInfinity/LimitsAtInfinity.hpp>
 #include <Algebra/Retrieval/FunctionsRetriever.hpp>
+#include <Algebra/Simplification/SimplificationMutator.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
+using namespace alba::algebra::Simplification;
 using namespace alba::mathHelper;
 using namespace std;
 
@@ -23,9 +25,11 @@ constexpr unsigned int MAX_NUMBER_OF_ITERATIONS=100;
 constexpr double POSITIVE_DELTA_FOR_INITIAL_VALUE=1E-3;
 
 }
+
 bool isAlmostEqualForLimitIteration(AlbaNumber const& value1, AlbaNumber const& value2)
 {
-    return isAlmostEqual(value1.getDouble(), value2.getDouble(), COMPARISON_TOLERANCE_FOR_LIMIT_ITERATION);}
+    return isAlmostEqual(value1.getDouble(), value2.getDouble(), COMPARISON_TOLERANCE_FOR_LIMIT_ITERATION);
+}
 
 bool isAlmostEqualForLimitChecking(AlbaNumber const& value1, AlbaNumber const& value2)
 {
@@ -51,8 +55,8 @@ bool hasHorizontalAsymptoteAtValue(
     Term limitAtNegativeInfinity(getLimitAtInfinity(term, variableName, AlbaNumber::Value::NegativeInfinity));
     if(limitAtPositiveInfinity.isConstant() && limitAtNegativeInfinity.isConstant())
     {
-        result = limitAtPositiveInfinity.getConstantConstReference().getNumberConstReference() == valueToApproach
-                || limitAtNegativeInfinity.getConstantConstReference().getNumberConstReference() == valueToApproach;
+        result = limitAtPositiveInfinity.getConstantValueConstReference() == valueToApproach
+                || limitAtNegativeInfinity.getConstantValueConstReference() == valueToApproach;
     }
     return result;
 }
@@ -166,7 +170,7 @@ AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
         Term currentOutputTerm = substitution.performSubstitutionTo(term);
         if(currentOutputTerm.isConstant())
         {
-            AlbaNumber currentOutputNumber(currentOutputTerm.getConstantConstReference().getNumberConstReference());
+            AlbaNumber currentOutputNumber(currentOutputTerm.getConstantValueConstReference());
             if(!currentOutputNumber.isARealFiniteValue())
             {
                 previousRejectedInput = currentInput;
@@ -216,9 +220,9 @@ AlbaNumber getLimitAtAValueUsingTrendOfValues(
             && previousAcceptedOutputTerm.isConstant()
             && previousPreviousAcceptedOutputTerm.isConstant())
     {
-        AlbaNumber outputAtValueToApproach(outputTermAtValueToApproach.getConstantConstReference().getNumberConstReference());
-        AlbaNumber previousAcceptedOutput(previousAcceptedOutputTerm.getConstantConstReference().getNumberConstReference());
-        AlbaNumber previousPreviousAcceptedOutput(previousPreviousAcceptedOutputTerm.getConstantConstReference().getNumberConstReference());
+        AlbaNumber outputAtValueToApproach(outputTermAtValueToApproach.getConstantValueConstReference());
+        AlbaNumber previousAcceptedOutput(previousAcceptedOutputTerm.getConstantValueConstReference());
+        AlbaNumber previousPreviousAcceptedOutput(previousPreviousAcceptedOutputTerm.getConstantValueConstReference());
         if(outputAtValueToApproach.isPositiveOrNegativeInfinity())
         {
             result = (previousAcceptedOutput<0) ?
@@ -226,10 +230,12 @@ AlbaNumber getLimitAtAValueUsingTrendOfValues(
                         AlbaNumber(AlbaNumber::Value::PositiveInfinity);
         }
         else
-        {            result = getValueUsingLinearInterpolation(
+        {
+            result = getValueUsingLinearInterpolation(
                         previousPreviousAcceptedInput,
                         previousAcceptedInput,
-                        valueToApproach,                        previousPreviousAcceptedOutput,
+                        valueToApproach,
+                        previousPreviousAcceptedOutput,
                         previousAcceptedOutput);
         }
     }
@@ -265,11 +271,10 @@ Term getLimitAtAValue(
         LimitAtAValueApproachType const limitApproachType)
 {
     SubstitutionOfVariablesToValues substitution{{variableName, valueToApproach}};
-
     Term limitResult(substitution.performSubstitutionTo(term));
     if(limitResult.isConstant())
     {
-        AlbaNumber limitResultNumber(limitResult.getConstantConstReference().getNumberConstReference());
+        AlbaNumber limitResultNumber(limitResult.getConstantValueConstReference());
         FunctionsRetriever functionsRetriever([](Function const&)
         {
             return true;
@@ -283,14 +288,24 @@ Term getLimitAtAValue(
     return limitResult;
 }
 
+Term simplifyTermForLimit(Term const& term)
+{
+    SimplificationMutator mutator;
+    SimplificationOfExpression simplificationOfExpression;
+    simplificationOfExpression.setAsShouldSimplifyToACommonDenominator(true);
+    mutator.putSimplification(simplificationOfExpression);
+    Term simplifiedTerm(term);
+    mutator.mutateTerm(simplifiedTerm);
+    return simplifiedTerm;
+}
+
 Term simplifyAndGetLimitAtAValue(
         Term const& term,
         string const& variableName,
         AlbaNumber const& valueToApproach,
         LimitAtAValueApproachType const limitApproachType)
 {
-    Term simplifiedTerm(term);
-    simplifiedTerm.simplify();
+    Term simplifiedTerm(simplifyTermForLimit(term));
     return getLimitAtAValue(simplifiedTerm, variableName, valueToApproach, limitApproachType);
 }
 

@@ -70,6 +70,8 @@ Term getLimitAtAValue(
         std::string const& variableName,
         AlbaNumber const& value,
         LimitAtAValueApproachType const limitApproachType);
+
+Term simplifyTermForLimit(Term const& term);
 Term simplifyAndGetLimitAtAValue(
         Term const& term,
         std::string const& variableName,

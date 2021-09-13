@@ -109,7 +109,7 @@ TEST(TermsAggregatorTest, SimplifyWorksWithUnaryOperation)
     Terms termsToVerify(aggregator.getTermsConstReference());
     ASSERT_EQ(1U, termsToVerify.size());
     ASSERT_EQ(TermType::Constant, termsToVerify.at(0).getTermType());
-    EXPECT_DOUBLE_EQ(-14, termsToVerify.at(0).getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(-14, termsToVerify.at(0).getConstantValueConstReference().getDouble());
 }
 
 TEST(TermsAggregatorTest, SimplifyWorksWithBinaryOperation)
@@ -121,7 +121,7 @@ TEST(TermsAggregatorTest, SimplifyWorksWithBinaryOperation)
     Terms termsToVerify(aggregator.getTermsConstReference());
     ASSERT_EQ(1U, termsToVerify.size());
     ASSERT_EQ(TermType::Constant, termsToVerify.at(0).getTermType());
-    EXPECT_DOUBLE_EQ(5, termsToVerify.at(0).getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(5, termsToVerify.at(0).getConstantValueConstReference().getDouble());
 }
 
 TEST(TermsAggregatorTest, SimplifyWorksWithDifferentOperationLevels)
@@ -135,7 +135,7 @@ TEST(TermsAggregatorTest, SimplifyWorksWithDifferentOperationLevels)
     Terms termsToVerify(aggregator.getTermsConstReference());
     ASSERT_EQ(1U, termsToVerify.size());
     ASSERT_EQ(TermType::Constant, termsToVerify.at(0).getTermType());
-    EXPECT_DOUBLE_EQ(3074, termsToVerify.at(0).getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(3074, termsToVerify.at(0).getConstantValueConstReference().getDouble());
 }
 
 TEST(TermsAggregatorTest, SimplifyWorksWithParenthesis)
@@ -150,7 +150,7 @@ TEST(TermsAggregatorTest, SimplifyWorksWithParenthesis)
     Terms termsToVerify(aggregator.getTermsConstReference());
     ASSERT_EQ(1U, termsToVerify.size());
     ASSERT_EQ(TermType::Constant, termsToVerify.at(0).getTermType());
-    EXPECT_DOUBLE_EQ(3200000, termsToVerify.at(0).getConstantConstReference().getNumberConstReference().getDouble());
+    EXPECT_DOUBLE_EQ(3200000, termsToVerify.at(0).getConstantValueConstReference().getDouble());
 }
 
 TEST(TermsAggregatorTest, SimplifyWorksWithNegativeValues)

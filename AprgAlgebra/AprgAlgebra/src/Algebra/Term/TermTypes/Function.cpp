@@ -95,7 +95,7 @@ AlbaNumber Function::performFunctionAndReturnResultIfPossible() const
     Term const& term(getTermConstReferenceFromBaseTerm(getInputTermConstReference()));
     if(term.isConstant())
     {
-        result = m_functionToPerform(term.getConstantConstReference().getNumberConstReference());
+        result = m_functionToPerform(term.getConstantValueConstReference());
     }
     return result;
 }

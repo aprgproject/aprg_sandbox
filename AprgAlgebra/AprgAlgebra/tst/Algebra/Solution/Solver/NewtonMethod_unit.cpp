@@ -162,6 +162,7 @@ TEST(NewtonMethodTest, RunMaxNumberOfIterationsOrUntilFinishedFailsToGetSolution
     EXPECT_TRUE(newtonMethod.getCurrentValue().isNotANumber());
     EXPECT_EQ(1U, newtonMethod.getNumberOfIterationsExecuted());
 }
+
 }
 
 }
