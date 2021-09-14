@@ -49,14 +49,20 @@ Expression SimplificationOfEquation::getNewCombinedExpression(
 {
     Expression combinedExpression;
     combinedExpression = createExpressionIfPossible(Terms{equation.getLeftHandTerm(), Term("-"), equation.getRightHandTerm()});
-    SimplificationOfExpression simplificationOfExpression(combinedExpression);
-    simplificationOfExpression.setAsShouldSimplifyToACommonDenominator(true);
-    simplificationOfExpression.simplify();
-    return simplificationOfExpression.getExpression();
+
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                SimplificationOfExpression::getDefaultConfigurationDetails());
+    configurationDetails.shouldSimplifyToACommonDenominator = true;
+
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+    combinedExpression.simplify();
+
+    return combinedExpression;
 }
 
 }
-
 }
 
 }

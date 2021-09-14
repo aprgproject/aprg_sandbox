@@ -157,15 +157,18 @@ BaseTerm const& TermsWithAssociation::getFirstTermConstReference() const
     return getBaseTermConstReferenceFromSharedPointer(m_termsWithDetails.front().baseTermSharedPointer);
 }
 
+TermAssociationType TermsWithAssociation::getFirstAssociationType() const
+{
+    return m_termsWithDetails.front().association;
+}
+
 TermsWithAssociation::TermsWithDetails const& TermsWithAssociation::getTermsWithDetails() const
 {
-    return m_termsWithDetails;
-}
+    return m_termsWithDetails;}
 
 TermsWithAssociation::TermsWithDetails & TermsWithAssociation::getTermsWithDetailsReference()
 {
-    return m_termsWithDetails;
-}
+    return m_termsWithDetails;}
 
 void TermsWithAssociation::clear()
 {
@@ -187,15 +190,18 @@ void TermsWithAssociation::putTermWithDetails(TermWithDetails const& termWithDet
     m_termsWithDetails.emplace_back(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);
 }
 
+void TermsWithAssociation::putTermWithAssociation(BaseTerm const& baseTerm, TermAssociationType const associationType)
+{
+    m_termsWithDetails.emplace_back(baseTerm, associationType);
+}
+
 void TermsWithAssociation::putTermWithPositiveAssociation(BaseTerm const& baseTerm)
 {
-    m_termsWithDetails.emplace_back(baseTerm, TermAssociationType::Positive);
-}
+    m_termsWithDetails.emplace_back(baseTerm, TermAssociationType::Positive);}
 
 void TermsWithAssociation::putTermWithNegativeAssociation(BaseTerm const& baseTerm)
 {
-    m_termsWithDetails.emplace_back(baseTerm, TermAssociationType::Negative);
-}
+    m_termsWithDetails.emplace_back(baseTerm, TermAssociationType::Negative);}
 
 void TermsWithAssociation::reverseTheAssociationOfTheTerms()
 {

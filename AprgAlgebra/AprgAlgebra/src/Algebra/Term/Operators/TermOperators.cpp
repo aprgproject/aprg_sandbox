@@ -1571,18 +1571,13 @@ Term operator^(Polynomial const& polynomial, Constant const& constant)
         {
             unsigned int exponentAbsoluteValue(static_cast<unsigned int>(getAbsoluteValue(exponentInteger)));
             Polynomial newPolynomial(polynomial);
-            for(unsigned int exponentCount=1;  exponentCount<exponentAbsoluteValue; exponentCount++)
-            {
-                newPolynomial.multiplyPolynomial(polynomial);
-            }
+            newPolynomial.raiseToUnsignedInteger(exponentAbsoluteValue);
             if(exponentInteger > 0)
             {
-                newTerm = simplifyAndConvertPolynomialToSimplestTerm(newPolynomial);
-            }
+                newTerm = simplifyAndConvertPolynomialToSimplestTerm(newPolynomial);            }
             else
             {
-                newTerm = Term(createExpressionIfPossible({Term(1), Term("/"), simplifyAndConvertPolynomialToSimplestTerm(newPolynomial)}));
-            }
+                newTerm = Term(createExpressionIfPossible({Term(1), Term("/"), simplifyAndConvertPolynomialToSimplestTerm(newPolynomial)}));            }
         }
     }
     else

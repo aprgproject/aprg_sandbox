@@ -1,15 +1,15 @@
+#include <Algebra/Constructs/TermsAggregator.hpp>
 #include <Algebra/Equation/EquationUtilities.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableNonEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
-
 #include <gtest/gtest.h>
 
-using namespace alba::algebra::Simplification;
-using namespace std;
+using namespace alba::algebra::Simplification;using namespace std;
 
 namespace alba
 {
@@ -40,23 +40,23 @@ TEST(ComboTest, SimplifyAndSubstitutionWorksUsingExample3)
 
 TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample1)
 {
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                SimplificationOfExpression::getDefaultConfigurationDetails());
+    configurationDetails.shouldSimplifyToACommonDenominator = true;
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
     SubstitutionOfVariablesToValues substitution({{"x", 2}});
     Term term(buildTermIfPossible("(((3*x)/(x-3))-((3*x+2)/(x^2-6*x+9)))*(((x+2)/(x+3))-((x)/(x^2+6*x+9)))"));
-    if(term.isExpression())
-    {
-        Expression const& expression(term.getExpressionConstReference());
-        SimplificationOfExpression simplification(expression);
-        simplification.setAsShouldSimplifyToACommonDenominator(true);
-        simplification.simplify();
-        EXPECT_EQ(Term(AlbaNumber::createFraction(-252, 25)), substitution.performSubstitutionTo(simplification.getExpression()));
-    }
+    Expression simplifiedTerm(term.getExpressionConstReference());
+    simplifiedTerm.simplify();
+
+    EXPECT_EQ(Term(AlbaNumber::createFraction(-252, 25)), substitution.performSubstitutionTo(simplifiedTerm));
 }
 
-TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample1)
-{
+TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample1){
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("2+3*x < 5*x+8")));
-
     AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(1U, acceptedIntervals.size());
     EXPECT_EQ(createOpenEndpoint(-3), acceptedIntervals.front().getLowerEndpoint());

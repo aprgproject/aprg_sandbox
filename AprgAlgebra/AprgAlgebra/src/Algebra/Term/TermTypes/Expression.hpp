@@ -28,17 +28,16 @@ public:
     bool operator!=(Expression const& second) const;
     bool operator<(Expression const& second) const;
     bool isEmpty() const;
-    bool containsOnlyOneTerm() const;
+    bool containsOnlyOnePositivelyAssociatedTerm() const;
 
     OperatorLevel getCommonOperatorLevel() const;
     BaseTerm const& getFirstTermConstReference() const;
+    TermAssociationType getFirstAssociationType() const;
     TermsWithAssociation const& getTermsWithAssociation() const;
     TermsWithAssociation & getTermsWithAssociationReference();
-    TermsWithAssociation getTermsWithDetailsThatSatisfiesCondition(
-            ConditionFunctionForTermsWithDetails const& conditionFunction) const;
+    TermsWithAssociation getTermsWithDetailsThatSatisfiesCondition(            ConditionFunctionForTermsWithDetails const& conditionFunction) const;
     std::string getDisplayableString() const;
     std::string getDebugString() const;
-
     void clear();
     void clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm);
 
@@ -51,13 +50,14 @@ public:
     void putPolynomialSecondWithMultiplication(Polynomial const& polynomial);
     void putExpressionWithMultiplication(Expression const& expression);
     void putTermsWithDetails(TermsWithAssociation::TermsWithDetails const& termsToSave);
+    void putTerm(
+            BaseTerm const& baseTerm,
+            TermAssociationType const overallAssociation);
 
     void reverseTheAssociationOfTheTerms();
-    void set(OperatorLevel const operatorLevel, TermsWithAssociation const& termsWithPriorityAndAssociation);
-    void setTerm(BaseTerm const& baseTerm);
+    void set(OperatorLevel const operatorLevel, TermsWithAssociation const& termsWithPriorityAndAssociation);    void setTerm(BaseTerm const& baseTerm);
     void setCommonOperatorLevel(OperatorLevel const operatorLevel);
     void setCommonOperatorLevelIfStillUnknown(OperatorLevel const operatorLevel);
-
     void simplify();
     void sort();
 
@@ -75,17 +75,12 @@ private:
     void putTermWithRaiseToPowerForExpressionAndNonExpressions(
             BaseTerm const& baseTerm,
             TermAssociationType const overallAssociation);
-    void putTerm(
-            BaseTerm const& baseTerm,
-            TermAssociationType const overallAssociation);
     void putTermsWithAssociation(
             TermsWithAssociation const& termsWithAssociation,
             TermAssociationType const overallAssociation);
-
     // functions for multiply then add or subtract
     void multiplyThenAddOrSubtract(Polynomial const& polynomial, Expression const& expression);
-    void multiplyThenAddOrSubtract(Expression const& expression, Polynomial const& polynomial);
-    void multiplyThenAddOrSubtract(Polynomial const& polynomial, TermsWithAssociation::TermsWithDetails const& termsWithDetails);
+    void multiplyThenAddOrSubtract(Expression const& expression, Polynomial const& polynomial);    void multiplyThenAddOrSubtract(Polynomial const& polynomial, TermsWithAssociation::TermsWithDetails const& termsWithDetails);
     void multiplyThenAddOrSubtract(TermsWithAssociation::TermsWithDetails const& termsWithDetails, Polynomial const& polynomial);
     void multiplyThenAddOrSubtract(BaseTerm const& baseTerm, TermsWithAssociation::TermsWithDetails const& termsWithDetails);
     void multiplyThenAddOrSubtract(TermsWithAssociation::TermsWithDetails const& termsWithDetails, BaseTerm const& baseTerm);

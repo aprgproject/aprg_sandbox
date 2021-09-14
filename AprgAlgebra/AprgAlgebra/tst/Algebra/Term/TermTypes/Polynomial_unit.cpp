@@ -399,6 +399,21 @@ TEST(PolynomialTest, DivideMonomialWorks)
     EXPECT_EQ((Polynomial{Monomial(4, {{"x", -4}}), Monomial(6, {{"x", 0}})}), polynomial3);
 }
 
+TEST(PolynomialTest, RaiseToUnsignedIntegerWorks)
+{
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(10, {})};
+    Polynomial polynomial3{Monomial(20, {}), Monomial(30, {{"x", 4}})};
+
+    polynomial1.raiseToUnsignedInteger(2U);
+    polynomial2.raiseToUnsignedInteger(2U);
+    polynomial3.raiseToUnsignedInteger(2U);
+
+    EXPECT_EQ(Polynomial(), polynomial1);
+    EXPECT_EQ((Polynomial{Monomial(100, {})}), polynomial2);
+    EXPECT_EQ((Polynomial{Monomial(400, {}), Monomial(1200, {{"x", 4}}), Monomial(900, {{"x", 8}})}), polynomial3);
+}
+
 }
 
 }

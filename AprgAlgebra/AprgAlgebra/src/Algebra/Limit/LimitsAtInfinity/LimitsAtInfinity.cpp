@@ -1,14 +1,13 @@
 #include "LimitsAtInfinity.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
+#include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
-using namespace alba::algebra::Simplification;
-using namespace std;
+using namespace alba::algebra::Simplification;using namespace std;
 
 namespace alba
 {
@@ -24,18 +23,12 @@ LimitsAtInfinity::LimitsAtInfinity(
     , m_isSimplifiedDenominatorZero(false)
     , m_degreeOnlyMutator(variableName)
     , m_removeMonomialsWithNegativeExponentMutator(variableName)
-    , m_simplificationMutator()
 {
-    SimplificationOfExpression simplification;
-    simplification.setAsShouldSimplifyByCombiningMonomialAndRadicalExpressions(true);
-    m_simplificationMutator.putSimplification(simplification);
     simplify();
 }
-
 Term LimitsAtInfinity::getSimplifiedTermAtInfinity() const
 {
-    return m_simplifiedTermAtInfinity;
-}
+    return m_simplifiedTermAtInfinity;}
 
 Term LimitsAtInfinity::getValueAtInfinity(
         AlbaNumber::Value const infinityValue) const
@@ -70,21 +63,32 @@ void LimitsAtInfinity::simplifyAsTermsOverTermsIfPossible()
     numerator.simplify();
     denominator = denominator/termToDivide;
     denominator.simplify();
-    m_simplificationMutator.mutateTerm(numerator);
-    m_simplificationMutator.mutateTerm(denominator);
+    simplifyByCombiningRadicals(numerator);
+    simplifyByCombiningRadicals(denominator);
     m_removeMonomialsWithNegativeExponentMutator.mutateTerm(numerator);
     m_removeMonomialsWithNegativeExponentMutator.mutateTerm(denominator);
     m_simplifiedTermAtInfinity = numerator/denominator;
 }
 
+void LimitsAtInfinity::simplifyByCombiningRadicals(Term & term) const
+{
+    SimplificationOfExpression::ConfigurationDetails limitAtInfinityConfigurationDetails(
+                SimplificationOfExpression::getDefaultConfigurationDetails());
+    limitAtInfinityConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
+    limitAtInfinityConfigurationDetails.shouldSimplifyByCombiningMonomialAndRadicalExpressionsInMultiplicationAndDivision = true;
+
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(limitAtInfinityConfigurationDetails);
+
+    term.simplify();
+}
+
 void LimitsAtInfinity::simplifyPolynomialToMaxDegreeMonomialOnly()
 {
-    if(m_simplifiedTermAtInfinity.isPolynomial())
-    {
+    if(m_simplifiedTermAtInfinity.isPolynomial())    {
         Polynomial newPolynomial(m_simplifiedTermAtInfinity.getPolynomialConstReference());
         AlbaNumber maxDegree(getMaxDegree(m_simplifiedTermAtInfinity));
-        Monomial monomialWithMaxDegree(1, {{m_variableName, maxDegree}});
-        newPolynomial.divideMonomial(monomialWithMaxDegree);
+        Monomial monomialWithMaxDegree(1, {{m_variableName, maxDegree}});        newPolynomial.divideMonomial(monomialWithMaxDegree);
         m_removeMonomialsWithNegativeExponentMutator.mutatePolynomial(newPolynomial);
         newPolynomial.multiplyMonomial(monomialWithMaxDegree);
         m_simplifiedTermAtInfinity = Term(newPolynomial);

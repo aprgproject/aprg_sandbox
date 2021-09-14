@@ -74,14 +74,17 @@ bool canBeMergedInAMonomialByAdditionOrSubtraction(Variable const& variable1, Va
     return variable1.getVariableName() == variable2.getDisplayableString();
 }
 
+bool doesCoefficientsHaveSameSign(Monomial const& monomial1, Monomial const& monomial2)
+{
+    return getSignForAlbaNumber(monomial1.getConstantConstReference()) == getSignForAlbaNumber(monomial2.getConstantConstReference());
+}
+
 bool hasNegativeExponents(Monomial const& monomial)
 {
-    bool result(false);
-    for(auto const& variableExponentsPair
+    bool result(false);    for(auto const& variableExponentsPair
         : monomial.getVariablesToExponentsMapConstReference())
     {
-        if(variableExponentsPair.second < 0)
-        {
+        if(variableExponentsPair.second < 0)        {
             result=true;
             break;
         }

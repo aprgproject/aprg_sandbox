@@ -90,14 +90,27 @@ TEST(TermsAggregatorTest, ExpressionCanBeBuiltWithParenthesis)
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
+TEST(TermsAggregatorTest, BuildExpressionFromTermsWorksOnNegativeFractionInParenthesis)
+{
+    TermsAggregator aggregator({Term("("), Term("-"), Term(1), Term("/"), Term(3), Term(")")});
+
+    aggregator.buildExpressionFromTerms();
+
+    Terms termsToVerify(aggregator.getTermsConstReference());
+    ASSERT_EQ(1U, termsToVerify.size());
+    ASSERT_EQ(TermType::Expression, termsToVerify.at(0).getTermType());
+    Expression subExpression1(createExpressionIfPossible({Term("-"), Term(1)}));
+    Expression expressionToExpect(createExpressionIfPossible({Term(subExpression1), Term("/"), Term(3)}));
+    Expression expressionToVerify(termsToVerify.at(0).getExpressionConstReference());
+    EXPECT_EQ(expressionToExpect, expressionToVerify);
+}
+
 TEST(TermsAggregatorTest, SimplifyWorksWithNoTerms)
 {
     TermsAggregator aggregator({});
-
     aggregator.simplifyTerms();
 
-    Terms termsToVerify(aggregator.getTermsConstReference());
-    ASSERT_TRUE(termsToVerify.empty());
+    Terms termsToVerify(aggregator.getTermsConstReference());    ASSERT_TRUE(termsToVerify.empty());
 }
 
 TEST(TermsAggregatorTest, SimplifyWorksWithUnaryOperation)

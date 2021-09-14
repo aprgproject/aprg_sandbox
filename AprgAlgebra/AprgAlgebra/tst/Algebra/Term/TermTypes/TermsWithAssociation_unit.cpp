@@ -219,14 +219,26 @@ TEST(TermsWithAssociationTest, GetFirstTermConstReferenceWorks)
     EXPECT_EQ(Term(20), getTermConstReferenceFromBaseTerm(terms2.getFirstTermConstReference()));
 }
 
+TEST(TermsWithAssociationTest, GetFirstAssociationTypeWorks)
+{
+    TermsWithAssociation terms1;
+    TermsWithAssociation terms2;
+    TermWithDetails termWithDetails1(Term(10), TermAssociationType::Negative);
+    TermWithDetails termWithDetails2(Term(20), TermAssociationType::Positive);
+    terms1.putTermWithDetails(termWithDetails1);
+    terms2.putTermWithDetails(termWithDetails2);
+
+    EXPECT_EQ(TermAssociationType::Negative, terms1.getFirstAssociationType());
+    EXPECT_EQ(TermAssociationType::Positive, terms2.getFirstAssociationType());
+}
+
+
 TEST(TermsWithAssociationTest, GetTermsWithDetailsWorks)
 {
-    TermsWithAssociation terms;
-    TermWithDetails termWithDetails1(Term(10), TermAssociationType::Negative);
+    TermsWithAssociation terms;    TermWithDetails termWithDetails1(Term(10), TermAssociationType::Negative);
     TermWithDetails termWithDetails2(Term(20), TermAssociationType::Positive);
     terms.putTermWithDetails(termWithDetails1);
     terms.putTermWithDetails(termWithDetails2);
-
     TermsWithDetails termsToVerify(terms.getTermsWithDetails());
 
     ASSERT_EQ(2U, termsToVerify.size());
@@ -285,14 +297,24 @@ TEST(TermsWithAssociationTest, PutTermWithDetailsWorks)
     EXPECT_EQ(TermAssociationType::Negative, termsToVerify.at(0).association);
 }
 
-TEST(TermsWithAssociationTest, PutTermWithPositiveAssociationWorks)
+TEST(TermsWithAssociationTest, PutTermWithAssociationWorks)
 {
     TermsWithAssociation terms;
 
-    terms.putTermWithPositiveAssociation(Term(10));
+    terms.putTermWithAssociation(Term(10), TermAssociationType::Negative);
 
     TermsWithDetails termsToVerify(terms.getTermsWithDetails());
     ASSERT_EQ(1U, termsToVerify.size());
+    EXPECT_EQ(Term(10), getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
+    EXPECT_EQ(TermAssociationType::Negative, termsToVerify.at(0).association);
+}
+
+TEST(TermsWithAssociationTest, PutTermWithPositiveAssociationWorks)
+{
+    TermsWithAssociation terms;
+    terms.putTermWithPositiveAssociation(Term(10));
+
+    TermsWithDetails termsToVerify(terms.getTermsWithDetails());    ASSERT_EQ(1U, termsToVerify.size());
     EXPECT_EQ(Term(10), getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify.at(0).association);
 }

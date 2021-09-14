@@ -130,16 +130,20 @@ void AdditionAndSubtractionOfExpressions::retrieveUniqueExpressionsAndMergeTerms
 {
     uniqueExpression1 = getUniqueExpressionForAdditionOrSubtractionMergeChecking(expression1);
     uniqueExpression2 = getUniqueExpressionForAdditionOrSubtractionMergeChecking(expression2);
-    uniqueExpression1.sort();
-    uniqueExpression2.sort();
+    if(OperatorLevel::RaiseToPower != uniqueExpression1.getCommonOperatorLevel())
+    {
+        uniqueExpression1.sort();
+    }
+    if(OperatorLevel::RaiseToPower != uniqueExpression1.getCommonOperatorLevel())
+    {
+        uniqueExpression2.sort();
+    }
     accumulateMergeTermForAdditionOrSubtractionMergeChecking(mergeTerm1, expression1);
     accumulateMergeTermForAdditionOrSubtractionMergeChecking(mergeTerm2, expression2);
 }
-
 Expression AdditionAndSubtractionOfExpressions::getUniqueExpressionForAdditionOrSubtractionMergeChecking(Expression const& expression)
 {
-    Expression result;
-    if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
+    Expression result;    if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
     {
         TermsWithAssociation uniqueExpressions(
                     expression.getTermsWithDetailsThatSatisfiesCondition(

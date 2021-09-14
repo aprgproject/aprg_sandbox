@@ -276,13 +276,20 @@ void Polynomial::divideMonomial(Monomial const& monomial)
     }
 }
 
-bool Polynomial::isFurtherSimplificationNeeded(
-        Polynomial const& beforeSimplify,
-        Polynomial const& afterSimplify) const
+void Polynomial::raiseToUnsignedInteger(unsigned int const exponent)
 {
-    return beforeSimplify != afterSimplify && !hasNotANumber(afterSimplify);
+    Polynomial base(*this);
+    for(unsigned int exponentCount=1; exponentCount<exponent; exponentCount++)
+    {
+        multiplyPolynomial(base);
+    }
 }
 
+bool Polynomial::isFurtherSimplificationNeeded(
+        Polynomial const& beforeSimplify,
+        Polynomial const& afterSimplify) const{
+    return beforeSimplify != afterSimplify && !hasNotANumber(afterSimplify);
+}
 void Polynomial::simplifyMonomialsAndReAdd()
 {
     Monomials previousMonomials(m_monomials);

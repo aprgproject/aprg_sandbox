@@ -18,15 +18,13 @@ namespace algebra
 
 TEST(LimitTest, IsAlmostEqualForLimitIterationWorks)
 {
-    AlbaNumberToleranceToZeroScopeObject scopeObject;
-    scopeObject.doSomethingToAvoidWarning();
+    AlbaNumber::ScopeObject scopeObject;
+    scopeObject.setInThisScopeTheTolerancesToZero();
 
     EXPECT_TRUE(isAlmostEqualForLimitIteration(AlbaNumber(0), AlbaNumber(0)));
-    EXPECT_FALSE(isAlmostEqualForLimitIteration(AlbaNumber(0.1), AlbaNumber(0.2)));
-    EXPECT_FALSE(isAlmostEqualForLimitIteration(AlbaNumber(1E-15), AlbaNumber(3E-15)));
+    EXPECT_FALSE(isAlmostEqualForLimitIteration(AlbaNumber(0.1), AlbaNumber(0.2)));    EXPECT_FALSE(isAlmostEqualForLimitIteration(AlbaNumber(1E-15), AlbaNumber(3E-15)));
     EXPECT_TRUE(isAlmostEqualForLimitIteration(AlbaNumber(1E-16), AlbaNumber(3E-16)));
 }
-
 TEST(LimitTest, IsAlmostEqualForLimitCheckingWorks)
 {
     EXPECT_TRUE(isAlmostEqualForLimitChecking(AlbaNumber(0), AlbaNumber(0)));

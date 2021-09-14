@@ -62,14 +62,20 @@ TEST(MonomialHelpersTest, CanBeMergedByAdditionOrSubtractionForBothVariablesWork
     EXPECT_FALSE(canBeMergedInAMonomialByAdditionOrSubtraction(Variable("w"), Variable("x")));
 }
 
+TEST(MonomialHelpersTest, DoesCoefficientsHaveSameSignWorks)
+{
+    EXPECT_TRUE(doesCoefficientsHaveSameSign(Monomial(23, {}), Monomial(23, {})));
+    EXPECT_FALSE(doesCoefficientsHaveSameSign(Monomial(-23, {}), Monomial(23, {})));
+    EXPECT_FALSE(doesCoefficientsHaveSameSign(Monomial(23, {}), Monomial(-23, {})));
+    EXPECT_TRUE(doesCoefficientsHaveSameSign(Monomial(-23, {}), Monomial(-23, {})));
+}
+
 TEST(MonomialHelpersTest, HasNegativeExponentsWorks)
 {
-    EXPECT_FALSE(hasNegativeExponents(Monomial()));
-    EXPECT_FALSE(hasNegativeExponents(Monomial(23, {})));
+    EXPECT_FALSE(hasNegativeExponents(Monomial()));    EXPECT_FALSE(hasNegativeExponents(Monomial(23, {})));
     EXPECT_FALSE(hasNegativeExponents(Monomial(-23, {})));
     EXPECT_FALSE(hasNegativeExponents(Monomial(-54, {{"x", 6}})));
-    EXPECT_TRUE(hasNegativeExponents(Monomial(-54, {{"x", -6}})));
-    EXPECT_FALSE(hasNegativeExponents(Monomial(-54, {{"x", 6}, {"y", 1.25}})));
+    EXPECT_TRUE(hasNegativeExponents(Monomial(-54, {{"x", -6}})));    EXPECT_FALSE(hasNegativeExponents(Monomial(-54, {{"x", 6}, {"y", 1.25}})));
     EXPECT_TRUE(hasNegativeExponents(Monomial(-54, {{"x", 6}, {"y", -1.25}})));
     EXPECT_TRUE(hasNegativeExponents(Monomial(-54, {{"x", -6}, {"y", 1.25}})));
     EXPECT_TRUE(hasNegativeExponents(Monomial(-54, {{"x", -6}, {"y", -1.25}})));

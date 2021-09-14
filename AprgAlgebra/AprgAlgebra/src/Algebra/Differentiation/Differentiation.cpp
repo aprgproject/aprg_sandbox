@@ -1,19 +1,19 @@
 #include "Differentiation.hpp"
 
 #include <Algebra/Limit/Limit.hpp>
+#include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
+using namespace alba::algebra::Simplification;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 bool isDifferentiableAt(
         Term const& term,
         string const& variableName,
@@ -45,14 +45,13 @@ Term getDerivativeByDefinition(
     substitution.putVariableWithTerm(variableName, x);
     Term fOfX(substitution.performSubstitutionTo(term));
     Term derivativeDefinition(createExpressionIfPossible({Term("("), fOfXPlusDeltaX, Term("-"), fOfX, Term(")"), Term("/"), deltaX}));
+    simplifyDerivativeByDefinition(derivativeDefinition);
 
     Term limitAtPositiveSide(simplifyAndGetLimitAtAValue(derivativeDefinition, deltaXName, 0, LimitAtAValueApproachType::PositiveSide));
-    Term limitAtNegativeSide(simplifyAndGetLimitAtAValue(derivativeDefinition, deltaXName, 0, LimitAtAValueApproachType::NegativeSide));
-    if(limitAtPositiveSide.isConstant() && limitAtNegativeSide.isConstant())
+    Term limitAtNegativeSide(simplifyAndGetLimitAtAValue(derivativeDefinition, deltaXName, 0, LimitAtAValueApproachType::NegativeSide));    if(limitAtPositiveSide.isConstant() && limitAtNegativeSide.isConstant())
     {
         if(limitAtPositiveSide.getConstantValueConstReference().isPositiveOrNegativeInfinity()
-                && limitAtPositiveSide.getConstantValueConstReference().isPositiveOrNegativeInfinity())
-        {
+                && limitAtPositiveSide.getConstantValueConstReference().isPositiveOrNegativeInfinity())        {
             result = x;
         }
         else if(limitAtPositiveSide != limitAtNegativeSide)
@@ -69,6 +68,19 @@ Term getDerivativeByDefinition(
         result = limitAtPositiveSide;
     }
     return result;
+}
+
+void simplifyDerivativeByDefinition(Term & term)
+{
+    SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(
+                SimplificationOfExpression::getDefaultConfigurationDetails());
+    rationalizeConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
+    rationalizeConfigurationDetails.shouldSimplifyByCombiningMonomialAndRadicalExpressionsInMultiplicationAndDivision = true;
+    rationalizeConfigurationDetails.shouldSimplifyByRationalizingNumerator = true;
+
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(rationalizeConfigurationDetails);
+    term.simplify();
 }
 
 }

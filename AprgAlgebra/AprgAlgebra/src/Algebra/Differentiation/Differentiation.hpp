@@ -20,6 +20,8 @@ Term getDerivativeByDefinition(
         std::string const& variableName,
         Term const& x);
 
+void simplifyDerivativeByDefinition(Term & term);
+
 }
 
 }
