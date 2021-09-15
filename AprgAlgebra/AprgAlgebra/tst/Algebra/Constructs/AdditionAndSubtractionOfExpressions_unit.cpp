@@ -5,8 +5,6 @@
 #include <gtest/gtest.h>
 
 using namespace std;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
-using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
@@ -33,10 +31,12 @@ TEST(AdditionAndSubtractionOfExpressionsTest, GetExpressionsWorks)
     Expressions const& expressions(additionAndSubtraction.getExpressions());
 
     ASSERT_EQ(2U, expressions.size());
-    EXPECT_EQ(expression1, expressions.at(0));    EXPECT_EQ(expression2, expressions.at(1));
+    EXPECT_EQ(expression1, expressions.at(0));
+    EXPECT_EQ(expression2, expressions.at(1));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, GetAssociationsWorks){
+TEST(AdditionAndSubtractionOfExpressionsTest, GetAssociationsWorks)
+{
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({Term("x")}));
     Expression expression2(createExpressionIfPossible({Term("y")}));
@@ -46,10 +46,12 @@ TEST(AdditionAndSubtractionOfExpressionsTest, GetAssociationsWorks){
     TermAssociationTypes const& associations(additionAndSubtraction.getAssociations());
 
     ASSERT_EQ(2U, associations.size());
-    EXPECT_EQ(TermAssociationType::Positive, associations.at(0));    EXPECT_EQ(TermAssociationType::Negative, associations.at(1));
+    EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
+    EXPECT_EQ(TermAssociationType::Negative, associations.at(1));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, GetSizeWorks){
+TEST(AdditionAndSubtractionOfExpressionsTest, GetSizeWorks)
+{
     AdditionAndSubtractionOfExpressions additionAndSubtraction1;
     AdditionAndSubtractionOfExpressions additionAndSubtraction2;
     Expression expression1(createExpressionIfPossible({Term("x")}));
@@ -96,9 +98,11 @@ TEST(AdditionAndSubtractionOfExpressionsTest, PutAsAdditionWorks)
     ASSERT_EQ(1U, associations.size());
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
 }
+
 TEST(AdditionAndSubtractionOfExpressionsTest, PutAsSubtractionWorks)
 {
-    AdditionAndSubtractionOfExpressions additionAndSubtraction;    Expression expression(createExpressionIfPossible({Term("x")}));
+    AdditionAndSubtractionOfExpressions additionAndSubtraction;
+    Expression expression(createExpressionIfPossible({Term("x")}));
 
     additionAndSubtraction.putAsSubtraction(expression);
 
@@ -109,9 +113,11 @@ TEST(AdditionAndSubtractionOfExpressionsTest, PutAsSubtractionWorks)
     ASSERT_EQ(1U, associations.size());
     EXPECT_EQ(TermAssociationType::Negative, associations.at(0));
 }
+
 TEST(AdditionAndSubtractionOfExpressionsTest, PutAsAddOrSubtractionWorks)
 {
-    AdditionAndSubtractionOfExpressions additionAndSubtraction;    Expression expression(createExpressionIfPossible({Term("x")}));
+    AdditionAndSubtractionOfExpressions additionAndSubtraction;
+    Expression expression(createExpressionIfPossible({Term("x")}));
 
     additionAndSubtraction.putAsAddOrSubtraction(expression, TermAssociationType::Negative);
 
@@ -122,9 +128,11 @@ TEST(AdditionAndSubtractionOfExpressionsTest, PutAsAddOrSubtractionWorks)
     ASSERT_EQ(1U, associations.size());
     EXPECT_EQ(TermAssociationType::Negative, associations.at(0));
 }
+
 TEST(AdditionAndSubtractionOfExpressionsTest, PutTermsWithDetailsWorks)
 {
-    AdditionAndSubtractionOfExpressions additionAndSubtraction;    Expression expression1(createExpressionIfPossible({Term("x")}));
+    AdditionAndSubtractionOfExpressions additionAndSubtraction;
+    Expression expression1(createExpressionIfPossible({Term("x")}));
     Expression expression2(createExpressionIfPossible({Term("y")}));
     TermWithDetails termWithDetails1(Term(expression1), TermAssociationType::Negative);
     TermWithDetails termWithDetails2(Term(expression2), TermAssociationType::Positive);
@@ -139,10 +147,12 @@ TEST(AdditionAndSubtractionOfExpressionsTest, PutTermsWithDetailsWorks)
     TermAssociationTypes const& associations(additionAndSubtraction.getAssociations());
     ASSERT_EQ(2U, associations.size());
     EXPECT_EQ(TermAssociationType::Negative, associations.at(0));
-    EXPECT_EQ(TermAssociationType::Positive, associations.at(1));}
+    EXPECT_EQ(TermAssociationType::Positive, associations.at(1));
+}
 
 TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksOnAddingAndSubtractingRaiseToPowerExpressions)
-{    AdditionAndSubtractionOfExpressions additionAndSubtraction;
+{
+    AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({Term(5), Term("*"), Term("y"), Term("^"), Term("y")}));
     Expression expression2(createExpressionIfPossible({Term("y"), Term("^"), Term("y")}));
     Expression expression3(createExpressionIfPossible({Term(3), Term("*"), Term("y"), Term("^"), Term("y")}));
@@ -161,9 +171,11 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksOnA
     ASSERT_EQ(1U, associations.size());
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
 }
+
 TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksOnAddingAndSubtractingMultipleRaiseToPowerExpressions)
 {
-    AdditionAndSubtractionOfExpressions additionAndSubtraction;    Expression expression1(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
+    AdditionAndSubtractionOfExpressions additionAndSubtraction;
+    Expression expression1(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
     Expression expression2(createExpressionIfPossible({Term(2), Term("*"), Term("y"), Term("^"), Term("y")}));
     Expression expression3(createExpressionIfPossible({Term(3), Term("*"), Term("x"), Term("^"), Term("y")}));
     Expression expression4(createExpressionIfPossible({Term("y"), Term("^"), Term("y")}));
@@ -189,10 +201,12 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksOnA
     TermAssociationTypes const& associations(additionAndSubtraction.getAssociations());
     ASSERT_EQ(2U, associations.size());
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
-    EXPECT_EQ(TermAssociationType::Positive, associations.at(1));}
+    EXPECT_EQ(TermAssociationType::Positive, associations.at(1));
+}
 
 TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksOnAddingAndSubtractingNonSortedRaiseToPowerExpressions)
-{    AdditionAndSubtractionOfExpressions additionAndSubtraction;
+{
+    AdditionAndSubtractionOfExpressions additionAndSubtraction;
     Expression expression1(createExpressionIfPossible({Term(100), Term("*"), Term("y"), Term("^"), Term("y"), Term("*"), Term("x"), Term("^"), Term("x")}));
     Expression expression2(createExpressionIfPossible({Term(10), Term("*"), Term("x"), Term("^"), Term("x"), Term("*"), Term("y"), Term("^"), Term("y")}));
     additionAndSubtraction.putAsAddition(expression1);
@@ -211,9 +225,11 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksOnA
     ASSERT_EQ(1U, associations.size());
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
 }
+
 TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksOnAddingAndSubtractingRaiseToPowerExpressionsThatCannotBeAdded)
 {
-    AdditionAndSubtractionOfExpressions additionAndSubtraction;    Expression expression1(createExpressionIfPossible({Term(10), Term("*"), Term("y"), Term("^"), Term("y")}));
+    AdditionAndSubtractionOfExpressions additionAndSubtraction;
+    Expression expression1(createExpressionIfPossible({Term(10), Term("*"), Term("y"), Term("^"), Term("y")}));
     Expression expression2(createExpressionIfPossible({Term("x"), Term("*"), Term("y"), Term("^"), Term("y")}));
     Expression expression3(createExpressionIfPossible({Term(8), Term("*"), Term("y"), Term("^"), Term("y")}));
     Expression expression4(createExpressionIfPossible({Term(6), Term("*"), Term("x"), Term("*"), Term("y"), Term("^"), Term("y")}));

@@ -166,10 +166,12 @@ TEST(ConvertHelpersTest, ConvertExpressionToSimplestTermWorks)
     EXPECT_EQ(termToExpect4, termToVerify4);
 }
 
-TEST(ConvertHelpersTest, ConvertFunctionToSimplestTermWorks){
+TEST(ConvertHelpersTest, ConvertFunctionToSimplestTermWorks)
+{
     Function function1;
     Function function2("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
-    {        return number;
+    {
+        return number;
     });
     Function function3("functionName", Term("x"), [](AlbaNumber const&  number) -> AlbaNumber
     {

@@ -18,7 +18,7 @@ namespace algebra
 class Expression : public BaseTermData
 {
 public:
-    using ConditionFunctionForTermsWithDetails = std::function<bool(TermsWithAssociation::TermWithDetails const&)>;
+    using ConditionFunctionForTermsWithDetails = std::function<bool(TermWithDetails const&)>;
 
     Expression();
     Expression(BaseTerm const& baseTerm);
@@ -35,9 +35,11 @@ public:
     TermAssociationType getFirstAssociationType() const;
     TermsWithAssociation const& getTermsWithAssociation() const;
     TermsWithAssociation & getTermsWithAssociationReference();
-    TermsWithAssociation getTermsWithDetailsThatSatisfiesCondition(            ConditionFunctionForTermsWithDetails const& conditionFunction) const;
+    TermsWithAssociation getTermsWithDetailsThatSatisfiesCondition(
+            ConditionFunctionForTermsWithDetails const& conditionFunction) const;
     std::string getDisplayableString() const;
     std::string getDebugString() const;
+
     void clear();
     void clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm);
 
@@ -49,15 +51,17 @@ public:
     void putPolynomialFirstWithMultiplication(Polynomial const& polynomial);
     void putPolynomialSecondWithMultiplication(Polynomial const& polynomial);
     void putExpressionWithMultiplication(Expression const& expression);
-    void putTermsWithDetails(TermsWithAssociation::TermsWithDetails const& termsToSave);
+    void putTermsWithDetails(TermsWithDetails const& termsToSave);
     void putTerm(
             BaseTerm const& baseTerm,
             TermAssociationType const overallAssociation);
 
     void reverseTheAssociationOfTheTerms();
-    void set(OperatorLevel const operatorLevel, TermsWithAssociation const& termsWithPriorityAndAssociation);    void setTerm(BaseTerm const& baseTerm);
+    void set(OperatorLevel const operatorLevel, TermsWithAssociation const& termsWithPriorityAndAssociation);
+    void setTerm(BaseTerm const& baseTerm);
     void setCommonOperatorLevel(OperatorLevel const operatorLevel);
     void setCommonOperatorLevelIfStillUnknown(OperatorLevel const operatorLevel);
+
     void simplify();
     void sort();
 
@@ -78,15 +82,17 @@ private:
     void putTermsWithAssociation(
             TermsWithAssociation const& termsWithAssociation,
             TermAssociationType const overallAssociation);
+
     // functions for multiply then add or subtract
     void multiplyThenAddOrSubtract(Polynomial const& polynomial, Expression const& expression);
-    void multiplyThenAddOrSubtract(Expression const& expression, Polynomial const& polynomial);    void multiplyThenAddOrSubtract(Polynomial const& polynomial, TermsWithAssociation::TermsWithDetails const& termsWithDetails);
-    void multiplyThenAddOrSubtract(TermsWithAssociation::TermsWithDetails const& termsWithDetails, Polynomial const& polynomial);
-    void multiplyThenAddOrSubtract(BaseTerm const& baseTerm, TermsWithAssociation::TermsWithDetails const& termsWithDetails);
-    void multiplyThenAddOrSubtract(TermsWithAssociation::TermsWithDetails const& termsWithDetails, BaseTerm const& baseTerm);
+    void multiplyThenAddOrSubtract(Expression const& expression, Polynomial const& polynomial);
+    void multiplyThenAddOrSubtract(Polynomial const& polynomial, TermsWithDetails const& termsWithDetails);
+    void multiplyThenAddOrSubtract(TermsWithDetails const& termsWithDetails, Polynomial const& polynomial);
+    void multiplyThenAddOrSubtract(BaseTerm const& baseTerm, TermsWithDetails const& termsWithDetails);
+    void multiplyThenAddOrSubtract(TermsWithDetails const& termsWithDetails, BaseTerm const& baseTerm);
     void multiplyThenAddOrSubtract(
-            TermsWithAssociation::TermsWithDetails const& termsWithDetails1,
-            TermsWithAssociation::TermsWithDetails const& termsWithDetails2);
+            TermsWithDetails const& termsWithDetails1,
+            TermsWithDetails const& termsWithDetails2);
     void multiplyThenAddOrSubtract(Expression const& multiplicand, BaseTerm const& multiplier, bool const isAdd);
 
     OperatorLevel m_commonOperatorLevel;

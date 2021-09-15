@@ -1,11 +1,8 @@
 #include "TermsWithAssociation.hpp"
 
-#include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <Algebra/Term/Utilities/EnumHelpers.hpp>
 
 #include <algorithm>
-#include <sstream>
 
 using namespace std;
 
@@ -15,74 +12,6 @@ namespace alba
 namespace algebra
 {
 
-TermsWithAssociation::TermWithDetails::TermWithDetails(
-        BaseTerm const& baseTerm,
-        TermAssociationType const associationParameter)
-    : baseTermSharedPointer(copyAndCreateNewTermAndReturnSharedPointer(getTermConstReferenceFromBaseTerm(baseTerm)))
-    , association(associationParameter)
-{}
-
-TermsWithAssociation::TermWithDetails::TermWithDetails(TermWithDetails const& termWithDetails)
-    : baseTermSharedPointer(createNewTermAndReturnSharedPointer(termWithDetails.baseTermSharedPointer))
-    , association(termWithDetails.association)
-{}
-
-bool TermsWithAssociation::TermWithDetails::operator==(TermWithDetails const& second) const
-{
-    Term const& term1(getTermConstReferenceFromSharedPointer(baseTermSharedPointer));
-    Term const& term2(getTermConstReferenceFromSharedPointer(second.baseTermSharedPointer));
-    return term1 == term2 && association == second.association;
-}
-
-bool TermsWithAssociation::TermWithDetails::operator!=(TermWithDetails const& second) const
-{
-    return !(operator==(second));
-}
-
-bool TermsWithAssociation::TermWithDetails::operator<(TermWithDetails const& second) const
-{
-    bool result(false);
-    if(association == second.association)
-    {
-        Term const& term1(getTermConstReferenceFromSharedPointer(baseTermSharedPointer));
-        Term const& term2(getTermConstReferenceFromSharedPointer(second.baseTermSharedPointer));
-        result = term1 < term2;
-    }
-    else
-    {
-        result = getAssociationPriority() < second.getAssociationPriority();
-    }
-    return result;
-}
-
-bool TermsWithAssociation::TermWithDetails::hasPositiveAssociation() const
-{
-    return TermAssociationType::Positive == association;
-}
-
-bool TermsWithAssociation::TermWithDetails::hasNegativeAssociation() const
-{
-    return TermAssociationType::Negative == association;
-}
-
-unsigned int TermsWithAssociation::TermWithDetails::getAssociationPriority() const
-{
-    return algebra::getAssociationPriority(association);
-}
-
-string TermsWithAssociation::TermWithDetails::getDisplayableString() const
-{
-    stringstream ss;
-    Term const& term(getTermConstReferenceFromSharedPointer(baseTermSharedPointer));
-    ss << "[" << getEnumShortString(association) << "{" << term.getDisplayableString() << "}]";
-    return ss.str();
-}
-
-void TermsWithAssociation::TermWithDetails::clear()
-{
-    baseTermSharedPointer.reset();
-    association=TermAssociationType::Positive;
-}
 
 TermsWithAssociation::TermsWithAssociation()
 {}
@@ -162,13 +91,15 @@ TermAssociationType TermsWithAssociation::getFirstAssociationType() const
     return m_termsWithDetails.front().association;
 }
 
-TermsWithAssociation::TermsWithDetails const& TermsWithAssociation::getTermsWithDetails() const
+TermsWithDetails const& TermsWithAssociation::getTermsWithDetails() const
 {
-    return m_termsWithDetails;}
+    return m_termsWithDetails;
+}
 
-TermsWithAssociation::TermsWithDetails & TermsWithAssociation::getTermsWithDetailsReference()
+TermsWithDetails & TermsWithAssociation::getTermsWithDetailsReference()
 {
-    return m_termsWithDetails;}
+    return m_termsWithDetails;
+}
 
 void TermsWithAssociation::clear()
 {
@@ -197,11 +128,13 @@ void TermsWithAssociation::putTermWithAssociation(BaseTerm const& baseTerm, Term
 
 void TermsWithAssociation::putTermWithPositiveAssociation(BaseTerm const& baseTerm)
 {
-    m_termsWithDetails.emplace_back(baseTerm, TermAssociationType::Positive);}
+    m_termsWithDetails.emplace_back(baseTerm, TermAssociationType::Positive);
+}
 
 void TermsWithAssociation::putTermWithNegativeAssociation(BaseTerm const& baseTerm)
 {
-    m_termsWithDetails.emplace_back(baseTerm, TermAssociationType::Negative);}
+    m_termsWithDetails.emplace_back(baseTerm, TermAssociationType::Negative);
+}
 
 void TermsWithAssociation::reverseTheAssociationOfTheTerms()
 {
@@ -216,12 +149,6 @@ void TermsWithAssociation::reverseTheAssociationOfTheTerms()
             termWithDetails.association = TermAssociationType::Positive;
         }
     }
-}
-
-ostream & operator<<(ostream & out, TermsWithAssociation::TermWithDetails const& termWithDetails)
-{
-    out << termWithDetails.getDisplayableString();
-    return out;
 }
 
 }

@@ -17,11 +17,11 @@ class TermsOverTerms
 public:
     TermsOverTerms();
     TermsOverTerms(Terms const& numerators, Terms const& denominators);
-    TermsOverTerms(TermsWithAssociation::TermsWithDetails const& numerators, TermsWithAssociation::TermsWithDetails const& denominators);
+    TermsOverTerms(TermsWithDetails const& numerators, TermsWithDetails const& denominators);
 
     Terms const& getNumerators() const;
     Terms const& getDenominators() const;
-    TermsWithAssociation::TermsWithDetails getNumeratorAndDenominatorAsTermWithDetails() const;
+    TermsWithDetails getNumeratorAndDenominatorAsTermWithDetails() const;
     Term getCombinedTerm() const;
     Term getCombinedNumerator() const;
     Term getCombinedDenominator() const;

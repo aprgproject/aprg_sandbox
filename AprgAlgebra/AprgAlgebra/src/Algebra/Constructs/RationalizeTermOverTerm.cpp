@@ -10,8 +10,6 @@
 
 using namespace alba::algebra::Simplification;
 using namespace alba::mathHelper;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
-using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {

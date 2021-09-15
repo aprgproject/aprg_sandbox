@@ -2,9 +2,6 @@
 
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 
-using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
-
 namespace alba
 {
 

@@ -10,8 +10,6 @@
 #include <Math/AlbaMathHelper.hpp>
 
 using namespace alba::mathHelper;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
-using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
@@ -25,7 +23,7 @@ TermRaiseToTerms::TermRaiseToTerms()
 
 TermRaiseToTerms::TermRaiseToTerms(
         Term const& base,
-        TermsWithAssociation::TermsWithDetails const& exponents)
+        TermsWithDetails const& exponents)
     : m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue(false)
     , m_base(base)
     , m_exponents(exponents)

@@ -38,14 +38,14 @@ private:
     Expression getMultiplierToRationalizeForExpression(
             Expression const& expression) const;
     Expression getMultiplierToRationalizeForExpression(
-            TermsWithAssociation::TermWithDetails const& firstTermWithDetails,
-            TermsWithAssociation::TermWithDetails const& secondTermWithDetails) const;
+            TermWithDetails const& firstTermWithDetails,
+            TermWithDetails const& secondTermWithDetails) const;
     Expression getMultiplierToRationalizeForExpressionWhenExponentIsDivisibleByTwo(
-            TermsWithAssociation::TermWithDetails const& firstTermWithDetails,
-            TermsWithAssociation::TermWithDetails const& secondTermWithDetails) const;
+            TermWithDetails const& firstTermWithDetails,
+            TermWithDetails const& secondTermWithDetails) const;
     Expression getMultiplierToRationalizeForExpressionWhenExponentIsDivisibleByThree(
-            TermsWithAssociation::TermWithDetails const& firstTermWithDetails,
-            TermsWithAssociation::TermWithDetails const& secondTermWithDetails) const;
+            TermWithDetails const& firstTermWithDetails,
+            TermWithDetails const& secondTermWithDetails) const;
     Term m_numerator;
     Term m_denominator;
 };

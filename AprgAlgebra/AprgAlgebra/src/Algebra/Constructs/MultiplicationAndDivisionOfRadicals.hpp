@@ -14,16 +14,16 @@ class MultiplicationAndDivisionOfRadicals
 public:
     MultiplicationAndDivisionOfRadicals();
     MultiplicationAndDivisionOfRadicals(
-            TermsWithAssociation::TermsWithDetails const& termsWithDetails);
+            TermsWithDetails const& termsWithDetails);
 
     Term getCombinedTerm() const;
-    TermsWithAssociation::TermsWithDetails const& getTermsWithDetails() const;
+    TermsWithDetails const& getTermsWithDetails() const;
 
     void simplify();
 
 private:
 
-    TermsWithAssociation::TermsWithDetails m_termsWithDetails;
+    TermsWithDetails m_termsWithDetails;
 };
 
 }

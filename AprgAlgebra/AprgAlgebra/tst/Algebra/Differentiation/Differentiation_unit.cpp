@@ -15,9 +15,11 @@ namespace algebra
 TEST(DifferentiationTest, IsDifferentiableAtWorks)
 {
     Term termToTest(Monomial(1, {{"x", AlbaNumber::createFraction(1, 3)}}));
+
     EXPECT_FALSE(isDifferentiableAt(termToTest, "x", 0));
     EXPECT_TRUE(isDifferentiableAt(termToTest, "x", 2));
 }
+
 TEST(DifferentiationTest, GetDerivativeByDefinitionWorksWhenInputIsAConstant)
 {
     Term termToTest(5);
@@ -66,7 +68,8 @@ TEST(DifferentiationTest, GetDerivativeByDefinitionWorksForPolynomialAndWhenXIsA
 TEST(DifferentiationTest, GetDerivativeByDefinitionWorksForRadicalAndWhenXIsAVariable)
 {
     //Does not work because of simplification should rationalize the numerator
-    Term polynomialTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-3, {})});    Term radicalTerm(createExpressionIfPossible({polynomialTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term polynomialTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-3, {})});
+    Term radicalTerm(createExpressionIfPossible({polynomialTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
 
     Term derivative(getDerivativeByDefinition(radicalTerm, "x", Term("a")));
 
@@ -76,10 +79,12 @@ TEST(DifferentiationTest, GetDerivativeByDefinitionWorksForRadicalAndWhenXIsAVar
     EXPECT_EQ(expectedTerm, derivative);
 }
 
-TEST(DifferentiationTest, GetDerivativeByDefinitionWorksForPolynomialOverPolynomialAndWhenXIsAVariable){
+TEST(DifferentiationTest, GetDerivativeByDefinitionWorksForPolynomialOverPolynomialAndWhenXIsAVariable)
+{
     Term numerator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})});
     Term denominator(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(3, {})});
     Term polynomialOverPolynomialTerm(createExpressionIfPossible({numerator, Term("/"), denominator}));
+
     Term derivative(getDerivativeByDefinition(polynomialOverPolynomialTerm, "x", Term("a")));
 
     Term expectedDenominator(Polynomial{Monomial(1, {{"a", 2}}), Monomial(-6, {{"a", 1}}), Monomial(9, {})});

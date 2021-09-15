@@ -7,9 +7,11 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+
 #include <gtest/gtest.h>
 
-using namespace alba::algebra::Simplification;using namespace std;
+using namespace alba::algebra::Simplification;
+using namespace std;
 
 namespace alba
 {
@@ -54,9 +56,11 @@ TEST(ComboTest, SimplifyToCommonDenominatorAndSubstitutionWorksUsingExample1)
     EXPECT_EQ(Term(AlbaNumber::createFraction(-252, 25)), substitution.performSubstitutionTo(simplifiedTerm));
 }
 
-TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample1){
+TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample1)
+{
     OneEquationOneVariableNonEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(buildEquationIfPossible("2+3*x < 5*x+8")));
+
     AlbaNumberIntervals acceptedIntervals(solutionSet.getAcceptedIntervals());
     ASSERT_EQ(1U, acceptedIntervals.size());
     EXPECT_EQ(createOpenEndpoint(-3), acceptedIntervals.front().getLowerEndpoint());

@@ -81,10 +81,12 @@ bool doesCoefficientsHaveSameSign(Monomial const& monomial1, Monomial const& mon
 
 bool hasNegativeExponents(Monomial const& monomial)
 {
-    bool result(false);    for(auto const& variableExponentsPair
+    bool result(false);
+    for(auto const& variableExponentsPair
         : monomial.getVariablesToExponentsMapConstReference())
     {
-        if(variableExponentsPair.second < 0)        {
+        if(variableExponentsPair.second < 0)
+        {
             result=true;
             break;
         }

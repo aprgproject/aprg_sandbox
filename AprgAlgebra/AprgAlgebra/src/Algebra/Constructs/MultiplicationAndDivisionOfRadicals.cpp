@@ -1,8 +1,5 @@
 #include "MultiplicationAndDivisionOfRadicals.hpp"
 
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
-using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
-
 namespace alba
 {
 
@@ -13,7 +10,7 @@ MultiplicationAndDivisionOfRadicals::MultiplicationAndDivisionOfRadicals()
 {}
 
 MultiplicationAndDivisionOfRadicals::MultiplicationAndDivisionOfRadicals(
-        TermsWithAssociation::TermsWithDetails const& termsWithDetails)
+        TermsWithDetails const& termsWithDetails)
     : m_termsWithDetails(termsWithDetails)
 {}
 

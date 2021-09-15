@@ -4,10 +4,12 @@
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Algebra/Term/Utilities/ConvertHelpers.hpp>#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
-using namespace alba::algebra::Simplification;using namespace std;
+using namespace alba::algebra::Simplification;
+using namespace std;
 
 namespace alba
 {
@@ -26,9 +28,11 @@ LimitsAtInfinity::LimitsAtInfinity(
 {
     simplify();
 }
+
 Term LimitsAtInfinity::getSimplifiedTermAtInfinity() const
 {
-    return m_simplifiedTermAtInfinity;}
+    return m_simplifiedTermAtInfinity;
+}
 
 Term LimitsAtInfinity::getValueAtInfinity(
         AlbaNumber::Value const infinityValue) const
@@ -85,10 +89,12 @@ void LimitsAtInfinity::simplifyByCombiningRadicals(Term & term) const
 
 void LimitsAtInfinity::simplifyPolynomialToMaxDegreeMonomialOnly()
 {
-    if(m_simplifiedTermAtInfinity.isPolynomial())    {
+    if(m_simplifiedTermAtInfinity.isPolynomial())
+    {
         Polynomial newPolynomial(m_simplifiedTermAtInfinity.getPolynomialConstReference());
         AlbaNumber maxDegree(getMaxDegree(m_simplifiedTermAtInfinity));
-        Monomial monomialWithMaxDegree(1, {{m_variableName, maxDegree}});        newPolynomial.divideMonomial(monomialWithMaxDegree);
+        Monomial monomialWithMaxDegree(1, {{m_variableName, maxDegree}});
+        newPolynomial.divideMonomial(monomialWithMaxDegree);
         m_removeMonomialsWithNegativeExponentMutator.mutatePolynomial(newPolynomial);
         newPolynomial.multiplyMonomial(monomialWithMaxDegree);
         m_simplifiedTermAtInfinity = Term(newPolynomial);

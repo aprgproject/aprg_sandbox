@@ -13,21 +13,21 @@ void segregateMonomialsAndNonMonomials(
         Terms & monomials,
         Terms & nonMonomials);
 void segregateMonomialsAndNonMonomials(
-        TermsWithAssociation::TermsWithDetails const& termsToSegregate,
-        TermsWithAssociation::TermsWithDetails & monomials,
-        TermsWithAssociation::TermsWithDetails & nonMonomials);
+        TermsWithDetails const& termsToSegregate,
+        TermsWithDetails & monomials,
+        TermsWithDetails & nonMonomials);
 void segregatePolynomialAndNonPolynomials(
         Terms const& termsToSegregate,
         Terms & polynomials,
         Terms & nonPolynomials);
 void segregateNonExpressionsAndExpressions(
-        TermsWithAssociation::TermsWithDetails const& termsToSegregate,
-        TermsWithAssociation::TermsWithDetails & termsWithNonExpressions,
-        TermsWithAssociation::TermsWithDetails & termsWithExpressions);
+        TermsWithDetails const& termsToSegregate,
+        TermsWithDetails & termsWithNonExpressions,
+        TermsWithDetails & termsWithExpressions);
 void segregateTermsWithPositiveAndNegativeAssociations(
-        TermsWithAssociation::TermsWithDetails const& termsToSegregate,
-        TermsWithAssociation::TermsWithDetails & termsWithPositiveAssociation,
-        TermsWithAssociation::TermsWithDetails & termsWithNegativeAssociation);
+        TermsWithDetails const& termsToSegregate,
+        TermsWithDetails & termsWithPositiveAssociation,
+        TermsWithDetails & termsWithNegativeAssociation);
 
 }
 

@@ -1574,10 +1574,12 @@ Term operator^(Polynomial const& polynomial, Constant const& constant)
             newPolynomial.raiseToUnsignedInteger(exponentAbsoluteValue);
             if(exponentInteger > 0)
             {
-                newTerm = simplifyAndConvertPolynomialToSimplestTerm(newPolynomial);            }
+                newTerm = simplifyAndConvertPolynomialToSimplestTerm(newPolynomial);
+            }
             else
             {
-                newTerm = Term(createExpressionIfPossible({Term(1), Term("/"), simplifyAndConvertPolynomialToSimplestTerm(newPolynomial)}));            }
+                newTerm = Term(createExpressionIfPossible({Term(1), Term("/"), simplifyAndConvertPolynomialToSimplestTerm(newPolynomial)}));
+            }
         }
     }
     else

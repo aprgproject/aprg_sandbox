@@ -5,8 +5,6 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 using namespace std;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
-using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {

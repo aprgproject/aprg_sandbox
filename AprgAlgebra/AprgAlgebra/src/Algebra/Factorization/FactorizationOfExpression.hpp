@@ -15,11 +15,11 @@ namespace Factorization
 void factorizeAnExpression(Expression & expression);
 void factorizePolynomialAndUpdate(
         Expression & expression,
-        TermsWithAssociation::TermsWithDetails & termsToPut,
+        TermsWithDetails & termsToPut,
         Polynomial const& polynomial,
         TermAssociationType const overallAssociation);
 void factorizePolynomialAndEmplaceInTermsWithDetails(
-        TermsWithAssociation::TermsWithDetails & factorizedTermsWithDetails,
+        TermsWithDetails & factorizedTermsWithDetails,
         Polynomial const& polynomial,
         TermAssociationType const overallAssociation);
 }

@@ -12,10 +12,12 @@ using namespace alba::algebra::Factorization;
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 bool doesThePolynomialHaveOnlyOneVariable(Polynomial const& polynomial)
 {
     VariableNamesRetriever variableNamesRetriever;
@@ -116,10 +118,12 @@ Polynomial raiseBinomialToAPowerUsingBinomialExpansion(
             firstPart.multiplyNumber(AlbaNumber(getValueAtPascalTriangle(power, i)));
             firstPart.simplify();
             result.addMonomial(firstPart);
-        }    }
+        }
+    }
     result.simplify();
     return result;
 }
+
 void removeEmptyPolynomials(Polynomials & polynomials)
 {
     polynomials.erase(remove_if(polynomials.begin(), polynomials.end(), [](

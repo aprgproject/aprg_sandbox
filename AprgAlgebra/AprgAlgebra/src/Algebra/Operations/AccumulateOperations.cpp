@@ -6,8 +6,6 @@
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace std;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
-using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {

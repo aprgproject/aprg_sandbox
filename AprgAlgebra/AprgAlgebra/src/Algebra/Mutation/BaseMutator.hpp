@@ -67,7 +67,7 @@ public:
 
     virtual void mutateExpression(Expression & expression) const
     {
-        for(TermsWithAssociation::TermWithDetails & termWithDetails
+        for(TermWithDetails & termWithDetails
             : expression.getTermsWithAssociationReference().getTermsWithDetailsReference())
         {
             mutateTerm(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));

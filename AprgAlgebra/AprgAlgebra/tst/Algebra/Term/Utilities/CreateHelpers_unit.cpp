@@ -4,9 +4,6 @@
 
 #include <gtest/gtest.h>
 
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
-using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
-
 namespace alba
 {
 

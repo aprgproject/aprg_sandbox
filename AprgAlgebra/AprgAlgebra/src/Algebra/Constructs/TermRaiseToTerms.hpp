@@ -15,11 +15,11 @@ public:
     TermRaiseToTerms();
     TermRaiseToTerms(
             Term const& base,
-            TermsWithAssociation::TermsWithDetails const& exponents);
+            TermsWithDetails const& exponents);
 
     Term getCombinedTerm() const;
     Term const& getBase() const;
-    TermsWithAssociation::TermsWithDetails const& getExponents() const;
+    TermsWithDetails const& getExponents() const;
 
     void setBase(Term const& base);
     void simplify();
@@ -29,7 +29,7 @@ private:
 
     bool m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue;
     Term m_base;
-    TermsWithAssociation::TermsWithDetails m_exponents;
+    TermsWithDetails m_exponents;
 };
 
 }

@@ -108,9 +108,11 @@ TEST(TermsAggregatorTest, BuildExpressionFromTermsWorksOnNegativeFractionInParen
 TEST(TermsAggregatorTest, SimplifyWorksWithNoTerms)
 {
     TermsAggregator aggregator({});
+
     aggregator.simplifyTerms();
 
-    Terms termsToVerify(aggregator.getTermsConstReference());    ASSERT_TRUE(termsToVerify.empty());
+    Terms termsToVerify(aggregator.getTermsConstReference());
+    ASSERT_TRUE(termsToVerify.empty());
 }
 
 TEST(TermsAggregatorTest, SimplifyWorksWithUnaryOperation)

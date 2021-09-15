@@ -18,12 +18,12 @@ public:
     Expressions const& getExpressions() const;
     TermAssociationTypes const& getAssociations() const;
     unsigned int getSize() const;
-    TermsWithAssociation::TermsWithDetails getAsTermsWithDetails() const;
+    TermsWithDetails getAsTermsWithDetails() const;
 
     void putAsAddition(Expression const& expression);
     void putAsSubtraction(Expression const& expression);
     void putAsAddOrSubtraction(Expression const& expression, TermAssociationType const association);
-    void putTermsWithDetails(TermsWithAssociation::TermsWithDetails const& termsWithDetails);
+    void putTermsWithDetails(TermsWithDetails const& termsWithDetails);
     void combineExpressionsIfPossible();
 
 private:

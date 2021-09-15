@@ -10,8 +10,6 @@
 #include <algorithm>
 
 using namespace std;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
-using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
@@ -141,9 +139,11 @@ void AdditionAndSubtractionOfExpressions::retrieveUniqueExpressionsAndMergeTerms
     accumulateMergeTermForAdditionOrSubtractionMergeChecking(mergeTerm1, expression1);
     accumulateMergeTermForAdditionOrSubtractionMergeChecking(mergeTerm2, expression2);
 }
+
 Expression AdditionAndSubtractionOfExpressions::getUniqueExpressionForAdditionOrSubtractionMergeChecking(Expression const& expression)
 {
-    Expression result;    if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
+    Expression result;
+    if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
     {
         TermsWithAssociation uniqueExpressions(
                     expression.getTermsWithDetailsThatSatisfiesCondition(

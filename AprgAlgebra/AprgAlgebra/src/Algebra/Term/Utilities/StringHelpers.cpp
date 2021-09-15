@@ -6,8 +6,6 @@
 
 using namespace alba::stringHelper;
 using namespace std;
-using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
 
 namespace alba
 {

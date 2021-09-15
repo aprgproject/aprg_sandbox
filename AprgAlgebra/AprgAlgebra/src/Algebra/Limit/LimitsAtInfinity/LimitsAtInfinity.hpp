@@ -5,8 +5,10 @@
 #include <Algebra/Term/TermTypes/Term.hpp>
 
 #include <string>
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -27,14 +29,17 @@ private:
     void simplifyByCombiningRadicals(Term & term) const;
     void simplifyPolynomialToMaxDegreeMonomialOnly();
     AlbaNumber getMaxDegree(Term const& term);
-    AlbaNumber getDegreeToRemove(            AlbaNumber const& numeratorDegree,
+    AlbaNumber getDegreeToRemove(
+            AlbaNumber const& numeratorDegree,
             AlbaNumber const& denominatorDegree);
 
-    Term m_simplifiedTermAtInfinity;    std::string m_variableName;
+    Term m_simplifiedTermAtInfinity;
+    std::string m_variableName;
     bool m_isSimplifiedDenominatorZero;
     DegreeOnlyMutator m_degreeOnlyMutator;
     RemoveMonomialsWithNegativeExponentMutator m_removeMonomialsWithNegativeExponentMutator;
 };
 
 }
+
 }

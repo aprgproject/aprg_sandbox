@@ -154,14 +154,14 @@ TEST(TermTest, TermsAsExpressionsWorks)
     ASSERT_EQ(TermType::Expression, expressionTerm1.getTermType());
     Expression const& expression1(expressionTerm1.getExpressionConstReference());
     EXPECT_EQ(OperatorLevel::Unknown, expression1.getCommonOperatorLevel());
-    TermsWithAssociation::TermsWithDetails const& termsToVerify1(expression1.getTermsWithAssociation().getTermsWithDetails());
+    TermsWithDetails const& termsToVerify1(expression1.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_TRUE(termsToVerify1.empty());
 
     //For expression2
     ASSERT_EQ(TermType::Expression, expressionTerm2.getTermType());
     Expression const& expression2(expressionTerm2.getExpressionConstReference());
     EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, expression2.getCommonOperatorLevel());
-    TermsWithAssociation::TermsWithDetails const& termsToVerify2(expression2.getTermsWithAssociation().getTermsWithDetails());
+    TermsWithDetails const& termsToVerify2(expression2.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_EQ(2U, termsToVerify2.size());
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify2.at(0).association);
     Term const& termToVerify1(getTermConstReferenceFromSharedPointer(termsToVerify2.at(0).baseTermSharedPointer));

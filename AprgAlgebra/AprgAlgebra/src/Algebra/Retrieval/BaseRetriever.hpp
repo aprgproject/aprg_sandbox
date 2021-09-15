@@ -85,7 +85,7 @@ public:
 
     virtual void retrieveFromExpression(Expression const& expression)
     {
-        for(TermsWithAssociation::TermWithDetails const& termWithDetails
+        for(TermWithDetails const& termWithDetails
             : expression.getTermsWithAssociation().getTermsWithDetails())
         {
             retrieveFromTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));

@@ -51,10 +51,12 @@ void NewtonMethod::runOneIteration()
     scopeObject.setInThisScopeTheTolerancesToZero();
 
     AlbaNumber newValue = m_currentValue
-            - (m_functionToIterate(m_currentValue) / getSlopeApproximationAt(m_currentValue));    updatePositiveDeltaForSlopeIfNeeded(newValue);
+            - (m_functionToIterate(m_currentValue) / getSlopeApproximationAt(m_currentValue));
+    updatePositiveDeltaForSlopeIfNeeded(newValue);
     m_currentValue = newValue;
     m_numberOfIterationsExecuted++;
 }
+
 void NewtonMethod::runMaxNumberOfIterationsOrUntilFinished(unsigned int const maxIterations)
 {
     for(unsigned int i=0; !isFinished() && i<maxIterations; i++)

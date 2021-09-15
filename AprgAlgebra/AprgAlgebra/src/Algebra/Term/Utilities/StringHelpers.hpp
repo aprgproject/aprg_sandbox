@@ -22,9 +22,9 @@ std::string getFirstStringIfNegativeAssociation(
         OperatorLevel const operatorLevel,
         TermAssociationType const association);
 std::string getString(
-        TermsWithAssociation::TermsWithDetails const& termsWithDetails);
+        TermsWithDetails const& termsWithDetails);
 std::string getString(
-        TermsWithAssociation::TermWithDetails const& termWithDetails);
+        TermWithDetails const& termWithDetails);
 std::string createVariableNameForSubstitution(Polynomial const& polynomial);
 
 Term constructTermFromString(std::string const& valueString);

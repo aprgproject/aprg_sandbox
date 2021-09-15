@@ -5,8 +5,6 @@
 #include <gtest/gtest.h>
 
 using namespace std;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
-using TermsWithDetails=alba::algebra::TermsWithAssociation::TermsWithDetails;
 
 namespace alba
 {
@@ -20,10 +18,10 @@ TEST(ExpressionTest, ConstructionWorks)
     Expression expression2(Term(12));
 
     EXPECT_EQ(OperatorLevel::Unknown, expression1.getCommonOperatorLevel());
-    TermsWithAssociation::TermsWithDetails const& termsToVerify1(expression1.getTermsWithAssociation().getTermsWithDetails());
+    TermsWithDetails const& termsToVerify1(expression1.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_TRUE(termsToVerify1.empty());
     EXPECT_EQ(OperatorLevel::Unknown, expression2.getCommonOperatorLevel());
-    TermsWithAssociation::TermsWithDetails const& termsToVerify2(expression2.getTermsWithAssociation().getTermsWithDetails());
+    TermsWithDetails const& termsToVerify2(expression2.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_EQ(1U, termsToVerify2.size());
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify2.at(0).association);
     Term const& termToVerify(getTermConstReferenceFromSharedPointer(termsToVerify2.at(0).baseTermSharedPointer));
@@ -107,10 +105,12 @@ TEST(ExpressionTest, ContainsOnlyOneTermWorks)
     EXPECT_FALSE(expression4.containsOnlyOnePositivelyAssociatedTerm());
 }
 
-TEST(ExpressionTest, GetCommonOperatorLevelWorks){
+TEST(ExpressionTest, GetCommonOperatorLevelWorks)
+{
     Expression expression1;
     Expression expression2(createExpressionIfPossible({Term(5)}));
-    Expression expression3(createExpressionIfPossible({Term(6), Term("+"), Term("interest")}));    Expression expression4(createExpressionIfPossible({Term(6), Term("-"), Term("interest")}));
+    Expression expression3(createExpressionIfPossible({Term(6), Term("+"), Term("interest")}));
+    Expression expression4(createExpressionIfPossible({Term(6), Term("-"), Term("interest")}));
     Expression expression5(createExpressionIfPossible({Term(6), Term("*"), Term("interest")}));
     Expression expression6(createExpressionIfPossible({Term(6), Term("/"), Term("interest")}));
     Expression expression7(createExpressionIfPossible({Term(6), Term("^"), Term("interest")}));
@@ -135,10 +135,12 @@ TEST(ExpressionTest, GetFirstTermConstReferenceWorks)
     EXPECT_EQ(Term(16), getTermConstReferenceFromBaseTerm(expression3.getFirstTermConstReference()));
 }
 
-TEST(ExpressionTest, GetFirstAssociationTypeWorks){
+TEST(ExpressionTest, GetFirstAssociationTypeWorks)
+{
     Expression expression1(createExpressionIfPossible({Term(5412)}));
     Expression expression2(createExpressionIfPossible({Term(695), Term("+"), Term("interest")}));
     Expression expression3(createExpressionIfPossible({Term("-"), Term(16)}));
+
     EXPECT_EQ(TermAssociationType::Positive, expression1.getFirstAssociationType());
     EXPECT_EQ(TermAssociationType::Positive, expression2.getFirstAssociationType());
     EXPECT_EQ(TermAssociationType::Negative, expression3.getFirstAssociationType());
@@ -147,8 +149,10 @@ TEST(ExpressionTest, GetFirstAssociationTypeWorks){
 TEST(ExpressionTest, GetTermsWithAssociationWorks)
 {
     Expression expression(createExpressionIfPossible({Term(695), Term("-"), Term("interest"), Term("+"), Term("debt")}));
+
     TermsWithAssociation const& terms(expression.getTermsWithAssociation());
-    TermsWithAssociation::TermsWithDetails const& termsWithDetailsToVerify(terms.getTermsWithDetails());
+    TermsWithDetails const& termsWithDetailsToVerify(terms.getTermsWithDetails());
+
     ASSERT_EQ(3U, termsWithDetailsToVerify.size());
     EXPECT_EQ(Term(695), getTermConstReferenceFromSharedPointer(termsWithDetailsToVerify.at(0).baseTermSharedPointer));
     EXPECT_EQ(TermAssociationType::Positive, termsWithDetailsToVerify.at(0).association);
@@ -164,11 +168,11 @@ TEST(ExpressionTest, GetTermsWithDetailsThatSatisfiesConditionWhenConditionIsNeg
 
     TermsWithAssociation terms(
                 expression.getTermsWithDetailsThatSatisfiesCondition(
-                    [](TermsWithAssociation::TermWithDetails const& termWithDetails) {
+                    [](TermWithDetails const& termWithDetails) {
                     return termWithDetails.hasNegativeAssociation();
                 }));
 
-    TermsWithAssociation::TermsWithDetails termsWithDetailsToVerify(terms.getTermsWithDetails());
+    TermsWithDetails termsWithDetailsToVerify(terms.getTermsWithDetails());
     ASSERT_EQ(1U, termsWithDetailsToVerify.size());
     EXPECT_EQ(Term("z"), getTermConstReferenceFromSharedPointer(termsWithDetailsToVerify.at(0).baseTermSharedPointer));
     EXPECT_EQ(TermAssociationType::Negative, termsWithDetailsToVerify.at(0).association);
@@ -235,7 +239,8 @@ TEST(ExpressionTest, PutTermWithAdditionUsingNullExpressionWorks)
     Expression expression5(createExpressionIfPossible({Term(695), Term("*"), Term("interest")}));
 
     Expression nullExpression;
-    expression1.putTermWithAdditionIfNeeded(Term(nullExpression));    expression2.putTermWithAdditionIfNeeded(Term(nullExpression));
+    expression1.putTermWithAdditionIfNeeded(Term(nullExpression));
+    expression2.putTermWithAdditionIfNeeded(Term(nullExpression));
     expression3.putTermWithAdditionIfNeeded(Term(nullExpression));
     expression4.putTermWithAdditionIfNeeded(Term(nullExpression));
     expression5.putTermWithAdditionIfNeeded(Term(nullExpression));
@@ -252,7 +257,8 @@ TEST(ExpressionTest, PutTermWithAdditionUsingNullExpressionWorks)
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithAdditionUsingTermWithNoEffectWorks){
+TEST(ExpressionTest, PutTermWithAdditionUsingTermWithNoEffectWorks)
+{
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(Term(Constant(0))));
     Expression expression3(createExpressionIfPossible({Term("-"), Term(Constant(0))}));
@@ -260,7 +266,8 @@ TEST(ExpressionTest, PutTermWithAdditionUsingTermWithNoEffectWorks){
     Expression expression5(createExpressionIfPossible({Term(695), Term("*"), Term("interest")}));
 
     Term noEffectTerm(Constant(0));
-    expression1.putTermWithAdditionIfNeeded(noEffectTerm);    expression2.putTermWithAdditionIfNeeded(noEffectTerm);
+    expression1.putTermWithAdditionIfNeeded(noEffectTerm);
+    expression2.putTermWithAdditionIfNeeded(noEffectTerm);
     expression3.putTermWithAdditionIfNeeded(noEffectTerm);
     expression4.putTermWithAdditionIfNeeded(noEffectTerm);
     expression5.putTermWithAdditionIfNeeded(noEffectTerm);
@@ -277,7 +284,8 @@ TEST(ExpressionTest, PutTermWithAdditionUsingTermWithNoEffectWorks){
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithAdditionUsingConstantWorks){
+TEST(ExpressionTest, PutTermWithAdditionUsingConstantWorks)
+{
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(Term(Constant(0))));
     Expression expression3(createExpressionIfPossible({Term("-"), Term(Constant(0))}));
@@ -285,7 +293,8 @@ TEST(ExpressionTest, PutTermWithAdditionUsingConstantWorks){
     Expression expression5(createExpressionIfPossible({Term(695), Term("*"), Term("interest")}));
 
     Term constant(42);
-    expression1.putTermWithAdditionIfNeeded(constant);    expression2.putTermWithAdditionIfNeeded(constant);
+    expression1.putTermWithAdditionIfNeeded(constant);
+    expression2.putTermWithAdditionIfNeeded(constant);
     expression3.putTermWithAdditionIfNeeded(constant);
     expression4.putTermWithAdditionIfNeeded(constant);
     expression5.putTermWithAdditionIfNeeded(constant);
@@ -303,7 +312,8 @@ TEST(ExpressionTest, PutTermWithAdditionUsingConstantWorks){
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithAdditionUsingExpressionWithSameOperationLevelWorks){
+TEST(ExpressionTest, PutTermWithAdditionUsingExpressionWithSameOperationLevelWorks)
+{
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(Term(Constant(0))));
     Expression expression3(createExpressionIfPossible({Term("-"), Term(Constant(0))}));
@@ -311,7 +321,8 @@ TEST(ExpressionTest, PutTermWithAdditionUsingExpressionWithSameOperationLevelWor
     Expression expression5(createExpressionIfPossible({Term(695), Term("*"), Term("interest")}));
 
     Expression expressionToApply(createExpressionIfPossible({Term("x"), Term("-"), Term("y")}));
-    expression1.putTermWithAdditionIfNeeded(Term(expressionToApply));    expression2.putTermWithAdditionIfNeeded(Term(expressionToApply));
+    expression1.putTermWithAdditionIfNeeded(Term(expressionToApply));
+    expression2.putTermWithAdditionIfNeeded(Term(expressionToApply));
     expression3.putTermWithAdditionIfNeeded(Term(expressionToApply));
     expression4.putTermWithAdditionIfNeeded(Term(expressionToApply));
     expression5.putTermWithAdditionIfNeeded(Term(expressionToApply));
@@ -329,7 +340,8 @@ TEST(ExpressionTest, PutTermWithAdditionUsingExpressionWithSameOperationLevelWor
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithAdditionUsingExpressionWithDifferentOperationLevelWorks){
+TEST(ExpressionTest, PutTermWithAdditionUsingExpressionWithDifferentOperationLevelWorks)
+{
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(Term(Constant(0))));
     Expression expression3(createExpressionIfPossible({Term("-"), Term(Constant(0))}));
@@ -337,7 +349,8 @@ TEST(ExpressionTest, PutTermWithAdditionUsingExpressionWithDifferentOperationLev
     Expression expression5(createExpressionIfPossible({Term(695), Term("*"), Term("interest")}));
 
     Expression expressionToApply(createExpressionIfPossible({Term("x"), Term("/"), Term("y")}));
-    expression1.putTermWithAdditionIfNeeded(Term(expressionToApply));    expression2.putTermWithAdditionIfNeeded(Term(expressionToApply));
+    expression1.putTermWithAdditionIfNeeded(Term(expressionToApply));
+    expression2.putTermWithAdditionIfNeeded(Term(expressionToApply));
     expression3.putTermWithAdditionIfNeeded(Term(expressionToApply));
     expression4.putTermWithAdditionIfNeeded(Term(expressionToApply));
     expression5.putTermWithAdditionIfNeeded(Term(expressionToApply));
@@ -356,7 +369,8 @@ TEST(ExpressionTest, PutTermWithAdditionUsingExpressionWithDifferentOperationLev
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithSubtractionUsingNullExpressionWorks){
+TEST(ExpressionTest, PutTermWithSubtractionUsingNullExpressionWorks)
+{
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(Term(Constant(0))));
     Expression expression3(createExpressionIfPossible({Term("-"), Term(Constant(0))}));
@@ -364,7 +378,8 @@ TEST(ExpressionTest, PutTermWithSubtractionUsingNullExpressionWorks){
     Expression expression5(createExpressionIfPossible({Term(695), Term("*"), Term("interest")}));
 
     Expression nullExpression;
-    expression1.putTermWithSubtractionIfNeeded(Term(nullExpression));    expression2.putTermWithSubtractionIfNeeded(Term(nullExpression));
+    expression1.putTermWithSubtractionIfNeeded(Term(nullExpression));
+    expression2.putTermWithSubtractionIfNeeded(Term(nullExpression));
     expression3.putTermWithSubtractionIfNeeded(Term(nullExpression));
     expression4.putTermWithSubtractionIfNeeded(Term(nullExpression));
     expression5.putTermWithSubtractionIfNeeded(Term(nullExpression));
@@ -381,7 +396,8 @@ TEST(ExpressionTest, PutTermWithSubtractionUsingNullExpressionWorks){
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithSubtractionUsingTermWithNoEffectWorks){
+TEST(ExpressionTest, PutTermWithSubtractionUsingTermWithNoEffectWorks)
+{
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(Term(Constant(0))));
     Expression expression3(createExpressionIfPossible({Term("-"), Term(Constant(0))}));
@@ -389,7 +405,8 @@ TEST(ExpressionTest, PutTermWithSubtractionUsingTermWithNoEffectWorks){
     Expression expression5(createExpressionIfPossible({Term(695), Term("*"), Term("interest")}));
 
     Term noEffectTerm(Constant(0));
-    expression1.putTermWithSubtractionIfNeeded(noEffectTerm);    expression2.putTermWithSubtractionIfNeeded(noEffectTerm);
+    expression1.putTermWithSubtractionIfNeeded(noEffectTerm);
+    expression2.putTermWithSubtractionIfNeeded(noEffectTerm);
     expression3.putTermWithSubtractionIfNeeded(noEffectTerm);
     expression4.putTermWithSubtractionIfNeeded(noEffectTerm);
     expression5.putTermWithSubtractionIfNeeded(noEffectTerm);
@@ -406,7 +423,8 @@ TEST(ExpressionTest, PutTermWithSubtractionUsingTermWithNoEffectWorks){
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithSubtractionUsingConstantWorks){
+TEST(ExpressionTest, PutTermWithSubtractionUsingConstantWorks)
+{
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(Term(Constant(0))));
     Expression expression3(createExpressionIfPossible({Term("-"), Term(Constant(0))}));
@@ -414,13 +432,15 @@ TEST(ExpressionTest, PutTermWithSubtractionUsingConstantWorks){
     Expression expression5(createExpressionIfPossible({Term(695), Term("*"), Term("interest")}));
 
     Term constant(42);
-    expression1.putTermWithSubtractionIfNeeded(constant);    expression2.putTermWithSubtractionIfNeeded(constant);
+    expression1.putTermWithSubtractionIfNeeded(constant);
+    expression2.putTermWithSubtractionIfNeeded(constant);
     expression3.putTermWithSubtractionIfNeeded(constant);
     expression4.putTermWithSubtractionIfNeeded(constant);
     expression5.putTermWithSubtractionIfNeeded(constant);
 
     Expression subExpression(createExpressionIfPossible({Term(695), Term("*"), Term("interest")}));
-    Expression expressionToExpect1(createExpressionIfPossible({Term(42)}));    expressionToExpect1.setCommonOperatorLevel(OperatorLevel::AdditionAndSubtraction);
+    Expression expressionToExpect1(createExpressionIfPossible({Term(42)}));
+    expressionToExpect1.setCommonOperatorLevel(OperatorLevel::AdditionAndSubtraction);
     expressionToExpect1.reverseTheAssociationOfTheTerms();
     Expression expressionToExpect2(expressionToExpect1);
     Expression expressionToExpect3(expressionToExpect1);
@@ -433,7 +453,8 @@ TEST(ExpressionTest, PutTermWithSubtractionUsingConstantWorks){
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithSubtractionUsingExpressionWithSameOperationLevelWorks){
+TEST(ExpressionTest, PutTermWithSubtractionUsingExpressionWithSameOperationLevelWorks)
+{
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(Term(Constant(0))));
     Expression expression3(createExpressionIfPossible({Term("-"), Term(Constant(0))}));
@@ -441,7 +462,8 @@ TEST(ExpressionTest, PutTermWithSubtractionUsingExpressionWithSameOperationLevel
     Expression expression5(createExpressionIfPossible({Term(695), Term("*"), Term("interest")}));
 
     Expression expressionToApply(createExpressionIfPossible({Term("x"), Term("-"), Term("y")}));
-    expression1.putTermWithSubtractionIfNeeded(Term(expressionToApply));    expression2.putTermWithSubtractionIfNeeded(Term(expressionToApply));
+    expression1.putTermWithSubtractionIfNeeded(Term(expressionToApply));
+    expression2.putTermWithSubtractionIfNeeded(Term(expressionToApply));
     expression3.putTermWithSubtractionIfNeeded(Term(expressionToApply));
     expression4.putTermWithSubtractionIfNeeded(Term(expressionToApply));
     expression5.putTermWithSubtractionIfNeeded(Term(expressionToApply));
@@ -460,7 +482,8 @@ TEST(ExpressionTest, PutTermWithSubtractionUsingExpressionWithSameOperationLevel
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithSubtractionUsingExpressionWithDifferentOperationLevelWorks){
+TEST(ExpressionTest, PutTermWithSubtractionUsingExpressionWithDifferentOperationLevelWorks)
+{
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(Term(Constant(0))));
     Expression expression3(createExpressionIfPossible({Term("-"), Term(Constant(0))}));
@@ -468,13 +491,15 @@ TEST(ExpressionTest, PutTermWithSubtractionUsingExpressionWithDifferentOperation
     Expression expression5(createExpressionIfPossible({Term(695), Term("*"), Term("interest")}));
 
     Expression expressionToApply(createExpressionIfPossible({Term("x"), Term("/"), Term("y")}));
-    expression1.putTermWithSubtractionIfNeeded(Term(expressionToApply));    expression2.putTermWithSubtractionIfNeeded(Term(expressionToApply));
+    expression1.putTermWithSubtractionIfNeeded(Term(expressionToApply));
+    expression2.putTermWithSubtractionIfNeeded(Term(expressionToApply));
     expression3.putTermWithSubtractionIfNeeded(Term(expressionToApply));
     expression4.putTermWithSubtractionIfNeeded(Term(expressionToApply));
     expression5.putTermWithSubtractionIfNeeded(Term(expressionToApply));
 
     Expression subExpression1(createExpressionIfPossible({Term("x"), Term("/"), Term("y")}));
-    Expression subExpression2(createExpressionIfPossible({Term(695), Term("*"), Term("interest")}));    Expression expressionToExpect1(createExpressionInAnExpression(subExpression1));
+    Expression subExpression2(createExpressionIfPossible({Term(695), Term("*"), Term("interest")}));
+    Expression expressionToExpect1(createExpressionInAnExpression(subExpression1));
     expressionToExpect1.setCommonOperatorLevel(OperatorLevel::AdditionAndSubtraction);
     expressionToExpect1.reverseTheAssociationOfTheTerms();
     Expression expressionToExpect2(expressionToExpect1);
@@ -497,7 +522,8 @@ TEST(ExpressionTest, PutTermWithMultiplicationUsingNullExpressionWorks)
     Expression expression5(createExpressionIfPossible({Term(695), Term("+"), Term("interest")}));
 
     Expression nullExpression;
-    expression1.putTermWithMultiplicationIfNeeded(Term(nullExpression));    expression2.putTermWithMultiplicationIfNeeded(Term(nullExpression));
+    expression1.putTermWithMultiplicationIfNeeded(Term(nullExpression));
+    expression2.putTermWithMultiplicationIfNeeded(Term(nullExpression));
     expression3.putTermWithMultiplicationIfNeeded(Term(nullExpression));
     expression4.putTermWithMultiplicationIfNeeded(Term(nullExpression));
     expression5.putTermWithMultiplicationIfNeeded(Term(nullExpression));
@@ -550,7 +576,8 @@ TEST(ExpressionTest, PutTermWithMultiplicationUsingConstantWorks)
     Expression expression5(createExpressionIfPossible({Term(695), Term("+"), Term("interest")}));
 
     Term constant(42);
-    expression1.putTermWithMultiplicationIfNeeded(constant);    expression2.putTermWithMultiplicationIfNeeded(constant);
+    expression1.putTermWithMultiplicationIfNeeded(constant);
+    expression2.putTermWithMultiplicationIfNeeded(constant);
     expression3.putTermWithMultiplicationIfNeeded(constant);
     expression4.putTermWithMultiplicationIfNeeded(constant);
     expression5.putTermWithMultiplicationIfNeeded(constant);
@@ -577,7 +604,8 @@ TEST(ExpressionTest, PutTermWithMultiplicationUsingExpressionWithSameOperationLe
     Expression expression5(createExpressionIfPossible({Term(695), Term("+"), Term("interest")}));
 
     Expression expressionToApply(createExpressionIfPossible({Term("x"), Term("/"), Term("y")}));
-    expression1.putTermWithMultiplicationIfNeeded(Term(expressionToApply));    expression2.putTermWithMultiplicationIfNeeded(Term(expressionToApply));
+    expression1.putTermWithMultiplicationIfNeeded(Term(expressionToApply));
+    expression2.putTermWithMultiplicationIfNeeded(Term(expressionToApply));
     expression3.putTermWithMultiplicationIfNeeded(Term(expressionToApply));
     expression4.putTermWithMultiplicationIfNeeded(Term(expressionToApply));
     expression5.putTermWithMultiplicationIfNeeded(Term(expressionToApply));
@@ -604,7 +632,8 @@ TEST(ExpressionTest, PutTermWithMultiplicationUsingExpressionWithDifferentOperat
     Expression expression5(createExpressionIfPossible({Term(695), Term("+"), Term("interest")}));
 
     Expression expressionToApply(createExpressionIfPossible({Term("x"), Term("-"), Term("y")}));
-    expression1.putTermWithMultiplicationIfNeeded(Term(expressionToApply));    expression2.putTermWithMultiplicationIfNeeded(Term(expressionToApply));
+    expression1.putTermWithMultiplicationIfNeeded(Term(expressionToApply));
+    expression2.putTermWithMultiplicationIfNeeded(Term(expressionToApply));
     expression3.putTermWithMultiplicationIfNeeded(Term(expressionToApply));
     expression4.putTermWithMultiplicationIfNeeded(Term(expressionToApply));
     expression5.putTermWithMultiplicationIfNeeded(Term(expressionToApply));
@@ -632,7 +661,8 @@ TEST(ExpressionTest, PutTermWithDivisionUsingNullExpressionWorks)
     Expression expression5(createExpressionIfPossible({Term(695), Term("-"), Term("interest")}));
 
     Expression nullExpression;
-    expression1.putTermWithDivisionIfNeeded(Term(nullExpression));    expression2.putTermWithDivisionIfNeeded(Term(nullExpression));
+    expression1.putTermWithDivisionIfNeeded(Term(nullExpression));
+    expression2.putTermWithDivisionIfNeeded(Term(nullExpression));
     expression3.putTermWithDivisionIfNeeded(Term(nullExpression));
     expression4.putTermWithDivisionIfNeeded(Term(nullExpression));
     expression5.putTermWithDivisionIfNeeded(Term(nullExpression));
@@ -685,13 +715,15 @@ TEST(ExpressionTest, PutTermWithDivisionUsingConstantWorks)
     Expression expression5(createExpressionIfPossible({Term(695), Term("-"), Term("interest")}));
 
     Term constant(42);
-    expression1.putTermWithDivisionIfNeeded(constant);    expression2.putTermWithDivisionIfNeeded(constant);
+    expression1.putTermWithDivisionIfNeeded(constant);
+    expression2.putTermWithDivisionIfNeeded(constant);
     expression3.putTermWithDivisionIfNeeded(constant);
     expression4.putTermWithDivisionIfNeeded(constant);
     expression5.putTermWithDivisionIfNeeded(constant);
 
     Expression subExpression(createExpressionIfPossible({Term(695), Term("-"), Term("interest")}));
-    Expression expressionToExpect1(createExpressionIfPossible({Term(42)}));    expressionToExpect1.setCommonOperatorLevel(OperatorLevel::MultiplicationAndDivision);
+    Expression expressionToExpect1(createExpressionIfPossible({Term(42)}));
+    expressionToExpect1.setCommonOperatorLevel(OperatorLevel::MultiplicationAndDivision);
     expressionToExpect1.reverseTheAssociationOfTheTerms();
     Expression expressionToExpect2(expressionToExpect1);
     Expression expressionToExpect3(createExpressionIfPossible({Term("("), Term("-"), Term(1), Term(")"), Term("/"), Term(42)}));
@@ -713,7 +745,8 @@ TEST(ExpressionTest, PutTermWithDivisionUsingExpressionWithSameOperationLevelWor
     Expression expression5(createExpressionIfPossible({Term(695), Term("-"), Term("interest")}));
 
     Expression expressionToApply(createExpressionIfPossible({Term("x"), Term("/"), Term("y")}));
-    expression1.putTermWithDivisionIfNeeded(Term(expressionToApply));    expression2.putTermWithDivisionIfNeeded(Term(expressionToApply));
+    expression1.putTermWithDivisionIfNeeded(Term(expressionToApply));
+    expression2.putTermWithDivisionIfNeeded(Term(expressionToApply));
     expression3.putTermWithDivisionIfNeeded(Term(expressionToApply));
     expression4.putTermWithDivisionIfNeeded(Term(expressionToApply));
     expression5.putTermWithDivisionIfNeeded(Term(expressionToApply));
@@ -741,13 +774,15 @@ TEST(ExpressionTest, PutTermWithDivisionUsingExpressionWithDifferentOperationLev
     Expression expression5(createExpressionIfPossible({Term(695), Term("-"), Term("interest")}));
 
     Expression expressionToApply(createExpressionIfPossible({Term("x"), Term("-"), Term("y")}));
-    expression1.putTermWithDivisionIfNeeded(Term(expressionToApply));    expression2.putTermWithDivisionIfNeeded(Term(expressionToApply));
+    expression1.putTermWithDivisionIfNeeded(Term(expressionToApply));
+    expression2.putTermWithDivisionIfNeeded(Term(expressionToApply));
     expression3.putTermWithDivisionIfNeeded(Term(expressionToApply));
     expression4.putTermWithDivisionIfNeeded(Term(expressionToApply));
     expression5.putTermWithDivisionIfNeeded(Term(expressionToApply));
 
     Expression subExpression1(createExpressionIfPossible({Term("x"), Term("-"), Term("y")}));
-    Expression subExpression2(createExpressionIfPossible({Term(695), Term("-"), Term("interest")}));    Expression expressionToExpect1(createExpressionInAnExpression(subExpression1));
+    Expression subExpression2(createExpressionIfPossible({Term(695), Term("-"), Term("interest")}));
+    Expression expressionToExpect1(createExpressionInAnExpression(subExpression1));
     expressionToExpect1.setCommonOperatorLevel(OperatorLevel::MultiplicationAndDivision);
     expressionToExpect1.reverseTheAssociationOfTheTerms();
     Expression expressionToExpect2(expressionToExpect1);
@@ -797,7 +832,8 @@ TEST(ExpressionTest, PutTermWithRaiseToPowerUsingNullExpressionWorks)
     Expression expression5(createExpressionIfPossible({Term(695), Term("+"), Term("interest")}));
 
     Expression nullExpression;
-    expression1.putTermWithRaiseToPowerIfNeeded(Term(nullExpression));    expression2.putTermWithRaiseToPowerIfNeeded(Term(nullExpression));
+    expression1.putTermWithRaiseToPowerIfNeeded(Term(nullExpression));
+    expression2.putTermWithRaiseToPowerIfNeeded(Term(nullExpression));
     expression3.putTermWithRaiseToPowerIfNeeded(Term(nullExpression));
     expression4.putTermWithRaiseToPowerIfNeeded(Term(nullExpression));
     expression5.putTermWithRaiseToPowerIfNeeded(Term(nullExpression));
@@ -850,7 +886,8 @@ TEST(ExpressionTest, PutTermWithRaiseToPowerUsingConstantWorks)
     Expression expression5(createExpressionIfPossible({Term(695), Term("+"), Term("interest")}));
 
     Term constant(42);
-    expression1.putTermWithRaiseToPowerIfNeeded(constant);    expression2.putTermWithRaiseToPowerIfNeeded(constant);
+    expression1.putTermWithRaiseToPowerIfNeeded(constant);
+    expression2.putTermWithRaiseToPowerIfNeeded(constant);
     expression3.putTermWithRaiseToPowerIfNeeded(constant);
     expression4.putTermWithRaiseToPowerIfNeeded(constant);
     expression5.putTermWithRaiseToPowerIfNeeded(constant);
@@ -877,13 +914,15 @@ TEST(ExpressionTest, PutTermWithRaiseToPowerUsingExpressionWithSameOperationLeve
     Expression expression5(createExpressionIfPossible({Term(695), Term("+"), Term("interest")}));
 
     Expression expressionToApply(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
-    expression1.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));    expression2.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
+    expression1.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
+    expression2.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
     expression3.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
     expression4.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
     expression5.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
 
     Expression subExpression1(createExpressionIfPossible({Term(695), Term("+"), Term("interest")}));
-    Expression expressionToExpect1(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));    Expression expressionToExpect2(createExpressionIfPossible(
+    Expression expressionToExpect1(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
+    Expression expressionToExpect2(createExpressionIfPossible(
     {Term(1), Term("^"), Term(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}))}
                                        ));
     Expression expressionToExpect3(createExpressionIfPossible(
@@ -909,7 +948,8 @@ TEST(ExpressionTest, PutTermWithRaiseToPowerUsingExpressionWithDifferentOperatio
     Expression expression5(createExpressionIfPossible({Term(695), Term("+"), Term("interest")}));
 
     Expression expressionToApply(createExpressionIfPossible({Term("x"), Term("-"), Term("y")}));
-    expression1.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));    expression2.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
+    expression1.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
+    expression2.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
     expression3.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
     expression4.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
     expression5.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
@@ -928,7 +968,8 @@ TEST(ExpressionTest, PutTermWithRaiseToPowerUsingExpressionWithDifferentOperatio
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutTermWithRaiseToPowerUsingExpressionWithNegativeAssociationExpression){
+TEST(ExpressionTest, PutTermWithRaiseToPowerUsingExpressionWithNegativeAssociationExpression)
+{
     Expression expression1;
     Expression expression2(createOrCopyExpressionFromATerm(Term(Constant(2))));
     Expression expression3(createExpressionIfPossible({Term("-"), Term(1)}));
@@ -936,7 +977,8 @@ TEST(ExpressionTest, PutTermWithRaiseToPowerUsingExpressionWithNegativeAssociati
     Expression expression5(createExpressionIfPossible({Term(695), Term("+"), Term("interest")}));
 
     Expression expressionToApply(createExpressionIfPossible({Term("-"), Term("5")}));
-    expression1.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));    expression2.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
+    expression1.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
+    expression2.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
     expression3.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
     expression4.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
     expression5.putTermWithRaiseToPowerIfNeeded(Term(expressionToApply));
@@ -955,10 +997,12 @@ TEST(ExpressionTest, PutTermWithRaiseToPowerUsingExpressionWithNegativeAssociati
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
-TEST(ExpressionTest, PutPolynomialFirstWithMultiplicationWorks){
+TEST(ExpressionTest, PutPolynomialFirstWithMultiplicationWorks)
+{
     Expression expression1;
     Expression expression2(createExpressionIfPossible({Term(100), Term("+"), Term("a"), Term("-"), Term("b")}));
-    Expression expression3(createExpressionIfPossible({Term(200), Term("*"), Term("a"), Term("/"), Term("b")}));    Expression expression4(createExpressionIfPossible({Term("a"), Term("^"), Term("b")}));
+    Expression expression3(createExpressionIfPossible({Term(200), Term("*"), Term("a"), Term("/"), Term("b")}));
+    Expression expression4(createExpressionIfPossible({Term("a"), Term("^"), Term("b")}));
 
     Polynomial polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"y", 1}})};
     expression1.putPolynomialFirstWithMultiplication(polynomial);
@@ -1147,15 +1191,17 @@ TEST(ExpressionTest, PutTermWorks)
 
 TEST(ExpressionTest, ReverseTheAssociationOfTheTermsWorks)
 {
-    Expression expression1;    Expression expression2(createExpressionIfPossible({Term(695)}));
+    Expression expression1;
+    Expression expression2(createExpressionIfPossible({Term(695)}));
 
     expression1.reverseTheAssociationOfTheTerms();
     expression2.reverseTheAssociationOfTheTerms();
+
     EXPECT_EQ(OperatorLevel::Unknown, expression1.getCommonOperatorLevel());
-    TermsWithAssociation::TermsWithDetails const& termsToVerify1(expression1.getTermsWithAssociation().getTermsWithDetails());
+    TermsWithDetails const& termsToVerify1(expression1.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_TRUE(termsToVerify1.empty());
     EXPECT_EQ(OperatorLevel::Unknown, expression2.getCommonOperatorLevel());
-    TermsWithAssociation::TermsWithDetails const& termsToVerify2(expression2.getTermsWithAssociation().getTermsWithDetails());
+    TermsWithDetails const& termsToVerify2(expression2.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_EQ(1U, termsToVerify2.size());
     EXPECT_EQ(TermAssociationType::Negative, termsToVerify2.at(0).association);
     Term const& termToVerify(getTermConstReferenceFromSharedPointer(termsToVerify2.at(0).baseTermSharedPointer));
@@ -1166,7 +1212,7 @@ TEST(ExpressionTest, SetWorks)
 {
     Expression expression;
     TermsWithAssociation terms;
-    TermsWithAssociation::TermWithDetails termWithDetails(Term(10), TermAssociationType::Positive);
+    TermWithDetails termWithDetails(Term(10), TermAssociationType::Positive);
 
     terms.putTermWithDetails(termWithDetails);
     terms.putTermWithDetails(termWithDetails);

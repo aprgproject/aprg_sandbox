@@ -3,7 +3,6 @@
 #include <gtest/gtest.h>
 
 using namespace std;
-using TermWithDetails=alba::algebra::TermsWithAssociation::TermWithDetails;
 
 namespace alba
 {
