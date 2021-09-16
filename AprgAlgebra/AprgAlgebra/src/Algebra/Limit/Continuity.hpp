@@ -26,14 +26,18 @@ bool isContinuousAt(
         std::string const& variableName,
         AlbaNumber const& value,
         LimitAtAValueApproachType const limitApproachType);
-
-bool isIntermediateValueTheoremSatisfied(
+bool isContinuousAt(
         Term const& term,
         std::string const& variableName,
+        AlbaNumber const& value,
+        LimitAtAValueApproachType const limitApproachType,
+        bool const isDifferentiableAtValue);
+
+bool isIntermediateValueTheoremSatisfied(
+        Term const& term,        std::string const& variableName,
         AlbaNumber const& firstValue,
         AlbaNumber const& secondValue,
         AlbaNumber const& valueToTest);
-
 ContinuityType getContinuityTypeAt(
         Term const& term,
         std::string const& variableName,
