@@ -220,6 +220,22 @@ TEST(RationalizeTermOverTermTest, RationalizeDenominatorWorksForExpressionOverEx
     EXPECT_EQ(expectedDenominator, rationalizeTermOverTerm.getDenominator());
 }
 
+TEST(RationalizeTermOverTermTest, RationalizeNumeratorForExample1)
+{
+    Term numeratorPart1(Polynomial{Monomial(1, {{"deltaX", 1}}), Monomial(-2, {})});
+    Term numeratorPart1Radical(createExpressionIfPossible({numeratorPart1, Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
+    Term numerator(createExpressionIfPossible({numeratorPart1Radical, Term("-"), Term(1.259921049894873)}));
+    Term denominator("deltaX");
+    RationalizeTermOverTerm rationalizeTermOverTerm(numerator, denominator);
+
+    rationalizeTermOverTerm.rationalizeNumerator();
+
+    string expectedNumeratorString("((1[deltaX] + -4)+(((0 + -1.41421i)[deltaX] + (0 + 2.82843i))^(2/3))+((-4[deltaX] + 8)^(1/3))+((4[deltaX] + -8)^(1/3))+((1.414213562373095[deltaX] + -2.82842712474619)^(2/3)))");
+    string expectedDenominatorString("(deltaX*(1.587401051968199+((1[deltaX] + -2)^(2/3))+((2[deltaX] + -4)^(1/3))))");
+    EXPECT_EQ(expectedNumeratorString, rationalizeTermOverTerm.getNumerator().getDisplayableString());
+    EXPECT_EQ(expectedDenominatorString, rationalizeTermOverTerm.getDenominator().getDisplayableString());
+}
+
 }
 
 }

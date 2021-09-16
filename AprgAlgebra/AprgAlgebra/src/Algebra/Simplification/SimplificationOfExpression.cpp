@@ -65,7 +65,7 @@ void SimplificationOfExpression::ScopeObject::setInThisScopeTheValuesBack() cons
 
 SimplificationOfExpression::ConfigurationDetails SimplificationOfExpression::getDefaultConfigurationDetails()
 {
-    return SimplificationOfExpression::ConfigurationDetails{false, false, false, false, false, false};
+    return SimplificationOfExpression::ConfigurationDetails{false, false, false, false, false, false, false};
 }
 
 SimplificationOfExpression::SimplificationOfExpression()
@@ -91,7 +91,7 @@ void SimplificationOfExpression::setExpression(
 void SimplificationOfExpression::simplify()
 {
     simplifyToACommonDenominatorIfNeeded();
-    simplifyExpression();
+    simplifyExpressionUntilNoChange();
 }
 
 bool SimplificationOfExpression::shouldSimplifyToACommonDenominator() const
@@ -124,31 +124,40 @@ bool SimplificationOfExpression::shouldSimplifyByRationalizingDenominator() cons
     return Configuration::getInstance().getConfigurationDetails().shouldSimplifyByRationalizingDenominator;
 }
 
-bool SimplificationOfExpression::isFurtherSimplificationNeeded(
+bool SimplificationOfExpression::shouldPerformDebug() const
+{
+    return Configuration::getInstance().getConfigurationDetails().shouldPerformDebug;
+}
+
+bool SimplificationOfExpression::isChangeDetected(
         Expression const& beforeSimplify,
         Expression const& afterSimplify) const
 {
     return beforeSimplify != afterSimplify && !hasNotANumber(afterSimplify);
 }
 
-void SimplificationOfExpression::simplifyExpression()
+void SimplificationOfExpression::simplifyExpressionUntilNoChange()
 {
     Expression beforeSimplify;
     do
     {
         beforeSimplify=m_expression;
-        TermsWithDetails newTermsWithDetails;
-        OperatorLevel newOperatorLevel(m_expression.getCommonOperatorLevel());
-        simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
-                    newTermsWithDetails,
-                    newOperatorLevel,
-                    m_expression.getTermsWithAssociation().getTermsWithDetails());
-
-        m_expression.clear();
-
-        processTermsBaseOnOperatorLevel(newTermsWithDetails, newOperatorLevel);
+        simplifyExpression();
     }
-    while(isFurtherSimplificationNeeded(beforeSimplify, m_expression));
+    while(isChangeDetected(beforeSimplify, m_expression));
+}
+
+void SimplificationOfExpression::simplifyExpression()
+{
+    TermsWithDetails newTermsWithDetails;
+    OperatorLevel newOperatorLevel(m_expression.getCommonOperatorLevel());
+    simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
+                newTermsWithDetails,
+                newOperatorLevel,
+                m_expression.getTermsWithAssociation().getTermsWithDetails());
+
+    m_expression.clear();
+    processTermsBaseOnOperatorLevel(newTermsWithDetails, newOperatorLevel);
 }
 
 void SimplificationOfExpression::simplifyToACommonDenominatorIfNeeded()

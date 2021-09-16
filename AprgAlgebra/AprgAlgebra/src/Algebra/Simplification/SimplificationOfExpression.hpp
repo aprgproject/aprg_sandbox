@@ -25,6 +25,7 @@ public:
         bool shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt;
         bool shouldSimplifyByRationalizingNumerator;
         bool shouldSimplifyByRationalizingDenominator;
+        bool shouldPerformDebug;
     };
 
     class Configuration : public AlbaSingleton<Configuration>
@@ -68,10 +69,12 @@ private:
     bool shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt() const;
     bool shouldSimplifyByRationalizingNumerator() const;
     bool shouldSimplifyByRationalizingDenominator() const;
-    bool isFurtherSimplificationNeeded(
+    bool shouldPerformDebug() const;
+    bool isChangeDetected(
             Expression const& beforeSimplify,
             Expression const& afterSimplify) const;
 
+    void simplifyExpressionUntilNoChange();
     void simplifyExpression();
     void simplifyToACommonDenominatorIfNeeded();
 
