@@ -1,4 +1,5 @@
 #include <Algebra/Constructs/ConstructUtilities.hpp>
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
@@ -213,6 +214,38 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromTermWorksForRaiseToPowe
     Term baseToExpect(createExpressionIfPossible({baseTerm, Term("^"), exponentInBaseToExpect}));
     EXPECT_EQ(baseToExpect, termRaiseToANumber.getBase());
     EXPECT_EQ(AlbaNumber(2.84), termRaiseToANumber.getExponent());
+}
+
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromMonomialWorks)
+{
+    TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromMonomial(Monomial(64, {{"x", 18}, {"y", 12}})));
+
+    Term baseToExpect(Monomial(2, {{"x", 3}, {"y", 2}}));
+    EXPECT_EQ(baseToExpect, termRaiseToANumber.getBase());
+    EXPECT_EQ(AlbaNumber(6), termRaiseToANumber.getExponent());
+}
+
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromPolynomialWorks)
+{
+    TermRaiseToANumber termRaiseToANumber(
+                createTermRaiseToANumberFromPolynomial(Polynomial
+    {Monomial(1, {{"x", 2}}),
+     Monomial(2, {{"x", 1}}),
+     Monomial(1, {})}));
+
+    Term baseToExpect(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    EXPECT_EQ(baseToExpect, termRaiseToANumber.getBase());
+    EXPECT_EQ(AlbaNumber(2), termRaiseToANumber.getExponent());
+}
+
+TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks)
+{
+    Expression raiseToPowerExpression(createExpressionIfPossible({Term(Functions::abs(Term("x"))), Term("^"), Term(100)}));
+
+    TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromExpression(raiseToPowerExpression));
+
+    EXPECT_EQ(Term(Functions::abs(Term("x"))), termRaiseToANumber.getBase());
+    EXPECT_EQ(AlbaNumber(100), termRaiseToANumber.getExponent());
 }
 
 }

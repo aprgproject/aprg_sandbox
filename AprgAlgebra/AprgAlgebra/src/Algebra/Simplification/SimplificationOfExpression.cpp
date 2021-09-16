@@ -1,26 +1,16 @@
 #include "SimplificationOfExpression.hpp"
 
 #include <Algebra/Constructs/AdditionAndSubtractionOfExpressions.hpp>
-#include <Algebra/Constructs/AdditionAndSubtractionOfTermsOverTerms.hpp>
-#include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Constructs/MultiplicationAndDivisionOfRadicals.hpp>
-#include <Algebra/Constructs/PolynomialRaiseToANumber.hpp>
 #include <Algebra/Constructs/RationalizeTermOverTerm.hpp>
 #include <Algebra/Constructs/TermRaiseToTerms.hpp>
-#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Operations/AccumulateOperations.hpp>
 #include <Algebra/Simplification/SimplificationUtilities.hpp>
-#include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <Algebra/Term/Utilities/ConvertHelpers.hpp>#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
-#include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
 
-using namespace alba::mathHelper;
 using namespace std;
 
 namespace alba
@@ -78,7 +68,8 @@ SimplificationOfExpression::ConfigurationDetails SimplificationOfExpression::get
     return SimplificationOfExpression::ConfigurationDetails{false, false, false, false, false, false};
 }
 
-SimplificationOfExpression::SimplificationOfExpression()    : m_expression()
+SimplificationOfExpression::SimplificationOfExpression()
+    : m_expression()
 {}
 
 SimplificationOfExpression::SimplificationOfExpression(
@@ -103,13 +94,14 @@ void SimplificationOfExpression::simplify()
     simplifyExpression();
 }
 
-bool SimplificationOfExpression::shouldSimplifyToACommonDenominator() const{
+bool SimplificationOfExpression::shouldSimplifyToACommonDenominator() const
+{
     return Configuration::getInstance().getConfigurationDetails().shouldSimplifyToACommonDenominator;
 }
 
-bool SimplificationOfExpression::shouldSimplifyEvenExponentsCancellationWithAbsoluteValue() const
+bool SimplificationOfExpression::shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase() const
 {
-    return Configuration::getInstance().getConfigurationDetails().shouldSimplifyEvenExponentsCancellationWithAbsoluteValue;
+    return Configuration::getInstance().getConfigurationDetails().shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase;
 }
 
 bool SimplificationOfExpression::shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision() const
@@ -117,9 +109,10 @@ bool SimplificationOfExpression::shouldSimplifyByCombiningRadicalsInMultiplicati
     return Configuration::getInstance().getConfigurationDetails().shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision;
 }
 
-bool SimplificationOfExpression::shouldSimplifyByCheckingPolynomialRaiseToANumber() const
+bool SimplificationOfExpression::shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt() const
 {
-    return Configuration::getInstance().getConfigurationDetails().shouldSimplifyByCheckingPolynomialRaiseToANumber;}
+    return Configuration::getInstance().getConfigurationDetails().shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt;
+}
 
 bool SimplificationOfExpression::shouldSimplifyByRationalizingNumerator() const
 {
@@ -140,72 +133,37 @@ bool SimplificationOfExpression::isFurtherSimplificationNeeded(
 
 void SimplificationOfExpression::simplifyExpression()
 {
-    Expression beforeSimplify;    do
+    Expression beforeSimplify;
+    do
     {
         beforeSimplify=m_expression;
-        TermsWithDetails termsToUpdate;
-        TermsWithAssociation & termsWithAssociation(m_expression.getTermsWithAssociationReference());
-        simplifyAndCopyTermsAndDetermineOperatorLevel(termsToUpdate, termsWithAssociation.getTermsWithDetails());
-        termsWithAssociation.clear();
-        processTermsBaseOnOperatorLevel(termsToUpdate);
+        TermsWithDetails newTermsWithDetails;
+        OperatorLevel newOperatorLevel(m_expression.getCommonOperatorLevel());
+        simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
+                    newTermsWithDetails,
+                    newOperatorLevel,
+                    m_expression.getTermsWithAssociation().getTermsWithDetails());
+
+        m_expression.clear();
+
+        processTermsBaseOnOperatorLevel(newTermsWithDetails, newOperatorLevel);
     }
     while(isFurtherSimplificationNeeded(beforeSimplify, m_expression));
-}
-
-void SimplificationOfExpression::simplifyAndCopyTermsAndDetermineOperatorLevel(
-        TermsWithDetails & termsToUpdate,
-        TermsWithDetails const& termsToCheck)
-{    for(TermWithDetails const& termWithDetails : termsToCheck)
-    {
-        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        if(term.isExpression())
-        {
-            Expression subExpression(term.getExpressionConstReference());
-            subExpression.simplify();
-            TermAssociationType subExpressionAssociation(termWithDetails.association);
-            simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(termsToUpdate, subExpression, subExpressionAssociation);
-        }
-        else if(isNonEmptyOrNonOperatorType(term))
-        {            Term newTerm(term);
-            newTerm.simplify();
-            termsToUpdate.emplace_back(newTerm, termWithDetails.association);
-        }
-    }
-}
-
-void SimplificationOfExpression::simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
-        TermsWithDetails & termsToUpdate,
-        Expression const& subExpression,
-        TermAssociationType const subExpressionAssociation)
-{
-    OperatorLevel subExpressionOperatorLevel(subExpression.getCommonOperatorLevel());
-    if(subExpression.containsOnlyOnePositivelyAssociatedTerm()
-            || OperatorLevel::Unknown == m_expression.getCommonOperatorLevel()
-            || (subExpressionOperatorLevel == m_expression.getCommonOperatorLevel()
-                && OperatorLevel::AdditionAndSubtraction == m_expression.getCommonOperatorLevel()
-                && OperatorLevel::MultiplicationAndDivision == m_expression.getCommonOperatorLevel()))
-    {
-        m_expression.setCommonOperatorLevelIfStillUnknown(subExpression.getCommonOperatorLevel());
-        TermsWithAssociation termsWithAssociation(getTermsWithAssociationAndReverseIfNeeded(subExpression, subExpressionAssociation));
-        simplifyAndCopyTermsAndDetermineOperatorLevel(termsToUpdate, termsWithAssociation.getTermsWithDetails());
-    }
-    else
-    {
-        termsToUpdate.emplace_back(Term(subExpression), subExpressionAssociation);
-    }
 }
 
 void SimplificationOfExpression::simplifyToACommonDenominatorIfNeeded()
 {
     if(shouldSimplifyToACommonDenominator())
     {
-        simplifyToACommonDenominatorForExpressionAndReturnIfChanged(m_expression);
+        simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(m_expression);
     }
 }
+
 void SimplificationOfExpression::processTermsBaseOnOperatorLevel(
-        TermsWithDetails const& termsToProcess)
+        TermsWithDetails const& termsToProcess,
+        OperatorLevel const operatorLevel)
 {
-    switch(m_expression.getCommonOperatorLevel())
+    switch(operatorLevel)
     {
     case OperatorLevel::Unknown:
     {
@@ -262,14 +220,15 @@ void SimplificationOfExpression::processAndSaveTermsForRaiseToPower(
         TermsWithDetails const& termsToProcess)
 {
     TermRaiseToTerms termRaiseToTerms(termsToProcess);
-    termRaiseToTerms.setAsShouldSimplifyByCheckingPolynomialRaiseToANumber(shouldSimplifyByCheckingPolynomialRaiseToANumber());
-    termRaiseToTerms.setAsShouldSimplifyEvenExponentsCancellationWithAbsoluteValue(shouldSimplifyEvenExponentsCancellationWithAbsoluteValue());
+    termRaiseToTerms.setAsShouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt(shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt());
+    termRaiseToTerms.setAsShouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase(shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase());
     termRaiseToTerms.simplify();
     Term combinedTerm(termRaiseToTerms.getCombinedTerm());
     m_expression.setTerm(combinedTerm);
 }
 
-void SimplificationOfExpression::addOrSubtractTermsWithExpressions(        Term & combinedTerm,
+void SimplificationOfExpression::addOrSubtractTermsWithExpressions(
+        Term & combinedTerm,
         TermsWithDetails const& termsWithExpressions) const
 {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
@@ -314,18 +273,8 @@ Term SimplificationOfExpression::getCombinedTermAndSimplifyByRationalizingNumera
     return combinedTerm;
 }
 
-TermsWithAssociation SimplificationOfExpression::getTermsWithAssociationAndReverseIfNeeded(        Expression const& expression,
-        TermAssociationType const association)
-{
-    TermsWithAssociation termsWithAssociation(expression.getTermsWithAssociation());
-    if(TermAssociationType::Negative == association)
-    {
-        termsWithAssociation.reverseTheAssociationOfTheTerms();
-    }
-    return termsWithAssociation;
 }
 
 }
 
-}
 }

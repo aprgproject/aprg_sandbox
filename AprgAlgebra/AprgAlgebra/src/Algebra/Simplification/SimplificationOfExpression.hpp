@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Algebra/Constructs/PolynomialOverPolynomial.hpp>
 #include <Algebra/Constructs/TermsOverTerms.hpp>
 #include <Algebra/Term/TermTypes/Expression.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Container/AlbaSingleton.hpp>
+
 namespace alba
 {
 
@@ -17,15 +17,15 @@ namespace Simplification
 class SimplificationOfExpression
 {
 public:
-
     struct ConfigurationDetails
     {
         bool shouldSimplifyToACommonDenominator;
-        bool shouldSimplifyEvenExponentsCancellationWithAbsoluteValue;
+        bool shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase;
         bool shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision;
-        bool shouldSimplifyByCheckingPolynomialRaiseToANumber;
+        bool shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt;
         bool shouldSimplifyByRationalizingNumerator;
-        bool shouldSimplifyByRationalizingDenominator;    };
+        bool shouldSimplifyByRationalizingDenominator;
+    };
 
     class Configuration : public AlbaSingleton<Configuration>
     {
@@ -63,9 +63,9 @@ public:
 
 private:
     bool shouldSimplifyToACommonDenominator() const;
-    bool shouldSimplifyEvenExponentsCancellationWithAbsoluteValue() const;
+    bool shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase() const;
     bool shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision() const;
-    bool shouldSimplifyByCheckingPolynomialRaiseToANumber() const;
+    bool shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt() const;
     bool shouldSimplifyByRationalizingNumerator() const;
     bool shouldSimplifyByRationalizingDenominator() const;
     bool isFurtherSimplificationNeeded(
@@ -73,17 +73,12 @@ private:
             Expression const& afterSimplify) const;
 
     void simplifyExpression();
-    void simplifyAndCopyTermsAndDetermineOperatorLevel(
-            TermsWithDetails & termsToUpdate,
-            TermsWithDetails const& termsToCheck);
-    void simplifyAndCopyTermsFromAnExpressionAndSetOperatorLevelIfNeeded(
-            TermsWithDetails & termsToUpdate,
-            Expression const& expression,
-            TermAssociationType const association);
     void simplifyToACommonDenominatorIfNeeded();
 
     void processTermsBaseOnOperatorLevel(
-            TermsWithDetails const& termsToProcess);    void processAndSaveTermsForAdditionAndSubtraction(
+            TermsWithDetails const& termsToProcess,
+            OperatorLevel const operatorLevel);
+    void processAndSaveTermsForAdditionAndSubtraction(
             TermsWithDetails const& termsToProcess);
     void processAndSaveTermsForMultiplicationAndDivision(
             TermsWithDetails const& termsToProcess);
@@ -104,12 +99,10 @@ private:
     //functions for raise to power
 
     // other functions
-    TermsWithAssociation getTermsWithAssociationAndReverseIfNeeded(
-            Expression const& expression,
-            TermAssociationType const association);
 
     Expression m_expression;
 };
+
 }
 
 }

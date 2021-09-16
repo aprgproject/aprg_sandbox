@@ -12,9 +12,7 @@ FunctionsRetriever::FunctionsRetriever(
 {}
 
 void FunctionsRetriever::retrieveFromPolynomial(Polynomial const&)
-{
-    // Do nothing
-}
+{}
 
 void FunctionsRetriever::retrieveFromFunction(Function const& functionObject)
 {

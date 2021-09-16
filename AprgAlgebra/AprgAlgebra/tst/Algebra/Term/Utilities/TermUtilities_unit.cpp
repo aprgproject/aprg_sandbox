@@ -83,6 +83,14 @@ TEST(TermUtilitiesTest, IsRadicalTermWorks)
     EXPECT_TRUE(isRadicalTerm(raiseToMonomialWithDoubleExpressionTerm));
 }
 
+TEST(TermUtilitiesTest, GetConstantFactorWorks)
+{
+    EXPECT_EQ(AlbaNumber(5), getConstantFactor(Term(5)));
+    EXPECT_EQ(AlbaNumber(6), getConstantFactor(Term(Monomial(6, {{"x", 7}}))));
+    EXPECT_EQ(AlbaNumber(4), getConstantFactor(Term(Polynomial{Monomial(8, {{"x", 3}}), Monomial(12, {{"x", 4}})})));
+    EXPECT_EQ(AlbaNumber(1), getConstantFactor(Term("x")));
+}
+
 TEST(TermUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
 {
     AlbaNumbers inputNumbers{-2,-1,0,1,2};

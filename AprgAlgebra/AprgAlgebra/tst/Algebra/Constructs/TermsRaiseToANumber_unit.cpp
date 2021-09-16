@@ -16,6 +16,15 @@ TEST(TermRaiseToANumberTest, ConstructionWorks)
     EXPECT_EQ(AlbaNumber(5), termRaiseToANumber.getExponent());
 }
 
+TEST(TermRaiseToANumberTest, IsEmptyWorks)
+{
+    TermRaiseToANumber empty;
+    TermRaiseToANumber nonEmpty(Term("x"), 5);
+
+    EXPECT_TRUE(empty.isEmpty());
+    EXPECT_FALSE(nonEmpty.isEmpty());
+}
+
 TEST(TermRaiseToANumberTest, IsRadicalWorks)
 {
     TermRaiseToANumber termWithIntegerExponent(Term("x"), 5);
@@ -39,6 +48,15 @@ TEST(TermRaiseToANumberTest, GetExponentWorks)
     TermRaiseToANumber termRaiseToANumber(Term("x"), 5);
 
     EXPECT_EQ(AlbaNumber(5), termRaiseToANumber.getExponent());
+}
+
+TEST(TermRaiseToANumberTest, GetBaseReferenceWorks)
+{
+    TermRaiseToANumber termRaiseToANumber(Term("x"), 5);
+
+    termRaiseToANumber.getBaseReference() = Term("y");
+
+    EXPECT_EQ(Term("y"), termRaiseToANumber.getBase());
 }
 
 }

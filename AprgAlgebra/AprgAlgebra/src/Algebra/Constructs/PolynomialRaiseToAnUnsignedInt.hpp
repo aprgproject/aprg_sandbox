@@ -10,12 +10,12 @@ namespace alba
 namespace algebra
 {
 
-class PolynomialRaiseToANumber
+class PolynomialRaiseToAnUnsignedInt
 {
 public:
     using PolynomialToNumberMap = std::map<Polynomial, unsigned int>;
 
-    PolynomialRaiseToANumber(Polynomial const& polynomial);
+    PolynomialRaiseToAnUnsignedInt(Polynomial const& polynomial);
 
     bool isExponentOne() const;
 

@@ -42,7 +42,7 @@ TEST(FactorizationBySplittingTest, FactorizeBySplittingSmallerPolynomialsWorksWh
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
-TEST(FactorizationBySplittingTest, FactorizeBySplittingToSmallerPolynomialsIfPossible_IsEmptyWhenItCannotBeRefactored)
+TEST(FactorizationBySplittingTest, FactorizeBySplittingToSmallerPolynomialsIfPossible_IsEmptyWhenItCannotBeFactored)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
 
@@ -104,7 +104,7 @@ TEST(FactorizationBySplittingTest, FactorizeBySplittingToSmallerPolynomialsIfPos
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
-TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByPolynomialDegree_IsEmptyWhenItCannotBeRefactored)
+TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByPolynomialDegree_IsEmptyWhenItCannotBeFactored)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
 
@@ -132,7 +132,7 @@ TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByPolynomialDeg
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
-TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByDivisibilityOfExponents_IsEmptyWhenItCannotBeRefactored)
+TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByDivisibilityOfExponents_IsEmptyWhenItCannotBeFactored)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
 
@@ -158,7 +158,7 @@ TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByDivisibilityO
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
-TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByFirstVariable_IsEmptyWhenItCannotBeRefactored)
+TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByFirstVariable_IsEmptyWhenItCannotBeFactored)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
 

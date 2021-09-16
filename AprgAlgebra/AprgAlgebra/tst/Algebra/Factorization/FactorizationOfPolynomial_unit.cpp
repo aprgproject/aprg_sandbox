@@ -456,7 +456,7 @@ TEST(FactorizationOfPolynomialsTest, FactorizeCommonMonomialWorksWhenItCanBeFact
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
-TEST(FactorizationOfPolynomialsTest, FactorizeCommonMonomialIfPossible_IsEmptyWhenItCannotBeRefactored)
+TEST(FactorizationOfPolynomialsTest, FactorizeCommonMonomialIfPossible_IsEmptyWhenItCannotBeFactored)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
 

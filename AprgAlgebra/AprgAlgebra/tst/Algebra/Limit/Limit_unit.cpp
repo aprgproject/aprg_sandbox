@@ -124,7 +124,8 @@ TEST(LimitTest, GetLimitAtAValueUsingTrendOfValuesWorks)
     EXPECT_EQ(AlbaNumber::createFraction(9, 10), getLimitAtAValueUsingTrendOfValues(constantOverPolynomialTerm, "x", 5, 6, 7));
 }
 
-TEST(LimitTest, GetValueUsingLinearInterpolationWorks){
+TEST(LimitTest, GetValueUsingLinearInterpolationWorks)
+{
     EXPECT_EQ(AlbaNumber(6), getValueUsingLinearInterpolation(1, 2, 3, 2, 4));
     EXPECT_EQ(AlbaNumber(2), getValueUsingLinearInterpolation(1, 2, 3, 2, 2));
     EXPECT_TRUE(getValueUsingLinearInterpolation(1, 1, 3, 1, 2).isNotANumber());

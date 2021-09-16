@@ -1,4 +1,4 @@
-#include "PolynomialRaiseToANumber.hpp"
+#include "PolynomialRaiseToAnUnsignedInt.hpp"
 
 #include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
 #include <Math/AlbaMathHelper.hpp>
@@ -13,7 +13,7 @@ namespace alba
 namespace algebra
 {
 
-PolynomialRaiseToANumber::PolynomialRaiseToANumber(
+PolynomialRaiseToAnUnsignedInt::PolynomialRaiseToAnUnsignedInt(
         Polynomial const& polynomial)
     : m_base(polynomial)
     , m_exponent(1U)
@@ -29,22 +29,22 @@ PolynomialRaiseToANumber::PolynomialRaiseToANumber(
     }
 }
 
-bool PolynomialRaiseToANumber::isExponentOne() const
+bool PolynomialRaiseToAnUnsignedInt::isExponentOne() const
 {
     return m_exponent == 1U;
 }
 
-Polynomial const& PolynomialRaiseToANumber::getBase() const
+Polynomial const& PolynomialRaiseToAnUnsignedInt::getBase() const
 {
     return m_base;
 }
 
-unsigned int PolynomialRaiseToANumber::getExponent() const
+unsigned int PolynomialRaiseToAnUnsignedInt::getExponent() const
 {
     return m_exponent;
 }
 
-void PolynomialRaiseToANumber::factorizeAndUpdateCommonMonomialAndFactorsToExponent(
+void PolynomialRaiseToAnUnsignedInt::factorizeAndUpdateCommonMonomialAndFactorsToExponent(
         Polynomial const& polynomial,
         PolynomialToNumberMap & factorsToExponent,
         Monomial & commonMonomialInBase)
@@ -71,7 +71,7 @@ void PolynomialRaiseToANumber::factorizeAndUpdateCommonMonomialAndFactorsToExpon
     }
 }
 
-unsigned int PolynomialRaiseToANumber::getGcfOfExponents(
+unsigned int PolynomialRaiseToAnUnsignedInt::getGcfOfExponents(
         PolynomialToNumberMap const& factorsToExponent)
 {
     unsigned int result(1U);
@@ -91,7 +91,7 @@ unsigned int PolynomialRaiseToANumber::getGcfOfExponents(
     return result;
 }
 
-Polynomial PolynomialRaiseToANumber::getRemainingBase(
+Polynomial PolynomialRaiseToAnUnsignedInt::getRemainingBase(
         PolynomialToNumberMap const& factorsToExponent,
         Monomial const& commonMonomialInBase,
         unsigned int const gcfOfExponents)

@@ -1,4 +1,4 @@
-#include <Algebra/Constructs/PolynomialRaiseToANumber.hpp>
+#include <Algebra/Constructs/PolynomialRaiseToAnUnsignedInt.hpp>
 
 #include <gtest/gtest.h>
 
@@ -8,89 +8,89 @@ namespace alba
 namespace algebra
 {
 
-TEST(PolynomialRaiseToANumberTest, ConstructionWorks)
+TEST(PolynomialRaiseToAnUnsignedIntTest, ConstructionWorks)
 {
     Polynomial polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})};
-    PolynomialRaiseToANumber polynomialRaiseToANumber(polynomial);
+    PolynomialRaiseToAnUnsignedInt polynomialRaiseToAnUnsignedInt(polynomial);
 
-    EXPECT_EQ(polynomial, polynomialRaiseToANumber.getBase());
-    EXPECT_EQ(1U, polynomialRaiseToANumber.getExponent());
+    EXPECT_EQ(polynomial, polynomialRaiseToAnUnsignedInt.getBase());
+    EXPECT_EQ(1U, polynomialRaiseToAnUnsignedInt.getExponent());
 }
 
-TEST(PolynomialRaiseToANumberTest, GetBaseWorks)
+TEST(PolynomialRaiseToAnUnsignedIntTest, GetBaseWorks)
 {
     Polynomial polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})};
-    PolynomialRaiseToANumber polynomialRaiseToANumber(polynomial);
+    PolynomialRaiseToAnUnsignedInt polynomialRaiseToAnUnsignedInt(polynomial);
 
-    EXPECT_EQ(polynomial, polynomialRaiseToANumber.getBase());
+    EXPECT_EQ(polynomial, polynomialRaiseToAnUnsignedInt.getBase());
 }
 
-TEST(PolynomialRaiseToANumberTest, GetExponentWorks)
+TEST(PolynomialRaiseToAnUnsignedIntTest, GetExponentWorks)
 {
     Polynomial polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})};
-    PolynomialRaiseToANumber polynomialRaiseToANumber(polynomial);
+    PolynomialRaiseToAnUnsignedInt polynomialRaiseToAnUnsignedInt(polynomial);
 
-    EXPECT_EQ(1U, polynomialRaiseToANumber.getExponent());
+    EXPECT_EQ(1U, polynomialRaiseToAnUnsignedInt.getExponent());
 }
 
-TEST(PolynomialRaiseToANumberTest, IsExponentOneWorks)
+TEST(PolynomialRaiseToAnUnsignedIntTest, IsExponentOneWorks)
 {
     Polynomial polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})};
-    PolynomialRaiseToANumber polynomialRaiseToANumber(polynomial);
+    PolynomialRaiseToAnUnsignedInt polynomialRaiseToAnUnsignedInt(polynomial);
 
-    EXPECT_TRUE(polynomialRaiseToANumber.isExponentOne());
+    EXPECT_TRUE(polynomialRaiseToAnUnsignedInt.isExponentOne());
 }
 
-TEST(PolynomialRaiseToANumberTest, PolynomialWithCommonMonomialAndFactorsButExponentIsStillOneWorks)
+TEST(PolynomialRaiseToAnUnsignedIntTest, PolynomialWithCommonMonomialAndFactorsButExponentIsStillOneWorks)
 {
     Polynomial polynomial{Monomial(5, {{"x", 1}}), Monomial(-20, {})};
-    PolynomialRaiseToANumber polynomialRaiseToANumber(polynomial);
+    PolynomialRaiseToAnUnsignedInt polynomialRaiseToAnUnsignedInt(polynomial);
 
-    EXPECT_EQ(polynomial, polynomialRaiseToANumber.getBase());
-    EXPECT_EQ(1U, polynomialRaiseToANumber.getExponent());
+    EXPECT_EQ(polynomial, polynomialRaiseToAnUnsignedInt.getBase());
+    EXPECT_EQ(1U, polynomialRaiseToAnUnsignedInt.getExponent());
 }
 
-TEST(PolynomialRaiseToANumberTest, PolynomialWithPerfectSquare)
+TEST(PolynomialRaiseToAnUnsignedIntTest, PolynomialWithPerfectSquare)
 {
     Polynomial polynomial{Monomial(1, {{"x", 2}}), Monomial(4, {{"x", 1}}), Monomial(4, {})};
-    PolynomialRaiseToANumber polynomialRaiseToANumber(polynomial);
+    PolynomialRaiseToAnUnsignedInt polynomialRaiseToAnUnsignedInt(polynomial);
 
     Polynomial expectedBase{Monomial(1, {{"x", 1}}), Monomial(2, {})};
-    EXPECT_EQ(expectedBase, polynomialRaiseToANumber.getBase());
-    EXPECT_EQ(2U, polynomialRaiseToANumber.getExponent());
+    EXPECT_EQ(expectedBase, polynomialRaiseToAnUnsignedInt.getBase());
+    EXPECT_EQ(2U, polynomialRaiseToAnUnsignedInt.getExponent());
 }
 
-TEST(PolynomialRaiseToANumberTest, PolynomialWithPerfectSquareAndCommonFactor)
+TEST(PolynomialRaiseToAnUnsignedIntTest, PolynomialWithPerfectSquareAndCommonFactor)
 {
     Polynomial polynomial{Monomial(4, {{"x", 6}, {"y", 2}}), Monomial(16, {{"x", 5}, {"y", 2}}), Monomial(16, {{"x", 4}, {"y", 2}})};
-    PolynomialRaiseToANumber polynomialRaiseToANumber(polynomial);
+    PolynomialRaiseToAnUnsignedInt polynomialRaiseToAnUnsignedInt(polynomial);
 
     Polynomial expectedBase{Monomial(2, {{"x", 3}, {"y", 1}}), Monomial(4, {{"x", 2}, {"y", 1}})};
-    EXPECT_EQ(expectedBase, polynomialRaiseToANumber.getBase());
-    EXPECT_EQ(2U, polynomialRaiseToANumber.getExponent());
+    EXPECT_EQ(expectedBase, polynomialRaiseToAnUnsignedInt.getBase());
+    EXPECT_EQ(2U, polynomialRaiseToAnUnsignedInt.getExponent());
 }
 
-TEST(PolynomialRaiseToANumberTest, PolynomialWithPerfectCube)
+TEST(PolynomialRaiseToAnUnsignedIntTest, PolynomialWithPerfectCube)
 {
     Polynomial polynomial{Monomial(1, {{"x", 3}}), Monomial(3, {{"x", 2}}), Monomial(3, {{"x", 1}}), Monomial(1, {})};
-    PolynomialRaiseToANumber polynomialRaiseToANumber(polynomial);
+    PolynomialRaiseToAnUnsignedInt polynomialRaiseToAnUnsignedInt(polynomial);
 
     Polynomial expectedBase{Monomial(1, {{"x", 1}}), Monomial(1, {})};
-    EXPECT_EQ(expectedBase, polynomialRaiseToANumber.getBase());
-    EXPECT_EQ(3U, polynomialRaiseToANumber.getExponent());
+    EXPECT_EQ(expectedBase, polynomialRaiseToAnUnsignedInt.getBase());
+    EXPECT_EQ(3U, polynomialRaiseToAnUnsignedInt.getExponent());
 }
 
-TEST(PolynomialRaiseToANumberTest, PolynomialWithPerfectCubeAndCommonFactor)
+TEST(PolynomialRaiseToAnUnsignedIntTest, PolynomialWithPerfectCubeAndCommonFactor)
 {
     Polynomial polynomial{Monomial(8, {{"x", 3}}), Monomial(24, {{"x", 2}}), Monomial(24, {{"x", 1}}), Monomial(8, {})};
-    PolynomialRaiseToANumber polynomialRaiseToANumber(polynomial);
+    PolynomialRaiseToAnUnsignedInt polynomialRaiseToAnUnsignedInt(polynomial);
 
     Polynomial expectedBase{Monomial(2, {{"x", 1}}), Monomial(2, {})};
-    EXPECT_EQ(expectedBase, polynomialRaiseToANumber.getBase());
-    EXPECT_EQ(3U, polynomialRaiseToANumber.getExponent());
+    EXPECT_EQ(expectedBase, polynomialRaiseToAnUnsignedInt.getBase());
+    EXPECT_EQ(3U, polynomialRaiseToAnUnsignedInt.getExponent());
 }
 
-TEST(PolynomialRaiseToANumberTest, PolynomialWithPerfectSquaresAndPerfect4thPowerAndCommonFactor)
+TEST(PolynomialRaiseToAnUnsignedIntTest, PolynomialWithPerfectSquaresAndPerfect4thPowerAndCommonFactor)
 {
     Polynomial commonFactor{Monomial(256, {{"y", 4}})};
     Polynomial perfectSquare{Monomial(1, {{"x", 1}}), Monomial(2, {})};
@@ -100,12 +100,12 @@ TEST(PolynomialRaiseToANumberTest, PolynomialWithPerfectSquaresAndPerfect4thPowe
     Polynomial polynomialToTest(commonFactor);
     polynomialToTest.multiplyPolynomial(perfectSquare);
     polynomialToTest.multiplyPolynomial(perfect4thPower);
-    PolynomialRaiseToANumber polynomialRaiseToANumber(polynomialToTest);
+    PolynomialRaiseToAnUnsignedInt polynomialRaiseToAnUnsignedInt(polynomialToTest);
 
     Polynomial expectedBase
     {Monomial(16, {{"x", 3}, {"y", 2}}), Monomial(160, {{"x", 2}, {"y", 2}}), Monomial(512, {{"x", 1}, {"y", 2}}), Monomial(512, {{"y", 2}})};
-    EXPECT_EQ(expectedBase, polynomialRaiseToANumber.getBase());
-    EXPECT_EQ(2U, polynomialRaiseToANumber.getExponent());
+    EXPECT_EQ(expectedBase, polynomialRaiseToAnUnsignedInt.getBase());
+    EXPECT_EQ(2U, polynomialRaiseToAnUnsignedInt.getExponent());
 }
 
 }

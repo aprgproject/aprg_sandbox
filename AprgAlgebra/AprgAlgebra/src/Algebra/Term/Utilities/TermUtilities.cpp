@@ -1,10 +1,13 @@
 #include "TermUtilities.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
+#include <Algebra/Factorization/FactorizationOfExpression.hpp>
+#include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
 #include <Algebra/Retrieval/FirstCoefficientRetriever.hpp>
 #include <Algebra/Retrieval/NumberOfTermsRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 
+using namespace alba::algebra::Factorization;
 using namespace std;
 
 namespace alba
@@ -44,6 +47,31 @@ bool isRadicalTerm(Term const& term)
 {
     TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(term));
     return termRaiseToANumber.isRadical();
+}
+
+AlbaNumber getConstantFactor(Term const& term)
+{
+    AlbaNumber result(1);
+    if(term.isConstant())
+    {
+        result = term.getConstantValueConstReference();
+    }
+    else if(term.isMonomial())
+    {
+        result = term.getMonomialConstReference().getConstantConstReference();
+    }
+    else if(term.isPolynomial())
+    {
+        Polynomials factors(factorizeCommonMonomial(term.getPolynomialConstReference()));
+        for(Polynomial const& factor : factors)
+        {
+            if(factor.isOneMonomial())
+            {
+                result *= factor.getFirstMonomial().getConstantConstReference();
+            }
+        }
+    }
+    return result;
 }
 
 AlbaNumberPairs evaluateAndGetInputOutputPair(

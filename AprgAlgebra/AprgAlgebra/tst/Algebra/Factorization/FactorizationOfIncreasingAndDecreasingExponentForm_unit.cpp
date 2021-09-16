@@ -37,7 +37,7 @@ TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIncreasing
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
-TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossibleIsEmptyWhenItCannotBeRefactored)
+TEST(FactorizationOfIncreasingAndDecreasingExponentFormTest, FactorizeIfPossibleIsEmptyWhenItCannotBeFactored)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
 

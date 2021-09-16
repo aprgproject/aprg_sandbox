@@ -14,6 +14,8 @@ bool isNonEmptyOrNonOperatorType(Term const& term);
 bool isNonEmptyOrNonOperatorOrNonExpressionType(Term const& term);
 bool isRadicalTerm(Term const& term);
 
+AlbaNumber getConstantFactor(Term const& term);
+
 AlbaNumberPairs evaluateAndGetInputOutputPair(
         AlbaNumbers const& numbers,
         std::string const& variableName,

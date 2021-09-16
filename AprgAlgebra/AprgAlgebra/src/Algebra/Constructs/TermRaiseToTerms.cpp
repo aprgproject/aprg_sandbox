@@ -1,31 +1,36 @@
 #include "TermRaiseToTerms.hpp"
 
-#include <Algebra/Constructs/PolynomialRaiseToANumber.hpp>
+#include <Algebra/Constructs/PolynomialRaiseToAnUnsignedInt.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Operations/AccumulateOperations.hpp>
-#include <Algebra/Term/Operators/TermOperators.hpp>#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
+
+#include <algorithm>
 
 using namespace alba::mathHelper;
 using namespace std;
 
 namespace alba
 {
+
 namespace algebra
 {
 
 TermRaiseToTerms::TermRaiseToTerms()
-    : m_shouldSimplifyByCheckingPolynomialRaiseToANumber(false)
-    , m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue(false)
+    : m_shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt(false)
+    , m_shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase(false)
 {}
 
 TermRaiseToTerms::TermRaiseToTerms(
         TermsWithDetails const& termsInRaiseToPowerExpression)
 {
-    processTermsInRaiseToPowerExpression(termsInRaiseToPowerExpression);
+    initializeUsingTermsInRaiseToPowerExpression(termsInRaiseToPowerExpression);
 }
 
 TermRaiseToTerms::TermRaiseToTerms(
@@ -33,10 +38,45 @@ TermRaiseToTerms::TermRaiseToTerms(
         TermsWithDetails const& exponents)
     : m_base(base)
     , m_exponents(exponents)
-    , m_shouldSimplifyByCheckingPolynomialRaiseToANumber(false)
-    , m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue(false)
+    , m_shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt(false)
+    , m_shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase(false)
+{}
+
+TermRaiseToTerms::TermRaiseToTerms(
+        Term const& base,
+        Terms const& exponents)
+    : m_base(base)
+    , m_exponents()
+    , m_shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt(false)
+    , m_shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase(false)
 {
-    //refactor simplify base
+    initializeExponentsInTerms(exponents);
+}
+
+bool TermRaiseToTerms::doesEvenExponentCancellationHappen() const
+{
+    bool result(false);
+    AlbaNumbers exponentValues;
+    for(TermWithDetails const& exponentWithDetails : m_exponents)
+    {
+        Term const& exponent(getTermConstReferenceFromSharedPointer(exponentWithDetails.baseTermSharedPointer));
+        AlbaNumber exponentValue(getConstantFactor(exponent));
+        if(exponentWithDetails.hasNegativeAssociation())
+        {
+            exponentValue = exponentValue^-1;
+        }
+        exponentValues.emplace_back(exponentValue);
+    }
+    bool hasAnyNumeratorEven(false);
+    bool hasAnyDenominatorEven(false);
+    for(AlbaNumber const& exponentValue : exponentValues)
+    {
+        AlbaNumber::FractionData fractionData(exponentValue.getFractionData());
+        hasAnyNumeratorEven = hasAnyNumeratorEven || isEven(getAbsoluteValue<int>(fractionData.numerator));
+        hasAnyDenominatorEven = hasAnyDenominatorEven || isEven(fractionData.denominator);
+    }
+    result = hasAnyNumeratorEven && hasAnyDenominatorEven;
+    return result;
 }
 
 Term TermRaiseToTerms::getCombinedTerm() const
@@ -47,7 +87,8 @@ Term TermRaiseToTerms::getCombinedTerm() const
 
 Term const& TermRaiseToTerms::getBase() const
 {
-    return m_base;}
+    return m_base;
+}
 
 TermsWithDetails const& TermRaiseToTerms::getExponents() const
 {
@@ -59,120 +100,124 @@ void TermRaiseToTerms::setBase(Term const& base)
     m_base = base;
 }
 
-void TermRaiseToTerms::setAsShouldSimplifyByCheckingPolynomialRaiseToANumber(
-        bool const shouldSimplifyCondition)
+void TermRaiseToTerms::setAsShouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt(
+        bool const shouldSimplify)
 {
-    m_shouldSimplifyByCheckingPolynomialRaiseToANumber = shouldSimplifyCondition;
+    m_shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt = shouldSimplify;
 }
 
-void TermRaiseToTerms::setAsShouldSimplifyEvenExponentsCancellationWithAbsoluteValue(
-        bool const shouldSimplifyCondition)
+void TermRaiseToTerms::setAsShouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase(
+        bool const shouldSimplify)
 {
-    m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue = shouldSimplifyCondition;
+    m_shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase = shouldSimplify;
 }
 
 void TermRaiseToTerms::simplify()
 {
-    // refactor: put polynomial expansion here: isPerfectNthPower
+    simplifyByCheckingPolynomialRaiseToAnUnsignedIntIfNeeded();
+    simplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBaseIfNeeded();
+    simplifyBaseAndExponents();
+}
 
-    if(m_shouldSimplifyByCheckingPolynomialRaiseToANumber && canBeConvertedToPolynomial(m_base))
+void TermRaiseToTerms::simplifyByCheckingPolynomialRaiseToAnUnsignedIntIfNeeded()
+{
+    if(m_shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt && canBeConvertedToPolynomial(m_base))
     {
-        PolynomialRaiseToANumber polynomialRaiseToANumber(createPolynomialIfPossible(m_base));
-        if(!polynomialRaiseToANumber.isExponentOne())
+        PolynomialRaiseToAnUnsignedInt polynomialRaiseToAnUnsignedInt(createPolynomialIfPossible(m_base));
+        if(!polynomialRaiseToAnUnsignedInt.isExponentOne())
         {
-            m_base = polynomialRaiseToANumber.getBase();
-            m_exponents.emplace(m_exponents.begin(), Term(polynomialRaiseToANumber.getExponent()), TermAssociationType::Positive);
+            m_base = polynomialRaiseToAnUnsignedInt.getBase();
+            m_exponents.emplace(m_exponents.begin(), Term(polynomialRaiseToAnUnsignedInt.getExponent()), TermAssociationType::Positive);
         }
     }
+}
 
-    if(m_shouldSimplifyEvenExponentsCancellationWithAbsoluteValue
+void TermRaiseToTerms::simplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBaseIfNeeded()
+{
+    if(m_shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase
             && doesEvenExponentCancellationHappen())
     {
         m_base = simplifyAndConvertFunctionToSimplestTerm(Functions::abs(createOrCopyExpressionFromATerm(m_base)));
     }
 }
 
-void TermRaiseToTerms::processTermsInRaiseToPowerExpression(
-        TermsWithDetails const& termsToProcess)
+void TermRaiseToTerms::simplifyBaseAndExponents()
 {
-    if(!termsToProcess.empty())
+    Term exponentCombinedTerm;
+    accumulateTermsForMultiplicationAndDivision(exponentCombinedTerm, m_exponents);
+
+    m_exponents.clear();
+
+    if(m_base.isConstant() && m_base.getConstantValueConstReference() == 0)
+    {}
+    else if(m_base.isConstant() && m_base.getConstantValueConstReference() == 1)
+    {}
+    else if(exponentCombinedTerm.isEmpty())
+    {}
+    else if(exponentCombinedTerm.isConstant() && exponentCombinedTerm.getConstantValueConstReference() == 0)
     {
-        m_base = getTermConstReferenceFromSharedPointer(termsToProcess.at(0).baseTermSharedPointer);
-        //refactor simplify base -> checks as constant and polynomials
-        if(isTheValue(m_base, 0))
-        {
-            m_base = Term(Constant(0));
-        }
-        else if(isTheValue(m_base, 1))
-        {
-            m_base = Term(1);
-        }
-        else
-        {
-            m_exponents.reserve(distance(termsToProcess.cbegin()+1, termsToProcess.cend()));
-            copy(termsToProcess.cbegin()+1, termsToProcess.cend(), back_inserter(m_exponents));
-        }
+        m_base = Term(1);
+    }
+    else if(exponentCombinedTerm.isConstant() && exponentCombinedTerm.getConstantValueConstReference() == 1)
+    {}
+    else if(canBeConvertedToMonomial(m_base)  && exponentCombinedTerm.isConstant())
+    {
+        Monomial monomialBase(createMonomialIfPossible(m_base));
+        monomialBase.raiseToPowerNumber(exponentCombinedTerm.getConstantValueConstReference());
+        m_base = simplifyAndConvertMonomialToSimplestTerm(monomialBase);
+    }
+    else if(m_base.isPolynomial()
+            && exponentCombinedTerm.isConstant()
+            && exponentCombinedTerm.getConstantValueConstReference().isIntegerType()
+            && exponentCombinedTerm.getConstantValueConstReference() >= 0)
+    {
+        Polynomial polynomialBase(createPolynomialIfPossible(m_base));
+        polynomialBase.raiseToUnsignedInteger(
+                    static_cast<unsigned int>(exponentCombinedTerm.getConstantValueConstReference().getInteger()));
+        m_base = simplifyAndConvertPolynomialToSimplestTerm(polynomialBase);
+    }
+    else if(exponentCombinedTerm.isExpression()
+            && OperatorLevel::MultiplicationAndDivision == exponentCombinedTerm.getExpressionConstReference().getCommonOperatorLevel())
+    {
+        m_exponents = exponentCombinedTerm.getExpressionConstReference().getTermsWithAssociation().getTermsWithDetails();
+    }
+    else
+    {
+        m_exponents.emplace_back(exponentCombinedTerm, TermAssociationType::Positive);
     }
 }
-bool TermRaiseToTerms::doesEvenExponentCancellationHappen() const
+
+void TermRaiseToTerms::initializeUsingTermsInRaiseToPowerExpression(
+        TermsWithDetails const& termsInRaiseToPowerExpression)
 {
-    bool result(false);
-    Term previousAccumulatedExponentTerm(1);
-    for(TermWithDetails const& exponentWithDetails : m_exponents)
+    if(!termsInRaiseToPowerExpression.empty())
     {
-        Term const& currentExponent(getTermConstReferenceFromSharedPointer(exponentWithDetails.baseTermSharedPointer));
-        // refactor instead of "combine" use currentAccumulatedExponentTerm
-        Term currentAccumulatedExponentTerm = (TermAssociationType::Positive == exponentWithDetails.association) ?
-                    previousAccumulatedExponentTerm * currentExponent :
-                    previousAccumulatedExponentTerm / currentExponent;
-        // refactor This is wrong: How about if monomial?
-        if(previousAccumulatedExponentTerm.isConstant() && currentAccumulatedExponentTerm.isConstant())
-        {
-            AlbaNumber previousCombinedValue(previousAccumulatedExponentTerm.getConstantValueConstReference());            AlbaNumber currentExponentValue(currentExponent.getConstantValueConstReference());
-            if((previousCombinedValue.isIntegerType() || previousCombinedValue.isFractionType())
-                    && (currentExponentValue.isIntegerType() || currentExponentValue.isFractionType()))
-            {
-                bool isPreviousCombinedValueNumeratorEven(isEven(static_cast<unsigned int>(previousCombinedValue.getFractionData().numerator)));
-                bool isExponentValueDenominatorEven(isEven(static_cast<unsigned int>(currentExponentValue.getFractionData().denominator)));
-                result = isPreviousCombinedValueNumeratorEven && isExponentValueDenominatorEven;
-            }
-        }
-        else
-        {
-            break;
-        }
-        previousAccumulatedExponentTerm = currentAccumulatedExponentTerm;
+        m_base = getTermConstReferenceFromSharedPointer(termsInRaiseToPowerExpression.at(0).baseTermSharedPointer);
+        m_exponents.reserve(distance(termsInRaiseToPowerExpression.cbegin()+1, termsInRaiseToPowerExpression.cend()));
+        copy(termsInRaiseToPowerExpression.cbegin()+1, termsInRaiseToPowerExpression.cend(), back_inserter(m_exponents));
     }
-    return result;
+}
+
+void TermRaiseToTerms::initializeExponentsInTerms(
+        Terms const& exponents)
+{
+    transform(exponents.cbegin(), exponents.cend(), back_inserter(m_exponents), [](Term const& exponent)
+    {
+        return TermWithDetails(exponent, TermAssociationType::Positive);
+    });
 }
 
 Term TermRaiseToTerms::combineBaseAndExponentsAndReturn() const
 {
     Term combinedTerm;
-    Term exponentCombinedTerm;
-    accumulateTermsForMultiplicationAndDivision(exponentCombinedTerm, m_exponents);
-    //refactor simplify exponentCombinedTerm -> checks as constant and polynomials
-    if(isTheValue(exponentCombinedTerm, 0))
-    {
-        combinedTerm = Term(1);
-    }
-    else if(isTheValue(exponentCombinedTerm, 1))
+    if(m_exponents.empty())
     {
         combinedTerm = m_base;
     }
-    else if(canBeConvertedToMonomial(m_base)
-            && exponentCombinedTerm.isConstant())
-    {
-        combinedTerm = m_base ^ exponentCombinedTerm;
-    }
-    else if(canBeConvertedToPolynomial(m_base)
-            && exponentCombinedTerm.isConstant()
-            && exponentCombinedTerm.getConstantValueConstReference().isIntegerType())
-    {
-        combinedTerm = m_base ^ exponentCombinedTerm;
-    }
     else
     {
+        Term exponentCombinedTerm;
+        accumulateTermsForMultiplicationAndDivision(exponentCombinedTerm, m_exponents);
         Expression raiseToPowerExpression(createOrCopyExpressionFromATerm(m_base));
         raiseToPowerExpression.putTermWithRaiseToPowerIfNeeded(exponentCombinedTerm);
         combinedTerm = Term(raiseToPowerExpression);

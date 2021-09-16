@@ -3,7 +3,7 @@
 #include <Algebra/Constructs/AdditionAndSubtractionOfTermsOverTerms.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
-
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 using namespace std;
 
@@ -16,7 +16,8 @@ namespace algebra
 namespace Simplification
 {
 
-bool simplifyToACommonDenominatorForExpressionAndReturnIfChanged(Expression & expression)
+bool simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(
+        Expression & expression)
 {
     bool isChanged(false);
     if(expression.getCommonOperatorLevel() == OperatorLevel::AdditionAndSubtraction)
@@ -79,7 +80,7 @@ void simplifyTermsWithDetailsInExpressionToACommonDenominator(Expression & expre
             if(term.isExpression())
             {
                 Expression & subExpression(term.getExpressionReference());
-                isChanged = isChanged || simplifyToACommonDenominatorForExpressionAndReturnIfChanged(subExpression);
+                isChanged = isChanged || simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(subExpression);
             }
         }
         if(isChanged)
@@ -87,6 +88,68 @@ void simplifyTermsWithDetailsInExpressionToACommonDenominator(Expression & expre
             expression.simplify();
         }
     }
+}
+
+void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
+        TermsWithDetails & newTermsWithDetails,
+        OperatorLevel & mainOperatorLevel,
+        TermsWithDetails const& oldTermsWithDetails)
+{
+    for(TermWithDetails const& oldTermWithDetails : oldTermsWithDetails)
+    {
+        Term const& term(getTermConstReferenceFromSharedPointer(oldTermWithDetails.baseTermSharedPointer));
+        if(term.isExpression())
+        {
+            Expression subExpression(term.getExpressionConstReference());
+            subExpression.simplify();
+            TermAssociationType subExpressionAssociation(oldTermWithDetails.association);
+            simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(newTermsWithDetails, mainOperatorLevel, subExpression, subExpressionAssociation);
+        }
+        else if(isNonEmptyOrNonOperatorType(term))
+        {
+            Term newTerm(term);
+            newTerm.simplify();
+            newTermsWithDetails.emplace_back(newTerm, oldTermWithDetails.association);
+        }
+    }
+}
+
+void simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(
+        TermsWithDetails & newTermsWithDetails,
+        OperatorLevel & mainOperatorLevel,
+        Expression const& subExpression,
+        TermAssociationType const subExpressionAssociation)
+{
+    OperatorLevel subExpressionOperatorLevel(subExpression.getCommonOperatorLevel());
+    if(subExpression.containsOnlyOnePositivelyAssociatedTerm()
+            || OperatorLevel::Unknown == mainOperatorLevel
+            || (subExpressionOperatorLevel == mainOperatorLevel
+                && OperatorLevel::AdditionAndSubtraction == mainOperatorLevel
+                && OperatorLevel::MultiplicationAndDivision == mainOperatorLevel))
+    {
+        if(OperatorLevel::Unknown == mainOperatorLevel)
+        {
+            mainOperatorLevel = subExpression.getCommonOperatorLevel();
+        }
+        TermsWithAssociation termsWithAssociation(getTermsWithAssociationAndReverseIfNeeded(subExpression, subExpressionAssociation));
+        simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(newTermsWithDetails, mainOperatorLevel, termsWithAssociation.getTermsWithDetails());
+    }
+    else
+    {
+        newTermsWithDetails.emplace_back(Term(subExpression), subExpressionAssociation);
+    }
+}
+
+TermsWithAssociation getTermsWithAssociationAndReverseIfNeeded(
+        Expression const& expression,
+        TermAssociationType const overallAssociation)
+{
+    TermsWithAssociation termsWithAssociation(expression.getTermsWithAssociation());
+    if(TermAssociationType::Negative == overallAssociation)
+    {
+        termsWithAssociation.reverseTheAssociationOfTheTerms();
+    }
+    return termsWithAssociation;
 }
 
 }

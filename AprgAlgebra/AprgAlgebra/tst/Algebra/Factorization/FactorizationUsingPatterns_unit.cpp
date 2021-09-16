@@ -85,7 +85,7 @@ TEST(FactorizationUsingPatternsTest, FactorizeUsingPatternsIfPossibleWorksWhenSu
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
-TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfSquaresIfPossible_IsEmptyWhenItCannotBeRefactored)
+TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfSquaresIfPossible_IsEmptyWhenItCannotBeFactored)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
 
@@ -122,7 +122,7 @@ TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfSquaresIfPossible_Work
     EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
 }
 
-TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfCubesIfPossible_IsEmptyWhenItCannotBeRefactored)
+TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfCubesIfPossible_IsEmptyWhenItCannotBeFactored)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
 
@@ -159,7 +159,7 @@ TEST(FactorizationUsingPatternsTest, FactorizeDifferenceOfCubesIfPossible_WorksW
     EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
 }
 
-TEST(FactorizationUsingPatternsTest, FactorizeSumOfCubesIfPossible_IsEmptyWhenItCannotBeRefactored)
+TEST(FactorizationUsingPatternsTest, FactorizeSumOfCubesIfPossible_IsEmptyWhenItCannotBeFactored)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
 
