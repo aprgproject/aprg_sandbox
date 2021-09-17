@@ -1,11 +1,9 @@
-#include <Algebra/Differentiation/Differentiation.hpp>
+#include <Algebra/Differentiation/DifferentiationUtilities.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
-
 #include <gtest/gtest.h>
 
 using namespace std;
-
 namespace alba
 {
 
