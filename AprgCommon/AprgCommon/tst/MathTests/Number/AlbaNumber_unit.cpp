@@ -18,6 +18,15 @@ TEST(AlbaNumberTest, SizeValueIsExpected)
     EXPECT_EQ(8U, number.getNumberDataSize());
 }
 
+TEST(AlbaNumberTest, GetDefaultConfigurationDetailsWorks)
+{
+    AlbaNumber::ConfigurationDetails configurationDetails(
+                getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>());
+
+    EXPECT_DOUBLE_EQ(COMPARISON_TOLERANCE_FOR_DOUBLE, configurationDetails.comparisonTolerance);
+    EXPECT_DOUBLE_EQ(AlbaNumber::ADJUSTMENT_FLOAT_TOLERANCE, configurationDetails.floatAdjustmentTolerance);
+}
+
 TEST(AlbaNumberConfigurationTest, GetConfigurationDetailsWorksAtDefault)
 {
     AlbaNumber::ConfigurationDetails const& configurationDetails(
@@ -27,72 +36,36 @@ TEST(AlbaNumberConfigurationTest, GetConfigurationDetailsWorksAtDefault)
     EXPECT_DOUBLE_EQ(AlbaNumber::ADJUSTMENT_FLOAT_TOLERANCE, configurationDetails.floatAdjustmentTolerance);
 }
 
-TEST(AlbaNumberConfigurationTest, GetComparisonToleranceWorksAtDefault)
+TEST(AlbaNumberConfigurationTest, ComparisonToleranceIsCorrectlyAtDefault)
 {
-    EXPECT_DOUBLE_EQ(COMPARISON_TOLERANCE_FOR_DOUBLE, AlbaNumber::Configuration::getInstance().getComparisonTolerance());
+    EXPECT_DOUBLE_EQ(
+                COMPARISON_TOLERANCE_FOR_DOUBLE,
+                AlbaNumber::Configuration::getInstance().getConfigurationDetails().comparisonTolerance);
 }
 
-TEST(AlbaNumberConfigurationTest, GetFloatAdjustmentToleranceWorksAtDefault)
+TEST(AlbaNumberConfigurationTest, FloatAdjustmentToleranceIsCorrectlyAtDefault)
 {
-    EXPECT_DOUBLE_EQ(AlbaNumber::ADJUSTMENT_FLOAT_TOLERANCE, AlbaNumber::Configuration::getInstance().getFloatAdjustmentTolerance());
-}
-
-TEST(AlbaNumberConfigurationTest, SetConfigurationDetailsWorks)
-{
-    AlbaNumber::Configuration::getInstance().setConfigurationDetails(AlbaNumber::ConfigurationDetails{0.1, 0.1});
-
-    EXPECT_DOUBLE_EQ(0.1, AlbaNumber::Configuration::getInstance().getComparisonTolerance());
-    EXPECT_DOUBLE_EQ(0.1, AlbaNumber::Configuration::getInstance().getFloatAdjustmentTolerance());
-
-    AlbaNumber::Configuration::getInstance().setConfigurationToDefault(); //Ensure set the static values back for other tests
-}
-
-TEST(AlbaNumberConfigurationTest, SetConfigurationToDefaultWorks)
-{
-    AlbaNumber::Configuration::getInstance().setConfigurationDetails(AlbaNumber::ConfigurationDetails{0.1, 0.1});
-
-    AlbaNumber::Configuration::getInstance().setConfigurationToDefault();
-
-    EXPECT_DOUBLE_EQ(COMPARISON_TOLERANCE_FOR_DOUBLE, AlbaNumber::Configuration::getInstance().getComparisonTolerance());
-    EXPECT_DOUBLE_EQ(AlbaNumber::ADJUSTMENT_FLOAT_TOLERANCE, AlbaNumber::Configuration::getInstance().getFloatAdjustmentTolerance());
-}
-
-TEST(AlbaNumberConfigurationTest, SetComparisonToleranceWorks)
-{
-    AlbaNumber::Configuration::getInstance().setComparisonTolerance(0.1);
-
-    EXPECT_DOUBLE_EQ(0.1, AlbaNumber::Configuration::getInstance().getComparisonTolerance());
-
-    AlbaNumber::Configuration::getInstance().setConfigurationToDefault(); //Ensure set the static values back for other tests
-}
-
-TEST(AlbaNumberConfigurationTest, SetFloatAdjustmentToleranceWorks)
-{
-    AlbaNumber::Configuration::getInstance().setFloatAdjustmentTolerance(0.1);
-
-    EXPECT_DOUBLE_EQ(0.1, AlbaNumber::Configuration::getInstance().getFloatAdjustmentTolerance());
-
-    AlbaNumber::Configuration::getInstance().setConfigurationToDefault(); //Ensure set the static values back for other tests
+    EXPECT_DOUBLE_EQ(
+                AlbaNumber::ADJUSTMENT_FLOAT_TOLERANCE,
+                AlbaNumber::Configuration::getInstance().getConfigurationDetails().floatAdjustmentTolerance);
 }
 
 TEST(AlbaNumberTest, SettingTolerancesReflectsInAlbaNumber)
 {
-    AlbaNumber number1(3.01);
-    AlbaNumber number2(3.0000000000001);
+    AlbaNumber number1(3.01);    AlbaNumber number2(3.0000000000001);
     EXPECT_TRUE(number1.isDoubleType());
     EXPECT_DOUBLE_EQ(3.01, number1.getDouble());
     EXPECT_TRUE(number2.isIntegerType());
     EXPECT_EQ(3, number2.getInteger());
 
-    AlbaNumber::Configuration::getInstance().setConfigurationTolerancesToZero();
+    AlbaNumber::Configuration::getInstance().setConfigurationDetails
+            (AlbaNumber::Configuration::getConfigurationDetailsWithZeroTolerance());
 
     AlbaNumber number3(3.01);
-    AlbaNumber number4(3.0000000000001);
-    EXPECT_TRUE(number3.isDoubleType());
+    AlbaNumber number4(3.0000000000001);    EXPECT_TRUE(number3.isDoubleType());
     EXPECT_DOUBLE_EQ(3.01, number3.getDouble());
     EXPECT_TRUE(number4.isDoubleType());
     EXPECT_DOUBLE_EQ(3.0000000000001, number4.getDouble());
-
     AlbaNumber::Configuration::getInstance().setConfigurationToDefault();
 
     AlbaNumber number5(3.01);
@@ -103,26 +76,23 @@ TEST(AlbaNumberTest, SettingTolerancesReflectsInAlbaNumber)
     EXPECT_EQ(3, number6.getInteger());
 }
 
-TEST(AlbaNumberScopeObjectTest, SetInThisScopeConfigurationWorksAtDefaultValuesAndValuesAreSetBack)
+TEST(AlbaNumberScopeObjectTest, SetInThisScopeThisConfigurationWorksAtDefaultValuesAndValuesAreSetBack)
 {
     AlbaNumber number1(3.01);
-    AlbaNumber number2(3.0000000000001);
-    EXPECT_TRUE(number1.isDoubleType());
+    AlbaNumber number2(3.0000000000001);    EXPECT_TRUE(number1.isDoubleType());
     EXPECT_DOUBLE_EQ(3.01, number1.getDouble());
     EXPECT_TRUE(number2.isIntegerType());
     EXPECT_EQ(3, number2.getInteger());
 
     {
         AlbaNumber::ScopeObject scopeObject;
-        scopeObject.setInThisScopeConfiguration(AlbaNumber::ConfigurationDetails{0.1, 0.1});
+        scopeObject.setInThisScopeThisConfiguration(AlbaNumber::ConfigurationDetails{0.1, 0.1});
 
         AlbaNumber number3(3.01);
-        AlbaNumber number4(3.0000000000001);
-        EXPECT_TRUE(number3.isIntegerType());
+        AlbaNumber number4(3.0000000000001);        EXPECT_TRUE(number3.isIntegerType());
         EXPECT_EQ(3, number3.getInteger());
         EXPECT_TRUE(number4.isIntegerType());
-        EXPECT_EQ(3, number4.getInteger());
-    }
+        EXPECT_EQ(3, number4.getInteger());    }
 
     AlbaNumber number5(3.01);
     AlbaNumber number6(3.0000000000001);
@@ -163,15 +133,16 @@ TEST(AlbaNumberScopeObjectTest, SetInThisScopeTheTolerancesToZeroWorksAtDefaultV
 
 TEST(AlbaNumberScopeObjectTest, SetInThisScopeTheTolerancesToZeroWorksWhenValuesAreChangedAndValuesAreSetBack)
 {
-    AlbaNumber::Configuration::getInstance().setComparisonTolerance(1E-1);
+    AlbaNumber::ConfigurationDetails configurationDetailsInThisOutsideScope(
+                getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>());
+    configurationDetailsInThisOutsideScope.comparisonTolerance = 1E-1;
+    AlbaNumber::Configuration::getInstance().setConfigurationDetails(configurationDetailsInThisOutsideScope);
 
     AlbaNumber number1(3.01);
-    AlbaNumber number2(3.0000000000001);
-    EXPECT_TRUE(number1.isIntegerType());
+    AlbaNumber number2(3.0000000000001);    EXPECT_TRUE(number1.isIntegerType());
     EXPECT_EQ(3, number1.getInteger());
     EXPECT_TRUE(number2.isIntegerType());
     EXPECT_EQ(3, number2.getInteger());
-
     {
         AlbaNumber::ScopeObject scopeObject;
         scopeObject.setInThisScopeTheTolerancesToZero();

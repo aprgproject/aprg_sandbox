@@ -1,14 +1,13 @@
 #pragma once
 
-#include <Container/AlbaSingleton.hpp>
+#include <Container/AlbaConfigurationHolder.hpp>
+#include <Math/AlbaMathConstants.hpp>
 #include <Math/Number/AlbaComplexNumber.hpp>
 
-#include <ostream>
-#include <string>
+#include <ostream>#include <string>
 
 namespace alba
 {
-
 class AlbaNumber
 {
 public:
@@ -51,55 +50,41 @@ public:
         double floatAdjustmentTolerance;
     };
 
-    class Configuration : public AlbaSingleton<Configuration>
+    class Configuration
+            : public AlbaConfigurationHolder<ConfigurationDetails>
     {
     public:
-        Configuration();
-        ConfigurationDetails const& getConfigurationDetails();
-        double getComparisonTolerance() const;
-        double getFloatAdjustmentTolerance() const;
+        using BaseConfigurationHolder=AlbaConfigurationHolder<ConfigurationDetails>;
+        static ConfigurationDetails getConfigurationDetailsWithZeroTolerance();
 
-        void setConfigurationDetails(ConfigurationDetails const& configurationDetails);
-        void setConfigurationToDefault();
         void setConfigurationTolerancesToZero();
         void setComparisonTolerance(double const comparisonTolerance);
         void setFloatAdjustmentTolerance(double const comparisonTolerance);
-    private:
-        ConfigurationDetails m_configurationDetails;
     };
 
-    class ScopeObject
+    class ScopeObject : public AlbaConfigurationScopeObject<ConfigurationDetails>
     {
     public:
-        ScopeObject();
-        ~ScopeObject();
-        void setInThisScopeConfiguration(ConfigurationDetails const& configurationDetails) const;
         void setInThisScopeTheTolerancesToZero() const;
-    private:
-        void setInThisScopeTheValuesBack() const;
-        ConfigurationDetails m_savedConfigurationDetails;
     };
-
-    AlbaNumber();
-    AlbaNumber(int const integerValue);
-    AlbaNumber(unsigned int const integerValue);
-    AlbaNumber(long long int const integerValue);
-    AlbaNumber(double const doubleValue);
-    AlbaNumber(Value const value);
 
     static AlbaNumber createFraction(int const numerator, int const denominator);
     static AlbaNumber createFraction(int const numerator, unsigned int const denominator);
     static AlbaNumber createComplexNumber(int const realPart, int const imaginaryPart);
     static AlbaNumber createComplexNumber(double const realPart, double const imaginaryPart);
 
+    AlbaNumber();
+    AlbaNumber(int const integerValue);
+    AlbaNumber(unsigned int const integerValue);    AlbaNumber(long long int const integerValue);
+    AlbaNumber(double const doubleValue);
+    AlbaNumber(Value const value);
+
     bool operator==(AlbaNumber const& second) const;
     bool operator!=(AlbaNumber const& second) const;
-    bool operator<=(AlbaNumber const& second) const;
-    bool operator>=(AlbaNumber const& second) const;
+    bool operator<=(AlbaNumber const& second) const;    bool operator>=(AlbaNumber const& second) const;
     bool operator<(AlbaNumber const& second) const;
     bool operator>(AlbaNumber const& second) const;
-    AlbaNumber operator+() const;
-    AlbaNumber operator-() const;
+    AlbaNumber operator+() const;    AlbaNumber operator-() const;
     AlbaNumber operator+(AlbaNumber const& second) const;
     AlbaNumber operator-(AlbaNumber const& second) const;
     AlbaNumber operator*(AlbaNumber const& second) const;
@@ -240,6 +225,8 @@ private:
     Type m_type;
     NumberUnionData m_data;
 };
+
+template <> AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>();
 
 std::ostream & operator<<(std::ostream & out, AlbaNumber const& number);
 
