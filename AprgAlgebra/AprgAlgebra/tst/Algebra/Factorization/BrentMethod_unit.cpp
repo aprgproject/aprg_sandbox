@@ -374,6 +374,19 @@ TEST(BrentMethodTest, RunWorksOnQuarticExample)
     EXPECT_EQ(4U, brentMethod.getNumberOfIterationsExecuted());
 }
 
+TEST(BrentMethodTest, RunWorksOnPrecisionExample)
+{
+    BrentMethod brentMethod(AlbaNumbers{15, 0, 0, 2});
+    brentMethod.resetCalculation(-15, 0);
+
+    brentMethod.runMaxNumberOfIterationsOrUntilFinished(1000);
+
+    AlbaNumberOptional solution(brentMethod.getSolution());
+    ASSERT_TRUE(solution.hasContent());
+    EXPECT_DOUBLE_EQ(-0.5108729549290731, solution.getConstReference().getDouble());
+    EXPECT_EQ(49U, brentMethod.getNumberOfIterationsExecuted());
+}
+
 }
 
 }
