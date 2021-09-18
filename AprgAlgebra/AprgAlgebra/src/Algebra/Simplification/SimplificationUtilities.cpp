@@ -103,15 +103,14 @@ void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
             Expression subExpression(term.getExpressionConstReference());
             subExpression.simplify();
             TermAssociationType subExpressionAssociation(oldTermWithDetails.association);
-            simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(newTermsWithDetails, mainOperatorLevel, subExpression, subExpressionAssociation);
+            simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(
+                        newTermsWithDetails, mainOperatorLevel, subExpression, subExpressionAssociation);
         }
         else if(isNonEmptyOrNonOperatorType(term))
-        {
-            Term newTerm(term);
+        {            Term newTerm(term);
             newTerm.simplify();
             newTermsWithDetails.emplace_back(newTerm, oldTermWithDetails.association);
-        }
-    }
+        }    }
 }
 
 void simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(

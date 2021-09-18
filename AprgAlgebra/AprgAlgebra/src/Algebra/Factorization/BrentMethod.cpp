@@ -257,14 +257,12 @@ void BrentMethod::convertSolutionToIntegerIfNeeded()
             AlbaNumber possibleValue(m_values.solutionOptional.getConstReference()*aCoefficient);
             possibleValue.convertToInteger();
             possibleValue = possibleValue/aCoefficient;
-            if(calculate(possibleValue) == 0)
+            if(isAlmostEqualForBrentMethod(calculate(possibleValue), 0.0))
             {
                 m_values.solutionOptional.setValue(possibleValue);
-            }
-        }
+            }        }
     }
 }
-
 }
 
 }

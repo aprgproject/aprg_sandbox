@@ -51,14 +51,12 @@ Expression SimplificationOfEquation::getNewCombinedExpression(
     combinedExpression = createExpressionIfPossible(Terms{equation.getLeftHandTerm(), Term("-"), equation.getRightHandTerm()});
 
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                SimplificationOfExpression::getDefaultConfigurationDetails());
+                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyToACommonDenominator = true;
 
-    SimplificationOfExpression::ScopeObject scopeObject;
-    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+    SimplificationOfExpression::ScopeObject scopeObject;    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
     combinedExpression.simplify();
-
     return combinedExpression;
 }
 

@@ -41,14 +41,21 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenXIsAVariabl
     EXPECT_EQ(Term(Monomial(2, {{"y", 1}})), derivative);
 }
 
+TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenXIsAVariableAndMonomialIsRadical)
+{
+    Term termToTest(Monomial(1, {{"x", AlbaNumber::createFraction(1, 3)}}));
+
+    Term derivative(getDerivativeAtUsingLimit(termToTest, "x", Term("y"), LimitAtAValueApproachType::BothSides));
+
+    EXPECT_EQ(Term(Monomial(AlbaNumber::createFraction(1, 3), {{"y", AlbaNumber::createFraction(-2, 3)}})), derivative);
+}
+
 TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialAndWhenXIsAValue)
 {
-    Term polynomialTerm(Polynomial{Monomial(3, {{"x", 2}}), Monomial(12, {})});
-    Term derivative(getDerivativeAtUsingLimit(polynomialTerm, "x", Term(2), LimitAtAValueApproachType::BothSides));
+    Term polynomialTerm(Polynomial{Monomial(3, {{"x", 2}}), Monomial(12, {})});    Term derivative(getDerivativeAtUsingLimit(polynomialTerm, "x", Term(2), LimitAtAValueApproachType::BothSides));
 
     EXPECT_EQ(Term(12), derivative);
 }
-
 TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialAndWhenXIsAVariable)
 {
     Term polynomialTerm(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-3, {{"x", 1}}), Monomial(4, {})});

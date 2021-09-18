@@ -191,15 +191,14 @@ AlbaNumbers calculatePolynomialRootsUsingBrentMethod(
         AlbaNumberOptional rootOptional(brentMethod.getSolution());
         if(rootOptional.hasContent())
         {
-            result.emplace_back(rootOptional.getConstReference());
+            AlbaNumber const& root(rootOptional.getConstReference());
+            result.emplace_back(root);
         }
     }
-    return result;
-}
+    return result;}
 
 AlbaNumber getMaxAbsoluteValueForRootFinding(AlbaNumbers const& coefficients)
-{
-    AlbaNumber result(0);
+{    AlbaNumber result(0);
     if(!coefficients.empty())
     {
         result = max(getAbsoluteValueForAlbaNumber(coefficients.front()), getAbsoluteValueForAlbaNumber(coefficients.back()));

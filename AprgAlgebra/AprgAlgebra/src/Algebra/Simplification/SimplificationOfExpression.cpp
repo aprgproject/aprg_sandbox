@@ -22,60 +22,12 @@ namespace algebra
 namespace Simplification
 {
 
-SimplificationOfExpression::Configuration::Configuration()
-    : m_configurationDetails{getDefaultConfigurationDetails()}
-{}
-
-SimplificationOfExpression::ConfigurationDetails const&
-SimplificationOfExpression::Configuration::getConfigurationDetails()
-{
-    return m_configurationDetails;
-}
-
-void SimplificationOfExpression::Configuration::setConfigurationDetails(
-        ConfigurationDetails const& configurationDetails)
-{
-    m_configurationDetails = configurationDetails;
-}
-
-void SimplificationOfExpression::Configuration::setConfigurationToDefault()
-{
-    setConfigurationDetails(SimplificationOfExpression::getDefaultConfigurationDetails());
-}
-
-SimplificationOfExpression::ScopeObject::ScopeObject()
-    : m_savedConfigurationDetails(Configuration::getInstance().getConfigurationDetails())
-{}
-
-SimplificationOfExpression::ScopeObject::~ScopeObject()
-{
-    setInThisScopeTheValuesBack();
-}
-
-void SimplificationOfExpression::ScopeObject::setInThisScopeThisConfiguration(
-        SimplificationOfExpression::ConfigurationDetails const& configurationDetails) const
-{
-    SimplificationOfExpression::Configuration::getInstance().setConfigurationDetails(configurationDetails);
-}
-
-void SimplificationOfExpression::ScopeObject::setInThisScopeTheValuesBack() const
-{
-    SimplificationOfExpression::Configuration::getInstance().setConfigurationDetails(m_savedConfigurationDetails);
-}
-
-SimplificationOfExpression::ConfigurationDetails SimplificationOfExpression::getDefaultConfigurationDetails()
-{
-    return SimplificationOfExpression::ConfigurationDetails{false, false, false, false, false, false, false};
-}
-
 SimplificationOfExpression::SimplificationOfExpression()
     : m_expression()
 {}
-
 SimplificationOfExpression::SimplificationOfExpression(
         Expression const& expression)
-    : m_expression(expression)
-{}
+    : m_expression(expression){}
 
 Expression SimplificationOfExpression::getExpression() const
 {
@@ -284,6 +236,14 @@ Term SimplificationOfExpression::getCombinedTermAndSimplifyByRationalizingNumera
 
 }
 
+}
+
+template <>
+algebra::Simplification::SimplificationOfExpression::ConfigurationDetails
+getDefaultConfigurationDetails<alba::algebra::Simplification::SimplificationOfExpression::ConfigurationDetails>()
+{
+    return algebra::Simplification::SimplificationOfExpression::ConfigurationDetails
+    {false, false, false, false, false, false, false};
 }
 
 }

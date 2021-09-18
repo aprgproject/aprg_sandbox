@@ -83,22 +83,19 @@ TEST(DifferentiationTest, DifferentiateTwoMultipliedTermsWorks)
     Term term1(Polynomial{Monomial(2, {{"x", 3}}), Monomial(-4, {{"x", 2}})});
     Term term2(Polynomial{Monomial(3, {{"x", 5}}), Monomial(1, {{"x", 2}})});
 
-    Term expectedTerm(Polynomial{Monomial(48, {{"x", 7}}), Monomial(-84, {{"x", 6}}), Monomial(10, {{"x", 4}}), Monomial(-16.00000000000177, {{"x", 3}})});
+    Term expectedTerm(Polynomial{Monomial(48, {{"x", 7}}), Monomial(-84, {{"x", 6}}), Monomial(10, {{"x", 4}}), Monomial(-16, {{"x", 3}})});
     EXPECT_EQ(expectedTerm, differentiationForX.differentiateTwoMultipliedTerms(term1, term2));
 }
-
 TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks)
 {
     Differentiation differentiationForX("x");
     Term numerator(Polynomial{Monomial(2, {{"x", 3}}), Monomial(4, {})});
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(1, {})});
 
-    Term expectedNumerator(Polynomial{Monomial(2, {{"x", 4}}), Monomial(-16, {{"x", 3}}), Monomial(6, {{"x", 2}}), Monomial(-7.999999999998558, {{"x", 1}}), Monomial(15.99999999999856, {})});
+    Term expectedNumerator(Polynomial{Monomial(2, {{"x", 4}}), Monomial(-16, {{"x", 3}}), Monomial(6, {{"x", 2}}), Monomial(-8, {{"x", 1}}), Monomial(16, {})});
     Term expectedDenominator(Polynomial{Monomial(1, {{"x", 4}}), Monomial(-8, {{"x", 3}}), Monomial(18, {{"x", 2}}), Monomial(-8, {{"x", 1}}), Monomial(1, {})});
     Term expectedTerm(createExpressionIfPossible({expectedNumerator, Term("/"), expectedDenominator}));
-    EXPECT_EQ(expectedTerm, differentiationForX.differentiateTwoDividedTerms(numerator, denominator));
-}
+    EXPECT_EQ(expectedTerm, differentiationForX.differentiateTwoDividedTerms(numerator, denominator));}
 
 }
-
 }
