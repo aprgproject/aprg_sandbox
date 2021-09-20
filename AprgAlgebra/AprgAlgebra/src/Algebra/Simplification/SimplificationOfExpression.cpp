@@ -152,15 +152,12 @@ void SimplificationOfExpression::simplifyBySubstitutingExpressionAndFunctionsToV
                     Configuration::getInstance().getConfigurationDetails());
         substitutionSimplificationConfigurationDetails.shouldSimplifyToACommonDenominator = true;
         substitutionSimplificationConfigurationDetails.shouldSimplifyBySubstitutingExpressionAndFunctionsToVariables = false;
-        substitutionSimplificationConfigurationDetails.shouldPerformDebug = true;
 
         SimplificationOfExpression::ScopeObject scopeObject;
         scopeObject.setInThisScopeThisConfiguration(substitutionSimplificationConfigurationDetails);
-
         bool continueToTryToSubstitute(true);
         while(continueToTryToSubstitute)
-        {
-            continueToTryToSubstitute = false;
+        {            continueToTryToSubstitute = false;
             Expression const& expression(m_expression);
             unsigned int oldNumberOfTerms = expression.getTermsWithAssociation().getTermsWithDetails().size();
             Terms expressionAndFunctionTerms(getSubExpressionsAndSubFunctions(expression));
