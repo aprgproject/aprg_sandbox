@@ -4,6 +4,7 @@
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace std;
 
@@ -33,12 +34,9 @@ void SimplificationOfFunction::simplify()
 
     if("abs" == m_function.getFunctionName())
     {
-        Term inputTermNegated(createExpressionIfPossible({inputTermReference, Term("*"), Term(-1)}));
-        inputTermNegated.simplify();
-
-        if(isNegatedTermSimpler(inputTermReference, inputTermNegated))
+        if(isNegativeTerm(inputTermReference))
         {
-            inputTermReference = inputTermNegated;
+            inputTermReference = negateTerm(inputTermReference);
         }
     }
 }

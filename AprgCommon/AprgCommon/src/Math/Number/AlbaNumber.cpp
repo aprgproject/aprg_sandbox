@@ -2,8 +2,10 @@
 
 #include <Math/AlbaMathHelper.hpp>
 #include <Math/Number/AlbaComplexNumber.hpp>
+
 #include <cmath>
 #include <sstream>
+
 using namespace alba::mathHelper;
 using namespace std;
 
@@ -22,9 +24,11 @@ void AlbaNumber::Configuration::setConfigurationTolerancesToZero()
     setConfigurationDetails(getConfigurationDetailsWithZeroTolerance());
 }
 
-void AlbaNumber::Configuration::setComparisonTolerance(double const comparisonTolerance){
+void AlbaNumber::Configuration::setComparisonTolerance(double const comparisonTolerance)
+{
     m_configurationDetails.comparisonTolerance = comparisonTolerance;
 }
+
 void AlbaNumber::Configuration::setFloatAdjustmentTolerance(double const comparisonTolerance)
 {
     m_configurationDetails.floatAdjustmentTolerance = comparisonTolerance;
@@ -65,10 +69,12 @@ AlbaNumber AlbaNumber::createComplexNumber(double const realPart, double const i
     return result;
 }
 
-AlbaNumber::AlbaNumber()    : m_type(Type::Integer)
+AlbaNumber::AlbaNumber()
+    : m_type(Type::Integer)
     , m_data{}
 {
-    m_data.intData = 0;}
+    m_data.intData = 0;
+}
 
 AlbaNumber::AlbaNumber(int const integerValue)
     : m_type(Type::Integer)
@@ -128,10 +134,12 @@ bool AlbaNumber::operator==(AlbaNumber const& second) const
                     Configuration::getInstance().getConfigurationDetails().comparisonTolerance);
     }
     else if(isComplexNumberType() && second.isComplexNumberType())
-    {        result = createComplexNumberFromData(m_data.complexNumberData)
+    {
+        result = createComplexNumberFromData(m_data.complexNumberData)
                 == createComplexNumberFromData(second.m_data.complexNumberData);
     }
-    return result;}
+    return result;
+}
 
 bool AlbaNumber::operator!=(AlbaNumber const& second) const
 {
@@ -1047,10 +1055,12 @@ void AlbaNumber::constructBasedFromComplexNumberDetails(NumberType1 const realPa
     if(isAlmostEqual(adjustedImaginaryPart, 0.0, Configuration::getInstance().getConfigurationDetails().comparisonTolerance)
             || POSITIVE_INFINITY_DOUBLE_VALUE == adjustedRealPart
             || NEGATIVE_INFINITY_DOUBLE_VALUE == adjustedRealPart
-            || isnan(adjustedRealPart))    {
+            || isnan(adjustedRealPart))
+    {
         *this = AlbaNumber(static_cast<double>(adjustedRealPart));
     }
-    else    {
+    else
+    {
         m_type = AlbaNumber::Type::ComplexNumber;
         ComplexNumberData& complexReference(m_data.complexNumberData);
         complexReference.realPart = static_cast<float>(adjustedRealPart);
@@ -1068,7 +1078,8 @@ void AlbaNumber::convertFromDoubleToIntegerIfNeeded()
             && isAlmostAnInteger(realValue, Configuration::getInstance().getConfigurationDetails().comparisonTolerance))
     {
         *this = AlbaNumber(getIntegerAfterRoundingDoubleValue<long long int>(realValue));
-    }}
+    }
+}
 
 double AlbaNumber::adjustFloatValue(float const value) const
 {
@@ -1076,10 +1087,12 @@ double AlbaNumber::adjustFloatValue(float const value) const
     if(isAlmostAnInteger(value, Configuration::getInstance().getConfigurationDetails().floatAdjustmentTolerance))
     {
         result=round(value);
-    }    return result;
+    }
+    return result;
 }
 
-AlbaNumber AlbaNumber::addBothIntegersAndReturnNumber(        bool & shouldBeConvertedToDouble,
+AlbaNumber AlbaNumber::addBothIntegersAndReturnNumber(
+        bool & shouldBeConvertedToDouble,
         long long int const integerValue1,
         long long int const integerValue2) const
 {
@@ -1294,7 +1307,9 @@ AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::Conf
 
 ostream & operator<<(ostream & out, AlbaNumber const& number)
 {
-    out << number.getDisplayableString();    return out;
+    out << number.getDisplayableString();
+    return out;
 }
+
 
 }

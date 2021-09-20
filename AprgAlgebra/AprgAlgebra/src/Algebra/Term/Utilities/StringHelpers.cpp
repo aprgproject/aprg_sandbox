@@ -138,9 +138,9 @@ string getString(TermWithDetails const& termWithDetails)
             +"}{"+getEnumShortString(termWithDetails.association)+"}";
 }
 
-string createVariableNameForSubstitution(Polynomial const& polynomial)
+string createVariableNameForSubstitution(Term const& term)
 {
-    string variableName = string("{") + polynomial.getDisplayableString() + "}";
+    string variableName = string("{") + term.getDisplayableString() + "}";
     return variableName;
 }
 

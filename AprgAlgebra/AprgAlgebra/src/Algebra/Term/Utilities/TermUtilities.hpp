@@ -21,6 +21,8 @@ AlbaNumberPairs evaluateAndGetInputOutputPair(
         std::string const& variableName,
         Term const& term);
 
+Term negateTerm(Term const& term);
+
 }
 
 }

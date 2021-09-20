@@ -1,10 +1,12 @@
 #include "DifferentiationUtilities.hpp"
 
 #include <Algebra/Limit/Limit.hpp>
-#include <Algebra/Simplification/SimplificationOfExpression.hpp>#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
+#include <Algebra/Simplification/SimplificationOfExpression.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+
 using namespace alba::algebra::Simplification;
 using namespace std;
 
@@ -71,10 +73,12 @@ void simplifyDerivativeByDefinition(Term & term)
                 getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     rationalizeConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
     rationalizeConfigurationDetails.shouldSimplifyByRationalizingNumerator = true;
-    SimplificationOfExpression::ScopeObject scopeObject;    scopeObject.setInThisScopeThisConfiguration(rationalizeConfigurationDetails);
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(rationalizeConfigurationDetails);
 
     term.simplify();
 }
+
 }
 
 }

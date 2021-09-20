@@ -6,6 +6,7 @@
 #include <Algebra/Retrieval/FirstCoefficientRetriever.hpp>
 #include <Algebra/Retrieval/NumberOfTermsRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 using namespace alba::algebra::Factorization;
 using namespace std;
@@ -91,6 +92,13 @@ AlbaNumberPairs evaluateAndGetInputOutputPair(
         }
     }
     return result;
+}
+
+Term negateTerm(Term const& term)
+{
+    Term negatedTerm(createExpressionIfPossible({term, Term("*"), Term(-1)}));
+    negatedTerm.simplify();
+    return negatedTerm;
 }
 
 }

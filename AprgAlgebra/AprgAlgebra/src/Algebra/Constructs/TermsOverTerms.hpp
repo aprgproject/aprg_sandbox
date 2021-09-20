@@ -4,8 +4,10 @@
 
 #include <string>
 #include <vector>
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -13,6 +15,7 @@ class TermsOverTerms
 {
 public:
     TermsOverTerms();
+    TermsOverTerms(TermsWithDetails const& termsInMultiplicationAndDivision);
     TermsOverTerms(Terms const& numerators, Terms const& denominators);
     TermsOverTerms(TermsWithDetails const& numerators, TermsWithDetails const& denominators);
 
@@ -51,12 +54,21 @@ private:
             Terms & numeratorTerms,
             Terms & denominatorTerms);
     void removeTermsThatHaveNoEffect(Terms & terms) const;
+    void putTermsOnNumeratorAndDenominatorCorrectly(
+            Terms & numerators,
+            Terms & denominators);
+    void putTermsToRetainAndOnTheOtherSide(
+            Terms const& termsToSegregate,
+            Terms & termsToRetain,
+            Terms & termsToPutOnTheOtherSide) const;
     void simplifyPolynomialNumeratorAndPolynomialDenominator(
             Polynomial & polynomialNumerator,
-            Polynomial & polynomialDenominator) const;    void simplifyMonomialsToPolynomialsOverPolynomials();
+            Polynomial & polynomialDenominator) const;
+    void simplifyMonomialsToPolynomialsOverPolynomials();
     void simplifyPolynomialsToPolynomialsOverPolynomials();
     Terms m_numerators;
-    Terms m_denominators;};
+    Terms m_denominators;
+};
 
 using VectorOfTermsOverTerms = std::vector<TermsOverTerms>;
 

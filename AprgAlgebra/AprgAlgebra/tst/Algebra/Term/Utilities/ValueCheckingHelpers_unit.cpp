@@ -229,6 +229,24 @@ TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorksForFunction)
     EXPECT_FALSE(isAFiniteConstant(Term(NAN)));
 }
 
+TEST(ValueCheckingHelpersTest, IsNegativeTermWorks)
+{
+    EXPECT_TRUE(isNegativeTerm(Term(-1)));
+    EXPECT_FALSE(isNegativeTerm(Term(1)));
+    EXPECT_FALSE(isNegativeTerm(Term("x")));
+    EXPECT_TRUE(isNegativeTerm(Term(Monomial(-1, {{"x", 1}}))));
+    EXPECT_FALSE(isNegativeTerm(Term(Monomial(1, {{"x", 1}}))));
+    EXPECT_TRUE(isNegativeTerm(Term(Polynomial{Monomial(-1, {{"x", 3}}), Monomial(4, {}), })));
+    EXPECT_FALSE(isNegativeTerm(Term(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-4, {}), })));
+    EXPECT_TRUE(isNegativeTerm(Term(createExpressionIfPossible({Term(-5), Term("+"), Term("x")}))));
+    EXPECT_FALSE(isNegativeTerm(Term(createExpressionIfPossible({Term(5), Term("+"), Term("x")}))));
+    EXPECT_TRUE(isNegativeTerm(Term(createExpressionIfPossible({Term(-5), Term("*"), Term("x")}))));
+    EXPECT_FALSE(isNegativeTerm(Term(createExpressionIfPossible({Term(-5), Term("*"), Term(-3)}))));
+    EXPECT_TRUE(isNegativeTerm(Term(createExpressionIfPossible({Term(-5), Term("^"), Term("x")}))));
+    EXPECT_FALSE(isNegativeTerm(Term(createExpressionIfPossible({Term(5), Term("^"), Term("x")}))));
+    EXPECT_FALSE(isNegativeTerm(Term(Functions::abs(Term(-5)))));
+}
+
 }
 
 }

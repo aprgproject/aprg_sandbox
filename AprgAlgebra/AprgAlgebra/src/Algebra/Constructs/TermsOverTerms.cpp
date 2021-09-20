@@ -4,9 +4,13 @@
 #include <Algebra/Factorization/FactorizationOfTerm.hpp>
 #include <Algebra/Operations/AccumulateOperations.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <Algebra/Term/Utilities/ConvertHelpers.hpp>#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+
 #include <algorithm>
 #include <sstream>
 
@@ -24,6 +28,16 @@ TermsOverTerms::TermsOverTerms()
     , m_denominators()
 {}
 
+TermsOverTerms::TermsOverTerms(
+        TermsWithDetails const& termsInMultiplicationAndDivision)
+{
+    TermsWithDetails numeratorsWithDetails;
+    TermsWithDetails denominatorsWithDetails;
+    segregateTermsWithPositiveAndNegativeAssociations(termsInMultiplicationAndDivision, numeratorsWithDetails, denominatorsWithDetails);
+    retrieveTermsOnly(m_numerators, numeratorsWithDetails);
+    retrieveTermsOnly(m_denominators, denominatorsWithDetails);
+}
+
 TermsOverTerms::TermsOverTerms(Terms const& numerators, Terms const& denominators)
     : m_numerators(numerators)
     , m_denominators(denominators)
@@ -33,16 +47,8 @@ TermsOverTerms::TermsOverTerms(
         TermsWithDetails const& numeratorsWithDetails,
         TermsWithDetails const& denominatorsWithDetails)
 {
-    for(TermWithDetails const& numeratorWithDetails : numeratorsWithDetails)
-    {
-        Term const& numerator(getTermConstReferenceFromSharedPointer(numeratorWithDetails.baseTermSharedPointer));
-        m_numerators.emplace_back(numerator);
-    }
-    for(TermWithDetails const& denominatorWithDetails : denominatorsWithDetails)
-    {
-        Term const& denominator(getTermConstReferenceFromSharedPointer(denominatorWithDetails.baseTermSharedPointer));
-        m_denominators.emplace_back(denominator);
-    }
+    retrieveTermsOnly(m_numerators, numeratorsWithDetails);
+    retrieveTermsOnly(m_denominators, denominatorsWithDetails);
 }
 
 Terms const& TermsOverTerms::getNumerators() const
@@ -134,6 +140,7 @@ string TermsOverTerms::getDisplayableString() const
 
 void TermsOverTerms::simplify()
 {
+    putTermsOnNumeratorAndDenominatorCorrectly(m_numerators, m_denominators);
     Terms factorizedNumerators(factorizeTerms(m_numerators));
     Terms factorizedDenominators(factorizeTerms(m_denominators));
     bool areSomeFactorsRemoved(removeTermsIfNeededAndReturnIfSomeTermsAreRemoved(factorizedNumerators, factorizedDenominators));
@@ -142,18 +149,17 @@ void TermsOverTerms::simplify()
         m_numerators = factorizedNumerators;
         m_denominators = factorizedDenominators;
     }
-
     simplifyPolynomialsToPolynomialsOverPolynomials();
 }
 
 void TermsOverTerms::simplifyToFactors()
 {
+    putTermsOnNumeratorAndDenominatorCorrectly(m_numerators, m_denominators);
     Terms factorizedNumerators(factorizeTerms(m_numerators));
     Terms factorizedDenominators(factorizeTerms(m_denominators));
     removeTermsIfNeededAndReturnIfSomeTermsAreRemoved(factorizedNumerators, factorizedDenominators);
     m_numerators = factorizedNumerators;
     m_denominators = factorizedDenominators;
-
     simplifyMonomialsToPolynomialsOverPolynomials();
 }
 
@@ -188,7 +194,8 @@ bool TermsOverTerms::removeTermsIfNeededAndReturnIfSomeTermsAreRemoved(
 void TermsOverTerms::clearTermsThenEmplacePolynomialAndRemainingTerms(
         Polynomial const& polynomialNumerator,
         Terms const& remainingNumerators,
-        Terms & termsToUpdate) const{
+        Terms & termsToUpdate) const
+{
     termsToUpdate.clear();
     emplacePolynomialIfNeeded(termsToUpdate, polynomialNumerator);
     termsToUpdate.reserve(remainingNumerators.size());
@@ -197,10 +204,12 @@ void TermsOverTerms::clearTermsThenEmplacePolynomialAndRemainingTerms(
 
 void TermsOverTerms::emplacePolynomialIfNeeded(Terms & termsResult, Polynomial const& polynomial) const
 {
-    if(isTheValue(polynomial, 0))    {
+    if(isTheValue(polynomial, 0))
+    {
         termsResult.emplace_back(Term(Constant(0)));
     }
-    else if(!isTheValue(polynomial, 1))    {
+    else if(!isTheValue(polynomial, 1))
+    {
         termsResult.emplace_back(simplifyAndConvertPolynomialToSimplestTerm(polynomial));
     }
 }
@@ -237,7 +246,8 @@ void TermsOverTerms::removeSameTermsInNumeratorAndDenominator(
             denominatorIt != denominatorTerms.end();
             denominatorIt++)
         {
-            Term const& term1(*numeratorIt);            Term const& term2(*denominatorIt);
+            Term const& term1(*numeratorIt);
+            Term const& term2(*denominatorIt);
             if(term1 == term2)
             {
                 if(isTheValue(term1, 0))
@@ -248,17 +258,74 @@ void TermsOverTerms::removeSameTermsInNumeratorAndDenominator(
                 denominatorTerms.erase(denominatorIt);
                 numeratorIt--;
                 denominatorIt--;
-            }        }
+            }
+        }
     }
     if(hasZerosOnNumeratorAndDenominator)
     {
         numeratorTerms.emplace_back(Term(AlbaNumber(AlbaNumber::Value::NotANumber)));
     }
 }
+
 void TermsOverTerms::removeTermsThatHaveNoEffect(Terms & terms) const
 {
-    terms.erase(remove_if(terms.begin(), terms.end(), [](Term const& term){                    return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term);
+    terms.erase(remove_if(terms.begin(), terms.end(), [](Term const& term){
+                    return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term);
                 }), terms.end());
+}
+
+void TermsOverTerms::putTermsOnNumeratorAndDenominatorCorrectly(
+        Terms & numerators,
+        Terms & denominators)
+{
+    Terms retainedNumerators, retainedDenominators, termsToPutInNumerators, termsToPutInDenominators;
+    putTermsToRetainAndOnTheOtherSide(numerators, retainedNumerators, termsToPutInDenominators);
+    putTermsToRetainAndOnTheOtherSide(denominators, retainedDenominators, termsToPutInNumerators);
+
+    numerators.clear();
+    denominators.clear();
+
+    numerators.reserve(retainedNumerators.size() + termsToPutInNumerators.size());
+    copy(retainedNumerators.cbegin(), retainedNumerators.cend(), back_inserter(numerators));
+    copy(termsToPutInNumerators.cbegin(), termsToPutInNumerators.cend(), back_inserter(numerators));
+
+    denominators.reserve(retainedDenominators.size() + termsToPutInDenominators.size());
+    copy(retainedDenominators.cbegin(), retainedDenominators.cend(), back_inserter(denominators));
+    copy(termsToPutInDenominators.cbegin(), termsToPutInDenominators.cend(), back_inserter(denominators));
+}
+
+void TermsOverTerms::putTermsToRetainAndOnTheOtherSide(
+        Terms const& termsToCheck,
+        Terms & termsToRetain,
+        Terms & termsToPutOnTheOtherSide) const
+{
+    for(Term const& termToCheck : termsToCheck)
+    {
+        bool isNeededToPutOnTheOtherSide(false);
+        Term transformedTermOnTheOtherSide(termToCheck);
+        if(termToCheck.isExpression())
+        {
+            Expression const& expression(termToCheck.getExpressionConstReference());
+            TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+            if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel()
+                    && termsWithDetails.size() == 2)
+            {
+                Term const& base(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
+                Term const& exponent(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
+                isNeededToPutOnTheOtherSide = isNegativeTerm(exponent);
+                transformedTermOnTheOtherSide = Term(createExpressionIfPossible({base, Term("^"), negateTerm(exponent)}));
+                transformedTermOnTheOtherSide.simplify();
+            }
+        }
+        if(isNeededToPutOnTheOtherSide)
+        {
+            termsToPutOnTheOtherSide.emplace_back(transformedTermOnTheOtherSide);
+        }
+        else
+        {
+            termsToRetain.emplace_back(termToCheck);
+        }
+    }
 }
 
 void TermsOverTerms::simplifyPolynomialNumeratorAndPolynomialDenominator(
@@ -270,6 +337,7 @@ void TermsOverTerms::simplifyPolynomialNumeratorAndPolynomialDenominator(
     polynomialNumerator = numeratorAndDenominator.getNumerator();
     polynomialDenominator = numeratorAndDenominator.getDenominator();
 }
+
 
 void TermsOverTerms::simplifyMonomialsToPolynomialsOverPolynomials()
 {
@@ -283,7 +351,8 @@ void TermsOverTerms::simplifyMonomialsToPolynomialsOverPolynomials()
     clearTermsThenEmplacePolynomialAndRemainingTerms(polynomialDenominator, nonMonomialDenominators, m_denominators);
 }
 
-void TermsOverTerms::simplifyPolynomialsToPolynomialsOverPolynomials(){
+void TermsOverTerms::simplifyPolynomialsToPolynomialsOverPolynomials()
+{
     Terms polynomialNumerators, nonPolynomialNumerators, polynomialDenominators, nonPolynomialDenominators;
     segregatePolynomialAndNonPolynomials(m_numerators, polynomialNumerators, nonPolynomialNumerators);
     segregatePolynomialAndNonPolynomials(m_denominators, polynomialDenominators, nonPolynomialDenominators);
@@ -295,4 +364,5 @@ void TermsOverTerms::simplifyPolynomialsToPolynomialsOverPolynomials(){
 }
 
 }
+
 }

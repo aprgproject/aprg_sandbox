@@ -2,6 +2,9 @@
 
 #include <Algebra/Retrieval/FunctionsRetriever.hpp>
 
+#include <algorithm>
+
+
 using namespace std;
 
 namespace alba
@@ -18,6 +21,16 @@ bool hasAnyFunctions(Term const& term)
     });
     functionsRetriever.retrieveFromTerm(term);
     return !functionsRetriever.getSavedData().empty();
+}
+
+void retrieveTermsOnly(Terms & terms, TermsWithDetails const& termsWithDetails)
+{
+    terms.reserve(terms.size() + termsWithDetails.size());
+    transform(termsWithDetails.cbegin(), termsWithDetails.cend(), back_inserter(terms), []
+              (TermWithDetails const& termWithDetails)
+    {
+        return getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer);
+    });
 }
 
 AlbaNumber getCoefficientOfMonomialWithNoVariables(

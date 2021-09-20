@@ -5,6 +5,7 @@
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace std;
 
@@ -32,12 +33,9 @@ void SimplificationOfEquation::simplify()
     Term leftHandSide(simplifyAndConvertExpressionToSimplestTerm(getNewCombinedExpression(m_equation)));
     string equationOperatorString(m_equation.getEquationOperator().getOperatorString());
 
-    Term leftHandSideNegated(createExpressionIfPossible({leftHandSide, Term("*"), Term(-1)}));
-    leftHandSideNegated.simplify();
-
-    if(isNegatedTermSimpler(leftHandSide, leftHandSideNegated))
+    if(isNegativeTerm(leftHandSide))
     {
-        leftHandSide = leftHandSideNegated;
+        leftHandSide = negateTerm(leftHandSide);
         equationOperatorString = getReverseEquationOperatorString(equationOperatorString);
     }
 
@@ -54,9 +52,11 @@ Expression SimplificationOfEquation::getNewCombinedExpression(
                 getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyToACommonDenominator = true;
 
-    SimplificationOfExpression::ScopeObject scopeObject;    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
     combinedExpression.simplify();
+
     return combinedExpression;
 }
 

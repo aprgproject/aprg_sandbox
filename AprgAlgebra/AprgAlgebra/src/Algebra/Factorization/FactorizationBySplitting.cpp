@@ -257,7 +257,7 @@ Polynomial getNewPolynomialWithNewVariables(
             }
             else
             {
-                string variableNameForSubstitution(createVariableNameForSubstitution(factor));
+                string variableNameForSubstitution(createVariableNameForSubstitution(Term(factor)));
                 variableSubstitution.putVariableWithTerm(variableNameForSubstitution, factor);
                 newSmallerPolynomialWithVariables.multiplyMonomial(createMonomialFromVariable(Variable(variableNameForSubstitution)));
             }

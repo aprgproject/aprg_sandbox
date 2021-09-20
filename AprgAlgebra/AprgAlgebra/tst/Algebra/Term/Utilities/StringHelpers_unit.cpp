@@ -81,9 +81,9 @@ TEST(StringHelpersTest, GetStringForTermsWithDetailsWorks)
 
 TEST(StringHelpersTest, CreateVariableNameForSubstitutionWorks)
 {
-    Polynomial polynomial{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+    Term term(Polynomial{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})});
 
-    EXPECT_EQ("{(6 + -7[x^2][y^3][z^4])}", createVariableNameForSubstitution(polynomial));
+    EXPECT_EQ("{(6 + -7[x^2][y^3][z^4])}", createVariableNameForSubstitution(term));
 }
 
 TEST(StringHelpersTest, ConstructTermFromStringWorks)

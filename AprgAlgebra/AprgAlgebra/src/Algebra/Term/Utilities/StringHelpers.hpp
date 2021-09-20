@@ -25,7 +25,7 @@ std::string getString(
         TermsWithDetails const& termsWithDetails);
 std::string getString(
         TermWithDetails const& termWithDetails);
-std::string createVariableNameForSubstitution(Polynomial const& polynomial);
+std::string createVariableNameForSubstitution(Term const& term);
 
 Term constructTermFromString(std::string const& valueString);
 Term buildTermIfPossible(std::string const& termString);

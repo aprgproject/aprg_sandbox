@@ -26,6 +26,7 @@ bool hasNotANumber(Polynomial const& polynomial);
 bool hasNotANumber(Expression const& expression);
 bool hasNotANumber(Function const& function);
 bool isAFiniteConstant(Term const& term);
+bool isNegativeTerm(Term const& term);
 
 }
 

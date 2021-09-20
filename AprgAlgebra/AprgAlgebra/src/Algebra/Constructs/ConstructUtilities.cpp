@@ -81,10 +81,7 @@ TermsOverTerms createTermsOverTermsFromTerm(Term const& term)
         Expression const& expression(simplifiedTerm.getExpressionConstReference());
         if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
         {
-            TermsWithDetails numerators;
-            TermsWithDetails denominators;
-            segregateTermsWithPositiveAndNegativeAssociations(expression.getTermsWithAssociation().getTermsWithDetails(), numerators, denominators);
-            result = TermsOverTerms(numerators, denominators);
+            result = TermsOverTerms(expression.getTermsWithAssociation().getTermsWithDetails());
             isResultUpdatedWithContent=true;
         }
     }

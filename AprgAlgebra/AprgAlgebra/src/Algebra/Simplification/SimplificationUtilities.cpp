@@ -1,6 +1,7 @@
 #include "SimplificationUtilities.hpp"
 
 #include <Algebra/Constructs/AdditionAndSubtractionOfTermsOverTerms.hpp>
+#include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
@@ -38,27 +39,12 @@ bool tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression & addSubtractEx
     for(TermWithDetails const& addSubtractTermWithDetails : addSubtractExpression.getTermsWithAssociation().getTermsWithDetails())
     {
         Term const& addSubtractTerm(getTermConstReferenceFromSharedPointer(addSubtractTermWithDetails.baseTermSharedPointer));
-        bool isTermAddedOrSubtracted(false);
-        if(addSubtractTerm.isExpression())
+        TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(addSubtractTerm));
+        if(!termsOverTerms.getDenominators().empty())
         {
-            Expression const& expression(addSubtractTerm.getExpressionConstReference());
-            if(expression.getCommonOperatorLevel() == OperatorLevel::MultiplicationAndDivision)
-            {
-                TermsWithDetails numerators;
-                TermsWithDetails denominators;
-                segregateTermsWithPositiveAndNegativeAssociations(expression.getTermsWithAssociation().getTermsWithDetails(), numerators, denominators);
-                if(!denominators.empty())
-                {
-                    isAddSubtractExpressionUpdateNeeded=true;
-                }
-                addSubtractTermsOverTerms.putAsAddOrSubtraction(TermsOverTerms(numerators, denominators), addSubtractTermWithDetails.association);
-                isTermAddedOrSubtracted=true;
-            }
+            isAddSubtractExpressionUpdateNeeded=true;
         }
-        if(!isTermAddedOrSubtracted)
-        {
-            addSubtractTermsOverTerms.putAsAddOrSubtraction(TermsOverTerms({addSubtractTerm}, {}), addSubtractTermWithDetails.association);
-        }
+        addSubtractTermsOverTerms.putAsAddOrSubtraction(termsOverTerms, addSubtractTermWithDetails.association);
     }
     if(isAddSubtractExpressionUpdateNeeded)
     {
@@ -107,10 +93,12 @@ void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
                         newTermsWithDetails, mainOperatorLevel, subExpression, subExpressionAssociation);
         }
         else if(isNonEmptyOrNonOperatorType(term))
-        {            Term newTerm(term);
+        {
+            Term newTerm(term);
             newTerm.simplify();
             newTermsWithDetails.emplace_back(newTerm, oldTermWithDetails.association);
-        }    }
+        }
+    }
 }
 
 void simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(
