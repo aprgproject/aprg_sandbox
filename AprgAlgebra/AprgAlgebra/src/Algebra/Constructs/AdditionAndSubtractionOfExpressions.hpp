@@ -14,11 +14,14 @@ class AdditionAndSubtractionOfExpressions
 {
 public:
     AdditionAndSubtractionOfExpressions();
+    AdditionAndSubtractionOfExpressions(TermsWithDetails const& termsWithDetails);
 
     Expressions const& getExpressions() const;
     TermAssociationTypes const& getAssociations() const;
     unsigned int getSize() const;
     TermsWithDetails getAsTermsWithDetails() const;
+
+    Term getCombinedTerm();
 
     void putAsAddition(Expression const& expression);
     void putAsSubtraction(Expression const& expression);

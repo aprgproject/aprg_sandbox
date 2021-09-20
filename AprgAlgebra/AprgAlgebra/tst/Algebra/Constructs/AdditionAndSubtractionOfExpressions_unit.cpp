@@ -1,9 +1,11 @@
 #include <Algebra/Constructs/AdditionAndSubtractionOfExpressions.hpp>
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::algebra::Functions;
 using namespace std;
 
 namespace alba
@@ -12,12 +14,31 @@ namespace alba
 namespace algebra
 {
 
-TEST(AdditionAndSubtractionOfExpressionsTest, ConstructionWorks)
+TEST(AdditionAndSubtractionOfExpressionsTest, DefaultConstructionWorks)
 {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
 
     EXPECT_TRUE(additionAndSubtraction.getExpressions().empty());
     EXPECT_TRUE(additionAndSubtraction.getAssociations().empty());
+}
+
+TEST(AdditionAndSubtractionOfExpressionsTest, TermsWithDetailsConstructionWorks)
+{
+    Expression expression1(createExpressionIfPossible({Term("x")}));
+    Expression expression2(createExpressionIfPossible({Term("y")}));
+    TermWithDetails termWithDetails1(Term(expression1), TermAssociationType::Negative);
+    TermWithDetails termWithDetails2(Term(expression2), TermAssociationType::Positive);
+    TermsWithDetails termsWithDetails{termWithDetails1, termWithDetails2};
+    AdditionAndSubtractionOfExpressions additionAndSubtraction(termsWithDetails);
+
+    Expressions const& expressions(additionAndSubtraction.getExpressions());
+    ASSERT_EQ(2U, expressions.size());
+    EXPECT_EQ(expression1, expressions.at(0));
+    EXPECT_EQ(expression2, expressions.at(1));
+    TermAssociationTypes const& associations(additionAndSubtraction.getAssociations());
+    ASSERT_EQ(2U, associations.size());
+    EXPECT_EQ(TermAssociationType::Negative, associations.at(0));
+    EXPECT_EQ(TermAssociationType::Positive, associations.at(1));
 }
 
 TEST(AdditionAndSubtractionOfExpressionsTest, GetExpressionsWorks)
@@ -270,6 +291,29 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksAnd
     TermAssociationTypes const& associations(additionAndSubtraction.getAssociations());
     ASSERT_EQ(1U, associations.size());
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
+}
+
+TEST(AdditionAndSubtractionOfExpressionsTest, CreateExpressionIfPossibleWorksWithNegativeTermWithTrigonometricFunctions)
+{
+    Term x("x");
+    Expression positiveCosX(createExpressionIfPossible({cos(x)}));
+    Expression negativeSinX(createExpressionIfPossible({Term(-1), Term("*"), sin(x)}));
+    AdditionAndSubtractionOfExpressions additionAndSubtraction;
+    additionAndSubtraction.putAsAddition(positiveCosX);
+    additionAndSubtraction.putAsAddition(negativeSinX);
+
+    additionAndSubtraction.combineExpressionsIfPossible();
+
+    Expression cosX(createExpressionIfPossible({cos(x)}));
+    Expression sinX(createExpressionIfPossible({sin(x)}));
+    Expressions const& expressions(additionAndSubtraction.getExpressions());
+    ASSERT_EQ(2U, expressions.size());
+    EXPECT_EQ(cosX, expressions.at(0));
+    EXPECT_EQ(sinX, expressions.at(1));
+    TermAssociationTypes const& associations(additionAndSubtraction.getAssociations());
+    ASSERT_EQ(2U, associations.size());
+    EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
+    EXPECT_EQ(TermAssociationType::Negative, associations.at(1));
 }
 
 }

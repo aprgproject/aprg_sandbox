@@ -5,7 +5,6 @@
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
-#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace std;
 
@@ -33,7 +32,7 @@ void SimplificationOfEquation::simplify()
     Term leftHandSide(simplifyAndConvertExpressionToSimplestTerm(getNewCombinedExpression(m_equation)));
     string equationOperatorString(m_equation.getEquationOperator().getOperatorString());
 
-    if(isNegativeTerm(leftHandSide))
+    if(isANegativeTerm(leftHandSide))
     {
         leftHandSide = negateTerm(leftHandSide);
         equationOperatorString = getReverseEquationOperatorString(equationOperatorString);

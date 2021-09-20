@@ -1,6 +1,7 @@
 #include "TermsWithAssociation.hpp"
 
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Utilities/EnumHelpers.hpp>
 
 #include <algorithm>
 
@@ -140,14 +141,7 @@ void TermsWithAssociation::reverseTheAssociationOfTheTerms()
 {
     for(TermWithDetails & termWithDetails : m_termsWithDetails)
     {
-        if(termWithDetails.hasPositiveAssociation())
-        {
-            termWithDetails.association = TermAssociationType::Negative;
-        }
-        else if(termWithDetails.hasNegativeAssociation())
-        {
-            termWithDetails.association = TermAssociationType::Positive;
-        }
+        termWithDetails.association = getReversedAssociationType(termWithDetails.association);
     }
 }
 

@@ -312,7 +312,7 @@ void TermsOverTerms::putTermsToRetainAndOnTheOtherSide(
             {
                 Term const& base(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
                 Term const& exponent(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
-                isNeededToPutOnTheOtherSide = isNegativeTerm(exponent);
+                isNeededToPutOnTheOtherSide = isANegativeTerm(exponent);
                 transformedTermOnTheOtherSide = Term(createExpressionIfPossible({base, Term("^"), negateTerm(exponent)}));
                 transformedTermOnTheOtherSide.simplify();
             }

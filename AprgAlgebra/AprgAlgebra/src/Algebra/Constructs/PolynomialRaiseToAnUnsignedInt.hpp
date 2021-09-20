@@ -23,6 +23,7 @@ public:
     unsigned int getExponent() const;
 
 private:
+    bool canBeSimplified(unsigned int const gcfOfExponents, Monomial const& commonMonomialInBase);
     void factorizeAndUpdateCommonMonomialAndFactorsToExponent(
             Polynomial const& polynomial,
             PolynomialToNumberMap & factorsToExponent,

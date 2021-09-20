@@ -3,9 +3,11 @@
 #include <Algebra/Operations/AccumulateOperations.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Utilities/EnumHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 #include <algorithm>
 
@@ -19,6 +21,12 @@ namespace algebra
 
 AdditionAndSubtractionOfExpressions::AdditionAndSubtractionOfExpressions()
 {}
+
+AdditionAndSubtractionOfExpressions::AdditionAndSubtractionOfExpressions(
+        TermsWithDetails const& termsWithDetails)
+{
+    putTermsWithDetails(termsWithDetails);
+}
 
 Expressions const& AdditionAndSubtractionOfExpressions::getExpressions() const
 {
@@ -44,6 +52,14 @@ TermsWithDetails AdditionAndSubtractionOfExpressions::getAsTermsWithDetails() co
         result.emplace_back(convertExpressionToSimplestTerm(m_expressions.at(index)), m_associations.at(index));
     }
     return result;
+}
+
+Term AdditionAndSubtractionOfExpressions::getCombinedTerm()
+{
+    Term combinedTerm;
+    combineExpressionsIfPossible();
+    accumulateTermsForAdditionAndSubtraction(combinedTerm, getAsTermsWithDetails());
+    return combinedTerm;
 }
 
 void AdditionAndSubtractionOfExpressions::putAsAddition(Expression const& expression)
@@ -190,8 +206,16 @@ bool AdditionAndSubtractionOfExpressions::canBeMergedForAdditionAndSubtraction(
 
 void AdditionAndSubtractionOfExpressions::putItem(Expression const& expression, TermAssociationType const association)
 {
-    m_expressions.emplace_back(expression);
-    m_associations.emplace_back(association);
+    if(isANegativeExpression(expression))
+    {
+        m_expressions.emplace_back(negateExpression(expression));
+        m_associations.emplace_back(getReversedAssociationType(association));
+    }
+    else
+    {
+        m_expressions.emplace_back(expression);
+        m_associations.emplace_back(association);
+    }
 }
 
 }

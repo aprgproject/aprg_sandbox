@@ -1,5 +1,6 @@
 #include "Differentiation.hpp"
 
+#include <Algebra/Differentiation/DifferentiationUtilities.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
@@ -7,12 +8,21 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 namespace algebra
 {
+
 Differentiation::Differentiation(
-        string const& variableName)
-    : m_variableName(variableName)
+        string const& nameOfVariableToDifferentiate)
+    : m_nameOfVariableToDifferentiate(nameOfVariableToDifferentiate)
+{}
+
+Differentiation::Differentiation(
+        std::string const& nameOfVariableToDifferentiate,
+        VariableNamesSet const& namesOfDependentVariables)
+    : m_nameOfVariableToDifferentiate(nameOfVariableToDifferentiate)
+    , m_namesOfDependentVariables(namesOfDependentVariables)
 {}
 
 Term Differentiation::differentiate(Term const& term) const
@@ -45,22 +55,15 @@ Term Differentiation::differentiate(Term const& term) const
     return result;
 }
 
-Term Differentiation::differentiate(Constant const& ) const
+Term Differentiation::differentiate(Constant const& constant) const
 {
-    return Term(Constant(0));
+    return Term(differentiateConstant(constant));
 }
 
 Term Differentiation::differentiate(Variable const& variable) const
 {
-    Term result;
-    if(variable.getVariableName() == m_variableName)
-    {
-        result = Term(1);
-    }
-    else
-    {
-        result = Term(variable);
-    }
+    Term result(differentiateVariable(variable));
+    result.simplify();
     return result;
 }
 
@@ -80,9 +83,7 @@ Term Differentiation::differentiate(Polynomial const& polynomial) const
 
 Term Differentiation::differentiate(Expression const& expression) const
 {
-    Term result(differentiateExpression(expression));
-    result.simplify();
-    return result;
+    return differentiateExpression(expression);
 }
 
 Term Differentiation::differentiate(Function const& functionObject) const
@@ -90,16 +91,42 @@ Term Differentiation::differentiate(Function const& functionObject) const
     return differentiateFunction(functionObject);
 }
 
-Monomial Differentiation::differentiateMonomial(Monomial const& monomial) const{
+AlbaNumber Differentiation::differentiateConstant(Constant const&) const
+{
+    return 0;
+}
+
+Monomial Differentiation::differentiateVariable(Variable const& variable) const
+{
     Monomial result;
-    AlbaNumber exponentOfMonomial(monomial.getExponentForVariable(m_variableName));
-    if(exponentOfMonomial == 0)    {
+    string const& nameOfVariable(variable.getVariableName());
+    if(nameOfVariable == m_nameOfVariableToDifferentiate)
+    {
+        result = Monomial(1, {});
+    }
+    else if(isDependentVariable(nameOfVariable))
+    {
+        result = Monomial(1, {{getNameOfDifferentialOfDependentVariable(nameOfVariable), 1}});
+    }
+    else
+    {
+        result = Monomial(0, {});
+    }
+    return result;
+}
+
+Monomial Differentiation::differentiateMonomial(Monomial const& monomial) const
+{
+    Monomial result;
+    AlbaNumber exponentOfMonomial(monomial.getExponentForVariable(m_nameOfVariableToDifferentiate));
+    if(exponentOfMonomial == 0)
+    {
         result = Monomial(0, {});
     }
     else
     {
         Monomial newMonomial(monomial);
-        newMonomial.putVariableWithExponent(m_variableName, exponentOfMonomial-1);
+        newMonomial.putVariableWithExponent(m_nameOfVariableToDifferentiate, exponentOfMonomial-1);
         newMonomial.multiplyNumber(exponentOfMonomial);
         result = newMonomial;
     }
@@ -121,16 +148,7 @@ Polynomial Differentiation::differentiatePolynomial(Polynomial const& polynomial
 Term Differentiation::differentiateExpression(
         Expression const& expression) const
 {
-    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
-    if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
-    {
-        result = differentiateTermsInAdditionOrSubtraction(expression.getTermsWithAssociation().getTermsWithDetails());
-    }
-    else if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
-    {
-        result = differentiateTermsInMultiplicationOrDivision(expression.getTermsWithAssociation().getTermsWithDetails());
-    }
-    return result;
+    return differentiateAsTermOrExpressionIfNeeded(expression);
 }
 
 Term Differentiation::differentiateFunction(
@@ -146,10 +164,12 @@ Term Differentiation::differentiateFunction(
 
 Term Differentiation::differentiateTwoMultipliedTerms(
         Term const& term1,
-        Term const& term2) const{
+        Term const& term2) const
+{
     Term term1Derivative(differentiate(term1));
     Term term2Derivative(differentiate(term2));
-    Expression firstPart(createExpressionIfPossible({term1, Term("*"), term2Derivative}));    Expression secondPart(createExpressionIfPossible({term2, Term("*"), term1Derivative}));
+    Expression firstPart(createExpressionIfPossible({term1, Term("*"), term2Derivative}));
+    Expression secondPart(createExpressionIfPossible({term2, Term("*"), term1Derivative}));
     Term result(createExpressionIfPossible({firstPart, Term("+"), secondPart}));
     result.simplify();
     return result;
@@ -170,6 +190,59 @@ Term Differentiation::differentiateTwoDividedTerms(
     return result;
 }
 
+bool Differentiation::isDependentVariable(
+        std::string const& variableName) const
+{
+    return m_namesOfDependentVariables.find(variableName) != m_namesOfDependentVariables.cend();
+}
+
+std::string Differentiation::getNameOfDifferentialOfDependentVariable(
+        std::string const& variableName) const
+{
+    string d("d");
+    string result(d+variableName);
+    result += "/";
+    result += d+m_nameOfVariableToDifferentiate;
+    return result;
+}
+
+Term Differentiation::differentiateAsTermOrExpressionIfNeeded(
+        Expression const& expression) const
+{
+    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
+    Term simplifiedTerm(expression);
+    simplifiedTerm.simplify();
+    if(simplifiedTerm.isExpression())
+    {
+        result = differentiateSimplifiedExpressionOnly(simplifiedTerm.getExpressionConstReference());
+    }
+    else
+    {
+        result = differentiate(simplifiedTerm);
+    }
+    return result;
+}
+
+Term Differentiation::differentiateSimplifiedExpressionOnly(
+        Expression const& expression) const
+{
+    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
+    if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
+    {
+        result = differentiateTermsInAdditionOrSubtraction(expression.getTermsWithAssociation().getTermsWithDetails());
+    }
+    else if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
+    {
+        result = differentiateTermsInMultiplicationOrDivision(expression.getTermsWithAssociation().getTermsWithDetails());
+    }
+    else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
+    {
+        result = differentiateTermsInRaiseToPower(expression.getTermsWithAssociation().getTermsWithDetails());
+    }
+    result.simplify();
+    return result;
+}
+
 Term Differentiation::differentiateTermsInAdditionOrSubtraction(
         TermsWithDetails const& termsWithDetails) const
 {
@@ -177,18 +250,17 @@ Term Differentiation::differentiateTermsInAdditionOrSubtraction(
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
         Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Term differentiatedTerm(differentiate(currentTerm));
         if(termWithDetails.hasPositiveAssociation())
         {
-            accumulatedExpression.putTermWithAdditionIfNeeded(currentTerm);
+            accumulatedExpression.putTermWithAdditionIfNeeded(differentiatedTerm);
         }
         else
         {
-            accumulatedExpression.putTermWithSubtractionIfNeeded(currentTerm);
+            accumulatedExpression.putTermWithSubtractionIfNeeded(differentiatedTerm);
         }
     }
-    Term accumulatedTerm(accumulatedExpression);
-    accumulatedTerm.simplify();
-    return accumulatedTerm;
+    return Term(accumulatedExpression);
 }
 
 Term Differentiation::differentiateTermsInMultiplicationOrDivision(
@@ -216,8 +288,54 @@ Term Differentiation::differentiateTermsInMultiplicationOrDivision(
             }
         }
     }
-    accumulatedTerm.simplify();
     return accumulatedTerm;
+}
+
+Term Differentiation::differentiateTermsInRaiseToPower(
+        TermsWithDetails const& termsWithDetails) const
+{
+    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
+    if(termsWithDetails.size() == 2)
+    {
+        Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
+        Term const& secondTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
+        if(firstTerm.isConstant())
+        {
+            result = differentiateConstantRaiseToTerm(firstTerm.getConstantValueConstReference(), secondTerm);
+        }
+        else if(secondTerm.isConstant())
+        {
+            result = differentiateTermRaiseToConstant(firstTerm, secondTerm.getConstantValueConstReference());
+        }
+        else
+        {
+            result = differentiateTermRaiseToTerm(firstTerm, secondTerm);
+        }
+    }
+    return result;
+}
+
+Term Differentiation::differentiateConstantRaiseToTerm(
+        AlbaNumber const& number,
+        Term const& term) const
+{
+    Term derivativeCauseOfChainRule(differentiate(term));
+    return Term(createExpressionIfPossible({Term(number), Term("^"), term, Term("*"), Term(ln(Term(number))), Term("*"), derivativeCauseOfChainRule}));
+}
+
+Term Differentiation::differentiateTermRaiseToConstant(
+        Term const& term,
+        AlbaNumber const& number) const
+{
+    Term derivativeCauseOfChainRule(differentiate(term));
+    return Term(createExpressionIfPossible({Term(number), Term("*"), term, Term("^"), Term(number-1), Term("*"), derivativeCauseOfChainRule}));
+}
+
+Term Differentiation::differentiateTermRaiseToTerm(
+        Term const& ,
+        Term const& ) const
+{
+    return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
 }
 
 Term Differentiation::differentiateFunctionOnly(

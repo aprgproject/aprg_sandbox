@@ -49,6 +49,22 @@ Function sgn(Term const& term)
     });
 }
 
+Function ln(Term const& term)
+{
+    return Function("ln", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return ::log(number.getDouble());
+    });
+}
+
+Function log(Term const& term)
+{
+    return Function("log", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return ::log10(number.getDouble());
+    });
+}
+
 Function sin(Term const& term)
 {
     return Function("sin", term, [](AlbaNumber const&  number) -> AlbaNumber

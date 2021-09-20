@@ -44,10 +44,79 @@ bool isNonEmptyOrNonOperatorOrNonExpressionType(Term const& term)
             && TermType::Expression != termType;
 }
 
-bool isRadicalTerm(Term const& term)
+bool isARadicalTerm(Term const& term)
 {
     TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(term));
     return termRaiseToANumber.isRadical();
+}
+
+bool isANegativeTerm(Term const& term)
+{
+    bool result(false);
+    if(term.isConstant())
+    {
+        result = isANegativeConstant(term.getConstantConstReference());
+    }
+    else if(term.isMonomial())
+    {
+        result = isANegativeMonomial(term.getMonomialConstReference());
+    }
+    else if(term.isPolynomial())
+    {
+        result = isANegativePolynomial(term.getPolynomialConstReference());
+    }
+    else if(term.isExpression())
+    {
+        result = isANegativeExpression(term.getExpressionConstReference());
+    }
+    return result;
+}
+
+bool isANegativeConstant(Constant const& constant)
+{
+    return constant.getNumberConstReference() < 0;
+}
+
+bool isANegativeMonomial(Monomial const& monomial)
+{
+    return monomial.getConstantConstReference() < 0;
+}
+
+bool isANegativePolynomial(Polynomial const& polynomial)
+{
+    bool result(false);
+    Monomials const& monomials(polynomial.getMonomialsConstReference());
+    if(!monomials.empty())
+    {
+        result = monomials.front().getConstantConstReference() < 0;
+    }
+    return result;
+}
+
+bool isANegativeExpression(Expression const& expression)
+{
+    bool result(false);
+    TermsWithDetails termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+    if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel()
+       || OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
+    {
+        if(!termsWithDetails.empty())
+        {
+            Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.front().baseTermSharedPointer));
+            result = isANegativeTerm(firstTerm);
+        }
+    }
+    else if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
+    {
+        bool isNegative(false);
+        for(TermWithDetails const& termWithDetails : termsWithDetails)
+        {
+            Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+            isNegative = isNegative ^ isANegativeTerm(term);
+        }
+        result = isNegative;
+    }
+    return result;
 }
 
 AlbaNumber getConstantFactor(Term const& term)
@@ -99,6 +168,14 @@ Term negateTerm(Term const& term)
     Term negatedTerm(createExpressionIfPossible({term, Term("*"), Term(-1)}));
     negatedTerm.simplify();
     return negatedTerm;
+}
+
+Expression negateExpression(Expression const& expression)
+{
+    Expression negatedExpression(expression);
+    negatedExpression.putTermWithMultiplicationIfNeeded(Term(-1));
+    negatedExpression.simplify();
+    return negatedExpression;
 }
 
 }

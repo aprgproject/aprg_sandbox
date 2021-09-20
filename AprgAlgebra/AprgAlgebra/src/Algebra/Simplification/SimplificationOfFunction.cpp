@@ -4,7 +4,6 @@
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
-#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace std;
 
@@ -34,7 +33,7 @@ void SimplificationOfFunction::simplify()
 
     if("abs" == m_function.getFunctionName())
     {
-        if(isNegativeTerm(inputTermReference))
+        if(isANegativeTerm(inputTermReference))
         {
             inputTermReference = negateTerm(inputTermReference);
         }

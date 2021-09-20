@@ -222,53 +222,6 @@ bool isAFiniteConstant(Term const& term)
     return result;
 }
 
-bool isNegativeTerm(Term const& term)
-{
-    bool result(false);
-    if(term.isConstant())
-    {
-        result = term.getConstantValueConstReference() < 0;
-    }
-    else if(term.isMonomial())
-    {
-        result = term.getMonomialConstReference().getConstantConstReference() < 0;
-    }
-    else if(term.isPolynomial())
-    {
-        Polynomial const& polynomial(term.getPolynomialConstReference());
-        Monomials const& monomials(polynomial.getMonomialsConstReference());
-        if(!monomials.empty())
-        {
-            result = monomials.front().getConstantConstReference() < 0;
-        }
-    }
-    else if(term.isExpression())
-    {
-        Expression const& expression(term.getExpressionConstReference());
-        TermsWithDetails termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
-        if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel()
-           || OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
-        {
-            if(!termsWithDetails.empty())
-            {
-                Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.front().baseTermSharedPointer));
-                result = isNegativeTerm(firstTerm);
-            }
-        }
-        else if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
-        {
-            bool isNegative(false);
-            for(TermWithDetails const& termWithDetails : termsWithDetails)
-            {
-                Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-                isNegative = isNegative ^ isNegativeTerm(term);
-            }
-            result = isNegative;
-        }
-    }
-    return result;
-}
-
 }
 
 }

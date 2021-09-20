@@ -1,6 +1,7 @@
 #include "PolynomialRaiseToAnUnsignedInt.hpp"
 
 #include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 using namespace alba::algebra::Factorization;
@@ -22,7 +23,7 @@ PolynomialRaiseToAnUnsignedInt::PolynomialRaiseToAnUnsignedInt(
     Monomial commonMonomialInBase(1, {});
     factorizeAndUpdateCommonMonomialAndFactorsToExponent(polynomial, factorsToExponent, commonMonomialInBase);
     unsigned int gcfOfExponents(getGcfOfExponents(factorsToExponent));
-    if(gcfOfExponents!=1)
+    if(canBeSimplified(gcfOfExponents, commonMonomialInBase))
     {
         m_base = getRemainingBase(factorsToExponent, commonMonomialInBase, gcfOfExponents);
         m_exponent = gcfOfExponents;
@@ -42,6 +43,15 @@ Polynomial const& PolynomialRaiseToAnUnsignedInt::getBase() const
 unsigned int PolynomialRaiseToAnUnsignedInt::getExponent() const
 {
     return m_exponent;
+}
+
+bool PolynomialRaiseToAnUnsignedInt::canBeSimplified(
+        unsigned int const gcfOfExponents,
+        Monomial const& commonMonomialInBase)
+{
+    return gcfOfExponents != 1
+            && (!isEven(gcfOfExponents)
+                || (isEven(gcfOfExponents) && !isANegativeMonomial(commonMonomialInBase)));
 }
 
 void PolynomialRaiseToAnUnsignedInt::factorizeAndUpdateCommonMonomialAndFactorsToExponent(

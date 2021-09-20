@@ -340,8 +340,8 @@ TEST(SimplificationOfExpressionTest, SimplifyWorksOnAddingAndSubtractingRaiseToP
     Expression expressionToVerify(simplification.getExpression());
     Expression subExpression1(createExpressionIfPossible({Term("y"), Term("^"), Term("y")}));
     Expression subExpression2(createExpressionIfPossible({Term(2), Term("*"), Term(subExpression1)}));
-    Expression subExpression3(createExpressionIfPossible({Term(Monomial(-5, {{"x", 1}})), Term("*"), Term(subExpression1)}));
-    Expression expressionToExpect(createExpressionIfPossible({Term(subExpression2), Term("+"), Term(subExpression3)}));
+    Expression subExpression3(createExpressionIfPossible({Term(Monomial(5, {{"x", 1}})), Term("*"), Term(subExpression1)}));
+    Expression expressionToExpect(createExpressionIfPossible({Term(subExpression2), Term("-"), Term(subExpression3)}));
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 

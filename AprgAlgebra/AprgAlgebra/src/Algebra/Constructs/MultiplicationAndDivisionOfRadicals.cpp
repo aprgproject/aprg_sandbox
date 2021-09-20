@@ -53,12 +53,38 @@ void MultiplicationAndDivisionOfRadicals::simplify()
     gatherDetails(radicalDetails, combinedMonomial, remainingTerms);
     AlbaNumber gcfOfExponents(getGcfOfExponents(radicalDetails));
 
-    if(gcfOfExponents != 1 && !radicalDetails.empty())
+    if(shouldBeCombined(radicalDetails, combinedMonomial, gcfOfExponents))
     {
         m_termsWithDetails.clear();
         combineMonomialAndRadicalsAndSave(radicalDetails, combinedMonomial, gcfOfExponents);
         saveRemainingTerms(remainingTerms);
     }
+}
+
+bool MultiplicationAndDivisionOfRadicals::shouldBeCombined(
+        RadicalDetails const& radicalDetails,
+        Monomial const& combinedMonomial,
+        AlbaNumber const& gcfOfExponents)
+{
+    return gcfOfExponents != 1
+            && !radicalDetails.empty()
+            && shouldBeCombinedDueToEvenExponent(combinedMonomial, gcfOfExponents);
+}
+
+bool MultiplicationAndDivisionOfRadicals::shouldBeCombinedDueToEvenExponent(
+        Monomial const& combinedMonomial,
+        AlbaNumber const& gcfOfExponents)
+{
+    bool result(true);
+    if(gcfOfExponents.isIntegerOrFractionType())
+    {
+        AlbaNumber::FractionData fractionData(gcfOfExponents.getFractionData());
+        if(isEven(static_cast<unsigned int>(getAbsoluteValue<int>(fractionData.denominator))))
+        {
+            result = !isANegativeMonomial(combinedMonomial);
+        }
+    }
+    return result;
 }
 
 void MultiplicationAndDivisionOfRadicals::gatherDetails(

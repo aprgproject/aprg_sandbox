@@ -21,7 +21,22 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningConstantAndRadicalPolynom
     radicalConstruct.simplify();
 
     Term subTerm(Polynomial{Monomial(4, {{"x", 1}}), Monomial(4, {})});
-    Term termToExpect(createExpressionIfPossible({Term(subTerm), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term termToExpect(createExpressionIfPossible({subTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
+}
+
+TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningNegativeConstantAndRadicalPolynomialInMultiplicationWorks)
+{
+    Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    Term squareRootOfXPlusOneTerm(createExpressionIfPossible({xPlusOneTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    TermsWithDetails termsWithDetails
+    {{Term(-2), TermAssociationType::Positive},
+        {squareRootOfXPlusOneTerm, TermAssociationType::Positive}};
+    MultiplicationAndDivisionOfRadicals radicalConstruct(termsWithDetails);
+
+    radicalConstruct.simplify();
+
+    Term termToExpect(createExpressionIfPossible({Term(-2), Term("*"), squareRootOfXPlusOneTerm}));
     EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
 }
 
@@ -37,7 +52,7 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningConstantAndRadicalPolynom
     radicalConstruct.simplify();
 
     Term subTerm(createExpressionIfPossible({Term(4), Term("/"), xPlusOneTerm}));
-    Term termToExpect(createExpressionIfPossible({Term(subTerm), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term termToExpect(createExpressionIfPossible({subTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
 }
 
@@ -69,7 +84,7 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningMonomialAndRadicalPolynom
     radicalConstruct.simplify();
 
     Term subTerm(createExpressionIfPossible({Term(Monomial(1, {{"x", 2}})), Term("/"), xPlusOneTerm}));
-    Term termToExpect(createExpressionIfPossible({Term(subTerm), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term termToExpect(createExpressionIfPossible({subTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
 }
 
@@ -103,7 +118,7 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningRadicalPolynomialsInDivis
     radicalConstruct.simplify();
 
     Term subTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
-    Term termToExpect(createExpressionIfPossible({Term(subTerm), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term termToExpect(createExpressionIfPossible({subTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
 }
 
@@ -119,7 +134,7 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningMonomialWithCubeRootAndRa
     radicalConstruct.simplify();
 
     Term subTerm(Polynomial{Monomial(1, {{"x", 3}}), Monomial(2, {{"x", 2}}), Monomial(1, {{"x", 1}})});
-    Term termToExpect(createExpressionIfPossible({Term(subTerm), Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
+    Term termToExpect(createExpressionIfPossible({subTerm, Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
     EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
 }
 

@@ -79,6 +79,20 @@ unsigned int getTermTypePriorityValue(TermType const termType)
     return result;
 }
 
+TermAssociationType getReversedAssociationType(TermAssociationType const associationType)
+{
+    TermAssociationType reversedAssociationType;
+    if(TermAssociationType::Positive == associationType)
+    {
+        reversedAssociationType = TermAssociationType::Negative;
+    }
+    else if(TermAssociationType::Negative == associationType)
+    {
+        reversedAssociationType = TermAssociationType::Positive;
+    }
+    return reversedAssociationType;
+}
+
 string getEnumShortString(TermType const termType)
 {
     switch(termType)

@@ -31,6 +31,8 @@ public:
     void simplify();
 
 private:
+    bool shouldBeCombined(RadicalDetails const& radicalDetails, Monomial const& combinedMonomial, AlbaNumber const& gcfOfExponents);
+    bool shouldBeCombinedDueToEvenExponent(Monomial const& combinedMonomial, AlbaNumber const& gcfOfExponents);
     void gatherDetails(RadicalDetails & radicalDetails, Monomial & combinedMonomial, TermsWithDetails & remainingTerms);
     AlbaNumber getGcfOfExponents(RadicalDetails const& radicalDetails);
     void combineMonomialAndRadicalsAndSave(RadicalDetails const& radicalDetails, Monomial const& combinedMonomial, AlbaNumber const& gcfOfExponents);

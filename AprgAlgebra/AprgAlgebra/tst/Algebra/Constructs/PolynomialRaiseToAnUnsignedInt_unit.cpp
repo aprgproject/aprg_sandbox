@@ -60,6 +60,16 @@ TEST(PolynomialRaiseToAnUnsignedIntTest, PolynomialWithPerfectSquare)
     EXPECT_EQ(2U, polynomialRaiseToAnUnsignedInt.getExponent());
 }
 
+TEST(PolynomialRaiseToAnUnsignedIntTest, PolynomialWithPerfectSquareWithNegativeConstant)
+{
+    Polynomial polynomial{Monomial(-7, {{"x", 2}}), Monomial(-28, {{"x", 1}}), Monomial(-28, {})};
+    PolynomialRaiseToAnUnsignedInt polynomialRaiseToAnUnsignedInt(polynomial);
+
+    Polynomial expectedBase(polynomial);
+    EXPECT_EQ(expectedBase, polynomialRaiseToAnUnsignedInt.getBase());
+    EXPECT_EQ(1U, polynomialRaiseToAnUnsignedInt.getExponent());
+}
+
 TEST(PolynomialRaiseToAnUnsignedIntTest, PolynomialWithPerfectSquareAndCommonFactor)
 {
     Polynomial polynomial{Monomial(4, {{"x", 6}, {"y", 2}}), Monomial(16, {{"x", 5}, {"y", 2}}), Monomial(16, {{"x", 4}, {"y", 2}})};

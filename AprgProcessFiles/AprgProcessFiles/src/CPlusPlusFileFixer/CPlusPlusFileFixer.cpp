@@ -25,10 +25,12 @@ set<string> listOfCPlusPlusHeaders
     "csetjmp", "csignal", "cstdarg", "cstddef", "cstdint", "cstdio", "cstdlib", "ctgmath", "cstring", "ctime",
     "cuchar", "cwchar", "cwctype", "deque", "exception", "execution", "filesystem", "forward_list",
     "fstream", "functional", "future", "initializer_list", "iomanip", "ios", "iosfwd", "iostream",
-    "istream", "iterator", "limits", "list", "locale", "map", "memory", "memory_resource", "mutex",    "new", "numeric", "optional", "ostream", "queue", "random", "ratio", "regex", "scoped_allocator",
+    "istream", "iterator", "limits", "list", "locale", "map", "memory", "memory_resource", "mutex",
+    "new", "numeric", "optional", "ostream", "queue", "random", "ratio", "regex", "scoped_allocator",
     "set", "shared_mutex", "sstream", "stack", "stdexcept", "streambuf", "string", "string_view",
     "strstream", "system_error", "thread", "tuple", "typeindex", "typeinfo", "type_traits",
-    "unordered_map", "unordered_set", "utility", "valarray", "variant", "vector"};
+    "unordered_map", "unordered_set", "utility", "valarray", "variant", "vector"
+};
 
 set<string> listOfLinuxHeaders
 {
