@@ -27,10 +27,17 @@ public:
     Term differentiateTwoMultipliedTerms(Term const& term1, Term const& term2) const;
     Term differentiateTwoDividedTerms(Term const& numerator, Term const& denominator) const;
 
+    Term differentiateExpression(Expression const& expression) const;
+    Term differentiateFunction(Function const& functionObject) const;
+
 private:
+    Term differentiateTermsInAdditionOrSubtraction(
+            TermsWithDetails const& termsWithDetails) const;
+    Term differentiateTermsInMultiplicationOrDivision(
+            TermsWithDetails const& termsWithDetails) const;
+    Term differentiateFunctionOnly(Function const& functionObject) const;
     std::string m_variableName;
 };
-
 }
 
 }

@@ -1,16 +1,16 @@
 #include <Algebra/Differentiation/Differentiation.hpp>
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 TEST(DifferentiationTest, DifferentiateWorksForConstant)
 {
     Differentiation differentiationForX("x");
@@ -51,14 +51,23 @@ TEST(DifferentiationTest, DifferentiateWorksForPolynomial)
     EXPECT_EQ(expectedTerm3, differentiationForX.differentiate(polynomial3));
 }
 
+TEST(DifferentiationTest, DifferentiateWorksWithMonomialTimesSinFunction)
+{
+    Differentiation differentiationForX("x");
+    Term termToTest(createExpressionIfPossible({Term(Monomial(1, {{"x", 2}})), Term("*"), sin(Term("x"))}));
+
+    Term expectedPart1(createExpressionIfPossible({Term(Monomial(1, {{"x", 2}})), Term("*"), cos(Term("x"))}));
+    Term expectedPart2(createExpressionIfPossible({Term(Monomial(2, {{"x", 1}})), Term("*"), sin(Term("x"))}));
+    Term expectedTerm(createExpressionIfPossible({expectedPart1, Term("+"), expectedPart2}));
+    EXPECT_EQ(expectedTerm, differentiationForX.differentiate(termToTest));
+}
+
 TEST(DifferentiationTest, DifferentiateMonomialWorks)
 {
     Differentiation differentiationForX("x");
-
     EXPECT_EQ(Monomial(0, {}), differentiationForX.differentiateMonomial(Monomial(13, {})));
     EXPECT_EQ(Monomial(0, {}), differentiationForX.differentiateMonomial(Monomial(13, {{"x", 0}})));
-    EXPECT_EQ(Monomial(8, {{"x", 7}}), differentiationForX.differentiateMonomial(Monomial(1, {{"x", 8}})));
-    EXPECT_EQ(Monomial(-15, {{"x", -6}}), differentiationForX.differentiateMonomial(Monomial(3, {{"x", -5}})));
+    EXPECT_EQ(Monomial(8, {{"x", 7}}), differentiationForX.differentiateMonomial(Monomial(1, {{"x", 8}})));    EXPECT_EQ(Monomial(-15, {{"x", -6}}), differentiationForX.differentiateMonomial(Monomial(3, {{"x", -5}})));
     EXPECT_EQ(Monomial(42, {{"x", 6}, {"y", 8}, {"z", 9}}), differentiationForX.differentiateMonomial(Monomial(6, {{"x", 7}, {"y", 8}, {"z", 9}})));
 }
 
@@ -77,14 +86,33 @@ TEST(DifferentiationTest, DifferentiatePolynomialWorks)
     EXPECT_EQ(expectedPolynomial3, differentiationForX.differentiatePolynomial(polynomial3));
 }
 
-TEST(DifferentiationTest, DifferentiateTwoMultipliedTermsWorks)
+TEST(DifferentiationTest, DifferentiateFunctionWorksWithTrigonometricFunction)
 {
     Differentiation differentiationForX("x");
-    Term term1(Polynomial{Monomial(2, {{"x", 3}}), Monomial(-4, {{"x", 2}})});
+
+    EXPECT_EQ(Term(cos(Term("x"))), differentiationForX.differentiateFunction(sin(Term("x"))));
+    EXPECT_EQ(Term(createExpressionIfPossible({Term(-1), Term("*"), sin(Term("x"))})), differentiationForX.differentiateFunction(cos(Term("x"))));
+    EXPECT_EQ(Term(createExpressionIfPossible({sec(Term("x")), Term("^"), Term(2)})), differentiationForX.differentiateFunction(tan(Term("x"))));
+    EXPECT_EQ(Term(createExpressionIfPossible({Term(-1), Term("*"), csc(Term("x")), Term("*"), cot(Term("x"))})), differentiationForX.differentiateFunction(csc(Term("x"))));
+    EXPECT_EQ(Term(createExpressionIfPossible({sec(Term("x")), Term("*"), tan(Term("x"))})), differentiationForX.differentiateFunction(sec(Term("x"))));
+    EXPECT_EQ(Term(createExpressionIfPossible({Term(-1), Term("*"), csc(Term("x")), Term("^"), Term(2)})), differentiationForX.differentiateFunction(cot(Term("x"))));
+}
+
+TEST(DifferentiationTest, DifferentiateFunctionWorksWithChainRule)
+{
+    Differentiation differentiationForX("x");
+    Function functionToTest(sin(Term(Monomial(10, {{"x", 8}}))));
+
+    Term expectedTerm(createExpressionIfPossible({Term(Monomial(80, {{"x", 7}})), Term("*"), cos(Term(Monomial(10, {{"x", 8}})))}));
+    EXPECT_EQ(expectedTerm, differentiationForX.differentiateFunction(functionToTest));
+}
+
+TEST(DifferentiationTest, DifferentiateTwoMultipliedTermsWorks)
+{
+    Differentiation differentiationForX("x");    Term term1(Polynomial{Monomial(2, {{"x", 3}}), Monomial(-4, {{"x", 2}})});
     Term term2(Polynomial{Monomial(3, {{"x", 5}}), Monomial(1, {{"x", 2}})});
 
-    Term expectedTerm(Polynomial{Monomial(48, {{"x", 7}}), Monomial(-84, {{"x", 6}}), Monomial(10, {{"x", 4}}), Monomial(-16, {{"x", 3}})});
-    EXPECT_EQ(expectedTerm, differentiationForX.differentiateTwoMultipliedTerms(term1, term2));
+    Term expectedTerm(Polynomial{Monomial(48, {{"x", 7}}), Monomial(-84, {{"x", 6}}), Monomial(10, {{"x", 4}}), Monomial(-16, {{"x", 3}})});    EXPECT_EQ(expectedTerm, differentiationForX.differentiateTwoMultipliedTerms(term1, term2));
 }
 
 TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks)
