@@ -5,6 +5,8 @@
 #include <File/AlbaFileReader.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
 
+#include <sstream>
+
 
 #include <Debug/AlbaDebug.hpp>
 
@@ -13,6 +15,34 @@ using namespace std;
 
 namespace alba
 {
+
+bool Monster::isAggressive() const
+{
+    bool result(false);
+    for(string const mode : modes)
+    {
+        if("Aggressive" == mode)
+        {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+
+bool Monster::isMvp() const
+{
+    bool result(false);
+    for(string const mode : modes)
+    {
+        if("MVP Boss" == mode)
+        {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
 
 RagnarokOnline::RagnarokOnline()
 {}
@@ -42,7 +72,8 @@ void RagnarokOnline::retrieveItemDataFromRmsWebPage(
     string parameterName;
     string description;
     bool isDescriptionNotComplete(false);
-    string itemScript;    bool isItemScriptNotComplete(false);
+    string itemScript;
+    bool isItemScriptNotComplete(false);
     while(fileReader.isNotFinished())
     {
         string line(fileReader.getLineAndIgnoreWhiteSpaces());
@@ -57,7 +88,8 @@ void RagnarokOnline::retrieveItemDataFromRmsWebPage(
             isContextBoxEncountered = false;
             shouldItemBeCleared = true;
         }
-        if(shouldItemBeCleared)        {
+        if(shouldItemBeCleared)
+        {
             if(item.itemId != 0)
             {
                 m_itemIdToItemMap.emplace(item.itemId, item);
@@ -69,10 +101,12 @@ void RagnarokOnline::retrieveItemDataFromRmsWebPage(
         if(isContextBoxEncountered)
         {
             if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td valign="bottom"><b>)"))
-            {                item.name = fixText(getStringInBetweenTwoStrings(line, R"(<td valign="bottom"><b>)", R"(</b>)"));
+            {
+                item.name = fixText(getStringInBetweenTwoStrings(line, R"(<td valign="bottom"><b>)", R"(</b>)"));
             }
             if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(Item ID#)"))
-            {                item.itemId = convertStringToNumber<unsigned int>(fixText(getStringInBetweenTwoStrings(line, R"(Item ID#)", R"( ()")));
+            {
+                item.itemId = convertStringToNumber<unsigned int>(fixText(getStringInBetweenTwoStrings(line, R"(Item ID#)", R"( ()")));
             }
             if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="bb" align="right">)"))
             {
@@ -130,18 +164,19 @@ void RagnarokOnline::retrieveItemDataFromRmsWebPage(
             {
                 if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<th class="bb" align="right">)"))
                 {
-                    string value = fixText(getStringInBetweenTwoStrings(line, R"(<th class="bb" align="right">)", R"(</th>)"));
-                    item.property = value;
+                    item.property = fixText(getStringInBetweenTwoStrings(line, R"(<th class="bb" align="right">)", R"(</th>)"));
                 }
             }
             else if("Description" == parameterName)
             {
                 if(isDescriptionNotComplete)
-                {                    description += " ";
+                {
+                    description += " ";
                     if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</td>)"))
                     {
-                        description += fixText(getStringBeforeThisString(line, R"(</td>)"));                        isDescriptionNotComplete = false;
-                        item.description = description;
+                        description += getStringBeforeThisString(line, R"(</td>)");
+                        isDescriptionNotComplete = false;
+                        item.description = fixText(description);
                     }
                     else
                     {
@@ -152,13 +187,13 @@ void RagnarokOnline::retrieveItemDataFromRmsWebPage(
                 {
                     if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</td>)"))
                     {
-                        description = fixText(getStringInBetweenTwoStrings(line, R"(<td colspan="9" class="bb" valign="top">)", R"(</td>)"));
+                        description = getStringInBetweenTwoStrings(line, R"(<td colspan="9" class="bb" valign="top">)", R"(</td>)");
                         isDescriptionNotComplete = false;
-                        item.description = description;
+                        item.description = fixText(description);
                     }
                     else
                     {
-                        description = fixText(getStringAfterThisString(line, R"(<td colspan="9" class="bb" valign="top">)"));
+                        description = getStringAfterThisString(line, R"(<td colspan="9" class="bb" valign="top">)");
                         isDescriptionNotComplete = true;
                     }
                 }
@@ -166,11 +201,13 @@ void RagnarokOnline::retrieveItemDataFromRmsWebPage(
             else if("Item Script" == parameterName)
             {
                 if(isItemScriptNotComplete)
-                {                    itemScript += " ";
+                {
+                    itemScript += " ";
                     if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</div>)"))
                     {
-                        itemScript += fixText(getStringBeforeThisString(line, R"(</div>)"));                        isItemScriptNotComplete = false;
-                        item.itemScript = itemScript;
+                        itemScript += getStringBeforeThisString(line, R"(</div>)");
+                        isItemScriptNotComplete = false;
+                        item.itemScript = fixText(itemScript);
                     }
                     else
                     {
@@ -181,13 +218,13 @@ void RagnarokOnline::retrieveItemDataFromRmsWebPage(
                 {
                     if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</div>)"))
                     {
-                        itemScript = fixText(getStringInBetweenTwoStrings(line, R"(<div class="db_script_txt">)", R"(</div>)"));
+                        itemScript = getStringInBetweenTwoStrings(line, R"(<div class="db_script_txt">)", R"(</div>)");
                         isItemScriptNotComplete = false;
-                        item.itemScript = itemScript;
+                        item.itemScript = fixText(itemScript);
                     }
                     else
                     {
-                        itemScript = fixText(getStringAfterThisString(line, R"(<div class="db_script_txt">)"));
+                        itemScript = getStringAfterThisString(line, R"(<div class="db_script_txt">)");
                         isItemScriptNotComplete = true;
                     }
                 }
@@ -198,7 +235,8 @@ void RagnarokOnline::retrieveItemDataFromRmsWebPage(
                 if("Applicable Jobs" == parameterName)
                 {
                     string lineWithJobs(line);
-                    while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithJobs, R"(<td width="100">)"))                    {
+                    while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithJobs, R"(<td width="100">)"))
+                    {
                         string value = fixText(getStringInBetweenTwoStrings(lineWithJobs, R"(<td width="100">)", R"(</td>)"));
                         item.applicableJobs.emplace_back(value);
                         lineWithJobs = getStringAfterThisString(lineWithJobs, R"(<td width="100">)");
@@ -207,10 +245,12 @@ void RagnarokOnline::retrieveItemDataFromRmsWebPage(
                 else if("Dropped By" == parameterName)
                 {
                     string lineWithDroppedBy(line);
-                    while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithDroppedBy, R"(<div class="tipstext">)"))                    {
+                    while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithDroppedBy, R"(<div class="tipstext">)"))
+                    {
                         string monsterName = fixText(getStringInBetweenTwoStrings(lineWithDroppedBy, ")\">", R"(<div class="tipstext">)"));
                         string monsterRate = fixText(getStringInBetweenTwoStrings(lineWithDroppedBy, R"(<div class="tipstext">)", R"(</div>)"));
-                        item.droppedByMonstersWithRates.emplace_back(NameAndRate{monsterName, convertStringToNumber<double>(monsterRate)});                        lineWithDroppedBy = getStringAfterThisString(lineWithDroppedBy, R"(<div class="tipstext">)");
+                        item.droppedByMonstersWithRates.emplace_back(NameAndRate{monsterName, convertStringToNumber<double>(monsterRate)});
+                        lineWithDroppedBy = getStringAfterThisString(lineWithDroppedBy, R"(<div class="tipstext">)");
                     }
                 }
             }
@@ -441,6 +481,44 @@ void RagnarokOnline::retrieveMonsterDataFromRmsWebPage(
                     monster.dropsWithRates.emplace_back(NameAndRate{dropName, convertStringToNumber<double>(dropRate)});
                 }
             }
+            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<div class="tipstext">)")
+                    && isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</div>)"))
+            {
+                if("Mode" == parameterName)
+                {
+                    string modes = getStringInBetweenTwoStrings(line, R"(<div class="tipstext">)", R"(</div>)");
+                    while(isStringFoundInsideTheOtherStringCaseSensitive(modes, R"(<br>)"))
+                    {
+                        string mode(fixText(getStringBeforeThisString(modes, R"(<br>)")));
+                        transformReplaceStringIfFound(mode, "- ", "");
+                        monster.modes.emplace_back(mode);
+                        modes = getStringAfterThisString(modes, R"(<br>)");
+                    }
+                }
+            }
+            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="bb" width="180" valign="top">)"))
+            {
+                string lineWithMaps(line);
+                while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithMaps, "map_dim)\">"))
+                {
+                    string value = fixText(getStringInBetweenTwoStrings(lineWithMaps, "map_dim)\">", R"(</a>)"));
+                    monster.maps.emplace_back(value);
+                    lineWithMaps = getStringAfterThisString(lineWithMaps, "map_dim)\">");
+                }
+            }
+            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<table width="100%" border="0">)"))
+            {
+                if("Monster Skills" == parameterName)
+                {
+                    string lineWithMonsterSkills(line);
+                    while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithMonsterSkills, R"(circle.gif">)"))
+                    {
+                        string value = fixText(getStringInBetweenTwoStrings(lineWithMonsterSkills, R"(circle.gif">)", R"(</td>)"));
+                        monster.monsterSkills.emplace_back(value);
+                        lineWithMonsterSkills = getStringAfterThisString(lineWithMonsterSkills, R"(circle.gif">)");
+                    }
+                }
+            }
             if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<th class="lmd")"))
             {
                 parameterName = fixText(getStringInBetweenTwoStrings(line, R"(align="left">)", R"(</th>)"));
@@ -448,6 +526,103 @@ void RagnarokOnline::retrieveMonsterDataFromRmsWebPage(
             else if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(align="center">Drops</th>)"))
             {
                 parameterName = "Drops";
+            }
+            else if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(align="center">Mode</th>)"))
+            {
+                parameterName = "Mode";
+            }
+            else if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(align="center">Monster Skills</th>)"))
+            {
+                parameterName = "Monster Skills";
+            }
+        }
+    }
+}
+
+void RagnarokOnline::retrieveMapDataFromRmsWebpages(
+        string const& directoryPathOfWebPages)
+{
+    AlbaLocalPathHandler directoryPathHandler(directoryPathOfWebPages);
+    ListOfPaths listOfFiles;
+    ListOfPaths listOfDirectories;
+    directoryPathHandler.findFilesAndDirectoriesOneDepth("*.html", listOfFiles, listOfDirectories);
+    for(string const& filePath : listOfFiles)
+    {
+        retrieveMapDataFromRmsWebPage(filePath);
+    }
+}
+
+void RagnarokOnline::retrieveMapDataFromRmsWebPage(
+        string const& filePathOfWebPage)
+{
+    AlbaLocalPathHandler filePathHandler(filePathOfWebPage);
+    ifstream fileStream(filePathHandler.getFullPath());
+    AlbaFileReader fileReader(fileStream);
+    fileReader.setMaxBufferSize(100000);
+    bool isContextBoxEncountered(false);
+    RoMap map{};
+    while(fileReader.isNotFinished())
+    {
+        string line(fileReader.getLineAndIgnoreWhiteSpaces());
+        bool shouldItemBeCleared(false);
+        if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(table class="content_box_db")"))
+        {
+            isContextBoxEncountered = true;
+            shouldItemBeCleared = true;
+        }
+        if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(class="content_box_body")"))
+        {
+            isContextBoxEncountered = false;
+            shouldItemBeCleared = true;
+        }
+        if(shouldItemBeCleared)
+        {
+            if(!map.name.empty())
+            {
+                m_mapNameToRoMap.emplace(map.name, map);
+            }
+            map = RoMap{};
+        }
+
+        if(isContextBoxEncountered)
+        {
+            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(- Map: )")
+                    && isStringFoundInsideTheOtherStringCaseSensitive(line, R"( -)"))
+            {
+                map.name = fixText(getStringInBetweenTwoStrings(line, R"(- Map: )", R"( -)"));
+            }
+            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<b>Map: )")
+                    && isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</b>)"))
+            {
+                map.name = fixText(getStringInBetweenTwoStrings(line, R"(<b>Map: )", R"(</b>)"));
+            }
+            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="bborder" align="right">)")
+                    && isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</td>)"))
+            {
+                map.fullName = fixText(getStringInBetweenTwoStrings(line, R"(<td class="bborder" align="right">)", R"(</td>)"));
+            }
+            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(Click on a monster below to view its detail:)"))
+            {
+                string lineWithMonsters(line);
+                while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithMonsters, "onmouseout=\"hideddrivetip_image()\">"))
+                {
+                    MonsterDetailsOnRoMap monsterDetailsOnMap{};
+                    string wholeMonsterString = getStringInBetweenTwoStrings(lineWithMonsters, "onmouseout=\"hideddrivetip_image()\">", R"(</a>)");
+                    string wholeSpawnString = getStringInBetweenTwoStrings(wholeMonsterString, R"(<b>(</b>)", R"(<b>)</b>)");
+                    monsterDetailsOnMap.monsterName = fixText(getStringBeforeThisString(wholeMonsterString, R"(<b>(</b>)"));
+                    transformReplaceStringIfFound(monsterDetailsOnMap.monsterName, "[MVP]", "");
+                    if(isStringFoundInsideTheOtherStringCaseSensitive(wholeSpawnString, "/"))
+                    {
+                        monsterDetailsOnMap.spawnCount = convertStringToNumber<unsigned int>(fixText(getStringBeforeThisString(wholeSpawnString, R"(/)")));
+                        monsterDetailsOnMap.spawnRate = fixText(getStringAfterThisString(wholeSpawnString, R"(/)"));
+                    }
+                    else
+                    {
+                        monsterDetailsOnMap.spawnCount = convertStringToNumber<unsigned int>(fixText(wholeSpawnString));
+                    }
+                    map.monstersDetailsOnMap.emplace_back(monsterDetailsOnMap);
+                    lineWithMonsters = getStringAfterThisString(lineWithMonsters, "onmouseout=\"hideddrivetip_image()\">");
+                }
             }
         }
     }
@@ -469,6 +644,47 @@ void RagnarokOnline::readMonsterIdToMonsterMapFromFile(
     reader.readMapData<unsigned int, Monster>(m_monsterIdToMonsterMap);
 }
 
+void RagnarokOnline::readMapNameToRoMapFromFile(
+        string const& inputFilePath)
+{
+    ifstream inputStream(inputFilePath);
+    AlbaFileParameterReader reader(inputStream);
+    reader.readMapData<string, RoMap>(m_mapNameToRoMap);
+}
+
+void RagnarokOnline::buildItemNameToItemId()
+{
+    for(auto const& itemIdItemPair : m_itemIdToItemMap)
+    {
+        Item const& item(itemIdItemPair.second);
+        string fixedItemName(getFixedItemName(item));
+        if(m_itemNameToItemIdMap.find(fixedItemName) == m_itemNameToItemIdMap.cend())
+        {
+            m_itemNameToItemIdMap.emplace(fixedItemName, itemIdItemPair.first);
+        }
+        /*else
+        {
+            cout << "DUPLICATE! [" << fixedItemName << "]" << endl;
+        }*/
+    }
+}
+
+void RagnarokOnline::buildMonsterNameToMonsterId()
+{
+    for(auto const& monsterIdMonsterPair : m_monsterIdToMonsterMap)
+    {
+        Monster const& monster(monsterIdMonsterPair.second);
+        if(m_monsterNameToMonsterIdMap.find(monster.name) == m_monsterNameToMonsterIdMap.cend())
+        {
+            m_monsterNameToMonsterIdMap.emplace(monster.name, monsterIdMonsterPair.first);
+        }
+        /*else
+        {
+            cout << "DUPLICATE! [" << monster.name << "]" << endl;
+        }*/
+    }
+}
+
 ItemIdToItemMap const& RagnarokOnline::getItemIdToItemMap() const
 {
     return m_itemIdToItemMap;
@@ -477,6 +693,72 @@ ItemIdToItemMap const& RagnarokOnline::getItemIdToItemMap() const
 MonsterIdToMonsterMap const& RagnarokOnline::getMonsterIdToMonsterMap() const
 {
     return m_monsterIdToMonsterMap;
+}
+
+MapNameToRoMap const& RagnarokOnline::getMapNameToRoMap() const
+{
+    return m_mapNameToRoMap;
+}
+
+Item RagnarokOnline::getItem(
+        string const& fixedItemName) const
+{
+    Item result{};
+    auto it1 = m_itemNameToItemIdMap.find(fixedItemName);
+    if(it1 != m_itemNameToItemIdMap.cend())
+    {
+        auto it2 = m_itemIdToItemMap.find(it1->second);
+        if(it2 != m_itemIdToItemMap.cend())
+        {
+            result = it2->second;
+        }
+        else
+        {
+            cout << "ITEM ID NOT FOUND! [" << it1->second << "]" << endl;
+        }
+    }
+    else
+    {
+        cout << "ITEM NAME NOT FOUND! [" << fixedItemName << "]" << endl;
+    }
+    return result;
+}
+
+Monster RagnarokOnline::getMonster(
+        string const& monsterName) const
+{
+    Monster result{};
+    auto it1 = m_monsterNameToMonsterIdMap.find(monsterName);
+    if(it1 != m_monsterNameToMonsterIdMap.cend())
+    {
+        auto it2 = m_monsterIdToMonsterMap.find(it1->second);
+        if(it2 != m_monsterIdToMonsterMap.cend())
+        {
+            result = it2->second;
+        }
+        else
+        {
+            cout << "MONSTER ID NOT FOUND! [" << it1->second << "]" << endl;
+        }
+    }
+    else
+    {
+        cout << "MONSTER NAME NOT FOUND! [" << monsterName << "]" << endl;
+    }
+    return result;
+}
+
+string RagnarokOnline::getFixedItemName(
+        Item const& item) const
+{
+    string result(item.name);
+    if(item.slot != 0)
+    {
+        stringstream slotStream;
+        slotStream << " [" << item.slot << "]";
+        result += slotStream.str();
+    }
+    return result;
 }
 
 void RagnarokOnline::saveItemIdToItemMapToFile(
@@ -495,12 +777,22 @@ void RagnarokOnline::saveMonsterIdToMonsterMapToFile(
     writer.writeMapData<unsigned int, Monster>(m_monsterIdToMonsterMap);
 }
 
+void RagnarokOnline::saveMapNameToRoMapToFile(
+        string const& outputFilePath) const
+{
+    ofstream outputStream(outputFilePath);
+    AlbaFileParameterWriter writer(outputStream);
+    writer.writeMapData<string, RoMap>(m_mapNameToRoMap);
+}
+
 void RagnarokOnline::printItemIdToItemMap() const
 {
-    for(auto const& itemIdItemPair : m_itemIdToItemMap)    {
+    for(auto const& itemIdItemPair : m_itemIdToItemMap)
+    {
         cout << "Item ID: " << itemIdItemPair.first << endl;
         Item const& item(itemIdItemPair.second);
-        cout << "Item name: " << item.name << endl;        cout << "Item type: " << item.type << endl;
+        cout << "Item name: " << item.name << endl;
+        cout << "Item type: " << item.type << endl;
         cout << "Item class: " << item.itemClass << endl;
         cout << "Buying price: " << item.buyingPrice << endl;
         cout << "Selling price: " << item.sellingPrice << endl;
@@ -574,6 +866,24 @@ void RagnarokOnline::printMonsterIdToMonsterMap() const
         cout << "Shadow %: " << monster.shadowPercentage << endl;
         cout << "Ghost %: " << monster.ghostPercentage << endl;
         cout << "Undead %: " << monster.undeadPercentage << endl;
+        cout << "Maps: {";
+        for(string const& map : monster.maps)
+        {
+            cout << "[" << map << "], ";
+        }
+        cout << "}" << endl;
+        cout << "Modes: {";
+        for(string const& mode : monster.modes)
+        {
+            cout << "[" << mode << "], ";
+        }
+        cout << "}" << endl;
+        cout << "Monster skills: {";
+        for(string const& monsterSkills : monster.monsterSkills)
+        {
+            cout << "[" << monsterSkills << "], ";
+        }
+        cout << "}" << endl;
         cout << "Drops with rates: {";
         for(NameAndRate const& dropWithRate : monster.dropsWithRates)
         {
@@ -583,15 +893,56 @@ void RagnarokOnline::printMonsterIdToMonsterMap() const
     }
 }
 
-string RagnarokOnline::fixText(
-        string const& text)
-{    return getStringWithoutStartingAndTrailingWhiteSpace(text);
+void RagnarokOnline::printMapNameToRoMap() const
+{
+    for(auto const& mapNameToRoMap : m_mapNameToRoMap)
+    {
+        cout << "Map name: " << mapNameToRoMap.first << endl;
+        RoMap const& roMap(mapNameToRoMap.second);
+        cout << "Map full name: " << roMap.fullName << endl;
+        cout << "Monsters: {";
+        for(MonsterDetailsOnRoMap const& monsterDetailsOnMap : roMap.monstersDetailsOnMap)
+        {
+            cout << "[" << monsterDetailsOnMap.monsterName
+                 << "," << monsterDetailsOnMap.spawnCount
+                 << "," << monsterDetailsOnMap.spawnRate
+                 << "], ";
+        }
+        cout << "}" << endl;
+    }
 }
 
-ostream & operator<<(ostream & out, NameAndRate const& nameAndRate){
+string RagnarokOnline::fixText(
+        string const& text)
+{
+    string fixedText(text);
+    transformReplaceStringIfFound(fixedText, "<br>", " ");
+    transformReplaceStringIfFound(fixedText, "&amp;", "&");
+    while(isStringFoundInsideTheOtherStringCaseSensitive(fixedText, "<")
+          && isStringFoundInsideTheOtherStringCaseSensitive(fixedText, ">"))
+    {
+        string htmlTag("<");
+        htmlTag += getStringInBetweenTwoStrings(fixedText, "<", ">");
+        htmlTag += ">";
+        transformReplaceStringIfFound(fixedText, htmlTag, "");
+    }
+    return getStringWithoutStartingAndTrailingWhiteSpace(getStringWithoutRedundantWhiteSpace(fixedText));
+}
+
+ostream & operator<<(ostream & out, NameAndRate const& nameAndRate)
+{
     AlbaFileParameterWriter writer(out);
     writer.writeData<string>(nameAndRate.name);
     writer.writeData<double>(nameAndRate.rate);
+    return out;
+}
+
+ostream & operator<<(ostream & out, MonsterDetailsOnRoMap const& monsterDetailsOnRoMap)
+{
+    AlbaFileParameterWriter writer(out);
+    writer.writeData<string>(monsterDetailsOnRoMap.monsterName);
+    writer.writeData<unsigned int>(monsterDetailsOnRoMap.spawnCount);
+    writer.writeData<string>(monsterDetailsOnRoMap.spawnRate);
     return out;
 }
 
@@ -662,13 +1013,26 @@ ostream & operator<<(ostream & out, Monster const& monster)
     writer.writeData<int>(monster.shadowPercentage);
     writer.writeData<int>(monster.ghostPercentage);
     writer.writeData<int>(monster.undeadPercentage);
+    writer.writeVectorData<string>(monster.maps);
+    writer.writeVectorData<string>(monster.modes);
+    writer.writeVectorData<string>(monster.monsterSkills);
     writer.writeVectorData<NameAndRate>(monster.dropsWithRates);
+    return out;
+}
+
+ostream & operator<<(ostream & out, RoMap const& roMap)
+{
+    AlbaFileParameterWriter writer(out);
+    writer.writeData<string>(roMap.name);
+    writer.writeData<string>(roMap.fullName);
+    writer.writeVectorData<MonsterDetailsOnRoMap>(roMap.monstersDetailsOnMap);
     return out;
 }
 
 ostream & operator<<(ostream & out, ItemIdToItemMap const& itemIdToItemMap)
 {
-    AlbaFileParameterWriter writer(out);    writer.writeMapData<unsigned int, Item>(itemIdToItemMap);
+    AlbaFileParameterWriter writer(out);
+    writer.writeMapData<unsigned int, Item>(itemIdToItemMap);
     return out;
 }
 
@@ -679,12 +1043,30 @@ ostream & operator<<(ostream & out, MonsterIdToMonsterMap const& monsterIdToMons
     return out;
 }
 
+ostream & operator<<(ostream & out, MapNameToRoMap const& mapNameToRoMap)
+{
+    AlbaFileParameterWriter writer(out);
+    writer.writeMapData<string, RoMap>(mapNameToRoMap);
+    return out;
+}
+
 istream & operator>>(istream & in, NameAndRate & nameAndRate)
 {
-    AlbaFileParameterReader reader(in);    nameAndRate.name = reader.readData<string>();
+    AlbaFileParameterReader reader(in);
+    nameAndRate.name = reader.readData<string>();
     nameAndRate.rate = reader.readData<double>();
     return in;
 }
+
+istream & operator>>(istream & in, MonsterDetailsOnRoMap & monsterDetailsOnRoMap)
+{
+    AlbaFileParameterReader reader(in);
+    monsterDetailsOnRoMap.monsterName = reader.readData<string>();
+    monsterDetailsOnRoMap.spawnCount = reader.readData<unsigned int>();
+    monsterDetailsOnRoMap.spawnRate = reader.readData<string>();
+    return in;
+}
+
 istream & operator>>(istream & in, Item & item)
 {
     AlbaFileParameterReader reader(in);
@@ -752,13 +1134,26 @@ istream & operator>>(istream & in, Monster & monster)
     monster.shadowPercentage = reader.readData<int>();
     monster.ghostPercentage = reader.readData<int>();
     monster.undeadPercentage = reader.readData<int>();
+    reader.readVectorData<string>(monster.maps);
+    reader.readVectorData<string>(monster.modes);
+    reader.readVectorData<string>(monster.monsterSkills);
     reader.readVectorData<NameAndRate>(monster.dropsWithRates);
+    return in;
+}
+
+istream & operator>>(istream & in, RoMap & roMap)
+{
+    AlbaFileParameterReader reader(in);
+    roMap.name = reader.readData<string>();
+    roMap.fullName = reader.readData<string>();
+    reader.readVectorData<MonsterDetailsOnRoMap>(roMap.monstersDetailsOnMap);
     return in;
 }
 
 istream & operator>>(istream & in, ItemIdToItemMap & itemIdToItemMap)
 {
-    AlbaFileParameterReader reader(in);    reader.readMapData<unsigned int, Item>(itemIdToItemMap);
+    AlbaFileParameterReader reader(in);
+    reader.readMapData<unsigned int, Item>(itemIdToItemMap);
     return in;
 }
 
@@ -768,4 +1163,12 @@ istream & operator>>(istream & in, MonsterIdToMonsterMap & monsterIdToMonsterMap
     reader.readMapData<unsigned int, Monster>(monsterIdToMonsterMap);
     return in;
 }
+
+istream & operator>>(istream & in, MapNameToRoMap & mapNameToRoMap)
+{
+    AlbaFileParameterReader reader(in);
+    reader.readMapData<string, RoMap>(mapNameToRoMap);
+    return in;
+}
+
 }
