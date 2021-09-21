@@ -37,116 +37,110 @@ void RagnarokOnline::retrieveItemDataFromRmsWebPage(
     ifstream fileStream(filePathHandler.getFullPath());
     AlbaFileReader fileReader(fileStream);
     fileReader.setMaxBufferSize(100000);
-    bool isContextBoxItemEncountered(false);
+    bool isContextBoxEncountered(false);
     Item item{};
-    string property;
+    string parameterName;
     string description;
     bool isDescriptionNotComplete(false);
-    string itemScript;
-    bool isItemScriptNotComplete(false);
+    string itemScript;    bool isItemScriptNotComplete(false);
     while(fileReader.isNotFinished())
     {
         string line(fileReader.getLineAndIgnoreWhiteSpaces());
         bool shouldItemBeCleared(false);
         if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(table class="content_box_item")"))
         {
-            isContextBoxItemEncountered = true;
+            isContextBoxEncountered = true;
             shouldItemBeCleared = true;
         }
         if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(class="content_box_body")"))
         {
-            isContextBoxItemEncountered = false;
+            isContextBoxEncountered = false;
             shouldItemBeCleared = true;
         }
-        if(shouldItemBeCleared)
-        {
+        if(shouldItemBeCleared)        {
             if(item.itemId != 0)
             {
                 m_itemIdToItemMap.emplace(item.itemId, item);
             }
             item = Item{};
-            property.clear();
+            parameterName.clear();
         }
 
-        if(isContextBoxItemEncountered)
+        if(isContextBoxEncountered)
         {
             if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td valign="bottom"><b>)"))
-            {
-                item.name = fixText(getStringInBetweenTwoStrings(line, R"(<td valign="bottom"><b>)", R"(</b>)"));
+            {                item.name = fixText(getStringInBetweenTwoStrings(line, R"(<td valign="bottom"><b>)", R"(</b>)"));
             }
             if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(Item ID#)"))
-            {
-                item.itemId = convertStringToNumber<unsigned int>(fixText(getStringInBetweenTwoStrings(line, R"(Item ID#)", R"( ()")));
+            {                item.itemId = convertStringToNumber<unsigned int>(fixText(getStringInBetweenTwoStrings(line, R"(Item ID#)", R"( ()")));
             }
             if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="bb" align="right">)"))
             {
                 string value = fixText(getStringInBetweenTwoStrings(line, R"(<td class="bb" align="right">)", R"(</td>)"));
-                if("Type" == property)
+                if("Type" == parameterName)
                 {
                     item.type = value;
                 }
-                else if("Class" == property)
+                else if("Class" == parameterName)
                 {
                     item.itemClass = value;
                 }
-                else if("Buy" == property)
+                else if("Buy" == parameterName)
                 {
                     item.buyingPrice = convertStringToNumber<unsigned int>(value);
                 }
-                else if("Sell" == property)
+                else if("Sell" == parameterName)
                 {
                     item.sellingPrice = convertStringToNumber<unsigned int>(value);
                 }
-                else if("Weight" == property)
+                else if("Weight" == parameterName)
                 {
                     item.weight = convertStringToNumber<unsigned int>(value);
                 }
-                else if("Attack" == property)
+                else if("Attack" == parameterName)
                 {
                     item.attack = convertStringToNumber<unsigned int>(value);
                 }
-                else if("Defense" == property)
+                else if("Defense" == parameterName)
                 {
                     item.defense = convertStringToNumber<unsigned int>(value);
                 }
-                else if("Required Lvl" == property)
+                else if("Required Lvl" == parameterName)
                 {
                     item.requiredLevel = convertStringToNumber<unsigned int>(value);
                 }
-                else if("Weapon Lvl" == property)
+                else if("Weapon Lvl" == parameterName)
                 {
                     item.weaponLevel = convertStringToNumber<unsigned int>(value);
                 }
-                else if("Slot" == property)
+                else if("Slot" == parameterName)
                 {
                     item.slot = convertStringToNumber<unsigned int>(value);
                 }
-                else if("Range" == property)
+                else if("Range" == parameterName)
                 {
                     item.range = convertStringToNumber<unsigned int>(value);
                 }
-                else if("Pre/Suffix" == property)
+                else if("Pre/Suffix" == parameterName)
                 {
                     item.prefixOrSuffix = value;
                 }
             }
-            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<th class="bb" align="right">)"))
+            if("Property" == parameterName)
             {
-                string value = fixText(getStringInBetweenTwoStrings(line, R"(<th class="bb" align="right">)", R"(</th>)"));
-                if("Property" == property)
+                if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<th class="bb" align="right">)"))
                 {
+                    string value = fixText(getStringInBetweenTwoStrings(line, R"(<th class="bb" align="right">)", R"(</th>)"));
                     item.property = value;
                 }
             }
-            if("Description" == property)
+            else if("Description" == parameterName)
             {
                 if(isDescriptionNotComplete)
-                {
-                    description += " ";
+                {                    description += " ";
                     if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</td>)"))
                     {
-                        description += fixText(getStringBeforeThisString(line, R"(</td>)"));
-                        isDescriptionNotComplete = false;
+                        description += fixText(getStringBeforeThisString(line, R"(</td>)"));                        isDescriptionNotComplete = false;
                         item.description = description;
                     }
                     else
@@ -169,15 +163,13 @@ void RagnarokOnline::retrieveItemDataFromRmsWebPage(
                     }
                 }
             }
-            if("Item Script" == property)
+            else if("Item Script" == parameterName)
             {
                 if(isItemScriptNotComplete)
-                {
-                    itemScript += " ";
+                {                    itemScript += " ";
                     if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(</div>)"))
                     {
-                        itemScript += fixText(getStringBeforeThisString(line, R"(</div>)"));
-                        isItemScriptNotComplete = false;
+                        itemScript += fixText(getStringBeforeThisString(line, R"(</div>)"));                        isItemScriptNotComplete = false;
                         item.itemScript = itemScript;
                     }
                     else
@@ -202,26 +194,23 @@ void RagnarokOnline::retrieveItemDataFromRmsWebPage(
             }
             if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<th class="lmd")"))
             {
-                property = fixText(getStringInBetweenTwoStrings(line, R"(align="left">)", R"(</th>)"));
-                if("Applicable Jobs" == property)
+                parameterName = fixText(getStringInBetweenTwoStrings(line, R"(align="left">)", R"(</th>)"));
+                if("Applicable Jobs" == parameterName)
                 {
                     string lineWithJobs(line);
-                    while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithJobs, R"(<td width="100">)"))
-                    {
+                    while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithJobs, R"(<td width="100">)"))                    {
                         string value = fixText(getStringInBetweenTwoStrings(lineWithJobs, R"(<td width="100">)", R"(</td>)"));
                         item.applicableJobs.emplace_back(value);
                         lineWithJobs = getStringAfterThisString(lineWithJobs, R"(<td width="100">)");
                     }
                 }
-                else if("Dropped By" == property)
+                else if("Dropped By" == parameterName)
                 {
                     string lineWithDroppedBy(line);
-                    while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithDroppedBy, R"(<div class="tipstext">)"))
-                    {
+                    while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithDroppedBy, R"(<div class="tipstext">)"))                    {
                         string monsterName = fixText(getStringInBetweenTwoStrings(lineWithDroppedBy, ")\">", R"(<div class="tipstext">)"));
                         string monsterRate = fixText(getStringInBetweenTwoStrings(lineWithDroppedBy, R"(<div class="tipstext">)", R"(</div>)"));
-                        item.droppedByMonstersWithRates.emplace_back(NameAndRate{monsterName, convertStringToNumber<double>(monsterRate)});
-                        lineWithDroppedBy = getStringAfterThisString(lineWithDroppedBy, R"(<div class="tipstext">)");
+                        item.droppedByMonstersWithRates.emplace_back(NameAndRate{monsterName, convertStringToNumber<double>(monsterRate)});                        lineWithDroppedBy = getStringAfterThisString(lineWithDroppedBy, R"(<div class="tipstext">)");
                     }
                 }
             }
@@ -229,19 +218,289 @@ void RagnarokOnline::retrieveItemDataFromRmsWebPage(
     }
 }
 
+void RagnarokOnline::retrieveMonsterDataFromRmsWebpages(
+        string const& directoryPathOfWebPages)
+{
+    AlbaLocalPathHandler directoryPathHandler(directoryPathOfWebPages);
+    ListOfPaths listOfFiles;
+    ListOfPaths listOfDirectories;
+    directoryPathHandler.findFilesAndDirectoriesOneDepth("*.html", listOfFiles, listOfDirectories);
+    for(string const& filePath : listOfFiles)
+    {
+        retrieveMonsterDataFromRmsWebPage(filePath);
+    }
+}
+
+void RagnarokOnline::retrieveMonsterDataFromRmsWebPage(
+        string const& filePathOfWebPage)
+{
+    AlbaLocalPathHandler filePathHandler(filePathOfWebPage);
+    ifstream fileStream(filePathHandler.getFullPath());
+    AlbaFileReader fileReader(fileStream);
+    fileReader.setMaxBufferSize(100000);
+    bool isContextBoxEncountered(false);
+    Monster monster{};
+    string parameterName;
+    while(fileReader.isNotFinished())
+    {
+        string line(fileReader.getLineAndIgnoreWhiteSpaces());
+        bool shouldItemBeCleared(false);
+        if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(table class="content_box_mob")"))
+        {
+            isContextBoxEncountered = true;
+            shouldItemBeCleared = true;
+        }
+        if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(class="content_box_body")"))
+        {
+            isContextBoxEncountered = false;
+            shouldItemBeCleared = true;
+        }
+        if(shouldItemBeCleared)
+        {
+            if(monster.monsterId != 0)
+            {
+                m_monsterIdToMonsterMap.emplace(monster.monsterId, monster);
+            }
+            monster = Monster{};
+            parameterName.clear();
+        }
+
+        if(isContextBoxEncountered)
+        {
+            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<div style="width: 400px; margin: 0px 5px;">)"))
+            {
+                monster.name = fixText(getStringInBetweenTwoStrings(line, R"(<div style="width: 400px; margin: 0px 5px;">)", R"(&nbsp;)"));
+            }
+            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(Mob-ID#)"))
+            {
+                monster.monsterId = convertStringToNumber<unsigned int>(fixText(getStringInBetweenTwoStrings(line, R"(Mob-ID#)", R"(</div>)")));
+            }
+            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="bb")")
+                    && isStringFoundInsideTheOtherStringCaseSensitive(line, R"(align="right">)"))
+            {
+                string value = fixText(getStringInBetweenTwoStrings(line, R"(align="right">)", R"(</td>)"));
+                if("HP" == parameterName)
+                {
+                    monster.hp = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Level" == parameterName)
+                {
+                    monster.level = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Race" == parameterName)
+                {
+                    monster.race = value;
+                }
+                else if("Property" == parameterName)
+                {
+                    monster.property = value;
+                }
+                else if("Size" == parameterName)
+                {
+                    monster.size = value;
+                }
+                else if("Hit(100%)" == parameterName)
+                {
+                    monster.hitRequiredFor100Percent = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Flee(95%)" == parameterName)
+                {
+                    monster.fleeRequiredFor95Percent = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Base Experience" == parameterName)
+                {
+                    monster.baseExperience = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Job Experience" == parameterName)
+                {
+                    monster.jobExperience = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Base Exp Per HP" == parameterName)
+                {
+                    monster.baseExperiencePerHp = value;
+                }
+                else if("Job Exp Per HP" == parameterName)
+                {
+                    monster.jobExperiencePerHp = value;
+                }
+                else if("Walk Speed" == parameterName)
+                {
+                    monster.walkSpeed = value;
+                }
+                else if("Atk Delay" == parameterName)
+                {
+                    monster.attackDelay = value;
+                }
+                else if("Delay After Hit" == parameterName)
+                {
+                    monster.delayAfterHit = value;
+                }
+                else if("Attack" == parameterName)
+                {
+                    monster.lowestAttack = convertStringToNumber<unsigned int>(getStringBeforeThisString(value, "-"));
+                    monster.highestAttack = convertStringToNumber<unsigned int>(getStringAfterThisString(value, "-"));
+                }
+                else if("Def" == parameterName)
+                {
+                    monster.defense = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Magic Def" == parameterName)
+                {
+                    monster.magicDefense = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Str" == parameterName)
+                {
+                    monster.strength = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Int" == parameterName)
+                {
+                    monster.intelligence = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Agi" == parameterName)
+                {
+                    monster.agility = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Dex" == parameterName)
+                {
+                    monster.dexterity = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Vit" == parameterName)
+                {
+                    monster.vitality = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Luk" == parameterName)
+                {
+                    monster.luck = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Atk Range" == parameterName)
+                {
+                    monster.attackRange = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Spell Range" == parameterName)
+                {
+                    monster.spellRange = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Sight Range" == parameterName)
+                {
+                    monster.sightRange = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Neutral" == parameterName)
+                {
+                    monster.neutralPercentage = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Water" == parameterName)
+                {
+                    monster.waterPercentage = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Earth" == parameterName)
+                {
+                    monster.earthPercentage = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Fire" == parameterName)
+                {
+                    monster.firePercentage = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Wind" == parameterName)
+                {
+                    monster.windPercentage = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Poison" == parameterName)
+                {
+                    monster.poisonPercentage = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Holy" == parameterName)
+                {
+                    monster.holyPercentage = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Shadow" == parameterName)
+                {
+                    monster.shadowPercentage = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Ghost" == parameterName)
+                {
+                    monster.ghostPercentage = convertStringToNumber<unsigned int>(value);
+                }
+                else if("Undead" == parameterName)
+                {
+                    monster.undeadPercentage = convertStringToNumber<unsigned int>(value);
+                }
+            }
+            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(onclick="return popItem)"))
+            {
+                if("Drops" == parameterName)
+                {
+                    string dropName = fixText(getStringInBetweenTwoStrings(line, R"(">)", R"(<b>)"));
+                    string slot = fixText(getStringInBetweenTwoStrings(line, R"([</b>)", R"(<b>])"));
+                    if(!slot.empty())
+                    {
+                        dropName += " [";
+                        dropName += slot;
+                        dropName += "]";
+                    }
+                    string dropRate = fixText(getStringInBetweenTwoStrings(line, R"((</b>)", R"(<b>))"));
+                    monster.dropsWithRates.emplace_back(NameAndRate{dropName, convertStringToNumber<double>(dropRate)});
+                }
+            }
+            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<th class="lmd")"))
+            {
+                parameterName = fixText(getStringInBetweenTwoStrings(line, R"(align="left">)", R"(</th>)"));
+            }
+            else if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(align="center">Drops</th>)"))
+            {
+                parameterName = "Drops";
+            }
+        }
+    }
+}
+
+void RagnarokOnline::readItemIdToItemMapFromFile(
+        string const& inputFilePath)
+{
+    ifstream inputStream(inputFilePath);
+    AlbaFileParameterReader reader(inputStream);
+    reader.readMapData<unsigned int, Item>(m_itemIdToItemMap);
+}
+
+void RagnarokOnline::readMonsterIdToMonsterMapFromFile(
+        string const& inputFilePath)
+{
+    ifstream inputStream(inputFilePath);
+    AlbaFileParameterReader reader(inputStream);
+    reader.readMapData<unsigned int, Monster>(m_monsterIdToMonsterMap);
+}
+
 ItemIdToItemMap const& RagnarokOnline::getItemIdToItemMap() const
 {
     return m_itemIdToItemMap;
 }
 
+MonsterIdToMonsterMap const& RagnarokOnline::getMonsterIdToMonsterMap() const
+{
+    return m_monsterIdToMonsterMap;
+}
+
+void RagnarokOnline::saveItemIdToItemMapToFile(
+        string const& outputFilePath) const
+{
+    ofstream outputStream(outputFilePath);
+    AlbaFileParameterWriter writer(outputStream);
+    writer.writeMapData<unsigned int, Item>(m_itemIdToItemMap);
+}
+
+void RagnarokOnline::saveMonsterIdToMonsterMapToFile(
+        string const& outputFilePath) const
+{
+    ofstream outputStream(outputFilePath);
+    AlbaFileParameterWriter writer(outputStream);
+    writer.writeMapData<unsigned int, Monster>(m_monsterIdToMonsterMap);
+}
+
 void RagnarokOnline::printItemIdToItemMap() const
 {
-    for(auto const& itemIdItemPair : m_itemIdToItemMap)
-    {
+    for(auto const& itemIdItemPair : m_itemIdToItemMap)    {
         cout << "Item ID: " << itemIdItemPair.first << endl;
         Item const& item(itemIdItemPair.second);
-        cout << "Item name: " << item.name << endl;
-        cout << "Item type: " << item.type << endl;
+        cout << "Item name: " << item.name << endl;        cout << "Item type: " << item.type << endl;
         cout << "Item class: " << item.itemClass << endl;
         cout << "Buying price: " << item.buyingPrice << endl;
         cout << "Selling price: " << item.sellingPrice << endl;
@@ -271,14 +530,65 @@ void RagnarokOnline::printItemIdToItemMap() const
     }
 }
 
-string RagnarokOnline::fixText(
-        string const& text)
+void RagnarokOnline::printMonsterIdToMonsterMap() const
 {
-    return getStringWithoutStartingAndTrailingWhiteSpace(text);
+    for(auto const& monsterIdMonsterPair : m_monsterIdToMonsterMap)
+    {
+        cout << "Monster ID: " << monsterIdMonsterPair.first << endl;
+        Monster const& monster(monsterIdMonsterPair.second);
+        cout << "Monster name: " << monster.name << endl;
+        cout << "HP: " << monster.hp << endl;
+        cout << "Level: " << monster.level << endl;
+        cout << "Race: " << monster.race << endl;
+        cout << "Property: " << monster.property << endl;
+        cout << "Size: " << monster.size << endl;
+        cout << "Hit required for 100%: " << monster.hitRequiredFor100Percent << endl;
+        cout << "Flee required for 95%: " << monster.fleeRequiredFor95Percent << endl;
+        cout << "Base experience: " << monster.baseExperience << endl;
+        cout << "Job experience: " << monster.jobExperience << endl;
+        cout << "Base experience per HP: " << monster.baseExperiencePerHp << endl;
+        cout << "Job experience per HP: " << monster.jobExperiencePerHp << endl;
+        cout << "Walk speed: " << monster.walkSpeed << endl;
+        cout << "Attack delay: " << monster.attackDelay << endl;
+        cout << "Delay after hit: " << monster.delayAfterHit << endl;
+        cout << "Lowest attack: " << monster.lowestAttack << endl;
+        cout << "Highest attack: " << monster.highestAttack << endl;
+        cout << "Defense: " << monster.defense << endl;
+        cout << "Magic defense: " << monster.magicDefense << endl;
+        cout << "Strength: " << monster.strength << endl;
+        cout << "Intelligence: " << monster.intelligence << endl;
+        cout << "Agility: " << monster.agility << endl;
+        cout << "Dexterity: " << monster.dexterity << endl;
+        cout << "Vitality: " << monster.vitality << endl;
+        cout << "Luck: " << monster.luck << endl;
+        cout << "Attack range: " << monster.attackRange << endl;
+        cout << "Spell range: " << monster.spellRange << endl;
+        cout << "Sight range: " << monster.sightRange << endl;
+        cout << "Neutral %: " << monster.neutralPercentage << endl;
+        cout << "Water %: " << monster.waterPercentage << endl;
+        cout << "Earth %: " << monster.earthPercentage << endl;
+        cout << "Fire %: " << monster.firePercentage << endl;
+        cout << "Wind %: " << monster.windPercentage << endl;
+        cout << "Poison %: " << monster.poisonPercentage << endl;
+        cout << "Holy %: " << monster.holyPercentage << endl;
+        cout << "Shadow %: " << monster.shadowPercentage << endl;
+        cout << "Ghost %: " << monster.ghostPercentage << endl;
+        cout << "Undead %: " << monster.undeadPercentage << endl;
+        cout << "Drops with rates: {";
+        for(NameAndRate const& dropWithRate : monster.dropsWithRates)
+        {
+            cout << "[" << dropWithRate.name << "," << dropWithRate.rate << "], ";
+        }
+        cout << "}" << endl;
+    }
 }
 
-ostream & operator<<(ostream & out, NameAndRate const& nameAndRate)
-{
+string RagnarokOnline::fixText(
+        string const& text)
+{    return getStringWithoutStartingAndTrailingWhiteSpace(text);
+}
+
+ostream & operator<<(ostream & out, NameAndRate const& nameAndRate){
     AlbaFileParameterWriter writer(out);
     writer.writeData<string>(nameAndRate.name);
     writer.writeData<double>(nameAndRate.rate);
@@ -310,21 +620,71 @@ ostream & operator<<(ostream & out, Item const& item)
     return out;
 }
 
-ostream & operator<<(ostream & out, ItemIdToItemMap const& itemIdToItemMap)
+ostream & operator<<(ostream & out, Monster const& monster)
 {
     AlbaFileParameterWriter writer(out);
-    writer.writeMapData<unsigned int, Item>(itemIdToItemMap);
+    writer.writeData<unsigned int>(monster.monsterId);
+    writer.writeData<string>(monster.name);
+    writer.writeData<unsigned int>(monster.hp);
+    writer.writeData<unsigned int>(monster.level);
+    writer.writeData<string>(monster.race);
+    writer.writeData<string>(monster.property);
+    writer.writeData<string>(monster.size);
+    writer.writeData<unsigned int>(monster.hitRequiredFor100Percent);
+    writer.writeData<unsigned int>(monster.fleeRequiredFor95Percent);
+    writer.writeData<unsigned int>(monster.baseExperience);
+    writer.writeData<unsigned int>(monster.jobExperience);
+    writer.writeData<string>(monster.baseExperiencePerHp);
+    writer.writeData<string>(monster.jobExperiencePerHp);
+    writer.writeData<string>(monster.walkSpeed);
+    writer.writeData<string>(monster.attackDelay);
+    writer.writeData<string>(monster.delayAfterHit);
+    writer.writeData<unsigned int>(monster.lowestAttack);
+    writer.writeData<unsigned int>(monster.highestAttack);
+    writer.writeData<unsigned int>(monster.defense);
+    writer.writeData<unsigned int>(monster.magicDefense);
+    writer.writeData<unsigned int>(monster.strength);
+    writer.writeData<unsigned int>(monster.intelligence);
+    writer.writeData<unsigned int>(monster.agility);
+    writer.writeData<unsigned int>(monster.dexterity);
+    writer.writeData<unsigned int>(monster.vitality);
+    writer.writeData<unsigned int>(monster.luck);
+    writer.writeData<unsigned int>(monster.attackRange);
+    writer.writeData<unsigned int>(monster.spellRange);
+    writer.writeData<unsigned int>(monster.sightRange);
+    writer.writeData<int>(monster.neutralPercentage);
+    writer.writeData<int>(monster.waterPercentage);
+    writer.writeData<int>(monster.earthPercentage);
+    writer.writeData<int>(monster.firePercentage);
+    writer.writeData<int>(monster.windPercentage);
+    writer.writeData<int>(monster.poisonPercentage);
+    writer.writeData<int>(monster.holyPercentage);
+    writer.writeData<int>(monster.shadowPercentage);
+    writer.writeData<int>(monster.ghostPercentage);
+    writer.writeData<int>(monster.undeadPercentage);
+    writer.writeVectorData<NameAndRate>(monster.dropsWithRates);
+    return out;
+}
+
+ostream & operator<<(ostream & out, ItemIdToItemMap const& itemIdToItemMap)
+{
+    AlbaFileParameterWriter writer(out);    writer.writeMapData<unsigned int, Item>(itemIdToItemMap);
+    return out;
+}
+
+ostream & operator<<(ostream & out, MonsterIdToMonsterMap const& monsterIdToMonsterMap)
+{
+    AlbaFileParameterWriter writer(out);
+    writer.writeMapData<unsigned int, Monster>(monsterIdToMonsterMap);
     return out;
 }
 
 istream & operator>>(istream & in, NameAndRate & nameAndRate)
 {
-    AlbaFileParameterReader reader(in);
-    nameAndRate.name = reader.readData<string>();
+    AlbaFileParameterReader reader(in);    nameAndRate.name = reader.readData<string>();
     nameAndRate.rate = reader.readData<double>();
     return in;
 }
-
 istream & operator>>(istream & in, Item & item)
 {
     AlbaFileParameterReader reader(in);
@@ -350,11 +710,62 @@ istream & operator>>(istream & in, Item & item)
     return in;
 }
 
-istream & operator>>(istream & in, ItemIdToItemMap & itemIdToItemMap)
+istream & operator>>(istream & in, Monster & monster)
 {
     AlbaFileParameterReader reader(in);
-    reader.readMapData<unsigned int, Item>(itemIdToItemMap);
+    monster.monsterId = reader.readData<unsigned int>();
+    monster.name = reader.readData<string>();
+    monster.hp = reader.readData<unsigned int>();
+    monster.level = reader.readData<unsigned int>();
+    monster.race = reader.readData<string>();
+    monster.property = reader.readData<string>();
+    monster.size = reader.readData<string>();
+    monster.hitRequiredFor100Percent = reader.readData<unsigned int>();
+    monster.fleeRequiredFor95Percent = reader.readData<unsigned int>();
+    monster.baseExperience = reader.readData<unsigned int>();
+    monster.jobExperience = reader.readData<unsigned int>();
+    monster.baseExperiencePerHp = reader.readData<string>();
+    monster.jobExperiencePerHp = reader.readData<string>();
+    monster.walkSpeed = reader.readData<string>();
+    monster.attackDelay = reader.readData<string>();
+    monster.delayAfterHit = reader.readData<string>();
+    monster.lowestAttack = reader.readData<unsigned int>();
+    monster.highestAttack = reader.readData<unsigned int>();
+    monster.defense = reader.readData<unsigned int>();
+    monster.magicDefense = reader.readData<unsigned int>();
+    monster.strength = reader.readData<unsigned int>();
+    monster.intelligence = reader.readData<unsigned int>();
+    monster.agility = reader.readData<unsigned int>();
+    monster.dexterity = reader.readData<unsigned int>();
+    monster.vitality = reader.readData<unsigned int>();
+    monster.luck = reader.readData<unsigned int>();
+    monster.attackRange = reader.readData<unsigned int>();
+    monster.spellRange = reader.readData<unsigned int>();
+    monster.sightRange = reader.readData<unsigned int>();
+    monster.neutralPercentage = reader.readData<int>();
+    monster.waterPercentage = reader.readData<int>();
+    monster.earthPercentage = reader.readData<int>();
+    monster.firePercentage = reader.readData<int>();
+    monster.windPercentage = reader.readData<int>();
+    monster.poisonPercentage = reader.readData<int>();
+    monster.holyPercentage = reader.readData<int>();
+    monster.shadowPercentage = reader.readData<int>();
+    monster.ghostPercentage = reader.readData<int>();
+    monster.undeadPercentage = reader.readData<int>();
+    reader.readVectorData<NameAndRate>(monster.dropsWithRates);
     return in;
 }
 
+istream & operator>>(istream & in, ItemIdToItemMap & itemIdToItemMap)
+{
+    AlbaFileParameterReader reader(in);    reader.readMapData<unsigned int, Item>(itemIdToItemMap);
+    return in;
+}
+
+istream & operator>>(istream & in, MonsterIdToMonsterMap & monsterIdToMonsterMap)
+{
+    AlbaFileParameterReader reader(in);
+    reader.readMapData<unsigned int, Monster>(monsterIdToMonsterMap);
+    return in;
+}
 }
