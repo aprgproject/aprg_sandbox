@@ -2,25 +2,23 @@
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Operations/AccumulateOperations.hpp>
+#include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
-#include <Algebra/Term/Utilities/SegregateHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>#include <Algebra/Term/Utilities/SegregateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
-
 #include <algorithm>
 
 using namespace alba::mathHelper;
+using namespace alba::algebra::Simplification;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 MultiplicationAndDivisionOfRadicals::MultiplicationAndDivisionOfRadicals()
 {}
 
@@ -31,14 +29,19 @@ MultiplicationAndDivisionOfRadicals::MultiplicationAndDivisionOfRadicals(
 
 Term MultiplicationAndDivisionOfRadicals::getCombinedTerm() const
 {
+    SimplificationOfExpression::ConfigurationDetails radicalSimplificationConfigurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    radicalSimplificationConfigurationDetails.shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase = true;
+
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(radicalSimplificationConfigurationDetails);
+
     Expression combinedExpression;
     combinedExpression.setCommonOperatorLevel(OperatorLevel::MultiplicationAndDivision);
-    combinedExpression.putTermsWithDetails(m_termsWithDetails);
-    Term combinedTerm(combinedExpression);
+    combinedExpression.putTermsWithDetails(m_termsWithDetails);    Term combinedTerm(combinedExpression);
     combinedTerm.simplify();
     return combinedTerm;
 }
-
 TermsWithDetails const& MultiplicationAndDivisionOfRadicals::getTermsWithDetails() const
 {
     return m_termsWithDetails;
@@ -46,13 +49,18 @@ TermsWithDetails const& MultiplicationAndDivisionOfRadicals::getTermsWithDetails
 
 void MultiplicationAndDivisionOfRadicals::simplify()
 {
+    SimplificationOfExpression::ConfigurationDetails radicalSimplificationConfigurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    radicalSimplificationConfigurationDetails.shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase = true;
+
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(radicalSimplificationConfigurationDetails);
+
     Monomial combinedMonomial(createMonomialFromConstant(1));
     RadicalDetails radicalDetails;
     TermsWithDetails remainingTerms;
-
     gatherDetails(radicalDetails, combinedMonomial, remainingTerms);
     AlbaNumber gcfOfExponents(getGcfOfExponents(radicalDetails));
-
     if(shouldBeCombined(radicalDetails, combinedMonomial, gcfOfExponents))
     {
         m_termsWithDetails.clear();

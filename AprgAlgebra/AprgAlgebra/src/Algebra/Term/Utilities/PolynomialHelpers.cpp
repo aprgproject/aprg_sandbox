@@ -18,13 +18,21 @@ namespace alba
 namespace algebra
 {
 
-bool doesThePolynomialHaveOnlyOneVariable(Polynomial const& polynomial)
+bool doesThePolynomialHaveOnlyOneConstant(Polynomial const& polynomial)
 {
-    VariableNamesRetriever variableNamesRetriever;
-    variableNamesRetriever.retrieveFromPolynomial(polynomial);
-    return variableNamesRetriever.getSavedData().size() == 1;
+    bool result(false);
+    if(polynomial.isOneMonomial())
+    {
+        result = polynomial.getFirstMonomial().isConstantOnly();
+    }
+    return result;
 }
 
+bool doesThePolynomialHaveOnlyOneVariable(Polynomial const& polynomial)
+{
+    VariableNamesRetriever variableNamesRetriever;    variableNamesRetriever.retrieveFromPolynomial(polynomial);
+    return variableNamesRetriever.getSavedData().size() == 1;
+}
 AlbaNumber getRemainderForOneVariablePolynomialDividedByVariableMinusConstantValue(
         Polynomial const& polynomial,
         AlbaNumber const& value)

@@ -70,15 +70,13 @@ void RationalizeTermOverTerm::rationalize(
 void RationalizeTermOverTerm::simplifyForRationalize(Term & term)
 {
     SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(
-                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     rationalizeConfigurationDetails.shouldSimplifyToACommonDenominator = true;
     rationalizeConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
     rationalizeConfigurationDetails.shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt = true;
-
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(rationalizeConfigurationDetails);
-    term.simplify();
-}
+    term.simplify();}
 
 Term RationalizeTermOverTerm::getMultiplierToRationalize(
         Term const& term) const

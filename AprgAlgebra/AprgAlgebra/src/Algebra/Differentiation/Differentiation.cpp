@@ -27,39 +27,12 @@ Differentiation::Differentiation(
 
 Term Differentiation::differentiate(Term const& term) const
 {
-    Term result;
-    if(term.isConstant())
-    {
-        result = differentiate(term.getConstantConstReference());
-    }
-    else if(term.isVariable())
-    {
-        result = differentiate(term.getVariableConstReference());
-    }
-    else if(term.isMonomial())
-    {
-        result = differentiate(term.getMonomialConstReference());
-    }
-    else if(term.isPolynomial())
-    {
-        result = differentiate(term.getPolynomialConstReference());
-    }
-    else if(term.isExpression())
-    {
-        result = differentiate(term.getExpressionConstReference());
-    }
-    else if(term.isFunction())
-    {
-        result = differentiate(term.getFunctionConstReference());
-    }
-    return result;
+    return differentiateTerm(term);
 }
 
-Term Differentiation::differentiate(Constant const& constant) const
-{
+Term Differentiation::differentiate(Constant const& constant) const{
     return Term(differentiateConstant(constant));
 }
-
 Term Differentiation::differentiate(Variable const& variable) const
 {
     Term result(differentiateVariable(variable));
@@ -91,24 +64,56 @@ Term Differentiation::differentiate(Function const& functionObject) const
     return differentiateFunction(functionObject);
 }
 
+Equation Differentiation::differentiate(Equation const& equation) const
+{
+    return differentiateEquation(equation);
+}
+
+Term Differentiation::differentiateTerm(Term const& term) const
+{
+    Term result;
+    if(term.isConstant())
+    {
+        result = differentiate(term.getConstantConstReference());
+    }
+    else if(term.isVariable())
+    {
+        result = differentiate(term.getVariableConstReference());
+    }
+    else if(term.isMonomial())
+    {
+        result = differentiate(term.getMonomialConstReference());
+    }
+    else if(term.isPolynomial())
+    {
+        result = differentiate(term.getPolynomialConstReference());
+    }
+    else if(term.isExpression())
+    {
+        result = differentiate(term.getExpressionConstReference());
+    }
+    else if(term.isFunction())
+    {
+        result = differentiate(term.getFunctionConstReference());
+    }
+    return result;
+}
+
 AlbaNumber Differentiation::differentiateConstant(Constant const&) const
 {
-    return 0;
-}
+    return 0;}
 
 Monomial Differentiation::differentiateVariable(Variable const& variable) const
 {
     Monomial result;
     string const& nameOfVariable(variable.getVariableName());
-    if(nameOfVariable == m_nameOfVariableToDifferentiate)
+    if(isVariableToDifferentiate(nameOfVariable))
     {
         result = Monomial(1, {});
-    }
-    else if(isDependentVariable(nameOfVariable))
+    }    else if(isDependentVariable(nameOfVariable))
     {
         result = Monomial(1, {{getNameOfDifferentialOfDependentVariable(nameOfVariable), 1}});
-    }
-    else
+    }    else
     {
         result = Monomial(0, {});
     }
@@ -117,26 +122,40 @@ Monomial Differentiation::differentiateVariable(Variable const& variable) const
 
 Monomial Differentiation::differentiateMonomial(Monomial const& monomial) const
 {
-    Monomial result;
-    AlbaNumber exponentOfMonomial(monomial.getExponentForVariable(m_nameOfVariableToDifferentiate));
-    if(exponentOfMonomial == 0)
+    Monomial result(monomial.getConstantConstReference(), {});
+    bool isNonZeroDerivative(false);
+    for(auto const& variableExponentPair :
+        monomial.getVariablesToExponentsMapConstReference())
+    {
+        std::string const& variableName(variableExponentPair.first);
+        AlbaNumber const& exponent(variableExponentPair.second);
+        if(isVariableToDifferentiate(variableName) && exponent != 0)
+        {
+            result.putVariableWithExponent(variableName, exponent-1);
+            result.multiplyNumber(exponent);
+            isNonZeroDerivative = true;
+        }
+        else if(isDependentVariable(variableName) && exponent != 0)
+        {
+            result.putVariableWithExponent(variableName, exponent-1);
+            result.multiplyNumber(exponent);
+            result.putVariableWithExponent(getNameOfDifferentialOfDependentVariable(variableName), 1);
+            isNonZeroDerivative = true;
+        }
+        else
+        {
+            result.putVariableWithExponent(variableName, exponent);
+        }
+    }
+    if(!isNonZeroDerivative)
     {
         result = Monomial(0, {});
     }
-    else
-    {
-        Monomial newMonomial(monomial);
-        newMonomial.putVariableWithExponent(m_nameOfVariableToDifferentiate, exponentOfMonomial-1);
-        newMonomial.multiplyNumber(exponentOfMonomial);
-        result = newMonomial;
-    }
     result.simplify();
-    return result;
-}
+    return result;}
 
 Polynomial Differentiation::differentiatePolynomial(Polynomial const& polynomial) const
-{
-    Polynomial result;
+{    Polynomial result;
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
         result.addMonomial(differentiateMonomial(monomial));
@@ -162,14 +181,23 @@ Term Differentiation::differentiateFunction(
     return result;
 }
 
+Equation Differentiation::differentiateEquation(
+        Equation const& equation) const
+{
+    Equation result(
+                differentiate(equation.getLeftHandTerm()),
+                    equation.getEquationOperator().getOperatorString(),
+                    differentiate(equation.getRightHandTerm()));
+    result.simplify();
+    return result;
+}
+
 Term Differentiation::differentiateTwoMultipliedTerms(
         Term const& term1,
-        Term const& term2) const
-{
+        Term const& term2) const{
     Term term1Derivative(differentiate(term1));
     Term term2Derivative(differentiate(term2));
-    Expression firstPart(createExpressionIfPossible({term1, Term("*"), term2Derivative}));
-    Expression secondPart(createExpressionIfPossible({term2, Term("*"), term1Derivative}));
+    Expression firstPart(createExpressionIfPossible({term1, Term("*"), term2Derivative}));    Expression secondPart(createExpressionIfPossible({term2, Term("*"), term1Derivative}));
     Term result(createExpressionIfPossible({firstPart, Term("+"), secondPart}));
     result.simplify();
     return result;
@@ -190,14 +218,18 @@ Term Differentiation::differentiateTwoDividedTerms(
     return result;
 }
 
-bool Differentiation::isDependentVariable(
+bool Differentiation::isVariableToDifferentiate(
         std::string const& variableName) const
 {
-    return m_namesOfDependentVariables.find(variableName) != m_namesOfDependentVariables.cend();
+    return variableName == m_nameOfVariableToDifferentiate;
 }
 
-std::string Differentiation::getNameOfDifferentialOfDependentVariable(
+bool Differentiation::isDependentVariable(
         std::string const& variableName) const
+{    return m_namesOfDependentVariables.find(variableName) != m_namesOfDependentVariables.cend();
+}
+
+std::string Differentiation::getNameOfDifferentialOfDependentVariable(        std::string const& variableName) const
 {
     string d("d");
     string result(d+variableName);

@@ -1,28 +1,29 @@
 #include "TermsOverTerms.hpp"
 
+#include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Constructs/PolynomialOverPolynomial.hpp>
+#include <Algebra/Constructs/TermRaiseToANumber.hpp>
 #include <Algebra/Factorization/FactorizationOfTerm.hpp>
 #include <Algebra/Operations/AccumulateOperations.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
 #include <sstream>
 
 using namespace alba::algebra::Factorization;
+using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 TermsOverTerms::TermsOverTerms()
     : m_numerators()
     , m_denominators()
@@ -233,47 +234,102 @@ void TermsOverTerms::retrievePolynomialAndNonPolynomialsTerms(
     }
 }
 
+
 void TermsOverTerms::removeSameTermsInNumeratorAndDenominator(
         Terms & numeratorTerms,
         Terms & denominatorTerms)
 {
-    bool hasZerosOnNumeratorAndDenominator(false);
-    for(Terms::iterator numeratorIt = numeratorTerms.begin();
-        numeratorIt != numeratorTerms.end();
-        numeratorIt++)
+    BaseToExponentMap baseToExponentMap;
+    updateBaseToExponentMap(baseToExponentMap, numeratorTerms, 1);
+    updateBaseToExponentMap(baseToExponentMap, denominatorTerms, -1);
+
+    numeratorTerms.clear();
+    denominatorTerms.clear();
+
+    putTermsOnNumeratorAndDenominatorFromBaseExponentMap(numeratorTerms, denominatorTerms, baseToExponentMap);
+}
+
+void TermsOverTerms::updateBaseToExponentMap(
+        BaseToExponentMap & baseToExponentMap,
+        Terms const& termsToCheck,
+        int const signToBePutWithExponent)
+{
+    for(Term const& termToCheck : termsToCheck)
     {
-        for(Terms::iterator denominatorIt = denominatorTerms.begin();
-            denominatorIt != denominatorTerms.end();
-            denominatorIt++)
+        Term baseToPut(termToCheck);
+        AlbaNumber exponentToPut(1);
+        if(termToCheck.isExpression()
+                && OperatorLevel::RaiseToPower == termToCheck.getExpressionConstReference().getCommonOperatorLevel())
         {
-            Term const& term1(*numeratorIt);
-            Term const& term2(*denominatorIt);
-            if(term1 == term2)
+            TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(termToCheck));
+            baseToPut = termRaiseToANumber.getBase();
+            exponentToPut = termRaiseToANumber.getExponent();
+        }
+        baseToExponentMap[baseToPut] += (exponentToPut*signToBePutWithExponent);
+    }
+}
+
+void TermsOverTerms::putTermsOnNumeratorAndDenominatorFromBaseExponentMap(
+        Terms & numeratorTerms,
+        Terms & denominatorTerms,
+        BaseToExponentMap const& baseToExponentMap)
+{
+    bool hasZerosOnNumeratorAndDenominator(false);
+    for(auto const& baseExponentPair : baseToExponentMap)
+    {
+        Term const& base(baseExponentPair.first);
+        AlbaNumber const& exponent(baseExponentPair.second);
+        if(exponent.isIntegerType())
+        {
+            if(exponent > 0)
             {
-                if(isTheValue(term1, 0))
-                {
-                    hasZerosOnNumeratorAndDenominator=true;
-                }
-                numeratorTerms.erase(numeratorIt);
-                denominatorTerms.erase(denominatorIt);
-                numeratorIt--;
-                denominatorIt--;
+                populateTermsWithBase(numeratorTerms, base, exponent);
+            }
+            else if(exponent < 0)
+            {
+                populateTermsWithBase(denominatorTerms, base, exponent);
+            }
+            else if(exponent == 0)
+            {
+                hasZerosOnNumeratorAndDenominator = isTheValue(base, 0);
+            }
+        }
+        else
+        {
+            if(exponent > 0)
+            {
+                TermRaiseToANumber termRaiseToANumber(base, exponent);
+                numeratorTerms.emplace_back(termRaiseToANumber.getCombinedTerm());
+            }
+            else if(exponent < 0)
+            {
+                TermRaiseToANumber termRaiseToANumber(base, exponent*-1);
+                denominatorTerms.emplace_back(termRaiseToANumber.getCombinedTerm());
             }
         }
     }
     if(hasZerosOnNumeratorAndDenominator)
+    {        numeratorTerms.emplace_back(Term(AlbaNumber(AlbaNumber::Value::NotANumber)));
+    }
+}
+
+void TermsOverTerms::populateTermsWithBase(
+        Terms & termsToUpdate,
+        Term const& base,
+        AlbaNumber const& exponent)
+{
+    unsigned int exponentCount = static_cast<unsigned int>(getAbsoluteValueForAlbaNumber(exponent).getInteger());
+    for(unsigned int i=0; i<exponentCount; i++)
     {
-        numeratorTerms.emplace_back(Term(AlbaNumber(AlbaNumber::Value::NotANumber)));
+        termsToUpdate.emplace_back(base);
     }
 }
 
 void TermsOverTerms::removeTermsThatHaveNoEffect(Terms & terms) const
 {
-    terms.erase(remove_if(terms.begin(), terms.end(), [](Term const& term){
-                    return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term);
+    terms.erase(remove_if(terms.begin(), terms.end(), [](Term const& term){                    return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term);
                 }), terms.end());
 }
-
 void TermsOverTerms::putTermsOnNumeratorAndDenominatorCorrectly(
         Terms & numerators,
         Terms & denominators)

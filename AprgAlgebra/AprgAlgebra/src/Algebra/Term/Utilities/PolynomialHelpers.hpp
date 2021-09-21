@@ -15,14 +15,13 @@ enum class RootType
     RealAndImaginaryRoots,
 };
 
+bool doesThePolynomialHaveOnlyOneConstant(Polynomial const& polynomial);
 bool doesThePolynomialHaveOnlyOneVariable(Polynomial const& polynomial);
 AlbaNumber getRemainderForOneVariablePolynomialDividedByVariableMinusConstantValue(
-        Polynomial const& polynomial,
-        AlbaNumber const& value);
+        Polynomial const& polynomial,        AlbaNumber const& value);
 
 AlbaNumbers getRoots(RootType const rootType, Polynomial const& polynomial);
-Polynomial raiseBinomialToAPowerUsingBinomialExpansion(
-        Polynomial const& binomial,
+Polynomial raiseBinomialToAPowerUsingBinomialExpansion(        Polynomial const& binomial,
         unsigned int const power);
 
 void removeEmptyPolynomials(Polynomials & polynomials);

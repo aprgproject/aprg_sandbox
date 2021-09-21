@@ -108,13 +108,37 @@ TEST(FactorizationUtilitiesTest, DoesNotNeedToBeFactorizedWorks)
     EXPECT_FALSE(doesNotNeedToBeFactorized(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 1}}), Monomial(2, {{"z", 1}})}));
 }
 
+TEST(FactorizationUtilitiesTest, DoesContainOnlyConstantsWorks)
+{
+    EXPECT_FALSE(doesContainOnlyConstants(
+    {Polynomial{Monomial(1, {})},
+     Polynomial{Monomial(2, {{"x", 3}})}}));
+    EXPECT_TRUE(doesContainOnlyConstants(
+    {Polynomial{Monomial(1, {})},
+     Polynomial{Monomial(2, {})},
+     Polynomial{Monomial(3, {})}}));
+}
+
+TEST(FactorizationUtilitiesTest, DoesContainConstantsOrOnlyOneNonConstantWorks)
+{
+    EXPECT_FALSE(doesContainConstantsOrOnlyOneNonConstant(
+    {Polynomial{Monomial(1, {})},
+     Polynomial{Monomial(2, {{"x", 3}})},
+     Polynomial{Monomial(4, {{"y", 5}})}}));
+    EXPECT_TRUE(doesContainConstantsOrOnlyOneNonConstant(
+    {Polynomial{Monomial(1, {})},
+     Polynomial{Monomial(2, {{"x", 3}})}}));
+    EXPECT_TRUE(doesContainConstantsOrOnlyOneNonConstant(
+    {Polynomial{Monomial(1, {})},
+     Polynomial{Monomial(2, {})},
+     Polynomial{Monomial(3, {})}}));
+}
+
 TEST(FactorizationUtilitiesTest, SimplifyPolynomialThenEmplaceBackIfNotEmptyWorksIfNotEmpty)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(2, {{"x", 1}})};
-
     Polynomials polynomialsToVerify;
     simplifyPolynomialThenEmplaceBackIfNotEmpty(polynomialsToVerify, polynomialToTest);
-
     ASSERT_EQ(1U, polynomialsToVerify.size());
     Polynomial polynomialToExpect{Monomial(3, {{"x", 1}})};
     EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));

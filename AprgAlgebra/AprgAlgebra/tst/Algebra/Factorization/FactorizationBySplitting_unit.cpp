@@ -104,14 +104,26 @@ TEST(FactorizationBySplittingTest, FactorizeBySplittingToSmallerPolynomialsIfPos
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
-TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByPolynomialDegree_IsEmptyWhenItCannotBeFactored)
+TEST(FactorizationBySplittingTest, FactorizeBySplittingToSmallerPolynomialsIfPossible_IsEmptyWhenFactorsAreOnlyConstants)
 {
-    Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
+    Polynomial polynomialToTest{
+        Monomial(-18, {{"dy/dx", 1}, {"y", 5}}),
+                Monomial(-5, {{"dy/dx", 1}, {"y", 4}}),
+                Monomial(6, {{"x", 5}}),
+                Monomial(2, {{"dy/dx", 1}, {"y", 1}}),
+                Monomial(-2, {})};
 
-    Polynomials polynomialsToVerify(factorizeIfPossibleBySplittingByPolynomialDegree(polynomialToTest));
+    Polynomials polynomialsToVerify(factorizeBySplittingToSmallerPolynomialsIfPossible(polynomialToTest));
 
     EXPECT_TRUE(polynomialsToVerify.empty());
 }
+
+TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByPolynomialDegree_IsEmptyWhenItCannotBeFactored)
+{
+    Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
+    Polynomials polynomialsToVerify(factorizeIfPossibleBySplittingByPolynomialDegree(polynomialToTest));
+
+    EXPECT_TRUE(polynomialsToVerify.empty());}
 
 TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByPolynomialDegree_Works)
 {
