@@ -30,9 +30,11 @@ Term Differentiation::differentiate(Term const& term) const
     return differentiateTerm(term);
 }
 
-Term Differentiation::differentiate(Constant const& constant) const{
+Term Differentiation::differentiate(Constant const& constant) const
+{
     return Term(differentiateConstant(constant));
 }
+
 Term Differentiation::differentiate(Variable const& variable) const
 {
     Term result(differentiateVariable(variable));
@@ -101,7 +103,8 @@ Term Differentiation::differentiateTerm(Term const& term) const
 
 AlbaNumber Differentiation::differentiateConstant(Constant const&) const
 {
-    return 0;}
+    return 0;
+}
 
 Monomial Differentiation::differentiateVariable(Variable const& variable) const
 {
@@ -110,55 +113,72 @@ Monomial Differentiation::differentiateVariable(Variable const& variable) const
     if(isVariableToDifferentiate(nameOfVariable))
     {
         result = Monomial(1, {});
-    }    else if(isDependentVariable(nameOfVariable))
+    }
+    else if(isDependentVariable(nameOfVariable))
     {
         result = Monomial(1, {{getNameOfDifferentialOfDependentVariable(nameOfVariable), 1}});
-    }    else
+    }
+    else
     {
         result = Monomial(0, {});
     }
     return result;
 }
 
-Monomial Differentiation::differentiateMonomial(Monomial const& monomial) const
+Polynomial Differentiation::differentiateMonomial(Monomial const& monomial) const
 {
-    Monomial result(monomial.getConstantConstReference(), {});
-    bool isNonZeroDerivative(false);
+    Monomial unaffectedVariablesAndConstant(monomial.getConstantConstReference(), {});
+    Monomial affectedVariables(1, {});
+
     for(auto const& variableExponentPair :
         monomial.getVariablesToExponentsMapConstReference())
     {
         std::string const& variableName(variableExponentPair.first);
         AlbaNumber const& exponent(variableExponentPair.second);
-        if(isVariableToDifferentiate(variableName) && exponent != 0)
+        if(exponent != 0)
         {
-            result.putVariableWithExponent(variableName, exponent-1);
-            result.multiplyNumber(exponent);
-            isNonZeroDerivative = true;
-        }
-        else if(isDependentVariable(variableName) && exponent != 0)
-        {
-            result.putVariableWithExponent(variableName, exponent-1);
-            result.multiplyNumber(exponent);
-            result.putVariableWithExponent(getNameOfDifferentialOfDependentVariable(variableName), 1);
-            isNonZeroDerivative = true;
-        }
-        else
-        {
-            result.putVariableWithExponent(variableName, exponent);
+            if(isVariableToDifferentiate(variableName) || isDependentVariable(variableName))
+            {
+                affectedVariables.putVariableWithExponent(variableName, exponent);
+            }
+            else
+            {
+                unaffectedVariablesAndConstant.putVariableWithExponent(variableName, exponent);
+            }
         }
     }
-    if(!isNonZeroDerivative)
+
+    Polynomial result;
+    for(auto const& variableExponentPair :
+        affectedVariables.getVariablesToExponentsMapConstReference())
     {
-        result = Monomial(0, {});
+        std::string const& variableName(variableExponentPair.first);
+        AlbaNumber const& exponent(variableExponentPair.second);
+        Monomial monomialToAdd(affectedVariables);
+        if(isVariableToDifferentiate(variableName))
+        {
+            monomialToAdd.putVariableWithExponent(variableName, exponent-1);
+            monomialToAdd.multiplyNumber(exponent);
+        }
+        else if(isDependentVariable(variableName))
+        {
+            monomialToAdd.putVariableWithExponent(variableName, exponent-1);
+            monomialToAdd.multiplyNumber(exponent);
+            monomialToAdd.putVariableWithExponent(getNameOfDifferentialOfDependentVariable(variableName), 1);
+        }
+        result.addMonomial(monomialToAdd);
     }
+    result.multiplyMonomial(unaffectedVariablesAndConstant);
     result.simplify();
-    return result;}
+    return result;
+}
 
 Polynomial Differentiation::differentiatePolynomial(Polynomial const& polynomial) const
-{    Polynomial result;
+{
+    Polynomial result;
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
-        result.addMonomial(differentiateMonomial(monomial));
+        result.addPolynomial(differentiateMonomial(monomial));
     }
     result.simplify();
     return result;
@@ -186,18 +206,20 @@ Equation Differentiation::differentiateEquation(
 {
     Equation result(
                 differentiate(equation.getLeftHandTerm()),
-                    equation.getEquationOperator().getOperatorString(),
-                    differentiate(equation.getRightHandTerm()));
+                equation.getEquationOperator().getOperatorString(),
+                differentiate(equation.getRightHandTerm()));
     result.simplify();
     return result;
 }
 
 Term Differentiation::differentiateTwoMultipliedTerms(
         Term const& term1,
-        Term const& term2) const{
+        Term const& term2) const
+{
     Term term1Derivative(differentiate(term1));
     Term term2Derivative(differentiate(term2));
-    Expression firstPart(createExpressionIfPossible({term1, Term("*"), term2Derivative}));    Expression secondPart(createExpressionIfPossible({term2, Term("*"), term1Derivative}));
+    Expression firstPart(createExpressionIfPossible({term1, Term("*"), term2Derivative}));
+    Expression secondPart(createExpressionIfPossible({term2, Term("*"), term1Derivative}));
     Term result(createExpressionIfPossible({firstPart, Term("+"), secondPart}));
     result.simplify();
     return result;
@@ -226,10 +248,12 @@ bool Differentiation::isVariableToDifferentiate(
 
 bool Differentiation::isDependentVariable(
         std::string const& variableName) const
-{    return m_namesOfDependentVariables.find(variableName) != m_namesOfDependentVariables.cend();
+{
+    return m_namesOfDependentVariables.find(variableName) != m_namesOfDependentVariables.cend();
 }
 
-std::string Differentiation::getNameOfDifferentialOfDependentVariable(        std::string const& variableName) const
+std::string Differentiation::getNameOfDifferentialOfDependentVariable(
+        std::string const& variableName) const
 {
     string d("d");
     string result(d+variableName);

@@ -21,9 +21,11 @@ bool doesContainConstantsOrOnlyOneNonConstant(Polynomials const& polynomials);
 
 void simplifyPolynomialThenEmplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomial);
 void emplaceBackIfNotEmpty(Polynomials & polynomials, Polynomial const& polynomial);
+
 Polynomials returnPolynomialsOrSinglePolynomialIfEmpty(
         Polynomials const& polynomials,
         Polynomial const& polynomial);
+
 }
 
 }

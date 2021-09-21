@@ -5,10 +5,12 @@
 #include <Algebra/Constructs/RationalizeTermOverTerm.hpp>
 #include <Algebra/Operations/AccumulateOperations.hpp>
 #include <Algebra/Retrieval/ExpressionAndFunctionsRetriever.hpp>
-#include <Algebra/Simplification/SimplificationUtilities.hpp>#include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
+#include <Algebra/Simplification/SimplificationUtilities.hpp>
+#include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>#include <Algebra/Term/Utilities/SegregateHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/SegregateHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
@@ -76,11 +78,13 @@ bool SimplificationOfExpression::shouldNotSimplifyExpressionRaiseToAConstantByDi
 
 bool SimplificationOfExpression::shouldPerformDebug()
 {
-    return Configuration::getInstance().getConfigurationDetails().shouldPerformDebug;}
+    return Configuration::getInstance().getConfigurationDetails().shouldPerformDebug;
+}
 
 Expression SimplificationOfExpression::getExpression() const
 {
-    return m_expression;}
+    return m_expression;
+}
 
 void SimplificationOfExpression::setExpression(
         Expression const& expression)
@@ -159,9 +163,11 @@ void SimplificationOfExpression::simplifyBySubstitutingExpressionAndFunctionsToV
         while(tryToSubstituteSubExpressionOrSubFunctionAndReturnIfContinue(m_expression));
     }
 }
+
 void SimplificationOfExpression::processTermsBaseOnOperatorLevel(
         Expression & expression,
-        TermsWithDetails const& termsToProcess,        OperatorLevel const operatorLevel)
+        TermsWithDetails const& termsToProcess,
+        OperatorLevel const operatorLevel)
 {
     switch(operatorLevel)
     {
@@ -228,10 +234,12 @@ void SimplificationOfExpression::processAndSaveTermsForRaiseToPower(
     expression.setTerm(getCombinedTermUsingTermsRaiseToTerms(termRaiseToTerms));
 }
 
-void SimplificationOfExpression::addOrSubtractTermsWithExpressions(        Term & combinedTerm,
+void SimplificationOfExpression::addOrSubtractTermsWithExpressions(
+        Term & combinedTerm,
         TermsWithDetails const& termsWithExpressions) const
 {
-    AdditionAndSubtractionOfExpressions additionAndSubtraction(termsWithExpressions);    additionAndSubtraction.combineExpressionsIfPossible();
+    AdditionAndSubtractionOfExpressions additionAndSubtraction(termsWithExpressions);
+    additionAndSubtraction.combineExpressionsIfPossible();
     accumulateTermsForAdditionAndSubtraction(combinedTerm, additionAndSubtraction.getAsTermsWithDetails());
 }
 
@@ -352,10 +360,12 @@ Expression SimplificationOfExpression::getNewExpressionWithSubstitutedTerms(
 
 Terms SimplificationOfExpression::getSubExpressionsAndSubFunctions(
         Expression const& expression)
-{    ExpressionAndFunctionsRetriever retriever;
+{
+    ExpressionAndFunctionsRetriever retriever;
     TermsWithDetails const& termsWithDetails(
                 expression.getTermsWithAssociation().getTermsWithDetails());
-    if(termsWithDetails.size() > 1)    {
+    if(termsWithDetails.size() > 1)
+    {
         for(TermWithDetails const& termWithDetails : termsWithDetails)
         {
             retriever.retrieveFromTerm(

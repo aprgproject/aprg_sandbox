@@ -80,10 +80,12 @@ void LimitsAtInfinity::simplifyByCombiningRadicals(Term & term) const
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     limitAtInfinityConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
 
-    SimplificationOfExpression::ScopeObject scopeObject;    scopeObject.setInThisScopeThisConfiguration(limitAtInfinityConfigurationDetails);
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(limitAtInfinityConfigurationDetails);
 
     term.simplify();
 }
+
 void LimitsAtInfinity::simplifyPolynomialToMaxDegreeMonomialOnly()
 {
     if(m_simplifiedTermAtInfinity.isPolynomial())

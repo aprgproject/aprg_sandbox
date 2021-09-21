@@ -260,7 +260,7 @@ void Monomial::putVariablesWithExponents(VariablesToExponentsMap const& variable
 
 void Monomial::putVariableWithExponent(string const& variable, AlbaNumber const& exponent)
 {
-    m_variablesToExponentsMap[variable]=exponent;
+    m_variablesToExponentsMap[variable] = exponent;
 }
 
 bool Monomial::isLessThanByComparingVariableNameMaps(

@@ -5,7 +5,8 @@
 #include <Algebra/Constructs/TermRaiseToANumber.hpp>
 #include <Algebra/Factorization/FactorizationOfTerm.hpp>
 #include <Algebra/Operations/AccumulateOperations.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
@@ -20,10 +21,12 @@ using namespace alba::algebra::Factorization;
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 TermsOverTerms::TermsOverTerms()
     : m_numerators()
     , m_denominators()
@@ -309,7 +312,8 @@ void TermsOverTerms::putTermsOnNumeratorAndDenominatorFromBaseExponentMap(
         }
     }
     if(hasZerosOnNumeratorAndDenominator)
-    {        numeratorTerms.emplace_back(Term(AlbaNumber(AlbaNumber::Value::NotANumber)));
+    {
+        numeratorTerms.emplace_back(Term(AlbaNumber(AlbaNumber::Value::NotANumber)));
     }
 }
 
@@ -327,9 +331,11 @@ void TermsOverTerms::populateTermsWithBase(
 
 void TermsOverTerms::removeTermsThatHaveNoEffect(Terms & terms) const
 {
-    terms.erase(remove_if(terms.begin(), terms.end(), [](Term const& term){                    return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term);
+    terms.erase(remove_if(terms.begin(), terms.end(), [](Term const& term){
+                    return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term);
                 }), terms.end());
 }
+
 void TermsOverTerms::putTermsOnNumeratorAndDenominatorCorrectly(
         Terms & numerators,
         Terms & denominators)

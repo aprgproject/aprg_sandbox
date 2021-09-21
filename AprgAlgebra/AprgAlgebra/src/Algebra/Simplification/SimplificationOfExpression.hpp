@@ -3,10 +3,12 @@
 #include <Algebra/Constructs/TermRaiseToTerms.hpp>
 #include <Algebra/Constructs/TermsOverTerms.hpp>
 #include <Algebra/Term/TermTypes/Expression.hpp>
-#include <Algebra/Term/TermTypes/Term.hpp>#include <Container/AlbaConfigurationHolder.hpp>
+#include <Algebra/Term/TermTypes/Term.hpp>
+#include <Container/AlbaConfigurationHolder.hpp>
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -28,9 +30,11 @@ public:
         bool shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase;
         bool shouldPerformDebug;
     };
+
     class Configuration
             : public AlbaConfigurationHolder<ConfigurationDetails>
     {};
+
     class ScopeObject : public AlbaConfigurationScopeObject<ConfigurationDetails>
     {};
 
@@ -48,9 +52,11 @@ public:
     static bool shouldPerformDebug();
 
     Expression getExpression() const;
+
     void setExpression(Expression const& expression);
 
     void simplify();
+
 private:
     bool isChangeDetected(
             Expression const& expression1,
@@ -98,8 +104,10 @@ private:
     Expression getNewExpressionWithSubstitutedTerms(Term const& expressionOrFunctionTerm);
     Terms getSubExpressionsAndSubFunctions(Expression const& expression);
     bool shouldBeIncludedFromSubExpressionsAndSubFunctions(Term const& term);
+
     Expression m_expression;
 };
+
 }
 
 }

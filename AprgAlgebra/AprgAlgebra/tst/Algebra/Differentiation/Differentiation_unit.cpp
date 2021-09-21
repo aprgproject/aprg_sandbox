@@ -24,8 +24,10 @@ TEST(DifferentiationTest, DifferentiateWorksForTerm)
 TEST(DifferentiationTest, DifferentiateWorksForConstant)
 {
     Differentiation differentiationForX("x");
+
     EXPECT_EQ(Term(Constant(0)), differentiationForX.differentiate(Constant(5)));
 }
+
 TEST(DifferentiationTest, DifferentiateWorksForVariable)
 {
     Differentiation differentiationForXWithY("x", {"y"});
@@ -33,7 +35,8 @@ TEST(DifferentiationTest, DifferentiateWorksForVariable)
     EXPECT_EQ(Term(1), differentiationForXWithY.differentiate(Variable("x")));
 }
 
-TEST(DifferentiationTest, DifferentiateWorksForMonomial){
+TEST(DifferentiationTest, DifferentiateWorksForMonomial)
+{
     Differentiation differentiationForX("x");
 
     EXPECT_EQ(Term(Constant(0)), differentiationForX.differentiate(Monomial(13, {})));
@@ -78,9 +81,11 @@ TEST(DifferentiationTest, DifferentiateWorksForEquation)
 
 TEST(DifferentiationTest, DifferentiateTermWorks)
 {
-    Differentiation differentiationForX("x");    Term x("x");
+    Differentiation differentiationForX("x");
+    Term x("x");
     Term polynomialTerm(Polynomial({Monomial(7, {{"x", 4}}), Monomial(-2, {{"x", 3}}), Monomial(8, {{"x", 1}}), Monomial(5, {})}));
     Term expressionTerm(createExpressionIfPossible({cos(x)}));
+
     Term expectedTerm1(Polynomial({Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})}));
     Term expectedTerm2(createExpressionIfPossible({Term(-1), Term("*"), sin(x)}));
     Term expectedTerm3(cos(x));
@@ -95,8 +100,10 @@ TEST(DifferentiationTest, DifferentiateTermWorks)
 TEST(DifferentiationTest, DifferentiateConstantWorks)
 {
     Differentiation differentiationForX("x");
+
     EXPECT_EQ(AlbaNumber(0), differentiationForX.differentiateConstant(Constant(5)));
 }
+
 TEST(DifferentiationTest, DifferentiateVariableWorks)
 {
     Differentiation differentiationForXWithY("x", {"y"});
@@ -110,12 +117,20 @@ TEST(DifferentiationTest, DifferentiateMonomialWorks)
 {
     Differentiation differentiationForXWithY("x", {"y"});
 
-    EXPECT_EQ(Monomial(0, {}), differentiationForXWithY.differentiateMonomial(Monomial(13, {})));
-    EXPECT_EQ(Monomial(0, {}), differentiationForXWithY.differentiateMonomial(Monomial(13, {{"x", 0}})));
-    EXPECT_EQ(Monomial(8, {{"x", 7}}), differentiationForXWithY.differentiateMonomial(Monomial(1, {{"x", 8}})));
-    EXPECT_EQ(Monomial(-15, {{"x", -6}}), differentiationForXWithY.differentiateMonomial(Monomial(3, {{"x", -5}})));
-    EXPECT_EQ(Monomial(0, {}), differentiationForXWithY.differentiateMonomial(Monomial(3, {{"z", -5}})));
-    EXPECT_EQ(Monomial(336, {{"dy/dx", 1}, {"x", 6}, {"y", 7}, {"z", 9}}), differentiationForXWithY.differentiateMonomial(Monomial(6, {{"x", 7}, {"y", 8}, {"z", 9}})));
+    EXPECT_EQ(Polynomial(),
+              differentiationForXWithY.differentiateMonomial(Monomial(13, {})));
+    EXPECT_EQ(Polynomial(),
+              differentiationForXWithY.differentiateMonomial(Monomial(13, {{"x", 0}})));
+    EXPECT_EQ(Polynomial({Monomial(8, {{"x", 7}})}),
+              differentiationForXWithY.differentiateMonomial(Monomial(1, {{"x", 8}})));
+    EXPECT_EQ(Polynomial({Monomial(-15, {{"x", -6}})}),
+              differentiationForXWithY.differentiateMonomial(Monomial(3, {{"x", -5}})));
+    EXPECT_EQ(Polynomial(),
+              differentiationForXWithY.differentiateMonomial(Monomial(3, {{"z", -5}})));
+    EXPECT_EQ(Polynomial(
+    {Monomial(48, {{"dy/dx", 1}, {"x", 7}, {"y", 7}, {"z", 9}}),
+     Monomial(42, {{"x", 6}, {"y", 8}, {"z", 9}})}),
+              differentiationForXWithY.differentiateMonomial(Monomial(6, {{"x", 7}, {"y", 8}, {"z", 9}})));
 }
 
 TEST(DifferentiationTest, DifferentiatePolynomialWorks)
@@ -130,7 +145,11 @@ TEST(DifferentiationTest, DifferentiatePolynomialWorks)
     Polynomial expectedPolynomial1;
     Polynomial expectedPolynomial2;
     Polynomial expectedPolynomial3{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
-    Polynomial expectedPolynomial4{Monomial(-6, {{"dy/dx", 1}, {"x", -3}, {"y", -4}}), Monomial(20, {{"x", -6}, {"z", -6}})};
+    Polynomial expectedPolynomial4
+    {
+        Monomial(3, {{"dy/dx", 1}, {"x", -2}, {"y", -4}}),
+                Monomial(2, {{"x", -3}, {"y", -3}}),
+                Monomial(20, {{"x", -6}, {"z", -6}})};
     Polynomial expectedPolynomial5;
     EXPECT_EQ(expectedPolynomial1, differentiationForXWithY.differentiatePolynomial(polynomial1));
     EXPECT_EQ(expectedPolynomial2, differentiationForXWithY.differentiatePolynomial(polynomial2));
@@ -193,9 +212,11 @@ TEST(DifferentiationTest, DifferentiateFunctionWorksWithTrigonometricFunction)
     EXPECT_EQ(Term(createExpressionIfPossible({Term(-1), Term("*"), csc(x), Term("*"), csc(x)})), differentiationForXWithY.differentiateFunction(cot(x)));
 }
 
-TEST(DifferentiationTest, DifferentiateFunctionWorksWithChainRule){
+TEST(DifferentiationTest, DifferentiateFunctionWorksWithChainRule)
+{
     Differentiation differentiationForX("x");
     Function functionToTest(sin(Term(Monomial(10, {{"x", 8}}))));
+
     Term expectedTerm(createExpressionIfPossible({Term(Monomial(80, {{"x", 7}})), Term("*"), cos(Term(Monomial(10, {{"x", 8}})))}));
     EXPECT_EQ(expectedTerm, differentiationForX.differentiateFunction(functionToTest));
 }
@@ -211,15 +232,17 @@ TEST(DifferentiationTest, DifferentiateEquationWorks)
     Equation equation2(term1ForEquation2, "=", term2ForEquation2);
 
     EXPECT_EQ("(18[dy/dx][y^5] + 5[dy/dx][y^4] + -6[x^5] + -2[dy/dx][y] + 2) = 0", differentiationForXWithY.differentiateEquation(equation1).getDisplayableString());
-    EXPECT_EQ("(24[dy/dx][x^3][y] + -21[dy/dx][y^2] + -8[dy/dx]) = 0", differentiationForXWithY.differentiateEquation(equation2).getDisplayableString());
+    EXPECT_EQ("(6[dy/dx][x^4][y] + 12[x^3][y^2] + -21[dy/dx][x][y^2] + -7[y^3] + -8[dy/dx]) = 0", differentiationForXWithY.differentiateEquation(equation2).getDisplayableString());
 }
 
 TEST(DifferentiationTest, DifferentiateTwoMultipliedTermsWorks)
 {
-    Differentiation differentiationForX("x");    Term term1(Polynomial{Monomial(2, {{"x", 3}}), Monomial(-4, {{"x", 2}})});
+    Differentiation differentiationForX("x");
+    Term term1(Polynomial{Monomial(2, {{"x", 3}}), Monomial(-4, {{"x", 2}})});
     Term term2(Polynomial{Monomial(3, {{"x", 5}}), Monomial(1, {{"x", 2}})});
 
-    Term expectedTerm(Polynomial{Monomial(48, {{"x", 7}}), Monomial(-84, {{"x", 6}}), Monomial(10, {{"x", 4}}), Monomial(-16, {{"x", 3}})});    EXPECT_EQ(expectedTerm, differentiationForX.differentiateTwoMultipliedTerms(term1, term2));
+    Term expectedTerm(Polynomial{Monomial(48, {{"x", 7}}), Monomial(-84, {{"x", 6}}), Monomial(10, {{"x", 4}}), Monomial(-16, {{"x", 3}})});
+    EXPECT_EQ(expectedTerm, differentiationForX.differentiateTwoMultipliedTerms(term1, term2));
 }
 
 TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks)
@@ -243,17 +266,20 @@ TEST(DifferentiationTest, DifferentiateWorksWithDivisionExpressionRaiseToAConsta
     EXPECT_EQ("(-160/(1[x^6] + -6[x^5] + 15[x^4] + -20[x^3] + 15[x^2] + -6[x] + 1))", differentiationForX.differentiate(termToTest).getDisplayableString());
 }
 
-TEST(DifferentiationTest, DifferentiateWorksWithChainRule){
+TEST(DifferentiationTest, DifferentiateWorksWithChainRule)
+{
     Differentiation differentiationForX("x");
     Term termToTest(createExpressionIfPossible({sec(Term(Monomial(2, {{"x", 2}}))), Term("^"), Term(4)}));
 
     EXPECT_EQ("(16[x]*sec(2[x^2])*sec(2[x^2])*sec(2[x^2])*sec(2[x^2])*tan(2[x^2]))", differentiationForX.differentiate(termToTest).getDisplayableString());
 }
 
-TEST(DifferentiationTest, DifferentiateWorksWithSquareRootOfAPolynomial){
+TEST(DifferentiationTest, DifferentiateWorksWithSquareRootOfAPolynomial)
+{
     Differentiation differentiationForX("x");
     Polynomial subPolynomial{Monomial(2, {{"x", 3}}), Monomial(-4, {{"x", 1}}), Monomial(5, {})};
     Term termToTest(createExpressionIfPossible({Term(subPolynomial), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+
     EXPECT_EQ("((3[x^2] + -2)/((2[x^3] + -4[x] + 5)^(1/2)))", differentiationForX.differentiate(termToTest).getDisplayableString());
 }
 

@@ -28,9 +28,11 @@ Term TermRaiseToANumber::getCombinedTerm() const
     return combinedTerm;
 }
 
-bool TermRaiseToANumber::isEmpty() const{
+bool TermRaiseToANumber::isEmpty() const
+{
     return m_base.isEmpty();
 }
+
 bool TermRaiseToANumber::isRadical() const
 {
     return m_exponent.isDoubleType() || m_exponent.isFractionType();

@@ -5,20 +5,24 @@
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/ConvertHelpers.hpp>#include <Algebra/Term/Utilities/SegregateHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/SegregateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
+
 #include <algorithm>
 
 using namespace alba::mathHelper;
 using namespace alba::algebra::Simplification;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 MultiplicationAndDivisionOfRadicals::MultiplicationAndDivisionOfRadicals()
 {}
 
@@ -38,10 +42,12 @@ Term MultiplicationAndDivisionOfRadicals::getCombinedTerm() const
 
     Expression combinedExpression;
     combinedExpression.setCommonOperatorLevel(OperatorLevel::MultiplicationAndDivision);
-    combinedExpression.putTermsWithDetails(m_termsWithDetails);    Term combinedTerm(combinedExpression);
+    combinedExpression.putTermsWithDetails(m_termsWithDetails);
+    Term combinedTerm(combinedExpression);
     combinedTerm.simplify();
     return combinedTerm;
 }
+
 TermsWithDetails const& MultiplicationAndDivisionOfRadicals::getTermsWithDetails() const
 {
     return m_termsWithDetails;
@@ -59,8 +65,10 @@ void MultiplicationAndDivisionOfRadicals::simplify()
     Monomial combinedMonomial(createMonomialFromConstant(1));
     RadicalDetails radicalDetails;
     TermsWithDetails remainingTerms;
+
     gatherDetails(radicalDetails, combinedMonomial, remainingTerms);
     AlbaNumber gcfOfExponents(getGcfOfExponents(radicalDetails));
+
     if(shouldBeCombined(radicalDetails, combinedMonomial, gcfOfExponents))
     {
         m_termsWithDetails.clear();

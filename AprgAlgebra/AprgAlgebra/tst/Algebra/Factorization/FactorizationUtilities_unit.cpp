@@ -137,8 +137,10 @@ TEST(FactorizationUtilitiesTest, DoesContainConstantsOrOnlyOneNonConstantWorks)
 TEST(FactorizationUtilitiesTest, SimplifyPolynomialThenEmplaceBackIfNotEmptyWorksIfNotEmpty)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(2, {{"x", 1}})};
+
     Polynomials polynomialsToVerify;
     simplifyPolynomialThenEmplaceBackIfNotEmpty(polynomialsToVerify, polynomialToTest);
+
     ASSERT_EQ(1U, polynomialsToVerify.size());
     Polynomial polynomialToExpect{Monomial(3, {{"x", 1}})};
     EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));

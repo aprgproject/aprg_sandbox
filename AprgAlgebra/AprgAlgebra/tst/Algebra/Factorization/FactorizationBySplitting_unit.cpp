@@ -121,9 +121,11 @@ TEST(FactorizationBySplittingTest, FactorizeBySplittingToSmallerPolynomialsIfPos
 TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByPolynomialDegree_IsEmptyWhenItCannotBeFactored)
 {
     Polynomial polynomialToTest{Monomial(1, {{"x", 1}}), Monomial(13, {})};
+
     Polynomials polynomialsToVerify(factorizeIfPossibleBySplittingByPolynomialDegree(polynomialToTest));
 
-    EXPECT_TRUE(polynomialsToVerify.empty());}
+    EXPECT_TRUE(polynomialsToVerify.empty());
+}
 
 TEST(FactorizationBySplittingTest, FactorizeIfPossibleBySplittingByPolynomialDegree_Works)
 {

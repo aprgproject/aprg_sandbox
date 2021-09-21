@@ -3,8 +3,10 @@
 #include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -28,7 +30,8 @@ public:
     Term differentiateTerm(Term const& term) const;
     AlbaNumber differentiateConstant(Constant const&) const;
     Monomial differentiateVariable(Variable const& variable) const;
-    Monomial differentiateMonomial(Monomial const& monomial) const;    Polynomial differentiatePolynomial(Polynomial const& polynomial) const;
+    Polynomial differentiateMonomial(Monomial const& monomial) const;
+    Polynomial differentiatePolynomial(Polynomial const& polynomial) const;
     Term differentiateExpression(Expression const& expression) const;
     Term differentiateFunction(Function const& functionObject) const;
     Equation differentiateEquation(Equation const& equation) const;
@@ -40,10 +43,12 @@ private:
     bool isVariableToDifferentiate(std::string const& variableName) const;
     bool isDependentVariable(std::string const& variableName) const;
     std::string getNameOfDifferentialOfDependentVariable(std::string const& variableName) const;
-    Term differentiateAsTermOrExpressionIfNeeded(            Expression const& expression) const;
+    Term differentiateAsTermOrExpressionIfNeeded(
+            Expression const& expression) const;
     Term differentiateSimplifiedExpressionOnly(
             Expression const& expression) const;
-    Term differentiateTermsInAdditionOrSubtraction(            TermsWithDetails const& termsWithDetails) const;
+    Term differentiateTermsInAdditionOrSubtraction(
+            TermsWithDetails const& termsWithDetails) const;
     Term differentiateTermsInMultiplicationOrDivision(
             TermsWithDetails const& termsWithDetails) const;
     Term differentiateTermsInRaiseToPower(
