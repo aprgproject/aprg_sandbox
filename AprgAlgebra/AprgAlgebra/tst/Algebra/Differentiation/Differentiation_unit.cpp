@@ -55,25 +55,11 @@ TEST(DifferentiationTest, DifferentiateWorksForPolynomial)
     EXPECT_EQ(expectedTerm3, differentiationForX.differentiate(polynomial3));
 }
 
-TEST(DifferentiationTest, DifferentiateWorksWithMonomialTimesSinFunction)
-{
-    Differentiation differentiationForX("x");
-    Term x("x");
-    Term termToTest(createExpressionIfPossible({Term(Monomial(1, {{"x", 2}})), Term("*"), sin(x)}));
-
-    Term expectedPart1(createExpressionIfPossible({Term(Monomial(1, {{"x", 2}})), Term("*"), cos(x)}));
-    Term expectedPart2(createExpressionIfPossible({Term(Monomial(2, {{"x", 1}})), Term("*"), sin(x)}));
-    Term expectedTerm(createExpressionIfPossible({expectedPart1, Term("+"), expectedPart2}));
-    EXPECT_EQ(expectedTerm, differentiationForX.differentiate(termToTest));
-}
-
 TEST(DifferentiationTest, DifferentiateConstantWorks)
 {
     Differentiation differentiationForX("x");
-
     EXPECT_EQ(AlbaNumber(0), differentiationForX.differentiateConstant(Constant(5)));
 }
-
 TEST(DifferentiationTest, DifferentiateVariableWorks)
 {
     Differentiation differentiationForXWithY("x", {"y"});
@@ -186,6 +172,32 @@ TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks)
     Term expectedDenominator(Polynomial{Monomial(1, {{"x", 4}}), Monomial(-8, {{"x", 3}}), Monomial(18, {{"x", 2}}), Monomial(-8, {{"x", 1}}), Monomial(1, {})});
     Term expectedTerm(createExpressionIfPossible({expectedNumerator, Term("/"), expectedDenominator}));
     EXPECT_EQ(expectedTerm, differentiationForX.differentiateTwoDividedTerms(numerator, denominator));
+}
+
+TEST(DifferentiationTest, DifferentiateWorksWithDivisionExpressionRaiseToAConstant)
+{
+    Differentiation differentiationForX("x");
+    Term subTerm1(createExpressionIfPossible({Term(2), Term("/"), Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {})})}));
+    Term termToTest(createExpressionIfPossible({subTerm1, Term("^"), Term(5)}));
+
+    EXPECT_EQ("(-10*((2/(1[x] + -1))^4)/(1[x^2] + -2[x] + 1))", differentiationForX.differentiate(termToTest).getDisplayableString());
+}
+
+TEST(DifferentiationTest, DifferentiateWorksWithChainRule)
+{
+    Differentiation differentiationForX("x");
+    Term termToTest(createExpressionIfPossible({sec(Term(Monomial(2, {{"x", 2}}))), Term("^"), Term(4)}));
+
+    EXPECT_EQ("(16[x]*(sec(2[x^2])^3)*sec(2[x^2])*tan(2[x^2]))", differentiationForX.differentiate(termToTest).getDisplayableString());
+}
+
+TEST(DifferentiationTest, DifferentiateWorksWithSquareRootOfAPolynomial)
+{
+    Differentiation differentiationForX("x");
+    Polynomial subPolynomial{Monomial(2, {{"x", 3}}), Monomial(-4, {{"x", 1}}), Monomial(5, {})};
+    Term termToTest(createExpressionIfPossible({Term(subPolynomial), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+
+    EXPECT_EQ("((3[x^2] + -2)/((2[x^3] + -4[x] + 5)^(1/2)))", differentiationForX.differentiate(termToTest).getDisplayableString());
 }
 
 }
