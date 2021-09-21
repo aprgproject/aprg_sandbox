@@ -2,12 +2,11 @@
 
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -29,15 +28,13 @@ bool IsolationOfOneVariableOnEqualityEquation::canBeIsolated(
     if(canBeConvertedToPolynomial(m_simplifiedLeftSideTerm))
     {
         Polynomial polynomial(createPolynomialIfPossible(m_simplifiedLeftSideTerm));
-        result = canBeIsolated(polynomial, variableName);
+        result = canBeIsolated(getSameVariableExponentIfPossible(polynomial, variableName));
     }
     return result;
 }
-
 AlbaNumber IsolationOfOneVariableOnEqualityEquation::getExponentOfIsolatedVariable(
         string const& variableName) const
-{
-    AlbaNumber exponent(0);
+{    AlbaNumber exponent(0);
     if(canBeConvertedToPolynomial(m_simplifiedLeftSideTerm))
     {
         Polynomial polynomial(createPolynomialIfPossible(m_simplifiedLeftSideTerm));
@@ -53,71 +50,66 @@ Equation IsolationOfOneVariableOnEqualityEquation::isolate(
     if(canBeConvertedToPolynomial(m_simplifiedLeftSideTerm))
     {
         Polynomial polynomial(createPolynomialIfPossible(m_simplifiedLeftSideTerm));
-        if(canBeIsolated(polynomial, variableName))
+        AlbaNumber sameVariableExponent(getSameVariableExponentIfPossible(polynomial, variableName));
+        if(canBeIsolated(sameVariableExponent))
         {
-            AlbaNumber variableExponent;
-            Monomial monomialToIsolate;
-            for(Monomial const& monomial : polynomial.getMonomialsConstReference())
-            {
-                Monomial::VariablesToExponentsMap variableToExponentMap(
-                            monomial.getVariablesToExponentsMapConstReference());
-                Monomial::VariablesToExponentsMap::const_iterator it
-                        = variableToExponentMap.find(variableName);
-                if(it != variableToExponentMap.cend())
-                {
-                    variableExponent = it->second;
-                    monomialToIsolate = monomial;
-                    break;
-                }
-            }
-            Polynomial polynomialWithoutVariable(polynomial);
-            polynomialWithoutVariable.multiplyNumber(-1);
-            Monomial monomialToSubtract(monomialToIsolate);
-            polynomialWithoutVariable.addMonomial(monomialToSubtract);
-            Monomial monomialToDivide(monomialToIsolate);
-            monomialToDivide.putVariableWithExponent(variableName, 0);
-            polynomialWithoutVariable.divideMonomial(monomialToDivide);
-            monomialToIsolate = Monomial(1, {{variableName, variableExponent}});
-            Term leftHandSideTerm(polynomialWithoutVariable);
+            Monomials monomialsWithVariable;
+            Monomials monomialsWithoutVariable;
+            segregateMonomialsWithAndWithoutVariable(
+                        polynomial.getMonomialsConstReference(),
+                        variableName,
+                        monomialsWithVariable,
+                        monomialsWithoutVariable);
+            Polynomial numerator(monomialsWithoutVariable);
+            Polynomial denominator(monomialsWithVariable);
+            numerator.multiplyNumber(-1);
+            Monomial monomialToIsolate(1, {{variableName, sameVariableExponent}});
+            denominator.divideMonomial(monomialToIsolate);
+            Term leftHandSideTerm(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
             Term rightHandSideTerm(monomialToIsolate);
             leftHandSideTerm.simplify();
-            rightHandSideTerm.simplify();
-            equationWithIsolatedVariable = Equation(leftHandSideTerm, "=", rightHandSideTerm);
+            rightHandSideTerm.simplify();            equationWithIsolatedVariable = Equation(leftHandSideTerm, "=", rightHandSideTerm);
         }
     }
     return equationWithIsolatedVariable;
 }
 
-bool IsolationOfOneVariableOnEqualityEquation::canBeIsolated(
+AlbaNumber IsolationOfOneVariableOnEqualityEquation::getSameVariableExponentIfPossible(
         Polynomial const& polynomial,
         string const& variableName) const
 {
-    unsigned int monomialCountWithVariable(0);
+    AlbaNumber variableExponent;
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
-        Monomial::VariablesToExponentsMap variableToExponentMap(
-                    monomial.getVariablesToExponentsMapConstReference());
-        Monomial::VariablesToExponentsMap::const_iterator it = variableToExponentMap.find(variableName);
-        if(it != variableToExponentMap.cend())
+        AlbaNumber currentVariableExponent = monomial.getExponentForVariable(variableName);
+        if(currentVariableExponent != 0)
         {
-            monomialCountWithVariable++;
-            if(monomialCountWithVariable >= 2)
+            if(variableExponent == 0)
             {
+                variableExponent = currentVariableExponent;
+            }
+            else if(variableExponent != currentVariableExponent)
+            {
+                variableExponent = 0;
                 break;
             }
         }
     }
-    return monomialCountWithVariable == 1;
+    return variableExponent;
+}
+
+bool IsolationOfOneVariableOnEqualityEquation::canBeIsolated(
+        AlbaNumber const& variableExponent) const
+{
+    return variableExponent != 0;
 }
 
 AlbaNumber IsolationOfOneVariableOnEqualityEquation::getExponentOfIsolatedVariable(
         Polynomial const& polynomial,
-        string const& variableName) const
-{
+        string const& variableName) const{
     AlbaNumber exponent;
     unsigned int monomialCountWithVariable(0);
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
-    {
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())    {
         Monomial::VariablesToExponentsMap variableToExponentMap(
                     monomial.getVariablesToExponentsMapConstReference());
         Monomial::VariablesToExponentsMap::const_iterator it = variableToExponentMap.find(variableName);

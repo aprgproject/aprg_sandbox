@@ -1,13 +1,13 @@
 #include <Algebra/Constructs/TermsAggregator.hpp>
+#include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Equation/EquationUtilities.hpp>
+#include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquation.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
-#include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableNonEqualitySolver.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableNonEqualitySolver.hpp>#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
-
 #include <gtest/gtest.h>
 
 using namespace alba::algebra::Simplification;
@@ -106,6 +106,27 @@ TEST(ComboTest, OneVariableInequalityCanBeSolvedUsingExample4)
     AlbaNumberInterval const& interval2(acceptedIntervals.at(1));
     EXPECT_EQ(AlbaNumberIntervalEndpoint(createCloseEndpoint(-3)), interval2.getLowerEndpoint());
     EXPECT_EQ(createPositiveInfinityOpenEndpoint(), interval2.getHigherEndpoint());
+}
+
+TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeWorks)
+{
+    Differentiation differentiationForXWithY("x", {"y"});
+    Term term1ForEquation(Polynomial{Monomial(3, {{"x", 4}, {"y", 2}}), Monomial(-7, {{"x", 1}, {"y", 3}})});
+    Term term2ForEquation(Polynomial{Monomial(4, {}), Monomial(-8, {{"y", 1}})});
+    Equation equation(term1ForEquation, "=", term2ForEquation);
+    Equation differentiatedEquation(differentiationForXWithY.differentiate(equation));
+    IsolationOfOneVariableOnEqualityEquation isolation(differentiatedEquation);
+
+    Polynomial numerator{
+                Monomial(7, {{"y", 3}}),
+                Monomial(-12, {{"x", 3}, {"y", 2}})};
+    Polynomial denominator{
+        Monomial(6, {{"x", 4}, {"y", 1}}),
+                Monomial(-21, {{"x", 1}, {"y", 2}}),
+                Monomial(8, {})};
+    Term expectedIsolatedXLeftSide(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
+    Term expectedIsolatedXRightSide("dy/dx");
+    EXPECT_EQ(Equation(expectedIsolatedXLeftSide, "=", expectedIsolatedXRightSide), isolation.isolate("dy/dx"));
 }
 
 }

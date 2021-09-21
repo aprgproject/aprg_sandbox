@@ -1,11 +1,10 @@
 #include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquation.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
@@ -110,6 +109,30 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateWorksOnPolynomialEquat
     Term expectedIsolatedBLeftSide(Monomial(AlbaNumber(1)/3, {{"a", -3}, {"x", 1}, {"y", 2}}));
     Term expectedIsolatedBRightSide(Monomial(1, {{"b", 4}}));
     EXPECT_EQ(Equation(expectedIsolatedBLeftSide, "=", expectedIsolatedBRightSide), isolation.isolate("b"));
+}
+
+TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateWorksOnPolynomialEquation_Example1UsingDerivatives)
+{
+    Polynomial leftHandSide{
+        Monomial(18, {{"dy/dx", 1}, {"y", 5}}),
+                Monomial(5, {{"dy/dx", 1}, {"y", 4}}),
+                Monomial(-6, {{"x", 5}}),
+                Monomial(-2, {{"dy/dx", 1}, {"y", 1}}),
+                Monomial(2, {{}})};
+    Polynomial rightHandSide{Monomial(0, {})};
+    Equation equation(Term(leftHandSide), "=", Term(rightHandSide));
+    IsolationOfOneVariableOnEqualityEquation isolation(equation);
+
+    Polynomial numerator{
+                Monomial(6, {{"x", 5}}),
+                Monomial(-2, {})};
+    Polynomial denominator{
+        Monomial(18, {{"y", 5}}),
+                Monomial(5, {{"y", 4}}),
+                Monomial(-2, {{"y", 1}})};
+    Term expectedIsolatedXLeftSide(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
+    Term expectedIsolatedXRightSide("dy/dx");
+    EXPECT_EQ(Equation(expectedIsolatedXLeftSide, "=", expectedIsolatedXRightSide), isolation.isolate("dy/dx"));
 }
 
 }

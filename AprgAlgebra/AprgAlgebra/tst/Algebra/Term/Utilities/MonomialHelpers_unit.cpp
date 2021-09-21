@@ -263,6 +263,24 @@ TEST(MonomialHelpersTest, GetMonomialWithMaximumExponentsInMonomialsWorks)
     EXPECT_EQ(monomialToExpect6, monomialToVerify6);
 }
 
+TEST(MonomialHelpersTest, SegregateMonomialsWithAndWithoutVariable)
+{
+    Monomials monomialsToSegregate(
+    {Monomial(1, {{"x", 2}, {"y", 3}}),
+     Monomial(4, {{"y", 5}, {"z", 6}}),
+     Monomial(7, {{"x", 8}, {"z", 9}})});
+
+    Monomials monomialWithVariable;
+    Monomials monomialWithoutVariable;
+    segregateMonomialsWithAndWithoutVariable(monomialsToSegregate, "x", monomialWithVariable, monomialWithoutVariable);
+
+    ASSERT_EQ(2U, monomialWithVariable.size());
+    EXPECT_EQ(Monomial(1, {{"x", 2}, {"y", 3}}), monomialWithVariable.at(0));
+    EXPECT_EQ(Monomial(7, {{"x", 8}, {"z", 9}}), monomialWithVariable.at(1));
+    ASSERT_EQ(1U, monomialWithoutVariable.size());
+    EXPECT_EQ(Monomial(4, {{"y", 5}, {"z", 6}}), monomialWithoutVariable.at(0));
+}
+
 }
 
 }

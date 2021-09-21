@@ -63,16 +63,24 @@ TEST(DifferentiationTest, DifferentiateWorksForFunction)
     Differentiation differentiationForX("x");
 
     Term x("x");
-    EXPECT_EQ(Term(cos(x)), differentiationForX.differentiateFunction(sin(x)));
+    EXPECT_EQ(Term(cos(x)), differentiationForX.differentiate(sin(x)));
+}
+
+TEST(DifferentiationTest, DifferentiateWorksForEquation)
+{
+    Differentiation differentiationForXWithY("x", {"y"});
+    Term term1ForEquation1(Polynomial{Monomial(1, {{"x", 6}}), Monomial(-2, {{"x", 1}})});
+    Term term2ForEquation1(Polynomial{Monomial(3, {{"y", 6}}), Monomial(1, {{"y", 5}}), Monomial(-1, {{"y", 2}})});
+    Equation equation1(term1ForEquation1, "=", term2ForEquation1);
+
+    EXPECT_EQ("(18[dy/dx][y^5] + 5[dy/dx][y^4] + -6[x^5] + -2[dy/dx][y] + 2) = 0", differentiationForXWithY.differentiate(equation1).getDisplayableString());
 }
 
 TEST(DifferentiationTest, DifferentiateTermWorks)
 {
-    Differentiation differentiationForX("x");
-    Term x("x");
+    Differentiation differentiationForX("x");    Term x("x");
     Term polynomialTerm(Polynomial({Monomial(7, {{"x", 4}}), Monomial(-2, {{"x", 3}}), Monomial(8, {{"x", 1}}), Monomial(5, {})}));
     Term expressionTerm(createExpressionIfPossible({cos(x)}));
-
     Term expectedTerm1(Polynomial({Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})}));
     Term expectedTerm2(createExpressionIfPossible({Term(-1), Term("*"), sin(x)}));
     Term expectedTerm3(cos(x));

@@ -21,15 +21,14 @@ public:
     Equation isolate(std::string const& variableName);
 
 private:
-    bool canBeIsolated(
+    AlbaNumber getSameVariableExponentIfPossible(
             Polynomial const& polynomial,
             std::string const& variableName) const;
+    bool canBeIsolated(AlbaNumber const& variableExponent) const;
     AlbaNumber getExponentOfIsolatedVariable(
             Polynomial const& polynomial,
-            std::string const& variableName) const;
-    Term m_simplifiedLeftSideTerm;
+            std::string const& variableName) const;    Term m_simplifiedLeftSideTerm;
 };
 
 }
-
 }
