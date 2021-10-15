@@ -10,14 +10,27 @@ using namespace std;
 namespace alba
 {
 
-TEST(AlbaWindowsUserAutomationTest, DISABLED_DeleteThisTestDontGoToSleepSetMouseTest) // DISABLED_DeleteThisTestDontGoToSleepSetMouseTest)
+TEST(AlbaWindowsUserAutomationTest, DISABLED_ShowMousePosition)
 {
     AlbaWindowsUserAutomation userAutomation;
-    for(int x=0; x<300; x+=10)
+    while(1)
+    {
+        MousePosition position(userAutomation.getMousePosition());
+        cout<<"X: "<<position.getX()<<" Y: "<<position.getY()<<endl;
+        if(0==position.getX() && 0==position.getY())
+        {
+            break;
+        }
+        Sleep(100);
+    }
+}
+
+TEST(AlbaWindowsUserAutomationTest, DISABLED_DeleteThisTestDontGoToSleepSetMouseTest) // DISABLED_DeleteThisTestDontGoToSleepSetMouseTest)
+{
+    AlbaWindowsUserAutomation userAutomation;    for(int x=0; x<300; x+=10)
     {
         MousePosition position{x,x};
-        userAutomation.setMousePosition(position);
-        userAutomation.sleep(10000);
+        userAutomation.setMousePosition(position);        userAutomation.sleep(10000);
         if(x==290)
         {
             x=0;
@@ -95,29 +108,12 @@ TEST(AlbaWindowsUserAutomationTest, DISABLED_IsLetterPressedTest)
     }
 }
 
-TEST(AlbaWindowsUserAutomationTest, DISABLED_ShowMousePosition)
-{
-    AlbaWindowsUserAutomation userAutomation;
-    while(1)
-    {
-        MousePosition position(userAutomation.getMousePosition());
-        cout<<"X: "<<position.getX()<<" Y: "<<position.getY()<<endl;
-        if(0==position.getX() && 0==position.getY())
-        {
-            break;
-        }
-        Sleep(100);
-    }
-}
-
 TEST(AlbaWindowsUserAutomationTest, DISABLED_GetStringFromClipboard)
 {
-    AlbaWindowsUserAutomation userAutomation;
-    cout <<  userAutomation.getStringFromClipboard() << endl;
+    AlbaWindowsUserAutomation userAutomation;    cout <<  userAutomation.getStringFromClipboard() << endl;
 }
 
-TEST(AlbaWindowsUserAutomationTest, DISABLED_SetStringFromClipboard)
-{
+TEST(AlbaWindowsUserAutomationTest, DISABLED_SetStringFromClipboard){
     AlbaWindowsUserAutomation userAutomation;
     userAutomation.setStringToClipboard("TestString");
 }

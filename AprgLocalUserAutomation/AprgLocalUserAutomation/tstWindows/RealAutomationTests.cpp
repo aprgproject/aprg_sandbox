@@ -1,25 +1,151 @@
 #include <AlbaLocalUserAutomation.hpp>
 #include <PathHandlers/AlbaLocalPathHandler.hpp>
+#include <File/AlbaFileReader.hpp>
+#include <String/AlbaStringHelper.hpp>
 
 #include <gtest/gtest.h>
 #include <windows.h>
 
+#include <sstream>
+
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
 {
 
-TEST(RealAutomationTest, DISABLED_NormalizeAudioForMp3Files) //DISABLED_
+TEST(RealAutomationTest, TraverseTalonRoShops)//DISABLED_
+{
+    AlbaWindowsUserAutomation userAutomation;
+    //AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\BuyingShops\)");
+    AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\TalonRO\SellingShops\)");
+
+    userAutomation.doLeftClickAt(MousePosition(2368,52));
+
+    //string talonRoPath(R"(https://panel.talonro.com/whobuy/)");
+    string talonRoPath(R"(https://panel.talonro.com/whosell/)");
+    userAutomation.sleepWithRealisticDelay();
+    userAutomation.typeKey(VK_DELETE);
+    userAutomation.setStringToClipboard(talonRoPath);
+    userAutomation.typeControlAndLetterSimultaneously('V');
+    userAutomation.sleepWithRealisticDelay();
+    userAutomation.typeKey(VK_RETURN);
+
+    userAutomation.sleep(3000);
+
+    for(unsigned int page=1; page<=1000; page++)
+    {
+        userAutomation.typeControlAndLetterSimultaneously('S');
+        userAutomation.sleep(2000);
+
+        stringstream fileName;
+        fileName << "page_" << page << ".html";
+        AlbaLocalPathHandler filePathHandler(itemDatabaseFolder.getFullPath() + fileName.str());
+        userAutomation.setStringToClipboard(filePathHandler.getFullPath());
+        userAutomation.typeControlAndLetterSimultaneously('V');
+        userAutomation.sleepWithRealisticDelay();
+        userAutomation.typeKey(VK_RETURN);
+        userAutomation.sleepWithRealisticDelay();
+        userAutomation.typeKey(VK_RETURN);
+        userAutomation.sleepWithRealisticDelay();
+        userAutomation.typeKey(VK_RETURN);
+        userAutomation.sleepWithRealisticDelay();
+        userAutomation.typeKey(VK_RETURN);
+
+        userAutomation.sleep(2000);
+
+        ifstream savedWebPage(filePathHandler.getFullPath());
+        AlbaFileReader fileReader(savedWebPage);
+        fileReader.setMaxBufferSize(100000);
+        bool isNextDisabled(false);
+        while(fileReader.isNotFinished())
+        {
+            string line(fileReader.getLineAndIgnoreWhiteSpaces());
+            if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(class="paginate_button page-item next disabled")"))
+            {
+                isNextDisabled=true;
+                break;
+            }
+        }
+        if(isNextDisabled)
+        {
+            break;
+        }
+        else
+        {
+            userAutomation.doLeftClickAt(MousePosition(3398,514));
+            userAutomation.doLeftClickAt(MousePosition(2368,52));
+            userAutomation.sleep(2000);
+        }
+    }
+}
+
+TEST(RealAutomationTest, DISABLED_TraverseDatabaseOnRms)
+{
+    AlbaWindowsUserAutomation userAutomation;
+    AlbaLocalPathHandler itemDatabaseFolder(R"(C:\Users\detectivemark7\Desktop\RO\RMS\MonsterDatabaseTraversal\)");
+
+    for(char letter='a'; letter<='z'; letter++)
+    {
+        for(unsigned int pageNumber=1; pageNumber<=100; pageNumber++)
+        {
+            userAutomation.doLeftClickAt(MousePosition(2368,52));
+
+            stringstream rmsPath;
+            rmsPath << R"(https://ratemyserver.net/index.php?page=mob_db&list=1&letter=)" << letter << R"(&page_num=)" << pageNumber;
+            userAutomation.sleepWithRealisticDelay();
+            userAutomation.typeKey(VK_DELETE);
+            userAutomation.setStringToClipboard(rmsPath.str());
+            userAutomation.typeControlAndLetterSimultaneously('V');
+            userAutomation.sleepWithRealisticDelay();
+            userAutomation.typeKey(VK_RETURN);
+
+            userAutomation.sleep(3000);
+
+            userAutomation.typeControlAndLetterSimultaneously('S');
+            stringstream fileName;
+            fileName << "monsterWithLetter_" << letter << "_pageNumber_" << pageNumber << ".html";
+            AlbaLocalPathHandler filePathHandler(itemDatabaseFolder.getFullPath() + fileName.str());
+            userAutomation.setStringToClipboard(filePathHandler.getFullPath());
+            userAutomation.typeControlAndLetterSimultaneously('V');
+            userAutomation.sleepWithRealisticDelay();
+            userAutomation.typeKey(VK_RETURN);
+            userAutomation.sleepWithRealisticDelay();
+            userAutomation.typeKey(VK_RETURN);
+            userAutomation.sleepWithRealisticDelay();
+            userAutomation.typeKey(VK_RETURN);
+            userAutomation.sleepWithRealisticDelay();
+            userAutomation.typeKey(VK_RETURN);
+
+            ifstream savedWebPage(filePathHandler.getFullPath());
+            AlbaFileReader fileReader(savedWebPage);
+            bool isNextPageTextFound(false);
+            while(fileReader.isNotFinished())
+            {
+                string line(fileReader.getLineAndIgnoreWhiteSpaces());
+                if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(title="Next page")"))
+                {
+                    isNextPageTextFound=true;
+                    break;
+                }
+            }
+            if(!isNextPageTextFound)
+            {
+                break;
+            }
+        }
+    }
+}
+
+TEST(RealAutomationTest, DISABLED_NormalizeAudioForMp3Files)
 {
     AlbaWindowsUserAutomation userAutomation;
     AlbaLocalPathHandler mp3FilesPathHandler(R"(N:\MUSIC\111_DoAutomationHere)");
 
-    while(1)
-    {
+    while(1)    {
         if(userAutomation.isLetterPressed('s'))  //s for start
         {
-            ListOfPaths filePaths;
-            ListOfPaths directoryPaths;
+            ListOfPaths filePaths;            ListOfPaths directoryPaths;
             mp3FilesPathHandler.findFilesAndDirectoriesOneDepth("*.*", filePaths, directoryPaths);
 
             for(string const& filePath : filePaths)
@@ -114,7 +240,6 @@ TEST(RealAutomationTest, DISABLED_NormalizeAudioForMp3Files) //DISABLED_
         }
         Sleep(100);
     }
-
 }
 
 }
