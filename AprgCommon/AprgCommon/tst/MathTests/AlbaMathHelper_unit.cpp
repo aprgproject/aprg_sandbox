@@ -187,14 +187,19 @@ TEST(AlbaMathHelperTest, FractionalPartInDoubleWorks)
     EXPECT_DOUBLE_EQ(-0.125, getFractionalPartInDouble(-347.125));
 }
 
+TEST(AlbaMathHelperTest, ConvertIfInfinityToNearestFiniteValueWorks)
+{
+    EXPECT_DOUBLE_EQ(45.625, convertIfInfinityToNearestFiniteValue(AlbaNumber(45.625)).getDouble());
+    EXPECT_DOUBLE_EQ(1.7976931348623157e+308, convertIfInfinityToNearestFiniteValue(AlbaNumber(AlbaNumber::Value::PositiveInfinity)).getDouble());
+    EXPECT_DOUBLE_EQ(-1.7976931348623157e+308, convertIfInfinityToNearestFiniteValue(AlbaNumber(AlbaNumber::Value::NegativeInfinity)).getDouble());
+}
+
 TEST(AlbaMathHelperTest, GetAbsoluteValueWorksForPrimitiveTypes)
 {
-    EXPECT_EQ(1, getAbsoluteValue(1));
-    EXPECT_EQ(1, getAbsoluteValue(-1));
+    EXPECT_EQ(1, getAbsoluteValue(1));    EXPECT_EQ(1, getAbsoluteValue(-1));
     EXPECT_EQ(0, getAbsoluteValue(0));
     EXPECT_EQ(0.5, getAbsoluteValue(0.5));
-    EXPECT_EQ(0.5, getAbsoluteValue(-0.5));
-}
+    EXPECT_EQ(0.5, getAbsoluteValue(-0.5));}
 
 TEST(AlbaMathHelperTest, GetSignWorksForPrimitiveTypes)
 {

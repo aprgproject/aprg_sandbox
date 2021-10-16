@@ -45,24 +45,16 @@ bool isAlmostEqual(double const value1, double const value2, double const differ
 template <typename NumberType1, typename NumberType2> bool isAlmostAnInteger(NumberType1 const value);
 bool isAlmostAnInteger(double const value, double const differenceTolerance);
 template <typename NumberType> bool isValueBeyondLimits(double const value);
-template <> bool isValueBeyondLimits<int>(double const value);
-template <> bool isValueBeyondLimits<unsigned int>(double const value);
-template <> bool isValueBeyondLimits<short int>(double const value);
-template <> bool isValueBeyondLimits<long int>(double const value);
-template <> bool isValueBeyondLimits<unsigned long int>(double const value);
-template <> bool isValueBeyondLimits<long long int>(double const value);
-template <> bool isValueBeyondLimits<unsigned long long int>(double const value);
 template <typename NumberType> NumberType getIntegerAfterRoundingDoubleValue(double const doubleValue);
 int getIntegerPartInDouble(double const doubleValue);
 double getFractionalPartInDouble(double const doubleValue);
+AlbaNumber convertIfInfinityToNearestFiniteValue(AlbaNumber const& value);
 
 
-//Sign related functions
-template <typename NumberType> NumberType getAbsoluteValue(NumberType const value);
+//Sign related functionstemplate <typename NumberType> NumberType getAbsoluteValue(NumberType const value);
 template <typename NumberType> NumberType getSign(NumberType const value);
 template <typename NumberType> NumberType getPositiveDelta(NumberType const value1, NumberType const value2);
-int convertToIntegerThenSubtract(unsigned int const number1, unsigned int const number2);
-AlbaNumber getAbsoluteValueForAlbaNumber(AlbaNumber const& value);
+int convertToIntegerThenSubtract(unsigned int const number1, unsigned int const number2);AlbaNumber getAbsoluteValueForAlbaNumber(AlbaNumber const& value);
 AlbaNumber getSignForAlbaNumber(AlbaNumber const& value);
 AlbaNumber getPositiveDeltaForAlbaNumber(AlbaNumber const& value1, AlbaNumber const& value2);
 
