@@ -1,21 +1,20 @@
 #include "ConstructUtilities.hpp"
 
 #include <Algebra/Constructs/PolynomialRaiseToAnUnsignedInt.hpp>
+#include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
 #include <Optional/AlbaOptional.hpp>
 
+using namespace alba::algebra::Simplification;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossible(
         Term const& term)
 {
@@ -96,36 +95,29 @@ TermsOverTerms createTermsOverTermsFromTerm(Term const& term)
 TermRaiseToANumber createTermRaiseToANumberFromTerm(Term const& term)
 {
     TermRaiseToANumber result;
-    Term simplifiedTerm(term);
-    simplifiedTerm.simplify();
 
-    if(simplifiedTerm.isMonomial())
+    if(term.isMonomial())
     {
-        result = createTermRaiseToANumberFromMonomial(simplifiedTerm.getMonomialConstReference());
+        result = createTermRaiseToANumberFromMonomial(term.getMonomialConstReference());
     }
-    else if(simplifiedTerm.isPolynomial())
+    else if(term.isPolynomial())
     {
-        result = createTermRaiseToANumberFromPolynomial(simplifiedTerm.getPolynomialConstReference());
+        result = createTermRaiseToANumberFromPolynomial(term.getPolynomialConstReference());
     }
-    else if(simplifiedTerm.isExpression())
+    else if(term.isExpression())
     {
-        result = createTermRaiseToANumberFromExpression(simplifiedTerm.getExpressionConstReference());
+        result = createTermRaiseToANumberFromExpression(term.getExpressionConstReference());
     }
-    if(!result.isEmpty())
+    if(result.isEmpty())
     {
-        result.getBaseReference().simplify();
+        result = TermRaiseToANumber(term, 1);
     }
-    else
-    {
-        result = TermRaiseToANumber(simplifiedTerm, 1);
-    }
+    result.getBaseReference().simplify();
     return result;
 }
-
 TermRaiseToANumber createTermRaiseToANumberFromMonomial(Monomial const& monomial)
 {
-    Monomial newMonomial(monomial);
-    Monomial::VariablesToExponentsMap const& variablesToExponentsMap(
+    Monomial newMonomial(monomial);    Monomial::VariablesToExponentsMap const& variablesToExponentsMap(
                 newMonomial.getVariablesToExponentsMapConstReference());
     AlbaNumber exponent = (variablesToExponentsMap.size() == 1)
             ? (variablesToExponentsMap.cbegin())->second
@@ -153,30 +145,40 @@ TermRaiseToANumber createTermRaiseToANumberFromExpression(Expression const& expr
         }
         else if(raiseToPowerTerms.size() >= 2)
         {
-            Term const& exponent(getTermConstReferenceFromSharedPointer(raiseToPowerTerms.back().baseTermSharedPointer));
-            if(exponent.isConstant())
+            AlbaNumber combinedExponentValue(1);
+            bool isFirst(true);
+            for(TermWithDetails & raiseToPowerTerm : raiseToPowerTerms)
             {
-                Term const& base(getTermConstReferenceFromSharedPointer(raiseToPowerTerms.front().baseTermSharedPointer));
-                result = TermRaiseToANumber(base, exponent.getConstantValueConstReference());
+                if(isFirst)
+                {
+                   isFirst = false;
+                }
+                else
+                {
+                    Term & exponentTerm(getTermReferenceFromSharedPointer(raiseToPowerTerm.baseTermSharedPointer));
+                    if(exponentTerm.isConstant())
+                    {
+                        combinedExponentValue = combinedExponentValue * exponentTerm.getConstantValueConstReference();
+                        exponentTerm.getConstantReference().setNumber(1);
+                    }
+                    else if(exponentTerm.isMonomial())
+                    {
+                        combinedExponentValue = combinedExponentValue * exponentTerm.getMonomialConstReference().getConstantConstReference();
+                        exponentTerm.getMonomialReference().setConstant(1);
+                    }
+                }
             }
-            else if(exponent.isMonomial())
-            {
-                Monomial oldExponentMonomial(exponent.getMonomialConstReference());
-                AlbaNumber newExponentValue(oldExponentMonomial.getConstantConstReference());
-                raiseToPowerTerms.pop_back();
-                Expression newBaseExpression;
-                newBaseExpression.setCommonOperatorLevel(OperatorLevel::RaiseToPower);
-                newBaseExpression.putTermsWithDetails(raiseToPowerTerms);
-                oldExponentMonomial.setConstant(1);
-                newBaseExpression.putTermWithRaiseToPowerIfNeeded(Term(oldExponentMonomial));
-                result = TermRaiseToANumber(Term(newBaseExpression), newExponentValue);
-            }
-            // how about if exponent is polynomial or expression? should we introduce factorization here?
+
+            Expression newBaseExpression;
+            newBaseExpression.setCommonOperatorLevel(OperatorLevel::RaiseToPower);
+            newBaseExpression.putTermsWithDetails(raiseToPowerTerms);
+            Term newBase(newBaseExpression);
+            newBase.simplify();
+            result = TermRaiseToANumber(newBase, combinedExponentValue);
+            // how about if exponent is polynomial or expression? how do we extract constant? should we introduce factorization here?
         }
     }
-    return result;
-}
+    return result;}
 
 }
-
 }

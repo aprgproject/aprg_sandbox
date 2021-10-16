@@ -120,19 +120,18 @@ TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithCom
 
     Terms termsToVerify(additionAndSubtraction.getLcmOfDenominatorTerms());
 
-    Term termToExpect(polynomial);
-    ASSERT_EQ(3U, termsToVerify.size());
-    EXPECT_EQ(termToExpect, termsToVerify.at(0));
-    EXPECT_EQ(termToExpect, termsToVerify.at(1));
-    EXPECT_EQ(termToExpect, termsToVerify.at(2));
+    Term termToExpect1(polynomial);
+    Term termToExpect2(createExpressionIfPossible({Term(polynomial), Term("^"), Term(3)}));
+    ASSERT_EQ(2U, termsToVerify.size());
+    EXPECT_EQ(termToExpect1, termsToVerify.at(0));
+    EXPECT_EQ(termToExpect2, termsToVerify.at(1));
+
 }
 
-TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithFactorsOfDifferenceOfSquaresWorks)
-{
+TEST(AdditionAndSubtractionOfTermsOverTermsTest, GetLcmOfDenominatorTermsWithFactorsOfDifferenceOfSquaresWorks){
     AdditionAndSubtractionOfTermsOverTerms additionAndSubtraction;
     TermsOverTerms fraction1({Term(1)}, {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})})});
-    TermsOverTerms fraction2({Term(1)}, {Term(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})})});
-    TermsOverTerms fraction3({Term(1)}, {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})})});
+    TermsOverTerms fraction2({Term(1)}, {Term(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {})})});    TermsOverTerms fraction3({Term(1)}, {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})})});
     additionAndSubtraction.putAsAddition(fraction1);
     additionAndSubtraction.putAsAddition(fraction2);
     additionAndSubtraction.putAsAddition(fraction3);

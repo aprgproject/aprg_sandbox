@@ -27,14 +27,13 @@ public:
         bool shouldSimplifyByRationalizingNumerator;
         bool shouldSimplifyByRationalizingDenominator;
         bool shouldSimplifyBySubstitutingExpressionAndFunctionsToVariables;
+        bool shouldSimplifyToFactors;
         bool shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase;
         bool shouldPerformDebug;
     };
-
     class Configuration
             : public AlbaConfigurationHolder<ConfigurationDetails>
     {};
-
     class ScopeObject : public AlbaConfigurationScopeObject<ConfigurationDetails>
     {};
 
@@ -48,13 +47,12 @@ public:
     static bool shouldSimplifyByRationalizingNumerator();
     static bool shouldSimplifyByRationalizingDenominator();
     static bool shouldSimplifyBySubstitutingExpressionAndFunctionsToVariables();
+    static bool shouldSimplifyToFactors();
     static bool shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase();
     static bool shouldPerformDebug();
-
     Expression getExpression() const;
 
     void setExpression(Expression const& expression);
-
     void simplify();
 
 private:

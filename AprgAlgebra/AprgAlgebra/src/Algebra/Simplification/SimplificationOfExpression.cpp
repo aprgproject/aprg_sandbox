@@ -71,15 +71,18 @@ bool SimplificationOfExpression::shouldSimplifyBySubstitutingExpressionAndFuncti
     return Configuration::getInstance().getConfigurationDetails().shouldSimplifyBySubstitutingExpressionAndFunctionsToVariables;
 }
 
+bool SimplificationOfExpression::shouldSimplifyToFactors()
+{
+    return Configuration::getInstance().getConfigurationDetails().shouldSimplifyToFactors;
+}
+
 bool SimplificationOfExpression::shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase()
 {
-    return Configuration::getInstance().getConfigurationDetails().shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase;
-}
+    return Configuration::getInstance().getConfigurationDetails().shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase;}
 
 bool SimplificationOfExpression::shouldPerformDebug()
 {
-    return Configuration::getInstance().getConfigurationDetails().shouldPerformDebug;
-}
+    return Configuration::getInstance().getConfigurationDetails().shouldPerformDebug;}
 
 Expression SimplificationOfExpression::getExpression() const
 {
@@ -188,15 +191,13 @@ void SimplificationOfExpression::processTermsBaseOnOperatorLevel(
     }
     case OperatorLevel::RaiseToPower:
     {
-        processAndSaveTermsForRaiseToPower(expression,termsToProcess);
+        processAndSaveTermsForRaiseToPower(expression, termsToProcess);
         break;
     }
-    }
-}
+    }}
 
 void SimplificationOfExpression::processAndSaveTermsForAdditionAndSubtraction(
-        Expression & expression,
-        TermsWithDetails const& termsToProcess)
+        Expression & expression,        TermsWithDetails const& termsToProcess)
 {
     Term combinedTerm;
     TermsWithDetails termsWithNonExpressions;
@@ -215,14 +216,13 @@ void SimplificationOfExpression::processAndSaveTermsForMultiplicationAndDivision
     simplifyByCombiningRadicalsInMultiplicationAndDivisionIfNeeded(termsInMultiplicationAndDivision);
 
     TermsOverTerms termsOverTerms(termsInMultiplicationAndDivision);
+    termsOverTerms.setShouldSimplifyToFactors(shouldSimplifyToFactors());
     termsOverTerms.simplify();
 
-    Term combinedTerm(getCombinedTermAndSimplifyByRationalizingNumeratorOrDenominatorIfNeeded(termsOverTerms));
-    expression.setTerm(combinedTerm);
+    Term combinedTerm(getCombinedTermAndSimplifyByRationalizingNumeratorOrDenominatorIfNeeded(termsOverTerms));    expression.setTerm(combinedTerm);
 }
 
-void SimplificationOfExpression::processAndSaveTermsForRaiseToPower(
-        Expression & expression,
+void SimplificationOfExpression::processAndSaveTermsForRaiseToPower(        Expression & expression,
         TermsWithDetails const& termsToProcess)
 {
     TermRaiseToTerms termRaiseToTerms(termsToProcess);
@@ -408,7 +408,7 @@ algebra::Simplification::SimplificationOfExpression::ConfigurationDetails
 getDefaultConfigurationDetails<alba::algebra::Simplification::SimplificationOfExpression::ConfigurationDetails>()
 {
     return algebra::Simplification::SimplificationOfExpression::ConfigurationDetails
-    {false, false, false, false, false, false, false, false, false};
+    {false, false, false, false, false, false, false, false, false, false};
 }
 
 }
