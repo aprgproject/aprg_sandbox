@@ -18,17 +18,15 @@ bool isDifferentiableAt(
 
 Term getDerivativeDefinition(
         Term const& term,
-        std::string const& variableName,
-        Term const& x);
+        std::string const& variableName);
 
 Term getDerivativeAtUsingLimit(
         Term const& term,
         std::string const& variableName,
-        Term const& x,
+        Term const& termSubstituteToBack,
         LimitAtAValueApproachType const approachType);
 
 void simplifyDerivativeByDefinition(Term & term);
-
 }
 
 }

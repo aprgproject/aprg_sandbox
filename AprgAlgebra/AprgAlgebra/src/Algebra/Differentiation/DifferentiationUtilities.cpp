@@ -13,13 +13,12 @@ using namespace std;
 namespace
 {
 
+constexpr char const*const X_NAME = "x";
 constexpr char const*const DELTA_X_NAME = "deltaX";
 
 }
-
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -42,27 +41,27 @@ bool isDifferentiableAt(
 Term getDerivativeAtUsingLimit(
         Term const& term,
         string const& variableName,
-        Term const& x,
+        Term const& termSubstituteToBack,
         LimitAtAValueApproachType const approachType)
 {
     string const& deltaXName(DELTA_X_NAME);
-    Term derivativeDefinition(getDerivativeDefinition(term, variableName, x));
-    return simplifyAndGetLimitAtAValue(derivativeDefinition, deltaXName, 0, approachType);
+    Term derivativeDefinition(getDerivativeDefinition(term, variableName));
+    SubstitutionOfVariablesToTerms substitution{{X_NAME, termSubstituteToBack}};
+    Term derivativeAfterSubstitution(substitution.performSubstitutionTo(derivativeDefinition));
+    return simplifyAndGetLimitAtAValue(derivativeAfterSubstitution, deltaXName, 0, approachType);
 }
 
 Term getDerivativeDefinition(
         Term const& term,
-        string const& variableName,
-        Term const& x)
+        string const& variableName)
 {
+    Term x(X_NAME);
     Term deltaX(DELTA_X_NAME);
     Term xPlusDeltaX(createExpressionIfPossible({x, Term("+"), deltaX}));
-    SubstitutionOfVariablesToTerms substitution{{variableName, xPlusDeltaX}};
-    Term fOfXPlusDeltaX(substitution.performSubstitutionTo(term));
+    SubstitutionOfVariablesToTerms substitution{{variableName, xPlusDeltaX}};    Term fOfXPlusDeltaX(substitution.performSubstitutionTo(term));
     substitution.putVariableWithTerm(variableName, x);
     Term fOfX(substitution.performSubstitutionTo(term));
-    Term derivativeDefinition(createExpressionIfPossible({Term("("), fOfXPlusDeltaX, Term("-"), fOfX, Term(")"), Term("/"), deltaX}));
-    simplifyDerivativeByDefinition(derivativeDefinition);
+    Term derivativeDefinition(createExpressionIfPossible({Term("("), fOfXPlusDeltaX, Term("-"), fOfX, Term(")"), Term("/"), deltaX}));    simplifyDerivativeByDefinition(derivativeDefinition);
 
     return derivativeDefinition;
 }

@@ -102,14 +102,13 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialOv
 
 TEST(DifferentiationUtilitiesTest, GetDerivativeDefinitionWorks)
 {
-    Term term(Polynomial{Monomial(1, {{"x", 2}}), Monomial(1, {})});
+    Term term(Polynomial{Monomial(1, {{"a", 2}}), Monomial(1, {})});
 
-    Term derivative(getDerivativeDefinition(term, "x", Term("a")));
+    Term derivative(getDerivativeDefinition(term, "a"));
 
-    Term expectedTerm(Polynomial{Monomial(2, {{"a", 1}}), Monomial(1, {{"deltaX", 1}})});
+    Term expectedTerm(Polynomial{Monomial(1, {{"deltaX", 1}}), Monomial(2, {{"x", 1}})});
     EXPECT_EQ(expectedTerm, derivative);
 }
-
 
 }
 
