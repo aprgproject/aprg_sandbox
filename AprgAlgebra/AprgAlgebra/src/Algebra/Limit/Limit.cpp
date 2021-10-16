@@ -65,14 +65,12 @@ bool isSqueezeTheoremSatisfied(
         Term const& alwaysLowerTermAtInterval,
         Term const& termInBetweenAtInterval,
         Term const& alwaysHigherTermAtInterval,
-        std::string const& variableName,
+        string const& variableName,
         AlbaNumber const& valueToApproach)
 {
-    // Theorem: Suppose that the functions f, g, and h are defined on some open interval I containing A except
-    // possibly A itself, and that f(x) <= g(x) <= h(x) for all x in I for which x != A. Also that the limit for
+    // Theorem: Suppose that the functions f, g, and h are defined on some open interval I containing A except    // possibly A itself, and that f(x) <= g(x) <= h(x) for all x in I for which x != A. Also that the limit for
     // f(x) as it approaches A and limit for h(x) as it approaches A, both exists and are both equal to L
     // Then, the limit of g(x) exists and equal to L as well.
-
     bool result(false);
     Term limitAtLower(simplifyAndGetLimitAtAValue(alwaysLowerTermAtInterval, variableName, valueToApproach, LimitAtAValueApproachType::BothSides));
     Term limitAtTermInBetween(simplifyAndGetLimitAtAValue(termInBetweenAtInterval, variableName, valueToApproach, LimitAtAValueApproachType::BothSides));

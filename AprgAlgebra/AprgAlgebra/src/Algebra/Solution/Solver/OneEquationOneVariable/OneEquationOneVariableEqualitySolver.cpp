@@ -78,14 +78,21 @@ void OneEquationOneVariableEqualitySolver::calculateForTermAndVariable(
     }
     else
     {
-        performNewtonMethodToFindSolution(term, variableName);
+        TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(term));
+        if(!termsOverTerms.getDenominators().empty())
+        {
+            performNewtonMethodToFindSolution(termsOverTerms.getCombinedNumerator(), variableName);
+            performNewtonMethodToFindSolution(termsOverTerms.getCombinedDenominator(), variableName);
+        }
+        else
+        {
+            performNewtonMethodToFindSolution(term, variableName);
+        }
     }
 }
-
 void OneEquationOneVariableEqualitySolver::addValuesToSolutionSetIfNeeded(
         SolutionSet& solutionSet,
-        Term const& term,
-        string const& variableName)
+        Term const& term,        string const& variableName)
 {
     if(!m_calculatedValues.empty())
     {

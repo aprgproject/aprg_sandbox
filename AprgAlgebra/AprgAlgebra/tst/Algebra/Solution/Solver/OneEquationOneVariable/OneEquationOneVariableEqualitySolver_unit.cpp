@@ -198,6 +198,27 @@ TEST(OneEquationOneVariableEqualitySolverTest, SquareRootInEquationAreSolved)
     EXPECT_EQ(AlbaNumber(0), acceptedValues.at(0));
 }
 
+TEST(OneEquationOneVariableEqualitySolverTest, RadicalOverRadicalInEquationAreSolved)
+{
+    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(-2, {})};
+    Polynomial polynomial2{Monomial(1, {{"x", 1}}), Monomial(-3, {})};
+    Expression numerator(createExpressionIfPossible({Term(polynomial1), Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
+    Expression denominator(createExpressionIfPossible({Term(polynomial2), Term("^"), Term(AlbaNumber::createFraction(1, 5))}));
+    Expression radicalOverRadical(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
+    OneEquationOneVariableEqualitySolver solver;
+
+    SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(Equation(Term(radicalOverRadical), "=", Term(Constant(0)))));
+
+    EXPECT_TRUE(solver.isSolved());
+    EXPECT_FALSE(solver.isACompleteSolution());
+    AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
+    ASSERT_EQ(1U, acceptedValues.size());
+    EXPECT_EQ(AlbaNumber(2), acceptedValues.at(0));
+    AlbaNumbers const& rejectedValues(solutionSet.getRejectedValues());
+    ASSERT_EQ(1U, rejectedValues.size());
+    EXPECT_EQ(AlbaNumber(3), rejectedValues.at(0));
+}
+
 }
 
 }
