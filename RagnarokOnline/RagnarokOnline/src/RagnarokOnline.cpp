@@ -44,13 +44,25 @@ bool Monster::isMvp() const
     return result;
 }
 
+bool Monster::hasStoneCurseSkill() const
+{
+    bool result(false);
+    for(string const monsterSkill : monsterSkills)
+    {
+        if(isStringFoundInsideTheOtherStringCaseSensitive(monsterSkill, "Stone Curse"))
+        {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+
 RagnarokOnline::RagnarokOnline()
 {}
-
 void RagnarokOnline::retrieveItemDataFromRmsWebpages(
         string const& directoryPathOfWebPages)
-{
-    AlbaLocalPathHandler directoryPathHandler(directoryPathOfWebPages);
+{    AlbaLocalPathHandler directoryPathHandler(directoryPathOfWebPages);
     ListOfPaths listOfFiles;
     ListOfPaths listOfDirectories;
     directoryPathHandler.findFilesAndDirectoriesOneDepth("*.html", listOfFiles, listOfDirectories);
@@ -628,14 +640,100 @@ void RagnarokOnline::retrieveMapDataFromRmsWebPage(
     }
 }
 
+void RagnarokOnline::retrieveBuyingShopDataFromTalonRoWebpages(
+        string const& directoryPathOfWebPages)
+{
+    AlbaLocalPathHandler directoryPathHandler(directoryPathOfWebPages);
+    ListOfPaths listOfFiles;
+    ListOfPaths listOfDirectories;
+    directoryPathHandler.findFilesAndDirectoriesOneDepth("*.html", listOfFiles, listOfDirectories);
+    for(string const& filePath : listOfFiles)
+    {
+        retrieveShopDataFromTalonRoWebPage(filePath, ShopType::BuyingShop);
+    }
+}
+
+void RagnarokOnline::retrieveSellingShopDataFromTalonRoWebpages(
+        string const& directoryPathOfWebPages)
+{
+    AlbaLocalPathHandler directoryPathHandler(directoryPathOfWebPages);
+    ListOfPaths listOfFiles;
+    ListOfPaths listOfDirectories;
+    directoryPathHandler.findFilesAndDirectoriesOneDepth("*.html", listOfFiles, listOfDirectories);
+    for(string const& filePath : listOfFiles)
+    {
+        retrieveShopDataFromTalonRoWebPage(filePath, ShopType::SellingShop);
+    }
+}
+
+void RagnarokOnline::retrieveShopDataFromTalonRoWebPage(
+        string const& filePathOfWebPage,
+        ShopType const shopType)
+{
+    AlbaLocalPathHandler filePathHandler(filePathOfWebPage);
+    ifstream fileStream(filePathHandler.getFullPath());
+    AlbaFileReader fileReader(fileStream);
+    fileReader.setMaxBufferSize(100000);
+    while(fileReader.isNotFinished())
+    {
+        string line(fileReader.getLineAndIgnoreWhiteSpaces());
+        if(isStringFoundInsideTheOtherStringCaseSensitive(line, R"(<td class="sorting_1">)"))
+        {
+            string lineWithItems(line);
+            while(isStringFoundInsideTheOtherStringCaseSensitive(lineWithItems, R"(<td class="sorting_1">)"))
+            {
+                string itemString = getStringInBetweenTwoStrings(lineWithItems, R"(<td class="sorting_1">)", R"(<span class="d-none">)");
+                lineWithItems = getStringAfterThisString(lineWithItems, R"(<td class="sorting_1">)");
+                string priceString = getStringInBetweenTwoStrings(lineWithItems, R"(</span></td><td>)", R"(</td><td>)");
+                lineWithItems = getStringAfterThisString(lineWithItems, R"(</span></td><td>)");
+                string numberString = getStringInBetweenTwoStrings(lineWithItems, R"(</td><td>)", R"(</td><td>)");
+
+                ShopItemDetail newDetail{};
+                newDetail.itemName = fixText(itemString);
+                newDetail.averagePrice = convertStringToNumber<double>(fixText(priceString));
+                newDetail.totalNumber = convertStringToNumber<unsigned int>(fixText(numberString));
+
+                if(ShopType::BuyingShop == shopType)
+                {
+                    ItemNameToShopItemDetailMap::iterator it = m_buyingShopItems.find(newDetail.itemName);
+                    if(it != m_buyingShopItems.cend())
+                    {
+                        unsigned newTotalNumber = it->second.totalNumber + newDetail.totalNumber;
+                        double newAveragePrice = ((it->second.averagePrice * it->second.totalNumber) + (newDetail.averagePrice * newDetail.totalNumber)) / newTotalNumber;
+                        it->second.totalNumber = newTotalNumber;
+                        it->second.averagePrice = newAveragePrice;
+                    }
+                    else
+                    {
+                        m_buyingShopItems[newDetail.itemName] = newDetail;
+                    }
+                }
+                else if(ShopType::SellingShop == shopType)
+                {
+                    ItemNameToShopItemDetailMap::iterator it = m_sellingShopItems.find(newDetail.itemName);
+                    if(it != m_sellingShopItems.cend())
+                    {
+                        unsigned newTotalNumber = it->second.totalNumber + newDetail.totalNumber;
+                        double newAveragePrice = ((it->second.averagePrice * it->second.totalNumber) + (newDetail.averagePrice * newDetail.totalNumber)) / newTotalNumber;
+                        it->second.totalNumber = newTotalNumber;
+                        it->second.averagePrice = newAveragePrice;
+                    }
+                    else
+                    {
+                        m_sellingShopItems[newDetail.itemName] = newDetail;
+                    }
+                }
+            }
+        }
+    }
+}
+
 void RagnarokOnline::readItemIdToItemMapFromFile(
         string const& inputFilePath)
-{
-    ifstream inputStream(inputFilePath);
+{    ifstream inputStream(inputFilePath);
     AlbaFileParameterReader reader(inputStream);
     reader.readMapData<unsigned int, Item>(m_itemIdToItemMap);
 }
-
 void RagnarokOnline::readMonsterIdToMonsterMapFromFile(
         string const& inputFilePath)
 {
@@ -652,14 +750,29 @@ void RagnarokOnline::readMapNameToRoMapFromFile(
     reader.readMapData<string, RoMap>(m_mapNameToRoMap);
 }
 
+void RagnarokOnline::readBuyingShopItems(
+        string const& inputFilePath)
+{
+    ifstream inputStream(inputFilePath);
+    AlbaFileParameterReader reader(inputStream);
+    reader.readMapData<string, ShopItemDetail>(m_buyingShopItems);
+}
+
+void RagnarokOnline::readSellingShopItems(
+        string const& inputFilePath)
+{
+    ifstream inputStream(inputFilePath);
+    AlbaFileParameterReader reader(inputStream);
+    reader.readMapData<string, ShopItemDetail>(m_sellingShopItems);
+}
+
+
 void RagnarokOnline::buildItemNameToItemId()
 {
-    for(auto const& itemIdItemPair : m_itemIdToItemMap)
-    {
+    for(auto const& itemIdItemPair : m_itemIdToItemMap)    {
         Item const& item(itemIdItemPair.second);
         string fixedItemName(getFixedItemName(item));
-        if(m_itemNameToItemIdMap.find(fixedItemName) == m_itemNameToItemIdMap.cend())
-        {
+        if(m_itemNameToItemIdMap.find(fixedItemName) == m_itemNameToItemIdMap.cend())        {
             m_itemNameToItemIdMap.emplace(fixedItemName, itemIdItemPair.first);
         }
         /*else
@@ -700,14 +813,22 @@ MapNameToRoMap const& RagnarokOnline::getMapNameToRoMap() const
     return m_mapNameToRoMap;
 }
 
+ItemNameToShopItemDetailMap const& RagnarokOnline::getBuyingItemShops() const
+{
+    return m_buyingShopItems;
+}
+
+ItemNameToShopItemDetailMap const& RagnarokOnline::getSellingItemShops() const
+{
+    return m_sellingShopItems;
+}
+
 Item RagnarokOnline::getItem(
         string const& fixedItemName) const
-{
-    Item result{};
+{    Item result{};
     auto it1 = m_itemNameToItemIdMap.find(fixedItemName);
     if(it1 != m_itemNameToItemIdMap.cend())
-    {
-        auto it2 = m_itemIdToItemMap.find(it1->second);
+    {        auto it2 = m_itemIdToItemMap.find(it1->second);
         if(it2 != m_itemIdToItemMap.cend())
         {
             result = it2->second;
@@ -761,14 +882,36 @@ string RagnarokOnline::getFixedItemName(
     return result;
 }
 
+double RagnarokOnline::getTalonRoBuyingPrice(
+        string const& fixedItemName) const
+{
+    double result(0);
+    auto it = m_buyingShopItems.find(fixedItemName);
+    if(it != m_buyingShopItems.cend())
+    {
+        result = it->second.averagePrice;
+    }
+    return result;
+}
+
+double RagnarokOnline::getTalonRoSellingPrice(
+        string const& fixedItemName) const
+{
+    double result(0);
+    auto it = m_sellingShopItems.find(fixedItemName);
+    if(it != m_sellingShopItems.cend())
+    {
+        result = it->second.averagePrice;
+    }
+    return result;
+}
+
 void RagnarokOnline::saveItemIdToItemMapToFile(
         string const& outputFilePath) const
-{
-    ofstream outputStream(outputFilePath);
+{    ofstream outputStream(outputFilePath);
     AlbaFileParameterWriter writer(outputStream);
     writer.writeMapData<unsigned int, Item>(m_itemIdToItemMap);
 }
-
 void RagnarokOnline::saveMonsterIdToMonsterMapToFile(
         string const& outputFilePath) const
 {
@@ -785,14 +928,28 @@ void RagnarokOnline::saveMapNameToRoMapToFile(
     writer.writeMapData<string, RoMap>(m_mapNameToRoMap);
 }
 
+void RagnarokOnline::saveBuyingShopItems(
+        string const& outputFilePath) const
+{
+    ofstream outputStream(outputFilePath);
+    AlbaFileParameterWriter writer(outputStream);
+    writer.writeMapData<string, ShopItemDetail>(m_buyingShopItems);
+}
+
+void RagnarokOnline::saveSellingShopItems(
+        string const& outputFilePath) const
+{
+    ofstream outputStream(outputFilePath);
+    AlbaFileParameterWriter writer(outputStream);
+    writer.writeMapData<string, ShopItemDetail>(m_sellingShopItems);
+}
+
 void RagnarokOnline::printItemIdToItemMap() const
 {
-    for(auto const& itemIdItemPair : m_itemIdToItemMap)
-    {
+    for(auto const& itemIdItemPair : m_itemIdToItemMap)    {
         cout << "Item ID: " << itemIdItemPair.first << endl;
         Item const& item(itemIdItemPair.second);
-        cout << "Item name: " << item.name << endl;
-        cout << "Item type: " << item.type << endl;
+        cout << "Item name: " << item.name << endl;        cout << "Item type: " << item.type << endl;
         cout << "Item class: " << item.itemClass << endl;
         cout << "Buying price: " << item.buyingPrice << endl;
         cout << "Selling price: " << item.sellingPrice << endl;
@@ -912,33 +1069,54 @@ void RagnarokOnline::printMapNameToRoMap() const
     }
 }
 
+void RagnarokOnline::printBuyingShopItems() const
+{
+    cout.precision(20);
+    for(auto const& shopItem : m_buyingShopItems)
+    {
+        cout << "Shop item name: " << shopItem.first << endl;
+        ShopItemDetail const& detail(shopItem.second);
+        cout << "Average price: " << detail.averagePrice << endl;
+        cout << "Total number: " << detail.totalNumber << endl;
+    }
+}
+
+void RagnarokOnline::printSellingShopItems() const
+{
+    cout.precision(20);
+    for(auto const& shopItem : m_sellingShopItems)
+    {
+        cout << "Shop item name: " << shopItem.first << endl;
+        ShopItemDetail const& detail(shopItem.second);
+        cout << "Average price: " << detail.averagePrice << endl;
+        cout << "Total number: " << detail.totalNumber << endl;
+    }
+}
+
 string RagnarokOnline::fixText(
         string const& text)
-{
-    string fixedText(text);
+{    string fixedText(text);
     transformReplaceStringIfFound(fixedText, "<br>", " ");
     transformReplaceStringIfFound(fixedText, "&amp;", "&");
+    transformReplaceStringIfFound(fixedText, "&nbsp;", " ");
     while(isStringFoundInsideTheOtherStringCaseSensitive(fixedText, "<")
           && isStringFoundInsideTheOtherStringCaseSensitive(fixedText, ">"))
-    {
-        string htmlTag("<");
+    {        string htmlTag("<");
         htmlTag += getStringInBetweenTwoStrings(fixedText, "<", ">");
         htmlTag += ">";
-        transformReplaceStringIfFound(fixedText, htmlTag, "");
-    }
+        transformReplaceStringIfFound(fixedText, htmlTag, "");    }
     return getStringWithoutStartingAndTrailingWhiteSpace(getStringWithoutRedundantWhiteSpace(fixedText));
 }
 
 ostream & operator<<(ostream & out, NameAndRate const& nameAndRate)
 {
+    out.precision(20);
     AlbaFileParameterWriter writer(out);
     writer.writeData<string>(nameAndRate.name);
-    writer.writeData<double>(nameAndRate.rate);
-    return out;
+    writer.writeData<double>(nameAndRate.rate);    return out;
 }
 
-ostream & operator<<(ostream & out, MonsterDetailsOnRoMap const& monsterDetailsOnRoMap)
-{
+ostream & operator<<(ostream & out, MonsterDetailsOnRoMap const& monsterDetailsOnRoMap){
     AlbaFileParameterWriter writer(out);
     writer.writeData<string>(monsterDetailsOnRoMap.monsterName);
     writer.writeData<unsigned int>(monsterDetailsOnRoMap.spawnCount);
@@ -1020,14 +1198,22 @@ ostream & operator<<(ostream & out, Monster const& monster)
     return out;
 }
 
-ostream & operator<<(ostream & out, RoMap const& roMap)
+ostream & operator<<(ostream & out, ShopItemDetail const& shopItemDetail)
 {
+    out.precision(20);
     AlbaFileParameterWriter writer(out);
-    writer.writeData<string>(roMap.name);
-    writer.writeData<string>(roMap.fullName);
-    writer.writeVectorData<MonsterDetailsOnRoMap>(roMap.monstersDetailsOnMap);
+    writer.writeData<string>(shopItemDetail.itemName);
+    writer.writeData<double>(shopItemDetail.averagePrice);
+    writer.writeData<unsigned int>(shopItemDetail.totalNumber);
     return out;
 }
+
+ostream & operator<<(ostream & out, RoMap const& roMap)
+{
+    AlbaFileParameterWriter writer(out);    writer.writeData<string>(roMap.name);
+    writer.writeData<string>(roMap.fullName);
+    writer.writeVectorData<MonsterDetailsOnRoMap>(roMap.monstersDetailsOnMap);
+    return out;}
 
 ostream & operator<<(ostream & out, ItemIdToItemMap const& itemIdToItemMap)
 {
@@ -1050,16 +1236,22 @@ ostream & operator<<(ostream & out, MapNameToRoMap const& mapNameToRoMap)
     return out;
 }
 
-istream & operator>>(istream & in, NameAndRate & nameAndRate)
+ostream & operator<<(ostream & out, ItemNameToShopItemDetailMap const& itemNameToShopItemDetailMap)
 {
-    AlbaFileParameterReader reader(in);
-    nameAndRate.name = reader.readData<string>();
-    nameAndRate.rate = reader.readData<double>();
-    return in;
+    AlbaFileParameterWriter writer(out);
+    writer.writeMapData<string, ShopItemDetail>(itemNameToShopItemDetailMap);
+    return out;
 }
 
-istream & operator>>(istream & in, MonsterDetailsOnRoMap & monsterDetailsOnRoMap)
+istream & operator>>(istream & in, NameAndRate & nameAndRate)
 {
+    in.precision(20);
+    AlbaFileParameterReader reader(in);
+    nameAndRate.name = reader.readData<string>();
+    nameAndRate.rate = reader.readData<double>();    return in;
+}
+
+istream & operator>>(istream & in, MonsterDetailsOnRoMap & monsterDetailsOnRoMap){
     AlbaFileParameterReader reader(in);
     monsterDetailsOnRoMap.monsterName = reader.readData<string>();
     monsterDetailsOnRoMap.spawnCount = reader.readData<unsigned int>();
@@ -1141,14 +1333,22 @@ istream & operator>>(istream & in, Monster & monster)
     return in;
 }
 
-istream & operator>>(istream & in, RoMap & roMap)
+istream & operator>>(istream & in, ShopItemDetail & shopItemDetail)
 {
+    in.precision(20);
     AlbaFileParameterReader reader(in);
-    roMap.name = reader.readData<string>();
-    roMap.fullName = reader.readData<string>();
-    reader.readVectorData<MonsterDetailsOnRoMap>(roMap.monstersDetailsOnMap);
+    shopItemDetail.itemName = reader.readData<string>();
+    shopItemDetail.averagePrice = reader.readData<double>();
+    shopItemDetail.totalNumber = reader.readData<unsigned int>();
     return in;
 }
+
+istream & operator>>(istream & in, RoMap & roMap)
+{
+    AlbaFileParameterReader reader(in);    roMap.name = reader.readData<string>();
+    roMap.fullName = reader.readData<string>();
+    reader.readVectorData<MonsterDetailsOnRoMap>(roMap.monstersDetailsOnMap);
+    return in;}
 
 istream & operator>>(istream & in, ItemIdToItemMap & itemIdToItemMap)
 {
@@ -1168,6 +1368,13 @@ istream & operator>>(istream & in, MapNameToRoMap & mapNameToRoMap)
 {
     AlbaFileParameterReader reader(in);
     reader.readMapData<string, RoMap>(mapNameToRoMap);
+    return in;
+}
+
+istream & operator>>(istream & in, ItemNameToShopItemDetailMap & itemNameToShopItemDetailMap)
+{
+    AlbaFileParameterReader reader(in);
+    reader.readMapData<string, ShopItemDetail>(itemNameToShopItemDetailMap);
     return in;
 }
 

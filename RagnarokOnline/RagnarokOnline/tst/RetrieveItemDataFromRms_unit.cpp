@@ -7,41 +7,36 @@ using namespace std;
 namespace alba
 {
 
-TEST(RagnarokOnlineTest, DISABLED_RetrieveItemDataFromRmsWebPagesAndThenSaveTheData)
+TEST(RagnarokOnlineItemUpdateTest, DISABLED_RetrieveItemDataFromRmsWebPagesAndThenSaveTheData)
 {
     RagnarokOnline ragnarokOnline;
-
     ragnarokOnline.retrieveItemDataFromRmsWebpages(R"(C:\Users\detectivemark7\Desktop\RO\RMS\ItemDatabaseTraversal\)");
 
     ragnarokOnline.saveItemIdToItemMapToFile(R"(C:\Users\detectivemark7\Desktop\RO\ItemIdToItemMap.txt)");
 }
 
-TEST(RagnarokOnlineTest, ReadItemIdToItemMapFromFileWorks)
+TEST(RagnarokOnlineItemTest, ReadItemIdToItemMapFromFileWorks)
 {
     RagnarokOnline ragnarokOnline;
-
     ragnarokOnline.readItemIdToItemMapFromFile(R"(C:\Users\detectivemark7\Desktop\RO\ItemIdToItemMap.txt)");
 
     EXPECT_EQ(6225U, ragnarokOnline.getItemIdToItemMap().size());
 }
 
-TEST(RagnarokOnlineTest, RetrieveItemDataFromRmsWebPagesWorks)
+TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPagesWorks)
 {
     RagnarokOnline ragnarokOnline;
-
     ragnarokOnline.retrieveItemDataFromRmsWebpages(R"(C:\Users\detectivemark7\Desktop\RO\RMS\ItemDatabaseTraversal\)");
 
     EXPECT_EQ(6225U, ragnarokOnline.getItemIdToItemMap().size());
 }
 
-TEST(RagnarokOnlineTest, RetrieveItemDataFromRmsWebPageWorksWithExample1)
+TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample1)
 {
     RagnarokOnline ragnarokOnline;
-
     ragnarokOnline.retrieveItemDataFromRmsWebPage(R"(C:\Users\detectivemark7\Desktop\RO\RMS\ItemDatabaseTraversal\itemWithLetter_a_pageNumber_1.html)");
 
-    ItemIdToItemMap const& itemIdToItemMap(ragnarokOnline.getItemIdToItemMap());
-    ASSERT_EQ(12U, itemIdToItemMap.size());
+    ItemIdToItemMap const& itemIdToItemMap(ragnarokOnline.getItemIdToItemMap());    ASSERT_EQ(12U, itemIdToItemMap.size());
 
     Item const& item1(itemIdToItemMap.at(4140U));
     EXPECT_EQ(4140U, item1.itemId);
@@ -301,14 +296,12 @@ TEST(RagnarokOnlineTest, RetrieveItemDataFromRmsWebPageWorksWithExample1)
     EXPECT_TRUE(item12.droppedByMonstersWithRates.empty());
 }
 
-TEST(RagnarokOnlineTest, RetrieveItemDataFromRmsWebPageWorksWithExample2)
+TEST(RagnarokOnlineItemTest, RetrieveItemDataFromRmsWebPageWorksWithExample2)
 {
     RagnarokOnline ragnarokOnline;
-
     ragnarokOnline.retrieveItemDataFromRmsWebPage(R"(C:\Users\detectivemark7\Desktop\RO\RMS\ItemDatabaseTraversal\itemWithLetter_z_pageNumber_1.html)");
 
-    ItemIdToItemMap const& itemIdToItemMap(ragnarokOnline.getItemIdToItemMap());
-    ASSERT_EQ(12U, itemIdToItemMap.size());
+    ItemIdToItemMap const& itemIdToItemMap(ragnarokOnline.getItemIdToItemMap());    ASSERT_EQ(12U, itemIdToItemMap.size());
 
     Item const& item1(itemIdToItemMap.at(912U));
     EXPECT_EQ(912U, item1.itemId);
