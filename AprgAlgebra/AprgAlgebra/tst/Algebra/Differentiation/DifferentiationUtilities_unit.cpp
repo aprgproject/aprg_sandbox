@@ -103,28 +103,24 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialOv
 
 TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)
 {
-    Polynomial numerator{Monomial(1, {{"x", 3}}), Monomial(1, {})};
-    Polynomial denominator{Monomial(1, {{"x", 2}}), Monomial(-9, {})};
+    Polynomial numerator{Monomial(1, {{"x", 1}}), Monomial(3, {})};
+    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
     Term termToTest(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
 
-    SolutionSet continuityDomain(getDifferentiabilityDomain(termToTest));
+    SolutionSet differentiabilityDomain(getDifferentiabilityDomain(termToTest, "x"));
 
-    AlbaNumberIntervals const& intervalToVerify(continuityDomain.getAcceptedIntervals());
-    ASSERT_EQ(3U, intervalToVerify.size());
-    EXPECT_EQ(AlbaNumberInterval(createNegativeInfinityOpenEndpoint(), createOpenEndpoint(-3)),
+    AlbaNumberIntervals const& intervalToVerify(differentiabilityDomain.getAcceptedIntervals());
+    ASSERT_EQ(2U, intervalToVerify.size());
+    EXPECT_EQ(AlbaNumberInterval(createNegativeInfinityOpenEndpoint(), createCloseEndpoint(0.9999980000077788)),
               intervalToVerify.at(0));
-    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3)),
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(1.000002000005519), createPositiveInfinityOpenEndpoint()),
               intervalToVerify.at(1));
-    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(3), createPositiveInfinityOpenEndpoint()),
-              intervalToVerify.at(2));
 }
 
-TEST(DifferentiationUtilitiesTest, GetDerivativeDefinitionWorks)
-{
+TEST(DifferentiationUtilitiesTest, GetDerivativeDefinitionWorks){
     Term term(Polynomial{Monomial(1, {{"a", 2}}), Monomial(1, {})});
 
     Term derivative(getDerivativeDefinition(term, "a"));
-
     Term expectedTerm(Polynomial{Monomial(1, {{"deltaX", 1}}), Monomial(2, {{"x", 1}})});
     EXPECT_EQ(expectedTerm, derivative);
 }

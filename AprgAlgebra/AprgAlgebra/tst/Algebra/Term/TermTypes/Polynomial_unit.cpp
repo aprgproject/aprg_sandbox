@@ -156,14 +156,22 @@ TEST(PolynomialTest, GetMaxDegreeWorks)
     EXPECT_DOUBLE_EQ(9, polynomial3.getMaxDegree().getDouble());
 }
 
+TEST(PolynomialTest, GetDegreeForVariableWorks)
+{
+    Polynomial polynomial{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
+
+    EXPECT_DOUBLE_EQ(0, polynomial.getDegreeForVariable("a").getDouble());
+    EXPECT_DOUBLE_EQ(2, polynomial.getDegreeForVariable("x").getDouble());
+    EXPECT_DOUBLE_EQ(3, polynomial.getDegreeForVariable("y").getDouble());
+    EXPECT_DOUBLE_EQ(4, polynomial.getDegreeForVariable("z").getDouble());
+}
+
 TEST(PolynomialTest, GetDisplayableStringWorks)
 {
-    Polynomial polynomial1;
-    Polynomial polynomial2{Monomial(6, {})};
+    Polynomial polynomial1;    Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-7, {{"x", 2}, {"y", 3}, {"z", 4}})};
 
-    EXPECT_EQ("(EmptyPolynomial)", polynomial1.getDisplayableString());
-    EXPECT_EQ("(6)", polynomial2.getDisplayableString());
+    EXPECT_EQ("(EmptyPolynomial)", polynomial1.getDisplayableString());    EXPECT_EQ("(6)", polynomial2.getDisplayableString());
     EXPECT_EQ("(6 + -7[x^2][y^3][z^4])", polynomial3.getDisplayableString());
 }
 

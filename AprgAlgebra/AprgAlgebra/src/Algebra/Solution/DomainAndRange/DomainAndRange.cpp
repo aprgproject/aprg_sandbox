@@ -217,15 +217,13 @@ AlbaNumber getTransitionValue(
     AlbaNumber currentValueToRealFiniteValue = inputValueYieldsToFiniteValue;
     AlbaNumber currentValueToNonRealFiniteValue = inputValueYieldsToNonFiniteValue;
     AlbaNumber newInputValue(inputValueYieldsToFiniteValue);
-    AlbaNumber previousInputValue;
+    AlbaNumber previousInputValue(inputValueYieldsToNonFiniteValue);
     while(previousInputValue != newInputValue)
     {
-        previousInputValue = newInputValue;
-        newInputValue = getAverageForAlbaNumber(currentValueToRealFiniteValue, currentValueToNonRealFiniteValue);
+        previousInputValue = newInputValue;        newInputValue = getAverageForAlbaNumber(currentValueToRealFiniteValue, currentValueToNonRealFiniteValue);
         AlbaNumber newOutputValue(functionToCheck(newInputValue));
         if(newOutputValue.isARealFiniteValue())
-        {
-            currentValueToRealFiniteValue = newInputValue;
+        {            currentValueToRealFiniteValue = newInputValue;
         }
         else
         {

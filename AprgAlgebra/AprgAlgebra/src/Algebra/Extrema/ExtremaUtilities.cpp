@@ -266,14 +266,12 @@ bool isRolleTheoremSatisfied(
             && AlbaNumber(0U) == fb.getConstantValueConstReference())
     {
         AlbaNumberIntervals continuityDomainIntervals(getContinuityDomain(term).getAcceptedIntervals());
-        AlbaNumberIntervals differentiabilityDomainIntervals(getDifferentiabilityDomain(term).getAcceptedIntervals());
+        AlbaNumberIntervals differentiabilityDomainIntervals(getDifferentiabilityDomain(term, variableName).getAcceptedIntervals());
         AlbaNumberInterval abCloseInterval(createCloseEndpoint(a), createCloseEndpoint(b));
         AlbaNumberInterval abOpenInterval(createOpenEndpoint(a), createOpenEndpoint(b));
-
         if(isIntervalInsideTheIntervals(continuityDomainIntervals, abCloseInterval)
                 && isIntervalInsideTheIntervals(differentiabilityDomainIntervals, abOpenInterval))
-        {
-            Differentiation differentiation(variableName);
+        {            Differentiation differentiation(variableName);
             Term firstDerivativeTerm(differentiation.differentiate(term));
             substitution.putVariableWithValue(variableName, c);
             Term fPrimeC(substitution.performSubstitutionTo(firstDerivativeTerm));

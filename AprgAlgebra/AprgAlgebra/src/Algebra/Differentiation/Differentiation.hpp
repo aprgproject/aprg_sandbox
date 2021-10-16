@@ -19,26 +19,23 @@ public:
             std::string const& nameOfVariableToDifferentiate,
             VariableNamesSet const& namesOfDependentVariables);
 
-    Term differentiateMultipleTimes(Term const& term, unsigned int const numberOfTimes) const;
-    Equation differentiateMultipleTimes(Equation const& equation, unsigned int const numberOfTimes) const;
-
     Term differentiate(Term const& term) const;
     Term differentiate(Constant const& constant) const;
-    Term differentiate(Variable const& variable) const;
-    Term differentiate(Monomial const& monomial) const;
+    Term differentiate(Variable const& variable) const;    Term differentiate(Monomial const& monomial) const;
     Term differentiate(Polynomial const& polynomial) const;
     Term differentiate(Expression const& expression) const;
     Term differentiate(Function const& functionObject) const;
     Equation differentiate(Equation const& equation) const;
 
+    Term differentiateMultipleTimes(Term const& term, unsigned int const numberOfTimes) const;
+    Equation differentiateMultipleTimes(Equation const& equation, unsigned int const numberOfTimes) const;
+
     Term differentiateTerm(Term const& term) const;
     AlbaNumber differentiateConstant(Constant const&) const;
-    Monomial differentiateVariable(Variable const& variable) const;
-    Polynomial differentiateMonomial(Monomial const& monomial) const;
+    Monomial differentiateVariable(Variable const& variable) const;    Polynomial differentiateMonomial(Monomial const& monomial) const;
     Polynomial differentiatePolynomial(Polynomial const& polynomial) const;
     Term differentiateExpression(Expression const& expression) const;
-    Term differentiateFunction(Function const& functionObject) const;
-    Equation differentiateEquation(Equation const& equation) const;
+    Term differentiateFunction(Function const& functionObject) const;    Equation differentiateEquation(Equation const& equation) const;
 
     Term differentiateTwoMultipliedTerms(Term const& term1, Term const& term2) const;
     Term differentiateTwoDividedTerms(Term const& numerator, Term const& denominator) const;
@@ -70,9 +67,7 @@ private:
     Term differentiateFunctionOnly(Function const& functionObject) const;
     std::string m_nameOfVariableToDifferentiate;
     VariableNamesSet m_namesOfDependentVariables;
-
 };
 
 }
-
 }

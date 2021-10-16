@@ -1,13 +1,12 @@
 #include "DifferentiationUtilities.hpp"
 
+#include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
-
 using namespace alba::algebra::DomainAndRange;
 using namespace alba::algebra::Simplification;
 using namespace std;
@@ -85,16 +84,17 @@ void simplifyDerivativeByDefinition(Term & term)
 }
 
 SolutionSet getDifferentiabilityDomain(
-        Term const& term)
+        Term const& term,
+        string const& variableName)
 {
     // This code is not accurate.
-    // How about exponents with fractional value?
     // How about piecewise function?
     // How about absolute value function?
-    return calculateDomainForTermWithOneVariable(term);
+
+    Differentiation differentiation(variableName);
+    Term derivativeTerm(differentiation.differentiate(term));
+    return calculateDomainForTermWithOneVariable(derivativeTerm);
 }
 
-
 }
-
 }

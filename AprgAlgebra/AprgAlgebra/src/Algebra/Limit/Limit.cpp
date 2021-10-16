@@ -168,14 +168,13 @@ AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
     AlbaNumber previousRejectedInput(valueToApproach);
     for(unsigned int i=0; i<maxNumberOfIterations && currentInput != previousRejectedInput; i++)
     {
+        // As current currentInput approaches valueToApproach the calculation becomes inaccurate so limit value is not accurate.
         substitution.putVariableWithValue(variableName, currentInput);
         Term currentOutputTerm = substitution.performSubstitutionTo(term);
-        if(currentOutputTerm.isConstant())
-        {
+        if(currentOutputTerm.isConstant())        {
             AlbaNumber currentOutputNumber(currentOutputTerm.getConstantValueConstReference());
             if(!currentOutputNumber.isARealFiniteValue())
-            {
-                previousRejectedInput = currentInput;
+            {                previousRejectedInput = currentInput;
             }
             else
             {
@@ -183,26 +182,24 @@ AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
                 previousAcceptedInput = currentInput;
             }
             AlbaNumber newInput(getAverageForAlbaNumber(previousAcceptedInput, previousRejectedInput));
+            // to investigate, print currentInput, currentOutputNumber and newInput to check how it approaches the limit value
+            // this are checks to prevent inaccurate values when the values get to close
             if(isAlmostEqualForLimitIteration(newInput, valueToApproach)
-                    || isAlmostEqualForLimitIteration(previousAcceptedInput, newInput))
+                    || isAlmostEqualForLimitIteration(newInput, previousAcceptedInput))
             {
                 break;
-            }
-            currentInput = newInput;
+            }            currentInput = newInput;
         }
         else
         {
             break;
         }
     }
-
     return getLimitAtAValueUsingTrendOfValues(term, variableName, valueToApproach, previousAcceptedInput, previousPreviousAcceptedInput);
 }
-
 AlbaNumber getLimitAtAValueUsingTrendOfValues(
         Term const& term,
-        string const& variableName,
-        AlbaNumber const& valueToApproach,
+        string const& variableName,        AlbaNumber const& valueToApproach,
         AlbaNumber const& previousAcceptedInput,
         AlbaNumber const& previousPreviousAcceptedInput)
 {

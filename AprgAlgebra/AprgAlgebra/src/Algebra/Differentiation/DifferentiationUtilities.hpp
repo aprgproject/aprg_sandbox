@@ -28,10 +28,10 @@ Term getDerivativeAtUsingLimit(
         LimitAtAValueApproachType const approachType);
 
 SolutionSet getDifferentiabilityDomain(
-        Term const& term);
+        Term const& term,
+        std::string const& variableName);
 
 void simplifyDerivativeByDefinition(Term & term);
-
 }
 
 }
