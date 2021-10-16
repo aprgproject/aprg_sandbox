@@ -302,6 +302,31 @@ TEST(LimitTest, GetLimitAtInfinityWorks)
     EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::PositiveInfinity)), getLimitAtInfinity(Term("x"), "x", AlbaNumber::Value::PositiveInfinity));
 }
 
+TEST(LimitTest, GetObliqueAsymptoteWorksAsResultIsEmptyWhenItsALine)
+{
+    Term termToTest(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+
+    EXPECT_EQ(Term(), getObliqueAsymptote(termToTest));
+}
+
+TEST(LimitTest, GetObliqueAsymptoteWorksAsResultIsEmptyWhenDegreeOfDenominatorIsGreater)
+{
+    Term numerator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {})});
+    Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(3, {})});
+    Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+
+    EXPECT_EQ(Term(), getObliqueAsymptote(termToTest));
+}
+
+TEST(LimitTest, GetObliqueAsymptoteWorksWhenThereIsAnObliqueAsymptote)
+{
+    Term numerator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(3, {})});
+    Term denominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {})});
+    Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+
+    EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), getObliqueAsymptote(termToTest));
+}
+
 }
 
 }

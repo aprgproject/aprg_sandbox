@@ -1,3 +1,4 @@
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Limit/Continuity.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
@@ -190,6 +191,27 @@ TEST(ContinuityTest, GetContinuityDomainWorksOnSquareRootOfPolynomial)
     AlbaNumberIntervals const& intervalToVerify(continuityDomain.getAcceptedIntervals());
     ASSERT_EQ(1U, intervalToVerify.size());
     EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-2), createCloseEndpoint(2)), intervalToVerify.at(0));
+}
+
+TEST(ContinuityTest, GetContinuityDomainWorksOnFunctions)
+{
+    SolutionSet continuityDomain1(getContinuityDomain(Functions::abs(Term("x"))));
+    SolutionSet continuityDomain2(getContinuityDomain(Functions::sin(Term("x"))));
+    SolutionSet continuityDomain3(getContinuityDomain(Functions::cos(Term("x"))));
+    SolutionSet continuityDomain4(getContinuityDomain(Functions::tan(Term("x"))));
+
+    AlbaNumberIntervals const& intervalToVerify1(continuityDomain1.getAcceptedIntervals());
+    ASSERT_EQ(1U, intervalToVerify1.size());
+    EXPECT_EQ(createAllRealValuesInterval(), intervalToVerify1.front());
+    AlbaNumberIntervals const& intervalToVerify2(continuityDomain2.getAcceptedIntervals());
+    ASSERT_EQ(1U, intervalToVerify2.size());
+    EXPECT_EQ(createAllRealValuesInterval(), intervalToVerify2.front());
+    AlbaNumberIntervals const& intervalToVerify3(continuityDomain3.getAcceptedIntervals());
+    ASSERT_EQ(1U, intervalToVerify3.size());
+    EXPECT_EQ(createAllRealValuesInterval(), intervalToVerify3.front());
+    AlbaNumberIntervals const& intervalToVerify4(continuityDomain4.getAcceptedIntervals());
+    ASSERT_EQ(1U, intervalToVerify4.size());
+    EXPECT_EQ(createAllRealValuesInterval(), intervalToVerify4.front());
 }
 
 }

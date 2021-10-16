@@ -60,9 +60,11 @@ bool Monster::hasStoneCurseSkill() const
 
 RagnarokOnline::RagnarokOnline()
 {}
+
 void RagnarokOnline::retrieveItemDataFromRmsWebpages(
         string const& directoryPathOfWebPages)
-{    AlbaLocalPathHandler directoryPathHandler(directoryPathOfWebPages);
+{
+    AlbaLocalPathHandler directoryPathHandler(directoryPathOfWebPages);
     ListOfPaths listOfFiles;
     ListOfPaths listOfDirectories;
     directoryPathHandler.findFilesAndDirectoriesOneDepth("*.html", listOfFiles, listOfDirectories);
@@ -730,10 +732,12 @@ void RagnarokOnline::retrieveShopDataFromTalonRoWebPage(
 
 void RagnarokOnline::readItemIdToItemMapFromFile(
         string const& inputFilePath)
-{    ifstream inputStream(inputFilePath);
+{
+    ifstream inputStream(inputFilePath);
     AlbaFileParameterReader reader(inputStream);
     reader.readMapData<unsigned int, Item>(m_itemIdToItemMap);
 }
+
 void RagnarokOnline::readMonsterIdToMonsterMapFromFile(
         string const& inputFilePath)
 {
@@ -769,10 +773,12 @@ void RagnarokOnline::readSellingShopItems(
 
 void RagnarokOnline::buildItemNameToItemId()
 {
-    for(auto const& itemIdItemPair : m_itemIdToItemMap)    {
+    for(auto const& itemIdItemPair : m_itemIdToItemMap)
+    {
         Item const& item(itemIdItemPair.second);
         string fixedItemName(getFixedItemName(item));
-        if(m_itemNameToItemIdMap.find(fixedItemName) == m_itemNameToItemIdMap.cend())        {
+        if(m_itemNameToItemIdMap.find(fixedItemName) == m_itemNameToItemIdMap.cend())
+        {
             m_itemNameToItemIdMap.emplace(fixedItemName, itemIdItemPair.first);
         }
         /*else
@@ -825,10 +831,12 @@ ItemNameToShopItemDetailMap const& RagnarokOnline::getSellingItemShops() const
 
 Item RagnarokOnline::getItem(
         string const& fixedItemName) const
-{    Item result{};
+{
+    Item result{};
     auto it1 = m_itemNameToItemIdMap.find(fixedItemName);
     if(it1 != m_itemNameToItemIdMap.cend())
-    {        auto it2 = m_itemIdToItemMap.find(it1->second);
+    {
+        auto it2 = m_itemIdToItemMap.find(it1->second);
         if(it2 != m_itemIdToItemMap.cend())
         {
             result = it2->second;
@@ -908,10 +916,12 @@ double RagnarokOnline::getTalonRoSellingPrice(
 
 void RagnarokOnline::saveItemIdToItemMapToFile(
         string const& outputFilePath) const
-{    ofstream outputStream(outputFilePath);
+{
+    ofstream outputStream(outputFilePath);
     AlbaFileParameterWriter writer(outputStream);
     writer.writeMapData<unsigned int, Item>(m_itemIdToItemMap);
 }
+
 void RagnarokOnline::saveMonsterIdToMonsterMapToFile(
         string const& outputFilePath) const
 {
@@ -946,10 +956,12 @@ void RagnarokOnline::saveSellingShopItems(
 
 void RagnarokOnline::printItemIdToItemMap() const
 {
-    for(auto const& itemIdItemPair : m_itemIdToItemMap)    {
+    for(auto const& itemIdItemPair : m_itemIdToItemMap)
+    {
         cout << "Item ID: " << itemIdItemPair.first << endl;
         Item const& item(itemIdItemPair.second);
-        cout << "Item name: " << item.name << endl;        cout << "Item type: " << item.type << endl;
+        cout << "Item name: " << item.name << endl;
+        cout << "Item type: " << item.type << endl;
         cout << "Item class: " << item.itemClass << endl;
         cout << "Buying price: " << item.buyingPrice << endl;
         cout << "Selling price: " << item.sellingPrice << endl;
@@ -1095,16 +1107,19 @@ void RagnarokOnline::printSellingShopItems() const
 
 string RagnarokOnline::fixText(
         string const& text)
-{    string fixedText(text);
+{
+    string fixedText(text);
     transformReplaceStringIfFound(fixedText, "<br>", " ");
     transformReplaceStringIfFound(fixedText, "&amp;", "&");
     transformReplaceStringIfFound(fixedText, "&nbsp;", " ");
     while(isStringFoundInsideTheOtherStringCaseSensitive(fixedText, "<")
           && isStringFoundInsideTheOtherStringCaseSensitive(fixedText, ">"))
-    {        string htmlTag("<");
+    {
+        string htmlTag("<");
         htmlTag += getStringInBetweenTwoStrings(fixedText, "<", ">");
         htmlTag += ">";
-        transformReplaceStringIfFound(fixedText, htmlTag, "");    }
+        transformReplaceStringIfFound(fixedText, htmlTag, "");
+    }
     return getStringWithoutStartingAndTrailingWhiteSpace(getStringWithoutRedundantWhiteSpace(fixedText));
 }
 
@@ -1113,10 +1128,12 @@ ostream & operator<<(ostream & out, NameAndRate const& nameAndRate)
     out.precision(20);
     AlbaFileParameterWriter writer(out);
     writer.writeData<string>(nameAndRate.name);
-    writer.writeData<double>(nameAndRate.rate);    return out;
+    writer.writeData<double>(nameAndRate.rate);
+    return out;
 }
 
-ostream & operator<<(ostream & out, MonsterDetailsOnRoMap const& monsterDetailsOnRoMap){
+ostream & operator<<(ostream & out, MonsterDetailsOnRoMap const& monsterDetailsOnRoMap)
+{
     AlbaFileParameterWriter writer(out);
     writer.writeData<string>(monsterDetailsOnRoMap.monsterName);
     writer.writeData<unsigned int>(monsterDetailsOnRoMap.spawnCount);
@@ -1210,10 +1227,12 @@ ostream & operator<<(ostream & out, ShopItemDetail const& shopItemDetail)
 
 ostream & operator<<(ostream & out, RoMap const& roMap)
 {
-    AlbaFileParameterWriter writer(out);    writer.writeData<string>(roMap.name);
+    AlbaFileParameterWriter writer(out);
+    writer.writeData<string>(roMap.name);
     writer.writeData<string>(roMap.fullName);
     writer.writeVectorData<MonsterDetailsOnRoMap>(roMap.monstersDetailsOnMap);
-    return out;}
+    return out;
+}
 
 ostream & operator<<(ostream & out, ItemIdToItemMap const& itemIdToItemMap)
 {
@@ -1248,10 +1267,12 @@ istream & operator>>(istream & in, NameAndRate & nameAndRate)
     in.precision(20);
     AlbaFileParameterReader reader(in);
     nameAndRate.name = reader.readData<string>();
-    nameAndRate.rate = reader.readData<double>();    return in;
+    nameAndRate.rate = reader.readData<double>();
+    return in;
 }
 
-istream & operator>>(istream & in, MonsterDetailsOnRoMap & monsterDetailsOnRoMap){
+istream & operator>>(istream & in, MonsterDetailsOnRoMap & monsterDetailsOnRoMap)
+{
     AlbaFileParameterReader reader(in);
     monsterDetailsOnRoMap.monsterName = reader.readData<string>();
     monsterDetailsOnRoMap.spawnCount = reader.readData<unsigned int>();
@@ -1345,10 +1366,12 @@ istream & operator>>(istream & in, ShopItemDetail & shopItemDetail)
 
 istream & operator>>(istream & in, RoMap & roMap)
 {
-    AlbaFileParameterReader reader(in);    roMap.name = reader.readData<string>();
+    AlbaFileParameterReader reader(in);
+    roMap.name = reader.readData<string>();
     roMap.fullName = reader.readData<string>();
     reader.readVectorData<MonsterDetailsOnRoMap>(roMap.monstersDetailsOnMap);
-    return in;}
+    return in;
+}
 
 istream & operator>>(istream & in, ItemIdToItemMap & itemIdToItemMap)
 {

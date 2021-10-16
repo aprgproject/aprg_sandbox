@@ -1,6 +1,7 @@
 #include <Algebra/Differentiation/DifferentiationUtilities.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 #include <gtest/gtest.h>
 
@@ -20,36 +21,14 @@ TEST(DifferentiationUtilitiesTest, IsDifferentiableAtWorks)
     EXPECT_TRUE(isDifferentiableAt(termToTest, "x", 2));
 }
 
-TEST(DifferentiationUtilitiesTest, IsConcaveDownwardAtWorks)
-{
-    EXPECT_TRUE(isConcaveDownwardAt(Term(Monomial(1, {{"x", 3}})), "x", -3));
-    EXPECT_FALSE(isConcaveDownwardAt(Term(Monomial(1, {{"x", 3}})), "x", 3));
-    EXPECT_FALSE(isConcaveDownwardAt(Term(Monomial(-1, {{"x", 3}})), "x", -3));
-    EXPECT_TRUE(isConcaveDownwardAt(Term(Monomial(-1, {{"x", 3}})), "x", 3));
-}
-
-TEST(DifferentiationUtilitiesTest, IsConcaveUpwardAtWorks)
-{
-    EXPECT_FALSE(isConcaveUpwardAt(Term(Monomial(1, {{"x", 3}})), "x", -3));
-    EXPECT_TRUE(isConcaveUpwardAt(Term(Monomial(1, {{"x", 3}})), "x", 3));
-    EXPECT_TRUE(isConcaveUpwardAt(Term(Monomial(-1, {{"x", 3}})), "x", -3));
-    EXPECT_FALSE(isConcaveUpwardAt(Term(Monomial(-1, {{"x", 3}})), "x", 3));
-}
-
-TEST(DifferentiationUtilitiesTest, HasPointOfInflectionAtWorks)
-{
-    EXPECT_FALSE(hasPointOfInflectionAt(Term(Constant(0)), "x", 0));
-    EXPECT_FALSE(hasPointOfInflectionAt(Term(Monomial(1, {{"x", 3}})), "x", -3));
-    EXPECT_TRUE(hasPointOfInflectionAt(Term(Monomial(1, {{"x", 3}})), "x", 0));
-    EXPECT_FALSE(hasPointOfInflectionAt(Term(Monomial(1, {{"x", 3}})), "x", 3));
-}
-
 TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenInputIsAConstant)
 {
     Term termToTest(5);
+
     Term derivative(getDerivativeAtUsingLimit(termToTest, "x", Term(2), LimitAtAValueApproachType::BothSides));
 
-    EXPECT_EQ(Term(Constant(0)), derivative);}
+    EXPECT_EQ(Term(Constant(0)), derivative);
+}
 
 TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenXIsAValue)
 {
@@ -120,6 +99,24 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialOv
     Term expectedDenominator(Polynomial{Monomial(1, {{"a", 2}}), Monomial(-6, {{"a", 1}}), Monomial(9, {})});
     Term expectedTerm(createExpressionIfPossible({Term(5), Term("/"), expectedDenominator}));
     EXPECT_EQ(expectedTerm, derivative);
+}
+
+TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)
+{
+    Polynomial numerator{Monomial(1, {{"x", 3}}), Monomial(1, {})};
+    Polynomial denominator{Monomial(1, {{"x", 2}}), Monomial(-9, {})};
+    Term termToTest(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
+
+    SolutionSet continuityDomain(getDifferentiabilityDomain(termToTest));
+
+    AlbaNumberIntervals const& intervalToVerify(continuityDomain.getAcceptedIntervals());
+    ASSERT_EQ(3U, intervalToVerify.size());
+    EXPECT_EQ(AlbaNumberInterval(createNegativeInfinityOpenEndpoint(), createOpenEndpoint(-3)),
+              intervalToVerify.at(0));
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3)),
+              intervalToVerify.at(1));
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(3), createPositiveInfinityOpenEndpoint()),
+              intervalToVerify.at(2));
 }
 
 TEST(DifferentiationUtilitiesTest, GetDerivativeDefinitionWorks)

@@ -125,16 +125,8 @@ SolutionSet getContinuityDomain(
     // Calculus Theorem:  A sine function is continuous at every number.
     // Calculus Theorem:  A cosine function is continuous at every number.
 
-    SolutionSet continuityDomain;
-    FunctionsRetriever functionsRetriever([](Function const& functionObject)
-    {
-        return isFunctionContinuous(functionObject);
-    });
-    if(functionsRetriever.getSavedData().empty())
-    {
-        continuityDomain = calculateDomainForTermWithOneVariable(term);
-    }
-    return continuityDomain;
+    // This code is not accurate. How about piecewise function?
+    return calculateDomainForTermWithOneVariable(term);
 }
 
 }

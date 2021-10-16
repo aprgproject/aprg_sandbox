@@ -40,8 +40,10 @@ TEST(DifferentiationTest, DifferentiateMultipleTimesWorksForEquation)
 TEST(DifferentiationTest, DifferentiateWorksForTerm)
 {
     Differentiation differentiationForX("x");
+
     EXPECT_EQ(Term(Constant(0)), differentiationForX.differentiate(Term(5)));
 }
+
 TEST(DifferentiationTest, DifferentiateWorksForConstant)
 {
     Differentiation differentiationForX("x");

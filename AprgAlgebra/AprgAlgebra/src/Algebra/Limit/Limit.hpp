@@ -83,6 +83,8 @@ Term getLimitAtInfinity(
         std::string const& variableName,
         AlbaNumber::Value const infinityValue);
 
+Term getObliqueAsymptote(Term const& term);
+
 }
 
 }

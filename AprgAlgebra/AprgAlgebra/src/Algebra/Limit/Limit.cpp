@@ -1,6 +1,8 @@
 #include "Limit.hpp"
 
+#include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Limit/LimitsAtInfinity/LimitsAtInfinity.hpp>
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
@@ -315,6 +317,35 @@ Term getLimitAtInfinity(
 {
     LimitsAtInfinity limitsAtInfinity(term, variableName);
     return limitsAtInfinity.getValueAtInfinity(infinityValue);
+}
+
+Term getObliqueAsymptote(Term const& term)
+{
+    // oblique asymptote definition
+    // if this true: limit to positive infinity of |f(x)/g(x) - (mx+b)| = 0 for a certain mx+b
+    // then y=mx+b is an oblique asymptote.
+    //
+    // So just divide polynomial over polynomial and get quotient if its a line
+    // If denominator is not constant, then remainder can be discarded
+
+    Term result;
+    PolynomialOverPolynomialOptional popOptional(createPolynomialOverPolynomialFromTermIfPossible(term));
+    if(popOptional.hasContent())
+    {
+        if(popOptional.getConstReference().getDenominator().getMaxDegree() > 0)
+        {
+            PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(popOptional.getReference().simplifyAndDivide());
+            Polynomial const& quotient(quotientAndRemainder.quotient);
+            VariableNamesRetriever retriever;
+            retriever.retrieveFromPolynomial(quotient);
+            VariableNamesSet const& variableNames(retriever.getSavedData());
+            if(1U == variableNames.size() && AlbaNumber(1) == quotient.getMaxDegree())
+            {
+                result = Term(quotient);
+            }
+        }
+    }
+    return result;
 }
 
 }
