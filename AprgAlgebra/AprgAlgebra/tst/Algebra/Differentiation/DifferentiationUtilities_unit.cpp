@@ -110,6 +110,7 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeDefinitionWorks)
     EXPECT_EQ(expectedTerm, derivative);
 }
 
+
 }
 
 }

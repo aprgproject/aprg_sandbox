@@ -27,6 +27,7 @@ Term getDerivativeAtUsingLimit(
         LimitAtAValueApproachType const approachType);
 
 void simplifyDerivativeByDefinition(Term & term);
+
 }
 
 }

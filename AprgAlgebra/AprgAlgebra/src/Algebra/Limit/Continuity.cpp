@@ -58,9 +58,11 @@ bool isIntermediateValueTheoremSatisfied(
         string const& variableName,
         AlbaNumber const& firstValue,
         AlbaNumber const& secondValue,
-        AlbaNumber const& valueToTest){
+        AlbaNumber const& valueToTest)
+{
     // Theorem: If the function f is continuous on the closed interval [v1, v2] and if f(v1) != f(v2),
     // then for any number k between f(v1) and f(v2) there exists a number v3 between v1 and v2 such that f(v3) = k
+
     bool result(false);
     SubstitutionOfVariablesToValues substitution;
     substitution.putVariableWithValue(variableName, firstValue);

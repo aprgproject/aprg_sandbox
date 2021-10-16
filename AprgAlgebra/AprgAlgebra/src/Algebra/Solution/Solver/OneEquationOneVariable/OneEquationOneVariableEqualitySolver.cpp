@@ -90,9 +90,11 @@ void OneEquationOneVariableEqualitySolver::calculateForTermAndVariable(
         }
     }
 }
+
 void OneEquationOneVariableEqualitySolver::addValuesToSolutionSetIfNeeded(
         SolutionSet& solutionSet,
-        Term const& term,        string const& variableName)
+        Term const& term,
+        string const& variableName)
 {
     if(!m_calculatedValues.empty())
     {

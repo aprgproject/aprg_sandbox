@@ -7,8 +7,10 @@
 #include <cmath>
 
 using namespace std;
+
 namespace alba
 {
+
 namespace mathHelper
 {
 
@@ -173,10 +175,12 @@ template bool isValueBeyondLimits<long long int>(double const value);
 template bool isValueBeyondLimits<unsigned long long int>(double const value);
 
 
-//getIntegerAfterRoundingDoubleValuetemplate <typename NumberType>
+//getIntegerAfterRoundingDoubleValue
+template <typename NumberType>
 NumberType getIntegerAfterRoundingDoubleValue(double const doubleValue)
 {
-    return static_cast<NumberType>(round(doubleValue));}
+    return static_cast<NumberType>(round(doubleValue));
+}
 template int getIntegerAfterRoundingDoubleValue<int>(double const doubleValue);
 template unsigned int getIntegerAfterRoundingDoubleValue<unsigned int>(double const doubleValue);
 template long long int getIntegerAfterRoundingDoubleValue<long long int>(double const doubleValue);
@@ -209,10 +213,12 @@ AlbaNumber convertIfInfinityToNearestFiniteValue(AlbaNumber const& value)
 
 //getAbsoluteValue
 template <typename NumberType>
-NumberType getAbsoluteValue(NumberType const value){
+NumberType getAbsoluteValue(NumberType const value)
+{
     return (value<0) ? value*-1 : value;
 }
-template int getAbsoluteValue<int>(int const value);template long long int getAbsoluteValue<long long int>(long long int const value);
+template int getAbsoluteValue<int>(int const value);
+template long long int getAbsoluteValue<long long int>(long long int const value);
 template double getAbsoluteValue<double>(double const value);
 template <> unsigned int getAbsoluteValue<unsigned int>(unsigned int const value)
 {
