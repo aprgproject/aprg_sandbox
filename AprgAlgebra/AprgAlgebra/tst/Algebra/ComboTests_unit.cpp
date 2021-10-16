@@ -5,6 +5,7 @@
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableNonEqualitySolver.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
@@ -12,8 +13,10 @@
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::algebra::Simplification;
 using namespace std;
+
 namespace alba
 {
 
@@ -130,10 +133,35 @@ TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeWorks)
     EXPECT_EQ(Equation(expectedIsolatedXLeftSide, "=", expectedIsolatedXRightSide), isolation.isolate("d[y]/d[x]"));
 }
 
-TEST(ComboTest, DifferentiationRelatedRatesConeWaterExampleTest){
+TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeUsingSecondDerivativeWorks)
+{
+    Differentiation differentiationForXWithY("x", {"y"});
+    Term term1ForEquation(Polynomial{Monomial(4, {{"x", 2}}), Monomial(9, {{"y", 2}})});
+    Term term2ForEquation(36);
+    Equation equation(term1ForEquation, "=", term2ForEquation);
+    Equation differentiatedEquation(differentiationForXWithY.differentiate(equation));
+    IsolationOfOneVariableOnEqualityEquation isolation1(differentiatedEquation);
+    Equation isolatedFirstDerivativeEquation(isolation1.isolate("d[y]/d[x]"));
+    Equation secondDifferentiatedEquation(differentiationForXWithY.differentiate(isolatedFirstDerivativeEquation));
+    SubstitutionOfVariablesToTerms substitution({{"d[y]/d[x]", isolatedFirstDerivativeEquation.getLeftHandTerm()}});
+    Equation secondDifferentiatedSimplifiedEquation(substitution.performSubstitutionTo(secondDifferentiatedEquation));
+    IsolationOfOneVariableOnEqualityEquation isolation2(secondDifferentiatedSimplifiedEquation);
+    Equation isolatedSecondDerivativeEquation(isolation2.isolate("d2[y]/d[x]2"));
+
+    Polynomial expectedPolynomial{
+        Monomial(AlbaNumber::createFraction(-16, 81), {{"x", 2}, {"y", -3}}),
+                Monomial(AlbaNumber::createFraction(-4, 9), {{"y", -1}})};
+    Term expectedIsolatedXLeftSide(expectedPolynomial);
+    Term expectedIsolatedXRightSide("d2[y]/d[x]2");
+    EXPECT_EQ(Equation(expectedIsolatedXLeftSide, "=", expectedIsolatedXRightSide), isolatedSecondDerivativeEquation);
+}
+
+TEST(ComboTest, DifferentiationRelatedRatesConeWaterExampleTest)
+{
     // A tank is in the form of an inverted cone having an altitude of 16m and a radius of 4m.
     // Water is flowing into the tank at the rate of 2m3/min.
     // How fast is the water level rising when the water is 5m deep?
+
     // Solution: V = (1/3)*pi*r^2*h, 4*r = h -> V = (1/48)*pi*h^3
 
     Term term1ForEquation(Monomial(AlbaNumber::createFraction(1, 48U), {{"pi", 1}, {"h", 3}}));
@@ -145,9 +173,11 @@ TEST(ComboTest, DifferentiationRelatedRatesConeWaterExampleTest){
     Equation solutionEquation(substitution.performSubstitutionTo(differentiatedEquation));
     OneEquationOneVariableEqualitySolver solver;
     SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(solutionEquation));
+
     EXPECT_TRUE(solver.isSolved());
     EXPECT_TRUE(solver.isACompleteSolution());
-    AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());    ASSERT_EQ(1U, acceptedValues.size());
+    AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
+    ASSERT_EQ(1U, acceptedValues.size());
     EXPECT_EQ(AlbaNumber(0.4074366543152521), acceptedValues.at(0));
 }
 

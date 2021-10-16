@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/TermTypes/TermsWithAssociation.hpp>
 
@@ -28,6 +29,7 @@ public:
     Term performSubstitutionTo(Expression const& expression) const;
     Term performSubstitutionTo(Function const& functionAsParameter) const;
     Term performSubstitutionTo(Term const& term) const;
+    Equation performSubstitutionTo(Equation const& equation) const;
 
     void putTermsToTermsMapping(std::initializer_list<TermTermPair> const& variablesWithValues);
     void putTermsToTermsMapping(TermToTermMap const& variablesWithValues);

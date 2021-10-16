@@ -61,6 +61,7 @@ TEST(ReaderWriterParameterTest, VectorTest)
 
     ifstream readTestFile(APRG_COMMON_TEST_FILE_TO_READ_WRITE);
     ASSERT_TRUE(readTestFile.is_open());
+
     vector<unsigned int> retrievedVector;
     AlbaFileParameterReader reader(readTestFile);
     ASSERT_TRUE(readTestFile.good());
@@ -68,10 +69,12 @@ TEST(ReaderWriterParameterTest, VectorTest)
     reader.readVectorData(retrievedVector);
     ASSERT_EQ(5U, retrievedVector.size());
     EXPECT_EQ(1U, retrievedVector.at(0));
-    EXPECT_EQ(2U, retrievedVector.at(1));    EXPECT_EQ(3U, retrievedVector.at(2));
+    EXPECT_EQ(2U, retrievedVector.at(1));
+    EXPECT_EQ(3U, retrievedVector.at(2));
     EXPECT_EQ(4U, retrievedVector.at(3));
     EXPECT_EQ(5U, retrievedVector.at(4));
 }
+
 TEST(ReaderWriterParameterTest, MapTest)
 {
     ofstream writeTestFile(APRG_COMMON_TEST_FILE_TO_READ_WRITE);
@@ -83,6 +86,7 @@ TEST(ReaderWriterParameterTest, MapTest)
 
     ifstream readTestFile(APRG_COMMON_TEST_FILE_TO_READ_WRITE);
     ASSERT_TRUE(readTestFile.is_open());
+
     map<unsigned int, string> retrievedmap;
     AlbaFileParameterReader reader(readTestFile);
     ASSERT_TRUE(readTestFile.good());
@@ -90,7 +94,8 @@ TEST(ReaderWriterParameterTest, MapTest)
     reader.readMapData(retrievedmap);
     ASSERT_EQ(3U, retrievedmap.size());
     EXPECT_EQ("one", retrievedmap.at(1));
-    EXPECT_EQ("two", retrievedmap.at(2));    EXPECT_EQ("three", retrievedmap.at(3));
+    EXPECT_EQ("two", retrievedmap.at(2));
+    EXPECT_EQ("three", retrievedmap.at(3));
 }
 
 }

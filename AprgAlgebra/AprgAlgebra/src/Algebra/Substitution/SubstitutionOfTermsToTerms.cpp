@@ -97,6 +97,17 @@ Term SubstitutionOfTermsToTerms::performSubstitutionTo(Term const& term) const
     return newTerm;
 }
 
+Equation SubstitutionOfTermsToTerms::performSubstitutionTo(
+        Equation const& equation) const
+{
+    Equation simplifiedEquation(
+                performSubstitutionTo(equation.getLeftHandTerm()),
+                equation.getEquationOperator().getOperatorString(),
+                performSubstitutionTo(equation.getRightHandTerm()));
+    simplifiedEquation.simplify();
+    return simplifiedEquation;
+}
+
 Expression SubstitutionOfTermsToTerms::performSubstitutionForExpression(Expression const& expression) const
 {
     Expression newExpression(expression);
