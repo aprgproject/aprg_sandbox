@@ -20,14 +20,36 @@ TEST(DifferentiationUtilitiesTest, IsDifferentiableAtWorks)
     EXPECT_TRUE(isDifferentiableAt(termToTest, "x", 2));
 }
 
+TEST(DifferentiationUtilitiesTest, IsConcaveDownwardAtWorks)
+{
+    EXPECT_TRUE(isConcaveDownwardAt(Term(Monomial(1, {{"x", 3}})), "x", -3));
+    EXPECT_FALSE(isConcaveDownwardAt(Term(Monomial(1, {{"x", 3}})), "x", 3));
+    EXPECT_FALSE(isConcaveDownwardAt(Term(Monomial(-1, {{"x", 3}})), "x", -3));
+    EXPECT_TRUE(isConcaveDownwardAt(Term(Monomial(-1, {{"x", 3}})), "x", 3));
+}
+
+TEST(DifferentiationUtilitiesTest, IsConcaveUpwardAtWorks)
+{
+    EXPECT_FALSE(isConcaveUpwardAt(Term(Monomial(1, {{"x", 3}})), "x", -3));
+    EXPECT_TRUE(isConcaveUpwardAt(Term(Monomial(1, {{"x", 3}})), "x", 3));
+    EXPECT_TRUE(isConcaveUpwardAt(Term(Monomial(-1, {{"x", 3}})), "x", -3));
+    EXPECT_FALSE(isConcaveUpwardAt(Term(Monomial(-1, {{"x", 3}})), "x", 3));
+}
+
+TEST(DifferentiationUtilitiesTest, HasPointOfInflectionAtWorks)
+{
+    EXPECT_FALSE(hasPointOfInflectionAt(Term(Constant(0)), "x", 0));
+    EXPECT_FALSE(hasPointOfInflectionAt(Term(Monomial(1, {{"x", 3}})), "x", -3));
+    EXPECT_TRUE(hasPointOfInflectionAt(Term(Monomial(1, {{"x", 3}})), "x", 0));
+    EXPECT_FALSE(hasPointOfInflectionAt(Term(Monomial(1, {{"x", 3}})), "x", 3));
+}
+
 TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenInputIsAConstant)
 {
     Term termToTest(5);
-
     Term derivative(getDerivativeAtUsingLimit(termToTest, "x", Term(2), LimitAtAValueApproachType::BothSides));
 
-    EXPECT_EQ(Term(Constant(0)), derivative);
-}
+    EXPECT_EQ(Term(Constant(0)), derivative);}
 
 TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenXIsAValue)
 {

@@ -25,15 +25,37 @@ Differentiation::Differentiation(
     , m_namesOfDependentVariables(namesOfDependentVariables)
 {}
 
+Term Differentiation::differentiateMultipleTimes(
+        Term const& term,
+        unsigned int const numberOfTimes) const
+{
+    Term currentResult(term);
+    for(unsigned int i=0; i<numberOfTimes; i++)
+    {
+        currentResult = differentiate(currentResult);
+    }
+    return currentResult;
+}
+
+Equation Differentiation::differentiateMultipleTimes(
+        Equation const& equation,
+        unsigned int const numberOfTimes) const
+{
+    Equation currentResult(equation);
+    for(unsigned int i=0; i<numberOfTimes; i++)
+    {
+        currentResult = differentiate(currentResult);
+    }
+    return currentResult;
+}
+
 Term Differentiation::differentiate(Term const& term) const
 {
-    return differentiateTerm(term);
-}
+    return differentiateTerm(term);}
 
 Term Differentiation::differentiate(Constant const& constant) const
 {
-    return Term(differentiateConstant(constant));
-}
+    return Term(differentiateConstant(constant));}
 
 Term Differentiation::differentiate(Variable const& variable) const
 {

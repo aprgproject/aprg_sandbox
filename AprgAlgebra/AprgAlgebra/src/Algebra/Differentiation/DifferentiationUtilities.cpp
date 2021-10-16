@@ -1,12 +1,11 @@
 #include "DifferentiationUtilities.hpp"
 
+#include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
-
 using namespace alba::algebra::Simplification;
 using namespace std;
 
@@ -40,14 +39,71 @@ bool isDifferentiableAt(
     return result;
 }
 
-Term getDerivativeAtUsingLimit(
+bool isConcaveDownwardAt(
         Term const& term,
         string const& variableName,
-        Term const& termSubstituteToBack,
+        AlbaNumber const& value)
+{
+    Differentiation differentiation(variableName);
+    Term derivativeTerm(differentiation.differentiateMultipleTimes(term, 2));
+    SubstitutionOfVariablesToValues substitution({{variableName, value}});
+    Term secondDerivativeValue(substitution.performSubstitutionTo(derivativeTerm));
+    bool result(false);
+    if(secondDerivativeValue.isConstant())
+    {
+        result = secondDerivativeValue.getConstantValueConstReference() < 0;
+    }
+    return result;
+}
+
+bool isConcaveUpwardAt(
+        Term const& term,
+        string const& variableName,
+        AlbaNumber const& value)
+{
+    Differentiation differentiation(variableName);
+    Term derivativeTerm(differentiation.differentiateMultipleTimes(term, 2));
+    SubstitutionOfVariablesToValues substitution({{variableName, value}});
+    Term secondDerivativeValue(substitution.performSubstitutionTo(derivativeTerm));
+    bool result(false);
+    if(secondDerivativeValue.isConstant())
+    {
+        result = secondDerivativeValue.getConstantValueConstReference() > 0;
+    }
+    return result;
+}
+
+bool hasPointOfInflectionAt(
+        Term const& term,
+        std::string const& variableName,
+        AlbaNumber const& value)
+{
+    // The point (c, f(c)) is a point of inflection of the graph of the function f if the graph has a tangent line there,
+    // and if there exists an open interval I containing c such that if x is in I, the either:
+    // (i) f''(x) < 0 if x < c, and f''(x) > 0 if x > c, or
+    // (ii) f''(x) > 0 if x < c, and f''(x) < 0 if x > c
+
+    Differentiation differentiation(variableName);
+    Term derivativeTerm(differentiation.differentiateMultipleTimes(term, 2));
+    bool result(false);
+    if(!derivativeTerm.isConstant())
+    {
+        SubstitutionOfVariablesToValues substitution({{variableName, value}});
+        Term secondDerivativeValue(substitution.performSubstitutionTo(derivativeTerm));
+        if(secondDerivativeValue.isConstant())
+        {
+            result = secondDerivativeValue.getConstantValueConstReference() == 0;
+        }
+    }
+    return result;
+}
+
+Term getDerivativeAtUsingLimit(
+        Term const& term,
+        string const& variableName,        Term const& termSubstituteToBack,
         LimitAtAValueApproachType const approachType)
 {
-    string const& deltaXName(DELTA_X_NAME);
-    Term derivativeDefinition(getDerivativeDefinition(term, variableName));
+    string const& deltaXName(DELTA_X_NAME);    Term derivativeDefinition(getDerivativeDefinition(term, variableName));
     SubstitutionOfVariablesToTerms substitution{{X_NAME, termSubstituteToBack}};
     Term derivativeAfterSubstitution(substitution.performSubstitutionTo(derivativeDefinition));
     return simplifyAndGetLimitAtAValue(derivativeAfterSubstitution, deltaXName, 0, approachType);

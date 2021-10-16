@@ -14,13 +14,34 @@ namespace alba
 namespace algebra
 {
 
-TEST(DifferentiationTest, DifferentiateWorksForTerm)
+TEST(DifferentiationTest, DifferentiateMultipleTimesWorksForTerm)
 {
     Differentiation differentiationForX("x");
 
-    EXPECT_EQ(Term(Constant(0)), differentiationForX.differentiate(Term(5)));
+    Term termToTest(Monomial(3, {{"x", 4}}));
+    EXPECT_EQ(Term(Monomial(3, {{"x", 4}})), differentiationForX.differentiateMultipleTimes(termToTest, 0));
+    EXPECT_EQ(Term(Monomial(12, {{"x", 3}})), differentiationForX.differentiateMultipleTimes(termToTest, 1));
+    EXPECT_EQ(Term(Monomial(36, {{"x", 2}})), differentiationForX.differentiateMultipleTimes(termToTest, 2));
 }
 
+TEST(DifferentiationTest, DifferentiateMultipleTimesWorksForEquation)
+{
+    Differentiation differentiationForX("x");
+
+    Equation equationToTest(Term(Monomial(3, {{"x", 4}})), "=", Term(Monomial(5, {{"x", 6}})));
+    Equation equationToExpect1(Term(Monomial(3, {{"x", 4}})), "=", Term(Monomial(5, {{"x", 6}})));
+    EXPECT_EQ(equationToExpect1, differentiationForX.differentiateMultipleTimes(equationToTest, 0));
+    Equation equationToExpect2(Term(Polynomial({Monomial(30, {{"x", 5}}), Monomial(-12, {{"x", 3}})})), "=", Term(Constant(0)));
+    EXPECT_EQ(equationToExpect2, differentiationForX.differentiateMultipleTimes(equationToTest, 1));
+    Equation equationToExpect3(Term(Polynomial({Monomial(150, {{"x", 4}}), Monomial(-36, {{"x", 2}})})), "=", Term(Constant(0)));
+    EXPECT_EQ(equationToExpect3, differentiationForX.differentiateMultipleTimes(equationToTest, 2));
+}
+
+TEST(DifferentiationTest, DifferentiateWorksForTerm)
+{
+    Differentiation differentiationForX("x");
+    EXPECT_EQ(Term(Constant(0)), differentiationForX.differentiate(Term(5)));
+}
 TEST(DifferentiationTest, DifferentiateWorksForConstant)
 {
     Differentiation differentiationForX("x");
