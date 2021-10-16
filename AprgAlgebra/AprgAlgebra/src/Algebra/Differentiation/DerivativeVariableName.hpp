@@ -18,7 +18,8 @@ public:
     DerivativeVariableName(std::string const& derivativeVariableInLeibnizNotation);
 
     bool isValid() const;
-    unsigned int getDifferentiationLevel() const;    std::string const& getBaseVariable() const;
+    unsigned int getDifferentiationLevel() const;
+    std::string const& getBaseVariable() const;
     std::string const& getDependentVariable() const;
     std::string getNameInLeibnizNotation() const;
 

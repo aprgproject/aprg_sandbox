@@ -4,8 +4,10 @@
 #include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -41,14 +43,16 @@ public:
 private:
     bool isVariableToDifferentiate(std::string const& variableName) const;
     bool isDependentVariable(std::string const& variableName) const;
-    bool isDerivativeVariableNamePartOfThisDifferentiation(
+    bool isDerivativeVariableNameAndAffectedByThisDifferentiation(
             DerivativeVariableName const& derivativeVariable) const;
     Term differentiateAsTermOrExpressionIfNeeded(
             Expression const& expression) const;
-    Term differentiateSimplifiedExpressionOnly(            Expression const& expression) const;
+    Term differentiateSimplifiedExpressionOnly(
+            Expression const& expression) const;
     Term differentiateTermsInAdditionOrSubtraction(
             TermsWithDetails const& termsWithDetails) const;
-    Term differentiateTermsInMultiplicationOrDivision(            TermsWithDetails const& termsWithDetails) const;
+    Term differentiateTermsInMultiplicationOrDivision(
+            TermsWithDetails const& termsWithDetails) const;
     Term differentiateTermsInRaiseToPower(
             TermsWithDetails const& termsWithDetails) const;
     Term differentiateConstantRaiseToTerm(
