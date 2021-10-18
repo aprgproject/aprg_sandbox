@@ -3,9 +3,11 @@
 #include <Algebra/Factorization/FactorizationBySplitting.hpp>
 #include <Algebra/Factorization/FactorizationOfIncreasingAndDecreasingExponentForm.hpp>
 #include <Algebra/Factorization/FactorizationUsingPatterns.hpp>
+#include <Algebra/Factorization/FactorizationConfiguration.hpp>
 #include <Algebra/Factorization/FactorizationUtilities.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace std;
@@ -31,17 +33,21 @@ Polynomials factorizeAPolynomial(Polynomial const& polynomial)
     else
     {
         result = factorizeCommonMonomialIfPossible(polynomialToFactorize);
+
         if(result.empty())
         {
-            result = factorizeUsingPatternsIfPossible(polynomialToFactorize);
+            Polynomials factorizedPolynomials(factorizeUsingPatternsIfPossible(polynomialToFactorize));
+            putFactorizedPolynomialsIfPossible(result, factorizedPolynomials);
         }
         if(result.empty())
         {
-            result = factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToFactorize);
+            Polynomials factorizedPolynomials(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToFactorize));
+            putFactorizedPolynomialsIfPossible(result, factorizedPolynomials);
         }
         if(result.empty() && polynomialToFactorize.getMonomialsConstReference().size() > 2)
         {
-            result = factorizeBySplittingToSmallerPolynomialsIfPossible(polynomialToFactorize);
+            Polynomials factorizedPolynomials(factorizeBySplittingToSmallerPolynomialsIfPossible(polynomialToFactorize));
+            putFactorizedPolynomialsIfPossible(result, factorizedPolynomials);
         }
 
         if(result.empty())
@@ -98,6 +104,18 @@ Polynomials factorizeCommonMonomialIfPossible(Polynomial const& polynomial)
         }
     }
     return result;
+}
+
+void putFactorizedPolynomialsIfPossible(
+        Polynomials & result,
+        Polynomials const& factorizedPolynomials)
+{
+    bool shouldPutFactorizedPolynomials =
+            !(shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue() && doesOnePolynomialHaveADoubleValue(factorizedPolynomials));
+    if(shouldPutFactorizedPolynomials)
+    {
+        result = factorizedPolynomials;
+    }
 }
 
 }

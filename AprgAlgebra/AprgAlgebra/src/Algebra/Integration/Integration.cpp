@@ -1,16 +1,23 @@
 #include "Integration.hpp"
 
+#include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
+#include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/StringHelpers.hpp>
 
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 namespace algebra
 {
 
@@ -19,9 +26,11 @@ namespace
 static string C = "C";
 }
 
-Integration::Integration(        string const& nameOfVariableToIntegrate)
+Integration::Integration(
+        string const& nameOfVariableToIntegrate)
     : m_nameOfVariableToIntegrate(nameOfVariableToIntegrate)
 {}
+
 Term Integration::integrate(Term const& term) const
 {
     return integrateTerm(term);
@@ -69,9 +78,11 @@ Term Integration::integrateWithPlusC(Term const& term) const
     simplifyForIntegration(result);
     return result;
 }
+
 Term Integration::integrateTerm(Term const& term) const
 {
-    Term result;    if(term.isConstant())
+    Term result;
+    if(term.isConstant())
     {
         result = integrate(term.getConstantConstReference());
     }
@@ -156,27 +167,17 @@ Polynomial Integration::integratePolynomial(Polynomial const& polynomial) const
 Term Integration::integrateExpression(
         Expression const& expression) const
 {
-    return integrateAsTermOrExpressionIfNeeded(expression);
+    Term result(integrateAsTermOrExpressionIfNeeded(expression));
+    simplifyForIntegration(result);
+    return result;
 }
 
 Term Integration::integrateFunction(
         Function const& functionObject) const
 {
-    return integrateFunctionOnly(functionObject);
-}
-
-bool Integration::isVariableToIntegrate(
-        string const& variableName) const
-{
-    return variableName == m_nameOfVariableToIntegrate;
-}
-
-Term Integration::integrateUsingChainRule(
-        Term const& outerTerm,
-        Term const& innerTerm) const
-{
-    Differentiation differentiation(m_nameOfVariableToIntegrate);
-    return Term(createExpressionIfPossible({outerTerm, Term("/"), differentiation.differentiate(innerTerm)}));
+    Term result(integrateFunctionOnly(functionObject));
+    simplifyForIntegration(result);
+    return result;
 }
 
 Term Integration::integrateAsTermOrExpressionIfNeeded(
@@ -184,7 +185,7 @@ Term Integration::integrateAsTermOrExpressionIfNeeded(
 {
     Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
     Term simplifiedTerm(expression);
-    simplifiedTerm.simplify();
+    simplifyForIntegration(simplifiedTerm);
     if(simplifiedTerm.isExpression())
     {
         result = integrateSimplifiedExpressionOnly(simplifiedTerm.getExpressionConstReference());
@@ -212,12 +213,13 @@ Term Integration::integrateSimplifiedExpressionOnly(
     {
         result = integrateTermsInRaiseToPower(expression.getTermsWithAssociation().getTermsWithDetails());
     }
-    simplifyForIntegration(result);
     return result;
 }
+
 Term Integration::integrateTermsInAdditionOrSubtraction(
         TermsWithDetails const& termsWithDetails) const
-{    Expression accumulatedExpression(createOrCopyExpressionFromATerm(Constant(0)));
+{
+    Expression accumulatedExpression(createOrCopyExpressionFromATerm(Constant(0)));
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
         Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
@@ -237,38 +239,22 @@ Term Integration::integrateTermsInAdditionOrSubtraction(
 Term Integration::integrateTermsInMultiplicationOrDivision(
         TermsWithDetails const& termsWithDetails) const
 {
-    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
-    if(termsWithDetails.size() == 2)
+    Term result;
+    integrateRecognizedFunctionsIfPossible(result, termsWithDetails);
+    integrateUsingChainRuleIfPossible(result, termsWithDetails);
+    if(result.isEmpty())
     {
-        Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
-        Term const& secondTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
-        if(firstTerm.isFunction() && secondTerm.isFunction())
-        {
-            Function const& firstFunction(firstTerm.getFunctionConstReference());
-            Function const& secondFunction(secondTerm.getFunctionConstReference());
-            Term const& firstInputOfFunctionTerm(getTermConstReferenceFromBaseTerm(firstFunction.getInputTermConstReference()));
-            Term const& secondInputOfFunctionTerm(getTermConstReferenceFromBaseTerm(secondFunction.getInputTermConstReference()));
-            if(firstInputOfFunctionTerm == secondInputOfFunctionTerm)
-            {
-                if(firstFunction.getFunctionName() == "sec" && secondFunction.getFunctionName() == "tan")
-                {
-                    result = integrateUsingChainRule(sec(firstInputOfFunctionTerm), firstInputOfFunctionTerm);
-                }
-                else if(firstFunction.getFunctionName() == "csc" && secondFunction.getFunctionName() == "cot")
-                {
-                    result = integrateUsingChainRule(createExpressionIfPossible(
-                    {Term(csc(firstInputOfFunctionTerm)), Term("*"), Term(-1)}), firstInputOfFunctionTerm);
-                }
-            }
-        }
+        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
     }
     return result;
 }
 
-Term Integration::integrateTermsInRaiseToPower(        TermsWithDetails const& termsWithDetails) const
+Term Integration::integrateTermsInRaiseToPower(
+        TermsWithDetails const& termsWithDetails) const
 {
     Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
-    if(termsWithDetails.size() == 2)    {
+    if(termsWithDetails.size() == 2)
+    {
         Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
         Term const& secondTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
         if(firstTerm.isConstant())
@@ -292,15 +278,17 @@ Term Integration::integrateConstantRaiseToTerm(
         Term const& ) const
 {
     //implement this
-    return Term(AlbaNumber(AlbaNumber::Value::NotANumber));}
+    return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+}
 
 Term Integration::integrateTermRaiseToConstant(
-        Term const& term,        AlbaNumber const& number) const
+        Term const& term,
+        AlbaNumber const& number) const
 {
     Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
-    if(getDegreeForVariableToIntegrate(term) == 1)
+    if(wouldDifferentiationYieldToConstant(term))
     {
-        result = integrateUsingChainRule(Term(createExpressionIfPossible(
+        result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible(
         {term, Term("^"), Term(number+1), Term("/"), Term(number+1)})), term);
     }
     else if(term.isFunction())
@@ -309,23 +297,25 @@ Term Integration::integrateTermRaiseToConstant(
         Term const& inputOfFunctionTerm(getTermConstReferenceFromBaseTerm(functionTerm.getInputTermConstReference()));
         if(number == 2
                 && functionTerm.getFunctionName() == "sec"
-                && getDegreeForVariableToIntegrate(inputOfFunctionTerm) == 1)
+                && wouldDifferentiationYieldToConstant(inputOfFunctionTerm))
         {
-            result = integrateUsingChainRule(Term(tan(inputOfFunctionTerm)), inputOfFunctionTerm);
+            result = divideFirstTermAndDerivativeOfSecondTerm(Term(tan(inputOfFunctionTerm)), inputOfFunctionTerm);
         }
         else if(number == 2
                 && functionTerm.getFunctionName() == "csc"
-                && getDegreeForVariableToIntegrate(inputOfFunctionTerm) == 1)
+                && wouldDifferentiationYieldToConstant(inputOfFunctionTerm))
         {
-            result = integrateUsingChainRule(createExpressionIfPossible(
+            result = divideFirstTermAndDerivativeOfSecondTerm(createExpressionIfPossible(
             {Term(cot(inputOfFunctionTerm)), Term("*"), Term(-1)}), inputOfFunctionTerm);
         }
     }
     return result;
 }
+
 Term Integration::integrateTermRaiseToTerm(
         Term const& ,
-        Term const& ) const{
+        Term const& ) const
+{
     return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
 }
 
@@ -334,15 +324,15 @@ Term Integration::integrateFunctionOnly(
 {
     Term integrationOfFunction(AlbaNumber(AlbaNumber::Value::NotANumber));
     Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
-    if(getDegreeForVariableToIntegrate(inputTerm) == 1)
+    if(wouldDifferentiationYieldToConstant(inputTerm))
     {
         if("sin" == functionObject.getFunctionName())
         {
-            integrationOfFunction = integrateUsingChainRule(Term(createExpressionIfPossible({Term(-1), Term("*"), cos(inputTerm)})), inputTerm);
+            integrationOfFunction = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible({Term(-1), Term("*"), cos(inputTerm)})), inputTerm);
         }
         else if("cos" == functionObject.getFunctionName())
         {
-            integrationOfFunction = integrateUsingChainRule(Term(sin(inputTerm)), inputTerm);
+            integrationOfFunction = divideFirstTermAndDerivativeOfSecondTerm(Term(sin(inputTerm)), inputTerm);
         }
         /*else if("tan" == functionObject.getFunctionName())
         {
@@ -361,37 +351,178 @@ Term Integration::integrateFunctionOnly(
             integrationOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), csc(inputTerm), Term("^"), Term(2)}));
         }*/
     }
-    simplifyForIntegration(integrationOfFunction);
     return integrationOfFunction;
 }
-AlbaNumber Integration::getDegreeForVariableToIntegrate(Term const& term) const
+
+void Integration::integrateUsingChainRuleIfPossible(
+        Term & result,
+        TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const
 {
-    AlbaNumber result(0);    if(term.isVariable() && isVariableToIntegrate(term.getVariableConstReference().getVariableName()))
+    unsigned int numberOfTerms(termsWithDetailsInMultiplicationAndDivision.size());
+    for(unsigned int i=0; result.isEmpty() && i<numberOfTerms; i++)
     {
-        result = 1;
+        TermsWithDetails termsInFirstTerms(termsWithDetailsInMultiplicationAndDivision);
+        termsInFirstTerms.erase(termsInFirstTerms.cbegin() + i);
+        Term firstTerm(simplifyAndConvertToTerm(OperatorLevel::MultiplicationAndDivision, termsInFirstTerms));
+        Term secondTerm(simplifyAndConvertToTerm(OperatorLevel::MultiplicationAndDivision, termsWithDetailsInMultiplicationAndDivision.at(i)));
+        Term innerTermInfirstTerm;
+        findInnerAndOuterTermForChainRule(innerTermInfirstTerm, firstTerm);
+        if(!innerTermInfirstTerm.isEmpty())
+        {
+            integrateUsingChainRuleIfPossible(result, firstTerm, innerTermInfirstTerm, secondTerm);
+        }
     }
-    else if(term.isMonomial())
+}
+
+void Integration::integrateUsingChainRuleIfPossible(
+        Term & result,
+        Term const& firstOuterTerm,
+        Term const& firstInnerTerm,
+        Term const& secondTerm) const
+{
+    Differentiation differentiation(m_nameOfVariableToIntegrate);
+    Term firstTermDerivative(differentiation.differentiate(firstInnerTerm));
+    Term quotientOfDerivatives = firstTermDerivative/secondTerm;
+    if(quotientOfDerivatives.isConstant())
     {
-        result = term.getMonomialConstReference().getExponentForVariable(m_nameOfVariableToIntegrate);
+        string newVariableToIntegrate(createVariableNameForSubstitution(firstInnerTerm));
+        SubstitutionOfTermsToTerms substitutionTermToVariable({{firstInnerTerm, Term(newVariableToIntegrate)}});
+        Term newFirstOuterTerm(substitutionTermToVariable.performSubstitutionTo(firstOuterTerm));
+        Integration integrationWithNewVariable(newVariableToIntegrate);
+        Term integratedOuterTermInNewVariable(integrationWithNewVariable.integrateTerm(newFirstOuterTerm));
+        SubstitutionOfVariablesToTerms substitutionVariableToTerm({{newVariableToIntegrate, firstInnerTerm}});
+        Term integratedOuterTerm(substitutionVariableToTerm.performSubstitutionTo(integratedOuterTermInNewVariable));
+        result = integratedOuterTerm / quotientOfDerivatives;
     }
-    else if(term.isPolynomial())
+}
+
+void Integration::findInnerAndOuterTermForChainRule(
+        Term & innerTerm,
+        Term & outerTerm) const
+{
+    if(outerTerm.isFunction())
     {
-        result = term.getPolynomialConstReference().getDegreeForVariable(m_nameOfVariableToIntegrate);
+        innerTerm = getTermConstReferenceFromBaseTerm(outerTerm.getFunctionConstReference().getInputTermConstReference());
     }
-    return result;
+    else if(outerTerm.isExpression())
+    {
+        Expression const& expression(outerTerm.getExpressionConstReference());
+        if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
+        {
+            TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+            if(termsWithDetails.size() == 2)
+            {
+                Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
+                Term const& secondTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
+                TermRaiseToANumber oldTermRaiseToANumber;
+                if(firstTerm.isConstant())
+                {
+                    oldTermRaiseToANumber = TermRaiseToANumber(secondTerm, firstTerm.getConstantValueConstReference());
+                }
+                else if(secondTerm.isConstant())
+                {
+                    oldTermRaiseToANumber = TermRaiseToANumber(firstTerm, secondTerm.getConstantValueConstReference());
+                }
+                Term simplifiedBase(oldTermRaiseToANumber.getBase());
+                simplifiedBase.simplify();
+                TermRaiseToANumber newTermRaiseToANumber(simplifiedBase, oldTermRaiseToANumber.getExponent());
+                innerTerm = newTermRaiseToANumber.getBase();
+                outerTerm = newTermRaiseToANumber.getCombinedTerm();
+            }
+        }
+        else
+        {
+            TermRaiseToANumber oldTermRaiseToANumber(createTermRaiseToANumberFromExpression(expression));
+            Term simplifiedBase(oldTermRaiseToANumber.getBase());
+            simplifiedBase.simplify();
+            TermRaiseToANumber newTermRaiseToANumber(simplifiedBase, oldTermRaiseToANumber.getExponent());
+            innerTerm = newTermRaiseToANumber.getBase();
+            outerTerm = newTermRaiseToANumber.getCombinedTerm();
+        }
+    }
+}
+
+Term Integration::divideFirstTermAndDerivativeOfSecondTerm(
+        Term const& firstTerm,
+        Term const& secondTerm) const
+{
+    Differentiation differentiation(m_nameOfVariableToIntegrate);
+    return Term(createExpressionIfPossible({firstTerm, Term("/"), differentiation.differentiate(secondTerm)}));
+}
+
+void Integration::integrateRecognizedFunctionsIfPossible(
+        Term & result,
+        TermsWithDetails const& termsWithDetails) const
+{
+    if(result.isEmpty() && termsWithDetails.size() == 2)
+    {
+        Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
+        Term const& secondTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
+        if(firstTerm.isFunction()
+                && termsWithDetails.at(0).hasPositiveAssociation()
+                && secondTerm.isFunction()
+                && termsWithDetails.at(1).hasPositiveAssociation())
+        {
+            Function const& firstFunction(firstTerm.getFunctionConstReference());
+            Function const& secondFunction(secondTerm.getFunctionConstReference());
+            Term const& firstInputOfFunctionTerm(getTermConstReferenceFromBaseTerm(firstFunction.getInputTermConstReference()));
+            Term const& secondInputOfFunctionTerm(getTermConstReferenceFromBaseTerm(secondFunction.getInputTermConstReference()));
+            if(firstInputOfFunctionTerm == secondInputOfFunctionTerm)
+            {
+                if(firstFunction.getFunctionName() == "sec" && secondFunction.getFunctionName() == "tan")
+                {
+                    result = divideFirstTermAndDerivativeOfSecondTerm(sec(firstInputOfFunctionTerm), firstInputOfFunctionTerm);
+                }
+                else if(firstFunction.getFunctionName() == "csc" && secondFunction.getFunctionName() == "cot")
+                {
+                    result = divideFirstTermAndDerivativeOfSecondTerm(createExpressionIfPossible(
+                    {Term(csc(firstInputOfFunctionTerm)), Term("*"), Term(-1)}), firstInputOfFunctionTerm);
+                }
+            }
+        }
+    }
 }
 
 void Integration::simplifyForIntegration(
         Term& term) const
 {
-    SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
-    configurationDetails.shouldSimplifyToFactors = true;
-
-    SimplificationOfExpression::ScopeObject scopeObject;
-    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
-
     term.simplify();
+    {
+        SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                    SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+        configurationDetails.shouldSimplifyToFactors = true;
+        configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+
+        SimplificationOfExpression::ScopeObject scopeObject;
+        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+        term.simplify();
+    }
+}
+
+bool Integration::isVariableToIntegrate(
+        string const& variableName) const
+{
+    return variableName == m_nameOfVariableToIntegrate;
+}
+
+bool Integration::wouldDifferentiationYieldToConstant(
+        Term const& term) const
+{
+    bool result(0);
+    if(term.isVariable() && isVariableToIntegrate(term.getVariableConstReference().getVariableName()))
+    {
+        result = true;
+    }
+    else if(term.isMonomial())
+    {
+        result = term.getMonomialConstReference().getExponentForVariable(m_nameOfVariableToIntegrate) == 1;
+    }
+    else if(term.isPolynomial())
+    {
+        result = term.getPolynomialConstReference().getDegreeForVariable(m_nameOfVariableToIntegrate) == 1;
+    }
+    return result;
 }
 
 

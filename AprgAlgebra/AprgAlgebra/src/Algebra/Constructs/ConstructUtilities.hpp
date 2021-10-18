@@ -17,6 +17,12 @@ TermRaiseToANumber createTermRaiseToANumberFromTerm(Term const& term);
 TermRaiseToANumber createTermRaiseToANumberFromMonomial(Monomial const& monomial);
 TermRaiseToANumber createTermRaiseToANumberFromPolynomial(Polynomial const& polynomial);
 TermRaiseToANumber createTermRaiseToANumberFromExpression(Expression const& expression);
+void createTermRaiseToANumberFromRaiseToPowerExpression(
+        TermRaiseToANumber & result,
+        Expression const& expression);
+void createTermRaiseToANumberFromMultiplicationAndDivisionExpression(
+        TermRaiseToANumber & result,
+        Expression const& expression);
 
 }
 

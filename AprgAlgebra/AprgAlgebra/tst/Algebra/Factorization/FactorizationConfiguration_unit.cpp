@@ -15,18 +15,21 @@ namespace Factorization
 
 TEST(FactorizationConfigurationTest, SomeConditionWorksAsDefault)
 {
-    EXPECT_FALSE(someCondition());
+    EXPECT_FALSE(shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue());
 }
 
-TEST(FactorizationConfigurationTest, SomeConditionWorksAndCanBeChanged)
+TEST(FactorizationConfigurationTest, SomeConditionWorksAndCanBeChangedAndChangedBack)
 {
-    ConfigurationDetails configurationDetails(
-                getDefaultConfigurationDetails<ConfigurationDetails>());
-    configurationDetails.someCondition = true;
-    ScopeObject scopeObject;
-    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+    {
+        ConfigurationDetails configurationDetails(
+                    getDefaultConfigurationDetails<ConfigurationDetails>());
+        configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+        ScopeObject scopeObject;
+        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
 
-    EXPECT_TRUE(someCondition());
+        EXPECT_TRUE(shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue());
+    }
+    EXPECT_FALSE(shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue());
 }
 
 }

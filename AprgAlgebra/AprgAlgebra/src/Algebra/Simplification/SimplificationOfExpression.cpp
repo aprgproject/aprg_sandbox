@@ -76,6 +76,11 @@ bool SimplificationOfExpression::shouldSimplifyToFactors()
     return Configuration::getInstance().getConfigurationDetails().shouldSimplifyToFactors;
 }
 
+bool SimplificationOfExpression::shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue()
+{
+    return Configuration::getInstance().getConfigurationDetails().shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
+}
+
 bool SimplificationOfExpression::shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase()
 {
     return Configuration::getInstance().getConfigurationDetails().shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase;
@@ -221,6 +226,8 @@ void SimplificationOfExpression::processAndSaveTermsForMultiplicationAndDivision
 
     TermsOverTerms termsOverTerms(termsInMultiplicationAndDivision);
     termsOverTerms.setAsShouldSimplifyToFactors(shouldSimplifyToFactors());
+    termsOverTerms.setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(
+                shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue());
     termsOverTerms.simplify();
 
     Term combinedTerm(getCombinedTermAndSimplifyByRationalizingNumeratorOrDenominatorIfNeeded(termsOverTerms));
@@ -415,7 +422,7 @@ algebra::Simplification::SimplificationOfExpression::ConfigurationDetails
 getDefaultConfigurationDetails<alba::algebra::Simplification::SimplificationOfExpression::ConfigurationDetails>()
 {
     return algebra::Simplification::SimplificationOfExpression::ConfigurationDetails
-    {false, false, false, false, false, false, false, false, false, false};
+    {false, false, false, false, false, false, false, false, false, false, false};
 }
 
 }

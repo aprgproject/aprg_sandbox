@@ -28,6 +28,7 @@ public:
         bool shouldSimplifyByRationalizingDenominator;
         bool shouldSimplifyBySubstitutingExpressionAndFunctionsToVariables;
         bool shouldSimplifyToFactors;
+        bool shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
         bool shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase;
         bool shouldPerformDebug;
     };
@@ -50,6 +51,7 @@ public:
     static bool shouldSimplifyByRationalizingDenominator();
     static bool shouldSimplifyBySubstitutingExpressionAndFunctionsToVariables();
     static bool shouldSimplifyToFactors();
+    static bool shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue();
     static bool shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase();
     static bool shouldPerformDebug();
 

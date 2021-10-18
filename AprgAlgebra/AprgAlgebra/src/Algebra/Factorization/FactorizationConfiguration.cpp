@@ -11,9 +11,9 @@ namespace algebra
 namespace Factorization
 {
 
-bool someCondition()
+bool shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue()
 {
-    return Configuration::getInstance().getConfigurationDetails().someCondition;
+    return Configuration::getInstance().getConfigurationDetails().shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
 }
 
 }

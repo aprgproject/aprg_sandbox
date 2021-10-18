@@ -1006,6 +1006,27 @@ TEST(TermsOverTermsTest, SimplifyBySimplifyingToFactorsWorks)
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
+TEST(TermsOverTermsTest, SimplifyBySimplifyingToFactorsWithoutDoubleValueWorks)
+{
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+    configurationDetails.shouldSimplifyToFactors = true;
+    configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+    Term numerator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-5, {})});
+    Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-7, {})});
+    Expression expressionToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    SimplificationOfExpression simplification(expressionToTest);
+
+    simplification.simplify();
+
+    Expression expressionToVerify(simplification.getExpression());
+    Expression expressionToExpect(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    EXPECT_EQ(expressionToExpect, expressionToVerify);
+}
+
 }
 
 }

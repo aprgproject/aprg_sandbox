@@ -111,9 +111,9 @@ TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)
 
     AlbaNumberIntervals const& intervalToVerify(differentiabilityDomain.getAcceptedIntervals());
     ASSERT_EQ(2U, intervalToVerify.size());
-    EXPECT_EQ(AlbaNumberInterval(createNegativeInfinityOpenEndpoint(), createCloseEndpoint(0.9999980000077788)),
+    EXPECT_EQ(AlbaNumberInterval(createNegativeInfinityOpenEndpoint(), createCloseEndpoint(0.9999979999999644)),
               intervalToVerify.at(0));
-    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(1.000002000005519), createPositiveInfinityOpenEndpoint()),
+    EXPECT_EQ(AlbaNumberInterval(createOpenEndpoint(1.000001999999898), createPositiveInfinityOpenEndpoint()),
               intervalToVerify.at(1));
 }
 

@@ -1,3 +1,4 @@
+#include <Algebra/Factorization/FactorizationConfiguration.hpp>
 #include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
 
 #include <gtest/gtest.h>
@@ -346,6 +347,36 @@ TEST(FactorizationOfPolynomialsTest, AXPlusBTimesCXPlusD_FactorizeWorks)
     Polynomial polynomialToExpect2{Monomial(1, {{"c", 1}, {"x", 1}}), Monomial(1, {{"d", 1}})};
     EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
+}
+
+TEST(FactorizationOfPolynomialsTest, FactorizeWorksAndDoesNotContinueWhenShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValueIsDefault)
+{
+    Polynomial polynomialToTest{Monomial(1, {{"x", 2}}), Monomial(-5, {})};
+
+    Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
+
+    ASSERT_EQ(2U, polynomialsToVerify.size());
+    Polynomial polynomialToExpect1{Monomial(1, {{"x", 1}}), Monomial(-2.23606797749979, {})};
+    Polynomial polynomialToExpect2{Monomial(1, {{"x", 1}}), Monomial(+2.23606797749979, {})};
+    EXPECT_EQ(polynomialToExpect1, polynomialsToVerify.at(0));
+    EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
+}
+
+TEST(FactorizationOfPolynomialsTest, FactorizeWorksAndDoesNotContinueWhenShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValueIsTrue)
+{
+    ConfigurationDetails configurationDetails(
+                getDefaultConfigurationDetails<ConfigurationDetails>());
+    configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+    ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+    Polynomial polynomialToTest{Monomial(1, {{"x", 2}}), Monomial(-5, {})};
+
+    Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
+
+    ASSERT_EQ(1U, polynomialsToVerify.size());
+    Polynomial polynomialToExpect{Monomial(1, {{"x", 2}}), Monomial(-5, {})};
+    EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
 }
 
 TEST(FactorizationOfPolynomialsTest, Example1_FactorizeWorks)

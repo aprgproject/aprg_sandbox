@@ -435,6 +435,49 @@ TEST(TermsOverTermsTest, SimplifyWorksWithSimplifyingToFactorsAndFactorsAreCance
     EXPECT_EQ(expectedDenominator, denominatorsToVerify.at(0));
 }
 
+TEST(TermsOverTermsTest, SimplifyWorksWhenShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValueIsDefault)
+{
+    Term numerator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-5, {})});
+    Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-7, {})});
+    TermsOverTerms termsOverTerms({numerator}, {denominator});
+    termsOverTerms.setAsShouldSimplifyToFactors(true);
+
+    termsOverTerms.simplify();
+
+    Term expectedNumerator1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2.23606797749979, {})});
+    Term expectedNumerator2(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2.23606797749979, {})});
+    Terms numeratorsToVerify(termsOverTerms.getNumerators());
+    ASSERT_EQ(2U, numeratorsToVerify.size());
+    EXPECT_EQ(expectedNumerator1, numeratorsToVerify.at(0));
+    EXPECT_EQ(expectedNumerator2, numeratorsToVerify.at(1));
+    Term expectedDenominator1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2.645751311064591, {})});
+    Term expectedDenominator2(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2.645751311064591, {})});
+    Terms denominatorsToVerify(termsOverTerms.getDenominators());
+    ASSERT_EQ(2U, denominatorsToVerify.size());
+    EXPECT_EQ(expectedDenominator1, denominatorsToVerify.at(0));
+    EXPECT_EQ(expectedDenominator2, denominatorsToVerify.at(1));
+}
+
+TEST(TermsOverTermsTest, SimplifyWorksWhenShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValueIsTrue)
+{
+    Term numerator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-5, {})});
+    Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-7, {})});
+    TermsOverTerms termsOverTerms({numerator}, {denominator});
+    termsOverTerms.setAsShouldSimplifyToFactors(true);
+    termsOverTerms.setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(true);
+
+    termsOverTerms.simplify();
+
+    Term expectedNumerator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-5, {})});
+    Terms numeratorsToVerify(termsOverTerms.getNumerators());
+    ASSERT_EQ(1U, numeratorsToVerify.size());
+    EXPECT_EQ(expectedNumerator, numeratorsToVerify.at(0));
+    Term expectedDenominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-7, {})});
+    Terms denominatorsToVerify(termsOverTerms.getDenominators());
+    ASSERT_EQ(1U, denominatorsToVerify.size());
+    EXPECT_EQ(expectedDenominator, denominatorsToVerify.at(0));
+}
+
 }
 
 }

@@ -34,10 +34,6 @@ public:
     Term integrateFunction(Function const& functionObject) const;
 
 private:
-    bool isVariableToIntegrate(std::string const& variableName) const;
-    Term integrateUsingChainRule(
-            Term const& outerTerm,
-            Term const& innerTerm) const;
     Term integrateAsTermOrExpressionIfNeeded(
             Expression const& expression) const;
     Term integrateSimplifiedExpressionOnly(
@@ -58,10 +54,27 @@ private:
             Term const& firstTerm,
             Term const& secondTerm) const;
     Term integrateFunctionOnly(Function const& functionObject) const;
-    AlbaNumber getDegreeForVariableToIntegrate(Term const& term) const;
+    void integrateUsingChainRuleIfPossible(
+            Term & result,
+            TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const;
+    void integrateUsingChainRuleIfPossible(
+            Term & result,
+            Term const& firstOuterTerm,
+            Term const& firstInnerTerm,
+            Term const& secondTerm) const;
+    void findInnerAndOuterTermForChainRule(
+            Term & innerTerm,
+            Term & outerTerm) const;
+    Term divideFirstTermAndDerivativeOfSecondTerm(
+            Term const& firstTerm,
+            Term const& secondTerm) const;
+    void integrateRecognizedFunctionsIfPossible(Term & result, TermsWithDetails const& termsWithDetails) const;
     void simplifyForIntegration(Term& term) const;
+    bool isVariableToIntegrate(std::string const& variableName) const;
+    bool wouldDifferentiationYieldToConstant(Term const& term) const;
     std::string m_nameOfVariableToIntegrate;
 };
+
 }
 
 }

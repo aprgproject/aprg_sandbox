@@ -1151,6 +1151,27 @@ TEST(ExpressionTest, PutExpressionWithMultiplicationWorks)
     EXPECT_EQ(expressionToExpect5, expression5);
 }
 
+TEST(ExpressionTest, PutTermWithDetailsWorks)
+{
+    Expression expressionToTest;
+    TermWithDetails termWithDetails1(Term(10), TermAssociationType::Negative);
+    TermWithDetails termWithDetails2(Term(20), TermAssociationType::Positive);
+    TermWithDetails termWithDetails3(Term(30), TermAssociationType::Positive);
+
+    expressionToTest.putTermWithDetails(termWithDetails1);
+    expressionToTest.putTermWithDetails(termWithDetails2);
+    expressionToTest.putTermWithDetails(termWithDetails3);
+
+    TermsWithDetails termsToVerify(expressionToTest.getTermsWithAssociation().getTermsWithDetails());
+    ASSERT_EQ(3U, termsToVerify.size());
+    EXPECT_EQ(Term(10), getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
+    EXPECT_EQ(TermAssociationType::Negative, termsToVerify.at(0).association);
+    EXPECT_EQ(Term(20), getTermConstReferenceFromSharedPointer(termsToVerify.at(1).baseTermSharedPointer));
+    EXPECT_EQ(TermAssociationType::Positive, termsToVerify.at(1).association);
+    EXPECT_EQ(Term(30), getTermConstReferenceFromSharedPointer(termsToVerify.at(2).baseTermSharedPointer));
+    EXPECT_EQ(TermAssociationType::Positive, termsToVerify.at(2).association);
+}
+
 TEST(ExpressionTest, PutTermsWithDetailsWorks)
 {
     Expression expressionToTest;

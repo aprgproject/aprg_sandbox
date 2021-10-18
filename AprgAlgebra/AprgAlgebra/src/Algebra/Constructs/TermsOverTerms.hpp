@@ -32,13 +32,21 @@ public:
     void retrievePolynomialAndNonPolynomialsDenominators(
             Polynomial & polynomialDenominator,
             Terms & nonPolynomialDenominators) const;
+    void retrieveBaseToExponentMap(
+            BaseToExponentMap & baseToExponentMap) const;
     std::string getDisplayableString() const;
 
+    void invert();
+    void saveBaseToExponentMap(BaseToExponentMap const& baseToExponentMap);
+
     void setAsShouldSimplifyToFactors(bool const shouldSimplifyToFactors);
+    void setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(
+            bool const shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue);
 
     void simplify();
 
 private:
+    Terms factorizeTermsAsNeeded(Terms const& terms) const;
     Term getCombinedTermAsFactors(
             TermsWithDetails const& termsWithDetails) const;
     void continueToSimplifyToFactors(
@@ -54,7 +62,7 @@ private:
     void updateBaseToExponentMap(
             BaseToExponentMap & baseToExponentMap,
             Terms const& termsToCheck,
-            int const signToBePutWithExponent);
+            int const signToBePutWithExponent) const;
     void putTermsOnNumeratorAndDenominatorFromBaseExponentMap(
             Terms & numeratorTerms,
             Terms & denominatorTerms,
@@ -83,14 +91,18 @@ private:
             Terms const& termsToSegregate,
             Terms & termsToRetain,
             Terms & termsToPutOnTheOtherSide) const;
+    void putBaseWithExponentsInNumeratorsAndDenominators(
+            BaseToExponentMap const& baseToExponentMap);
     void simplifyPolynomialNumeratorAndPolynomialDenominator(
             Polynomial & polynomialNumerator,
             Polynomial & polynomialDenominator) const;
     void simplifyMonomialsToPolynomialOverPolynomial();
     void simplifyPolynomialsToPolynomialOverPolynomial();
+    bool isPolynomialAndhasDoubleValue(Term const& term) const;
     Terms m_numerators;
     Terms m_denominators;
     bool m_shouldSimplifyToFactors;
+    bool m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
 };
 
 using VectorOfTermsOverTerms = std::vector<TermsOverTerms>;

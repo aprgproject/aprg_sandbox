@@ -114,10 +114,12 @@ TEST(IntegrationTest, IntegrateTermWorks)
     EXPECT_EQ(expectedTerm, integrationForX.integrateTerm(expression));
 }
 
-TEST(IntegrationTest, IntegrateConstantWorks){
+TEST(IntegrationTest, IntegrateConstantWorks)
+{
     Integration integrationForX("x");
 
-    EXPECT_EQ(Monomial(5, {{"x", 1}}), integrationForX.integrateConstant(Constant(5)));}
+    EXPECT_EQ(Monomial(5, {{"x", 1}}), integrationForX.integrateConstant(Constant(5)));
+}
 
 TEST(IntegrationTest, IntegrateVariableWorks)
 {
@@ -165,6 +167,8 @@ TEST(IntegrationTest, IntegrateExpressionWorks)
     {Term(Polynomial{Monomial(3, {{"x", 1}}), Monomial(4, {})}),
      Term("^"),
      Term(AlbaNumber::createFraction(1, 2))}));
+    Expression expression05(createExpressionIfPossible(
+    {x, Term("*"), Term(cos(Term(Monomial(1, {{"x", 2}}))))}));
 
     Term expectedTerm01(Monomial(AlbaNumber::createFraction(1, 2), {{"x", 2}}));
     Term expectedTerm02(Polynomial
@@ -181,10 +185,28 @@ TEST(IntegrationTest, IntegrateExpressionWorks)
      Term(AlbaNumber::createFraction(3, 2)),
      Term("/"),
      Term(9)}));
+    Term expectedTerm05(createExpressionIfPossible(
+    {Term(sin(Term(Monomial(1, {{"x", 2}})))), Term("/"), Term(2)}));
     EXPECT_EQ(expectedTerm01, integrationForX.integrateExpression(expression01));
     EXPECT_EQ(expectedTerm02, integrationForX.integrateExpression(expression02));
     EXPECT_EQ(expectedTerm03, integrationForX.integrateExpression(expression03));
     EXPECT_EQ(expectedTerm04, integrationForX.integrateExpression(expression04));
+    EXPECT_EQ(expectedTerm05, integrationForX.integrateExpression(expression05));
+}
+
+TEST(IntegrationTest, IntegrateWorksUsingChainRule)
+{
+    Integration integrationForX("x");
+    Term numerator(Monomial(4, {{"x", 2}}));
+    Term denominatorPolynomial(Polynomial{Monomial(1, {}), Monomial(-8, {{"x", 3}})});
+    Term denominator(createExpressionIfPossible({denominatorPolynomial, Term("^"), Term(4)}));
+    Expression expression01(createExpressionIfPossible({numerator, Term("/"), denominator}));
+
+    Term expectedTerm01(createExpressionIfPossible(
+    {Term(-1), Term("/"), Term(18),
+     Term("/"), Term(Polynomial{Monomial(2, {{"x", 1}}), Monomial(-1, {})}), Term("^"), Term(3),
+     Term("/"), Term(Polynomial{Monomial(4, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})}),  Term("^"), Term(3)}));
+    EXPECT_EQ(expectedTerm01, integrationForX.integrateExpression(expression01));
 }
 
 TEST(IntegrationTest, IntegrateFunctionWorks)

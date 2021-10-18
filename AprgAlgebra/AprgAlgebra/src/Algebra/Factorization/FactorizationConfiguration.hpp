@@ -13,7 +13,7 @@ namespace Factorization
 
 struct ConfigurationDetails
 {
-    bool someCondition;
+    bool shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
 };
 
 class Configuration
@@ -23,7 +23,7 @@ class Configuration
 class ScopeObject : public AlbaConfigurationScopeObject<ConfigurationDetails>
 {};
 
-bool someCondition();
+bool shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue();
 
 
 }

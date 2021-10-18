@@ -17,6 +17,8 @@ enum class RootType
 
 bool doesThePolynomialHaveOnlyOneConstant(Polynomial const& polynomial);
 bool doesThePolynomialHaveOnlyOneVariable(Polynomial const& polynomial);
+bool doesThePolynomialHaveDoubleValue(Polynomial const& polynomial);
+bool doesOnePolynomialHaveADoubleValue(Polynomials const& polynomials);
 AlbaNumber getRemainderForOneVariablePolynomialDividedByVariableMinusConstantValue(
         Polynomial const& polynomial,
         AlbaNumber const& value);

@@ -51,6 +51,7 @@ public:
     void putPolynomialFirstWithMultiplication(Polynomial const& polynomial);
     void putPolynomialSecondWithMultiplication(Polynomial const& polynomial);
     void putExpressionWithMultiplication(Expression const& expression);
+    void putTermWithDetails(TermWithDetails const& termToSave);
     void putTermsWithDetails(TermsWithDetails const& termsToSave);
     void putTerm(
             BaseTerm const& baseTerm,

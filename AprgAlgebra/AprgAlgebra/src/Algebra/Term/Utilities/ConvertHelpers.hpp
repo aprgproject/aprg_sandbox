@@ -16,6 +16,8 @@ Term simplifyAndConvertMonomialToSimplestTerm(Monomial const& monomial);
 Term simplifyAndConvertPolynomialToSimplestTerm(Polynomial const& polynomial);
 Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression);
 Term simplifyAndConvertFunctionToSimplestTerm(Function const& functionAsParameter);
+Term simplifyAndConvertToTerm(OperatorLevel const operatorLevel, TermWithDetails const& termWithDetails);
+Term simplifyAndConvertToTerm(OperatorLevel const operatorLevel, TermsWithDetails const& termsWithDetails);
 Term convertMonomialToSimplestTerm(Monomial const& monomial);
 Term convertPolynomialToSimplestTerm(Polynomial const& polynomial);
 Term convertExpressionToSimplestTerm(Expression const& expression);

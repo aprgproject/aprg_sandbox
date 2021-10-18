@@ -1,6 +1,7 @@
 #include "PolynomialHelpers.hpp"
 
 #include <Algebra/Factorization/Factorization.hpp>
+#include <Algebra/Retrieval/NumbersRetriever.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
@@ -33,6 +34,23 @@ bool doesThePolynomialHaveOnlyOneVariable(Polynomial const& polynomial)
     VariableNamesRetriever variableNamesRetriever;
     variableNamesRetriever.retrieveFromPolynomial(polynomial);
     return variableNamesRetriever.getSavedData().size() == 1;
+}
+
+bool doesThePolynomialHaveDoubleValue(Polynomial const& polynomial)
+{
+    bool result(false);
+    NumbersRetriever retriever;
+    retriever.retrieveFromPolynomial(polynomial);
+    AlbaNumbersSet const& numbers(retriever.getSavedDataReference());
+    result = any_of(numbers.cbegin(), numbers.cend(), [](AlbaNumber const& number)
+    {return number.isDoubleType();});
+    return result;
+}
+
+bool doesOnePolynomialHaveADoubleValue(Polynomials const& polynomials)
+{
+    return any_of(polynomials.cbegin(), polynomials.cend(), [](Polynomial const& polynomial)
+    {return doesThePolynomialHaveDoubleValue(polynomial);});
 }
 
 AlbaNumber getRemainderForOneVariablePolynomialDividedByVariableMinusConstantValue(

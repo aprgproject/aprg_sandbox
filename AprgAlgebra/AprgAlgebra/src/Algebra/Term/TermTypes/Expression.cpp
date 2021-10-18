@@ -325,6 +325,11 @@ void Expression::putExpressionWithMultiplication(Expression const& secondExpress
     }
 }
 
+void Expression::putTermWithDetails(TermWithDetails const& termToSave)
+{
+    m_termsWithAssociation.putTermWithDetails(termToSave);
+}
+
 void Expression::putTermsWithDetails(TermsWithDetails const& termsToSave)
 {
     for(TermWithDetails const& termWithDetails : termsToSave)

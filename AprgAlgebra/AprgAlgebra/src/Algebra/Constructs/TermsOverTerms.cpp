@@ -3,6 +3,7 @@
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Constructs/PolynomialOverPolynomial.hpp>
 #include <Algebra/Constructs/TermRaiseToANumber.hpp>
+#include <Algebra/Factorization/FactorizationConfiguration.hpp>
 #include <Algebra/Factorization/FactorizationOfTerm.hpp>
 #include <Algebra/Operations/AccumulateOperations.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
@@ -31,11 +32,13 @@ TermsOverTerms::TermsOverTerms()
     : m_numerators()
     , m_denominators()
     , m_shouldSimplifyToFactors(false)
+    , m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(false)
 {}
 
 TermsOverTerms::TermsOverTerms(
         TermsWithDetails const& termsInMultiplicationAndDivision)
     : m_shouldSimplifyToFactors(false)
+    , m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(false)
 {
     TermsWithDetails numeratorsWithDetails;
     TermsWithDetails denominatorsWithDetails;
@@ -48,12 +51,14 @@ TermsOverTerms::TermsOverTerms(Terms const& numerators, Terms const& denominator
     : m_numerators(numerators)
     , m_denominators(denominators)
     , m_shouldSimplifyToFactors(false)
+    , m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(false)
 {}
 
 TermsOverTerms::TermsOverTerms(
         TermsWithDetails const& numeratorsWithDetails,
         TermsWithDetails const& denominatorsWithDetails)
     : m_shouldSimplifyToFactors(false)
+    , m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(false)
 {
     retrieveTermsOnly(m_numerators, numeratorsWithDetails);
     retrieveTermsOnly(m_denominators, denominatorsWithDetails);
@@ -151,6 +156,27 @@ void TermsOverTerms::retrievePolynomialAndNonPolynomialsDenominators(
     retrievePolynomialAndNonPolynomialsTerms(m_denominators, polynomialDenominator, nonPolynomialDenominators);
 }
 
+void TermsOverTerms::retrieveBaseToExponentMap(
+        BaseToExponentMap & baseToExponentMap) const
+{
+    Terms factorizedNumerators(factorizeTermsAsNeeded(m_numerators));
+    Terms factorizedDenominators(factorizeTermsAsNeeded(m_denominators));
+
+    updateBaseToExponentMap(baseToExponentMap, factorizedNumerators, 1);
+    updateBaseToExponentMap(baseToExponentMap, factorizedDenominators, -1);
+}
+
+void TermsOverTerms::invert()
+{
+    swap(m_numerators, m_denominators);
+}
+
+void TermsOverTerms::saveBaseToExponentMap(
+        BaseToExponentMap const& baseToExponentMap)
+{
+    putTermsOnNumeratorAndDenominatorFromBaseExponentMap(m_numerators, m_denominators, baseToExponentMap);
+}
+
 string TermsOverTerms::getDisplayableString() const
 {
     stringstream result;
@@ -173,11 +199,17 @@ void TermsOverTerms::setAsShouldSimplifyToFactors(
     m_shouldSimplifyToFactors = shouldSimplifyToFactors;
 }
 
+void TermsOverTerms::setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(
+        bool const shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue)
+{
+    m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
+}
+
 void TermsOverTerms::simplify()
 {
     putTermsOnNumeratorAndDenominatorCorrectly(m_numerators, m_denominators);
-    Terms factorizedNumerators(factorizeTerms(m_numerators));
-    Terms factorizedDenominators(factorizeTerms(m_denominators));
+    Terms factorizedNumerators(factorizeTermsAsNeeded(m_numerators));
+    Terms factorizedDenominators(factorizeTermsAsNeeded(m_denominators));
     if(m_shouldSimplifyToFactors)
     {
         continueToSimplifyToFactors(factorizedNumerators, factorizedDenominators);
@@ -186,6 +218,18 @@ void TermsOverTerms::simplify()
     {
         continueToSimplifyAndCombineFactors(factorizedNumerators, factorizedDenominators);
     }
+}
+
+Terms TermsOverTerms::factorizeTermsAsNeeded(Terms const& terms) const
+{
+    ConfigurationDetails configurationDetails(
+                Factorization::Configuration::getInstance().getConfigurationDetails());
+    configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue
+            = m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
+    ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+    return factorizeTerms(terms);
 }
 
 Term TermsOverTerms::getCombinedTermAsFactors(
@@ -324,12 +368,14 @@ void TermsOverTerms::removeSameTermsInNumeratorAndDenominator(
 
     numeratorTerms.clear();
     denominatorTerms.clear();
+
     putTermsOnNumeratorAndDenominatorFromBaseExponentMap(numeratorTerms, denominatorTerms, baseToExponentMap);
 }
+
 void TermsOverTerms::updateBaseToExponentMap(
         BaseToExponentMap & baseToExponentMap,
         Terms const& termsToCheck,
-        int const signToBePutWithExponent)
+        int const signToBePutWithExponent) const
 {
     for(Term const& termToCheck : termsToCheck)
     {
@@ -460,6 +506,26 @@ void TermsOverTerms::putTermsToRetainAndOnTheOtherSide(
         else
         {
             termsToRetain.emplace_back(termToCheck);
+        }
+    }
+}
+
+void TermsOverTerms::putBaseWithExponentsInNumeratorsAndDenominators(
+        BaseToExponentMap const& baseToExponentMap)
+{
+    for(auto const& baseExponentPair : baseToExponentMap)
+    {
+        Term const& base(baseExponentPair.first);
+        AlbaNumber const& exponent(baseExponentPair.second);
+        if(exponent > 0)
+        {
+            TermRaiseToANumber termRaiseToANumber(base, exponent);
+            m_numerators.emplace_back(termRaiseToANumber.getCombinedTerm());
+        }
+        else if(baseExponentPair.second < 0)
+        {
+            TermRaiseToANumber termRaiseToANumber(base, exponent);
+            m_denominators.emplace_back(termRaiseToANumber.getCombinedTerm());
         }
     }
 }
