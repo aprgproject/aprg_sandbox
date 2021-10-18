@@ -3,10 +3,12 @@
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+
 using namespace alba::algebra::DomainAndRange;
 using namespace alba::algebra::Simplification;
 using namespace std;
@@ -96,5 +98,7 @@ SolutionSet getDifferentiabilityDomain(
     return calculateDomainForTermWithOneVariable(derivativeTerm);
 }
 
+
 }
+
 }

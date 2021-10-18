@@ -23,12 +23,16 @@ namespace algebra
 {
 
 TermRaiseToTerms::TermRaiseToTerms()
-    : m_shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt(false)
+    : m_shouldSimplifyToFactors(false)
+    , m_shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt(false)
     , m_shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase(false)
 {}
 
 TermRaiseToTerms::TermRaiseToTerms(
         TermsWithDetails const& termsInRaiseToPowerExpression)
+    : m_shouldSimplifyToFactors(false)
+    , m_shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt(false)
+    , m_shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase(false)
 {
     initializeUsingTermsInRaiseToPowerExpression(termsInRaiseToPowerExpression);
 }
@@ -38,6 +42,7 @@ TermRaiseToTerms::TermRaiseToTerms(
         TermsWithDetails const& exponents)
     : m_base(base)
     , m_exponents(exponents)
+    , m_shouldSimplifyToFactors(false)
     , m_shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt(false)
     , m_shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase(false)
 {}
@@ -47,6 +52,7 @@ TermRaiseToTerms::TermRaiseToTerms(
         Terms const& exponents)
     : m_base(base)
     , m_exponents()
+    , m_shouldSimplifyToFactors(false)
     , m_shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt(false)
     , m_shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase(false)
 {
@@ -98,6 +104,12 @@ TermsWithDetails const& TermRaiseToTerms::getExponents() const
 void TermRaiseToTerms::setBase(Term const& base)
 {
     m_base = base;
+}
+
+void TermRaiseToTerms::setAsShouldSimplifyToFactors(
+        bool const shouldSimplifyToFactors)
+{
+    m_shouldSimplifyToFactors = shouldSimplifyToFactors;
 }
 
 void TermRaiseToTerms::setAsShouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt(
@@ -167,6 +179,7 @@ void TermRaiseToTerms::simplifyBaseAndExponents()
         m_base = simplifyAndConvertMonomialToSimplestTerm(monomialBase);
     }
     else if(m_base.isPolynomial()
+            && !m_shouldSimplifyToFactors
             && exponentCombinedTerm.isConstant()
             && exponentCombinedTerm.getConstantValueConstReference().isIntegerType()
             && exponentCombinedTerm.getConstantValueConstReference() >= 0)

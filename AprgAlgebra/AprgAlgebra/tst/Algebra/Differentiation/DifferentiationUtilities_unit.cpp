@@ -117,10 +117,12 @@ TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)
               intervalToVerify.at(1));
 }
 
-TEST(DifferentiationUtilitiesTest, GetDerivativeDefinitionWorks){
+TEST(DifferentiationUtilitiesTest, GetDerivativeDefinitionWorks)
+{
     Term term(Polynomial{Monomial(1, {{"a", 2}}), Monomial(1, {})});
 
     Term derivative(getDerivativeDefinition(term, "a"));
+
     Term expectedTerm(Polynomial{Monomial(1, {{"deltaX", 1}}), Monomial(2, {{"x", 1}})});
     EXPECT_EQ(expectedTerm, derivative);
 }

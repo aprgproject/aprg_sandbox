@@ -3,10 +3,12 @@
 #include <Algebra/Functions/SimplifyingFunctionToExpression.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 bool canBeConvertedToConstant(Polynomial const& polynomial)
 {
     return polynomial.isEmpty() || (polynomial.isOneMonomial() && polynomial.getFirstMonomial().isConstantOnly());

@@ -984,6 +984,28 @@ TEST(SimplificationOfExpressionTest, SimplifyBySubstitutingExpressionAndFunction
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
+TEST(TermsOverTermsTest, SimplifyBySimplifyingToFactorsWorks)
+{
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+    configurationDetails.shouldSimplifyToFactors = true;
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+    Term polynomialTerm(Polynomial{Monomial(7, {{"x", 3}}), Monomial(-1, {})});
+    Term numerator(createExpressionIfPossible({polynomialTerm, Term("^"), Term(2)}));
+    Term denominator(createExpressionIfPossible({polynomialTerm, Term("^"), Term(8)}));
+    Expression expressionToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    SimplificationOfExpression simplification(expressionToTest);
+
+    simplification.simplify();
+
+    Expression expressionToVerify(simplification.getExpression());
+    Expression expectedDenominator(createExpressionIfPossible({polynomialTerm, Term("^"), Term(6)}));
+    Expression expressionToExpect(createExpressionIfPossible({Term(1), Term("/"), expectedDenominator}));
+    EXPECT_EQ(expressionToExpect, expressionToVerify);
+}
+
 }
 
 }

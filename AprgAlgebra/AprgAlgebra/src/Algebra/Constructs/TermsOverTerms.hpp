@@ -34,11 +34,13 @@ public:
             Terms & nonPolynomialDenominators) const;
     std::string getDisplayableString() const;
 
-    void setShouldSimplifyToFactors(bool const shouldSimplifyToFactors);
+    void setAsShouldSimplifyToFactors(bool const shouldSimplifyToFactors);
 
     void simplify();
 
 private:
+    Term getCombinedTermAsFactors(
+            TermsWithDetails const& termsWithDetails) const;
     void continueToSimplifyToFactors(
             Terms & factorizedNumerators,
             Terms & factorizedDenominators);
@@ -47,10 +49,12 @@ private:
             Terms & factorizedDenominators);
     Polynomial multiplyPolynomialTerms(Terms const& polynomialTerms) const;
     bool removeTermsIfNeededAndReturnIfSomeTermsAreRemoved(
-            Terms & numerators,            Terms & denominators);
+            Terms & numerators,
+            Terms & denominators);
     void updateBaseToExponentMap(
             BaseToExponentMap & baseToExponentMap,
-            Terms const& termsToCheck,            int const signToBePutWithExponent);
+            Terms const& termsToCheck,
+            int const signToBePutWithExponent);
     void putTermsOnNumeratorAndDenominatorFromBaseExponentMap(
             Terms & numeratorTerms,
             Terms & denominatorTerms,
@@ -84,11 +88,13 @@ private:
             Polynomial & polynomialDenominator) const;
     void simplifyMonomialsToPolynomialOverPolynomial();
     void simplifyPolynomialsToPolynomialOverPolynomial();
-    bool m_shouldSimplifyToFactors;
     Terms m_numerators;
     Terms m_denominators;
+    bool m_shouldSimplifyToFactors;
 };
+
 using VectorOfTermsOverTerms = std::vector<TermsOverTerms>;
 
 }
+
 }

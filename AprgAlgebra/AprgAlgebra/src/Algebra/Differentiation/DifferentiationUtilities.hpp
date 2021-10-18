@@ -32,6 +32,7 @@ SolutionSet getDifferentiabilityDomain(
         std::string const& variableName);
 
 void simplifyDerivativeByDefinition(Term & term);
+
 }
 
 }

@@ -4,17 +4,20 @@
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
 #include <Optional/AlbaOptional.hpp>
 
 using namespace alba::algebra::Simplification;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossible(
         Term const& term)
 {
@@ -115,9 +118,11 @@ TermRaiseToANumber createTermRaiseToANumberFromTerm(Term const& term)
     result.getBaseReference().simplify();
     return result;
 }
+
 TermRaiseToANumber createTermRaiseToANumberFromMonomial(Monomial const& monomial)
 {
-    Monomial newMonomial(monomial);    Monomial::VariablesToExponentsMap const& variablesToExponentsMap(
+    Monomial newMonomial(monomial);
+    Monomial::VariablesToExponentsMap const& variablesToExponentsMap(
                 newMonomial.getVariablesToExponentsMapConstReference());
     AlbaNumber exponent = (variablesToExponentsMap.size() == 1)
             ? (variablesToExponentsMap.cbegin())->second
@@ -178,7 +183,9 @@ TermRaiseToANumber createTermRaiseToANumberFromExpression(Expression const& expr
             // how about if exponent is polynomial or expression? how do we extract constant? should we introduce factorization here?
         }
     }
-    return result;}
+    return result;
+}
 
 }
+
 }

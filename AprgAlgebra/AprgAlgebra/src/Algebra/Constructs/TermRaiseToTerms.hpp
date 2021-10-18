@@ -28,6 +28,7 @@ public:
     TermsWithDetails const& getExponents() const;
 
     void setBase(Term const& base);
+    void setAsShouldSimplifyToFactors(bool const shouldSimplifyToFactors);
     void setAsShouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt(bool const shouldSimplify);
     void setAsShouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase(bool const shouldSimplify);
     void simplify();
@@ -44,6 +45,7 @@ private:
 
     Term m_base;
     TermsWithDetails m_exponents;
+    bool m_shouldSimplifyToFactors;
     bool m_shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt;
     bool m_shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase;
 };

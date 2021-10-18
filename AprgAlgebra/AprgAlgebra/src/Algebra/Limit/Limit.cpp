@@ -171,10 +171,12 @@ AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
         // As current currentInput approaches valueToApproach the calculation becomes inaccurate so limit value is not accurate.
         substitution.putVariableWithValue(variableName, currentInput);
         Term currentOutputTerm = substitution.performSubstitutionTo(term);
-        if(currentOutputTerm.isConstant())        {
+        if(currentOutputTerm.isConstant())
+        {
             AlbaNumber currentOutputNumber(currentOutputTerm.getConstantValueConstReference());
             if(!currentOutputNumber.isARealFiniteValue())
-            {                previousRejectedInput = currentInput;
+            {
+                previousRejectedInput = currentInput;
             }
             else
             {
@@ -188,7 +190,8 @@ AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
                     || isAlmostEqualForLimitIteration(newInput, previousAcceptedInput))
             {
                 break;
-            }            currentInput = newInput;
+            }
+            currentInput = newInput;
         }
         else
         {
@@ -197,9 +200,11 @@ AlbaNumber getLimitAtAValueByIterationAndLinearInterpolation(
     }
     return getLimitAtAValueUsingTrendOfValues(term, variableName, valueToApproach, previousAcceptedInput, previousPreviousAcceptedInput);
 }
+
 AlbaNumber getLimitAtAValueUsingTrendOfValues(
         Term const& term,
-        string const& variableName,        AlbaNumber const& valueToApproach,
+        string const& variableName,
+        AlbaNumber const& valueToApproach,
         AlbaNumber const& previousAcceptedInput,
         AlbaNumber const& previousPreviousAcceptedInput)
 {

@@ -2,7 +2,6 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
-
 #include <gtest/gtest.h>
 
 namespace alba
@@ -213,6 +212,22 @@ TEST(TermRaiseToTermsTest, SimplifyByCheckingPolynomialRaiseToAnUnsignedIntWorks
     EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), termRaiseToTerms.getBase());
     TermsWithDetails expectedExponents{TermWithDetails(Term(Monomial(2, {{"x", 1}})), TermAssociationType::Positive)};
     EXPECT_EQ(expectedExponents, termRaiseToTerms.getExponents());
+}
+
+TEST(TermRaiseToTermsTest, SimplifyWorksWithSimplifyingToFactors)
+{
+    Term base(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    TermRaiseToTerms termRaiseToTerms(base, {Term(5)});
+    termRaiseToTerms.setAsShouldSimplifyToFactors(true);
+
+    termRaiseToTerms.simplify();
+
+    EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), termRaiseToTerms.getBase());
+    TermsWithDetails expectedExponents
+    {TermWithDetails(Term(5), TermAssociationType::Positive)};
+    EXPECT_EQ(expectedExponents, termRaiseToTerms.getExponents());
+    Term expectedCombinedTerm(createExpressionIfPossible({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), Term("^"), Term(5)}));
+    EXPECT_EQ(expectedCombinedTerm, termRaiseToTerms.getCombinedTerm());
 }
 
 }

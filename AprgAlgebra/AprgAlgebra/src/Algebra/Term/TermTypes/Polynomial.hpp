@@ -34,9 +34,11 @@ public:
     std::string getDisplayableString() const;
 
     Monomials & getMonomialsReference();
+
     void clear();
     void simplify();
-    void sortMonomialsWithInversePriority();    void addMonomial(Monomial const& monomial);
+    void sortMonomialsWithInversePriority();
+    void addMonomial(Monomial const& monomial);
     void addPolynomial(Polynomial const& polynomial);
     void multiplyNumber(AlbaNumber const& number);
     void divideNumber(AlbaNumber const& number);
