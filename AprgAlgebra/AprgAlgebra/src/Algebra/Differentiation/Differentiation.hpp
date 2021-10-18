@@ -43,14 +43,13 @@ public:
     Term differentiateTwoMultipliedTerms(Term const& term1, Term const& term2) const;
     Term differentiateTwoDividedTerms(Term const& numerator, Term const& denominator) const;
 
+
 private:
     bool isVariableToDifferentiate(std::string const& variableName) const;
-    bool isDependentVariable(std::string const& variableName) const;
-    bool isDerivativeVariableNameAndAffectedByThisDifferentiation(
+    bool isDependentVariable(std::string const& variableName) const;    bool isDerivativeVariableNameAndAffectedByThisDifferentiation(
             DerivativeVariableName const& derivativeVariable) const;
     Term differentiateAsTermOrExpressionIfNeeded(
-            Expression const& expression) const;
-    Term differentiateSimplifiedExpressionOnly(
+            Expression const& expression) const;    Term differentiateSimplifiedExpressionOnly(
             Expression const& expression) const;
     Term differentiateTermsInAdditionOrSubtraction(
             TermsWithDetails const& termsWithDetails) const;
@@ -68,10 +67,10 @@ private:
             Term const& firstTerm,
             Term const& secondTerm) const;
     Term differentiateFunctionOnly(Function const& functionObject) const;
+    void simplifyToFactors(Term& term) const;
     std::string m_nameOfVariableToDifferentiate;
     VariableNamesSet m_namesOfDependentVariables;
 };
-
 }
 
 }

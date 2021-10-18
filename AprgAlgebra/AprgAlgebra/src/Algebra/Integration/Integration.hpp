@@ -59,9 +59,9 @@ private:
             Term const& secondTerm) const;
     Term integrateFunctionOnly(Function const& functionObject) const;
     AlbaNumber getDegreeForVariableToIntegrate(Term const& term) const;
+    void simplifyForIntegration(Term& term) const;
     std::string m_nameOfVariableToIntegrate;
 };
-
 }
 
 }

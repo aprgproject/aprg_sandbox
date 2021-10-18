@@ -321,12 +321,11 @@ void TermsOverTerms::removeSameTermsInNumeratorAndDenominator(
     BaseToExponentMap baseToExponentMap;
     updateBaseToExponentMap(baseToExponentMap, numeratorTerms, 1);
     updateBaseToExponentMap(baseToExponentMap, denominatorTerms, -1);
+
     numeratorTerms.clear();
     denominatorTerms.clear();
-
     putTermsOnNumeratorAndDenominatorFromBaseExponentMap(numeratorTerms, denominatorTerms, baseToExponentMap);
 }
-
 void TermsOverTerms::updateBaseToExponentMap(
         BaseToExponentMap & baseToExponentMap,
         Terms const& termsToCheck,

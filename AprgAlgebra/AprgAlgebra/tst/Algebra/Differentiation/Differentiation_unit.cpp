@@ -246,20 +246,19 @@ TEST(DifferentiationTest, DifferentiateFunctionWorksWithTrigonometricFunction)
 
     Term x("x");
     Term y("y");
+    Term cscSquared(createExpressionIfPossible({csc(x), Term("^"), Term(2)}));
     EXPECT_EQ(Term(cos(x)), differentiationForXWithY.differentiateFunction(sin(x)));
     EXPECT_EQ(Term(createExpressionIfPossible({Term(-1), Term("*"), sin(x)})), differentiationForXWithY.differentiateFunction(cos(x)));
     EXPECT_EQ(Term(createExpressionIfPossible({Term(Monomial(-1, {{"d[y]/d[x]", 1}})), Term("*"), sin(y)})), differentiationForXWithY.differentiateFunction(cos(y)));
     EXPECT_EQ(Term(createExpressionIfPossible({sec(x), Term("^"), Term(2)})), differentiationForXWithY.differentiateFunction(tan(x)));
-    EXPECT_EQ(Term(createExpressionIfPossible({Term(-1), Term("*"), csc(x), Term("*"), cot(x)})), differentiationForXWithY.differentiateFunction(csc(x)));
+    EXPECT_EQ(Term(createExpressionIfPossible({Term(-1), Term("*"), cot(x), Term("*"), csc(x)})), differentiationForXWithY.differentiateFunction(csc(x)));
     EXPECT_EQ(Term(createExpressionIfPossible({sec(x), Term("*"), tan(x)})), differentiationForXWithY.differentiateFunction(sec(x)));
-    EXPECT_EQ(Term(createExpressionIfPossible({Term(-1), Term("*"), csc(x), Term("*"), csc(x)})), differentiationForXWithY.differentiateFunction(cot(x)));
+    EXPECT_EQ(Term(createExpressionIfPossible({Term(-1), Term("*"), cscSquared})), differentiationForXWithY.differentiateFunction(cot(x)));
 }
 
-TEST(DifferentiationTest, DifferentiateFunctionWorksWithChainRule)
-{
+TEST(DifferentiationTest, DifferentiateFunctionWorksWithChainRule){
     Differentiation differentiationForX("x");
     Function functionToTest(sin(Term(Monomial(10, {{"x", 8}}))));
-
     Term expectedTerm(createExpressionIfPossible({Term(Monomial(80, {{"x", 7}})), Term("*"), cos(Term(Monomial(10, {{"x", 8}})))}));
     EXPECT_EQ(expectedTerm, differentiationForX.differentiateFunction(functionToTest));
 }
@@ -281,51 +280,56 @@ TEST(DifferentiationTest, DifferentiateEquationWorks)
 TEST(DifferentiationTest, DifferentiateTwoMultipliedTermsWorks)
 {
     Differentiation differentiationForX("x");
-    Term term1(Polynomial{Monomial(2, {{"x", 3}}), Monomial(-4, {{"x", 2}})});
-    Term term2(Polynomial{Monomial(3, {{"x", 5}}), Monomial(1, {{"x", 2}})});
+    Term term1(Polynomial{Monomial(2, {{"x", 2}}), Monomial(-4, {{"x", 1}})});
+    Term term2(Polynomial{Monomial(3, {{"x", 2}}), Monomial(7, {{"x", 1}})});
 
-    Term expectedTerm(Polynomial{Monomial(48, {{"x", 7}}), Monomial(-84, {{"x", 6}}), Monomial(10, {{"x", 4}}), Monomial(-16, {{"x", 3}})});
-    EXPECT_EQ(expectedTerm, differentiationForX.differentiateTwoMultipliedTerms(term1, term2));
+    Term termToVerify(differentiationForX.differentiateTwoMultipliedTerms(term1, term2));
+
+    Term expectedTerm(Polynomial{Monomial(24, {{"x", 3}}), Monomial(6, {{"x", 2}}), Monomial(-56, {{"x", 1}})});
+    EXPECT_EQ(expectedTerm, termToVerify);
 }
 
-TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks)
-{
+TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks){
     Differentiation differentiationForX("x");
     Term numerator(Polynomial{Monomial(2, {{"x", 3}}), Monomial(4, {})});
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(1, {})});
 
+    Term termToVerify(differentiationForX.differentiateTwoDividedTerms(numerator, denominator));
+
     Term expectedNumerator(Polynomial{Monomial(2, {{"x", 4}}), Monomial(-16, {{"x", 3}}), Monomial(6, {{"x", 2}}), Monomial(-8, {{"x", 1}}), Monomial(16, {})});
     Term expectedDenominator(Polynomial{Monomial(1, {{"x", 4}}), Monomial(-8, {{"x", 3}}), Monomial(18, {{"x", 2}}), Monomial(-8, {{"x", 1}}), Monomial(1, {})});
     Term expectedTerm(createExpressionIfPossible({expectedNumerator, Term("/"), expectedDenominator}));
-    EXPECT_EQ(expectedTerm, differentiationForX.differentiateTwoDividedTerms(numerator, denominator));
+    EXPECT_EQ(expectedTerm, termToVerify);
 }
 
-TEST(DifferentiationTest, DifferentiateWorksWithDivisionExpressionRaiseToAConstant)
-{
+TEST(DifferentiationTest, DifferentiateWorksWithDivisionExpressionRaiseToAConstant){
     Differentiation differentiationForX("x");
     Term subTerm1(createExpressionIfPossible({Term(2), Term("/"), Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {})})}));
     Term termToTest(createExpressionIfPossible({subTerm1, Term("^"), Term(5)}));
 
-    EXPECT_EQ("(-160/(1[x^6] + -6[x^5] + 15[x^4] + -20[x^3] + 15[x^2] + -6[x] + 1))", differentiationForX.differentiate(termToTest).getDisplayableString());
+    Term termToVerify(differentiationForX.differentiate(termToTest));
+
+    EXPECT_EQ("(-160/(1[x^6] + -6[x^5] + 15[x^4] + -20[x^3] + 15[x^2] + -6[x] + 1))", termToVerify.getDisplayableString());
 }
 
-TEST(DifferentiationTest, DifferentiateWorksWithChainRule)
-{
+TEST(DifferentiationTest, DifferentiateWorksWithChainRule){
     Differentiation differentiationForX("x");
     Term termToTest(createExpressionIfPossible({sec(Term(Monomial(2, {{"x", 2}}))), Term("^"), Term(4)}));
 
-    EXPECT_EQ("(16[x]*sec(2[x^2])*sec(2[x^2])*sec(2[x^2])*sec(2[x^2])*tan(2[x^2]))", differentiationForX.differentiate(termToTest).getDisplayableString());
+    Term termToVerify(differentiationForX.differentiate(termToTest));
+
+    EXPECT_EQ("(16[x]*sec(2[x^2])*sec(2[x^2])*sec(2[x^2])*sec(2[x^2])*tan(2[x^2]))", termToVerify.getDisplayableString());
 }
 
-TEST(DifferentiationTest, DifferentiateWorksWithSquareRootOfAPolynomial)
-{
+TEST(DifferentiationTest, DifferentiateWorksWithSquareRootOfAPolynomial){
     Differentiation differentiationForX("x");
     Polynomial subPolynomial{Monomial(2, {{"x", 3}}), Monomial(-4, {{"x", 1}}), Monomial(5, {})};
     Term termToTest(createExpressionIfPossible({Term(subPolynomial), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
 
-    EXPECT_EQ("((3[x^2] + -2)/((2[x^3] + -4[x] + 5)^(1/2)))", differentiationForX.differentiate(termToTest).getDisplayableString());
+    Term termToVerify(differentiationForX.differentiate(termToTest));
+
+    EXPECT_EQ("((3[x^2] + -2)/((2[x^3] + -4[x] + 5)^(1/2)))", termToVerify.getDisplayableString());
 }
 
 }
-
 }
