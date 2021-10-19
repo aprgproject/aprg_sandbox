@@ -21,6 +21,26 @@ TEST(PolynomialHelpersTest, DoesThePolynomialHaveOnlyOneVariableWorks)
     EXPECT_TRUE(doesThePolynomialHaveOnlyOneVariable(Polynomial{Monomial(1, {{"x", 4}}), Monomial(1, {{"x", 3}}), Monomial(-16, {})}));
 }
 
+TEST(PolynomialHelpersTest, DoesThePolynomialHaveDoubleValueWorks)
+{
+    EXPECT_FALSE(doesThePolynomialHaveDoubleValue(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-16, {})}));
+    EXPECT_TRUE(doesThePolynomialHaveDoubleValue(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-0.75, {})}));
+    EXPECT_TRUE(doesThePolynomialHaveDoubleValue(Polynomial{Monomial(1, {{"x", 0.75}}), Monomial(-16, {})}));
+}
+
+TEST(PolynomialHelpersTest, DoesOnePolynomialHaveADoubleValueWorks)
+{
+    Polynomial polynomialWithoutDouble{Monomial(1, {{"x", 3}}), Monomial(-16, {})};
+    Polynomial polynomialWithDouble{Monomial(1, {{"x", 3}}), Monomial(-0.75, {})};
+
+    Polynomials polynomials1{polynomialWithoutDouble, polynomialWithoutDouble};
+    Polynomials polynomials2{polynomialWithoutDouble, polynomialWithDouble};
+    Polynomials polynomials3{polynomialWithDouble, polynomialWithDouble};
+    EXPECT_FALSE(doesOnePolynomialHaveADoubleValue(polynomials1));
+    EXPECT_TRUE(doesOnePolynomialHaveADoubleValue(polynomials2));
+    EXPECT_TRUE(doesOnePolynomialHaveADoubleValue(polynomials3));
+}
+
 TEST(PolynomialHelpersTest, GetRemainderForOneVariablePolynomialDividedByVariableMinusConstantValueWorks)
 {
     Polynomial polynomial{Monomial(5, {{"x", 3}}), Monomial(-8, {{"x", 2}}), Monomial(6, {{"x", 1}}), Monomial(4, {})};

@@ -105,9 +105,7 @@ private:
 
     // other functions
     bool tryToSubstituteSubExpressionOrSubFunctionAndReturnIfContinue(Expression const& expression);
-    Expression getNewExpressionWithSubstitutedTerms(Term const& expressionOrFunctionTerm);
-    Terms getSubExpressionsAndSubFunctions(Expression const& expression);
-    bool shouldBeIncludedFromSubExpressionsAndSubFunctions(Term const& term);
+    Expression getNewExpressionWithSubstitutedVariableForTerm(Term const& mainExpression, Term const& termToSubstitute);
 
     Expression m_expression;
 };

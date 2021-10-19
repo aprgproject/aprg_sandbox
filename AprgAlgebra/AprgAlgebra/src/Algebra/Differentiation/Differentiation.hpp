@@ -55,11 +55,11 @@ private:
     Term differentiateTermsInRaiseToPower(
             TermsWithDetails const& termsWithDetails) const;
     Term differentiateConstantRaiseToTerm(
-            AlbaNumber const& number,
-            Term const& term) const;
+            AlbaNumber const& base,
+            Term const& exponent) const;
     Term differentiateTermRaiseToConstant(
-            Term const& term,
-            AlbaNumber const& number) const;
+            Term const& base,
+            AlbaNumber const& exponent) const;
     Term differentiateTermRaiseToTerm(
             Term const& firstTerm,
             Term const& secondTerm) const;
@@ -71,8 +71,10 @@ private:
             Monomial & unaffectedVariablesAndConstant,
             Monomial & affectedVariables,
             Monomial const& monomial) const;
-    Polynomial buildPolynomialBasedOnAffectedVariables(Monomial const& affectedVariables) const;
-    Term differentiateFunctionOnly(Function const& functionObject) const;
+    Polynomial buildPolynomialBasedOnAffectedVariables(
+            Monomial const& affectedVariables) const;
+    Term differentiateFunctionOnly(
+            Function const& functionObject) const;
     void simplifyForDifferentiation(Term& term) const;
     std::string m_nameOfVariableToDifferentiate;
     VariableNamesSet m_namesOfDependentVariables;

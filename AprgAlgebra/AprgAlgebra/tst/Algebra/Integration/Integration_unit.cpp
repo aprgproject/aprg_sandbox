@@ -197,14 +197,51 @@ TEST(IntegrationTest, IntegrateExpressionWorks)
 TEST(IntegrationTest, IntegrateWorksUsingChainRuleUsingExample1)
 {
     Integration integrationForX("x");
-    Term numerator(Monomial(4, {{"x", 2}}));    Term denominatorPolynomial(Polynomial{Monomial(1, {}), Monomial(-8, {{"x", 3}})});
+    Term numerator(Monomial(4, {{"x", 2}}));
+    Term denominatorPolynomial(Polynomial{Monomial(1, {}), Monomial(-8, {{"x", 3}})});
     Term denominator(createExpressionIfPossible({denominatorPolynomial, Term("^"), Term(4)}));
-    Expression expression01(createExpressionIfPossible({numerator, Term("/"), denominator}));
-    Term expectedTerm01(createExpressionIfPossible(
+    Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+
+    Term expectedTerm(createExpressionIfPossible(
     {Term(-1), Term("/"), Term(18),
      Term("/"), Term(Polynomial{Monomial(2, {{"x", 1}}), Monomial(-1, {})}), Term("^"), Term(3),
      Term("/"), Term(Polynomial{Monomial(4, {{"x", 2}}), Monomial(2, {{"x", 1}}), Monomial(1, {})}),  Term("^"), Term(3)}));
-    EXPECT_EQ(expectedTerm01, integrationForX.integrateExpression(expression01));
+    EXPECT_EQ(expectedTerm, integrationForX.integrate(termToTest));
+}
+
+TEST(IntegrationTest, IntegrateWorksUsingSubstitutionUsingExample1)
+{
+    Integration integrationForX("x");
+    Term squareRootTerm(createExpressionIfPossible(
+    {Term(Polynomial{Monomial(1, {}), Monomial(1, {{"x", 1}})}), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term termToTest(createExpressionIfPossible({Term(Monomial(1, {{"x", 2}})), Term("*"), squareRootTerm}));
+
+    Term xPlusOne(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    Term firstPart(createExpressionIfPossible({Term(2), Term("*"), xPlusOne, Term("^"), Term(AlbaNumber::createFraction(7, 2)), Term("/"), Term(7)}));
+    Term secondPart(createExpressionIfPossible({Term(4), Term("*"), xPlusOne, Term("^"), Term(AlbaNumber::createFraction(5, 2)), Term("/"), Term(5)}));
+    Term thirdPart(createExpressionIfPossible({Term(2), Term("*"), xPlusOne, Term("^"), Term(AlbaNumber::createFraction(3, 2)), Term("/"), Term(3)}));
+    Term expectedTerm(createExpressionIfPossible({firstPart, Term("-"), secondPart, Term("+"), thirdPart}));
+    EXPECT_EQ(expectedTerm, integrationForX.integrate(termToTest));
+}
+
+TEST(IntegrationTest, IntegrateWorksUsingSubstitutionUsingExample2)
+{
+    Integration integrationForX("x");
+    Term squareRootOfX(Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}));
+    Term termToTest(createExpressionIfPossible({Term(sin(squareRootOfX)), Term("/"), squareRootOfX}));
+
+    Term expectedTerm(createExpressionIfPossible({Term(-2), Term("*"), Term(cos(squareRootOfX))}));
+    EXPECT_EQ(expectedTerm, integrationForX.integrate(termToTest));
+}
+
+TEST(IntegrationTest, IntegrateWorksUsingSubstitutionUsingExample3)
+{
+    Integration integrationForX("x");
+    Term x("x");
+    Term termToTest(createExpressionIfPossible({Term(tan(x)), Term("*"), Term(sec(x)), Term("^"), Term(2)}));
+
+    Term expectedTerm(createExpressionIfPossible({Term(sec(x)), Term("^"), Term(2), Term("/"), Term(2)}));
+    EXPECT_EQ(expectedTerm, integrationForX.integrate(termToTest));
 }
 
 TEST(IntegrationTest, IntegrateFunctionWorks)

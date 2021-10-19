@@ -43,8 +43,8 @@ TermsOverTerms::TermsOverTerms(
     TermsWithDetails numeratorsWithDetails;
     TermsWithDetails denominatorsWithDetails;
     segregateTermsWithPositiveAndNegativeAssociations(termsInMultiplicationAndDivision, numeratorsWithDetails, denominatorsWithDetails);
-    retrieveTermsOnly(m_numerators, numeratorsWithDetails);
-    retrieveTermsOnly(m_denominators, denominatorsWithDetails);
+    retrieveTermsFromTermsWithDetails(m_numerators, numeratorsWithDetails);
+    retrieveTermsFromTermsWithDetails(m_denominators, denominatorsWithDetails);
 }
 
 TermsOverTerms::TermsOverTerms(Terms const& numerators, Terms const& denominators)
@@ -60,8 +60,8 @@ TermsOverTerms::TermsOverTerms(
     : m_shouldSimplifyToFactors(false)
     , m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(false)
 {
-    retrieveTermsOnly(m_numerators, numeratorsWithDetails);
-    retrieveTermsOnly(m_denominators, denominatorsWithDetails);
+    retrieveTermsFromTermsWithDetails(m_numerators, numeratorsWithDetails);
+    retrieveTermsFromTermsWithDetails(m_denominators, denominatorsWithDetails);
 }
 
 Terms const& TermsOverTerms::getNumerators() const

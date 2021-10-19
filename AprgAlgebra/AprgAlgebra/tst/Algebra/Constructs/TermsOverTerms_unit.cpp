@@ -128,6 +128,60 @@ TEST(TermsOverTermsTest, RetrievePolynomialAndNonPolynomialDenominatorsWorks)
     EXPECT_EQ(nonPolynomialTerm, retrievedTerms.at(0));
 }
 
+TEST(TermsOverTermsTest, RetrieveBaseToExponentMapWorks)
+{
+    TermsOverTerms termsOverTerms({Term("a"), Term("b")}, {Term("x"), Term("y")});
+
+    TermsOverTerms::BaseToExponentMap baseToExponentMap;
+    termsOverTerms.retrieveBaseToExponentMap(baseToExponentMap);
+
+    ASSERT_EQ(4U, baseToExponentMap.size());
+    TermsOverTerms::BaseToExponentMap::const_iterator itVerify=baseToExponentMap.cbegin();
+    EXPECT_EQ(Term("a"), itVerify->first);
+    EXPECT_EQ(AlbaNumber(1), itVerify->second);
+    itVerify++;
+    EXPECT_EQ(Term("b"), itVerify->first);
+    EXPECT_EQ(AlbaNumber(1), itVerify->second);
+    itVerify++;
+    EXPECT_EQ(Term("x"), itVerify->first);
+    EXPECT_EQ(AlbaNumber(-1), itVerify->second);
+    itVerify++;
+    EXPECT_EQ(Term("y"), itVerify->first);
+    EXPECT_EQ(AlbaNumber(-1), itVerify->second);
+}
+
+TEST(TermsOverTermsTest, InvertWorks)
+{
+    TermsOverTerms termsOverTerms({Term("a"), Term("b")}, {Term("x"), Term("y")});
+
+    termsOverTerms.invert();
+
+    Terms numeratorsToVerify(termsOverTerms.getNumerators());
+    ASSERT_EQ(2U, numeratorsToVerify.size());
+    EXPECT_EQ(Term("x"), numeratorsToVerify.at(0));
+    EXPECT_EQ(Term("y"), numeratorsToVerify.at(1));
+    Terms denominatorsToVerify(termsOverTerms.getDenominators());
+    ASSERT_EQ(2U, denominatorsToVerify.size());
+    EXPECT_EQ(Term("a"), denominatorsToVerify.at(0));
+    EXPECT_EQ(Term("b"), denominatorsToVerify.at(1));
+}
+
+TEST(TermsOverTermsTest, SaveBaseToExponentMapWorks)
+{
+    TermsOverTerms::BaseToExponentMap baseToExponentMap{{Term("x"), AlbaNumber(5)}, {Term("y"), AlbaNumber(-10)}};
+    TermsOverTerms termsOverTerms;
+    termsOverTerms.setAsShouldSimplifyToFactors(true);
+
+    termsOverTerms.saveBaseToExponentMap(baseToExponentMap);
+
+    Terms numeratorsToVerify(termsOverTerms.getNumerators());
+    ASSERT_EQ(1U, numeratorsToVerify.size());
+    EXPECT_EQ(Term(createExpressionIfPossible({Term("x"), Term("^"), Term(5)})), numeratorsToVerify.at(0));
+    Terms denominatorsToVerify(termsOverTerms.getDenominators());
+    ASSERT_EQ(1U, denominatorsToVerify.size());
+    EXPECT_EQ(Term(createExpressionIfPossible({Term("y"), Term("^"), Term(10)})), denominatorsToVerify.at(0));
+}
+
 TEST(TermsOverTermsTest, SimplifyWorksAndRemovesTermsThatHasNoEffect)
 {
     TermsOverTerms numeratorHasTermsNoEffect({Term(), Term(1)}, {});

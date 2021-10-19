@@ -15,15 +15,17 @@ using VariableToValueMap = std::map<std::string, AlbaNumber>;
 
 bool hasAnyFunctions(Term const& term);
 
-void retrieveTermsOnly(Terms & terms, TermsWithDetails const& termsWithDetails);
-
-AlbaNumber getCoefficientOfMonomialWithNoVariables(
-        Polynomial const& polynomial);
+AlbaNumber getCoefficientOfMonomialWithNoVariables(Polynomial const& polynomial);
 AlbaNumber getCoefficientOfMonomialWithVariableOnly(
         Polynomial const& polynomial,
         std::string const& variableName);
-VariableToValueMap getCoefficientsForVariablesOnly(
-        Polynomial const& polynomial);
+
+VariableToValueMap getCoefficientsForVariablesOnly(Polynomial const& polynomial);
+
+void retrieveTermsFromTermsWithDetails(Terms & terms, TermsWithDetails const& termsWithDetails);
+
+Terms retrieveSubExpressionsAndSubFunctions(Term const& term);
+Terms retrieveSubTerms(Term const& term);
 
 }
 

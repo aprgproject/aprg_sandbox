@@ -10,6 +10,7 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
@@ -345,10 +346,10 @@ bool SimplificationOfExpression::tryToSubstituteSubExpressionOrSubFunctionAndRet
 {
     bool continueToTryToSubstitute = false;
     unsigned int oldNumberOfTerms = expression.getTermsWithAssociation().getTermsWithDetails().size();
-    Terms expressionAndFunctionTerms(getSubExpressionsAndSubFunctions(expression));
+    Terms expressionAndFunctionTerms(retrieveSubExpressionsAndSubFunctions(Term(expression)));
     for(Term const& expressionOrFunctionTerm : expressionAndFunctionTerms)
     {
-        Expression newExpression(getNewExpressionWithSubstitutedTerms(expressionOrFunctionTerm));
+        Expression newExpression(getNewExpressionWithSubstitutedVariableForTerm(m_expression, expressionOrFunctionTerm));
         unsigned int newNumberOfTerms = newExpression.getTermsWithAssociation().getTermsWithDetails().size();
         if(expression.getCommonOperatorLevel() != newExpression.getCommonOperatorLevel()
                 || oldNumberOfTerms != newNumberOfTerms)
@@ -361,56 +362,19 @@ bool SimplificationOfExpression::tryToSubstituteSubExpressionOrSubFunctionAndRet
     return continueToTryToSubstitute;
 }
 
-Expression SimplificationOfExpression::getNewExpressionWithSubstitutedTerms(
-        Term const& expressionOrFunctionTerm)
+Expression SimplificationOfExpression::getNewExpressionWithSubstitutedVariableForTerm(
+        Term const& mainExpression,
+        Term const& termToSubstitute)
 {
-    string variableNameForSubstitution(createVariableNameForSubstitution(expressionOrFunctionTerm));
-    SubstitutionOfTermsToTerms substitutionToVariable{{expressionOrFunctionTerm, variableNameForSubstitution}};
-    Term termWithNewVariable(substitutionToVariable.performSubstitutionTo(m_expression));
-    SubstitutionOfVariablesToTerms substitutionFromVariable{{variableNameForSubstitution, expressionOrFunctionTerm}};
+    string variableNameForSubstitution(createVariableNameForSubstitution(termToSubstitute));
+
+    SubstitutionOfTermsToTerms substitutionToVariable{{termToSubstitute, variableNameForSubstitution}};
+    Term termWithNewVariable(substitutionToVariable.performSubstitutionTo(mainExpression));
+
+    SubstitutionOfVariablesToTerms substitutionFromVariable{{variableNameForSubstitution, termToSubstitute}};
     Term termWithoutNewVariable(substitutionFromVariable.performSubstitutionTo(termWithNewVariable));
+
     return createOrCopyExpressionFromATerm(termWithoutNewVariable);
-}
-
-Terms SimplificationOfExpression::getSubExpressionsAndSubFunctions(
-        Expression const& expression)
-{
-    ExpressionAndFunctionsRetriever retriever;
-    TermsWithDetails const& termsWithDetails(
-                expression.getTermsWithAssociation().getTermsWithDetails());
-    if(termsWithDetails.size() > 1)
-    {
-        for(TermWithDetails const& termWithDetails : termsWithDetails)
-        {
-            retriever.retrieveFromTerm(
-                        getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        }
-    }
-    Terms result;
-    for(Term const& retrievedTerms : retriever.getSavedData())
-    {
-        if(shouldBeIncludedFromSubExpressionsAndSubFunctions(retrievedTerms))
-        {
-            result.emplace_back(retrievedTerms);
-        }
-    }
-    return result;
-}
-
-bool SimplificationOfExpression::shouldBeIncludedFromSubExpressionsAndSubFunctions(
-        Term const& term)
-{
-    bool result(false);
-    if(term.isExpression())
-    {
-        Expression const& expression(term.getExpressionConstReference());
-        result = OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel();
-    }
-    else if(term.isFunction())
-    {
-        result = true;
-    }
-    return result;
 }
 
 }

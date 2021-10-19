@@ -3,6 +3,8 @@
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
+#include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquation.hpp>
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
@@ -10,7 +12,9 @@
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
@@ -200,7 +204,7 @@ Term Integration::integrateAsTermOrExpressionIfNeeded(
 Term Integration::integrateSimplifiedExpressionOnly(
         Expression const& expression) const
 {
-    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
+    Term result;
     if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
     {
         result = integrateTermsInAdditionOrSubtraction(expression.getTermsWithAssociation().getTermsWithDetails());
@@ -212,6 +216,14 @@ Term Integration::integrateSimplifiedExpressionOnly(
     else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
     {
         result = integrateTermsInRaiseToPower(expression.getTermsWithAssociation().getTermsWithDetails());
+    }
+    if(result.isEmpty())
+    {
+        integrateTermUsingSubstitution(result, Term(expression));
+    }
+    if(result.isEmpty())
+    {
+        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
     }
     return result;
 }
@@ -242,10 +254,6 @@ Term Integration::integrateTermsInMultiplicationOrDivision(
     Term result;
     integrateRecognizedFunctionsIfPossible(result, termsWithDetails);
     integrateUsingChainRuleIfPossible(result, termsWithDetails);
-    if(result.isEmpty())
-    {
-        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
-    }
     return result;
 }
 
@@ -282,28 +290,28 @@ Term Integration::integrateConstantRaiseToTerm(
 }
 
 Term Integration::integrateTermRaiseToConstant(
-        Term const& term,
-        AlbaNumber const& number) const
+        Term const& base,
+        AlbaNumber const& exponent) const
 {
     Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
-    if(wouldDifferentiationYieldToConstant(term))
+    if(wouldDifferentiationYieldToAConstant(base))
     {
         result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible(
-        {term, Term("^"), Term(number+1), Term("/"), Term(number+1)})), term);
+        {base, Term("^"), Term(exponent+1), Term("/"), Term(exponent+1)})), base);
     }
-    else if(term.isFunction())
+    else if(base.isFunction())
     {
-        Function const& functionTerm(term.getFunctionConstReference());
+        Function const& functionTerm(base.getFunctionConstReference());
         Term const& inputOfFunctionTerm(getTermConstReferenceFromBaseTerm(functionTerm.getInputTermConstReference()));
-        if(number == 2
+        if(exponent == 2
                 && functionTerm.getFunctionName() == "sec"
-                && wouldDifferentiationYieldToConstant(inputOfFunctionTerm))
+                && wouldDifferentiationYieldToAConstant(inputOfFunctionTerm))
         {
             result = divideFirstTermAndDerivativeOfSecondTerm(Term(tan(inputOfFunctionTerm)), inputOfFunctionTerm);
         }
-        else if(number == 2
+        else if(exponent == 2
                 && functionTerm.getFunctionName() == "csc"
-                && wouldDifferentiationYieldToConstant(inputOfFunctionTerm))
+                && wouldDifferentiationYieldToAConstant(inputOfFunctionTerm))
         {
             result = divideFirstTermAndDerivativeOfSecondTerm(createExpressionIfPossible(
             {Term(cot(inputOfFunctionTerm)), Term("*"), Term(-1)}), inputOfFunctionTerm);
@@ -322,17 +330,17 @@ Term Integration::integrateTermRaiseToTerm(
 Term Integration::integrateFunctionOnly(
         Function const& functionObject) const
 {
-    Term integrationOfFunction(AlbaNumber(AlbaNumber::Value::NotANumber));
+    Term result;
     Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
-    if(wouldDifferentiationYieldToConstant(inputTerm))
+    if(wouldDifferentiationYieldToAConstant(inputTerm))
     {
         if("sin" == functionObject.getFunctionName())
         {
-            integrationOfFunction = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible({Term(-1), Term("*"), cos(inputTerm)})), inputTerm);
+            result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible({Term(-1), Term("*"), cos(inputTerm)})), inputTerm);
         }
         else if("cos" == functionObject.getFunctionName())
         {
-            integrationOfFunction = divideFirstTermAndDerivativeOfSecondTerm(Term(sin(inputTerm)), inputTerm);
+            result = divideFirstTermAndDerivativeOfSecondTerm(Term(sin(inputTerm)), inputTerm);
         }
         /*else if("tan" == functionObject.getFunctionName())
         {
@@ -351,7 +359,89 @@ Term Integration::integrateFunctionOnly(
             integrationOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), csc(inputTerm), Term("^"), Term(2)}));
         }*/
     }
-    return integrationOfFunction;
+    if(result.isEmpty())
+    {
+        integrateTermUsingSubstitution(result, Term(functionObject));
+    }
+    if(result.isEmpty())
+    {
+        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+    }
+    return result;
+}
+
+void Integration::integrateTermUsingSubstitution(
+        Term & result,
+        Term const& term) const
+{
+    Term simplifiedTerm(term);
+    simplifyForIntegration(simplifiedTerm);
+    Terms subTerms(retrieveSubTerms(simplifiedTerm));
+    for(Term const& subTerm : subTerms)
+    {
+        if(!subTerm.isConstant() && !subTerm.isVariable())
+        {
+            integrateBySubstitutionAndUsingANewVariable(result, simplifiedTerm, subTerm);
+            if(!result.isEmpty())
+            {
+                break;
+            }
+        }
+    }
+}
+
+void Integration::integrateBySubstitutionAndUsingANewVariable(
+        Term & result,
+        Term const& mainTerm,
+        Term const& termToSubstituteToVariable) const
+{
+    Differentiation differentiation(m_nameOfVariableToIntegrate);
+    Term firstDerivative(differentiation.differentiate(termToSubstituteToVariable));
+    Term termToIntegrate = mainTerm/firstDerivative;
+    Term termToIntegrateWithNewVariable(getTermWithNewVariableSubstitution(termToIntegrate, termToSubstituteToVariable));
+    simplifyForIntegration(termToIntegrateWithNewVariable);
+    if(isVariableToIntegrateNotFoundInTerm(termToIntegrateWithNewVariable))
+    {
+        string newVariableName(createVariableNameForSubstitution(termToSubstituteToVariable));
+        Integration integrationWithNewVariable(newVariableName);
+        Term integratedTermWithNewVariable(integrationWithNewVariable.integrateTerm(termToIntegrateWithNewVariable));
+        SubstitutionOfVariablesToTerms substitutionVariableToTerm({{newVariableName, termToSubstituteToVariable}});
+        Term integratedTerm(substitutionVariableToTerm.performSubstitutionTo(integratedTermWithNewVariable));
+        if(!isNotANumber(integratedTerm))
+        {
+            result = integratedTerm;
+        }
+    }
+}
+
+Term Integration::getTermWithNewVariableSubstitution(
+        Term const& mainTerm,
+        Term const& termToSubstituteToVariable) const
+{
+    string newVariableName(createVariableNameForSubstitution(termToSubstituteToVariable));
+    Term newVariable(newVariableName);
+    SubstitutionOfTermsToTerms substitutionTermToNewVariable({{termToSubstituteToVariable, newVariable}});
+    Term termWithNewVariable(substitutionTermToNewVariable.performSubstitutionTo(mainTerm));
+
+    if(termToSubstituteToVariable.isPolynomial()
+            || termToSubstituteToVariable.isExpression()
+            || termToSubstituteToVariable.isFunction())
+    {
+        IsolationOfOneVariableOnEqualityEquation isolation(Equation(newVariable, "=", termToSubstituteToVariable));
+        Equation equationWithIsolatedOldVariable(isolation.isolate(m_nameOfVariableToIntegrate));
+        Term const& termWithOldVariableFromIsolation(equationWithIsolatedOldVariable.getRightHandTerm());
+        Term const& termWithNewVariableFromIsolation(equationWithIsolatedOldVariable.getLeftHandTerm());
+        if(canBeConvertedToMonomial(termWithOldVariableFromIsolation))
+        {
+            Monomial monomialWithOldVariable(createMonomialIfPossible(termWithOldVariableFromIsolation));
+            AlbaNumber exponentForOldVariable(monomialWithOldVariable.getExponentForVariable(m_nameOfVariableToIntegrate));
+            monomialWithOldVariable.putVariableWithExponent(m_nameOfVariableToIntegrate, AlbaNumber(0));
+            Term isolatedTermWithNewVariable((termWithNewVariableFromIsolation/monomialWithOldVariable)^(AlbaNumber(1)/exponentForOldVariable));
+            SubstitutionOfVariablesToTerms substitutionVariableToTerm({{m_nameOfVariableToIntegrate, isolatedTermWithNewVariable}});
+            termWithNewVariable = substitutionVariableToTerm.performSubstitutionTo(termWithNewVariable);
+        }
+    }
+    return termWithNewVariable;
 }
 
 void Integration::integrateUsingChainRuleIfPossible(
@@ -500,13 +590,20 @@ void Integration::simplifyForIntegration(
     }
 }
 
-bool Integration::isVariableToIntegrate(
-        string const& variableName) const
+bool Integration::isVariableToIntegrate(string const& variableName) const
 {
     return variableName == m_nameOfVariableToIntegrate;
 }
 
-bool Integration::wouldDifferentiationYieldToConstant(
+bool Integration::isVariableToIntegrateNotFoundInTerm(Term const& term) const
+{
+    VariableNamesRetriever retriever;
+    retriever.retrieveFromTerm(term);
+    VariableNamesSet const& variableNames(retriever.getSavedData());
+    return variableNames.find(m_nameOfVariableToIntegrate) == variableNames.cend();
+}
+
+bool Integration::wouldDifferentiationYieldToAConstant(
         Term const& term) const
 {
     bool result(0);

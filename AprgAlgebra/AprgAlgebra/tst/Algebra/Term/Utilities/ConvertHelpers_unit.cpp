@@ -119,6 +119,34 @@ TEST(ConvertHelpersTest, SimplifyAndConvertFunctionToSimplestTermWorks)
     EXPECT_EQ(Term(10), termToVerify3);
 }
 
+TEST(ConvertHelpersTest, SimplifyAndConvertToTermWorksForTermWithDetails)
+{
+    TermWithDetails termWithDetails(Term(10), TermAssociationType::Negative);
+
+    Term termToVerify1(simplifyAndConvertToTerm(OperatorLevel::AdditionAndSubtraction, termWithDetails));
+    Term termToVerify2(simplifyAndConvertToTerm(OperatorLevel::MultiplicationAndDivision, termWithDetails));
+    Term termToVerify3(simplifyAndConvertToTerm(OperatorLevel::RaiseToPower, termWithDetails));
+
+    EXPECT_EQ(Term(-10), termToVerify1);
+    EXPECT_EQ(Term(AlbaNumber::createFraction(1, 10)), termToVerify2);
+    EXPECT_EQ(Term(10), termToVerify3);
+}
+
+TEST(ConvertHelpersTest, SimplifyAndConvertToTermWorksForTermsWithDetails)
+{
+    TermsWithDetails termsWithDetails
+    {TermWithDetails(Term(100), TermAssociationType::Positive),
+                TermWithDetails(Term(2), TermAssociationType::Negative)};
+
+    Term termToVerify1(simplifyAndConvertToTerm(OperatorLevel::AdditionAndSubtraction, termsWithDetails));
+    Term termToVerify2(simplifyAndConvertToTerm(OperatorLevel::MultiplicationAndDivision, termsWithDetails));
+    Term termToVerify3(simplifyAndConvertToTerm(OperatorLevel::RaiseToPower, termsWithDetails));
+
+    EXPECT_EQ(Term(98), termToVerify1);
+    EXPECT_EQ(Term(50), termToVerify2);
+    EXPECT_EQ(Term(10), termToVerify3);
+}
+
 TEST(ConvertHelpersTest, ConvertMonomialToSimplestTermWorks)
 {
     Term termToVerify1(convertMonomialToSimplestTerm(Monomial()));

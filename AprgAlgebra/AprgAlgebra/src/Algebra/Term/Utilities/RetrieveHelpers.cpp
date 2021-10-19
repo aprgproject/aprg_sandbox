@@ -1,9 +1,10 @@
 #include "RetrieveHelpers.hpp"
 
+#include <Algebra/Retrieval/ExpressionAndFunctionsRetriever.hpp>
 #include <Algebra/Retrieval/FunctionsRetriever.hpp>
+#include <Algebra/Retrieval/SubTermsRetriever.hpp>
 
 #include <algorithm>
-
 
 using namespace std;
 
@@ -21,16 +22,6 @@ bool hasAnyFunctions(Term const& term)
     });
     functionsRetriever.retrieveFromTerm(term);
     return !functionsRetriever.getSavedData().empty();
-}
-
-void retrieveTermsOnly(Terms & terms, TermsWithDetails const& termsWithDetails)
-{
-    terms.reserve(terms.size() + termsWithDetails.size());
-    transform(termsWithDetails.cbegin(), termsWithDetails.cend(), back_inserter(terms), []
-              (TermWithDetails const& termWithDetails)
-    {
-        return getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer);
-    });
 }
 
 AlbaNumber getCoefficientOfMonomialWithNoVariables(
@@ -88,6 +79,50 @@ VariableToValueMap getCoefficientsForVariablesOnly(
     }
     return result;
 }
+
+void retrieveTermsFromTermsWithDetails(
+        Terms & terms,
+        TermsWithDetails const& termsWithDetails)
+{
+    terms.reserve(terms.size() + termsWithDetails.size());
+    transform(termsWithDetails.cbegin(), termsWithDetails.cend(), back_inserter(terms), []
+              (TermWithDetails const& termWithDetails)
+    {
+        return getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer);
+    });
+}
+
+Terms retrieveSubExpressionsAndSubFunctions(Term const& term)
+{
+    ExpressionAndFunctionsRetriever retriever;
+    retriever.retrieveFromTerm(term);
+    Terms result;
+    for(Term const& retrievedTerm : retriever.getSavedData())
+    {
+        if((retrievedTerm.isFunction() || retrievedTerm.isExpression())
+                && term != retrievedTerm)
+        {
+            result.emplace_back(retrievedTerm);
+        }
+    }
+    return result;
+}
+
+Terms retrieveSubTerms(Term const& term)
+{
+    SubTermsRetriever retriever;
+    retriever.retrieveFromTerm(term);
+    Terms result;
+    for(Term const& retrievedTerm : retriever.getSavedData())
+    {
+        if(term != retrievedTerm)
+        {
+            result.emplace_back(retrievedTerm);
+        }
+    }
+    return result;
+}
+
 
 }
 

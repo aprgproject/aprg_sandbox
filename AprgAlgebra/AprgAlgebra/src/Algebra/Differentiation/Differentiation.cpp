@@ -357,11 +357,11 @@ Term Differentiation::differentiateConstantRaiseToTerm(
 }
 
 Term Differentiation::differentiateTermRaiseToConstant(
-        Term const& term,
-        AlbaNumber const& number) const
+        Term const& base,
+        AlbaNumber const& exponent) const
 {
-    Term derivativeCauseOfChainRule(differentiate(term));
-    return Term(createExpressionIfPossible({Term(number), Term("*"), term, Term("^"), Term(number-1), Term("*"), derivativeCauseOfChainRule}));
+    Term derivativeCauseOfChainRule(differentiate(base));
+    return Term(createExpressionIfPossible({Term(exponent), Term("*"), base, Term("^"), Term(exponent-1), Term("*"), derivativeCauseOfChainRule}));
 }
 
 Term Differentiation::differentiateTermRaiseToTerm(

@@ -43,6 +43,82 @@ TEST(RetrieveHelpersTest, GetCoefficientOfMonomialWithVariableOnlyWorks)
     EXPECT_EQ(AlbaNumber(975), getCoefficientOfMonomialWithVariableOnly(polynomial3, "y"));
 }
 
+TEST(RetrieveHelpersTest, GetCoefficientsForVariablesOnlyWorks)
+{
+    Polynomial polynomial{Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}}), Monomial(587, {{"x", 9}}), Monomial(975, {{"y", 10}})};
+
+    VariableToValueMap variableToValueMap(getCoefficientsForVariablesOnly(polynomial));
+
+    ASSERT_EQ(4U, variableToValueMap.size());
+    VariableToValueMap::const_iterator it = variableToValueMap.cbegin();
+    EXPECT_EQ("a", it->first);
+    EXPECT_EQ(AlbaNumber(516), it->second);
+    it++;
+    EXPECT_EQ("b", it->first);
+    EXPECT_EQ(AlbaNumber(643), it->second);
+    it++;
+    EXPECT_EQ("x", it->first);
+    EXPECT_EQ(AlbaNumber(587), it->second);
+    it++;
+    EXPECT_EQ("y", it->first);
+    EXPECT_EQ(AlbaNumber(975), it->second);
+    it++;
+}
+
+TEST(RetrieveHelpersTest, RetrieveTermsFromTermsWithDetailsWorks)
+{
+    TermsWithDetails termsWithDetails{
+        TermWithDetails(Term(10), TermAssociationType::Positive),
+                TermWithDetails(Term(9), TermAssociationType::Negative),
+                TermWithDetails(Term(11), TermAssociationType::Positive)};
+
+    Terms terms;
+    retrieveTermsFromTermsWithDetails(terms, termsWithDetails);
+
+    ASSERT_EQ(3U, terms.size());
+    EXPECT_EQ(Term(10), terms.at(0));
+    EXPECT_EQ(Term(9), terms.at(1));
+    EXPECT_EQ(Term(11), terms.at(2));
+}
+
+TEST(RetrieveHelpersTest, RetrieveSubExpressionsAndSubFunctionsWorks)
+{
+    Term expesssionTerm(createExpressionIfPossible({Term("a"), Term("^"), Term(2)}));
+    Function functionObject(
+                "functionName",
+                expesssionTerm,
+                [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return number;
+    });
+    Term functionTerm(functionObject);
+
+    Terms terms(retrieveSubExpressionsAndSubFunctions(functionTerm));
+
+    ASSERT_EQ(1U, terms.size());
+    EXPECT_EQ(expesssionTerm, terms.at(0));
+}
+
+TEST(RetrieveHelpersTest, RetrieveSubTermsWorks)
+{
+    Term expesssionTerm(createExpressionIfPossible({Term("a"), Term("^"), Term(2)}));
+    Function functionObject(
+                "functionName",
+                expesssionTerm,
+                [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return number;
+    });
+    Term functionTerm(functionObject);
+
+    Terms terms(retrieveSubTerms(functionTerm));
+
+    ASSERT_EQ(3U, terms.size());
+    EXPECT_EQ(expesssionTerm, terms.at(0));
+    EXPECT_EQ(Term("a"), terms.at(1));
+    EXPECT_EQ(Term(2), terms.at(2));
+}
+
 }
 
 }

@@ -45,15 +45,25 @@ private:
     Term integrateTermsInRaiseToPower(
             TermsWithDetails const& termsWithDetails) const;
     Term integrateConstantRaiseToTerm(
-            AlbaNumber const& number,
-            Term const& term) const;
+            AlbaNumber const& base,
+            Term const& exponent) const;
     Term integrateTermRaiseToConstant(
-            Term const& term,
-            AlbaNumber const& number) const;
+            Term const& base,
+            AlbaNumber const& exponent) const;
     Term integrateTermRaiseToTerm(
             Term const& firstTerm,
             Term const& secondTerm) const;
     Term integrateFunctionOnly(Function const& functionObject) const;
+    void integrateTermUsingSubstitution(
+            Term & result,
+            Term const& term) const;
+    void integrateBySubstitutionAndUsingANewVariable(
+            Term & result,
+            Term const& mainTerm,
+            Term const& termToSubstituteToVariable) const;
+    Term getTermWithNewVariableSubstitution(
+            Term const& mainTerm,
+            Term const& termToSubstituteToVariable) const;
     void integrateUsingChainRuleIfPossible(
             Term & result,
             TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const;
@@ -71,7 +81,8 @@ private:
     void integrateRecognizedFunctionsIfPossible(Term & result, TermsWithDetails const& termsWithDetails) const;
     void simplifyForIntegration(Term& term) const;
     bool isVariableToIntegrate(std::string const& variableName) const;
-    bool wouldDifferentiationYieldToConstant(Term const& term) const;
+    bool isVariableToIntegrateNotFoundInTerm(Term const& term) const;
+    bool wouldDifferentiationYieldToAConstant(Term const& term) const;
     std::string m_nameOfVariableToIntegrate;
 };
 

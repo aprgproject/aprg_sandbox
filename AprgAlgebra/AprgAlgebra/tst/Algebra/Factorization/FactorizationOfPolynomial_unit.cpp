@@ -518,6 +518,35 @@ TEST(FactorizationOfPolynomialsTest, FactorizeCommonMonomialIfPossible_WorksWhen
     EXPECT_EQ(polynomialToExpect2, polynomialsToVerify.at(1));
 }
 
+TEST(FactorizationOfPolynomialsTest, PutFactorizedPolynomialsIfPossibleWorksAtDefault)
+{
+    Polynomial polynomial{Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(0.56789, {{"x", 3}})};
+    Polynomials polynomials{polynomial};
+
+    Polynomials result;
+    putFactorizedPolynomialsIfPossible(result, polynomials);
+
+    ASSERT_EQ(1U, result.size());
+    EXPECT_EQ(polynomial, result.at(0));
+}
+
+TEST(FactorizationOfPolynomialsTest, PutFactorizedPolynomialsIfPossibleWorksWhenFlagIsSet)
+{
+    ConfigurationDetails configurationDetails(
+                getDefaultConfigurationDetails<ConfigurationDetails>());
+    configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+    ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+    Polynomial polynomial{Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(0.56789, {{"x", 3}})};
+    Polynomials polynomials{polynomial};
+
+    Polynomials result;
+    putFactorizedPolynomialsIfPossible(result, polynomials);
+
+    EXPECT_TRUE(result.empty());
+}
+
 }
 
 }
