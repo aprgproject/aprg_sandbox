@@ -159,11 +159,10 @@ TEST(EquationTest, SimplifyWorks)
 
     equation.simplify();
 
-    EXPECT_EQ(Term(Polynomial({Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})})), equation.getLeftHandTerm());
+    EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}), equation.getLeftHandTerm());
     EXPECT_EQ("<", equation.getEquationOperator().getOperatorString());
     EXPECT_EQ(Term(Constant(0)), equation.getRightHandTerm());
 }
-
 }
 
 }

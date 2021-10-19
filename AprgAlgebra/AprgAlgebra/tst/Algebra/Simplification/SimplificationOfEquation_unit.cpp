@@ -21,51 +21,43 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnEqualityOperator)
     simplification.simplify();
 
     Equation simplifiedEquation(simplification.getEquation());
-    EXPECT_EQ(Term(Polynomial({Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})})), simplifiedEquation.getLeftHandTerm());
+    EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}), simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
     EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
 }
-
 TEST(SimplificationOfEquationTest, SimplifyWorksOnLessThanOperator)
 {
     SimplificationOfEquation simplification(Equation(Term("x"), "<", Term("y")));
-
     simplification.simplify();
 
     Equation simplifiedEquation(simplification.getEquation());
-    EXPECT_EQ(Term(Polynomial({Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})})), simplifiedEquation.getLeftHandTerm());
+    EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}), simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("<", simplifiedEquation.getEquationOperator().getOperatorString());
     EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
 }
-
 TEST(SimplificationOfEquationTest, SimplifyWorksOnGreaterThanOperator)
 {
     SimplificationOfEquation simplification(Equation(Term("x"), ">", Term("y")));
-
     simplification.simplify();
 
     Equation simplifiedEquation(simplification.getEquation());
-    EXPECT_EQ(Term(Polynomial({Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})})), simplifiedEquation.getLeftHandTerm());
+    EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}), simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ(">", simplifiedEquation.getEquationOperator().getOperatorString());
     EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
 }
-
 TEST(SimplificationOfEquationTest, SimplifyWorksOnLessThanOrEqualOperator)
 {
     SimplificationOfEquation simplification(Equation(Term("x"), "<=", Term("y")));
-
     simplification.simplify();
 
     Equation simplifiedEquation(simplification.getEquation());
-    EXPECT_EQ(Term(Polynomial({Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})})), simplifiedEquation.getLeftHandTerm());
+    EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"y", 1}})}), simplifiedEquation.getLeftHandTerm());
     EXPECT_EQ("<=", simplifiedEquation.getEquationOperator().getOperatorString());
     EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
 }
-
 TEST(SimplificationOfEquationTest, SimplifyWorksToHaveCommonDenominator)
 {
-    Polynomial denominatorLeft{Monomial(1, {{"x", 1}}), Monomial(1, {})};
-    Polynomial denominatorRight{Monomial(2, {{"x", 1}}), Monomial(3, {})};
+    Polynomial denominatorLeft{Monomial(1, {{"x", 1}}), Monomial(1, {})};    Polynomial denominatorRight{Monomial(2, {{"x", 1}}), Monomial(3, {})};
     Expression expressionLeft(createExpressionIfPossible({Term(1), Term("/"), Term(denominatorLeft)}));
     Expression expressionRight(createExpressionIfPossible({Term(1), Term("/"), Term(denominatorRight)}));
     SimplificationOfEquation simplification(Equation(Term(expressionLeft), "=",  Term(expressionRight)));

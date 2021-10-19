@@ -154,15 +154,13 @@ TEST(FunctionsRetrieverTest, RetrieveFromPolynomialWorks)
         return false;
     });
 
-    retriever.retrieveFromPolynomial(Polynomial({Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})}));
+    retriever.retrieveFromPolynomial(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})});
 
     FunctionsSet const& functionsSet(retriever.getSavedData());
-    EXPECT_TRUE(functionsSet.empty());
-}
+    EXPECT_TRUE(functionsSet.empty());}
 
 TEST(FunctionsRetrieverTest, RetrieveFromExpressionWorks)
-{
-    FunctionsRetriever::FunctionCondition conditionThatWillMatch = [](Function const& functionObject)
+{    FunctionsRetriever::FunctionCondition conditionThatWillMatch = [](Function const& functionObject)
     {
         return functionObject.getFunctionName() == "functionName";
     };

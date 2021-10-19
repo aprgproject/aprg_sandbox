@@ -46,13 +46,11 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromTermWorks)
     retriever.retrieveFromTerm(Term(Constant(1.234)));
     retriever.retrieveFromTerm(Term(Variable("b")));
     retriever.retrieveFromTerm(Term(Monomial(34, {{"c", 5}, {"d", 6}})));
-    retriever.retrieveFromTerm(Term(Polynomial({Monomial(516, {{"e", 7}}), Monomial(643, {{"f", 8}})})));
+    retriever.retrieveFromTerm(Term(Polynomial{Monomial(516, {{"e", 7}}), Monomial(643, {{"f", 8}})}));
     retriever.retrieveFromTerm(Term(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"g", 9}}))})));
     retriever.retrieveFromTerm(Term(functionObject));
-
     EXPECT_EQ(11U, retriever.getSavedData());
 }
-
 TEST(NumberOfTermsRetrieverTest, RetrieveFromConstantWorks)
 {
     NumberOfTermsRetriever retriever;
@@ -84,15 +82,13 @@ TEST(NumberOfTermsRetrieverTest, RetrieveFromPolynomialWorks)
 {
     NumberOfTermsRetriever retriever;
 
-    retriever.retrieveFromPolynomial(Polynomial({Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})}));
+    retriever.retrieveFromPolynomial(Polynomial{Monomial(516, {{"x", 7}}), Monomial(643, {{"y", 8}})});
 
     EXPECT_EQ(1U, retriever.getSavedData());
 }
-
 TEST(NumberOfTermsRetrieverTest, RetrieveFromExpressionWorks)
 {
     NumberOfTermsRetriever retriever;
-
     retriever.retrieveFromExpression(createExpressionIfPossible({Term(678), Term("+"), Term(Monomial(576, {{"x", 9}}))}));
 
     EXPECT_EQ(3U, retriever.getSavedData());
