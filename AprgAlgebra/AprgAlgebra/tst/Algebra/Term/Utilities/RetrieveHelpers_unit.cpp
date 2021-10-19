@@ -114,11 +114,10 @@ TEST(RetrieveHelpersTest, RetrieveSubTermsWorks)
     Terms terms(retrieveSubTerms(functionTerm));
 
     ASSERT_EQ(3U, terms.size());
-    EXPECT_EQ(expesssionTerm, terms.at(0));
+    EXPECT_EQ(Term(2), terms.at(0));
     EXPECT_EQ(Term("a"), terms.at(1));
-    EXPECT_EQ(Term(2), terms.at(2));
+    EXPECT_EQ(expesssionTerm, terms.at(2));
 }
 
 }
-
 }
