@@ -516,14 +516,13 @@ TEST(AlbaMathHelperTest, GetGreatestCommonFactorForAlbaNumberWorks)
     EXPECT_EQ(AlbaNumber::createFraction(1, 4),
               getGreatestCommonFactorForAlbaNumber(AlbaNumber(5), AlbaNumber::createFraction(1, 4)));
     EXPECT_EQ(AlbaNumber(3), getGreatestCommonFactorForAlbaNumber(AlbaNumber(6), AlbaNumber(9)));
+    EXPECT_EQ(AlbaNumber(9), getGreatestCommonFactorForAlbaNumber(AlbaNumber(-36), AlbaNumber(27)));
 }
 
-TEST(AlbaMathHelperTest, GetLeastCommonMultipleForAlbaNumberWorks)
-{
+TEST(AlbaMathHelperTest, GetLeastCommonMultipleForAlbaNumberWorks){
     EXPECT_EQ(AlbaNumber(3),
               getLeastCommonMultipleForAlbaNumber(AlbaNumber::createFraction(3, 2), AlbaNumber::createFraction(1, 3)));
 }
-
 TEST(AlbaMathHelperTest, GetFractionDetailsInLowestFormWorks)
 {
     FractionDetails fractionDetails1(getFractionDetailsInLowestForm(0, 0));
