@@ -73,14 +73,24 @@ Term getDerivativeDefinition(
     return derivativeDefinition;
 }
 
+Term getDerivativeDefinitionForFiniteCalculus(
+        Term const& term,
+        std::string const& variableName)
+{
+    // Discrete derivative
+    Polynomial variableNamePlusOne{Monomial(1, {{variableName, 1}}), Monomial(1, {})};
+    SubstitutionOfVariablesToTerms substitution{{variableName, Term(variableNamePlusOne)}};
+    Term discreteDerivativeDefinition(createExpressionIfPossible({substitution.performSubstitutionTo(term), Term("-"), term}));
+    discreteDerivativeDefinition.simplify();
+    return discreteDerivativeDefinition;
+}
+
 void simplifyDerivativeByDefinition(Term & term)
 {
-    SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(
-                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     rationalizeConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
     rationalizeConfigurationDetails.shouldSimplifyByRationalizingNumerator = true;
-    SimplificationOfExpression::ScopeObject scopeObject;
-    scopeObject.setInThisScopeThisConfiguration(rationalizeConfigurationDetails);
+    SimplificationOfExpression::ScopeObject scopeObject;    scopeObject.setInThisScopeThisConfiguration(rationalizeConfigurationDetails);
 
     term.simplify();
 }

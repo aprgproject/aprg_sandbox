@@ -2,14 +2,11 @@
 
 #include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
-#include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 
 namespace alba
 {
-
 namespace algebra
 {
-
 class Integration
 {
 public:
@@ -24,14 +21,16 @@ public:
     Term integrate(Function const& functionObject) const;
 
     Term integrateWithPlusC(Term const& term) const;
+    Term integrateWithDefiniteValues(
+            Term const& term,
+            AlbaNumber const& lowerValue,
+            AlbaNumber const& higherValue) const;
 
     Term integrateTerm(Term const& term) const;
-    Monomial integrateConstant(Constant const& constant) const;
-    Monomial integrateVariable(Variable const& variable) const;
+    Monomial integrateConstant(Constant const& constant) const;    Monomial integrateVariable(Variable const& variable) const;
     Monomial integrateMonomial(Monomial const& monomial) const;
     Polynomial integratePolynomial(Polynomial const& polynomial) const;
-    Term integrateExpression(Expression const& expression) const;
-    Term integrateFunction(Function const& functionObject) const;
+    Term integrateExpression(Expression const& expression) const;    Term integrateFunction(Function const& functionObject) const;
 
 private:
     Term integrateAsTermOrExpressionIfNeeded(

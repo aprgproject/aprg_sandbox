@@ -27,56 +27,59 @@ Differentiation::Differentiation(
     , m_namesOfDependentVariables(namesOfDependentVariables)
 {}
 
-Term Differentiation::differentiate(Term const& term) const
+Term Differentiation::differentiate(
+        Term const& term) const
 {
     return differentiateTerm(term);
 }
 
-Term Differentiation::differentiate(Constant const& constant) const
+Term Differentiation::differentiate(
+        Constant const& constant) const
 {
     return Term(differentiateConstant(constant));
 }
 
-Term Differentiation::differentiate(Variable const& variable) const
+Term Differentiation::differentiate(
+        Variable const& variable) const
 {
     Term result(differentiateVariable(variable));
-    result.simplify();
-    return result;
+    result.simplify();    return result;
 }
 
-Term Differentiation::differentiate(Monomial const& monomial) const
+Term Differentiation::differentiate(
+        Monomial const& monomial) const
 {
     Term result(differentiateMonomial(monomial));
-    result.simplify();
-    return result;
+    result.simplify();    return result;
 }
 
-Term Differentiation::differentiate(Polynomial const& polynomial) const
+Term Differentiation::differentiate(
+        Polynomial const& polynomial) const
 {
     Term result(differentiatePolynomial(polynomial));
-    result.simplify();
-    return result;
+    result.simplify();    return result;
 }
 
-Term Differentiation::differentiate(Expression const& expression) const
+Term Differentiation::differentiate(
+        Expression const& expression) const
 {
     return differentiateExpression(expression);
 }
 
-Term Differentiation::differentiate(Function const& functionObject) const
+Term Differentiation::differentiate(
+        Function const& functionObject) const
 {
     return differentiateFunction(functionObject);
 }
 
-Equation Differentiation::differentiate(Equation const& equation) const
+Equation Differentiation::differentiate(
+        Equation const& equation) const
 {
     return differentiateEquation(equation);
 }
-
 Term Differentiation::differentiateMultipleTimes(
         Term const& term,
-        unsigned int const numberOfTimes) const
-{
+        unsigned int const numberOfTimes) const{
     Term currentResult(term);
     for(unsigned int i=0; i<numberOfTimes; i++)
     {
@@ -97,15 +100,14 @@ Equation Differentiation::differentiateMultipleTimes(
     return currentResult;
 }
 
-Term Differentiation::differentiateTerm(Term const& term) const
+Term Differentiation::differentiateTerm(
+        Term const& term) const
 {
     Term result;
-    if(term.isConstant())
-    {
+    if(term.isConstant())    {
         result = differentiate(term.getConstantConstReference());
     }
-    else if(term.isVariable())
-    {
+    else if(term.isVariable())    {
         result = differentiate(term.getVariableConstReference());
     }
     else if(term.isMonomial())
@@ -127,20 +129,20 @@ Term Differentiation::differentiateTerm(Term const& term) const
     return result;
 }
 
-AlbaNumber Differentiation::differentiateConstant(Constant const&) const
+AlbaNumber Differentiation::differentiateConstant(
+        Constant const&) const
 {
     return 0;
 }
 
-Monomial Differentiation::differentiateVariable(Variable const& variable) const
+Monomial Differentiation::differentiateVariable(
+        Variable const& variable) const
 {
     Monomial result;
-    string const& nameOfVariable(variable.getVariableName());
-    DerivativeVariableName derivativeVariableName(nameOfVariable);
+    string const& nameOfVariable(variable.getVariableName());    DerivativeVariableName derivativeVariableName(nameOfVariable);
     if(isVariableToDifferentiate(nameOfVariable))
     {
-        result = Monomial(1, {});
-    }
+        result = Monomial(1, {});    }
     else if(isDependentVariable(nameOfVariable))
     {
         DerivativeVariableName derivativeOfDependentVariableName(1U, m_nameOfVariableToDifferentiate, nameOfVariable);
@@ -158,28 +160,26 @@ Monomial Differentiation::differentiateVariable(Variable const& variable) const
     return result;
 }
 
-Polynomial Differentiation::differentiateMonomial(Monomial const& monomial) const
+Polynomial Differentiation::differentiateMonomial(
+        Monomial const& monomial) const
 {
     Monomial unaffectedVariablesAndConstant;
     Monomial affectedVariables;
-
     separateUnaffectedAndAffectedVariables(unaffectedVariablesAndConstant, affectedVariables, monomial);
     Polynomial result(buildPolynomialBasedOnAffectedVariables(affectedVariables));
-    result.multiplyMonomial(unaffectedVariablesAndConstant);
-    result.simplify();
+    result.multiplyMonomial(unaffectedVariablesAndConstant);    result.simplify();
 
     return result;
 }
 
-Polynomial Differentiation::differentiatePolynomial(Polynomial const& polynomial) const
+Polynomial Differentiation::differentiatePolynomial(
+        Polynomial const& polynomial) const
 {
     Polynomial result;
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
-    {
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())    {
         result.addPolynomial(differentiateMonomial(monomial));
     }
-    result.simplify();
-    return result;
+    result.simplify();    return result;
 }
 
 Term Differentiation::differentiateExpression(
