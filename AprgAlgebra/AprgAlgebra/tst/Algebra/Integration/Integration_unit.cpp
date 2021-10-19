@@ -194,14 +194,12 @@ TEST(IntegrationTest, IntegrateExpressionWorks)
     EXPECT_EQ(expectedTerm05, integrationForX.integrateExpression(expression05));
 }
 
-TEST(IntegrationTest, IntegrateWorksUsingChainRule)
+TEST(IntegrationTest, IntegrateWorksUsingChainRuleUsingExample1)
 {
     Integration integrationForX("x");
-    Term numerator(Monomial(4, {{"x", 2}}));
-    Term denominatorPolynomial(Polynomial{Monomial(1, {}), Monomial(-8, {{"x", 3}})});
+    Term numerator(Monomial(4, {{"x", 2}}));    Term denominatorPolynomial(Polynomial{Monomial(1, {}), Monomial(-8, {{"x", 3}})});
     Term denominator(createExpressionIfPossible({denominatorPolynomial, Term("^"), Term(4)}));
     Expression expression01(createExpressionIfPossible({numerator, Term("/"), denominator}));
-
     Term expectedTerm01(createExpressionIfPossible(
     {Term(-1), Term("/"), Term(18),
      Term("/"), Term(Polynomial{Monomial(2, {{"x", 1}}), Monomial(-1, {})}), Term("^"), Term(3),
