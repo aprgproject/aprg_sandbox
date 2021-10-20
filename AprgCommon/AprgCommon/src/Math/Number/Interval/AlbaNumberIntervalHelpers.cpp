@@ -62,4 +62,19 @@ AlbaNumberInterval createAllRealValuesInterval()
                 createPositiveInfinityOpenEndpoint());
 }
 
+AlbaNumbers getNumbersInsideTheInterval(
+        AlbaNumbers const& numbersToCheck,
+        AlbaNumberInterval const& intervalToCheck)
+{
+    AlbaNumbers result;
+    for(AlbaNumber const& numberToCheck : numbersToCheck)
+    {
+        if(intervalToCheck.isValueInsideTheInterval(numberToCheck))
+        {
+            result.emplace_back(numberToCheck);
+        }
+    }
+    return result;
+}
+
 }

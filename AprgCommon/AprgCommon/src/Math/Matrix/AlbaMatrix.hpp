@@ -258,15 +258,13 @@ public:
             table.addRow();
             for(unsigned int x=0; x<m_numberOfColumns; x++)
             {
-                table.getLastRow().addCell(converter.convert<DataType>(getEntry(x, y)));
+                table.getLastRow().addCell(converter.convert(getEntry(x, y)));
             }
         }
-        return table.drawOutput();
-    }
+        return table.drawOutput();    }
 
     void retrieveColumn(MatrixData & column, unsigned int const x) const
-    {
-        column.reserve(m_numberOfRows);
+    {        column.reserve(m_numberOfRows);
         for(unsigned int y=0; y<m_numberOfRows; y++)
         {
             column.emplace_back(getEntry(x, y));

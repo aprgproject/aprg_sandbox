@@ -406,14 +406,26 @@ TEST(AlbaMathHelperTest, GetValueAtPascalTriangleWorks)
     EXPECT_EQ(0U, getValueAtPascalTriangle(4, 5));
 }
 
+TEST(AlbaMathHelperTest, GetStirlingNumberOfTheSecondKindWorks)
+{
+    EXPECT_EQ(1, getStirlingNumberOfTheSecondKind(0, 0));
+    EXPECT_EQ(0, getStirlingNumberOfTheSecondKind(3, 0));
+    EXPECT_EQ(1, getStirlingNumberOfTheSecondKind(3, 1));
+    EXPECT_EQ(3, getStirlingNumberOfTheSecondKind(3, 2));
+    EXPECT_EQ(1, getStirlingNumberOfTheSecondKind(3, 3));
+    EXPECT_EQ(0, getStirlingNumberOfTheSecondKind(10, 0));
+    EXPECT_EQ(1, getStirlingNumberOfTheSecondKind(10, 1));
+    EXPECT_EQ(511, getStirlingNumberOfTheSecondKind(10, 2));
+    EXPECT_EQ(42525, getStirlingNumberOfTheSecondKind(10, 5));
+    EXPECT_EQ(1, getStirlingNumberOfTheSecondKind(10, 10));
+}
+
 TEST(AlbaMathHelperTest, GetCumulativeStandardDistributionApproximationWorks)
 {
-    //comparing with Z table, http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/standardnormaltable.pdf
-    EXPECT_DOUBLE_EQ(0.5, getCumulativeStandardDistributionApproximation(0));
+    //comparing with Z table, http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/standardnormaltable.pdf    EXPECT_DOUBLE_EQ(0.5, getCumulativeStandardDistributionApproximation(0));
     EXPECT_DOUBLE_EQ(0.86433393905361732834, getCumulativeStandardDistributionApproximation(1.1));
     EXPECT_DOUBLE_EQ(0.0081975359245961311461, getCumulativeStandardDistributionApproximation(-2.4));
-    EXPECT_DOUBLE_EQ(0.99996696335237056363, getCumulativeStandardDistributionApproximation(3.99));
-    EXPECT_DOUBLE_EQ(3.3036647629402369943e-005, getCumulativeStandardDistributionApproximation(-3.99));
+    EXPECT_DOUBLE_EQ(0.99996696335237056363, getCumulativeStandardDistributionApproximation(3.99));    EXPECT_DOUBLE_EQ(3.3036647629402369943e-005, getCumulativeStandardDistributionApproximation(-3.99));
 }
 
 TEST(AlbaMathHelperTest, GetInverseCumulativeStandardDistributionApproximationWorks)

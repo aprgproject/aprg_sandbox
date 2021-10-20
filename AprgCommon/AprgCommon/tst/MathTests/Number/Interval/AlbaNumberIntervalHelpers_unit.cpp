@@ -95,5 +95,18 @@ TEST(AlbaNumberIntervalTest, CreateAllRealValuesIntervalWorks)
     EXPECT_EQ(createPositiveInfinityOpenEndpoint(), interval.getHigherEndpoint());
 }
 
+TEST(AlbaNumberIntervalTest, GetNumbersInsideTheIntervalWorks)
+{
+    AlbaNumbers numbers{1, 2, 3, 4, 5};
+    AlbaNumberInterval interval(createCloseEndpoint(2), createCloseEndpoint(4));
+
+    AlbaNumbers numbersToVerify(getNumbersInsideTheInterval(numbers, interval));
+    ASSERT_EQ(3U, numbersToVerify.size());
+    EXPECT_EQ(AlbaNumber(2), numbersToVerify.at(0));
+    EXPECT_EQ(AlbaNumber(3), numbersToVerify.at(1));
+    EXPECT_EQ(AlbaNumber(4), numbersToVerify.at(2));
+
+}
+
 
 }

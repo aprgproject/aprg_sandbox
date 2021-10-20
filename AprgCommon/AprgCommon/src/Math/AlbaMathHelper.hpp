@@ -77,12 +77,11 @@ unsigned int getFactorial(unsigned int const number);
 unsigned int getNumberOfPermutations(unsigned int const n, unsigned int const r);
 unsigned int getNumberOfCombinations(unsigned int const n, unsigned int const r);
 unsigned int getValueAtPascalTriangle(unsigned int const rowIndex, unsigned int const columnIndex);
+int getStirlingNumberOfTheSecondKind(unsigned int const n, unsigned int const k);
 
 
-//Statistics functions
-double getCumulativeStandardDistributionApproximation(double const z);
+//Statistics functionsdouble getCumulativeStandardDistributionApproximation(double const z);
 double getInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
-
 
 //Clamp functions
 template <typename NumberType> NumberType clampLowerBound(NumberType const value, NumberType const limit);
