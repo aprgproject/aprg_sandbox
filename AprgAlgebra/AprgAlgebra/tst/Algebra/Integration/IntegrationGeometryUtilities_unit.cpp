@@ -1,9 +1,11 @@
 #include <Algebra/Integration/IntegrationGeometryUtilities.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Math/AlbaMathHelper.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::mathHelper;
 using namespace std;
 
 namespace alba
@@ -37,7 +39,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnU
     Term height("height");
     Term edgeOfTheConeInY = Term(Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}));
 
-    Term expectedTerm(Monomial(AlbaNumber::createFraction(1, 3), {{"PI", 1}, {"height", 1}, {"radius", 2}}));
+    Term expectedTerm(Monomial(AlbaNumber(1.047197551196598), {{"height", 1}, {"radius", 2}}));
     EXPECT_EQ(expectedTerm, getVolumeUsingOnSolidOfRevolution(edgeOfTheConeInY, "y", Term(Constant(0)), height));
 }
 
@@ -48,7 +50,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnU
     Term edgeOfTheCone2InY = Term(Polynomial
     {Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}), Monomial(1, {{"edgeDistance", 1}})});
 
-    Term expectedTerm(Monomial(1, {{"PI", 1}, {"edgeDistance", 2}, {"height", 1}}));
+    Term expectedTerm(Monomial(getPi(), {{"edgeDistance", 2}, {"height", 1}}));
     EXPECT_EQ(expectedTerm, getVolumeUsingOnSolidOfRevolution(edgeOfTheCone1InY, edgeOfTheCone2InY, "y", Term(Constant(0)), height));
 }
 
@@ -57,7 +59,7 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeUsingCylindricalShellsWorksOnPar
     Term radius("radius");
     Term edgeOfTheParabolaInX = Term(Monomial(1, {{"x", 2}}));
 
-    Term expectedTerm(Monomial(AlbaNumber::createFraction(1, 2), {{"PI", 1}, {"radius", 4}}));
+    Term expectedTerm(Monomial(1.570796326794897, {{"radius", 4}}));
     EXPECT_EQ(expectedTerm, getVolumeUsingCylindricalShells(edgeOfTheParabolaInX, "x", Term(Constant(0)), radius));
 }
 

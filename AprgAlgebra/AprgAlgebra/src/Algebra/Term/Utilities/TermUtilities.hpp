@@ -27,6 +27,8 @@ AlbaNumberPairs evaluateAndGetInputOutputPair(
         std::string const& variableName,
         Term const& term);
 
+Term getPiAsTerm();
+Term getEAsTerm();
 Term convertPositiveTermIfNegative(Term const& term);
 Term negateTerm(Term const& term);
 Term invertTerm(Term const& term, std::string const& variableName);

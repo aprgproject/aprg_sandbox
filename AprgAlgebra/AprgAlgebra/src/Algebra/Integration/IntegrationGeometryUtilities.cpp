@@ -4,6 +4,7 @@
 #include <Algebra/Integration/Integration.hpp>
 #include <Algebra/Integration/IntegrationUtilities.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 
 using namespace std;
@@ -50,7 +51,7 @@ Term getVolumeUsingOnSolidOfRevolution(
     // This method uses disks.
 
     Integration integration(variableName);
-    Term termToIntegrate = Term(PI)*(term^Term(2));
+    Term termToIntegrate = getPiAsTerm()*(term^Term(2));
     return substituteTermsAndGetDifference(integration.integrate(termToIntegrate), variableName, lowerValueTerm, higherValueTerm);
 }
 
@@ -69,7 +70,7 @@ Term getVolumeUsingOnSolidOfRevolution(
     // This method uses washers(disks with holes).
 
     Integration integration(variableName);
-    Term termToIntegrate = Term(PI)*((higherFunctionTerm-lowerFunctionTerm)^Term(2));
+    Term termToIntegrate = getPiAsTerm()*((higherFunctionTerm-lowerFunctionTerm)^Term(2));
     return substituteTermsAndGetDifference(integration.integrate(termToIntegrate), variableName, lowerValueTerm, higherValueTerm);
 }
 
@@ -88,7 +89,7 @@ Term getVolumeUsingCylindricalShells(
     // This method uses cylindrical shells (like a can without the top and bottom)
 
     Integration integration(variableName);
-    Term termToIntegrate = Term(2)*Term(PI)*(Term(variableName)*term);
+    Term termToIntegrate = Term(2)*getPiAsTerm()*(Term(variableName)*term);
     return substituteTermsAndGetDifference(integration.integrate(termToIntegrate), variableName, lowerValueTerm, higherValueTerm);
 }
 

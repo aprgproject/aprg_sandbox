@@ -29,6 +29,12 @@ bool isTrigonometricFunction(Function const& functionObject)
     return isFunctionNameFoundOnAList(functionObject, continuousFunctionNames);
 }
 
+bool isInverseTrigonometricFunction(Function const& functionObject)
+{
+    strings continuousFunctionNames{"arcsin", "arccos", "arctan", "arccsc", "arcsec", "arccot"};
+    return isFunctionNameFoundOnAList(functionObject, continuousFunctionNames);
+}
+
 bool isLogarithmicFunction(Function const& functionObject)
 {
     strings continuousFunctionNames{"ln", "log"};
@@ -39,13 +45,11 @@ bool isFunctionNameFoundOnAList(
         Function const& functionObject,
         strings const& names)
 {
-    return any_of(names.cbegin(), names.cend(),
-                  [&](string const& name)
+    return any_of(names.cbegin(), names.cend(), [&](string const& name)
     {
         return name == functionObject.getFunctionName();
     });
 }
-
 
 AlbaNumberPairs evaluateAndGetInputOutputPair(
         AlbaNumbers const& numbers,

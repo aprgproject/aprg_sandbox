@@ -248,11 +248,11 @@ Equation getIntegralEquationForFirstOrderDifferentialEquation(
 
     Integration integration(xVariableName);
     Term integralOfP(integration.integrateTerm(p));
-    Term eToTheIntegralOfP(createExpressionIfPossible({Term(E), Term("^"), integralOfP}));
-    Term eToTheNegativeIntegralOfP(createExpressionIfPossible({Term(E), Term("^"), -integralOfP}));
+    Term eToTheIntegralOfP(createExpressionIfPossible({getEAsTerm(), Term("^"), integralOfP}));
+    Term eToTheNegativeIntegralOfP(createExpressionIfPossible({getEAsTerm(), Term("^"), -integralOfP}));
     Term qWithoutY(q/Term(yVariableName));
     Term qExpression(createExpressionIfPossible({qWithoutY, Term("*"), eToTheIntegralOfP}));
-    Term cExpression(createExpressionIfPossible({Term(E), Term("*"), eToTheNegativeIntegralOfP}));
+    Term cExpression(createExpressionIfPossible({getEAsTerm(), Term("*"), eToTheNegativeIntegralOfP}));
     Term integralOfQExpression(integration.integrateTerm(qExpression));
     Term qcExpression(createExpressionIfPossible({integralOfQExpression, Term("+"), cExpression}));
     Term pqcExpression(createExpressionIfPossible({eToTheNegativeIntegralOfP, Term("*"), qcExpression}));

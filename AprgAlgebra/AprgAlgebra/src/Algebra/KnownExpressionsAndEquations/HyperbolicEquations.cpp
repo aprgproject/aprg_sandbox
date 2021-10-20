@@ -19,7 +19,7 @@ Term getEToTheX(
 {
     // e^x
 
-    return Term(createExpressionIfPossible({Term(E), Term("^"), term}));
+    return Term(createExpressionIfPossible({getEAsTerm(), Term("^"), term}));
 }
 
 Term getEToTheNegativeX(
@@ -27,7 +27,7 @@ Term getEToTheNegativeX(
 {
     // e^(-x)
 
-    return Term(createExpressionIfPossible({Term(E), Term("^"), negateTerm(term)}));
+    return Term(createExpressionIfPossible({getEAsTerm(), Term("^"), negateTerm(term)}));
 }
 
 Term getEToTheXPlusEToTheNegativeX(
@@ -184,9 +184,11 @@ Term getHyperbolicSineOfHalvedValue(Term const& term, bool const isPositiveRoot)
     Term result(createExpressionIfPossible({insideSquareRoot, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     if(!isPositiveRoot)
     {
-        result = Term(createExpressionIfPossible({Term(-1), Term("*"), Term(result)}));    }
+        result = Term(createExpressionIfPossible({Term(-1), Term("*"), Term(result)}));
+    }
     return result;
 }
+
 Term getHyperbolicCosineOfHalvedValue(Term const& term)
 {
     // sinh(x/2) = ((cosh(x)+1)/2)^(1/2)

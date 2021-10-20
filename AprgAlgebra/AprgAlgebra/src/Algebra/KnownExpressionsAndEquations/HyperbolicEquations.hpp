@@ -15,10 +15,12 @@ Term getEToTheXMinusEToTheNegativeX(Term const& term);
 
 Equation getHyperbolicSineDefinition(Term const& term);
 Equation getHyperbolicCosineDefinition(Term const& term);
-Equation getHyperbolicTangentDefinition(Term const& term);Equation getHyperbolicCosecantDefinition(Term const& term);
+Equation getHyperbolicTangentDefinition(Term const& term);
+Equation getHyperbolicCosecantDefinition(Term const& term);
 Equation getHyperbolicSecantDefinition(Term const& term);
 Equation getHyperbolicCotangentDefinition(Term const& term);
-Equation getHyperbolicFunctionIdentityEquation(Term const& term);Equation getEToTheXFromHyperbolicFunctionsEquation(Term const& term);
+Equation getHyperbolicFunctionIdentityEquation(Term const& term);
+Equation getEToTheXFromHyperbolicFunctionsEquation(Term const& term);
 Equation getEToTheNegativeXFromHyperbolicFunctionsEquation(Term const& term);
 Term getHyperbolicSineOfSumOfTwoTerms(Term const& term1, Term const& term2);
 Term getHyperbolicCosineOfSumOfTwoTerms(Term const& term1, Term const& term2);

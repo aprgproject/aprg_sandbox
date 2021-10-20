@@ -1,6 +1,7 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 #include <gtest/gtest.h>
@@ -73,28 +74,28 @@ TEST(CommonFunctionLibraryTest, HarmonicNumberFunctionWorks)
 
 TEST(CommonFunctionLibraryTest, SineFunctionWorks)
 {
-    Function sineFunction(sin(Term(getPi())));
+    Function sineFunction(sin(getPiAsTerm()));
 
     EXPECT_EQ("sin", sineFunction.getFunctionName());
-    EXPECT_EQ(Term(getPi()), getTermConstReferenceFromBaseTerm(sineFunction.getInputTermConstReference()));
+    EXPECT_EQ(getPiAsTerm(), getTermConstReferenceFromBaseTerm(sineFunction.getInputTermConstReference()));
     EXPECT_EQ(AlbaNumber(0), sineFunction.performFunctionAndReturnResultIfPossible());
 }
 
 TEST(CommonFunctionLibraryTest, CosineFunctionWorks)
 {
-    Function cosineFunction(cos(Term(getPi())));
+    Function cosineFunction(cos(getPiAsTerm()));
 
     EXPECT_EQ("cos", cosineFunction.getFunctionName());
-    EXPECT_EQ(Term(getPi()), getTermConstReferenceFromBaseTerm(cosineFunction.getInputTermConstReference()));
+    EXPECT_EQ(getPiAsTerm(), getTermConstReferenceFromBaseTerm(cosineFunction.getInputTermConstReference()));
     EXPECT_EQ(AlbaNumber(-1), cosineFunction.performFunctionAndReturnResultIfPossible());
 }
 
 TEST(CommonFunctionLibraryTest, TangentFunctionWorks)
 {
-    Function tangentFunction(tan(Term(getPi())));
+    Function tangentFunction(tan(getPiAsTerm()));
 
     EXPECT_EQ("tan", tangentFunction.getFunctionName());
-    EXPECT_EQ(Term(getPi()), getTermConstReferenceFromBaseTerm(tangentFunction.getInputTermConstReference()));
+    EXPECT_EQ(getPiAsTerm(), getTermConstReferenceFromBaseTerm(tangentFunction.getInputTermConstReference()));
     EXPECT_EQ(AlbaNumber(0), tangentFunction.performFunctionAndReturnResultIfPossible());
 }
 
@@ -109,10 +110,10 @@ TEST(CommonFunctionLibraryTest, CosecantFunctionWorks)
 
 TEST(CommonFunctionLibraryTest, SecantFunctionWorks)
 {
-    Function secantFunction(sec(Term(getPi())));
+    Function secantFunction(sec(getPiAsTerm()));
 
     EXPECT_EQ("sec", secantFunction.getFunctionName());
-    EXPECT_EQ(Term(getPi()), getTermConstReferenceFromBaseTerm(secantFunction.getInputTermConstReference()));
+    EXPECT_EQ(getPiAsTerm(), getTermConstReferenceFromBaseTerm(secantFunction.getInputTermConstReference()));
     EXPECT_EQ(AlbaNumber(-1), secantFunction.performFunctionAndReturnResultIfPossible());
 }
 
@@ -235,10 +236,10 @@ TEST(CommonFunctionLibraryTest, HyperbolicCotangentFunctionWorks)
 
 TEST(CommonFunctionLibraryTest, SineHarmonicFunctionWorks)
 {
-    Function sineFunction(sinHarmonic(Term(getPi()), 4, 2, AlbaNumber(getPi()/2)));
+    Function sineFunction(sinHarmonic(getPiAsTerm(), 4, 2, AlbaNumber(getPi()/2)));
 
     EXPECT_EQ("sinHarmonic", sineFunction.getFunctionName());
-    EXPECT_EQ(Term(getPi()), getTermConstReferenceFromBaseTerm(sineFunction.getInputTermConstReference()));
+    EXPECT_EQ(getPiAsTerm(), getTermConstReferenceFromBaseTerm(sineFunction.getInputTermConstReference()));
     EXPECT_EQ(AlbaNumber(4), sineFunction.performFunctionAndReturnResultIfPossible());
 }
 

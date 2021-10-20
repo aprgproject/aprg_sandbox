@@ -17,6 +17,7 @@ namespace Functions
 
 bool isFunctionContinuous(Function const& functionObject);
 bool isTrigonometricFunction(Function const& functionObject);
+bool isInverseTrigonometricFunction(Function const& functionObject);
 bool isLogarithmicFunction(Function const& functionObject);
 bool isFunctionNameFoundOnAList(
         Function const& functionObject,

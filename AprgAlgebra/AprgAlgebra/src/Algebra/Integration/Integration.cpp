@@ -1,11 +1,13 @@
 #include "Integration.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
+#include <Algebra/Constructs/TermRaiseToTerms.hpp>
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Functions/FunctionUtilities.hpp>
 #include <Algebra/Integration/IntegrationUtilities.hpp>
 #include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquation.hpp>
+#include <Algebra/Retrieval/NumberOfTermsRetriever.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
@@ -30,6 +32,8 @@ namespace algebra
 Integration::Integration(
         string const& nameOfVariableToIntegrate)
     : m_nameOfVariableToIntegrate(nameOfVariableToIntegrate)
+    , m_isIntegrationUsingSubstitutionAllowed(true)
+    , m_isIntegrationByPartsAllowed(true)
 {}
 
 Term Integration::integrate(
@@ -231,6 +235,94 @@ Monomial Integration::integrateMonomialWhenExponentIsNotNegativeOne(
     return result;
 }
 
+Term Integration::integrateFunctionOnly(
+        Function const& functionObject) const
+{
+    Term result;
+    Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
+    if(wouldDifferentiationYieldToAConstant(inputTerm))
+    {
+        if("abs" == functionObject.getFunctionName())
+        {
+            result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+        }
+        else if("sin" == functionObject.getFunctionName())
+        {
+            result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible({Term(-1), Term("*"), cos(inputTerm)})), inputTerm);
+        }
+        else if("cos" == functionObject.getFunctionName())
+        {
+            result = divideFirstTermAndDerivativeOfSecondTerm(Term(sin(inputTerm)), inputTerm);
+        }
+        else if("tan" == functionObject.getFunctionName())
+        {
+            result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(sec(inputTerm)));
+        }
+        else if("csc" == functionObject.getFunctionName())
+        {
+            result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(csc(inputTerm)) - Term(cot(inputTerm)));
+        }
+        else if("sec" == functionObject.getFunctionName())
+        {
+            result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(sec(inputTerm)) + Term(tan(inputTerm)));
+        }
+        else if("cot" == functionObject.getFunctionName())
+        {
+            result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(sin(inputTerm)));
+        }
+        else if("sinh" == functionObject.getFunctionName())
+        {
+            result = divideFirstTermAndDerivativeOfSecondTerm(Term(cosh(inputTerm)), inputTerm);
+        }
+        else if("cosh" == functionObject.getFunctionName())
+        {
+            result = divideFirstTermAndDerivativeOfSecondTerm(Term(sinh(inputTerm)), inputTerm);
+        }
+    }
+    if(result.isEmpty())
+    {
+        integrateTermUsingSubstitutionWithMaxDepth(result, Term(functionObject), getConfigurationWithFactors());
+    }
+    if(result.isEmpty())
+    {
+        integrateUsingIntegrationByParts(result, Term(functionObject));
+    }
+    if(result.isEmpty())
+    {
+        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+    }
+    return result;
+}
+
+void Integration::integrateRecognizedFunctionsSquared(
+        Term & result,
+        Term const& functionTerm) const
+{
+    Function const& functionObject(functionTerm.getFunctionConstReference());
+    Term const& inputOfFunctionTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
+    if(wouldDifferentiationYieldToAConstant(inputOfFunctionTerm))
+    {
+        if(functionObject.getFunctionName() == "sec")
+        {
+            result = divideFirstTermAndDerivativeOfSecondTerm(Term(tan(inputOfFunctionTerm)), inputOfFunctionTerm);
+        }
+        else if(functionObject.getFunctionName() == "csc")
+        {
+            result = divideFirstTermAndDerivativeOfSecondTerm(createExpressionIfPossible(
+            {Term(cot(inputOfFunctionTerm)), Term("*"), Term(-1)}), inputOfFunctionTerm);
+        }
+        else if(functionObject.getFunctionName() == "sech")
+        {
+            result = divideFirstTermAndDerivativeOfSecondTerm(Term(tanh(inputOfFunctionTerm)), inputOfFunctionTerm);
+        }
+        else if(functionObject.getFunctionName() == "csch")
+        {
+            result = divideFirstTermAndDerivativeOfSecondTerm(createExpressionIfPossible(
+            {Term(coth(inputOfFunctionTerm)), Term("*"), Term(-1)}), inputOfFunctionTerm);
+        }
+    }
+}
+
 Term Integration::integrateAsTermOrExpressionIfNeeded(
         Expression const& expression) const
 {
@@ -282,6 +374,10 @@ void Integration::integrateSimplifiedExpressionOnly(
     {
         integrateTermUsingSubstitutionWithMaxDepth(result, Term(expression), configuration);
     }
+    if(result.isEmpty())
+    {
+        integrateUsingIntegrationByParts(result, Term(expression));
+    }
 }
 
 void Integration::integrateTermsInAdditionOrSubtraction(
@@ -312,8 +408,7 @@ void Integration::integrateTermsInMultiplicationOrDivision(
     integrateByProcessingAsPolynomialsOverPolynomials(
                 result,
                 Term(Expression(OperatorLevel::MultiplicationAndDivision, termsWithDetails)));
-    integrateRecognizedFunctionsIfPossible(result, termsWithDetails);
-    integrateUsingChainRuleInReverseIfPossible(result, termsWithDetails);
+    integrateByTryingTwoTermsInMultiplicationAndDivision(result, termsWithDetails);
 }
 
 void Integration::integrateTermsInRaiseToPower(
@@ -365,106 +460,31 @@ void Integration::integrateTermRaiseToConstant(
         integrateRecognizedFunctionsSquared(result, base);
     }
 }
+
 void Integration::integrateTermRaiseToTerm(
         Term & result,
-        Term const& ,        Term const& ) const
+        Term const& ,
+        Term const& ) const
 {
     result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
 }
 
-Term Integration::integrateFunctionOnly(
-        Function const& functionObject) const
-{
-    Term result;
-    Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
-    if(wouldDifferentiationYieldToAConstant(inputTerm))
-    {
-        if("abs" == functionObject.getFunctionName())
-        {
-            result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
-        }
-        else if("sin" == functionObject.getFunctionName())
-        {
-            result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible({Term(-1), Term("*"), cos(inputTerm)})), inputTerm);
-        }
-        else if("cos" == functionObject.getFunctionName())
-        {
-            result = divideFirstTermAndDerivativeOfSecondTerm(Term(sin(inputTerm)), inputTerm);
-        }
-        else if("tan" == functionObject.getFunctionName())
-        {
-            result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(sec(inputTerm)));
-        }
-        else if("csc" == functionObject.getFunctionName())
-        {
-            result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(csc(inputTerm)) - Term(cot(inputTerm)));
-        }
-        else if("sec" == functionObject.getFunctionName())
-        {
-            result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(sec(inputTerm)) + Term(tan(inputTerm)));
-        }
-        else if("cot" == functionObject.getFunctionName())
-        {
-            result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(sin(inputTerm)));
-        }
-        else if("sinh" == functionObject.getFunctionName())
-        {
-            result = divideFirstTermAndDerivativeOfSecondTerm(Term(cosh(inputTerm)), inputTerm);
-        }
-        else if("cosh" == functionObject.getFunctionName())
-        {            result = divideFirstTermAndDerivativeOfSecondTerm(Term(sinh(inputTerm)), inputTerm);
-        }
-    }
-    if(result.isEmpty())    {
-        integrateTermUsingSubstitutionWithMaxDepth(result, Term(functionObject), getConfigurationWithFactors());
-    }
-    if(result.isEmpty())
-    {
-        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
-    }
-    return result;
-}
-
-void Integration::integrateRecognizedFunctionsSquared(
-        Term & result,
-        Term const& functionTerm) const
-{
-    Function const& functionObject(functionTerm.getFunctionConstReference());
-    Term const& inputOfFunctionTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
-    if(wouldDifferentiationYieldToAConstant(inputOfFunctionTerm))
-    {
-        if(functionObject.getFunctionName() == "sec")
-        {
-            result = divideFirstTermAndDerivativeOfSecondTerm(Term(tan(inputOfFunctionTerm)), inputOfFunctionTerm);
-        }
-        else if(functionObject.getFunctionName() == "csc")
-        {
-            result = divideFirstTermAndDerivativeOfSecondTerm(createExpressionIfPossible(
-            {Term(cot(inputOfFunctionTerm)), Term("*"), Term(-1)}), inputOfFunctionTerm);
-        }
-        else if(functionObject.getFunctionName() == "sech")
-        {
-            result = divideFirstTermAndDerivativeOfSecondTerm(Term(tanh(inputOfFunctionTerm)), inputOfFunctionTerm);
-        }
-        else if(functionObject.getFunctionName() == "csch")
-        {
-            result = divideFirstTermAndDerivativeOfSecondTerm(createExpressionIfPossible(
-            {Term(coth(inputOfFunctionTerm)), Term("*"), Term(-1)}), inputOfFunctionTerm);
-        }
-    }
-}
-
 void Integration::integrateTermUsingSubstitutionWithMaxDepth(
         Term & result,
-        Term const& term,        Configuration const& configuration) const
+        Term const& term,
+        Configuration const& configuration) const
 {
-    constexpr unsigned int MAX_DEPTH=2;
-    static unsigned int depth=0;    depth++;
-    if(depth <= MAX_DEPTH)
+    if(m_isIntegrationUsingSubstitutionAllowed)
     {
-        integrateTermUsingSubstitution(result, term, configuration);
+        constexpr unsigned int MAX_DEPTH=2;
+        static unsigned int depth=0;
+        depth++;
+        if(depth <= MAX_DEPTH)
+        {
+            integrateTermUsingSubstitution(result, term, configuration);
+        }
+        depth--;
     }
-    depth--;
 }
 
 void Integration::integrateTermUsingSubstitution(
@@ -503,6 +523,7 @@ void Integration::integrateBySubstitutionAndUsingANewVariable(
     {
         string newVariableName(createVariableNameForSubstitution(termToSubstituteToVariable));
         Integration integrationWithNewVariable(newVariableName);
+        integrationWithNewVariable.setIsIntegrationByPartsAllowed(false);
         Term integratedTermWithNewVariable(integrationWithNewVariable.integrateTerm(termToIntegrateWithNewVariable));
         SubstitutionOfVariablesToTerms substitutionVariableToTerm({{newVariableName, termToSubstituteToVariable}});
         Term integratedTerm(substitutionVariableToTerm.performSubstitutionTo(integratedTermWithNewVariable));
@@ -543,7 +564,7 @@ Term Integration::getTermWithNewVariableSubstitution(
     return termWithNewVariable;
 }
 
-void Integration::integrateUsingChainRuleInReverseIfPossible(
+void Integration::integrateByTryingTwoTermsInMultiplicationAndDivision(
         Term & result,
         TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const
 {
@@ -554,13 +575,16 @@ void Integration::integrateUsingChainRuleInReverseIfPossible(
         termsInFirstTerms.erase(termsInFirstTerms.cbegin() + i);
         Term firstTerm(Expression(OperatorLevel::MultiplicationAndDivision, termsInFirstTerms));
         Term secondTerm(Expression(OperatorLevel::MultiplicationAndDivision, {termsWithDetailsInMultiplicationAndDivision.at(i)}));
-        Term innerTermInfirstTerm;
+        Term innerTermInFirstTerm;
         firstTerm.simplify();
         secondTerm.simplify();
-        findInnerAndOuterTermForChainRule(innerTermInfirstTerm, firstTerm);
-        if(!innerTermInfirstTerm.isEmpty())
+        if(!firstTerm.isConstant() && !secondTerm.isConstant())
         {
-            integrateUsingChainRuleInReverseIfPossible(result, firstTerm, innerTermInfirstTerm, secondTerm);
+            findInnerAndOuterTermForChainRule(innerTermInFirstTerm, firstTerm);
+            if(!innerTermInFirstTerm.isEmpty())
+            {
+                integrateUsingChainRuleInReverseIfPossible(result, firstTerm, innerTermInFirstTerm, secondTerm);
+            }
         }
     }
 }
@@ -600,35 +624,29 @@ void Integration::findInnerAndOuterTermForChainRule(
         Expression const& expression(outerTerm.getExpressionConstReference());
         if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
         {
-            TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
-            if(termsWithDetails.size() == 2)
+            TermRaiseToTerms termRaiseToTerms(expression.getTermsWithAssociation().getTermsWithDetails());
+            Term base(termRaiseToTerms.getBase());
+            Term exponent(termRaiseToTerms.getCombinedExponents());
+            Term combinedBaseAndExponent(termRaiseToTerms.getCombinedTerm());
+            if(exponent.isConstant())
             {
-                Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
-                Term const& secondTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
-                TermRaiseToANumber oldTermRaiseToANumber;
-                if(firstTerm.isConstant())
-                {
-                    oldTermRaiseToANumber = TermRaiseToANumber(secondTerm, firstTerm.getConstantValueConstReference());
-                }
-                else if(secondTerm.isConstant())
-                {
-                    oldTermRaiseToANumber = TermRaiseToANumber(firstTerm, secondTerm.getConstantValueConstReference());
-                }
-                Term simplifiedBase(oldTermRaiseToANumber.getBase());
-                simplifiedBase.simplify();
-                TermRaiseToANumber newTermRaiseToANumber(simplifiedBase, oldTermRaiseToANumber.getExponent());
-                innerTerm = newTermRaiseToANumber.getBase();
-                outerTerm = newTermRaiseToANumber.getCombinedTerm();
+                outerTerm = combinedBaseAndExponent;
+                innerTerm = base;
+            }
+            else if(base.isConstant())
+            {
+                outerTerm = combinedBaseAndExponent;
+                innerTerm = exponent;
             }
         }
         else
         {
             TermRaiseToANumber oldTermRaiseToANumber(createTermRaiseToANumberFromExpression(expression));
-            Term simplifiedBase(oldTermRaiseToANumber.getBase());
-            simplifiedBase.simplify();
-            TermRaiseToANumber newTermRaiseToANumber(simplifiedBase, oldTermRaiseToANumber.getExponent());
-            innerTerm = newTermRaiseToANumber.getBase();
-            outerTerm = newTermRaiseToANumber.getCombinedTerm();
+            if(oldTermRaiseToANumber.getExponent() != 1)
+            {
+                outerTerm = oldTermRaiseToANumber.getCombinedTerm();
+                innerTerm = oldTermRaiseToANumber.getBase();
+            }
         }
     }
 }
@@ -659,37 +677,179 @@ void Integration::integrateByProcessingAsPolynomialsOverPolynomials(
     }
 }
 
-void Integration::integrateRecognizedFunctionsIfPossible(
+void Integration::integrateUsingIntegrationByParts(
         Term & result,
-        TermsWithDetails const& termsWithDetails) const
+        Term const& term) const
 {
-    if(result.isEmpty() && termsWithDetails.size() == 2)
+    if(m_isIntegrationByPartsAllowed)
     {
-        Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
-        Term const& secondTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
-        if(firstTerm.isFunction()
-                && termsWithDetails.at(0).hasPositiveAssociation()
-                && secondTerm.isFunction()
-                && termsWithDetails.at(1).hasPositiveAssociation())
+        integrateUsingIntegrationByPartsByTermAndOne(result, term);
+        if(result.isEmpty())
         {
-            Function const& firstFunction(firstTerm.getFunctionConstReference());
-            Function const& secondFunction(secondTerm.getFunctionConstReference());
-            Term const& firstInputOfFunctionTerm(getTermConstReferenceFromBaseTerm(firstFunction.getInputTermConstReference()));
-            Term const& secondInputOfFunctionTerm(getTermConstReferenceFromBaseTerm(secondFunction.getInputTermConstReference()));
-            if(firstInputOfFunctionTerm == secondInputOfFunctionTerm)
+            integrateUsingIntegrationByPartsByTryingTwoTerms(result, term);
+        }
+    }
+}
+
+void Integration::integrateUsingIntegrationByPartsByTermAndOne(
+        Term & result,
+        Term const& term) const
+{
+    bool isAnInverseTrigonometricFunction = term.isFunction()
+            && isInverseTrigonometricFunction(term.getFunctionConstReference());
+    if(isAnInverseTrigonometricFunction)
+    {
+        integrateUsingIntegrationByParts(result, term, term, Term(1));
+    }
+}
+
+void Integration::integrateUsingIntegrationByPartsByTryingTwoTerms(
+        Term & result,
+        Term const& term) const
+{
+    if(term.isExpression())
+    {
+        Expression const& expression(term.getExpressionConstReference());
+        if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
+        {
+            TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision(expression.getTermsWithAssociation().getTermsWithDetails());
+            unsigned int numberOfTerms(termsWithDetailsInMultiplicationAndDivision.size());
+            for(unsigned int i=0; result.isEmpty() && i<numberOfTerms; i++)
             {
-                if(firstFunction.getFunctionName() == "sec" && secondFunction.getFunctionName() == "tan")
+                TermsWithDetails termsInFirstTerms(termsWithDetailsInMultiplicationAndDivision);
+                termsInFirstTerms.erase(termsInFirstTerms.cbegin() + i);
+                Term firstTerm(Expression(OperatorLevel::MultiplicationAndDivision, termsInFirstTerms));
+                Term secondTerm(Expression(OperatorLevel::MultiplicationAndDivision, {termsWithDetailsInMultiplicationAndDivision.at(i)}));
+                firstTerm.simplify();
+                secondTerm.simplify();
+                if(!firstTerm.isConstant() && !secondTerm.isConstant())
                 {
-                    result = divideFirstTermAndDerivativeOfSecondTerm(sec(firstInputOfFunctionTerm), firstInputOfFunctionTerm);
-                }
-                else if(firstFunction.getFunctionName() == "csc" && secondFunction.getFunctionName() == "cot")
-                {
-                    result = divideFirstTermAndDerivativeOfSecondTerm(createExpressionIfPossible(
-                    {Term(csc(firstInputOfFunctionTerm)), Term("*"), Term(-1)}), firstInputOfFunctionTerm);
+                    if(result.isEmpty())
+                    {
+                        integrateUsingIntegrationByPartsByTryingTwoTermsWithDifferentOrder(result, term, firstTerm, secondTerm);
+                    }
                 }
             }
         }
     }
+}
+
+void Integration::integrateUsingIntegrationByPartsByTryingTwoTermsWithDifferentOrder(
+        Term & result,
+        Term const& term,
+        Term const& firstTerm,
+        Term const& secondTerm) const
+{
+    integrateUsingIntegrationByParts(result, term, firstTerm, secondTerm);
+    if(result.isEmpty())
+    {
+        integrateUsingIntegrationByParts(result, term, secondTerm, firstTerm);
+    }
+}
+
+void Integration::integrateUsingIntegrationByParts(
+        Term & result,
+        Term const& term,
+        Term const& u,
+        Term const& dv) const
+{
+    // use static equations here to solve when recursion happens
+    // use static depth here to determine when to clear
+    static ListOfIntegrationByPartsTerms listOfIntegrationByPartsTerms;
+    static unsigned int depth=0;
+    depth++;
+
+
+    constexpr unsigned int MAX_SIZE=10;
+    if(listOfIntegrationByPartsTerms.size() == MAX_SIZE){return;}
+
+    integrateUsingPreviousIntegrationByPartsTerms(result, listOfIntegrationByPartsTerms, term);
+    if(!result.isEmpty()){return;}
+
+    Integration integration(m_nameOfVariableToIntegrate);
+    bool isFAnExponentialExpression = u.isExpression()
+            && OperatorLevel::RaiseToPower == u.getExpressionConstReference().getCommonOperatorLevel();
+    if(!isFAnExponentialExpression)
+    {
+        Term v(integration.integrate(dv));
+        if(!isNotANumber(v))
+        {
+            Differentiation differentiation(m_nameOfVariableToIntegrate);
+            Term du(differentiation.differentiate(u));
+            if(!isNotANumber(du))
+            {
+                Term uTimesV(u*v);
+                Term vTimesDu(v*du);
+                uTimesV.simplify();
+                vTimesDu.simplify();
+                listOfIntegrationByPartsTerms.emplace_back(IntegrationByPartsTerms{term, uTimesV, vTimesDu});
+                Term integratedVTimesDu(integration.integrate(vTimesDu));
+                if(!isNotANumber(integratedVTimesDu))
+                {
+                    result = uTimesV - integratedVTimesDu;
+                }
+            }
+        }
+    }
+
+
+    depth--;
+    if(depth == 0)
+    {
+        listOfIntegrationByPartsTerms.clear();
+    }
+}
+
+void Integration::integrateUsingPreviousIntegrationByPartsTerms(
+        Term & result,
+        ListOfIntegrationByPartsTerms const& listOfIntegrationByPartsTerms,
+        Term const& termToIntegrate) const
+{
+    Term currentTermToIntegrate(termToIntegrate);
+    ListOfIntegrationByPartsTerms termsToAnalyze(listOfIntegrationByPartsTerms);
+    Term accumulatedUTimesV;
+    AlbaNumber accumulatedCoefficient(1);
+    bool didAccumulationUpdated(false);
+    bool isChanged(true);
+    while(isChanged)
+    {
+        isChanged = false;
+        for(unsigned int i=0; i<termsToAnalyze.size(); i++)
+        {
+            IntegrationByPartsTerms const& integrationByPartsTerms(termsToAnalyze.at(i));
+            Term quotient(currentTermToIntegrate/integrationByPartsTerms.vTimesDuToIntegrate);
+            quotient.simplify();
+            if(quotient.isConstant())
+            {
+                currentTermToIntegrate = integrationByPartsTerms.uTimesDvToIntegrate;
+                accumulatedUTimesV = integrationByPartsTerms.uTimesV - (quotient * accumulatedUTimesV);
+                accumulatedCoefficient = AlbaNumber(-1) * quotient.getConstantValueConstReference() * accumulatedCoefficient;
+                isChanged = true;
+                didAccumulationUpdated = true;
+                termsToAnalyze.erase(termsToAnalyze.begin()+i);
+                break;
+            }
+        }
+    }
+    Term ratio(termToIntegrate/currentTermToIntegrate);
+    ratio.simplify();
+    if(didAccumulationUpdated && ratio.isConstant())
+    {
+        result = accumulatedUTimesV * ratio / Term(accumulatedCoefficient+1);
+        result.simplify();
+    }
+}
+
+void Integration::setIsIntegrationUsingSubstitutionAllowed(
+        bool const isIntegrationUsingSubstitutionAllowed)
+{
+    m_isIntegrationUsingSubstitutionAllowed = isIntegrationUsingSubstitutionAllowed;
+}
+
+void Integration::setIsIntegrationByPartsAllowed(
+        bool const isIntegrationByPartsAllowed)
+{
+    m_isIntegrationByPartsAllowed = isIntegrationByPartsAllowed;
 }
 
 void Integration::simplifyForIntegration(

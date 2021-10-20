@@ -15,8 +15,15 @@ namespace algebra
 class Integration
 {
 public:
-    using Configuration=Simplification::SimplificationOfExpression::ConfigurationDetails;
-    using Configurations=std::vector<Configuration>;
+    struct IntegrationByPartsTerms
+    {
+        Term uTimesDvToIntegrate;
+        Term uTimesV;
+        Term vTimesDuToIntegrate;
+    };
+    using ListOfIntegrationByPartsTerms = std::vector<IntegrationByPartsTerms>;
+    using Configuration = Simplification::SimplificationOfExpression::ConfigurationDetails;
+    using Configurations = std::vector<Configuration>;
 
     Integration(std::string const& nameOfVariableToIntegrate);
 
@@ -42,13 +49,24 @@ public:
     Term integrateExpression(Expression const& expression) const;
     Term integrateFunction(Function const& functionObject) const;
 
-
 private:
+    //Monomial
     Term integrateMonomialWhenExponentIsNegativeOne(
-            Monomial const& monomial) const;    Monomial integrateMonomialWhenExponentIsNotNegativeOne(
             Monomial const& monomial) const;
+    Monomial integrateMonomialWhenExponentIsNotNegativeOne(
+            Monomial const& monomial) const;
+
+    //Function
+    Term integrateFunctionOnly(
+            Function const& functionObject) const;
+    void integrateRecognizedFunctionsSquared(
+            Term & result,
+            Term const& base) const;
+
+    //Expression
     Term integrateAsTermOrExpressionIfNeeded(
-            Expression const& expression) const;    void integrateSimplifiedExpressionOnly(
+            Expression const& expression) const;
+    void integrateSimplifiedExpressionOnly(
             Term & result,
             Expression const& expression,
             Configuration const& configuration) const;
@@ -73,14 +91,14 @@ private:
             Term & result,
             Term const& firstTerm,
             Term const& secondTerm) const;
-    Term integrateFunctionOnly(Function const& functionObject) const;
-    void integrateRecognizedFunctionsSquared(Term & result, Term const& base) const;
     void integrateTermUsingSubstitutionWithMaxDepth(
             Term & result,
-            Term const& term,            Configuration const& configuration) const;
+            Term const& term,
+            Configuration const& configuration) const;
     void integrateTermUsingSubstitution(
             Term & result,
-            Term const& term,            Configuration const& configuration) const;
+            Term const& term,
+            Configuration const& configuration) const;
     void integrateBySubstitutionAndUsingANewVariable(
             Term & result,
             Term const& mainTerm,
@@ -89,7 +107,7 @@ private:
     Term getTermWithNewVariableSubstitution(
             Term const& mainTerm,
             Term const& termToSubstituteWithVariable) const;
-    void integrateUsingChainRuleInReverseIfPossible(
+    void integrateByTryingTwoTermsInMultiplicationAndDivision(
             Term & result,
             TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const;
     void integrateUsingChainRuleInReverseIfPossible(
@@ -103,8 +121,34 @@ private:
     Term divideFirstTermAndDerivativeOfSecondTerm(
             Term const& firstTerm,
             Term const& secondTerm) const;
-    void integrateByProcessingAsPolynomialsOverPolynomials(Term & result, Term const& term) const;
-    void integrateRecognizedFunctionsIfPossible(Term & result, TermsWithDetails const& termsWithDetails) const;
+    void integrateByProcessingAsPolynomialsOverPolynomials(
+            Term & result,
+            Term const& term) const;
+    void integrateUsingIntegrationByParts(
+            Term & result,
+            Term const& term) const;
+    void integrateUsingIntegrationByPartsByTermAndOne(
+            Term & result,
+            Term const& term) const;
+    void integrateUsingIntegrationByPartsByTryingTwoTerms(
+            Term & result,
+            Term const& term) const;
+    void integrateUsingIntegrationByPartsByTryingTwoTermsWithDifferentOrder(
+            Term & result,
+            Term const& term,
+            Term const& firstTerm,
+            Term const& secondTerm) const;
+    void integrateUsingIntegrationByParts(
+            Term & result,
+            Term const& term,
+            Term const& f,
+            Term const& gPrime) const;
+    void integrateUsingPreviousIntegrationByPartsTerms(
+            Term & result,
+            ListOfIntegrationByPartsTerms const& listOfIntegrationByPartsTerms,
+            Term const& termToIntegrate) const;
+    void setIsIntegrationUsingSubstitutionAllowed(bool const isIntegrationUsingSubstitutionAllowed);
+    void setIsIntegrationByPartsAllowed(bool const isIntegrationByPartsAllowed);
     void simplifyForIntegration(Term & term, Configuration const& configuration) const;
     Configuration getConfigurationWithFactors() const;
     Configuration getConfigurationWithCommonDenominator() const;
@@ -112,6 +156,8 @@ private:
     bool isVariableToIntegrateNotFoundInTerm(Term const& term) const;
     bool wouldDifferentiationYieldToAConstant(Term const& term) const;
     std::string m_nameOfVariableToIntegrate;
+    bool m_isIntegrationUsingSubstitutionAllowed;
+    bool m_isIntegrationByPartsAllowed;
 };
 
 }

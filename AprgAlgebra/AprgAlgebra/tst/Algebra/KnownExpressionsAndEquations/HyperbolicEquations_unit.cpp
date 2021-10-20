@@ -16,70 +16,70 @@ TEST(HyperbolicEquationsTest, GetEToTheXWorks)
 {
     Term x("x");
 
-    EXPECT_EQ("(E^x)", getEToTheX(x).getDisplayableString());
+    EXPECT_EQ("((e)^x)", getEToTheX(x).getDisplayableString());
 }
 
 TEST(HyperbolicEquationsTest, GetEToTheNegativeXWorks)
 {
     Term x("x");
 
-    EXPECT_EQ("(E^-1[x])", getEToTheNegativeX(x).getDisplayableString());
+    EXPECT_EQ("((e)^-1[x])", getEToTheNegativeX(x).getDisplayableString());
 }
 
 TEST(HyperbolicEquationsTest, GetEToTheXPlusEToTheNegativeXWorks)
 {
     Term x("x");
 
-    EXPECT_EQ("((E^x)+(E^-1[x]))", getEToTheXPlusEToTheNegativeX(x).getDisplayableString());
+    EXPECT_EQ("(((e)^x)+((e)^-1[x]))", getEToTheXPlusEToTheNegativeX(x).getDisplayableString());
 }
 
 TEST(HyperbolicEquationsTest, GetEToTheXMinusEToTheNegativeXWorks)
 {
     Term x("x");
 
-    EXPECT_EQ("((E^x)-(E^-1[x]))", getEToTheXMinusEToTheNegativeX(x).getDisplayableString());
+    EXPECT_EQ("(((e)^x)-((e)^-1[x]))", getEToTheXMinusEToTheNegativeX(x).getDisplayableString());
 }
 
 TEST(HyperbolicEquationsTest, GetHyperbolicSineDefinitionWorks)
 {
     Term x("x");
 
-    EXPECT_EQ("sinh(x) = (((E^x)-(E^-1[x]))/2)", getHyperbolicSineDefinition(x).getDisplayableString());
+    EXPECT_EQ("sinh(x) = ((((e)^x)-((e)^-1[x]))/2)", getHyperbolicSineDefinition(x).getDisplayableString());
 }
 
 TEST(HyperbolicEquationsTest, GetHyperbolicCosineDefinitionWorks)
 {
     Term x("x");
 
-    EXPECT_EQ("cosh(x) = (((E^x)+(E^-1[x]))/2)", getHyperbolicCosineDefinition(x).getDisplayableString());
+    EXPECT_EQ("cosh(x) = ((((e)^x)+((e)^-1[x]))/2)", getHyperbolicCosineDefinition(x).getDisplayableString());
 }
 
 TEST(HyperbolicEquationsTest, GetHyperbolicTangentDefinitionWorks)
 {
     Term x("x");
 
-    EXPECT_EQ("tanh(x) = (((E^x)-(E^-1[x]))/((E^x)+(E^-1[x])))", getHyperbolicTangentDefinition(x).getDisplayableString());
+    EXPECT_EQ("tanh(x) = ((((e)^x)-((e)^-1[x]))/(((e)^x)+((e)^-1[x])))", getHyperbolicTangentDefinition(x).getDisplayableString());
 }
 
 TEST(HyperbolicEquationsTest, GetHyperbolicCosecantDefinitionWorks)
 {
     Term x("x");
 
-    EXPECT_EQ("csch(x) = (2/((E^x)-(E^-1[x])))", getHyperbolicCosecantDefinition(x).getDisplayableString());
+    EXPECT_EQ("csch(x) = (2/(((e)^x)-((e)^-1[x])))", getHyperbolicCosecantDefinition(x).getDisplayableString());
 }
 
 TEST(HyperbolicEquationsTest, GetHyperbolicSecantDefinitionWorks)
 {
     Term x("x");
 
-    EXPECT_EQ("sech(x) = (2/((E^x)+(E^-1[x])))", getHyperbolicSecantDefinition(x).getDisplayableString());
+    EXPECT_EQ("sech(x) = (2/(((e)^x)+((e)^-1[x])))", getHyperbolicSecantDefinition(x).getDisplayableString());
 }
 
 TEST(HyperbolicEquationsTest, GetHyperbolicCotangentDefinitionWorks)
 {
     Term x("x");
 
-    EXPECT_EQ("coth(x) = (((E^x)+(E^-1[x]))/((E^x)-(E^-1[x])))", getHyperbolicCotangentDefinition(x).getDisplayableString());
+    EXPECT_EQ("coth(x) = ((((e)^x)+((e)^-1[x]))/(((e)^x)-((e)^-1[x])))", getHyperbolicCotangentDefinition(x).getDisplayableString());
 }
 
 TEST(HyperbolicEquationsTest, GetHyperbolicFunctionIdentityWorks)
@@ -93,14 +93,14 @@ TEST(HyperbolicEquationsTest, GetEToTheXFromHyperbolicFunctionsEquationWorks)
 {
     Term x("x");
 
-    EXPECT_EQ("(E^x) = (cosh(x)+sinh(x))", getEToTheXFromHyperbolicFunctionsEquation(x).getDisplayableString());
+    EXPECT_EQ("((e)^x) = (cosh(x)+sinh(x))", getEToTheXFromHyperbolicFunctionsEquation(x).getDisplayableString());
 }
 
 TEST(HyperbolicEquationsTest, GetEToTheNegativeXFromHyperbolicFunctionsEquationWorks)
 {
     Term x("x");
 
-    EXPECT_EQ("(E^-1[x]) = (cosh(x)-sinh(x))", getEToTheNegativeXFromHyperbolicFunctionsEquation(x).getDisplayableString());
+    EXPECT_EQ("((e)^-1[x]) = (cosh(x)-sinh(x))", getEToTheNegativeXFromHyperbolicFunctionsEquation(x).getDisplayableString());
 }
 
 TEST(HyperbolicEquationsTest, GetHyperbolicSineOfSumOfTwoTermsWorks)

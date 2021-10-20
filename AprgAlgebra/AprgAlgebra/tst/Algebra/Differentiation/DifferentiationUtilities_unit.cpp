@@ -146,7 +146,7 @@ TEST(DifferentiationUtilitiesTest, GetIntegralEquationForFirstOrderDifferentialE
 
     Equation equationToVerify(getIntegralEquationForFirstOrderDifferentialEquation(equationToTest, "x", "y"));
 
-    EXPECT_EQ("y = ((E^1[x^2][y])*((ln(abs((E^1[x^2][y])))/2[y^2])+(E*(E^1[x^2][y]))))",
+    EXPECT_EQ("y = (((e)^1[x^2][y])*((-3/2[y^2]/((e)^1[x^2][y]))+((e)*((e)^1[x^2][y]))))",
               equationToVerify.getDisplayableString());
 }
 

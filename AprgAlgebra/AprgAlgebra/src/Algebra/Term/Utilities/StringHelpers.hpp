@@ -12,6 +12,7 @@ namespace algebra
 
 bool isOperator(std::string const& stringObject);
 bool isFunction(std::string const& stringObject);
+bool isConstantVariable(std::string const& variableName);
 
 unsigned int getOperatorPriority(std::string const& operatorString);
 

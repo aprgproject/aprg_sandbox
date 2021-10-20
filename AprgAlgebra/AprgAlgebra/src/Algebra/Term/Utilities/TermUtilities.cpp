@@ -11,6 +11,7 @@
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
+#include <Algebra/Utilities/KnownNames.hpp>
 
 using namespace alba::algebra::Factorization;
 using namespace std;
@@ -21,17 +22,21 @@ namespace alba
 namespace algebra
 {
 
+bool isTermSimpler(Term const& supposeToBeComplicatedTerm, Term const& supposeToBeSimpleTerm)
+{
+    NumberOfTermsRetriever complicateTermRetriever;
+    NumberOfTermsRetriever simpleTermRetriever;
+    complicateTermRetriever.retrieveFromTerm(supposeToBeComplicatedTerm);
+    simpleTermRetriever.retrieveFromTerm(supposeToBeSimpleTerm);
+    return simpleTermRetriever.getSavedData() < complicateTermRetriever.getSavedData();
+}
+
 bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm)
 {
     FirstCoefficientRetriever firstCoefficientRetrieverForTerm;
-    NumberOfTermsRetriever numberOfTermsRetrieverForTerm;
-    NumberOfTermsRetriever numberOfTermsRetrieverForNegatedTerm;
     firstCoefficientRetrieverForTerm.retrieveFromTerm(term);
-    numberOfTermsRetrieverForTerm.retrieveFromTerm(term);
-    numberOfTermsRetrieverForNegatedTerm.retrieveFromTerm(negatedTerm);
 
-    return numberOfTermsRetrieverForTerm.getSavedData() > numberOfTermsRetrieverForNegatedTerm.getSavedData()
-            || firstCoefficientRetrieverForTerm.getSavedData() < 0;
+    return isTermSimpler(term, negatedTerm) || firstCoefficientRetrieverForTerm.getSavedData() < 0;
 }
 
 bool isNonEmptyOrNonOperatorType(Term const& term)
@@ -168,6 +173,16 @@ AlbaNumberPairs evaluateAndGetInputOutputPair(
         }
     }
     return result;
+}
+
+Term getPiAsTerm()
+{
+    return Term(AlbaNumber(AlbaNumber::Value::pi));
+}
+
+Term getEAsTerm()
+{
+    return Term(AlbaNumber(AlbaNumber::Value::e));
 }
 
 Term convertPositiveTermIfNegative(Term const& term)

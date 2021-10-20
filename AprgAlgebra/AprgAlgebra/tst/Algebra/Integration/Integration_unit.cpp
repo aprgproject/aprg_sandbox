@@ -3,6 +3,7 @@
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 
 #include <gtest/gtest.h>
@@ -277,10 +278,80 @@ TEST(IntegrationTest, IntegrateWorksUsingChainRuleInReverseUsingExample4)
 {
     Integration integrationForX("x");
     Term x("x");
-    Term termToTest(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(3), Term("*"), cos(x)}));
+    Term termToTest(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(3), Term("*"), Term(cos(x))}));
 
     Term expectedTerm(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(4), Term("/"), Term(4)}));
     EXPECT_EQ(expectedTerm, integrationForX.integrate(termToTest));
+}
+
+TEST(IntegrationTest, IntegrateWorksUsingChainRuleInReverseUsingExample5)
+{
+    Integration integrationForX("x");
+    Term x("x");
+    Term termToTest(createExpressionIfPossible({Term(3), Term("^"), Term(sin(x)), Term("*"), Term(cos(x))}));
+
+    Term expectedTerm(createExpressionIfPossible({Term(0.9102392266268373), Term("*"), Term(3), Term("^"), Term(sin(x))}));
+    EXPECT_EQ(expectedTerm, integrationForX.integrate(termToTest));
+}
+
+TEST(IntegrationTest, IntegrateWorksUsingIntegrationByPartsUsingExamples1)
+{
+    Integration integrationForX("x");
+    Term x("x");
+    Term termToTest(createExpressionIfPossible({Term(x), Term("*"), Term(ln(x))}));
+
+    Term expectedMonomialTerm1(Monomial(AlbaNumber::createFraction(-1, 4), {{"x", 2}}));
+    Term expectedMonomialTerm2(Monomial(1, {{"x", 2}}));
+    Term expectedTerm(createExpressionIfPossible(
+    {expectedMonomialTerm1, Term("+"), expectedMonomialTerm2, Term("*"), Term(ln(x)), Term("/"), Term(2)}));
+    EXPECT_EQ(expectedTerm, integrationForX.integrate(termToTest));
+}
+
+TEST(IntegrationTest, IntegrateWorksUsingIntegrationByPartsUsingExamples2)
+{
+    Integration integrationForX("x");
+    Term x("x");
+    Term xSquared(Monomial(1, {{"x", 2}}));
+    Term eToTheX(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
+    Term termToTest(createExpressionIfPossible({xSquared, Term("*"), eToTheX}));
+
+    EXPECT_EQ("((1[x^2]*((e)^x))-(2[x]*((e)^x))+(2*((e)^x)))",
+              integrationForX.integrate(termToTest).getDisplayableString());
+}
+
+TEST(IntegrationTest, IntegrateWorksUsingIntegrationByPartsUsingExamples3)
+{
+    Integration integrationForX("x");
+    Term x("x");
+    Term termToTest(arctan(x));
+
+    EXPECT_EQ("((x*arctan(x))-(ln(abs((1[x^2] + 1)))/2))",
+              integrationForX.integrate(termToTest).getDisplayableString());
+}
+
+TEST(IntegrationTest, IntegrateWorksUsingIntegrationByPartsUsingExamples4)
+{
+    Integration integrationForX("x");
+    Term x("x");
+    Term eToTheX(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
+    Term termToTest(createExpressionIfPossible({Term(eToTheX), Term("*"), Term(sin(x))}));
+
+    Term simplifiedResult(integrationForX.integrate(termToTest));
+    EXPECT_EQ("((((e)^x)*sin(x))-(((e)^x)*cos(x))-(((((e)^x)*sin(x))-(((e)^x)*cos(x)))/2))",
+              simplifiedResult.getDisplayableString());
+    simplifiedResult.simplify();
+    EXPECT_EQ("((((e)^x)*sin(x))-(((e)^x)*cos(x))-(((((e)^x)*sin(x))-(((e)^x)*cos(x)))/2))",
+              simplifiedResult.getDisplayableString());
+}
+
+TEST(IntegrationTest, IntegrateWorksUsingIntegrationByPartsUsingExamples5)
+{
+    Integration integrationForX("x");
+    Term x("x");
+    Term termToTest(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(5)}));
+
+    EXPECT_EQ("sadlkfjlksdjf",
+              integrationForX.integrate(termToTest).getDisplayableString());
 }
 
 TEST(IntegrationTest, IntegrateWorksUsingSubstitutionWhichResultsToNaturalLogarithmAsExample1)
@@ -382,10 +453,12 @@ TEST(IntegrationTest, IntegrateFunctionWorksWithChainRule)
 TEST(IntegrationTest, IntegrateWorksForCombinationOfRecognizedTrigonometicFunctions)
 {
     Integration integrationForX("x");
-    Term x("x");    Term term01(sin(x));
+    Term x("x");
+    Term term01(sin(x));
     Term term02(cos(x));
     Term term03(createExpressionIfPossible({sec(x), Term("^"), Term(2)}));
-    Term term04(createExpressionIfPossible({csc(x), Term("^"), Term(2)}));    Term term05(createExpressionIfPossible({sec(x), Term("*"), tan(x)}));
+    Term term04(createExpressionIfPossible({csc(x), Term("^"), Term(2)}));
+    Term term05(createExpressionIfPossible({sec(x), Term("*"), tan(x)}));
     Term term06(createExpressionIfPossible({csc(x), Term("*"), cot(x)}));
 
     Term expectedTerm01(createExpressionIfPossible({Term(-1), Term("*"), cos(x)}));
