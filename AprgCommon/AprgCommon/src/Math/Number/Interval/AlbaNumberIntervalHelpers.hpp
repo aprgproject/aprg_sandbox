@@ -7,16 +7,15 @@
 namespace alba
 {
 
-bool isValueInsideTheIntervals(AlbaNumberIntervals const& intervals, AlbaNumber const value);
-bool isIntervalInsideTheIntervals(AlbaNumberIntervals const& intervals, AlbaNumberInterval const& intervalToCheck);
+bool isValueInsideTheIntervals(AlbaNumber const innerValue, AlbaNumberIntervals const& outerIntervals);
+bool isIntervalInsideTheIntervals(AlbaNumberInterval const& innerInterval, AlbaNumberIntervals const& outerIntervals);
+bool areTheIntervalsInsideTheInterval(AlbaNumberIntervals const& innerIntervals, AlbaNumberInterval const& outerInterval);
 AlbaNumberIntervalEndpoint::Type getEndpointTypeWithCheckingIfItsClosed(bool const isCloseEndpoint);
 AlbaNumberIntervalEndpoint createOpenEndpoint(AlbaNumber const value);
-AlbaNumberIntervalEndpoint createCloseEndpoint(AlbaNumber const value);
-AlbaNumberIntervalEndpoint createEndpoint(
+AlbaNumberIntervalEndpoint createCloseEndpoint(AlbaNumber const value);AlbaNumberIntervalEndpoint createEndpoint(
         bool const isCloseEndpoint,
         AlbaNumber const value);
-AlbaNumberIntervalEndpoint createPositiveInfinityOpenEndpoint();
-AlbaNumberIntervalEndpoint createNegativeInfinityOpenEndpoint();
+AlbaNumberIntervalEndpoint createPositiveInfinityOpenEndpoint();AlbaNumberIntervalEndpoint createNegativeInfinityOpenEndpoint();
 AlbaNumberInterval createAllRealValuesInterval();
 
 AlbaNumbers getNumbersInsideTheInterval(AlbaNumbers const& numbersToCheck, AlbaNumberInterval const& intervalToCheck);
