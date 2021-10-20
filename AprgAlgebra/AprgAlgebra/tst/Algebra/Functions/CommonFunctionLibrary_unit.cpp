@@ -179,6 +179,60 @@ TEST(CommonFunctionLibraryTest, ArcCotangentFunctionWorks)
     EXPECT_EQ(AlbaNumber(getPi()/2), arcCotangentFunction.performFunctionAndReturnResultIfPossible());
 }
 
+TEST(CommonFunctionLibraryTest, HyperbolicSineFunctionWorks)
+{
+    Function sinhFunction(sinh(Term(1)));
+
+    EXPECT_EQ("sinh", sinhFunction.getFunctionName());
+    EXPECT_EQ(Term(1), getTermConstReferenceFromBaseTerm(sinhFunction.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber(1.175201193643801), sinhFunction.performFunctionAndReturnResultIfPossible());
+}
+
+TEST(CommonFunctionLibraryTest, HyperbolicCosineFunctionWorks)
+{
+    Function coshFunction(cosh(Term(1)));
+
+    EXPECT_EQ("cosh", coshFunction.getFunctionName());
+    EXPECT_EQ(Term(1), getTermConstReferenceFromBaseTerm(coshFunction.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber(1.543080634815244), coshFunction.performFunctionAndReturnResultIfPossible());
+}
+
+TEST(CommonFunctionLibraryTest, HyperbolicTangentFunctionWorks)
+{
+    Function tanhFunction(tanh(Term(1)));
+
+    EXPECT_EQ("tanh", tanhFunction.getFunctionName());
+    EXPECT_EQ(Term(1), getTermConstReferenceFromBaseTerm(tanhFunction.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber(0.7615941559557649), tanhFunction.performFunctionAndReturnResultIfPossible());
+}
+
+TEST(CommonFunctionLibraryTest, HyperbolicCosecantFunctionWorks)
+{
+    Function cschFunction(csch(Term(1)));
+
+    EXPECT_EQ("csch", cschFunction.getFunctionName());
+    EXPECT_EQ(Term(1), getTermConstReferenceFromBaseTerm(cschFunction.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber(0.8509181282393216), cschFunction.performFunctionAndReturnResultIfPossible());
+}
+
+TEST(CommonFunctionLibraryTest, HyperbolicSecantFunctionWorks)
+{
+    Function sechFunction(sech(Term(1)));
+
+    EXPECT_EQ("sech", sechFunction.getFunctionName());
+    EXPECT_EQ(Term(1), getTermConstReferenceFromBaseTerm(sechFunction.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber(0.6480542736638853), sechFunction.performFunctionAndReturnResultIfPossible());
+}
+
+TEST(CommonFunctionLibraryTest, HyperbolicCotangentFunctionWorks)
+{
+    Function cothFunction(coth(Term(1)));
+
+    EXPECT_EQ("coth", cothFunction.getFunctionName());
+    EXPECT_EQ(Term(1), getTermConstReferenceFromBaseTerm(cothFunction.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber(1.313035285499331), cothFunction.performFunctionAndReturnResultIfPossible());
+}
+
 TEST(CommonFunctionLibraryTest, SineHarmonicFunctionWorks)
 {
     Function sineFunction(sinHarmonic(Term(getPi()), 4, 2, AlbaNumber(getPi()/2)));

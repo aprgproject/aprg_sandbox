@@ -133,7 +133,8 @@ bool doAnyNumbersSatisfyTheCondition(
             result |= condition(variableExponentsPair.second);
             if(result)
             {
-                break;            }
+                break;
+            }
         }
     }
     return result;
@@ -149,7 +150,8 @@ bool doAnyNumbersSatisfyTheCondition(
         result |= doAnyNumbersSatisfyTheCondition(monomial, condition);
         if(result)
         {
-            break;        }
+            break;
+        }
     }
     return result;
 }
@@ -167,7 +169,8 @@ bool doAnyNumbersSatisfyTheCondition(
                     condition);
         if(result)
         {
-            break;        }
+            break;
+        }
     }
     return result;
 }
@@ -332,7 +335,8 @@ bool hasNonFiniteNumbers(Function const& function)
     return doAnyNumbersSatisfyTheCondition(function, IsNotAFiniteNumberCondition);
 }
 
-bool isAFiniteConstant(Term const& term){
+bool isAFiniteConstant(Term const& term)
+{
     bool result(false);
     if(term.isConstant())
     {

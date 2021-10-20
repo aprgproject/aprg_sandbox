@@ -6,6 +6,7 @@
 #include <Algebra/Utilities/KnownNames.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::algebra::Functions;
 using namespace std;
 
@@ -63,7 +64,8 @@ TEST(IntegrationTest, IntegrateWorksForPolynomial)
     EXPECT_EQ(expectedTerm, integrationForX.integratePolynomial(polynomial));
 }
 
-TEST(IntegrationTest, IntegrateWorksForExpression){
+TEST(IntegrationTest, IntegrateWorksForExpression)
+{
     Integration integrationForX("x");
     Term x("x");
     Expression expression01(createExpressionIfPossible({x}));
@@ -159,7 +161,8 @@ TEST(IntegrationTest, IntegrateMonomialWorks)
     EXPECT_EQ(expectedTerm, integrationForX.integrateMonomial(Monomial(3, {{"x", -1}, {"z", 5}})));
 }
 
-TEST(IntegrationTest, IntegratePolynomialWorks){
+TEST(IntegrationTest, IntegratePolynomialWorks)
+{
     Integration integrationForX("x");
     Polynomial polynomial1{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
     Polynomial polynomial2{Monomial(5, {{"x", 4}}), Monomial(-8, {{"x", 3}}), Monomial(9, {{"x", 2}}), Monomial(-2, {{"x", 1}}), Monomial(7, {})};
@@ -191,7 +194,8 @@ TEST(IntegrationTest, IntegrateExpressionWorks)
     Term twoX(Monomial(2, {{"x", 1}}));
     Expression expression01(createExpressionIfPossible({x}));
     Expression expression02(createExpressionIfPossible(
-    {Term(Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}})),     Term("*"),
+    {Term(Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}})),
+     Term("*"),
      Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"x", -1}})})}));
     Expression expression03(createExpressionIfPossible(
     {Term(Polynomial{Monomial(5, {{"x", 2}}), Monomial(7, {})}),
@@ -208,7 +212,8 @@ TEST(IntegrationTest, IntegrateExpressionWorks)
     Expression expression08(createExpressionIfPossible({twoX, Term("^"), twoX}));
 
     Term expectedTerm01(Monomial(AlbaNumber::createFraction(1, 2), {{"x", 2}}));
-    Term expectedTerm02(Polynomial    {Monomial(AlbaNumber::createFraction(2, 5), {{"x", AlbaNumber::createFraction(5, 2)}}),
+    Term expectedTerm02(Polynomial
+    {Monomial(AlbaNumber::createFraction(2, 5), {{"x", AlbaNumber::createFraction(5, 2)}}),
      Monomial(2, {{"x", AlbaNumber::createFraction(1, 2)}})});
     Term expectedTerm03(Polynomial
     {Monomial(3, {{"x", AlbaNumber::createFraction(5, 3)}}),
@@ -230,7 +235,8 @@ TEST(IntegrationTest, IntegrateExpressionWorks)
     EXPECT_TRUE(isNotANumber(integrationForX.integrateExpression(expression08)));
 }
 
-TEST(IntegrationTest, IntegrateWorksUsingChainRuleInReverseUsingExample1){
+TEST(IntegrationTest, IntegrateWorksUsingChainRuleInReverseUsingExample1)
+{
     Integration integrationForX("x");
     Term numerator(Monomial(4, {{"x", 2}}));
     Term denominatorPolynomial(Polynomial{Monomial(1, {}), Monomial(-8, {{"x", 3}})});
@@ -319,7 +325,8 @@ TEST(IntegrationTest, IntegrateWorksUsingSubstitutionWhichResultsToNaturalLogari
 
 TEST(IntegrationTest, IntegrateWorksUsingSubstitutionUsingExample1)
 {
-    Integration integrationForX("x");    Term squareRootTerm(createExpressionIfPossible(
+    Integration integrationForX("x");
+    Term squareRootTerm(createExpressionIfPossible(
     {Term(Polynomial{Monomial(1, {}), Monomial(1, {{"x", 1}})}), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     Term termToTest(createExpressionIfPossible({Term(Monomial(1, {{"x", 2}})), Term("*"), squareRootTerm}));
 
@@ -372,7 +379,8 @@ TEST(IntegrationTest, IntegrateFunctionWorksWithChainRule)
     EXPECT_EQ(expectedTerm01, integrationForX.integrateFunction(sin(Term(Monomial(5, {{"x", 1}})))));
 }
 
-TEST(IntegrationTest, IntegrateWorksForTrigonometricFunctions){
+TEST(IntegrationTest, IntegrateWorksForTrigonometricFunctions)
+{
     Integration integrationForX("x");
     Term x("x");
     Term term01(sin(x));

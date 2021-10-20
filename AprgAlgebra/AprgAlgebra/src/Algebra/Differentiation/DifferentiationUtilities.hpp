@@ -30,6 +30,7 @@ bool isFirstOrderDifferentialEquation(
 Term getDerivativeDefinition(
         Term const& term,
         std::string const& variableName);
+
 Term getDerivativeAtUsingLimit(
         Term const& term,
         std::string const& variableName,
@@ -48,6 +49,7 @@ Term getLogarithmicDifferentiationToYieldDyOverDx(
 SolutionSet getDifferentiabilityDomain(
         Term const& term,
         std::string const& variableName);
+
 Equation getRelationshipOfDerivativeOfTheInverseAndTheDerivative(
         Term const& term,
         std::string const& variableName,

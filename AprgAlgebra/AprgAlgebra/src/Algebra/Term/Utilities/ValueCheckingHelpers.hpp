@@ -22,7 +22,8 @@ bool doAnyNumbersSatisfyTheCondition(Expression const& expression, NumberCheckin
 bool doAnyNumbersSatisfyTheCondition(Function const& function, NumberCheckingCondition const& condition);
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
-bool isTheValue(Term const& term, AlbaNumber const& number);bool isTheValue(Constant const& constant, AlbaNumber const& number);
+bool isTheValue(Term const& term, AlbaNumber const& number);
+bool isTheValue(Constant const& constant, AlbaNumber const& number);
 bool isTheValue(Monomial const& monomial, AlbaNumber const& number);
 bool isTheValue(Polynomial const& polynomial, AlbaNumber const& number);
 bool isTheValue(Expression const& expression, AlbaNumber const& number);
@@ -46,4 +47,5 @@ bool isAFiniteConstant(Term const& term);
 bool hasNegativeExponentsWithVariable(Polynomial const& polynomial, std::string const& variableName);
 
 }
+
 }

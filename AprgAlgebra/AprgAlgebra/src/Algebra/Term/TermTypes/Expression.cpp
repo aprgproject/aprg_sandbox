@@ -39,6 +39,7 @@ Expression::Expression(
 
 Expression::~Expression()
 {}
+
 bool Expression::operator==(Expression const& second) const
 {
     return m_commonOperatorLevel == second.m_commonOperatorLevel

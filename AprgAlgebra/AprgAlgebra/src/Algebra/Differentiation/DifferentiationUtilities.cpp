@@ -10,7 +10,8 @@
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>#include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
@@ -18,7 +19,8 @@
 #include <Algebra/Utilities/KnownNames.hpp>
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
-using namespace alba::algebra::DomainAndRange;using namespace alba::algebra::Functions;
+using namespace alba::algebra::DomainAndRange;
+using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
 using namespace std;
 
@@ -102,7 +104,8 @@ bool isFirstOrderDifferentialEquation(
     return result;
 }
 
-Term getDerivativeDefinition(        Term const& term,
+Term getDerivativeDefinition(
+        Term const& term,
         string const& variableName)
 {
     Term x(X_NAME);
@@ -133,7 +136,8 @@ Term getDerivativeAtUsingLimit(
 
 Term getDerivativeDefinitionForFiniteCalculus(
         Term const& term,
-        string const& variableName){
+        string const& variableName)
+{
     // Discrete derivative
     Polynomial variableNamePlusOne{Monomial(1, {{variableName, 1}}), Monomial(1, {})};
     SubstitutionOfVariablesToTerms substitution{{variableName, Term(variableNamePlusOne)}};
@@ -167,7 +171,8 @@ Term getLogarithmicDifferentiationToYieldDyOverDx(
 
 SolutionSet getDifferentiabilityDomain(
         Term const& term,
-        string const& variableName){
+        string const& variableName)
+{
     // This code is not accurate.
     // How about piecewise function?
     // How about absolute value function?
@@ -256,7 +261,8 @@ Equation getIntegralEquationForFirstOrderDifferentialEquation(
 
 void simplifyDerivativeByDefinition(Term & term)
 {
-    SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     rationalizeConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
     rationalizeConfigurationDetails.shouldSimplifyByRationalizingNumerator = true;
     SimplificationOfExpression::ScopeObject scopeObject;
@@ -281,6 +287,7 @@ void simplifyToNonDoubleFactors(
         term.simplify();
     }
 }
+
 
 }
 

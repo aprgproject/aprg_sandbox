@@ -11,7 +11,8 @@
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace alba::algebra::Functions;
-using namespace alba::algebra::Simplification;using namespace std;
+using namespace alba::algebra::Simplification;
+using namespace std;
 
 namespace alba
 {
@@ -355,7 +356,8 @@ Term Differentiation::differentiateTermsInMultiplicationOrDivisionTermByTerm(
         TermsWithDetails const& termsWithDetails) const
 {
     bool isFirst(true);
-    Term accumulatedTerm;    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    Term accumulatedTerm;
+    for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
         Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         if(isFirst)
@@ -400,6 +402,7 @@ Term Differentiation::differentiateTermsInRaiseToPower(
     }
     return result;
 }
+
 Term Differentiation::differentiateConstantRaiseToTerm(
         AlbaNumber const& number,
         Term const& term) const
@@ -416,7 +419,8 @@ Term Differentiation::differentiateTermRaiseToConstant(
     return Term(createExpressionIfPossible({base, Term("^"), Term(exponent-1), Term("*"), Term(exponent), Term("*"), derivativeCauseOfChainRule}));
 }
 
-Term Differentiation::differentiateTermRaiseToTerm(        Term const& ,
+Term Differentiation::differentiateTermRaiseToTerm(
+        Term const& ,
         Term const& ) const
 {
     return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
@@ -463,10 +467,12 @@ Term Differentiation::differentiateFunctionOnly(
     {
         derivativeOfFunction = Term(cos(inputTerm));
     }
-    else if("cos" == functionObject.getFunctionName())    {
+    else if("cos" == functionObject.getFunctionName())
+    {
         derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), sin(inputTerm)}));
     }
-    else if("tan" == functionObject.getFunctionName())    {
+    else if("tan" == functionObject.getFunctionName())
+    {
         derivativeOfFunction = Term(createExpressionIfPossible({sec(inputTerm), Term("^"), Term(2)}));
     }
     else if("csc" == functionObject.getFunctionName())
@@ -515,11 +521,37 @@ Term Differentiation::differentiateFunctionOnly(
         Term onePlusInputSquared(createExpressionIfPossible({Term(1), Term("+"), inputTerm, Term("^"), Term(2)}));
         derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("/"), onePlusInputSquared}));
     }
+    else if("sinh" == functionObject.getFunctionName())
+    {
+        derivativeOfFunction = Term(cosh(inputTerm));
+    }
+    else if("cosh" == functionObject.getFunctionName())
+    {
+        derivativeOfFunction = Term(sinh(inputTerm));
+    }
+    else if("tanh" == functionObject.getFunctionName())
+    {
+        derivativeOfFunction = Term(createExpressionIfPossible({sech(inputTerm), Term("^"), Term(2)}));
+    }
+    else if("csch" == functionObject.getFunctionName())
+    {
+        derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), csch(inputTerm), Term("*"), coth(inputTerm)}));
+    }
+    else if("sech" == functionObject.getFunctionName())
+    {
+        derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), sech(inputTerm), Term("*"), tanh(inputTerm)}));
+    }
+    else if("coth" == functionObject.getFunctionName())
+    {
+        derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), csch(inputTerm), Term("^"), Term(2)}));
+    }
     return derivativeOfFunction;
 }
+
 void Differentiation::separateUnaffectedAndAffectedVariables(
         Monomial & unaffectedVariablesAndConstant,
-        Monomial & affectedVariables,        Monomial const& monomial) const
+        Monomial & affectedVariables,
+        Monomial const& monomial) const
 {
     unaffectedVariablesAndConstant = Monomial(monomial.getConstantConstReference(), {});
     affectedVariables = Monomial(1, {});

@@ -3,6 +3,7 @@
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Math/Number/AlbaNumberTypes.hpp>
 #include <String/AlbaStringHelper.hpp>
+
 #include <string>
 
 namespace alba
@@ -32,4 +33,5 @@ Term getNaturalLogarithmOfTheAbsoluteValueOfTerm(
 }
 
 }
+
 }

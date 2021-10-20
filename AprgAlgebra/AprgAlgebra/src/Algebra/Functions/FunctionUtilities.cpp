@@ -4,6 +4,7 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 
 #include <algorithm>
+
 using namespace alba::stringHelper;
 using namespace std;
 
@@ -74,4 +75,5 @@ Term getNaturalLogarithmOfTheAbsoluteValueOfTerm(
 }
 
 }
+
 }

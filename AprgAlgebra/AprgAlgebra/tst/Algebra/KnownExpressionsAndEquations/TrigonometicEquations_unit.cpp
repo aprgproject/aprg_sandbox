@@ -1,7 +1,7 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
+#include <Algebra/KnownExpressionsAndEquations/TrigonometricEquations.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Trigonometry/TrigonometricEquations.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 #include <gtest/gtest.h>
@@ -185,13 +185,13 @@ TEST(TrigonometricEquationsTest, GetTangentSquaredWorks)
     EXPECT_EQ(Term(1), substitution.performSubstitutionTo(actualTerm));
 }
 
-TEST(TrigonometricEquationsTest, GetSineOfSumOrDifferenceOfTwoVariablesWorks)
+TEST(TrigonometricEquationsTest, GetSineOfSumOrDifferenceOfTwoTermsWorks)
 {
     Term x("x");
     Term y("y");
 
-    Term actualSineOfSumOfValues(getSineOfSumOrDifferenceOfTwoVariables(x, Operator("+"), y));
-    Term actualSineOfDifferenceOfValues(getSineOfSumOrDifferenceOfTwoVariables(x, Operator("-"), y));
+    Term actualSineOfSumOfValues(getSineOfSumOrDifferenceOfTwoTerms(x, Operator("+"), y));
+    Term actualSineOfDifferenceOfValues(getSineOfSumOrDifferenceOfTwoTerms(x, Operator("-"), y));
 
     Expression firstPart(createExpressionIfPossible({Term(sin(x)), Term("*"), Term(cos(y))}));
     Expression secondPart(createExpressionIfPossible({Term(cos(x)), Term("*"), Term(sin(y))}));
@@ -207,13 +207,13 @@ TEST(TrigonometricEquationsTest, GetSineOfSumOrDifferenceOfTwoVariablesWorks)
     EXPECT_EQ(Term(Constant(0)), substitution.performSubstitutionTo(actualSineOfDifferenceOfValues));
 }
 
-TEST(TrigonometricEquationsTest, GetCosineOfSumOrDifferenceOfTwoVariablesWorks)
+TEST(TrigonometricEquationsTest, GetCosineOfSumOrDifferenceOfTwoTermsWorks)
 {
     Term x("x");
     Term y("y");
 
-    Term actualCosineOfSumOfValues(getCosineOfSumOrDifferenceOfTwoVariables(x, Operator("+"), y));
-    Term actualCosineOfDifferenceOfValues(getCosineOfSumOrDifferenceOfTwoVariables(x, Operator("-"), y));
+    Term actualCosineOfSumOfValues(getCosineOfSumOrDifferenceOfTwoTerms(x, Operator("+"), y));
+    Term actualCosineOfDifferenceOfValues(getCosineOfSumOrDifferenceOfTwoTerms(x, Operator("-"), y));
 
     Expression firstPart(createExpressionIfPossible({Term(cos(x)), Term("*"), Term(cos(y))}));
     Expression secondPart(createExpressionIfPossible({Term(sin(x)), Term("*"), Term(sin(y))}));
@@ -229,13 +229,13 @@ TEST(TrigonometricEquationsTest, GetCosineOfSumOrDifferenceOfTwoVariablesWorks)
     EXPECT_EQ(Term(1), substitution.performSubstitutionTo(actualCosineOfDifferenceOfValues));
 }
 
-TEST(TrigonometricEquationsTest, GetTangentOfSumOrDifferenceOfTwoVariablesWorks)
+TEST(TrigonometricEquationsTest, GetTangentOfSumOrDifferenceOfTwoTermsWorks)
 {
     Term x("x");
     Term y("y");
 
-    Term actualTangentOfSumOfValues(getTangentOfSumOrDifferenceOfTwoVariables(x, Operator("+"), y));
-    Term actualTangentOfDifferenceOfValues(getTangentOfSumOrDifferenceOfTwoVariables(x, Operator("-"), y));
+    Term actualTangentOfSumOfValues(getTangentOfSumOrDifferenceOfTwoTerms(x, Operator("+"), y));
+    Term actualTangentOfDifferenceOfValues(getTangentOfSumOrDifferenceOfTwoTerms(x, Operator("-"), y));
 
     Expression numeratorSum(createExpressionIfPossible({Term(tan(x)), Term("+"), Term(tan(y))}));
     Expression denominatorSum(createExpressionIfPossible(

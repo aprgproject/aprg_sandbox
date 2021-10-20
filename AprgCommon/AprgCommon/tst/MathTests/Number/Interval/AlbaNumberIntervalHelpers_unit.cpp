@@ -23,7 +23,8 @@ TEST(AlbaNumberIntervalHelpersTest, IsValueInsideTheIntervalsWorks)
     EXPECT_FALSE(isValueInsideTheIntervals(10, intervals));
 }
 
-TEST(AlbaNumberIntervalHelpersTest, IsIntervalInsideTheIntervalsWorks){
+TEST(AlbaNumberIntervalHelpersTest, IsIntervalInsideTheIntervalsWorks)
+{
     AlbaNumberIntervals intervals
     {AlbaNumberInterval(createOpenEndpoint(3), createOpenEndpoint(5)), AlbaNumberInterval(createCloseEndpoint(7), createCloseEndpoint(9))};
 
@@ -49,10 +50,12 @@ TEST(AlbaNumberIntervalHelpersTest, AreTheIntervalsInsideTheIntervalWorks)
 
 TEST(AlbaNumberIntervalHelpersTest, GetEndpointTypeWithCheckingIfItsClosedWorks)
 {
-    EXPECT_EQ(AlbaNumberIntervalEndpoint::Type::Close, getEndpointTypeWithCheckingIfItsClosed(true));    EXPECT_EQ(AlbaNumberIntervalEndpoint::Type::Open, getEndpointTypeWithCheckingIfItsClosed(false));
+    EXPECT_EQ(AlbaNumberIntervalEndpoint::Type::Close, getEndpointTypeWithCheckingIfItsClosed(true));
+    EXPECT_EQ(AlbaNumberIntervalEndpoint::Type::Open, getEndpointTypeWithCheckingIfItsClosed(false));
 }
 
-TEST(AlbaNumberIntervalHelpersTest, CreateOpenEndpointWorks){
+TEST(AlbaNumberIntervalHelpersTest, CreateOpenEndpointWorks)
+{
     AlbaNumberIntervalEndpoint endpoint(createOpenEndpoint(645));
 
     EXPECT_EQ(AlbaNumberIntervalEndpoint::Type::Open, endpoint.getType());

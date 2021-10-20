@@ -124,7 +124,8 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialOv
 
 TEST(DifferentiationUtilitiesTest, GetRelationshipOfDerivativeOfTheInverseAndTheDerivativeWorks)
 {
-    Term termToTest1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});    Term termToTest2(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {})});
+    Term termToTest1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    Term termToTest2(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {})});
     Term termToTest3(Polynomial{Monomial(1, {{"x", 3}}), Monomial(3, {})});
 
     Equation equation1(getRelationshipOfDerivativeOfTheInverseAndTheDerivative(termToTest1, "x", "c", "d"));
@@ -180,7 +181,8 @@ TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)
 
 TEST(DifferentiationUtilitiesTest, SimplifyDerivativeByDefinitionWorks)
 {
-    Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});    Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     Term termToTest(createExpressionIfPossible({Term("x"), Term("*"), Term(squareRootOfXPlusOne)}));
 
     simplifyDerivativeByDefinition(termToTest);

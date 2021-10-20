@@ -63,7 +63,8 @@ bool doesNotNeedToBeFactorized(Polynomial const& polynomial)
     if(hasNonFiniteNumbers(polynomial))
     {
         result = true;
-    }    else if(monomials.size() <= 1)
+    }
+    else if(monomials.size() <= 1)
     {
         result = true;
     }

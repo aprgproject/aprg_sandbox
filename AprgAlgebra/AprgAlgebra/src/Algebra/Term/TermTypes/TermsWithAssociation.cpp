@@ -30,6 +30,7 @@ TermsWithAssociation::TermsWithAssociation(
 
 TermsWithAssociation::~TermsWithAssociation()
 {}
+
 bool TermsWithAssociation::operator==(TermsWithAssociation const& second) const
 {
     TermsWithDetails const& terms1(m_termsWithDetails);
@@ -140,7 +141,8 @@ void TermsWithAssociation::putTermsWithDetails(initializer_list<TermWithDetails>
 
 void TermsWithAssociation::putTermsWithDetails(TermsWithDetails const& termsWithDetails)
 {
-    m_termsWithDetails.reserve(m_termsWithDetails.size() + termsWithDetails.size());    copy(termsWithDetails.cbegin(), termsWithDetails.cend(), back_inserter(m_termsWithDetails));
+    m_termsWithDetails.reserve(m_termsWithDetails.size() + termsWithDetails.size());
+    copy(termsWithDetails.cbegin(), termsWithDetails.cend(), back_inserter(m_termsWithDetails));
 }
 
 void TermsWithAssociation::putTermWithAssociation(BaseTerm const& baseTerm, TermAssociationType const associationType)

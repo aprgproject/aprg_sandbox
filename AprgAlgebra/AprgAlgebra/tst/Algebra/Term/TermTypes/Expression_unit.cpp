@@ -21,7 +21,8 @@ TEST(ExpressionTest, ConstructionWorks)
     Expression expression3(OperatorLevel::AdditionAndSubtraction, {termWithDetails1, termWithDetails2});
 
     EXPECT_EQ(OperatorLevel::Unknown, expression1.getCommonOperatorLevel());
-    TermsWithDetails const& termsToVerify1(expression1.getTermsWithAssociation().getTermsWithDetails());    ASSERT_TRUE(termsToVerify1.empty());
+    TermsWithDetails const& termsToVerify1(expression1.getTermsWithAssociation().getTermsWithDetails());
+    ASSERT_TRUE(termsToVerify1.empty());
     EXPECT_EQ(OperatorLevel::Unknown, expression2.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify2(expression2.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_EQ(1U, termsToVerify2.size());
@@ -39,7 +40,8 @@ TEST(ExpressionTest, ConstructionWorks)
     EXPECT_EQ(Term(20), termToVerify3);
 }
 
-TEST(ExpressionTest, EqualityOperatorWorks){
+TEST(ExpressionTest, EqualityOperatorWorks)
+{
     Expression expression1;
     Expression expression2(createExpressionIfPossible({Term(5), Term("+"), Term(createExpressionIfPossible({Term(5), Term("+"), Term("interest")}))}));
     Expression expression3(createExpressionIfPossible({Term(6), Term("+"), Term("interest")}));

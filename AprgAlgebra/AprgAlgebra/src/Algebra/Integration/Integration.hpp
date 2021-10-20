@@ -49,7 +49,8 @@ private:
             Monomial const& monomial) const;
     Term integrateAsTermOrExpressionIfNeeded(
             Expression const& expression) const;
-    void integrateSimplifiedExpressionOnly(            Term & result,
+    void integrateSimplifiedExpressionOnly(
+            Term & result,
             Expression const& expression,
             Configuration const& configuration) const;
     void integrateTermsInAdditionOrSubtraction(
@@ -107,7 +108,8 @@ private:
     void integrateByProcessingAsPolynomialsOverPolynomials(Term & result, Term const& term) const;
     void integrateRecognizedFunctionsIfPossible(Term & result, TermsWithDetails const& termsWithDetails) const;
     void simplifyForIntegration(Term & term, Configuration const& configuration) const;
-    Configuration getConfigurationWithFactors() const;    Configuration getConfigurationWithCommonDenominator() const;
+    Configuration getConfigurationWithFactors() const;
+    Configuration getConfigurationWithCommonDenominator() const;
     bool isVariableToIntegrate(std::string const& variableName) const;
     bool isVariableToIntegrateNotFoundInTerm(Term const& term) const;
     bool wouldDifferentiationYieldToAConstant(Term const& term) const;

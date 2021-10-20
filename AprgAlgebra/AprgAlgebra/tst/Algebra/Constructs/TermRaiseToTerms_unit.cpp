@@ -84,7 +84,8 @@ TEST(TermRaiseToTermsTest, GetCombinedExponentsWorks)
 
 TEST(TermRaiseToTermsTest, SimplifyWorksWhenBaseIsZero)
 {
-    Term base(Constant(0));    TermRaiseToTerms termRaiseToTerms(base, {Term("a"), Term("b")});
+    Term base(Constant(0));
+    TermRaiseToTerms termRaiseToTerms(base, {Term("a"), Term("b")});
 
     termRaiseToTerms.simplify();
 

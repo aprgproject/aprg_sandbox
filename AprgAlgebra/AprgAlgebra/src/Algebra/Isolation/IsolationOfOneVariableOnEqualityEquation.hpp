@@ -30,7 +30,8 @@ public:
 
 private:
     bool canBeIsolated(AlbaNumber const& identicalExponentForVariable) const;
-    AlbaNumber getIdenticalExponentForVariableIfPossible(            std::string const& variableName,
+    AlbaNumber getIdenticalExponentForVariableIfPossible(
+            std::string const& variableName,
             Polynomial const& polynomial) const;
     Term m_simplifiedLeftSideTerm;
 };

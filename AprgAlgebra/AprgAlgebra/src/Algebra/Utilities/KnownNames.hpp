@@ -13,4 +13,5 @@ constexpr const char* PI = "PI";
 constexpr const char* E = "E";
 
 }
+
 }

@@ -97,7 +97,8 @@ Term TermRaiseToTerms::getCombinedExponents() const
     return exponentCombinedTerm;
 }
 
-Term const& TermRaiseToTerms::getBase() const{
+Term const& TermRaiseToTerms::getBase() const
+{
     return m_base;
 }
 
@@ -228,7 +229,8 @@ void TermRaiseToTerms::initializeExponentsInTerms(
 Term TermRaiseToTerms::getCombinedBaseAndExponents() const
 {
     Term combinedTerm;
-    if(m_exponents.empty())    {
+    if(m_exponents.empty())
+    {
         combinedTerm = m_base;
     }
     else

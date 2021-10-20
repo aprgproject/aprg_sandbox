@@ -124,7 +124,8 @@ TEST(ConvertHelpersTest, SimplifyAndConvertFunctionToSimplestTermWorks)
 
 TEST(ConvertHelpersTest, ConvertMonomialToSimplestTermWorks)
 {
-    Term termToVerify1(convertMonomialToSimplestTerm(Monomial()));    Term termToVerify2(convertMonomialToSimplestTerm(Monomial(6, {})));
+    Term termToVerify1(convertMonomialToSimplestTerm(Monomial()));
+    Term termToVerify2(convertMonomialToSimplestTerm(Monomial(6, {})));
     Term termToVerify3(convertMonomialToSimplestTerm(Monomial(1, {{"x", 1}})));
     Term termToVerify4(convertMonomialToSimplestTerm(Monomial(10, {{"x", 0}})));
 

@@ -109,7 +109,8 @@ TEST(ValueCheckingHelpersTest, DoAnyNumbersSatisfyTheConditionWorksForFunction)
 
 TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnAdditionOrSubtractionWorks)
 {
-    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term()));    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term(Constant(0))));
+    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term()));
+    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term(Constant(0))));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(15)));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Variable("x"))));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Monomial(96, {{"x", 1}}))));
@@ -353,7 +354,8 @@ TEST(ValueCheckingHelpersTest, hasNonFiniteNumbersForFunction)
     EXPECT_TRUE(hasNonFiniteNumbers(absoluteValueFunction));
 }
 
-TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorksForFunction){
+TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorksForFunction)
+{
     EXPECT_FALSE(isAFiniteConstant(Term("x")));
     EXPECT_TRUE(isAFiniteConstant(Term(1)));
     EXPECT_FALSE(isAFiniteConstant(Term(NAN)));

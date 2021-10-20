@@ -21,7 +21,8 @@ TEST(TermsWithAssociationTest, TermsWithAssociationEqualityOperatorWorks)
     TermsWithAssociation terms4{termWithDetails1, termWithDetails1};
 
     EXPECT_TRUE(terms1==terms1);
-    EXPECT_TRUE(terms1==terms2);    EXPECT_FALSE(terms1==terms3);
+    EXPECT_TRUE(terms1==terms2);
+    EXPECT_FALSE(terms1==terms3);
     EXPECT_FALSE(terms1==terms4);
 }
 
@@ -35,7 +36,8 @@ TEST(TermsWithAssociationTest, TermsWithAssociationInequalityOperatorWorks)
     TermsWithAssociation terms4{termWithDetails1, termWithDetails1};
 
     EXPECT_FALSE(terms1!=terms1);
-    EXPECT_FALSE(terms1!=terms2);    EXPECT_TRUE(terms1!=terms3);
+    EXPECT_FALSE(terms1!=terms2);
+    EXPECT_TRUE(terms1!=terms3);
     EXPECT_TRUE(terms1!=terms4);
 }
 
@@ -51,7 +53,8 @@ TEST(TermsWithAssociationTest, TermsWithAssociationLessThanOperatorWorks)
     TermsWithAssociation terms5{termWithDetails3};
 
     EXPECT_FALSE(terms1<terms1);
-    EXPECT_FALSE(terms1<terms2);    EXPECT_TRUE(terms1<terms3);
+    EXPECT_FALSE(terms1<terms2);
+    EXPECT_TRUE(terms1<terms3);
     EXPECT_FALSE(terms2<terms4);
     EXPECT_TRUE(terms2<terms5);
 }
@@ -64,7 +67,8 @@ TEST(TermsWithAssociationTest, IsEmptyWorks)
     TermsWithAssociation terms3{termWithDetails, termWithDetails};
 
     EXPECT_TRUE(terms1.isEmpty());
-    EXPECT_FALSE(terms2.isEmpty());    EXPECT_FALSE(terms3.isEmpty());
+    EXPECT_FALSE(terms2.isEmpty());
+    EXPECT_FALSE(terms3.isEmpty());
 }
 
 TEST(TermsWithAssociationTest, GetSizeWorks)
@@ -75,7 +79,8 @@ TEST(TermsWithAssociationTest, GetSizeWorks)
     TermsWithAssociation terms3{termWithDetails, termWithDetails};
 
     EXPECT_EQ(0U, terms1.getSize());
-    EXPECT_EQ(1U, terms2.getSize());    EXPECT_EQ(2U, terms3.getSize());
+    EXPECT_EQ(1U, terms2.getSize());
+    EXPECT_EQ(2U, terms3.getSize());
 }
 
 TEST(TermsWithAssociationTest, GetFirstTermConstReferenceWorks)
@@ -86,7 +91,8 @@ TEST(TermsWithAssociationTest, GetFirstTermConstReferenceWorks)
     TermsWithAssociation terms2{termWithDetails2};
 
     EXPECT_EQ(Term(10), getTermConstReferenceFromBaseTerm(terms1.getFirstTermConstReference()));
-    EXPECT_EQ(Term(20), getTermConstReferenceFromBaseTerm(terms2.getFirstTermConstReference()));}
+    EXPECT_EQ(Term(20), getTermConstReferenceFromBaseTerm(terms2.getFirstTermConstReference()));
+}
 
 TEST(TermsWithAssociationTest, GetFirstAssociationTypeWorks)
 {
@@ -96,7 +102,8 @@ TEST(TermsWithAssociationTest, GetFirstAssociationTypeWorks)
     TermsWithAssociation terms2{termWithDetails2};
 
     EXPECT_EQ(TermAssociationType::Negative, terms1.getFirstAssociationType());
-    EXPECT_EQ(TermAssociationType::Positive, terms2.getFirstAssociationType());}
+    EXPECT_EQ(TermAssociationType::Positive, terms2.getFirstAssociationType());
+}
 
 
 TEST(TermsWithAssociationTest, GetTermsWithDetailsWorks)
@@ -106,6 +113,7 @@ TEST(TermsWithAssociationTest, GetTermsWithDetailsWorks)
     TermsWithAssociation terms{termWithDetails1, termWithDetails2};
 
     TermsWithDetails termsToVerify(terms.getTermsWithDetails());
+
     ASSERT_EQ(2U, termsToVerify.size());
     EXPECT_TRUE(termWithDetails1==termsToVerify.at(0));
     EXPECT_TRUE(termWithDetails2==termsToVerify.at(1));
@@ -119,6 +127,7 @@ TEST(TermsWithAssociationTest, ClearWorks)
     TermsWithAssociation terms{termWithDetails1, termWithDetails2, termWithDetails3};
 
     terms.clear();
+
     TermsWithDetails termsToVerify(terms.getTermsWithDetails());
     EXPECT_TRUE(termsToVerify.empty());
 }
@@ -131,6 +140,7 @@ TEST(TermsWithAssociationTest, SortWorks)
     TermsWithAssociation terms{termWithDetails1, termWithDetails2, termWithDetails3};
 
     terms.sort();
+
     TermsWithDetails termsToVerify(terms.getTermsWithDetails());
     ASSERT_EQ(3U, termsToVerify.size());
     EXPECT_EQ(Term(20), getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));
@@ -171,7 +181,8 @@ TEST(TermsWithAssociationTest, PutTermsWithDetailsWorksUsingInitializerList)
 TEST(TermsWithAssociationTest, PutTermsWithDetailsWorksUsingConstReference)
 {
     TermsWithAssociation terms;
-    TermsWithDetails termsWithDetails    {TermWithDetails(Term(100), TermAssociationType::Positive),
+    TermsWithDetails termsWithDetails
+    {TermWithDetails(Term(100), TermAssociationType::Positive),
                 TermWithDetails(Term(2), TermAssociationType::Negative)};
 
     terms.putTermsWithDetails(termsWithDetails);
@@ -226,6 +237,7 @@ TEST(TermsWithAssociationTest, ReverseTheAssociationOfTheTermsWorks)
     TermsWithAssociation terms{termWithDetails, termWithDetails};
 
     terms.reverseTheAssociationOfTheTerms();
+
     TermsWithDetails termsToVerify(terms.getTermsWithDetails());
     ASSERT_EQ(2U, termsToVerify.size());
     EXPECT_EQ(Term(10), getTermConstReferenceFromSharedPointer(termsToVerify.at(0).baseTermSharedPointer));

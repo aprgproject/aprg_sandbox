@@ -6,7 +6,8 @@
 #include <Algebra/Functions/FunctionUtilities.hpp>
 #include <Algebra/Integration/IntegrationUtilities.hpp>
 #include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquation.hpp>
-#include <Algebra/Retrieval/VariableNamesRetriever.hpp>#include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
+#include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
@@ -178,7 +179,8 @@ Term Integration::integratePolynomial(
         result = result + integrateMonomial(monomial);
     }
     result.simplify();
-    return result;}
+    return result;
+}
 
 Term Integration::integrateExpression(
         Expression const& expression) const
@@ -231,7 +233,8 @@ Monomial Integration::integrateMonomialWhenExponentIsNotNegativeOne(
 
 Term Integration::integrateAsTermOrExpressionIfNeeded(
         Expression const& expression) const
-{    Term result;
+{
+    Term result;
     Configurations configurations{getConfigurationWithFactors(), getConfigurationWithCommonDenominator()};
     for(Configuration const& configuration : configurations)
     {
@@ -312,6 +315,7 @@ void Integration::integrateTermsInMultiplicationOrDivision(
     integrateRecognizedFunctionsIfPossible(result, termsWithDetails);
     integrateUsingChainRuleInReverseIfPossible(result, termsWithDetails);
 }
+
 void Integration::integrateTermsInRaiseToPower(
         Term & result,
         TermsWithDetails const& termsWithDetails) const
@@ -346,7 +350,8 @@ void Integration::integrateConstantRaiseToTerm(
     }
 }
 
-void Integration::integrateTermRaiseToConstant(        Term & result,
+void Integration::integrateTermRaiseToConstant(
+        Term & result,
         Term const& base,
         AlbaNumber const& exponent) const
 {
@@ -371,6 +376,19 @@ void Integration::integrateTermRaiseToConstant(        Term & result,
         {
             result = divideFirstTermAndDerivativeOfSecondTerm(createExpressionIfPossible(
             {Term(cot(inputOfFunctionTerm)), Term("*"), Term(-1)}), inputOfFunctionTerm);
+        }
+        else if(exponent == 2
+                && functionTerm.getFunctionName() == "sech"
+                && wouldDifferentiationYieldToAConstant(inputOfFunctionTerm))
+        {
+            result = divideFirstTermAndDerivativeOfSecondTerm(Term(tanh(inputOfFunctionTerm)), inputOfFunctionTerm);
+        }
+        else if(exponent == 2
+                && functionTerm.getFunctionName() == "csch"
+                && wouldDifferentiationYieldToAConstant(inputOfFunctionTerm))
+        {
+            result = divideFirstTermAndDerivativeOfSecondTerm(createExpressionIfPossible(
+            {Term(coth(inputOfFunctionTerm)), Term("*"), Term(-1)}), inputOfFunctionTerm);
         }
     }
 }
@@ -397,7 +415,8 @@ Term Integration::integrateFunctionOnly(
         else if("sin" == functionObject.getFunctionName())
         {
             result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible({Term(-1), Term("*"), cos(inputTerm)})), inputTerm);
-        }        else if("cos" == functionObject.getFunctionName())
+        }
+        else if("cos" == functionObject.getFunctionName())
         {
             result = divideFirstTermAndDerivativeOfSecondTerm(Term(sin(inputTerm)), inputTerm);
         }
@@ -417,9 +436,18 @@ Term Integration::integrateFunctionOnly(
         {
             result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(sin(inputTerm)));
         }
+        else if("sinh" == functionObject.getFunctionName())
+        {
+            result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible({Term(-1), Term("*"), cosh(inputTerm)})), inputTerm);
+        }
+        else if("cosh" == functionObject.getFunctionName())
+        {
+            result = divideFirstTermAndDerivativeOfSecondTerm(Term(sinh(inputTerm)), inputTerm);
+        }
     }
     if(result.isEmpty())
-    {        integrateTermUsingSubstitutionWithMaxDepth(result, Term(functionObject), getConfigurationWithFactors());
+    {
+        integrateTermUsingSubstitutionWithMaxDepth(result, Term(functionObject), getConfigurationWithFactors());
     }
     if(result.isEmpty())
     {
@@ -535,7 +563,8 @@ void Integration::integrateUsingChainRuleInReverseIfPossible(
         secondTerm.simplify();
         findInnerAndOuterTermForChainRule(innerTermInfirstTerm, firstTerm);
         if(!innerTermInfirstTerm.isEmpty())
-        {            integrateUsingChainRuleInReverseIfPossible(result, firstTerm, innerTermInfirstTerm, secondTerm);
+        {
+            integrateUsingChainRuleInReverseIfPossible(result, firstTerm, innerTermInfirstTerm, secondTerm);
         }
     }
 }
@@ -636,7 +665,8 @@ void Integration::integrateByProcessingAsPolynomialsOverPolynomials(
 
 void Integration::integrateRecognizedFunctionsIfPossible(
         Term & result,
-        TermsWithDetails const& termsWithDetails) const{
+        TermsWithDetails const& termsWithDetails) const
+{
     if(result.isEmpty() && termsWithDetails.size() == 2)
     {
         Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));

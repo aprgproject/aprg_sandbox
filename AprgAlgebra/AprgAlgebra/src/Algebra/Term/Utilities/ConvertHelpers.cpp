@@ -71,7 +71,8 @@ Term simplifyAndConvertFunctionToSimplestTerm(Function const& functionObject)
 
 Term convertMonomialToSimplestTerm(Monomial const& monomial)
 {
-    Term newTerm(monomial);    if(isTheValue(monomial, 0))
+    Term newTerm(monomial);
+    if(isTheValue(monomial, 0))
     {
         newTerm = Term(Constant(0));
     }
