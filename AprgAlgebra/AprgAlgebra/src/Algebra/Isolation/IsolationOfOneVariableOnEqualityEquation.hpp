@@ -17,21 +17,20 @@ public:
 
     bool canBeIsolated(std::string const& variableName) const;
     AlbaNumber getIdenticalExponentForVariableIfPossible(std::string const& variableName) const;
-
+    Term getTermByIsolatingVariable(std::string const& variableName) const;
     Equation isolateTermWithVariableOnLeftSideOfEquation(std::string const& variableName) const;
     Equation isolateTermWithVariableOnRightSideOfEquation(std::string const& variableName) const;
-
-    Term getTermByIsolatingVariable(std::string const& variableName) const;
 
     void isolateTermWithVariable(
             std::string const& variableName,
             Term & termWithVariable,
             Term & termWithWithoutVariable) const;
 
+    void setEquation(Equation const& equation);
+
 private:
     bool canBeIsolated(AlbaNumber const& identicalExponentForVariable) const;
-    AlbaNumber getIdenticalExponentForVariableIfPossible(
-            std::string const& variableName,
+    AlbaNumber getIdenticalExponentForVariableIfPossible(            std::string const& variableName,
             Polynomial const& polynomial) const;
     Term m_simplifiedLeftSideTerm;
 };

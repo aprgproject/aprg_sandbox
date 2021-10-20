@@ -1,12 +1,183 @@
 #include "ValueCheckingHelpers.hpp"
 
+#include <Algebra/Retrieval/ExponentsRetriever.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+
+#include <algorithm>
+
+using namespace std;
 
 namespace alba
 {
 
 namespace algebra
 {
+
+namespace
+{
+
+NumberCheckingCondition IsNotANumberCondition = [](
+        AlbaNumber const& numberToCheck) -> bool
+{
+    return numberToCheck.isNotANumber();
+};
+
+NumberCheckingCondition IsNotAFiniteNumberCondition = [](
+        AlbaNumber const& numberToCheck) -> bool
+{
+    return !numberToCheck.isAFiniteValue();
+};
+
+}
+
+bool isValueSatisfyTheCondition(
+        Term const& term,
+        NumberCheckingCondition const& condition)
+{
+    bool result(false);
+    if(term.isConstant())
+    {
+        result = isValueSatisfyTheCondition(term.getConstantConstReference(), condition);
+    }
+    else if(term.isMonomial())
+    {
+        result = isValueSatisfyTheCondition(term.getMonomialConstReference(), condition);
+    }
+    else if(term.isPolynomial())
+    {
+        result = isValueSatisfyTheCondition(term.getPolynomialConstReference(), condition);
+    }
+    else if(term.isExpression())
+    {
+        result = isValueSatisfyTheCondition(term.getExpressionConstReference(), condition);
+    }
+    return result;
+}
+
+bool isValueSatisfyTheCondition(
+        Constant const& constant,
+        NumberCheckingCondition const& condition)
+{
+    return condition(constant.getNumberConstReference());
+}
+
+bool isValueSatisfyTheCondition(
+        Monomial const& monomial,
+        NumberCheckingCondition const& condition)
+{
+    return monomial.isConstantOnly()
+            && isValueSatisfyTheCondition(monomial.getConstantConstReference(), condition);
+}
+
+bool isValueSatisfyTheCondition(
+        Polynomial const& polynomial,
+        NumberCheckingCondition const& condition)
+{
+    return polynomial.isOneMonomial()
+            && isValueSatisfyTheCondition(polynomial.getFirstMonomial(), condition);
+}
+
+bool isValueSatisfyTheCondition(
+        Expression const& expression,
+        NumberCheckingCondition const& condition)
+{
+    bool result(false);
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+    if(termsWithDetails.size() == 1)
+    {
+        result = isValueSatisfyTheCondition(
+                    getTermConstReferenceFromSharedPointer(termsWithDetails.front().baseTermSharedPointer),
+                    condition);
+    }
+    return result;
+}
+
+bool doAnyNumbersSatisfyTheCondition(
+        Term const& term,
+        NumberCheckingCondition const& condition)
+{
+    bool result(false);
+    if(term.isConstant())
+    {
+        result = condition(term.getConstantValueConstReference());
+    }
+    else if(term.isMonomial())
+    {
+        result = doAnyNumbersSatisfyTheCondition(term.getMonomialConstReference(), condition);
+    }
+    else if(term.isPolynomial())
+    {
+        result = doAnyNumbersSatisfyTheCondition(term.getPolynomialConstReference(), condition);
+    }
+    else if(term.isExpression())
+    {
+        result = doAnyNumbersSatisfyTheCondition(term.getExpressionConstReference(), condition);
+    }
+    else if(term.isFunction())
+    {
+        result = doAnyNumbersSatisfyTheCondition(term.getFunctionConstReference(), condition);
+    }
+    return result;
+}
+
+bool doAnyNumbersSatisfyTheCondition(
+        Monomial const& monomial,
+        NumberCheckingCondition const& condition)
+{
+    bool result(condition(monomial.getConstantConstReference()));
+    if(!result)
+    {
+        for(auto const& variableExponentsPair
+            : monomial.getVariablesToExponentsMapConstReference())
+        {
+            result |= condition(variableExponentsPair.second);
+            if(result)
+            {
+                break;            }
+        }
+    }
+    return result;
+}
+
+bool doAnyNumbersSatisfyTheCondition(
+        Polynomial const& polynomial,
+        NumberCheckingCondition const& condition)
+{
+    bool result(false);
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    {
+        result |= doAnyNumbersSatisfyTheCondition(monomial, condition);
+        if(result)
+        {
+            break;        }
+    }
+    return result;
+}
+
+bool doAnyNumbersSatisfyTheCondition(
+        Expression const& expression,
+        NumberCheckingCondition const& condition)
+{
+    bool result(false);
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    {
+        result |= doAnyNumbersSatisfyTheCondition(
+                    getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer),
+                    condition);
+        if(result)
+        {
+            break;        }
+    }
+    return result;
+}
+
+bool doAnyNumbersSatisfyTheCondition(
+        Function const& function,
+        NumberCheckingCondition const& condition)
+{
+    return doAnyNumbersSatisfyTheCondition(function.getInputTermConstReference(), condition);
+}
 
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term)
 {
@@ -88,214 +259,101 @@ bool isTheValue(Expression const& expression, AlbaNumber const& number)
 
 bool isNotANumber(Term const& term)
 {
-    bool result(false);
-    if(term.isConstant())
-    {
-        result = isNotANumber(term.getConstantConstReference());
-    }
-    else if(term.isMonomial())
-    {
-        result = isNotANumber(term.getMonomialConstReference());
-    }
-    else if(term.isPolynomial())
-    {
-        result = isNotANumber(term.getPolynomialConstReference());
-    }
-    else if(term.isExpression())
-    {
-        result = isNotANumber(term.getExpressionConstReference());
-    }
-    return result;
+    return isValueSatisfyTheCondition(term, IsNotANumberCondition);
 }
 
 bool isNotANumber(Constant const& constant)
 {
-    return constant.getNumberConstReference().isNotANumber();
+    return isValueSatisfyTheCondition(constant, IsNotANumberCondition);
 }
 
 bool isNotANumber(Monomial const& monomial)
 {
-    return monomial.isConstantOnly() && monomial.getConstantConstReference().isNotANumber();
+    return isValueSatisfyTheCondition(monomial, IsNotANumberCondition);
 }
 
 bool isNotANumber(Polynomial const& polynomial)
 {
-    return polynomial.isOneMonomial() && isNotANumber(polynomial.getFirstMonomial());
+    return isValueSatisfyTheCondition(polynomial, IsNotANumberCondition);
 }
 
 bool isNotANumber(Expression const& expression)
 {
-    bool result(false);
-    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
-    if(termsWithDetails.size() == 1)
-    {
-        result = isNotANumber(getTermConstReferenceFromSharedPointer(termsWithDetails.front().baseTermSharedPointer));
-    }
-    return result;
+    return isValueSatisfyTheCondition(expression, IsNotANumberCondition);
 }
 
 bool hasNotANumber(Term const& term)
 {
-    bool result(false);
-    if(term.isConstant())
-    {
-        result = isNotANumber(term.getConstantConstReference());
-    }
-    else if(term.isMonomial())
-    {
-        result = hasNotANumber(term.getMonomialConstReference());
-    }
-    else if(term.isPolynomial())
-    {
-        result = hasNotANumber(term.getPolynomialConstReference());
-    }
-    else if(term.isExpression())
-    {
-        result = hasNotANumber(term.getExpressionConstReference());
-    }
-    else if(term.isFunction())
-    {
-        result = hasNotANumber(term.getFunctionConstReference());
-    }
-    return result;
+    return doAnyNumbersSatisfyTheCondition(term, IsNotANumberCondition);
 }
 
 bool hasNotANumber(Monomial const& monomial)
 {
-    bool result(isNotANumber(monomial.getConstantConstReference()));
-    if(!result)
-    {
-        for(auto const& variableExponentsPair
-            : monomial.getVariablesToExponentsMapConstReference())
-        {
-            result |= variableExponentsPair.second.isNotANumber();
-            if(result)
-            {
-                break;
-            }
-        }
-    }
-    return result;
+    return doAnyNumbersSatisfyTheCondition(monomial, IsNotANumberCondition);
 }
 
 bool hasNotANumber(Polynomial const& polynomial)
 {
-    bool result(false);
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
-    {
-        result |= hasNotANumber(monomial);
-        if(result)
-        {
-            break;
-        }
-    }
-    return result;
+    return doAnyNumbersSatisfyTheCondition(polynomial, IsNotANumberCondition);
 }
 
 bool hasNotANumber(Expression const& expression)
 {
-    bool result(false);
-    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
-    for(TermWithDetails const& termWithDetails : termsWithDetails)
-    {
-        result |= hasNotANumber(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        if(result)
-        {
-            break;
-        }
-    }
-    return result;
+    return doAnyNumbersSatisfyTheCondition(expression, IsNotANumberCondition);
 }
 
 bool hasNotANumber(Function const& function)
 {
-    return hasNotANumber(function.getInputTermConstReference());
+    return doAnyNumbersSatisfyTheCondition(function, IsNotANumberCondition);
 }
 
-bool hasNumbersNotFinite(Term const& term)
+bool hasNonFiniteNumbers(Term const& term)
 {
-    bool result(false);
-    if(term.isConstant())
-    {
-        result = !term.getConstantValueConstReference().isAFiniteValue();
-    }
-    else if(term.isMonomial())
-    {
-        result = hasNumbersNotFinite(term.getMonomialConstReference());
-    }
-    else if(term.isPolynomial())
-    {
-        result = hasNumbersNotFinite(term.getPolynomialConstReference());
-    }
-    else if(term.isExpression())
-    {
-        result = hasNumbersNotFinite(term.getExpressionConstReference());
-    }
-    else if(term.isFunction())
-    {
-        result = hasNumbersNotFinite(term.getFunctionConstReference());
-    }
-    return result;
+    return doAnyNumbersSatisfyTheCondition(term, IsNotAFiniteNumberCondition);
 }
 
-bool hasNumbersNotFinite(Monomial const& monomial)
+bool hasNonFiniteNumbers(Monomial const& monomial)
 {
-    bool result(!monomial.getConstantConstReference().isAFiniteValue());
-    if(!result)
-    {
-        for(auto const& variableExponentsPair
-            : monomial.getVariablesToExponentsMapConstReference())
-        {
-            result |= !variableExponentsPair.second.isAFiniteValue();
-            if(result)
-            {
-                break;
-            }
-        }
-    }
-    return result;
+    return doAnyNumbersSatisfyTheCondition(monomial, IsNotAFiniteNumberCondition);
 }
 
-bool hasNumbersNotFinite(Polynomial const& polynomial)
+bool hasNonFiniteNumbers(Polynomial const& polynomial)
 {
-    bool result(false);
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
-    {
-        result |= hasNumbersNotFinite(monomial);
-        if(result)
-        {
-            break;
-        }
-    }
-    return result;
+    return doAnyNumbersSatisfyTheCondition(polynomial, IsNotAFiniteNumberCondition);
 }
 
-bool hasNumbersNotFinite(Expression const& expression)
+bool hasNonFiniteNumbers(Expression const& expression)
 {
-    bool result(false);
-    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
-    for(TermWithDetails const& termWithDetails : termsWithDetails)
-    {
-        result |= hasNumbersNotFinite(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        if(result)
-        {
-            break;
-        }
-    }
-    return result;
+    return doAnyNumbersSatisfyTheCondition(expression, IsNotAFiniteNumberCondition);
 }
 
-bool hasNumbersNotFinite(Function const& function)
+bool hasNonFiniteNumbers(Function const& function)
 {
-    return hasNumbersNotFinite(function.getInputTermConstReference());
+    return doAnyNumbersSatisfyTheCondition(function, IsNotAFiniteNumberCondition);
 }
 
-bool isAFiniteConstant(Term const& term)
-{
+bool isAFiniteConstant(Term const& term){
     bool result(false);
     if(term.isConstant())
     {
         result = term.getConstantValueConstReference().isAFiniteValue();
+    }
+    return result;
+}
+
+bool hasNegativeExponentsWithVariable(
+        Polynomial const& polynomial,
+        string const& variableName)
+{
+    bool result(false);
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    {
+        result = result
+                || (monomial.getExponentForVariable(variableName) < 0);
+        if(result)
+        {
+            break;
+        }
     }
     return result;
 }

@@ -1,21 +1,24 @@
 #include "DifferentiationUtilities.hpp"
 
+#include <Algebra/Differentiation/DerivativeVariableName.hpp>
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Integration/Integration.hpp>
+#include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquation.hpp>
 #include <Algebra/Limit/Limit.hpp>
+#include <Algebra/Retrieval/SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever.hpp>
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>#include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Algebra/Utilities/KnownNames.hpp>
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
-using namespace alba::algebra::DomainAndRange;
-using namespace alba::algebra::Functions;
+using namespace alba::algebra::DomainAndRange;using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
 using namespace std;
 
@@ -66,21 +69,40 @@ bool isDifferentiableAt(
     return result;
 }
 
-Term getDerivativeAtUsingLimit(
-        Term const& term,
-        string const& variableName,
-        Term const& termSubstituteToBack,
-        LimitAtAValueApproachType const approachType)
+bool isFirstOrderDifferentialEquation(
+        Term const& dyOverDx,
+        Term const& p,
+        Term const& q,
+        string const& xVariableName,
+        string const& yVariableName)
 {
-    string const& deltaXName(DELTA_X_NAME);
-    Term derivativeDefinition(getDerivativeDefinition(term, variableName));
-    SubstitutionOfVariablesToTerms substitution{{X_NAME, termSubstituteToBack}};
-    Term derivativeAfterSubstitution(substitution.performSubstitutionTo(derivativeDefinition));
-    return simplifyAndGetLimitAtAValue(derivativeAfterSubstitution, deltaXName, 0, approachType);
+    // First order differential equation should follow this:
+    // dy/dx = P(x)*y + Q(x)
+
+    bool result(false);
+    DerivativeVariableName derivativeVariableName(1, xVariableName, yVariableName);
+    Term remainingTermWithoutDyOverDx = dyOverDx/Term(derivativeVariableName.getNameInLeibnizNotation());
+    remainingTermWithoutDyOverDx.simplify();
+    if(Term(1) == remainingTermWithoutDyOverDx)
+    {
+        VariableNamesRetriever retriever;
+        retriever.retrieveFromTerm(p);
+        VariableNamesSet const& namesFromP(retriever.getSavedData());
+        if(namesFromP.find(yVariableName) != namesFromP.cend())
+        {
+            VariableNamesRetriever retriever;
+            retriever.retrieveFromTerm(q);
+            VariableNamesSet const& namesFromQ(retriever.getSavedData());
+            if(namesFromQ.find(xVariableName) != namesFromQ.cend())
+            {
+                result = true;
+            }
+        }
+    }
+    return result;
 }
 
-Term getDerivativeDefinition(
-        Term const& term,
+Term getDerivativeDefinition(        Term const& term,
         string const& variableName)
 {
     Term x(X_NAME);
@@ -96,10 +118,22 @@ Term getDerivativeDefinition(
     return derivativeDefinition;
 }
 
+Term getDerivativeAtUsingLimit(
+        Term const& term,
+        string const& variableName,
+        Term const& termSubstituteToBack,
+        LimitAtAValueApproachType const approachType)
+{
+    string const& deltaXName(DELTA_X_NAME);
+    Term derivativeDefinition(getDerivativeDefinition(term, variableName));
+    SubstitutionOfVariablesToTerms substitution{{X_NAME, termSubstituteToBack}};
+    Term derivativeAfterSubstitution(substitution.performSubstitutionTo(derivativeDefinition));
+    return simplifyAndGetLimitAtAValue(derivativeAfterSubstitution, deltaXName, 0, approachType);
+}
+
 Term getDerivativeDefinitionForFiniteCalculus(
         Term const& term,
-        string const& variableName)
-{
+        string const& variableName){
     // Discrete derivative
     Polynomial variableNamePlusOne{Monomial(1, {{variableName, 1}}), Monomial(1, {})};
     SubstitutionOfVariablesToTerms substitution{{variableName, Term(variableNamePlusOne)}};
@@ -108,10 +142,32 @@ Term getDerivativeDefinitionForFiniteCalculus(
     return discreteDerivativeDefinition;
 }
 
+Term getLogarithmicDifferentiationToYieldDyOverDx(
+        Term const& yInTermsOfX,
+        string const& xVariableName,
+        string const& yVariableName)
+{
+    // y = f(x)
+    // dy/dx = f(x) * f'(ln|f(x)|)
+    // if domain is inside positive, then absolute value can be removed
+    Term result;
+    SolutionSet solutionSet(calculateDomainForEquation(xVariableName, Equation(Term(yVariableName), "=", yInTermsOfX)));
+    AlbaNumberIntervals const& intervals(solutionSet.getAcceptedIntervals());
+    AlbaNumberInterval positiveNumbersInterval(createCloseEndpoint(AlbaNumber(0)), createPositiveInfinityOpenEndpoint());
+    if(areTheIntervalsInsideTheInterval(intervals, positiveNumbersInterval))
+    {
+        Differentiation differentiation(xVariableName);
+        Term logarithm(ln(yInTermsOfX));
+        logarithm.simplify();
+        result = yInTermsOfX * differentiation.differentiate(logarithm);
+        simplifyToNonDoubleFactors(result);
+    }
+    return result;
+}
+
 SolutionSet getDifferentiabilityDomain(
         Term const& term,
-        string const& variableName)
-{
+        string const& variableName){
     // This code is not accurate.
     // How about piecewise function?
     // How about absolute value function?
@@ -145,10 +201,62 @@ Equation getRelationshipOfDerivativeOfTheInverseAndTheDerivative(
     return Equation(derivativeOfInverseWithNewVariable, "=", oneOverDerivativeWithNewVariable);
 }
 
+Equation getIntegralEquationForFirstOrderDifferentialEquation(
+        Equation const& equation,
+        string const& xVariableName,
+        string const& yVariableName)
+{
+    Equation result;
+    DerivativeVariableName derivativeVariableName(1, xVariableName, yVariableName);
+    string derivativeName(derivativeVariableName.getNameInLeibnizNotation());
+    IsolationOfOneVariableOnEqualityEquation isolation(equation);
+    Term termWithDerivative;
+    Term termWithoutDerivative;
+    isolation.isolateTermWithVariable(derivativeName, termWithDerivative, termWithoutDerivative);
+    SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever retriever;
+    retriever.putVariableNamesToCheckInOrder({derivativeName, yVariableName});
+    retriever.retrieveFromTerm(termWithoutDerivative);
+    SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::VariableNameToExpressionMap const& variableNameToExpressionMap(
+            retriever.getVariableNameToExpressionMap());
+    Term dyOverDx = termWithDerivative;
+    Term p = -Term(variableNameToExpressionMap.at(yVariableName));
+    Term q = retriever.getRemainingTermsExpression();
+
+    dyOverDx.simplify();
+    p.simplify();
+    q.simplify();
+    if(isFirstOrderDifferentialEquation(dyOverDx, p, q, xVariableName, yVariableName))
+    {
+        result = getIntegralEquationForFirstOrderDifferentialEquation(p, q, xVariableName, yVariableName);
+    }
+    return result;
+}
+
+Equation getIntegralEquationForFirstOrderDifferentialEquation(
+        Term const& p,
+        Term const& q,
+        string const& xVariableName,
+        string const& yVariableName)
+{
+    // First order differential equation should follow this:
+    // dy/dx = P(x)*y + Q(x)
+
+    Integration integration(xVariableName);
+    Term integralOfP(integration.integrateTerm(p));
+    Term eToTheIntegralOfP(createExpressionIfPossible({Term(E), Term("^"), integralOfP}));
+    Term eToTheNegativeIntegralOfP(createExpressionIfPossible({Term(E), Term("^"), -integralOfP}));
+    Term qWithoutY(q/Term(yVariableName));
+    Term qExpression(createExpressionIfPossible({qWithoutY, Term("*"), eToTheIntegralOfP}));
+    Term cExpression(createExpressionIfPossible({Term(E), Term("*"), eToTheNegativeIntegralOfP}));
+    Term integralOfQExpression(integration.integrateTerm(qExpression));
+    Term qcExpression(createExpressionIfPossible({integralOfQExpression, Term("+"), cExpression}));
+    Term pqcExpression(createExpressionIfPossible({eToTheNegativeIntegralOfP, Term("*"), qcExpression}));
+    return Equation(Term(yVariableName), "=", pqcExpression);
+}
+
 void simplifyDerivativeByDefinition(Term & term)
 {
-    SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(
-                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     rationalizeConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
     rationalizeConfigurationDetails.shouldSimplifyByRationalizingNumerator = true;
     SimplificationOfExpression::ScopeObject scopeObject;
@@ -157,29 +265,22 @@ void simplifyDerivativeByDefinition(Term & term)
     term.simplify();
 }
 
-Term performLogarithmicDifferentiationToYieldDyOverDx(
-        Term const& yInTermsOfX,
-        string const& xVariableName,
-        string const& yVariableName)
+void simplifyToNonDoubleFactors(
+        Term& term)
 {
-    // y = f(x)
-    // dy/dx = f(x) * f'(ln|f(x)|)
-    // if domain is inside positive, then absolute value can be removed
-    Term result;
-    SolutionSet solutionSet(calculateDomainForEquation(xVariableName, Equation(Term(yVariableName), "=", yInTermsOfX)));
-    AlbaNumberIntervals const& intervals(solutionSet.getAcceptedIntervals());
-    AlbaNumberInterval positiveNumbersInterval(createCloseEndpoint(AlbaNumber(0)), createPositiveInfinityOpenEndpoint());
-    if(areTheIntervalsInsideTheInterval(intervals, positiveNumbersInterval))
+    term.simplify();
     {
-        Differentiation differentiation(xVariableName);
-        Term logarithm(ln(yInTermsOfX));
-        logarithm.simplify();
-        result = yInTermsOfX * differentiation.differentiate(logarithm);
-        result.simplify();
-    }
-    return result;
-}
+        SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                    SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+        configurationDetails.shouldSimplifyToFactors = true;
+        configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
 
+        SimplificationOfExpression::ScopeObject scopeObject;
+        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+        term.simplify();
+    }
+}
 
 }
 

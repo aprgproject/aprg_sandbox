@@ -14,22 +14,32 @@ namespace algebra
 
 TEST(ExpressionTest, ConstructionWorks)
 {
+    TermWithDetails termWithDetails1(Term(10), TermAssociationType::Positive);
+    TermWithDetails termWithDetails2(Term(20), TermAssociationType::Negative);
     Expression expression1;
     Expression expression2(Term(12));
+    Expression expression3(OperatorLevel::AdditionAndSubtraction, {termWithDetails1, termWithDetails2});
 
     EXPECT_EQ(OperatorLevel::Unknown, expression1.getCommonOperatorLevel());
-    TermsWithDetails const& termsToVerify1(expression1.getTermsWithAssociation().getTermsWithDetails());
-    ASSERT_TRUE(termsToVerify1.empty());
+    TermsWithDetails const& termsToVerify1(expression1.getTermsWithAssociation().getTermsWithDetails());    ASSERT_TRUE(termsToVerify1.empty());
     EXPECT_EQ(OperatorLevel::Unknown, expression2.getCommonOperatorLevel());
     TermsWithDetails const& termsToVerify2(expression2.getTermsWithAssociation().getTermsWithDetails());
     ASSERT_EQ(1U, termsToVerify2.size());
     EXPECT_EQ(TermAssociationType::Positive, termsToVerify2.at(0).association);
     Term const& termToVerify(getTermConstReferenceFromSharedPointer(termsToVerify2.at(0).baseTermSharedPointer));
     EXPECT_EQ(Term(12), termToVerify);
+    EXPECT_EQ(OperatorLevel::AdditionAndSubtraction, expression3.getCommonOperatorLevel());
+    TermsWithDetails const& termsToVerify3(expression3.getTermsWithAssociation().getTermsWithDetails());
+    ASSERT_EQ(2U, termsToVerify3.size());
+    EXPECT_EQ(TermAssociationType::Positive, termsToVerify3.at(0).association);
+    Term const& termToVerify2(getTermConstReferenceFromSharedPointer(termsToVerify3.at(0).baseTermSharedPointer));
+    EXPECT_EQ(Term(10), termToVerify2);
+    EXPECT_EQ(TermAssociationType::Negative, termsToVerify3.at(1).association);
+    Term const& termToVerify3(getTermConstReferenceFromSharedPointer(termsToVerify3.at(1).baseTermSharedPointer));
+    EXPECT_EQ(Term(20), termToVerify3);
 }
 
-TEST(ExpressionTest, EqualityOperatorWorks)
-{
+TEST(ExpressionTest, EqualityOperatorWorks){
     Expression expression1;
     Expression expression2(createExpressionIfPossible({Term(5), Term("+"), Term(createExpressionIfPossible({Term(5), Term("+"), Term("interest")}))}));
     Expression expression3(createExpressionIfPossible({Term(6), Term("+"), Term("interest")}));

@@ -21,10 +21,10 @@ public:
 
     Expression();
     Expression(BaseTerm const& baseTerm);
+    Expression(OperatorLevel const operatorLevel, TermsWithDetails const& termsWithDetails);
     ~Expression();
 
-    bool operator==(Expression const& second) const;
-    bool operator!=(Expression const& second) const;
+    bool operator==(Expression const& second) const;    bool operator!=(Expression const& second) const;
     bool operator<(Expression const& second) const;
     bool isEmpty() const;
     bool containsOnlyOnePositivelyAssociatedTerm() const;

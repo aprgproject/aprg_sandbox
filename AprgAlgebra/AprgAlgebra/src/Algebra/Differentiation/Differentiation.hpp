@@ -56,10 +56,13 @@ private:
             TermsWithDetails const& termsWithDetails) const;
     Term differentiateTermsInMultiplicationOrDivision(
             TermsWithDetails const& termsWithDetails) const;
+    Term differentiateByProcessingAsPolynomialsOverPolynomials(
+            Term const& term) const;
+    Term differentiateTermsInMultiplicationOrDivisionTermByTerm(
+            TermsWithDetails const& termsWithDetails) const;
     Term differentiateTermsInRaiseToPower(
             TermsWithDetails const& termsWithDetails) const;
-    Term differentiateConstantRaiseToTerm(
-            AlbaNumber const& base,
+    Term differentiateConstantRaiseToTerm(            AlbaNumber const& base,
             Term const& exponent) const;
     Term differentiateTermRaiseToConstant(
             Term const& base,

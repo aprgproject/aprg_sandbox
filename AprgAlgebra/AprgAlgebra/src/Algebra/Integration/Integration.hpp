@@ -37,16 +37,19 @@ public:
     Term integrateTerm(Term const& term) const;
     Monomial integrateConstant(Constant const& constant) const;
     Monomial integrateVariable(Variable const& variable) const;
-    Monomial integrateMonomial(Monomial const& monomial) const;
-    Polynomial integratePolynomial(Polynomial const& polynomial) const;
+    Term integrateMonomial(Monomial const& monomial) const;
+    Term integratePolynomial(Polynomial const& polynomial) const;
     Term integrateExpression(Expression const& expression) const;
     Term integrateFunction(Function const& functionObject) const;
 
 private:
+    Term integrateMonomialWhenExponentIsNegativeOne(
+            Monomial const& monomial) const;
+    Monomial integrateMonomialWhenExponentIsNotNegativeOne(
+            Monomial const& monomial) const;
     Term integrateAsTermOrExpressionIfNeeded(
             Expression const& expression) const;
-    void integrateSimplifiedExpressionOnly(
-            Term & result,
+    void integrateSimplifiedExpressionOnly(            Term & result,
             Expression const& expression,
             Configuration const& configuration) const;
     void integrateTermsInAdditionOrSubtraction(
@@ -101,10 +104,10 @@ private:
     Term divideFirstTermAndDerivativeOfSecondTerm(
             Term const& firstTerm,
             Term const& secondTerm) const;
+    void integrateByProcessingAsPolynomialsOverPolynomials(Term & result, Term const& term) const;
     void integrateRecognizedFunctionsIfPossible(Term & result, TermsWithDetails const& termsWithDetails) const;
     void simplifyForIntegration(Term & term, Configuration const& configuration) const;
-    Configuration getConfigurationWithFactors() const;
-    Configuration getConfigurationWithCommonDenominator() const;
+    Configuration getConfigurationWithFactors() const;    Configuration getConfigurationWithCommonDenominator() const;
     bool isVariableToIntegrate(std::string const& variableName) const;
     bool isVariableToIntegrateNotFoundInTerm(Term const& term) const;
     bool wouldDifferentiationYieldToAConstant(Term const& term) const;

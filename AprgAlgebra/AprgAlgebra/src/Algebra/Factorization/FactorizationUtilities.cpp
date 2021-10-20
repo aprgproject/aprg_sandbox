@@ -60,11 +60,10 @@ bool doesNotNeedToBeFactorized(Polynomial const& polynomial)
 {
     Monomials const& monomials(polynomial.getMonomialsConstReference());
     bool result(false);
-    if(hasNumbersNotFinite(polynomial))
+    if(hasNonFiniteNumbers(polynomial))
     {
         result = true;
-    }
-    else if(monomials.size() <= 1)
+    }    else if(monomials.size() <= 1)
     {
         result = true;
     }

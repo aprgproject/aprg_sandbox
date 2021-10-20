@@ -3,10 +3,10 @@
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
+#include <Algebra/Functions/FunctionUtilities.hpp>
 #include <Algebra/Integration/IntegrationUtilities.hpp>
 #include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquation.hpp>
-#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
-#include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>#include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
@@ -152,7 +152,60 @@ Monomial Integration::integrateVariable(
     return result;
 }
 
-Monomial Integration::integrateMonomial(
+Term Integration::integrateMonomial(
+        Monomial const& monomial) const
+{
+    Term result;
+    AlbaNumber exponentForVariable = monomial.getExponentForVariable(m_nameOfVariableToIntegrate);
+    if(exponentForVariable == -1)
+    {
+        result = Term(integrateMonomialWhenExponentIsNegativeOne(monomial));
+    }
+    else
+    {
+        result = Term(integrateMonomialWhenExponentIsNotNegativeOne(monomial));
+    }
+    result.simplify();
+    return result;
+}
+
+Term Integration::integratePolynomial(
+        Polynomial const& polynomial) const
+{
+    Term result;
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    {
+        result = result + integrateMonomial(monomial);
+    }
+    result.simplify();
+    return result;}
+
+Term Integration::integrateExpression(
+        Expression const& expression) const
+{
+    Term result(integrateAsTermOrExpressionIfNeeded(expression));
+    simplifyForIntegration(result, getConfigurationWithFactors());
+    return result;
+}
+
+Term Integration::integrateFunction(
+        Function const& functionObject) const
+{
+    Term result(integrateFunctionOnly(functionObject));
+    simplifyForIntegration(result, getConfigurationWithFactors());
+    return result;
+}
+
+Term Integration::integrateMonomialWhenExponentIsNegativeOne(
+        Monomial const& monomial) const
+{
+    Monomial retainedMonomial(monomial);
+    retainedMonomial.putVariableWithExponent(m_nameOfVariableToIntegrate, 0);
+    Term result = retainedMonomial * getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(m_nameOfVariableToIntegrate));
+    return result;
+}
+
+Monomial Integration::integrateMonomialWhenExponentIsNotNegativeOne(
         Monomial const& monomial) const
 {
     Monomial result(monomial);
@@ -173,42 +226,12 @@ Monomial Integration::integrateMonomial(
     {
         result.putVariableWithExponent(m_nameOfVariableToIntegrate, 1);
     }
-    result.simplify();
-    return result;
-}
-
-Polynomial Integration::integratePolynomial(
-        Polynomial const& polynomial) const
-{
-    Polynomial result;
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
-    {
-        result.addMonomial(integrateMonomial(monomial));
-    }
-    result.simplify();
-    return result;
-}
-
-Term Integration::integrateExpression(
-        Expression const& expression) const
-{
-    Term result(integrateAsTermOrExpressionIfNeeded(expression));
-    simplifyForIntegration(result, getConfigurationWithFactors());
-    return result;
-}
-
-Term Integration::integrateFunction(
-        Function const& functionObject) const
-{
-    Term result(integrateFunctionOnly(functionObject));
-    simplifyForIntegration(result, getConfigurationWithFactors());
     return result;
 }
 
 Term Integration::integrateAsTermOrExpressionIfNeeded(
         Expression const& expression) const
-{
-    Term result;
+{    Term result;
     Configurations configurations{getConfigurationWithFactors(), getConfigurationWithCommonDenominator()};
     for(Configuration const& configuration : configurations)
     {
@@ -283,44 +306,47 @@ void Integration::integrateTermsInMultiplicationOrDivision(
         Term & result,
         TermsWithDetails const& termsWithDetails) const
 {
+    integrateByProcessingAsPolynomialsOverPolynomials(
+                result,
+                Term(Expression(OperatorLevel::MultiplicationAndDivision, termsWithDetails)));
     integrateRecognizedFunctionsIfPossible(result, termsWithDetails);
     integrateUsingChainRuleInReverseIfPossible(result, termsWithDetails);
 }
-
 void Integration::integrateTermsInRaiseToPower(
         Term & result,
         TermsWithDetails const& termsWithDetails) const
 {
-    if(termsWithDetails.size() == 2)
+    TermRaiseToTerms termRaiseToTerms(termsWithDetails);
+    termRaiseToTerms.simplify();
+    Term firstTerm(termRaiseToTerms.getBase());
+    Term secondTerm(termRaiseToTerms.getCombinedExponents());
+    if(firstTerm.isConstant())
     {
-        Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
-        Term const& secondTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
-        if(firstTerm.isConstant())
-        {
-            integrateConstantRaiseToTerm(result, firstTerm.getConstantValueConstReference(), secondTerm);
-        }
-        else if(secondTerm.isConstant())
-        {
-            integrateTermRaiseToConstant(result, firstTerm, secondTerm.getConstantValueConstReference());
-        }
-        else
-        {
-            integrateTermRaiseToTerm(result, firstTerm, secondTerm);
-        }
+        integrateConstantRaiseToTerm(result, firstTerm.getConstantValueConstReference(), secondTerm);
+    }
+    else if(secondTerm.isConstant())
+    {
+        integrateTermRaiseToConstant(result, firstTerm, secondTerm.getConstantValueConstReference());
+    }
+    else
+    {
+        integrateTermRaiseToTerm(result, firstTerm, secondTerm);
     }
 }
 
 void Integration::integrateConstantRaiseToTerm(
         Term & result,
-        AlbaNumber const& ,
-        Term const& ) const
+        AlbaNumber const& base,
+        Term const& exponent) const
 {
-    //implement this
-    result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+    if(wouldDifferentiationYieldToAConstant(exponent))
+    {
+        result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible(
+        {Term(base), Term("^"), exponent, Term("/"), Term(ln(Term(base)))})), exponent);
+    }
 }
 
-void Integration::integrateTermRaiseToConstant(
-        Term & result,
+void Integration::integrateTermRaiseToConstant(        Term & result,
         Term const& base,
         AlbaNumber const& exponent) const
 {
@@ -364,34 +390,36 @@ Term Integration::integrateFunctionOnly(
     Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
     if(wouldDifferentiationYieldToAConstant(inputTerm))
     {
-        if("sin" == functionObject.getFunctionName())
+        if("abs" == functionObject.getFunctionName())
+        {
+            result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+        }
+        else if("sin" == functionObject.getFunctionName())
         {
             result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible({Term(-1), Term("*"), cos(inputTerm)})), inputTerm);
-        }
-        else if("cos" == functionObject.getFunctionName())
+        }        else if("cos" == functionObject.getFunctionName())
         {
             result = divideFirstTermAndDerivativeOfSecondTerm(Term(sin(inputTerm)), inputTerm);
         }
-        /*else if("tan" == functionObject.getFunctionName())
+        else if("tan" == functionObject.getFunctionName())
         {
-            integrationOfFunction = Term(createExpressionIfPossible({sec(inputTerm), Term("^"), Term(2)}));
+            result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(sec(inputTerm)));
         }
         else if("csc" == functionObject.getFunctionName())
         {
-            integrationOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), csc(inputTerm), Term("*"), cot(inputTerm)}));
+            result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(csc(inputTerm)) - Term(cot(inputTerm)));
         }
         else if("sec" == functionObject.getFunctionName())
         {
-            integrationOfFunction = Term(createExpressionIfPossible({sec(inputTerm), Term("*"), tan(inputTerm)}));
+            result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(sec(inputTerm)) + Term(tan(inputTerm)));
         }
         else if("cot" == functionObject.getFunctionName())
         {
-            integrationOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), csc(inputTerm), Term("^"), Term(2)}));
-        }*/
+            result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(sin(inputTerm)));
+        }
     }
     if(result.isEmpty())
-    {
-        integrateTermUsingSubstitutionWithMaxDepth(result, Term(functionObject), getConfigurationWithFactors());
+    {        integrateTermUsingSubstitutionWithMaxDepth(result, Term(functionObject), getConfigurationWithFactors());
     }
     if(result.isEmpty())
     {
@@ -500,13 +528,14 @@ void Integration::integrateUsingChainRuleInReverseIfPossible(
     {
         TermsWithDetails termsInFirstTerms(termsWithDetailsInMultiplicationAndDivision);
         termsInFirstTerms.erase(termsInFirstTerms.cbegin() + i);
-        Term firstTerm(simplifyAndConvertToTerm(OperatorLevel::MultiplicationAndDivision, termsInFirstTerms));
-        Term secondTerm(simplifyAndConvertToTerm(OperatorLevel::MultiplicationAndDivision, termsWithDetailsInMultiplicationAndDivision.at(i)));
+        Term firstTerm(Expression(OperatorLevel::MultiplicationAndDivision, termsInFirstTerms));
+        Term secondTerm(Expression(OperatorLevel::MultiplicationAndDivision, {termsWithDetailsInMultiplicationAndDivision.at(i)}));
         Term innerTermInfirstTerm;
+        firstTerm.simplify();
+        secondTerm.simplify();
         findInnerAndOuterTermForChainRule(innerTermInfirstTerm, firstTerm);
         if(!innerTermInfirstTerm.isEmpty())
-        {
-            integrateUsingChainRuleInReverseIfPossible(result, firstTerm, innerTermInfirstTerm, secondTerm);
+        {            integrateUsingChainRuleInReverseIfPossible(result, firstTerm, innerTermInfirstTerm, secondTerm);
         }
     }
 }
@@ -587,10 +616,27 @@ Term Integration::divideFirstTermAndDerivativeOfSecondTerm(
     return Term(createExpressionIfPossible({firstTerm, Term("/"), differentiation.differentiate(secondTerm)}));
 }
 
+void Integration::integrateByProcessingAsPolynomialsOverPolynomials(
+        Term & result,
+        Term const& term) const
+{
+    PolynomialOverPolynomialOptional popOptional(createPolynomialOverPolynomialFromTermIfPossible(term));
+    if(popOptional.hasContent())
+    {
+        PolynomialOverPolynomial & pop(popOptional.getReference());
+        PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(pop.simplifyAndDivide());
+        if(!quotientAndRemainder.quotient.isEmpty()
+                && !hasNegativeExponentsWithVariable(quotientAndRemainder.quotient, m_nameOfVariableToIntegrate))
+        {
+            result = integrate(quotientAndRemainder.quotient)
+                    + integrate(Term(quotientAndRemainder.remainder / pop.getDenominator()));
+        }
+    }
+}
+
 void Integration::integrateRecognizedFunctionsIfPossible(
         Term & result,
-        TermsWithDetails const& termsWithDetails) const
-{
+        TermsWithDetails const& termsWithDetails) const{
     if(result.isEmpty() && termsWithDetails.size() == 2)
     {
         Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
@@ -683,7 +729,6 @@ bool Integration::wouldDifferentiationYieldToAConstant(
     }
     return result;
 }
-
 
 }
 

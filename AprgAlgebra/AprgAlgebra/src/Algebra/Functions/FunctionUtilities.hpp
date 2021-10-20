@@ -1,9 +1,8 @@
 #pragma once
 
-#include <Algebra/Term/TermTypes/Function.hpp>
+#include <Algebra/Term/TermTypes/Term.hpp>
 #include <Math/Number/AlbaNumberTypes.hpp>
 #include <String/AlbaStringHelper.hpp>
-
 #include <string>
 
 namespace alba
@@ -27,8 +26,10 @@ AlbaNumberPairs evaluateAndGetInputOutputPair(
         std::string const& variableName,
         Function const& functionObject);
 
-}
+Term getNaturalLogarithmOfTheAbsoluteValueOfTerm(
+        Term const& term);
 
 }
 
+}
 }

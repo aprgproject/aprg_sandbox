@@ -24,9 +24,9 @@ public:
 
     bool doesEvenExponentCancellationHappen() const;
     Term getCombinedTerm() const;
+    Term getCombinedExponents() const;
     Term const& getBase() const;
     TermsWithDetails const& getExponents() const;
-
     void setBase(Term const& base);
     void setAsShouldSimplifyToFactors(bool const shouldSimplifyToFactors);
     void setAsShouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt(bool const shouldSimplify);
@@ -41,11 +41,10 @@ private:
             TermsWithDetails const& termsInRaiseToPowerExpression);
     void initializeExponentsInTerms(
             Terms const& exponents);
-    Term combineBaseAndExponentsAndReturn() const;
+    Term getCombinedBaseAndExponents() const;
 
     Term m_base;
-    TermsWithDetails m_exponents;
-    bool m_shouldSimplifyToFactors;
+    TermsWithDetails m_exponents;    bool m_shouldSimplifyToFactors;
     bool m_shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt;
     bool m_shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase;
 };

@@ -69,30 +69,9 @@ Term simplifyAndConvertFunctionToSimplestTerm(Function const& functionObject)
     return convertFunctionToSimplestTerm(newFunction);
 }
 
-Term simplifyAndConvertToTerm(OperatorLevel const operatorLevel, TermWithDetails const& termWithDetails)
-{
-    Expression expression;
-    expression.setCommonOperatorLevel(operatorLevel);
-    expression.putTermWithDetails(termWithDetails);
-    Term result(expression);
-    result.simplify();
-    return result;
-}
-
-Term simplifyAndConvertToTerm(OperatorLevel const operatorLevel, TermsWithDetails const& termsWithDetails)
-{
-    Expression expression;
-    expression.setCommonOperatorLevel(operatorLevel);
-    expression.putTermsWithDetails(termsWithDetails);
-    Term result(expression);
-    result.simplify();
-    return result;
-}
-
 Term convertMonomialToSimplestTerm(Monomial const& monomial)
 {
-    Term newTerm(monomial);
-    if(isTheValue(monomial, 0))
+    Term newTerm(monomial);    if(isTheValue(monomial, 0))
     {
         newTerm = Term(Constant(0));
     }

@@ -12,10 +12,104 @@ namespace alba
 namespace algebra
 {
 
+TEST(ValueCheckingHelpersTest, IsValueSatisfyTheConditionWorksForTerm)
+{
+    Term termToTest(12345);
+
+    EXPECT_TRUE(isValueSatisfyTheCondition(termToTest, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
+    EXPECT_FALSE(isValueSatisfyTheCondition(termToTest, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
+}
+
+TEST(ValueCheckingHelpersTest, IsValueSatisfyTheConditionWorksForConstant)
+{
+    Constant constant(12345);
+
+    EXPECT_TRUE(isValueSatisfyTheCondition(constant, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
+    EXPECT_FALSE(isValueSatisfyTheCondition(constant, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
+}
+
+TEST(ValueCheckingHelpersTest, IsValueSatisfyTheConditionWorksForMonomial)
+{
+    Monomial monomial1(Monomial(1, {{"x", 12345}}));
+    Monomial monomial2(Monomial(12345, {}));
+
+    EXPECT_FALSE(isValueSatisfyTheCondition(monomial1, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
+    EXPECT_FALSE(isValueSatisfyTheCondition(monomial1, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
+    EXPECT_TRUE(isValueSatisfyTheCondition(monomial2, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
+    EXPECT_FALSE(isValueSatisfyTheCondition(monomial2, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
+}
+
+TEST(ValueCheckingHelpersTest, IsValueSatisfyTheConditionWorksForPolynomial)
+{
+    Polynomial polynomial1{Monomial(1, {}), Monomial(1, {{"x", 12345}})};
+    Polynomial polynomial2{Monomial(12345, {})};
+
+    EXPECT_FALSE(isValueSatisfyTheCondition(polynomial1, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
+    EXPECT_FALSE(isValueSatisfyTheCondition(polynomial1, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
+    EXPECT_TRUE(isValueSatisfyTheCondition(polynomial2, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
+    EXPECT_FALSE(isValueSatisfyTheCondition(polynomial2, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
+}
+
+TEST(ValueCheckingHelpersTest, IsValueSatisfyTheConditionWorksForExpression)
+{
+    Expression expression1(createExpressionIfPossible({Term("x"), Term("+"), Term(12345)}));
+    Expression expression2(createExpressionIfPossible({Term(12345)}));
+
+    EXPECT_FALSE(isValueSatisfyTheCondition(expression1, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
+    EXPECT_FALSE(isValueSatisfyTheCondition(expression1, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
+    EXPECT_TRUE(isValueSatisfyTheCondition(expression2, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
+    EXPECT_FALSE(isValueSatisfyTheCondition(expression2, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
+}
+
+TEST(ValueCheckingHelpersTest, DoAnyNumbersSatisfyTheConditionWorksForTerm)
+{
+    Term termToTest(12345);
+
+    EXPECT_TRUE(doAnyNumbersSatisfyTheCondition(termToTest, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
+    EXPECT_FALSE(doAnyNumbersSatisfyTheCondition(termToTest, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
+}
+
+TEST(ValueCheckingHelpersTest, DoAnyNumbersSatisfyTheConditionWorksForMonomial)
+{
+    Monomial monomial1(Monomial(1, {{"x", 12345}}));
+    Monomial monomial2(Monomial(12345, {{"x", 1}}));
+
+    EXPECT_TRUE(doAnyNumbersSatisfyTheCondition(monomial1, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
+    EXPECT_FALSE(doAnyNumbersSatisfyTheCondition(monomial1, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
+    EXPECT_TRUE(doAnyNumbersSatisfyTheCondition(monomial2, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
+    EXPECT_FALSE(doAnyNumbersSatisfyTheCondition(monomial2, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
+}
+
+TEST(ValueCheckingHelpersTest, DoAnyNumbersSatisfyTheConditionWorksForPolynomial)
+{
+    Polynomial polynomial1{Monomial(1, {}), Monomial(1, {{"x", 12345}})};
+    Polynomial polynomial2{Monomial(12345, {}), Monomial(1, {{"x", 1}})};
+
+    EXPECT_TRUE(doAnyNumbersSatisfyTheCondition(polynomial1, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
+    EXPECT_FALSE(doAnyNumbersSatisfyTheCondition(polynomial1, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
+    EXPECT_TRUE(doAnyNumbersSatisfyTheCondition(polynomial2, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
+    EXPECT_FALSE(doAnyNumbersSatisfyTheCondition(polynomial2, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
+}
+
+TEST(ValueCheckingHelpersTest, DoAnyNumbersSatisfyTheConditionWorksForExpression)
+{
+    Expression expression(createExpressionIfPossible({Term("x"), Term("+"), Term(12345)}));
+
+    EXPECT_TRUE(doAnyNumbersSatisfyTheCondition(expression, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
+    EXPECT_FALSE(doAnyNumbersSatisfyTheCondition(expression, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
+}
+
+TEST(ValueCheckingHelpersTest, DoAnyNumbersSatisfyTheConditionWorksForFunction)
+{
+    Function absoluteValueFunction(Functions::abs(createExpressionIfPossible({Term("x"), Term("+"), Term(12345)})));
+
+    EXPECT_TRUE(doAnyNumbersSatisfyTheCondition(absoluteValueFunction, [](AlbaNumber const& number){return AlbaNumber(12345) == number;}));
+    EXPECT_FALSE(doAnyNumbersSatisfyTheCondition(absoluteValueFunction, [](AlbaNumber const& number){return AlbaNumber(98765) == number;}));
+}
+
 TEST(ValueCheckingHelpersTest, WillHaveNoEffectOnAdditionOrSubtractionWorks)
 {
-    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term()));
-    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term(Constant(0))));
+    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term()));    EXPECT_TRUE(willHaveNoEffectOnAdditionOrSubtraction(Term(Constant(0))));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(15)));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Variable("x"))));
     EXPECT_FALSE(willHaveNoEffectOnAdditionOrSubtraction(Term(Monomial(96, {{"x", 1}}))));
@@ -222,45 +316,44 @@ TEST(ValueCheckingHelpersTest, HasNotANumberWorksForFunction)
     EXPECT_TRUE(hasNotANumber(absoluteValueFunction));
 }
 
-TEST(ValueCheckingHelpersTest, HasNumbersNotFiniteForTerm)
+TEST(ValueCheckingHelpersTest, hasNonFiniteNumbersForTerm)
 {
-    EXPECT_TRUE(hasNumbersNotFinite(Term(NAN)));
-    EXPECT_FALSE(hasNumbersNotFinite(Term("x")));
-    EXPECT_TRUE(hasNumbersNotFinite(Term(Monomial(NAN, {}))));
-    EXPECT_TRUE(hasNumbersNotFinite(Term(Polynomial{Monomial(NAN, {})})));
-    EXPECT_TRUE(hasNumbersNotFinite(Term(createExpressionIfPossible({Term(NAN)}))));
-    EXPECT_TRUE(hasNumbersNotFinite(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
+    EXPECT_TRUE(hasNonFiniteNumbers(Term(NAN)));
+    EXPECT_FALSE(hasNonFiniteNumbers(Term("x")));
+    EXPECT_TRUE(hasNonFiniteNumbers(Term(Monomial(NAN, {}))));
+    EXPECT_TRUE(hasNonFiniteNumbers(Term(Polynomial{Monomial(NAN, {})})));
+    EXPECT_TRUE(hasNonFiniteNumbers(Term(createExpressionIfPossible({Term(NAN)}))));
+    EXPECT_TRUE(hasNonFiniteNumbers(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
 }
 
-TEST(ValueCheckingHelpersTest, HasNumbersNotFiniteForMonomial)
+TEST(ValueCheckingHelpersTest, hasNonFiniteNumbersForMonomial)
 {
-    EXPECT_TRUE(hasNumbersNotFinite(Monomial(NAN, {})));
-    EXPECT_TRUE(hasNumbersNotFinite(Monomial(NAN, {{"x", 1}})));
-    EXPECT_FALSE(hasNumbersNotFinite(Monomial(15, {})));
-    EXPECT_TRUE(hasNumbersNotFinite(Monomial(15, {{"x", NAN}})));
+    EXPECT_TRUE(hasNonFiniteNumbers(Monomial(NAN, {})));
+    EXPECT_TRUE(hasNonFiniteNumbers(Monomial(NAN, {{"x", 1}})));
+    EXPECT_FALSE(hasNonFiniteNumbers(Monomial(15, {})));
+    EXPECT_TRUE(hasNonFiniteNumbers(Monomial(15, {{"x", NAN}})));
 }
 
-TEST(ValueCheckingHelpersTest, HasNumbersNotFiniteForPolynomial)
+TEST(ValueCheckingHelpersTest, hasNonFiniteNumbersForPolynomial)
 {
-    EXPECT_TRUE(hasNumbersNotFinite(Polynomial{Monomial(NAN, {})}));
-    EXPECT_TRUE(hasNumbersNotFinite(Polynomial{Monomial(NAN, {}), Monomial(5, {{"x", 1}})}));
-    EXPECT_FALSE(hasNumbersNotFinite(Polynomial{Monomial(15, {})}));
+    EXPECT_TRUE(hasNonFiniteNumbers(Polynomial{Monomial(NAN, {})}));
+    EXPECT_TRUE(hasNonFiniteNumbers(Polynomial{Monomial(NAN, {}), Monomial(5, {{"x", 1}})}));
+    EXPECT_FALSE(hasNonFiniteNumbers(Polynomial{Monomial(15, {})}));
 }
 
-TEST(ValueCheckingHelpersTest, HasNumbersNotFiniteForExpression)
+TEST(ValueCheckingHelpersTest, hasNonFiniteNumbersForExpression)
 {
-    EXPECT_TRUE(hasNumbersNotFinite(createExpressionIfPossible({Term(NAN)})));
-    EXPECT_TRUE(hasNumbersNotFinite(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
+    EXPECT_TRUE(hasNonFiniteNumbers(createExpressionIfPossible({Term(NAN)})));
+    EXPECT_TRUE(hasNonFiniteNumbers(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
 }
 
-TEST(ValueCheckingHelpersTest, HasNumbersNotFiniteForFunction)
+TEST(ValueCheckingHelpersTest, hasNonFiniteNumbersForFunction)
 {
     Function absoluteValueFunction(Functions::abs(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
-    EXPECT_TRUE(hasNumbersNotFinite(absoluteValueFunction));
+    EXPECT_TRUE(hasNonFiniteNumbers(absoluteValueFunction));
 }
 
-TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorksForFunction)
-{
+TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorksForFunction){
     EXPECT_FALSE(isAFiniteConstant(Term("x")));
     EXPECT_TRUE(isAFiniteConstant(Term(1)));
     EXPECT_FALSE(isAFiniteConstant(Term(NAN)));

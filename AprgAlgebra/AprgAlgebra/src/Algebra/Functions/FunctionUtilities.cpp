@@ -1,9 +1,9 @@
 #include "FunctionUtilities.hpp"
 
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 
 #include <algorithm>
-
 using namespace alba::stringHelper;
 using namespace std;
 
@@ -65,8 +65,13 @@ AlbaNumberPairs evaluateAndGetInputOutputPair(
     return result;
 }
 
+Term getNaturalLogarithmOfTheAbsoluteValueOfTerm(
+        Term const& term)
+{
+    return Term(ln(Term(abs(term))));
 }
 
 }
 
+}
 }

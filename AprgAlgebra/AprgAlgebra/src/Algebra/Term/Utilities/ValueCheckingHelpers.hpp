@@ -8,10 +8,21 @@ namespace alba
 namespace algebra
 {
 
+using NumberCheckingCondition = std::function<bool(AlbaNumber const& number)>;
+
+bool isValueSatisfyTheCondition(Term const& term, NumberCheckingCondition const& condition);
+bool isValueSatisfyTheCondition(Constant const& constant, NumberCheckingCondition const& condition);
+bool isValueSatisfyTheCondition(Monomial const& monomial, NumberCheckingCondition const& condition);
+bool isValueSatisfyTheCondition(Polynomial const& polynomial, NumberCheckingCondition const& condition);
+bool isValueSatisfyTheCondition(Expression const& expression, NumberCheckingCondition const& condition);
+bool doAnyNumbersSatisfyTheCondition(Term const& term, NumberCheckingCondition const& condition);
+bool doAnyNumbersSatisfyTheCondition(Monomial const& monomial, NumberCheckingCondition const& condition);
+bool doAnyNumbersSatisfyTheCondition(Polynomial const& polynomial, NumberCheckingCondition const& condition);
+bool doAnyNumbersSatisfyTheCondition(Expression const& expression, NumberCheckingCondition const& condition);
+bool doAnyNumbersSatisfyTheCondition(Function const& function, NumberCheckingCondition const& condition);
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
-bool isTheValue(Term const& term, AlbaNumber const& number);
-bool isTheValue(Constant const& constant, AlbaNumber const& number);
+bool isTheValue(Term const& term, AlbaNumber const& number);bool isTheValue(Constant const& constant, AlbaNumber const& number);
 bool isTheValue(Monomial const& monomial, AlbaNumber const& number);
 bool isTheValue(Polynomial const& polynomial, AlbaNumber const& number);
 bool isTheValue(Expression const& expression, AlbaNumber const& number);
@@ -25,13 +36,14 @@ bool hasNotANumber(Monomial const& monomial);
 bool hasNotANumber(Polynomial const& polynomial);
 bool hasNotANumber(Expression const& expression);
 bool hasNotANumber(Function const& function);
-bool hasNumbersNotFinite(Term const& term);
-bool hasNumbersNotFinite(Monomial const& monomial);
-bool hasNumbersNotFinite(Polynomial const& polynomial);
-bool hasNumbersNotFinite(Expression const& expression);
-bool hasNumbersNotFinite(Function const& function);
+bool hasNonFiniteNumbers(Term const& term);
+bool hasNonFiniteNumbers(Monomial const& monomial);
+bool hasNonFiniteNumbers(Polynomial const& polynomial);
+bool hasNonFiniteNumbers(Expression const& expression);
+bool hasNonFiniteNumbers(Function const& function);
+
 bool isAFiniteConstant(Term const& term);
+bool hasNegativeExponentsWithVariable(Polynomial const& polynomial, std::string const& variableName);
 
 }
-
 }

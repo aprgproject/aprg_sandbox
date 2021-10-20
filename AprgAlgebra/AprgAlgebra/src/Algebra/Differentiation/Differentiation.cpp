@@ -1,15 +1,17 @@
 #include "Differentiation.hpp"
 
+#include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Differentiation/DifferentiationUtilities.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace alba::algebra::Functions;
-using namespace alba::algebra::Simplification;
-using namespace std;
+using namespace alba::algebra::Simplification;using namespace std;
 
 namespace alba
 {
@@ -321,9 +323,39 @@ Term Differentiation::differentiateTermsInAdditionOrSubtraction(
 Term Differentiation::differentiateTermsInMultiplicationOrDivision(
         TermsWithDetails const& termsWithDetails) const
 {
+    Term result(differentiateByProcessingAsPolynomialsOverPolynomials(
+                    Term(Expression(OperatorLevel::MultiplicationAndDivision, termsWithDetails))));
+    if(result.isEmpty())
+    {
+        result = differentiateTermsInMultiplicationOrDivisionTermByTerm(termsWithDetails);
+    }
+    return result;
+}
+
+Term Differentiation::differentiateByProcessingAsPolynomialsOverPolynomials(
+        Term const& term) const
+{
+    Term result;
+    PolynomialOverPolynomialOptional popOptional(createPolynomialOverPolynomialFromTermIfPossible(term));
+    if(popOptional.hasContent())
+    {
+        PolynomialOverPolynomial & pop(popOptional.getReference());
+        PolynomialOverPolynomial::QuotientAndRemainder quotientAndRemainder(pop.simplifyAndDivide());
+        if(!quotientAndRemainder.quotient.isEmpty()
+                && !hasNegativeExponentsWithVariable(quotientAndRemainder.quotient, m_nameOfVariableToDifferentiate))
+        {
+            result = differentiate(quotientAndRemainder.quotient)
+                    + differentiate(Term(quotientAndRemainder.remainder / pop.getDenominator()));
+        }
+    }
+    return result;
+}
+
+Term Differentiation::differentiateTermsInMultiplicationOrDivisionTermByTerm(
+        TermsWithDetails const& termsWithDetails) const
+{
     bool isFirst(true);
-    Term accumulatedTerm;
-    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    Term accumulatedTerm;    for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
         Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         if(isFirst)
@@ -350,26 +382,24 @@ Term Differentiation::differentiateTermsInRaiseToPower(
         TermsWithDetails const& termsWithDetails) const
 {
     Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
-    if(termsWithDetails.size() == 2)
+    TermRaiseToTerms termRaiseToTerms(termsWithDetails);
+    termRaiseToTerms.simplify();
+    Term firstTerm(termRaiseToTerms.getBase());
+    Term secondTerm(termRaiseToTerms.getCombinedExponents());
+    if(firstTerm.isConstant())
     {
-        Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
-        Term const& secondTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
-        if(firstTerm.isConstant())
-        {
-            result = differentiateConstantRaiseToTerm(firstTerm.getConstantValueConstReference(), secondTerm);
-        }
-        else if(secondTerm.isConstant())
-        {
-            result = differentiateTermRaiseToConstant(firstTerm, secondTerm.getConstantValueConstReference());
-        }
-        else
-        {
-            result = differentiateTermRaiseToTerm(firstTerm, secondTerm);
-        }
+        result = differentiateConstantRaiseToTerm(firstTerm.getConstantValueConstReference(), secondTerm);
+    }
+    else if(secondTerm.isConstant())
+    {
+        result = differentiateTermRaiseToConstant(firstTerm, secondTerm.getConstantValueConstReference());
+    }
+    else
+    {
+        result = differentiateTermRaiseToTerm(firstTerm, secondTerm);
     }
     return result;
 }
-
 Term Differentiation::differentiateConstantRaiseToTerm(
         AlbaNumber const& number,
         Term const& term) const
@@ -383,11 +413,10 @@ Term Differentiation::differentiateTermRaiseToConstant(
         AlbaNumber const& exponent) const
 {
     Term derivativeCauseOfChainRule(differentiate(base));
-    return Term(createExpressionIfPossible({Term(exponent), Term("*"), base, Term("^"), Term(exponent-1), Term("*"), derivativeCauseOfChainRule}));
+    return Term(createExpressionIfPossible({base, Term("^"), Term(exponent-1), Term("*"), Term(exponent), Term("*"), derivativeCauseOfChainRule}));
 }
 
-Term Differentiation::differentiateTermRaiseToTerm(
-        Term const& ,
+Term Differentiation::differentiateTermRaiseToTerm(        Term const& ,
         Term const& ) const
 {
     return Term(AlbaNumber(AlbaNumber::Value::NotANumber));

@@ -30,9 +30,15 @@ Expression::Expression(BaseTerm const& baseTerm)
     m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
 }
 
-Expression::~Expression()
+Expression::Expression(
+        OperatorLevel const operatorLevel,
+        TermsWithDetails const& termsWithDetails)
+    : m_commonOperatorLevel(operatorLevel)
+    , m_termsWithAssociation(termsWithDetails)
 {}
 
+Expression::~Expression()
+{}
 bool Expression::operator==(Expression const& second) const
 {
     return m_commonOperatorLevel == second.m_commonOperatorLevel

@@ -65,10 +65,26 @@ TEST(TermRaiseToTermsTest, DoesEvenExponentCancellationHappenWorks)
     EXPECT_TRUE(termRaiseToTerms5.doesEvenExponentCancellationHappen());
 }
 
+TEST(TermRaiseToTermsTest, GetCombinedTermWorks)
+{
+    TermRaiseToTerms termRaiseToTerms(Term("base"), {Term("exponent1"), Term("exponent2")});
+
+    Term expectedTerm(createExpressionIfPossible(
+    {Term("base"), Term("^"), Term(Monomial(1, {{"exponent1", 1}, {"exponent2", 1}}))}));
+    EXPECT_EQ(expectedTerm, termRaiseToTerms.getCombinedTerm());
+}
+
+TEST(TermRaiseToTermsTest, GetCombinedExponentsWorks)
+{
+    TermRaiseToTerms termRaiseToTerms(Term("base"), {Term("exponent1"), Term("exponent2")});
+
+    Term expectedTerm(Monomial(1, {{"exponent1", 1}, {"exponent2", 1}}));
+    EXPECT_EQ(expectedTerm, termRaiseToTerms.getCombinedExponents());
+}
+
 TEST(TermRaiseToTermsTest, SimplifyWorksWhenBaseIsZero)
 {
-    Term base(Constant(0));
-    TermRaiseToTerms termRaiseToTerms(base, {Term("a"), Term("b")});
+    Term base(Constant(0));    TermRaiseToTerms termRaiseToTerms(base, {Term("a"), Term("b")});
 
     termRaiseToTerms.simplify();
 

@@ -122,6 +122,46 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialOv
     EXPECT_EQ(expectedTerm, derivative);
 }
 
+TEST(DifferentiationUtilitiesTest, GetRelationshipOfDerivativeOfTheInverseAndTheDerivativeWorks)
+{
+    Term termToTest1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});    Term termToTest2(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {})});
+    Term termToTest3(Polynomial{Monomial(1, {{"x", 3}}), Monomial(3, {})});
+
+    Equation equation1(getRelationshipOfDerivativeOfTheInverseAndTheDerivative(termToTest1, "x", "c", "d"));
+    Equation equation2(getRelationshipOfDerivativeOfTheInverseAndTheDerivative(termToTest2, "x", "c", "d"));
+    Equation equation3(getRelationshipOfDerivativeOfTheInverseAndTheDerivative(termToTest3, "x", "c", "d"));
+    EXPECT_EQ("1 = 1",
+              equation1.getDisplayableString());
+    EXPECT_EQ("((1/2)/((1[d] + -2)^(1/2))) = (1/2)[c^-1]",
+              equation2.getDisplayableString());
+    EXPECT_EQ("((1/3)/((1[d] + -3)^(2/3))) = (1/3)[c^-2]",
+              equation3.getDisplayableString());
+}
+
+TEST(DifferentiationUtilitiesTest, GetIntegralEquationForFirstOrderDifferentialEquationWorks)
+{
+    Term leftHandSide(Polynomial{Monomial(1, {{"d[y]/d[x]", 1}}), Monomial(-2, {{"x", 1}, {"y", 1}}), Monomial(-3, {{"x", 1}})});
+    Equation equationToTest(leftHandSide, "=", Term(Constant(0)));
+
+    Equation equationToVerify(getIntegralEquationForFirstOrderDifferentialEquation(equationToTest, "x", "y"));
+
+    EXPECT_EQ("y = ((E^1[x^2][y])*((ln(abs((E^1[x^2][y])))/2[y^2])+(E*(E^1[x^2][y]))))",
+              equationToVerify.getDisplayableString());
+}
+
+TEST(DifferentiationUtilitiesTest, GetLogarithmicDifferentiationToYieldDyOverDxWorks)
+{
+    Polynomial xMinusOne{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
+    Term termToTest(createExpressionIfPossible({Term(xMinusOne), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+
+    Term dyOverDx(getLogarithmicDifferentiationToYieldDyOverDx(termToTest, "x", "y"));
+
+    Term insideSquareRootTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {})});
+    Term squareRootTerm(createExpressionIfPossible({insideSquareRootTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term termToExpect(createExpressionIfPossible({Term(1), Term("/"), Term(2), Term("/"), squareRootTerm}));
+    EXPECT_EQ(termToExpect, dyOverDx);
+}
+
 TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)
 {
     Polynomial numerator{Monomial(1, {{"x", 1}}), Monomial(3, {})};
@@ -138,27 +178,9 @@ TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)
               intervalToVerify.at(1));
 }
 
-TEST(DifferentiationUtilitiesTest, GetRelationshipOfDerivativeOfTheInverseAndTheDerivativeWorks)
-{
-    Term termToTest1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
-    Term termToTest2(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {})});
-    Term termToTest3(Polynomial{Monomial(1, {{"x", 3}}), Monomial(3, {})});
-
-    Equation equation1(getRelationshipOfDerivativeOfTheInverseAndTheDerivative(termToTest1, "x", "c", "d"));
-    Equation equation2(getRelationshipOfDerivativeOfTheInverseAndTheDerivative(termToTest2, "x", "c", "d"));
-    Equation equation3(getRelationshipOfDerivativeOfTheInverseAndTheDerivative(termToTest3, "x", "c", "d"));
-    EXPECT_EQ("1 = 1",
-              equation1.getDisplayableString());
-    EXPECT_EQ("((1/2)/((1[d] + -2)^(1/2))) = (1/2)[c^-1]",
-              equation2.getDisplayableString());
-    EXPECT_EQ("((1/3)/((1[d] + -3)^(2/3))) = (1/3)[c^-2]",
-              equation3.getDisplayableString());
-}
-
 TEST(DifferentiationUtilitiesTest, SimplifyDerivativeByDefinitionWorks)
 {
-    Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
-    Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});    Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     Term termToTest(createExpressionIfPossible({Term("x"), Term("*"), Term(squareRootOfXPlusOne)}));
 
     simplifyDerivativeByDefinition(termToTest);
@@ -166,22 +188,6 @@ TEST(DifferentiationUtilitiesTest, SimplifyDerivativeByDefinitionWorks)
     Term insideSquareRootTerm(Polynomial{Monomial(1, {{"x", 3}}), Monomial(1, {{"x", 2}})});
     Term termToExpect(createExpressionIfPossible({insideSquareRootTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     EXPECT_EQ(termToExpect, termToTest);
-}
-
-TEST(DifferentiationUtilitiesTest, PerformLogarithmicDifferentiationToYieldDyOverDxWorks)
-{
-    Polynomial xMinusOne{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
-    Polynomial xMinusTwo{Monomial(1, {{"x", 1}}), Monomial(-2, {})};
-    Polynomial xMinusThree{Monomial(1, {{"x", 1}}), Monomial(-3, {})};
-    Term numerator(createExpressionIfPossible({Term(xMinusOne), Term("^"), Term(AlbaNumber::createFraction(1, 3))}));
-    Term denominatorPart1(xMinusTwo);
-    Term denominatorPart2(createExpressionIfPossible({Term(xMinusThree), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term termToTest(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominatorPart1), Term("/"), Term(denominatorPart2)}));
-
-    Term dyOverDx(performLogarithmicDifferentiationToYieldDyOverDx(termToTest, "x", "y"));
-
-    EXPECT_EQ("((-1*((1[x] + -1)^(1/3))/(1[x^2] + -4[x] + 4)/((1[x] + -3)^(1/2)))+(1/(3[x] + -6)/((1[x] + -3)^(1/2))/((1[x] + -1)^(2/3)))-(((1[x] + -1)^(1/3))/(2[x] + -4)/((1[x] + -3)^(3/2))))",
-              dyOverDx.getDisplayableString());
 }
 
 }

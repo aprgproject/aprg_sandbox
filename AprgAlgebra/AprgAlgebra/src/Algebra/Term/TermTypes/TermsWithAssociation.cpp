@@ -17,9 +17,19 @@ namespace algebra
 TermsWithAssociation::TermsWithAssociation()
 {}
 
-TermsWithAssociation::~TermsWithAssociation()
+TermsWithAssociation::TermsWithAssociation(
+        initializer_list<TermWithDetails> const& termsWithDetails)
+{
+    putTermsWithDetails(termsWithDetails);
+}
+
+TermsWithAssociation::TermsWithAssociation(
+        TermsWithDetails const& termsWithDetails)
+    : m_termsWithDetails(termsWithDetails)
 {}
 
+TermsWithAssociation::~TermsWithAssociation()
+{}
 bool TermsWithAssociation::operator==(TermsWithAssociation const& second) const
 {
     TermsWithDetails const& terms1(m_termsWithDetails);
@@ -122,10 +132,15 @@ void TermsWithAssociation::putTermWithDetails(TermWithDetails const& termWithDet
     m_termsWithDetails.emplace_back(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);
 }
 
-void TermsWithAssociation::putTermsWithDetails(TermsWithDetails const& termsWithDetails)
+void TermsWithAssociation::putTermsWithDetails(initializer_list<TermWithDetails> const& termsWithDetails)
 {
     m_termsWithDetails.reserve(m_termsWithDetails.size() + termsWithDetails.size());
-    copy(termsWithDetails.cbegin(), termsWithDetails.cend(), back_inserter(m_termsWithDetails));
+    copy(termsWithDetails.begin(), termsWithDetails.end(), back_inserter(m_termsWithDetails));
+}
+
+void TermsWithAssociation::putTermsWithDetails(TermsWithDetails const& termsWithDetails)
+{
+    m_termsWithDetails.reserve(m_termsWithDetails.size() + termsWithDetails.size());    copy(termsWithDetails.cbegin(), termsWithDetails.cend(), back_inserter(m_termsWithDetails));
 }
 
 void TermsWithAssociation::putTermWithAssociation(BaseTerm const& baseTerm, TermAssociationType const associationType)

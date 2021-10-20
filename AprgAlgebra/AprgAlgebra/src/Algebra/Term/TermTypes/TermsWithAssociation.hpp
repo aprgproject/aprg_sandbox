@@ -14,10 +14,11 @@ public:
     friend class Expression;
 
     TermsWithAssociation();
+    TermsWithAssociation(std::initializer_list<TermWithDetails> const& termsWithDetails);
+    TermsWithAssociation(TermsWithDetails const& termsWithDetails);
     ~TermsWithAssociation();
 
-    bool operator==(TermsWithAssociation const& second) const;
-    bool operator!=(TermsWithAssociation const& second) const;
+    bool operator==(TermsWithAssociation const& second) const;    bool operator!=(TermsWithAssociation const& second) const;
     bool operator<(TermsWithAssociation const& second) const;
     bool isEmpty() const;
 
@@ -30,10 +31,10 @@ public:
     void clear();
     void sort();
     void putTermWithDetails(TermWithDetails const& termWithDetails);
+    void putTermsWithDetails(std::initializer_list<TermWithDetails> const& termsWithDetails);
     void putTermsWithDetails(TermsWithDetails const& termsWithDetails);
     void putTermWithAssociation(BaseTerm const& baseTerm, TermAssociationType const associationType);
-    void putTermWithPositiveAssociation(BaseTerm const& baseTerm);
-    void putTermWithNegativeAssociation(BaseTerm const& baseTerm);
+    void putTermWithPositiveAssociation(BaseTerm const& baseTerm);    void putTermWithNegativeAssociation(BaseTerm const& baseTerm);
     void reverseTheAssociationOfTheTerms();
 
 private:
