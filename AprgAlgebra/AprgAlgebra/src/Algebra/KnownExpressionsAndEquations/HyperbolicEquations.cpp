@@ -180,23 +180,67 @@ Term getHyperbolicSineOfHalvedValue(Term const& term, bool const isPositiveRoot)
     // sinh(x/2) =  +- ((cosh(x)-1)/2)^(1/2)
 
     Term numerator(createExpressionIfPossible({Term(cosh(term)), Term("-"), Term(1)}));
-    Term squaredValue(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
-    Term result(createExpressionIfPossible({squaredValue, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term insideSquareRoot(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
+    Term result(createExpressionIfPossible({insideSquareRoot, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     if(!isPositiveRoot)
     {
-        result = Term(createExpressionIfPossible({Term(-1), Term("*"), Term(result)}));
-    }
+        result = Term(createExpressionIfPossible({Term(-1), Term("*"), Term(result)}));    }
     return result;
 }
-
 Term getHyperbolicCosineOfHalvedValue(Term const& term)
 {
     // sinh(x/2) = ((cosh(x)+1)/2)^(1/2)
 
     Term numerator(createExpressionIfPossible({Term(cosh(term)), Term("+"), Term(1)}));
-    Term squaredValue(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
-    Term result(createExpressionIfPossible({squaredValue, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term insideSquareRoot(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
+    Term result(createExpressionIfPossible({insideSquareRoot, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     return result;
+}
+
+Equation getHyperbolicArcSineDefinition(
+        Term const& term)
+{
+    Term leftSideTerm(arcsinh(term));
+    Term insideSquareRoot(createExpressionIfPossible({term, Term("^"), Term(2), Term("+"), Term(1)}));
+    Term squareRootTerm(createExpressionIfPossible({insideSquareRoot, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term insideLogarithm(createExpressionIfPossible({term, Term("+"), squareRootTerm}));
+    Term rightSideTerm(ln(insideLogarithm));
+    return Equation(leftSideTerm, "=", Term(rightSideTerm));
+}
+
+Equation getHyperbolicArcCosineDefinition(
+        Term const& term)
+{
+    Term leftSideTerm(arccosh(term));
+    Term insideSquareRoot(createExpressionIfPossible({term, Term("^"), Term(2), Term("-"), Term(1)}));
+    Term squareRootTerm(createExpressionIfPossible({insideSquareRoot, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term insideLogarithm(createExpressionIfPossible({term, Term("+"), squareRootTerm}));
+    Term rightSideTerm(ln(insideLogarithm));
+    return Equation(leftSideTerm, "=", Term(rightSideTerm));
+}
+
+Equation getHyperbolicArcTangentDefinition(
+        Term const& term)
+{
+    Term leftSideTerm(arctanh(term));
+    Term oneMinusTerm(createExpressionIfPossible({Term(1), Term("-"), term}));
+    Term onePlusTerm(createExpressionIfPossible({Term(1), Term("+"), term}));
+    Term insideLogarithm(createExpressionIfPossible({oneMinusTerm, Term("/"), onePlusTerm}));
+    Term logarithmTerm(ln(insideLogarithm));
+    Term rightSideTerm(createExpressionIfPossible({Term(AlbaNumber::createFraction(1, 2)), Term("*"), logarithmTerm}));
+    return Equation(leftSideTerm, "=", Term(rightSideTerm));
+}
+
+Equation getHyperbolicArcCotangentDefinition(
+        Term const& term)
+{
+    Term leftSideTerm(arccoth(term));
+    Term termPlusOne(createExpressionIfPossible({term, Term("+"), Term(1)}));
+    Term termMinusOne(createExpressionIfPossible({term, Term("-"), Term(1)}));
+    Term insideLogarithm(createExpressionIfPossible({termPlusOne, Term("/"), termMinusOne}));
+    Term logarithmTerm(ln(insideLogarithm));
+    Term rightSideTerm(createExpressionIfPossible({Term(AlbaNumber::createFraction(1, 2)), Term("*"), logarithmTerm}));
+    return Equation(leftSideTerm, "=", Term(rightSideTerm));
 }
 
 }

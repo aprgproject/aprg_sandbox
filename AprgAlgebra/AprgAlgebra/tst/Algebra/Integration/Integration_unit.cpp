@@ -379,25 +379,52 @@ TEST(IntegrationTest, IntegrateFunctionWorksWithChainRule)
     EXPECT_EQ(expectedTerm01, integrationForX.integrateFunction(sin(Term(Monomial(5, {{"x", 1}})))));
 }
 
-TEST(IntegrationTest, IntegrateWorksForTrigonometricFunctions)
+TEST(IntegrationTest, IntegrateWorksForCombinationOfRecognizedTrigonometicFunctions)
 {
     Integration integrationForX("x");
-    Term x("x");
-    Term term01(sin(x));
+    Term x("x");    Term term01(sin(x));
     Term term02(cos(x));
     Term term03(createExpressionIfPossible({sec(x), Term("^"), Term(2)}));
-    Term term04(createExpressionIfPossible({csc(x), Term("^"), Term(2)}));
-    Term term05(createExpressionIfPossible({sec(x), Term("*"), tan(x)}));
+    Term term04(createExpressionIfPossible({csc(x), Term("^"), Term(2)}));    Term term05(createExpressionIfPossible({sec(x), Term("*"), tan(x)}));
     Term term06(createExpressionIfPossible({csc(x), Term("*"), cot(x)}));
 
     Term expectedTerm01(createExpressionIfPossible({Term(-1), Term("*"), cos(x)}));
     Term expectedTerm02(sin(x));
     Term expectedTerm03(tan(x));
     Term expectedTerm04(createExpressionIfPossible({Term(-1), Term("*"), cot(x)}));
+    Term expectedTerm05(sec(x));
+    Term expectedTerm06(createExpressionIfPossible({Term(-1), Term("*"), csc(x)}));
     EXPECT_EQ(expectedTerm01, integrationForX.integrate(term01));
     EXPECT_EQ(expectedTerm02, integrationForX.integrate(term02));
     EXPECT_EQ(expectedTerm03, integrationForX.integrate(term03));
     EXPECT_EQ(expectedTerm04, integrationForX.integrate(term04));
+    EXPECT_EQ(expectedTerm05, integrationForX.integrate(term05));
+    EXPECT_EQ(expectedTerm06, integrationForX.integrate(term06));
+}
+
+TEST(IntegrationTest, IntegrateWorksForCombinationOfRecognizedHyperbolicFunctions)
+{
+    Integration integrationForX("x");
+    Term x("x");
+    Term term01(sinh(x));
+    Term term02(cosh(x));
+    Term term03(createExpressionIfPossible({sech(x), Term("^"), Term(2)}));
+    Term term04(createExpressionIfPossible({csch(x), Term("^"), Term(2)}));
+    Term term05(createExpressionIfPossible({sech(x), Term("*"), tanh(x)}));
+    Term term06(createExpressionIfPossible({csch(x), Term("*"), coth(x)}));
+
+    Term expectedTerm01(cosh(x));
+    Term expectedTerm02(sinh(x));
+    Term expectedTerm03(tanh(x));
+    Term expectedTerm04(createExpressionIfPossible({Term(-1), Term("*"), coth(x)}));
+    Term expectedTerm05(createExpressionIfPossible({Term(-1), Term("*"), sech(x)}));
+    Term expectedTerm06(createExpressionIfPossible({Term(-1), Term("*"), csch(x)}));
+    EXPECT_EQ(expectedTerm01, integrationForX.integrate(term01));
+    EXPECT_EQ(expectedTerm02, integrationForX.integrate(term02));
+    EXPECT_EQ(expectedTerm03, integrationForX.integrate(term03));
+    EXPECT_EQ(expectedTerm04, integrationForX.integrate(term04));
+    EXPECT_EQ(expectedTerm05, integrationForX.integrate(term05));
+    EXPECT_EQ(expectedTerm06, integrationForX.integrate(term06));
 }
 
 }

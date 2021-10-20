@@ -191,29 +191,25 @@ Term getSineOfHalvedValue(Term const& term, bool const isPositiveRoot)
     // sin(x/2) =  +- ((1-cos(x))/2)^(1/2)
 
     Term numerator(createExpressionIfPossible({Term(1), Term("-"), Term(cos(term))}));
-    Term squaredValue(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
-    Term result(createExpressionIfPossible({squaredValue, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term insideSquareRoot(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
+    Term result(createExpressionIfPossible({insideSquareRoot, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     if(!isPositiveRoot)
     {
-        result = Term(createExpressionIfPossible({Term(-1), Term("*"), Term(result)}));
-    }
+        result = Term(createExpressionIfPossible({Term(-1), Term("*"), Term(result)}));    }
     return result;
 }
-
 Term getCosineOfHalvedValue(Term const& term, bool const isPositiveRoot)
 {
     // sin(x/2) =  +- ((1+cos(x))/2)^(1/2)
 
     Term numerator(createExpressionIfPossible({Term(1), Term("+"), Term(cos(term))}));
-    Term squaredValue(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
-    Term result(createExpressionIfPossible({squaredValue, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term insideSquareRoot(createExpressionIfPossible({numerator, Term("/"), Term(2)}));
+    Term result(createExpressionIfPossible({insideSquareRoot, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     if(!isPositiveRoot)
     {
-        result = Term(createExpressionIfPossible({Term(-1), Term("*"), Term(result)}));
-    }
+        result = Term(createExpressionIfPossible({Term(-1), Term("*"), Term(result)}));    }
     return result;
 }
-
 }
 
 }

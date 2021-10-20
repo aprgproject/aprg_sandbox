@@ -40,14 +40,19 @@ Function csch(Term const& term);
 Function sech(Term const& term);
 Function coth(Term const& term);
 
+Function arcsinh(Term const& term);
+Function arccosh(Term const& term);
+Function arctanh(Term const& term);
+Function arccsch(Term const& term);
+Function arcsech(Term const& term);
+Function arccoth(Term const& term);
+
 Function sinHarmonic(
         Term const& term,
-        AlbaNumber const& amplitude,
-        AlbaNumber const& period,
+        AlbaNumber const& amplitude,        AlbaNumber const& period,
         AlbaNumber const& phaseDifference);
 
 }
-
 }
 
 }

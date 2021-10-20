@@ -148,6 +148,35 @@ TEST(HyperbolicEquationsTest, GetHyperbolicCosineOfHalvedValueWorks)
     EXPECT_EQ("(((cosh(x)+1)/2)^(1/2))", getHyperbolicCosineOfHalvedValue(x).getDisplayableString());
 }
 
+TEST(HyperbolicEquationsTest, GetHyperbolicArcSineDefinitionWorks)
+{
+    Term x("x");
+
+    EXPECT_EQ("arcsinh(x) = ln((x+(((x^2)+1)^(1/2))))", getHyperbolicArcSineDefinition(x).getDisplayableString());
+}
+
+TEST(HyperbolicEquationsTest, GetHyperbolicArcCosineDefinitionWorks)
+{
+    Term x("x");
+
+    EXPECT_EQ("arccosh(x) = ln((x+(((x^2)-1)^(1/2))))", getHyperbolicArcCosineDefinition(x).getDisplayableString());
+}
+
+TEST(HyperbolicEquationsTest, GetHyperbolicArcTangentDefinitionWorks)
+{
+    Term x("x");
+
+    EXPECT_EQ("arctanh(x) = ((1/2)*ln(((1-x)/(1+x))))", getHyperbolicArcTangentDefinition(x).getDisplayableString());
+}
+
+TEST(HyperbolicEquationsTest, GetHyperbolicArcCotangentDefinitionWorks)
+{
+    Term x("x");
+
+    EXPECT_EQ("arccoth(x) = ((1/2)*ln(((x+1)/(x-1))))", getHyperbolicArcCotangentDefinition(x).getDisplayableString());
+}
+
+
 }
 
 }

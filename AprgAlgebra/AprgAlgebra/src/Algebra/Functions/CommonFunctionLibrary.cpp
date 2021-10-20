@@ -226,14 +226,60 @@ Function coth(Term const& term)
     });
 }
 
+Function arcsinh(Term const& term)
+{
+    return Function("arcsinh", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return ::asinh(number.getDouble());
+    });
+}
+
+Function arccosh(Term const& term)
+{
+    return Function("arccosh", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return ::acosh(number.getDouble());
+    });
+}
+
+Function arctanh(Term const& term)
+{
+    return Function("arctanh", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return ::atanh(number.getDouble());
+    });
+}
+
+Function arccsch(Term const& term)
+{
+    return Function("arccsch", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return ::asinh(1/number.getDouble());
+    });
+}
+
+Function arcsech(Term const& term)
+{
+    return Function("arcsech", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return ::acos(1/number.getDouble());
+    });
+}
+
+Function arccoth(Term const& term)
+{
+    return Function("arccoth", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return ::atanh(1/number.getDouble());
+    });
+}
+
 Function sinHarmonic(
         Term const& term,
-        AlbaNumber const& amplitude,
-        AlbaNumber const& period,
+        AlbaNumber const& amplitude,        AlbaNumber const& period,
         AlbaNumber const& phaseDifference)
 {
-    return Function("sinHarmonic", term, [&](AlbaNumber const&  number) -> AlbaNumber
-    {
+    return Function("sinHarmonic", term, [&](AlbaNumber const&  number) -> AlbaNumber    {
         return amplitude * ::sin((period*number + phaseDifference).getDouble());
     });
 }
