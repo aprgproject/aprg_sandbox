@@ -263,24 +263,27 @@ TEST(DifferentiationTest, DifferentiateFunctionWorksWithFunctionsInCommonFunctio
 
     Term x("x");
     Term y("y");
+    EXPECT_EQ(Term(sgn(x)), differentiationForXWithY.differentiateFunction(abs(x)));
+    EXPECT_EQ(Term(Monomial(1, {{"x", -1}})), differentiationForXWithY.differentiateFunction(ln(x)));
+    EXPECT_EQ(Term(Monomial(2.302585092994046, {{"x", -1}})), differentiationForXWithY.differentiateFunction(log(x)));
     Term cscSquared(createExpressionIfPossible({csc(x), Term("^"), Term(2)}));
     EXPECT_EQ(Term(cos(x)), differentiationForXWithY.differentiateFunction(sin(x)));
-    EXPECT_EQ(Term(createExpressionIfPossible({Term(-1), Term("*"), sin(x)})), differentiationForXWithY.differentiateFunction(cos(x)));
-    EXPECT_EQ(Term(createExpressionIfPossible({Term(Monomial(-1, {{"d[y]/d[x]", 1}})), Term("*"), sin(y)})), differentiationForXWithY.differentiateFunction(cos(y)));
+    EXPECT_EQ(Term(createExpressionIfPossible({Term(-1), Term("*"), sin(x)})), differentiationForXWithY.differentiateFunction(cos(x)));    EXPECT_EQ(Term(createExpressionIfPossible({Term(Monomial(-1, {{"d[y]/d[x]", 1}})), Term("*"), sin(y)})), differentiationForXWithY.differentiateFunction(cos(y)));
     EXPECT_EQ(Term(createExpressionIfPossible({sec(x), Term("^"), Term(2)})), differentiationForXWithY.differentiateFunction(tan(x)));
     EXPECT_EQ(Term(createExpressionIfPossible({Term(-1), Term("*"), cot(x), Term("*"), csc(x)})), differentiationForXWithY.differentiateFunction(csc(x)));
     EXPECT_EQ(Term(createExpressionIfPossible({sec(x), Term("*"), tan(x)})), differentiationForXWithY.differentiateFunction(sec(x)));
     EXPECT_EQ(Term(createExpressionIfPossible({Term(-1), Term("*"), cscSquared})), differentiationForXWithY.differentiateFunction(cot(x)));
-    EXPECT_EQ(Term(sgn(x)), differentiationForXWithY.differentiateFunction(abs(x)));
-    EXPECT_EQ(Term(Monomial(1, {{"x", -1}})), differentiationForXWithY.differentiateFunction(ln(x)));
-    EXPECT_EQ(Term(Monomial(2.302585092994046, {{"x", -1}})), differentiationForXWithY.differentiateFunction(log(x)));
+    EXPECT_EQ("(1/((-1[x^2] + 1)^(1/2)))", differentiationForXWithY.differentiateFunction(arcsin(x)).getDisplayableString());
+    EXPECT_EQ("(-1/((-1[x^2] + 1)^(1/2)))", differentiationForXWithY.differentiateFunction(arccos(x)).getDisplayableString());
+    EXPECT_EQ("(1/(1[x^2] + 1))", differentiationForXWithY.differentiateFunction(arctan(x)).getDisplayableString());
+    EXPECT_EQ("(-1/x/((1[x^2] + -1)^(1/2)))", differentiationForXWithY.differentiateFunction(arccsc(x)).getDisplayableString());
+    EXPECT_EQ("(1/x/((1[x^2] + -1)^(1/2)))", differentiationForXWithY.differentiateFunction(arcsec(x)).getDisplayableString());
+    EXPECT_EQ("(-1/(1[x^2] + 1))", differentiationForXWithY.differentiateFunction(arccot(x)).getDisplayableString());
 }
 
-TEST(DifferentiationTest, DifferentiateFunctionWorksWithChainRule)
-{
+TEST(DifferentiationTest, DifferentiateFunctionWorksWithChainRule){
     Differentiation differentiationForX("x");
     Function functionToTest(sin(Term(Monomial(10, {{"x", 8}}))));
-
     Term expectedTerm(createExpressionIfPossible({Term(Monomial(80, {{"x", 7}})), Term("*"), cos(Term(Monomial(10, {{"x", 8}})))}));
     EXPECT_EQ(expectedTerm, differentiationForX.differentiateFunction(functionToTest));
 }

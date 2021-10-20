@@ -33,14 +33,19 @@ Function arccsc(Term const& term);
 Function arcsec(Term const& term);
 Function arccot(Term const& term);
 
+Function sinh(Term const& term);
+Function cosh(Term const& term);
+Function tanh(Term const& term);
+Function csch(Term const& term);
+Function sech(Term const& term);
+Function coth(Term const& term);
+
 Function sinHarmonic(
         Term const& term,
-        AlbaNumber const& amplitude,
-        AlbaNumber const& period,
+        AlbaNumber const& amplitude,        AlbaNumber const& period,
         AlbaNumber const& phaseDifference);
 
 }
-
 }
 
 }

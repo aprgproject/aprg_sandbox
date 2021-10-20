@@ -447,16 +447,26 @@ Term Differentiation::differentiateFunctionOnly(
 {
     Term derivativeOfFunction(AlbaNumber(AlbaNumber::Value::NotANumber));
     Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
-    if("sin" == functionObject.getFunctionName())
+    if("abs" == functionObject.getFunctionName())
+    {
+        derivativeOfFunction = Term(sgn(inputTerm));
+    }
+    else if("ln" == functionObject.getFunctionName())
+    {
+        derivativeOfFunction = Term(createExpressionIfPossible({Term(1), Term("/"), inputTerm}));
+    }
+    else if("log" == functionObject.getFunctionName())
+    {
+        derivativeOfFunction = Term(createExpressionIfPossible({Term(::log(10)), Term("/"), inputTerm}));
+    }
+    else if("sin" == functionObject.getFunctionName())
     {
         derivativeOfFunction = Term(cos(inputTerm));
     }
-    else if("cos" == functionObject.getFunctionName())
-    {
+    else if("cos" == functionObject.getFunctionName())    {
         derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), sin(inputTerm)}));
     }
-    else if("tan" == functionObject.getFunctionName())
-    {
+    else if("tan" == functionObject.getFunctionName())    {
         derivativeOfFunction = Term(createExpressionIfPossible({sec(inputTerm), Term("^"), Term(2)}));
     }
     else if("csc" == functionObject.getFunctionName())
@@ -471,25 +481,45 @@ Term Differentiation::differentiateFunctionOnly(
     {
         derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("*"), csc(inputTerm), Term("^"), Term(2)}));
     }
-    else if("abs" == functionObject.getFunctionName())
+    else if("arcsin" == functionObject.getFunctionName())
     {
-        derivativeOfFunction = Term(sgn(inputTerm));
+        Term oneMinusInputSquared(createExpressionIfPossible({Term(1), Term("-"), inputTerm, Term("^"), Term(2)}));
+        Term squareRootTerm(createExpressionIfPossible({oneMinusInputSquared, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+        derivativeOfFunction = Term(createExpressionIfPossible({Term(1), Term("/"), squareRootTerm}));
     }
-    else if("ln" == functionObject.getFunctionName())
+    else if("arccos" == functionObject.getFunctionName())
     {
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(1), Term("/"), inputTerm}));
+        Term oneMinusInputSquared(createExpressionIfPossible({Term(1), Term("-"), inputTerm, Term("^"), Term(2)}));
+        Term squareRootTerm(createExpressionIfPossible({oneMinusInputSquared, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+        derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("/"), squareRootTerm}));
     }
-    else if("log" == functionObject.getFunctionName())
+    else if("arctan" == functionObject.getFunctionName())
     {
-        derivativeOfFunction = Term(createExpressionIfPossible({Term(::log(10)), Term("/"), inputTerm}));
+        Term onePlusInputSquared(createExpressionIfPossible({Term(1), Term("+"), inputTerm, Term("^"), Term(2)}));
+        derivativeOfFunction = Term(createExpressionIfPossible({Term(1), Term("/"), onePlusInputSquared}));
+    }
+    else if("arccsc" == functionObject.getFunctionName())
+    {
+        Term inputSquaredMinusOne(createExpressionIfPossible({inputTerm, Term("^"), Term(2), Term("-"), Term(1)}));
+        Term squareRootTerm(createExpressionIfPossible({inputSquaredMinusOne, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+        derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("/"), Term(inputTerm), Term("/"), squareRootTerm}));
+    }
+    else if("arcsec" == functionObject.getFunctionName())
+    {
+        Term inputSquaredMinusOne(createExpressionIfPossible({inputTerm, Term("^"), Term(2), Term("-"), Term(1)}));
+        Term squareRootTerm(createExpressionIfPossible({inputSquaredMinusOne, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+        derivativeOfFunction = Term(createExpressionIfPossible({Term(1), Term("/"), Term(inputTerm), Term("/"), squareRootTerm}));
+    }
+    else if("arccot" == functionObject.getFunctionName())
+    {
+        Term onePlusInputSquared(createExpressionIfPossible({Term(1), Term("+"), inputTerm, Term("^"), Term(2)}));
+        derivativeOfFunction = Term(createExpressionIfPossible({Term(-1), Term("/"), onePlusInputSquared}));
     }
     return derivativeOfFunction;
 }
-
 void Differentiation::separateUnaffectedAndAffectedVariables(
         Monomial & unaffectedVariablesAndConstant,
-        Monomial & affectedVariables,
-        Monomial const& monomial) const
+        Monomial & affectedVariables,        Monomial const& monomial) const
 {
     unaffectedVariablesAndConstant = Monomial(monomial.getConstantConstReference(), {});
     affectedVariables = Monomial(1, {});
