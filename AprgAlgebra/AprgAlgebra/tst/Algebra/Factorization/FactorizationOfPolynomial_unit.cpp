@@ -426,13 +426,22 @@ TEST(FactorizationOfPolynomialsTest, Example3_FactorizeWorks)
     EXPECT_EQ(polynomialToExpect4, polynomialsToVerify.at(3));
 }
 
+TEST(FactorizationOfPolynomialsTest, PolynomialWithPositiveInfinityNumber_FactorizeWorks)
+{
+    Polynomial polynomialToTest{Monomial(4, {{"x", 1}}), Monomial(AlbaNumber(AlbaNumber::Value::PositiveInfinity), {})};
+
+    Polynomials polynomialsToVerify(factorizeAPolynomial(polynomialToTest));
+
+    ASSERT_EQ(1U, polynomialsToVerify.size());
+    Polynomial polynomialToExpect{Monomial(4, {{"x", 1}}), Monomial(AlbaNumber(AlbaNumber::Value::PositiveInfinity), {})};
+    EXPECT_EQ(polynomialToExpect, polynomialsToVerify.at(0));
+}
+
 TEST(FactorizationOfPolynomialsTest, FactorizePolynomialsWorksWhenPolynomialsCannotBeFactorized)
 {
-    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(11, {})};
-    Polynomial polynomial2{Monomial(1, {{"y", 1}}), Monomial(13, {})};
+    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(11, {})};    Polynomial polynomial2{Monomial(1, {{"y", 1}}), Monomial(13, {})};
     Polynomial polynomial3{Monomial(1, {{"z", 1}}), Monomial(17, {})};
     Polynomials polynomials{polynomial1, polynomial2, polynomial3};
-
     Polynomials polynomialsToVerify(factorizePolynomials(polynomials));
 
     ASSERT_EQ(3U, polynomialsToVerify.size());

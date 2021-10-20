@@ -212,14 +212,90 @@ bool hasNotANumber(Function const& function)
     return hasNotANumber(function.getInputTermConstReference());
 }
 
-bool isAFiniteConstant(Term const& term)
+bool hasNumbersNotFinite(Term const& term)
 {
     bool result(false);
     if(term.isConstant())
     {
-        result = term.getConstantValueConstReference().isAFiniteValue();
+        result = !term.getConstantValueConstReference().isAFiniteValue();
+    }
+    else if(term.isMonomial())
+    {
+        result = hasNumbersNotFinite(term.getMonomialConstReference());
+    }
+    else if(term.isPolynomial())
+    {
+        result = hasNumbersNotFinite(term.getPolynomialConstReference());
+    }
+    else if(term.isExpression())
+    {
+        result = hasNumbersNotFinite(term.getExpressionConstReference());
+    }
+    else if(term.isFunction())
+    {
+        result = hasNumbersNotFinite(term.getFunctionConstReference());
     }
     return result;
+}
+
+bool hasNumbersNotFinite(Monomial const& monomial)
+{
+    bool result(!monomial.getConstantConstReference().isAFiniteValue());
+    if(!result)
+    {
+        for(auto const& variableExponentsPair
+            : monomial.getVariablesToExponentsMapConstReference())
+        {
+            result |= !variableExponentsPair.second.isAFiniteValue();
+            if(result)
+            {
+                break;
+            }
+        }
+    }
+    return result;
+}
+
+bool hasNumbersNotFinite(Polynomial const& polynomial)
+{
+    bool result(false);
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    {
+        result |= hasNumbersNotFinite(monomial);
+        if(result)
+        {
+            break;
+        }
+    }
+    return result;
+}
+
+bool hasNumbersNotFinite(Expression const& expression)
+{
+    bool result(false);
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    {
+        result |= hasNumbersNotFinite(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        if(result)
+        {
+            break;
+        }
+    }
+    return result;
+}
+
+bool hasNumbersNotFinite(Function const& function)
+{
+    return hasNumbersNotFinite(function.getInputTermConstReference());
+}
+
+bool isAFiniteConstant(Term const& term)
+{
+    bool result(false);    if(term.isConstant())
+    {
+        result = term.getConstantValueConstReference().isAFiniteValue();
+    }    return result;
 }
 
 }

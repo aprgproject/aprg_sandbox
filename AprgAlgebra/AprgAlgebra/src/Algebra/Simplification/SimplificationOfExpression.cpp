@@ -2,14 +2,13 @@
 
 #include <Algebra/Constructs/AdditionAndSubtractionOfExpressions.hpp>
 #include <Algebra/Constructs/MultiplicationAndDivisionOfRadicals.hpp>
+#include <Algebra/Constructs/PolynomialOverPolynomial.hpp>
 #include <Algebra/Constructs/RationalizeTermOverTerm.hpp>
 #include <Algebra/Operations/AccumulateOperations.hpp>
-#include <Algebra/Retrieval/ExpressionAndFunctionsRetriever.hpp>
-#include <Algebra/Simplification/SimplificationUtilities.hpp>
+#include <Algebra/Retrieval/ExpressionAndFunctionsRetriever.hpp>#include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
@@ -147,14 +146,13 @@ void SimplificationOfExpression::simplifyExpressionUntilNoChangeInitiallyIfNeede
 {
     if(shouldSimplifyToACommonDenominator() || shouldSimplifyBySubstitutingExpressionAndFunctionsToVariables())
     {
+        convertPolynomialOverPolynomialIfNeeded();
         simplifyExpressionUntilNoChange();
     }
 }
-
 void SimplificationOfExpression::simplifyToACommonDenominatorIfNeeded()
 {
-    if(shouldSimplifyToACommonDenominator())
-    {
+    if(shouldSimplifyToACommonDenominator())    {
         simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(m_expression);
     }
 }
@@ -377,16 +375,55 @@ Expression SimplificationOfExpression::getNewExpressionWithSubstitutedVariableFo
     return createOrCopyExpressionFromATerm(termWithoutNewVariable);
 }
 
+void SimplificationOfExpression::convertPolynomialOverPolynomialIfNeeded()
+{
+    if(shouldSimplifyToACommonDenominator())
+    {
+        convertPolynomialToPolynomialOverPolynomial(m_expression);
+    }
+}
+
+void SimplificationOfExpression::convertPolynomialToPolynomialOverPolynomial(
+        Term & term)
+{
+    if(term.isPolynomial())
+    {
+        PolynomialOverPolynomial pop(term.getPolynomialConstReference(), createPolynomialFromConstant(1));
+        pop.simplify();
+        if(!isTheValue(pop.getDenominator(), 1))
+        {
+            term = Term(createExpressionIfPossible({Term(pop.getNumerator()), Term("/"), Term(pop.getDenominator())}));
+        }
+    }
+    else if(term.isExpression())
+    {
+        convertPolynomialToPolynomialOverPolynomial(term.getExpressionReference());
+    }
+    else if(term.isFunction())
+    {
+        convertPolynomialToPolynomialOverPolynomial(getTermReferenceFromBaseTerm(term.getFunctionReference().getInputTermReference()));
+    }
+}
+
+void SimplificationOfExpression::convertPolynomialToPolynomialOverPolynomial(
+        Expression & expression)
+{
+    TermsWithDetails & termsWithDetails(expression.getTermsWithAssociationReference().getTermsWithDetailsReference());
+    for(TermWithDetails & termWithDetails : termsWithDetails)
+    {
+        Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        convertPolynomialToPolynomialOverPolynomial(term);
+    }
+}
+
 }
 
 }
 
 template <>
 algebra::Simplification::SimplificationOfExpression::ConfigurationDetails
-getDefaultConfigurationDetails<alba::algebra::Simplification::SimplificationOfExpression::ConfigurationDetails>()
-{
+getDefaultConfigurationDetails<alba::algebra::Simplification::SimplificationOfExpression::ConfigurationDetails>(){
     return algebra::Simplification::SimplificationOfExpression::ConfigurationDetails
     {false, false, false, false, false, false, false, false, false, false, false};
 }
-
 }

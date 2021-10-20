@@ -1,25 +1,28 @@
 #pragma once
 
 #include <Algebra/Equation/Equation.hpp>
+#include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
+
+#include <vector>
 
 namespace alba
 {
-
 namespace algebra
 {
 
 class Integration
 {
 public:
+    using Configuration=Simplification::SimplificationOfExpression::ConfigurationDetails;
+    using Configurations=std::vector<Configuration>;
+
     Integration(std::string const& nameOfVariableToIntegrate);
 
-    Term integrate(Term const& term) const;
-    Term integrate(Constant const& constant) const;
+    Term integrate(Term const& term) const;    Term integrate(Constant const& constant) const;
     Term integrate(Variable const& variable) const;
     Term integrate(Monomial const& monomial) const;
-    Term integrate(Polynomial const& polynomial) const;
-    Term integrate(Expression const& expression) const;
+    Term integrate(Polynomial const& polynomial) const;    Term integrate(Expression const& expression) const;
     Term integrate(Function const& functionObject) const;
 
     Term integrateWithPlusC(Term const& term) const;
@@ -39,42 +42,51 @@ public:
 private:
     Term integrateAsTermOrExpressionIfNeeded(
             Expression const& expression) const;
-    Term integrateSimplifiedExpressionOnly(
-            Expression const& expression) const;
-    Term integrateTermsInAdditionOrSubtraction(
+    void integrateSimplifiedExpressionOnly(
+            Term & result,
+            Expression const& expression,
+            Configuration const& configuration) const;
+    void integrateTermsInAdditionOrSubtraction(
+            Term & result,
             TermsWithDetails const& termsWithDetails) const;
-    Term integrateTermsInMultiplicationOrDivision(
+    void integrateTermsInMultiplicationOrDivision(
+            Term & result,
             TermsWithDetails const& termsWithDetails) const;
-    Term integrateTermsInRaiseToPower(
+    void integrateTermsInRaiseToPower(
+            Term & result,
             TermsWithDetails const& termsWithDetails) const;
-    Term integrateConstantRaiseToTerm(
+    void integrateConstantRaiseToTerm(
+            Term & result,
             AlbaNumber const& base,
             Term const& exponent) const;
-    Term integrateTermRaiseToConstant(
+    void integrateTermRaiseToConstant(
+            Term & result,
             Term const& base,
             AlbaNumber const& exponent) const;
-    Term integrateTermRaiseToTerm(
+    void integrateTermRaiseToTerm(
+            Term & result,
             Term const& firstTerm,
             Term const& secondTerm) const;
     Term integrateFunctionOnly(Function const& functionObject) const;
     void integrateTermUsingSubstitutionWithMaxDepth(
             Term & result,
-            Term const& term) const;
+            Term const& term,
+            Configuration const& configuration) const;
     void integrateTermUsingSubstitution(
             Term & result,
-            Term const& term) const;
+            Term const& term,
+            Configuration const& configuration) const;
     void integrateBySubstitutionAndUsingANewVariable(
             Term & result,
             Term const& mainTerm,
-            Term const& termToSubstituteToVariable) const;
+            Term const& termToSubstituteToVariable,
+            Configuration const& configuration) const;
     Term getTermWithNewVariableSubstitution(
             Term const& mainTerm,
-            Term const& termToSubstituteWithVariable) const;
-    void integrateUsingChainRuleInReverseIfPossible(
+            Term const& termToSubstituteWithVariable) const;    void integrateUsingChainRuleInReverseIfPossible(
             Term & result,
             TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const;
-    void integrateUsingChainRuleInReverseIfPossible(
-            Term & result,
+    void integrateUsingChainRuleInReverseIfPossible(            Term & result,
             Term const& firstOuterTerm,
             Term const& firstInnerTerm,
             Term const& secondTerm) const;
@@ -85,13 +97,13 @@ private:
             Term const& firstTerm,
             Term const& secondTerm) const;
     void integrateRecognizedFunctionsIfPossible(Term & result, TermsWithDetails const& termsWithDetails) const;
-    void simplifyForIntegration(Term& term) const;
+    void simplifyForIntegration(Term & term, Configuration const& configuration) const;
+    Configuration getConfigurationWithFactors() const;
+    Configuration getConfigurationWithCommonDenominator() const;
     bool isVariableToIntegrate(std::string const& variableName) const;
     bool isVariableToIntegrateNotFoundInTerm(Term const& term) const;
-    bool wouldDifferentiationYieldToAConstant(Term const& term) const;
-    std::string m_nameOfVariableToIntegrate;
+    bool wouldDifferentiationYieldToAConstant(Term const& term) const;    std::string m_nameOfVariableToIntegrate;
 };
 
 }
-
 }

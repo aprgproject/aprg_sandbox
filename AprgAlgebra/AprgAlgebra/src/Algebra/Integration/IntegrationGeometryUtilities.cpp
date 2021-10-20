@@ -21,15 +21,13 @@ Term getAreaInBetweenTwoTermsInAnInterval(
         AlbaNumber const& lowerValueInInterval,
         AlbaNumber const& higherValueInInterval)
 {
-    Term difference(higherTerm-lowerTerm);
     Integration integration(variableName);
+    Term difference(higherTerm-lowerTerm);
     return integration.integrateWithDefiniteValues(difference, lowerValueInInterval, higherValueInInterval);
 }
-
 Term getVolumeUsingOnCrossSectionalArea(
         Term const& crossSectionalArea,
-        string const& variableName,
-        Term const& lowerValueTerm,
+        string const& variableName,        Term const& lowerValueTerm,
         Term const& higherValueTerm)
 {
     Integration integration(variableName);
@@ -49,15 +47,13 @@ Term getVolumeUsingOnSolidOfRevolution(
     // The volume is equal to pi times the definite integral of square of f(x) from a to b.
     // This method uses disks.
 
-    Term termToIntegrate = Term(PI)*(term^Term(2));
     Integration integration(variableName);
+    Term termToIntegrate = Term(PI)*(term^Term(2));
     return substituteTermsAndGetDifference(integration.integrate(termToIntegrate), variableName, lowerValueTerm, higherValueTerm);
 }
-
 Term getVolumeUsingOnSolidOfRevolution(
         Term const& lowerFunctionTerm,
-        Term const& higherFunctionTerm,
-        string const& variableName,
+        Term const& higherFunctionTerm,        string const& variableName,
         Term const& lowerValueTerm,
         Term const& higherValueTerm)
 {
@@ -68,15 +64,13 @@ Term getVolumeUsingOnSolidOfRevolution(
     // The volume is equal to pi times the definite integral of square of (f(x)-g(x)) from a to b.
     // This method uses washers(disks with holes).
 
-    Term termToIntegrate = Term(PI)*((higherFunctionTerm-lowerFunctionTerm)^Term(2));
     Integration integration(variableName);
+    Term termToIntegrate = Term(PI)*((higherFunctionTerm-lowerFunctionTerm)^Term(2));
     return substituteTermsAndGetDifference(integration.integrate(termToIntegrate), variableName, lowerValueTerm, higherValueTerm);
 }
-
 Term getVolumeUsingCylindricalShells(
         Term const& term,
-        string const& variableName,
-        Term const& lowerValueTerm,
+        string const& variableName,        Term const& lowerValueTerm,
         Term const& higherValueTerm)
 {
     // Let the function f be continuous on the closed interval [a, b], where a>=0.
@@ -87,15 +81,13 @@ Term getVolumeUsingCylindricalShells(
     // The volume is equal to 2*pi times the definite integral of x times f(x) from a to b.
     // This method uses cylindrical shells (like a can without the top and bottom)
 
-    Term termToIntegrate = Term(2)*Term(PI)*(Term(variableName)*term);
     Integration integration(variableName);
+    Term termToIntegrate = Term(2)*Term(PI)*(Term(variableName)*term);
     return substituteTermsAndGetDifference(integration.integrate(termToIntegrate), variableName, lowerValueTerm, higherValueTerm);
 }
-
 Term getLengthOfTheEdge(
         Term const& term,
-        string const& variableName,
-        Term const& lowerValueTerm,
+        string const& variableName,        Term const& lowerValueTerm,
         Term const& higherValueTerm)
 {
     // If the function f and its derivative fPrime are continuous on the closed interval [a, b],
@@ -104,11 +96,127 @@ Term getLengthOfTheEdge(
     // The length is equal to the the definite integral of the square root of (1+fPrime^2) from a to b.
 
     Differentiation differentiation(variableName);
+    Integration integration(variableName);
     Term differentiatedTerm(differentiation.differentiate(term));
     Term termToIntegrate = (Term(1)+(differentiatedTerm^Term(2)))^Term(AlbaNumber::createFraction(1, 2));
     termToIntegrate.simplify();
-    Integration integration(variableName);
     return substituteTermsAndGetDifference(integration.integrate(termToIntegrate), variableName, lowerValueTerm, higherValueTerm);
+}
+
+Term getTotalMassOfARod(
+        Term const& term,
+        string const& variableName,
+        Term const& lowerValueTerm,
+        Term const& higherValueTerm)
+{
+    // A rod of length L meters has its left endpoint at the origin.
+    // If p(x) kilograms per meter is the linear density at a point x meters from the origin, where p is continuous on [0, L], then:
+
+    // The total mass of the rod is the definite integral of p(x) from 0 to L.
+
+    Integration integration(variableName);
+    return substituteTermsAndGetDifference(integration.integrate(term), variableName, lowerValueTerm, higherValueTerm);
+}
+
+Term getMomentOfMassOfARod(
+        Term const& term,
+        string const& variableName,
+        Term const& lowerValueTerm,
+        Term const& higherValueTerm)
+{
+    // A rod of length L meters its left endpoint at the origin and p(x) kilograms per meter is the linear density at a point x meters from the origin,
+    // where p is continuous on [0, L].
+
+   // The moment of mass of the rod is the definite integral of x*p(x) from 0 to L.
+
+    Integration integration(variableName);
+    Term termToIntegrate = Term(variableName)*term;
+    return substituteTermsAndGetDifference(integration.integrate(termToIntegrate), variableName, lowerValueTerm, higherValueTerm);
+}
+
+Term getCenterOfMassOfARod(
+        Term const& term,
+        string const& variableName,
+        Term const& lowerValueTerm,
+        Term const& higherValueTerm)
+{
+    return getMomentOfMassOfARod(term, variableName, lowerValueTerm, higherValueTerm)
+            / getTotalMassOfARod(term, variableName, lowerValueTerm, higherValueTerm);
+}
+
+Term getTotalMassOfALamina(
+        Term const& term,
+        string const& variableName,
+        Term const& lowerValueTerm,
+        Term const& higherValueTerm)
+{
+    Integration integration(variableName);
+    return substituteTermsAndGetDifference(integration.integrate(term), variableName, lowerValueTerm, higherValueTerm);
+}
+
+TermPair getMomentOfMassOfALamina(
+        Term const& term,
+        string const& variableName,
+        Term const& lowerValueTerm,
+        Term const& higherValueTerm)
+{
+    Integration integration(variableName);
+    Term termToIntegrateInX = Term(AlbaNumber::createFraction(1, 2)) * Term(term^2);
+    Term termToIntegrateInY = Term(variableName) * Term(term);
+    TermPair xyPair;
+    xyPair.first = substituteTermsAndGetDifference(integration.integrate(termToIntegrateInX), variableName, lowerValueTerm, higherValueTerm);
+    xyPair.second = substituteTermsAndGetDifference(integration.integrate(termToIntegrateInY), variableName, lowerValueTerm, higherValueTerm);
+    return xyPair;
+}
+
+TermPair getCenterOfMassOfALamina(
+        Term const& term,
+        string const& variableName,
+        Term const& lowerValueTerm,
+        Term const& higherValueTerm)
+{
+    Term totalMass(getTotalMassOfALamina(term, variableName, lowerValueTerm, higherValueTerm));
+    TermPair xyPair(getMomentOfMassOfALamina(term, variableName, lowerValueTerm, higherValueTerm));
+    xyPair.first = xyPair.first/totalMass;
+    xyPair.second = xyPair.second/totalMass;
+    return xyPair;
+}
+
+TermPair getCentroid(
+        Term const& term,
+        string const& variableName,
+        Term const& lowerValueTerm,
+        Term const& higherValueTerm)
+{
+    Integration integration(variableName);
+    Term area(substituteTermsAndGetDifference(integration.integrate(term), variableName, lowerValueTerm, higherValueTerm));
+    TermPair xyPair(getMomentOfMassOfALamina(term, variableName, lowerValueTerm, higherValueTerm));
+    xyPair.first = xyPair.first / area;
+    xyPair.second = xyPair.second / area;
+    return xyPair;
+}
+
+Term getWork(
+        Term const& force,
+        string const& variableName,
+        Term const& lowerValueTerm,
+        Term const& higherValueTerm)
+{
+    Integration integration(variableName);
+    return substituteTermsAndGetDifference(integration.integrate(force), variableName, lowerValueTerm, higherValueTerm);
+}
+
+Term getLiquidPressure(
+        Term const& massDensity,
+        Term const& accelerationDueToGravity,
+        Term const& length,
+        string const& depth,
+        Term const& lowerValueTerm,
+        Term const& higherValueTerm)
+{
+    Integration integration(depth);
+    Term termToIntegrate = massDensity*accelerationDueToGravity*Term(depth)*length;
+    return substituteTermsAndGetDifference(integration.integrate(termToIntegrate), depth, lowerValueTerm, higherValueTerm);
 }
 
 }

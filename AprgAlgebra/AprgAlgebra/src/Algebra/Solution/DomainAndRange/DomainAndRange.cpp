@@ -259,6 +259,23 @@ void retrieveTwoVariableNames(
     }
 }
 
+bool isOneToOne(
+        string const& variableNameToCheck,
+        Equation const& equation)
+{
+    bool result(false);
+    SolutionSet domain(calculateDomainForEquation(variableNameToCheck, equation));
+    SolutionSet range(calculateRangeForEquation(variableNameToCheck, equation));
+    AlbaNumberIntervals const& domainIntervals(domain.getAcceptedIntervals());
+    AlbaNumberIntervals const& rangeIntervals(range.getAcceptedIntervals());
+    if(domainIntervals.size() == 1 && rangeIntervals.size() == 1)
+    {
+        result =  domainIntervals.front() == createAllRealValuesInterval()
+                && rangeIntervals.front() == createAllRealValuesInterval();
+    }
+    return result;
+}
+
 }
 
 }

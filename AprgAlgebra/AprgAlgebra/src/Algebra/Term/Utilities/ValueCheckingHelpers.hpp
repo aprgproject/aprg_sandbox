@@ -25,8 +25,12 @@ bool hasNotANumber(Monomial const& monomial);
 bool hasNotANumber(Polynomial const& polynomial);
 bool hasNotANumber(Expression const& expression);
 bool hasNotANumber(Function const& function);
+bool hasNumbersNotFinite(Term const& term);
+bool hasNumbersNotFinite(Monomial const& monomial);
+bool hasNumbersNotFinite(Polynomial const& polynomial);
+bool hasNumbersNotFinite(Expression const& expression);
+bool hasNumbersNotFinite(Function const& function);
 bool isAFiniteConstant(Term const& term);
 
 }
-
 }

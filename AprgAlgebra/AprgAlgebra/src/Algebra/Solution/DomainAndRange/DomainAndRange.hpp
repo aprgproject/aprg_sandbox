@@ -71,8 +71,11 @@ void retrieveTwoVariableNames(
         VariableNamesSet const& variableNames,
         std::string const& variableNameToCheck);
 
-}
+bool isOneToOne(
+        std::string const& variableNameToCheck,
+        Equation const& equation);
 
 }
 
+}
 }

@@ -65,8 +65,99 @@ TEST(IntegrationGeometryUtilitiesTest, GetLengthOfTheEdgeWorks)
 {
     Term termToTest = Term(Monomial(1, {{"x", AlbaNumber::createFraction(2, 3)}}));
 
-    Term expectedTerm(Monomial(AlbaNumber::createFraction(1, 2), {{"PI", 1}, {"radius", 4}}));
-    EXPECT_EQ(expectedTerm, getLengthOfTheEdge(termToTest, "x", Term(Constant(0)), Term(8)));
+    Term expectedTerm(7.63370541601624);
+    EXPECT_EQ(expectedTerm, getLengthOfTheEdge(termToTest, "x", Term(1), Term(8)));
+}
+
+TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfARodWorks)
+{
+    Term l("l");
+    Term termToTest = Term(Monomial(1, {{"x", 2}}));
+
+    Term expectedTerm(Monomial(AlbaNumber::createFraction(1, 3), {{"l", 3}}));
+    EXPECT_EQ(expectedTerm, getTotalMassOfARod(termToTest, "x", Term(Constant(0)), l));
+}
+
+TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfARodWorks)
+{
+    Term l("l");
+    Term termToTest = Term(Monomial(1, {{"x", 2}}));
+
+    Term expectedTerm(Monomial(AlbaNumber::createFraction(1, 4), {{"l", 4}}));
+    EXPECT_EQ(expectedTerm, getMomentOfMassOfARod(termToTest, "x", Term(Constant(0)), l));
+}
+
+TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfARodWorks)
+{
+    Term l("l");
+    Term termToTest = Term(Monomial(1, {{"x", 2}}));
+
+    Term expectedTerm(Monomial(AlbaNumber::createFraction(3, 4), {{"l", 1}}));
+    EXPECT_EQ(expectedTerm, getCenterOfMassOfARod(termToTest, "x", Term(Constant(0)), l));
+}
+
+TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfALaminaWorks)
+{
+    Term x("x");
+    Term termToTest = Term(Monomial(1, {{"x", 2}}));
+
+    Term expectedTerm(Monomial(AlbaNumber::createFraction(1, 3), {{"x", 3}}));
+    EXPECT_EQ(expectedTerm, getTotalMassOfALamina(termToTest, "x", Term(Constant(0)), x));
+}
+
+TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfALaminaWorks)
+{
+    Term x("x");
+    Term termToTest = Term(Monomial(1, {{"x", 2}}));
+
+    Term expectedTermInX(Monomial(AlbaNumber::createFraction(1, 10), {{"x", 5}}));
+    Term expectedTermInY(Monomial(AlbaNumber::createFraction(1, 4), {{"x", 4}}));
+    TermPair termPairToVerify(getMomentOfMassOfALamina(termToTest, "x", Term(Constant(0)), x));
+    EXPECT_EQ(expectedTermInX, termPairToVerify.first);
+    EXPECT_EQ(expectedTermInY, termPairToVerify.second);
+}
+
+TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfALaminaWorks)
+{
+    Term x("x");
+    Term termToTest = Term(Monomial(1, {{"x", 2}}));
+
+    Term expectedTermInX(Monomial(AlbaNumber::createFraction(3, 10), {{"x", 2}}));
+    Term expectedTermInY(Monomial(AlbaNumber::createFraction(3, 4), {{"x",1}}));
+    TermPair termPairToVerify(getCenterOfMassOfALamina(termToTest, "x", Term(Constant(0)), x));
+    EXPECT_EQ(expectedTermInX, termPairToVerify.first);
+    EXPECT_EQ(expectedTermInY, termPairToVerify.second);
+}
+
+TEST(IntegrationGeometryUtilitiesTest, GetCentroidWorks)
+{
+    Term x("x");
+    Term termToTest = Term(Monomial(1, {{"x", 2}}));
+
+    Term expectedTermInX(Monomial(AlbaNumber::createFraction(3, 10), {{"x", 2}}));
+    Term expectedTermInY(Monomial(AlbaNumber::createFraction(3, 4), {{"x", 1}}));
+    TermPair termPairToVerify(getCentroid(termToTest, "x", Term(Constant(0)), x));
+    EXPECT_EQ(expectedTermInX, termPairToVerify.first);
+    EXPECT_EQ(expectedTermInY, termPairToVerify.second);
+}
+
+TEST(IntegrationGeometryUtilitiesTest, GetWorkWorks)
+{
+    Term x("x");
+    Term force = Term(Monomial(1, {{"x", 2}}));
+
+    Term expectedTerm(Monomial(AlbaNumber::createFraction(1, 3), {{"x", 3}}));
+    EXPECT_EQ(expectedTerm, getWork(force, "x", Term(Constant(0)), x));
+}
+
+TEST(IntegrationGeometryUtilitiesTest, GetLiquidPressureWorks)
+{
+    Term raw("raw");
+    Term g("g");
+    Term length = Term(Monomial(1, {{"depth", 2}}));
+
+    Term expectedTerm(Monomial(4, {{"g", 1}, {"raw", 1}}));
+    EXPECT_EQ(expectedTerm, getLiquidPressure(raw, g, length, "depth", Term(Constant(0)), Term(2)));
 }
 
 }

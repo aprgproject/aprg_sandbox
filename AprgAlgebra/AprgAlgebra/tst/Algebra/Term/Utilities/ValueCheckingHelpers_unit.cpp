@@ -212,23 +212,57 @@ TEST(ValueCheckingHelpersTest, HasNotANumberWorksForPolynomial)
 
 TEST(ValueCheckingHelpersTest, HasNotANumberWorksForExpression)
 {
-    EXPECT_TRUE(isNotANumber(createExpressionIfPossible({Term(NAN)})));
+    EXPECT_TRUE(hasNotANumber(createExpressionIfPossible({Term(NAN)})));
     EXPECT_TRUE(hasNotANumber(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
 }
-
 TEST(ValueCheckingHelpersTest, HasNotANumberWorksForFunction)
 {
     Function absoluteValueFunction(Functions::abs(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
     EXPECT_TRUE(hasNotANumber(absoluteValueFunction));
 }
 
-TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorksForFunction)
+TEST(ValueCheckingHelpersTest, HasNumbersNotFiniteForTerm)
 {
-    EXPECT_FALSE(isAFiniteConstant(Term("x")));
-    EXPECT_TRUE(isAFiniteConstant(Term(1)));
-    EXPECT_FALSE(isAFiniteConstant(Term(NAN)));
+    EXPECT_TRUE(hasNumbersNotFinite(Term(NAN)));
+    EXPECT_FALSE(hasNumbersNotFinite(Term("x")));
+    EXPECT_TRUE(hasNumbersNotFinite(Term(Monomial(NAN, {}))));
+    EXPECT_TRUE(hasNumbersNotFinite(Term(Polynomial{Monomial(NAN, {})})));
+    EXPECT_TRUE(hasNumbersNotFinite(Term(createExpressionIfPossible({Term(NAN)}))));
+    EXPECT_TRUE(hasNumbersNotFinite(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
 }
 
+TEST(ValueCheckingHelpersTest, HasNumbersNotFiniteForMonomial)
+{
+    EXPECT_TRUE(hasNumbersNotFinite(Monomial(NAN, {})));
+    EXPECT_TRUE(hasNumbersNotFinite(Monomial(NAN, {{"x", 1}})));
+    EXPECT_FALSE(hasNumbersNotFinite(Monomial(15, {})));
+    EXPECT_TRUE(hasNumbersNotFinite(Monomial(15, {{"x", NAN}})));
+}
+
+TEST(ValueCheckingHelpersTest, HasNumbersNotFiniteForPolynomial)
+{
+    EXPECT_TRUE(hasNumbersNotFinite(Polynomial{Monomial(NAN, {})}));
+    EXPECT_TRUE(hasNumbersNotFinite(Polynomial{Monomial(NAN, {}), Monomial(5, {{"x", 1}})}));
+    EXPECT_FALSE(hasNumbersNotFinite(Polynomial{Monomial(15, {})}));
+}
+
+TEST(ValueCheckingHelpersTest, HasNumbersNotFiniteForExpression)
+{
+    EXPECT_TRUE(hasNumbersNotFinite(createExpressionIfPossible({Term(NAN)})));
+    EXPECT_TRUE(hasNumbersNotFinite(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
+}
+
+TEST(ValueCheckingHelpersTest, HasNumbersNotFiniteForFunction)
+{
+    Function absoluteValueFunction(Functions::abs(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
+    EXPECT_TRUE(hasNumbersNotFinite(absoluteValueFunction));
+}
+
+TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorksForFunction)
+{
+    EXPECT_FALSE(isAFiniteConstant(Term("x")));    EXPECT_TRUE(isAFiniteConstant(Term(1)));
+    EXPECT_FALSE(isAFiniteConstant(Term(NAN)));
+}
 }
 
 }
