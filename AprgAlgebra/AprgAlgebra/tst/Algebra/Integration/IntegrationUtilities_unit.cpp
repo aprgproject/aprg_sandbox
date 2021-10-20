@@ -23,12 +23,14 @@ TEST(IntegrationUtilitiesTest, IsTheSecondFundamentalTheoremOfCalculusTrueWorks)
 
 TEST(IntegrationUtilitiesTest, IsTheIntegralDefinitionForFiniteCalculusIsTrueWorks)
 {
-    Term termToTest1(Monomial(1, {{"x", 1}}));    Term termToTest2(Monomial(1, {{"x", 2}}));
+    Term termToTest1(Monomial(1, {{"x", 1}}));
+    Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
 
     EXPECT_TRUE(isTheIntegralDefinitionForFiniteCalculusIsTrue(termToTest1, "x", 5, 10));
     EXPECT_TRUE(isTheIntegralDefinitionForFiniteCalculusIsTrue(termToTest2, "x", 5, 10));
-    EXPECT_TRUE(isTheIntegralDefinitionForFiniteCalculusIsTrue(termToTest3, "x", 5, 10));}
+    EXPECT_TRUE(isTheIntegralDefinitionForFiniteCalculusIsTrue(termToTest3, "x", 5, 10));
+}
 
 TEST(IntegrationUtilitiesTest, IsAreaUnderTheCurveEqualToDefiniteIntegralWorks)
 {
@@ -78,6 +80,20 @@ TEST(IntegrationUtilitiesTest, SubstituteValuesAndGetDifferenceWorks)
     EXPECT_EQ(Term(5), substituteValuesAndGetDifference(termToTest1, "x", 5, 10));
     EXPECT_EQ(Term(75), substituteValuesAndGetDifference(termToTest2, "x", 5, 10));
     EXPECT_EQ(Term(875), substituteValuesAndGetDifference(termToTest3, "x", 5, 10));
+}
+
+TEST(IntegrationUtilitiesTest, SubstituteTermsAndGetDifferenceWorks)
+{
+    Term termToTest1(Monomial(1, {{"x", 1}}));
+    Term termToTest2(Monomial(1, {{"x", 2}}));
+    Term termToTest3(Monomial(1, {{"x", 3}}));
+
+    Term expectedTerm1(Polynomial{Monomial(-1, {{"a", 1}}), Monomial(1, {{"b", 1}})});
+    Term expectedTerm2(Polynomial{Monomial(-1, {{"a", 2}}), Monomial(1, {{"b", 2}})});
+    Term expectedTerm3(Polynomial{Monomial(-1, {{"a", 3}}), Monomial(1, {{"b", 3}})});
+    EXPECT_EQ(expectedTerm1, substituteTermsAndGetDifference(termToTest1, "x", Term("a"), Term("b")));
+    EXPECT_EQ(expectedTerm2, substituteTermsAndGetDifference(termToTest2, "x", Term("a"), Term("b")));
+    EXPECT_EQ(expectedTerm3, substituteTermsAndGetDifference(termToTest3, "x", Term("a"), Term("b")));
 }
 
 TEST(IntegrationUtilitiesTest, GetAreaUnderACurveUsingReimannSumsWorks)

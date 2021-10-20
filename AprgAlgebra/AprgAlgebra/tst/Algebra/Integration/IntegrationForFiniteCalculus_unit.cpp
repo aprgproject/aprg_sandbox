@@ -1,6 +1,7 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Integration/IntegrationForFiniteCalculus.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Utilities/KnownNames.hpp>
 
 #include <gtest/gtest.h>
 
@@ -98,7 +99,7 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateWithPlusCWorks)
 {
     IntegrationForFiniteCalculus integrationForX("x");
 
-    Term expectedTerm(Polynomial{Monomial(1, {{"C", 1}}), Monomial(5, {{"x", 1}})});
+    Term expectedTerm(Polynomial{Monomial(1, {{C, 1}}), Monomial(5, {{"x", 1}})});
     EXPECT_EQ(expectedTerm, integrationForX.integrateWithPlusC(Constant(5)));
 }
 

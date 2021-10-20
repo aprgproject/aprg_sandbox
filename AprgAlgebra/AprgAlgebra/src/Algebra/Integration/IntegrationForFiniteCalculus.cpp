@@ -7,6 +7,7 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Algebra/Utilities/KnownNames.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
@@ -19,11 +20,6 @@ namespace alba
 {
 namespace algebra
 {
-
-namespace
-{
-static string C = "C";
-}
 
 IntegrationForFiniteCalculus::IntegrationForFiniteCalculus(
         string const& nameOfVariableToIntegrate)
@@ -98,10 +94,12 @@ Term IntegrationForFiniteCalculus::integrateWithDefiniteValues(
                 higherValueInInterval);
 }
 
-Term IntegrationForFiniteCalculus::integrateTerm(Term const& term) const{
+Term IntegrationForFiniteCalculus::integrateTerm(Term const& term) const
+{
     Term result;
     if(term.isConstant())
-    {        result = integrate(term.getConstantConstReference());
+    {
+        result = integrate(term.getConstantConstReference());
     }
     else if(term.isVariable())
     {

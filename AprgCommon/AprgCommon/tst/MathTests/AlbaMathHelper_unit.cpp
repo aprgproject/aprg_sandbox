@@ -422,10 +422,12 @@ TEST(AlbaMathHelperTest, GetStirlingNumberOfTheSecondKindWorks)
 
 TEST(AlbaMathHelperTest, GetCumulativeStandardDistributionApproximationWorks)
 {
-    //comparing with Z table, http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/standardnormaltable.pdf    EXPECT_DOUBLE_EQ(0.5, getCumulativeStandardDistributionApproximation(0));
+    //comparing with Z table, http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/standardnormaltable.pdf
+    EXPECT_DOUBLE_EQ(0.5, getCumulativeStandardDistributionApproximation(0));
     EXPECT_DOUBLE_EQ(0.86433393905361732834, getCumulativeStandardDistributionApproximation(1.1));
     EXPECT_DOUBLE_EQ(0.0081975359245961311461, getCumulativeStandardDistributionApproximation(-2.4));
-    EXPECT_DOUBLE_EQ(0.99996696335237056363, getCumulativeStandardDistributionApproximation(3.99));    EXPECT_DOUBLE_EQ(3.3036647629402369943e-005, getCumulativeStandardDistributionApproximation(-3.99));
+    EXPECT_DOUBLE_EQ(0.99996696335237056363, getCumulativeStandardDistributionApproximation(3.99));
+    EXPECT_DOUBLE_EQ(3.3036647629402369943e-005, getCumulativeStandardDistributionApproximation(-3.99));
 }
 
 TEST(AlbaMathHelperTest, GetInverseCumulativeStandardDistributionApproximationWorks)

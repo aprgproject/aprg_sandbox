@@ -18,10 +18,12 @@ bool isTheFirstFundamentalTheoremOfCalculusTrue(
 
 bool isDifferentiableAt(
         Term const& term,
-        std::string const& variableName,        AlbaNumber const& value);
+        std::string const& variableName,
+        AlbaNumber const& value);
 
 Term getDerivativeDefinition(
-        Term const& term,        std::string const& variableName);
+        Term const& term,
+        std::string const& variableName);
 
 Term getDerivativeDefinitionForFiniteCalculus(
         Term const& term,

@@ -115,9 +115,11 @@ TEST(DifferentiationTest, DifferentiateWithDefiniteValueWorks)
 TEST(DifferentiationTest, DifferentiateMultipleTimesWorksForTerm)
 {
     Differentiation differentiationForX("x");
+
     Term termToTest(Monomial(3, {{"x", 4}}));
     EXPECT_EQ(Term(Monomial(3, {{"x", 4}})), differentiationForX.differentiateMultipleTimes(termToTest, 0));
-    EXPECT_EQ(Term(Monomial(12, {{"x", 3}})), differentiationForX.differentiateMultipleTimes(termToTest, 1));    EXPECT_EQ(Term(Monomial(36, {{"x", 2}})), differentiationForX.differentiateMultipleTimes(termToTest, 2));
+    EXPECT_EQ(Term(Monomial(12, {{"x", 3}})), differentiationForX.differentiateMultipleTimes(termToTest, 1));
+    EXPECT_EQ(Term(Monomial(36, {{"x", 2}})), differentiationForX.differentiateMultipleTimes(termToTest, 2));
 }
 
 TEST(DifferentiationTest, DifferentiateMultipleTimesWorksForEquation)
@@ -272,9 +274,11 @@ TEST(DifferentiationTest, DifferentiateFunctionWorksWithTrigonometricFunction)
     EXPECT_EQ(Term(sgn(x)), differentiationForXWithY.differentiateFunction(abs(x)));
 }
 
-TEST(DifferentiationTest, DifferentiateFunctionWorksWithChainRule){
+TEST(DifferentiationTest, DifferentiateFunctionWorksWithChainRule)
+{
     Differentiation differentiationForX("x");
     Function functionToTest(sin(Term(Monomial(10, {{"x", 8}}))));
+
     Term expectedTerm(createExpressionIfPossible({Term(Monomial(80, {{"x", 7}})), Term("*"), cos(Term(Monomial(10, {{"x", 8}})))}));
     EXPECT_EQ(expectedTerm, differentiationForX.differentiateFunction(functionToTest));
 }

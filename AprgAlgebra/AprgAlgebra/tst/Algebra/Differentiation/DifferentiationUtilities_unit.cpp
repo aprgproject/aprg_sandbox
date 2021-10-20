@@ -27,9 +27,11 @@ TEST(DifferentiationUtilitiesTest, IsTheFirstFundamentalTheoremOfCalculusTrueWor
 TEST(DifferentiationUtilitiesTest, IsDifferentiableAtWorks)
 {
     Term termToTest(Monomial(1, {{"x", AlbaNumber::createFraction(1, 3)}}));
+
     EXPECT_FALSE(isDifferentiableAt(termToTest, "x", 0));
     EXPECT_TRUE(isDifferentiableAt(termToTest, "x", 2));
 }
+
 TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenInputIsAConstant)
 {
     Term termToTest(5);

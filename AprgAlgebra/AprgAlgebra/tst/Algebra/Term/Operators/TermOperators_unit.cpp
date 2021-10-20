@@ -12,6 +12,13 @@ namespace alba
 namespace algebra
 {
 
+TEST(TermOperatorsTest, UnaryPlusOperator_PlusEmptyOperationWorks)
+{
+    Term term(+Term());
+
+    EXPECT_EQ(Term(), term);
+}
+
 TEST(TermOperatorsTest, UnaryPlusOperator_PlusConstantOperationWorks)
 {
     Term term(+Constant(6));
@@ -54,6 +61,13 @@ TEST(TermOperatorsTest, UnaryPlusOperator_PlusFunctionOperationWorks)
     Term term(+absoluteValueFunction);
 
     EXPECT_EQ(Term(absoluteValueFunction), term);
+}
+
+TEST(TermOperatorsTest, UnaryMinusOperator_MinusEmptyOperationWorks)
+{
+    Term term(-Term());
+
+    EXPECT_EQ(Term(), term);
 }
 
 TEST(TermOperatorsTest, UnaryMinusOperator_MinusConstantOperationWorks)
@@ -99,6 +113,20 @@ TEST(TermOperatorsTest, UnaryMinusOperator_MinusFunctionOperationWorks)
 
     Expression expressionToExpect(createExpressionIfPossible({Term(-1), Term("*"), Term(absoluteValueFunction)}));
     EXPECT_EQ(Term(expressionToExpect), term);
+}
+
+TEST(TermOperatorsTest, BinaryPlusOperator_EmptyAddConstantOperationWorks)
+{
+    Term term(Term() + Constant(2));
+
+    EXPECT_EQ(Term(2), term);
+}
+
+TEST(TermOperatorsTest, BinaryPlusOperator_ConstantAddEmptyOperationWorks)
+{
+    Term term(Constant(6) + Term());
+
+    EXPECT_EQ(Term(6), term);
 }
 
 TEST(TermOperatorsTest, BinaryPlusOperator_ConstantAddConstantOperationWorks)
@@ -560,6 +588,20 @@ TEST(TermOperatorsTest, BinaryPlusOperator_TermAddTermOperationWorks)
     Term term(Term(5) + Term(10));
 
     EXPECT_EQ(Term(15), term);
+}
+
+TEST(TermOperatorsTest, BinaryMinusOperator_EmptyAddConstantOperationWorks)
+{
+    Term term(Term() - Constant(2));
+
+    EXPECT_EQ(Term(-2), term);
+}
+
+TEST(TermOperatorsTest, BinaryMinusOperator_ConstantAddEmptyOperationWorks)
+{
+    Term term(Constant(6) - Term());
+
+    EXPECT_EQ(Term(6), term);
 }
 
 TEST(TermOperatorsTest, BinaryMinusOperator_ConstantSubtractConstantOperationWorks)
@@ -1035,6 +1077,20 @@ TEST(TermOperatorsTest, BinaryMinusOperator_TermSubtractTermOperationWorks)
     EXPECT_EQ(Term(-5), term);
 }
 
+TEST(TermOperatorsTest, BinaryMultiplyOperator_EmptyAddConstantOperationWorks)
+{
+    Term term(Term() * Constant(2));
+
+    EXPECT_EQ(Term(Constant(0)), term);
+}
+
+TEST(TermOperatorsTest, BinaryMultiplyOperator_ConstantAddEmptyOperationWorks)
+{
+    Term term(Constant(6) * Term());
+
+    EXPECT_EQ(Term(Constant(0)), term);
+}
+
 TEST(TermOperatorsTest, BinaryMultiplyOperator_ConstantMultiplyConstantOperationWorks)
 {
     Term term(Constant(6) * Constant(2));
@@ -1500,6 +1556,20 @@ TEST(TermOperatorsTest, BinaryMultiplyOperator_TermMultiplyTermOperationWorks)
     Term term(Term(5) * Term(10));
 
     EXPECT_EQ(Term(50), term);
+}
+
+TEST(TermOperatorsTest, BinaryDivideOperator_EmptyAddConstantOperationWorks)
+{
+    Term term(Term() / Constant(2));
+
+    EXPECT_EQ(Term(Constant(0)), term);
+}
+
+TEST(TermOperatorsTest, BinaryDivideOperator_ConstantAddEmptyOperationWorks)
+{
+    Term term(Constant(6) / Term());
+
+    EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::PositiveInfinity)), term);
 }
 
 TEST(TermOperatorsTest, BinaryDivideOperator_ConstantDivideConstantOperationWorks)
@@ -1986,6 +2056,20 @@ TEST(TermOperatorsTest, BinaryDivideOperator_TermDivideTermOperationWorks)
     Term term(Term(6) / Term(2));
 
     EXPECT_EQ(Term(3), term);
+}
+
+TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_EmptyAddConstantOperationWorks)
+{
+    Term term(Term() ^ Constant(2));
+
+    EXPECT_EQ(Term(Constant(0)), term);
+}
+
+TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ConstantAddEmptyOperationWorks)
+{
+    Term term(Constant(6) ^ Term());
+
+    EXPECT_EQ(Term(1), term);
 }
 
 TEST(TermOperatorsTest, BinaryRaiseToPowerOperator_ConstantRaiseToPowerConstantOperationWorks)

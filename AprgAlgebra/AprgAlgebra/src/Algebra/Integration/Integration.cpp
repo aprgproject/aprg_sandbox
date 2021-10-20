@@ -16,6 +16,7 @@
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Algebra/Utilities/KnownNames.hpp>
 
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
@@ -25,11 +26,6 @@ namespace alba
 {
 namespace algebra
 {
-
-namespace
-{
-static string C = "C";
-}
 
 Integration::Integration(
         string const& nameOfVariableToIntegrate)
@@ -104,10 +100,12 @@ Term Integration::integrateWithDefiniteValues(
                 higherValueInInterval);
 }
 
-Term Integration::integrateTerm(        Term const& term) const
+Term Integration::integrateTerm(
+        Term const& term) const
 {
     Term result;
-    if(term.isConstant())    {
+    if(term.isConstant())
+    {
         result = integrate(term.getConstantConstReference());
     }
     else if(term.isVariable())
@@ -246,10 +244,12 @@ Term Integration::integrateSimplifiedExpressionOnly(
         integrateTermUsingSubstitutionWithMaxDepth(result, Term(expression));
     }
     if(result.isEmpty())
-    {        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+    {
+        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
     }
     return result;
 }
+
 Term Integration::integrateTermsInAdditionOrSubtraction(
         TermsWithDetails const& termsWithDetails) const
 {
@@ -278,9 +278,11 @@ Term Integration::integrateTermsInMultiplicationOrDivision(
     integrateUsingChainRuleInReverseIfPossible(result, termsWithDetails);
     return result;
 }
+
 Term Integration::integrateTermsInRaiseToPower(
         TermsWithDetails const& termsWithDetails) const
-{    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
+{
+    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
     if(termsWithDetails.size() == 2)
     {
         Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
@@ -384,7 +386,8 @@ Term Integration::integrateFunctionOnly(
         integrateTermUsingSubstitutionWithMaxDepth(result, Term(functionObject));
     }
     if(result.isEmpty())
-    {        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+    {
+        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
     }
     return result;
 }
@@ -405,10 +408,12 @@ void Integration::integrateTermUsingSubstitutionWithMaxDepth(
 
 void Integration::integrateTermUsingSubstitution(
         Term & result,
-        Term const& term) const{
+        Term const& term) const
+{
     Term simplifiedTerm(term);
     simplifyForIntegration(simplifiedTerm);
-    Terms subTerms(retrieveSubTerms(simplifiedTerm));    for(Term const& subTerm : subTerms)
+    Terms subTerms(retrieveSubTerms(simplifiedTerm));
+    for(Term const& subTerm : subTerms)
     {
         if(!subTerm.isConstant() && !subTerm.isVariable())
         {
@@ -461,10 +466,12 @@ Term Integration::getTermWithNewVariableSubstitution(
         IsolationOfOneVariableOnEqualityEquation isolation(Equation(newVariable, "=", termToSubstituteWithVariable));
         Equation equationWithIsolatedOldVariable(isolation.isolate(m_nameOfVariableToIntegrate));
         Term const& termWithOldVariableFromIsolation(equationWithIsolatedOldVariable.getRightHandTerm());
-        Term const& termWithNewVariableFromIsolation(equationWithIsolatedOldVariable.getLeftHandTerm());        if(canBeConvertedToMonomial(termWithOldVariableFromIsolation))
+        Term const& termWithNewVariableFromIsolation(equationWithIsolatedOldVariable.getLeftHandTerm());
+        if(canBeConvertedToMonomial(termWithOldVariableFromIsolation))
         {
             Monomial monomialWithOldVariable(createMonomialIfPossible(termWithOldVariableFromIsolation));
-            AlbaNumber exponentForOldVariable(monomialWithOldVariable.getExponentForVariable(m_nameOfVariableToIntegrate));            monomialWithOldVariable.putVariableWithExponent(m_nameOfVariableToIntegrate, AlbaNumber(0));
+            AlbaNumber exponentForOldVariable(monomialWithOldVariable.getExponentForVariable(m_nameOfVariableToIntegrate));
+            monomialWithOldVariable.putVariableWithExponent(m_nameOfVariableToIntegrate, AlbaNumber(0));
             Term isolatedTermWithNewVariable((termWithNewVariableFromIsolation/monomialWithOldVariable)^(AlbaNumber(1)/exponentForOldVariable));
             SubstitutionOfVariablesToTerms substitutionVariableToTerm({{m_nameOfVariableToIntegrate, isolatedTermWithNewVariable}});
             termWithNewVariable = substitutionVariableToTerm.performSubstitutionTo(termWithNewVariable);
@@ -476,10 +483,12 @@ Term Integration::getTermWithNewVariableSubstitution(
 void Integration::integrateUsingChainRuleInReverseIfPossible(
         Term & result,
         TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const
-{    unsigned int numberOfTerms(termsWithDetailsInMultiplicationAndDivision.size());
+{
+    unsigned int numberOfTerms(termsWithDetailsInMultiplicationAndDivision.size());
     for(unsigned int i=0; result.isEmpty() && i<numberOfTerms; i++)
     {
-        TermsWithDetails termsInFirstTerms(termsWithDetailsInMultiplicationAndDivision);        termsInFirstTerms.erase(termsInFirstTerms.cbegin() + i);
+        TermsWithDetails termsInFirstTerms(termsWithDetailsInMultiplicationAndDivision);
+        termsInFirstTerms.erase(termsInFirstTerms.cbegin() + i);
         Term firstTerm(simplifyAndConvertToTerm(OperatorLevel::MultiplicationAndDivision, termsInFirstTerms));
         Term secondTerm(simplifyAndConvertToTerm(OperatorLevel::MultiplicationAndDivision, termsWithDetailsInMultiplicationAndDivision.at(i)));
         Term innerTermInfirstTerm;
@@ -494,10 +503,12 @@ void Integration::integrateUsingChainRuleInReverseIfPossible(
 void Integration::integrateUsingChainRuleInReverseIfPossible(
         Term & result,
         Term const& firstOuterTerm,
-        Term const& firstInnerTerm,        Term const& secondTerm) const
+        Term const& firstInnerTerm,
+        Term const& secondTerm) const
 {
     Differentiation differentiation(m_nameOfVariableToIntegrate);
-    Term firstTermDerivative(differentiation.differentiate(firstInnerTerm));    Term quotientOfDerivatives = firstTermDerivative/secondTerm;
+    Term firstTermDerivative(differentiation.differentiate(firstInnerTerm));
+    Term quotientOfDerivatives = firstTermDerivative/secondTerm;
     if(quotientOfDerivatives.isConstant())
     {
         string newVariableToIntegrate(createVariableNameForSubstitution(firstInnerTerm));

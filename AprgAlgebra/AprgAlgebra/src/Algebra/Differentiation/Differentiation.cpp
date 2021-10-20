@@ -6,9 +6,11 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
 using namespace std;
+
 namespace alba
 {
 namespace algebra
@@ -90,10 +92,12 @@ Term Differentiation::differentiateWithDefiniteValue(
 
 Term Differentiation::differentiateMultipleTimes(
         Term const& term,
-        unsigned int const numberOfTimes) const{
+        unsigned int const numberOfTimes) const
+{
     Term currentResult(term);
     for(unsigned int i=0; i<numberOfTimes; i++)
-    {        currentResult = differentiate(currentResult);
+    {
+        currentResult = differentiate(currentResult);
     }
     return currentResult;
 }
@@ -444,9 +448,11 @@ Term Differentiation::differentiateFunctionOnly(
     }
     return derivativeOfFunction;
 }
+
 void Differentiation::separateUnaffectedAndAffectedVariables(
         Monomial & unaffectedVariablesAndConstant,
-        Monomial & affectedVariables,        Monomial const& monomial) const
+        Monomial & affectedVariables,
+        Monomial const& monomial) const
 {
     unaffectedVariablesAndConstant = Monomial(monomial.getConstantConstReference(), {});
     affectedVariables = Monomial(1, {});

@@ -80,8 +80,10 @@ unsigned int getValueAtPascalTriangle(unsigned int const rowIndex, unsigned int 
 int getStirlingNumberOfTheSecondKind(unsigned int const n, unsigned int const k);
 
 
-//Statistics functionsdouble getCumulativeStandardDistributionApproximation(double const z);
+//Statistics functions
+double getCumulativeStandardDistributionApproximation(double const z);
 double getInverseCumulativeStandardDistributionApproximation(double const p, unsigned int const numberOfIterations);
+
 
 //Clamp functions
 template <typename NumberType> NumberType clampLowerBound(NumberType const value, NumberType const limit);

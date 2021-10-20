@@ -57,7 +57,11 @@ Term performOperation(
 
 #define TERM_UNARY_OPERATION_MACRO(operation) \
     Term newTerm;\
-    if(term.isConstant())\
+    if(term.isEmpty())\
+{\
+    newTerm = Term();\
+}\
+    else if(term.isConstant())\
 {\
     newTerm = operation(term.getConstantConstReference());\
 }\
@@ -85,9 +89,44 @@ Term performOperation(
 
 #define TERM_BINARY_OPERATION_MACRO(operation) \
     Term newTerm;\
-    if(term1.isConstant())\
+    if(term1.isEmpty())\
 {\
-    if(term2.isConstant())\
+    if(term2.isEmpty())\
+{\
+    newTerm = Term();\
+}\
+    else if(term2.isConstant())\
+{\
+    newTerm = Constant(0) operation term2.getConstantConstReference();\
+}\
+    else if(term2.isVariable())\
+{\
+    newTerm = Constant(0) operation term2.getVariableConstReference();\
+}\
+    else if(term2.isMonomial())\
+{\
+    newTerm = Constant(0) operation term2.getMonomialConstReference();\
+}\
+    else if(term2.isPolynomial())\
+{\
+    newTerm = Constant(0) operation term2.getPolynomialConstReference();\
+}\
+    else if(term2.isExpression())\
+{\
+    newTerm = Constant(0) operation term2.getExpressionConstReference();\
+}\
+    else if(term2.isFunction())\
+{\
+    newTerm = Constant(0) operation term2.getFunctionConstReference();\
+}\
+}\
+    else if(term1.isConstant())\
+{\
+    if(term2.isEmpty())\
+{\
+    newTerm = term1.getConstantConstReference() operation Constant(0);\
+}\
+    else if(term2.isConstant())\
 {\
     newTerm = term1.getConstantConstReference() operation term2.getConstantConstReference();\
 }\
@@ -114,7 +153,11 @@ Term performOperation(
 }\
     else if(term1.isVariable())\
 {\
-    if(term2.isConstant())\
+    if(term2.isEmpty())\
+{\
+    newTerm = term1.getVariableConstReference() operation Constant(0);\
+}\
+    else if(term2.isConstant())\
 {\
     newTerm = term1.getVariableConstReference() operation term2.getConstantConstReference();\
 }\
@@ -141,7 +184,11 @@ Term performOperation(
 }\
     else if(term1.isMonomial())\
 {\
-    if(term2.isConstant())\
+    if(term2.isEmpty())\
+{\
+    newTerm = term1.getMonomialConstReference() operation Constant(0);\
+}\
+    else if(term2.isConstant())\
 {\
     newTerm = term1.getMonomialConstReference() operation term2.getConstantConstReference();\
 }\
@@ -168,7 +215,11 @@ Term performOperation(
 }\
     else if(term1.isPolynomial())\
 {\
-    if(term2.isConstant())\
+    if(term2.isEmpty())\
+{\
+    newTerm = term1.getPolynomialConstReference() operation Constant(0);\
+}\
+    else if(term2.isConstant())\
 {\
     newTerm = term1.getPolynomialConstReference() operation term2.getConstantConstReference();\
 }\
@@ -195,7 +246,11 @@ Term performOperation(
 }\
     else if(term1.isExpression())\
 {\
-    if(term2.isConstant())\
+    if(term2.isEmpty())\
+{\
+    newTerm = term1.getExpressionConstReference() operation Constant(0);\
+}\
+    else if(term2.isConstant())\
 {\
     newTerm = term1.getExpressionConstReference() operation term2.getConstantConstReference();\
 }\
@@ -222,7 +277,11 @@ Term performOperation(
 }\
     else if(term1.isFunction())\
 {\
-    if(term2.isConstant())\
+    if(term2.isEmpty())\
+{\
+    newTerm = term1.getFunctionConstReference() operation Constant(0);\
+}\
+    else if(term2.isConstant())\
 {\
     newTerm = term1.getFunctionConstReference() operation term2.getConstantConstReference();\
 }\
