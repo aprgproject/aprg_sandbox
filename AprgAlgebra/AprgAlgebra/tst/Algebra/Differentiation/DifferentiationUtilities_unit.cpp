@@ -24,14 +24,29 @@ TEST(DifferentiationUtilitiesTest, IsTheFirstFundamentalTheoremOfCalculusTrueWor
     EXPECT_TRUE(isTheFirstFundamentalTheoremOfCalculusTrue(termToTest3, "x"));
 }
 
+TEST(DifferentiationUtilitiesTest, GetRelationshipOfDerivativeOfTheInverseAndTheDerivativeWorks)
+{
+    Term termToTest1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    Term termToTest2(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {})});
+    Term termToTest3(Polynomial{Monomial(1, {{"x", 3}}), Monomial(3, {})});
+
+    Equation equation1(getRelationshipOfDerivativeOfTheInverseAndTheDerivative(termToTest1, "x", "c", "d"));
+    Equation equation2(getRelationshipOfDerivativeOfTheInverseAndTheDerivative(termToTest2, "x", "c", "d"));
+    Equation equation3(getRelationshipOfDerivativeOfTheInverseAndTheDerivative(termToTest3, "x", "c", "d"));
+    EXPECT_EQ("1 = 1",
+              equation1.getDisplayableString());
+    EXPECT_EQ("((1/2)/((1[d] + -2)^(1/2))) = (1/2)[c^-1]",
+              equation2.getDisplayableString());
+    EXPECT_EQ("((1/3)/((1[d] + -3)^(2/3))) = (1/3)[c^-2]",
+              equation3.getDisplayableString());
+}
+
 TEST(DifferentiationUtilitiesTest, IsDifferentiableAtWorks)
 {
     Term termToTest(Monomial(1, {{"x", AlbaNumber::createFraction(1, 3)}}));
-
     EXPECT_FALSE(isDifferentiableAt(termToTest, "x", 0));
     EXPECT_TRUE(isDifferentiableAt(termToTest, "x", 2));
 }
-
 TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenInputIsAConstant)
 {
     Term termToTest(5);

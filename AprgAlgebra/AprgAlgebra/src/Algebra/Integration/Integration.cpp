@@ -456,22 +456,20 @@ Term Integration::getTermWithNewVariableSubstitution(
             || termToSubstituteWithVariable.isFunction())
     {
         IsolationOfOneVariableOnEqualityEquation isolation(Equation(newVariable, "=", termToSubstituteWithVariable));
-        Equation equationWithIsolatedOldVariable(isolation.isolate(m_nameOfVariableToIntegrate));
-        Term const& termWithOldVariableFromIsolation(equationWithIsolatedOldVariable.getRightHandTerm());
-        Term const& termWithNewVariableFromIsolation(equationWithIsolatedOldVariable.getLeftHandTerm());
-        if(canBeConvertedToMonomial(termWithOldVariableFromIsolation))
+        Term termWithOldVariable;
+        Term termWithWithoutOldVariable;
+        isolation.isolateTermWithVariable(m_nameOfVariableToIntegrate, termWithOldVariable, termWithWithoutOldVariable);
+        if(canBeConvertedToMonomial(termWithOldVariable))
         {
-            Monomial monomialWithOldVariable(createMonomialIfPossible(termWithOldVariableFromIsolation));
+            Monomial monomialWithOldVariable(createMonomialIfPossible(termWithOldVariable));
             AlbaNumber exponentForOldVariable(monomialWithOldVariable.getExponentForVariable(m_nameOfVariableToIntegrate));
             monomialWithOldVariable.putVariableWithExponent(m_nameOfVariableToIntegrate, AlbaNumber(0));
-            Term isolatedTermWithNewVariable((termWithNewVariableFromIsolation/monomialWithOldVariable)^(AlbaNumber(1)/exponentForOldVariable));
+            Term isolatedTermWithNewVariable((termWithWithoutOldVariable/monomialWithOldVariable)^(AlbaNumber(1)/exponentForOldVariable));
             SubstitutionOfVariablesToTerms substitutionVariableToTerm({{m_nameOfVariableToIntegrate, isolatedTermWithNewVariable}});
             termWithNewVariable = substitutionVariableToTerm.performSubstitutionTo(termWithNewVariable);
-        }
-    }
+        }    }
     return termWithNewVariable;
 }
-
 void Integration::integrateUsingChainRuleInReverseIfPossible(
         Term & result,
         TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const

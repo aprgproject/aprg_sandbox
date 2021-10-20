@@ -21,13 +21,23 @@ public:
     void simplify();
 
 private:
-    Expression getNewCombinedExpression(Equation const& equation) const;
+    Term getNewCombinedTerm(Equation const& equation) const;
+    void negateTermIfNeeded(
+            Term & leftHandSide,
+            std::string & equationOperatorString);
+    void removeExponentIfNeeded(
+            Term & leftHandSide);
+    void completeExpressionWithFractionalExponentsIfNeeded(
+            Term & leftHandSide);
+    void simplifyLeftHandTerm(
+            Term & term);
+    bool areTheSignsOfTwoTermsDifferent(
+            TermWithDetails const& firstTerm,
+            TermWithDetails const& secondTerm);
 
     Equation m_equation;
 };
-
 }
 
 }
-
 }

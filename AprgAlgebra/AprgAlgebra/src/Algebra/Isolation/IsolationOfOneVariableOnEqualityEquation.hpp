@@ -16,21 +16,25 @@ public:
     IsolationOfOneVariableOnEqualityEquation(Equation const& equation);
 
     bool canBeIsolated(std::string const& variableName) const;
-    AlbaNumber getExponentOfIsolatedVariable(std::string const& variableName) const;
+    AlbaNumber getIdenticalExponentForVariableIfPossible(std::string const& variableName) const;
 
-    Equation isolate(std::string const& variableName);
+    Equation isolateTermWithVariableOnLeftSideOfEquation(std::string const& variableName) const;
+    Equation isolateTermWithVariableOnRightSideOfEquation(std::string const& variableName) const;
+
+    Term getTermByIsolatingVariable(std::string const& variableName) const;
+
+    void isolateTermWithVariable(
+            std::string const& variableName,
+            Term & termWithVariable,
+            Term & termWithWithoutVariable) const;
 
 private:
-    AlbaNumber getSameVariableExponentIfPossible(
-            Polynomial const& polynomial,
-            std::string const& variableName) const;
-    bool canBeIsolated(AlbaNumber const& variableExponent) const;
-    AlbaNumber getExponentOfIsolatedVariable(
-            Polynomial const& polynomial,
-            std::string const& variableName) const;
+    bool canBeIsolated(AlbaNumber const& identicalExponentForVariable) const;
+    AlbaNumber getIdenticalExponentForVariableIfPossible(
+            std::string const& variableName,
+            Polynomial const& polynomial) const;
     Term m_simplifiedLeftSideTerm;
 };
-
 }
 
 }

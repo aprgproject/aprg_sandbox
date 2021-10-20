@@ -75,7 +75,7 @@ bool isOneToOne(
         std::string const& variableNameToCheck,
         Equation const& equation);
 
-}
 
 }
-}
+
+}}
