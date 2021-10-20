@@ -107,19 +107,19 @@ TEST(IntegrationUtilitiesTest, GetAreaUnderACurveUsingReimannSumsWorks)
     EXPECT_EQ(Term(AlbaNumber::createFraction(9375, 4)), getAreaUnderACurveUsingReimannSums(termToTest3, "x", 5, 10));
 }
 
-TEST(IntegrationUtilitiesTest, GetApproximateValueForDefiniteIntegralWorks)
+TEST(IntegrationUtilitiesTest, GetApproximateValuesForDefiniteIntegralWorks)
 {
     Term termToTest1(Monomial(1, {{"x", 1}}));
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
 
-    LowerAndHigherValues valuesToVerify1(getApproximateValueForDefiniteIntegral(termToTest1, "x", 5, 10));
+    LowerAndHigherValues valuesToVerify1(getApproximateValuesForDefiniteIntegral(termToTest1, "x", 5, 10));
     EXPECT_EQ(AlbaNumber(25), valuesToVerify1.lowerValue);
     EXPECT_EQ(AlbaNumber(50), valuesToVerify1.higherValue);
-    LowerAndHigherValues valuesToVerify2(getApproximateValueForDefiniteIntegral(termToTest2, "x", 5, 10));
+    LowerAndHigherValues valuesToVerify2(getApproximateValuesForDefiniteIntegral(termToTest2, "x", 5, 10));
     EXPECT_EQ(AlbaNumber(0), valuesToVerify2.lowerValue);
     EXPECT_EQ(AlbaNumber(500), valuesToVerify2.higherValue);
-    LowerAndHigherValues valuesToVerify3(getApproximateValueForDefiniteIntegral(termToTest3, "x", 5, 10));
+    LowerAndHigherValues valuesToVerify3(getApproximateValuesForDefiniteIntegral(termToTest3, "x", 5, 10));
     EXPECT_EQ(AlbaNumber(0), valuesToVerify3.lowerValue);
     EXPECT_EQ(AlbaNumber(5000), valuesToVerify3.higherValue);
 }

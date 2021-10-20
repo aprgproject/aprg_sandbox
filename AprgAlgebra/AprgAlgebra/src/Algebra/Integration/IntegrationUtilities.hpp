@@ -66,7 +66,7 @@ Term getAreaUnderACurveUsingReimannSums(
         AlbaNumber const& lowerValueInInterval,
         AlbaNumber const& higherValueInInterval);
 
-LowerAndHigherValues getApproximateValueForDefiniteIntegral(
+LowerAndHigherValues getApproximateValuesForDefiniteIntegral(
         Term const& term,
         std::string const& variableName,
         AlbaNumber const& lowerValueInInterval,

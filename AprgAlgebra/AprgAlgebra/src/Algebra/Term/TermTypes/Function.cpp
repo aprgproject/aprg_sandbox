@@ -69,11 +69,6 @@ bool Function::operator<(Function const& second) const
     return result;
 }
 
-bool Function::isInputAConstant() const
-{
-    return getTermConstReferenceFromBaseTerm(getInputTermConstReference()).isConstant();
-}
-
 string Function::getFunctionName() const
 {
     return m_functionName;
@@ -122,9 +117,9 @@ void Function::simplify()
     *this = simplification.getFunction();
 }
 
-ostream & operator<<(ostream & out, Function const& functionAsParameter)
+ostream & operator<<(ostream & out, Function const& functionObject)
 {
-    out << functionAsParameter.getDisplayableString();
+    out << functionObject.getDisplayableString();
     return out;
 }
 

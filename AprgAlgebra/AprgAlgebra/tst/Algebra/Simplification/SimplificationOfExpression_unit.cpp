@@ -1034,11 +1034,13 @@ TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorAndShould
 
 TEST(TermsOverTermsTest, SimplifyBySimplifyingToFactorsWithoutDoubleValueWorks)
 {
-    SimplificationOfExpression::ConfigurationDetails configurationDetails(                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
     configurationDetails.shouldSimplifyToFactors = true;
     configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
     Term numerator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-5, {})});
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-7, {})});
     Expression expressionToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));

@@ -33,4 +33,5 @@ bool hasNumbersNotFinite(Function const& function);
 bool isAFiniteConstant(Term const& term);
 
 }
+
 }

@@ -108,23 +108,6 @@ TEST(FunctionTest, LessThanOperatorWorks)
     EXPECT_TRUE(function3 < function4);
 }
 
-TEST(FunctionTest, IsInputExpressionAConstantWorks)
-{
-    Function function1;
-    Function function2("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
-    {
-        return number;
-    });
-    Function function3("functionName", Term("x"), [](AlbaNumber const&  number) -> AlbaNumber
-    {
-        return number;
-    });
-
-    EXPECT_FALSE(function1.isInputAConstant());
-    EXPECT_TRUE(function2.isInputAConstant());
-    EXPECT_FALSE(function3.isInputAConstant());
-}
-
 TEST(FunctionTest, PerformFunctionAndReturnResultIfPossibleWorks)
 {
     Function function1;

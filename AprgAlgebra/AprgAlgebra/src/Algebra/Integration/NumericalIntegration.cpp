@@ -133,6 +133,40 @@ Term getAnApproximateOfTruncationErrorInSimpsonRuleAt(
     return lengthOfInterval / -180 * (deltaX ^ 2) * termDoublePrimeValue;
 }
 
+AlbaNumber getAnApproximateOfNaturalLogarithmUsingTrapezoidRule(
+        AlbaNumber const& input,
+        unsigned int const numberOfSamples)
+{
+    AlbaNumber result;
+    if(input > 0)
+    {
+        Term oneOverX(Term(1)/Term("x"));
+        Term approximateValue(getAnApproximateOfDefiniteIntegralUsingTrapezoidalRule(oneOverX, "x", AlbaNumber(1), input, numberOfSamples));
+        if(approximateValue.isConstant())
+        {
+            result = approximateValue.getConstantValueConstReference();
+        }
+    }
+    return result;
+}
+
+AlbaNumber getAnApproximateOfNaturalLogarithmUsingSimpsonRule(
+        AlbaNumber const& input,
+        unsigned int const numberOfSamples)
+{
+    AlbaNumber result;
+    if(input > 0)
+    {
+        Term oneOverX(Term(1)/Term("x"));
+        Term approximateValue(getAnApproximateOfDefiniteIntegralUsingSimpsonRule(oneOverX, "x", AlbaNumber(1), input, numberOfSamples));
+        if(approximateValue.isConstant())
+        {
+            result = approximateValue.getConstantValueConstReference();
+        }
+    }
+    return result;
+}
+
 }
 
 }

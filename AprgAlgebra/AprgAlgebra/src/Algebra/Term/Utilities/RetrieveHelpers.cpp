@@ -123,6 +123,22 @@ Terms retrieveSubTerms(Term const& term)
     return result;
 }
 
+TermsWithDetails retrieveTermsWithDetailsThatSatisfiesCondition(
+        TermsWithDetails const& termsWithDetails,
+        ConditionFunctionForTermsWithDetails const& conditionFunction)
+{
+    TermsWithDetails result;
+    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    {
+        if(conditionFunction(termWithDetails))
+        {
+            result.emplace_back(termWithDetails);
+        }
+    }
+    return result;
+
+}
+
 
 }
 

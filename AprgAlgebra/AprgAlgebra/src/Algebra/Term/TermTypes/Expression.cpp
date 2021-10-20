@@ -95,22 +95,6 @@ TermsWithAssociation & Expression::getTermsWithAssociationReference()
     return m_termsWithAssociation;
 }
 
-TermsWithAssociation Expression::getTermsWithDetailsThatSatisfiesCondition(
-        ConditionFunctionForTermsWithDetails const& conditionFunction) const
-{
-    TermsWithAssociation termsWithOnlyExpressions;
-    TermsWithDetails const& termsWithDetails(m_termsWithAssociation.getTermsWithDetails());
-    for(TermWithDetails const& termWithDetails : termsWithDetails)
-    {
-        if(conditionFunction(termWithDetails))
-        {
-            termsWithOnlyExpressions.putTermWithDetails(termWithDetails);
-        }
-    }
-    return termsWithOnlyExpressions;
-
-}
-
 string Expression::getDisplayableString() const
 {
     bool isFirst(true);
@@ -355,10 +339,10 @@ void Expression::reverseTheAssociationOfTheTerms()
     m_termsWithAssociation.reverseTheAssociationOfTheTerms();
 }
 
-void Expression::set(OperatorLevel const operatorLevel, TermsWithAssociation const& termsWithPriorityAndAssociation)
+void Expression::set(OperatorLevel const operatorLevel, TermsWithDetails const& termsWithDetails)
 {
     m_commonOperatorLevel = operatorLevel;
-    m_termsWithAssociation = termsWithPriorityAndAssociation;
+    m_termsWithAssociation.putTermsWithDetails(termsWithDetails);
 }
 
 void Expression::setTerm(BaseTerm const& baseTerm)

@@ -30,6 +30,7 @@ public:
     void clear();
     void sort();
     void putTermWithDetails(TermWithDetails const& termWithDetails);
+    void putTermsWithDetails(TermsWithDetails const& termsWithDetails);
     void putTermWithAssociation(BaseTerm const& baseTerm, TermAssociationType const associationType);
     void putTermWithPositiveAssociation(BaseTerm const& baseTerm);
     void putTermWithNegativeAssociation(BaseTerm const& baseTerm);

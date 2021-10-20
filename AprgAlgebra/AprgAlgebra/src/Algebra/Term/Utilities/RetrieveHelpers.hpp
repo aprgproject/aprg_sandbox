@@ -11,6 +11,7 @@ namespace alba
 namespace algebra
 {
 
+using ConditionFunctionForTermsWithDetails = std::function<bool(TermWithDetails const&)>;
 using VariableToValueMap = std::map<std::string, AlbaNumber>;
 
 bool hasAnyFunctions(Term const& term);
@@ -26,6 +27,10 @@ void retrieveTermsFromTermsWithDetails(Terms & terms, TermsWithDetails const& te
 
 Terms retrieveSubExpressionsAndSubFunctions(Term const& term);
 Terms retrieveSubTerms(Term const& term);
+
+TermsWithDetails retrieveTermsWithDetailsThatSatisfiesCondition(
+        TermsWithDetails const& termsWithDetails,
+        ConditionFunctionForTermsWithDetails const& conditionFunction);
 
 }
 

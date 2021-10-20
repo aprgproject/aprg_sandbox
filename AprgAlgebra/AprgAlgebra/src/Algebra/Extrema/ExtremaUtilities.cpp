@@ -270,8 +270,8 @@ bool isRolleTheoremSatisfied(
         AlbaNumberInterval abCloseInterval(createCloseEndpoint(a), createCloseEndpoint(b));
         AlbaNumberInterval abOpenInterval(createOpenEndpoint(a), createOpenEndpoint(b));
 
-        if(isIntervalInsideTheIntervals(continuityDomainIntervals, abCloseInterval)
-                && isIntervalInsideTheIntervals(differentiabilityDomainIntervals, abOpenInterval))
+        if(isIntervalInsideTheIntervals(abCloseInterval, continuityDomainIntervals)
+                && isIntervalInsideTheIntervals(abOpenInterval, differentiabilityDomainIntervals))
         {
             Differentiation differentiation(variableName);
             Term firstDerivativeTerm(differentiation.differentiate(term));

@@ -18,7 +18,6 @@ namespace algebra
 class Expression : public BaseTermData
 {
 public:
-    using ConditionFunctionForTermsWithDetails = std::function<bool(TermWithDetails const&)>;
 
     Expression();
     Expression(BaseTerm const& baseTerm);
@@ -35,8 +34,6 @@ public:
     TermAssociationType getFirstAssociationType() const;
     TermsWithAssociation const& getTermsWithAssociation() const;
     TermsWithAssociation & getTermsWithAssociationReference();
-    TermsWithAssociation getTermsWithDetailsThatSatisfiesCondition(
-            ConditionFunctionForTermsWithDetails const& conditionFunction) const;
     std::string getDisplayableString() const;
     std::string getDebugString() const;
 
@@ -58,7 +55,7 @@ public:
             TermAssociationType const overallAssociation);
 
     void reverseTheAssociationOfTheTerms();
-    void set(OperatorLevel const operatorLevel, TermsWithAssociation const& termsWithPriorityAndAssociation);
+    void set(OperatorLevel const operatorLevel, TermsWithDetails const& termsWithDetails);
     void setTerm(BaseTerm const& baseTerm);
     void setCommonOperatorLevel(OperatorLevel const operatorLevel);
     void setCommonOperatorLevelIfStillUnknown(OperatorLevel const operatorLevel);

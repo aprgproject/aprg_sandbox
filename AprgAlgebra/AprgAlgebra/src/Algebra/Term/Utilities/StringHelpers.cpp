@@ -13,15 +13,15 @@ namespace alba
 namespace algebra
 {
 
-bool isOperator(string const& stringAsParameter)
+bool isOperator(string const& stringObject)
 {
-    return "+" == stringAsParameter || "-" == stringAsParameter || "*" == stringAsParameter || "/" == stringAsParameter
-            || "^" == stringAsParameter || "(" == stringAsParameter || ")" == stringAsParameter;
+    return "+" == stringObject || "-" == stringObject || "*" == stringObject || "/" == stringObject
+            || "^" == stringObject || "(" == stringObject || ")" == stringObject;
 }
 
-bool isFunction(string const& stringAsParameter)
+bool isFunction(string const& stringObject)
 {
-    return "abs" == stringAsParameter;
+    return "abs" == stringObject;
 }
 
 unsigned int getOperatorPriority(string const& operatorString)

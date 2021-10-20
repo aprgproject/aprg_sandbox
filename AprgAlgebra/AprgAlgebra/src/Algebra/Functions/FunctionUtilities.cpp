@@ -1,7 +1,6 @@
 #include "FunctionUtilities.hpp"
 
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <String/AlbaStringHelper.hpp>
 
 #include <algorithm>
 
@@ -20,13 +19,32 @@ namespace Functions
 bool isFunctionContinuous(Function const& functionObject)
 {
     strings continuousFunctionNames{"abs", "sin", "cos"};
+    return isFunctionNameFoundOnAList(functionObject, continuousFunctionNames);
+}
 
-    return any_of(continuousFunctionNames.cbegin(), continuousFunctionNames.cend(),
-                  [&](string const& continuousFunctionName)
+bool isTrigonometricFunction(Function const& functionObject)
+{
+    strings continuousFunctionNames{"sin", "cos", "tan", "csc", "sec", "cot"};
+    return isFunctionNameFoundOnAList(functionObject, continuousFunctionNames);
+}
+
+bool isLogarithmicFunction(Function const& functionObject)
+{
+    strings continuousFunctionNames{"ln", "log"};
+    return isFunctionNameFoundOnAList(functionObject, continuousFunctionNames);
+}
+
+bool isFunctionNameFoundOnAList(
+        Function const& functionObject,
+        strings const& names)
+{
+    return any_of(names.cbegin(), names.cend(),
+                  [&](string const& name)
     {
-        return continuousFunctionName == functionObject.getFunctionName();
+        return name == functionObject.getFunctionName();
     });
 }
+
 
 AlbaNumberPairs evaluateAndGetInputOutputPair(
         AlbaNumbers const& numbers,

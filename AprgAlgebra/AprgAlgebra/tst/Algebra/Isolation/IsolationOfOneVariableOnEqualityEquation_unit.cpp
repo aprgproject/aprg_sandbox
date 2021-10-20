@@ -44,7 +44,8 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, CanBeIsolatedWorksOnPolynomia
 TEST(IsolationOfOneVariableOnEqualityEquationTest, GetIdenticalExponentForVariableIfPossibleWorksOnPolynomialEquation)
 {
     Polynomial leftHandSide{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 2}})};
-    Polynomial rightHandSide{Monomial(3, {{"a", 3}}), Monomial(4, {{"b", 4}})};    Equation equation(Term(leftHandSide), "=", Term(rightHandSide));
+    Polynomial rightHandSide{Monomial(3, {{"a", 3}}), Monomial(4, {{"b", 4}})};
+    Equation equation(Term(leftHandSide), "=", Term(rightHandSide));
     IsolationOfOneVariableOnEqualityEquation isolation(equation);
 
     EXPECT_EQ(AlbaNumber(1), isolation.getIdenticalExponentForVariableIfPossible("x"));
@@ -58,7 +59,8 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, GetIdenticalExponentForVariab
 TEST(IsolationOfOneVariableOnEqualityEquationTest, GetIdenticalExponentForVariableIfPossibleWorksOnPolynomialEquationWithMultipleVariableMonomials)
 {
     Polynomial leftHandSide{Monomial(1, {{"x", 1}, {"y", 2}})};
-    Polynomial rightHandSide{Monomial(3, {{"a", 3}, {"b", 4}})};    Equation equation(Term(leftHandSide), "=", Term(rightHandSide));
+    Polynomial rightHandSide{Monomial(3, {{"a", 3}, {"b", 4}})};
+    Equation equation(Term(leftHandSide), "=", Term(rightHandSide));
     IsolationOfOneVariableOnEqualityEquation isolation(equation);
 
     EXPECT_EQ(AlbaNumber(1), isolation.getIdenticalExponentForVariableIfPossible("x"));
@@ -72,7 +74,8 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, GetIdenticalExponentForVariab
 TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableOnLeftSideOfEquationWorks)
 {
     Polynomial leftHandSide{Monomial(1, {{"x", 1}}), Monomial(2, {{"y", 2}})};
-    Polynomial rightHandSide{Monomial(3, {{"a", 3}}), Monomial(4, {{"b", 4}})};    Equation equation(Term(leftHandSide), "=", Term(rightHandSide));
+    Polynomial rightHandSide{Monomial(3, {{"a", 3}}), Monomial(4, {{"b", 4}})};
+    Equation equation(Term(leftHandSide), "=", Term(rightHandSide));
     IsolationOfOneVariableOnEqualityEquation isolation(equation);
 
     Term expectedIsolatedBLeftSide(Monomial(1, {{"b", 4}}));
@@ -178,10 +181,12 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksO
 TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorkssOnPolynomialEquation_Example1UsingDerivatives)
 {
     Polynomial leftHandSide{
-        Monomial(18, {{"dy/dx", 1}, {"y", 5}}),                Monomial(5, {{"dy/dx", 1}, {"y", 4}}),
+        Monomial(18, {{"dy/dx", 1}, {"y", 5}}),
+                Monomial(5, {{"dy/dx", 1}, {"y", 4}}),
                 Monomial(-6, {{"x", 5}}),
                 Monomial(-2, {{"dy/dx", 1}, {"y", 1}}),
-                Monomial(2, {{}})};    Polynomial rightHandSide{Monomial(0, {})};
+                Monomial(2, {{}})};
+    Polynomial rightHandSide{Monomial(0, {})};
     Equation equation(Term(leftHandSide), "=", Term(rightHandSide));
     IsolationOfOneVariableOnEqualityEquation isolation(equation);
 
@@ -189,7 +194,8 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorkss
     Term termWithoutVariable;
     Polynomial numerator{
                 Monomial(6, {{"x", 5}}),
-                Monomial(-2, {})};    Polynomial denominator{
+                Monomial(-2, {})};
+    Polynomial denominator{
         Monomial(18, {{"y", 5}}),
                 Monomial(5, {{"y", 4}}),
                 Monomial(-2, {{"y", 1}})};
@@ -201,4 +207,5 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorkss
 }
 
 }
+
 }

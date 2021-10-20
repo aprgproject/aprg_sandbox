@@ -1,7 +1,11 @@
 #include "ConvertHelpers.hpp"
 
-#include <Algebra/Functions/SimplifyingFunctionToExpression.hpp>
+#include <Algebra/Simplification/SimplificationOfFunctionToTerm.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+
+using namespace alba::algebra::Simplification;
+using namespace std;
 
 namespace alba
 {
@@ -58,9 +62,9 @@ Term simplifyAndConvertExpressionToSimplestTerm(Expression const& expression)
     return convertExpressionToSimplestTerm(newExpression);
 }
 
-Term simplifyAndConvertFunctionToSimplestTerm(Function const& functionAsParameter)
+Term simplifyAndConvertFunctionToSimplestTerm(Function const& functionObject)
 {
-    Function newFunction(functionAsParameter);
+    Function newFunction(functionObject);
     newFunction.simplify();
     return convertFunctionToSimplestTerm(newFunction);
 }
@@ -133,14 +137,16 @@ Term convertExpressionToSimplestTerm(Expression const& expression)
     return newTerm;
 }
 
-Term convertFunctionToSimplestTerm(Function const& functionAsParameter)
+Term convertFunctionToSimplestTerm(Function const& functionObject)
 {
-    Term newTerm(functionAsParameter);
-    if(functionAsParameter.isInputAConstant())
+    /*Term newTerm(functionObject);
+    Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
+    if(inputTerm.isConstant())
     {
-        newTerm = Term(functionAsParameter.performFunctionAndReturnResultIfPossible());
-    }
-    return newTerm;
+        newTerm = Term(functionObject.performFunctionAndReturnResultIfPossible());
+    }*/
+    SimplificationOfFunctionToTerm simplification;
+    return simplification.simplifyToTerm(functionObject);
 }
 
 }

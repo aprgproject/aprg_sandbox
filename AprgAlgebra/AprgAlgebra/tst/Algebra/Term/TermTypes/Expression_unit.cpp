@@ -162,22 +162,6 @@ TEST(ExpressionTest, GetTermsWithAssociationWorks)
     EXPECT_EQ(TermAssociationType::Positive, termsWithDetailsToVerify.at(2).association);
 }
 
-TEST(ExpressionTest, GetTermsWithDetailsThatSatisfiesConditionWhenConditionIsNegativeAssocationWorks)
-{
-    Expression expression(createExpressionIfPossible({Term("x"), Term("+"), Term("y"), Term("-"), Term("z")}));
-
-    TermsWithAssociation terms(
-                expression.getTermsWithDetailsThatSatisfiesCondition(
-                    [](TermWithDetails const& termWithDetails) {
-                    return termWithDetails.hasNegativeAssociation();
-                }));
-
-    TermsWithDetails termsWithDetailsToVerify(terms.getTermsWithDetails());
-    ASSERT_EQ(1U, termsWithDetailsToVerify.size());
-    EXPECT_EQ(Term("z"), getTermConstReferenceFromSharedPointer(termsWithDetailsToVerify.at(0).baseTermSharedPointer));
-    EXPECT_EQ(TermAssociationType::Negative, termsWithDetailsToVerify.at(0).association);
-}
-
 TEST(ExpressionTest, GetDisplayableStringWorks)
 {
     Expression expression1;
@@ -1232,14 +1216,13 @@ TEST(ExpressionTest, ReverseTheAssociationOfTheTermsWorks)
 TEST(ExpressionTest, SetWorks)
 {
     Expression expression;
-    TermsWithAssociation terms;
-    TermWithDetails termWithDetails(Term(10), TermAssociationType::Positive);
+    TermsWithDetails termsWithDetails
+    {TermWithDetails(Term(100), TermAssociationType::Positive),
+                TermWithDetails(Term(2), TermAssociationType::Negative)};
 
-    terms.putTermWithDetails(termWithDetails);
-    terms.putTermWithDetails(termWithDetails);
-    expression.set(OperatorLevel::AdditionAndSubtraction, terms);
+    expression.set(OperatorLevel::AdditionAndSubtraction, termsWithDetails);
 
-    Expression expressionToExpect(createExpressionIfPossible({Term(10), Term("+"), Term(10)}));
+    Expression expressionToExpect(createExpressionIfPossible({Term(100), Term("-"), Term(2)}));
     EXPECT_EQ(expressionToExpect, expression);
 }
 

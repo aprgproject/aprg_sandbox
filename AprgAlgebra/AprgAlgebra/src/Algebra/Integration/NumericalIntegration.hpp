@@ -54,6 +54,14 @@ Term getAnApproximateOfTruncationErrorInSimpsonRuleAt(
         AlbaNumber const& valueToCheckAt,
         AlbaNumber const& deltaX);
 
+AlbaNumber getAnApproximateOfNaturalLogarithmUsingTrapezoidRule(
+        AlbaNumber const& input,
+        unsigned int const numberOfSamples);
+
+AlbaNumber getAnApproximateOfNaturalLogarithmUsingSimpsonRule(
+        AlbaNumber const& input,
+        unsigned int const numberOfSamples);
+
 }
 
 }

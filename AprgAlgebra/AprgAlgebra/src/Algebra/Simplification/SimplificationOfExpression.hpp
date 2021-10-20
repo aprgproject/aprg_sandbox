@@ -112,9 +112,11 @@ private:
 
     Expression m_expression;
 };
+
 }
 
 }
+
 template <>
 algebra::Simplification::SimplificationOfExpression::ConfigurationDetails
 getDefaultConfigurationDetails<algebra::Simplification::SimplificationOfExpression::ConfigurationDetails>();

@@ -8,10 +8,12 @@
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
-#include <Algebra/Term/Operators/TermOperators.hpp>#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
-#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>#include <Algebra/Term/Utilities/StringHelpers.hpp>
+#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
+#include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 
@@ -84,9 +86,11 @@ Term Integration::integrateWithPlusC(
     simplifyForIntegration(result, getConfigurationWithFactors());
     return result;
 }
+
 Term Integration::integrateWithDefiniteValues(
         Term const& term,
-        AlbaNumber const& lowerValueInInterval,        AlbaNumber const& higherValueInInterval) const
+        AlbaNumber const& lowerValueInInterval,
+        AlbaNumber const& higherValueInInterval) const
 {
     return substituteValuesAndGetDifference(
                 integrateTerm(term),
@@ -192,6 +196,7 @@ Term Integration::integrateExpression(
     simplifyForIntegration(result, getConfigurationWithFactors());
     return result;
 }
+
 Term Integration::integrateFunction(
         Function const& functionObject) const
 {
@@ -199,6 +204,7 @@ Term Integration::integrateFunction(
     simplifyForIntegration(result, getConfigurationWithFactors());
     return result;
 }
+
 Term Integration::integrateAsTermOrExpressionIfNeeded(
         Expression const& expression) const
 {
@@ -256,10 +262,12 @@ void Integration::integrateTermsInAdditionOrSubtraction(
         Term & result,
         TermsWithDetails const& termsWithDetails) const
 {
-    Expression accumulatedExpression(createOrCopyExpressionFromATerm(Constant(0)));    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    Expression accumulatedExpression(createOrCopyExpressionFromATerm(Constant(0)));
+    for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
         Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        Term integratedTerm(integrate(currentTerm));        if(termWithDetails.hasPositiveAssociation())
+        Term integratedTerm(integrate(currentTerm));
+        if(termWithDetails.hasPositiveAssociation())
         {
             accumulatedExpression.putTermWithAdditionIfNeeded(integratedTerm);
         }
@@ -285,7 +293,8 @@ void Integration::integrateTermsInRaiseToPower(
 {
     if(termsWithDetails.size() == 2)
     {
-        Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));        Term const& secondTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
+        Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
+        Term const& secondTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
         if(firstTerm.isConstant())
         {
             integrateConstantRaiseToTerm(result, firstTerm.getConstantValueConstReference(), secondTerm);
@@ -317,10 +326,12 @@ void Integration::integrateTermRaiseToConstant(
 {
     if(wouldDifferentiationYieldToAConstant(base))
     {
-        result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible(        {base, Term("^"), Term(exponent+1), Term("/"), Term(exponent+1)})), base);
+        result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible(
+        {base, Term("^"), Term(exponent+1), Term("/"), Term(exponent+1)})), base);
     }
     else if(base.isFunction())
-    {        Function const& functionTerm(base.getFunctionConstReference());
+    {
+        Function const& functionTerm(base.getFunctionConstReference());
         Term const& inputOfFunctionTerm(getTermConstReferenceFromBaseTerm(functionTerm.getInputTermConstReference()));
         if(exponent == 2
                 && functionTerm.getFunctionName() == "sec"
@@ -346,10 +357,12 @@ void Integration::integrateTermRaiseToTerm(
     result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
 }
 
-Term Integration::integrateFunctionOnly(        Function const& functionObject) const
+Term Integration::integrateFunctionOnly(
+        Function const& functionObject) const
 {
     Term result;
-    Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));    if(wouldDifferentiationYieldToAConstant(inputTerm))
+    Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
+    if(wouldDifferentiationYieldToAConstant(inputTerm))
     {
         if("sin" == functionObject.getFunctionName())
         {
@@ -381,7 +394,8 @@ Term Integration::integrateFunctionOnly(        Function const& functionObject) 
         integrateTermUsingSubstitutionWithMaxDepth(result, Term(functionObject), getConfigurationWithFactors());
     }
     if(result.isEmpty())
-    {        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+    {
+        result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
     }
     return result;
 }
@@ -400,6 +414,7 @@ void Integration::integrateTermUsingSubstitutionWithMaxDepth(
     }
     depth--;
 }
+
 void Integration::integrateTermUsingSubstitution(
         Term & result,
         Term const& term,
@@ -415,10 +430,12 @@ void Integration::integrateTermUsingSubstitution(
             integrateBySubstitutionAndUsingANewVariable(result, simplifiedTerm, subTerm, configuration);
             if(!result.isEmpty())
             {
-                break;            }
+                break;
+            }
         }
     }
 }
+
 void Integration::integrateBySubstitutionAndUsingANewVariable(
         Term & result,
         Term const& mainTerm,
@@ -432,10 +449,12 @@ void Integration::integrateBySubstitutionAndUsingANewVariable(
     simplifyForIntegration(termToIntegrateWithNewVariable, configuration);
     if(isVariableToIntegrateNotFoundInTerm(termToIntegrateWithNewVariable))
     {
-        string newVariableName(createVariableNameForSubstitution(termToSubstituteToVariable));        Integration integrationWithNewVariable(newVariableName);
+        string newVariableName(createVariableNameForSubstitution(termToSubstituteToVariable));
+        Integration integrationWithNewVariable(newVariableName);
         Term integratedTermWithNewVariable(integrationWithNewVariable.integrateTerm(termToIntegrateWithNewVariable));
         SubstitutionOfVariablesToTerms substitutionVariableToTerm({{newVariableName, termToSubstituteToVariable}});
-        Term integratedTerm(substitutionVariableToTerm.performSubstitutionTo(integratedTermWithNewVariable));        if(!isNotANumber(integratedTerm))
+        Term integratedTerm(substitutionVariableToTerm.performSubstitutionTo(integratedTermWithNewVariable));
+        if(!isNotANumber(integratedTerm))
         {
             result = integratedTerm;
         }
@@ -467,9 +486,11 @@ Term Integration::getTermWithNewVariableSubstitution(
             Term isolatedTermWithNewVariable((termWithWithoutOldVariable/monomialWithOldVariable)^(AlbaNumber(1)/exponentForOldVariable));
             SubstitutionOfVariablesToTerms substitutionVariableToTerm({{m_nameOfVariableToIntegrate, isolatedTermWithNewVariable}});
             termWithNewVariable = substitutionVariableToTerm.performSubstitutionTo(termWithNewVariable);
-        }    }
+        }
+    }
     return termWithNewVariable;
 }
+
 void Integration::integrateUsingChainRuleInReverseIfPossible(
         Term & result,
         TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const
@@ -633,11 +654,13 @@ Integration::Configuration Integration::getConfigurationWithCommonDenominator() 
 
 bool Integration::isVariableToIntegrate(string const& variableName) const
 {
-    return variableName == m_nameOfVariableToIntegrate;}
+    return variableName == m_nameOfVariableToIntegrate;
+}
 
 bool Integration::isVariableToIntegrateNotFoundInTerm(Term const& term) const
 {
-    VariableNamesRetriever retriever;    retriever.retrieveFromTerm(term);
+    VariableNamesRetriever retriever;
+    retriever.retrieveFromTerm(term);
     VariableNamesSet const& variableNames(retriever.getSavedData());
     return variableNames.find(m_nameOfVariableToIntegrate) == variableNames.cend();
 }

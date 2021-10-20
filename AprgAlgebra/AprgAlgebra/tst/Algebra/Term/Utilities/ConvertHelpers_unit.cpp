@@ -1,7 +1,10 @@
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
+
+using namespace alba::algebra::Functions;
 
 namespace alba
 {
@@ -205,16 +208,23 @@ TEST(ConvertHelpersTest, ConvertFunctionToSimplestTermWorks)
     {
         return number;
     });
+    Term x("x");
+    Term y("y");
+    Term z("z");
+    Term multiplicationAndDivisionExpression(createExpressionIfPossible({x, Term("*"), y, Term("/"), z}));
 
     Term termToVerify1(convertFunctionToSimplestTerm(function1));
     Term termToVerify2(convertFunctionToSimplestTerm(function2));
     Term termToVerify3(convertFunctionToSimplestTerm(function3));
+    Term termToVerify4(convertFunctionToSimplestTerm(ln(multiplicationAndDivisionExpression)));
 
+    Term termToExpect(createExpressionIfPossible({Term(ln(x)), Term("+"), Term(ln(y)), Term("-"), Term(ln(z))}));
     ASSERT_TRUE(termToVerify1.isFunction());
     EXPECT_EQ(function1, termToVerify1.getFunctionConstReference());
     EXPECT_EQ(Term(5), termToVerify2);
     ASSERT_TRUE(termToVerify3.isFunction());
     EXPECT_EQ(function3, termToVerify3.getFunctionConstReference());
+    EXPECT_EQ(termToExpect, termToVerify4);
 }
 
 }

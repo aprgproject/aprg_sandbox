@@ -82,6 +82,22 @@ TEST(NumericalIntegrationUtilitiesTest, GetAnApproximateOfTruncationErrorInSimps
     EXPECT_EQ(Term(-0.0004166666666666667), getAnApproximateOfTruncationErrorInSimpsonRuleAt(termToTest4, "x", 5, 10, 7.5, 0.025));
 }
 
+TEST(NumericalIntegrationUtilitiesTest, GetAnApproximateOfNaturalLogarithmUsingTrapezoidalRuleWorks)
+{
+    EXPECT_EQ(AlbaNumber(2.302752121358471), getAnApproximateOfNaturalLogarithmUsingTrapezoidRule(10, 200));
+    EXPECT_EQ(AlbaNumber(0), getAnApproximateOfNaturalLogarithmUsingTrapezoidRule(1, 200));
+    EXPECT_EQ(AlbaNumber(-2.302752121358471), getAnApproximateOfNaturalLogarithmUsingTrapezoidRule(0.1, 200));
+    EXPECT_EQ(AlbaNumber(-8.085601984755872), getAnApproximateOfNaturalLogarithmUsingTrapezoidRule(0.001, 200));
+}
+
+TEST(NumericalIntegrationUtilitiesTest, GetAnApproximateOfNaturalLogarithmUsingSimpsonRuleWorks)
+{
+    EXPECT_EQ(AlbaNumber(2.30258522901465), getAnApproximateOfNaturalLogarithmUsingSimpsonRule(10, 200));
+    EXPECT_EQ(AlbaNumber(0), getAnApproximateOfNaturalLogarithmUsingSimpsonRule(1, 200));
+    EXPECT_EQ(AlbaNumber(-2.30258522901465), getAnApproximateOfNaturalLogarithmUsingSimpsonRule(0.1, 200));
+    EXPECT_EQ(AlbaNumber(-7.439211364315156), getAnApproximateOfNaturalLogarithmUsingSimpsonRule(0.001, 200));
+}
+
 }
 
 }

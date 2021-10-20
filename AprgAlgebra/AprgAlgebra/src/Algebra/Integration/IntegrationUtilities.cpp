@@ -141,7 +141,7 @@ Term getAreaUnderACurveUsingReimannSums(
     return limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity); // Let number of rectangles approach infinity
 }
 
-LowerAndHigherValues getApproximateValueForDefiniteIntegral(
+LowerAndHigherValues getApproximateValuesForDefiniteIntegral(
         Term const& term,
         string const& variableName,
         AlbaNumber const& lowerValueInInterval,

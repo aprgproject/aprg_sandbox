@@ -130,10 +130,12 @@ TEST(DomainAndRangeTest, CalculateDomainForEquationWorksWithEquationUsingExample
 
 TEST(DomainAndRangeTest, CalculateDomainForEquationWorksWithSquareRootOfQuadratic)
 {
-    Polynomial quadratic{Monomial(9, {}), Monomial(-1, {{"x", 2}})};    Expression expression(createExpressionIfPossible({Term(quadratic), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Polynomial quadratic{Monomial(9, {}), Monomial(-1, {{"x", 2}})};
+    Expression expression(createExpressionIfPossible({Term(quadratic), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     Equation equation(Term(expression), "=", Term("y"));
 
     SolutionSet actualDomain = calculateDomainForEquation("x", equation);
+
     AlbaNumberIntervals acceptedIntervals(actualDomain.getAcceptedIntervals());
     ASSERT_EQ(1U, acceptedIntervals.size());
     EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-3), createCloseEndpoint(3)), acceptedIntervals.at(0));
@@ -177,6 +179,7 @@ TEST(DomainAndRangeTest, CalculateRangeForEquationWorksWithEquationWithValues)
     ASSERT_EQ(1U, acceptedIntervals.size());
     EXPECT_EQ(AlbaNumberInterval(createNegativeInfinityOpenEndpoint(), createCloseEndpoint(6)), acceptedIntervals.at(0));
 }
+
 TEST(DomainAndRangeTest, CalculateRangeForEquationWorksWithEquation)
 {
     Polynomial polynomialLeft{Monomial(1, {{"x", 2}}), Monomial(1, {{"y", 2}})};
@@ -202,7 +205,8 @@ TEST(DomainAndRangeTest, CalculateRangeForEquationWorksWithEquationUsingExample1
 
 TEST(DomainAndRangeTest, CalculateRangeForEquationWorksWith2AbsoluteValues)
 {
-    Function absoluteValueOfX(Functions::abs(createExpressionIfPossible({Term("x")})));    Function absoluteValueOfY(Functions::abs(createExpressionIfPossible({Term("y")})));
+    Function absoluteValueOfX(Functions::abs(createExpressionIfPossible({Term("x")})));
+    Function absoluteValueOfY(Functions::abs(createExpressionIfPossible({Term("y")})));
     Expression leftHandExpression(createExpressionIfPossible({Term(absoluteValueOfX), Term("+"), Term(absoluteValueOfY)}));
     Equation equation(Term(leftHandExpression), "=", Term(Constant(1)));
 
@@ -212,9 +216,11 @@ TEST(DomainAndRangeTest, CalculateRangeForEquationWorksWith2AbsoluteValues)
     ASSERT_EQ(1U, acceptedIntervals.size());
     EXPECT_EQ(AlbaNumberInterval(createCloseEndpoint(-1), createCloseEndpoint(1)), acceptedIntervals.at(0));
 }
+
 TEST(DomainAndRangeTest, AppendTransitionValuesWorks)
 {
-    AlbaNumbersSet collectedValues;    AlbaNumbersSet sortedValues{5, 9.25};
+    AlbaNumbersSet collectedValues;
+    AlbaNumbersSet sortedValues{5, 9.25};
 
     appendTransitionValues(
                 collectedValues,

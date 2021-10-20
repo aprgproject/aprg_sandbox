@@ -9,10 +9,12 @@
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
-#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>#include <Math/AlbaMathHelper.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
 #include <sstream>

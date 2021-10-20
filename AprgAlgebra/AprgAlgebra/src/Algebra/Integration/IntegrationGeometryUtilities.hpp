@@ -4,8 +4,10 @@
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 
 #include <string>
+
 namespace alba
 {
+
 namespace algebra
 {
 

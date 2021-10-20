@@ -133,7 +133,8 @@ TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeWorks)
     EXPECT_EQ(Equation(expectedIsolatedXLeftSide, "=", expectedIsolatedXRightSide), isolation.isolateTermWithVariableOnRightSideOfEquation("d[y]/d[x]"));
 }
 
-TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeUsingSecondDerivativeWorks){
+TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeUsingSecondDerivativeWorks)
+{
     Differentiation differentiationForXWithY("x", {"y"});
     Term term1ForEquation(Polynomial{Monomial(4, {{"x", 2}}), Monomial(9, {{"y", 2}})});
     Term term2ForEquation(36);
@@ -148,10 +149,12 @@ TEST(ComboTest, ImplicitDifferentiationAndIsolatingDerivativeUsingSecondDerivati
     Equation isolatedSecondDerivativeEquation(isolation2.isolateTermWithVariableOnRightSideOfEquation("d2[y]/d[x]2"));
 
     Polynomial expectedPolynomial{
-        Monomial(AlbaNumber::createFraction(-16, 81), {{"x", 2}, {"y", -3}}),                Monomial(AlbaNumber::createFraction(-4, 9), {{"y", -1}})};
+        Monomial(AlbaNumber::createFraction(-16, 81), {{"x", 2}, {"y", -3}}),
+                Monomial(AlbaNumber::createFraction(-4, 9), {{"y", -1}})};
     Term expectedIsolatedXLeftSide(expectedPolynomial);
     Term expectedIsolatedXRightSide("d2[y]/d[x]2");
-    EXPECT_EQ(Equation(expectedIsolatedXLeftSide, "=", expectedIsolatedXRightSide), isolatedSecondDerivativeEquation);}
+    EXPECT_EQ(Equation(expectedIsolatedXLeftSide, "=", expectedIsolatedXRightSide), isolatedSecondDerivativeEquation);
+}
 
 TEST(ComboTest, DifferentiationRelatedRatesConeWaterExampleTest)
 {

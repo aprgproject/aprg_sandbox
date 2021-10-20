@@ -7,6 +7,7 @@
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 #include <algorithm>
@@ -161,12 +162,12 @@ Expression AdditionAndSubtractionOfExpressions::getUniqueExpressionForAdditionOr
     Expression result;
     if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
     {
-        TermsWithAssociation uniqueExpressions(
-                    expression.getTermsWithDetailsThatSatisfiesCondition(
-                        [](TermWithDetails const& termWithDetails) -> bool {
-                        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-                        return termWithDetails.hasNegativeAssociation() || term.isExpression();
-                    }));
+        TermsWithDetails uniqueExpressions
+                = retrieveTermsWithDetailsThatSatisfiesCondition(
+                    expression.getTermsWithAssociation().getTermsWithDetails(),
+                    [](TermWithDetails const& termWithDetails) -> bool {
+                Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+                return termWithDetails.hasNegativeAssociation() || term.isExpression();});
         result.set(OperatorLevel::MultiplicationAndDivision, uniqueExpressions);
         result.simplify();
     }
@@ -181,13 +182,14 @@ void AdditionAndSubtractionOfExpressions::accumulateMergeTermForAdditionOrSubtra
 {
     if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
     {
-        TermsWithAssociation termsToBeMerged(
-                    expression.getTermsWithDetailsThatSatisfiesCondition(
-                        [](TermWithDetails const& termWithDetails) -> bool {
-                        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-                        return !(termWithDetails.hasNegativeAssociation() || term.isExpression());
-                    }));
-        accumulateTermsForMultiplicationAndDivision(combinedTerm, termsToBeMerged.getTermsWithDetails());
+        TermsWithDetails termsToBeMerged
+                = retrieveTermsWithDetailsThatSatisfiesCondition(
+                    expression.getTermsWithAssociation().getTermsWithDetails(),
+                    [](TermWithDetails const& termWithDetails) -> bool {
+                    Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+                    return !(termWithDetails.hasNegativeAssociation() || term.isExpression());});
+
+        accumulateTermsForMultiplicationAndDivision(combinedTerm, termsToBeMerged);
     }
     else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
     {

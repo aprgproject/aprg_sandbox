@@ -262,10 +262,12 @@ void SolverUsingSubstitution::selectVariableNameAndEquationNumber(
                     && isolation.getIdenticalExponentForVariableIfPossible(variableName) == 1)
             {
                 areVariableAndEquationSelected = true;
-                selectedVariableName = variableName;                selectedEquationIndex = equationIndex;
+                selectedVariableName = variableName;
+                selectedEquationIndex = equationIndex;
                 break;
             }
-        }        equationIndex++;
+        }
+        equationIndex++;
     }
 }
 
@@ -283,9 +285,11 @@ void SolverUsingSubstitution::substituteEquationForSelectedEquationIndex(
         substitution.putVariableWithTerm(selectedVariableName, isolation.getTermByIsolatingVariable(selectedVariableName));
         for(Equation & substitutedEquation : substitutedEquations)
         {
-            substitutedEquation = substitution.performSubstitutionTo(substitutedEquation);        }
+            substitutedEquation = substitution.performSubstitutionTo(substitutedEquation);
+        }
     }
 }
+
 void SolverUsingSubstitution::removeEquationsWithoutUnknowns(Equations& substitutedEquations)
 {
     substitutedEquations.erase(

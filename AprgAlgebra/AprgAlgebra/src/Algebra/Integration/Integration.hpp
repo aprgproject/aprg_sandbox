@@ -8,6 +8,7 @@
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -19,10 +20,12 @@ public:
 
     Integration(std::string const& nameOfVariableToIntegrate);
 
-    Term integrate(Term const& term) const;    Term integrate(Constant const& constant) const;
+    Term integrate(Term const& term) const;
+    Term integrate(Constant const& constant) const;
     Term integrate(Variable const& variable) const;
     Term integrate(Monomial const& monomial) const;
-    Term integrate(Polynomial const& polynomial) const;    Term integrate(Expression const& expression) const;
+    Term integrate(Polynomial const& polynomial) const;
+    Term integrate(Expression const& expression) const;
     Term integrate(Function const& functionObject) const;
 
     Term integrateWithPlusC(Term const& term) const;
@@ -83,10 +86,12 @@ private:
             Configuration const& configuration) const;
     Term getTermWithNewVariableSubstitution(
             Term const& mainTerm,
-            Term const& termToSubstituteWithVariable) const;    void integrateUsingChainRuleInReverseIfPossible(
+            Term const& termToSubstituteWithVariable) const;
+    void integrateUsingChainRuleInReverseIfPossible(
             Term & result,
             TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const;
-    void integrateUsingChainRuleInReverseIfPossible(            Term & result,
+    void integrateUsingChainRuleInReverseIfPossible(
+            Term & result,
             Term const& firstOuterTerm,
             Term const& firstInnerTerm,
             Term const& secondTerm) const;
@@ -102,8 +107,10 @@ private:
     Configuration getConfigurationWithCommonDenominator() const;
     bool isVariableToIntegrate(std::string const& variableName) const;
     bool isVariableToIntegrateNotFoundInTerm(Term const& term) const;
-    bool wouldDifferentiationYieldToAConstant(Term const& term) const;    std::string m_nameOfVariableToIntegrate;
+    bool wouldDifferentiationYieldToAConstant(Term const& term) const;
+    std::string m_nameOfVariableToIntegrate;
 };
 
 }
+
 }

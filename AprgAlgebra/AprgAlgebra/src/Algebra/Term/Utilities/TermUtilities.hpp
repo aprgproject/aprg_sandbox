@@ -33,4 +33,5 @@ Term invertTerm(Term const& term, std::string const& variableName);
 Expression negateExpression(Expression const& expression);
 
 }
+
 }

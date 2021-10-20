@@ -31,7 +31,7 @@ public:
     Term performSubstitutionTo(Monomial const& monomial) const;
     Term performSubstitutionTo(Polynomial const& polynomial) const;
     Term performSubstitutionTo(Expression const& expression) const;
-    Term performSubstitutionTo(Function const& functionAsParameter) const;
+    Term performSubstitutionTo(Function const& functionObject) const;
     Term performSubstitutionTo(Term const& term) const;
     Equation performSubstitutionTo(Equation const& equation) const;
 
@@ -43,7 +43,7 @@ private:
     Expression performSubstitutionForMonomial(Monomial const& monomial) const;
     Expression performSubstitutionForPolynomial(Polynomial const& polynomial) const;
     Expression performSubstitutionForExpression(Expression const& expression) const;
-    Function performSubstitutionForFunction(Function const& functionAsParameter) const;
+    Function performSubstitutionForFunction(Function const& functionObject) const;
     void performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const;
     VariablesToTermsMap m_variableToExpressionsMap;
 };

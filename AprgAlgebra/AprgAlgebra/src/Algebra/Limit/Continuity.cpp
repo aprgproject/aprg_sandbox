@@ -77,7 +77,7 @@ bool isIntermediateValueTheoremSatisfied(
         AlbaNumberIntervals const& continuityDomainIntervals(continuityDomain.getAcceptedIntervals());
         AlbaNumberInterval firstAndSecondInterval(createCloseEndpoint(firstValue), createCloseEndpoint(secondValue));
         bool areOutputValuesNotEqual = outputValueOfFirst != outputValueOfSecond;
-        bool areFirstAndSecondIntervalInContinuousDomain = isIntervalInsideTheIntervals(continuityDomainIntervals, firstAndSecondInterval);
+        bool areFirstAndSecondIntervalInContinuousDomain = isIntervalInsideTheIntervals(firstAndSecondInterval, continuityDomainIntervals);
         bool isValueToTestBetweenFirstAndSecond = firstAndSecondInterval.isValueInsideTheInterval(valueToTest);
         result = areFirstAndSecondIntervalInContinuousDomain && areOutputValuesNotEqual && isValueToTestBetweenFirstAndSecond;
     }

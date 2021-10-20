@@ -32,8 +32,6 @@ public:
     bool operator!=(Function const& second) const;
     bool operator<(Function const& second) const;
 
-    bool isInputAConstant() const;
-
     std::string getFunctionName() const;
     std::string getDisplayableString() const;
     std::string getDebugString() const;
@@ -51,7 +49,7 @@ private:
     FunctionToPerform m_functionToPerform;
 };
 
-std::ostream & operator<<(std::ostream & out, Function const& functionAsParameter);
+std::ostream & operator<<(std::ostream & out, Function const& functionObject);
 
 }
 

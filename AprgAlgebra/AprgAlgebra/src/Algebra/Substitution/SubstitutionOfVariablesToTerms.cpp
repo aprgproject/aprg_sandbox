@@ -82,9 +82,9 @@ Term SubstitutionOfVariablesToTerms::performSubstitutionTo(Expression const& exp
     return simplifyAndConvertExpressionToSimplestTerm(performSubstitutionForExpression(expression));
 }
 
-Term SubstitutionOfVariablesToTerms::performSubstitutionTo(Function const& functionAsParameter) const
+Term SubstitutionOfVariablesToTerms::performSubstitutionTo(Function const& functionObject) const
 {
-    return simplifyAndConvertFunctionToSimplestTerm(performSubstitutionForFunction(functionAsParameter));
+    return simplifyAndConvertFunctionToSimplestTerm(performSubstitutionForFunction(functionObject));
 }
 
 Term SubstitutionOfVariablesToTerms::performSubstitutionTo(Term const& term) const
@@ -164,11 +164,11 @@ Expression SubstitutionOfVariablesToTerms::performSubstitutionForExpression(Expr
     return newExpression;
 }
 
-Function SubstitutionOfVariablesToTerms::performSubstitutionForFunction(Function const& functionAsParameter) const
+Function SubstitutionOfVariablesToTerms::performSubstitutionForFunction(Function const& functionObject) const
 {
-    Function newFunction(functionAsParameter);
+    Function newFunction(functionObject);
     getTermReferenceFromBaseTerm(newFunction.getInputTermReference())
-            = performSubstitutionTo(functionAsParameter.getInputTermConstReference());
+            = performSubstitutionTo(functionObject.getInputTermConstReference());
     return newFunction;
 }
 

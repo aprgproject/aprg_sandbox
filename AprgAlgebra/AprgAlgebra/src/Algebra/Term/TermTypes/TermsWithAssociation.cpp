@@ -122,6 +122,12 @@ void TermsWithAssociation::putTermWithDetails(TermWithDetails const& termWithDet
     m_termsWithDetails.emplace_back(getBaseTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer), termWithDetails.association);
 }
 
+void TermsWithAssociation::putTermsWithDetails(TermsWithDetails const& termsWithDetails)
+{
+    m_termsWithDetails.reserve(m_termsWithDetails.size() + termsWithDetails.size());
+    copy(termsWithDetails.cbegin(), termsWithDetails.cend(), back_inserter(m_termsWithDetails));
+}
+
 void TermsWithAssociation::putTermWithAssociation(BaseTerm const& baseTerm, TermAssociationType const associationType)
 {
     m_termsWithDetails.emplace_back(baseTerm, associationType);

@@ -10,8 +10,8 @@ namespace alba
 namespace algebra
 {
 
-bool isOperator(std::string const& stringAsParameter);
-bool isFunction(std::string const& stringAsParameter);
+bool isOperator(std::string const& stringObject);
+bool isFunction(std::string const& stringObject);
 
 unsigned int getOperatorPriority(std::string const& operatorString);
 

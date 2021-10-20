@@ -281,9 +281,11 @@ TEST(IntegrationTest, IntegrateWorksWithSimplificationToACommonDenominator)
 TEST(IntegrationTest, IntegrateFunctionWorks)
 {
     Integration integrationForX("x");
+
     Term x("x");
     Term expectedTerm01(createExpressionIfPossible({Term(-1), Term("*"), cos(x)}));
-    Term expectedTerm02(createExpressionIfPossible({Term(-1), Term("*"), cos(Monomial(5, {{"x", 1}})), Term("/"), Term(5)}));    EXPECT_EQ(expectedTerm01, integrationForX.integrateFunction(sin(x)));
+    Term expectedTerm02(createExpressionIfPossible({Term(-1), Term("*"), cos(Monomial(5, {{"x", 1}})), Term("/"), Term(5)}));
+    EXPECT_EQ(expectedTerm01, integrationForX.integrateFunction(sin(x)));
     EXPECT_EQ(expectedTerm02, integrationForX.integrateFunction(sin(Term(Monomial(5, {{"x", 1}})))));
 }
 

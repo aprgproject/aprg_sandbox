@@ -215,6 +215,7 @@ TEST(ValueCheckingHelpersTest, HasNotANumberWorksForExpression)
     EXPECT_TRUE(hasNotANumber(createExpressionIfPossible({Term(NAN)})));
     EXPECT_TRUE(hasNotANumber(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
 }
+
 TEST(ValueCheckingHelpersTest, HasNotANumberWorksForFunction)
 {
     Function absoluteValueFunction(Functions::abs(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)})));
@@ -260,9 +261,11 @@ TEST(ValueCheckingHelpersTest, HasNumbersNotFiniteForFunction)
 
 TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorksForFunction)
 {
-    EXPECT_FALSE(isAFiniteConstant(Term("x")));    EXPECT_TRUE(isAFiniteConstant(Term(1)));
+    EXPECT_FALSE(isAFiniteConstant(Term("x")));
+    EXPECT_TRUE(isAFiniteConstant(Term(1)));
     EXPECT_FALSE(isAFiniteConstant(Term(NAN)));
 }
+
 }
 
 }

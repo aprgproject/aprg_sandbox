@@ -446,6 +446,14 @@ Term Differentiation::differentiateFunctionOnly(
     {
         derivativeOfFunction = Term(sgn(inputTerm));
     }
+    else if("ln" == functionObject.getFunctionName())
+    {
+        derivativeOfFunction = Term(createExpressionIfPossible({Term(1), Term("/"), inputTerm}));
+    }
+    else if("log" == functionObject.getFunctionName())
+    {
+        derivativeOfFunction = Term(createExpressionIfPossible({Term(::log(10)), Term("/"), inputTerm}));
+    }
     return derivativeOfFunction;
 }
 

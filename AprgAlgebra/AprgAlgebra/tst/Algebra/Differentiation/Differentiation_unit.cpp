@@ -257,7 +257,7 @@ TEST(DifferentiationTest, DifferentiateExpressionWorks)
     EXPECT_TRUE(isNotANumber(differentiationForXWithY.differentiateExpression(expression10)));
 }
 
-TEST(DifferentiationTest, DifferentiateFunctionWorksWithTrigonometricFunction)
+TEST(DifferentiationTest, DifferentiateFunctionWorksWithFunctionsInCommonFunctionLibrary)
 {
     Differentiation differentiationForXWithY("x", {"y"});
 
@@ -272,6 +272,8 @@ TEST(DifferentiationTest, DifferentiateFunctionWorksWithTrigonometricFunction)
     EXPECT_EQ(Term(createExpressionIfPossible({sec(x), Term("*"), tan(x)})), differentiationForXWithY.differentiateFunction(sec(x)));
     EXPECT_EQ(Term(createExpressionIfPossible({Term(-1), Term("*"), cscSquared})), differentiationForXWithY.differentiateFunction(cot(x)));
     EXPECT_EQ(Term(sgn(x)), differentiationForXWithY.differentiateFunction(abs(x)));
+    EXPECT_EQ(Term(Monomial(1, {{"x", -1}})), differentiationForXWithY.differentiateFunction(ln(x)));
+    EXPECT_EQ(Term(Monomial(2.302585092994046, {{"x", -1}})), differentiationForXWithY.differentiateFunction(log(x)));
 }
 
 TEST(DifferentiationTest, DifferentiateFunctionWorksWithChainRule)

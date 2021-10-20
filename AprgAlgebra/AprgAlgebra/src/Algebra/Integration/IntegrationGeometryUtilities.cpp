@@ -25,9 +25,11 @@ Term getAreaInBetweenTwoTermsInAnInterval(
     Term difference(higherTerm-lowerTerm);
     return integration.integrateWithDefiniteValues(difference, lowerValueInInterval, higherValueInInterval);
 }
+
 Term getVolumeUsingOnCrossSectionalArea(
         Term const& crossSectionalArea,
-        string const& variableName,        Term const& lowerValueTerm,
+        string const& variableName,
+        Term const& lowerValueTerm,
         Term const& higherValueTerm)
 {
     Integration integration(variableName);
@@ -51,9 +53,11 @@ Term getVolumeUsingOnSolidOfRevolution(
     Term termToIntegrate = Term(PI)*(term^Term(2));
     return substituteTermsAndGetDifference(integration.integrate(termToIntegrate), variableName, lowerValueTerm, higherValueTerm);
 }
+
 Term getVolumeUsingOnSolidOfRevolution(
         Term const& lowerFunctionTerm,
-        Term const& higherFunctionTerm,        string const& variableName,
+        Term const& higherFunctionTerm,
+        string const& variableName,
         Term const& lowerValueTerm,
         Term const& higherValueTerm)
 {
@@ -68,9 +72,11 @@ Term getVolumeUsingOnSolidOfRevolution(
     Term termToIntegrate = Term(PI)*((higherFunctionTerm-lowerFunctionTerm)^Term(2));
     return substituteTermsAndGetDifference(integration.integrate(termToIntegrate), variableName, lowerValueTerm, higherValueTerm);
 }
+
 Term getVolumeUsingCylindricalShells(
         Term const& term,
-        string const& variableName,        Term const& lowerValueTerm,
+        string const& variableName,
+        Term const& lowerValueTerm,
         Term const& higherValueTerm)
 {
     // Let the function f be continuous on the closed interval [a, b], where a>=0.
@@ -85,9 +91,11 @@ Term getVolumeUsingCylindricalShells(
     Term termToIntegrate = Term(2)*Term(PI)*(Term(variableName)*term);
     return substituteTermsAndGetDifference(integration.integrate(termToIntegrate), variableName, lowerValueTerm, higherValueTerm);
 }
+
 Term getLengthOfTheEdge(
         Term const& term,
-        string const& variableName,        Term const& lowerValueTerm,
+        string const& variableName,
+        Term const& lowerValueTerm,
         Term const& higherValueTerm)
 {
     // If the function f and its derivative fPrime are continuous on the closed interval [a, b],

@@ -42,9 +42,11 @@ Term RationalizeTermOverTerm::getCombinedTerm() const
     return m_numerator / m_denominator;
 }
 
-void RationalizeTermOverTerm::rationalizeNumerator(){
+void RationalizeTermOverTerm::rationalizeNumerator()
+{
     rationalize(m_numerator, m_denominator);
 }
+
 void RationalizeTermOverTerm::rationalizeDenominator()
 {
     rationalize(m_denominator, m_numerator);
@@ -61,10 +63,12 @@ void RationalizeTermOverTerm::rationalize(
         otherTerm = otherTerm * multiplier;
         simplifyForRationalize(termToRationalize);
         simplifyForRationalize(otherTerm);
-        multiplier = getMultiplierToRationalize(termToRationalize);    }
+        multiplier = getMultiplierToRationalize(termToRationalize);
+    }
 }
 
-void RationalizeTermOverTerm::simplifyForRationalize(Term & term){
+void RationalizeTermOverTerm::simplifyForRationalize(Term & term)
+{
     SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     rationalizeConfigurationDetails.shouldSimplifyToACommonDenominator = true;
@@ -234,10 +238,12 @@ Expression RationalizeTermOverTerm::getMultiplierToRationalizeForExpressionWhenE
     Term newThirdTerm(secondTerm ^ Term(2));
 
     TermAssociationType newSecondAssociationType =
-            secondTermWithDetails.hasPositiveAssociation() ?                TermAssociationType::Negative :
+            secondTermWithDetails.hasPositiveAssociation() ?
+                TermAssociationType::Negative :
                 TermAssociationType::Positive;
 
-    TermWithDetails newFirst(newFirstTerm, TermAssociationType::Positive);    TermWithDetails newSecond(newSecondTerm, newSecondAssociationType);
+    TermWithDetails newFirst(newFirstTerm, TermAssociationType::Positive);
+    TermWithDetails newSecond(newSecondTerm, newSecondAssociationType);
     TermWithDetails newThird(newThirdTerm, TermAssociationType::Positive);
 
     TermsWithDetails newTermsWithDetails{newFirst, newSecond, newThird};

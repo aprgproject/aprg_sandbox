@@ -1,4 +1,5 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 
@@ -117,6 +118,24 @@ TEST(RetrieveHelpersTest, RetrieveSubTermsWorks)
     EXPECT_EQ(Term(2), terms.at(0));
     EXPECT_EQ(Term("a"), terms.at(1));
     EXPECT_EQ(expesssionTerm, terms.at(2));
+}
+
+TEST(RetrieveHelpersTest, GetTermsWithDetailsThatSatisfiesCondition)
+{
+    TermsWithDetails termsWithDetails
+    {TermWithDetails(Term("x"), TermAssociationType::Positive),
+                TermWithDetails(Term("y"), TermAssociationType::Positive),
+                TermWithDetails(Term("z"), TermAssociationType::Negative)};
+
+    TermsWithDetails termsWithDetailsToVerify
+            = retrieveTermsWithDetailsThatSatisfiesCondition(
+                termsWithDetails,
+                [](TermWithDetails const& termWithDetails)
+    {return termWithDetails.hasNegativeAssociation();});
+
+    ASSERT_EQ(1U, termsWithDetailsToVerify.size());
+    EXPECT_EQ(Term("z"), getTermConstReferenceFromSharedPointer(termsWithDetailsToVerify.at(0).baseTermSharedPointer));
+    EXPECT_EQ(TermAssociationType::Negative, termsWithDetailsToVerify.at(0).association);
 }
 
 }

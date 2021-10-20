@@ -439,9 +439,11 @@ TEST(FactorizationOfPolynomialsTest, PolynomialWithPositiveInfinityNumber_Factor
 
 TEST(FactorizationOfPolynomialsTest, FactorizePolynomialsWorksWhenPolynomialsCannotBeFactorized)
 {
-    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(11, {})};    Polynomial polynomial2{Monomial(1, {{"y", 1}}), Monomial(13, {})};
+    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(11, {})};
+    Polynomial polynomial2{Monomial(1, {{"y", 1}}), Monomial(13, {})};
     Polynomial polynomial3{Monomial(1, {{"z", 1}}), Monomial(17, {})};
     Polynomials polynomials{polynomial1, polynomial2, polynomial3};
+
     Polynomials polynomialsToVerify(factorizePolynomials(polynomials));
 
     ASSERT_EQ(3U, polynomialsToVerify.size());

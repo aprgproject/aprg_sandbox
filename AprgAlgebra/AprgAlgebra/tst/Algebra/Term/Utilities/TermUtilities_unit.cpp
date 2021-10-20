@@ -131,9 +131,11 @@ TEST(ValueCheckingHelpersTest, IsANegativeExpressionWorks)
     EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({Term(-5), Term("^"), x})));
     EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({Term(5), Term("^"), x})));
 }
+
 TEST(TermUtilitiesTest, GetConstantFactorWorks)
 {
-    Term x("x");    EXPECT_EQ(AlbaNumber(5), getConstantFactor(Term(5)));
+    Term x("x");
+    EXPECT_EQ(AlbaNumber(5), getConstantFactor(Term(5)));
     EXPECT_EQ(AlbaNumber(6), getConstantFactor(Term(Monomial(6, {{"x", 7}}))));
     EXPECT_EQ(AlbaNumber(4), getConstantFactor(Term(Polynomial{Monomial(8, {{"x", 3}}), Monomial(12, {{"x", 4}})})));
     EXPECT_EQ(AlbaNumber(1), getConstantFactor(x));
@@ -191,10 +193,12 @@ TEST(TermUtilitiesTest, InvertTermWorks)
 
 TEST(TermUtilitiesTest, NegateExpressionWorks)
 {
-    Term x("x");    Expression expectedExpression1(createExpressionIfPossible({Term(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(5, {})})}));
+    Term x("x");
+    Expression expectedExpression1(createExpressionIfPossible({Term(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(5, {})})}));
     Expression expectedExpression2(createExpressionIfPossible({Term(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(-5, {})})}));
     Expression expectedExpression3(createExpressionIfPossible({Term(Monomial(5, {{"x", 1}}))}));
-    Expression expectedExpression4(createExpressionIfPossible({Term(-15)}));    Expression subExpression5(createExpressionIfPossible({Term(-5), Term("^"), x}));
+    Expression expectedExpression4(createExpressionIfPossible({Term(-15)}));
+    Expression subExpression5(createExpressionIfPossible({Term(-5), Term("^"), x}));
     Expression expectedExpression5(createExpressionIfPossible({Term(-1), Term("*"), Term(subExpression5)}));
     EXPECT_EQ(expectedExpression1, negateExpression(createExpressionIfPossible({Term(-5), Term("+"), x})));
     EXPECT_EQ(expectedExpression2, negateExpression(createExpressionIfPossible({Term(5), Term("+"), x})));

@@ -35,6 +35,7 @@ private:
             Polynomial const& polynomial) const;
     Term m_simplifiedLeftSideTerm;
 };
+
 }
 
 }
