@@ -13,14 +13,23 @@ namespace alba
 namespace algebra
 {
 
+TEST(DifferentiationUtilitiesTest, IsTheFirstFundamentalTheoremOfCalculusTrueWorks)
+{
+    Term termToTest1(Monomial(1, {{"x", 1}}));
+    Term termToTest2(Monomial(1, {{"x", 2}}));
+    Term termToTest3(Monomial(1, {{"x", 3}}));
+
+    EXPECT_TRUE(isTheFirstFundamentalTheoremOfCalculusTrue(termToTest1, "x"));
+    EXPECT_TRUE(isTheFirstFundamentalTheoremOfCalculusTrue(termToTest2, "x"));
+    EXPECT_TRUE(isTheFirstFundamentalTheoremOfCalculusTrue(termToTest3, "x"));
+}
+
 TEST(DifferentiationUtilitiesTest, IsDifferentiableAtWorks)
 {
     Term termToTest(Monomial(1, {{"x", AlbaNumber::createFraction(1, 3)}}));
-
     EXPECT_FALSE(isDifferentiableAt(termToTest, "x", 0));
     EXPECT_TRUE(isDifferentiableAt(termToTest, "x", 2));
 }
-
 TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenInputIsAConstant)
 {
     Term termToTest(5);

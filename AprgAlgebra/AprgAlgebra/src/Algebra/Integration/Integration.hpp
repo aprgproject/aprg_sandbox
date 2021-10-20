@@ -25,16 +25,14 @@ public:
     Term integrateWithPlusC(Term const& term) const;
     Term integrateWithDefiniteValues(
             Term const& term,
-            AlbaNumber const& lowerValue,
-            AlbaNumber const& higherValue) const;
+            AlbaNumber const& lowerValueInInterval,
+            AlbaNumber const& higherValueInInterval) const;
 
     Term integrateTerm(Term const& term) const;
-    Monomial integrateConstant(Constant const& constant) const;
-    Monomial integrateVariable(Variable const& variable) const;
+    Monomial integrateConstant(Constant const& constant) const;    Monomial integrateVariable(Variable const& variable) const;
     Monomial integrateMonomial(Monomial const& monomial) const;
     Polynomial integratePolynomial(Polynomial const& polynomial) const;
-    Term integrateExpression(Expression const& expression) const;
-    Term integrateFunction(Function const& functionObject) const;
+    Term integrateExpression(Expression const& expression) const;    Term integrateFunction(Function const& functionObject) const;
 
 private:
     Term integrateAsTermOrExpressionIfNeeded(
@@ -57,28 +55,28 @@ private:
             Term const& firstTerm,
             Term const& secondTerm) const;
     Term integrateFunctionOnly(Function const& functionObject) const;
-    void integrateTermUsingSubstitution(
+    void integrateTermUsingSubstitutionWithMaxDepth(
             Term & result,
             Term const& term) const;
-    void integrateBySubstitutionAndUsingANewVariable(
+    void integrateTermUsingSubstitution(
+            Term & result,
+            Term const& term) const;    void integrateBySubstitutionAndUsingANewVariable(
             Term & result,
             Term const& mainTerm,
             Term const& termToSubstituteToVariable) const;
     Term getTermWithNewVariableSubstitution(
             Term const& mainTerm,
-            Term const& termToSubstituteToVariable) const;
-    void integrateUsingChainRuleIfPossible(
+            Term const& termToSubstituteWithVariable) const;
+    void integrateUsingChainRuleInReverseIfPossible(
             Term & result,
             TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const;
-    void integrateUsingChainRuleIfPossible(
+    void integrateUsingChainRuleInReverseIfPossible(
             Term & result,
             Term const& firstOuterTerm,
-            Term const& firstInnerTerm,
-            Term const& secondTerm) const;
+            Term const& firstInnerTerm,            Term const& secondTerm) const;
     void findInnerAndOuterTermForChainRule(
             Term & innerTerm,
-            Term & outerTerm) const;
-    Term divideFirstTermAndDerivativeOfSecondTerm(
+            Term & outerTerm) const;    Term divideFirstTermAndDerivativeOfSecondTerm(
             Term const& firstTerm,
             Term const& secondTerm) const;
     void integrateRecognizedFunctionsIfPossible(Term & result, TermsWithDetails const& termsWithDetails) const;
