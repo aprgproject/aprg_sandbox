@@ -126,10 +126,12 @@ TEST(SubstitutionOfVariablesToTermsTest, PerformSubstitutionToWorksOnPolynomial)
     EXPECT_EQ(expectTerm4, verifyTerm4);
 }
 
-TEST(SubstitutionOfVariablesToTermsTest, PerformSubstitutionToWorksOnExpression){
+TEST(SubstitutionOfVariablesToTermsTest, PerformSubstitutionToWorksOnExpression)
+{
     SubstitutionOfVariablesToTerms substitution({{"x", Term("y")}});
     Expression expression1;
     Expression expression2(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
+
     Term verifyTerm1(substitution.performSubstitutionTo(expression1));
     Term verifyTerm2(substitution.performSubstitutionTo(expression2));
 

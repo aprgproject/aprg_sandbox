@@ -34,18 +34,10 @@ Term Summation::getSummationModelWithKnownConstant(
 {
     SubstitutionOfVariablesToValues substitution({{m_variableToSubstitute, startNumber}});
     Term firstTerm(substitution.performSubstitutionTo(m_termToSum));
-    substitution.putVariableWithValue(m_variableToSubstitute, startNumber+1);
+    substitution.putVariableWithValue(m_variableToSubstitute, startNumber);
     Term summationValueFromModel(substitution.performSubstitutionTo(m_summationModel));
     Term difference = firstTerm - summationValueFromModel;
-    Term result;
-    if(difference.isConstant())
-    {
-        result = m_summationModel + difference;
-    }
-    else
-    {
-        result = getSummationModelWithUnknownConstant();
-    }
+    Term result(m_summationModel + difference);
     return result;
 }
 
@@ -116,7 +108,7 @@ void Summation::calculateSumStartingFromANumber(
         }
         else
         {
-            SubstitutionOfVariablesToTerms substitution({{m_variableToSubstitute, end+1}});
+            SubstitutionOfVariablesToTerms substitution({{m_variableToSubstitute, end}});
             result = substitution.performSubstitutionTo(summationModelWithConstant);
         }
     }
@@ -159,14 +151,17 @@ void Summation::calculateSumUsingModel(
         AlbaNumber const& endNumber) const
 {
     Term summationModelWithConstant(getSummationModelWithKnownConstant(startNumber));
-    SubstitutionOfVariablesToValues substitution({{m_variableToSubstitute, endNumber+1}});
+    SubstitutionOfVariablesToValues substitution({{m_variableToSubstitute, endNumber}});
     result = substitution.performSubstitutionTo(summationModelWithConstant);
 }
 
 Term Summation::getSummationModel() const
 {
     IntegrationForFiniteCalculus integration(m_variableToSubstitute);
-    return integration.integrate(m_termToSum);
+    // Put plus one because finite calculus terms are summation up to n-1.
+    Term variablePlusOne(Polynomial{Monomial(1, {{m_variableToSubstitute, 1}}), Monomial(1, {})});
+    SubstitutionOfVariablesToTerms substitution({{m_variableToSubstitute, variablePlusOne}});
+    return substitution.performSubstitutionTo(integration.integrate(m_termToSum));
 }
 
 

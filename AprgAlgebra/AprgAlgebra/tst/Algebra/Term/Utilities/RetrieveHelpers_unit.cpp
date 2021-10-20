@@ -120,4 +120,5 @@ TEST(RetrieveHelpersTest, RetrieveSubTermsWorks)
 }
 
 }
+
 }

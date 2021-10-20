@@ -87,10 +87,12 @@ Term getDerivativeDefinitionForFiniteCalculus(
 
 void simplifyDerivativeByDefinition(Term & term)
 {
-    SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     rationalizeConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
     rationalizeConfigurationDetails.shouldSimplifyByRationalizingNumerator = true;
-    SimplificationOfExpression::ScopeObject scopeObject;    scopeObject.setInThisScopeThisConfiguration(rationalizeConfigurationDetails);
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(rationalizeConfigurationDetails);
 
     term.simplify();
 }

@@ -44,6 +44,33 @@ TEST(CommonFunctionLibraryTest, SignumFunctionWorks)
     EXPECT_EQ(AlbaNumber(-1), signumFunctionObject.performFunctionAndReturnResultIfPossible());
 }
 
+TEST(CommonFunctionLibraryTest, NaturalLogarithmFunctionWorks)
+{
+    Function naturalLogarithmFunctionObject(ln(Term(5)));
+
+    EXPECT_EQ("ln", naturalLogarithmFunctionObject.getFunctionName());
+    EXPECT_EQ(Term(5), getTermConstReferenceFromBaseTerm(naturalLogarithmFunctionObject.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber(1.6094379124341), naturalLogarithmFunctionObject.performFunctionAndReturnResultIfPossible());
+}
+
+TEST(CommonFunctionLibraryTest, LogarithmBase10FunctionWorks)
+{
+    Function logarithmBase10FunctionObject(log(Term(5)));
+
+    EXPECT_EQ("log", logarithmBase10FunctionObject.getFunctionName());
+    EXPECT_EQ(Term(5), getTermConstReferenceFromBaseTerm(logarithmBase10FunctionObject.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber(0.6989700043360189), logarithmBase10FunctionObject.performFunctionAndReturnResultIfPossible());
+}
+
+TEST(CommonFunctionLibraryTest, HarmonicNumberFunctionWorks)
+{
+    Function harmonicNumberFunctionObject(harmonicNumber(Term(5)));
+
+    EXPECT_EQ("harmonicNumber", harmonicNumberFunctionObject.getFunctionName());
+    EXPECT_EQ(Term(5), getTermConstReferenceFromBaseTerm(harmonicNumberFunctionObject.getInputTermConstReference()));
+    EXPECT_EQ(AlbaNumber::createFraction(137, 60), harmonicNumberFunctionObject.performFunctionAndReturnResultIfPossible());
+}
+
 TEST(CommonFunctionLibraryTest, SineFunctionWorks)
 {
     Function sineFunction(sin(Term(getPi())));

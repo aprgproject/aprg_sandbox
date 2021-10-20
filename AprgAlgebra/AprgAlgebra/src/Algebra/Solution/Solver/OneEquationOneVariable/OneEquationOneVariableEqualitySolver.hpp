@@ -2,6 +2,7 @@
 
 #include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Solution/SolutionSet/SolutionSet.hpp>
+#include <Algebra/Solution/Solver/NewtonMethod.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/BaseOneEquationOneVariableSolver.hpp>
 
 namespace alba
@@ -26,6 +27,13 @@ private:
     void performNewtonMethodToFindSolution(
             Term const& termToCheck,
             std::string const& variableNameForSubstitution);
+    NewtonMethod::Function getFunctionToIterate(
+            Term const& termToCheck,
+            std::string const& variableNameForSubstitution);
+    AlbaNumber getMoreAccurateValueFromNewtonMethod(
+            Term const& termToCheck,
+            std::string const& variableNameForSubstitution,
+            AlbaNumber const& value);
 };
 
 

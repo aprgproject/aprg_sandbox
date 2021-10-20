@@ -84,7 +84,6 @@ AlbaNumbers getRoots(RootType const rootType, Polynomial const& polynomial)
     {
         Polynomial const& polynomialToFactorize(polynomial);
         Polynomials factorizedPolynomials(factorize(polynomialToFactorize));
-
         for(Polynomial const& factorizedPolynomial : factorizedPolynomials)
         {
             Monomials const& monomialsToCheck(factorizedPolynomial.getMonomialsConstReference());

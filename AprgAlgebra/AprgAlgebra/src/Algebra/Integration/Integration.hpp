@@ -5,8 +5,10 @@
 
 namespace alba
 {
+
 namespace algebra
 {
+
 class Integration
 {
 public:
@@ -27,10 +29,12 @@ public:
             AlbaNumber const& higherValue) const;
 
     Term integrateTerm(Term const& term) const;
-    Monomial integrateConstant(Constant const& constant) const;    Monomial integrateVariable(Variable const& variable) const;
+    Monomial integrateConstant(Constant const& constant) const;
+    Monomial integrateVariable(Variable const& variable) const;
     Monomial integrateMonomial(Monomial const& monomial) const;
     Polynomial integratePolynomial(Polynomial const& polynomial) const;
-    Term integrateExpression(Expression const& expression) const;    Term integrateFunction(Function const& functionObject) const;
+    Term integrateExpression(Expression const& expression) const;
+    Term integrateFunction(Function const& functionObject) const;
 
 private:
     Term integrateAsTermOrExpressionIfNeeded(

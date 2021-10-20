@@ -18,7 +18,8 @@ TEST(ExtremaUtilitiesTest, WillYieldToAbsoluteMinimumValueWorks)
     Term negativeXSquared(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(9, {})});
 
     EXPECT_TRUE(willYieldToAbsoluteMinimumValue(xSquared, "x", 0));
-    EXPECT_FALSE(willYieldToAbsoluteMinimumValue(negativeXSquared, "x", 0));}
+    EXPECT_FALSE(willYieldToAbsoluteMinimumValue(negativeXSquared, "x", 0));
+}
 
 TEST(ExtremaUtilitiesTest, WillYieldToAbsoluteMaximumValueWorks)
 {
@@ -26,7 +27,8 @@ TEST(ExtremaUtilitiesTest, WillYieldToAbsoluteMaximumValueWorks)
     Term negativeXSquared(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(9, {})});
 
     EXPECT_FALSE(willYieldToAbsoluteMaximumValue(xSquared, "x", 0));
-    EXPECT_TRUE(willYieldToAbsoluteMaximumValue(negativeXSquared, "x", 0));}
+    EXPECT_TRUE(willYieldToAbsoluteMaximumValue(negativeXSquared, "x", 0));
+}
 
 TEST(ExtremaUtilitiesTest, WillYieldToRelativeMinimumValueWorks)
 {
@@ -34,10 +36,12 @@ TEST(ExtremaUtilitiesTest, WillYieldToRelativeMinimumValueWorks)
     Term negativeXSquared(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(9, {})});
 
     EXPECT_FALSE(willYieldToRelativeMinimumValue(xSquared, "x", 0, AlbaNumberInterval(createCloseEndpoint(-3), createOpenEndpoint(3))));
-    EXPECT_FALSE(willYieldToRelativeMinimumValue(xSquared, "x", 0, AlbaNumberInterval(createOpenEndpoint(-3), createCloseEndpoint(3))));    EXPECT_TRUE(willYieldToRelativeMinimumValue(xSquared, "x", 0, AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3))));
+    EXPECT_FALSE(willYieldToRelativeMinimumValue(xSquared, "x", 0, AlbaNumberInterval(createOpenEndpoint(-3), createCloseEndpoint(3))));
+    EXPECT_TRUE(willYieldToRelativeMinimumValue(xSquared, "x", 0, AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3))));
     EXPECT_FALSE(willYieldToRelativeMinimumValue(negativeXSquared, "x", 0, AlbaNumberInterval(createCloseEndpoint(-3), createOpenEndpoint(3))));
     EXPECT_FALSE(willYieldToRelativeMinimumValue(negativeXSquared, "x", 0, AlbaNumberInterval(createOpenEndpoint(-3), createCloseEndpoint(3))));
-    EXPECT_FALSE(willYieldToRelativeMinimumValue(negativeXSquared, "x", 0, AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3))));}
+    EXPECT_FALSE(willYieldToRelativeMinimumValue(negativeXSquared, "x", 0, AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3))));
+}
 
 TEST(ExtremaUtilitiesTest, WillYieldToRelativeMaximumValueWorks)
 {
@@ -45,10 +49,12 @@ TEST(ExtremaUtilitiesTest, WillYieldToRelativeMaximumValueWorks)
     Term negativeXSquared(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(9, {})});
 
     EXPECT_FALSE(willYieldToRelativeMaximumValue(xSquared, "x", 0, AlbaNumberInterval(createCloseEndpoint(-3), createOpenEndpoint(3))));
-    EXPECT_FALSE(willYieldToRelativeMaximumValue(xSquared, "x", 0, AlbaNumberInterval(createCloseEndpoint(-3), createCloseEndpoint(3))));    EXPECT_FALSE(willYieldToRelativeMaximumValue(xSquared, "x", 0, AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3))));
+    EXPECT_FALSE(willYieldToRelativeMaximumValue(xSquared, "x", 0, AlbaNumberInterval(createCloseEndpoint(-3), createCloseEndpoint(3))));
+    EXPECT_FALSE(willYieldToRelativeMaximumValue(xSquared, "x", 0, AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3))));
     EXPECT_FALSE(willYieldToRelativeMaximumValue(negativeXSquared, "x", 0, AlbaNumberInterval(createCloseEndpoint(-3), createOpenEndpoint(3))));
     EXPECT_FALSE(willYieldToRelativeMaximumValue(negativeXSquared, "x", 0, AlbaNumberInterval(createOpenEndpoint(-3), createCloseEndpoint(3))));
-    EXPECT_TRUE(willYieldToRelativeMaximumValue(negativeXSquared, "x", 0, AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3))));}
+    EXPECT_TRUE(willYieldToRelativeMaximumValue(negativeXSquared, "x", 0, AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3))));
+}
 
 TEST(ExtremaUtilitiesTest, WillYieldToExtremumValueWorks)
 {
@@ -56,7 +62,8 @@ TEST(ExtremaUtilitiesTest, WillYieldToExtremumValueWorks)
     Term negativeXSquared(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(9, {})});
 
     EXPECT_FALSE(willYieldToExtremumValue(ExtremumType::Maximum, xSquared, "x", 0, AlbaNumbers{-3, -2, -1, 0, 1, 2, 3}));
-    EXPECT_TRUE(willYieldToExtremumValue(ExtremumType::Maximum, negativeXSquared, "x", 0, AlbaNumbers{-3, -2, -1, 0, 1, 2, 3}));    EXPECT_TRUE(willYieldToExtremumValue(ExtremumType::Minimum, xSquared, "x", 0, AlbaNumbers{-3, -2, -1, 0, 1, 2, 3}));
+    EXPECT_TRUE(willYieldToExtremumValue(ExtremumType::Maximum, negativeXSquared, "x", 0, AlbaNumbers{-3, -2, -1, 0, 1, 2, 3}));
+    EXPECT_TRUE(willYieldToExtremumValue(ExtremumType::Minimum, xSquared, "x", 0, AlbaNumbers{-3, -2, -1, 0, 1, 2, 3}));
     EXPECT_FALSE(willYieldToExtremumValue(ExtremumType::Minimum, negativeXSquared, "x", 0, AlbaNumbers{-3, -2, -1, 0, 1, 2, 3}));
 }
 
@@ -66,10 +73,12 @@ TEST(ExtremaUtilitiesTest, IsDerivativeZeroOnPossibleExtremumWorks)
     Term negativeXSquared(Polynomial{Monomial(-1, {{"x", 2}}), Monomial(9, {})});
 
     EXPECT_TRUE(isDerivativeZeroOnPossibleExtremum(xSquared, "x", 0, AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3))));
-    EXPECT_TRUE(isDerivativeZeroOnPossibleExtremum(negativeXSquared, "x", 0, AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3))));}
+    EXPECT_TRUE(isDerivativeZeroOnPossibleExtremum(negativeXSquared, "x", 0, AlbaNumberInterval(createOpenEndpoint(-3), createOpenEndpoint(3))));
+}
 
 TEST(ExtremaUtilitiesTest, IsDecreasingAtWorks)
-{    EXPECT_TRUE(isDecreasingAt(Term(Monomial(1, {{"x", 2}})), "x", -2));
+{
+    EXPECT_TRUE(isDecreasingAt(Term(Monomial(1, {{"x", 2}})), "x", -2));
     EXPECT_FALSE(isDecreasingAt(Term(Monomial(1, {{"x", 2}})), "x", 2));
     EXPECT_FALSE(isDecreasingAt(Term(Monomial(-1, {{"x", 2}})), "x", -2));
     EXPECT_TRUE(isDecreasingAt(Term(Monomial(-1, {{"x", 2}})), "x", 2));
@@ -208,9 +217,11 @@ TEST(ExtremaUtilitiesTest, GetMaximumAndMinimumAtClosedIntervalWorksOnExample2)
     Term subPolynomial(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-2, {})});
     Term termToTest(createExpressionIfPossible({subPolynomial, Term("^"), Term(AlbaNumber::createFraction(2, 3))}));
     AlbaNumberInterval closedInterval(createCloseEndpoint(1), createCloseEndpoint(5));
+
     MinimumAndMaximum minmax(getMinimumAndMaximumAtClosedInterval(termToTest, "x", closedInterval));
 
-    EXPECT_EQ(AlbaNumber(2), minmax.minimumInputOutputValues.first);    EXPECT_EQ(AlbaNumber(0), minmax.minimumInputOutputValues.second);
+    EXPECT_EQ(AlbaNumber(2), minmax.minimumInputOutputValues.first);
+    EXPECT_EQ(AlbaNumber(0), minmax.minimumInputOutputValues.second);
     EXPECT_EQ(AlbaNumber(5), minmax.maximumInputOutputValues.first);
     EXPECT_EQ(AlbaNumber(AlbaNumber(9)^AlbaNumber::createFraction(1, 3)), minmax.maximumInputOutputValues.second);
 }

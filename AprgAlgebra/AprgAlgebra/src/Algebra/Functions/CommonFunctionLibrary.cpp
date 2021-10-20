@@ -65,6 +65,23 @@ Function log(Term const& term)
     });
 }
 
+Function harmonicNumber(Term const& term)
+{
+    return Function("harmonicNumber", term, [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        AlbaNumber result;
+        if(number.getInteger() && number > 0)
+        {
+            unsigned int lastNumber = static_cast<unsigned int>(number.getInteger());
+            for(unsigned int i=1; i<=lastNumber; i++)
+            {
+                result = result + AlbaNumber::createFraction(1, i);
+            }
+        }
+        return result;
+    });
+}
+
 Function sin(Term const& term)
 {
     return Function("sin", term, [](AlbaNumber const&  number) -> AlbaNumber

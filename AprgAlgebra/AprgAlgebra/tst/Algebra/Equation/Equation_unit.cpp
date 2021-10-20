@@ -163,6 +163,7 @@ TEST(EquationTest, SimplifyWorks)
     EXPECT_EQ("<", equation.getEquationOperator().getOperatorString());
     EXPECT_EQ(Term(Constant(0)), equation.getRightHandTerm());
 }
+
 }
 
 }

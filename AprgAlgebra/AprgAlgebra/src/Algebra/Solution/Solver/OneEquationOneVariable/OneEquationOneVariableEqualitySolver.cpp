@@ -3,10 +3,11 @@
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Solution/SolutionUtilities.hpp>
-#include <Algebra/Solution/Solver/NewtonMethod.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
+#include <Math/AlbaMathHelper.hpp>
 
+using namespace alba::mathHelper;
 using namespace std;
 
 namespace alba
@@ -18,6 +19,7 @@ namespace algebra
 namespace
 {
 constexpr unsigned int NUMBER_OF_ITERATIONS_IN_NEWTON_METHOD=1000;
+constexpr double DIFFERENCE_TOLERANCE_FOR_ACCEPTED_VALUE=1E-11;
 }
 
 OneEquationOneVariableEqualitySolver::OneEquationOneVariableEqualitySolver()
@@ -111,7 +113,7 @@ void OneEquationOneVariableEqualitySolver::addValuesToSolutionSetIfNeeded(
                 {
                     solutionSet.addRejectedValue(value);
                 }
-                else if(computedValue == 0)
+                else if(isAlmostEqual(computedValue.getDouble(), 0.0, DIFFERENCE_TOLERANCE_FOR_ACCEPTED_VALUE))
                 {
                     solutionSet.addAcceptedValue(value);
                 }
@@ -124,20 +126,7 @@ void OneEquationOneVariableEqualitySolver::performNewtonMethodToFindSolution(
         Term const& termToCheck,
         string const& variableNameForSubstitution)
 {
-    SubstitutionOfVariablesToValues substitution;
-
-    NewtonMethod::Function functionToIterate = [&](AlbaNumber const& value)
-    {
-        substitution.putVariableWithValue(variableNameForSubstitution, value);
-        Term substitutedTerm(substitution.performSubstitutionTo(termToCheck));
-        AlbaNumber computedValue;
-        if(substitutedTerm.isConstant())
-        {
-            computedValue = substitutedTerm.getConstantValueConstReference();
-        }
-        return computedValue;
-    };
-
+    NewtonMethod::Function functionToIterate(getFunctionToIterate(termToCheck, variableNameForSubstitution));
     AlbaNumbers initialValues(getInitialValuesForIteratingMethods(termToCheck));
     for(AlbaNumber const& initialValue : initialValues)
     {
@@ -150,6 +139,41 @@ void OneEquationOneVariableEqualitySolver::performNewtonMethodToFindSolution(
             break;
         }
     }
+}
+
+NewtonMethod::Function OneEquationOneVariableEqualitySolver::getFunctionToIterate(
+        Term const& termToCheck,
+        string const& variableNameForSubstitution)
+{
+    NewtonMethod::Function result = [&](AlbaNumber const& value)
+    {
+        SubstitutionOfVariablesToValues substitution;
+        substitution.putVariableWithValue(variableNameForSubstitution, value);
+        Term substitutedTerm(substitution.performSubstitutionTo(termToCheck));
+        AlbaNumber computedValue;
+        if(substitutedTerm.isConstant())
+        {
+            computedValue = substitutedTerm.getConstantValueConstReference();
+        }
+        return computedValue;
+    };
+    return result;
+}
+
+AlbaNumber OneEquationOneVariableEqualitySolver::getMoreAccurateValueFromNewtonMethod(
+        Term const& termToCheck,
+        string const& variableNameForSubstitution,
+        AlbaNumber const& value)
+{
+    AlbaNumber result(value);
+    NewtonMethod::Function functionToIterate(getFunctionToIterate(termToCheck, variableNameForSubstitution));
+    NewtonMethod newtonMethod(value, functionToIterate);
+    newtonMethod.runMaxNumberOfIterationsOrUntilFinished(NUMBER_OF_ITERATIONS_IN_NEWTON_METHOD);
+    if(newtonMethod.isSolved())
+    {
+        result = newtonMethod.getCurrentValue();
+    }
+    return result;
 }
 
 }

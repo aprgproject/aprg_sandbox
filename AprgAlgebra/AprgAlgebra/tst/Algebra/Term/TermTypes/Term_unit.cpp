@@ -108,10 +108,12 @@ TEST(TermTest, TermsAsPolynomialsWorks)
     Term polynomial3(Polynomial{Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})});
 
     //For polynomial1
-    ASSERT_EQ(TermType::Polynomial, polynomial1.getTermType());    Monomials const& monomials1(polynomial1.getPolynomialConstReference().getMonomialsConstReference());
+    ASSERT_EQ(TermType::Polynomial, polynomial1.getTermType());
+    Monomials const& monomials1(polynomial1.getPolynomialConstReference().getMonomialsConstReference());
     ASSERT_TRUE(monomials1.empty());
 
-    //For polynomial2    ASSERT_EQ(TermType::Polynomial, polynomial2.getTermType());
+    //For polynomial2
+    ASSERT_EQ(TermType::Polynomial, polynomial2.getTermType());
     Monomials const& monomials2(polynomial2.getPolynomialConstReference().getMonomialsConstReference());
     ASSERT_EQ(1U, monomials2.size());
     Monomial const& monomial2(monomials2.front());
@@ -543,9 +545,11 @@ TEST(TermTest, GetDisplayableStringWorks)
     Term term6(Polynomial{Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})});
     Term term7(createExpressionIfPossible({Term(5), Term("+"), Term("interest")}));
     Function function1("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
-    {        return number;
+    {
+        return number;
     });
     Term term8(function1);
+
     EXPECT_EQ("{EmptyTerm}", term1.getDisplayableString());
     EXPECT_EQ("0", term2.getDisplayableString());
     EXPECT_EQ("length", term3.getDisplayableString());
@@ -566,9 +570,11 @@ TEST(TermTest, GetDebugStringWorks)
     Term term6(Polynomial{Monomial(3, {}), Monomial(-1.5, {{"distance", -3.75}, {"power", 4.5}})});
     Term term7(createExpressionIfPossible({Term(5), Term("+"), Term("interest")}));
     Function function1("functionName", Term(5), [](AlbaNumber const&  number) -> AlbaNumber
-    {        return number;
+    {
+        return number;
     });
     Term term8(function1);
+
     EXPECT_EQ("{Empty}", term1.getDebugString());
     EXPECT_EQ("0{Constant}", term2.getDebugString());
     EXPECT_EQ("length{Variable}", term3.getDebugString());

@@ -310,15 +310,8 @@ AlbaNumbers getInputValuesInIntervalWithSameAsMeanOfInterval(
         Equation derivativeEqualsMeanEquation(firstDerivativeTerm, "=", Term(mean));
         OneEquationOneVariableEqualitySolver solver;
         SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(derivativeEqualsMeanEquation));
-        AlbaNumbers const& acceptedValues(solutionSet.getAcceptedValues());
-        for(AlbaNumber const& acceptedValue : acceptedValues)
-        {
-            AlbaNumberInterval abOpenInterval(createOpenEndpoint(a), createOpenEndpoint(b));
-            if(abOpenInterval.isValueInsideTheInterval(acceptedValue))
-            {
-                result.emplace_back(acceptedValue);
-            }
-        }
+        AlbaNumberInterval abOpenInterval(createOpenEndpoint(a), createOpenEndpoint(b));
+        result = getNumbersInsideTheInterval(solutionSet.getAcceptedValues(), abOpenInterval);
     }
     return result;
 }

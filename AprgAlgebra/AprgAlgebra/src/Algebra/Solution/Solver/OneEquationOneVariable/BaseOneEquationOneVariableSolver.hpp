@@ -38,10 +38,6 @@ protected:
     virtual void calculateForTermAndVariable(
             Term const& term,
             std::string const& variableName) = 0;
-    void addValuesToSolutionSetIfNeeded(
-            SolutionSet& solutionSet,
-            Term const& term,
-            std::string const& variableName);
     AlbaNumbers m_calculatedValues;
 };
 

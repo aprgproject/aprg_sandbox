@@ -17,6 +17,7 @@ Function sgn(Term const& term);
 
 Function ln(Term const& term);
 Function log(Term const& term);
+Function harmonicNumber(Term const& term);
 
 Function sin(Term const& term);
 Function cos(Term const& term);

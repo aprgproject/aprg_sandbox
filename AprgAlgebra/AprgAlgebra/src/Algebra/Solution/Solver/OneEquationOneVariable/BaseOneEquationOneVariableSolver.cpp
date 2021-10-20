@@ -105,35 +105,6 @@ void BaseOneEquationOneVariableSolver::calculateAndSubstituteAbsoluteValueFuncti
     }
 }
 
-void BaseOneEquationOneVariableSolver::addValuesToSolutionSetIfNeeded(
-        SolutionSet& solutionSet,
-        Term const& term,
-        string const& variableName)
-{
-    if(!m_calculatedValues.empty() && isACompleteSolution())
-    {
-        SubstitutionOfVariablesToValues substitution;
-        for(AlbaNumber const& value : m_calculatedValues)
-        {
-            substitution.putVariableWithValue(variableName, value);
-            Term substitutedResult(substitution.performSubstitutionTo(term));
-            if(substitutedResult.isConstant())
-            {
-                AlbaNumber const& computedValue(
-                            substitutedResult.getConstantValueConstReference());
-                if(!computedValue.isAFiniteValue())
-                {
-                    solutionSet.addRejectedValue(value);
-                }
-                else if(computedValue == 0)
-                {
-                    solutionSet.addAcceptedValue(value);
-                }
-            }
-        }
-    }
-}
-
 }
 
 }

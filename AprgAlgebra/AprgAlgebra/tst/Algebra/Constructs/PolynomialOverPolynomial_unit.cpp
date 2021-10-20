@@ -26,10 +26,12 @@ TEST(PolynomialOverPolynomialTest, ConstructionWorks)
     EXPECT_EQ(Polynomial{Monomial(100, {})}, actual3.getDenominator());
 }
 
-TEST(PolynomialOverPolynomialTest, IsEmptyWorks){
+TEST(PolynomialOverPolynomialTest, IsEmptyWorks)
+{
     PolynomialOverPolynomial actual1;
     PolynomialOverPolynomial actual2(Polynomial{}, Polynomial{});
-    PolynomialOverPolynomial actual3(Polynomial{}, (Polynomial{Monomial(100, {})}));    PolynomialOverPolynomial actual4((Polynomial{Monomial(10, {})}), (Polynomial{Monomial(100, {})}));
+    PolynomialOverPolynomial actual3(Polynomial{}, (Polynomial{Monomial(100, {})}));
+    PolynomialOverPolynomial actual4((Polynomial{Monomial(10, {})}), (Polynomial{Monomial(100, {})}));
 
     EXPECT_TRUE(actual1.isEmpty());
     EXPECT_TRUE(actual2.isEmpty());

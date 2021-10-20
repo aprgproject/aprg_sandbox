@@ -98,10 +98,12 @@ TEST(IntegrationTest, IntegrateWithDefiniteValuesWorks)
 
 TEST(IntegrationTest, IntegrateTermWorks)
 {
-    Integration integrationForX("x");    Polynomial polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
+    Integration integrationForX("x");
+    Polynomial polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
     Expression expression(createExpressionIfPossible(
     {Term(Polynomial{Monomial(3, {{"x", 1}}), Monomial(4, {})}),
-     Term("^"),     Term(AlbaNumber::createFraction(1, 2))}));
+     Term("^"),
+     Term(AlbaNumber::createFraction(1, 2))}));
 
     Polynomial expectedPolynomial{Monomial(7, {{"x", 4}}), Monomial(-2, {{"x", 3}}), Monomial(8, {{"x", 1}})};
     Term expectedTerm(createExpressionIfPossible(

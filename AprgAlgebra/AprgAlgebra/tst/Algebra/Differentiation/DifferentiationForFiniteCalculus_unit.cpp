@@ -189,10 +189,12 @@ TEST(DifferentiationForFiniteCalculusTest, DifferentiateTermWorks)
     Term expectedTerm2(Polynomial{Monomial(-4, {{"x", 1}}), Monomial(6, {})});
     Term expectedTerm3(createExpressionIfPossible({Term(3), Term("^"), Term(xPlusOne), Term("-"), Term(3), Term("^"), x}));
     EXPECT_EQ(Term(Constant(0)), differentiationForX.differentiateTerm(Term(5)));
-    EXPECT_EQ(xPlusOne, differentiationForX.differentiateTerm(Term("x")));    EXPECT_EQ(expectedTerm1, differentiationForX.differentiateTerm(Term(Monomial(5, {{"x", 3}}))));
+    EXPECT_EQ(xPlusOne, differentiationForX.differentiateTerm(Term("x")));
+    EXPECT_EQ(expectedTerm1, differentiationForX.differentiateTerm(Term(Monomial(5, {{"x", 3}}))));
     EXPECT_EQ(expectedTerm2, differentiationForX.differentiateTerm(polynomialTerm));
     EXPECT_EQ(expectedTerm3, differentiationForX.differentiateTerm(expressionTerm));
 }
+
 TEST(DifferentiationForFiniteCalculusTest, DifferentiateConstantWorks)
 {
     DifferentiationForFiniteCalculus differentiationForX("x");

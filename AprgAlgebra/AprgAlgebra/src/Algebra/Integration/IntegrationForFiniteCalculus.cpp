@@ -1,5 +1,6 @@
 #include "IntegrationForFiniteCalculus.hpp"
 
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Integration/IntegrationUtilities.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
@@ -9,8 +10,11 @@
 #include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
+
+using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 namespace algebra
@@ -87,7 +91,7 @@ Term IntegrationForFiniteCalculus::integrateWithDefiniteValues(
         AlbaNumber const& lowerValue,
         AlbaNumber const& higherValue) const
 {
-    return solveADefiniteIntegral(integrateTerm(term), m_nameOfVariableToIntegrate, lowerValue, higherValue);
+    return substituteValuesAndGetDifference(integrateTerm(term), m_nameOfVariableToIntegrate, lowerValue, higherValue);
 }
 
 Term IntegrationForFiniteCalculus::integrateTerm(Term const& term) const
@@ -165,9 +169,12 @@ Term IntegrationForFiniteCalculus::integrateMonomial(
             // this is special case
             // in infinite calculus this ln(x), but in finite calculus its the summation of 1/x (this is called the harmonic number)
             // for the proof, consider doing the derivative of this
-            // no impl yet
 
-            result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+            Monomial retainedMonomial(monomial);
+            retainedMonomial.putVariableWithExponent(m_nameOfVariableToIntegrate, 0);
+            result = Term(createExpressionIfPossible(
+            {Term(retainedMonomial), Term("*"), Term(harmonicNumber(Term(m_nameOfVariableToIntegrate)))}));
+            result.simplify();
         }
         else
         {
@@ -182,10 +189,12 @@ Term IntegrationForFiniteCalculus::integrateMonomial(
                     && canBeConvertedToPolynomial(integratedTermInFallingPower))
             {
                 Polynomial integratedPolynomial(
-                            convertPolynomialWithPositiveExponentsFromFallingPowerToRegularPower(                                createPolynomialIfPossible(integratedTermInFallingPower)));
+                            convertPolynomialWithPositiveExponentsFromFallingPowerToRegularPower(
+                                createPolynomialIfPossible(integratedTermInFallingPower)));
                 result = Term(integratedPolynomial);
             }
-            else            {
+            else
+            {
                 result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
             }
         }
