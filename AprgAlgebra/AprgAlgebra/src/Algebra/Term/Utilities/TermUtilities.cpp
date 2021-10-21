@@ -20,7 +20,8 @@ using namespace alba::algebra::Factorization;
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -34,7 +35,8 @@ bool isTermSimpler(Term const& supposeToBeComplicatedTerm, Term const& supposeTo
     return complicateTermCountRetriever.getSavedData() > simpleTermCountRetriever.getSavedData();
 }
 
-bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm){
+bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm)
+{
     FirstCoefficientRetriever firstCoefficientRetrieverForTerm;
     firstCoefficientRetrieverForTerm.retrieveFromTerm(term);
 
@@ -209,7 +211,8 @@ Term negateTerm(Term const& term)
     return negatedTerm;
 }
 
-Term invertTerm(Term const& term, string const& variableName){
+Term invertTerm(Term const& term, string const& variableName)
+{
     string newVariableName(createVariableNameForSubstitution(term));
     Equation equationToIsolate(Term(newVariableName), "=", term);
     IsolationOfOneVariableOnEqualityEquation isolation(equationToIsolate);
@@ -219,12 +222,11 @@ Term invertTerm(Term const& term, string const& variableName){
 
 Expression negateExpression(Expression const& expression)
 {
+    NegationMutator negationMutator;
     Expression negatedExpression(expression);
-    negatedExpression.putTermWithMultiplicationIfNeeded(Term(-1));
-    negatedExpression.simplify();
+    negationMutator.mutateExpression(negatedExpression);
     return negatedExpression;
 }
-
 }
 
 }

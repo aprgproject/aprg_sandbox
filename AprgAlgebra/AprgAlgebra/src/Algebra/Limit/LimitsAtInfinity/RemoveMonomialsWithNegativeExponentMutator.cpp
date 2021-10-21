@@ -24,14 +24,16 @@ void RemoveMonomialsWithNegativeExponentMutator::mutateTerm(Term & term)
 void RemoveMonomialsWithNegativeExponentMutator::mutateMonomial(Monomial & monomial)
 {
     if(isMonomialToBeRemoved(monomial))
-    {        monomial.clear();
+    {
+        monomial.clear();
     }
 }
 
 void RemoveMonomialsWithNegativeExponentMutator::mutatePolynomial(Polynomial & polynomial)
 {
     Monomials & monomials(polynomial.getMonomialsReference());
-    monomials.erase(remove_if(                        monomials.begin(), monomials.end(), [&](Monomial const& monomial)
+    monomials.erase(remove_if(
+                        monomials.begin(), monomials.end(), [&](Monomial const& monomial)
     {
                         return isMonomialToBeRemoved(monomial);
                     }), monomials.end());
@@ -46,7 +48,8 @@ void RemoveMonomialsWithNegativeExponentMutator::mutateExpression(Expression & e
 void RemoveMonomialsWithNegativeExponentMutator::mutateFunction(Function & functionObject)
 {
     BaseMutator::mutateFunction(functionObject);
-    functionObject.simplify();}
+    functionObject.simplify();
+}
 
 bool RemoveMonomialsWithNegativeExponentMutator::isMonomialToBeRemoved(Monomial const& monomial) const
 {

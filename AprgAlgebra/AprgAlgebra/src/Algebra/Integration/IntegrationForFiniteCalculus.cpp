@@ -1,11 +1,12 @@
 #include "IntegrationForFiniteCalculus.hpp"
 
+#include <Algebra/Constructs/TermRaiseToTerms.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Integration/IntegrationUtilities.hpp>
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 #include <Math/AlbaMathHelper.hpp>
@@ -412,56 +413,74 @@ Term IntegrationForFiniteCalculus::integrateTermsInMultiplicationOrDivision(
 Term IntegrationForFiniteCalculus::integrateTermsInRaiseToPower(
         TermsWithDetails const& termsWithDetails) const
 {
-    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
-    if(termsWithDetails.size() == 2)
+    Term result;
+    TermRaiseToTerms termRaiseToTerms(termsWithDetails);
+    termRaiseToTerms.simplify();
+    Term firstTerm(termRaiseToTerms.getBase());
+    Term secondTerm(termRaiseToTerms.getCombinedExponents());
+    bool isFirstAChangingTerm = isChangingTerm(firstTerm);
+    bool isSecondAChangingTerm = isChangingTerm(secondTerm);
+    if(!isFirstAChangingTerm && !isSecondAChangingTerm)
     {
-        Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(0).baseTermSharedPointer));
-        Term const& secondTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.at(1).baseTermSharedPointer));
-        if(firstTerm.isConstant())
-        {
-            result = integrateConstantRaiseToTerm(firstTerm.getConstantValueConstReference(), secondTerm);
-        }
-        else if(secondTerm.isConstant())
-        {
-            result = integrateTermRaiseToConstant(firstTerm, secondTerm.getConstantValueConstReference());
-        }
-        else
-        {
-            result = integrateTermRaiseToTerm(firstTerm, secondTerm);
-        }
+        result = termRaiseToTerms.getCombinedTerm() * Term(m_nameOfVariableToIntegrate);
+    }
+    else if(!isFirstAChangingTerm && isSecondAChangingTerm)
+    {
+        result = integrateNonChangingTermRaiseToChangingTerm(firstTerm, secondTerm);
+    }
+    else if(isFirstAChangingTerm && !isSecondAChangingTerm)
+    {
+        result = integrateChangingTermRaiseToNonChangingTerm(firstTerm, secondTerm);
+    }
+    else
+    {
+        result = integrateChangingTermRaiseToChangingTerm(firstTerm, secondTerm);
     }
     return result;
 }
 
-Term IntegrationForFiniteCalculus::integrateConstantRaiseToTerm(
-        AlbaNumber const& number,
-        Term const& term) const
+Term IntegrationForFiniteCalculus::integrateNonChangingTermRaiseToChangingTerm(
+        Term const& base,
+        Term const& exponent) const
 {
     Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
-    if(term.isVariable())
+    if(exponent.isVariable())
     {
-        result = Term(createExpressionIfPossible({Term(number), Term("^"), term, Term("/"), Term(number-1)}));
+        result = Term(createExpressionIfPossible({base, Term("^"), exponent, Term("/"), Term(base-Term(1))}));
     }
     return result;
 }
 
-Term IntegrationForFiniteCalculus::integrateTermRaiseToConstant(
-        Term const& ,
-        AlbaNumber const& ) const
-{
-    return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
-}
-
-Term IntegrationForFiniteCalculus::integrateTermRaiseToTerm(
+Term IntegrationForFiniteCalculus::integrateChangingTermRaiseToNonChangingTerm(
         Term const& ,
         Term const& ) const
 {
     return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
 }
 
-bool IntegrationForFiniteCalculus::isVariableToIntegrate(string const& variableName) const
+Term IntegrationForFiniteCalculus::integrateChangingTermRaiseToChangingTerm(
+        Term const& ,
+        Term const& ) const
+{    return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+}
+
+bool IntegrationForFiniteCalculus::isVariableToIntegrate(
+        string const& variableName) const
 {
     return variableName == m_nameOfVariableToIntegrate;
+}
+
+bool IntegrationForFiniteCalculus::isChangingTerm(
+        Term const& term) const
+{
+    VariableNamesRetriever retriever;
+    retriever.retrieveFromTerm(term);
+    VariableNamesSet const& variableNames(retriever.getSavedData());
+    return any_of(variableNames.cbegin(), variableNames.cend(),
+                  [&](string const& variableName)
+    {
+        return isVariableToIntegrate(variableName);
+    });
 }
 
 

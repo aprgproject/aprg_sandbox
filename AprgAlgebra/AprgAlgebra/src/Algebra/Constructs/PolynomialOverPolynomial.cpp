@@ -130,19 +130,15 @@ void PolynomialOverPolynomial::removeCommonMonomialOnAllMonomialsInNumeratorAndD
     {
         m_numerator.divideMonomial(gcfMonomial);
         m_denominator.divideMonomial(gcfMonomial);
-        //bool isNumeratorHasNegativeSign = getCommonSignInMonomials(m_numerator.getMonomialsConstReference()) == -1;
         bool isDenominatorHasNegativeSign = getCommonSignInMonomials(m_denominator.getMonomialsConstReference()) == -1;
         if(isDenominatorHasNegativeSign)
-        {
-            m_numerator.divideMonomial(createMonomialFromConstant(-1));
+        {            m_numerator.divideMonomial(createMonomialFromConstant(-1));
             m_denominator.divideMonomial(createMonomialFromConstant(-1));
         }
     }
-
 }
 
-void PolynomialOverPolynomial::factorizeRemoveCommonFactorsInNumeratorAndDenominatorAndCombineRemainingFactors()
-{
+void PolynomialOverPolynomial::factorizeRemoveCommonFactorsInNumeratorAndDenominatorAndCombineRemainingFactors(){
     if(shouldPerformFactorization())
     {
         Polynomials numeratorFactors(factorize(m_numerator));

@@ -40,6 +40,7 @@ ConditionFunctionForTermsWithDetails isNotUniquePartOfTerm
 
 AdditionAndSubtractionOfExpressions::AdditionAndSubtractionOfExpressions()
 {}
+
 AdditionAndSubtractionOfExpressions::AdditionAndSubtractionOfExpressions(
         TermsWithDetails const& termsWithDetails)
 {
@@ -139,7 +140,8 @@ bool AdditionAndSubtractionOfExpressions::mergeForAdditionAndSubtractionAndRetur
 
     retrieveUniqueExpressionsAndMergeTerms(uniqueExpression1, uniqueExpression2, mergeTerm1, mergeTerm2, expression1, expression2);
     if(canBeMergedForAdditionAndSubtraction(uniqueExpression1, uniqueExpression2, mergeTerm1, mergeTerm2))
-    {        Term resultMergeTerm;
+    {
+        Term resultMergeTerm;
         TermsWithDetails termsToMerge;
         termsToMerge.emplace_back(mergeTerm1, m_associations.at(index1));
         termsToMerge.emplace_back(mergeTerm2, m_associations.at(index2));
@@ -185,7 +187,8 @@ Expression AdditionAndSubtractionOfExpressions::getUniqueExpressionForAdditionOr
                     isUniquePartOfTerm);
         result.set(OperatorLevel::MultiplicationAndDivision, uniqueExpressions);
         result.simplify();
-    }    else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
+    }
+    else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
     {
         result = expression;
     }
@@ -203,7 +206,8 @@ void AdditionAndSubtractionOfExpressions::accumulateMergeTermForAdditionOrSubtra
                     isNotUniquePartOfTerm);
 
         accumulateTermsForMultiplicationAndDivision(combinedTerm, termsToBeMerged);
-    }    else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
+    }
+    else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
     {
         combinedTerm = Term(1);
     }
@@ -233,4 +237,5 @@ void AdditionAndSubtractionOfExpressions::putItem(Expression const& expression, 
 }
 
 }
+
 }

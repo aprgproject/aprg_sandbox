@@ -9,6 +9,7 @@ using namespace alba::algebra::Functions;
 
 namespace alba
 {
+
 namespace algebra
 {
 

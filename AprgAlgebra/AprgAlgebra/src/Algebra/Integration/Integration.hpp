@@ -43,7 +43,8 @@ public:
 
     Monomial integrateConstant(Constant const& constant) const;
     Monomial integrateVariable(Variable const& variable) const;
-    Term integrateMonomial(Monomial const& monomial) const;    Term integratePolynomial(Polynomial const& polynomial) const;
+    Term integrateMonomial(Monomial const& monomial) const;
+    Term integratePolynomial(Polynomial const& polynomial) const;
     Term integrateExpression(Expression const& expression) const;
     Term integrateFunction(Function const& functionObject) const;
 
@@ -60,10 +61,17 @@ private:
     void integrateRecognizedFunctionsSquared(
             Term & result,
             Term const& base) const;
+    void integrateSinRaiseToAConstant(
+            Term & result,
+            Term const& base,
+            AlbaNumber const& exponent) const;
+    void integrateCosRaiseToAConstant(
+            Term & result,
+            Term const& base,
+            AlbaNumber const& exponent) const;
 
     //Expression
-    Term integrateAsTermOrExpressionIfNeeded(
-            Expression const& expression) const;
+    Term integrateAsTermOrExpressionIfNeeded(            Expression const& expression) const;
     void integrateSimplifiedExpressionOnly(
             Term & result,
             Expression const& expression,
@@ -77,19 +85,18 @@ private:
     void integrateTermsInRaiseToPower(
             Term & result,
             TermsWithDetails const& termsWithDetails) const;
-    void integrateConstantRaiseToTerm(
-            Term & result,
-            AlbaNumber const& base,
-            Term const& exponent) const;
-    void integrateTermRaiseToConstant(
+    void integrateNonChangingTermRaiseToChangingTerm(
             Term & result,
             Term const& base,
-            AlbaNumber const& exponent) const;
-    void integrateTermRaiseToTerm(
+            Term const& exponent) const;
+    void integrateChangingTermRaiseToNonChangingTerm(
+            Term & result,
+            Term const& base,
+            Term const& exponent) const;
+    void integrateChangingTermRaiseToChangingTerm(
             Term & result,
             Term const& firstTerm,
-            Term const& secondTerm) const;
-    void integrateTermUsingSubstitutionWithMaxDepth(
+            Term const& secondTerm) const;    void integrateTermUsingSubstitutionWithMaxDepth(
             Term & result,
             Term const& term,
             Configuration const& configuration) const;
@@ -105,10 +112,12 @@ private:
     Term getTermWithNewVariableSubstitution(
             Term const& mainTerm,
             Term const& termToSubstituteWithVariable) const;
+    void integrateNonChangingAndChangingTermsInMultiplicationOrDivision(
+            Term& result,
+            TermsWithDetails const& termsWithDetails) const;
     void integrateByTryingTwoTermsInMultiplicationAndDivision(
             Term & result,
-            TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const;
-    void integrateUsingChainRuleInReverseIfPossible(
+            TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const;    void integrateUsingChainRuleInReverseIfPossible(
             Term & result,
             Term const& firstOuterTerm,
             Term const& firstInnerTerm,
@@ -145,17 +154,20 @@ private:
             Term & result,
             ListOfIntegrationByPartsTerms const& listOfIntegrationByPartsTerms,
             Term const& termToIntegrate) const;
+    void segregateNonChangingAndChangingTerms(
+            TermsWithDetails const& termsToSegregate,
+            TermsWithDetails & nonChangingTerms,
+            TermsWithDetails & changingTerms) const;
     void setIsIntegrationUsingSubstitutionAllowed(bool const isIntegrationUsingSubstitutionAllowed);
     void setIsIntegrationByPartsAllowed(bool const isIntegrationByPartsAllowed);
-    void simplifyForIntegration(Term & term, Configuration const& configuration) const;
-    void finalizeTermForIntegration(Term & term) const;
+    void simplifyForIntegration(Term & term, Configuration const& configuration) const;    void finalizeTermForIntegration(Term & term) const;
     Configuration getConfigurationWithFactors() const;
     Configuration getConfigurationWithCommonDenominator() const;
-    bool isVariableToIntegrate(std::string const& variableName) const;    bool isVariableToIntegrateNotFoundInTerm(Term const& term) const;
+    bool isVariableToIntegrate(std::string const& variableName) const;
+    bool isChangingTerm(Term const& term) const;
     bool wouldDifferentiationYieldToAConstant(Term const& term) const;
     std::string m_nameOfVariableToIntegrate;
-    bool m_isIntegrationUsingSubstitutionAllowed;
-    bool m_isIntegrationByPartsAllowed;
+    bool m_isIntegrationUsingSubstitutionAllowed;    bool m_isIntegrationByPartsAllowed;
 };
 
 }

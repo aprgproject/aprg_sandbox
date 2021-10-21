@@ -171,6 +171,7 @@ void TermsOverTerms::flip()
 {
     swap(m_numerators, m_denominators);
 }
+
 void TermsOverTerms::saveBaseToExponentMap(
         BaseToExponentMap const& baseToExponentMap)
 {

@@ -123,7 +123,8 @@ void accumulateTermsForMultiplicationAndDivision(
                     combinedTerm = Term(1)/term;
                 }
                 isFirst=false;
-            }            else
+            }
+            else
             {
                 accumulateAndDoOperationOnTermDetails(combinedTerm, OperatorLevel::MultiplicationAndDivision, termWithDetails);
             }

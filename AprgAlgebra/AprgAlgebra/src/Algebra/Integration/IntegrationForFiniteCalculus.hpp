@@ -58,19 +58,19 @@ private:
             TermsWithDetails const& termsWithDetails) const;
     Term integrateTermsInRaiseToPower(
             TermsWithDetails const& termsWithDetails) const;
-    Term integrateConstantRaiseToTerm(
-            AlbaNumber const& base,
-            Term const& exponent) const;
-    Term integrateTermRaiseToConstant(
+    Term integrateNonChangingTermRaiseToChangingTerm(
             Term const& base,
-            AlbaNumber const& exponent) const;
-    Term integrateTermRaiseToTerm(
+            Term const& exponent) const;
+    Term integrateChangingTermRaiseToNonChangingTerm(
+            Term const& base,
+            Term const& exponent) const;
+    Term integrateChangingTermRaiseToChangingTerm(
             Term const& firstTerm,
             Term const& secondTerm) const;
     bool isVariableToIntegrate(std::string const& variableName) const;
+    bool isChangingTerm(Term const& term) const;
     std::string m_nameOfVariableToIntegrate;
 };
-
 }
 
 }

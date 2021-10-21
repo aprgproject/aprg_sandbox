@@ -28,6 +28,7 @@ struct TermWithDetails
     BaseTermSharedPointer baseTermSharedPointer;
     TermAssociationType association;
 };
+
 using TermsWithDetails=std::vector<TermWithDetails>;
 
 std::ostream & operator<<(std::ostream & out, TermWithDetails const& termWithDetails);

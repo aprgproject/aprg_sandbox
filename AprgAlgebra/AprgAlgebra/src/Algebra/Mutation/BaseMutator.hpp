@@ -23,7 +23,8 @@ public:
     virtual void mutateTerm(Term & term)
     {
         if(term.isConstant())
-        {            mutateConstant(term.getConstantReference());
+        {
+            mutateConstant(term.getConstantReference());
         }
         else if(term.isVariable())
         {
@@ -59,14 +60,16 @@ public:
     virtual void mutatePolynomial(Polynomial & polynomial)
     {
         for(Monomial & monomial : polynomial.getMonomialsReference())
-        {            mutateMonomial(monomial);
+        {
+            mutateMonomial(monomial);
         }
     }
 
     virtual void mutateExpression(Expression & expression)
     {
         for(TermWithDetails & termWithDetails
-            : expression.getTermsWithAssociationReference().getTermsWithDetailsReference())        {
+            : expression.getTermsWithAssociationReference().getTermsWithDetailsReference())
+        {
             mutateTerm(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         }
     }
@@ -74,7 +77,8 @@ public:
     virtual void mutateFunction(Function & functionObject)
     {
         mutateTerm(getTermReferenceFromBaseTerm(functionObject.getInputTermReference()));
-    }};
+    }
+};
 
 }
 

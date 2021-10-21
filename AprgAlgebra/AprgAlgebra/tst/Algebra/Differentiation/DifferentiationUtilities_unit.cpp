@@ -38,12 +38,11 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeDefinitionWorks)
 
     Term derivative(getDerivativeDefinition(term, "a"));
 
-    Term expectedTerm(Polynomial{Monomial(1, {{"deltaX", 1}}), Monomial(2, {{"x", 1}})});
-    EXPECT_EQ(expectedTerm, derivative);
+    Term termToExpect(Polynomial{Monomial(1, {{"deltaX", 1}}), Monomial(2, {{"x", 1}})});
+    EXPECT_EQ(termToExpect, derivative);
 }
 
-TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenInputIsAConstant)
-{
+TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenInputIsAConstant){
     Term termToTest(5);
 
     Term derivative(getDerivativeAtUsingLimit(termToTest, "x", Term(2), LimitAtAValueApproachType::BothSides));
@@ -105,12 +104,11 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForRadicalAndWh
 
     Term expectedSubPolynomial(Polynomial{Monomial(1, {{"a", 1}}), Monomial(-3, {})});
     Term expectedRadicalTerm(createExpressionIfPossible({expectedSubPolynomial, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    Term expectedTerm(createExpressionIfPossible({Term(AlbaNumber::createFraction(1, 2)), Term("/"), expectedRadicalTerm}));
-    EXPECT_EQ(expectedTerm, derivative);
+    Term termToExpect(createExpressionIfPossible({Term(AlbaNumber::createFraction(1, 2)), Term("/"), expectedRadicalTerm}));
+    EXPECT_EQ(termToExpect, derivative);
 }
 
-TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialOverPolynomialAndWhenXIsAVariable)
-{
+TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialOverPolynomialAndWhenXIsAVariable){
     Term numerator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})});
     Term denominator(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(3, {})});
     Term polynomialOverPolynomialTerm(createExpressionIfPossible({numerator, Term("/"), denominator}));
@@ -118,12 +116,11 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialOv
     Term derivative(getDerivativeAtUsingLimit(polynomialOverPolynomialTerm, "x", Term("a"), LimitAtAValueApproachType::BothSides));
 
     Term expectedDenominator(Polynomial{Monomial(1, {{"a", 2}}), Monomial(-6, {{"a", 1}}), Monomial(9, {})});
-    Term expectedTerm(createExpressionIfPossible({Term(5), Term("/"), expectedDenominator}));
-    EXPECT_EQ(expectedTerm, derivative);
+    Term termToExpect(createExpressionIfPossible({Term(5), Term("/"), expectedDenominator}));
+    EXPECT_EQ(termToExpect, derivative);
 }
 
-TEST(DifferentiationUtilitiesTest, GetRelationshipOfDerivativeOfTheInverseAndTheDerivativeWorks)
-{
+TEST(DifferentiationUtilitiesTest, GetRelationshipOfDerivativeOfTheInverseAndTheDerivativeWorks){
     Term termToTest1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Term termToTest2(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {})});
     Term termToTest3(Polynomial{Monomial(1, {{"x", 3}}), Monomial(3, {})});
@@ -131,27 +128,26 @@ TEST(DifferentiationUtilitiesTest, GetRelationshipOfDerivativeOfTheInverseAndThe
     Equation equation1(getRelationshipOfDerivativeOfTheInverseAndTheDerivative(termToTest1, "x", "c", "d"));
     Equation equation2(getRelationshipOfDerivativeOfTheInverseAndTheDerivative(termToTest2, "x", "c", "d"));
     Equation equation3(getRelationshipOfDerivativeOfTheInverseAndTheDerivative(termToTest3, "x", "c", "d"));
-    EXPECT_EQ("1 = 1",
-              equation1.getDisplayableString());
-    EXPECT_EQ("((1/2)/((1[d] + -2)^(1/2))) = (1/2)[c^-1]",
-              equation2.getDisplayableString());
-    EXPECT_EQ("((1/3)/((1[d] + -3)^(2/3))) = (1/3)[c^-2]",
-              equation3.getDisplayableString());
+
+    string stringToExpect1("1 = 1");
+    string stringToExpect2("((1/2)/((1[d] + -2)^(1/2))) = (1/2)[c^-1]");
+    string stringToExpect3("((1/3)/((1[d] + -3)^(2/3))) = (1/3)[c^-2]");
+    EXPECT_EQ(stringToExpect1, equation1.getDisplayableString());
+    EXPECT_EQ(stringToExpect2, equation2.getDisplayableString());
+    EXPECT_EQ(stringToExpect3, equation3.getDisplayableString());
 }
 
-TEST(DifferentiationUtilitiesTest, GetIntegralEquationForFirstOrderDifferentialEquationWorks)
-{
+TEST(DifferentiationUtilitiesTest, GetIntegralEquationForFirstOrderDifferentialEquationWorks){
     Term leftHandSide(Polynomial{Monomial(1, {{"d[y]/d[x]", 1}}), Monomial(-2, {{"x", 1}, {"y", 1}}), Monomial(-3, {{"x", 1}})});
     Equation equationToTest(leftHandSide, "=", Term(Constant(0)));
 
     Equation equationToVerify(getIntegralEquationForFirstOrderDifferentialEquation(equationToTest, "x", "y"));
 
-    EXPECT_EQ("y = (((e)^1[x^2][y])*((-3/2[y^2]/((e)^1[x^2][y]))+((e)*((e)^1[x^2][y]))))",
-              equationToVerify.getDisplayableString());
+    string stringToExpect("y = (((e)^1[x^2][y])*((-3/2[y^2]/((e)^1[x^2][y]))+((e)*((e)^1[x^2][y]))))");
+    EXPECT_EQ(stringToExpect, equationToVerify.getDisplayableString());
 }
 
-TEST(DifferentiationUtilitiesTest, GetLogarithmicDifferentiationToYieldDyOverDxWorks)
-{
+TEST(DifferentiationUtilitiesTest, GetLogarithmicDifferentiationToYieldDyOverDxWorks){
     Polynomial xMinusOne{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
     Term termToTest(createExpressionIfPossible({Term(xMinusOne), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
 

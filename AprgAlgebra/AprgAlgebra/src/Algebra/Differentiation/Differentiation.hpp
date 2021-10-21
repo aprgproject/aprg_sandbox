@@ -37,7 +37,8 @@ public:
 
     AlbaNumber differentiateConstant(Constant const&) const;
     Monomial differentiateVariable(Variable const& variable) const;
-    Polynomial differentiateMonomial(Monomial const& monomial) const;    Polynomial differentiatePolynomial(Polynomial const& polynomial) const;
+    Polynomial differentiateMonomial(Monomial const& monomial) const;
+    Polynomial differentiatePolynomial(Polynomial const& polynomial) const;
     Term differentiateExpression(Expression const& expression) const;
     Term differentiateFunction(Function const& functionObject) const;
     Equation differentiateEquation(Equation const& equation) const;
@@ -46,10 +47,15 @@ public:
     Term differentiateTwoDividedTerms(Term const& numerator, Term const& denominator) const;
 
 private:
+    void separateNonChangingAndChangingVariables(
+            Monomial & unaffectedVariablesAndConstant,
+            Monomial & affectedVariables,
+            Monomial const& monomial) const;
+    Polynomial differentiateMonomialWithChangingVariables(
+            Monomial const& affectedVariables) const;
     Term differentiateAsTermOrExpressionIfNeeded(
             Expression const& expression) const;
-    Term differentiateSimplifiedExpressionOnly(
-            Expression const& expression) const;
+    Term differentiateSimplifiedExpressionOnly(            Expression const& expression) const;
     Term differentiateTermsInAdditionOrSubtraction(
             TermsWithDetails const& termsWithDetails) const;
     Term differentiateTermsInMultiplicationOrDivision(
@@ -60,32 +66,27 @@ private:
             TermsWithDetails const& termsWithDetails) const;
     Term differentiateTermsInRaiseToPower(
             TermsWithDetails const& termsWithDetails) const;
-    Term differentiateConstantRaiseToTerm(
-            AlbaNumber const& base,
-            Term const& exponent) const;
-    Term differentiateTermRaiseToConstant(
+    Term differentiateNonChangingTermRaiseToChangingTerm(
             Term const& base,
-            AlbaNumber const& exponent) const;
-    Term differentiateTermRaiseToTerm(
+            Term const& exponent) const;
+    Term differentiateChangingTermRaiseToNonChangingTerm(
+            Term const& base,
+            Term const& exponent) const;
+    Term differentiateChangingTermRaiseToChangingTerm(
             Term const& firstTerm,
             Term const& secondTerm) const;
+    Term differentiateFunctionOnly(
+            Function const& functionObject) const;
+    void simplifyForDifferentiation(Term& term) const;
     bool isVariableToDifferentiate(std::string const& variableName) const;
     bool isDependentVariable(std::string const& variableName) const;
     bool isDerivativeVariableNameAndAffectedByThisDifferentiation(
             DerivativeVariableName const& derivativeVariable) const;
-    void separateUnaffectedAndAffectedVariables(
-            Monomial & unaffectedVariablesAndConstant,
-            Monomial & affectedVariables,
-            Monomial const& monomial) const;
-    Polynomial buildPolynomialBasedOnAffectedVariables(
-            Monomial const& affectedVariables) const;
-    Term differentiateFunctionOnly(
-            Function const& functionObject) const;
-    void simplifyForDifferentiation(Term& term) const;
+    bool isChangingVariableName(std::string const& variableName) const;
+    bool isChangingTerm(Term const& term) const;
     std::string m_nameOfVariableToDifferentiate;
     VariableNamesSet m_namesOfDependentVariables;
 };
-
 }
 
 }

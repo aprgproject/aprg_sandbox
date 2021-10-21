@@ -5,6 +5,7 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::algebra::Functions;
 using namespace std;
 
@@ -174,7 +175,8 @@ TEST(AdditionAndSubtractionOfExpressionsTest, PutTermsWithDetailsWorks)
 TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOnAddingAndSubtractingRaiseToPowerExpressions)
 {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
-    Expression expression1(createExpressionIfPossible({Term(5), Term("*"), Term("y"), Term("^"), Term("y")}));    Expression expression2(createExpressionIfPossible({Term("y"), Term("^"), Term("y")}));
+    Expression expression1(createExpressionIfPossible({Term(5), Term("*"), Term("y"), Term("^"), Term("y")}));
+    Expression expression2(createExpressionIfPossible({Term("y"), Term("^"), Term("y")}));
     Expression expression3(createExpressionIfPossible({Term(3), Term("*"), Term("y"), Term("^"), Term("y")}));
     additionAndSubtraction.putAsAddition(expression1);
     additionAndSubtraction.putAsAddition(expression2);
@@ -195,7 +197,8 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOn
 TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOnAddingAndSubtractingMultipleRaiseToPowerExpressions)
 {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
-    Expression expression1(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));    Expression expression2(createExpressionIfPossible({Term(2), Term("*"), Term("y"), Term("^"), Term("y")}));
+    Expression expression1(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
+    Expression expression2(createExpressionIfPossible({Term(2), Term("*"), Term("y"), Term("^"), Term("y")}));
     Expression expression3(createExpressionIfPossible({Term(3), Term("*"), Term("x"), Term("^"), Term("y")}));
     Expression expression4(createExpressionIfPossible({Term("y"), Term("^"), Term("y")}));
     Expression expression5(createExpressionIfPossible({Term(4), Term("*"), Term("x"), Term("^"), Term("y")}));
@@ -226,7 +229,8 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOn
 TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOnAddingAndSubtractingNonSortedRaiseToPowerExpressions)
 {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
-    Expression expression1(createExpressionIfPossible({Term(100), Term("*"), Term("y"), Term("^"), Term("y"), Term("*"), Term("x"), Term("^"), Term("x")}));    Expression expression2(createExpressionIfPossible({Term(10), Term("*"), Term("x"), Term("^"), Term("x"), Term("*"), Term("y"), Term("^"), Term("y")}));
+    Expression expression1(createExpressionIfPossible({Term(100), Term("*"), Term("y"), Term("^"), Term("y"), Term("*"), Term("x"), Term("^"), Term("x")}));
+    Expression expression2(createExpressionIfPossible({Term(10), Term("*"), Term("x"), Term("^"), Term("x"), Term("*"), Term("y"), Term("^"), Term("y")}));
     additionAndSubtraction.putAsAddition(expression1);
     additionAndSubtraction.putAsSubtraction(expression2);
 
@@ -247,7 +251,8 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOn
 TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOnAddingAndSubtractingRaiseToPowerExpressionsThatCannotBeAdded)
 {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
-    Expression expression1(createExpressionIfPossible({Term(10), Term("*"), Term("y"), Term("^"), Term("y")}));    Expression expression2(createExpressionIfPossible({Term("x"), Term("*"), Term("y"), Term("^"), Term("y")}));
+    Expression expression1(createExpressionIfPossible({Term(10), Term("*"), Term("y"), Term("^"), Term("y")}));
+    Expression expression2(createExpressionIfPossible({Term("x"), Term("*"), Term("y"), Term("^"), Term("y")}));
     Expression expression3(createExpressionIfPossible({Term(8), Term("*"), Term("y"), Term("^"), Term("y")}));
     Expression expression4(createExpressionIfPossible({Term(6), Term("*"), Term("x"), Term("*"), Term("y"), Term("^"), Term("y")}));
     additionAndSubtraction.putAsAddition(expression1);
@@ -273,7 +278,8 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksOn
 TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksAndSquareRootExpressionAreAddedCorrectly)
 {
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
-    Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});    Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term xPlusOneTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    Expression squareRootOfXPlusOne(createExpressionIfPossible({xPlusOneTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     additionAndSubtraction.putAsAddition(squareRootOfXPlusOne);
     additionAndSubtraction.putAsAddition(squareRootOfXPlusOne);
 
@@ -291,7 +297,8 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksAn
 TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWithNegativeTermWithTrigonometricFunctions)
 {
     Term x("x");
-    Expression positiveCosX(createExpressionIfPossible({cos(x)}));    Expression negativeSinX(createExpressionIfPossible({Term(-1), Term("*"), sin(x)}));
+    Expression positiveCosX(createExpressionIfPossible({cos(x)}));
+    Expression negativeSinX(createExpressionIfPossible({Term(-1), Term("*"), sin(x)}));
     AdditionAndSubtractionOfExpressions additionAndSubtraction;
     additionAndSubtraction.putAsAddition(positiveCosX);
     additionAndSubtraction.putAsAddition(negativeSinX);

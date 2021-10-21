@@ -6,6 +6,7 @@
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 
 #include <algorithm>
+
 using namespace std;
 
 namespace alba
@@ -53,7 +54,8 @@ bool isVariableFoundInTerm(
 
 AlbaNumber getCoefficientOfMonomialWithNoVariables(
         Polynomial const& polynomial)
-{    AlbaNumber coefficientValue;
+{
+    AlbaNumber coefficientValue;
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
         Monomial::VariablesToExponentsMap const& variableToExponentMap(

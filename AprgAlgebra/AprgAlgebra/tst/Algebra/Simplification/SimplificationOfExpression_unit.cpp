@@ -10,7 +10,8 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -646,7 +647,8 @@ TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorWorksWith
 
 TEST(SimplificationOfExpressionTest, SimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBaseWorksAsDefault)
 {
-    Expression expression(createExpressionIfPossible(    {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}),
+    Expression expression(createExpressionIfPossible(
+    {Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}),
      Term("^"), Term(4),
      Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     SimplificationOfExpression simplification(expression);

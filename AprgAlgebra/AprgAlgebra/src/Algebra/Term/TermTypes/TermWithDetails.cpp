@@ -87,7 +87,8 @@ void TermWithDetails::reverseAssociation()
     association = getReversedAssociationType(association);
 }
 
-ostream & operator<<(ostream & out, TermWithDetails const& termWithDetails){
+ostream & operator<<(ostream & out, TermWithDetails const& termWithDetails)
+{
     out << termWithDetails.getDisplayableString();
     return out;
 }

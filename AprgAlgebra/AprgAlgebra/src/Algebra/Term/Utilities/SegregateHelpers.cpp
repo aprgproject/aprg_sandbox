@@ -6,6 +6,7 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 using namespace std;
+
 namespace alba
 {
 
@@ -33,7 +34,8 @@ void segregateMonomialsWithAndWithoutVariable(
 
 void segregateMonomialsAndNonMonomials(
         Terms const& termsToSegregate,
-        Terms & monomials,        Terms & nonMonomials)
+        Terms & monomials,
+        Terms & nonMonomials)
 {
     for(Term const& termToSegregate : termsToSegregate)
     {

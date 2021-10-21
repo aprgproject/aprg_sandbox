@@ -11,7 +11,8 @@
 using namespace alba::algebra::Simplification;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -101,6 +102,7 @@ void IsolationOfOneVariableOnEqualityEquation::isolateTermWithVariable(
         isolateTermWithVariable(variableName, expression, termWithVariable, termWithWithoutVariable);
     }
 }
+
 void IsolationOfOneVariableOnEqualityEquation::setEquation(
         Equation const& equation)
 {
@@ -176,7 +178,8 @@ void IsolationOfOneVariableOnEqualityEquation::isolateTermWithVariable(
 
 bool IsolationOfOneVariableOnEqualityEquation::canBeIsolated(
         AlbaNumber const& identicalExponentForVariable) const
-{    return identicalExponentForVariable != 0;
+{
+    return identicalExponentForVariable != 0;
 }
 
 AlbaNumber IsolationOfOneVariableOnEqualityEquation::getIdenticalExponentForVariableIfPossible(

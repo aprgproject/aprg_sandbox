@@ -256,7 +256,8 @@ Equation getIntegralEquationForFirstOrderDifferentialEquation(
     Term integralOfQExpression(integration.integrate(qExpression));
     Term qcExpression(createExpressionIfPossible({integralOfQExpression, Term("+"), cExpression}));
     Term pqcExpression(createExpressionIfPossible({eToTheNegativeIntegralOfP, Term("*"), qcExpression}));
-    return Equation(Term(yVariableName), "=", pqcExpression);}
+    return Equation(Term(yVariableName), "=", pqcExpression);
+}
 
 void simplifyDerivativeByDefinition(Term & term)
 {

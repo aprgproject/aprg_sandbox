@@ -28,7 +28,8 @@ void NumberOfTermsRetriever::retrieveFromMonomial(Monomial const&)
 
 void NumberOfTermsRetriever::retrieveFromExpression(Expression const& expression)
 {
-    m_savedData++;    BaseNumberOfTermsRetriever::retrieveFromExpression(expression);
+    m_savedData++;
+    BaseNumberOfTermsRetriever::retrieveFromExpression(expression);
 }
 
 void NumberOfTermsRetriever::retrieveFromFunction(Function const& functionObject)

@@ -30,7 +30,8 @@ TEST(MonomialHelpersTest, SegregateMonomialsWithAndWithoutVariable)
 
 TEST(SegregateHelpersTest, SegregateMonomialsAndNonMonomialsWorksForTerms)
 {
-    Terms monomialTerms;    Terms nonMonomialTerms;
+    Terms monomialTerms;
+    Terms nonMonomialTerms;
     Term termExpression(createExpressionIfPossible({Term("x"), Term("^"), Term("x")}));
 
     segregateMonomialsAndNonMonomials({Term(234), termExpression}, monomialTerms, nonMonomialTerms);

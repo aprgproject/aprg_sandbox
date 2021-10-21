@@ -309,7 +309,8 @@ TEST(TermTest, AssignmentOperatorWorks)
 
 TEST(TermTest, EqualityOperatorWorks)
 {
-    Term term1;    Term term2(Constant(5));
+    Term term1;
+    Term term2(Constant(5));
     Term term3(Constant(10));
     Term term4(Variable("length"));
     Term term5(Constant(5));

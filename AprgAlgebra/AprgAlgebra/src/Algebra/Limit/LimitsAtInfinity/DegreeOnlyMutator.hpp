@@ -18,7 +18,8 @@ public:
     void mutateExpression(Expression & expression) override;
 
 private:
-    Monomial getReducedMonomialWithDegree(AlbaNumber const& degree) const;    std::string m_variableName;
+    Monomial getReducedMonomialWithDegree(AlbaNumber const& degree) const;
+    std::string m_variableName;
 };
 
 }

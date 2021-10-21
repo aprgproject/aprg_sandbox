@@ -24,10 +24,15 @@ Expression::Expression()
     : m_commonOperatorLevel(OperatorLevel::Unknown)
 {}
 
+Expression::Expression(
+        Expression const& expression)
+    : m_commonOperatorLevel(expression.m_commonOperatorLevel)
+    , m_termsWithAssociation(expression.m_termsWithAssociation)
+{}
+
 Expression::Expression(BaseTerm const& baseTerm)
     : m_commonOperatorLevel(OperatorLevel::Unknown)
-{
-    m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
+{    m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
 }
 
 Expression::Expression(

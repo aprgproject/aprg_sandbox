@@ -22,10 +22,27 @@ TEST(RetrieveHelpersTest, HasAnyFunctionsWorks)
     EXPECT_TRUE(hasAnyFunctions(term2));
 }
 
+TEST(RetrieveHelpersTest, HasExponentialExpressionWorks)
+{
+    Term term1("x");
+    Term term2(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
+
+    EXPECT_FALSE(hasExponentialExpression(term1));
+    EXPECT_TRUE(hasExponentialExpression(term2));
+}
+
+TEST(RetrieveHelpersTest, IsVariableFoundInTermWorks)
+{
+    Term term1("a");
+    Term term2("x");
+
+    EXPECT_FALSE(isVariableFoundInTerm(term1, "x"));
+    EXPECT_TRUE(isVariableFoundInTerm(term2, "x"));
+}
+
 TEST(RetrieveHelpersTest, GetCoefficientOfMonomialWithNoVariablesWorks)
 {
-    Polynomial polynomial1;
-    Polynomial polynomial2{Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}})};
+    Polynomial polynomial1;    Polynomial polynomial2{Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}})};
     Polynomial polynomial3{Monomial(587, {{"x", 9}}), Monomial(975, {})};
 
     EXPECT_EQ(AlbaNumber(0), getCoefficientOfMonomialWithNoVariables(polynomial1));

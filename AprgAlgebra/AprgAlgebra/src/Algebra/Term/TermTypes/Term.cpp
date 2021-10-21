@@ -95,6 +95,7 @@ Term& Term::operator=(Term const& term)
     resetBaseDataTermPointerBasedFromTerm(term);
     return *this;
 }
+
 bool Term::operator==(Term const& second) const
 {
     bool result(false);

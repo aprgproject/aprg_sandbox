@@ -14,10 +14,10 @@ public:
     friend class Expression;
 
     TermsWithAssociation();
+    TermsWithAssociation(TermsWithAssociation const& termsWithAssociation);
     TermsWithAssociation(std::initializer_list<TermWithDetails> const& termsWithDetails);
     TermsWithAssociation(TermsWithDetails const& termsWithDetails);
     ~TermsWithAssociation();
-
     bool operator==(TermsWithAssociation const& second) const;
     bool operator!=(TermsWithAssociation const& second) const;
     bool operator<(TermsWithAssociation const& second) const;

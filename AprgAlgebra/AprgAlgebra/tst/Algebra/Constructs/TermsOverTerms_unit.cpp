@@ -157,7 +157,8 @@ TEST(TermsOverTermsTest, FlipWorks)
     termsOverTerms.flip();
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
-    ASSERT_EQ(2U, numeratorsToVerify.size());    EXPECT_EQ(Term("x"), numeratorsToVerify.at(0));
+    ASSERT_EQ(2U, numeratorsToVerify.size());
+    EXPECT_EQ(Term("x"), numeratorsToVerify.at(0));
     EXPECT_EQ(Term("y"), numeratorsToVerify.at(1));
     Terms denominatorsToVerify(termsOverTerms.getDenominators());
     ASSERT_EQ(2U, denominatorsToVerify.size());

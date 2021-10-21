@@ -1,10 +1,10 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Integration/IntegrationForFiniteCalculus.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace alba::algebra::Functions;
 using namespace std;
 
@@ -32,113 +32,129 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForVariable)
 {
     IntegrationForFiniteCalculus integrationForX("x");
 
-    Term expectedTerm(Polynomial
+    Term termToVerify1(integrationForX.integrate(Variable("x")));
+    Term termToVerify2( integrationForX.integrate(Variable("y")));
+
+    Term termToExpect1(Polynomial
     {Monomial(AlbaNumber::createFraction(1, 2), {{"x", 2}}),
      Monomial(AlbaNumber::createFraction(-1, 2), {{"x", 1}})});
-    EXPECT_EQ(expectedTerm, integrationForX.integrate(Variable("x")));
-    EXPECT_EQ(Term(Monomial(1, {{"x", 1}, {"y", 1}})), integrationForX.integrate(Variable("y")));
+    Term termToExpect2(Monomial(1, {{"x", 1}, {"y", 1}}));
+    EXPECT_EQ(termToExpect1, termToVerify1);
+    EXPECT_EQ(termToExpect2, termToVerify2);
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForMonomial)
-{
+TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForMonomial){
     IntegrationForFiniteCalculus integrationForX("x");
 
-    Term expectedTerm01(Polynomial
+    Term termToVerify1(integrationForX.integrate(Monomial(1, {{"x", 1}})));
+    Term termToVerify2(integrationForX.integrate(Monomial(1, {{"x", 2}})));
+    Term termToVerify3(integrationForX.integrate(Monomial(2, {{"x", 1}, {"y", 3}})));
+
+    Term termToExpect1(Polynomial
     {Monomial(AlbaNumber::createFraction(1, 2), {{"x", 2}}),
      Monomial(AlbaNumber::createFraction(-1, 2), {{"x", 1}})});
-    Term expectedTerm02(Polynomial
+    Term termToExpect2(Polynomial
     {Monomial(AlbaNumber::createFraction(1, 3), {{"x", 3}}),
      Monomial(AlbaNumber::createFraction(-1, 2), {{"x", 2}}),
      Monomial(AlbaNumber::createFraction(1, 6), {{"x", 1}})});
-    Term expectedTerm03(Polynomial{Monomial(1, {{"x", 2}, {"y", 3}}), Monomial(-1, {{"x", 1}, {"y", 3}})});
-    EXPECT_EQ(expectedTerm01, integrationForX.integrate(Monomial(1, {{"x", 1}})));
-    EXPECT_EQ(expectedTerm02, integrationForX.integrate(Monomial(1, {{"x", 2}})));
-    EXPECT_EQ(expectedTerm03, integrationForX.integrate(Monomial(2, {{"x", 1}, {"y", 3}})));
+    Term termToExpect3(Polynomial{Monomial(1, {{"x", 2}, {"y", 3}}), Monomial(-1, {{"x", 1}, {"y", 3}})});
+    EXPECT_EQ(termToExpect1, termToVerify1);
+    EXPECT_EQ(termToExpect2, termToVerify2);
+    EXPECT_EQ(termToExpect3, termToVerify3);
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForPolynomial)
-{
+TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForPolynomial){
     IntegrationForFiniteCalculus integrationForX("x");
     Polynomial polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
 
-    Term expectedTerm(Polynomial
+    Term termToVerify(integrationForX.integrate(polynomial));
+
+    Term termToExpect(Polynomial
     {Monomial(7, {{"x", 4}}), Monomial(-16, {{"x", 3}}), Monomial(10, {{"x", 2}}), Monomial(7, {{"x", 1}})});
-    EXPECT_EQ(expectedTerm, integrationForX.integrate(polynomial));
+    EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForExpression)
-{
+TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForExpression){
     IntegrationForFiniteCalculus integrationForX("x");
     Term x("x");
-    Expression expression01(createExpressionIfPossible({x}));
-    Expression expression02(createExpressionIfPossible({Term(5), Term("^"), Term("x")}));
-    Expression expression03(createExpressionIfPossible({Term(5), Term("^"), Term(Monomial(1, {{"x", 2}}))}));
+    Expression expression1(createExpressionIfPossible({x}));
+    Expression expression2(createExpressionIfPossible({Term(5), Term("^"), x}));
+    Expression expression3(createExpressionIfPossible({Term(5), Term("^"), Term(Monomial(1, {{"x", 2}}))}));
 
-    Term expectedTerm01(Polynomial
+    Term termToVerify(integrationForX.integrate(expression3));
+
+    Term termToExpect1(Polynomial
     {Monomial(AlbaNumber::createFraction(1, 2), {{"x", 2}}),
      Monomial(AlbaNumber::createFraction(-1, 2), {{"x", 1}})});
-    Term expectedTerm02(createExpressionIfPossible({Term(5), Term("^"), Term("x"), Term("/"), Term(4)}));
-    EXPECT_EQ(expectedTerm01, integrationForX.integrate(expression01));
-    EXPECT_EQ(expectedTerm02, integrationForX.integrate(expression02));
-    Term termToVerify(integrationForX.integrate(expression03));
+    Term termToExpect2(createExpressionIfPossible({Term(5), Term("^"), x, Term("/"), Term(4)}));
+    EXPECT_EQ(termToExpect1, integrationForX.integrate(expression1));
+    EXPECT_EQ(termToExpect2, integrationForX.integrate(expression2));
     ASSERT_TRUE(termToVerify.isConstant());
     EXPECT_TRUE(termToVerify.getConstantValueConstReference().isNotANumber());
 }
-
 TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForFunction)
 {
     IntegrationForFiniteCalculus integrationForX("x");
-
     Term x("x");
+
     Term termToVerify(integrationForX.integrate(sin(x)));
+
     ASSERT_TRUE(termToVerify.isConstant());
     EXPECT_TRUE(termToVerify.getConstantValueConstReference().isNotANumber());
 }
-
 TEST(IntegrationForFiniteCalculusTest, IntegrateWithPlusCWorks)
 {
     IntegrationForFiniteCalculus integrationForX("x");
 
-    Term expectedTerm(Polynomial{Monomial(1, {{C, 1}}), Monomial(5, {{"x", 1}})});
-    EXPECT_EQ(expectedTerm, integrationForX.integrateWithPlusC(Constant(5)));
+    Term termToVerify(integrationForX.integrateWithPlusC(Constant(5)));
+
+    Term termToExpect(Polynomial{Monomial(1, {{C, 1}}), Monomial(5, {{"x", 1}})});
+    EXPECT_EQ(termToExpect, termToVerify);
 }
 
 TEST(IntegrationForFiniteCalculusTest, IntegrateWithDefiniteValuesWorks)
 {
     IntegrationForFiniteCalculus integrationForX("x");
+    Term x("x");
 
-    EXPECT_EQ(Term(9), integrationForX.integrateWithDefiniteValues(Term("x"), 4, 6));
+    EXPECT_EQ(Term(9), integrationForX.integrateWithDefiniteValues(x, 4, 6));
 }
 
 TEST(IntegrationForFiniteCalculusTest, IntegrateTermWorks)
 {
     IntegrationForFiniteCalculus integrationForX("x");
-    Polynomial polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
-    Expression expression(createExpressionIfPossible({Term(5), Term("^"), Term("x")}));
-
     Term x("x");
-    Term expectedTerm01(Polynomial
+    Polynomial polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
+    Expression expression(createExpressionIfPossible({Term(5), Term("^"), x}));
+
+    Term termToVerify1(integrationForX.integrateTerm(Term(5)));
+    Term termToVerify2(integrationForX.integrateTerm(x));
+    Term termToVerify3(integrationForX.integrateTerm(Monomial(1, {{"x", 2}})));
+    Term termToVerify4(integrationForX.integrateTerm(Term(polynomial)));
+    Term termToVerify5(integrationForX.integrateTerm(Term(expression)));
+    Term termToVerify6(integrationForX.integrateTerm(Term(sin(x))));
+
+    Term termToExpect1(Monomial(5, {{"x", 1}}));
+    Term termToExpect2(Polynomial
     {Monomial(AlbaNumber::createFraction(1, 2), {{"x", 2}}),
      Monomial(AlbaNumber::createFraction(-1, 2), {{"x", 1}})});
-    Term expectedTerm02(Polynomial
+    Term termToExpect3(Polynomial
     {Monomial(AlbaNumber::createFraction(1, 3), {{"x", 3}}),
      Monomial(AlbaNumber::createFraction(-1, 2), {{"x", 2}}),
      Monomial(AlbaNumber::createFraction(1, 6), {{"x", 1}})});
-    Term expectedTerm03(Polynomial
+    Term termToExpect4(Polynomial
     {Monomial(7, {{"x", 4}}), Monomial(-16, {{"x", 3}}), Monomial(10, {{"x", 2}}), Monomial(7, {{"x", 1}})});
-    Term expectedTerm04(createExpressionIfPossible({Term(5), Term("^"), Term("x"), Term("/"), Term(4)}));
-    EXPECT_EQ(Term(Monomial(5, {{"x", 1}})), integrationForX.integrateTerm(Term(5)));
-    EXPECT_EQ(expectedTerm01, integrationForX.integrateTerm(Term("x")));
-    EXPECT_EQ(expectedTerm02, integrationForX.integrateTerm(Monomial(1, {{"x", 2}})));
-    EXPECT_EQ(expectedTerm03, integrationForX.integrateTerm(Term(polynomial)));
-    EXPECT_EQ(expectedTerm04, integrationForX.integrateTerm(Term(expression)));
-    Term termToVerify(integrationForX.integrateTerm(Term(sin(x))));
-    ASSERT_TRUE(termToVerify.isConstant());
-    EXPECT_TRUE(termToVerify.getConstantValueConstReference().isNotANumber());
+    Term termToExpect5(createExpressionIfPossible({Term(5), Term("^"), x, Term("/"), Term(4)}));
+    EXPECT_EQ(termToExpect1, termToVerify1);
+    EXPECT_EQ(termToExpect2, termToVerify2);
+    EXPECT_EQ(termToExpect3, termToVerify3);
+    EXPECT_EQ(termToExpect4, termToVerify4);
+    EXPECT_EQ(termToExpect5, termToVerify5);
+    ASSERT_TRUE(termToVerify6.isConstant());
+    EXPECT_TRUE(termToVerify6.getConstantValueConstReference().isNotANumber());
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateConstantWorks)
-{
+TEST(IntegrationForFiniteCalculusTest, IntegrateConstantWorks){
     IntegrationForFiniteCalculus integrationForX("x");
 
     EXPECT_EQ(Monomial(5, {{"x", 1}}), integrationForX.integrateConstant(Constant(5)));
@@ -148,70 +164,105 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateVariableWorks)
 {
     IntegrationForFiniteCalculus integrationForX("x");
 
+    Polynomial polynomialToVerify1(integrationForX.integrateVariable(Variable("x")));
+    Polynomial polynomialToVerify2(integrationForX.integrateVariable(Variable("y")));
+
     Polynomial expectedPolynomial01
     {Monomial(AlbaNumber::createFraction(1, 2), {{"x", 2}}),
      Monomial(AlbaNumber::createFraction(-1, 2), {{"x", 1}})};
     Polynomial expectedPolynomial02{Monomial(1, {{"x", 1}, {"y", 1}})};
-    EXPECT_EQ(expectedPolynomial01, integrationForX.integrateVariable(Variable("x")));
-    EXPECT_EQ(expectedPolynomial02, integrationForX.integrateVariable(Variable("y")));
+    EXPECT_EQ(expectedPolynomial01, polynomialToVerify1);
+    EXPECT_EQ(expectedPolynomial02, polynomialToVerify2);
 }
 
 TEST(IntegrationForFiniteCalculusTest, IntegrateMonomialWorks)
 {
     IntegrationForFiniteCalculus integrationForX("x");
+    Term x("x");
 
-    Term expectedTerm01(Polynomial
+    Term termToVerify1(integrationForX.integrateMonomial(Monomial(1, {{"x", 1}})));
+    Term termToVerify2(integrationForX.integrateMonomial(Monomial(1, {{"x", 2}})));
+    Term termToVerify3(integrationForX.integrateMonomial(Monomial(2, {{"x", 1}, {"y", 3}})));
+    Term termToVerify4(integrationForX.integrateMonomial(Monomial(1, {{"x", -3}})));
+    Term termToVerify5(integrationForX.integrateMonomial(Monomial(5, {{"x", -1}, {"y", 4}})));
+
+    Term termToExpect1(Polynomial
     {Monomial(AlbaNumber::createFraction(1, 2), {{"x", 2}}),
      Monomial(AlbaNumber::createFraction(-1, 2), {{"x", 1}})});
-    Term expectedTerm02(Polynomial
+    Term termToExpect2(Polynomial
     {Monomial(AlbaNumber::createFraction(1, 3), {{"x", 3}}),
      Monomial(AlbaNumber::createFraction(-1, 2), {{"x", 2}}),
      Monomial(AlbaNumber::createFraction(1, 6), {{"x", 1}})});
-    Term expectedTerm03(Polynomial{Monomial(1, {{"x", 2}, {"y", 3}}), Monomial(-1, {{"x", 1}, {"y", 3}})});
-    Term expectedTerm05(createExpressionIfPossible({Term(Monomial(5, {{"y", 4}})), Term("*"), Term(harmonicNumber(Term("x")))}));
-    EXPECT_EQ(expectedTerm01, integrationForX.integrateMonomial(Monomial(1, {{"x", 1}})));
-    EXPECT_EQ(expectedTerm02, integrationForX.integrateMonomial(Monomial(1, {{"x", 2}})));
-    EXPECT_EQ(expectedTerm03, integrationForX.integrateMonomial(Monomial(2, {{"x", 1}, {"y", 3}})));
-    Term termToVerify(integrationForX.integrateMonomial(Monomial(1, {{"x", -3}})));
-    ASSERT_TRUE(termToVerify.isConstant());
-    EXPECT_TRUE(termToVerify.getConstantValueConstReference().isNotANumber());
-    EXPECT_EQ(expectedTerm05, integrationForX.integrateMonomial(Monomial(5, {{"x", -1}, {"y", 4}})));
+    Term termToExpect3(Polynomial{Monomial(1, {{"x", 2}, {"y", 3}}), Monomial(-1, {{"x", 1}, {"y", 3}})});
+    Term termToExpect5(createExpressionIfPossible({Term(Monomial(5, {{"y", 4}})), Term("*"), Term(harmonicNumber(x))}));
+    EXPECT_EQ(termToExpect1, termToVerify1);
+    EXPECT_EQ(termToExpect2, termToVerify2);
+    EXPECT_EQ(termToExpect3, termToVerify3);
+    ASSERT_TRUE(termToVerify4.isConstant());
+    EXPECT_TRUE(termToVerify4.getConstantValueConstReference().isNotANumber());
+    EXPECT_EQ(termToExpect5, termToVerify5);
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegratePolynomialWorks)
-{
+TEST(IntegrationForFiniteCalculusTest, IntegratePolynomialWorks){
     IntegrationForFiniteCalculus integrationForX("x");
     Polynomial polynomial1{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
 
+    Term termToVerify(integrationForX.integratePolynomial(polynomial1));
+
     Polynomial expectedPolynomial
     {Monomial(7, {{"x", 4}}), Monomial(-16, {{"x", 3}}), Monomial(10, {{"x", 2}}), Monomial(7, {{"x", 1}})};
-    Term expectedTerm(expectedPolynomial);
-    EXPECT_EQ(expectedTerm, integrationForX.integratePolynomial(polynomial1));
+    Term termToExpect(expectedPolynomial);
+    EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateExpressionWorks)
-{
+TEST(IntegrationForFiniteCalculusTest, IntegrateExpressionWorks){
     IntegrationForFiniteCalculus integrationForX("x");
     Term x("x");
-    Expression expression01(createExpressionIfPossible({x}));
-    Expression expression02(createExpressionIfPossible({Term(5), Term("^"), Term("x")}));
-    Expression expression03(createExpressionIfPossible({Term(5), Term("^"), Term(Monomial(1, {{"x", 2}}))}));
+    Expression expression1(createExpressionIfPossible({x}));
+    Expression expression2(createExpressionIfPossible({Term(5), Term("^"), x}));
+    Expression expression3(createExpressionIfPossible({Term(5), Term("^"), Term(Monomial(1, {{"x", 2}}))}));
 
-    Term expectedTerm01(Polynomial
+    Term termToVerify1(integrationForX.integrateExpression(expression1));
+    Term termToVerify2(integrationForX.integrateExpression(expression2));
+    Term termToVerify3(integrationForX.integrateExpression(expression3));
+
+    Term termToExpect1(Polynomial
     {Monomial(AlbaNumber::createFraction(1, 2), {{"x", 2}}),
      Monomial(AlbaNumber::createFraction(-1, 2), {{"x", 1}})});
-    Term expectedTerm02(createExpressionIfPossible({Term(5), Term("^"), Term("x"), Term("/"), Term(4)}));
-    EXPECT_EQ(expectedTerm01, integrationForX.integrateExpression(expression01));
-    EXPECT_EQ(expectedTerm02, integrationForX.integrateExpression(expression02));
-    Term termToVerify(integrationForX.integrateExpression(expression03));
-    ASSERT_TRUE(termToVerify.isConstant());
-    EXPECT_TRUE(termToVerify.getConstantValueConstReference().isNotANumber());
+    Term termToExpect2(createExpressionIfPossible({Term(5), Term("^"), x, Term("/"), Term(4)}));
+    EXPECT_EQ(termToExpect1, termToVerify1);
+    EXPECT_EQ(termToExpect2, termToVerify2);
+    ASSERT_TRUE(termToVerify3.isConstant());
+    EXPECT_TRUE(termToVerify3.getConstantValueConstReference().isNotANumber());
+}
+
+TEST(IntegrationForFiniteCalculusTest, IntegrateWorksWithTermRaiseToTerm)
+{
+    IntegrationForFiniteCalculus integrationForX("x");
+    Term n("n");
+    Term x("x");
+    Term termToTest1(createExpressionIfPossible({n, Term("^"), n}));
+    Term termToTest2(createExpressionIfPossible({n, Term("^"), x}));
+    Term termToTest3(createExpressionIfPossible({x, Term("^"), n}));
+    Term termToTest4(createExpressionIfPossible({x, Term("^"), x}));
+
+    Term termToVerify1(integrationForX.integrate(termToTest1));
+    Term termToVerify2(integrationForX.integrate(termToTest2));
+    Term termToVerify3(integrationForX.integrate(termToTest3));
+    Term termToVerify4(integrationForX.integrate(termToTest4));
+
+    Term nMinusOne(Polynomial{Monomial(1, {{"n", 1}}), Monomial(-1, {})});
+    Term termToExpect1(createExpressionIfPossible({n, Term("^"), n, Term("*"), x}));
+    Term termToExpect2(createExpressionIfPossible({n, Term("^"), x, Term("/"), nMinusOne}));
+    EXPECT_EQ(termToExpect1, termToVerify1);
+    EXPECT_EQ(termToExpect2, termToVerify2);
+    EXPECT_TRUE(isNotANumber(termToVerify3));
+    EXPECT_TRUE(isNotANumber(termToVerify4));
 }
 
 TEST(IntegrationForFiniteCalculusTest, IntegrateFunctionWorks)
 {
     IntegrationForFiniteCalculus integrationForX("x");
-
     Term x("x");
     Term termToVerify(integrationForX.integrateFunction(sin(x)));
     ASSERT_TRUE(termToVerify.isConstant());

@@ -174,14 +174,22 @@ TEST(TermUtilitiesTest, NegateTermWorks)
     Term term2(createExpressionIfPossible({sinX, Term("*"), sinY, Term("/"), sinZ}));
     Term term3(createExpressionIfPossible({sinX, Term("^"), sinY, Term("^"), sinZ}));
 
-    Term expectedTerm1(createExpressionIfPossible({sinZ, Term("-"), sinX, Term("-"), sinY}));
-    Term expectedTerm2(createExpressionIfPossible({Term(-1), Term("*"), sinX, Term("*"), sinY, Term("/"), sinZ}));
-    Term expectedTerm3(createExpressionIfPossible({Term(-1), Term("*"), sinX, Term("^"), Term("("), sinY, Term("*"), sinZ, Term(")")}));
-    EXPECT_EQ(Term(-5), negateTerm(Term(5)));
-    EXPECT_EQ(Term(Monomial(-1, {{"x", 1}})), negateTerm(Term("x")));
-    EXPECT_EQ(expectedTerm1, negateTerm(term1));
-    EXPECT_EQ(expectedTerm2, negateTerm(term2));
-    EXPECT_EQ(expectedTerm3, negateTerm(term3));
+    Term termToVerify1(negateTerm(Term(5)));
+    Term termToVerify2(negateTerm(Term("x")));
+    Term termToVerify3(negateTerm(term1));
+    Term termToVerify4(negateTerm(term2));
+    Term termToVerify5(negateTerm(term3));
+
+    Term termToExpect1(-5);
+    Term termToExpect2(Monomial(-1, {{"x", 1}}));
+    Term termToExpect3(createExpressionIfPossible({sinZ, Term("-"), sinX, Term("-"), sinY}));
+    Term termToExpect4(createExpressionIfPossible({Term(-1), Term("*"), sinX, Term("*"), sinY, Term("/"), sinZ}));
+    Term termToExpect5(createExpressionIfPossible({Term(-1), Term("*"), sinX, Term("^"), Term("("), sinY, Term("*"), sinZ, Term(")")}));
+    EXPECT_EQ(termToExpect1, termToVerify1);
+    EXPECT_EQ(termToExpect2, termToVerify2);
+    EXPECT_EQ(termToExpect3, termToVerify3);
+    EXPECT_EQ(termToExpect4, termToVerify4);
+    EXPECT_EQ(termToExpect5, termToVerify5);
 }
 
 TEST(TermUtilitiesTest, ConvertPositiveTermIfNegativeWorks){
@@ -193,32 +201,56 @@ TEST(TermUtilitiesTest, ConvertPositiveTermIfNegativeWorks){
 
 TEST(TermUtilitiesTest, InvertTermWorks)
 {
-    EXPECT_EQ(Term(), invertTerm(Term(5), "x"));
-    EXPECT_EQ(Term("x"), invertTerm(Term("x"), "x"));
-    EXPECT_EQ(Term(Monomial(1, {{"x", AlbaNumber::createFraction(1, 4)}})),
-              invertTerm(Term(Monomial(1, {{"x", 4}})), "x"));
-    EXPECT_EQ(Term(createExpressionIfPossible({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), Term("^"), Term(AlbaNumber::createFraction(1, 2))})),
-              invertTerm(Term(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-1, {})}), "x"));
-    EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-1, {})}),
-              invertTerm(Term(createExpressionIfPossible({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), Term("^"), Term(AlbaNumber::createFraction(1, 2))})), "x"));
+    Term termToTest1(5);
+    Term termToTest2("x");
+    Term termToTest3(Monomial(1, {{"x", 4}}));
+    Term termToTest4(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-1, {})});
+    Term termToTest5(createExpressionIfPossible({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+
+    Term termToVerify1(invertTerm(termToTest1, "x"));
+    Term termToVerify2(invertTerm(termToTest2, "x"));
+    Term termToVerify3(invertTerm(termToTest3, "x"));
+    Term termToVerify4(invertTerm(termToTest4, "x"));
+    Term termToVerify5(invertTerm(termToTest5, "x"));
+
+    Term termToExpect1;
+    Term termToExpect2("x");
+    Term termToExpect3(Monomial(1, {{"x", AlbaNumber::createFraction(1, 4)}}));
+    Term termToExpect4(createExpressionIfPossible({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term termToExpect5(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-1, {})});
+    EXPECT_EQ(termToExpect1, termToVerify1);
+    EXPECT_EQ(termToExpect2, termToVerify2);
+    EXPECT_EQ(termToExpect3, termToVerify3);
+    EXPECT_EQ(termToExpect4, termToVerify4);
+    EXPECT_EQ(termToExpect5, termToVerify5);
 }
 
 TEST(TermUtilitiesTest, NegateExpressionWorks)
 {
     Term x("x");
+    Expression expression1(createExpressionIfPossible({Term(-5), Term("+"), x}));
+    Expression expression2(createExpressionIfPossible({Term(5), Term("+"), x}));
+    Expression expression3(createExpressionIfPossible({Term(-5), Term("*"), x}));
+    Expression expression4(createExpressionIfPossible({Term(-5), Term("*"), Term(-3)}));
+    Expression expression5(createExpressionIfPossible({Term(-5), Term("^"), x}));
+
+    Expression expressionToVerify1(negateExpression(expression1));
+    Expression expressionToVerify2(negateExpression(expression2));
+    Expression expressionToVerify3(negateExpression(expression3));
+    Expression expressionToVerify4(negateExpression(expression4));
+    Expression expressionToVerify5(negateExpression(expression5));
+
     Expression expectedExpression1(createExpressionIfPossible({Term(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(5, {})})}));
     Expression expectedExpression2(createExpressionIfPossible({Term(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(-5, {})})}));
-    Expression expectedExpression3(createExpressionIfPossible({Term(Monomial(5, {{"x", 1}}))}));
-    Expression expectedExpression4(createExpressionIfPossible({Term(-15)}));
+    Expression expectedExpression3(createExpressionIfPossible({Term(Monomial(5, {{"x", 1}}))}));    Expression expectedExpression4(createExpressionIfPossible({Term(-15)}));
     Expression subExpression5(createExpressionIfPossible({Term(-5), Term("^"), x}));
     Expression expectedExpression5(createExpressionIfPossible({Term(-1), Term("*"), Term(subExpression5)}));
-    EXPECT_EQ(expectedExpression1, negateExpression(createExpressionIfPossible({Term(-5), Term("+"), x})));
-    EXPECT_EQ(expectedExpression2, negateExpression(createExpressionIfPossible({Term(5), Term("+"), x})));
-    EXPECT_EQ(expectedExpression3, negateExpression(createExpressionIfPossible({Term(-5), Term("*"), x})));
-    EXPECT_EQ(expectedExpression4, negateExpression(createExpressionIfPossible({Term(-5), Term("*"), Term(-3)})));
-    EXPECT_EQ(expectedExpression5, negateExpression(createExpressionIfPossible({Term(-5), Term("^"), x})));
+    EXPECT_EQ(expectedExpression1, expressionToVerify1);
+    EXPECT_EQ(expectedExpression2, expressionToVerify2);
+    EXPECT_EQ(expectedExpression3, expressionToVerify3);
+    EXPECT_EQ(expectedExpression4, expressionToVerify4);
+    EXPECT_EQ(expectedExpression5, expressionToVerify5);
 }
 
 }
-
 }

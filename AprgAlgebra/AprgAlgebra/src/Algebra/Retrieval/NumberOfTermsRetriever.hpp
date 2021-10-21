@@ -21,6 +21,7 @@ public:
     void retrieveFromExpression(Expression const& expression) override;
     void retrieveFromFunction(Function const& functionObject) override;
 };
+
 }
 
 }

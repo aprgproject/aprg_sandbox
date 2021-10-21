@@ -279,4 +279,5 @@ Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials)
 
 
 }
+
 }

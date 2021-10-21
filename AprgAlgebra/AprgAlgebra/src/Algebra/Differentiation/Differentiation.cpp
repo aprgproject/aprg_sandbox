@@ -3,17 +3,18 @@
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Differentiation/DifferentiationUtilities.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
-#include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+
+#include <algorithm>
 
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
 using namespace std;
-
 namespace alba
 {
 namespace algebra
@@ -62,7 +63,8 @@ Term Differentiation::differentiate(
     return result;
 }
 
-Term Differentiation::differentiate(        Constant const& constant) const
+Term Differentiation::differentiate(
+        Constant const& constant) const
 {
     return Term(differentiateConstant(constant));
 }
@@ -117,7 +119,8 @@ Term Differentiation::differentiateWithDefiniteValue(
     return substitution.performSubstitutionTo(differentiate(term));
 }
 
-Term Differentiation::differentiateMultipleTimes(        Term const& term,
+Term Differentiation::differentiateMultipleTimes(
+        Term const& term,
         unsigned int const numberOfTimes) const
 {
     Term currentResult(term);
@@ -142,7 +145,8 @@ Equation Differentiation::differentiateMultipleTimes(
 
 AlbaNumber Differentiation::differentiateConstant(
         Constant const&) const
-{    return 0;
+{
+    return 0;
 }
 
 Monomial Differentiation::differentiateVariable(
@@ -175,16 +179,15 @@ Monomial Differentiation::differentiateVariable(
 Polynomial Differentiation::differentiateMonomial(
         Monomial const& monomial) const
 {
-    Monomial unaffectedVariablesAndConstant;
-    Monomial affectedVariables;
+    Monomial nonChangingVariablesAndConstant;
+    Monomial changingVariables;
 
-    separateUnaffectedAndAffectedVariables(unaffectedVariablesAndConstant, affectedVariables, monomial);
-    Polynomial result(buildPolynomialBasedOnAffectedVariables(affectedVariables));
-    result.multiplyMonomial(unaffectedVariablesAndConstant);
+    separateNonChangingAndChangingVariables(nonChangingVariablesAndConstant, changingVariables, monomial);
+    Polynomial result(differentiateMonomialWithChangingVariables(changingVariables));
+    result.multiplyMonomial(nonChangingVariablesAndConstant);
     result.simplify();
 
-    return result;
-}
+    return result;}
 
 Polynomial Differentiation::differentiatePolynomial(
         Polynomial const& polynomial) const
@@ -256,10 +259,70 @@ Term Differentiation::differentiateTwoDividedTerms(
     return result;
 }
 
+void Differentiation::separateNonChangingAndChangingVariables(
+        Monomial & nonChangingVariablesAndConstant,
+        Monomial & changingVariables,
+        Monomial const& monomial) const
+{
+    nonChangingVariablesAndConstant = Monomial(monomial.getConstantConstReference(), {});
+    changingVariables = Monomial(1, {});
+    for(auto const& variableExponentPair :
+        monomial.getVariablesToExponentsMapConstReference())
+    {
+        string const& variableName(variableExponentPair.first);
+        AlbaNumber const& exponent(variableExponentPair.second);
+        if(exponent != 0)
+        {
+            if(isChangingVariableName(variableName))
+            {
+                changingVariables.putVariableWithExponent(variableName, exponent);
+            }
+            else
+            {
+                nonChangingVariablesAndConstant.putVariableWithExponent(variableName, exponent);
+            }
+        }
+    }
+}
+
+Polynomial Differentiation::differentiateMonomialWithChangingVariables(
+        Monomial const& changingVariables) const
+{
+    Polynomial result;
+    for(auto const& variableExponentPair :
+        changingVariables.getVariablesToExponentsMapConstReference())
+    {
+        string const& variableName(variableExponentPair.first);
+        AlbaNumber const& exponent(variableExponentPair.second);
+        Monomial monomialToAdd(changingVariables);
+        DerivativeVariableName derivativeVariableName(variableName);
+        if(isVariableToDifferentiate(variableName))
+        {
+            monomialToAdd.putVariableWithExponent(variableName, exponent-1);
+            monomialToAdd.multiplyNumber(exponent);
+        }
+        else if(isDependentVariable(variableName))
+        {
+            monomialToAdd.putVariableWithExponent(variableName, exponent-1);
+            monomialToAdd.multiplyNumber(exponent);
+            DerivativeVariableName derivativeOfDependentVariableName(1U, m_nameOfVariableToDifferentiate, variableName);
+            monomialToAdd.putVariableWithExponent(derivativeOfDependentVariableName.getNameInLeibnizNotation(), 1);
+        }
+        else if(isDerivativeVariableNameAndAffectedByThisDifferentiation(derivativeVariableName))
+        {
+            monomialToAdd.putVariableWithExponent(variableName, exponent-1);
+            monomialToAdd.multiplyNumber(exponent);
+            derivativeVariableName.differentiate();
+            monomialToAdd.putVariableWithExponent(derivativeVariableName.getNameInLeibnizNotation(), 1);
+        }
+        result.addMonomial(monomialToAdd);
+    }
+    return result;
+}
+
 Term Differentiation::differentiateAsTermOrExpressionIfNeeded(
         Expression const& expression) const
-{
-    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
+{    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
     Term simplifiedTerm(expression);
     simplifyForDifferentiation(simplifiedTerm);
     if(simplifiedTerm.isExpression())
@@ -379,68 +442,52 @@ Term Differentiation::differentiateTermsInRaiseToPower(
     termRaiseToTerms.simplify();
     Term firstTerm(termRaiseToTerms.getBase());
     Term secondTerm(termRaiseToTerms.getCombinedExponents());
-    if(firstTerm.isConstant())
+    bool isFirstAChangingTerm = isChangingTerm(firstTerm);
+    bool isSecondAChangingTerm = isChangingTerm(secondTerm);
+    if(!isFirstAChangingTerm && !isSecondAChangingTerm)
     {
-        result = differentiateConstantRaiseToTerm(firstTerm.getConstantValueConstReference(), secondTerm);
+        result = Term(Constant(0));
     }
-    else if(secondTerm.isConstant())
+    else if(!isFirstAChangingTerm && isSecondAChangingTerm)
     {
-        result = differentiateTermRaiseToConstant(firstTerm, secondTerm.getConstantValueConstReference());
+        result = differentiateNonChangingTermRaiseToChangingTerm(firstTerm, secondTerm);
+    }
+    else if(isFirstAChangingTerm && !isSecondAChangingTerm)
+    {
+        result = differentiateChangingTermRaiseToNonChangingTerm(firstTerm, secondTerm);
     }
     else
     {
-        result = differentiateTermRaiseToTerm(firstTerm, secondTerm);
+        result = differentiateChangingTermRaiseToChangingTerm(firstTerm, secondTerm);
     }
     return result;
 }
 
-Term Differentiation::differentiateConstantRaiseToTerm(
-        AlbaNumber const& number,
-        Term const& term) const
+Term Differentiation::differentiateNonChangingTermRaiseToChangingTerm(
+        Term const& base,
+        Term const& exponent) const
 {
-    Term derivativeCauseOfChainRule(differentiate(term));
-    return Term(createExpressionIfPossible({Term(number), Term("^"), term, Term("*"), Term(ln(Term(number))), Term("*"), derivativeCauseOfChainRule}));
+    Term derivativeCauseOfChainRule(differentiate(exponent));
+    return Term(createExpressionIfPossible({base, Term("^"), exponent, Term("*"), Term(ln(base)), Term("*"), derivativeCauseOfChainRule}));
 }
 
-Term Differentiation::differentiateTermRaiseToConstant(
+Term Differentiation::differentiateChangingTermRaiseToNonChangingTerm(
         Term const& base,
-        AlbaNumber const& exponent) const
+        Term const& exponent) const
 {
     Term derivativeCauseOfChainRule(differentiate(base));
-    return Term(createExpressionIfPossible({base, Term("^"), Term(exponent-1), Term("*"), Term(exponent), Term("*"), derivativeCauseOfChainRule}));
+    return Term(createExpressionIfPossible({base, Term("^"), Term(exponent-Term(1)), Term("*"), exponent, Term("*"), derivativeCauseOfChainRule}));
 }
 
-Term Differentiation::differentiateTermRaiseToTerm(
+Term Differentiation::differentiateChangingTermRaiseToChangingTerm(
         Term const& ,
         Term const& ) const
-{
-    return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
-}
-
-bool Differentiation::isVariableToDifferentiate(
-        string const& variableName) const
-{
-    return variableName == m_nameOfVariableToDifferentiate;
-}
-
-bool Differentiation::isDependentVariable(
-        string const& variableName) const
-{
-    return m_namesOfDependentVariables.find(variableName) != m_namesOfDependentVariables.cend();
-}
-
-bool Differentiation::isDerivativeVariableNameAndAffectedByThisDifferentiation(
-        DerivativeVariableName const& derivativeVariableName) const
-{
-    return derivativeVariableName.isValid()
-            && isVariableToDifferentiate(derivativeVariableName.getBaseVariable())
-            && isDependentVariable(derivativeVariableName.getDependentVariable());
+{    return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
 }
 
 Term Differentiation::differentiateFunctionOnly(
         Function const& functionObject) const
-{
-    Term derivativeOfFunction(AlbaNumber(AlbaNumber::Value::NotANumber));
+{    Term derivativeOfFunction(AlbaNumber(AlbaNumber::Value::NotANumber));
     Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
     if("abs" == functionObject.getFunctionName())
     {
@@ -539,74 +586,9 @@ Term Differentiation::differentiateFunctionOnly(
     return derivativeOfFunction;
 }
 
-void Differentiation::separateUnaffectedAndAffectedVariables(
-        Monomial & unaffectedVariablesAndConstant,
-        Monomial & affectedVariables,
-        Monomial const& monomial) const
-{
-    unaffectedVariablesAndConstant = Monomial(monomial.getConstantConstReference(), {});
-    affectedVariables = Monomial(1, {});
-    for(auto const& variableExponentPair :
-        monomial.getVariablesToExponentsMapConstReference())
-    {
-        string const& variableName(variableExponentPair.first);
-        AlbaNumber const& exponent(variableExponentPair.second);
-        DerivativeVariableName derivativeVariableName(variableName);
-        if(exponent != 0)
-        {
-            if(isVariableToDifferentiate(variableName)
-                    || isDependentVariable(variableName)
-                    || isDerivativeVariableNameAndAffectedByThisDifferentiation(derivativeVariableName))
-            {
-                affectedVariables.putVariableWithExponent(variableName, exponent);
-            }
-            else
-            {
-                unaffectedVariablesAndConstant.putVariableWithExponent(variableName, exponent);
-            }
-        }
-    }
-}
-
-Polynomial Differentiation::buildPolynomialBasedOnAffectedVariables(
-        Monomial const& affectedVariables) const
-{
-    Polynomial result;
-    for(auto const& variableExponentPair :
-        affectedVariables.getVariablesToExponentsMapConstReference())
-    {
-        string const& variableName(variableExponentPair.first);
-        AlbaNumber const& exponent(variableExponentPair.second);
-        Monomial monomialToAdd(affectedVariables);
-        DerivativeVariableName derivativeVariableName(variableName);
-        if(isVariableToDifferentiate(variableName))
-        {
-            monomialToAdd.putVariableWithExponent(variableName, exponent-1);
-            monomialToAdd.multiplyNumber(exponent);
-        }
-        else if(isDependentVariable(variableName))
-        {
-            monomialToAdd.putVariableWithExponent(variableName, exponent-1);
-            monomialToAdd.multiplyNumber(exponent);
-            DerivativeVariableName derivativeOfDependentVariableName(1U, m_nameOfVariableToDifferentiate, variableName);
-            monomialToAdd.putVariableWithExponent(derivativeOfDependentVariableName.getNameInLeibnizNotation(), 1);
-        }
-        else if(isDerivativeVariableNameAndAffectedByThisDifferentiation(derivativeVariableName))
-        {
-            monomialToAdd.putVariableWithExponent(variableName, exponent-1);
-            monomialToAdd.multiplyNumber(exponent);
-            derivativeVariableName.differentiate();
-            monomialToAdd.putVariableWithExponent(derivativeVariableName.getNameInLeibnizNotation(), 1);
-        }
-        result.addMonomial(monomialToAdd);
-    }
-    return result;
-}
-
 void Differentiation::simplifyForDifferentiation(
         Term& term) const
-{
-    term.simplify();
+{    term.simplify();
     {
         SimplificationOfExpression::ConfigurationDetails configurationDetails(
                     SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
@@ -618,6 +600,55 @@ void Differentiation::simplifyForDifferentiation(
 
         term.simplify();
     }
+}
+
+bool Differentiation::isVariableToDifferentiate(
+        string const& variableName) const
+{
+    return variableName == m_nameOfVariableToDifferentiate;
+}
+
+bool Differentiation::isDependentVariable(
+        string const& variableName) const
+{
+    return m_namesOfDependentVariables.find(variableName) != m_namesOfDependentVariables.cend();
+}
+
+bool Differentiation::isDerivativeVariableNameAndAffectedByThisDifferentiation(
+        DerivativeVariableName const& derivativeVariableName) const
+{
+    return derivativeVariableName.isValid()
+            && isVariableToDifferentiate(derivativeVariableName.getBaseVariable())
+            && isDependentVariable(derivativeVariableName.getDependentVariable());
+}
+
+bool Differentiation::isChangingVariableName(
+        string const& variableName) const
+{
+    bool result(false);
+    if(isVariableToDifferentiate(variableName) || isDependentVariable(variableName))
+    {
+        result = true;
+    }
+    else
+    {
+        DerivativeVariableName derivativeVariableName(variableName);
+        result = isDerivativeVariableNameAndAffectedByThisDifferentiation(derivativeVariableName);
+    }
+    return result;
+}
+
+bool Differentiation::isChangingTerm(
+        Term const& term) const
+{
+    VariableNamesRetriever retriever;
+    retriever.retrieveFromTerm(term);
+    VariableNamesSet const& variableNames(retriever.getSavedData());
+    return any_of(variableNames.cbegin(), variableNames.cend(),
+                  [&](string const& variableName)
+    {
+        return isChangingVariableName(variableName);
+    });
 }
 
 

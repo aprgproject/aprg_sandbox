@@ -16,7 +16,8 @@ DegreeOnlyMutator::DegreeOnlyMutator(
 void DegreeOnlyMutator::mutateTerm(Term & term)
 {
     Term beforeMutation;
-    do    {
+    do
+    {
         beforeMutation = term;
         BaseMutator::mutateTerm(term);
         term.simplify();
@@ -33,7 +34,8 @@ void DegreeOnlyMutator::mutateMonomial(Monomial & monomial)
 void DegreeOnlyMutator::mutatePolynomial(Polynomial & polynomial)
 {
     bool isFirst(true);
-    AlbaNumber maxDegreeForVariable;    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    AlbaNumber maxDegreeForVariable;
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
         AlbaNumber currentDegreeForVariable(monomial.getExponentForVariable(m_variableName));
         if(isFirst)
@@ -53,7 +55,8 @@ void DegreeOnlyMutator::mutatePolynomial(Polynomial & polynomial)
 void DegreeOnlyMutator::mutateExpression(Expression & expression)
 {
     Expression beforeMutation;
-    do    {
+    do
+    {
         beforeMutation = expression;
         BaseMutator::mutateExpression(expression);
         expression.simplify();

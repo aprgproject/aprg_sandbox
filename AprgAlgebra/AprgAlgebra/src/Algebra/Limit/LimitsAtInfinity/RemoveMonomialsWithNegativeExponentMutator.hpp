@@ -19,7 +19,8 @@ public:
     void mutateFunction(Function & functionObject) override;
 
 private:
-    bool isMonomialToBeRemoved(Monomial const& monomial) const;    std::string m_variableName;
+    bool isMonomialToBeRemoved(Monomial const& monomial) const;
+    std::string m_variableName;
 };
 
 }

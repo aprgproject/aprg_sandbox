@@ -18,10 +18,14 @@ TermsWithAssociation::TermsWithAssociation()
 {}
 
 TermsWithAssociation::TermsWithAssociation(
+        TermsWithAssociation const& termsWithAssociation)
+    : m_termsWithDetails(termsWithAssociation.getTermsWithDetails())
+{}
+
+TermsWithAssociation::TermsWithAssociation(
         initializer_list<TermWithDetails> const& termsWithDetails)
 {
-    putTermsWithDetails(termsWithDetails);
-}
+    putTermsWithDetails(termsWithDetails);}
 
 TermsWithAssociation::TermsWithAssociation(
         TermsWithDetails const& termsWithDetails)
@@ -167,6 +171,7 @@ void TermsWithAssociation::reverseTheAssociationOfTheTerms()
         termWithDetails.reverseAssociation();
     }
 }
+
 }
 
 }

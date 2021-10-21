@@ -195,7 +195,8 @@ TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorksO
 
 TEST(IsolationOfOneVariableOnEqualityEquationTest, IsolateTermWithVariableWorkssOnPolynomialEquation_Example1UsingDerivatives)
 {
-    Polynomial leftHandSide{        Monomial(18, {{"dy/dx", 1}, {"y", 5}}),
+    Polynomial leftHandSide{
+        Monomial(18, {{"dy/dx", 1}, {"y", 5}}),
                 Monomial(5, {{"dy/dx", 1}, {"y", 4}}),
                 Monomial(-6, {{"x", 5}}),
                 Monomial(-2, {{"dy/dx", 1}, {"y", 1}}),

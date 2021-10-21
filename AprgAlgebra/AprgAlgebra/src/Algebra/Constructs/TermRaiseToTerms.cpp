@@ -5,7 +5,8 @@
 #include <Algebra/Functions/FunctionUtilities.hpp>
 #include <Algebra/Operations/AccumulateOperations.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
@@ -16,6 +17,7 @@
 using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -193,7 +195,8 @@ void TermRaiseToTerms::simplifyBaseAndExponents()
     }
     else if(canBeConvertedToMonomial(m_base)  && exponentCombinedTerm.isConstant())
     {
-        Monomial monomialBase(createMonomialIfPossible(m_base));        monomialBase.raiseToPowerNumber(exponentCombinedTerm.getConstantValueConstReference());
+        Monomial monomialBase(createMonomialIfPossible(m_base));
+        monomialBase.raiseToPowerNumber(exponentCombinedTerm.getConstantValueConstReference());
         m_base = simplifyAndConvertMonomialToSimplestTerm(monomialBase);
     }
     else if(m_base.isPolynomial()
@@ -234,7 +237,8 @@ void TermRaiseToTerms::simplifyBaseAndExponents()
         m_exponents = termsWithDetails;
     }
     else
-    {        m_exponents.emplace_back(exponentCombinedTerm, TermAssociationType::Positive);
+    {
+        m_exponents.emplace_back(exponentCombinedTerm, TermAssociationType::Positive);
     }
 }
 

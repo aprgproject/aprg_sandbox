@@ -47,6 +47,7 @@ private:
     void simplifyForIsolation(Expression & expression) const;
     Term m_simplifiedLeftSideTerm;
 };
+
 }
 
 }

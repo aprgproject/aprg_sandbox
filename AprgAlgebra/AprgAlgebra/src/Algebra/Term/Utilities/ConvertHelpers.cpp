@@ -119,16 +119,9 @@ Term convertExpressionToSimplestTerm(Expression const& expression)
 
 Term convertFunctionToSimplestTerm(Function const& functionObject)
 {
-    /*Term newTerm(functionObject);
-    Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
-    if(inputTerm.isConstant())
-    {
-        newTerm = Term(functionObject.performFunctionAndReturnResultIfPossible());
-    }*/
     SimplificationOfFunctionToTerm simplification;
     return simplification.simplifyToTerm(functionObject);
 }
-
 }
 
 }
