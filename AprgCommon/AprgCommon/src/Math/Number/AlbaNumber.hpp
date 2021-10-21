@@ -6,28 +6,27 @@
 
 #include <ostream>
 #include <string>
+#include <sstream>
 
 namespace alba
 {
-
 class AlbaNumber
 {
-public:
-    static constexpr double ADJUSTMENT_FLOAT_TOLERANCE = 1E-15;
+public:    static constexpr double ADJUSTMENT_FLOAT_TOLERANCE = 1E-15;
 
     enum class Value
     {
         PositiveInfinity,
         NegativeInfinity,
-        NotANumber
+        NotANumber,
+        pi,
+        e
     };
     enum class Type
-    {
-        Integer,
+    {        Integer,
         Double,
         Fraction,
-        ComplexNumber
-    };
+        ComplexNumber    };
     struct FractionData
     {
         int numerator;
@@ -226,13 +225,14 @@ private:
             bool & shouldBeConvertedToDouble,
             FractionData const& baseFractionData,
             long long int const exponent) const;
+    void putDisplayableStringForDouble(
+            std::stringstream & result,
+            double const& doubleValue) const;
 
     Type m_type;
-    NumberUnionData m_data;
-};
+    NumberUnionData m_data;};
 
 template <> AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>();
-
 std::ostream & operator<<(std::ostream & out, AlbaNumber const& number);
 
 }
