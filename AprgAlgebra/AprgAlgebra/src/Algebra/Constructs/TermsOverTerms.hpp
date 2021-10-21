@@ -36,11 +36,10 @@ public:
             BaseToExponentMap & baseToExponentMap) const;
     std::string getDisplayableString() const;
 
-    void invert();
+    void flip();
     void saveBaseToExponentMap(BaseToExponentMap const& baseToExponentMap);
 
-    void setAsShouldSimplifyToFactors(bool const shouldSimplifyToFactors);
-    void setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(
+    void setAsShouldSimplifyToFactors(bool const shouldSimplifyToFactors);    void setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(
             bool const shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue);
 
     void simplify();

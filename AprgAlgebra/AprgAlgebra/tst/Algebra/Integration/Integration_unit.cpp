@@ -1,18 +1,18 @@
 #include <Algebra/Integration/Integration.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
+#include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 
 #include <gtest/gtest.h>
 
 using namespace alba::algebra::Functions;
+using namespace alba::algebra::Simplification;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
@@ -20,12 +20,30 @@ namespace algebra
 TEST(IntegrationTest, IntegrateWorksForTerm)
 {
     Integration integrationForX("x");
+    Polynomial polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
+    Expression expression(createExpressionIfPossible(
+    {Term(Polynomial{Monomial(3, {{"x", 1}}), Monomial(4, {})}),
+     Term("^"),
+     Term(AlbaNumber::createFraction(1, 2))}));
 
+    Polynomial expectedPolynomial{Monomial(7, {{"x", 4}}), Monomial(-2, {{"x", 3}}), Monomial(8, {{"x", 1}})};
+    Term expectedTerm(createExpressionIfPossible(
+    {Term(2),
+     Term("*"),
+     Term(Polynomial{Monomial(3, {{"x", 1}}), Monomial(4, {})}),
+     Term("^"),
+     Term(AlbaNumber::createFraction(3, 2)),
+     Term("/"),
+     Term(9)}));
     EXPECT_EQ(Term(Monomial(5, {{"x", 1}})), integrationForX.integrate(Term(5)));
+    EXPECT_EQ(Term(Monomial(5, {{"x", 1}})), integrationForX.integrate(Term(5)));
+    EXPECT_EQ(Term(Monomial(AlbaNumber::createFraction(1, 2), {{"x", 2}})), integrationForX.integrate(Term("x")));
+    EXPECT_EQ(Term(Monomial(1, {{"x", 2}, {"y", 3}})), integrationForX.integrate(Monomial(2, {{"x", 1}, {"y", 3}})));
+    EXPECT_EQ(Term(expectedPolynomial), integrationForX.integrate(Term(polynomial)));
+    EXPECT_EQ(expectedTerm, integrationForX.integrate(expression));
 }
 
-TEST(IntegrationTest, IntegrateWorksForConstant)
-{
+TEST(IntegrationTest, IntegrateWorksForConstant){
     Integration integrationForX("x");
 
     EXPECT_EQ(Term(Monomial(5, {{"x", 1}})), integrationForX.integrate(Constant(5)));
@@ -107,36 +125,9 @@ TEST(IntegrationTest, IntegrateWithDefiniteValuesWorks)
     EXPECT_EQ(Term(10), integrationForX.integrateWithDefiniteValues(Term("x"), 4, 6));
 }
 
-TEST(IntegrationTest, IntegrateTermWorks)
-{
-    Integration integrationForX("x");
-    Polynomial polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
-    Expression expression(createExpressionIfPossible(
-    {Term(Polynomial{Monomial(3, {{"x", 1}}), Monomial(4, {})}),
-     Term("^"),
-     Term(AlbaNumber::createFraction(1, 2))}));
-
-    Polynomial expectedPolynomial{Monomial(7, {{"x", 4}}), Monomial(-2, {{"x", 3}}), Monomial(8, {{"x", 1}})};
-    Term expectedTerm(createExpressionIfPossible(
-    {Term(2),
-     Term("*"),
-     Term(Polynomial{Monomial(3, {{"x", 1}}), Monomial(4, {})}),
-     Term("^"),
-     Term(AlbaNumber::createFraction(3, 2)),
-     Term("/"),
-     Term(9)}));
-    EXPECT_EQ(Term(Monomial(5, {{"x", 1}})), integrationForX.integrateTerm(Term(5)));
-    EXPECT_EQ(Term(Monomial(5, {{"x", 1}})), integrationForX.integrateTerm(Term(5)));
-    EXPECT_EQ(Term(Monomial(AlbaNumber::createFraction(1, 2), {{"x", 2}})), integrationForX.integrateTerm(Term("x")));
-    EXPECT_EQ(Term(Monomial(1, {{"x", 2}, {"y", 3}})), integrationForX.integrateTerm(Monomial(2, {{"x", 1}, {"y", 3}})));
-    EXPECT_EQ(Term(expectedPolynomial), integrationForX.integrateTerm(Term(polynomial)));
-    EXPECT_EQ(expectedTerm, integrationForX.integrateTerm(expression));
-}
-
 TEST(IntegrationTest, IntegrateConstantWorks)
 {
     Integration integrationForX("x");
-
     EXPECT_EQ(Monomial(5, {{"x", 1}}), integrationForX.integrateConstant(Constant(5)));
 }
 
@@ -339,16 +330,46 @@ TEST(IntegrationTest, IntegrateWorksUsingIntegrationByPartsUsingExamples4)
     Term simplifiedResult(integrationForX.integrate(termToTest));
     EXPECT_EQ("((((e)^x)*sin(x))-(((e)^x)*cos(x))-(((((e)^x)*sin(x))-(((e)^x)*cos(x)))/2))",
               simplifiedResult.getDisplayableString());
-    simplifiedResult.simplify();
-    EXPECT_EQ("((((e)^x)*sin(x))-(((e)^x)*cos(x))-(((((e)^x)*sin(x))-(((e)^x)*cos(x)))/2))",
-              simplifiedResult.getDisplayableString());
+
+    {
+        SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                    SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+        configurationDetails.shouldSimplifyToACommonDenominator = true;
+
+        SimplificationOfExpression::ScopeObject scopeObject;
+        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+        simplifiedResult.simplify();
+    }
+    EXPECT_EQ("(((((e)^x)*sin(x))-(((e)^x)*cos(x)))/2)", simplifiedResult.getDisplayableString());
 }
 
 TEST(IntegrationTest, IntegrateWorksUsingIntegrationByPartsUsingExamples5)
 {
     Integration integrationForX("x");
     Term x("x");
-    Term termToTest(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(5)}));
+    Term termToTest(createExpressionIfPossible({Term(sin(Term(ln(x))))}));
+
+    Term simplifiedResult(integrationForX.integrate(termToTest));
+    EXPECT_EQ("((x*sin(ln(x)))-(x*cos(ln(x)))-(((x*sin(ln(x)))-(x*cos(ln(x))))/2))",
+              simplifiedResult.getDisplayableString());
+    {
+        SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                    SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+        configurationDetails.shouldSimplifyToACommonDenominator = true;
+
+        SimplificationOfExpression::ScopeObject scopeObject;
+        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+        simplifiedResult.simplify();
+    }
+    EXPECT_EQ("(((x*sin(ln(x)))-(x*cos(ln(x))))/2)", simplifiedResult.getDisplayableString());
+}
+
+TEST(IntegrationTest, IntegrateWorksSinRaiseToAConstant)
+{
+    Integration integrationForX("x");
+    Term x("x");    Term termToTest(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(5)}));
 
     EXPECT_EQ("sadlkfjlksdjf",
               integrationForX.integrate(termToTest).getDisplayableString());

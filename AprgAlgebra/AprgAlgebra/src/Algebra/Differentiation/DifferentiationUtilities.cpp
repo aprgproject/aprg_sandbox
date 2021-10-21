@@ -247,17 +247,16 @@ Equation getIntegralEquationForFirstOrderDifferentialEquation(
     // dy/dx = P(x)*y + Q(x)
 
     Integration integration(xVariableName);
-    Term integralOfP(integration.integrateTerm(p));
+    Term integralOfP(integration.integrate(p));
     Term eToTheIntegralOfP(createExpressionIfPossible({getEAsTerm(), Term("^"), integralOfP}));
     Term eToTheNegativeIntegralOfP(createExpressionIfPossible({getEAsTerm(), Term("^"), -integralOfP}));
     Term qWithoutY(q/Term(yVariableName));
     Term qExpression(createExpressionIfPossible({qWithoutY, Term("*"), eToTheIntegralOfP}));
     Term cExpression(createExpressionIfPossible({getEAsTerm(), Term("*"), eToTheNegativeIntegralOfP}));
-    Term integralOfQExpression(integration.integrateTerm(qExpression));
+    Term integralOfQExpression(integration.integrate(qExpression));
     Term qcExpression(createExpressionIfPossible({integralOfQExpression, Term("+"), cExpression}));
     Term pqcExpression(createExpressionIfPossible({eToTheNegativeIntegralOfP, Term("*"), qcExpression}));
-    return Equation(Term(yVariableName), "=", pqcExpression);
-}
+    return Equation(Term(yVariableName), "=", pqcExpression);}
 
 void simplifyDerivativeByDefinition(Term & term)
 {

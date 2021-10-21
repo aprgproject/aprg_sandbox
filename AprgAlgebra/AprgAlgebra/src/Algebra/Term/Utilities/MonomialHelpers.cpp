@@ -277,26 +277,6 @@ Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials)
     return monomialWithMaximumExponents;
 }
 
-void segregateMonomialsWithAndWithoutVariable(
-        Monomials const& monomialsToSegregate,
-        string const& variableName,
-        Monomials & monomialsWithVariable,
-        Monomials & monomialsWithoutVariable)
-{
-    for(Monomial const& monomial : monomialsToSegregate)
-    {
-        if(monomial.getExponentForVariable(variableName) != 0)
-        {
-            monomialsWithVariable.emplace_back(monomial);
-        }
-        else
-        {
-            monomialsWithoutVariable.emplace_back(monomial);
-        }
-    }
-}
-
 
 }
-
 }

@@ -13,11 +13,10 @@ DegreeOnlyMutator::DegreeOnlyMutator(
     : m_variableName(variableName)
 {}
 
-void DegreeOnlyMutator::mutateTerm(Term & term) const
+void DegreeOnlyMutator::mutateTerm(Term & term)
 {
     Term beforeMutation;
-    do
-    {
+    do    {
         beforeMutation = term;
         BaseMutator::mutateTerm(term);
         term.simplify();
@@ -25,17 +24,16 @@ void DegreeOnlyMutator::mutateTerm(Term & term) const
     while(beforeMutation != term);
 }
 
-void DegreeOnlyMutator::mutateMonomial(Monomial & monomial) const
+void DegreeOnlyMutator::mutateMonomial(Monomial & monomial)
 {
     AlbaNumber degreeForVariable(monomial.getExponentForVariable(m_variableName));
     monomial = getReducedMonomialWithDegree(degreeForVariable);
 }
 
-void DegreeOnlyMutator::mutatePolynomial(Polynomial & polynomial) const
+void DegreeOnlyMutator::mutatePolynomial(Polynomial & polynomial)
 {
     bool isFirst(true);
-    AlbaNumber maxDegreeForVariable;
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
+    AlbaNumber maxDegreeForVariable;    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
         AlbaNumber currentDegreeForVariable(monomial.getExponentForVariable(m_variableName));
         if(isFirst)
@@ -52,11 +50,10 @@ void DegreeOnlyMutator::mutatePolynomial(Polynomial & polynomial) const
     polynomial.addMonomial(getReducedMonomialWithDegree(maxDegreeForVariable));
 }
 
-void DegreeOnlyMutator::mutateExpression(Expression & expression) const
+void DegreeOnlyMutator::mutateExpression(Expression & expression)
 {
     Expression beforeMutation;
-    do
-    {
+    do    {
         beforeMutation = expression;
         BaseMutator::mutateExpression(expression);
         expression.simplify();

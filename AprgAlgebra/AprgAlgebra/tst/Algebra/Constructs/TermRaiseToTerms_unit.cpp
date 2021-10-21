@@ -1,12 +1,14 @@
 #include <Algebra/Constructs/TermRaiseToTerms.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::algebra::Functions;
+
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -244,6 +246,38 @@ TEST(TermRaiseToTermsTest, SimplifyWorksWithSimplifyingToFactors)
     {TermWithDetails(Term(5), TermAssociationType::Positive)};
     EXPECT_EQ(expectedExponents, termRaiseToTerms.getExponents());
     Term expectedCombinedTerm(createExpressionIfPossible({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), Term("^"), Term(5)}));
+    EXPECT_EQ(expectedCombinedTerm, termRaiseToTerms.getCombinedTerm());
+}
+
+TEST(TermRaiseToTermsTest, SimplifyWorksWithReducingExponentialToLogarithmic)
+{
+    Term polynomialTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    Term base(getEAsTerm());
+    Term exponent(ln(polynomialTerm));
+    TermRaiseToTerms termRaiseToTerms(base, {exponent});
+
+    termRaiseToTerms.simplify();
+
+    EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), termRaiseToTerms.getBase());
+    EXPECT_TRUE(termRaiseToTerms.getExponents().empty());
+    Term expectedCombinedTerm(polynomialTerm);
+    EXPECT_EQ(expectedCombinedTerm, termRaiseToTerms.getCombinedTerm());
+}
+
+TEST(TermRaiseToTermsTest, SimplifyWorksWithReducingExponentialToLogarithmicWithMultipleExponents)
+{
+    Term polynomialTerm(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
+    Term base(getEAsTerm());
+    Term exponent(ln(polynomialTerm));
+    TermRaiseToTerms termRaiseToTerms(base, {Term(2), exponent});
+
+    termRaiseToTerms.simplify();
+
+    EXPECT_EQ(Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), termRaiseToTerms.getBase());
+    TermsWithDetails expectedExponents
+    {TermWithDetails(Term(2), TermAssociationType::Positive)};
+    EXPECT_EQ(expectedExponents, termRaiseToTerms.getExponents());
+    Term expectedCombinedTerm(createExpressionIfPossible({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), Term("^"), Term(2)}));
     EXPECT_EQ(expectedCombinedTerm, termRaiseToTerms.getCombinedTerm());
 }
 

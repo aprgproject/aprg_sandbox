@@ -291,10 +291,25 @@ TEST(TermTest, TermsAsFunctionsCanBeChanged)
     EXPECT_EQ(Term(7), getTermConstReferenceFromBaseTerm(term.getFunctionConstReference().getInputTermConstReference()));
 }
 
+TEST(TermTest, AssignmentOperatorWorks)
+{
+    Term term1 = Term(2);
+    Term term2(5);
+    term2 = Term(7);
+    Term term3(8);
+    term3 = term3;
+
+    ASSERT_EQ(TermType::Constant, term1.getTermType());
+    EXPECT_EQ(2, term1.getConstantValueConstReference().getInteger());
+    ASSERT_EQ(TermType::Constant, term2.getTermType());
+    EXPECT_EQ(7, term2.getConstantValueConstReference().getInteger());
+    ASSERT_EQ(TermType::Constant, term3.getTermType());
+    EXPECT_EQ(8, term3.getConstantValueConstReference().getInteger());
+}
+
 TEST(TermTest, EqualityOperatorWorks)
 {
-    Term term1;
-    Term term2(Constant(5));
+    Term term1;    Term term2(Constant(5));
     Term term3(Constant(10));
     Term term4(Variable("length"));
     Term term5(Constant(5));

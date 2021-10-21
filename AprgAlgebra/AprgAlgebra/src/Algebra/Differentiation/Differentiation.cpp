@@ -34,11 +34,35 @@ Differentiation::Differentiation(
 Term Differentiation::differentiate(
         Term const& term) const
 {
-    return differentiateTerm(term);
+    Term result;
+    if(term.isConstant())
+    {
+        result = differentiate(term.getConstantConstReference());
+    }
+    else if(term.isVariable())
+    {
+        result = differentiate(term.getVariableConstReference());
+    }
+    else if(term.isMonomial())
+    {
+        result = differentiate(term.getMonomialConstReference());
+    }
+    else if(term.isPolynomial())
+    {
+        result = differentiate(term.getPolynomialConstReference());
+    }
+    else if(term.isExpression())
+    {
+        result = differentiate(term.getExpressionConstReference());
+    }
+    else if(term.isFunction())
+    {
+        result = differentiate(term.getFunctionConstReference());
+    }
+    return result;
 }
 
-Term Differentiation::differentiate(
-        Constant const& constant) const
+Term Differentiation::differentiate(        Constant const& constant) const
 {
     return Term(differentiateConstant(constant));
 }
@@ -90,11 +114,10 @@ Term Differentiation::differentiateWithDefiniteValue(
         AlbaNumber const& value) const
 {
     SubstitutionOfVariablesToTerms substitution{{m_nameOfVariableToDifferentiate, Term(value)}};
-    return substitution.performSubstitutionTo(differentiateTerm(term));
+    return substitution.performSubstitutionTo(differentiate(term));
 }
 
-Term Differentiation::differentiateMultipleTimes(
-        Term const& term,
+Term Differentiation::differentiateMultipleTimes(        Term const& term,
         unsigned int const numberOfTimes) const
 {
     Term currentResult(term);
@@ -117,41 +140,9 @@ Equation Differentiation::differentiateMultipleTimes(
     return currentResult;
 }
 
-Term Differentiation::differentiateTerm(
-        Term const& term) const
-{
-    Term result;
-    if(term.isConstant())
-    {
-        result = differentiate(term.getConstantConstReference());
-    }
-    else if(term.isVariable())
-    {
-        result = differentiate(term.getVariableConstReference());
-    }
-    else if(term.isMonomial())
-    {
-        result = differentiate(term.getMonomialConstReference());
-    }
-    else if(term.isPolynomial())
-    {
-        result = differentiate(term.getPolynomialConstReference());
-    }
-    else if(term.isExpression())
-    {
-        result = differentiate(term.getExpressionConstReference());
-    }
-    else if(term.isFunction())
-    {
-        result = differentiate(term.getFunctionConstReference());
-    }
-    return result;
-}
-
 AlbaNumber Differentiation::differentiateConstant(
         Constant const&) const
-{
-    return 0;
+{    return 0;
 }
 
 Monomial Differentiation::differentiateVariable(

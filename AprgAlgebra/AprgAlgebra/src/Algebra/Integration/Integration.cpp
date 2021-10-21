@@ -7,23 +7,23 @@
 #include <Algebra/Functions/FunctionUtilities.hpp>
 #include <Algebra/Integration/IntegrationUtilities.hpp>
 #include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquation.hpp>
-#include <Algebra/Retrieval/NumberOfTermsRetriever.hpp>
-#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
-#include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
+
+
+#include <Debug/AlbaDebug.hpp>
 
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
 using namespace std;
-
 namespace alba
 {
 namespace algebra
@@ -39,11 +39,35 @@ Integration::Integration(
 Term Integration::integrate(
         Term const& term) const
 {
-    return integrateTerm(term);
+    Term result;
+    if(term.isConstant())
+    {
+        result = integrate(term.getConstantConstReference());
+    }
+    else if(term.isVariable())
+    {
+        result = integrate(term.getVariableConstReference());
+    }
+    else if(term.isMonomial())
+    {
+        result = integrate(term.getMonomialConstReference());
+    }
+    else if(term.isPolynomial())
+    {
+        result = integrate(term.getPolynomialConstReference());
+    }
+    else if(term.isExpression())
+    {
+        result = integrate(term.getExpressionConstReference());
+    }
+    else if(term.isFunction())
+    {
+        result = integrate(term.getFunctionConstReference());
+    }
+    return result;
 }
 
-Term Integration::integrate(
-        Constant const& constant) const
+Term Integration::integrate(        Constant const& constant) const
 {
     return Term(integrateConstant(constant));
 }
@@ -87,58 +111,25 @@ Term Integration::integrate(
 Term Integration::integrateWithPlusC(
         Term const& term) const
 {
-    Term result(createExpressionIfPossible({integrateTerm(term), Term("+"), Term(C)}));
-    simplifyForIntegration(result, getConfigurationWithFactors());
+    Term result(createExpressionIfPossible({integrate(term), Term("+"), Term(C)}));
+    finalizeTermForIntegration(result);
     return result;
 }
-
 Term Integration::integrateWithDefiniteValues(
         Term const& term,
         AlbaNumber const& lowerValueInInterval,
         AlbaNumber const& higherValueInInterval) const
 {
     return substituteValuesAndGetDifference(
-                integrateTerm(term),
+                integrate(term),
                 m_nameOfVariableToIntegrate,
                 lowerValueInInterval,
                 higherValueInInterval);
 }
 
-Term Integration::integrateTerm(
-        Term const& term) const
-{
-    Term result;
-    if(term.isConstant())
-    {
-        result = integrate(term.getConstantConstReference());
-    }
-    else if(term.isVariable())
-    {
-        result = integrate(term.getVariableConstReference());
-    }
-    else if(term.isMonomial())
-    {
-        result = integrate(term.getMonomialConstReference());
-    }
-    else if(term.isPolynomial())
-    {
-        result = integrate(term.getPolynomialConstReference());
-    }
-    else if(term.isExpression())
-    {
-        result = integrate(term.getExpressionConstReference());
-    }
-    else if(term.isFunction())
-    {
-        result = integrate(term.getFunctionConstReference());
-    }
-    return result;
-}
-
 Monomial Integration::integrateConstant(
         Constant const& constant) const
-{
-    return Monomial(constant.getNumberConstReference(), {{m_nameOfVariableToIntegrate, 1}});
+{    return Monomial(constant.getNumberConstReference(), {{m_nameOfVariableToIntegrate, 1}});
 }
 
 Monomial Integration::integrateVariable(
@@ -190,18 +181,16 @@ Term Integration::integrateExpression(
         Expression const& expression) const
 {
     Term result(integrateAsTermOrExpressionIfNeeded(expression));
-    simplifyForIntegration(result, getConfigurationWithFactors());
+    finalizeTermForIntegration(result);
     return result;
 }
-
 Term Integration::integrateFunction(
         Function const& functionObject) const
 {
     Term result(integrateFunctionOnly(functionObject));
-    simplifyForIntegration(result, getConfigurationWithFactors());
+    finalizeTermForIntegration(result);
     return result;
 }
-
 Term Integration::integrateMonomialWhenExponentIsNegativeOne(
         Monomial const& monomial) const
 {
@@ -523,12 +512,10 @@ void Integration::integrateBySubstitutionAndUsingANewVariable(
     {
         string newVariableName(createVariableNameForSubstitution(termToSubstituteToVariable));
         Integration integrationWithNewVariable(newVariableName);
-        integrationWithNewVariable.setIsIntegrationByPartsAllowed(false);
-        Term integratedTermWithNewVariable(integrationWithNewVariable.integrateTerm(termToIntegrateWithNewVariable));
+        Term integratedTermWithNewVariable(integrationWithNewVariable.integrate(termToIntegrateWithNewVariable));
         SubstitutionOfVariablesToTerms substitutionVariableToTerm({{newVariableName, termToSubstituteToVariable}});
         Term integratedTerm(substitutionVariableToTerm.performSubstitutionTo(integratedTermWithNewVariable));
-        if(!isNotANumber(integratedTerm))
-        {
+        if(!isNotANumber(integratedTerm))        {
             result = integratedTerm;
         }
     }
@@ -547,11 +534,25 @@ Term Integration::getTermWithNewVariableSubstitution(
             || termToSubstituteWithVariable.isExpression()
             || termToSubstituteWithVariable.isFunction())
     {
-        IsolationOfOneVariableOnEqualityEquation isolation(Equation(newVariable, "=", termToSubstituteWithVariable));
+        Term leftHandSide(newVariable);
+        Term rightHandSide(termToSubstituteWithVariable);
+        if(rightHandSide.isFunction() && isLogarithmicFunction(rightHandSide.getFunctionConstReference()))
+        {
+            Function const& functionObject(rightHandSide.getFunctionConstReference());
+            if("log" == functionObject.getFunctionName())
+            {
+                leftHandSide = Term(createExpressionIfPossible({Term(10), Term("^"), leftHandSide}));
+            }
+            else if("ln" == functionObject.getFunctionName())
+            {
+                leftHandSide = Term(createExpressionIfPossible({getEAsTerm(), Term("^"), leftHandSide}));
+            }
+            rightHandSide = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
+        }
+        IsolationOfOneVariableOnEqualityEquation isolation(Equation(leftHandSide, "=", rightHandSide));
         Term termWithOldVariable;
         Term termWithWithoutOldVariable;
-        isolation.isolateTermWithVariable(m_nameOfVariableToIntegrate, termWithOldVariable, termWithWithoutOldVariable);
-        if(canBeConvertedToMonomial(termWithOldVariable))
+        isolation.isolateTermWithVariable(m_nameOfVariableToIntegrate, termWithOldVariable, termWithWithoutOldVariable);        if(canBeConvertedToMonomial(termWithOldVariable))
         {
             Monomial monomialWithOldVariable(createMonomialIfPossible(termWithOldVariable));
             AlbaNumber exponentForOldVariable(monomialWithOldVariable.getExponentForVariable(m_nameOfVariableToIntegrate));
@@ -604,11 +605,10 @@ void Integration::integrateUsingChainRuleInReverseIfPossible(
         SubstitutionOfTermsToTerms substitutionTermToVariable({{firstInnerTerm, Term(newVariableToIntegrate)}});
         Term newFirstOuterTerm(substitutionTermToVariable.performSubstitutionTo(firstOuterTerm));
         Integration integrationWithNewVariable(newVariableToIntegrate);
-        Term integratedOuterTermInNewVariable(integrationWithNewVariable.integrateTerm(newFirstOuterTerm));
+        Term integratedOuterTermInNewVariable(integrationWithNewVariable.integrate(newFirstOuterTerm));
         SubstitutionOfVariablesToTerms substitutionVariableToTerm({{newVariableToIntegrate, firstInnerTerm}});
         Term integratedOuterTerm(substitutionVariableToTerm.performSubstitutionTo(integratedOuterTermInNewVariable));
-        result = integratedOuterTerm / quotientOfDerivatives;
-    }
+        result = integratedOuterTerm / quotientOfDerivatives;    }
 }
 
 void Integration::findInnerAndOuterTermForChainRule(
@@ -760,20 +760,17 @@ void Integration::integrateUsingIntegrationByParts(
     depth++;
 
 
-    constexpr unsigned int MAX_SIZE=10;
+    constexpr unsigned int MAX_SIZE=5;
     if(listOfIntegrationByPartsTerms.size() == MAX_SIZE){return;}
 
     integrateUsingPreviousIntegrationByPartsTerms(result, listOfIntegrationByPartsTerms, term);
     if(!result.isEmpty()){return;}
 
     Integration integration(m_nameOfVariableToIntegrate);
-    bool isFAnExponentialExpression = u.isExpression()
-            && OperatorLevel::RaiseToPower == u.getExpressionConstReference().getCommonOperatorLevel();
-    if(!isFAnExponentialExpression)
+    if(!hasExponentialExpression(u))
     {
         Term v(integration.integrate(dv));
-        if(!isNotANumber(v))
-        {
+        if(!isNotANumber(v))        {
             Differentiation differentiation(m_nameOfVariableToIntegrate);
             Term du(differentiation.differentiate(u));
             if(!isNotANumber(du))
@@ -865,10 +862,15 @@ void Integration::simplifyForIntegration(
     }
 }
 
+void Integration::finalizeTermForIntegration(
+        Term & term) const
+{
+    simplifyForIntegration(term, getConfigurationWithFactors());
+}
+
 Integration::Configuration Integration::getConfigurationWithFactors() const
 {
-    Configuration configurationDetails(
-                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    Configuration configurationDetails(                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     configurationDetails.shouldSimplifyToFactors = true;
     configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
     return configurationDetails;
@@ -891,14 +893,10 @@ bool Integration::isVariableToIntegrate(string const& variableName) const
 
 bool Integration::isVariableToIntegrateNotFoundInTerm(Term const& term) const
 {
-    VariableNamesRetriever retriever;
-    retriever.retrieveFromTerm(term);
-    VariableNamesSet const& variableNames(retriever.getSavedData());
-    return variableNames.find(m_nameOfVariableToIntegrate) == variableNames.cend();
+    return !isVariableFoundInTerm(term, m_nameOfVariableToIntegrate);
 }
 
-bool Integration::wouldDifferentiationYieldToAConstant(
-        Term const& term) const
+bool Integration::wouldDifferentiationYieldToAConstant(        Term const& term) const
 {
     bool result(0);
     if(term.isVariable() && isVariableToIntegrate(term.getVariableConstReference().getVariableName()))

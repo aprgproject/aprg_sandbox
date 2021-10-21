@@ -15,41 +15,38 @@ RemoveMonomialsWithNegativeExponentMutator::RemoveMonomialsWithNegativeExponentM
     : m_variableName(variableName)
 {}
 
-void RemoveMonomialsWithNegativeExponentMutator::mutateTerm(Term & term) const
+void RemoveMonomialsWithNegativeExponentMutator::mutateTerm(Term & term)
 {
     BaseMutator::mutateTerm(term);
     term.simplify();
 }
 
-void RemoveMonomialsWithNegativeExponentMutator::mutateMonomial(Monomial & monomial) const
+void RemoveMonomialsWithNegativeExponentMutator::mutateMonomial(Monomial & monomial)
 {
     if(isMonomialToBeRemoved(monomial))
-    {
-        monomial.clear();
+    {        monomial.clear();
     }
 }
 
-void RemoveMonomialsWithNegativeExponentMutator::mutatePolynomial(Polynomial & polynomial) const
+void RemoveMonomialsWithNegativeExponentMutator::mutatePolynomial(Polynomial & polynomial)
 {
     Monomials & monomials(polynomial.getMonomialsReference());
-    monomials.erase(remove_if(
-                        monomials.begin(), monomials.end(), [&](Monomial const& monomial)
+    monomials.erase(remove_if(                        monomials.begin(), monomials.end(), [&](Monomial const& monomial)
     {
                         return isMonomialToBeRemoved(monomial);
                     }), monomials.end());
 }
 
-void RemoveMonomialsWithNegativeExponentMutator::mutateExpression(Expression & expression) const
+void RemoveMonomialsWithNegativeExponentMutator::mutateExpression(Expression & expression)
 {
     BaseMutator::mutateExpression(expression);
     expression.simplify();
 }
 
-void RemoveMonomialsWithNegativeExponentMutator::mutateFunction(Function & functionObject) const
+void RemoveMonomialsWithNegativeExponentMutator::mutateFunction(Function & functionObject)
 {
     BaseMutator::mutateFunction(functionObject);
-    functionObject.simplify();
-}
+    functionObject.simplify();}
 
 bool RemoveMonomialsWithNegativeExponentMutator::isMonomialToBeRemoved(Monomial const& monomial) const
 {

@@ -167,11 +167,10 @@ void TermsOverTerms::retrieveBaseToExponentMap(
     updateBaseToExponentMap(baseToExponentMap, factorizedDenominators, -1);
 }
 
-void TermsOverTerms::invert()
+void TermsOverTerms::flip()
 {
     swap(m_numerators, m_denominators);
 }
-
 void TermsOverTerms::saveBaseToExponentMap(
         BaseToExponentMap const& baseToExponentMap)
 {

@@ -164,10 +164,9 @@ void TermsWithAssociation::reverseTheAssociationOfTheTerms()
 {
     for(TermWithDetails & termWithDetails : m_termsWithDetails)
     {
-        termWithDetails.association = getReversedAssociationType(termWithDetails.association);
+        termWithDetails.reverseAssociation();
     }
 }
-
 }
 
 }

@@ -4,35 +4,37 @@
 #include <Algebra/Factorization/FactorizationOfExpression.hpp>
 #include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
 #include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquation.hpp>
+#include <Algebra/Mutation/NegationMutator.hpp>
 #include <Algebra/Retrieval/FirstCoefficientRetriever.hpp>
 #include <Algebra/Retrieval/NumberOfTermsRetriever.hpp>
+#include <Algebra/Retrieval/NumbersRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
+#include <Math/AlbaMathHelper.hpp>
 
 using namespace alba::algebra::Factorization;
+using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
 
 bool isTermSimpler(Term const& supposeToBeComplicatedTerm, Term const& supposeToBeSimpleTerm)
 {
-    NumberOfTermsRetriever complicateTermRetriever;
-    NumberOfTermsRetriever simpleTermRetriever;
-    complicateTermRetriever.retrieveFromTerm(supposeToBeComplicatedTerm);
-    simpleTermRetriever.retrieveFromTerm(supposeToBeSimpleTerm);
-    return simpleTermRetriever.getSavedData() < complicateTermRetriever.getSavedData();
+    NumberOfTermsRetriever complicateTermCountRetriever;
+    NumberOfTermsRetriever simpleTermCountRetriever;
+    complicateTermCountRetriever.retrieveFromTerm(supposeToBeComplicatedTerm);
+    simpleTermCountRetriever.retrieveFromTerm(supposeToBeSimpleTerm);
+    return complicateTermCountRetriever.getSavedData() > simpleTermCountRetriever.getSavedData();
 }
 
-bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm)
-{
+bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm){
     FirstCoefficientRetriever firstCoefficientRetrieverForTerm;
     firstCoefficientRetrieverForTerm.retrieveFromTerm(term);
 
@@ -201,11 +203,13 @@ Term convertPositiveTermIfNegative(Term const& term)
 
 Term negateTerm(Term const& term)
 {
-    return term*Term(-1);
+    NegationMutator negationMutator;
+    Term negatedTerm(term);
+    negationMutator.mutateTerm(negatedTerm);
+    return negatedTerm;
 }
 
-Term invertTerm(Term const& term, string const& variableName)
-{
+Term invertTerm(Term const& term, string const& variableName){
     string newVariableName(createVariableNameForSubstitution(term));
     Equation equationToIsolate(Term(newVariableName), "=", term);
     IsolationOfOneVariableOnEqualityEquation isolation(equationToIsolate);

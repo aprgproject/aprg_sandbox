@@ -26,12 +26,6 @@ Monomial compareMonomialsAndSaveMaximumExponentsForEachVariable(Monomial const& 
 Monomial getMonomialWithMinimumExponentsInMonomials(Monomials const& monomials);
 Monomial getMonomialWithMaximumExponentsInMonomials(Monomials const& monomials);
 
-void segregateMonomialsWithAndWithoutVariable(
-        Monomials const& monomialsToSegregate,
-        std::string const& variableName,
-        Monomials & monomialsWithVariable,
-        Monomials & monomialsWithoutVariable);
-
 }
 
 }

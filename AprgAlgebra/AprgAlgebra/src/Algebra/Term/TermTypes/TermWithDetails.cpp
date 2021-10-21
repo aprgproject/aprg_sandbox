@@ -79,11 +79,15 @@ string TermWithDetails::getDisplayableString() const
 void TermWithDetails::clear()
 {
     baseTermSharedPointer.reset();
-    association=TermAssociationType::Positive;
+    association = TermAssociationType::Positive;
 }
 
-ostream & operator<<(ostream & out, TermWithDetails const& termWithDetails)
+void TermWithDetails::reverseAssociation()
 {
+    association = getReversedAssociationType(association);
+}
+
+ostream & operator<<(ostream & out, TermWithDetails const& termWithDetails){
     out << termWithDetails.getDisplayableString();
     return out;
 }

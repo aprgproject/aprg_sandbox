@@ -1,14 +1,17 @@
 #include "IsolationOfOneVariableOnEqualityEquation.hpp"
 
+#include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/SegregateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 
+using namespace alba::algebra::Simplification;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
@@ -90,29 +93,14 @@ void IsolationOfOneVariableOnEqualityEquation::isolateTermWithVariable(
     if(canBeConvertedToPolynomial(m_simplifiedLeftSideTerm))
     {
         Polynomial polynomial(createPolynomialIfPossible(m_simplifiedLeftSideTerm));
-        AlbaNumber identicalExponentForVariable(getIdenticalExponentForVariableIfPossible(variableName, polynomial));
-        if(canBeIsolated(identicalExponentForVariable))
-        {
-            Monomials monomialsWithVariable;
-            Monomials monomialsWithoutVariable;
-            segregateMonomialsWithAndWithoutVariable(
-                        polynomial.getMonomialsConstReference(),
-                        variableName,
-                        monomialsWithVariable,
-                        monomialsWithoutVariable);
-            Polynomial numerator(monomialsWithoutVariable);
-            Polynomial denominator(monomialsWithVariable);
-            numerator.multiplyNumber(-1);
-            Monomial monomialWithIsolatedVariable(1, {{variableName, identicalExponentForVariable}});
-            denominator.divideMonomial(monomialWithIsolatedVariable);
-            termWithVariable = monomialWithIsolatedVariable;
-            termWithWithoutVariable = Term(numerator)/Term(denominator);
-            termWithVariable.simplify();
-            termWithWithoutVariable.simplify();
-        }
+        isolateTermWithVariable(variableName, polynomial, termWithVariable, termWithWithoutVariable);
+    }
+    else if(m_simplifiedLeftSideTerm.isExpression())
+    {
+        Expression const& expression(m_simplifiedLeftSideTerm.getExpressionConstReference());
+        isolateTermWithVariable(variableName, expression, termWithVariable, termWithWithoutVariable);
     }
 }
-
 void IsolationOfOneVariableOnEqualityEquation::setEquation(
         Equation const& equation)
 {
@@ -124,10 +112,71 @@ void IsolationOfOneVariableOnEqualityEquation::setEquation(
     }
 }
 
+void IsolationOfOneVariableOnEqualityEquation::isolateTermWithVariable(
+        string const& variableName,
+        Polynomial const& polynomial,
+        Term & termWithVariable,
+        Term & termWithWithoutVariable) const
+{
+    AlbaNumber identicalExponentForVariable(getIdenticalExponentForVariableIfPossible(variableName, polynomial));
+    if(canBeIsolated(identicalExponentForVariable))
+    {
+        Monomials monomialsWithVariable;
+        Monomials monomialsWithoutVariable;
+        segregateMonomialsWithAndWithoutVariable(
+                    polynomial.getMonomialsConstReference(),
+                    variableName,
+                    monomialsWithVariable,
+                    monomialsWithoutVariable);
+        Polynomial numerator(monomialsWithoutVariable);
+        Polynomial denominator(monomialsWithVariable);
+        numerator.multiplyNumber(-1);
+        Monomial monomialWithIsolatedVariable(1, {{variableName, identicalExponentForVariable}});
+        denominator.divideMonomial(monomialWithIsolatedVariable);
+        termWithVariable = monomialWithIsolatedVariable;
+        termWithWithoutVariable = Term(numerator)/Term(denominator);
+        termWithVariable.simplify();
+        termWithWithoutVariable.simplify();
+    }
+}
+
+void IsolationOfOneVariableOnEqualityEquation::isolateTermWithVariable(
+        string const& variableName,
+        Expression const& expression,
+        Term & termWithVariable,
+        Term & termWithWithoutVariable) const
+{
+    Expression simplifiedExpression(expression);
+    simplifyForIsolation(simplifiedExpression);
+    if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
+    {
+        TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+        TermsWithDetails termsWithDetailsWithVariable;
+        TermsWithDetails termsWithDetailsWithoutVariable;
+        segregateTermsWithAndWithoutVariable(termsWithDetails, variableName, termsWithDetailsWithVariable, termsWithDetailsWithoutVariable);
+
+        Term termFromExpressionWithVariable(Expression(OperatorLevel::AdditionAndSubtraction, termsWithDetailsWithVariable));
+        Term termFromExpressionWithoutVariable(Expression(OperatorLevel::AdditionAndSubtraction, termsWithDetailsWithoutVariable));
+
+        termFromExpressionWithVariable.simplify();
+        if(canBeConvertedToPolynomial(termFromExpressionWithVariable))
+        {
+            Polynomial polynomialWithVariable(createPolynomialIfPossible(termFromExpressionWithVariable));
+            AlbaNumber identicalExponentForVariable(getIdenticalExponentForVariableIfPossible(variableName, polynomialWithVariable));
+            Term termWithIsolatedVariable(Monomial(1, {{variableName, identicalExponentForVariable}}));
+            Term numerator(negateTerm(termFromExpressionWithoutVariable));
+            Term denominator(termFromExpressionWithVariable/termWithIsolatedVariable);
+            termWithVariable = termWithIsolatedVariable;
+            termWithWithoutVariable = numerator/denominator;
+            termWithVariable.simplify();
+            termWithWithoutVariable.simplify();
+        }
+    }
+}
+
 bool IsolationOfOneVariableOnEqualityEquation::canBeIsolated(
         AlbaNumber const& identicalExponentForVariable) const
-{
-    return identicalExponentForVariable != 0;
+{    return identicalExponentForVariable != 0;
 }
 
 AlbaNumber IsolationOfOneVariableOnEqualityEquation::getIdenticalExponentForVariableIfPossible(
@@ -152,6 +201,42 @@ AlbaNumber IsolationOfOneVariableOnEqualityEquation::getIdenticalExponentForVari
         }
     }
     return exponent;
+}
+
+void IsolationOfOneVariableOnEqualityEquation::simplifyForIsolation(
+        Term & term) const
+{
+    term.simplify();
+    {
+        SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                    SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+        configurationDetails.shouldSimplifyToFactors = true;
+        configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+        configurationDetails.shouldSimplifyToACommonDenominator = true;
+
+        SimplificationOfExpression::ScopeObject scopeObject;
+        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+        term.simplify();
+    }
+}
+
+void IsolationOfOneVariableOnEqualityEquation::simplifyForIsolation(
+        Expression & expression) const
+{
+    expression.simplify();
+    {
+        SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                    SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+        configurationDetails.shouldSimplifyToFactors = false;
+        configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = false;
+        configurationDetails.shouldSimplifyToACommonDenominator = true;
+
+        SimplificationOfExpression::ScopeObject scopeObject;
+        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+        expression.simplify();
+    }
 }
 
 }

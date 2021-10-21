@@ -29,13 +29,24 @@ public:
     void setEquation(Equation const& equation);
 
 private:
+    void isolateTermWithVariable(
+            std::string const& variableName,
+            Polynomial const& polynomial,
+            Term & termWithVariable,
+            Term & termWithWithoutVariable) const;
+    void isolateTermWithVariable(
+            std::string const& variableName,
+            Expression const& expression,
+            Term & termWithVariable,
+            Term & termWithWithoutVariable) const;
     bool canBeIsolated(AlbaNumber const& identicalExponentForVariable) const;
     AlbaNumber getIdenticalExponentForVariableIfPossible(
             std::string const& variableName,
             Polynomial const& polynomial) const;
+    void simplifyForIsolation(Term & term) const;
+    void simplifyForIsolation(Expression & expression) const;
     Term m_simplifiedLeftSideTerm;
 };
-
 }
 
 }

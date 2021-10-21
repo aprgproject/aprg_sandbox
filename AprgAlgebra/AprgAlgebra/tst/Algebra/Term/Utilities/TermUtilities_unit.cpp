@@ -167,12 +167,24 @@ TEST(TermUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
 
 TEST(TermUtilitiesTest, NegateTermWorks)
 {
+    Term sinX(sin(Term("x")));
+    Term sinY(sin(Term("y")));
+    Term sinZ(sin(Term("z")));
+    Term term1(createExpressionIfPossible({sinX, Term("+"), sinY, Term("-"), sinZ}));
+    Term term2(createExpressionIfPossible({sinX, Term("*"), sinY, Term("/"), sinZ}));
+    Term term3(createExpressionIfPossible({sinX, Term("^"), sinY, Term("^"), sinZ}));
+
+    Term expectedTerm1(createExpressionIfPossible({sinZ, Term("-"), sinX, Term("-"), sinY}));
+    Term expectedTerm2(createExpressionIfPossible({Term(-1), Term("*"), sinX, Term("*"), sinY, Term("/"), sinZ}));
+    Term expectedTerm3(createExpressionIfPossible({Term(-1), Term("*"), sinX, Term("^"), Term("("), sinY, Term("*"), sinZ, Term(")")}));
     EXPECT_EQ(Term(-5), negateTerm(Term(5)));
     EXPECT_EQ(Term(Monomial(-1, {{"x", 1}})), negateTerm(Term("x")));
+    EXPECT_EQ(expectedTerm1, negateTerm(term1));
+    EXPECT_EQ(expectedTerm2, negateTerm(term2));
+    EXPECT_EQ(expectedTerm3, negateTerm(term3));
 }
 
-TEST(TermUtilitiesTest, ConvertPositiveTermIfNegativeWorks)
-{
+TEST(TermUtilitiesTest, ConvertPositiveTermIfNegativeWorks){
     EXPECT_EQ(Term(5), convertPositiveTermIfNegative(Term(-5)));
     EXPECT_EQ(Term(5), convertPositiveTermIfNegative(Term(5)));
     EXPECT_EQ(Term("x"), convertPositiveTermIfNegative(Term(Monomial(-1, {{"x", 1}}))));
