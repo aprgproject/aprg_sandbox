@@ -5,6 +5,7 @@
 #include <Algebra/Utilities/KnownNames.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace alba::algebra::Functions;
 using namespace std;
 
@@ -43,7 +44,8 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForVariable)
     EXPECT_EQ(termToExpect2, termToVerify2);
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForMonomial){
+TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForMonomial)
+{
     IntegrationForFiniteCalculus integrationForX("x");
 
     Term termToVerify1(integrationForX.integrate(Monomial(1, {{"x", 1}})));
@@ -63,7 +65,8 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForMonomial){
     EXPECT_EQ(termToExpect3, termToVerify3);
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForPolynomial){
+TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForPolynomial)
+{
     IntegrationForFiniteCalculus integrationForX("x");
     Polynomial polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
 
@@ -74,7 +77,8 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForPolynomial){
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForExpression){
+TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForExpression)
+{
     IntegrationForFiniteCalculus integrationForX("x");
     Term x("x");
     Expression expression1(createExpressionIfPossible({x}));
@@ -92,6 +96,7 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForExpression){
     ASSERT_TRUE(termToVerify.isConstant());
     EXPECT_TRUE(termToVerify.getConstantValueConstReference().isNotANumber());
 }
+
 TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForFunction)
 {
     IntegrationForFiniteCalculus integrationForX("x");
@@ -102,6 +107,7 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateWorksForFunction)
     ASSERT_TRUE(termToVerify.isConstant());
     EXPECT_TRUE(termToVerify.getConstantValueConstReference().isNotANumber());
 }
+
 TEST(IntegrationForFiniteCalculusTest, IntegrateWithPlusCWorks)
 {
     IntegrationForFiniteCalculus integrationForX("x");
@@ -154,7 +160,8 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateTermWorks)
     EXPECT_TRUE(termToVerify6.getConstantValueConstReference().isNotANumber());
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateConstantWorks){
+TEST(IntegrationForFiniteCalculusTest, IntegrateConstantWorks)
+{
     IntegrationForFiniteCalculus integrationForX("x");
 
     EXPECT_EQ(Monomial(5, {{"x", 1}}), integrationForX.integrateConstant(Constant(5)));
@@ -203,7 +210,8 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateMonomialWorks)
     EXPECT_EQ(termToExpect5, termToVerify5);
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegratePolynomialWorks){
+TEST(IntegrationForFiniteCalculusTest, IntegratePolynomialWorks)
+{
     IntegrationForFiniteCalculus integrationForX("x");
     Polynomial polynomial1{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
 
@@ -215,7 +223,8 @@ TEST(IntegrationForFiniteCalculusTest, IntegratePolynomialWorks){
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateExpressionWorks){
+TEST(IntegrationForFiniteCalculusTest, IntegrateExpressionWorks)
+{
     IntegrationForFiniteCalculus integrationForX("x");
     Term x("x");
     Expression expression1(createExpressionIfPossible({x}));
@@ -263,6 +272,7 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateWorksWithTermRaiseToTerm)
 TEST(IntegrationForFiniteCalculusTest, IntegrateFunctionWorks)
 {
     IntegrationForFiniteCalculus integrationForX("x");
+
     Term x("x");
     Term termToVerify(integrationForX.integrateFunction(sin(x)));
     ASSERT_TRUE(termToVerify.isConstant());

@@ -60,6 +60,7 @@ TEST(IntegrationUtilitiesTest, GetInputForAverageValueInBetweenTwoValuesWorks)
     ASSERT_EQ(1U, numbersToVerify3.size());
     EXPECT_EQ(AlbaNumber(7.76808126488466), numbersToVerify3.at(0));
 }
+
 TEST(IntegrationUtilitiesTest, GetAverageValueInBetweenTwoValuesWorks)
 {
     Term termToTest1(Monomial(1, {{"x", 1}}));
@@ -100,7 +101,8 @@ TEST(IntegrationUtilitiesTest, SubstituteTermsAndGetDifferenceWorks)
     EXPECT_EQ(termToExpect3, termToVerify3);
 }
 
-TEST(IntegrationUtilitiesTest, GetAreaUnderACurveUsingReimannSumsWorks){
+TEST(IntegrationUtilitiesTest, GetAreaUnderACurveUsingReimannSumsWorks)
+{
     Term termToTest1(Monomial(1, {{"x", 1}}));
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
@@ -127,6 +129,7 @@ TEST(IntegrationUtilitiesTest, GetApproximateValuesForDefiniteIntegralWorks)
     EXPECT_EQ(AlbaNumber(0), valuesToVerify3.lowerValue);
     EXPECT_EQ(AlbaNumber(5000), valuesToVerify3.higherValue);
 }
+
 }
 
 }

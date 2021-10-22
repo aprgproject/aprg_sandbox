@@ -32,7 +32,8 @@ Expression::Expression(
 
 Expression::Expression(BaseTerm const& baseTerm)
     : m_commonOperatorLevel(OperatorLevel::Unknown)
-{    m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
+{
+    m_termsWithAssociation.putTermWithPositiveAssociation(baseTerm);
 }
 
 Expression::Expression(

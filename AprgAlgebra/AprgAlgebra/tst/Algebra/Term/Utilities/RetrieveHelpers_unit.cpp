@@ -42,7 +42,8 @@ TEST(RetrieveHelpersTest, IsVariableFoundInTermWorks)
 
 TEST(RetrieveHelpersTest, GetCoefficientOfMonomialWithNoVariablesWorks)
 {
-    Polynomial polynomial1;    Polynomial polynomial2{Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}})};
+    Polynomial polynomial1;
+    Polynomial polynomial2{Monomial(516, {{"a", 7}}), Monomial(643, {{"b", 8}})};
     Polynomial polynomial3{Monomial(587, {{"x", 9}}), Monomial(975, {})};
 
     EXPECT_EQ(AlbaNumber(0), getCoefficientOfMonomialWithNoVariables(polynomial1));

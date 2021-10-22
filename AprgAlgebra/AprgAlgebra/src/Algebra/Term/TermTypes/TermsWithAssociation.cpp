@@ -25,7 +25,8 @@ TermsWithAssociation::TermsWithAssociation(
 TermsWithAssociation::TermsWithAssociation(
         initializer_list<TermWithDetails> const& termsWithDetails)
 {
-    putTermsWithDetails(termsWithDetails);}
+    putTermsWithDetails(termsWithDetails);
+}
 
 TermsWithAssociation::TermsWithAssociation(
         TermsWithDetails const& termsWithDetails)

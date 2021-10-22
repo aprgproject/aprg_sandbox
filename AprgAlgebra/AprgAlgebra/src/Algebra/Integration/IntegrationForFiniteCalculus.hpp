@@ -71,6 +71,7 @@ private:
     bool isChangingTerm(Term const& term) const;
     std::string m_nameOfVariableToIntegrate;
 };
+
 }
 
 }

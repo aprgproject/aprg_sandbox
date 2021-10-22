@@ -6,7 +6,8 @@
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 #include <Math/AlbaMathHelper.hpp>
@@ -461,7 +462,8 @@ Term IntegrationForFiniteCalculus::integrateChangingTermRaiseToNonChangingTerm(
 Term IntegrationForFiniteCalculus::integrateChangingTermRaiseToChangingTerm(
         Term const& ,
         Term const& ) const
-{    return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+{
+    return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
 }
 
 bool IntegrationForFiniteCalculus::isVariableToIntegrate(

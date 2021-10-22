@@ -192,7 +192,8 @@ TEST(TermUtilitiesTest, NegateTermWorks)
     EXPECT_EQ(termToExpect5, termToVerify5);
 }
 
-TEST(TermUtilitiesTest, ConvertPositiveTermIfNegativeWorks){
+TEST(TermUtilitiesTest, ConvertPositiveTermIfNegativeWorks)
+{
     EXPECT_EQ(Term(5), convertPositiveTermIfNegative(Term(-5)));
     EXPECT_EQ(Term(5), convertPositiveTermIfNegative(Term(5)));
     EXPECT_EQ(Term("x"), convertPositiveTermIfNegative(Term(Monomial(-1, {{"x", 1}}))));
@@ -242,7 +243,8 @@ TEST(TermUtilitiesTest, NegateExpressionWorks)
 
     Expression expectedExpression1(createExpressionIfPossible({Term(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(5, {})})}));
     Expression expectedExpression2(createExpressionIfPossible({Term(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(-5, {})})}));
-    Expression expectedExpression3(createExpressionIfPossible({Term(Monomial(5, {{"x", 1}}))}));    Expression expectedExpression4(createExpressionIfPossible({Term(-15)}));
+    Expression expectedExpression3(createExpressionIfPossible({Term(Monomial(5, {{"x", 1}}))}));
+    Expression expectedExpression4(createExpressionIfPossible({Term(-15)}));
     Expression subExpression5(createExpressionIfPossible({Term(-5), Term("^"), x}));
     Expression expectedExpression5(createExpressionIfPossible({Term(-1), Term("*"), Term(subExpression5)}));
     EXPECT_EQ(expectedExpression1, expressionToVerify1);
@@ -253,4 +255,5 @@ TEST(TermUtilitiesTest, NegateExpressionWorks)
 }
 
 }
+
 }

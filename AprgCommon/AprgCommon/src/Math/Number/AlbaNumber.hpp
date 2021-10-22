@@ -10,9 +10,11 @@
 
 namespace alba
 {
+
 class AlbaNumber
 {
-public:    static constexpr double ADJUSTMENT_FLOAT_TOLERANCE = 1E-15;
+public:
+    static constexpr double ADJUSTMENT_FLOAT_TOLERANCE = 1E-15;
 
     enum class Value
     {
@@ -23,10 +25,12 @@ public:    static constexpr double ADJUSTMENT_FLOAT_TOLERANCE = 1E-15;
         e
     };
     enum class Type
-    {        Integer,
+    {
+        Integer,
         Double,
         Fraction,
-        ComplexNumber    };
+        ComplexNumber
+    };
     struct FractionData
     {
         int numerator;
@@ -230,9 +234,11 @@ private:
             double const& doubleValue) const;
 
     Type m_type;
-    NumberUnionData m_data;};
+    NumberUnionData m_data;
+};
 
 template <> AlbaNumber::ConfigurationDetails getDefaultConfigurationDetails<AlbaNumber::ConfigurationDetails>();
+
 std::ostream & operator<<(std::ostream & out, AlbaNumber const& number);
 
 }

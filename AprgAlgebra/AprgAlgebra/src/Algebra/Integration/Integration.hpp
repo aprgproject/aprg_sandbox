@@ -61,17 +61,26 @@ private:
     void integrateRecognizedFunctionsSquared(
             Term & result,
             Term const& base) const;
-    void integrateSinRaiseToAConstant(
+    void integrateSinRaiseToAPositiveInteger(
             Term & result,
-            Term const& base,
-            AlbaNumber const& exponent) const;
-    void integrateCosRaiseToAConstant(
+            Function const& baseSinFunction,
+            unsigned int const exponent) const;
+    void integrateCosRaiseToAPositiveInteger(
             Term & result,
-            Term const& base,
-            AlbaNumber const& exponent) const;
+            Function const& baseFunction,
+            unsigned int const exponent) const;
+    void integrateInMultiplicationOrDivisionIfSinAndCosCombination(
+            Term & result,
+            TermsWithDetails const& termsWithDetails) const;
+    void integrateSinAndCosCombinationWithPositiveExponents(
+            Term & result,
+            Term const& inputTerm,
+            unsigned int const sinExponent,
+            unsigned int const cosExponent) const;
 
     //Expression
-    Term integrateAsTermOrExpressionIfNeeded(            Expression const& expression) const;
+    Term integrateAsTermOrExpressionIfNeeded(
+            Expression const& expression) const;
     void integrateSimplifiedExpressionOnly(
             Term & result,
             Expression const& expression,
@@ -85,18 +94,7 @@ private:
     void integrateTermsInRaiseToPower(
             Term & result,
             TermsWithDetails const& termsWithDetails) const;
-    void integrateNonChangingTermRaiseToChangingTerm(
-            Term & result,
-            Term const& base,
-            Term const& exponent) const;
-    void integrateChangingTermRaiseToNonChangingTerm(
-            Term & result,
-            Term const& base,
-            Term const& exponent) const;
-    void integrateChangingTermRaiseToChangingTerm(
-            Term & result,
-            Term const& firstTerm,
-            Term const& secondTerm) const;    void integrateTermUsingSubstitutionWithMaxDepth(
+    void integrateTermUsingSubstitutionWithMaxDepth(
             Term & result,
             Term const& term,
             Configuration const& configuration) const;
@@ -115,9 +113,13 @@ private:
     void integrateNonChangingAndChangingTermsInMultiplicationOrDivision(
             Term& result,
             TermsWithDetails const& termsWithDetails) const;
+    void integrateChangingTermsInMultiplicationOrDivision(
+            Term & result,
+            TermsWithDetails const& changingTerms) const;
     void integrateByTryingTwoTermsInMultiplicationAndDivision(
             Term & result,
-            TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const;    void integrateUsingChainRuleInReverseIfPossible(
+            TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const;
+    void integrateUsingChainRuleInReverseIfPossible(
             Term & result,
             Term const& firstOuterTerm,
             Term const& firstInnerTerm,
@@ -154,20 +156,43 @@ private:
             Term & result,
             ListOfIntegrationByPartsTerms const& listOfIntegrationByPartsTerms,
             Term const& termToIntegrate) const;
+    void integrateNonChangingTermRaiseToChangingTerm(
+            Term & result,
+            Term const& base,
+            Term const& exponent) const;
+    void integrateChangingTermRaiseToNonChangingTerm(
+            Term & result,
+            Term const& base,
+            Term const& exponent) const;
+    void integrateChangingTermRaiseToChangingTerm(
+            Term & result,
+            Term const& firstTerm,
+            Term const& secondTerm) const;
     void segregateNonChangingAndChangingTerms(
             TermsWithDetails const& termsToSegregate,
             TermsWithDetails & nonChangingTerms,
             TermsWithDetails & changingTerms) const;
+    void putReducedSineSquaredToDoubleAngleCosineTerms(
+            Term & outputTerm,
+            Term const& inputTerm,
+            unsigned int const exponent) const;
+    void putReducedCosineSquaredToDoubleAngleCosineTerms(
+            Term & outputTerm,
+            Term const& inputTerm,
+            unsigned int const exponent) const;
     void setIsIntegrationUsingSubstitutionAllowed(bool const isIntegrationUsingSubstitutionAllowed);
     void setIsIntegrationByPartsAllowed(bool const isIntegrationByPartsAllowed);
-    void simplifyForIntegration(Term & term, Configuration const& configuration) const;    void finalizeTermForIntegration(Term & term) const;
+    void simplifyForIntegration(Term & term, Configuration const& configuration) const;
+    void finalizeTermForIntegration(Term & term) const;
+    Integration::Configuration getConfigurationWithoutFactors() const;
     Configuration getConfigurationWithFactors() const;
     Configuration getConfigurationWithCommonDenominator() const;
     bool isVariableToIntegrate(std::string const& variableName) const;
     bool isChangingTerm(Term const& term) const;
     bool wouldDifferentiationYieldToAConstant(Term const& term) const;
     std::string m_nameOfVariableToIntegrate;
-    bool m_isIntegrationUsingSubstitutionAllowed;    bool m_isIntegrationByPartsAllowed;
+    bool m_isIntegrationUsingSubstitutionAllowed;
+    bool m_isIntegrationByPartsAllowed;
 };
 
 }

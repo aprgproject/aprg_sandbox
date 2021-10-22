@@ -15,7 +15,9 @@ Equation getTangentEquationOfRightTriangle(Term const& angle, Term const& opposi
 Equation getLawOfSineEquation(Term const& side1, Term const& oppositeAngleOfSide1, Term const& side2, Term const& oppositeAngleOfSide2);
 Equation getLawOfCosineEquation(Term const& side1, Term const& side2, Term const& side3, Term const& oppositeAngleOfSide1);
 Term getSineSquared(Term const& term);
+Term getSineSquaredInCosine(Term const& term);
 Term getCosineSquared(Term const& term);
+Term getCosineSquaredInSine(Term const& term);
 Term getTangentSquared(Term const& term);
 Term getSineOfSumOrDifferenceOfTwoTerms(Term const& term1, Operator const& operatorObject, Term const& term2);
 Term getCosineOfSumOrDifferenceOfTwoTerms(Term const& term1, Operator const& operatorObject, Term const& term2);
@@ -25,6 +27,8 @@ Term getCosineOfDoubledValue(Term const& term);
 Term getTangentOfDoubledValue(Term const& term);
 Term getSineOfHalvedValue(Term const& term, bool const isPositiveRoot);
 Term getCosineOfHalvedValue(Term const& term, bool const isPositiveRoot);
+Term getSineSquaredOfHalvedValue(Term const& term);
+Term getCosineSquaredOfHalvedValue(Term const& term);
 
 
 }

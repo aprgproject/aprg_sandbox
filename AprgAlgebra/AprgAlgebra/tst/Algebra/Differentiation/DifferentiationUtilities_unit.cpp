@@ -42,7 +42,8 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeDefinitionWorks)
     EXPECT_EQ(termToExpect, derivative);
 }
 
-TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenInputIsAConstant){
+TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenInputIsAConstant)
+{
     Term termToTest(5);
 
     Term derivative(getDerivativeAtUsingLimit(termToTest, "x", Term(2), LimitAtAValueApproachType::BothSides));
@@ -108,7 +109,8 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForRadicalAndWh
     EXPECT_EQ(termToExpect, derivative);
 }
 
-TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialOverPolynomialAndWhenXIsAVariable){
+TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialOverPolynomialAndWhenXIsAVariable)
+{
     Term numerator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})});
     Term denominator(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(3, {})});
     Term polynomialOverPolynomialTerm(createExpressionIfPossible({numerator, Term("/"), denominator}));
@@ -120,7 +122,8 @@ TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksForPolynomialOv
     EXPECT_EQ(termToExpect, derivative);
 }
 
-TEST(DifferentiationUtilitiesTest, GetRelationshipOfDerivativeOfTheInverseAndTheDerivativeWorks){
+TEST(DifferentiationUtilitiesTest, GetRelationshipOfDerivativeOfTheInverseAndTheDerivativeWorks)
+{
     Term termToTest1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})});
     Term termToTest2(Polynomial{Monomial(1, {{"x", 2}}), Monomial(2, {})});
     Term termToTest3(Polynomial{Monomial(1, {{"x", 3}}), Monomial(3, {})});
@@ -137,7 +140,8 @@ TEST(DifferentiationUtilitiesTest, GetRelationshipOfDerivativeOfTheInverseAndThe
     EXPECT_EQ(stringToExpect3, equation3.getDisplayableString());
 }
 
-TEST(DifferentiationUtilitiesTest, GetIntegralEquationForFirstOrderDifferentialEquationWorks){
+TEST(DifferentiationUtilitiesTest, GetIntegralEquationForFirstOrderDifferentialEquationWorks)
+{
     Term leftHandSide(Polynomial{Monomial(1, {{"d[y]/d[x]", 1}}), Monomial(-2, {{"x", 1}, {"y", 1}}), Monomial(-3, {{"x", 1}})});
     Equation equationToTest(leftHandSide, "=", Term(Constant(0)));
 
@@ -147,7 +151,8 @@ TEST(DifferentiationUtilitiesTest, GetIntegralEquationForFirstOrderDifferentialE
     EXPECT_EQ(stringToExpect, equationToVerify.getDisplayableString());
 }
 
-TEST(DifferentiationUtilitiesTest, GetLogarithmicDifferentiationToYieldDyOverDxWorks){
+TEST(DifferentiationUtilitiesTest, GetLogarithmicDifferentiationToYieldDyOverDxWorks)
+{
     Polynomial xMinusOne{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
     Term termToTest(createExpressionIfPossible({Term(xMinusOne), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
 

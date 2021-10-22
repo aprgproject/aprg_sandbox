@@ -6,7 +6,8 @@
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
-#include <Algebra/Term/Operators/TermOperators.hpp>#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
@@ -15,6 +16,7 @@
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
 using namespace std;
+
 namespace alba
 {
 namespace algebra
@@ -187,7 +189,8 @@ Polynomial Differentiation::differentiateMonomial(
     result.multiplyMonomial(nonChangingVariablesAndConstant);
     result.simplify();
 
-    return result;}
+    return result;
+}
 
 Polynomial Differentiation::differentiatePolynomial(
         Polynomial const& polynomial) const
@@ -322,7 +325,8 @@ Polynomial Differentiation::differentiateMonomialWithChangingVariables(
 
 Term Differentiation::differentiateAsTermOrExpressionIfNeeded(
         Expression const& expression) const
-{    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
+{
+    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
     Term simplifiedTerm(expression);
     simplifyForDifferentiation(simplifiedTerm);
     if(simplifiedTerm.isExpression())
@@ -482,12 +486,14 @@ Term Differentiation::differentiateChangingTermRaiseToNonChangingTerm(
 Term Differentiation::differentiateChangingTermRaiseToChangingTerm(
         Term const& ,
         Term const& ) const
-{    return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+{
+    return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
 }
 
 Term Differentiation::differentiateFunctionOnly(
         Function const& functionObject) const
-{    Term derivativeOfFunction(AlbaNumber(AlbaNumber::Value::NotANumber));
+{
+    Term derivativeOfFunction(AlbaNumber(AlbaNumber::Value::NotANumber));
     Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
     if("abs" == functionObject.getFunctionName())
     {
@@ -588,7 +594,8 @@ Term Differentiation::differentiateFunctionOnly(
 
 void Differentiation::simplifyForDifferentiation(
         Term& term) const
-{    term.simplify();
+{
+    term.simplify();
     {
         SimplificationOfExpression::ConfigurationDetails configurationDetails(
                     SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());

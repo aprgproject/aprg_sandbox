@@ -227,6 +227,7 @@ Expression negateExpression(Expression const& expression)
     negationMutator.mutateExpression(negatedExpression);
     return negatedExpression;
 }
+
 }
 
 }

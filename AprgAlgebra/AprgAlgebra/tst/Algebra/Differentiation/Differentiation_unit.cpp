@@ -42,7 +42,8 @@ TEST(DifferentiationTest, DifferentiateWorksForTerm)
     EXPECT_EQ(termToExpect6, termToVerify6);
 }
 
-TEST(DifferentiationTest, DifferentiateWorksForConstant){
+TEST(DifferentiationTest, DifferentiateWorksForConstant)
+{
     Differentiation differentiationForX("x");
 
     EXPECT_EQ(Term(Constant(0)), differentiationForX.differentiate(Constant(5)));
@@ -64,7 +65,8 @@ TEST(DifferentiationTest, DifferentiateWorksForVariable)
     EXPECT_EQ(termToExpect3, termToVerify3);
 }
 
-TEST(DifferentiationTest, DifferentiateWorksForMonomial){
+TEST(DifferentiationTest, DifferentiateWorksForMonomial)
+{
     Differentiation differentiationForXWithY("x", {"y"});
 
     Term termToVerify1(differentiationForXWithY.differentiate(Monomial(13, {})));
@@ -79,7 +81,8 @@ TEST(DifferentiationTest, DifferentiateWorksForMonomial){
     EXPECT_EQ(termToExpect2, termToVerify2);
 }
 
-TEST(DifferentiationTest, DifferentiateWorksForPolynomial){
+TEST(DifferentiationTest, DifferentiateWorksForPolynomial)
+{
     Differentiation differentiationForXWithY("x", {"y"});
     Polynomial polynomial1{Monomial(13, {})};
     Polynomial polynomial2{Monomial(-1, {{"x", -2}, {"y", -3}}), Monomial(-4, {{"x", -5}, {"z", -6}})};
@@ -97,7 +100,8 @@ TEST(DifferentiationTest, DifferentiateWorksForPolynomial){
     EXPECT_EQ(termToExpect2, termToVerify2);
 }
 
-TEST(DifferentiationTest, DifferentiateWorksForExpression){
+TEST(DifferentiationTest, DifferentiateWorksForExpression)
+{
     Differentiation differentiationForX("x");
     Term x("x");
     Expression expression01{createExpressionIfPossible({x})};
@@ -113,7 +117,8 @@ TEST(DifferentiationTest, DifferentiateWorksForExpression){
     EXPECT_EQ(termToExpect02, termToVerify2);
 }
 
-TEST(DifferentiationTest, DifferentiateWorksForFunction){
+TEST(DifferentiationTest, DifferentiateWorksForFunction)
+{
     Differentiation differentiationForX("x");
 
     Term x("x");
@@ -184,7 +189,8 @@ TEST(DifferentiationTest, DifferentiateMultipleTimesWorksForEquation)
     EXPECT_EQ(equationToExpect3, equationToVerify3);
 }
 
-TEST(DifferentiationTest, DifferentiateConstantWorks){
+TEST(DifferentiationTest, DifferentiateConstantWorks)
+{
     Differentiation differentiationForX("x");
 
     EXPECT_EQ(AlbaNumber(0), differentiationForX.differentiateConstant(Constant(5)));
@@ -209,7 +215,8 @@ TEST(DifferentiationTest, DifferentiateVariableWorks)
     EXPECT_EQ(monomialToExpect4, monomialToVerify4);
 }
 
-TEST(DifferentiationTest, DifferentiateMonomialWorks){
+TEST(DifferentiationTest, DifferentiateMonomialWorks)
+{
     Differentiation differentiationForXWithY("x", {"y"});
 
     Polynomial polynomialToVerify1(differentiationForXWithY.differentiateMonomial(Monomial(13, {})));
@@ -236,7 +243,8 @@ TEST(DifferentiationTest, DifferentiateMonomialWorks){
     EXPECT_EQ(polynomialToExpect6, polynomialToVerify6);
 }
 
-TEST(DifferentiationTest, DifferentiatePolynomialWorks){
+TEST(DifferentiationTest, DifferentiatePolynomialWorks)
+{
     Differentiation differentiationForXWithY("x", {"y"});
     Polynomial polynomial1{Monomial(0, {})};
     Polynomial polynomial2{Monomial(5, {{"x", 0}})};
@@ -265,7 +273,8 @@ TEST(DifferentiationTest, DifferentiatePolynomialWorks){
     EXPECT_EQ(polynomialToExpect5, polynomialToVerify5);
 }
 
-TEST(DifferentiationTest, DifferentiateExpressionWorks){
+TEST(DifferentiationTest, DifferentiateExpressionWorks)
+{
     Differentiation differentiationForXWithY("x", {"y"});
     Term x("x");
     Term y("y");
@@ -392,7 +401,8 @@ TEST(DifferentiationTest, DifferentiateFunctionWorksWithFunctionsInCommonFunctio
     EXPECT_EQ(stringToExpect22, termToVerify22.getDisplayableString());
 }
 
-TEST(DifferentiationTest, DifferentiateFunctionWorksWithChainRule){
+TEST(DifferentiationTest, DifferentiateFunctionWorksWithChainRule)
+{
     Differentiation differentiationForX("x");
     Function functionToTest(sin(Term(Monomial(10, {{"x", 8}}))));
 
@@ -402,7 +412,8 @@ TEST(DifferentiationTest, DifferentiateFunctionWorksWithChainRule){
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(DifferentiationTest, DifferentiateEquationWorks){
+TEST(DifferentiationTest, DifferentiateEquationWorks)
+{
     Differentiation differentiationForXWithY("x", {"y"});
     Term term1ForEquation1(Polynomial{Monomial(1, {{"x", 6}}), Monomial(-2, {{"x", 1}})});
     Term term2ForEquation1(Polynomial{Monomial(3, {{"y", 6}}), Monomial(1, {{"y", 5}}), Monomial(-1, {{"y", 2}})});
@@ -420,7 +431,8 @@ TEST(DifferentiationTest, DifferentiateEquationWorks){
     EXPECT_EQ(stringToExpect2, equationToVerify2.getDisplayableString());
 }
 
-TEST(DifferentiationTest, DifferentiateTwoMultipliedTermsWorks){
+TEST(DifferentiationTest, DifferentiateTwoMultipliedTermsWorks)
+{
     Differentiation differentiationForX("x");
     Term term1(Polynomial{Monomial(2, {{"x", 2}}), Monomial(-4, {{"x", 1}})});
     Term term2(Polynomial{Monomial(3, {{"x", 2}}), Monomial(7, {{"x", 1}})});
@@ -431,7 +443,8 @@ TEST(DifferentiationTest, DifferentiateTwoMultipliedTermsWorks){
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks){
+TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks)
+{
     Differentiation differentiationForX("x");
     Term numerator(Polynomial{Monomial(2, {{"x", 3}}), Monomial(4, {})});
     Term denominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(1, {})});
@@ -472,7 +485,8 @@ TEST(DifferentiationTest, DifferentiateWorksWithTermRaiseToTerm)
 
 TEST(DifferentiationTest, DifferentiateWorksWithDivisionExpressionRaiseToAConstant)
 {
-    Differentiation differentiationForX("x");    Term subTerm1(createExpressionIfPossible({Term(2), Term("/"), Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {})})}));
+    Differentiation differentiationForX("x");
+    Term subTerm1(createExpressionIfPossible({Term(2), Term("/"), Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {})})}));
     Term termToTest(createExpressionIfPossible({subTerm1, Term("^"), Term(5)}));
 
     Term termToVerify(differentiationForX.differentiate(termToTest));
@@ -481,7 +495,8 @@ TEST(DifferentiationTest, DifferentiateWorksWithDivisionExpressionRaiseToAConsta
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
 
-TEST(DifferentiationTest, DifferentiateWorksWithChainRule){
+TEST(DifferentiationTest, DifferentiateWorksWithChainRule)
+{
     Differentiation differentiationForX("x");
     Term termToTest(createExpressionIfPossible({sec(Term(Monomial(2, {{"x", 2}}))), Term("^"), Term(4)}));
 
@@ -491,7 +506,8 @@ TEST(DifferentiationTest, DifferentiateWorksWithChainRule){
     EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
 }
 
-TEST(DifferentiationTest, DifferentiateWorksWithSquareRootOfAPolynomial){
+TEST(DifferentiationTest, DifferentiateWorksWithSquareRootOfAPolynomial)
+{
     Differentiation differentiationForX("x");
     Polynomial subPolynomial{Monomial(2, {{"x", 3}}), Monomial(-4, {{"x", 1}}), Monomial(5, {})};
     Term termToTest(createExpressionIfPossible({Term(subPolynomial), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
@@ -503,4 +519,5 @@ TEST(DifferentiationTest, DifferentiateWorksWithSquareRootOfAPolynomial){
 }
 
 }
+
 }

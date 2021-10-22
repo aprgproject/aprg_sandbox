@@ -5,12 +5,14 @@
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Functions/FunctionUtilities.hpp>
+#include <Algebra/KnownExpressionsAndEquations/TrigonometricEquations.hpp>
 #include <Algebra/Integration/IntegrationUtilities.hpp>
 #include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquation.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
-#include <Algebra/Term/Operators/TermOperators.hpp>#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
@@ -18,12 +20,15 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
+#include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>
 
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
+using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 namespace algebra
@@ -236,39 +241,40 @@ Term Integration::integrateFunctionOnly(
     Term const& inputTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
     if(wouldDifferentiationYieldToAConstant(inputTerm))
     {
-        if("abs" == functionObject.getFunctionName())
+        string const& functionName(functionObject.getFunctionName());
+        if("abs" == functionName)
         {
             result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
         }
-        else if("sin" == functionObject.getFunctionName())
+        else if("sin" == functionName)
         {
             result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible({Term(-1), Term("*"), cos(inputTerm)})), inputTerm);
         }
-        else if("cos" == functionObject.getFunctionName())
+        else if("cos" == functionName)
         {
             result = divideFirstTermAndDerivativeOfSecondTerm(Term(sin(inputTerm)), inputTerm);
         }
-        else if("tan" == functionObject.getFunctionName())
+        else if("tan" == functionName)
         {
             result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(sec(inputTerm)));
         }
-        else if("csc" == functionObject.getFunctionName())
+        else if("csc" == functionName)
         {
             result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(csc(inputTerm)) - Term(cot(inputTerm)));
         }
-        else if("sec" == functionObject.getFunctionName())
+        else if("sec" == functionName)
         {
             result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(sec(inputTerm)) + Term(tan(inputTerm)));
         }
-        else if("cot" == functionObject.getFunctionName())
+        else if("cot" == functionName)
         {
             result = getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(sin(inputTerm)));
         }
-        else if("sinh" == functionObject.getFunctionName())
+        else if("sinh" == functionName)
         {
             result = divideFirstTermAndDerivativeOfSecondTerm(Term(cosh(inputTerm)), inputTerm);
         }
-        else if("cosh" == functionObject.getFunctionName())
+        else if("cosh" == functionName)
         {
             result = divideFirstTermAndDerivativeOfSecondTerm(Term(sinh(inputTerm)), inputTerm);
         }
@@ -296,20 +302,21 @@ void Integration::integrateRecognizedFunctionsSquared(
     Term const& inputOfFunctionTerm(getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference()));
     if(wouldDifferentiationYieldToAConstant(inputOfFunctionTerm))
     {
-        if(functionObject.getFunctionName() == "sec")
+        string const& functionName(functionObject.getFunctionName());
+        if(functionName == "sec")
         {
             result = divideFirstTermAndDerivativeOfSecondTerm(Term(tan(inputOfFunctionTerm)), inputOfFunctionTerm);
         }
-        else if(functionObject.getFunctionName() == "csc")
+        else if(functionName == "csc")
         {
             result = divideFirstTermAndDerivativeOfSecondTerm(createExpressionIfPossible(
             {Term(cot(inputOfFunctionTerm)), Term("*"), Term(-1)}), inputOfFunctionTerm);
         }
-        else if(functionObject.getFunctionName() == "sech")
+        else if(functionName == "sech")
         {
             result = divideFirstTermAndDerivativeOfSecondTerm(Term(tanh(inputOfFunctionTerm)), inputOfFunctionTerm);
         }
-        else if(functionObject.getFunctionName() == "csch")
+        else if(functionName == "csch")
         {
             result = divideFirstTermAndDerivativeOfSecondTerm(createExpressionIfPossible(
             {Term(coth(inputOfFunctionTerm)), Term("*"), Term(-1)}), inputOfFunctionTerm);
@@ -317,23 +324,181 @@ void Integration::integrateRecognizedFunctionsSquared(
     }
 }
 
-void Integration::integrateSinRaiseToAConstant(
+void Integration::integrateSinRaiseToAPositiveInteger(
         Term & result,
-        Term const& base,
-        AlbaNumber const& exponent) const
+        Function const& baseSinFunction,
+        unsigned int const exponent) const
 {
+    Term const& inputTerm(getTermConstReferenceFromBaseTerm(baseSinFunction.getInputTermConstReference()));
+    if(isOdd(exponent))
+    {
+        Term termWithExponent(createExpressionIfPossible({getSineSquaredInCosine(inputTerm), Term("^"), Term(exponent/2)}));
+        Term termToIntegrate(createExpressionIfPossible({termWithExponent, Term("*"), Term(baseSinFunction)}));
+        result = integrate(termToIntegrate);
+    }
+    else
+    {
+        Term termToIntegrate(1);
+        putReducedSineSquaredToDoubleAngleCosineTerms(termToIntegrate, inputTerm, exponent);
+        result = integrate(termToIntegrate);
+    }
 }
 
-void Integration::integrateCosRaiseToAConstant(
+void Integration::integrateCosRaiseToAPositiveInteger(
         Term & result,
-        Term const& base,
-        AlbaNumber const& exponent) const
+        Function const& baseCosFunction,
+        unsigned int const exponent) const
 {
+    Term const& inputTerm(getTermConstReferenceFromBaseTerm(baseCosFunction.getInputTermConstReference()));
+    if(isOdd(exponent))
+    {
+        Term termWithExponent(createExpressionIfPossible({getCosineSquaredInSine(inputTerm), Term("^"), Term(exponent/2)}));
+        Term termToIntegrate(createExpressionIfPossible({termWithExponent, Term("*"), Term(baseCosFunction)}));
+        result = integrate(termToIntegrate);
+    }
+    else
+    {
+        Term termToIntegrate(1);
+        putReducedCosineSquaredToDoubleAngleCosineTerms(termToIntegrate, inputTerm, exponent);
+        result = integrate(termToIntegrate);
+    }
+}
+
+void Integration::integrateInMultiplicationOrDivisionIfSinAndCosCombination(
+        Term & result,
+        TermsWithDetails const& termsWithDetails) const
+{
+    Term savedInputTerm;
+    bool isFirst(true);
+    AlbaNumber totalSinExponent;
+    AlbaNumber totalCosExponent;
+    bool isAcceptable(true);
+    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    {
+        isAcceptable = false;
+        Term foundInputTerm;
+        AlbaNumber sinExponent;
+        AlbaNumber cosExponent;
+        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        if(term.isFunction())
+        {
+            Function const& functionObject(term.getFunctionConstReference());
+            string const& functionName(functionObject.getFunctionName());
+            if("sin" == functionName)
+            {
+                foundInputTerm = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
+                sinExponent = 1;
+                isAcceptable = true;
+            }
+            else if("cos" == functionName)
+            {
+                foundInputTerm = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
+                cosExponent = 1;
+                isAcceptable = true;
+            }
+        }
+        else if(term.isExpression())
+        {
+            Expression const& expression(term.getExpressionConstReference());
+            if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
+            {
+                TermRaiseToANumber termRaiseToANumber;
+                createTermRaiseToANumberFromRaiseToPowerExpression(termRaiseToANumber, expression);
+                if(termRaiseToANumber.getBase().isFunction())
+                {
+                    Function const& functionObject(termRaiseToANumber.getBase().getFunctionConstReference());
+                    string const& functionName(functionObject.getFunctionName());
+                    if("sin" == functionName)
+                    {
+                        foundInputTerm = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
+                        sinExponent = termRaiseToANumber.getExponent();
+                        isAcceptable = true;
+                    }
+                    else if("cos" == functionName)
+                    {
+                        foundInputTerm = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
+                        cosExponent = termRaiseToANumber.getExponent();
+                        isAcceptable = true;
+                    }
+                }
+            }
+        }
+        if(isAcceptable)
+        {
+            if(isFirst)
+            {
+                savedInputTerm = foundInputTerm;
+                totalSinExponent = totalSinExponent + sinExponent;
+                totalCosExponent = totalCosExponent + cosExponent;
+            }
+            else if(savedInputTerm == foundInputTerm)
+            {
+                totalSinExponent = totalSinExponent + sinExponent;
+                totalCosExponent = totalCosExponent + cosExponent;
+            }
+            else
+            {
+                isAcceptable = false;
+            }
+        }
+        else
+        {
+            break;
+        }
+    }
+    if(isAcceptable)
+    {
+        bool isSinExponentGreaterThanOne = totalSinExponent.isIntegerType() && totalSinExponent > 1;
+        bool isCosExponentGreaterThanOne = totalCosExponent.isIntegerType() && totalCosExponent > 1;
+        if(isSinExponentGreaterThanOne && isCosExponentGreaterThanOne)
+        {
+            integrateSinAndCosCombinationWithPositiveExponents(
+                        result,
+                        savedInputTerm,
+                        static_cast<unsigned int>(totalSinExponent.getInteger()),
+                        static_cast<unsigned int>(totalCosExponent.getInteger()));
+        }
+    }
+}
+
+void Integration::integrateSinAndCosCombinationWithPositiveExponents(
+        Term & result,
+        Term const& inputTerm,
+        unsigned int const sinExponent,
+        unsigned int const cosExponent) const
+{
+    Term termToIntegrate(1);
+    if(isEven(sinExponent) && isEven(cosExponent))
+    {
+        putReducedSineSquaredToDoubleAngleCosineTerms(termToIntegrate, inputTerm, sinExponent);
+        putReducedCosineSquaredToDoubleAngleCosineTerms(termToIntegrate, inputTerm, cosExponent);
+    }
+    else if(isOdd(sinExponent) && isEven(cosExponent))
+    {
+        termToIntegrate = termToIntegrate * Term(createExpressionIfPossible({getSineSquaredInCosine(inputTerm), Term("^"), Term(sinExponent/2)}));
+        termToIntegrate = termToIntegrate * Term(sin(inputTerm));
+        termToIntegrate = termToIntegrate * Term(createExpressionIfPossible({cos(inputTerm), Term("^"), Term(cosExponent)}));
+    }
+    else if(isEven(sinExponent) && isOdd(cosExponent))
+    {
+        termToIntegrate = termToIntegrate * Term(createExpressionIfPossible({getCosineSquaredInSine(inputTerm), Term("^"), Term(cosExponent/2)}));
+        termToIntegrate = termToIntegrate * Term(cos(inputTerm));
+        termToIntegrate = termToIntegrate * Term(createExpressionIfPossible({sin(inputTerm), Term("^"), Term(sinExponent)}));
+    }
+    else if(isOdd(sinExponent) && isOdd(cosExponent))
+    {
+        //This is also can be expressed in cosine.
+        termToIntegrate = termToIntegrate * Term(createExpressionIfPossible({getSineSquaredInCosine(inputTerm), Term("^"), Term(cosExponent/2)}));
+        termToIntegrate = termToIntegrate * Term(cos(inputTerm));
+        termToIntegrate = termToIntegrate * Term(createExpressionIfPossible({sin(inputTerm), Term("^"), Term(sinExponent)}));
+    }
+    result = integrate(termToIntegrate);
 }
 
 Term Integration::integrateAsTermOrExpressionIfNeeded(
         Expression const& expression) const
-{    Term result;
+{
+    Term result;
     Configurations configurations{getConfigurationWithFactors(), getConfigurationWithCommonDenominator()};
     for(Configuration const& configuration : configurations)
     {
@@ -418,7 +583,8 @@ void Integration::integrateTermsInMultiplicationOrDivision(
     integrateNonChangingAndChangingTermsInMultiplicationOrDivision(result, termsWithDetails);
 }
 
-void Integration::integrateTermsInRaiseToPower(        Term & result,
+void Integration::integrateTermsInRaiseToPower(
+        Term & result,
         TermsWithDetails const& termsWithDetails) const
 {
     TermRaiseToTerms termRaiseToTerms(termsWithDetails);
@@ -443,51 +609,6 @@ void Integration::integrateTermsInRaiseToPower(        Term & result,
     {
         integrateChangingTermRaiseToChangingTerm(result, firstTerm, secondTerm);
     }
-}
-
-void Integration::integrateNonChangingTermRaiseToChangingTerm(
-        Term & result,
-        Term const& base,
-        Term const& exponent) const
-{
-    if(wouldDifferentiationYieldToAConstant(exponent))
-    {
-        result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible(
-        {base, Term("^"), exponent, Term("/"), Term(ln(base))})), exponent);
-    }
-}
-
-void Integration::integrateChangingTermRaiseToNonChangingTerm(
-        Term & result,
-        Term const& base,
-        Term const& exponent) const
-{
-    if(wouldDifferentiationYieldToAConstant(base))
-    {        result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible(
-        {base, Term("^"), Term(exponent+1), Term("/"), Term(exponent+1)})), base);
-    }
-    else
-    {
-        if(result.isEmpty() && base.isFunction() && exponent == Term(2))
-        {
-            integrateRecognizedFunctionsSquared(result, base);
-        }
-        if(result.isEmpty() && base.isFunction() && base.getFunctionConstReference().getFunctionName() == "sin" && exponent.isConstant())
-        {
-            integrateSinRaiseToAConstant(result, base, exponent.getConstantValueConstReference());
-        }
-        if(result.isEmpty() && base.isFunction() && base.getFunctionConstReference().getFunctionName() == "cos" && exponent.isConstant())
-        {
-            integrateCosRaiseToAConstant(result, base, exponent.getConstantValueConstReference());
-        }
-    }
-}
-
-void Integration::integrateChangingTermRaiseToChangingTerm(
-        Term & result,
-        Term const& ,
-        Term const& ) const{
-    result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
 }
 
 void Integration::integrateTermUsingSubstitutionWithMaxDepth(
@@ -521,7 +642,8 @@ void Integration::integrateTermUsingSubstitution(
         if(!subTerm.isConstant() && !subTerm.isVariable() && isChangingTerm(subTerm))
         {
             integrateBySubstitutionAndUsingANewVariable(result, simplifiedTerm, subTerm, configuration);
-            if(!result.isEmpty())            {
+            if(!result.isEmpty())
+            {
                 break;
             }
         }
@@ -542,7 +664,8 @@ void Integration::integrateBySubstitutionAndUsingANewVariable(
     if(!isChangingTerm(termToIntegrateWithNewVariable))
     {
         string newVariableName(createVariableNameForSubstitution(termToSubstituteToVariable));
-        Integration integrationWithNewVariable(newVariableName);        Term integratedTermWithNewVariable(integrationWithNewVariable.integrate(termToIntegrateWithNewVariable));
+        Integration integrationWithNewVariable(newVariableName);
+        Term integratedTermWithNewVariable(integrationWithNewVariable.integrate(termToIntegrateWithNewVariable));
         SubstitutionOfVariablesToTerms substitutionVariableToTerm({{newVariableName, termToSubstituteToVariable}});
         Term integratedTerm(substitutionVariableToTerm.performSubstitutionTo(integratedTermWithNewVariable));
         if(!isNotANumber(integratedTerm))
@@ -606,7 +729,7 @@ void Integration::integrateNonChangingAndChangingTermsInMultiplicationOrDivision
     segregateNonChangingAndChangingTerms(termsWithDetails, nonChangingTerms, changingTerms);
     if(nonChangingTerms.empty())
     {
-        integrateByTryingTwoTermsInMultiplicationAndDivision(result, changingTerms);
+        integrateChangingTermsInMultiplicationOrDivision(result, changingTerms);
     }
     else
     {
@@ -626,12 +749,23 @@ void Integration::integrateNonChangingAndChangingTermsInMultiplicationOrDivision
             result = nonChangingTermCombined * integratedChangingTerm;
         }
     }
+}
 
+void Integration::integrateChangingTermsInMultiplicationOrDivision(
+        Term& result,
+        TermsWithDetails const& changingTerms) const
+{
+    integrateInMultiplicationOrDivisionIfSinAndCosCombination(result, changingTerms);
+    if(result.isEmpty())
+    {
+        integrateByTryingTwoTermsInMultiplicationAndDivision(result, changingTerms);
+    }
 }
 
 void Integration::integrateByTryingTwoTermsInMultiplicationAndDivision(
         Term & result,
-        TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const{
+        TermsWithDetails const& termsWithDetailsInMultiplicationAndDivision) const
+{
     unsigned int numberOfTerms(termsWithDetailsInMultiplicationAndDivision.size());
     for(unsigned int i=0; result.isEmpty() && i<numberOfTerms; i++)
     {
@@ -649,6 +783,7 @@ void Integration::integrateByTryingTwoTermsInMultiplicationAndDivision(
         }
     }
 }
+
 void Integration::integrateUsingChainRuleInReverseIfPossible(
         Term & result,
         Term const& firstOuterTerm,
@@ -661,7 +796,8 @@ void Integration::integrateUsingChainRuleInReverseIfPossible(
     if(!isChangingTerm(quotientOfDerivatives))
     {
         string newVariableToIntegrate(createVariableNameForSubstitution(firstInnerTerm));
-        SubstitutionOfTermsToTerms substitutionTermToVariable({{firstInnerTerm, Term(newVariableToIntegrate)}});        Term newFirstOuterTerm(substitutionTermToVariable.performSubstitutionTo(firstOuterTerm));
+        SubstitutionOfTermsToTerms substitutionTermToVariable({{firstInnerTerm, Term(newVariableToIntegrate)}});
+        Term newFirstOuterTerm(substitutionTermToVariable.performSubstitutionTo(firstOuterTerm));
         Integration integrationWithNewVariable(newVariableToIntegrate);
         Term integratedOuterTermInNewVariable(integrationWithNewVariable.integrate(newFirstOuterTerm));
         SubstitutionOfVariablesToTerms substitutionVariableToTerm({{newVariableToIntegrate, firstInnerTerm}});
@@ -695,7 +831,8 @@ void Integration::findInnerAndOuterTermForChainRule(
             else if(!isChangingTerm(base))
             {
                 outerTerm = combinedBaseAndExponent;
-                innerTerm = exponent;            }
+                innerTerm = exponent;
+            }
         }
         else
         {
@@ -785,7 +922,8 @@ void Integration::integrateUsingIntegrationByPartsByTryingTwoTerms(
                     integrateUsingIntegrationByPartsByTryingTwoTermsWithDifferentOrder(result, term, firstTerm, secondTerm);
                 }
             }
-        }    }
+        }
+    }
 }
 
 void Integration::integrateUsingIntegrationByPartsByTryingTwoTermsWithDifferentOrder(
@@ -866,7 +1004,8 @@ void Integration::integrateUsingPreviousIntegrationByPartsTerms(
     bool isFirstRelationshipFound(true);
     while(isChanged)
     {
-        isChanged = false;        for(unsigned int i=0; i<termsToAnalyze.size(); i++)
+        isChanged = false;
+        for(unsigned int i=0; i<termsToAnalyze.size(); i++)
         {
             IntegrationByPartsTerms const& integrationByPartsTerms(termsToAnalyze.at(i));
             Term quotient(currentTermToIntegrate/integrationByPartsTerms.vTimesDuToIntegrate);
@@ -886,7 +1025,8 @@ void Integration::integrateUsingPreviousIntegrationByPartsTerms(
                 }
                 isChanged = true;
                 didAccumulationUpdated = true;
-                termsToAnalyze.erase(termsToAnalyze.begin()+i);                break;
+                termsToAnalyze.erase(termsToAnalyze.begin()+i);
+                break;
             }
         }
     }
@@ -897,6 +1037,65 @@ void Integration::integrateUsingPreviousIntegrationByPartsTerms(
         result = accumulatedUTimesV * ratio / Term(accumulatedCoefficient+1);
         result.simplify();
     }
+}
+
+void Integration::integrateNonChangingTermRaiseToChangingTerm(
+        Term & result,
+        Term const& base,
+        Term const& exponent) const
+{
+    if(wouldDifferentiationYieldToAConstant(exponent))
+    {
+        result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible(
+        {base, Term("^"), exponent, Term("/"), Term(ln(base))})), exponent);
+    }
+}
+
+void Integration::integrateChangingTermRaiseToNonChangingTerm(
+        Term & result,
+        Term const& base,
+        Term const& exponent) const
+{
+    if(wouldDifferentiationYieldToAConstant(base))
+    {
+        result = divideFirstTermAndDerivativeOfSecondTerm(Term(createExpressionIfPossible(
+        {base, Term("^"), Term(exponent+1), Term("/"), Term(exponent+1)})), base);
+    }
+    else
+    {
+        if(result.isEmpty() && base.isFunction() && exponent == Term(2))
+        {
+            integrateRecognizedFunctionsSquared(result, base);
+        }
+        if(result.isEmpty() && base.isFunction() && exponent.isConstant())
+        {
+            Function const& functionObject(base.getFunctionConstReference());
+            AlbaNumber const& exponentValue(exponent.getConstantValueConstReference());
+            bool isExponentAPositiveInteger = exponentValue.isIntegerType() && exponentValue > 0;
+            if(functionObject.getFunctionName() == "sin" && isExponentAPositiveInteger)
+            {
+                integrateSinRaiseToAPositiveInteger(
+                            result,
+                            base.getFunctionConstReference(),
+                            static_cast<unsigned int>(exponentValue.getInteger()));
+            }
+            else if(functionObject.getFunctionName() == "cos" && isExponentAPositiveInteger)
+            {
+                integrateCosRaiseToAPositiveInteger(
+                            result,
+                            base.getFunctionConstReference(),
+                            static_cast<unsigned int>(exponentValue.getInteger()));
+            }
+        }
+    }
+}
+
+void Integration::integrateChangingTermRaiseToChangingTerm(
+        Term & result,
+        Term const& ,
+        Term const& ) const
+{
+    result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
 }
 
 void Integration::segregateNonChangingAndChangingTerms(
@@ -918,9 +1117,36 @@ void Integration::segregateNonChangingAndChangingTerms(
     }
 }
 
+void Integration::putReducedSineSquaredToDoubleAngleCosineTerms(
+        Term & outputTerm,
+        Term const& inputTerm,
+        unsigned int const exponent) const
+{
+    Term inputTimes2(inputTerm*Term(2));
+    Term equivalentToSineSquared(getSineSquaredOfHalvedValue(inputTimes2));
+    for(unsigned int i=0; i<exponent; i+=2)
+    {
+        outputTerm = outputTerm * equivalentToSineSquared;
+    }
+}
+
+void Integration::putReducedCosineSquaredToDoubleAngleCosineTerms(
+        Term & outputTerm,
+        Term const& inputTerm,
+        unsigned int const exponent) const
+{
+    Term inputTimes2(inputTerm*Term(2));
+    Term equivalentToCosineSquared(getCosineSquaredOfHalvedValue(inputTimes2));
+    for(unsigned int i=0; i<exponent; i+=2)
+    {
+        outputTerm = outputTerm * equivalentToCosineSquared;
+    }
+}
+
 void Integration::setIsIntegrationUsingSubstitutionAllowed(
         bool const isIntegrationUsingSubstitutionAllowed)
-{    m_isIntegrationUsingSubstitutionAllowed = isIntegrationUsingSubstitutionAllowed;
+{
+    m_isIntegrationUsingSubstitutionAllowed = isIntegrationUsingSubstitutionAllowed;
 }
 
 void Integration::setIsIntegrationByPartsAllowed(
@@ -946,6 +1172,16 @@ void Integration::finalizeTermForIntegration(
         Term & term) const
 {
     simplifyForIntegration(term, getConfigurationWithFactors());
+}
+
+Integration::Configuration Integration::getConfigurationWithoutFactors() const
+{
+    Configuration configurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    configurationDetails.shouldSimplifyToFactors = false;
+    configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+    configurationDetails.shouldSimplifyToACommonDenominator = false;
+    return configurationDetails;
 }
 
 Integration::Configuration Integration::getConfigurationWithFactors() const
@@ -986,7 +1222,8 @@ bool Integration::isChangingTerm(
     });
 }
 
-bool Integration::wouldDifferentiationYieldToAConstant(        Term const& term) const
+bool Integration::wouldDifferentiationYieldToAConstant(
+        Term const& term) const
 {
     bool result(0);
     if(term.isVariable() && isVariableToIntegrate(term.getVariableConstReference().getVariableName()))

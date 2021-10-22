@@ -55,7 +55,8 @@ private:
             Monomial const& affectedVariables) const;
     Term differentiateAsTermOrExpressionIfNeeded(
             Expression const& expression) const;
-    Term differentiateSimplifiedExpressionOnly(            Expression const& expression) const;
+    Term differentiateSimplifiedExpressionOnly(
+            Expression const& expression) const;
     Term differentiateTermsInAdditionOrSubtraction(
             TermsWithDetails const& termsWithDetails) const;
     Term differentiateTermsInMultiplicationOrDivision(
@@ -87,6 +88,7 @@ private:
     std::string m_nameOfVariableToDifferentiate;
     VariableNamesSet m_namesOfDependentVariables;
 };
+
 }
 
 }

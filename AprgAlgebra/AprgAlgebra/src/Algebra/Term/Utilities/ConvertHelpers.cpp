@@ -122,6 +122,7 @@ Term convertFunctionToSimplestTerm(Function const& functionObject)
     SimplificationOfFunctionToTerm simplification;
     return simplification.simplifyToTerm(functionObject);
 }
+
 }
 
 }

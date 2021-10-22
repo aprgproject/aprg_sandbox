@@ -36,7 +36,8 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnCrossSectionalAreaWorksOn
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnUpsideDownCone){
+TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnUpsideDownCone)
+{
     Term height("height");
     Term edgeOfTheConeInY = Term(Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}));
 
@@ -46,7 +47,8 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnU
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnUpsideDownConeWithUpsideDownConeHole){
+TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnUpsideDownConeWithUpsideDownConeHole)
+{
     Term height("height");
     Term edgeOfTheCone1InY = Term(Monomial(1, {{"radius", 1}, {"height", -1}, {"y", 1}}));
     Term edgeOfTheCone2InY = Term(Polynomial
@@ -58,7 +60,8 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeBasedOnSolidOfRevolutionWorksOnU
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetVolumeUsingCylindricalShellsWorksOnParabolaCupHole){
+TEST(IntegrationGeometryUtilitiesTest, GetVolumeUsingCylindricalShellsWorksOnParabolaCupHole)
+{
     Term radius("radius");
     Term edgeOfTheParabolaInX = Term(Monomial(1, {{"x", 2}}));
 
@@ -68,7 +71,8 @@ TEST(IntegrationGeometryUtilitiesTest, GetVolumeUsingCylindricalShellsWorksOnPar
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetLengthOfTheEdgeWorks){
+TEST(IntegrationGeometryUtilitiesTest, GetLengthOfTheEdgeWorks)
+{
     Term termToTest = Term(Monomial(1, {{"x", AlbaNumber::createFraction(2, 3)}}));
 
     Term termToVerify(getLengthOfTheEdge(termToTest, "x", Term(1), Term(8)));
@@ -77,7 +81,8 @@ TEST(IntegrationGeometryUtilitiesTest, GetLengthOfTheEdgeWorks){
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfARodWorks){
+TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfARodWorks)
+{
     Term l("l");
     Term termToTest = Term(Monomial(1, {{"x", 2}}));
 
@@ -87,7 +92,8 @@ TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfARodWorks){
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfARodWorks){
+TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfARodWorks)
+{
     Term l("l");
     Term termToTest = Term(Monomial(1, {{"x", 2}}));
 
@@ -97,7 +103,8 @@ TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfARodWorks){
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfARodWorks){
+TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfARodWorks)
+{
     Term l("l");
     Term termToTest = Term(Monomial(1, {{"x", 2}}));
 
@@ -107,7 +114,8 @@ TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfARodWorks){
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfALaminaWorks){
+TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfALaminaWorks)
+{
     Term x("x");
     Term termToTest = Term(Monomial(1, {{"x", 2}}));
 
@@ -117,7 +125,8 @@ TEST(IntegrationGeometryUtilitiesTest, GetTotalMassOfALaminaWorks){
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfALaminaWorks){
+TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfALaminaWorks)
+{
     Term x("x");
     Term termToTest = Term(Monomial(1, {{"x", 2}}));
 
@@ -129,7 +138,8 @@ TEST(IntegrationGeometryUtilitiesTest, GetMomentOfMassOfALaminaWorks){
     EXPECT_EQ(termToExpectInY, termPairToVerify.second);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfALaminaWorks){
+TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfALaminaWorks)
+{
     Term x("x");
     Term termToTest = Term(Monomial(1, {{"x", 2}}));
 
@@ -141,7 +151,8 @@ TEST(IntegrationGeometryUtilitiesTest, GetCenterOfMassOfALaminaWorks){
     EXPECT_EQ(termToExpectInY, termPairToVerify.second);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetCentroidWorks){
+TEST(IntegrationGeometryUtilitiesTest, GetCentroidWorks)
+{
     Term x("x");
     Term termToTest = Term(Monomial(1, {{"x", 2}}));
 
@@ -153,7 +164,8 @@ TEST(IntegrationGeometryUtilitiesTest, GetCentroidWorks){
     EXPECT_EQ(termToExpectInY, termPairToVerify.second);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetWorkWorks){
+TEST(IntegrationGeometryUtilitiesTest, GetWorkWorks)
+{
     Term x("x");
     Term force = Term(Monomial(1, {{"x", 2}}));
 
@@ -163,7 +175,8 @@ TEST(IntegrationGeometryUtilitiesTest, GetWorkWorks){
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationGeometryUtilitiesTest, GetLiquidPressureWorks){
+TEST(IntegrationGeometryUtilitiesTest, GetLiquidPressureWorks)
+{
     Term raw("raw");
     Term g("g");
     Term length = Term(Monomial(1, {{"depth", 2}}));
@@ -175,4 +188,5 @@ TEST(IntegrationGeometryUtilitiesTest, GetLiquidPressureWorks){
 }
 
 }
+
 }
