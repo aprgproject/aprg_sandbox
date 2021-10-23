@@ -135,10 +135,24 @@ bool isANegativeExpression(Expression const& expression)
     return result;
 }
 
+void saveSignAndPositiveTerm(
+        bool & savedSign,
+        Term & savedPositiveTerm,
+        TermWithDetails const& termWithDetails)
+{
+    savedSign = termWithDetails.hasNegativeAssociation();
+    savedPositiveTerm = getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer);
+    if(isANegativeTerm(savedPositiveTerm))
+    {
+        savedSign = !savedSign;
+        savedPositiveTerm = negateTerm(savedPositiveTerm);
+    }
+
+}
+
 AlbaNumber getConstantFactor(Term const& term)
 {
-    AlbaNumber result(1);
-    if(term.isConstant())
+    AlbaNumber result(1);    if(term.isConstant())
     {
         result = term.getConstantValueConstReference();
     }
