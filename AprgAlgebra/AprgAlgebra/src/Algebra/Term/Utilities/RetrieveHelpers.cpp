@@ -27,10 +27,12 @@ bool hasAnyFunctions(Term const& term)
 
 bool isVariableFoundInTerm(
         Term const& term,
-        string const& variableName){
+        string const& variableName)
+{
     VariableNamesRetriever retriever;
     retriever.retrieveFromTerm(term);
-    VariableNamesSet const& variableNames(retriever.getSavedData());    return variableNames.find(variableName) != variableNames.cend();
+    VariableNamesSet const& variableNames(retriever.getSavedData());
+    return variableNames.find(variableName) != variableNames.cend();
 }
 
 AlbaNumber getCoefficientOfMonomialWithNoVariables(

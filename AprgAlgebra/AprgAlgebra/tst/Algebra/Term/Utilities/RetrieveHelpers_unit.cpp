@@ -24,10 +24,12 @@ TEST(RetrieveHelpersTest, HasAnyFunctionsWorks)
 
 TEST(RetrieveHelpersTest, IsVariableFoundInTermWorks)
 {
-    Term term1("a");    Term term2("x");
+    Term term1("a");
+    Term term2("x");
 
     EXPECT_FALSE(isVariableFoundInTerm(term1, "x"));
-    EXPECT_TRUE(isVariableFoundInTerm(term2, "x"));}
+    EXPECT_TRUE(isVariableFoundInTerm(term2, "x"));
+}
 
 TEST(RetrieveHelpersTest, GetCoefficientOfMonomialWithNoVariablesWorks)
 {

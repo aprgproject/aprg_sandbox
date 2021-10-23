@@ -174,9 +174,11 @@ TEST(TrigonometricEquationsTest, GetSineSquaredInCosineWorks)
 TEST(TrigonometricEquationsTest, GetCosineSquaredWorks)
 {
     Term x("x");
+
     Term actualTerm(getCosineSquared(x));
 
-    Term expectedTerm(createExpressionIfPossible({Term(cos(x)), Term("^"), Term(2)}));    EXPECT_EQ(expectedTerm, actualTerm);
+    Term expectedTerm(createExpressionIfPossible({Term(cos(x)), Term("^"), Term(2)}));
+    EXPECT_EQ(expectedTerm, actualTerm);
 
     SubstitutionOfVariablesToValues substitution;
     substitution.putVariableWithValue("x", getPi()/3);
@@ -200,9 +202,11 @@ TEST(TrigonometricEquationsTest, GetCosineSquaredInSineWorks)
 TEST(TrigonometricEquationsTest, GetTangentSquaredWorks)
 {
     Term x("x");
+
     Term actualTerm(getTangentSquared(x));
 
-    Term expectedTerm(createExpressionIfPossible({Term(tan(x)), Term("^"), Term(2)}));    EXPECT_EQ(expectedTerm, actualTerm);
+    Term expectedTerm(createExpressionIfPossible({Term(tan(x)), Term("^"), Term(2)}));
+    EXPECT_EQ(expectedTerm, actualTerm);
 
     SubstitutionOfVariablesToValues substitution;
     substitution.putVariableWithValue("x", getPi()/4);

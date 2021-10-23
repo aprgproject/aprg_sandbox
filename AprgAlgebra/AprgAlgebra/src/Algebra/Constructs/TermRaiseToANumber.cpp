@@ -31,9 +31,11 @@ Term TermRaiseToANumber::getCombinedTerm() const
     }
     return combinedTerm;
 }
+
 bool TermRaiseToANumber::isEmpty() const
 {
-    return m_base.isEmpty();}
+    return m_base.isEmpty();
+}
 
 bool TermRaiseToANumber::isRadical() const
 {

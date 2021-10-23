@@ -224,9 +224,11 @@ Expression AdditionAndSubtractionOfTermsOverTerms::getCombinedExpressionForNumer
     }
     return combinedNumeratorOnIndex;
 }
+
 void AdditionAndSubtractionOfTermsOverTerms::combineExpressionAsAddOrSubtract(
         Expression & combinedExpression,
-        Expression const& expression,        TermAssociationType const association) const
+        Expression const& expression,
+        TermAssociationType const association) const
 {
     if(TermAssociationType::Positive == association)
     {

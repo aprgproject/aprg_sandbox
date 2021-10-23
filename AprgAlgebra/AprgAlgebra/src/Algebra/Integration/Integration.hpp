@@ -36,9 +36,11 @@ public:
     using InputTermToTrigonometryFunctionExponentsMap = std::map<Term, TrigonometryFunctionExponents>;
     using Configuration = Simplification::SimplificationOfExpression::ConfigurationDetails;
     using Configurations = std::vector<Configuration>;
+
     Integration(std::string const& nameOfVariableToIntegrate);
 
-    Term integrate(Term const& term) const;    Term integrate(Constant const& constant) const;
+    Term integrate(Term const& term) const;
+    Term integrate(Constant const& constant) const;
     Term integrate(Variable const& variable) const;
     Term integrate(Monomial const& monomial) const;
     Term integrate(Polynomial const& polynomial) const;
@@ -49,7 +51,8 @@ public:
     Term integrateWithDefiniteValues(Term const& term, AlbaNumber const& lowerValueInInterval, AlbaNumber const& higherValueInInterval) const;
 
     Monomial integrateConstant(Constant const& constant) const;
-    Monomial integrateVariable(Variable const& variable) const;    Term integrateMonomial(Monomial const& monomial) const;
+    Monomial integrateVariable(Variable const& variable) const;
+    Term integrateMonomial(Monomial const& monomial) const;
     Term integratePolynomial(Polynomial const& polynomial) const;
     Term integrateExpression(Expression const& expression) const;
     Term integrateFunction(Function const& functionObject) const;
@@ -64,11 +67,14 @@ private:
     void integrateRecognizedFunctionsSquared(Term & result, Term const& base) const;
     void integrateSinRaiseToAnIntegerGreaterThanOne(Term & result, Function const& baseTrigFunction, unsigned int const exponent) const;
     void integrateCosRaiseToAnIntegerGreaterThanOne(Term & result, Function const& baseTrigFunction, unsigned int const exponent) const;
+    void integrateTanRaiseToAnIntegerGreaterThanOne(Term & result, Function const& baseTrigFunction, unsigned int const exponent) const;
     void integrateCscRaiseToAnIntegerGreaterThanOne(Term & result, Function const& baseTrigFunction, unsigned int const exponent) const;
     void integrateSecRaiseToAnIntegerGreaterThanOne(Term & result, Function const& baseTrigFunction, unsigned int const exponent) const;
+    void integrateCotRaiseToAnIntegerGreaterThanOne(Term & result, Function const& baseTrigFunction, unsigned int const exponent) const;
     void integrateInMultiplicationOrDivisionIfTrigonometricCombination(Term & result, TermsWithDetails const& termsWithDetails) const;
     void integrateSinAndCosCombinationWithExponentsGreaterThanOne(Term & result, Term const& inputTerm, unsigned int const sinExponent, unsigned int const cosExponent) const;
-    void integrateCscAndCotCombinationWithPositiveExponents(Term & result, Term const& inputTerm, unsigned int const cscExponent, unsigned int const cotExponent) const;
+    void integrateCscAndCotCombinationWithExponentsGreaterThanOne(Term & result, Term const& inputTerm, unsigned int const cscExponent, unsigned int const cotExponent) const;
+    void integrateSecAndTanCombinationWithExponentsGreaterThanOne(Term & result, Term const& inputTerm, unsigned int const secExponent, unsigned int const tanExponent) const;
 
     //Expression
     Term integrateAsTermOrExpressionIfNeeded(Expression const& expression) const;
@@ -96,15 +102,19 @@ private:
     void integrateNonChangingTermRaiseToChangingTerm(Term & result, Term const& base, Term const& exponent) const;
     void integrateChangingTermRaiseToNonChangingTerm(Term & result, Term const& base, Term const& exponent) const;
     void integrateChangingTermRaiseToChangingTerm(Term & result, Term const& firstTerm, Term const& secondTerm) const;
+
+    //Miscellaneous
     void segregateNonChangingAndChangingTerms(TermsWithDetails const& termsToSegregate, TermsWithDetails & nonChangingTerms, TermsWithDetails & changingTerms) const;
     void putReducedSineSquaredToDoubleAngleCosineTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
     void putReducedCosineSquaredToDoubleAngleCosineTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
+    void putTangentSquaredToSecantSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
     void putCosecantSquaredToCotangentSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
     void putSecantSquaredToTangentSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
     void putCotangentSquaredToCosecantSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
     void setIsIntegrationUsingSubstitutionAllowed(bool const isIntegrationUsingSubstitutionAllowed);
     void setIsIntegrationByPartsAllowed(bool const isIntegrationByPartsAllowed);
-    void simplifyForIntegration(Term & term, Configuration const& configuration) const;    void finalizeTermForIntegration(Term & term) const;
+    void simplifyForIntegration(Term & term, Configuration const& configuration) const;
+    void finalizeTermForIntegration(Term & term) const;
     Integration::Configuration getConfigurationWithoutFactors() const;
     Configuration getConfigurationWithFactors() const;
     Configuration getConfigurationWithCommonDenominator() const;
@@ -113,8 +123,10 @@ private:
     bool hasExponentialExpression(Term const& term) const;
     bool wouldDifferentiationYieldToAConstant(Term const& term) const;
     std::string m_nameOfVariableToIntegrate;
-    bool m_isIntegrationUsingSubstitutionAllowed;    bool m_isIntegrationByPartsAllowed;
+    bool m_isIntegrationUsingSubstitutionAllowed;
+    bool m_isIntegrationByPartsAllowed;
 };
 
 }
+
 }
