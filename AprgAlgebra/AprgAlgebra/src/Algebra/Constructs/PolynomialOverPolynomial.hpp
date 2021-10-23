@@ -27,10 +27,12 @@ public:
     Polynomial const& getNumerator() const;
     Polynomial const& getDenominator() const;
 
+    void setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(
+            bool const shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue);
+
     QuotientAndRemainder simplifyAndDivide();
     void simplify();
     QuotientAndRemainder divide() const;
-
 private:
     bool shouldPerformFactorization() const;
     void convertFractionCoefficientsToInteger();
@@ -45,10 +47,10 @@ private:
     Polynomial multiplyAndSimplifyFactors(Polynomials const& factors) const;
     Polynomial m_numerator;
     Polynomial m_denominator;
+    bool m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
 };
 
-using ListOfPolynomialOverPolynomial = std::vector<PolynomialOverPolynomial>;
-using PolynomialOverPolynomialOptional = AlbaOptional<PolynomialOverPolynomial>;
+using ListOfPolynomialOverPolynomial = std::vector<PolynomialOverPolynomial>;using PolynomialOverPolynomialOptional = AlbaOptional<PolynomialOverPolynomial>;
 
 }
 

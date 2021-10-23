@@ -454,10 +454,35 @@ TEST(IntegrationTest, IntegrateWorksUsingChainRuleInReverseUsingExample5)
     EXPECT_EQ(termToExpect, termToVerify);
 }
 
-TEST(IntegrationTest, IntegrateWorksUsingSubstitutionUsingExample1)
+TEST(IntegrationTest, IntegrateWorksUsingPartialFractionsUsingExample1)
 {
     Integration integrationForX("x");
-    Term squareRootTerm(createExpressionIfPossible(
+    Term numerator(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-1, {})});
+    Term denominator(Polynomial{Monomial(1, {{"x", 5}}), Monomial(-6, {{"x", 4}}), Monomial(12, {{"x", 3}}), Monomial(-8, {{"x", 2}})});
+    Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+
+    Term termToVerify(integrationForX.integrate(termToTest));
+
+    string stringToExpect("((-1/8)[x^-1]+(3*ln(abs(x))/16)-(3*ln(abs((1[x] + -2)))/16)-(5/4/(1[x] + -2))-(7/8/((1[x] + -2)^2)))");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
+TEST(IntegrationTest, IntegrateWorksUsingPartialFractionsUsingExample2)
+{
+    Integration integrationForX("x");
+    Term numerator(1);
+    Term denominator(Polynomial{Monomial(2, {{"x", 3}}), Monomial(1, {{"x", 1}})});
+    Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+
+    Term termToVerify(integrationForX.integrate(termToTest));
+
+    string stringToExpect("(ln(abs(x))-(ln(abs((2[x^2] + 1)))/2))");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
+TEST(IntegrationTest, IntegrateWorksUsingSubstitutionUsingExample1)
+{
+    Integration integrationForX("x");    Term squareRootTerm(createExpressionIfPossible(
     {Term(Polynomial{Monomial(1, {}), Monomial(1, {{"x", 1}})}), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     Term termToTest(createExpressionIfPossible({Term(Monomial(1, {{"x", 2}})), Term("*"), squareRootTerm}));
 

@@ -3,18 +3,19 @@
 #include <Algebra/Functions/FunctionUtilities.hpp>
 #include <Algebra/Retrieval/ExpressionAndFunctionsRetriever.hpp>
 #include <Algebra/Retrieval/FunctionsRetriever.hpp>
-#include <Algebra/Retrieval/SubTermsRetriever.hpp>#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
+#include <Algebra/Retrieval/SubTermsRetriever.hpp>
+#include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 
 #include <algorithm>
 
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
-
 bool hasAnyFunctions(Term const& term)
 {
     FunctionsRetriever functionsRetriever([](Function const&)
@@ -37,11 +38,11 @@ bool hasAnyTrigonometricFunctions(Term const& term)
 
 bool isVariableFoundInTerm(
         Term const& term,
-        string const& variableName){
+        string const& variableName)
+{
     VariableNamesRetriever retriever;
     retriever.retrieveFromTerm(term);
-    VariableNamesSet const& variableNames(retriever.getSavedData());
-    return variableNames.find(variableName) != variableNames.cend();
+    VariableNamesSet const& variableNames(retriever.getSavedData());    return variableNames.find(variableName) != variableNames.cend();
 }
 
 AlbaNumber getCoefficientOfMonomialWithNoVariables(

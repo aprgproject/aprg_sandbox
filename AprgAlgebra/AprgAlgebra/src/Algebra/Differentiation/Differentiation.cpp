@@ -414,18 +414,16 @@ Term Differentiation::differentiateTermsInMultiplicationOrDivisionTermByTerm(
         TermsWithDetails const& termsWithDetails) const
 {
     bool isFirst(true);
-    Term accumulatedTerm;
+    Term accumulatedTerm(1);
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
         Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        if(isFirst)
+        if(isFirst && termWithDetails.hasPositiveAssociation())
         {
             accumulatedTerm = currentTerm;
-            isFirst = false;
         }
         else
-        {
-            if(termWithDetails.hasPositiveAssociation())
+        {            if(termWithDetails.hasPositiveAssociation())
             {
                 accumulatedTerm = differentiateTwoMultipliedTerms(accumulatedTerm, currentTerm);
             }
@@ -434,10 +432,10 @@ Term Differentiation::differentiateTermsInMultiplicationOrDivisionTermByTerm(
                 accumulatedTerm = differentiateTwoDividedTerms(accumulatedTerm, currentTerm);
             }
         }
+        isFirst = false;
     }
     return accumulatedTerm;
 }
-
 Term Differentiation::differentiateTermsInRaiseToPower(
         TermsWithDetails const& termsWithDetails) const
 {

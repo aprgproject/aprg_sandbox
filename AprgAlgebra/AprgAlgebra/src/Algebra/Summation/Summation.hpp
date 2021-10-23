@@ -46,6 +46,7 @@ private:
     std::string m_variableToSubstitute;
     Term m_summationModel;
 };
+
 }
 
 }
