@@ -128,11 +128,11 @@ Term getTangentSquaredInSecant(Term const& term)
     return Term(createExpressionIfPossible({Term(sec(term)), Term("^"), Term(2), Term("-"), Term(1)}));
 }
 
-Term getCosecantSquared(Term const& term){
+Term getCosecantSquared(Term const& term)
+{
     // csc(x)^2
 
-    return Term(createExpressionIfPossible({Term(csc(term)), Term("^"), Term(2)}));
-}
+    return Term(createExpressionIfPossible({Term(csc(term)), Term("^"), Term(2)}));}
 
 Term getCosecantSquaredInCotangent(Term const& term)
 {
@@ -169,11 +169,11 @@ Term getCotangentSquaredInCosecant(Term const& term)
     return Term(createExpressionIfPossible({Term(csc(term)), Term("^"), Term(2), Term("-"), Term(1)}));
 }
 
-Term getSineOfSumOrDifferenceOfTwoTerms(        Term const& term1,
+Term getSineOfSumOrDifferenceOfTwoTerms(
+        Term const& term1,
         Operator const& operatorObject,
         Term const& term2)
-{
-    // sin(x +- y) =  sin(x)*cos(y) +- cos(x)*sin(y)
+{    // sin(x +- y) =  sin(x)*cos(y) +- cos(x)*sin(y)
 
     Term result;
     if(operatorObject.isAddition() || operatorObject.isSubtraction())
