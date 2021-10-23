@@ -20,18 +20,20 @@ TermRaiseToANumber::TermRaiseToANumber(
 
 Term TermRaiseToANumber::getCombinedTerm() const
 {
-    Term combinedTerm(createExpressionIfPossible({m_base, Term("^"), Term(m_exponent)}));
+    Term combinedTerm(1);
     if(m_exponent == 1)
     {
         combinedTerm = Term(m_base);
     }
+    else
+    {
+        combinedTerm = Term(createExpressionIfPossible({m_base, Term("^"), Term(m_exponent)}));
+    }
     return combinedTerm;
 }
-
 bool TermRaiseToANumber::isEmpty() const
 {
-    return m_base.isEmpty();
-}
+    return m_base.isEmpty();}
 
 bool TermRaiseToANumber::isRadical() const
 {

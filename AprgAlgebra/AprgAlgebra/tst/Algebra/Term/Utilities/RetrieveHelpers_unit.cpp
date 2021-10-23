@@ -22,23 +22,12 @@ TEST(RetrieveHelpersTest, HasAnyFunctionsWorks)
     EXPECT_TRUE(hasAnyFunctions(term2));
 }
 
-TEST(RetrieveHelpersTest, HasExponentialExpressionWorks)
-{
-    Term term1("x");
-    Term term2(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
-
-    EXPECT_FALSE(hasExponentialExpression(term1));
-    EXPECT_TRUE(hasExponentialExpression(term2));
-}
-
 TEST(RetrieveHelpersTest, IsVariableFoundInTermWorks)
 {
-    Term term1("a");
-    Term term2("x");
+    Term term1("a");    Term term2("x");
 
     EXPECT_FALSE(isVariableFoundInTerm(term1, "x"));
-    EXPECT_TRUE(isVariableFoundInTerm(term2, "x"));
-}
+    EXPECT_TRUE(isVariableFoundInTerm(term2, "x"));}
 
 TEST(RetrieveHelpersTest, GetCoefficientOfMonomialWithNoVariablesWorks)
 {

@@ -95,39 +95,75 @@ Term getSineSquared(Term const& term)
 
 Term getSineSquaredInCosine(Term const& term)
 {
-    // 1 - cos(x)^2
+    // sin(x)^2 = 1 - cos(x)^2
 
     return Term(createExpressionIfPossible({Term(1), Term("-"), cos(term), Term("^"), Term(2)}));
 }
-
 Term getCosineSquared(Term const& term)
 {
     // cos(x)^2
-
     return Term(createExpressionIfPossible({Term(cos(term)), Term("^"), Term(2)}));
 }
 
 Term getCosineSquaredInSine(Term const& term)
 {
-    // 1 - sin(x)^2
+    // cos(x)^2 = 1 - sin(x)^2
 
     return Term(createExpressionIfPossible({Term(1), Term("-"), sin(term), Term("^"), Term(2)}));
 }
-
 Term getTangentSquared(Term const& term)
 {
     // tan(x)^2
-
     return Term(createExpressionIfPossible({Term(tan(term)), Term("^"), Term(2)}));
+}
+
+Term getCosecantSquared(Term const& term)
+{
+    // csc(x)^2
+
+    return Term(createExpressionIfPossible({Term(csc(term)), Term("^"), Term(2)}));
+}
+
+Term getCosecantSquaredInCotangent(Term const& term)
+{
+    // csc(x)^2 = cot(x)^2 + 1
+
+    return Term(createExpressionIfPossible({Term(cot(term)), Term("^"), Term(2), Term("+"), Term(1)}));
+}
+
+Term getSecantSquared(Term const& term)
+{
+    // sec(x)^2
+
+    return Term(createExpressionIfPossible({Term(sec(term)), Term("^"), Term(2)}));
+}
+
+Term getSecantSquaredInTangent(Term const& term)
+{
+    // sec(x)^2 = tan(x)^2 + 1
+
+    return Term(createExpressionIfPossible({Term(tan(term)), Term("^"), Term(2), Term("+"), Term(1)}));
+}
+
+Term getCotangentSquared(Term const& term)
+{
+    // cot(x)^2
+
+    return Term(createExpressionIfPossible({Term(cot(term)), Term("^"), Term(2)}));
+}
+
+Term getCotangentSquaredInCosecant(Term const& term)
+{
+    // cot(x)^2 = csc(x)^2 + 1
+
+    return Term(createExpressionIfPossible({Term(csc(term)), Term("^"), Term(2), Term("+"), Term(1)}));
 }
 
 Term getSineOfSumOrDifferenceOfTwoTerms(
         Term const& term1,
-        Operator const& operatorObject,
-        Term const& term2)
+        Operator const& operatorObject,        Term const& term2)
 {
     // sin(x +- y) =  sin(x)*cos(y) +- cos(x)*sin(y)
-
     Term result;
     if(operatorObject.isAddition() || operatorObject.isSubtraction())
     {

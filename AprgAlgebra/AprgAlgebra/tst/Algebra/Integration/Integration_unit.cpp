@@ -444,68 +444,88 @@ TEST(IntegrationTest, IntegrateWorksSinRaiseToAConstant)
 {
     Integration integrationForX("x");
     Term x("x");
-    Term termToTest1(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(5)}));
-    Term termToTest2(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(6)}));
-    Term termToTest3(createExpressionIfPossible({Term(2), Term("*"), Term(sin(x)), Term("^"), Term(5)}));
+    Term termToTest1(createExpressionIfPossible({Term(17), Term("*"), Term(sin(x)), Term("^"), Term(5)}));
+    Term termToTest2(createExpressionIfPossible({Term(19), Term("*"), Term(sin(x)), Term("^"), Term(6)}));
 
     Term termToVerify1(integrationForX.integrate(termToTest1));
     Term termToVerify2(integrationForX.integrate(termToTest2));
-    Term termToVerify3(integrationForX.integrate(termToTest3));
 
-    string stringToExpect1("((-1*cos(x))-((cos(x)^5)/5)+(2*(cos(x)^3)/3))");
-    string stringToExpect2("((5/16)[x]-(sin(2[x])/4)+(3*sin(4[x])/64)+((sin(2[x])^3)/48))");
-    string stringToExpect3("((-1*2*cos(x))-(2*(cos(x)^5)/5)+(4*(cos(x)^3)/3))");
+    string stringToExpect1("((-17*cos(x))-(17*(cos(x)^5)/5)+(34*(cos(x)^3)/3))");
+    string stringToExpect2("((95/16)[x]-(19*sin(2[x])/4)+(57*sin(4[x])/64)+(19*(sin(2[x])^3)/48))");
     EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
     EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
-    EXPECT_EQ(stringToExpect3, termToVerify3.getDisplayableString());
 }
 
-TEST(IntegrationTest, IntegrateWorksCosRaiseToAConstant)
+TEST(IntegrationTest, IntegrateWorksCosRaiseToAConstant){
+    Integration integrationForX("x");
+    Term x("x");
+    Term termToTest1(createExpressionIfPossible({Term(17), Term("*"), Term(cos(x)), Term("^"), Term(5)}));
+    Term termToTest2(createExpressionIfPossible({Term(19), Term("*"), Term(cos(x)), Term("^"), Term(6)}));
+
+    Term termToVerify1(integrationForX.integrate(termToTest1));
+    Term termToVerify2(integrationForX.integrate(termToTest2));
+
+    string stringToExpect1("((17*sin(x))+(17*(sin(x)^5)/5)-(34*(sin(x)^3)/3))");
+    string stringToExpect2("((95/16)[x]+(19*sin(2[x])/4)+(57*sin(4[x])/64)-(19*(sin(2[x])^3)/48))");
+    EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
+    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
+}
+
+TEST(IntegrationTest, IntegrateWorksCscRaiseToAConstant)
 {
     Integration integrationForX("x");
     Term x("x");
-    Term termToTest1(createExpressionIfPossible({Term(cos(x)), Term("^"), Term(5)}));
-    Term termToTest2(createExpressionIfPossible({Term(cos(x)), Term("^"), Term(6)}));
-    Term termToTest3(createExpressionIfPossible({Term(2), Term("*"), Term(cos(x)), Term("^"), Term(5)}));
+    Term termToTest1(createExpressionIfPossible({Term(17), Term("*"), Term(csc(x)), Term("^"), Term(3)}));
+    Term termToTest2(createExpressionIfPossible({Term(19), Term("*"), Term(csc(x)), Term("^"), Term(6)}));
 
     Term termToVerify1(integrationForX.integrate(termToTest1));
     Term termToVerify2(integrationForX.integrate(termToTest2));
-    Term termToVerify3(integrationForX.integrate(termToTest3));
 
-    string stringToExpect1("(sin(x)+((sin(x)^5)/5)-(2*(sin(x)^3)/3))");
-    string stringToExpect2("((5/16)[x]+(sin(2[x])/4)+(3*sin(4[x])/64)-((sin(2[x])^3)/48))");
-    string stringToExpect3("((2*sin(x))+(2*(sin(x)^5)/5)-(4*(sin(x)^3)/3))");
+    string stringToExpect1("(17*((-1*ln(abs((csc(x)-cot(x)))))-(cot(x)*csc(x)))/2)");
+    string stringToExpect2("((-19*cot(x))-(19*(cot(x)^5)/5)-(38*(cot(x)^3)/3))");
     EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
     EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
-    EXPECT_EQ(stringToExpect3, termToVerify3.getDisplayableString());
+}
+
+TEST(IntegrationTest, IntegrateWorksSecRaiseToAConstant)
+{
+    Integration integrationForX("x");
+    Term x("x");
+    Term termToTest1(createExpressionIfPossible({Term(17), Term("*"), Term(sec(x)), Term("^"), Term(3)}));
+    Term termToTest2(createExpressionIfPossible({Term(19), Term("*"), Term(sec(x)), Term("^"), Term(6)}));
+
+    Term termToVerify1(integrationForX.integrate(termToTest1));
+    Term termToVerify2(integrationForX.integrate(termToTest2));
+
+    string stringToExpect1("(17*((-1*ln(abs((sec(x)+tan(x)))))+(sec(x)*tan(x)))/2)");
+    string stringToExpect2("((19*tan(x))+(19*(tan(x)^5)/5)+(38*(tan(x)^3)/3))");
+    EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
+    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
 }
 
 TEST(IntegrationTest, IntegrateWorksOnCombinationOfSinAndCos)
 {
     Integration integrationForX("x");
     Term x("x");
-    Term termToTest1(createExpressionIfPossible({Term(sin(x)), Term("*"), Term(cos(x))}));
-    Term termToTest2(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(3), Term("*"), Term(cos(x)), Term("^"), Term(4)}));
-    Term termToTest3(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(2), Term("*"), Term(cos(x)), Term("^"), Term(4)}));
-    Term termToTest4(createExpressionIfPossible({Term(sin(x)), Term("^"), Term(4), Term("*"), Term(cos(x)), Term("^"), Term(4)}));
+    Term termToTest1(createExpressionIfPossible({Term(11), Term("*"), Term(sin(x)), Term("*"), Term(cos(x))}));
+    Term termToTest2(createExpressionIfPossible({Term(13), Term("*"), Term(sin(x)), Term("^"), Term(3), Term("*"), Term(cos(x)), Term("^"), Term(4)}));
+    Term termToTest3(createExpressionIfPossible({Term(17), Term("*"), Term(sin(x)), Term("^"), Term(2), Term("*"), Term(cos(x)), Term("^"), Term(4)}));
+    Term termToTest4(createExpressionIfPossible({Term(19), Term("*"), Term(sin(x)), Term("^"), Term(4), Term("*"), Term(cos(x)), Term("^"), Term(4)}));
 
     Term termToVerify1(integrationForX.integrate(termToTest1));
-    Term termToVerify2(integrationForX.integrate(termToTest2));
-    Term termToVerify3(integrationForX.integrate(termToTest3));
+    Term termToVerify2(integrationForX.integrate(termToTest2));    Term termToVerify3(integrationForX.integrate(termToTest3));
     Term termToVerify4(integrationForX.integrate(termToTest4));
 
-    string stringToExpect1("(-1*(cos(x)^2)/2)");
-    string stringToExpect2("(((cos(x)^7)/7)-((cos(x)^5)/5))");
-    string stringToExpect3("((1/16)[x]-(sin(4[x])/64)+((sin(2[x])^3)/48))");
-    string stringToExpect4("((3/128)[x]-(sin(4[x])/64)+(sin(4[x])/128)+(sin(8[x])/1024))");
+    string stringToExpect1("(-11*(cos(x)^2)/2)");
+    string stringToExpect2("((13*(cos(x)^7)/7)-(13*(cos(x)^5)/5))");
+    string stringToExpect3("((17/16)[x]-(17*sin(4[x])/64)+(17*(sin(2[x])^3)/48))");
+    string stringToExpect4("((57/128)[x]-(19*sin(4[x])/64)+(19*sin(4[x])/128)+(19*sin(8[x])/1024))");
     EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
     EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
-    EXPECT_EQ(stringToExpect3, termToVerify3.getDisplayableString());
-    EXPECT_EQ(stringToExpect4, termToVerify4.getDisplayableString());
+    EXPECT_EQ(stringToExpect3, termToVerify3.getDisplayableString());    EXPECT_EQ(stringToExpect4, termToVerify4.getDisplayableString());
 }
 
-TEST(IntegrationTest, IntegrateWorksUsingSubstitutionWhichResultsToNaturalLogarithmAsExample1)
-{
+TEST(IntegrationTest, IntegrateWorksUsingSubstitutionWhichResultsToNaturalLogarithmAsExample1){
     Integration integrationForX("x");
     Term numerator(Monomial(1, {{"x", 2}}));
     Term denominator(Polynomial{Monomial(1, {{"x", 3}}), Monomial(1, {})});
