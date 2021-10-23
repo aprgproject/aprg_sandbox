@@ -43,10 +43,9 @@ private:
     Term getSummationModel() const;
 
     Term m_termToSum;
-    std::string const& m_variableToSubstitute;
+    std::string m_variableToSubstitute;
     Term m_summationModel;
 };
-
 }
 
 }

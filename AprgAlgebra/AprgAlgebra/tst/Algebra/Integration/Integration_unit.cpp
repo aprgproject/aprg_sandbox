@@ -563,6 +563,7 @@ TEST(IntegrationTest, IntegrateWorksUsingIntegrationByPartsUsingExamples1)
     Term termToTest(createExpressionIfPossible({Term(x), Term("*"), Term(ln(x))}));
 
     Term termToVerify(integrationForX.integrate(termToTest));
+
     Term expectedMonomialTerm1(Monomial(AlbaNumber::createFraction(-1, 4), {{"x", 2}}));
     Term expectedMonomialTerm2(Monomial(1, {{"x", 2}}));
     Term termToExpect(createExpressionIfPossible(
@@ -692,7 +693,8 @@ TEST(IntegrationTest, IntegrateWorksTanRaiseToAConstant)
 
 TEST(IntegrationTest, IntegrateWorksCscRaiseToAConstant)
 {
-    Integration integrationForX("x");    Term x("x");
+    Integration integrationForX("x");
+    Term x("x");
     Term termToTest1(createExpressionIfPossible({Term(17), Term("*"), Term(csc(x)), Term("^"), Term(3)}));
     Term termToTest2(createExpressionIfPossible({Term(19), Term("*"), Term(csc(x)), Term("^"), Term(6)}));
 
@@ -706,7 +708,8 @@ TEST(IntegrationTest, IntegrateWorksCscRaiseToAConstant)
 }
 
 TEST(IntegrationTest, IntegrateWorksSecRaiseToAConstant)
-{    Integration integrationForX("x");
+{
+    Integration integrationForX("x");
     Term x("x");
     Term termToTest1(createExpressionIfPossible({Term(17), Term("*"), Term(sec(x)), Term("^"), Term(3)}));
     Term termToTest2(createExpressionIfPossible({Term(19), Term("*"), Term(sec(x)), Term("^"), Term(6)}));
@@ -721,7 +724,8 @@ TEST(IntegrationTest, IntegrateWorksSecRaiseToAConstant)
 }
 
 TEST(IntegrationTest, IntegrateWorksCotRaiseToAConstant)
-{    Integration integrationForX("x");
+{
+    Integration integrationForX("x");
     Term x("x");
     Term termToTest1(createExpressionIfPossible({Term(17), Term("*"), Term(cot(x)), Term("^"), Term(3)}));
     Term termToTest2(createExpressionIfPossible({Term(19), Term("*"), Term(cot(x)), Term("^"), Term(6)}));
@@ -737,7 +741,8 @@ TEST(IntegrationTest, IntegrateWorksCotRaiseToAConstant)
 
 TEST(IntegrationTest, IntegrateWorksOnCombinationOfSinAndCos)
 {
-    Integration integrationForX("x");    Term x("x");
+    Integration integrationForX("x");
+    Term x("x");
     Term termToTest1(createExpressionIfPossible({Term(11), Term("*"), Term(sin(x)), Term("*"), Term(cos(x))}));
     Term termToTest2(createExpressionIfPossible({Term(13), Term("*"), Term(sin(x)), Term("^"), Term(3), Term("*"), Term(cos(x)), Term("^"), Term(4)}));
     Term termToTest3(createExpressionIfPossible({Term(17), Term("*"), Term(sin(x)), Term("^"), Term(4), Term("*"), Term(cos(x)), Term("^"), Term(4)}));
@@ -781,6 +786,7 @@ TEST(IntegrationTest, IntegrateWorksOnCombinationOfCscAndCot)
     EXPECT_EQ(stringToExpect3, termToVerify3.getDisplayableString());
     //EXPECT_EQ(stringToExpect4, termToVerify4.getDisplayableString());
 }
+
 TEST(IntegrationTest, IntegrateWorksOnCombinationOfSecAndTan)
 {
     Integration integrationForX("x");
@@ -804,6 +810,7 @@ TEST(IntegrationTest, IntegrateWorksOnCombinationOfSecAndTan)
     EXPECT_EQ(stringToExpect3, termToVerify3.getDisplayableString());
     //EXPECT_EQ(stringToExpect4, termToVerify4.getDisplayableString());
 }
+
 TEST(IntegrationTest, IntegrateWorksWithSimplificationToACommonDenominator)
 {
     Integration integrationForX("x");

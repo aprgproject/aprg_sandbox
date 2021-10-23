@@ -1,9 +1,9 @@
 #pragma once
 
 #include <Algebra/Equation/Equation.hpp>
+#include <Algebra/Integration/IntegrationHistory.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
-
 #include <vector>
 
 namespace alba
@@ -48,7 +48,8 @@ public:
 
     struct Configuration
     {
-        bool shouldFixTrigonometricFunctions;        Simplification::SimplificationOfExpression::ConfigurationDetails expressionSimplification;
+        bool shouldFixTrigonometricFunctions;
+        Simplification::SimplificationOfExpression::ConfigurationDetails expressionSimplification;
     };
 
     using ListOfIntegrationByPartsTerms = std::vector<IntegrationByPartsTerms>;
@@ -59,7 +60,8 @@ public:
 
     Term integrate(Term const& term) const;
     Term integrate(Constant const& constant) const;
-    Term integrate(Variable const& variable) const;    Term integrate(Monomial const& monomial) const;
+    Term integrate(Variable const& variable) const;
+    Term integrate(Monomial const& monomial) const;
     Term integrate(Polynomial const& polynomial) const;
     Term integrate(Expression const& expression) const;
     Term integrate(Function const& functionObject) const;
@@ -80,7 +82,8 @@ private:
     Monomial integrateMonomialWhenExponentIsNotNegativeOne(Monomial const& monomial) const;
 
     //Expression
-    Term integrateAsTermOrExpressionIfNeeded(Expression const& expression) const;    void integrateSimplifiedExpressionOnly(Term & result, Expression const& expression, Configuration const& configuration) const;
+    Term integrateAsTermOrExpressionIfNeeded(Expression const& expression) const;
+    void integrateSimplifiedExpressionOnly(Term & result, Expression const& expression, Configuration const& configuration) const;
     void integrateTermsInAdditionOrSubtraction(Term & result, TermsWithDetails const& termsWithDetails) const;
     void integrateTermsInMultiplicationOrDivision(Term & result, TermsWithDetails const& termsWithDetails) const;
     void integrateTermsInRaiseToPower(Term & result, TermsWithDetails const& termsWithDetails) const;
@@ -100,9 +103,10 @@ private:
     void integrateUsingChainRuleInReverseIfPossible(Term & result, Term const& firstOuterTerm, Term const& firstInnerTerm, Term const& secondTerm) const;
     void findInnerAndOuterTermForChainRule(Term & innerTerm, Term & outerTerm) const;
     Term divideFirstTermAndDerivativeOfSecondTerm(Term const& firstTerm, Term const& secondTerm) const;
-    void integrateByProcessingAsPolynomialsOverPolynomials(Term & result, Term const& term) const;    void integrateByTryingIntegrationByParts(Term & result, Term const& term) const;
-    void integrateUsingIntegrationByPartsByOneTermAndOne(Term & result, Term const& term) const;
-    void integrateUsingIntegrationByPartsByTryingTwoTerms(Term & result, Term const& term) const;
+    void integrateByProcessingAsPolynomialsOverPolynomialsIfPossible(Term & result, TermsWithDetails const& termsWithDetails) const;
+    void integrateByProcessingAsPolynomialsOverPolynomials(Term & result, Term const& term) const;
+    void integrateByTryingIntegrationByParts(Term & result, Term const& term) const;
+    void integrateUsingIntegrationByPartsByOneTermAndOne(Term & result, Term const& term) const;    void integrateUsingIntegrationByPartsByTryingTwoTerms(Term & result, Term const& term) const;
     void integrateUsingIntegrationByPartsByTryingTwoTermsWithDifferentOrder(Term & result, Term const& term, Term const& firstTerm, Term const& secondTerm) const;
     void integrateUsingIntegrationByPartsAndCheckingPreviousValues(Term & result, Term const& term, Term const& u, Term const& dv) const;
     void integrateUsingPreviousIntegrationByPartsTerms(Term & result, ListOfIntegrationByPartsTerms const& listOfIntegrationByPartsTerms, Term const& termToIntegrate) const;
@@ -113,7 +117,8 @@ private:
 
     //Function
     Term integrateFunctionOnly(Function const& functionObject) const;
-    void retrieveInputTermsAndTrigonometricExponents(InputTermToTrigonometryFunctionExponentsMap & inputTermToExponents, TermsOverTerms::BaseToExponentMap & remainingTerms, TermsOverTerms::BaseToExponentMap const& termToCheck) const;    void integrateTrigonometricCombinationsIfPossible(Term & result, TermsOverTerms::BaseToExponentMap const& remainingTerms, InputTermToTrigonometryFunctionExponentsMap const& inputTermToExponents) const;
+    void retrieveInputTermsAndTrigonometricExponents(InputTermToTrigonometryFunctionExponentsMap & inputTermToExponents, TermsOverTerms::BaseToExponentMap & remainingTerms, TermsOverTerms::BaseToExponentMap const& termToCheck) const;
+    void integrateTrigonometricCombinationsIfPossible(Term & result, TermsOverTerms::BaseToExponentMap const& remainingTerms, InputTermToTrigonometryFunctionExponentsMap const& inputTermToExponents) const;
     void integrateUsingKnownTrigonometricCombinations(Term & result, TrigonometryFunctionExponents const& exponents, Term const& functionInputTerm) const;
     void integrateRecognizedFunctionsSquared(Term & result, Term const& base) const;
     void integrateSinRaiseToAnIntegerGreaterThanOne(Term & result, Term const& functionInputTerm, unsigned int const exponent) const;
@@ -126,31 +131,34 @@ private:
     void integrateCscAndCotCombinationWithExponentsGreaterThanOne(Term & result, Term const& functionInputTerm, unsigned int const cscExponent, unsigned int const cotExponent) const;
     void integrateSecAndTanCombinationWithExponentsGreaterThanOne(Term & result, Term const& functionInputTerm, unsigned int const secExponent, unsigned int const tanExponent) const;
 
+    //Internal integration
+    Term integrateIntenally(Term const& term) const;
+    Term integrateInternallyWithPurpose(Term const& term, IntegrationPurpose const purpose) const;
+
     //Miscellaneous
     void segregateNonChangingAndChangingTerms(TermsWithDetails const& termsToSegregate, TermsWithDetails & nonChangingTerms, TermsWithDetails & changingTerms) const;
-    void convertLeftHandSideAndRightHandSideIfLogarithmic(Term & leftHandSide, Term & rightHandSide) const;
-    void putReducedSineSquaredToDoubleAngleCosineTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
+    void convertLeftHandSideAndRightHandSideIfLogarithmic(Term & leftHandSide, Term & rightHandSide) const;    void putReducedSineSquaredToDoubleAngleCosineTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
     void putReducedCosineSquaredToDoubleAngleCosineTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
-    void putTangentSquaredToSecantSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;    void putCosecantSquaredToCotangentSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
+    void putTangentSquaredToSecantSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
+    void putCosecantSquaredToCotangentSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
     void putSecantSquaredToTangentSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
     void putCotangentSquaredToCosecantSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
     TrigonometryFunctionExponents fixTrigonometricExponents(TrigonometryFunctionExponents const& oldExponents) const;
-    void setIsIntegrationUsingSubstitutionAllowed(bool const isIntegrationUsingSubstitutionAllowed);
-    void setIsIntegrationByPartsAllowed(bool const isIntegrationByPartsAllowed);
     void simplifyForIntegration(Term & term, Configuration const& configuration) const;
     void simplifyAndFixTrigonometricFunctions(Term & term, bool const shouldFixTrigonometricFunctions) const;
+    void fixTrigonometricFunctionsBasedFromExponents(Term& term, InputTermToTrigonometryFunctionExponentsMap & trigFunctionsInputTermToExponents, TermsOverTerms::BaseToExponentMap const& remainingTermsWithExponents) const;
+    void putTrigometricFunctionsWithExponents(TermsOverTerms::BaseToExponentMap & newTerms, Term const& inputTerm, TrigonometryFunctionExponents const& exponents) const;
     void finalizeTermForIntegration(Term & term) const;
     Configuration getConfigurationWithoutFactors() const;
-    Configuration getConfigurationWithFactors() const;
-    Configuration getConfigurationWithCommonDenominator() const;
+    Configuration getConfigurationWithFactors() const;    Configuration getConfigurationWithCommonDenominator() const;
     bool isVariableToIntegrate(std::string const& variableName) const;
     bool isChangingTerm(Term const& term) const;
     bool hasExponentialExpression(Term const& term) const;
     bool wouldDifferentiationYieldToAConstant(Term const& term) const;
     bool areExponentsSame(TrigonometryFunctionExponents const& oldExponents, TrigonometryFunctionExponents const& newExponents) const;
+    bool isIntegrationUsingSubstitutionAllowed(Term const& term) const;
+    bool isIntegrationByPartsAllowed(Term const& term) const;
     std::string m_nameOfVariableToIntegrate;
-    bool m_isIntegrationUsingSubstitutionAllowed;
-    bool m_isIntegrationByPartsAllowed;
 };
 
 }
