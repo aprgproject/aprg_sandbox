@@ -20,9 +20,11 @@ TEST(QuadrilateralTest, GetPointsWorks)
 {
     Quadrilateral quadrilateral(Point(-2,0), Point(0,-2), Point(2,0), Point(0,2));
     Points points(quadrilateral.getPoints(1));
+
     ASSERT_EQ(8U, points.size());
     EXPECT_EQ(Point(-2,0), points.at(0));
-    EXPECT_EQ(Point(-1,-1), points.at(1));    EXPECT_EQ(Point(0,-2), points.at(2));
+    EXPECT_EQ(Point(-1,-1), points.at(1));
+    EXPECT_EQ(Point(0,-2), points.at(2));
     EXPECT_EQ(Point(1,-1), points.at(3));
     EXPECT_EQ(Point(2,0), points.at(4));
     EXPECT_EQ(Point(1,1), points.at(5));

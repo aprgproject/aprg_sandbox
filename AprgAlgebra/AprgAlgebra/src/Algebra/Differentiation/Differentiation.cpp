@@ -423,7 +423,8 @@ Term Differentiation::differentiateTermsInMultiplicationOrDivisionTermByTerm(
             accumulatedTerm = currentTerm;
         }
         else
-        {            if(termWithDetails.hasPositiveAssociation())
+        {
+            if(termWithDetails.hasPositiveAssociation())
             {
                 accumulatedTerm = differentiateTwoMultipliedTerms(accumulatedTerm, currentTerm);
             }
@@ -436,6 +437,7 @@ Term Differentiation::differentiateTermsInMultiplicationOrDivisionTermByTerm(
     }
     return accumulatedTerm;
 }
+
 Term Differentiation::differentiateTermsInRaiseToPower(
         TermsWithDetails const& termsWithDetails) const
 {

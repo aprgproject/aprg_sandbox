@@ -16,6 +16,7 @@ namespace alba
 
 namespace algebra
 {
+
 bool hasAnyFunctions(Term const& term)
 {
     FunctionsRetriever functionsRetriever([](Function const&)
@@ -42,7 +43,8 @@ bool isVariableFoundInTerm(
 {
     VariableNamesRetriever retriever;
     retriever.retrieveFromTerm(term);
-    VariableNamesSet const& variableNames(retriever.getSavedData());    return variableNames.find(variableName) != variableNames.cend();
+    VariableNamesSet const& variableNames(retriever.getSavedData());
+    return variableNames.find(variableName) != variableNames.cend();
 }
 
 AlbaNumber getCoefficientOfMonomialWithNoVariables(

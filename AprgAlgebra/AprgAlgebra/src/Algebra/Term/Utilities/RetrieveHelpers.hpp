@@ -23,6 +23,7 @@ AlbaNumber getCoefficientOfMonomialWithVariableOnly(
         Polynomial const& polynomial,
         std::string const& variableName);
 VariableToValueMap getCoefficientsForVariablesOnly(Polynomial const& polynomial);
+
 void retrieveTermsFromTermsWithDetails(Terms & terms, TermsWithDetails const& termsWithDetails);
 Terms retrieveSubExpressionsAndSubFunctions(Term const& term);
 Terms retrieveSubTerms(Term const& term);

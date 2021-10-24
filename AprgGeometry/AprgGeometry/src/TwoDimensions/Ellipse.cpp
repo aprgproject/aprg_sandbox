@@ -56,13 +56,44 @@ double Ellipse::getBValue() const
 
 double Ellipse::getCValue() const
 {
-    return pow(pow(m_aValue, 2)-pow(m_bValue, 2), 0.5);
+    // This is linear eccentricity
+    // This is the distance from the center to a focus.
+    double c=0;
+    double aSquared(pow(m_aValue, 2));
+    double bSquared(pow(m_bValue, 2));
+    if(isAlmostEqual(aSquared, bSquared))
+    {
+        c=1;
+    }
+    if(aSquared > bSquared)
+    {
+        c = pow(aSquared-bSquared, 0.5);
+    }
+    else if(aSquared < bSquared)
+    {
+        c = pow(bSquared-aSquared, 0.5);
+    }
+    return c;
 }
 
 double Ellipse::getEccentricity() const
 {
     // In mathematics, the eccentricity of a conic section is a non-negative real number that uniquely characterizes its shape.
-    return pow(1 - (pow(m_bValue, 2)/pow(m_aValue, 2)), 0.5);
+    double eccentricity=0;
+    double c(getCValue());
+    if(isAlmostEqual(m_aValue, m_bValue))
+    {
+        eccentricity=1;
+    }
+    if(m_aValue > m_bValue)
+    {
+        eccentricity = c/getAValue();
+    }
+    else if(m_aValue < m_bValue)
+    {
+        eccentricity = c/getBValue();
+    }
+    return eccentricity;
 }
 
 double Ellipse::getSemiLatusRectum() const
@@ -70,9 +101,11 @@ double Ellipse::getSemiLatusRectum() const
     // The length of the chord through one focus, perpendicular to the major axis, is called the latus rectum.
     return pow(m_bValue, 2)/m_aValue;
 }
+
 double Ellipse::getArea() const
 {
-    return getPi()*m_aValue*m_bValue;}
+    return getPi()*m_aValue*m_bValue;
+}
 
 /*double Ellipse::getCircumference(unsigned int depthOfCalculation) const
 {
@@ -92,10 +125,94 @@ bool Ellipse::isInside(Point const& point) const
     return (pow((point.getX()-m_center.getX())/m_aValue, 2)) + (pow((point.getY()-m_center.getY())/m_bValue, 2)) <= 1;
 }
 
+Points Ellipse::getFoci() const
+{
+    Points foci;
+    double aSquared(pow(m_aValue, 2));
+    double bSquared(pow(m_bValue, 2));
+    if(isAlmostEqual(aSquared, bSquared))
+    {
+        foci.emplace_back(m_center);
+    }
+    else if(aSquared > bSquared)
+    {
+        double c(pow(aSquared-bSquared, 0.5));
+        foci.emplace_back(m_center + Point(c, 0));
+        foci.emplace_back(m_center - Point(c, 0));
+    }
+    else if(aSquared < bSquared)
+    {
+        double c(pow(bSquared-aSquared, 0.5));
+        foci.emplace_back(m_center + Point(0, c));
+        foci.emplace_back(m_center - Point(0, c));
+    }
+    return foci;
+}
+
+Points Ellipse::getMajorVertices() const
+{
+    Points principalVertices;
+    if(!isAlmostEqual(m_aValue, m_bValue))
+    {
+        if(m_aValue > m_bValue)
+        {
+            principalVertices.emplace_back(m_center + Point(m_aValue, 0));
+            principalVertices.emplace_back(m_center - Point(m_aValue, 0));
+        }
+        else if(m_aValue < m_bValue)
+        {
+            principalVertices.emplace_back(m_center + Point(0, m_bValue));
+            principalVertices.emplace_back(m_center - Point(0, m_bValue));
+        }
+    }
+    return principalVertices;
+}
+
+Points Ellipse::getMinorVertices() const
+{
+    Points minorVertices;
+    if(!isAlmostEqual(m_aValue, m_bValue))
+    {
+        if(m_aValue > m_bValue)
+        {
+            minorVertices.emplace_back(m_center + Point(0, m_bValue));
+            minorVertices.emplace_back(m_center - Point(0, m_bValue));
+        }
+        else if(m_aValue < m_bValue)
+        {
+            minorVertices.emplace_back(m_center + Point(m_aValue, 0));
+            minorVertices.emplace_back(m_center - Point(m_aValue, 0));
+        }
+    }
+    return minorVertices;
+}
+
+Line Ellipse::getMajorAxis() const
+{
+    Line result;
+    Points vertices(getMajorVertices());
+    if(2U == vertices.size())
+    {
+        result = Line(vertices.at(0), vertices.at(1));
+    }
+    return result;
+}
+
+Line Ellipse::getMinorAxis() const
+{
+    Line result;
+    Points vertices(getMinorVertices());
+    if(2U == vertices.size())
+    {
+        result = Line(vertices.at(0), vertices.at(1));
+    }
+    return result;
+}
+
 Points Ellipse::getPointsForCircumference(double const interval) const
 {
     Points result;
-    if(m_aValue!=0 && m_bValue!=0)
+    if(!isAlmostEqual(m_aValue, 0) && !isAlmostEqual(m_bValue, 0))
     {
         Points pointsInFirstQuarter(getPointsInTraversingXAndY(1, 1, interval));
         Points pointsInSecondQuarter(getPointsInTraversingXAndY(-1, 1, interval));
@@ -117,7 +234,7 @@ void Ellipse::traverseArea(double const interval, TraverseOperation const& trave
         double xAtTheEdgeOfEllipse(calculateXFromYWithoutCenter(y, 1));
         for(double x=0; x<=xAtTheEdgeOfEllipse; x+=interval)
         {
-            if(x==0 && y==0)
+            if(isAlmostEqual(x, 0) && isAlmostEqual(y, 0))
             {
                 traverseOperation(m_center);
             }

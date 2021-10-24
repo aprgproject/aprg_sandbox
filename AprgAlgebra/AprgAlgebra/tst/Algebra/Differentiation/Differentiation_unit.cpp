@@ -449,7 +449,8 @@ TEST(DifferentiationTest, DifferentiateWorksOnOneOverPolynomial)
 
 TEST(DifferentiationTest, DifferentiateTwoMultipliedTermsWorks)
 {
-    Differentiation differentiationForX("x");    Term term1(Polynomial{Monomial(2, {{"x", 2}}), Monomial(-4, {{"x", 1}})});
+    Differentiation differentiationForX("x");
+    Term term1(Polynomial{Monomial(2, {{"x", 2}}), Monomial(-4, {{"x", 1}})});
     Term term2(Polynomial{Monomial(3, {{"x", 2}}), Monomial(7, {{"x", 1}})});
 
     Term termToVerify(differentiationForX.differentiateTwoMultipliedTerms(term1, term2));

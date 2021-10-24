@@ -482,7 +482,8 @@ TEST(IntegrationTest, IntegrateWorksUsingPartialFractionsUsingExample2)
 
 TEST(IntegrationTest, IntegrateWorksUsingSubstitutionUsingExample1)
 {
-    Integration integrationForX("x");    Term squareRootTerm(createExpressionIfPossible(
+    Integration integrationForX("x");
+    Term squareRootTerm(createExpressionIfPossible(
     {Term(Polynomial{Monomial(1, {}), Monomial(1, {{"x", 1}})}), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     Term termToTest(createExpressionIfPossible({Term(Monomial(1, {{"x", 2}})), Term("*"), squareRootTerm}));
 

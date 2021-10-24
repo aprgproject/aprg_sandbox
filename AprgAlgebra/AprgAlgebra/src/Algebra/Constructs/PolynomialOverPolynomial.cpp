@@ -4,7 +4,8 @@
 #include <Algebra/Factorization/FactorizationConfiguration.hpp>
 #include <Algebra/Factorization/FactorizationUtilities.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
@@ -15,7 +16,8 @@ using namespace alba::algebra::Factorization;
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -26,14 +28,16 @@ PolynomialOverPolynomial::PolynomialOverPolynomial()
     , m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(false)
 {}
 
-PolynomialOverPolynomial::PolynomialOverPolynomial(        Polynomial const& numerator,
+PolynomialOverPolynomial::PolynomialOverPolynomial(
+        Polynomial const& numerator,
         Polynomial const& denominator)
     : m_numerator(numerator)
     , m_denominator(denominator)
     , m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(false)
 {}
 
-bool PolynomialOverPolynomial::isEmpty() const{
+bool PolynomialOverPolynomial::isEmpty() const
+{
     return m_numerator.isEmpty() && m_denominator.isEmpty();
 }
 
@@ -55,7 +59,8 @@ void PolynomialOverPolynomial::setAsShouldNotFactorizeIfItWouldYieldToPolynomial
 
 PolynomialOverPolynomial::QuotientAndRemainder PolynomialOverPolynomial::simplifyAndDivide()
 {
-    simplify();    return divide();
+    simplify();
+    return divide();
 }
 
 void PolynomialOverPolynomial::simplify()
@@ -154,7 +159,8 @@ void PolynomialOverPolynomial::factorizeRemoveCommonFactorsInNumeratorAndDenomin
 
     if(shouldPerformFactorization())
     {
-        Polynomials numeratorFactors(factorize(m_numerator));        Polynomials denominatorFactors(factorize(m_denominator));
+        Polynomials numeratorFactors(factorize(m_numerator));
+        Polynomials denominatorFactors(factorize(m_denominator));
         bool areSomeFactorsRemoved(removeCommonFactorsAndReturnIfSomeFactorsAreRemoved(numeratorFactors, denominatorFactors));
         if(areSomeFactorsRemoved)
         {

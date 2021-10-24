@@ -33,6 +33,7 @@ public:
     QuotientAndRemainder simplifyAndDivide();
     void simplify();
     QuotientAndRemainder divide() const;
+
 private:
     bool shouldPerformFactorization() const;
     void convertFractionCoefficientsToInteger();
@@ -50,7 +51,8 @@ private:
     bool m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
 };
 
-using ListOfPolynomialOverPolynomial = std::vector<PolynomialOverPolynomial>;using PolynomialOverPolynomialOptional = AlbaOptional<PolynomialOverPolynomial>;
+using ListOfPolynomialOverPolynomial = std::vector<PolynomialOverPolynomial>;
+using PolynomialOverPolynomialOptional = AlbaOptional<PolynomialOverPolynomial>;
 
 }
 

@@ -130,6 +130,7 @@ TEST(TwoDimensionsHelperTest, GetIntersectionsOfParabolaAndLineWorksOnParabolaWi
     Line line(Point(0,-0.25), Point(1,0));
 
     Points points(getIntersectionsOfParabolaAndLine(parabola, line));
+
     ASSERT_EQ(2U, points.size());
     EXPECT_EQ(Point(1,0), points.at(0));
     EXPECT_EQ(Point(4.25,0.8125), points.at(1));
@@ -149,16 +150,43 @@ TEST(TwoDimensionsHelperTest, GetIntersectionsOfParabolaAndLineWorksOnParabolaWi
 
 TEST(TwoDimensionsHelperTest, PopNearestPointWorks)
 {
-    Points points;    points.emplace_back(4,4);
+    Points points;
+    points.emplace_back(4,4);
     points.emplace_back(1,1);
     points.emplace_back(3,3);
     points.emplace_back(2,2);
+
     EXPECT_EQ(Point(1,1), popNearestPoint(points, Point(0,0)));
     EXPECT_EQ(Point(2,2), popNearestPoint(points, Point(0,0)));
     EXPECT_EQ(Point(3,3), popNearestPoint(points, Point(0,0)));
     EXPECT_EQ(Point(4,4), popNearestPoint(points, Point(0,0)));
     EXPECT_EQ(Point(0,0), popNearestPoint(points, Point(0,0)));
     EXPECT_EQ(Point(0,0), popNearestPoint(points, Point(0,0)));
+}
+
+TEST(TwoDimensionsHelperTest, GetConicSectionBasedOnEccentricityWorks)
+{
+    Circle circle(Point(1, 1), 1);
+    Parabola<ParabolaOrientation::PolynomialX> parabola(1, 1, 1);
+    Ellipse ellipse(Point(1, 1), 2, 3);
+    Hyperbola hyperbola(Point(1, 1), 2, 3);
+
+    EXPECT_EQ(ConicSectionType::Circle, getConicSectionBasedOnEccentricity(circle.getEccentricity()));
+    EXPECT_EQ(ConicSectionType::Parabola, getConicSectionBasedOnEccentricity(parabola.getEccentricity()));
+    EXPECT_EQ(ConicSectionType::Ellipse, getConicSectionBasedOnEccentricity(ellipse.getEccentricity()));
+    EXPECT_EQ(ConicSectionType::Hyperbola, getConicSectionBasedOnEccentricity(hyperbola.getEccentricity()));
+}
+
+TEST(TwoDimensionsHelperTest, GetConicSectionBasedOnGeneralFormWorks)
+{
+    EXPECT_EQ(ConicSectionType::Point, getConicSectionBasedOnGeneralForm(0, 0, 0, 0, 1));
+    EXPECT_EQ(ConicSectionType::Point, getConicSectionBasedOnGeneralForm(0, 0, 0, 1, 0));
+    EXPECT_EQ(ConicSectionType::Line, getConicSectionBasedOnGeneralForm(0, 0, 0, 1, 1));
+    EXPECT_EQ(ConicSectionType::Circle, getConicSectionBasedOnGeneralForm(1, 0, 1, 1, 1));
+    EXPECT_EQ(ConicSectionType::Parabola, getConicSectionBasedOnGeneralForm(1, 0, 0, 1, 1));
+    EXPECT_EQ(ConicSectionType::Parabola, getConicSectionBasedOnGeneralForm(0, 0, 1, 1, 1));
+    EXPECT_EQ(ConicSectionType::Ellipse, getConicSectionBasedOnGeneralForm(1, 0, 2, 1, 1));
+    EXPECT_EQ(ConicSectionType::Hyperbola, getConicSectionBasedOnGeneralForm(1, 0, -2, 1, 1));
 }
 
 TEST(TwoDimensionsHelperTest, GetQuadrantOfAPointWorksCorrectly)
@@ -205,9 +233,11 @@ TEST(TwoDimensionsHelperTest, PointsInParabolaCanBeConnected)
     Parabola<ParabolaOrientation::PolynomialX> parabola{1,2,3};
     Points parabolaPoints(parabola.getPoints(-2, 2, 1));
     Points connectedPoints(getConnectedPointsUsingALine(parabolaPoints, 1));
+
     ASSERT_EQ(11U, connectedPoints.size());
     EXPECT_EQ(Point(-2,3), connectedPoints.at(0));
-    EXPECT_EQ(Point(-1,2), connectedPoints.at(1));    EXPECT_EQ(Point(0,3), connectedPoints.at(2));
+    EXPECT_EQ(Point(-1,2), connectedPoints.at(1));
+    EXPECT_EQ(Point(0,3), connectedPoints.at(2));
     EXPECT_EQ(Point(static_cast<double>(1)/3,4), connectedPoints.at(3));
     EXPECT_EQ(Point(static_cast<double>(2)/3,5), connectedPoints.at(4));
     EXPECT_EQ(Point(1,6), connectedPoints.at(5));
@@ -288,9 +318,11 @@ TEST(TwoDimensionsHelperTest, GetTangentLineForPolynomialIsCorrect)
     Line expectedLine1(getPolynomialTangentLineAt(parabola, -1));
     Line expectedLine2(getPolynomialTangentLineAt(parabola, 0));
     Line expectedLine3(getPolynomialTangentLineAt(parabola, 1));
+
     EXPECT_EQ(LineType::Horizontal, expectedLine1.getType());
     EXPECT_DOUBLE_EQ(2, expectedLine1.getYIntercept());
-    EXPECT_DOUBLE_EQ(-INFINITY, expectedLine1.getXIntercept());    EXPECT_DOUBLE_EQ(0, expectedLine1.getSlope());
+    EXPECT_DOUBLE_EQ(-INFINITY, expectedLine1.getXIntercept());
+    EXPECT_DOUBLE_EQ(0, expectedLine1.getSlope());
 
     EXPECT_EQ(LineType::WithPositiveSlope, expectedLine2.getType());
     EXPECT_DOUBLE_EQ(3, expectedLine2.getYIntercept());

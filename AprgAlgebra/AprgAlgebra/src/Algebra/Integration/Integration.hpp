@@ -8,7 +8,8 @@
 
 #include <vector>
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -112,7 +113,8 @@ private:
     void integrateUsingIntegrationByPartsByTryingTwoTerms(Term & result, Term const& term) const;
     void integrateUsingIntegrationByPartsByTryingTwoTermsWithDifferentOrder(Term & result, Term const& term, Term const& firstTerm, Term const& secondTerm) const;
     void integrateUsingIntegrationByPartsAndCheckingPreviousValues(Term & result, Term const& term, Term const& u, Term const& dv) const;
-    void integrateUsingPreviousIntegrationByPartsTerms(Term & result, ListOfIntegrationByPartsTerms const& listOfIntegrationByPartsTerms, Term const& termToIntegrate) const;    void integrateUsingIntegrationByParts(Term & result, ListOfIntegrationByPartsTerms & listOfIntegrationByPartsTerms, Term const& term, Term const& u, Term const& dv) const;
+    void integrateUsingPreviousIntegrationByPartsTerms(Term & result, ListOfIntegrationByPartsTerms const& listOfIntegrationByPartsTerms, Term const& termToIntegrate) const;
+    void integrateUsingIntegrationByParts(Term & result, ListOfIntegrationByPartsTerms & listOfIntegrationByPartsTerms, Term const& term, Term const& u, Term const& dv) const;
     void integrateNonChangingTermRaiseToChangingTerm(Term & result, Term const& base, Term const& exponent) const;
     void integrateChangingTermRaiseToNonChangingTerm(Term & result, Term const& base, Term const& exponent) const;
     void integrateChangingTermRaiseToChangingTerm(Term & result, Term const& firstTerm, Term const& secondTerm) const;
@@ -143,7 +145,8 @@ private:
     void putReducedSineSquaredToDoubleAngleCosineTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
     void putReducedCosineSquaredToDoubleAngleCosineTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
     void putTangentSquaredToSecantSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
-    void putCosecantSquaredToCotangentSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;    void putSecantSquaredToTangentSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
+    void putCosecantSquaredToCotangentSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
+    void putSecantSquaredToTangentSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
     void putCotangentSquaredToCosecantSquaredTerms(Term & outputTerm, Term const& inputTerm, unsigned int const exponent) const;
     TrigonometryFunctionExponents fixTrigonometricExponents(TrigonometryFunctionExponents const& oldExponents) const;
     void simplifyForIntegration(Term & term, Configuration const& configuration) const;
@@ -158,7 +161,8 @@ private:
     Configuration getConfigurationWithCommonDenominator() const;
     bool isVariableToIntegrate(std::string const& variableName) const;
     bool isChangingTerm(Term const& term) const;
-    bool hasExponentialExpression(Term const& term) const;    bool wouldDifferentiationYieldToAConstant(Term const& term) const;
+    bool hasExponentialExpression(Term const& term) const;
+    bool wouldDifferentiationYieldToAConstant(Term const& term) const;
     bool areExponentsSame(TrigonometryFunctionExponents const& oldExponents, TrigonometryFunctionExponents const& newExponents) const;
     bool isIntegrationUsingSubstitutionAllowed(Term const& term) const;
     bool isIntegrationByPartsAllowed(Term const& term) const;

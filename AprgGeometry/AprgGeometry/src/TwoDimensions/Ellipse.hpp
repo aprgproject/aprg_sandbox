@@ -1,5 +1,6 @@
 #pragma once
 
+#include <TwoDimensions/Line.hpp>
 #include <TwoDimensions/Point.hpp>
 
 #include <functional>
@@ -26,10 +27,17 @@ public:
     double getSemiLatusRectum() const;
     double getArea() const;
     //double getCircumference() const;
-    bool isInside(Point const& point) const;    Points getPointsForCircumference(double const interval) const;
+    bool isInside(Point const& point) const;
+    Points getFoci() const;
+    Points getMajorVertices() const;
+    Points getMinorVertices() const;
+    Line getMajorAxis() const;
+    Line getMinorAxis() const;
+    Points getPointsForCircumference(double const interval) const;
     void traverseArea(double const interval, TraverseOperation const& traverseOperation) const;
     double calculateYFromX(double const x, double const signOfRoot) const;
-    double calculateXFromY(double const y, double const signOfRoot) const;    double calculateYFromXWithoutCenter(double const x, double const signOfRoot) const;
+    double calculateXFromY(double const y, double const signOfRoot) const;
+    double calculateYFromXWithoutCenter(double const x, double const signOfRoot) const;
     double calculateXFromYWithoutCenter(double const y, double const signOfRoot) const;
 
     std::string getDisplayableString() const;

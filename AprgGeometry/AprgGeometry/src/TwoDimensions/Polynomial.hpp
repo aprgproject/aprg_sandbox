@@ -50,9 +50,11 @@ public:
         }
         return result;
     }
+
 protected:
     void saveFirstDerivativeCoefficients()
-    {        for(unsigned int i=1; i<numberOfCoefficients; i++)
+    {
+        for(unsigned int i=1; i<numberOfCoefficients; i++)
         {
             m_coefficientsOfFirstDerivative[i-1] = i*m_coefficients[i];
         }

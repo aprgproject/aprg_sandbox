@@ -133,6 +133,73 @@ double getArea(Polygon<numberOfVertices> const& polygon)
 template double getArea<3>(Polygon<3> const& polygon);
 template double getArea<4>(Polygon<4> const& polygon);
 
+ConicSectionType getConicSectionBasedOnEccentricity(
+        double const eccentricity)
+{
+    ConicSectionType result(ConicSectionType::Unknown);
+    if(isAlmostEqual(eccentricity, 0))
+    {
+        result = ConicSectionType::Circle;
+    }
+    else if(isAlmostEqual(eccentricity, 1))
+    {
+        result = ConicSectionType::Parabola;
+    }
+    else if(eccentricity > 0 && eccentricity < 1)
+    {
+        result = ConicSectionType::Ellipse;
+    }
+    else if(eccentricity > 1)
+    {
+        result = ConicSectionType::Hyperbola;
+    }
+    return result;
+}
+
+ConicSectionType getConicSectionBasedOnGeneralForm(
+        double const a,
+        double const b,
+        double const c,
+        double const d,
+        double const e)
+{
+    // A*x^2 + B*x*y + C*y^2 + D*x + E*y + C
+    ConicSectionType result;
+
+    if(isAlmostEqual(b, 0))
+    {
+        if(isAlmostEqual(a, 0) && isAlmostEqual(c, 0))
+        {
+            if(isAlmostEqual(d, 0) || isAlmostEqual(e, 0))
+            {
+                result = ConicSectionType::Point;
+            }
+            else
+            {
+                result = ConicSectionType::Line;
+            }
+        }
+        else if((isAlmostEqual(a, 0) && !isAlmostEqual(c, 0))
+                || (!isAlmostEqual(a, 0) && isAlmostEqual(c, 0)))
+        {
+            result = ConicSectionType::Parabola;
+        }
+        else if(isAlmostEqual(a, c))
+        {
+            result = ConicSectionType::Circle;
+        }
+        else if(a*c > 0)
+        {
+            result = ConicSectionType::Ellipse;
+        }
+        else if(a*c < 0)
+        {
+            result = ConicSectionType::Hyperbola;
+        }
+    }
+    return result;
+}
+
 Quadrant getQuadrantOfAPoint(Point const& point)
 {
     Quadrant result(Quadrant::I);
@@ -295,7 +362,8 @@ Points getIntersectionsOfParabolaAndLine(
     double newB = (parabola.getB()*line.getBCoefficient()) + line.getACoefficient();
     double newC = (parabola.getC()*line.getBCoefficient()) + line.getCCoefficient();
     AlbaNumbers xValues(getQuadraticRoots(RootType::RealRootsOnly, AlbaNumber(newA), AlbaNumber(newB), AlbaNumber(newC)));
-    for(AlbaNumber const& xValue : xValues)    {
+    for(AlbaNumber const& xValue : xValues)
+    {
         result.emplace_back(xValue.getDouble(), line.calculateYFromX(xValue.getDouble()));
     }
     return result;
@@ -320,10 +388,12 @@ Points getIntersectionsOfParabolaAndLine(
 
 Point popNearestPoint(Points & points, Point const& point)
 {
-    Point result;    if(!points.empty())
+    Point result;
+    if(!points.empty())
     {
         double nearestDistance=getDistance(points[0], point);
-        Points::iterator nearestPointIterator = points.begin();        for(Points::iterator it = points.begin(); it != points.end(); it++)
+        Points::iterator nearestPointIterator = points.begin();
+        for(Points::iterator it = points.begin(); it != points.end(); it++)
         {
             double currentDistance(getDistance(*it, point));
             if(nearestDistance>currentDistance)
@@ -356,9 +426,11 @@ Points getConnectedPointsUsingALine(Points const& inputPoints, double const inte
     }
     return resultingPoints; //RVO
 }
+
 Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged)
 {
-    Points result;    Points firstPoints(getPointsInSortedIncreasingX(firstPointsToBeMerged));
+    Points result;
+    Points firstPoints(getPointsInSortedIncreasingX(firstPointsToBeMerged));
     Points secondPoints(getPointsInSortedIncreasingX(secondPointsToBeMerged));
     Points::const_iterator iteratorForX = firstPoints.cbegin();
     Points::const_iterator iteratorForY = secondPoints.cbegin();

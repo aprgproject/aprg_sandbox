@@ -6,6 +6,7 @@ using namespace std;
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -14,7 +15,8 @@ IntegrationHistory::IntegrationHistory()
     , m_previousIntegrationPurpose(IntegrationPurpose::NotSet)
 {}
 
-IntegrationPurpose IntegrationHistory::getLastIntegrationPurpose() const{
+IntegrationPurpose IntegrationHistory::getLastIntegrationPurpose() const
+{
     return m_lastIntegrationPurpose;
 }
 
@@ -36,7 +38,8 @@ string IntegrationHistory::getEnumShortString(
 
 void IntegrationHistory::setLastIntegrationPurpose(
         IntegrationPurpose const purpose)
-{    if(IntegrationPurpose::NoChange != purpose)
+{
+    if(IntegrationPurpose::NoChange != purpose)
     {
         m_lastIntegrationPurpose =  purpose;
     }
@@ -67,6 +70,7 @@ void IntegrationHistory::performStepsAfterIntegration()
 {
     setLastIntegrationPurpose(m_previousIntegrationPurpose);
 }
+
 
 }
 

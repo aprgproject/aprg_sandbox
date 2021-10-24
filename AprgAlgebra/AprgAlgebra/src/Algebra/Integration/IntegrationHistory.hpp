@@ -7,6 +7,7 @@
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -19,6 +20,7 @@ enum class IntegrationPurpose
     PartialFraction,
     NoChange
 };
+
 class IntegrationHistory : public AlbaSingleton<IntegrationHistory>
 {
 private:
@@ -43,4 +45,5 @@ private:
 };
 
 }
+
 }

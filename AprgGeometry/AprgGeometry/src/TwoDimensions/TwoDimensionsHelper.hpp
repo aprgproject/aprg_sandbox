@@ -2,6 +2,7 @@
 
 #include <Dimensionless/Angle.hpp>
 #include <TwoDimensions/Circle.hpp>
+#include <TwoDimensions/ConicSectionTypes.hpp>
 #include <TwoDimensions/Ellipse.hpp>
 #include <TwoDimensions/Hyperbola.hpp>
 #include <TwoDimensions/Line.hpp>
@@ -39,6 +40,8 @@ double getCosineOfAngleUsing2Deltas(double const deltaX1, double const deltaY1, 
 double getArcLength(Dimensionless::Angle const& angle, double const radius);
 template<unsigned int numberOfVertices> double getArea(Polygon<numberOfVertices> const& polygon);
 
+ConicSectionType getConicSectionBasedOnEccentricity(double const eccentricity);
+ConicSectionType getConicSectionBasedOnGeneralForm(double const a, double const b, double const c, double const e, double const f);
 Quadrant getQuadrantOfAPoint(Point const& point);
 RotationDirection getRotationDirectionTraversing3Points(Point const a, Point const b, Point const c);
 
@@ -58,9 +61,11 @@ template<> Points getIntersectionsOfParabolaAndLine(Parabola<ParabolaOrientation
 
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval);
 Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);//UT
-Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);Points getPointsInSortedIncreasingX(Points const& pointsToBeSorted);//UT
+Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);
+Points getPointsInSortedIncreasingX(Points const& pointsToBeSorted);//UT
 Points getPointsInSortedDecreasingX(Points const& pointsToBeSorted);
 Points getConvexHullPointsUsingGrahamScan(Points const& points);
+
 Line getLineWithSameSlope(Line const& line, Point const& point);
 Line getLineWithPerpendicularSlope(Line const& line, Point const& point);
 Line getTangentLineAt(Circle const& circle, Point const& point);
@@ -71,7 +76,8 @@ template<unsigned int numberOfCoefficients>
 Line getPolynomialTangentLineAt(PolynomialInXEqualsY<numberOfCoefficients> polynomial, double const x)
 {
     double slope = polynomial.getSlopeAt(x);
-    double y = polynomial.calculateYfromX(x);    return Line(Point(x, y), Point(x+1, y+slope));
+    double y = polynomial.calculateYfromX(x);
+    return Line(Point(x, y), Point(x+1, y+slope));
 }
 
 template<unsigned int numberOfCoefficients>
@@ -84,10 +90,12 @@ Line getPolynomialTangentLineAt(PolynomialInYEqualsX<numberOfCoefficients> polyn
 
 void addPointIfInsideTwoPoints(Points & pointsAtBorder, Point const& point, Point const& minimumXAndY, Point const& maximumXAndY);
 void savePointsFromTwoPointsUsingALineWithoutLastPoint(Points & points, Point const& previousPoint, Point const& currentPoint, double const interval);
-void sortPointsInYAndThenX(Points & points);void traverseCircleAreaBetweenTwoRadius(
+void sortPointsInYAndThenX(Points & points);
+void traverseCircleAreaBetweenTwoRadius(
         Point const& center,
         double const innerRadius,
-        double const outerRadius,        double const interval,
+        double const outerRadius,
+        double const interval,
         Circle::TraverseOperation const& traverseOperation);
 }
 
