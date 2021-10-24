@@ -52,14 +52,15 @@ Point getMidpoint(Point const& point1, Point const& point2);
 Point getPointAlongALineWithDistanceFromAPoint(Line const& line, Point const& referencePoint, double const distance, bool const isIncreasedOnX);
 Point popNearestPoint(Points & points, Point const& point);
 
-Points getIntersectionsOfParabolaAndLine(Parabola const& parabola, Line const& line);
+template<ParabolaOrientation parabolaOrientation> Points getIntersectionsOfParabolaAndLine(Parabola<parabolaOrientation> const& parabola, Line const& line);
+template<> Points getIntersectionsOfParabolaAndLine(Parabola<ParabolaOrientation::PolynomialX> const& parabola, Line const& line);
+template<> Points getIntersectionsOfParabolaAndLine(Parabola<ParabolaOrientation::PolynomialY> const& parabola, Line const& line);
+
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval);
 Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);//UT
-Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);
-Points getPointsInSortedIncreasingX(Points const& pointsToBeSorted);//UT
+Points getMergedPointsInDecreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged);Points getPointsInSortedIncreasingX(Points const& pointsToBeSorted);//UT
 Points getPointsInSortedDecreasingX(Points const& pointsToBeSorted);
 Points getConvexHullPointsUsingGrahamScan(Points const& points);
-
 Line getLineWithSameSlope(Line const& line, Point const& point);
 Line getLineWithPerpendicularSlope(Line const& line, Point const& point);
 Line getTangentLineAt(Circle const& circle, Point const& point);
@@ -67,21 +68,26 @@ Line getTangentLineAt(Ellipse const& ellipse, Point const& point);
 Line getTangentLineAt(Hyperbola const& hyperbola, Point const& point);
 
 template<unsigned int numberOfCoefficients>
-Line getPolynomialTangentLineAt(Polynomial<numberOfCoefficients> polynomial, double const x)
+Line getPolynomialTangentLineAt(PolynomialInXEqualsY<numberOfCoefficients> polynomial, double const x)
 {
     double slope = polynomial.getSlopeAt(x);
-    double y = polynomial.calculateYfromX(x);
-    return Line(Point(x, y), Point(x+1, y+slope));
+    double y = polynomial.calculateYfromX(x);    return Line(Point(x, y), Point(x+1, y+slope));
+}
+
+template<unsigned int numberOfCoefficients>
+Line getPolynomialTangentLineAt(PolynomialInYEqualsX<numberOfCoefficients> polynomial, double const y)
+{
+    double slopeInY = polynomial.getValueOfFirstDerivative(y);
+    double x = polynomial.calculateXfromY(x);
+    return Line(Point(x, y), Point(x+slopeInY, y+1));
 }
 
 void addPointIfInsideTwoPoints(Points & pointsAtBorder, Point const& point, Point const& minimumXAndY, Point const& maximumXAndY);
 void savePointsFromTwoPointsUsingALineWithoutLastPoint(Points & points, Point const& previousPoint, Point const& currentPoint, double const interval);
-void sortPointsInYAndThenX(Points & points);
-void traverseCircleAreaBetweenTwoRadius(
+void sortPointsInYAndThenX(Points & points);void traverseCircleAreaBetweenTwoRadius(
         Point const& center,
         double const innerRadius,
-        double const outerRadius,
-        double const interval,
+        double const outerRadius,        double const interval,
         Circle::TraverseOperation const& traverseOperation);
 }
 

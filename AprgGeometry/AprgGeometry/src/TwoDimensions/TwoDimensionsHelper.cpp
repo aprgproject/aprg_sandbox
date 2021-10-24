@@ -277,30 +277,53 @@ Point getPointAlongALineWithDistanceFromAPoint(
     return referencePoint + delta;
 }
 
+template<ParabolaOrientation parabolaOrientation>
 Points getIntersectionsOfParabolaAndLine(
-        Parabola const& parabola,
+        Parabola<parabolaOrientation> const& ,
+        Line const& )
+{
+    return Points();
+}
+
+template<>
+Points getIntersectionsOfParabolaAndLine(
+        Parabola<ParabolaOrientation::PolynomialX> const& parabola,
         Line const& line)
 {
     Points result;
     double newA = parabola.getA()*line.getBCoefficient();
-    double newB = line.getACoefficient() + (parabola.getB()*line.getBCoefficient());
+    double newB = (parabola.getB()*line.getBCoefficient()) + line.getACoefficient();
     double newC = (parabola.getC()*line.getBCoefficient()) + line.getCCoefficient();
     AlbaNumbers xValues(getQuadraticRoots(RootType::RealRootsOnly, AlbaNumber(newA), AlbaNumber(newB), AlbaNumber(newC)));
-    for(AlbaNumber const& xValue : xValues)
-    {
+    for(AlbaNumber const& xValue : xValues)    {
         result.emplace_back(xValue.getDouble(), line.calculateYFromX(xValue.getDouble()));
+    }
+    return result;
+}
+
+template<>
+Points getIntersectionsOfParabolaAndLine(
+        Parabola<ParabolaOrientation::PolynomialY> const& parabola,
+        Line const& line)
+{
+    Points result;
+    double newA = parabola.getA()*line.getACoefficient();
+    double newB = (parabola.getB()*line.getACoefficient()) + line.getBCoefficient();
+    double newC = (parabola.getC()*line.getACoefficient()) + line.getCCoefficient();
+    AlbaNumbers yValues(getQuadraticRoots(RootType::RealRootsOnly, AlbaNumber(newA), AlbaNumber(newB), AlbaNumber(newC)));
+    for(AlbaNumber const& yValue : yValues)
+    {
+        result.emplace_back(line.calculateXFromY(yValue.getDouble()), yValue.getDouble());
     }
     return result;
 }
 
 Point popNearestPoint(Points & points, Point const& point)
 {
-    Point result;
-    if(!points.empty())
+    Point result;    if(!points.empty())
     {
         double nearestDistance=getDistance(points[0], point);
-        Points::iterator nearestPointIterator = points.begin();
-        for(Points::iterator it = points.begin(); it != points.end(); it++)
+        Points::iterator nearestPointIterator = points.begin();        for(Points::iterator it = points.begin(); it != points.end(); it++)
         {
             double currentDistance(getDistance(*it, point));
             if(nearestDistance>currentDistance)
@@ -329,15 +352,13 @@ Points getConnectedPointsUsingALine(Points const& inputPoints, double const inte
             }
             previousPoint = currentPoint;
         }
-        resultingPoints.push_back(previousPoint);
+        resultingPoints.emplace_back(previousPoint);
     }
     return resultingPoints; //RVO
 }
-
 Points getMergedPointsInIncreasingX(Points const& firstPointsToBeMerged, Points const& secondPointsToBeMerged)
 {
-    Points result;
-    Points firstPoints(getPointsInSortedIncreasingX(firstPointsToBeMerged));
+    Points result;    Points firstPoints(getPointsInSortedIncreasingX(firstPointsToBeMerged));
     Points secondPoints(getPointsInSortedIncreasingX(secondPointsToBeMerged));
     Points::const_iterator iteratorForX = firstPoints.cbegin();
     Points::const_iterator iteratorForY = secondPoints.cbegin();

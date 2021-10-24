@@ -23,15 +23,13 @@ public:
     double getBValue() const;
     double getCValue() const;
     double getEccentricity() const;
-    double getSemiLactusRectum() const;
+    double getSemiLatusRectum() const;
     double getArea() const;
     //double getCircumference() const;
-    bool isInside(Point const& point) const;
-    Points getPointsForCircumference(double const interval) const;
+    bool isInside(Point const& point) const;    Points getPointsForCircumference(double const interval) const;
     void traverseArea(double const interval, TraverseOperation const& traverseOperation) const;
     double calculateYFromX(double const x, double const signOfRoot) const;
-    double calculateXFromY(double const y, double const signOfRoot) const;
-    double calculateYFromXWithoutCenter(double const x, double const signOfRoot) const;
+    double calculateXFromY(double const y, double const signOfRoot) const;    double calculateYFromXWithoutCenter(double const x, double const signOfRoot) const;
     double calculateXFromYWithoutCenter(double const y, double const signOfRoot) const;
 
     std::string getDisplayableString() const;

@@ -23,49 +23,36 @@ public:
     {
         static_assert(numberOfCoefficients>0, "The numberOfCoefficients is not more than 0. Its not a polynomial");
         unsigned int limit = std::min(numberOfCoefficients, static_cast<unsigned int>(coefficients.size()));
-        std::copy(coefficients.begin(), coefficients.begin()+limit, m_coefficients.begin());
+        std::copy(coefficients.begin(), coefficients.begin()+limit, m_coefficients.rbegin());
         saveFirstDerivativeCoefficients();
     }
 
-    Points getPoints(double const startValueOfX, double const endValueOfX, double const interval) const
+    double calculateOutputFromInput(double const input) const
     {
-        Points points;
-        AlbaRange<double> range(startValueOfX, endValueOfX, interval);
-        range.traverse([&](double const traverseValueOfX)
-        {
-            points.push_back(Point(traverseValueOfX, calculateYfromX(traverseValueOfX)));
-        });
-        return points; //RVO
-    }
-
-    double calculateYfromX(double const x) const
-    {
-        double valueOfPowerOfX(1);
+        double powerValueOfInput(1);
         double result(0);
         for(double const coefficient : m_coefficients)
         {
-            result += coefficient*valueOfPowerOfX;
-            valueOfPowerOfX *= x;
+            result += coefficient * powerValueOfInput;
+            powerValueOfInput *= input;
         }
         return result;
     }
 
-    double getSlopeAt(double const x) const
+    double getValueOfFirstDerivative(double const input) const
     {
-        double valueOfPowerOfX(1);
+        double powerValueOfInput(1);
         double result(0);
         for(double const coefficient : m_coefficientsOfFirstDerivative)
         {
-            result += coefficient*valueOfPowerOfX;
-            valueOfPowerOfX *= x;
+            result += coefficient*powerValueOfInput;
+            powerValueOfInput *= input;
         }
         return result;
     }
-
 protected:
     void saveFirstDerivativeCoefficients()
-    {
-        for(unsigned int i=1; i<numberOfCoefficients; i++)
+    {        for(unsigned int i=1; i<numberOfCoefficients; i++)
         {
             m_coefficientsOfFirstDerivative[i-1] = i*m_coefficients[i];
         }

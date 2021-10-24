@@ -61,18 +61,18 @@ double Ellipse::getCValue() const
 
 double Ellipse::getEccentricity() const
 {
+    // In mathematics, the eccentricity of a conic section is a non-negative real number that uniquely characterizes its shape.
     return pow(1 - (pow(m_bValue, 2)/pow(m_aValue, 2)), 0.5);
 }
 
-double Ellipse::getSemiLactusRectum() const
+double Ellipse::getSemiLatusRectum() const
 {
+    // The length of the chord through one focus, perpendicular to the major axis, is called the latus rectum.
     return pow(m_bValue, 2)/m_aValue;
 }
-
 double Ellipse::getArea() const
 {
-    return getPi()*m_aValue*m_bValue;
-}
+    return getPi()*m_aValue*m_bValue;}
 
 /*double Ellipse::getCircumference(unsigned int depthOfCalculation) const
 {

@@ -93,15 +93,13 @@ TEST(TriangleTest, IsRightTriangleWorksCorrect)
     EXPECT_TRUE(rightTriangle.isRightTriangle());
 }
 
-TEST(TriangleTest, GetPointsAreCorrect)
+TEST(TriangleTest, GetPointsWorks)
 {
     Triangle triangle(Point(0,0), Point(3,3), Point(0,6));
     Points points(triangle.getPoints(1));
-
     ASSERT_EQ(12U, points.size());
     EXPECT_EQ(Point(0,0), points.at(0));
-    EXPECT_EQ(Point(1,1), points.at(1));
-    EXPECT_EQ(Point(2,2), points.at(2));
+    EXPECT_EQ(Point(1,1), points.at(1));    EXPECT_EQ(Point(2,2), points.at(2));
     EXPECT_EQ(Point(3,3), points.at(3));
     EXPECT_EQ(Point(2,4), points.at(4));
     EXPECT_EQ(Point(1,5), points.at(5));
