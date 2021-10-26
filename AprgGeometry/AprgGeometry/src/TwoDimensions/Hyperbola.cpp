@@ -69,14 +69,47 @@ double Hyperbola::getSemiLactusRectum() const
     return pow(m_bValue, 2)/m_aValue;
 }
 
+Points Hyperbola::getFoci() const
+{
+    Points foci;
+    if(m_aValue > 0)
+    {
+        double c(getCValue());
+        foci.emplace_back(m_center + Point(c, 0));
+        foci.emplace_back(m_center - Point(c, 0));
+    }
+    else
+    {
+        double c(getCValue());
+        foci.emplace_back(m_center + Point(0, c));
+        foci.emplace_back(m_center - Point(0, c));
+    }
+    return foci;
+}
+
+Points Hyperbola::getVertices() const
+{
+    Points vertices;
+    if(m_aValue > 0)
+    {
+        vertices.emplace_back(m_center + Point(m_aValue, 0));
+        vertices.emplace_back(m_center - Point(m_aValue, 0));
+    }
+    else
+    {
+        double bPositive = getAbsoluteValue(m_bValue);
+        vertices.emplace_back(m_center + Point(0, bPositive));
+        vertices.emplace_back(m_center - Point(0, bPositive));
+    }
+    return vertices;
+}
+
 Points Hyperbola::getPointsForShape(double const interval) const
 {
-    Points result;
-    if(m_aValue!=0 && m_bValue!=0)
+    Points result;    if(m_aValue!=0 && m_bValue!=0)
     {
         Points pointsInFirstQuarter(getPointsInTraversingXAndY(1, 1, interval));
-        Points pointsInFourthQuarter(getPointsInTraversingXAndY(1, -1, interval));
-        Points pointsInSecondQuarter(getPointsInTraversingXAndY(-1, 1, interval));
+        Points pointsInFourthQuarter(getPointsInTraversingXAndY(1, -1, interval));        Points pointsInSecondQuarter(getPointsInTraversingXAndY(-1, 1, interval));
         Points pointsInThirdQuarter(getPointsInTraversingXAndY(-1, -1, interval));
         result.reserve(pointsInFirstQuarter.size()+pointsInSecondQuarter.size()+pointsInThirdQuarter.size()+pointsInFourthQuarter.size());
         copy(pointsInFirstQuarter.cbegin(), pointsInFirstQuarter.cend()-1, back_inserter(result));
@@ -87,15 +120,21 @@ Points Hyperbola::getPointsForShape(double const interval) const
     return result;
 }
 
+Lines Hyperbola::getAsymptotes() const
+{
+    Lines result;
+    result.emplace_back(m_bValue, m_aValue, -m_bValue*m_center.getX() - m_aValue*m_center.getY());
+    result.emplace_back(m_bValue, -m_aValue, -m_bValue*m_center.getX() + m_aValue*m_center.getY());
+    return result;
+}
+
 double Hyperbola::calculateYFromX(double const x, double const signOfRoot) const
 {
-    return pow(pow((x-m_center.getX())/m_aValue, 2) - 1, 0.5)*signOfRoot*m_bValue + m_center.getY();
-}
+    return pow(pow((x-m_center.getX())/m_aValue, 2) - 1, 0.5)*signOfRoot*m_bValue + m_center.getY();}
 
 double Hyperbola::calculateXFromY(double const y, double const signOfRoot) const
 {
-    return pow(1 + pow((y-m_center.getY())/m_bValue, 2), 0.5)*signOfRoot*m_aValue + m_center.getX();
-}
+    return pow(1 + pow((y-m_center.getY())/m_bValue, 2), 0.5)*signOfRoot*m_aValue + m_center.getX();}
 
 double Hyperbola::calculateYFromXWithoutCenter(double const x, double const signOfRoot) const
 {

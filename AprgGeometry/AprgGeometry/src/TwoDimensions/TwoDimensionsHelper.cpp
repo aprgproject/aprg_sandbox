@@ -408,14 +408,30 @@ Point popNearestPoint(Points & points, Point const& point)
     return result;
 }
 
+Point rotateAxisByAngle(Point const& point, Dimensionless::Angle const& angle)
+{
+    double sinTheta = sin(angle.getRadians());
+    double cosTheta = cos(angle.getRadians());
+    double newX = point.getX()*cosTheta + point.getY()*sinTheta;
+    double newY = -point.getX()*sinTheta + point.getY()*cosTheta;
+    return Point(newX, newY);
+}
+
+Point rotateAxisBackByAngle(Point const& point, Dimensionless::Angle const& angle)
+{
+    double sinTheta = sin(angle.getRadians());
+    double cosTheta = cos(angle.getRadians());
+    double newX = point.getX()*cosTheta - point.getY()*sinTheta;
+    double newY = point.getX()*sinTheta + point.getY()*cosTheta;
+    return Point(newX, newY);
+}
+
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval)
 {
-    Points resultingPoints;
-    if(!inputPoints.empty())
+    Points resultingPoints;    if(!inputPoints.empty())
     {
         Point previousPoint(inputPoints.front());
-        for(Point const& currentPoint: inputPoints)
-        {
+        for(Point const& currentPoint: inputPoints)        {
             if(currentPoint != previousPoint)
             {
                 savePointsFromTwoPointsUsingALineWithoutLastPoint(resultingPoints, previousPoint, currentPoint, interval);

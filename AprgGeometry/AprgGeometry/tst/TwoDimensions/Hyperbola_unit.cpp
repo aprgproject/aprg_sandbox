@@ -65,10 +65,72 @@ TEST(HyperbolaTest, HyperbolaAtOriginWithRadius)
     EXPECT_EQ(Point(-6,-3.4641016151377543864), points.at(21));
 }
 
+TEST(HyperbolaTest, GetFociWorks)
+{
+    Hyperbola hyperbola1(Point(0, 0), 1, 1);
+    Hyperbola hyperbola2(Point(0, 0), 3, 4);
+    Hyperbola hyperbola3(Point(0, 0), -3, -4);
+
+    Points foci1(hyperbola1.getFoci());
+    Points foci2(hyperbola2.getFoci());
+    Points foci3(hyperbola3.getFoci());
+
+    ASSERT_EQ(2U, foci2.size());
+    EXPECT_EQ(Point(1.41421356237309514547462185874, 0), foci1.at(0));
+    EXPECT_EQ(Point(-1.41421356237309514547462185874, 0), foci1.at(1));
+    ASSERT_EQ(2U, foci2.size());
+    EXPECT_EQ(Point(5, 0), foci2.at(0));
+    EXPECT_EQ(Point(-5, 0), foci2.at(1));
+    ASSERT_EQ(2U, foci3.size());
+    EXPECT_EQ(Point(0, 5), foci3.at(0));
+    EXPECT_EQ(Point(0, -5), foci3.at(1));
+}
+
+TEST(HyperbolaTest, GetVerticesWorks)
+{
+    Hyperbola hyperbola1(Point(0, 0), 1, 1);
+    Hyperbola hyperbola2(Point(0, 0), 3, 4);
+    Hyperbola hyperbola3(Point(0, 0), -3, -4);
+
+    Points vertices1(hyperbola1.getVertices());
+    Points vertices2(hyperbola2.getVertices());
+    Points vertices3(hyperbola3.getVertices());
+
+    ASSERT_EQ(2U, vertices2.size());
+    EXPECT_EQ(Point(1, 0), vertices1.at(0));
+    EXPECT_EQ(Point(-1, 0), vertices1.at(1));
+    ASSERT_EQ(2U, vertices2.size());
+    EXPECT_EQ(Point(3, 0), vertices2.at(0));
+    EXPECT_EQ(Point(-3, 0), vertices2.at(1));
+    ASSERT_EQ(2U, vertices3.size());
+    EXPECT_EQ(Point(0, 4), vertices3.at(0));
+    EXPECT_EQ(Point(0, -4), vertices3.at(1));
+}
+
+TEST(HyperbolaTest, GetAsymptotesWorks)
+{
+    Hyperbola hyperbola1(Point(0, 0), 1, 1);
+    Hyperbola hyperbola2(Point(0, 0), 3, 4);
+    Hyperbola hyperbola3(Point(0, 0), -3, -4);
+
+    Lines asymptotes1(hyperbola1.getAsymptotes());
+    Lines asymptotes2(hyperbola2.getAsymptotes());
+    Lines asymptotes3(hyperbola3.getAsymptotes());
+
+    ASSERT_EQ(2U, asymptotes1.size());
+    EXPECT_EQ(Line(1, 1, 0), asymptotes1.at(0));
+    EXPECT_EQ(Line(1, -1, 0), asymptotes1.at(1));
+    ASSERT_EQ(2U, asymptotes2.size());
+    EXPECT_EQ(Line(4, 3, 0), asymptotes2.at(0));
+    EXPECT_EQ(Line(4, -3, 0), asymptotes2.at(1));
+    ASSERT_EQ(2U, asymptotes3.size());
+    EXPECT_EQ(Line(-4, -3, 0), asymptotes3.at(0));
+    EXPECT_EQ(Line(-4, 3, 0), asymptotes3.at(1));
+}
+
 TEST(HyperbolaTest, AreaTraversalIsCorrect)
 {
-    //traversal
-}
+    //traversal}
 
 }
 

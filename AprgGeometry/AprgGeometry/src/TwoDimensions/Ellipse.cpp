@@ -128,29 +128,27 @@ bool Ellipse::isInside(Point const& point) const
 Points Ellipse::getFoci() const
 {
     Points foci;
-    double aSquared(pow(m_aValue, 2));
-    double bSquared(pow(m_bValue, 2));
-    if(isAlmostEqual(aSquared, bSquared))
+    double a(m_aValue);
+    double b(m_bValue);
+    if(isAlmostEqual(a, b))
     {
         foci.emplace_back(m_center);
     }
-    else if(aSquared > bSquared)
+    else if(a > b)
     {
-        double c(pow(aSquared-bSquared, 0.5));
+        double c(getCValue());
         foci.emplace_back(m_center + Point(c, 0));
         foci.emplace_back(m_center - Point(c, 0));
     }
-    else if(aSquared < bSquared)
+    else if(a < b)
     {
-        double c(pow(bSquared-aSquared, 0.5));
+        double c(getCValue());
         foci.emplace_back(m_center + Point(0, c));
         foci.emplace_back(m_center - Point(0, c));
-    }
-    return foci;
+    }    return foci;
 }
 
-Points Ellipse::getMajorVertices() const
-{
+Points Ellipse::getMajorVertices() const{
     Points principalVertices;
     if(!isAlmostEqual(m_aValue, m_bValue))
     {

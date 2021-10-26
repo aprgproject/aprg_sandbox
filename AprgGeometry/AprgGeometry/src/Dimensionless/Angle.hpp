@@ -19,15 +19,13 @@ class Angle
 {
 public:
     Angle();
-    Angle(AngleUnitType const angleInputType, double const angleValue);
+    Angle(AngleUnitType const angleUnitType, double const angleValue);
     bool operator==(Angle const& angle) const;
     bool operator!=(Angle const& angle) const;
-    bool operator<(Angle const& angle) const;
-    Angle operator+(Angle const& secondAngle) const;
+    bool operator<(Angle const& angle) const;    Angle operator+(Angle const& secondAngle) const;
     Angle operator-(Angle const& secondAngle) const;
     Angle operator+() const;
-    Angle operator-() const;
-    Angle& operator+=(Angle const& secondAngle);
+    Angle operator-() const;    Angle& operator+=(Angle const& secondAngle);
     Angle& operator-=(Angle const& secondAngle);
     double getDegrees() const;
     double getRadians() const;
