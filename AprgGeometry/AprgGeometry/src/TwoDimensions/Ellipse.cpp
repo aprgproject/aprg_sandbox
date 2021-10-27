@@ -7,14 +7,13 @@
 #include <cmath>
 
 using namespace alba::mathHelper;
+using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace TwoDimensions
 {
-
 Ellipse::Ellipse()
     : m_center()
     , m_aValue(0)
@@ -283,27 +282,25 @@ Points Ellipse::getPointsInTraversingXAndY(double const signOfX, double const si
     Points pointsFromTraversingY(getPointsInTraversingY(signOfX, signOfY, interval));
     if(signOfX>0 && signOfY>0)
     {
-        result = twoDimensionsHelper::getMergedPointsInDecreasingX(pointsFromTraversingX, pointsFromTraversingY);
+        result = getMergedPointsInDecreasingX(pointsFromTraversingX, pointsFromTraversingY);
     }
     else if(signOfX<0 && signOfY>0)
     {
-        result = twoDimensionsHelper::getMergedPointsInDecreasingX(pointsFromTraversingX, pointsFromTraversingY);
+        result = getMergedPointsInDecreasingX(pointsFromTraversingX, pointsFromTraversingY);
     }
     else if(signOfX<0 && signOfY<0)
     {
-        result = twoDimensionsHelper::getMergedPointsInIncreasingX(pointsFromTraversingX, pointsFromTraversingY);
+        result = getMergedPointsInIncreasingX(pointsFromTraversingX, pointsFromTraversingY);
     }
     else if(signOfX>0 && signOfY<0)
     {
-        result = twoDimensionsHelper::getMergedPointsInIncreasingX(pointsFromTraversingX, pointsFromTraversingY);
+        result = getMergedPointsInIncreasingX(pointsFromTraversingX, pointsFromTraversingY);
     }
     return result;
 }
-
 Points Ellipse::getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const
 {
-    Points result;
-    AlbaRange<double> yRange(m_center.getY(), m_center.getY()+(m_bValue*signOfY), interval);
+    Points result;    AlbaRange<double> yRange(m_center.getY(), m_center.getY()+(m_bValue*signOfY), interval);
     yRange.traverse([&](double const yValue)
     {
         result.emplace_back(calculateXFromY(yValue, signOfX), yValue);
