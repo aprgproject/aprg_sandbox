@@ -180,11 +180,38 @@ TEST(TwoDimensionsHelperTest, RotateAxisBackByAngleWorks)
     EXPECT_EQ(Point(1,1), rotateAxisBackByAngle(Point(1, 1), Angle(AngleUnitType::Degrees, 360)));
 }
 
+TEST(TwoDimensionsHelperTest, ConvertFromPolarCoordinatesWorks)
+{
+    EXPECT_EQ(Point(0,5), convertFromPolarCoordinates(PolarCoordinate{5, Angle(AngleUnitType::Degrees, 90)}));
+    EXPECT_EQ(Point(-10,0), convertFromPolarCoordinates(PolarCoordinate{10, Angle(AngleUnitType::Degrees, 180)}));
+    EXPECT_EQ(Point(0,-15), convertFromPolarCoordinates(PolarCoordinate{15, Angle(AngleUnitType::Degrees, 270)}));
+    EXPECT_EQ(Point(20,0), convertFromPolarCoordinates(PolarCoordinate{20, Angle(AngleUnitType::Degrees, 360)}));
+}
+
+TEST(TwoDimensionsHelperTest, ConvertToPolarCoordinateWorks)
+{
+    PolarCoordinate polarCoordinate1(convertToPolarCoordinate(Point(0,5)));
+    PolarCoordinate polarCoordinate2(convertToPolarCoordinate(Point(-10,0)));
+    PolarCoordinate polarCoordinate3(convertToPolarCoordinate(Point(0,-15)));
+    PolarCoordinate polarCoordinate4(convertToPolarCoordinate(Point(20,0)));
+
+    EXPECT_DOUBLE_EQ(5, polarCoordinate1.radius);
+    EXPECT_EQ(Angle(AngleUnitType::Degrees, 90), polarCoordinate1.angle);
+    EXPECT_DOUBLE_EQ(10, polarCoordinate2.radius);
+    EXPECT_EQ(Angle(AngleUnitType::Degrees, 180), polarCoordinate2.angle);
+    EXPECT_DOUBLE_EQ(15, polarCoordinate3.radius);
+    EXPECT_EQ(Angle(AngleUnitType::Degrees, 270), polarCoordinate3.angle);
+    EXPECT_DOUBLE_EQ(20, polarCoordinate4.radius);
+    EXPECT_EQ(Angle(AngleUnitType::Degrees, 0), polarCoordinate4.angle);
+}
+
 TEST(TwoDimensionsHelperTest, GetConicSectionBasedOnEccentricityWorks)
 {
-    Circle circle(Point(1, 1), 1);    Parabola<ParabolaOrientation::PolynomialX> parabola(1, 1, 1);
+    Circle circle(Point(1, 1), 1);
+    Parabola<ParabolaOrientation::PolynomialX> parabola(1, 1, 1);
     Ellipse ellipse(Point(1, 1), 2, 3);
     Hyperbola hyperbola(Point(1, 1), 2, 3);
+
     EXPECT_EQ(ConicSectionType::Circle, getConicSectionBasedOnEccentricity(circle.getEccentricity()));
     EXPECT_EQ(ConicSectionType::Parabola, getConicSectionBasedOnEccentricity(parabola.getEccentricity()));
     EXPECT_EQ(ConicSectionType::Ellipse, getConicSectionBasedOnEccentricity(ellipse.getEccentricity()));
@@ -205,11 +232,15 @@ TEST(TwoDimensionsHelperTest, GetConicSectionBasedOnGeneralFormWorks)
 
 TEST(TwoDimensionsHelperTest, GetQuadrantOfAPointWorksCorrectly)
 {
-    EXPECT_EQ(Quadrant::I, getQuadrantOfAPoint(Point(0,0)));
+    EXPECT_EQ(Quadrant::Invalid, getQuadrantOfAPoint(Point(0,0)));
     EXPECT_EQ(Quadrant::I, getQuadrantOfAPoint(Point(1,1)));
     EXPECT_EQ(Quadrant::II, getQuadrantOfAPoint(Point(-1,1)));
     EXPECT_EQ(Quadrant::III, getQuadrantOfAPoint(Point(-1,-1)));
     EXPECT_EQ(Quadrant::IV, getQuadrantOfAPoint(Point(1,-1)));
+    EXPECT_EQ(Quadrant::II, getQuadrantOfAPoint(Point(0,1)));
+    EXPECT_EQ(Quadrant::IV, getQuadrantOfAPoint(Point(0,-1)));
+    EXPECT_EQ(Quadrant::I, getQuadrantOfAPoint(Point(1,0)));
+    EXPECT_EQ(Quadrant::III, getQuadrantOfAPoint(Point(-1,0)));
 }
 
 TEST(TwoDimensionsHelperTest, GetAngleBasedOnAPointAndOriginWorksCorrectly)
@@ -219,6 +250,10 @@ TEST(TwoDimensionsHelperTest, GetAngleBasedOnAPointAndOriginWorksCorrectly)
     EXPECT_DOUBLE_EQ(135, getAngleBasedOnAPointAndOrigin(Point(-1,1)).getDegrees());
     EXPECT_DOUBLE_EQ(225, getAngleBasedOnAPointAndOrigin(Point(-1,-1)).getDegrees());
     EXPECT_DOUBLE_EQ(315, getAngleBasedOnAPointAndOrigin(Point(1,-1)).getDegrees());
+    EXPECT_DOUBLE_EQ(90, getAngleBasedOnAPointAndOrigin(Point(0,1)).getDegrees());
+    EXPECT_DOUBLE_EQ(270, getAngleBasedOnAPointAndOrigin(Point(0,-1)).getDegrees());
+    EXPECT_DOUBLE_EQ(0, getAngleBasedOnAPointAndOrigin(Point(1,0)).getDegrees());
+    EXPECT_DOUBLE_EQ(180, getAngleBasedOnAPointAndOrigin(Point(-1,0)).getDegrees());
 }
 
 TEST(TwoDimensionsHelperTest, getTheInnerAngleUsingThreePointsWorksCorrectly)

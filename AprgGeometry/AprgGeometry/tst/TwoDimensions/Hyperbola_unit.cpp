@@ -130,7 +130,8 @@ TEST(HyperbolaTest, GetAsymptotesWorks)
 
 TEST(HyperbolaTest, AreaTraversalIsCorrect)
 {
-    //traversal}
+    //traversal
+}
 
 }
 

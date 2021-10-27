@@ -203,11 +203,32 @@ ConicSectionType getConicSectionBasedOnGeneralForm(
 Quadrant getQuadrantOfAPoint(Point const& point)
 {
     Quadrant result(Quadrant::I);
+    bool isXZero = isAlmostEqual(point.getX(), 0);
+    bool isYZero = isAlmostEqual(point.getY(), 0);
     double signOfX = getSign(point.getX());
     double signOfY = getSign(point.getY());
-    if(signOfX==1)
+    if(isXZero)
     {
-        if(signOfY==1)
+        if(isYZero)
+        {
+            result = Quadrant::Invalid;
+        }
+        else if(signOfY==1)
+        {
+            result = Quadrant::II;
+        }
+        else
+        {
+            result = Quadrant::IV;
+        }
+    }
+    else if(signOfX==1)
+    {
+        if(isYZero)
+        {
+            result = Quadrant::I;
+        }
+        else if(signOfY==1)
         {
             result = Quadrant::I;
         }
@@ -218,7 +239,11 @@ Quadrant getQuadrantOfAPoint(Point const& point)
     }
     else
     {
-        if(signOfY==1)
+        if(isYZero)
+        {
+            result = Quadrant::III;
+        }
+        else if(signOfY==1)
         {
             result = Quadrant::II;
         }
@@ -252,6 +277,10 @@ Angle getAngleBasedOnAPointAndOrigin(Point const& point)
     {
         Quadrant quadrant(getQuadrantOfAPoint(point));
         angle = Angle(AngleUnitType::Radians, acos(getAbsoluteValue(getCosineOfAngleUsing1Delta(point.getX(), point.getY()))));
+        if(angle == Angle(AngleUnitType::Degrees, 90))
+        {
+            angle = Angle(AngleUnitType::Degrees, 0);
+        }
         if(Quadrant::IV == quadrant)
         {
             angle += Angle(AngleUnitType::Degrees, 270);
@@ -426,12 +455,27 @@ Point rotateAxisBackByAngle(Point const& point, Dimensionless::Angle const& angl
     return Point(newX, newY);
 }
 
+Point convertFromPolarCoordinates(PolarCoordinate const& coordinate)
+{
+    return Point(coordinate.radius*cos(coordinate.angle.getRadians()), coordinate.radius*sin(coordinate.angle.getRadians()));
+}
+
+PolarCoordinate convertToPolarCoordinate(Point const& point)
+{
+    PolarCoordinate polarCoordinate;
+    polarCoordinate.radius = getSquareRootOfXSquaredPlusYSquared<double>(point.getX(), point.getY());
+    polarCoordinate.angle = getAngleBasedOnAPointAndOrigin(point);
+    return polarCoordinate;
+}
+
 Points getConnectedPointsUsingALine(Points const& inputPoints, double const interval)
 {
-    Points resultingPoints;    if(!inputPoints.empty())
+    Points resultingPoints;
+    if(!inputPoints.empty())
     {
         Point previousPoint(inputPoints.front());
-        for(Point const& currentPoint: inputPoints)        {
+        for(Point const& currentPoint: inputPoints)
+        {
             if(currentPoint != previousPoint)
             {
                 savePointsFromTwoPointsUsingALineWithoutLastPoint(resultingPoints, previousPoint, currentPoint, interval);

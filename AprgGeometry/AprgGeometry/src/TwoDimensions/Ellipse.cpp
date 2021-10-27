@@ -145,10 +145,12 @@ Points Ellipse::getFoci() const
         double c(getCValue());
         foci.emplace_back(m_center + Point(0, c));
         foci.emplace_back(m_center - Point(0, c));
-    }    return foci;
+    }
+    return foci;
 }
 
-Points Ellipse::getMajorVertices() const{
+Points Ellipse::getMajorVertices() const
+{
     Points principalVertices;
     if(!isAlmostEqual(m_aValue, m_bValue))
     {
