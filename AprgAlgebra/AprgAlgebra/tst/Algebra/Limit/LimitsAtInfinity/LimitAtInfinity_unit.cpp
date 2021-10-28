@@ -1,16 +1,16 @@
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Limit/LimitsAtInfinity/LimitsAtInfinity.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 TEST(LimitsAtInfinityTest, XWorksAndSimplifiesToZero)
 {
     LimitsAtInfinity limits(Term("x"), "x");
@@ -94,6 +94,21 @@ TEST(LimitsAtInfinityTest, PolynomialOverSquareRootOfPolynomialWithEqualDegreeWo
     Term numerator("x");
     Term denominatorInSquareRoot(Polynomial{Monomial(1, {{"x", 2}}), Monomial(1, {})});
     Term denominator(createExpressionIfPossible({denominatorInSquareRoot, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    Term term(createExpressionIfPossible({numerator, Term("/"), denominator}));
+
+    LimitsAtInfinity limits(term, "x");
+
+    Term expectedTerm(AlbaNumber(1));
+    Term expectedValueTerm(AlbaNumber(1));
+    EXPECT_EQ(expectedTerm, limits.getSimplifiedTermAtInfinity());
+    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::NegativeInfinity));
+    EXPECT_EQ(expectedValueTerm, limits.getValueAtInfinity(AlbaNumber::Value::PositiveInfinity));
+}
+
+TEST(LimitsAtInfinityTest, DISABLED_ExpressionWithTrigonometricFunctionsWorks)
+{
+    Term numerator(sin(Term(Monomial(1, {{"x", -1}}))));
+    Term denominator(arctan(Term(Monomial(1, {{"x", -1}}))));
     Term term(createExpressionIfPossible({numerator, Term("/"), denominator}));
 
     LimitsAtInfinity limits(term, "x");
