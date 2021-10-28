@@ -310,18 +310,16 @@ void Expression::putExpressionWithMultiplication(Expression const& secondExpress
     }
     else if(OperatorLevel::AdditionAndSubtraction == secondExpression.getCommonOperatorLevel())
     {
-        Expression thisExpression(*this);
+        Term thisExpressionTerm(*this);
         clear();
         multiplyThenAddOrSubtract(
-                    Term(thisExpression),
+                    thisExpressionTerm,
                     secondExpression.getTermsWithAssociation().getTermsWithDetails());
     }
-    else
-    {
+    else    {
         putTermWithMultiplicationIfNeeded(Term(secondExpression));
     }
 }
-
 void Expression::putTermWithDetails(TermWithDetails const& termToSave)
 {
     m_termsWithAssociation.putTermWithDetails(termToSave);
@@ -445,14 +443,18 @@ void Expression::putTermWithMultiplication(BaseTerm const& baseTerm)
         break;
     }
     case OperatorLevel::AdditionAndSubtraction:
-    case OperatorLevel::RaiseToPower:
     {
-        clearAndPutTermInTermsWithAssociation(Term(Expression(*this)));
-        m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
-        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
+        TermsWithDetails termsWithDetails(m_termsWithAssociation.getTermsWithDetails());
+        clear();
+        multiplyThenAddOrSubtract(termsWithDetails, getTermConstReferenceFromBaseTerm(baseTerm));
         break;
     }
-    }
+    case OperatorLevel::RaiseToPower:
+    {
+        clearAndPutTermInTermsWithAssociation(Term(Expression(*this)));        m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
+        putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Positive);
+        break;
+    }    }
 }
 
 void Expression::putTermWithDivision(BaseTerm const& baseTerm)

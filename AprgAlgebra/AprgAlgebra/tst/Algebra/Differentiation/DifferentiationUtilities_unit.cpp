@@ -170,18 +170,16 @@ TEST(DifferentiationUtilitiesTest, GetCartesianDerivativeOfTermInPolarCoordinate
 {
     string thetaName("theta");
     Term theta(thetaName);
-    Term radiusOfLimacon(createExpressionIfPossible({Term(3), Term("+"), Term(2), Term("*"), Term(cos(theta))}));
+    Term radiusOfLimacon(createExpressionIfPossible({Term(3), Term("+"), Term(2), Term("*"), Term(sin(theta))}));
 
     Term dyOverDx(getCartesianDerivativeOfTermInPolarCoordinates(radiusOfLimacon, thetaName));
 
-    string stringToExpect("(((-2*sin(theta)*sin(theta))+((3+(2*cos(theta)))*cos(theta)))/((-2*cos(theta)*sin(theta))-((3+(2*cos(theta)))*sin(theta))))");
+    string stringToExpect("(((4*cos(theta)*sin(theta))+(3*cos(theta)))/((2*cos(theta)*cos(theta))-(3*sin(theta))-(2*sin(theta)*sin(theta))))");
     EXPECT_EQ(stringToExpect, dyOverDx.getDisplayableString());
 }
-
 TEST(DifferentiationUtilitiesTest, GetSlopeOfTermInPolarCoordinatesWorks)
 {
-    string thetaName("theta");
-    Term theta(thetaName);
+    string thetaName("theta");    Term theta(thetaName);
     Term radiusOfLimacon(createExpressionIfPossible({Term(3), Term("+"), Term(2), Term("*"), Term(cos(theta))}));
 
     Term termToVerify(getSlopeOfTermInPolarCoordinates(radiusOfLimacon, thetaName, AlbaNumber(AlbaNumber::Value::pi)));

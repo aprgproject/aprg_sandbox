@@ -679,15 +679,13 @@ TEST(IntegrationTest, IntegrateWorksSinRaiseToAConstant)
     Term termToVerify1(integrationForX.integrate(termToTest1));
     Term termToVerify2(integrationForX.integrate(termToTest2));
 
-    string stringToExpect1("((-17*cos(x))-(17*(cos(x)^5)/5)+(34*(cos(x)^3)/3))");
+    string stringToExpect1("((-17*cos(x))+(34*(cos(x)^3)/3)-(17*(cos(x)^5)/5))");
     string stringToExpect2("((95/16)[x]-(19*sin(2[x])/4)+(57*sin(4[x])/64)+(19*(sin(2[x])^3)/48))");
     EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
-    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
-}
+    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());}
 
 TEST(IntegrationTest, IntegrateWorksCosRaiseToAConstant)
-{
-    Integration integrationForX("x");
+{    Integration integrationForX("x");
     Term x("x");
     Term termToTest1(createExpressionIfPossible({Term(17), Term("*"), Term(cos(x)), Term("^"), Term(5)}));
     Term termToTest2(createExpressionIfPossible({Term(19), Term("*"), Term(cos(x)), Term("^"), Term(6)}));
@@ -695,15 +693,13 @@ TEST(IntegrationTest, IntegrateWorksCosRaiseToAConstant)
     Term termToVerify1(integrationForX.integrate(termToTest1));
     Term termToVerify2(integrationForX.integrate(termToTest2));
 
-    string stringToExpect1("((17*sin(x))+(17*(sin(x)^5)/5)-(34*(sin(x)^3)/3))");
+    string stringToExpect1("((17*sin(x))-(34*(sin(x)^3)/3)+(17*(sin(x)^5)/5))");
     string stringToExpect2("((95/16)[x]+(19*sin(2[x])/4)+(57*sin(4[x])/64)-(19*(sin(2[x])^3)/48))");
     EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
-    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
-}
+    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());}
 
 TEST(IntegrationTest, IntegrateWorksTanRaiseToAConstant)
-{
-    Integration integrationForX("x");
+{    Integration integrationForX("x");
     Term x("x");
     Term termToTest1(createExpressionIfPossible({Term(17), Term("*"), Term(tan(x)), Term("^"), Term(3)}));
     Term termToTest2(createExpressionIfPossible({Term(19), Term("*"), Term(tan(x)), Term("^"), Term(6)}));
@@ -728,15 +724,13 @@ TEST(IntegrationTest, IntegrateWorksCscRaiseToAConstant)
     Term termToVerify2(integrationForX.integrate(termToTest2));
 
     string stringToExpect1("(17*(ln(abs((csc(x)-cot(x))))-(cot(x)*csc(x)))/2)");
-    string stringToExpect2("((-19*cot(x))-(19*(cot(x)^5)/5)-(38*(cot(x)^3)/3))");
+    string stringToExpect2("((-19*cot(x))-(38*(cot(x)^3)/3)-(19*(cot(x)^5)/5))");
     EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
     EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
 }
-
 TEST(IntegrationTest, IntegrateWorksSecRaiseToAConstant)
 {
-    Integration integrationForX("x");
-    Term x("x");
+    Integration integrationForX("x");    Term x("x");
     Term termToTest1(createExpressionIfPossible({Term(17), Term("*"), Term(sec(x)), Term("^"), Term(3)}));
     Term termToTest2(createExpressionIfPossible({Term(19), Term("*"), Term(sec(x)), Term("^"), Term(6)}));
 
@@ -744,15 +738,13 @@ TEST(IntegrationTest, IntegrateWorksSecRaiseToAConstant)
     Term termToVerify2(integrationForX.integrate(termToTest2));
 
     string stringToExpect1("(17*(ln(abs((sec(x)+tan(x))))+(sec(x)*tan(x)))/2)");
-    string stringToExpect2("((19*tan(x))+(19*(tan(x)^5)/5)+(38*(tan(x)^3)/3))");
+    string stringToExpect2("((19*tan(x))+(38*(tan(x)^3)/3)+(19*(tan(x)^5)/5))");
     EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
     EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
 }
-
 TEST(IntegrationTest, IntegrateWorksCotRaiseToAConstant)
 {
-    Integration integrationForX("x");
-    Term x("x");
+    Integration integrationForX("x");    Term x("x");
     Term termToTest1(createExpressionIfPossible({Term(17), Term("*"), Term(cot(x)), Term("^"), Term(3)}));
     Term termToTest2(createExpressionIfPossible({Term(19), Term("*"), Term(cot(x)), Term("^"), Term(6)}));
 
@@ -780,15 +772,13 @@ TEST(IntegrationTest, IntegrateWorksOnCombinationOfSinAndCos)
     Term termToVerify4(integrationForX.integrate(termToTest4));
 
     string stringToExpect1("(-11*(cos(x)^2)/2)");
-    string stringToExpect2("((13*(cos(x)^7)/7)-(13*(cos(x)^5)/5))");
+    string stringToExpect2("((-13*(cos(x)^5)/5)+(13*(cos(x)^7)/7))");
     string stringToExpect3("((51/128)[x]-(17*sin(4[x])/64)+(17*sin(4[x])/128)+(17*sin(8[x])/1024))");
     string stringToExpect4("((57/128)[x]-(19*sin(4[x])/64)+(19*sin(4[x])/128)+(19*sin(8[x])/1024))");
-    EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
-    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
     EXPECT_EQ(stringToExpect3, termToVerify3.getDisplayableString());
     EXPECT_EQ(stringToExpect4, termToVerify4.getDisplayableString());
 }
-
 TEST(IntegrationTest, IntegrateWorksOnCombinationOfCscAndCot)
 {
     Integration integrationForX("x");
@@ -804,15 +794,13 @@ TEST(IntegrationTest, IntegrateWorksOnCombinationOfCscAndCot)
     //Term termToVerify4(integrationForX.integrate(termToTest4));
 
     string stringToExpect1("(-11*csc(x))");
-    string stringToExpect2("((-13*(csc(x)^7)/7)+(26*(csc(x)^5)/5)-(13*(csc(x)^3)/3))");
+    string stringToExpect2("((-13*(csc(x)^3)/3)+(26*(csc(x)^5)/5)-(13*(csc(x)^7)/7))");
     string stringToExpect3("((-17*(cot(x)^7)/7)-(17*(cot(x)^5)/5))");
     //string stringToExpect4("nan");
-    EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
-    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
     EXPECT_EQ(stringToExpect3, termToVerify3.getDisplayableString());
     //EXPECT_EQ(stringToExpect4, termToVerify4.getDisplayableString());
 }
-
 TEST(IntegrationTest, IntegrateWorksOnCombinationOfSecAndTan)
 {
     Integration integrationForX("x");
@@ -828,15 +816,13 @@ TEST(IntegrationTest, IntegrateWorksOnCombinationOfSecAndTan)
     //Term termToVerify4(integrationForX.integrate(termToTest4));
 
     string stringToExpect1("(11*sec(x))");
-    string stringToExpect2("((13*(sec(x)^7)/7)-(26*(sec(x)^5)/5)+(13*(sec(x)^3)/3))");
+    string stringToExpect2("((13*(sec(x)^3)/3)-(26*(sec(x)^5)/5)+(13*(sec(x)^7)/7))");
     string stringToExpect3("((17*(tan(x)^7)/7)+(17*(tan(x)^5)/5))");
     //string stringToExpect4("nan");
-    EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
-    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
+    EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
     EXPECT_EQ(stringToExpect3, termToVerify3.getDisplayableString());
     //EXPECT_EQ(stringToExpect4, termToVerify4.getDisplayableString());
 }
-
 TEST(IntegrationTest, IntegrateWorksWithSimplificationToACommonDenominator)
 {
     Integration integrationForX("x");

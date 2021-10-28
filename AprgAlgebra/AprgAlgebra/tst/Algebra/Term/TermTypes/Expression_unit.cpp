@@ -606,19 +606,17 @@ TEST(ExpressionTest, PutTermWithMultiplicationUsingExpressionWithSameOperationLe
     expression4.putTermWithMultiplicationIfNeeded(Term(expressionToApply));
     expression5.putTermWithMultiplicationIfNeeded(Term(expressionToApply));
 
-    Expression subExpression(createExpressionIfPossible({Term(695), Term("+"), Term("interest")}));
     Expression expressionToExpect1(createExpressionIfPossible({Term("x"), Term("/"), Term("y")}));
     Expression expressionToExpect2(expressionToExpect1);
     Expression expressionToExpect3(createExpressionIfPossible({Term("("), Term("-"), Term(1), Term(")"), Term("*"), Term(expressionToExpect1)}));
     Expression expressionToExpect4(createExpressionIfPossible({Term(695), Term("*"), Term("interest"), Term("*"), Term("x"), Term("/"), Term("y")}));
-    Expression expressionToExpect5(createExpressionIfPossible({subExpression, Term("*"), Term("x"), Term("/"), Term("y")}));
+    Expression expressionToExpect5(createExpressionIfPossible(
+    {Term(695), Term("*"), Term("x"), Term("/"), Term("y"), Term("+"), Term("interest"), Term("*"), Term("x"), Term("/"), Term("y")}));
     EXPECT_EQ(expressionToExpect1, expression1);
     EXPECT_EQ(expressionToExpect2, expression2);
-    EXPECT_EQ(expressionToExpect3, expression3);
-    EXPECT_EQ(expressionToExpect4, expression4);
+    EXPECT_EQ(expressionToExpect3, expression3);    EXPECT_EQ(expressionToExpect4, expression4);
     EXPECT_EQ(expressionToExpect5, expression5);
 }
-
 TEST(ExpressionTest, PutTermWithMultiplicationUsingExpressionWithDifferentOperationLevelWorks)
 {
     Expression expression1;
