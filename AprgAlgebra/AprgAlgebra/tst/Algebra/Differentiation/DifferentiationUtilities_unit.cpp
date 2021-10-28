@@ -1,10 +1,12 @@
 #include <Algebra/Differentiation/DifferentiationUtilities.hpp>
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 #include <gtest/gtest.h>
 
+using namespace alba::algebra::Functions;
 using namespace std;
 
 namespace alba
@@ -162,6 +164,29 @@ TEST(DifferentiationUtilitiesTest, GetLogarithmicDifferentiationToYieldDyOverDxW
     Term squareRootTerm(createExpressionIfPossible({insideSquareRootTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
     Term termToExpect(createExpressionIfPossible({Term(1), Term("/"), Term(2), Term("/"), squareRootTerm}));
     EXPECT_EQ(termToExpect, dyOverDx);
+}
+
+TEST(DifferentiationUtilitiesTest, GetCartesianDerivativeOfTermInPolarCoordinatesWorks)
+{
+    string thetaName("theta");
+    Term theta(thetaName);
+    Term radiusOfLimacon(createExpressionIfPossible({Term(3), Term("+"), Term(2), Term("*"), Term(cos(theta))}));
+
+    Term dyOverDx(getCartesianDerivativeOfTermInPolarCoordinates(radiusOfLimacon, thetaName));
+
+    string stringToExpect("(((-2*sin(theta)*sin(theta))+((3+(2*cos(theta)))*cos(theta)))/((-2*cos(theta)*sin(theta))-((3+(2*cos(theta)))*sin(theta))))");
+    EXPECT_EQ(stringToExpect, dyOverDx.getDisplayableString());
+}
+
+TEST(DifferentiationUtilitiesTest, GetSlopeOfTermInPolarCoordinatesWorks)
+{
+    string thetaName("theta");
+    Term theta(thetaName);
+    Term radiusOfLimacon(createExpressionIfPossible({Term(3), Term("+"), Term(2), Term("*"), Term(cos(theta))}));
+
+    Term termToVerify(getSlopeOfTermInPolarCoordinates(radiusOfLimacon, thetaName, AlbaNumber(AlbaNumber::Value::pi)));
+
+    EXPECT_EQ(Term(-1), termToVerify);
 }
 
 TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)

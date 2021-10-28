@@ -10,10 +10,12 @@ using namespace alba::mathHelper;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace TwoDimensions
 {
+
 Hyperbola::Hyperbola()
     : m_center()
     , m_aValue(0)
@@ -179,9 +181,11 @@ Points Hyperbola::getPointsInTraversingXAndY(double const signOfX, double const 
     }
     return result;
 }
+
 Points Hyperbola::getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const
 {
-    Points result;    AlbaRange<double> yRange(m_center.getY(), m_center.getY()+(m_bValue*signOfY), interval);
+    Points result;
+    AlbaRange<double> yRange(m_center.getY(), m_center.getY()+(m_bValue*signOfY), interval);
     yRange.traverse([&](double const yValue)
     {
         result.emplace_back(calculateXFromY(yValue, signOfX), yValue);

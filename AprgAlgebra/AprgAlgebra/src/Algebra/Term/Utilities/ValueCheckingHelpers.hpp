@@ -46,6 +46,7 @@ bool hasNonFiniteNumbers(Function const& function);
 bool isPositiveIntegerConstant(Term const& term);
 bool isAFiniteConstant(Term const& term);
 bool hasNegativeExponentsWithVariable(Polynomial const& polynomial, std::string const& variableName);
+
 }
 
 }

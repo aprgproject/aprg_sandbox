@@ -210,7 +210,8 @@ void TermRaiseToTerms::simplifyBaseAndExponents()
         simplifyConstantRaiseToMultiplicationAndDivisionExpression(m_base, m_exponents, exponentCombinedTerm);
     }
     else
-    {        m_exponents.emplace_back(exponentCombinedTerm, TermAssociationType::Positive);
+    {
+        m_exponents.emplace_back(exponentCombinedTerm, TermAssociationType::Positive);
     }
 }
 
@@ -294,10 +295,12 @@ void TermRaiseToTerms::simplifyConstantRaiseToMultiplicationAndDivisionExpressio
 
 void TermRaiseToTerms::initializeUsingTermsInRaiseToPowerExpression(
         TermsWithDetails const& termsInRaiseToPowerExpression)
-{    if(!termsInRaiseToPowerExpression.empty())
+{
+    if(!termsInRaiseToPowerExpression.empty())
     {
         m_base = getTermConstReferenceFromSharedPointer(termsInRaiseToPowerExpression.at(0).baseTermSharedPointer);
-        m_exponents.reserve(distance(termsInRaiseToPowerExpression.cbegin()+1, termsInRaiseToPowerExpression.cend()));        copy(termsInRaiseToPowerExpression.cbegin()+1, termsInRaiseToPowerExpression.cend(), back_inserter(m_exponents));
+        m_exponents.reserve(distance(termsInRaiseToPowerExpression.cbegin()+1, termsInRaiseToPowerExpression.cend()));
+        copy(termsInRaiseToPowerExpression.cbegin()+1, termsInRaiseToPowerExpression.cend(), back_inserter(m_exponents));
     }
 }
 

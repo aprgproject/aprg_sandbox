@@ -10,10 +10,12 @@ using namespace alba::mathHelper;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace TwoDimensions
 {
+
 Ellipse::Ellipse()
     : m_center()
     , m_aValue(0)
@@ -298,9 +300,11 @@ Points Ellipse::getPointsInTraversingXAndY(double const signOfX, double const si
     }
     return result;
 }
+
 Points Ellipse::getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const
 {
-    Points result;    AlbaRange<double> yRange(m_center.getY(), m_center.getY()+(m_bValue*signOfY), interval);
+    Points result;
+    AlbaRange<double> yRange(m_center.getY(), m_center.getY()+(m_bValue*signOfY), interval);
     yRange.traverse([&](double const yValue)
     {
         result.emplace_back(calculateXFromY(yValue, signOfX), yValue);

@@ -7,10 +7,12 @@ using namespace alba::mathHelper;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace TwoDimensions
 {
+
 Quadrilateral::Quadrilateral()
     : QuadrilateralPolygonParent()
 {}
@@ -58,10 +60,12 @@ Quadrilateral::GroupOfPoints Quadrilateral::getGroupOfPointsBasedOnYValue() cons
     sortPointsInYAndThenX(vertices);
     bool isFirst(true);
     unsigned int groupOfPointsIndex(0);
-    Point previousPoint;    for(Point const& currentPoint : vertices)
+    Point previousPoint;
+    for(Point const& currentPoint : vertices)
     {
         if(isFirst)
-        {            isFirst=false;
+        {
+            isFirst=false;
             result.emplace_back();
             result[groupOfPointsIndex].emplace_back(currentPoint);
         }

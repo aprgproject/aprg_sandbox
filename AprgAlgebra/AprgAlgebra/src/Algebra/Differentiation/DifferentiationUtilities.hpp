@@ -46,6 +46,15 @@ Term getLogarithmicDifferentiationToYieldDyOverDx(
         std::string const& xVariableName,
         std::string const& yVariableName);
 
+Term getCartesianDerivativeOfTermInPolarCoordinates(
+        Term const& radiusInTermsOfTheta,
+        std::string const& thetaName);
+
+Term getSlopeOfTermInPolarCoordinates(
+        Term const& radiusInTermsOfTheta,
+        std::string const& thetaName,
+        AlbaNumber const& thetaValue);
+
 SolutionSet getDifferentiabilityDomain(
         Term const& term,
         std::string const& variableName);

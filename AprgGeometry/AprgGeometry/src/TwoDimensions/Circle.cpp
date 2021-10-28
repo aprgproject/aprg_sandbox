@@ -10,10 +10,12 @@ using namespace alba::mathHelper;
 using namespace alba::TwoDimensions::twoDimensionsHelper;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace TwoDimensions
 {
+
 Circle::Circle()
     : m_center()
     , m_radius(0)
@@ -92,10 +94,12 @@ bool Circle::isInside(Point const& point) const
     return getDistance(m_center, point) <= m_radius;
 }
 
-Points Circle::getLocus(double const interval) const //points for circumference{
+Points Circle::getLocus(double const interval) const //points for circumference
+{
     Points result;
     Points pointsInFirstQuarter(getPointsInTraversingXAndY(1, 1, interval));
-    Points pointsInSecondQuarter(getPointsInTraversingXAndY(-1, 1, interval));    Points pointsInThirdQuarter(getPointsInTraversingXAndY(-1, -1, interval));
+    Points pointsInSecondQuarter(getPointsInTraversingXAndY(-1, 1, interval));
+    Points pointsInThirdQuarter(getPointsInTraversingXAndY(-1, -1, interval));
     Points pointsInFourthQuarter(getPointsInTraversingXAndY(1, -1, interval));
     result.reserve(pointsInFirstQuarter.size()+pointsInSecondQuarter.size()+pointsInThirdQuarter.size()+pointsInFourthQuarter.size());
     copy(pointsInFirstQuarter.cbegin(), pointsInFirstQuarter.cend()-1, back_inserter(result));
@@ -240,9 +244,11 @@ Points Circle::getPointsInTraversingXAndY(double const signOfX, double const sig
     }
     return result;
 }
+
 Points Circle::getPointsInTraversingY(double const signOfX, double const signOfY, double const interval) const
 {
-    Points result;    AlbaRange<double> yRange(m_center.getY(), m_center.getY()+(m_radius*signOfY), interval);
+    Points result;
+    AlbaRange<double> yRange(m_center.getY(), m_center.getY()+(m_radius*signOfY), interval);
     yRange.traverse([&](double const yValue)
     {
         AlbaOptional<double> xCoordinate = calculateXFromY(yValue, signOfX);

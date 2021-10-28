@@ -47,10 +47,12 @@ private:
 
     void initializeUsingTermsInRaiseToPowerExpression(
             TermsWithDetails const& termsInRaiseToPowerExpression);
-    void initializeExponentsInTerms(            Terms const& exponents);
+    void initializeExponentsInTerms(
+            Terms const& exponents);
     Term getCombinedBaseAndExponents() const;
 
-    Term m_base;    TermsWithDetails m_exponents;
+    Term m_base;
+    TermsWithDetails m_exponents;
     bool m_shouldSimplifyToFactors;
     bool m_shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt;
     bool m_shouldSimplifyWithEvenExponentsCancellationAndPutAbsoluteValueAtBase;

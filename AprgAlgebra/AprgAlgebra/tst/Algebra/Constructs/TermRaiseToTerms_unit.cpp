@@ -186,9 +186,11 @@ TEST(TermRaiseToTermsTest, SimplifyWorksWhenExponentsResultsInAnMultiplicationEx
     Term expectedCombinedTerm(createExpressionIfPossible({base, Term("^"), expectedExponent}));
     EXPECT_EQ(expectedCombinedTerm, termRaiseToTerms.getCombinedTerm());
 }
+
 TEST(TermRaiseToTermsTest, SimplifyWorksWhenExponentsResultsInAnAdditionExpression)
 {
-    Term base("base");    Term exponent(createExpressionIfPossible({Term(Functions::abs(Term("a"))), Term("+"), Term(Functions::abs(Term("b")))}));
+    Term base("base");
+    Term exponent(createExpressionIfPossible({Term(Functions::abs(Term("a"))), Term("+"), Term(Functions::abs(Term("b")))}));
     TermRaiseToTerms termRaiseToTerms(base, {exponent});
 
     termRaiseToTerms.simplify();

@@ -112,10 +112,12 @@ Term substituteValuesAndGetDifference(
     return result;
 }
 
-Term substituteTermsAndGetDifference(        Term const& term,
+Term substituteTermsAndGetDifference(
+        Term const& term,
         string const& variableName,
         Term const& lowerValueTerm,
-        Term const& higherValueTerm){
+        Term const& higherValueTerm)
+{
     SubstitutionOfVariablesToTerms substitution({{variableName, lowerValueTerm}});
     Term integralWithLowerValueTerm(substitution.performSubstitutionTo(term));
     substitution.putVariableWithTerm(variableName, higherValueTerm);
@@ -126,10 +128,12 @@ Term substituteTermsAndGetDifference(        Term const& term,
     return result;
 }
 
-Term getAreaUnderACurveUsingReimannSums(        Term const& term,
+Term getAreaUnderACurveUsingReimannSums(
+        Term const& term,
         string const& variableName,
         AlbaNumber const& lowerValueInInterval,
-        AlbaNumber const& higherValueInInterval){
+        AlbaNumber const& higherValueInInterval)
+{
     AlbaNumber deltaOfValues(higherValueInInterval-lowerValueInInterval);
     Term inputForHeight(Polynomial{Monomial(lowerValueInInterval, {}), Monomial(deltaOfValues, {{"n", -1}, {variableName, 1}})});
     SubstitutionOfVariablesToTerms substitution({{variableName, inputForHeight}});

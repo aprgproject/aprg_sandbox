@@ -169,6 +169,32 @@ Term getLogarithmicDifferentiationToYieldDyOverDx(
     return result;
 }
 
+Term getCartesianDerivativeOfTermInPolarCoordinates(
+        Term const& radiusInTermsOfTheta,
+        std::string const& thetaName)
+{
+    Term theta(thetaName);
+    Differentiation differentiation(thetaName);
+    Term drOverDTheta(differentiation.differentiate(radiusInTermsOfTheta));
+    Term sinTheta(sin(theta));
+    Term cosTheta(cos(theta));
+    Term numerator(createExpressionIfPossible({sinTheta, Term("*"), drOverDTheta, Term("+"), radiusInTermsOfTheta, Term("*"), cosTheta}));
+    Term denominator(createExpressionIfPossible({cosTheta, Term("*"), drOverDTheta, Term("-"), radiusInTermsOfTheta, Term("*"), sinTheta}));
+    Term result(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    result.simplify();
+    return result;
+}
+
+Term getSlopeOfTermInPolarCoordinates(
+        Term const& radiusInTermsOfTheta,
+        std::string const& thetaName,
+        AlbaNumber const& thetaValue)
+{
+    Term dyOverDx(getCartesianDerivativeOfTermInPolarCoordinates(radiusInTermsOfTheta, thetaName));
+    SubstitutionOfVariablesToValues substitution{{thetaName, thetaValue}};
+    return substitution.performSubstitutionTo(dyOverDx);
+}
+
 SolutionSet getDifferentiabilityDomain(
         Term const& term,
         string const& variableName)

@@ -7,15 +7,14 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 
-
-#include <Debug/AlbaDebug.hpp>
-
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 Term getAreaInBetweenTwoTermsInAnInterval(
         Term const& lowerTerm,
         Term const& higherTerm,
@@ -239,7 +238,6 @@ Term integrateInPolarCoordinates(
     Term radiusSquared(radiusInTermsOfTheta^2);
     radiusSquared.simplify();
     Term integratedRadiusSquared(integration.integrate(radiusSquared));
-    ALBA_PRINT2(radiusSquared, integratedRadiusSquared);
     return substituteTermsAndGetDifference(integratedRadiusSquared, thetaName, lowerValueTerm, higherValueTerm);
 }
 
