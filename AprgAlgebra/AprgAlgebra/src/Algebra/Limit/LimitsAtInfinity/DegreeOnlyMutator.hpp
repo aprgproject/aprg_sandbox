@@ -16,12 +16,12 @@ public:
     void mutateMonomial(Monomial & monomial) override;
     void mutatePolynomial(Polynomial & polynomial) override;
     void mutateExpression(Expression & expression) override;
-
+    
 private:
-    Monomial getReducedMonomialWithDegree(AlbaNumber const& degree) const;
+    AlbaNumber getMaxDegreeForVariable(Polynomial const& polynomial);
+    Monomial getMonomialWithDegree(AlbaNumber const& degree) const;
     std::string m_variableName;
 };
-
 }
 
 }

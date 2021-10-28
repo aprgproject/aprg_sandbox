@@ -28,15 +28,32 @@ void DegreeOnlyMutator::mutateTerm(Term & term)
 void DegreeOnlyMutator::mutateMonomial(Monomial & monomial)
 {
     AlbaNumber degreeForVariable(monomial.getExponentForVariable(m_variableName));
-    monomial = getReducedMonomialWithDegree(degreeForVariable);
+    monomial = getMonomialWithDegree(degreeForVariable);
 }
 
 void DegreeOnlyMutator::mutatePolynomial(Polynomial & polynomial)
 {
+    AlbaNumber maxDegreeForVariable(getMaxDegreeForVariable(polynomial));
+    polynomial.clear();
+    polynomial.addMonomial(getMonomialWithDegree(maxDegreeForVariable));
+}
+
+void DegreeOnlyMutator::mutateExpression(Expression & expression){
+    Expression beforeMutation;
+    do
+    {
+        beforeMutation = expression;
+        BaseMutator::mutateExpression(expression);
+        expression.simplify();
+    }
+    while(beforeMutation != expression);
+}
+
+AlbaNumber DegreeOnlyMutator::getMaxDegreeForVariable(Polynomial const& polynomial)
+{
     bool isFirst(true);
     AlbaNumber maxDegreeForVariable;
-    for(Monomial const& monomial : polynomial.getMonomialsConstReference())
-    {
+    for(Monomial const& monomial : polynomial.getMonomialsConstReference())    {
         AlbaNumber currentDegreeForVariable(monomial.getExponentForVariable(m_variableName));
         if(isFirst)
         {
@@ -48,32 +65,17 @@ void DegreeOnlyMutator::mutatePolynomial(Polynomial & polynomial)
             maxDegreeForVariable = currentDegreeForVariable;
         }
     }
-    polynomial.clear();
-    polynomial.addMonomial(getReducedMonomialWithDegree(maxDegreeForVariable));
+    return maxDegreeForVariable;
 }
 
-void DegreeOnlyMutator::mutateExpression(Expression & expression)
-{
-    Expression beforeMutation;
-    do
-    {
-        beforeMutation = expression;
-        BaseMutator::mutateExpression(expression);
-        expression.simplify();
-    }
-    while(beforeMutation != expression);
-}
-
-Monomial DegreeOnlyMutator::getReducedMonomialWithDegree(AlbaNumber const& degree) const
+Monomial DegreeOnlyMutator::getMonomialWithDegree(AlbaNumber const& degree) const
 {
     Monomial result(1, {{m_variableName, degree}});
     if(degree == 0)
-    {
-        result = Monomial(1, {});
+    {        result = Monomial(1, {});
     }
     return result;
 }
-
 }
 
 }

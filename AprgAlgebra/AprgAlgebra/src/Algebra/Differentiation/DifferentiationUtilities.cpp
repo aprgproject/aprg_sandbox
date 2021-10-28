@@ -197,29 +197,23 @@ Term getLimitOfZeroOverZeroUsingLhopitalsRule(
         AlbaNumber const& value)
 {
     Differentiation differentiation(variableName);
-    SubstitutionOfVariablesToValues substitution{{variableName, value}};
     TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(term));
     Term numerator(termsOverTerms.getCombinedNumerator());
     Term denominator(termsOverTerms.getCombinedDenominator());
-    Term numeratorValue(getLimit(numerator, variableName, value));
-    Term denominatorValue(getLimit(denominator, variableName, value));
-    Term zeroTerm(Constant(0));
-    while(zeroTerm == numeratorValue && zeroTerm == denominatorValue)
+    Term result(getLimit(term, variableName, value));
+    while(isNotANumber(result))
     {
         numerator = differentiation.differentiate(numerator);
         denominator = differentiation.differentiate(denominator);
-        numeratorValue = getLimit(numerator, variableName, value);
-        denominatorValue = getLimit(denominator, variableName, value);
+        Term simplifiedNextTerm(numerator/denominator);
+        simplifiedNextTerm.simplify();
+        result = getLimit(simplifiedNextTerm, variableName, value);
     }
-    Term result(numeratorValue/denominatorValue);
-    result.simplify();
     return result;
 }
-
 SolutionSet getDifferentiabilityDomain(
         Term const& term,
-        string const& variableName){
-    // This code is not accurate.
+        string const& variableName){    // This code is not accurate.
     // How about piecewise function?
     // How about absolute value function?
     Differentiation differentiation(variableName);
@@ -267,15 +261,13 @@ Equation getIntegralEquationForFirstOrderDifferentialEquation(
     retriever.putVariableNamesToCheckInOrder({derivativeName, yVariableName});
     retriever.retrieveFromTerm(termWithoutDerivative);
     SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::VariableNameToExpressionMap const& variableNameToExpressionMap(
-            retriever.getVariableNameToExpressionMap());
+                retriever.getVariableNameToExpressionMap());
     Term dyOverDx = termWithDerivative;
     Term p = -Term(variableNameToExpressionMap.at(yVariableName));
     Term q = retriever.getRemainingTermsExpression();
-
     dyOverDx.simplify();
     p.simplify();
-    q.simplify();
-    if(isFirstOrderDifferentialEquation(dyOverDx, p, q, xVariableName, yVariableName))
+    q.simplify();    if(isFirstOrderDifferentialEquation(dyOverDx, p, q, xVariableName, yVariableName))
     {
         result = getIntegralEquationForFirstOrderDifferentialEquation(p, q, xVariableName, yVariableName);
     }

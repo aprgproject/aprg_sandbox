@@ -44,16 +44,20 @@ Term LimitsAtInfinity::getValueAtInfinity(
 void LimitsAtInfinity::simplify()
 {
     simplifyAsATerm();
-    simplifyAsTermsOverTermsIfPossible();
-    simplifyPolynomialToMaxDegreeMonomialOnly();
+    if(!isNotANumber(m_simplifiedTermAtInfinity))
+    {
+        simplifyAsTermsOverTermsIfPossible();
+        if(!isNotANumber(m_simplifiedTermAtInfinity))
+        {
+            simplifyPolynomialToMaxDegreeMonomialOnly();
+        }
+    }
 }
 
-void LimitsAtInfinity::simplifyAsATerm()
-{
+void LimitsAtInfinity::simplifyAsATerm(){
     m_simplifiedTermAtInfinity.simplify();
     m_removeMonomialsWithNegativeExponentMutator.mutateTerm(m_simplifiedTermAtInfinity);
 }
-
 void LimitsAtInfinity::simplifyAsTermsOverTermsIfPossible()
 {
     TermsOverTerms currentTermsOverTerms(createTermsOverTermsFromTerm(m_simplifiedTermAtInfinity));

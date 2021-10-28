@@ -190,21 +190,23 @@ TEST(DifferentiationUtilitiesTest, GetSlopeOfTermInPolarCoordinatesWorks)
 TEST(DifferentiationUtilitiesTest, GetLimitOfZeroOverZeroUsingLhopitalsRuleWorks)
 {
     Term x("x");
+    Term oneOverX(createExpressionIfPossible({Term(1), Term("/"), x}));
     Term termToTest1(x);
     Term termToTest2(createExpressionIfPossible({Term(sin(x)), Term("/"), x}));
+    Term termToTest3(createExpressionIfPossible({Term(sin(oneOverX)), Term("/"), Term(arctan(oneOverX))}));
 
     Term termToVerify1(getLimitOfZeroOverZeroUsingLhopitalsRule(termToTest1, "x", 5));
     Term termToVerify2(getLimitOfZeroOverZeroUsingLhopitalsRule(termToTest2, "x", 0));
+    Term termToVerify3(getLimitOfZeroOverZeroUsingLhopitalsRule(termToTest3, "x", AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
 
     EXPECT_EQ(Term(5), termToVerify1);
     EXPECT_EQ(Term(1), termToVerify2);
+    EXPECT_EQ(Term(1), termToVerify3);
 }
 
-TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)
-{
+TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks){
     Polynomial numerator{Monomial(1, {{"x", 1}}), Monomial(3, {})};    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
     Term termToTest(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
-
     SolutionSet differentiabilityDomain(getDifferentiabilityDomain(termToTest, "x"));
     AlbaNumberIntervals const& intervalToVerify(differentiabilityDomain.getAcceptedIntervals());
     ASSERT_EQ(2U, intervalToVerify.size());
