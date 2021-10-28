@@ -200,30 +200,31 @@ TEST(AlbaNumberTest, ConstructionWorksWithDouble)
 
 TEST(AlbaNumberTest, ConstructionWorksWithValue)
 {
-    AlbaNumber number1(AlbaNumber::Value::PositiveInfinity);
-    AlbaNumber number2(AlbaNumber::Value::NegativeInfinity);
-    AlbaNumber number3(AlbaNumber::Value::NotANumber);
-    AlbaNumber number4(AlbaNumber::Value::pi);
-    AlbaNumber number5(AlbaNumber::Value::e);
+    AlbaNumber number1(AlbaNumber::Value::Unknown);
+    AlbaNumber number2(AlbaNumber::Value::PositiveInfinity);
+    AlbaNumber number3(AlbaNumber::Value::NegativeInfinity);
+    AlbaNumber number4(AlbaNumber::Value::NotANumber);
+    AlbaNumber number5(AlbaNumber::Value::pi);
+    AlbaNumber number6(AlbaNumber::Value::e);
 
     EXPECT_EQ(AlbaNumber::Type::Double, number1.getType());
-    EXPECT_DOUBLE_EQ(INFINITY, number1.getDouble());
+    EXPECT_DOUBLE_EQ(0, number1.getDouble());
     EXPECT_EQ(AlbaNumber::Type::Double, number2.getType());
-    EXPECT_DOUBLE_EQ(-INFINITY, number2.getDouble());
+    EXPECT_DOUBLE_EQ(INFINITY, number2.getDouble());
     EXPECT_EQ(AlbaNumber::Type::Double, number3.getType());
-    EXPECT_TRUE(isnan(number3.getDouble()));
+    EXPECT_DOUBLE_EQ(-INFINITY, number3.getDouble());
     EXPECT_EQ(AlbaNumber::Type::Double, number4.getType());
-    EXPECT_DOUBLE_EQ(3.14159265358979323846, number4.getDouble());
+    EXPECT_TRUE(isnan(number4.getDouble()));
     EXPECT_EQ(AlbaNumber::Type::Double, number5.getType());
-    EXPECT_DOUBLE_EQ(2.7182818284590452354, number5.getDouble());
+    EXPECT_DOUBLE_EQ(3.14159265358979323846, number5.getDouble());
+    EXPECT_EQ(AlbaNumber::Type::Double, number6.getType());
+    EXPECT_DOUBLE_EQ(2.7182818284590452354, number6.getDouble());
 }
 
-TEST(AlbaNumberTest, ConstructionWorksWithFraction)
-{
+TEST(AlbaNumberTest, ConstructionWorksWithFraction){
     AlbaNumber number1(AlbaNumber::createFraction(-87408, -9802));
     AlbaNumber number2(AlbaNumber::createFraction(-100, 10));
     AlbaNumber number3(AlbaNumber::createFraction(-100, -10));
-
     EXPECT_EQ(AlbaNumber::Type::Fraction, number1.getType());
     AlbaNumber::FractionData fractionData(number1.getFractionData());
     EXPECT_EQ(43704, fractionData.numerator);
@@ -1562,14 +1563,29 @@ TEST(AlbaNumberTest, GetDoubleWorks)
     EXPECT_DOUBLE_EQ(-5.7008771896362305, number10.getDouble());
 }
 
+TEST(AlbaNumberTest, GetDefinedValueWorks)
+{
+    AlbaNumber number1(5);
+    AlbaNumber number2(AlbaNumber::Value::PositiveInfinity);
+    AlbaNumber number3(AlbaNumber::Value::NegativeInfinity);
+    AlbaNumber number4(AlbaNumber::Value::NotANumber);
+    AlbaNumber number5(AlbaNumber::Value::pi);
+    AlbaNumber number6(AlbaNumber::Value::e);
+
+    EXPECT_EQ(AlbaNumber::Value::Unknown, number1.getDefinedValue());
+    EXPECT_EQ(AlbaNumber::Value::PositiveInfinity, number2.getDefinedValue());
+    EXPECT_EQ(AlbaNumber::Value::NegativeInfinity, number3.getDefinedValue());
+    EXPECT_EQ(AlbaNumber::Value::NotANumber, number4.getDefinedValue());
+    EXPECT_EQ(AlbaNumber::Value::pi, number5.getDefinedValue());
+    EXPECT_EQ(AlbaNumber::Value::e, number6.getDefinedValue());
+}
+
 TEST(AlbaNumberTest, GetFractionDataWorks)
 {
-    AlbaNumber number1;
-    AlbaNumber number2(-81237);
+    AlbaNumber number1;    AlbaNumber number2(-81237);
     AlbaNumber number3(34095093U);
     AlbaNumber number4(1000000000000000000LL);
-    AlbaNumber number5(4564.38794);
-    AlbaNumber number6(AlbaNumber::Value::PositiveInfinity);
+    AlbaNumber number5(4564.38794);    AlbaNumber number6(AlbaNumber::Value::PositiveInfinity);
     AlbaNumber number7(AlbaNumber::Value::NegativeInfinity);
     AlbaNumber number8(AlbaNumber::Value::NotANumber);
     AlbaNumber number9(AlbaNumber::createFraction(-87408, -9802));

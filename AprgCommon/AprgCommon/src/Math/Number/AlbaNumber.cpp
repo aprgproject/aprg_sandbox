@@ -110,14 +110,15 @@ AlbaNumber::AlbaNumber(Value const value)
 {
     switch(value)
     {
+    case Value::Unknown:
+        m_data.doubleData = 0;
+        break;
     case Value::PositiveInfinity:
         m_data.doubleData = POSITIVE_INFINITY_DOUBLE_VALUE;
-        break;
-    case Value::NegativeInfinity:
+        break;    case Value::NegativeInfinity:
         m_data.doubleData = NEGATIVE_INFINITY_DOUBLE_VALUE;
         break;
-    case Value::NotANumber:
-        m_data.doubleData = NAN_DOUBLE_VALUE;
+    case Value::NotANumber:        m_data.doubleData = NAN_DOUBLE_VALUE;
         break;
     case Value::pi:
         m_data.doubleData = PI_DOUBLE_VALUE;
@@ -929,14 +930,39 @@ double AlbaNumber::getDouble() const
     return result;
 }
 
+AlbaNumber::Value AlbaNumber::getDefinedValue() const
+{
+    Value result(Value::Unknown);
+    double doubleValue(getDouble());
+    if(isNotANumber())
+    {
+        result = Value::NotANumber;
+    }
+    else if(isAlmostEqual(doubleValue, POSITIVE_INFINITY_DOUBLE_VALUE))
+    {
+        result = Value::PositiveInfinity;
+    }
+    else if(isAlmostEqual(doubleValue, NEGATIVE_INFINITY_DOUBLE_VALUE))
+    {
+        result = Value::NegativeInfinity;
+    }
+    else if(isAlmostEqual(doubleValue, PI_DOUBLE_VALUE))
+    {
+        result = Value::pi;
+    }
+    else if(isAlmostEqual(doubleValue, E_DOUBLE_VALUE))
+    {
+        result = Value::e;
+    }
+    return result;
+}
+
 AlbaNumber::FractionData AlbaNumber::getFractionData() const
 {
-    FractionData result{0, 0};
-    if(m_type==Type::Integer)
+    FractionData result{0, 0};    if(m_type==Type::Integer)
     {
         result.numerator = static_cast<int>(m_data.intData);
-        result.denominator = 1U;
-    }
+        result.denominator = 1U;    }
     else if(m_type==Type::Double)
     {
         //this is costly avoid this
@@ -1142,16 +1168,14 @@ AlbaNumber AlbaNumber::addIntegerAndFractionAndReturnNumber(
         FractionData const& fractionData) const
 {
     double numerator =
-                static_cast<double>(fractionData.denominator) * static_cast<double>(integerValue)
-                + static_cast<double>(fractionData.numerator);
+            static_cast<double>(fractionData.denominator) * static_cast<double>(integerValue)
+            + static_cast<double>(fractionData.numerator);
     shouldBeConvertedToDouble = isValueBeyondLimits<int>(numerator);
     return AlbaNumber::createFraction(getIntegerAfterRoundingDoubleValue<int>(numerator), fractionData.denominator);
 }
-
 AlbaNumber AlbaNumber::addFractionAndDoubleAndReturnNumber(FractionData const& fractionData, double const doubleValue) const
 {
-    return AlbaNumber(
-                static_cast<double>(
+    return AlbaNumber(                static_cast<double>(
                     static_cast<double>(fractionData.numerator) / static_cast<double>(fractionData.denominator)
                     + doubleValue));
 }
