@@ -55,14 +55,17 @@ Term getSlopeOfTermInPolarCoordinates(
         std::string const& thetaName,
         AlbaNumber const& thetaValue);
 
+Term getLimitOfZeroOverZeroUsingLhopitalsRule(
+        Term const& term,
+        std::string const& variableName,
+        AlbaNumber const& value);
+
 SolutionSet getDifferentiabilityDomain(
         Term const& term,
         std::string const& variableName);
-
 Equation getRelationshipOfDerivativeOfTheInverseAndTheDerivative(
         Term const& term,
-        std::string const& variableName,
-        std::string const& variableForNonInverse,
+        std::string const& variableName,        std::string const& variableForNonInverse,
         std::string const& variableForInverse);
 
 Equation getIntegralEquationForFirstOrderDifferentialEquation(

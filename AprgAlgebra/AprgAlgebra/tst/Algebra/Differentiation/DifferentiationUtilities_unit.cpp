@@ -189,14 +189,25 @@ TEST(DifferentiationUtilitiesTest, GetSlopeOfTermInPolarCoordinatesWorks)
     EXPECT_EQ(Term(-1), termToVerify);
 }
 
+TEST(DifferentiationUtilitiesTest, GetLimitOfZeroOverZeroUsingLhopitalsRuleWorks)
+{
+    Term x("x");
+    Term termToTest1(x);
+    Term termToTest2(createExpressionIfPossible({Term(sin(x)), Term("/"), x}));
+
+    Term termToVerify1(getLimitOfZeroOverZeroUsingLhopitalsRule(termToTest1, "x", 5));
+    Term termToVerify2(getLimitOfZeroOverZeroUsingLhopitalsRule(termToTest2, "x", 0));
+
+    EXPECT_EQ(Term(5), termToVerify1);
+    EXPECT_EQ(Term(1), termToVerify2);
+}
+
 TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)
 {
-    Polynomial numerator{Monomial(1, {{"x", 1}}), Monomial(3, {})};
-    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
+    Polynomial numerator{Monomial(1, {{"x", 1}}), Monomial(3, {})};    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
     Term termToTest(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
 
     SolutionSet differentiabilityDomain(getDifferentiabilityDomain(termToTest, "x"));
-
     AlbaNumberIntervals const& intervalToVerify(differentiabilityDomain.getAcceptedIntervals());
     ASSERT_EQ(2U, intervalToVerify.size());
     EXPECT_EQ(AlbaNumberInterval(createNegativeInfinityOpenEndpoint(), createCloseEndpoint(0.9999979999999644)),

@@ -132,14 +132,21 @@ TEST(LimitTest, GetValueUsingLinearInterpolationWorks)
     EXPECT_TRUE(getValueUsingLinearInterpolation(1, 1, 3, 2, 2).isNotANumber());
 }
 
+TEST(LimitTest, GetLimitWorks)
+{
+    Term termToTest1(Polynomial{Monomial(4, {{"x", 1}}), Monomial(-7, {})});
+    Term termToTest2(createExpressionIfPossible({Term(1), Term("/"), Term("x")}));
+
+    EXPECT_EQ(Term(5), getLimit(termToTest1, "x", 3));
+    EXPECT_EQ(Term(Constant(0)), getLimit(termToTest2, "x", AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+}
+
 TEST(LimitTest, GetLimitAtAValueWorksWhichDoesNotResultToConstant)
 {
     Term polynomialTerm(Polynomial{Monomial(4, {{"x", 1}, {"y", 2}}), Monomial(-7, {})});
-
     Term expectedTermWithY(Polynomial{Monomial(12, {{"y", 2}}), Monomial(-7, {})});
     EXPECT_EQ(expectedTermWithY, getLimitAtAValue(polynomialTerm, "x", 3, LimitAtAValueApproachType::BothSides));
-    EXPECT_EQ(expectedTermWithY, getLimitAtAValue(polynomialTerm, "x", 3, LimitAtAValueApproachType::PositiveSide));
-    EXPECT_EQ(expectedTermWithY, getLimitAtAValue(polynomialTerm, "x", 3, LimitAtAValueApproachType::NegativeSide));
+    EXPECT_EQ(expectedTermWithY, getLimitAtAValue(polynomialTerm, "x", 3, LimitAtAValueApproachType::PositiveSide));    EXPECT_EQ(expectedTermWithY, getLimitAtAValue(polynomialTerm, "x", 3, LimitAtAValueApproachType::NegativeSide));
 }
 
 TEST(LimitTest, GetLimitAtAValueWorksForPolynomial)

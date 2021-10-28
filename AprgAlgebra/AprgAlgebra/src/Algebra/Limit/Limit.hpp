@@ -65,14 +65,17 @@ AlbaNumber getValueUsingLinearInterpolation(
         AlbaNumber const& output1,
         AlbaNumber const& output2);
 
-Term getLimitAtAValue(
+Term getLimit(
         Term const& term,
         std::string const& variableName,
-        AlbaNumber const& value,
+        AlbaNumber const& valueToApproach);
+
+Term getLimitAtAValue(
+        Term const& term,
+        std::string const& variableName,        AlbaNumber const& value,
         LimitAtAValueApproachType const limitApproachType);
 
-Term simplifyTermForLimit(Term const& term);
-Term simplifyAndGetLimitAtAValue(
+Term simplifyTermForLimit(Term const& term);Term simplifyAndGetLimitAtAValue(
         Term const& term,
         std::string const& variableName,
         AlbaNumber const& valueToApproach,
