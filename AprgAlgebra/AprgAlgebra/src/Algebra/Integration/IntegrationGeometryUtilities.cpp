@@ -7,14 +7,15 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 
+
+#include <Debug/AlbaDebug.hpp>
+
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 Term getAreaInBetweenTwoTermsInAnInterval(
         Term const& lowerTerm,
         Term const& higherTerm,
@@ -226,6 +227,20 @@ Term getLiquidPressure(
     Integration integration(depth);
     Term termToIntegrate = massDensity*accelerationDueToGravity*Term(depth)*length;
     return substituteTermsAndGetDifference(integration.integrate(termToIntegrate), depth, lowerValueTerm, higherValueTerm);
+}
+
+Term integrateInPolarCoordinates(
+        Term const& radiusInTermsOfTheta,
+        std::string const& thetaName,
+        Term const& lowerValueTerm,
+        Term const& higherValueTerm)
+{
+    Integration integration(thetaName);
+    Term radiusSquared(radiusInTermsOfTheta^2);
+    radiusSquared.simplify();
+    Term integratedRadiusSquared(integration.integrate(radiusSquared));
+    ALBA_PRINT2(radiusSquared, integratedRadiusSquared);
+    return substituteTermsAndGetDifference(integratedRadiusSquared, thetaName, lowerValueTerm, higherValueTerm);
 }
 
 }

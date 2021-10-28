@@ -182,74 +182,122 @@ void TermRaiseToTerms::simplifyBaseAndExponents()
     {}
     else if(m_base.isConstant() && exponentCombinedTerm.isFunction())
     {
-        Function const& functionObject(exponentCombinedTerm.getFunctionConstReference());
-        string const& functionName(functionObject.getFunctionName());
-        if((getEAsTerm() == m_base && "ln" == functionName) || (Term(10) == m_base && "log" == functionName))
-        {
-            m_base = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
-        }
-        else
-        {
-            m_exponents.emplace_back(exponentCombinedTerm, TermAssociationType::Positive);
-        }
+        simplifyConstantRaiseToFunction(m_base, m_exponents, exponentCombinedTerm);
     }
-    else if(canBeConvertedToMonomial(m_base)  && exponentCombinedTerm.isConstant())
+    else if(canBeConvertedToMonomial(m_base) && exponentCombinedTerm.isConstant())
     {
-        Monomial monomialBase(createMonomialIfPossible(m_base));
-        monomialBase.raiseToPowerNumber(exponentCombinedTerm.getConstantValueConstReference());
-        m_base = simplifyAndConvertMonomialToSimplestTerm(monomialBase);
+        simplifyMonomialRaiseToConstant(m_base, createMonomialIfPossible(m_base), exponentCombinedTerm.getConstantValueConstReference());
     }
     else if(m_base.isPolynomial()
             && !m_shouldSimplifyToFactors
-            && exponentCombinedTerm.isConstant()
-            && exponentCombinedTerm.getConstantValueConstReference().isIntegerType()
-            && exponentCombinedTerm.getConstantValueConstReference() >= 0)
+            && isPositiveIntegerConstant(exponentCombinedTerm))
     {
-        Polynomial polynomialBase(createPolynomialIfPossible(m_base));
-        polynomialBase.raiseToUnsignedInteger(
-                    static_cast<unsigned int>(exponentCombinedTerm.getConstantValueConstReference().getInteger()));
-        m_base = simplifyAndConvertPolynomialToSimplestTerm(polynomialBase);
+        unsigned int exponent = static_cast<unsigned int>(exponentCombinedTerm.getConstantValueConstReference().getInteger());
+        simplifyPolynomialRaiseToPositiveInteger(m_base, createPolynomialIfPossible(m_base), exponent);
     }
-    else if(exponentCombinedTerm.isExpression()
+    else if(!m_shouldSimplifyToFactors
+            && isPositiveIntegerConstant(exponentCombinedTerm)
+            && m_base.isExpression()
+            && OperatorLevel::AdditionAndSubtraction == m_base.getExpressionConstReference().getCommonOperatorLevel())
+    {
+        unsigned int exponent = static_cast<unsigned int>(exponentCombinedTerm.getConstantValueConstReference().getInteger());
+        simplifyAdditionAndSubtractionExpressionRaiseToPositiveInteger(m_base, m_base.getExpressionConstReference(), exponent);
+    }
+    else if(m_base.isConstant()
+            && exponentCombinedTerm.isExpression()
             && OperatorLevel::MultiplicationAndDivision == exponentCombinedTerm.getExpressionConstReference().getCommonOperatorLevel())
     {
-        TermsWithDetails termsWithDetails(
-                    exponentCombinedTerm.getExpressionConstReference().getTermsWithAssociation().getTermsWithDetails());
-        if(m_base.isConstant())
-        {
-            for(unsigned int i=0; i<termsWithDetails.size(); i++)
-            {
-                TermWithDetails const& exponentWithDetails(termsWithDetails.at(i));
-                Term const& exponent(getTermConstReferenceFromSharedPointer(exponentWithDetails.baseTermSharedPointer));
-                if(exponentWithDetails.hasPositiveAssociation() && exponent.isFunction())
-                {
-                    Function const& functionObject(exponent.getFunctionConstReference());
-                    string const& functionName(functionObject.getFunctionName());
-                    if((getEAsTerm() == m_base && "ln" == functionName) || (Term(10) == m_base && "log" == functionName))
-                    {
-                        m_base = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
-                        termsWithDetails.erase(termsWithDetails.begin()+i);
-                        break;
-                    }
-                }
-            }
-        }
-        m_exponents = termsWithDetails;
+        simplifyConstantRaiseToMultiplicationAndDivisionExpression(m_base, m_exponents, exponentCombinedTerm);
+    }
+    else
+    {        m_exponents.emplace_back(exponentCombinedTerm, TermAssociationType::Positive);
+    }
+}
+
+void TermRaiseToTerms::simplifyConstantRaiseToFunction(
+        Term & base,
+        TermsWithDetails & exponents,
+        Term const& exponentCombinedTerm)
+{
+    Function const& functionObject(exponentCombinedTerm.getFunctionConstReference());
+    string const& functionName(functionObject.getFunctionName());
+    if((getEAsTerm() == base && "ln" == functionName) || (Term(10) == base && "log" == functionName))
+    {
+        base = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
     }
     else
     {
-        m_exponents.emplace_back(exponentCombinedTerm, TermAssociationType::Positive);
+        exponents.emplace_back(exponentCombinedTerm, TermAssociationType::Positive);
     }
+}
+
+void TermRaiseToTerms::simplifyMonomialRaiseToConstant(
+        Term & base,
+        Monomial const& monomialBase,
+        AlbaNumber const& exponent)
+{
+    Monomial result(monomialBase);
+    result.raiseToPowerNumber(exponent);
+    base = simplifyAndConvertMonomialToSimplestTerm(result);
+}
+
+void TermRaiseToTerms::simplifyPolynomialRaiseToPositiveInteger(
+        Term & base,
+        Polynomial const& polynomialBase,
+        unsigned int const exponent)
+{
+    Polynomial result(polynomialBase);
+    result.raiseToUnsignedInteger(exponent);
+    base = simplifyAndConvertPolynomialToSimplestTerm(result);
+}
+
+void TermRaiseToTerms::simplifyAdditionAndSubtractionExpressionRaiseToPositiveInteger(
+        Term & base,
+        Expression const& expressionBase,
+        unsigned int const exponent)
+{
+    Term result(1);
+    Term termToMultiply(expressionBase);
+    for(unsigned int i=0; i<exponent; i++)
+    {
+        result = result * termToMultiply;
+    }
+    result.simplify();
+    base = result;
+}
+
+void TermRaiseToTerms::simplifyConstantRaiseToMultiplicationAndDivisionExpression(
+        Term & base,
+        TermsWithDetails & exponents,
+        Term const& exponentCombinedTerm)
+{
+    TermsWithDetails termsWithDetails(
+                exponentCombinedTerm.getExpressionConstReference().getTermsWithAssociation().getTermsWithDetails());
+    for(unsigned int i=0; i<termsWithDetails.size(); i++)
+    {
+        TermWithDetails const& exponentWithDetails(termsWithDetails.at(i));
+        Term const& exponent(getTermConstReferenceFromSharedPointer(exponentWithDetails.baseTermSharedPointer));
+        if(exponentWithDetails.hasPositiveAssociation() && exponent.isFunction())
+        {
+            Function const& functionObject(exponent.getFunctionConstReference());
+            string const& functionName(functionObject.getFunctionName());
+            if((getEAsTerm() == base && "ln" == functionName) || (Term(10) == base && "log" == functionName))
+            {
+                base = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
+                termsWithDetails.erase(termsWithDetails.begin()+i);
+                break;
+            }
+        }
+    }
+    exponents = termsWithDetails;
 }
 
 void TermRaiseToTerms::initializeUsingTermsInRaiseToPowerExpression(
         TermsWithDetails const& termsInRaiseToPowerExpression)
-{
-    if(!termsInRaiseToPowerExpression.empty())
+{    if(!termsInRaiseToPowerExpression.empty())
     {
         m_base = getTermConstReferenceFromSharedPointer(termsInRaiseToPowerExpression.at(0).baseTermSharedPointer);
-        m_exponents.reserve(distance(termsInRaiseToPowerExpression.cbegin()+1, termsInRaiseToPowerExpression.cend()));
-        copy(termsInRaiseToPowerExpression.cbegin()+1, termsInRaiseToPowerExpression.cend(), back_inserter(m_exponents));
+        m_exponents.reserve(distance(termsInRaiseToPowerExpression.cbegin()+1, termsInRaiseToPowerExpression.cend()));        copy(termsInRaiseToPowerExpression.cbegin()+1, termsInRaiseToPowerExpression.cend(), back_inserter(m_exponents));
     }
 }
 

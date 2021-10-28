@@ -172,29 +172,23 @@ TEST(TermRaiseToTermsTest, SimplifyWorksWhenBaseIsPolynomialAndExponentIsNumber)
 TEST(TermRaiseToTermsTest, SimplifyWorksWhenExponentsResultsInAnMultiplicationExpression)
 {
     Term base("base");
-    Terms exponents{
-        Term(Functions::abs(Term("a"))),
-                Term(Functions::abs(Term("b")))};
+    Term absoluteValueOfA(Functions::abs(Term("a")));
+    Term absoluteValueOfB(Functions::abs(Term("b")));
+    Terms exponents{absoluteValueOfA, absoluteValueOfB};
     TermRaiseToTerms termRaiseToTerms(base, exponents);
 
     termRaiseToTerms.simplify();
 
     EXPECT_EQ(Term("base"), termRaiseToTerms.getBase());
-    TermsWithDetails expectedExponents;
-    expectedExponents.emplace_back(Term(Functions::abs(Term("a"))), TermAssociationType::Positive);
-    expectedExponents.emplace_back(Term(Functions::abs(Term("b"))), TermAssociationType::Positive);
+    Term expectedExponent(createExpressionIfPossible({absoluteValueOfA, Term("*"), absoluteValueOfB}));
+    TermsWithDetails expectedExponents{TermWithDetails(expectedExponent, TermAssociationType::Positive)};
     EXPECT_EQ(expectedExponents, termRaiseToTerms.getExponents());
-    Term expectedExponentCombinedTerm(createExpressionIfPossible(
-    {Term(Functions::abs(Term("a"))), Term("*"),
-     Term(Functions::abs(Term("b")))}));
-    Term expectedCombinedTerm(createExpressionIfPossible({base, Term("^"), expectedExponentCombinedTerm}));
+    Term expectedCombinedTerm(createExpressionIfPossible({base, Term("^"), expectedExponent}));
     EXPECT_EQ(expectedCombinedTerm, termRaiseToTerms.getCombinedTerm());
 }
-
 TEST(TermRaiseToTermsTest, SimplifyWorksWhenExponentsResultsInAnAdditionExpression)
 {
-    Term base("base");
-    Term exponent(createExpressionIfPossible({Term(Functions::abs(Term("a"))), Term("+"), Term(Functions::abs(Term("b")))}));
+    Term base("base");    Term exponent(createExpressionIfPossible({Term(Functions::abs(Term("a"))), Term("+"), Term(Functions::abs(Term("b")))}));
     TermRaiseToTerms termRaiseToTerms(base, {exponent});
 
     termRaiseToTerms.simplify();

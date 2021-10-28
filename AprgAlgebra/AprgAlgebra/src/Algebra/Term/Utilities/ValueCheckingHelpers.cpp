@@ -335,14 +335,19 @@ bool hasNonFiniteNumbers(Function const& function)
     return doAnyNumbersSatisfyTheCondition(function, IsNotAFiniteNumberCondition);
 }
 
+bool isPositiveIntegerConstant(Term const& term)
+{
+    return term.isConstant()
+            && term.getConstantValueConstReference().isIntegerType()
+            && term.getConstantValueConstReference() >= 0;
+}
+
 bool isAFiniteConstant(Term const& term)
 {
-    bool result(false);
-    if(term.isConstant())
+    bool result(false);    if(term.isConstant())
     {
         result = term.getConstantValueConstReference().isAFiniteValue();
-    }
-    return result;
+    }    return result;
 }
 
 bool hasNegativeExponentsWithVariable(

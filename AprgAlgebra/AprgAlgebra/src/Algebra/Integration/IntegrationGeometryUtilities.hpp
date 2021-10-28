@@ -104,6 +104,12 @@ Term getLiquidPressure(
         std::string const& depth,
         Term const& lowerValueTerm,
         Term const& higherValueTerm);
+
+Term integrateInPolarCoordinates(
+        Term const& radiusInTermsOfTheta,
+        std::string const& thetaName,
+        Term const& lowerValueTerm,
+        Term const& higherValueTerm);
 }
 
 }

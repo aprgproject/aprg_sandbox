@@ -354,13 +354,19 @@ TEST(ValueCheckingHelpersTest, hasNonFiniteNumbersForFunction)
     EXPECT_TRUE(hasNonFiniteNumbers(absoluteValueFunction));
 }
 
-TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorksForFunction)
+TEST(ValueCheckingHelpersTest, IsPositiveIntegerConstantWorks)
+{
+    EXPECT_FALSE(isPositiveIntegerConstant(Term("x")));
+    EXPECT_TRUE(isPositiveIntegerConstant(Term(1)));
+    EXPECT_FALSE(isPositiveIntegerConstant(Term(-1)));
+    EXPECT_FALSE(isPositiveIntegerConstant(Term(NAN)));
+}
+
+TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorks)
 {
     EXPECT_FALSE(isAFiniteConstant(Term("x")));
     EXPECT_TRUE(isAFiniteConstant(Term(1)));
-    EXPECT_FALSE(isAFiniteConstant(Term(NAN)));
-}
+    EXPECT_FALSE(isAFiniteConstant(Term(NAN)));}
 
 }
-
 }
