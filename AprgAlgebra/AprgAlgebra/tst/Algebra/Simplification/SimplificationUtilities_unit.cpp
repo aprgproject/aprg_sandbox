@@ -15,6 +15,21 @@ namespace algebra
 namespace Simplification
 {
 
+TEST(SimplificationUtilitiesTest, SimplifyTermToACommonDenominatorWorks)
+{
+    Term denominator1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})});
+    Term denominator2(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(3, {})});
+    Term firstTerm(createExpressionIfPossible({Term(1), Term("/"), denominator1}));
+    Term secondTerm(createExpressionIfPossible({Term(1), Term("/"), denominator2}));
+
+    Term termToTest(createExpressionIfPossible({firstTerm, Term("+"), secondTerm}));
+    simplifyTermToACommonDenominator(termToTest);
+
+    Term expectedDenominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-1, {{"x", 1}}), Monomial(-6, {})});
+    Term expectedTerm(createExpressionIfPossible({Term(-5), Term("/"), expectedDenominator}));
+    EXPECT_EQ(expectedTerm, termToTest);
+}
+
 TEST(SimplificationUtilitiesTest, SimplifyToACommonDenominatorWorks)
 {
     Expression expression(createExpressionIfPossible(tokenizeToTerms("((4)/(x+2))+((x+3)/(x*x-4))+((2*x+1)/(x-2))")));

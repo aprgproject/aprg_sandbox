@@ -142,6 +142,18 @@ TEST(ExtremaUtilitiesTest, GetInputValuesInIntervalWithSameAsMeanOfIntervalWorks
     EXPECT_EQ(AlbaNumber::createFraction(7, 3), values.at(0));
 }
 
+TEST(ExtremaUtilitiesTest, GetInputValuesForCauchyMeanValueTheoremWorks)
+{
+    Term numerator(Polynomial({Monomial(3, {{"x", 2}}), Monomial(3, {{"x", 1}})}));
+    Term denominator(Polynomial({Monomial(1, {{"x", 3}}), Monomial(-4, {{"x", 1}})}));
+    Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+
+    AlbaNumbers values(getInputValuesForCauchyMeanValueTheorem(termToTest, "x", 1, 3));
+
+    ASSERT_EQ(1U, values.size());
+    EXPECT_EQ(AlbaNumber(2), values.at(0));
+}
+
 TEST(ExtremaUtilitiesTest, GetAbsoluteExtremumBasedOnRelativeExtremaOnIntervalWorks)
 {
     Term termToTest(Polynomial(

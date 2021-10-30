@@ -233,10 +233,12 @@ Term integrateInPolarCoordinates(
         string const& thetaName,
         Term const& lowerValueTerm,
         Term const& higherValueTerm)
-{    Integration integration(thetaName);
+{
+    Integration integration(thetaName);
     Term radiusSquared(radiusInTermsOfTheta^2);
     radiusSquared.simplify();
-    Term integratedRadiusSquared(integration.integrate(radiusSquared));    return substituteTermsAndGetDifference(integratedRadiusSquared, thetaName, lowerValueTerm, higherValueTerm);
+    Term integratedRadiusSquared(integration.integrate(radiusSquared));
+    return substituteTermsAndGetDifference(integratedRadiusSquared, thetaName, lowerValueTerm, higherValueTerm);
 }
 
 }

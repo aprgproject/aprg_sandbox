@@ -1,11 +1,14 @@
 #include "Limit.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
+#include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Limit/LimitsAtInfinity/LimitsAtInfinity.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
-#include <Algebra/Simplification/SimplificationOfExpression.hpp>
+#include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 using namespace alba::algebra::Simplification;
@@ -268,7 +271,61 @@ AlbaNumber getValueUsingLinearInterpolation(
     return result;
 }
 
-Term getLimit(
+Term getLimitUsingLhopitalsRule(
+        Term const& term,
+        string const& variableName,
+        AlbaNumber const& value)
+{
+    Term newTerm, limitValue;
+    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, value);
+    return limitValue;
+}
+
+Term getTermUsingLhopitalsRule(
+        Term const& term,
+        string const& variableName,
+        AlbaNumber const& value)
+{
+    Term newTerm, limitValue;
+    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, value);
+    return newTerm;
+}
+
+void calculateTermAndLimitUsingLhopitalsRule(
+        Term & newTerm,
+        Term & limitValue,
+        Term const& term,
+        string const& variableName,
+        AlbaNumber const& value)
+{
+    Differentiation differentiation(variableName);
+    newTerm = term;
+    simplifyTermToACommonDenominator(newTerm);
+    TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(newTerm));
+    Term numerator(termsOverTerms.getCombinedNumerator());
+    Term denominator(termsOverTerms.getCombinedDenominator());
+    SubstitutionOfVariablesToValues substitution{{variableName, value}};
+    Term numeratorValue(substitution.performSubstitutionTo(numerator));
+    Term denominatorValue(substitution.performSubstitutionTo(denominator));
+    Term zeroTerm(Constant(0));
+    limitValue = getLimitAtAValueOrInfinity(newTerm, variableName, value);
+    while((numeratorValue == zeroTerm && denominatorValue == zeroTerm)
+          || hasNotANumber(limitValue))
+    {
+        numerator = differentiation.differentiate(numerator);
+        denominator = differentiation.differentiate(denominator);
+        newTerm = Term(numerator/denominator);
+        simplifyTermToACommonDenominator(newTerm);
+        TermsOverTerms newTermsOverTerms(createTermsOverTermsFromTerm(newTerm));
+        numerator = newTermsOverTerms.getCombinedNumerator();
+        denominator = newTermsOverTerms.getCombinedDenominator();
+        limitValue = getLimitAtAValueOrInfinity(newTerm, variableName, value);
+        numeratorValue = substitution.performSubstitutionTo(numerator);
+        denominatorValue = substitution.performSubstitutionTo(denominator);
+    }
+}
+
+Term getLimitAtAValueOrInfinity(
         Term const& term,
         string const& variableName,
         AlbaNumber const& valueToApproach)
@@ -287,10 +344,12 @@ Term getLimit(
 
 Term getLimitAtAValue(
         Term const& term,
-        string const& variableName,        AlbaNumber const& valueToApproach,
+        string const& variableName,
+        AlbaNumber const& valueToApproach,
         LimitAtAValueApproachType const limitApproachType)
 {
-    SubstitutionOfVariablesToValues substitution{{variableName, valueToApproach}};    Term limitResult(substitution.performSubstitutionTo(term));
+    SubstitutionOfVariablesToValues substitution{{variableName, valueToApproach}};
+    Term limitResult(substitution.performSubstitutionTo(term));
     if(limitResult.isConstant())
     {
         AlbaNumber limitResultNumber(limitResult.getConstantValueConstReference());
@@ -302,28 +361,14 @@ Term getLimitAtAValue(
     return limitResult;
 }
 
-Term simplifyTermForLimit(Term const& term)
-{
-    SimplificationOfExpression::ConfigurationDetails limitConfigurationDetails(
-                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
-    limitConfigurationDetails.shouldSimplifyToACommonDenominator = true;
-
-    SimplificationOfExpression::ScopeObject scopeObject;
-    scopeObject.setInThisScopeThisConfiguration(limitConfigurationDetails);
-
-    Term simplifiedTerm(term);
-    simplifiedTerm.simplify();
-
-    return simplifiedTerm;
-}
-
 Term simplifyAndGetLimitAtAValue(
         Term const& term,
         string const& variableName,
         AlbaNumber const& valueToApproach,
         LimitAtAValueApproachType const limitApproachType)
 {
-    Term simplifiedTerm(simplifyTermForLimit(term));
+    Term simplifiedTerm(term);
+    simplifyTermToACommonDenominator(simplifiedTerm);
     return getLimitAtAValue(simplifiedTerm, variableName, valueToApproach, limitApproachType);
 }
 

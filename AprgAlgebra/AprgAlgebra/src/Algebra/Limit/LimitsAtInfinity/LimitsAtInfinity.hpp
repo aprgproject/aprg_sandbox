@@ -26,7 +26,6 @@ private:
     void simplify();
     void simplifyAsATerm();
     void simplifyAsTermsOverTermsIfPossible();
-    void simplifyByCombiningRadicals(Term & term) const;
     void simplifyPolynomialToMaxDegreeMonomialOnly();
     AlbaNumber getMaxDegree(Term const& term);
     AlbaNumber getDegreeToRemove(

@@ -1,11 +1,13 @@
 #include "ExtremaUtilities.hpp"
 
+#include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Differentiation/DifferentiationUtilities.hpp>
 #include <Algebra/Limit/Continuity.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Math/AlbaMathHelper.hpp>
 #include <Math/Number/Interval/AlbaNumberInterval.hpp>
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
@@ -306,10 +308,46 @@ AlbaNumbers getInputValuesInIntervalWithSameAsMeanOfInterval(
     {
         AlbaNumber mean = (fb.getConstantValueConstReference()-fa.getConstantValueConstReference())/(b-a);
         Differentiation differentiation(variableName);
-        Term firstDerivativeTerm(differentiation.differentiate(term));
-        Equation derivativeEqualsMeanEquation(firstDerivativeTerm, "=", Term(mean));
+        Term fPrime(differentiation.differentiate(term));
+        Equation derivativeEqualsMeanEquation(fPrime, "=", Term(mean));
         OneEquationOneVariableEqualitySolver solver;
         SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(derivativeEqualsMeanEquation));
+        AlbaNumberInterval abOpenInterval(createOpenEndpoint(a), createOpenEndpoint(b));
+        result = getNumbersInsideTheInterval(solutionSet.getAcceptedValues(), abOpenInterval);
+    }
+    return result;
+}
+
+AlbaNumbers getInputValuesForCauchyMeanValueTheorem(
+        Term const& term,
+        std::string const& variableName,
+        AlbaNumber const& a,
+        AlbaNumber const& b)
+{
+    // Cauchy Mean-Value Theorem
+
+    TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(term));
+    Term numerator(termsOverTerms.getCombinedNumerator());
+    Term denominator(termsOverTerms.getCombinedDenominator());
+    SubstitutionOfVariablesToValues substitution;
+    substitution.putVariableWithValue(variableName, a);
+    Term fa(substitution.performSubstitutionTo(numerator));
+    Term ga(substitution.performSubstitutionTo(denominator));
+    substitution.putVariableWithValue(variableName, b);
+    Term fb(substitution.performSubstitutionTo(numerator));
+    Term gb(substitution.performSubstitutionTo(denominator));
+    AlbaNumbers result;
+    if(fa.isConstant() && fb.isConstant())
+    {
+        AlbaNumber cauchyValue = (fb.getConstantValueConstReference()-fa.getConstantValueConstReference())
+                /(gb.getConstantValueConstReference()-ga.getConstantValueConstReference());
+        Differentiation differentiation(variableName);
+        Term fPrime(differentiation.differentiate(numerator));
+        Term gPrime(differentiation.differentiate(denominator));
+        Term cauchyExpression(fPrime/gPrime);
+        Equation cauchyEquation(cauchyExpression, "=", Term(cauchyValue));
+        OneEquationOneVariableEqualitySolver solver;
+        SolutionSet solutionSet(solver.calculateSolutionAndReturnSolutionSet(cauchyEquation));
         AlbaNumberInterval abOpenInterval(createOpenEndpoint(a), createOpenEndpoint(b));
         result = getNumbersInsideTheInterval(solutionSet.getAcceptedValues(), abOpenInterval);
     }

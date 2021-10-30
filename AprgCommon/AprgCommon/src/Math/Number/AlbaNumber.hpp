@@ -21,10 +21,12 @@ public:
         Unknown,
         PositiveInfinity,
         NegativeInfinity,
-        NotANumber,        pi,
+        NotANumber,
+        pi,
         e
     };
-    enum class Type    {
+    enum class Type
+    {
         Integer,
         Double,
         Fraction,
@@ -157,8 +159,10 @@ public:
     Value getDefinedValue() const;
     FractionData getFractionData() const;
     ComplexNumberData getComplexNumberData() const;
+
     unsigned int getNumberDataSize() const;
     std::string getDisplayableString() const;
+
     void convertToInteger();
     void convertToFraction();
 

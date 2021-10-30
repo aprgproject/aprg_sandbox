@@ -132,21 +132,108 @@ TEST(LimitTest, GetValueUsingLinearInterpolationWorks)
     EXPECT_TRUE(getValueUsingLinearInterpolation(1, 1, 3, 2, 2).isNotANumber());
 }
 
-TEST(LimitTest, GetLimitWorks)
+TEST(LimitTest, GetLimitUsingLhopitalsRuleWorks)
+{
+    Term x("x");
+    Term oneMinusEToTheX(createExpressionIfPossible({Term(1), Term("-"), Term(AlbaNumber(AlbaNumber::Value::e)), Term("^"), x}));
+    Term oneOverX(createExpressionIfPossible({Term(1), Term("/"), x}));
+    Term termToTest1(x);
+    Term termToTest2(createExpressionIfPossible({x, Term("/"), oneMinusEToTheX}));
+    Term termToTest3(createExpressionIfPossible({Term(sin(oneOverX)), Term("/"), Term(arctan(oneOverX))}));
+
+    Term termToVerify1(getLimitUsingLhopitalsRule(termToTest1, "x", 5));
+    Term termToVerify2(getLimitUsingLhopitalsRule(termToTest2, "x", 0));
+    Term termToVerify3(getLimitUsingLhopitalsRule(termToTest3, "x", AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+
+    EXPECT_EQ(Term(5), termToVerify1);
+    EXPECT_EQ(Term(-1), termToVerify2);
+    EXPECT_EQ(Term(1), termToVerify3);
+}
+
+TEST(LimitTest, GetTermUsingLhopitalsRuleWorks)
+{
+    Term x("x");
+    Term oneMinusEToTheX(createExpressionIfPossible({Term(1), Term("-"), Term(AlbaNumber(AlbaNumber::Value::e)), Term("^"), x}));
+    Term oneOverX(createExpressionIfPossible({Term(1), Term("/"), x}));
+    Term termToTest1(x);
+    Term termToTest2(createExpressionIfPossible({x, Term("/"), oneMinusEToTheX}));
+    Term termToTest3(createExpressionIfPossible({Term(sin(oneOverX)), Term("/"), Term(arctan(oneOverX))}));
+
+    Term termToVerify1(getTermUsingLhopitalsRule(termToTest1, "x", 5));
+    Term termToVerify2(getTermUsingLhopitalsRule(termToTest2, "x", 0));
+    Term termToVerify3(getTermUsingLhopitalsRule(termToTest3, "x", AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+
+    string stringToExpect1("x");
+    string stringToExpect2("(-1/((e)^x))");
+    string stringToExpect3("((1[x^2] + 1)*cos(1[x^-1])/1[x^2])");
+    EXPECT_EQ(stringToExpect1, termToVerify1.getDisplayableString());
+    EXPECT_EQ(stringToExpect2, termToVerify2.getDisplayableString());
+    EXPECT_EQ(stringToExpect3, termToVerify3.getDisplayableString());
+}
+
+TEST(LimitTest, CalculateTermAndLimitUsingLhopitalsRuleWorksUsingTrigonometricExample)
+{
+    Term x("x");
+    Term oneOverX(createExpressionIfPossible({Term(1), Term("/"), x}));
+    Term termToTest(createExpressionIfPossible({Term(sin(oneOverX)), Term("/"), Term(arctan(oneOverX))}));
+
+    Term newTerm, limitValue;
+    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, termToTest, "x", AlbaNumber(AlbaNumber::Value::PositiveInfinity));
+
+    string stringToExpect("((1[x^2] + 1)*cos(1[x^-1])/1[x^2])");
+    EXPECT_EQ(Term(1), limitValue);
+    EXPECT_EQ(stringToExpect, newTerm.getDisplayableString());
+}
+
+TEST(LimitTest, CalculateTermAndLimitUsingLhopitalsRuleWorksUsingLogarithmicAndExponentialExample)
+{
+    Term x("x");
+    Term insideLogarithm(createExpressionIfPossible({Term(2), Term("+"), Term(AlbaNumber(AlbaNumber::Value::e)), Term("^"), x}));
+    Term numerator(ln(insideLogarithm));
+    Term denominator(Monomial(3, {{"x", 1}}));
+    Term termToTest(createExpressionIfPossible({numerator, Term("/"), denominator}));
+
+    Term newTerm, limitValue;
+    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, termToTest, "x", AlbaNumber(AlbaNumber::Value::PositiveInfinity));
+
+    string stringToExpect("(ln((2+((e)^x)))/3[x])");
+    EXPECT_EQ(Term(AlbaNumber::createFraction(1, 3)), limitValue);
+    EXPECT_EQ(stringToExpect, newTerm.getDisplayableString());
+}
+
+TEST(LimitTest, CalculateTermAndLimitUsingLhopitalsRuleWorksUsingTrigonometricExample2)
+{
+    Term x("x");
+    Term xSquared(Monomial(1, {{"x", 2}}));
+    Term termToTestPart1(createExpressionIfPossible({Term(1), Term("/"), xSquared}));
+    Term termToTestPart2(createExpressionIfPossible({Term(1), Term("/"), xSquared, Term("/"), Term(sec(x))}));
+    Term termToTest(createExpressionIfPossible({termToTestPart1, Term("-"), termToTestPart2}));
+
+    Term newTerm, limitValue;
+    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, termToTest, "x", 0);
+
+    string stringToExpect("(sec(x)*tan(x)/((1[x^2]*sec(x)*tan(x))+(2[x]*sec(x))))");
+    EXPECT_EQ(Term(AlbaNumber::createFraction(1, 2)), limitValue);
+    EXPECT_EQ(stringToExpect, newTerm.getDisplayableString());
+}
+
+TEST(LimitTest, GetLimitAtAValueOrInfinityWorks)
 {
     Term termToTest1(Polynomial{Monomial(4, {{"x", 1}}), Monomial(-7, {})});
     Term termToTest2(createExpressionIfPossible({Term(1), Term("/"), Term("x")}));
 
-    EXPECT_EQ(Term(5), getLimit(termToTest1, "x", 3));
-    EXPECT_EQ(Term(Constant(0)), getLimit(termToTest2, "x", AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+    EXPECT_EQ(Term(5), getLimitAtAValueOrInfinity(termToTest1, "x", 3));
+    EXPECT_EQ(Term(Constant(0)), getLimitAtAValueOrInfinity(termToTest2, "x", AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
 }
 
 TEST(LimitTest, GetLimitAtAValueWorksWhichDoesNotResultToConstant)
 {
     Term polynomialTerm(Polynomial{Monomial(4, {{"x", 1}, {"y", 2}}), Monomial(-7, {})});
+
     Term expectedTermWithY(Polynomial{Monomial(12, {{"y", 2}}), Monomial(-7, {})});
     EXPECT_EQ(expectedTermWithY, getLimitAtAValue(polynomialTerm, "x", 3, LimitAtAValueApproachType::BothSides));
-    EXPECT_EQ(expectedTermWithY, getLimitAtAValue(polynomialTerm, "x", 3, LimitAtAValueApproachType::PositiveSide));    EXPECT_EQ(expectedTermWithY, getLimitAtAValue(polynomialTerm, "x", 3, LimitAtAValueApproachType::NegativeSide));
+    EXPECT_EQ(expectedTermWithY, getLimitAtAValue(polynomialTerm, "x", 3, LimitAtAValueApproachType::PositiveSide));
+    EXPECT_EQ(expectedTermWithY, getLimitAtAValue(polynomialTerm, "x", 3, LimitAtAValueApproachType::NegativeSide));
 }
 
 TEST(LimitTest, GetLimitAtAValueWorksForPolynomial)
@@ -218,19 +305,6 @@ TEST(LimitTest, GetLimitAtAValueWorksForPolynomialOverPolynomialWithEqualDegreeB
               getLimitAtAValue(polynomialOverPolynomialTerm, "x", 2, LimitAtAValueApproachType::PositiveSide));
     EXPECT_EQ(Term(AlbaNumber(AlbaNumber::Value::NegativeInfinity)),
               getLimitAtAValue(polynomialOverPolynomialTerm, "x", 2, LimitAtAValueApproachType::NegativeSide));
-}
-
-TEST(LimitTest, SimplifyTermForLimitWorksForHavingACommonDenominator)
-{
-    Term denominator1(Polynomial{Monomial(1, {{"x", 1}}), Monomial(2, {})});
-    Term denominator2(Polynomial{Monomial(-1, {{"x", 1}}), Monomial(3, {})});
-    Term firstTerm(createExpressionIfPossible({Term(1), Term("/"), denominator1}));
-    Term secondTerm(createExpressionIfPossible({Term(1), Term("/"), denominator2}));
-    Term termToTest(createExpressionIfPossible({firstTerm, Term("+"), secondTerm}));
-
-    Term expectedDenominator(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-1, {{"x", 1}}), Monomial(-6, {})});
-    Term expectedTerm(createExpressionIfPossible({Term(-5), Term("/"), expectedDenominator}));
-    EXPECT_EQ(expectedTerm, simplifyTermForLimit(termToTest));
 }
 
 TEST(LimitTest, SimplifyAndGetLimitAtAValueWorksForPolynomialOverPolynomialWithDiscontinuityAtOneTwoThree_ThisCancelsProblematicFactors)

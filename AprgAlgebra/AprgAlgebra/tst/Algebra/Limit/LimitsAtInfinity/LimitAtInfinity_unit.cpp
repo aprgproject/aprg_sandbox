@@ -4,11 +4,15 @@
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <gtest/gtest.h>
 
-using namespace alba::algebra::Functions;using namespace std;
+using namespace alba::algebra::Functions;
+using namespace std;
 
-namespace alba{
+namespace alba
+{
+
 namespace algebra
 {
+
 TEST(LimitsAtInfinityTest, XWorksAndSimplifiesToZero)
 {
     LimitsAtInfinity limits(Term("x"), "x");
@@ -106,7 +110,8 @@ TEST(LimitsAtInfinityTest, PolynomialOverSquareRootOfPolynomialWithEqualDegreeWo
 TEST(LimitsAtInfinityTest, ExpressionWithTrigonometricFunctionsWorks)
 {
     Term numerator(sin(Term(Monomial(1, {{"x", -1}}))));
-    Term denominator(arctan(Term(Monomial(1, {{"x", -1}}))));    Term term(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    Term denominator(arctan(Term(Monomial(1, {{"x", -1}}))));
+    Term term(createExpressionIfPossible({numerator, Term("/"), denominator}));
 
     LimitsAtInfinity limits(term, "x");
 
@@ -116,4 +121,5 @@ TEST(LimitsAtInfinityTest, ExpressionWithTrigonometricFunctionsWorks)
 }
 
 }
+
 }

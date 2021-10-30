@@ -1,7 +1,7 @@
 #include "LimitsAtInfinity.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
-#include <Algebra/Simplification/SimplificationOfExpression.hpp>
+#include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
@@ -54,10 +54,12 @@ void LimitsAtInfinity::simplify()
     }
 }
 
-void LimitsAtInfinity::simplifyAsATerm(){
+void LimitsAtInfinity::simplifyAsATerm()
+{
     m_simplifiedTermAtInfinity.simplify();
     m_removeMonomialsWithNegativeExponentMutator.mutateTerm(m_simplifiedTermAtInfinity);
 }
+
 void LimitsAtInfinity::simplifyAsTermsOverTermsIfPossible()
 {
     TermsOverTerms currentTermsOverTerms(createTermsOverTermsFromTerm(m_simplifiedTermAtInfinity));
@@ -71,23 +73,11 @@ void LimitsAtInfinity::simplifyAsTermsOverTermsIfPossible()
     numerator.simplify();
     denominator = denominator/termToDivide;
     denominator.simplify();
-    simplifyByCombiningRadicals(numerator);
-    simplifyByCombiningRadicals(denominator);
+    simplifyTermByCombiningRadicals(numerator);
+    simplifyTermByCombiningRadicals(denominator);
     m_removeMonomialsWithNegativeExponentMutator.mutateTerm(numerator);
     m_removeMonomialsWithNegativeExponentMutator.mutateTerm(denominator);
     m_simplifiedTermAtInfinity = numerator/denominator;
-}
-
-void LimitsAtInfinity::simplifyByCombiningRadicals(Term & term) const
-{
-    SimplificationOfExpression::ConfigurationDetails limitAtInfinityConfigurationDetails(
-                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
-    limitAtInfinityConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
-
-    SimplificationOfExpression::ScopeObject scopeObject;
-    scopeObject.setInThisScopeThisConfiguration(limitAtInfinityConfigurationDetails);
-
-    term.simplify();
 }
 
 void LimitsAtInfinity::simplifyPolynomialToMaxDegreeMonomialOnly()

@@ -106,6 +106,12 @@ AlbaNumbers getInputValuesInIntervalWithSameAsMeanOfInterval(
         AlbaNumber const& a,
         AlbaNumber const& b);
 
+AlbaNumbers getInputValuesForCauchyMeanValueTheorem(
+        Term const& term,
+        std::string const& variableName,
+        AlbaNumber const& a,
+        AlbaNumber const& b);
+
 Extremum getAbsoluteExtremumBasedOnRelativeExtremaOnInterval(
         Extrema const& relativeExtrema,
         AlbaNumberInterval const& interval);

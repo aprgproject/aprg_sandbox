@@ -1,5 +1,6 @@
 #include "SimplificationUtilities.hpp"
 
+#include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Constructs/AdditionAndSubtractionOfTermsOverTerms.hpp>
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
@@ -16,6 +17,30 @@ namespace algebra
 
 namespace Simplification
 {
+
+void simplifyTermToACommonDenominator(Term & term)
+{
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    configurationDetails.shouldSimplifyToACommonDenominator = true;
+
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+    term.simplify();
+}
+
+void simplifyTermByCombiningRadicals(Term & term)
+{
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    configurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
+
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+    term.simplify();
+}
 
 bool simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(
         Expression & expression)

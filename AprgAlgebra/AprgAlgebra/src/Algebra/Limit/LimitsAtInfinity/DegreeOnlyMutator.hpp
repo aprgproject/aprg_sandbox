@@ -22,6 +22,7 @@ private:
     Monomial getMonomialWithDegree(AlbaNumber const& degree) const;
     std::string m_variableName;
 };
+
 }
 
 }

@@ -129,10 +129,12 @@ void segregateTermsWithAndWithoutVariable(
         string const& variableName,
         TermsWithDetails & termsWithVariable,
         TermsWithDetails & termsWithoutVariable)
-{    for(TermWithDetails const& termToSegregate : termsToSegregate)
+{
+    for(TermWithDetails const& termToSegregate : termsToSegregate)
     {
         Term const& term(getTermConstReferenceFromSharedPointer(termToSegregate.baseTermSharedPointer));
-        if(isVariableFoundInTerm(term, variableName))        {
+        if(isVariableFoundInTerm(term, variableName))
+        {
             termsWithVariable.emplace_back(termToSegregate);
         }
         else

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Algebra/Term/TermTypes/Expression.hpp>
+#include <Algebra/Term/TermTypes/Term.hpp>
 
 namespace alba
 {
@@ -10,6 +10,9 @@ namespace algebra
 
 namespace Simplification
 {
+
+void simplifyTermToACommonDenominator(Term & term);
+void simplifyTermByCombiningRadicals(Term & term);
 
 bool simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(Expression & expression);
 bool tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression & addSubtractExpression);
