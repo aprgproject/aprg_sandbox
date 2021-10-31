@@ -3,17 +3,19 @@
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Constructs/TermRaiseToTerms.hpp>
 #include <Algebra/Equation/EquationUtilities.hpp>
+#include <Algebra/Functions/FunctionUtilities.hpp>
 #include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <Algebra/Term/Utilities/ConvertHelpers.hpp>#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
+using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
 using namespace std;
-
 namespace alba
 {
 
@@ -35,39 +37,66 @@ Equation SimplificationOfEquation::getEquation() const
 
 void SimplificationOfEquation::simplify()
 {
-    Term leftHandSide(simplifyAndConvertExpressionToSimplestTerm(getNewCombinedTerm(m_equation)));
+    Term leftHandSide(m_equation.getLeftHandTerm());
+    Term rightHandSide(m_equation.getRightHandTerm());
+    simplifyLeftHandSideAndRightHandSide(leftHandSide, rightHandSide);
+
+    Term newLeftHandSide(simplifyAndConvertExpressionToSimplestTerm(getNewCombinedTerm(leftHandSide, rightHandSide)));
     string equationOperatorString(m_equation.getEquationOperator().getOperatorString());
 
-    removeExponentIfNeeded(leftHandSide);
-    completeExpressionWithFractionalExponentsIfNeeded(leftHandSide);
-    simplifyLeftHandTerm(leftHandSide);
-    negateTermIfNeeded(leftHandSide, equationOperatorString);
+    removeExponentIfNeeded(newLeftHandSide);
+    completeExpressionWithFractionalExponentsIfNeeded(newLeftHandSide);
+    simplifyLeftHandSide(newLeftHandSide);
+    negateTermIfNeeded(newLeftHandSide, equationOperatorString);
 
-    m_equation = Equation(leftHandSide, equationOperatorString, Term(Constant(0)));
+    m_equation = Equation(newLeftHandSide, equationOperatorString, Term(Constant(0)));
+}
+
+void SimplificationOfEquation::simplifyLeftHandSideAndRightHandSide(
+        Term & leftHandSide,
+        Term & rightHandSide)
+{
+    raiseLeftHandSideAndRightHandSideToPowerIfLogarithmic(leftHandSide, rightHandSide);
+}
+
+void SimplificationOfEquation::raiseLeftHandSideAndRightHandSideToPowerIfLogarithmic(
+        Term & leftHandSide,
+        Term & rightHandSide)
+{
+    if(rightHandSide.isFunction() && isLogarithmicFunction(rightHandSide.getFunctionConstReference()))
+    {
+        Function const& functionObject(rightHandSide.getFunctionConstReference());
+        if("log" == functionObject.getFunctionName())
+        {
+            leftHandSide = Term(createExpressionIfPossible({Term(10), Term("^"), leftHandSide}));
+        }
+        else if("ln" == functionObject.getFunctionName())
+        {
+            leftHandSide = Term(createExpressionIfPossible({getEAsTerm(), Term("^"), leftHandSide}));
+        }
+        rightHandSide = getTermConstReferenceFromBaseTerm(functionObject.getInputTermConstReference());
+    }
 }
 
 Term SimplificationOfEquation::getNewCombinedTerm(
-        Equation const& equation) const
+        Term const& leftHandSide,
+        Term const& rightHandSide) const
 {
-    Term const& leftHandTerm(equation.getLeftHandTerm());
-    Term const& rightHandTerm(equation.getRightHandTerm());
-
     Term combinedTerm;
-    if(isTheValue(leftHandTerm, AlbaNumber(0)))
+    if(isTheValue(leftHandSide, AlbaNumber(0)))
     {
-        combinedTerm = rightHandTerm;
+        combinedTerm = rightHandSide;
     }
-    else if(isTheValue(rightHandTerm, AlbaNumber(0)))
+    else if(isTheValue(rightHandSide, AlbaNumber(0)))
     {
-        combinedTerm = leftHandTerm;
+        combinedTerm = leftHandSide;
     }
     else
     {
-        combinedTerm = Term(createExpressionIfPossible(Terms{leftHandTerm, Term("-"), rightHandTerm}));
+        combinedTerm = Term(createExpressionIfPossible(Terms{leftHandSide, Term("-"), rightHandSide}));
     }
     return combinedTerm;
 }
-
 void SimplificationOfEquation::negateTermIfNeeded(
         Term & leftHandSide,
         string & equationOperatorString)
@@ -124,17 +153,17 @@ void SimplificationOfEquation::completeExpressionWithFractionalExponentsIfNeeded
     }
 }
 
-void SimplificationOfEquation::simplifyLeftHandTerm(
+void SimplificationOfEquation::simplifyLeftHandSide(
         Term & term)
 {
     simplifyTermToACommonDenominator(term);
 }
 
-bool SimplificationOfEquation::areTheSignsOfTwoTermsDifferent(        TermWithDetails const& firstTerm,
+bool SimplificationOfEquation::areTheSignsOfTwoTermsDifferent(
+        TermWithDetails const& firstTerm,
         TermWithDetails const& secondTerm)
 {
-    return firstTerm.hasNegativeAssociation() ^ secondTerm.hasNegativeAssociation();
-}
+    return firstTerm.hasNegativeAssociation() ^ secondTerm.hasNegativeAssociation();}
 
 }
 

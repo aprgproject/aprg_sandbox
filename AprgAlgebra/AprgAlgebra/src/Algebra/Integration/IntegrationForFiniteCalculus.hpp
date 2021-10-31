@@ -22,11 +22,10 @@ public:
     Term integrate(Function const& functionObject) const;
 
     Term integrateWithPlusC(Term const& term) const;
-    Term integrateWithDefiniteValues(
+    Term integrateAtDefiniteValues(
             Term const& term,
             AlbaNumber const& lowerValueInInterval,
             AlbaNumber const& higherValueInInterval) const;
-
     Term integrateTerm(Term const& term) const;
     Monomial integrateConstant(Constant const& constant) const;
     Polynomial integrateVariable(Variable const& variable) const;

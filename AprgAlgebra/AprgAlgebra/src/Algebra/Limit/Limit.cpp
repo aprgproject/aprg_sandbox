@@ -282,11 +282,11 @@ Term getLimit(
 
 Term getLimitUsingLhopitalsRule(
         Term const& term,
-        string const& variableName,        AlbaNumber const& value)
+        string const& variableName,
+        AlbaNumber const& value)
 {
     Term newTerm, limitValue;
-    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, value);
-    return limitValue;
+    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, value);    return limitValue;
 }
 
 Term getTermUsingLhopitalsRule(

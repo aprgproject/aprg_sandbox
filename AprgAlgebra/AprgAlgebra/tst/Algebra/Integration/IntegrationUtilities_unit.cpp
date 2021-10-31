@@ -72,32 +72,33 @@ TEST(IntegrationUtilitiesTest, GetAverageValueInBetweenTwoValuesWorks)
     EXPECT_EQ(Term(AlbaNumber::createFraction(1875, 4)), getAverageValueInBetweenTwoValues(termToTest3, "x", 5, 10));
 }
 
-TEST(IntegrationUtilitiesTest, SubstituteValuesAndGetDifferenceWorks)
+TEST(IntegrationUtilitiesTest, EvaluateValuesAndGetDifferenceWorks)
 {
     Term termToTest1(Monomial(1, {{"x", 1}}));
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
 
-    EXPECT_EQ(Term(5), evaluateAndGetDifference(termToTest1, "x", 5, 10));
-    EXPECT_EQ(Term(75), evaluateAndGetDifference(termToTest2, "x", 5, 10));
-    EXPECT_EQ(Term(875), evaluateAndGetDifference(termToTest3, "x", 5, 10));
+    EXPECT_EQ(Term(5), evaluateValuesAndGetDifference(termToTest1, "x", 5, 10));
+    EXPECT_EQ(Term(75), evaluateValuesAndGetDifference(termToTest2, "x", 5, 10));
+    EXPECT_EQ(Term(875), evaluateValuesAndGetDifference(termToTest3, "x", 5, 10));
 }
 
-TEST(IntegrationUtilitiesTest, SubstituteTermsAndGetDifferenceWorks){
+TEST(IntegrationUtilitiesTest, EvaluateTermsAndGetDifferenceWorks)
+{
     Term termToTest1(Monomial(1, {{"x", 1}}));
     Term termToTest2(Monomial(1, {{"x", 2}}));
     Term termToTest3(Monomial(1, {{"x", 3}}));
 
-    Term termToVerify1(evaluateAndGetDifference(termToTest1, "x", Term("a"), Term("b")));
-    Term termToVerify2(evaluateAndGetDifference(termToTest2, "x", Term("a"), Term("b")));
-    Term termToVerify3(evaluateAndGetDifference(termToTest3, "x", Term("a"), Term("b")));
+    Term termToVerify1(evaluateTermsAndGetDifference(termToTest1, "x", Term("a"), Term("b")));
+    Term termToVerify2(evaluateTermsAndGetDifference(termToTest2, "x", Term("a"), Term("b")));
+    Term termToVerify3(evaluateTermsAndGetDifference(termToTest3, "x", Term("a"), Term("b")));
 
     Term termToExpect1(Polynomial{Monomial(-1, {{"a", 1}}), Monomial(1, {{"b", 1}})});
-    Term termToExpect2(Polynomial{Monomial(-1, {{"a", 2}}), Monomial(1, {{"b", 2}})});    Term termToExpect3(Polynomial{Monomial(-1, {{"a", 3}}), Monomial(1, {{"b", 3}})});
+    Term termToExpect2(Polynomial{Monomial(-1, {{"a", 2}}), Monomial(1, {{"b", 2}})});
+    Term termToExpect3(Polynomial{Monomial(-1, {{"a", 3}}), Monomial(1, {{"b", 3}})});
     EXPECT_EQ(termToExpect1, termToVerify1);
     EXPECT_EQ(termToExpect2, termToVerify2);
-    EXPECT_EQ(termToExpect3, termToVerify3);
-}
+    EXPECT_EQ(termToExpect3, termToVerify3);}
 
 TEST(IntegrationUtilitiesTest, GetAreaUnderACurveUsingReimannSumsWorks)
 {
