@@ -10,6 +10,7 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
+
 using namespace alba::mathHelper;
 using namespace std;
 
@@ -132,7 +133,8 @@ void SimplificationOfEquation::simplifyLeftHandTerm(
 bool SimplificationOfEquation::areTheSignsOfTwoTermsDifferent(        TermWithDetails const& firstTerm,
         TermWithDetails const& secondTerm)
 {
-    return firstTerm.hasNegativeAssociation() ^ secondTerm.hasNegativeAssociation();}
+    return firstTerm.hasNegativeAssociation() ^ secondTerm.hasNegativeAssociation();
+}
 
 }
 

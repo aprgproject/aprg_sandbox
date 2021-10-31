@@ -16,6 +16,7 @@
 using namespace std;
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -42,7 +43,8 @@ bool isTheSecondFundamentalTheoremOfCalculusTrue(
 }
 bool isTheIntegralDefinitionForFiniteCalculusIsTrue(
         Term const& term,
-        string const& variableName,        AlbaNumber const& a,
+        string const& variableName,
+        AlbaNumber const& a,
         AlbaNumber const& b)
 {
     // The fundamental theorem of finite calculus:
@@ -145,7 +147,8 @@ Term getAreaUnderACurveUsingReimannSums(
         string const& variableName,        AlbaNumber const& lowerValueInInterval,
         AlbaNumber const& higherValueInInterval)
 {
-    AlbaNumber deltaOfValues(higherValueInInterval-lowerValueInInterval);    Term inputForHeight(Polynomial{Monomial(lowerValueInInterval, {}), Monomial(deltaOfValues, {{"n", -1}, {variableName, 1}})});
+    AlbaNumber deltaOfValues(higherValueInInterval-lowerValueInInterval);
+    Term inputForHeight(Polynomial{Monomial(lowerValueInInterval, {}), Monomial(deltaOfValues, {{"n", -1}, {variableName, 1}})});
     SubstitutionOfVariablesToTerms substitution({{variableName, inputForHeight}});
     Term heightOfARectangle(substitution.performSubstitutionTo(term));
     Term widthOfARectangle(Monomial(deltaOfValues, {{"n", -1}}));

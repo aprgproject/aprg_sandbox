@@ -76,7 +76,8 @@ Term getLimitUsingLhopitalsRule(
 
 Term getTermUsingLhopitalsRule(
         Term const& term,
-        std::string const& variableName,        AlbaNumber const& value);
+        std::string const& variableName,
+        AlbaNumber const& value);
 
 void calculateTermAndLimitUsingLhopitalsRule(
         Term & newTerm,
