@@ -19,14 +19,21 @@ namespace alba
 namespace algebra
 {
 
-TEST(IntegrationTest, IntegrateWorksForTerm)
+TEST(IntegrationTest, IsConvergentWorks)
 {
     Integration integrationForX("x");
-    Polynomial polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
+    Term x("x");
+
+    EXPECT_TRUE(integrationForX.isConvergent(x, 4, 6));
+    EXPECT_FALSE(integrationForX.isConvergent(x, AlbaNumber(AlbaNumber::Value::NegativeInfinity), AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+}
+
+TEST(IntegrationTest, IntegrateWorksForTerm)
+{
+    Integration integrationForX("x");    Polynomial polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
     Expression expression(createExpressionIfPossible(
     {Term(Polynomial{Monomial(3, {{"x", 1}}), Monomial(4, {})}),
-     Term("^"),
-     Term(AlbaNumber::createFraction(1, 2))}));
+     Term("^"),     Term(AlbaNumber::createFraction(1, 2))}));
 
     Term termToVerify1(integrationForX.integrate(Term(5)));
     Term termToVerify2(integrationForX.integrate(Term(5)));
@@ -161,13 +168,32 @@ TEST(IntegrationTest, IntegrateWithDefiniteValuesWorks)
     EXPECT_EQ(Term(10), integrationForX.integrateWithDefiniteValues(Term("x"), 4, 6));
 }
 
+TEST(IntegrationTest, IntegrateWithDefiniteValuesWorksInfiniteValues)
+{
+    Integration integrationForX("x");
+    Term denominatorPart(Polynomial{Monomial(4, {}), Monomial(-1, {{"x", 1}})});
+    Term denominator(createExpressionIfPossible({denominatorPart, Term("^"), Term(2)}));
+    Term termToTest(createExpressionIfPossible({Term(1), Term("/"), denominator}));
+
+    EXPECT_EQ(Term(AlbaNumber::createFraction(1, 2)),
+              integrationForX.integrateWithDefiniteValues(termToTest, AlbaNumber(AlbaNumber::Value::NegativeInfinity), 2));
+}
+
+TEST(IntegrationTest, IntegrateWithDefiniteValuesWorksInfiniteValuesWithIBP)
+{
+    Integration integrationForX("x");
+    Term x("x");
+    Term eToTheNegativeX(createExpressionIfPossible({getEAsTerm(), Term("^"), -x}));
+    Term termToTest(createExpressionIfPossible({x, Term("*"), eToTheNegativeX}));
+
+    EXPECT_EQ(Term(1), integrationForX.integrateWithDefiniteValues(termToTest, 0, AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+}
+
 TEST(IntegrationTest, IntegrateConstantWorks)
 {
     Integration integrationForX("x");
-
     EXPECT_EQ(Monomial(5, {{"x", 1}}), integrationForX.integrateConstant(Constant(5)));
 }
-
 TEST(IntegrationTest, IntegrateVariableWorks)
 {
     Integration integrationForX("x");

@@ -60,24 +60,24 @@ public:
 
     Integration(std::string const& nameOfVariableToIntegrate);
 
+    bool isConvergent(Term const& term, AlbaNumber const& lowerValueInInterval, AlbaNumber const& higherValueInInterval);
+
     Term integrate(Term const& term) const;
     Term integrate(Constant const& constant) const;
-    Term integrate(Variable const& variable) const;
-    Term integrate(Monomial const& monomial) const;
+    Term integrate(Variable const& variable) const;    Term integrate(Monomial const& monomial) const;
     Term integrate(Polynomial const& polynomial) const;
     Term integrate(Expression const& expression) const;
     Term integrate(Function const& functionObject) const;
 
     Term integrateWithPlusC(Term const& term) const;
     Term integrateWithDefiniteValues(Term const& term, AlbaNumber const& lowerValueInInterval, AlbaNumber const& higherValueInInterval) const;
+    Term integrateWithDefiniteValues(Term const& term, Term const& lowerValue, Term const& higherValue) const;
 
     Monomial integrateConstant(Constant const& constant) const;
-    Monomial integrateVariable(Variable const& variable) const;
-    Term integrateMonomial(Monomial const& monomial) const;
+    Monomial integrateVariable(Variable const& variable) const;    Term integrateMonomial(Monomial const& monomial) const;
     Term integratePolynomial(Polynomial const& polynomial) const;
     Term integrateExpression(Expression const& expression) const;
     Term integrateFunction(Function const& functionObject) const;
-
 private:
     //Monomial
     Term integrateMonomialWhenExponentIsNegativeOne(Monomial const& monomial) const;

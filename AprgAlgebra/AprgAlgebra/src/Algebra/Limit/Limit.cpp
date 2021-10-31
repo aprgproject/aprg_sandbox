@@ -271,14 +271,21 @@ AlbaNumber getValueUsingLinearInterpolation(
     return result;
 }
 
-Term getLimitUsingLhopitalsRule(
+Term getLimit(
         Term const& term,
-        string const& variableName,
+        std::string const& variableName,
         AlbaNumber const& value)
 {
+    Term result = getLimitUsingLhopitalsRule(term, variableName, value);
+    return result;
+}
+
+Term getLimitUsingLhopitalsRule(
+        Term const& term,
+        string const& variableName,        AlbaNumber const& value)
+{
     Term newTerm, limitValue;
-    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, value);
-    return limitValue;
+    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, value);    return limitValue;
 }
 
 Term getTermUsingLhopitalsRule(

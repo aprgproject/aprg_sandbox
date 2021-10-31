@@ -132,14 +132,22 @@ TEST(LimitTest, GetValueUsingLinearInterpolationWorks)
     EXPECT_TRUE(getValueUsingLinearInterpolation(1, 1, 3, 2, 2).isNotANumber());
 }
 
-TEST(LimitTest, GetLimitUsingLhopitalsRuleWorks)
+TEST(LimitTest, GetLimitWorks)
 {
     Term x("x");
-    Term oneMinusEToTheX(createExpressionIfPossible({Term(1), Term("-"), Term(AlbaNumber(AlbaNumber::Value::e)), Term("^"), x}));
+    Term termToTest1(x);
+
+    Term termToVerify1(getLimit(termToTest1, "x", 5));
+
+    EXPECT_EQ(Term(5), termToVerify1);
+}
+
+TEST(LimitTest, GetLimitUsingLhopitalsRuleWorks)
+{
+    Term x("x");    Term oneMinusEToTheX(createExpressionIfPossible({Term(1), Term("-"), Term(AlbaNumber(AlbaNumber::Value::e)), Term("^"), x}));
     Term oneOverX(createExpressionIfPossible({Term(1), Term("/"), x}));
     Term termToTest1(x);
-    Term termToTest2(createExpressionIfPossible({x, Term("/"), oneMinusEToTheX}));
-    Term termToTest3(createExpressionIfPossible({Term(sin(oneOverX)), Term("/"), Term(arctan(oneOverX))}));
+    Term termToTest2(createExpressionIfPossible({x, Term("/"), oneMinusEToTheX}));    Term termToTest3(createExpressionIfPossible({Term(sin(oneOverX)), Term("/"), Term(arctan(oneOverX))}));
 
     Term termToVerify1(getLimitUsingLhopitalsRule(termToTest1, "x", 5));
     Term termToVerify2(getLimitUsingLhopitalsRule(termToTest2, "x", 0));
