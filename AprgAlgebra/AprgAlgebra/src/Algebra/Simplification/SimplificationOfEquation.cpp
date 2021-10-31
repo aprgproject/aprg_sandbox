@@ -3,15 +3,13 @@
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Constructs/TermRaiseToTerms.hpp>
 #include <Algebra/Equation/EquationUtilities.hpp>
-#include <Algebra/Simplification/SimplificationOfExpression.hpp>
+#include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
-
 using namespace alba::mathHelper;
 using namespace std;
 
@@ -128,22 +126,13 @@ void SimplificationOfEquation::completeExpressionWithFractionalExponentsIfNeeded
 void SimplificationOfEquation::simplifyLeftHandTerm(
         Term & term)
 {
-    SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
-    configurationDetails.shouldSimplifyToACommonDenominator = true;
-
-    SimplificationOfExpression::ScopeObject scopeObject;
-    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
-
-    term.simplify();
+    simplifyTermToACommonDenominator(term);
 }
 
-bool SimplificationOfEquation::areTheSignsOfTwoTermsDifferent(
-        TermWithDetails const& firstTerm,
+bool SimplificationOfEquation::areTheSignsOfTwoTermsDifferent(        TermWithDetails const& firstTerm,
         TermWithDetails const& secondTerm)
 {
-    return firstTerm.hasNegativeAssociation() ^ secondTerm.hasNegativeAssociation();
-}
+    return firstTerm.hasNegativeAssociation() ^ secondTerm.hasNegativeAssociation();}
 
 }
 
