@@ -9,28 +9,27 @@
 #include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Retrieval/SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
-#include <Algebra/Simplification/SimplificationOfExpression.hpp>
+#include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
-#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
+#include <Math/AlbaMathHelper.hpp>
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 
 using namespace alba::algebra::DomainAndRange;
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
+using namespace alba::mathHelper;
 using namespace std;
 
-namespace
-{
+namespace{
 
 constexpr char const*const X_NAME = "x";
 constexpr char const*const DELTA_X_NAME = "deltaX";
-
 }
 
 namespace alba
@@ -105,14 +104,30 @@ bool isFirstOrderDifferentialEquation(
     return result;
 }
 
+Term evaluateAtDefiniteValue(
+        Term const& term,
+        string const& variableName,
+        AlbaNumber const& value)
+{
+    SubstitutionOfVariablesToValues substitution{{variableName, value}};
+    return substitution.performSubstitutionTo(term);
+}
+
+Term evaluateAtDefiniteTerm(
+        Term const& term,
+        string const& variableName,
+        Term const& valueTerm)
+{
+    SubstitutionOfVariablesToTerms substitution{{variableName, valueTerm}};
+    return substitution.performSubstitutionTo(term);
+}
+
 Term getDerivativeDefinition(
         Term const& term,
-        string const& variableName)
-{
+        string const& variableName){
     Term x(X_NAME);
     Term deltaX(DELTA_X_NAME);
-    Term xPlusDeltaX(createExpressionIfPossible({x, Term("+"), deltaX}));
-    SubstitutionOfVariablesToTerms substitution{{variableName, xPlusDeltaX}};
+    Term xPlusDeltaX(createExpressionIfPossible({x, Term("+"), deltaX}));    SubstitutionOfVariablesToTerms substitution{{variableName, xPlusDeltaX}};
     Term fOfXPlusDeltaX(substitution.performSubstitutionTo(term));
     substitution.putVariableWithTerm(variableName, x);
     Term fOfX(substitution.performSubstitutionTo(term));
@@ -153,42 +168,45 @@ Term getLogarithmicDifferentiationToYieldDyOverDx(
         string const& yVariableName)
 {
     // y = f(x)
-    // dy/dx = f(x) * f'(ln|f(x)|)
+    // -> ln(|y|) = ln(|f(x)|)
+    // -> Dx(ln(|y|)) = Dx(ln(|f(x)|))
+    // -> y'/y = Dx(ln(|f(x)|))
+    // -> y' = y * Dx(ln(|f(x)|))
+    // -> dy/dx = f(x) * Dx(ln(|f(x)|))
+
+    // dy/dx = f(x) * Dx(ln|f(x)|)
     // if domain is inside positive, then absolute value can be removed
     Term result;
     SolutionSet solutionSet(calculateDomainForEquation(xVariableName, Equation(Term(yVariableName), "=", yInTermsOfX)));
-    AlbaNumberIntervals const& intervals(solutionSet.getAcceptedIntervals());
-    AlbaNumberInterval positiveNumbersInterval(createCloseEndpoint(AlbaNumber(0)), createPositiveInfinityOpenEndpoint());
-    if(areTheIntervalsInsideTheInterval(intervals, positiveNumbersInterval))
+    AlbaNumberIntervals const& domainOfX(solutionSet.getAcceptedIntervals());
+    AlbaNumberInterval allPositiveNumbers(createCloseEndpoint(AlbaNumber(0)), createPositiveInfinityOpenEndpoint());
+    if(areTheIntervalsInsideTheInterval(domainOfX, allPositiveNumbers))
     {
         Differentiation differentiation(xVariableName);
-        Term logarithm(ln(yInTermsOfX));
-        logarithm.simplify();
+        Term logarithm(ln(yInTermsOfX));        logarithm.simplify();
         result = yInTermsOfX * differentiation.differentiate(logarithm);
         simplifyToNonDoubleFactors(result);
-    }
-    return result;
+    }    return result;
 }
 
 Term getCartesianDerivativeOfTermInPolarCoordinates(
         Term const& radiusInTermsOfTheta,
         string const& thetaName)
 {
+    // dy/dx = (dr/dt*sin(t) + r(t)*cos(t)) / (dr/dt*cos(t) - r(t)*sin(t))
     Term theta(thetaName);
     Differentiation differentiation(thetaName);
     Term drOverDTheta(differentiation.differentiate(radiusInTermsOfTheta));
     Term sinTheta(sin(theta));
     Term cosTheta(cos(theta));
-    Term numerator(createExpressionIfPossible({sinTheta, Term("*"), drOverDTheta, Term("+"), radiusInTermsOfTheta, Term("*"), cosTheta}));
-    Term denominator(createExpressionIfPossible({cosTheta, Term("*"), drOverDTheta, Term("-"), radiusInTermsOfTheta, Term("*"), sinTheta}));
+    Term numerator(createExpressionIfPossible({drOverDTheta, Term("*"), sinTheta, Term("+"), radiusInTermsOfTheta, Term("*"), cosTheta}));
+    Term denominator(createExpressionIfPossible({drOverDTheta, Term("*"), cosTheta, Term("-"), radiusInTermsOfTheta, Term("*"), sinTheta}));
     Term result(createExpressionIfPossible({numerator, Term("/"), denominator}));
     result.simplify();
-    return result;
-}
+    return result;}
 
 Term getSlopeOfTermInPolarCoordinates(
-        Term const& radiusInTermsOfTheta,
-        string const& thetaName,
+        Term const& radiusInTermsOfTheta,        string const& thetaName,
         AlbaNumber const& thetaValue)
 {
     Term dyOverDx(getCartesianDerivativeOfTermInPolarCoordinates(radiusInTermsOfTheta, thetaName));
@@ -196,14 +214,63 @@ Term getSlopeOfTermInPolarCoordinates(
     return substitution.performSubstitutionTo(dyOverDx);
 }
 
+Term getApproximationUsingTaylorsFormula(
+        Term const& term,
+        string const& variableName,
+        Term const& startingValue,
+        Term const& valueToApproach,
+        unsigned int const numberOfTimes)
+{
+    // taylors formula:
+    // f(b) = f(a) + f'(a)*(b-a)/1! + f''(a)*(b-a)^2/2! ...
+    Differentiation differentiation(variableName);
+    Term difference(valueToApproach-startingValue);
+    Term currentDerivative(term);
+    Term differenceRaiseToPower(1);
+    AlbaNumber factorialValue(1);
+    Term result(evaluateAtDefiniteTerm(term, variableName, startingValue));
+    for(unsigned int n=1; n<=numberOfTimes; n++)
+    {
+        currentDerivative = differentiation.differentiate(currentDerivative);
+        differenceRaiseToPower = differenceRaiseToPower * difference;
+        factorialValue *= n;
+        Term currentDerivativeValue(evaluateAtDefiniteTerm(currentDerivative, variableName, startingValue));
+        Term currentTerm(currentDerivativeValue*differenceRaiseToPower/factorialValue);
+        result = result + currentTerm;
+    }
+    result.simplify();
+    return result;
+}
+
+Term getApproximationUsingTaylorsRemainder(
+        Term const& term,
+        string const& variableName,
+        Term const& startingValue,
+        Term const& valueToApproach,
+        Term const& valueForEstimation,
+        unsigned int const numberOfTimes)
+{
+    // taylors formula:
+    // R(x) = f(n+1)(E) * (x-a)^(n+1) / (n+1)!
+    // E or valueForEstimation should be between startingValue and valueToApproach
+    Differentiation differentiation(variableName);
+    Term difference(valueToApproach-startingValue);
+    unsigned int nPlusOne = numberOfTimes+1;
+    Term derivative(differentiation.differentiateMultipleTimes(term, nPlusOne));
+    Term derivativeValue(evaluateAtDefiniteTerm(derivative, variableName, valueForEstimation));
+    Term differenceRaiseToPower(difference^(nPlusOne));
+    Term factorialValue(getFactorial(nPlusOne));
+    Term result(derivativeValue*differenceRaiseToPower/factorialValue);
+    result.simplify();
+    return result;
+}
+
 SolutionSet getDifferentiabilityDomain(
         Term const& term,
-        string const& variableName)
-{
+        string const& variableName){
     // This code is not accurate.
     // How about piecewise function?
     // How about absolute value function?
-
     Differentiation differentiation(variableName);
     Term derivativeTerm(differentiation.differentiate(term));
     return calculateDomainForTermWithOneVariable(derivativeTerm);
@@ -301,20 +368,9 @@ void simplifyDerivativeByDefinition(Term & term)
 void simplifyToNonDoubleFactors(
         Term& term)
 {
-    term.simplify();
-    {
-        SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                    SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
-        configurationDetails.shouldSimplifyToFactors = true;
-        configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
-
-        SimplificationOfExpression::ScopeObject scopeObject;
-        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
-
-        term.simplify();
-    }
+    //term.simplify();
+    simplifyTermByFactoringToNonDoubleFactors(term);
 }
-
 
 }
 

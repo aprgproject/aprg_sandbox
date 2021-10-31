@@ -1,13 +1,12 @@
 #include <Algebra/Differentiation/DifferentiationUtilities.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
-
 #include <gtest/gtest.h>
 
-using namespace alba::algebra::Functions;
-using namespace std;
+using namespace alba::algebra::Functions;using namespace std;
 
 namespace alba
 {
@@ -189,14 +188,45 @@ TEST(DifferentiationUtilitiesTest, GetSlopeOfTermInPolarCoordinatesWorks)
     EXPECT_EQ(Term(-1), termToVerify);
 }
 
+TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForEToTheX)
+{
+    Term x("x");
+    Term termToTest(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
+
+    Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", Term(Constant(0)), Term("q"), 3));
+
+    string stringToExpect("((1/6)[q^3] + (1/2)[q^2] + 1[q] + 1)");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
+TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForSin)
+{
+    Term x("x");
+    Term termToTest(sin(x));
+
+    Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", Term(Constant(0)), Term("q"), 8));
+
+    string stringToExpect("((-1/5040)[q^7] + (1/120)[q^5] + (-1/6)[q^3] + 1[q])");
+    EXPECT_EQ(stringToExpect, termToVerify.getDisplayableString());
+}
+
+TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsRemainderWorks)
+{
+    Term x("x");
+    Term termToTest(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
+
+    Term termToVerify(getApproximationUsingTaylorsRemainder(termToTest, "x", Term(Constant(0)), Term(AlbaNumber::createFraction(1, 2)), Term(Constant(0)), 5));
+
+    EXPECT_EQ(Term(AlbaNumber::createFraction(1, 46080)), termToVerify);
+    // this means the when n=5 the square root of e is accurate up to 4 decimal places.
+}
+
 TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)
 {
-    Polynomial numerator{Monomial(1, {{"x", 1}}), Monomial(3, {})};
-    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
+    Polynomial numerator{Monomial(1, {{"x", 1}}), Monomial(3, {})};    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
     Term termToTest(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
 
     SolutionSet differentiabilityDomain(getDifferentiabilityDomain(termToTest, "x"));
-
     AlbaNumberIntervals const& intervalToVerify(differentiabilityDomain.getAcceptedIntervals());
     ASSERT_EQ(2U, intervalToVerify.size());
     EXPECT_EQ(AlbaNumberInterval(createNegativeInfinityOpenEndpoint(), createCloseEndpoint(0.9999979999999644)),

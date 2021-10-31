@@ -1,18 +1,17 @@
 #include "Differentiation.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
+#include <Algebra/Constructs/TermRaiseToTerms.hpp>
 #include <Algebra/Differentiation/DifferentiationUtilities.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
-#include <Algebra/Simplification/SimplificationOfExpression.hpp>
+#include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 #include <algorithm>
-
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
 using namespace std;
@@ -117,16 +116,13 @@ Term Differentiation::differentiateWithDefiniteValue(
         Term const& term,
         AlbaNumber const& value) const
 {
-    SubstitutionOfVariablesToTerms substitution{{m_nameOfVariableToDifferentiate, Term(value)}};
-    return substitution.performSubstitutionTo(differentiate(term));
+    return evaluateAtDefiniteValue(differentiate(term), m_nameOfVariableToDifferentiate, value);
 }
 
-Term Differentiation::differentiateMultipleTimes(
-        Term const& term,
+Term Differentiation::differentiateMultipleTimes(        Term const& term,
         unsigned int const numberOfTimes) const
 {
-    Term currentResult(term);
-    for(unsigned int i=0; i<numberOfTimes; i++)
+    Term currentResult(term);    for(unsigned int i=0; i<numberOfTimes; i++)
     {
         currentResult = differentiate(currentResult);
     }
@@ -596,25 +592,13 @@ void Differentiation::simplifyForDifferentiation(
         Term& term) const
 {
     term.simplify();
-    {
-        SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                    SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
-        configurationDetails.shouldSimplifyToFactors = true;
-        configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
-
-        SimplificationOfExpression::ScopeObject scopeObject;
-        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
-
-        term.simplify();
-    }
+    simplifyTermByFactoringToNonDoubleFactors(term);
 }
 
-bool Differentiation::isVariableToDifferentiate(
-        string const& variableName) const
+bool Differentiation::isVariableToDifferentiate(        string const& variableName) const
 {
     return variableName == m_nameOfVariableToDifferentiate;
 }
-
 bool Differentiation::isDependentVariable(
         string const& variableName) const
 {

@@ -23,18 +23,28 @@ bool isDifferentiableAt(
         AlbaNumber const& value);
 
 bool isFirstOrderDifferentialEquation(
-        Equation const& equation,
+        Term const& dyOverDx,
+        Term const& p,
+        Term const& q,
         std::string const& xVariableName,
         std::string const& yVariableName);
+
+Term evaluateAtDefiniteValue(
+        Term const& term,
+        std::string const& variableName,
+        AlbaNumber const& value);
+
+Term evaluateAtDefiniteTerm(
+        Term const& term,
+        std::string const& variableName,
+        Term const& valueTerm);
 
 Term getDerivativeDefinition(
         Term const& term,
         std::string const& variableName);
-
 Term getDerivativeAtUsingLimit(
         Term const& term,
-        std::string const& variableName,
-        Term const& termSubstituteToBack,
+        std::string const& variableName,        Term const& termSubstituteToBack,
         LimitAtAValueApproachType const approachType);
 
 Term getDerivativeDefinitionForFiniteCalculus(
@@ -55,14 +65,27 @@ Term getSlopeOfTermInPolarCoordinates(
         std::string const& thetaName,
         AlbaNumber const& thetaValue);
 
+Term getApproximationUsingTaylorsFormula(
+        Term const& term,
+        std::string const& variableName,
+        Term const& startingValue,
+        Term const& valueToApproach,
+        unsigned int const numberOfTimes);
+
+Term getApproximationUsingTaylorsRemainder(
+        Term const& term,
+        std::string const& variableName,
+        Term const& startingValue,
+        Term const& valueToApproach,
+        Term const& valueForEstimation,
+        unsigned int const numberOfTimes);
+
 SolutionSet getDifferentiabilityDomain(
         Term const& term,
         std::string const& variableName);
-
 Equation getRelationshipOfDerivativeOfTheInverseAndTheDerivative(
         Term const& term,
-        std::string const& variableName,
-        std::string const& variableForNonInverse,
+        std::string const& variableName,        std::string const& variableForNonInverse,
         std::string const& variableForInverse);
 
 Equation getIntegralEquationForFirstOrderDifferentialEquation(
