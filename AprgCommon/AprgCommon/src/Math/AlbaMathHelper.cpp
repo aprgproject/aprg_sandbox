@@ -328,16 +328,22 @@ template int getSquareRootOfXSquaredPlusYSquaredPlusZSquared<int>(int const x, i
 template double getSquareRootOfXSquaredPlusYSquaredPlusZSquared<double>(double const x, double const y, double const z);
 
 
-double getLogarithm(double const base, double const logarithmValue)
+double getLogarithm(double const base, double const inputForLogarithm)
 {
-    return log10(logarithmValue)/log10(base);
+    // change of base formula
+    // log a(b) = C
+    // -> b = a^C
+    // -> log10(b) = log10(a^C)
+    // -> log10(b) = C*log10(a)
+    // -> C = log10(b)/log10(a)
+
+    // log a(b) = log10(b) / log10(a)
+    return log10(inputForLogarithm)/log10(base);
 }
 
-AlbaNumber getAverageForAlbaNumber(AlbaNumber const& value1, AlbaNumber const& value2)
-{
+AlbaNumber getAverageForAlbaNumber(AlbaNumber const& value1, AlbaNumber const& value2){
     return (value1+value2)/2;
 }
-
 AlbaNumbers getQuadraticRealRoots(
         AlbaNumber const& a,
         AlbaNumber const& b,
