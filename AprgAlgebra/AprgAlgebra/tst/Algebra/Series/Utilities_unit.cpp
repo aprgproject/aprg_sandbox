@@ -40,6 +40,11 @@ TEST(UtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExampl
     EXPECT_EQ(expectedSum, getSumOfArithmeticSeriesUsingFirstAndLastTerm(firstTerm, lastTerm, count));
 }
 
+TEST(UtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastValueWorks)
+{
+    EXPECT_DOUBLE_EQ(60, getSumOfArithmeticSeriesUsingFirstAndLastValue(12, 18, 4));
+}
+
 
 }
 
