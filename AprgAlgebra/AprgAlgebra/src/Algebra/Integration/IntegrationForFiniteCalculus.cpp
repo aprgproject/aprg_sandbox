@@ -405,14 +405,14 @@ Term IntegrationForFiniteCalculus::integrateTermsInAdditionOrSubtraction(
 }
 
 Term IntegrationForFiniteCalculus::integrateTermsInMultiplicationOrDivision(
-        TermsWithDetails const& ) const
+        TermsWithDetails const& termsWithDetails) const
 {
-    // no impl
-    return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+    Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
+    integrateNonChangingAndChangingTermsInMultiplicationOrDivision(result, termsWithDetails);
+    return result;
 }
 
-Term IntegrationForFiniteCalculus::integrateTermsInRaiseToPower(
-        TermsWithDetails const& termsWithDetails) const
+Term IntegrationForFiniteCalculus::integrateTermsInRaiseToPower(        TermsWithDetails const& termsWithDetails) const
 {
     Term result;
     TermRaiseToTerms termRaiseToTerms(termsWithDetails);
@@ -466,10 +466,67 @@ Term IntegrationForFiniteCalculus::integrateChangingTermRaiseToChangingTerm(
     return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
 }
 
+void IntegrationForFiniteCalculus::integrateNonChangingAndChangingTermsInMultiplicationOrDivision(
+        Term& result,
+        TermsWithDetails const& termsWithDetails) const
+{
+    TermsWithDetails nonChangingTerms;
+    TermsWithDetails changingTerms;
+    segregateNonChangingAndChangingTerms(termsWithDetails, nonChangingTerms, changingTerms);
+    if(nonChangingTerms.empty())
+    {
+        integrateChangingTermsInMultiplicationOrDivision(result, changingTerms);
+    }
+    else
+    {
+        Term nonChangingTermCombined(Expression(OperatorLevel::MultiplicationAndDivision, nonChangingTerms));
+        Term changingTermCombined(1);
+        if(!changingTerms.empty())
+        {
+            changingTermCombined = Term(Expression(OperatorLevel::MultiplicationAndDivision, changingTerms));
+        }
+        Term integratedChangingTerm(integrateTerm(changingTermCombined));
+        if(isNotANumber(integratedChangingTerm))
+        {
+            result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+        }
+        else
+        {
+            result = nonChangingTermCombined * integratedChangingTerm;
+        }
+    }
+}
+
+void IntegrationForFiniteCalculus::integrateChangingTermsInMultiplicationOrDivision(
+        Term& result,
+        TermsWithDetails const& ) const
+{
+    // no impl
+    result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+}
+
+void IntegrationForFiniteCalculus::segregateNonChangingAndChangingTerms(
+        TermsWithDetails const& termsToSegregate,
+        TermsWithDetails & nonChangingTerms,
+        TermsWithDetails & changingTerms) const
+{
+    for(TermWithDetails const& termToSegregate : termsToSegregate)
+    {
+        Term const& term(getTermConstReferenceFromSharedPointer(termToSegregate.baseTermSharedPointer));
+        if(isChangingTerm(term))
+        {
+            changingTerms.emplace_back(termToSegregate);
+        }
+        else
+        {
+            nonChangingTerms.emplace_back(termToSegregate);
+        }
+    }
+}
+
 bool IntegrationForFiniteCalculus::isVariableToIntegrate(
         string const& variableName) const
-{
-    return variableName == m_nameOfVariableToIntegrate;
+{    return variableName == m_nameOfVariableToIntegrate;
 }
 
 bool IntegrationForFiniteCalculus::isChangingTerm(

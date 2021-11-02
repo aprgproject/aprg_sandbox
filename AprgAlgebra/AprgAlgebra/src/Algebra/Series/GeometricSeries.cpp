@@ -1,9 +1,10 @@
 #include "GeometricSeries.hpp"
 
 #include <Algebra/Series/SeriesUtilities.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Utilities/KnownNames.hpp>
 
 #include <cmath>
-
 namespace alba
 {
 
@@ -11,45 +12,42 @@ namespace algebra
 {
 
 GeometricSeries::GeometricSeries(
-        double const firstTerm,
-        double const commonMultiplier)
-    : m_firstTerm(firstTerm)
-    , m_commonMultiplier(commonMultiplier)
+        AlbaNumber const& firstValue,
+        AlbaNumber const& commonMultiplier)
+    : SeriesBasedOnTerm(getFormula(firstValue, commonMultiplier), N)
 {}
 
 GeometricSeries::GeometricSeries(
-        double const valueAtNthIndex1,
+        AlbaNumber const& valueAtNthIndex1,
         int const nthIndex1,
-        double const valueAtNthIndex2,
+        AlbaNumber const& valueAtNthIndex2,
         int const nthIndex2)
-{
-    m_commonMultiplier = pow(valueAtNthIndex2/valueAtNthIndex1, 1/static_cast<double>(nthIndex2-nthIndex1));
-    m_firstTerm = valueAtNthIndex1 / pow(m_commonMultiplier, nthIndex1);
-}
+    : SeriesBasedOnTerm(getFormula(valueAtNthIndex1, nthIndex1, valueAtNthIndex2, nthIndex2), N)
+{}
 
-double GeometricSeries::getValueAtIndex(int const nthIndex) const
-{
-    return m_firstTerm * pow(m_commonMultiplier, nthIndex);
-}
-
-double GeometricSeries::getSum(
-        int const startingNthIndex,
-        int const endingNthIndex)
-{
-    return getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(
-                getValueAtIndex(startingNthIndex),
-                m_commonMultiplier,
-                endingNthIndex - startingNthIndex + 1);
-}
-
-double GeometricSeries::getInfiniteSumIfMultiplierIsFractional(
+Term GeometricSeries::getInfiniteSumStartingFrom(
         int const startingNthIndex)
 {
-    return getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(
-                getValueAtIndex(startingNthIndex),
-                m_commonMultiplier);
+    return getSumStartingAtIndexAndToInfinity(startingNthIndex);
+}
+
+Term GeometricSeries::getFormula(
+        AlbaNumber const& firstValue,
+        AlbaNumber const& commonMultiplier) const
+{
+    return Term(firstValue) * (Term(commonMultiplier)^Term(N));
+}
+
+Term GeometricSeries::getFormula(
+        AlbaNumber const& valueAtNthIndex1,
+        int const nthIndex1,
+        AlbaNumber const& valueAtNthIndex2,
+        int const nthIndex2) const
+{
+    AlbaNumber commonMultiplier = (valueAtNthIndex2/valueAtNthIndex1)^(AlbaNumber(1)/AlbaNumber(nthIndex2-nthIndex1));
+    AlbaNumber firstValue = valueAtNthIndex1 / (commonMultiplier^nthIndex1);
+    return getFormula(firstValue, commonMultiplier);
 }
 
 }
-
 }

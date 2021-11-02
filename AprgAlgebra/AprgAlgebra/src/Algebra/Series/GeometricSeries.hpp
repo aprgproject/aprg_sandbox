@@ -1,37 +1,35 @@
 #pragma once
 
+#include <Algebra/Series/SeriesBasedOnTerm.hpp>
+
 namespace alba
 {
 
 namespace algebra
 {
 
-class GeometricSeries
+class GeometricSeries : public SeriesBasedOnTerm
 {
 public:
 
     GeometricSeries(
-            double const firstTerm,
-            double const commonMultiplier);
+            AlbaNumber const& firstValue,
+            AlbaNumber const& commonMultiplier);
 
     GeometricSeries(
-            double const valueAtNthIndex1,
+            AlbaNumber const& valueAtNthIndex1,
             int const nthIndex1,
-            double const valueAtNthIndex2,
+            AlbaNumber const& valueAtNthIndex2,
             int const nthIndex2);
 
-    double getValueAtIndex(int const nthIndex) const;
-    double getSum(
-            int const startingNthIndex,
-            int const endingNthIndex);
-    double getInfiniteSumIfMultiplierIsFractional(
+    Term getInfiniteSumStartingFrom(
             int const startingNthIndex);
 
 private:
-    double m_firstTerm;
+    Term getFormula(AlbaNumber const& firstValue, AlbaNumber const& commonMultiplier) const;
+    Term getFormula(AlbaNumber const& valueAtNthIndex1, int const nthIndex1, AlbaNumber const& valueAtNthIndex2, int const nthIndex2) const;
     double m_commonMultiplier;
 };
-
 }
 
 }

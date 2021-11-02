@@ -276,12 +276,10 @@ Term getLimit(
         std::string const& variableName,
         AlbaNumber const& value)
 {
-    Term result = getLimitUsingLhopitalsRule(term, variableName, value);
-    return result;
+    return getLimitUsingLhopitalsRule(term, variableName, value);
 }
 
-Term getLimitUsingLhopitalsRule(
-        Term const& term,
+Term getLimitUsingLhopitalsRule(        Term const& term,
         string const& variableName,
         AlbaNumber const& value)
 {
@@ -307,33 +305,35 @@ void calculateTermAndLimitUsingLhopitalsRule(
         string const& variableName,
         AlbaNumber const& value)
 {
-    Differentiation differentiation(variableName);
-    newTerm = term;
-    simplifyTermToACommonDenominator(newTerm);
-    TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(newTerm));
-    Term numerator(termsOverTerms.getCombinedNumerator());
-    Term denominator(termsOverTerms.getCombinedDenominator());
-    SubstitutionOfVariablesToValues substitution{{variableName, value}};
-    Term numeratorValue(substitution.performSubstitutionTo(numerator));
-    Term denominatorValue(substitution.performSubstitutionTo(denominator));
-    Term zeroTerm(Constant(0));
-    limitValue = getLimitAtAValueOrInfinity(newTerm, variableName, value);
-    while((numeratorValue == zeroTerm && denominatorValue == zeroTerm)
-          || hasNotANumber(limitValue))
+    if(!hasNotANumber(term))
     {
-        numerator = differentiation.differentiate(numerator);
-        denominator = differentiation.differentiate(denominator);
-        newTerm = Term(numerator/denominator);
+        Differentiation differentiation(variableName);
+        newTerm = term;
         simplifyTermToACommonDenominator(newTerm);
-        TermsOverTerms newTermsOverTerms(createTermsOverTermsFromTerm(newTerm));
-        numerator = newTermsOverTerms.getCombinedNumerator();
-        denominator = newTermsOverTerms.getCombinedDenominator();
+        TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(newTerm));
+        Term numerator(termsOverTerms.getCombinedNumerator());
+        Term denominator(termsOverTerms.getCombinedDenominator());
+        SubstitutionOfVariablesToValues substitution{{variableName, value}};
+        Term numeratorValue(substitution.performSubstitutionTo(numerator));
+        Term denominatorValue(substitution.performSubstitutionTo(denominator));
+        Term zeroTerm(Constant(0));
         limitValue = getLimitAtAValueOrInfinity(newTerm, variableName, value);
-        numeratorValue = substitution.performSubstitutionTo(numerator);
-        denominatorValue = substitution.performSubstitutionTo(denominator);
+        while((numeratorValue == zeroTerm && denominatorValue == zeroTerm)
+              || hasNotANumber(limitValue))
+        {
+            numerator = differentiation.differentiate(numerator);
+            denominator = differentiation.differentiate(denominator);
+            newTerm = Term(numerator/denominator);
+            simplifyTermToACommonDenominator(newTerm);
+            TermsOverTerms newTermsOverTerms(createTermsOverTermsFromTerm(newTerm));
+            numerator = newTermsOverTerms.getCombinedNumerator();
+            denominator = newTermsOverTerms.getCombinedDenominator();
+            limitValue = getLimitAtAValueOrInfinity(newTerm, variableName, value);
+            numeratorValue = substitution.performSubstitutionTo(numerator);
+            denominatorValue = substitution.performSubstitutionTo(denominator);
+        }
     }
 }
-
 Term getLimitAtAValueOrInfinity(
         Term const& term,
         string const& variableName,

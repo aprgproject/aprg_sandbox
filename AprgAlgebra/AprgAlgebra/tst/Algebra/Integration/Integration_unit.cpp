@@ -1,10 +1,9 @@
 #include <Algebra/Integration/Integration.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
-#include <Algebra/Simplification/SimplificationOfExpression.hpp>
+#include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 
 #include <gtest/gtest.h>
@@ -660,47 +659,25 @@ TEST(IntegrationTest, IntegrateWorksUsingIntegrationByPartsUsingExamples4)
     Term eToTheX(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
     Term termToTest(createExpressionIfPossible({Term(eToTheX), Term("*"), Term(sin(x))}));
 
-    Term simplifiedResult(integrationForX.integrate(termToTest));
-    EXPECT_EQ("((((e)^x)*sin(x))-(((e)^x)*cos(x))-(((((e)^x)*sin(x))-(((e)^x)*cos(x)))/2))",
-              simplifiedResult.getDisplayableString());
+    Term termToVerify(integrationForX.integrate(termToTest));
 
-    {
-        SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                    SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
-        configurationDetails.shouldSimplifyToACommonDenominator = true;
-
-        SimplificationOfExpression::ScopeObject scopeObject;
-        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
-
-        simplifiedResult.simplify();
-    }
-    EXPECT_EQ("(((((e)^x)*sin(x))-(((e)^x)*cos(x)))/2)", simplifiedResult.getDisplayableString());
+    EXPECT_EQ("((((e)^x)*sin(x))-(((e)^x)*cos(x))-(((((e)^x)*sin(x))-(((e)^x)*cos(x)))/2))", termToVerify.getDisplayableString());
+    simplifyTermToACommonDenominator(termToVerify);
+    EXPECT_EQ("(((((e)^x)*sin(x))-(((e)^x)*cos(x)))/2)", termToVerify.getDisplayableString());
 }
 
-TEST(IntegrationTest, IntegrateWorksUsingIntegrationByPartsUsingExamples5)
-{
+TEST(IntegrationTest, IntegrateWorksUsingIntegrationByPartsUsingExamples5){
     Integration integrationForX("x");
     Term x("x");
     Term termToTest(createExpressionIfPossible({Term(sin(Term(ln(x))))}));
 
-    Term simplifiedResult(integrationForX.integrate(termToTest));
-    EXPECT_EQ("((x*sin(ln(x)))-(x*cos(ln(x)))-(((x*sin(ln(x)))-(x*cos(ln(x))))/2))",
-              simplifiedResult.getDisplayableString());
-    {
-        SimplificationOfExpression::ConfigurationDetails configurationDetails(
-                    SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
-        configurationDetails.shouldSimplifyToACommonDenominator = true;
-
-        SimplificationOfExpression::ScopeObject scopeObject;
-        scopeObject.setInThisScopeThisConfiguration(configurationDetails);
-
-        simplifiedResult.simplify();
-    }
-    EXPECT_EQ("(((x*sin(ln(x)))-(x*cos(ln(x))))/2)", simplifiedResult.getDisplayableString());
+    Term termToVerify(integrationForX.integrate(termToTest));
+    EXPECT_EQ("((x*sin(ln(x)))-(x*cos(ln(x)))-(((x*sin(ln(x)))-(x*cos(ln(x))))/2))", termToVerify.getDisplayableString());
+    simplifyTermToACommonDenominator(termToVerify);
+    EXPECT_EQ("(((x*sin(ln(x)))-(x*cos(ln(x))))/2)", termToVerify.getDisplayableString());
 }
 
-TEST(IntegrationTest, IntegrateWorksSinRaiseToAConstant)
-{
+TEST(IntegrationTest, IntegrateWorksSinRaiseToAConstant){
     Integration integrationForX("x");
     Term x("x");
     Term termToTest1(createExpressionIfPossible({Term(17), Term("*"), Term(sin(x)), Term("^"), Term(5)}));

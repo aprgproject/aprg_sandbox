@@ -1,45 +1,45 @@
 #include "ArithmeticSeries.hpp"
 
 #include <Algebra/Series/SeriesUtilities.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Utilities/KnownNames.hpp>
 
 namespace alba
 {
-
 namespace algebra
 {
 
 ArithmeticSeries::ArithmeticSeries(
-        double const firstTerm,
-        double const commonDifference)
-    : m_firstTerm(firstTerm)
-    , m_commonDifference(commonDifference)
+        AlbaNumber const& firstValue,
+        AlbaNumber const& commonDifference)
+    : SeriesBasedOnTerm(getFormula(firstValue, commonDifference), N)
 {}
 
 ArithmeticSeries::ArithmeticSeries(
-        double const valueAtIndex1,
+        AlbaNumber const& valueAtIndex1,
         int const index1,
-        double const valueAtIndex2,
+        AlbaNumber const& valueAtIndex2,
         int const index2)
+    : SeriesBasedOnTerm(getFormula(valueAtIndex1, index1, valueAtIndex2, index2), N)
+{}
+
+Term ArithmeticSeries::getFormula(
+        AlbaNumber const& firstValue,
+        AlbaNumber const& commonDifference) const
 {
-    m_commonDifference = (valueAtIndex1 - valueAtIndex2)/(index1 - index2);
-    m_firstTerm = valueAtIndex1 - index1*m_commonDifference;
+    return Term(firstValue) + Term(commonDifference)*Term(N);
 }
 
-double ArithmeticSeries::getValueAtIndex(int const index) const
+Term ArithmeticSeries::getFormula(
+        AlbaNumber const& valueAtIndex1,
+        int const index1,
+        AlbaNumber const& valueAtIndex2,
+        int const index2) const
 {
-    return m_firstTerm + index*m_commonDifference;
-}
-
-double ArithmeticSeries::getSum(
-        int const startingIndex,
-        int const endingIndex)
-{
-    return getSumOfArithmeticSeriesUsingFirstAndLastValue(
-                getValueAtIndex(startingIndex),
-                getValueAtIndex(endingIndex),
-                endingIndex - startingIndex + 1);
+    AlbaNumber commonDifference = (valueAtIndex1 - valueAtIndex2)/(index1 - index2);
+    AlbaNumber firstValue = valueAtIndex1 - commonDifference*index1;
+    return getFormula(firstValue, commonDifference);
 }
 
 }
-
 }

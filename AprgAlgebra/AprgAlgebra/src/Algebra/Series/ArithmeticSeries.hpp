@@ -1,35 +1,31 @@
 #pragma once
 
+#include <Algebra/Series/SeriesBasedOnTerm.hpp>
+
 namespace alba
 {
 
 namespace algebra
 {
 
-class ArithmeticSeries
+class ArithmeticSeries : public SeriesBasedOnTerm
 {
 public:
 
     ArithmeticSeries(
-            double const firstTerm,
-            double const commonDifference);
+            AlbaNumber const& firstValue,
+            AlbaNumber const& commonDifference);
 
     ArithmeticSeries(
-            double const valueAtIndex1,
+            AlbaNumber const& valueAtIndex1,
             int const index1,
-            double const valueAtIndex2,
+            AlbaNumber const& valueAtIndex2,
             int const index2);
-
-    double getValueAtIndex(int const index) const;
-    double getSum(
-            int const startingIndex,
-            int const endingIndex);
-
 private:
-    double m_firstTerm;
-    double m_commonDifference;
+    Term getFormula(AlbaNumber const& firstValue, AlbaNumber const& commonDifference) const;
+    Term getFormula(AlbaNumber const& valueAtIndex1, int const index1, AlbaNumber const& valueAtIndex2, int const index2) const;
+
 };
 
 }
-
 }

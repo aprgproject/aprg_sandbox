@@ -19,34 +19,20 @@ Term getSumOfArithmeticSeriesUsingFirstAndLastTerm(
     return (firstTerm + lastTerm) * count / 2;
 }
 
-double getSumOfArithmeticSeriesUsingFirstAndLastValue(
-        double const firstValue,
-        double const lastValue,
+Term getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(
+        Term const& firstValue,
+        Term const& commonMultiplier,
         int const count)
 {
-    return (firstValue + lastValue) * count / 2;
+    return firstValue * (Term(1)-(commonMultiplier^count)) / (Term(1)-commonMultiplier);
 }
 
-double getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(
-        double const firstValue,
-        double const commonMultiplier,
-        int const count)
+Term getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(
+        Term const& firstValue,
+        Term const& commonMultiplier)
 {
-    return firstValue*(1-pow(commonMultiplier, count))/(1-commonMultiplier);
-}
-
-double getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(
-        double const firstValue,
-        double const commonMultiplier)
-{
-    double result(0);
-    if(getAbsoluteValue(commonMultiplier) < 1)
-    {
-        result = firstValue/(1-commonMultiplier);
-    }
-    return result;
+    return firstValue/(Term(1) - commonMultiplier);
 }
 
 }
-
 }

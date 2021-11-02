@@ -13,18 +13,14 @@ Term getSumOfArithmeticSeriesUsingFirstAndLastTerm(
         Term const& lastTerm,
         Term const& count);
 
-double getSumOfArithmeticSeriesUsingFirstAndLastValue(
-        double const firstValue,
-        double const lastValue,
+Term getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(
+        Term const& firstValue,
+        Term const& commonMultiplier,
         int const count);
-double getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(
-        double const firstValue,
-        double const commonMultiplier,
-        int const count);
-double getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(
-        double const firstValue,
-        double const commonMultiplier);
+
+Term getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(
+        Term const& firstValue,
+        Term const& commonMultiplier);
 
 }
-
 }
