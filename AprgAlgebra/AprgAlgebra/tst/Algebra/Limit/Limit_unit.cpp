@@ -222,7 +222,7 @@ TEST(LimitTest, CalculateTermAndLimitUsingLhopitalsRuleWorksUsingTrigonometricEx
     Term newTerm, limitValue;
     calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, termToTest, "x", 0);
 
-    string stringToExpect("(sec(x)*tan(x)/((1[x^2]*sec(x)*tan(x))+(2[x]*sec(x))))");
+    string stringToExpect("(tan(x)/x/(2+(x*tan(x))))");
     EXPECT_EQ(Term(AlbaNumber::createFraction(1, 2)), limitValue);
     EXPECT_EQ(stringToExpect, newTerm.getDisplayableString());
 }

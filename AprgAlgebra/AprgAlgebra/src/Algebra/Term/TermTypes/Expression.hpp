@@ -70,6 +70,7 @@ private:
     //put functions
     void putTermWithAddition(BaseTerm const& baseTerm);
     void putTermWithSubtraction(BaseTerm const& baseTerm);
+    void putOnlyTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm);
     void putTermWithMultiplication(BaseTerm const& baseTerm);
     void putTermWithDivision(BaseTerm const& baseTerm);
     void putTermWithRaiseToPower(BaseTerm const& baseTerm);
@@ -84,16 +85,16 @@ private:
             TermAssociationType const overallAssociation);
 
     // functions for multiply then add or subtract
-    void multiplyThenAddOrSubtract(Polynomial const& polynomial, Expression const& expression);
-    void multiplyThenAddOrSubtract(Expression const& expression, Polynomial const& polynomial);
-    void multiplyThenAddOrSubtract(Polynomial const& polynomial, TermsWithDetails const& termsWithDetails);
-    void multiplyThenAddOrSubtract(TermsWithDetails const& termsWithDetails, Polynomial const& polynomial);
-    void multiplyThenAddOrSubtract(BaseTerm const& baseTerm, TermsWithDetails const& termsWithDetails);
-    void multiplyThenAddOrSubtract(TermsWithDetails const& termsWithDetails, BaseTerm const& baseTerm);
-    void multiplyThenAddOrSubtract(
+    void distributeAndMultiply(Polynomial const& polynomial, Expression const& expression);
+    void distributeAndMultiply(Expression const& expression, Polynomial const& polynomial);
+    void distributeAndMultiply(Polynomial const& polynomial, TermsWithDetails const& termsWithDetails);
+    void distributeAndMultiply(TermsWithDetails const& termsWithDetails, Polynomial const& polynomial);
+    void distributeAndMultiply(BaseTerm const& baseTerm, TermsWithDetails const& termsWithDetails);
+    void distributeAndMultiply(TermsWithDetails const& termsWithDetails, BaseTerm const& baseTerm);
+    void distributeAndMultiply(
             TermsWithDetails const& termsWithDetails1,
             TermsWithDetails const& termsWithDetails2);
-    void multiplyThenAddOrSubtract(Expression const& multiplicand, BaseTerm const& multiplier, bool const isAdd);
+    void distributeAndMultiply(Expression const& multiplicand, BaseTerm const& multiplier, bool const isAdd);
 
     OperatorLevel m_commonOperatorLevel;
     TermsWithAssociation m_termsWithAssociation;

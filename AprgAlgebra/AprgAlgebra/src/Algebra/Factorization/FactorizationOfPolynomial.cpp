@@ -10,6 +10,8 @@
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
+#include <algorithm>
+
 using namespace std;
 
 namespace alba
@@ -23,54 +25,20 @@ namespace Factorization
 
 Polynomials factorizeAPolynomial(Polynomial const& polynomial)
 {
-    Polynomial polynomialToFactorize(polynomial);
-    polynomialToFactorize.simplify();
     Polynomials result;
-    if(doesNotNeedToBeFactorized(polynomial))
-    {
-        result.emplace_back(polynomialToFactorize);
-    }
-    else
-    {
-        result = factorizeCommonMonomialIfPossible(polynomialToFactorize);
-
-        if(result.empty())
-        {
-            Polynomials factorizedPolynomials(factorizeUsingPatternsIfPossible(polynomialToFactorize));
-            putFactorizedPolynomialsIfPossible(result, factorizedPolynomials);
-        }
-        if(result.empty())
-        {
-            Polynomials factorizedPolynomials(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToFactorize));
-            putFactorizedPolynomialsIfPossible(result, factorizedPolynomials);
-        }
-        if(result.empty() && polynomialToFactorize.getMonomialsConstReference().size() > 2)
-        {
-            Polynomials factorizedPolynomials(factorizeBySplittingToSmallerPolynomialsIfPossible(polynomialToFactorize));
-            putFactorizedPolynomialsIfPossible(result, factorizedPolynomials);
-        }
-
-        if(result.empty())
-        {
-            result.emplace_back(polynomialToFactorize);
-        }
-        else if(result.size() > 1)
-        {
-            result = factorizePolynomials(result);
-        }
-    }
+    factorizeAPolynomialAndPutToResult(result, polynomial);
     return result;
 }
 
 Polynomials factorizePolynomials(Polynomials const& polynomials)
 {
     Polynomials result;
-    for(Polynomial const& polynomialToFactorize : polynomials)
+    for(Polynomial const& polynomial : polynomials)
     {
-        Polynomials factorizedPolynomials(factorizeAPolynomial(polynomialToFactorize));
+        Polynomials factorizedPolynomials(factorizeAPolynomial(polynomial));
         if(factorizedPolynomials.size() == 1)
         {
-            simplifyPolynomialThenEmplaceBackIfNotEmpty(result, polynomialToFactorize);
+            simplifyPolynomialThenEmplaceBackIfNotEmpty(result, polynomial);
         }
         else
         {
@@ -106,6 +74,45 @@ Polynomials factorizeCommonMonomialIfPossible(Polynomial const& polynomial)
     return result;
 }
 
+void factorizeAPolynomialAndPutToResult(Polynomials & result, Polynomial const& polynomial)
+{
+    Polynomial polynomialToFactorize(polynomial);
+    polynomialToFactorize.simplify();
+    if(doesNotNeedToBeFactorized(polynomial))
+    {
+        result.emplace_back(polynomialToFactorize);
+    }
+    else
+    {
+        result = factorizeCommonMonomialIfPossible(polynomialToFactorize);
+
+        if(result.empty())
+        {
+            Polynomials factorizedPolynomials(factorizeUsingPatternsIfPossible(polynomialToFactorize));
+            putFactorizedPolynomialsIfPossible(result, factorizedPolynomials);
+        }
+        if(result.empty())
+        {
+            Polynomials factorizedPolynomials(factorizeIncreasingAndDecreasingExponentsFormIfPossible(polynomialToFactorize));
+            putFactorizedPolynomialsIfPossible(result, factorizedPolynomials);
+        }
+        if(result.empty() && polynomialToFactorize.getMonomialsConstReference().size() > 2)
+        {
+            Polynomials factorizedPolynomials(factorizeBySplittingToSmallerPolynomialsIfPossible(polynomialToFactorize));
+            putFactorizedPolynomialsIfPossible(result, factorizedPolynomials);
+        }
+
+        if(result.empty())
+        {
+            result.emplace_back(polynomialToFactorize);
+        }
+        else if(result.size() > 1)
+        {
+            result = factorizePolynomials(result);
+        }
+    }
+}
+
 void putFactorizedPolynomialsIfPossible(
         Polynomials & result,
         Polynomials const& factorizedPolynomials)
@@ -114,9 +121,24 @@ void putFactorizedPolynomialsIfPossible(
             !(shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue() && doesOnePolynomialHaveADoubleValue(factorizedPolynomials));
     if(shouldPutFactorizedPolynomials)
     {
-        result = factorizedPolynomials;
+        result.reserve(result.size() + factorizedPolynomials.size());
+        copy(factorizedPolynomials.cbegin(), factorizedPolynomials.cend(), back_inserter(result));
     }
 }
+
+void simplifyAndRemoveEmptyPolynomials(
+        Polynomials & polynomials)
+{
+    for(Polynomial & polynomial : polynomials)
+    {
+        polynomial.simplify();
+    }
+    polynomials.erase(remove_if(polynomials.begin(), polynomials.end(), [](Polynomial const& polynomial)
+    {
+        return polynomial.isEmpty();
+    }), polynomials.end());
+}
+
 
 }
 

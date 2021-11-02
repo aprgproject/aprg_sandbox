@@ -1010,7 +1010,7 @@ TEST(SimplificationOfExpressionTest, SimplifyBySubstitutingExpressionAndFunction
     EXPECT_EQ(expressionToExpect, expressionToVerify);
 }
 
-TEST(TermsOverTermsTest, SimplifyBySimplifyingToFactorsWorks)
+TEST(SimplificationOfExpressionTest, SimplifyBySimplifyingToFactorsWorks)
 {
     SimplificationOfExpression::ConfigurationDetails configurationDetails(
                 getDefaultConfigurationDetails<SimplificationOfExpression::ConfigurationDetails>());
@@ -1027,9 +1027,8 @@ TEST(TermsOverTermsTest, SimplifyBySimplifyingToFactorsWorks)
     simplification.simplify();
 
     Expression expressionToVerify(simplification.getExpression());
-    Expression expectedDenominator(createExpressionIfPossible({polynomialTerm, Term("^"), Term(6)}));
-    Expression expressionToExpect(createExpressionIfPossible({Term(1), Term("/"), expectedDenominator}));
-    EXPECT_EQ(expressionToExpect, expressionToVerify);
+    string stringToExpect("(1/117649/((1[x] + -0.5227579585747166)^6)/((1[x^2] + 0.5227579585747166[x] + 0.2732758832532051)^6))");
+    EXPECT_EQ(stringToExpect, expressionToVerify.getDisplayableString());
 }
 
 TEST(SimplificationOfExpressionTest, ShouldSimplifyToACommonDenominatorAndShouldSimplifyToFactorsWorksToConvertPolynomialOverPolynomial)

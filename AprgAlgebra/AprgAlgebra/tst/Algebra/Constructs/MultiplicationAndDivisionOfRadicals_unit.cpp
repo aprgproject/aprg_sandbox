@@ -138,6 +138,20 @@ TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningMonomialWithCubeRootAndRa
     EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
 }
 
+TEST(MultiplicationAndDivisionOfRadicalsTest, CombiningVariableAndMonomialWorks)
+{
+    Term x("x");
+    TermsWithDetails termsWithDetails
+    {{x, TermAssociationType::Positive},
+        {Term(Monomial(1, {{"x", AlbaNumber::createFraction(3, 2)}})), TermAssociationType::Positive}};
+    MultiplicationAndDivisionOfRadicals radicalConstruct(termsWithDetails);
+
+    radicalConstruct.simplify();
+
+    Term termToExpect(Monomial(1, {{"x", AlbaNumber::createFraction(5, 2)}}));
+    EXPECT_EQ(termToExpect, radicalConstruct.getCombinedTerm());
+}
+
 
 }
 

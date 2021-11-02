@@ -367,15 +367,15 @@ Term IntegrationForFiniteCalculus::integrateSimplifiedExpressionOnly(
     Term result;
     if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
     {
-        result = integrateTermsInAdditionOrSubtraction(expression.getTermsWithAssociation().getTermsWithDetails());
+        result = integrateTermsInAdditionOrSubtraction(expression);
     }
     else if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
     {
-        result = integrateTermsInMultiplicationOrDivision(expression.getTermsWithAssociation().getTermsWithDetails());
+        result = integrateTermsInMultiplicationOrDivision(expression);
     }
     else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
     {
-        result = integrateTermsInRaiseToPower(expression.getTermsWithAssociation().getTermsWithDetails());
+        result = integrateTermsInRaiseToPower(expression);
     }
     if(result.isEmpty())
     {
@@ -385,8 +385,9 @@ Term IntegrationForFiniteCalculus::integrateSimplifiedExpressionOnly(
 }
 
 Term IntegrationForFiniteCalculus::integrateTermsInAdditionOrSubtraction(
-        TermsWithDetails const& termsWithDetails) const
+        Expression const& expression) const
 {
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
     Expression accumulatedExpression(createOrCopyExpressionFromATerm(Constant(0)));
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
@@ -405,15 +406,18 @@ Term IntegrationForFiniteCalculus::integrateTermsInAdditionOrSubtraction(
 }
 
 Term IntegrationForFiniteCalculus::integrateTermsInMultiplicationOrDivision(
-        TermsWithDetails const& termsWithDetails) const
+        Expression const& expression) const
 {
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
     Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
     integrateNonChangingAndChangingTermsInMultiplicationOrDivision(result, termsWithDetails);
     return result;
 }
 
-Term IntegrationForFiniteCalculus::integrateTermsInRaiseToPower(        TermsWithDetails const& termsWithDetails) const
+Term IntegrationForFiniteCalculus::integrateTermsInRaiseToPower(
+        Expression const& expression) const
 {
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
     Term result;
     TermRaiseToTerms termRaiseToTerms(termsWithDetails);
     termRaiseToTerms.simplify();
@@ -479,12 +483,8 @@ void IntegrationForFiniteCalculus::integrateNonChangingAndChangingTermsInMultipl
     }
     else
     {
-        Term nonChangingTermCombined(Expression(OperatorLevel::MultiplicationAndDivision, nonChangingTerms));
-        Term changingTermCombined(1);
-        if(!changingTerms.empty())
-        {
-            changingTermCombined = Term(Expression(OperatorLevel::MultiplicationAndDivision, changingTerms));
-        }
+        Term nonChangingTermCombined(createTermWithMultiplicationAndDivision(nonChangingTerms));
+        Term changingTermCombined(createTermWithMultiplicationAndDivision(changingTerms));
         Term integratedChangingTerm(integrateTerm(changingTermCombined));
         if(isNotANumber(integratedChangingTerm))
         {
@@ -526,7 +526,8 @@ void IntegrationForFiniteCalculus::segregateNonChangingAndChangingTerms(
 
 bool IntegrationForFiniteCalculus::isVariableToIntegrate(
         string const& variableName) const
-{    return variableName == m_nameOfVariableToIntegrate;
+{
+    return variableName == m_nameOfVariableToIntegrate;
 }
 
 bool IntegrationForFiniteCalculus::isChangingTerm(

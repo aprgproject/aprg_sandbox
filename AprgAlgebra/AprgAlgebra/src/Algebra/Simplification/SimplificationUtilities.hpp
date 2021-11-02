@@ -14,6 +14,7 @@ namespace Simplification
 void simplifyTermToACommonDenominator(Term & term);
 void simplifyTermByCombiningRadicals(Term & term);
 void simplifyTermByFactoringToNonDoubleFactors(Term & term);
+void simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(Term & term);
 
 bool simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(Expression & expression);
 bool tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression & addSubtractExpression);

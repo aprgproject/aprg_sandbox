@@ -23,4 +23,5 @@ Term getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(
         Term const& commonMultiplier);
 
 }
+
 }

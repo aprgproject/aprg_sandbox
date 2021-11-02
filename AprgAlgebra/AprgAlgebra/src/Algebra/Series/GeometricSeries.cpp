@@ -5,6 +5,7 @@
 #include <Algebra/Utilities/KnownNames.hpp>
 
 #include <cmath>
+
 namespace alba
 {
 
@@ -50,4 +51,5 @@ Term GeometricSeries::getFormula(
 }
 
 }
+
 }

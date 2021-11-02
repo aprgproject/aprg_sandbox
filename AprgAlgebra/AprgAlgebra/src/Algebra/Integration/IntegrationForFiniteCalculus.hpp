@@ -39,7 +39,8 @@ private:
     //For Monomial and Polynomial
     Monomial integrateMonomialInFallingPower(
             Monomial const& monomial) const;
-    Polynomial integratePolynomialInFallingPower(            Polynomial const& polynomial) const;
+    Polynomial integratePolynomialInFallingPower(
+            Polynomial const& polynomial) const;
     Polynomial convertMonomialWithPositiveExponentsFromRegularPowerToFallingPower(
             Monomial const& monomial) const;
     Polynomial convertMonomialWithPositiveExponentsFromFallingPowerToRegularPower(
@@ -52,13 +53,14 @@ private:
     //For Expression
     Term integrateAsTermOrExpressionIfNeeded(
             Expression const& expression) const;
-    Term integrateSimplifiedExpressionOnly(            Expression const& expression) const;
+    Term integrateSimplifiedExpressionOnly(
+            Expression const& expression) const;
     Term integrateTermsInAdditionOrSubtraction(
-            TermsWithDetails const& termsWithDetails) const;
+            Expression const& expression) const;
     Term integrateTermsInMultiplicationOrDivision(
-            TermsWithDetails const& termsWithDetails) const;
+            Expression const& expression) const;
     Term integrateTermsInRaiseToPower(
-            TermsWithDetails const& termsWithDetails) const;
+            Expression const& expression) const;
     Term integrateNonChangingTermRaiseToChangingTerm(
             Term const& base,
             Term const& exponent) const;
@@ -83,7 +85,8 @@ private:
 
     bool isVariableToIntegrate(std::string const& variableName) const;
     bool isChangingTerm(Term const& term) const;
-    std::string m_nameOfVariableToIntegrate;};
+    std::string m_nameOfVariableToIntegrate;
+};
 
 }
 

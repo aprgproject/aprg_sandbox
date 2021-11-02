@@ -2,6 +2,7 @@
 
 #include <Algebra/Constructs/TermsAggregator.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 
 using namespace std;
 
@@ -11,17 +12,20 @@ namespace alba
 namespace algebra
 {
 
-Monomial createMonomialFromConstant(Constant const& constant)
+Monomial createMonomialFromConstant(
+        Constant const& constant)
 {
     return Monomial(constant.getNumberConstReference(), {});
 }
 
-Monomial createMonomialFromVariable(Variable const& variable)
+Monomial createMonomialFromVariable(
+        Variable const& variable)
 {
     return Monomial(1, {{variable.getVariableName(), 1}});
 }
 
-Monomial createMonomialIfPossible(Term const& term)
+Monomial createMonomialIfPossible(
+        Term const& term)
 {
     Monomial result;
     if(term.isConstant())
@@ -47,22 +51,26 @@ Monomial createMonomialIfPossible(Term const& term)
     return result;
 }
 
-Polynomial createPolynomialFromConstant(Constant const& constant)
+Polynomial createPolynomialFromConstant(
+        Constant const& constant)
 {
     return Polynomial{createMonomialFromConstant(constant)};
 }
 
-Polynomial createPolynomialFromVariable(Variable const& variable)
+Polynomial createPolynomialFromVariable(
+        Variable const& variable)
 {
     return Polynomial{createMonomialFromVariable(variable)};
 }
 
-Polynomial createPolynomialFromMonomial(Monomial const& monomial)
+Polynomial createPolynomialFromMonomial(
+        Monomial const& monomial)
 {
     return Polynomial{monomial};
 }
 
-Polynomial createPolynomialIfPossible(Term const& term)
+Polynomial createPolynomialIfPossible(
+        Term const& term)
 {
     Polynomial result;
     if(term.isConstant())
@@ -84,17 +92,20 @@ Polynomial createPolynomialIfPossible(Term const& term)
     return result;
 }
 
-Expression createExpressionInAnExpression(Expression const& expression)
+Expression createExpressionInAnExpression(
+        Expression const& expression)
 {
     return Expression(Term(expression));
 }
 
-Expression createAndWrapExpressionFromATerm(Term const& term)
+Expression createAndWrapExpressionFromATerm(
+        Term const& term)
 {
     return Expression(term);
 }
 
-Expression createOrCopyExpressionFromATerm(Term const& term)
+Expression createOrCopyExpressionFromATerm(
+        Term const& term)
 {
     Expression result;
     if(!term.isEmpty())
@@ -111,7 +122,8 @@ Expression createOrCopyExpressionFromATerm(Term const& term)
     return result;
 }
 
-Expression createExpressionIfPossible(Terms const& terms)
+Expression createExpressionIfPossible(
+        Terms const& terms)
 {
     Expression result;
     TermsAggregator aggregator(terms);
@@ -124,7 +136,8 @@ Expression createExpressionIfPossible(Terms const& terms)
     return result;
 }
 
-Expression createSimplifiedExpressionIfPossible(Terms const& terms)
+Expression createSimplifiedExpressionIfPossible(
+        Terms const& terms)
 {
     Expression result;
     TermsAggregator aggregator(terms);
@@ -137,7 +150,8 @@ Expression createSimplifiedExpressionIfPossible(Terms const& terms)
     return result;
 }
 
-Function createFunctionWithEmptyInputExpression(string const& functionName)
+Function createFunctionWithEmptyInputExpression(
+        string const& functionName)
 {
     Function result;
     if("abs" == functionName)
@@ -147,12 +161,41 @@ Function createFunctionWithEmptyInputExpression(string const& functionName)
     return result;
 }
 
-Function createFunctionInAnFunction(Function const& functionObject)
+Function createFunctionInAnFunction(
+        Function const& functionObject)
 {
     return Function(
                 functionObject.getFunctionName(),
                 Term(functionObject),
                 functionObject.getFunctionToPerform());
+}
+
+Term createTermWithAdditionAndSubtraction(
+        TermsWithDetails const& termsWithDetails)
+{
+    Term result(Constant(0));
+    if(!termsWithDetails.empty())
+    {
+        result = convertExpressionToSimplestTerm(Expression(OperatorLevel::AdditionAndSubtraction, termsWithDetails));
+    }
+    return result;
+}
+
+Term createTermWithMultiplicationAndDivision(
+        TermsWithDetails const& termsWithDetails)
+{
+    Term result(1);
+    if(!termsWithDetails.empty())
+    {
+        result = convertExpressionToSimplestTerm(Expression(OperatorLevel::MultiplicationAndDivision, termsWithDetails));
+    }
+    return result;
+}
+
+Term createTermWithRaiseToPower(
+        TermsWithDetails const& termsWithDetails)
+{
+    return convertExpressionToSimplestTerm(Expression(OperatorLevel::RaiseToPower, termsWithDetails));
 }
 
 

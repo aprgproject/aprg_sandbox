@@ -368,8 +368,8 @@ TEST(DifferentiationTest, DifferentiateFunctionWorksWithFunctionsInCommonFunctio
     string stringToExpect11("(1/((-1[x^2] + 1)^(1/2)))");
     string stringToExpect12("(-1/((-1[x^2] + 1)^(1/2)))");
     string stringToExpect13("(1/(1[x^2] + 1))");
-    string stringToExpect14("(-1/x/((1[x^2] + -1)^(1/2)))");
-    string stringToExpect15("(1/x/((1[x^2] + -1)^(1/2)))");
+    string stringToExpect14("(-1/x/((1[x] + -1)^(1/2))/((1[x] + 1)^(1/2)))");
+    string stringToExpect15("(1/x/((1[x] + -1)^(1/2))/((1[x] + 1)^(1/2)))");
     string stringToExpect16("(-1/(1[x^2] + 1))");
     string stringToExpect17("cosh(x)");
     string stringToExpect18("sinh(x)");
@@ -469,7 +469,8 @@ TEST(DifferentiationTest, DifferentiateTwoDividedTermsWorks)
 
     Term expectedNumeratorPart(Polynomial{Monomial(1, {{"x", 4}}), Monomial(-8, {{"x", 3}}), Monomial(3, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(8, {})});
     Term expectedNumerator(createExpressionIfPossible({Term(2), Term("*"), expectedNumeratorPart}));
-    Term expectedDenominator(Polynomial{Monomial(1, {{"x", 4}}), Monomial(-8, {{"x", 3}}), Monomial(18, {{"x", 2}}), Monomial(-8, {{"x", 1}}), Monomial(1, {})});
+    Term expectedDenominatorPart(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(1, {})});
+    Term expectedDenominator(createExpressionIfPossible({expectedDenominatorPart, Term("^"), Term(2)}));
     Term termToExpect(createExpressionIfPossible({expectedNumerator, Term("/"), expectedDenominator}));
     EXPECT_EQ(termToExpect, termToVerify);
 }

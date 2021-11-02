@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Algebra/Constructs/PolynomialOverPolynomial.hpp>
+#include <Algebra/Constructs/TermsRaiseToNumbers.hpp>
 #include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Integration/IntegrationHistory.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
@@ -96,9 +97,9 @@ private:
     //For Expression
     Term integrateAsTermOrExpressionIfNeeded(Expression const& expression) const;
     void integrateSimplifiedExpressionOnly(Term & result, Expression const& expression, Configuration const& configuration) const;
-    void integrateTermsInAdditionOrSubtraction(Term & result, TermsWithDetails const& termsWithDetails) const;
-    void integrateTermsInMultiplicationOrDivision(Term & result, TermsWithDetails const& termsWithDetails) const;
-    void integrateTermsInRaiseToPower(Term & result, TermsWithDetails const& termsWithDetails) const;
+    void integrateTermsInAdditionOrSubtraction(Term & result, Expression const& expression) const;
+    void integrateTermsInMultiplicationOrDivision(Term & result, Expression const& expression) const;
+    void integrateTermsInRaiseToPower(Term & result, Expression const& expression) const;
 
     //For Function
     Term integrateFunctionInternally(Function const& functionObject) const;
@@ -121,8 +122,9 @@ private:
     Term substituteBackToOldVariable(Term const& mainTerm, std::string const& newVariableName, Term const& termForNewVariable) const;
 
     //Trignometric Substitution
-    void integrateUsingTrigonometricSubstitutionIfPossible(Term & result, Term const& mainTerm, Term const& termToSubstitute, Configuration const& configuration) const;
-    void integrateUsingTrigonometricSubstitution(Term & result, Term const& mainTerm, Term const& aSquareAndUSquared, Term const& aSquaredWithSign, Term const& uSquaredWithSign, Configuration const& configuration) const;
+    void integrateTermUsingTrigonometricSubstitution(Term & result, Term const& term) const;
+    void integrateUsingTrigonometricSubstitutionByFindingTwoTerms(Term & result, Term const& mainTerm, Term const& termToSubstitute) const;
+    void integrateUsingTrigonometricSubstitutionWithDeterminedTerms(Term & result, Term const& mainTerm, Term const& aSquareAndUSquared, Term const& aSquaredWithSign, Term const& uSquaredWithSign) const;
     TrigonometricSubstitutionDetails calculateTrigonometricSubstitutionDetails(Term const& a, Term const& u, Term const& aSquaredAndUSquared, bool const isANegative, bool const isUNegative) const;
     Term substituteToTrigonometricFunctions(Term const& mainTerm, TrigonometricSubstitutionDetails const& details) const;
     Term substituteFromTrigonometricFunctionsBackToNormal(Term const& mainTerm, TrigonometricSubstitutionDetails const& details) const;
@@ -139,7 +141,7 @@ private:
 
     //Partial Fraction
     void integrateUsingPartialFractionPolynomials(Term & result, std::string const& variableName, Polynomial const& numerator, Polynomial const& denominator) const;
-    void retrievePartialFractions(Polynomials & partialNumerators, Polynomials & partialDenominators, std::string const& originalVariableName, TermsOverTerms::BaseToExponentMap const& factorsWithExponents) const;
+    void retrievePartialFractions(Polynomials & partialNumerators, Polynomials & partialDenominators, std::string const& originalVariableName, TermsRaiseToNumbers const& factorsWithExponents) const;
     Polynomial getTotalNumeratorWithNewVariables(Polynomial const& originalDenominator, Polynomials const& partialDenominators, Polynomials const& partialNumerators) const;
     VariableNamesSet getNamesOfNewVariablesForPartialFraction(std::string const& originalVariableName, Polynomial const& numeratorWithNewVariables) const;
     AlbaNumbersSet getExponentsForPartialFraction(std::string const& originalVariableName, Polynomial const& numeratorWithNewVariables) const;
@@ -160,8 +162,8 @@ private:
     void integrateUsingIntegrationByParts(Term & result, ListOfIntegrationByPartsTerms & listOfIntegrationByPartsTerms, Term const& term, Term const& u, Term const& dv) const;
 
     //Trigonometry
-    void retrieveInputTermsAndTrigonometricExponents(InputTermToTrigonometryFunctionExponentsMap & inputTermToExponents, TermsOverTerms::BaseToExponentMap & remainingTerms, TermsOverTerms::BaseToExponentMap const& termToCheck) const;
-    void integrateTrigonometricCombinationsIfPossible(Term & result, TermsOverTerms::BaseToExponentMap const& remainingTerms, InputTermToTrigonometryFunctionExponentsMap const& inputTermToExponents) const;
+    void retrieveInputTermsAndTrigonometricExponents(InputTermToTrigonometryFunctionExponentsMap & inputTermToExponents, TermsRaiseToNumbers & remainingTerms, TermsRaiseToNumbers const& termToCheck) const;
+    void integrateTrigonometricCombinationsIfPossible(Term & result, TermsRaiseToNumbers const& remainingTerms, InputTermToTrigonometryFunctionExponentsMap const& inputTermToExponents) const;
     void integrateUsingKnownTrigonometricCombinations(Term & result, TrigonometryFunctionExponents const& exponents, Term const& functionInputTerm) const;
     void integrateSinRaiseToAnIntegerGreaterThanOne(Term & result, Term const& functionInputTerm, unsigned int const exponent) const;
     void integrateCosRaiseToAnIntegerGreaterThanOne(Term & result, Term const& functionInputTerm, unsigned int const exponent) const;
@@ -183,13 +185,14 @@ private:
     //Simplify
     void simplifyForIntegration(Term & term, Configuration const& configuration) const;
     void simplifyAndFixTrigonometricFunctions(Term & term, bool const shouldFixTrigonometricFunctions) const;
-    void fixTrigonometricFunctionsBasedFromExponents(Term& term, InputTermToTrigonometryFunctionExponentsMap const& trigFunctionsInputTermToExponents, TermsOverTerms::BaseToExponentMap const& remainingTermsWithExponents) const;
-    void putTrigonometricFunctionsWithExponents(TermsOverTerms::BaseToExponentMap & newTerms, Term const& inputTerm, TrigonometryFunctionExponents const& exponents) const;
+    void fixTrigonometricFunctionsBasedFromExponents(Term& term, InputTermToTrigonometryFunctionExponentsMap const& trigFunctionsInputTermToExponents, TermsRaiseToNumbers const& remainingTermsWithExponents) const;
+    void putTrigonometricFunctionsWithExponents(TermsRaiseToNumbers & newTerms, Term const& inputTerm, TrigonometryFunctionExponents const& exponents) const;
 
     //Integration configurations
-    Configuration getConfigurationWithoutFactors() const;
     Configuration getConfigurationWithFactors() const;
     Configuration getConfigurationWithCommonDenominator() const;
+    Configuration getConfigurationWithoutFactors() const;
+    Configuration getConfigurationWithCombiningRadicals() const;
 
     //Finalize steps
     void finalizeTermForIntegration(Term & term) const;
@@ -204,6 +207,7 @@ private:
     bool isIntegrationByPartsAllowed(Term const& term) const;
     bool isIntegrationByPartialFractionAllowed() const;
     std::string m_nameOfVariableToIntegrate;
+    IntegrationHistory & m_history;
 };
 
 }

@@ -48,7 +48,7 @@ TEST(SimplificationUtilitiesTest, SimplifyToACommonDenominatorWorks)
 }
 
 TEST(SimplificationUtilitiesTest, SimplifyToACommonDenominatorWorks_OnExponentPlusPolynomialDenominator)
-{\
+{
     Expression expression(createExpressionIfPossible(tokenizeToTerms("2^x+((1)/(x+2))")));
 
     bool didItOccurOnTopLevelExpression = simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(expression);

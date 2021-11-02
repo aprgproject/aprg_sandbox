@@ -257,7 +257,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromExpressionWorks_WithMul
 
     TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromExpression(multiplicationAndDivisionExpression));
 
-    Term expectedBase(createExpressionIfPossible({Term(Monomial(2, {{"x", 1}})), Term("/"), Term(polynomialForDenominator), Term("^"), Term(2)}));
+    Term expectedBase(createExpressionIfPossible({Term(2), Term("*"), Term("x"), Term("/"), Term(polynomialForDenominator), Term("^"), Term(2)}));
     EXPECT_EQ(expectedBase, termRaiseToANumber.getBase());
     EXPECT_EQ(AlbaNumber(5), termRaiseToANumber.getExponent());
 }
@@ -300,7 +300,7 @@ TEST(ConstructUtilitiesTest, CreateTermRaiseToANumberFromMultiplicationAndDivisi
     TermRaiseToANumber result;
     createTermRaiseToANumberFromMultiplicationAndDivisionExpression(result, multiplicationAndDivisionExpression);
 
-    Term expectedBase(createExpressionIfPossible({Term(Monomial(2, {{"x", 1}})), Term("/"), Term(polynomialForDenominator), Term("^"), Term(2)}));
+    Term expectedBase(createExpressionIfPossible({Term(2), Term("*"), Term("x"), Term("/"), Term(polynomialForDenominator), Term("^"), Term(2)}));
     EXPECT_EQ(expectedBase, result.getBase());
     EXPECT_EQ(AlbaNumber(5), result.getExponent());
 }

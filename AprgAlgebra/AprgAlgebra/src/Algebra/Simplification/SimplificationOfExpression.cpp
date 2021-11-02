@@ -316,7 +316,7 @@ Term SimplificationOfExpression::getEachBasesRaisedToConstantIfPossible(
         TermRaiseToTerms const& termRaiseToTerms)
 {
     Term result;
-    if(!shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase())
+    if(shouldDistributeExponentConstantToEachBase())
     {
         Term const& base(termRaiseToTerms.getBase());
         TermsWithDetails const& exponents(termRaiseToTerms.getExponents());
@@ -341,6 +341,11 @@ Term SimplificationOfExpression::getEachBasesRaisedToConstantIfPossible(
         }
     }
     return result;
+}
+
+bool SimplificationOfExpression::shouldDistributeExponentConstantToEachBase() const
+{
+    return !shouldNotSimplifyExpressionRaiseToAConstantByDistributingConstantToEachBase() && !shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision();
 }
 
 bool SimplificationOfExpression::tryToSubstituteSubExpressionOrSubFunctionAndReturnIfContinue(

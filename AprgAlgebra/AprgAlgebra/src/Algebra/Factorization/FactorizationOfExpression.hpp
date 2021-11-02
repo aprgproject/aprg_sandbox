@@ -1,7 +1,8 @@
 #pragma once
 
-#include <Algebra/Term/TermTypes/Expression.hpp>
-#include <Algebra/Term/TermTypes/Polynomial.hpp>
+#include <Algebra/Constructs/TermsRaiseToNumbers.hpp>
+#include <Algebra/Term/TermTypes/Term.hpp>
+#include <Math/Number/AlbaNumberTypes.hpp>
 
 namespace alba
 {
@@ -12,16 +13,44 @@ namespace algebra
 namespace Factorization
 {
 
-void factorizeAnExpression(Expression & expression);
-void factorizePolynomialAndUpdate(
-        Expression & expression,
-        TermsWithDetails & termsToPut,
-        Polynomial const& polynomial,
-        TermAssociationType const overallAssociation);
-void factorizePolynomialAndEmplaceInTermsWithDetails(
-        TermsWithDetails & factorizedTermsWithDetails,
-        Polynomial const& polynomial,
-        TermAssociationType const overallAssociation);
+Terms factorizeAnExpression(Expression const& expression);
+
+TermsRaiseToNumbers factorizeToTermsRaiseToNumbers(Expression const& expression);
+TermsRaiseToNumbers factorizeToTermsRaiseToNumbersForAdditionAndSubtraction(Expression const& expression);
+TermsRaiseToNumbers factorizeToTermsRaiseToNumbersForMultiplicationAndDivision(Expression const& expression);
+TermsRaiseToNumbers factorizeToTermsRaiseToNumbersForRaiseToPower(Expression const& expression);
+
+void retrieveConstantAndNonConstantFactors(
+        std::vector<TermsRaiseToNumbers> & nonConstantFactorsPerAddends,
+        AlbaNumbers & constantFactors,
+        Expression const& expression);
+AlbaNumber getGcfOfConstants(AlbaNumbers const& constantFactorsPerAddends);
+void retrieveCommonNonConstantFactors(
+        TermsRaiseToNumbers & commonNonConstantFactors,
+        std::vector<TermsRaiseToNumbers> const& nonConstantFactorsPerAddends);
+TermsRaiseToNumbers getFactorizedItemsForAdditionAndSubtraction(
+        Expression const& expression,
+        AlbaNumbers const& constantFactorsPerAddends,
+        std::vector<TermsRaiseToNumbers> const& nonConstantFactorsPerAddends,
+        AlbaNumber const& constantGcf,
+        TermsRaiseToNumbers const& commonNonConstantFactors);
+void putRemainingConstantFactorAsAnInnerMultiplier(
+        TermsWithDetails & innerMultipliers,
+        AlbaNumber const& constantFactorOfOriginalAddend,
+        AlbaNumber const& constantGcf);
+void putRemainingNonConstantFactorsAsInnerMultipliers(
+        TermsWithDetails & innerMultipliers,
+        TermsRaiseToNumbers const& nonConstantFactorsOfOriginalAddend,
+        TermsRaiseToNumbers const& commonNonConstantFactors);
+void putRemainingInnerMultipliersAsOuterAddend(
+        TermsWithDetails & outerAddends,
+        TermsWithDetails const& innerMultipliers,
+        TermWithDetails const& originalAddend);
+TermsRaiseToNumbers getFactorizedItemsBasedFromCollectedData(
+        AlbaNumber const& constantGcf,
+        TermsRaiseToNumbers const& commonNonConstantFactors,
+        TermsWithDetails const& outerAddends);
+
 }
 
 }

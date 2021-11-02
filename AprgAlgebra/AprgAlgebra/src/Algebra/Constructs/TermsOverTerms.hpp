@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Algebra/Constructs/TermsRaiseToNumbers.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 
 #include <string>
@@ -32,13 +33,12 @@ public:
     void retrievePolynomialAndNonPolynomialsDenominators(
             Polynomial & polynomialDenominator,
             Terms & nonPolynomialDenominators) const;
-    void retrieveBaseToExponentMap(
-            BaseToExponentMap & baseToExponentMap) const;
+    TermsRaiseToNumbers getTermsRaiseToNumbers() const;
     std::string getDisplayableString() const;
 
     void flip();
-    void saveBaseToExponentMap(BaseToExponentMap const& baseToExponentMap);
 
+    void setDontRemoveRationalization(bool const dontFactorizeAtStartOfSimplify);
     void setAsShouldSimplifyToFactors(bool const shouldSimplifyToFactors);
     void setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(
             bool const shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue);
@@ -47,8 +47,6 @@ public:
 
 private:
     Terms factorizeTermsAsNeeded(Terms const& terms) const;
-    Term getCombinedTermAsFactors(
-            TermsWithDetails const& termsWithDetails) const;
     void continueToSimplifyToFactors(
             Terms & factorizedNumerators,
             Terms & factorizedDenominators);
@@ -67,6 +65,10 @@ private:
             Terms & numeratorTerms,
             Terms & denominatorTerms,
             BaseToExponentMap const& baseToExponentMap);
+    void putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToNumbers(
+            Terms & numeratorTerms,
+            Terms & denominatorTerms,
+            TermsRaiseToNumbers const& termsRaiseToNumbers);
     void clearTermsThenEmplacePolynomialAndRemainingTerms(
             Polynomial const& polynomialNumerator,
             Terms const& remainingNumerators,
@@ -76,13 +78,17 @@ private:
             Terms const& termsToCheck,
             Polynomial & polynomial,
             Terms & nonPolynomialTerms) const;
-    void removeSameTermsInNumeratorAndDenominator(
+    void calculateBasesAndExponentsAndPutThatToNumeratorsAndDenominators(
             Terms & numeratorTerms,
             Terms & denominatorTerms);
+    void handleZerosInNumeratorOrDenominator(
+            Terms& denominators,
+            Terms& numerators);
     void populateTermsWithBase(
             Terms & termsToUpdate,
             Term const& base,
             AlbaNumber const& exponent);
+    bool hasZero(Terms & terms) const;
     void removeTermsThatHaveNoEffect(Terms & terms) const;
     void putTermsOnNumeratorAndDenominatorCorrectly(
             Terms & numerators,
@@ -101,6 +107,7 @@ private:
     bool isPolynomialAndhasDoubleValue(Term const& term) const;
     Terms m_numerators;
     Terms m_denominators;
+    bool m_dontRemoveRationalization;
     bool m_shouldSimplifyToFactors;
     bool m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
 };

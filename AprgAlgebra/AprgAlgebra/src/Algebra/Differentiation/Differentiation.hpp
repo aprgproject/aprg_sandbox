@@ -58,15 +58,15 @@ private:
     Term differentiateSimplifiedExpressionOnly(
             Expression const& expression) const;
     Term differentiateTermsInAdditionOrSubtraction(
-            TermsWithDetails const& termsWithDetails) const;
+            Expression const& expression) const;
     Term differentiateTermsInMultiplicationOrDivision(
-            TermsWithDetails const& termsWithDetails) const;
+            Expression const& expression) const;
     Term differentiateByProcessingAsPolynomialsOverPolynomials(
             Term const& term) const;
     Term differentiateTermsInMultiplicationOrDivisionTermByTerm(
             TermsWithDetails const& termsWithDetails) const;
     Term differentiateTermsInRaiseToPower(
-            TermsWithDetails const& termsWithDetails) const;
+            Expression const& expression) const;
     Term differentiateNonChangingTermRaiseToChangingTerm(
             Term const& base,
             Term const& exponent) const;

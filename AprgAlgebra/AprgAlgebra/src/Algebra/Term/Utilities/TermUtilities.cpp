@@ -211,13 +211,29 @@ Term negateTerm(Term const& term)
     return negatedTerm;
 }
 
+Term flipTerm(Term const& term)
+{
+    return Term(1)/term;
+}
+
 Term negateTermIfHasNegativeAssociation(
         TermWithDetails const& termWithDetails)
 {
     Term result(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
     if(termWithDetails.hasNegativeAssociation())
     {
-        result == negateTerm(result);
+        result = negateTerm(result);
+    }
+    return result;
+}
+
+Term flipTermIfHasNegativeAssociation(
+        TermWithDetails const& termWithDetails)
+{
+    Term result(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+    if(termWithDetails.hasNegativeAssociation())
+    {
+        result = Term(1)/result;
     }
     return result;
 }

@@ -231,7 +231,7 @@ TEST(RationalizeTermOverTermTest, RationalizeNumeratorForExample1)
     rationalizeTermOverTerm.rationalizeNumerator();
 
     string expectedNumeratorString("(1[deltaX] + -4)");
-    string expectedDenominatorString("(deltaX*(1.587401051968199+((1[deltaX] + -2)^(2/3))+((2[deltaX] + -4)^(1/3))))");
+    string expectedDenominatorString("(1.587401051968199[deltaX]+((1[deltaX^(5/2)] + -2[deltaX^(3/2)])^(2/3))+((2[deltaX^4] + -4[deltaX^3])^(1/3)))");
     EXPECT_EQ(expectedNumeratorString, rationalizeTermOverTerm.getNumerator().getDisplayableString());
     EXPECT_EQ(expectedDenominatorString, rationalizeTermOverTerm.getDenominator().getDisplayableString());
 }

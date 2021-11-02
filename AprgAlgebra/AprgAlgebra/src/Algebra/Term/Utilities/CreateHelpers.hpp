@@ -24,6 +24,9 @@ Expression createExpressionIfPossible(Terms const& terms);
 Expression createSimplifiedExpressionIfPossible(Terms const& terms);
 Function createFunctionWithEmptyInputExpression(std::string const& functionName);
 Function createFunctionInAnFunction(Function const& functionObject);
+Term createTermWithAdditionAndSubtraction(TermsWithDetails const& termsWithDetails);
+Term createTermWithMultiplicationAndDivision(TermsWithDetails const& termsWithDetails);
+Term createTermWithRaiseToPower(TermsWithDetails const& termsWithDetails);
 
 }
 

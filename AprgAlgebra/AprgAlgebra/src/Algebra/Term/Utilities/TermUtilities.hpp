@@ -29,7 +29,9 @@ Term getPiAsTerm();
 Term getEAsTerm();
 Term convertPositiveTermIfNegative(Term const& term);
 Term negateTerm(Term const& term);
+Term flipTerm(Term const& term);
 Term negateTermIfHasNegativeAssociation(TermWithDetails const& termWithDetails);
+Term flipTermIfHasNegativeAssociation(TermWithDetails const& termWithDetails);
 Term invertTerm(Term const& term, std::string const& variableName);
 Expression negateExpression(Expression const& expression);
 

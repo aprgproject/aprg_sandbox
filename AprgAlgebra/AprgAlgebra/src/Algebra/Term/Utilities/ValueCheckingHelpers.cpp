@@ -28,6 +28,12 @@ NumberCheckingCondition IsNotAFiniteNumberCondition = [](
     return !numberToCheck.isAFiniteValue();
 };
 
+NumberCheckingCondition IsPositiveOrNegativeInfinityCondition = [](
+        AlbaNumber const& numberToCheck) -> bool
+{
+    return numberToCheck.isPositiveOrNegativeInfinity();
+};
+
 }
 
 bool isValueSatisfyTheCondition(
@@ -283,6 +289,31 @@ bool isNotANumber(Polynomial const& polynomial)
 bool isNotANumber(Expression const& expression)
 {
     return isValueSatisfyTheCondition(expression, IsNotANumberCondition);
+}
+
+bool isPositiveOrNegativeInfinity(Term const& term)
+{
+    return isValueSatisfyTheCondition(term, IsPositiveOrNegativeInfinityCondition);
+}
+
+bool isPositiveOrNegativeInfinity(Constant const& constant)
+{
+    return isValueSatisfyTheCondition(constant, IsPositiveOrNegativeInfinityCondition);
+}
+
+bool isPositiveOrNegativeInfinity(Monomial const& monomial)
+{
+    return isValueSatisfyTheCondition(monomial, IsPositiveOrNegativeInfinityCondition);
+}
+
+bool isPositiveOrNegativeInfinity(Polynomial const& polynomial)
+{
+    return isValueSatisfyTheCondition(polynomial, IsPositiveOrNegativeInfinityCondition);
+}
+
+bool isPositiveOrNegativeInfinity(Expression const& expression)
+{
+    return isValueSatisfyTheCondition(expression, IsPositiveOrNegativeInfinityCondition);
 }
 
 bool hasNotANumber(Term const& term)

@@ -11,13 +11,21 @@ namespace algebra
 {
 
 IntegrationHistory::IntegrationHistory()
-    : m_lastIntegrationPurpose(IntegrationPurpose::NotSet)
-    , m_previousIntegrationPurpose(IntegrationPurpose::NotSet)
 {}
+
+unsigned int IntegrationHistory::getDepth() const
+{
+    return m_recordOfIntegrationPurposes.size();
+}
 
 IntegrationPurpose IntegrationHistory::getLastIntegrationPurpose() const
 {
-    return m_lastIntegrationPurpose;
+    IntegrationPurpose result(IntegrationPurpose::NotSet);
+    if(!m_recordOfIntegrationPurposes.empty())
+    {
+        result = m_recordOfIntegrationPurposes.back();
+    }
+    return result;
 }
 
 string IntegrationHistory::getEnumShortString(
@@ -36,39 +44,43 @@ string IntegrationHistory::getEnumShortString(
     }
 }
 
-void IntegrationHistory::setLastIntegrationPurpose(
+void IntegrationHistory::addIntegrationPurpose(
         IntegrationPurpose const purpose)
 {
     if(IntegrationPurpose::NoChange != purpose)
     {
-        m_lastIntegrationPurpose =  purpose;
+        m_recordOfIntegrationPurposes.emplace_back(purpose);
     }
 }
 
 void IntegrationHistory::clear()
 {
-    m_lastIntegrationPurpose =  IntegrationPurpose::NotSet;
-    m_previousIntegrationPurpose =  IntegrationPurpose::NotSet;
+    m_recordOfIntegrationPurposes.clear();
 }
 
-void IntegrationHistory::log(
+void IntegrationHistory::logBefore(
+        Term const& , //input,
+        IntegrationPurpose const ) //purpose)
+{}
+
+void IntegrationHistory::logAfter(
         Term const& , //input,
         IntegrationPurpose const , //purpose,
         Term const& ) //output)
-{
-
-}
+{}
 
 void IntegrationHistory::performStepsBeforeIntegration(
         IntegrationPurpose const purpose)
 {
-    m_previousIntegrationPurpose = m_lastIntegrationPurpose;
-    setLastIntegrationPurpose(purpose);
+    addIntegrationPurpose(purpose);
 }
 
 void IntegrationHistory::performStepsAfterIntegration()
 {
-    setLastIntegrationPurpose(m_previousIntegrationPurpose);
+    if(!m_recordOfIntegrationPurposes.empty())
+    {
+        m_recordOfIntegrationPurposes.pop_back();
+    }
 }
 
 

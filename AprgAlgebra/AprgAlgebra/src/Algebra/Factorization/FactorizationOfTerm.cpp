@@ -1,5 +1,7 @@
 #include "FactorizationOfTerm.hpp"
 
+#include <Algebra/Factorization/FactorizationConfiguration.hpp>
+#include <Algebra/Factorization/FactorizationOfExpression.hpp>
 #include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 
@@ -25,6 +27,19 @@ Terms factorizeTerm(Term const& term)
         for(Polynomial const& polynomialFactor : polynomialFactors)
         {
             result.emplace_back(simplifyAndConvertPolynomialToSimplestTerm(polynomialFactor));
+        }
+    }
+    else if(term.isExpression())
+    {
+        if(shouldSimplifyExpressionsToFactors())
+        {
+            Terms factors(factorizeAnExpression(term.getExpressionConstReference()));
+            result.reserve(result.size() + factors.size());
+            copy(factors.cbegin(), factors.cend(), back_inserter(result));
+        }
+        else
+        {
+            result.emplace_back(term);
         }
     }
     else

@@ -15,4 +15,5 @@ constexpr const char* N = "N";
 
 
 }
+
 }

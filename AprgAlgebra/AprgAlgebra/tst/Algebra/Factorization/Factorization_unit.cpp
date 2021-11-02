@@ -31,27 +31,6 @@ TEST(FactorizationTest, FactorizeWorksForAPolynomial)
     EXPECT_EQ(polynomialToExpect3, polynomialsToVerify.at(2));
 }
 
-TEST(FactorizationTest, FactorizeWorksForAnExpression)
-{
-    Polynomial polynomial1({Monomial(2, {{"x", 2}}), Monomial(5, {{"x", 1}}), Monomial(-12, {})});
-    Polynomial polynomial2({Monomial(4, {{"x", 2}}), Monomial(-4, {{"x", 1}}), Monomial(-3, {})});
-    Expression expressionToTest(createExpressionIfPossible({Term(polynomial1), Term("/"), Term(polynomial2)}));
-
-    Expression expressionToVerify(factorize(expressionToTest));
-
-    Polynomial polynomialToExpect1({Monomial(2, {{"x", 1}}), Monomial(-3, {})});
-    Polynomial polynomialToExpect2({Monomial(1, {{"x", 1}}), Monomial(4, {})});
-    Polynomial polynomialToExpect3({Monomial(2, {{"x", 1}}), Monomial(1, {})});
-    Expression expressionToExpect(
-                createExpressionIfPossible({
-                                               Term(polynomialToExpect1),
-                                               Term("*"), Term(polynomialToExpect2),
-                                               Term("/"), Term(polynomialToExpect1),
-                                               Term("/"), Term(polynomialToExpect3)
-                                           }));
-    EXPECT_EQ(expressionToExpect, expressionToVerify);
-}
-
 }
 
 }

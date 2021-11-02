@@ -346,22 +346,23 @@ Term Differentiation::differentiateSimplifiedExpressionOnly(
     Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
     if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
     {
-        result = differentiateTermsInAdditionOrSubtraction(expression.getTermsWithAssociation().getTermsWithDetails());
+        result = differentiateTermsInAdditionOrSubtraction(expression);
     }
     else if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
     {
-        result = differentiateTermsInMultiplicationOrDivision(expression.getTermsWithAssociation().getTermsWithDetails());
+        result = differentiateTermsInMultiplicationOrDivision(expression);
     }
     else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
     {
-        result = differentiateTermsInRaiseToPower(expression.getTermsWithAssociation().getTermsWithDetails());
+        result = differentiateTermsInRaiseToPower(expression);
     }
     return result;
 }
 
 Term Differentiation::differentiateTermsInAdditionOrSubtraction(
-        TermsWithDetails const& termsWithDetails) const
+        Expression const& expression) const
 {
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
     Expression accumulatedExpression(createOrCopyExpressionFromATerm(Constant(0)));
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
@@ -380,10 +381,10 @@ Term Differentiation::differentiateTermsInAdditionOrSubtraction(
 }
 
 Term Differentiation::differentiateTermsInMultiplicationOrDivision(
-        TermsWithDetails const& termsWithDetails) const
+        Expression const& expression) const
 {
-    Term result(differentiateByProcessingAsPolynomialsOverPolynomials(
-                    Term(Expression(OperatorLevel::MultiplicationAndDivision, termsWithDetails))));
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+    Term result(differentiateByProcessingAsPolynomialsOverPolynomials(Term(expression)));
     if(result.isEmpty())
     {
         result = differentiateTermsInMultiplicationOrDivisionTermByTerm(termsWithDetails);
@@ -439,8 +440,9 @@ Term Differentiation::differentiateTermsInMultiplicationOrDivisionTermByTerm(
 }
 
 Term Differentiation::differentiateTermsInRaiseToPower(
-        TermsWithDetails const& termsWithDetails) const
+        Expression const& expression) const
 {
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
     Term result(AlbaNumber(AlbaNumber::Value::NotANumber));
     TermRaiseToTerms termRaiseToTerms(termsWithDetails);
     termRaiseToTerms.simplify();

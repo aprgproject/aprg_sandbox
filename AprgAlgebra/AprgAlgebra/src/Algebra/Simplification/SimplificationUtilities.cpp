@@ -55,6 +55,20 @@ void simplifyTermByFactoringToNonDoubleFactors(Term & term)
     term.simplify();
 }
 
+void simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(Term & term)
+{
+    SimplificationOfExpression::ConfigurationDetails configurationDetails(
+                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    configurationDetails.shouldSimplifyToACommonDenominator = true;
+    configurationDetails.shouldSimplifyToFactors = true;
+    configurationDetails.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+
+    SimplificationOfExpression::ScopeObject scopeObject;
+    scopeObject.setInThisScopeThisConfiguration(configurationDetails);
+
+    term.simplify();
+}
+
 bool simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(
         Expression & expression)
 {

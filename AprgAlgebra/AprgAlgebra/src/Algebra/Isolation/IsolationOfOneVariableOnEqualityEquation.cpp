@@ -157,8 +157,8 @@ void IsolationOfOneVariableOnEqualityEquation::isolateTermWithVariable(
         TermsWithDetails termsWithDetailsWithoutVariable;
         segregateTermsWithAndWithoutVariable(termsWithDetails, variableName, termsWithDetailsWithVariable, termsWithDetailsWithoutVariable);
 
-        Term termFromExpressionWithVariable(Expression(OperatorLevel::AdditionAndSubtraction, termsWithDetailsWithVariable));
-        Term termFromExpressionWithoutVariable(Expression(OperatorLevel::AdditionAndSubtraction, termsWithDetailsWithoutVariable));
+        Term termFromExpressionWithVariable(createTermWithAdditionAndSubtraction(termsWithDetailsWithVariable));
+        Term termFromExpressionWithoutVariable(createTermWithAdditionAndSubtraction(termsWithDetailsWithoutVariable));
 
         termFromExpressionWithVariable.simplify();
         if(canBeConvertedToPolynomial(termFromExpressionWithVariable))

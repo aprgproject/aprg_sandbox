@@ -1,9 +1,23 @@
 #include "FactorizationOfExpression.hpp"
 
+#include <Algebra/Constructs/ConstructUtilities.hpp>
+#include <Algebra/Constructs/TermRaiseToANumber.hpp>
 #include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
+#include <Algebra/Factorization/FactorizationOfTerm.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
+#include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/SegregateHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Math/AlbaMathHelper.hpp>
 
+#include <algorithm>
+
+using namespace alba::mathHelper;
 using namespace std;
 
 namespace alba
@@ -15,66 +29,260 @@ namespace algebra
 namespace Factorization
 {
 
-void factorizeAnExpression(Expression & expression)
+Terms factorizeAnExpression(Expression const& expression)
 {
-    TermsWithDetails termsToPut;
-    TermsWithDetails & termsWithDetails(expression.getTermsWithAssociationReference().getTermsWithDetailsReference());
-    for(TermsWithDetails::iterator it=termsWithDetails.begin(); it!=termsWithDetails.end(); it++)
-    {
-        Term & term(getTermReferenceFromSharedPointer(it->baseTermSharedPointer));
-        if(term.isExpression())
-        {
-            Expression & subExpression(term.getExpressionReference());
-            factorizeAnExpression(subExpression);
-        }
-        else if(term.isPolynomial())
-        {
-            factorizePolynomialAndUpdate(expression, termsToPut, term.getPolynomialConstReference(), it->association);
-            termsWithDetails.erase(it);
-            it--;
-        }
-    }
-    expression.putTermsWithDetails(termsToPut);
+    TermsRaiseToNumbers termsRaiseToNumbers(factorizeToTermsRaiseToNumbers(expression));
+    return termsRaiseToNumbers.getTermsInMultiplicationOperation();
 }
 
-void factorizePolynomialAndUpdate(
-        Expression & expression,
-        TermsWithDetails & termsToPut,
-        Polynomial const& polynomial,
-        TermAssociationType const overallAssociation)
+TermsRaiseToNumbers factorizeToTermsRaiseToNumbers(Expression const& expression)
 {
-    if(OperatorLevel::Unknown == expression.getCommonOperatorLevel())
+    TermsRaiseToNumbers result;
+    if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
     {
-        expression.setCommonOperatorLevel(OperatorLevel::MultiplicationAndDivision);
+        result = factorizeToTermsRaiseToNumbersForAdditionAndSubtraction(expression);
     }
-    if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
+    else if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
     {
-        TermsWithDetails factorizedTermsWithDetails;
-        factorizePolynomialAndEmplaceInTermsWithDetails(factorizedTermsWithDetails, polynomial, overallAssociation);
-        termsToPut.reserve(factorizedTermsWithDetails.size());
-        copy(factorizedTermsWithDetails.cbegin(), factorizedTermsWithDetails.cend(), back_inserter(termsToPut));
+        result = factorizeToTermsRaiseToNumbersForMultiplicationAndDivision(expression);
+    }
+    else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
+    {
+        result = factorizeToTermsRaiseToNumbersForRaiseToPower(expression);
     }
     else
     {
-        TermsWithDetails factorizedTermsWithDetails;
-        factorizePolynomialAndEmplaceInTermsWithDetails(factorizedTermsWithDetails, polynomial, TermAssociationType::Positive);
-        Expression newSubExpression;
-        newSubExpression.setCommonOperatorLevel(OperatorLevel::MultiplicationAndDivision);
-        newSubExpression.putTermsWithDetails(factorizedTermsWithDetails);
-        termsToPut.emplace_back(Term(newSubExpression), overallAssociation);
+        result.addTerm(convertExpressionToSimplestTerm(expression), TermAssociationType::Positive);
+    }
+    return result;
+}
+
+TermsRaiseToNumbers factorizeToTermsRaiseToNumbersForAdditionAndSubtraction(
+        Expression const& expression)
+{
+    TermsRaiseToNumbers result;
+    vector<TermsRaiseToNumbers> nonConstantFactorsPerAddends;
+    AlbaNumbers constantFactorsPerAddends;
+    retrieveConstantAndNonConstantFactors(nonConstantFactorsPerAddends, constantFactorsPerAddends, expression);
+
+    AlbaNumber constantGcf(getGcfOfConstants(constantFactorsPerAddends));
+
+    TermsRaiseToNumbers commonNonConstantFactors;
+    retrieveCommonNonConstantFactors(commonNonConstantFactors, nonConstantFactorsPerAddends);
+
+    result = getFactorizedItemsForAdditionAndSubtraction(expression, constantFactorsPerAddends, nonConstantFactorsPerAddends, constantGcf, commonNonConstantFactors);
+
+    return result;
+}
+
+TermsRaiseToNumbers factorizeToTermsRaiseToNumbersForMultiplicationAndDivision(
+        Expression const& expression)
+{
+    TermsRaiseToNumbers result;
+    for(TermWithDetails const& termWithDetails : expression.getTermsWithAssociation().getTermsWithDetails())
+    {
+        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Terms factorizedTerms(factorizeTerm(term));
+        result.addTerms(factorizedTerms, termWithDetails.association);
+    }
+    return result;
+}
+
+TermsRaiseToNumbers factorizeToTermsRaiseToNumbersForRaiseToPower(
+        Expression const& expression)
+{
+    TermsRaiseToNumbers result;
+    TermRaiseToANumber mainBaseToExponent(createTermRaiseToANumberFromExpression(expression));
+    Term const& base(mainBaseToExponent.getBase());
+    AlbaNumber const& exponent(mainBaseToExponent.getExponent());
+
+    OperatorLevel operatorLevelOfBase(OperatorLevel::Unknown);
+    bool hasEvenDenominatorExponents(false);
+
+    if(base.isExpression())
+    {
+        operatorLevelOfBase = base.getExpressionConstReference().getCommonOperatorLevel();
+    }
+    if(exponent.isFractionType())
+    {
+        hasEvenDenominatorExponents = isEven(exponent.getFractionData().denominator);
+    }
+
+    if(OperatorLevel::RaiseToPower == operatorLevelOfBase
+            || (isANegativeTerm(base) && hasEvenDenominatorExponents))
+    {
+        result.setBaseAndExponent(base, mainBaseToExponent.getExponent());
+    }
+    else
+    {
+        Terms factorizedBases(factorizeTerm(base));
+        result.addTerms(factorizedBases, TermAssociationType::Positive);
+        result.multiplyNumberToExponents(mainBaseToExponent.getExponent());
+    }
+    return result;
+}
+
+void retrieveConstantAndNonConstantFactors(
+        vector<TermsRaiseToNumbers> & nonConstantFactorsPerAddends,
+        AlbaNumbers & constantFactors,
+        Expression const& expression)
+{
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+    for(TermWithDetails const& termWithDetails : termsWithDetails)
+    {
+        Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        Terms factors(factorizeTerm(term));
+
+        AlbaNumber constantFactor(1);
+        TermsRaiseToNumbers nonConstantRaiseToExponent;
+        for(Term const& factor : factors)
+        {
+            if(factor.isConstant())
+            {
+                constantFactor *= factor.getConstantValueConstReference();
+            }
+            else
+            {
+                nonConstantRaiseToExponent.addTerm(factor, TermAssociationType::Positive);
+            }
+        }
+        constantFactors.emplace_back(constantFactor);
+        nonConstantFactorsPerAddends.emplace_back(nonConstantRaiseToExponent);
     }
 }
 
-void factorizePolynomialAndEmplaceInTermsWithDetails(
-        TermsWithDetails & factorizedTermsWithDetails,
-        Polynomial const& polynomial,
-        TermAssociationType const overallAssociation)
+AlbaNumber getGcfOfConstants(AlbaNumbers const& constantFactorsPerAddends)
 {
-    Polynomials factorizedPolynomials(factorizeAPolynomial(polynomial));
-    for(Polynomial const& factorizedPolynomial : factorizedPolynomials)
+    AlbaNumber constantGcf;
+    bool isFirst(true);
+    for(AlbaNumber const& constantFactor : constantFactorsPerAddends)
     {
-        factorizedTermsWithDetails.emplace_back(Term(factorizedPolynomial), overallAssociation);
+        if(isFirst)
+        {
+            constantGcf = constantFactor;
+            isFirst=false;
+        }
+        else
+        {
+            constantGcf = getGreatestCommonFactorForAlbaNumber(constantGcf, constantFactor);
+        }
     }
+    return constantGcf;
+}
+
+void retrieveCommonNonConstantFactors(
+        TermsRaiseToNumbers & commonNonConstantFactors,
+        vector<TermsRaiseToNumbers> const& nonConstantFactorsPerAddends)
+{
+    bool isFirst(true);
+    for(TermsRaiseToNumbers const& factorsAtAddend : nonConstantFactorsPerAddends)
+    {
+        if(isFirst)
+        {
+            commonNonConstantFactors = factorsAtAddend;
+            isFirst = false;
+        }
+        else
+        {
+            for(auto const& commonFactorBaseExponentPair : commonNonConstantFactors.getBaseToExponentMap())
+            {
+                Term const& base(commonFactorBaseExponentPair.first);
+                AlbaNumber const& exponentAtCommonFactor(commonFactorBaseExponentPair.second);
+                AlbaNumber exponentAtAddend(factorsAtAddend.getExponentOfBase(base));
+                if(exponentAtAddend > 0)
+                {
+                    commonNonConstantFactors.setBaseAndExponent(base, min(exponentAtCommonFactor, exponentAtAddend));
+                }
+                else if(exponentAtAddend < 0)
+                {
+                    commonNonConstantFactors.setBaseAndExponent(base, max(exponentAtCommonFactor, exponentAtAddend));
+                }
+                else
+                {
+                    commonNonConstantFactors.setBaseAndExponent(base, 0);
+                }
+            }
+            commonNonConstantFactors.simplify();
+            if(commonNonConstantFactors.getBaseToExponentMap().empty())
+            {
+                break;
+            }
+        }
+    }
+}
+
+TermsRaiseToNumbers getFactorizedItemsForAdditionAndSubtraction(
+        Expression const& expression,
+        AlbaNumbers const& constantFactorsPerAddends,
+        vector<TermsRaiseToNumbers> const& nonConstantFactorsPerAddends,
+        AlbaNumber const& constantGcf,
+        TermsRaiseToNumbers const& commonNonConstantFactors)
+{
+    TermsWithDetails outerAddends;
+    TermsWithDetails const& originalAddends(expression.getTermsWithAssociation().getTermsWithDetails());
+    for(unsigned int i=0; i<constantFactorsPerAddends.size() && i<nonConstantFactorsPerAddends.size() && i<originalAddends.size(); i++)
+    {
+        TermsWithDetails innerMultipliers;
+        putRemainingConstantFactorAsAnInnerMultiplier(innerMultipliers, constantFactorsPerAddends.at(i), constantGcf);
+        putRemainingNonConstantFactorsAsInnerMultipliers(innerMultipliers, nonConstantFactorsPerAddends.at(i), commonNonConstantFactors);
+
+        putRemainingInnerMultipliersAsOuterAddend(outerAddends, innerMultipliers, originalAddends.at(i));
+    }
+    return getFactorizedItemsBasedFromCollectedData(constantGcf, commonNonConstantFactors, outerAddends);
+}
+
+void putRemainingConstantFactorAsAnInnerMultiplier(
+        TermsWithDetails & innerMultipliers,
+        AlbaNumber const& constantFactorOfOriginalAddend,
+        AlbaNumber const& constantGcf)
+{
+    AlbaNumber remainingConstant(constantFactorOfOriginalAddend/constantGcf);
+    if(remainingConstant != 1)
+    {
+        innerMultipliers.emplace_back(Term(remainingConstant), TermAssociationType::Positive);
+    }
+}
+
+void putRemainingNonConstantFactorsAsInnerMultipliers(
+        TermsWithDetails & innerMultipliers,
+        TermsRaiseToNumbers const& nonConstantFactorsOfOriginalAddend,
+        TermsRaiseToNumbers const& commonNonConstantFactors)
+{
+    TermsRaiseToNumbers remainingNonConstantFactors(nonConstantFactorsOfOriginalAddend);
+    remainingNonConstantFactors.subtractExponents(commonNonConstantFactors);
+    remainingNonConstantFactors.simplify();
+    TermsWithDetails remainingNonConstantFactorsWithDetails(remainingNonConstantFactors.getTermWithDetailsInMultiplicationAndDivisionOperation());
+    innerMultipliers.reserve(innerMultipliers.size() + remainingNonConstantFactorsWithDetails.size());
+    copy(remainingNonConstantFactorsWithDetails.cbegin(), remainingNonConstantFactorsWithDetails.cend(), back_inserter(innerMultipliers));
+}
+
+void putRemainingInnerMultipliersAsOuterAddend(
+        TermsWithDetails & outerAddends,
+        TermsWithDetails const& innerMultipliers,
+        TermWithDetails const& originalAddend)
+{
+    Term combinedInnerTerm(createTermWithMultiplicationAndDivision(innerMultipliers));
+    outerAddends.emplace_back(combinedInnerTerm, originalAddend.association);
+}
+
+TermsRaiseToNumbers getFactorizedItemsBasedFromCollectedData(
+        AlbaNumber const& constantGcf,
+        TermsRaiseToNumbers const& commonNonConstantFactors,
+        TermsWithDetails const& outerAddends)
+{
+    TermsRaiseToNumbers result;
+    result = commonNonConstantFactors;
+    if(constantGcf != 1)
+    {
+        result.addTerm(Term(constantGcf), TermAssociationType::Positive);
+    }
+    if(!outerAddends.empty())
+    {
+        Term nonFactoredTerm(createTermWithAdditionAndSubtraction(outerAddends));
+        nonFactoredTerm.simplify();
+        result.addTerm(nonFactoredTerm, TermAssociationType::Positive);
+    }
+    return result;
 }
 
 }

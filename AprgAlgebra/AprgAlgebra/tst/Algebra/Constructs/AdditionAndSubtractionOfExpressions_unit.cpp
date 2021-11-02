@@ -317,7 +317,7 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWi
     EXPECT_EQ(TermAssociationType::Negative, associations.at(1));
 }
 
-TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWithEToTheXWithTrigonometricEquations)
+TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWithEToTheXWithTrigonometricExpressions)
 {
     Term x("x");
     Term eToTheX(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
@@ -338,6 +338,36 @@ TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWi
     ASSERT_EQ(2U, expressions.size());
     EXPECT_EQ(eToTheXTimesSinX, expressions.at(0));
     EXPECT_EQ(negativeEToTheXTimesCosX, expressions.at(1));
+    TermAssociationTypes const& associations(additionAndSubtraction.getAssociations());
+    ASSERT_EQ(2U, associations.size());
+    EXPECT_EQ(TermAssociationType::Positive, associations.at(0));
+    EXPECT_EQ(TermAssociationType::Positive, associations.at(1));
+}
+
+TEST(AdditionAndSubtractionOfExpressionsTest, CombineExpressionIfPossibleWorksWithSinLogarithmicExpressions)
+{
+    Term x("x");
+    Term lnOfX(ln(x));
+    Term sinOfLnOfX(sin(lnOfX));
+    Term cosOfLnOfX(cos(lnOfX));
+    Term twoX(Monomial(2, {{"x", 1}}));
+    Term twoXTimesSinOfLnOfX(createExpressionIfPossible({twoX, Term("*"), sinOfLnOfX}));
+    Term twoXTimesCosOfLnOfX(createExpressionIfPossible({twoX, Term("*"), cosOfLnOfX}));
+    Term xTimesSinOfLnOfX(createExpressionIfPossible({x, Term("*"), sinOfLnOfX}));
+    Term xTimesCosOfLnOfX(createExpressionIfPossible({x, Term("*"), cosOfLnOfX}));
+    AdditionAndSubtractionOfExpressions additionAndSubtraction;
+    additionAndSubtraction.putAsAddition(twoXTimesSinOfLnOfX);
+    additionAndSubtraction.putAsSubtraction(twoXTimesCosOfLnOfX);
+    additionAndSubtraction.putAsSubtraction(xTimesSinOfLnOfX);
+    additionAndSubtraction.putAsAddition(xTimesCosOfLnOfX);
+
+    additionAndSubtraction.combineExpressionsIfPossible();
+
+    Term negativeXTimesCosOfLnOfX(createExpressionIfPossible({Term(Monomial(-1, {{"x", 1}})), Term("*"), cosOfLnOfX}));
+    Expressions const& expressions(additionAndSubtraction.getExpressions());
+    ASSERT_EQ(2U, expressions.size());
+    EXPECT_EQ(xTimesSinOfLnOfX, expressions.at(0));
+    EXPECT_EQ(negativeXTimesCosOfLnOfX, expressions.at(1));
     TermAssociationTypes const& associations(additionAndSubtraction.getAssociations());
     ASSERT_EQ(2U, associations.size());
     EXPECT_EQ(TermAssociationType::Positive, associations.at(0));

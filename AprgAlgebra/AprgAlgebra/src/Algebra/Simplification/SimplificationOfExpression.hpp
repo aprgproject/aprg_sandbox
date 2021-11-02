@@ -104,6 +104,7 @@ private:
             TermRaiseToTerms const& termRaiseToTerms);
 
     // other functions
+    bool shouldDistributeExponentConstantToEachBase() const;
     bool tryToSubstituteSubExpressionOrSubFunctionAndReturnIfContinue(Expression const& expression);
     Expression getNewExpressionWithSubstitutedVariableForTerm(Term const& mainExpression, Term const& termToSubstitute);
     void convertPolynomialOverPolynomialIfNeeded();

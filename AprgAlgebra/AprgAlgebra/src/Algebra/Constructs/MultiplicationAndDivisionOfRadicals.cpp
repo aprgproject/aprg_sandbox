@@ -65,8 +65,8 @@ void MultiplicationAndDivisionOfRadicals::simplify()
     Monomial combinedMonomial(createMonomialFromConstant(1));
     RadicalDetails radicalDetails;
     TermsWithDetails remainingTerms;
-
     gatherDetails(radicalDetails, combinedMonomial, remainingTerms);
+
     AlbaNumber gcfOfExponents(getGcfOfExponents(radicalDetails));
 
     if(shouldBeCombined(radicalDetails, combinedMonomial, gcfOfExponents))
@@ -84,10 +84,10 @@ bool MultiplicationAndDivisionOfRadicals::shouldBeCombined(
 {
     return gcfOfExponents != 1
             && !radicalDetails.empty()
-            && shouldBeCombinedDueToEvenExponent(combinedMonomial, gcfOfExponents);
+            && isNotANegativeTermWithExponentDenominatorEven(combinedMonomial, gcfOfExponents);
 }
 
-bool MultiplicationAndDivisionOfRadicals::shouldBeCombinedDueToEvenExponent(
+bool MultiplicationAndDivisionOfRadicals::isNotANegativeTermWithExponentDenominatorEven(
         Monomial const& combinedMonomial,
         AlbaNumber const& gcfOfExponents)
 {
@@ -162,21 +162,38 @@ void MultiplicationAndDivisionOfRadicals::combineMonomialAndRadicalsAndSave(
         Monomial const& combinedMonomial,
         AlbaNumber const& gcfOfExponents)
 {
-    Expression combinedExpression;
-    combinedExpression.setCommonOperatorLevel(OperatorLevel::MultiplicationAndDivision);
-    if(!isTheValue(combinedMonomial, 1))
-    {
-        Monomial newMonomial(combinedMonomial);
-        newMonomial.raiseToPowerNumber(AlbaNumber(1)/gcfOfExponents);
-        combinedExpression.putTerm(Term(newMonomial), TermAssociationType::Positive);
-    }
+    Monomial newMonomial(combinedMonomial);
+    newMonomial.raiseToPowerNumber(AlbaNumber(1)/gcfOfExponents);
+    TermsWithDetails newRadicalsWithDetails;
     for(RadicalDetail const& radicalDetail : radicalDetails)
     {
-        TermRaiseToANumber const& radical(radicalDetail.radical);
-        Expression newBaseForRadical(radical.getBase());
-        newBaseForRadical.putTermWithRaiseToPowerIfNeeded(Term(radical.getExponent()/gcfOfExponents));
-        combinedExpression.putTerm(Term(newBaseForRadical), radicalDetail.association);
+        TermRaiseToANumber newRadicalBaseAndExponent(radicalDetail.radical);
+        newRadicalBaseAndExponent.setExponent(newRadicalBaseAndExponent.getExponent()/gcfOfExponents);
+        Term newRadical(newRadicalBaseAndExponent.getCombinedTerm());
+        if(canBeConvertedToMonomial(newRadical))
+        {
+            Monomial newRadicalMonomial(createMonomialIfPossible(newRadical));
+            if(radicalDetail.association == TermAssociationType::Positive)
+            {
+                newMonomial.multiplyMonomial(newRadicalMonomial);
+            }
+            else
+            {
+                newMonomial.divideMonomial(newRadicalMonomial);
+            }
+        }
+        else
+        {
+            newRadicalsWithDetails.emplace_back(newRadical, radicalDetail.association);
+        }
     }
+    Expression combinedExpression;
+    combinedExpression.setCommonOperatorLevel(OperatorLevel::MultiplicationAndDivision);
+    if(!isTheValue(newMonomial, 1))
+    {
+        combinedExpression.putTerm(Term(newMonomial), TermAssociationType::Positive);
+    }
+    combinedExpression.putTermsWithDetails(newRadicalsWithDetails);
     combinedExpression.putTermWithRaiseToPowerIfNeeded(Term(gcfOfExponents));
     m_termsWithDetails.emplace_back(Term(combinedExpression), TermAssociationType::Positive);
 }

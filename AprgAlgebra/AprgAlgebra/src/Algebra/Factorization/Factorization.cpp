@@ -19,14 +19,6 @@ Polynomials factorize(Polynomial const& polynomial)
     return factorizeAPolynomial(polynomial);
 }
 
-Expression factorize(Expression const& expression)
-{
-    Expression newExpression(expression);
-    factorizeAnExpression(newExpression);
-    return newExpression;
-}
-
-
 }
 
 }

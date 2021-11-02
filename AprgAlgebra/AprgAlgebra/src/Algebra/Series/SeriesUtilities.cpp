@@ -35,4 +35,5 @@ Term getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(
 }
 
 }
+
 }

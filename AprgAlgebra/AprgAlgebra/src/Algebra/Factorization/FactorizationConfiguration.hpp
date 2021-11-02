@@ -13,6 +13,7 @@ namespace Factorization
 
 struct ConfigurationDetails
 {
+    bool shouldSimplifyExpressionsToFactors;
     bool shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
 };
 
@@ -23,6 +24,7 @@ class Configuration
 class ScopeObject : public AlbaConfigurationScopeObject<ConfigurationDetails>
 {};
 
+bool shouldSimplifyExpressionsToFactors();
 bool shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue();
 
 

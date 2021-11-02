@@ -6,6 +6,7 @@
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -42,4 +43,5 @@ Term ArithmeticSeries::getFormula(
 }
 
 }
+
 }

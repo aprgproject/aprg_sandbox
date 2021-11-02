@@ -1,6 +1,9 @@
 #include "TermRaiseToANumber.hpp"
 
+#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+
 
 namespace alba
 {
@@ -23,7 +26,11 @@ Term TermRaiseToANumber::getCombinedTerm() const
     Term combinedTerm(1);
     if(m_exponent == 1)
     {
-        combinedTerm = Term(m_base);
+        combinedTerm = m_base;
+    }
+    else if(canBeConvertedToMonomial(m_base))
+    {
+        combinedTerm = m_base ^ Term(m_exponent);
     }
     else
     {

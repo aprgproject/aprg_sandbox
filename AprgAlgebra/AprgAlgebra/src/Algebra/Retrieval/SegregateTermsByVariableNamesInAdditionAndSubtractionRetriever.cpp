@@ -14,7 +14,7 @@ namespace algebra
 
 SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever()
     : m_variableNameExpressionMap()
-    , m_remainingTermsExpression(OperatorLevel::AdditionAndSubtraction, {})
+    , m_remainingTermsExpression()
 {}
 
 SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::VariableNameToExpressionMap const&
@@ -33,7 +33,7 @@ void SegregateTermsByVariableNamesInAdditionAndSubtractionRetriever::putVariable
 {
     for(string const& name : namesInOrder)
     {
-        m_variableNameExpressionMap.emplace(name, Expression(OperatorLevel::AdditionAndSubtraction, {}));
+        m_variableNameExpressionMap.emplace(name, Expression());
     }
 }
 

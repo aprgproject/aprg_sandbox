@@ -146,6 +146,21 @@ TEST(SimplificationOfEquationTest, SimplifyWorksOnCompletingExpressionWithFracti
     EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
 }
 
+TEST(SimplificationOfEquationTest, SimplifyWorksXPlusOneToTheOneHalf)
+{
+    Polynomial polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})};
+    Expression expression(createExpressionIfPossible( {Term(polynomial), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+    SimplificationOfEquation simplification(Equation(Term("y"), "=", Term(expression)));
+
+    simplification.simplify();
+
+    Polynomial expectedPolynomial{Monomial(1, {{"y", 2}}), Monomial(-1, {{"x", 1}}), Monomial(-1, {})};
+    Equation simplifiedEquation(simplification.getEquation());
+    EXPECT_EQ(Term(expectedPolynomial), simplifiedEquation.getLeftHandTerm());
+    EXPECT_EQ("=", simplifiedEquation.getEquationOperator().getOperatorString());
+    EXPECT_EQ(Term(Constant(0)), simplifiedEquation.getRightHandTerm());
+}
+
 }
 
 }

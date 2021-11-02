@@ -37,12 +37,22 @@ TEST(DifferentiationUtilitiesTest, IsDifferentiableAtWorks)
 
 TEST(DifferentiationUtilitiesTest, GetDerivativeDefinitionWorks)
 {
-    Term term(Polynomial{Monomial(1, {{"a", 2}}), Monomial(1, {})});
+    Term termToTest(Polynomial{Monomial(1, {{"a", 2}}), Monomial(1, {})});
 
-    Term derivative(getDerivativeDefinition(term, "a"));
+    Term derivative(getDerivativeDefinition(termToTest, "a"));
 
     Term termToExpect(Polynomial{Monomial(1, {{"deltaX", 1}}), Monomial(2, {{"x", 1}})});
     EXPECT_EQ(termToExpect, derivative);
+}
+
+TEST(DifferentiationUtilitiesTest, GetDerivativeDefinitionWorksWithRadical)
+{
+    Term termToTest(Monomial(1, {{"a", AlbaNumber::createFraction(1, 3)}}));
+
+    Term derivative(getDerivativeDefinition(termToTest, "a"));
+
+    string stringToExpect("(1/(1[x^(2/3)]+(1[x^(1/3)]*((1[deltaX] + 1[x])^(1/3)))+((1[deltaX] + 1[x])^(2/3))))");
+    EXPECT_EQ(stringToExpect, derivative.getDisplayableString());
 }
 
 TEST(DifferentiationUtilitiesTest, GetDerivativeAtUsingLimitWorksWhenInputIsAConstant)
@@ -150,7 +160,7 @@ TEST(DifferentiationUtilitiesTest, GetIntegralEquationForFirstOrderDifferentialE
 
     Equation equationToVerify(getIntegralEquationForFirstOrderDifferentialEquation(equationToTest, "x", "y"));
 
-    string stringToExpect("y = (((e)^1[x^2][y])*((-3/2[y^2]/((e)^1[x^2][y]))+((e)*((e)^1[x^2][y]))))");
+    string stringToExpect("y = ((((e)^1[x^2][y])*-3/2[y^2]/((e)^1[x^2][y]))+(((e)^1[x^2][y])*(e)*((e)^1[x^2][y])))");
     EXPECT_EQ(stringToExpect, equationToVerify.getDisplayableString());
 }
 
@@ -247,9 +257,8 @@ TEST(DifferentiationUtilitiesTest, SimplifyDerivativeByDefinitionWorks)
 
     simplifyDerivativeByDefinition(termToTest);
 
-    Term insideSquareRootTerm(Polynomial{Monomial(1, {{"x", 3}}), Monomial(1, {{"x", 2}})});
-    Term termToExpect(createExpressionIfPossible({insideSquareRootTerm, Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
-    EXPECT_EQ(termToExpect, termToTest);
+    string stringToExpect("(x*((1[x] + 1)^(1/2)))");
+    EXPECT_EQ(stringToExpect, termToTest.getDisplayableString());
 }
 
 }

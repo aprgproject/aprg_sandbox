@@ -2,6 +2,7 @@
 #include <Algebra/Series/SeriesUtilities.hpp>
 
 #include <gtest/gtest.h>
+
 using namespace std;
 
 namespace alba
@@ -77,4 +78,5 @@ TEST(GeometricSeriesTest, GetInfiniteSumIsEqualToFormulaInUtilities)
 }
 
 }
+
 }

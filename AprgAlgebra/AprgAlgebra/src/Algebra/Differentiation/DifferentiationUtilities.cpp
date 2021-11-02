@@ -370,6 +370,7 @@ void simplifyDerivativeByDefinition(Term & term)
                 SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     rationalizeConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
     rationalizeConfigurationDetails.shouldSimplifyByRationalizingNumerator = true;
+    rationalizeConfigurationDetails.shouldSimplifyToFactors = true;
     SimplificationOfExpression::ScopeObject scopeObject;
     scopeObject.setInThisScopeThisConfiguration(rationalizeConfigurationDetails);
 
@@ -379,7 +380,6 @@ void simplifyDerivativeByDefinition(Term & term)
 void simplifyToNonDoubleFactors(
         Term& term)
 {
-    //term.simplify();
     simplifyTermByFactoringToNonDoubleFactors(term);
 }
 

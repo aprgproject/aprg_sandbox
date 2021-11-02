@@ -1,13 +1,17 @@
 #include "ConstructUtilities.hpp"
 
 #include <Algebra/Constructs/PolynomialRaiseToAnUnsignedInt.hpp>
+#include <Algebra/Constructs/TermsRaiseToNumbers.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 #include <Optional/AlbaOptional.hpp>
+
+#include <algorithm>
 
 using namespace alba::mathHelper;
 using namespace std;
@@ -24,7 +28,7 @@ PolynomialOverPolynomialOptional createPolynomialOverPolynomialFromTermIfPossibl
     PolynomialOverPolynomialOptional result;
     Term simplifiedTerm(term);
     simplifiedTerm.simplify();
-
+    
     if(canBeConvertedToPolynomial(simplifiedTerm))
     {
         result.setConstReference(PolynomialOverPolynomial(createPolynomialIfPossible(simplifiedTerm), createPolynomialFromConstant(1)));
@@ -76,7 +80,7 @@ TermsOverTerms createTermsOverTermsFromTerm(Term const& term)
     TermsOverTerms result;
     Term simplifiedTerm(term);
     simplifiedTerm.simplify();
-
+    
     bool isResultUpdatedWithContent(false);
     if(simplifiedTerm.isExpression())
     {
@@ -98,7 +102,7 @@ TermsOverTerms createTermsOverTermsFromTerm(Term const& term)
 TermRaiseToANumber createTermRaiseToANumberFromTerm(Term const& term)
 {
     TermRaiseToANumber result;
-
+    
     if(term.isMonomial())
     {
         result = createTermRaiseToANumberFromMonomial(term.getMonomialConstReference());
@@ -148,6 +152,10 @@ TermRaiseToANumber createTermRaiseToANumberFromExpression(Expression const& expr
     {
         createTermRaiseToANumberFromMultiplicationAndDivisionExpression(result, expression);
     }
+    if(result.isEmpty())
+    {
+        result = TermRaiseToANumber(convertExpressionToSimplestTerm(expression), 1);
+    }
     return result;
 }
 
@@ -169,7 +177,7 @@ void createTermRaiseToANumberFromRaiseToPowerExpression(
         {
             if(isFirst)
             {
-               isFirst = false;
+                isFirst = false;
             }
             else
             {
@@ -186,11 +194,15 @@ void createTermRaiseToANumberFromRaiseToPowerExpression(
                 }
             }
         }
+        raiseToPowerTerms.erase(
+                    remove_if(
+                        raiseToPowerTerms.begin()+1, raiseToPowerTerms.end(),
+                        [&](TermWithDetails const& raiseToPowerTerm){
+                        Term const& exponentTerm(getTermConstReferenceFromSharedPointer(raiseToPowerTerm.baseTermSharedPointer));
+                        return willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(exponentTerm);
+                    }), raiseToPowerTerms.end());
 
-        Expression newBaseExpression;
-        newBaseExpression.setCommonOperatorLevel(OperatorLevel::RaiseToPower);
-        newBaseExpression.putTermsWithDetails(raiseToPowerTerms);
-        Term newBase(newBaseExpression);
+        Term newBase(createTermWithRaiseToPower(raiseToPowerTerms));
         newBase.simplify();
         result = TermRaiseToANumber(newBase, combinedExponentValue);
         // how about if exponent is polynomial or expression? how do we extract constant? should we introduce factorization here?
@@ -204,56 +216,44 @@ void createTermRaiseToANumberFromMultiplicationAndDivisionExpression(
     TermsOverTerms originalTot(createTermsOverTermsFromTerm(Term(expression)));
     originalTot.setAsShouldSimplifyToFactors(true);
     originalTot.setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(true);
-    TermsOverTerms::BaseToExponentMap baseToExponentMap;
-    TermsOverTerms::BaseToExponentMap newBaseToExponentMap;
-    originalTot.retrieveBaseToExponentMap(baseToExponentMap);
+    TermsRaiseToNumbers termsRaiseToNumbers(originalTot.getTermsRaiseToNumbers());
 
-    AlbaNumber commonExponent;
     bool isFirst(true);
-    for(auto const& baseExponentPair : baseToExponentMap)
-    {
-        Term const& term(baseExponentPair.first);
-        AlbaNumber const& exponent(baseExponentPair.second);
-        if(term.isMonomial())
-        {
-            TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromMonomial(term.getMonomialConstReference()));
-            newBaseToExponentMap.emplace(termRaiseToANumber.getBase(), termRaiseToANumber.getExponent());
-        }
-        else
-        {
-            newBaseToExponentMap.emplace(term, exponent);
-        }
-    }
+    AlbaNumber commonExponent(1);
     bool areAllExponentsNegative(true);
-    for(auto const& baseExponentPair : newBaseToExponentMap)
+    for(auto const& baseExponentPair : termsRaiseToNumbers.getBaseToExponentMap())
     {
+        Term const& base(baseExponentPair.first);
         AlbaNumber const& exponent(baseExponentPair.second);
-        if(exponent > 0)
+        if(!base.isConstant())
         {
-            areAllExponentsNegative = false;
-        }
-        if(isFirst)
-        {
-            commonExponent = exponent;
-            isFirst=false;
-        }
-        else
-        {
-            commonExponent = getGreatestCommonFactorForAlbaNumber(commonExponent, exponent);
+            if(exponent > 0)
+            {
+                areAllExponentsNegative = false;
+            }
+            if(isFirst)
+            {
+                commonExponent = exponent;
+                isFirst=false;
+            }
+            else
+            {
+                commonExponent = getGreatestCommonFactorForAlbaNumber(commonExponent, exponent);
+            }
         }
     }
     if(areAllExponentsNegative && commonExponent > 0)
     {
         commonExponent *= -1;
     }
-    for(auto & baseExponentPair : newBaseToExponentMap)
+    for(auto & baseExponentPair : termsRaiseToNumbers.getBaseToExponentMap())
     {
-        baseExponentPair.second = baseExponentPair.second/commonExponent;
+        termsRaiseToNumbers.setBaseAndExponent(baseExponentPair.first, baseExponentPair.second/commonExponent);
     }
-    TermsOverTerms totWithoutCommonExponent;
+
+    TermsOverTerms totWithoutCommonExponent(termsRaiseToNumbers.getTermWithDetailsInMultiplicationAndDivisionOperation());
     totWithoutCommonExponent.setAsShouldSimplifyToFactors(true);
     totWithoutCommonExponent.setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(true);
-    totWithoutCommonExponent.saveBaseToExponentMap(newBaseToExponentMap);
     result = TermRaiseToANumber(totWithoutCommonExponent.getCombinedTerm(), commonExponent);
 }
 

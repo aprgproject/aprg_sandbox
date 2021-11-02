@@ -28,7 +28,6 @@
 
 #include <algorithm>
 
-
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
 using namespace alba::mathHelper;
@@ -43,6 +42,7 @@ namespace algebra
 Integration::Integration(
         string const& nameOfVariableToIntegrate)
     : m_nameOfVariableToIntegrate(nameOfVariableToIntegrate)
+    , m_history(IntegrationHistory::getInstance())
 {}
 
 bool Integration::isConvergent(
@@ -238,11 +238,12 @@ Term Integration::integrateInternallyWithPurpose(
         Term const& term,
         IntegrationPurpose const purpose) const
 {
+    IntegrationHistory::getInstance().logBefore(term, purpose);
     IntegrationHistory::getInstance().performStepsBeforeIntegration(purpose);
 
     Term integratedTerm(integrateIntenally(term));
-    IntegrationHistory::getInstance().log(term, purpose, integratedTerm);
 
+    IntegrationHistory::getInstance().logAfter(term, purpose, integratedTerm);
     IntegrationHistory::getInstance().performStepsAfterIntegration();
     return integratedTerm;
 }
@@ -284,7 +285,7 @@ Term Integration::integrateAsTermOrExpressionIfNeeded(
         Expression const& expression) const
 {
     Term result;
-    Configurations configurations{getConfigurationWithFactors(), getConfigurationWithCommonDenominator()};
+    Configurations configurations{getConfigurationWithFactors(), getConfigurationWithCommonDenominator(), getConfigurationWithoutFactors()};
     for(Configuration const& configuration : configurations)
     {
         Term simplifiedTerm(expression);
@@ -314,22 +315,25 @@ void Integration::integrateSimplifiedExpressionOnly(
         Expression const& expression,
         Configuration const& configuration) const
 {
-    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
     if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
     {
-        integrateTermsInAdditionOrSubtraction(result, termsWithDetails);
+        integrateTermsInAdditionOrSubtraction(result, expression);
     }
     else if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
     {
-        integrateTermsInMultiplicationOrDivision(result, termsWithDetails);
+        integrateTermsInMultiplicationOrDivision(result, expression);
     }
     else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
     {
-        integrateTermsInRaiseToPower(result, termsWithDetails);
+        integrateTermsInRaiseToPower(result, expression);
     }
     if(result.isEmpty())
     {
         integrateAsPolynomialOverPolynomialIfPossible(result, Term(expression), true);
+    }
+    if(result.isEmpty())
+    {
+        integrateTermUsingTrigonometricSubstitution(result, Term(expression));
     }
     if(result.isEmpty())
     {
@@ -343,9 +347,10 @@ void Integration::integrateSimplifiedExpressionOnly(
 
 void Integration::integrateTermsInAdditionOrSubtraction(
         Term & result,
-        TermsWithDetails const& termsWithDetails) const
+        Expression const& expression) const
 {
     Expression accumulatedExpression(createOrCopyExpressionFromATerm(Constant(0)));
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
     for(TermWithDetails const& termWithDetails : termsWithDetails)
     {
         Term const& currentTerm(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
@@ -364,16 +369,18 @@ void Integration::integrateTermsInAdditionOrSubtraction(
 
 void Integration::integrateTermsInMultiplicationOrDivision(
         Term & result,
-        TermsWithDetails const& termsWithDetails) const
+        Expression const& expression) const
 {
-    integrateAsPolynomialOverPolynomialIfPossible(result, Term(Expression(OperatorLevel::MultiplicationAndDivision, termsWithDetails)), false);
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
+    integrateAsPolynomialOverPolynomialIfPossible(result, expression, false);
     integrateNonChangingAndChangingTermsInMultiplicationOrDivision(result, termsWithDetails);
 }
 
 void Integration::integrateTermsInRaiseToPower(
         Term & result,
-        TermsWithDetails const& termsWithDetails) const
+        Expression const& expression) const
 {
+    TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
     TermRaiseToTerms termRaiseToTerms(termsWithDetails);
     termRaiseToTerms.simplify();
     Term firstTerm(termRaiseToTerms.getBase());
@@ -508,12 +515,8 @@ void Integration::integrateNonChangingAndChangingTermsInMultiplicationOrDivision
     }
     else
     {
-        Term nonChangingTermCombined(Expression(OperatorLevel::MultiplicationAndDivision, nonChangingTerms));
-        Term changingTermCombined(1);
-        if(!changingTerms.empty())
-        {
-            changingTermCombined = Term(Expression(OperatorLevel::MultiplicationAndDivision, changingTerms));
-        }
+        Term nonChangingTermCombined(createTermWithMultiplicationAndDivision(nonChangingTerms));
+        Term changingTermCombined(createTermWithMultiplicationAndDivision(changingTerms));
         Term integratedChangingTerm(integrateInternallyWithPurpose(changingTermCombined, IntegrationPurpose::NoChange));
         if(isNotANumber(integratedChangingTerm))
         {
@@ -531,11 +534,10 @@ void Integration::integrateChangingTermsInMultiplicationOrDivision(
         TermsWithDetails const& changingTerms) const
 {
     TermsOverTerms termsOverTerms(changingTerms);
-    TermsOverTerms::BaseToExponentMap termsWithExponentsToCheck;
-    termsOverTerms.retrieveBaseToExponentMap(termsWithExponentsToCheck);
+    TermsRaiseToNumbers termsWithExponentsToCheck(termsOverTerms.getTermsRaiseToNumbers());
 
     InputTermToTrigonometryFunctionExponentsMap trigFunctionsInputTermToExponents;
-    TermsOverTerms::BaseToExponentMap remainingTermsWithExponents;
+    TermsRaiseToNumbers remainingTermsWithExponents;
     retrieveInputTermsAndTrigonometricExponents(trigFunctionsInputTermToExponents, remainingTermsWithExponents, termsWithExponentsToCheck);
     integrateTrigonometricCombinationsIfPossible(result, remainingTermsWithExponents, trigFunctionsInputTermToExponents);
 
@@ -666,7 +668,6 @@ void Integration::integrateTermUsingSubstitution(
         if(!subTerm.isConstant() && !subTerm.isVariable() && isChangingTerm(subTerm))
         {
             integrateBySubstitutionAndUsingANewVariable(result, simplifiedTerm, subTerm, configuration);
-            integrateUsingTrigonometricSubstitutionIfPossible(result, simplifiedTerm, subTerm, configuration);
             if(!result.isEmpty())
             {
                 break;
@@ -740,11 +741,30 @@ Term Integration::substituteBackToOldVariable(
     return substitutionVariableToTerm.performSubstitutionTo(mainTerm);
 }
 
-void Integration::integrateUsingTrigonometricSubstitutionIfPossible(
+void Integration::integrateTermUsingTrigonometricSubstitution(
+        Term & result,
+        Term const& term) const
+{
+    Term simplifiedTerm(term);
+    simplifyForIntegration(simplifiedTerm, getConfigurationWithCombiningRadicals());
+    Terms subTerms(retrieveSubTerms(simplifiedTerm));
+    for(Term const& subTerm : subTerms)
+    {
+        if(!subTerm.isConstant() && !subTerm.isVariable() && isChangingTerm(subTerm))
+        {
+            integrateUsingTrigonometricSubstitutionByFindingTwoTerms(result, simplifiedTerm, subTerm);
+            if(!result.isEmpty())
+            {
+                break;
+            }
+        }
+    }
+}
+
+void Integration::integrateUsingTrigonometricSubstitutionByFindingTwoTerms(
         Term & result,
         Term const& mainTerm,
-        Term const& termToSubstitute,
-        Configuration const& configuration) const
+        Term const& termToSubstitute) const
 {
     if(termToSubstitute.isExpression())
     {
@@ -756,11 +776,11 @@ void Integration::integrateUsingTrigonometricSubstitutionIfPossible(
             Term const& secondTerm(negateTermIfHasNegativeAssociation(expressionTerms.at(1)));
             if(!isChangingTerm(firstTerm))
             {
-                integrateUsingTrigonometricSubstitution(result, mainTerm, termToSubstitute, firstTerm, secondTerm, configuration);
+                integrateUsingTrigonometricSubstitutionWithDeterminedTerms(result, mainTerm, termToSubstitute, firstTerm, secondTerm);
             }
             else if(!isChangingTerm(secondTerm))
             {
-                integrateUsingTrigonometricSubstitution(result, mainTerm, termToSubstitute, secondTerm, firstTerm, configuration);
+                integrateUsingTrigonometricSubstitutionWithDeterminedTerms(result, mainTerm, termToSubstitute, secondTerm, firstTerm);
             }
         }
     }
@@ -774,23 +794,22 @@ void Integration::integrateUsingTrigonometricSubstitutionIfPossible(
             Term const& secondTerm(Term(monomials.at(1)));
             if(!isChangingTerm(firstTerm))
             {
-                integrateUsingTrigonometricSubstitution(result, mainTerm, termToSubstitute, firstTerm, secondTerm, configuration);
+                integrateUsingTrigonometricSubstitutionWithDeterminedTerms(result, mainTerm, termToSubstitute, firstTerm, secondTerm);
             }
             else if(!isChangingTerm(secondTerm))
             {
-                integrateUsingTrigonometricSubstitution(result, mainTerm, termToSubstitute, secondTerm, firstTerm, configuration);
+                integrateUsingTrigonometricSubstitutionWithDeterminedTerms(result, mainTerm, termToSubstitute, secondTerm, firstTerm);
             }
         }
     }
 }
 
-void Integration::integrateUsingTrigonometricSubstitution(
+void Integration::integrateUsingTrigonometricSubstitutionWithDeterminedTerms(
         Term & result,
         Term const& mainTerm,
         Term const& aSquaredAndUSquared,
         Term const& aSquaredWithSign,
-        Term const& uSquaredWithSign,
-        Configuration const& configuration) const
+        Term const& uSquaredWithSign) const
 {
     bool isANegative(isANegativeTerm(aSquaredWithSign));
     bool isUNegative(isANegativeTerm(uSquaredWithSign));
@@ -810,7 +829,7 @@ void Integration::integrateUsingTrigonometricSubstitution(
             Term termToIntegrateWithTrigSub(substituteToTrigonometricFunctions(mainTerm, details));
             if(!termToIntegrateWithTrigSub.isEmpty())
             {
-                simplifyForIntegration(termToIntegrateWithTrigSub, configuration);
+                simplifyForIntegration(termToIntegrateWithTrigSub, getConfigurationWithCommonDenominator());
                 if(!isChangingTerm(termToIntegrateWithTrigSub))
                 {
                     Integration integrationUsingTrigSub(details.thetaName);
@@ -933,8 +952,8 @@ void Integration::integrateInMultiplicationOrDivisionByTryingReverseChainRule(
     {
         TermsWithDetails termsInFirstTerms(termsWithDetailsInMultiplicationOrDivision);
         termsInFirstTerms.erase(termsInFirstTerms.cbegin() + i);
-        Term firstTerm(Expression(OperatorLevel::MultiplicationAndDivision, termsInFirstTerms));
-        Term secondTerm(Expression(OperatorLevel::MultiplicationAndDivision, {termsWithDetailsInMultiplicationOrDivision.at(i)}));
+        Term firstTerm(createTermWithMultiplicationAndDivision(termsInFirstTerms));
+        Term secondTerm(createTermWithMultiplicationAndDivision({termsWithDetailsInMultiplicationOrDivision.at(i)}));
         Term innerTermInFirstTerm;
         firstTerm.simplify();
         secondTerm.simplify();
@@ -1092,8 +1111,7 @@ void Integration::integrateUsingPartialFractionPolynomials(
 
         if(oneOverDenominator.getDenominators().size() > 1)
         {
-            TermsOverTerms::BaseToExponentMap factorsWithExponents;
-            oneOverDenominator.retrieveBaseToExponentMap(factorsWithExponents);
+            TermsRaiseToNumbers factorsWithExponents(oneOverDenominator.getTermsRaiseToNumbers());
 
             Polynomials partialNumerators;
             Polynomials partialDenominators;
@@ -1122,9 +1140,9 @@ void Integration::retrievePartialFractions(
         Polynomials & partialNumerators,
         Polynomials & partialDenominators,
         string const& originalVariableName,
-        TermsOverTerms::BaseToExponentMap const& factorsWithExponents) const
+        TermsRaiseToNumbers const& factorsWithExponents) const
 {
-    for(auto const& factorExponentPair : factorsWithExponents)
+    for(auto const& factorExponentPair : factorsWithExponents.getBaseToExponentMap())
     {
         Term const& factor(factorExponentPair.first);
         TermRaiseToANumber termRaiseToANumber(createTermRaiseToANumberFromTerm(factor));
@@ -1375,8 +1393,8 @@ void Integration::integrateUsingIntegrationByPartsByTryingTwoTerms(
             {
                 TermsWithDetails termsInFirstTerms(termsWithDetailsInMultiplicationAndDivision);
                 termsInFirstTerms.erase(termsInFirstTerms.cbegin() + i);
-                Term firstTerm(Expression(OperatorLevel::MultiplicationAndDivision, termsInFirstTerms));
-                Term secondTerm(Expression(OperatorLevel::MultiplicationAndDivision, {termsWithDetailsInMultiplicationAndDivision.at(i)}));
+                Term firstTerm(createTermWithMultiplicationAndDivision(termsInFirstTerms));
+                Term secondTerm(createTermWithMultiplicationAndDivision({termsWithDetailsInMultiplicationAndDivision.at(i)}));
                 firstTerm.simplify();
                 secondTerm.simplify();
                 if(result.isEmpty())
@@ -1518,10 +1536,10 @@ void Integration::integrateUsingIntegrationByParts(
 
 void Integration::retrieveInputTermsAndTrigonometricExponents(
         InputTermToTrigonometryFunctionExponentsMap & trigFunctionsInputTermToExponents,
-        TermsOverTerms::BaseToExponentMap & remainingTermsWithExponents,
-        TermsOverTerms::BaseToExponentMap const& termsWithExponentsToCheck) const
+        TermsRaiseToNumbers & remainingTermsWithExponents,
+        TermsRaiseToNumbers const& termsWithExponentsToCheck) const
 {
-    for(auto const& termExponentPair : termsWithExponentsToCheck)
+    for(auto const& termExponentPair : termsWithExponentsToCheck.getBaseToExponentMap())
     {
         Term const& base(termExponentPair.first);
         AlbaNumber const& exponent(termExponentPair.second);
@@ -1557,17 +1575,17 @@ void Integration::retrieveInputTermsAndTrigonometricExponents(
         }
         else
         {
-            remainingTermsWithExponents.emplace(base, exponent);
+            remainingTermsWithExponents.setBaseAndExponent(base, exponent);
         }
     }
 }
 
 void Integration::integrateTrigonometricCombinationsIfPossible(
         Term& result,
-        TermsOverTerms::BaseToExponentMap const& remainingTerms,
+        TermsRaiseToNumbers const& remainingTerms,
         InputTermToTrigonometryFunctionExponentsMap const& inputTermToExponents) const
 {
-    if(remainingTerms.empty() && inputTermToExponents.size() == 1)
+    if(remainingTerms.getBaseToExponentMap().empty() && inputTermToExponents.size() == 1)
     {
         Term const& inputTerm(inputTermToExponents.begin()->first);
         TrigonometryFunctionExponents exponents(inputTermToExponents.begin()->second);
@@ -1749,7 +1767,7 @@ void Integration::integrateSinAndCosCombinationWithExponentsGreaterThanOne(
     }
     else if(isOdd(sinExponent) && isOdd(cosExponent))
     {
-        //This is also can be expressed in cosine.
+        //This can be also be expressed in cosine.
         termToIntegrate = termToIntegrate * Term(createExpressionIfPossible({getSineSquaredInCosine(functionInputTerm), Term("^"), Term(cosExponent/2)}));
         termToIntegrate = termToIntegrate * Term(cos(functionInputTerm));
         termToIntegrate = termToIntegrate * Term(createExpressionIfPossible({sin(functionInputTerm), Term("^"), Term(sinExponent)}));
@@ -1923,17 +1941,6 @@ void Integration::putCotangentSquaredToCosecantSquaredTerms(
     outputTerm = outputTerm * termToMultiply;
 }
 
-Integration::Configuration Integration::getConfigurationWithoutFactors() const
-{
-    Configuration configuration;
-    configuration.shouldFixTrigonometricFunctions = true;
-    configuration.expressionSimplification = SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails();
-    configuration.expressionSimplification.shouldSimplifyToFactors = false;
-    configuration.expressionSimplification.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
-    configuration.expressionSimplification.shouldSimplifyToACommonDenominator = false;
-    return configuration;
-}
-
 Integration::Configuration Integration::getConfigurationWithFactors() const
 {
     Configuration configuration;
@@ -1952,6 +1959,29 @@ Integration::Configuration Integration::getConfigurationWithCommonDenominator() 
     configuration.expressionSimplification.shouldSimplifyToFactors = true;
     configuration.expressionSimplification.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
     configuration.expressionSimplification.shouldSimplifyToACommonDenominator = true;
+    return configuration;
+}
+
+Integration::Configuration Integration::getConfigurationWithoutFactors() const
+{
+    Configuration configuration;
+    configuration.shouldFixTrigonometricFunctions = true;
+    configuration.expressionSimplification = SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails();
+    configuration.expressionSimplification.shouldSimplifyToFactors = false;
+    configuration.expressionSimplification.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+    configuration.expressionSimplification.shouldSimplifyToACommonDenominator = false;
+    return configuration;
+}
+
+Integration::Configuration Integration::getConfigurationWithCombiningRadicals() const
+{
+    Configuration configuration;
+    configuration.shouldFixTrigonometricFunctions = true;
+    configuration.expressionSimplification = SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails();
+    configuration.expressionSimplification.shouldSimplifyToFactors = false;
+    configuration.expressionSimplification.shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue = true;
+    configuration.expressionSimplification.shouldSimplifyToACommonDenominator = false;
+    configuration.expressionSimplification.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
     return configuration;
 }
 
@@ -1976,11 +2006,10 @@ void Integration::simplifyAndFixTrigonometricFunctions(
     if(shouldFixTrigonometricFunctions)
     {
         TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(term));
-        TermsOverTerms::BaseToExponentMap termsWithExponentsToCheck;
-        termsOverTerms.retrieveBaseToExponentMap(termsWithExponentsToCheck);
+        TermsRaiseToNumbers termsWithExponentsToCheck(termsOverTerms.getTermsRaiseToNumbers());
 
         InputTermToTrigonometryFunctionExponentsMap trigFunctionsInputTermToExponents;
-        TermsOverTerms::BaseToExponentMap remainingTermsWithExponents;
+        TermsRaiseToNumbers remainingTermsWithExponents;
 
         retrieveInputTermsAndTrigonometricExponents(trigFunctionsInputTermToExponents, remainingTermsWithExponents, termsWithExponentsToCheck);
         fixTrigonometricFunctionsBasedFromExponents(term, trigFunctionsInputTermToExponents, remainingTermsWithExponents);
@@ -1990,7 +2019,7 @@ void Integration::simplifyAndFixTrigonometricFunctions(
 void Integration::fixTrigonometricFunctionsBasedFromExponents(
         Term & term,
         InputTermToTrigonometryFunctionExponentsMap const& trigFunctionsInputTermToExponents,
-        TermsOverTerms::BaseToExponentMap const& remainingTermsWithExponents) const
+        TermsRaiseToNumbers const& remainingTermsWithExponents) const
 {
     if(!trigFunctionsInputTermToExponents.empty())
     {
@@ -2005,48 +2034,47 @@ void Integration::fixTrigonometricFunctionsBasedFromExponents(
         }
         if(isChanged)
         {
-            TermsOverTerms::BaseToExponentMap newTerms(remainingTermsWithExponents);
+            TermsRaiseToNumbers newTerms(remainingTermsWithExponents);
             for(auto const& inputTermExponentsPair : newTrigFunctionsInputTermToExponents)
             {
                 Term const& inputTerm(inputTermExponentsPair.first);
                 TrigonometryFunctionExponents const& exponents(inputTermExponentsPair.second);
                 putTrigonometricFunctionsWithExponents(newTerms, inputTerm, exponents);
             }
-            TermsOverTerms termsOverTerms;
-            termsOverTerms.saveBaseToExponentMap(newTerms);
+            TermsOverTerms termsOverTerms(newTerms.getTermWithDetailsInMultiplicationAndDivisionOperation());
             term = termsOverTerms.getCombinedTerm();
         }
     }
 }
 
 void Integration::putTrigonometricFunctionsWithExponents(
-        TermsOverTerms::BaseToExponentMap & newTerms,
+        TermsRaiseToNumbers & newTerms,
         Term const& inputTerm,
         TrigonometryFunctionExponents const& exponents) const
 {
     if(exponents.sinExponent != 0)
     {
-        newTerms[Term(sin(inputTerm))] = exponents.sinExponent;
+        newTerms.setBaseAndExponent(Term(sin(inputTerm)), exponents.sinExponent);
     }
     if(exponents.cosExponent != 0)
     {
-        newTerms[Term(cos(inputTerm))] = exponents.cosExponent;
+        newTerms.setBaseAndExponent(Term(cos(inputTerm)), exponents.cosExponent);
     }
     if(exponents.tanExponent != 0)
     {
-        newTerms[Term(tan(inputTerm))] = exponents.tanExponent;
+        newTerms.setBaseAndExponent(Term(tan(inputTerm)), exponents.tanExponent);
     }
     if(exponents.cscExponent != 0)
     {
-        newTerms[Term(csc(inputTerm))] = exponents.cscExponent;
+        newTerms.setBaseAndExponent(Term(csc(inputTerm)), exponents.cscExponent);
     }
     if(exponents.secExponent != 0)
     {
-        newTerms[Term(sec(inputTerm))] = exponents.secExponent;
+        newTerms.setBaseAndExponent(Term(sec(inputTerm)), exponents.secExponent);
     }
     if(exponents.cotExponent != 0)
     {
-        newTerms[Term(cot(inputTerm))] = exponents.cotExponent;
+        newTerms.setBaseAndExponent(Term(cot(inputTerm)), exponents.cotExponent);
     }
 }
 
@@ -2130,20 +2158,20 @@ bool Integration::areExponentsSame(
 bool Integration::isIntegrationUsingSubstitutionAllowed(
         Term const& term) const
 {
-    return IntegrationPurpose::Substitution != IntegrationHistory::getInstance().getLastIntegrationPurpose()
+    return IntegrationPurpose::Substitution != m_history.getLastIntegrationPurpose()
             || hasAnyTrigonometricFunctions(term);
 }
 
 bool Integration::isIntegrationByPartsAllowed(
         Term const& term) const
 {
-    return IntegrationPurpose::Substitution != IntegrationHistory::getInstance().getLastIntegrationPurpose()
+    return IntegrationPurpose::Substitution != m_history.getLastIntegrationPurpose()
             || hasAnyTrigonometricFunctions(term);
 }
 
 bool Integration::isIntegrationByPartialFractionAllowed() const
 {
-    return IntegrationPurpose::PartialFraction != IntegrationHistory::getInstance().getLastIntegrationPurpose();
+    return IntegrationPurpose::PartialFraction != m_history.getLastIntegrationPurpose();
 }
 
 }
