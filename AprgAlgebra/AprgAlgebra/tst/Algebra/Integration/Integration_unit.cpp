@@ -34,7 +34,8 @@ TEST(IntegrationTest, IntegrateWorksForTerm)
     Polynomial polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};
     Expression expression(createExpressionIfPossible(
     {Term(Polynomial{Monomial(3, {{"x", 1}}), Monomial(4, {})}),
-     Term("^"),     Term(AlbaNumber::createFraction(1, 2))}));
+     Term("^"),
+     Term(AlbaNumber::createFraction(1, 2))}));
 
     Term termToVerify1(integrationForX.integrate(Term(5)));
     Term termToVerify2(integrationForX.integrate(Term(5)));
@@ -172,7 +173,8 @@ TEST(IntegrationTest, IntegrateAtDefiniteValuesWorks)
 TEST(IntegrationTest, IntegrateAtDefiniteValuesWorksInfiniteValues)
 {
     Integration integrationForX("x");
-    Term denominatorPart(Polynomial{Monomial(4, {}), Monomial(-1, {{"x", 1}})});    Term denominator(createExpressionIfPossible({denominatorPart, Term("^"), Term(2)}));
+    Term denominatorPart(Polynomial{Monomial(4, {}), Monomial(-1, {{"x", 1}})});
+    Term denominator(createExpressionIfPossible({denominatorPart, Term("^"), Term(2)}));
     Term termToTest(createExpressionIfPossible({Term(1), Term("/"), denominator}));
 
     EXPECT_EQ(Term(AlbaNumber::createFraction(1, 2)),
@@ -195,6 +197,7 @@ TEST(IntegrationTest, IntegrateConstantWorks)
 
     EXPECT_EQ(Monomial(5, {{"x", 1}}), integrationForX.integrateConstant(Constant(5)));
 }
+
 TEST(IntegrationTest, IntegrateVariableWorks)
 {
     Integration integrationForX("x");

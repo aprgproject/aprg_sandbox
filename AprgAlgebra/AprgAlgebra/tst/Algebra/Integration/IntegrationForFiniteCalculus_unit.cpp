@@ -126,7 +126,8 @@ TEST(IntegrationForFiniteCalculusTest, IntegrateAtDefiniteValuesWorks)
     EXPECT_EQ(Term(9), integrationForX.integrateAtDefiniteValues(x, 4, 6));
 }
 
-TEST(IntegrationForFiniteCalculusTest, IntegrateTermWorks){
+TEST(IntegrationForFiniteCalculusTest, IntegrateTermWorks)
+{
     IntegrationForFiniteCalculus integrationForX("x");
     Term x("x");
     Polynomial polynomial{Monomial(28, {{"x", 3}}), Monomial(-6, {{"x", 2}}), Monomial(8, {})};

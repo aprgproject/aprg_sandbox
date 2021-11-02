@@ -1,4 +1,4 @@
-#include <Algebra/Series/Utilities.hpp>
+#include <Algebra/Series/SeriesUtilities.hpp>
 
 #include <gtest/gtest.h>
 
@@ -10,7 +10,7 @@ namespace alba
 namespace algebra
 {
 
-TEST(UtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample1)
+TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample1)
 {
     Term firstTerm(1);
     Term lastTerm("n");
@@ -20,7 +20,7 @@ TEST(UtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExampl
     EXPECT_EQ(expectedSum, getSumOfArithmeticSeriesUsingFirstAndLastTerm(firstTerm, lastTerm, count));
 }
 
-TEST(UtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample2)
+TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample2)
 {
     Term firstTerm(4);
     Term lastTerm(Monomial(4, {{"n", 1}}));
@@ -30,7 +30,7 @@ TEST(UtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExampl
     EXPECT_EQ(expectedSum, getSumOfArithmeticSeriesUsingFirstAndLastTerm(firstTerm, lastTerm, count));
 }
 
-TEST(UtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample3)
+TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample3)
 {
     Term firstTerm(1);
     Term lastTerm(Polynomial{Monomial(3, {{"n", 1}}), Monomial(-2, {})});
@@ -40,7 +40,7 @@ TEST(UtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExampl
     EXPECT_EQ(expectedSum, getSumOfArithmeticSeriesUsingFirstAndLastTerm(firstTerm, lastTerm, count));
 }
 
-TEST(UtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastValueWorks)
+TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastValueWorks)
 {
     EXPECT_DOUBLE_EQ(60, getSumOfArithmeticSeriesUsingFirstAndLastValue(12, 18, 4));
 }

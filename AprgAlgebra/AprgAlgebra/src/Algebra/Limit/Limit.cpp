@@ -286,7 +286,8 @@ Term getLimitUsingLhopitalsRule(
         AlbaNumber const& value)
 {
     Term newTerm, limitValue;
-    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, value);    return limitValue;
+    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, value);
+    return limitValue;
 }
 
 Term getTermUsingLhopitalsRule(

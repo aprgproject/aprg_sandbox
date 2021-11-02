@@ -16,10 +16,12 @@ void simplifyTermByCombiningRadicals(Term & term);
 void simplifyTermByFactoringToNonDoubleFactors(Term & term);
 
 bool simplifyToACommonDenominatorForExpressionAndReturnIfAdditionOrSubtractionOfTermsOverTermsOccurred(Expression & expression);
-bool tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression & addSubtractExpression);void simplifyTermsWithDetailsInExpressionToACommonDenominator(Expression & expression);
+bool tryToAddSubtractTermsOverTermsAndReturnIfChanged(Expression & addSubtractExpression);
+void simplifyTermsWithDetailsInExpressionToACommonDenominator(Expression & expression);
 
 void simplifyAndCopyTermsAndChangeOperatorLevelIfNeeded(
-        TermsWithDetails & termsToUpdate,        OperatorLevel & mainOperatorLevel,
+        TermsWithDetails & termsToUpdate,
+        OperatorLevel & mainOperatorLevel,
         TermsWithDetails const& termsToCheck);
 void simplifyAndCopyTermsFromAnExpressionAndChangeOperatorLevelIfNeeded(
         TermsWithDetails & termsToUpdate,

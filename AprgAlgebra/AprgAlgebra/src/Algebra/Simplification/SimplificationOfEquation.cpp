@@ -16,6 +16,7 @@
 using namespace alba::algebra::Functions;
 using namespace alba::mathHelper;
 using namespace std;
+
 namespace alba
 {
 
@@ -97,6 +98,7 @@ Term SimplificationOfEquation::getNewCombinedTerm(
     }
     return combinedTerm;
 }
+
 void SimplificationOfEquation::negateTermIfNeeded(
         Term & leftHandSide,
         string & equationOperatorString)
@@ -163,7 +165,8 @@ bool SimplificationOfEquation::areTheSignsOfTwoTermsDifferent(
         TermWithDetails const& firstTerm,
         TermWithDetails const& secondTerm)
 {
-    return firstTerm.hasNegativeAssociation() ^ secondTerm.hasNegativeAssociation();}
+    return firstTerm.hasNegativeAssociation() ^ secondTerm.hasNegativeAssociation();
+}
 
 }
 

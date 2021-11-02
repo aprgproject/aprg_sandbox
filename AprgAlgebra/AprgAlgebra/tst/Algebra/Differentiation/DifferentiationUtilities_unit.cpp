@@ -4,9 +4,11 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
+
 #include <gtest/gtest.h>
 
-using namespace alba::algebra::Functions;using namespace std;
+using namespace alba::algebra::Functions;
+using namespace std;
 
 namespace alba
 {
@@ -223,10 +225,12 @@ TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsRemainderWorks)
 
 TEST(DifferentiationUtilitiesTest, GetDifferentiabilityDomainWorks)
 {
-    Polynomial numerator{Monomial(1, {{"x", 1}}), Monomial(3, {})};    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
+    Polynomial numerator{Monomial(1, {{"x", 1}}), Monomial(3, {})};
+    Polynomial denominator{Monomial(1, {{"x", 1}}), Monomial(-1, {})};
     Term termToTest(createExpressionIfPossible({Term(numerator), Term("/"), Term(denominator)}));
 
     SolutionSet differentiabilityDomain(getDifferentiabilityDomain(termToTest, "x"));
+
     AlbaNumberIntervals const& intervalToVerify(differentiabilityDomain.getAcceptedIntervals());
     ASSERT_EQ(2U, intervalToVerify.size());
     EXPECT_EQ(AlbaNumberInterval(createNegativeInfinityOpenEndpoint(), createCloseEndpoint(0.9999979999999644)),

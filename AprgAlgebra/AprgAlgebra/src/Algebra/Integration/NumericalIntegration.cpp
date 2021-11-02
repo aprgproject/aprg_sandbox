@@ -88,6 +88,7 @@ Term getActualTruncationErrorInTrapezoidalRule(
     return integration.integrateAtDefiniteValues(term, lowerValueInInterval, higherValueInInterval)
             - getAnApproximateOfDefiniteIntegralUsingTrapezoidalRule(term, variableName, lowerValueInInterval, higherValueInInterval, numberOfSamples);
 }
+
 Term getActualTruncationErrorInSimpsonRule(
         Term const& term,
         string const& variableName,
@@ -99,6 +100,7 @@ Term getActualTruncationErrorInSimpsonRule(
     return integration.integrateAtDefiniteValues(term, lowerValueInInterval, higherValueInInterval)
             - getAnApproximateOfDefiniteIntegralUsingSimpsonRule(term, variableName, lowerValueInInterval, higherValueInInterval, numberOfSamples);
 }
+
 Term getAnApproximateOfTruncationErrorInTrapezoidalRuleAt(
         Term const& term,
         string const& variableName,

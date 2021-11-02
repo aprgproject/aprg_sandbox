@@ -98,7 +98,8 @@ TEST(IntegrationUtilitiesTest, EvaluateTermsAndGetDifferenceWorks)
     Term termToExpect3(Polynomial{Monomial(-1, {{"a", 3}}), Monomial(1, {{"b", 3}})});
     EXPECT_EQ(termToExpect1, termToVerify1);
     EXPECT_EQ(termToExpect2, termToVerify2);
-    EXPECT_EQ(termToExpect3, termToVerify3);}
+    EXPECT_EQ(termToExpect3, termToVerify3);
+}
 
 TEST(IntegrationUtilitiesTest, GetAreaUnderACurveUsingReimannSumsWorks)
 {

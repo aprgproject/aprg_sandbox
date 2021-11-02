@@ -1,6 +1,6 @@
 #include "GeometricSeries.hpp"
 
-#include <Algebra/Series/Utilities.hpp>
+#include <Algebra/Series/SeriesUtilities.hpp>
 
 #include <cmath>
 

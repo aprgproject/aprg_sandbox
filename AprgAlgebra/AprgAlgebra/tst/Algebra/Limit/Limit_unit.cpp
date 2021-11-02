@@ -148,7 +148,8 @@ TEST(LimitTest, GetLimitUsingLhopitalsRuleWorks)
     Term oneMinusEToTheX(createExpressionIfPossible({Term(1), Term("-"), Term(AlbaNumber(AlbaNumber::Value::e)), Term("^"), x}));
     Term oneOverX(createExpressionIfPossible({Term(1), Term("/"), x}));
     Term termToTest1(x);
-    Term termToTest2(createExpressionIfPossible({x, Term("/"), oneMinusEToTheX}));    Term termToTest3(createExpressionIfPossible({Term(sin(oneOverX)), Term("/"), Term(arctan(oneOverX))}));
+    Term termToTest2(createExpressionIfPossible({x, Term("/"), oneMinusEToTheX}));
+    Term termToTest3(createExpressionIfPossible({Term(sin(oneOverX)), Term("/"), Term(arctan(oneOverX))}));
 
     Term termToVerify1(getLimitUsingLhopitalsRule(termToTest1, "x", 5));
     Term termToVerify2(getLimitUsingLhopitalsRule(termToTest2, "x", 0));

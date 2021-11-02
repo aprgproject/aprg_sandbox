@@ -26,6 +26,7 @@ public:
             Term const& term,
             AlbaNumber const& lowerValueInInterval,
             AlbaNumber const& higherValueInInterval) const;
+
     Term integrateTerm(Term const& term) const;
     Monomial integrateConstant(Constant const& constant) const;
     Polynomial integrateVariable(Variable const& variable) const;

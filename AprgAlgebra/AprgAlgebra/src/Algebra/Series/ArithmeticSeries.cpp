@@ -1,6 +1,6 @@
 #include "ArithmeticSeries.hpp"
 
-#include <Algebra/Series/Utilities.hpp>
+#include <Algebra/Series/SeriesUtilities.hpp>
 
 namespace alba
 {

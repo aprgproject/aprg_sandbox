@@ -31,7 +31,8 @@
 
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
-using namespace alba::mathHelper;using namespace alba::stringHelper;
+using namespace alba::mathHelper;
+using namespace alba::stringHelper;
 using namespace std;
 
 namespace alba
@@ -60,6 +61,7 @@ Term Integration::integrate(
 
     return integrateIntenally(term);
 }
+
 Term Integration::integrate(
         Constant const& constant) const
 {
@@ -140,7 +142,8 @@ Monomial Integration::integrateConstant(
     return Monomial(constant.getNumberConstReference(), {{m_nameOfVariableToIntegrate, 1}});
 }
 
-Monomial Integration::integrateVariable(        Variable const& variable) const
+Monomial Integration::integrateVariable(
+        Variable const& variable) const
 {
     Monomial result;
     string const& nameOfVariable(variable.getVariableName());
@@ -250,7 +253,8 @@ Term Integration::integrateMonomialWhenExponentIsNegativeOne(
     Monomial retainedMonomial(monomial);
     retainedMonomial.putVariableWithExponent(m_nameOfVariableToIntegrate, 0);
     Term result = retainedMonomial * getNaturalLogarithmOfTheAbsoluteValueOfTerm(Term(m_nameOfVariableToIntegrate));
-    return result;}
+    return result;
+}
 
 Monomial Integration::integrateMonomialWhenExponentIsNotNegativeOne(
         Monomial const& monomial) const
@@ -637,7 +641,8 @@ void Integration::integrateTermUsingSubstitutionWithMaxDepth(
         Configuration const& configuration) const
 {
     if(isIntegrationUsingSubstitutionAllowed(term))
-    {        constexpr unsigned int MAX_DEPTH=2;
+    {
+        constexpr unsigned int MAX_DEPTH=2;
         static unsigned int depth=0;
         depth++;
         if(depth <= MAX_DEPTH)
@@ -710,7 +715,8 @@ Term Integration::substituteToNewVariable(
         Term rightHandSide(termForNewVariable);
         IsolationOfOneVariableOnEqualityEquation isolationForOldVariable(Equation(leftHandSide, "=", rightHandSide));
         Term termWithOldVariable;
-        Term newVariableInTermsOfOldVariable;        isolationForOldVariable.isolateTermWithVariable(m_nameOfVariableToIntegrate, termWithOldVariable, newVariableInTermsOfOldVariable);
+        Term newVariableInTermsOfOldVariable;
+        isolationForOldVariable.isolateTermWithVariable(m_nameOfVariableToIntegrate, termWithOldVariable, newVariableInTermsOfOldVariable);
         if(canBeConvertedToMonomial(termWithOldVariable))
         {
             Monomial monomialWithOldVariable(createMonomialIfPossible(termWithOldVariable));
@@ -925,7 +931,8 @@ void Integration::integrateInMultiplicationOrDivisionByTryingReverseChainRule(
     unsigned int numberOfTerms(termsWithDetailsInMultiplicationOrDivision.size());
     for(unsigned int i=0; result.isEmpty() && i<numberOfTerms; i++)
     {
-        TermsWithDetails termsInFirstTerms(termsWithDetailsInMultiplicationOrDivision);        termsInFirstTerms.erase(termsInFirstTerms.cbegin() + i);
+        TermsWithDetails termsInFirstTerms(termsWithDetailsInMultiplicationOrDivision);
+        termsInFirstTerms.erase(termsInFirstTerms.cbegin() + i);
         Term firstTerm(Expression(OperatorLevel::MultiplicationAndDivision, termsInFirstTerms));
         Term secondTerm(Expression(OperatorLevel::MultiplicationAndDivision, {termsWithDetailsInMultiplicationOrDivision.at(i)}));
         Term innerTermInFirstTerm;
@@ -946,7 +953,8 @@ void Integration::integrateUsingReverseChainRule(
         Term const& secondTerm) const
 {
     Differentiation differentiation(m_nameOfVariableToIntegrate);
-    Term firstTermDerivative(differentiation.differentiate(firstInnerTerm));    Term quotientOfDerivatives = firstTermDerivative/secondTerm;
+    Term firstTermDerivative(differentiation.differentiate(firstInnerTerm));
+    Term quotientOfDerivatives = firstTermDerivative/secondTerm;
     if(!isChangingTerm(quotientOfDerivatives))
     {
         string newVariableToIntegrate(createVariableNameForSubstitution(firstInnerTerm));
@@ -1059,7 +1067,8 @@ void Integration::integrateAsPolynomialOverPolynomial(
         fractionalPartResult = integrateInternallyWithPurpose(Term(remainingNumerator/remainingDenominator), IntegrationPurpose::NoChange);
         if(isNotANumber(fractionalPartResult))
         {
-            fractionalPartResult = Term();        }
+            fractionalPartResult = Term();
+        }
     }
     if(!fractionalPartResult.isEmpty())
     {
@@ -1078,7 +1087,8 @@ void Integration::integrateUsingPartialFractionPolynomials(
     {
         TermsOverTerms oneOverDenominator({Term(1)},{Term(denominator)});
         oneOverDenominator.setAsShouldSimplifyToFactors(true);
-        oneOverDenominator.setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(true);        oneOverDenominator.simplify();
+        oneOverDenominator.setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(true);
+        oneOverDenominator.simplify();
 
         if(oneOverDenominator.getDenominators().size() > 1)
         {
@@ -1330,7 +1340,8 @@ void Integration::integrateByTryingIntegrationByParts(
 {
     if(isIntegrationByPartsAllowed(term))
     {
-        integrateUsingIntegrationByPartsByOneTermAndOne(result, term);        if(result.isEmpty())
+        integrateUsingIntegrationByPartsByOneTermAndOne(result, term);
+        if(result.isEmpty())
         {
             integrateUsingIntegrationByPartsByTryingTwoTerms(result, term);
         }
@@ -1484,7 +1495,8 @@ void Integration::integrateUsingIntegrationByParts(
     if(!hasNonChangingTermRaiseToChangingTerm(u))
     {
         Term v(integration.integrateInternallyWithPurpose(dv, IntegrationPurpose::IntegrationByParts));
-        if(!isNotANumber(v))        {
+        if(!isNotANumber(v))
+        {
             Differentiation differentiation(m_nameOfVariableToIntegrate);
             Term du(differentiation.differentiate(u));
             if(!isNotANumber(du))
@@ -1510,7 +1522,8 @@ void Integration::retrieveInputTermsAndTrigonometricExponents(
         TermsOverTerms::BaseToExponentMap const& termsWithExponentsToCheck) const
 {
     for(auto const& termExponentPair : termsWithExponentsToCheck)
-    {        Term const& base(termExponentPair.first);
+    {
+        Term const& base(termExponentPair.first);
         AlbaNumber const& exponent(termExponentPair.second);
         if(base.isFunction() && isTrigonometricFunction(base.getFunctionConstReference()))
         {
@@ -1614,7 +1627,8 @@ void Integration::integrateSinRaiseToAnIntegerGreaterThanOne(
         unsigned int const exponent) const
 {
     if(isEven(exponent))
-    {        Term termToIntegrate(1);
+    {
+        Term termToIntegrate(1);
         putReducedSineSquaredToDoubleAngleCosineTerms(termToIntegrate, functionInputTerm, exponent);
         result = integrateInternallyWithPurpose(termToIntegrate, IntegrationPurpose::Trigonometric);
     }
@@ -1853,7 +1867,8 @@ void Integration::putReducedSineSquaredToDoubleAngleCosineTerms(
         unsigned int const exponent) const
 {
     Term inputTimes2(inputTerm*Term(2));
-    Term equivalentToSineSquared(getSineSquaredOfHalvedValue(inputTimes2));    for(unsigned int i=0; i<exponent; i+=2)
+    Term equivalentToSineSquared(getSineSquaredOfHalvedValue(inputTimes2));
+    for(unsigned int i=0; i<exponent; i+=2)
     {
         outputTerm = outputTerm * equivalentToSineSquared;
     }
@@ -1944,7 +1959,8 @@ void Integration::simplifyForIntegration(
         Term & term,
         Configuration const& configuration) const
 {
-    simplifyAndFixTrigonometricFunctions(term, configuration.shouldFixTrigonometricFunctions);    term.simplify();
+    simplifyAndFixTrigonometricFunctions(term, configuration.shouldFixTrigonometricFunctions);
+    term.simplify();
     {
         SimplificationOfExpression::ScopeObject scopeObject;
         scopeObject.setInThisScopeThisConfiguration(configuration.expressionSimplification);
@@ -1990,7 +2006,8 @@ void Integration::fixTrigonometricFunctionsBasedFromExponents(
         if(isChanged)
         {
             TermsOverTerms::BaseToExponentMap newTerms(remainingTermsWithExponents);
-            for(auto const& inputTermExponentsPair : newTrigFunctionsInputTermToExponents)            {
+            for(auto const& inputTermExponentsPair : newTrigFunctionsInputTermToExponents)
+            {
                 Term const& inputTerm(inputTermExponentsPair.first);
                 TrigonometryFunctionExponents const& exponents(inputTermExponentsPair.second);
                 putTrigonometricFunctionsWithExponents(newTerms, inputTerm, exponents);
@@ -2001,6 +2018,7 @@ void Integration::fixTrigonometricFunctionsBasedFromExponents(
         }
     }
 }
+
 void Integration::putTrigonometricFunctionsWithExponents(
         TermsOverTerms::BaseToExponentMap & newTerms,
         Term const& inputTerm,
@@ -2008,7 +2026,8 @@ void Integration::putTrigonometricFunctionsWithExponents(
 {
     if(exponents.sinExponent != 0)
     {
-        newTerms[Term(sin(inputTerm))] = exponents.sinExponent;    }
+        newTerms[Term(sin(inputTerm))] = exponents.sinExponent;
+    }
     if(exponents.cosExponent != 0)
     {
         newTerms[Term(cos(inputTerm))] = exponents.cosExponent;
@@ -2043,7 +2062,8 @@ bool Integration::isVariableToIntegrate(
     return variableName == m_nameOfVariableToIntegrate;
 }
 
-bool Integration::isChangingTerm(        Term const& term) const
+bool Integration::isChangingTerm(
+        Term const& term) const
 {
     VariableNamesRetriever retriever;
     retriever.retrieveFromTerm(term);
@@ -2058,7 +2078,8 @@ bool Integration::isChangingTerm(        Term const& term) const
 bool Integration::hasNonChangingTermRaiseToChangingTerm(Term const& term) const
 {
     SubTermsRetriever retriever;
-    retriever.retrieveFromTerm(term);    bool result(false);
+    retriever.retrieveFromTerm(term);
+    bool result(false);
     for(Term const& retrievedTerm : retriever.getSavedData())
     {
         if(retrievedTerm.isExpression())
@@ -2070,7 +2091,8 @@ bool Integration::hasNonChangingTermRaiseToChangingTerm(Term const& term) const
                 result = !isChangingTerm(termRaiseToTerms.getBase()) && isChangingTerm(termRaiseToTerms.getCombinedExponents());
                 break;
             }
-        }    }
+        }
+    }
     return result;
 }
 

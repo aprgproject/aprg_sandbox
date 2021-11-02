@@ -8,10 +8,12 @@
 #include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>#include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
+#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 #include <algorithm>
+
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
 using namespace std;
@@ -119,10 +121,12 @@ Term Differentiation::differentiateWithDefiniteValue(
     return evaluateAtDefiniteValue(differentiate(term), m_nameOfVariableToDifferentiate, value);
 }
 
-Term Differentiation::differentiateMultipleTimes(        Term const& term,
+Term Differentiation::differentiateMultipleTimes(
+        Term const& term,
         unsigned int const numberOfTimes) const
 {
-    Term currentResult(term);    for(unsigned int i=0; i<numberOfTimes; i++)
+    Term currentResult(term);
+    for(unsigned int i=0; i<numberOfTimes; i++)
     {
         currentResult = differentiate(currentResult);
     }
@@ -595,10 +599,12 @@ void Differentiation::simplifyForDifferentiation(
     simplifyTermByFactoringToNonDoubleFactors(term);
 }
 
-bool Differentiation::isVariableToDifferentiate(        string const& variableName) const
+bool Differentiation::isVariableToDifferentiate(
+        string const& variableName) const
 {
     return variableName == m_nameOfVariableToDifferentiate;
 }
+
 bool Differentiation::isDependentVariable(
         string const& variableName) const
 {

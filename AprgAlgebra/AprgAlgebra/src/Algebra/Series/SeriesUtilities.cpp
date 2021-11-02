@@ -1,4 +1,4 @@
-#include "Utilities.hpp"
+#include "SeriesUtilities.hpp"
 
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Math/AlbaMathHelper.hpp>
@@ -7,8 +7,10 @@ using namespace alba::mathHelper;
 
 namespace alba
 {
+
 namespace algebra
 {
+
 Term getSumOfArithmeticSeriesUsingFirstAndLastTerm(
         Term const& firstTerm,
         Term const& lastTerm,

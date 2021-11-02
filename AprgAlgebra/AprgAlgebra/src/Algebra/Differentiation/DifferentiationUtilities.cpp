@@ -12,7 +12,8 @@
 #include <Algebra/Simplification/SimplificationUtilities.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>#include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Solution/DomainAndRange/DomainAndRange.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
@@ -26,10 +27,12 @@ using namespace alba::algebra::Simplification;
 using namespace alba::mathHelper;
 using namespace std;
 
-namespace{
+namespace
+{
 
 constexpr char const*const X_NAME = "x";
 constexpr char const*const DELTA_X_NAME = "deltaX";
+
 }
 
 namespace alba
@@ -124,10 +127,12 @@ Term evaluateAtDefiniteTerm(
 
 Term getDerivativeDefinition(
         Term const& term,
-        string const& variableName){
+        string const& variableName)
+{
     Term x(X_NAME);
     Term deltaX(DELTA_X_NAME);
-    Term xPlusDeltaX(createExpressionIfPossible({x, Term("+"), deltaX}));    SubstitutionOfVariablesToTerms substitution{{variableName, xPlusDeltaX}};
+    Term xPlusDeltaX(createExpressionIfPossible({x, Term("+"), deltaX}));
+    SubstitutionOfVariablesToTerms substitution{{variableName, xPlusDeltaX}};
     Term fOfXPlusDeltaX(substitution.performSubstitutionTo(term));
     substitution.putVariableWithTerm(variableName, x);
     Term fOfX(substitution.performSubstitutionTo(term));
@@ -183,10 +188,12 @@ Term getLogarithmicDifferentiationToYieldDyOverDx(
     if(areTheIntervalsInsideTheInterval(domainOfX, allPositiveNumbers))
     {
         Differentiation differentiation(xVariableName);
-        Term logarithm(ln(yInTermsOfX));        logarithm.simplify();
+        Term logarithm(ln(yInTermsOfX));
+        logarithm.simplify();
         result = yInTermsOfX * differentiation.differentiate(logarithm);
         simplifyToNonDoubleFactors(result);
-    }    return result;
+    }
+    return result;
 }
 
 Term getCartesianDerivativeOfTermInPolarCoordinates(
@@ -203,10 +210,12 @@ Term getCartesianDerivativeOfTermInPolarCoordinates(
     Term denominator(createExpressionIfPossible({drOverDTheta, Term("*"), cosTheta, Term("-"), radiusInTermsOfTheta, Term("*"), sinTheta}));
     Term result(createExpressionIfPossible({numerator, Term("/"), denominator}));
     result.simplify();
-    return result;}
+    return result;
+}
 
 Term getSlopeOfTermInPolarCoordinates(
-        Term const& radiusInTermsOfTheta,        string const& thetaName,
+        Term const& radiusInTermsOfTheta,
+        string const& thetaName,
         AlbaNumber const& thetaValue)
 {
     Term dyOverDx(getCartesianDerivativeOfTermInPolarCoordinates(radiusInTermsOfTheta, thetaName));
@@ -267,10 +276,12 @@ Term getApproximationUsingTaylorsRemainder(
 
 SolutionSet getDifferentiabilityDomain(
         Term const& term,
-        string const& variableName){
+        string const& variableName)
+{
     // This code is not accurate.
     // How about piecewise function?
     // How about absolute value function?
+
     Differentiation differentiation(variableName);
     Term derivativeTerm(differentiation.differentiate(term));
     return calculateDomainForTermWithOneVariable(derivativeTerm);
@@ -371,6 +382,7 @@ void simplifyToNonDoubleFactors(
     //term.simplify();
     simplifyTermByFactoringToNonDoubleFactors(term);
 }
+
 
 }
 
