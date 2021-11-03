@@ -195,16 +195,14 @@ TEST(DifferentiationUtilitiesTest, GetSlopeOfTermInPolarCoordinatesWorks)
     Term theta(thetaName);
     Term radiusOfLimacon(createExpressionIfPossible({Term(3), Term("+"), Term(2), Term("*"), Term(cos(theta))}));
 
-    Term termToVerify(getSlopeOfTermInPolarCoordinates(radiusOfLimacon, thetaName, AlbaNumber(AlbaNumber::Value::pi)));
+    Term termToVerify(getSlopeOfTermInPolarCoordinates(radiusOfLimacon, thetaName, AlbaNumber(AlbaNumber::Value::pi)/2));
 
-    EXPECT_EQ(Term(-1), termToVerify);
+    EXPECT_EQ(Term(AlbaNumber::createFraction(2, 3)), termToVerify);
 }
 
-TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForEToTheX)
-{
+TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForEToTheX){
     Term x("x");
     Term termToTest(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
-
     Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", Term(Constant(0)), Term("q"), 3));
 
     string stringToExpect("((1/6)[q^3] + (1/2)[q^2] + 1[q] + 1)");

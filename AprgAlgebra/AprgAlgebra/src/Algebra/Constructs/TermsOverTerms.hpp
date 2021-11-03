@@ -15,15 +15,12 @@ namespace algebra
 class TermsOverTerms
 {
 public:
-    using BaseToExponentMap = std::map<Term, AlbaNumber>;
     TermsOverTerms();
     TermsOverTerms(TermsWithDetails const& termsInMultiplicationAndDivision);
-    TermsOverTerms(Terms const& numerators, Terms const& denominators);
-    TermsOverTerms(TermsWithDetails const& numerators, TermsWithDetails const& denominators);
+    TermsOverTerms(Terms const& numerators, Terms const& denominators);    TermsOverTerms(TermsWithDetails const& numerators, TermsWithDetails const& denominators);
 
     Terms const& getNumerators() const;
-    Terms const& getDenominators() const;
-    TermsWithDetails getNumeratorAndDenominatorAsTermWithDetails() const;
+    Terms const& getDenominators() const;    TermsWithDetails getNumeratorAndDenominatorAsTermWithDetails() const;
     Term getCombinedTerm() const;
     Term getCombinedNumerator() const;
     Term getCombinedDenominator() const;
@@ -38,15 +35,12 @@ public:
 
     void flip();
 
-    void setDontRemoveRationalization(bool const dontFactorizeAtStartOfSimplify);
     void setAsShouldSimplifyToFactors(bool const shouldSimplifyToFactors);
     void setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(
             bool const shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue);
-
     void simplify();
 
-private:
-    Terms factorizeTermsAsNeeded(Terms const& terms) const;
+private:    Terms factorizeTermsAsNeeded(Terms const& terms) const;
     void continueToSimplifyToFactors(
             Terms & factorizedNumerators,
             Terms & factorizedDenominators);
@@ -57,22 +51,12 @@ private:
     bool removeTermsIfNeededAndReturnIfSomeTermsAreRemoved(
             Terms & numerators,
             Terms & denominators);
-    void updateBaseToExponentMap(
-            BaseToExponentMap & baseToExponentMap,
-            Terms const& termsToCheck,
-            int const signToBePutWithExponent) const;
-    void putTermsOnNumeratorAndDenominatorFromBaseExponentMap(
-            Terms & numeratorTerms,
-            Terms & denominatorTerms,
-            BaseToExponentMap const& baseToExponentMap);
     void putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToNumbers(
             Terms & numeratorTerms,
-            Terms & denominatorTerms,
-            TermsRaiseToNumbers const& termsRaiseToNumbers);
+            Terms & denominatorTerms,            TermsRaiseToNumbers const& termsRaiseToNumbers);
     void clearTermsThenEmplacePolynomialAndRemainingTerms(
             Polynomial const& polynomialNumerator,
-            Terms const& remainingNumerators,
-            Terms & termsToUpdate) const;
+            Terms const& remainingNumerators,            Terms & termsToUpdate) const;
     void emplacePolynomialIfNeeded(Terms & termsResult, Polynomial const& polynomialNumerator) const;
     void retrievePolynomialAndNonPolynomialsTerms(
             Terms const& termsToCheck,
@@ -88,32 +72,24 @@ private:
             Terms & termsToUpdate,
             Term const& base,
             AlbaNumber const& exponent);
-    bool hasZero(Terms & terms) const;
     void removeTermsThatHaveNoEffect(Terms & terms) const;
     void putTermsOnNumeratorAndDenominatorCorrectly(
-            Terms & numerators,
-            Terms & denominators);
+            Terms & numerators,            Terms & denominators);
     void putTermsToRetainAndOnTheOtherSide(
             Terms const& termsToSegregate,
             Terms & termsToRetain,
             Terms & termsToPutOnTheOtherSide) const;
-    void putBaseWithExponentsInNumeratorsAndDenominators(
-            BaseToExponentMap const& baseToExponentMap);
     void simplifyPolynomialNumeratorAndPolynomialDenominator(
             Polynomial & polynomialNumerator,
-            Polynomial & polynomialDenominator) const;
-    void simplifyMonomialsToPolynomialOverPolynomial();
+            Polynomial & polynomialDenominator) const;    void simplifyMonomialsToPolynomialOverPolynomial();
     void simplifyPolynomialsToPolynomialOverPolynomial();
     bool isPolynomialAndhasDoubleValue(Term const& term) const;
     Terms m_numerators;
     Terms m_denominators;
-    bool m_dontRemoveRationalization;
     bool m_shouldSimplifyToFactors;
     bool m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
 };
-
 using VectorOfTermsOverTerms = std::vector<TermsOverTerms>;
 
 }
-
 }

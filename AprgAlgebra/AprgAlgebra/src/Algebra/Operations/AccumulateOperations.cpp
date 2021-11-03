@@ -88,14 +88,16 @@ void accumulateTermsForAdditionAndSubtraction(
             accumulateAndDoOperationOnTermDetails(combinedTerm, OperatorLevel::AdditionAndSubtraction, termWithDetails);
         }
     }
+    if(combinedTerm.isEmpty())
+    {
+        combinedTerm = Term(Constant(0));
+    }
 }
 
-void accumulateTermsForMultiplicationAndDivision(
-        Term & combinedTerm,
+void accumulateTermsForMultiplicationAndDivision(        Term & combinedTerm,
         TermsWithDetails const& termsToCombine)
 {
-    bool isFirst(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(combinedTerm));
-    if(isTheValue(combinedTerm, 0))
+    bool isFirst(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(combinedTerm));    if(isTheValue(combinedTerm, 0))
     {
         combinedTerm = Term(Constant(0));
     }
@@ -131,14 +133,16 @@ void accumulateTermsForMultiplicationAndDivision(
             }
         }
     }
+    if(combinedTerm.isEmpty())
+    {
+        combinedTerm = Term(1);
+    }
 }
 
-void accumulateTermsForRaiseToPower(
-        Term & combinedTerm,
+void accumulateTermsForRaiseToPower(        Term & combinedTerm,
         TermsWithDetails const& termsToCombine)
 {
-    bool isFirst(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(combinedTerm));
-    for(TermWithDetails const& termWithDetails : termsToCombine)
+    bool isFirst(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(combinedTerm));    for(TermWithDetails const& termWithDetails : termsToCombine)
     {
         Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
         if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
@@ -155,8 +159,11 @@ void accumulateTermsForRaiseToPower(
             accumulateAndDoOperationOnTermDetails(combinedTerm, OperatorLevel::RaiseToPower, termWithDetails);
         }
     }
+    if(combinedTerm.isEmpty())
+    {
+        combinedTerm = Term(1);
+    }
 }
 
 }
-
 }

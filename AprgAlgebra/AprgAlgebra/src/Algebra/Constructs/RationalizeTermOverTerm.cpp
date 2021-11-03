@@ -6,14 +6,13 @@
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
-using namespace alba::algebra::Simplification;
-using namespace alba::mathHelper;
+using namespace alba::algebra::Simplification;using namespace alba::mathHelper;
 
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -56,205 +55,228 @@ void RationalizeTermOverTerm::rationalize(
         Term & termToRationalize,
         Term & otherTerm)
 {
-    Term multiplier(getMultiplierToRationalize(termToRationalize));
+    unsigned int numberOfTermsLimit = static_cast<unsigned int>(getNumberOfTerms(termToRationalize) *1.5);
+    Term rationalizedTerm, multiplier;
+    retrieveTermsForRationalization(rationalizedTerm, multiplier, termToRationalize);
     while(!multiplier.isEmpty())
     {
-        termToRationalize = termToRationalize * multiplier;
+        termToRationalize = rationalizedTerm;
         otherTerm = otherTerm * multiplier;
         simplifyForRationalize(termToRationalize);
         simplifyForRationalize(otherTerm);
-        multiplier = getMultiplierToRationalize(termToRationalize);
+        if(numberOfTermsLimit < getNumberOfTerms(termToRationalize))
+        {
+            break;
+        }
+        rationalizedTerm.clear();
+        multiplier.clear();
+        retrieveTermsForRationalization(rationalizedTerm, multiplier, termToRationalize);
     }
 }
-
 void RationalizeTermOverTerm::simplifyForRationalize(Term & term)
 {
-    SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(
-                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
+    SimplificationOfExpression::ConfigurationDetails rationalizeConfigurationDetails(                SimplificationOfExpression::Configuration::getInstance().getConfigurationDetails());
     rationalizeConfigurationDetails.shouldSimplifyToACommonDenominator = true;
     rationalizeConfigurationDetails.shouldSimplifyByCombiningRadicalsInMultiplicationAndDivision = true;
     rationalizeConfigurationDetails.shouldSimplifyByCheckingPolynomialRaiseToAnUnsignedInt = true;
-    rationalizeConfigurationDetails.shouldSimplifyByRationalizingNumerator = false;
-    rationalizeConfigurationDetails.shouldSimplifyByRationalizingDenominator = false;
 
     SimplificationOfExpression::ScopeObject scopeObject;
-    scopeObject.setInThisScopeThisConfiguration(rationalizeConfigurationDetails);
-    term.simplify();
+    scopeObject.setInThisScopeThisConfiguration(rationalizeConfigurationDetails);    term.simplify();
 }
 
-Term RationalizeTermOverTerm::getMultiplierToRationalize(
+void RationalizeTermOverTerm::retrieveTermsForRationalization(
+        Term & rationalizedTerm,
+        Term & multiplier,
         Term const& term) const
 {
-    Term result;
     if(term.isPolynomial())
     {
-        Polynomial multiplier(getMultiplierToRationalizeForPolynomial(term.getPolynomialConstReference()));
-        if(!multiplier.isEmpty())
-        {
-            result = Term(multiplier);
-        }
+        retrieveTermsForRationalizationForPolynomial(rationalizedTerm, multiplier, term.getPolynomialConstReference());
     }
     else if(term.isExpression())
     {
-        Expression multiplier(getMultiplierToRationalizeForExpression(term.getExpressionConstReference()));
-        if(!multiplier.isEmpty())
-        {
-            result = Term(multiplier);
-        }
+        retrieveTermsForRationalizationForExpression(rationalizedTerm, multiplier, term.getExpressionConstReference());
     }
-    return result;
 }
 
-Polynomial RationalizeTermOverTerm::getMultiplierToRationalizeForPolynomial(
+void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomial(
+        Term & rationalizedTerm,
+        Term & multiplier,
         Polynomial const& polynomial) const
 {
-    Polynomial result;
     Monomials const& monomials(polynomial.getMonomialsConstReference());
     if(monomials.size() == 2)
     {
         Monomial const& firstMonomial(monomials.at(0));
         Monomial const& secondMonomial(monomials.at(1));
-        result = getMultiplierToRationalizeForPolynomial(firstMonomial, secondMonomial);
+        retrieveTermsForRationalizationForPolynomial(rationalizedTerm, multiplier, firstMonomial, secondMonomial);
     }
-    return result;
 }
 
-Polynomial RationalizeTermOverTerm::getMultiplierToRationalizeForPolynomial(
+void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomial(
+        Term & rationalizedTerm,
+        Term & multiplier,
         Monomial const& firstMonomial,
         Monomial const& secondMonomial) const
 {
-    Polynomial result;
     AlbaNumber gcfOfExponents = getGreatestCommonFactorForAlbaNumber(
                 getGcfOfExponentsInMonomial(firstMonomial),
-                getGcfOfExponentsInMonomial(secondMonomial));
-    if(gcfOfExponents.isFractionType())
+                getGcfOfExponentsInMonomial(secondMonomial));    if(gcfOfExponents.isFractionType())
     {
         AlbaNumber::FractionData exponentFraction(gcfOfExponents.getFractionData());
         if(isDivisible(exponentFraction.denominator, 2))
         {
-            result = getMultiplierToRationalizeForPolynomialWhenExponentIsDivisibleByTwo(firstMonomial, secondMonomial);
+            retrieveTermsForRationalizationForPolynomialWhenExponentIsDivisibleByTwo(rationalizedTerm, multiplier, firstMonomial, secondMonomial);
         }
         else if(isDivisible(exponentFraction.denominator, 3))
         {
-            result = getMultiplierToRationalizeForPolynomialWhenExponentIsDivisibleByThree(firstMonomial, secondMonomial);
+            retrieveTermsForRationalizationForPolynomialWhenExponentIsDivisibleByThree(rationalizedTerm, multiplier, firstMonomial, secondMonomial);
         }
     }
-    return result;
 }
 
-Polynomial RationalizeTermOverTerm::getMultiplierToRationalizeForPolynomialWhenExponentIsDivisibleByTwo(
+void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomialWhenExponentIsDivisibleByTwo(
+        Term & rationalizedTerm,
+        Term & multiplier,
         Monomial const& firstMonomial,
         Monomial const& secondMonomial) const
 {
-    Monomial newSecondMonomial(secondMonomial);
-    newSecondMonomial.multiplyNumber(-1);
-    return Polynomial{firstMonomial, newSecondMonomial};
+    Monomial newSecondMonomialOfRemainder(secondMonomial);
+    newSecondMonomialOfRemainder.multiplyNumber(-1);
+    multiplier = Term(Polynomial{firstMonomial, newSecondMonomialOfRemainder});
+
+    Monomial rationalizedFirstMonomial(firstMonomial);
+    rationalizedFirstMonomial.raiseToPowerNumber(2);
+    Monomial rationalizedSecondMonomial(secondMonomial);
+    rationalizedSecondMonomial.raiseToPowerNumber(2);
+    rationalizedSecondMonomial.multiplyNumber(-1);
+    rationalizedTerm = Term(Polynomial{rationalizedFirstMonomial, rationalizedSecondMonomial});
 }
 
-Polynomial RationalizeTermOverTerm::getMultiplierToRationalizeForPolynomialWhenExponentIsDivisibleByThree(
+void RationalizeTermOverTerm::retrieveTermsForRationalizationForPolynomialWhenExponentIsDivisibleByThree(
+        Term & rationalizedTerm,
+        Term & multiplier,
         Monomial const& firstMonomial,
         Monomial const& secondMonomial) const
-{
-    Monomial newFirstMonomial(firstMonomial);
+{    Monomial newFirstMonomial(firstMonomial);
     Monomial newThirdMonomial(secondMonomial);
     newFirstMonomial.raiseToPowerNumber(2);
     newThirdMonomial.raiseToPowerNumber(2);
     Monomial newSecondMonomial(firstMonomial);
     newSecondMonomial.multiplyMonomial(secondMonomial);
     newSecondMonomial.multiplyNumber(-1);
-    return Polynomial{newFirstMonomial, newSecondMonomial, newThirdMonomial};
+    multiplier = Term(Polynomial{newFirstMonomial, newSecondMonomial, newThirdMonomial});
+
+    Monomial rationalizedFirstMonomial(firstMonomial);
+    rationalizedFirstMonomial.raiseToPowerNumber(3);
+    Monomial rationalizedSecondMonomial(secondMonomial);
+    rationalizedSecondMonomial.raiseToPowerNumber(3);
+    rationalizedTerm = Term(Polynomial{rationalizedFirstMonomial, rationalizedSecondMonomial});
 }
 
-Expression RationalizeTermOverTerm::getMultiplierToRationalizeForExpression(
+void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpression(
+        Term & rationalizedTerm,
+        Term & multiplier,
         Expression const& expression) const
 {
-    Expression result;
     if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
     {
-        TermsWithDetails const& termsWithDetails(
-                    expression.getTermsWithAssociation().getTermsWithDetails());
+        TermsWithDetails const& termsWithDetails(                    expression.getTermsWithAssociation().getTermsWithDetails());
         if(termsWithDetails.size() == 2)
         {
             TermWithDetails const& firstTermWithDetails(termsWithDetails.at(0));
             TermWithDetails const& secondTermWithDetails(termsWithDetails.at(1));
-            result = getMultiplierToRationalizeForExpression(firstTermWithDetails, secondTermWithDetails);
+            retrieveTermsForRationalizationForExpression(rationalizedTerm, multiplier, firstTermWithDetails, secondTermWithDetails);
         }
     }
-    return result;
 }
 
-Expression RationalizeTermOverTerm::getMultiplierToRationalizeForExpression(
+void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpression(
+        Term & rationalizedTerm,
+        Term & multiplier,
         TermWithDetails const& firstTermWithDetails,
         TermWithDetails const& secondTermWithDetails) const
 {
-    Expression result;
     Term const& firstTerm(getTermConstReferenceFromSharedPointer(firstTermWithDetails.baseTermSharedPointer));
     Term const& secondTerm(getTermConstReferenceFromSharedPointer(secondTermWithDetails.baseTermSharedPointer));
-    TermRaiseToANumber firstTermRaiseToANumber(createTermRaiseToANumberFromTerm(firstTerm));
-    TermRaiseToANumber secondTermRaiseToANumber(createTermRaiseToANumberFromTerm(secondTerm));
+    TermRaiseToANumber firstTermRaiseToANumber(createTermRaiseToANumberFromTerm(firstTerm));    TermRaiseToANumber secondTermRaiseToANumber(createTermRaiseToANumberFromTerm(secondTerm));
 
     AlbaNumber gcfOfExponents = getGreatestCommonFactorForAlbaNumber(
-                firstTermRaiseToANumber.getExponent(),
-                secondTermRaiseToANumber.getExponent());
+                firstTermRaiseToANumber.getExponent(),                secondTermRaiseToANumber.getExponent());
     if(gcfOfExponents.isFractionType())
     {
         AlbaNumber::FractionData exponentFraction(gcfOfExponents.getFractionData());
         if(isDivisible(exponentFraction.denominator, 2))
         {
-            result = getMultiplierToRationalizeForExpressionWhenExponentIsDivisibleByTwo(
+            retrieveTermsForRationalizationForExpressionWhenExponentIsDivisibleByTwo(
+                        rationalizedTerm,
+                        multiplier,
                         firstTermWithDetails,
                         secondTermWithDetails);
         }
         else if(isDivisible(exponentFraction.denominator, 3))
         {
-            result = getMultiplierToRationalizeForExpressionWhenExponentIsDivisibleByThree(
+            retrieveTermsForRationalizationForExpressionWhenExponentIsDivisibleByThree(
+                        rationalizedTerm,
+                        multiplier,
                         firstTermWithDetails,
                         secondTermWithDetails);
         }
     }
-    return result;
 }
 
-Expression RationalizeTermOverTerm::getMultiplierToRationalizeForExpressionWhenExponentIsDivisibleByTwo(
-        TermWithDetails const& firstTermWithDetails,
-        TermWithDetails const& secondTermWithDetails) const
-{
-    TermWithDetails newSecond(secondTermWithDetails);
-    newSecond.association = secondTermWithDetails.hasPositiveAssociation() ?
-                TermAssociationType::Negative : TermAssociationType::Positive;
-    TermsWithDetails newTermsWithDetails{firstTermWithDetails, newSecond};
-    Expression result;
-    result.putTermsWithDetails(newTermsWithDetails);
-    result.setCommonOperatorLevel(OperatorLevel::AdditionAndSubtraction);
-    return result;
-}
-
-Expression RationalizeTermOverTerm::getMultiplierToRationalizeForExpressionWhenExponentIsDivisibleByThree(
+void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpressionWhenExponentIsDivisibleByTwo(
+        Term & rationalizedTerm,
+        Term & multiplier,
         TermWithDetails const& firstTermWithDetails,
         TermWithDetails const& secondTermWithDetails) const
 {
     Term const& firstTerm(getTermConstReferenceFromSharedPointer(firstTermWithDetails.baseTermSharedPointer));
     Term const& secondTerm(getTermConstReferenceFromSharedPointer(secondTermWithDetails.baseTermSharedPointer));
-    Term newFirstTerm(firstTerm ^ Term(2));
-    Term newSecondTerm(firstTerm * secondTerm);
-    Term newThirdTerm(secondTerm ^ Term(2));
 
+    TermWithDetails secondMultiplierTerm(secondTermWithDetails);
+    secondMultiplierTerm.association = secondTermWithDetails.hasPositiveAssociation() ?
+                TermAssociationType::Negative : TermAssociationType::Positive;
+    TermsWithDetails multiplierTermsWithDetails{firstTermWithDetails, secondMultiplierTerm};
+    multiplier = createTermWithAdditionAndSubtractionTermsWithDetails(multiplierTermsWithDetails);
+
+    Term firstRationalizedTerm(firstTerm ^ Term(2));
+    Term secondRationalizedTerm(secondTerm ^ Term(2));
+    TermWithDetails firstRationalizedTermWithDetails(firstRationalizedTerm, TermAssociationType::Positive);
+    TermWithDetails secondRationalizedTermTermWithDetails(secondRationalizedTerm, TermAssociationType::Negative);
+    TermsWithDetails rationalizedTermsWithDetails{firstRationalizedTermWithDetails, secondRationalizedTermTermWithDetails};
+    rationalizedTerm = createTermWithAdditionAndSubtractionTermsWithDetails(rationalizedTermsWithDetails);
+}
+
+void RationalizeTermOverTerm::retrieveTermsForRationalizationForExpressionWhenExponentIsDivisibleByThree(
+        Term & rationalizedTerm,
+        Term & multiplier,
+        TermWithDetails const& firstTermWithDetails,
+        TermWithDetails const& secondTermWithDetails) const
+{
+    Term const& firstTerm(getTermConstReferenceFromSharedPointer(firstTermWithDetails.baseTermSharedPointer));
+    Term const& secondTerm(getTermConstReferenceFromSharedPointer(secondTermWithDetails.baseTermSharedPointer));
+
+    Term firstMultiplierTerm(firstTerm ^ Term(2));
+    Term secondMultiplierTerm(firstTerm * secondTerm);
+    Term thirdMultiplierTerm(secondTerm ^ Term(2));
     TermAssociationType newSecondAssociationType =
             secondTermWithDetails.hasPositiveAssociation() ?
                 TermAssociationType::Negative :
                 TermAssociationType::Positive;
+    TermWithDetails firstMultiplierTermWithDetails(firstMultiplierTerm, TermAssociationType::Positive);
+    TermWithDetails secondMultiplierTermWithDetails(secondMultiplierTerm, newSecondAssociationType);
+    TermWithDetails thirdMultiplierTermWithDetails(thirdMultiplierTerm, TermAssociationType::Positive);
+    TermsWithDetails multiplierTermsWithDetails{firstMultiplierTermWithDetails, secondMultiplierTermWithDetails, thirdMultiplierTermWithDetails};
+    multiplier = createTermWithAdditionAndSubtractionTermsWithDetails(multiplierTermsWithDetails);
 
-    TermWithDetails newFirst(newFirstTerm, TermAssociationType::Positive);
-    TermWithDetails newSecond(newSecondTerm, newSecondAssociationType);
-    TermWithDetails newThird(newThirdTerm, TermAssociationType::Positive);
-
-    TermsWithDetails newTermsWithDetails{newFirst, newSecond, newThird};
-    Expression result;
-    result.putTermsWithDetails(newTermsWithDetails);
-    result.setCommonOperatorLevel(OperatorLevel::AdditionAndSubtraction);
-    return result;
+    Term firstRationalizedTerm(firstTerm ^ Term(3));
+    Term secondRationalizedTerm(secondTerm ^ Term(3));
+    TermWithDetails firstRationalizedTermWithDetails(firstRationalizedTerm, firstTermWithDetails.association);
+    TermWithDetails secondRationalizedTermTermWithDetails(secondRationalizedTerm, secondTermWithDetails.association);
+    TermsWithDetails rationalizedTermsWithDetails{firstRationalizedTermWithDetails, secondRationalizedTermTermWithDetails};
+    rationalizedTerm = createTermWithAdditionAndSubtractionTermsWithDetails(rationalizedTermsWithDetails);
 }
 
 }
-
 }

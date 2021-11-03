@@ -136,15 +136,13 @@ Term getMomentOfMassOfARod(
     // A rod of length L meters its left endpoint at the origin and p(x) kilograms per meter is the linear density at a point x meters from the origin,
     // where p is continuous on [0, L].
 
-   // The moment of mass of the rod is the definite integral of x*p(x) from 0 to L.
+    // The moment of mass of the rod is the definite integral of x*p(x) from 0 to L.
 
     Integration integration(variableName);
-    Term termToIntegrate = Term(variableName)*term;
-    return integration.integrateAtDefiniteTerms(termToIntegrate, lowerValueTerm, higherValueTerm);
+    Term termToIntegrate = Term(variableName)*term;    return integration.integrateAtDefiniteTerms(termToIntegrate, lowerValueTerm, higherValueTerm);
 }
 
-Term getCenterOfMassOfARod(
-        Term const& term,
+Term getCenterOfMassOfARod(        Term const& term,
         string const& variableName,
         Term const& lowerValueTerm,
         Term const& higherValueTerm)

@@ -176,16 +176,21 @@ void Expression::clearAndPutTermInTermsWithAssociation(BaseTerm const& baseTerm)
 void Expression::putTermWithAdditionIfNeeded(BaseTerm const& baseTerm)
 {
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
-    if(!willHaveNoEffectOnAdditionOrSubtraction(term))
+    if(willHaveNoEffectOnAdditionOrSubtraction(term))
+    {
+        if(this->isEmpty())
+        {
+            setTerm(Term(Constant(0)));
+        }
+    }
+    else
     {
         if(isEmpty()
                 || (containsOnlyOnePositivelyAssociatedTerm()
-                    && willHaveNoEffectOnAdditionOrSubtraction(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
-        {
+                    && willHaveNoEffectOnAdditionOrSubtraction(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))        {
             setTerm(baseTerm);
         }
-        else
-        {
+        else        {
             putTermWithAddition(baseTerm);
         }
     }
@@ -194,16 +199,21 @@ void Expression::putTermWithAdditionIfNeeded(BaseTerm const& baseTerm)
 void Expression::putTermWithSubtractionIfNeeded(BaseTerm const& baseTerm)
 {
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
-    if(!willHaveNoEffectOnAdditionOrSubtraction(term))
+    if(willHaveNoEffectOnAdditionOrSubtraction(term))
+    {
+        if(this->isEmpty())
+        {
+            setTerm(Term(Constant(0)));
+        }
+    }
+    else
     {
         if(isEmpty()
                 || (containsOnlyOnePositivelyAssociatedTerm()
-                    && willHaveNoEffectOnAdditionOrSubtraction(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
-        {
+                    && willHaveNoEffectOnAdditionOrSubtraction(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))        {
             clear();
             m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
-            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
-        }
+            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);        }
         else
         {
             putTermWithSubtraction(baseTerm);
@@ -227,16 +237,21 @@ void Expression::putTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm)
 void Expression::putTermWithDivisionIfNeeded(BaseTerm const& baseTerm)
 {
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
-    if(!willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
+    if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
+    {
+        if(this->isEmpty())
+        {
+            setTerm(Term(1));
+        }
+    }
+    else
     {
         if(isEmpty()
                 || (containsOnlyOnePositivelyAssociatedTerm()
-                    && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
-        {
+                    && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))        {
             clear();
             m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
-            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
-        }
+            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);        }
         else
         {
             putTermWithDivision(baseTerm);
@@ -442,16 +457,21 @@ void Expression::putTermWithSubtraction(BaseTerm const& baseTerm)
 void Expression::putOnlyTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm)
 {
     Term const& term(getTermConstReferenceFromBaseTerm(baseTerm));
-    if(!willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
+    if(willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(term))
+    {
+        if(this->isEmpty())
+        {
+            setTerm(Term(1));
+        }
+    }
+    else
     {
         if(isEmpty()
                 || (containsOnlyOnePositivelyAssociatedTerm()
-                    && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
-        {
+                    && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))        {
             setTerm(baseTerm);
         }
-        else
-        {
+        else        {
             putTermWithMultiplication(baseTerm);
         }
     }

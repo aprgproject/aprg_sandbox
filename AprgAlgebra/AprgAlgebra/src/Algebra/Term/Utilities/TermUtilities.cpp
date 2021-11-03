@@ -28,18 +28,12 @@ namespace algebra
 
 bool isTermSimpler(Term const& supposeToBeComplicatedTerm, Term const& supposeToBeSimpleTerm)
 {
-    NumberOfTermsRetriever complicateTermCountRetriever;
-    NumberOfTermsRetriever simpleTermCountRetriever;
-    complicateTermCountRetriever.retrieveFromTerm(supposeToBeComplicatedTerm);
-    simpleTermCountRetriever.retrieveFromTerm(supposeToBeSimpleTerm);
-    return complicateTermCountRetriever.getSavedData() > simpleTermCountRetriever.getSavedData();
+    return getNumberOfTerms(supposeToBeComplicatedTerm) > getNumberOfTerms(supposeToBeSimpleTerm);
 }
 
-bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm)
-{
+bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm){
     FirstCoefficientRetriever firstCoefficientRetrieverForTerm;
     firstCoefficientRetrieverForTerm.retrieveFromTerm(term);
-
     return isTermSimpler(term, negatedTerm) || firstCoefficientRetrieverForTerm.getSavedData() < 0;
 }
 
@@ -135,14 +129,19 @@ bool isANegativeExpression(Expression const& expression)
     return result;
 }
 
+unsigned int getNumberOfTerms(Term const& term)
+{
+    NumberOfTermsRetriever retriever;
+    retriever.retrieveFromTerm(term);
+    return retriever.getSavedData();
+}
+
 AlbaNumber getConstantFactor(Term const& term)
 {
-    AlbaNumber result(1);
-    if(term.isConstant())
+    AlbaNumber result(1);    if(term.isConstant())
     {
         result = term.getConstantValueConstReference();
-    }
-    else if(term.isMonomial())
+    }    else if(term.isMonomial())
     {
         result = term.getMonomialConstReference().getConstantConstReference();
     }

@@ -366,13 +366,20 @@ bool hasNonFiniteNumbers(Function const& function)
     return doAnyNumbersSatisfyTheCondition(function, IsNotAFiniteNumberCondition);
 }
 
-bool isPositiveIntegerConstant(Term const& term)
+bool hasZero(Terms const& terms)
 {
-    return term.isConstant()
-            && term.getConstantValueConstReference().isIntegerType()
-            && term.getConstantValueConstReference() >= 0;
+    Terms::const_iterator it=find_if(terms.cbegin(), terms.cend(), [](Term const& term)
+    {
+        return isTheValue(term, 0);
+    });
+    return it != terms.cend();
 }
 
+bool isPositiveIntegerConstant(Term const& term)
+{
+    return term.isConstant()            && term.getConstantValueConstReference().isIntegerType()
+            && term.getConstantValueConstReference() >= 0;
+}
 bool isAFiniteConstant(Term const& term)
 {
     bool result(false);

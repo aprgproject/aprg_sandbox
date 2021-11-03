@@ -207,6 +207,75 @@ TEST(CreateHelpersTest, CreateFunctionInAnFunctionWorks)
     EXPECT_EQ(absInAbsInAbsFunction, functionToVerify2);
 }
 
+TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionTermsWithDetailsWorksWithASingleTerm)
+{
+    TermsWithDetails termsWithDetails{{Term("x"), TermAssociationType::Positive}};
+
+    Term termToExpect(createTermWithAdditionAndSubtractionTermsWithDetails(termsWithDetails));
+
+    Term termToVerify("x");
+    EXPECT_EQ(termToVerify, termToExpect);
+}
+
+TEST(CreateHelpersTest, CreateTermWithAdditionAndSubtractionTermsWithDetailsWorksWithMultipleTerms)
+{
+    TermsWithDetails termsWithDetails
+    {{Term("x"), TermAssociationType::Positive},
+    {Term("y"), TermAssociationType::Negative},
+    {Term("z"), TermAssociationType::Positive}};
+
+    Term termToExpect(createTermWithAdditionAndSubtractionTermsWithDetails(termsWithDetails));
+
+    Term termToVerify(createExpressionIfPossible({Term("x"), Term("-"), Term("y"), Term("+"), Term("z")}));
+    EXPECT_EQ(termToVerify, termToExpect);
+}
+
+TEST(CreateHelpersTest, CreateTermWithMultiplicationAndDivisionTermsWithDetailsWorksWithASingleTerm)
+{
+    TermsWithDetails termsWithDetails{{Term("x"), TermAssociationType::Positive}};
+
+    Term termToExpect(createTermWithMultiplicationAndDivisionTermsWithDetails(termsWithDetails));
+
+    Term termToVerify("x");
+    EXPECT_EQ(termToVerify, termToExpect);
+}
+
+TEST(CreateHelpersTest, CreateTermWithMultiplicationAndDivisionTermsWithDetailsWorksWithMultipleTerms)
+{
+    TermsWithDetails termsWithDetails
+    {{Term("x"), TermAssociationType::Positive},
+    {Term("y"), TermAssociationType::Negative},
+    {Term("z"), TermAssociationType::Positive}};
+
+    Term termToExpect(createTermWithMultiplicationAndDivisionTermsWithDetails(termsWithDetails));
+
+    Term termToVerify(createExpressionIfPossible({Term("x"), Term("/"), Term("y"), Term("*"), Term("z")}));
+    EXPECT_EQ(termToVerify, termToExpect);
+}
+
+TEST(CreateHelpersTest, CreateTermWithRaiseToPowerTermsWithDetailsWorksWithASingleTerm)
+{
+    TermsWithDetails termsWithDetails{{Term("x"), TermAssociationType::Positive}};
+
+    Term termToExpect(createTermWithRaiseToPowerTermsWithDetails(termsWithDetails));
+
+    Term termToVerify("x");
+    EXPECT_EQ(termToVerify, termToExpect);
+}
+
+TEST(CreateHelpersTest, CreateTermWithRaiseToPowerTermsWithDetailsWorksWithMultipleTerms)
+{
+    TermsWithDetails termsWithDetails
+    {{Term("x"), TermAssociationType::Positive},
+    {Term("y"), TermAssociationType::Positive},
+    {Term("z"), TermAssociationType::Positive}};
+
+    Term termToExpect(createTermWithRaiseToPowerTermsWithDetails(termsWithDetails));
+
+    Term termToVerify(createExpressionIfPossible({Term("x"), Term("^"), Term("y"), Term("^"), Term("z")}));
+    EXPECT_EQ(termToVerify, termToExpect);
+}
+
 }
 
 }

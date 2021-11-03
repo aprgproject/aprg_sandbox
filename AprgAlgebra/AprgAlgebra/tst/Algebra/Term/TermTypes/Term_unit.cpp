@@ -601,10 +601,36 @@ TEST(TermTest, GetDebugStringWorks)
     EXPECT_EQ("functionName(5{Constant}){Function}", term8.getDebugString());
 }
 
-TEST(TermTest, SimplifyWorks)
+TEST(TermTest, ClearWorks)
 {
     Term constantTerm(1475);
-    Term variableTerm("x");
+    Term variableTerm("x");    Term monomialTerm(Monomial(1475,{}));
+    Term polynomialTerm(Polynomial{Monomial(1475,{})});
+    Term expressionTerm(Expression{createExpressionIfPossible({Term(1475)})});
+    Function functionObject("functionName", Term(1475), [](AlbaNumber const&  number) -> AlbaNumber
+    {
+        return number;
+    });
+    Term functionTerm(functionObject);
+
+    constantTerm.clear();
+    variableTerm.clear();
+    monomialTerm.clear();
+    polynomialTerm.clear();
+    expressionTerm.clear();
+    functionTerm.clear();
+
+    EXPECT_EQ(Term(), constantTerm);
+    EXPECT_EQ(Term(), variableTerm);
+    EXPECT_EQ(Term(), monomialTerm);
+    EXPECT_EQ(Term(), polynomialTerm);
+    EXPECT_EQ(Term(), expressionTerm);
+    EXPECT_EQ(Term(), functionTerm);
+}
+
+TEST(TermTest, SimplifyWorks)
+{
+    Term constantTerm(1475);    Term variableTerm("x");
     Term monomialTerm(Monomial(1475,{}));
     Term polynomialTerm(Polynomial{Monomial(1475,{})});
     Term expressionTerm(Expression{createExpressionIfPossible({Term(1475)})});
@@ -615,14 +641,13 @@ TEST(TermTest, SimplifyWorks)
     Term functionTerm(functionObject);
 
     constantTerm.simplify();
+    variableTerm.simplify();
     monomialTerm.simplify();
     polynomialTerm.simplify();
-    expressionTerm.simplify();
-    functionTerm.simplify();
+    expressionTerm.simplify();    functionTerm.simplify();
 
     EXPECT_EQ(Term(1475), constantTerm);
-    EXPECT_EQ(Term("x"), variableTerm);
-    EXPECT_EQ(Term(1475), monomialTerm);
+    EXPECT_EQ(Term("x"), variableTerm);    EXPECT_EQ(Term(1475), monomialTerm);
     EXPECT_EQ(Term(1475), polynomialTerm);
     EXPECT_EQ(Term(1475), expressionTerm);
     EXPECT_EQ(Term(1475), functionTerm);

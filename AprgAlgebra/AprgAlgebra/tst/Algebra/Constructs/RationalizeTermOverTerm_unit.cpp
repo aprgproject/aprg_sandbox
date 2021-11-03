@@ -22,12 +22,39 @@ TEST(RationalizeTermOverTermTest, ConstructionWorks)
     EXPECT_EQ(Term("y"), rationalizeTermOverTerm2.getDenominator());
 }
 
-TEST(RationalizeTermOverTermTest, RationalizeNumeratorWorksForPolynomialOverPolynomialWithSquareRoot)
+TEST(RationalizeTermOverTermTest, RationalizeNumeratorWorksForPolynomialOverPolynomialWithSquareRootWithPlusSecondTerm)
+{
+    Term numerator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(2, {})});
+    Term denominator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(3, {})});
+    RationalizeTermOverTerm rationalizeTermOverTerm(numerator, denominator);
+
+    rationalizeTermOverTerm.rationalizeNumerator();
+
+    Term expectedNumerator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-4, {})});
+    Term expectedDenominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-6, {})});
+    EXPECT_EQ(expectedNumerator, rationalizeTermOverTerm.getNumerator());
+    EXPECT_EQ(expectedDenominator, rationalizeTermOverTerm.getDenominator());
+}
+
+TEST(RationalizeTermOverTermTest, RationalizeDenominatorWorksForPolynomialOverPolynomialWithSquareRootWithPlusSecondTerm)
+{
+    Term numerator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(2, {})});
+    Term denominator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(3, {})});
+    RationalizeTermOverTerm rationalizeTermOverTerm(numerator, denominator);
+
+    rationalizeTermOverTerm.rationalizeDenominator();
+
+    Term expectedNumerator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-6, {})});
+    Term expectedDenominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-9, {})});
+    EXPECT_EQ(expectedNumerator, rationalizeTermOverTerm.getNumerator());
+    EXPECT_EQ(expectedDenominator, rationalizeTermOverTerm.getDenominator());
+}
+
+TEST(RationalizeTermOverTermTest, RationalizeNumeratorWorksForPolynomialOverPolynomialWithSquareRootWithMinusSecondTerm)
 {
     Term numerator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-2, {})});
     Term denominator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-3, {})});
     RationalizeTermOverTerm rationalizeTermOverTerm(numerator, denominator);
-
     rationalizeTermOverTerm.rationalizeNumerator();
 
     Term expectedNumerator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-4, {})});
@@ -36,14 +63,12 @@ TEST(RationalizeTermOverTermTest, RationalizeNumeratorWorksForPolynomialOverPoly
     EXPECT_EQ(expectedDenominator, rationalizeTermOverTerm.getDenominator());
 }
 
-TEST(RationalizeTermOverTermTest, RationalizeDenominatorWorksForPolynomialOverPolynomialWithSquareRoot)
+TEST(RationalizeTermOverTermTest, RationalizeDenominatorWorksForPolynomialOverPolynomialWithSquareRootWithMinusSecondTerm)
 {
     Term numerator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-2, {})});
-    Term denominator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-3, {})});
-    RationalizeTermOverTerm rationalizeTermOverTerm(numerator, denominator);
+    Term denominator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-3, {})});    RationalizeTermOverTerm rationalizeTermOverTerm(numerator, denominator);
 
     rationalizeTermOverTerm.rationalizeDenominator();
-
     Term expectedNumerator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-6, {})});
     Term expectedDenominator(Polynomial{Monomial(1, {{"x", 1}}), Monomial(-9, {})});
     EXPECT_EQ(expectedNumerator, rationalizeTermOverTerm.getNumerator());
@@ -234,6 +259,23 @@ TEST(RationalizeTermOverTermTest, RationalizeNumeratorForExample1)
     string expectedDenominatorString("(1.587401051968199[deltaX]+((1[deltaX^(5/2)] + -2[deltaX^(3/2)])^(2/3))+((2[deltaX^4] + -4[deltaX^3])^(1/3)))");
     EXPECT_EQ(expectedNumeratorString, rationalizeTermOverTerm.getNumerator().getDisplayableString());
     EXPECT_EQ(expectedDenominatorString, rationalizeTermOverTerm.getDenominator().getDisplayableString());
+}
+
+TEST(RationalizeTermOverTermTest, RationalizeNumeratorWorksOnWithInnerAndOuterFractions)
+{
+    Term innerNumerator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-2, {})});
+    Term innerDenominator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-3, {})});
+    Term innerFraction(createExpressionIfPossible({innerNumerator, Term("/"), innerDenominator}));
+    Term outerNumerator(createExpressionIfPossible({innerFraction, Term("^"), Term(AlbaNumber::createFraction(1, 2)), Term("-"), Term(2)}));
+    Term outerDenominator(Polynomial{Monomial(1, {{"x", AlbaNumber::createFraction(1, 2)}}), Monomial(-3, {})});
+    RationalizeTermOverTerm rationalizeTermOverTerm(outerNumerator, outerDenominator);
+
+    rationalizeTermOverTerm.rationalizeNumerator();
+
+    string stringToExpect1("((-3[x^(1/2)] + 10)/(1[x^(1/2)] + -3))");
+    string stringToExpect2("((2[x^(1/2)] + -6)+(((1[x^(3/2)] + -2[x])/(1[x^(1/2)] + -3))^(1/2))-(((9[x^(1/2)] + -18)/(1[x^(1/2)] + -3))^(1/2)))");
+    EXPECT_EQ(stringToExpect1, rationalizeTermOverTerm.getNumerator().getDisplayableString());
+    EXPECT_EQ(stringToExpect2, rationalizeTermOverTerm.getDenominator().getDisplayableString());
 }
 
 }

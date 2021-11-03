@@ -409,14 +409,18 @@ Function & Term::getFunctionReference()
     return *dynamic_cast<Function*>(m_baseDataTermPointer.get());
 }
 
+void Term::clear()
+{
+    m_type=TermType::Empty;
+    m_baseDataTermPointer.reset();
+}
+
 void Term::simplify()
 {
-    if(m_type==TermType::Monomial)
-    {
+    if(m_type==TermType::Monomial)    {
         *this = simplifyAndConvertMonomialToSimplestTerm(getMonomialConstReference());
     }
-    else if(m_type==TermType::Polynomial)
-    {
+    else if(m_type==TermType::Polynomial)    {
         *this = simplifyAndConvertPolynomialToSimplestTerm(getPolynomialConstReference());
     }
     else if(m_type==TermType::Expression)

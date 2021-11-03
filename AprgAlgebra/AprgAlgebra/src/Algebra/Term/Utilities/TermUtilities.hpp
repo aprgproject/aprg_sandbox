@@ -21,14 +21,14 @@ bool isANegativeMonomial(Monomial const& monomial);
 bool isANegativePolynomial(Polynomial const& polynomial);
 bool isANegativeExpression(Expression const& expression);
 
+unsigned int getNumberOfTerms(Term const& term);
+
 AlbaNumber getConstantFactor(Term const& term);
 
 AlbaNumberPairs evaluateAndGetInputOutputPair(AlbaNumbers const& numbers, std::string const& variableName, Term const& term);
-
 Term getPiAsTerm();
 Term getEAsTerm();
-Term convertPositiveTermIfNegative(Term const& term);
-Term negateTerm(Term const& term);
+Term convertPositiveTermIfNegative(Term const& term);Term negateTerm(Term const& term);
 Term flipTerm(Term const& term);
 Term negateTermIfHasNegativeAssociation(TermWithDetails const& termWithDetails);
 Term flipTermIfHasNegativeAssociation(TermWithDetails const& termWithDetails);

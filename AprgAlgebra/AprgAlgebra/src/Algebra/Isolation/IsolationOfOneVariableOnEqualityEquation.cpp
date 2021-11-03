@@ -157,16 +157,14 @@ void IsolationOfOneVariableOnEqualityEquation::isolateTermWithVariable(
         TermsWithDetails termsWithDetailsWithoutVariable;
         segregateTermsWithAndWithoutVariable(termsWithDetails, variableName, termsWithDetailsWithVariable, termsWithDetailsWithoutVariable);
 
-        Term termFromExpressionWithVariable(createTermWithAdditionAndSubtraction(termsWithDetailsWithVariable));
-        Term termFromExpressionWithoutVariable(createTermWithAdditionAndSubtraction(termsWithDetailsWithoutVariable));
+        Term termFromExpressionWithVariable(createTermWithAdditionAndSubtractionTermsWithDetails(termsWithDetailsWithVariable));
+        Term termFromExpressionWithoutVariable(createTermWithAdditionAndSubtractionTermsWithDetails(termsWithDetailsWithoutVariable));
 
         termFromExpressionWithVariable.simplify();
-        if(canBeConvertedToPolynomial(termFromExpressionWithVariable))
-        {
+        if(canBeConvertedToPolynomial(termFromExpressionWithVariable))        {
             Polynomial polynomialWithVariable(createPolynomialIfPossible(termFromExpressionWithVariable));
             AlbaNumber identicalExponentForVariable(getIdenticalExponentForVariableIfPossible(variableName, polynomialWithVariable));
-            Term termWithIsolatedVariable(Monomial(1, {{variableName, identicalExponentForVariable}}));
-            Term numerator(negateTerm(termFromExpressionWithoutVariable));
+            Term termWithIsolatedVariable(Monomial(1, {{variableName, identicalExponentForVariable}}));            Term numerator(negateTerm(termFromExpressionWithoutVariable));
             Term denominator(termFromExpressionWithVariable/termWithIsolatedVariable);
             termWithVariable = termWithIsolatedVariable;
             termWithWithoutVariable = numerator/denominator;

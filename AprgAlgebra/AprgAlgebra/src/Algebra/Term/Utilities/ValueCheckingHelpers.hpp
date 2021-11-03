@@ -47,11 +47,10 @@ bool hasNonFiniteNumbers(Monomial const& monomial);
 bool hasNonFiniteNumbers(Polynomial const& polynomial);
 bool hasNonFiniteNumbers(Expression const& expression);
 bool hasNonFiniteNumbers(Function const& function);
+bool hasZero(Terms const& terms);
 
 bool isPositiveIntegerConstant(Term const& term);
-bool isAFiniteConstant(Term const& term);
-bool hasNegativeExponentsWithVariable(Polynomial const& polynomial, std::string const& variableName);
+bool isAFiniteConstant(Term const& term);bool hasNegativeExponentsWithVariable(Polynomial const& polynomial, std::string const& variableName);
 
 }
-
 }
