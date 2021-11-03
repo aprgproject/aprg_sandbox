@@ -274,71 +274,71 @@ AlbaNumber getValueUsingLinearInterpolation(
 Term getLimit(
         Term const& term,
         string const& variableName,
-        AlbaNumber const& value)
+        AlbaNumber const& valueToApproach)
 {
-    return getLimitUsingLhopitalsRule(term, variableName, value);
+    return getLimitUsingLhopitalsRule(term, variableName, valueToApproach);
 }
 
 Term getLimitUsingLhopitalsRule(
         Term const& term,
         string const& variableName,
-        AlbaNumber const& value)
+        AlbaNumber const& valueToApproach)
 {
     Term newTerm, limitValue;
-    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, value);
+    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, valueToApproach);
     return limitValue;
 }
-
 Term getTermUsingLhopitalsRule(
         Term const& term,
         string const& variableName,
-        AlbaNumber const& value)
+        AlbaNumber const& valueToApproach)
 {
     Term newTerm, limitValue;
-    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, value);
+    calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, valueToApproach);
     return newTerm;
 }
-
 void calculateTermAndLimitUsingLhopitalsRule(
         Term & newTerm,
         Term & limitValue,
         Term const& term,
         string const& variableName,
-        AlbaNumber const& value)
+        AlbaNumber const& valueToApproach)
 {
     Differentiation differentiation(variableName);
-    newTerm = term;
-    simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(newTerm);
+    newTerm = term;    simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(newTerm);
     TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(newTerm));
     Term numerator(termsOverTerms.getCombinedNumerator());
     Term denominator(termsOverTerms.getCombinedDenominator());
-    SubstitutionOfVariablesToValues substitution{{variableName, value}};
+    SubstitutionOfVariablesToValues substitution{{variableName, valueToApproach}};
     Term numeratorValue(substitution.performSubstitutionTo(numerator));
     Term denominatorValue(substitution.performSubstitutionTo(denominator));
-    limitValue = getLimitAtAValueOrInfinity(newTerm, variableName, value);
-    while((isNotANumber(limitValue) || isTheValue(limitValue, 0))
-          && ((isTheValue(numeratorValue, 0) && isTheValue(numeratorValue, 0))
-              || (isPositiveOrNegativeInfinity(numeratorValue) && isPositiveOrNegativeInfinity(numeratorValue))))
+    while((isTheValue(numeratorValue, 0) && isTheValue(denominatorValue, 0))
+              || (isPositiveOrNegativeInfinity(numeratorValue) && isPositiveOrNegativeInfinity(denominatorValue)))
     {
         numerator = differentiation.differentiate(numerator);
-        denominator = differentiation.differentiate(denominator);
-        newTerm = Term(numerator/denominator);
+        denominator = differentiation.differentiate(denominator);        newTerm = Term(numerator/denominator);
         simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(newTerm);
         TermsOverTerms newTermsOverTerms(createTermsOverTermsFromTerm(newTerm));
         numerator = newTermsOverTerms.getCombinedNumerator();
         denominator = newTermsOverTerms.getCombinedDenominator();
-        limitValue = getLimitAtAValueOrInfinity(newTerm, variableName, value);
         numeratorValue = substitution.performSubstitutionTo(numerator);
         denominatorValue = substitution.performSubstitutionTo(denominator);
     }
+    Term outputValue(substitution.performSubstitutionTo(newTerm));
+    if(isNotANumber(outputValue))
+    {
+        limitValue = getLimitAtAValueOrInfinity(newTerm, variableName, valueToApproach);
+    }
+    else
+    {
+        limitValue = outputValue;
+    }
 }
 
-Term getLimitAtAValueOrInfinity(
-        Term const& term,
+Term getLimitAtAValueOrInfinity(        Term const& term,
         string const& variableName,
         AlbaNumber const& valueToApproach)
-{
-    Term result;
+{    Term result;
     if(valueToApproach.isPositiveOrNegativeInfinity())
     {
         result = getLimitAtInfinity(term, variableName, valueToApproach.getDefinedValue());

@@ -1,21 +1,130 @@
 #include "SeriesUtilities.hpp"
 
+#include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+
+using namespace std;
 
 namespace alba
 {
-
 namespace algebra
 {
 
+bool isAxiomOfCompletenessTrue(
+        SeriesBasedOnTerm const& series)
+{
+    // Axiom of completeness
+    // Every non empty set of real numbers that has a lower bound has a greatest lower bound.
+    // Also, every non empty set of real numbers that has an upper bound has a least upper bound.
+
+    AlbaNumberOptional greatestLowerBound(series.getGreatestLowerBound());
+    AlbaNumberOptional leastUpperBound(series.getLeastUpperBound());
+    return (greatestLowerBound.hasContent() && leastUpperBound.hasContent())
+            || (!greatestLowerBound.hasContent() && !leastUpperBound.hasContent());
+}
+
+bool isBoundedMonotonicSeriesConvergent(
+        SeriesBasedOnTerm const& series)
+{
+    return (series.isBounded() && series.isMonotonic()) == series.isConvergent();
+}
+
+bool isConvergentMonotonicSeriesBounded(
+        SeriesBasedOnTerm const& series)
+{
+    return (series.isConvergent() && series.isMonotonic()) == series.isBounded();
+}
+
+bool isConvergentUsingComparisonTest(
+        SeriesBasedOnSummation const& seriesToCheck,
+        SeriesBasedOnSummation const& convergentSeries,
+        unsigned int const numberOfIndexesToTest)
+{
+    bool result(false);
+    if(convergentSeries.isConvergent())
+    {
+        bool areAllValuesSatisfied(true);
+        for(unsigned int i=0; i<numberOfIndexesToTest; i++)
+        {
+            Term termToCheck(seriesToCheck.getTermValueAtIndex(i));
+            Term convergentTerm(convergentSeries.getTermValueAtIndex(i));
+            if(termToCheck.isConstant() && convergentTerm.isConstant())
+            {
+                areAllValuesSatisfied
+                        = (termToCheck.getConstantValueConstReference() <= convergentTerm.getConstantValueConstReference());
+                if(!areAllValuesSatisfied)
+                {
+                    break;
+                }
+            }
+        }
+        result = areAllValuesSatisfied;
+    }
+    return result;
+}
+
+bool isDivergentUsingComparisonTest(
+        SeriesBasedOnSummation const& seriesToCheck,
+        SeriesBasedOnSummation const& divergentSeries,
+        unsigned int const numberOfIndexesToTest)
+{
+    bool result(false);
+    if(!divergentSeries.isConvergent())
+    {
+        bool areAllValuesSatisfied(true);
+        for(unsigned int i=0; i<numberOfIndexesToTest; i++)
+        {
+            Term termToCheck(seriesToCheck.getTermValueAtIndex(i));
+            Term divergentTerm(divergentSeries.getTermValueAtIndex(i));
+            if(termToCheck.isConstant() &&  divergentTerm.isConstant())
+            {
+                areAllValuesSatisfied
+                        = (termToCheck.getConstantValueConstReference() >=  divergentTerm.getConstantValueConstReference());
+                if(!areAllValuesSatisfied)
+                {
+                    break;
+                }
+            }
+        }
+        result = areAllValuesSatisfied;
+    }
+    return result;
+}
+
+void performLimitComparisonTest(
+        bool & isConvergent,
+        bool & isDivergent,
+        SeriesBasedOnSummation const& series1,
+        SeriesBasedOnSummation const& series2,
+        string const& variableName)
+{
+    Term formula1(series1.getFormulaForEachTermInSummation());
+    Term formula2(series2.getFormulaForEachTermInSummation());
+    Term termForLimitChecking(formula1/formula2);
+    Term limit(getLimit(termForLimitChecking, variableName, AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+    if(isTheValue(limit, 0))
+    {
+        if(series2.isConvergent())
+        {
+            isConvergent = true;
+        }
+    }
+    else if(isTheValue(limit, AlbaNumber(AlbaNumber::Value::PositiveInfinity)))
+    {
+        if(!series2.isConvergent())
+        {
+            isDivergent = true;
+        }
+    }
+}
+
 Term getSumOfArithmeticSeriesUsingFirstAndLastTerm(
         Term const& firstTerm,
-        Term const& lastTerm,
-        Term const& count)
+        Term const& lastTerm,        Term const& count)
 {
     return (firstTerm + lastTerm) * count / 2;
 }
-
 Term getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(
         Term const& firstValue,
         Term const& commonMultiplier,

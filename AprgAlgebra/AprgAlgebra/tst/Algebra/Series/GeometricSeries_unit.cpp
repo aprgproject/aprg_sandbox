@@ -77,6 +77,18 @@ TEST(GeometricSeriesTest, GetInfiniteSumIsEqualToFormulaInUtilities)
     EXPECT_EQ(sumFromSeries, sumFromFormula);
 }
 
+TEST(GeometricSeriesTest, IsConvergentWorks)
+{
+    // Geometric diverges when less than one
+    GeometricSeries seriesWithMultiplierLessThanOne(1, AlbaNumber::createFraction(1, 2));
+    GeometricSeries seriesWithMultiplierEqualsToOne(1, 1);
+    GeometricSeries seriesWithMultiplierMoreThanOne(1, 2);
+
+    EXPECT_TRUE(seriesWithMultiplierLessThanOne.isConvergent());
+    EXPECT_TRUE(seriesWithMultiplierEqualsToOne.isConvergent());
+    EXPECT_FALSE(seriesWithMultiplierMoreThanOne.isConvergent());
+}
+
 }
 
 }

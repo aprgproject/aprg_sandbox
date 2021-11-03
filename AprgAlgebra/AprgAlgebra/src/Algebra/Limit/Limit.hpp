@@ -68,32 +68,29 @@ AlbaNumber getValueUsingLinearInterpolation(
 Term getLimit(
         Term const& term,
         std::string const& variableName,
-        AlbaNumber const& value);
+        AlbaNumber const& valueToApproach);
 
 Term getLimitUsingLhopitalsRule(
         Term const& term,
         std::string const& variableName,
-        AlbaNumber const& value);
+        AlbaNumber const& valueToApproach);
 
 Term getTermUsingLhopitalsRule(
         Term const& term,
         std::string const& variableName,
-        AlbaNumber const& value);
+        AlbaNumber const& valueToApproach);
 
 void calculateTermAndLimitUsingLhopitalsRule(
-        Term & newTerm,
-        Term & limitValue,
-        Term const& term,
-        std::string const& variableName,
-        AlbaNumber const& value);
-
-Term getLimitAtAValueOrInfinity(
+        Term & newTerm,        Term & limitValue,
         Term const& term,
         std::string const& variableName,
         AlbaNumber const& valueToApproach);
 
-Term getLimitAtAValue(
-        Term const& term,
+Term getLimitAtAValueOrInfinity(
+        Term const& term,        std::string const& variableName,
+        AlbaNumber const& valueToApproach);
+
+Term getLimitAtAValue(        Term const& term,
         std::string const& variableName,
         AlbaNumber const& value,
         LimitAtAValueApproachType const limitApproachType);

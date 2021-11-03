@@ -28,17 +28,17 @@ public:
     Term performSubstitutionTo(Term const& term) const;
     Equation performSubstitutionTo(Equation const& equation) const;
 
+    Expression performSubstitutionForExpression(Expression const& expression) const;
+    Function performSubstitutionForFunction(Function const& functionObject) const;
+
     void putTermsToTermsMapping(std::initializer_list<TermTermPair> const& variablesWithValues);
     void putTermsToTermsMapping(TermToTermMap const& variablesWithValues);
     void putTermToTermMapping(Term const& term1, Term const& term2);
 
 private:
-    Expression performSubstitutionForExpression(Expression const& expression) const;
-    Function performSubstitutionForFunction(Function const& functionObject) const;
     void performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const;
     TermToTermMap m_termsToTermsMap;
 };
-
 }
 
 }

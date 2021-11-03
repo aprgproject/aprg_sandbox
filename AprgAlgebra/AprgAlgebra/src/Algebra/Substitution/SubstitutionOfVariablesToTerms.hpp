@@ -31,19 +31,19 @@ public:
     Term performSubstitutionTo(Term const& term) const;
     Equation performSubstitutionTo(Equation const& equation) const;
 
+    Expression performSubstitutionForMonomial(Monomial const& monomial) const;
+    Expression performSubstitutionForPolynomial(Polynomial const& polynomial) const;
+    Expression performSubstitutionForExpression(Expression const& expression) const;
+    Function performSubstitutionForFunction(Function const& functionObject) const;
+
     void putVariablesWithTerms(std::initializer_list<VariableTermPair> const& variablesWithTerms);
     void putVariablesWithTerms(VariablesToTermsMap const& variablesWithTerms);
     void putVariableWithTerm(std::string const& variable, Term const& term);
 
 private:
-    Expression performSubstitutionForMonomial(Monomial const& monomial) const;
-    Expression performSubstitutionForPolynomial(Polynomial const& polynomial) const;
-    Expression performSubstitutionForExpression(Expression const& expression) const;
-    Function performSubstitutionForFunction(Function const& functionObject) const;
     void performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const;
     VariablesToTermsMap m_variableToExpressionsMap;
 };
-
 }
 
 }

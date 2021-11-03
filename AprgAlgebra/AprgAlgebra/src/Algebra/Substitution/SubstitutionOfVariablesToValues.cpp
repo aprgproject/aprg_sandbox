@@ -167,23 +167,12 @@ Function SubstitutionOfVariablesToValues::performSubstitutionForFunction(Functio
     return newFunction;
 }
 
-void SubstitutionOfVariablesToValues::performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const
-{
-    for(TermWithDetails & termWithDetails : termsWithAssociation.getTermsWithDetailsReference())
-    {
-        Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        term = performSubstitutionTo(term);
-    }
-}
-
 void SubstitutionOfVariablesToValues::putVariablesWithValues(initializer_list<VariableValuePair> const& variablesWithValues)
 {
-    for(VariableValuePair const& variableValuesPair : variablesWithValues)
-    {
+    for(VariableValuePair const& variableValuesPair : variablesWithValues)    {
         putVariableWithValue(variableValuesPair.first, variableValuesPair.second);
     }
 }
-
 void SubstitutionOfVariablesToValues::putVariablesWithValues(VariablesToValuesMap const& variablesWithValues)
 {
     for(auto const& variableValuesPair : variablesWithValues)
@@ -195,6 +184,15 @@ void SubstitutionOfVariablesToValues::putVariablesWithValues(VariablesToValuesMa
 void SubstitutionOfVariablesToValues::putVariableWithValue(string const& variable, AlbaNumber const& value)
 {
     m_variableToValuesMap[variable]=value;
+}
+
+void SubstitutionOfVariablesToValues::performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const
+{
+    for(TermWithDetails & termWithDetails : termsWithAssociation.getTermsWithDetailsReference())
+    {
+        Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        term = performSubstitutionTo(term);
+    }
 }
 
 }

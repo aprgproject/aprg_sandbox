@@ -172,23 +172,12 @@ Function SubstitutionOfVariablesToTerms::performSubstitutionForFunction(Function
     return newFunction;
 }
 
-void SubstitutionOfVariablesToTerms::performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const
-{
-    for(TermWithDetails & termWithDetails : termsWithAssociation.getTermsWithDetailsReference())
-    {
-        Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        term = performSubstitutionTo(term);
-    }
-}
-
 void SubstitutionOfVariablesToTerms::putVariablesWithTerms(
         initializer_list<VariableTermPair> const& variablesWithTerms)
-{
-    for(VariableTermPair const& variableValuesPair : variablesWithTerms)
+{    for(VariableTermPair const& variableValuesPair : variablesWithTerms)
     {
         putVariableWithTerm(variableValuesPair.first, variableValuesPair.second);
-    }
-}
+    }}
 
 void SubstitutionOfVariablesToTerms::putVariablesWithTerms(
         VariablesToTermsMap const& variablesWithTerms)
@@ -205,6 +194,15 @@ void SubstitutionOfVariablesToTerms::putVariableWithTerm(
 {
     m_variableToExpressionsMap[variable]=term;
     m_variableToExpressionsMap.at(variable).simplify();
+}
+
+void SubstitutionOfVariablesToTerms::performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const
+{
+    for(TermWithDetails & termWithDetails : termsWithAssociation.getTermsWithDetailsReference())
+    {
+        Term & term(getTermReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
+        term = performSubstitutionTo(term);
+    }
 }
 
 }
