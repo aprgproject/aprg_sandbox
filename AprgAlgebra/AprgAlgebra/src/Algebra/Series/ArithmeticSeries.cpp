@@ -1,6 +1,5 @@
 #include "ArithmeticSeries.hpp"
 
-#include <Algebra/Series/SeriesUtilities.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 

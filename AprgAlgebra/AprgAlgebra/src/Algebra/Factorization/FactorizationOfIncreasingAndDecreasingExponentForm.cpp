@@ -2,7 +2,6 @@
 
 #include <Algebra/Constructs/PolynomialOverPolynomial.hpp>
 #include <Algebra/Factorization/BrentMethod.hpp>
-#include <Algebra/Factorization/Factorization.hpp>
 #include <Algebra/Factorization/FactorizationUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>

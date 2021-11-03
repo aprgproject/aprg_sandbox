@@ -1,17 +1,12 @@
 #include "MultiplicationAndDivisionOfRadicals.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
-#include <Algebra/Operations/AccumulateOperations.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
-#include <Algebra/Term/Utilities/SegregateHelpers.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
-
-#include <algorithm>
 
 using namespace alba::mathHelper;
 using namespace alba::algebra::Simplification;

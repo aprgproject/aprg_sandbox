@@ -1,23 +1,18 @@
 #include "TermUtilities.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
-#include <Algebra/Factorization/FactorizationOfExpression.hpp>
 #include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
 #include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquation.hpp>
 #include <Algebra/Mutation/NegationMutator.hpp>
 #include <Algebra/Retrieval/FirstCoefficientRetriever.hpp>
 #include <Algebra/Retrieval/NumberOfTermsRetriever.hpp>
-#include <Algebra/Retrieval/NumbersRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
-#include <Algebra/Utilities/KnownNames.hpp>
-#include <Math/AlbaMathHelper.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace alba::algebra::Factorization;
-using namespace alba::mathHelper;
 using namespace std;
 
 namespace alba
@@ -31,9 +26,11 @@ bool isTermSimpler(Term const& supposeToBeComplicatedTerm, Term const& supposeTo
     return getNumberOfTerms(supposeToBeComplicatedTerm) > getNumberOfTerms(supposeToBeSimpleTerm);
 }
 
-bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm){
+bool isNegatedTermSimpler(Term const& term, Term const& negatedTerm)
+{
     FirstCoefficientRetriever firstCoefficientRetrieverForTerm;
     firstCoefficientRetrieverForTerm.retrieveFromTerm(term);
+
     return isTermSimpler(term, negatedTerm) || firstCoefficientRetrieverForTerm.getSavedData() < 0;
 }
 
@@ -57,78 +54,6 @@ bool isARadicalTerm(Term const& term)
     return termRaiseToANumber.isRadical();
 }
 
-bool isANegativeTerm(Term const& term)
-{
-    bool result(false);
-    if(term.isConstant())
-    {
-        result = isANegativeConstant(term.getConstantConstReference());
-    }
-    else if(term.isMonomial())
-    {
-        result = isANegativeMonomial(term.getMonomialConstReference());
-    }
-    else if(term.isPolynomial())
-    {
-        result = isANegativePolynomial(term.getPolynomialConstReference());
-    }
-    else if(term.isExpression())
-    {
-        result = isANegativeExpression(term.getExpressionConstReference());
-    }
-    return result;
-}
-
-bool isANegativeConstant(Constant const& constant)
-{
-    return constant.getNumberConstReference() < 0;
-}
-
-bool isANegativeMonomial(Monomial const& monomial)
-{
-    return monomial.getConstantConstReference() < 0;
-}
-
-bool isANegativePolynomial(Polynomial const& polynomial)
-{
-    bool result(false);
-    Monomials const& monomials(polynomial.getMonomialsConstReference());
-    if(!monomials.empty())
-    {
-        result = monomials.front().getConstantConstReference() < 0;
-    }
-    return result;
-}
-
-bool isANegativeExpression(Expression const& expression)
-{
-    bool result(false);
-    TermsWithDetails termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
-    if(OperatorLevel::AdditionAndSubtraction == expression.getCommonOperatorLevel())
-    {
-        if(!termsWithDetails.empty())
-        {
-            Term const& firstTerm(getTermConstReferenceFromSharedPointer(termsWithDetails.front().baseTermSharedPointer));
-            result = isANegativeTerm(firstTerm);
-        }
-    }
-    else if(OperatorLevel::MultiplicationAndDivision == expression.getCommonOperatorLevel())
-    {
-        bool isNegative(false);
-        for(TermWithDetails const& termWithDetails : termsWithDetails)
-        {
-            Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-            isNegative = isNegative ^ isANegativeTerm(term);
-        }
-        result = isNegative;
-    }
-    else if(OperatorLevel::RaiseToPower == expression.getCommonOperatorLevel())
-    {
-        result = false;
-    }
-    return result;
-}
-
 unsigned int getNumberOfTerms(Term const& term)
 {
     NumberOfTermsRetriever retriever;
@@ -138,10 +63,12 @@ unsigned int getNumberOfTerms(Term const& term)
 
 AlbaNumber getConstantFactor(Term const& term)
 {
-    AlbaNumber result(1);    if(term.isConstant())
+    AlbaNumber result(1);
+    if(term.isConstant())
     {
         result = term.getConstantValueConstReference();
-    }    else if(term.isMonomial())
+    }
+    else if(term.isMonomial())
     {
         result = term.getMonomialConstReference().getConstantConstReference();
     }

@@ -1,9 +1,6 @@
 #include "Monomial.hpp"
 
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-
 #include <set>
-#include <sstream>
 
 using namespace std;
 

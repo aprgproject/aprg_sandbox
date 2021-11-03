@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Algebra/Term/TermTypes/Function.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 
 namespace alba

@@ -29,4 +29,5 @@ Term createTermWithMultiplicationAndDivisionTermsWithDetails(TermsWithDetails co
 Term createTermWithRaiseToPowerTermsWithDetails(TermsWithDetails const& termsWithDetails);
 
 }
+
 }

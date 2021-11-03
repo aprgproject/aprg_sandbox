@@ -4,7 +4,6 @@
 #include <Algebra/Constructs/AdditionAndSubtractionOfTermsOverTerms.hpp>
 #include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <Algebra/Term/Utilities/SegregateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 
 using namespace std;

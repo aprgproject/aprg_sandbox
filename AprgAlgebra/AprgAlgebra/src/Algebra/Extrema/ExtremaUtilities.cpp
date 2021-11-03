@@ -262,7 +262,7 @@ bool isRolleTheoremSatisfied(
     substitution.putVariableWithValue(variableName, b);
     Term fb(substitution.performSubstitutionTo(term));
 
-    bool result;
+    bool result(false);
     if(fa.isConstant() && fb.isConstant()
             && AlbaNumber(0U) == fa.getConstantValueConstReference()
             && AlbaNumber(0U) == fb.getConstantValueConstReference())

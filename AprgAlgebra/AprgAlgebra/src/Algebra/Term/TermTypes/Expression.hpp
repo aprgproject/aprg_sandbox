@@ -5,7 +5,6 @@
 #include <Algebra/Term/TermTypes/Polynomial.hpp>
 #include <Algebra/Term/TermTypes/TermsWithAssociation.hpp>
 
-#include <functional>
 #include <string>
 #include <vector>
 

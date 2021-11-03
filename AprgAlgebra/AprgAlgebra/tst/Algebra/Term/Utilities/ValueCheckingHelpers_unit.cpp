@@ -6,6 +6,8 @@
 
 #include <cmath>
 
+using namespace alba::algebra::Functions;
+
 namespace alba
 {
 
@@ -318,12 +320,73 @@ TEST(ValueCheckingHelpersTest, IsPositiveOrNegativeInfinityWorksForExpression)
     EXPECT_FALSE(isPositiveOrNegativeInfinity(createExpressionIfPossible({Term(67), Term("+"), Term("x")})));
 }
 
+TEST(ValueCheckingHelpersTest, IsANegativeTermWorks)
+{
+    Term x("x");
+    EXPECT_TRUE(isANegativeTerm(Term(-1)));
+    EXPECT_FALSE(isANegativeTerm(Term(1)));
+    EXPECT_FALSE(isANegativeTerm(x));
+    EXPECT_TRUE(isANegativeTerm(Term(Monomial(-1, {{"x", 1}}))));
+    EXPECT_FALSE(isANegativeTerm(Term(Monomial(1, {{"x", 1}}))));
+    EXPECT_TRUE(isANegativeTerm(Term(Polynomial{Monomial(-1, {{"x", 3}}), Monomial(4, {}), })));
+    EXPECT_FALSE(isANegativeTerm(Term(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-4, {}), })));
+    EXPECT_TRUE(isANegativeTerm(Term(createExpressionIfPossible({Term(-5), Term("+"), x}))));
+    EXPECT_FALSE(isANegativeTerm(Term(createExpressionIfPossible({Term(5), Term("+"), x}))));
+    EXPECT_FALSE(isANegativeTerm(Term(abs(Term(-5)))));
+}
+
+TEST(ValueCheckingHelpersTest, IsANegativeConstantWorks)
+{
+    EXPECT_TRUE(isANegativeConstant(Constant(-1)));
+    EXPECT_FALSE(isANegativeConstant(Constant(1)));
+}
+
+TEST(ValueCheckingHelpersTest, IsANegativeMonomialWorks)
+{
+    EXPECT_TRUE(isANegativeMonomial(Monomial(-1, {{"x", 1}})));
+    EXPECT_FALSE(isANegativeMonomial(Monomial(1, {{"x", 1}})));
+}
+
+TEST(ValueCheckingHelpersTest, IsANegativePolynomialWorks)
+{
+    EXPECT_TRUE(isANegativePolynomial(Polynomial{Monomial(-1, {{"x", 3}}), Monomial(4, {}), }));
+    EXPECT_FALSE(isANegativePolynomial(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-4, {}), }));
+}
+
+TEST(ValueCheckingHelpersTest, IsANegativeExpressionWorks)
+{
+    Term x("x");
+    EXPECT_TRUE(isANegativeExpression(createExpressionIfPossible({Term(-5), Term("+"), x})));
+    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({Term(5), Term("+"), x})));
+    EXPECT_TRUE(isANegativeExpression(createExpressionIfPossible({Term(-5), Term("*"), x})));
+    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({Term(-5), Term("*"), Term(-3)})));
+    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({Term(-5), Term("^"), x})));
+    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({Term(5), Term("^"), x})));
+}
+
+TEST(ValueCheckingHelpersTest, IsPositiveIntegerConstantWorks)
+{
+    EXPECT_FALSE(isPositiveIntegerConstant(Term("x")));
+    EXPECT_TRUE(isPositiveIntegerConstant(Term(1)));
+    EXPECT_FALSE(isPositiveIntegerConstant(Term(-1)));
+    EXPECT_FALSE(isPositiveIntegerConstant(Term(NAN)));
+}
+
+TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorks)
+{
+    EXPECT_FALSE(isAFiniteConstant(Term("x")));
+    EXPECT_TRUE(isAFiniteConstant(Term(1)));
+    EXPECT_FALSE(isAFiniteConstant(Term(NAN)));
+}
+
 TEST(ValueCheckingHelpersTest, HasNotANumberWorksForTerm)
 {
-    EXPECT_TRUE(hasNotANumber(Term(NAN)));    EXPECT_FALSE(hasNotANumber(Term("x")));
+    EXPECT_TRUE(hasNotANumber(Term(NAN)));
+    EXPECT_FALSE(hasNotANumber(Term("x")));
     EXPECT_TRUE(hasNotANumber(Term(Monomial(NAN, {}))));
     EXPECT_TRUE(hasNotANumber(Term(Polynomial{Monomial(NAN, {})})));
-    EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({Term(NAN)}))));    EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
+    EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({Term(NAN)}))));
+    EXPECT_TRUE(hasNotANumber(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
 }
 
 TEST(ValueCheckingHelpersTest, HasNotANumberWorksForMonomial)
@@ -356,7 +419,8 @@ TEST(ValueCheckingHelpersTest, HasNotANumberWorksForFunction)
 TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForTerm)
 {
     EXPECT_TRUE(hasNonFiniteNumbers(Term(NAN)));
-    EXPECT_FALSE(hasNonFiniteNumbers(Term("x")));    EXPECT_TRUE(hasNonFiniteNumbers(Term(Monomial(NAN, {}))));
+    EXPECT_FALSE(hasNonFiniteNumbers(Term("x")));
+    EXPECT_TRUE(hasNonFiniteNumbers(Term(Monomial(NAN, {}))));
     EXPECT_TRUE(hasNonFiniteNumbers(Term(Polynomial{Monomial(NAN, {})})));
     EXPECT_TRUE(hasNonFiniteNumbers(Term(createExpressionIfPossible({Term(NAN)}))));
     EXPECT_TRUE(hasNonFiniteNumbers(Term(createExpressionIfPossible({Term(5.12), Term("+"), Term(NAN)}))));
@@ -365,14 +429,16 @@ TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForTerm)
 TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForMonomial)
 {
     EXPECT_TRUE(hasNonFiniteNumbers(Monomial(NAN, {})));
-    EXPECT_TRUE(hasNonFiniteNumbers(Monomial(NAN, {{"x", 1}})));    EXPECT_FALSE(hasNonFiniteNumbers(Monomial(15, {})));
+    EXPECT_TRUE(hasNonFiniteNumbers(Monomial(NAN, {{"x", 1}})));
+    EXPECT_FALSE(hasNonFiniteNumbers(Monomial(15, {})));
     EXPECT_TRUE(hasNonFiniteNumbers(Monomial(15, {{"x", NAN}})));
 }
 
 TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForPolynomial)
 {
     EXPECT_TRUE(hasNonFiniteNumbers(Polynomial{Monomial(NAN, {})}));
-    EXPECT_TRUE(hasNonFiniteNumbers(Polynomial{Monomial(NAN, {}), Monomial(5, {{"x", 1}})}));    EXPECT_FALSE(hasNonFiniteNumbers(Polynomial{Monomial(15, {})}));
+    EXPECT_TRUE(hasNonFiniteNumbers(Polynomial{Monomial(NAN, {}), Monomial(5, {{"x", 1}})}));
+    EXPECT_FALSE(hasNonFiniteNumbers(Polynomial{Monomial(15, {})}));
 }
 
 TEST(ValueCheckingHelpersTest, HasNonFiniteNumbersForExpression)
@@ -393,17 +459,16 @@ TEST(ValueCheckingHelpersTest, HasZeroWorks)
     EXPECT_TRUE(hasZero({Term(1), Term(Constant(0)), Term(3)}));
 }
 
-TEST(ValueCheckingHelpersTest, IsPositiveIntegerConstantWorks)
+TEST(ValueCheckingHelpersTest, HasNegativeExponentsWithVariableWorks)
 {
-    EXPECT_FALSE(isPositiveIntegerConstant(Term("x")));    EXPECT_TRUE(isPositiveIntegerConstant(Term(1)));
-    EXPECT_FALSE(isPositiveIntegerConstant(Term(-1)));
-    EXPECT_FALSE(isPositiveIntegerConstant(Term(NAN)));
-}
-TEST(ValueCheckingHelpersTest, IsAFiniteConstantWorks)
-{
-    EXPECT_FALSE(isAFiniteConstant(Term("x")));
-    EXPECT_TRUE(isAFiniteConstant(Term(1)));
-    EXPECT_FALSE(isAFiniteConstant(Term(NAN)));
+    Polynomial polynomial{Monomial(1, {{"a", 1}, {"b", 2}, {"c", 3}}), Monomial(1, {{"x", -4}, {"y", -5}, {"z", -6}})};
+
+    EXPECT_FALSE(hasNegativeExponentsWithVariable(polynomial, "a"));
+    EXPECT_FALSE(hasNegativeExponentsWithVariable(polynomial, "b"));
+    EXPECT_FALSE(hasNegativeExponentsWithVariable(polynomial, "c"));
+    EXPECT_TRUE(hasNegativeExponentsWithVariable(polynomial, "x"));
+    EXPECT_TRUE(hasNegativeExponentsWithVariable(polynomial, "y"));
+    EXPECT_TRUE(hasNegativeExponentsWithVariable(polynomial, "z"));
 }
 
 }

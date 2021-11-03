@@ -1,7 +1,6 @@
 #include "TermsWithAssociation.hpp"
 
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
-#include <Algebra/Term/Utilities/EnumHelpers.hpp>
 
 #include <algorithm>
 

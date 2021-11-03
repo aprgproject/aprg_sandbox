@@ -7,8 +7,6 @@
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 
-#include <algorithm>
-
 using namespace std;
 
 namespace alba

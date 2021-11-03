@@ -4,7 +4,6 @@
 #include <Algebra/Retrieval/NumbersRetriever.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 #include <algorithm>

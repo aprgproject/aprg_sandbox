@@ -5,7 +5,6 @@
 #include <Algebra/Integration/IntegrationUtilities.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
@@ -487,10 +486,12 @@ void IntegrationForFiniteCalculus::integrateNonChangingAndChangingTermsInMultipl
         Term changingTermCombined(createTermWithMultiplicationAndDivisionTermsWithDetails(changingTerms));
         Term integratedChangingTerm(integrateTerm(changingTermCombined));
         if(isNotANumber(integratedChangingTerm))
-        {            result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+        {
+            result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
         }
         else
-        {            result = nonChangingTermCombined * integratedChangingTerm;
+        {
+            result = nonChangingTermCombined * integratedChangingTerm;
         }
     }
 }

@@ -2,8 +2,6 @@
 
 #include <String/AlbaStringHelper.hpp>
 
-#include <sstream>
-
 using namespace alba::stringHelper;
 using namespace std;
 

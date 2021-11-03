@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Algebra/Constructs/TermRaiseToANumber.hpp>
-#include <Algebra/Term/TermTypes/Term.hpp>
 
 #include <vector>
 

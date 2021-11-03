@@ -2,10 +2,8 @@
 
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Integration/Integration.hpp>
-#include <Algebra/Integration/IntegrationUtilities.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
-#include <Algebra/Utilities/KnownNames.hpp>
 
 using namespace std;
 
@@ -139,10 +137,12 @@ Term getMomentOfMassOfARod(
     // The moment of mass of the rod is the definite integral of x*p(x) from 0 to L.
 
     Integration integration(variableName);
-    Term termToIntegrate = Term(variableName)*term;    return integration.integrateAtDefiniteTerms(termToIntegrate, lowerValueTerm, higherValueTerm);
+    Term termToIntegrate = Term(variableName)*term;
+    return integration.integrateAtDefiniteTerms(termToIntegrate, lowerValueTerm, higherValueTerm);
 }
 
-Term getCenterOfMassOfARod(        Term const& term,
+Term getCenterOfMassOfARod(
+        Term const& term,
         string const& variableName,
         Term const& lowerValueTerm,
         Term const& higherValueTerm)

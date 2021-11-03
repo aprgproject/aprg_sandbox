@@ -1,9 +1,7 @@
 #include "EquationUtilities.hpp"
 
 #include <Algebra/Equation/EquationBuilder.hpp>
-#include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 
 #include <algorithm>
 

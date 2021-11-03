@@ -62,10 +62,12 @@ Term performOperation(
     newTerm.clear();\
 }\
     else if(term.isConstant())\
-{\    newTerm = operation(term.getConstantConstReference());\
+{\
+    newTerm = operation(term.getConstantConstReference());\
 }\
     else if(term.isVariable())\
-{\    newTerm = operation(term.getVariableConstReference());\
+{\
+    newTerm = operation(term.getVariableConstReference());\
 }\
     else if(term.isMonomial())\
 {\
@@ -94,10 +96,12 @@ Term performOperation(
     newTerm.clear();\
 }\
     else if(term2.isConstant())\
-{\    newTerm = Constant(0) operation term2.getConstantConstReference();\
+{\
+    newTerm = Constant(0) operation term2.getConstantConstReference();\
 }\
     else if(term2.isVariable())\
-{\    newTerm = Constant(0) operation term2.getVariableConstReference();\
+{\
+    newTerm = Constant(0) operation term2.getVariableConstReference();\
 }\
     else if(term2.isMonomial())\
 {\

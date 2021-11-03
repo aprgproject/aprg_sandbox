@@ -1,7 +1,5 @@
 #include "DifferentiationUtilities.hpp"
 
-#include <Algebra/Constructs/ConstructUtilities.hpp>
-#include <Algebra/Differentiation/DerivativeVariableName.hpp>
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Integration/Integration.hpp>
@@ -16,8 +14,6 @@
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
-#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
-#include <Algebra/Utilities/KnownNames.hpp>
 #include <Math/AlbaMathHelper.hpp>
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>
 

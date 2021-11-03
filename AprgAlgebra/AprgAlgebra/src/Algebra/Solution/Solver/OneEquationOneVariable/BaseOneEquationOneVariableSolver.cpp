@@ -3,7 +3,6 @@
 #include <Algebra/Retrieval/FunctionsRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Bit/AlbaBitManipulation.hpp>
 #include <Math/Number/Interval/AlbaNumberIntervalHelpers.hpp>

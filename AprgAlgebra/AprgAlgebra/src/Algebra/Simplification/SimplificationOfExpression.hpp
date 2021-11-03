@@ -2,7 +2,6 @@
 
 #include <Algebra/Constructs/TermRaiseToTerms.hpp>
 #include <Algebra/Constructs/TermsOverTerms.hpp>
-#include <Algebra/Term/TermTypes/Expression.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Container/AlbaConfigurationHolder.hpp>
 

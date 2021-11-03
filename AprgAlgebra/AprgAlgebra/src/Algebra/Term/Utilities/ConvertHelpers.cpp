@@ -1,7 +1,6 @@
 #include "ConvertHelpers.hpp"
 
 #include <Algebra/Simplification/SimplificationOfFunctionToTerm.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace alba::algebra::Simplification;
@@ -109,10 +108,12 @@ Term convertExpressionToSimplestTerm(Expression const& expression)
         newTerm.clear();
     }
     else if(expression.containsOnlyOnePositivelyAssociatedTerm())
-    {        Term const& term = dynamic_cast<Term const&>(expression.getFirstTermConstReference());
+    {
+        Term const& term = dynamic_cast<Term const&>(expression.getFirstTermConstReference());
         newTerm = term;
         newTerm.simplify();
-    }    return newTerm;
+    }
+    return newTerm;
 }
 
 Term convertFunctionToSimplestTerm(Function const& functionObject)

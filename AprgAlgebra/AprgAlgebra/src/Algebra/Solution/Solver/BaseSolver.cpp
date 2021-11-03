@@ -1,7 +1,5 @@
 #include "BaseSolver.hpp"
 
-using namespace std;
-
 namespace alba
 {
 

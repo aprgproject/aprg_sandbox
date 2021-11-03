@@ -1,21 +1,17 @@
 #include "Integration.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
-#include <Algebra/Constructs/TermRaiseToANumber.hpp>
-#include <Algebra/Constructs/TermRaiseToTerms.hpp>
 #include <Algebra/Differentiation/Differentiation.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Functions/FunctionUtilities.hpp>
 #include <Algebra/KnownExpressionsAndEquations/TrigonometricEquations.hpp>
 #include <Algebra/Integration/IntegrationUtilities.hpp>
 #include <Algebra/Isolation/IsolationOfOneVariableOnEqualityEquation.hpp>
-#include <Algebra/Retrieval/ExponentsRetriever.hpp>
 #include <Algebra/Retrieval/SubTermsRetriever.hpp>
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
 #include <Algebra/Substitution/SubstitutionOfTermsToTerms.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
@@ -25,8 +21,6 @@
 #include <Algebra/Utilities/KnownNames.hpp>
 #include <Math/AlbaMathHelper.hpp>
 #include <String/AlbaStringHelper.hpp>
-
-#include <algorithm>
 
 using namespace alba::algebra::Functions;
 using namespace alba::algebra::Simplification;
@@ -519,10 +513,12 @@ void Integration::integrateNonChangingAndChangingTermsInMultiplicationOrDivision
         Term changingTermCombined(createTermWithMultiplicationAndDivisionTermsWithDetails(changingTerms));
         Term integratedChangingTerm(integrateInternallyWithPurpose(changingTermCombined, IntegrationPurpose::NoChange));
         if(isNotANumber(integratedChangingTerm))
-        {            result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+        {
+            result = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
         }
         else
-        {            result = nonChangingTermCombined * integratedChangingTerm;
+        {
+            result = nonChangingTermCombined * integratedChangingTerm;
         }
     }
 }
@@ -954,10 +950,12 @@ void Integration::integrateInMultiplicationOrDivisionByTryingReverseChainRule(
         Term secondTerm(createTermWithMultiplicationAndDivisionTermsWithDetails({termsWithDetailsInMultiplicationOrDivision.at(i)}));
         Term innerTermInFirstTerm;
         firstTerm.simplify();
-        secondTerm.simplify();        findInnerAndOuterTermForChainRule(innerTermInFirstTerm, firstTerm);
+        secondTerm.simplify();
+        findInnerAndOuterTermForChainRule(innerTermInFirstTerm, firstTerm);
         if(!innerTermInFirstTerm.isEmpty())
         {
-            integrateUsingReverseChainRule(result, firstTerm, innerTermInFirstTerm, secondTerm);        }
+            integrateUsingReverseChainRule(result, firstTerm, innerTermInFirstTerm, secondTerm);
+        }
     }
 }
 
@@ -1085,10 +1083,12 @@ void Integration::integrateAsPolynomialOverPolynomial(
             fractionalPartResult.clear();
         }
     }
-    if(!fractionalPartResult.isEmpty())    {
+    if(!fractionalPartResult.isEmpty())
+    {
         result = wholePartResult + fractionalPartResult;
     }
 }
+
 void Integration::integrateUsingPartialFractionPolynomials(
         Term & result,
         string const& originalVariableName,
@@ -1391,10 +1391,12 @@ void Integration::integrateUsingIntegrationByPartsByTryingTwoTerms(
                 Term secondTerm(createTermWithMultiplicationAndDivisionTermsWithDetails({termsWithDetailsInMultiplicationAndDivision.at(i)}));
                 firstTerm.simplify();
                 secondTerm.simplify();
-                if(result.isEmpty())                {
+                if(result.isEmpty())
+                {
                     integrateUsingIntegrationByPartsByTryingTwoTermsWithDifferentOrder(result, term, firstTerm, secondTerm);
                 }
-            }        }
+            }
+        }
     }
 }
 

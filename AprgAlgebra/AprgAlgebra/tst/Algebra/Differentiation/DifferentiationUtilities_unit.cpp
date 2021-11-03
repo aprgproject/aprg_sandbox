@@ -200,9 +200,11 @@ TEST(DifferentiationUtilitiesTest, GetSlopeOfTermInPolarCoordinatesWorks)
     EXPECT_EQ(Term(AlbaNumber::createFraction(2, 3)), termToVerify);
 }
 
-TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForEToTheX){
+TEST(DifferentiationUtilitiesTest, GetApproximationUsingTaylorsFormulaWorksForEToTheX)
+{
     Term x("x");
     Term termToTest(createExpressionIfPossible({getEAsTerm(), Term("^"), x}));
+
     Term termToVerify(getApproximationUsingTaylorsFormula(termToTest, "x", Term(Constant(0)), Term("q"), 3));
 
     string stringToExpect("((1/6)[q^3] + (1/2)[q^2] + 1[q] + 1)");

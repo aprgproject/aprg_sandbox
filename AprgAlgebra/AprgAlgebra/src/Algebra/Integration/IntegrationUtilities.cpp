@@ -8,7 +8,6 @@
 #include <Algebra/Integration/IntegrationForFiniteCalculus.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Summation/Summation.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>

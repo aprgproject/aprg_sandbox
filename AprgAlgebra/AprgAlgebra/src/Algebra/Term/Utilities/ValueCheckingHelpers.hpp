@@ -15,13 +15,16 @@ bool isValueSatisfyTheCondition(Constant const& constant, NumberCheckingConditio
 bool isValueSatisfyTheCondition(Monomial const& monomial, NumberCheckingCondition const& condition);
 bool isValueSatisfyTheCondition(Polynomial const& polynomial, NumberCheckingCondition const& condition);
 bool isValueSatisfyTheCondition(Expression const& expression, NumberCheckingCondition const& condition);
+
 bool doAnyNumbersSatisfyTheCondition(Term const& term, NumberCheckingCondition const& condition);
 bool doAnyNumbersSatisfyTheCondition(Monomial const& monomial, NumberCheckingCondition const& condition);
 bool doAnyNumbersSatisfyTheCondition(Polynomial const& polynomial, NumberCheckingCondition const& condition);
 bool doAnyNumbersSatisfyTheCondition(Expression const& expression, NumberCheckingCondition const& condition);
 bool doAnyNumbersSatisfyTheCondition(Function const& function, NumberCheckingCondition const& condition);
+
 bool willHaveNoEffectOnAdditionOrSubtraction(Term const& term);
 bool willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(Term const& term);
+
 bool isTheValue(Term const& term, AlbaNumber const& number);
 bool isTheValue(Constant const& constant, AlbaNumber const& number);
 bool isTheValue(Monomial const& monomial, AlbaNumber const& number);
@@ -37,6 +40,14 @@ bool isPositiveOrNegativeInfinity(Constant const& constant);
 bool isPositiveOrNegativeInfinity(Monomial const& monomial);
 bool isPositiveOrNegativeInfinity(Polynomial const& polynomial);
 bool isPositiveOrNegativeInfinity(Expression const& expression);
+bool isANegativeTerm(Term const& term);
+bool isANegativeConstant(Constant const& constant);
+bool isANegativeMonomial(Monomial const& monomial);
+bool isANegativePolynomial(Polynomial const& polynomial);
+bool isANegativeExpression(Expression const& expression);
+bool isPositiveIntegerConstant(Term const& term);
+bool isAFiniteConstant(Term const& term);
+
 bool hasNotANumber(Term const& term);
 bool hasNotANumber(Monomial const& monomial);
 bool hasNotANumber(Polynomial const& polynomial);
@@ -48,9 +59,8 @@ bool hasNonFiniteNumbers(Polynomial const& polynomial);
 bool hasNonFiniteNumbers(Expression const& expression);
 bool hasNonFiniteNumbers(Function const& function);
 bool hasZero(Terms const& terms);
-
-bool isPositiveIntegerConstant(Term const& term);
-bool isAFiniteConstant(Term const& term);bool hasNegativeExponentsWithVariable(Polynomial const& polynomial, std::string const& variableName);
+bool hasNegativeExponentsWithVariable(Polynomial const& polynomial, std::string const& variableName);
 
 }
+
 }

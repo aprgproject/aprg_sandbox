@@ -239,9 +239,11 @@ TEST(TermsOverTermsTest, SimplifyWorksWithSimplifyingToFactorsWithZeroInDenomina
 
 TEST(TermsOverTermsTest, SimplifyWorksAndRemovesOnSamePolynomialInNumeratorAndDenominator)
 {
-    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(11, {})};    Polynomial polynomial2{Monomial(1, {{"y", 1}}), Monomial(13, {})};
+    Polynomial polynomial1{Monomial(1, {{"x", 1}}), Monomial(11, {})};
+    Polynomial polynomial2{Monomial(1, {{"y", 1}}), Monomial(13, {})};
     Polynomial polynomial3{Monomial(1, {{"z", 1}}), Monomial(17, {})};
     TermsOverTerms termsOverTerms({Term(polynomial2), Term(polynomial1)}, {Term(polynomial1), Term(polynomial3)});
+
     termsOverTerms.simplify();
 
     Terms numeratorsToVerify(termsOverTerms.getNumerators());
@@ -419,10 +421,12 @@ TEST(TermsOverTermsTest, SimplifyWorksWithSimplifyingToFactorsAndDoesNotCombineP
 
 TEST(TermsOverTermsTest, SimplifyWorksWithSimplifyingToFactorsWithPolynomialsWithNegativeExponents)
 {
-    Polynomial polynomial1{Monomial(1, {{"a", 1}, {"b", -1}}), Monomial(1, {{"c", 1}, {"b", -2}})};    Polynomial polynomial2{Monomial(1, {{"b", 1}})};
+    Polynomial polynomial1{Monomial(1, {{"a", 1}, {"b", -1}}), Monomial(1, {{"c", 1}, {"b", -2}})};
+    Polynomial polynomial2{Monomial(1, {{"b", 1}})};
     Polynomial polynomial3{Monomial(1, {{"a", 1}, {"b", 1}}), Monomial(1, {{"c", 1}})};
     Terms numerators{Term(polynomial1)};
-    Terms denominators{Term(polynomial2), Term(polynomial3)};    TermsOverTerms termsOverTerms(numerators, denominators);
+    Terms denominators{Term(polynomial2), Term(polynomial3)};
+    TermsOverTerms termsOverTerms(numerators, denominators);
     termsOverTerms.setAsShouldSimplifyToFactors(true);
 
     termsOverTerms.simplify();

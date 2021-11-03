@@ -9,8 +9,7 @@
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
 #include <Algebra/Term/Utilities/RetrieveHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
-
-#include <algorithm>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace std;
 

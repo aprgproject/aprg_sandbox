@@ -4,7 +4,6 @@
 #include <Algebra/Equation/EquationOperator.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
-#include <Math/Number/AlbaNumberTypes.hpp>
 #include <String/AlbaStringHelper.hpp>
 
 namespace alba

@@ -3,8 +3,6 @@
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/EnumHelpers.hpp>
 
-#include <sstream>
-
 using namespace std;
 
 namespace alba

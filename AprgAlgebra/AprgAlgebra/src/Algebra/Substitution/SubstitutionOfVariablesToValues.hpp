@@ -2,10 +2,6 @@
 
 #include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
-#include <Algebra/Term/TermTypes/TermsWithAssociation.hpp>
-#include <Math/Number/AlbaNumber.hpp>
-
-#include <string>
 
 namespace alba
 {

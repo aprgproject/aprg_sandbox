@@ -7,10 +7,12 @@
 using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
+
 Monomial createMonomialFromConstant(
         Constant const& constant)
 {
@@ -159,9 +161,11 @@ Function createFunctionWithEmptyInputExpression(
     }
     return result;
 }
+
 Function createFunctionInAnFunction(
         Function const& functionObject)
-{    return Function(
+{
+    return Function(
                 functionObject.getFunctionName(),
                 Term(functionObject),
                 functionObject.getFunctionToPerform());
@@ -170,7 +174,8 @@ Function createFunctionInAnFunction(
 Term createTermWithAdditionAndSubtractionTermsWithDetails(
         TermsWithDetails const& termsWithDetails)
 {
-    Term result(Constant(0));    if(!termsWithDetails.empty())
+    Term result(Constant(0));
+    if(!termsWithDetails.empty())
     {
         result = convertExpressionToSimplestTerm(Expression(OperatorLevel::AdditionAndSubtraction, termsWithDetails));
     }
@@ -180,7 +185,8 @@ Term createTermWithAdditionAndSubtractionTermsWithDetails(
 Term createTermWithMultiplicationAndDivisionTermsWithDetails(
         TermsWithDetails const& termsWithDetails)
 {
-    Term result(1);    if(!termsWithDetails.empty())
+    Term result(1);
+    if(!termsWithDetails.empty())
     {
         result = convertExpressionToSimplestTerm(Expression(OperatorLevel::MultiplicationAndDivision, termsWithDetails));
     }
@@ -190,8 +196,10 @@ Term createTermWithMultiplicationAndDivisionTermsWithDetails(
 Term createTermWithRaiseToPowerTermsWithDetails(
         TermsWithDetails const& termsWithDetails)
 {
-    return convertExpressionToSimplestTerm(Expression(OperatorLevel::RaiseToPower, termsWithDetails));}
+    return convertExpressionToSimplestTerm(Expression(OperatorLevel::RaiseToPower, termsWithDetails));
+}
 
 
 }
+
 }

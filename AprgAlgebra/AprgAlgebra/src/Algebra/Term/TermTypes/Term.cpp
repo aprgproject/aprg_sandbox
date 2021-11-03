@@ -1,13 +1,11 @@
 #include "Term.hpp"
 
-#include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/EnumHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 
 #include <cassert>
-#include <string>
 
 using namespace std;
 
@@ -417,10 +415,12 @@ void Term::clear()
 
 void Term::simplify()
 {
-    if(m_type==TermType::Monomial)    {
+    if(m_type==TermType::Monomial)
+    {
         *this = simplifyAndConvertMonomialToSimplestTerm(getMonomialConstReference());
     }
-    else if(m_type==TermType::Polynomial)    {
+    else if(m_type==TermType::Polynomial)
+    {
         *this = simplifyAndConvertPolynomialToSimplestTerm(getPolynomialConstReference());
     }
     else if(m_type==TermType::Expression)

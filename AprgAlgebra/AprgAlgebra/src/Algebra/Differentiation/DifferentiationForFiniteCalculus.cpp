@@ -1,7 +1,6 @@
 #include "DifferentiationForFiniteCalculus.hpp"
 
 #include <Algebra/Differentiation/DifferentiationUtilities.hpp>
-#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 using namespace std;

@@ -2,7 +2,6 @@
 
 #include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
-#include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 #include <Math/Number/AlbaNumber.hpp>
 #include <Math/Number/AlbaNumberTypes.hpp>
 

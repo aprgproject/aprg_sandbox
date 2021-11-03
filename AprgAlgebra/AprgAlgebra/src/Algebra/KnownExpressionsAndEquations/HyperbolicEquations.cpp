@@ -3,7 +3,6 @@
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
-#include <Algebra/Utilities/KnownNames.hpp>
 
 using namespace alba::algebra::Functions;
 using namespace std;

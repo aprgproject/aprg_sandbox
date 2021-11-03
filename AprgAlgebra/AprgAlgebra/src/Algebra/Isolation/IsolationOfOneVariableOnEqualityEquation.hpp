@@ -2,8 +2,6 @@
 
 #include <Algebra/Equation/Equation.hpp>
 
-#include <string>
-
 namespace alba
 {
 

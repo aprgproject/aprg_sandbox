@@ -1,10 +1,8 @@
 #include "SimplificationOfFunctionToTerm.hpp"
 
-#include <Algebra/Constructs/ConstructUtilities.hpp>
 #include <Algebra/Constructs/TermRaiseToTerms.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Functions/FunctionUtilities.hpp>
-#include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 

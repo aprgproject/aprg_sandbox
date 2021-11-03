@@ -1,7 +1,6 @@
 #include "Function.hpp"
 
 #include <Algebra/Simplification/SimplificationOfFunction.hpp>
-#include <Algebra/Term/TermTypes/Term.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 
 using namespace alba::algebra::Simplification;

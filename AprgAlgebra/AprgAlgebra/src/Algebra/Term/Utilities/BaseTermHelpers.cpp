@@ -8,16 +8,16 @@ namespace algebra
 
 BaseTermSharedPointer createNewTermAndReturnSharedPointer(BaseTermSharedPointer const& sharedPointer)
 {
-    return move(BaseTermSharedPointer(
+    return BaseTermSharedPointer(
                     dynamic_cast<BaseTerm*>(
-                        new Term(*dynamic_cast<Term*>(sharedPointer.get())))));
+                        new Term(*dynamic_cast<Term*>(sharedPointer.get()))));
 }
 
 BaseTermSharedPointer copyAndCreateNewTermAndReturnSharedPointer(Term const& term)
 {
-    return move(BaseTermSharedPointer(
+    return BaseTermSharedPointer(
                     dynamic_cast<BaseTerm*>(
-                        new Term(term))));
+                        new Term(term)));
 }
 
 Term const& getTermConstReferenceFromBaseTerm(BaseTerm const& baseTerm)

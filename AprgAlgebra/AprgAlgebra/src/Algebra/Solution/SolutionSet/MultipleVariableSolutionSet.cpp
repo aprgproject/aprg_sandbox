@@ -1,7 +1,6 @@
 #include "MultipleVariableSolutionSet.hpp"
 
 #include <algorithm>
-#include <sstream>
 
 using namespace std;
 

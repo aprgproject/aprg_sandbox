@@ -1,6 +1,5 @@
 #include "AdditionAndSubtractionOfTermsOverTerms.hpp"
 
-#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>

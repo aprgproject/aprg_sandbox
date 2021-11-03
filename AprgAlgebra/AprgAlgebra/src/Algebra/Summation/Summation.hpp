@@ -2,9 +2,6 @@
 
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-#include <functional>
-#include <string>
-
 namespace alba
 {
 

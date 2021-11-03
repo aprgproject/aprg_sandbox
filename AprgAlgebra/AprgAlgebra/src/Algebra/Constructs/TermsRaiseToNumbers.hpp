@@ -22,7 +22,8 @@ public:
 
     BaseToExponentMap const& getBaseToExponentMap() const;
     AlbaNumber getExponentOfBase(Term const& base) const;
-    Terms getTermsInMultiplicationOperation() const;    TermsWithDetails getTermWithDetailsInMultiplicationAndDivisionOperation() const;
+    Terms getTermsInMultiplicationOperation() const;
+    TermsWithDetails getTermWithDetailsInMultiplicationAndDivisionOperation() const;
 
     void addExponents(TermsRaiseToNumbers const& termsRaiseToNumbers);
     void subtractExponents(TermsRaiseToNumbers const& termsRaiseToNumbers);
@@ -32,9 +33,11 @@ public:
 
     void setBaseAndExponent(Term const& base, AlbaNumber const& exponent);
     void removeItemWithBase(Term const& base);
+
     void simplify();
 
 private:
+
     void removeItemsWithExponentsZero();
     Term convertToTerm(Term const& base, AlbaNumber const& exponent) const;
 

@@ -1,15 +1,12 @@
 #include "ConstructUtilities.hpp"
 
 #include <Algebra/Constructs/PolynomialRaiseToAnUnsignedInt.hpp>
-#include <Algebra/Constructs/TermsRaiseToNumbers.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
-#include <Algebra/Term/Utilities/SegregateHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
-#include <Optional/AlbaOptional.hpp>
 
 #include <algorithm>
 
@@ -205,10 +202,12 @@ void createTermRaiseToANumberFromRaiseToPowerExpression(
         Term newBase(createTermWithRaiseToPowerTermsWithDetails(raiseToPowerTerms));
         newBase.simplify();
         result = TermRaiseToANumber(newBase, combinedExponentValue);
-        // how about if exponent is polynomial or expression? how do we extract constant? should we introduce factorization here?    }
+        // how about if exponent is polynomial or expression? how do we extract constant? should we introduce factorization here?
+    }
 }
 
-void createTermRaiseToANumberFromMultiplicationAndDivisionExpression(        TermRaiseToANumber & result,
+void createTermRaiseToANumberFromMultiplicationAndDivisionExpression(
+        TermRaiseToANumber & result,
         Expression const& expression)
 {
     TermsOverTerms originalTot(createTermsOverTermsFromTerm(Term(expression)));

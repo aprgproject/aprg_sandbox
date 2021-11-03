@@ -567,7 +567,8 @@ AlbaNumber AlbaNumber::operator^(AlbaNumber const& second) const
             result = AlbaNumber(raiseToPower(firstInDouble, secondInDouble));
         }
         else if(first.m_type == Type::Fraction && second.m_type == Type::Integer)
-        {            result = raisePowerOfFractionsAndIntegerAndReturnNumber(shouldBeConvertedToDouble, first.m_data.fractionData, second.m_data.intData);
+        {
+            result = raisePowerOfFractionsAndIntegerAndReturnNumber(shouldBeConvertedToDouble, first.m_data.fractionData, second.m_data.intData);
         }
         else if(first.m_type == Type::Fraction && second.m_type == Type::Double)
         {
@@ -582,10 +583,12 @@ AlbaNumber AlbaNumber::operator^(AlbaNumber const& second) const
             result = AlbaNumber(raiseToPower(firstInDouble, secondInDouble));
         }
         else if(first.m_type == Type::ComplexNumber)
-        {            ComplexFloat resultComplex(
+        {
+            ComplexFloat resultComplex(
                         createComplexNumberFromData(first.m_data.complexNumberData)
                         ^ secondInDouble);
-            result = createComplexNumber(resultComplex.getRealPart(), resultComplex.getImaginaryPart());        }
+            result = createComplexNumber(resultComplex.getRealPart(), resultComplex.getImaginaryPart());
+        }
         else if(first.m_type == Type::ComplexNumber && second.m_type == Type::Double)
         {
             ComplexFloat resultComplex(
@@ -614,9 +617,11 @@ AlbaNumber AlbaNumber::operator^(AlbaNumber const& second) const
     }
     return result;
 }
+
 AlbaNumber AlbaNumber::operator+(int const integerValue) const
 {
-    return operator+(AlbaNumber(integerValue));}
+    return operator+(AlbaNumber(integerValue));
+}
 
 AlbaNumber AlbaNumber::operator-(int const integerValue) const
 {
@@ -1136,10 +1141,12 @@ double AlbaNumber::raiseToPower(double const base, double const exponent) const
 
 AlbaNumber AlbaNumber::addBothIntegersAndReturnNumber(
         bool & shouldBeConvertedToDouble,
-        long long int const integerValue1,        long long int const integerValue2) const
+        long long int const integerValue1,
+        long long int const integerValue2) const
 {
     shouldBeConvertedToDouble
-            = isValueBeyondLimits<long long int>(                static_cast<double>(integerValue1)
+            = isValueBeyondLimits<long long int>(
+                static_cast<double>(integerValue1)
                 + static_cast<double>(integerValue2));
     return AlbaNumber(integerValue1 + integerValue2);
 }

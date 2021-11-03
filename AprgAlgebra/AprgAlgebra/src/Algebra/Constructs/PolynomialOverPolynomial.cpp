@@ -2,15 +2,11 @@
 
 #include <Algebra/Factorization/Factorization.hpp>
 #include <Algebra/Factorization/FactorizationConfiguration.hpp>
-#include <Algebra/Factorization/FactorizationUtilities.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/MonomialHelpers.hpp>
-#include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
-
-#include <algorithm>
 
 using namespace alba::algebra::Factorization;
 using namespace alba::mathHelper;

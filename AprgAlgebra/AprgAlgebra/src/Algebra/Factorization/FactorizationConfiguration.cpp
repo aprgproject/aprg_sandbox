@@ -1,7 +1,5 @@
 #include "FactorizationConfiguration.hpp"
 
-using namespace std;
-
 namespace alba
 {
 

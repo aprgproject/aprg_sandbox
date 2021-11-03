@@ -1,6 +1,5 @@
 #include "Operator.hpp"
 
-#include <Algebra/Term/Utilities/EnumHelpers.hpp>
 #include <Algebra/Term/Utilities/StringHelpers.hpp>
 
 using namespace std;

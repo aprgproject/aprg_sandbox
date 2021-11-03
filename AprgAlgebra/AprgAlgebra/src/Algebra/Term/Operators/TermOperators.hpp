@@ -1,11 +1,6 @@
 #pragma once
 
-#include <Algebra/Term/TermTypes/Constant.hpp>
-#include <Algebra/Term/TermTypes/Expression.hpp>
-#include <Algebra/Term/TermTypes/Monomial.hpp>
-#include <Algebra/Term/TermTypes/Polynomial.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
-#include <Algebra/Term/TermTypes/Variable.hpp>
 
 namespace alba
 {

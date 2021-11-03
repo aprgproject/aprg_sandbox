@@ -1,21 +1,12 @@
 #include "FactorizationOfExpression.hpp"
 
 #include <Algebra/Constructs/ConstructUtilities.hpp>
-#include <Algebra/Constructs/TermRaiseToANumber.hpp>
-#include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
 #include <Algebra/Factorization/FactorizationOfTerm.hpp>
-#include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Algebra/Term/TermTypes/Term.hpp>
-#include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
-#include <Algebra/Term/Utilities/SegregateHelpers.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
-
-#include <algorithm>
 
 using namespace alba::mathHelper;
 using namespace std;
@@ -56,9 +47,11 @@ TermsRaiseToNumbers factorizeToTermsRaiseToNumbers(Expression const& expression)
     }
     return result;
 }
+
 TermsRaiseToNumbers factorizeToTermsRaiseToNumbersForAdditionAndSubtraction(
         Expression const& expression)
-{    TermsRaiseToNumbers result;
+{
+    TermsRaiseToNumbers result;
     vector<TermsRaiseToNumbers> nonConstantFactorsPerAddends;
     AlbaNumbers constantFactorsPerAddends;
     retrieveConstantAndNonConstantFactors(nonConstantFactorsPerAddends, constantFactorsPerAddends, expression);
@@ -85,9 +78,11 @@ TermsRaiseToNumbers factorizeToTermsRaiseToNumbersForMultiplicationAndDivision(
     }
     return result;
 }
+
 TermsRaiseToNumbers factorizeToTermsRaiseToNumbersForRaiseToPower(
         Expression const& expression)
-{    TermsRaiseToNumbers result;
+{
+    TermsRaiseToNumbers result;
     TermRaiseToANumber mainBaseToExponent(createTermRaiseToANumberFromExpression(expression));
     Term const& base(mainBaseToExponent.getBase());
     AlbaNumber const& exponent(mainBaseToExponent.getExponent());
@@ -115,10 +110,12 @@ TermsRaiseToNumbers factorizeToTermsRaiseToNumbersForRaiseToPower(
         result.putTerms(factorizedBases, TermAssociationType::Positive);
         result.multiplyNumberToExponents(mainBaseToExponent.getExponent());
     }
-    return result;}
+    return result;
+}
 
 void retrieveConstantAndNonConstantFactors(
-        vector<TermsRaiseToNumbers> & nonConstantFactorsPerAddends,        AlbaNumbers & constantFactors,
+        vector<TermsRaiseToNumbers> & nonConstantFactorsPerAddends,
+        AlbaNumbers & constantFactors,
         Expression const& expression)
 {
     TermsWithDetails const& termsWithDetails(expression.getTermsWithAssociation().getTermsWithDetails());
@@ -140,9 +137,11 @@ void retrieveConstantAndNonConstantFactors(
                 nonConstantRaiseToExponent.putTerm(factor, TermAssociationType::Positive);
             }
         }
-        constantFactors.emplace_back(constantFactor);        nonConstantFactorsPerAddends.emplace_back(nonConstantRaiseToExponent);
+        constantFactors.emplace_back(constantFactor);
+        nonConstantFactorsPerAddends.emplace_back(nonConstantRaiseToExponent);
     }
 }
+
 AlbaNumber getGcfOfConstants(AlbaNumbers const& constantFactorsPerAddends)
 {
     AlbaNumber constantGcf;
@@ -256,9 +255,11 @@ void putRemainingInnerMultipliersAsOuterAddend(
     Term combinedInnerTerm(createTermWithMultiplicationAndDivisionTermsWithDetails(innerMultipliers));
     outerAddends.emplace_back(combinedInnerTerm, originalAddend.association);
 }
+
 TermsRaiseToNumbers getFactorizedItemsBasedFromCollectedData(
         AlbaNumber const& constantGcf,
-        TermsRaiseToNumbers const& commonNonConstantFactors,        TermsWithDetails const& outerAddends)
+        TermsRaiseToNumbers const& commonNonConstantFactors,
+        TermsWithDetails const& outerAddends)
 {
     TermsRaiseToNumbers result;
     result = commonNonConstantFactors;
@@ -274,7 +275,9 @@ TermsRaiseToNumbers getFactorizedItemsBasedFromCollectedData(
     }
     return result;
 }
+
 }
 
 }
+
 }

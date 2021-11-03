@@ -3,8 +3,6 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-#include <string>
-
 namespace alba
 {
 

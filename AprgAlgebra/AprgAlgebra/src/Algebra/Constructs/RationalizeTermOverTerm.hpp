@@ -19,9 +19,11 @@ public:
     };
     RationalizeTermOverTerm();
     RationalizeTermOverTerm(Term const& numerator, Term const& denominator);
+
     Term const& getNumerator() const;
     Term const& getDenominator() const;
     Term getCombinedTerm() const;
+
     void rationalizeNumerator();
     void rationalizeDenominator();
 
@@ -70,8 +72,10 @@ private:
             Term & multiplier,
             TermWithDetails const& firstTermWithDetails,
             TermWithDetails const& secondTermWithDetails) const;
-    Term m_numerator;    Term m_denominator;
+    Term m_numerator;
+    Term m_denominator;
 };
 
 }
+
 }

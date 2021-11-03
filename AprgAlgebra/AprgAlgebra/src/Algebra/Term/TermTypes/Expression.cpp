@@ -8,9 +8,6 @@
 #include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
-#include <algorithm>
-#include <sstream>
-
 using namespace alba::algebra::Simplification;
 using namespace std;
 
@@ -187,10 +184,12 @@ void Expression::putTermWithAdditionIfNeeded(BaseTerm const& baseTerm)
     {
         if(isEmpty()
                 || (containsOnlyOnePositivelyAssociatedTerm()
-                    && willHaveNoEffectOnAdditionOrSubtraction(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))        {
+                    && willHaveNoEffectOnAdditionOrSubtraction(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
+        {
             setTerm(baseTerm);
         }
-        else        {
+        else
+        {
             putTermWithAddition(baseTerm);
         }
     }
@@ -210,10 +209,12 @@ void Expression::putTermWithSubtractionIfNeeded(BaseTerm const& baseTerm)
     {
         if(isEmpty()
                 || (containsOnlyOnePositivelyAssociatedTerm()
-                    && willHaveNoEffectOnAdditionOrSubtraction(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))        {
+                    && willHaveNoEffectOnAdditionOrSubtraction(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
+        {
             clear();
             m_commonOperatorLevel = OperatorLevel::AdditionAndSubtraction;
-            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);        }
+            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
+        }
         else
         {
             putTermWithSubtraction(baseTerm);
@@ -248,10 +249,12 @@ void Expression::putTermWithDivisionIfNeeded(BaseTerm const& baseTerm)
     {
         if(isEmpty()
                 || (containsOnlyOnePositivelyAssociatedTerm()
-                    && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))        {
+                    && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
+        {
             clear();
             m_commonOperatorLevel = OperatorLevel::MultiplicationAndDivision;
-            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);        }
+            putTermForExpressionAndNonExpressions(baseTerm, TermAssociationType::Negative);
+        }
         else
         {
             putTermWithDivision(baseTerm);
@@ -468,10 +471,12 @@ void Expression::putOnlyTermWithMultiplicationIfNeeded(BaseTerm const& baseTerm)
     {
         if(isEmpty()
                 || (containsOnlyOnePositivelyAssociatedTerm()
-                    && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))        {
+                    && willHaveNoEffectOnMultiplicationOrDivisionOrRaiseToPower(getTermConstReferenceFromBaseTerm(getFirstTermConstReference()))))
+        {
             setTerm(baseTerm);
         }
-        else        {
+        else
+        {
             putTermWithMultiplication(baseTerm);
         }
     }

@@ -1,6 +1,5 @@
 #include "FactorizationUtilities.hpp"
 
-#include <Algebra/Factorization/Factorization.hpp>
 #include <Algebra/Retrieval/ExponentsRetriever.hpp>
 #include <Algebra/Term/Utilities/PolynomialHelpers.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>

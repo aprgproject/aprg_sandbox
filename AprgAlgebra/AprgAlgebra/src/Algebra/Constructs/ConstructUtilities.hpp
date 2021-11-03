@@ -3,7 +3,6 @@
 #include <Algebra/Constructs/PolynomialOverPolynomial.hpp>
 #include <Algebra/Constructs/TermRaiseToANumber.hpp>
 #include <Algebra/Constructs/TermsOverTerms.hpp>
-#include <Algebra/Term/TermTypes/Term.hpp>
 
 namespace alba
 {

@@ -2,7 +2,6 @@
 
 #include <Algebra/Constructs/PolynomialOverPolynomial.hpp>
 #include <Algebra/Constructs/TermsRaiseToNumbers.hpp>
-#include <Algebra/Equation/Equation.hpp>
 #include <Algebra/Integration/IntegrationHistory.hpp>
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>

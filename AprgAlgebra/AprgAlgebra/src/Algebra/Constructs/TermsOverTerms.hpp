@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Algebra/Constructs/TermsRaiseToNumbers.hpp>
-#include <Algebra/Term/TermTypes/Term.hpp>
 
 #include <string>
 #include <vector>
@@ -17,10 +16,12 @@ class TermsOverTerms
 public:
     TermsOverTerms();
     TermsOverTerms(TermsWithDetails const& termsInMultiplicationAndDivision);
-    TermsOverTerms(Terms const& numerators, Terms const& denominators);    TermsOverTerms(TermsWithDetails const& numerators, TermsWithDetails const& denominators);
+    TermsOverTerms(Terms const& numerators, Terms const& denominators);
+    TermsOverTerms(TermsWithDetails const& numerators, TermsWithDetails const& denominators);
 
     Terms const& getNumerators() const;
-    Terms const& getDenominators() const;    TermsWithDetails getNumeratorAndDenominatorAsTermWithDetails() const;
+    Terms const& getDenominators() const;
+    TermsWithDetails getNumeratorAndDenominatorAsTermWithDetails() const;
     Term getCombinedTerm() const;
     Term getCombinedNumerator() const;
     Term getCombinedDenominator() const;
@@ -38,9 +39,11 @@ public:
     void setAsShouldSimplifyToFactors(bool const shouldSimplifyToFactors);
     void setAsShouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue(
             bool const shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue);
+
     void simplify();
 
-private:    Terms factorizeTermsAsNeeded(Terms const& terms) const;
+private:
+    Terms factorizeTermsAsNeeded(Terms const& terms) const;
     void continueToSimplifyToFactors(
             Terms & factorizedNumerators,
             Terms & factorizedDenominators);
@@ -53,10 +56,12 @@ private:    Terms factorizeTermsAsNeeded(Terms const& terms) const;
             Terms & denominators);
     void putTermsOnNumeratorAndDenominatorBasedFromTermsRaiseToNumbers(
             Terms & numeratorTerms,
-            Terms & denominatorTerms,            TermsRaiseToNumbers const& termsRaiseToNumbers);
+            Terms & denominatorTerms,
+            TermsRaiseToNumbers const& termsRaiseToNumbers);
     void clearTermsThenEmplacePolynomialAndRemainingTerms(
             Polynomial const& polynomialNumerator,
-            Terms const& remainingNumerators,            Terms & termsToUpdate) const;
+            Terms const& remainingNumerators,
+            Terms & termsToUpdate) const;
     void emplacePolynomialIfNeeded(Terms & termsResult, Polynomial const& polynomialNumerator) const;
     void retrievePolynomialAndNonPolynomialsTerms(
             Terms const& termsToCheck,
@@ -74,14 +79,16 @@ private:    Terms factorizeTermsAsNeeded(Terms const& terms) const;
             AlbaNumber const& exponent);
     void removeTermsThatHaveNoEffect(Terms & terms) const;
     void putTermsOnNumeratorAndDenominatorCorrectly(
-            Terms & numerators,            Terms & denominators);
+            Terms & numerators,
+            Terms & denominators);
     void putTermsToRetainAndOnTheOtherSide(
             Terms const& termsToSegregate,
             Terms & termsToRetain,
             Terms & termsToPutOnTheOtherSide) const;
     void simplifyPolynomialNumeratorAndPolynomialDenominator(
             Polynomial & polynomialNumerator,
-            Polynomial & polynomialDenominator) const;    void simplifyMonomialsToPolynomialOverPolynomial();
+            Polynomial & polynomialDenominator) const;
+    void simplifyMonomialsToPolynomialOverPolynomial();
     void simplifyPolynomialsToPolynomialOverPolynomial();
     bool isPolynomialAndhasDoubleValue(Term const& term) const;
     Terms m_numerators;
@@ -89,7 +96,9 @@ private:    Terms factorizeTermsAsNeeded(Terms const& terms) const;
     bool m_shouldSimplifyToFactors;
     bool m_shouldNotFactorizeIfItWouldYieldToPolynomialsWithDoubleValue;
 };
+
 using VectorOfTermsOverTerms = std::vector<TermsOverTerms>;
 
 }
+
 }

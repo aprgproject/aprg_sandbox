@@ -2,7 +2,6 @@
 
 #include <Algebra/Constructs/PolynomialRaiseToAnUnsignedInt.hpp>
 #include <Algebra/Functions/CommonFunctionLibrary.hpp>
-#include <Algebra/Functions/FunctionUtilities.hpp>
 #include <Algebra/Operations/AccumulateOperations.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/BaseTermHelpers.hpp>

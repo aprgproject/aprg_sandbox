@@ -1,7 +1,7 @@
 #include "PolynomialRaiseToAnUnsignedInt.hpp"
 
 #include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
-#include <Algebra/Term/Utilities/TermUtilities.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 using namespace alba::algebra::Factorization;

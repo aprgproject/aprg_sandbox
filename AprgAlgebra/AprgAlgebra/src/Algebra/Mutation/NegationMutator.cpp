@@ -1,6 +1,7 @@
 #include "NegationMutator.hpp"
 
 #include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 
 namespace alba
 {

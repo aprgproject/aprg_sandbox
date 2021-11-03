@@ -1,7 +1,6 @@
 #include "MonomialHelpers.hpp"
 
 #include <Algebra/Retrieval/VariableNamesRetriever.hpp>
-#include <Algebra/Term/TermTypes/TermContainerTypes.hpp>
 #include <Math/AlbaMathHelper.hpp>
 
 using namespace alba::mathHelper;

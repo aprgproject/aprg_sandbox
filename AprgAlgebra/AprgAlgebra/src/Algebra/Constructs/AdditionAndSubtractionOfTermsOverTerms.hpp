@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Algebra/Constructs/TermsOverTerms.hpp>
-#include <Algebra/Term/TermTypes/TermAssociationType.hpp>
 
 namespace alba
 {

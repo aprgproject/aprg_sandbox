@@ -88,47 +88,6 @@ TEST(TermUtilitiesTest, IsARadicalTermWorks)
     EXPECT_TRUE(isARadicalTerm(raiseToMonomialWithDoubleExpressionTerm));
 }
 
-TEST(TermUtilitiesTest, IsANegativeTermWorks)
-{
-    Term x("x");
-    EXPECT_TRUE(isANegativeTerm(Term(-1)));    EXPECT_FALSE(isANegativeTerm(Term(1)));
-    EXPECT_FALSE(isANegativeTerm(x));
-    EXPECT_TRUE(isANegativeTerm(Term(Monomial(-1, {{"x", 1}}))));
-    EXPECT_FALSE(isANegativeTerm(Term(Monomial(1, {{"x", 1}}))));    EXPECT_TRUE(isANegativeTerm(Term(Polynomial{Monomial(-1, {{"x", 3}}), Monomial(4, {}), })));
-    EXPECT_FALSE(isANegativeTerm(Term(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-4, {}), })));
-    EXPECT_TRUE(isANegativeTerm(Term(createExpressionIfPossible({Term(-5), Term("+"), x}))));
-    EXPECT_FALSE(isANegativeTerm(Term(createExpressionIfPossible({Term(5), Term("+"), x}))));
-    EXPECT_FALSE(isANegativeTerm(Term(abs(Term(-5)))));
-}
-
-TEST(TermUtilitiesTest, IsANegativeConstantWorks)
-{
-    EXPECT_TRUE(isANegativeConstant(Constant(-1)));
-    EXPECT_FALSE(isANegativeConstant(Constant(1)));
-}
-
-TEST(TermUtilitiesTest, IsANegativeMonomialWorks)
-{
-    EXPECT_TRUE(isANegativeMonomial(Monomial(-1, {{"x", 1}})));
-    EXPECT_FALSE(isANegativeMonomial(Monomial(1, {{"x", 1}})));
-}
-
-TEST(TermUtilitiesTest, IsANegativePolynomialWorks)
-{
-    EXPECT_TRUE(isANegativePolynomial(Polynomial{Monomial(-1, {{"x", 3}}), Monomial(4, {}), }));
-    EXPECT_FALSE(isANegativePolynomial(Polynomial{Monomial(1, {{"x", 3}}), Monomial(-4, {}), }));
-}
-
-TEST(TermUtilitiesTest, IsANegativeExpressionWorks)
-{
-    Term x("x");
-    EXPECT_TRUE(isANegativeExpression(createExpressionIfPossible({Term(-5), Term("+"), x})));    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({Term(5), Term("+"), x})));
-    EXPECT_TRUE(isANegativeExpression(createExpressionIfPossible({Term(-5), Term("*"), x})));
-    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({Term(-5), Term("*"), Term(-3)})));
-    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({Term(-5), Term("^"), x})));
-    EXPECT_FALSE(isANegativeExpression(createExpressionIfPossible({Term(5), Term("^"), x})));
-}
-
 TEST(TermUtilitiesTest, GetNumberOfTermsWorks)
 {
     Term w("w");
@@ -141,10 +100,12 @@ TEST(TermUtilitiesTest, GetNumberOfTermsWorks)
 
 TEST(TermUtilitiesTest, GetConstantFactorWorks)
 {
-    Term x("x");    EXPECT_EQ(AlbaNumber(5), getConstantFactor(Term(5)));
+    Term x("x");
+    EXPECT_EQ(AlbaNumber(5), getConstantFactor(Term(5)));
     EXPECT_EQ(AlbaNumber(6), getConstantFactor(Term(Monomial(6, {{"x", 7}}))));
     EXPECT_EQ(AlbaNumber(4), getConstantFactor(Term(Polynomial{Monomial(8, {{"x", 3}}), Monomial(12, {{"x", 4}})})));
-    EXPECT_EQ(AlbaNumber(1), getConstantFactor(x));}
+    EXPECT_EQ(AlbaNumber(1), getConstantFactor(x));
+}
 
 TEST(TermUtilitiesTest, EvaluateAndGetInputOutputPairWorks)
 {
@@ -188,10 +149,12 @@ TEST(TermUtilitiesTest, ConvertPositiveTermIfNegativeWorks)
 
 TEST(TermUtilitiesTest, NegateTermWorks)
 {
-    Term sinX(sin(Term("x")));    Term sinY(sin(Term("y")));
+    Term sinX(sin(Term("x")));
+    Term sinY(sin(Term("y")));
     Term sinZ(sin(Term("z")));
     Term term1(createExpressionIfPossible({sinX, Term("+"), sinY, Term("-"), sinZ}));
-    Term term2(createExpressionIfPossible({sinX, Term("*"), sinY, Term("/"), sinZ}));    Term term3(createExpressionIfPossible({sinX, Term("^"), sinY, Term("^"), sinZ}));
+    Term term2(createExpressionIfPossible({sinX, Term("*"), sinY, Term("/"), sinZ}));
+    Term term3(createExpressionIfPossible({sinX, Term("^"), sinY, Term("^"), sinZ}));
 
     Term termToVerify1(negateTerm(Term(5)));
     Term termToVerify2(negateTerm(Term("x")));
@@ -230,10 +193,12 @@ TEST(TermUtilitiesTest, FlipTermIfHasNegativeAssociationWorks)
 
 TEST(TermUtilitiesTest, InvertTermWorks)
 {
-    Term termToTest1(5);    Term termToTest2("x");
+    Term termToTest1(5);
+    Term termToTest2("x");
     Term termToTest3(Monomial(1, {{"x", 4}}));
     Term termToTest4(Polynomial{Monomial(1, {{"x", 2}}), Monomial(-1, {})});
     Term termToTest5(createExpressionIfPossible({Term(Polynomial{Monomial(1, {{"x", 1}}), Monomial(1, {})}), Term("^"), Term(AlbaNumber::createFraction(1, 2))}));
+
     Term termToVerify1(invertTerm(termToTest1, "x"));
     Term termToVerify2(invertTerm(termToTest2, "x"));
     Term termToVerify3(invertTerm(termToTest3, "x"));

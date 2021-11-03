@@ -1,6 +1,5 @@
 #include "Factorization.hpp"
 
-#include <Algebra/Factorization/FactorizationOfExpression.hpp>
 #include <Algebra/Factorization/FactorizationOfPolynomial.hpp>
 
 using namespace std;

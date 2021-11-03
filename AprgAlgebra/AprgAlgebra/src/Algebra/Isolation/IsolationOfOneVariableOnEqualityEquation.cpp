@@ -2,7 +2,6 @@
 
 #include <Algebra/Simplification/SimplificationOfExpression.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
-#include <Algebra/Term/Utilities/BaseTermHelpers.hpp>
 #include <Algebra/Term/Utilities/ConvertHelpers.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 #include <Algebra/Term/Utilities/SegregateHelpers.hpp>
@@ -161,10 +160,12 @@ void IsolationOfOneVariableOnEqualityEquation::isolateTermWithVariable(
         Term termFromExpressionWithoutVariable(createTermWithAdditionAndSubtractionTermsWithDetails(termsWithDetailsWithoutVariable));
 
         termFromExpressionWithVariable.simplify();
-        if(canBeConvertedToPolynomial(termFromExpressionWithVariable))        {
+        if(canBeConvertedToPolynomial(termFromExpressionWithVariable))
+        {
             Polynomial polynomialWithVariable(createPolynomialIfPossible(termFromExpressionWithVariable));
             AlbaNumber identicalExponentForVariable(getIdenticalExponentForVariableIfPossible(variableName, polynomialWithVariable));
-            Term termWithIsolatedVariable(Monomial(1, {{variableName, identicalExponentForVariable}}));            Term numerator(negateTerm(termFromExpressionWithoutVariable));
+            Term termWithIsolatedVariable(Monomial(1, {{variableName, identicalExponentForVariable}}));
+            Term numerator(negateTerm(termFromExpressionWithoutVariable));
             Term denominator(termFromExpressionWithVariable/termWithIsolatedVariable);
             termWithVariable = termWithIsolatedVariable;
             termWithWithoutVariable = numerator/denominator;
