@@ -174,14 +174,13 @@ private:
     void convertFromDoubleToIntegerIfNeeded();
 
     double adjustFloatValue(float const value) const;
+    double raiseToPower(double const base, double const exponent) const;
 
     AlbaNumber addBothIntegersAndReturnNumber(
-            bool & shouldBeConvertedToDouble,
-            long long int const integerValue1,
+            bool & shouldBeConvertedToDouble,            long long int const integerValue1,
             long long int const integerValue2) const;
     AlbaNumber addBothDoubleAndReturnNumber(double const doubleValue1, double const doubleValue2) const;
-    AlbaNumber addBothFractionsAndReturnNumber(
-            bool & shouldBeConvertedToDouble,
+    AlbaNumber addBothFractionsAndReturnNumber(            bool & shouldBeConvertedToDouble,
             FractionData const& fractionData1,
             FractionData const& fractionData2) const;
     AlbaNumber addIntegerAndDoubleAndReturnNumber(
