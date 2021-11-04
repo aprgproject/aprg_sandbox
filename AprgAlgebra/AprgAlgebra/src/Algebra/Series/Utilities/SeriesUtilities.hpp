@@ -4,7 +4,8 @@
 #include <Algebra/Series/SeriesBasedOnTerm.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba{
+namespace alba
+{
 
 namespace algebra
 {
@@ -37,10 +38,12 @@ void performLimitComparisonTest(
 
 Term getSumOfArithmeticSeriesUsingFirstAndLastTerm(
         Term const& firstTerm,
-        Term const& lastTerm,        Term const& count);
+        Term const& lastTerm,
+        Term const& count);
 
 Term getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(
-        Term const& firstValue,        Term const& commonMultiplier,
+        Term const& firstValue,
+        Term const& commonMultiplier,
         int const count);
 
 Term getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(

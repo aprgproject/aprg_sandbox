@@ -81,16 +81,19 @@ Term getTermUsingLhopitalsRule(
         AlbaNumber const& valueToApproach);
 
 void calculateTermAndLimitUsingLhopitalsRule(
-        Term & newTerm,        Term & limitValue,
+        Term & newTerm,
+        Term & limitValue,
         Term const& term,
         std::string const& variableName,
         AlbaNumber const& valueToApproach);
 
 Term getLimitAtAValueOrInfinity(
-        Term const& term,        std::string const& variableName,
+        Term const& term,
+        std::string const& variableName,
         AlbaNumber const& valueToApproach);
 
-Term getLimitAtAValue(        Term const& term,
+Term getLimitAtAValue(
+        Term const& term,
         std::string const& variableName,
         AlbaNumber const& value,
         LimitAtAValueApproachType const limitApproachType);

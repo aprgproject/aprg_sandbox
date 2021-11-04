@@ -15,8 +15,10 @@ using namespace alba::algebra::Simplification;
 
 namespace alba
 {
+
 namespace algebra
 {
+
 SeriesBasedOnTerm::SeriesBasedOnTerm(
         Term const& formulaForSeries,
         std::string const& nameForVariableInFormula)
@@ -61,10 +63,12 @@ Term SeriesBasedOnTerm::getFormulaForSeries() const
 
 Term SeriesBasedOnTerm::getValueAtIndex(int const index) const
 {
-    SubstitutionOfVariablesToValues substitution{{m_nameForVariableInFormula, index}};    return substitution.performSubstitutionTo(m_formulaForSeries);
+    SubstitutionOfVariablesToValues substitution{{m_nameForVariableInFormula, index}};
+    return substitution.performSubstitutionTo(m_formulaForSeries);
 }
 
-Term SeriesBasedOnTerm::getSum(        int const startingIndex,
+Term SeriesBasedOnTerm::getSum(
+        int const startingIndex,
         int const endingIndex) const
 {
     Summation summation(m_formulaForSeries, m_nameForVariableInFormula);

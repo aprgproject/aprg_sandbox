@@ -7,9 +7,11 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
-#include <Algebra/Term/Utilities/ConvertHelpers.hpp>#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+#include <Algebra/Term/Utilities/ConvertHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 #include <Math/AlbaMathHelper.hpp>
+
 #include <algorithm>
 
 using namespace alba::algebra::Functions;
@@ -176,10 +178,12 @@ Term IntegrationForFiniteCalculus::integrateMonomial(
             {Term(monomialToRetain), Term("*"), Term(harmonicNumber(Term(m_nameOfVariableToIntegrate)))}));
             result.simplify();
         }
-        else        {
+        else
+        {
             AlbaNumber exponentAbsoluteValue(getAbsoluteValueForAlbaNumber(exponent));
             Monomial monomialWithOneLessExponent(monomial);
-            monomialWithOneLessExponent.putVariableWithExponent(m_nameOfVariableToIntegrate, exponentAbsoluteValue-1);            Polynomial denominatorInFallingPower(
+            monomialWithOneLessExponent.putVariableWithExponent(m_nameOfVariableToIntegrate, exponentAbsoluteValue-1);
+            Polynomial denominatorInFallingPower(
                         convertMonomialWithPositiveExponentsFromRegularPowerToFallingPower(monomialWithOneLessExponent));
             Term termToIntegrate(createExpressionIfPossible({Term(1), Term("/"), Term(denominatorInFallingPower)}));
             Term integratedTermInFallingPower(integrateTerm(termToIntegrate));
@@ -291,10 +295,12 @@ Polynomial IntegrationForFiniteCalculus::convertMonomialWithPositiveExponentsFro
         result.multiplyMonomial(monomialToRetain);
     }
     result.simplify();
-    return result;}
+    return result;
+}
 
 Polynomial IntegrationForFiniteCalculus::convertMonomialWithPositiveExponentsFromFallingPowerToRegularPower(
-        Monomial const& monomial) const{
+        Monomial const& monomial) const
+{
     Polynomial result;
     int exponent(monomial.getExponentForVariable(m_nameOfVariableToIntegrate).getInteger());
     if(exponent > 0)
@@ -311,10 +317,12 @@ Polynomial IntegrationForFiniteCalculus::convertMonomialWithPositiveExponentsFro
         result.multiplyMonomial(monomialToRetain);
     }
     result.simplify();
-    return result;}
+    return result;
+}
 
 Polynomial IntegrationForFiniteCalculus::convertPolynomialWithPositiveExponentsFromRegularPowerToFallingPower(
-        Polynomial const& polynomial) const{
+        Polynomial const& polynomial) const
+{
     Polynomial result;
     for(Monomial const& monomial : polynomial.getMonomialsConstReference())
     {
@@ -463,9 +471,11 @@ Term IntegrationForFiniteCalculus::integrateNonChangingTermRaiseToChangingTerm(
     }
     return result;
 }
+
 Term IntegrationForFiniteCalculus::integrateChangingTermRaiseToNonChangingTerm(
         Term const& ,
-        Term const& ) const{
+        Term const& ) const
+{
     return Term(AlbaNumber(AlbaNumber::Value::NotANumber));
 }
 

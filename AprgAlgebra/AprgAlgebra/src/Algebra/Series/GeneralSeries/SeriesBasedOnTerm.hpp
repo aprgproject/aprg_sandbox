@@ -4,8 +4,10 @@
 #include <Math/Number/AlbaNumberTypes.hpp>
 
 #include <string>
+
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -35,6 +37,7 @@ private:
     Term m_formulaForSeries;
     std::string m_nameForVariableInFormula;
 };
+
 }
 
 }

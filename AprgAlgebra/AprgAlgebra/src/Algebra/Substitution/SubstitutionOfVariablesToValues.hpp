@@ -44,6 +44,7 @@ private:
     void performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const;
     VariablesToValuesMap m_variableToValuesMap;
 };
+
 }
 
 }

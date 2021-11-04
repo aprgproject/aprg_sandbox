@@ -39,6 +39,7 @@ private:
     void performSubstitutionForTermsWithAssociation(TermsWithAssociation & termsWithAssociation) const;
     TermToTermMap m_termsToTermsMap;
 };
+
 }
 
 }

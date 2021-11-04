@@ -288,6 +288,7 @@ Term getLimitUsingLhopitalsRule(
     calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, valueToApproach);
     return limitValue;
 }
+
 Term getTermUsingLhopitalsRule(
         Term const& term,
         string const& variableName,
@@ -297,6 +298,7 @@ Term getTermUsingLhopitalsRule(
     calculateTermAndLimitUsingLhopitalsRule(newTerm, limitValue, term, variableName, valueToApproach);
     return newTerm;
 }
+
 void calculateTermAndLimitUsingLhopitalsRule(
         Term & newTerm,
         Term & limitValue,
@@ -305,7 +307,8 @@ void calculateTermAndLimitUsingLhopitalsRule(
         AlbaNumber const& valueToApproach)
 {
     Differentiation differentiation(variableName);
-    newTerm = term;    simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(newTerm);
+    newTerm = term;
+    simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(newTerm);
     TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(newTerm));
     Term numerator(termsOverTerms.getCombinedNumerator());
     Term denominator(termsOverTerms.getCombinedDenominator());
@@ -316,7 +319,8 @@ void calculateTermAndLimitUsingLhopitalsRule(
               || (isPositiveOrNegativeInfinity(numeratorValue) && isPositiveOrNegativeInfinity(denominatorValue)))
     {
         numerator = differentiation.differentiate(numerator);
-        denominator = differentiation.differentiate(denominator);        newTerm = Term(numerator/denominator);
+        denominator = differentiation.differentiate(denominator);
+        newTerm = Term(numerator/denominator);
         simplifyTermByFactoringToNonDoubleFactorsToACommonDenominator(newTerm);
         TermsOverTerms newTermsOverTerms(createTermsOverTermsFromTerm(newTerm));
         numerator = newTermsOverTerms.getCombinedNumerator();
@@ -335,10 +339,12 @@ void calculateTermAndLimitUsingLhopitalsRule(
     }
 }
 
-Term getLimitAtAValueOrInfinity(        Term const& term,
+Term getLimitAtAValueOrInfinity(
+        Term const& term,
         string const& variableName,
         AlbaNumber const& valueToApproach)
-{    Term result;
+{
+    Term result;
     if(valueToApproach.isPositiveOrNegativeInfinity())
     {
         result = getLimitAtInfinity(term, variableName, valueToApproach.getDefinedValue());

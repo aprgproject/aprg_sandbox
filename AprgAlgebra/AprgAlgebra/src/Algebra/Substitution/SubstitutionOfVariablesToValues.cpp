@@ -169,10 +169,12 @@ Function SubstitutionOfVariablesToValues::performSubstitutionForFunction(Functio
 
 void SubstitutionOfVariablesToValues::putVariablesWithValues(initializer_list<VariableValuePair> const& variablesWithValues)
 {
-    for(VariableValuePair const& variableValuesPair : variablesWithValues)    {
+    for(VariableValuePair const& variableValuesPair : variablesWithValues)
+    {
         putVariableWithValue(variableValuesPair.first, variableValuesPair.second);
     }
 }
+
 void SubstitutionOfVariablesToValues::putVariablesWithValues(VariablesToValuesMap const& variablesWithValues)
 {
     for(auto const& variableValuesPair : variablesWithValues)

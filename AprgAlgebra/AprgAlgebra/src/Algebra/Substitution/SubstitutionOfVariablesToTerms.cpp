@@ -174,10 +174,12 @@ Function SubstitutionOfVariablesToTerms::performSubstitutionForFunction(Function
 
 void SubstitutionOfVariablesToTerms::putVariablesWithTerms(
         initializer_list<VariableTermPair> const& variablesWithTerms)
-{    for(VariableTermPair const& variableValuesPair : variablesWithTerms)
+{
+    for(VariableTermPair const& variableValuesPair : variablesWithTerms)
     {
         putVariableWithTerm(variableValuesPair.first, variableValuesPair.second);
-    }}
+    }
+}
 
 void SubstitutionOfVariablesToTerms::putVariablesWithTerms(
         VariablesToTermsMap const& variablesWithTerms)

@@ -8,6 +8,7 @@ using namespace std;
 
 namespace alba
 {
+
 namespace algebra
 {
 
@@ -121,10 +122,12 @@ void performLimitComparisonTest(
 
 Term getSumOfArithmeticSeriesUsingFirstAndLastTerm(
         Term const& firstTerm,
-        Term const& lastTerm,        Term const& count)
+        Term const& lastTerm,
+        Term const& count)
 {
     return (firstTerm + lastTerm) * count / 2;
 }
+
 Term getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(
         Term const& firstValue,
         Term const& commonMultiplier,
