@@ -1,12 +1,12 @@
 #include "Monomial.hpp"
 
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
+
 #include <set>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -191,13 +191,12 @@ void Monomial::clear()
 
 void Monomial::simplify()
 {
+    setNanIfNeeded();
     removeZeroExponents();
 }
-
 void Monomial::multiplyNumber(AlbaNumber const& number)
 {
-    m_constant = m_constant * number;
-}
+    m_constant = m_constant * number;}
 
 void Monomial::divideNumber(AlbaNumber const& number)
 {
@@ -287,14 +286,21 @@ bool Monomial::isLessThanByComparingVariableNameMaps(
     return result;
 }
 
+void Monomial::setNanIfNeeded()
+{
+    if(hasNotANumber(*this))
+    {
+        m_variablesToExponentsMap.clear();
+        setConstant(AlbaNumber(AlbaNumber::Value::NotANumber));
+    }
+}
+
 void Monomial::removeZeroExponents()
 {
-    VariablesToExponentsMap oldVariableMap(m_variablesToExponentsMap);
-    m_variablesToExponentsMap.clear();
+    VariablesToExponentsMap oldVariableMap(m_variablesToExponentsMap);    m_variablesToExponentsMap.clear();
     for(auto const& variableExponentPair : oldVariableMap)
     {
-        if(variableExponentPair.second != 0)
-        {
+        if(variableExponentPair.second != 0)        {
             m_variablesToExponentsMap.emplace(variableExponentPair.first, variableExponentPair.second);
         }
     }

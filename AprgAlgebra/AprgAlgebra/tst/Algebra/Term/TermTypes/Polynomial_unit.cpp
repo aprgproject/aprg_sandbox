@@ -220,19 +220,19 @@ TEST(PolynomialTest, SimplifyWorks)
     Polynomial polynomial2{Monomial(6, {})};
     Polynomial polynomial3{Monomial(6, {}), Monomial(-6, {})};
     Polynomial polynomial4{Monomial(-6, {{"y", 0}, {"z", 0}})};
+    Polynomial polynomial5{Monomial(1, {{"x", 2}}), Monomial(3, {{"x", AlbaNumber(AlbaNumber::Value::NotANumber)}})};
 
     polynomial1.simplify();
     polynomial2.simplify();
     polynomial3.simplify();
     polynomial4.simplify();
+    polynomial5.simplify();
 
     Monomials const& monomials1(polynomial1.getMonomialsConstReference());
     ASSERT_TRUE(monomials1.empty());
-
     Monomials const& monomials2(polynomial2.getMonomialsConstReference());
     ASSERT_EQ(1U, monomials2.size());
-    EXPECT_DOUBLE_EQ(6, monomials2.at(0).getConstantConstReference().getDouble());
-    ASSERT_TRUE(monomials2.at(0).getVariablesToExponentsMapConstReference().empty());
+    EXPECT_DOUBLE_EQ(6, monomials2.at(0).getConstantConstReference().getDouble());    ASSERT_TRUE(monomials2.at(0).getVariablesToExponentsMapConstReference().empty());
 
     Monomials const& monomials3(polynomial3.getMonomialsConstReference());
     ASSERT_TRUE(monomials3.empty());
@@ -241,14 +241,17 @@ TEST(PolynomialTest, SimplifyWorks)
     ASSERT_EQ(1U, monomials4.size());
     EXPECT_DOUBLE_EQ(-6, monomials4.at(0).getConstantConstReference().getDouble());
     ASSERT_TRUE(monomials4.at(0).getVariablesToExponentsMapConstReference().empty());
+
+    Monomials const& monomials5(polynomial5.getMonomialsConstReference());
+    ASSERT_EQ(1U, monomials5.size());
+    EXPECT_TRUE(monomials5.at(0).getConstantConstReference().isNotANumber());
+    ASSERT_TRUE(monomials5.at(0).getVariablesToExponentsMapConstReference().empty());
 }
 
-TEST(PolynomialTest, SimplifyWorksAndItSortsMonomials)
-{
+TEST(PolynomialTest, SimplifyWorksAndItSortsMonomials){
     Polynomial polynomial1;
     Polynomial polynomial2{Monomial(100, {}), Monomial(5, {{"x", 2}, {"y", 3}, {"z", 4}}), Monomial(9, {{"x", 8}}), Monomial(10, {})};
     Polynomial polynomial3{Monomial(1, {{"x", 3}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(1, {{"x", 1}, {"y", 2}}), Monomial(5, {{"x", 3}})};
-
     polynomial1.simplify();
     polynomial2.simplify();
     polynomial3.simplify();

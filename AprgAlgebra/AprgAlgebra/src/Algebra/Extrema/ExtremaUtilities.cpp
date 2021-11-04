@@ -320,15 +320,13 @@ AlbaNumbers getInputValuesInIntervalWithSameAsMeanOfInterval(
 
 AlbaNumbers getInputValuesForCauchyMeanValueTheorem(
         Term const& term,
-        std::string const& variableName,
+        string const& variableName,
         AlbaNumber const& a,
         AlbaNumber const& b)
-{
-    // Cauchy Mean-Value Theorem
+{    // Cauchy Mean-Value Theorem
 
     TermsOverTerms termsOverTerms(createTermsOverTermsFromTerm(term));
-    Term numerator(termsOverTerms.getCombinedNumerator());
-    Term denominator(termsOverTerms.getCombinedDenominator());
+    Term numerator(termsOverTerms.getCombinedNumerator());    Term denominator(termsOverTerms.getCombinedDenominator());
     SubstitutionOfVariablesToValues substitution;
     substitution.putVariableWithValue(variableName, a);
     Term fa(substitution.performSubstitutionTo(numerator));

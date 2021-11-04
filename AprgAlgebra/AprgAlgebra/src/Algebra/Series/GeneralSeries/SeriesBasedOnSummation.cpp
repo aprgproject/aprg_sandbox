@@ -1,36 +1,34 @@
 #include "SeriesBasedOnSummation.hpp"
 
+#include <Algebra/Functions/CommonFunctionLibrary.hpp>
 #include <Algebra/Limit/Limit.hpp>
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
-#include <Algebra/Summation/Summation.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
+using namespace alba::algebra::Functions;
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 SeriesBasedOnSummation::SeriesBasedOnSummation(
         Term const& formulaForEachTermInSummation,
         string const& nameForVariableInFormula)
     : SeriesBasedOnTerm(getFormulaForSummation(formulaForEachTermInSummation, nameForVariableInFormula), nameForVariableInFormula)
     , m_formulaForEachTermInSummation(formulaForEachTermInSummation)
     , m_nameForVariableInFormula(nameForVariableInFormula)
+    , m_summation(getSummation(formulaForEachTermInSummation, nameForVariableInFormula))
     , m_isSummationModelValid(!isNotANumber(getFormulaForSeries()))
 {}
 
-bool SeriesBasedOnSummation::hasAValidSummationModel() const
+bool SeriesBasedOnSummation::isSummationModelValid() const
 {
     return m_isSummationModelValid;
 }
-
 bool SeriesBasedOnSummation::isConvergent() const
 {
-    bool result(false);
-    if(m_isSummationModelValid)
+    bool result(false);    if(m_isSummationModelValid)
     {
         result = SeriesBasedOnTerm::isConvergent();
     }
@@ -41,23 +39,55 @@ bool SeriesBasedOnSummation::isConvergent() const
     return result;
 }
 
-Term SeriesBasedOnSummation::getTermValueAtIndex(int const index) const
+Term SeriesBasedOnSummation::getValueAtIndex(int const index) const
 {
-    SubstitutionOfVariablesToValues substitution{{m_nameForVariableInFormula, index}};
-    return substitution.performSubstitutionTo(m_formulaForEachTermInSummation);
+    Term result;
+    if(m_isSummationModelValid)
+    {
+        result = SeriesBasedOnTerm::getValueAtIndex(index);
+    }
+    else
+    {
+        result = m_summation.getSum(Term(Constant(0)), Term(index));
+    }
+    return result;
 }
 
-Term SeriesBasedOnSummation::getFormulaForEachTermInSummation() const
+bool SeriesBasedOnSummation::isAbsolutelyConvergent() const
 {
+    SeriesBasedOnSummation summation(
+                Term(abs(m_formulaForEachTermInSummation)),
+                m_nameForVariableInFormula);
+    return summation.isConvergent();
+}
+
+bool SeriesBasedOnSummation::isConditionallyConvergent() const
+{
+    return !isAbsolutelyConvergent() || isConvergent();
+}
+
+Term SeriesBasedOnSummation::getTermValueAtIndex(int const index) const
+{
+    SubstitutionOfVariablesToValues substitution{{m_nameForVariableInFormula, index}};    return substitution.performSubstitutionTo(m_formulaForEachTermInSummation);
+}
+
+Term SeriesBasedOnSummation::getFormulaForEachTermInSummation() const{
     return m_formulaForEachTermInSummation;
+}
+
+Summation SeriesBasedOnSummation::getSummation(
+        Term const& formulaForEachTermInSummation,
+        string const& nameForVariableInFormula) const
+{
+    Summation summation(formulaForEachTermInSummation, nameForVariableInFormula);
+    return summation;
 }
 
 Term SeriesBasedOnSummation::getFormulaForSummation(
         Term const& formulaForEachTermInSummation,
         string const& nameForVariableInFormula) const
 {
-    Summation summation(formulaForEachTermInSummation, nameForVariableInFormula);
-    return summation.getSummationModelWithKnownConstant(0);
+    return getSummation(formulaForEachTermInSummation, nameForVariableInFormula).getSummationModelWithKnownConstant(0);
 }
 
 }

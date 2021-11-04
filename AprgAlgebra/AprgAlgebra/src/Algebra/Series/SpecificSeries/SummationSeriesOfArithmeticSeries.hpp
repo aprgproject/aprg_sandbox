@@ -1,13 +1,11 @@
 #pragma once
 
-#include <Algebra/Series/SeriesBasedOnSummation.hpp>
+#include <Algebra/Series/GeneralSeries/SeriesBasedOnSummation.hpp>
 
 namespace alba
 {
-
 namespace algebra
 {
-
 class SummationSeriesOfArithmeticSeries : public SeriesBasedOnSummation
 {
 public:

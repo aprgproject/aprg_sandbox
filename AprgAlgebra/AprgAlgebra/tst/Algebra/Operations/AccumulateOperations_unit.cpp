@@ -1,12 +1,11 @@
 #include <Algebra/Operations/AccumulateOperations.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
+#include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
@@ -59,14 +58,28 @@ TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorksWith
     EXPECT_EQ(Term(Constant(0)), termToTest);
 }
 
+TEST(AccumulateOperationsTest, AccumulateTermsForAdditionAndSubtractionWorksWithNan)
+{
+    Term termToTest;
+    Term term1(1);
+    Term term2(2);
+    Term term3(AlbaNumber(AlbaNumber::Value::NotANumber));
+    TermsWithDetails termsWithDetails
+    {TermWithDetails(term1, TermAssociationType::Positive),
+                TermWithDetails(term2, TermAssociationType::Positive),
+                TermWithDetails(term3, TermAssociationType::Positive)};
+
+    accumulateTermsForAdditionAndSubtraction(termToTest, termsWithDetails);
+
+    EXPECT_TRUE(isNotANumber(termToTest));
+}
+
 TEST(AccumulateOperationsTest, AccumulateTermsForMultiplicationAndDivisionWorks)
 {
-    Term termToTest(1);
-    Term xToTheY(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
+    Term termToTest(1);    Term xToTheY(createExpressionIfPossible({Term("x"), Term("^"), Term("y")}));
     Term term1(createExpressionIfPossible({Term(11), Term("*"), xToTheY}));
     Term term2(createExpressionIfPossible({Term(13), Term("*"), xToTheY}));
-    Term term3(1);
-    TermsWithDetails termsWithDetails
+    Term term3(1);    TermsWithDetails termsWithDetails
     {TermWithDetails(term1, TermAssociationType::Negative),
                 TermWithDetails(term2, TermAssociationType::Positive),
                 TermWithDetails(term3, TermAssociationType::Negative)};

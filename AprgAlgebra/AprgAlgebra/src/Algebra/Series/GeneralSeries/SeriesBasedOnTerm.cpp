@@ -7,29 +7,28 @@
 #include <Algebra/Substitution/SubstitutionOfVariablesToValues.hpp>
 #include <Algebra/Solution/Solver/OneEquationOneVariable/OneEquationOneVariableEqualitySolver.hpp>
 #include <Algebra/Summation/Summation.hpp>
+#include <Algebra/Term/Operators/TermOperators.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 #include <algorithm>
 
 using namespace alba::algebra::Simplification;
+using namespace std;
 
 namespace alba
 {
-
 namespace algebra
 {
 
 SeriesBasedOnTerm::SeriesBasedOnTerm(
         Term const& formulaForSeries,
-        std::string const& nameForVariableInFormula)
+        string const& nameForVariableInFormula)
     : m_formulaForSeries(formulaForSeries)
     , m_nameForVariableInFormula(nameForVariableInFormula)
 {}
-
 bool SeriesBasedOnTerm::isConvergent() const
 {
-    return isAFiniteConstant(getValueAtInfinity());
-}
+    return isAFiniteConstant(getValueAtInfinity());}
 
 bool SeriesBasedOnTerm::isIncreasing() const
 {
@@ -87,14 +86,17 @@ Term SeriesBasedOnTerm::getValueAtInfinity() const
     return getLimit(m_formulaForSeries, m_nameForVariableInFormula, AlbaNumber(AlbaNumber::Value::PositiveInfinity));
 }
 
+Term SeriesBasedOnTerm::getRemainderAtIndex(int const index) const
+{
+    return getValueAtInfinity()-getValueAtIndex(index);
+}
+
 AlbaNumberOptional SeriesBasedOnTerm::getGreatestLowerBound() const
 {
-    AlbaNumberOptional result;
-    AlbaNumbers boundValues(getBoundValues());
+    AlbaNumberOptional result;    AlbaNumbers boundValues(getBoundValues());
 
     if(boundValues.size() >= 2)
-    {
-        auto it = min_element(boundValues.cbegin(), boundValues.cend());
+    {        auto it = min_element(boundValues.cbegin(), boundValues.cend());
         if(it != boundValues.cend())
         {
             result.setConstReference(*it);
@@ -175,6 +177,11 @@ Term SeriesBasedOnTerm::getSignDerivativeForFiniteCalculus() const
     signMutator.putVariableWithSign(m_nameForVariableInFormula, TermAssociationType::Positive);
     signMutator.mutateTerm(derivative);
     return derivative;
+}
+
+string SeriesBasedOnTerm::getNameForVariableInFormula() const
+{
+    return m_nameForVariableInFormula;
 }
 
 }

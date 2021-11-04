@@ -67,16 +67,19 @@ void accumulateTermsForAdditionAndSubtraction(
     for(TermWithDetails const& termWithDetails : termsToCombine)
     {
         Term const& term(getTermConstReferenceFromSharedPointer(termWithDetails.baseTermSharedPointer));
-        if(willHaveNoEffectOnAdditionOrSubtraction(term))
+        if(isNotANumber(combinedTerm) || isNotANumber(term))
+        {
+            combinedTerm = Term(AlbaNumber(AlbaNumber::Value::NotANumber));
+            break;
+        }
+        else if(willHaveNoEffectOnAdditionOrSubtraction(term))
         {
             continue;
         }
-        else if(isFirst)
-        {
+        else if(isFirst)        {
             if(termWithDetails.hasPositiveAssociation())
             {
-                combinedTerm = term;
-            }
+                combinedTerm = term;            }
             else if(termWithDetails.hasNegativeAssociation())
             {
                 combinedTerm = negateTerm(term);

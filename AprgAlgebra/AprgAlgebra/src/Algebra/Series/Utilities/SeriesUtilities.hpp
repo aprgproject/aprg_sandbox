@@ -1,15 +1,14 @@
 #pragma once
 
-#include <Algebra/Series/SeriesBasedOnSummation.hpp>
-#include <Algebra/Series/SeriesBasedOnTerm.hpp>
+#include <Algebra/Series/GeneralSeries/SeriesBasedOnSummation.hpp>
+#include <Algebra/Series/GeneralSeries/SeriesBasedOnTerm.hpp>
+#include <Algebra/Series/SpecificSeries/AlternatingSeries.hpp>
 #include <Algebra/Term/TermTypes/Term.hpp>
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 bool isAxiomOfCompletenessTrue(
         SeriesBasedOnTerm const& series);
 
@@ -36,14 +35,30 @@ void performLimitComparisonTest(
         SeriesBasedOnSummation const& series2,
         std::string const& variableName);
 
+void performIntegralTest(
+        bool & isConvergent,
+        bool & isDivergent,
+        SeriesBasedOnSummation const& series,
+        std::string const& variableName);
+
+void performRatioTest(
+        bool & isConvergent,
+        bool & isDivergent,
+        SeriesBasedOnSummation const& series,
+        std::string const& variableName);
+
+void performRootTest(
+        bool & isConvergent,
+        bool & isDivergent,
+        SeriesBasedOnSummation const& series,
+        std::string const& variableName);
+
 Term getSumOfArithmeticSeriesUsingFirstAndLastTerm(
         Term const& firstTerm,
-        Term const& lastTerm,
-        Term const& count);
+        Term const& lastTerm,        Term const& count);
 
 Term getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(
-        Term const& firstValue,
-        Term const& commonMultiplier,
+        Term const& firstValue,        Term const& commonMultiplier,
         int const count);
 
 Term getInfiniteSumOfGeometricSeriesIfCommonMultiplierIsFractional(

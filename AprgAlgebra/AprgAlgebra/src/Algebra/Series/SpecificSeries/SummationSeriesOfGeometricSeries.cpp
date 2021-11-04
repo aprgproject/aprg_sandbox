@@ -1,14 +1,12 @@
 #include "SummationSeriesOfGeometricSeries.hpp"
 
-#include <Algebra/Series/GeometricSeries.hpp>
+#include <Algebra/Series/SpecificSeries/GeometricSeries.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 SummationSeriesOfGeometricSeries::SummationSeriesOfGeometricSeries(
         AlbaNumber const& firstValue,
         AlbaNumber const& commonMultiplier)

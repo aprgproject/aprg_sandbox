@@ -1,14 +1,15 @@
 #include "SeriesUtilities.hpp"
 
+#include <Algebra/Integration/Integration.hpp>
 #include <Algebra/Limit/Limit.hpp>
+#include <Algebra/Substitution/SubstitutionOfVariablesToTerms.hpp>
 #include <Algebra/Term/Operators/TermOperators.hpp>
+#include <Algebra/Term/Utilities/TermUtilities.hpp>
 #include <Algebra/Term/Utilities/ValueCheckingHelpers.hpp>
 
 using namespace std;
-
 namespace alba
 {
-
 namespace algebra
 {
 
@@ -120,14 +121,81 @@ void performLimitComparisonTest(
     }
 }
 
+void performIntegralTest(
+        bool & isConvergent,
+        bool & isDivergent,
+        SeriesBasedOnSummation const& series,
+        string const& variableName)
+{
+    Integration integration(variableName);
+    Term integratedTerm(integration.integrateAtDefiniteTerms(
+              series.getFormulaForEachTermInSummation(), Term(1), Term(AlbaNumber(AlbaNumber::Value::PositiveInfinity))));
+    if(isTheValue(integratedTerm, AlbaNumber(AlbaNumber::Value::PositiveInfinity)))
+    {
+        isDivergent = true;
+    }
+    else if(!isNotANumber(integratedTerm))
+    {
+        isConvergent = true;
+    }
+}
+
+void performRatioTest(
+        bool & isConvergent,
+        bool & isDivergent,
+        SeriesBasedOnSummation const& series,
+        string const& variableName)
+{
+    SubstitutionOfVariablesToTerms substitution
+    {{variableName, Term(Polynomial{Monomial(1, {{variableName, 1}}), Monomial(1, {})})}};
+    Term formulaForEachTerm(series.getFormulaForEachTermInSummation());
+    Term formulaForEachTermWithPlusOne(substitution.performSubstitutionTo(formulaForEachTerm));
+    Term termForLimit(convertPositiveTermIfNegative(formulaForEachTermWithPlusOne) / convertPositiveTermIfNegative(formulaForEachTerm));
+    Term limitTerm(getLimit(termForLimit, variableName, AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+    if(limitTerm.isConstant())
+    {
+        AlbaNumber limitValue(limitTerm.getConstantValueConstReference());
+        if(limitValue < 1)
+        {
+            isConvergent = true;
+        }
+        else if(limitValue > 1)
+        {
+            isDivergent = true;
+        }
+    }
+}
+
+void performRootTest(
+        bool & isConvergent,
+        bool & isDivergent,
+        SeriesBasedOnSummation const& series,
+        string const& variableName)
+{
+    Term formulaForEachTerm(series.getFormulaForEachTermInSummation());
+    Term exponent(Term(1) / Term(variableName));
+    Term termForLimit(formulaForEachTerm^exponent);
+    Term limitTerm(getLimit(termForLimit, variableName, AlbaNumber(AlbaNumber::Value::PositiveInfinity)));
+    if(limitTerm.isConstant())
+    {
+        AlbaNumber limitValue(limitTerm.getConstantValueConstReference());
+        if(limitValue < 1)
+        {
+            isConvergent = true;
+        }
+        else if(limitValue > 1)
+        {
+            isDivergent = true;
+        }
+    }
+}
+
 Term getSumOfArithmeticSeriesUsingFirstAndLastTerm(
         Term const& firstTerm,
-        Term const& lastTerm,
-        Term const& count)
+        Term const& lastTerm,        Term const& count)
 {
     return (firstTerm + lastTerm) * count / 2;
 }
-
 Term getSumOfGeometricSeriesUsingFirstValueAndCommonMultiplier(
         Term const& firstValue,
         Term const& commonMultiplier,

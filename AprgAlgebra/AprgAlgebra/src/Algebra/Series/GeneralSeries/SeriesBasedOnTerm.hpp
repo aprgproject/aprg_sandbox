@@ -27,17 +27,18 @@ public:
     virtual Term getSum(int const startingIndex, int const endingIndex) const;
     virtual Term getSumStartingAtIndexAndToInfinity(int const startingIndex) const;
     virtual Term getValueAtInfinity() const;
+    virtual Term getRemainderAtIndex(int const index) const;
     virtual AlbaNumberOptional getGreatestLowerBound() const;
     virtual AlbaNumberOptional getLeastUpperBound() const;
 
+    virtual std::string getNameForVariableInFormula() const;
+
 private:
     AlbaNumbers getBoundValues() const;
-    AlbaNumbers getExtremaIndexes() const;
-    Term getSignDerivativeForFiniteCalculus() const;
+    AlbaNumbers getExtremaIndexes() const;    Term getSignDerivativeForFiniteCalculus() const;
     Term m_formulaForSeries;
     std::string m_nameForVariableInFormula;
 };
-
 }
 
 }

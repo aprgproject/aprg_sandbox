@@ -294,37 +294,38 @@ TEST(MonomialTest, SimplifyWorks)
     Monomial monomial3(1, {{"x", 1}});
     Monomial monomial4(10, {{"x", 0}});
     Monomial monomial5(58, {{"x", 7}, {"y", 0}});
+    Monomial monomial6(58, {{"x", 7}, {"y", AlbaNumber(AlbaNumber::Value::NotANumber)}});
 
     monomial1.simplify();
-    monomial2.simplify();
-    monomial3.simplify();
+    monomial2.simplify();    monomial3.simplify();
     monomial4.simplify();
     monomial5.simplify();
+    monomial6.simplify();
 
     EXPECT_DOUBLE_EQ(0, monomial1.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap1(monomial1.getVariablesToExponentsMapConstReference());
-    ASSERT_TRUE(variableMap1.empty());
+    EXPECT_TRUE(variableMap1.empty());
     EXPECT_DOUBLE_EQ(6, monomial2.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap2(monomial2.getVariablesToExponentsMapConstReference());
-    ASSERT_TRUE(variableMap2.empty());
+    EXPECT_TRUE(variableMap2.empty());
     EXPECT_DOUBLE_EQ(1, monomial3.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap3(monomial3.getVariablesToExponentsMapConstReference());
-    ASSERT_EQ(1U, variableMap3.size());
-    EXPECT_DOUBLE_EQ(1, variableMap3.at("x").getDouble());
+    ASSERT_EQ(1U, variableMap3.size());    EXPECT_DOUBLE_EQ(1, variableMap3.at("x").getDouble());
     EXPECT_DOUBLE_EQ(10, monomial4.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap4(monomial4.getVariablesToExponentsMapConstReference());
-    ASSERT_TRUE(variableMap4.empty());
+    EXPECT_TRUE(variableMap4.empty());
     EXPECT_DOUBLE_EQ(58, monomial5.getConstantConstReference().getDouble());
     Monomial::VariablesToExponentsMap const& variableMap5(monomial5.getVariablesToExponentsMapConstReference());
     ASSERT_EQ(1U, variableMap5.size());
     EXPECT_DOUBLE_EQ(7, variableMap5.at("x").getDouble());
+    EXPECT_TRUE(monomial6.getConstantConstReference().isNotANumber());
+    Monomial::VariablesToExponentsMap const& variableMap6(monomial6.getVariablesToExponentsMapConstReference());
+    EXPECT_TRUE(variableMap6.empty());
 }
 
-TEST(MonomialTest, MultiplyNumberWorks)
-{
+TEST(MonomialTest, MultiplyNumberWorks){
     Monomial monomial1(16, {{"x", 5}});
     Monomial monomial2(20, {{"x", 7}});
-
     monomial1.multiplyNumber(3);
     monomial2.multiplyNumber(5);
 

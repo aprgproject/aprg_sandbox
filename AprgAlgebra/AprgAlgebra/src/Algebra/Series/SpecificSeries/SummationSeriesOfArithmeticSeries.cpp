@@ -1,14 +1,12 @@
 #include "SummationSeriesOfArithmeticSeries.hpp"
 
-#include <Algebra/Series/ArithmeticSeries.hpp>
+#include <Algebra/Series/SpecificSeries/ArithmeticSeries.hpp>
 #include <Algebra/Utilities/KnownNames.hpp>
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
-
 SummationSeriesOfArithmeticSeries::SummationSeriesOfArithmeticSeries(
         AlbaNumber const& firstValue,
         AlbaNumber const& commonDifference)

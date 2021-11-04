@@ -1,12 +1,10 @@
-#include <Algebra/Series/ArithmeticSeries.hpp>
-#include <Algebra/Series/SeriesUtilities.hpp>
+#include <Algebra/Series/SpecificSeries/ArithmeticSeries.hpp>
+#include <Algebra/Series/Utilities/SeriesUtilities.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {

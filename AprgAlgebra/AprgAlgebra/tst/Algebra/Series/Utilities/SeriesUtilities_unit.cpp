@@ -1,12 +1,10 @@
-#include <Algebra/Series/SeriesUtilities.hpp>
+#include <Algebra/Series/Utilities/SeriesUtilities.hpp>
 #include <Algebra/Term/Utilities/CreateHelpers.hpp>
 
 #include <gtest/gtest.h>
-
 using namespace std;
 
-namespace alba
-{
+namespace alba{
 
 namespace algebra
 {
@@ -94,15 +92,73 @@ TEST(SeriesUtilitiesTest, PerformLimitComparisonTestWorks)
     EXPECT_TRUE(isDivergent);
 }
 
+TEST(SeriesUtilitiesTest, PerformIntegralTestWorksOnPSeriesWithPowerIsOneHalf)
+{
+    Term numerator(1);
+    Term denominator(Monomial(1, {{"n", AlbaNumber::createFraction(1, 2)}}));
+    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    SeriesBasedOnSummation series(formula, "n");
+
+    bool isConvergent(false);
+    bool isDivergent(false);
+    performIntegralTest(isConvergent, isDivergent, series, "n");
+
+    EXPECT_FALSE(isConvergent);
+    EXPECT_TRUE(isDivergent);
+}
+
+TEST(SeriesUtilitiesTest, PerformIntegralTestWorksOnPSeriesWithPowerIsTwo)
+{
+    Term numerator(1);
+    Term denominator(Monomial(1, {{"n", 2}}));
+    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    SeriesBasedOnSummation series(formula, "n");
+
+    bool isConvergent(false);
+    bool isDivergent(false);
+    performIntegralTest(isConvergent, isDivergent, series, "n");
+
+    EXPECT_TRUE(isConvergent);
+    EXPECT_FALSE(isDivergent);
+}
+
+TEST(SeriesUtilitiesTest, PerformRatioTestWorks)
+{
+    Term numerator("n");
+    Term denominator(Monomial(1, {{"n", AlbaNumber::createFraction(1, 3)}}));
+    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    SeriesBasedOnSummation series(formula, "n");
+
+    bool isConvergent(false);
+    bool isDivergent(false);
+    performRatioTest(isConvergent, isDivergent, series, "n");
+
+    EXPECT_FALSE(isConvergent);
+    EXPECT_FALSE(isDivergent);
+}
+
+TEST(SeriesUtilitiesTest, PerformRootTestWorks)
+{
+    Term numerator("n");
+    Term denominator(Monomial(1, {{"n", AlbaNumber::createFraction(1, 3)}}));
+    Term formula(createExpressionIfPossible({numerator, Term("/"), denominator}));
+    SeriesBasedOnSummation series(formula, "n");
+
+    bool isConvergent(false);
+    bool isDivergent(false);
+    performRootTest(isConvergent, isDivergent, series, "n");
+
+    EXPECT_FALSE(isConvergent);
+    EXPECT_FALSE(isDivergent);
+}
+
 TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithValues)
 {
-    EXPECT_EQ(Term(60), getSumOfArithmeticSeriesUsingFirstAndLastTerm(Term(12), Term(18), Term(4)));
-}
+    EXPECT_EQ(Term(60), getSumOfArithmeticSeriesUsingFirstAndLastTerm(Term(12), Term(18), Term(4)));}
 
 TEST(SeriesUtilitiesTest, GetSumOfArithmeticSeriesUsingFirstAndLastTermWorksWithExample1)
 {
-    Term firstTerm(1);
-    Term lastTerm("n");
+    Term firstTerm(1);    Term lastTerm("n");
     Term count("n");
 
     Term expectedSum(Polynomial{Monomial(AlbaNumber(1)/2, {{"n", 2}}), Monomial(AlbaNumber(1)/2, {{"n", 1}})});
